@@ -32,12 +32,20 @@ dependencies {
     // Legacy JUnit 4 for compatibility (can be removed after full migration)
     implementation("junit:junit:4.13.2")
     
+    
+    // AssertJ for fluent assertions
+    testImplementation("org.assertj:assertj-core:3.27.3")
+    
     testImplementation("jakarta.servlet:jakarta.servlet-api:6.1.0")
 }
 sourceSets {
     main {
         java {
             srcDir("src/main/java")
+            srcDir("../NacaSamples/src/batch")
+            srcDir("../NacaSamples/src/commons")
+            srcDir("../NacaSamples/src/commons/include")
+            srcDir("../NacaSamples/src/online")
         }
         resources {
             srcDir("Main")
