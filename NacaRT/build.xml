@@ -1,9 +1,0 @@
-<project name="NacaRT" default="dist">
-
-	<property name="project.name" value="NacaRT" />
-	<property name="project.title" value="NacaRT" />
-	<property name="src.test.dir.abs" value="../NacaRTTests/ExtraTests" />
-
-	<import file="../../default.xml" />
-
-</project>

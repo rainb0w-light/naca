@@ -1,9 +1,0 @@
-<project name="JLib" default="dist">
-
-	<property name="project.name" value="JLib" />
-	<property name="project.title" value="JLib" />
-	<property name="tests.enabled" value="false" />
-
-	<import file="../../default.xml" />
-
-</project>
