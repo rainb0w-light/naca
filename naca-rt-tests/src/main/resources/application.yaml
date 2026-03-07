@@ -1,0 +1,107 @@
+# NacaRT Spring Boot Configuration
+# Migrated from nacaRT.cfg XML format
+
+naca:
+  rt:
+    # Paths configuration
+    help-xsl-file-path: ""
+    resource-path: ""
+    xml-frame-file-path: ""
+    log-settings-path-file: ""
+    
+    # Program loading configuration
+    pre-load-all-program-from-dir: false
+    pre-load-all-program-from-list: false
+    keep-preloaded-program-list: false
+    pre-load-program-list: ""
+    asynchronous-preload-programs: false
+    gc-after-preload-programs: false
+    load-copy-by-primordial-loader: false
+    
+    # Cache configuration
+    use-program-pool: true
+    use-sql-statement-cache: true
+    use-sql-object-cache: true
+    use-var-fill-cache: true
+    manage-var-def-catalog: true
+    cache-resource-files: false
+    
+    # Session configuration
+    max-session-exec-time-ms: 36000000
+    http-session-max-inactive-interval-s: 10800
+    
+    # Application classpath
+    application-class-path: ""
+    jar-file: ""
+    can-load-jar: false
+    can-load-class: true
+    
+    # Memory configuration
+    max-size-mem-pool-code-cache-mb: 0
+    max-size-mem-pool-perm-gen-mb: 0
+    
+    # Server configuration
+    server-name: "NACT"
+    
+    # Character encoding
+    code-java-to-db: "255-159,10-133"
+    code-db-to-java: "159-255"
+    comparison-mode: "EBCDIC"
+    
+    # Calendar configuration
+    standard-calendar: ""
+    custom-calendar: ""
+    
+    # GC Thread configuration
+    gc-thread:
+      activate-thread-garbage-collector-statement: false
+      garbage-collector-statement-ms: 300000
+      max-permanent-heap-mo: 800
+      nb-statement-forced-removed: 100
+      nb-system-gc-call: 3
+      nb-statements-to-remove-before-gc: 100
+    
+    # Debug configuration
+    debug:
+      log-all-sql-exception: true
+    
+    # Sequencer configuration
+    sequencer:
+      trans-id-mapping-file-path: ""
+      translation-file-path: ""
+      
+      # Mail configuration
+      mail:
+        address-from: "alert-naca@domain.com"
+        smtp-server: "smtp.domain.com"
+        title: "NACA ALERT"
+        addresses-to:
+          - "user1@domain.com"
+          - "user2@domain.com"
+      
+      # SQL Configuration
+      sql:
+        db-url: ""
+        db-user: ""
+        db-password: ""
+        db-connection-url-optional-params: ""
+        db-environment: ""
+        driver-class: "com.ibm.db2.jcc.DB2Driver"
+        close-cursor-on-commit: true
+        auto-commit: false
+        validation-query: ""
+        pools:
+          - name: "Generic"
+            program-id: ""
+            max-connection: 50
+            time-before-remove-connection-ms: 1200000
+            max-statement-live-time-ms: 1200001
+            use-explain: false
+
+# Spring Boot logging configuration
+logging:
+  level:
+    root: INFO
+    com.publicitas.naca: DEBUG
+    nacaLib: DEBUG
+    idea: DEBUG

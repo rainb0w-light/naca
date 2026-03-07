@@ -1,0 +1,17 @@
+spring:
+  main:
+    banner-mode: off
+naca:
+  rt:
+    use-program-pool: true
+    use-sql-statement-cache: true
+    use-sql-object-cache: true
+    use-var-fill-cache: true
+    comparison-mode: EBCDIC
+    debug:
+      log-all-sql-exception: true
+
+logging:
+  level:
+    root: WARN
+    com.publicitas.naca: INFO

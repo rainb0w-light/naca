@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  # COBOL compilation environment
+  cobol-env:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+      - gradle-cache:/root/.gradle
+    working_dir: /app
+    command: /bin/bash
+    
+  # Alternative: Pre-built GnuCOBOL image
+  gnucobol:
+    image: gnucobol/gnucobol:latest
+    volumes:
+      - ./NacaSamples/cobol:/src
+      - ./build/cobol:/output
+    working_dir: /src
+    command: /bin/bash
+
+volumes:
+  gradle-cache:
