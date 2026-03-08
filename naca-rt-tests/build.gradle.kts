@@ -77,28 +77,9 @@ tasks.withType<ProcessResources> {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
-// Configure test task to run CobolLikeIntegrationTests by default
+// Configure test task
 tasks.named<Test>("test") {
     useJUnitPlatform()
-    
-    // Default to running CobolLikeIntegrationTests
-    if (!project.hasProperty("testClass")) {
-        include("com/publicitas/naca/tests/integration/CobolLikeIntegrationTests.class")
-    }
-    
-    // Allow overriding with -PtestClass=ClassName
-    if (project.hasProperty("testClass")) {
-        val testClass = project.property("testClass") as String
-        include("**/${testClass}.class")
-    }
-    
-    // Allow running specific test method with -PtestMethod=methodName
-    if (project.hasProperty("testMethod")) {
-        val testMethod = project.property("testMethod") as String
-        filter {
-            includeTestsMatching("*$testMethod")
-        }
-    }
     
     // Test output configuration
     testLogging {
@@ -111,6 +92,33 @@ tasks.named<Test>("test") {
     
     // Fail on test failures but continue running all tests
     failFast = false
+    
+    // JaCoCo configuration for coverage
+    finalizedBy(tasks.jacocoTestReport)
+}
+
+// Configure JaCoCo to include coverage from dependencies
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+    
+    // Include source sets from dependencies
+    val nacaRt = project(":naca-rt")
+    val nacaJlib = project(":naca-jlib")
+    
+    additionalClassDirs(files(nacaRt.layout.buildDirectory.dir("classes/java/main")))
+    additionalClassDirs(files(nacaJlib.layout.buildDirectory.dir("classes/java/main")))
+    
+    additionalSourceDirs(files(nacaRt.layout.projectDirectory.dir("src/main/java")))
+    additionalSourceDirs(files(nacaJlib.layout.projectDirectory.dir("src/main/java")))
+    
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+        csv.required.set(false)
+        
+        html.outputLocation.set(layout.buildDirectory.dir("reports/jacoco/test/html"))
+        xml.outputLocation.set(layout.buildDirectory.file("reports/jacoco/test/jacocoTestReport.xml"))
+    }
 }
 
 // Custom task to run test programs

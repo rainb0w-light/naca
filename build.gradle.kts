@@ -6,6 +6,7 @@
 
 plugins {
     java
+    jacoco
     id("org.springframework.boot") version "3.4.3" apply false
     id("io.spring.dependency-management") version "1.1.7" apply false
     id("com.diffplug.spotless") version "6.25.0" apply false
@@ -22,6 +23,7 @@ allprojects {
 
 subprojects {
     apply(plugin = "java")
+    apply(plugin = "jacoco")
     apply(plugin = "io.spring.dependency-management")
     
     java {
@@ -64,6 +66,26 @@ subprojects {
             events("passed", "skipped", "failed")
         }
         jvmArgs("--add-opens=java.base/java.lang=ALL-UNNAMED")
+        finalizedBy(tasks.jacocoTestReport)
+    }
+    
+    tasks.jacocoTestReport {
+        dependsOn(tasks.test)
+        reports {
+            xml.required.set(true)
+            html.required.set(true)
+            csv.required.set(false)
+        }
+    }
+    
+    tasks.jacocoTestCoverageVerification {
+        violationRules {
+            rule {
+                limit {
+                    minimum = "0.0".toBigDecimal()
+                }
+            }
+        }
     }
 }
 
@@ -71,6 +93,23 @@ tasks.register("allTests") {
     dependsOn(subprojects.map { it.tasks.named("test") })
     group = "verification"
     description = "Runs all tests across all subprojects"
+}
+
+// Aggregate JaCoCo report for all subprojects
+tasks.register<JacocoReport>("jacocoAggregateReport") {
+    group = "verification"
+    description = "Generates aggregate JaCoCo coverage report"
+    
+    subprojects.forEach { subproject ->
+        executionData(subproject.tasks.test.get())
+        sourceSets(subproject.sourceSets.main.get())
+    }
+    
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+        csv.required.set(false)
+    }
 }
 
 apply(from = "cobol-tasks.gradle.kts")
