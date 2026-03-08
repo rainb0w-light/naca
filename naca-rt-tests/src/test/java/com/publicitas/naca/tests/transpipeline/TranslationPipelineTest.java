@@ -120,7 +120,7 @@ public class TranslationPipelineTest {
         void testGnuCOBOLVersion() throws Exception {
             Assumptions.assumeTrue(dockerAvailable, "Docker not available - skipping");
             ProcessBuilder pb = new ProcessBuilder(
-                "docker", "run", "--rm", "gnucobol/gnucobol:latest", "cobc", "--version"
+                "docker", "run", "--rm", "dagui0/gnucobol:latest", "cobc", "--version"
             );
             pb.redirectErrorStream(true);
             Process p = pb.start();
@@ -272,7 +272,7 @@ public class TranslationPipelineTest {
             "docker", "run", "--rm",
             "-v", sourcePath.getParent() + ":/src",
             "-w", "/src",
-            "gnucobol/gnucobol:latest",
+            "dagui0/gnucobol:latest",
             "cobc", "-x", "-free", "-o", programName, programName + ".cbl"
         );
         compilePb.redirectErrorStream(true);
@@ -295,7 +295,7 @@ public class TranslationPipelineTest {
             "docker", "run", "--rm",
             "-v", sourcePath.getParent() + ":/src",
             "-w", "/src",
-            "gnucobol/gnucobol:latest",
+            "dagui0/gnucobol:latest",
             "./" + programName
         );
         runPb.redirectErrorStream(true);
