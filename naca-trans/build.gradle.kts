@@ -22,7 +22,10 @@ dependencies {
     implementation("org.apache.logging.log4j:log4j-api:2.24.3")
     implementation("org.apache.logging.log4j:log4j-core:2.24.3")
     implementation("org.apache.logging.log4j:log4j-1.2-api:2.24.3")
-    
+
+    // StringTemplate 4 - Code generation template engine
+    implementation("org.antlr:ST4:4.3.4")
+
     // Testing
     testImplementation("org.junit.jupiter:junit-jupiter:5.11.4")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
@@ -45,6 +48,11 @@ sourceSets {
             srcDir("src/test/resources")
         }
     }
+}
+
+// Configure resource copying to handle duplicate files
+tasks.processResources {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
 

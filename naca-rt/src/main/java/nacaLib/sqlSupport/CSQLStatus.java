@@ -136,6 +136,16 @@ public class CSQLStatus extends CJMapObject
 	{
 		m_nLastNbRecordUpdatedInsertedDeleted = n;
 	}
+
+	/**
+	 * Set the number of rows affected by the last SQL operation.
+	 * This is a public method for use by the new SQL DSL.
+	 * @param n the number of rows affected
+	 */
+	public void setRowsAffected(int n)
+	{
+		m_nLastNbRecordUpdatedInsertedDeleted = n;
+	}
 	
 	public CSQLStatus onErrorGoto(Paragraph para)
 	{

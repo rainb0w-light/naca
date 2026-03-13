@@ -11,21 +11,35 @@ description = "Naca Runtime - Runtime library for transpiled COBOL programs"
 dependencies {
     // Internal dependency
     api(project(":naca-jlib"))
-    
+
     // Berkeley DB Java Edition
     implementation("com.sleepycat:je:18.3.12")
-    
+
+    // Spring Framework - JDBC and Boot
+    implementation("org.springframework:spring-jdbc:6.2.3")
+    implementation("org.springframework:spring-context:6.2.3")
+    implementation("org.springframework.boot:spring-boot:3.4.3")
+    implementation("org.springframework.boot:spring-boot-autoconfigure:3.4.3")
+    compileOnly("org.springframework.boot:spring-boot-configuration-processor:3.4.3")
+
+    // HikariCP Connection Pool
+    implementation("com.zaxxer:HikariCP:5.1.0")
+
+    // SLF4J Logging - Modern logging facade
+    implementation("org.slf4j:slf4j-api:2.0.16")
+    implementation("org.apache.logging.log4j:log4j-slf4j2-impl:2.24.3")
+
     // Jakarta Servlet
     compileOnly("jakarta.servlet:jakarta.servlet-api:6.1.0")
     compileOnly("jakarta.servlet.jsp:jakarta.servlet.jsp-api:4.0.0")
-    
+
     // Jakarta Mail
     implementation("com.sun.mail:jakarta.mail:2.0.1")
-    
+
     // XML Processing
     implementation("xerces:xercesImpl:2.12.2")
     implementation("xml-apis:xml-apis:1.0.b2")
-    
+
     // Apache Commons - Modern versions
     implementation("commons-beanutils:commons-beanutils:1.9.4")
     implementation("org.apache.commons:commons-collections4:4.4")
@@ -35,13 +49,13 @@ dependencies {
     implementation("commons-logging:commons-logging:1.3.4")
     implementation("org.apache.commons:commons-pool2:2.12.1")
     implementation("org.apache.commons:commons-dbcp2:2.13.0")
-    
+
     // Apache Struts
     implementation("org.apache.struts:struts-core:1.3.10")
-    
+
     // Jakarta Activation
     implementation("jakarta.activation:jakarta.activation-api:2.1.3")
-    
+
     // Testing
     testImplementation("org.junit.jupiter:junit-jupiter:5.11.4")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
@@ -66,4 +80,8 @@ sourceSets {
             srcDir("src/test/resources")
         }
     }
+}
+
+tasks.processResources {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }

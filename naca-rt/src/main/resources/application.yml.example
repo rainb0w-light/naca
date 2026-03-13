@@ -1,0 +1,89 @@
+# NacaRT Application Configuration
+# This is an example configuration file for externalized settings
+
+spring:
+  application:
+    name: naca-runtime
+
+# Database Configuration
+naca:
+  database:
+    # JDBC URL - can be overridden by NACA_DATABASE_URL environment variable
+    url: ${NACA_DATABASE_URL:jdbc:postgresql://localhost:5432/nacadb}
+
+    # Username - can be overridden by NACA_DATABASE_USERNAME environment variable
+    username: ${NACA_DATABASE_USERNAME:naca_user}
+
+    # Password - can be overridden by NACA_DATABASE_PASSWORD environment variable
+    password: ${NACA_DATABASE_PASSWORD:change_me}
+
+    # Driver class name
+    driver-class-name: org.postgresql.Driver
+
+    # Connection Pool Settings (HikariCP)
+    pool:
+      max-size: 20
+      min-idle: 5
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+
+    # SQL Settings
+    sql:
+      show-sql: false
+      format-sql: true
+      use-explain: false
+
+# Transpiler Configuration
+naca:
+  transpiler:
+    # Rules file path - can be overridden by NACA_RULES_FILE environment variable
+    rules-file: ${NACA_RULES_FILE:/etc/naca/rules.xml}
+
+    # Input directory - can be overridden by NACA_INPUT_PATH environment variable
+    input-path: ${NACA_INPUT_PATH:./input}
+
+    # Output directory - can be overridden by NACA_OUTPUT_PATH environment variable
+    output-path: ${NACA_OUTPUT_PATH:./output}
+
+    # Intermediary directory
+    inter-path: ${NACA_INTER_PATH:./inter}
+
+    # Log4j configuration
+    log4j-config: ${NACA_LOG4J_CONFIG:./log4j2.xml}
+
+# Logging Configuration
+logging:
+  level:
+    root: INFO
+    nacaLib: INFO
+    nacaLib.sql: DEBUG
+    nacaLib.config: DEBUG
+    com.zaxxer.hikari: DEBUG
+
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+  file:
+    name: logs/naca-runtime.log
+
+# Server Configuration (for Online mode)
+server:
+  port: ${NACA_SERVER_PORT:8080}
+  servlet:
+    context-path: ${NACA_CONTEXT_PATH:/naca}
+
+# Management and Monitoring (for Phase 4)
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    export:
+      prometheus:
+        enabled: true

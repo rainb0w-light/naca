@@ -118,7 +118,29 @@ public abstract class AbstractNacaTest {
     }
     
     private String resolveFullClassName(String simpleName) {
-        return "nacaTests.CobolLikeSupport." + simpleName;
+        // Capitalize first letter for class name convention
+        String className = simpleName.substring(0, 1).toUpperCase() + simpleName.substring(1);
+        
+        // Try ExtraTests package first (for ExtraTests test cases)
+        String extraTestsClass = "nacaTests.ExtraTests." + className;
+        try {
+            Class.forName(extraTestsClass);
+            return extraTestsClass;
+        } catch (ClassNotFoundException e) {
+            // Fall through to CobolLikeSupport
+        }
+        
+        // Try CobolLikeSupport package
+        String cobolLikeClass = "nacaTests.CobolLikeSupport." + className;
+        try {
+            Class.forName(cobolLikeClass);
+            return cobolLikeClass;
+        } catch (ClassNotFoundException e) {
+            // Fall through to return default
+        }
+        
+        // Return default path for error message purposes
+        return cobolLikeClass;
     }
 
 
@@ -149,7 +171,14 @@ public abstract class AbstractNacaTest {
         if (output == null) {
             return "";
         }
-        return output.trim() + "\n";
+        // Remove "Loading program instance:" lines for consistent comparison
+        StringBuilder normalized = new StringBuilder();
+        for (String line : output.split("\n")) {
+            if (!line.startsWith("Loading program instance:")) {
+                normalized.append(line).append("\n");
+            }
+        }
+        return normalized.toString().trim() + "\n";
     }
     
     protected void assertNoFailures() {

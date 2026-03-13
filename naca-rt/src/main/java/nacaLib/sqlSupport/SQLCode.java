@@ -29,9 +29,10 @@ public class SQLCode
 	
 	public static int SQL_DUPLICATE_INDEX_KEY = -803;
 	public static int SQL_MORE_THAN_ONE_ROW = -811;
-	public static int SQL_OK = 0 ; 
-	public static int SQL_ERROR = -1 ; 
+	public static int SQL_OK = 0 ;
+	public static int SQL_ERROR = -1 ;
 	public static int SQL_NOT_FOUND = 100 ;
+	public static int SQL_NO_DATA = 100;  // Alias for SQL_NOT_FOUND
 	public static int SQL_CURSOR_NOT_OPEN = -501 ;
 	public static int SQL_CURSOR_ALREADY_OPENED = -502 ;
 	public static int SQL_VALUE_NULL = -305;

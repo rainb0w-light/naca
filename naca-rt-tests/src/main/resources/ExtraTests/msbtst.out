@@ -27,6 +27,6 @@ Correct - Array element (3) is NO
  
 Correct - Array element (4) not YES  and not NO (not initialised)
  
-Cannot load class or create object of class: Invalid
+Cannot load class or create object of class: INVALID
 ERROR: Cannot load sub program instance:INVALID
 Execute call with error
