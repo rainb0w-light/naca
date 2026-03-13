@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 9 août 2004
+ * Created on 9 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -122,6 +122,46 @@ public abstract class CEntityAddTo extends CBaseActionEntity
 			return true ;
 		}
 		return false ;
+	}
+
+	// ==================== ST4 Template Accessors ====================
+
+	public Vector<CDataEntity> getValues()
+	{
+		return m_arrValues;
+	}
+
+	public Vector<CDataEntity> getDestinations()
+	{
+		return m_arrDest;
+	}
+
+	public boolean isRounded()
+	{
+		return m_bRounded;
+	}
+
+	public boolean hasSingleValue()
+	{
+		return m_arrValues.size() == 1;
+	}
+
+	public CDataEntity getSingleValue()
+	{
+		if (m_arrValues.size() == 1)
+		{
+			return m_arrValues.get(0);
+		}
+		return null;
+	}
+
+	public CDataEntity getSingleDestination()
+	{
+		if (m_arrDest.size() == 1)
+		{
+			return m_arrDest.get(0);
+		}
+		return null;
 	}
 
 }

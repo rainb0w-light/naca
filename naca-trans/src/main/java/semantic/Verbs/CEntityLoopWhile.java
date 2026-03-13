@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 6 août 2004
+ * Created on 6 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -81,6 +81,18 @@ public abstract class CEntityLoopWhile extends CBaseActionEntity
 			}
 		}
 		return false ;
+	}
+
+	// ==================== ST4 Template Accessors ====================
+
+	public CBaseEntityCondition getWhileCondition()
+	{
+		return m_WhileCondition;
+	}
+
+	public boolean isDoBefore()
+	{
+		return m_bDoBefore;
 	}
 
 }

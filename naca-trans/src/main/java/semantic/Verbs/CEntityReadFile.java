@@ -41,5 +41,26 @@ public abstract class CEntityReadFile extends CBaseActionEntity
 		m_eNotAtEndBloc = bloc ;
 	}
 
+	// ==================== ST4 Template Accessors ====================
+
+	public CEntityFileDescriptor getFileDescriptor()
+	{
+		return m_eFileDescriptor;
+	}
+
+	public CDataEntity getDataInto()
+	{
+		return m_eDataInto;
+	}
+
+	public CBaseLanguageEntity getAtEndBloc()
+	{
+		return m_eAtEndBloc;
+	}
+
+	public CBaseLanguageEntity getNotAtEndBloc()
+	{
+		return m_eNotAtEndBloc;
+	}
 
 }

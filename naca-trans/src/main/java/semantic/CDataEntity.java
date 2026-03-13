@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 2 août 2004
+ * Created on 2 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -390,5 +390,11 @@ public abstract class CDataEntity extends CBaseLanguageEntity
 		m_arrAccessAsValue.remove(attribute) ;
 	}
 
+	// ==================== ST4 Template Accessors ====================
+
+	public CBaseExternalEntity getOfQualifier()
+	{
+		return m_Of;
+	}
 
 }

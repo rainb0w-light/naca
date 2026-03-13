@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 2 août 2004
+ * Created on 2 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -551,6 +551,40 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 	public boolean canOwnTableSize()
 	{
 		return false;
+	}
+
+	// ==================== ST4 Template Accessors ====================
+	
+	/**
+	 * Get children list for template iteration.
+	 * Used by ST4 templates: <entity.children:statement()>
+	 */
+	public LinkedList<CBaseLanguageEntity> getChildren()
+	{
+		return m_lstChildren;
+	}
+	
+	/**
+	 * Get entity type name for template dispatch.
+	 * Used by ST4 templates to select appropriate template.
+	 */
+	public String getEntityType()
+	{
+		String className = this.getClass().getSimpleName();
+		return className;
+	}
+	
+	/**
+	 * Get formatted name for Java identifier.
+	 * Used by ST4 templates: <entity.formattedName>
+	 */
+	public String getFormattedName()
+	{
+		if (m_output != null)
+		{
+			return m_output.FormatIdentifier(GetDisplayName());
+		}
+		return GetDisplayName();
 	}
 
 	

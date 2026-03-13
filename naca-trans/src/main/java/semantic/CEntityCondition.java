@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 3 août 2004
+ * Created on 3 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -108,5 +108,32 @@ public abstract class CEntityCondition extends CBaseActionEntity
 		m_arrAlternativeConditions.add(e) ;
 	}
 	protected Vector<CBaseLanguageEntity> m_arrAlternativeConditions = null;
+
+	// ==================== ST4 Template Accessors ====================
+
+	public CBaseEntityCondition getCondition()
+	{
+		return m_Condition;
+	}
+
+	public CEntityBloc getThenBloc()
+	{
+		return m_ThenBloc;
+	}
+
+	public CEntityBloc getElseBloc()
+	{
+		return m_ElseBloc;
+	}
+
+	public boolean isAlternativeCondition()
+	{
+		return m_bAlternativeCondition;
+	}
+
+	public Vector<CBaseLanguageEntity> getAlternativeConditions()
+	{
+		return m_arrAlternativeConditions;
+	}
 
 }
