@@ -15,6 +15,11 @@ import utils.CObjectCatalog;
 /**
  * ST4-based implementation of CEntityCondition.
  * Migration from: generate.java.CJavaCondition
+ * 
+ * Design Principle (PUSH Model):
+ * - Controller pushes entity to template
+ * - Template handles ALL logic, formatting, and nested rendering
+ * - No conditionals or string concatenation in Controller
  */
 public class CJavaConditionST extends CEntityCondition
 {
@@ -26,59 +31,13 @@ public class CJavaConditionST extends CEntityCondition
     @Override
     protected void DoExport()
     {
-        if (getCondition() == null)
-        {
-            return;
-        }
+        // Pure PUSH model - no logic, just push entity to template
+        ST template = TemplateLoader.getControlTemplate("condition");
+        template.add("entity", this);
         
-        if (getCondition().ignore())
-        {
-            handleIgnoredCondition();
-            return;
-        }
-
-        renderConditionWithTemplate();
-    }
-    
-    private void handleIgnoredCondition()
-    {
-        if (getElseBloc() != null && !getElseBloc().ignore())
-        {
-            StartOutputBloc();
-            WriteLine("{", getElseBloc().getLine());
-            DoExport(getElseBloc());
-            WriteLine("}");
-            EndOutputBloc();
-        }
-    }
-    
-    private void renderConditionWithTemplate()
-    {
-        getCondition().SetLine(getLine());
-        
-        WriteWord("if (");
-        String conditionStr = getCondition().Export();
-        WriteWord(conditionStr + ") {");
-        WriteEOL();
-        
-        StartOutputBloc();
-        DoExport(getThenBloc());
-        EndOutputBloc();
-        
-        int endLine = getThenBloc().GetEndLine();
-        if (endLine == 0 && getElseBloc() != null)
-        {
-            endLine = getElseBloc().getLine() - 1;
-        }
-        WriteLine("}", endLine);
-        
-        if (getElseBloc() != null)
-        {
-            WriteLine("else {", getElseBloc().getLine());
-            StartOutputBloc();
-            DoExport(getElseBloc());
-            EndOutputBloc();
-            WriteLine("}", getElseBloc().GetEndLine());
+        String output = template.render();
+        if (!output.trim().isEmpty()) {
+            WriteLine(output);
         }
     }
 }

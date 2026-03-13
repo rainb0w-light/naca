@@ -136,4 +136,14 @@ public abstract class CEntityCondition extends CBaseActionEntity
 		return m_arrAlternativeConditions;
 	}
 
+	public boolean isConditionIgnored()
+	{
+		return m_Condition == null || m_Condition.ignore();
+	}
+
+	public boolean shouldRenderElseBlock()
+	{
+		return m_ElseBloc != null && !m_ElseBloc.ignore() && isConditionIgnored();
+	}
+
 }

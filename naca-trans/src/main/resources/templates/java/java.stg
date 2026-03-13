@@ -42,7 +42,12 @@ import "../base.stg";
  * Output: if (condition) { ... } else { ... }
  */
 condition(entity) ::= <<
-<if(entity.condition)>if (<entity.condition.export()>)
+<if(entity.conditionIgnored)><if(entity.shouldRenderElseBlock)>
+{
+<entity.elseBloc.children:statement()>
+}
+<endif><else>
+if (<entity.condition.export()>)
 {
 <entity.thenBloc.children:statement()>
 }<if(entity.elseBloc)>
