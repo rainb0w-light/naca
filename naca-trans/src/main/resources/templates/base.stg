@@ -1,0 +1,135 @@
+/**
+ * Base templates for StringTemplate4 code generation.
+ * 
+ * This file contains shared templates and utilities used across all
+ * language-specific template groups.
+ * 
+ * Design Principle (PUSH Model):
+ * - Controllers push entity objects to templates
+ * - Templates handle all formatting, conditionals, and nested rendering
+ * - No logic in Controller, only: template.add("entity", this)
+ * 
+ * ST4 Key Features:
+ * - <if(attr)> tests for presence (null = false)
+ * - <list:item()> applies template to each list element
+ * - <list; separator=", "> joins list with separator
+ * - Templates can call other templates for nested rendering
+ * 
+ * @see docs/STRINGTEMPLATE_REFACTORING_PRINCIPLES.md
+ */
+group base;
+
+// ==================== Utility Templates ====================
+
+/**
+ * Null-safe default value.
+ * Usage: <nullCheck(value, "default")>
+ */
+nullCheck(value, defaultValue) ::= <<
+<if(value)><value><else><defaultValue><endif>
+>>
+
+/**
+ * Format a name for Java identifier.
+ * This is a placeholder - actual formatting should be done by entity.getFormattedName()
+ */
+formatName(name) ::= <<
+<name>
+>>
+
+// ==================== Statement Dispatch ====================
+
+/**
+ * Dispatch to appropriate statement template based on entity type.
+ * This is the main entry point for rendering any statement entity.
+ * 
+ * Usage: <statement(entity)>
+ * 
+ * Note: Entity must have getEntityType() method returning type string.
+ */
+statement(entity) ::= <<
+<if(entity.entityType == "EntityCondition")><condition(entity)><endif>
+<if(entity.entityType == "EntityAssign")><assign(entity)><endif>
+<if(entity.entityType == "EntityAssignWithAccessor")><assignWithAccessor(entity)><endif>
+<if(entity.entityType == "EntityAddTo")><addTo(entity)><endif>
+<if(entity.entityType == "EntitySubtractTo")><subtractTo(entity)><endif>
+<if(entity.entityType == "EntityMultiply")><multiply(entity)><endif>
+<if(entity.entityType == "EntityDivide")><divide(entity)><endif>
+<if(entity.entityType == "EntityLoopWhile")><loop(entity)><endif>
+<if(entity.entityType == "EntityLoopIter")><loopIter(entity)><endif>
+<if(entity.entityType == "EntityReadFile")><readFile(entity)><endif>
+<if(entity.entityType == "EntityWriteFile")><writeFile(entity)><endif>
+<if(entity.entityType == "EntityOpenFile")><openFile(entity)><endif>
+<if(entity.entityType == "EntityCloseFile")><closeFile(entity)><endif>
+<if(entity.entityType == "EntityReturn")><returnStatement(entity)><endif>
+<if(entity.entityType == "EntityContinue")><continueStatement(entity)><endif>
+<if(entity.entityType == "EntityBreak")><breakStatement(entity)><endif>
+<if(entity.entityType == "EntityGoto")><gotoStatement(entity)><endif>
+<if(entity.entityType == "EntityCallFunction")><callFunction(entity)><endif>
+<if(entity.entityType == "EntityCallProgram")><callProgram(entity)><endif>
+<if(entity.entityType == "EntityDisplay")><display(entity)><endif>
+<if(entity.entityType == "EntityInitialize")><initialize(entity)><endif>
+>>
+
+// ==================== Block Rendering ====================
+
+/**
+ * Render a block of statements.
+ * Used for then/else blocks, loop bodies, etc.
+ * 
+ * Usage: <block(entity.thenBloc)>
+ */
+block(blocEntity) ::= <<
+<if(blocEntity)><blocEntity.children:statement()><endif>
+>>
+
+// ==================== Data Reference ====================
+
+/**
+ * Render a data entity reference.
+ * Handles OF qualifier (e.g., VAR OF RECORD → record.var)
+ * 
+ * Usage: <dataRef(entity)>
+ * 
+ * Entity should have: getFormattedName(), getOfQualifier()
+ */
+dataRef(entity) ::= <<
+<if(entity.ofQualifier)><entity.ofQualifier.formattedName>.<endif><entity.formattedName>
+>>
+
+// ==================== Condition Templates ====================
+
+/**
+ * Condition placeholder - defined in java.stg with actual implementation
+ */
+condition(entity) ::= "/* condition template placeholder */"
+
+// ==================== Verb Templates ====================
+
+/**
+ * Verb placeholders - defined in java.stg with actual implementation
+ */
+assign(entity) ::= "/* assign template placeholder */"
+addTo(entity) ::= "/* addTo template placeholder */"
+
+// ==================== Placeholder Templates ====================
+// These are overridden in java.stg with actual implementations
+
+loop(entity) ::= "/* loop template placeholder */"
+readFile(entity) ::= "/* readFile template placeholder */"
+writeFile(entity) ::= "/* writeFile template placeholder */"
+openFile(entity) ::= "/* openFile template placeholder */"
+closeFile(entity) ::= "/* closeFile template placeholder */"
+returnStatement(entity) ::= "/* return template placeholder */"
+continueStatement(entity) ::= "continue;"
+breakStatement(entity) ::= "break;"
+gotoStatement(entity) ::= "/* goto template placeholder */"
+callFunction(entity) ::= "/* callFunction template placeholder */"
+callProgram(entity) ::= "/* callProgram template placeholder */"
+display(entity) ::= "/* display template placeholder */"
+initialize(entity) ::= "/* initialize template placeholder */"
+subtractTo(entity) ::= "/* subtractTo template placeholder */"
+multiply(entity) ::= "/* multiply template placeholder */"
+divide(entity) ::= "/* divide template placeholder */"
+assignWithAccessor(entity) ::= "/* assignWithAccessor template placeholder */"
+loopIter(entity) ::= "/* loopIter template placeholder */"
