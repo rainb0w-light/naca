@@ -79,6 +79,11 @@ public abstract class CDataEntity extends CBaseLanguageEntity
 	}
 
 	public abstract String ExportReference(int nLine) ;
+	
+	public String export()
+	{
+		return ExportReference(getLine());
+	}
 	public int getNbDimOccurs()
 	{
 		return 0;
