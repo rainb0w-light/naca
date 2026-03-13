@@ -2,26 +2,40 @@
 
 > **前置条件**: ST4 已在 `naca-trans/build.gradle.kts` 中配置为依赖 (`org.antlr:ST4:4.3.4`)
 
+> **状态更新**: Phase 1-3 已完成 (2026-03-13)
+
+---
+
+## 完成状态
+
+| Phase | 状态 | Git Commit |
+|-------|------|------------|
+| Phase 1: 基础设施 | ✅ 完成 | `4e08323` |
+| Phase 2: 实体改造 | ✅ 完成 | `9d388e1` |
+| Phase 3: Controller瘦化 | ✅ 完成 | `697707e` |
+| Phase 4: 模板开发 | 🔄 进行中 | - |
+| Phase 5: 验证清理 | ⏳ 待开始 | - |
+
 ---
 
 ## 一、现状分析
 
-### 1.1 依赖状态
+### 1.1 依赖状态 (已更新)
 - ✅ ST4 4.3.4 已配置
-- ❌ 无 TemplateLoader 基础设施
-- ❌ 无模板文件目录
+- ✅ TemplateLoader 已实现
+- ✅ 模板文件目录已创建
 
-### 1.2 实体类 Getter 状态
+### 1.2 实体类 Getter 状态 (已更新)
 
-| 类 | 关键字段 | Getter状态 | 需要添加 |
-|---|---|---|---|
-| `CEntityCondition` | `m_Condition`, `m_ThenBloc`, `m_ElseBloc` | ❌ 无 | `getCondition()`, `getThenBloc()`, `getElseBloc()` |
-| `CEntityAssign` | `m_Value`, `m_arrRefTo`, `m_bFillAll`, `m_bMoveCorresponding` | ❌ 无 | `getValue()`, `getDestinations()`, `isFillAll()`, `isMoveCorresponding()` |
-| `CEntityAddTo` | `m_arrValues`, `m_arrDest`, `m_bRounded` | ❌ 无 | `getValues()`, `getDestinations()`, `isRounded()` |
-| `CEntityReadFile` | `m_eFileDescriptor`, `m_eDataInto`, `m_eAtEndBloc`, `m_eNotAtEndBloc` | ❌ 无 | `getFileDescriptor()`, `getDataInto()`, `getAtEndBloc()`, `getNotAtEndBloc()` |
-| `CEntityLoopWhile` | `m_WhileCondition`, `m_bDoBefore` | ❌ 无 | `getWhileCondition()`, `isDoBefore()` |
-| `CBaseLanguageEntity` | `m_lstChildren`, `m_Name`, `m_line`, `m_parent` | 部分有 | `getChildren()`, `getFormattedName()` |
-| `CDataEntity` | `m_Name`, `m_Of` | 部分有 | `getOfQualifier()`, `getFormattedName()` |
+| 类 | 关键字段 | Getter状态 |
+|---|---|---|
+| `CEntityCondition` | `m_Condition`, `m_ThenBloc`, `m_ElseBloc` | ✅ 已添加 |
+| `CEntityAssign` | `m_Value`, `m_arrRefTo`, `m_bFillAll`, `m_bMoveCorresponding` | ✅ 已添加 |
+| `CEntityAddTo` | `m_arrValues`, `m_arrDest`, `m_bRounded` | ✅ 已添加 |
+| `CEntityReadFile` | `m_eFileDescriptor`, `m_eDataInto`, `m_eAtEndBloc`, `m_eNotAtEndBloc` | ✅ 已添加 |
+| `CEntityLoopWhile` | `m_WhileCondition`, `m_bDoBefore` | ✅ 已添加 |
+| `CBaseLanguageEntity` | `m_lstChildren`, `m_Name`, `m_line`, `m_parent` | ✅ 已添加 |
+| `CDataEntity` | `m_Name`, `m_Of`, `export()` | ✅ 已添加 |
 
 ### 1.3 Controller 类现状
 
