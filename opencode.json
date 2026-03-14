@@ -1,0 +1,13 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "lsp": {
+    "st4": {
+      "command": [
+        "java",
+        "-jar",
+        "/Volumes/AppData/codebase/st4-lsp-server/target/st4-lsp-server-0.1.0.jar"
+      ],
+      "extensions": [".st", ".stg"]
+    }
+  }
+}

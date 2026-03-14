@@ -171,7 +171,8 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 			m_lstChildren.add(e) ;
 		}
 	}
-	protected void ExportChildren()
+	protected void
+    ExportChildren()
 	{
 		ListIterator i = m_lstChildren.listIterator() ;
 		try

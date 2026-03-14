@@ -1,108 +1,51 @@
-/**
- * Java code generation templates for StringTemplate4.
- * 
- * This file contains all templates for generating Java code from COBOL semantic entities.
- * It imports base.stg for shared utilities.
- * 
- * Template Organization:
- * - Control Flow: condition, loop, case
- * - Data Operations: assign, addTo, subtractTo, multiply, divide
- * - File Operations: readFile, writeFile, openFile, closeFile
- * - Data Structures: structure, dataSection
- * - Expressions: exprSum, exprProd, condOr, condAnd, etc.
- * 
- * Design Principle (PUSH Model):
- * - Controllers push entity objects to templates via: template.add("entity", this)
- * - Templates handle ALL formatting, conditionals, null checks, and nested rendering
- * - No logic in Controller DoExport() methods
- * 
- * ST4 Syntax Reference:
- * - <attr>              : Reference attribute
- * - <if(attr)>...<endif>: Test for presence (null = false)
- * - <list:template()>   : Apply template to each element
- * - <list; separator=", ">: Join with separator
- * - <obj.property>      : Access via getter (getProperty())
- * 
- * @see docs/STRINGTEMPLATE_REFACTORING_PRINCIPLES.md
- */
 group java;
-import "../base.stg";
+import "../base.stg"
 
 // ============================================================================
 //                           CONTROL FLOW TEMPLATES
 // ============================================================================
 
-/**
- * IF condition statement.
- * 
- * Entity: CEntityCondition
- * Required getters: getCondition(), getThenBloc(), getElseBloc()
- * 
- * Input:  IF condition THEN ... ELSE ... END-IF
- * Output: if (condition) { ... } else { ... }
- */
 condition(entity) ::= <<
 <if(entity.conditionIgnored)><if(entity.shouldRenderElseBlock)>
 {
-<entity.elseBloc.children:statement()>
+<entity.elseBloc.exportChildren()>
 }
 <endif><else>
 if (<entity.condition.export()>)
 {
-<entity.thenBloc.children:statement()>
+<entity.thenBloc.exportChildren()>
 }<if(entity.elseBloc)>
 else
 {
-<entity.elseBloc.children:statement()>
+<entity.elseBloc.exportChildren()>
 }<endif><endif>
 >>
 
-/**
- * WHILE/UNTIL loop statement.
- * 
- * Entity: CEntityLoopWhile
- * Required getters: getWhileCondition(), isDoBefore(), getChildren()
- * 
- * Input:  PERFORM UNTIL condition ... END-PERFORM
- * Output: while (!condition) { ... }  or  do { ... } while (!condition);
- */
 loop(entity) ::= <<
 <if(entity.doBefore)>do
 {
-<entity.children:statement()>
+<entity.exportChildren()>
 } while (<entity.whileCondition.export()>);<else>
 while (<entity.whileCondition.export()>)
 {
-<entity.children:statement()>
+<entity.exportChildren()>
 }<endif>
 >>
 
-/**
- * PERFORM VARYING loop (iterative).
- * 
- * Entity: CEntityLoopIter
- * Required getters: getLoopVariable(), getFromValue(), getToValue(), getStepValue(), getChildren()
- */
 loopIter(entity) ::= <<
 for (<entity.loopVariable.export()> = <entity.fromValue.export()>; <entity.loopVariable.export()> \<= <entity.toValue.export()>; <entity.loopVariable.export()> += <entity.stepValue.export()>)
 {
-<entity.children:statement()>
+<entity.exportChildren()>
 }
 >>
 
-/**
- * EVALUATE case statement.
- * 
- * Entity: CEntityCase
- * Required getters: getCaseValue(), getCaseWhens(), getCaseOtherwise()
- */
 case(entity) ::= <<
 switch (<entity.caseValue.export()>)
 {
 <entity.caseWhens:caseWhen()>
 <if(entity.caseOtherwise)>default:
 {
-<entity.caseOtherwise.children:statement()>
+<entity.caseOtherwise.exportChildren()>
 }<endif>
 }
 >>
@@ -110,7 +53,7 @@ switch (<entity.caseValue.export()>)
 caseWhen(whenEntity) ::= <<
 case <whenEntity.value.export()>:
 {
-<whenEntity.block.children:statement()>
+<whenEntity.block.exportChildren()>
 break;
 }
 >>
@@ -119,77 +62,30 @@ break;
 //                           DATA OPERATION TEMPLATES
 // ============================================================================
 
-/**
- * MOVE assignment statement.
- * 
- * Entity: CEntityAssign
- * Required getters: getValue(), getDestinations(), isFillAll(), isMoveCorresponding()
- * 
- * Input:  MOVE value TO dest1 dest2 ...
- * Output: move(value, dest1); move(value, dest2); ...
- */
 assign(entity) ::= <<
 <if(entity.moveCorresponding)>moveCorresponding(<else><if(entity.fillAll)>moveAll(<else>move(<endif><endif><entity.value.export()>, <entity.destinations:{d | <d.export()>}; separator=", ">);
 >>
 
-/**
- * ADD statement.
- * 
- * Entity: CEntityAddTo
- * Required getters: getValues(), getDestinations(), isRounded()
- * 
- * Input:  ADD a b TO c ROUNDED
- * Output: add(a, b).toRounded(c);
- */
 addTo(entity) ::= <<
 <if(entity.singleValue)><if(entity.isIncrement)>inc(<entity.singleDestination.export()>);<else><if(entity.isDecrement)>dec(<entity.singleDestination.export()>);<else>inc(<entity.singleValue.export()>, <entity.singleDestination.export()>);<endif><endif><else>add(<entity.values:{v | <v.export()>}; separator=", ">).<if(entity.rounded)>toRounded<else>to<endif>(<entity.destinations:{d | <d.export()>}; separator=", ">);<endif>
 >>
 
-/**
- * SUBTRACT statement.
- * 
- * Entity: CEntitySubtractTo
- * Required getters: getValues(), getDestinations(), isRounded()
- */
 subtractTo(entity) ::= <<
 subtract(<entity.values:{v | <v.export()>}; separator=", ">).<if(entity.rounded)>toRounded<else>to<endif>(<entity.destinations:{d | <d.export()>}; separator=", ">);
 >>
 
-/**
- * MULTIPLY statement.
- * 
- * Entity: CEntityMultiply
- * Required getters: getValue(), getDestination(), isRounded()
- */
 multiply(entity) ::= <<
 multiply(<entity.value.export()>, <entity.destination.export()>).<if(entity.rounded)>toRounded<else>to<endif>(<entity.result.export()>);
 >>
 
-/**
- * DIVIDE statement.
- * 
- * Entity: CEntityDivide
- * Required getters: getValue(), getDivisor(), getResult(), isRounded()
- */
 divide(entity) ::= <<
 divide(<entity.value.export()>, <entity.divisor.export()>).<if(entity.rounded)>toRounded<else>to<endif>(<entity.result.export()>);
 >>
 
-/**
- * COMPUTE statement (arithmetic expression).
- * 
- * Entity: CEntityCalcul
- * Required getters: getResult(), getExpression()
- */
 compute(entity) ::= <<
 <entity.result.export()> = <entity.expression.export()>;
 >>
 
-/**
- * Assignment with accessor (SET statement).
- * 
- * Entity: CEntityAssignWithAccessor
- */
 assignWithAccessor(entity) ::= <<
 <entity.destination.exportWriteAccessor(<entity.value.export()>)>;
 >>
@@ -198,49 +94,22 @@ assignWithAccessor(entity) ::= <<
 //                           FILE OPERATION TEMPLATES
 // ============================================================================
 
-/**
- * READ file statement.
- * 
- * Entity: CEntityReadFile
- * Required getters: getFileDescriptor(), getDataInto(), getAtEndBloc(), getNotAtEndBloc()
- * 
- * Input:  READ file INTO data AT END ... NOT AT END ... END-READ
- * Output: read(file, data).atEnd(() -> { ... }).notAtEnd(() -> { ... });
- */
 readFile(entity) ::= <<
 read(<entity.fileDescriptor.export()>, <entity.dataInto.export()>)<if(entity.atEndBloc)>.atEnd(() -\> {
-<entity.atEndBloc.children:statement()>
+<entity.atEndBloc.exportChildren()>
 })<endif><if(entity.notAtEndBloc)>.notAtEnd(() -\> {
-<entity.notAtEndBloc.children:statement()>
+<entity.notAtEndBloc.exportChildren()>
 })<endif>;
 >>
 
-/**
- * WRITE file statement.
- * 
- * Entity: CEntityWriteFile
- * Required getters: getFileDescriptor(), getDataFrom()
- */
 writeFile(entity) ::= <<
 write(<entity.fileDescriptor.export()>, <entity.dataFrom.export()>);
 >>
 
-/**
- * OPEN file statement.
- * 
- * Entity: CEntityOpenFile
- * Required getters: getFileDescriptor(), getOpenMode()
- */
 openFile(entity) ::= <<
 open(<entity.fileDescriptor.export()>, "<entity.openMode>");
 >>
 
-/**
- * CLOSE file statement.
- * 
- * Entity: CEntityCloseFile
- * Required getters: getFileDescriptor()
- */
 closeFile(entity) ::= <<
 close(<entity.fileDescriptor.export()>);
 >>
@@ -249,61 +118,26 @@ close(<entity.fileDescriptor.export()>);
 //                           CONTROL STATEMENTS
 // ============================================================================
 
-/**
- * GO TO statement.
- * 
- * Entity: CEntityGoto
- * Required getters: getReference()
- */
 gotoStatement(entity) ::= <<
 goto <entity.reference>;
 >>
 
-/**
- * PERFORM CALL function.
- * 
- * Entity: CEntityCallFunction
- * Required getters: getReference(), getChildren()
- */
 callFunction(entity) ::= <<
 <entity.reference>.execute(<entity.parameters:{p | <p.export()>}; separator=", ">);
 >>
 
-/**
- * CALL program statement.
- * 
- * Entity: CEntityCallProgram
- * Required getters: getReference()
- */
 callProgram(entity) ::= <<
 call("<entity.reference.export()>");
 >>
 
-/**
- * DISPLAY statement.
- * 
- * Entity: CEntityDisplay
- * Required getters: getValues()
- */
 display(entity) ::= <<
 display(<entity.values:{v | <v.export()>}; separator=", ">);
 >>
 
-/**
- * INITIALIZE statement.
- * 
- * Entity: CEntityInitialize
- * Required getters: getData()
- */
 initialize(entity) ::= <<
 initialize(<entity.data.export()>);
 >>
 
-/**
- * RETURN statement.
- * 
- * Entity: CEntityReturn
- */
 returnStatement(entity) ::= <<
 return;
 >>
@@ -312,90 +146,44 @@ return;
 //                           DATA STRUCTURE TEMPLATES
 // ============================================================================
 
-/**
- * Variable declaration.
- * 
- * Entity: CEntityStructure
- * Required getters: getFormattedName(), getLevel(), getType(), getLength(), etc.
- */
 structure(entity) ::= <<
 Var <entity.formattedName> = declare.level(<entity.level>)<if(entity.redefines)>.redefines(<entity.redefines.export()>)<endif><if(entity.occurs)>.occurs(<entity.occurs.export()>)<endif>.<entity.type>(<entity.length><if(entity.decimals)>, <entity.decimals><endif>)<if(entity.comp3)>.comp3()<endif><if(entity.comp)>.comp()<endif><if(entity.value)>.value(<entity.value.export()>)<endif><if(entity.filler)>.filler()<else>.var()<endif>;
 >>
 
-/**
- * Data section declaration.
- * 
- * Entity: CEntityDataSection
- * Required getters: getSectionName()
- */
 dataSection(entity) ::= <<
 // <entity.sectionName> Section
 >>
 
 // ============================================================================
 //                           EXPRESSION TEMPLATES
+// Note: Expression templates use boolean flags pushed from controller
+// instead of value comparison (ST4 does not support <if(a == "x")>)
 // ============================================================================
 
-/**
- * Addition expression.
- * 
- * Entity: CEntityExprSum
- * Required getters: getLeft(), getRight(), getSumType()
- */
 exprSum(entity) ::= <<
-<if(entity.sumType == "ADD")>add(<entity.left.export()>, <entity.right.export()>)<else>subtract(<entity.left.export()>, <entity.right.export()>)<endif>
+<if(entity.isAdd)>add(<entity.left.export()>, <entity.right.export()>)<else>subtract(<entity.left.export()>, <entity.right.export()>)<endif>
 >>
 
-/**
- * Multiplication expression.
- * 
- * Entity: CEntityExprProd
- */
 exprProd(entity) ::= <<
-<if(entity.prodType == "MULTIPLY")>multiply(<entity.left.export()>, <entity.right.export()>)<else>divide(<entity.left.export()>, <entity.right.export()>)<endif>
+<if(entity.isMultiply)>multiply(<entity.left.export()>, <entity.right.export()>)<else>divide(<entity.left.export()>, <entity.right.export()>)<endif>
 >>
 
-/**
- * OR condition.
- * 
- * Entity: CEntityCondOr
- */
 condOr(entity) ::= <<
 (<entity.left.export()> || <entity.right.export()>)
 >>
 
-/**
- * AND condition.
- * 
- * Entity: CEntityCondAnd
- */
 condAnd(entity) ::= <<
 (<entity.left.export()> && <entity.right.export()>)
 >>
 
-/**
- * NOT condition.
- * 
- * Entity: CEntityCondNot
- */
 condNot(entity) ::= <<
 !<entity.operand.export()>
 >>
 
-/**
- * Comparison condition.
- * 
- * Entity: CEntityCondCompare
- */
 condCompare(entity) ::= <<
 (<entity.left.export()> <entity.operator> <entity.right.export()>)
 >>
 
-/**
- * Equals condition.
- * 
- * Entity: CEntityCondEquals
- */
 condEquals(entity) ::= <<
 <entity.left.export()>.equals(<entity.right.export()>)
 >>
