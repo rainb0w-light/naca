@@ -1,0 +1,92 @@
+/*
+ * Naca - COBOL to Java Transpiler
+ * Root Project Build Configuration
+ * JDK 25 Build
+ */
+
+plugins {
+    id 'java'
+    // id 'jacoco'  // Temporarily disabled for jdtls compatibility
+    id 'org.springframework.boot' version '3.4.3' apply false
+    id 'io.spring.dependency-management' version '1.1.7' apply false
+    id 'com.diffplug.spotless' version '6.25.0' apply false
+    id 'org.openrewrite.rewrite' version '6.29.0'
+}
+
+allprojects {
+    group = 'com.publicitas.naca'
+    version = '2.0.0-SNAPSHOT'
+    
+    repositories {
+        mavenCentral()
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+    // apply plugin: 'jacoco'  // Temporarily disabled for jdtls compatibility
+    apply plugin: 'io.spring.dependency-management'
+    
+    java {
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
+    }
+    
+    tasks.withType(JavaCompile).configureEach {
+        options.encoding = 'ISO-8859-1'
+        options.fork = true
+        options.forkOptions.memoryMaximumSize = '1g'
+        options.compilerArgs.addAll([
+            '-Xlint:deprecation',
+            '-Xlint:unchecked'
+        ])
+        doFirst {
+            options.forkOptions.jvmArgs = [
+                '--add-exports=java.xml/com.sun.org.apache.xml.internal.utils=ALL-UNNAMED',
+                '--add-exports=java.xml/com.sun.org.apache.xpath.internal.operations=ALL-UNNAMED',
+                '--add-exports=java.xml/com.sun.org.apache.xalan.internal.xsltc.runtime=ALL-UNNAMED',
+                '--add-exports=java.xml/com.sun.org.apache.xpath.internal=ALL-UNNAMED',
+                '--add-opens=java.xml/com.sun.org.apache.xml.internal.utils=ALL-UNNAMED',
+                '--add-opens=java.xml/com.sun.org.apache.xpath.internal.operations=ALL-UNNAMED',
+                '--add-opens=java.xml/com.sun.org.apache.xalan.internal.xsltc.runtime=ALL-UNNAMED'
+            ]
+        }
+    }
+    
+    tasks.withType(Javadoc) {
+        options.encoding = 'UTF-8'
+    }
+    
+    tasks.named('test') {
+        useJUnitPlatform()
+        testLogging {
+            events 'passed', 'skipped', 'failed'
+        }
+        jvmArgs '--add-opens=java.base/java.lang=ALL-UNNAMED'
+        // finalizedBy tasks.named('jacocoTestReport')  // Temporarily disabled
+    }
+    
+    // JaCoCo tasks temporarily disabled for jdtls compatibility
+    // tasks.named('jacocoTestReport') { ... }
+    // tasks.named('jacocoTestCoverageVerification') { ... }
+}
+
+tasks.register('allTests') {
+    dependsOn subprojects.collect { it.tasks.named('test') }
+    group = 'verification'
+    description = 'Runs all tests across all subprojects'
+}
+
+// Aggregate JaCoCo report temporarily disabled
+// tasks.register('jacocoAggregateReport', JacocoReport) { ... }
+
+apply from: 'cobol-tasks.gradle'
+
+rewrite {
+    activeRecipe("com.publicitas.naca.RemoveHungarianNotation")
+    failOnDryRunResults = false
+}
+
+dependencies {
+    rewrite(project(':rewrite-recipes'))
+}
