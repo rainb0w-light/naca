@@ -1,6 +1,27 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "lsp": {
+    "jdtls": {
+      "command": [
+        "jdtls",
+        "-data",
+        "/Volumes/AppData/codebase/naca/.jdtls-workspace"
+      ],
+      "extensions": [".java"],
+      "settings": {
+        "java": {
+          "configuration": {
+            "runtimes": [
+              {
+                "name": "JavaSE-21",
+                "path": "/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home",
+                "default": true
+              }
+            ]
+          }
+        }
+      }
+    },
     "st4": {
       "command": [
         "java",
