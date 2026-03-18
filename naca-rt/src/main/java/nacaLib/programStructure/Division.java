@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /*
- * Created on 31 août 2004
+ * Created on 31 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -24,7 +24,7 @@ public class Division extends CJMapObject
 {
 	Division(BaseProgram Program)
 	{
-		program = Program;
+		this.program = Program;
 	}
 	
 	public BaseProgram getProgram()

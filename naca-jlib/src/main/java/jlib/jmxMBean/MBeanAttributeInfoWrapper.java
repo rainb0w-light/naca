@@ -18,13 +18,13 @@ public class MBeanAttributeInfoWrapper
 		try
 		{
 			attribute = new MBeanAttributeInfo(csName, csDescription, getter, setter);
-		} 
+		}
 		catch (IntrospectionException e)
 		{
 			e.printStackTrace();
 		}
-		getter = getter;
-		setter = setter;
+		this.getter = getter;
+		this.setter = setter;
 	}
 	
 	MBeanAttributeInfo getAttribute()

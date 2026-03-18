@@ -40,9 +40,9 @@ public class LogParams
  */
 	LogParams(String csChannel, LogEvent logEvent, String csMessage)
 	{
-		csChannel = csChannel;
-		logEvent = logEvent;
-		csMessage = csMessage;
+		this.csChannel = csChannel;
+		this.logEvent = logEvent;
+		this.csMessage = csMessage;
 		lStartTime = Log.getRunningTime_ms();
 		Thread thread = Thread.currentThread();
 		lThreadId = thread.getId();
@@ -62,9 +62,9 @@ public class LogParams
  */
 	LogParams(String csChannel, LogEvent logEvent, String csMessage, String csRunId, String csRuntimeId)
 	{
-		csChannel = csChannel;
-		logEvent = logEvent;
-		csMessage = csMessage;
+		this.csChannel = csChannel;
+		this.logEvent = logEvent;
+		this.csMessage = csMessage;
 		lStartTime = Log.getRunningTime_ms();
 		Thread thread = Thread.currentThread();
 		lThreadId = thread.getId();

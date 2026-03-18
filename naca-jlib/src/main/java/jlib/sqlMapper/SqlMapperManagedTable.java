@@ -23,7 +23,7 @@ public class SqlMapperManagedTable
 	
 	SqlMapperManagedTable(String csTableName)
 	{
-		csTableName = csTableName;
+		this.csTableName = csTableName;
 		checkRecordsContainers();
 	}
 //	

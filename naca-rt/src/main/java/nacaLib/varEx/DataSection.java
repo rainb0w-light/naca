@@ -22,8 +22,8 @@ public class DataSection extends CJMapObject
 	
 	public DataSection(BaseProgram prg, DataSectionType dataSectionType)
 	{
-		dataSectionType = dataSectionType;
-		prg = prg;
+		this.dataSectionType = dataSectionType;
+		this.prg = prg;
 		buffer = new VarBuffer();
 	}
 	

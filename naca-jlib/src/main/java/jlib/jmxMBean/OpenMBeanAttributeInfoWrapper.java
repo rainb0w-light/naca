@@ -15,9 +15,9 @@ public class OpenMBeanAttributeInfoWrapper
 {
 	public OpenMBeanAttributeInfoWrapper(String csName, String csDescription, OpenMBeanAttributeInfoSupport openType, Method getter, Method setter)
 	{
-		openType = openType;
-		getter = getter;
-		setter = setter;
+		this.openType = openType;
+		this.getter = getter;
+		this.setter = setter;
 	}
 	
 	OpenMBeanAttributeInfo getAttribute()

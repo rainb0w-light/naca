@@ -17,9 +17,9 @@ public abstract class PersistentDequeueObjectThread extends BaseThread
 
 	protected PersistentDequeueObjectThread(PersistantQueue persistantQueue, BaseQueueItemFactory baseQueueItemFactory, int nLoopWait_ms)
 	{
-		baseQueueItemFactory = baseQueueItemFactory;
-		persistantQueue = persistantQueue;
-		nLoopWait_ms = nLoopWait_ms;
+		this.baseQueueItemFactory = baseQueueItemFactory;
+		this.persistantQueue = persistantQueue;
+		this.nLoopWait_ms = nLoopWait_ms;
 	}
 
 	public void run()

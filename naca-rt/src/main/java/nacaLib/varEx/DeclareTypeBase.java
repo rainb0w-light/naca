@@ -40,7 +40,7 @@ public abstract class DeclareTypeBase extends CJMapObject
 	
 	void set(VarLevel varLevel)
 	{
-		varLevel = varLevel;
+		this.varLevel = varLevel;
 		bVariableLengthDeclaration = false;
 	}
 	

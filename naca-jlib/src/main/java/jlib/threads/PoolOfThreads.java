@@ -132,7 +132,7 @@ public class PoolOfThreads
 	
 	void signalPooledThreadThrowException(Exception expThrownByPooledThread)
 	{
-		expThrownByPooledThread = expThrownByPooledThread;
+		this.expThrownByPooledThread = expThrownByPooledThread;
 	}
 	
 	private boolean bTerminationRequested = false;

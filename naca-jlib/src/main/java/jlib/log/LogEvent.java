@@ -41,47 +41,47 @@ import java.util.ArrayList;
 public class LogEvent
 {
 	public LogEvent(LogEventType logEventType, LogFlow logFlow, LogLevel logLevel, String csProduct, String csProcess, String csName) {
-		logEventType = logEventType;
-		logLevel = logLevel;
-		logFlow = logFlow;
-		csProduct = csProduct;
-		csProcess = csProcess;
-		csName = csName;
+		this.logEventType = logEventType;
+		this.logLevel = logLevel;
+		this.logFlow = logFlow;
+		this.csProduct = csProduct;
+		this.csProcess = csProcess;
+		this.csName = csName;
 	}
 
 	public LogEvent(LogEventType logEventType, LogFlow logFlow, LogLevel logLevel, String csProduct, String csProcess) {
-		logEventType = logEventType;
-		logLevel = logLevel;
-		logFlow = logFlow;
-		csProduct = csProduct;
-		csProcess = csProcess;
+		this.logEventType = logEventType;
+		this.logLevel = logLevel;
+		this.logFlow = logFlow;
+		this.csProduct = csProduct;
+		this.csProcess = csProcess;
 	}
 
 	public LogEvent(LogEventType logEventType, LogFlow logFlow, LogLevel logLevel, String csProduct)
 	{
-		logEventType = logEventType;
-		logFlow = logFlow;
-		logLevel = logLevel;
-		csProduct = csProduct;
+		this.logEventType = logEventType;
+		this.logFlow = logFlow;
+		this.logLevel = logLevel;
+		this.csProduct = csProduct;
 	}
 	
 	public LogEvent(LogEventType logEventType, LogFlow logFlow, LogLevel logLevel)
 	{
-		logEventType = logEventType;
-		logFlow = logFlow;
-		logLevel = logLevel;
+		this.logEventType = logEventType;
+		this.logFlow = logFlow;
+		this.logLevel = logLevel;
 	}
 	
 	public LogEvent(LogFlow logFlow, LogLevel logLevel)
 	{
-		logEventType = LogEventType.Remark; 
-		logFlow = logFlow;
-		logLevel = logLevel;
+		this.logEventType = LogEventType.Remark;
+		this.logFlow = logFlow;
+		this.logLevel = logLevel;
 	}
 
 	public void setLogLevel(LogLevel logLevel)
 	{
-		logLevel = logLevel;
+		this.logLevel = logLevel;
 	}
 
 	public LogLevel getLogLevel()
@@ -96,7 +96,7 @@ public class LogEvent
 	
 	public void setLogFlow(LogFlow logFlow)
 	{
-		logFlow = logFlow;
+		this.logFlow = logFlow;
 	}
 
 	public LogFlow getLogFlow()
@@ -106,7 +106,7 @@ public class LogEvent
 
 	public void setName(String csName)
 	{
-		csName=csName;
+		this.csName = csName;
 	}
 
 	public String getName()

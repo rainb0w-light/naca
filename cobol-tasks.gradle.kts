@@ -56,7 +56,7 @@ tasks.register("compileCobol") {
     group = "cobol"
     description = "Compile COBOL source files to executables"
     
-    val inputDir = file("NacaSamples/cobol")
+    val inputDir = file("NacaSamples/cobol")   
     val outputDir = file("build/cobol")
     
     inputs.dir(inputDir)

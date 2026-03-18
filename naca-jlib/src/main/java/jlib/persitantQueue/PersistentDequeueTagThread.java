@@ -16,8 +16,8 @@ public abstract class PersistentDequeueTagThread extends BaseThread
 
 	protected PersistentDequeueTagThread(PersistantQueue persistantQueue, int nLoopWait_ms)
 	{
-		persistantQueue = persistantQueue;
-		nLoopWait_ms = nLoopWait_ms;
+		this.persistantQueue = persistantQueue;
+		this.nLoopWait_ms = nLoopWait_ms;
 	}
 
 	public void run()

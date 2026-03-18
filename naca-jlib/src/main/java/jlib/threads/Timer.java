@@ -22,7 +22,7 @@ public class MyTimer extends Timer
 	private Caller c = null;
 	MyTimer(Caller c)
 	{
-		c = c;	
+		this.c = c;
 	}
 	
 	protected boolean pulse()

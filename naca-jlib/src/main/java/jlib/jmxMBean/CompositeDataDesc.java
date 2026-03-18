@@ -18,8 +18,8 @@ public class CompositeDataDesc
 {
 	public CompositeDataDesc(CompositeType compositeType)
 	{
-		compositeType = compositeType;
-		map = new HashMap<String, Object>();	
+		this.compositeType = compositeType;
+		map = new HashMap<String, Object>();
 	}
 	
 	public void setItemValue(String csKey, Object oValue)

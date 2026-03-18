@@ -46,7 +46,7 @@ public class VarLevel extends CJMapObject
 		varDefRedefineOrigin = null;
 		occursDef = null;
 		
-		program = program; 
+		this.program = program;
 		sLevel = (short)nLevel;
 		bVariableLength = false;
 	}

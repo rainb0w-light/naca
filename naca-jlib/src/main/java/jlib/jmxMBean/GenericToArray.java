@@ -12,7 +12,7 @@ public class GenericToArray<T>
 {
 	public GenericToArray(ArrayList<T> arrList)
 	{
-		arrList = arrList;
+		this.arrList = arrList;
 	}
 
 	public boolean toArray(T[] arr)

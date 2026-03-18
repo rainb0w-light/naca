@@ -65,11 +65,11 @@ public abstract class BaseProgramManager extends CJMapObject
 	public BaseProgramManager(BaseProgram program, SharedProgramInstanceData sharedProgramInstanceData, boolean bInheritedSharedProgramInstanceData)
 	{
 		super();
-		
+
 		setLastTimeRunBegin();
-		program = program;
-		sharedProgramInstanceData = sharedProgramInstanceData;
-		bInheritedSharedProgramInstanceData = bInheritedSharedProgramInstanceData;
+		this.program = program;
+		this.sharedProgramInstanceData = sharedProgramInstanceData;
+		this.bInheritedSharedProgramInstanceData = bInheritedSharedProgramInstanceData;
 		nLastVarId = 0;
 		sqlStatus = new CSQLStatus() ;
 		hashInitializeCache = new Hashtable<Integer, InitializeCache>();
@@ -81,8 +81,8 @@ public abstract class BaseProgramManager extends CJMapObject
 	{
 		TempCache tempCache = TempCacheLocator.getTLSTempCache();
 		tempCache.pushCurrentProgram(currentProgram);
-		
-		baseProgramLoader = baseProgramLoader;
+
+		this.baseProgramLoader = baseProgramLoader;
 		setEnv(env);
 		
 		if(env != null)

@@ -12,9 +12,9 @@ public class CompositeTypeDescItem
 {
 	CompositeTypeDescItem(String csName, String csDescription, OpenType openType)
 	{
-		csName = csName;
-		csDescription = csDescription;
-		openType = openType;
+		this.csName = csName;
+		this.csDescription = csDescription;
+		this.openType = openType;
 	}
 	
 	String csName = null;

@@ -39,7 +39,7 @@ public class RecordId extends ColValueCollection
 	public RecordId(String csName)
 	{
 		super();
-		csName = csName;		
+		this.csName = csName;
 	}
 	
 	public RecordId(StringBuffer sbName)
@@ -88,7 +88,7 @@ public class RecordId extends ColValueCollection
 	
 	public RecordId setWhereExpression(String csWhereExpression)
 	{
-		csWhereExpression = csWhereExpression;
+		this.csWhereExpression = csWhereExpression;
 		return this;
 	}
 	

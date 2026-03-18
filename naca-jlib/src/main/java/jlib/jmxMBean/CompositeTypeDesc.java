@@ -16,8 +16,8 @@ public class CompositeTypeDesc
 {
 	public CompositeTypeDesc(String csName, String csDescription)
 	{
-		csName = csName;
-		csDescription = csDescription;
+		this.csName = csName;
+		this.csDescription = csDescription;
 	}
 	
 	public void addItem(String csName, String csDescription, OpenType openType)

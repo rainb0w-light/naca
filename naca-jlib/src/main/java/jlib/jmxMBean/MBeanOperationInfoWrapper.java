@@ -15,7 +15,7 @@ public class MBeanOperationInfoWrapper
 	public MBeanOperationInfoWrapper(String csDescription, Method method)
 	{
 		operation = new MBeanOperationInfo(csDescription, method);
-		method = method;
+		this.method = method;
 	}
 	
 	MBeanOperationInfo getOperation()

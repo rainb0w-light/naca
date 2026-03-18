@@ -17,7 +17,7 @@ public class JMXDumper
 	
 	JMXDumper(MBeanServer server)
 	{
-		server = server;
+		this.server = server;
 	}
 	
 	void dumpAllMBeans(Tag tagOut)

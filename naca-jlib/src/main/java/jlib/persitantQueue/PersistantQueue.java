@@ -76,7 +76,7 @@ public class PersistantQueue
 	
 	public PersistantQueue(String csDir)
 	{
-		csDir = csDir;
+		this.csDir = csDir;
 		if(!csDir.endsWith("/"))
 			csDir += '/';
 		

@@ -27,7 +27,7 @@ public class TagCursor
 	
 	void setCurrentTag(Tag tag)
 	{
-		tag = tag;
+		this.tag = tag;
 	}
 	
 	Tag getCurrentTag()
@@ -47,7 +47,7 @@ public class TagCursor
 	
 	void setNameEnumeration(String csName)
 	{
-		csName = csName;
+		this.csName = csName;
 	}
 	
 	String getNameEnumeration()

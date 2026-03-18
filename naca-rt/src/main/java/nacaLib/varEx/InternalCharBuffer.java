@@ -43,7 +43,7 @@ public class InternalCharBuffer extends CJMapObject
 	
 	public InternalCharBuffer(char [] acBuffer)
 	{
-		acBuffer = acBuffer;
+		this.acBuffer = acBuffer;
 	}
 	
 //	public InternalCharBuffer(InternalCharBuffer internalCharBufferOriginal)

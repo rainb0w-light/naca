@@ -20,7 +20,7 @@ public class ArrayFix<T> extends ArrayFixDyn<T>
 	
 	public ArrayFix(T arr[])
 	{
-		arr = arr;
+		this.arr = arr;
 	}
 	
 	public int size()
