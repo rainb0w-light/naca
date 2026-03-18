@@ -50,7 +50,7 @@ public class OnlineEnvironment extends BaseEnvironment
 	public OnlineEnvironment(OnlineSession session, DbConnectionManagerBase connectionManager)
 	{
 		super(session, connectionManager, session.getBaseResourceManager());
-		session = session ;			
+		this.session = session ;			
 	}
 	
 	protected OnlineSession session = null;

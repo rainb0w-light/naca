@@ -254,8 +254,8 @@ public class BMSTranscoderEngine extends TranscoderEngine<CMapSetElement, CEntit
 						//String fileNameJavaS = grp.csOutputPath + csApplication + "/" + ReplaceExtensionFileNameWithSuffix(csOutputFile, "S", "java");
 						CJavaExporter outjavaS = new CJavaExporter(ext.getExporter(), fileNameJavaS) ;
 						CJavaEntityFactory factoryS0 = new CJavaEntityFactory(ext.programCatalog, outjavaS) ;
-						cat = ms_BMSTranscoderEngine.getGlobalCatalog();
-						CJavaEntityFactory factoryS = new CJavaEntityFactory(cat, outjavaS) ;
+						CObjectCatalog globalCat = new CObjectCatalog(ms_BMSTranscoderEngine.getGlobalCatalog(), listing, grp.eType, engine) ;
+						CJavaEntityFactory factoryS = new CJavaEntityFactory(globalCat, outjavaS) ;
 												
 						ext.clearSavCopy(factoryS) ;
 						

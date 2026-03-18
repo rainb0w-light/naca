@@ -25,8 +25,8 @@ public class AccountingRecordTrans
 	
 	public AccountingRecordTrans(BaseResourceManager baseResourceManager)
 	{
-		baseResourceManager = baseResourceManager;
-		accountingRessourceDesc = baseResourceManager.getAccountingRessourceDesc();
+		this.baseResourceManager = baseResourceManager;
+		accountingRessourceDesc = this.baseResourceManager.getAccountingRessourceDesc();
 		if(accountingRessourceDesc != null)
 		{
 			csMachineId = accountingRessourceDesc.getMachineId();

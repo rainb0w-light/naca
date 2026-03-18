@@ -33,7 +33,7 @@ public class DbConnectionManagerContext
 	
 	private DbConnectionManagerBase dbConnectionManager = null;
 	
-	public DbConnectionManagerContext()
+	public  DbConnectionManagerContext()
 	{
 	}
 	

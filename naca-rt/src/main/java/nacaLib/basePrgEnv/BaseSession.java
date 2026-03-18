@@ -23,8 +23,8 @@ public abstract class BaseSession
 	
 	public BaseSession(BaseResourceManager baseResourceManager)
 	{
-		baseResourceManager = baseResourceManager;
-		bUseJmx = baseResourceManager.getUsingJmx();
+		this.baseResourceManager = baseResourceManager;
+		bUseJmx = this.baseResourceManager.getUsingJmx();
 //		if(bUseJmx)
 //			JmxGeneralStat.incNbSession();
 	}

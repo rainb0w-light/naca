@@ -58,7 +58,7 @@ public class CobolIncludeTranscoderEngine extends TranscoderEngine<CStandAloneWo
 		{
 			finalName = fileName ;
 		}
-		if (cat.isProgramReference(finalName))
+		if (cat.getGlobalCatalog().isProgramReference(finalName))
 		{
 			finalName += finalName+"$Copy" ;
 		}

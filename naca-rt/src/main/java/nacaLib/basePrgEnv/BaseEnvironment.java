@@ -58,11 +58,11 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 	private boolean bSimulateRealEnvironment = false;
 	
 	public BaseEnvironment(BaseSession baseSession, DbConnectionManagerBase connectionManager, BaseResourceManager baseResourceManager)
-	{	
-		baseSession = baseSession;
-		connectionManager = connectionManager ;
+	{
+		this.baseSession = baseSession;
+		this.connectionManager = connectionManager ;
 		queueManager = new CESMQueueManager(this);
-		
+
 		accountingRecordManager = new AccountingRecordTrans(baseResourceManager);
 		iEnvId = ms_id.inc();
 		creationDateInfo = new CurrentDateInfo();

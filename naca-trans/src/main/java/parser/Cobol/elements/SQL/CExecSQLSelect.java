@@ -293,10 +293,10 @@ public class CExecSQLSelect extends CBaseExecSQLAction
 	
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		Vector<CDataEntity> arrInto = new Vector<CDataEntity>() ;
+		Vector<CDataEntity> arrIntoOutput = new Vector<CDataEntity>() ;
 		Vector<String> arrColumns = new Vector<String>() ;
 		String newClause = PrepareSelectStatement(parent, clause, arrColumns, factory, bCursor) ;
-		processInto(arrInto, arrInto, arrColumns.size(), factory) ;
+		processInto(arrInto, arrIntoOutput, arrColumns.size(), factory) ;
 		int nbCol = arrColumns.size() ;
 		for (String col : arrColumns)
 		{
@@ -330,7 +330,7 @@ public class CExecSQLSelect extends CBaseExecSQLAction
 		clause = CheckConcat(getLine(), newClause, arrParameters, arrParam, factory) ;
 		if(!bCursor)
 		{
-			CEntitySQLSelectStatement eSQL = factory.NewEntitySQLSelectStatement(getLine(), clause, arrParam, arrInto, arrInd) ;
+			CEntitySQLSelectStatement eSQL = factory.NewEntitySQLSelectStatement(getLine(), clause, arrParam, arrIntoOutput, arrInd) ;
 			Transcoder.checkSQL(getLine(), clause);
 			parent.AddChild(eSQL) ;
 			for (int i=0; i<arrParam.size(); i++)
@@ -341,9 +341,9 @@ public class CExecSQLSelect extends CBaseExecSQLAction
 					e.RegisterReadingAction(eSQL) ;
 				}
 			}
-			for (int i=0; i<arrInto.size(); i++)
+			for (int i=0; i<arrIntoOutput.size(); i++)
 			{
-				CDataEntity e = arrInto.get(i) ;
+				CDataEntity e = arrIntoOutput.get(i) ;
 				e.RegisterWritingAction(eSQL) ;
 			}
 			for (int i=0; i<arrInd.size(); i++)

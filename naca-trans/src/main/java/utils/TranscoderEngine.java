@@ -138,7 +138,7 @@ public abstract class TranscoderEngine<T_Elem extends CBaseElement, T_Entity ext
 					}
 					p.Clear() ;
 					lst.Clear();
-					cat.Clear() ;
+					newCat.Clear() ;
 				}
 			}
 		}
@@ -225,12 +225,12 @@ public abstract class TranscoderEngine<T_Elem extends CBaseElement, T_Entity ext
 		String csFullFileName = generateInputFileName(filename);
 		try
 		{
-			CBaseLexer lexer = getLexer() ;			
+			CBaseLexer lexer = getLexer() ;
 			InputStream file = new BufferedInputStream(new FileInputStream(csFullFileName)) ;
 			boolean b = lexer.StartLexer(file, cat) ;
 			if (b)
 			{
-				if (cat.canCount(filename))
+				if (this.cat.canCount(filename))
 				{
 					lexer.DoCount() ;
 				}
