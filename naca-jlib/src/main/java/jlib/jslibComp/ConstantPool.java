@@ -20,20 +20,20 @@ import java.util.Collection;
  */
 public class ConstantPool
 {
-	private ArrayList<ConstantItem> m_arr = null;
+	private ArrayList<ConstantItem> arr = null;
 	
 	public void add(String csId, String csValue)
 	{
-		if(m_arr == null)
-			m_arr = new ArrayList<ConstantItem>();
+		if(arr == null)
+			arr = new ArrayList<ConstantItem>();
 		
 		ConstantItem item = new ConstantItem(csId, csValue);
-		m_arr.add(item);
+		arr.add(item);
 	}
 	
 	public Collection<ConstantItem> getCollection()
 	{
-		return m_arr;
+		return arr;
 	}
 	
 }

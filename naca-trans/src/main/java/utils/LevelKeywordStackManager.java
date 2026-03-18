@@ -20,7 +20,7 @@ import lexer.CBaseToken;
  */
 public class LevelKeywordStackManager
 {
-	private LevelKeywordStackManager m_LevelKeywordStackManager = null;
+	private LevelKeywordStackManager levelKeywordStackManager = null;
 	private static Stack<LevelKeywords> ms_stack = new Stack<LevelKeywords>(); 
 	
 	private LevelKeywordStackManager()
@@ -29,9 +29,9 @@ public class LevelKeywordStackManager
 	
 	LevelKeywordStackManager getLevelKeywordStackManager()
 	{
-		if(m_LevelKeywordStackManager == null)
-			m_LevelKeywordStackManager = new LevelKeywordStackManager();
-		return m_LevelKeywordStackManager;
+		if(levelKeywordStackManager == null)
+			levelKeywordStackManager = new LevelKeywordStackManager();
+		return levelKeywordStackManager;
 	}
 	
 	public static LevelKeywords getAndPushNewLevelKeywords()

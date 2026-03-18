@@ -37,7 +37,7 @@ public class SQLCursorOperation
 			if(csCursorName != null)
 			{
 				csClause += " WHERE CURRENT OF " + csCursorName;
-				m_sqlUpdateDelete = new SQL(programManager, csClause, null/*, ""*/, 0);
+				sqlUpdateDelete = new SQL(programManager, csClause, null/*, ""*/, 0);
 			}
 		}
 		else	// Row Id must have been generated in the cursor 
@@ -48,8 +48,8 @@ public class SQLCursorOperation
 			if(rowId != null)
 			{
 				csClause += " WHERE ROWID=?";
-				m_sqlUpdateDelete = new SQL(Working, sqlConnection, csClause, false);
-				m_sqlUpdateDelete.setCurrentRowId(rowId);
+				sqlUpdateDelete = new SQL(Working, sqlConnection, csClause, false);
+				sqlUpdateDelete.setCurrentRowId(rowId);
 			}
 			*/
 		}
@@ -66,8 +66,8 @@ public class SQLCursorOperation
 
 	public SQLCursorOperation value(String csName, int nValue)
 	{
-		if(m_sqlUpdateDelete != null)
-			m_sqlUpdateDelete.value(csName, nValue);
+		if(sqlUpdateDelete != null)
+			sqlUpdateDelete.value(csName, nValue);
 		return this;
 	}
 	
@@ -79,8 +79,8 @@ public class SQLCursorOperation
 
 	public SQLCursorOperation value(String csName, double dValue)
 	{
-		if(m_sqlUpdateDelete != null)
-			m_sqlUpdateDelete.value(csName, dValue);
+		if(sqlUpdateDelete != null)
+			sqlUpdateDelete.value(csName, dValue);
 		return this;
 	}
 	
@@ -92,8 +92,8 @@ public class SQLCursorOperation
 
 	public SQLCursorOperation value(String csName, String csValue)
 	{
-		if(m_sqlUpdateDelete != null)
-			m_sqlUpdateDelete.value(csName, csValue);
+		if(sqlUpdateDelete != null)
+			sqlUpdateDelete.value(csName, csValue);
 		return this;
 	}
 
@@ -105,37 +105,37 @@ public class SQLCursorOperation
 
 	public SQLCursorOperation value(String csName, Var varValue)
 	{
-		if(m_sqlUpdateDelete != null)
-			m_sqlUpdateDelete.value(csName, varValue);
+		if(sqlUpdateDelete != null)
+			sqlUpdateDelete.value(csName, varValue);
 		return this;	
 	}
 	
 	public SQLCursorOperation onErrorGoto(Paragraph paragraphSQGErrorGoto)
 	{
-		if(m_sqlUpdateDelete != null)
-			m_sqlUpdateDelete.onErrorGoto(paragraphSQGErrorGoto);
+		if(sqlUpdateDelete != null)
+			sqlUpdateDelete.onErrorGoto(paragraphSQGErrorGoto);
 		return this;
 	}
 	
 	public SQLCursorOperation onErrorGoto(Section section)
 	{
-		if(m_sqlUpdateDelete != null)
-			m_sqlUpdateDelete.onErrorGoto(section);
+		if(sqlUpdateDelete != null)
+			sqlUpdateDelete.onErrorGoto(section);
 		return this;
 	}	
 		
 	public SQLCursorOperation onErrorContinue()
 	{
-		if(m_sqlUpdateDelete != null)
-			m_sqlUpdateDelete.onErrorContinue();
+		if(sqlUpdateDelete != null)
+			sqlUpdateDelete.onErrorContinue();
 		return this;
 	}
 	
 	private void manageOperationEnding()
 	{
-		if(m_sqlUpdateDelete != null)
-			m_sqlUpdateDelete.manageOperationEnding();
+		if(sqlUpdateDelete != null)
+			sqlUpdateDelete.manageOperationEnding();
 	}
 	
-	private SQL m_sqlUpdateDelete = null;
+	private SQL sqlUpdateDelete = null;
 }

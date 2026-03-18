@@ -39,7 +39,7 @@ public class CJavaCICSRetrieve extends CEntityCICSRetrieve
 	protected void DoExport()
 	{
 		String cs = ("CESM") ;
-		if (m_bPointer)
+		if (bPointer)
 		{
 			cs += ".retrieveSet(" ;
 		}
@@ -47,10 +47,10 @@ public class CJavaCICSRetrieve extends CEntityCICSRetrieve
 		{	
 			cs += ".retrieveInto(" ;
 		}
-		cs += m_refInto.ExportReference(getLine());
-		if (m_dataLength != null)
+		cs += refInto.ExportReference(getLine());
+		if (dataLength != null)
 		{
-			cs += ", " + m_dataLength.ExportReference(getLine());
+			cs += ", " + dataLength.ExportReference(getLine());
 		}
 		WriteLine(cs + ") ;");
 	}

@@ -30,8 +30,8 @@ public class VarTypeEnum
 	
 	VarTypeEnum(char c)
 	{
-		m_c = c;
+		c = c;
 	}
 	
-	char m_c = 'X';
+	char c = 'X';
 }

@@ -55,7 +55,7 @@ public class PatternLayoutST6 extends LogPatternLayout
 	
 			csMessage = logParams.toString();
 			
-			StackTraceElement stackElem = logParams.m_caller;
+			StackTraceElement stackElem = logParams.caller;
 			if(stackElem != null)
 			{
 				csFile = stackElem.getFileName();

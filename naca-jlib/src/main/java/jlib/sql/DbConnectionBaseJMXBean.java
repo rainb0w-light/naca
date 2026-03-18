@@ -21,22 +21,22 @@ import jlib.jmxMBean.BaseCloseMBean;
 
 public class DbConnectionBaseJMXBean extends BaseCloseMBean
 {
-	private DbConnectionBase m_dbConnectionBase = null;
-	private boolean m_bShowStatements = false;
-	private DbConnectionBaseStmtJMXBean m_dbConnectionBaseStmtJMXBean = null;
-	private ArrayList<DbConnectionBaseStmtJMXBean> m_arrStmts = null;
+	private DbConnectionBase dbConnectionBase = null;
+	private boolean bShowStatements = false;
+	private DbConnectionBaseStmtJMXBean dbConnectionBaseStmtJMXBean = null;
+	private ArrayList<DbConnectionBaseStmtJMXBean> arrStmts = null;
 	
 	DbConnectionBaseJMXBean(DbConnectionBase dbConnectionBase)
 	{
-		 m_dbConnectionBase = dbConnectionBase;
+		 dbConnectionBase = dbConnectionBase;
 	}
 	
 	void cleanup()
 	{
-		m_bShowStatements = false;	// Hide sttm beans
+		bShowStatements = false;	// Hide sttm beans
 		doSetShowStatments();
-		m_dbConnectionBaseStmtJMXBean = null;		
-		m_dbConnectionBase = null;
+		dbConnectionBaseStmtJMXBean = null;		
+		dbConnectionBase = null;
 	}
 	
 	protected void buildDynamicMBeanInfo()
@@ -48,35 +48,35 @@ public class DbConnectionBaseJMXBean extends BaseCloseMBean
 	
 	public int getNbCachedStatements()
 	{
-		if(m_dbConnectionBase != null)
-			return m_dbConnectionBase.getNbCachedStatements();
+		if(dbConnectionBase != null)
+			return dbConnectionBase.getNbCachedStatements();
 		return 0;
 	}
 	
 	public boolean getAreStatementsShown()
 	{
-		return m_bShowStatements;
+		return bShowStatements;
 	}
 	
 	public void setShowStatments()
 	{
-		m_bShowStatements = !m_bShowStatements;
+		bShowStatements = !bShowStatements;
 		doSetShowStatments();
 	}
 	
 	synchronized void doSetShowStatments()
 	{
-		if(m_bShowStatements)	//&& !isBeanCreated())
+		if(bShowStatements)	//&& !isBeanCreated())
 		{
-			m_dbConnectionBase.createStmtJMXBeans(this, getMBeanName() + "_Stmt", getMBeanName());
+			dbConnectionBase.createStmtJMXBeans(this, getMBeanName() + "_Stmt", getMBeanName());
 		}
-		else if(!m_bShowStatements)	// && isBeanCreated())
+		else if(!bShowStatements)	// && isBeanCreated())
 		{
-			if(m_arrStmts != null)
+			if(arrStmts != null)
 			{
-				for(int n=0; n<m_arrStmts.size(); n++)
+				for(int n=0; n<arrStmts.size(); n++)
 				{
-					DbConnectionBaseStmtJMXBean bean = m_arrStmts.get(n);
+					DbConnectionBaseStmtJMXBean bean = arrStmts.get(n);
 					bean.unregisterMBean();
 				}
 			}
@@ -85,8 +85,8 @@ public class DbConnectionBaseJMXBean extends BaseCloseMBean
 	
 	synchronized void add(DbConnectionBaseStmtJMXBean dbConnectionBaseStmtJMXBean)
 	{
-		if(m_arrStmts == null)
-			m_arrStmts = new ArrayList<DbConnectionBaseStmtJMXBean>(); 
-		m_arrStmts.add(dbConnectionBaseStmtJMXBean);
+		if(arrStmts == null)
+			arrStmts = new ArrayList<DbConnectionBaseStmtJMXBean>(); 
+		arrStmts.add(dbConnectionBaseStmtJMXBean);
 	}
 }

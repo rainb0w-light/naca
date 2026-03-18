@@ -16,53 +16,53 @@ import nacaLib.exceptions.*;
 
 public class Section extends CJMapRunnable
 {
-	private BaseProgram m_Program = null;
-	private boolean m_bRun = true;
-	private Paragraph m_currentParagraph = null;
-	private ArrayList<Paragraph> m_arrParagraph = new ArrayList<Paragraph>();	// Array of paragraphs inside the current section
-	private String m_csName = null;
-	private Method m_Method = null;	
+	private BaseProgram program = null;
+	private boolean bRun = true;
+	private Paragraph currentParagraph = null;
+	private ArrayList<Paragraph> arrParagraph = new ArrayList<Paragraph>();	// Array of paragraphs inside the current section
+	private String csName = null;
+	private Method method = null;	
 	
 	public Section(BaseProgram Program)
 	{
-		m_Program = Program;
-		m_bRun = true;
-		m_Program.getProgramManager().addSection(this);
+		program = Program;
+		bRun = true;
+		program.getProgramManager().addSection(this);
 	}
 	public Section(BaseProgram Program, boolean bRun)
 	{
-		m_Program = Program;
-		m_bRun = bRun;
-		m_Program.getProgramManager().addSection(this);
+		program = Program;
+		bRun = bRun;
+		program.getProgramManager().addSection(this);
 	}
 	
 	public String toString()
 	{
-		return m_csName;	//.substring(m_csName.lastIndexOf('$')+1) ;
+		return csName;	//.substring(csName.lastIndexOf('$')+1) ;
 	}
 	
 	public void name(String csName)
 	{
-		m_csName = csName;
+		csName = csName;
 	}
 	
 	public void addParapgraph(Paragraph Paragraph)
 	{
-		m_arrParagraph.add(Paragraph);
+		arrParagraph.add(Paragraph);
 	}
 	
 	private void setNextParagraphCurrent()
 	{
-		int nNbParagraph = m_arrParagraph.size();
-		if(m_currentParagraph == null)	// No current paragraph: the next one will be the first one
+		int nNbParagraph = arrParagraph.size();
+		if(currentParagraph == null)	// No current paragraph: the next one will be the first one
 		{
 			if(nNbParagraph > 0)
 			{
-				m_currentParagraph = m_arrParagraph.get(0);
+				currentParagraph = arrParagraph.get(0);
 			}
 			else	// No paragraph in the section
 			{
-				m_currentParagraph = null;
+				currentParagraph = null;
 			}
 		}
 		else
@@ -73,24 +73,24 @@ public class Section extends CJMapRunnable
 				nCurrentParagraphIndex++;
 				if(nCurrentParagraphIndex < nNbParagraph)
 				{
-					 m_currentParagraph = m_arrParagraph.get(nCurrentParagraphIndex);
+					 currentParagraph = arrParagraph.get(nCurrentParagraphIndex);
 				}
 				else	// We are omn the last paragraph of the section: no next paragraph
-					m_currentParagraph = null;
+					currentParagraph = null;
 			}
 			else
-				m_currentParagraph = null;
+				currentParagraph = null;
 		}
 	}
 			 
 	private int getCurrentParagraphIndex()	// locate where we are in the section
 	{	
-		int nNbParagraph = m_arrParagraph.size();
+		int nNbParagraph = arrParagraph.size();
 		int nCurrentParagraphIndex = 0;
 		while(nCurrentParagraphIndex < nNbParagraph)
 		{
-			Paragraph paragraph = m_arrParagraph.get(nCurrentParagraphIndex);
-			if(m_currentParagraph == paragraph)
+			Paragraph paragraph = arrParagraph.get(nCurrentParagraphIndex);
+			if(currentParagraph == paragraph)
 				return nCurrentParagraphIndex;
 			nCurrentParagraphIndex++;
 		}	
@@ -99,16 +99,16 @@ public class Section extends CJMapRunnable
 	
 	public void run()
 	{
-		if (!m_bRun || m_csName == null) return;
+		if (!bRun || csName == null) return;
 		try
 		{
-			if (m_Method == null)
+			if (method == null)
 			{	
 				Class[] paramTypes = null;
-				m_Method = m_Program.getClass().getMethod(m_csName, paramTypes);
+				method = program.getClass().getMethod(csName, paramTypes);
 			}
 			Object[] args = null;
-			m_Method.invoke(m_Program, args);
+			method.invoke(program, args);
 		}
 		catch (NoSuchMethodException e)
 		{
@@ -139,13 +139,13 @@ public class Section extends CJMapRunnable
 	
 	public void runSectionFromParagraph(Paragraph paragraph)
 	{
-		m_currentParagraph = paragraph;
+		currentParagraph = paragraph;
 		runSectionFromCurrentParagraph();
 	}
 	
 	public void runSection()
 	{
-		m_currentParagraph = null;	// The code in the section headser is out of any paragraph
+		currentParagraph = null;	// The code in the section headser is out of any paragraph
 		runSectionFromCurrentParagraph();
 	}
 	
@@ -153,10 +153,10 @@ public class Section extends CJMapRunnable
 	{
 		try
 		{
-			if(m_currentParagraph == null)
+			if(currentParagraph == null)
 			{
 				if(isLogFlow)
-					Log.logDebug("Run section: "+m_Program.getSimpleName()+"."+toString());
+					Log.logDebug("Run section: "+program.getSimpleName()+"."+toString());
 				run();		// Run the code directly written into the section, not included in a paragraph
 				setNextParagraphCurrent();  
 			}
@@ -166,13 +166,13 @@ public class Section extends CJMapRunnable
 			handleGotoException(e);
 		}
 		
-		while(m_currentParagraph != null)	// Loop while we have sone paragraph to execute
+		while(currentParagraph != null)	// Loop while we have sone paragraph to execute
 		{
 			try
 			{
 				if(isLogFlow)
-					Log.logDebug("Run paragraph:"+m_Program.getSimpleName()+"."+m_currentParagraph.toString());		
-				m_currentParagraph.run();
+					Log.logDebug("Run paragraph:"+program.getSimpleName()+"."+currentParagraph.toString());		
+				currentParagraph.run();
 							
 				setNextParagraphCurrent();
 			}
@@ -185,13 +185,13 @@ public class Section extends CJMapRunnable
 	
 	private void handleGotoException(CGotoException e)
 	{
-		Paragraph gotoParagraph = e.m_Paragraph;
+		Paragraph gotoParagraph = e.paragraph;
 		if(gotoParagraph != null)	// goto a paragraph
 		{
 			boolean b = isParagraphInCurrentSection(gotoParagraph);
 			if(b)	// the section that owns the paragrph where we goto is the current one
 			{
-				m_currentParagraph = e.m_Paragraph;
+				currentParagraph = e.paragraph;
 			}
 			else 
 			{
@@ -201,7 +201,7 @@ public class Section extends CJMapRunnable
 		}
 		else
 		{
-			Section gotoSection = e.m_Section;
+			Section gotoSection = e.section;
 			if(gotoSection != null)
 			{
 				CGotoOtherSectionException eGotoOtherSection = new CGotoOtherSectionException(gotoSection);
@@ -212,10 +212,10 @@ public class Section extends CJMapRunnable
 	
 	public boolean isParagraphInCurrentSection(Paragraph paragraph)
 	{
-		int nNbParagraph = m_arrParagraph.size();
+		int nNbParagraph = arrParagraph.size();
 		for(int n=0; n<nNbParagraph; n++)
 		{
-			Paragraph p = m_arrParagraph.get(n);
+			Paragraph p = arrParagraph.get(n);
 			if(p == paragraph)
 				return true;
 		}
@@ -224,9 +224,9 @@ public class Section extends CJMapRunnable
 	
 	public void runFirstParagraph()
 	{
-		if(m_arrParagraph.size() > 0)
+		if(arrParagraph.size() > 0)
 		{
-			Paragraph ParaFirst = m_arrParagraph.get(0);
+			Paragraph ParaFirst = arrParagraph.get(0);
 			if(ParaFirst != null)
 				ParaFirst.run(); 
 		}

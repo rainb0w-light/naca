@@ -28,15 +28,15 @@ public class CConstantList
 	
 	public void Register(CReservedConstant cste)
 	{
-		m_tabConstants.put(cste.m_Name, cste) ;
+		tabConstants.put(cste.name, cste) ;
 	}
 	
 	public CReservedConstant GetConstant(String name)
 	{
-		CReservedConstant kw = m_tabConstants.get(name);
+		CReservedConstant kw = tabConstants.get(name);
 		return kw ;
 	}
-	private Hashtable<String, CReservedConstant> m_tabConstants = new Hashtable<String, CReservedConstant>() ;
+	private Hashtable<String, CReservedConstant> tabConstants = new Hashtable<String, CReservedConstant>() ;
 	
 	//public static CReservedConstant  = new CReservedConstant(List, "") ; 
 	//public static CReservedConstant  = new CReservedConstant(List, "") ; 

@@ -27,8 +27,8 @@ import utils.FPacTranscoder.notifs.NotifSetDefaultInputFile;
 public class CFPacGet extends CFPacElement
 {
 
-	private CIdentifier m_GetFile;
-	private CFPacCodeBloc m_AtEofBloc ;
+	private CIdentifier getFile;
+	private CFPacCodeBloc atEofBloc ;
 
 	public CFPacGet(int line)
 	{
@@ -55,8 +55,8 @@ public class CFPacGet extends CFPacElement
 		
 		if (tok.GetType() == CTokenType.IDENTIFIER)
 		{
-			m_GetFile = ReadIdentifier() ;
-			if (m_GetFile == null)
+			getFile = ReadIdentifier() ;
+			if (getFile == null)
 			{
 				Transcoder.logError(getLine(), "Expecting identifier after 'GET-'") ;
 				return false  ;
@@ -78,8 +78,8 @@ public class CFPacGet extends CFPacElement
 				if (tok.GetKeyword()  == CFPacKeywordList.EOF)
 				{
 					tok = GetNext() ;
-					m_AtEofBloc = new CFPacCodeBloc(tok.getLine(), "") ;
-					if (!Parse(m_AtEofBloc))
+					atEofBloc = new CFPacCodeBloc(tok.getLine(), "") ;
+					if (!Parse(atEofBloc))
 					{
 						return false ;
 					}
@@ -99,16 +99,16 @@ public class CFPacGet extends CFPacElement
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
 		CEntityFileDescriptor desc = null;
-		if (m_GetFile != null)
+		if (getFile != null)
 		{
-			desc = factory.m_ProgramCatalog.getFileDescriptor(m_GetFile.GetName()) ;
+			desc = factory.programCatalog.getFileDescriptor(getFile.GetName()) ;
 			NotifSetDefaultInputFile notif = new NotifSetDefaultInputFile() ;
-			notif.fileRef = m_GetFile.GetName() ;
-			factory.m_ProgramCatalog.SendNotifRequest(notif) ;
+			notif.fileRef = getFile.GetName() ;
+			factory.programCatalog.SendNotifRequest(notif) ;
 		}
 		else
 		{
-			CEntityFileBuffer buf = OperandDescription.getDefaultInputFileBuffer(factory.m_ProgramCatalog) ;
+			CEntityFileBuffer buf = OperandDescription.getDefaultInputFileBuffer(factory.programCatalog) ;
 			if (buf != null)
 			{
 				desc = buf.GetFileDescriptor() ;
@@ -117,15 +117,15 @@ public class CFPacGet extends CFPacElement
 		CEntityReadFile readfile = factory.NewEntityReadFile(getLine());
 		readfile.setFileDescriptor(desc, null) ;
 		
-		if (m_AtEofBloc != null)
+		if (atEofBloc != null)
 		{
-			CBaseLanguageEntity bloc = m_AtEofBloc.DoSemanticAnalysis(null, factory) ;
+			CBaseLanguageEntity bloc = atEofBloc.DoSemanticAnalysis(null, factory) ;
 			readfile.SetAtEndBloc(bloc) ;
 		}
 		
 //		NotifRegisterFileGet notif = new NotifRegisterFileGet() ;
 //		notif.readFile = readfile;
-//		factory.m_ProgramCatalog.SendNotifRequest(notif) ;
+//		factory.programCatalog.SendNotifRequest(notif) ;
 		
 		parent.AddChild(readfile) ;
 		return readfile ;
@@ -135,10 +135,10 @@ public class CFPacGet extends CFPacElement
 	protected Element ExportCustom(Document root)
 	{
 		Element eAdd = root.createElement("Get") ;
-		if (m_GetFile != null)
+		if (getFile != null)
 		{
 			Element e = root.createElement("File") ;
-			m_GetFile.ExportTo(e, root) ;
+			getFile.ExportTo(e, root) ;
 			eAdd.appendChild(e) ;
 		}
 		return eAdd ;

@@ -42,47 +42,47 @@ public class CJavaSetAttribute extends CEntitySetAttribute
 	 */
 	protected void DoExport()
 	{
-		if (m_AttributeValue != null)
+		if (attributeValue != null)
 		{
-			WriteLine("moveAttribute("+m_AttributeValue.ExportReference(getLine()) + ", " + m_RefField.ExportReference(getLine()) + ") ;") ;
+			WriteLine("moveAttribute("+attributeValue.ExportReference(getLine()) + ", " + refField.ExportReference(getLine()) + ") ;") ;
 			return  ;
 		}
 		// else
-		if (m_bAutoSkip)
+		if (bAutoSkip)
 		{
-			WriteLine("moveAttribute(MapFieldAttrProtection.AUTOSKIP, " + m_RefField.ExportReference(getLine()) + ") ;") ;
+			WriteLine("moveAttribute(MapFieldAttrProtection.AUTOSKIP, " + refField.ExportReference(getLine()) + ") ;") ;
 		}
-		else if (m_bNumeric)
+		else if (bNumeric)
 		{
-			WriteLine("moveAttribute(MapFieldAttrProtection.NUMERIC, " + m_RefField.ExportReference(getLine()) + ") ;") ;
+			WriteLine("moveAttribute(MapFieldAttrProtection.NUMERIC, " + refField.ExportReference(getLine()) + ") ;") ;
 		}
-		else if (m_bProtected)
+		else if (bProtected)
 		{
-			WriteLine("moveAttribute(MapFieldAttrProtection.PROTECTED, " + m_RefField.ExportReference(getLine()) + ") ;") ;
+			WriteLine("moveAttribute(MapFieldAttrProtection.PROTECTED, " + refField.ExportReference(getLine()) + ") ;") ;
 		}
-		else if (m_bUnProtected)
+		else if (bUnProtected)
 		{
-			WriteLine("moveAttribute(MapFieldAttrProtection.UNPROTECTED, " + m_RefField.ExportReference(getLine()) + ") ;") ;
+			WriteLine("moveAttribute(MapFieldAttrProtection.UNPROTECTED, " + refField.ExportReference(getLine()) + ") ;") ;
 		}
-		if (m_bBright)
+		if (bBright)
 		{
-			WriteLine("moveAttribute(MapFieldAttrIntensity.BRIGHT, " + m_RefField.ExportReference(getLine()) + ") ;") ;
+			WriteLine("moveAttribute(MapFieldAttrIntensity.BRIGHT, " + refField.ExportReference(getLine()) + ") ;") ;
 		}
-		else if (m_bDark)
+		else if (bDark)
 		{
-			WriteLine("moveAttribute(MapFieldAttrIntensity.DARK, " + m_RefField.ExportReference(getLine()) + ") ;") ;
+			WriteLine("moveAttribute(MapFieldAttrIntensity.DARK, " + refField.ExportReference(getLine()) + ") ;") ;
 		}
-		else if (m_bNormal)
+		else if (bNormal)
 		{
-			WriteLine("moveAttribute(MapFieldAttrIntensity.NORMAL, " + m_RefField.ExportReference(getLine()) + ") ;") ;
+			WriteLine("moveAttribute(MapFieldAttrIntensity.NORMAL, " + refField.ExportReference(getLine()) + ") ;") ;
 		}
-		if (m_bModified)
+		if (bModified)
 		{
-			WriteLine("moveAttribute(MapFieldAttrModified.MODIFIED, " + m_RefField.ExportReference(getLine()) + ") ;") ;
+			WriteLine("moveAttribute(MapFieldAttrModified.MODIFIED, " + refField.ExportReference(getLine()) + ") ;") ;
 		}
-		else if (m_bUnmodified)
+		else if (bUnmodified)
 		{
-			WriteLine("moveAttribute(MapFieldAttrModified.UNMODIFIED, " + m_RefField.ExportReference(getLine()) + ") ;") ;
+			WriteLine("moveAttribute(MapFieldAttrModified.UNMODIFIED, " + refField.ExportReference(getLine()) + ") ;") ;
 		}
 	}
 

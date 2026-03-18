@@ -37,40 +37,40 @@ public abstract class CEntityCallProgram extends CBaseActionEntity
 	public CEntityCallProgram(int l, CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity Reference)
 	{
 		super(l, cat, out);
-		m_Reference = Reference ;
+		reference = Reference ;
 		cat.RegisterCallProgram(this) ;
 	}
 	
 	public void SetParameterByRef(CDataEntity e)
 	{
 		CCallParameter p = new CCallParameter(e, CCallParameterMethode.BY_REFERENCE);
-		m_arrParameters.add(p);		
+		arrParameters.add(p);		
 	}
 	public void SetParameterByContent(CDataEntity e)
 	{
 		CCallParameter p = new CCallParameter(e, CCallParameterMethode.BY_CONTENT);
-		m_arrParameters.add(p);		
+		arrParameters.add(p);		
 	}
 	public void SetParameterByValue(CDataEntity e)
 	{
 		CCallParameter p = new CCallParameter(e, CCallParameterMethode.BY_VALUE);
-		m_arrParameters.add(p);		
+		arrParameters.add(p);		
 	}
 	public void SetParameterLengthOf(CDataEntity e)
 	{
 		CCallParameter p = new CCallParameter(e, CCallParameterMethode.LENGTH_OF);
-		m_arrParameters.add(p);		
+		arrParameters.add(p);		
 	}
 	
-	protected boolean m_bChecked = false ;
-	protected CDataEntity m_Reference = null ;
-	protected CBaseLanguageEntity m_OnErrorBloc ;
-	protected Vector<CCallParameter> m_arrParameters = new Vector<CCallParameter>() ;
+	protected boolean bChecked = false ;
+	protected CDataEntity reference = null ;
+	protected CBaseLanguageEntity onErrorBloc ;
+	protected Vector<CCallParameter> arrParameters = new Vector<CCallParameter>() ;
 	public void Clear()
 	{
 		super.Clear() ;
-		m_Reference = null ;
-		m_arrParameters.clear();
+		reference = null ;
+		arrParameters.clear();
 	}
 	protected static class CCallParameterMethode
 	{
@@ -83,11 +83,11 @@ public abstract class CEntityCallProgram extends CBaseActionEntity
 	{
 		public CCallParameter(CDataEntity e, CCallParameterMethode m)
 		{
-			m_Reference = e ;
-			m_Methode = m ;
+			reference = e ;
+			methode = m ;
 		}
-		public CDataEntity m_Reference ;
-		public CCallParameterMethode m_Methode ;
+		public CDataEntity reference ;
+		public CCallParameterMethode methode ;
 	}
 	public boolean ignore()
 	{
@@ -95,19 +95,19 @@ public abstract class CEntityCallProgram extends CBaseActionEntity
 	}
 	public boolean IgnoreVariable(CDataEntity data)
 	{
-		if (m_Reference == data)
+		if (reference == data)
 		{
 			data.UnRegisterReadingAction(this) ;
-			m_Reference = null ;
+			reference = null ;
 			return true ;
 		}
-		for (int i=0; i<m_arrParameters.size(); i++)
+		for (int i=0; i<arrParameters.size(); i++)
 		{
-			CCallParameter param = m_arrParameters.get(i) ;
-			if (param.m_Reference == data)
+			CCallParameter param = arrParameters.get(i) ;
+			if (param.reference == data)
 			{
 				data.UnRegisterReadingAction(this) ;
-				param.m_Reference = null ;
+				param.reference = null ;
 				return true ;
 			}
 		}		
@@ -115,19 +115,19 @@ public abstract class CEntityCallProgram extends CBaseActionEntity
 	}
 	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
 	{
-		if (m_Reference == field)
+		if (reference == field)
 		{
-			m_Reference = var ;
+			reference = var ;
 			field.UnRegisterReadingAction(this) ;
 			var.RegisterReadingAction(this) ;
 			return true ;
 		}
-		for (int i=0; i<m_arrParameters.size(); i++)
+		for (int i=0; i<arrParameters.size(); i++)
 		{
-			CCallParameter param = m_arrParameters.get(i) ;
-			if (param.m_Reference == field)
+			CCallParameter param = arrParameters.get(i) ;
+			if (param.reference == field)
 			{
-				param.m_Reference = var ;
+				param.reference = var ;
 				field.UnRegisterReadingAction(this) ;
 				var.RegisterReadingAction(this) ;
 				return true ;
@@ -138,21 +138,21 @@ public abstract class CEntityCallProgram extends CBaseActionEntity
 	
 	public CDataEntity getProgramReference()
 	{
-		return m_Reference ;
+		return reference ;
 	}
 
 	public void setChecked(boolean bChecked)
 	{
-		m_bChecked = bChecked ;
+		bChecked = bChecked ;
 	}
 
 	public void UpdateProgramReference(CDataEntity newProgram)
 	{
-		m_Reference = newProgram ;		
+		reference = newProgram ;		
 	}
 
 	public void SetOnErrorBloc(CBaseLanguageEntity error)
 	{
-		m_OnErrorBloc = error;
+		onErrorBloc = error;
 	}
 }

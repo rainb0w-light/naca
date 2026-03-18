@@ -32,7 +32,7 @@ public class CProcedure extends CBaseProcedure
 	public CProcedure(String name, int line)
 	{
 		super(line);
-		m_csName = name ;
+		csName = name ;
 	}
 	
 	protected boolean DoParsing()
@@ -46,22 +46,22 @@ public class CProcedure extends CBaseProcedure
 	protected Element ExportCustom(Document root)
 	{
 		Element eProc = root.createElement("Procedure") ;
-		eProc.setAttribute("Name", m_csName) ;
+		eProc.setAttribute("Name", csName) ;
 		return eProc;
 	}
 	
-	protected String m_csName = "" ;
+	protected String csName = "" ;
 
 	/* (non-Javadoc)
 	 * @see parser.CBaseElement#DoCustomSemanticAnalysis(semantic.CBaseSemanticEntity, semantic.CBaseSemanticEntityFactory)
 	 */
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		CEntityProcedure eProc = factory.NewEntityProcedure(getLine(), m_csName, parent.getSectionContainer()) ;
+		CEntityProcedure eProc = factory.NewEntityProcedure(getLine(), csName, parent.getSectionContainer()) ;
 		parent.AddChild(eProc) ;
-		if (m_nRewriteLine != 0)
+		if (nRewriteLine != 0)
 		{
-			CGlobalEntityCounter.GetInstance().RegisterProgramToRewrite(parent.GetProgramName(), m_nRewriteLine, "NEXT SENTENCE") ;
+			CGlobalEntityCounter.GetInstance().RegisterProgramToRewrite(parent.GetProgramName(), nRewriteLine, "NEXT SENTENCE") ;
 		}
 		return eProc;
 	}

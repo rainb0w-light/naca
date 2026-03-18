@@ -24,43 +24,43 @@ public class ColValueBigDecimal extends ColValue
 	public ColValueBigDecimal(String csName, BigDecimal bdValue)
 	{
 		super(csName);
-		m_bdValue = bdValue;
+		bdValue = bdValue;
 	}
 	
 	public ColValue duplicate()
 	{
-		return new ColValueBigDecimal(m_csName, m_bdValue);
+		return new ColValueBigDecimal(csName, bdValue);
 	}
 	
 	public void setParamSQLClause(SQLClause clause)
 	{
-		clause.param(m_bdValue);
+		clause.param(bdValue);
 	}	
 	
 	public void doFillWithResurltSetCol(ResultSet resultSet, int nCol)
 		throws SQLException
 	{
-		m_bdValue = resultSet.getBigDecimal(nCol);
+		bdValue = resultSet.getBigDecimal(nCol);
 	}
 
 	public String getValueAsString()
 	{
-		return String.valueOf(m_bdValue);
+		return String.valueOf(bdValue);
 	}
 	
 	public int getValueAsInt()
 	{
-		return m_bdValue.intValue();
+		return bdValue.intValue();
 	}
 	
 	double getValueAsDouble()
 	{
-		return m_bdValue.doubleValue();
+		return bdValue.doubleValue();
 	}
 
 	String getDumpValueAsString()
 	{
-		return "(BigDecimal):'"+String.valueOf(m_bdValue)+"'";
+		return "(BigDecimal):'"+String.valueOf(bdValue)+"'";
 	}
 	
 	String getType()
@@ -75,8 +75,8 @@ public class ColValueBigDecimal extends ColValue
 	
 	Object getValue()
 	{
-		return m_bdValue;
+		return bdValue;
 	}
 	
-	BigDecimal m_bdValue = null;
+	BigDecimal bdValue = null;
 }

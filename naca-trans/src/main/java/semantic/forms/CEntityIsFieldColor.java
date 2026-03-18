@@ -28,28 +28,28 @@ public abstract class CEntityIsFieldColor extends CUnitaryEntityCondition
 	
 	public void IsColor(CEntityFieldColor.CFieldColor col, CDataEntity data)
 	{
-		m_IsColor = col ;
-		m_Reference = data ;
+		isColor = col ;
+		reference = data ;
 	}
-	protected CEntityFieldColor.CFieldColor m_IsColor ; 
+	protected CEntityFieldColor.CFieldColor isColor ; 
 	public void Clear()
 	{
 		super.Clear();
-		m_Reference = null ;
+		reference = null ;
 	}
 	public boolean ignore()
 	{
-		return m_Reference.ignore();
+		return reference.ignore();
 	}
 	public CBaseEntityCondition GetSpecialConditionReplacing(String val, CBaseEntityFactory fact, CDataEntity replace)
 	{
-		return m_Reference.GetSpecialCondition(getLine(), val, EConditionType.IS_EQUAL, fact);
+		return reference.GetSpecialCondition(getLine(), val, EConditionType.IS_EQUAL, fact);
 	}
 	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
 	{
-		if (m_Reference == field)
+		if (reference == field)
 		{
-			m_Reference = var ;
+			reference = var ;
 			field.UnRegisterVarTesting(this) ;
 			var.RegisterVarTesting(this) ;
 			return true ;
@@ -61,9 +61,9 @@ public abstract class CEntityIsFieldColor extends CUnitaryEntityCondition
 	 */
 	public void SetOpposite()
 	{
-		m_bOpposite = !m_bOpposite ;
+		bOpposite = !bOpposite ;
 	}
-	protected boolean m_bOpposite = false ;
+	protected boolean bOpposite = false ;
 	public boolean isBinaryCondition()
 	{
 		return true;

@@ -16,7 +16,7 @@ public class VarFPacNumShortSignComp4 extends VarNumIntSignComp4
 	public VarFPacNumShortSignComp4(DeclareTypeFPacSignComp4 type, VarBuffer varBuffer, int nPosition)
 	{
 		super(type);		
-		m_bufferPos = new VarBufferPos(varBuffer, nPosition);
-		m_varDef.setTotalSize(m_varDef.getSingleItemRequiredStorageSize());
+		bufferPos = new VarBufferPos(varBuffer, nPosition);
+		varDef.setTotalSize(varDef.getSingleItemRequiredStorageSize());
 	}
 }

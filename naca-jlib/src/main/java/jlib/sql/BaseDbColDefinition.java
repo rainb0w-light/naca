@@ -18,22 +18,22 @@ import java.sql.ResultSet;
  */
 public abstract class BaseDbColDefinition
 {
-	private String m_csName = null;
+	private String csName = null;
 	
 	public class ColInsertValue
 	{
-		public int m_nOffset = 0;
-		public String m_csValue = null;
+		public int nOffset = 0;
+		public String csValue = null;
 	}
 	
 	public BaseDbColDefinition(ColDescriptionInfo colDescription)
 	{
-		m_csName = colDescription.getColName();
+		csName = colDescription.getColName();
 	}
 	
 	public String getColumnName()
 	{
-		return m_csName;
+		return csName;
 	}
 	
 	public abstract boolean fillCallableStatementParam(int nParamId, StoredProcParamDescBase storedProcParamDescBase, DbPreparedCallableStatement callableStatement);

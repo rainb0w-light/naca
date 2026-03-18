@@ -20,9 +20,9 @@ public class CFPacJavaExprTerminal extends CEntityExprTerminal
 	@Override
 	public String Export()
 	{
-		if (m_Term != null)
+		if (term != null)
 		{
-			return m_Term.ExportReference(getLine());
+			return term.ExportReference(getLine());
 		}
 		else
 		{
@@ -32,7 +32,7 @@ public class CFPacJavaExprTerminal extends CEntityExprTerminal
 	
 	public String toString()
 	{
-		return m_Term.toString() ;
+		return term.toString() ;
 	}
 	
 

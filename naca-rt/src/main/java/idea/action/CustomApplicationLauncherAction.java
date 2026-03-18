@@ -35,7 +35,7 @@ import org.w3c.dom.NodeList;
 
 public class CustomApplicationLauncherAction extends Action
 {
-	InputAnalyser m_inputAnalyser = new InputAnalyser() ;
+	InputAnalyser inputAnalyser = new InputAnalyser() ;
 
 	public ActionForward execute(
 		ActionMapping mapping,

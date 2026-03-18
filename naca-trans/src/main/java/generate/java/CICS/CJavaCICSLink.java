@@ -38,27 +38,27 @@ public class CJavaCICSLink extends CEntityCICSLink
 	 */
 	protected void DoExport()
 	{
-		String name = m_refProgram.ExportReference(getLine());
-		if (name.startsWith("\"") && m_bChecked)
+		String name = refProgram.ExportReference(getLine());
+		if (name.startsWith("\"") && bChecked)
 		{
 			name = name.subSequence(1, name.length()-1) + ".class";	
 		}
 		WriteWord("CESM.link(" + name + ")");
 		String cs = "" ;
-		if (m_refCommArea != null)
+		if (refCommArea != null)
 		{
-			cs = ".commarea("  + m_refCommArea.ExportReference(getLine());
-			if (m_CommAreaLength != null)
+			cs = ".commarea("  + refCommArea.ExportReference(getLine());
+			if (commAreaLength != null)
 			{
-				cs += ", " + m_CommAreaLength.ExportReference(getLine()); 
+				cs += ", " + commAreaLength.ExportReference(getLine()); 
 			}
 			else
 			{
 				cs += ", -1";
 			}
-			if (m_CommAreaDataLength != null)
+			if (commAreaDataLength != null)
 			{
-				cs += ", " + m_CommAreaDataLength.ExportReference(getLine()); 
+				cs += ", " + commAreaDataLength.ExportReference(getLine()); 
 			}
 			else
 			{

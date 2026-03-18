@@ -24,12 +24,12 @@ public class SortDescriptor extends BaseFileDescriptor
 			nLength -= 4;
 		}			
 		
-		m_varLevel01.setFromByteArray(tBytes, nOffset, nLength);
+		varLevel01.setFromByteArray(tBytes, nOffset, nLength);
 	}
 	
 	public void moveInto(Var varInto)
 	{
-		m_varLevel01.transferTo(varInto);
+		varLevel01.transferTo(varInto);
 	}
 	
 	protected boolean doClose()

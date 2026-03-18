@@ -25,60 +25,60 @@ public abstract class CEntitySort extends CBaseActionEntity
 
 	public void setFileDesriptor(CEntityFileDescriptor fileDesc)
 	{
-		m_FileDescriptor = fileDesc ;
+		fileDescriptor = fileDesc ;
 	}
 	
-	protected CEntityFileDescriptor m_FileDescriptor = null ;
+	protected CEntityFileDescriptor fileDescriptor = null ;
 	protected class CEntitySortKey
 	{
-		public CDataEntity m_Key = null;
-		public boolean m_bAscending = false ;
+		public CDataEntity key = null;
+		public boolean bAscending = false ;
 	}
-	protected Vector<CEntitySortKey> m_arrSortKey = new Vector<CEntitySortKey>() ;
+	protected Vector<CEntitySortKey> arrSortKey = new Vector<CEntitySortKey>() ;
 	
 	public void AddKey(boolean ascending, CDataEntity key)
 	{
 		CEntitySortKey sk = new CEntitySortKey() ;
-		sk.m_bAscending = ascending ;
-		sk.m_Key = key ;
-		m_arrSortKey.add(sk) ;
+		sk.bAscending = ascending ;
+		sk.key = key ;
+		arrSortKey.add(sk) ;
 	}
 
-	protected CEntityFileDescriptor m_fdInputFile = null ;
-	protected CEntityFileDescriptor m_fdOutputFile = null ;
-	protected CEntityProcedure m_pInputProcedure = null ;
-	protected CEntityProcedure m_pOutputProcedure = null ;
+	protected CEntityFileDescriptor fdInputFile = null ;
+	protected CEntityFileDescriptor fdOutputFile = null ;
+	protected CEntityProcedure pInputProcedure = null ;
+	protected CEntityProcedure pOutputProcedure = null ;
 	
 	public void setInputFile(CEntityFileDescriptor input)
 	{
-		m_fdInputFile = input ;		
+		fdInputFile = input ;		
 	}
 
 	public void setInputProcedure(CEntityProcedure proc)
 	{
-		m_pInputProcedure = proc ;
+		pInputProcedure = proc ;
 	}
 
 	public void setOutputFile(CEntityFileDescriptor output)
 	{
-		m_fdOutputFile = output ;
+		fdOutputFile = output ;
 	}
 
 	public void setOutputProcedure(CEntityProcedure proc)
 	{
-		m_pOutputProcedure = proc ;
+		pOutputProcedure = proc ;
 	}
 
-	protected String m_csOutputProcedureName = null ;
+	protected String csOutputProcedureName = null ;
 	public void setOutputProcedure(String string)
 	{
-		m_csOutputProcedureName = string ;	
+		csOutputProcedureName = string ;	
 	}
 	
-	protected String m_csInputProcedureName = null ;
+	protected String csInputProcedureName = null ;
 	public void setInputProcedure(String string)
 	{
-		m_csInputProcedureName = string ;	
+		csInputProcedureName = string ;	
 	}
 	
 	

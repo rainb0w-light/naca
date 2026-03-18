@@ -72,7 +72,7 @@ public abstract class CBaseActionEntity extends CBaseLanguageEntity
 	public boolean Replace(CBaseActionEntity newCond)
 	{
 		// have to be overwritten
-		return m_parent.UpdateAction(this, newCond) ;
+		return parent.UpdateAction(this, newCond) ;
 	}
 
 	/**

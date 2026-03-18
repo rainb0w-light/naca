@@ -27,26 +27,26 @@ public class FileDescriptorAutoCloseManager
 	
 	public void reportFileDescriptorStatus(FileDescriptor fileDescriptor, FileDescriptorOpenStatus status)
 	{
-		if(m_hashFileDescriptor != null && !m_bIsInAutoClose)
+		if(hashFileDescriptor != null && !bIsInAutoClose)
 		{
-			m_hashFileDescriptor.remove(fileDescriptor);
-			m_hashFileDescriptor.put(fileDescriptor, status);
+			hashFileDescriptor.remove(fileDescriptor);
+			hashFileDescriptor.put(fileDescriptor, status);
 		}
 	}
 	
 	public void registerFileDescriptor(FileDescriptor fileDescriptor)
 	{
-		if(m_hashFileDescriptor == null)
-			m_hashFileDescriptor = new Hashtable<FileDescriptor, FileDescriptorOpenStatus>();
-		m_hashFileDescriptor.put(fileDescriptor, FileDescriptorOpenStatus.CLOSE);
+		if(hashFileDescriptor == null)
+			hashFileDescriptor = new Hashtable<FileDescriptor, FileDescriptorOpenStatus>();
+		hashFileDescriptor.put(fileDescriptor, FileDescriptorOpenStatus.CLOSE);
 	}
 	
 	public void autoClose()
 	{
-		if(m_hashFileDescriptor != null)
+		if(hashFileDescriptor != null)
 		{
-			m_bIsInAutoClose = true;
-			Set<Entry<FileDescriptor, FileDescriptorOpenStatus> > entries = m_hashFileDescriptor.entrySet();
+			bIsInAutoClose = true;
+			Set<Entry<FileDescriptor, FileDescriptorOpenStatus> > entries = hashFileDescriptor.entrySet();
 			Iterator<Entry<FileDescriptor, FileDescriptorOpenStatus> > iter = entries.iterator();
 			while (iter.hasNext())
 			{
@@ -57,11 +57,11 @@ public class FileDescriptorAutoCloseManager
 					fileDescriptor.close();
 				}
 			}
-			m_hashFileDescriptor.clear();
-			m_bIsInAutoClose = false;
+			hashFileDescriptor.clear();
+			bIsInAutoClose = false;
 		}		
 	}
 	
-	private Hashtable<FileDescriptor, FileDescriptorOpenStatus> m_hashFileDescriptor  = null;
-	private boolean m_bIsInAutoClose = false;
+	private Hashtable<FileDescriptor, FileDescriptorOpenStatus> hashFileDescriptor  = null;
+	private boolean bIsInAutoClose = false;
 }

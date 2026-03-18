@@ -29,7 +29,7 @@ public class CJavaConstant extends CEntityConstant
 	@Override
 	public String ExportReference(int nLine)
 	{
-		switch (m_eValue)
+		switch (eValue)
 		{
 			case HIGH_VALUE :
 				return "CobolConstant.HighValue" ;

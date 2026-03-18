@@ -31,17 +31,17 @@ public class DataSectionLinkage extends DataSection
 	
 //	public void registerVar(Var var)
 //	{
-//		int nLevel = var.m_VarManager.getLevel();
+//		int nLevel = var.varManager.getLevel();
 //		if(nLevel == 1 || nLevel == 77)
 //		{
-//			m_arrMappableVars.add(var);
+//			arrMappableVars.add(var);
 //		} 
 //	}
 	
 //	public void unregisterVar(Var var)
 //	{
-//		m_arrMappableVars.remove(var);
+//		arrMappableVars.remove(var);
 //	}
 	
-//	private ArrayList m_arrMappableVars = new ArrayList();	// Array of all var that can be mapped on call 
+//	private ArrayList arrMappableVars = new ArrayList();	// Array of all var that can be mapped on call 
 }

@@ -36,11 +36,11 @@ public class CJavaCICSWrite extends CEntityCICSWrite
 
 	protected void DoExport()
 	{
-		if (m_bWritetoDataSet && m_DataFrom.GetName().equals("CUM-COLL"))
+		if (bWritetoDataSet && dataFrom.GetName().equals("CUM-COLL"))
 		{
-			if (m_DataFrom.m_Of != null)
+			if (dataFrom.of != null)
 			{
-				String cs = "Pub2000Routines.writeStatistics(getProgramManager(), " + m_DataFrom.m_Of.ExportReference(getLine()) + ") ;" ;
+				String cs = "Pub2000Routines.writeStatistics(getProgramManager(), " + dataFrom.of.ExportReference(getLine()) + ") ;" ;
 				WriteLine(cs);
 				return ;
 			}
@@ -52,19 +52,19 @@ public class CJavaCICSWrite extends CEntityCICSWrite
 		else
 		{	
 			String title = "CESM.write" ;
-			if (m_bWritetoDataSet)
+			if (bWritetoDataSet)
 			{
 				title += "DataSet(" ;
 			}
-			else if (m_bWriteToFile)
+			else if (bWriteToFile)
 			{
 				title += "File(" ;
 			}
-			title += m_Name.ExportReference(getLine()) + ").from(" + m_DataFrom.ExportReference(getLine()) + ")" ;
+			title += name.ExportReference(getLine()) + ").from(" + dataFrom.ExportReference(getLine()) + ")" ;
 			WriteWord(title);
-			if (m_RecIDField != null)
+			if (recIDField != null)
 			{
-				WriteWord(".recIDField(" + m_RecIDField.ExportReference(getLine()) + ")" );
+				WriteWord(".recIDField(" + recIDField.ExportReference(getLine()) + ")" );
 			}
 			WriteWord(" ;");
 			WriteEOL();

@@ -13,11 +13,11 @@ import jlib.xml.Tag;
 
 public class JMXDumper
 {
-	private MBeanServer m_server = null;
+	private MBeanServer server = null;
 	
 	JMXDumper(MBeanServer server)
 	{
-		m_server = server;
+		server = server;
 	}
 	
 	void dumpAllMBeans(Tag tagOut)
@@ -26,7 +26,7 @@ public class JMXDumper
 		try
 		{
 			oName = new ObjectName("jmxMbean:*");
-			Set names = m_server.queryNames(oName, null);
+			Set names = server.queryNames(oName, null);
 			
 			Iterator itr = names.iterator();
 			while(itr.hasNext()) 
@@ -80,7 +80,7 @@ public class JMXDumper
 		try
 		{
 			MBeanInfo info;
-			info = m_server.getMBeanInfo(name);
+			info = server.getMBeanInfo(name);
 			return info;
 		}
 		catch (InstanceNotFoundException e)
@@ -99,7 +99,7 @@ public class JMXDumper
 	{
 		try
 		{
-			Object oValue = m_server.getAttribute(name, csAttributeName);
+			Object oValue = server.getAttribute(name, csAttributeName);
 			if(oValue != null)
 				return oValue.toString();
 		}

@@ -27,26 +27,26 @@ public class BtreeKeySegmentComp0 extends BtreeKeySegment
 	{
 		long l1, l2;
 		
-		if(m_bFileInEbcdic)
+		if(bFileInEbcdic)
 		{
-			l1 = Pic9Comp0BufferSupport.getAsLongFromEbcdicBuffer(tby1, m_nKeyPosition, m_nKeyLength);
-			l2 = Pic9Comp0BufferSupport.getAsLongFromEbcdicBuffer(tby2, m_nKeyPosition, m_nKeyLength);
+			l1 = Pic9Comp0BufferSupport.getAsLongFromEbcdicBuffer(tby1, nKeyPosition, nKeyLength);
+			l2 = Pic9Comp0BufferSupport.getAsLongFromEbcdicBuffer(tby2, nKeyPosition, nKeyLength);
 		}
 		else
 		{
-			l1 = Pic9Comp0BufferSupport.getAsLong(tby1, m_nKeyPosition, m_nKeyLength);
-			l2 = Pic9Comp0BufferSupport.getAsLong(tby2, m_nKeyPosition, m_nKeyLength);
+			l1 = Pic9Comp0BufferSupport.getAsLong(tby1, nKeyPosition, nKeyLength);
+			l2 = Pic9Comp0BufferSupport.getAsLong(tby2, nKeyPosition, nKeyLength);
 		}
 		
 		if(l1 == l2)
 			return 0;
 		if(l1 < l2)
 		{
-	    	if(m_bAscending)
+	    	if(bAscending)
 	    		return -1;
 	    	return 1;
 		}
-    	if(m_bAscending)
+    	if(bAscending)
     		return 1;
     	return -1;
 	}

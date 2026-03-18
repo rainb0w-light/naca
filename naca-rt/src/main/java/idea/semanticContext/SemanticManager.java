@@ -212,13 +212,13 @@ public class SemanticManager extends CJMapObject
 	private CMenuDef createAndRegisterNewMenu(String csMenuId)
 	{
 		CMenuDef MenuDef = new CMenuDef();
-		m_hashMenus.put(csMenuId, MenuDef);
+		hashMenus.put(csMenuId, MenuDef);
 		return MenuDef;
 	}		
 	
 	private CMenuDef getMenuId(String csMenuId)
 	{
-		CMenuDef MenuDef = m_hashMenus.get(csMenuId);
+		CMenuDef MenuDef = hashMenus.get(csMenuId);
 		return MenuDef;		
 	}
 	
@@ -227,23 +227,23 @@ public class SemanticManager extends CJMapObject
 		if(csScreenId.equals("*"))
 			csScreenId = null;
 		CSemanticItem SemanticItem = new CSemanticItem(csScreenId, MenuDef);
-		m_hashSemanticItems.put(csSemanticId, SemanticItem);
+		hashSemanticItems.put(csSemanticId, SemanticItem);
 	}
 	
 	public CMenuDef getMenuForSemanticContext(String csScreen, String csSemanticContext)
 	{
 		if(csSemanticContext != null)
 		{
-			CSemanticItem semanticItem = m_hashSemanticItems.get(csSemanticContext);
+			CSemanticItem semanticItem = hashSemanticItems.get(csSemanticContext);
 			if(semanticItem != null)
 			{
 				// Find the one with the correct screen
-				return semanticItem.m_MenuDef;
+				return semanticItem.menuDef;
 			}
 		}
 		return null;
 	}
 	
-	HashMap<String, CMenuDef>  m_hashMenus= new HashMap<String, CMenuDef> ();			// Array of CMenuDef, indexed by String csMenuId
-	HashMap<String, CSemanticItem> m_hashSemanticItems = new HashMap<String, CSemanticItem>();	// Array of CSemanticItem, indexed by String csSemanticId
+	HashMap<String, CMenuDef>  hashMenus= new HashMap<String, CMenuDef> ();			// Array of CMenuDef, indexed by String csMenuId
+	HashMap<String, CSemanticItem> hashSemanticItems = new HashMap<String, CSemanticItem>();	// Array of CSemanticItem, indexed by String csSemanticId
 }

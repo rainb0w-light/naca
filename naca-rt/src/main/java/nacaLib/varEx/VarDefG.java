@@ -38,7 +38,7 @@ public class VarDefG extends VarDefVariable
 
 	public VarDefG(VarDefBase varDefParent, DeclareTypeG declareTypeG)
 	{
-		super(varDefParent, declareTypeG.m_varLevel);
+		super(varDefParent, declareTypeG.varLevel);
 	}
 	
 	protected VarDefG()
@@ -58,7 +58,7 @@ public class VarDefG extends VarDefVariable
 	
 	void transfer(VarBufferPos bufferSource, VarAndEdit Dest)
 	{
-		Dest.m_varDef.write(Dest.m_bufferPos, this, bufferSource);
+		Dest.varDef.write(Dest.bufferPos, this, bufferSource);
 	}
 	
 	protected VarDefBuffer allocCopy()
@@ -75,7 +75,7 @@ public class VarDefG extends VarDefVariable
 	
 	public int getBodyLength()
 	{
-		return m_nTotalSize;
+		return nTotalSize;
 	}
 	
 	protected int getHeaderLength()
@@ -90,33 +90,33 @@ public class VarDefG extends VarDefVariable
 	
 //	String getRawString(VarBuffer buffer)
 //	{
-//		String cs = buffer.getStringAt(m_nAbsolutePosition, m_nTotalSize);
+//		String cs = buffer.getStringAt(nAbsolutePosition, nTotalSize);
 //		return cs;
 //	}
 	
 	CStr getAsDecodedString(VarBufferPos buffer)
 	{
-		CStr cs = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nTotalSize);
+		CStr cs = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);
 		return cs;
 	}
 	
 	int getAsDecodedInt(VarBufferPos buffer)
 	{
-		CStr cs = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nTotalSize);
+		CStr cs = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);
 		int n = cs.getAsInt();
 		return n;
 	}
 	
 	int getAsDecodedUnsignedInt(VarBufferPos buffer)
 	{
-		CStr cs = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nTotalSize);
+		CStr cs = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);
 		int n = cs.getAsUnsignedInt();
 		return n;
 	}
 	
 	long getAsDecodedLong(VarBufferPos buffer)
 	{
-		CStr cs = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nTotalSize);
+		CStr cs = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);
 		long l = cs.getAsLong();
 		return l;
 	}
@@ -130,19 +130,19 @@ public class VarDefG extends VarDefVariable
 	
 	CStr getDottedSignedString(VarBufferPos buffer)
 	{	
-		CStr cs = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nTotalSize);
+		CStr cs = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);
 		return cs;
 	}
 	
 	CStr getDottedSignedStringAsSQLCol(VarBufferPos buffer)
 	{	
-		CStr cs = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nTotalSize);
+		CStr cs = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);
 		return cs;
 	}
 	
 	CStr getAsAlphaNumString(VarBufferPos buffer)
 	{
-		CStr cs = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nTotalSize);
+		CStr cs = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);
 		return cs;
 	}
 	
@@ -540,7 +540,7 @@ public class VarDefG extends VarDefVariable
 	
 	int compare(ComparisonMode mode, VarBufferPos bufferSource, VarAndEdit var2)
 	{
-		int n = var2.m_varDef.compare(mode, var2.m_bufferPos, this, bufferSource);
+		int n = var2.varDef.compare(mode, var2.bufferPos, this, bufferSource);
 		return n;
 	}
 	
@@ -833,7 +833,7 @@ public class VarDefG extends VarDefVariable
 //	private void getComparisonBufferItemAndChildren(TempCache tempCache, ComparisonMode mode, CStr csToFill, IntegerRef riAbsolutePosition, VarDefBuffer varDef, VarBufferPos buffer)
 //					//TempCache cache, VarBufferPos varBufferPos, int nNbDimUsed)
 //	{		
-//		if(varDef.m_arrChildren == null)	// Final node
+//		if(varDef.arrChildren == null)	// Final node
 //		{	
 //			//int nNbDim = getNbDim();
 //			int nNbDim = varDef.getNbDim(); 
@@ -896,7 +896,7 @@ public class VarDefG extends VarDefVariable
 //		}
 //		else
 //		{
-//			int nNbChildren = varDef.m_arrChildren.size();
+//			int nNbChildren = varDef.arrChildren.size();
 //			for(int nChild=0; nChild<nNbChildren; nChild++)
 //			{
 //				VarDefBuffer varDefChild = getChild(nChild);
@@ -958,7 +958,7 @@ public class VarDefG extends VarDefVariable
 			cs2.resetMinimalSize(40);
 
 			
-			IntegerRef riAbsolutePosition = new IntegerRef(buffer1.m_nAbsolutePosition); 
+			IntegerRef riAbsolutePosition = new IntegerRef(buffer1.nAbsolutePosition); 
 			fillChildrenBuffer(tempCache, mode, cs1, riAbsolutePosition, varDef1, buffer1);
 //			VarDefBuffer varDefChild = null;
 //			int nNbChildren1 = varDef1.getNbChildren();
@@ -971,10 +971,10 @@ public class VarDefG extends VarDefVariable
 //				tempCache.rewindCStrMapped(1);
 //			}
 			
-			riAbsolutePosition.set(buffer2.m_nAbsolutePosition);
+			riAbsolutePosition.set(buffer2.nAbsolutePosition);
 			fillChildrenBuffer(tempCache, mode, cs2, riAbsolutePosition, this, buffer2);
 //			int nNbChildren2 = getNbChildren();
-//			riAbsolutePosition.set(buffer2.m_nAbsolutePosition); 
+//			riAbsolutePosition.set(buffer2.nAbsolutePosition); 
 //			for(int n=0; n<nNbChildren2; n++)
 //			{
 //				varDefChild = getChild(n);
@@ -1028,7 +1028,7 @@ public class VarDefG extends VarDefVariable
 	
 	public BtreeSegmentKeyTypeFactory getSegmentKeyTypeFactory()
 	{
-		return VarTypeId.m_segmentKeyTypeFactoryString;
+		return VarTypeId.segmentKeyTypeFactoryString;
 	}	
 	
 	public boolean isEbcdicAsciiConvertible()
@@ -1066,7 +1066,7 @@ public class VarDefG extends VarDefVariable
 		int nPositionDest = getBodyAbsolutePosition(bufferDest);
 		for(int n=0; n<nNbCharToCopy; n++, nPositionDest++)
 		{
-			bufferDest.m_acBuffer[nPositionDest] = csSource.charAt(n);
+			bufferDest.acBuffer[nPositionDest] = csSource.charAt(n);
 		}
 		if(nNbCharSource < nNbCharDest)
 		{
@@ -1084,7 +1084,7 @@ public class VarDefG extends VarDefVariable
 		int nPositionDest = getBodyAbsolutePosition(bufferDest);
 		for(int n=0; n<nNbCharToCopy; n++, nPositionDest++)
 		{
-			bufferDest.m_acBuffer[nPositionDest] = csSource.charAt(n);
+			bufferDest.acBuffer[nPositionDest] = csSource.charAt(n);
 		}
 		if(nNbCharSource < nNbCharDest)
 		{
@@ -1097,7 +1097,7 @@ public class VarDefG extends VarDefVariable
 	{
 		for(int n=0; n<nNbSpaceToAdd; n++, nPositionDest++)
 		{
-			bufferDest.m_acBuffer[nPositionDest] = ' ';
+			bufferDest.acBuffer[nPositionDest] = ' ';
 		}
 	}
 

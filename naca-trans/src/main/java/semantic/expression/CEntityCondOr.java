@@ -26,31 +26,31 @@ import semantic.CDataEntity;
 public abstract class CEntityCondOr extends CBaseEntityCondition
 {
 	public void SetCondition(CBaseEntityCondition op1, CBaseEntityCondition op2)	{
-		m_Op1 = op1 ;
-		m_Op1.SetParent(this) ; 
-		m_Op2 = op2 ; 
-		m_Op2.SetParent(this);
+		op1 = op1 ;
+		op1.SetParent(this) ; 
+		op2 = op2 ; 
+		op2.SetParent(this);
 	}
-	protected CBaseEntityCondition m_Op1 = null ;
-	protected CBaseEntityCondition m_Op2 = null ;
+	protected CBaseEntityCondition op1 = null ;
+	protected CBaseEntityCondition op2 = null ;
 	public void Clear()
 	{
 		super.Clear() ;
-		m_Op1.Clear() ;
-		m_Op1 = null ;
-		m_Op2.Clear() ;
-		m_Op2 = null ;
+		op1.Clear() ;
+		op1 = null ;
+		op2.Clear() ;
+		op2 = null ;
 	}
 	public boolean ignore()
 	{
-		return m_Op1.ignore() && m_Op2.ignore() ;
+		return op1.ignore() && op2.ignore() ;
 	}
 //	public CBaseEntityCondition getSimilarCondition(CBaseEntityFactory factory, CTerminal term)
 //	{
-//		CBaseEntityCondition eCond = m_Op1.getSimilarCondition(factory, term);
+//		CBaseEntityCondition eCond = op1.getSimilarCondition(factory, term);
 //		if (eCond == null)
 //		{
-//			eCond = m_Op2.getSimilarCondition(factory, term);
+//			eCond = op2.getSimilarCondition(factory, term);
 //		}
 //		return eCond ;
 //	}
@@ -60,13 +60,13 @@ public abstract class CEntityCondOr extends CBaseEntityCondition
 	}
 	public void UpdateCondition(CBaseEntityCondition condition, CBaseEntityCondition newCond)
 	{
-		if (m_Op1 == condition)
+		if (op1 == condition)
 		{
-			m_Op1 = newCond ;
+			op1 = newCond ;
 		}
-		if (m_Op2 == condition)
+		if (op2 == condition)
 		{
-			m_Op2 = newCond ;
+			op2 = newCond ;
 		}
 	}
 	public boolean isBinaryCondition()

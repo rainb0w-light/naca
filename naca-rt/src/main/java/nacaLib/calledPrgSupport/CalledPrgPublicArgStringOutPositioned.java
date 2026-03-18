@@ -18,24 +18,24 @@ public class CalledPrgPublicArgStringOutPositioned extends BaseCalledPrgPublicAr
 	CalledPrgPublicArgStringOutPositioned(String csValue[], boolean bInOut)
 	{
 		super(bInOut);
-		m_csValue = csValue;
+		csValue = csValue;
 	}
 	
 	public void MapOn(Var varLinkageSection)
 	{
-		varLinkageSection.set(m_csValue[0]);
+		varLinkageSection.set(csValue[0]);
 	}
 	
 	public void doFillWithVar(Var varSource)
 	{
-		m_csValue[0] = varSource.getString();
-		//BasicLogger.log("SpPublicArgIntStringOut::doFillOutputVar; m_csValue[0]="+m_csValue[0]);		
+		csValue[0] = varSource.getString();
+		//BasicLogger.log("SpPublicArgIntStringOut::doFillOutputVar; csValue[0]="+csValue[0]);		
 	}
 	
 	public int getParamLength()
 	{
-		return m_csValue[0].length();
+		return csValue[0].length();
 	}
 	
-	private String m_csValue[] = null;
+	private String csValue[] = null;
 }

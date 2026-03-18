@@ -44,9 +44,9 @@ public class CJavaSQLSelectStatement extends CEntitySQLSelectStatement
 	{
 		boolean bBloc = false ;
 		WriteWord("sql(") ;
-		WriteLongString(m_csStatement.trim()) ;
+		WriteLongString(csStatement.trim()) ;
 		WriteWord(")");
-		for(int i=0; i<m_arrInto.size(); i++)
+		for(int i=0; i<arrInto.size(); i++)
 		{
 			WriteEOL();
 			if (!bBloc)
@@ -54,11 +54,11 @@ public class CJavaSQLSelectStatement extends CEntitySQLSelectStatement
 				StartOutputBloc() ;
 				bBloc = true ;
 			}
-			CDataEntity cs = m_arrInto.get(i);
+			CDataEntity cs = arrInto.get(i);
 			String out = ".into(" + cs.ExportReference(getLine()) ;
-			if (i<m_arrInd.size())
+			if (i<arrInd.size())
 			{
-				CDataEntity e = m_arrInd.get(i) ;
+				CDataEntity e = arrInd.get(i) ;
 				if (e != null)
 				{
 					out += ", "+e.ExportReference(getLine()) ;
@@ -66,9 +66,9 @@ public class CJavaSQLSelectStatement extends CEntitySQLSelectStatement
 			}
 			WriteWord(out + ")");
 		}
-		for(int i=0; i<m_arrParameters.size(); i++)
+		for(int i=0; i<arrParameters.size(); i++)
 		{
-			CDataEntity cs = m_arrParameters.get(i);
+			CDataEntity cs = arrParameters.get(i);
 			if (cs != null)
 			{
 				WriteEOL();
@@ -80,7 +80,7 @@ public class CJavaSQLSelectStatement extends CEntitySQLSelectStatement
 				WriteWord(".param("+ (i+1) + ", " + cs.ExportReference(getLine()) + ")");
 			}
 		}
-		String csSQLErrorWarningStatement = m_ProgramCatalog.getSQLWarningErrorStatement();
+		String csSQLErrorWarningStatement = programCatalog.getSQLWarningErrorStatement();
 		if(csSQLErrorWarningStatement != null)
 		{
 			WriteEOL();

@@ -19,28 +19,28 @@ import jlib.xml.TagCursor;
 
 public abstract class BaseControlerConfig
 {
-	private String m_csTaskTagName = "" ;
-	private String m_csStepTagName = "" ;
+	private String csTaskTagName = "" ;
+	private String csStepTagName = "" ;
 	
 	protected BaseControlerConfig(String csTaskTagName, String csStepTagName)
 	{
-		m_csTaskTagName = csTaskTagName ;
-		m_csStepTagName = csStepTagName ;
+		csTaskTagName = csTaskTagName ;
+		csStepTagName = csStepTagName ;
 	}
 	
 	public abstract int getNbTasks() ;
 
 	public abstract BaseControlerTaskConfig getTaskConfig(String name) ;
 
-//		LoadConfigStart.log(getLogChannel(), m_fConfigFile.getAbsolutePath(), "Start loading from file...") ;
-//		Tag tagRoot = Tag.createFromFile(m_fConfigFile) ;
+//		LoadConfigStart.log(getLogChannel(), fConfigFile.getAbsolutePath(), "Start loading from file...") ;
+//		Tag tagRoot = Tag.createFromFile(fConfigFile) ;
 //	    if (tagRoot != null)
 //	    {
 //			Tag tagConf = tagRoot.getChild("Config");
 //		    Setup(tagConf) ;
 //			
 //			TagCursor cur = new TagCursor() ;
-//			Tag tagSite = tagRoot.getFirstChild(cur, m_csTaskTagName);
+//			Tag tagSite = tagRoot.getFirstChild(cur, csTaskTagName);
 //			while (cur.isValid() && tagSite != null)
 //			{
 //				String name = tagSite.getVal("site") ;
@@ -48,7 +48,7 @@ public abstract class BaseControlerConfig
 //				if (siteconf == null)
 //				{
 //					siteconf = new HeritrixSiteConfig() ;
-//					m_arrSites.add(siteconf) ;
+//					arrSites.add(siteconf) ;
 //				}
 //				siteconf.setFromTag(tagSite) ;
 //				
@@ -60,16 +60,16 @@ public abstract class BaseControlerConfig
 //		}
 //	    else
 //	    {
-//		    LoadConfigError.log(m_fConfigFile.getAbsolutePath(), "Conf loading completed.") ;
+//		    LoadConfigError.log(fConfigFile.getAbsolutePath(), "Conf loading completed.") ;
 //	    }
 //	}
 	
-	private File m_fConfigFile = null ;
+	private File fConfigFile = null ;
 
-	private boolean m_bAutoStart = false ;
+	private boolean bAutoStart = false ;
 	public boolean isAutoStart()
 	{
-		return m_bAutoStart ;
+		return bAutoStart ;
 	}
 	
 	
@@ -82,13 +82,13 @@ public abstract class BaseControlerConfig
 	
 	public void setXMLFile(File file)
 	{
-		m_fConfigFile = file ;
+		fConfigFile = file ;
 	}
 	
 	synchronized void LoadConfig(ControlerDirector director)
 	{
-		LoadConfigStart.log(getLogChannel(), m_fConfigFile.getAbsolutePath(), "Start loading from file...") ;
-		Tag tagRoot = Tag.createFromFile(m_fConfigFile) ;
+		LoadConfigStart.log(getLogChannel(), fConfigFile.getAbsolutePath(), "Start loading from file...") ;
+		Tag tagRoot = Tag.createFromFile(fConfigFile) ;
 	    if (tagRoot != null)
 	    {
 	    	// init global parameters
@@ -100,7 +100,7 @@ public abstract class BaseControlerConfig
 		    
 		    // iteration on all task Tags
 			TagCursor curgrp = new TagCursor() ;
-			Tag tagGroup = tagRoot.getFirstChild(curgrp, m_csTaskTagName);
+			Tag tagGroup = tagRoot.getFirstChild(curgrp, csTaskTagName);
 			while (curgrp.isValid() && tagGroup != null)
 			{
 				String name = tagGroup.getVal("name") ;
@@ -119,7 +119,7 @@ public abstract class BaseControlerConfig
 				
 				// iteration on all step Tags
 				TagCursor cur = new TagCursor() ;
-				Tag tagSite = tagGroup.getFirstChild(cur, m_csStepTagName);
+				Tag tagSite = tagGroup.getFirstChild(cur, csStepTagName);
 				int nStepIndex = 0 ;
 				while (cur.isValid() && tagSite != null)
 				{
@@ -173,7 +173,7 @@ public abstract class BaseControlerConfig
 		    
 			// iteration on single steps remaining in XML
 			TagCursor cur = new TagCursor() ;
-			Tag tagSite = tagRoot.getFirstChild(cur, m_csStepTagName);
+			Tag tagSite = tagRoot.getFirstChild(cur, csStepTagName);
 			while (cur.isValid() && tagSite != null)
 			{
 				String name = tagSite.getVal("name") ;
@@ -233,7 +233,7 @@ public abstract class BaseControlerConfig
 		}
 	    else
 	    {
-		    LoadConfigError.log(getLogChannel(), m_fConfigFile.getAbsolutePath(), "Conf loading completed.") ;
+		    LoadConfigError.log(getLogChannel(), fConfigFile.getAbsolutePath(), "Conf loading completed.") ;
 	    }
 	}
 
@@ -245,7 +245,7 @@ public abstract class BaseControlerConfig
 
 	private void Setup(Tag tagConf)
 	{
-		m_bAutoStart = tagConf.getValAsBoolean("AutoStart") ;		
+		bAutoStart = tagConf.getValAsBoolean("AutoStart") ;		
 		
 		intSetup(tagConf) ;
 	}

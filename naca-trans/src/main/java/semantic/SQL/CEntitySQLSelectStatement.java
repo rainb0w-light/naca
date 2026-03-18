@@ -29,32 +29,32 @@ public abstract class CEntitySQLSelectStatement extends CBaseActionEntity
 	public CEntitySQLSelectStatement(int line, CObjectCatalog cat, CBaseLanguageExporter out, String csStatement, Vector<CDataEntity> arrParameters, Vector<CDataEntity> arrInto, Vector<CDataEntity> arrInd)
 	{
 		super(line, cat, out);
-		m_csStatement = csStatement ;
-		m_arrParameters = arrParameters;
-		m_arrInto = arrInto;
-		m_arrInd = arrInd ;
+		csStatement = csStatement ;
+		arrParameters = arrParameters;
+		arrInto = arrInto;
+		arrInd = arrInd ;
 	}
-	protected String m_csStatement = "" ;
-	protected Vector<CDataEntity> m_arrParameters = null;
-	protected Vector<CDataEntity> m_arrInto = null;
-	protected Vector<CDataEntity> m_arrInd = null;
+	protected String csStatement = "" ;
+	protected Vector<CDataEntity> arrParameters = null;
+	protected Vector<CDataEntity> arrInto = null;
+	protected Vector<CDataEntity> arrInd = null;
 	public void Clear()
 	{
 		super.Clear();
-		m_arrParameters = null ;
-		m_arrInto = null ;
+		arrParameters = null ;
+		arrInto = null ;
 	}
 	public boolean ignore()
 	{
-		return m_csStatement.equals("") ;
+		return csStatement.equals("") ;
 	}
 	public boolean IgnoreVariable(CDataEntity data)
 	{
-		if (m_arrParameters.contains(data) || m_arrInto.contains(data))
+		if (arrParameters.contains(data) || arrInto.contains(data))
 		{
 			data.UnRegisterReadingAction(this) ;
 			data.UnRegisterWritingAction(this) ;
-			m_csStatement = "" ;
+			csStatement = "" ;
 			return true ;
 		}
 		return false ;
@@ -65,19 +65,19 @@ public abstract class CEntitySQLSelectStatement extends CBaseActionEntity
 	 */
 	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
 	{
-		int n = m_arrParameters.indexOf(field) ;
+		int n = arrParameters.indexOf(field) ;
 		if (n>=0)
 		{
-			m_arrParameters.get(n).UnRegisterReadingAction(this) ;
-			m_arrParameters.set(n, var);
+			arrParameters.get(n).UnRegisterReadingAction(this) ;
+			arrParameters.set(n, var);
 			var.RegisterReadingAction(this) ;
 			return true ;
 		}
-		n = m_arrInto.indexOf(field) ;
+		n = arrInto.indexOf(field) ;
 		if (n>=0)
 		{
-			m_arrInto.get(n).UnRegisterWritingAction(this) ;
-			m_arrInto.set(n, var);
+			arrInto.get(n).UnRegisterWritingAction(this) ;
+			arrInto.set(n, var);
 			var.RegisterWritingAction(this) ;
 			return true ;
 		}

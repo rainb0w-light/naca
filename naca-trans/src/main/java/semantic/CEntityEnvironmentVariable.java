@@ -38,14 +38,14 @@ public abstract class CEntityEnvironmentVariable extends CDataEntity
 	public CEntityEnvironmentVariable(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out, String accessor, String writer, boolean bNumericVar)
 	{
 		super(l, name, cat, out);
-		m_csAccessor = accessor ;
-		m_csWriteAccessor = writer ;
-		m_bNumericVariable = bNumericVar ;
+		csAccessor = accessor ;
+		csWriteAccessor = writer ;
+		bNumericVariable = bNumericVar ;
 	}
 	
-	protected String m_csAccessor = "" ;
-	protected String m_csWriteAccessor = "" ;
-	protected boolean m_bNumericVariable = false ;
+	protected String csAccessor = "" ;
+	protected String csWriteAccessor = "" ;
+	protected boolean bNumericVariable = false ;
 	
 	public CBaseEntityCondition GetSpecialCondition(int nLine, String value, CBaseEntityCondition.EConditionType type, CBaseEntityFactory factory)
 	{
@@ -114,7 +114,7 @@ public abstract class CEntityEnvironmentVariable extends CDataEntity
 	@Override
 	public CDataEntityType GetDataType()
 	{
-		if (m_bNumericVariable)
+		if (bNumericVariable)
 			return CDataEntityType.NUMERIC_VAR ;
 		else
 			return CDataEntityType.VAR;

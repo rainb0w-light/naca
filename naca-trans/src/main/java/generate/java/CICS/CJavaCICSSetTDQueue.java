@@ -37,13 +37,13 @@ public class CJavaCICSSetTDQueue extends CEntityCICSSetTDQueue
 
 	protected void DoExport()
 	{
-		if (m_bClosed)
+		if (bClosed)
 		{
-			WriteLine("CESM.setTDQueueClosed(" + m_QueueName.ExportReference(getLine()) + ") ;");
+			WriteLine("CESM.setTDQueueClosed(" + queueName.ExportReference(getLine()) + ") ;");
 		}
-		else if (m_bOpen)
+		else if (bOpen)
 		{
-			WriteLine("CESM.setTDQueueOpen(" + m_QueueName.ExportReference(getLine()) + ") ;");
+			WriteLine("CESM.setTDQueueOpen(" + queueName.ExportReference(getLine()) + ") ;");
 		}
 	}
 

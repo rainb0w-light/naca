@@ -34,20 +34,20 @@ public class CESMReceive extends CJMapObject
 {
 	CESMReceive(Document Loader, BaseEnvironment env)
 	{
-		m_xmlData = Loader;
-		m_Env = env ;
+		xmlData = Loader;
+		env = env ;
 	}
 	
 	CESMReceive setMap(String mapName)
 	{
-	//	m_MapName = mapName;
+	//	mapName = mapName;
 		return this;
 	}
 	
 	
 	public void into(Form var)
 	{
-		m_MapInto = var;
+		mapInto = var;
 		receiveData() ;
 		//return this;
 	}
@@ -59,22 +59,22 @@ public class CESMReceive extends CJMapObject
 	
 	void receiveData()
 	{
-		if(m_xmlData != null)
+		if(xmlData != null)
 		{
-//			for(int n=0; n<m_MapInto.m_arrForms.size(); n++)
+//			for(int n=0; n<mapInto.arrForms.size(); n++)
 //			{
-//				Form f = (CForm) m_MapInto.m_arrForms.get(n);
-				m_MapInto.loadValues(m_xmlData);
-				String k = m_xmlData.getDocumentElement().getAttribute("keypressed") ;
-				m_Env.setKeyPressed(KeyPressed.getKey(k));
+//				Form f = (CForm) mapInto.arrForms.get(n);
+				mapInto.loadValues(xmlData);
+				String k = xmlData.getDocumentElement().getAttribute("keypressed") ;
+				env.setKeyPressed(KeyPressed.getKey(k));
 	//		}
 		}		
 	}
 	
-	private Form m_MapInto = null;
-	//private String m_MapName = "";
-	private Document m_xmlData = null;
-	private BaseEnvironment m_Env = null ;
+	private Form mapInto = null;
+	//private String mapName = "";
+	private Document xmlData = null;
+	private BaseEnvironment env = null ;
 
 	public CESMReceive mapSet(String string)
 	{

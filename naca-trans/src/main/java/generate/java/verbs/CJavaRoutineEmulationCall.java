@@ -41,17 +41,17 @@ public class CJavaRoutineEmulationCall extends CEntityRoutineEmulationCall
 	 */
 	protected void DoExport()
 	{
-		WriteWord(m_csDisplay + "(") ;
+		WriteWord(csDisplay + "(") ;
 		boolean bDynamicAllocation = false;
-		if (m_csDisplay.equals("tools.dynamicAllocation")) {
+		if (csDisplay.equals("tools.dynamicAllocation")) {
 			bDynamicAllocation = true;
 			WriteWord("new Var[] {");
 		}
 		boolean bFirstArg = true ;
-		for (int i=0; i<m_arrParameters.size(); i++)
+		for (int i=0; i<arrParameters.size(); i++)
 		{
 			String cs = "" ;
-			CDataEntity e = m_arrParameters.get(i) ;
+			CDataEntity e = arrParameters.get(i) ;
 			if (e == null)
 			{
 				cs = "[UNDEFINED]" ;
@@ -85,7 +85,7 @@ public class CJavaRoutineEmulationCall extends CEntityRoutineEmulationCall
 	 */
 	public boolean ignore()
 	{
-		return m_csDisplay.equals(""); 
+		return csDisplay.equals(""); 
 	}
 
 }

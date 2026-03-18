@@ -27,7 +27,7 @@ public class CJavaExprSum extends CEntityExprSum
 	public String Export()
 	{
 		String cs ;
-		if (m_Type == CSumExpression.CSumType.ADD)
+		if (type == CSumExpression.CSumType.ADD)
 		{
 			cs = "add(" ;
 		}
@@ -35,7 +35,7 @@ public class CJavaExprSum extends CEntityExprSum
 		{
 			cs = "subtract(" ;
 		}
-		cs += m_Op1.Export() + ", \n" + m_Op2.Export() + ")" ;
+		cs += op1.Export() + ", \n" + op2.Export() + ")" ;
 		return cs ;
 	}
 

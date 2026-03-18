@@ -39,11 +39,11 @@ public class CJavaCICSReadQ extends CEntityCICSReadQ
 	protected void DoExport()
 	{
 		String title = "CESM.read" ;
-//		if (m_bReadNext)
+//		if (bReadNext)
 //		{
 //			title += "Next" ;
 //		}
-		if (m_bPesistant)
+		if (bPesistant)
 		{
 			title += "TransiantQueue(" ; 
 		}
@@ -51,29 +51,29 @@ public class CJavaCICSReadQ extends CEntityCICSReadQ
 		{
 			title += "TempQueue(" ;
 		}
-		title += m_QueueName.ExportReference(getLine()) + ")";
+		title += queueName.ExportReference(getLine()) + ")";
 		WriteWord(title) ;
-		if (m_DataRef != null)
+		if (dataRef != null)
 		{
 			String cs = "" ;
-			if (m_Item != null)
+			if (item != null)
 			{
-				cs = ".itemInto(" + m_Item.ExportReference(getLine()) +", " ;
+				cs = ".itemInto(" + item.ExportReference(getLine()) +", " ;
 			}
 			else
 			{
 				cs = ".nextInto(";
 			}
-			cs += m_DataRef.ExportReference(getLine()) ;
-			if (m_DataLength != null)
+			cs += dataRef.ExportReference(getLine()) ;
+			if (dataLength != null)
 			{
-				cs += ", " + m_DataLength.ExportReference(getLine());
+				cs += ", " + dataLength.ExportReference(getLine());
 			}
 			WriteWord(cs + ")") ;
 		}
-		if (m_NumItem != null)
+		if (numItem != null)
 		{
-			WriteWord(".numItem(" + m_NumItem.ExportReference(getLine()) + ")");
+			WriteWord(".numItem(" + numItem.ExportReference(getLine()) + ")");
 		}
 		WriteWord(" ;");
 		WriteEOL() ;

@@ -35,7 +35,7 @@ public class AsyncThreadJmxManager
 
 	private static void show(boolean bShow)
 	{
-		Set<Entry<String, AsyncThreadMBean> > entries =  m_hashSyncThread.entrySet();
+		Set<Entry<String, AsyncThreadMBean> > entries =  hashSyncThread.entrySet();
 		Iterator<Entry<String, AsyncThreadMBean> > iter = entries.iterator();
 		while (iter.hasNext())
 		{
@@ -49,7 +49,7 @@ public class AsyncThreadJmxManager
 	public static synchronized void startAsyncProgram(String csThreadId, String csThreadName, String csProgram, String csProgramParent, int nDelaySeconds)
 	{
 		String csId = getAsyncThreadMBeanId(csThreadId, csThreadName);
-		AsyncThreadMBean asyncThreadMBean = m_hashSyncThread.get(csId);
+		AsyncThreadMBean asyncThreadMBean = hashSyncThread.get(csId);
 		if(asyncThreadMBean == null)
 		{
 			asyncThreadMBean = new AsyncThreadMBean(csThreadId, csThreadName);
@@ -57,14 +57,14 @@ public class AsyncThreadJmxManager
 			asyncThreadMBean.setProgramParent(csProgramParent);
 			asyncThreadMBean.setWait(true);
 			asyncThreadMBean.setDelaySeconds(nDelaySeconds);
-			m_hashSyncThread.put(csId, asyncThreadMBean);
+			hashSyncThread.put(csId, asyncThreadMBean);
 		}
 	}
 	
 	public static synchronized void setRunningAsyncProgram(String csThreadId, String csThreadName)
 	{
 		String csId = getAsyncThreadMBeanId(csThreadId, csThreadName);
-		AsyncThreadMBean asyncThreadMBean = m_hashSyncThread.get(csId);
+		AsyncThreadMBean asyncThreadMBean = hashSyncThread.get(csId);
 		if(asyncThreadMBean != null)
 		{
 			asyncThreadMBean.setWait(false);			
@@ -74,11 +74,11 @@ public class AsyncThreadJmxManager
 	public static synchronized void endAsyncProgram(String csThreadId, String csThreadName)
 	{
 		String csId = getAsyncThreadMBeanId(csThreadId, csThreadName);
-		AsyncThreadMBean asyncThreadMBean = m_hashSyncThread.get(csId);
+		AsyncThreadMBean asyncThreadMBean = hashSyncThread.get(csId);
 		if(asyncThreadMBean != null)
 		{
 			asyncThreadMBean.setAsyncThreadClosed();
-			m_hashSyncThread.remove(csId);
+			hashSyncThread.remove(csId);
 		}
 	}
 	
@@ -87,5 +87,5 @@ public class AsyncThreadJmxManager
 		return csThreadId + "_" + csThreadName; 
 	}
 	
-	private static Hashtable<String, AsyncThreadMBean> m_hashSyncThread = new Hashtable<String, AsyncThreadMBean>();
+	private static Hashtable<String, AsyncThreadMBean> hashSyncThread = new Hashtable<String, AsyncThreadMBean>();
 }

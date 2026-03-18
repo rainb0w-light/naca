@@ -24,25 +24,25 @@ import java.nio.channels.FileLock;
  */
 public class MarkerFile
 {
-	private String m_csMakerPath = null;
-	private FileLock m_outLock = null;
-	private BufferedOutputStream m_out = null;
+	private String csMakerPath = null;
+	private FileLock outLock = null;
+	private BufferedOutputStream out = null;
 	
 	public MarkerFile(String csMakerPath)
 	{
-		m_csMakerPath = csMakerPath;
+		csMakerPath = csMakerPath;
 	}
 	
 	public boolean exclusiveLockFile()
 	{
 		try
 		{
-			FileOutputStream fileOutput = new FileOutputStream(m_csMakerPath, false);
-			m_out = new BufferedOutputStream(new DataOutputStream(fileOutput));
+			FileOutputStream fileOutput = new FileOutputStream(csMakerPath, false);
+			out = new BufferedOutputStream(new DataOutputStream(fileOutput));
 			FileChannel outChannel = fileOutput.getChannel();
 			try
 			{
-				m_outLock = outChannel.lock();
+				outLock = outChannel.lock();
 			}
 			catch(IOException e)
 			{
@@ -52,7 +52,7 @@ public class MarkerFile
 		}
 		catch (FileNotFoundException e)
 		{
-			//Logger.error("Marker file " + m_csMakerPath + " doesn't exists and thus cannot be exclivilly locked !");
+			//Logger.error("Marker file " + csMakerPath + " doesn't exists and thus cannot be exclivilly locked !");
 			return false;
 		} 
 	}
@@ -61,15 +61,15 @@ public class MarkerFile
 	{
 		try
 		{
-			if(m_out != null)
+			if(out != null)
 			{
-				if(m_outLock != null)
+				if(outLock != null)
 				{
-					m_outLock.release();
-					m_outLock = null;
+					outLock.release();
+					outLock = null;
 				}
-				m_out.close();
-				m_out = null;
+				out.close();
+				out = null;
 				return true;
 			}
 		}

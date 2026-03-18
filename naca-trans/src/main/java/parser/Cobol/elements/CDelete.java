@@ -53,10 +53,10 @@ public class CDelete extends CCobolElement
 		{
 			return false ;
 		}
-		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().m_Name) ;
+		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
 		
 		tok = GetNext();
-		m_FileDesc = ReadIdentifier();
+		fileDesc = ReadIdentifier();
 		
 		tok = GetCurrentToken() ;
 		if (tok.GetKeyword() == CCobolKeywordList.RECORD)
@@ -68,9 +68,9 @@ public class CDelete extends CCobolElement
 	protected Element ExportCustom(Document root)
 	{
 		Element eDelete = root.createElement("Delete");
-		m_FileDesc.ExportTo(eDelete, root);
+		fileDesc.ExportTo(eDelete, root);
 		return eDelete ;
 	}
 
-	protected CIdentifier m_FileDesc = null ; 
+	protected CIdentifier fileDesc = null ; 
 }

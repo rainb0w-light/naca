@@ -27,28 +27,28 @@ public abstract class CEntityCondIsAll extends CBaseEntityCondition
 
 	public void SetCondition(CBaseEntityExpression data, CBaseEntityExpression tok)
 	{
-		m_exprData = data ;
-		m_exprToken = tok ;
+		exprData = data ;
+		exprToken = tok ;
 	}
 	
-	protected CBaseEntityExpression m_exprData = null ;
-	protected CBaseEntityExpression m_exprToken = null ;
-	protected boolean m_bIsOpposite = false ;
+	protected CBaseEntityExpression exprData = null ;
+	protected CBaseEntityExpression exprToken = null ;
+	protected boolean bIsOpposite = false ;
 	public void setOpposite()
 	{
-		m_bIsOpposite = ! m_bIsOpposite ;
+		bIsOpposite = ! bIsOpposite ;
 	}
 	public void Clear()
 	{
 		super.Clear() ;
-		m_exprData.Clear() ;
-		m_exprToken.Clear() ;
-		m_exprData = null ;
-		m_exprToken = null ;
+		exprData.Clear() ;
+		exprToken.Clear() ;
+		exprData = null ;
+		exprToken = null ;
 	}
 	public boolean ignore()
 	{
-		return m_exprData.ignore() ; 
+		return exprData.ignore() ; 
 	}
 	public CBaseEntityCondition GetSpecialConditionReplacing(String val, CBaseEntityFactory fact, CDataEntity replace)
 	{

@@ -16,26 +16,26 @@ import nacaLib.sqlSupport.SQLConnectionManager;
 
 public abstract class CBaseProgramLoaderFactory // extends SequencerFactory
 {
-	protected SQLConnectionManager m_connectionManager = null;
-	protected Tag m_tagSequencerConfig = null ;
+	protected SQLConnectionManager connectionManager = null;
+	protected Tag tagSequencerConfig = null ;
 
 	public abstract ProgramSequencer NewSequencer() ;
 	
 	public CBaseProgramLoaderFactory()
 	{
-		m_connectionManager = new SQLConnectionManager();
+		connectionManager = new SQLConnectionManager();
 	}
 
 	public void init(String csDBParameterPrefix, Tag tagSequencerConfig)	//, ClassLoaderUnloader loader)
 	{
 		if (tagSequencerConfig != null)
 		{
-			m_tagSequencerConfig = tagSequencerConfig;
+			tagSequencerConfig = tagSequencerConfig;
 			
 			Tag tagSQLConfig = tagSequencerConfig.getChild("SQLConfig");
 			if(tagSQLConfig != null)
 			{
-				DbConnectionPool dbConnectionPool = m_connectionManager.init(csDBParameterPrefix, tagSQLConfig);
+				DbConnectionPool dbConnectionPool = connectionManager.init(csDBParameterPrefix, tagSQLConfig);
 				BaseResourceManager.addDbConnectionPool(dbConnectionPool);
 				
 				// Load connection killer SQLcodes 
@@ -50,11 +50,11 @@ public abstract class CBaseProgramLoaderFactory // extends SequencerFactory
 	
 	public DbConnectionBase getConnection(String csProgramId, boolean bUseStatementCache)
 	{		
-		if(m_connectionManager != null)
+		if(connectionManager != null)
 		{
 			try
 			{
-				return m_connectionManager.getConnection(csProgramId, bUseStatementCache);
+				return connectionManager.getConnection(csProgramId, bUseStatementCache);
 			}
 			catch (DbConnectionException e)
 			{

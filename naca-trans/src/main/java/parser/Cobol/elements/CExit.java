@@ -46,7 +46,7 @@ public class CExit extends CCobolElement
 	 */
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		if (m_bExitProgram)
+		if (bExitProgram)
 		{
 			CEntityReturn e = factory.NewEntityReturn(getLine()) ;
 			parent.AddChild(e) ;
@@ -68,12 +68,12 @@ public class CExit extends CCobolElement
 		{
 			return false ;
 		}
-		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().m_Name) ;
+		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
 		tok = GetNext();
 		if (tok.GetKeyword() == CCobolKeywordList.PROGRAM)
 		{
 			GetNext();
-			m_bExitProgram = true ;
+			bExitProgram = true ;
 			return true ;
 		}
 		else
@@ -87,7 +87,7 @@ public class CExit extends CCobolElement
 	 */
 	protected Element ExportCustom(Document root)
 	{
-		if (m_bExitProgram)
+		if (bExitProgram)
 		{
 			Element e = root.createElement("ExitProgram") ;
 			return e ;
@@ -99,6 +99,6 @@ public class CExit extends CCobolElement
 		}
 	}
 	
-	protected boolean m_bExitProgram = false ;
+	protected boolean bExitProgram = false ;
 
 }

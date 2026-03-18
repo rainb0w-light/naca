@@ -25,19 +25,19 @@ import nacaLib.sqlSupport.SQLConnection;
 
 public class SpServerSession extends BaseSession
 {	
-	private Connection m_connection = null;
+	private Connection connection = null;
 	
 	public SpServerSession(Connection connection, BaseResourceManager baseResourceManager)
 	{
 		super(baseResourceManager);
-		m_connection = connection;
+		connection = connection;
 		setAsync(true);
 	}
 		
 	public BaseEnvironment createEnvironment(DbConnectionManagerBase connectionManager)
 	{
 		BasicLogger.log("SpServerSession::createEnvironment()");
-		SpServerEnvironment env = new SpServerEnvironment(this, connectionManager, m_baseResourceManager);
+		SpServerEnvironment env = new SpServerEnvironment(this, connectionManager, baseResourceManager);
 		return env;
 	}
 	

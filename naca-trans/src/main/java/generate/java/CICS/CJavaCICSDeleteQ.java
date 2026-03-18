@@ -42,7 +42,7 @@ public class CJavaCICSDeleteQ extends CEntityCICSDeleteQ
 	protected void DoExport()
 	{
 		String title = "CESM.delete" ; 
-		if (m_bPersistent)
+		if (bPersistent)
 		{
 			title += "TransiantQueue(" ;
 		}
@@ -50,10 +50,10 @@ public class CJavaCICSDeleteQ extends CEntityCICSDeleteQ
 		{
 			title += "TempQueue(" ;
 		}
-		title += m_Name.ExportReference(getLine());
-		if (m_SysID != null)
+		title += name.ExportReference(getLine());
+		if (sysID != null)
 		{
-			title += ").sysID(" + m_SysID.ExportReference(getLine());
+			title += ").sysID(" + sysID.ExportReference(getLine());
 		}
 		title += (") ;");
 		WriteLine(title) ;

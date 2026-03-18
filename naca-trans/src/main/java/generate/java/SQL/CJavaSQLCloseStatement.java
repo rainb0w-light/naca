@@ -39,9 +39,9 @@ public class CJavaSQLCloseStatement extends CEntitySQLCloseStatement
    
 	protected void DoExport()
 	{
-		String s = "cursorClose(" + m_Cursor.ExportReference(getLine()) + ")";
+		String s = "cursorClose(" + cursor.ExportReference(getLine()) + ")";
 		WriteWord(s);
-		String csSQLErrorWarningStatement = m_ProgramCatalog.getSQLWarningErrorStatement();
+		String csSQLErrorWarningStatement = programCatalog.getSQLWarningErrorStatement();
 		if(csSQLErrorWarningStatement != null)
 		{
 			WriteWord(csSQLErrorWarningStatement);

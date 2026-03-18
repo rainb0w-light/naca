@@ -38,14 +38,14 @@ public abstract class CEntitySubtractTo extends CBaseActionEntity
 	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
 	{
 		boolean bRes = false ;
-		if (m_Variable == field)
+		if (variable == field)
 		{
-			m_Variable = var ;
+			variable = var ;
 			field.UnRegisterReadingAction(this) ;
 			var.RegisterReadingAction(this) ;
 			bRes = true ;
 		}
-		for (CDataEntity value : m_Values)
+		for (CDataEntity value : values)
 		{
 			if (value == field)
 			{
@@ -54,7 +54,7 @@ public abstract class CEntitySubtractTo extends CBaseActionEntity
 				bRes = true ;
 			}
 		}
-		for (CDataEntity value : m_Destination)
+		for (CDataEntity value : destination)
 		{
 			if (value == field)
 			{
@@ -63,7 +63,7 @@ public abstract class CEntitySubtractTo extends CBaseActionEntity
 				bRes = true ;
 			}
 		}
-		if (m_Destination.isEmpty())
+		if (destination.isEmpty())
 		{
 			field.UnRegisterWritingAction(this) ;
 			var.RegisterWritingAction(this) ;
@@ -89,33 +89,33 @@ public abstract class CEntitySubtractTo extends CBaseActionEntity
 	
 	public void SetSubstract(CDataEntity var, List<CDataEntity> val, List<CDataEntity> dest)
 	{
-		m_Variable = var ;
-		m_Values.addAll(val);
-		m_Destination.addAll(dest) ;
+		variable = var ;
+		values.addAll(val);
+		destination.addAll(dest) ;
 	}
 	public void SetOnErrorBloc(CBaseLanguageEntity error) {
-		m_OnErrorBloc = error;
+		onErrorBloc = error;
 	}
 	
-	protected CDataEntity m_Variable ;
-	protected CBaseLanguageEntity m_OnErrorBloc ;
-	protected final List<CDataEntity> m_Values = new ArrayList<CDataEntity>();
-	protected final List<CDataEntity> m_Destination = new ArrayList<CDataEntity>();
+	protected CDataEntity variable ;
+	protected CBaseLanguageEntity onErrorBloc ;
+	protected final List<CDataEntity> values = new ArrayList<CDataEntity>();
+	protected final List<CDataEntity> destination = new ArrayList<CDataEntity>();
 	public void Clear()
 	{
 		super.Clear() ;
-		m_Variable = null ;
-		m_Values.clear();
-		m_Destination.clear() ;
+		variable = null ;
+		values.clear();
+		destination.clear() ;
 	}
 	public boolean ignore()
 	{
-		boolean ignore = m_Variable.ignore() ;
-		for (CDataEntity value : m_Values)
+		boolean ignore = variable.ignore() ;
+		for (CDataEntity value : values)
 		{
 			ignore |= value.ignore();
 		}
-		for (CDataEntity value : m_Destination)
+		for (CDataEntity value : destination)
 		{
 			ignore |= value.ignore();
 		}

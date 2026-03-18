@@ -21,21 +21,21 @@ public class CJavaReadFile extends CEntityReadFile
 	@Override
 	protected void DoExport()
 	{
-		//String cs = m_eFileDescriptor.ExportReference(getLine()) + ".read" ;
+		//String cs = eFileDescriptor.ExportReference(getLine()) + ".read" ;
 		String cs = "";
-		if (m_eDataInto != null)
-			cs = "readInto(" + m_eFileDescriptor.ExportReference(getLine()) + ", " + m_eDataInto.ExportReference(getLine()) + ")";
+		if (eDataInto != null)
+			cs = "readInto(" + eFileDescriptor.ExportReference(getLine()) + ", " + eDataInto.ExportReference(getLine()) + ")";
 		else
-			cs = "read(" + m_eFileDescriptor.ExportReference(getLine()) + ")";
+			cs = "read(" + eFileDescriptor.ExportReference(getLine()) + ")";
 		//WriteLine(cs) ;
-		if (m_eAtEndBloc != null)
+		if (eAtEndBloc != null)
 		{
 			WriteLine("if (" + cs + ".atEnd()) {");
-			DoExport(m_eAtEndBloc) ;
-			if (m_eNotAtEndBloc != null)
+			DoExport(eAtEndBloc) ;
+			if (eNotAtEndBloc != null)
 			{
-				WriteLine("} else {", m_eNotAtEndBloc.getLine()-1) ;
-				DoExport(m_eNotAtEndBloc) ;
+				WriteLine("} else {", eNotAtEndBloc.getLine()-1) ;
+				DoExport(eNotAtEndBloc) ;
 				WriteLine("}") ;
 			}
 			else
@@ -43,10 +43,10 @@ public class CJavaReadFile extends CEntityReadFile
 				WriteLine("}") ;
 			}
 		}
-		else if (m_eNotAtEndBloc != null)
+		else if (eNotAtEndBloc != null)
 		{
 			WriteLine("if (!" + cs + ".atEnd()) {") ;
-			DoExport(m_eNotAtEndBloc) ;
+			DoExport(eNotAtEndBloc) ;
 			WriteLine("}") ;
 		}
 		else

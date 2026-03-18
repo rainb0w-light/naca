@@ -39,7 +39,7 @@ public class CFPacJavaProcedure extends CEntityProcedure
 		}
 		
 		EndOutputBloc() ;
-		WriteLine("}", m_nEndLine) ;
+		WriteLine("}", nEndLine) ;
 	}
 
 }

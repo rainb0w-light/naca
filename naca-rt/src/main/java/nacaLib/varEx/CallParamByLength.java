@@ -23,19 +23,19 @@ public class CallParamByLength extends CCallParam
 	public CallParamByLength(VarAndEdit var)
 	{
 		if(var != null)
-			m_nLength = var.getTotalSize();
+			nLength = var.getTotalSize();
 	}
 	
 	public int getParamLength()
 	{
-		return m_nLength;
+		return nLength;
 	}
 	
 	public void MapOn(Var varLinkageSection)
 	{
-		varLinkageSection.set(m_nLength);	// Copy the value of the argument provided by the caller
+		varLinkageSection.set(nLength);	// Copy the value of the argument provided by the caller
 	}
 	
 	
-	private int m_nLength = 0;
+	private int nLength = 0;
 }

@@ -38,16 +38,16 @@ public class VarDefNumEdited extends VarDefNum
 
 	public VarDefNumEdited(VarDefBase varDefParent, DeclareTypeNumEdited declareTypeNumEdited)
 	{
-		super(varDefParent, declareTypeNumEdited.m_varLevel);
-		m_csFormat = declareTypeNumEdited.m_csFormat;
-		m_bBlankWhenZero = declareTypeNumEdited.m_bBlankWhenZero;
+		super(varDefParent, declareTypeNumEdited.varLevel);
+		csFormat = declareTypeNumEdited.csFormat;
+		bBlankWhenZero = declareTypeNumEdited.bBlankWhenZero;
 	}
 	
 	public VarDefNumEdited(VarDefBase varDefParent, DeclareTypeFPacNumEdited declareTypeNumEdited)
 	{
-		super(varDefParent, declareTypeNumEdited.m_varLevel);
-		m_csFormat = declareTypeNumEdited.m_csMask;
-		m_bBlankWhenZero = true;
+		super(varDefParent, declareTypeNumEdited.varLevel);
+		csFormat = declareTypeNumEdited.csMask;
+		bBlankWhenZero = true;
 	}
 	
 	protected VarDefNumEdited()
@@ -57,13 +57,13 @@ public class VarDefNumEdited extends VarDefNum
 	
 	void transfer(VarBufferPos bufferSource, VarAndEdit Dest)
 	{
-		Dest.m_varDef.write(Dest.m_bufferPos, this, bufferSource);
+		Dest.varDef.write(Dest.bufferPos, this, bufferSource);
 	}
 	
 //	VarDefNumEdited(VarDefNumEdited varDefSource)
 //	{
 //		super(varDefSource);
-//		m_csFormat = varDefSource.m_csFormat;
+//		csFormat = varDefSource.csFormat;
 //	}
 //	
 //	VarDefBuffer deepDuplicate()
@@ -75,8 +75,8 @@ public class VarDefNumEdited extends VarDefNum
 	protected VarDefBuffer allocCopy()
 	{
 		VarDefNumEdited v = new VarDefNumEdited();
-		v.m_csFormat = m_csFormat;
-		v.m_bBlankWhenZero = m_bBlankWhenZero;
+		v.csFormat = csFormat;
+		v.bBlankWhenZero = bBlankWhenZero;
 		return v;
 	}
 	
@@ -87,7 +87,7 @@ public class VarDefNumEdited extends VarDefNum
 	
 	public int getBodyLength()
 	{
-		return m_nTotalSize;
+		return nTotalSize;
 	}
 	
 	protected int getHeaderLength()
@@ -98,7 +98,7 @@ public class VarDefNumEdited extends VarDefNum
 	
 	public int getSingleItemRequiredStorageSize()
 	{
-		return m_csFormat.length();
+		return csFormat.length();
 	}
 
 //	GenericValue getGenericValue(VarBuffer buffer)
@@ -110,34 +110,34 @@ public class VarDefNumEdited extends VarDefNum
 	
 	int getAsDecodedInt(VarBufferPos buffer)
 	{
-		CStr cs = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nTotalSize);
+		CStr cs = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);
 		int n = cs.getAsInt();
 		return n;
 	}
 	
 	int getAsDecodedUnsignedInt(VarBufferPos buffer)
 	{
-		CStr cs = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nTotalSize);
+		CStr cs = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);
 		int n = cs.getAsUnsignedInt();
 		return n;
 	}
 	
 	long getAsDecodedLong(VarBufferPos buffer)
 	{
-		CStr cs = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nTotalSize);
+		CStr cs = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);
 		long l = cs.getAsLong();
 		return l;
 	}
 	
 	Dec getAsDecodedDec(VarBufferPos buffer)
 	{
-		CStr cs = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nTotalSize);
+		CStr cs = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);
 		return NumberParserDec.getAsDec(cs.getAsString());
 	}
 	
 	CStr getAsAlphaNumString(VarBufferPos buffer)
 	{		
-		CStr cs = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nTotalSize);
+		CStr cs = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);
 		return cs;		
 	}
 
@@ -537,7 +537,7 @@ public class VarDefNumEdited extends VarDefNum
 	
 	int compare(ComparisonMode mode, VarBufferPos bufferSource, VarAndEdit var2)
 	{
-		return var2.m_varDef.compare(mode, var2.m_bufferPos, this, bufferSource);
+		return var2.varDef.compare(mode, var2.bufferPos, this, bufferSource);
 	}
 	
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumDecComp0 varDefNum1, VarBufferPos buffer1)
@@ -781,13 +781,13 @@ public class VarDefNumEdited extends VarDefNum
 
 	private void internalFormatAndWrite(VarBufferPos buffer, Dec dec)
 	{
-		String cs = RWNumEdited.internalFormatAndWrite(dec, m_csFormat, m_bBlankWhenZero);
+		String cs = RWNumEdited.internalFormatAndWrite(dec, csFormat, bBlankWhenZero);
 		internalWriteRightPadding(buffer, getBodyAbsolutePosition(buffer), getBodyLength(), cs, '\0');	// Padding with \0 on the right
 	}
 	
 	private void internalFormatAndWrite(VarBufferPos buffer, int nOffset, Dec dec)
 	{
-		String cs = RWNumEdited.internalFormatAndWrite(dec, m_csFormat, m_bBlankWhenZero);
+		String cs = RWNumEdited.internalFormatAndWrite(dec, csFormat, bBlankWhenZero);
 		internalWriteRightPadding(buffer, getBodyAbsolutePosition(buffer)+nOffset, getBodyLength(), cs, '\0');	// Padding with \0 on the right
 	}
 	
@@ -813,21 +813,21 @@ public class VarDefNumEdited extends VarDefNum
 	
 	public BtreeSegmentKeyTypeFactory getSegmentKeyTypeFactory()
 	{
-		return VarTypeId.m_segmentKeyTypeFactoryString;
+		return VarTypeId.segmentKeyTypeFactoryString;
 	}
 	
 	protected void adjustCustomProperty(VarDefBuffer varDefBufferCopySingleItem)
 	{
 		VarDefNumEdited varDefCopy = (VarDefNumEdited)varDefBufferCopySingleItem;
-		varDefCopy.m_csFormat = m_csFormat;
-		varDefCopy.m_bBlankWhenZero = m_bBlankWhenZero;
+		varDefCopy.csFormat = csFormat;
+		varDefCopy.bBlankWhenZero = bBlankWhenZero;
 	}
 	
 	protected void adjustCustomPropertyForCharGetAt(VarDefBuffer varDefBufferCopySingleItem)
 	{
 		VarDefNumEdited varDefCopy = (VarDefNumEdited)varDefBufferCopySingleItem;
-		varDefCopy.m_csFormat = m_csFormat;
-		varDefCopy.m_bBlankWhenZero = m_bBlankWhenZero;
+		varDefCopy.csFormat = csFormat;
+		varDefCopy.bBlankWhenZero = bBlankWhenZero;
 	}
 	
 	boolean isNumeric(VarBufferPos buffer)
@@ -836,7 +836,7 @@ public class VarDefNumEdited extends VarDefNum
 	}
 
 	
-	private String m_csFormat = null;
-	private boolean m_bBlankWhenZero = false;
+	private String csFormat = null;
+	private boolean bBlankWhenZero = false;
 }
 

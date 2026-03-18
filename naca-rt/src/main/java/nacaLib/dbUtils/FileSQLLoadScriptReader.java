@@ -29,18 +29,18 @@ import nacaLib.varEx.FileDescriptor;
  */
 public class FileSQLLoadScriptReader extends BaseFileScriptReader
 {
-	private DataFileLineReader m_dataFileIn = null;
-	private BaseSession m_session = null;
+	private DataFileLineReader dataFileIn = null;
+	private BaseSession session = null;
 	
 	FileSQLLoadScriptReader(BaseSession session)
 	{
-		m_session = session;
+		session = session;
 	}
 	
 	SQLLoadStatus parse(SQLLoad sqlLoad, FileDescriptor fileIn)
 	{
 		int nSumRecords = 0;
-		fileIn.setSession(m_session);
+		fileIn.setSession(session);
 		String csFileIn = fileIn.getPhysicalName();
 		if(BaseDataFile.isNullFile(csFileIn))
 		{
@@ -48,8 +48,8 @@ public class FileSQLLoadScriptReader extends BaseFileScriptReader
 			return SQLLoadStatus.loadFailure;
 		}			
 
-		m_dataFileIn = new DataFileLineReader(csFileIn, 65536, 0);
-		boolean bInOpened = m_dataFileIn.open();
+		dataFileIn = new DataFileLineReader(csFileIn, 65536, 0);
+		boolean bInOpened = dataFileIn.open();
 		if(!bInOpened)
 			return SQLLoadStatus.loadFailure;
 		int nLineIndex = 0;
@@ -89,17 +89,17 @@ public class FileSQLLoadScriptReader extends BaseFileScriptReader
 	
 //	private String readLogicalLine()
 //	{
-//		LineRead lineRead = m_dataFileIn.readNextUnixLine();
+//		LineRead lineRead = dataFileIn.readNextUnixLine();
 //		if(lineRead == null)
 //		{
-//			String csLine = m_csLastPhysicalLine;
-//			m_csLastPhysicalLine = null;
+//			String csLine = csLastPhysicalLine;
+//			csLastPhysicalLine = null;
 //			return csLine;
 //		}
 //			
 //		String csLine = "";
-//		if(m_csLastPhysicalLine != null)
-//			csLine = m_csLastPhysicalLine;
+//		if(csLastPhysicalLine != null)
+//			csLine = csLastPhysicalLine;
 //		while(lineRead != null)
 //		{
 //			String csPhysicalLine = lineRead.getChunkAsString();
@@ -109,39 +109,39 @@ public class FileSQLLoadScriptReader extends BaseFileScriptReader
 //			{
 //				if(!isContinuationLine(csPhysicalLine))
 //				{
-//					m_csLastPhysicalLine = csPhysicalLine;
+//					csLastPhysicalLine = csPhysicalLine;
 //					return csLine;
 //				}
 //				csLine += " " + csPhysicalLine;
 //			}
 //			
-//			lineRead = m_dataFileIn.readNextUnixLine();
+//			lineRead = dataFileIn.readNextUnixLine();
 //		}
 //		if(lineRead == null)
-//			m_csLastPhysicalLine = null;
+//			csLastPhysicalLine = null;
 //		return csLine;
 //	}
-	private ArrayList<String> m_arrLines = null;
+	private ArrayList<String> arrLines = null;
 	
 	private String readLogicalLine(int nLine)
 	{
-		if(m_arrLines == null)
+		if(arrLines == null)
 			readAllLines();
-		if(nLine >= m_arrLines.size())
+		if(nLine >= arrLines.size())
 			return null;
 		if(nLine < 0)
 			return null;
-		return m_arrLines.get(nLine);
+		return arrLines.get(nLine);
 	}
 	
 	private void readAllLines()
 	{
-		if(m_arrLines != null)
+		if(arrLines != null)
 			return ;
-		m_arrLines = new ArrayList<String>();
+		arrLines = new ArrayList<String>();
 		
 		String csCurrentLine = new String();
-		LineRead lineRead = m_dataFileIn.readNextUnixLine();
+		LineRead lineRead = dataFileIn.readNextUnixLine();
 		while(lineRead != null)
 		{
 			String csPhysicalLine = lineRead.getChunkAsString();
@@ -154,15 +154,15 @@ public class FileSQLLoadScriptReader extends BaseFileScriptReader
 				else
 				{
 					if(!StringUtil.isEmpty(csCurrentLine))
-						m_arrLines.add(csCurrentLine);
+						arrLines.add(csCurrentLine);
 					csCurrentLine = csPhysicalLine;
 				}
 			}
 			
-			lineRead = m_dataFileIn.readNextUnixLine();
+			lineRead = dataFileIn.readNextUnixLine();
 		}
 		if(!StringUtil.isEmpty(csCurrentLine))
-			m_arrLines.add(csCurrentLine);
+			arrLines.add(csCurrentLine);
 	}
 	
 	private boolean isContinuationLine(String csPhysicalLine)

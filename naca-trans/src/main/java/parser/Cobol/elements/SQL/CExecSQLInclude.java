@@ -44,22 +44,22 @@ public class CExecSQLInclude extends CBaseExecSQLAction
 	public CExecSQLInclude(int l, String reference)
 	{
 		super(l);
-		m_ref = reference;
+		ref = reference;
 	}
-	public String m_ref = "" ;
+	public String ref = "" ;
 	public Element ExportCustom(Document root)
 	{
 		Element e = root.createElement("SQLInclude") ;
-		e.setAttribute("Reference", m_ref) ;
+		e.setAttribute("Reference", ref) ;
 		return e ;
 	}
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		CGlobalEntityCounter.GetInstance().RegisterCopy(parent.GetProgramName(), m_ref) ;
-		CBaseExternalEntity e = factory.m_ProgramCatalog.GetExternalDataReference(m_ref, factory) ;
+		CGlobalEntityCounter.GetInstance().RegisterCopy(parent.GetProgramName(), ref) ;
+		CBaseExternalEntity e = factory.programCatalog.GetExternalDataReference(ref, factory) ;
 		if (e == null)
 		{
-			CGlobalEntityCounter.GetInstance().RegisterMissingCopy(parent.GetProgramName(), m_ref) ;
+			CGlobalEntityCounter.GetInstance().RegisterMissingCopy(parent.GetProgramName(), ref) ;
 			return null ;
 		}
 		CBaseLanguageEntity ent = parent.FindLastEntityAvailableForLevel(e.GetInternalLevel());
@@ -72,7 +72,7 @@ public class CExecSQLInclude extends CBaseExecSQLAction
 		ent.AddChild(eil) ;
 		e.SetParent(eil);
 
-		ListIterator i = m_children.listIterator() ;
+		ListIterator i = children.listIterator() ;
 		CCobolElement le = null ;
 		try
 		{	
@@ -104,7 +104,7 @@ public class CExecSQLInclude extends CBaseExecSQLAction
 				le = null ;
 			}
 		}
-		m_bAnalysisDoneForChildren = true ;
+		bAnalysisDoneForChildren = true ;
 		return eil ;
 	}
 	protected boolean DoParsing()

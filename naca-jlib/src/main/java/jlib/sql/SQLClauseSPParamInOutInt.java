@@ -19,18 +19,18 @@ import java.sql.Types;
  */
 public class SQLClauseSPParamInOutInt extends SQLClauseSPParamInOut
 {
-	private int m_tnVal[] = null;
+	private int tnVal[] = null;
 	
 	public SQLClauseSPParamInOutInt(SQLClauseSPParamWay wayInOut, int tnVal[])
 	{
 		super(wayInOut);
-		m_tnVal = tnVal;
+		tnVal = tnVal;
 	}
 	
 	protected void  setInValueWithException(int nParamId, DbPreparedCallableStatement stmt)
 		throws SQLException
 	{
-		stmt.setInValueWithException(nParamId, m_tnVal[0]);
+		stmt.setInValueWithException(nParamId, tnVal[0]);
 	}
 	
 	protected void registerOutParameterWithException(int nParamId, DbPreparedCallableStatement stmt)
@@ -42,6 +42,6 @@ public class SQLClauseSPParamInOutInt extends SQLClauseSPParamInOut
 	protected void retrieveOutValuesWithException(int nParamId, DbPreparedCallableStatement stmt)
 	 	throws SQLException
 	{
-		m_tnVal[0] = stmt.getOutValueIntWithException(nParamId);
+		tnVal[0] = stmt.getOutValueIntWithException(nParamId);
 	}
 }

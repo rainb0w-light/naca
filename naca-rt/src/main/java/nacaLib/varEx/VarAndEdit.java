@@ -41,17 +41,17 @@ public abstract class VarAndEdit extends VarBase
 	{
 		SharedProgramInstanceData sharedProgramInstanceData = getSharedProgramInstanceData();
 		
-		if(m_bufferPos != null)
+		if(bufferPos != null)
 		{
-			CStr cstr = m_bufferPos.getOwnCStr(m_varDef.getLength());
+			CStr cstr = bufferPos.getOwnCStr(varDef.getLength());
 			String csValue = cstr.getAsString();
-			String cs = m_varDef.toDump(sharedProgramInstanceData) + "={\"" + csValue + "\"} ";
+			String cs = varDef.toDump(sharedProgramInstanceData) + "={\"" + csValue + "\"} ";
 			//cstr.resetManagerCache();
 			return cs;
 		}
 		else
 		{
-			String cs = m_varDef.toDump(sharedProgramInstanceData) + " NO BUFFER !";
+			String cs = varDef.toDump(sharedProgramInstanceData) + " NO BUFFER !";
 			return cs;
 		}
 	}
@@ -70,50 +70,50 @@ public abstract class VarAndEdit extends VarBase
 	
 	public String digits()
 	{
-		return m_varDef.digits(m_bufferPos);
+		return varDef.digits(bufferPos);
 	}
 	
 	public void setRepeatingCharAtOffsetFromStart(CobolConstantZero cst, int nOffsetPosition, int nNbChar)	// Fill with a 0 base index)
 	{
-		m_varDef.write(m_bufferPos, cst, nOffsetPosition, nNbChar);
+		varDef.write(bufferPos, cst, nOffsetPosition, nNbChar);
 	}
 
 	public void setRepeatingCharAtOffsetFromStart(CobolConstantSpace cst, int nOffsetPosition, int nNbChar)
 	{
-		m_varDef.write(m_bufferPos, cst, nOffsetPosition, nNbChar);
+		varDef.write(bufferPos, cst, nOffsetPosition, nNbChar);
 	}
 
 	public void setRepeatingCharAtOffsetFromStart(CobolConstantHighValue cst, int nOffsetPosition, int nNbChar)
 	{
-		m_varDef.write(m_bufferPos, cst, nOffsetPosition, nNbChar);
+		varDef.write(bufferPos, cst, nOffsetPosition, nNbChar);
 	}
 
 	public void setRepeatingCharAtOffsetFromStart(CobolConstantLowValue cst, int nOffsetPosition, int nNbChar)
 	{
-		m_varDef.write(m_bufferPos, cst, nOffsetPosition, nNbChar);
+		varDef.write(bufferPos, cst, nOffsetPosition, nNbChar);
 	}
 	
 	public boolean isNumeric()
 	{
-		return m_varDef.isNumeric(m_bufferPos);		
+		return varDef.isNumeric(bufferPos);		
 	}	
 		
 	public boolean isAlphabetic()
 	{
-		return m_varDef.isAlphabetic(m_bufferPos);
+		return varDef.isAlphabetic(bufferPos);
 	}
 	
 	public int getBodySize() 
 	{
-		return m_varDef.getBodyLength() ;
+		return varDef.getBodyLength() ;
 	}
 	
 	public VarBase getUnprefixNamedVarChild(BaseProgramManager programManager, String csColName, IntegerRef rnChildIndex)
 	{
-		VarDefBase varDefChild = m_varDef.getUnprefixNamedChild(programManager.getSharedProgramInstanceData(), csColName, rnChildIndex);
+		VarDefBase varDefChild = varDef.getUnprefixNamedChild(programManager.getSharedProgramInstanceData(), csColName, rnChildIndex);
 		if(varDefChild != null)
 		{
-			//VarBase varChild = m_bufferPos.getVarFullName(varDefChild.getFullName(m_bufferPos.getProgramManager().getSharedProgramInstanceData()));
+			//VarBase varChild = bufferPos.getVarFullName(varDefChild.getFullName(bufferPos.getProgramManager().getSharedProgramInstanceData()));
 			VarBase varChild = programManager.getVarFullName(varDefChild.getId());
 			return varChild;
 		}
@@ -122,10 +122,10 @@ public abstract class VarAndEdit extends VarBase
 	
 	public VarBase getUnDollarUnprefixNamedChild(BaseProgramManager programManager, String csColName, IntegerRef rnChildIndex)
 	{
-		VarDefBase varDefChild = m_varDef.getUnDollarUnprefixNamedChild(programManager.getSharedProgramInstanceData(), csColName, rnChildIndex);
+		VarDefBase varDefChild = varDef.getUnDollarUnprefixNamedChild(programManager.getSharedProgramInstanceData(), csColName, rnChildIndex);
 		if(varDefChild != null)
 		{
-			//VarBase varChild = m_bufferPos.getVarFullName(varDefChild.getFullName(m_bufferPos.getProgramManager().getSharedProgramInstanceData()));
+			//VarBase varChild = bufferPos.getVarFullName(varDefChild.getFullName(bufferPos.getProgramManager().getSharedProgramInstanceData()));
 			VarBase varChild = programManager.getVarFullName(varDefChild.getId());
 			return varChild;
 		}
@@ -136,10 +136,10 @@ public abstract class VarAndEdit extends VarBase
 	public Var getVarChildAt(int n)
 	{
 		n--;	// given as 1-based
-		int nNChildren = m_varDef.getNbChildren();
+		int nNChildren = varDef.getNbChildren();
 		if(n <= nNChildren)
 		{
-			VarDefBuffer varDefChild = m_varDef.getChild(n);
+			VarDefBuffer varDefChild = varDef.getChild(n);
 			if(varDefChild != null)
 			{
 				BaseProgramManager programManager = TempCacheLocator.getTLSTempCache().getProgramManager();
@@ -154,10 +154,10 @@ public abstract class VarAndEdit extends VarBase
 	public Edit getEditChildAt(int n)
 	{
 		n--;	// given as 1-based
-		int nNChildren = m_varDef.getNbChildren();
+		int nNChildren = varDef.getNbChildren();
 		if(n <= nNChildren)
 		{
-			VarDefBuffer varDefChild = m_varDef.getChild(n);
+			VarDefBuffer varDefChild = varDef.getChild(n);
 			if(varDefChild != null)
 			{
 				BaseProgramManager programManager = TempCacheLocator.getTLSTempCache().getProgramManager();
@@ -183,7 +183,7 @@ public abstract class VarAndEdit extends VarBase
 	 */
 	public int getNbOccurs()
 	{
-		return m_varDef.getNbOccurs() ;
+		return varDef.getNbOccurs() ;
 	}	
 
 }

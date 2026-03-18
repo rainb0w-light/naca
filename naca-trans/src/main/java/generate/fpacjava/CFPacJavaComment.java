@@ -34,7 +34,7 @@ public class CFPacJavaComment extends CEntityComment
 	@Override
 	protected void DoExport()
 	{
-		String cs = m_csComment ;
+		String cs = csComment ;
 		if (cs.indexOf('\n') > 0 || cs.indexOf('\r') > 0)
 		{
 			cs = cs.replaceAll("\n", "0x000A").replaceAll("\r", "Ox000D") ;
@@ -47,7 +47,7 @@ public class CFPacJavaComment extends CEntityComment
 	@Override
 	public String ExportReference(int nLine)
 	{
-		String cs = m_csComment ;
+		String cs = csComment ;
 		if (cs.indexOf('\n') > 0 || cs.indexOf('\r') > 0)
 		{
 			cs = cs.replaceAll("\n", "0x000A").replaceAll("\r", "Ox000D") ;

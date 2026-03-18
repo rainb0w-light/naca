@@ -40,16 +40,16 @@ public abstract class CEntityGoto extends CBaseActionEntity
 		{
 			sec = sectionContainer.GetName();
 		} 
-		m_Reference = new CProcedureReference(ref, sec, cat) ;
+		reference = new CProcedureReference(ref, sec, cat) ;
 		cat.getCallTree().RegisterGoto(this) ;
 	}
 	
-	protected CProcedureReference m_Reference = null;
+	protected CProcedureReference reference = null;
 	public void Clear()
 	{
 		super.Clear() ;
-		m_Reference.Clear() ;
-		m_Reference= null ;
+		reference.Clear() ;
+		reference= null ;
 	}
 	public boolean ignore()
 	{
@@ -64,6 +64,6 @@ public abstract class CEntityGoto extends CBaseActionEntity
 	 */
 	public CProcedureReference getReference()
 	{
-		return m_Reference ;
+		return reference ;
 	}
 }

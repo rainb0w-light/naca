@@ -27,9 +27,9 @@ public abstract class CEntitySQLCloseStatement extends CBaseActionEntity
 	public CEntitySQLCloseStatement(int line, CObjectCatalog cat, CBaseLanguageExporter out, CEntitySQLCursor cursor)
 	{
 		super(line, cat, out);
-		m_Cursor = cursor ;
+		cursor = cursor ;
 	}
-	protected CEntitySQLCursor m_Cursor = null ;
+	protected CEntitySQLCursor cursor = null ;
 	public boolean ignore()
 	{
 		return false ;

@@ -52,10 +52,10 @@ public class CExecCICSXctl extends CCobolElement
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
 		boolean bChecked = false ;
-		if (!m_Program.IsReference())
+		if (!program.IsReference())
 		{ // reference is a constant string : 'PRGM'
-			String prg = m_Program.GetValue() ; 
-			if (!factory.m_ProgramCatalog.CheckProgramReference(prg, true, 0, false))
+			String prg = program.GetValue() ; 
+			if (!factory.programCatalog.CheckProgramReference(prg, true, 0, false))
 			{
 				//m_Logger.error("ERROR line "+getLine()+" : Missing referenced program : "+prg) ;
 				CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("Missed EXEC CICS XCTL", prg) ;
@@ -73,17 +73,17 @@ public class CExecCICSXctl extends CCobolElement
 		}
 		CEntityCICSXctl eCICS = factory.NewEntityCICSXctl(getLine());
 		parent.AddChild(eCICS);
-		CDataEntity ePrgm = m_Program.GetDataEntity(getLine(), factory) ; 
+		CDataEntity ePrgm = program.GetDataEntity(getLine(), factory) ; 
 		eCICS.SetProgramName(ePrgm, bChecked) ;
 		
-		if (m_CommArea != null)
+		if (commArea != null)
 		{
-			CDataEntity eCommArea = m_CommArea.GetDataReference(getLine(), factory) ;
+			CDataEntity eCommArea = commArea.GetDataReference(getLine(), factory) ;
 			eCommArea.RegisterReadingAction(eCICS);
 			CDataEntity eCALength = null ;
-			if (m_CommAreaLength != null)
+			if (commAreaLength != null)
 			{
-				eCALength = m_CommAreaLength.GetDataEntity(getLine(), factory);
+				eCALength = commAreaLength.GetDataEntity(getLine(), factory);
 				eCALength.RegisterReadingAction(eCICS);
 			}
 			eCICS.SetCommArea(eCommArea, eCALength);
@@ -108,8 +108,8 @@ public class CExecCICSXctl extends CCobolElement
 			if (tok.GetType() == CTokenType.LEFT_BRACKET)
 			{
 				tok = GetNext();
-				m_Program = ReadTerminal() ;
-				//CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("XCTL", m_Program.GetValue()) ;
+				program = ReadTerminal() ;
+				//CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("XCTL", program.GetValue()) ;
 				tok = GetCurrentToken() ;
 				if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 				{
@@ -124,7 +124,7 @@ public class CExecCICSXctl extends CCobolElement
 			if (tok.GetType() == CTokenType.LEFT_BRACKET)
 			{
 				tok = GetNext() ;
-				m_CommArea = ReadIdentifier();
+				commArea = ReadIdentifier();
 				tok = GetCurrentToken() ;
 				if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 				{
@@ -137,7 +137,7 @@ public class CExecCICSXctl extends CCobolElement
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
 				{
 					tok = GetNext() ;
-					m_CommAreaLength = ReadTerminal();
+					commAreaLength = ReadTerminal();
 					tok = GetCurrentToken() ;
 					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 					{
@@ -161,23 +161,23 @@ public class CExecCICSXctl extends CCobolElement
 	protected Element ExportCustom(Document root)
 	{
 		Element e = root.createElement("ExecCICSXCTL") ;
-		e.setAttribute("Program", m_Program.GetValue()) ;
-		if (m_CommArea != null)
+		e.setAttribute("Program", program.GetValue()) ;
+		if (commArea != null)
 		{
 			Element eCA = root.createElement("CommArea");
 			e.appendChild(eCA);
-			m_CommArea.ExportTo(eCA, root) ;
-			if (m_CommAreaLength != null)
+			commArea.ExportTo(eCA, root) ;
+			if (commAreaLength != null)
 			{
 				Element eL = root.createElement("Length");
 				eCA.appendChild(eL) ;
-				m_CommAreaLength.ExportTo(eL, root);
+				commAreaLength.ExportTo(eL, root);
 			}
 		}
 		return e;
 	}
 
-	protected CTerminal m_Program = null ;
-	protected CIdentifier m_CommArea = null ;
-	protected CTerminal m_CommAreaLength = null ;
+	protected CTerminal program = null ;
+	protected CIdentifier commArea = null ;
+	protected CTerminal commAreaLength = null ;
 }

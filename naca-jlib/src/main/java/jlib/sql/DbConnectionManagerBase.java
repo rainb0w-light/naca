@@ -16,25 +16,25 @@ import jlib.xml.Tag;
 
 public abstract class DbConnectionManagerBase
 {
-	DbConnectionParam m_DbConnectionParam = null;
-	private DbConnectionPool m_SQLConnectionPool = null;
-	private DbDataCacheManager m_cacheManager = null;
-	private String m_csPropertyPrefix = "";
+	DbConnectionParam dbConnectionParam = null;
+	private DbConnectionPool sQLConnectionPool = null;
+	private DbDataCacheManager cacheManager = null;
+	private String csPropertyPrefix = "";
 	
 	public DbConnectionManagerBase()
 	{
-		m_DbConnectionParam = new DbConnectionParam();
-		m_cacheManager = new DbDataCacheManager() ;
+		dbConnectionParam = new DbConnectionParam();
+		cacheManager = new DbDataCacheManager() ;
 	}
 	
 	public Object getCachedData(String table, String key)
 	{
-		return m_cacheManager.getData(table.toUpperCase(), key);
+		return cacheManager.getData(table.toUpperCase(), key);
 	}
 
 	public void recordCachedData(String table, String key, Object value)
 	{
-		m_cacheManager.RegisterData(table.toUpperCase(), key, value);
+		cacheManager.RegisterData(table.toUpperCase(), key, value);
 	}
 	
 	public DbConnectionBase getConnection() throws DbConnectionException
@@ -54,13 +54,13 @@ public abstract class DbConnectionManagerBase
 	
 	public DbConnectionBase getConnection(String csProgramId, String csProgramParent, boolean bUseStatementCache) throws DbConnectionException
 	{
-		DbConnectionColl connectionColl = m_SQLConnectionPool.getConnectionCollForPref(csProgramId, csProgramParent);
+		DbConnectionColl connectionColl = sQLConnectionPool.getConnectionCollForPref(csProgramId, csProgramParent);
 		if(connectionColl != null)
 		{
 			if(!connectionColl.isInit())
-				connectionColl.init(m_DbConnectionParam);
+				connectionColl.init(dbConnectionParam);
 			String csPoolName = connectionColl.getName();
-	 		DbConnectionBase sqlConnection = connectionColl.tryGetPooledValidConnection(m_csValidationQuery, csPoolName, bUseStatementCache, this);
+	 		DbConnectionBase sqlConnection = connectionColl.tryGetPooledValidConnection(csValidationQuery, csPoolName, bUseStatementCache, this);
 	 		return sqlConnection;
 		}
 		return null;
@@ -83,13 +83,13 @@ public abstract class DbConnectionManagerBase
 	
 	public DbConnectionBase getNewConnection(String csProgramId, String csParentProgramId, boolean bUseStatementCache) throws DbConnectionException
 	{
-		DbConnectionColl connectionColl = m_SQLConnectionPool.getConnectionCollForPref(csProgramId, csParentProgramId);
+		DbConnectionColl connectionColl = sQLConnectionPool.getConnectionCollForPref(csProgramId, csParentProgramId);
 		if(connectionColl != null)
 		{
 			if(!connectionColl.isInit())
-				connectionColl.init(m_DbConnectionParam);
+				connectionColl.init(dbConnectionParam);
 			String csPoolName = connectionColl.getName();
-	 		DbConnectionBase sqlConnection = connectionColl.forceNewConnection(m_csValidationQuery, csPoolName, bUseStatementCache, this);
+	 		DbConnectionBase sqlConnection = connectionColl.forceNewConnection(csValidationQuery, csPoolName, bUseStatementCache, this);
 	 		return sqlConnection;
 		}
 		return null;
@@ -99,17 +99,17 @@ public abstract class DbConnectionManagerBase
 	
 	public void returnConnection(DbConnectionBase SQLConnection)
 	{
-		m_SQLConnectionPool.releaseConnection(SQLConnection);
+		sQLConnectionPool.releaseConnection(SQLConnection);
 	}
 	
 	public DbConnectionPool init(String csDBParameterPrefix, Tag tagSQLConfig)
 	{
-		m_DbConnectionParam.m_csUrl = tagSQLConfig.getVal(csDBParameterPrefix+"dburl");
-		m_DbConnectionParam.setEnvironment(tagSQLConfig.getVal(csDBParameterPrefix+"dbenvironment"));
-		m_DbConnectionParam.m_csPackage = tagSQLConfig.getVal(csDBParameterPrefix+"dbpackage");
-		m_csValidationQuery = tagSQLConfig.getVal("validationQuery");
-		m_DbConnectionParam.m_bCloseCursorOnCommit = tagSQLConfig.getValAsBoolean(csDBParameterPrefix+"CloseCursorOnCommit");
-		m_DbConnectionParam.m_bAutoCommit = tagSQLConfig.getValAsBoolean("AutoCommit");
+		dbConnectionParam.csUrl = tagSQLConfig.getVal(csDBParameterPrefix+"dburl");
+		dbConnectionParam.setEnvironment(tagSQLConfig.getVal(csDBParameterPrefix+"dbenvironment"));
+		dbConnectionParam.csPackage = tagSQLConfig.getVal(csDBParameterPrefix+"dbpackage");
+		csValidationQuery = tagSQLConfig.getVal("validationQuery");
+		dbConnectionParam.bCloseCursorOnCommit = tagSQLConfig.getValAsBoolean(csDBParameterPrefix+"CloseCursorOnCommit");
+		dbConnectionParam.bAutoCommit = tagSQLConfig.getValAsBoolean("AutoCommit");
 		
 		String csDriverClass = tagSQLConfig.getVal(csDBParameterPrefix+"driverClass");
 		String csConnectionUrlOptionalParams = tagSQLConfig.getVal(csDBParameterPrefix+"dbConnectionUrlOptionalParams");
@@ -125,8 +125,8 @@ public abstract class DbConnectionManagerBase
 			createDriver(csDriverClass, csUser, csPassword, csConnectionUrlOptionalParams);
 		}
 		
-		m_SQLConnectionPool = new DbConnectionPool(tagSQLConfig);
-		return m_SQLConnectionPool;
+		sQLConnectionPool = new DbConnectionPool(tagSQLConfig);
+		return sQLConnectionPool;
 	}
 	
 	public boolean initDB2(String csUrl, String csUser, String csPassword, String csConnectionUrlOptionalParams, int nNbMaxConnections, int nTimeBeforeRemoveConnection_ms, int nMaxStatementLiveTime_ms, int nGarbageCollectorStatement_ms)
@@ -156,60 +156,60 @@ public abstract class DbConnectionManagerBase
 	public boolean initDriverClass(String csUrl, String csUser, String csPassword, String csDriverClass, String csConnectionUrlOptionalParams, int nNbMaxConnections, int nTimeBeforeRemoveConnection_ms, int nMaxStatementLiveTime_ms, int nGarbageCollectorStatement_ms)
 	{
 		if(csDriverClass.indexOf("oracle") != -1)	// Oracle doesn't support SetCloseCursorOnCommit 
-			m_bCanSetCloseCursorOnCommit = false;
+			bCanSetCloseCursorOnCommit = false;
 		else
-			m_bCanSetCloseCursorOnCommit = true;
-		m_DbConnectionParam.m_csUrl = csUrl;
+			bCanSetCloseCursorOnCommit = true;
+		dbConnectionParam.csUrl = csUrl;
 
 		boolean b = createDriver(csDriverClass, csUser, csPassword, csConnectionUrlOptionalParams);
 		if(b)
-			m_SQLConnectionPool = new DbConnectionPool("UnknownPoolName", nNbMaxConnections, nTimeBeforeRemoveConnection_ms, nMaxStatementLiveTime_ms, nGarbageCollectorStatement_ms);
+			sQLConnectionPool = new DbConnectionPool("UnknownPoolName", nNbMaxConnections, nTimeBeforeRemoveConnection_ms, nMaxStatementLiveTime_ms, nGarbageCollectorStatement_ms);
 		return b;
 	}
 	
 	public void setAutoCommit(boolean bAutoCommit)
 	{
-		m_DbConnectionParam.m_bAutoCommit = bAutoCommit;
+		dbConnectionParam.bAutoCommit = bAutoCommit;
 	}
 	
 	public void setCloseCursorOnCommit(boolean bCloseCursorOnCommit)
 	{
-		if(m_bCanSetCloseCursorOnCommit)
-			m_bCloseCursorOnCommit = bCloseCursorOnCommit;
+		if(bCanSetCloseCursorOnCommit)
+			bCloseCursorOnCommit = bCloseCursorOnCommit;
 	}
 	
 	protected boolean createDriver(String csDriverClass, String csUser, String csPassword, String csConnectionUrlOptionalParams)
 	{
-		m_DbConnectionParam.m_propertiesUserPassword = new Properties();
-		m_DbConnectionParam.m_propertiesUserPassword.setProperty("user", csUser);
-		m_DbConnectionParam.m_propertiesUserPassword.setProperty("password", csPassword); 
-		m_DbConnectionParam.m_csConnectionUrlOptionalParams = csConnectionUrlOptionalParams;
+		dbConnectionParam.propertiesUserPassword = new Properties();
+		dbConnectionParam.propertiesUserPassword.setProperty("user", csUser);
+		dbConnectionParam.propertiesUserPassword.setProperty("password", csPassword); 
+		dbConnectionParam.csConnectionUrlOptionalParams = csConnectionUrlOptionalParams;
 	    try 
 		{
-	    	m_DbConnectionParam.m_driver = (java.sql.Driver)Class.forName(csDriverClass).newInstance();
-//	    	if(m_DbConnectionParam.m_driver != null)
+	    	dbConnectionParam.driver = (java.sql.Driver)Class.forName(csDriverClass).newInstance();
+//	    	if(m_DbConnectionParam.driver != null)
 //	    		Log.logNormal("Created driver " + csDriverClass + " for user " + csUser);
 	    } 
 	    catch (Exception e) 
 		{
 	    	TechnicalException.throwException(TechnicalException.DB_ERROR_DRIVER_CREATION, "Could not initialize database driver '"+csDriverClass+"'.", e);
 	    }
-//	    if(m_DbConnectionParam.m_driver == null)
+//	    if(m_DbConnectionParam.driver == null)
 //	    	Log.logImportant("Could not create driver " + csDriverClass + " for user " + csUser);
 	    return true;
 	}
 	
 	protected boolean createDriver(String csDriverClass, String csUser, String csCryptedPassword, String csCryptKey, String csConnectionUrlOptionalParams)
 	{
-		m_DbConnectionParam.m_propertiesUserPassword = new Properties();
-		m_DbConnectionParam.m_propertiesUserPassword.setProperty("user", csUser);
-		m_DbConnectionParam.m_propertiesUserPassword.setProperty("CryptedPassword", csCryptedPassword);
-		m_DbConnectionParam.m_propertiesUserPassword.setProperty("CryptKey", csCryptKey);
-		m_DbConnectionParam.m_csConnectionUrlOptionalParams = csConnectionUrlOptionalParams;
+		dbConnectionParam.propertiesUserPassword = new Properties();
+		dbConnectionParam.propertiesUserPassword.setProperty("user", csUser);
+		dbConnectionParam.propertiesUserPassword.setProperty("CryptedPassword", csCryptedPassword);
+		dbConnectionParam.propertiesUserPassword.setProperty("CryptKey", csCryptKey);
+		dbConnectionParam.csConnectionUrlOptionalParams = csConnectionUrlOptionalParams;
 	    try 
 		{
-	    	m_DbConnectionParam.m_driver = (java.sql.Driver)Class.forName(csDriverClass).newInstance();
-//	    	if(m_DbConnectionParam.m_driver != null)
+	    	dbConnectionParam.driver = (java.sql.Driver)Class.forName(csDriverClass).newInstance();
+//	    	if(m_DbConnectionParam.driver != null)
 //	    		Log.logNormal("Created driver " + csDriverClass + " for user " + csUser);
 	    } 
 	    catch (Exception ex) 
@@ -217,14 +217,14 @@ public abstract class DbConnectionManagerBase
 	    	String csParams = ListCoupleRender.set("Parameters: ").set("DriverClass", csDriverClass).set("User", csUser).set("CryptedPassword", csCryptedPassword).toString();
 	    	TechnicalException.throwException(TechnicalException.DB_ERROR_DRIVER_CREATION, csParams, ex);
 	    }
-//	    if(m_DbConnectionParam.m_driver == null)
+//	    if(m_DbConnectionParam.driver == null)
 //	    	Log.logImportant("Could not create driver " + csDriverClass + " for user " + csUser);
 	    return true;
 	}
 
 	public boolean create(String csDBUser, String csDBPassword, String csDBUrl, String csDBProvider, int nNbMaxConnections, int nTimeBeforeRemoveConnection_ms, int nMaxStatementLiveTime_ms)
 	{
-		m_DbConnectionParam.m_csUrl = csDBUrl;
+		dbConnectionParam.csUrl = csDBUrl;
 		String csDriverClass = null;
 		if(csDBProvider.equalsIgnoreCase("DB2"))
 			csDriverClass = "com.ibm.db2.jcc.DB2Driver"; 
@@ -241,7 +241,7 @@ public abstract class DbConnectionManagerBase
 		if(b)
 		{
 			//Log.logNormal("Created DB driver " + csDriverClass + " for user " + csDBUser + " on url "+csDBUrl);
-			m_SQLConnectionPool = new DbConnectionPool("UnknownPoolName", nNbMaxConnections, nTimeBeforeRemoveConnection_ms, nMaxStatementLiveTime_ms, 0);
+			sQLConnectionPool = new DbConnectionPool("UnknownPoolName", nNbMaxConnections, nTimeBeforeRemoveConnection_ms, nMaxStatementLiveTime_ms, 0);
 		}
 //		else
 //			Log.logImportant("Could not create DB driver " + csDriverClass + " for user " + csDBUser + " on url "+csDBUrl);		
@@ -251,81 +251,81 @@ public abstract class DbConnectionManagerBase
 	
 	public void setEnvironment(String csEnvironment)
 	{
-		m_DbConnectionParam.setEnvironment(csEnvironment);
+		dbConnectionParam.setEnvironment(csEnvironment);
 	}
 	
 	public void setValidationQuery(String csValidationQuery)
 	{
-		m_csValidationQuery = csValidationQuery;
+		csValidationQuery = csValidationQuery;
 	}
 	
 	public int getNbUnusedConnections()
 	{
-		if(m_SQLConnectionPool == null)
+		if(sQLConnectionPool == null)
 			return 0;
-		return m_SQLConnectionPool.getNbUnusedConnections();
+		return sQLConnectionPool.getNbUnusedConnections();
 	}
 	
 	public int getNbRunningConnections()
 	{
-		if(m_SQLConnectionPool == null)
+		if(sQLConnectionPool == null)
 			return 0;
-		return m_SQLConnectionPool.getNbRunningConnections();
+		return sQLConnectionPool.getNbRunningConnections();
 	}	
 	
 	public void showHideRunningConnections(boolean bShowRunningCon)
 	{
-		if(m_SQLConnectionPool != null)
-			m_SQLConnectionPool.showHideRunningConnections(bShowRunningCon);
+		if(sQLConnectionPool != null)
+			sQLConnectionPool.showHideRunningConnections(bShowRunningCon);
 	}
 	
 	public void dumpConnections(StringBuilder sbText)
 	{
-		if(m_SQLConnectionPool != null)
-			m_SQLConnectionPool.dumpConnections(sbText);
+		if(sQLConnectionPool != null)
+			sQLConnectionPool.dumpConnections(sbText);
 	}
 	
 	public int getNbCachedStatementsForAccessor()
 	{
-		if(m_SQLConnectionPool == null)
+		if(sQLConnectionPool == null)
 			return 0;
-		return m_SQLConnectionPool.getNbCachedStatementsForAccessor();
+		return sQLConnectionPool.getNbCachedStatementsForAccessor();
 	}
 	
 	public int getNbAllocConnnections()
 	{
-		if(m_SQLConnectionPool == null)
+		if(sQLConnectionPool == null)
 			return 0;
-		return m_SQLConnectionPool.getNbAllocConnnections();
+		return sQLConnectionPool.getNbAllocConnnections();
 	}
 	
 	public int getNbMaxConnection()
 	{
-		if(m_SQLConnectionPool == null)
+		if(sQLConnectionPool == null)
 			return 0;
-		return m_SQLConnectionPool.getNbMaxConnection();
+		return sQLConnectionPool.getNbMaxConnection();
 	}
 	
 	
 	
-	protected int m_maxWaitTime_s = 60 ;
-	protected String m_csValidationQuery = "" ;
-	private boolean m_bCloseCursorOnCommit = false;
-	private boolean m_bCanSetCloseCursorOnCommit = false;	// Oracle cannot set CloseCursorOnCommit, but DB2 can do it  
+	protected int maxWaitTime_s = 60 ;
+	protected String csValidationQuery = "" ;
+	private boolean bCloseCursorOnCommit = false;
+	private boolean bCanSetCloseCursorOnCommit = false;	// Oracle cannot set CloseCursorOnCommit, but DB2 can do it  
 
 	/**
-	 * @return the m_csPropertyName
+	 * @return the csPropertyName
 	 */
 	public String getPropertyPrefix()
 	{
-		return m_csPropertyPrefix;
+		return csPropertyPrefix;
 	}
 
 	/**
-	 * @param propertyName the m_csPropertyName to set
+	 * @param propertyName the csPropertyName to set
 	 */
 	public void setPropertyPrefix(String csPropertyPrefix)
 	{
-		m_csPropertyPrefix = csPropertyPrefix;
+		csPropertyPrefix = csPropertyPrefix;
 	}
 }

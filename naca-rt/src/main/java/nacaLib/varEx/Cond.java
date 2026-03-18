@@ -25,8 +25,8 @@ public class Cond extends CJMapObject
 {
 	public Cond(Var varParent, DeclareTypeCond declareTypeCond)
 	{
-		m_var = varParent;
-		m_arrValues = declareTypeCond.m_arrValues;
+		var = varParent;
+		arrValues = declareTypeCond.arrValues;
 	}
 	
 	public String getSTCheckValue()
@@ -36,28 +36,28 @@ public class Cond extends CJMapObject
 
 	private Cond(Var varParent, Cond condValue)
 	{
-		m_var = varParent;
-		m_arrValues = condValue.m_arrValues;	
+		var = varParent;
+		arrValues = condValue.arrValues;	
 	}
 
 	public void setTrue()
 	{
-		int nNbValues = m_arrValues.size();
+		int nNbValues = arrValues.size();
 		if(nNbValues > 0)
 		{
-			CondValue condValue = (CondValue)m_arrValues.get(0);
+			CondValue condValue = (CondValue)arrValues.get(0);
 			String s = condValue.getMin();
 			if(s != null)
-				m_var.set(s);
+				var.set(s);
 		}
 	}
 	public boolean is()
 	{
-		int nNbValues = m_arrValues.size();
+		int nNbValues = arrValues.size();
 		for(int n=0; n<nNbValues; n++)
 		{			
-			CondValue condValue = (CondValue)m_arrValues.get(n);
-			if(condValue.is(m_var))
+			CondValue condValue = (CondValue)arrValues.get(n);
+			if(condValue.is(var))
 				return true;
 		}
 		return false;		
@@ -70,7 +70,7 @@ public class Cond extends CJMapObject
 	
 	public Cond getAt(int x_Cmaj)	// 1 based
 	{
-		Var var = m_var.getAt(x_Cmaj);
+		Var var = this.var.getAt(x_Cmaj);
 		return new Cond(var, this);
 	}
 	
@@ -91,22 +91,22 @@ public class Cond extends CJMapObject
 	
 	public Cond getAt(int x, int y)
 	{
-		return new Cond(m_var.getAt(x, y), this);
+		return new Cond(var.getAt(x, y), this);
 	}
 	
 	public void setName(String csName)
 	{
-		m_csName = csName;
+		csName = csName;
 	}
 	
 	public String toString()
 	{
 		String cs = "Cond {";
-		for(int n=0; n<m_arrValues.size(); n++)
+		for(int n=0; n<arrValues.size(); n++)
 		{
 			if(n != 0)
 				cs += "; ";
-			CondValue condValue = (CondValue)m_arrValues.get(n);
+			CondValue condValue = (CondValue)arrValues.get(n);
 			cs += condValue.toString();
 		}
 		cs += "}";
@@ -114,7 +114,7 @@ public class Cond extends CJMapObject
 	}
 
 	@SuppressWarnings("unused")
-	private String m_csName = null;
-	private Var m_var = null;
-	private ArrayList<CondValue> m_arrValues = null;	// Array of CondValue
+	private String csName = null;
+	private Var var = null;
+	private ArrayList<CondValue> arrValues = null;	// Array of CondValue
 }

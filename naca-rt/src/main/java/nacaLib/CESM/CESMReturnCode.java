@@ -22,18 +22,18 @@ public class CESMReturnCode
 {
 	private CESMReturnCode(int cond, String code)
 	{
-		m_nCondition = cond ;
-		m_sCode = code ;
+		nCondition = cond ;
+		sCode = code ;
 	}
-	private int m_nCondition = 0;
-	private String m_sCode = "" ;
+	private int nCondition = 0;
+	private String sCode = "" ;
 	public String getCode()
 	{
-		return m_sCode ;
+		return sCode ;
 	}
 	public int getCondition()
 	{
-		return m_nCondition ;
+		return nCondition ;
 	}
 	
 	public static CESMReturnCode NORMAL = new CESMReturnCode(0, "\u0000") ;
@@ -55,19 +55,19 @@ public class CESMReturnCode
 		{
 			return NORMAL ;
 		}
-		else if (n == NOT_FOUND.m_nCondition)
+		else if (n == NOT_FOUND.nCondition)
 		{
 			return NOT_FOUND ;
 		}
-		else if (n == NET_NAME_ERROR.m_nCondition)
+		else if (n == NET_NAME_ERROR.nCondition)
 		{
 			return NET_NAME_ERROR ;
 		}	
-		else if (n == QIDERR.m_nCondition)
+		else if (n == QIDERR.nCondition)
 		{
 			return QIDERR ;
 		}
-		else if (n == ITEMERR.m_nCondition)
+		else if (n == ITEMERR.nCondition)
 		{
 			return ITEMERR ;
 		}

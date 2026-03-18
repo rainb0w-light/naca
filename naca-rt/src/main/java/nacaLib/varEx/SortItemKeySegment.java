@@ -12,36 +12,36 @@ public class SortItemKeySegment
 {
 	SortItemKeySegment(boolean bAscending)
 	{
-		m_bAscending = bAscending;
+		bAscending = bAscending;
 	}
 	
 	void copyChars(char [] tChars, int nStart, int nLength)
 	{
-		m_tcKeyValue = new char [nLength];
+		tcKeyValue = new char [nLength];
 		for(int n=0; n<nLength; n++)
 		{
-			m_tcKeyValue[n] = tChars[n + nStart];
+			tcKeyValue[n] = tChars[n + nStart];
 		}
 	}
 	
 	int compare(SortItemKeySegment sortItemKeySegment2)
 	{
-		Asserter.assertIfFalse(m_bAscending == sortItemKeySegment2.m_bAscending);
-		Asserter.assertIfFalse(m_tcKeyValue.length == sortItemKeySegment2.m_tcKeyValue.length);
+		Asserter.assertIfFalse(bAscending == sortItemKeySegment2.bAscending);
+		Asserter.assertIfFalse(tcKeyValue.length == sortItemKeySegment2.tcKeyValue.length);
 		
-		int nLength = m_tcKeyValue.length;
+		int nLength = tcKeyValue.length;
 		for(int n=0; n<nLength; n++)
 		{
-			if(m_tcKeyValue[n] < sortItemKeySegment2.m_tcKeyValue[n])
+			if(tcKeyValue[n] < sortItemKeySegment2.tcKeyValue[n])
 			{
-				if(m_bAscending)
+				if(bAscending)
 					return -1;
 				else
 					return 1;
 			}
-			if(m_tcKeyValue[n] > sortItemKeySegment2.m_tcKeyValue[n])
+			if(tcKeyValue[n] > sortItemKeySegment2.tcKeyValue[n])
 			{
-				if(m_bAscending)
+				if(bAscending)
 					return 1;
 				else
 					return -1;
@@ -50,6 +50,6 @@ public class SortItemKeySegment
 		return 0;
 	}
 	
-	boolean m_bAscending = true;
-	char m_tcKeyValue[] = null;
+	boolean bAscending = true;
+	char tcKeyValue[] = null;
 }

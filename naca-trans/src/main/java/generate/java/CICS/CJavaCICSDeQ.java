@@ -37,10 +37,10 @@ public class CJavaCICSDeQ extends CEntityCICSDeQ
 
 	protected void DoExport()
 	{
-		String cs = "CESM.deQ(" + m_Resource.ExportReference(getLine());
-		if (m_Length != null)
+		String cs = "CESM.deQ(" + resource.ExportReference(getLine());
+		if (length != null)
 		{
-			cs += ", " + m_Length.ExportReference(getLine());
+			cs += ", " + length.ExportReference(getLine());
 		}
 		cs+= ") ;";
 		WriteLine(cs) ;		

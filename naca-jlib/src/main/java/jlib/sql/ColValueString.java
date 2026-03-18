@@ -17,54 +17,54 @@ public class ColValueString extends ColValue
 	public ColValueString(String csName, String csReplacement, String csValue)
 	{
 		super(csName,csReplacement);
-		m_csValue = csValue;
+		csValue = csValue;
 	}
 	
 	public ColValueString(String csName,  String csValue)
 	{
 		super(csName);
-		m_csValue = csValue;
+		csValue = csValue;
 	}
 	
 	public ColValue duplicate()
 	{
-		return new ColValueString(m_csName, m_csValue);
+		return new ColValueString(csName, csValue);
 	}
 	
 	public void setParamSQLClause(SQLClause clause)
 	{
-		clause.param(m_csValue);
+		clause.param(csValue);
 	}
 	
 	public void doFillWithResurltSetCol(ResultSet resultSet, int nCol)
 		throws SQLException
 	{
-		m_csValue = resultSet.getString(nCol);
+		csValue = resultSet.getString(nCol);
 	}
 	
 	public String getValueAsString()
 	{
-		return m_csValue;
+		return csValue;
 	}
 	
 	public int getValueAsInt()
 	{
-		return NumberParser.getAsInt(m_csValue);
+		return NumberParser.getAsInt(csValue);
 	}
 	
 	double getValueAsDouble()
 	{
-		return NumberParser.getAsDouble(m_csValue);
+		return NumberParser.getAsDouble(csValue);
 	}
 
 	String getDumpValueAsString()
 	{
-		return "(String):'"+m_csValue+"'";
+		return "(String):'"+csValue+"'";
 	}
 		
 	Object getValue()
 	{
-		return m_csValue;
+		return csValue;
 	}
 
 	String getType()
@@ -77,5 +77,5 @@ public class ColValueString extends ColValue
 		return Types.CHAR;
 	}
 	
-	String m_csValue = null;
+	String csValue = null;
 }

@@ -40,18 +40,18 @@ import semantic.forms.CEntityResourceFormContainer;
  */
 public class CFormEnhancer
 {
-	protected String m_csTransformDir = "" ;
-	protected Document m_docGlobalTransform = null ;
+	protected String csTransformDir = "" ;
+	protected Document docGlobalTransform = null ;
 	public CFormEnhancer(String path, String global)
 	{
-		m_csTransformDir = path ;
+		csTransformDir = path ;
 		if (path == null)
 		{
-			m_csTransformDir = "" ;
+			csTransformDir = "" ;
 		}
 		if (!global.equals(""))
 		{
-			m_docGlobalTransform = LoadXML(new File(global)) ;
+			docGlobalTransform = LoadXML(new File(global)) ;
 		}
 	}
 	/**
@@ -69,9 +69,9 @@ public class CFormEnhancer
 			return ;
 		}
 		
-		if (m_docGlobalTransform != null)
+		if (docGlobalTransform != null)
 		{
-			ApplyTransform(form, m_docGlobalTransform, bResources) ;
+			ApplyTransform(form, docGlobalTransform, bResources) ;
 		}
 
 		Document transform = FindTransformation(cont.GetDisplayName());
@@ -542,20 +542,20 @@ public class CFormEnhancer
 	 */
 	private class TransformFileNameFilter implements FilenameFilter
 	{
-		protected String m_csName = "" ; 
+		protected String csName = "" ; 
 		public TransformFileNameFilter(String name)
 		{
-			m_csName = name ;
+			csName = name ;
 		}
 		public boolean accept(File dir, String name)
 		{
-			return name.toUpperCase().startsWith(m_csName.toUpperCase() + ".");
+			return name.toUpperCase().startsWith(csName.toUpperCase() + ".");
 		}
 	}
 	
 	private Document FindTransformation(String name)
 	{
-		File dir = new File(m_csTransformDir);
+		File dir = new File(csTransformDir);
 		FilenameFilter filter = new TransformFileNameFilter(name) ;
 		File[] lst = dir.listFiles(filter) ;
 		if (lst != null && lst.length>0)

@@ -18,36 +18,36 @@ import nacaLib.varEx.Var;
  */
 public class UnstringToManager
 {
-	private UnstringManager m_unstringManager = null;
+	private UnstringManager unstringManager = null;
 	
 	UnstringToManager(UnstringManager unstringManager)
 	{
-		m_unstringManager = unstringManager;
+		unstringManager = unstringManager;
 	}
 	
 	public UnstringToManager to(Var varDelimiterDest, Var varDelimiterIn, Var varCountDest)
 	{
-		m_unstringManager.doInto(varDelimiterDest, varDelimiterIn, varCountDest);
+		unstringManager.doInto(varDelimiterDest, varDelimiterIn, varCountDest);
 		return this;
 	}
 	
 	public UnstringToManager to(Var varDelimiterDest)
 	{
-		m_unstringManager.doInto(varDelimiterDest, null, null);
+		unstringManager.doInto(varDelimiterDest, null, null);
 		return this;
 	}
 	
 	public boolean failed()
 	{
-		if(m_unstringManager == null)
+		if(unstringManager == null)
 			return true;
-		return m_unstringManager.failed();
+		return unstringManager.failed();
 	}
 	
 	public boolean notFailed()
 	{
-		if(m_unstringManager == null)
+		if(unstringManager == null)
 			return false;
-		return !m_unstringManager.failed();
+		return !unstringManager.failed();
 	}
 }

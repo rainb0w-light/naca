@@ -38,40 +38,40 @@ public class CJavaCICSStart extends CEntityCICSStart
 	protected void DoExport()
 	{
 		String tid ;
-		if (m_bVerified)
+		if (bVerified)
 		{
-			tid = m_TransID.GetConstantValue() + ".class" ;
+			tid = transID.GetConstantValue() + ".class" ;
 		}
 		else
 		{
-			tid = m_TransID.ExportReference(getLine()) ;
+			tid = transID.ExportReference(getLine()) ;
 		}
 		WriteWord("CESM.start(" + tid + ")");
-		if (m_Interval != null)
+		if (interval != null)
 		{
-			WriteWord(".interval(" + m_Interval.ExportReference(getLine()) + ")");
+			WriteWord(".interval(" + interval.ExportReference(getLine()) + ")");
 		}
-		else if (m_Time != null)
+		else if (time != null)
 		{
-			WriteWord(".time(" + m_Time.ExportReference(getLine()) + ")");
-		}
-		
-		if (m_TermID != null)
-		{
-			WriteWord(".termID(" + m_TermID.ExportReference(getLine()) + ")");
+			WriteWord(".time(" + time.ExportReference(getLine()) + ")");
 		}
 		
-		if (m_SysID != null)
+		if (termID != null)
 		{
-			WriteWord(".sysID(" + m_SysID.ExportReference(getLine()) + ")") ;
+			WriteWord(".termID(" + termID.ExportReference(getLine()) + ")");
 		}
 		
-		if (m_DataFrom!= null)
+		if (sysID != null)
 		{
-			String cs = ".dataFrom(" + m_DataFrom.ExportReference(getLine());
-			if (m_DataLength != null)
+			WriteWord(".sysID(" + sysID.ExportReference(getLine()) + ")") ;
+		}
+		
+		if (dataFrom!= null)
+		{
+			String cs = ".dataFrom(" + dataFrom.ExportReference(getLine());
+			if (dataLength != null)
 			{
-				cs += ", " + m_DataLength.ExportReference(getLine());
+				cs += ", " + dataLength.ExportReference(getLine());
 			}
 			WriteWord(cs + ")");
 		}

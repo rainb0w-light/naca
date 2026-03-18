@@ -22,23 +22,23 @@ public class CFPacJavaSubStringAttributeReference extends
 	@Override
 	public CDataEntityType GetDataType()
 	{
-		return m_Reference.GetDataType() ;
+		return reference.GetDataType() ;
 	}
 
 	@Override
 	public String ExportReference(int nLine)
 	{
-		if (m_Reference.HasAccessors())
+		if (reference.HasAccessors())
 		{
-			String cs = m_Reference.ExportReference(getLine()) ;
+			String cs = reference.ExportReference(getLine()) ;
 			if (!cs.contains("("))
 				cs += "(" ;
 			else
 				cs += ", " ;
-			cs += m_Start.ExportReference(getLine()) ;
-			if (m_Length != null)
+			cs += start.ExportReference(getLine()) ;
+			if (length != null)
 			{
-				cs += ", " + m_Length.ExportReference(getLine()) ;
+				cs += ", " + length.ExportReference(getLine()) ;
 			}
 			cs += ")" ;
 			return cs ;
@@ -46,11 +46,11 @@ public class CFPacJavaSubStringAttributeReference extends
 		else
 		{
 			String cs = "buffer(";
-			cs += m_Reference.ExportReference(getLine()) + ", " ;
-			cs += m_Start.ExportReference(getLine()) ;
-			if (m_Length != null)
+			cs += reference.ExportReference(getLine()) + ", " ;
+			cs += start.ExportReference(getLine()) ;
+			if (length != null)
 			{
-				cs += ", " + m_Length.ExportReference(getLine()) ;
+				cs += ", " + length.ExportReference(getLine()) ;
 			}
 			cs += ")" ;
 			return cs ;
@@ -66,7 +66,7 @@ public class CFPacJavaSubStringAttributeReference extends
 	@Override
 	public String ExportWriteAccessorTo(String value)
 	{
-		String cs = "move("+value+", "+m_Reference.ExportReference(getLine())+"("+m_Start.ExportReference(getLine())+", "+m_Length.ExportReference(getLine())+")) ;" ;
+		String cs = "move("+value+", "+reference.ExportReference(getLine())+"("+start.ExportReference(getLine())+", "+length.ExportReference(getLine())+")) ;" ;
 		return cs ;
 	}
 

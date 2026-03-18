@@ -45,7 +45,7 @@ public class InputAnalyser
 		}
 		
 		Document eRoot = appSession.CreateXMLDataRoot();		
-		eRoot.getDocumentElement().setAttribute("keypressed", key.m_csValue);
+		eRoot.getDocumentElement().setAttribute("keypressed", key.csValue);
 		
 		String idPage = reqLoader.getIDPage() ;
 		eRoot.getDocumentElement().setAttribute("page", idPage) ;

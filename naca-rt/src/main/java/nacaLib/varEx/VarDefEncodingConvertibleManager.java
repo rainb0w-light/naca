@@ -46,17 +46,17 @@ public class VarDefEncodingConvertibleManager
 	}
 	public void add(int nPosition, int nLength, boolean bConvertOnlyIfBlank, boolean bConvertPrint)
 	{
-		if(m_hash == null)
-			m_hash = new Hashtable<Integer, EncodingConvertionRange>();
+		if(hash == null)
+			hash = new Hashtable<Integer, EncodingConvertionRange>();
 		
-		EncodingConvertionRange ePrevious = m_hash.get(nPosition);	// Find the entry whose position preceeds us
+		EncodingConvertionRange ePrevious = hash.get(nPosition);	// Find the entry whose position preceeds us
 		if(ePrevious != null 
 				&& ePrevious.isConvertOnlyIfBlank() == bConvertOnlyIfBlank
 				&& ePrevious.isConvertPrint() == bConvertPrint)
 		{
-			m_hash.remove(nPosition);
+			hash.remove(nPosition);
 			int nLastPos = ePrevious.append(nLength);
-			m_hash.put(nLastPos, ePrevious);
+			hash.put(nLastPos, ePrevious);
 			return;
 		}
 
@@ -64,17 +64,17 @@ public class VarDefEncodingConvertibleManager
 		int nLastPos = e.set(nPosition, nLength);
 		e.setConvertOnlyIfBlank(bConvertOnlyIfBlank);
 		e.setConvertPrint(bConvertPrint);
-		m_hash.put(nLastPos, e);
+		hash.put(nLastPos, e);
 	}
 	
 	public void compress()
 	{
-		if(m_arr == null)
+		if(arr == null)
 		{
-			int nSize = m_hash.size();
+			int nSize = hash.size();
 			EncodingConvertionRange t[] = new EncodingConvertionRange[nSize];
 			
-			Collection<EncodingConvertionRange> col = m_hash.values();
+			Collection<EncodingConvertionRange> col = hash.values();
 			Iterator<EncodingConvertionRange> iter = col.iterator();
 			int n = 0;
 			while(iter.hasNext())
@@ -83,18 +83,18 @@ public class VarDefEncodingConvertibleManager
 				t[n] = e;
 				n++;
 			}
-			m_arr = new ArrayFix<EncodingConvertionRange>(t);
-			m_hash = null;
+			arr = new ArrayFix<EncodingConvertionRange>(t);
+			hash = null;
 		}
 	}
 
 	public void getConvertedBytesAsciiToEbcdic(int nStartPos, byte tbyDest[], int nMaxLengthDest)
 	{
-		if(m_arr != null)
+		if(arr != null)
 		{
-			for(int n=0; n<m_arr.size(); n++)
+			for(int n=0; n<arr.size(); n++)
 			{
-				EncodingConvertionRange e = m_arr.get(n);
+				EncodingConvertionRange e = arr.get(n);
 				e.convertAsciiToEbcdic(tbyDest, nStartPos, nMaxLengthDest);				
 			}
 		}
@@ -102,11 +102,11 @@ public class VarDefEncodingConvertibleManager
 	
 	public void getConvertedBytesAsciiToEbcdic(LineRead lineRead)
 	{
-		if(m_arr != null)
+		if(arr != null)
 		{
-			for(int n=0; n<m_arr.size(); n++)
+			for(int n=0; n<arr.size(); n++)
 			{
-				EncodingConvertionRange e = m_arr.get(n);
+				EncodingConvertionRange e = arr.get(n);
 				e.convertAsciiToEbcdic(lineRead);				
 			}
 		}
@@ -115,11 +115,11 @@ public class VarDefEncodingConvertibleManager
 	public void convertEbcdicToAscii(VarBase varDest, int nMaxLengthToConvert)
 	{
 		int nLastPosToConvert = 0;
-		if(m_arr != null)
+		if(arr != null)
 		{
-			for(int n=0; n<m_arr.size(); n++)
+			for(int n=0; n<arr.size(); n++)
 			{
-				EncodingConvertionRange e = m_arr.get(n);
+				EncodingConvertionRange e = arr.get(n);
 				if(n == 0)
 					nLastPosToConvert = e.getPosition() + nMaxLengthToConvert-1;
 				e.convertEbcdicToAscii(varDest, nLastPosToConvert);
@@ -129,11 +129,11 @@ public class VarDefEncodingConvertibleManager
 	
 	public void getConvertedBytesEbcdicToAscii(int nStartPos, byte tbyDest[], int nMaxLengthDest)
 	{
-		if(m_arr != null)
+		if(arr != null)
 		{
-			for(int n=0; n<m_arr.size(); n++)
+			for(int n=0; n<arr.size(); n++)
 			{
-				EncodingConvertionRange e = m_arr.get(n);
+				EncodingConvertionRange e = arr.get(n);
 				e.convertEbcdicToAscii(tbyDest, nStartPos, nMaxLengthDest);				
 			}
 		}
@@ -141,11 +141,11 @@ public class VarDefEncodingConvertibleManager
 	
 	public void getConvertedBytesEbcdicToAscii(LineRead lineRead)
 	{
-		if(m_arr != null)
+		if(arr != null)
 		{
-			for(int n=0; n<m_arr.size(); n++)
+			for(int n=0; n<arr.size(); n++)
 			{
-				EncodingConvertionRange e = m_arr.get(n);
+				EncodingConvertionRange e = arr.get(n);
 				e.convertEbcdicToAscii(lineRead);				
 			}
 		}
@@ -158,6 +158,6 @@ public class VarDefEncodingConvertibleManager
 	}
 
 	
-	private Hashtable<Integer, EncodingConvertionRange> m_hash = null;
-	private ArrayFix<EncodingConvertionRange> m_arr = null;
+	private Hashtable<Integer, EncodingConvertionRange> hash = null;
+	private ArrayFix<EncodingConvertionRange> arr = null;
 }

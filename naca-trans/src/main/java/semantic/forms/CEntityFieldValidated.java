@@ -38,14 +38,14 @@ public abstract class CEntityFieldValidated extends CBaseEntityFieldAttribute
 	public CBaseActionEntity GetSpecialAssignment(CTerminal term, CBaseEntityFactory factory, int l)
 	{
 //		String col = term.GetValue() ;
-//		CEntitySetColor eSet = factory.NewEntitySetColor(l, m_RefField);
+//		CEntitySetColor eSet = factory.NewEntitySetColor(l, refField);
 //		return eSet;
 		return null ;
 	}
 
 	public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory) 
 	{
-		CDataEntity e = m_Reference.GetArrayReference(v, factory) ;
+		CDataEntity e = reference.GetArrayReference(v, factory) ;
 		return factory.NewEntityFieldValidated(getLine(), "", e);
 	};
 	public CBaseEntityCondition GetSpecialCondition(int nLine, String value, CBaseEntityCondition.EConditionType type, CBaseEntityFactory factory)

@@ -24,15 +24,15 @@ import jlib.sqlMapper.RecordId;
  */
 public class ColValueCollection
 {
-	private ArrayList<ColValue> m_arrCols = null;
-	private Hashtable<String, ColValue> m_hashColsByName = null;
+	private ArrayList<ColValue> arrCols = null;
+	private Hashtable<String, ColValue> hashColsByName = null;
 	
 	public ColValueCollection()
 	{
-		if(m_arrCols == null)
-			m_arrCols = new ArrayList<ColValue>();
-		if(m_hashColsByName == null)
-			m_hashColsByName = new Hashtable<String, ColValue>(); 
+		if(arrCols == null)
+			arrCols = new ArrayList<ColValue>();
+		if(hashColsByName == null)
+			hashColsByName = new Hashtable<String, ColValue>(); 
 	}
 	
 	synchronized public boolean isStored(String csColName)
@@ -70,32 +70,32 @@ public class ColValueCollection
 	public synchronized ColValue getColValueByNameCaseInsensitive(String csColName)
 	{	
 		csColName = csColName.toUpperCase();	// Case insensitive access
-		ColValue colValue = m_hashColsByName.get(csColName);
+		ColValue colValue = hashColsByName.get(csColName);
 		return colValue;
 	}
 		
 	synchronized public ColValue getColValueAtIndex(int n)
 	{
-		return m_arrCols.get(n);
+		return arrCols.get(n);
 	}	
 	
 	synchronized protected void replaceInternalContainer(ColValueCollection colValueCollectionSource)
 	{
-		m_arrCols = colValueCollectionSource.m_arrCols;
-		m_hashColsByName = colValueCollectionSource.m_hashColsByName;
+		arrCols = colValueCollectionSource.arrCols;
+		hashColsByName = colValueCollectionSource.hashColsByName;
 	}
 	
 	synchronized public void clearValues()
 	{
-		m_arrCols.clear();
-		m_hashColsByName.clear();
+		arrCols.clear();
+		hashColsByName.clear();
 	}
 	
 	
 	synchronized public void add(ColValue colValue)
 	{
-		m_arrCols.add(colValue);
-		m_hashColsByName.put(colValue.getNameUppercase(), colValue);
+		arrCols.add(colValue);
+		hashColsByName.put(colValue.getNameUppercase(), colValue);
 	}
 	
 	public void add(String csName, String csValue)
@@ -148,7 +148,7 @@ public class ColValueCollection
 	
 	public int getNbColValues()
 	{
-		return m_arrCols.size();
+		return arrCols.size();
 	}
 
 	synchronized public String toString()

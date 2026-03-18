@@ -28,18 +28,18 @@ public class InspectTallying
 
 	public InspectTallying(VarAndEdit var)
 	{
-		m_source = var.getString() ;
+		source = var.getString() ;
 	}
 	public InspectTallying(String var)
 	{
-		m_source = var;
+		source = var;
 	}
 	
 	
 	public InspectTallying countAll(String csSearchForAll)
 	{
-		m_csSearchForAll = csSearchForAll;
-		m_InspectTallyingType = TypeForAll;
+		csSearchForAll = csSearchForAll;
+		inspectTallyingType = TypeForAll;
 		return this;
 	}
 	public InspectTallying countAll(VarAndEdit csSearchForAll, VarAndEdit result)
@@ -48,36 +48,36 @@ public class InspectTallying
 	}
 	public InspectTallying countAll(String csSearchForAll, VarAndEdit result)
 	{
-		m_csSearchForAll = csSearchForAll;
-		m_InspectTallyingType = TypeForAll;
+		csSearchForAll = csSearchForAll;
+		inspectTallyingType = TypeForAll;
 		return to(result);
 	}
 	
 	public InspectTallying countAll(VarAndEdit varSearchForAll)
 	{
-		m_csSearchForAll = varSearchForAll.getString();
-		m_InspectTallyingType = TypeForAll;
+		csSearchForAll = varSearchForAll.getString();
+		inspectTallyingType = TypeForAll;
 		return this;
 	}
 	
 	public InspectTallying countLeading(String csLeading)
 	{
-		m_csSearchForAll = csLeading;
-		m_InspectTallyingType = TypeLeading;
+		csSearchForAll = csLeading;
+		inspectTallyingType = TypeLeading;
 		return this;
 	}
 
 	public InspectTallying countLeading(VarAndEdit varLeading)
 	{
-		m_csSearchForAll = varLeading.getString();
-		m_InspectTallyingType = TypeLeading;
+		csSearchForAll = varLeading.getString();
+		inspectTallyingType = TypeLeading;
 		return this;
 	}
 
 	public InspectTallying countLeading(String csLeading, VarAndEdit vto)
 	{
-		m_csSearchForAll = csLeading;
-		m_InspectTallyingType = TypeLeading;
+		csSearchForAll = csLeading;
+		inspectTallyingType = TypeLeading;
 		return to(vto) ;
 	}
 
@@ -87,91 +87,91 @@ public class InspectTallying
 	}
 
 	public InspectTallying countCharsBefore(String csBefore, VarAndEdit vto) {
-		m_csBefore = csBefore;
-		m_InspectTallyingType = TypeForChars;
+		csBefore = csBefore;
+		inspectTallyingType = TypeForChars;
 		return to(vto) ;
 	}
 
 	public InspectTallying forChars()
 	{
-		m_InspectTallyingType = TypeForChars;
+		inspectTallyingType = TypeForChars;
 		return this;
 	}
 	
 	public InspectTallying before(String csBefore)
 	{
-		m_csBefore = csBefore;
+		csBefore = csBefore;
 		return this;
 	}
 	
 	public InspectTallying before(VarAndEdit varBefore)
 	{
-		m_csBefore = varBefore.getString();
+		csBefore = varBefore.getString();
 		return this;
 	}
 
 	public InspectTallying after(String csAfter)
 	{
-		m_csAfter = csAfter;
+		csAfter = csAfter;
 		return this;
 	}
 
 	public InspectTallying after(VarAndEdit varAfter)
 	{
-		m_csAfter = varAfter.getString();
+		csAfter = varAfter.getString();
 		return this;
 	}
 		
 	public InspectTallying to(VarAndEdit varCount)
 	{
-		String csSource = m_source ;
+		String csSource = source ;
 		
 		// Find substring where to count
-		if(m_csAfter != null)	// We have a starting point
+		if(csAfter != null)	// We have a starting point
 		{
-			int nPosAfter = csSource.indexOf(m_csAfter);
+			int nPosAfter = csSource.indexOf(csAfter);
 			if(nPosAfter == -1)	// No delimiter found: Nothing to do
 				return this;
 			csSource = csSource.substring(nPosAfter+1);
 		}
 		
-		if(m_csBefore != null)	// We have a ending point
+		if(csBefore != null)	// We have a ending point
 		{
-			int nPosBefore = csSource.indexOf(m_csBefore);
+			int nPosBefore = csSource.indexOf(csBefore);
 			if(nPosBefore == -1)	// No delimiter found: Nothing to do
 				return this;
 			csSource = csSource.substring(0, nPosBefore);
 		}
 		
 		// We now an the substring on which to operate the counting
-		if(m_InspectTallyingType == TypeForChars)	// Count the number of chars
+		if(inspectTallyingType == TypeForChars)	// Count the number of chars
 		{
 			int nCount = csSource.length();
 			varCount.set(nCount+varCount.getInt());
 		}
-		else if(m_InspectTallyingType == TypeForAll)	// Count the number of occurences
+		else if(inspectTallyingType == TypeForAll)	// Count the number of occurences
 		{
 			int nCount = 0;
-			int nPos = csSource.indexOf(m_csSearchForAll);
+			int nPos = csSource.indexOf(csSearchForAll);
 			while(nPos >= 0)
 			{
 				nCount++;
-				csSource = csSource.substring(nPos+m_csSearchForAll.length());
-				nPos = csSource.indexOf(m_csSearchForAll);
+				csSource = csSource.substring(nPos+csSearchForAll.length());
+				nPos = csSource.indexOf(csSearchForAll);
 			}
 			varCount.set(nCount+varCount.getInt());
 		}
-		else if(m_InspectTallyingType == TypeLeading)	// Count the number of occurences, if the string begins by the search pattern
+		else if(inspectTallyingType == TypeLeading)	// Count the number of occurences, if the string begins by the search pattern
 		{
 			int nCount = 0;
-			int nPos = csSource.indexOf(m_csSearchForAll);
+			int nPos = csSource.indexOf(csSearchForAll);
 			if(nPos == 0)	// The source string begins by the search pattern 
 			{
 				while(nPos == 0)
 				{
 					nCount++;
-					csSource = csSource.substring(nPos+m_csSearchForAll.length());
-					nPos = csSource.indexOf(m_csSearchForAll);
+					csSource = csSource.substring(nPos+csSearchForAll.length());
+					nPos = csSource.indexOf(csSearchForAll);
 				}
 				varCount.set(nCount+varCount.getInt());
 			}
@@ -179,9 +179,9 @@ public class InspectTallying
 		return this ;
 	}
 	
-	private String m_source = null;
-	private String m_csSearchForAll = null;
-	private String m_csBefore = null;
-	private String m_csAfter = null;
-	private InspectTallying m_InspectTallyingType = null;	
+	private String source = null;
+	private String csSearchForAll = null;
+	private String csBefore = null;
+	private String csAfter = null;
+	private InspectTallying inspectTallyingType = null;	
 }

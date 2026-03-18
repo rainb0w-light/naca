@@ -53,24 +53,24 @@ public class CDivide extends CCobolElement
 	{
 		CEntityDivide eDivide = factory.NewEntityDivide(getLine());
 		parent.AddChild(eDivide);
-		CDataEntity eWhat = m_DivideWhat.GetDataEntity(getLine(), factory);
+		CDataEntity eWhat = divideWhat.GetDataEntity(getLine(), factory);
 		eWhat.RegisterReadingAction(eDivide) ;
-		CDataEntity eBy = m_DivideBy.GetDataEntity(getLine(), factory);
+		CDataEntity eBy = divideBy.GetDataEntity(getLine(), factory);
 		eBy.RegisterReadingAction(eDivide) ;
-		if (m_Result != null)
+		if (result != null)
 		{
-			CDataEntity eResult = m_Result.GetDataReference(getLine(), factory) ;
+			CDataEntity eResult = result.GetDataReference(getLine(), factory) ;
 			eResult.RegisterWritingAction(eDivide) ;
-			eDivide.SetDivide(eWhat, eBy, eResult,m_bIsRounded);
+			eDivide.SetDivide(eWhat, eBy, eResult,bIsRounded);
 		}
 		else
 		{
-			eDivide.SetDivide(eWhat, eBy, m_bIsRounded);
+			eDivide.SetDivide(eWhat, eBy, bIsRounded);
 		}
 		
-		if (m_Remainder != null)
+		if (remainder != null)
 		{
-			CDataEntity eRem = m_Remainder.GetDataReference(getLine(), factory);
+			CDataEntity eRem = remainder.GetDataReference(getLine(), factory);
 			eRem.RegisterWritingAction(eDivide) ;
 			eDivide.SetRemainder(eRem);
 		}
@@ -87,22 +87,22 @@ public class CDivide extends CCobolElement
 		{
 			return false ;
 		}
-		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().m_Name) ;
+		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
 
 		tok = GetNext();
-		m_DivideWhat = ReadTerminal();
+		divideWhat = ReadTerminal();
 		
 		tok = GetCurrentToken();
 		if (tok.GetKeyword() == CCobolKeywordList.INTO)
 		{
 			GetNext();
-			m_DivideBy = m_DivideWhat ;
-			m_DivideWhat = ReadTerminal();
+			divideBy = divideWhat ;
+			divideWhat = ReadTerminal();
 		}
 		else if (tok.GetKeyword() == CCobolKeywordList.BY)
 		{
 			GetNext();
-			m_DivideBy = ReadTerminal();
+			divideBy = ReadTerminal();
 		}
 		else
 		{
@@ -113,18 +113,18 @@ public class CDivide extends CCobolElement
 		tok = GetCurrentToken();
 		if (tok.GetKeyword() == CCobolKeywordList.ROUNDED)
 		{
-			m_bIsRounded = true ;
+			bIsRounded = true ;
 			tok = GetNext();
 		}
 		else if (tok.GetKeyword() == CCobolKeywordList.GIVING)
 		{
 			GetNext() ;
-			m_Result = ReadIdentifier();
+			result = ReadIdentifier();
 			
 			tok = GetCurrentToken();
 			if (tok.GetKeyword() == CCobolKeywordList.ROUNDED)
 			{
-				m_bIsRounded = true ;
+				bIsRounded = true ;
 				tok = GetNext();
 			}
 			if (tok.GetType() == CTokenType.COMMA)
@@ -134,7 +134,7 @@ public class CDivide extends CCobolElement
 			if (tok.GetKeyword() == CCobolKeywordList.REMAINDER)
 			{
 				GetNext();
-				m_Remainder = ReadIdentifier();
+				remainder = ReadIdentifier();
 			}
 		}
 		
@@ -152,34 +152,34 @@ public class CDivide extends CCobolElement
 	protected Element ExportCustom(Document root)
 	{
 		Element eDiv = root.createElement("Divide") ;
-		if (m_bIsRounded)
+		if (bIsRounded)
 		{
 			eDiv.setAttribute("Rounded", "true");
 		}
 		Element eWhat = root.createElement("Divide") ;
 		eDiv.appendChild(eWhat);
-		m_DivideWhat.ExportTo(eWhat, root);
+		divideWhat.ExportTo(eWhat, root);
 		Element eBy = root.createElement("By") ;
 		eDiv.appendChild(eBy) ;
-		m_DivideBy.ExportTo(eBy, root) ;
-		if (m_Result != null)
+		divideBy.ExportTo(eBy, root) ;
+		if (result != null)
 		{
 			Element eTo = root.createElement("To") ;
 			eDiv.appendChild(eTo) ;
-			m_Result.ExportTo(eTo, root) ;
+			result.ExportTo(eTo, root) ;
 		}
-		if (m_Remainder != null)
+		if (remainder != null)
 		{
 			Element eRem = root.createElement("Remainder") ;
 			eDiv.appendChild(eRem) ;
-			m_Remainder.ExportTo(eRem, root) ;
+			remainder.ExportTo(eRem, root) ;
 		}
 		return eDiv;
 	}
 
-	protected CTerminal m_DivideWhat = null ;
-	protected CTerminal m_DivideBy = null ; 
-	protected CIdentifier m_Result = null ;
-	protected CIdentifier m_Remainder = null ;
-	protected boolean m_bIsRounded = false ;
+	protected CTerminal divideWhat = null ;
+	protected CTerminal divideBy = null ; 
+	protected CIdentifier result = null ;
+	protected CIdentifier remainder = null ;
+	protected boolean bIsRounded = false ;
 }

@@ -12,14 +12,14 @@ public class ThreadCJMap extends Thread
 {
 	public ThreadCJMap(ThreadSafeCounter counter, CJMapThreadedRun cjmapRun)
 	{
-		m_counter = counter;
-		m_cjmapRun = cjmapRun;
+		counter = counter;
+		cjmapRun = cjmapRun;
 	}
 	
 	public void run()
 	{
-		m_cjmapRun.run();
-		m_counter.dec();
+		cjmapRun.run();
+		counter.dec();
 	}
 	
 	public void requestStop()
@@ -27,6 +27,6 @@ public class ThreadCJMap extends Thread
 		interrupt();
 	}
 	
-	private CJMapThreadedRun m_cjmapRun = null;
-	private ThreadSafeCounter m_counter = null;
+	private CJMapThreadedRun cjmapRun = null;
+	private ThreadSafeCounter counter = null;
 }

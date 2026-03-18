@@ -33,35 +33,35 @@ public class InitServlet extends HttpServlet
 	{
 		super.init(config);
 
-		m_Config = DisplayConfig.getInstance() ;
+		this.config = DisplayConfig.getInstance() ;
 
 		String path = this.getServletContext().getRealPath("/") ;
-		m_Config.setRootPath(path) ;
+		this.config.setRootPath(path) ;
 
 		String csINIFilePath = config.getInitParameter("INIFilePath");
-		csINIFilePath = m_Config.getRootPath() + csINIFilePath ;
-		m_Config.LoadConfig(csINIFilePath) ;
+		csINIFilePath = this.config.getRootPath() + csINIFilePath ;
+		this.config.LoadConfig(csINIFilePath) ;
 
 
 /*
-		m_ResourceManager.setXMLConfigFilePath(csINIFilePath) ;
-		m_ResourceManager.Init() ;
+		resourceManager.setXMLConfigFilePath(csINIFilePath) ;
+		resourceManager.Init() ;
 		
-		m_ResourceManager.loadDBSemanticContextDef();
+		resourceManager.loadDBSemanticContextDef();
 
 		// Load semantic context data dictionnary: Defines semantic context associtaed to DB columns
 				
 		
 		// Load semantic context configuration file: Defines menus, options, ...
-		String csSemanticContext = m_ResourceManager.getSemanticContextPathFile();
+		String csSemanticContext = resourceManager.getSemanticContextPathFile();
 		if(csSemanticContext != null && csSemanticContext.length() != 0)
 		{
 			SemanticManager semanticManager = SemanticManager.GetInstance();
 			semanticManager.Init(csSemanticContext);
-			m_ResourceManager.registerSemanticManager(semanticManager);			
+			resourceManager.registerSemanticManager(semanticManager);			
 		}
 	*/
 	}
 	
-	DisplayConfig m_Config = null ;
+	DisplayConfig config = null ;
 }

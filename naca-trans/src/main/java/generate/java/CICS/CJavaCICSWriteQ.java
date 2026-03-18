@@ -39,7 +39,7 @@ public class CJavaCICSWriteQ extends CEntityCICSWriteQ
 	protected void DoExport()
 	{
 		String cs = "CESM.write" ;
-		if (m_bPersistant)
+		if (bPersistant)
 		{
 			cs += "TransiantQueue(" ; 
 		}
@@ -48,40 +48,40 @@ public class CJavaCICSWriteQ extends CEntityCICSWriteQ
 			cs += "TempQueue(" ;
 		}
 		//WriteWord(title) ;
-		cs += m_QueueName.ExportReference(getLine());
-		if (m_bRewrite && m_Item != null)
+		cs += queueName.ExportReference(getLine());
+		if (bRewrite && item != null)
 		{
-			cs += ", " + m_Item.ExportReference(getLine()) ;
+			cs += ", " + item.ExportReference(getLine()) ;
 		}
 		cs += ")" ;
 		WriteWord(cs) ;
-		if (m_DataRef != null)
+		if (dataRef != null)
 		{
-			cs = ".from(" + m_DataRef.ExportReference(getLine());
-			if (m_DataLength != null)
+			cs = ".from(" + dataRef.ExportReference(getLine());
+			if (dataLength != null)
 			{
-				cs += ", " + m_DataLength.ExportReference(getLine()) ;
+				cs += ", " + dataLength.ExportReference(getLine()) ;
 			}
 			cs += ")" ;
 			WriteWord(cs);
-			if (m_Item != null && !m_bRewrite)
+			if (item != null && !bRewrite)
 			{
-				WriteWord(".item(" + m_Item.ExportReference(getLine()) + ")");
+				WriteWord(".item(" + item.ExportReference(getLine()) + ")");
 			}
 		}
-//		if (m_NumItem != null)
+//		if (numItem != null)
 //		{
-//			WriteWord(".writeNumItem(" + m_NumItem.ExportReference(getLine()) + ")");
+//			WriteWord(".writeNumItem(" + numItem.ExportReference(getLine()) + ")");
 //		}
-//		if (m_bAuxiliary)
+//		if (bAuxiliary)
 //		{
 //			WriteWord(".auxiliary()");
 //		}
-//		if (m_bMain)
+//		if (bMain)
 //		{
 //			WriteWord(".main()");
 //		}
-//		if (m_bRewrite)
+//		if (bRewrite)
 //		{
 //			WriteWord(".rewrite()");
 //		}

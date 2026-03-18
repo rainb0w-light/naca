@@ -29,13 +29,13 @@ public class CExecSQLSessionDrop extends CBaseExecSQLAction
 	public Element ExportCustom(Document root)
 	{
 		Element eExe = root.createElement("SQLSessionDrop");
-		eExe.setAttribute("sql", m_csSql);
+		eExe.setAttribute("sql", csSql);
 		return eExe;
 	}
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
 		CEntitySQLSessionDrop session = factory.NewEntitySQLSessionDrop(getLine()) ;
-		session.setSql(m_csSql);
+		session.setSql(csSql);
 		parent.AddChild(session);
 		return session;
 	}
@@ -43,16 +43,16 @@ public class CExecSQLSessionDrop extends CBaseExecSQLAction
 	{
 		CBaseToken tok;
 		
-		m_csSql = "DROP";
+		csSql = "DROP";
 		boolean bDone = false ;
 		while (!bDone)
 		{
 			tok = GetNext() ;
 			if (tok.GetType()==CTokenType.DOT)
 			{
-				m_csSql += tok.GetType().GetSourceValue();
+				csSql += tok.GetType().GetSourceValue();
 				tok = GetNext();
-				m_csSql += tok.GetValue();
+				csSql += tok.GetValue();
 			}
 			else if (tok.GetType()==CTokenType.KEYWORD && tok.GetKeyword()==CCobolKeywordList.END_EXEC)
 			{
@@ -60,11 +60,11 @@ public class CExecSQLSessionDrop extends CBaseExecSQLAction
 			}
 			else
 			{
-				m_csSql += " " + tok.GetValue();
+				csSql += " " + tok.GetValue();
 			}
 		}
 		return true ;
 	}
 	
-	protected String m_csSql = null ;
+	protected String csSql = null ;
 }

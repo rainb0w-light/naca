@@ -11,19 +11,19 @@ import java.io.FilenameFilter;
 
 public class FileFilterByPrefix implements FilenameFilter
 {
-	private String m_csPrefix = null;
+	private String csPrefix = null;
 	
 	public FileFilterByPrefix(String csPrefix)
 	{
-		m_csPrefix = csPrefix.toUpperCase();
+		csPrefix = csPrefix.toUpperCase();
 	}
 	
 	public boolean accept(File dir, String csName)
 	{
-		if(m_csPrefix != null && csName != null)
+		if(csPrefix != null && csName != null)
 		{
 			String cs = csName.toUpperCase();
-			if(cs.startsWith(m_csPrefix))
+			if(cs.startsWith(csPrefix))
 				return true;
 		}
 		return false;

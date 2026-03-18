@@ -20,7 +20,7 @@ import nacaLib.tempCache.TempCacheLocator;
  */
 public class BtreeKeyComparator implements Comparator<byte[]>
 {
-	private BtreeKeyDescription m_keyDescription = null;	
+	private BtreeKeyDescription keyDescription = null;	
     
 	public BtreeKeyComparator() 
     {
@@ -36,10 +36,10 @@ public class BtreeKeyComparator implements Comparator<byte[]>
     @SuppressWarnings("deprecation")
     private synchronized int doCompare(Object d1, Object d2)
     {
-    	if(m_keyDescription == null)
-    		m_keyDescription = TempCacheLocator.getTLSTempCache().getBtreeKeyDescription();
+    	if(keyDescription == null)
+    		keyDescription = TempCacheLocator.getTLSTempCache().getBtreeKeyDescription();
 		
-    	int n = m_keyDescription.compare(d1, d2);
+    	int n = keyDescription.compare(d1, d2);
 		return n;
     }
 }

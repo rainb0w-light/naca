@@ -12,22 +12,22 @@ import nacaLib.varEx.Var;
 public class DumpProgramException extends NacaRTException
 {
 	private static final long serialVersionUID = 1L;
-	private String m_csProgramName = "";
-	private String m_csVar1 = "";
-	private String m_csVar2 = "";
+	private String csProgramName = "";
+	private String csVar1 = "";
+	private String csVar2 = "";
 	
 	public DumpProgramException(BaseProgramManager programManager, Var var1, Var var2)
 	{
-		m_csProgramName = programManager.getProgramName();
+		csProgramName = programManager.getProgramName();
 		if (var1 != null)
-			m_csVar1 = var1.toString();
+			csVar1 = var1.toString();
 		if (var2 != null)
-			m_csVar2 = var2.toString();
+			csVar2 = var2.toString();
 	}
 	
 	public String getMessage()
 	{
-		String cs = "DumpProgramException: Program:" + m_csProgramName + "; Var1:" + m_csVar1 + "; Var2:" + m_csVar2; // + " Stack="+m_csStack;
+		String cs = "DumpProgramException: Program:" + csProgramName + "; Var1:" + csVar1 + "; Var2:" + csVar2; // + " Stack="+csStack;
 		return cs;
 	}
 }

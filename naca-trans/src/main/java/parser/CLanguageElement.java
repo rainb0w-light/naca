@@ -22,7 +22,7 @@ public abstract class CLanguageElement extends CBaseElement
 	}
 
 	protected abstract CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory) ;
-	protected boolean m_bAnalysisDoneForChildren = false ;
+	protected boolean bAnalysisDoneForChildren = false ;
 	public CBaseLanguageEntity DoSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
 		CBaseLanguageEntity eCurrent = DoCustomSemanticAnalysis(parent, factory) ;
@@ -30,7 +30,7 @@ public abstract class CLanguageElement extends CBaseElement
 		{
 			return null ;
 		}
-		if (!m_bAnalysisDoneForChildren)
+		if (!bAnalysisDoneForChildren)
 		{
 			DoSemanticAnalysisForChildren(eCurrent, factory) ;
 		}
@@ -38,7 +38,7 @@ public abstract class CLanguageElement extends CBaseElement
 	}
 	protected void DoSemanticAnalysisForChildren(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		ListIterator<CBaseElement> i = m_children.listIterator() ;
+		ListIterator<CBaseElement> i = children.listIterator() ;
 		CBaseElement le = null ;
 		try
 		{	
@@ -59,6 +59,6 @@ public abstract class CLanguageElement extends CBaseElement
 				le = null ;
 			}
 		}
-		m_bAnalysisDoneForChildren = true ;
+		bAnalysisDoneForChildren = true ;
 	}
 }

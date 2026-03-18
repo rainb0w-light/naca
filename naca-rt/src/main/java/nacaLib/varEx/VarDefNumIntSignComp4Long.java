@@ -32,8 +32,8 @@ public class VarDefNumIntSignComp4Long extends VarDefNum
 
 	public VarDefNumIntSignComp4Long(VarDefBase varDefParent, DeclareType9 declareType9, NumericValue numericValue)
 	{
-		super(varDefParent, declareType9.m_varLevel);
-		m_nNbDigitInteger = numericValue.m_nNbDigitInteger;
+		super(varDefParent, declareType9.varLevel);
+		nNbDigitInteger = numericValue.nNbDigitInteger;
 	}
 	
 	protected VarDefNumIntSignComp4Long()
@@ -44,7 +44,7 @@ public class VarDefNumIntSignComp4Long extends VarDefNum
 //	VarDefNumIntSignComp4Long(VarDefNumIntSignComp4Long varDefSource)
 //	{
 //		super(varDefSource);
-//		m_nNbDigitInteger = varDefSource.m_nNbDigitInteger;
+//		nNbDigitInteger = varDefSource.nNbDigitInteger;
 //	}
 //	
 //	VarDefBuffer deepDuplicate()
@@ -54,24 +54,24 @@ public class VarDefNumIntSignComp4Long extends VarDefNum
 	
 	void transfer(VarBufferPos bufferSource, VarAndEdit Dest)
 	{
-		Dest.m_varDef.write(Dest.m_bufferPos, this, bufferSource);
+		Dest.varDef.write(Dest.bufferPos, this, bufferSource);
 	}
 	
 	CSQLItemType getSQLType()
 	{
-		return getIntegerSQLType(m_nNbDigitInteger);
+		return getIntegerSQLType(nNbDigitInteger);
 	}
 	
 	protected VarDefBuffer allocCopy()
 	{
 		VarDefNumIntSignComp4Long v = new VarDefNumIntSignComp4Long();
-		v.m_nNbDigitInteger = m_nNbDigitInteger;
+		v.nNbDigitInteger = nNbDigitInteger;
 		return v;
 	}
 	
 	public int getBodyLength()
 	{
-		return m_nTotalSize;
+		return nTotalSize;
 	}
 	
 	protected int getHeaderLength()
@@ -82,7 +82,7 @@ public class VarDefNumIntSignComp4Long extends VarDefNum
 	
 	public int getSingleItemRequiredStorageSize()
 	{
-		return getSingleItemRequiredStorageSizeForComp4(m_nNbDigitInteger);
+		return getSingleItemRequiredStorageSizeForComp4(nNbDigitInteger);
 	}
 
 	void write(VarBufferPos buffer, char c)
@@ -136,7 +136,7 @@ public class VarDefNumIntSignComp4Long extends VarDefNum
 	public void write(VarBufferPos buffer, BigDecimal bigDecimal)
 	{
 		long lValue = bigDecimal.longValue();
-		Pic9Comp3BufferSupport.setFromRightToLeftSignedLong(buffer, m_nNbDigitInteger, m_nTotalSize, lValue);
+		Pic9Comp3BufferSupport.setFromRightToLeftSignedLong(buffer, nNbDigitInteger, nTotalSize, lValue);
 	}
 	
 	void write(VarBufferPos buffer, VarDefG varSource, VarBufferPos bufferSource)
@@ -288,13 +288,13 @@ public class VarDefNumIntSignComp4Long extends VarDefNum
 	
 	public void moveIntoSameType(VarBufferPos buffer, VarDefBuffer varSource, VarBufferPos bufferSource)
 	{
-		if(m_nTotalSize == varSource.m_nTotalSize)	// Same type and same size: Directly copy bytes
+		if(nTotalSize == varSource.nTotalSize)	// Same type and same size: Directly copy bytes
 		{
-			int nPositionDest = buffer.m_nAbsolutePosition;
-			int nPositionSource = bufferSource.m_nAbsolutePosition;
-			for(int n=0; n<m_nTotalSize; n++)
+			int nPositionDest = buffer.nAbsolutePosition;
+			int nPositionSource = bufferSource.nAbsolutePosition;
+			for(int n=0; n<nTotalSize; n++)
 			{
-				buffer.m_acBuffer[nPositionDest++] = bufferSource.m_acBuffer[nPositionSource++];
+				buffer.acBuffer[nPositionDest++] = bufferSource.acBuffer[nPositionSource++];
 			}
 			return ;
 		}
@@ -305,13 +305,13 @@ public class VarDefNumIntSignComp4Long extends VarDefNum
 	
 	void write(VarBufferPos buffer, VarDefNumIntSignComp4Long varSource, VarBufferPos bufferSource)
 	{
-		if(m_nTotalSize == varSource.m_nTotalSize)	// Same type and same size: Directly copy bytes
+		if(nTotalSize == varSource.nTotalSize)	// Same type and same size: Directly copy bytes
 		{
-			int nPositionDest = buffer.m_nAbsolutePosition;
-			int nPositionSource = bufferSource.m_nAbsolutePosition;
-			for(int n=0; n<m_nTotalSize; n++)
+			int nPositionDest = buffer.nAbsolutePosition;
+			int nPositionSource = bufferSource.nAbsolutePosition;
+			for(int n=0; n<nTotalSize; n++)
 			{
-				buffer.m_acBuffer[nPositionDest++] = bufferSource.m_acBuffer[nPositionSource++];
+				buffer.acBuffer[nPositionDest++] = bufferSource.acBuffer[nPositionSource++];
 			}			
 			return ;
 		}
@@ -472,20 +472,20 @@ public class VarDefNumIntSignComp4Long extends VarDefNum
 //		int nBinaryNumberStorage = getSingleItemRequiredStorageSize();
 //		if(nBinaryNumberStorage == 4)	// short
 //		{
-//			buffer.setIntAt(m_nAbsolutePosition, n);
-//			return m_nAbsolutePosition + 4;
+//			buffer.setIntAt(nAbsolutePosition, n);
+//			return nAbsolutePosition + 4;
 //		}		
 //		else if(nBinaryNumberStorage == 2)	// long
 //		{
 //			short s = (short)n;
-//			buffer.setShortAt(m_nAbsolutePosition, s);
-//			return m_nAbsolutePosition + 2;
+//			buffer.setShortAt(nAbsolutePosition, s);
+//			return nAbsolutePosition + 2;
 //		}
 //		else		
 //		{
 //			long l = (long)n;
-//			buffer.setLongAt(m_nAbsolutePosition, l);
-//			return m_nAbsolutePosition + 8;
+//			buffer.setLongAt(nAbsolutePosition, l);
+//			return nAbsolutePosition + 8;
 //		}
 //	}
 	
@@ -494,18 +494,18 @@ public class VarDefNumIntSignComp4Long extends VarDefNum
 		int nBinaryNumberStorage = getSingleItemRequiredStorageSize();
 		if(nBinaryNumberStorage == 4)	// short
 		{
-			buffer.setIntAt(buffer.m_nAbsolutePosition, (int)l);
+			buffer.setIntAt(buffer.nAbsolutePosition, (int)l);
 			return ;
 		}		
 		else if(nBinaryNumberStorage == 2)	// long
 		{
 			short s = (short)l;
-			buffer.setShortAt(buffer.m_nAbsolutePosition, s);
+			buffer.setShortAt(buffer.nAbsolutePosition, s);
 			return ;
 		}
 		else		
 		{
-			buffer.setLongAt(buffer.m_nAbsolutePosition, l);
+			buffer.setLongAt(buffer.nAbsolutePosition, l);
 			return ;
 		}
 		
@@ -516,18 +516,18 @@ public class VarDefNumIntSignComp4Long extends VarDefNum
 		int nBinaryNumberStorage = getSingleItemRequiredStorageSize();
 		if(nBinaryNumberStorage == 4)	// short
 		{
-			buffer.setIntAt(buffer.m_nAbsolutePosition+nOffset, (int)l);
+			buffer.setIntAt(buffer.nAbsolutePosition+nOffset, (int)l);
 			return ;
 		}		
 		else if(nBinaryNumberStorage == 2)	// long
 		{
 			short s = (short)l;
-			buffer.setShortAt(buffer.m_nAbsolutePosition+nOffset, s);
+			buffer.setShortAt(buffer.nAbsolutePosition+nOffset, s);
 			return ;
 		}
 		else		
 		{
-			buffer.setLongAt(buffer.m_nAbsolutePosition+nOffset, l);
+			buffer.setLongAt(buffer.nAbsolutePosition+nOffset, l);
 			return ;
 		}
 	}
@@ -573,7 +573,7 @@ public class VarDefNumIntSignComp4Long extends VarDefNum
 		if(lValue < 0)
 			lValue = -lValue;
 		CStrNumber csNum = TempCacheLocator.getTLSTempCache().getCStrNumber();
-		csNum.getAsAbsoluteIntComp0StringAsLong(lValue, m_nNbDigitInteger);
+		csNum.getAsAbsoluteIntComp0StringAsLong(lValue, nNbDigitInteger);
 		return csNum;
 	}
 	
@@ -587,7 +587,7 @@ public class VarDefNumIntSignComp4Long extends VarDefNum
 	
 	CStr getDottedSignedStringAsSQLCol(VarBufferPos buffer)
 	{	
-		long lValue = internalReadIntSignComp4AsLongWithMaxDigits(this, buffer, m_nNbDigitInteger);
+		long lValue = internalReadIntSignComp4AsLongWithMaxDigits(this, buffer, nNbDigitInteger);
 		CStrNumber csNum = TempCacheLocator.getTLSTempCache().getCStrNumber(); 
 		csNum.valueOf(lValue);
 		return csNum;
@@ -595,7 +595,7 @@ public class VarDefNumIntSignComp4Long extends VarDefNum
 
 	int compare(ComparisonMode mode, VarBufferPos bufferSource, VarAndEdit var2)
 	{
-		return var2.m_varDef.compare(mode, var2.m_bufferPos, this, bufferSource);
+		return var2.varDef.compare(mode, var2.bufferPos, this, bufferSource);
 	}
 	
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumDecComp0 varDefNum1, VarBufferPos buffer1)
@@ -844,7 +844,7 @@ public class VarDefNumIntSignComp4Long extends VarDefNum
 		if(lValue < 0)
 			lValue = -lValue;
 		CStrNumber csNum = TempCacheLocator.getTLSTempCache().getCStrNumber();
-		csNum.getAsAbsoluteIntComp0StringAsLong(lValue, m_nNbDigitInteger);
+		csNum.getAsAbsoluteIntComp0StringAsLong(lValue, nNbDigitInteger);
 		return csNum.getAsString();
 	}
 	
@@ -865,7 +865,7 @@ public class VarDefNumIntSignComp4Long extends VarDefNum
 	
 	public BtreeSegmentKeyTypeFactory getSegmentKeyTypeFactory()
 	{
-		return VarTypeId.m_segmentKeyTypeFactorySignComp4;
+		return VarTypeId.segmentKeyTypeFactorySignComp4;
 	}
 
 	public boolean isEbcdicAsciiConvertible()
@@ -876,19 +876,19 @@ public class VarDefNumIntSignComp4Long extends VarDefNum
 	protected void adjustCustomProperty(VarDefBuffer varDefBufferCopySingleItem)
 	{
 		VarDefNumIntSignComp4Long varDefCopy = (VarDefNumIntSignComp4Long)varDefBufferCopySingleItem;
-		varDefCopy.m_nNbDigitInteger = m_nNbDigitInteger;
+		varDefCopy.nNbDigitInteger = nNbDigitInteger;
 	}
 	
 	protected void adjustCustomPropertyForCharGetAt(VarDefBuffer varDefBufferCopySingleItem)
 	{
 		VarDefNumIntSignComp4Long varDefCopy = (VarDefNumIntSignComp4Long)varDefBufferCopySingleItem;
-		varDefCopy.m_nNbDigitInteger = 1;
+		varDefCopy.nNbDigitInteger = 1;
 	}
 	boolean isNumeric(VarBufferPos buffer)
 	{
 		return true;	// All byte values are valid
 	}
 	
-	private int m_nNbDigitInteger;
+	private int nNbDigitInteger;
 }
 

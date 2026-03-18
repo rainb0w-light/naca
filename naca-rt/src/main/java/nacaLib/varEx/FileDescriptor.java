@@ -21,8 +21,8 @@ import nacaLib.batchOOApi.WriteBufferExt;
 public class FileDescriptor extends BaseFileDescriptor
 {
 	private static final int PAGE_LINES = 60;
-	private VarDefEncodingConvertibleManagerContainer m_varDefEncodingConvertibleManagerContainer = null;
-	private byte[] m_tbyHeader = null;
+	private VarDefEncodingConvertibleManagerContainer varDefEncodingConvertibleManagerContainer = null;
+	private byte[] tbyHeader = null;
 	private Var status;
 	private int count;
 	
@@ -72,27 +72,27 @@ public class FileDescriptor extends BaseFileDescriptor
 	
 	public void inheritSettings(FileDescriptor fileDescSource)
 	{
-		m_fileManagerEntry.inheritSettings(fileDescSource.m_fileManagerEntry);
+		fileManagerEntry.inheritSettings(fileDescSource.fileManagerEntry);
 	}
 
 	public boolean isEbcdic()
 	{
-		return m_fileManagerEntry.isEbcdic();
+		return fileManagerEntry.isEbcdic();
 	}
 	
 	public boolean isVariableLength()
 	{
-		return m_fileManagerEntry.isVariableLength();
+		return fileManagerEntry.isVariableLength();
 	}
 	
 	public boolean isVariableLength4BytesHeaderWithLF()
 	{
-		return m_fileManagerEntry.isVariableLength4BytesHeaderWithLF();
+		return fileManagerEntry.isVariableLength4BytesHeaderWithLF();
 	}
 	
 	public RecordLengthDefinition getRecordLengthDefinition()
 	{
-		return m_fileManagerEntry.getRecordLengthDefinition();
+		return fileManagerEntry.getRecordLengthDefinition();
 	}
 
 	public FileDescriptor lengthDependingOn(Var varLengthDependingOn)
@@ -103,13 +103,13 @@ public class FileDescriptor extends BaseFileDescriptor
 	
 	public void write()
 	{
-		writeFrom(m_varLevel01, false);
+		writeFrom(varLevel01, false);
 	}
 	
 	public void writeAfter(int after)
 	{
 		after(after);
-		writeFrom(m_varLevel01, false);
+		writeFrom(varLevel01, false);
 	}
 
 	private void after(int after)
@@ -122,7 +122,7 @@ public class FileDescriptor extends BaseFileDescriptor
 		after--;
 		for (int i = 0; i < after; i++)
 		{
-			m_fileManagerEntry.m_dataFile.writeWithEOL(new byte[0], 0);
+			fileManagerEntry.dataFile.writeWithEOL(new byte[0], 0);
 			incNbRecordWrite();
 		}
 	}
@@ -134,7 +134,7 @@ public class FileDescriptor extends BaseFileDescriptor
 	
 	public void rewrite()
 	{
-		writeFrom(m_varLevel01, true);
+		writeFrom(varLevel01, true);
 	}
 	
 	public void rewriteFrom(VarBase varWorking)
@@ -144,10 +144,10 @@ public class FileDescriptor extends BaseFileDescriptor
 	
 	private void writeFrom(VarBase varFrom, boolean bRewriteMode)
 	{
-		if(m_fileManagerEntry.isDummyFile())
+		if(fileManagerEntry.isDummyFile())
 			return ;
 
-		VarBase varLevel01 = m_varLevel01;
+		VarBase varLevel01 = this.varLevel01;
 		if(varLevel01 == null)
 			varLevel01 = varFrom;
 		
@@ -173,16 +173,16 @@ public class FileDescriptor extends BaseFileDescriptor
 		}
 		
 		// Move bytes of working into record, up to record length
-		byte tbyFilebuffer[] = m_fileManagerEntry.m_dataFile.getByteBuffer(nMaxSize);
+		byte tbyFilebuffer[] = fileManagerEntry.dataFile.getByteBuffer(nMaxSize);
 		varFrom.exportToByteArray(tbyFilebuffer, nVarFromSize);
 		if (varLevel01 != varFrom)
 			varLevel01.setFromByteArray(tbyFilebuffer, 0, nMinSize);	// Used when record buffer is longer than working buffer; we must keep the right part of the record at the initialized values
 		
-		if(m_fileManagerEntry.isEbcdic())	// Must convert string chunks
+		if(fileManagerEntry.isEbcdic())	// Must convert string chunks
 		{
-			if(m_varDefEncodingConvertibleManagerContainer == null)
-				m_varDefEncodingConvertibleManagerContainer = new VarDefEncodingConvertibleManagerContainer();
-			m_varDefEncodingConvertibleManagerContainer.getConvertedBytesAsciiToEbcdic(varLevel01, tbyFilebuffer, nMaxSize);
+			if(varDefEncodingConvertibleManagerContainer == null)
+				varDefEncodingConvertibleManagerContainer = new VarDefEncodingConvertibleManagerContainer();
+			varDefEncodingConvertibleManagerContainer.getConvertedBytesAsciiToEbcdic(varLevel01, tbyFilebuffer, nMaxSize);
 		}
 		else
 		{
@@ -191,27 +191,27 @@ public class FileDescriptor extends BaseFileDescriptor
 		
 
 		// Write varLevel01 
-		if(m_fileManagerEntry.isVariableLength())
+		if(fileManagerEntry.isVariableLength())
 		{
 			int nRecordLength = getRecordLength(varLevel01);	// Measure record length
 			// write record header
-			if(m_tbyHeader == null)
-				m_tbyHeader = new byte[4];
-			LittleEndingSignBinaryBufferStorage.writeInt(m_tbyHeader, nRecordLength, 0);	// DO not include header length in header !
+			if(tbyHeader == null)
+				tbyHeader = new byte[4];
+			LittleEndingSignBinaryBufferStorage.writeInt(tbyHeader, nRecordLength, 0);	// DO not include header length in header !
 			if(bRewriteMode)
-				m_fileManagerEntry.m_dataFile.rewrite(m_tbyHeader, 0, 4);
+				fileManagerEntry.dataFile.rewrite(tbyHeader, 0, 4);
 			else
-				m_fileManagerEntry.m_dataFile.write(m_tbyHeader, 0, 4);
+				fileManagerEntry.dataFile.write(tbyHeader, 0, 4);
 			
-			m_fileManagerEntry.m_dataFile.writeWithEOL(tbyFilebuffer, nRecordLength);
+			fileManagerEntry.dataFile.writeWithEOL(tbyFilebuffer, nRecordLength);
 			incNbRecordWrite();
 		}
 		else
 		{
 			if(bRewriteMode)
-				m_fileManagerEntry.m_dataFile.rewriteWithEOL(tbyFilebuffer, nRecordSize);
+				fileManagerEntry.dataFile.rewriteWithEOL(tbyFilebuffer, nRecordSize);
 			else
-				m_fileManagerEntry.m_dataFile.writeWithEOL(tbyFilebuffer, nRecordSize);
+				fileManagerEntry.dataFile.writeWithEOL(tbyFilebuffer, nRecordSize);
 			incNbRecordWrite();
 		}
 		if(status != null)
@@ -226,53 +226,53 @@ public class FileDescriptor extends BaseFileDescriptor
 	
 	public byte [] getWriteBuffer(int nMaxSize)
 	{
-		byte tbyFilebuffer[] = m_fileManagerEntry.m_dataFile.getByteBuffer(nMaxSize);
+		byte tbyFilebuffer[] = fileManagerEntry.dataFile.getByteBuffer(nMaxSize);
 		return tbyFilebuffer;
 	}
 	
 	public void writeFrom(LineRead lineRead)
 	{
-		m_fileManagerEntry.m_dataFile.writeWithEOL(lineRead);
+		fileManagerEntry.dataFile.writeWithEOL(lineRead);
 	}
 	
 	public RecordDescriptorAtEnd read()
 	{
-		return readInto(m_varLevel01);
+		return readInto(varLevel01);
 	}
 	
 	private void convertEbcdicToAsciiAndWrite(LineRead lineRead, Var varDest)
 	{
-		if(m_varDefEncodingConvertibleManagerContainer == null)
-			m_varDefEncodingConvertibleManagerContainer = new VarDefEncodingConvertibleManagerContainer();
+		if(varDefEncodingConvertibleManagerContainer == null)
+			varDefEncodingConvertibleManagerContainer = new VarDefEncodingConvertibleManagerContainer();
 
-		if(m_varLevel01 != varDest)
-			m_varDefEncodingConvertibleManagerContainer.getEncodingManagerConvertAndWrite(lineRead, varDest);
+		if(varLevel01 != varDest)
+			varDefEncodingConvertibleManagerContainer.getEncodingManagerConvertAndWrite(lineRead, varDest);
 		else
-			m_varDefEncodingConvertibleManagerContainer.getEncodingManagerConvertAndWrite(lineRead, m_varLevel01);
+			varDefEncodingConvertibleManagerContainer.getEncodingManagerConvertAndWrite(lineRead, varLevel01);
 	}
 	
 	private void convertEbcdicToAsciiAndWrite(LineRead lineRead)
 	{
-		if(m_varDefEncodingConvertibleManagerContainer == null)
-			m_varDefEncodingConvertibleManagerContainer = new VarDefEncodingConvertibleManagerContainer();
+		if(varDefEncodingConvertibleManagerContainer == null)
+			varDefEncodingConvertibleManagerContainer = new VarDefEncodingConvertibleManagerContainer();
 
-		m_varDefEncodingConvertibleManagerContainer.getEncodingManagerConvertAndWrite(lineRead, m_varLevel01);
+		varDefEncodingConvertibleManagerContainer.getEncodingManagerConvertAndWrite(lineRead, varLevel01);
 	}
 
 	public RecordDescriptorAtEnd readInto(Var varDest)
 	{
-		if(m_fileManagerEntry.isDummyFile())
+		if(fileManagerEntry.isDummyFile())
 			return RecordDescriptorAtEnd.End;
 
 		if(hasVarVariableLengthMarker())
 		{
-			long lLastHeaderStartPosition = m_fileManagerEntry.m_dataFile.getFileCurrentPosition();	// Keep header start position
-			LineRead header = m_fileManagerEntry.m_dataFile.readBuffer(4, false);		// Read header
+			long lLastHeaderStartPosition = fileManagerEntry.dataFile.getFileCurrentPosition();	// Keep header start position
+			LineRead header = fileManagerEntry.dataFile.readBuffer(4, false);		// Read header
 			if(header != null)
 			{				
 				int nLengthExcludingHeader = header.getAsLittleEndingUnsignBinaryInt();	// Length in header doesn't count the header itself
-				LineRead lineRead = m_fileManagerEntry.m_dataFile.readBuffer(nLengthExcludingHeader, true);		// Read record body, including trailing LF
-				m_fileManagerEntry.m_dataFile.setLastPosition(lLastHeaderStartPosition);	// Save current position at the header start
+				LineRead lineRead = fileManagerEntry.dataFile.readBuffer(nLengthExcludingHeader, true);		// Read record body, including trailing LF
+				fileManagerEntry.dataFile.setLastPosition(lLastHeaderStartPosition);	// Save current position at the header start
 				if(lineRead != null)
 				{
 					fillInto(lineRead, varDest);
@@ -285,16 +285,16 @@ public class FileDescriptor extends BaseFileDescriptor
 		}
 		else
 		{
-			int nRecordLength = getRecordLength(m_varLevel01);
+			int nRecordLength = getRecordLength(varLevel01);
 			LineRead lineRead;
 			if(nRecordLength > 0)
 			{
-				lineRead = m_fileManagerEntry.m_dataFile.readBuffer(nRecordLength, true);	// PJD TO UNCOMMENT 
-				//lineRead = ((DataFileLineReader)m_fileManagerEntry.m_dataFile).readDirect(nRecordLength);
+				lineRead = fileManagerEntry.dataFile.readBuffer(nRecordLength, true);	// PJD TO UNCOMMENT 
+				//lineRead = ((DataFileLineReader)fileManagerEntry.dataFile).readDirect(nRecordLength);
 			}
 				
 			else
-				lineRead = m_fileManagerEntry.m_dataFile.readNextUnixLine();				
+				lineRead = fileManagerEntry.dataFile.readNextUnixLine();				
 			if(lineRead != null)
 			{
 				fillInto(lineRead, varDest);
@@ -307,25 +307,25 @@ public class FileDescriptor extends BaseFileDescriptor
 	private void fillInto(LineRead lineRead, Var varDest)
 	{
 		incNbRecordRead();
-		if (m_varLevel01 != varDest)
+		if (varLevel01 != varDest)
 		{
-			if (m_fileManagerEntry.isEbcdic())
+			if (fileManagerEntry.isEbcdic())
 				fillInto2DestEbcdic(lineRead, varDest);
 			else
-				varDest.setFromLineRead2DestWithFilling(lineRead, m_varLevel01);
+				varDest.setFromLineRead2DestWithFilling(lineRead, varLevel01);
 		}
 		else
 		{			
-			// m_varLevel01 == varDest: Not a readInto()
-			if (m_fileManagerEntry.isEbcdic())
+			// varLevel01 == varDest: Not a readInto()
+			if (fileManagerEntry.isEbcdic())
 			{
 				varDest.fill(CobolConstant.LowValue);
 				convertEbcdicToAsciiAndWrite(lineRead);
 			}
 			else
 			{
-				int nRecordSize = m_varLevel01.getTotalSize();
-				int nNbByteWritten = m_varLevel01.setFromLineRead(lineRead);
+				int nRecordSize = varLevel01.getTotalSize();
+				int nNbByteWritten = varLevel01.setFromLineRead(lineRead);
 				if(nRecordSize > nNbByteWritten) 
 					varDest.fillEndOfRecord(nNbByteWritten, nRecordSize);
 			}
@@ -335,61 +335,61 @@ public class FileDescriptor extends BaseFileDescriptor
 	private void fillInto2DestEbcdic(LineRead lineRead, Var varDest)
 	{
 		varDest.fill(CobolConstant.LowValue);
-		m_varLevel01.fill(CobolConstant.LowValue);			
+		varLevel01.fill(CobolConstant.LowValue);			
 
-		int nRecordSize = m_varLevel01.getTotalSize();
+		int nRecordSize = varLevel01.getTotalSize();
 		int nDestSize = varDest.getTotalSize();
 		if (nRecordSize > nDestSize)
 			nRecordSize = nDestSize;
 
 		convertEbcdicToAsciiAndWrite(lineRead, varDest);
 		
-		byte tbyFilebuffer[] = m_fileManagerEntry.m_dataFile.getByteBuffer(nRecordSize);
+		byte tbyFilebuffer[] = fileManagerEntry.dataFile.getByteBuffer(nRecordSize);
 		varDest.exportToByteArray(tbyFilebuffer, nRecordSize);
-		m_varLevel01.setFromByteArray(tbyFilebuffer, 0, nRecordSize);
+		varLevel01.setFromByteArray(tbyFilebuffer, 0, nRecordSize);
 	}
 	
 //	private void fillInto(LineRead lineRead, Var varDest)
 //	{
 //		varDest.fill(CobolConstant.LowValue);
-//		if (m_varLevel01 != varDest)
-//			m_varLevel01.fill(CobolConstant.LowValue);			
+//		if (varLevel01 != varDest)
+//			varLevel01.fill(CobolConstant.LowValue);			
 //		
-//		int nRecordSize = m_varLevel01.getTotalSize();
-//		if (m_varLevel01 != varDest)
+//		int nRecordSize = varLevel01.getTotalSize();
+//		if (varLevel01 != varDest)
 //		{
 //			int nDestSize = varDest.getTotalSize();
 //			if (nRecordSize > nDestSize)
 //				nRecordSize = nDestSize;
 //		}
 //
-//		if (m_fileManagerEntry.isEbcdic())
+//		if (fileManagerEntry.isEbcdic())
 //			convertEbcdicToAsciiAndWrite(lineRead, varDest);
 //		else
 //			noConvertEbcdicToAsciiAndWrite(lineRead, varDest);
 //
-//		if (m_varLevel01 != varDest)
+//		if (varLevel01 != varDest)
 //		{
-//			byte tbyFilebuffer[] = m_fileManagerEntry.m_dataFile.getByteBuffer(nRecordSize);
+//			byte tbyFilebuffer[] = fileManagerEntry.dataFile.getByteBuffer(nRecordSize);
 //			varDest.exportToByteArray(tbyFilebuffer, nRecordSize);
-//			m_varLevel01.setFromByteArray(tbyFilebuffer, 0, nRecordSize);
+//			varLevel01.setFromByteArray(tbyFilebuffer, 0, nRecordSize);
 //		}
 //	}
 
 
 	public String toString()
 	{
-		if(m_fileManagerEntry != null)
+		if(fileManagerEntry != null)
 		{
-			String cs = m_fileManagerEntry.toString();
-			return cs + " mapped on " + m_varLevel01.toString();
+			String cs = fileManagerEntry.toString();
+			return cs + " mapped on " + varLevel01.toString();
 		}
 		return "Unknown FileManagerEntry";
 	}
 	
 	public LineRead readALine(BaseDataFileBuffered dataFileIn, LineRead lastLineRead)
 	{
-		if(m_fileManagerEntry.isDummyFile())
+		if(fileManagerEntry.isDummyFile())
 			return null;
 
 		if(isVariableLength())
@@ -414,8 +414,8 @@ public class FileDescriptor extends BaseFileDescriptor
 	
 	public LogicalFileDescriptor getLogicalFileDescriptor()
 	{
-		if(m_fileManagerEntry != null)
-			return m_fileManagerEntry.getLogicalFileDescriptor();
+		if(fileManagerEntry != null)
+			return fileManagerEntry.getLogicalFileDescriptor();
 		return null;
 	}
 	
@@ -436,24 +436,24 @@ public class FileDescriptor extends BaseFileDescriptor
 	// New OO API support 
 	public void write(WriteBufferExt writeBufferExt, boolean bForcedVariableLenght)
 	{
-		if(m_fileManagerEntry.isVariableLength() || bForcedVariableLenght)
+		if(fileManagerEntry.isVariableLength() || bForcedVariableLenght)
 		{
 			int nRecordLength = writeBufferExt.getRecordCurrentPosition();	// Measure record length
 			// write record header
-			if(m_tbyHeader == null)
-				m_tbyHeader = new byte[4];
-			LittleEndingSignBinaryBufferStorage.writeInt(m_tbyHeader, nRecordLength, 0);	// DO not include header length in header !
-			m_fileManagerEntry.m_dataFile.write(m_tbyHeader, 0, 4);
+			if(tbyHeader == null)
+				tbyHeader = new byte[4];
+			LittleEndingSignBinaryBufferStorage.writeInt(tbyHeader, nRecordLength, 0);	// DO not include header length in header !
+			fileManagerEntry.dataFile.write(tbyHeader, 0, 4);
 			
 			byte tbyFilebuffer[] = writeBufferExt.getAsByteArrayWithTrailingLF();
-			m_fileManagerEntry.m_dataFile.writeWithEOL(tbyFilebuffer, tbyFilebuffer.length);
+			fileManagerEntry.dataFile.writeWithEOL(tbyFilebuffer, tbyFilebuffer.length);
 
 			incNbRecordWrite();
 		}
 		else
 		{
 			byte tbyFilebuffer[] = writeBufferExt.getAsByteArrayWithTrailingLF();
-			m_fileManagerEntry.m_dataFile.writeWithEOL(tbyFilebuffer, tbyFilebuffer.length);
+			fileManagerEntry.dataFile.writeWithEOL(tbyFilebuffer, tbyFilebuffer.length);
 			incNbRecordWrite();
 		}
 	}
@@ -461,24 +461,24 @@ public class FileDescriptor extends BaseFileDescriptor
 	public void rewrite(WriteBufferExt writeBufferExt)
 	{
 		byte tbyFilebuffer[] = writeBufferExt.getAsByteArrayWithTrailingLF();
-		m_fileManagerEntry.m_dataFile.rewriteWithEOL(tbyFilebuffer, tbyFilebuffer.length);
+		fileManagerEntry.dataFile.rewriteWithEOL(tbyFilebuffer, tbyFilebuffer.length);
 		incNbRecordWrite();
 	}
 				
 	public boolean read(WriteBufferExt writeExt)
 	{
-		if(m_fileManagerEntry.isDummyFile())
+		if(fileManagerEntry.isDummyFile())
 			return false;
 
 		if(isVariableLength())
 		{
-			long lLastHeaderStartPosition = m_fileManagerEntry.m_dataFile.getFileCurrentPosition();	// Keep header start position
-			LineRead header = m_fileManagerEntry.m_dataFile.readBuffer(4, false);		// Read header
+			long lLastHeaderStartPosition = fileManagerEntry.dataFile.getFileCurrentPosition();	// Keep header start position
+			LineRead header = fileManagerEntry.dataFile.readBuffer(4, false);		// Read header
 			if(header != null)
 			{				
 				int nLengthExcludingHeader = header.getAsLittleEndingUnsignBinaryInt();	// Length in header doesn't count the header itself
-				LineRead lineRead = m_fileManagerEntry.m_dataFile.readBuffer(nLengthExcludingHeader, true);		// Read record body, including trailing LF
-				m_fileManagerEntry.m_dataFile.setLastPosition(lLastHeaderStartPosition);	// Save current position at the header start
+				LineRead lineRead = fileManagerEntry.dataFile.readBuffer(nLengthExcludingHeader, true);		// Read record body, including trailing LF
+				fileManagerEntry.dataFile.setLastPosition(lLastHeaderStartPosition);	// Save current position at the header start
 				if(lineRead != null)
 				{
 					writeExt.setFromLineRead(lineRead, 0);	
@@ -491,14 +491,14 @@ public class FileDescriptor extends BaseFileDescriptor
 		}
 		else
 		{
-			if(m_fileManagerEntry.m_dataFile.isEOF())
+			if(fileManagerEntry.dataFile.isEOF())
 				return false;
 			int nRecordLength = getRecordLength(null);
 			LineRead lineRead = null;
 			if(nRecordLength > 0)
-				lineRead = m_fileManagerEntry.m_dataFile.readBuffer(nRecordLength, true);	// PJD TO UNCOMMENT 
+				lineRead = fileManagerEntry.dataFile.readBuffer(nRecordLength, true);	// PJD TO UNCOMMENT 
 			else
-				lineRead = m_fileManagerEntry.m_dataFile.readNextUnixLine();
+				lineRead = fileManagerEntry.dataFile.readNextUnixLine();
 			if(lineRead != null)
 			{
 				writeExt.setFromLineRead(lineRead, 0);	

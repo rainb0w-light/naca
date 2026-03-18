@@ -32,7 +32,7 @@ public abstract class CEntityInline extends CBaseActionEntity
 	@Override
 	public String GetDisplayName()
 	{
-		return m_externalData.GetDisplayName();
+		return externalData.GetDisplayName();
 	}
 	/**
 	 * @param name
@@ -42,23 +42,23 @@ public abstract class CEntityInline extends CBaseActionEntity
 	public CEntityInline(int l, CObjectCatalog cat, CBaseLanguageExporter out, CBaseExternalEntity e)
 	{
 		super(l, cat, out);
-		m_externalData = e ;
-		m_externalData.RegisterInlineAction(this) ;
+		externalData = e ;
+		externalData.RegisterInlineAction(this) ;
 		e.SetParent(this);
 	}
 
-	protected CBaseExternalEntity m_externalData = null;
+	protected CBaseExternalEntity externalData = null;
 	
 	/* (non-Javadoc)
 	 * @see semantic.CBaseLanguageEntity#GetInternalLevel()
 	 */
 	public int GetInternalLevel()
 	{
-		return m_externalData.GetInternalLevel() ;
+		return externalData.GetInternalLevel() ;
 	}
 	public boolean ignore()
 	{
-		return m_externalData.ignore() ;
+		return externalData.ignore() ;
 	}
 
 	/* (non-Javadoc)
@@ -67,15 +67,15 @@ public abstract class CEntityInline extends CBaseActionEntity
 	public void Clear()
 	{
 		super.Clear();
-		if (m_externalData.IsNeedDeclarationInClass())
+		if (externalData.IsNeedDeclarationInClass())
 		{
-			m_externalData.Clear() ;
+			externalData.Clear() ;
 		}
 		else
 		{
-			m_externalData.m_InlineAction = null ;
+			externalData.inlineAction = null ;
 		}
-		m_externalData = null ;
+		externalData = null ;
 	}
 	/**
 	 * @param sub
@@ -86,23 +86,23 @@ public abstract class CEntityInline extends CBaseActionEntity
 		CBaseLanguageEntity le = newParent.FindLastEntityAvailableForLevel(sub.GetInternalLevel()) ;
 		if (le == null)
 			le = newParent ;
-		sub.m_parent = le ;		
+		sub.parent = le ;		
 	}
 	public void AddChild(CBaseLanguageEntity e)
 	{
 		super.AddChild(e) ;
 		int n = e.GetInternalLevel() ;
-		int nsub = m_externalData.getActualSubLevel() ;
+		int nsub = externalData.getActualSubLevel() ;
 		if (n>0 && nsub>0 && n<nsub)
 		{
 			Transcoder.logWarn(e.getLine(), "WARNING : bad sub-level for structure : expecting "+nsub+" ; found "+n) ;
 		}
-		ReplaceParentForChild(e, m_externalData) ;  // child of INLINE entity must have the external data as parent for name
+		ReplaceParentForChild(e, externalData) ;  // child of INLINE entity must have the external data as parent for name
 													// confict resolution, but must be child of INLINE to be exported
 	}
 	public CBaseLanguageEntity FindLastEntityAvailableForLevel(int level)
 	{
-		CBaseLanguageEntity e = m_externalData.FindLastEntityAvailableForLevel(level) ;
+		CBaseLanguageEntity e = externalData.FindLastEntityAvailableForLevel(level) ;
 		CBaseLanguageEntity child = super.FindLastEntityAvailableForLevel(level) ;
 		if (child == this)
 		{
@@ -116,12 +116,12 @@ public abstract class CEntityInline extends CBaseActionEntity
 		{
 			return child ;
 		}
-		else if (m_parent != null)
+		else if (parent != null)
 		{
-			CBaseLanguageEntity ep = m_parent.FindLastEntityAvailableForLevel(level);
-			if (ep == null && m_parent.GetInternalLevel() < level && m_parent.GetInternalLevel()>0)
+			CBaseLanguageEntity ep = parent.FindLastEntityAvailableForLevel(level);
+			if (ep == null && parent.GetInternalLevel() < level && parent.GetInternalLevel()>0)
 			{
-				return m_parent ;
+				return parent ;
 			}
 			return ep ;
 		}
@@ -133,7 +133,7 @@ public abstract class CEntityInline extends CBaseActionEntity
 	@Override
 	public CDataEntity FindFirstDataEntityAtLevel(int level)
 	{
-		CDataEntity de = m_externalData.FindFirstDataEntityAtLevel(level) ;
+		CDataEntity de = externalData.FindFirstDataEntityAtLevel(level) ;
 		if (de == null)
 		{
 			return super.FindFirstDataEntityAtLevel(level) ;
@@ -145,9 +145,9 @@ public abstract class CEntityInline extends CBaseActionEntity
 	 */
 	public boolean ReplaceExternalData(CBaseExternalEntity field, CBaseExternalEntity var)
 	{
-		if (field == m_externalData)
+		if (field == externalData)
 		{
-			m_externalData = var ;
+			externalData = var ;
 			return true ;
 		}
 		return false  ;
@@ -155,6 +155,6 @@ public abstract class CEntityInline extends CBaseActionEntity
 	
 	public CBaseExternalEntity getExternalEntity()
 	{
-		return m_externalData ;
+		return externalData ;
 	}
 }

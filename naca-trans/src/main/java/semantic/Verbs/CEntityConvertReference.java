@@ -43,7 +43,7 @@ public abstract class CEntityConvertReference extends CBaseDataReference
 	@Override
 	public CDataEntityType GetDataType()
 	{
-		return m_Reference.GetDataType() ;
+		return reference.GetDataType() ;
 	}
 	
 
@@ -70,16 +70,16 @@ public abstract class CEntityConvertReference extends CBaseDataReference
 	 */
 	public void convertToPacked(CDataEntity buffer)
 	{
-		m_bConvertToPacked = true ;
-		m_bConvertToAlphaNum = false ;
-		m_Reference = buffer ;
+		bConvertToPacked = true ;
+		bConvertToAlphaNum = false ;
+		reference = buffer ;
 	}	
-	protected boolean m_bConvertToPacked = false ;
-	protected boolean m_bConvertToAlphaNum = false ;
+	protected boolean bConvertToPacked = false ;
+	protected boolean bConvertToAlphaNum = false ;
 	
 	public void convertToAlphaNum(CDataEntity working) {
-		m_bConvertToAlphaNum = true ;
-		m_bConvertToPacked = false ;
-		m_Reference = working ;
+		bConvertToAlphaNum = true ;
+		bConvertToPacked = false ;
+		reference = working ;
 	}
 }

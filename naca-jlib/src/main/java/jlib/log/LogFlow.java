@@ -55,7 +55,7 @@ public abstract class LogFlow
  */
 	protected LogFlow(String csName)
 	{
-		m_csName = csName;
+		csName = csName;
 		LogFlowRegister.register(this);
 	}
 /**
@@ -66,7 +66,7 @@ public abstract class LogFlow
  */	
 	boolean hasName(String cs)
 	{
-		return m_csName.equalsIgnoreCase(cs);
+		return csName.equalsIgnoreCase(cs);
 	}		
 /**
  * Returns the name of the specified flow.
@@ -75,7 +75,7 @@ public abstract class LogFlow
  */
 	public static String getFlow(LogFlow logFlow)
 	{
-		return logFlow.m_csName;
+		return logFlow.csName;
 	}
 /**
  * Returns a reference to the registered flow named as specified.
@@ -103,5 +103,5 @@ public abstract class LogFlow
  */
 	public abstract boolean isAcceptable(LogFlow logFlow);
 
-	private String m_csName = null;
+	private String csName = null;
 }

@@ -52,15 +52,15 @@ public class CCopyRec extends CCobolElement
 	 */
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		CGlobalEntityCounter.GetInstance().RegisterCopy(parent.GetProgramName(), m_Identifier) ;
+		CGlobalEntityCounter.GetInstance().RegisterCopy(parent.GetProgramName(), identifier) ;
 
 		String csRenamePattern = "" ;
 		int nReplaceLevel = 0 ;
-		if (m_arrOption.size()>0)
+		if (arrOption.size()>0)
 		{
-			for (int i=0; i<m_arrOption.size(); i++)
+			for (int i=0; i<arrOption.size(); i++)
 			{
-				String cs1 = m_arrOption.get(i);
+				String cs1 = arrOption.get(i);
 				int n1 = NumberParser.getAsInt(cs1) ;
 				if (n1 > 0)
 				{
@@ -73,10 +73,10 @@ public class CCopyRec extends CCobolElement
 			}
 		}
 		
-		CBaseExternalEntity e = factory.m_ProgramCatalog.GetExternalDataReference(m_Identifier, csRenamePattern, factory) ;
+		CBaseExternalEntity e = factory.programCatalog.GetExternalDataReference(identifier, csRenamePattern, factory) ;
 		if (e == null)
 		{
-			CGlobalEntityCounter.GetInstance().RegisterMissingCopy(parent.GetProgramName(), m_Identifier) ;
+			CGlobalEntityCounter.GetInstance().RegisterMissingCopy(parent.GetProgramName(), identifier) ;
 			return null ;
 		}
 
@@ -109,13 +109,13 @@ public class CCopyRec extends CCobolElement
 		{
 			return false;
 		}
-		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().m_Name) ;
+		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
 
 		int line = tok.getLine() ; 
 		tok = GetNext();
 		if (tok.GetType() == CTokenType.IDENTIFIER)
 		{
-			m_Identifier = tok.GetValue();
+			identifier = tok.GetValue();
 		}
 		else
 		{
@@ -144,7 +144,7 @@ public class CCopyRec extends CCobolElement
 			}
 			else if ((tok.GetType() == CTokenType.NUMBER || tok.GetType() == CTokenType.IDENTIFIER) && tok.getLine() == line)
 			{
-				m_arrOption.add(tok.GetValue());
+				arrOption.add(tok.GetValue());
 				tok = GetNext() ;
 			}
 //			else if (tok.GetType() == CTokenType.COMMENT)
@@ -203,17 +203,17 @@ public class CCopyRec extends CCobolElement
 	protected Element ExportCustom(Document root)
 	{
 		Element eCopy = root.createElement("CopyRec");
-		eCopy.setAttribute("Reference", m_Identifier) ;
-		for (int i=0; i<m_arrOption.size(); i++)
+		eCopy.setAttribute("Reference", identifier) ;
+		for (int i=0; i<arrOption.size(); i++)
 		{
 			String cs = "Option"+i ;
-			String val = m_arrOption.get(i);
+			String val = arrOption.get(i);
 			eCopy.setAttribute(cs, val);		
 		}
 		return eCopy;
 	}
 	
-	protected String m_Identifier = ""  ;
-	protected ArrayList<String> m_arrOption = new ArrayList<String>() ; 
+	protected String identifier = ""  ;
+	protected ArrayList<String> arrOption = new ArrayList<String>() ; 
 
 }

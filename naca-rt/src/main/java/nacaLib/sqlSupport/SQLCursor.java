@@ -31,80 +31,80 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
 {
 	public SQLCursor(BaseProgramManager programManager)
 	{
-		m_programManager = programManager;
-		m_SQL = null;
-		m_bOpen = false;
-		m_programManager.registerCursor(this);
+		programManager = programManager;
+		sQL = null;
+		bOpen = false;
+		programManager.registerCursor(this);
 	}
 	
 	public void setQuery(String csQuery)
 	{
-		//VarBuffer working = m_programManager.m_DataDivision.getWorkingStorageSectionVarBuffer();
-		//CESMEnvironment env = m_programManager.m_CESMEnv;
-		//CSQLStatus sqlstatus = m_programManager.getSQLStatus();
-		//m_SQL = new SQL(working, env, csQuery, true, sqlstatus);
+		//VarBuffer working = programManager.dataDivision.getWorkingStorageSectionVarBuffer();
+		//CESMEnvironment env = programManager.cESMEnv;
+		//CSQLStatus sqlstatus = programManager.getSQLStatus();
+		//sQL = new SQL(working, env, csQuery, true, sqlstatus);
 		
 		//String csFileLine = StackStraceSupport.getFileLineAtStackDepth(3);	// Caller File Line
-		//m_SQL = m_programManager.getOrCreateSQLForCursor(csQuery, this);//, csFileLine);
-		m_SQL = m_programManager.getOrCreateSQLGeneral(csQuery, this);//, csFileLine);
+		//sQL = programManager.getOrCreateSQLForCursor(csQuery, this);//, csFileLine);
+		sQL = programManager.getOrCreateSQLGeneral(csQuery, this);//, csFileLine);
 	}
 	
 	public void setMustBeNamed(boolean bNameToSet)
 	{
-		m_bNameToSet = bNameToSet;
+		bNameToSet = bNameToSet;
 	}
 	
 	public boolean getMustNameCursor()
 	{
-		return m_bNameToSet;
+		return bNameToSet;
 	}
 	
 //	public SQLCursor(ProgramManager programManager, VarBuffer Working, CESMEnvironment env, String csQuery, CSQLStatus sqlstatus)
 //	{
-//		m_programManager = programManager;
-//		m_SQL = new SQL(Working, env, csQuery, true, sqlstatus);
-//		m_bOpen = false;
+//		programManager = programManager;
+//		sQL = new SQL(Working, env, csQuery, true, sqlstatus);
+//		bOpen = false;
 //	}
 	
 	public CSQLStatus open()
 	{
-		CSQLStatus sqlStatus = m_programManager.getSQLStatus();
-		if(m_SQL != null)
+		CSQLStatus sqlStatus = programManager.getSQLStatus();
+		if(sQL != null)
 		{
-			if(m_bOpen)
+			if(bOpen)
 				sqlStatus.setSQLCode(SQLCode.SQL_CURSOR_ALREADY_OPENED);
 			else
 				sqlStatus.reset();
 		}		
-		m_bOpen = true;
+		bOpen = true;
 		return sqlStatus;
 	}
 	
 	public CSQLStatus close()
 	{
-		CSQLStatus sqlStatus = m_programManager.getSQLStatus();
-		if(m_SQL != null)
+		CSQLStatus sqlStatus = programManager.getSQLStatus();
+		if(sQL != null)
 		{
-			if(!m_bOpen)
+			if(!bOpen)
 				sqlStatus.setSQLCode(SQLCode.SQL_CURSOR_NOT_OPEN);				
 			else
 				sqlStatus.reset();
-			m_SQL.close();			
+			sQL.close();			
 		}
 		else	// too many close
 		{
 			sqlStatus.setSQLCode(SQLCode.SQL_CURSOR_NOT_OPEN);
 		}
-		m_bOpen = false;
+		bOpen = false;
 
-		m_SQL = null;
-		m_SQLCursorFetch = null;
+		sQL = null;
+		sQLCursorFetch = null;
 		return sqlStatus;
 	}
 	
 	public void closeIfOpen()
 	{
-		if(m_bOpen)
+		if(bOpen)
 		{
 			close();
 		}
@@ -112,15 +112,15 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
 		
 	public boolean isOpen()
 	{
-		return m_bOpen;
+		return bOpen;
 	}
 	
 	public SQLCursor param(int nName, VarAndEdit var)
 	{
 		if(isLogSql)
 			Log.logDebug("param "+nName+"="+var.getLoggableValue());
-		if(m_SQL != null)
-			m_SQL.param(nName, var);
+		if(sQL != null)
+			sQL.param(nName, var);
 		return this;
 	}
 	
@@ -128,8 +128,8 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
 	{
 		if(isLogSql)
 			Log.logDebug("param "+csName+"="+var.getLoggableValue());
-		if(m_SQL != null)
-			m_SQL.param(csName, var);
+		if(sQL != null)
+			sQL.param(csName, var);
 		return this;
 	}
 	
@@ -137,7 +137,7 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
 	{
 		if(isLogSql)
 			Log.logDebug("param "+nName+"="+nValue);
-		m_SQL.param(nName, nValue);
+		sQL.param(nName, nValue);
 		return this;
 	}
 	
@@ -145,8 +145,8 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
 	{
 		if(isLogSql)
 			Log.logDebug("param "+csName+"="+nValue);
-		if(m_SQL != null)
-			m_SQL.param(csName, nValue);
+		if(sQL != null)
+			sQL.param(csName, nValue);
 		return this;
 	}
 
@@ -154,8 +154,8 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
 	{
 		if(isLogSql)
 			Log.logDebug("param "+nName+"="+dValue);
-		if(m_SQL != null)
-			m_SQL.param(nName, dValue);
+		if(sQL != null)
+			sQL.param(nName, dValue);
 		return this;
 	}
 	
@@ -163,8 +163,8 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
 	{
 		if(isLogSql)
 			Log.logDebug("param "+csName+"="+dValue);
-		if(m_SQL != null)
-			m_SQL.param(csName, dValue);
+		if(sQL != null)
+			sQL.param(csName, dValue);
 		return this;
 	}
 		
@@ -172,8 +172,8 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
 	{
 		if(isLogSql)
 			Log.logDebug("param "+nName+"="+csValue);
-		if(m_SQL != null)
-			m_SQL.param(nName, csValue);
+		if(sQL != null)
+			sQL.param(nName, csValue);
 		return this;
 	}
 	
@@ -181,8 +181,8 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
 	{	
 		if(isLogSql)
 			Log.logDebug("param "+csName+"="+csValue);
-		if(m_SQL != null)
-			m_SQL.param(csName, csValue);
+		if(sQL != null)
+			sQL.param(csName, csValue);
 		return this;
 	}
 	
@@ -190,8 +190,8 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
 	{
 		if(isLogSql)
 			Log.logDebug("onWarningGoto "+paragraphSQGErrorGoto.toString());
-		if(m_SQL != null)
-			m_SQL.onWarningGoto(paragraphSQGErrorGoto);
+		if(sQL != null)
+			sQL.onWarningGoto(paragraphSQGErrorGoto);
 		return this;
 	}
 	
@@ -199,8 +199,8 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
 	{
 		if(isLogSql)
 			Log.logDebug("onWarningGoto "+section.toString());
-		if(m_SQL != null)
-			m_SQL.onWarningGoto(section);
+		if(sQL != null)
+			sQL.onWarningGoto(section);
 		return this;
 	}
 	
@@ -208,8 +208,8 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
 	{
 		if(isLogSql)
 			Log.logDebug("onWarningContinue");
-		if(m_SQL != null)
-			m_SQL.onWarningContinue();
+		if(sQL != null)
+			sQL.onWarningContinue();
 		return this;
 	}
 	
@@ -217,8 +217,8 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
 	{
 		if(isLogSql)
 			Log.logDebug("onErrorGoto "+paragraphSQGErrorGoto.toString());
-		if(m_SQL != null)
-			m_SQL.onErrorGoto(paragraphSQGErrorGoto);
+		if(sQL != null)
+			sQL.onErrorGoto(paragraphSQGErrorGoto);
 		return this;
 	}
 	
@@ -226,8 +226,8 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
 	{
 		if(isLogSql)
 			Log.logDebug("onErrorGoto "+section.toString());
-		if(m_SQL != null)
-			m_SQL.onErrorGoto(section);
+		if(sQL != null)
+			sQL.onErrorGoto(section);
 		return this;
 	}
 	
@@ -235,50 +235,50 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
 	{
 		if(isLogSql)
 			Log.logDebug("onErrorContinue");
-		if(m_SQL != null)
-			m_SQL.onErrorContinue();
+		if(sQL != null)
+			sQL.onErrorContinue();
 		return this;
 	}
 	
 	public SQLCursorFetch fetch(BaseEnvironment env)
 	{
-		if(m_SQLCursorFetch == null)
-			m_SQLCursorFetch = new SQLCursorFetch(m_bOpen, m_SQL);
-		if(m_bOpen && m_SQL != null)
+		if(sQLCursorFetch == null)
+			sQLCursorFetch = new SQLCursorFetch(bOpen, sQL);
+		if(bOpen && sQL != null)
 		{
-			m_SQL.resetExecuted(env);
-			m_SQL.resetErrorManager();
+			sQL.resetExecuted(env);
+			sQL.resetErrorManager();
 			// PJD ROWID Support:
-			//	if(m_SQL.hasRowIdGenerated())
+			//	if(sQL.hasRowIdGenerated())
 			//{
-			//	m_sqlItemRowId = new CSQLIntoItem();	
-			//	m_SQL.into(m_sqlItemRowId);
+			//	sqlItemRowId = new CSQLIntoItem();	
+			//	sQL.into(sqlItemRowId);
 			//}			
 		}
-		return m_SQLCursorFetch;		
+		return sQLCursorFetch;		
 	}
 	
 	public void setName(String csProgramName, String csName)
 	{
 		String cs = csProgramName + csName;
-		m_csUniqueName = cs.toUpperCase();
+		csUniqueName = cs.toUpperCase();
 	}
 
 	public String getUniqueCursorName()	// use for updatable cusrot that use Cursor Name
 	{
-		return m_csUniqueName;
+		return csUniqueName;
 	}
 	
-	private SQLCursorFetch m_SQLCursorFetch = null; 
-	public /*private*/ SQL m_SQL = null;
-	private boolean m_bOpen = false;
-	private BaseProgramManager m_programManager = null;
-	private String m_csUniqueName = null;
-	private boolean m_bNameToSet = false;	
+	private SQLCursorFetch sQLCursorFetch = null; 
+	public /*private*/ SQL sQL = null;
+	private boolean bOpen = false;
+	private BaseProgramManager programManager = null;
+	private String csUniqueName = null;
+	private boolean bNameToSet = false;	
 	
 	public SQLCursor setHoldability(boolean b)
 	{
-		m_SQL.setHoldability(b);
+		sQL.setHoldability(b);
 		return this;
 	}
 }

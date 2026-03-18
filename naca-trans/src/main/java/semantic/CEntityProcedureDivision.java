@@ -42,24 +42,24 @@ public abstract class CEntityProcedureDivision extends CBaseLanguageEntity
 		// nothing
 	}
 
-	protected Vector<CDataEntity> m_arrCallParameters = new Vector<CDataEntity>();
+	protected Vector<CDataEntity> arrCallParameters = new Vector<CDataEntity>();
 	public void AddCallParameter(CDataEntity e)
 	{
-		m_arrCallParameters.add(e) ;
+		arrCallParameters.add(e) ;
 	}
 	public Vector<CDataEntity> getCallParameters()
 	{
-		return m_arrCallParameters ;
+		return arrCallParameters ;
 	}
 	
-	protected CEntityBloc m_ProcedureBloc =null ;
+	protected CEntityBloc procedureBloc =null ;
 	public void SetProcedureBloc(CEntityBloc b)
 	{
-		m_ProcedureBloc = b ;
+		procedureBloc = b ;
 	}
 	public CEntityBloc getProcedureBloc()
 	{
-		return m_ProcedureBloc ;
+		return procedureBloc ;
 	}
 	public CEntityProcedureSection getSectionContainer()
 	{
@@ -72,12 +72,12 @@ public abstract class CEntityProcedureDivision extends CBaseLanguageEntity
 	public void Clear()
 	{
 		super.Clear();
-		m_arrCallParameters.clear() ;
-		if (m_ProcedureBloc!=null)
+		arrCallParameters.clear() ;
+		if (procedureBloc!=null)
 		{
-			m_ProcedureBloc.Clear() ;
+			procedureBloc.Clear() ;
 		}
-		m_ProcedureBloc = null ;
+		procedureBloc = null ;
 	}
 
 	/**
@@ -85,13 +85,13 @@ public abstract class CEntityProcedureDivision extends CBaseLanguageEntity
 	 */
 	public boolean hasExplicitGetout()
 	{
-		if (m_ProcedureBloc == null)
+		if (procedureBloc == null)
 		{
 			return false;
 		}
 		else
 		{
-			return m_ProcedureBloc.hasExplicitGetOut() ;
+			return procedureBloc.hasExplicitGetOut() ;
 		}
 	}
 }

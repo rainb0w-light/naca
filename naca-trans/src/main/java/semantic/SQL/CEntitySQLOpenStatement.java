@@ -29,10 +29,10 @@ public abstract class CEntitySQLOpenStatement extends CBaseActionEntity
 	public CEntitySQLOpenStatement(int line, CObjectCatalog cat, CBaseLanguageExporter out, CEntitySQLCursor cur)
 	{
 		super(line, cat, out);
-		m_cursor = cur ;
+		cursor = cur ;
 	}
-	protected CEntitySQLCursor m_cursor = null ;
-	protected CDataEntity m_VariableStatement = null ;
+	protected CEntitySQLCursor cursor = null ;
+	protected CDataEntity variableStatement = null ;
 	public boolean ignore()
 	{
 		return false ;
@@ -42,6 +42,6 @@ public abstract class CEntitySQLOpenStatement extends CBaseActionEntity
 	 */
 	public void setVariableStatement(CDataEntity var)
 	{
-		m_VariableStatement  = var ;
+		variableStatement  = var ;
 	}
 }

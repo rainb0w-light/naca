@@ -19,7 +19,7 @@ import java.sql.Types;
  */
 public class DbPreparedCallableStatement
 {
-	protected CallableStatement m_callableStatement = null;
+	protected CallableStatement callableStatement = null;
 	
 	public DbPreparedCallableStatement(CallableStatement callableStatement)
 	{
@@ -28,14 +28,14 @@ public class DbPreparedCallableStatement
 	
 	public void init(CallableStatement callableStatement)
 	{
-		m_callableStatement = callableStatement;
+		callableStatement = callableStatement;
 	}
 	
 	public boolean setInValue(int nParamId, double d)
 	{
 		try
 		{
-			m_callableStatement.setDouble(nParamId, d);
+			callableStatement.setDouble(nParamId, d);
 			return true;
 		}
 		catch (SQLException e)
@@ -49,7 +49,7 @@ public class DbPreparedCallableStatement
 	public boolean setInValueWithException(int nParamId, double d)
 		throws SQLException
 	{
-		m_callableStatement.setDouble(nParamId, d);
+		callableStatement.setDouble(nParamId, d);
 		return true;
 	}
 	
@@ -57,7 +57,7 @@ public class DbPreparedCallableStatement
 	{
 		try
 		{
-			m_callableStatement.setInt(nParamId, n);
+			callableStatement.setInt(nParamId, n);
 			return true;
 		}
 		catch (SQLException e)
@@ -71,7 +71,7 @@ public class DbPreparedCallableStatement
 	public boolean setInValueWithException(int nParamId, short s)
 		throws SQLException
 	{
-		m_callableStatement.setShort(nParamId, s);
+		callableStatement.setShort(nParamId, s);
 		return true;
 	}
 	
@@ -79,7 +79,7 @@ public class DbPreparedCallableStatement
 	{
 		try
 		{
-			m_callableStatement.setShort(nParamId, s);
+			callableStatement.setShort(nParamId, s);
 			return true;
 		}
 		catch (SQLException e)
@@ -93,7 +93,7 @@ public class DbPreparedCallableStatement
 	public boolean setInValueWithException(int n, String cs)
 		throws SQLException
 	{
-		m_callableStatement.setString(n, cs);
+		callableStatement.setString(n, cs);
 		return true;
 	}
 
@@ -101,7 +101,7 @@ public class DbPreparedCallableStatement
 	{
 		try
 		{
-			m_callableStatement.setString(n, cs);
+			callableStatement.setString(n, cs);
 			return true;
 		}
 		catch (SQLException e)
@@ -116,19 +116,19 @@ public class DbPreparedCallableStatement
 	public String getOutValueStringWithException(int nParamId)
 		throws SQLException
 	{
-		return m_callableStatement.getString(nParamId);
+		return callableStatement.getString(nParamId);
 	}
 	
 	public String getOutValueString(int nParamId) throws SQLException
 	{
-		return m_callableStatement.getString(nParamId);
+		return callableStatement.getString(nParamId);
 	}
 //	
 //	public String getOutValueString(int nParamId)
 //	{
 //		try
 //		{
-//			return m_callableStatement.getString(nParamId);
+//			return callableStatement.getString(nParamId);
 //		}
 //		catch (SQLException e)
 //		{
@@ -141,14 +141,14 @@ public class DbPreparedCallableStatement
 	public double getOutValueDoubleWithException(int nParamId)
 		throws SQLException
 	{
-		return m_callableStatement.getDouble(nParamId);
+		return callableStatement.getDouble(nParamId);
 	}
 	
 	public double getOutValueDouble(int nParamId)
 	{
 		try
 		{
-			return m_callableStatement.getDouble(nParamId);
+			return callableStatement.getDouble(nParamId);
 		}
 		catch (SQLException e)
 		{
@@ -161,14 +161,14 @@ public class DbPreparedCallableStatement
 	public int getOutValueIntWithException(int nParamId)
 		throws SQLException
 	{
-		return m_callableStatement.getInt(nParamId);
+		return callableStatement.getInt(nParamId);
 	}
 
 	public int getOutValueInt(int nParamId)
 	{
 		try
 		{
-			return m_callableStatement.getInt(nParamId);
+			return callableStatement.getInt(nParamId);
 		}
 		catch (SQLException e)
 		{
@@ -182,14 +182,14 @@ public class DbPreparedCallableStatement
 	public short getOutValueShortWithException(int nParamId)
 		throws SQLException
 	{
-		return m_callableStatement.getShort(nParamId);
+		return callableStatement.getShort(nParamId);
 	}
 	
 	public short getOutValueShort(int nParamId)
 	{
 		try
 		{
-			return m_callableStatement.getShort(nParamId);
+			return callableStatement.getShort(nParamId);
 		}
 		catch (SQLException e)
 		{
@@ -202,7 +202,7 @@ public class DbPreparedCallableStatement
 	public boolean registerOutParameterWithException(int nParamId, int nTypeId)
 		throws SQLException
 	{
-		m_callableStatement.registerOutParameter(nParamId, nTypeId);
+		callableStatement.registerOutParameter(nParamId, nTypeId);
 		return true;
 	}
 	
@@ -210,7 +210,7 @@ public class DbPreparedCallableStatement
 	{
 		try
 		{
-			m_callableStatement.registerOutParameter(nParamId, nTypeId);
+			callableStatement.registerOutParameter(nParamId, nTypeId);
 			return true;
 		}
 		catch (SQLException e)
@@ -225,7 +225,7 @@ public class DbPreparedCallableStatement
 	{
 		try
 		{
-			m_callableStatement.registerOutParameter(csName, colDescriptionInfo.m_nTypeId);
+			callableStatement.registerOutParameter(csName, colDescriptionInfo.nTypeId);
 			return true;
 		}
 		catch (SQLException e)
@@ -239,7 +239,7 @@ public class DbPreparedCallableStatement
 	{
 		try
 		{
-			m_callableStatement.registerOutParameter(nParamId, colDescriptionInfo.m_nTypeId);
+			callableStatement.registerOutParameter(nParamId, colDescriptionInfo.nTypeId);
 			return true;
 		}
 		catch (SQLException e)
@@ -252,21 +252,21 @@ public class DbPreparedCallableStatement
 	public boolean executeWithException() 
 		throws SQLException
 	{
-		boolean b = m_callableStatement.execute();
+		boolean b = callableStatement.execute();
 		return b;
 	}
 
 	public boolean execute() 
 		throws SQLException
 	{
-		boolean b = m_callableStatement.execute();
+		boolean b = callableStatement.execute();
 		return b;
 	}
 	
 	public boolean closeWithException()
 		throws SQLException
 	{		
-		m_callableStatement.close();
+		callableStatement.close();
 		return true;
 	}
 
@@ -274,7 +274,7 @@ public class DbPreparedCallableStatement
 	{
 		try
 		{
-			m_callableStatement.close();
+			callableStatement.close();
 			return true;
 		}
 		catch (SQLException e)

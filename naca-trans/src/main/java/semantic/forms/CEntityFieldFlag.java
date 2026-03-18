@@ -45,10 +45,10 @@ public abstract class CEntityFieldFlag extends CBaseEntityFieldAttribute
 	}
 	public CBaseActionEntity GetSpecialAssignment(CTerminal term, CBaseEntityFactory factory, int l)
 	{
-		CEntityFieldAttributeReference ref = factory.NewEntityFieldAttributeReference(m_Reference) ;
+		CEntityFieldAttributeReference ref = factory.NewEntityFieldAttributeReference(reference) ;
 		CEntitySetFlag eSet = factory.NewEntitySetFlag(l, ref) ;
 		String v = term.GetValue() ;
-		if (v.equals(CCobolConstantList.LOW_VALUE.m_Name) || v.equals(CCobolConstantList.LOW_VALUES.m_Name))
+		if (v.equals(CCobolConstantList.LOW_VALUE.name) || v.equals(CCobolConstantList.LOW_VALUES.name))
 		{
 			eSet.ResetFlag() ;
 		}
@@ -60,11 +60,11 @@ public abstract class CEntityFieldFlag extends CBaseEntityFieldAttribute
 		{
 			eSet.SetFlag("0") ;
 		}
-		else if (v.equals(CCobolConstantList.SPACE.m_Name) || v.equals(CCobolConstantList.SPACES.m_Name))
+		else if (v.equals(CCobolConstantList.SPACE.name) || v.equals(CCobolConstantList.SPACES.name))
 		{
 			eSet.SetFlag("0") ;
 		}
-		else if (v.equals(CCobolConstantList.ZERO.m_Name) || v.equals(CCobolConstantList.ZEROS.m_Name) || v.equals(CCobolConstantList.ZEROES.m_Name))
+		else if (v.equals(CCobolConstantList.ZERO.name) || v.equals(CCobolConstantList.ZEROS.name) || v.equals(CCobolConstantList.ZEROES.name))
 		{
 			eSet.SetFlag("0") ;
 		}
@@ -77,7 +77,7 @@ public abstract class CEntityFieldFlag extends CBaseEntityFieldAttribute
 	}
 	public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory) 
 	{
-		CDataEntity e = m_Reference.GetArrayReference(v, factory) ;
+		CDataEntity e = reference.GetArrayReference(v, factory) ;
 		return factory.NewEntityFieldFlag(getLine(), "", e);
 	};
 	public CBaseEntityCondition GetSpecialCondition(int nLine, String value, CBaseEntityCondition.EConditionType type, CBaseEntityFactory factory)
@@ -85,22 +85,22 @@ public abstract class CEntityFieldFlag extends CBaseEntityFieldAttribute
 		CEntityIsFieldFlag eCond = factory.NewEntityIsFieldFlag() ;
 		if (value.equals("1"))
 		{
-			eCond.SetIsFlag(m_Reference, "1");
+			eCond.SetIsFlag(reference, "1");
 		}
 		else if (value.equals("LOW-VALUE") || value.equals("LOW-VALUES"))
 		{
-			eCond.SetIsFlagSet(m_Reference);
+			eCond.SetIsFlagSet(reference);
 			eCond.SetOpposite() ;	 // if FIELD.Flag == LOW-VALUE  <=>  if flag not set
 		}
 		else if (value.equals("0")|| value.equals("ZERO") || value.equals("ZEROS") || value.equals("ZEROES"))
 		{
-			eCond.SetIsFlag(m_Reference, "0");
+			eCond.SetIsFlag(reference, "0");
 		}
 		else
 		{
 			return null ;
 		}
-		m_Reference.RegisterVarTesting(eCond) ;
+		reference.RegisterVarTesting(eCond) ;
 		if (type == CBaseEntityCondition.EConditionType.IS_EQUAL)
 		{
 			return eCond ;

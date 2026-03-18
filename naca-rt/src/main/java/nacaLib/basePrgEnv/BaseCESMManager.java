@@ -37,16 +37,16 @@ import nacaLib.varEx.VarAndEdit;
 
 public class BaseCESMManager extends CJMapObject
 {
-	protected BaseEnvironment m_CESMEnv = null ;
+	protected BaseEnvironment cESMEnv = null ;
 	
 	public BaseCESMManager(BaseEnvironment env)
 	{
-		m_CESMEnv = env;
+		cESMEnv = env;
 	}
 	
 	public BaseEnvironment getEnvironment()
 	{
-		return m_CESMEnv ;
+		return cESMEnv ;
 	}
 	
 	public void returnTrans(String csTransaction, Var v1, VarAndEdit len)
@@ -103,9 +103,9 @@ public class BaseCESMManager extends CJMapObject
 	{
 		if(isLogCESM)
 			Log.logDebug("returnTrans");
-		m_CESMEnv.setLastCommandCode(CESMCommandCode.RETURN);
-		m_CESMEnv.setNextProgramToLoad("");
-		m_CESMEnv.setCommarea(null);
+		cESMEnv.setLastCommandCode(CESMCommandCode.RETURN);
+		cESMEnv.setNextProgramToLoad("");
+		cESMEnv.setCommarea(null);
 		CESMReturnException excp = new CESMReturnException();
 		throw excp;
 	}	
@@ -116,11 +116,11 @@ public class BaseCESMManager extends CJMapObject
 			
 		if(isLogCESM)
 			Log.logDebug("returnTrans program="+csProgramId+" Form="+form.getLoggableValue());		
-		m_CESMEnv.setLastCommandCode(CESMCommandCode.RETURN);
-		m_CESMEnv.setNextProgramToLoad(csProgramId) ;
+		cESMEnv.setLastCommandCode(CESMCommandCode.RETURN);
+		cESMEnv.setNextProgramToLoad(csProgramId) ;
 		CCommarea comm = new CCommarea() ;
 		comm.setVarPassedByValue(form);
-		m_CESMEnv.setCommarea(comm);
+		cESMEnv.setCommarea(comm);
 		CESMReturnException excp = new CESMReturnException();
 		throw excp;
 	}	
@@ -133,11 +133,11 @@ public class BaseCESMManager extends CJMapObject
 		
 		if(isLogCESM)
 			Log.logDebug("returnTrans program="+csProgramId+ " Var="+v1.getLoggableValue());		
-		m_CESMEnv.setLastCommandCode(CESMCommandCode.RETURN) ;
-		m_CESMEnv.setNextProgramToLoad(csProgramId) ;
+		cESMEnv.setLastCommandCode(CESMCommandCode.RETURN) ;
+		cESMEnv.setNextProgramToLoad(csProgramId) ;
 		CCommarea comm = new CCommarea() ;
 		comm.setVarPassedByValue(v1, length);
-		m_CESMEnv.setCommarea(comm);
+		cESMEnv.setCommarea(comm);
 		CESMReturnException excp = new CESMReturnException();
 		throw excp;
 	}
@@ -146,7 +146,7 @@ public class BaseCESMManager extends CJMapObject
 	{
 		if(isLogCESM)
 			Log.logDebug("abend");
-		m_CESMEnv.setLastCommandCode(CESMCommandCode.ABEND);
+		cESMEnv.setLastCommandCode(CESMCommandCode.ABEND);
 		CESMAbendException e = new CESMAbendException("none");
 		throw e;
 	}
@@ -159,7 +159,7 @@ public class BaseCESMManager extends CJMapObject
 	{
 		if(isLogCESM)
 			Log.logDebug("abend");
-		m_CESMEnv.setLastCommandCode(CESMCommandCode.ABEND) ;
+		cESMEnv.setLastCommandCode(CESMCommandCode.ABEND) ;
 		CESMAbendException e = new CESMAbendException(cs);
 		throw e ; 
 	}
@@ -168,11 +168,11 @@ public class BaseCESMManager extends CJMapObject
 	{
 		if(isLogCESM)
 			Log.logDebug("getAddressOfTCTUA");
-		m_CESMEnv.setLastCommandCode(CESMCommandCode.GET_ADDRESS) ;
-		//p.m_AddressOf.m_VarManager.redefinesAs(m_CESMEnv.getTCTUA());
+		cESMEnv.setLastCommandCode(CESMCommandCode.GET_ADDRESS) ;
+		//p.addressOf.varManager.redefinesAs(cESMEnv.getTCTUA());
 		
-		char [] acTCTUA = m_CESMEnv.getTCTUA();	
-		p.m_AddressOf.setCustomBuffer(acTCTUA);
+		char [] acTCTUA = cESMEnv.getTCTUA();	
+		p.addressOf.setCustomBuffer(acTCTUA);
 		
 		return this;	
 	}
@@ -181,10 +181,10 @@ public class BaseCESMManager extends CJMapObject
 	{
 		if(isLogCESM)
 			Log.logDebug("getAddressOfTCTUA");
-		// p.m_AddressOf.m_VarManager.redefinesAs(m_CESMEnv.getTWA());
-		char [] acTWA = m_CESMEnv.getTWA();
-		p.m_AddressOf.setCustomBuffer(acTWA);
-		//p.m_AddressOf.m_VarManager.manageRedefines();
+		// p.addressOf.varManager.redefinesAs(cESMEnv.getTWA());
+		char [] acTWA = cESMEnv.getTWA();
+		p.addressOf.setCustomBuffer(acTWA);
+		//p.addressOf.varManager.manageRedefines();
 			
 		return this;	
 	}
@@ -193,9 +193,9 @@ public class BaseCESMManager extends CJMapObject
 	{
 		if(isLogCESM)
 			Log.logDebug("getAddressOfTCTUA");
-		//p.m_AddressOf.m_VarManager.redefinesAs(m_CESMEnv.getCWA());
-		char [] acCWA = m_CESMEnv.getCWA();
-		p.m_AddressOf.setCustomBuffer(acCWA);
+		//p.addressOf.varManager.redefinesAs(cESMEnv.getCWA());
+		char [] acCWA = cESMEnv.getCWA();
+		p.addressOf.setCustomBuffer(acCWA);
 		
 		return this;	
 	}
@@ -210,44 +210,44 @@ public class BaseCESMManager extends CJMapObject
 	{
 		if(isLogCESM)
 			Log.logDebug("ignoreCondition "+string);
-		m_CESMEnv.setLastCommandCode(CESMCommandCode.IGNORE) ;
-		m_tabConditionHandles.remove(string);
+		cESMEnv.setLastCommandCode(CESMCommandCode.IGNORE) ;
+		tabConditionHandles.remove(string);
 		return this ;
 	}
 	public BaseCESMManager unhandleCondition(String string)
 	{
 		if(isLogCESM)
 			Log.logDebug("unhandleCondition"+string);
-		m_CESMEnv.setLastCommandCode(CESMCommandCode.HANDLE) ;
-		m_tabConditionHandles.remove(string);
+		cESMEnv.setLastCommandCode(CESMCommandCode.HANDLE) ;
+		tabConditionHandles.remove(string);
 		return this ;
 	}
 	public BaseCESMManager handleCondition(String string, Paragraph par)
 	{
 		if(isLogCESM)
 			Log.logDebug("handleCondition"+string);
-		m_CESMEnv.setLastCommandCode(CESMCommandCode.HANDLE) ;
-		m_tabConditionHandles.put(string, par);
+		cESMEnv.setLastCommandCode(CESMCommandCode.HANDLE) ;
+		tabConditionHandles.put(string, par);
 		return this ;
 	}
 	public BaseCESMManager handleCondition(String string, Section par)
 	{
 		if(isLogCESM)
 			Log.logDebug("handleCondition"+string);
-		m_CESMEnv.setLastCommandCode(CESMCommandCode.HANDLE) ;
-		m_tabConditionHandles.put(string, par);
+		cESMEnv.setLastCommandCode(CESMCommandCode.HANDLE) ;
+		tabConditionHandles.put(string, par);
 		return this ;
 	}
-	protected Hashtable<String, CJMapRunnable> m_tabConditionHandles = new Hashtable<String, CJMapRunnable>();
+	protected Hashtable<String, CJMapRunnable> tabConditionHandles = new Hashtable<String, CJMapRunnable>();
 	
 	public String getLastCommandReturnCode()
 	{
-		return m_CESMEnv.getLastCommandReturnCode().getCode();
+		return cESMEnv.getLastCommandReturnCode().getCode();
 	}
 
 	public int getConditionOccured()
 	{
-		int n = m_CESMEnv.getLastCommandReturnCode().getCondition() ;
+		int n = cESMEnv.getLastCommandReturnCode().getCondition() ;
 		if(isLogCESM)
 			Log.logDebug("getConditionOccured value="+n);
 		return n;
@@ -257,7 +257,7 @@ public class BaseCESMManager extends CJMapObject
 	{
 		if(isLogCESM)
 			Log.logDebug("setConditionOccured value="+n);
-		m_CESMEnv.setCommandReturnCode(CESMReturnCode.Select(n)) ;
+		cESMEnv.setCommandReturnCode(CESMReturnCode.Select(n)) ;
 	}
 
 	public CCESMFakeMethodContainer startBrowseDataSet(String ws_Fichier)
@@ -292,14 +292,14 @@ public class BaseCESMManager extends CJMapObject
 
 	public String getConfig(String string)
 	{
-		return m_CESMEnv.getConfigOption(string) ;
+		return cESMEnv.getConfigOption(string) ;
 	}
 
 	public String getSQLEnvironment()
 	{
 		if(isLogCESM)
 			Log.logDebug("getSQLEnvironment");
-		return m_CESMEnv.getSQLConnection().getEnvironmentPrefix() ;
+		return cESMEnv.getSQLConnection().getEnvironmentPrefix() ;
 	}
 
 	public void delayInterval(Var delay)
@@ -307,38 +307,38 @@ public class BaseCESMManager extends CJMapObject
 		// delay uses format HHMMSS
 		int nNextTime_s = DateUtil.getNbSecondsFromHour(delay.getInt());
 		long lWaitTime_ms = nNextTime_s * 1000;
-		m_CESMEnv.offsetMaxTimeLimit(lWaitTime_ms);
+		cESMEnv.offsetMaxTimeLimit(lWaitTime_ms);
 		Time_ms.wait_ms(lWaitTime_ms);
 	}
 	public void delaySeconds(Var delay)
 	{
 		long lWaitTime_ms = delay.getLong() * 1000;
-		m_CESMEnv.offsetMaxTimeLimit(lWaitTime_ms);
+		cESMEnv.offsetMaxTimeLimit(lWaitTime_ms);
 		Time_ms.wait_ms(lWaitTime_ms);		
 	}
 
 	public boolean hasCredentials()
 	{
-		return !m_CESMEnv.getApplicationCredentials().equals("");
+		return !cESMEnv.getApplicationCredentials().equals("");
 	}
 	public String getDeclaredUserId()
 	{
-		if (m_CESMEnv.getApplicationCredentials().length() > 7)
+		if (cESMEnv.getApplicationCredentials().length() > 7)
 		{
-			return m_CESMEnv.getApplicationCredentials().substring(5, 8);
+			return cESMEnv.getApplicationCredentials().substring(5, 8);
 		}
 		else
 		{
-			return m_CESMEnv.getApplicationCredentials().substring(5, 7);
+			return cESMEnv.getApplicationCredentials().substring(5, 7);
 		}
 	}
 	public String getDeclaredCompany()
 	{
-		return m_CESMEnv.getApplicationCredentials().substring(0, 2) ;
+		return cESMEnv.getApplicationCredentials().substring(0, 2) ;
 	}
 	public String getDeclaredAgency()
 	{
-		return m_CESMEnv.getApplicationCredentials().substring(2, 5) ;
+		return cESMEnv.getApplicationCredentials().substring(2, 5) ;
 	}	
 
 	public CCESMFakeMethodContainer enQ(Var enqsycr, int i)
@@ -411,8 +411,8 @@ public class BaseCESMManager extends CJMapObject
 	{
 		if(isLogCESM)
 			Log.logDebug("askTime");
-		m_CESMEnv.setLastCommandCode(CESMCommandCode.ASKTIME) ;
-		m_CESMEnv.resetDateTime() ;
+		cESMEnv.setLastCommandCode(CESMCommandCode.ASKTIME) ;
+		cESMEnv.resetDateTime() ;
 	}
 	
 	public CCESMFakeMethodContainer inquire()
@@ -420,7 +420,7 @@ public class BaseCESMManager extends CJMapObject
 		if(isLogCESM)
 			Log.logDebug("inquire");
 		
-		m_CESMEnv.setLastCommandCode(CESMCommandCode.INQUIRE) ;
+		cESMEnv.setLastCommandCode(CESMCommandCode.INQUIRE) ;
 		// TODO fake method inquire
 		return new CCESMFakeMethodContainer();
 	}
@@ -434,10 +434,10 @@ public class BaseCESMManager extends CJMapObject
 		if(isLogCESM)
 			Log.logDebug("readTempQueue "+csName);
 		
-		m_CESMEnv.setLastCommandCode(CESMCommandCode.READ_TEMPQUEUE);		
-		m_CESMEnv.setCommandReturnCode(CESMReturnCode.NORMAL) ;
+		cESMEnv.setLastCommandCode(CESMCommandCode.READ_TEMPQUEUE);		
+		cESMEnv.setCommandReturnCode(CESMReturnCode.NORMAL) ;
 		
-		return new CESMReadQueue(false, csName, m_CESMEnv.getQueueManager());
+		return new CESMReadQueue(false, csName, cESMEnv.getQueueManager());
 	}
 	
 	public void deleteTempQueue(Var varName)
@@ -449,10 +449,10 @@ public class BaseCESMManager extends CJMapObject
 		if(isLogCESM)
 			Log.logDebug("deleteTempQueue "+csName);
 		
-		m_CESMEnv.setLastCommandCode(CESMCommandCode.DELETE_TEMPQUEUE);
-		m_CESMEnv.setCommandReturnCode(CESMReturnCode.NORMAL) ;
+		cESMEnv.setLastCommandCode(CESMCommandCode.DELETE_TEMPQUEUE);
+		cESMEnv.setCommandReturnCode(CESMReturnCode.NORMAL) ;
 		
-		CESMQueueManager queueManager = m_CESMEnv.getQueueManager();
+		CESMQueueManager queueManager = cESMEnv.getQueueManager();
 		queueManager.deleteTempQueue(csName);
 	}
 	
@@ -466,10 +466,10 @@ public class BaseCESMManager extends CJMapObject
 		if(isLogCESM)
 			Log.logDebug("writeTempQueue "+csName);
 		
-		m_CESMEnv.setLastCommandCode(CESMCommandCode.WRITE_TEMPQUEUE);
-		m_CESMEnv.setCommandReturnCode(CESMReturnCode.NORMAL) ;
+		cESMEnv.setLastCommandCode(CESMCommandCode.WRITE_TEMPQUEUE);
+		cESMEnv.setCommandReturnCode(CESMReturnCode.NORMAL) ;
 		
-		return new CESMWriteQueue(false, csName, m_CESMEnv.getQueueManager());
+		return new CESMWriteQueue(false, csName, cESMEnv.getQueueManager());
 	}
 
 	public CESMWriteQueue writeTempQueue(Var tsNom, Var reWriteItem)
@@ -477,11 +477,11 @@ public class BaseCESMManager extends CJMapObject
 		if(isLogCESM)
 			Log.logDebug("writeTempQueue "+tsNom.getLoggableValue());
 		
-		m_CESMEnv.setLastCommandCode(CESMCommandCode.WRITE_TEMPQUEUE);
-		m_CESMEnv.setCommandReturnCode(CESMReturnCode.NORMAL) ;
+		cESMEnv.setLastCommandCode(CESMCommandCode.WRITE_TEMPQUEUE);
+		cESMEnv.setCommandReturnCode(CESMReturnCode.NORMAL) ;
 		
 		String name = tsNom.getString();
-		CESMWriteQueue writeorder = new CESMWriteQueue(false, name, m_CESMEnv.getQueueManager());
+		CESMWriteQueue writeorder = new CESMWriteQueue(false, name, cESMEnv.getQueueManager());
 		int item = reWriteItem.getInt() ;
 		writeorder.rewrite(item) ;
 		return writeorder ;	
@@ -495,8 +495,8 @@ public class BaseCESMManager extends CJMapObject
 	{
 		if(isLogCESM)
 			Log.logDebug("readDataSet "+string);
-		m_CESMEnv.setLastCommandCode(CESMCommandCode.READ_DATASET) ;
-		m_CESMEnv.setCommandReturnCode(CESMReturnCode.NORMAL) ;
+		cESMEnv.setLastCommandCode(CESMCommandCode.READ_DATASET) ;
+		cESMEnv.setCommandReturnCode(CESMReturnCode.NORMAL) ;
 		// --> VSAM will be suppressed from COBOL
 		return new CCESMFakeMethodContainer();
 	}
@@ -509,8 +509,8 @@ public class BaseCESMManager extends CJMapObject
 	{
 		if(isLogCESM)
 			Log.logDebug("writeDataSet "+string);
-		m_CESMEnv.setLastCommandCode(CESMCommandCode.WRITE_DATASET) ;
-		m_CESMEnv.setCommandReturnCode(CESMReturnCode.NORMAL) ;
+		cESMEnv.setLastCommandCode(CESMCommandCode.WRITE_DATASET) ;
+		cESMEnv.setCommandReturnCode(CESMReturnCode.NORMAL) ;
 		// --> VSAM will be suppressed from COBOL
 		return new CCESMFakeMethodContainer();
 	}
@@ -519,7 +519,7 @@ public class BaseCESMManager extends CJMapObject
 	{
 		if(isLogCESM)
 			Log.logDebug("reWriteDataSet "+string);
-		m_CESMEnv.setCommandReturnCode(CESMReturnCode.NORMAL) ;
+		cESMEnv.setCommandReturnCode(CESMReturnCode.NORMAL) ;
 		// --> VSAM will be suppressed from COBOL
 		return new CCESMFakeMethodContainer();
 	}
@@ -543,17 +543,17 @@ public class BaseCESMManager extends CJMapObject
 
 		if(isLogCESM)
 			Log.logDebug("start "+csProgramId);
-		m_CESMEnv.setCommarea(null);
-		return new CESMStart(csProgramId, m_CESMEnv);
+		cESMEnv.setCommarea(null);
+		return new CESMStart(csProgramId, cESMEnv);
 	}
 
 	public void syncPointRollback()
 	{
-		if(m_CESMEnv.hasSQLConnection())
+		if(cESMEnv.hasSQLConnection())
 		{
 			if(isLogCESM)
 				Log.logDebug("syncPointRollback");
-			m_CESMEnv.rollbackSQL();
+			cESMEnv.rollbackSQL();
 		}
 		else
 		{
@@ -564,16 +564,16 @@ public class BaseCESMManager extends CJMapObject
 	
 	public void syncPointCommit()
 	{
-		if(m_CESMEnv.hasSQLConnection())
+		if(cESMEnv.hasSQLConnection())
 		{
 			if(isLogCESM)
 				Log.logDebug("syncPointCommit");
-			SQLException e = m_CESMEnv.commitSQL();
+			SQLException e = cESMEnv.commitSQL();
 			if(e != null)
 			{
 				AbortSessionException exp = new AbortSessionException() ;
-				exp.m_Reason = new Error("Problem with syncPointCommit");
-				exp.m_ProgramName = null;
+				exp.reason = new Error("Problem with syncPointCommit");
+				exp.programName = null;
 				throw exp ;
 			}
 		}
@@ -596,9 +596,9 @@ public class BaseCESMManager extends CJMapObject
 	{
 		if(isLogCESM)
 			Log.logDebug("link "+csProgramName);
-		m_CESMEnv.setLastCommandCode(CESMCommandCode.LINK );
-		m_CESMEnv.setCommarea(null);
-		return new CESMLink(m_CESMEnv, csProgramName);
+		cESMEnv.setLastCommandCode(CESMCommandCode.LINK );
+		cESMEnv.setCommarea(null);
+		return new CESMLink(cESMEnv, csProgramName);
 	}
 	
 	public CESMXctl xctl(Class cl)
@@ -613,13 +613,13 @@ public class BaseCESMManager extends CJMapObject
 	{
 		if(isLogCESM)
 			Log.logDebug("xctl "+csProgram);
-		m_CESMEnv.setLastCommandCode(CESMCommandCode.XCTL);
-		m_CESMEnv.setCommarea(null);
-		return new CESMXctl(m_CESMEnv, csProgram);
+		cESMEnv.setLastCommandCode(CESMCommandCode.XCTL);
+		cESMEnv.setCommarea(null);
+		return new CESMXctl(cESMEnv, csProgram);
 	}
 
 	public String getLastCommandCode()
 	{
-		return m_CESMEnv.getLastCommandCode() ;
+		return cESMEnv.getLastCommandCode() ;
 	}
 }

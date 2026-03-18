@@ -34,14 +34,14 @@ import nacaLib.varEx.FileDescriptor;
  */
 public class SQLUnload extends BaseSQLUtils
 {
-	private int m_nNbSelectProcessed = 0;
-	private boolean m_bConnectionValid = false;
-	private boolean m_bExcel = false;
+	private int nNbSelectProcessed = 0;
+	private boolean bConnectionValid = false;
+	private boolean bExcel = false;
 	
 	public SQLUnload(BaseSession session, DbConnectionBase dbConnection, boolean bExcel)
 	{
 		super(session, dbConnection);
-		m_bExcel = bExcel;
+		bExcel = bExcel;
 	}
 	
 	public boolean execute(FileDescriptor fileIn)
@@ -54,7 +54,7 @@ public class SQLUnload extends BaseSQLUtils
 		
 	int executeStatement(String csClause)
 	{
-		m_bConnectionValid = true;
+		bConnectionValid = true;
 		int nNbRecords = -1;
 		
 		SQLTypeOperation typeOperation = SQLTypeOperation.determineOperationType(csClause, false);	// cursor clause not supported
@@ -63,7 +63,7 @@ public class SQLUnload extends BaseSQLUtils
 
 		if(typeOperation.equals(SQLTypeOperation.Commit))
 		{
-			if(m_dbConnection.commit() == 0)	// success
+			if(dbConnection.commit() == 0)	// success
 				return 0;
 			return -1;	// failure
 		}
@@ -72,10 +72,10 @@ public class SQLUnload extends BaseSQLUtils
 			return -1;	// Do not manage this order
 		
 		String csSysrecName;
-		if (m_bExcel)
+		if (bExcel)
 			csSysrecName = "UNLOAD";
 		else
-			csSysrecName = getSysrecName(m_nNbSelectProcessed);
+			csSysrecName = getSysrecName(nNbSelectProcessed);
 		
 		FileDescriptor fileDescOuput = new FileDescriptor(csSysrecName);
 		fileDescOuput.setSession(getSession());
@@ -87,8 +87,8 @@ public class SQLUnload extends BaseSQLUtils
 		if(csClause.endsWith(";"))
 			csClause = csClause.substring(0, csClause.length()-1);
 		
-		csClause = SQLTypeOperation.addEnvironmentPrefix(m_dbConnection.getEnvironmentPrefix(), csClause, typeOperation, "");
-		DbPreparedStatement stmt = m_dbConnection.prepareStatement(csClause, 0, false);
+		csClause = SQLTypeOperation.addEnvironmentPrefix(dbConnection.getEnvironmentPrefix(), csClause, typeOperation, "");
+		DbPreparedStatement stmt = dbConnection.prepareStatement(csClause, 0, false);
 		if(stmt != null)
 		{
 			if(typeOperation == SQLTypeOperation.Select)
@@ -106,9 +106,9 @@ public class SQLUnload extends BaseSQLUtils
 			fileOuput.close();
 		}
 		
-		m_nNbSelectProcessed++;
+		nNbSelectProcessed++;
 		
-		if(m_bConnectionValid)
+		if(bConnectionValid)
 			return nNbRecords;
 		return -1;
 	}
@@ -137,7 +137,7 @@ public class SQLUnload extends BaseSQLUtils
 					{
 						BaseDbColDefinition dbColDefinition = arrDbColDef.get(nCol);
 						byte aBytes[];
-						if (m_bExcel)
+						if (bExcel)
 						{
 							if (nCol > 0)
 								fileOuput.write(aSeparatorComma);
@@ -176,7 +176,7 @@ public class SQLUnload extends BaseSQLUtils
 			catch (SQLException e)
 			{
 				LogSQLException.log(e);
-				m_bConnectionValid = false;
+				bConnectionValid = false;
 				return false;
 			}
 		}

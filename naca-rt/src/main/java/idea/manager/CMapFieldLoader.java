@@ -13,13 +13,13 @@ public abstract class CMapFieldLoader extends CBaseMapFieldLoader
 {
 	public void setKeyPressed(KeyPressed kp2)
 	{
-		m_KeyPressed = kp2 ;		
+		keyPressed = kp2 ;		
 	}
 
 	public KeyPressed getKeyPressed()
 	{
-		return m_KeyPressed ;
+		return keyPressed ;
 	}
 	
-	protected KeyPressed m_KeyPressed = null ;
+	protected KeyPressed keyPressed = null ;
 }

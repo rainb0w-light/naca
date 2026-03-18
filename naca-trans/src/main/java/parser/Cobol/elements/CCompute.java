@@ -57,7 +57,7 @@ public class CCompute extends CCobolElement
 			Transcoder.logError(getLine(), "Expecting 'COMPUTE' keyword") ;
 			return false ;
 		}
-		CGlobalEntityCounter.GetInstance().CountCobolVerb(tokComp.GetKeyword().m_Name) ;
+		CGlobalEntityCounter.GetInstance().CountCobolVerb(tokComp.GetKeyword().name) ;
 		
 		CBaseToken tokId = GetNext();
 		boolean bDone = false ;
@@ -79,12 +79,12 @@ public class CCompute extends CCobolElement
 			CBaseToken tok = GetCurrentToken() ;
 			if (tok.GetKeyword() == CCobolKeywordList.ROUNDED)
 			{
-				m_arrRoundedDestinations.add(idDestination);
+				arrRoundedDestinations.add(idDestination);
 				tok = GetNext(); 
 			}
 			else
 			{
-				m_arrDestinations.add(idDestination);
+				arrDestinations.add(idDestination);
 			}
 			
 			if (tok.GetType() != CTokenType.IDENTIFIER)
@@ -101,8 +101,8 @@ public class CCompute extends CCobolElement
 		}
 		
 		tokEquals = GetNext();
-		m_expr = ReadCalculExpression() ;
-		if (m_expr == null)
+		expr = ReadCalculExpression() ;
+		if (expr == null)
 		{
 			Transcoder.logError(getLine(), "Can't read any Expression in 'COMPUTE'") ;
 			return false ;
@@ -118,8 +118,8 @@ public class CCompute extends CCobolElement
 				if (tok.GetKeyword() == CCobolKeywordList.ERROR)
 				{
 					GetNext();
-					m_OnErrorBloc = new CGenericBloc("OnError", tok.getLine()) ;
-					if (!Parse(m_OnErrorBloc))
+					onErrorBloc = new CGenericBloc("OnError", tok.getLine()) ;
+					if (!Parse(onErrorBloc))
 					{
 						return false ;
 					}
@@ -139,51 +139,51 @@ public class CCompute extends CCobolElement
 	protected Element ExportCustom(Document root)
 	{
 		Element eComp = root.createElement("Compute") ;
-		for (int i=0; i<m_arrDestinations.size();i++)
+		for (int i=0; i<arrDestinations.size();i++)
 		{
-			CIdentifier idDestination = m_arrDestinations.get(i) ;
+			CIdentifier idDestination = arrDestinations.get(i) ;
 			Element eDest = root.createElement("Destination");
 			eComp.appendChild(eDest);
 			idDestination.ExportTo(eDest, root) ;
 		}
-		for (int i=0; i<m_arrRoundedDestinations.size();i++)
+		for (int i=0; i<arrRoundedDestinations.size();i++)
 		{
-			CIdentifier idDestination = m_arrRoundedDestinations.get(i) ;
+			CIdentifier idDestination = arrRoundedDestinations.get(i) ;
 			Element eDest = root.createElement("RoundedDestination");
 			eComp.appendChild(eDest);
 			idDestination.ExportTo(eDest, root) ;
 		}
-		if (m_expr != null)
+		if (expr != null)
 		{
-			Element e = m_expr.Export(root);
+			Element e = expr.Export(root);
 			eComp.appendChild(e) ;
 		}		
-		if (m_OnErrorBloc != null)
+		if (onErrorBloc != null)
 		{
-			Element e = m_OnErrorBloc.Export(root) ;
+			Element e = onErrorBloc.Export(root) ;
 			eComp.appendChild(e);
 		}
 		return eComp ;
 	}
 	
-	protected Vector<CIdentifier> m_arrDestinations = new Vector<CIdentifier>() ;
-	protected Vector<CIdentifier> m_arrRoundedDestinations = new Vector<CIdentifier>() ;
-	protected CExpression m_expr = null ;
-	protected CBlocElement m_OnErrorBloc = null ;
+	protected Vector<CIdentifier> arrDestinations = new Vector<CIdentifier>() ;
+	protected Vector<CIdentifier> arrRoundedDestinations = new Vector<CIdentifier>() ;
+	protected CExpression expr = null ;
+	protected CBlocElement onErrorBloc = null ;
 	/* (non-Javadoc)
 	 * @see parser.CBaseElement#DoCustomSemanticAnalysis(semantic.CBaseSemanticEntity, semantic.CBaseSemanticEntityFactory)
 	 */
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		if (m_expr.IsReference())
+		if (expr.IsReference())
 		{
 			CEntityAssign assgn = factory.NewEntityAssign(getLine()) ;
-			CDataEntity val = m_expr.GetReference(factory) ;
+			CDataEntity val = expr.GetReference(factory) ;
 			val.RegisterReadingAction(assgn) ;
 			assgn.SetValue(val) ;
-			for (int i=0; i<m_arrDestinations.size();i++)
+			for (int i=0; i<arrDestinations.size();i++)
 			{
-				CIdentifier idDestination = m_arrDestinations.get(i) ;
+				CIdentifier idDestination = arrDestinations.get(i) ;
 				CDataEntity dest = idDestination.GetDataReference(getLine(), factory) ;
 				dest.RegisterWritingAction(assgn);
 				assgn.AddRefTo(dest);
@@ -195,27 +195,27 @@ public class CCompute extends CCobolElement
 		{
 			CEntityCalcul eCalc = factory.NewEntityCalcul(getLine()) ;
 			parent.AddChild(eCalc) ;
-			for (int i=0; i<m_arrDestinations.size();i++)
+			for (int i=0; i<arrDestinations.size();i++)
 			{
-				CIdentifier idDestination = m_arrDestinations.get(i) ;
+				CIdentifier idDestination = arrDestinations.get(i) ;
 				CDataEntity dest = idDestination.GetDataReference(getLine(), factory) ;
 				dest.RegisterWritingAction(eCalc);
 				eCalc.AddDestination(dest);
 			}
-			for (int i=0; i<m_arrRoundedDestinations.size();i++)
+			for (int i=0; i<arrRoundedDestinations.size();i++)
 			{
-				CIdentifier idDestination = m_arrRoundedDestinations.get(i) ;
+				CIdentifier idDestination = arrRoundedDestinations.get(i) ;
 				CDataEntity dest = idDestination.GetDataReference(getLine(), factory) ;
 				dest.RegisterWritingAction(eCalc);
 				eCalc.AddRoundedDestination(dest);
 			}
 			
-			CBaseEntityExpression eExpr = m_expr.AnalyseExpression(factory);
+			CBaseEntityExpression eExpr = expr.AnalyseExpression(factory);
 			eCalc.SetCalcul(eExpr) ;
 			
-			if (m_OnErrorBloc != null)
+			if (onErrorBloc != null)
 			{
-				CBaseLanguageEntity eBloc = m_OnErrorBloc.DoSemanticAnalysis(eCalc, factory) ;
+				CBaseLanguageEntity eBloc = onErrorBloc.DoSemanticAnalysis(eCalc, factory) ;
 				eCalc.SetOnErrorBloc(eBloc);
 			}
 			return eCalc;

@@ -40,7 +40,7 @@ public class DbConnection extends DbConnectionBase
 		return null;
 	}
 	
-	public boolean prepareCallableStatement(DbPreparedCallableStatement m_preparedCallableStatement, String csStoredProcName, int nNbParamToProvide)
+	public boolean prepareCallableStatement(DbPreparedCallableStatement preparedCallableStatement, String csStoredProcName, int nNbParamToProvide)
 	{
 		return false;	// unsupported in jlib
 	}

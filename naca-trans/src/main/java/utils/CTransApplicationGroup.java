@@ -18,7 +18,7 @@ public class CTransApplicationGroup
 {
 	public CTransApplicationGroup(BaseEngine engine)
 	{
-		m_Engine = engine;
+		engine = engine;
 	}
 	
 	public enum EProgramType
@@ -30,18 +30,18 @@ public class CTransApplicationGroup
 		TYPE_MAP
 	};
 	
-	public String m_csName ;
-	public Hashtable<String, Tag> m_tabApplication = new Hashtable<String, Tag>() ;
-	public Vector<String> m_arrApplications = new Vector<String>() ;
-	public EProgramType m_eType ;
-	public String m_csInputPath = "" ;
-	public String m_csOutputPath = "" ;
-	public String m_csInterPath = "" ;
+	public String csName ;
+	public Hashtable<String, Tag> tabApplication = new Hashtable<String, Tag>() ;
+	public Vector<String> arrApplications = new Vector<String>() ;
+	public EProgramType eType ;
+	public String csInputPath = "" ;
+	public String csOutputPath = "" ;
+	public String csInterPath = "" ;
 	
-	private BaseEngine m_Engine = null ;
+	private BaseEngine engine = null ;
 	
 	public BaseEngine getEngine()
 	{
-		return m_Engine ;
+		return engine ;
 	}
 }

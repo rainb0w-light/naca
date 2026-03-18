@@ -16,14 +16,14 @@ package jlib.misc;
  */
 public abstract class BaseDataFileBuffered extends BaseDataFile
 {
-	private PreallocatedFileBufferManager m_buffer = null;
+	private PreallocatedFileBufferManager buffer = null;
 	//private PreallocatedFileBufferManager m_alternateBuffer = null;
 		
 	public byte[] getByteBuffer(int nSize)
 	{
-		if(m_buffer == null)
-			m_buffer = new PreallocatedFileBufferManager();
-		return m_buffer.checkBuffer(nSize);
+		if(buffer == null)
+			buffer = new PreallocatedFileBufferManager();
+		return buffer.checkBuffer(nSize);
 	}
 	
 //	public byte[] getAlternateByteBuffer(int nSize)

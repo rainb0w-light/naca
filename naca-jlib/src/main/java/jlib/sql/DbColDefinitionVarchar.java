@@ -24,12 +24,12 @@ import jlib.misc.LittleEndingUnsignBinaryBufferStorage;
  */
 public class DbColDefinitionVarchar extends BaseDbColDefinition
 {
-	private int m_nLength = 0;
+	private int nLength = 0;
 	
 	DbColDefinitionVarchar(ColDescriptionInfo colDescription)
 	{
 		super(colDescription);
-		m_nLength = colDescription.getPrecision();
+		nLength = colDescription.getPrecision();
 	}
 	
 	public byte[] getByteValue(ResultSet resultSet, int nCol1Based, boolean bEbcdicOutput)
@@ -44,7 +44,7 @@ public class DbColDefinitionVarchar extends BaseDbColDefinition
 			int nValueLength = csValue.length();
 			
 			byte[] aBytes = new byte[2 + nColWidth];
-			Asserter.assertIfFalse(nColWidth == m_nLength);
+			Asserter.assertIfFalse(nColWidth == nLength);
 			
 			LittleEndingUnsignBinaryBufferStorage.writeUnsignedShort(aBytes, nValueLength, 0);
 			
@@ -76,12 +76,12 @@ public class DbColDefinitionVarchar extends BaseDbColDefinition
 //		int nLength = LittleEndingUnsignBinaryBufferStorage.readShort(arrByteValue, nSourceOffset);
 //		
 //		if(bEbcdicInput)	// Must outout in ebcdic
-//			AsciiEbcdicConverter.swapByteEbcdicToAscii(arrByteValue, nSourceOffset, m_nLength);
+//			AsciiEbcdicConverter.swapByteEbcdicToAscii(arrByteValue, nSourceOffset, nLength);
 //		
 //		String cs = new String(arrByteValue, nSourceOffset+2, nLength);
 //		colValueGenericDest.setValue(cs);
 //		
-//		return 2+m_nLength;
+//		return 2+nLength;
 //	}
 	
 	public int setByteValueInStmtCol(DbColDefErrorManager dbColDefErrorManager, DbPreparedStatement stmt, int nCol, byte arrByteValue[], int nSourceOffset, boolean bEbcdicInput)
@@ -89,12 +89,12 @@ public class DbColDefinitionVarchar extends BaseDbColDefinition
 		int nLength = LittleEndingUnsignBinaryBufferStorage.readShort(arrByteValue, nSourceOffset);
 		
 		if(bEbcdicInput)	// Must outout in ebcdic
-			AsciiEbcdicConverter.swapByteEbcdicToAscii(arrByteValue, nSourceOffset, m_nLength);
+			AsciiEbcdicConverter.swapByteEbcdicToAscii(arrByteValue, nSourceOffset, nLength);
 		
 		String cs = new String(arrByteValue, nSourceOffset+2, nLength);
 		stmt.setColParam(nCol, cs);		
 		
-		return 2+m_nLength;
+		return 2+nLength;
 	}
 	
 	public boolean fillCallableStatementParam(int nParamId, StoredProcParamDescBase storedProcParamDescBase, DbPreparedCallableStatement callableStatement)

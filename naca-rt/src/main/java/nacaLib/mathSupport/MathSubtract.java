@@ -33,29 +33,29 @@ public class MathSubtract extends MathBase
 	public MathSubtract(VarAndEdit var1, VarAndEdit var2)
 	{
 		String s1 = var1.getDottedSignedString();
-		m_d = new BigDecimal(s1);
+		d = new BigDecimal(s1);
 
 		String s2 = var2.getDottedSignedString();
 		BigDecimal val2 = new BigDecimal(s2);
 		
-		m_d = m_d.subtract(val2);
+		d = d.subtract(val2);
 	}
 
 	public MathSubtract(int a, int n)
 	{
 		String s1 = String.valueOf(a);
-		m_d = new BigDecimal(s1);
+		d = new BigDecimal(s1);
 		
 		BigDecimal val2 = new BigDecimal(String.valueOf(n));
-		m_d = m_d.subtract(val2);
+		d = d.subtract(val2);
 	}
 	
 	public MathSubtract(int n, MathBase mathBase)
 	{
 		String s1 = String.valueOf(n) ;
-		m_d = new BigDecimal(s1);
+		d = new BigDecimal(s1);
 		
-		m_d = m_d.subtract(mathBase.m_d);
+		d = d.subtract(mathBase.d);
 	}		
 
 
@@ -67,10 +67,10 @@ public class MathSubtract extends MathBase
 	public MathSubtract(VarAndEdit var1, int n)
 	{
 		String s1 = var1.getDottedSignedString();
-		m_d = new BigDecimal(s1);
+		d = new BigDecimal(s1);
 		
 		BigDecimal val2 = new BigDecimal(String.valueOf(n));
-		m_d = m_d.subtract(val2);
+		d = d.subtract(val2);
 	}
 
 	/**
@@ -81,7 +81,7 @@ public class MathSubtract extends MathBase
 	public MathSubtract(VarAndEdit var1)
 	{
 		String s1 = var1.getDottedSignedString();
-		m_d = new BigDecimal(s1);
+		d = new BigDecimal(s1);
 	}
 	
 	/**
@@ -91,7 +91,7 @@ public class MathSubtract extends MathBase
 	 */	
 	public MathSubtract(int n)
 	{
-		m_d = new BigDecimal(String.valueOf(n));
+		d = new BigDecimal(String.valueOf(n));
 	}
 
 	/**
@@ -101,12 +101,12 @@ public class MathSubtract extends MathBase
 	 */
 	public MathSubtract(int n, VarAndEdit var1)
 	{
-		m_d = new BigDecimal(String.valueOf(n));
+		d = new BigDecimal(String.valueOf(n));
 
 		String s1 = var1.getDottedSignedString();
 		BigDecimal val2 = new BigDecimal(s1);
 		
-		m_d = m_d.subtract(val2);
+		d = d.subtract(val2);
 	}
 	
 	/**
@@ -117,10 +117,10 @@ public class MathSubtract extends MathBase
 	public MathSubtract(VarAndEdit var1, double d)
 	{
 		String s1 = var1.getDottedSignedString();
-		m_d = new BigDecimal(s1);
-		
+		this.d = new BigDecimal(s1);
+
 		BigDecimal val2 = new BigDecimal(d);
-		m_d = m_d.subtract(val2);
+		this.d = this.d.subtract(val2);
 	}
 	
 	/**
@@ -131,10 +131,10 @@ public class MathSubtract extends MathBase
 	public MathSubtract(double d, VarAndEdit var1)
 	{
 		String s1 = var1.getDottedSignedString();
-		m_d = new BigDecimal(d);
-		
+		this.d = new BigDecimal(d);
+
 		BigDecimal val2 = new BigDecimal(s1);
-		m_d = m_d.subtract(val2);
+		this.d = this.d.subtract(val2);
 	}
 
 	/**
@@ -145,10 +145,10 @@ public class MathSubtract extends MathBase
 	public MathSubtract(VarAndEdit var1, String s)
 	{
 		String s1 = var1.getDottedSignedString();
-		m_d = new BigDecimal(s1);
+		d = new BigDecimal(s1);
 		
 		BigDecimal val2 = new BigDecimal(s);
-		m_d = m_d.subtract(val2);
+		d = d.subtract(val2);
 	}
 
 	/**
@@ -159,10 +159,10 @@ public class MathSubtract extends MathBase
 	public MathSubtract(String s, VarAndEdit var1)
 	{
 		String s1 = var1.getDottedSignedString();
-		m_d = new BigDecimal(s);
+		d = new BigDecimal(s);
 		
 		BigDecimal val2 = new BigDecimal(s1);
-		m_d = m_d.subtract(val2);
+		d = d.subtract(val2);
 	}
 	
 	/**
@@ -173,9 +173,9 @@ public class MathSubtract extends MathBase
 	public MathSubtract(VarAndEdit var1, MathBase mathBase)
 	{
 		String s1 = var1.getDottedSignedString();
-		m_d = new BigDecimal(s1);
+		d = new BigDecimal(s1);
 		
-		m_d = m_d.subtract(mathBase.m_d);
+		d = d.subtract(mathBase.d);
 	}		
 	
 	/**
@@ -185,13 +185,13 @@ public class MathSubtract extends MathBase
 	*/
 	public MathSubtract(MathBase mathBase, VarAndEdit var1)
 	{
-		//m_d = mathBase.m_d;
+		//d = mathBase.d;
 		setWithMathBase(mathBase);
 
 		String s1 = var1.getDottedSignedString();
 		BigDecimal val1 = new BigDecimal(s1);
 		
-		m_d = m_d.subtract(val1);
+		d = d.subtract(val1);
 	}
 
 	/**
@@ -201,11 +201,11 @@ public class MathSubtract extends MathBase
 	*/
 	public MathSubtract(MathBase mathBase, int n)
 	{
-		//m_d = mathBase.m_d;
+		//d = mathBase.d;
 		setWithMathBase(mathBase);
 		
 		BigDecimal val2 = new BigDecimal(String.valueOf(n));
-		m_d = m_d.subtract(val2);
+		d = d.subtract(val2);
 	}
 	
 	/**
@@ -215,11 +215,11 @@ public class MathSubtract extends MathBase
 	*/
 	public MathSubtract(MathBase mathBase, double d)
 	{
-		//m_d = mathBase.m_d;
+		//d = mathBase.d;
 		setWithMathBase(mathBase);
-		
+
 		BigDecimal val2 = new BigDecimal(d);
-		m_d = m_d.subtract(val2);
+		this.d = this.d.subtract(val2);
 	}
 
 	/**
@@ -229,16 +229,16 @@ public class MathSubtract extends MathBase
 	*/
 	public MathSubtract(MathBase mathBase, String s)
 	{
-		//m_d = mathBase.m_d;
+		//d = mathBase.d;
 		setWithMathBase(mathBase);
 		
 		BigDecimal val2 = new BigDecimal(s);
-		m_d = m_d.subtract(val2);
+		d = d.subtract(val2);
 	}
 	
 	public MathSubtract(String s, MathBase mathBase)
 	{
-		m_d = new BigDecimal(s).subtract(mathBase.m_d);
+		d = new BigDecimal(s).subtract(mathBase.d);
 	}
 	
 	/**
@@ -248,10 +248,10 @@ public class MathSubtract extends MathBase
 	*/
 	public MathSubtract(MathBase mathBase1, MathBase mathBase2)
 	{
-		//m_d = mathBase1.m_d;
+		//d = mathBase1.d;
 		setWithMathBase(mathBase1);
 		
-		m_d = m_d.subtract(mathBase2.m_d);
+		d = d.subtract(mathBase2.d);
 	}	
 
 	/**
@@ -263,8 +263,8 @@ public class MathSubtract extends MathBase
 	{
 		String cs = var.getDottedSignedString();
 		BigDecimal val = new BigDecimal(cs);
-		m_d = val.subtract(m_d);
-		//m_d = val ;
+		d = val.subtract(d);
+		//d = val ;
 		to(var) ; // store value in var.
 		return this ;
 	}

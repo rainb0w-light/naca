@@ -21,28 +21,28 @@ import nacaLib.varEx.VarDefBuffer;
  */
 //public class TempVarTypeManager<T>
 //{
-//	private ArrayList<CoupleVar<T> > m_arrCoupleVar = null;
-//	private int m_nIndex = 0;
+//	private ArrayList<CoupleVar<T> > arrCoupleVar = null;
+//	private int nIndex = 0;
 //	
 //	TempVarTypeManager()
 //	{
-//		m_arrCoupleVar = new ArrayList<CoupleVar<T> >();
+//		arrCoupleVar = new ArrayList<CoupleVar<T> >();
 //	}
 //	
 //	public CoupleVar addTempVar(VarDefBuffer varDefItem, T var)
 //	{
 //		CoupleVar coupleVar = new CoupleVar<T>(varDefItem, var);
-//		m_arrCoupleVar.add(coupleVar);
-//		m_nIndex = m_arrCoupleVar.size();
+//		arrCoupleVar.add(coupleVar);
+//		nIndex = arrCoupleVar.size();
 //		return coupleVar;
 //	}
 //	
 //	CoupleVar<T> getTempCoupleVar()
 //	{
-//		if(m_nIndex < m_arrCoupleVar.size())
+//		if(nIndex < arrCoupleVar.size())
 //		{
-//			CoupleVar v = m_arrCoupleVar.get(m_nIndex);
-//			m_nIndex++;
+//			CoupleVar v = arrCoupleVar.get(nIndex);
+//			nIndex++;
 //			return v;
 //		}
 //		return null;
@@ -50,33 +50,33 @@ import nacaLib.varEx.VarDefBuffer;
 //	
 //	void reset()
 //	{
-//		m_nIndex = 0;
+//		nIndex = 0;
 //	}
 //}
 public class TempVarTypeManager
 {
-	private ArrayList<CoupleVar> m_arrCoupleVar = null;
-	private int m_nIndex = 0;
+	private ArrayList<CoupleVar> arrCoupleVar = null;
+	private int nIndex = 0;
 	
 	TempVarTypeManager()
 	{
-		m_arrCoupleVar = new ArrayList<CoupleVar>();
+		arrCoupleVar = new ArrayList<CoupleVar>();
 	}
 	
 	public CoupleVar addTempVar(VarDefBuffer varDefItem, VarBase var)
 	{
 		CoupleVar coupleVar = new CoupleVar(varDefItem, var);
-		m_arrCoupleVar.add(coupleVar);
-		m_nIndex = m_arrCoupleVar.size();
+		arrCoupleVar.add(coupleVar);
+		nIndex = arrCoupleVar.size();
 		return coupleVar;
 	}
 	
 	CoupleVar getTempCoupleVar()
 	{
-		if(m_nIndex < m_arrCoupleVar.size())
+		if(nIndex < arrCoupleVar.size())
 		{
-			CoupleVar v = m_arrCoupleVar.get(m_nIndex);
-			m_nIndex++;
+			CoupleVar v = arrCoupleVar.get(nIndex);
+			nIndex++;
 			return v;
 		}
 		return null;
@@ -84,12 +84,12 @@ public class TempVarTypeManager
 	
 	void reset()
 	{
-		m_nIndex = 0;
+		nIndex = 0;
 	}
 	
 	void resetAndForbidReuse()
 	{
-		m_arrCoupleVar.clear();	// Forbid reuse by clearing all entries
-		m_nIndex = 0;
+		arrCoupleVar.clear();	// Forbid reuse by clearing all entries
+		nIndex = 0;
 	}
 }

@@ -15,26 +15,26 @@ public class JarItemEntry
 {
 	JarItemEntry(ZipEntry zipEntry)
 	{
-		m_zipEntry = zipEntry; 
+		zipEntry = zipEntry; 
 	}
 	
 	public int getSize()
 	{
-		if(m_zipEntry != null)
-			return (int) m_zipEntry.getSize();
+		if(zipEntry != null)
+			return (int) zipEntry.getSize();
 		return 0;
 	}
 	
 	public String getName()
 	{
-		if(m_zipEntry != null)
-			return m_zipEntry.getName();
+		if(zipEntry != null)
+			return zipEntry.getName();
 		return null;
 	}
 	
 	public ZipEntry getZipEntry()
 	{
-		return m_zipEntry;
+		return zipEntry;
 	}
 	
 	public byte[] loadBytes(JarEntries jarEntries)
@@ -46,10 +46,10 @@ public class JarItemEntry
 	{
 		try
 		{
-			InputStream inputStream = zipFile.getInputStream(m_zipEntry);
+			InputStream inputStream = zipFile.getInputStream(zipEntry);
 			if(inputStream != null)
 			{
-		    	int nSize= (int) m_zipEntry.getSize();	// -1 means unknown size.
+		    	int nSize= (int) zipEntry.getSize();	// -1 means unknown size.
 		    	if (nSize != -1)
 		    	{
 			    	byte[] tb = new byte[nSize];
@@ -76,5 +76,5 @@ public class JarItemEntry
 	}
 
 	
-	private ZipEntry m_zipEntry = null;
+	private ZipEntry zipEntry = null;
 }

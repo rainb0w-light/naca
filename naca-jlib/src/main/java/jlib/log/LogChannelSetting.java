@@ -23,7 +23,7 @@ public class LogChannelSetting
  */	
 	String getRunId()
 	{
-		return m_csRunId;
+		return csRunId;
 	}
 /**
  * Sets the default <i>RunId</i> for the channel. 
@@ -34,7 +34,7 @@ public class LogChannelSetting
  */
 	void setRunId(String csRunId)
 	{
-		m_csRunId = csRunId;
+		csRunId = csRunId;
 	}
 
 /**
@@ -46,7 +46,7 @@ public class LogChannelSetting
  */
 	void setRuntimeId(String csRuntimeId)
 	{
-		m_csRuntimeId = csRuntimeId;
+		csRuntimeId = csRuntimeId;
 	}
 
 /**
@@ -57,7 +57,7 @@ public class LogChannelSetting
  */	
 	String getRuntimeId()
 	{
-		return m_csRuntimeId;
+		return csRuntimeId;
 	}
 
 /**
@@ -68,7 +68,7 @@ public class LogChannelSetting
  */		
 	String getProduct()
 	{
-		return m_csProduct;
+		return csProduct;
 	}
 	
 /**
@@ -79,10 +79,10 @@ public class LogChannelSetting
  */		
 	void setProduct(String csProduct)
 	{
-		m_csProduct = csProduct;
+		csProduct = csProduct;
 	}
 	
-	private String m_csRunId;		// manual or generated runtime id
-	private String m_csRuntimeId;	// always generated runtime id
-	private String m_csProduct;
+	private String csRunId;		// manual or generated runtime id
+	private String csRuntimeId;	// always generated runtime id
+	private String csProduct;
 }

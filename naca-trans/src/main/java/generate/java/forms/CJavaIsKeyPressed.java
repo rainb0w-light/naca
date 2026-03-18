@@ -31,20 +31,20 @@ public class CJavaIsKeyPressed extends CEntityIsKeyPressed
 	public CBaseEntityCondition GetOppositeCondition()
 	{
 		CJavaIsKeyPressed is = new CJavaIsKeyPressed();
-		is.m_bIsNot = !m_bIsNot ;
-		is.m_KeyPressed = m_KeyPressed ;
-		m_KeyPressed.RegisterValueAccess(is) ;
+		is.bIsNot = !bIsNot ;
+		is.keyPressed = keyPressed ;
+		keyPressed.RegisterValueAccess(is) ;
 		return is ;
 	}
 
 	public String Export()
 	{
 		String cs = "is" ;
-		if (m_bIsNot)
+		if (bIsNot)
 		{
 			cs += "Not" ;
 		}
-		cs += "KeyPressed(" + m_KeyPressed.ExportReference(getLine()) + ")" ;
+		cs += "KeyPressed(" + keyPressed.ExportReference(getLine()) + ")" ;
 		return cs ;
 	}
 

@@ -36,19 +36,19 @@ public class CFPacJavaInc extends CEntityInc
 	{
 		String line = "" ;
 
-		line += m_AddDest.ExportReference(getLine()) ;
+		line += addDest.ExportReference(getLine()) ;
 
-		if (m_AddValue.GetDataType() == CDataEntityType.NUMBER && m_AddValue.GetConstantValue().equals("1"))
+		if (addValue.GetDataType() == CDataEntityType.NUMBER && addValue.GetConstantValue().equals("1"))
 		{
 			line += "++ ;" ;
 		}
-		else if (m_AddValue.GetDataType() == CDataEntityType.NUMBER && m_AddValue.GetConstantValue().equals("-1"))
+		else if (addValue.GetDataType() == CDataEntityType.NUMBER && addValue.GetConstantValue().equals("-1"))
 		{
 			line += "-- ;" ;
 		}
 		else
 		{
-			line += "+= " + m_AddValue.ExportReference(getLine()) + " ;" ;
+			line += "+= " + addValue.ExportReference(getLine()) + " ;" ;
 		}
 		WriteLine(line) ;
 	}

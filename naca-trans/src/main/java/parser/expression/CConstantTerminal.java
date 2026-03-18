@@ -30,7 +30,7 @@ public class CConstantTerminal extends CTerminal
 {
 	public CConstantTerminal(String val)
 	{
-		m_csValue = val ;
+		csValue = val ;
 	}
 	/* (non-Javadoc)
 	 * @see parser.condition.CConditionalTerminal#Export()
@@ -41,15 +41,15 @@ public class CConstantTerminal extends CTerminal
 //	}
 	public String GetValue()
 	{
-		return m_csValue;
+		return csValue;
 	}
-	String m_csValue = "" ;
+	String csValue = "" ;
 	/* (non-Javadoc)
 	 * @see parser.expression.CTerminal#ExportTo(org.w3c.dom.Element, org.w3c.dom.Document)
 	 */
 	public void ExportTo(Element e, Document root)
 	{
-		e.setAttribute("Constant", m_csValue) ;		
+		e.setAttribute("Constant", csValue) ;		
 	}
 	/* (non-Javadoc)
 	 * @see parser.expression.CTerminal#IsReference()
@@ -76,45 +76,45 @@ public class CConstantTerminal extends CTerminal
 	 */
 //	public void ExportTo(CBaseLanguageExporter e)
 //	{
-//		e.WriteWord(m_csValue.toUpperCase()) ;
+//		e.WriteWord(csValue.toUpperCase()) ;
 //	}
 	/* (non-Javadoc)
 	 * @see parser.expression.CTerminal#GetDataEntity(semantic.CBaseEntityFactory)
 	 */
 	public CDataEntity GetDataEntity(int nLine, CBaseEntityFactory factory)
 	{
-		if (m_csValue.equals("ZERO") || m_csValue.equals("ZEROS") || m_csValue.equals("ZEROES"))
+		if (csValue.equals("ZERO") || csValue.equals("ZEROS") || csValue.equals("ZEROES"))
 		{
 			return factory.NewEntityNumber("0");
 		}
-		else if (m_csValue.equals("SPACE") || m_csValue.equals("SPACES"))
+		else if (csValue.equals("SPACE") || csValue.equals("SPACES"))
 		{
 			return factory.NewEntityString(" ");
 		}
-		else if (m_csValue.equals("CURRENT TIMESTAMP"))
+		else if (csValue.equals("CURRENT TIMESTAMP"))
 		{
-			return factory.NewEntityNumber(m_csValue);
+			return factory.NewEntityNumber(csValue);
 		}
-		else if (m_csValue.equals(CCobolConstantList.QUOTE.m_Name) || m_csValue.equals(CCobolConstantList.QUOTES.m_Name))
+		else if (csValue.equals(CCobolConstantList.QUOTE.name) || csValue.equals(CCobolConstantList.QUOTES.name))
 		{
 			char[] b = {'"'} ;
 			return factory.NewEntityString(b);
 		}
-		else if (m_csValue.equals(CCobolConstantList.LOW_VALUE.m_Name) || m_csValue.equals(CCobolConstantList.LOW_VALUES.m_Name))
+		else if (csValue.equals(CCobolConstantList.LOW_VALUE.name) || csValue.equals(CCobolConstantList.LOW_VALUES.name))
 		{
 			return factory.NewEntityString(new char[] { 0 });
 		}
-		else if (m_csValue.equals(CCobolConstantList.HIGH_VALUE.m_Name) || m_csValue.equals(CCobolConstantList.HIGH_VALUES.m_Name))
+		else if (csValue.equals(CCobolConstantList.HIGH_VALUE.name) || csValue.equals(CCobolConstantList.HIGH_VALUES.name))
 		{
 			return factory.NewEntityString(new char[] { 255 });
 		}
 		return null ;
-//		CBaseTranscoder.ms_logger.error("ERROR : missing Special test for constant "+m_csValue);
-//		return factory.NewEntityString(m_csValue);
+//		CBaseTranscoder.ms_logger.error("ERROR : missing Special test for constant "+csValue);
+//		return factory.NewEntityString(csValue);
 	}
 	public String toString()
 	{
-		return m_csValue ;
+		return csValue ;
 	}
 
 	public boolean IsNumber()

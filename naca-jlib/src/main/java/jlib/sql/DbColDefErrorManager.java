@@ -17,40 +17,40 @@ package jlib.sql;
  */
 public class DbColDefErrorManager
 {
-	private StringBuilder m_sb = null;
-	private int m_nLine = 0;
-	private int m_nErrors = 0;
+	private StringBuilder sb = null;
+	private int nLine = 0;
+	private int nErrors = 0;
 	
 	public void setLine(int nLine)
 	{
-		m_nLine = nLine;
+		this.nLine = nLine;
 	}
-	
+
 	void reportTruncationError(long lOriginalValue, long lValue, String csColName)
 	{
-		m_nErrors++;
-		if(m_sb == null)
-			m_sb = new StringBuilder();
-		int nLine = m_nLine + 1; 
-		m_sb.append("Truncation error at file line " + nLine + " For column="+csColName + " : Original Value="+lOriginalValue + " Truncated to="+lValue + "\r\n");
+		nErrors++;
+		if(sb == null)
+			sb = new StringBuilder();
+		int nLineNum = nLine + 1;
+		sb.append("Truncation error at file line " + nLineNum + " For column="+csColName + " : Original Value="+lOriginalValue + " Truncated to="+lValue + "\r\n");
 	}
-	
+
 	void reportTruncationError(String csOriginalValue, String csValue, String csColName)
 	{
-		m_nErrors++;
-		if(m_sb == null)
-			m_sb = new StringBuilder();
-		int nLine = m_nLine + 1; 
-		m_sb.append("Truncation error at file line " + nLine + " For column="+csColName + " : Original Value="+csOriginalValue + " Truncated to="+csValue + "\r\n");
+		nErrors++;
+		if(sb == null)
+			sb = new StringBuilder();
+		int nLineNum = nLine + 1;
+		sb.append("Truncation error at file line " + nLineNum + " For column="+csColName + " : Original Value="+csOriginalValue + " Truncated to="+csValue + "\r\n");
 	}
 	
 	public int getNbErrors()
 	{
-		return m_nErrors;
+		return nErrors;
 	}
 	
 	public String getErrorsText()
 	{
-		return m_sb.toString();
+		return sb.toString();
 	}
 }

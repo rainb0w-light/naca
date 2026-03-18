@@ -22,7 +22,7 @@ public class CJavaAccept extends CEntityAccept
 	protected void DoExport()
 	{
 		String cs = "" ;
-		switch (m_eMode)
+		switch (eMode)
 		{
 			case FROM_DATE:
 				cs = "getDateBatch()" ;
@@ -40,13 +40,13 @@ public class CJavaAccept extends CEntityAccept
 				cs = "getTimeBatch()" ;
 				break ;
 			case FROM_ENVIRONMENT_VALUE:
-				WriteLine("acceptEnv(" + m_eVariable.ExportReference(getLine()) + ");") ;
+				WriteLine("acceptEnv(" + eVariable.ExportReference(getLine()) + ");") ;
 				return ;
 			case FROM_VARIABLE:
-				cs = m_eSource.ExportReference(getLine()) ;
+				cs = eSource.ExportReference(getLine()) ;
 				break ;
 		}
-		WriteLine("move(" + cs + ", " + m_eVariable.ExportReference(getLine()) + ");") ;
+		WriteLine("move(" + cs + ", " + eVariable.ExportReference(getLine()) + ");") ;
 	}
 
 }

@@ -42,9 +42,9 @@ import utils.FPacTranscoder.notifs.NotifGetDefaultOutputFile;
 public class CFPacGenericExpression extends CExpression
 {
 
-	private CReservedKeyword m_keyword;
-	private Vector<CExpression> m_arrLeftTerms = new Vector<CExpression>() ;
-	private Vector<CExpression> m_arrRightTerms = new Vector<CExpression>() ;
+	private CReservedKeyword keyword;
+	private Vector<CExpression> arrLeftTerms = new Vector<CExpression>() ;
+	private Vector<CExpression> arrRightTerms = new Vector<CExpression>() ;
 
 	public CFPacGenericExpression(int line)
 	{
@@ -69,18 +69,18 @@ public class CFPacGenericExpression extends CExpression
 			{
 				String val = term.GetConstantValue() ;
 				CEntityNumber number = factory.NewEntityNumber(val) ;
-				desc.m_eObject = number ;
-				desc.m_expStart = null ;
-				desc.m_expLength = null ;
+				desc.eObject = number ;
+				desc.expStart = null ;
+				desc.expLength = null ;
 				if (val.startsWith("0x"))
 				{
-					desc.m_expLength = factory.NewEntityExprTerminal(factory.NewEntityNumber((val.length()-2)/2)) ;
+					desc.expLength = factory.NewEntityExprTerminal(factory.NewEntityNumber((val.length()-2)/2)) ;
 					if (!isPackedHexa(val.substring(2)))
-						desc.m_bHexaNoPacked = true;
+						desc.bHexaNoPacked = true;
 				}
 				else
 				{
-					desc.m_expLength = factory.NewEntityExprTerminal(factory.NewEntityNumber(8)) ;
+					desc.expLength = factory.NewEntityExprTerminal(factory.NewEntityNumber(8)) ;
 				}
 				return desc ;
 			}
@@ -88,9 +88,9 @@ public class CFPacGenericExpression extends CExpression
 			{
 				String val = term.GetConstantValue() ;
 				CEntityString string = factory.NewEntityString(val) ;
-				desc.m_eObject = string ;
-				desc.m_expStart = null ;
-				desc.m_expLength = factory.NewEntityExprTerminal(factory.NewEntityNumber(val.length()))  ;
+				desc.eObject = string ;
+				desc.expStart = null ;
+				desc.expLength = factory.NewEntityExprTerminal(factory.NewEntityNumber(val.length()))  ;
 				return desc ;
 			}
 			else if (term.GetDataType() == CDataEntityType.ADDRESS)
@@ -100,22 +100,22 @@ public class CFPacGenericExpression extends CExpression
 				
 				if (add < 5000)
 				{ //file buffer 
-					CDataEntity buffer = getDefaultInputFileBuffer(factory.m_ProgramCatalog) ;
-					desc.m_eObject = buffer ;
-					desc.m_expStart = term ;
+					CDataEntity buffer = getDefaultInputFileBuffer(factory.programCatalog) ;
+					desc.eObject = buffer ;
+					desc.expStart = term ;
 				}
 				else
 				{ // working
-					CDataEntity working = factory.m_ProgramCatalog.GetDataEntity("WORKING", "") ;
-					desc.m_eObject = working ;
-					desc.m_expStart = term ;
+					CDataEntity working = factory.programCatalog.GetDataEntity("WORKING", "") ;
+					desc.eObject = working ;
+					desc.expStart = term ;
 				}
 			}
 			else if (term.GetDataType() == CDataEntityType.NUMERIC_VAR)
 			{
 				CDataEntity var = term.GetSingleOperator() ;
-				desc.m_eObject = var ;
-				desc.m_expStart = null ;
+				desc.eObject = var ;
+				desc.expStart = null ;
 			}
 			else if (term.GetDataType() == CDataEntityType.VAR)
 			{
@@ -126,14 +126,14 @@ public class CFPacGenericExpression extends CExpression
 					CBaseEntityExpression termstart = expstart.AnalyseExpression(factory) ;
 					if (termstart.GetDataType() == CDataEntityType.ADDRESS)
 					{
-						desc.m_eObject = var ;
-						desc.m_expStart = termstart ;
+						desc.eObject = var ;
+						desc.expStart = termstart ;
 					}
 				}
 				else
 				{
-					desc.m_eObject = var ;
-					desc.m_expStart = null ;
+					desc.eObject = var ;
+					desc.expStart = null ;
 				}
 			}
 			else
@@ -152,18 +152,18 @@ public class CFPacGenericExpression extends CExpression
 				int add = NumberParser.getAsInt(val) ;
 				if (add < 5000)
 				{ //file buffer
-					CDataEntity buffer = getDefaultInputFileBuffer(factory.m_ProgramCatalog) ;
-					desc.m_eObject = buffer ;
-					desc.m_expStart = term ;
-					/*CDataEntity buffer = getDefaultOutputFileBuffer(factory.m_ProgramCatalog) ;
-					desc.m_eObject = buffer ;
-					desc.m_expStart = term ;*/
+					CDataEntity buffer = getDefaultInputFileBuffer(factory.programCatalog) ;
+					desc.eObject = buffer ;
+					desc.expStart = term ;
+					/*CDataEntity buffer = getDefaultOutputFileBuffer(factory.programCatalog) ;
+					desc.eObject = buffer ;
+					desc.expStart = term ;*/
 				}
 				else
 				{ // working
-					CDataEntity working = factory.m_ProgramCatalog.GetDataEntity("WORKING", "") ;
-					desc.m_eObject = working ;
-					desc.m_expStart = term ;
+					CDataEntity working = factory.programCatalog.GetDataEntity("WORKING", "") ;
+					desc.eObject = working ;
+					desc.expStart = term ;
 				}
 			}
 			else
@@ -179,7 +179,7 @@ public class CFPacGenericExpression extends CExpression
 			CEntityExprTerminal term = (CEntityExprTerminal)exp.AnalyseExpression(factory) ;
 			if (term.GetDataType() == CDataEntityType.ADDRESS)
 			{
-				desc.m_expLength = term ;
+				desc.expLength = term ;
 			}
 			else
 			{
@@ -205,88 +205,88 @@ public class CFPacGenericExpression extends CExpression
 	}
 	
 	private void manageDataTypeDependingOnOperationType(OperandDescription desc1, OperandDescription desc2, CBaseEntityFactory factory) {
-		CDataEntity firstObject = desc1.m_eObject ;
-		if (desc1.m_expStart != null)
+		CDataEntity firstObject = desc1.eObject ;
+		if (desc1.expStart != null)
 		{
 			CEntityConvertReference conv = factory.NewEntityConvert(getLine());
-			if (m_keyword == CFPacKeywordList.LE
-					|| m_keyword == CFPacKeywordList.LT
-					|| m_keyword == CFPacKeywordList.GE
-					|| m_keyword == CFPacKeywordList.GT)
+			if (keyword == CFPacKeywordList.LE
+					|| keyword == CFPacKeywordList.LT
+					|| keyword == CFPacKeywordList.GE
+					|| keyword == CFPacKeywordList.GT)
 			{
-				if (desc2.m_eObject.GetDataType() == CDataEntityType.STRING)
+				if (desc2.eObject.GetDataType() == CDataEntityType.STRING)
 				{
-					conv.convertToAlphaNum(desc1.m_eObject) ;
+					conv.convertToAlphaNum(desc1.eObject) ;
 				}
-				else if (desc2.m_eObject.GetDataType() == CDataEntityType.VAR)
+				else if (desc2.eObject.GetDataType() == CDataEntityType.VAR)
 				{
-					conv.convertToAlphaNum(desc1.m_eObject) ;
+					conv.convertToAlphaNum(desc1.eObject) ;
 				}
 				else
 				{
-					if (desc2.m_bHexaNoPacked)
-						conv.convertToAlphaNum(desc1.m_eObject) ;
+					if (desc2.bHexaNoPacked)
+						conv.convertToAlphaNum(desc1.eObject) ;
 					else
-						conv.convertToPacked(desc1.m_eObject) ;
+						conv.convertToPacked(desc1.eObject) ;
 				}
 			}
-			else if (m_keyword == CFPacKeywordList.EQ || m_keyword == CFPacKeywordList.NE)
+			else if (keyword == CFPacKeywordList.EQ || keyword == CFPacKeywordList.NE)
 			{
-				if (desc2.m_eObject.GetDataType() == CDataEntityType.NUMBER)
+				if (desc2.eObject.GetDataType() == CDataEntityType.NUMBER)
 				{
-					if (desc2.m_bHexaNoPacked)
-						conv.convertToAlphaNum(desc1.m_eObject) ;
+					if (desc2.bHexaNoPacked)
+						conv.convertToAlphaNum(desc1.eObject) ;
 					else
-						conv.convertToPacked(desc1.m_eObject) ;
+						conv.convertToPacked(desc1.eObject) ;
 				}
 				else
 				{
-					conv.convertToAlphaNum(desc1.m_eObject) ;
+					conv.convertToAlphaNum(desc1.eObject) ;
 				}
 			}
 			else
 			{
-				conv.convertToAlphaNum(desc1.m_eObject) ;
+				conv.convertToAlphaNum(desc1.eObject) ;
 			}
-			desc1.m_eObject = conv ;
+			desc1.eObject = conv ;
 		}
-		if (desc2.m_expStart != null)
+		if (desc2.expStart != null)
 		{
 			CEntityConvertReference conv = factory.NewEntityConvert(getLine());
-			if (m_keyword == CFPacKeywordList.LE
-					|| m_keyword == CFPacKeywordList.LT
-					|| m_keyword == CFPacKeywordList.GE
-					|| m_keyword == CFPacKeywordList.GT)
+			if (keyword == CFPacKeywordList.LE
+					|| keyword == CFPacKeywordList.LT
+					|| keyword == CFPacKeywordList.GE
+					|| keyword == CFPacKeywordList.GT)
 			{
 				if (firstObject.GetDataType() == CDataEntityType.STRING)
 				{
-					conv.convertToAlphaNum(desc2.m_eObject) ;
+					conv.convertToAlphaNum(desc2.eObject) ;
 				}
 				else if (firstObject.GetDataType() == CDataEntityType.VAR)
 				{
-					conv.convertToAlphaNum(desc2.m_eObject) ;
+					conv.convertToAlphaNum(desc2.eObject) ;
 				}
 				else
 				{
-					conv.convertToPacked(desc2.m_eObject) ;
+					conv.convertToPacked(desc2.eObject) ;
 				}
 			}
-			else if (m_keyword == CFPacKeywordList.EQ || m_keyword == CFPacKeywordList.NE)
+			else if (keyword == CFPacKeywordList.EQ || keyword == CFPacKeywordList.NE)
 			{
 				if (firstObject.GetDataType() == CDataEntityType.NUMBER)
 				{
-					conv.convertToPacked(desc2.m_eObject) ;
+					conv.convertToPacked(desc2.eObject) ;
 				}
 				else
 				{
-					conv.convertToAlphaNum(desc2.m_eObject) ;
+					conv.convertToAlphaNum(desc2.eObject) ;
 				}
 			}
 			else
 			{
-				conv.convertToAlphaNum(desc2.m_eObject) ;
+				conv.convertToAlphaNum(desc2.eObject) ;
 			}
-			desc2.m_eObject = conv ;
+			desc2.eObject = conv ;
 		}
 	}
 
@@ -308,12 +308,12 @@ public class CFPacGenericExpression extends CExpression
 	public CBaseEntityCondition AnalyseCondition(CBaseEntityFactory factory, CDefaultConditionManager masterCond)
 	{
 		//  analyse operands
-		OperandDescription desc1 = FindOperand(m_arrLeftTerms, factory) ;
-		if (m_arrRightTerms == null || m_arrRightTerms.isEmpty())
+		OperandDescription desc1 = FindOperand(arrLeftTerms, factory) ;
+		if (arrRightTerms == null || arrRightTerms.isEmpty())
 		{
 			return AnalyseSingleOperand(desc1, factory) ;
 		}
-		OperandDescription desc2 = FindOperand(m_arrRightTerms, factory) ;
+		OperandDescription desc2 = FindOperand(arrRightTerms, factory) ;
 		if (desc1 == null || desc2 == null)
 		{
 			return null ;
@@ -324,70 +324,70 @@ public class CFPacGenericExpression extends CExpression
 		
 		// build data entities 
 		CDataEntity e1, e2 ;
-		if (desc2.m_expLength != null && desc1.m_expLength == null && desc1.m_expStart != null)
+		if (desc2.expLength != null && desc1.expLength == null && desc1.expStart != null)
 		{
-			desc1.m_expLength = desc2.m_expLength ;
+			desc1.expLength = desc2.expLength ;
 		}
-		if (desc1.m_expLength != null && desc2.m_expLength == null && desc2.m_expStart != null)
+		if (desc1.expLength != null && desc2.expLength == null && desc2.expStart != null)
 		{
-			desc2.m_expLength = desc1.m_expLength ;
+			desc2.expLength = desc1.expLength ;
 		}
-		if (desc1.m_expStart != null)
+		if (desc1.expStart != null)
 		{
 			CSubStringAttributReference ss = factory.NewEntitySubString(getLine()) ;
-			ss.SetReference(desc1.m_eObject, desc1.m_expStart, desc1.m_expLength) ;
+			ss.SetReference(desc1.eObject, desc1.expStart, desc1.expLength) ;
 			e1 = ss ;
 		}
 		else
 		{
-			e1 = desc1.m_eObject ;
+			e1 = desc1.eObject ;
 		}
-		if (desc2.m_expStart != null)
+		if (desc2.expStart != null)
 		{
 			CSubStringAttributReference ss = factory.NewEntitySubString(getLine()) ;
-			ss.SetReference(desc2.m_eObject, desc2.m_expStart, desc2.m_expLength) ;
+			ss.SetReference(desc2.eObject, desc2.expStart, desc2.expLength) ;
 			e2 = ss ;
 		}
 		else
 		{
-			e2 = desc2.m_eObject ;
+			e2 = desc2.eObject ;
 		}
 		CBaseEntityExpression exp1 = factory.NewEntityExprTerminal(e1) ;
 		CBaseEntityExpression exp2 = factory.NewEntityExprTerminal(e2) ;
 		
 		// analyse keywords
 		CBaseEntityCondition condition = null ;
-		if (m_keyword == CFPacKeywordList.EQ)
+		if (keyword == CFPacKeywordList.EQ)
 		{
 			CEntityCondEquals cond = factory.NewEntityCondEquals() ;
 			cond.SetEqualCondition(exp1, exp2) ;
 			condition = cond ;
 		}
-		else if (m_keyword == CFPacKeywordList.NE)
+		else if (keyword == CFPacKeywordList.NE)
 		{
 			CEntityCondEquals cond = factory.NewEntityCondEquals() ;
 			cond.SetDifferentCondition(exp1, exp2) ;
 			condition = cond ;
 		}
-		else if (m_keyword == CFPacKeywordList.LE)
+		else if (keyword == CFPacKeywordList.LE)
 		{
 			CEntityCondCompare cond = factory.NewEntityCondCompare() ;
 			cond.SetLessOrEqualThan(exp1, exp2) ;
 			condition = cond ;
 		}
-		else if (m_keyword == CFPacKeywordList.LT)
+		else if (keyword == CFPacKeywordList.LT)
 		{
 			CEntityCondCompare cond = factory.NewEntityCondCompare() ;
 			cond.SetLessThan(exp1, exp2) ;
 			condition = cond ;
 		}
-		else if (m_keyword == CFPacKeywordList.GE)
+		else if (keyword == CFPacKeywordList.GE)
 		{
 			CEntityCondCompare cond = factory.NewEntityCondCompare() ;
 			cond.SetGreaterOrEqualsThan(exp1, exp2) ;
 			condition = cond ;
 		}
-		else if (m_keyword == CFPacKeywordList.GT)
+		else if (keyword == CFPacKeywordList.GT)
 		{
 			CEntityCondCompare cond = factory.NewEntityCondCompare() ;
 			cond.SetGreaterThan(exp1, exp2) ;
@@ -395,7 +395,7 @@ public class CFPacGenericExpression extends CExpression
 		}
 		else
 		{
-			Transcoder.logError(getLine(), "Unexpecting keyword :  " + m_keyword.toString()) ;
+			Transcoder.logError(getLine(), "Unexpecting keyword :  " + keyword.toString()) ;
 			return null ;
 		}
 		exp1.RegisterVarTesting(condition) ;
@@ -411,27 +411,27 @@ public class CFPacGenericExpression extends CExpression
 	private CBaseEntityCondition AnalyseSingleOperand(OperandDescription desc1, CBaseEntityFactory factory)
 	{
 		CDataEntity e1 ;
-		if (desc1.m_expStart != null)
+		if (desc1.expStart != null)
 		{
 			CEntityConvertReference conv = factory.NewEntityConvert(getLine());
-			conv.convertToAlphaNum(desc1.m_eObject) ;
+			conv.convertToAlphaNum(desc1.eObject) ;
 			CSubStringAttributReference ss = factory.NewEntitySubString(getLine()) ;
-			ss.SetReference(conv, desc1.m_expStart, desc1.m_expLength) ;
+			ss.SetReference(conv, desc1.expStart, desc1.expLength) ;
 			e1 = ss ;
 		}
 		else
 		{
-			e1 = desc1.m_eObject ;
+			e1 = desc1.eObject ;
 		}
-		if (m_keyword == CFPacKeywordList.NUMERIC)
+		if (keyword == CFPacKeywordList.NUMERIC)
 		{
-			if (desc1.m_expLength == null)
+			if (desc1.expLength == null)
 			{
-				desc1.m_expLength = factory.NewEntityExprTerminal(factory.NewEntityNumber(1)) ;
+				desc1.expLength = factory.NewEntityExprTerminal(factory.NewEntityNumber(1)) ;
 				CEntityConvertReference conv = factory.NewEntityConvert(getLine());
-				conv.convertToAlphaNum(desc1.m_eObject) ;
+				conv.convertToAlphaNum(desc1.eObject) ;
 				CSubStringAttributReference ss = factory.NewEntitySubString(getLine()) ;
-				ss.SetReference(conv, desc1.m_expStart, desc1.m_expLength) ;
+				ss.SetReference(conv, desc1.expStart, desc1.expLength) ;
 				e1 = ss;
 			}
 			CEntityCondIsKindOf eCond = factory.NewEntityCondIsKindOf() ;
@@ -439,7 +439,7 @@ public class CFPacGenericExpression extends CExpression
 			e1.RegisterVarTesting(eCond) ;
 			return eCond;
 		}
-		else if (m_keyword == CFPacKeywordList.SPACE)
+		else if (keyword == CFPacKeywordList.SPACE)
 		{
 			CEntityCondIsConstant eCond = factory.NewEntityCondIsConstant() ;
 			eCond.SetIsSpace(e1);
@@ -448,7 +448,7 @@ public class CFPacGenericExpression extends CExpression
 		}
 		else
 		{
-			Transcoder.logError(getLine(), "Unexpecting keyword : " + m_keyword.toString()) ;
+			Transcoder.logError(getLine(), "Unexpecting keyword : " + keyword.toString()) ;
 			return null ;
 		}
 	}
@@ -462,17 +462,17 @@ public class CFPacGenericExpression extends CExpression
 	public Element DoExport(Document root)
 	{
 		Element eExp = root.createElement("Expression") ;
-		eExp.setAttribute("Type", m_keyword.m_Name) ;
+		eExp.setAttribute("Type", keyword.name) ;
 		Element eLeft = root.createElement("LeftTerms") ;
 		eExp.appendChild(eLeft) ;
-		for (CExpression exp : m_arrLeftTerms) 
+		for (CExpression exp : arrLeftTerms) 
 		{
 			CheckMembersBeforeExport();
 			eLeft.appendChild(exp.DoExport(root)) ;
 		}
 		Element eRight = root.createElement("RightTerms") ;
 		eExp.appendChild(eRight) ;
-		for (CExpression exp : m_arrRightTerms) 
+		for (CExpression exp : arrRightTerms) 
 		{
 			eRight.appendChild(exp.DoExport(root)) ;
 		}
@@ -502,20 +502,20 @@ public class CFPacGenericExpression extends CExpression
 
 	public void AddTerm(CExpression exp)
 	{
-		if (m_keyword == null)
+		if (keyword == null)
 		{
-			m_arrLeftTerms.add(exp) ;
+			arrLeftTerms.add(exp) ;
 		}
 		else
 		{
-			m_arrRightTerms.add(exp);
+			arrRightTerms.add(exp);
 		}
 		
 	}
 
 	public void SetKeyword(CReservedKeyword keyword)
 	{
-		m_keyword = keyword ;
+		keyword = keyword ;
 	}
 
 	@Override

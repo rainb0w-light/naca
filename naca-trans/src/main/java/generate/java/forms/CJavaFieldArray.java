@@ -84,15 +84,15 @@ public class CJavaFieldArray extends CEntityResourceFieldArray
 	public Element DoXMLExport(Document doc, CResourceStrings res)
 	{
 		Element eArray = doc.createElement("array");
-		eArray.setAttribute("nbCol", String.valueOf(m_NbColumns)) ;
-		eArray.setAttribute("nbItems", String.valueOf(m_NbItems)) ;
-		eArray.setAttribute("vert", String.valueOf(m_bVerticalFilling)) ;
-		eArray.setAttribute("line", String.valueOf(m_nPosLine)) ;
-		eArray.setAttribute("col", String.valueOf(m_nPosCol)) ;
+		eArray.setAttribute("nbCol", String.valueOf(nbColumns)) ;
+		eArray.setAttribute("nbItems", String.valueOf(nbItems)) ;
+		eArray.setAttribute("vert", String.valueOf(bVerticalFilling)) ;
+		eArray.setAttribute("line", String.valueOf(nPosLine)) ;
+		eArray.setAttribute("col", String.valueOf(nPosCol)) ;
 		
 		Element eItem = doc.createElement("item") ;
 		eArray.appendChild(eItem);
-		ListIterator iter = m_lstChildren.listIterator() ;
+		ListIterator iter = lstChildren.listIterator() ;
 		try
 		{
 			CEntityResourceField field = (CEntityResourceField)iter.next() ;

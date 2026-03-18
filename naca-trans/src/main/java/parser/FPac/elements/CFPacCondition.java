@@ -25,12 +25,12 @@ import semantic.expression.CBaseEntityCondition;
 public class CFPacCondition extends CFPacElement
 {
 
-	private CExpression m_expCondition;
-	private CFPacCodeBloc m_ThenBloc ;
-	private CFPacCodeBloc m_ElseBloc ;
-	private int m_nEndLine = 0 ;
-	private Vector<CFPacCondition> m_arrElseIfStatement = null ;
-	private boolean m_bElseIfStatement = false ; 
+	private CExpression expCondition;
+	private CFPacCodeBloc thenBloc ;
+	private CFPacCodeBloc elseBloc ;
+	private int nEndLine = 0 ;
+	private Vector<CFPacCondition> arrElseIfStatement = null ;
+	private boolean bElseIfStatement = false ; 
 
 	public CFPacCondition(int line)
 	{
@@ -47,33 +47,33 @@ public class CFPacCondition extends CFPacElement
 		}
 		else if (tok.GetKeyword() == CFPacKeywordList.ELSEIF)
 		{
-			m_bElseIfStatement  = true ;
+			bElseIfStatement  = true ;
 			tok = GetNext() ;
 		}
 		
 		CExpression exp = ReadCondition() ;
 		if (exp == null)
 			return false ;
-		m_expCondition = exp ;
+		expCondition = exp ;
 		
 		tok = GetCurrentToken() ;
 		if(tok.GetKeyword() == CFPacKeywordList.THEN)
 		{
 			tok = GetNext() ;
 		}
-		m_ThenBloc = new CFPacCodeBloc(tok.getLine(), "") ;
-		if (!Parse(m_ThenBloc))
+		thenBloc = new CFPacCodeBloc(tok.getLine(), "") ;
+		if (!Parse(thenBloc))
 		{
 			return false  ;
 		}
 		
-		if (m_bElseIfStatement)
+		if (bElseIfStatement)
 			return true ; // in case of ELSEIF statement, the ELSE and ENDIF keywords are parsed by parent.
 		
 		tok = GetCurrentToken() ;
 		if (tok.GetKeyword() == CFPacKeywordList.ELSEIF)
 		{
-			m_arrElseIfStatement = new Vector<CFPacCondition>() ;
+			arrElseIfStatement = new Vector<CFPacCondition>() ;
 			while (tok.GetKeyword() == CFPacKeywordList.ELSEIF)
 			{
 				CFPacCondition elseIfStatement  = new CFPacCondition(tok.getLine()) ;
@@ -81,16 +81,16 @@ public class CFPacCondition extends CFPacElement
 				{
 					return false ;
 				}
-				m_arrElseIfStatement.add(elseIfStatement) ;
+				arrElseIfStatement.add(elseIfStatement) ;
 				tok = GetCurrentToken() ;
 			}
 		}
 
 		if (tok.GetKeyword() == CFPacKeywordList.ELSE)
 		{
-			m_ElseBloc = new CFPacCodeBloc(tok.getLine(), "") ;
+			elseBloc = new CFPacCodeBloc(tok.getLine(), "") ;
 			StepNext();
-			if (!Parse(m_ElseBloc))
+			if (!Parse(elseBloc))
 			{
 				return false ;
 			}
@@ -99,7 +99,7 @@ public class CFPacCondition extends CFPacElement
 		tok = GetCurrentToken() ;
 		if (tok.GetKeyword() == CFPacKeywordList.IFEND)
 		{
-			m_nEndLine = tok.getLine() ;
+			nEndLine = tok.getLine() ;
 			StepNext() ;
 		}		
 		return true ;
@@ -112,28 +112,28 @@ public class CFPacCondition extends CFPacElement
 		CEntityCondition cond = factory.NewEntityCondition(getLine()) ;
 		parent.AddChild(cond) ;
 		
-		CBaseEntityCondition exp = m_expCondition.AnalyseCondition(factory) ;
-		CEntityBloc blocthen = (CEntityBloc)m_ThenBloc.DoSemanticAnalysis(cond, factory) ;
+		CBaseEntityCondition exp = expCondition.AnalyseCondition(factory) ;
+		CEntityBloc blocthen = (CEntityBloc)thenBloc.DoSemanticAnalysis(cond, factory) ;
 		CEntityBloc blocelse = null ;
-		if (m_ElseBloc != null)
+		if (elseBloc != null)
 		{
-			blocelse = (CEntityBloc)m_ElseBloc.DoSemanticAnalysis(cond, factory) ;
-			blocelse.SetEndLine(m_nEndLine) ;
+			blocelse = (CEntityBloc)elseBloc.DoSemanticAnalysis(cond, factory) ;
+			blocelse.SetEndLine(nEndLine) ;
 		}
 		else
 		{
-			blocthen.SetEndLine(m_nEndLine) ;
+			blocthen.SetEndLine(nEndLine) ;
 		}
-		if (m_bElseIfStatement)
+		if (bElseIfStatement)
 		{
 			cond.SetAlternativeCondition(exp, blocthen) ;
 		}
 		else
 		{
 			cond.SetCondition(exp, blocthen, blocelse) ;
-			if (m_arrElseIfStatement != null)
+			if (arrElseIfStatement != null)
 			{
-				for (CFPacCondition c : m_arrElseIfStatement)
+				for (CFPacCondition c : arrElseIfStatement)
 				{
 					CBaseLanguageEntity e = c.DoSemanticAnalysis(cond, factory) ;
 					cond.addAlternativeCondition(e) ;
@@ -148,18 +148,18 @@ public class CFPacCondition extends CFPacElement
 	protected Element ExportCustom(Document root)
 	{
 		String title = "If" ;
-		if (m_bElseIfStatement)
+		if (bElseIfStatement)
 			title = "ElseIf" ;
 		Element e = root.createElement(title) ;
 		Element eCond = root.createElement("Condition") ;
 		e.appendChild(eCond) ;
-		eCond.appendChild(m_expCondition.Export(root)) ;
+		eCond.appendChild(expCondition.Export(root)) ;
 		
-		Element eThen = m_ThenBloc.Export(root) ;
+		Element eThen = thenBloc.Export(root) ;
 		e.appendChild(eThen) ;
-		if (m_ElseBloc != null)
+		if (elseBloc != null)
 		{
-			Element eElse = m_ElseBloc.Export(root) ;
+			Element eElse = elseBloc.Export(root) ;
 			e.appendChild(eElse) ;
 		}
 		return e ;

@@ -44,8 +44,8 @@ public class VarGroup extends Var
 	 */
 	protected String getAsLoggableString()
 	{
-		// return m_varDef.getRawStringIncludingHeader(m_bufferPos);
-		CStr cstr = m_bufferPos.getOwnCStr(m_varDef.getLength());
+		// return varDef.getRawStringIncludingHeader(bufferPos);
+		CStr cstr = bufferPos.getOwnCStr(varDef.getLength());
 		String cs = cstr.getAsString();
 		//cstr.resetManagerCache();
 		return cs;
@@ -101,8 +101,8 @@ public class VarGroup extends Var
 	{
 		if(initializeCache != null && initializeCache.isFilled())	// initializeCache may be null 
 		{
-			initializeCache.applyItems(m_bufferPos, m_bufferPos.m_nAbsolutePosition);
-			//m_varDef.initializeUsingCache(m_bufferPos, initializeCache);
+			initializeCache.applyItems(bufferPos, bufferPos.nAbsolutePosition);
+			//varDef.initializeUsingCache(bufferPos, initializeCache);
 		}
 		else	
 		{
@@ -110,10 +110,10 @@ public class VarGroup extends Var
 			InitializeManager initializeManagerManager = tempCache.getInitializeManagerNone();
 			
 			int nOffset = getInitializeReplacingOffset(tempCache);
-			m_varDef.initializeItemAndChildren(m_bufferPos, initializeManagerManager, nOffset, initializeCache);
+			varDef.initializeItemAndChildren(bufferPos, initializeManagerManager, nOffset, initializeCache);
 			
 			if(initializeCache != null)
-				initializeCache.setFilledAndcompress(m_bufferPos.m_nAbsolutePosition);
+				initializeCache.setFilledAndcompress(bufferPos.nAbsolutePosition);
 		}
 	}
 }

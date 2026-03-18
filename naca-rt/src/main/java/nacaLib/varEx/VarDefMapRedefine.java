@@ -36,7 +36,7 @@ public class VarDefMapRedefine extends VarDefBuffer
 
 	public VarDefMapRedefine(VarDefBase varDefParent, DeclareTypeMapRedefine declareTypeMapRedefine)
 	{
-		super(varDefParent, declareTypeMapRedefine.m_varLevel);
+		super(varDefParent, declareTypeMapRedefine.varLevel);
 	}
 			
 	protected VarDefMapRedefine()
@@ -99,7 +99,7 @@ public class VarDefMapRedefine extends VarDefBuffer
 
 	public void mapOnOriginEdit()
 	{
-		m_varDefRedefinOrigin = m_varDefFormRedefineOrigin;
+		varDefRedefinOrigin = varDefFormRedefineOrigin;
 	}	
 
 
@@ -112,7 +112,7 @@ public class VarDefMapRedefine extends VarDefBuffer
 	
 	public int getBodyLength()
 	{
-		return m_nTotalSize;
+		return nTotalSize;
 	}
 	
 	protected int getHeaderLength()
@@ -122,47 +122,47 @@ public class VarDefMapRedefine extends VarDefBuffer
 
 	public int getSingleItemRequiredStorageSize()
 	{
-		if(m_varDefFormRedefineOrigin != null)
-			return m_varDefFormRedefineOrigin.getTotalSize();
+		if(varDefFormRedefineOrigin != null)
+			return varDefFormRedefineOrigin.getTotalSize();
 		return 0;
 	}
 	
 //	String getRawString(VarBuffer buffer)
 //	{
-//		String cs = buffer.getStringAt(m_nAbsolutePosition, m_nTotalSize);
+//		String cs = buffer.getStringAt(nAbsolutePosition, nTotalSize);
 //		return cs;
 //	}
 	
 	CStr getAsDecodedString(VarBufferPos buffer)
 	{
-		CStr cs = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nTotalSize);
+		CStr cs = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);
 		return cs;
 	}
 	
 	CStr getAsAlphaNumString(VarBufferPos buffer)
 	{		
-		CStr cs = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nTotalSize);
+		CStr cs = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);
 		return cs;
 	}
 
 	
 	int getAsDecodedInt(VarBufferPos buffer)
 	{
-		CStr cs = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nTotalSize);
+		CStr cs = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);
 		int n = cs.getAsInt();
 		return n;
 	}
 	
 	int getAsDecodedUnsignedInt(VarBufferPos buffer)
 	{
-		CStr cs = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nTotalSize);
+		CStr cs = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);
 		int n = cs.getAsUnsignedInt();
 		return n;
 	}
 
 	long getAsDecodedLong(VarBufferPos buffer)
 	{
-		CStr cs = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nTotalSize);
+		CStr cs = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);
 		long l = cs.getAsLong();
 		return l;
 	}
@@ -176,13 +176,13 @@ public class VarDefMapRedefine extends VarDefBuffer
 	
 	CStr getDottedSignedString(VarBufferPos buffer)
 	{	
-		CStr cs = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nTotalSize);
+		CStr cs = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);
 		return cs;
 	}
 	
 	CStr getDottedSignedStringAsSQLCol(VarBufferPos buffer)
 	{	
-		CStr cs = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nTotalSize);
+		CStr cs = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);
 		return cs;
 	}
 	
@@ -239,21 +239,21 @@ public class VarDefMapRedefine extends VarDefBuffer
 	{
 		BaseProgramManager programManager = TempCacheLocator.getTLSTempCache().getProgramManager();
 		VarBase varSource = programManager.getVarFullName(varDefSource);
-		m_varDefFormRedefineOrigin.decodeFromVar(bufferDest, varSource);
+		varDefFormRedefineOrigin.decodeFromVar(bufferDest, varSource);
 	}
 
 	void write(VarBufferPos bufferDest, VarDefFPacAlphaNum varDefSource, VarBufferPos bufferSource)
 	{
 		BaseProgramManager programManager = TempCacheLocator.getTLSTempCache().getProgramManager();
 		VarBase varSource = programManager.getVarFullName(varDefSource);
-		m_varDefFormRedefineOrigin.decodeFromVar(bufferDest, varSource);
+		varDefFormRedefineOrigin.decodeFromVar(bufferDest, varSource);
 	}
 	
 	void write(VarBufferPos bufferDest, VarDefFPacRaw varDefSource, VarBufferPos bufferSource)
 	{
 		BaseProgramManager programManager = TempCacheLocator.getTLSTempCache().getProgramManager();
 		VarBase varSource = programManager.getVarFullName(varDefSource);
-		m_varDefFormRedefineOrigin.decodeFromVar(bufferDest, varSource);
+		varDefFormRedefineOrigin.decodeFromVar(bufferDest, varSource);
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumDecComp0 varSource, VarBufferPos bufferSource)
@@ -727,7 +727,7 @@ public class VarDefMapRedefine extends VarDefBuffer
 	
 	public BtreeSegmentKeyTypeFactory getSegmentKeyTypeFactory()
 	{
-		return VarTypeId.m_segmentKeyTypeFactoryString;
+		return VarTypeId.segmentKeyTypeFactoryString;
 	}	
 	
 	public boolean isEbcdicAsciiConvertible()

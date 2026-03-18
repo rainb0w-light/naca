@@ -28,13 +28,13 @@ public class COriginalLisiting
 	
 	public void RegisterNewOriginalLine(String line)
 	{
-		m_arrLines.add(line) ;
+		arrLines.add(line) ;
 	}
 	public String GetOriginalLine(int n)
 	{
-		if (n>0 && n<=m_arrLines.size())
+		if (n>0 && n<=arrLines.size())
 		{
-			String cs = m_arrLines.get(n-1) ;
+			String cs = arrLines.get(n-1) ;
 			cs = nP.matcher(cs).replaceAll("\n");
 			cs = rP.matcher(cs).replaceAll("\r");
 			return cs ;
@@ -44,18 +44,18 @@ public class COriginalLisiting
 			return null ;
 		}
 	}
-	protected Vector<String> m_arrLines  = new Vector<String>();
+	protected Vector<String> arrLines  = new Vector<String>();
 
 	public void Clear()
 	{
-		m_arrLines.clear() ;
+		arrLines.clear() ;
 	}
 	/**
 	 * @param csCurrentLine
 	 */
 	public void ReplaceCurrentOriginalLine(String csCurrentLine)
 	{
-		m_arrLines.set(m_arrLines.size()-1, csCurrentLine) ;
+		arrLines.set(arrLines.size()-1, csCurrentLine) ;
 	}
 
 }

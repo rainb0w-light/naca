@@ -24,7 +24,7 @@ public abstract class CEntityConstant extends CDataEntity
 	public CEntityConstant(Value val)
 	{
 		super(0, "", null, null);
-		m_eValue = val ;
+		eValue = val ;
 	}
 
 	/**
@@ -73,7 +73,7 @@ public abstract class CEntityConstant extends CDataEntity
 	}
 
 
-	protected Value m_eValue ;
+	protected Value eValue ;
 	
 	public enum Value 
 	{

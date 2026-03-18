@@ -21,20 +21,20 @@ public class SHA1 {
 
 
     // members
-    private int[]  m_state;
-    private long   m_lCount;
-    private byte[] m_digestBits;
-    private int[]  m_block;
-    private int    m_nBlockIndex;
+    private int[]  state;
+    private long   lCount;
+    private byte[] digestBits;
+    private int[]  block;
+    private int    nBlockIndex;
 
 
     /**
       * constructor
       */
     public SHA1() {
-      m_state = new int[5];
-      m_block = new int[16];
-      m_digestBits = new byte[DIGEST_SIZE];
+      state = new int[5];
+      block = new int[16];
+      digestBits = new byte[DIGEST_SIZE];
       reset(); 
     }
 
@@ -44,14 +44,14 @@ public class SHA1 {
       */
     public void clear() {
       int nI;
-      for (nI = 0; nI < m_state.length; nI++) 
-        m_state[nI] = 0;
-      m_lCount = 0;
-      for (nI = 0; nI < m_digestBits.length; nI++) 
-        m_digestBits[nI] = 0;
-      for (nI = 0; nI < m_block.length; nI++) 
-        m_block[nI] = 0;
-      m_nBlockIndex = 0;
+      for (nI = 0; nI < state.length; nI++) 
+        state[nI] = 0;
+      lCount = 0;
+      for (nI = 0; nI < digestBits.length; nI++) 
+        digestBits[nI] = 0;
+      for (nI = 0; nI < block.length; nI++) 
+        block[nI] = 0;
+      nBlockIndex = 0;
     }  
  
 
@@ -65,13 +65,13 @@ public class SHA1 {
     }
 
     final int blk0(int nI) {
-      return (m_block[nI] = (rol(m_block[nI],24) & 0xff00ff00) | 
-                            (rol(m_block[nI], 8) & 0x00ff00ff));
+      return (block[nI] = (rol(block[nI],24) & 0xff00ff00) | 
+                            (rol(block[nI], 8) & 0x00ff00ff));
     }
 
     final int blk(int nI) {
-      return (m_block[nI & 15] = rol(m_block[(nI +  13) & 15] ^ m_block[(nI + 8) & 15] ^
-                                     m_block[(nI + 2) & 15] ^ m_block[nI & 15], 1));
+      return (block[nI & 15] = rol(block[(nI +  13) & 15] ^ block[(nI + 8) & 15] ^
+                                     block[(nI + 2) & 15] ^ block[nI & 15], 1));
     }
 
     final void r0(int data[],
@@ -147,11 +147,11 @@ public class SHA1 {
     void transform() {
           
         int[] dd = new int[5];
-        dd[0] = m_state[0];
-        dd[1] = m_state[1];
-        dd[2] = m_state[2];
-        dd[3] = m_state[3];
-        dd[4] = m_state[4];
+        dd[0] = state[0];
+        dd[1] = state[1];
+        dd[2] = state[2];
+        dd[3] = state[3];
+        dd[4] = state[4];
         r0(dd, 0, 1, 2, 3, 4, 0); r0(dd, 4, 0, 1, 2, 3, 1);
         r0(dd, 3, 4, 0, 1, 2, 2); r0(dd, 2, 3, 4, 0, 1, 3);
         r0(dd, 1, 2, 3, 4, 0, 4); r0(dd, 0, 1, 2, 3, 4, 5);
@@ -192,11 +192,11 @@ public class SHA1 {
         r4(dd, 1, 2, 3, 4, 0, 74); r4(dd, 0, 1, 2, 3, 4, 75);
         r4(dd, 4, 0, 1, 2, 3, 76); r4(dd, 3, 4, 0, 1, 2, 77); 
         r4(dd, 2, 3, 4, 0, 1, 78); r4(dd, 1, 2, 3, 4, 0, 79);
-        m_state[0] += dd[0];
-        m_state[1] += dd[1];
-        m_state[2] += dd[2];
-        m_state[3] += dd[3];
-        m_state[4] += dd[4];
+        state[0] += dd[0];
+        state[1] += dd[1];
+        state[2] += dd[2];
+        state[3] += dd[3];
+        state[4] += dd[4];
     }
 
 
@@ -205,14 +205,14 @@ public class SHA1 {
       */
     public void reset() {
 
-      m_state[0] = 0x67452301;
-      m_state[1] = 0xefcdab89;
-      m_state[2] = 0x98badcfe;
-      m_state[3] = 0x10325476;
-      m_state[4] = 0xc3d2e1f0;
-      m_lCount = 0;
-      m_digestBits = new byte[20];
-      m_nBlockIndex = 0;
+      state[0] = 0x67452301;
+      state[1] = 0xefcdab89;
+      state[2] = 0x98badcfe;
+      state[3] = 0x10325476;
+      state[4] = 0xc3d2e1f0;
+      lCount = 0;
+      digestBits = new byte[20];
+      nBlockIndex = 0;
     }
 
 
@@ -221,15 +221,15 @@ public class SHA1 {
       */
     public void update(byte bB) {
 
-        int nMask = (m_nBlockIndex & 3) << 3;
+        int nMask = (nBlockIndex & 3) << 3;
 
-        m_lCount += 8;
-        m_block[m_nBlockIndex >> 2] &= ~(0xff << nMask);
-        m_block[m_nBlockIndex >> 2] |= (bB & 0xff) << nMask;
-        m_nBlockIndex++;
-        if (m_nBlockIndex == 64) {
+        lCount += 8;
+        block[nBlockIndex >> 2] &= ~(0xff << nMask);
+        block[nBlockIndex >> 2] |= (bB & 0xff) << nMask;
+        nBlockIndex++;
+        if (nBlockIndex == 64) {
           transform();
-          m_nBlockIndex = 0;
+          nBlockIndex = 0;
         }
     }
 
@@ -264,18 +264,18 @@ public class SHA1 {
         byte bits[] = new byte[8];
 
         for (nI = 0; nI < 8; nI++) {
-          bits[nI] = (byte)((m_lCount >>> (((7 - nI) << 3))) & 0xff);
+          bits[nI] = (byte)((lCount >>> (((7 - nI) << 3))) & 0xff);
         }
 
         update((byte) 128);
-        while (m_nBlockIndex != 56)
+        while (nBlockIndex != 56)
           update((byte) 0);
 
         for (nI = 0; nI < bits.length; nI++)
           update(bits[nI]);
 
         for (nI = 0; nI < 20; nI++) {
-          m_digestBits[nI] = (byte)((m_state[nI >> 2] >> ((3 - (nI & 3)) << 3)) & 0xff);
+          digestBits[nI] = (byte)((state[nI >> 2] >> ((3 - (nI & 3)) << 3)) & 0xff);
         }
     }
 
@@ -288,7 +288,7 @@ public class SHA1 {
 
        // deliver a _copy_
        byte[] result = new byte[DIGEST_SIZE];
-       System.arraycopy(m_digestBits, 0, result, 0, DIGEST_SIZE);
+       System.arraycopy(digestBits, 0, result, 0, DIGEST_SIZE);
        return result;
     }
 
@@ -306,8 +306,8 @@ public class SHA1 {
       StringBuffer buf = new StringBuffer(DIGEST_SIZE * 2);       
 
       for (int nI = 0; nI < DIGEST_SIZE; nI++) {
-        buf.append(HEXTAB.charAt((m_digestBits[nI] >>> 4) & 0x0f));
-        buf.append(HEXTAB.charAt(m_digestBits[nI] & 0x0f));
+        buf.append(HEXTAB.charAt((digestBits[nI] >>> 4) & 0x0f));
+        buf.append(HEXTAB.charAt(digestBits[nI] & 0x0f));
       } 
       return buf.toString();
     } 

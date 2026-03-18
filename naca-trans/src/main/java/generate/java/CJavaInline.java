@@ -43,21 +43,21 @@ public class CJavaInline extends CEntityInline
 	protected void DoExport()
 	{
 		String line = "" ;
-		if (m_externalData.IsNeedDeclarationInClass())
+		if (externalData.IsNeedDeclarationInClass())
 		{
-			String type = m_externalData.GetTypeDecl() ;
-			line = type + " " + m_externalData.ExportReference(getLine()) + " = " + type + ".Copy(this" ;
-			if (m_externalData.GetReplaceItem() != 0)
+			String type = externalData.GetTypeDecl() ;
+			line = type + " " + externalData.ExportReference(getLine()) + " = " + type + ".Copy(this" ;
+			if (externalData.GetReplaceItem() != 0)
 			{
-				line += ", replacing("+ m_externalData.GetReplaceItem() + ", " + m_externalData.GetReplaceValue() + ")" ;
+				line += ", replacing("+ externalData.GetReplaceItem() + ", " + externalData.GetReplaceValue() + ")" ;
 			}
 			line += ") ;" ;
 			WriteLine(line);
 		}
 		else
 		{
-			m_externalData.setLanguageExporter(GetXMLOutput()) ;
-			DoExport(m_externalData) ;
+			externalData.setLanguageExporter(GetXMLOutput()) ;
+			DoExport(externalData) ;
 		}
 		StartOutputBloc() ;
 		ExportChildren() ;

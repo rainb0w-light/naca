@@ -16,18 +16,18 @@ import semantic.expression.CEntityAddress;
 public class CAddressTerminal extends CTerminal
 {
 
-	protected String m_csAddresse;
+	protected String csAddresse;
 
 	public CAddressTerminal(String add)
 	{
 		super();
-		m_csAddresse = add ;
+		csAddresse = add ;
 	}
 
 	@Override
 	public String GetValue()
 	{
-		return m_csAddresse ;
+		return csAddresse ;
 	}
 
 	@Override
@@ -39,13 +39,13 @@ public class CAddressTerminal extends CTerminal
 	@Override
 	public void ExportTo(Element e, Document root)
 	{
-		e.setAttribute("Address", m_csAddresse) ;
+		e.setAttribute("Address", csAddresse) ;
 	}
 
 	@Override
 	public CDataEntity GetDataEntity(int nLine, CBaseEntityFactory factory)
 	{
-		CEntityAddress ref = factory.NewEntityAddress(m_csAddresse) ;
+		CEntityAddress ref = factory.NewEntityAddress(csAddresse) ;
 		return ref ;
 	}
 

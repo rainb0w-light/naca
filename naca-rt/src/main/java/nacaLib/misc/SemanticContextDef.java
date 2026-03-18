@@ -34,14 +34,14 @@ public class SemanticContextDef
 	
 	public String getSemanticContextValueDefinition(String csTableColName)
 	{
-		String csSemanticContext = m_hashDBSemanticContext.get(csTableColName);
+		String csSemanticContext = hashDBSemanticContext.get(csTableColName);
 		return csSemanticContext;
 	}
 	
 	public void setSemanticContextValueDefinition(String csTable, String csCol, String csSemanticContext)
 	{
 		String csTableColName = SemanticContextDef.getTableColName(csTable, csCol);		
-		m_hashDBSemanticContext.put(csTableColName, csSemanticContext);
+		hashDBSemanticContext.put(csTableColName, csSemanticContext);
 	}
 
 		
@@ -50,5 +50,5 @@ public class SemanticContextDef
 		return csTable + "/" + csCol;
 	}
 		
-	private HashMap<String, String> m_hashDBSemanticContext = new HashMap<String, String>();
+	private HashMap<String, String> hashDBSemanticContext = new HashMap<String, String>();
 }

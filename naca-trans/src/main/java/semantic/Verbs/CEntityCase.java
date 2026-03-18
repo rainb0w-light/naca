@@ -34,31 +34,31 @@ public abstract class CEntityCase extends CBaseActionEntity
 	public CEntityCase(int l, CObjectCatalog cat, CBaseLanguageExporter out, int nEndLine)
 	{
 		super(l, cat, out);
-		m_nEndBlocLine = nEndLine ;
+		nEndBlocLine = nEndLine ;
 	}
 	public void SetCondition(CBaseEntityCondition exp)
 	{
 		//ASSERT(exp);
-		m_Condition = exp ;
+		condition = exp ;
 	}
 	
-	protected CBaseEntityCondition m_Condition = null  ; 
-	protected int m_nEndBlocLine = 0 ;
+	protected CBaseEntityCondition condition = null  ; 
+	protected int nEndBlocLine = 0 ;
 	public void Clear()
 	{
 		super.Clear() ;
-		if (m_Condition!=null)
+		if (condition!=null)
 		{
-			m_Condition.Clear() ;
+			condition.Clear() ;
 		}
-		m_Condition = null ;
+		condition = null ;
 	}
 
 	public boolean ignore()
 	{
-		if (m_Condition != null)
+		if (condition != null)
 		{
-			boolean ignore = m_Condition.ignore() ;
+			boolean ignore = condition.ignore() ;
 			//ignore |= isChildrenIgnored() ;
 			return ignore ;
 		}
@@ -74,12 +74,12 @@ public abstract class CEntityCase extends CBaseActionEntity
 
 	public boolean UpdateAction(CBaseActionEntity entity, CBaseActionEntity newCond)
 	{
-		for (int i=0; i<m_lstChildren.size(); i++)
+		for (int i=0; i<lstChildren.size(); i++)
 		{
-			CBaseActionEntity act = (CBaseActionEntity)m_lstChildren.get(i) ;
+			CBaseActionEntity act = (CBaseActionEntity)lstChildren.get(i) ;
 			if (act == entity)
 			{
-				m_lstChildren.set(i, newCond) ;
+				lstChildren.set(i, newCond) ;
 				return true ;
 			}
 		}

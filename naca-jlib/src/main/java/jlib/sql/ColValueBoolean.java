@@ -15,45 +15,45 @@ public class ColValueBoolean extends ColValue
 	public ColValueBoolean(String csName, boolean bValue)
 	{
 		super(csName);
-		m_bValue = bValue;
+		bValue = bValue;
 	}
 	
 	public ColValue duplicate()
 	{
-		return new ColValueBoolean(m_csName, m_bValue);
+		return new ColValueBoolean(csName, bValue);
 	}
 	
 	public void setParamSQLClause(SQLClause clause)
 	{
-		clause.param(m_bValue);
+		clause.param(bValue);
 	}	
 	
 	public void doFillWithResurltSetCol(ResultSet resultSet, int nCol)
 		throws SQLException
 	{
-		m_bValue = resultSet.getBoolean(nCol);
+		bValue = resultSet.getBoolean(nCol);
 	}
 
 	public String getValueAsString()
 	{
-		return String.valueOf(m_bValue);
+		return String.valueOf(bValue);
 	}
 	
 	String getDumpValueAsString()
 	{
-		return "(Boolean):'"+String.valueOf(m_bValue)+"'";
+		return "(Boolean):'"+String.valueOf(bValue)+"'";
 	}
 	
 	public int getValueAsInt()
 	{
-		if(m_bValue)
+		if(bValue)
 			return 1;
 		return 0;
 	}
 	
 	double getValueAsDouble()
 	{
-		if(m_bValue)
+		if(bValue)
 			return 1.0;
 		return 0.0;
 	}
@@ -70,8 +70,8 @@ public class ColValueBoolean extends ColValue
 	
 	Object getValue()
 	{
-		return String.valueOf(Boolean.valueOf(m_bValue));
+		return String.valueOf(Boolean.valueOf(bValue));
 	}
 	
-	boolean m_bValue = false;
+	boolean bValue = false;
 }

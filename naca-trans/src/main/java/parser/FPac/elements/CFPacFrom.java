@@ -27,7 +27,7 @@ import utils.FPacTranscoder.notifs.NotifSetDefaultInputFile;
 public class CFPacFrom extends CFPacElement
 {
 
-	private CIdentifier m_idFile;
+	private CIdentifier idFile;
 
 	/**
 	 * @param line
@@ -54,7 +54,7 @@ public class CFPacFrom extends CFPacElement
 			tok =GetNext() ;
 			if (tok.GetType() == CTokenType.IDENTIFIER)
 			{
-				m_idFile = new CIdentifier(tok.GetValue()) ;
+				idFile = new CIdentifier(tok.GetValue()) ;
 				tok =GetNext() ;
 			}
 			else
@@ -78,8 +78,8 @@ public class CFPacFrom extends CFPacElement
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
 		NotifSetDefaultInputFile notif = new NotifSetDefaultInputFile() ;
-		notif.fileRef = m_idFile.GetName() ;
-		factory.m_ProgramCatalog.SendNotifRequest(notif) ;
+		notif.fileRef = idFile.GetName() ;
+		factory.programCatalog.SendNotifRequest(notif) ;
 		
 		return null;
 	}
@@ -93,7 +93,7 @@ public class CFPacFrom extends CFPacElement
 		Element eTo = root.createElement("From") ;
 		Element e = root.createElement("File") ;
 		eTo.appendChild(e) ;
-		m_idFile.ExportTo(e, root) ;
+		idFile.ExportTo(e, root) ;
 		return eTo ;
 	}
 

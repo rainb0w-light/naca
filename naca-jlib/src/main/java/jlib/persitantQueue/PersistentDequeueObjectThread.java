@@ -11,15 +11,15 @@ import jlib.threads.Threadutil;
 
 public abstract class PersistentDequeueObjectThread extends BaseThread
 {
-	private PersistantQueue m_persistantQueue = null;
-	private int m_nLoopWait_ms = 0;
-	private BaseQueueItemFactory m_baseQueueItemFactory = null;
+	private PersistantQueue persistantQueue = null;
+	private int nLoopWait_ms = 0;
+	private BaseQueueItemFactory baseQueueItemFactory = null;
 
 	protected PersistentDequeueObjectThread(PersistantQueue persistantQueue, BaseQueueItemFactory baseQueueItemFactory, int nLoopWait_ms)
 	{
-		m_baseQueueItemFactory = baseQueueItemFactory;
-		m_persistantQueue = persistantQueue;
-		m_nLoopWait_ms = nLoopWait_ms;
+		baseQueueItemFactory = baseQueueItemFactory;
+		persistantQueue = persistantQueue;
+		nLoopWait_ms = nLoopWait_ms;
 	}
 
 	public void run()
@@ -27,10 +27,10 @@ public abstract class PersistentDequeueObjectThread extends BaseThread
 		boolean bContinue = true;
 		while(bContinue)
 		{   
-			Object object = m_persistantQueue.getFirst(m_baseQueueItemFactory);
+			Object object = persistantQueue.getFirst(baseQueueItemFactory);
 			if(object == null)
 			{
-				bContinue = Threadutil.wait(m_nLoopWait_ms);   
+				bContinue = Threadutil.wait(nLoopWait_ms);   
 			}
 			else
 			{

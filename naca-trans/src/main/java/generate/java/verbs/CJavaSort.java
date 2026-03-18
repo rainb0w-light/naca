@@ -21,13 +21,13 @@ public class CJavaSort extends CEntitySort
 	@Override
 	protected void DoExport()
 	{
-		String cs = m_FileDescriptor.ExportReference(getLine()) ;
+		String cs = fileDescriptor.ExportReference(getLine()) ;
 		WriteWord("sort("+cs+")") ;
 		
-		for (int i=0; i<m_arrSortKey.size(); i++) 
+		for (int i=0; i<arrSortKey.size(); i++) 
 		{
-			CEntitySortKey key = m_arrSortKey.get(i) ;
-			if (key.m_bAscending)
+			CEntitySortKey key = arrSortKey.get(i) ;
+			if (key.bAscending)
 			{
 				cs = ".ascKey(" ;
 			}
@@ -35,9 +35,9 @@ public class CJavaSort extends CEntitySort
 			{
 				cs = ".descKey(" ;
 			}
-			if (key.m_Key != null)
+			if (key.key != null)
 			{
-				cs += key.m_Key.ExportReference(getLine()) ;
+				cs += key.key.ExportReference(getLine()) ;
 			}
 			else
 			{
@@ -47,45 +47,45 @@ public class CJavaSort extends CEntitySort
 			WriteWord(cs) ;
 		}
 		
-		if (m_fdInputFile != null)
+		if (fdInputFile != null)
 		{
-			WriteWord(".using("+m_fdInputFile.ExportReference(getLine())+")") ;
+			WriteWord(".using("+fdInputFile.ExportReference(getLine())+")") ;
 		}
-		else if (m_pInputProcedure != null)
+		else if (pInputProcedure != null)
 		{
-			WriteWord(".usingInput("+m_pInputProcedure.ExportReference(getLine())+")") ;
+			WriteWord(".usingInput("+pInputProcedure.ExportReference(getLine())+")") ;
 		}
-		else if (m_csInputProcedureName != null)
+		else if (csInputProcedureName != null)
 		{
-			m_pInputProcedure = m_ProgramCatalog.GetProcedure(m_csInputProcedureName, "") ;
-			if (m_pInputProcedure != null)
+			pInputProcedure = programCatalog.GetProcedure(csInputProcedureName, "") ;
+			if (pInputProcedure != null)
 			{
-				WriteWord(".usingInput("+m_pInputProcedure.ExportReference(getLine())+")") ;
+				WriteWord(".usingInput("+pInputProcedure.ExportReference(getLine())+")") ;
 			}
 			else
 			{
-				WriteWord(".usingInput(["+m_csInputProcedureName+"])") ;
+				WriteWord(".usingInput(["+csInputProcedureName+"])") ;
 			}
 		}
 
-		if (m_fdOutputFile != null)
+		if (fdOutputFile != null)
 		{
-			WriteWord(".giving("+m_fdOutputFile.ExportReference(getLine())+")") ;
+			WriteWord(".giving("+fdOutputFile.ExportReference(getLine())+")") ;
 		}
-		else if (m_pOutputProcedure != null)
+		else if (pOutputProcedure != null)
 		{
-			WriteWord(".usingOutput("+m_pOutputProcedure.ExportReference(getLine())+")") ;
+			WriteWord(".usingOutput("+pOutputProcedure.ExportReference(getLine())+")") ;
 		}
-		else if (m_csOutputProcedureName != null)
+		else if (csOutputProcedureName != null)
 		{
-			m_pOutputProcedure = m_ProgramCatalog.GetProcedure(m_csOutputProcedureName, "") ;
-			if (m_pOutputProcedure != null)
+			pOutputProcedure = programCatalog.GetProcedure(csOutputProcedureName, "") ;
+			if (pOutputProcedure != null)
 			{
-				WriteWord(".usingOutput("+m_pOutputProcedure.ExportReference(getLine())+")") ;
+				WriteWord(".usingOutput("+pOutputProcedure.ExportReference(getLine())+")") ;
 			}
 			else
 			{
-				WriteWord(".usingOutput(["+m_csOutputProcedureName+"])") ;
+				WriteWord(".usingOutput(["+csOutputProcedureName+"])") ;
 			}
 		}
 

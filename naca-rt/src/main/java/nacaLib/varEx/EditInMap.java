@@ -37,18 +37,18 @@ public class EditInMap extends Edit
 				
 		declareTypeEdit.registerEditInForm(this);
 		
-		m_csDeclaredEditName = declareTypeEdit.m_csName;
-		//m_varDef.setDefaultFullName(declareTypeEdit.m_csName);	// For debug puropose only; will be replaced by edit's java variable name
-		m_attrManager = new EditAttributManager();
+		csDeclaredEditName = declareTypeEdit.csName;
+		//varDef.setDefaultFullName(declareTypeEdit.csName);	// For debug puropose only; will be replaced by edit's java variable name
+		attrManager = new EditAttributManager();
 		
-		m_attrManager.allocAttributes(declareTypeEdit);
+		attrManager.allocAttributes(declareTypeEdit);
 		
-		//m_csFormat = declareTypeEdit.m_csFormat;
+		//csFormat = declareTypeEdit.csFormat;
 	}
 	
 	void restoreAttributesFromVarDef(VarDefEditInMap varDefEdit)
 	{
-		m_attrManager = new EditAttributManager();
+		attrManager = new EditAttributManager();
 	}
 	
 	protected EditInMap()
@@ -65,7 +65,7 @@ public class EditInMap extends Edit
 	public String toString()
 	{
 		String cs = "Var2Edit ";
-		cs += m_attrManager.toString() + " "; 
+		cs += attrManager.toString() + " "; 
 		cs += getLoggableValue();
 		return cs;
 	}
@@ -103,12 +103,12 @@ public class EditInMap extends Edit
 	
 	public void transferTo(Var varDest)
 	{
-		m_varDef.transfer(m_bufferPos, varDest);	// PJD EditInMap TO Var
+		varDef.transfer(bufferPos, varDest);	// PJD EditInMap TO Var
 	}
 	
 	public void transferTo(Edit varDest)
 	{
-		m_varDef.transfer(m_bufferPos, varDest);
+		varDef.transfer(bufferPos, varDest);
 	}
 	
 	public boolean isEditInMap()
@@ -123,12 +123,12 @@ public class EditInMap extends Edit
 	
 	protected LocalizedString getLocalizedString()
 	{
-		return m_attrManager.getLocalizedString();
+		return attrManager.getLocalizedString();
 	}
 	
 	public String getDeclaredEditName()
 	{
-		return m_csDeclaredEditName;
+		return csDeclaredEditName;
 	}	
 	
 
@@ -143,32 +143,32 @@ public class EditInMap extends Edit
 		{
 			Element eEdit = doc.createElement("field");
 			eEdit.setAttribute("length", ""+getBodyLength()) ;
-			eEdit.setAttribute("name" , m_csDeclaredEditName);
-//			String csSemanticContext = m_VarManager.getSemanticContextValue();
+			eEdit.setAttribute("name" , csDeclaredEditName);
+//			String csSemanticContext = varManager.getSemanticContextValue();
 //			if(csSemanticContext != null)
 //				eEdit.setAttribute("SemanticContext" , csSemanticContext);
 				
 			String csFieldValue = getString();
-			if (m_attrManager.m_localizedString != null)
+			if (attrManager.localizedString != null)
 			{
 				boolean bDefaultValue = BaseProgram.isAll(csFieldValue, CobolConstant.LowValue.getValue()) ;
 				if (bDefaultValue)	// edit not edited yet with no default value
 				{
-					csFieldValue = m_attrManager.m_localizedString.getTextForLanguage(csLangId);
+					csFieldValue = attrManager.localizedString.getTextForLanguage(csLangId);
 				}
 			}
-			if (m_attrManager.m_csDevelopableMark != null && !m_attrManager.m_csDevelopableMark.equals("") && csFieldValue.indexOf(m_attrManager.m_csDevelopableMark) != -1)
+			if (attrManager.csDevelopableMark != null && !attrManager.csDevelopableMark.equals("") && csFieldValue.indexOf(attrManager.csDevelopableMark) != -1)
 			{
 				String csId = csFieldValue.substring(0, 4);
 				eEdit.setAttribute("messageId", csId);
-				int nLastIndex = csFieldValue.lastIndexOf(m_attrManager.m_csDevelopableMark);
+				int nLastIndex = csFieldValue.lastIndexOf(attrManager.csDevelopableMark);
 				csFieldValue = csFieldValue.substring(0, nLastIndex);
 			}
-			if (m_attrManager.m_csFormat != null && !m_attrManager.m_csFormat.equals(""))
+			if (attrManager.csFormat != null && !attrManager.csFormat.equals(""))
 			{
 				if (BaseProgram.isNumeric(csFieldValue)) {
 					Dec dec = NumberParserDec.getAsDec(csFieldValue);
-					csFieldValue = RWNumEdited.internalFormatAndWrite(dec, m_attrManager.m_csFormat, false);
+					csFieldValue = RWNumEdited.internalFormatAndWrite(dec, attrManager.csFormat, false);
 				}
 			}
 			
@@ -178,11 +178,11 @@ public class EditInMap extends Edit
 			}
 			eEdit.setAttribute("value", csFieldValue);
 			
-			if (m_attrManager.m_bHasCursor)
+			if (attrManager.bHasCursor)
 			{
 				eEdit.setAttribute("cursor", "true");
 			}
-			m_attrManager.m_mapFieldAttribute.exportAllAttributes(eEdit);	
+			attrManager.mapFieldAttribute.exportAllAttributes(eEdit);	
 
 			return eEdit;
 		}
@@ -191,23 +191,23 @@ public class EditInMap extends Edit
 	
 	public void saveEditAttributesInVarDef()
 	{
-		VarDefEditInMap varDefEdit = (VarDefEditInMap)m_varDef;
-		varDefEdit.saveAttributeManager(m_attrManager);
+		VarDefEditInMap varDefEdit = (VarDefEditInMap)varDef;
+		varDefEdit.saveAttributeManager(attrManager);
 		
-		//setSemanticContextValue(m_attrManager.m_csSemanticContext);		// Restore original semantic context already saved in attributes 	
+		//setSemanticContextValue(attrManager.csSemanticContext);		// Restore original semantic context already saved in attributes 	
 	}
 	
 	public void restoreEditAttributesInVarDef()
 	{
-		VarDefEditInMap varDefEdit = (VarDefEditInMap)m_varDef;
-		varDefEdit.restoreAttributeManager(m_attrManager);
+		VarDefEditInMap varDefEdit = (VarDefEditInMap)varDef;
+		varDefEdit.restoreAttributeManager(attrManager);
 		
-		//setSemanticContextValue(varDefEdit.m_attrManager.m_csSemanticContext);		// Restore original semantic context saved in varDef attributes
+		//setSemanticContextValue(varDefEdit.attrManager.csSemanticContext);		// Restore original semantic context saved in varDef attributes
 	}
 	
 	EditAttributManager getEditAttributManager()
 	{
-		return m_attrManager;
+		return attrManager;
 	}
 	
 
@@ -226,6 +226,6 @@ public class EditInMap extends Edit
 		return VarType.VarEditInMap;
 	}
 
-	private String m_csDeclaredEditName = null;
-	//private String m_csFormat = null;
+	private String csDeclaredEditName = null;
+	//private String csFormat = null;
 }

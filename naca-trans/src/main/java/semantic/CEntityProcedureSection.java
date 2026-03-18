@@ -36,15 +36,15 @@ public abstract class CEntityProcedureSection extends CEntityProcedure
 		super(l, name, cat, out, null);
 	}
 
-	protected CEntityBloc m_SectionBloc =null ;
+	protected CEntityBloc sectionBloc =null ;
 	public void SetSectionBloc(CEntityBloc b)
 	{
-		m_SectionBloc = b ;
+		sectionBloc = b ;
 	}
 	protected void RegisterMySelfToCatalog()
 	{
-		m_ProgramCatalog.RegisterProcedure(GetName(), this, null) ;
-		m_ProgramCatalog.getCallTree().RegisterSection(this) ;
+		programCatalog.RegisterProcedure(GetName(), this, null) ;
+		programCatalog.getCallTree().RegisterSection(this) ;
 	}
 	public CEntityProcedureSection getSectionContainer()
 	{
@@ -52,13 +52,13 @@ public abstract class CEntityProcedureSection extends CEntityProcedure
 	} 
 	public boolean UpdateAction(CBaseActionEntity entity, CBaseActionEntity newCond)
 	{
-		if (m_SectionBloc!=null && m_SectionBloc.UpdateAction(entity, newCond))
+		if (sectionBloc!=null && sectionBloc.UpdateAction(entity, newCond))
 		{
 			return true ;
 		}
-		for (int i=0; i<m_lstChildren.size(); i++)
+		for (int i=0; i<lstChildren.size(); i++)
 		{
-			CBaseLanguageEntity act = m_lstChildren.get(i) ;
+			CBaseLanguageEntity act = lstChildren.get(i) ;
 			if (act.UpdateAction(entity, newCond))
 			{
 				return true ;
@@ -69,50 +69,50 @@ public abstract class CEntityProcedureSection extends CEntityProcedure
 	public void Clear()
 	{
 		super.Clear();
-		if (m_SectionBloc != null)
+		if (sectionBloc != null)
 		{
-			m_SectionBloc.Clear() ;
+			sectionBloc.Clear() ;
 		}
-		m_SectionBloc = null ;
+		sectionBloc = null ;
 	}
 	public boolean hasExplicitGetOut()
 	{
-		if (m_SectionBloc == null)
+		if (sectionBloc == null)
 		{
 			return false ;
 		}
-		return m_SectionBloc.hasExplicitGetOut() ;
+		return sectionBloc.hasExplicitGetOut() ;
 	}
 	/**
 	 * 
 	 */
 	public void ReduceToProcedure()
 	{
-		m_bReducedToProcedure = true ;
+		bReducedToProcedure = true ;
 	}	
-	protected boolean m_bReducedToProcedure = false ;
+	protected boolean bReducedToProcedure = false ;
 	/**
 	 * @return
 	 */
 	public CEntityBloc getSectionBloc()
 	{
-		return m_SectionBloc ;
+		return sectionBloc ;
 	}
 	public boolean ignore()
 	{
-		if (m_bIgnore)
+		if (bIgnore)
 		{
 			return true ;
 		}
-		if (m_bReducedToProcedure)
+		if (bReducedToProcedure)
 		{
-			if (m_SectionBloc == null)
+			if (sectionBloc == null)
 			{
 				return isChildrenIgnored() ;
 			}
 			else
 			{
-				return m_SectionBloc.ignore() && isChildrenIgnored() ;
+				return sectionBloc.ignore() && isChildrenIgnored() ;
 			}
 		}
 		return false ;

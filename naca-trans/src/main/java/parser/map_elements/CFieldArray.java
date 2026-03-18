@@ -58,11 +58,11 @@ public class CFieldArray extends CFieldElement
 	protected Element DoExportCustom(Document root)
 	{
 		Element eArray = root.createElement("FieldArray");
-		eArray.setAttribute("Line", ""+m_PosLine);
-		eArray.setAttribute("Col", ""+m_PosCol);
-		eArray.setAttribute("NbCol", ""+m_NbCol);
-		eArray.setAttribute("NbITems", ""+m_nbItems);
-		eArray.setAttribute("VerticalFilling", ""+m_bVerticalFilling);
+		eArray.setAttribute("Line", ""+posLine);
+		eArray.setAttribute("Col", ""+posCol);
+		eArray.setAttribute("NbCol", ""+nbCol);
+		eArray.setAttribute("NbITems", ""+nbItems);
+		eArray.setAttribute("VerticalFilling", ""+bVerticalFilling);
 		return eArray;
 	}
 	/* (non-Javadoc)
@@ -85,12 +85,12 @@ public class CFieldArray extends CFieldElement
 	public void SetResourceStrings(CResourceStrings res)
 	{
 	}
-	protected boolean m_bRegisterMotif = false ;
-	protected boolean m_bValidateMotif = false ;
-	protected int m_NbCol = 1 ;
-	protected boolean m_bVerticalFilling = false ; 
-	protected int m_nLastColIndexStart = 0 ;
-	protected int m_nbItems = 0 ;
+	protected boolean bRegisterMotif = false ;
+	protected boolean bValidateMotif = false ;
+	protected int nbCol = 1 ;
+	protected boolean bVerticalFilling = false ; 
+	protected int nLastColIndexStart = 0 ;
+	protected int nbItems = 0 ;
 
 	public boolean ReadField(CFieldElement field)
 	{
@@ -107,27 +107,27 @@ public class CFieldArray extends CFieldElement
 				n = Integer.parseInt(index) ;
 			}
 		}
-		if (!m_bRegisterMotif && !m_bValidateMotif)
+		if (!bRegisterMotif && !bValidateMotif)
 		{ // first step : initialisation
 			if (n != 1)
 			{
 				throw new NacaTransAssertException("ASSERT ReadField 1") ;
 			}
-			m_PosCol = field.m_PosCol ;
-			m_PosLine = field.m_PosLine ;
-			m_nLastColIndexStart = 1 ;
-			m_NbCol = 1 ;
+			posCol = field.posCol ;
+			posLine = field.posLine ;
+			nLastColIndexStart = 1 ;
+			nbCol = 1 ;
 			field.SetName(name);
-			m_children.add(field) ;
-			m_bRegisterMotif = true ;
-			m_nbItems = 1 ;
+			children.add(field) ;
+			bRegisterMotif = true ;
+			nbItems = 1 ;
 			return true ;
 		}
-		else if (m_bRegisterMotif)
+		else if (bRegisterMotif)
 		{
 			if (fullName.equals(""))
 			{ // label
-				m_children.add(field) ;
+				children.add(field) ;
 				return true ;
 			}
 			else if (index.equals(""))
@@ -137,19 +137,19 @@ public class CFieldArray extends CFieldElement
 			else if (n == 1)
 			{ // still registering motif : another field
 				field.SetName(name);
-				m_children.add(field) ;
+				children.add(field) ;
 				return true ;
 			}
 			else
 			{
-				m_bRegisterMotif = false ;
-				m_bValidateMotif = true ;
+				bRegisterMotif = false ;
+				bValidateMotif = true ;
 			}
 		}
-		if (m_bValidateMotif)
+		if (bValidateMotif)
 		{ // check if current field is in the motif
 			CFieldElement cur = GetNextFieldInMotif() ;
-			if (!cur.getName().equals(name) || cur.m_Length != field.m_Length)
+			if (!cur.getName().equals(name) || cur.length != field.length)
 			{
 				return false ; 
 			}
@@ -157,19 +157,19 @@ public class CFieldArray extends CFieldElement
 			{
 				return false ;
 			}
-			if (field.m_PosLine == m_PosLine)
+			if (field.posLine == posLine)
 			{
-				if (n == m_nLastColIndexStart+1)
+				if (n == nLastColIndexStart+1)
 				{
-					m_NbCol ++ ;
-					m_nLastColIndexStart = n ;
-					m_bVerticalFilling = false ;
+					nbCol ++ ;
+					nLastColIndexStart = n ;
+					bVerticalFilling = false ;
 				}
-				else if (n>0 && m_nLastColIndexStart != n) 
+				else if (n>0 && nLastColIndexStart != n) 
 				{
-					m_NbCol ++ ;
-					m_nLastColIndexStart = n ;
-					m_bVerticalFilling = true ;
+					nbCol ++ ;
+					nLastColIndexStart = n ;
+					bVerticalFilling = true ;
 				}
 			}
 			return true ;
@@ -178,34 +178,34 @@ public class CFieldArray extends CFieldElement
 	}
 	private CFieldElement GetNextFieldInMotif()
 	{
-		if (m_curFieldInMotif == null)
+		if (curFieldInMotif == null)
 		{
-			m_curFieldInMotif = m_children.listIterator() ;
-			m_nbItems ++ ;
+			curFieldInMotif = children.listIterator() ;
+			nbItems ++ ;
 		}
 		try
 		{
-			return (CFieldElement)m_curFieldInMotif.next() ;
+			return (CFieldElement)curFieldInMotif.next() ;
 		}
 		catch (NoSuchElementException e)
 		{
-			m_curFieldInMotif = m_children.listIterator() ;
-			m_nbItems ++ ;
-			return (CFieldElement)m_curFieldInMotif.next() ;
+			curFieldInMotif = children.listIterator() ;
+			nbItems ++ ;
+			return (CFieldElement)curFieldInMotif.next() ;
 		}
 	}
-	private ListIterator m_curFieldInMotif ;
+	private ListIterator curFieldInMotif ;
 	/* (non-Javadoc)
 	 * @see parser.CBaseElement#DoSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
 	 */
 	public CBaseLanguageEntity DoSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
 		CEntityResourceFieldArray eArray = factory.NewEntityFieldArray() ;
-		eArray.SetArray(m_nbItems, m_NbCol, m_bVerticalFilling) ; 
-		eArray.SetPosition(m_PosLine, m_PosCol) ;
+		eArray.SetArray(nbItems, nbCol, bVerticalFilling) ; 
+		eArray.SetPosition(posLine, posCol) ;
 
-		CFieldElement[] arrFields = new CFieldElement[m_children.size()] ;
-		m_children.toArray(arrFields) ;
+		CFieldElement[] arrFields = new CFieldElement[children.size()] ;
+		children.toArray(arrFields) ;
 		for (int i=0; i<arrFields.length; i++)
 		{
 			CFieldElement el = arrFields[i] ;
@@ -213,7 +213,7 @@ public class CFieldArray extends CFieldElement
 			if (rf != null)
 			{
 				eArray.AddChild(rf) ;
-				rf.m_nOccurs = m_nbItems ;
+				rf.nOccurs = nbItems ;
 			}
 		}
 		return eArray ;

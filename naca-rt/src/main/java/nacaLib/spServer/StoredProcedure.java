@@ -30,20 +30,20 @@ import nacaLib.exceptions.AbortSessionException;
 public class StoredProcedure extends CalledProgramParamSupportByPosition
 {
 	
-	private String m_csProgramName = null;
-	private Class m_clsProgram = null;
-	private boolean m_bConnectionPackage = false;
+	private String csProgramName = null;
+	private Class clsProgram = null;
+	private boolean bConnectionPackage = false;
 	
 	public StoredProcedure(String csProgramName)
 	{		
-		m_csProgramName = csProgramName;
+		csProgramName = csProgramName;
 		
 	}
 	
 	public StoredProcedure(Class clsProgram)
 	{
-		m_clsProgram = clsProgram;
-		m_csProgramName = ClassHelper.getLocalName(m_clsProgram);
+		clsProgram = clsProgram;
+		csProgramName = ClassHelper.getLocalName(clsProgram);
 	}
 
 	private Connection getSpConnection(boolean bContainerSimulated) throws SQLException
@@ -116,7 +116,7 @@ public class StoredProcedure extends CalledProgramParamSupportByPosition
 			String csSpDbEnvironment = spServerResourceManager.getSpDbEnvironment();
 			SpServerSession session = new SpServerSession(connection, spServerResourceManager);
 			SpServerProgramLoader loader = SpServerProgramLoader.GetProgramLoaderInstance();
-			env = loader.GetEnvironment(session, m_csProgramName, null);
+			env = loader.GetEnvironment(session, csProgramName, null);
 			
 			boolean bUseStatementCache = BaseResourceManager.getUseStatementCache();
 			env.fillEnvConnectionWithAllocatedConnection(connection, "SPConnection", csSpDbEnvironment, bUseStatementCache);
@@ -124,12 +124,12 @@ public class StoredProcedure extends CalledProgramParamSupportByPosition
 			String csSpDbPackage = spServerResourceManager.getSpDbPackage();
 			setConnectionPackage(connection, csSpDbPackage);
 			
-			Log.logNormal("Start stored procedure:"+m_csProgramName + " for clsid:" + csCurrentSqlid);
+			Log.logNormal("Start stored procedure:"+csProgramName + " for clsid:" + csCurrentSqlid);
 			env.setInitialConnectDb(false);
 			env.startRunTransaction();
-			loader.runTopProgram(env, m_arrPublicArgs);			
+			loader.runTopProgram(env, arrPublicArgs);			
 			env.endRunTransaction(CriteriaEndRunMain.Normal);
-			Log.logNormal("Stop stored procedure:"+m_csProgramName);
+			Log.logNormal("Stop stored procedure:"+csProgramName);
 			
 			resetConnectionPackage(connection);
 			
@@ -155,12 +155,12 @@ public class StoredProcedure extends CalledProgramParamSupportByPosition
 	{
 		if (csSpDbPackage.equals("")) return;
 		if (executeConnectionPackage(spConnection, csSpDbPackage))
-			m_bConnectionPackage = true;
+			bConnectionPackage = true;
 	}
 	
 	private void resetConnectionPackage(Connection spConnection)
 	{
-		if (!m_bConnectionPackage) return;		
+		if (!bConnectionPackage) return;		
 		executeConnectionPackage(spConnection, "NULLID");
 	}
 	

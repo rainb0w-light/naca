@@ -92,7 +92,7 @@ public abstract class CEntityGetKeyPressed extends CDataEntity
 	public CBaseActionEntity GetSpecialAssignment(CTerminal term, CBaseEntityFactory factory, int l)
 	{
 		String val = term.GetValue() ;
-		if (val.equals(CCobolConstantList.SPACE.m_Name))
+		if (val.equals(CCobolConstantList.SPACE.name))
 		{
 			CEntityResetKeyPressed e = factory.NewEntityResetKeyPressed(l) ;
 			return e ;

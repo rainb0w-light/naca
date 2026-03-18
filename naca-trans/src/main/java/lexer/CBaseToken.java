@@ -27,18 +27,18 @@ public abstract class CBaseToken
 	public CBaseToken(int line, boolean newline)
 	{
 		setLine(line);
-		m_bIsNewLine = newline;
+		bIsNewLine = newline;
 	}
 	
 	public String GetValue()
 	{
-		return m_Value ;
+		return value ;
 	}
 	public int GetIntValue()
 	{
 		try
 		{
-			return Integer.parseInt(m_Value) ;
+			return Integer.parseInt(value) ;
 		}
 		catch (NumberFormatException e)
 		{
@@ -72,7 +72,7 @@ public abstract class CBaseToken
 	}
 	
 	public abstract CTokenType GetType() ;
-	protected String m_Value = "" ;
+	protected String value = "" ;
 	
 	public char[] GetCharValue()
 	{
@@ -83,18 +83,18 @@ public abstract class CBaseToken
 	{
 		return "[" + GetValue() + "]" ;
 	}
-	private int m_line = 0;
+	private int line = 0;
 	
 	public int getLine()
 	{
-		return m_line;
+		return line;
 	}
 	
 	public void setLine(int line)
 	{
-		m_line = line;
-		Transcoder.setLine(m_line);
+		line = line;
+		Transcoder.setLine(line);
 	}
 	
-	public boolean m_bIsNewLine = false ;
+	public boolean bIsNewLine = false ;
 }

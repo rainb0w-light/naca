@@ -25,7 +25,7 @@ public abstract class VarDefEditInMapRedefineBase extends VarDefEdit
 	public VarDefEditInMapRedefineBase(VarDefBase varDefParent, VarLevel varLevel)
 	{
 		super(varDefParent, varLevel);
-		m_bJustifyRight = varLevel.getJustifyRight();
+		bJustifyRight = varLevel.getJustifyRight();
 	}
 
 	public void mapOnOriginEdit()
@@ -38,27 +38,27 @@ public abstract class VarDefEditInMapRedefineBase extends VarDefEdit
 		
 		FoundFlag foundFlag = new FoundFlag();
 		int n = mapRedefine.getNbEditUntil(this, foundFlag);
-		m_varDefEditOrigin = mapRedefine.m_varDefFormRedefineOrigin.getChild(n);
-		m_varDefRedefinOrigin = mapRedefine.m_varDefFormRedefineOrigin.getChild(n);
-		if(m_varDefEditOrigin != null)
+		varDefEditOrigin = mapRedefine.varDefFormRedefineOrigin.getChild(n);
+		varDefRedefinOrigin = mapRedefine.varDefFormRedefineOrigin.getChild(n);
+		if(varDefEditOrigin != null)
 		{
-			m_nTotalSize = m_varDefEditOrigin.m_nTotalSize;
+			nTotalSize = varDefEditOrigin.nTotalSize;
 		}
 		else
 		{
-			m_nTotalSize = 0;	// Should never happen
+			nTotalSize = 0;	// Should never happen
 		}
 	}
 	
 	void assignForm(VarDefForm varDefForm)
 	{
-		m_varDefFormRedefineOrigin = varDefForm;
-		m_varDefEditOrigin = m_varDefFormRedefineOrigin.getChildAtDefaultPosition(m_nDefaultAbsolutePosition);
+		varDefFormRedefineOrigin = varDefForm;
+		varDefEditOrigin = varDefFormRedefineOrigin.getChildAtDefaultPosition(nDefaultAbsolutePosition);
 	}
 	
 	VarDefBuffer getVarDefEditInMapOrigin()
 	{
-		return m_varDefEditOrigin;
+		return varDefEditOrigin;
 	}
 	
 	public VarDefEditInMapRedefineBase()
@@ -68,12 +68,12 @@ public abstract class VarDefEditInMapRedefineBase extends VarDefEdit
 	
 	public int getBodyLength()
 	{
-		return m_nTotalSize - getHeaderLength();
+		return nTotalSize - getHeaderLength();
 	}
 	
 	protected int getHeaderLength()
 	{
-		if(m_OccursDef == null)
+		if(occursDef == null)
 			return 7;
 		// We are an edit Occurs
 		return 0;			
@@ -103,12 +103,12 @@ public abstract class VarDefEditInMapRedefineBase extends VarDefEdit
 	protected void adjustCustomProperty(VarDefBuffer varDefBufferCopySingleItem)
 	{
 		VarDefEditInMapRedefineBase varDefCopy = (VarDefEditInMapRedefineBase)varDefBufferCopySingleItem;
-		//varDefCopy.m_mapFieldAttribute = m_mapFieldAttribute;
-		//varDefCopy.m_varDefEditOrigin = m_varDefEditOrigin;
-		varDefCopy.m_bJustifyRight = m_bJustifyRight;
+		//varDefCopy.mapFieldAttribute = mapFieldAttribute;
+		//varDefCopy.varDefEditOrigin = varDefEditOrigin;
+		varDefCopy.bJustifyRight = bJustifyRight;
 	}
 
-	protected MapFieldAttribute m_mapFieldAttribute = null;
-	protected VarDefBuffer m_varDefEditOrigin = null;
-	protected boolean m_bJustifyRight = false;
+	protected MapFieldAttribute mapFieldAttribute = null;
+	protected VarDefBuffer varDefEditOrigin = null;
+	protected boolean bJustifyRight = false;
 }

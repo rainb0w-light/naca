@@ -17,48 +17,48 @@ public class CEntityFieldAttributeReference extends CBaseDataReference
 	public CEntityFieldAttributeReference(CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity ref)
 	{
 		super(0, "", cat, out);
-		m_Reference = ref ;
+		reference = ref ;
 	}
 
 	@Override
 	public CDataEntityType GetDataType()
 	{
-		return m_Reference.GetDataType() ;
+		return reference.GetDataType() ;
 	}
 
 	@Override
 	public String ExportReference(int nLine)
 	{
-		return m_Reference.ExportReference(getLine());
+		return reference.ExportReference(getLine());
 	}
 
 	@Override
 	public boolean HasAccessors()
 	{
-		return m_Reference.HasAccessors() ;
+		return reference.HasAccessors() ;
 	}
 
 	@Override
 	public String ExportWriteAccessorTo(String value)
 	{
-		return m_Reference.ExportWriteAccessorTo(value) ;
+		return reference.ExportWriteAccessorTo(value) ;
 	}
 
 	@Override
 	public boolean isValNeeded()
 	{
-		return m_Reference.isValNeeded() ;
+		return reference.isValNeeded() ;
 	}
 
 	@Override
 	public String GetConstantValue()
 	{
-		return m_Reference.GetConstantValue();
+		return reference.GetConstantValue();
 	}
 	
 	public String GetName()
 	{
-		return m_Reference.GetName() ;
+		return reference.GetName() ;
 	}
 
 	@Override

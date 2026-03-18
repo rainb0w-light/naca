@@ -16,24 +16,24 @@ import nacaLib.varEx.Var;
  */
 public abstract class BaseCalledPrgPublicArgPositioned extends CCallParam
 {
-	private BaseCalledPrgPublicArgWay m_way = null;
+	private BaseCalledPrgPublicArgWay way = null;
 	
 	public BaseCalledPrgPublicArgPositioned()
 	{
-		m_way = BaseCalledPrgPublicArgWay.IN;
+		way = BaseCalledPrgPublicArgWay.IN;
 	}
 	
 	public BaseCalledPrgPublicArgPositioned(boolean bInOut)
 	{
 		if(bInOut)
-			m_way = BaseCalledPrgPublicArgWay.INOUT;
+			way = BaseCalledPrgPublicArgWay.INOUT;
 		else
-			m_way = BaseCalledPrgPublicArgWay.OUT;
+			way = BaseCalledPrgPublicArgWay.OUT;
 	}
 	
 	public void fillWithVar(Var varDest)
 	{
-		if(m_way != BaseCalledPrgPublicArgWay.IN)
+		if(way != BaseCalledPrgPublicArgWay.IN)
 			doFillWithVar(varDest);
 	}
 

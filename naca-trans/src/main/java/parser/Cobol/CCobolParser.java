@@ -18,9 +18,9 @@ public class CCobolParser extends CParser<CProgram>
 	protected boolean DoParsing(CTokenList lstTokens)
 	{
 		CProgram p = new CProgram(lstTokens.GetCurrentToken().getLine()) ;
-		m_eRoot = p ;
+		eRoot = p ;
 		ms_bCommaIsDecimalPoint = false ;
-		boolean bParsed = p.Parse(lstTokens, m_CommentContainer) ; 
+		boolean bParsed = p.Parse(lstTokens, commentContainer) ; 
 		return bParsed ;
 	}
 

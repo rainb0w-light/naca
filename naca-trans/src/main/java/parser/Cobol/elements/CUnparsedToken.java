@@ -39,21 +39,21 @@ public class CUnparsedToken extends CCobolElement
 	protected boolean DoParsing()
 	{
 		CBaseToken tok = GetCurrentToken();
-		m_Token = tok.GetValue() ;
+		token = tok.GetValue() ;
 		GetNext() ;
-		m_Token += ReadStringUntilEOL() ;
-		Transcoder.logWarn(tok.getLine(), "Unparsed Token : " + m_Token);
+		token += ReadStringUntilEOL() ;
+		Transcoder.logWarn(tok.getLine(), "Unparsed Token : " + token);
 		return true ;
 	}
 
 	public Element ExportCustom(Document rootdoc)
 	{
 		Element e = rootdoc.createElement("UnparsedToken") ;
-		e.setAttribute("Token", m_Token) ;
+		e.setAttribute("Token", token) ;
 		return e ;
 	}
 
-	String m_Token = "" ;
+	String token = "" ;
 
 	/* (non-Javadoc)
 	 * @see parser.CBaseElement#DoCustomSemanticAnalysis(semantic.CBaseSemanticEntity, semantic.CBaseSemanticEntityFactory)

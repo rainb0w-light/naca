@@ -39,10 +39,10 @@ public class CJavaCICSAssign extends CEntityCICSAssign
 	protected void DoExport()
 	{
 		String disp = "CESM.assign()";
-		for (int i=0; i<m_arrParameters.size(); i++)
+		for (int i=0; i<arrParameters.size(); i++)
 		{
-			String cs = m_arrParameters.get(i);
-			CDataEntity e = m_arrVariables.get(i);
+			String cs = arrParameters.get(i);
+			CDataEntity e = arrVariables.get(i);
 			disp += "." + cs + "(" + e.ExportReference(getLine()) + ")";
 			WriteWord(disp);
 			disp = "" ;			

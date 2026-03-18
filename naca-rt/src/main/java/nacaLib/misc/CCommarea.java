@@ -34,64 +34,64 @@ public class CCommarea extends CJMapObject
 		{
 			length = var.getLength();
 		}
-		m_charBufferCopy = var.exportToCharBuffer(length);
-		m_Var = null;
-		m_bByValue = true;
+		charBufferCopy = var.exportToCharBuffer(length);
+		var = null;
+		bByValue = true;
 	}
 	public void setVarPassedByValue(InternalCharBuffer buff)
 	{
-		m_charBufferCopy = buff ;
-		m_Var = null;
-		m_bByValue = true;
+		charBufferCopy = buff ;
+		var = null;
+		bByValue = true;
 	}
 
 	public void setVarPassedByValue(Form form)
 	{
-		m_charBufferCopy = form.encodeToCharBuffer();
-		m_Var = null;
-		m_bByValue = true;
+		charBufferCopy = form.encodeToCharBuffer();
+		var = null;
+		bByValue = true;
 	}
 
 	public void setVarPassedByRef(Var var)
 	{
-		m_charBufferCopy = null;
-		m_Var = var;
-		m_bByValue = false;
+		charBufferCopy = null;
+		var = var;
+		bByValue = false;
 	}
 	
 	void setLength(int nLength)
 	{
-		m_nLength = nLength;
-		m_bLengthSpecified = true;
+		nLength = nLength;
+		bLengthSpecified = true;
 	}
 	
 	public int getLength()
 	{
-		if(m_Var != null)
+		if(var != null)
 		{
-			if(m_bLengthSpecified)
-				return m_nLength;
-			return m_Var.getLength(); 
+			if(bLengthSpecified)
+				return nLength;
+			return var.getLength(); 
 		}
-		if(m_charBufferCopy != null)
+		if(charBufferCopy != null)
 		{
-			if(m_bLengthSpecified)
-				return m_nLength;
-			return m_charBufferCopy.getBufferSize(); 
+			if(bLengthSpecified)
+				return nLength;
+			return charBufferCopy.getBufferSize(); 
 		}
 		return 0; 
 	}
 	
 	public CCallParam buildCallParam()
 	{
-		if(m_Var != null)	// By ref
+		if(var != null)	// By ref
 		{
-			CallParamByRef callParam = new CallParamByRef(m_Var);
+			CallParamByRef callParam = new CallParamByRef(var);
 			return callParam;
 		}
-		if(m_charBufferCopy != null)	// By value
+		if(charBufferCopy != null)	// By value
 		{
-			CallParamByCharBuffer callParam = new CallParamByCharBuffer(m_charBufferCopy);
+			CallParamByCharBuffer callParam = new CallParamByCharBuffer(charBufferCopy);
 			return callParam;
 		}
 		return null;
@@ -99,25 +99,25 @@ public class CCommarea extends CJMapObject
 	
 	public CallParamFpac buildCallParamFPac()
 	{
-		if(m_charBufferCopy != null)	// By value
+		if(charBufferCopy != null)	// By value
 		{
-			CallParamFpac callParam = new CallParamFpac(m_charBufferCopy);
+			CallParamFpac callParam = new CallParamFpac(charBufferCopy);
 			return callParam;
 		}
 		return null;
 	}
 		
-	private boolean m_bByValue = false;
-	private Var m_Var = null;
-	private InternalCharBuffer m_charBufferCopy = null;
-	private int m_nLength = 0;
-	private boolean m_bLengthSpecified = false;
+	private boolean bByValue = false;
+	private Var var = null;
+	private InternalCharBuffer charBufferCopy = null;
+	private int nLength = 0;
+	private boolean bLengthSpecified = false;
 	/**
 	 * @param varDest
 	 */
 //	public CCallParam GetParam()
 //	{
-//		CallParamByCharBuffer param = new CallParamByCharBuffer(m_charBufferCopy) ;
+//		CallParamByCharBuffer param = new CallParamByCharBuffer(charBufferCopy) ;
 //		return param ;
 //		//param.MapOn(varDest) ;
 //	}

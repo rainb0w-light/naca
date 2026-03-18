@@ -24,19 +24,19 @@ import jlib.xml.Tag;
  */
 public class DbConnectionPool
 {
-	private int m_nGarbageCollectorStatement_ms = 0;
-	private Hashtable<String, DbConnectionColl> m_hashConnectionsByProgramId = null; 
+	private int nGarbageCollectorStatement_ms = 0;
+	private Hashtable<String, DbConnectionColl> hashConnectionsByProgramId = null; 
 
 	DbConnectionPool(String csPoolName, int nNbMaxConnections, int nTimeBeforeRemoveConnection_ms, int nMaxStatementLiveTime_ms, int nGarbageCollectorStatement_ms)
 	{
-		m_nGarbageCollectorStatement_ms = nGarbageCollectorStatement_ms;
-		DbConnectionColl dbConnectionColl = new DbConnectionColl(csPoolName, nNbMaxConnections, nTimeBeforeRemoveConnection_ms, nMaxStatementLiveTime_ms, false, m_nGarbageCollectorStatement_ms);
+		nGarbageCollectorStatement_ms = nGarbageCollectorStatement_ms;
+		DbConnectionColl dbConnectionColl = new DbConnectionColl(csPoolName, nNbMaxConnections, nTimeBeforeRemoveConnection_ms, nMaxStatementLiveTime_ms, false, nGarbageCollectorStatement_ms);
 		addProgram("", null, dbConnectionColl);
 	}
 	
 	DbConnectionPool(Tag tagSQLConfig)
 	{
-		m_nGarbageCollectorStatement_ms = tagSQLConfig.getValAsInt("GarbageCollectorStatement_ms");
+		nGarbageCollectorStatement_ms = tagSQLConfig.getValAsInt("GarbageCollectorStatement_ms");
 		
 		Tag tagPools = tagSQLConfig.getChild("Pools") ;
 		if (tagPools != null)
@@ -52,7 +52,7 @@ public class DbConnectionPool
 				String csPoolName = tagPool.getVal("Name");
 				if(StringUtil.isEmpty(csPoolName))
 					csPoolName = "UnknownPoolName";
-				DbConnectionColl dbConnectionColl = new DbConnectionColl(csPoolName, nMaxConnection, nTimeBeforeRemoveConnection_ms, nMaxStatementLiveTime_ms, bUseExplain, m_nGarbageCollectorStatement_ms);
+				DbConnectionColl dbConnectionColl = new DbConnectionColl(csPoolName, nMaxConnection, nTimeBeforeRemoveConnection_ms, nMaxStatementLiveTime_ms, bUseExplain, nGarbageCollectorStatement_ms);
 
 				// enum all Program
 				String csParentProgramId = tagPool.getVal("ParentProgramId");
@@ -86,38 +86,38 @@ public class DbConnectionPool
 		
 	private void addProgram(String csProgramId, String csParentProgramId, DbConnectionColl dbConnectionColl)
 	{
-		if(m_hashConnectionsByProgramId == null)
-			m_hashConnectionsByProgramId = new Hashtable<String, DbConnectionColl>();
+		if(hashConnectionsByProgramId == null)
+			hashConnectionsByProgramId = new Hashtable<String, DbConnectionColl>();
 		
 		if(!StringUtil.isEmpty(csParentProgramId))
 		{
 			String csFullName = makeFullName(csProgramId, csParentProgramId);
-			m_hashConnectionsByProgramId.put(csFullName, dbConnectionColl);
+			hashConnectionsByProgramId.put(csFullName, dbConnectionColl);
 		}
 		else
-			m_hashConnectionsByProgramId.put(csProgramId, dbConnectionColl);
+			hashConnectionsByProgramId.put(csProgramId, dbConnectionColl);
 	}
 	
 	void releaseConnection(DbConnectionBase sqlConnection)
 	{		
-		if(sqlConnection.m_dbConnectionColl != null)
-			sqlConnection.m_dbConnectionColl.releaseConnection(sqlConnection);
+		if(sqlConnection.dbConnectionColl != null)
+			sqlConnection.dbConnectionColl.releaseConnection(sqlConnection);
 	}
 	
 	synchronized public DbConnectionColl getConnectionCollForPref(String csProgramId, String csProgramParent)
 	{
 		DbConnectionColl connectionColl = null;
 		
-		if (m_hashConnectionsByProgramId != null)
+		if (hashConnectionsByProgramId != null)
 		{	
 			String csFullName = makeFullName(csProgramId, csProgramParent);
-			connectionColl = m_hashConnectionsByProgramId.get(csFullName);
+			connectionColl = hashConnectionsByProgramId.get(csFullName);
 
 			if(connectionColl == null && !StringUtil.isEmpty(csProgramParent))	// Not found with a program parent name; try with only required program name
-				connectionColl = m_hashConnectionsByProgramId.get(csProgramId);
+				connectionColl = hashConnectionsByProgramId.get(csProgramId);
 		
 			if(connectionColl == null)	// Still not found; try default naming
-				connectionColl = m_hashConnectionsByProgramId.get("");
+				connectionColl = hashConnectionsByProgramId.get("");
 		}
 		return connectionColl;
 	}
@@ -149,9 +149,9 @@ public class DbConnectionPool
 
 		Collection<DbConnectionColl> colDbConnectionColl = null;
 		
-		if(m_hashConnectionsByProgramId != null)
+		if(hashConnectionsByProgramId != null)
 		{
-			colDbConnectionColl = m_hashConnectionsByProgramId.values();
+			colDbConnectionColl = hashConnectionsByProgramId.values();
 			nNbStatementRemoved += removeStatements(colDbConnectionColl);
 		}
 
@@ -164,9 +164,9 @@ public class DbConnectionPool
 	public void forceRemoveAllStatementsOfAllCollections()
 	{
 		Collection<DbConnectionColl> colDbConnectionColl = null;
-		if(m_hashConnectionsByProgramId != null)
+		if(hashConnectionsByProgramId != null)
 		{
-			colDbConnectionColl = m_hashConnectionsByProgramId.values();
+			colDbConnectionColl = hashConnectionsByProgramId.values();
 			forceRemoveAllStatements(colDbConnectionColl);
 		}
 
@@ -185,9 +185,9 @@ public class DbConnectionPool
 	
 	public void buildStatementOrderedList(SortedMap<Long, StatementPosInPool> mapStatements) 
 	{
-		if(m_hashConnectionsByProgramId != null)
+		if(hashConnectionsByProgramId != null)
 		{
-			Collection<DbConnectionColl> colDbConnectionColl = m_hashConnectionsByProgramId.values();
+			Collection<DbConnectionColl> colDbConnectionColl = hashConnectionsByProgramId.values();
 			buildStatementOrderedList(colDbConnectionColl, mapStatements);
 		}
 	}
@@ -204,11 +204,11 @@ public class DbConnectionPool
 	
 	public synchronized int getNbUnusedConnections()
 	{
-		if(m_hashConnectionsByProgramId == null)
+		if(hashConnectionsByProgramId == null)
 			return 0;
 		
 		int n = 0;
-		Collection<DbConnectionColl> colDbConnectionColl = m_hashConnectionsByProgramId.values();
+		Collection<DbConnectionColl> colDbConnectionColl = hashConnectionsByProgramId.values();
 		Iterator<DbConnectionColl> iterDbConnectionColl = colDbConnectionColl.iterator();
 		while(iterDbConnectionColl.hasNext())
 		{
@@ -220,11 +220,11 @@ public class DbConnectionPool
 	
 	public synchronized int getNbRunningConnections()
 	{
-		if(m_hashConnectionsByProgramId == null)
+		if(hashConnectionsByProgramId == null)
 			return 0;
 		
 		int n = 0;
-		Collection<DbConnectionColl> colDbConnectionColl = m_hashConnectionsByProgramId.values();
+		Collection<DbConnectionColl> colDbConnectionColl = hashConnectionsByProgramId.values();
 		Iterator<DbConnectionColl> iterDbConnectionColl = colDbConnectionColl.iterator();
 		while(iterDbConnectionColl.hasNext())
 		{
@@ -236,9 +236,9 @@ public class DbConnectionPool
 	
 	public synchronized void showHideRunningConnections(boolean bShowRunningCon)
 	{
-		if(m_hashConnectionsByProgramId != null)
+		if(hashConnectionsByProgramId != null)
 		{
-			Collection<DbConnectionColl> colDbConnectionColl = m_hashConnectionsByProgramId.values();
+			Collection<DbConnectionColl> colDbConnectionColl = hashConnectionsByProgramId.values();
 			Iterator<DbConnectionColl> iterDbConnectionColl = colDbConnectionColl.iterator();
 			while(iterDbConnectionColl.hasNext())
 			{
@@ -250,9 +250,9 @@ public class DbConnectionPool
 	
 	public synchronized void dumpConnections(StringBuilder sbText)
 	{
-		if(m_hashConnectionsByProgramId != null)
+		if(hashConnectionsByProgramId != null)
 		{
-			Collection<DbConnectionColl> colDbConnectionColl = m_hashConnectionsByProgramId.values();
+			Collection<DbConnectionColl> colDbConnectionColl = hashConnectionsByProgramId.values();
 			Iterator<DbConnectionColl> iterDbConnectionColl = colDbConnectionColl.iterator();
 			while(iterDbConnectionColl.hasNext())
 			{
@@ -264,11 +264,11 @@ public class DbConnectionPool
 
 	public synchronized int getNbCachedStatementsForAccessor()
 	{
-		if(m_hashConnectionsByProgramId == null)
+		if(hashConnectionsByProgramId == null)
 			return 0;
 		
 		int n = 0;
-		Collection<DbConnectionColl> colDbConnectionColl = m_hashConnectionsByProgramId.values();
+		Collection<DbConnectionColl> colDbConnectionColl = hashConnectionsByProgramId.values();
 		Iterator<DbConnectionColl> iterDbConnectionColl = colDbConnectionColl.iterator();
 		while(iterDbConnectionColl.hasNext())
 		{
@@ -280,11 +280,11 @@ public class DbConnectionPool
 	
 	public synchronized int getNbAllocConnnections()
 	{
-		if(m_hashConnectionsByProgramId == null)
+		if(hashConnectionsByProgramId == null)
 			return 0;
 		
 		int n = 0;
-		Collection<DbConnectionColl> colDbConnectionColl = m_hashConnectionsByProgramId.values();
+		Collection<DbConnectionColl> colDbConnectionColl = hashConnectionsByProgramId.values();
 		Iterator<DbConnectionColl> iterDbConnectionColl = colDbConnectionColl.iterator();
 		while(iterDbConnectionColl.hasNext())
 		{
@@ -296,11 +296,11 @@ public class DbConnectionPool
 	
 	public synchronized int getNbMaxConnection()
 	{
-		if(m_hashConnectionsByProgramId == null)
+		if(hashConnectionsByProgramId == null)
 			return 0;
 		
 		int n = 0;
-		Collection<DbConnectionColl> colDbConnectionColl = m_hashConnectionsByProgramId.values();
+		Collection<DbConnectionColl> colDbConnectionColl = hashConnectionsByProgramId.values();
 		Iterator<DbConnectionColl> iterDbConnectionColl = colDbConnectionColl.iterator();
 		while(iterDbConnectionColl.hasNext())
 		{

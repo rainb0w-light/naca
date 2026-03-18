@@ -20,30 +20,30 @@ public class SQLLoadStatus
 	public static final SQLLoadStatus loadFailure = new SQLLoadStatus(false, false);
 	public static final SQLLoadStatus loadSuccessWithDuplicates = new SQLLoadStatus(true, true);
 	
-	private boolean m_bSuccess;
-	private boolean m_bDuplicates;
+	private boolean bSuccess;
+	private boolean bDuplicates;
 	
 	private SQLLoadStatus(boolean bSuccess, boolean bDuplicates)
 	{
-		m_bSuccess = bSuccess;
-		m_bDuplicates = bDuplicates;
+		bSuccess = bSuccess;
+		bDuplicates = bDuplicates;
 	}
 	
 	public boolean isSuccess()
 	{
-		return m_bSuccess;
+		return bSuccess;
 	}
 	
 	public boolean hadDuplicates()
 	{
-		return m_bDuplicates;
+		return bDuplicates;
 	}
 	
 	public static SQLLoadStatus updateWithLocalStatus(SQLLoadStatus globalStatus, SQLLoadStatus status)
 	{
-		if(!status.m_bSuccess)
+		if(!status.bSuccess)
 			return loadFailure;
-		if(globalStatus.m_bDuplicates || status.m_bDuplicates)
+		if(globalStatus.bDuplicates || status.bDuplicates)
 			return loadSuccessWithDuplicates;
 		return loadSuccess;			
 	}
@@ -51,12 +51,12 @@ public class SQLLoadStatus
 	public String toString()
 	{
 		String cs;
-		if(m_bSuccess)
+		if(bSuccess)
 			cs = "Success";
 		else
 			cs = "Failure";
 		
-		if(m_bDuplicates)
+		if(bDuplicates)
 			cs += " with duplicate keys";
 		else
 			cs += " without duplicate keys";

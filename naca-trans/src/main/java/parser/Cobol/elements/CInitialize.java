@@ -56,7 +56,7 @@ public class CInitialize extends CCobolElement
 			Transcoder.logError(getLine(), "Expecting 'INITIALIZE' keyword") ;
 			return false ;
 		}
-		CGlobalEntityCounter.GetInstance().CountCobolVerb(tokInit.GetKeyword().m_Name) ;
+		CGlobalEntityCounter.GetInstance().CountCobolVerb(tokInit.GetKeyword().name) ;
 		GetNext();
 		boolean bDone = false ;
 		while (!bDone)
@@ -65,7 +65,7 @@ public class CInitialize extends CCobolElement
 			if (tok.GetType() == CTokenType.IDENTIFIER)
 			{
 				CIdentifier ID = ReadIdentifier() ;
-				m_arrVariables.add(ID) ;
+				arrVariables.add(ID) ;
 			}
 			else if (tok.GetType() == CTokenType.COMMA)
 			{
@@ -90,7 +90,7 @@ public class CInitialize extends CCobolElement
 				if (tok.GetKeyword() == CCobolKeywordList.BY)
 				{
 					GetNext();
-					m_NumericRepWithValue = ReadTerminal();
+					numericRepWithValue = ReadTerminal();
 				} 
 			}
 			else if(tok.GetKeyword() == CCobolKeywordList.ALPHANUMERIC)
@@ -106,11 +106,11 @@ public class CInitialize extends CCobolElement
 					if (tok.GetKeyword() == CCobolKeywordList.ALL)
 					{
 						tok = GetNext() ; 
-						m_AlphaNumericFillWithValue = ReadTerminal();
+						alphaNumericFillWithValue = ReadTerminal();
 					}
 					else
 					{
-						m_AlphaNumericRepWithValue = ReadTerminal();
+						alphaNumericRepWithValue = ReadTerminal();
 					}
 				} 
 			}
@@ -124,7 +124,7 @@ public class CInitialize extends CCobolElement
 				if (tok.GetKeyword() == CCobolKeywordList.BY)
 				{
 					GetNext();
-					m_NumericEditedRepWithValue = ReadTerminal();
+					numericEditedRepWithValue = ReadTerminal();
 				} 
 			}
 
@@ -143,78 +143,78 @@ public class CInitialize extends CCobolElement
 	protected Element ExportCustom(Document root)
 	{
 		Element eInit = root.createElement("Initialize") ;
-		for (int i=0; i<m_arrVariables.size(); i++)
+		for (int i=0; i<arrVariables.size(); i++)
 		{
 			Element eVar = root.createElement("Variable") ;
 			eInit.appendChild(eVar) ;
-			CIdentifier id = m_arrVariables.get(i) ;
+			CIdentifier id = arrVariables.get(i) ;
 			id.ExportTo(eVar, root) ;
 		}
-		if (m_AlphaNumericFillWithValue != null)
+		if (alphaNumericFillWithValue != null)
 		{
 			Element eVar = root.createElement("AlphaNumFillWith") ;
 			eInit.appendChild(eVar) ;
-			m_AlphaNumericFillWithValue.ExportTo(eVar, root) ;
+			alphaNumericFillWithValue.ExportTo(eVar, root) ;
 		}
-		else if (m_AlphaNumericRepWithValue != null)
+		else if (alphaNumericRepWithValue != null)
 		{
 			Element eVar = root.createElement("AlphaNumReplaceWith") ;
 			eInit.appendChild(eVar) ;
-			m_AlphaNumericRepWithValue.ExportTo(eVar, root) ;
+			alphaNumericRepWithValue.ExportTo(eVar, root) ;
 		}
-		else if (m_NumericRepWithValue != null)
+		else if (numericRepWithValue != null)
 		{
 			Element eVar = root.createElement("NumericReplaceWith") ;
 			eInit.appendChild(eVar) ;
-			m_NumericRepWithValue.ExportTo(eVar, root) ;
+			numericRepWithValue.ExportTo(eVar, root) ;
 		}
-		else if (m_NumericEditedRepWithValue != null)
+		else if (numericEditedRepWithValue != null)
 		{
 			Element eVar = root.createElement("NumericEditedReplaceWith") ;
 			eInit.appendChild(eVar) ;
-			m_NumericEditedRepWithValue.ExportTo(eVar, root) ;
+			numericEditedRepWithValue.ExportTo(eVar, root) ;
 		}
 		return eInit ;
 	}
 	
-	protected Vector<CIdentifier> m_arrVariables = new Vector<CIdentifier>() ;
-	protected CTerminal m_NumericRepWithValue = null ;
-	protected CTerminal m_AlphaNumericRepWithValue = null ;
-	protected CTerminal m_AlphaNumericFillWithValue = null ;
-	protected CTerminal m_NumericEditedRepWithValue = null ;
+	protected Vector<CIdentifier> arrVariables = new Vector<CIdentifier>() ;
+	protected CTerminal numericRepWithValue = null ;
+	protected CTerminal alphaNumericRepWithValue = null ;
+	protected CTerminal alphaNumericFillWithValue = null ;
+	protected CTerminal numericEditedRepWithValue = null ;
 	
 		/* (non-Javadoc)
 	 * @see parser.CBaseElement#DoCustomSemanticAnalysis(semantic.CBaseSemanticEntity, semantic.CBaseSemanticEntityFactory)
 	 */
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		for (int i=0; i<m_arrVariables.size(); i++)
+		for (int i=0; i<arrVariables.size(); i++)
 		{
-			CIdentifier id = m_arrVariables.get(i) ;
+			CIdentifier id = arrVariables.get(i) ;
 			CDataEntity data = id.GetDataReference(getLine(), factory) ;
 			if (data == null)
 			{
 				return null ;
 			}
 			CEntityInitialize e = factory.NewEntityInitialize(getLine(), data) ;
-			if (m_AlphaNumericFillWithValue != null)
+			if (alphaNumericFillWithValue != null)
 			{
-				CDataEntity d = m_AlphaNumericFillWithValue.GetDataEntity(getLine(), factory);
+				CDataEntity d = alphaNumericFillWithValue.GetDataEntity(getLine(), factory);
 				e.FillAlphaNumWith(d);
 			}
-			else if (m_AlphaNumericRepWithValue != null)
+			else if (alphaNumericRepWithValue != null)
 			{
-				CDataEntity d = m_AlphaNumericRepWithValue.GetDataEntity(getLine(), factory);
+				CDataEntity d = alphaNumericRepWithValue.GetDataEntity(getLine(), factory);
 				e.ReplaceAlphaNumWith(d);
 			}
-			else if (m_NumericRepWithValue != null)
+			else if (numericRepWithValue != null)
 			{
-				CDataEntity d = m_NumericRepWithValue.GetDataEntity(getLine(), factory);
+				CDataEntity d = numericRepWithValue.GetDataEntity(getLine(), factory);
 				e.ReplaceNumWith(d);
 			}
-			else if (m_NumericEditedRepWithValue != null)
+			else if (numericEditedRepWithValue != null)
 			{
-				CDataEntity d = m_NumericEditedRepWithValue.GetDataEntity(getLine(), factory);
+				CDataEntity d = numericEditedRepWithValue.GetDataEntity(getLine(), factory);
 				e.ReplaceNumEditedWith(d);
 			}
 			data.RegisterWritingAction(e) ;

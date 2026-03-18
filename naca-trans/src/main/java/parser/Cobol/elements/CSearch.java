@@ -60,11 +60,11 @@ public class CSearch extends CCobolElement
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
 		CEntitySearch eSearch = factory.NewEntitySearch(getLine()) ;
-		CDataEntity eVar = m_Variable.GetDataReference(getLine(), factory) ;
+		CDataEntity eVar = variable.GetDataReference(getLine(), factory) ;
 		CDataEntity eIndex = null ;
-		if (m_Index != null)
+		if (index != null)
 		{
-			eIndex = m_Index.GetDataReference(getLine(), factory) ;
+			eIndex = index.GetDataReference(getLine(), factory) ;
 		}
 		else
 		{
@@ -73,26 +73,26 @@ public class CSearch extends CCobolElement
 		}
 		eSearch.setVariable(eVar, eIndex) ;
 		
-		if (m_blocElse != null)
+		if (blocElse != null)
 		{
-			CEntityBloc eBloc = (CEntityBloc)m_blocElse.DoSemanticAnalysis(eSearch, factory) ;
+			CEntityBloc eBloc = (CEntityBloc)blocElse.DoSemanticAnalysis(eSearch, factory) ;
 			eSearch.setElseBloc(eBloc) ;
 		}
 		
 		CDataEntity eAtt  ;
-		if (factory.m_ProgramCatalog.IsExistingDataEntity("Search-Found", ""))
+		if (factory.programCatalog.IsExistingDataEntity("Search-Found", ""))
 		{
-			eAtt = factory.m_ProgramCatalog.GetDataEntity("Search-Found", "") ;
+			eAtt = factory.programCatalog.GetDataEntity("Search-Found", "") ;
 		}
 		else
 		{
 			CEntityInternalBool att = factory.NewEntityInternalBool("Search-Found") ;
-			CEntityDataSection working = factory.m_ProgramCatalog.getWorkingSection() ;
+			CEntityDataSection working = factory.programCatalog.getWorkingSection() ;
 			working.AddChild(att) ;
 			eAtt = att ;
 		}
 		CEntityNumber val = factory.NewEntityNumber("true") ;
-		ListIterator i = m_children.listIterator() ;
+		ListIterator i = children.listIterator() ;
 		CCobolElement le = null ;
 		try
 		{	
@@ -123,14 +123,14 @@ public class CSearch extends CCobolElement
 		}
 
 		parent.AddChild(eSearch) ;
-		m_bAnalysisDoneForChildren = true ;
+		bAnalysisDoneForChildren = true ;
 		return eSearch ;
 	}
 	
 	
-	protected CIdentifier m_Variable = null ;
-	protected CIdentifier m_Index = null;
-	protected CGenericBloc m_blocElse = null ;
+	protected CIdentifier variable = null ;
+	protected CIdentifier index = null;
+	protected CGenericBloc blocElse = null ;
 
 	/* (non-Javadoc)
 	 * @see parser.CBaseElement#Parse(lexer.CTokenList)
@@ -142,29 +142,29 @@ public class CSearch extends CCobolElement
 		{
 			return false ;
 		}
-		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().m_Name) ;
+		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
 		tok = GetNext() ;
-		m_Variable = ReadIdentifier() ;
+		variable = ReadIdentifier() ;
 		
 		// VARYING ???
 		tok = GetCurrentToken();
 		if (tok.GetKeyword() == CCobolKeywordList.VARYING)
 		{
 			tok = GetNext() ;
-			m_Index = ReadIdentifier();
+			index = ReadIdentifier();
 			tok = GetCurrentToken() ;
 		} 
 		
 		// AT END ?
-		m_blocElse = null ;
+		blocElse = null ;
 		if (tok.GetKeyword() == CCobolKeywordList.AT)
 		{
 			tok = GetNext() ;
 			if (tok.GetKeyword() == CCobolKeywordList.END)
 			{
 				GetNext();
-				m_blocElse = new CGenericBloc("AtEnd", tok.getLine()) ;
-				if (!Parse(m_blocElse))
+				blocElse = new CGenericBloc("AtEnd", tok.getLine()) ;
+				if (!Parse(blocElse))
 				{
 					Transcoder.logError(GetCurrentToken().getLine(), "Error while parsing bloc");
 					return false ;
@@ -212,17 +212,17 @@ public class CSearch extends CCobolElement
 		Element eSearch = root.createElement("Search");
 		Element v = root.createElement("Variable");
 		eSearch.appendChild(v);
-		m_Variable.ExportTo(v, root);
-		if (m_Index != null)
+		variable.ExportTo(v, root);
+		if (index != null)
 		{
 			Element i = root.createElement("Index");
 			eSearch.appendChild(i);
-			m_Index.ExportTo(i, root) ;
+			index.ExportTo(i, root) ;
 		}
 		ExportChildren(root, eSearch) ;
-		if (m_blocElse != null)
+		if (blocElse != null)
 		{
-			eSearch.appendChild(m_blocElse.ExportCustom(root));
+			eSearch.appendChild(blocElse.ExportCustom(root));
 		}		
 		return eSearch;
 	}

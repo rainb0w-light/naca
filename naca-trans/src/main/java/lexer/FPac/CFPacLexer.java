@@ -21,26 +21,26 @@ public class CFPacLexer extends CBaseLexer
 	protected String ReadWord()
 	{
 		String val = new String() ;
-		val += m_cCurrent ;
+		val += cCurrent ;
 		try 
 		{
-			m_nCurrentPositionInLine ++ ;
-			while (m_nCurrentPositionInLine < m_nCurrentLineLength)
+			nCurrentPositionInLine ++ ;
+			while (nCurrentPositionInLine < nCurrentLineLength)
 			{
-				m_cCurrent = m_arrCurrentLine[m_nCurrentPositionInLine] ;
-				if (m_cCurrent >= 'a' && m_cCurrent <= 'z')
+				cCurrent = arrCurrentLine[nCurrentPositionInLine] ;
+				if (cCurrent >= 'a' && cCurrent <= 'z')
 				{
-					m_cCurrent = Character.toUpperCase(m_cCurrent) ;
+					cCurrent = Character.toUpperCase(cCurrent) ;
 				}
-				if ( (m_cCurrent >= 'A' && m_cCurrent <= 'Z') || (m_cCurrent >= '0' && m_cCurrent <= '9') )
+				if ( (cCurrent >= 'A' && cCurrent <= 'Z') || (cCurrent >= '0' && cCurrent <= '9') )
 				{
-					val += m_cCurrent ;
+					val += cCurrent ;
 				}
 				else
 				{
 					break ;
 				}
-				m_nCurrentPositionInLine ++ ;
+				nCurrentPositionInLine ++ ;
 			}
 		}
 		catch (Exception e)

@@ -37,9 +37,9 @@ public class CJavaIndex extends CEntityIndex
 	public String ExportReference(int nLine)
 	{
 		String cs = "" ;
-		if (m_Of != null)
+		if (of != null)
 		{
-			cs = m_Of.ExportReference(getLine()) +".";
+			cs = of.ExportReference(getLine()) +".";
 		}
 		cs += FormatIdentifier(GetName());
 		return cs ;

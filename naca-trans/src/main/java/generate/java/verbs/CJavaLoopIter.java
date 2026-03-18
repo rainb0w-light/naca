@@ -44,15 +44,15 @@ public class CJavaLoopIter extends CEntityLoopIter
 	 */
 	protected void DoExport()
 	{
-		if (m_bTestBefore)
+		if (bTestBefore)
 		{
-			_for(m_InitialValue, m_Variable, m_WhileCondition, m_Increment, m_bIncrementByOne);
-			for (CEntityAfter a : m_Afters)
+			_for(initialValue, variable, whileCondition, increment, bIncrementByOne);
+			for (CEntityAfter a : afters)
 			{
-				_for(a.m_varFromValueAfter, a.m_VariableAfter, a.m_condUntilAfter, a.m_varByValueAfter, true);
+				_for(a.varFromValueAfter, a.variableAfter, a.condUntilAfter, a.varByValueAfter, true);
 			}
 			ExportChildren() ;
-			for (@SuppressWarnings("unused") CEntityAfter a : m_Afters)
+			for (@SuppressWarnings("unused") CEntityAfter a : afters)
 			{
 				_EndBlock();
 			}
@@ -60,30 +60,30 @@ public class CJavaLoopIter extends CEntityLoopIter
 		}
 		else
 		{
-			WriteLine("move(" + m_InitialValue.ExportReference(getLine()) + ", " + m_Variable.ExportReference(getLine()) + ");");
+			WriteLine("move(" + initialValue.ExportReference(getLine()) + ", " + variable.ExportReference(getLine()) + ");");
 			WriteLine("while (true) {");
 			StartOutputBloc() ;
 			ExportChildren() ;
 
-			WriteLine("if (" + m_WhileCondition.Export() + ") {") ;
+			WriteLine("if (" + whileCondition.Export() + ") {") ;
 			StartOutputBloc() ;
 			String cs = "" ;
-			if (m_Increment != null)
+			if (increment != null)
 			{
-				cs = "add(" + m_Increment.ExportReference(getLine()) + ").to(" ;
+				cs = "add(" + increment.ExportReference(getLine()) + ").to(" ;
 			}
 			else
 			{
-				if(m_bIncrementByOne)
+				if(bIncrementByOne)
 				{
 					cs = "inc(" ;
 				}
-				else if(m_bDecrementByOne)
+				else if(bDecrementByOne)
 				{
 					cs = "dec(" ;
 				}
 			}
-			cs += m_Variable.ExportReference(getLine()) ;
+			cs += variable.ExportReference(getLine()) ;
 			WriteWord(cs+") ;") ;
 			WriteEOL();
 			_EndBlock();
@@ -96,21 +96,21 @@ public class CJavaLoopIter extends CEntityLoopIter
 		}
 	}
 
-	private void _for(CDataEntity m_InitialValue, CDataEntity m_Variable,
-			CBaseEntityCondition m_WhileCondition, CDataEntity m_Increment, boolean m_bIncrementByOne)
+	private void _for(CDataEntity initialValue, CDataEntity variable,
+			CBaseEntityCondition whileCondition, CDataEntity increment, boolean bIncrementByOne)
 	{
-		String cs = "for (move(" + m_InitialValue.ExportReference(getLine()) + ", " + m_Variable.ExportReference(getLine()) + "); " ;
+		String cs = "for (move(" + initialValue.ExportReference(getLine()) + ", " + variable.ExportReference(getLine()) + "); " ;
 		WriteWord(cs);
-		WriteWord(m_WhileCondition.Export() + "; ") ;
+		WriteWord(whileCondition.Export() + "; ") ;
 
 		cs = "" ;
-		if (m_Increment != null)
+		if (increment != null)
 		{
-			cs = "inc(" + m_Increment.ExportReference(getLine()) + ", " ;
+			cs = "inc(" + increment.ExportReference(getLine()) + ", " ;
 		}
 		else
 		{
-			if(m_bIncrementByOne)
+			if(bIncrementByOne)
 			{
 				cs = "inc(" ;
 			}
@@ -119,7 +119,7 @@ public class CJavaLoopIter extends CEntityLoopIter
 				cs = "dec(" ;
 			}
 		}
-		cs += m_Variable.ExportReference(getLine()) ;
+		cs += variable.ExportReference(getLine()) ;
 		WriteWord(cs+")) {") ;
 		WriteEOL() ;
 		StartOutputBloc() ;

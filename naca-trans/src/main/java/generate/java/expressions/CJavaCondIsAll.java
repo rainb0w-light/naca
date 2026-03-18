@@ -27,18 +27,18 @@ public class CJavaCondIsAll extends CEntityCondIsAll
 	public CBaseEntityCondition GetOppositeCondition()
 	{
 		CJavaCondIsAll not = new CJavaCondIsAll();
-		not.SetCondition(m_exprData, m_exprToken) ;
-		not.m_bIsOpposite = !m_bIsOpposite ;
+		not.SetCondition(exprData, exprToken) ;
+		not.bIsOpposite = !bIsOpposite ;
 		return not;
 	}
 	public String Export()
 	{
 		String cs = "is" ;
-		if (m_bIsOpposite)
+		if (bIsOpposite)
 		{
 			cs += "Not" ;
 		}
-		cs += "All(" + m_exprData.Export() + ", " + m_exprToken.Export() + ")" ;
+		cs += "All(" + exprData.Export() + ", " + exprToken.Export() + ")" ;
 		return cs ;
 	}
 	public int GetPriorityLevel()

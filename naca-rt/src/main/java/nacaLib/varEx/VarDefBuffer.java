@@ -73,7 +73,7 @@ public abstract class VarDefBuffer extends VarDefBase
 	{
 		int nPositionDest = getBodyAbsolutePosition(bufferDest)+ nPosDest;
 		int nPositionSource = varSource.getBodyAbsolutePosition() + nPosSource;
-		bufferDest.copyBytesFromSource(nPositionDest, varSource.m_bufferPos, nPositionSource, nDestLength);
+		bufferDest.copyBytesFromSource(nPositionDest, varSource.bufferPos, nPositionSource, nDestLength);
 		
 		return nPosSource + nDestLength;
 	}
@@ -95,7 +95,7 @@ public abstract class VarDefBuffer extends VarDefBase
 			nLength = cs.length();
 			if(nTotalSize < nLength)
 				nLength = nTotalSize;
-			cs.getChars(0, nLength, buffer.m_acBuffer, nPosition);
+			cs.getChars(0, nLength, buffer.acBuffer, nPosition);
 			nPosition += nLength;
 		}
 		if(nLength < nTotalSize)	// Padding with BLANK on the right
@@ -114,14 +114,14 @@ public abstract class VarDefBuffer extends VarDefBase
 			nLength = cs.length();
 			if(nTotalSize < nLength)
 				nLength = nTotalSize;
-			cs.getChars(0, nLength, buffer.m_acBuffer, nPosition);
+			cs.getChars(0, nLength, buffer.acBuffer, nPosition);
 			nPosition += nLength;
 		}
 		if(nLength < nTotalSize)	// Padding with BLANK on the right
 		{
 			int nNbChars = nTotalSize-nLength;
 			for(int n=0; n<nNbChars; n++)
-				buffer.m_acBuffer[nPosition++] = ' ';
+				buffer.acBuffer[nPosition++] = ' ';
 		}
 	}
 	
@@ -332,7 +332,7 @@ public abstract class VarDefBuffer extends VarDefBase
 //		for(int n=0; n<nNbCharToCopy; n++, nPositionDest++)
 //		{
 //			char cSource = csSource.charAt(n);
-//			bufferDest.m_acBuffer[nPositionDest] = cSource;
+//			bufferDest.acBuffer[nPositionDest] = cSource;
 //		}
 //	}
 	
@@ -346,13 +346,13 @@ public abstract class VarDefBuffer extends VarDefBase
 //		for(int n=0; n<nNbCharToCopy; n++, nPositionDest++)
 //		{
 //			char cSource = csSource.charAt(n);
-//			bufferDest.m_acBuffer[nPositionDest] = cSource;
+//			bufferDest.acBuffer[nPositionDest] = cSource;
 //		}
 //	}
 		
 	void fillInitialValueAndClearUnusedMembers(TempCache cache, SharedProgramInstanceData sharedProgramInstanceData, VarBuffer buffer)
 	{
-		if(m_arrChildren == null)	// Final node
+		if(arrChildren == null)	// Final node
 		{	
 			int nNbDim = getNbDim();
 			if(nNbDim == 0)
@@ -412,7 +412,7 @@ public abstract class VarDefBuffer extends VarDefBase
 		}
 		else
 		{
-			int nNbChildren = m_arrChildren.size();
+			int nNbChildren = arrChildren.size();
 			for(int nChild=0; nChild<nNbChildren; nChild++)
 			{
 				VarDefBuffer varDefChild = getChild(nChild);
@@ -425,21 +425,21 @@ public abstract class VarDefBuffer extends VarDefBase
 	
 	private void setInitialValueAndClearUnusedMembers(SharedProgramInstanceData sharedProgramInstanceData, VarBuffer buffer)
 	{
-		VarBufferPos bufferPos = new VarBufferPos(buffer, m_nDefaultAbsolutePosition); 
+		VarBufferPos bufferPos = new VarBufferPos(buffer, nDefaultAbsolutePosition); 
 		CInitialValue initialValue = sharedProgramInstanceData.getInitialValue(getId());
 		if(initialValue != null)
 		{
-			if(initialValue.m_bFill)
+			if(initialValue.bFill)
 			{
 				char c = 0;
-				String cs = initialValue.m_genericValue.getAsString();
+				String cs = initialValue.genericValue.getAsString();
 				if(cs.length() > 0)
 					c = cs.charAt(0); 
 				writeRepeatingchar(bufferPos, c);
 			}
 			else
 			{
-				String cs = initialValue.m_genericValue.getAsString();
+				String cs = initialValue.genericValue.getAsString();
 				write(bufferPos, cs);
 			}			
 		}
@@ -449,7 +449,7 @@ public abstract class VarDefBuffer extends VarDefBase
 	
 //	void initializeItemAndChildren(ProgramManager programManager, InitializeManager initializeManager)
 //	{
-//		if(m_arrChildren == null)	// Final node
+//		if(arrChildren == null)	// Final node
 //		{	
 //			int nNbTotalItems = getNbTotalItemsInAllDim();
 //			for(int n=0; n<nNbTotalItems; n++)
@@ -461,7 +461,7 @@ public abstract class VarDefBuffer extends VarDefBase
 //		}
 //		else
 //		{
-//			int nNbChildren = m_arrChildren.size();
+//			int nNbChildren = arrChildren.size();
 //			for(int nChild=0; nChild<nNbChildren; nChild++)
 //			{
 //				VarDefBuffer varDefChild = getChild(nChild);
@@ -473,7 +473,7 @@ public abstract class VarDefBuffer extends VarDefBase
 	
 	void moveCorrespondingItemAndChildren(MoveCorrespondingEntryManager manager, SharedProgramInstanceData sharedProgramInstanceData, BaseProgramManager programManager, VarDefBase varDefDestGroup, int nSourceOffset, int nDestOffset)
 	{
-		if(m_arrChildren == null)	// Final node
+		if(arrChildren == null)	// Final node
 		{	
 			String csSourceName = getUnprefixedUnindexedName(sharedProgramInstanceData).toUpperCase();
 			// Find in destination the child with the same name, if it exists
@@ -489,16 +489,16 @@ public abstract class VarDefBuffer extends VarDefBase
 				
 				VarBase varSource = programManager.getVarFullName(this);
 				VarBase varDest = programManager.getVarFullName(varDefItemDest);
-				varSource.m_bufferPos.m_nAbsolutePosition += nSourceOffset;
-				varDest.m_bufferPos.m_nAbsolutePosition += nDestOffset;
+				varSource.bufferPos.nAbsolutePosition += nSourceOffset;
+				varDest.bufferPos.nAbsolutePosition += nDestOffset;
 				varDest.set(varSource);
-				varSource.m_bufferPos.m_nAbsolutePosition -= nSourceOffset;
-				varDest.m_bufferPos.m_nAbsolutePosition -= nDestOffset;
+				varSource.bufferPos.nAbsolutePosition -= nSourceOffset;
+				varDest.bufferPos.nAbsolutePosition -= nDestOffset;
 			}
 		}
 		else
 		{
-			int nNbChildren = m_arrChildren.size();
+			int nNbChildren = arrChildren.size();
 			for(int nChild=0; nChild<nNbChildren; nChild++)
 			{
 				VarDefBuffer varDefChild = getChild(nChild);
@@ -510,7 +510,7 @@ public abstract class VarDefBuffer extends VarDefBase
 	
 //	void initializeUsingCache(VarBufferPos varBufferPos, InitializeCache initializeCache)	//, int nOffset)
 //	{
-//		initializeCache.applyItems(varBufferPos, varBufferPos.m_nAbsolutePosition);	//, nOffset);
+//		initializeCache.applyItems(varBufferPos, varBufferPos.nAbsolutePosition);	//, nOffset);
 //	}	
 	 
 //	void initializeItemAndChildren(VarBufferPos varBufferPos, InitializeManager initializeManager, int nOffset)
@@ -520,19 +520,19 @@ public abstract class VarDefBuffer extends VarDefBase
 	
 	void initializeItemAndChildren(VarBufferPos varBufferPos, InitializeManager initializeManager, int nOffset, InitializeCache initializeCache)
 	{
-		int nOldAbsolutePosition = varBufferPos.m_nAbsolutePosition;
+		int nOldAbsolutePosition = varBufferPos.nAbsolutePosition;
 		//char acOldBuffer[] = varBufferPos.getCharArray();
 		//boolean bOldShared = varBufferPos.isShared();
 		
 		TempCache cache = TempCacheLocator.getTLSTempCache();
 		initializeItemAndChildren(cache, varBufferPos, initializeManager, nOffset, getTempNbDim(), initializeCache);
 		
-		varBufferPos.restore(nOldAbsolutePosition, varBufferPos.m_acBuffer);	//, varBufferPos.isShared());
+		varBufferPos.restore(nOldAbsolutePosition, varBufferPos.acBuffer);	//, varBufferPos.isShared());
 	}
 	
 	private void initializeItemAndChildren(TempCache cache, VarBufferPos varBufferPos, InitializeManager initializeManager, int nOffset, int nNbDimUsed, InitializeCache initializeCache)
 	{		
-		if(m_arrChildren == null)	// Final node
+		if(arrChildren == null)	// Final node
 		{	
 			//int nNbDim = getNbDim();
 			int nNbDim = getNbDim(); 
@@ -600,7 +600,7 @@ public abstract class VarDefBuffer extends VarDefBase
 		}
 		else
 		{
-			int nNbChildren = m_arrChildren.size();
+			int nNbChildren = arrChildren.size();
 			for(int nChild=0; nChild<nNbChildren; nChild++)
 			{
 				VarDefBuffer varDefChild = getChild(nChild);
@@ -613,7 +613,7 @@ public abstract class VarDefBuffer extends VarDefBase
 
 	private void tryInitialize(VarBufferPos varBufferPos, InitializeManager initializeManager, int nOffset, InitializeCache initializeCache)
 	{
-		if(m_varDefRedefinOrigin == null && !getFiller())
+		if(varDefRedefinOrigin == null && !getFiller())
 		{
 			BaseProgramManager programManager = TempCacheLocator.getTLSTempCache().getProgramManager();
 			programManager.getBufferPosOfVarDef(this, varBufferPos);
@@ -628,47 +628,47 @@ public abstract class VarDefBuffer extends VarDefBase
 	
 //	private void tryInitialize(ProgramManager programManager, InitializeManager initializeManager)
 //	{
-//		if(m_varDefRedefinOrigin == null && !m_bFiller)
+//		if(varDefRedefinOrigin == null && !bFiller)
 //		{
 //			VarBase varChild = programManager.getVarFullName(this);
-//			initializeManager.initialize(varChild.m_bufferPos, this);
+//			initializeManager.initialize(varChild.bufferPos, this);
 //		}
 //	}
 	
 	protected int writeRepeatingchar(VarBufferPos buffer, char c)
 	{
-		return buffer.writeRepeatingCharAt(buffer.m_nAbsolutePosition, c, m_nTotalSize);
+		return buffer.writeRepeatingCharAt(buffer.nAbsolutePosition, c, nTotalSize);
 	}	
 	
 	protected int writeRepeatingcharAtOffset(VarBufferPos buffer, int nOffset, char c)
 	{
-		return buffer.writeRepeatingCharAt(buffer.m_nAbsolutePosition+nOffset, c, m_nTotalSize);
+		return buffer.writeRepeatingCharAt(buffer.nAbsolutePosition+nOffset, c, nTotalSize);
 	}
 	
 	protected int writeRepeatingcharAtOffsetWithLength(VarBufferPos buffer, int nOffset, char c, int nNbBytes)
 	{
-		return buffer.writeRepeatingCharAt(buffer.m_nAbsolutePosition+nOffset, c, nNbBytes);
+		return buffer.writeRepeatingCharAt(buffer.nAbsolutePosition+nOffset, c, nNbBytes);
 	}	
 	
 	protected void writeRepeatingCharUpToEnd(VarBufferPos buffer, char c, int nOffsetPosition, int nNbChar)
 	{
-		int nMaxCharOnRight = m_nTotalSize - nOffsetPosition;
+		int nMaxCharOnRight = nTotalSize - nOffsetPosition;
 		int nNbCharsToWrite = Math.min(nMaxCharOnRight, nNbChar);
-		buffer.writeRepeatingCharAt(buffer.m_nAbsolutePosition+nOffsetPosition, c, nNbCharsToWrite);
+		buffer.writeRepeatingCharAt(buffer.nAbsolutePosition+nOffsetPosition, c, nNbCharsToWrite);
 	}
 	
 	protected int internalWriteAtOffsetPosition(VarBufferPos buffer, String csValue, int nOffset, int nNbChar, char cPad)
 	{
-		int nMaxCharOnRight = m_nTotalSize - nOffset;
+		int nMaxCharOnRight = nTotalSize - nOffset;
 		int nNbCharsToWrite = Math.min(nMaxCharOnRight, nNbChar);
-		return internalWriteRightPadding(buffer, buffer.m_nAbsolutePosition+nOffset, nNbCharsToWrite, csValue, cPad);
+		return internalWriteRightPadding(buffer, buffer.nAbsolutePosition+nOffset, nNbCharsToWrite, csValue, cPad);
 	}	
 	
 	protected int internalWriteSubstringComp0(VarBufferPos buffer, String csValue, int nOffset, int nNbChar)
 	{
-		int nMaxCharOnRight = m_nTotalSize - nOffset;
+		int nMaxCharOnRight = nTotalSize - nOffset;
 		int nNbCharsToWrite = Math.min(nMaxCharOnRight, nNbChar);
-		return internalWriteNoPadding(buffer, buffer.m_nAbsolutePosition+nOffset, nNbCharsToWrite, csValue);
+		return internalWriteNoPadding(buffer, buffer.nAbsolutePosition+nOffset, nNbCharsToWrite, csValue);
 	}	
 	
 	public double getDouble(VarBufferPos buffer)
@@ -831,11 +831,11 @@ public abstract class VarDefBuffer extends VarDefBase
 	public boolean isEqualWithSameTypeTo(VarBufferPos buffer1, VarDefBuffer varDefBuffer2, VarBufferPos buffer2)
 	{
 		// Same length
-		int nPosition1 = buffer1.m_nAbsolutePosition;
-		int nPosition2 = buffer2.m_nAbsolutePosition;
-		for(int n=0; n<m_nTotalSize; n++)
+		int nPosition1 = buffer1.nAbsolutePosition;
+		int nPosition2 = buffer2.nAbsolutePosition;
+		for(int n=0; n<nTotalSize; n++)
 		{
-			if(buffer1.m_acBuffer[nPosition1++] != buffer2.m_acBuffer[nPosition2++])
+			if(buffer1.acBuffer[nPosition1++] != buffer2.acBuffer[nPosition2++])
 				return false;
 		}
 		return true;
@@ -957,7 +957,7 @@ public abstract class VarDefBuffer extends VarDefBase
 		// 1 char for Flag
 		// 2 char as a short for Text length
 		// variable length csText
-		char cFlag = buffer.m_acBuffer[nPos + 4];
+		char cFlag = buffer.acBuffer[nPos + 4];
 		//char cFlag = buffer.getCharAt(nPos + 4);
 		return cFlag;
 	}
@@ -968,7 +968,7 @@ public abstract class VarDefBuffer extends VarDefBase
 //		if(nCurrentShiftGeneration != nShiftGeneration)
 //		{
 //			setShiftGeneration(nShiftGeneration);
-//			var.m_bufferPos.m_nAbsolutePosition += nShift;
+//			var.bufferPos.nAbsolutePosition += nShift;
 //		}
 //		else
 //		{
@@ -982,8 +982,8 @@ public abstract class VarDefBuffer extends VarDefBase
 		if(!bThisInArray)
 		{
 			arrVarShifted.add(this);
-			var.m_bufferPos.m_nAbsolutePosition += nShift;
-			Log.logCritical("var shifted At pos"+var.m_bufferPos.m_nAbsolutePosition);
+			var.bufferPos.nAbsolutePosition += nShift;
+			Log.logCritical("var shifted At pos"+var.bufferPos.nAbsolutePosition);
 		}
 	}
 	
@@ -1000,21 +1000,21 @@ public abstract class VarDefBuffer extends VarDefBase
 		
 //	boolean DEBUGCheckRangeWithinToParentRange()
 //	{
-//		if(m_varDefParent != null)
+//		if(varDefParent != null)
 //		{
-//			int nStartPosParent = m_varDefParent.m_nDefaultAbsolutePosition;
-//			int nStartPos = m_nDefaultAbsolutePosition;
+//			int nStartPosParent = varDefParent.nDefaultAbsolutePosition;
+//			int nStartPos = nDefaultAbsolutePosition;
 //			if(nStartPos < nStartPosParent)
 //			{
-//				Assert("Child: '" + toString() + "' starts before it's parent variable: " + m_varDefParent.toString() + "'");	// We are not inside parent range
+//				Assert("Child: '" + toString() + "' starts before it's parent variable: " + varDefParent.toString() + "'");	// We are not inside parent range
 //				return false;
 //			}
 //			
-//			int nLastPosParent = nStartPosParent + m_varDefParent.getHeaderLength()+m_varDefParent.getBodyLength() - 1;
+//			int nLastPosParent = nStartPosParent + varDefParent.getHeaderLength()+varDefParent.getBodyLength() - 1;
 //			int nLastPos = nStartPos + getHeaderLength()+getBodyLength() - 1;
 //			if(nLastPos > nLastPosParent)
 //			{
-//				Assert("Child: '" + toString() + "' ends after it's parent variable ending: '" + m_varDefParent.toString() + "'");	// We are not inside parent range
+//				Assert("Child: '" + toString() + "' ends after it's parent variable ending: '" + varDefParent.toString() + "'");	// We are not inside parent range
 //				return false;
 //			}
 //		}
@@ -1023,11 +1023,11 @@ public abstract class VarDefBuffer extends VarDefBase
 	
 //	boolean DEBUGCheckParentage()
 //	{
-//		if(m_varDefParent != null)
+//		if(varDefParent != null)
 //		{
-//			boolean b = m_varDefParent.isChildKnown(this);	// Check if our parent known us 
+//			boolean b = varDefParent.isChildKnown(this);	// Check if our parent known us 
 //			if(!b)
-//				Assert("Child: '" + toString() + "' isn't correctly parented by: '" + m_varDefParent.toString() + "'");	// We are not inside parent range
+//				Assert("Child: '" + toString() + "' isn't correctly parented by: '" + varDefParent.toString() + "'");	// We are not inside parent range
 //			b = DEBUGCheckRangeWithinToParentRange();	// Chck if our range is withinparent range
 //			return b;
 //		}
@@ -1041,7 +1041,7 @@ public abstract class VarDefBuffer extends VarDefBase
 	
 //	void restoreLinkageOriginalPosition(ProgramManager programManager)
 //	{
-//		if(m_arrChildren == null)	// Final node
+//		if(arrChildren == null)	// Final node
 //		{	
 //			int nNbTotalItems = getNbTotalItemsInAllDim();
 //			for(int n=0; n<nNbTotalItems; n++)
@@ -1053,7 +1053,7 @@ public abstract class VarDefBuffer extends VarDefBase
 //		}
 //		else
 //		{
-//			int nNbChildren = m_arrChildren.size();
+//			int nNbChildren = arrChildren.size();
 //			for(int nChild=0; nChild<nNbChildren; nChild++)
 //			{
 //				VarDefBuffer varDefChild = getChild(nChild);
@@ -1067,13 +1067,13 @@ public abstract class VarDefBuffer extends VarDefBase
 //	private void restoreLinkageVarOriginalPosition(ProgramManager programManager)
 //	{
 //		VarBase varChild = programManager.getVarFullName(this);
-//		varChild.m_bufferPos.m_nAbsolutePosition = m_nDefaultAbsolutePosition;
+//		varChild.bufferPos.nAbsolutePosition = nDefaultAbsolutePosition;
 //		int n = 0;
 //	}
 	
 	public boolean isLongVarCharVarStructure()
 	{
-		if(m_arrChildren != null)
+		if(arrChildren != null)
 		{
 			if(getNbChildren() == 2)	// 2 children
 			{
@@ -1106,7 +1106,7 @@ public abstract class VarDefBuffer extends VarDefBase
 	
 	public void writeToFile(BaseProgramManager programManager, BaseDataFile dataFile, VarBufferPos bufferPos, boolean bConvertUnicodeToEbcdic)
 	{		
-		if(m_arrChildren == null)	// Final node
+		if(arrChildren == null)	// Final node
 		{
 			VarBase var = programManager.getVarFullName(this);
 			byte[] tBytes = null;
@@ -1119,7 +1119,7 @@ public abstract class VarDefBuffer extends VarDefBase
 		}
 		else
 		{
-			int nNbChildren = m_arrChildren.size();
+			int nNbChildren = arrChildren.size();
 			for(int nChild=0; nChild<nNbChildren; nChild++)
 			{
 				VarDefBuffer varDefChild = getChild(nChild);
@@ -1136,7 +1136,7 @@ public abstract class VarDefBuffer extends VarDefBase
 //		int nSize = var.getTotalSize();
 //		dataFile.readLine(nSize);
 //		
-//		if(m_arrChildren == null)	// Final node
+//		if(arrChildren == null)	// Final node
 //		{
 //			VarBase var = programManager.getVarFullName(this);
 //			int nSize = var.getTotalSize();
@@ -1149,7 +1149,7 @@ public abstract class VarDefBuffer extends VarDefBase
 //		else
 //		{
 //			boolean bEOF = false;
-//			int nNbChildren = m_arrChildren.size();
+//			int nNbChildren = arrChildren.size();
 //			for(int nChild=0; nChild<nNbChildren && !bEOF; nChild++)
 //			{
 //				VarDefBuffer varDefChild = getChild(nChild);
@@ -1165,8 +1165,8 @@ public abstract class VarDefBuffer extends VarDefBase
 		VarDefBase varDefLevel01 = getParentAtLevel01();
 		if(varDefLevel01 != null)
 		{
-			int nPos = m_nDefaultAbsolutePosition;
-			int nLevel01Pos = varDefLevel01.m_nDefaultAbsolutePosition;
+			int nPos = nDefaultAbsolutePosition;
+			int nLevel01Pos = varDefLevel01.nDefaultAbsolutePosition;
 			return nPos - nLevel01Pos;
 		}
 		return 0;
@@ -1175,8 +1175,8 @@ public abstract class VarDefBuffer extends VarDefBase
 
 	Var getRecordDependingVar()
 	{
-		if(m_OccursDef != null)
-			return m_OccursDef.getRecordDependingVar();
+		if(occursDef != null)
+			return occursDef.getRecordDependingVar();
 		return null;
 	}
 	
@@ -1193,7 +1193,7 @@ public abstract class VarDefBuffer extends VarDefBase
 	
 	public void setTotalSize(int n)
 	{
-		m_nTotalSize = n;
+		nTotalSize = n;
 	}
 	
 }

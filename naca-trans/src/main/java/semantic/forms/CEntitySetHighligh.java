@@ -31,9 +31,9 @@ public abstract class CEntitySetHighligh extends CBaseActionEntity
 //	{
 //		protected CFieldHighligh(String s)
 //		{
-//			m_Text = s ;
+//			text = s ;
 //		}
-//		public String m_Text = "" ;
+//		public String text = "" ;
 //		public static CFieldHighligh NORMAL = new CFieldHighligh("Normal");
 //	} 
 	/**
@@ -44,51 +44,51 @@ public abstract class CEntitySetHighligh extends CBaseActionEntity
 	public CEntitySetHighligh(int line, CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity field)
 	{
 		super(line, cat, out);
-		m_RefField = field ;
+		refField = field ;
 	}
 	
 	public void SetBlink()
 	{
-		m_bIsBlink = true ;
+		bIsBlink = true ;
 	}
 	public void SetReverse()
 	{
-		m_bIsReverse = true ;
+		bIsReverse = true ;
 	}
 	public void SetUnderlined()
 	{
-		m_bIsUnderlined = true ;
+		bIsUnderlined = true ;
 	}
 	//protected CFieldHighligh m_highlight = null ;
-	protected boolean m_bIsBlink = false ;
-	protected boolean m_bIsReverse = false ;
-	protected boolean m_bIsUnderlined = false ;
-	protected boolean m_bIsNormal = false ;
-	protected CDataEntity m_RefField = null ;
-	protected CDataEntity m_HighLightValue = null ;
+	protected boolean bIsBlink = false ;
+	protected boolean bIsReverse = false ;
+	protected boolean bIsUnderlined = false ;
+	protected boolean bIsNormal = false ;
+	protected CDataEntity refField = null ;
+	protected CDataEntity highLightValue = null ;
 	public void Clear()
 	{
 		super.Clear();
-		m_RefField = null ;
-		m_HighLightValue = null ;
+		refField = null ;
+		highLightValue = null ;
 	}
 
 	public void SetHighLight(CDataEntity entity)
 	{
-		m_HighLightValue = entity ;		
+		highLightValue = entity ;		
 	}
 
 	public void SetNormal()
 	{
-		m_bIsNormal = true ;		
+		bIsNormal = true ;		
 	}
 	public boolean ignore()
 	{
-		if (m_RefField == null || m_RefField.ignore())
+		if (refField == null || refField.ignore())
 		{
 			return true ;
 		}
-		else if (m_HighLightValue != null && m_HighLightValue.ignore())
+		else if (highLightValue != null && highLightValue.ignore())
 		{
 			return true ;
 		}
@@ -96,9 +96,9 @@ public abstract class CEntitySetHighligh extends CBaseActionEntity
 	}
 	public boolean IgnoreVariable(CDataEntity data)
 	{
-		if (data == m_RefField)
+		if (data == refField)
 		{
-			m_RefField = null ;
+			refField = null ;
 			data.UnRegisterWritingAction(this) ;
 			return true ;
 		}
@@ -106,9 +106,9 @@ public abstract class CEntitySetHighligh extends CBaseActionEntity
 	}
 	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
 	{
-		if (m_RefField == field)
+		if (refField == field)
 		{
-			m_RefField = var ;
+			refField = var ;
 			field.UnRegisterWritingAction(this) ;
 			var.RegisterWritingAction(this) ;
 			return true ;
@@ -117,7 +117,7 @@ public abstract class CEntitySetHighligh extends CBaseActionEntity
 	}
 	public CBaseActionEntity GetSpecialAssignement(String val, CBaseEntityFactory factory)
 	{
-		return CEntityFieldHighlight.intGetSpecialAssignment(val, m_RefField, factory, getLine());
+		return CEntityFieldHighlight.intGetSpecialAssignment(val, refField, factory, getLine());
 	}
 
 	/**
@@ -125,10 +125,10 @@ public abstract class CEntitySetHighligh extends CBaseActionEntity
 	 */
 	public void Reset()
 	{
-		m_bIsBlink = false ;
-		m_bIsNormal = false ;
-		m_bIsReverse = false ;
-		m_bIsUnderlined = false ;
-		m_HighLightValue = null ;		
+		bIsBlink = false ;
+		bIsNormal = false ;
+		bIsReverse = false ;
+		bIsUnderlined = false ;
+		highLightValue = null ;		
 	}
 }

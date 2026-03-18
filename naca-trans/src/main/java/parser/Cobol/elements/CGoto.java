@@ -75,7 +75,7 @@ public class CGoto extends CCobolElement
 		while (tokRef.GetType() == CTokenType.IDENTIFIER || tokRef.GetType() == CTokenType.NUMBER)
 		{
 			csReference = tokRef.GetValue();
-			m_arrReference.add(csReference);
+			arrReference.add(csReference);
 			tokRef = GetNext() ;
 		}
 		
@@ -87,7 +87,7 @@ public class CGoto extends CCobolElement
 			{
 				tok = GetNext() ;
 			}
-			m_Dependence = ReadIdentifier();
+			dependence = ReadIdentifier();
 		}
 		return true ;
 	}
@@ -96,44 +96,44 @@ public class CGoto extends CCobolElement
 	 */
 	protected Element ExportCustom(Document root)
 	{
-		if (m_arrReference.size() == 1)
+		if (arrReference.size() == 1)
 		{
 			Element eGoto = root.createElement("Goto") ;
-			eGoto.setAttribute("Reference", m_arrReference.get(0)) ;
+			eGoto.setAttribute("Reference", arrReference.get(0)) ;
 			return eGoto;
 		}
 		else
 		{
 			Element eGoto = root.createElement("Goto") ;
-			for (int i=0; i<m_arrReference.size(); i++)
+			for (int i=0; i<arrReference.size(); i++)
 			{
-				String cs = m_arrReference.get(i);
+				String cs = arrReference.get(i);
 				Element e = root.createElement("Ref"+i);
 				eGoto.appendChild(e);
 				e.setAttribute("Reference", cs); 
 			}
 			Element e = root.createElement("DependingOn") ;
 			eGoto.appendChild(e);
-			m_Dependence.ExportTo(e, root);
+			dependence.ExportTo(e, root);
 			return eGoto;
 		}
 	}
-	protected List<String> m_arrReference = new ArrayList<String>() ;
-	protected CIdentifier m_Dependence = null ;
+	protected List<String> arrReference = new ArrayList<String>() ;
+	protected CIdentifier dependence = null ;
 	/* (non-Javadoc)
 	 * @see parser.CBaseElement#DoCustomSemanticAnalysis(semantic.CBaseSemanticEntity, semantic.CBaseSemanticEntityFactory)
 	 */
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
 		CBaseActionEntity e;
-		if (m_Dependence == null)
+		if (dependence == null)
 		{
-			e = factory.NewEntityGoto(getLine(), m_arrReference.get(0), parent.getSectionContainer()) ;
+			e = factory.NewEntityGoto(getLine(), arrReference.get(0), parent.getSectionContainer()) ;
 		}
 		else
 		{
-			CDataEntity dep = m_Dependence.GetDataReference(getLine(), factory);
-			e = factory.NewEntityGotoDepending(getLine(), m_arrReference, dep, parent.getSectionContainer());
+			CDataEntity dep = dependence.GetDataReference(getLine(), factory);
+			e = factory.NewEntityGotoDepending(getLine(), arrReference, dep, parent.getSectionContainer());
 		}
 		parent.AddChild(e) ;
 		return e;

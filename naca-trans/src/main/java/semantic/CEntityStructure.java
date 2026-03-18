@@ -41,16 +41,16 @@ public abstract class CEntityStructure extends CEntityAttribute
 		super(l, name, cat, out);
 		if (name.equals(""))
 		{
-			m_bFiller = true ;
+			bFiller = true ;
 			name = GetDefaultName() ;
 			if (!name.equals(""))
 			{
 				SetName(name) ;
 			}
 		}
-		m_csLevel = level ;
+		csLevel = level ;
 	}
-	protected boolean m_bFiller = false ;
+	protected boolean bFiller = false ;
 	public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory) 
 	{
 		CEntityArrayReference e = factory.NewEntityArrayReference(getLine()) ;
@@ -65,43 +65,43 @@ public abstract class CEntityStructure extends CEntityAttribute
 	};
 	public void SetTableSize(CDataEntity term)
 	{
-		m_TableSize = term ;
+		tableSize = term ;
 	}
 	public void SetTableSizeDepending(CDataEntity term, CDataEntity dep)
 	{
-		m_TableSize = term ;
-		m_TableSizeDepending = dep ;
-		m_bIsVariableLenght = true ;		
+		tableSize = term ;
+		tableSizeDepending = dep ;
+		bIsVariableLenght = true ;		
 	}
 	public void SetRedefine(CDataEntity e)
 	{
-		m_RefRedefine = e ;
+		refRedefine = e ;
 	}
-	public String m_csLevel = "" ;
-	protected CDataEntity m_TableSize = null ;
-	protected CDataEntity m_TableSizeDepending = null ;
-	protected boolean m_bIsVariableLenght = false ;
-	protected CDataEntity m_RefRedefine = null ;
+	public String csLevel = "" ;
+	protected CDataEntity tableSize = null ;
+	protected CDataEntity tableSizeDepending = null ;
+	protected boolean bIsVariableLenght = false ;
+	protected CDataEntity refRedefine = null ;
 	public void AddChild(CBaseLanguageEntity e)
 	{
 		super.AddChild(e) ;
 		int n = e.GetInternalLevel() ;
 		if (n>0)
 		{
-			if (m_nActualSubLevel == 0)
+			if (nActualSubLevel == 0)
 			{
-				m_nActualSubLevel = n ;
+				nActualSubLevel = n ;
 			}
-			else if (m_nActualSubLevel != n)
+			else if (nActualSubLevel != n)
 			{
-				Transcoder.logWarn(e.getLine(), "WARNING : bad sub-level for structure : expecting "+m_nActualSubLevel+" ; found "+n) ;
+				Transcoder.logWarn(e.getLine(), "WARNING : bad sub-level for structure : expecting "+nActualSubLevel+" ; found "+n) ;
 			}
 		}
 	}
-	protected int m_nActualSubLevel = 0 ;
+	protected int nActualSubLevel = 0 ;
 	public int GetInternalLevel()
 	{
-		return Integer.parseInt(m_csLevel) ;
+		return Integer.parseInt(csLevel) ;
 	} 
 	public CEntityProcedureSection getSectionContainer()
 	{
@@ -109,41 +109,41 @@ public abstract class CEntityStructure extends CEntityAttribute
 	}
 	public boolean IsRedefine()
 	{
-		return m_RefRedefine != null ;
+		return refRedefine != null ;
 	} 
 	public boolean ignore()
 	{
-//		boolean ignore = m_arrActionsReading.size()== 0 ;
-//		ignore &= m_arrActionsWriting.size() == 0 ;
-//		ignore &= m_arrTestsAsValue.size() == 0 ;
-//		ignore &= m_arrTestsAsVar.size() == 0 ;
-//		ignore &= (m_lstChildren.size() == 0 || isChildrenIgnored()) ;
+//		boolean ignore = arrActionsReading.size()== 0 ;
+//		ignore &= arrActionsWriting.size() == 0 ;
+//		ignore &= arrTestsAsValue.size() == 0 ;
+//		ignore &= arrTestsAsVar.size() == 0 ;
+//		ignore &= (lstChildren.size() == 0 || isChildrenIgnored()) ;
 //		if (ignore)
 //		{
 //			int n=0; 
 //		}
 //		return ignore ;
-		return m_bIgnore ;
+		return bIgnore ;
 	}
 	public void Clear()
 	{
 		super.Clear();
-		if (m_RefRedefine != null)
+		if (refRedefine != null)
 		{
-			//m_RefRedefine.Clear() ;
-			m_RefRedefine = null ;
+			//refRedefine.Clear() ;
+			refRedefine = null ;
 		}
-		if (m_TableSize != null)
+		if (tableSize != null)
 		{
-			m_TableSize.Clear() ;
+			tableSize.Clear() ;
 		}
-		m_TableSize = null ;
+		tableSize = null ;
 	}
 	protected void RegisterMySelfToCatalog()
 	{
-		if (m_parent != null)
+		if (parent != null)
 		{
-			m_ProgramCatalog.RegisterDataEntity(GetName(), this) ;
+			programCatalog.RegisterDataEntity(GetName(), this) ;
 		}
 	}
 	public void SetParent(CBaseLanguageEntity e)
@@ -153,28 +153,28 @@ public abstract class CEntityStructure extends CEntityAttribute
 	}
 	public int getActualSubLevel()
 	{
-		return m_nActualSubLevel ;
+		return nActualSubLevel ;
 	}
 	/**
 	 * @return
 	 */
 	public CEntityIndex getOccursIndex()
 	{
-		return m_OccursIndex;
+		return occursIndex;
 	}
 	/**
 	 * @param index
 	 */
 	public void setOccursIndex(CEntityIndex index)
 	{
-		m_OccursIndex = index ;		
+		occursIndex = index ;		
 	}
-	protected CEntityIndex m_OccursIndex = null ;
+	protected CEntityIndex occursIndex = null ;
 	
 	@Override
 	public CDataEntity FindFirstDataEntityAtLevel(int level)
 	{
-		if (NumberParser.getAsInt(m_csLevel) == level)
+		if (NumberParser.getAsInt(csLevel) == level)
 		{
 			return this ;
 		}
@@ -182,11 +182,11 @@ public abstract class CEntityStructure extends CEntityAttribute
 	}
 	public int getTableSizeAsInt()
 	{
-		return NumberParser.getAsInt(m_TableSize.GetConstantValue()) ;
+		return NumberParser.getAsInt(tableSize.GetConstantValue()) ;
 	}
 	public CDataEntity getTableSize()
 	{
-		return m_TableSize ;
+		return tableSize ;
 	}
 	public boolean canOwnTableSize()
 	{
@@ -194,10 +194,10 @@ public abstract class CEntityStructure extends CEntityAttribute
 	}
 	public int getVariableSize()
 	{
-		return m_Length ;
+		return length ;
 	}
 	public CDataEntity getTableSizeDepending()
 	{
-		return m_TableSizeDepending;
+		return tableSizeDepending;
 	}
 }

@@ -39,7 +39,7 @@ public class CJavaFieldData extends CEntityFieldData
 	}
 	public String ExportReference(int nLine)
 	{
-		return m_Reference.ExportReference(getLine()) ;
+		return reference.ExportReference(getLine()) ;
 	}
 	public boolean HasAccessors()
 	{

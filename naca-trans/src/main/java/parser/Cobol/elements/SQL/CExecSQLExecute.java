@@ -41,13 +41,13 @@ public class CExecSQLExecute extends CBaseExecSQLAction
 	public Element ExportCustom(Document root)
 	{
 		Element eExe = root.createElement("SQLExecute");
-		eExe.setAttribute("Var", m_idVar.GetName());
+		eExe.setAttribute("Var", idVar.GetName());
 		return eExe;
 	}
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
 		CEntitySQLExecute exec = factory.NewEntitySQLExecute(getLine()) ;
-		CDataEntity var = m_idVar.GetDataReference(getLine(), factory) ;
+		CDataEntity var = idVar.GetDataReference(getLine(), factory) ;
 		exec.setVar(var) ;
 		parent.AddChild(exec) ;
 		return exec ;
@@ -63,10 +63,10 @@ public class CExecSQLExecute extends CBaseExecSQLAction
 		if (tok.GetType() == CTokenType.COLON)
 		{
 			tok = GetNext();
-			m_idVar = ReadIdentifier();
+			idVar = ReadIdentifier();
 		}
 		return true ;
 	}
 	
-	protected CIdentifier m_idVar = null ;
+	protected CIdentifier idVar = null ;
 }

@@ -40,12 +40,12 @@ public abstract class CEntityCICSEnQ extends CBaseActionEntity
 
 	public void SetResource(CDataEntity eRes, CDataEntity eLen)
 	{
-		m_Resource = eRes ;
-		m_Length = eLen ;
+		resource = eRes ;
+		length = eLen ;
 	}
 	
-	protected CDataEntity m_Resource = null	;
-	protected CDataEntity m_Length = null ;
+	protected CDataEntity resource = null	;
+	protected CDataEntity length = null ;
 
 	public boolean ignore()
 	{
@@ -54,7 +54,7 @@ public abstract class CEntityCICSEnQ extends CBaseActionEntity
 	public void Clear()
 	{
 		super.Clear();
-		m_Resource = null ;
-		m_Length = null ;
+		resource = null ;
+		length = null ;
 	}
 }

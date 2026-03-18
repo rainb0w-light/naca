@@ -21,7 +21,7 @@ import jlib.threads.PoolOfThreads;
  */
 public class BtreePooledWriterThread extends PooledThread
 {
-	private BtreeKeyDescription m_keyDescription = null;
+	private BtreeKeyDescription keyDescription = null;
 	
 	public BtreePooledWriterThread(PoolOfThreads owningPool)
 	{
@@ -30,19 +30,19 @@ public class BtreePooledWriterThread extends PooledThread
 	
 	void setBtreeKeyDescription(BtreeKeyDescription keyDescription)
 	{
-		m_keyDescription = keyDescription;
+		keyDescription = keyDescription;
 	}
 	
 	public boolean preRun()
 	{
 		// Fill the TLS with key description
-		if(m_keyDescription != null)
+		if(keyDescription != null)
 		{
 			TempCacheLocator.setTempCache();	// Init TLS
 			TempCache t = TempCacheLocator.getTLSTempCache();
 			if(t != null)
 			{
-				t.setBtreeKeyDescription(m_keyDescription);
+				t.setBtreeKeyDescription(keyDescription);
 				return true;
 			}	
 		}

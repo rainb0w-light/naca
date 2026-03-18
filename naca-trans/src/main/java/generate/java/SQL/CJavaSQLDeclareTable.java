@@ -35,11 +35,11 @@ public class CJavaSQLDeclareTable extends CEntitySQLDeclareTable
 	{
 //		WriteLine("{");
 //		StartOutputBloc();
-//		String s = "sqlDeclareTable(\"" + m_csTableName.trim() + "\");";
+//		String s = "sqlDeclareTable(\"" + csTableName.trim() + "\");";
 //		WriteLine(s);
-//		for(int i=0; i<m_arrTableColDescription.size(); i++)
+//		for(int i=0; i<arrTableColDescription.size(); i++)
 //		{
-//			CSQLTableColDescriptor desc = (CSQLTableColDescriptor)m_arrTableColDescription.get(i);
+//			CSQLTableColDescriptor desc = (CSQLTableColDescriptor)arrTableColDescription.get(i);
 //			String sCol = "addCol(\"" + desc.GetName() + "\")";
 //			sCol += ".type(\"" + desc.GetType() + "\")";
 //			if(desc.HasSize())

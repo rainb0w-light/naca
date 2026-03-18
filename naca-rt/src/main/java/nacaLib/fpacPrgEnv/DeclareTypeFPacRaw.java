@@ -26,15 +26,15 @@ public class DeclareTypeFPacRaw extends DeclareTypeBase
 	public DeclareTypeFPacRaw(VarLevel varLevel, int nLength)
 	{
 		super(varLevel);
-		m_nLength = nLength;
+		nLength = nLength;
 	}
 
 	public int getLength()
 	{
-		return m_nLength;
+		return nLength;
 	}
 	
-	private int m_nLength = 0;
+	private int nLength = 0;
 	
 	
 	public VarFPacRaw var()
@@ -63,50 +63,50 @@ public class DeclareTypeFPacRaw extends DeclareTypeBase
 
 	public DeclareTypeFPacRaw value(String cs)
 	{
-		m_InitialValue = new CInitialValue(cs, false);
+		initialValue = new CInitialValue(cs, false);
 		return this;
 	}
 	
 	public DeclareTypeFPacRaw valueAll(char c)
 	{
-		m_InitialValue = new CInitialValue(c, true);
+		initialValue = new CInitialValue(c, true);
 		return this;
 	}
 
 	public DeclareTypeFPacRaw valueAll(String cs)
 	{
-		m_InitialValue = new CInitialValue(cs, true);
+		initialValue = new CInitialValue(cs, true);
 		return this;
 	}
 	
 	public DeclareTypeFPacRaw valueSpaces()
 	{
-		m_InitialValue = new CInitialValue(CobolConstant.Space.getValue(), true);
+		initialValue = new CInitialValue(CobolConstant.Space.getValue(), true);
 		return this;
 	}
 
 	public DeclareTypeFPacRaw valueZero()
 	{
-		m_InitialValue = new CInitialValue(CobolConstant.Zero.getValue(), true);
+		initialValue = new CInitialValue(CobolConstant.Zero.getValue(), true);
 		return this;
 	}
 
 	public DeclareTypeFPacRaw valueHighValue()
 	{
-		m_InitialValue = new CInitialValue(CobolConstant.HighValue.getValue(), true);
+		initialValue = new CInitialValue(CobolConstant.HighValue.getValue(), true);
 		return this;
 	}
 
 	public DeclareTypeFPacRaw valueLowValue()
 	{
-		m_InitialValue = new CInitialValue(CobolConstant.LowValue.getValue(), true);
+		initialValue = new CInitialValue(CobolConstant.LowValue.getValue(), true);
 		return this;
 	} 
 	
 	public CInitialValue getInitialValue()
 	{
-		return m_InitialValue;
+		return initialValue;
 	}
 	
-	private CInitialValue m_InitialValue = null;
+	private CInitialValue initialValue = null;
 }

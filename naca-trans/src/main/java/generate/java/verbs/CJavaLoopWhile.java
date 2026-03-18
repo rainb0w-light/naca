@@ -41,18 +41,18 @@ public class CJavaLoopWhile extends CEntityLoopWhile
 	 */
 	protected void DoExport()
 	{
-		if (m_bDoBefore)
+		if (bDoBefore)
 		{
 			WriteLine("do {") ;
 			StartOutputBloc() ;
 			ExportChildren() ;
 			EndOutputBloc();
 			WriteLine("}");
-			WriteLine("while (" + m_WhileCondition.Export() + ") ;");
+			WriteLine("while (" + whileCondition.Export() + ") ;");
 		}
 		else
 		{
-			WriteLine("while ("+ m_WhileCondition.Export() + ") {");
+			WriteLine("while ("+ whileCondition.Export() + ") {");
 			StartOutputBloc() ;
 			ExportChildren() ;
 			EndOutputBloc();

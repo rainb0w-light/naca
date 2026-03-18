@@ -37,9 +37,9 @@ public class VarDefNumDecComp3 extends VarDefNum
 	private static final long serialVersionUID = 1L;
 	public VarDefNumDecComp3(VarDefBase varDefParent, DeclareType9 declareType9, NumericValue numericValue)
 	{
-		super(varDefParent, declareType9.m_varLevel);
-		m_nNbDigitInteger = numericValue.m_nNbDigitInteger;
-		m_nNbDigitDecimal = numericValue.m_nNbDigitDecimal;
+		super(varDefParent, declareType9.varLevel);
+		nNbDigitInteger = numericValue.nNbDigitInteger;
+		nNbDigitDecimal = numericValue.nNbDigitDecimal;
 	}
 	
 	protected VarDefNumDecComp3()
@@ -50,8 +50,8 @@ public class VarDefNumDecComp3 extends VarDefNum
 //	VarDefNumDecComp3(VarDefNumDecComp3 varDefSource)
 //	{
 //		super(varDefSource);
-//		m_nNbDigitInteger = varDefSource.m_nNbDigitInteger;
-//		m_nNbDigitDecimal = varDefSource.m_nNbDigitDecimal;
+//		nNbDigitInteger = varDefSource.nNbDigitInteger;
+//		nNbDigitDecimal = varDefSource.nNbDigitDecimal;
 //	}
 //	
 //	VarDefBuffer deepDuplicate()
@@ -61,25 +61,25 @@ public class VarDefNumDecComp3 extends VarDefNum
 	
 	void transfer(VarBufferPos bufferSource, VarAndEdit Dest)
 	{
-		Dest.m_varDef.write(Dest.m_bufferPos, this, bufferSource);
+		Dest.varDef.write(Dest.bufferPos, this, bufferSource);
 	}
 	
 	protected VarDefBuffer allocCopy()
 	{
 		VarDefNumDecComp3 v = new VarDefNumDecComp3();
-		v.m_nNbDigitInteger = m_nNbDigitInteger;
-		v.m_nNbDigitDecimal = m_nNbDigitDecimal;
+		v.nNbDigitInteger = nNbDigitInteger;
+		v.nNbDigitDecimal = nNbDigitDecimal;
 		return v;
 	}
 	
 	CSQLItemType getSQLType()
 	{
-		return getDecimalSQLType(m_nNbDigitInteger, m_nNbDigitDecimal);
+		return getDecimalSQLType(nNbDigitInteger, nNbDigitDecimal);
 	}
 	
 	public int getBodyLength()
 	{
-		return m_nTotalSize;
+		return nTotalSize;
 	}
 	
 	protected int getHeaderLength()
@@ -90,12 +90,12 @@ public class VarDefNumDecComp3 extends VarDefNum
 	
 	public int getSingleItemRequiredStorageSize()
 	{
-//		int n = m_nNbDigitInteger + m_nNbDigitDecimal + 1; // need a nibble for sign
+//		int n = nNbDigitInteger + nNbDigitDecimal + 1; // need a nibble for sign
 //		double d = n / 2.0;
 //		n = (int)Math.round(d);
 //		return n;
 //		
-		int nNbDigits = m_nNbDigitInteger + m_nNbDigitDecimal + 1; // need a nibble for sign
+		int nNbDigits = nNbDigitInteger + nNbDigitDecimal + 1; // need a nibble for sign
 		int n = nNbDigits / 2;
 		if((nNbDigits % 2) != 0)
 			n++;
@@ -104,42 +104,42 @@ public class VarDefNumDecComp3 extends VarDefNum
 	
 	int getAsDecodedInt(VarBufferPos buffer)
 	{
-		Dec dec = readDecComp3(buffer, m_nNbDigitInteger, m_nNbDigitDecimal);
+		Dec dec = readDecComp3(buffer, nNbDigitInteger, nNbDigitDecimal);
 		return dec.getSignedInt();
 	}
 	
 	int getAsDecodedUnsignedInt(VarBufferPos buffer)
 	{
-		Dec dec = readDecComp3(buffer, m_nNbDigitInteger, m_nNbDigitDecimal);
+		Dec dec = readDecComp3(buffer, nNbDigitInteger, nNbDigitDecimal);
 		return dec.getUnsignedInt();
 	}
 	
 	long getAsDecodedLong(VarBufferPos buffer)
 	{
-		Dec dec = readDecComp3(buffer, m_nNbDigitInteger, m_nNbDigitDecimal);
+		Dec dec = readDecComp3(buffer, nNbDigitInteger, nNbDigitDecimal);
 		return dec.getSignedLong();
 	}
 	
 	Dec getAsDecodedDec(VarBufferPos buffer)
 	{
-		Dec dec = readDecComp3(buffer, m_nNbDigitInteger, m_nNbDigitDecimal);
+		Dec dec = readDecComp3(buffer, nNbDigitInteger, nNbDigitDecimal);
 		return dec;
 	}
 	
 	CStr getAsDecodedString(VarBufferPos buffer)
 	{
-		CStr cs = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nTotalSize);
+		CStr cs = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);
 		CStrNumber csNum = TempCacheLocator.getTLSTempCache().getCStrNumber();
-		csNum.decodeSignComp3String(cs, m_nNbDigitInteger + m_nNbDigitDecimal);
+		csNum.decodeSignComp3String(cs, nNbDigitInteger + nNbDigitDecimal);
 		return csNum;
 	}
 	
 	CStr getAsAlphaNumString(VarBufferPos buffer)
 	{
-		CStr s = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nTotalSize);
+		CStr s = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);
 		CStrNumber csNum = TempCacheLocator.getTLSTempCache().getCStrNumber();
-		csNum.decodeSignComp3String(s, m_nNbDigitInteger + m_nNbDigitDecimal);
-		csNum.insert(m_nNbDigitInteger, '.');
+		csNum.decodeSignComp3String(s, nNbDigitInteger + nNbDigitDecimal);
+		csNum.insert(nNbDigitInteger, '.');
 		return csNum;
 	}
 
@@ -160,7 +160,7 @@ public class VarDefNumDecComp3 extends VarDefNum
 	
 	private Dec readDecComp3(VarBufferPos buffer, int nNbDigitInteger, int nNbDigitDecimal)
 	{	
-		Dec dec = Pic9Comp3BufferSupport.getAsDecUnsigned(buffer, nNbDigitInteger, nNbDigitDecimal, m_nTotalSize);
+		Dec dec = Pic9Comp3BufferSupport.getAsDecUnsigned(buffer, nNbDigitInteger, nNbDigitDecimal, nTotalSize);
 		return dec;
 //		
 //		Dec dec = new Dec(0L, "");
@@ -171,9 +171,9 @@ public class VarDefNumDecComp3 extends VarDefNum
 //		}
 //		else
 //		{
-//			CStr cs = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nTotalSize);
+//			CStr cs = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);
 //			CStrNumber csNum = TempCacheLocator.getTLSTempCache().getCStrNumber();
-//			csNum.decodeSignComp3String(cs, m_nNbDigitInteger + m_nNbDigitDecimal);
+//			csNum.decodeSignComp3String(cs, nNbDigitInteger + nNbDigitDecimal);
 //			int nLg = csNum.length();
 //			
 //			String s = csNum.getAsString();			
@@ -196,13 +196,13 @@ public class VarDefNumDecComp3 extends VarDefNum
 	{
 		int n = NumberParser.getAsUnsignedInt(c);
 		Dec dec = new Dec(n, "");
-		Pic9Comp3BufferSupport.setDec(buffer, m_nNbDigitInteger, m_nNbDigitDecimal, m_nTotalSize, 0, false, dec); // Only unsigned dec
+		Pic9Comp3BufferSupport.setDec(buffer, nNbDigitInteger, nNbDigitDecimal, nTotalSize, 0, false, dec); // Only unsigned dec
 	}
 	
 	public void write(VarBufferPos buffer, String cs)
 	{
 		Dec dec = NumberParserDec.getAsDec(cs);
-		Pic9Comp3BufferSupport.setDec(buffer, m_nNbDigitInteger, m_nNbDigitDecimal, m_nTotalSize, 0, false, dec); // Only unsigned dec
+		Pic9Comp3BufferSupport.setDec(buffer, nNbDigitInteger, nNbDigitDecimal, nTotalSize, 0, false, dec); // Only unsigned dec
 	}
 	
 	public void inc(VarBufferPos buffer, int n)
@@ -222,30 +222,30 @@ public class VarDefNumDecComp3 extends VarDefNum
 	public void write(VarBufferPos buffer, int n)
 	{
 		Dec dec = new Dec(n, "");
-		Pic9Comp3BufferSupport.setDec(buffer, m_nNbDigitInteger, m_nNbDigitDecimal, m_nTotalSize, 0, false, dec); // Only unsigned dec
+		Pic9Comp3BufferSupport.setDec(buffer, nNbDigitInteger, nNbDigitDecimal, nTotalSize, 0, false, dec); // Only unsigned dec
 	}
 	
 	public void write(VarBufferPos buffer, long l)
 	{
 		Dec dec = new Dec(l, "");
-		Pic9Comp3BufferSupport.setDec(buffer, m_nNbDigitInteger, m_nNbDigitDecimal, m_nTotalSize, 0, false, dec); // Only unsigned dec
+		Pic9Comp3BufferSupport.setDec(buffer, nNbDigitInteger, nNbDigitDecimal, nTotalSize, 0, false, dec); // Only unsigned dec
 	}
 	
 	void write(VarBufferPos buffer, double d)
 	{
 		Dec dec = NumberParserDec.getAsDec(d);
-		Pic9Comp3BufferSupport.setDec(buffer, m_nNbDigitInteger, m_nNbDigitDecimal, m_nTotalSize, 0, false, dec); // Only unsigned dec
+		Pic9Comp3BufferSupport.setDec(buffer, nNbDigitInteger, nNbDigitDecimal, nTotalSize, 0, false, dec); // Only unsigned dec
 	}
 	
 	void write(VarBufferPos buffer, Dec dec)
 	{
-		Pic9Comp3BufferSupport.setDec(buffer, m_nNbDigitInteger, m_nNbDigitDecimal, m_nTotalSize, 0, false, dec); // Only unsigned dec
+		Pic9Comp3BufferSupport.setDec(buffer, nNbDigitInteger, nNbDigitDecimal, nTotalSize, 0, false, dec); // Only unsigned dec
 	}
 	
 	public void write(VarBufferPos buffer, BigDecimal bigDecimal)
 	{
 		Dec dec = NumberParserDec.getAsDec(bigDecimal);
-		Pic9Comp3BufferSupport.setDec(buffer, m_nNbDigitInteger, m_nNbDigitDecimal, m_nTotalSize, 0, false, dec); // Only unsigned dec
+		Pic9Comp3BufferSupport.setDec(buffer, nNbDigitInteger, nNbDigitDecimal, nTotalSize, 0, false, dec); // Only unsigned dec
 	}
 	
 	
@@ -260,237 +260,237 @@ public class VarDefNumDecComp3 extends VarDefNum
 	{
 		long l = varSource.getUnsignedLong(bufferSource);
 		Dec dec = new Dec(l, "");
-		Pic9Comp3BufferSupport.setDec(buffer, m_nNbDigitInteger, m_nNbDigitDecimal, m_nTotalSize, 0, false, dec); // Only unsigned dec
+		Pic9Comp3BufferSupport.setDec(buffer, nNbDigitInteger, nNbDigitDecimal, nTotalSize, 0, false, dec); // Only unsigned dec
 	}
 
 	void write(VarBufferPos buffer, VarDefFPacAlphaNum varSource, VarBufferPos bufferSource)
 	{
 		long l = varSource.getUnsignedLong(bufferSource);
 		Dec dec = new Dec(l, "");
-		Pic9Comp3BufferSupport.setDec(buffer, m_nNbDigitInteger, m_nNbDigitDecimal, m_nTotalSize, 0, false, dec); // Only unsigned dec
+		Pic9Comp3BufferSupport.setDec(buffer, nNbDigitInteger, nNbDigitDecimal, nTotalSize, 0, false, dec); // Only unsigned dec
 	}	
 	
 	void write(VarBufferPos buffer, VarDefFPacRaw varSource, VarBufferPos bufferSource)
 	{
 		long l = varSource.getUnsignedLong(bufferSource);
 		Dec dec = new Dec(l, "");
-		Pic9Comp3BufferSupport.setDec(buffer, m_nNbDigitInteger, m_nNbDigitDecimal, m_nTotalSize, 0, false, dec); // Only unsigned dec
+		Pic9Comp3BufferSupport.setDec(buffer, nNbDigitInteger, nNbDigitDecimal, nTotalSize, 0, false, dec); // Only unsigned dec
 	}	
 	
 	void write(VarBufferPos buffer, VarDefNumDecComp0 varSource, VarBufferPos bufferSource)
 	{
 		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		Pic9Comp3BufferSupport.setDec(buffer, m_nNbDigitInteger, m_nNbDigitDecimal, m_nTotalSize, 0, false, dec); // Only unsigned dec
+		Pic9Comp3BufferSupport.setDec(buffer, nNbDigitInteger, nNbDigitDecimal, nTotalSize, 0, false, dec); // Only unsigned dec
 	}
 	
 	public void moveIntoSameType(VarBufferPos buffer, VarDefBuffer varSource, VarBufferPos bufferSource)
 	{
-		if(m_nTotalSize == varSource.m_nTotalSize)	// Same type and same size: Directly copy bytes
+		if(nTotalSize == varSource.nTotalSize)	// Same type and same size: Directly copy bytes
 		{
 			VarDefNumDecComp3 varDefSourceComp3 = (VarDefNumDecComp3)varSource;
-			if(m_nNbDigitDecimal == varDefSourceComp3.m_nNbDigitDecimal && m_nNbDigitInteger == varDefSourceComp3.m_nNbDigitInteger)
+			if(nNbDigitDecimal == varDefSourceComp3.nNbDigitDecimal && nNbDigitInteger == varDefSourceComp3.nNbDigitInteger)
 			{
-				int nPositionDest = buffer.m_nAbsolutePosition;
-				int nPositionSource = bufferSource.m_nAbsolutePosition;
-				for(int n=0; n<m_nTotalSize; n++)
+				int nPositionDest = buffer.nAbsolutePosition;
+				int nPositionSource = bufferSource.nAbsolutePosition;
+				for(int n=0; n<nTotalSize; n++)
 				{
-					buffer.m_acBuffer[nPositionDest++] = bufferSource.m_acBuffer[nPositionSource++];
+					buffer.acBuffer[nPositionDest++] = bufferSource.acBuffer[nPositionSource++];
 				}
 				return ;
 			}
 		}
 
 		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		Pic9Comp3BufferSupport.setDec(buffer, m_nNbDigitInteger, m_nNbDigitDecimal, m_nTotalSize, 0, false, dec); // Only unsigned dec
+		Pic9Comp3BufferSupport.setDec(buffer, nNbDigitInteger, nNbDigitDecimal, nTotalSize, 0, false, dec); // Only unsigned dec
 	}
 		
 	void write(VarBufferPos buffer, VarDefNumDecComp3 varSource, VarBufferPos bufferSource)
 	{
-		if(m_nTotalSize == varSource.m_nTotalSize)	// Same type and same size: Directly copy bytes
+		if(nTotalSize == varSource.nTotalSize)	// Same type and same size: Directly copy bytes
 		{
-			int nPositionDest = buffer.m_nAbsolutePosition;
-			int nPositionSource = bufferSource.m_nAbsolutePosition;
-			for(int n=0; n<m_nTotalSize; n++)
+			int nPositionDest = buffer.nAbsolutePosition;
+			int nPositionSource = bufferSource.nAbsolutePosition;
+			for(int n=0; n<nTotalSize; n++)
 			{
-				buffer.m_acBuffer[nPositionDest++] = bufferSource.m_acBuffer[nPositionSource++];
+				buffer.acBuffer[nPositionDest++] = bufferSource.acBuffer[nPositionSource++];
 			}
 			return ;
 		}
 
 		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		Pic9Comp3BufferSupport.setDec(buffer, m_nNbDigitInteger, m_nNbDigitDecimal, m_nTotalSize, 0, false, dec); // Only unsigned dec
+		Pic9Comp3BufferSupport.setDec(buffer, nNbDigitInteger, nNbDigitDecimal, nTotalSize, 0, false, dec); // Only unsigned dec
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumIntComp4Long varSource, VarBufferPos bufferSource)
 	{
 		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		Pic9Comp3BufferSupport.setDec(buffer, m_nNbDigitInteger, m_nNbDigitDecimal, m_nTotalSize, 0, false, dec); // Only unsigned dec
+		Pic9Comp3BufferSupport.setDec(buffer, nNbDigitInteger, nNbDigitDecimal, nTotalSize, 0, false, dec); // Only unsigned dec
 	}
 
 	void write(VarBufferPos buffer, VarDefNumDecComp4 varSource, VarBufferPos bufferSource)
 	{
 		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		Pic9Comp3BufferSupport.setDec(buffer, m_nNbDigitInteger, m_nNbDigitDecimal, m_nTotalSize, 0, false, dec); // Only unsigned dec
+		Pic9Comp3BufferSupport.setDec(buffer, nNbDigitInteger, nNbDigitDecimal, nTotalSize, 0, false, dec); // Only unsigned dec
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumDecSignComp4 varSource, VarBufferPos bufferSource)
 	{
 		Dec dec = varSource.getUnsignedDec(bufferSource);
-		Pic9Comp3BufferSupport.setDec(buffer, m_nNbDigitInteger, m_nNbDigitDecimal, m_nTotalSize, 0, false, dec); // Only unsigned dec
+		Pic9Comp3BufferSupport.setDec(buffer, nNbDigitInteger, nNbDigitDecimal, nTotalSize, 0, false, dec); // Only unsigned dec
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumDecSignComp0 varSource, VarBufferPos bufferSource)
 	{
 		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		Pic9Comp3BufferSupport.setDec(buffer, m_nNbDigitInteger, m_nNbDigitDecimal, m_nTotalSize, 0, false, dec); // Only unsigned dec
+		Pic9Comp3BufferSupport.setDec(buffer, nNbDigitInteger, nNbDigitDecimal, nTotalSize, 0, false, dec); // Only unsigned dec
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumDecSignComp3 varSource, VarBufferPos bufferSource)
 	{
 		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		Pic9Comp3BufferSupport.setDec(buffer, m_nNbDigitInteger, m_nNbDigitDecimal, m_nTotalSize, 0, false, dec); // Only unsigned dec
+		Pic9Comp3BufferSupport.setDec(buffer, nNbDigitInteger, nNbDigitDecimal, nTotalSize, 0, false, dec); // Only unsigned dec
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumDecSignLeadingComp0 varSource, VarBufferPos bufferSource)
 	{
 		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		Pic9Comp3BufferSupport.setDec(buffer, m_nNbDigitInteger, m_nNbDigitDecimal, m_nTotalSize, 0, false, dec); // Only unsigned dec
+		Pic9Comp3BufferSupport.setDec(buffer, nNbDigitInteger, nNbDigitDecimal, nTotalSize, 0, false, dec); // Only unsigned dec
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumDecSignTrailingComp0 varSource, VarBufferPos bufferSource)
 	{
 		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		Pic9Comp3BufferSupport.setDec(buffer, m_nNbDigitInteger, m_nNbDigitDecimal, m_nTotalSize, 0, false, dec); // Only unsigned dec
+		Pic9Comp3BufferSupport.setDec(buffer, nNbDigitInteger, nNbDigitDecimal, nTotalSize, 0, false, dec); // Only unsigned dec
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumIntComp0 varSource, VarBufferPos bufferSource)
 	{
 		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		Pic9Comp3BufferSupport.setDec(buffer, m_nNbDigitInteger, m_nNbDigitDecimal, m_nTotalSize, 0, false, dec); // Only unsigned dec
+		Pic9Comp3BufferSupport.setDec(buffer, nNbDigitInteger, nNbDigitDecimal, nTotalSize, 0, false, dec); // Only unsigned dec
 	}
 
 	void write(VarBufferPos buffer, VarDefNumIntComp0Long varSource, VarBufferPos bufferSource)
 	{
 		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		Pic9Comp3BufferSupport.setDec(buffer, m_nNbDigitInteger, m_nNbDigitDecimal, m_nTotalSize, 0, false, dec); // Only unsigned dec
+		Pic9Comp3BufferSupport.setDec(buffer, nNbDigitInteger, nNbDigitDecimal, nTotalSize, 0, false, dec); // Only unsigned dec
 	}
 
 	void write(VarBufferPos buffer, VarDefNumIntComp3 varSource, VarBufferPos bufferSource)
 	{
 		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		Pic9Comp3BufferSupport.setDec(buffer, m_nNbDigitInteger, m_nNbDigitDecimal, m_nTotalSize, 0, false, dec); // Only unsigned dec
+		Pic9Comp3BufferSupport.setDec(buffer, nNbDigitInteger, nNbDigitDecimal, nTotalSize, 0, false, dec); // Only unsigned dec
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumIntComp3Long varSource, VarBufferPos bufferSource)
 	{
 		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		Pic9Comp3BufferSupport.setDec(buffer, m_nNbDigitInteger, m_nNbDigitDecimal, m_nTotalSize, 0, false, dec); // Only unsigned dec
+		Pic9Comp3BufferSupport.setDec(buffer, nNbDigitInteger, nNbDigitDecimal, nTotalSize, 0, false, dec); // Only unsigned dec
 	}
 
 	
 	void write(VarBufferPos buffer, VarDefNumIntComp4 varSource, VarBufferPos bufferSource)
 	{
 		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		Pic9Comp3BufferSupport.setDec(buffer, m_nNbDigitInteger, m_nNbDigitDecimal, m_nTotalSize, 0, false, dec); // Only unsigned dec
+		Pic9Comp3BufferSupport.setDec(buffer, nNbDigitInteger, nNbDigitDecimal, nTotalSize, 0, false, dec); // Only unsigned dec
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumIntSignComp0 varSource, VarBufferPos bufferSource)
 	{
 		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		Pic9Comp3BufferSupport.setDec(buffer, m_nNbDigitInteger, m_nNbDigitDecimal, m_nTotalSize, 0, false, dec); // Only unsigned dec
+		Pic9Comp3BufferSupport.setDec(buffer, nNbDigitInteger, nNbDigitDecimal, nTotalSize, 0, false, dec); // Only unsigned dec
 	}
 
 	void write(VarBufferPos buffer, VarDefNumIntSignComp0Long varSource, VarBufferPos bufferSource)
 	{
 		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		Pic9Comp3BufferSupport.setDec(buffer, m_nNbDigitInteger, m_nNbDigitDecimal, m_nTotalSize, 0, false, dec); // Only unsigned dec
+		Pic9Comp3BufferSupport.setDec(buffer, nNbDigitInteger, nNbDigitDecimal, nTotalSize, 0, false, dec); // Only unsigned dec
 	}
 
 	void write(VarBufferPos buffer, VarDefNumIntSignComp3 varSource, VarBufferPos bufferSource)
 	{
 		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		Pic9Comp3BufferSupport.setDec(buffer, m_nNbDigitInteger, m_nNbDigitDecimal, m_nTotalSize, 0, false, dec); // Only unsigned dec
+		Pic9Comp3BufferSupport.setDec(buffer, nNbDigitInteger, nNbDigitDecimal, nTotalSize, 0, false, dec); // Only unsigned dec
 	}
 	
 	void write(VarBufferPos buffer, VarDefFPacNumIntSignComp3 varSource, VarBufferPos bufferSource)
 	{
 		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		Pic9Comp3BufferSupport.setDec(buffer, m_nNbDigitInteger, m_nNbDigitDecimal, m_nTotalSize, 0, false, dec); // Only unsigned dec
+		Pic9Comp3BufferSupport.setDec(buffer, nNbDigitInteger, nNbDigitDecimal, nTotalSize, 0, false, dec); // Only unsigned dec
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumIntSignComp3Long varSource, VarBufferPos bufferSource)
 	{
 		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		Pic9Comp3BufferSupport.setDec(buffer, m_nNbDigitInteger, m_nNbDigitDecimal, m_nTotalSize, 0, false, dec); // Only unsigned dec
+		Pic9Comp3BufferSupport.setDec(buffer, nNbDigitInteger, nNbDigitDecimal, nTotalSize, 0, false, dec); // Only unsigned dec
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumIntSignComp4 varSource, VarBufferPos bufferSource)
 	{
 		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		Pic9Comp3BufferSupport.setDec(buffer, m_nNbDigitInteger, m_nNbDigitDecimal, m_nTotalSize, 0, false, dec); // Only unsigned dec
+		Pic9Comp3BufferSupport.setDec(buffer, nNbDigitInteger, nNbDigitDecimal, nTotalSize, 0, false, dec); // Only unsigned dec
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumIntSignComp4Long varSource, VarBufferPos bufferSource)
 	{
 		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		Pic9Comp3BufferSupport.setDec(buffer, m_nNbDigitInteger, m_nNbDigitDecimal, m_nTotalSize, 0, false, dec); // Only unsigned dec
+		Pic9Comp3BufferSupport.setDec(buffer, nNbDigitInteger, nNbDigitDecimal, nTotalSize, 0, false, dec); // Only unsigned dec
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumIntSignLeadingComp0 varSource, VarBufferPos bufferSource)
 	{
 		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		Pic9Comp3BufferSupport.setDec(buffer, m_nNbDigitInteger, m_nNbDigitDecimal, m_nTotalSize, 0, false, dec); // Only unsigned dec
+		Pic9Comp3BufferSupport.setDec(buffer, nNbDigitInteger, nNbDigitDecimal, nTotalSize, 0, false, dec); // Only unsigned dec
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumIntSignLeadingComp0Long varSource, VarBufferPos bufferSource)
 	{
 		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		Pic9Comp3BufferSupport.setDec(buffer, m_nNbDigitInteger, m_nNbDigitDecimal, m_nTotalSize, 0, false, dec); // Only unsigned dec
+		Pic9Comp3BufferSupport.setDec(buffer, nNbDigitInteger, nNbDigitDecimal, nTotalSize, 0, false, dec); // Only unsigned dec
 	}
 
 	
 	void write(VarBufferPos buffer, VarDefNumIntSignTrailingComp0 varSource, VarBufferPos bufferSource)
 	{
 		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		Pic9Comp3BufferSupport.setDec(buffer, m_nNbDigitInteger, m_nNbDigitDecimal, m_nTotalSize, 0, false, dec); // Only unsigned dec
+		Pic9Comp3BufferSupport.setDec(buffer, nNbDigitInteger, nNbDigitDecimal, nTotalSize, 0, false, dec); // Only unsigned dec
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumIntSignTrailingComp0Long varSource, VarBufferPos bufferSource)
 	{
 		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		Pic9Comp3BufferSupport.setDec(buffer, m_nNbDigitInteger, m_nNbDigitDecimal, m_nTotalSize, 0, false, dec); // Only unsigned dec
+		Pic9Comp3BufferSupport.setDec(buffer, nNbDigitInteger, nNbDigitDecimal, nTotalSize, 0, false, dec); // Only unsigned dec
 	}
 
 	
 	void write(VarBufferPos buffer, VarDefEditInMap varSource, VarBufferPos bufferSource)
 	{
 		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		Pic9Comp3BufferSupport.setDec(buffer, m_nNbDigitInteger, m_nNbDigitDecimal, m_nTotalSize, 0, false, dec); // Only unsigned dec
+		Pic9Comp3BufferSupport.setDec(buffer, nNbDigitInteger, nNbDigitDecimal, nTotalSize, 0, false, dec); // Only unsigned dec
 	}
 	
 	void write(VarBufferPos buffer, VarDefEditInMapRedefineNumEdited varSource, VarBufferPos bufferSource)
 	{
 		Dec dec = varSource.getUnsignedDec(bufferSource);
-		Pic9Comp3BufferSupport.setDec(buffer, m_nNbDigitInteger, m_nNbDigitDecimal, m_nTotalSize, 0, false, dec); // Only unsigned dec
+		Pic9Comp3BufferSupport.setDec(buffer, nNbDigitInteger, nNbDigitDecimal, nTotalSize, 0, false, dec); // Only unsigned dec
 	}
 	
 	void write(VarBufferPos buffer, VarDefEditInMapRedefineNum varSource, VarBufferPos bufferSource)
 	{
 		Dec dec = varSource.getUnsignedDec(bufferSource);
-		Pic9Comp3BufferSupport.setDec(buffer, m_nNbDigitInteger, m_nNbDigitDecimal, m_nTotalSize, 0, false, dec); // Only unsigned dec
+		Pic9Comp3BufferSupport.setDec(buffer, nNbDigitInteger, nNbDigitDecimal, nTotalSize, 0, false, dec); // Only unsigned dec
 	}
 
 	
 	void write(VarBufferPos buffer, VarDefEditInMapRedefine varSource, VarBufferPos bufferSource)
 	{
 		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		Pic9Comp3BufferSupport.setDec(buffer, m_nNbDigitInteger, m_nNbDigitDecimal, m_nTotalSize, 0, false, dec); // Only unsigned dec
+		Pic9Comp3BufferSupport.setDec(buffer, nNbDigitInteger, nNbDigitDecimal, nTotalSize, 0, false, dec); // Only unsigned dec
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumEdited varSource, VarBufferPos bufferSource)
 	{
 		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		Pic9Comp3BufferSupport.setDec(buffer, m_nNbDigitInteger, m_nNbDigitDecimal, m_nTotalSize, 0, false, dec); // Only unsigned dec
+		Pic9Comp3BufferSupport.setDec(buffer, nNbDigitInteger, nNbDigitDecimal, nTotalSize, 0, false, dec); // Only unsigned dec
 	}
 
 
@@ -500,13 +500,13 @@ public class VarDefNumDecComp3 extends VarDefNum
 //	public void initialize(VarBufferPos buffer)
 //	{
 //		Dec dec = new Dec(0L, "");
-//		writeDecComp3(buffer, dec, m_nNbDigitInteger, m_nNbDigitDecimal);
+//		writeDecComp3(buffer, dec, nNbDigitInteger, nNbDigitDecimal);
 //	}
 	
 	public void initializeAtOffset(VarBufferPos buffer, int nOffset, InitializeCache initializeCache)
 	{
 		Dec dec = new Dec(0L, "");
-		Pic9Comp3BufferSupport.setDec(buffer, m_nNbDigitInteger, m_nNbDigitDecimal, m_nTotalSize, 0, false, dec); // Only unsigned dec
+		Pic9Comp3BufferSupport.setDec(buffer, nNbDigitInteger, nNbDigitDecimal, nTotalSize, 0, false, dec); // Only unsigned dec
 		if(initializeCache != null)
 			initializeCache.addItem(buffer, nOffset, getSingleItemRequiredStorageSize());
 	}
@@ -531,13 +531,13 @@ public class VarDefNumDecComp3 extends VarDefNum
 //	void initialize(VarBufferPos buffer, int n)
 //	{
 //		Dec dec = new Dec(n, "");
-//		writeDecComp3(buffer, dec, m_nNbDigitInteger, m_nNbDigitDecimal);
+//		writeDecComp3(buffer, dec, nNbDigitInteger, nNbDigitDecimal);
 //	}
 	
 	void initializeAtOffset(VarBufferPos buffer, int nOffset, int n)
 	{
 		Dec dec = new Dec(n, "");
-		Pic9Comp3BufferSupport.setDec(buffer, m_nNbDigitInteger, m_nNbDigitDecimal, m_nTotalSize, 0, false, dec); // Only unsigned dec
+		Pic9Comp3BufferSupport.setDec(buffer, nNbDigitInteger, nNbDigitDecimal, nTotalSize, 0, false, dec); // Only unsigned dec
 	}
 	
 	void initializeEdited(VarBufferPos buffer, String cs)
@@ -554,7 +554,7 @@ public class VarDefNumDecComp3 extends VarDefNum
 	void write(VarBufferPos buffer, CobolConstantZero cst)
 	{
 		Dec dec = new Dec(0L, "");
-		Pic9Comp3BufferSupport.setDec(buffer, m_nNbDigitInteger, m_nNbDigitDecimal, m_nTotalSize, 0, false, dec); // Only unsigned dec
+		Pic9Comp3BufferSupport.setDec(buffer, nNbDigitInteger, nNbDigitDecimal, nTotalSize, 0, false, dec); // Only unsigned dec
 	}
 
 	void write(VarBufferPos buffer, CobolConstantSpace cst)
@@ -594,7 +594,7 @@ public class VarDefNumDecComp3 extends VarDefNum
 		
 	int compare(ComparisonMode mode, VarBufferPos bufferSource, VarAndEdit var2)
 	{
-		return var2.m_varDef.compare(mode, var2.m_bufferPos, this, bufferSource);
+		return var2.varDef.compare(mode, var2.bufferPos, this, bufferSource);
 	}
 	
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumDecComp0 varDefNum1, VarBufferPos buffer1)
@@ -614,14 +614,14 @@ public class VarDefNumDecComp3 extends VarDefNum
 	public boolean isEqualWithSameTypeTo(VarBufferPos buffer1, VarDefBuffer varDefBuffer2, VarBufferPos buffer2)
 	{		
 		VarDefNumDecComp3 varDefSourceComp3 = (VarDefNumDecComp3)varDefBuffer2;
-		if(m_nNbDigitDecimal == varDefSourceComp3.m_nNbDigitDecimal && m_nNbDigitInteger == varDefSourceComp3.m_nNbDigitInteger)
+		if(nNbDigitDecimal == varDefSourceComp3.nNbDigitDecimal && nNbDigitInteger == varDefSourceComp3.nNbDigitInteger)
 		{
 			// Same quantity of digits before and after dot
-			int nPosition1 = buffer1.m_nAbsolutePosition;
-			int nPosition2 = buffer2.m_nAbsolutePosition;
-			for(int n=0; n<m_nTotalSize; n++)
+			int nPosition1 = buffer1.nAbsolutePosition;
+			int nPosition2 = buffer2.nAbsolutePosition;
+			for(int n=0; n<nTotalSize; n++)
 			{
-				if(buffer1.m_acBuffer[nPosition1++] != buffer2.m_acBuffer[nPosition2++])
+				if(buffer1.acBuffer[nPosition1++] != buffer2.acBuffer[nPosition2++])
 					return false;
 			}
 			return true;
@@ -843,21 +843,21 @@ public class VarDefNumDecComp3 extends VarDefNum
 	
 	public String digits(VarBufferPos buffer)
 	{
-		CStr cs = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nTotalSize);
+		CStr cs = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);
 		CStrNumber csNum = TempCacheLocator.getTLSTempCache().getCStrNumber();
-		csNum.decodeSignComp3String(cs, m_nNbDigitInteger + m_nNbDigitDecimal);
+		csNum.decodeSignComp3String(cs, nNbDigitInteger + nNbDigitDecimal);
 //		int nOffset = 0;
-//		if(((m_nNbDigitInteger+m_nNbDigitDecimal) % 2) == 0)	// Even number of digits
+//		if(((nNbDigitInteger+nNbDigitDecimal) % 2) == 0)	// Even number of digits
 //			nOffset = 1;
-//		String cs = s.substring(nOffset, m_nNbDigitInteger+nOffset);
-//		cs += s.substring(m_nNbDigitInteger+nOffset, m_nNbDigitInteger+m_nNbDigitDecimal+nOffset);
+//		String cs = s.substring(nOffset, nNbDigitInteger+nOffset);
+//		cs += s.substring(nNbDigitInteger+nOffset, nNbDigitInteger+nNbDigitDecimal+nOffset);
 //		return cs;
 		return csNum.getAsString();
 	}
 	
 	public int getNbDigitDecimal()
 	{
-		return m_nNbDigitDecimal;
+		return nNbDigitDecimal;
 	}
 	
 	boolean isConvertibleInEbcdic()
@@ -872,7 +872,7 @@ public class VarDefNumDecComp3 extends VarDefNum
 	
 	public BtreeSegmentKeyTypeFactory getSegmentKeyTypeFactory()
 	{
-		return VarTypeId.m_segmentKeyTypeFactoryComp3;
+		return VarTypeId.segmentKeyTypeFactoryComp3;
 	}
 
 	public boolean isEbcdicAsciiConvertible()
@@ -883,16 +883,16 @@ public class VarDefNumDecComp3 extends VarDefNum
 	protected void adjustCustomProperty(VarDefBuffer varDefBufferCopySingleItem)
 	{
 		VarDefNumDecComp3 varDefCopy = (VarDefNumDecComp3)varDefBufferCopySingleItem;
-		varDefCopy.m_nNbDigitInteger = m_nNbDigitInteger;
-		varDefCopy.m_nNbDigitDecimal = m_nNbDigitDecimal;
+		varDefCopy.nNbDigitInteger = nNbDigitInteger;
+		varDefCopy.nNbDigitDecimal = nNbDigitDecimal;
 	}
 	
 	
 	protected void adjustCustomPropertyForCharGetAt(VarDefBuffer varDefBufferCopySingleItem)
 	{
 		VarDefNumDecComp3 varDefCopy = (VarDefNumDecComp3)varDefBufferCopySingleItem;
-		varDefCopy.m_nNbDigitInteger = 1;
-		varDefCopy.m_nNbDigitDecimal = 0;
+		varDefCopy.nNbDigitInteger = 1;
+		varDefCopy.nNbDigitDecimal = 0;
 	}
 
 	boolean isNumeric(VarBufferPos buffer)
@@ -901,6 +901,6 @@ public class VarDefNumDecComp3 extends VarDefNum
 		return cs.isOnlyNumericComp3(false);
 	}
 
-	private int m_nNbDigitInteger;
-	private int m_nNbDigitDecimal;
+	private int nNbDigitInteger;
+	private int nNbDigitDecimal;
 }

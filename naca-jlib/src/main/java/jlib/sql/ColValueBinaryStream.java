@@ -19,23 +19,23 @@ public class ColValueBinaryStream extends ColValue
 	public ColValueBinaryStream(String csName, InputStream is)
 	{
 		super(csName);
-		m_is = is;
+		is = is;
 	}
 	
 	public ColValue duplicate()
 	{
-		return new ColValueBinaryStream(m_csName, m_is);
+		return new ColValueBinaryStream(csName, is);
 	}
 	
 	public void setParamSQLClause(SQLClause clause)
 	{
-		clause.param(m_is);
+		clause.param(is);
 	}
 	
 	public void doFillWithResurltSetCol(ResultSet resultSet, int nCol)
 		throws SQLException
 	{
-		m_is = resultSet.getBinaryStream(nCol);
+		is = resultSet.getBinaryStream(nCol);
 	}
 
 	public String getValueAsString()
@@ -70,7 +70,7 @@ public class ColValueBinaryStream extends ColValue
 	
 	Object getValue()
 	{
-		return m_is;
+		return is;
 	}
 	
 	public boolean canSetColParam()
@@ -82,8 +82,8 @@ public class ColValueBinaryStream extends ColValue
 	{
 		try
 		{
-			int nLength = m_is.available();
-			stmt.setBinaryStream(nCol+1, m_is, nLength);
+			int nLength = is.available();
+			stmt.setBinaryStream(nCol+1, is, nLength);
 		}
 		catch (SQLException e)
 		{
@@ -98,5 +98,5 @@ public class ColValueBinaryStream extends ColValue
 		return true;
 	}
 	
-	private InputStream m_is = null;
+	private InputStream is = null;
 }

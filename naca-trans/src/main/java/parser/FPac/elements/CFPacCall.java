@@ -57,14 +57,14 @@ public class CFPacCall extends CFPacElement
 			if (tok.GetType() == CTokenType.IDENTIFIER)
 			{
 				String cs = tok.GetValue() ;
-				m_idCalled = new CStringTerminal(cs) ;
+				idCalled = new CStringTerminal(cs) ;
 				tok = GetNext();
 				while (tok.GetType() == CTokenType.COMMA)
 				{
 					tok = GetNext() ;
 					if (tok.GetType() == CTokenType.NUMBER)
 					{
-						m_arrTermParam.add(new CAddressTerminal(tok.GetValue())) ;
+						arrTermParam.add(new CAddressTerminal(tok.GetValue())) ;
 						tok = GetNext() ;
 					}
 					else
@@ -88,20 +88,20 @@ public class CFPacCall extends CFPacElement
 		return true ;
 	}
 	
-	protected CTerminal m_idCalled = null ;
-	protected Vector<CTerminal> m_arrTermParam = new Vector<CTerminal>() ;
+	protected CTerminal idCalled = null ;
+	protected Vector<CTerminal> arrTermParam = new Vector<CTerminal>() ;
 
 	@Override
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		String prg = m_idCalled.GetValue() ;
+		String prg = idCalled.GetValue() ;
 		
 		boolean bCheck = true ;
-		CEntityRoutineEmulation emul = factory.m_ProgramCatalog.getRoutineEmulation(prg) ;
+		CEntityRoutineEmulation emul = factory.programCatalog.getRoutineEmulation(prg) ;
 		if (emul != null)
 		{
 			CEntityRoutineEmulationCall call = emul.NewCall(getLine(), factory) ;
-			for (CTerminal term : m_arrTermParam) 
+			for (CTerminal term : arrTermParam) 
 			{
 				CDataEntity param = term.GetDataEntity(getLine(), factory) ;
 				if (param.GetDataType() == CDataEntityType.ADDRESS)
@@ -110,11 +110,11 @@ public class CFPacCall extends CFPacElement
 					CDataEntity buffer = null ;
 					if (add < 5000)
 					{ //file buffer 
-						buffer = OperandDescription.getDefaultInputFileBuffer(factory.m_ProgramCatalog) ;
+						buffer = OperandDescription.getDefaultInputFileBuffer(factory.programCatalog) ;
 					}
 					else
 					{ // working
-						buffer = factory.m_ProgramCatalog.GetDataEntity("WORKING", "") ;
+						buffer = factory.programCatalog.GetDataEntity("WORKING", "") ;
 					}
 					CEntityConvertReference conv = factory.NewEntityConvert(getLine()) ;
 					conv.convertToAlphaNum(buffer) ;
@@ -134,7 +134,7 @@ public class CFPacCall extends CFPacElement
 		}
 		else
 		{
-			if (!factory.m_ProgramCatalog.CheckProgramReference(prg, false, m_arrTermParam.size(), true))
+			if (!factory.programCatalog.CheckProgramReference(prg, false, arrTermParam.size(), true))
 			{
 				Transcoder.logError(getLine(), "Missing sub program : "+prg) ;
 				CGlobalEntityCounter.GetInstance().RegisterMissingSubProgram(parent.GetProgramName(), prg) ;
@@ -147,10 +147,10 @@ public class CFPacCall extends CFPacElement
 			}
 		}
 
-		CDataEntity ref = m_idCalled.GetDataEntity(getLine(), factory) ;
+		CDataEntity ref = idCalled.GetDataEntity(getLine(), factory) ;
 		CEntityCallProgram call = factory.NewEntityCallProgram(getLine(), ref) ;
 		call.setChecked(bCheck) ;
-		for (CTerminal term : m_arrTermParam) 
+		for (CTerminal term : arrTermParam) 
 		{
 			CDataEntity param = term.GetDataEntity(getLine(), factory) ;
 			if (param.GetDataType() == CDataEntityType.ADDRESS)
@@ -158,14 +158,14 @@ public class CFPacCall extends CFPacElement
 				int add = NumberParser.getAsInt(param.GetConstantValue()) ;
 				if (add < 5000)
 				{ //file buffer 
-					CDataEntity buffer = OperandDescription.getDefaultInputFileBuffer(factory.m_ProgramCatalog) ;
+					CDataEntity buffer = OperandDescription.getDefaultInputFileBuffer(factory.programCatalog) ;
 					CSubStringAttributReference ss = factory.NewEntitySubString(0) ;
 					ss.SetReference(buffer, factory.NewEntityExprTerminal(param), null) ;
 					call.SetParameterByRef(ss) ;
 				}
 				else
 				{ // working
-					CDataEntity working = factory.m_ProgramCatalog.GetDataEntity("WORKING", "") ;
+					CDataEntity working = factory.programCatalog.GetDataEntity("WORKING", "") ;
 					CSubStringAttributReference ss = factory.NewEntitySubString(0) ;
 					ss.SetReference(working, factory.NewEntityExprTerminal(param), null) ;
 					call.SetParameterByRef(ss) ;
@@ -186,8 +186,8 @@ public class CFPacCall extends CFPacElement
 		Element e = root.createElement("Call") ;
 		Element eId = root.createElement("Id") ;
 		e.appendChild(eId) ;
-		m_idCalled.ExportTo(eId, root) ;
-		for (CTerminal term : m_arrTermParam)
+		idCalled.ExportTo(eId, root) ;
+		for (CTerminal term : arrTermParam)
 		{
 			Element eP = root.createElement("Param") ;
 			e.appendChild(eP) ;

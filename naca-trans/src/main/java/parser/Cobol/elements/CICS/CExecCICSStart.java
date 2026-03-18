@@ -51,24 +51,24 @@ public class CExecCICSStart extends CCobolElement
 	{
 		CDataEntity TID ;
 		boolean bChecked = false ;
-		if (m_TransID.IsReference())
+		if (transID.IsReference())
 		{
-			TID = m_TransID.GetDataEntity(getLine(), factory);
-			factory.m_ProgramCatalog.RegisterVariableTransID(TID) ;
+			TID = transID.GetDataEntity(getLine(), factory);
+			factory.programCatalog.RegisterVariableTransID(TID) ;
 		}
 		else
 		{
-			String transID = m_TransID.GetValue() ;
-			String programID = factory.m_ProgramCatalog.GetProgramForTransaction(transID);
+			String transIDValue = this.transID.GetValue() ;
+			String programID = factory.programCatalog.GetProgramForTransaction(transIDValue);
 			if (programID.equals(""))
 			{
-				TID = m_TransID.GetDataEntity(getLine(), factory);
-				factory.m_ProgramCatalog.RegisterVariableTransID(TID) ;
+				TID = transID.GetDataEntity(getLine(), factory);
+				factory.programCatalog.RegisterVariableTransID(TID) ;
 			}
 			else
 			{
 				TID = factory.NewEntityString(programID) ;
-				if (factory.m_ProgramCatalog.CheckProgramReference(programID, true, 0, false))
+				if (factory.programCatalog.CheckProgramReference(programID, true, 0, false))
 				{
 					bChecked = true ;
 				}
@@ -79,37 +79,37 @@ public class CExecCICSStart extends CCobolElement
 		parent.AddChild(start);
 				
 		start.setVerified(bChecked) ;
-		if (m_Interval != null)
+		if (interval != null)
 		{
-			CDataEntity inter = m_Interval.GetDataEntity(getLine(), factory); 
+			CDataEntity inter = interval.GetDataEntity(getLine(), factory); 
 			start.SetInterval(inter) ;
 		}
-		else if (m_Time != null)
+		else if (time != null)
 		{
-			CDataEntity inter = m_Time.GetDataEntity(getLine(), factory); 
+			CDataEntity inter = time.GetDataEntity(getLine(), factory); 
 			start.SetTime(inter) ;
 		}
 		
-		if (m_From != null)
+		if (from != null)
 		{
-			CDataEntity dataFrom = m_From.GetDataEntity(getLine(), factory);
+			CDataEntity dataFrom = from.GetDataEntity(getLine(), factory);
 			CDataEntity dataLength = null ;
-			if (m_Length != null)
+			if (length != null)
 			{
-				dataLength = m_Length.GetDataEntity(getLine(), factory);
+				dataLength = length.GetDataEntity(getLine(), factory);
 			}
 			start.SetDataFrom(dataFrom, dataLength);
 		}
 		
-		if (m_TermID != null)
+		if (termID != null)
 		{
-			CDataEntity term = m_TermID.GetDataEntity(getLine(), factory);
+			CDataEntity term = termID.GetDataEntity(getLine(), factory);
 			start.SetTermID(term);
 		}
 		
-		if (m_SysID != null)
+		if (sysID != null)
 		{
-			CDataEntity sys = m_SysID.GetDataEntity(getLine(), factory);
+			CDataEntity sys = sysID.GetDataEntity(getLine(), factory);
 			start.SetSysID(sys);
 		}
 		return start ;
@@ -136,7 +136,7 @@ public class CExecCICSStart extends CCobolElement
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
 				{
 					tok = GetNext() ;
-					m_TransID = ReadTerminal() ;
+					transID = ReadTerminal() ;
 					tok = GetCurrentToken() ;
 					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 					{
@@ -150,7 +150,7 @@ public class CExecCICSStart extends CCobolElement
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
 				{
 					tok = GetNext() ;
-					m_TermID = ReadTerminal() ;
+					termID = ReadTerminal() ;
 					tok = GetCurrentToken() ;
 					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 					{
@@ -164,7 +164,7 @@ public class CExecCICSStart extends CCobolElement
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
 				{
 					tok = GetNext() ;
-					m_SysID = ReadTerminal() ;
+					sysID = ReadTerminal() ;
 					tok = GetCurrentToken() ;
 					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 					{
@@ -178,7 +178,7 @@ public class CExecCICSStart extends CCobolElement
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
 				{
 					tok = GetNext() ;
-					m_Interval = ReadTerminal() ;
+					interval = ReadTerminal() ;
 					tok = GetCurrentToken() ;
 					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 					{
@@ -192,7 +192,7 @@ public class CExecCICSStart extends CCobolElement
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
 				{
 					tok = GetNext() ;
-					m_From = ReadTerminal() ;
+					from = ReadTerminal() ;
 					tok = GetCurrentToken() ;
 					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 					{
@@ -206,7 +206,7 @@ public class CExecCICSStart extends CCobolElement
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
 				{
 					tok = GetNext() ;
-					m_Time = ReadTerminal() ;
+					time = ReadTerminal() ;
 					tok = GetCurrentToken() ;
 					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 					{
@@ -220,7 +220,7 @@ public class CExecCICSStart extends CCobolElement
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
 				{
 					tok = GetNext() ;
-					m_Length = ReadTerminal() ;
+					length = ReadTerminal() ;
 					tok = GetCurrentToken() ;
 					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 					{
@@ -250,56 +250,56 @@ public class CExecCICSStart extends CCobolElement
 	protected Element ExportCustom(Document root)
 	{
 		Element eSt = root.createElement("ExecCICSStart") ;
-		if (m_TransID != null)
+		if (transID != null)
 		{
 			Element e = root.createElement("TransID");
 			eSt.appendChild(e) ;
-			m_TransID.ExportTo(e, root);
+			transID.ExportTo(e, root);
 		}
-		if (m_SysID != null)
+		if (sysID != null)
 		{
 			Element e = root.createElement("SysID");
 			eSt.appendChild(e) ;
-			m_SysID.ExportTo(e, root);
+			sysID.ExportTo(e, root);
 		}
-		if (m_TermID != null)
+		if (termID != null)
 		{
 			Element e = root.createElement("TermID");
 			eSt.appendChild(e) ;
-			m_TermID.ExportTo(e, root);
+			termID.ExportTo(e, root);
 		}
-		if (m_Interval != null)
+		if (interval != null)
 		{
 			Element e = root.createElement("Interval");
 			eSt.appendChild(e) ;
-			m_Interval.ExportTo(e, root);
+			interval.ExportTo(e, root);
 		}
-		if (m_From != null)
+		if (from != null)
 		{
 			Element e = root.createElement("From");
 			eSt.appendChild(e) ;
-			m_From.ExportTo(e, root);
+			from.ExportTo(e, root);
 		}
-		if (m_Length != null)
+		if (length != null)
 		{
 			Element e = root.createElement("Length");
 			eSt.appendChild(e) ;
-			m_Length.ExportTo(e, root);
+			length.ExportTo(e, root);
 		}
-		if (m_Time != null)
+		if (time != null)
 		{
 			Element e = root.createElement("Time");
 			eSt.appendChild(e) ;
-			m_Time.ExportTo(e, root);
+			time.ExportTo(e, root);
 		}
 		return eSt;
 	}
 	
-	protected CTerminal m_TransID = null ;
-	protected CTerminal m_Length = null ;
-	protected CTerminal m_From = null ;
-	protected CTerminal m_TermID = null ;
-	protected CTerminal m_SysID = null ;
-	protected CTerminal m_Interval = null ; 
-	protected CTerminal m_Time = null ;
+	protected CTerminal transID = null ;
+	protected CTerminal length = null ;
+	protected CTerminal from = null ;
+	protected CTerminal termID = null ;
+	protected CTerminal sysID = null ;
+	protected CTerminal interval = null ; 
+	protected CTerminal time = null ;
 }

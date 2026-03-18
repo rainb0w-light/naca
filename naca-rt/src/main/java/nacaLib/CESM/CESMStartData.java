@@ -11,7 +11,7 @@ import nacaLib.varEx.Var;
 
 public class CESMStartData
 {
-	private InternalCharBuffer m_buffer = null; 
+	private InternalCharBuffer buffer = null; 
 	
 	public CESMStartData(Var var, Var varLength)
 	{
@@ -19,16 +19,16 @@ public class CESMStartData
 		if(varLength != null)
 			nSize = varLength.getInt();
 
-		m_buffer = new InternalCharBuffer(var.getBuffer(), var.getAbsolutePosition(), nSize);
+		buffer = new InternalCharBuffer(var.getBuffer(), var.getAbsolutePosition(), nSize);
 	}
 	
 	public InternalCharBuffer getCharBuffer()
 	{
-		return m_buffer;		
+		return buffer;		
 	}
 	
 	public int getLength()
 	{
-		return m_buffer.getBufferSize();
+		return buffer.getBufferSize();
 	}
 }

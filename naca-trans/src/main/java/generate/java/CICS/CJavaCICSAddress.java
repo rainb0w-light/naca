@@ -41,21 +41,21 @@ public class CJavaCICSAddress extends CEntityCICSAddress
 	protected void DoExport()
 	{
 		String cs = "CESM" ;
-		if (m_RefCWA != null && !m_RefCWA.ignore())
+		if (refCWA != null && !refCWA.ignore())
 		{
-			cs += ".getAddressOfCWA(" + m_RefCWA.ExportReference(getLine()) + ")";
+			cs += ".getAddressOfCWA(" + refCWA.ExportReference(getLine()) + ")";
 			WriteWord(cs);
 			cs = "" ;
 		}
-		if (m_RefTCTUA != null && !m_RefTCTUA.ignore())
+		if (refTCTUA != null && !refTCTUA.ignore())
 		{
-			cs += ".getAddressOfTCTUA(" + m_RefTCTUA.ExportReference(getLine()) + ")";
+			cs += ".getAddressOfTCTUA(" + refTCTUA.ExportReference(getLine()) + ")";
 			WriteWord(cs);
 			cs = "" ;
 		}
-		if (m_RefTWA != null && !m_RefTWA.ignore())
+		if (refTWA != null && !refTWA.ignore())
 		{
-			cs += ".getAddressOfTWA(" + m_RefTWA.ExportReference(getLine()) + ")";
+			cs += ".getAddressOfTWA(" + refTWA.ExportReference(getLine()) + ")";
 			WriteWord(cs);
 			cs = "" ;
 		}
@@ -69,17 +69,17 @@ public class CJavaCICSAddress extends CEntityCICSAddress
 	public boolean ignore()
 	{
 		boolean ignore = true ;
-		if (m_RefCWA != null)
+		if (refCWA != null)
 		{
-			ignore &= m_RefCWA.ignore() ;
+			ignore &= refCWA.ignore() ;
 		}
-		if (m_RefTCTUA != null)
+		if (refTCTUA != null)
 		{
-			ignore &= m_RefTCTUA.ignore() ;
+			ignore &= refTCTUA.ignore() ;
 		}
-		if (m_RefTWA != null)
+		if (refTWA != null)
 		{
-			ignore &= m_RefTWA.ignore() ;
+			ignore &= refTWA.ignore() ;
 		}
 		return ignore ;
 	}

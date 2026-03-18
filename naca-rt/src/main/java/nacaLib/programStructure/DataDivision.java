@@ -27,7 +27,7 @@ public class DataDivision extends Division
 	public VarBuffer manageWorkingLinkageVars(BaseProgram program, boolean bFirstInstance, ArrayList<CCallParam> arrCallerCallParam, ArrayList<Var> arrDeclaredCallArg)
 	{
 		VarBuffer varBufferWS = computeWorkingStorageVarBuffer(program, bFirstInstance);
-		if(m_FileSection != null)
+		if(fileSection != null)
 		{
 			VarBuffer varBufferFile = computeFileVarBuffer(program, bFirstInstance);
 			program.getProgramManager().assignBufferFile(varBufferFile);
@@ -39,12 +39,12 @@ public class DataDivision extends Division
 		program.getProgramManager().assignBufferLS(varBufferLS);
 				
 		if(bFirstInstance)
-			m_WorkingStorageSection.fillWorkingInitialValues(program.getProgramManager().getSharedProgramInstanceData());
+			workingStorageSection.fillWorkingInitialValues(program.getProgramManager().getSharedProgramInstanceData());
 				
 		mapLinkageCallParameters(arrCallerCallParam, arrDeclaredCallArg);
 		
 		if(IsSTCheck)
-			m_WorkingStorageSection.dumpRootVar("Working Storage");
+			workingStorageSection.dumpRootVar("Working Storage");
 		
 		return varBufferWS;
 	}
@@ -52,11 +52,11 @@ public class DataDivision extends Division
 	
 	private VarBuffer computeWorkingStorageVarBuffer(BaseProgram prg, boolean bFirstInstance)
 	{
-		if(!m_bWorkingStorageComputed)
+		if(!bWorkingStorageComputed)
 		{
 			grantWorkingStorageSection(prg);
-			VarBuffer varBuffer = m_WorkingStorageSection.computeStorage(bFirstInstance);
-			m_bWorkingStorageComputed = true;
+			VarBuffer varBuffer = workingStorageSection.computeStorage(bFirstInstance);
+			bWorkingStorageComputed = true;
 			return varBuffer;
 		}
 		return null;
@@ -64,12 +64,12 @@ public class DataDivision extends Division
 	
 	private VarBuffer computeFileVarBuffer(BaseProgram prg, boolean bFirstInstance)
 	{
-		if(!m_bFileStorageComputed)
+		if(!bFileStorageComputed)
 		{
-			m_bFileStorageComputed = true;
-			if(m_FileSection != null)
+			bFileStorageComputed = true;
+			if(fileSection != null)
 			{
-				VarBuffer varBuffer = m_FileSection.computeStorage(bFirstInstance);				
+				VarBuffer varBuffer = fileSection.computeStorage(bFirstInstance);				
 				return varBuffer;
 			}
 		}
@@ -78,19 +78,19 @@ public class DataDivision extends Division
 	
 	public VarBuffer getWorkingStorageVarBuffer()
 	{
-		return m_WorkingStorageSection.m_Buffer;
+		return workingStorageSection.buffer;
 	}
 	
 	public VarBuffer computeLinkageVarBuffer()
 	{
-		return m_LinkageSection.computeStorage(true);	// Compute Linkage section vars that are not already set with an arg provided By Ref
+		return linkageSection.computeStorage(true);	// Compute Linkage section vars that are not already set with an arg provided By Ref
 	}
 	
 	public void registerFileVarStruct(Var var)
 	{
 		if(isFileSectionCurrent())
 		{
-			m_FileSection.assignLevel01(var);
+			fileSection.assignLevel01(var);
 		}
 	}
 	
@@ -98,15 +98,15 @@ public class DataDivision extends Division
 	{
 		if(isFileSectionCurrent())
 		{
-			m_FileSection.defineVarDynLengthMarker(var);
+			fileSection.defineVarDynLengthMarker(var);
 		}
 	}
 	
 	public void mapLinkageCallParameters(ArrayList arrCallerCallParam, ArrayList<Var> arrDeclaredCallArg)
 	{
-		m_LinkageSection.mapCallParameters(arrCallerCallParam, arrDeclaredCallArg);
+		linkageSection.mapCallParameters(arrCallerCallParam, arrDeclaredCallArg);
 		if(IsSTCheck)
-			m_LinkageSection.dumpRootVar("Linkage Storage");
+			linkageSection.dumpRootVar("Linkage Storage");
 	}
 	
 	public void mapCalledPrgReturnParameters(ArrayList<BaseCalledPrgPublicArgPositioned> arrSPClientParam, ArrayList<Var> arrSPServerDeclaredCallArg)
@@ -125,35 +125,35 @@ public class DataDivision extends Division
 	
 	private void grantWorkingStorageSection(BaseProgram prg)
 	{ 
-		if(m_WorkingStorageSection == null)
-			m_WorkingStorageSection = new DataSectionWorking(prg);
+		if(workingStorageSection == null)
+			workingStorageSection = new DataSectionWorking(prg);
 	}
 	
 	public boolean isLinkageSectionCurrent()
 	{
-		if(m_LinkageSection != null && m_CurrentDataSection == m_LinkageSection)
+		if(linkageSection != null && currentDataSection == linkageSection)
 			return true;
 		return false;
 	}
 	
 	public boolean isFileSectionCurrent()
 	{
-		if(m_FileSection != null && m_CurrentDataSection == m_FileSection)
+		if(fileSection != null && currentDataSection == fileSection)
 			return true;
 		return false;
 	}
 	
 	public void restoreFileManagerEntries(BaseEnvironment env)
 	{
-		if(m_FileSection != null)
+		if(fileSection != null)
 		{
-			m_FileSection.restoreFileManagerEntries(env);
+			fileSection.restoreFileManagerEntries(env);
 		}
 	}
 
 	public boolean isWorkingSectionCurrent()
 	{
-		if(m_WorkingStorageSection != null && m_CurrentDataSection == m_WorkingStorageSection)
+		if(workingStorageSection != null && currentDataSection == workingStorageSection)
 			return true;
 		return false;
 	}
@@ -161,42 +161,42 @@ public class DataDivision extends Division
 	public DataSection grantAndSetCurrentWorkingStorageSection(BaseProgram prg)
 	{
 		grantWorkingStorageSection(prg);
-		m_CurrentDataSection = m_WorkingStorageSection;
-		m_WorkingStorageSection.createRootVarOfSection();
+		currentDataSection = workingStorageSection;
+		workingStorageSection.createRootVarOfSection();
 		resetCurrentFileDef();		
-		return m_CurrentDataSection;
+		return currentDataSection;
 	}
 
 	public void grantLinkageSection(BaseProgram prg)
 	{ 
-		if(m_LinkageSection == null)
-			m_LinkageSection = new DataSectionLinkage(prg);
+		if(linkageSection == null)
+			linkageSection = new DataSectionLinkage(prg);
 	}
 	
 	public DataSection grantAndSetCurrentLinkageSection(BaseProgram prg)
 	{ 
 		grantLinkageSection(prg);
-		m_CurrentDataSection = m_LinkageSection;
-		m_LinkageSection.createRootVarOfSection();
+		currentDataSection = linkageSection;
+		linkageSection.createRootVarOfSection();
 		resetCurrentFileDef();
-		return m_CurrentDataSection;
+		return currentDataSection;
 	}
 	
 	public DataSectionFile grantAndSetCurrentFileSection(BaseProgram prg)
 	{ 
 		boolean bCreated = grantFileSection(prg);
-		m_CurrentDataSection = m_FileSection;
+		currentDataSection = fileSection;
 		if(bCreated)
-			m_FileSection.createRootVarOfSection();
+			fileSection.createRootVarOfSection();
 		resetCurrentFileDef();
-		return m_FileSection;
+		return fileSection;
 	}
 	
 	private boolean grantFileSection(BaseProgram prg)
 	{ 
-		if(m_FileSection == null)
+		if(fileSection == null)
 		{
-			m_FileSection = new DataSectionFile(prg);
+			fileSection = new DataSectionFile(prg);
 			return true;
 		}
 		return false;		
@@ -205,41 +205,41 @@ public class DataDivision extends Division
 	
 	public VarBuffer getWorkingStorageSectionVarBuffer()
 	{
-		if(m_WorkingStorageSection != null)
-			return m_WorkingStorageSection.m_Buffer;
+		if(workingStorageSection != null)
+			return workingStorageSection.buffer;
 		return null;
 	}
 
 	public VarBuffer getLinkageSectionVarBuffer()
 	{
-		if(m_LinkageSection != null)
-			return m_LinkageSection.m_Buffer;
+		if(linkageSection != null)
+			return linkageSection.buffer;
 		return null;
 	}
 	
 	public VarDefBuffer getVarDefAtParentLevel(int nLevel)
 	{
-		if(m_CurrentDataSection != null)
-			return m_CurrentDataSection.getVarDefAtParentLevel(nLevel);
+		if(currentDataSection != null)
+			return currentDataSection.getVarDefAtParentLevel(nLevel);
 		return null;
 	}
 	
 	public void pushLevel(VarDefBuffer varDef)
 	{
-		if(m_CurrentDataSection != null)
-			m_CurrentDataSection.pushLevel(varDef);
+		if(currentDataSection != null)
+			currentDataSection.pushLevel(varDef);
 	}
 	
 	private void resetCurrentFileDef()
 	{
-		if(m_FileSection != null)
-			m_FileSection.setCurrentFileDef(null);
+		if(fileSection != null)
+			fileSection.setCurrentFileDef(null);
 	}
 	
-	private DataSectionLinkage m_LinkageSection = null;		// Allocated LinkageSection
-	private DataSectionWorking m_WorkingStorageSection = null; // Allocated WorkingStorageSection
-	private DataSectionFile m_FileSection = null;
-	private DataSection m_CurrentDataSection = null;	// Current data section (either workingStorage or Linkage)
-	private boolean m_bWorkingStorageComputed = false;	// true when the WS has been computed once
-	private boolean m_bFileStorageComputed = false;	// true when the File storage has been computed once
+	private DataSectionLinkage linkageSection = null;		// Allocated LinkageSection
+	private DataSectionWorking workingStorageSection = null; // Allocated WorkingStorageSection
+	private DataSectionFile fileSection = null;
+	private DataSection currentDataSection = null;	// Current data section (either workingStorage or Linkage)
+	private boolean bWorkingStorageComputed = false;	// true when the WS has been computed once
+	private boolean bFileStorageComputed = false;	// true when the File storage has been computed once
 }

@@ -71,16 +71,16 @@ import jlib.xml.Tag;
 // Persitent thread safe queue; can be used as a stack or a queue.
 public class PersistantQueue
 {
-	private String m_csDir = null;
-	private String m_csIndexFile = null;
+	private String csDir = null;
+	private String csIndexFile = null;
 	
 	public PersistantQueue(String csDir)
 	{
-		m_csDir = csDir;
-		if(!m_csDir.endsWith("/"))
-			m_csDir += '/';
+		csDir = csDir;
+		if(!csDir.endsWith("/"))
+			csDir += '/';
 		
-		m_csIndexFile = m_csDir + "index.qdx";  
+		csIndexFile = csDir + "index.qdx";  
 		buildIndexes();
 	}
 	
@@ -88,7 +88,7 @@ public class PersistantQueue
 	{
 		int nLastMax = incMaxIndex();
 		
-		String csFileName = m_csDir + nLastMax + ".q";
+		String csFileName = csDir + nLastMax + ".q";
 		write(csFileName, object);
 	}
 	
@@ -96,7 +96,7 @@ public class PersistantQueue
 	{
 		int nLastMax = incMaxIndex();
 		
-		String csFileName = m_csDir + nLastMax + ".q";
+		String csFileName = csDir + nLastMax + ".q";
 		String cs = tag.exportToString();
 		write(csFileName, cs);
 	}
@@ -109,7 +109,7 @@ public class PersistantQueue
 			int nLastMin = incMinIndex();
 			if(nLastMin == -1)	// Empty queue
 				return null;
-			String csFileName = m_csDir + nLastMin + ".q";
+			String csFileName = csDir + nLastMin + ".q";
 			
 			o = read(csFileName);
 		}		
@@ -124,7 +124,7 @@ public class PersistantQueue
 			int nLastMin = incMinIndex();
 			if(nLastMin == -1)	// Empty queue
 				return null;
-			String csFileName = m_csDir + nLastMin + ".q";
+			String csFileName = csDir + nLastMin + ".q";
 			
 			String csTag = (String)read(csFileName);
 			if(csTag != null)
@@ -146,7 +146,7 @@ public class PersistantQueue
 			int nLastMax = decMaxIndex();
 			if(nLastMax == -1)	// Empty queue
 				return null;
-			String csFileName = m_csDir + nLastMax + ".q";
+			String csFileName = csDir + nLastMax + ".q";
 			
 			o = read(csFileName);
 		}		
@@ -161,7 +161,7 @@ public class PersistantQueue
 			int nLastMax = decMaxIndex();
 			if(nLastMax == -1)	// Empty queue
 				return null;
-			String csFileName = m_csDir + nLastMax + ".q";
+			String csFileName = csDir + nLastMax + ".q";
 			
 			o = read(csFileName);
 		}		
@@ -176,7 +176,7 @@ public class PersistantQueue
 			int nLastMin = incMinIndex();
 			if(nLastMin == -1)	// Empty queue
 				return null;
-			String csFileName = m_csDir + nLastMin + ".q";
+			String csFileName = csDir + nLastMin + ".q";
 			
 			o = read(csFileName, baseQueueItemFactory);
 		}		
@@ -191,7 +191,7 @@ public class PersistantQueue
 			int nLastMax = decMaxIndex();
 			if(nLastMax == -1)	// Empty queue
 				return null;
-			String csFileName = m_csDir + nLastMax + ".q";
+			String csFileName = csDir + nLastMax + ".q";
 			
 			o = read(csFileName);
 		}		
@@ -206,8 +206,8 @@ public class PersistantQueue
 		int nMin = 0x7fffffff;
 		int nMax = 0x80000000;
 		
-		FileSystem.createPath(m_csDir);
-		String tcsNames[] = FileSystem.getFileNameListBySuffix(m_csDir, ".q");
+		FileSystem.createPath(csDir);
+		String tcsNames[] = FileSystem.getFileNameListBySuffix(csDir, ".q");
 		if(tcsNames == null)
 			nMin = nMax = 0;
 		else if(tcsNames.length == 0)
@@ -230,7 +230,7 @@ public class PersistantQueue
 		RandomAccessFile fileIndex;
 		try
 		{
-			fileIndex = new RandomAccessFile(m_csIndexFile, "rw");
+			fileIndex = new RandomAccessFile(csIndexFile, "rw");
 			String csLine = "" + nMin + ":" + nMax;
 				
 			byte tb[] = csLine.getBytes();
@@ -258,7 +258,7 @@ public class PersistantQueue
 		int nMax = 0x4000000;
 		try
 		{
-			RandomAccessFile fileIndex = new RandomAccessFile(m_csIndexFile, "rw");
+			RandomAccessFile fileIndex = new RandomAccessFile(csIndexFile, "rw");
 			String csLine = fileIndex.readLine();
 			if(csLine != null)
 			{
@@ -302,7 +302,7 @@ public class PersistantQueue
 		int nMax = 0x4000000;
 		try
 		{
-			RandomAccessFile fileIndex = new RandomAccessFile(m_csIndexFile, "rw");
+			RandomAccessFile fileIndex = new RandomAccessFile(csIndexFile, "rw");
 			String csLine = fileIndex.readLine();
 			if(csLine != null)
 			{
@@ -356,7 +356,7 @@ public class PersistantQueue
 		int nMax = 0x4000000;
 		try
 		{
-			RandomAccessFile fileIndex = new RandomAccessFile(m_csIndexFile, "rw");
+			RandomAccessFile fileIndex = new RandomAccessFile(csIndexFile, "rw");
 			String csLine = fileIndex.readLine();
 			if(csLine != null)
 			{

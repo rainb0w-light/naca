@@ -27,11 +27,11 @@ import org.w3c.dom.Element;
  */
 public class LogCenterPluginConsole extends LogCenter
 {
-	private static int m_nLineId = 0;
+	private static int nLineId = 0;
 	
 	public static void resetLineCoutner()
 	{
-		m_nLineId = 0;
+		nLineId = 0;
 	}
 
 	public LogCenterPluginConsole(LogCenterLoader logCenterLoader)
@@ -45,14 +45,14 @@ public class LogCenterPluginConsole extends LogCenter
 	
 	public static String getAndIncLine()
 	{
-		int n = m_nLineId;
-		m_nLineId++;
+		int n = nLineId;
+		nLineId++;
 		return StringUtil.FormatWithFill4LeftZero(n);
 	}
 			
 	public void loadSpecificsEntries(Tag tagLogCenter)
 	{
-		m_csFormat = tagLogCenter.getVal("Format");
+		csFormat = tagLogCenter.getVal("Format");
 	}
 	
 	boolean open()
@@ -71,16 +71,16 @@ public class LogCenterPluginConsole extends LogCenter
 	
 	void sendOutput(LogParams logParam)
 	{
-		String csOut = m_patternLayout.format(logParam, 0);
-		if(m_pluginMarker != null)
+		String csOut = patternLayout.format(logParam, 0);
+		if(pluginMarker != null)
 		{
 			LogEventType logEventType = logParam.getLogEventType();
 			if(logEventType == LogEventType.Error)
-				m_pluginMarker.error("(0) [Error] " + getAndIncLine() + " " + m_csDecoratedFileNameSource + csOut);
+				pluginMarker.error("(0) [Error] " + getAndIncLine() + " " + csDecoratedFileNameSource + csOut);
 			else if(logEventType == LogEventType.Warning)
-				m_pluginMarker.warn("(0) [warning] " + getAndIncLine() + " " + m_csDecoratedFileNameSource + csOut);
+				pluginMarker.warn("(0) [warning] " + getAndIncLine() + " " + csDecoratedFileNameSource + csOut);
 			else
-				m_pluginMarker.info("(0) [Info] " + getAndIncLine() + " " + m_csDecoratedFileNameSource + csOut);
+				pluginMarker.info("(0) [Info] " + getAndIncLine() + " " + csDecoratedFileNameSource + csOut);
 		}
 	}
 	
@@ -91,10 +91,10 @@ public class LogCenterPluginConsole extends LogCenter
 	
 	String getFormat()
 	{
-		return m_csFormat;
+		return csFormat;
 	}
 	
-	private String m_csFormat = null;
+	private String csFormat = null;
 	
 	public String getType()
 	{
@@ -103,16 +103,16 @@ public class LogCenterPluginConsole extends LogCenter
 	
 	public void setPluginMarker(BasePluginMarker pluginMarker, String csFileNameSource, boolean bInfo, boolean bWarning, boolean bError)
 	{
-		m_pluginMarker = pluginMarker;
-		m_bInfo = bInfo; 
-		m_bWarning = bWarning;
-		m_bError = bError;
-		m_csDecoratedFileNameSource = "%" + csFileNameSource + "% ";
+		pluginMarker = pluginMarker;
+		bInfo = bInfo; 
+		bWarning = bWarning;
+		bError = bError;
+		csDecoratedFileNameSource = "%" + csFileNameSource + "% ";
 	}
 	
-	private BasePluginMarker m_pluginMarker = null;
-	private String m_csDecoratedFileNameSource = null;
-	boolean m_bInfo = false; 
-	boolean m_bWarning = false;
-	boolean m_bError = false;
+	private BasePluginMarker pluginMarker = null;
+	private String csDecoratedFileNameSource = null;
+	boolean bInfo = false; 
+	boolean bWarning = false;
+	boolean bError = false;
 }

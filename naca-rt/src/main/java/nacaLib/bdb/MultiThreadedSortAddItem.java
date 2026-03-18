@@ -18,44 +18,44 @@ import jlib.threads.ThreadPoolRequest;
  */
 public class MultiThreadedSortAddItem extends ThreadPoolRequest
 {
-	private BtreeFile m_btreeFile = null;
-	private byte m_tbyData[] = null;
-	int m_nTotalLength;
-	int m_nNbRecordRead;
-	boolean m_bVariableLength;
+	private BtreeFile btreeFile = null;
+	private byte tbyData[] = null;
+	int nTotalLength;
+	int nNbRecordRead;
+	boolean bVariableLength;
 	
 	MultiThreadedSortAddItem(BtreeFile btreeFile, byte tbyData[], int nSourceOffset, int nTotalLength, int nNbRecordRead, boolean bVariableLength)
 	{
 		super(false);
 		
-		m_btreeFile = btreeFile;
-		m_tbyData = new byte[nTotalLength];
+		btreeFile = btreeFile;
+		tbyData = new byte[nTotalLength];
 		for(int n=0; n<nTotalLength; n++)
 		{
-			m_tbyData[n] = tbyData[nSourceOffset++];
+			tbyData[n] = tbyData[nSourceOffset++];
 		}
-		m_nTotalLength = nTotalLength;
-		m_nNbRecordRead = nNbRecordRead;
-		m_bVariableLength = bVariableLength;
+		nTotalLength = nTotalLength;
+		nNbRecordRead = nNbRecordRead;
+		bVariableLength = bVariableLength;
 	}
 	
 	void fill(BtreeFile btreeFile, byte tbyData[], int nSourceOffset, int nTotalLength, int nNbRecordRead, boolean bVariableLength)
 	{
-		m_btreeFile = btreeFile;
+		btreeFile = btreeFile;
 
-		if(m_tbyData.length < nTotalLength)
-			m_tbyData = new byte[nTotalLength];
+		if(tbyData.length < nTotalLength)
+			tbyData = new byte[nTotalLength];
 		
 		for(int n=0; n<nTotalLength; n++)
-			m_tbyData[n] = tbyData[nSourceOffset++];
+			tbyData[n] = tbyData[nSourceOffset++];
 		
-		m_nTotalLength = nTotalLength;
-		m_nNbRecordRead = nNbRecordRead;
-		m_bVariableLength = bVariableLength;
+		nTotalLength = nTotalLength;
+		nNbRecordRead = nNbRecordRead;
+		bVariableLength = bVariableLength;
 	}
 	
 	public void execute()
 	{
-		m_btreeFile.asyncAddItemToSortByMultiThreads(this, m_tbyData);
+		btreeFile.asyncAddItemToSortByMultiThreads(this, tbyData);
 	}
 }

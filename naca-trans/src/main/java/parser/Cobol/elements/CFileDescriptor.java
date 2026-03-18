@@ -52,25 +52,25 @@ public class CFileDescriptor extends CCobolElement
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
 		CEntityFileDescriptor eFD = null ;
-		if (m_bSorted)
+		if (bSorted)
 		{
-			eFD = factory.NewEntitySortedFileDescriptor(getLine(), m_FD.GetName()) ;
+			eFD = factory.NewEntitySortedFileDescriptor(getLine(), fD.GetName()) ;
 		}
 		else
 		{
-			eFD = factory.NewEntityFileDescriptor(getLine(), m_FD.GetName()) ;
+			eFD = factory.NewEntityFileDescriptor(getLine(), fD.GetName()) ;
 		}
 		parent.AddChild(eFD) ;
 		
-		if (m_DependingOnLenghtRecord != null)
+		if (dependingOnLenghtRecord != null)
 		{
-			CDataEntity e = m_DependingOnLenghtRecord.GetDataReference(getLine(), factory) ;
+			CDataEntity e = dependingOnLenghtRecord.GetDataReference(getLine(), factory) ;
 			e.RegisterFileDescriptorDepending(eFD);
 			eFD.setRecordSizeVariable(e) ;
 		}
 		
 		CBaseLanguageEntity firstEntity = null ;
-		for (CBaseElement be : m_children)
+		for (CBaseElement be : children)
 		{
 			CBaseLanguageEntity le = be.DoSemanticAnalysis(eFD, factory) ;
 			if (firstEntity == null)
@@ -95,7 +95,7 @@ public class CFileDescriptor extends CCobolElement
 				}
 			}
 		}
-		m_bAnalysisDoneForChildren = true ;
+		bAnalysisDoneForChildren = true ;
 		
 		return eFD;
 	}
@@ -107,21 +107,21 @@ public class CFileDescriptor extends CCobolElement
 		CBaseToken tok = GetCurrentToken() ;
 		if (tok.GetKeyword() == CCobolKeywordList.FD)
 		{
-			m_bSorted = false; 
+			bSorted = false; 
 		}
 		else if (tok.GetKeyword() == CCobolKeywordList.SD)
 		{
-			m_bSorted = true ;
+			bSorted = true ;
 		}
 		else
 		{
 			return false ;
 		}
-		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().m_Name) ;
+		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
 		
 		tok = GetNext() ;
-		m_FD = ReadIdentifier();
-		if (m_FD == null)
+		fD = ReadIdentifier();
+		if (fD == null)
 		{
 			return false ;
 		}
@@ -151,7 +151,7 @@ public class CFileDescriptor extends CCobolElement
 				}
 				if (tok.GetType() == CTokenType.NUMBER)
 				{
-					m_MaxLenghtRecord = Integer.parseInt(tok.GetValue());
+					maxLenghtRecord = Integer.parseInt(tok.GetValue());
 					tok = GetNext() ;
 					if (tok.GetKeyword() == CCobolKeywordList.CHARACTERS)
 					{
@@ -159,9 +159,9 @@ public class CFileDescriptor extends CCobolElement
 					}
 					else if (tok.GetKeyword() == CCobolKeywordList.TO)
 					{
-						m_MinLenghtRecord = m_MaxLenghtRecord ;
+						minLenghtRecord = maxLenghtRecord ;
 						tok = GetNext() ;
-						m_MaxLenghtRecord = Integer.parseInt(tok.GetValue());
+						maxLenghtRecord = Integer.parseInt(tok.GetValue());
 						
 						tok = GetNext() ;
 						if (tok.GetKeyword() == CCobolKeywordList.CHARACTERS)
@@ -191,14 +191,14 @@ public class CFileDescriptor extends CCobolElement
 					}
 					if (tok.GetType() == CTokenType.NUMBER)
 					{
-						m_MinLenghtRecord = Integer.parseInt(tok.GetValue());
+						minLenghtRecord = Integer.parseInt(tok.GetValue());
 						tok = GetNext() ;
 						if (tok.GetKeyword() == CCobolKeywordList.TO)
 						{
 							tok = GetNext() ;
 							if (tok.GetType() == CTokenType.NUMBER)
 							{
-								m_MaxLenghtRecord = Integer.parseInt(tok.GetValue());
+								maxLenghtRecord = Integer.parseInt(tok.GetValue());
 								tok = GetNext() ;
 								if (tok.GetKeyword() == CCobolKeywordList.CHARACTERS)
 								{
@@ -211,7 +211,7 @@ public class CFileDescriptor extends CCobolElement
 									{
 										tok = GetNext() ;
 									}
-									m_DependingOnLenghtRecord = ReadIdentifier();
+									dependingOnLenghtRecord = ReadIdentifier();
 								}
 							}
 							else
@@ -263,15 +263,15 @@ public class CFileDescriptor extends CCobolElement
 				}
 				if (tok.GetType() == CTokenType.NUMBER)
 				{
-					m_MaxBlockLenght = Integer.parseInt(tok.GetValue());
+					maxBlockLenght = Integer.parseInt(tok.GetValue());
 					tok = GetNext() ;
 					if (tok.GetKeyword() == CCobolKeywordList.TO)
 					{
 						tok =GetNext() ;
 						if (tok.GetType() == CTokenType.NUMBER)
 						{ 
-							m_MinBlockLenght = m_MaxBlockLenght ;
-							m_MaxBlockLenght = Integer.parseInt(tok.GetValue());
+							minBlockLenght = maxBlockLenght ;
+							maxBlockLenght = Integer.parseInt(tok.GetValue());
 							tok = GetNext() ;
 						}
 						else
@@ -321,7 +321,7 @@ public class CFileDescriptor extends CCobolElement
 				{
 					tok = GetNext(); 
 				}
-				m_RecordingMode = ReadTerminal();
+				recordingMode = ReadTerminal();
 			}
 //			else if (tok.GetType() == CTokenType.COMMENT)
 //			{
@@ -407,7 +407,7 @@ public class CFileDescriptor extends CCobolElement
 	protected Element ExportCustom(Document root)
 	{
 		Element eFD = null ;
-		if (m_bSorted)
+		if (bSorted)
 		{
 			eFD = root.createElement("SD");
 		}
@@ -415,64 +415,64 @@ public class CFileDescriptor extends CCobolElement
 		{
 			eFD = root.createElement("FD");
 		}
-		m_FD.ExportTo(eFD, root);
+		fD.ExportTo(eFD, root);
 		
 		Element rec = root.createElement("Record");
 		eFD.appendChild(rec);		
-		if (m_VariableLenghtRecord)
+		if (variableLenghtRecord)
 		{
-			rec.setAttribute("MaxLength", ""+m_MaxLenghtRecord);
-			if (m_MinLenghtRecord>0)
+			rec.setAttribute("MaxLength", ""+maxLenghtRecord);
+			if (minLenghtRecord>0)
 			{
-				rec.setAttribute("MinLength", ""+m_MinLenghtRecord);
+				rec.setAttribute("MinLength", ""+minLenghtRecord);
 			}
-			if (m_DependingOnLenghtRecord != null)
+			if (dependingOnLenghtRecord != null)
 			{
 				Element eDep = root.createElement("Depending");
-				m_DependingOnLenghtRecord.ExportTo(eDep, root);
+				dependingOnLenghtRecord.ExportTo(eDep, root);
 				rec.appendChild(eDep);
 			}			
 		}
 		else
 		{
-			rec.setAttribute("Length", ""+m_MaxLenghtRecord);
+			rec.setAttribute("Length", ""+maxLenghtRecord);
 		}
 		
 		Element block = root.createElement("Block");
-		if (m_MinBlockLenght >0)
+		if (minBlockLenght >0)
 		{
-			block.setAttribute("MaxLenght", ""+m_MaxBlockLenght) ;
-			block.setAttribute("MinLenght", ""+m_MinBlockLenght) ;
+			block.setAttribute("MaxLenght", ""+maxBlockLenght) ;
+			block.setAttribute("MinLenght", ""+minBlockLenght) ;
 		}
 		else
 		{
-			block.setAttribute("Lenght", ""+m_MaxBlockLenght) ;
+			block.setAttribute("Lenght", ""+maxBlockLenght) ;
 		}
 		
-		if (m_DataRecord != null)
+		if (dataRecord != null)
 		{
 			Element eDataRec = root.createElement("DataRecord");
 			eFD.appendChild(eDataRec);
-			m_DataRecord.ExportTo(eDataRec, root); 
+			dataRecord.ExportTo(eDataRec, root); 
 		}
-		if (m_RecordingMode != null)
+		if (recordingMode != null)
 		{
 			Element eDataRec = root.createElement("RecordingMode");
 			eFD.appendChild(eDataRec);
-			m_RecordingMode.ExportTo(eDataRec, root); 
+			recordingMode.ExportTo(eDataRec, root); 
 		}
 		return eFD;
 	}
 	
-	protected CIdentifier m_FD = null ;
-	protected int m_MaxLenghtRecord = 0 ; 
-	protected int m_MinLenghtRecord = 0 ;
-	protected boolean m_VariableLenghtRecord = false ;
-	protected CIdentifier m_DependingOnLenghtRecord = null ; 
-	protected int m_MaxBlockLenght = 0 ;
-	protected int m_MinBlockLenght = 0 ;
-	protected CIdentifier m_DataRecord = null ;
-	protected CTerminal m_RecordingMode = null;
-	protected boolean m_bSorted = false ;
+	protected CIdentifier fD = null ;
+	protected int maxLenghtRecord = 0 ; 
+	protected int minLenghtRecord = 0 ;
+	protected boolean variableLenghtRecord = false ;
+	protected CIdentifier dependingOnLenghtRecord = null ; 
+	protected int maxBlockLenght = 0 ;
+	protected int minBlockLenght = 0 ;
+	protected CIdentifier dataRecord = null ;
+	protected CTerminal recordingMode = null;
+	protected boolean bSorted = false ;
 	//protected CIdentifier m_DependingLengthRecordRef = null ;
 }

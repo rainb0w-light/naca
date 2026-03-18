@@ -55,7 +55,7 @@ public class CustomClassDynLoader extends ClassDynLoader
 			if(csClassName.startsWith("sun"))
 				return tryLoadWithPrimordialClassLoader(csClassName);
 		}
-		if(!m_bCanLoadJar && !m_bCanLoadClass)
+		if(!bCanLoadJar && !bCanLoadClass)
 			return tryLoadWithPrimordialClassLoader(csClassName);
 		
 		boolean bProgram = false;
@@ -65,11 +65,11 @@ public class CustomClassDynLoader extends ClassDynLoader
 		
     	Class classCode = null;
     	
-    	if(m_csCurrentClassName != null)	// paragraph or copy
+    	if(csCurrentClassName != null)	// paragraph or copy
     	{
-    		if(csClassName.equals(m_csCurrentClassName))	// Program
+    		if(csClassName.equals(csCurrentClassName))	// Program
     			bProgram = true;
-    		else if(csClassName.startsWith(m_csCurrentClassName) && csClassName.indexOf('$') == m_csCurrentClassName.length())	// Paragraph
+    		else if(csClassName.startsWith(csCurrentClassName) && csClassName.indexOf('$') == csCurrentClassName.length())	// Paragraph
     			bParagraph = true;
     		else
     		{
@@ -105,7 +105,7 @@ public class CustomClassDynLoader extends ClassDynLoader
         
        	if(bCallOrStdClass)	// If we want to share a copy among all programs, do a if(bCall || bCopyOrStdClass)
     	{
-    		CustomClassDynLoader newCustomClassDynLoader = new CustomClassDynLoader(m_arrPaths, m_jarEntries, m_bCanLoadClass, m_bCanLoadJar);
+    		CustomClassDynLoader newCustomClassDynLoader = new CustomClassDynLoader(arrPaths, jarEntries, bCanLoadClass, bCanLoadJar);
     		Class cls = newCustomClassDynLoader.doLoadClass(csClassName);
     		return cls;
     	}

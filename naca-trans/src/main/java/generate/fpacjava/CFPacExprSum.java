@@ -19,7 +19,7 @@ public class CFPacExprSum extends CEntityExprSum
 	@Override
 	public String Export()
 	{
-		return m_Op1.ExportReference(getLine()) + "+" + m_Op2.ExportReference(getLine()) ;
+		return op1.ExportReference(getLine()) + "+" + op2.ExportReference(getLine()) ;
 	}
 
 }

@@ -48,62 +48,62 @@ public abstract class CEntityAssign extends CBaseActionEntity
 	 */
 	public boolean SetValue(CDataEntity e)
 	{
-		m_Value = e ;
+		value = e ;
 		return true ;
 	}
 	
 	public void AddRefTo(CDataEntity id)
 	{
-		m_arrRefTo.add(id) ;
+		arrRefTo.add(id) ;
 	}
 	protected CDataEntity GetRefTo(int i)
 	{
-		if (i >= m_arrRefTo.size())
+		if (i >= arrRefTo.size())
 		{
 			return null ;
 		}
 		else
 		{
-			return m_arrRefTo.get(i) ;
+			return arrRefTo.get(i) ;
 		}
 	}
 	protected int GetNbRefTo()
 	{
-		return m_arrRefTo.size() ;
+		return arrRefTo.size() ;
 	}
 	
-	protected CDataEntity m_Value = null ;
-	protected boolean m_bFillAll = false ;
-	protected boolean m_bMoveCorresponding = false ;
-	private Vector<CDataEntity> m_arrRefTo = new Vector<CDataEntity>() ;
+	protected CDataEntity value = null ;
+	protected boolean bFillAll = false ;
+	protected boolean bMoveCorresponding = false ;
+	private Vector<CDataEntity> arrRefTo = new Vector<CDataEntity>() ;
 	public void Clear()
 	{
 		super.Clear();
-		m_arrRefTo.clear() ;
+		arrRefTo.clear() ;
 	}
 
 	public void SetFillAll(boolean bFillAll)
 	{
-		m_bFillAll = bFillAll ;
+		bFillAll = bFillAll ;
 	}
 
 	public void SetAssignCorresponding(boolean bCorr)
 	{
-		m_bMoveCorresponding = bCorr ;
+		bMoveCorresponding = bCorr ;
 	}
 	
 	public boolean ignore()
 	{
-		if (m_Value == null || m_Value.ignore())
+		if (value == null || value.ignore())
 		{
 			return true ;
 		}
 		else
 		{
 			boolean ignore = true ;
-			for (int i=0; i<m_arrRefTo.size(); i++)
+			for (int i=0; i<arrRefTo.size(); i++)
 			{
-				CDataEntity e = m_arrRefTo.get(i);
+				CDataEntity e = arrRefTo.get(i);
 				ignore &= e.ignore() ;
 			}
 			if (ignore)
@@ -115,15 +115,15 @@ public abstract class CEntityAssign extends CBaseActionEntity
 	}
 	public boolean IgnoreVariable(CDataEntity data)
 	{
-		if (m_Value == data)
+		if (value == data)
 		{
-			m_Value = null ;
+			value = null ;
 			data.UnRegisterReadingAction(this) ;
 			return true ;
 		}
 		else
 		{
-			if (m_arrRefTo.remove(data))
+			if (arrRefTo.remove(data))
 			{
 				data.UnRegisterWritingAction(this) ;
 				return true ;
@@ -133,31 +133,31 @@ public abstract class CEntityAssign extends CBaseActionEntity
 	}
 	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
 	{
-		if (m_Value == field)
+		if (value == field)
 		{
-			m_Value.UnRegisterReadingAction(this) ;
-			if (m_arrRefTo.contains(var))
+			value.UnRegisterReadingAction(this) ;
+			if (arrRefTo.contains(var))
 			{
-				m_Value = null ;
+				value = null ;
 			}
 			else
 			{
-				m_Value = var ;
+				value = var ;
 				var.RegisterReadingAction(this) ;
 			}
 			return true ;
 		} 
-		else if (m_arrRefTo.contains(field))
+		else if (arrRefTo.contains(field))
 		{
 			field.UnRegisterWritingAction(this) ;
-			if (m_Value == var || m_arrRefTo.contains(var))
+			if (value == var || arrRefTo.contains(var))
 			{
-				m_arrRefTo.remove(field);
+				arrRefTo.remove(field);
 			}
 			else
 			{
-				int n = m_arrRefTo.indexOf(field) ;
-				m_arrRefTo.set(n, var) ;
+				int n = arrRefTo.indexOf(field) ;
+				arrRefTo.set(n, var) ;
 				var.RegisterWritingAction(this) ;
 			}
 			return true ;
@@ -167,9 +167,9 @@ public abstract class CEntityAssign extends CBaseActionEntity
 
 	public CBaseActionEntity GetSpecialAssignement(String val, CBaseEntityFactory factory)
 	{
-		if (m_arrRefTo.size() == 1)
+		if (arrRefTo.size() == 1)
 		{
-			CDataEntity ref = m_arrRefTo.get(0) ;
+			CDataEntity ref = arrRefTo.get(0) ;
 			CTerminal term = new CStringTerminal(val) ;
 			CBaseActionEntity act = ref.GetSpecialAssignment(term, factory, getLine()) ;
 			return act ;
@@ -178,33 +178,33 @@ public abstract class CEntityAssign extends CBaseActionEntity
 	}
 	public CDataEntity getValueAssigned()
 	{
-		return m_Value ;
+		return value ;
 	}
 	public Vector getVarsAssigned()
 	{
-		return m_arrRefTo ;
+		return arrRefTo ;
 	}
 
 	// ==================== ST4 Template Accessors ====================
 
 	public CDataEntity getValue()
 	{
-		return m_Value;
+		return value;
 	}
 
 	public Vector<CDataEntity> getDestinations()
 	{
-		return m_arrRefTo;
+		return arrRefTo;
 	}
 
 	public boolean isFillAll()
 	{
-		return m_bFillAll;
+		return bFillAll;
 	}
 
 	public boolean isMoveCorresponding()
 	{
-		return m_bMoveCorresponding;
+		return bMoveCorresponding;
 	}
 
 }

@@ -35,22 +35,22 @@ public abstract class CEntityCICSDeleteQ extends CBaseActionEntity
 	public CEntityCICSDeleteQ(int line, CObjectCatalog cat, CBaseLanguageExporter out, boolean bPersistent)
 	{
 		super(line, cat, out);
-		m_bPersistent = bPersistent ;
+		bPersistent = bPersistent ;
 		cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
 	}
 	
 	public void SetName(CDataEntity name)
 	{
-		m_Name = name ;
+		name = name ;
 	}
 	public void SetSysID(CDataEntity sys)
 	{
-		m_SysID = sys ;
+		sysID = sys ;
 	}
 	
-	protected boolean m_bPersistent = false ;
-	protected CDataEntity m_Name = null ;
-	protected CDataEntity m_SysID = null ;
+	protected boolean bPersistent = false ;
+	protected CDataEntity name = null ;
+	protected CDataEntity sysID = null ;
 
 	public boolean ignore()
 	{
@@ -59,8 +59,8 @@ public abstract class CEntityCICSDeleteQ extends CBaseActionEntity
 	public void Clear()
 	{
 		super.Clear();
-		m_Name = null ;
-		m_SysID = null ;
+		name = null ;
+		sysID = null ;
 	}
 	
 }

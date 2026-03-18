@@ -21,28 +21,28 @@ public class OpenCalendarManager
 	
 	public OpenCalendarManager()
 	{
-		m_cacheManager = new CalendarCacheManager();
+		cacheManager = new CalendarCacheManager();
 	}
 	
 	synchronized public void setReloadCalendarFiles()
 	{
-		m_cacheManager.flush();
-		if(m_tCalendar == null)
+		cacheManager.flush();
+		if(tCalendar == null)
 			return ;
-		if(m_tCalendar[Standard] != null)
-			m_tCalendar[Standard].reloadDefinition();
-		if(m_tCalendar[Custom] != null)
-			m_tCalendar[Custom].reloadDefinition();
+		if(tCalendar[Standard] != null)
+			tCalendar[Standard].reloadDefinition();
+		if(tCalendar[Custom] != null)
+			tCalendar[Custom].reloadDefinition();
 	}
 
 	synchronized public void addCalendarDefinition(int nCalendardId, String csCalendarFilePath)
 	{
-		if(m_tCalendar == null)
-			m_tCalendar = new OpenCalendar[2]; 
+		if(tCalendar == null)
+			tCalendar = new OpenCalendar[2]; 
 
 		OpenCalendar cal = new OpenCalendar();
 		cal.loadDefinition(csCalendarFilePath);
-		m_tCalendar[nCalendardId] = cal;
+		tCalendar[nCalendardId] = cal;
 	}
 	
 	public boolean isServiceOpen()
@@ -53,17 +53,17 @@ public class OpenCalendarManager
 	
 	synchronized public CalendarOpenState getAppCustomOpenState()
 	{
-		if(m_tCalendar == null)	// No def: Always open
+		if(tCalendar == null)	// No def: Always open
 		{
-			m_cacheManager.setNoDefinition();
+			cacheManager.setNoDefinition();
 			return CalendarOpenState.AppOpened;
 		}
 		
 		// Check custom calendar
-		OpenCalendar cal = m_tCalendar[Custom];
+		OpenCalendar cal = tCalendar[Custom];
 		if(cal != null)
 		{
-			CalendarOpenState openState = cal.getOpenState(m_cacheManager, false);
+			CalendarOpenState openState = cal.getOpenState(cacheManager, false);
 			if(openState.isKnown())
 				return openState;
 		}
@@ -72,17 +72,17 @@ public class OpenCalendarManager
 	
 	synchronized public CalendarOpenState getAppStandardOpenState()
 	{
-		if(m_tCalendar == null)	// No def: Always open
+		if(tCalendar == null)	// No def: Always open
 		{
-			m_cacheManager.setNoDefinition();
+			cacheManager.setNoDefinition();
 			return CalendarOpenState.AppOpened;
 		}
 		
 		// No custom definition: See std def
-		OpenCalendar cal = m_tCalendar[Standard];
+		OpenCalendar cal = tCalendar[Standard];
 		if(cal != null)
 		{
-			CalendarOpenState openState = cal.getOpenState(m_cacheManager, false);
+			CalendarOpenState openState = cal.getOpenState(cacheManager, false);
 			if(openState.isKnown())
 				return openState;
 			return CalendarOpenState.AppClosed;	// Missign standard def are same as closed 
@@ -93,20 +93,20 @@ public class OpenCalendarManager
 	
 	synchronized public CalendarOpenState getServiceOpenState()
 	{
-		if(m_tCalendar == null)	// No def: Always open
+		if(tCalendar == null)	// No def: Always open
 		{
-			m_cacheManager.setNoDefinition();
+			cacheManager.setNoDefinition();
 			return CalendarOpenState.AppOpened;
 		}
 		
-		if(!m_cacheManager.mustCheckServiceOpenState())
-			return m_cacheManager.getCurrentState();
+		if(!cacheManager.mustCheckServiceOpenState())
+			return cacheManager.getCurrentState();
 		
 		// Check custom calendar
-		OpenCalendar cal = m_tCalendar[Custom];
+		OpenCalendar cal = tCalendar[Custom];
 		if(cal != null)
 		{
-			CalendarOpenState openState = cal.getOpenState(m_cacheManager, true);
+			CalendarOpenState openState = cal.getOpenState(cacheManager, true);
 			if(openState.isKnown())
 			{
 				return openState;
@@ -114,10 +114,10 @@ public class OpenCalendarManager
 		}
 		
 		// No custom definition: See std def
-		cal = m_tCalendar[Standard];
+		cal = tCalendar[Standard];
 		if(cal != null)
 		{
-			CalendarOpenState openState = cal.getOpenState(m_cacheManager, true);
+			CalendarOpenState openState = cal.getOpenState(cacheManager, true);
 			if(openState.isKnown())
 				return openState;
 			return CalendarOpenState.AppClosed;	// Missign standard def are same as closed 
@@ -129,14 +129,14 @@ public class OpenCalendarManager
 	
 	synchronized public String getCurrentOpenCalendarRangeString()
 	{
-		return m_cacheManager.getCurrentOpenCalendarRangeString();
+		return cacheManager.getCurrentOpenCalendarRangeString();
 	}
 	
 	public void flushCalendarCache()
 	{
-		m_cacheManager.flush();
+		cacheManager.flush();
 	}
 
-	private OpenCalendar m_tCalendar[] = null;
-	private CalendarCacheManager m_cacheManager = null; 
+	private OpenCalendar tCalendar[] = null;
+	private CalendarCacheManager cacheManager = null; 
 }

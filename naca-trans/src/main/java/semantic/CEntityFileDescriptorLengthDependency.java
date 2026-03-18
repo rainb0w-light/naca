@@ -17,8 +17,8 @@ public abstract class CEntityFileDescriptorLengthDependency extends
 				CBaseLanguageEntity
 {
 
-	protected CEntityFileDescriptor m_FileDescriptor = null ;
-	protected CDataEntity m_LenghtDep = null ;
+	protected CEntityFileDescriptor fileDescriptor = null ;
+	protected CDataEntity lenghtDep = null ;
 
 	/**
 	 * @param line
@@ -33,8 +33,8 @@ public abstract class CEntityFileDescriptorLengthDependency extends
 
 	public void setDependency(CEntityFileDescriptor desc, CDataEntity var)
 	{
-		m_FileDescriptor = desc ;
-		m_LenghtDep = var ;
+		fileDescriptor = desc ;
+		lenghtDep = var ;
 	}
 	
 

@@ -23,16 +23,16 @@ import nacaLib.varEx.*;
 
 public class CESMWriteQueue extends CJMapObject
 {
-	protected boolean m_bTransient = false ;
-	protected String m_Name = "" ;
-	protected CESMQueueManager m_Manager = null;
-	protected int m_nItemPosition = 0 ;
+	protected boolean bTransient = false ;
+	protected String name = "" ;
+	protected CESMQueueManager manager = null;
+	protected int nItemPosition = 0 ;
 	
 	public CESMWriteQueue(boolean bTransient, String name, CESMQueueManager manager)
 	{
-		m_bTransient = bTransient ;
-		m_Name = name ;
-		m_Manager = manager ;
+		bTransient = bTransient ;
+		name = name ;
+		manager = manager ;
 	}
 	
 	public CESMWriteQueue from(Var varSource, Var tsLong)
@@ -46,15 +46,15 @@ public class CESMWriteQueue extends CJMapObject
 			tsLong = varSource.getLength();
 		}
 		InternalCharBuffer charBufferCopy = varSource.exportToCharBuffer(tsLong);
-		if (m_Manager != null)
+		if (manager != null)
 		{
-			if (m_bRewrite)
+			if (bRewrite)
 			{
-				m_Manager.writeTempQueue(m_Name, charBufferCopy, m_nItemPosition - 1) ;
+				manager.writeTempQueue(name, charBufferCopy, nItemPosition - 1) ;
 			}
 			else
 			{
-				m_nItemPosition = m_Manager.writeTempQueue(m_Name, charBufferCopy) ;
+				nItemPosition = manager.writeTempQueue(name, charBufferCopy) ;
 			}
 		}
 		return this;
@@ -63,15 +63,15 @@ public class CESMWriteQueue extends CJMapObject
 	public CESMWriteQueue from(Var varSource)
 	{
 		InternalCharBuffer charBufferCopy = varSource.exportToCharBuffer();
-		if (m_Manager != null)
+		if (manager != null)
 		{
-			if (m_bRewrite)
+			if (bRewrite)
 			{
-				m_Manager.writeTempQueue(m_Name, charBufferCopy, m_nItemPosition - 1) ;
+				manager.writeTempQueue(name, charBufferCopy, nItemPosition - 1) ;
 			}
 			else
 			{
-				m_nItemPosition = m_Manager.writeTempQueue(m_Name, charBufferCopy) ;
+				nItemPosition = manager.writeTempQueue(name, charBufferCopy) ;
 			}
 		}
 		return this;
@@ -79,7 +79,7 @@ public class CESMWriteQueue extends CJMapObject
 
 	public CESMWriteQueue item(Var tsItem)
 	{
-		tsItem.set(m_nItemPosition) ;
+		tsItem.set(nItemPosition) ;
 		return this ;
 	}
 
@@ -91,11 +91,11 @@ public class CESMWriteQueue extends CJMapObject
 
 	public CESMWriteQueue rewrite(int item)
 	{
-		m_bRewrite = true ;
-		m_nItemPosition = item ;
+		bRewrite = true ;
+		nItemPosition = item ;
 		return this ;
 	}
-	protected boolean m_bRewrite = false ;
+	protected boolean bRewrite = false ;
 	/**
 	 * 
 	 */

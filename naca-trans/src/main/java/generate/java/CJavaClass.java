@@ -43,9 +43,9 @@ public class CJavaClass extends CEntityClass
 		name = CobolNameUtil.fixJavaName(name);
 		//WriteLine("package example.output ;") ;
 		WriteEOL() ;
-		for (int i=0; i<m_ProgramCatalog.getNbImportDeclaration(); i++)
+		for (int i=0; i<programCatalog.getNbImportDeclaration(); i++)
 		{
-			String cs = m_ProgramCatalog.getImportDeclaration(i) ;
+			String cs = programCatalog.getImportDeclaration(i) ;
 			if (cs.equals("MAP"))
 			{
 				WriteLine("import nacaLib.mapSupport.* ;", 0) ;
@@ -63,7 +63,7 @@ public class CJavaClass extends CEntityClass
 		WriteLine("import nacaLib.varEx.* ;", 0) ;
 		WriteEOL() ;
 		
-		CTransApplicationGroup.EProgramType eProgType = m_ProgramCatalog.getProgramType() ;
+		CTransApplicationGroup.EProgramType eProgType = programCatalog.getProgramType() ;
 		String csProgType = "" ;
 		switch(eProgType) 
 		{

@@ -19,8 +19,8 @@ public class CJavaSQLSessionDrop extends CEntitySQLSessionDrop
 
 	protected void DoExport()
 	{
-		WriteWord("sql(\"" + m_csSql + "\")");
-		String csSQLErrorWarningStatement = m_ProgramCatalog.getSQLWarningErrorStatement();
+		WriteWord("sql(\"" + csSql + "\")");
+		String csSQLErrorWarningStatement = programCatalog.getSQLWarningErrorStatement();
 		if(csSQLErrorWarningStatement != null)
 		{
 			WriteWord(csSQLErrorWarningStatement);

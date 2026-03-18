@@ -25,87 +25,87 @@ import semantic.expression.CUnitaryEntityCondition;
  */
 public abstract class CEntityIsFieldAttribute extends CUnitaryEntityCondition
 {
-	protected CDataEntity m_VarValue = null ;
+	protected CDataEntity varValue = null ;
 	public void Clear()
 	{
 		super.Clear();
-		m_VarValue = null ;
+		varValue = null ;
 	}
 	
 	public void IsAttribute(CDataEntity data, CDataEntity var)
 	{
-		m_VarValue = data ;
-		m_Reference = var ;
+		varValue = data ;
+		reference = var ;
 	}
 	public void IsAutoSkip()
 	{
-		m_bIsAutoSkip = true ;		
-		m_nbConditions ++ ;		
+		bIsAutoSkip = true ;		
+		nbConditions ++ ;		
 	}
-	protected boolean m_bIsAutoSkip = false ;
+	protected boolean bIsAutoSkip = false ;
 
 	public void IsBright()
 	{
-		m_bIsBright = true ;		
-		m_nbConditions ++ ;		
+		bIsBright = true ;		
+		nbConditions ++ ;		
 	}
-	protected boolean m_bIsBright = false ;
+	protected boolean bIsBright = false ;
 
 	public void IsNumeric()
 	{
-		m_bIsNumeric = true ;		
-		m_nbConditions ++ ;		
+		bIsNumeric = true ;		
+		nbConditions ++ ;		
 	}
-	protected boolean m_bIsNumeric = false ;
+	protected boolean bIsNumeric = false ;
 
 	public void IsProtected()
 	{
-		m_bIsProtected = true;		
-		m_nbConditions ++ ;		
+		bIsProtected = true;		
+		nbConditions ++ ;		
 	}
-	protected boolean m_bIsProtected = false ;
+	protected boolean bIsProtected = false ;
 
 	public void IsUnprotected()
 	{
-		m_bIsUnprotected = true ;		
-		m_nbConditions ++ ;		
+		bIsUnprotected = true ;		
+		nbConditions ++ ;		
 	}
-	protected boolean m_bIsUnprotected = false ;
+	protected boolean bIsUnprotected = false ;
 
 	public void IsModified()
 	{
-		m_bIsModified = true ;		
-		m_nbConditions ++ ;		
+		bIsModified = true ;		
+		nbConditions ++ ;		
 	}
 	public void IsUnmodified()
 	{
-		m_bIsUnmodified = true ;		
-		m_nbConditions ++ ;		
+		bIsUnmodified = true ;		
+		nbConditions ++ ;		
 	}
 	public void IsCleared()
 	{
-		m_bIsCleared = true ;		
-		m_nbConditions ++ ;		
+		bIsCleared = true ;		
+		nbConditions ++ ;		
 	}
-	protected boolean m_bIsModified = false ;
-	protected boolean m_bIsUnmodified = false ;		
-	protected boolean m_bIsCleared = false ;
+	protected boolean bIsModified = false ;
+	protected boolean bIsUnmodified = false ;		
+	protected boolean bIsCleared = false ;
 	
 	public void IsDark()
 	{
-		m_bIsDark = true ;
-		m_nbConditions ++ ;		
+		bIsDark = true ;
+		nbConditions ++ ;		
 	}
-	protected boolean m_bIsDark = false ;
-	protected int m_nbConditions = 0;
+	protected boolean bIsDark = false ;
+	protected int nbConditions = 0;
 
 	public void SetVariable(CDataEntity field)
 	{
-		m_Reference = field ;		
+		reference = field ;		
 	}
 	public boolean ignore()
 	{
-		return m_Reference.ignore() ;
+		return reference.ignore() ;
 	}
 
 	/* (non-Javadoc)
@@ -113,8 +113,8 @@ public abstract class CEntityIsFieldAttribute extends CUnitaryEntityCondition
 	 */
 	public CBaseEntityCondition GetSpecialConditionReplacing(String val, CBaseEntityFactory fact, CDataEntity replace)
 	{
-		CBaseEntityCondition cond = m_Reference.GetSpecialCondition(getLine(), val, EConditionType.IS_FIELD_ATTRIBUTE, fact);
-		if (m_bOpposite && cond!=null)
+		CBaseEntityCondition cond = reference.GetSpecialCondition(getLine(), val, EConditionType.IS_FIELD_ATTRIBUTE, fact);
+		if (bOpposite && cond!=null)
 		{
 			return cond.GetOppositeCondition() ;
 		}
@@ -122,16 +122,16 @@ public abstract class CEntityIsFieldAttribute extends CUnitaryEntityCondition
 	}
 	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
 	{
-		if (m_Reference == field)
+		if (reference == field)
 		{
 			field.UnRegisterVarTesting(this) ;
 			var.RegisterVarTesting(this) ;
-			m_Reference = var ;
+			reference = var ;
 			return true ;
 		}
-		if (m_VarValue == field)
+		if (varValue == field)
 		{
-			m_VarValue = var ;
+			varValue = var ;
 			field.UnRegisterValueAccess(this) ;
 			var.RegisterValueAccess(this) ;
 			return true ;
@@ -141,9 +141,9 @@ public abstract class CEntityIsFieldAttribute extends CUnitaryEntityCondition
 	
 	protected void SetOpposite()
 	{
-		m_bOpposite = !m_bOpposite ;
+		bOpposite = !bOpposite ;
 	}
-	protected boolean m_bOpposite = false ;
+	protected boolean bOpposite = false ;
 	public boolean isBinaryCondition()
 	{
 		return true;

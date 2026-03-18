@@ -31,7 +31,7 @@ public abstract class CEntityComment extends CBaseLanguageEntity
 	public CEntityComment(int l, CObjectCatalog cat, CBaseLanguageExporter out, String comment)
 	{
 		super(l, "", cat, out);
-		m_csComment = comment;
+		csComment = comment;
 	}
 
 	/* (non-Javadoc)
@@ -42,7 +42,7 @@ public abstract class CEntityComment extends CBaseLanguageEntity
 		// NOTHING
 	}
 
-	protected String m_csComment = "" ;
+	protected String csComment = "" ;
 	public boolean ignore()
 	{
 		return false; 
@@ -60,7 +60,7 @@ public abstract class CEntityComment extends CBaseLanguageEntity
 	
 	public String getOriginalComment()
 	{
-		return m_csComment.replaceAll("\n", "0x000A").replaceAll("\r", "0x000D") ;
+		return csComment.replaceAll("\n", "0x000A").replaceAll("\r", "0x000D") ;
 	}
 
 }

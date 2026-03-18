@@ -26,36 +26,36 @@ import jlib.sql.SQLClause;
  */
 public class RecordId extends ColValueCollection
 {
-	private String m_csName = null;	// Unique name of a record within a table, within a SQLMapper instance
-	private ArrayList<OrderSegment> m_arrOrderBy = null;	// Array of the column for generating the order by statement
-	private String m_csWhereExpression = null;				// Specific where expression 
+	private String csName = null;	// Unique name of a record within a table, within a SQLMapper instance
+	private ArrayList<OrderSegment> arrOrderBy = null;	// Array of the column for generating the order by statement
+	private String csWhereExpression = null;				// Specific where expression 
 
 	public RecordId(int nName)
 	{
 		super();
-		m_csName = "" + nName;		
+		csName = "" + nName;		
 	}
 	
 	public RecordId(String csName)
 	{
 		super();
-		m_csName = csName;		
+		csName = csName;		
 	}
 	
 	public RecordId(StringBuffer sbName)
 	{
-		m_csName = sbName.toString();
+		csName = sbName.toString();
 	}
 	
 	public String getName()
 	{
-		return m_csName; 
+		return csName; 
 	}
 	
 	public String toString()
 	{
 		StringBuilder sb = new StringBuilder();
-		sb.append("Record name: "+ m_csName + "\rKey segments:" + super.toString());		
+		sb.append("Record name: "+ csName + "\rKey segments:" + super.toString());		
 		
 		return sb.toString();		
 	}
@@ -63,7 +63,7 @@ public class RecordId extends ColValueCollection
 	boolean hasName(RecordId recordId)	// Sematic comparison
 	{
 		if(recordId != null)
-			if(recordId.m_csName.equalsIgnoreCase(m_csName))
+			if(recordId.csName.equalsIgnoreCase(csName))
 				return true;
 		return false;
 	}
@@ -71,24 +71,24 @@ public class RecordId extends ColValueCollection
 	public RecordId orderByAscending(String csName)
 	{
 		OrderSegment orderBy = new OrderSegmentAscending(csName);
-		if(m_arrOrderBy == null)
-			m_arrOrderBy = new ArrayList<OrderSegment>();
-		m_arrOrderBy.add(orderBy);
+		if(arrOrderBy == null)
+			arrOrderBy = new ArrayList<OrderSegment>();
+		arrOrderBy.add(orderBy);
 		return this;
 	}
 	
 	public RecordId orderByDescending(String csName)
 	{
 		OrderSegment orderBy = new OrderSegmentDescending(csName);  
-		if(m_arrOrderBy == null)
-			m_arrOrderBy = new ArrayList<OrderSegment>();
-		m_arrOrderBy.add(orderBy);
+		if(arrOrderBy == null)
+			arrOrderBy = new ArrayList<OrderSegment>();
+		arrOrderBy.add(orderBy);
 		return this;
 	}
 	
 	public RecordId setWhereExpression(String csWhereExpression)
 	{
-		m_csWhereExpression = csWhereExpression;
+		csWhereExpression = csWhereExpression;
 		return this;
 	}
 	
@@ -142,10 +142,10 @@ public class RecordId extends ColValueCollection
 
 	void buildWhereClauseAndMapParams(StringBuilder sbClause, SQLClause clause)
 	{
-		if(m_csWhereExpression != null)	// We specified a custom where expression
+		if(csWhereExpression != null)	// We specified a custom where expression
 		{
 			ArrayList<String> arrItemNames = new ArrayList<String>(); 
-			String csQueryUpper = findAndUpdateMarkers(m_csWhereExpression, arrItemNames);
+			String csQueryUpper = findAndUpdateMarkers(csWhereExpression, arrItemNames);
 			sbClause.append(" where " + csQueryUpper);
 			
 			clause.set(sbClause.toString());
@@ -169,15 +169,15 @@ public class RecordId extends ColValueCollection
 				sbClause.append(col.getName() + "=? ");
 			}
 			
-			if(m_arrOrderBy != null)
+			if(arrOrderBy != null)
 			{
 				sbClause.append(" order by ");
-				for(int n=0; n<m_arrOrderBy.size(); n++)
+				for(int n=0; n<arrOrderBy.size(); n++)
 				{
 					if(n != 0)
 						sbClause.append(" and ");
 					
-					OrderSegment orderBy = m_arrOrderBy.get(n);
+					OrderSegment orderBy = arrOrderBy.get(n);
 					String csOrderBy = orderBy.getAsString();
 					sbClause.append(csOrderBy);
 				}

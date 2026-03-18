@@ -34,21 +34,21 @@ public class CFPacOutputFile extends CFPacElement
 		super(line);
 	}
 
-	protected String m_csFileId = "";
-	protected boolean m_bVariableFile = false; 
-	private CTerminal m_CLR;
-	private boolean m_bPFFile = false ;
-	private boolean m_bCDFile = false ; 
+	protected String csFileId = "";
+	protected boolean bVariableFile = false; 
+	private CTerminal cLR;
+	private boolean bPFFile = false ;
+	private boolean bCDFile = false ; 
 
 	@Override
 	protected boolean DoParsing()
 	{
 		CBaseToken tok = GetCurrentToken();
 		if (tok.GetKeyword() == CFPacKeywordList.OPF)
-			m_csFileId = "" ;
-		else if (tok.GetKeyword().m_Name.startsWith("OPF"))
+			csFileId = "" ;
+		else if (tok.GetKeyword().name.startsWith("OPF"))
 		{
-			m_csFileId = tok.GetKeyword().m_Name.substring(3); 
+			csFileId = tok.GetKeyword().name.substring(3); 
 		}
 		else
 		{
@@ -65,7 +65,7 @@ public class CFPacOutputFile extends CFPacElement
 		tok = GetNext() ;
 		if (tok.GetKeyword() == CFPacKeywordList.SQ)
 		{
-			m_bVariableFile = false ;
+			bVariableFile = false ;
 			tok = GetNext() ;
 			if (tok.GetType() == CTokenType.MINUS)
 			{
@@ -73,7 +73,7 @@ public class CFPacOutputFile extends CFPacElement
 				if (tok.GetKeyword() == CFPacKeywordList.VAR)
 				{
 					tok =GetNext() ;
-					m_bVariableFile = true ;
+					bVariableFile = true ;
 				}
 				else
 				{
@@ -83,12 +83,12 @@ public class CFPacOutputFile extends CFPacElement
 		}
 		else if (tok.GetKeyword() == CFPacKeywordList.PR)
 		{
-			m_bPFFile  = true ;
+			bPFFile  = true ;
 			tok = GetNext() ;
 		}
 		else if (tok.GetKeyword() == CFPacKeywordList.CD)
 		{
-			m_bCDFile   = true ;
+			bCDFile   = true ;
 			tok = GetNext() ;
 		}
 		else
@@ -106,7 +106,7 @@ public class CFPacOutputFile extends CFPacElement
 				if (tok.GetType() == CTokenType.EQUALS) 
 				{
 					tok = GetNext() ;
-					m_CLR = ReadTerminal() ;
+					cLR = ReadTerminal() ;
 				}
 				else
 				{
@@ -116,7 +116,7 @@ public class CFPacOutputFile extends CFPacElement
 			}
 			else if (tok.GetType() == CTokenType.NUMBER)
 			{
-				m_arrNumbers.add(tok.GetValue()) ;
+				arrNumbers.add(tok.GetValue()) ;
 				tok = GetNext();
 			}
 			else
@@ -129,36 +129,36 @@ public class CFPacOutputFile extends CFPacElement
 		
 	}
 	
-	protected Vector<String> m_arrNumbers = new Vector<String>() ;
+	protected Vector<String> arrNumbers = new Vector<String>() ;
 
 	@Override
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		if (m_bPFFile)
+		if (bPFFile)
 		{
 			Transcoder.logError(getLine(), "PR file not supported yet") ;
 		}
-		if (m_bCDFile)
+		if (bCDFile)
 		{
 			Transcoder.logError(getLine(), "CD file not supported yet") ;
 		}
-		String csDescName = "OPF"+m_csFileId ;
-		String csDescAlias = "O"+m_csFileId ;
-		if (m_csFileId.equals(""))
+		String csDescName = "OPF"+csFileId ;
+		String csDescAlias = "O"+csFileId ;
+		if (csFileId.equals(""))
 		{
 			csDescName = "OPF";
 			csDescAlias = "O0" ;
 		}
 		CEntityFileDescriptor att = factory.NewEntityFileDescriptor(getLine(), csDescName) ;
-		factory.m_ProgramCatalog.RegisterFileDescriptor(csDescAlias, att) ;
-		factory.m_ProgramCatalog.RegisterFileDescriptor(csDescName, att) ;
+		factory.programCatalog.RegisterFileDescriptor(csDescAlias, att) ;
+		factory.programCatalog.RegisterFileDescriptor(csDescName, att) ;
 
 		att.setFileAccessType(CEntityOpenFile.OpenMode.OUTPUT) ;
-		att.setRecordSizeVariable(m_bVariableFile) ;
+		att.setRecordSizeVariable(bVariableFile) ;
 		
-		if (m_CLR != null)
+		if (cLR != null)
 		{
-			CDataEntity e = m_CLR.GetDataEntity(getLine(), factory) ;
+			CDataEntity e = cLR.GetDataEntity(getLine(), factory) ;
 			if (e != null)
 			{
 				att.setOutputBufferInitialValue(e) ;
@@ -169,7 +169,7 @@ public class CFPacOutputFile extends CFPacElement
 		NotifRegisterOutputFile notif = new NotifRegisterOutputFile() ;
 		notif.id = csDescAlias ;
 		notif.fileBuffer = buff ;
-		factory.m_ProgramCatalog.SendNotifRequest(notif) ;
+		factory.programCatalog.SendNotifRequest(notif) ;
 		
 		parent.AddChild(att) ;
 		return att ;
@@ -179,15 +179,15 @@ public class CFPacOutputFile extends CFPacElement
 	protected Element ExportCustom(Document root)
 	{
 		Element eAdd = root.createElement("OutputFile") ;
-		eAdd.setAttribute("FileId", m_csFileId) ;
-		eAdd.setAttribute("Var", String.valueOf(m_bVariableFile)) ;
-		if (m_CLR != null)
+		eAdd.setAttribute("FileId", csFileId) ;
+		eAdd.setAttribute("Var", String.valueOf(bVariableFile)) ;
+		if (cLR != null)
 		{
 			Element eCLR = root.createElement("CLR") ;
-			m_CLR.ExportTo(eCLR, root) ;
+			cLR.ExportTo(eCLR, root) ;
 			eAdd.appendChild(eCLR) ;
 		}
-		for (String cs: m_arrNumbers)
+		for (String cs: arrNumbers)
 		{
 			Element e = root.createElement("Number") ;
 			eAdd.appendChild(e) ;

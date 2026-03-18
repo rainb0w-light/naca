@@ -18,24 +18,24 @@ public class InitializeCachedItemCharsArray extends InitializeCachedItem
 {
 	InitializeCachedItemCharsArray(char tChars[], int nPosition)
 	{
-		m_tChars = tChars;
-		m_nTemplatePosition = nPosition;
+		tChars = tChars;
+		nTemplatePosition = nPosition;
 	}
 	
 	void apply(int nBaseAbsolutePosition, VarBufferPos varBufferPos, int nCurrentAbsolutePosition)	//, int nOffset)
 	{
-		int nSize = m_tChars.length;
+		int nSize = tChars.length;
 		//int nPosDest = nOffset + nCurrentAbsolutePosition;
 		
-		int nOffsetOrigin = m_nTemplatePosition - nBaseAbsolutePosition;
+		int nOffsetOrigin = nTemplatePosition - nBaseAbsolutePosition;
 		nCurrentAbsolutePosition += nOffsetOrigin; 
 		
 		for(int n=0; n<nSize; n++, nCurrentAbsolutePosition++)
 		{
-			varBufferPos.m_acBuffer[nCurrentAbsolutePosition] = m_tChars[n]; 
+			varBufferPos.acBuffer[nCurrentAbsolutePosition] = tChars[n]; 
 		}
 	}
 	
-	private char [] m_tChars;
-	private int m_nTemplatePosition = 0;
+	private char [] tChars;
+	private int nTemplatePosition = 0;
 }

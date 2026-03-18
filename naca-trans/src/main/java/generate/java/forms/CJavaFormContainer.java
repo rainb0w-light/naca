@@ -50,13 +50,13 @@ public class CJavaFormContainer extends CEntityResourceFormContainer
 //		Element eForms = GetXMLOutput().CreateRoot("Forms") ;
 //		eForms.setAttribute("Name", GetName()) ;
 //		
-//		for (int i=0; i<m_arrForm.size(); i++)
+//		for (int i=0; i<arrForm.size(); i++)
 //		{
-//			CEntityResourceForm e = (CEntityResourceForm)m_arrForm.get(i) ;
+//			CEntityResourceForm e = (CEntityResourceForm)arrForm.get(i) ;
 //			Element el = e.DoXMLExport() ;
 //			eForms.appendChild(el) ;
 //		}
-//		Element eStrings = m_resStrings.Export(eForms, GetXMLOutput().GetDocument()) ;
+//		Element eStrings = resStrings.Export(eForms, GetXMLOutput().GetDocument()) ;
 //		return eForms ;
 //	}
 	public String ExportReference(int nLine)
@@ -72,7 +72,7 @@ public class CJavaFormContainer extends CEntityResourceFormContainer
 	protected void DoExport()
 	{
 		String name = GetName();
-//		if (!m_bSaveCopy)
+//		if (!bSaveCopy)
 //		{
 			WriteEOL() ;
 			WriteLine("import nacaLib.mapSupport.* ;") ;
@@ -125,10 +125,10 @@ public class CJavaFormContainer extends CEntityResourceFormContainer
 //			WriteEOL();
 //		} 
 
-		int nbForms = m_arrForm.size() ;
+		int nbForms = arrForm.size() ;
 		for (int i=0; i<nbForms; i++)
 		{
-			CEntityResourceForm eForm = m_arrForm.get(i) ;
+			CEntityResourceForm eForm = arrForm.get(i) ;
 			DoExport(eForm) ;
 //			String formname = FormatIdentifier(eForm.GetName()) ;
 ////			String sizeCol = eForm.getAttribute("SizeCol");
@@ -162,9 +162,9 @@ public class CJavaFormContainer extends CEntityResourceFormContainer
 		WriteLine("}") ;
 		WriteLine("");
 		WriteLine("");
-//		if (m_SavCopy != null)
+//		if (savCopy != null)
 //		{
-//			m_SavCopy.StartExport() ;
+//			savCopy.StartExport() ;
 //		}
 	}
 	public boolean IsNeedDeclarationInClass()
@@ -195,9 +195,9 @@ public class CJavaFormContainer extends CEntityResourceFormContainer
 	 */
 	public String GetTypeDecl()
 	{
-		if (m_Owner != null)
+		if (owner != null)
 		{// these are class names, not identifiers, so DO NOT FORMAT like others identifiers
-			return m_Owner.GetTypeDecl() + "." + GetName().replace('-', '_'); 
+			return owner.GetTypeDecl() + "." + GetName().replace('-', '_'); 
 		}
 		else
 		{

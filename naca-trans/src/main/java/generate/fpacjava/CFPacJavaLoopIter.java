@@ -34,24 +34,24 @@ public class CFPacJavaLoopIter extends CEntityLoopIter
 	@Override
 	protected void DoExport()
 	{
-		if (m_bTestBefore)
+		if (bTestBefore)
 		{
-			String cs = "for (" + m_Variable.ExportReference(getLine()) + "=" + m_InitialValue.ExportReference(getLine()) + "; " ;
+			String cs = "for (" + variable.ExportReference(getLine()) + "=" + initialValue.ExportReference(getLine()) + "; " ;
 			WriteWord(cs);
-			WriteWord(m_WhileCondition.Export() + "; ") ;
+			WriteWord(whileCondition.Export() + "; ") ;
 		
-			cs = m_Variable.ExportReference(getLine()) ;
-			if (m_Increment != null)
+			cs = variable.ExportReference(getLine()) ;
+			if (increment != null)
 			{
-				cs += "+=" + m_Increment.ExportReference(getLine()) ;
+				cs += "+=" + increment.ExportReference(getLine()) ;
 			}
 			else
 			{
-				if(m_bIncrementByOne)
+				if(bIncrementByOne)
 				{
 					cs += "++" ;
 				}
-				else if(m_bDecrementByOne)
+				else if(bDecrementByOne)
 				{
 					cs += "--" ;
 				}

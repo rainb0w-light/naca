@@ -37,33 +37,33 @@ public class CJavaEntityNumber extends CEntityNumber
 	}
 	public String ExportReference(int nLine)
 	{
-		int n = m_csValue.indexOf('.');
+		int n = csValue.indexOf('.');
 		if (n == -1)
 		{
 			try
 			{
-				String out =String.valueOf(Integer.parseInt(m_csValue)) ; 
+				String out =String.valueOf(Integer.parseInt(csValue)) ; 
 				return out ;
 			}
 			catch (NumberFormatException ex)
 			{
 				try
 				{
-					String out = String.valueOf(Long.parseLong(m_csValue)) ;
+					String out = String.valueOf(Long.parseLong(csValue)) ;
 					return out+"L" ;
 				}
 				catch (NumberFormatException ex2)
 				{
-					return  m_csValue ;
+					return  csValue ;
 				}
 			}
 		}
 		else
 		{
 			// CV : this next line is used to export doubles numbers as strings.
-			return "\"" + m_csValue + "\"" ;
-//			String in = m_csValue.substring(0, n);
-//			String dec = m_csValue.substring(n+1);
+			return "\"" + csValue + "\"" ;
+//			String in = csValue.substring(0, n);
+//			String dec = csValue.substring(n+1);
 //			try
 //			{
 //				String out = String.valueOf(Integer.parseInt(in)) + "." +  dec ;
@@ -86,7 +86,7 @@ public class CJavaEntityNumber extends CEntityNumber
 	}
 	public String GetConstantValue()
 	{
-		return m_csValue ;
+		return csValue ;
 	} 	 
 	public boolean isValNeeded()
 	{

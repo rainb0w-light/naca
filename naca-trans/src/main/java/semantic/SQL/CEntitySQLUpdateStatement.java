@@ -23,18 +23,18 @@ public abstract class CEntitySQLUpdateStatement extends CBaseActionEntity
 	public CEntitySQLUpdateStatement(int line, CObjectCatalog cat, CBaseLanguageExporter out, String csStatement, Vector<CDataEntity> arrSets, Vector<CDataEntity> arrParameters)
 	{
 		super(line, cat, out);
-		m_csStatement = csStatement ;
-		m_arrSets = arrSets;
-		m_arrParameters = arrParameters;		
+		csStatement = csStatement ;
+		arrSets = arrSets;
+		arrParameters = arrParameters;		
 	}
-	protected String m_csStatement = "" ;
-	protected Vector<CDataEntity> m_arrSets = null;
-	protected Vector<CDataEntity> m_arrParameters = null;	
+	protected String csStatement = "" ;
+	protected Vector<CDataEntity> arrSets = null;
+	protected Vector<CDataEntity> arrParameters = null;	
 	public void Clear()
 	{
 		super.Clear();
-		m_arrSets.clear() ;
-		m_arrParameters.clear() ;
+		arrSets.clear() ;
+		arrParameters.clear() ;
 	}
 	public boolean ignore()
 	{
@@ -42,19 +42,19 @@ public abstract class CEntitySQLUpdateStatement extends CBaseActionEntity
 	}
 	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
 	{
-		int n = m_arrParameters.indexOf(field);
+		int n = arrParameters.indexOf(field);
 		if (n>=0)
 		{
-			m_arrParameters.get(n).UnRegisterReadingAction(this) ;
-			m_arrParameters.set(n, var);
+			arrParameters.get(n).UnRegisterReadingAction(this) ;
+			arrParameters.set(n, var);
 			var.RegisterReadingAction(this) ;
 			return true ;
 		}
-		n = m_arrSets.indexOf(field);
+		n = arrSets.indexOf(field);
 		if (n>=0)
 		{
-			m_arrSets.get(n).UnRegisterReadingAction(this) ;
-			m_arrSets.set(n, var);
+			arrSets.get(n).UnRegisterReadingAction(this) ;
+			arrSets.set(n, var);
 			var.RegisterReadingAction(this) ;
 			return true ;
 		}
@@ -65,7 +65,7 @@ public abstract class CEntitySQLUpdateStatement extends CBaseActionEntity
 	 */
 	public void setCursor(CEntitySQLCursor cur)
 	{
-		m_Cursor = cur ;
+		cursor = cur ;
 	}
-	protected CEntitySQLCursor m_Cursor = null ;
+	protected CEntitySQLCursor cursor = null ;
 }

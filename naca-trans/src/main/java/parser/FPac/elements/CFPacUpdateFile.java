@@ -42,19 +42,19 @@ public class CFPacUpdateFile extends CFPacElement
 		super(line);
 	}
 
-	protected int m_ulFileId = 0;
-	protected boolean m_bVariableFile = false; 
-	private CTerminal m_CLR; 
+	protected int ulFileId = 0;
+	protected boolean bVariableFile = false; 
+	private CTerminal cLR; 
 
 	@Override
 	protected boolean DoParsing()
 	{
 		CBaseToken tok = GetCurrentToken();
 		if (tok.GetKeyword() == CFPacKeywordList.UPF)
-			m_ulFileId = 0 ;
-		else if (tok.GetKeyword().m_Name.startsWith("UPF"))
+			ulFileId = 0 ;
+		else if (tok.GetKeyword().name.startsWith("UPF"))
 		{
-			m_ulFileId = NumberParser.getAsInt(tok.GetKeyword().m_Name.substring(3)); 
+			ulFileId = NumberParser.getAsInt(tok.GetKeyword().name.substring(3)); 
 		}
 		else
 		{
@@ -71,7 +71,7 @@ public class CFPacUpdateFile extends CFPacElement
 		tok = GetNext() ;
 		if (tok.GetKeyword() == CFPacKeywordList.SQ)
 		{
-			m_bVariableFile = false ;
+			bVariableFile = false ;
 			tok = GetNext() ;
 			if (tok.GetType() == CTokenType.MINUS)
 			{
@@ -79,7 +79,7 @@ public class CFPacUpdateFile extends CFPacElement
 				if (tok.GetKeyword() == CFPacKeywordList.VAR)
 				{
 					tok =GetNext() ;
-					m_bVariableFile = true ;
+					bVariableFile = true ;
 				}
 				else
 				{
@@ -102,7 +102,7 @@ public class CFPacUpdateFile extends CFPacElement
 				if (tok.GetType() == CTokenType.EQUALS) 
 				{
 					tok = GetNext() ;
-					m_CLR = ReadTerminal() ;
+					cLR = ReadTerminal() ;
 				}
 				else
 				{
@@ -112,7 +112,7 @@ public class CFPacUpdateFile extends CFPacElement
 			}
 			else if (tok.GetType() == CTokenType.NUMBER)
 			{
-				m_arrNumbers.add(tok.GetValue()) ;
+				arrNumbers.add(tok.GetValue()) ;
 				tok = GetNext();
 			}
 			else
@@ -125,29 +125,29 @@ public class CFPacUpdateFile extends CFPacElement
 		
 	}
 	
-	protected Vector<String> m_arrNumbers = new Vector<String>() ;
+	protected Vector<String> arrNumbers = new Vector<String>() ;
 
 	@Override
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		String csDescName = "UPF"+m_ulFileId ;
-		String csDescAlias = "U"+m_ulFileId ;
-		if (m_ulFileId == 0)
+		String csDescName = "UPF"+ulFileId ;
+		String csDescAlias = "U"+ulFileId ;
+		if (ulFileId == 0)
 		{
 			csDescName = "UPF";
 			csDescAlias = "U0" ;
 		}
 		CEntityFileDescriptor att = factory.NewEntityFileDescriptor(getLine(), csDescName) ;
-		factory.m_ProgramCatalog.RegisterFileDescriptor(csDescAlias, att) ;
+		factory.programCatalog.RegisterFileDescriptor(csDescAlias, att) ;
 
 		att.setFileAccessType(CEntityOpenFile.OpenMode.INPUT_OUTPUT) ;
-		att.setRecordSizeVariable(m_bVariableFile) ;
+		att.setRecordSizeVariable(bVariableFile) ;
 		
 		CEntityFileBuffer buff = factory.NewEntityFileBuffer(csDescAlias, att) ;
 		NotifRegisterUpdateFile notif = new NotifRegisterUpdateFile() ;
 		notif.id = csDescAlias ;
 		notif.fileBuffer = buff ;
-		factory.m_ProgramCatalog.SendNotifRequest(notif) ;
+		factory.programCatalog.SendNotifRequest(notif) ;
 		
 		parent.AddChild(att) ;
 		return att ;
@@ -157,15 +157,15 @@ public class CFPacUpdateFile extends CFPacElement
 	protected Element ExportCustom(Document root)
 	{
 		Element eAdd = root.createElement("UpdateFile") ;
-		eAdd.setAttribute("FileId", String.valueOf(m_ulFileId)) ;
-		eAdd.setAttribute("Var", String.valueOf(m_bVariableFile)) ;
-		if (m_CLR != null)
+		eAdd.setAttribute("FileId", String.valueOf(ulFileId)) ;
+		eAdd.setAttribute("Var", String.valueOf(bVariableFile)) ;
+		if (cLR != null)
 		{
 			Element eCLR = root.createElement("CLR") ;
-			m_CLR.ExportTo(eCLR, root) ;
+			cLR.ExportTo(eCLR, root) ;
 			eAdd.appendChild(eCLR) ;
 		}
-		for (String cs: m_arrNumbers)
+		for (String cs: arrNumbers)
 		{
 			Element e = root.createElement("Number") ;
 			eAdd.appendChild(e) ;

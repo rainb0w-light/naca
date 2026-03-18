@@ -32,20 +32,20 @@ public class SQLCursorFetch
 //	}	
 	public SQLCursorFetch(boolean bOpen, SQL sql)
 	{
-		m_bOpen = bOpen;
-		m_SQL = sql;
+		bOpen = bOpen;
+		sQL = sql;
 	}
 	
 //	public SQLCursorFetch fetch()
 //	{
-//		//if(m_bOpen && m_SQL != null)
+//		//if(bOpen && sQL != null)
 //		{
 //			// PJD ROWID Support:
 //			/*
-//			if(m_SQL.hasRowIdGenerated())
+//			if(sQL.hasRowIdGenerated())
 //			{
-//				m_sqlItemRowId = new CSQLIntoItem();	
-//				m_SQL.into(m_sqlItemRowId);
+//				sqlItemRowId = new CSQLIntoItem();	
+//				sQL.into(sqlItemRowId);
 //			}
 //			*/
 //		}
@@ -55,42 +55,42 @@ public class SQLCursorFetch
 
 	public SQLCursorFetch into(VarAndEdit varInto)
 	{
-		if(m_bOpen && m_SQL != null)
+		if(bOpen && sQL != null)
 		{
-			m_SQL.into(varInto, null);
+			sQL.into(varInto, null);
 		}	
 		return this;
 	}
 	
 	public SQLCursorFetch into(Var varInto, Var varIndicator)
 	{
-		if(m_bOpen && m_SQL != null)
-			m_SQL.into(varInto, varIndicator);
+		if(bOpen && sQL != null)
+			sQL.into(varInto, varIndicator);
 		return this;
 	}
 	
 //	public String getCursorName()	// use for updatable cusrot that use Cursor Name
 //	{
-//		if(m_SQL != null)
-//			return m_SQL.getCursorName();
+//		if(sQL != null)
+//			return sQL.getCursorName();
 //		return null;
 //	}
 	
 	public SQLCursorFetch onErrorGoto(Paragraph paragraphSQGErrorGoto)
 	{
-		m_SQL.onErrorGoto(paragraphSQGErrorGoto);
+		sQL.onErrorGoto(paragraphSQGErrorGoto);
 		return this;
 	}
 	
 	public SQLCursorFetch onErrorGoto(Section section)
 	{
-		m_SQL.onErrorGoto(section);
+		sQL.onErrorGoto(section);
 		return this;
 	}
 	
 	public SQLCursorFetch onErrorContinue()
 	{
-		m_SQL.onErrorContinue();
+		sQL.onErrorContinue();
 		return this;
 	}
 	public SQLCursorFetch onWarningGoto(Paragraph paragraphSQGErrorGoto)
@@ -116,14 +116,14 @@ public class SQLCursorFetch
 	/*
 	public ROWID getCurrentRowId()
 	{
-		if(m_sqlItemRowId != null)
-			return m_sqlItemRowId.getRowId();
+		if(sqlItemRowId != null)
+			return sqlItemRowId.getRowId();
 		return null;
 	}
 	*/
 	
-	// PJD ROWID Support:private CSQLIntoItem m_sqlItemRowId = null;	// Used for updatable cursor that use RowId
-	//protected SQL m_SQL = null;
-	private boolean m_bOpen = false;
-	public /*must be private */SQL m_SQL = null;
+	// PJD ROWID Support:private CSQLIntoItem sqlItemRowId = null;	// Used for updatable cursor that use RowId
+	//protected SQL sQL = null;
+	private boolean bOpen = false;
+	public /*must be private */SQL sQL = null;
 }

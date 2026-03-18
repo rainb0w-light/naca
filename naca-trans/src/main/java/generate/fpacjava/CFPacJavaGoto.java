@@ -22,7 +22,7 @@ public class CFPacJavaGoto extends CEntityGoto
 	@Override
 	protected void DoExport()
 	{
-		WriteLine("return " + m_Reference.getProcedureName() + " ;") ;
+		WriteLine("return " + reference.getProcedureName() + " ;") ;
 	}
 
 }

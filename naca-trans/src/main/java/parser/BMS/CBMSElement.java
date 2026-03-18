@@ -51,17 +51,17 @@ public abstract class CBMSElement extends CBaseElement
 	protected CBMSElement(String name, int line)
 	{
 		super(line) ;
-		m_Name = name ;
+		name = name ;
 	}
 
 	public String getName()
 	{
-		return m_Name ;
+		return name ;
 	}
 	
 	protected void setName(String cs)
 	{
-		m_Name = cs;
+		name = cs;
 	}
 
 	public void AddElement(CBMSElement e)
@@ -73,7 +73,7 @@ public abstract class CBMSElement extends CBaseElement
 	protected Element ExportCustom(Document root)
 	{
 		Element e = DoExportCustom(root);
-		e.setAttribute("Name", m_Name) ;
+		e.setAttribute("Name", name) ;
 		return e ;
 	}
 
@@ -84,25 +84,25 @@ public abstract class CBMSElement extends CBaseElement
 		boolean bDone = false ;
 		while (!bDone)
 		{
-			CBaseToken tokMapSet = m_lstTokens.GetCurrentToken() ;
+			CBaseToken tokMapSet = lstTokens.GetCurrentToken() ;
 			if (tokMapSet.GetType() == CTokenType.KEYWORD)
 			{
-				CBaseToken tokNext = m_lstTokens.GetNext() ;
+				CBaseToken tokNext = lstTokens.GetNext() ;
 				if (tokNext.GetType() != CTokenType.EQUALS)
 				{
 					Transcoder.logError(getLine(), "Expecting EQUALS after " + tokMapSet.GetValue());
 					return false ;
 				}
-				m_lstTokens.GetNext() ;
-				if (!InterpretKeyword(tokMapSet.GetKeyword(), m_lstTokens))
+				lstTokens.GetNext() ;
+				if (!InterpretKeyword(tokMapSet.GetKeyword(), lstTokens))
 				{
 					Transcoder.logError(getLine(), "Problem parsing keyword : " + tokMapSet.GetValue());
 					return false ;
 				}
-				tokNext = m_lstTokens.GetCurrentToken() ;
+				tokNext = lstTokens.GetCurrentToken() ;
 				if (tokNext.GetType() == CTokenType.COMMA)
 				{
-					m_lstTokens.GetNext() ;
+					lstTokens.GetNext() ;
 				}
 				else
 				{
@@ -111,7 +111,7 @@ public abstract class CBMSElement extends CBaseElement
 			}
 			else if(tokMapSet.GetType() == CTokenType.STAR)
 			{
-				m_lstTokens.GetNext() ;
+				lstTokens.GetNext() ;
 			}
 			else if(tokMapSet.GetType() == CTokenType.IDENTIFIER)
 			{
@@ -132,13 +132,13 @@ public abstract class CBMSElement extends CBaseElement
 			else
 			{
 				Transcoder.logError(getLine(), "Unrecognized token : " + tokMapSet.GetValue());
-				m_lstTokens.GetNext() ;
+				lstTokens.GetNext() ;
 			}  
 		} 
 		return true ;
 	}
 
-	protected String m_Name = "" ;
+	protected String name = "" ;
 
 	/* (non-Javadoc)
 	 * @see parser.CBaseElement#DoSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)

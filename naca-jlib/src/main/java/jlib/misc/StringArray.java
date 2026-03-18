@@ -18,25 +18,25 @@ import java.util.ArrayList;
  */
 public class StringArray
 {
-	private ArrayList<String> m_arr = null;
+	private ArrayList<String> arr = null;
 	
 	public StringArray()
 	{
-		m_arr = new ArrayList<String>();
+		arr = new ArrayList<String>();
 	}
 	
 	public void add(String csElem)
 	{
-		m_arr.add(csElem);
+		arr.add(csElem);
 	}
 	
 	public int size()
 	{
-		return m_arr.size(); 
+		return arr.size(); 
 	}
 	
 	public String get(int n)
 	{
-		return m_arr.get(n);
+		return arr.get(n);
 	}
 }

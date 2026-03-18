@@ -49,11 +49,11 @@ public class CDisplay extends CCobolElement
 	}
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		CEntityDisplay eDisp = factory.NewEntityDisplay(getLine(), m_upon);
+		CEntityDisplay eDisp = factory.NewEntityDisplay(getLine(), upon);
 		parent.AddChild(eDisp) ;
-		for (int i=0; i<m_arrToDisplay.size(); i++)
+		for (int i=0; i<arrToDisplay.size(); i++)
 		{
-			CTerminal term = m_arrToDisplay.get(i);
+			CTerminal term = arrToDisplay.get(i);
 			CDataEntity e = term.GetDataEntity(getLine(), factory);
 			e.RegisterReadingAction(eDisp) ;
 			eDisp.AddItemToDisplay(e) ;
@@ -68,13 +68,13 @@ public class CDisplay extends CCobolElement
 			Transcoder.logError(getLine(), "Expecting DISPLAY keyword") ;
 			return false ;
 		}
-		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().m_Name) ;
+		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
 		
 		tok = GetNext() ;
 		CTerminal term = ReadTerminal();
 		while (term != null)
 		{
-			m_arrToDisplay.add(term);
+			arrToDisplay.add(term);
 			tok = GetCurrentToken() ;
 			if (tok.GetType() == CTokenType.COMMA)
 			{
@@ -90,12 +90,12 @@ public class CDisplay extends CCobolElement
 			if (tok.GetKeyword()== CCobolKeywordList.CONSOLE)
 			{
 				GetNext() ;
-				m_upon = Upon.CONSOLE ;
+				upon = Upon.CONSOLE ;
 			}
 			else if (tok.GetKeyword()== CCobolKeywordList.ENVIRONMENT_NAME)
 			{
 				GetNext() ;
-				m_upon = Upon.ENVINONMENT ;
+				upon = Upon.ENVINONMENT ;
 			}
 			else
 			{
@@ -103,12 +103,12 @@ public class CDisplay extends CCobolElement
 				return false ;
 			}
 		}
-		return m_arrToDisplay.size() > 0 ;
+		return arrToDisplay.size() > 0 ;
 	}
 	protected Element ExportCustom(Document root)
 	{
 		String name = "" ;
-		if (m_upon == Upon.CONSOLE)
+		if (upon == Upon.CONSOLE)
 		{
 			name = "DisplayUponConsole" ;
 		}
@@ -117,16 +117,16 @@ public class CDisplay extends CCobolElement
 			name = "Display" ;
 		}
 		Element eDisp = root.createElement(name);
-		for (int i=0; i<m_arrToDisplay.size(); i++)
+		for (int i=0; i<arrToDisplay.size(); i++)
 		{
 			Element e = root.createElement("Data");
 			eDisp.appendChild(e) ;
-			CTerminal term = m_arrToDisplay.get(i);
+			CTerminal term = arrToDisplay.get(i);
 			term.ExportTo(e, root) ;
 		}
 		return eDisp;
 	}
 
-	protected Vector<CTerminal> m_arrToDisplay = new Vector<CTerminal>() ;
-	protected Upon m_upon = Upon.DEFAULT ; 
+	protected Vector<CTerminal> arrToDisplay = new Vector<CTerminal>() ;
+	protected Upon upon = Upon.DEFAULT ; 
 }

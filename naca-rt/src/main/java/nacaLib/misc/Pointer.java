@@ -27,8 +27,8 @@ public class Pointer extends CJMapObject
 {
 	public Pointer(VarAndEdit v)
 	{
-		m_AddressOf = v ;
+		addressOf = v ;
 	}
 	
-	public VarAndEdit m_AddressOf = null ;
+	public VarAndEdit addressOf = null ;
 }

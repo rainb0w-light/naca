@@ -30,41 +30,41 @@ public abstract class CBaseDataReference extends CGenericDataEntityReference
 	{
 		super(l, name, cat, out);
 	}
-	protected CDataEntity m_Reference = null ;
+	protected CDataEntity reference = null ;
 	
 	public int getNbDimOccurs()
 	{
-		return m_Reference.getNbDimOccurs();
+		return reference.getNbDimOccurs();
 	}
 	
 	public void RegisterReadingAction(CBaseActionEntity act)
 	{
-		m_Reference.RegisterReadReference(this) ;
+		reference.RegisterReadReference(this) ;
 		super.RegisterReadingAction(act);
 	}
 	public void RegisterValueAccess(CBaseEntityCondExpr cond)
 	{
 		super.RegisterValueAccess(cond) ;
-		m_Reference.RegisterReadReference(this) ;
+		reference.RegisterReadReference(this) ;
 	}
 	public void RegisterVarTesting(CBaseEntityCondition cond)
 	{
 		super.RegisterVarTesting(cond) ;
-		m_Reference.RegisterReadReference(this);
+		reference.RegisterReadReference(this);
 	}
 	public void RegisterWritingAction(CBaseActionEntity act)
 	{
-		m_Reference.RegisterWriteReference(this);
+		reference.RegisterWriteReference(this);
 		super.RegisterWritingAction(act);
 	}
 
 	public void IgnoreReadingActions(CDataEntity field)
 	{
-		if (field == m_Reference)
+		if (field == reference)
 		{
-			for (int i=0; i<m_arrActionsReading.size(); i++)
+			for (int i=0; i<arrActionsReading.size(); i++)
 			{
-				CBaseActionEntity act = m_arrActionsReading.get(i);
+				CBaseActionEntity act = arrActionsReading.get(i);
 				act.IgnoreVariable(this);
 			}
 		}
@@ -72,20 +72,20 @@ public abstract class CBaseDataReference extends CGenericDataEntityReference
 
 	public void IgnoreWritingActions(CDataEntity field)
 	{
-		if (field == m_Reference)
+		if (field == reference)
 		{
-			for (int i=0; i<m_arrActionsWriting.size(); i++)
+			for (int i=0; i<arrActionsWriting.size(); i++)
 			{
-				CBaseActionEntity act = m_arrActionsWriting.get(i);
+				CBaseActionEntity act = arrActionsWriting.get(i);
 				act.IgnoreVariable(this);
 			}
 		}		
 	}
 	public boolean ReplaceVariable(CDataEntity field, CDataEntity var, boolean bRead)
 	{
-		if (field == m_Reference)
+		if (field == reference)
 		{
-			m_Reference = var ;
+			reference = var ;
 			if (bRead)
 			{
 				field.UnRegisterReadReference(this) ;
@@ -102,9 +102,9 @@ public abstract class CBaseDataReference extends CGenericDataEntityReference
 	}
 	public boolean IgnoreVariable(CEntityResourceForm sav)
 	{
-		if (sav == m_Reference)
+		if (sav == reference)
 		{
-			m_Reference = null ;
+			reference = null ;
 			sav.UnRegisterReadReference(this) ;
 			sav.UnRegisterWriteReference(this) ;
 			return true ;
@@ -113,7 +113,7 @@ public abstract class CBaseDataReference extends CGenericDataEntityReference
 	}
 	public boolean ignore()
 	{
-		return m_Reference == null ;
+		return reference == null ;
 	} 
 	/* (non-Javadoc)
 	 * @see semantic.CBaseLanguageEntity#Clear()
@@ -121,9 +121,9 @@ public abstract class CBaseDataReference extends CGenericDataEntityReference
 	public void Clear()
 	{
 		super.Clear();
-		if (m_Reference != null)
-			m_Reference.Clear() ;
-		m_Reference = null ;
+		if (reference != null)
+			reference.Clear() ;
+		reference = null ;
 	}
 	
 
@@ -133,9 +133,9 @@ public abstract class CBaseDataReference extends CGenericDataEntityReference
 //	@Override
 //	public CEntityHierarchy GetHierarchy()
 //	{
-//		if (m_Reference != null)
+//		if (reference != null)
 //		{
-//			return m_Reference.GetHierarchy();
+//			return reference.GetHierarchy();
 //		}
 //		return null ;
 //	}	

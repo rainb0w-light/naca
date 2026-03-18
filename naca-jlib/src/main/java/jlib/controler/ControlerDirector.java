@@ -14,48 +14,48 @@ public class ControlerDirector
 {
 	protected class ControlerItemDescription
 	{
-		public String m_csControlerName = "" ;
-		public int m_nStepId = -1 ;
+		public String csControlerName = "" ;
+		public int nStepId = -1 ;
 	}
 
-	private Vector<ControlerItemDescription> m_arrDesc = null ;
-//	private Vector<BaseControler> m_arrControler = null ;
-//	private Vector<ControlerThread> m_arrThreads = null ;
-	private BaseControlerConfig m_Config = null;
-	private Hashtable<String, BaseControler> m_tabControlers = null ;
-	private Hashtable<String, ControlerThread> m_tabThreads = null ;
+	private Vector<ControlerItemDescription> arrDesc = null ;
+//	private Vector<BaseControler> arrControler = null ;
+//	private Vector<ControlerThread> arrThreads = null ;
+	private BaseControlerConfig config = null;
+	private Hashtable<String, BaseControler> tabControlers = null ;
+	private Hashtable<String, ControlerThread> tabThreads = null ;
 	
 	public void Init(BaseControlerConfig config)
 	{
-		m_arrDesc = new Vector<ControlerItemDescription>() ;
-//		m_arrControler = new Vector<BaseControler>() ;
-//		m_arrThreads = new Vector<ControlerThread>() ;
-		m_tabControlers = new Hashtable<String, BaseControler>() ;
-		m_tabThreads = new Hashtable<String, ControlerThread>(); 
+		arrDesc = new Vector<ControlerItemDescription>() ;
+//		arrControler = new Vector<BaseControler>() ;
+//		arrThreads = new Vector<ControlerThread>() ;
+		tabControlers = new Hashtable<String, BaseControler>() ;
+		tabThreads = new Hashtable<String, ControlerThread>(); 
 
-		m_Config = config ;
-		m_Config.LoadConfig(this) ;
+		config = config ;
+		config.LoadConfig(this) ;
 	}
 	
 //	public void launchControlers()
 //	{
 //	   	
 //	    //Pour chaque site et pour chaque groupe présent dans le fichier de configuration on crée un thread.
-//	    for (int i=0; i<m_Config.getNbTasks(); i++) 
+//	    for (int i=0; i<config.getNbTasks(); i++) 
 //	    {
-//	    	BaseControler ctrl = m_Factory.getControlerForTask(i) ;
-//	    	BaseControlerTaskConfig confgrp = m_Config.getTaskConfig(i) ;
+//	    	BaseControler ctrl = factory.getControlerForTask(i) ;
+//	    	BaseControlerTaskConfig confgrp = config.getTaskConfig(i) ;
 //	    	
 //	    	
-//	    	if (m_Config.isAutoStart())
+//	    	if (config.isAutoStart())
 //	    	{
 //	    		ControlerThread th = new ControlerThread(ctrl) ;
-//	    		m_arrThreads.add(th) ;
+//	    		arrThreads.add(th) ;
 //	    		th.AutoStart() ; 
 //	    	}
 //	    	else
 //	    	{
-//		    	m_arrThreads.add(null) ;
+//		    	arrThreads.add(null) ;
 //	    	}
 //	    }
 //
@@ -66,9 +66,9 @@ public class ControlerDirector
 		if (confgrp.isModeGroup())
     	{
 	    	ControlerItemDescription descSite = new ControlerItemDescription() ;
-	    	descSite.m_csControlerName = confgrp.getName() ;
-	    	descSite.m_nStepId = 0 ; // single item
-	    	m_arrDesc.add(descSite) ;
+	    	descSite.csControlerName = confgrp.getName() ;
+	    	descSite.nStepId = 0 ; // single item
+	    	arrDesc.add(descSite) ;
     	}
     	else
     	{
@@ -76,13 +76,13 @@ public class ControlerDirector
 	    	{
 		    	BaseControlerStepConfig conf = confgrp.getStep(j) ;
 		    	ControlerItemDescription descSite = new ControlerItemDescription() ;
-		    	descSite.m_csControlerName = confgrp.getName() ;
-		    	descSite.m_nStepId = j ; // single item
-		    	m_arrDesc.add(descSite) ;
+		    	descSite.csControlerName = confgrp.getName() ;
+		    	descSite.nStepId = j ; // single item
+		    	arrDesc.add(descSite) ;
 	    	}
     	}
 
-    	m_tabControlers.put(confgrp.getName(), ctrl) ;
+    	tabControlers.put(confgrp.getName(), ctrl) ;
 	}
 	
 	/**
@@ -90,7 +90,7 @@ public class ControlerDirector
 	 */
 	public void StopAllControlers()
 	{
-		Enumeration<ControlerThread> enm = m_tabThreads.elements() ;
+		Enumeration<ControlerThread> enm = tabThreads.elements() ;
 		while (enm.hasMoreElements())
 		{
 			ControlerThread th = enm.nextElement() ;
@@ -99,28 +99,28 @@ public class ControlerDirector
 				th.StopControler(false, true) ;
 			}
 		}
-		m_tabThreads.clear() ;
+		tabThreads.clear() ;
 	}
 
 
 	public void startControler(int i, boolean bForceStart)
 	{
-		if (i<m_arrDesc.size())
+		if (i<arrDesc.size())
 		{
-			ControlerItemDescription desc = m_arrDesc.get(i) ;
-			BaseControler ctrl = m_tabControlers.get(desc.m_csControlerName) ;
-			ControlerThread th = m_tabThreads.get(desc.m_csControlerName) ;
+			ControlerItemDescription desc = arrDesc.get(i) ;
+			BaseControler ctrl = tabControlers.get(desc.csControlerName) ;
+			ControlerThread th = tabThreads.get(desc.csControlerName) ;
 			if ((th == null || !th.isAlive()) && ctrl != null)
 			{
 				th = new ControlerThread(ctrl) ;
-				m_tabThreads.put(desc.m_csControlerName, th) ;
+				tabThreads.put(desc.csControlerName, th) ;
 				if (bForceStart)
 				{
-					th.StartControler(desc.m_nStepId) ;
+					th.StartControler(desc.nStepId) ;
 				}
 				else
 				{
-					th.AutoStart(desc.m_nStepId) ;
+					th.AutoStart(desc.nStepId) ;
 				}
 			}
 		}
@@ -132,16 +132,16 @@ public class ControlerDirector
 	 */
 	public void StopControler(int i, boolean bForce)
 	{
-		if (i<m_arrDesc.size())
+		if (i<arrDesc.size())
 		{
-			ControlerItemDescription desc = m_arrDesc.get(i) ;
-			BaseControler ctrl = m_tabControlers.get(desc.m_csControlerName) ;
-			ControlerThread th = m_tabThreads.get(desc.m_csControlerName) ;
+			ControlerItemDescription desc = arrDesc.get(i) ;
+			BaseControler ctrl = tabControlers.get(desc.csControlerName) ;
+			ControlerThread th = tabThreads.get(desc.csControlerName) ;
 			if (th != null)
 			{
 				th.StopControler(bForce) ;
 			}
-			m_tabThreads.remove(desc.m_csControlerName) ;
+			tabThreads.remove(desc.csControlerName) ;
 		}
 	}
 
@@ -151,11 +151,11 @@ public class ControlerDirector
 	 */
 	public String getStatus(int i)
 	{
-		if (i<m_arrDesc.size())
+		if (i<arrDesc.size())
 		{
-			ControlerItemDescription desc = m_arrDesc.get(i) ;
-			BaseControler ctrl = m_tabControlers.get(desc.m_csControlerName) ;
-			return ctrl.getStatus(desc.m_nStepId) ;
+			ControlerItemDescription desc = arrDesc.get(i) ;
+			BaseControler ctrl = tabControlers.get(desc.csControlerName) ;
+			return ctrl.getStatus(desc.nStepId) ;
 		}
 		else
 		{
@@ -165,21 +165,21 @@ public class ControlerDirector
 
 	public int getNbControlers()
 	{
-		return m_arrDesc.size() ;
+		return arrDesc.size() ;
 	}
 
 	public void ReloadConfig()
 	{
-		m_Config.LoadConfig(this) ;
+		config.LoadConfig(this) ;
 	}
 
 	public String getStepName(int i)
 	{
-		if (i<m_arrDesc.size())
+		if (i<arrDesc.size())
 		{
-			ControlerItemDescription desc = m_arrDesc.get(i) ;
-			BaseControler ctrl = m_tabControlers.get(desc.m_csControlerName) ;
-			String name = ctrl.getStepName(desc.m_nStepId) ;
+			ControlerItemDescription desc = arrDesc.get(i) ;
+			BaseControler ctrl = tabControlers.get(desc.csControlerName) ;
+			String name = ctrl.getStepName(desc.nStepId) ;
 			return name ;
 		}
 		else
@@ -190,10 +190,10 @@ public class ControlerDirector
 
 	public BaseControler getControler(int i)
 	{
-		if (i<m_arrDesc.size())
+		if (i<arrDesc.size())
 		{
-			ControlerItemDescription desc = m_arrDesc.get(i) ;
-			BaseControler ctrl = m_tabControlers.get(desc.m_csControlerName) ;
+			ControlerItemDescription desc = arrDesc.get(i) ;
+			BaseControler ctrl = tabControlers.get(desc.csControlerName) ;
 			return ctrl ;
 		}
 		return null ;
@@ -201,10 +201,10 @@ public class ControlerDirector
 
 	public ControlerThread getThread(int i)
 	{
-		if (i<m_arrDesc.size())
+		if (i<arrDesc.size())
 		{
-			ControlerItemDescription desc = m_arrDesc.get(i) ;
-			return m_tabThreads.get(desc.m_csControlerName) ;
+			ControlerItemDescription desc = arrDesc.get(i) ;
+			return tabThreads.get(desc.csControlerName) ;
 		}
 		return null ;
 	}
@@ -213,10 +213,10 @@ public class ControlerDirector
 	{
 		BaseControler ctrl = grpConfig.NewControler() ;
 		AddControler(ctrl, grpConfig) ;
-    	if (m_Config.isAutoStart())
+    	if (config.isAutoStart())
     	{
     		ControlerThread th = new ControlerThread(ctrl) ;
-    		m_tabThreads.put(grpConfig.getName(), th) ;
+    		tabThreads.put(grpConfig.getName(), th) ;
     		th.AutoStart() ; 
     	}
 	}
@@ -224,21 +224,21 @@ public class ControlerDirector
 	public void RemoveTask(BaseControlerTaskConfig conf)
 	{
 		String name = conf.getName();
-		if (m_tabControlers.containsKey(name))
+		if (tabControlers.containsKey(name))
 		{
-			for (int i=0; i<m_arrDesc.size(); )
+			for (int i=0; i<arrDesc.size(); )
 			{
-				ControlerItemDescription desc = m_arrDesc.get(i) ;
-				if (desc.m_csControlerName.equals(name))
+				ControlerItemDescription desc = arrDesc.get(i) ;
+				if (desc.csControlerName.equals(name))
 				{
-					m_arrDesc.remove(i) ;
+					arrDesc.remove(i) ;
 				}
 				else
 				{
 					i++ ;
 				}
 			}
-			ControlerThread th = m_tabThreads.remove(name) ;
+			ControlerThread th = tabThreads.remove(name) ;
 			if (th != null)
 			{
 				th.StopControler(true) ;
@@ -246,7 +246,7 @@ public class ControlerDirector
 				th.join() ;
 				} catch (InterruptedException e) {} 
 			}
-			m_tabControlers.remove(name) ;
+			tabControlers.remove(name) ;
 		}
 		
 	}
@@ -256,15 +256,15 @@ public class ControlerDirector
 		if (!cfg.isModeGroup())
 		{
 			String name = cfg.getName() ;
-			if (m_tabControlers.containsKey(name))
+			if (tabControlers.containsKey(name))
 			{
 				int iStep = cfg.getNbSteps() ;
-				for (int i=0; i<m_arrDesc.size(); )
+				for (int i=0; i<arrDesc.size(); )
 				{
-					ControlerItemDescription desc = m_arrDesc.get(i) ;
-					if (desc.m_csControlerName.equals(name) && desc.m_nStepId == iStep)
+					ControlerItemDescription desc = arrDesc.get(i) ;
+					if (desc.csControlerName.equals(name) && desc.nStepId == iStep)
 					{
-						m_arrDesc.remove(i) ;
+						arrDesc.remove(i) ;
 					}
 					else
 					{
@@ -280,20 +280,20 @@ public class ControlerDirector
 		if (!cfg.isModeGroup())
 		{
 			String name = cfg.getName() ;
-			BaseControler ctrl = m_tabControlers.get(name) ;
+			BaseControler ctrl = tabControlers.get(name) ;
 			if (ctrl != null)
 			{
 				int iStep = cfg.getNbSteps()-1 ;
 				ControlerItemDescription desc = new ControlerItemDescription() ;
-				desc.m_csControlerName = name ;
-				desc.m_nStepId = iStep ;
+				desc.csControlerName = name ;
+				desc.nStepId = iStep ;
 
-				for (int i=0; i<m_arrDesc.size(); i++)
+				for (int i=0; i<arrDesc.size(); i++)
 				{
-					ControlerItemDescription d = m_arrDesc.get(i) ;
-					if (d.m_csControlerName.equals(name) && d.m_nStepId == iStep-1)
+					ControlerItemDescription d = arrDesc.get(i) ;
+					if (d.csControlerName.equals(name) && d.nStepId == iStep-1)
 					{
-						m_arrDesc.insertElementAt(desc, i+1) ;
+						arrDesc.insertElementAt(desc, i+1) ;
 					}
 				}
 

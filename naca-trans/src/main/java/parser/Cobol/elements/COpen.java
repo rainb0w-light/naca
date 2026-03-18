@@ -47,10 +47,10 @@ public class COpen extends CCobolElement
 	}
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis( CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		CreateOpenAction(m_arrForInput, parent, factory, CEntityOpenFile.OpenMode.INPUT) ;
-		CreateOpenAction(m_arrForIO, parent, factory, CEntityOpenFile.OpenMode.INPUT_OUTPUT) ;
-		CreateOpenAction(m_arrForOutput, parent, factory, CEntityOpenFile.OpenMode.OUTPUT) ;
-		CreateOpenAction(m_arrForAppend, parent, factory, CEntityOpenFile.OpenMode.APPEND) ;
+		CreateOpenAction(arrForInput, parent, factory, CEntityOpenFile.OpenMode.INPUT) ;
+		CreateOpenAction(arrForIO, parent, factory, CEntityOpenFile.OpenMode.INPUT_OUTPUT) ;
+		CreateOpenAction(arrForOutput, parent, factory, CEntityOpenFile.OpenMode.OUTPUT) ;
+		CreateOpenAction(arrForAppend, parent, factory, CEntityOpenFile.OpenMode.APPEND) ;
 		return parent;
 	}
 	private void CreateOpenAction(Vector<CIdentifier> arrIds, CBaseLanguageEntity parent, CBaseEntityFactory factory, CEntityOpenFile.OpenMode eMode)
@@ -60,7 +60,7 @@ public class COpen extends CCobolElement
 			for (int i=0; i<arrIds.size(); i++)
 			{
 				CIdentifier id = arrIds.get(i) ;
-				CEntityFileDescriptor fd = factory.m_ProgramCatalog.getFileDescriptor(id.GetName()) ;
+				CEntityFileDescriptor fd = factory.programCatalog.getFileDescriptor(id.GetName()) ;
 				if  (fd != null)
 				{
 					CEntityOpenFile eOpen = factory.NewEntityOpenFile(getLine()) ;
@@ -82,7 +82,7 @@ public class COpen extends CCobolElement
 		{
 			return false ;
 		}
-		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().m_Name) ;
+		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
 		
 		tok = GetNext() ;
 		boolean bDone = false ;
@@ -91,10 +91,10 @@ public class COpen extends CCobolElement
 			if (tok.GetKeyword() == CCobolKeywordList.INPUT)
 			{
 				GetNext() ;
-				if (m_arrForInput == null)
-					m_arrForInput = new Vector<CIdentifier>() ;
+				if (arrForInput == null)
+					arrForInput = new Vector<CIdentifier>() ;
 				CIdentifier id = ReadIdentifier() ;
-				m_arrForInput.add(id);
+				arrForInput.add(id);
 				tok = GetCurrentToken() ;
 				while (tok.GetType() == CTokenType.COMMA || tok.GetType() == CTokenType.IDENTIFIER)
 				{
@@ -105,7 +105,7 @@ public class COpen extends CCobolElement
 					id = ReadIdentifier() ;
 					if (id != null)
 					{
-						m_arrForInput.add(id);
+						arrForInput.add(id);
 						tok = GetCurrentToken() ;
 					}
 				}
@@ -113,10 +113,10 @@ public class COpen extends CCobolElement
 			else if (tok.GetKeyword() == CCobolKeywordList.OUTPUT)
 			{
 				GetNext() ;
-				if (m_arrForOutput == null)
-					m_arrForOutput = new Vector<CIdentifier>() ;
+				if (arrForOutput == null)
+					arrForOutput = new Vector<CIdentifier>() ;
 				CIdentifier id = ReadIdentifier() ;
-				m_arrForOutput.add(id);
+				arrForOutput.add(id);
 				tok = GetCurrentToken() ;
 				while (tok.GetType() == CTokenType.COMMA || tok.GetType() == CTokenType.IDENTIFIER)
 				{
@@ -127,7 +127,7 @@ public class COpen extends CCobolElement
 					id = ReadIdentifier() ;
 					if (id != null)
 					{
-						m_arrForOutput.add(id);
+						arrForOutput.add(id);
 						tok = GetCurrentToken() ;
 					}
 				}
@@ -135,10 +135,10 @@ public class COpen extends CCobolElement
 			else if (tok.GetKeyword() == CCobolKeywordList.I_O)
 			{
 				GetNext() ;
-				if (m_arrForIO == null)
-					m_arrForIO = new Vector<CIdentifier>() ;
+				if (arrForIO == null)
+					arrForIO = new Vector<CIdentifier>() ;
 				CIdentifier id = ReadIdentifier() ;
-				m_arrForIO.add(id);
+				arrForIO.add(id);
 				tok = GetCurrentToken() ;
 				while (tok.GetType() == CTokenType.COMMA || tok.GetType() == CTokenType.IDENTIFIER)
 				{
@@ -149,7 +149,7 @@ public class COpen extends CCobolElement
 					id = ReadIdentifier() ;
 					if (id != null)
 					{
-						m_arrForIO.add(id);
+						arrForIO.add(id);
 						tok = GetCurrentToken() ;
 					}
 				}
@@ -157,10 +157,10 @@ public class COpen extends CCobolElement
 			else if (tok.GetKeyword() == CCobolKeywordList.EXTEND)
 			{
 				GetNext() ;
-				if (m_arrForAppend == null)
-					m_arrForAppend = new Vector<CIdentifier>() ;
+				if (arrForAppend == null)
+					arrForAppend = new Vector<CIdentifier>() ;
 				CIdentifier id = ReadIdentifier() ;
-				m_arrForAppend.add(id);
+				arrForAppend.add(id);
 				tok = GetCurrentToken() ;
 				while (tok.GetType() == CTokenType.COMMA || tok.GetType() == CTokenType.IDENTIFIER)
 				{
@@ -171,7 +171,7 @@ public class COpen extends CCobolElement
 					id = ReadIdentifier() ;
 					if (id != null)
 					{
-						m_arrForAppend.add(id);
+						arrForAppend.add(id);
 						tok = GetCurrentToken() ;
 					}
 				}
@@ -186,51 +186,51 @@ public class COpen extends CCobolElement
 	protected Element ExportCustom(Document root)
 	{
 		Element eOpen = root.createElement("Open");
-		if (m_arrForInput != null)
+		if (arrForInput != null)
 		{
-			for (int i=0; i<m_arrForInput.size(); i++)
+			for (int i=0; i<arrForInput.size(); i++)
 			{
 				Element e = root.createElement("ForInput");
 				eOpen.appendChild(e);
-				CIdentifier id = m_arrForInput.get(i);
+				CIdentifier id = arrForInput.get(i);
 				id.ExportTo(e, root);
 			}
 		}
-		if (m_arrForIO != null)
+		if (arrForIO != null)
 		{
-			for (int i=0; i<m_arrForIO.size(); i++)
+			for (int i=0; i<arrForIO.size(); i++)
 			{
 				Element e = root.createElement("ForIO");
 				eOpen.appendChild(e);
-				CIdentifier id = m_arrForIO.get(i);
+				CIdentifier id = arrForIO.get(i);
 				id.ExportTo(e, root);
 			}
 		}
-		if (m_arrForOutput != null)
+		if (arrForOutput != null)
 		{
-			for (int i=0; i<m_arrForOutput.size(); i++)
+			for (int i=0; i<arrForOutput.size(); i++)
 			{
 				Element e = root.createElement("ForOutput");
 				eOpen.appendChild(e);
-				CIdentifier id = m_arrForOutput.get(i);
+				CIdentifier id = arrForOutput.get(i);
 				id.ExportTo(e, root);
 			}
 		}
-		if (m_arrForAppend != null)
+		if (arrForAppend != null)
 		{
-			for (int i=0; i<m_arrForAppend.size(); i++)
+			for (int i=0; i<arrForAppend.size(); i++)
 			{
 				Element e = root.createElement("ForAppend");
 				eOpen.appendChild(e);
-				CIdentifier id = m_arrForAppend.get(i);
+				CIdentifier id = arrForAppend.get(i);
 				id.ExportTo(e, root);
 			}
 		}
 		return eOpen;
 	}
 	
-	protected Vector<CIdentifier> m_arrForInput = null ;
-	protected Vector<CIdentifier> m_arrForOutput = null ;
-	protected Vector<CIdentifier> m_arrForAppend = null ;
-	protected Vector<CIdentifier> m_arrForIO = null ;
+	protected Vector<CIdentifier> arrForInput = null ;
+	protected Vector<CIdentifier> arrForOutput = null ;
+	protected Vector<CIdentifier> arrForAppend = null ;
+	protected Vector<CIdentifier> arrForIO = null ;
 }

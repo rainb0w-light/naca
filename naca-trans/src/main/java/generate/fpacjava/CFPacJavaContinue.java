@@ -22,7 +22,7 @@ public class CFPacJavaContinue extends CEntityContinue
 	protected void DoExport()
 	{
 //		NotifHasExplicitFileGet notif = new NotifHasExplicitFileGet() ;
-//		m_ProgramCatalog.SendNotifRequest(notif) ;
+//		programCatalog.SendNotifRequest(notif) ;
 //		if (!notif.hasExplicitFileGet)
 //		{
 //			WriteLine("continue ;") ;

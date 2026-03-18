@@ -43,74 +43,74 @@ import utils.COriginalLisiting;
  */
 public abstract class CBaseLanguageExporter
 {
-	protected CGlobalCommentContainer m_CommentContainer = null ;
-	protected String m_IndentItem = "\t" ;
-	protected int m_IndentWidth = 4 ;
-	protected int m_WidthBeforeOriginalCode = 80 ;
+	protected CGlobalCommentContainer commentContainer = null ;
+	protected String indentItem = "\t" ;
+	protected int indentWidth = 4 ;
+	protected int widthBeforeOriginalCode = 80 ;
 
-	private int m_LastFillerIndex = 0 ;
+	private int lastFillerIndex = 0 ;
 	public void ResetFillerIndex()
 	{
-		m_LastFillerIndex = 0 ;
+		lastFillerIndex = 0 ;
 	}
 	public int GetLastFillerIndex()
 	{
-		m_LastFillerIndex++ ;
-		return m_LastFillerIndex ;
+		lastFillerIndex++ ;
+		return lastFillerIndex ;
 	}
 
 	public CBaseLanguageExporter(COriginalLisiting cat, CGlobalCommentContainer commCont)
 	{
-		m_catalog = cat ;
-		m_CommentContainer = commCont ;
+		catalog = cat ;
+		commentContainer = commCont ;
 	}
 	public CBaseLanguageExporter(CBaseLanguageExporter exporter)
 	{
-		m_catalog = exporter.m_catalog ;
-		m_CommentContainer = exporter.m_CommentContainer ;
+		catalog = exporter.catalog ;
+		commentContainer = exporter.commentContainer ;
 	}
-	protected COriginalLisiting m_catalog = null ;
+	protected COriginalLisiting catalog = null ;
 	
 	public void closeOutput()
 	{
 		String csCurrentLine = "" ;
-		m_nLastOriginalLineWritten ++ ;
+		nLastOriginalLineWritten ++ ;
 		while (csCurrentLine != null)
 		{
-			if (m_CommentContainer.GetCurrentCommentLine() == m_nLastOriginalLineWritten)
+			if (commentContainer.GetCurrentCommentLine() == nLastOriginalLineWritten)
 			{
-				CEntityComment com = m_CommentContainer.GetCurrentComment() ;
+				CEntityComment com = commentContainer.GetCurrentComment() ;
 				com.DoExportComment() ;
 			}
 			else
 			{
-				csCurrentLine = m_catalog.GetOriginalLine(m_nLastOriginalLineWritten);
+				csCurrentLine = catalog.GetOriginalLine(nLastOriginalLineWritten);
 				if (csCurrentLine != null)
 				{
-					int blanksize = m_WidthBeforeOriginalCode - m_Indent.length()*m_IndentWidth;
+					int blanksize = widthBeforeOriginalCode - indent.length()*indentWidth;
 					char[] c = new char[blanksize] ; // COBOL comments starts on line 60
 					Arrays.fill(c, ' ') ;
 					String blankline = new String(c) ;
-					blankline += "// (" + m_nLastOriginalLineWritten + ") " + csCurrentLine;
+					blankline += "// (" + nLastOriginalLineWritten + ") " + csCurrentLine;
 					DoWriteLine(blankline);
 				}
 			}	
-			m_nLastOriginalLineWritten ++ ;
+			nLastOriginalLineWritten ++ ;
 		}
 		doCloseOutput() ;
 	}
 	protected abstract void doCloseOutput() ;
 	public abstract void CloseBracket() ;
 	public abstract void OpenBracket() ;
-	protected int m_nLastOriginalLineWritten = 0 ;
+	protected int nLastOriginalLineWritten = 0 ;
 	protected abstract void DoWriteLine(String line) ;
 	protected void DoWriteComment(String line, int n)
 	{
 		String fullLine = line ;
-		if (m_nLastOriginalLineWritten < n)  
+		if (nLastOriginalLineWritten < n)  
 		{ 
 			DisplaySkippedLines(n) ;
-			int blanksize = m_WidthBeforeOriginalCode - line.length() - m_Indent.length()*m_IndentWidth;
+			int blanksize = widthBeforeOriginalCode - line.length() - indent.length()*indentWidth;
 			if (blanksize > 0)
 			{
 				char[] c = new char[blanksize] ; // COBOL comments starts on line 80
@@ -120,15 +120,15 @@ public abstract class CBaseLanguageExporter
 			}
 			else
 			{
-				fullLine = line + m_IndentItem + "// (" + n + ")";
+				fullLine = line + indentItem + "// (" + n + ")";
 			}
-			m_nLastOriginalLineWritten = n;
+			nLastOriginalLineWritten = n;
 		}
 		DoWriteLine(fullLine) ;
 	}
 	protected void DoWriteLine(String line, int n)
 	{
-		if (n <= m_nLastOriginalLineWritten || n==0)
+		if (n <= nLastOriginalLineWritten || n==0)
 		{
 			DoWriteLine(line) ;
 		}
@@ -136,36 +136,36 @@ public abstract class CBaseLanguageExporter
 		{
 			DisplaySkippedLines(n);
 			String csOrigLine = "" ;
-			if (m_CommentContainer.GetCurrentCommentLine() == n)
+			if (commentContainer.GetCurrentCommentLine() == n)
 			{
-				CEntityComment com = m_CommentContainer.GetCurrentComment() ;
+				CEntityComment com = commentContainer.GetCurrentComment() ;
 				if (!line.equals(""))
-					line += m_IndentItem ;
+					line += indentItem ;
 				line += com.ExportReference(n) ;
 				//com.DoExportComment() ;
-				if (m_nLastOriginalLineWritten < n)
+				if (nLastOriginalLineWritten < n)
 				{
 					csOrigLine = "   (" + n + ") " ;
-					String orig = m_catalog.GetOriginalLine(n) ;
+					String orig = catalog.GetOriginalLine(n) ;
 					String comm = com.getOriginalComment() ;
 					orig = orig.replace(comm, "").trim() ;
 					if (!orig.equals(""))
 						csOrigLine += orig ;
-					m_nLastOriginalLineWritten = n;
+					nLastOriginalLineWritten = n;
 				}
 			}
-			else if (m_nLastOriginalLineWritten < n)  
-			{ //m_nLastOriginalLineWritten == n-1
+			else if (nLastOriginalLineWritten < n)  
+			{ //nLastOriginalLineWritten == n-1
 				csOrigLine = "// (" + n + ") " ;
-				if (m_catalog.GetOriginalLine(n) != null)
+				if (catalog.GetOriginalLine(n) != null)
 				{
-					csOrigLine += m_catalog.GetOriginalLine(n);
+					csOrigLine += catalog.GetOriginalLine(n);
 				}
-				m_nLastOriginalLineWritten = n;
+				nLastOriginalLineWritten = n;
 			}
 			if (!line.equals("") || !csOrigLine.equals(""))
 			{
-				int blanksize = m_WidthBeforeOriginalCode - line.length() - m_Indent.length()*m_IndentWidth;
+				int blanksize = widthBeforeOriginalCode - line.length() - indent.length()*indentWidth;
 				String fullline ;  
 				if (blanksize > 0)
 				{
@@ -176,7 +176,7 @@ public abstract class CBaseLanguageExporter
 				}
 				else
 				{
-					fullline = line + m_IndentItem + csOrigLine ;
+					fullline = line + indentItem + csOrigLine ;
 				}
 				DoWriteLine(fullline) ;
 			}
@@ -187,42 +187,42 @@ public abstract class CBaseLanguageExporter
 	 */
 	private void DisplaySkippedLines(int n)
 	{
-		for (int i=m_nLastOriginalLineWritten+1; i<n; i++)
+		for (int i=nLastOriginalLineWritten+1; i<n; i++)
 		{
-			if (m_CommentContainer.GetCurrentCommentLine() == i)
+			if (commentContainer.GetCurrentCommentLine() == i)
 			{
-				CEntityComment com = m_CommentContainer.GetCurrentComment() ;
+				CEntityComment com = commentContainer.GetCurrentComment() ;
 				com.DoExportComment() ;
 			}
 			else
 			{
-				String cs = m_catalog.GetOriginalLine(i);
+				String cs = catalog.GetOriginalLine(i);
 				if (cs != null)
 				{
-					int blanksize = m_WidthBeforeOriginalCode - m_Indent.length()*m_IndentWidth;
+					int blanksize = widthBeforeOriginalCode - indent.length()*indentWidth;
 					blanksize = Math.max(0, blanksize);
 					char[] c = new char[blanksize] ; // COBOL comments starts on line 60
 					Arrays.fill(c, ' ') ;
 					String blankline = new String(c) ;
-					blankline += "// (" + i + ") " + m_catalog.GetOriginalLine(i);
+					blankline += "// (" + i + ") " + catalog.GetOriginalLine(i);
 					DoWriteLine(blankline);
-					m_nLastOriginalLineWritten = i ;
+					nLastOriginalLineWritten = i ;
 				}
 			}				
 		}
 	}
 	public void WriteLine(String line)
 	{
-		WriteLine(line, m_nLastOriginalLineWritten) ;
+		WriteLine(line, nLastOriginalLineWritten) ;
 	}
 	public void WriteLine(String line, int n)
 	{
-		if (!m_CurrentLine.equals(""))
+		if (!currentLine.equals(""))
 		{
-			DoWriteLine(m_CurrentLine, m_nLastOriginalLineWritten) ;
-			m_CurrentLine = "" ;
+			DoWriteLine(currentLine, nLastOriginalLineWritten) ;
+			currentLine = "" ;
 		}
-		WriteWord(line, n); //m_nLastOriginalLineWritten) ;
+		WriteWord(line, n); //nLastOriginalLineWritten) ;
 		WriteEOL(n) ;
 	}
 	public void WriteComment(String line, int n)
@@ -231,24 +231,24 @@ public abstract class CBaseLanguageExporter
 	}
 	public void WriteEOL() 
 	{
-		WriteEOL(m_nLastOriginalLineWritten) ;
+		WriteEOL(nLastOriginalLineWritten) ;
 	}
 	public void WriteEOL(int n)
 	{
-		if (!m_CurrentLine.equals(""))
+		if (!currentLine.equals(""))
 		{
-			String line = m_CurrentLine ;
-			m_CurrentLine = "" ;
+			String line = currentLine ;
+			currentLine = "" ;
 			DoWriteLine(line, n) ;
 		}
 	}
 	public void WriteWord(String word) 
 	{
-		WriteWord(word, m_nLastOriginalLineWritten) ;
+		WriteWord(word, nLastOriginalLineWritten) ;
 	}
 	public void WriteWord(String word, int n) 
 	{
-		if (n > m_nLastOriginalLineWritten+1)
+		if (n > nLastOriginalLineWritten+1)
 		{ // more than one original line to be written
 			DoWriteLine("", n-1) ;
 		}
@@ -263,63 +263,63 @@ public abstract class CBaseLanguageExporter
 			return ;
 		}
 		
-		if (m_CurrentLine.length() + word.length() > m_WidthBeforeOriginalCode-m_IndentWidth*m_Indent.length() && word.length()>2 && m_CurrentLine.length()>2)
+		if (currentLine.length() + word.length() > widthBeforeOriginalCode-indentWidth*indent.length() && word.length()>2 && currentLine.length()>2)
 		{
-			String l = m_CurrentLine ;
-			m_CurrentLine = "" ;
+			String l = currentLine ;
+			currentLine = "" ;
 			DoWriteLine(l, n);
-			m_CurrentLine = m_IndentItem ;
+			currentLine = indentItem ;
 		}
-		m_CurrentLine += word ;
+		currentLine += word ;
 	}
 	public void WriteLongString(String string, int n) 
 	{
-		if (n > m_nLastOriginalLineWritten+1)
+		if (n > nLastOriginalLineWritten+1)
 		{ // more than one original line to be written
 			DoWriteLine("", n-1) ;
 		}
 				
 		String remainString = string ;
-		int nSizeRemaining = m_WidthBeforeOriginalCode-m_IndentWidth*m_Indent.length()-m_CurrentLine.length() ;
+		int nSizeRemaining = widthBeforeOriginalCode-indentWidth*indent.length()-currentLine.length() ;
 		while (nSizeRemaining > 0 && remainString.length() - nSizeRemaining > 5)
 		{
 			int nPos = remainString.indexOf(' ', nSizeRemaining);
 			if (nPos == -1)
 			{
-				if (!m_CurrentLine.equals(m_IndentItem))
+				if (!currentLine.equals(indentItem))
 				{
-					DoWriteLine(m_CurrentLine, n);
+					DoWriteLine(currentLine, n);
 				}
-				m_CurrentLine = m_IndentItem + "\"" + remainString + "\"" ;
+				currentLine = indentItem + "\"" + remainString + "\"" ;
 				remainString = "" ;
 			}
 			else
 			{
 				String item = remainString.substring(0, nPos+1);
 				remainString = remainString.substring(nPos+1) ;
-				m_CurrentLine += "\"" + item + "\"+" ;
-				DoWriteLine(m_CurrentLine, n);
-				m_CurrentLine = m_IndentItem ;
+				currentLine += "\"" + item + "\"+" ;
+				DoWriteLine(currentLine, n);
+				currentLine = indentItem ;
 			}
-			nSizeRemaining = m_WidthBeforeOriginalCode-m_IndentWidth*m_Indent.length()-m_CurrentLine.length() ;
+			nSizeRemaining = widthBeforeOriginalCode-indentWidth*indent.length()-currentLine.length() ;
 		}
 		if (!remainString.equals(""))
 		{
-			m_CurrentLine += "\"" + remainString + "\"" ;
+			currentLine += "\"" + remainString + "\"" ;
 		}
 	}
 	
 	public void StartBloc()
 	{
-		m_Indent += m_IndentItem ;
+		indent += indentItem ;
 	}
 	public void EndBloc()
 	{
-		int index = m_Indent.lastIndexOf(m_IndentItem) ;
-		m_Indent = m_Indent.substring(0, index) ;
+		int index = indent.lastIndexOf(indentItem) ;
+		indent = indent.substring(0, index) ;
 	}
-	protected String m_Indent = "" ;
-	protected String m_CurrentLine = "" ;
+	protected String indent = "" ;
+	protected String currentLine = "" ;
 
 	public String FormatIdentifier(String cs)
 	{

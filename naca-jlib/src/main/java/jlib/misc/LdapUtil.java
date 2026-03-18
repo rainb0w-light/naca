@@ -30,11 +30,11 @@ public class LdapUtil
 
     //private static PropertyResourceBundle bundle = Bbundle.getBundle();
     //private static Log log = LogFactory.getLog(LdapUtil.class);  
-	private ArrayList<LdapThread> m_arrThread = null;
+	private ArrayList<LdapThread> arrThread = null;
 	//Semaphore m_sem = new Semaphore(); 
-    private DirContext m_ctx = null ;
-    private CountDownLatch m_lock = new CountDownLatch(1); 
-    private ThreadSafeCounter m_NbThreadCreated = null;
+    private DirContext ctx = null ;
+    private CountDownLatch lock = new CountDownLatch(1); 
+    private ThreadSafeCounter nbThreadCreated = null;
     
     /**
      * @throws NamingException
@@ -42,26 +42,26 @@ public class LdapUtil
     
     public LdapUtil(int nNbLdapThread)
     {
-    	m_NbThreadCreated = new ThreadSafeCounter(nNbLdapThread);
+    	nbThreadCreated = new ThreadSafeCounter(nNbLdapThread);
     }
     
     public void addServer(int nRequestId, String csUserId, String csPassword, String csServer)
     {
-    	LdapThread th = new LdapThread(nRequestId, csUserId, csPassword, csServer, m_NbThreadCreated);
+    	LdapThread th = new LdapThread(nRequestId, csUserId, csPassword, csServer, nbThreadCreated);
     	
-    	if(m_arrThread == null)
-    		m_arrThread = new ArrayList<LdapThread>(); 
-    	m_arrThread.add(th);
+    	if(arrThread == null)
+    		arrThread = new ArrayList<LdapThread>(); 
+    	arrThread.add(th);
     }
     
     public void connectOnAnyServers()
     {
-    	if(m_arrThread != null)
+    	if(arrThread != null)
     	{
-    		int nNbThreads = m_arrThread.size();
+    		int nNbThreads = arrThread.size();
     		for(int n=0; n<nNbThreads; n++)
     		{
-    			LdapThread th = m_arrThread.get(n);
+    			LdapThread th = arrThread.get(n);
     			th.setLdapThreadOwner(this);
     			th.start();    			
     		}
@@ -69,7 +69,7 @@ public class LdapUtil
     	// Wait until one thread get connected
     	try
 		{
-			m_lock.await();
+			lock.await();
 		}
 		catch (InterruptedException e)
 		{
@@ -95,10 +95,10 @@ public class LdapUtil
     
     synchronized void setOnceDirContext(DirContext dirContext)
     {
-    	if(m_ctx == null)
+    	if(ctx == null)
     	{
-    		m_ctx = dirContext;
-    		m_lock.countDown();
+    		ctx = dirContext;
+    		lock.countDown();
     	}
     }
     
@@ -113,12 +113,12 @@ public class LdapUtil
             env.put(Context.SECURITY_AUTHENTICATION, "simple");
             env.put(Context.SECURITY_PRINCIPAL, csUserId);
             env.put(Context.SECURITY_CREDENTIALS, csPassword);        
-            m_ctx = new InitialDirContext(env);
+            ctx = new InitialDirContext(env);
 		}
 		catch (NamingException e)
 		{
 			e.printStackTrace();
-			m_ctx = null ;
+			ctx = null ;
 		}
     }
 
@@ -153,7 +153,7 @@ public class LdapUtil
 	{
         try
 		{
-			Attributes attrs = m_ctx.getAttributes(dn);
+			Attributes attrs = ctx.getAttributes(dn);
 			Attribute attr = attrs.get(attributeName);
 			if (attr != null)
 			{
@@ -182,7 +182,7 @@ public class LdapUtil
      */
     public NamingEnumeration getSomeAttributes(String dn, String[] attributeNames) throws NamingException 
 	{
-        Attributes attrs = m_ctx.getAttributes(dn, attributeNames);
+        Attributes attrs = ctx.getAttributes(dn, attributeNames);
         NamingEnumeration enumSome = attrs.getAll();
         while (enumSome.hasMore()) 
         {
@@ -199,7 +199,7 @@ public class LdapUtil
      */
     public NamingEnumeration getAllAttributes(String dn) throws NamingException 
 	{
-        Attributes attrs = m_ctx.getAttributes(dn);
+        Attributes attrs = ctx.getAttributes(dn);
         return attrs.getAll();
     }
 
@@ -236,7 +236,7 @@ public class LdapUtil
         Log.logDebug("attribute "+attributeName+" old value is "+getOneAttribute(dn, attributeName));
         ModificationItem[] mods = new ModificationItem[1];
         mods[0] = new ModificationItem(DirContext.REPLACE_ATTRIBUTE, new BasicAttribute(attributeName, newValue));
-        m_ctx.modifyAttributes(dn, mods);            
+        ctx.modifyAttributes(dn, mods);            
         Log.logDebug("attribute "+attributeName+" new value is "+getOneAttribute(dn, attributeName));
     }
 
@@ -250,7 +250,7 @@ public class LdapUtil
 	{
         SearchControls constraints = new SearchControls();
         constraints.setSearchScope(SearchControls.ONELEVEL_SCOPE);
-        return m_ctx.search(dn, filter, constraints);
+        return ctx.search(dn, filter, constraints);
     }
 
     /**
@@ -263,7 +263,7 @@ public class LdapUtil
 	{
         SearchControls constraints = new SearchControls();
         constraints.setSearchScope(SearchControls.OBJECT_SCOPE);
-        return m_ctx.search(dn, filter, constraints);
+        return ctx.search(dn, filter, constraints);
     }
 
     /**
@@ -278,7 +278,7 @@ public class LdapUtil
         constraints.setSearchScope(SearchControls.SUBTREE_SCOPE);
         try
 		{
-			return m_ctx.search(dn, filter, constraints);
+			return ctx.search(dn, filter, constraints);
 		}
 		catch (NamingException e)
 		{
@@ -292,7 +292,7 @@ public class LdapUtil
 	 */
 	public boolean isValid()
 	{
-		return m_ctx != null ;
+		return ctx != null ;
 	}
 
     /*

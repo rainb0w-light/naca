@@ -33,27 +33,27 @@ public abstract class CEntitySQLCursorSelectStatement extends CBaseActionEntity
 	}
 	public void SetSelect(String csStatement, Vector<CDataEntity> arrParameters, CEntitySQLCursor cur, int nbCol, boolean bWithHold)
 	{
-		m_csStatement = csStatement ;
-		m_arrParameters = arrParameters;
-		m_Cursor = cur ;
-		m_nbCol = nbCol ;	
-		m_bWithHold = bWithHold ;
+		csStatement = csStatement ;
+		arrParameters = arrParameters;
+		cursor = cur ;
+		nbCol = nbCol ;	
+		bWithHold = bWithHold ;
 	}
-	protected int m_nbCol = 0 ;
-	protected String m_csStatement = "" ;
-	protected Vector<CDataEntity> m_arrParameters = null;
-	protected CEntitySQLCursor m_Cursor = null;
-	protected boolean m_bWithHold = false ;
+	protected int nbCol = 0 ;
+	protected String csStatement = "" ;
+	protected Vector<CDataEntity> arrParameters = null;
+	protected CEntitySQLCursor cursor = null;
+	protected boolean bWithHold = false ;
 	public void Clear()
 	{
 		super.Clear();
-		m_arrParameters.clear() ;
-		m_Cursor = null ;
+		arrParameters.clear() ;
+		cursor = null ;
 	}
 
 	public int GetNbColumns()
 	{
-		return m_nbCol ;
+		return nbCol ;
 	}
 	public boolean ignore()
 	{
@@ -62,11 +62,11 @@ public abstract class CEntitySQLCursorSelectStatement extends CBaseActionEntity
 
 	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
 	{
-		int i = m_arrParameters.indexOf(field) ;
-		if (i>=0 && i<m_arrParameters.size())
+		int i = arrParameters.indexOf(field) ;
+		if (i>=0 && i<arrParameters.size())
 		{
-			m_arrParameters.get(i).UnRegisterReadingAction(this) ;
-			m_arrParameters.set(i, var) ;
+			arrParameters.get(i).UnRegisterReadingAction(this) ;
+			arrParameters.set(i, var) ;
 			var.RegisterReadingAction(this) ;
 			return true ;
 		} 

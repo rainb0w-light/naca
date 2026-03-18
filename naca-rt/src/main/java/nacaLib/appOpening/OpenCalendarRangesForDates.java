@@ -27,22 +27,22 @@ public class OpenCalendarRangesForDates
 	
 	void addDateRange(Integer iDate, CalendarOpenState state, String csMin, String csMax)
 	{
-		if(m_hashCalendarRangesByDate == null)
-			m_hashCalendarRangesByDate = new Hashtable<Integer, OpenCalendarRanges>();
-		OpenCalendarRanges ranges = m_hashCalendarRangesByDate.get(iDate);
+		if(hashCalendarRangesByDate == null)
+			hashCalendarRangesByDate = new Hashtable<Integer, OpenCalendarRanges>();
+		OpenCalendarRanges ranges = hashCalendarRangesByDate.get(iDate);
 		if(ranges == null)
 		{
 			ranges = new OpenCalendarRanges();
-			m_hashCalendarRangesByDate.put(iDate, ranges);
+			hashCalendarRangesByDate.put(iDate, ranges);
 		}
 		ranges.addRange(state, csMin, csMax);
 	}
 	
 	void generateSortedIntervals()
 	{
-		if(m_hashCalendarRangesByDate != null)
+		if(hashCalendarRangesByDate != null)
 		{
-			Collection<OpenCalendarRanges> col = m_hashCalendarRangesByDate.values();
+			Collection<OpenCalendarRanges> col = hashCalendarRangesByDate.values();
 			Iterator<OpenCalendarRanges> iter = col.iterator();
 			while(iter.hasNext())
 			{
@@ -55,7 +55,7 @@ public class OpenCalendarRangesForDates
 	CalendarOpenState getOpenState(CalendarCacheManager cacheManager, boolean bCacheState)
 	{
 		Integer iDate = cacheManager.getCurrentDateAsIntegerYYYYMMDD();
-		OpenCalendarRanges ranges = m_hashCalendarRangesByDate.get(iDate);
+		OpenCalendarRanges ranges = hashCalendarRangesByDate.get(iDate);
 		if(ranges != null)	// Ranges have been defined at this date
 			return ranges.getOpenState(cacheManager, bCacheState);
 		
@@ -64,5 +64,5 @@ public class OpenCalendarRangesForDates
 		return CalendarOpenState.Unknown;
 	}
 	
-	private Hashtable<Integer, OpenCalendarRanges> m_hashCalendarRangesByDate = null;
+	private Hashtable<Integer, OpenCalendarRanges> hashCalendarRangesByDate = null;
 }

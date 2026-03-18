@@ -36,17 +36,17 @@ public class CCondIsAlphabetic extends CExpression
 	public CCondIsAlphabetic(int line, CExpression term, int method, boolean bIsOpposite) // method is <0 : lower, =0 : normal, >0 upper
 	{
 		super(line) ;
-		m_term = term ;
-		m_method = 0 ;
-		m_bIsOpposite = bIsOpposite ;
+		term = term ;
+		method = 0 ;
+		bIsOpposite = bIsOpposite ;
 	}
 
-	protected boolean m_bIsOpposite = false ;
-	protected int m_method = 0 ;
-	CExpression m_term = null ;
+	protected boolean bIsOpposite = false ;
+	protected int method = 0 ;
+	CExpression term = null ;
 	public int GetMethod()
 	{
-		return m_method;
+		return method;
 	}
 
 	/* (non-Javadoc)
@@ -58,7 +58,7 @@ public class CCondIsAlphabetic extends CExpression
 //	} 
 //	public void WriteOpTo(CBaseExpressionExporter exp)
 //	{
-//		m_term.WriteTo(exp) ;
+//		term.WriteTo(exp) ;
 //	}
 
 	/* (non-Javadoc)
@@ -71,7 +71,7 @@ public class CCondIsAlphabetic extends CExpression
 
 	protected boolean CheckMembersBeforeExport()
 	{
-		boolean b = CheckMemberNotNull(m_term);
+		boolean b = CheckMemberNotNull(term);
 		return b; 
 	}
 	/* (non-Javadoc)
@@ -80,7 +80,7 @@ public class CCondIsAlphabetic extends CExpression
 	public Element DoExport(Document root)
 	{
 		Element e = root.createElement("IsAlphabetic");
-		e.appendChild(m_term.Export(root)) ;
+		e.appendChild(term.Export(root)) ;
 		return e;
 	}
 
@@ -89,7 +89,7 @@ public class CCondIsAlphabetic extends CExpression
 	 */
 	public CExpression GetOppositeCondition()
 	{
-		return new CCondIsAlphabetic(getLine(), m_term, m_method, m_bIsOpposite);
+		return new CCondIsAlphabetic(getLine(), term, method, bIsOpposite);
 	}
 
 	/* (non-Javadoc)
@@ -106,18 +106,18 @@ public class CCondIsAlphabetic extends CExpression
 	public CBaseEntityCondition AnalyseCondition(CBaseEntityFactory factory, CDefaultConditionManager condMaster)
 	{
 		CEntityCondIsKindOf eCond = factory.NewEntityCondIsKindOf() ;
-		if (m_bIsOpposite)
+		if (bIsOpposite)
 		{
 			eCond.setOpposite() ;
 		}
-		if (m_term.IsReference())
+		if (term.IsReference())
 		{
-			CDataEntity eData = m_term.GetReference(factory) ;
-			if (m_method < 0)
+			CDataEntity eData = term.GetReference(factory) ;
+			if (method < 0)
 			{
 				eCond.SetIsLower(eData) ;
 			}
-			else if (m_method > 0)
+			else if (method > 0)
 			{
 				eCond.SetIsUpper(eData) ;
 			}
@@ -130,7 +130,7 @@ public class CCondIsAlphabetic extends CExpression
 		}
 		else
 		{
-			//CBaseEntityExpression data = m_term.AnalyseExpression(factory) ;
+			//CBaseEntityExpression data = term.AnalyseExpression(factory) ;
 			Transcoder.logError(getLine(), "Unexpecting situation : MUST be an identifier");
 			return null ;
 		}
@@ -141,7 +141,7 @@ public class CCondIsAlphabetic extends CExpression
 	 */
 	public CExpression GetFirstConditionOperand()
 	{
-		return m_term;
+		return term;
 	}
 
 	/* (non-Javadoc)
@@ -162,7 +162,7 @@ public class CCondIsAlphabetic extends CExpression
 	}
 	public String toString()
 	{
-		return "IS_APHABETIC(" + m_term.toString() + ")" ;
+		return "IS_APHABETIC(" + term.toString() + ")" ;
 	}
 	public CExpression getMasterBinaryCondition()
 	{
@@ -172,7 +172,7 @@ public class CCondIsAlphabetic extends CExpression
 	@Override
 	public CExpression GetFirstCalculOperand()
 	{
-		return m_term.GetFirstCalculOperand() ;
+		return term.GetFirstCalculOperand() ;
 	}
 
 }

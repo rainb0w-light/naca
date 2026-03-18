@@ -15,56 +15,56 @@ import jlib.log.Log;
 
 public class LdapThread extends Thread
 {
-	private ThreadSafeCounter m_NbThreadCreated = null;
+	private ThreadSafeCounter nbThreadCreated = null;
 	
 	LdapThread(int nRquestId, String csUserId, String csPassword, String csServer, ThreadSafeCounter NbThreadCreated)
 	{
-		m_nRequestId = nRquestId;
-		m_csUserId = csUserId;
-		m_csPassword = csPassword;
-		m_csServer = csServer;
-		m_NbThreadCreated = NbThreadCreated;
+		nRequestId = nRquestId;
+		csUserId = csUserId;
+		csPassword = csPassword;
+		csServer = csServer;
+		nbThreadCreated = NbThreadCreated;
 	}
 	
 	void setLdapThreadOwner(LdapUtil ldapUtil)
 	{
-		m_ldapUtil = ldapUtil;  
+		ldapUtil = ldapUtil;  
 	}
 	
 	public void run()
     {
-		Log.logNormal("LDap request " + m_nRequestId + ": trying to get ldap info from server " + m_csServer);
+		Log.logNormal("LDap request " + nRequestId + ": trying to get ldap info from server " + csServer);
 		int nNbTries = 0;
 		while(nNbTries < 2)
 		{
             Hashtable<String, String> env = new Hashtable<String, String>();
             env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
-            env.put(Context.PROVIDER_URL, "ldap://"+m_csServer+"/");
+            env.put(Context.PROVIDER_URL, "ldap://"+csServer+"/");
             env.put(Context.SECURITY_AUTHENTICATION, "simple");
-            env.put(Context.SECURITY_PRINCIPAL, m_csUserId);
-            env.put(Context.SECURITY_CREDENTIALS, m_csPassword);  
-            if(m_ldapUtil != null)
+            env.put(Context.SECURITY_PRINCIPAL, csUserId);
+            env.put(Context.SECURITY_CREDENTIALS, csPassword);  
+            if(ldapUtil != null)
             {
-            	DirContext dirContext = m_ldapUtil.getDirContext(env);
+            	DirContext dirContext = ldapUtil.getDirContext(env);
             	if(dirContext != null)
             	{
-            		m_ldapUtil.setOnceDirContext(dirContext);
-            		Log.logNormal("LDap request " + m_nRequestId + ": dir context correctly set");
+            		ldapUtil.setOnceDirContext(dirContext);
+            		Log.logNormal("LDap request " + nRequestId + ": dir context correctly set");
             		return;
             	}
             }   
             nNbTries++;
 		}
-		if(m_NbThreadCreated.dec() <= 0)
+		if(nbThreadCreated.dec() <= 0)
 		{
-			m_ldapUtil.setOnceDirContext(null);
+			ldapUtil.setOnceDirContext(null);
 		}
-		Log.logCritical("LDap request " + m_nRequestId + ": dir context NOT correctly set");
+		Log.logCritical("LDap request " + nRequestId + ": dir context NOT correctly set");
     }
 	
-	private LdapUtil m_ldapUtil = null;
-	private String m_csUserId = null;
-	private String m_csPassword = null;
-	private String m_csServer = null;
-	private int m_nRequestId = 0;
+	private LdapUtil ldapUtil = null;
+	private String csUserId = null;
+	private String csPassword = null;
+	private String csServer = null;
+	private int nRequestId = 0;
 }

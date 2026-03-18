@@ -35,7 +35,7 @@ public class CFPacJavaFormatedVarReference extends CEntityFormatedVarReference
 	@Override
 	public String ExportReference(int nLine)
 	{
-		return m_Reference.ExportReference(getLine());
+		return reference.ExportReference(getLine());
 	}
 
 	/**
@@ -53,7 +53,7 @@ public class CFPacJavaFormatedVarReference extends CEntityFormatedVarReference
 	@Override
 	public String ExportWriteAccessorTo(String value)
 	{
-		String cs = "moveFormated(" + value + ", " + m_Reference.ExportReference(getLine()) + ", \"" + m_csFormat + "\"); " ;
+		String cs = "moveFormated(" + value + ", " + reference.ExportReference(getLine()) + ", \"" + csFormat + "\"); " ;
 		return cs;
 	}
 

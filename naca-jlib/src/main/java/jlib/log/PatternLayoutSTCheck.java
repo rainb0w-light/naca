@@ -38,7 +38,7 @@ public class PatternLayoutSTCheck extends LogPatternLayout
 		return csMessage;	
 	}
 	
-	private long m_mem[] = new long[3];
+	private long mem[] = new long[3];
 
 	String format(LogParams logParams, int n)
 	{
@@ -47,7 +47,7 @@ public class PatternLayoutSTCheck extends LogPatternLayout
 		{
 			String csMessage = logParams.toString();
 			csMessage = logParams.toString();
-			StackTraceElement stackElem = logParams.m_caller;
+			StackTraceElement stackElem = logParams.caller;
 			String csOut;
 			if(stackElem != null)
 			{
@@ -67,12 +67,12 @@ public class PatternLayoutSTCheck extends LogPatternLayout
 				if(p.getType().compareTo(MemoryType.HEAP) == 0)
 				{
 					String cs = p.getName();
-					MemoryUsage mem = p.getUsage();
-					long l = mem.getUsed();
-					long lOldMem = m_mem[nMem];
-					long lOffset = l - lOldMem; 
+					MemoryUsage memoryUsage = p.getUsage();
+					long l = memoryUsage.getUsed();
+					long lOldMem = mem[nMem];
+					long lOffset = l - lOldMem;
 					csOut += cs+"="+l+"["+lOffset+"];";
-					m_mem[nMem] = l;
+					mem[nMem] = l;
 					nMem++;
 				}
 			}

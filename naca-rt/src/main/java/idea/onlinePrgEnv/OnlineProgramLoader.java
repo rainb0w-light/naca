@@ -53,7 +53,7 @@ public class OnlineProgramLoader extends BaseProgramLoader
 		Tag tagRoot = Tag.createFromFile(translationFilePath);
 		if(tagRoot != null)
 		{
-			m_localizedTextManager.Init(tagRoot);
+			localizedTextManager.Init(tagRoot);
 		}
 	}
 	
@@ -77,14 +77,14 @@ public class OnlineProgramLoader extends BaseProgramLoader
 	
 	protected void InitHelpCenter()
 	{
-		m_csHelpCenter = m_tagCESMConfig.getVal("HelpCenterClassName") ;	
+		csHelpCenter = tagCESMConfig.getVal("HelpCenterClassName") ;	
 	} 
 	
 	public void doHelp(CBaseMapFieldLoader fieldLoader, BaseSession session)
 	{
-		/*if(m_csHelpCenter != null)
+		/*if(csHelpCenter != null)
 		{
-			Object obj = CodeManager.getInstance(m_csHelpCenter, CustomClassDynLoaderFactory.getInstance());
+			Object obj = CodeManager.getInstance(csHelpCenter, CustomClassDynLoaderFactory.getInstance());
 			HelpCenter helpCenter = (HelpCenter)obj;
 			BaseEnvironment env = getEnvironment(session);
 			
@@ -143,6 +143,6 @@ public class OnlineProgramLoader extends BaseProgramLoader
 //		runTopProgram(env, true, true);
 //	}
 	
-	private String m_csHelpCenter = null;
-	private CLocalizedTextManager m_localizedTextManager = CLocalizedTextManager.getInstance() ;
+	private String csHelpCenter = null;
+	private CLocalizedTextManager localizedTextManager = CLocalizedTextManager.getInstance() ;
 }

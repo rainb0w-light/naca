@@ -38,25 +38,25 @@ public class CPerform extends CBlocElement
 	public CPerform(CIdentifier ref, int line)
 	{
 		super(line);
-		m_Reference = ref ;
+		reference = ref ;
 	}
 	public CPerform(CTerminal ref, int line)
 	{
 		super(line);
-		m_refRepetitions = ref ;
+		refRepetitions = ref ;
 	}
 	public CPerform(CIdentifier ref, CIdentifier refThru, int line)
 	{
 		super(line);
-		m_Reference = ref ;
-		m_RefThru = refThru ;
+		reference = ref ;
+		refThru = refThru ;
 	}
 	public CPerform(CIdentifier ref, CIdentifier refThru, CTerminal rep, int line)
 	{
 		super(line);
-		m_refRepetitions = rep ;
-		m_Reference = ref ;
-		m_RefThru = refThru ;
+		refRepetitions = rep ;
+		reference = ref ;
+		refThru = refThru ;
 	}
 
 
@@ -74,7 +74,7 @@ public class CPerform extends CBlocElement
 			if (tok.GetKeyword() == CCobolKeywordList.TIMES)
 			{
 				CTerminal term = new CIdentifierTerminal(id) ; 
-				m_refRepetitions = term ;
+				refRepetitions = term ;
 				GetNext() ;
 			}
 			else
@@ -82,7 +82,7 @@ public class CPerform extends CBlocElement
 				Transcoder.logError(tok.getLine(), " : Unexpecting situation");
 			}
 		}
-		if (m_Reference == null)
+		if (reference == null)
 		{
 			// no reference provided, the code is inside
 			if (!super.DoParsing())
@@ -110,43 +110,43 @@ public class CPerform extends CBlocElement
 	protected Element ExportCustom(Document root)
 	{
 		Element e = root.createElement("Perform") ;
-		if (m_Reference != null)
+		if (reference != null)
 		{
-			e.setAttribute("Reference", m_Reference.GetName()) ;
+			e.setAttribute("Reference", reference.GetName()) ;
 		}
-		if (m_RefThru != null)
+		if (refThru != null)
 		{
-			e.setAttribute("Thru", m_RefThru.GetName()) ;
+			e.setAttribute("Thru", refThru.GetName()) ;
 		}
 		return e;
 	}
 	
-	protected CIdentifier m_Reference = null ;
-	protected CIdentifier m_RefThru = null ;
-	protected CTerminal m_refRepetitions = null ;
+	protected CIdentifier reference = null ;
+	protected CIdentifier refThru = null ;
+	protected CTerminal refRepetitions = null ;
 	/* (non-Javadoc)
 	 * @see parser.CBaseElement#DoCustomSemanticAnalysis(semantic.CBaseSemanticEntity, semantic.CBaseSemanticEntityFactory)
 	 */
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		if (m_RefThru != null)
+		if (refThru != null)
 		{
-			CEntityCallFunction e = factory.NewEntityCallFunction(getLine(), m_Reference.GetName(), m_RefThru.GetName(), parent.getSectionContainer()) ;
-			factory.m_ProgramCatalog.RegisterPerformThrough(e) ;
-			if (m_refRepetitions != null)
+			CEntityCallFunction e = factory.NewEntityCallFunction(getLine(), reference.GetName(), refThru.GetName(), parent.getSectionContainer()) ;
+			factory.programCatalog.RegisterPerformThrough(e) ;
+			if (refRepetitions != null)
 			{
-				e.SetRepetitions(m_refRepetitions.GetDataEntity(getLine(), factory)) ;
+				e.SetRepetitions(refRepetitions.GetDataEntity(getLine(), factory)) ;
 			}
 			parent.AddChild(e) ;
 			return e;
 		}
-		else if (m_Reference != null)
+		else if (reference != null)
 		{
-			CEntityCallFunction e = factory.NewEntityCallFunction(getLine(), m_Reference.GetName(), "", parent.getSectionContainer()) ;
+			CEntityCallFunction e = factory.NewEntityCallFunction(getLine(), reference.GetName(), "", parent.getSectionContainer()) ;
 			parent.AddChild(e) ;
-			if (m_refRepetitions != null)
+			if (refRepetitions != null)
 			{
-				e.SetRepetitions(m_refRepetitions.GetDataEntity(getLine(), factory)) ;
+				e.SetRepetitions(refRepetitions.GetDataEntity(getLine(), factory)) ;
 			}
 			return e;
 		}
@@ -154,9 +154,9 @@ public class CPerform extends CBlocElement
 		{
 			CEntityCallFunction e = factory.NewEntityCallFunction(getLine(), "", "", parent.getSectionContainer()) ;
 			parent.AddChild(e) ;
-			if (m_refRepetitions != null)
+			if (refRepetitions != null)
 			{
-				e.SetRepetitions(m_refRepetitions.GetDataEntity(getLine(), factory)) ;
+				e.SetRepetitions(refRepetitions.GetDataEntity(getLine(), factory)) ;
 			}
 			return e;
 		}

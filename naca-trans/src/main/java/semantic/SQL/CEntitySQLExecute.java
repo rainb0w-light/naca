@@ -18,7 +18,7 @@ import utils.CObjectCatalog;
 public abstract class CEntitySQLExecute extends CBaseActionEntity
 {
 	
-	protected CDataEntity m_eVariable = null  ;
+	protected CDataEntity eVariable = null  ;
 	/**
 	 * @param line
 	 * @param cat
@@ -34,6 +34,6 @@ public abstract class CEntitySQLExecute extends CBaseActionEntity
 	 */
 	public void setVar(CDataEntity var)
 	{
-		m_eVariable = var ;
+		eVariable = var ;
 	}
 }

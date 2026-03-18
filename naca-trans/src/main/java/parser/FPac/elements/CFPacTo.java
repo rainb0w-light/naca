@@ -23,7 +23,7 @@ import utils.FPacTranscoder.notifs.NotifSetDefaultOutputFile;
 public class CFPacTo extends CFPacElement
 {
 
-	private CIdentifier m_idFile;
+	private CIdentifier idFile;
 
 	public CFPacTo(int line)
 	{
@@ -44,7 +44,7 @@ public class CFPacTo extends CFPacElement
 			tok =GetNext() ;
 			if (tok.GetType() == CTokenType.IDENTIFIER)
 			{
-				m_idFile = new CIdentifier(tok.GetValue()) ;
+				idFile = new CIdentifier(tok.GetValue()) ;
 				tok =GetNext() ;
 			}
 			else if (tok.GetKeyword() == CFPacKeywordList.OPF ||
@@ -58,7 +58,7 @@ public class CFPacTo extends CFPacElement
 							tok.GetKeyword() == CFPacKeywordList.OPF8 ||
 							tok.GetKeyword() == CFPacKeywordList.OPF9)
 			{
-				m_idFile = new CIdentifier(tok.GetValue()) ;
+				idFile = new CIdentifier(tok.GetValue()) ;
 				tok = GetNext() ;
 			}
 			else
@@ -79,8 +79,8 @@ public class CFPacTo extends CFPacElement
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
 		NotifSetDefaultOutputFile notif = new NotifSetDefaultOutputFile() ;
-		notif.fileRef = m_idFile.GetName() ;
-		factory.m_ProgramCatalog.SendNotifRequest(notif) ;
+		notif.fileRef = idFile.GetName() ;
+		factory.programCatalog.SendNotifRequest(notif) ;
 		
 		return null;
 	}
@@ -91,7 +91,7 @@ public class CFPacTo extends CFPacElement
 		Element eTo = root.createElement("To") ;
 		Element e = root.createElement("File") ;
 		eTo.appendChild(e) ;
-		m_idFile.ExportTo(e, root) ;
+		idFile.ExportTo(e, root) ;
 		return eTo ;
 	}
 

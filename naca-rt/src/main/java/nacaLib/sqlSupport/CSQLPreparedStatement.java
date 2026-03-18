@@ -20,7 +20,7 @@ import nacaLib.misc.SemanticContextDef;
 
 public class CSQLPreparedStatement extends DbPreparedStatement
 {
-	SemanticContextDef m_semanticContextDef = null;
+	SemanticContextDef semanticContextDef = null;
 		
 	CSQLPreparedStatement(/*DbConnectionBase dbConnection*/)
 	{
@@ -41,14 +41,14 @@ public class CSQLPreparedStatement extends DbPreparedStatement
 	
 	public void setVarParamValue(SQL sql, int nParamIndex, CSQLItem param)
 	{
-		if(m_PreparedStatement != null)
+		if(preparedStatement != null)
 		{
 			try
 			{
 				String sTrimmed = param.getValue();
 				if(BaseResourceManager.isUpdateCodeJavaToDb())
 					sTrimmed = BaseResourceManager.updateCodeJavaToDb(sTrimmed);
-				m_PreparedStatement.setObject(nParamIndex+1, sTrimmed);
+				preparedStatement.setObject(nParamIndex+1, sTrimmed);
 			}
 			catch(IllegalArgumentException e)
 			{
@@ -62,12 +62,12 @@ public class CSQLPreparedStatement extends DbPreparedStatement
 					Date date = new Date(lValue);							
 					try
 					{
-						m_PreparedStatement.setDate(nParamIndex+1, date);
+						preparedStatement.setDate(nParamIndex+1, date);
 					}
 					catch (SQLException e1)
 					{
 						LogSQLException.log(e1);
-						sql.m_sqlStatus.setSQLCode("setVarParamValue with autodefined time column", e1, m_csQueryString/*, m_csSourceFileLine*/, sql);
+						sql.sqlStatus.setSQLCode("setVarParamValue with autodefined time column", e1, csQueryString/*, csSourceFileLine*/, sql);
 					}
 				}
 				else if(cs.length() == 10)	// Date dd.mm.yyyy
@@ -78,31 +78,31 @@ public class CSQLPreparedStatement extends DbPreparedStatement
 					Date date = new Date(lValue);							
 					try
 					{
-						m_PreparedStatement.setDate(nParamIndex+1, date);
+						preparedStatement.setDate(nParamIndex+1, date);
 					}
 					catch (SQLException e1)
 					{
 						LogSQLException.log(e1);
-						sql.m_sqlStatus.setSQLCode("setVarParamValue with autodefined date column", e1, m_csQueryString/*, m_csSourceFileLine*/, sql);
+						sql.sqlStatus.setSQLCode("setVarParamValue with autodefined date column", e1, csQueryString/*, csSourceFileLine*/, sql);
 					}
 				}
 				else
 				{
 					Log.logImportant("setVarParamValue: Exception "+ e.toString());
-					sql.m_sqlStatus.setSQLCode("setVarParamValue with autodefined date/time column", -1, e.toString(), m_csQueryString/*, m_csSourceFileLine*/);
+					sql.sqlStatus.setSQLCode("setVarParamValue with autodefined date/time column", -1, e.toString(), csQueryString/*, csSourceFileLine*/);
 				}
 			}
 			catch (SQLException e)
 			{
 				LogSQLException.log(e);
-				sql.m_sqlStatus.setSQLCode("setVarParamValue", e, m_csQueryString/*, m_csSourceFileLine*/, sql);
+				sql.sqlStatus.setSQLCode("setVarParamValue", e, csQueryString/*, csSourceFileLine*/, sql);
 			}
 		}
 	}
 	
 	public CSQLResultSet executeQueryAndFillInto(SQL sql, int nNbFetch)
 	{
-		CSQLResultSet SQLResultSet = executeQuery(sql);	//sql.m_sqlStatus, sql.m_arrColSelectType, sql.m_accountingRecordManager, sql.m_hashParam, sql.m_hashValue);
+		CSQLResultSet SQLResultSet = executeQuery(sql);	//sql.sqlStatus, sql.arrColSelectType, sql.accountingRecordManager, sql.m_hashParam, sql.m_hashValue);
 		if (SQLResultSet != null)
 		{
 			if(SQLResultSet.next())
@@ -117,31 +117,31 @@ public class CSQLPreparedStatement extends DbPreparedStatement
 	
 	void setSemanticContextDef(SemanticContextDef semanticContextDef)
 	{
-		m_semanticContextDef = semanticContextDef; 
+		semanticContextDef = semanticContextDef; 
 	}
 	
 	public CSQLResultSet executeQuery(SQL sql)	//CSQLStatus sqlStatus, ArrayFixDyn<Integer> arrColSelectType, AccountingRecordTrans accountingRecordManager, HashMap<String, CSQLItem> hashParam, HashMap<String, CSQLItem> hashValue)
 	{
 		if(isLogSql())
-			Log.logDebug("CSQLPreparedStatement::executeQuery:"+m_csQueryString);
-		if(m_PreparedStatement != null)
+			Log.logDebug("CSQLPreparedStatement::executeQuery:"+csQueryString);
+		if(preparedStatement != null)
 		{
 			try
 			{
 				//JmxGeneralStat.incNbSelect(1);
 				
 				sql.startDbIO();
-				ResultSet r = m_PreparedStatement.executeQuery();
+				ResultSet r = preparedStatement.executeQuery();
 				sql.endDbIO();
 				
 				if(r != null)
 				{
-					CSQLResultSet rs = new CSQLResultSet(r, m_semanticContextDef, sql);
+					CSQLResultSet rs = new CSQLResultSet(r, semanticContextDef, sql);
 					return rs ;
 				}
 				else
 				{
-					sql.m_sqlStatus.setSQLCode(SQLCode.SQL_NOT_FOUND) ;
+					sql.sqlStatus.setSQLCode(SQLCode.SQL_NOT_FOUND) ;
 				}
 			}
 			catch (SQLException e)
@@ -156,23 +156,23 @@ public class CSQLPreparedStatement extends DbPreparedStatement
 	public CSQLResultSet executeQueryCursor(SQL sql)
 	{
 		if(isLogSql())
-			Log.logDebug("CSQLPreparedStatement::executeQueryCursor:"+m_csQueryString);
-		if(m_PreparedStatement != null)
+			Log.logDebug("CSQLPreparedStatement::executeQueryCursor:"+csQueryString);
+		if(preparedStatement != null)
 		{
 			try
 			{
 				sql.startDbIO();
-				ResultSet r = m_PreparedStatement.executeQuery();
+				ResultSet r = preparedStatement.executeQuery();
 				if(r != null)
 				{
-					CSQLResultSet rs = new CSQLResultSet(r, m_semanticContextDef, sql);
-					sql.m_sqlStatus.setSQLCode(SQLCode.SQL_OK) ;
+					CSQLResultSet rs = new CSQLResultSet(r, semanticContextDef, sql);
+					sql.sqlStatus.setSQLCode(SQLCode.SQL_OK) ;
 					sql.endDbIO();
 					return rs ;
 				}
 				else
 				{
-					sql.m_sqlStatus.setSQLCode(SQLCode.SQL_NOT_FOUND) ;
+					sql.sqlStatus.setSQLCode(SQLCode.SQL_NOT_FOUND) ;
 					sql.endDbIO();
 				}
 			}
@@ -187,10 +187,10 @@ public class CSQLPreparedStatement extends DbPreparedStatement
 
 	private void manageSQLException(String csMethod, SQLException e, SQL sql)
 	{
-		CSQLStatus sqlStatus = sql.m_sqlStatus;
+		CSQLStatus sqlStatus = sql.sqlStatus;
 		if(sqlStatus != null)
 		{
-			sqlStatus.setSQLCode(csMethod, e, m_csQueryString/*, m_csSourceFileLine*/, sql) ;
+			sqlStatus.setSQLCode(csMethod, e, csQueryString/*, csSourceFileLine*/, sql) ;
 			sqlStatus.fillLastSQLCodeErrorText();
 		}
 		
@@ -202,29 +202,29 @@ public class CSQLPreparedStatement extends DbPreparedStatement
 	
 	public int executeDelete(SQL sql)
 	{
-		sql.m_sqlStatus.setLastNbRecordUpdatedInsertedDeleted(0);
+		sql.sqlStatus.setLastNbRecordUpdatedInsertedDeleted(0);
 		if(isLogSql())
-			Log.logDebug("CSQLPreparedStatement::executeDelete:"+m_csQueryString);
-		if(m_PreparedStatement != null)
+			Log.logDebug("CSQLPreparedStatement::executeDelete:"+csQueryString);
+		if(preparedStatement != null)
 		{
 			try
 			{
 				//JmxGeneralStat.incNbDelete(1);
-				int n = m_PreparedStatement.executeUpdate();
+				int n = preparedStatement.executeUpdate();
 				if (n > 0)
 				{
-					sql.m_sqlStatus.setSQLCode(SQLCode.SQL_OK) ;
+					sql.sqlStatus.setSQLCode(SQLCode.SQL_OK) ;
 				}
 				else
 				{
-					sql.m_sqlStatus.setSQLCode(SQLCode.SQL_NOT_FOUND) ;
+					sql.sqlStatus.setSQLCode(SQLCode.SQL_NOT_FOUND) ;
 				}
-				sql.m_sqlStatus.setLastNbRecordUpdatedInsertedDeleted(n);
+				sql.sqlStatus.setLastNbRecordUpdatedInsertedDeleted(n);
 				return n;
 			}
 			catch (SQLException e)
 			{
-				sql.m_sqlStatus.setSQLCode(SQLCode.SQL_ERROR) ;
+				sql.sqlStatus.setSQLCode(SQLCode.SQL_ERROR) ;
 				manageSQLException("executeDelete", e, sql);
 			}
 		}
@@ -233,29 +233,29 @@ public class CSQLPreparedStatement extends DbPreparedStatement
 	
 	public int executeUpdate(SQL sql)
 	{
-		sql.m_sqlStatus.setLastNbRecordUpdatedInsertedDeleted(0);
+		sql.sqlStatus.setLastNbRecordUpdatedInsertedDeleted(0);
 		if(isLogSql())
-			Log.logDebug("CSQLPreparedStatement::executeUpdate:"+m_csQueryString);
-		if(m_PreparedStatement != null)
+			Log.logDebug("CSQLPreparedStatement::executeUpdate:"+csQueryString);
+		if(preparedStatement != null)
 		{
 			try
 			{
 				//JmxGeneralStat.incNbUpdate(1);
-				int n = m_PreparedStatement.executeUpdate();
+				int n = preparedStatement.executeUpdate();
 				if (n > 0)
 				{
-					sql.m_sqlStatus.setSQLCode(SQLCode.SQL_OK) ;
+					sql.sqlStatus.setSQLCode(SQLCode.SQL_OK) ;
 				}
 				else
 				{
-					sql.m_sqlStatus.setSQLCode(SQLCode.SQL_NOT_FOUND) ;
+					sql.sqlStatus.setSQLCode(SQLCode.SQL_NOT_FOUND) ;
 				}
-				sql.m_sqlStatus.setLastNbRecordUpdatedInsertedDeleted(n);
+				sql.sqlStatus.setLastNbRecordUpdatedInsertedDeleted(n);
 				return n;
 			}
 			catch (SQLException e)
 			{
-				sql.m_sqlStatus.setSQLCode(SQLCode.SQL_ERROR) ;
+				sql.sqlStatus.setSQLCode(SQLCode.SQL_ERROR) ;
 				manageSQLException("executeUpdate", e, sql);
 			}
 		}
@@ -264,21 +264,21 @@ public class CSQLPreparedStatement extends DbPreparedStatement
 		
 	public int executeInsert(SQL sql)
 	{
-		sql.m_sqlStatus.setLastNbRecordUpdatedInsertedDeleted(0);
+		sql.sqlStatus.setLastNbRecordUpdatedInsertedDeleted(0);
 		if(isLogSql())
-			Log.logDebug("CSQLPreparedStatement::executeInsert:"+m_csQueryString);
-		if(m_PreparedStatement != null)
+			Log.logDebug("CSQLPreparedStatement::executeInsert:"+csQueryString);
+		if(preparedStatement != null)
 		{
 			try
 			{
 				//JmxGeneralStat.incNbInsert(1);
-				int n = m_PreparedStatement.executeUpdate();
-				sql.m_sqlStatus.setSQLCode(SQLCode.SQL_OK) ;
-				sql.m_sqlStatus.setLastNbRecordUpdatedInsertedDeleted(n);
+				int n = preparedStatement.executeUpdate();
+				sql.sqlStatus.setSQLCode(SQLCode.SQL_OK) ;
+				sql.sqlStatus.setLastNbRecordUpdatedInsertedDeleted(n);
 			}
 			catch (SQLException e)
 			{
-				sql.m_sqlStatus.setSQLCode(SQLCode.SQL_ERROR) ;
+				sql.sqlStatus.setSQLCode(SQLCode.SQL_ERROR) ;
 				manageSQLException("executeInsert", e, sql);
 			}
 		}
@@ -288,18 +288,18 @@ public class CSQLPreparedStatement extends DbPreparedStatement
 	public int executeLock(SQL sql)
 	{
 		if(isLogSql())
-			Log.logDebug("CSQLPreparedStatement::executeLock:"+m_csQueryString);
-		if(m_PreparedStatement != null)
+			Log.logDebug("CSQLPreparedStatement::executeLock:"+csQueryString);
+		if(preparedStatement != null)
 		{
 			try
 			{
-				m_PreparedStatement.execute();
-				sql.m_sqlStatus.setSQLCode(SQLCode.SQL_OK) ;
+				preparedStatement.execute();
+				sql.sqlStatus.setSQLCode(SQLCode.SQL_OK) ;
 				return 0;
 			}
 			catch (SQLException e)
 			{
-				sql.m_sqlStatus.setSQLCode(SQLCode.SQL_ERROR) ;
+				sql.sqlStatus.setSQLCode(SQLCode.SQL_ERROR) ;
 				manageSQLException("execute", e, sql);
 			}
 		}
@@ -309,18 +309,18 @@ public class CSQLPreparedStatement extends DbPreparedStatement
 	public int executeCreateTable(SQL sql)
 	{
 		if(isLogSql())
-			Log.logDebug("CSQLPreparedStatement::executeCreateTable:"+m_csQueryString);
-		if(m_PreparedStatement != null)
+			Log.logDebug("CSQLPreparedStatement::executeCreateTable:"+csQueryString);
+		if(preparedStatement != null)
 		{
 			try
 			{
-				m_PreparedStatement.execute();
-				sql.m_sqlStatus.setSQLCode(SQLCode.SQL_OK) ;
+				preparedStatement.execute();
+				sql.sqlStatus.setSQLCode(SQLCode.SQL_OK) ;
 				return 0;
 			}
 			catch (SQLException e)
 			{
-				sql.m_sqlStatus.setSQLCode(SQLCode.SQL_ERROR) ;
+				sql.sqlStatus.setSQLCode(SQLCode.SQL_ERROR) ;
 				manageSQLException("execute", e, sql);
 			}
 		}
@@ -330,18 +330,18 @@ public class CSQLPreparedStatement extends DbPreparedStatement
 	public int executeDropTable(SQL sql)
 	{
 		if(isLogSql())
-			Log.logDebug("CSQLPreparedStatement::executeDropTable:"+m_csQueryString);
-		if(m_PreparedStatement != null)
+			Log.logDebug("CSQLPreparedStatement::executeDropTable:"+csQueryString);
+		if(preparedStatement != null)
 		{
 			try
 			{
-				m_PreparedStatement.execute();
-				sql.m_sqlStatus.setSQLCode(SQLCode.SQL_OK) ;
+				preparedStatement.execute();
+				sql.sqlStatus.setSQLCode(SQLCode.SQL_OK) ;
 				return 0;
 			}
 			catch (SQLException e)
 			{
-				sql.m_sqlStatus.setSQLCode(SQLCode.SQL_ERROR) ;
+				sql.sqlStatus.setSQLCode(SQLCode.SQL_ERROR) ;
 				manageSQLException("execute", e, sql);
 			}
 		}
@@ -351,18 +351,18 @@ public class CSQLPreparedStatement extends DbPreparedStatement
 	public int executeDeclareOrder(SQL sql)
 	{
 		if(isLogSql())
-			Log.logDebug("CSQLPreparedStatement::executeDeclareOrder:"+m_csQueryString);
-		if(m_PreparedStatement != null)
+			Log.logDebug("CSQLPreparedStatement::executeDeclareOrder:"+csQueryString);
+		if(preparedStatement != null)
 		{
 			try
 			{
-				boolean b = m_PreparedStatement.execute();
-				sql.m_sqlStatus.setSQLCode(SQLCode.SQL_OK) ;
+				boolean b = preparedStatement.execute();
+				sql.sqlStatus.setSQLCode(SQLCode.SQL_OK) ;
 				return 0;
 			}
 			catch (SQLException e)
 			{
-				sql.m_sqlStatus.setSQLCode(SQLCode.SQL_ERROR) ;
+				sql.sqlStatus.setSQLCode(SQLCode.SQL_ERROR) ;
 				manageSQLException("execute", e, sql);				
 			}
 		}
@@ -373,7 +373,7 @@ public class CSQLPreparedStatement extends DbPreparedStatement
 	{
 		try
 		{
-			m_PreparedStatement.setCursorName(csName);
+			preparedStatement.setCursorName(csName);
 		}
 		catch(SQLException e)
 		{

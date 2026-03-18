@@ -14,39 +14,39 @@ public class IntegerRef
 	
 	public IntegerRef(int n)
 	{
-		m_n = n;
+		n = n;
 	}
 
 	
 	public int get()
 	{
-		return m_n;
+		return n;
 	}
 	
 	public void set(int n)
 	{
-		m_n = n;
+		n = n;
 	}
 
 	public void inc(int n)
 	{
-		m_n += n;
+		n += n;
 	}
 	
 	public void inc()
 	{
-		m_n++;
+		n++;
 	}
 	
 	public void dec()
 	{
-		m_n--;
+		n--;
 	}
 	
 	public String toString()
 	{
-		return "IntegerRef:" + m_n;
+		return "IntegerRef:" + n;
 	}
 	
-	private int m_n = 0;
+	private int n = 0;
 }

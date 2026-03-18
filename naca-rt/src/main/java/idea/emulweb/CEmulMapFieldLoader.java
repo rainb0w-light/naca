@@ -28,13 +28,13 @@ import jlib.misc.MapStringByString;
  */
 public class CEmulMapFieldLoader extends CMapFieldLoader
 {
-	MapStringByString m_tabValues = new MapStringByString() ;
-	Hashtable<String, Boolean> m_tabModified = new Hashtable<String, Boolean>() ;
-	String m_csIdPage = null;
+	MapStringByString tabValues = new MapStringByString() ;
+	Hashtable<String, Boolean> tabModified = new Hashtable<String, Boolean>() ;
+	String csIdPage = null;
 	
 	public String getFieldValue(String fieldName)
 	{
-		String cs = m_tabValues.get(fieldName) ;
+		String cs = tabValues.get(fieldName) ;
 		if (cs == null)
 		{
 			cs = "" ;
@@ -44,16 +44,16 @@ public class CEmulMapFieldLoader extends CMapFieldLoader
 
 	public void setFieldValue(String fieldName, String value, boolean modified)
 	{
-		m_tabValues.put(fieldName, value) ;
+		tabValues.put(fieldName, value) ;
 		Boolean upd = new Boolean(modified) ;
-		m_tabModified.put(fieldName, upd) ;
+		tabModified.put(fieldName, upd) ;
 	}
 
 	public void reset()
 	{
-		m_tabValues = new MapStringByString() ;
-		m_tabModified = new Hashtable<String, Boolean>() ;
-		m_csIdPage = null;
+		tabValues = new MapStringByString() ;
+		tabModified = new Hashtable<String, Boolean>() ;
+		csIdPage = null;
 	}
 
 	/* (non-Javadoc)
@@ -61,12 +61,12 @@ public class CEmulMapFieldLoader extends CMapFieldLoader
 	 */
 	public String getIDPage()
 	{
-		return m_csIdPage ;
+		return csIdPage ;
 	}
 	
 	public void setIDPage(String csIdPage)
 	{
-		m_csIdPage = csIdPage;
+		csIdPage = csIdPage;
 	}
 
 	/* (non-Javadoc)
@@ -74,7 +74,7 @@ public class CEmulMapFieldLoader extends CMapFieldLoader
 	 */
 	public boolean isFieldModified(String fieldName)
 	{
-		Boolean b = m_tabModified.get(fieldName) ;
+		Boolean b = tabModified.get(fieldName) ;
 		if (b != null)
 		{
 			return b.booleanValue() ;

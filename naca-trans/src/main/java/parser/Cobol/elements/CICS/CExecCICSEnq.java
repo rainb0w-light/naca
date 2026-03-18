@@ -52,11 +52,11 @@ public class CExecCICSEnq extends CCobolElement
 	{
 		CEntityCICSEnQ eCICS = factory.NewEntityCICSEnQ(getLine()) ;
 		parent.AddChild(eCICS);
-		CDataEntity eRes = m_Resource.GetDataReference(getLine(), factory) ;
+		CDataEntity eRes = resource.GetDataReference(getLine(), factory) ;
 		CDataEntity eLen = null ;
-		if (m_Lengh != null)
+		if (lengh != null)
 		{
-			eLen = m_Lengh.GetDataEntity(getLine(), factory);
+			eLen = lengh.GetDataEntity(getLine(), factory);
 		}
 		eCICS.SetResource(eRes, eLen);
 		return eCICS ;
@@ -79,7 +79,7 @@ public class CExecCICSEnq extends CCobolElement
 			if (tok.GetType() == CTokenType.LEFT_BRACKET)
 			{
 				tok = GetNext() ;
-				m_Resource = ReadIdentifier() ;
+				resource = ReadIdentifier() ;
 				tok = GetCurrentToken() ;
 				if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 				{
@@ -94,7 +94,7 @@ public class CExecCICSEnq extends CCobolElement
 			if (tok.GetType() == CTokenType.LEFT_BRACKET)
 			{
 				tok = GetNext() ;
-				m_Lengh = ReadTerminal() ;
+				lengh = ReadTerminal() ;
 				tok = GetCurrentToken() ;
 				if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 				{
@@ -120,16 +120,16 @@ public class CExecCICSEnq extends CCobolElement
 		Element e = root.createElement("ExecCICSEnQ") ;
 		Element eRes = root.createElement("Resource") ;
 		e.appendChild(eRes);
-		m_Resource.ExportTo(eRes, root);
-		if (m_Lengh != null)
+		resource.ExportTo(eRes, root);
+		if (lengh != null)
 		{
 			Element eLen = root.createElement("Length") ;
 			e.appendChild(eLen);
-			m_Lengh.ExportTo(eLen, root);
+			lengh.ExportTo(eLen, root);
 		}
 		return e;
 	}
 
-	protected CIdentifier m_Resource = null ; 
-	protected CTerminal m_Lengh = null ;
+	protected CIdentifier resource = null ; 
+	protected CTerminal lengh = null ;
 }

@@ -18,12 +18,12 @@ public class VarFPacAlphaNumLengthUndef extends VarFPacLengthUndef
 	
 	public Var createVar(int nBufferSize)
 	{
-		return m_fpacVarManager.createFPacVarAlphaNum(m_varBuffer, m_nAbsolutePosition1Based, nBufferSize);
+		return fpacVarManager.createFPacVarAlphaNum(varBuffer, nAbsolutePosition1Based, nBufferSize);
 	}
 
 	public Var createVar()
 	{
-		return m_fpacVarManager.createFPacVarAlphaNum(m_varBuffer, m_nAbsolutePosition1Based, 100);
+		return fpacVarManager.createFPacVarAlphaNum(varBuffer, nAbsolutePosition1Based, 100);
 	}
 	
 	int getParamLength(String cs)

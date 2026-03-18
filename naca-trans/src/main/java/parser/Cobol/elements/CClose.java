@@ -47,10 +47,10 @@ public class CClose extends CCobolElement
 	}
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		for (int i=0; i<m_arrFileDesc.size();i++)
+		for (int i=0; i<arrFileDesc.size();i++)
 		{
-			CIdentifier id = m_arrFileDesc.get(i) ;
-			CEntityFileDescriptor fd = factory.m_ProgramCatalog.getFileDescriptor(id.GetName()) ;
+			CIdentifier id = arrFileDesc.get(i) ;
+			CEntityFileDescriptor fd = factory.programCatalog.getFileDescriptor(id.GetName()) ;
 			if (fd != null)
 			{
 				CEntityCloseFile eClose = factory.NewEntityCloseFile(getLine()) ;
@@ -71,11 +71,11 @@ public class CClose extends CCobolElement
 		{
 			return false ;
 		}
-		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().m_Name) ;
+		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
 		
 		tok = GetNext();
 		CIdentifier id = ReadIdentifier();
-		m_arrFileDesc.add(id) ;
+		arrFileDesc.add(id) ;
 		tok = GetCurrentToken() ;
 		while (tok.GetType() == CTokenType.COMMA || tok.GetType() == CTokenType.IDENTIFIER)
 		{
@@ -88,7 +88,7 @@ public class CClose extends CCobolElement
 				id = ReadIdentifier() ;
 				if (id != null)
 				{
-					m_arrFileDesc.add(id) ;
+					arrFileDesc.add(id) ;
 					tok = GetCurrentToken() ;
 				}
 			}
@@ -98,9 +98,9 @@ public class CClose extends CCobolElement
 	protected Element ExportCustom(Document root)
 	{
 		Element eClose = root.createElement("Close");
-		for (int i = 0; i<m_arrFileDesc.size();i++)
+		for (int i = 0; i<arrFileDesc.size();i++)
 		{
-			CIdentifier id = m_arrFileDesc.get(i);
+			CIdentifier id = arrFileDesc.get(i);
 			Element eFile = root.createElement("File");
 			eClose.appendChild(eFile);
 			id.ExportTo(eFile, root) ;
@@ -108,5 +108,5 @@ public class CClose extends CCobolElement
 		return eClose;
 	}
 	
-	protected Vector<CIdentifier> m_arrFileDesc = new Vector<CIdentifier>() ;
+	protected Vector<CIdentifier> arrFileDesc = new Vector<CIdentifier>() ;
 }

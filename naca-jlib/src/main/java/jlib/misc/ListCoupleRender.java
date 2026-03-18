@@ -28,54 +28,54 @@ public class ListCoupleRender
 		return l;
 	}
 	
-	private static String m_csValue = null;
+	private static String csValue = null;
 	
 	private ListCoupleRender()
 	{
-		m_csValue = "";
+		csValue = "";
 	}
 	
 	private ListCoupleRender(String csTitle)
 	{
-		m_csValue = csTitle + ": ";
+		csValue = csTitle + ": ";
 	}
 	
 	public ListCoupleRender set(String csName, String csValue)
 	{
-		if(m_csValue != null)
-			m_csValue += "; ";
-		m_csValue += "(" + csName + ",'" + csValue +"')";
+		if(csValue != null)
+			csValue += "; ";
+		csValue += "(" + csName + ",'" + csValue +"')";
 		return this;
 	}
 	
 	public ListCoupleRender set(String csName, Integer nValue)
 	{
-		if(m_csValue != null)
-			m_csValue += "; ";
-		m_csValue += "(" + csName + ",'" + nValue +"')";
+		if(csValue != null)
+			csValue += "; ";
+		csValue += "(" + csName + ",'" + nValue +"')";
 		return this;
 	}
 	
 	public ListCoupleRender set(String csName, Short sValue)
 	{
-		if(m_csValue != null)
-			m_csValue += "; ";
-		m_csValue += "(" + csName + ",'" + sValue +"')";
+		if(csValue != null)
+			csValue += "; ";
+		csValue += "(" + csName + ",'" + sValue +"')";
 		return this;
 	}
 	
 	public ListCoupleRender set(String csName, Double dValue)
 	{
-		if(m_csValue != null)
-			m_csValue += "; ";
-		m_csValue += "(" + csName + ",'" + dValue +"')";
+		if(csValue != null)
+			csValue += "; ";
+		csValue += "(" + csName + ",'" + dValue +"')";
 		return this;
 	}
 	
 	public String toString()
 	{
-		if(m_csValue != null)
-			return m_csValue;
+		if(csValue != null)
+			return csValue;
 		return "";
 	}
 }

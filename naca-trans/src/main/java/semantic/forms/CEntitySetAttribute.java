@@ -37,83 +37,83 @@ public abstract class CEntitySetAttribute extends CBaseActionEntity
 	public CEntitySetAttribute(int line, CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity field)
 	{
 		super(line, cat, out);
-		m_RefField = field ;
+		refField = field ;
 	}
 
-	protected CDataEntity m_RefField = null ;
+	protected CDataEntity refField = null ;
 
 	public void SetBright()
 	{
-		m_bBright = true ;		
+		bBright = true ;		
 	}
-	protected boolean m_bBright = false ;
+	protected boolean bBright = false ;
 
 	public void SetModified()
 	{
-		m_bModified = true ;		
+		bModified = true ;		
 	}
-	protected boolean m_bModified = false ; 
+	protected boolean bModified = false ; 
 
 	public void SetNumeric()
 	{
-		m_bNumeric = true ; 		
+		bNumeric = true ; 		
 	}
-	protected boolean m_bNumeric = false ;
+	protected boolean bNumeric = false ;
 
 	public void SetProtected()
 	{
-		m_bProtected = true ;		
+		bProtected = true ;		
 	}
-	protected boolean m_bProtected = false ;
+	protected boolean bProtected = false ;
 
 	public void SetUnprotected()
 	{
-		m_bUnProtected = true ;		
+		bUnProtected = true ;		
 	}
-	protected boolean m_bUnProtected = false ;
+	protected boolean bUnProtected = false ;
 
 	public void SetAutoSkip()
 	{
-		m_bAutoSkip = true ;		
+		bAutoSkip = true ;		
 	}
-	protected boolean m_bAutoSkip = false ;
+	protected boolean bAutoSkip = false ;
 
 	public void SetNormal()
 	{
-		m_bNormal = true ;		
+		bNormal = true ;		
 	}
-	protected boolean m_bNormal = false ;
+	protected boolean bNormal = false ;
 
 	public void SetUnmodified()
 	{
-		m_bUnmodified = true;
+		bUnmodified = true;
 	}
-	protected boolean m_bUnmodified = false ;
+	protected boolean bUnmodified = false ;
 
 	public void SetDark()
 	{
-		m_bDark = true ;
+		bDark = true ;
 	}
-	protected boolean m_bDark = false ;
+	protected boolean bDark = false ;
 
 	public void SetAttribute(CDataEntity entity)
 	{
-		m_AttributeValue = entity ;		
+		attributeValue = entity ;		
 	}
-	protected CDataEntity m_AttributeValue = null ; 
+	protected CDataEntity attributeValue = null ; 
 	public void Clear()
 	{
 		super.Clear();
-		m_AttributeValue = null ;
-		m_RefField = null ;
+		attributeValue = null ;
+		refField = null ;
 	}
 	public boolean ignore()
 	{
-		if (m_RefField == null || m_RefField.ignore())
+		if (refField == null || refField.ignore())
 		{
 			return true ;
 		}
-		else if (m_AttributeValue != null && m_AttributeValue.ignore())
+		else if (attributeValue != null && attributeValue.ignore())
 		{
 			return true ;
 		}
@@ -121,9 +121,9 @@ public abstract class CEntitySetAttribute extends CBaseActionEntity
 	}
 	public boolean IgnoreVariable(CDataEntity data)
 	{
-		if (data == m_RefField)
+		if (data == refField)
 		{
-			m_RefField = null ;
+			refField = null ;
 			data.UnRegisterWritingAction(this) ;
 			return true ;
 		}
@@ -131,9 +131,9 @@ public abstract class CEntitySetAttribute extends CBaseActionEntity
 	}
 	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
 	{
-		if (m_RefField == field)
+		if (refField == field)
 		{
-			m_RefField = var ;
+			refField = var ;
 			field.UnRegisterWritingAction(this) ;
 			var.RegisterWritingAction(this) ;
 			return true ;
@@ -143,10 +143,10 @@ public abstract class CEntitySetAttribute extends CBaseActionEntity
 
 	public CBaseActionEntity GetSpecialAssignement(String val, CBaseEntityFactory factory)
 	{
-		if (m_RefField != null)
+		if (refField != null)
 		{
 			CTerminal term = new CStringTerminal(val) ;
-			CBaseActionEntity act = CEntityFieldAttribute.intGetSpecialAssignment(m_RefField, term, factory, getLine()) ;
+			CBaseActionEntity act = CEntityFieldAttribute.intGetSpecialAssignment(refField, term, factory, getLine()) ;
 			return act ;
 		}
 		return null;

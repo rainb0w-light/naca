@@ -42,19 +42,19 @@ public class CJavaSetColor extends CEntitySetColor
 	protected void DoExport()
 	{
 		String cs = "moveColor(";
-		if (m_Color != null)
+		if (color != null)
 		{
-			cs += "MapFieldAttrColor." + m_Color.m_text + ", " ;
+			cs += "MapFieldAttrColor." + color.text + ", " ;
 		}
-		else if (m_ColorVariable != null)
+		else if (colorVariable != null)
 		{
-			cs += m_ColorVariable.ExportReference(getLine()) + ", " ;
+			cs += colorVariable.ExportReference(getLine()) + ", " ;
 		}
 		else
 		{
 			cs += "MapFieldAttrColor.NEUTRAL, " ;
 		}
-		cs += m_Field.ExportReference(getLine())+ ") ;" ;
+		cs += field.ExportReference(getLine())+ ") ;" ;
 		WriteLine(cs) ; 
 	}
 

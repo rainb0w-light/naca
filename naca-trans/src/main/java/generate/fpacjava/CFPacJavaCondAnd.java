@@ -24,21 +24,21 @@ public class CFPacJavaCondAnd extends CEntityCondAnd
 	public CBaseEntityCondition GetOppositeCondition()
 	{
 		CFPacJavaCondOr eOr = new CFPacJavaCondOr();
-		eOr.SetCondition(m_Op1.GetOppositeCondition(), m_Op2.GetOppositeCondition()) ;
+		eOr.SetCondition(op1.GetOppositeCondition(), op2.GetOppositeCondition()) ;
 		return eOr;
 	}
 	public String Export()
 	{
-		if (m_Op1.ignore())
+		if (op1.ignore())
 		{
-			return m_Op2.Export();
+			return op2.Export();
 		}
-		else if (m_Op2.ignore())
+		else if (op2.ignore())
 		{
-			return m_Op1.Export();
+			return op1.Export();
 		}
-		String cs = CJavaExporter.ExportChildCondition(GetPriorityLevel(), m_Op1) + " \n&& " ; 
-		cs += CJavaExporter.ExportChildCondition(GetPriorityLevel(), m_Op2) ;
+		String cs = CJavaExporter.ExportChildCondition(GetPriorityLevel(), op1) + " \n&& " ; 
+		cs += CJavaExporter.ExportChildCondition(GetPriorityLevel(), op2) ;
 		return cs ;
 	}
 

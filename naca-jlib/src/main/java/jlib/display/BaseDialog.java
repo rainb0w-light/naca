@@ -31,11 +31,11 @@ import jlib.xml.TagCursor;
  */
 public abstract class BaseDialog
 {
-	private DisplayContext m_Context = null ; 
+	private DisplayContext context = null ; 
 	public BaseDialog(DisplayContext context)
 	{
-		m_csDisplayFile = context.getRootPath() + DeclareDispalyFile() ;
-		m_Context = context ;
+		csDisplayFile = context.getRootPath() + DeclareDispalyFile() ;
+		context = context ;
 	}
 	/**
 	 * 
@@ -218,9 +218,9 @@ public abstract class BaseDialog
 			{
 				MapMarker mark = map.getMarker(i) ;
 				Tag tagMark = tag.addTag("Marker") ;
-				tagMark.addVal("Label", mark.m_csLabel) ;
-				tagMark.addVal("Lng", mark.m_dLng) ;
-				tagMark.addVal("Lat", mark.m_dLat) ;
+				tagMark.addVal("Label", mark.csLabel) ;
+				tagMark.addVal("Lng", mark.dLng) ;
+				tagMark.addVal("Lat", mark.dLat) ;
 			}
 		}
 		else
@@ -362,7 +362,7 @@ public abstract class BaseDialog
 	}
 	private Tag getXMLFormFromResources(String csDisplay)
 	{
-		Tag tagDisplay = Tag.createFromFile(m_csDisplayFile) ;
+		Tag tagDisplay = Tag.createFromFile(csDisplayFile) ;
 		if (tagDisplay != null)
 		{
 			Tag tagForms = tagDisplay.getChild("Forms") ;
@@ -383,16 +383,16 @@ public abstract class BaseDialog
 		}
 		return null ;
 	}
-	private String m_csDisplayFile = "" ;
+	private String csDisplayFile = "" ;
 	
 	protected DisplayContext getContext()
 	{
-		return m_Context ;
+		return context ;
 	}
 	
 	protected void OpenDisplay(String form)
 	{
-		m_Context.AddDisplay(this, form) ;
+		context.AddDisplay(this, form) ;
 	}
 	
 	protected void OpenDisplay(BaseDialog dlg)
@@ -539,9 +539,9 @@ public abstract class BaseDialog
 	
 	protected void CloseCurrentDisplay()
 	{
-		if (!m_Context.m_stackDisplayedElements.isEmpty())
+		if (!context.stackDisplayedElements.isEmpty())
 		{
-			m_Context.m_stackDisplayedElements.pop() ;
+			context.stackDisplayedElements.pop() ;
 		}
 	}
 }

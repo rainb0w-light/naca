@@ -45,23 +45,23 @@ public class SQL
 	 * @param bCursor:
 	 *            true if a SQL cursor is concerned Internal usage only
 	 */
-	private AccountingRecordTrans m_accountingRecordManager = null;
-	private boolean m_bArrayCompressed = false; 
+	private AccountingRecordTrans accountingRecordManager = null;
+	private boolean bArrayCompressed = false; 
 
 	public SQL(BaseProgramManager programManager)
 	{
-		m_programManager = programManager;
+		programManager = programManager;
 	}
 	
 	public SQL(BaseProgramManager programManager, String csQuery, SQLCursor cursor/*, String csSourceFileLine*/, int nHashFileLine)
 	{
-		m_nSuffixeHash = nHashFileLine;
-		m_errorManager = new SQLErrorManager();
-		//m_csSourceFileLine = csSourceFileLine;
+		nSuffixeHash = nHashFileLine;
+		errorManager = new SQLErrorManager();
+		//csSourceFileLine = csSourceFileLine;
 		if (programManager != null)
 		{
 			BaseEnvironment env = programManager.getEnv();
-			m_accountingRecordManager = env.getAccountingRecordManager();
+			accountingRecordManager = env.getAccountingRecordManager();
 			DbConnectionBase SQLConnection = env.getSQLConnection();
 			if(SQLConnection != null)
 			{
@@ -79,15 +79,15 @@ public class SQL
 
 	public SQL(BaseEnvironment env, BaseProgramManager programManager, DbConnectionBase SQLConnection, String csQuery, SQLCursor cursor, CSQLStatus status)
 	{
-		m_errorManager = new SQLErrorManager();
+		errorManager = new SQLErrorManager();
 		//JmxGeneralStat.incNbSQLObjects(1);
-		m_accountingRecordManager = env.getAccountingRecordManager();
+		accountingRecordManager = env.getAccountingRecordManager();
 		create(programManager, SQLConnection, csQuery, cursor, status);
 	}
 
 	private void create(BaseProgramManager programManager, DbConnectionBase SQLConnection, String csQuery, SQLCursor cursor, CSQLStatus status)
 	{
-		m_programManager = programManager;
+		programManager = programManager;
 		if (CJMapObject.isLogSql)
 		{
 			if (cursor == null)
@@ -98,35 +98,35 @@ public class SQL
 		
 		status.setQuery(csQuery);
 
-		m_sqlStatus = status;
-		m_arrIntoItems = new ArrayDyn<CSQLIntoItem>();
-		m_hashParam = new HashMap<String, CSQLItem>();
-		m_hashValue = new HashMap<String, CSQLItem>();
-		m_SQLConnection = SQLConnection;
+		sqlStatus = status;
+		arrIntoItems = new ArrayDyn<CSQLIntoItem>();
+		hashParam = new HashMap<String, CSQLItem>();
+		hashValue = new HashMap<String, CSQLItem>();
+		sQLConnection = SQLConnection;
 		// boolean bUseSQLMBean = BaseResourceManager.getUseSQLMBean();
 
 		boolean bUseExplain = SQLConnection.getUseExplain();
-		m_csQuery = csQuery;
-		m_csQueryUpper = csQuery.toUpperCase();
-		m_nSQLUniqueId = getSQLUniqueId();
+		csQuery = csQuery;
+		csQueryUpper = csQuery.toUpperCase();
+		nSQLUniqueId = getSQLUniqueId();
 
-		m_bRowIdGenerated = false;
-		m_bOperationExecuted = false;
+		bRowIdGenerated = false;
+		bOperationExecuted = false;
 
 		boolean bCursor = false;
 		if (cursor != null)
 			bCursor = true;
-		m_SQLTypeOperation = SQLTypeOperation.determineOperationType(m_csQueryUpper, bCursor);
+		sQLTypeOperation = SQLTypeOperation.determineOperationType(csQueryUpper, bCursor);
 
 		boolean bRowIdToAdd = false;
 
 		if (cursor != null)
 		{
-			int nForUpdate = m_csQueryUpper.indexOf("FOR UPDATE");
+			int nForUpdate = csQueryUpper.indexOf("FOR UPDATE");
 			if (nForUpdate >= 0)
 			{
 				bUseExplain = false; // No Explain for FOR UPDATE CLAUSES
-				if (!m_SQLConnection.supportCursorName())
+				if (!sQLConnection.supportCursorName())
 				{
 					bRowIdToAdd = true;
 					cursor.setMustBeNamed(false);
@@ -144,77 +144,77 @@ public class SQL
 
 		manageOperationDeclaration(bRowIdToAdd);
 		
-		m_sqlStatus.setQuery(m_csQuery);
+		sqlStatus.setQuery(csQuery);
 		
 		attachToCursor(cursor);
 		manageOperationEnding();
 
 		if (bUseExplain)
 		{
-			m_csExplainQuery = "EXPLAIN PLAN SET QUERYNO=" + m_nSQLUniqueId + " FOR " + m_csQuery;
+			csExplainQuery = "EXPLAIN PLAN SET QUERYNO=" + nSQLUniqueId + " FOR " + csQuery;
 		}
 	}
 
 	private void attachToCursor(SQLCursor cursor)
 	{
-		m_cursor = cursor;
+		cursor = cursor;
 	}
 
-	private SQLCursor m_cursor = null;
+	private SQLCursor cursor = null;
 
 	public void reuse(CSQLStatus status, BaseEnvironment env, SQLCursor cursor)
 	{
 		//JmxGeneralStat.incNbSQLObjectsReuse(1);
-		m_accountingRecordManager = env.getAccountingRecordManager();
-		m_sqlStatus = status;
-		m_sqlStatus.setQuery(m_csQuery);		
+		accountingRecordManager = env.getAccountingRecordManager();
+		sqlStatus = status;
+		sqlStatus.setQuery(csQuery);		
 		resetExecuted(env);
-		m_SQLCursorResultSet = null;
-		m_nNbWhereParamDeclared = 0;
-		m_nNbIntoParamDeclared = 0;
-		m_nNbColToSetDeclared = 0;
+		sQLCursorResultSet = null;
+		nNbWhereParamDeclared = 0;
+		nNbIntoParamDeclared = 0;
+		nNbColToSetDeclared = 0;
 		attachToCursor(cursor);
 		manageOperationEnding();
-		m_bReused = true;
-		m_nNbFetch = 0;
-		m_errorManager.reuse();
+		bReused = true;
+		nNbFetch = 0;
+		errorManager.reuse();
 	}
 
 	private void compressArrays()
 	{
-		m_bArrayCompressed = true;
+		bArrayCompressed = true;
 		// Compress once array
-		if (m_arrIntoItems.isDyn())
+		if (arrIntoItems.isDyn())
 		{
-			int nSize = m_arrIntoItems.size();
+			int nSize = arrIntoItems.size();
 			CSQLIntoItem arr[] = new CSQLIntoItem[nSize];
-			m_arrIntoItems.transferInto(arr);
+			arrIntoItems.transferInto(arr);
 
 			ArrayFix<CSQLIntoItem> arrFix = new ArrayFix<CSQLIntoItem>(arr);
-			m_arrIntoItems = arrFix;
+			arrIntoItems = arrFix;
 		}
 
-		if (m_arrColSelectType != null && m_arrColSelectType.isDyn())
+		if (arrColSelectType != null && arrColSelectType.isDyn())
 		{
-			int nSize = m_arrColSelectType.size();
+			int nSize = arrColSelectType.size();
 			Integer arr[] = new Integer[nSize];
-			m_arrColSelectType.transferInto(arr);
+			arrColSelectType.transferInto(arr);
 
 			ArrayFix<Integer> arrFix = new ArrayFix<Integer>(arr);
-			m_arrColSelectType = arrFix;
+			arrColSelectType = arrFix;
 		}
 	}
 
 	public void resetExecuted(BaseEnvironment env)
 	{
-		m_bOperationExecuted = false;
-		m_SQLConnection = env.getSQLConnection();
+		bOperationExecuted = false;
+		sQLConnection = env.getSQLConnection();
 	}
 	
 	public void resetErrorManager()
 	{
-		if (m_errorManager != null)
-			m_errorManager.reuse();
+		if (errorManager != null)
+			errorManager.reuse();
 	}
 
 	private void manageColStarDeclarations()
@@ -222,11 +222,11 @@ public class SQL
 		boolean bStarFound = false;
 		int nNbComma = 0;
 		int nNbOpenParenthesis = 0;
-		int nPosFrom = m_csQueryUpper.indexOf("FROM ");
-		int nPos = m_csQueryUpper.indexOf("SELECT ") + 6;
+		int nPosFrom = csQueryUpper.indexOf("FROM ");
+		int nPos = csQueryUpper.indexOf("SELECT ") + 6;
 		for (; nPos < nPosFrom; nPos++)
 		{
-			char c = m_csQueryUpper.charAt(nPos);
+			char c = csQueryUpper.charAt(nPos);
 			if (c == ',' && nNbOpenParenthesis == 0)
 			{
 				if (bStarFound)
@@ -262,21 +262,21 @@ public class SQL
 
 	private void addStarAtCol(int nColId)
 	{
-		if (m_arrColSelectType == null)
-			m_arrColSelectType = new ArrayDyn<Integer>();
+		if (arrColSelectType == null)
+			arrColSelectType = new ArrayDyn<Integer>();
 		Integer iColId = Integer.valueOf(nColId);
-		m_arrColSelectType.add(iColId); // The nColId is a *
+		arrColSelectType.add(iColId); // The nColId is a *
 	}
 
 	private void manageOperationDeclaration(boolean bMustAddRowId)
 	{
-		if (m_SQLTypeOperation == SQLTypeOperation.Select || m_SQLTypeOperation == SQLTypeOperation.CursorSelect)
+		if (sQLTypeOperation == SQLTypeOperation.Select || sQLTypeOperation == SQLTypeOperation.CursorSelect)
 		{
-			m_arrMarkerNames = findAndUpdateMarkers();
-			m_nNbWhereParamToProvide = m_arrMarkerNames.size();
-			m_nNbWhereParamDeclared = 0;			
-			m_nNbIntoParamToProvide = getNbIntoParam();
-			if (m_SQLTypeOperation == SQLTypeOperation.CursorSelect && bMustAddRowId) // Add
+			arrMarkerNames = findAndUpdateMarkers();
+			nNbWhereParamToProvide = arrMarkerNames.size();
+			nNbWhereParamDeclared = 0;			
+			nNbIntoParamToProvide = getNbIntoParam();
+			if (sQLTypeOperation == SQLTypeOperation.CursorSelect && bMustAddRowId) // Add
 																						// to
 																						// ROWID
 																						// Column
@@ -293,56 +293,56 @@ public class SQL
 																						// UPDATE"
 																						// support
 			{
-				int nPosSelect = m_csQueryUpper.indexOf("SELECT");
+				int nPosSelect = csQueryUpper.indexOf("SELECT");
 				if (nPosSelect == 0)
 				{
-					String csRight = m_csQuery.substring(nPosSelect + 6);
-					m_csQuery = "SELECT ROWID, " + csRight;
-					m_csQueryUpper = m_csQuery.toUpperCase();
-					m_bRowIdGenerated = true;
-					m_nNbIntoParamToProvide++;
+					String csRight = csQuery.substring(nPosSelect + 6);
+					csQuery = "SELECT ROWID, " + csRight;
+					csQueryUpper = csQuery.toUpperCase();
+					bRowIdGenerated = true;
+					nNbIntoParamToProvide++;
 				}
 			}
 			manageColStarDeclarations();
 		}
-		else if (m_SQLTypeOperation == SQLTypeOperation.Insert)
+		else if (sQLTypeOperation == SQLTypeOperation.Insert)
 		{
-			m_arrMarkerNames = findAndUpdateMarkers();
-			m_nNbColToSetToProvide = m_arrMarkerNames.size();
+			arrMarkerNames = findAndUpdateMarkers();
+			nNbColToSetToProvide = arrMarkerNames.size();
 		}
-		else if (m_SQLTypeOperation == SQLTypeOperation.Update)
+		else if (sQLTypeOperation == SQLTypeOperation.Update)
 		{
-			m_nNbWhereParamToProvide = getNbWhereParam();
-			m_nNbWhereParamDeclared = 0;
-			m_arrMarkerNames = findAndUpdateMarkers();
-			m_nNbColToSetToProvide = m_arrMarkerNames.size() - m_nNbWhereParamToProvide;
+			nNbWhereParamToProvide = getNbWhereParam();
+			nNbWhereParamDeclared = 0;
+			arrMarkerNames = findAndUpdateMarkers();
+			nNbColToSetToProvide = arrMarkerNames.size() - nNbWhereParamToProvide;
 		}
-		else if (m_SQLTypeOperation == SQLTypeOperation.Delete)
+		else if (sQLTypeOperation == SQLTypeOperation.Delete)
 		{
-			m_arrMarkerNames = findAndUpdateMarkers();
-			m_nNbWhereParamToProvide = m_arrMarkerNames.size();
-			m_nNbWhereParamDeclared = 0;
+			arrMarkerNames = findAndUpdateMarkers();
+			nNbWhereParamToProvide = arrMarkerNames.size();
+			nNbWhereParamDeclared = 0;
 		}
-		if (m_SQLConnection != null)
+		if (sQLConnection != null)
 		{
-			m_csQuery = SQLTypeOperation.addEnvironmentPrefix(m_SQLConnection.getEnvironmentPrefix(), m_csQuery, m_SQLTypeOperation, "");
-			m_csQueryUpper = m_csQuery.toUpperCase();
+			csQuery = SQLTypeOperation.addEnvironmentPrefix(sQLConnection.getEnvironmentPrefix(), csQuery, sQLTypeOperation, "");
+			csQueryUpper = csQuery.toUpperCase();
 		}
 	}
 
 	private void executeOnceExplainQuery()
 	{
-		Statement statement = m_SQLConnection.create();
+		Statement statement = sQLConnection.create();
 		if (statement != null)
 		{
 			try
 			{
-				statement.executeUpdate(m_csExplainQuery);
-				m_csExplainQuery = null;
+				statement.executeUpdate(csExplainQuery);
+				csExplainQuery = null;
 			}
 			catch (SQLException e)
 			{
-				Log.logImportant("Could not execute explain query (error=" + e.getErrorCode() + ") : " + m_csExplainQuery);
+				Log.logImportant("Could not execute explain query (error=" + e.getErrorCode() + ") : " + csExplainQuery);
 			}
 		}
 	}
@@ -351,198 +351,198 @@ public class SQL
 	{
 		//boolean bExecDone = false;
 
-		if (m_SQLConnection == null || m_bOperationExecuted)
+		if (sQLConnection == null || bOperationExecuted)
 			return false;
 		
-		if (m_SQLTypeOperation == SQLTypeOperation.CursorSelect)
+		if (sQLTypeOperation == SQLTypeOperation.CursorSelect)
 		{
-			if (m_nNbWhereParamDeclared == m_nNbWhereParamToProvide) // All
+			if (nNbWhereParamDeclared == nNbWhereParamToProvide) // All
 																		// params
 																		// have
 																		// been
 																		// filled
 			{
-				if (m_SQLCursorResultSet == null) // 1st step: all params
+				if (sQLCursorResultSet == null) // 1st step: all params
 													// have been provided;
 													// must now prepare the
 													// statement
 				{
-					m_accountingRecordManager.incCursorOpen();
+					accountingRecordManager.incCursorOpen();
 					//JmxGeneralStat.incOpenCursor(1);
-					if (m_csExplainQuery != null)
+					if (csExplainQuery != null)
 						executeOnceExplainQuery();
 
 					CSQLPreparedStatement SQLStatement = executePrepareSelect();
 
 					if (SQLStatement != null)
 					{
-						if (m_SQLConnection.supportCursorName())
+						if (sQLConnection.supportCursorName())
 						{
-							if (m_cursor != null && m_cursor.getMustNameCursor())
+							if (cursor != null && cursor.getMustNameCursor())
 							{
-								String csCursorName = m_cursor.getUniqueCursorName();
+								String csCursorName = cursor.getUniqueCursorName();
 								SQLStatement.setCursorName(csCursorName, this);
 							}
 						}
-						m_SQLCursorResultSet = SQLStatement.executeQueryCursor(this);
+						sQLCursorResultSet = SQLStatement.executeQueryCursor(this);
 					}
 				}
-				if (m_nNbIntoParamToProvide == m_nNbIntoParamDeclared && m_SQLCursorResultSet != null) // All
+				if (nNbIntoParamToProvide == nNbIntoParamDeclared && sQLCursorResultSet != null) // All
 																										// into
 																										// have
 																										// been
 																										// specified
 				{
-					m_accountingRecordManager.incFetchCursor();
+					accountingRecordManager.incFetchCursor();
 					//JmxGeneralStat.incFetchCursor(1);
 
-					m_accountingRecordManager.startDbIO();
-					boolean bNext = m_SQLCursorResultSet.next();
+					accountingRecordManager.startDbIO();
+					boolean bNext = sQLCursorResultSet.next();
 					
-					m_accountingRecordManager.endDbIO();
+					accountingRecordManager.endDbIO();
 
 					if (bNext)
 					{
-						m_SQLCursorResultSet.fillIntoValues(this, true, m_bRowIdGenerated, m_nNbFetch);
+						sQLCursorResultSet.fillIntoValues(this, true, bRowIdGenerated, nNbFetch);
 					}
-					m_nNbFetch++;
-					m_nNbIntoParamDeclared = 0; // no more into
-					m_bOperationExecuted = true;
+					nNbFetch++;
+					nNbIntoParamDeclared = 0; // no more into
+					bOperationExecuted = true;
 				}
 			}
 		}
-		else if (m_SQLTypeOperation == SQLTypeOperation.Select)
+		else if (sQLTypeOperation == SQLTypeOperation.Select)
 		{
-			if (m_nNbWhereParamDeclared == m_nNbWhereParamToProvide && m_nNbIntoParamDeclared == m_nNbIntoParamToProvide) // All
+			if (nNbWhereParamDeclared == nNbWhereParamToProvide && nNbIntoParamDeclared == nNbIntoParamToProvide) // All
 																															// params
 																															// have
 																															// been
 																															// filled
 			{
-				m_accountingRecordManager.incSelect();
-				if (m_csExplainQuery != null)
+				accountingRecordManager.incSelect();
+				if (csExplainQuery != null)
 					executeOnceExplainQuery();
 
 				CSQLPreparedStatement SQLStatement = executePrepareSelect();
 				if (SQLStatement != null)
 				{
-					executeQueryAndFillInto(SQLStatement, m_nNbFetch);
-					m_nNbFetch++;
-					m_bOperationExecuted = true;
+					executeQueryAndFillInto(SQLStatement, nNbFetch);
+					nNbFetch++;
+					bOperationExecuted = true;
 //						bExecDone = true;
 				}
-//					if(!m_bArrayCompressed)
+//					if(!bArrayCompressed)
 //						compressArrays();
-				//m_SQLConnection = null;
+				//sQLConnection = null;
 			}
 		}
-		else if (m_SQLTypeOperation == SQLTypeOperation.Insert)
+		else if (sQLTypeOperation == SQLTypeOperation.Insert)
 		{
-			if (m_nNbColToSetToProvide == m_nNbColToSetDeclared)
+			if (nNbColToSetToProvide == nNbColToSetDeclared)
 			{
-				m_accountingRecordManager.incInsert();
-				if (m_csExplainQuery != null)
+				accountingRecordManager.incInsert();
+				if (csExplainQuery != null)
 					executeOnceExplainQuery();
 
 				executeInsert();
-				m_bOperationExecuted = true;
+				bOperationExecuted = true;
 //					bExecDone = true;
-//					if(!m_bArrayCompressed)
+//					if(!bArrayCompressed)
 //						compressArrays();
-				//m_SQLConnection = null;
+				//sQLConnection = null;
 			}
 		}
-		else if (m_SQLTypeOperation == SQLTypeOperation.Update)
+		else if (sQLTypeOperation == SQLTypeOperation.Update)
 		{
-			if (m_nNbWhereParamDeclared == m_nNbWhereParamToProvide && m_nNbColToSetDeclared == m_nNbColToSetToProvide)
+			if (nNbWhereParamDeclared == nNbWhereParamToProvide && nNbColToSetDeclared == nNbColToSetToProvide)
 			{
-				m_accountingRecordManager.incUpdate();
-				if (m_csExplainQuery != null)
+				accountingRecordManager.incUpdate();
+				if (csExplainQuery != null)
 					executeOnceExplainQuery();
 
 				executeUpdate();
-				m_bOperationExecuted = true;
+				bOperationExecuted = true;
 //					bExecDone = true;
-//					if(!m_bArrayCompressed)
+//					if(!bArrayCompressed)
 //						compressArrays();
-				//m_SQLConnection = null;
+				//sQLConnection = null;
 			}
 		}
-		else if (m_SQLTypeOperation == SQLTypeOperation.Delete)
+		else if (sQLTypeOperation == SQLTypeOperation.Delete)
 		{
-			if (m_nNbWhereParamDeclared == m_nNbWhereParamToProvide)
+			if (nNbWhereParamDeclared == nNbWhereParamToProvide)
 			{
-				m_accountingRecordManager.incDelete();
-				if (m_csExplainQuery != null)
+				accountingRecordManager.incDelete();
+				if (csExplainQuery != null)
 					executeOnceExplainQuery();
 
 				executeDelete();
-				m_bOperationExecuted = true;
+				bOperationExecuted = true;
 //					bExecDone = true;
-//					if(!m_bArrayCompressed)
+//					if(!bArrayCompressed)
 //						compressArrays();
-				//m_SQLConnection = null;
+				//sQLConnection = null;
 			}
 		}
-		else if (m_SQLTypeOperation == SQLTypeOperation.Lock)
+		else if (sQLTypeOperation == SQLTypeOperation.Lock)
 		{
 			executeLock();
-			m_bOperationExecuted = true;
+			bOperationExecuted = true;
 //				bExecDone = true;
-//				if(!m_bArrayCompressed)
+//				if(!bArrayCompressed)
 //					compressArrays();
-			//m_SQLConnection = null;
+			//sQLConnection = null;
 		}
-		else if (m_SQLTypeOperation == SQLTypeOperation.Create)
+		else if (sQLTypeOperation == SQLTypeOperation.Create)
 		{
 			executeCreateTable();
-			m_bOperationExecuted = true;
+			bOperationExecuted = true;
 //				bExecDone = true;
-//				if(!m_bArrayCompressed)
+//				if(!bArrayCompressed)
 //					compressArrays();
-			//m_SQLConnection = null;
+			//sQLConnection = null;
 		}
-		else if (m_SQLTypeOperation == SQLTypeOperation.Drop)
+		else if (sQLTypeOperation == SQLTypeOperation.Drop)
 		{
 			executeDropTable();
-			m_bOperationExecuted = true;
+			bOperationExecuted = true;
 //				bExecDone = true;
-//				if(!m_bArrayCompressed)
+//				if(!bArrayCompressed)
 //					compressArrays();
-			//m_SQLConnection = null;
+			//sQLConnection = null;
 		}
-		else if (m_SQLTypeOperation == SQLTypeOperation.Declare)
+		else if (sQLTypeOperation == SQLTypeOperation.Declare)
 		{
 			executeDeclareOrder();
-			m_bOperationExecuted = true;
+			bOperationExecuted = true;
 //				bExecDone = true;
-//				if(!m_bArrayCompressed)
+//				if(!bArrayCompressed)
 //					compressArrays();
-			//m_SQLConnection = null;
+			//sQLConnection = null;
 		}
 				
-		if(m_bOperationExecuted)
+		if(bOperationExecuted)
 		{
-			if(m_sqlStatus != null)
+			if(sqlStatus != null)
 			{
-				m_errorManager.manageSQLError(m_sqlStatus);
-				boolean b = m_sqlStatus.isLastSQLCodeConnectionKiller();
+				errorManager.manageSQLError(sqlStatus);
+				boolean b = sqlStatus.isLastSQLCodeConnectionKiller();
 				if(b)
 				{
-					m_SQLConnection.setConnectionUnreusable();	// This connection can't be used anymore
+					sQLConnection.setConnectionUnreusable();	// This connection can't be used anymore
 			
 					AbortSessionException exp = new AbortSessionException() ;
-					exp.m_Reason = new Error("Connection killer SQLCode received:"+m_sqlStatus.toString());
-					exp.m_ProgramName = null;  // register current program that throws the exception.
+					exp.reason = new Error("Connection killer SQLCode received:"+sqlStatus.toString());
+					exp.programName = null;  // register current program that throws the exception.
 					throw exp ;
 				}
 			}
-			m_SQLConnection = null;
-			if(!m_bArrayCompressed)
+			sQLConnection = null;
+			if(!bArrayCompressed)
 				compressArrays();
 		}				
 		
-		return m_bOperationExecuted;
+		return bOperationExecuted;
 	}
 
 	/**
@@ -553,27 +553,27 @@ public class SQL
 	 */
 	public SQL into(VarAndEdit varDestCol)
 	{
-		if(m_nNbIntoParamDeclared < m_nNbIntoParamToProvide)	// if (canFillInto())
+		if(nNbIntoParamDeclared < nNbIntoParamToProvide)	// if (canFillInto())
 		{
 			if (CJMapObject.isLogSql)
 				Log.logDebug("into " + varDestCol.getLoggableValue());
-			if (/*m_bReused && */m_nNbIntoParamDeclared < m_arrIntoItems.size())
+			if (/*bReused && */nNbIntoParamDeclared < arrIntoItems.size())
 			{
-				CSQLIntoItem sqlIntoItem = m_arrIntoItems.get(m_nNbIntoParamDeclared);
+				CSQLIntoItem sqlIntoItem = arrIntoItems.get(nNbIntoParamDeclared);
 				sqlIntoItem.set(varDestCol, null);
 			}
 			else
 			{
 				CSQLIntoItem sqlIntoItem = new CSQLIntoItem(varDestCol, null);
-				m_arrIntoItems.add(sqlIntoItem);
+				arrIntoItems.add(sqlIntoItem);
 			}
-			m_nNbIntoParamDeclared++;
+			nNbIntoParamDeclared++;
 			manageOperationEnding();
 		}
 		else
 		{
 			Log.logImportant("Error: Too many into set; into " + varDestCol.getLoggableValue());
-			m_sqlStatus.setSQLCode("into", -1, "ERROR : too many 'into set'", m_csQuery);	///, m_csSourceFileLine);
+			sqlStatus.setSQLCode("into", -1, "ERROR : too many 'into set'", csQuery);	///, csSourceFileLine);
 		}
 		return this;
 	}
@@ -593,24 +593,24 @@ public class SQL
 	 */
 	public SQL into(VarAndEdit varDestCol, Var varIndicator)
 	{
-		if(m_nNbIntoParamDeclared < m_nNbIntoParamToProvide)	// if (canFillInto())	
+		if(nNbIntoParamDeclared < nNbIntoParamToProvide)	// if (canFillInto())	
 		{
 			CSQLIntoItem sqlIntoItem = null;
-			if (/*m_bReused && */m_nNbIntoParamDeclared < m_arrIntoItems.size())
+			if (/*bReused && */nNbIntoParamDeclared < arrIntoItems.size())
 			{
-				sqlIntoItem = m_arrIntoItems.get(m_nNbIntoParamDeclared);
+				sqlIntoItem = arrIntoItems.get(nNbIntoParamDeclared);
 				sqlIntoItem.set(varDestCol, varIndicator);
 			}
 			else
 			{
 				sqlIntoItem = new CSQLIntoItem(varDestCol, varIndicator);
-				m_arrIntoItems.add(sqlIntoItem);
+				arrIntoItems.add(sqlIntoItem);
 			}
 
 			if (CJMapObject.isLogSql)
 				Log.logDebug(sqlIntoItem.getLoggableValue());
 
-			m_nNbIntoParamDeclared++;
+			nNbIntoParamDeclared++;
 			
 			boolean bExecDone = manageOperationEnding();
 			if (bExecDone && varIndicator != null) // Maybe we had an occurs of
@@ -631,14 +631,14 @@ public class SQL
 		{
 			CSQLIntoItem sqlIntoItemTemp = new CSQLIntoItem(varDestCol, varIndicator);	
 			Log.logCritical("Error: Too many into set; " + sqlIntoItemTemp.getLoggableValue());
-			m_sqlStatus.setSQLCode("into", -1, "ERROR : too many 'into set'", m_csQuery/*, m_csSourceFileLine*/);
+			sqlStatus.setSQLCode("into", -1, "ERROR : too many 'into set'", csQuery/*, csSourceFileLine*/);
 		}
 		return this;
 	}
 
 //	private boolean canFillInto()
 //	{
-//		if (m_nNbIntoParamDeclared < m_nNbIntoParamToProvide)
+//		if (nNbIntoParamDeclared < nNbIntoParamToProvide)
 //			return true;
 //		return false; // PJD: TODO: Crash due to too many into ?
 //	}
@@ -675,18 +675,18 @@ public class SQL
 	{
 		if (CJMapObject.isLogSql)
 			Log.logDebug("value " + csName + "=" + nValue);
-		if (m_bReused)
+		if (bReused)
 		{
-			CSQLItem Item = m_hashValue.get(csName);
+			CSQLItem Item = hashValue.get(csName);
 			Item.set(nValue);
 		}
 		else
 		{
 			CSQLItem Item = new CSQLItem(nValue);
-			m_hashValue.put(csName, Item);
+			hashValue.put(csName, Item);
 		}
 
-		m_nNbColToSetDeclared++;
+		nNbColToSetDeclared++;
 		manageOperationEnding();
 
 		return this;
@@ -724,18 +724,18 @@ public class SQL
 	{
 		if (CJMapObject.isLogSql)
 			Log.logDebug("value " + csName + "=" + dValue);
-		if (m_bReused)
+		if (bReused)
 		{
-			CSQLItem Item = m_hashValue.get(csName);
+			CSQLItem Item = hashValue.get(csName);
 			Item.set(dValue);
 		}
 		else
 		{
 			CSQLItem Item = new CSQLItem(dValue);
-			m_hashValue.put(csName, Item);
+			hashValue.put(csName, Item);
 		}
 
-		m_nNbColToSetDeclared++;
+		nNbColToSetDeclared++;
 		manageOperationEnding();
 
 		return this;
@@ -773,17 +773,17 @@ public class SQL
 	{
 		if (CJMapObject.isLogSql)
 			Log.logDebug("value " + csName + "=" + csValue);
-		if (m_bReused)
+		if (bReused)
 		{
-			CSQLItem Item = m_hashValue.get(csName);
+			CSQLItem Item = hashValue.get(csName);
 			Item.set(csValue);
 		}
 		else
 		{
 			CSQLItem Item = new CSQLItem(csValue);
-			m_hashValue.put(csName, Item);
+			hashValue.put(csName, Item);
 		}
-		m_nNbColToSetDeclared++;
+		nNbColToSetDeclared++;
 		manageOperationEnding();
 
 		return this;
@@ -821,18 +821,18 @@ public class SQL
 	{
 		if (CJMapObject.isLogSql)
 			Log.logDebug("value " + csName + "=" + varValue.getLoggableValue());
-		if (m_bReused)
+		if (bReused)
 		{
-			CSQLItem Item = m_hashValue.get(csName);
+			CSQLItem Item = hashValue.get(csName);
 			Item.set(varValue);
 		}
 		else
 		{
 			CSQLItem Item = new CSQLItem(varValue);
-			m_hashValue.put(csName, Item);
+			hashValue.put(csName, Item);
 		}
 
-		m_nNbColToSetDeclared++;
+		nNbColToSetDeclared++;
 		manageOperationEnding();
 
 		return this;
@@ -840,7 +840,7 @@ public class SQL
 
 	public SQL setHoldability(boolean b)
 	{
-		m_bHoldability = b;
+		bHoldability = b;
 		manageOperationEnding();
 		return this;
 	}
@@ -879,18 +879,18 @@ public class SQL
 		{
 			if (CJMapObject.isLogSql)
 				Log.logDebug("param " + csName + "=" + var.getLoggableValue());
-			if (!m_bReused)
+			if (!bReused)
 			{
 				CSQLItem Item = new CSQLItem(var);
-				m_hashParam.put(csName.toUpperCase(), Item);
+				hashParam.put(csName.toUpperCase(), Item);
 			}
 			else
 			{
-				CSQLItem Item = m_hashParam.get(csName.toUpperCase());
+				CSQLItem Item = hashParam.get(csName.toUpperCase());
 				Item.set(var);
 			}
 
-			m_nNbWhereParamDeclared++;
+			nNbWhereParamDeclared++;
 			manageOperationEnding();
 		}
 		else
@@ -935,18 +935,18 @@ public class SQL
 		{
 			if (CJMapObject.isLogSql)
 				Log.logDebug("param " + csName + "=" + nValue);
-			if (!m_bReused)
+			if (!bReused)
 			{
 				CSQLItem Item = new CSQLItem(nValue);
-				m_hashParam.put(csName.toUpperCase(), Item);
+				hashParam.put(csName.toUpperCase(), Item);
 			}
 			else
 			{
-				CSQLItem Item = m_hashParam.get(csName.toUpperCase());
+				CSQLItem Item = hashParam.get(csName.toUpperCase());
 				Item.set(nValue);
 			}
 
-			m_nNbWhereParamDeclared++;
+			nNbWhereParamDeclared++;
 			manageOperationEnding();
 		}
 		else
@@ -990,18 +990,18 @@ public class SQL
 		{
 			if (CJMapObject.isLogSql)
 				Log.logDebug("param " + csName + "=" + dValue);
-			if (!m_bReused)
+			if (!bReused)
 			{
 				CSQLItem Item = new CSQLItem(dValue);
-				m_hashParam.put(csName.toUpperCase(), Item);
+				hashParam.put(csName.toUpperCase(), Item);
 			}
 			else
 			{
-				CSQLItem Item = m_hashParam.get(csName.toUpperCase());
+				CSQLItem Item = hashParam.get(csName.toUpperCase());
 				Item.set(dValue);
 			}
 
-			m_nNbWhereParamDeclared++;
+			nNbWhereParamDeclared++;
 			manageOperationEnding();
 		}
 		else
@@ -1046,18 +1046,18 @@ public class SQL
 			if (CJMapObject.isLogSql)
 				Log.logDebug("param " + csName + "=" + csValue);
 
-			if (!m_bReused)
+			if (!bReused)
 			{
 				CSQLItem Item = new CSQLItem(csValue);
-				m_hashParam.put(csName.toUpperCase(), Item);
+				hashParam.put(csName.toUpperCase(), Item);
 			}
 			else
 			{
-				CSQLItem Item = m_hashParam.get(csName.toUpperCase());
+				CSQLItem Item = hashParam.get(csName.toUpperCase());
 				Item.set(csValue);
 			}
 
-			m_nNbWhereParamDeclared++;
+			nNbWhereParamDeclared++;
 			manageOperationEnding();
 		}
 		else
@@ -1069,7 +1069,7 @@ public class SQL
 	
 	private int getNbWhereParam()
 	{
-		int nPosWhere = m_csQueryUpper.indexOf("WHERE");
+		int nPosWhere = csQueryUpper.indexOf("WHERE");
 		if (nPosWhere != -1)
 		{
 			int nNb = getCountOfChar('#', nPosWhere);
@@ -1080,7 +1080,7 @@ public class SQL
 
 	private boolean canFillParam()
 	{
-		if (m_nNbWhereParamDeclared < m_nNbWhereParamToProvide)
+		if (nNbWhereParamDeclared < nNbWhereParamToProvide)
 			return true;
 		return false; // TODO: Crash due to too many param provided ?
 	}
@@ -1091,11 +1091,11 @@ public class SQL
 		int nNbComma = 0;
 		int nNbPoint = 0;
 		int nNbOpenParenthesis = 0;
-		int n = m_csQueryUpper.indexOf(' '); // Skip leadin select, insert, ...
-		int nPosFrom = m_csQueryUpper.indexOf("FROM");
+		int n = csQueryUpper.indexOf(' '); // Skip leadin select, insert, ...
+		int nPosFrom = csQueryUpper.indexOf("FROM");
 		while (n < nPosFrom)
 		{
-			char c = m_csQueryUpper.charAt(n);
+			char c = csQueryUpper.charAt(n);
 			if (c == ',' && nNbOpenParenthesis == 0)
 				nNbComma++;
 			else if (c == '(')
@@ -1114,7 +1114,7 @@ public class SQL
 		{
 			// The number of into is the number of tables
 			int nNbInto = getNbTables();
-			m_bOneStarOnly = true;
+			bOneStarOnly = true;
 			return nNbInto;
 		}
 
@@ -1123,19 +1123,19 @@ public class SQL
 
 	private int getNbTables()
 	{
-		int nPosFrom = m_csQueryUpper.indexOf("FROM");
+		int nPosFrom = csQueryUpper.indexOf("FROM");
 		if (nPosFrom != -1)
 		{
 			String csTables = null;
-			int nPosWhere = m_csQueryUpper.indexOf("WHERE");
-			int nPosOrder = m_csQueryUpper.indexOf("ORDER");
+			int nPosWhere = csQueryUpper.indexOf("WHERE");
+			int nPosOrder = csQueryUpper.indexOf("ORDER");
 			int nPosEnd = SQLTypeOperation.minPositive(nPosWhere, nPosOrder);			
-			int nPosForUpdate = m_csQueryUpper.indexOf("FOR UPDATE");
+			int nPosForUpdate = csQueryUpper.indexOf("FOR UPDATE");
 			nPosEnd = SQLTypeOperation.minPositive(nPosEnd, nPosForUpdate);
 			if (nPosEnd != -1)
-				csTables = m_csQueryUpper.substring(nPosFrom, nPosEnd).trim();
+				csTables = csQueryUpper.substring(nPosFrom, nPosEnd).trim();
 			else
-				csTables = m_csQueryUpper;
+				csTables = csQueryUpper;
 
 			int nNbTables = 1;
 			for (int n = 0; n < csTables.length(); n++)
@@ -1155,7 +1155,7 @@ public class SQL
 	 */
 	private int getCountOfChar(char c, int nPosStart)
 	{
-		return getCountOfChar(c, nPosStart, m_csQuery.length());
+		return getCountOfChar(c, nPosStart, csQuery.length());
 	}
 
 	/**
@@ -1164,11 +1164,11 @@ public class SQL
 	private int getCountOfChar(char c, int nPosStart, int nPosEnd)
 	{
 		int nNb = 0;
-		int nIndex = m_csQuery.indexOf(c, nPosStart);
+		int nIndex = csQuery.indexOf(c, nPosStart);
 		while (nIndex >= 0 && nIndex < nPosEnd)
 		{
 			nNb++;
-			nIndex = m_csQuery.indexOf(c, nIndex + 1);
+			nIndex = csQuery.indexOf(c, nIndex + 1);
 		}
 		return nNb;
 	}
@@ -1178,7 +1178,7 @@ public class SQL
 	 */
 	CSQLItem getParam(String csItemName)
 	{
-		CSQLItem Item = m_hashParam.get(csItemName.toUpperCase());
+		CSQLItem Item = hashParam.get(csItemName.toUpperCase());
 		return Item;
 	}
 
@@ -1187,7 +1187,7 @@ public class SQL
 	 */
 	CSQLItem getCol(String csItemName)
 	{
-		CSQLItem Item = m_hashValue.get(csItemName.toUpperCase());
+		CSQLItem Item = hashValue.get(csItemName.toUpperCase());
 		return Item;
 	}
 
@@ -1196,19 +1196,19 @@ public class SQL
 	 */
 	private CSQLPreparedStatement executePrepareSelect()
 	{
-		// m_nNbPrepare++;
-		m_accountingRecordManager.startDbIO();
-		CSQLPreparedStatement SQLStatement = (CSQLPreparedStatement) m_SQLConnection.prepareStatement(m_csQuery, m_nSuffixeHash, m_bHoldability);
-		//SQLStatement.setSourceFileLine(m_csSourceFileLine);
-		m_accountingRecordManager.endDbIO();
+		// nNbPrepare++;
+		accountingRecordManager.startDbIO();
+		CSQLPreparedStatement SQLStatement = (CSQLPreparedStatement) sQLConnection.prepareStatement(csQuery, nSuffixeHash, bHoldability);
+		//SQLStatement.setSourceFileLine(csSourceFileLine);
+		accountingRecordManager.endDbIO();
 
 		if (SQLStatement != null)
 		{
 			// Set the parameters
-			int nNbItemNames = m_arrMarkerNames.size();
+			int nNbItemNames = arrMarkerNames.size();
 			for (int nItemNames = 0; nItemNames < nNbItemNames; nItemNames++)
 			{
-				String csItemName = m_arrMarkerNames.get(nItemNames);
+				String csItemName = arrMarkerNames.get(nItemNames);
 
 				CSQLItem item = getParam(csItemName);
 				SQLStatement.setVarParamValue(this, nItemNames, item);
@@ -1226,8 +1226,8 @@ public class SQL
 	protected CSQLResultSet executeQueryAndFillInto(CSQLPreparedStatement SQLStatement, int nNbFetch)
 	{
 		// CSQLResultSet SQLResultSet =
-		// SQLStatement.executeQueryAndFillInto(this, m_sqlStatus, arrIntoItems,
-		// m_arrColSelectType, m_bOneStarOnly, m_accountingRecordManager,
+		// SQLStatement.executeQueryAndFillInto(this, sqlStatus, arrIntoItems,
+		// arrColSelectType, bOneStarOnly, accountingRecordManager,
 		// m_hashParam, m_hashValue);
 		CSQLResultSet SQLResultSet = SQLStatement.executeQueryAndFillInto(this, nNbFetch);
 		return SQLResultSet;
@@ -1241,10 +1241,10 @@ public class SQL
 		ArrayFixDyn<String> arrItemNames = new ArrayDyn<String>();
 
 		// Replace #xx placeholdersd by ?
-		int nPosStart = m_csQuery.indexOf('#', 0);
+		int nPosStart = csQuery.indexOf('#', 0);
 		while (nPosStart != -1)
 		{
-			String sLeft = m_csQuery.substring(0, nPosStart);
+			String sLeft = csQuery.substring(0, nPosStart);
 			int n = nPosStart;
 			n++; // Skip the #
 			String sItemId = extractItemId(n);
@@ -1252,13 +1252,13 @@ public class SQL
 			{
 				n += sItemId.length();
 				arrItemNames.add(sItemId);
-				String sRight = m_csQuery.substring(n);
-				m_csQuery = sLeft + "?" + sRight;
+				String sRight = csQuery.substring(n);
+				csQuery = sLeft + "?" + sRight;
 			}
 
-			nPosStart = m_csQuery.indexOf('#', nPosStart);
+			nPosStart = csQuery.indexOf('#', nPosStart);
 		}
-		m_csQueryUpper = m_csQuery.toUpperCase();
+		csQueryUpper = csQuery.toUpperCase();
 
 		// Compress array
 		int nSize = arrItemNames.size();
@@ -1275,20 +1275,20 @@ public class SQL
 	String extractItemId(int nPos)
 	{
 		int nStart = nPos;
-		int nLength = m_csQuery.length();
-		char c = m_csQuery.charAt(nPos);
+		int nLength = csQuery.length();
+		char c = csQuery.charAt(nPos);
 		while (Character.isLetterOrDigit(c))
 		{
 			nPos++;
 			if (nPos == nLength)
 			{
-				String s = m_csQuery.substring(nStart);
+				String s = csQuery.substring(nStart);
 				return s;
 			}
 
-			c = m_csQuery.charAt(nPos);
+			c = csQuery.charAt(nPos);
 		}
-		String s = m_csQuery.substring(nStart, nPos);
+		String s = csQuery.substring(nStart, nPos);
 		return s;
 	}
 
@@ -1297,26 +1297,26 @@ public class SQL
 	 */
 	private void executeInsert()
 	{
-		// m_nNbPrepare++;
-		m_accountingRecordManager.startDbIO();
-		CSQLPreparedStatement SQLStatement = (CSQLPreparedStatement) m_SQLConnection.prepareStatement(m_csQuery, m_nSuffixeHash, false);
-		m_accountingRecordManager.endDbIO();
+		// nNbPrepare++;
+		accountingRecordManager.startDbIO();
+		CSQLPreparedStatement SQLStatement = (CSQLPreparedStatement) sQLConnection.prepareStatement(csQuery, nSuffixeHash, false);
+		accountingRecordManager.endDbIO();
 
 		if (SQLStatement != null)
 		{
 			// Set the Col values
-			int nNbItemNames = m_arrMarkerNames.size();
+			int nNbItemNames = arrMarkerNames.size();
 			for (int nItemNames = 0; nItemNames < nNbItemNames; nItemNames++)
 			{
-				String csItemName = m_arrMarkerNames.get(nItemNames);
+				String csItemName = arrMarkerNames.get(nItemNames);
 
 				CSQLItem param = getCol(csItemName);
 				SQLStatement.setVarParamValue(this, nItemNames, param);
 			}
 
-			m_accountingRecordManager.startDbIO();
+			accountingRecordManager.startDbIO();
 			SQLStatement.executeInsert(this);
-			m_accountingRecordManager.endDbIO();
+			accountingRecordManager.endDbIO();
 		}
 	}
 
@@ -1325,16 +1325,16 @@ public class SQL
 	 */
 	private void executeUpdate()
 	{
-		m_accountingRecordManager.startDbIO();
-		CSQLPreparedStatement SQLStatement = (CSQLPreparedStatement) m_SQLConnection.prepareStatement(m_csQuery, m_nSuffixeHash, false);
-		m_accountingRecordManager.endDbIO();
+		accountingRecordManager.startDbIO();
+		CSQLPreparedStatement SQLStatement = (CSQLPreparedStatement) sQLConnection.prepareStatement(csQuery, nSuffixeHash, false);
+		accountingRecordManager.endDbIO();
 
 		if (SQLStatement != null)
 		{
-			int nNbItemNames = m_arrMarkerNames.size();
+			int nNbItemNames = arrMarkerNames.size();
 			for (int nItemNames = 0; nItemNames < nNbItemNames; nItemNames++)
 			{
-				String csItemName = m_arrMarkerNames.get(nItemNames);
+				String csItemName = arrMarkerNames.get(nItemNames);
 
 				CSQLItem param = getCol(csItemName);
 				if (param == null) // item is not a col value
@@ -1342,9 +1342,9 @@ public class SQL
 				SQLStatement.setVarParamValue(this, nItemNames, param);
 			}
 
-			m_accountingRecordManager.startDbIO();
+			accountingRecordManager.startDbIO();
 			SQLStatement.executeUpdate(this);
-			m_accountingRecordManager.endDbIO();
+			accountingRecordManager.endDbIO();
 		}
 	}
 
@@ -1353,62 +1353,62 @@ public class SQL
 	 */
 	private void executeDelete()
 	{
-		m_accountingRecordManager.startDbIO();
-		CSQLPreparedStatement SQLStatement = (CSQLPreparedStatement) m_SQLConnection.prepareStatement(m_csQuery, m_nSuffixeHash, false);
-		m_accountingRecordManager.endDbIO();
+		accountingRecordManager.startDbIO();
+		CSQLPreparedStatement SQLStatement = (CSQLPreparedStatement) sQLConnection.prepareStatement(csQuery, nSuffixeHash, false);
+		accountingRecordManager.endDbIO();
 
 		if (SQLStatement != null)
 		{
 			// Set the parameters
-			int nNbItemNames = m_arrMarkerNames.size();
+			int nNbItemNames = arrMarkerNames.size();
 			for (int nItemNames = 0; nItemNames < nNbItemNames; nItemNames++)
 			{
-				String csItemName = m_arrMarkerNames.get(nItemNames);
+				String csItemName = arrMarkerNames.get(nItemNames);
 
 				CSQLItem param = getParam(csItemName);
 				SQLStatement.setVarParamValue(this, nItemNames, param);
 			}
 
-			m_accountingRecordManager.startDbIO();
+			accountingRecordManager.startDbIO();
 			SQLStatement.executeDelete(this);
-			m_accountingRecordManager.endDbIO();
+			accountingRecordManager.endDbIO();
 		}
 	}
 
 	private void executeLock()
 	{
-		m_accountingRecordManager.startDbIO();
-		CSQLPreparedStatement SQLStatement = (CSQLPreparedStatement) m_SQLConnection.prepareStatement(m_csQuery, m_nSuffixeHash, false);
+		accountingRecordManager.startDbIO();
+		CSQLPreparedStatement SQLStatement = (CSQLPreparedStatement) sQLConnection.prepareStatement(csQuery, nSuffixeHash, false);
 
 		SQLStatement.executeLock(this);
-		m_accountingRecordManager.endDbIO();
+		accountingRecordManager.endDbIO();
 	}
 	
 	private void executeCreateTable()
 	{
-		m_accountingRecordManager.startDbIO();
-		CSQLPreparedStatement SQLStatement = (CSQLPreparedStatement) m_SQLConnection.prepareStatement(m_csQuery, m_nSuffixeHash, false);
+		accountingRecordManager.startDbIO();
+		CSQLPreparedStatement SQLStatement = (CSQLPreparedStatement) sQLConnection.prepareStatement(csQuery, nSuffixeHash, false);
 
 		SQLStatement.executeCreateTable(this);
-		m_accountingRecordManager.endDbIO();
+		accountingRecordManager.endDbIO();
 	}
 	
 	private void executeDropTable()
 	{
-		m_accountingRecordManager.startDbIO();
-		CSQLPreparedStatement SQLStatement = (CSQLPreparedStatement) m_SQLConnection.prepareStatement(m_csQuery, m_nSuffixeHash, false);
+		accountingRecordManager.startDbIO();
+		CSQLPreparedStatement SQLStatement = (CSQLPreparedStatement) sQLConnection.prepareStatement(csQuery, nSuffixeHash, false);
 
 		SQLStatement.executeDropTable(this);
-		m_accountingRecordManager.endDbIO();
+		accountingRecordManager.endDbIO();
 	}
 	
 	private void executeDeclareOrder()
 	{
-		m_accountingRecordManager.startDbIO();
-		CSQLPreparedStatement SQLStatement = (CSQLPreparedStatement) m_SQLConnection.prepareStatement(m_csQuery, m_nSuffixeHash, false);
+		accountingRecordManager.startDbIO();
+		CSQLPreparedStatement SQLStatement = (CSQLPreparedStatement) sQLConnection.prepareStatement(csQuery, nSuffixeHash, false);
 
 		SQLStatement.executeDeclareOrder(this);
-		m_accountingRecordManager.endDbIO();
+		accountingRecordManager.endDbIO();
 	}
 
 
@@ -1417,97 +1417,97 @@ public class SQL
 	 */
 	public CSQLResultSet executeQuery()
 	{
-		if (m_SQLTypeOperation == SQLTypeOperation.CursorSelect)
+		if (sQLTypeOperation == SQLTypeOperation.CursorSelect)
 		{
-			if (m_nNbWhereParamDeclared == m_nNbWhereParamToProvide) // All
+			if (nNbWhereParamDeclared == nNbWhereParamToProvide) // All
 																		// params
 																		// have
 																		// been
 																		// filled
 			{
-				if (m_SQLCursorResultSet == null) // 1st step: all params have
+				if (sQLCursorResultSet == null) // 1st step: all params have
 													// been provided; must now
 													// prepare the statement
 				{
-					m_accountingRecordManager.incCursorOpen();
+					accountingRecordManager.incCursorOpen();
 					//JmxGeneralStat.incOpenCursor(1);
 					CSQLPreparedStatement SQLStatement = executePrepareSelect();
 					if (SQLStatement != null)
 					{
-						m_SQLCursorResultSet = SQLStatement.executeQueryCursor(this);
+						sQLCursorResultSet = SQLStatement.executeQueryCursor(this);
 						manageSqlError();
 					}
 				}
-				else if (m_nNbIntoParamToProvide == m_nNbIntoParamDeclared && m_SQLCursorResultSet != null) // All
+				else if (nNbIntoParamToProvide == nNbIntoParamDeclared && sQLCursorResultSet != null) // All
 																											// into
 																											// have
 																											// been
 																											// specified
 				{
-					m_accountingRecordManager.incFetchCursor();
+					accountingRecordManager.incFetchCursor();
 					//JmxGeneralStat.incFetchCursor(1);
-					if (m_SQLCursorResultSet.next())					
-						m_SQLCursorResultSet.fillIntoValues(this, true, m_bRowIdGenerated, m_nNbFetch);
+					if (sQLCursorResultSet.next())					
+						sQLCursorResultSet.fillIntoValues(this, true, bRowIdGenerated, nNbFetch);
 					
-					m_nNbFetch++;
-					m_nNbIntoParamDeclared = 0; // no more into
+					nNbFetch++;
+					nNbIntoParamDeclared = 0; // no more into
 					manageSqlError();
 				}
-				m_SQLConnection = null;
+				sQLConnection = null;
 			}
 		}
-		else if (m_SQLTypeOperation == SQLTypeOperation.Select)
+		else if (sQLTypeOperation == SQLTypeOperation.Select)
 		{
-			if (m_nNbWhereParamDeclared == m_nNbWhereParamToProvide) // All
+			if (nNbWhereParamDeclared == nNbWhereParamToProvide) // All
 																		// params
 																		// have
 																		// been
 																		// filled
 			{
-				m_accountingRecordManager.incSelect();
+				accountingRecordManager.incSelect();
 				CSQLPreparedStatement SQLStatement = executePrepareSelect();
 				if (SQLStatement != null)
 				{
-					m_SQLCursorResultSet = SQLStatement.executeQuery(this); // m_sqlStatus,
-																			// m_arrColSelectType,
-																			// m_accountingRecordManager,
+					sQLCursorResultSet = SQLStatement.executeQuery(this); // sqlStatus,
+																			// arrColSelectType,
+																			// accountingRecordManager,
 																			// m_hashParam,
 																			// m_hashValue);
-					m_SQLConnection = null;
+					sQLConnection = null;
 					manageSqlError();
-					return m_SQLCursorResultSet;
+					return sQLCursorResultSet;
 				}
-				m_SQLConnection = null;
+				sQLConnection = null;
 			}
 		}
-		else if (m_SQLTypeOperation == SQLTypeOperation.Insert)
+		else if (sQLTypeOperation == SQLTypeOperation.Insert)
 		{
-			if (m_nNbColToSetToProvide == m_nNbColToSetDeclared)
+			if (nNbColToSetToProvide == nNbColToSetDeclared)
 			{
-				m_accountingRecordManager.incInsert();
+				accountingRecordManager.incInsert();
 				executeInsert();
 				manageSqlError();
-				m_SQLConnection = null;
+				sQLConnection = null;
 			}
 		}
-		else if (m_SQLTypeOperation == SQLTypeOperation.Update)
+		else if (sQLTypeOperation == SQLTypeOperation.Update)
 		{
-			if (m_nNbWhereParamDeclared == m_nNbWhereParamToProvide && m_nNbColToSetDeclared == m_nNbColToSetToProvide)
+			if (nNbWhereParamDeclared == nNbWhereParamToProvide && nNbColToSetDeclared == nNbColToSetToProvide)
 			{
-				m_accountingRecordManager.incUpdate();
+				accountingRecordManager.incUpdate();
 				executeUpdate();
 				manageSqlError();
-				m_SQLConnection = null;
+				sQLConnection = null;
 			}
 		}
-		else if (m_SQLTypeOperation == SQLTypeOperation.Delete)
+		else if (sQLTypeOperation == SQLTypeOperation.Delete)
 		{
-			if (m_nNbWhereParamDeclared == m_nNbWhereParamToProvide)
+			if (nNbWhereParamDeclared == nNbWhereParamToProvide)
 			{
-				m_accountingRecordManager.incDelete();
+				accountingRecordManager.incDelete();
 				executeDelete();
 				manageSqlError();
-				m_SQLConnection = null;
+				sQLConnection = null;
 			}
 		}
 		return null;
@@ -1515,9 +1515,9 @@ public class SQL
 	
 	private void manageSqlError()
 	{
-		if(m_sqlStatus != null)
+		if(sqlStatus != null)
 		{
-			if (m_sqlStatus.isLastSQLCodeAnError())
+			if (sqlStatus.isLastSQLCodeAnError())
 			{
 				throw new AbortSessionException();
 			}
@@ -1526,19 +1526,19 @@ public class SQL
 
 	public SQL onErrorGoto(Paragraph paragraphSQGErrorGoto)
 	{
-		m_errorManager.manageOnErrorGoto(paragraphSQGErrorGoto, m_sqlStatus);
+		errorManager.manageOnErrorGoto(paragraphSQGErrorGoto, sqlStatus);
 		return this;
 	}
 
 	public SQL onErrorGoto(Section section)
 	{
-		m_errorManager.manageOnErrorGoto(section, m_sqlStatus);
+		errorManager.manageOnErrorGoto(section, sqlStatus);
 		return this;
 	}
 
 	public SQL onErrorContinue()
 	{
-		m_errorManager.manageOnErrorContinue(m_sqlStatus);
+		errorManager.manageOnErrorContinue(sqlStatus);
 		return this;
 	}
 
@@ -1562,7 +1562,7 @@ public class SQL
 
 	public DbConnectionBase getConnection()
 	{
-		return m_SQLConnection;
+		return sQLConnection;
 	}
 
 	/**
@@ -1570,30 +1570,30 @@ public class SQL
 	 */
 	public boolean hasRowIdGenerated()
 	{
-		return m_bRowIdGenerated;
+		return bRowIdGenerated;
 	}
 
 	SQLRecordSetVarFiller getCachedRecordSetVarFiller(long lHashedId)
 	{
-		if(m_hashSqlRecordSetVarFiller != null)
-			return m_hashSqlRecordSetVarFiller.get(lHashedId);
+		if(hashSqlRecordSetVarFiller != null)
+			return hashSqlRecordSetVarFiller.get(lHashedId);
 		return null;
 	}
 
 	void saveCachedRecordSetVarFiller(long lHashedId, SQLRecordSetVarFiller sqlRecordSetVarFiller)
 	{
-		if(m_hashSqlRecordSetVarFiller == null)
-			m_hashSqlRecordSetVarFiller = new Hashtable<Long, SQLRecordSetVarFiller>();
-		m_hashSqlRecordSetVarFiller.put(lHashedId, sqlRecordSetVarFiller);
-		//m_sqlRecordSetVarFiller = sqlRecordSetVarFiller;
+		if(hashSqlRecordSetVarFiller == null)
+			hashSqlRecordSetVarFiller = new Hashtable<Long, SQLRecordSetVarFiller>();
+		hashSqlRecordSetVarFiller.put(lHashedId, sqlRecordSetVarFiller);
+		//sqlRecordSetVarFiller = sqlRecordSetVarFiller;
 	}
 
-	private Hashtable<Long, SQLRecordSetVarFiller> m_hashSqlRecordSetVarFiller = null; 
+	private Hashtable<Long, SQLRecordSetVarFiller> hashSqlRecordSetVarFiller = null; 
 
 	public void close()
 	{
-		if (m_SQLCursorResultSet != null)
-			m_SQLCursorResultSet.close();
+		if (sQLCursorResultSet != null)
+			sQLCursorResultSet.close();
 	}
 
 	private static int getSQLUniqueId()
@@ -1603,45 +1603,45 @@ public class SQL
 
 	public String getQuery()
 	{
-		return m_csQuery;
+		return csQuery;
 	}
 
 	public String getProgram()
 	{
-		if (m_programManager != null)
-			return m_programManager.m_program.m_csSimpleName;
+		if (programManager != null)
+			return programManager.program.csSimpleName;
 		return "@UnknownProgram";
 	}
 
 	void startDbIO()
 	{
-		m_accountingRecordManager.startDbIO();
+		accountingRecordManager.startDbIO();
 	}
 
 	void endDbIO()
 	{
-		m_accountingRecordManager.endDbIO();
+		accountingRecordManager.endDbIO();
 	}
 
 	boolean getOneStarOnlyMode()
 	{
-		return m_bOneStarOnly;
+		return bOneStarOnly;
 	}
 
 	String getDebugParams()
 	{
-		return getDebugParamValue(m_hashParam);
+		return getDebugParamValue(hashParam);
 	}
 
 	String getDebugValues()
 	{
-		return getDebugParamValue(m_hashValue);
+		return getDebugParamValue(hashValue);
 	}
 
 	private String getDebugParamValue(HashMap<String, CSQLItem> map)
 	{
 		StringBuffer csBuffer = new StringBuffer();
-		if (m_hashParam != null)
+		if (hashParam != null)
 		{
 			int n = 0;
 			Set<Map.Entry<String, CSQLItem>> set = map.entrySet();
@@ -1668,11 +1668,11 @@ public class SQL
 	long getIntoAllVarsUniqueHashedId()
 	{
 		long l = 0;
-		if(m_arrIntoItems != null)
+		if(arrIntoItems != null)
 		{
-			for(int n=0; n<m_arrIntoItems.size(); n++)
+			for(int n=0; n<arrIntoItems.size(); n++)
 			{
-				CSQLIntoItem intoItem = m_arrIntoItems.get(n);
+				CSQLIntoItem intoItem = arrIntoItems.get(n);
 				l += n * 65536;
 				l += intoItem.getUniqueHashedId();
 			}
@@ -1680,74 +1680,74 @@ public class SQL
 		return l; 
 	}
 	
-	protected CSQLResultSet m_SQLCursorResultSet = null;
+	protected CSQLResultSet sQLCursorResultSet = null;
 
-	CSQLStatus m_sqlStatus = null;
+	CSQLStatus sqlStatus = null;
 
-	ArrayFixDyn<Integer> m_arrColSelectType = null;
+	ArrayFixDyn<Integer> arrColSelectType = null;
 
-	ArrayFixDyn<CSQLIntoItem> m_arrIntoItems = null; // Array of CSQLIntoItem
+	ArrayFixDyn<CSQLIntoItem> arrIntoItems = null; // Array of CSQLIntoItem
 
-	private HashMap<String, CSQLItem> m_hashParam = null; // Hash of CSQLItem;
+	private HashMap<String, CSQLItem> hashParam = null; // Hash of CSQLItem;
 															// indexed on name
 
-	private SQLTypeOperation m_SQLTypeOperation = null;
+	private SQLTypeOperation sQLTypeOperation = null;
 
-	private int m_nNbWhereParamToProvide = 0;
+	private int nNbWhereParamToProvide = 0;
 
-	private int m_nNbWhereParamDeclared = 0; // Number of where param
+	private int nNbWhereParamDeclared = 0; // Number of where param
 												// declared
 
-	private int m_nNbIntoParamToProvide = 0; // Number of column "into" for
+	private int nNbIntoParamToProvide = 0; // Number of column "into" for
 												// select
 
-	private int m_nNbIntoParamDeclared = 0; // Number of into() methods
+	private int nNbIntoParamDeclared = 0; // Number of into() methods
 											// specified
 
-	private int m_nNbColToSetToProvide = 0; // Number of column to insert
+	private int nNbColToSetToProvide = 0; // Number of column to insert
 
-	private int m_nNbColToSetDeclared = 0; // Number of value() methods
+	private int nNbColToSetDeclared = 0; // Number of value() methods
 											// specified for insert
 
-	private HashMap<String, CSQLItem> m_hashValue = null; // Hash of CSQLItem
+	private HashMap<String, CSQLItem> hashValue = null; // Hash of CSQLItem
 															// used for item to
 															// insert; indexed
 															// on name
 
-	private ArrayFixDyn<String> m_arrMarkerNames = null;
+	private ArrayFixDyn<String> arrMarkerNames = null;
 
-	private boolean m_bOperationExecuted = false;
+	private boolean bOperationExecuted = false;
 
-	private boolean m_bRowIdGenerated = false;
+	private boolean bRowIdGenerated = false;
 
-	private DbConnectionBase m_SQLConnection = null;
+	private DbConnectionBase sQLConnection = null;
 
-	String m_csQuery = null;
-	private String m_csQueryUpper = null;
+	String csQuery = null;
+	private String csQueryUpper = null;
 
-	private int m_nSQLUniqueId = 0; // Each unique SQL clause has it's own id
+	private int nSQLUniqueId = 0; // Each unique SQL clause has it's own id
 
-	private boolean m_bOneStarOnly = false;
+	private boolean bOneStarOnly = false;
 
-	protected BaseProgramManager m_programManager = null;
+	protected BaseProgramManager programManager = null;
 
 	private static ThreadSafeCounter ms_threadSafeCounter = new ThreadSafeCounter();
 
-	private String m_csExplainQuery = null;
+	private String csExplainQuery = null;
 
-	private boolean m_bHoldability = false;
+	private boolean bHoldability = false;
 
-	private SQLErrorManager m_errorManager = null;
+	private SQLErrorManager errorManager = null;
 
-	// private SQLMBeanCursor m_SQLMBeanCursor = null; // Must exists, as it
+	// private SQLMBeanCursor sQLMBeanCursor = null; // Must exists, as it
 	// holds a ref on the bean
-	// private SQLMBean m_SQLMBean = null; // Must exists, as it holds a ref on
+	// private SQLMBean sQLMBean = null; // Must exists, as it holds a ref on
 	// the bean
-	private boolean m_bReused = false;
+	private boolean bReused = false;
 
-	private int m_nSuffixeHash = 0;
+	private int nSuffixeHash = 0;
 	
-	private int m_nNbFetch = 0;
+	private int nNbFetch = 0;
 
-	//private String m_csSourceFileLine = null;
+	//private String csSourceFileLine = null;
 }

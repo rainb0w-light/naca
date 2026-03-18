@@ -27,77 +27,77 @@ public class CalendarCacheManager
 	
 	void flush()
 	{
-		m_timeNextCheck_ms = 0;
+		timeNextCheck_ms = 0;
 	}
 	
 	boolean mustCheckServiceOpenState()
 	{
-		long lCurrentTime_ms = m_currentDate.setNow();
-		if(lCurrentTime_ms >= m_timeNextCheck_ms)	// No need to check: not enough tine has elaped
+		long lCurrentTime_ms = currentDate.setNow();
+		if(lCurrentTime_ms >= timeNextCheck_ms)	// No need to check: not enough tine has elaped
 			return true;
 		return false;
 	}
 	
 	void setNoDefinition()
 	{
-		m_currentState = CalendarOpenState.AppOpened;
-		m_currentOpenCalendarRange = null;
+		currentState = CalendarOpenState.AppOpened;
+		currentOpenCalendarRange = null;
 	}
 	
 	CalendarOpenState getCurrentState()
 	{
-		return m_currentState;
+		return currentState;
 	}
 	
 	void setCurrentOpenStateUnknown()
 	{
-		m_currentState = CalendarOpenState.Unknown;
-		m_currentOpenCalendarRange = null;
+		currentState = CalendarOpenState.Unknown;
+		currentOpenCalendarRange = null;
 	}
 	
 	void setCurrentOpenState(CalendarOpenState state, OpenCalendarRange range)
 	{
-		long lCurrentTime_ms = m_currentDate.getTimeInMillis();
-		String cs0 = m_currentDate.toString();
+		long lCurrentTime_ms = currentDate.getTimeInMillis();
+		String cs0 = currentDate.toString();
 		
-		m_currentState = state;
-		m_currentOpenCalendarRange = range;
+		currentState = state;
+		currentOpenCalendarRange = range;
 
 		Calendar calEnd = Calendar.getInstance();
-		calEnd.set(m_currentDate.getYear(), m_currentDate.getMonth(), m_currentDate.getDay(), range.m_nHour[1], range.m_nMinute[1], range.m_nSecond[1]); 
+		calEnd.set(currentDate.getYear(), currentDate.getMonth(), currentDate.getDay(), range.nHour[1], range.nMinute[1], range.nSecond[1]); 
 
-		m_timeNextCheck_ms = calEnd.getTimeInMillis();
+		timeNextCheck_ms = calEnd.getTimeInMillis();
 		String cs = calEnd.toString();
 		
-		long l = (m_timeNextCheck_ms - lCurrentTime_ms);
+		long l = (timeNextCheck_ms - lCurrentTime_ms);
 		l /= 1000 ;
 		int n = 0;		
 	}
 	
 	Integer getCurrentDateAsIntegerYYYYMMDD()
 	{
-		return m_currentDate.getDateAsIntegerYYYYMMDD();
+		return currentDate.getDateAsIntegerYYYYMMDD();
 	}
 	
 	int getCurrentDayOfWeek()
 	{
-		return m_currentDate.getDayOfWeek();
+		return currentDate.getDayOfWeek();
 	}
 	
 	CurrentDateInfo getCurrentDate()
 	{
-		return m_currentDate;
+		return currentDate;
 	}
 	
 	String getCurrentOpenCalendarRangeString()
 	{
-		if(m_currentOpenCalendarRange != null)
-			return m_currentOpenCalendarRange.getAsString();
+		if(currentOpenCalendarRange != null)
+			return currentOpenCalendarRange.getAsString();
 		return "";			
 	}
 	
-	private CalendarOpenState m_currentState = null; 
-	private long m_timeNextCheck_ms = 0;
-	private CurrentDateInfo m_currentDate = new CurrentDateInfo();
-	private OpenCalendarRange m_currentOpenCalendarRange = null;
+	private CalendarOpenState currentState = null; 
+	private long timeNextCheck_ms = 0;
+	private CurrentDateInfo currentDate = new CurrentDateInfo();
+	private OpenCalendarRange currentOpenCalendarRange = null;
 }

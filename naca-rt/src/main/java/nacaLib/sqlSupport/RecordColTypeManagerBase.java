@@ -24,11 +24,11 @@ public abstract class RecordColTypeManagerBase
 {
 	RecordColTypeManagerBase(int nColSourceIndex)
 	{
-		m_nColSourceIndex = nColSourceIndex;
+		nColSourceIndex = nColSourceIndex;
 	}
 	
 	abstract boolean fillColValue(ResultSet rs, VarBase varInto);
 	public abstract boolean transfer(int nColumnNumber1Based, ResultSet resultSetSource, PreparedStatement insertStatementInsert);
 	
-	protected int m_nColSourceIndex;
+	protected int nColSourceIndex;
 }

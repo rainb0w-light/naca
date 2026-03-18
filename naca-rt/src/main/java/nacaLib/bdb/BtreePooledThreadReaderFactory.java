@@ -19,16 +19,16 @@ import jlib.threads.PoolOfThreads;
  */
 public class BtreePooledThreadReaderFactory extends BasePooledThreadFactory
 {
-	private BtreeFile m_btreeFile = null;
+	private BtreeFile btreeFile = null;
 	public BtreePooledThreadReaderFactory(BtreeFile btreeFile)
 	{
-		m_btreeFile = btreeFile;
+		btreeFile = btreeFile;
 	}
 	
 	public BtreePooledReaderThread make(PoolOfThreads owningPool)
 	{
 		BtreePooledReaderThread thread = new BtreePooledReaderThread(owningPool);
-		thread.setBtreeFile(m_btreeFile);
+		thread.setBtreeFile(btreeFile);
 		
 		return thread;
 	}

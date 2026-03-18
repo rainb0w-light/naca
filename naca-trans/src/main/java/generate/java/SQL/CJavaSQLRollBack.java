@@ -36,7 +36,7 @@ public class CJavaSQLRollBack extends CEntitySQLRollBack
 	protected void DoExport()
 	{
 		WriteWord("sqlRollback()") ;
-		String csSQLErrorWarningStatement = m_ProgramCatalog.getSQLWarningErrorStatement();
+		String csSQLErrorWarningStatement = programCatalog.getSQLWarningErrorStatement();
 		if(csSQLErrorWarningStatement != null)
 		{
 			WriteWord(csSQLErrorWarningStatement);

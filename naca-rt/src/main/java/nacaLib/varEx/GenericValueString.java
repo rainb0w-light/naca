@@ -24,23 +24,23 @@ public class GenericValueString extends GenericValue
 {
 	GenericValueString(String cs)
 	{
-		m_cs = cs;
+		cs = cs;
 	}
 	
 	String getAsRawString()
 	{
-		return m_cs;
+		return cs;
 	}
 	
 	String getAsString()
 	{
-		return String.valueOf(m_cs);
+		return String.valueOf(cs);
 	}
 
 	
 	int getAsInt()
 	{
-		int n = NumberParser.getAsInt(m_cs);
+		int n = NumberParser.getAsInt(cs);
 		return n;
 	}
 	
@@ -55,7 +55,7 @@ public class GenericValueString extends GenericValue
 	
 	Dec getAsDec()
 	{
-		long l = NumberParser.getAsLong(m_cs);
+		long l = NumberParser.getAsLong(cs);
 		Dec dec = new Dec(l, "");
 		return dec;
 	}
@@ -69,9 +69,9 @@ public class GenericValueString extends GenericValue
 	
 	double getAsDouble()
 	{
-		double d = NumberParser.getAsDouble(m_cs);
+		double d = NumberParser.getAsDouble(cs);
 		return d;
 	}
 	
-	private String m_cs = null;
+	private String cs = null;
 }

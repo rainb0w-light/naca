@@ -40,7 +40,7 @@ public class CJavaExec extends CEntityExec
 	 */
 	protected void DoExport()
 	{
-		WriteLine("execStatement(\"" + m_csStatement+ "\") ;") ;
+		WriteLine("execStatement(\"" + csStatement+ "\") ;") ;
 	}
 
 }

@@ -37,22 +37,22 @@ public class CJavaProcedureDivision extends CEntityProcedureDivision
 
 	protected void DoExport()
 	{
-		if (m_arrCallParameters.size() > 0)
+		if (arrCallParameters.size() > 0)
 		{
 			String line = "ParamDeclaration callParameters = declare" ;
 			WriteWord(line);
-			for (int i=0; i<m_arrCallParameters.size(); i++)
+			for (int i=0; i<arrCallParameters.size(); i++)
 			{
-				CDataEntity e = m_arrCallParameters.get(i);
+				CDataEntity e = arrCallParameters.get(i);
 				WriteWord(".using(" + e.ExportReference(getLine())+")");
 			}
 			WriteWord(";");
 			WriteEOL() ;
 		}
-		if (m_ProcedureBloc != null)
+		if (procedureBloc != null)
 		{
 			WriteLine("public void procedureDivision() {");
-			DoExport(m_ProcedureBloc) ;
+			DoExport(procedureBloc) ;
 			WriteLine("}");
 		}		
 	}

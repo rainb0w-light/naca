@@ -47,9 +47,9 @@ public class Form extends Var
 		super(declareTypeForm);
 		
 		SharedProgramInstanceData sharedProgramInstanceData = declareTypeForm.getProgramManager().getSharedProgramInstanceData();
-		sharedProgramInstanceData.addVarDefForm((VarDefForm)m_varDef);
+		sharedProgramInstanceData.addVarDefForm((VarDefForm)varDef);
 		
-		m_csDeclaredFormName = csDeclaredFormName;
+		csDeclaredFormName = csDeclaredFormName;
 		
 		//VarLevel varLevelHeader = new VarLevel(declareTypeForm.getProgram(), 2);
 	}
@@ -69,20 +69,20 @@ public class Form extends Var
 	{
 		super.assignBufferExt(bufferSource);
 		// Swap type
-		if(m_arrEdits.isDyn())
+		if(arrEdits.isDyn())
 		{
-			int nSize = m_arrEdits.size();
+			int nSize = arrEdits.size();
 			EditInMap arr[] = new EditInMap[nSize];
-			m_arrEdits.transferInto(arr);
+			arrEdits.transferInto(arr);
 			
 			ArrayFix<EditInMap> arrFix = new ArrayFix<EditInMap>(arr);
-			m_arrEdits = arrFix;	// replace by a fix one (uning less memory)
+			arrEdits = arrFix;	// replace by a fix one (uning less memory)
 		}
 	}
 	
 	public void set(String cs)
 	{
-		m_varDef.write(m_bufferPos, cs);
+		varDef.write(bufferPos, cs);
 	}
 	
 	public void set(char c)
@@ -96,7 +96,7 @@ public class Form extends Var
 	
 	VarDefForm getDefForm()
 	{
-		return (VarDefForm) m_varDef;
+		return (VarDefForm) varDef;
 	}
 	
 	public boolean hasType(VarTypeEnum e)
@@ -106,22 +106,22 @@ public class Form extends Var
 	
 	public void encodeToVar(Var varDest)
 	{
-		((VarDefForm)m_varDef).encodeToVar(m_bufferPos, varDest);
+		((VarDefForm)varDef).encodeToVar(bufferPos, varDest);
 	}
 	
 	public void decodeFromVar(Var varSource)
 	{
-		((VarDefForm)m_varDef).decodeFromVar(m_bufferPos, varSource);
+		((VarDefForm)varDef).decodeFromVar(bufferPos, varSource);
 	}
 	
 	public void decodeFromCharBuffer(InternalCharBuffer charBufferSource)
 	{
-		((VarDefForm)m_varDef).decodeFromCharBuffer(m_bufferPos, charBufferSource);
+		((VarDefForm)varDef).decodeFromCharBuffer(bufferPos, charBufferSource);
 	}
 	
 	void addEdit(EditInMap edit)
 	{
-		m_arrEdits.add(edit);
+		arrEdits.add(edit);
 	}
 	
 	public Document getXMLData(String langID, int cursorPosition)
@@ -131,15 +131,15 @@ public class Form extends Var
 			Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument() ;
 			Element eForm = doc.createElement("form");
 			doc.appendChild(eForm);
-			eForm.setAttribute("name", m_csDeclaredFormName) ; 
+			eForm.setAttribute("name", csDeclaredFormName) ; 
 			eForm.setAttribute("lang", langID) ;
 			if (cursorPosition != 0)
 			{
 				eForm.setAttribute("cursorPosition", Integer.valueOf(cursorPosition).toString()) ;
 			}
-			for (int i=0; i<m_arrEdits.size(); i++)
+			for (int i=0; i<arrEdits.size(); i++)
 			{
-				Edit edit = m_arrEdits.get(i);
+				Edit edit = arrEdits.get(i);
 				Element e = edit.exportXML(doc, langID) ;
 				eForm.appendChild(e) ;
 			}
@@ -153,9 +153,9 @@ public class Form extends Var
 	
 	public Edit getEdit(String name)
 	{
-		for (int i=0; i<m_arrEdits.size(); i++)
+		for (int i=0; i<arrEdits.size(); i++)
 		{
-			EditInMap e = m_arrEdits.get(i) ;
+			EditInMap e = arrEdits.get(i) ;
 			if (e.getDeclaredEditName().equals(name))
 			{
 				return e ;
@@ -165,17 +165,17 @@ public class Form extends Var
 	}
 	public void ExportFields(SortedSet<Element> setFields, Document doc, String csLangId)
 	{
-		for (int i=0; i<m_arrEdits.size(); i++)
+		for (int i=0; i<arrEdits.size(); i++)
 		{
-			Edit edit = m_arrEdits.get(i);
+			Edit edit = arrEdits.get(i);
 			Element e = edit.exportXML(doc, csLangId) ;
 			if(e != null)
 				setFields.add(e) ;
 		}
 		
-		for (int i=0; i<m_arrEdits.size(); i++)
+		for (int i=0; i<arrEdits.size(); i++)
 		{		
-			Edit edit = m_arrEdits.get(i);
+			Edit edit = arrEdits.get(i);
 			Element e = edit.exportXML(doc, csLangId) ;
 			if(e != null)
 				setFields.add(e) ;
@@ -185,27 +185,27 @@ public class Form extends Var
 /*
 //	public Edit GetFieldAt(int nField)
 //	{
-//		assertIfFalse(nField < m_arrFields.size()) ;
-//		return (Edit) m_arrFields.get(nField) ;
+//		assertIfFalse(nField < arrFields.size()) ;
+//		return (Edit) arrFields.get(nField) ;
 //	}
 */
 
 	public Edit GetEditAt(int nField)
 	{
-		if(nField < m_arrEdits.size())
-			return m_arrEdits.get(nField) ;
+		if(nField < arrEdits.size())
+			return arrEdits.get(nField) ;
 		return null; 
 	}
 	
 	public String getDeclaredFormName()
 	{
-		return m_csDeclaredFormName;
+		return csDeclaredFormName;
 	}
 
 	public InternalCharBuffer encodeToCharBuffer()
 	{
-		int nDestLength = m_varDef.getBodyLength() + m_varDef.getHeaderLength();
-		InternalCharBuffer charBuffer = ((VarDefForm)m_varDef).encodeToCharBuffer(nDestLength);
+		int nDestLength = varDef.getBodyLength() + varDef.getHeaderLength();
+		InternalCharBuffer charBuffer = ((VarDefForm)varDef).encodeToCharBuffer(nDestLength);
 		return charBuffer;
 	}
 	
@@ -221,9 +221,9 @@ public class Form extends Var
 			String name = e.getAttribute("name");
 			tabFields.put(name, e) ;
 		}
-		for (int i=0; i<m_arrEdits.size(); i++)
+		for (int i=0; i<arrEdits.size(); i++)
 		{
-			EditInMap edit = m_arrEdits.get(i) ;
+			EditInMap edit = arrEdits.get(i) ;
 			Element eField = tabFields.get(edit.getDeclaredEditName()) ;
 			edit.fillWithValue(eField);
 		}
@@ -232,10 +232,10 @@ public class Form extends Var
 //	public void initialize()
 //	{
 //		InitializeManager initializeManagerManager = TempCacheLocator.getTLSTempCache().getInitializeManagerLowValue();
-//		m_varDef.initializeItemAndChildren(m_bufferPos, initializeManagerManager, 0);
-//		for (int i=0; i<m_arrEdits.size(); i++)
+//		varDef.initializeItemAndChildren(bufferPos, initializeManagerManager, 0);
+//		for (int i=0; i<arrEdits.size(); i++)
 //		{
-//			EditInMap edit = m_arrEdits.get(i) ;
+//			EditInMap edit = arrEdits.get(i) ;
 //			edit.initializeAttributes();
 //		}
 //	}
@@ -244,23 +244,23 @@ public class Form extends Var
 	{
 		if(initializeCache != null && initializeCache.isFilled())	// initializeCache may be null 
 		{
-			//m_varDef.initializeUsingCache(m_bufferPos, initializeCache);
-			initializeCache.applyItems(m_bufferPos, m_bufferPos.m_nAbsolutePosition);
+			//varDef.initializeUsingCache(bufferPos, initializeCache);
+			initializeCache.applyItems(bufferPos, bufferPos.nAbsolutePosition);
 		}
 		else	
 		{
 			TempCache tempCache = TempCacheLocator.getTLSTempCache();
 			InitializeManager initializeManagerManager = tempCache.getInitializeManagerLowValue();
 			
-			m_varDef.initializeItemAndChildren(m_bufferPos, initializeManagerManager, 0, initializeCache);
+			varDef.initializeItemAndChildren(bufferPos, initializeManagerManager, 0, initializeCache);
 			
 			if(initializeCache != null)
-				initializeCache.setFilledAndcompress(m_bufferPos.m_nAbsolutePosition);
+				initializeCache.setFilledAndcompress(bufferPos.nAbsolutePosition);
 		}
 		
-		for (int i=0; i<m_arrEdits.size(); i++)
+		for (int i=0; i<arrEdits.size(); i++)
 		{
-			EditInMap edit = m_arrEdits.get(i) ;
+			EditInMap edit = arrEdits.get(i) ;
 			edit.initializeAttributes();
 		}
 	}
@@ -302,6 +302,6 @@ public class Form extends Var
 		return VarType.VarForm;
 	}
 
-	private ArrayFixDyn<EditInMap> m_arrEdits = new ArrayDyn<EditInMap>();	// Array of VarEditInMap
-	private String m_csDeclaredFormName = null;
+	private ArrayFixDyn<EditInMap> arrEdits = new ArrayDyn<EditInMap>();	// Array of VarEditInMap
+	private String csDeclaredFormName = null;
 }

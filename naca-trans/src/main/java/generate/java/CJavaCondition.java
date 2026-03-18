@@ -39,38 +39,38 @@ public class CJavaCondition extends CEntityCondition
 	 */
 	protected void DoExport()
 	{
-		if (m_Condition == null)
+		if (condition == null)
 		{
 			return ;
 		}
-		if (m_Condition.ignore())
+		if (condition.ignore())
 		{
-			if (m_ElseBloc != null && !m_ElseBloc.ignore())
+			if (elseBloc != null && !elseBloc.ignore())
 			{
-				WriteLine("{", m_ElseBloc.getLine()) ;
-				DoExport(m_ElseBloc) ;
+				WriteLine("{", elseBloc.getLine()) ;
+				DoExport(elseBloc) ;
 				WriteLine("}") ;
 			}
 			return ; 
 		}
 		WriteWord("if (");
-		m_Condition.SetLine(getLine());
-		String cs = m_Condition.Export() ;
+		condition.SetLine(getLine());
+		String cs = condition.Export() ;
 		cs += ") {" ;
 		WriteWord(cs) ;
 		WriteEOL() ;
-		DoExport(m_ThenBloc) ;
-		int n = m_ThenBloc.GetEndLine() ;
-		if (n == 0 && m_ElseBloc != null)
+		DoExport(thenBloc) ;
+		int n = thenBloc.GetEndLine() ;
+		if (n == 0 && elseBloc != null)
 		{
-			n = m_ElseBloc.getLine() -1 ;
+			n = elseBloc.getLine() -1 ;
 		}
 		WriteLine("}", n) ;
-		if (m_ElseBloc != null)
+		if (elseBloc != null)
 		{
-			WriteLine("else {", m_ElseBloc.getLine()) ;
-			DoExport(m_ElseBloc) ;
-			WriteLine("}", m_ElseBloc.GetEndLine()) ;
+			WriteLine("else {", elseBloc.getLine()) ;
+			DoExport(elseBloc) ;
+			WriteLine("}", elseBloc.GetEndLine()) ;
 		}
 		
 

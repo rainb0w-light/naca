@@ -31,14 +31,14 @@ import nacaLib.tempCache.TempCacheLocator;
  */
 public class CSQLStatus extends CJMapObject
 {
-	private int m_nSQLCode = 0 ;
-	private int m_nLastNbRecordUpdatedInsertedDeleted = 0;	// Accessible by getSQLDiagnosticCode(3)
-	private String m_csQueryString = null;
-	//private String m_csSourceFileLine = null;
-	private String m_csMethod = null;
-	private String m_csReason = null;
-	private String m_csReasonParams = null;
-	private String m_csReasonValues = null;
+	private int nSQLCode = 0 ;
+	private int nLastNbRecordUpdatedInsertedDeleted = 0;	// Accessible by getSQLDiagnosticCode(3)
+	private String csQueryString = null;
+	//private String csSourceFileLine = null;
+	private String csMethod = null;
+	private String csReason = null;
+	private String csReasonParams = null;
+	private String csReasonValues = null;
 	
 	public CSQLStatus()
 	{
@@ -46,50 +46,50 @@ public class CSQLStatus extends CJMapObject
 
 	public int getSQLCode()
 	{
-		return m_nSQLCode ;
+		return nSQLCode ;
 	}
 	
 	public void reset()
 	{
-		m_nSQLCode = 0 ;
-		m_csMethod = null;
-		m_csReason = null;
-		m_csReasonParams = null;
-		m_csReasonValues = null;
-		//m_csQueryString = null;
-		//m_csSourceFileLine = null;
+		nSQLCode = 0 ;
+		csMethod = null;
+		csReason = null;
+		csReasonParams = null;
+		csReasonValues = null;
+		//csQueryString = null;
+		//csSourceFileLine = null;
 	}
 	
 	public void setSQLCode(int n)
 	{
 		reset();
-		m_nSQLCode = n ;
+		nSQLCode = n ;
 	}
 	
 	public void setSQLCodeOk()
 	{
 		reset();
-		m_nSQLCode = SQLCode.SQL_OK;
+		nSQLCode = SQLCode.SQL_OK;
 	}
 	
 	public void setSQLCode(SQLException e)
 	{
 		reset();
-		m_nSQLCode = e.getErrorCode();
-		m_csReason = "SQL Exception (" + m_nSQLCode + "):" + e.getMessage()  + " SQLState="+ e.getSQLState();
+		nSQLCode = e.getErrorCode();
+		csReason = "SQL Exception (" + nSQLCode + "):" + e.getMessage()  + " SQLState="+ e.getSQLState();
 	}
 
 	public void setSQLCode(String csMethod, SQLException e, String csQueryString/*, String csSourceFileLine*/, SQL sql)
 	{		
-		m_nSQLCode = e.getErrorCode();
-		m_csMethod = csMethod;		
-		m_csReason = "SQL Exception (" + m_nSQLCode + "):" + e.getMessage()  + " SQLState="+ e.getSQLState();
+		nSQLCode = e.getErrorCode();
+		csMethod = csMethod;		
+		csReason = "SQL Exception (" + nSQLCode + "):" + e.getMessage()  + " SQLState="+ e.getSQLState();
 		if(sql != null)
 		{
-			m_csReasonParams = sql.getDebugParams();
-			m_csReasonValues = sql.getDebugValues();
+			csReasonParams = sql.getDebugParams();
+			csReasonValues = sql.getDebugValues();
 		}	
-		m_csQueryString = csQueryString;
+		csQueryString = csQueryString;
 	}
 	
 	public void fillLastSQLCodeErrorText()
@@ -100,41 +100,41 @@ public class CSQLStatus extends CJMapObject
 	
 	public void setSQLCode(String csMethod, int nCode, String csReason, String csQueryString)	//, String csSourceFileLine)
 	{
-		m_csReasonParams = null;
-		m_csReasonValues = null;
+		csReasonParams = null;
+		csReasonValues = null;
 	
-		m_nSQLCode = nCode;
-		m_csMethod = csMethod;
-		m_csReason = csReason;
-		m_csQueryString = csQueryString;
+		nSQLCode = nCode;
+		csMethod = csMethod;
+		csReason = csReason;
+		csQueryString = csQueryString;
 	}
 	
 	public void setQuery(String csQueryString)
 	{
-		m_csQueryString = csQueryString;
+		csQueryString = csQueryString;
 	}
 	
 	public boolean isLastSQLCodeAnError()
 	{
-		return SQLCode.isError(m_nSQLCode);
+		return SQLCode.isError(nSQLCode);
 	}
 	
 	public boolean isLastSQLCodeConnectionKiller()
 	{
-		return SQLCode.isConnectionKillerSQLCode(m_nSQLCode);
+		return SQLCode.isConnectionKillerSQLCode(nSQLCode);
 	}
 
 	public int getSQLDiagnosticCode(int n)
 	{
 		// See http://publib.boulder.ibm.com/infocenter/dzichelp/index.jsp?topic=/com.ibm.db2.doc.apsg/bjnqmstr370.htm
 		if(n == 3)
-			return m_nLastNbRecordUpdatedInsertedDeleted;			
+			return nLastNbRecordUpdatedInsertedDeleted;			
 		return 0;
 	}
 	
 	void setLastNbRecordUpdatedInsertedDeleted(int n)
 	{
-		m_nLastNbRecordUpdatedInsertedDeleted = n;
+		nLastNbRecordUpdatedInsertedDeleted = n;
 	}
 
 	/**
@@ -144,7 +144,7 @@ public class CSQLStatus extends CJMapObject
 	 */
 	public void setRowsAffected(int n)
 	{
-		m_nLastNbRecordUpdatedInsertedDeleted = n;
+		nLastNbRecordUpdatedInsertedDeleted = n;
 	}
 	
 	public CSQLStatus onErrorGoto(Paragraph para)
@@ -187,32 +187,32 @@ public class CSQLStatus extends CJMapObject
 	
 	public String getReason()
 	{
-		return m_csReason;
+		return csReason;
 	}
 	
 	public String getReasonParams()
 	{
-		return m_csReasonParams;
+		return csReasonParams;
 	}
 	
 	public String getReasonValues()
 	{
-		return m_csReasonValues;
+		return csReasonValues;
 	}
 	
 	public String getQueryString()
 	{
-		return m_csQueryString;
+		return csQueryString;
 	}
 	
 	public String getMethod()
 	{
-		return m_csMethod;
+		return csMethod;
 	}
 	
 //	public String getSourceFileLine()
 //	{
-//		return m_csSourceFileLine;
+//		return csSourceFileLine;
 //	}
 //	
 	public String toString()
@@ -225,18 +225,18 @@ public class CSQLStatus extends CJMapObject
 	{
 		StringBuffer sb = new StringBuffer();
 		sb.append(getReason());
-		sb.append(" | SQLCode:"+m_nSQLCode);
+		sb.append(" | SQLCode:"+nSQLCode);
 		sb.append(" | Query:");
-		sb.append(m_csQueryString);
-		if (!StringUtil.isEmpty(m_csReasonParams))
+		sb.append(csQueryString);
+		if (!StringUtil.isEmpty(csReasonParams))
 		{
 			sb.append(" | Params:");
-			sb.append(m_csReasonParams);
+			sb.append(csReasonParams);
 		}
-		if (StringUtil.isEmpty(m_csReasonValues))
+		if (StringUtil.isEmpty(csReasonValues))
 		{
 			sb.append(" | Values:");
-			sb.append(m_csReasonValues);
+			sb.append(csReasonValues);
 		}
 		return sb;
 	}

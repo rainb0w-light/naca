@@ -42,17 +42,17 @@ public class CJavaSetCursor extends CEntitySetCursor
 	 */
 	protected void DoExport()
 	{
-		if (m_ReferenceValue != null)
+		if (referenceValue != null)
 		{
-			WriteLine("moveCursor(" +m_ReferenceValue.ExportReference(getLine()) +", "+ m_RefField.ExportReference(getLine()) + ") ;") ;
+			WriteLine("moveCursor(" +referenceValue.ExportReference(getLine()) +", "+ refField.ExportReference(getLine()) + ") ;") ;
 		}
-		else if (m_bRemoveCursor)
+		else if (bRemoveCursor)
 		{
-			WriteLine("removeCursor(" + m_RefField.ExportReference(getLine()) + ") ;") ;
+			WriteLine("removeCursor(" + refField.ExportReference(getLine()) + ") ;") ;
 		}
 		else
 		{
-			WriteLine("setCursor(" + m_RefField.ExportReference(getLine()) + ") ;") ;
+			WriteLine("setCursor(" + refField.ExportReference(getLine()) + ") ;") ;
 		}
 	}
 

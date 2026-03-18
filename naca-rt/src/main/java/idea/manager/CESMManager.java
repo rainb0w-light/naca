@@ -27,9 +27,9 @@ public class CESMManager extends BaseCESMManager
 	{
 		if(isLogCESM)
 			Log.logDebug("sendMap Var="+varMapToSend.getLoggableValue());
-		m_CESMEnv.setLastCommandCode(CESMCommandCode.SEND_MAP) ;
+		cESMEnv.setLastCommandCode(CESMCommandCode.SEND_MAP) ;
 		CESMSendMap order = new CESMSendMap();
-		((OnlineEnvironment)m_CESMEnv).addMapOrder(order) ;
+		((OnlineEnvironment)cESMEnv).addMapOrder(order) ;
 		order.setMapName(varMapToSend.getString());
 		return order;
 	}
@@ -38,9 +38,9 @@ public class CESMManager extends BaseCESMManager
 	{
 		if(isLogCESM)
 			Log.logDebug("sendMap String="+csMapToSend);
-		m_CESMEnv.setLastCommandCode(CESMCommandCode.SEND_MAP) ;
+		cESMEnv.setLastCommandCode(CESMCommandCode.SEND_MAP) ;
 		CESMSendMap order = new CESMSendMap();
-		((OnlineEnvironment)m_CESMEnv).addMapOrder(order) ;
+		((OnlineEnvironment)cESMEnv).addMapOrder(order) ;
 		order.setMapName(csMapToSend);
 		return order;
 	}
@@ -49,10 +49,10 @@ public class CESMManager extends BaseCESMManager
 	{
 		if(isLogCESM)
 			Log.logDebug("receiveMap String="+mapName);
-		m_CESMEnv.setLastCommandCode(CESMCommandCode.RECEIVE_MAP) ;
-		//XMLUtil.ExportXML(m_CESMEnv.getXMLData(), "DataReceived.xml");
-		//m_CESMEnv.recordInput() ;
-		CESMReceive order = new CESMReceive(m_CESMEnv.getXMLData(), m_CESMEnv);
+		cESMEnv.setLastCommandCode(CESMCommandCode.RECEIVE_MAP) ;
+		//XMLUtil.ExportXML(cESMEnv.getXMLData(), "DataReceived.xml");
+		//cESMEnv.recordInput() ;
+		CESMReceive order = new CESMReceive(cESMEnv.getXMLData(), cESMEnv);
 		order.setMap(mapName);
 		return order;
 	}
@@ -60,10 +60,10 @@ public class CESMManager extends BaseCESMManager
 	{
 		if(isLogCESM)
 			Log.logDebug("receiveMap Var="+MapToReceive.getLoggableValue());
-		m_CESMEnv.setLastCommandCode(CESMCommandCode.RECEIVE_MAP) ;
-		//XMLUtil.ExportXML(m_CESMEnv.getXMLData(), "DataReceived.xml");
-		//m_CESMEnv.recordInput() ;
-		CESMReceive order = new CESMReceive(m_CESMEnv.getXMLData(), m_CESMEnv);
+		cESMEnv.setLastCommandCode(CESMCommandCode.RECEIVE_MAP) ;
+		//XMLUtil.ExportXML(cESMEnv.getXMLData(), "DataReceived.xml");
+		//cESMEnv.recordInput() ;
+		CESMReceive order = new CESMReceive(cESMEnv.getXMLData(), cESMEnv);
 		order.setMap(MapToReceive.getString());
 		return order;
 	}
@@ -72,8 +72,8 @@ public class CESMManager extends BaseCESMManager
 	{
 		if(isLogCESM)
 			Log.logDebug("retrieveInto to="+varDest.getLoggableValue()+" from="+longfrom.getLoggableValue());
-		m_CESMEnv.setLastCommandCode(CESMCommandCode.RETRIEVE) ;
-		CESMStartData data = m_CESMEnv.GetEnqueuedData();
+		cESMEnv.setLastCommandCode(CESMCommandCode.RETRIEVE) ;
+		CESMStartData data = cESMEnv.GetEnqueuedData();
 		if (data != null)
 		{
 			int nDestLength = data.getLength();
@@ -86,8 +86,8 @@ public class CESMManager extends BaseCESMManager
 	{
 		if(isLogCESM)
 			Log.logDebug("retrieveInto to="+varDest.getLoggableValue());
-		m_CESMEnv.setLastCommandCode(CESMCommandCode.RETRIEVE) ;
-		CESMStartData data = m_CESMEnv.GetEnqueuedData();
+		cESMEnv.setLastCommandCode(CESMCommandCode.RETRIEVE) ;
+		CESMStartData data = cESMEnv.GetEnqueuedData();
 		if (data != null)
 		{
 			int nDestLength = data.getLength();

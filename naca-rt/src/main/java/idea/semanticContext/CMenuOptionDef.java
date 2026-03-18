@@ -26,14 +26,14 @@ public class CMenuOptionDef
 	
 	void setActionId(String csActionId)
 	{
-		m_csActionId = csActionId;
+		csActionId = csActionId;
 	}
 
 	void setLabel(String csLabel)
 	{
-		m_csLabel = csLabel;
+		csLabel = csLabel;
 	}
 
-	String m_csLabel = null;
-	String m_csActionId = null;
+	String csLabel = null;
+	String csActionId = null;
 }

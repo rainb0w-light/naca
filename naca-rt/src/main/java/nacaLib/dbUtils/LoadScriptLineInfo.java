@@ -18,57 +18,57 @@ import jlib.misc.StringUtil;
  */
 public class LoadScriptLineInfo
 {
-	private boolean m_bReplace = false;
-	private String m_csTablePrefix = null;
-	private String m_csUnprefixedTableName = null;
-	private String m_csInddnValue = null;
+	private boolean bReplace = false;
+	private String csTablePrefix = null;
+	private String csUnprefixedTableName = null;
+	private String csInddnValue = null;
 	
 	void setFullTable(String csFullTable)
 	{
-		m_csTablePrefix = StringUtil.getTablePrefix(csFullTable);
-		m_csUnprefixedTableName = StringUtil.getUnprefixedTableName(csFullTable);
+		csTablePrefix = StringUtil.getTablePrefix(csFullTable);
+		csUnprefixedTableName = StringUtil.getUnprefixedTableName(csFullTable);
 	}
 	
 //	String getFullTableName()
 //	{
-//		return StringUtil.makeFullTableName(m_csTablePrefix, m_csUnprefixedTableName);
+//		return StringUtil.makeFullTableName(csTablePrefix, csUnprefixedTableName);
 //	}
 	
 	String getFullTableName(String csPrefix)
 	{
-		if(!StringUtil.isEmpty(m_csTablePrefix) && !m_csTablePrefix.equalsIgnoreCase("PROD"))
-			return StringUtil.makeFullTableName(m_csTablePrefix, m_csUnprefixedTableName);
-		m_csTablePrefix = csPrefix;
-		return StringUtil.makeFullTableName(csPrefix, m_csUnprefixedTableName);
+		if(!StringUtil.isEmpty(csTablePrefix) && !csTablePrefix.equalsIgnoreCase("PROD"))
+			return StringUtil.makeFullTableName(csTablePrefix, csUnprefixedTableName);
+		csTablePrefix = csPrefix;
+		return StringUtil.makeFullTableName(csPrefix, csUnprefixedTableName);
 	}
 	
 	String getTablePrefix()
 	{
-		return m_csTablePrefix;
+		return csTablePrefix;
 	}
 	
 	String getUnprefixedTableName()
 	{
-		return m_csUnprefixedTableName;
+		return csUnprefixedTableName;
 	}
 
 	void setReplace(boolean b)
 	{
-		m_bReplace = b;
+		bReplace = b;
 	}
 	
 	boolean isReplace()
 	{
-		return m_bReplace;
+		return bReplace;
 	}
 	
 	void setInddnValue(String csInddnValue)
 	{
-		m_csInddnValue = csInddnValue;
+		csInddnValue = csInddnValue;
 	}
 		
 	String getInddnValue()
 	{
-		return m_csInddnValue;
+		return csInddnValue;
 	}
 }

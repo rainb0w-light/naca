@@ -13,8 +13,8 @@ public class BatchProgramLoaderFactory extends CBaseProgramLoaderFactory
 {
 	public ProgramSequencer NewSequencer()
 	{
-		BatchProgramLoader prog = new BatchProgramLoader(m_connectionManager, m_tagSequencerConfig);
-		prog.initMailService(m_tagSequencerConfig);
+		BatchProgramLoader prog = new BatchProgramLoader(connectionManager, tagSequencerConfig);
+		prog.initMailService(tagSequencerConfig);
 		return prog ;
 	}
 }

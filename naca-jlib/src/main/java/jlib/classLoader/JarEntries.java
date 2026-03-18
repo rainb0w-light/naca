@@ -23,12 +23,12 @@ public class JarEntries
 	{
 	}
 	
-	public boolean open(String csJar, ArrayList<String> m_arrPaths)
+	public boolean open(String csJar, ArrayList<String> arrPaths)
 	{
 		boolean bOpened = false;
-	    for(int n=0; n<m_arrPaths.size() && !bOpened; n++)
+	    for(int n=0; n<arrPaths.size() && !bOpened; n++)
 	    {
-		   	String csPath = m_arrPaths.get(n);
+		   	String csPath = arrPaths.get(n);
 		   	String csFullPathJarFile = FileSystem.appendFilePath(csPath, csJar);
     		bOpened = open(csFullPathJarFile, true, ".class");
 	    }
@@ -51,8 +51,8 @@ public class JarEntries
 		try 
 		{
 			Log.logNormal("Preloading JarEntries for file " + csFullPathJarFile);
-		    m_zipFile = new ZipFile(csFullPathJarFile);
-		    Enumeration e = m_zipFile.entries();
+		    zipFile = new ZipFile(csFullPathJarFile);
+		    Enumeration e = zipFile.entries();
 		    while (e.hasMoreElements())
 			{
 		    	ZipEntry zipEntry = (ZipEntry)e.nextElement();
@@ -62,14 +62,14 @@ public class JarEntries
 		    	{
 		    		csEntryName = csEntryName.substring(0, csEntryName.length()-nExtensionLength);	// remove extension
 			    	JarItemEntry jarItemEntry = new JarItemEntry(zipEntry);   
-			    	if(m_hash == null)
-			    		m_hash = new Hashtable<String, JarItemEntry>();
-			    	m_hash.put(csEntryName, jarItemEntry);
+			    	if(hash == null)
+			    		hash = new Hashtable<String, JarItemEntry>();
+			    	hash.put(csEntryName, jarItemEntry);
 		    	}
 			}
 		    int nNbEntries = 0;
-		    if(m_hash != null)
-		    	nNbEntries = m_hash.size();
+		    if(hash != null)
+		    	nNbEntries = hash.size();
 		    Log.logNormal("Preloaded " + nNbEntries + " entries from jar file " + csFullPathJarFile);
 		    return true;
 		}
@@ -86,34 +86,34 @@ public class JarEntries
 	
 	public void close()
 	{
-		if(m_zipFile != null)
+		if(zipFile != null)
 		{
 			try
 			{
-				m_zipFile.close();
-				m_hash = null;
+				zipFile.close();
+				hash = null;
 			}
 			catch (IOException e)
 			{
 			}
 		}
-		m_zipFile = null;
+		zipFile = null;
 	}
 	
 	ZipFile getZipFile()
 	{
-		return m_zipFile;
+		return zipFile;
 	}
 	
 	public byte[] loadJarEntry(String csClass)
 	{
-		if (m_hash != null)
+		if (hash != null)
 		{
 			csClass = csClass.toLowerCase();
-			JarItemEntry entry = m_hash.get(csClass);
+			JarItemEntry entry = hash.get(csClass);
 			if(entry != null)
 			{
-				return entry.loadBytes(m_zipFile);
+				return entry.loadBytes(zipFile);
 			}
 		}
 		return null;
@@ -121,18 +121,18 @@ public class JarEntries
 	
 	public Enumeration<String> getKeys()
 	{
-		if(m_hash != null)
-			return m_hash.keys();
+		if(hash != null)
+			return hash.keys();
 		return null;
 	}
 	
 	public JarItemEntry getEntry(String csKey)
 	{
-		if(m_hash != null)
-			return m_hash.get(csKey);
+		if(hash != null)
+			return hash.get(csKey);
 		return null;
 	}
 	
-	private Hashtable<String, JarItemEntry> m_hash = null;
-	private ZipFile m_zipFile = null;
+	private Hashtable<String, JarItemEntry> hash = null;
+	private ZipFile zipFile = null;
 }

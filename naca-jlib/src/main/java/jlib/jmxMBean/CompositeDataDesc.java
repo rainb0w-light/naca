@@ -18,20 +18,20 @@ public class CompositeDataDesc
 {
 	public CompositeDataDesc(CompositeType compositeType)
 	{
-		m_compositeType = compositeType;
-		m_map = new HashMap<String, Object>();	
+		compositeType = compositeType;
+		map = new HashMap<String, Object>();	
 	}
 	
 	public void setItemValue(String csKey, Object oValue)
 	{
-		m_map.put(csKey, oValue);
+		map.put(csKey, oValue);
 	}
 	
 	public CompositeData generateCompositeData()
 	{
 		try
 		{			
-			CompositeDataSupport compositeData = new CompositeDataSupport(m_compositeType, m_map);
+			CompositeDataSupport compositeData = new CompositeDataSupport(compositeType, map);
 			return compositeData;
 		} 
 		catch (OpenDataException e)
@@ -41,6 +41,6 @@ public class CompositeDataDesc
 		return null;
 	}
 	
-	private CompositeType m_compositeType = null;
-	Map<String, Object> m_map = null;
+	private CompositeType compositeType = null;
+	Map<String, Object> map = null;
 }

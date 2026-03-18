@@ -22,37 +22,37 @@ public class RecordSetCacheColTypeType
 {
 	RecordSetCacheColTypeType()
 	{
-		m_arrColsType = new ArrayDynDiscontinuous<RecordColTypeManagerBase>();	
+		arrColsType = new ArrayDynDiscontinuous<RecordColTypeManagerBase>();	
 	}
 	
 	RecordColTypeManagerBase getRecordColTypeManager(int nIndex)
 	{
-		return m_arrColsType.get(nIndex);
+		return arrColsType.get(nIndex);
 	}
 	
 //	void add(RecordColTypeManagerBase recordColTypeManagerBase)
 //	{
-//		m_arrColsType.add(recordColTypeManagerBase);
+//		arrColsType.add(recordColTypeManagerBase);
 //	}
 	
 	void set(int nIndex, RecordColTypeManagerBase recordColTypeManagerBase)
 	{
-		m_arrColsType.set(nIndex, recordColTypeManagerBase);
+		arrColsType.set(nIndex, recordColTypeManagerBase);
 	}
 	
 	void compress()
 	{
-		// Swap the type inside m_arrColsType
-		if(m_arrColsType.isDyn())
+		// Swap the type inside arrColsType
+		if(arrColsType.isDyn())
 		{
-			int nSize = m_arrColsType.size();
+			int nSize = arrColsType.size();
 			RecordColTypeManagerBase arr[] = new RecordColTypeManagerBase[nSize];
-			m_arrColsType.transferInto(arr);
+			arrColsType.transferInto(arr);
 			
 			ArrayFix<RecordColTypeManagerBase> arrFix = new ArrayFix<RecordColTypeManagerBase>(arr);
-			m_arrColsType = arrFix;	// replace by a fix one (uning less memory)
+			arrColsType = arrFix;	// replace by a fix one (uning less memory)
 		}
 	}
 	
-	private ArrayFixDyn<RecordColTypeManagerBase> m_arrColsType = null;	// hash table of boolean, indexed by col id, indexed based 0
+	private ArrayFixDyn<RecordColTypeManagerBase> arrColsType = null;	// hash table of boolean, indexed by col id, indexed based 0
 }

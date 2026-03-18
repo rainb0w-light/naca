@@ -17,44 +17,44 @@ package jlib.exception;
 public class ApplicativeException extends Exception
 {
 	private static final long serialVersionUID = 9203631895766632784L;
-	private String m_csError = null;
-	private  String m_csMessage = null;
-	private  Throwable m_throwable = null;
+	private String csError = null;
+	private  String csMessage = null;
+	private  Throwable throwable = null;
 	
 	protected ApplicativeException(ApplicativeException e)
 	{
 		super(e);
-		m_csError = e.m_csError;
-		m_csMessage = e.m_csMessage;
-		m_throwable = e.m_throwable;
+		csError = e.csError;
+		csMessage = e.csMessage;
+		throwable = e.throwable;
 	}
 	
 	protected ApplicativeException(String csError, String csMessage)
 	{
-		m_csError = csError;
-		m_csMessage = csMessage;
-		m_throwable = new Throwable(); 
+		csError = csError;
+		csMessage = csMessage;
+		throwable = new Throwable(); 
 	}
 	
 	protected ApplicativeException(String csError, String csMessage, Throwable throwable)
 	{
-		m_csError = csError;
-		m_csMessage = csMessage;
-		m_throwable = throwable;
+		csError = csError;
+		csMessage = csMessage;
+		throwable = throwable;
 	}
 	
 	public String getCode()
 	{
-		return m_csError;
+		return csError;
 	}
 	
 	public String getMessage()
 	{
-		return m_csMessage;
+		return csMessage;
 	}
 	
 	public Throwable getThrowable()
 	{
-		return m_throwable;
+		return throwable;
 	}
 }

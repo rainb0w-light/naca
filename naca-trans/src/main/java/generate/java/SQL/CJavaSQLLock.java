@@ -34,8 +34,8 @@ public class CJavaSQLLock extends CEntitySQLLock
 	protected void DoExport()
 	{
 		//sql("LOCK TABLE RS3151 IN EXCLUSIVE MODE").onErrorGoto(p_Erreur);
-		WriteWord("sql(\"LOCK TABLE "+m_csTableName+" IN EXCLUSIVE MODE\")");
-		String csSQLErrorWarningStatement = m_ProgramCatalog.getSQLWarningErrorStatement();
+		WriteWord("sql(\"LOCK TABLE "+csTableName+" IN EXCLUSIVE MODE\")");
+		String csSQLErrorWarningStatement = programCatalog.getSQLWarningErrorStatement();
 		if(csSQLErrorWarningStatement != null)
 		{
 			WriteWord(csSQLErrorWarningStatement);

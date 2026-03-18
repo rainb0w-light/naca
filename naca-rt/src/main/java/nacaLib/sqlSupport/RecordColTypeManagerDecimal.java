@@ -34,11 +34,11 @@ public class RecordColTypeManagerDecimal extends RecordColTypeManagerBase
 	{
 		try
 		{			
-			BigDecimal value = resultSetSource.getBigDecimal(m_nColSourceIndex);
+			BigDecimal value = resultSetSource.getBigDecimal(nColSourceIndex);
 			if (!resultSetSource.wasNull())
-				insertStatementInsert.setBigDecimal(m_nColSourceIndex, value);
+				insertStatementInsert.setBigDecimal(nColSourceIndex, value);
 			else
-				insertStatementInsert.setNull(m_nColSourceIndex, Types.DECIMAL);			
+				insertStatementInsert.setNull(nColSourceIndex, Types.DECIMAL);			
 			return true;
 		}
 		catch (SQLException e)
@@ -52,19 +52,19 @@ public class RecordColTypeManagerDecimal extends RecordColTypeManagerBase
 	{
 		try
 		{		
-			BigDecimal bdValue = rs.getBigDecimal(m_nColSourceIndex);
+			BigDecimal bdValue = rs.getBigDecimal(nColSourceIndex);
 			if(bdValue != null)
 			{
-				varInto.m_varDef.write(varInto.m_bufferPos, bdValue);
+				varInto.varDef.write(varInto.bufferPos, bdValue);
 				return false;
 			}
 		}
 		catch (SQLException e)
 		{
 			LogSQLException.log(e);
-			// Maybe should I set m_bNull = true; ?
+			// Maybe should I set bNull = true; ?
 		}
-		varInto.m_varDef.write(varInto.m_bufferPos, 0);
+		varInto.varDef.write(varInto.bufferPos, 0);
 		return true;
 	}
 }

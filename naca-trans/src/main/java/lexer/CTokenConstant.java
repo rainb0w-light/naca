@@ -23,8 +23,8 @@ public class CTokenConstant extends CBaseToken
 	public CTokenConstant(CReservedConstant cste, int line, boolean newline)
 	{
 		super(line, newline) ;
-		m_cste = cste ;
-		m_Value = cste.m_Name ;
+		cste = cste ;
+		value = cste.name ;
 	}
 	/* (non-Javadoc)
 	 * @see lexer.CBaseToken#GetType()
@@ -35,15 +35,15 @@ public class CTokenConstant extends CBaseToken
 	}
 	public CReservedConstant GetConstant()
 	{
-		return m_cste ;
+		return cste ;
 	}
 	
-	CReservedConstant m_cste = null ;
+	CReservedConstant cste = null ;
 	/* (non-Javadoc)
 	 * @see lexer.CBaseToken#GetDisplay()
 	 */
 	public String GetDisplay()
 	{
-		return m_cste.m_Name + " ";
+		return cste.name + " ";
 	}
 }

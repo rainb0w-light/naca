@@ -30,7 +30,7 @@ public class BtreePooledThreadWriterFactory extends BasePooledThreadFactory
 		// Key description is stored in the TLS of the current thread (which creates the pool of threads) 
 		BtreeKeyDescription keyDescription = TempCacheLocator.getTLSTempCache().getBtreeKeyDescription();
 		
-		//setBtreeKeyDescription(m_keyDescription);
+		//setBtreeKeyDescription(keyDescription);
 		BtreePooledWriterThread thread = new BtreePooledWriterThread(owningPool);
 		thread.setBtreeKeyDescription(keyDescription);
 		return thread;

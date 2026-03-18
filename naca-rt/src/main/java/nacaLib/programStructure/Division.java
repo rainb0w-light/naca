@@ -24,14 +24,14 @@ public class Division extends CJMapObject
 {
 	Division(BaseProgram Program)
 	{
-		m_Program = Program;
+		program = Program;
 	}
 	
 	public BaseProgram getProgram()
 	{
-		return m_Program;
+		return program;
 	}
 	
 	
-	protected BaseProgram m_Program = null;
+	protected BaseProgram program = null;
 }

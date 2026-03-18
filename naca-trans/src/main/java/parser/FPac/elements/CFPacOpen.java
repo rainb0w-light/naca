@@ -51,8 +51,8 @@ public class CFPacOpen extends CFPacElement
 		
 		if (tok.GetType() == CTokenType.IDENTIFIER)
 		{
-			m_OpenFile = ReadIdentifier() ;
-			if (m_OpenFile == null)
+			openFile = ReadIdentifier() ;
+			if (openFile == null)
 			{
 				Transcoder.logError(getLine(), "Expecting identifier after 'OPEN-'") ;
 				return false  ;
@@ -79,7 +79,7 @@ public class CFPacOpen extends CFPacElement
 						tok.GetKeyword() == CFPacKeywordList.IPF8 ||
 						tok.GetKeyword() == CFPacKeywordList.IPF9 )
 		{
-			m_OpenFile = new CIdentifier(tok.GetValue()) ;
+			openFile = new CIdentifier(tok.GetValue()) ;
 			tok = GetNext() ;
 		}
 		else
@@ -90,19 +90,19 @@ public class CFPacOpen extends CFPacElement
 		return true;
 	}
 	
-	protected CIdentifier m_OpenFile = null ;
+	protected CIdentifier openFile = null ;
 
 	@Override
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		CEntityFileDescriptor desc = factory.m_ProgramCatalog.getFileDescriptor(m_OpenFile.GetName()) ;
+		CEntityFileDescriptor desc = factory.programCatalog.getFileDescriptor(openFile.GetName()) ;
 		CEntityOpenFile openfile = factory.NewEntityOpenFile(getLine()) ;
 		openfile.setFileDescriptor(desc, desc.getAccessMode()) ;
 		parent.AddChild(openfile) ;
 		
 		NotifRegisterFileOpen notif = new NotifRegisterFileOpen() ;
-		notif.m_FileDesc = desc ;
-		factory.m_ProgramCatalog.SendNotifRequest(notif) ;
+		notif.fileDesc = desc ;
+		factory.programCatalog.SendNotifRequest(notif) ;
 		return null;
 	}
 
@@ -111,7 +111,7 @@ public class CFPacOpen extends CFPacElement
 	{
 		Element eAdd = root.createElement("Open") ;
 		Element e = root.createElement("File") ;
-		m_OpenFile.ExportTo(e, root) ;
+		openFile.ExportTo(e, root) ;
 		eAdd.appendChild(e) ;
 		return eAdd ;
 	}

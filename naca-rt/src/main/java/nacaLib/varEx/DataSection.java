@@ -18,24 +18,24 @@ import nacaLib.tempCache.TempCacheLocator;
 
 public class DataSection extends CJMapObject
 {	
-	private DataSectionType m_dataSectionType = null;
+	private DataSectionType dataSectionType = null;
 	
 	public DataSection(BaseProgram prg, DataSectionType dataSectionType)
 	{
-		m_dataSectionType = dataSectionType;
-		m_prg = prg;
-		m_Buffer = new VarBuffer();
+		dataSectionType = dataSectionType;
+		prg = prg;
+		buffer = new VarBuffer();
 	}
 	
 	public void createRootVarOfSection()
 	{
-		if(m_dataSectionType == DataSectionType.Working)
-			createRootVar(m_prg, "WS");
-		else if(m_dataSectionType == DataSectionType.Linkage)
-			createRootVar(m_prg, "LS");
-		else if(m_dataSectionType == DataSectionType.File)
-			createRootVar(m_prg, "File");
-		pushLevel(m_RootVar.getVarDef());
+		if(dataSectionType == DataSectionType.Working)
+			createRootVar(prg, "WS");
+		else if(dataSectionType == DataSectionType.Linkage)
+			createRootVar(prg, "LS");
+		else if(dataSectionType == DataSectionType.File)
+			createRootVar(prg, "File");
+		pushLevel(rootVar.getVarDef());
 	}
 	
 	private void createRootVar(BaseProgram prg, String csSuffix)
@@ -43,64 +43,64 @@ public class DataSection extends CJMapObject
 		BaseProgramManager pm = prg.getProgramManager();
 		TempCache tempCache = TempCacheLocator.getTLSTempCache();
 		VarLevel varlevel = tempCache.getVarLevel();
-		varlevel.set(m_prg, (short)0);
+		varlevel.set(prg, (short)0);
 		
 		DeclareTypeG declareTypeG = tempCache.getDeclareTypeG();
 		declareTypeG.set(varlevel);
 		
-		m_RootVar = new VarGroup(declareTypeG);
-		if(m_RootVar.m_varDef != null)
+		rootVar = new VarGroup(declareTypeG);
+		if(rootVar.varDef != null)
 		{
-			pm.getSharedProgramInstanceData().setVarFullName(m_RootVar.getVarDef().getId(), "%InternalRoot_" + csSuffix + "%");
+			pm.getSharedProgramInstanceData().setVarFullName(rootVar.getVarDef().getId(), "%InternalRoot_" + csSuffix + "%");
 		}
 	}
 
 	
 	public BaseProgram getProgram()
 	{
-		return m_prg;
+		return prg;
 	}
 	
 	public void pushLevel(VarDefBuffer varDef)
 	{
 		CLevel level = new CLevel(varDef, varDef.getLevel());
-		if(m_stackLevel == null)
-			m_stackLevel = new StackLevel(); 
-		m_stackLevel.push(level);
+		if(stackLevel == null)
+			stackLevel = new StackLevel(); 
+		stackLevel.push(level);
 	}
 	
 	public VarDefBuffer getVarDefAtParentLevel(int nLevel)
 	{
 		VarDefBuffer varDefParent = null;
 		if(nLevel == 77)	// Level 77 do not change the stack, but are parented by the root var
-			varDefParent = m_RootVar.getVarDef();
-		else if(m_stackLevel != null)
+			varDefParent = rootVar.getVarDef();
+		else if(stackLevel != null)
 		{
-			CLevel level = m_stackLevel.getParentLevel(nLevel);
+			CLevel level = stackLevel.getParentLevel(nLevel);
 			if(level != null)
 				varDefParent = level.getVarDef();
 		}
 		return varDefParent;
 	}
 
-	private StackLevel m_stackLevel = null;
+	private StackLevel stackLevel = null;
 	
 	Var getRootVar()
 	{
-		return m_RootVar;
+		return rootVar;
 	}
 	
 	public VarBuffer computeStorage(boolean bFirstInstance)
 	{
-		m_stackLevel = null;
+		stackLevel = null;
 		
-		SharedProgramInstanceData sharedProgramInstanceData = m_prg.getProgramManager().getSharedProgramInstanceData();
+		SharedProgramInstanceData sharedProgramInstanceData = prg.getProgramManager().getSharedProgramInstanceData();
 		int nBufferSize = 0;
-		if(m_RootVar != null)
+		if(rootVar != null)
 		{
 			if(bFirstInstance)	// The var defs of the catalog have not been already computed: 1st absolute run; the 2nd, 3rd... run of a program alreday loaded have access to the catalog of varDef: No need to recompute var def again.
 			{
-				VarDefBuffer varDefBuffer = m_RootVar.getVarDef();
+				VarDefBuffer varDefBuffer = rootVar.getVarDef();
 				
 				varDefBuffer.assignEditInMapRedefine();
 				nBufferSize = varDefBuffer.calcSize();
@@ -108,28 +108,28 @@ public class DataSection extends CJMapObject
 				varDefBuffer.calcOccursOwners();
 			}
 			else
-				nBufferSize = m_RootVar.getTotalSize();
+				nBufferSize = rootVar.getTotalSize();
 		}
 		
-		m_Buffer.allocBufferStorage(nBufferSize);
-		return m_Buffer;
+		buffer.allocBufferStorage(nBufferSize);
+		return buffer;
 	}
 		
 	public void fillWorkingInitialValues(SharedProgramInstanceData sharedProgramInstanceData)
 	{			
 		TempCache cache = TempCacheLocator.getTLSTempCache();
-		if(cache != null && m_RootVar != null)
-			m_RootVar.getVarDef().fillInitialValueAndClearUnusedMembers(cache, sharedProgramInstanceData, m_Buffer);
+		if(cache != null && rootVar != null)
+			rootVar.getVarDef().fillInitialValueAndClearUnusedMembers(cache, sharedProgramInstanceData, buffer);
 	}
 	
 	public void dumpRootVar(String csSectionName)
 	{
 		if(IsSTCheck)
 		{
-			if(m_RootVar != null)
+			if(rootVar != null)
 			{
-				Log.logFineDebug("dumpSTCheck:" + this.m_prg.getSimpleName() + " " + csSectionName);
-				m_RootVar.getVarDef().dumpToSTCheck(m_prg.getProgramManager());
+				Log.logFineDebug("dumpSTCheck:" + this.prg.getSimpleName() + " " + csSectionName);
+				rootVar.getVarDef().dumpToSTCheck(prg.getProgramManager());
 			}
 		}
 	}
@@ -168,7 +168,7 @@ public class DataSection extends CJMapObject
 		return null;		
 	}
 	
-	protected BaseProgram m_prg = null;
-	public Var m_RootVar = null;
-	public VarBuffer m_Buffer = null;
+	protected BaseProgram prg = null;
+	public Var rootVar = null;
+	public VarBuffer buffer = null;
 }

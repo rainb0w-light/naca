@@ -39,7 +39,7 @@ public class CJavaLengthOf extends CEntityLengthOf
 	 */
 	public String ExportReference(int nLine)
 	{
-		return "lengthOf(" + m_Reference.ExportReference(getLine()) + ")";
+		return "lengthOf(" + reference.ExportReference(getLine()) + ")";
 	}
 	public boolean isValNeeded()
 	{

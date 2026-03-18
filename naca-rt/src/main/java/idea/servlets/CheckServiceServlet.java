@@ -21,11 +21,11 @@ import nacaLib.basePrgEnv.BaseResourceManager;
 public class CheckServiceServlet extends BaseCheckServiceServlet
 {
 	private static final long serialVersionUID = 1L;
-	private OnlineResourceManager m_ResourceManager = OnlineResourceManagerFactory.GetInstance();
+	private OnlineResourceManager resourceManager = OnlineResourceManagerFactory.GetInstance();
 
 	protected String getServiceName()
 	{
-		return "NACA - " + m_ResourceManager.getServerName();
+		return "NACA - " + resourceManager.getServerName();
 	}
 	
 	protected boolean getServiceStatus(HttpServletRequest req, StringBuffer errCode)

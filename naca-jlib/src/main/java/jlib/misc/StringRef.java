@@ -14,26 +14,26 @@ public class StringRef
 	
 	public StringRef(String cs)
 	{
-		m_cs = cs;
+		cs = cs;
 	}
 
 	
 	public String get()
 	{
-		return m_cs;
+		return cs;
 	}
 	
 	public void set(String cs)
 	{
-		m_cs = cs;
+		cs = cs;
 	}
 	
 	public String toString()
 	{
-		if(m_cs != null)
-			return "StringRef: \""+m_cs + "\"";
+		if(cs != null)
+			return "StringRef: \""+cs + "\"";
 		return "StringRef: \"<null>\"";
 	}
 	
-	private String m_cs = null;
+	private String cs = null;
 }

@@ -21,7 +21,7 @@ public class CJavaCloseFile extends CEntityCloseFile
 	@Override
 	protected void DoExport()
 	{
-		WriteLine("close(" + m_eFileDescriptor.ExportReference(getLine()) + ");") ;
+		WriteLine("close(" + eFileDescriptor.ExportReference(getLine()) + ");") ;
 	}
 
 }

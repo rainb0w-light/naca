@@ -28,14 +28,14 @@ public class CNumberTerminal extends CTerminal
 {
 	public CNumberTerminal(String val)
 	{
-		m_csValue = val ;
+		csValue = val ;
 		/*
-		if (m_csValue.indexOf("x") == -1)
+		if (csValue.indexOf("x") == -1)
 		{	
 			int i = 0;
-			for (; i < m_csValue.length() - 1 && m_csValue.charAt(i) == '0'; i++);
+			for (; i < csValue.length() - 1 && csValue.charAt(i) == '0'; i++);
 			if (i > 0)
-				m_csValue = m_csValue.substring(i);
+				csValue = csValue.substring(i);
 		}
 		*/
 	}
@@ -48,15 +48,15 @@ public class CNumberTerminal extends CTerminal
 //	}
 //	public String GetValue()
 //	{
-//		return m_csValue;
+//		return csValue;
 //	}
-	String m_csValue = "" ;
+	String csValue = "" ;
 	/* (non-Javadoc)
 	 * @see parser.expression.CTerminal#ExportTo(org.w3c.dom.Element, org.w3c.dom.Document)
 	 */
 	public void ExportTo(Element e, Document root)
 	{
-		e.setAttribute("Number", m_csValue)	;	
+		e.setAttribute("Number", csValue)	;	
 	}
 	/* (non-Javadoc)
 	 * @see parser.expression.CTerminal#IsReference()
@@ -68,14 +68,14 @@ public class CNumberTerminal extends CTerminal
 	
 	public boolean IsOne()
 	{
-		if(Integer.parseInt(m_csValue) == 1)
+		if(Integer.parseInt(csValue) == 1)
 			return true;
 		return false;
 	}
 	
 	public boolean IsMinusOne()
 	{
-		if(Integer.parseInt(m_csValue) == -1)
+		if(Integer.parseInt(csValue) == -1)
 			return true;
 		return false;
 	}
@@ -85,25 +85,25 @@ public class CNumberTerminal extends CTerminal
 	 */
 //	public void ExportTo(CBaseLanguageExporter e)
 //	{
-//		e.WriteWord(m_csValue) ;
+//		e.WriteWord(csValue) ;
 //	}
 	/* (non-Javadoc)
 	 * @see parser.expression.CTerminal#GetValue()
 	 */
 	public String GetValue()
 	{
-		return m_csValue ;
+		return csValue ;
 	}
 	/* (non-Javadoc)
 	 * @see parser.expression.CTerminal#GetDataEntity(semantic.CBaseEntityFactory)
 	 */
 	public CDataEntity GetDataEntity(int nLine, CBaseEntityFactory factory)
 	{
-		return factory.NewEntityNumber(m_csValue);
+		return factory.NewEntityNumber(csValue);
 	}
 	public String toString()
 	{
-		return m_csValue ;
+		return csValue ;
 	}
 
 	public boolean IsNumber()

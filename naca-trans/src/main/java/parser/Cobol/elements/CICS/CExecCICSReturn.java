@@ -53,30 +53,30 @@ public class CExecCICSReturn extends CCobolElement
 		CEntityCICSReturn ret = factory.NewEntityCICSReturn(getLine());
 		parent.AddChild(ret);
 		
-		if (m_TransID != null)
+		if (transID != null)
 		{
 			CDataEntity TID ;
 			boolean bChecked = false ;
-			if (m_TransID.IsReference())
+			if (transID.IsReference())
 			{
-				TID = m_TransID.GetDataEntity(getLine(), factory);
+				TID = transID.GetDataEntity(getLine(), factory);
 				TID.RegisterReadingAction(ret) ;
-				factory.m_ProgramCatalog.RegisterVariableTransID(TID) ;
+				factory.programCatalog.RegisterVariableTransID(TID) ;
 			}
 			else
 			{
-				String transID = m_TransID.GetValue() ;
-				String programID = factory.m_ProgramCatalog.GetProgramForTransaction(transID);
+				String transIDValue = this.transID.GetValue() ;
+				String programID = factory.programCatalog.GetProgramForTransaction(transIDValue);
 				if (programID.equals(""))
 				{
-					TID = m_TransID.GetDataEntity(getLine(), factory);
+					TID = this.transID.GetDataEntity(getLine(), factory);
 					TID.RegisterReadingAction(ret) ;
-					factory.m_ProgramCatalog.RegisterVariableTransID(TID) ;
+					factory.programCatalog.RegisterVariableTransID(TID) ;
 				}
 				else
 				{
 					TID = factory.NewEntityString(programID) ;
-					if (factory.m_ProgramCatalog.CheckProgramReference(programID, true, 0, false))
+					if (factory.programCatalog.CheckProgramReference(programID, true, 0, false))
 					{
 						bChecked = true ;
 					}
@@ -84,13 +84,13 @@ public class CExecCICSReturn extends CCobolElement
 			}
 			CDataEntity comma = null;
 			CDataEntity comlen = null ;
-			if (m_CommArea != null)
+			if (commArea != null)
 			{
-				comma = m_CommArea.GetDataReference(getLine(), factory);
+				comma = commArea.GetDataReference(getLine(), factory);
 				comma.RegisterReadingAction(ret) ;
-				if (m_CommAreaLength != null)
+				if (commAreaLength != null)
 				{
-					comlen = m_CommAreaLength.GetDataEntity(getLine(), factory);
+					comlen = commAreaLength.GetDataEntity(getLine(), factory);
 					comlen.RegisterReadingAction(ret) ;
 				}
 			}
@@ -116,7 +116,7 @@ public class CExecCICSReturn extends CCobolElement
 			if (tok.GetType() == CTokenType.LEFT_BRACKET)
 			{
 				tok = GetNext() ;
-				m_TransID = ReadTerminal() ;
+				transID = ReadTerminal() ;
 				tok = GetCurrentToken() ;
 				if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 				{
@@ -130,7 +130,7 @@ public class CExecCICSReturn extends CCobolElement
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
 				{
 					tok = GetNext() ;
-					m_CommArea = ReadIdentifier() ;
+					commArea = ReadIdentifier() ;
 					tok = GetCurrentToken() ;
 					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 					{
@@ -145,7 +145,7 @@ public class CExecCICSReturn extends CCobolElement
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
 				{
 					tok = GetNext() ;
-					m_CommAreaLength = ReadTerminal() ;
+					commAreaLength = ReadTerminal() ;
 					tok = GetCurrentToken() ;
 					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 					{
@@ -170,28 +170,28 @@ public class CExecCICSReturn extends CCobolElement
 	protected Element ExportCustom(Document root)
 	{
 		Element e = root.createElement("ExecCICSReturn") ;
-		if (m_TransID != null)
+		if (transID != null)
 		{
 			Element eTID = root.createElement("TransIS");
 			e.appendChild(eTID) ;
-			m_TransID.ExportTo(eTID, root) ;
+			transID.ExportTo(eTID, root) ;
 		}
-		if (m_CommArea != null)
+		if (commArea != null)
 		{
 			Element eCA = root.createElement("CommArea");
 			e.appendChild(eCA) ;
-			m_CommArea.ExportTo(eCA, root) ;
-			if (m_CommAreaLength != null)
+			commArea.ExportTo(eCA, root) ;
+			if (commAreaLength != null)
 			{
 				Element el = root.createElement("Length");
 				eCA.appendChild(el);
-				m_CommAreaLength.ExportTo(el, root);
+				commAreaLength.ExportTo(el, root);
 			}
 		}
 		return e;
 	}
 
-	protected CTerminal m_TransID = null ;
-	protected CIdentifier m_CommArea = null ;
-	protected CTerminal m_CommAreaLength = null ;
+	protected CTerminal transID = null ;
+	protected CIdentifier commArea = null ;
+	protected CTerminal commAreaLength = null ;
 }

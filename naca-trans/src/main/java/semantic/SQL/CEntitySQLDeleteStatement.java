@@ -30,15 +30,15 @@ public abstract class CEntitySQLDeleteStatement extends CBaseActionEntity
 	public CEntitySQLDeleteStatement(int line, CObjectCatalog cat, CBaseLanguageExporter out, String csStatement, Vector<CDataEntity> arrParameters)
 	{
 		super(line, cat, out);
-		m_csStatement = csStatement ;
-		m_arrParameters = arrParameters;
+		csStatement = csStatement ;
+		arrParameters = arrParameters;
 	}
-	protected String m_csStatement = "" ;
-	protected Vector<CDataEntity> m_arrParameters = null;
+	protected String csStatement = "" ;
+	protected Vector<CDataEntity> arrParameters = null;
 	public void Clear()
 	{
 		super.Clear();
-		m_arrParameters.clear();
+		arrParameters.clear();
 	}
 	public boolean ignore()
 	{
@@ -46,11 +46,11 @@ public abstract class CEntitySQLDeleteStatement extends CBaseActionEntity
 	}
 	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
 	{
-		int n = m_arrParameters.indexOf(field);
+		int n = arrParameters.indexOf(field);
 		if (n>=0)
 		{
-			m_arrParameters.get(n).UnRegisterReadingAction(this) ;
-			m_arrParameters.set(n, var);
+			arrParameters.get(n).UnRegisterReadingAction(this) ;
+			arrParameters.set(n, var);
 			var.RegisterReadingAction(this) ;
 			return true ;
 		}
@@ -61,7 +61,7 @@ public abstract class CEntitySQLDeleteStatement extends CBaseActionEntity
 	 */
 	public void setCursor(CEntitySQLCursor cursor)
 	{
-		m_Cursor = cursor ;
+		cursor = cursor ;
 	}
-	protected CEntitySQLCursor m_Cursor = null ;
+	protected CEntitySQLCursor cursor = null ;
 }

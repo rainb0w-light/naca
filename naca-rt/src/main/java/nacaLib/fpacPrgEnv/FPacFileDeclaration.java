@@ -18,27 +18,27 @@ import nacaLib.programStructure.DataSectionFile;
  */
 public class FPacFileDeclaration
 {
-	FPacVarSectionDeclaration m_section = null;
-	String m_csName = null;
+	FPacVarSectionDeclaration section = null;
+	String csName = null;
 	
-	private FPacRecordFiller m_FPacRecordFillerInput = new FPacRecordFiller((byte)0xff);
-	private FPacRecordFiller m_FPacRecordFillerOutput = new FPacRecordFiller((byte) ' ');
-	private boolean m_bRecordLengthForced = false;
-	private int m_nRecordLength = 0;	
+	private FPacRecordFiller fPacRecordFillerInput = new FPacRecordFiller((byte)0xff);
+	private FPacRecordFiller fPacRecordFillerOutput = new FPacRecordFiller((byte) ' ');
+	private boolean bRecordLengthForced = false;
+	private int nRecordLength = 0;	
 	
 	FPacFileDeclaration(FPacVarSectionDeclaration section, String csName)
 	{
-		m_section = section;
-		m_csName = csName;		
+		section = section;
+		csName = csName;		
 	}
 	
 	public FPacFileDescriptor file()
 	{
-		DataSectionFile fileSection = m_section.fileSection();
-		FPacFileDescriptor fpacFileDescriptor = new FPacFileDescriptor((FPacProgram)m_section.getProgram(), m_csName);
-		if(m_bRecordLengthForced)
-			fpacFileDescriptor.setRecordLengthForced(m_nRecordLength);
-		fpacFileDescriptor.setRecordFillers(m_FPacRecordFillerInput, m_FPacRecordFillerOutput);
+		DataSectionFile fileSection = section.fileSection();
+		FPacFileDescriptor fpacFileDescriptor = new FPacFileDescriptor((FPacProgram)section.getProgram(), csName);
+		if(bRecordLengthForced)
+			fpacFileDescriptor.setRecordLengthForced(nRecordLength);
+		fpacFileDescriptor.setRecordFillers(fPacRecordFillerInput, fPacRecordFillerOutput);
 		fileSection.setCurrentFileDef(fpacFileDescriptor);
 		return fpacFileDescriptor;
 	}
@@ -46,38 +46,38 @@ public class FPacFileDeclaration
 	// Supersede the logical name declared record length 
 	public FPacFileDeclaration forcedRecordLength(int n)
 	{
-		m_nRecordLength = n;
-		m_bRecordLengthForced = true;
+		nRecordLength = n;
+		bRecordLengthForced = true;
 		return this;
 	}
 	
 	public FPacFileDeclaration fillInputBuffer(byte by)
 	{
-		m_FPacRecordFillerInput.setFiller(by);
+		fPacRecordFillerInput.setFiller(by);
 		return this;
 	}
 	
 	public FPacFileDeclaration fillInputBuffer(char c)
 	{
-		m_FPacRecordFillerInput.setFiller(c);
+		fPacRecordFillerInput.setFiller(c);
 		return this;
 	}
 	
 	public FPacFileDeclaration fillOutputBuffer(byte by)
 	{
-		m_FPacRecordFillerOutput.setFiller(by);
+		fPacRecordFillerOutput.setFiller(by);
 		return this;	
 	}
 	
 	public FPacFileDeclaration fillOutputBuffer(char c)
 	{
-		m_FPacRecordFillerOutput.setFiller(c);
+		fPacRecordFillerOutput.setFiller(c);
 		return this;
 	}
 	public FPacFileDeclaration fillOutputBuffer(String cs)
 	{
 		if (cs != null && cs.length() >= 1)
-			m_FPacRecordFillerOutput.setFiller(cs.charAt(0));
+			fPacRecordFillerOutput.setFiller(cs.charAt(0));
 		return this;
 	}
 }

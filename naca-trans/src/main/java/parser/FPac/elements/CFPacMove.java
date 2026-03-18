@@ -30,16 +30,16 @@ import utils.FPacTranscoder.OperandDescription;
 
 public class CFPacMove extends CFPacElement
 {
-	private Vector<CExpression> m_arrTerms ;
-	private boolean m_bMoveToInput = false ;
-	private boolean m_bMovefromOutput = false ;
-	private boolean m_bMovePacked = false ;
-	private boolean m_bUnpack = false ;
+	private Vector<CExpression> arrTerms ;
+	private boolean bMoveToInput = false ;
+	private boolean bMovefromOutput = false ;
+	private boolean bMovePacked = false ;
+	private boolean bUnpack = false ;
 	
 	public CFPacMove(int line, Vector<CExpression> arrTerms)
 	{
 		super(line);
-		m_arrTerms = arrTerms ;
+		arrTerms = arrTerms ;
 	}
 
 	@Override
@@ -51,9 +51,9 @@ public class CFPacMove extends CFPacElement
 	@Override
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		if (m_arrTerms.size() == 1)
+		if (arrTerms.size() == 1)
 		{
-			CExpression e = m_arrTerms.get(0) ;
+			CExpression e = arrTerms.get(0) ;
 			CBaseEntityExpression exp = e.AnalyseExpression(factory) ;
 			CExpression op = e.GetFirstCalculOperand();
 			if (op.IsReference())
@@ -76,110 +76,110 @@ public class CFPacMove extends CFPacElement
 			return null ;
 		}
 		
-		ListIterator<CExpression> iter = m_arrTerms.listIterator() ;
+		ListIterator<CExpression> iter = arrTerms.listIterator() ;
 
-		OperandDescription op1 = OperandDescription.FindFirstDataEntity(iter, factory, m_bMovefromOutput) ;
-		if (op1 == null || op1.m_eObject == null)
+		OperandDescription op1 = OperandDescription.FindFirstDataEntity(iter, factory, bMovefromOutput) ;
+		if (op1 == null || op1.eObject == null)
 		{
 			Transcoder.logError(getLine(), "Unexpecting entity") ;
 			return null ;
 		}
 		
-		OperandDescription op2 = OperandDescription.FindSecondDataEntity(iter, factory, m_bMoveToInput) ;
-		if (op2 == null || op2.m_eObject == null)
+		OperandDescription op2 = OperandDescription.FindSecondDataEntity(iter, factory, bMoveToInput) ;
+		if (op2 == null || op2.eObject == null)
 		{
 			Transcoder.logError(getLine(), "Unexpecting entity") ;
 			return null ;
 		}
 		
 		boolean bSpecialPacked = false;
-		if (op1.m_expStart != null && op1.m_expLength == null && op2.m_expLength != null)
+		if (op1.expStart != null && op1.expLength == null && op2.expLength != null)
 		{
-			if (op2.m_expLength.GetDataType() == CDataEntityType.ADDRESS || op2.m_expLength.GetDataType() == CDataEntityType.NUMBER)
+			if (op2.expLength.GetDataType() == CDataEntityType.ADDRESS || op2.expLength.GetDataType() == CDataEntityType.NUMBER)
 			{
-				op1.m_expLength = op2.m_expLength ;
+				op1.expLength = op2.expLength ;
 			}
 			else
 			{
-				String cs = op2.m_expLength.GetConstantValue() ;
+				String cs = op2.expLength.GetConstantValue() ;
 				if (!cs.equals(""))
 				{
-					int start = NumberParser.getAsInt(op1.m_expStart.GetConstantValue()) ; 
+					int start = NumberParser.getAsInt(op1.expStart.GetConstantValue()) ; 
 					if (start >= 6000 && start < 7000 && 
-								(op2.m_expStart == null || NumberParser.getAsInt(op2.m_expStart.GetConstantValue()) < 6000 
-												|| NumberParser.getAsInt(op2.m_expStart.GetConstantValue()) >= 7000))
+								(op2.expStart == null || NumberParser.getAsInt(op2.expStart.GetConstantValue()) < 6000 
+												|| NumberParser.getAsInt(op2.expStart.GetConstantValue()) >= 7000))
 					{ // in packed fields, number are stored 2 per byte 
-						op1.m_expLength = factory.NewEntityExprTerminal(factory.NewEntityNumber(cs.length() / 2)) ;
+						op1.expLength = factory.NewEntityExprTerminal(factory.NewEntityNumber(cs.length() / 2)) ;
 						bSpecialPacked = true;
 					}
 					else
 					{
-						op1.m_expLength = factory.NewEntityExprTerminal(factory.NewEntityNumber(cs.length())) ;
+						op1.expLength = factory.NewEntityExprTerminal(factory.NewEntityNumber(cs.length())) ;
 					}
 				}
 			}
 		}
-		if (op2.m_expStart != null && op2.m_expLength == null && op1.m_expLength != null)
+		if (op2.expStart != null && op2.expLength == null && op1.expLength != null)
 		{
-			op2.m_expLength = op1.m_expLength ;
+			op2.expLength = op1.expLength ;
 		}
-		if (op2.m_expLength == null && op1.m_expLength == null)
+		if (op2.expLength == null && op1.expLength == null)
 		{
-			if (op2.m_expStart != null)
+			if (op2.expStart != null)
 			{
-				int start2 = NumberParser.getAsInt(op2.m_expStart.GetConstantValue()) ;
-				if (m_bMovePacked || (start2>=6000 && start2<7000))
-					op2.m_expLength = factory.NewEntityExprTerminal(factory.NewEntityNumber(8)) ;
+				int start2 = NumberParser.getAsInt(op2.expStart.GetConstantValue()) ;
+				if (bMovePacked || (start2>=6000 && start2<7000))
+					op2.expLength = factory.NewEntityExprTerminal(factory.NewEntityNumber(8)) ;
 			}
-			if (op1.m_expStart != null)
+			if (op1.expStart != null)
 			{
-				int start1 = NumberParser.getAsInt(op1.m_expStart.GetConstantValue()) ;
-				if ((m_bMovePacked || (start1>=6000 && start1<7000)))
-					op1.m_expLength = factory.NewEntityExprTerminal(factory.NewEntityNumber(8)) ;
+				int start1 = NumberParser.getAsInt(op1.expStart.GetConstantValue()) ;
+				if ((bMovePacked || (start1>=6000 && start1<7000)))
+					op1.expLength = factory.NewEntityExprTerminal(factory.NewEntityNumber(8)) ;
 			}
 		}
 		
 		// manage type conversion
-		if (op1.m_expStart != null)
+		if (op1.expStart != null)
 		{
 			CEntityConvertReference conv = factory.NewEntityConvert(getLine()) ;
-			if (m_bMovePacked || bSpecialPacked)
-				conv.convertToPacked(op1.m_eObject) ;
+			if (bMovePacked || bSpecialPacked)
+				conv.convertToPacked(op1.eObject) ;
 			else
-				conv.convertToAlphaNum(op1.m_eObject) ;
-			op1.m_eObject = conv ;
+				conv.convertToAlphaNum(op1.eObject) ;
+			op1.eObject = conv ;
 		}
-		if (op2.m_expStart != null)
+		if (op2.expStart != null)
 		{
 			CEntityConvertReference conv = factory.NewEntityConvert(getLine()) ;
-			if (m_bMovePacked)
-				conv.convertToPacked(op2.m_eObject) ;
+			if (bMovePacked)
+				conv.convertToPacked(op2.eObject) ;
 			else
-				conv.convertToAlphaNum(op2.m_eObject) ;
-			op2.m_eObject = conv ;
+				conv.convertToAlphaNum(op2.eObject) ;
+			op2.eObject = conv ;
 		}
 		
 		// build variables
 		CDataEntity var1= null, var2 = null ;
-		if (op1.m_expStart != null)
+		if (op1.expStart != null)
 		{
 			CSubStringAttributReference e1 = factory.NewEntitySubString(getLine()) ;
-			e1.SetReference(op1.m_eObject, op1.m_expStart, op1.m_expLength) ;
+			e1.SetReference(op1.eObject, op1.expStart, op1.expLength) ;
 			var1 = e1;
 		}
 		else
 		{
-			var1 = op1.m_eObject ;
+			var1 = op1.eObject ;
 		}
-		if (op2.m_expStart != null)
+		if (op2.expStart != null)
 		{
 			CSubStringAttributReference e2 = factory.NewEntitySubString(getLine()) ;
-			e2.SetReference(op2.m_eObject, op2.m_expStart, op2.m_expLength) ;
+			e2.SetReference(op2.eObject, op2.expStart, op2.expLength) ;
 			var2 = e2 ;
 		}
 		else
 		{
-			var2 = op2.m_eObject ;
+			var2 = op2.eObject ;
 		}
 		// build instructions
 		if (var2.HasAccessors())
@@ -192,7 +192,7 @@ public class CFPacMove extends CFPacElement
 			ass.SetValue(var1) ;
 			return ass ;
 		}
-//		else if (m_bMovePacked)
+//		else if (bMovePacked)
 //		{
 //			CEntityAssignSpecial ass = factory.NewEntityAssignSpecial(getLine()) ;
 //			ass.setDestination(var2) ;
@@ -222,7 +222,7 @@ public class CFPacMove extends CFPacElement
 	protected Element ExportCustom(Document root)
 	{
 		Element eAdd = root.createElement("Move") ;
-		for (CExpression t : m_arrTerms)
+		for (CExpression t : arrTerms)
 		{
 			Element e = root.createElement("Term") ;
 			e.appendChild(t.Export(root)) ;
@@ -236,7 +236,7 @@ public class CFPacMove extends CFPacElement
 	 */
 	public void moveToInput()
 	{
-		m_bMoveToInput  = true ;
+		bMoveToInput  = true ;
 	}
 
 	/**
@@ -244,7 +244,7 @@ public class CFPacMove extends CFPacElement
 	 */
 	public void moveFromOutput()
 	{
-		m_bMovefromOutput  = true ;
+		bMovefromOutput  = true ;
 	}
 
 	/**
@@ -252,7 +252,7 @@ public class CFPacMove extends CFPacElement
 	 */
 	public void movePacked()
 	{
-		this.m_bMovePacked  = true ;
+		this.bMovePacked  = true ;
 	}
 
 	/**
@@ -260,7 +260,7 @@ public class CFPacMove extends CFPacElement
 	 */
 	public void unpack()
 	{
-		this.m_bUnpack  = true ; 
+		this.bUnpack  = true ; 
 	}
 
 }

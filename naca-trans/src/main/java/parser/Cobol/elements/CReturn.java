@@ -49,10 +49,10 @@ public class CReturn extends CCobolElement
 		CEntitySortReturn eRet = factory.NewEntitySortReturn(getLine()) ;
 		parent.AddChild(eRet) ;
 		
-		CEntityFileDescriptor eRef = factory.m_ProgramCatalog.getFileDescriptor(m_SortFile.GetName()) ;
-		if (m_DataRef != null)
+		CEntityFileDescriptor eRef = factory.programCatalog.getFileDescriptor(sortFile.GetName()) ;
+		if (dataRef != null)
 		{
-			CDataEntity into = m_DataRef.GetDataReference(getLine(), factory) ;
+			CDataEntity into = dataRef.GetDataReference(getLine(), factory) ;
 			eRet.setDataReference(eRef, into) ;
 		}
 		else
@@ -60,14 +60,14 @@ public class CReturn extends CCobolElement
 			eRet.setDataReference(eRef) ;
 		}
 		
-		if (m_AtEndBloc != null)
+		if (atEndBloc != null)
 		{
-			CBaseLanguageEntity le = m_AtEndBloc.DoSemanticAnalysis(eRet, factory) ;
+			CBaseLanguageEntity le = atEndBloc.DoSemanticAnalysis(eRet, factory) ;
 			eRet.SetAtEndBloc(le) ;
 		}
-		if (m_NotAtEndBloc != null)
+		if (notAtEndBloc != null)
 		{
-			CBaseLanguageEntity le = m_NotAtEndBloc.DoSemanticAnalysis(eRet, factory) ;
+			CBaseLanguageEntity le = notAtEndBloc.DoSemanticAnalysis(eRet, factory) ;
 			eRet.SetNotAtEndBloc(le) ;
 		}
 		
@@ -80,10 +80,10 @@ public class CReturn extends CCobolElement
 		{
 			return false ;
 		}
-		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().m_Name) ;
+		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
 		
 		tok = GetNext() ;
-		m_SortFile = ReadIdentifier();
+		sortFile = ReadIdentifier();
 		
 		tok = GetCurrentToken();
 		if (tok.GetKeyword() == CCobolKeywordList.RECORD)
@@ -93,7 +93,7 @@ public class CReturn extends CCobolElement
 		if (tok.GetKeyword() == CCobolKeywordList.INTO)
 		{
 			tok = GetNext();
-			m_DataRef = ReadIdentifier();
+			dataRef = ReadIdentifier();
 		}
 		
 		tok = GetCurrentToken() ;
@@ -103,8 +103,8 @@ public class CReturn extends CCobolElement
 			if (tok.GetKeyword() == CCobolKeywordList.END)
 			{
 				tok = GetNext() ;
-				m_AtEndBloc = new CGenericBloc("AtEnd", getLine()) ;
-				if (!Parse(m_AtEndBloc))
+				atEndBloc = new CGenericBloc("AtEnd", getLine()) ;
+				if (!Parse(atEndBloc))
 				{
 					return false ;
 				}
@@ -125,8 +125,8 @@ public class CReturn extends CCobolElement
 				if (tok.GetKeyword() == CCobolKeywordList.END)
 				{
 					tok = GetNext() ;
-					m_NotAtEndBloc = new CGenericBloc("NotAtEnd", getLine()) ;
-					if (!Parse(m_NotAtEndBloc))
+					notAtEndBloc = new CGenericBloc("NotAtEnd", getLine()) ;
+					if (!Parse(notAtEndBloc))
 					{
 						return false ;
 					}
@@ -157,30 +157,30 @@ public class CReturn extends CCobolElement
 		Element eReturn = root.createElement("Return") ;
 		Element eRecord = root.createElement("Record");
 		eReturn.appendChild(eRecord);
-		m_SortFile.ExportTo(eRecord, root);
+		sortFile.ExportTo(eRecord, root);
 		
-		if (m_DataRef != null)
+		if (dataRef != null)
 		{
 			Element e = root.createElement("Into");
-			m_DataRef.ExportTo(e, root);
+			dataRef.ExportTo(e, root);
 			eReturn.appendChild(e);
 		}
 		
-		if (m_AtEndBloc != null)
+		if (atEndBloc != null)
 		{
-			Element e = m_AtEndBloc.Export(root);
+			Element e = atEndBloc.Export(root);
 			eReturn.appendChild(e);
 		} 
-		if (m_NotAtEndBloc != null)
+		if (notAtEndBloc != null)
 		{
-			Element e = m_NotAtEndBloc.Export(root);
+			Element e = notAtEndBloc.Export(root);
 			eReturn.appendChild(e);
 		} 
 		return eReturn;
 	}
 	
-	protected CIdentifier m_SortFile = null ;
-	protected CIdentifier m_DataRef = null ;
-	protected CGenericBloc m_AtEndBloc = null ;
-	protected CGenericBloc m_NotAtEndBloc = null ;
+	protected CIdentifier sortFile = null ;
+	protected CIdentifier dataRef = null ;
+	protected CGenericBloc atEndBloc = null ;
+	protected CGenericBloc notAtEndBloc = null ;
 }

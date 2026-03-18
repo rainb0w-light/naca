@@ -22,9 +22,9 @@ public class CReservedConstant
 {
 	public CReservedConstant(CConstantList list, String name)
 	{
-		m_Name = name ;
+		name = name ;
 		if(list != null)
 			list.Register(this) ;
 	}
-	public String m_Name = "" ;
+	public String name = "" ;
 }

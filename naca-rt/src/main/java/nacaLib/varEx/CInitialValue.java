@@ -13,56 +13,56 @@ public class CInitialValue
 {
 	public CInitialValue(int n, boolean bFill)
 	{
-		m_genericValue = new GenericValueInt(n); 
-		m_bFill = bFill;
+		genericValue = new GenericValueInt(n); 
+		bFill = bFill;
 	}
 	
 	public CInitialValue(double d, boolean bFill)
 	{
-		m_genericValue = new GenericValueDouble(d); 
-		m_bFill = bFill;
+		genericValue = new GenericValueDouble(d); 
+		bFill = bFill;
 	}
 	
 	public CInitialValue(String csValue, boolean bFill)
 	{
-		m_genericValue = new GenericValueString(csValue); 
-		m_bFill = bFill;
+		genericValue = new GenericValueString(csValue); 
+		bFill = bFill;
 	}
 	
 
 	public CInitialValue(char c, boolean bFill)
 	{
-		m_genericValue = new GenericValueChar(c);
-		m_bFill = bFill;
+		genericValue = new GenericValueChar(c);
+		bFill = bFill;
 	}
 	
 //	public void apply()
 //	{
-//		if(m_var != null)
+//		if(var != null)
 //		{
-//			if(!m_bFill)
+//			if(!bFill)
 //			{
-//				if(m_sValue != null)
-//					m_var.set(m_sValue);
+//				if(sValue != null)
+//					var.set(sValue);
 //				else 
-//					m_var.set(m_c);
+//					var.set(c);
 //			}
 //			else
 //			{
-//				if(m_sValue != null)
-//					m_var.m_VarManager.setAndFillWithType(m_sValue);
+//				if(sValue != null)
+//					var.varManager.setAndFillWithType(sValue);
 //				else 
-//					m_var.m_VarManager.setAndFillWithType(m_c);
+//					var.varManager.setAndFillWithType(c);
 //			}
 //		}
 //	}
 	
 	public String toString()
 	{
-		return "GenericValue="+m_genericValue.getAsString() + " m_bFill="+m_bFill;
+		return "GenericValue="+genericValue.getAsString() + " bFill="+bFill;
 	}
 	
-	GenericValue m_genericValue;
-	boolean m_bFill = false;
+	GenericValue genericValue;
+	boolean bFill = false;
 }
 

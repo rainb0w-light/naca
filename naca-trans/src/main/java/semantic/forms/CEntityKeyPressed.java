@@ -30,16 +30,16 @@ public abstract class CEntityKeyPressed extends CDataEntity
 	public void RegisterReadingAction(CBaseActionEntity act)
 	{
 		super.RegisterReadingAction(act);
-		m_ProgramCatalog.addImportDeclaration("KEYPRESSED") ;
+		programCatalog.addImportDeclaration("KEYPRESSED") ;
 	}
 	public void RegisterReadReference(CBaseDataReference ent)
 	{
-		m_ProgramCatalog.addImportDeclaration("KEYPRESSED") ;
+		programCatalog.addImportDeclaration("KEYPRESSED") ;
 		super.RegisterReadReference(ent);
 	}
 	public void RegisterValueAccess(CBaseEntityCondExpr cond)
 	{
-		m_ProgramCatalog.addImportDeclaration("KEYPRESSED") ;
+		programCatalog.addImportDeclaration("KEYPRESSED") ;
 		super.RegisterValueAccess(cond);
 	}
 	/**

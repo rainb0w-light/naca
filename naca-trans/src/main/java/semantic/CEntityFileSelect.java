@@ -32,7 +32,7 @@ public class CEntityFileSelect extends CBaseLanguageEntity
 	@Override
 	protected void RegisterMySelfToCatalog()
 	{
-		m_ProgramCatalog.RegisterFileSelect(this) ;
+		programCatalog.RegisterFileSelect(this) ;
 	}
 
 	@Override
@@ -43,31 +43,31 @@ public class CEntityFileSelect extends CBaseLanguageEntity
 
 	public void setOrganizationMode(OrganizationMode eMode)
 	{
-		m_eOrganizationMode = eMode ;
+		eOrganizationMode = eMode ;
 	}
-	protected OrganizationMode m_eOrganizationMode = null ;
+	protected OrganizationMode eOrganizationMode = null ;
 	public void setAccessMode(AccessMode eMode)
 	{
-		m_eAccessmode = eMode ;	
+		eAccessmode = eMode ;	
 	}
-	protected AccessMode m_eAccessmode = null ;
+	protected AccessMode eAccessmode = null ;
 	public void setFileName(CDataEntity fileName)
 	{
-		m_csFileName = fileName ;		
+		csFileName = fileName ;		
 	}
-	protected CDataEntity m_csFileName ;
+	protected CDataEntity csFileName ;
 	public CDataEntity GetFileName()
 	{
-		return m_csFileName ;
+		return csFileName ;
 	}
-	protected CDataEntity m_FileStatus;
+	protected CDataEntity fileStatus;
 	public void setFileStatus(CDataEntity fileStatus)
 	{
-		m_FileStatus = fileStatus;
+		fileStatus = fileStatus;
 	}
 	public CDataEntity getFileStatus()
 	{
-		return m_FileStatus;
+		return fileStatus;
 	}
 
 }

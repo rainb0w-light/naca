@@ -23,62 +23,62 @@ public class OpenCalendarRange
 {
 	OpenCalendarRange()
 	{
-		m_nHour = new int[2];
-		m_nMinute = new int[2];
-		m_nSecond = new int[2];
+		nHour = new int[2];
+		nMinute = new int[2];
+		nSecond = new int[2];
 	}
 	
 	void set(CalendarOpenState state, String csMin, String csMax)
 	{
-		m_openState = state;
+		openState = state;
 		fill(0, csMin);
 		fill(1, csMax);
 	}
 	
 	void setBegin(CalendarInstant i)
 	{
-		m_openState = i.m_openState;
-		m_nHour[0] = i.m_nHour;
-		m_nMinute[0] = i.m_nMinute;
-		m_nSecond[0] = i.m_nSecond;
+		openState = i.openState;
+		nHour[0] = i.nHour;
+		nMinute[0] = i.nMinute;
+		nSecond[0] = i.nSecond;
 	}
 
 	void setEnd(CalendarInstant i)
 	{
-		m_nHour[1] = i.m_nHour;
-		m_nMinute[1] = i.m_nMinute;
-		m_nSecond[1] = i.m_nSecond;
+		nHour[1] = i.nHour;
+		nMinute[1] = i.nMinute;
+		nSecond[1] = i.nSecond;
 	}
 	
 	private void fill(int nMinMax, String csTime)
 	{
 		int n = csTime.indexOf(":");
 		String cs = csTime.substring(0, n);
-		m_nHour[nMinMax] = NumberParser.getAsInt(cs);
+		nHour[nMinMax] = NumberParser.getAsInt(cs);
 		
 		csTime = csTime.substring(n+1);
 		n = csTime.indexOf(":");
 		cs = csTime.substring(0, n);
-		m_nMinute[nMinMax] = NumberParser.getAsInt(cs);
+		nMinute[nMinMax] = NumberParser.getAsInt(cs);
 		
 		csTime = csTime.substring(n+1);
-		m_nSecond[nMinMax] = NumberParser.getAsInt(csTime);		
+		nSecond[nMinMax] = NumberParser.getAsInt(csTime);		
 	}
 	
 	void setCloseAllDay()
 	{
-		m_openState = CalendarOpenState.AppClosed; 
-		m_nHour[0] = 0;
-		m_nMinute[0] = 0;
-		m_nSecond[0] = 0;
-		m_nHour[1] = 24;
-		m_nMinute[1] = 0;
-		m_nSecond[1] = 0;
+		openState = CalendarOpenState.AppClosed; 
+		nHour[0] = 0;
+		nMinute[0] = 0;
+		nSecond[0] = 0;
+		nHour[1] = 24;
+		nMinute[1] = 0;
+		nSecond[1] = 0;
 	}
 	
 	boolean isSameType(OpenCalendarRange r)
 	{
-		if(m_openState == r.m_openState)
+		if(openState == r.openState)
 			return true;
 		return false;
 	}
@@ -86,21 +86,21 @@ public class OpenCalendarRange
 	CalendarInstant getInstant(int n)
 	{
 		CalendarInstant i = new CalendarInstant();
-		i.m_nHour = m_nHour[n];
-		i.m_nMinute = m_nMinute[n];
-		i.m_nSecond = m_nSecond[n];
-		i.m_openState = m_openState;
+		i.nHour = nHour[n];
+		i.nMinute = nMinute[n];
+		i.nSecond = nSecond[n];
+		i.openState = openState;
 		return i;	
 	}
 
 	boolean concernDate(CurrentDateInfo currentDate)
 	{
-		int nHour = currentDate.getHour();
-		int nMinute = currentDate.getMinute();
-		int nSecond = currentDate.getSecond();
-		if(nHour > m_nHour[0] || (nHour == m_nHour[0] && nMinute > m_nMinute[0]) || (nHour == m_nHour[0] && nMinute == m_nMinute[0] && nSecond >= m_nSecond[0]))
+		int nHourVal = currentDate.getHour();
+		int nMinuteVal = currentDate.getMinute();
+		int nSecondVal = currentDate.getSecond();
+		if(nHourVal > nHour[0] || (nHourVal == nHour[0] && nMinuteVal > nMinute[0]) || (nHourVal == nHour[0] && nMinuteVal == nMinute[0] && nSecondVal >= nSecond[0]))
 		{
-			if(nHour < m_nHour[1] || (nHour == m_nHour[1] && nMinute < m_nMinute[1]) || (nHour == m_nHour[1] && nMinute == m_nMinute[1] && nSecond < m_nSecond[1]))
+			if(nHourVal < nHour[1] || (nHourVal == nHour[1] && nMinuteVal < nMinute[1]) || (nHourVal == nHour[1] && nMinuteVal == nMinute[1] && nSecondVal < nSecond[1]))
 				return true;
 		}
 		return false;
@@ -108,24 +108,24 @@ public class OpenCalendarRange
 	
 	CalendarOpenState getOpenState()
 	{
-		return m_openState;
+		return openState;
 	}
 	
 	String getAsString()
 	{
-		String cs = m_nHour[0]+":"+m_nMinute[0]+":"+m_nSecond[0] + " -> " + m_nHour[1]+":"+m_nMinute[1]+":"+m_nSecond[1];
+		String cs = nHour[0]+":"+nMinute[0]+":"+nSecond[0] + " -> " + nHour[1]+":"+nMinute[1]+":"+nSecond[1];
 		return cs;
 	}
 	
 	void setCalendarAtEnd(Calendar cal)
 	{
-		cal.set(Calendar.HOUR, m_nHour[1]);
-		cal.set(Calendar.MINUTE, m_nMinute[1]);
-		cal.set(Calendar.SECOND, m_nSecond[1]);
+		cal.set(Calendar.HOUR, nHour[1]);
+		cal.set(Calendar.MINUTE, nMinute[1]);
+		cal.set(Calendar.SECOND, nSecond[1]);
 	}
 	
-	private CalendarOpenState m_openState = CalendarOpenState.Unknown;
-	int m_nHour[] = null;
-	int m_nMinute[] = null;
-	int m_nSecond[] = null;
+	private CalendarOpenState openState = CalendarOpenState.Unknown;
+	int nHour[] = null;
+	int nMinute[] = null;
+	int nSecond[] = null;
 }

@@ -34,8 +34,8 @@ public class VarNumEdited extends Var
 	
 	protected String getAsLoggableString()
 	{
-		//return m_varDef.getRawStringIncludingHeader(m_bufferPos);
-		CStr cstr = m_bufferPos.getOwnCStr(m_varDef.getLength());
+		//return varDef.getRawStringIncludingHeader(bufferPos);
+		CStr cstr = bufferPos.getOwnCStr(varDef.getLength());
 		String cs = cstr.getAsString();
 		//cstr.resetManagerCache();
 		return cs;

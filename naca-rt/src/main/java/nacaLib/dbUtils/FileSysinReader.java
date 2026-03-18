@@ -25,24 +25,24 @@ import nacaLib.varEx.FileDescriptor;
  */
 public class FileSysinReader extends BaseFileScriptReader
 {
-	private DataFileLineReader m_dataFileIn = null;
-	private BaseSession m_session = null;
+	private DataFileLineReader dataFileIn = null;
+	private BaseSession session = null;
 	
 	FileSysinReader(BaseSession session)
 	{
-		m_session = session;
+		session = session;
 	}
 	
 	boolean parse(BaseSQLUtils sqlUtils, FileDescriptor fileIn)
 	{
 		int nSumNbRecords = 0;
-		fileIn.setSession(m_session);
+		fileIn.setSession(session);
 		String csFileIn = fileIn.getPhysicalName();
 		if(BaseDataFile.isNullFile(csFileIn))
 			return false;
 		
-		m_dataFileIn = new DataFileLineReader(csFileIn, 65536, 0);
-		boolean bInOpened = m_dataFileIn.open();
+		dataFileIn = new DataFileLineReader(csFileIn, 65536, 0);
+		boolean bInOpened = dataFileIn.open();
 		if(bInOpened)
 		{
 			String csSQLClause = readSQLLine();
@@ -72,7 +72,7 @@ public class FileSysinReader extends BaseFileScriptReader
 	
 	private String readSQLLine()
 	{
-		LineRead lineRead = m_dataFileIn.readNextUnixLine();
+		LineRead lineRead = dataFileIn.readNextUnixLine();
 		if(lineRead == null)
 			return null;
 		
@@ -90,7 +90,7 @@ public class FileSysinReader extends BaseFileScriptReader
 				csSQLLine = csSQLLine.trim();
 				return csSQLLine;
 			}
-			lineRead = m_dataFileIn.readNextUnixLine();
+			lineRead = dataFileIn.readNextUnixLine();
 		}
 		return csSQLLine;		
 	}

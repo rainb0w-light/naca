@@ -11,10 +11,10 @@ import nacaLib.basePrgEnv.BaseEnvironment;
 public class CXctlException extends NacaRTException
 {
 	private static final long serialVersionUID = 1L;
-	public BaseEnvironment m_Environment = null;
+	public BaseEnvironment environment = null;
 	
 	public CXctlException(BaseEnvironment env)
 	{
-		m_Environment = env ;
+		environment = env ;
 	}
 }

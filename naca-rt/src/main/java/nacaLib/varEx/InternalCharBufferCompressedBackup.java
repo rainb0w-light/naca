@@ -23,25 +23,25 @@ public class InternalCharBufferCompressedBackup
 	
 	private void copyFrom(InternalCharBuffer internalCharBufferSource)
 	{
-		m_abBuffer = new byte[internalCharBufferSource.m_acBuffer.length];
-		for(int n=0; n<m_abBuffer.length; n++)
+		abBuffer = new byte[internalCharBufferSource.acBuffer.length];
+		for(int n=0; n<abBuffer.length; n++)
 		{
-			m_abBuffer[n] = (byte)internalCharBufferSource.m_acBuffer[n];
+			abBuffer[n] = (byte)internalCharBufferSource.acBuffer[n];
 		}
 	}
 	
 	public int getBufferSize()
 	{
-		if(m_abBuffer != null)
-			return m_abBuffer.length;
+		if(abBuffer != null)
+			return abBuffer.length;
 		return 0;
 	}
 	
 	public void prepareAutoRemoval()
 	{
-		m_abBuffer = null;
+		abBuffer = null;
 	}
 	
 	
-	public byte m_abBuffer[] = null;
+	public byte abBuffer[] = null;
 }

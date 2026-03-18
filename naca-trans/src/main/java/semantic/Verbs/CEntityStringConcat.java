@@ -35,19 +35,19 @@ public abstract class CEntityStringConcat extends CBaseActionEntity
 	@Override
 	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
 	{
-		if (m_eVariable == field)
+		if (eVariable == field)
 		{
-			m_eVariable = var ;
+			eVariable = var ;
 			field.UnRegisterWritingAction(this) ;
 			var.RegisterWritingAction(this) ;
 			return true ;
 		}
-		if (m_arrItems.contains(field))
+		if (arrItems.contains(field))
 		{
 			int pos;
-			while ((pos = m_arrItems.indexOf(field)) != -1)
+			while ((pos = arrItems.indexOf(field)) != -1)
 			{
-				m_arrItems.set(pos, var) ;
+				arrItems.set(pos, var) ;
 				field.UnRegisterReadingAction(this) ;
 				var.RegisterReadingAction(this) ;
 			}	
@@ -65,40 +65,40 @@ public abstract class CEntityStringConcat extends CBaseActionEntity
 		super(line, cat, out);
 	}
 	
-	protected Vector<CDataEntity> m_arrItems = new Vector<CDataEntity>() ; 
-	protected Vector<CDataEntity> m_arrItemsDelimiters = new Vector<CDataEntity>() ; 
-	protected CDataEntity m_eVariable = null ;
-	protected CDataEntity m_eStartIndex = null ;
+	protected Vector<CDataEntity> arrItems = new Vector<CDataEntity>() ; 
+	protected Vector<CDataEntity> arrItemsDelimiters = new Vector<CDataEntity>() ; 
+	protected CDataEntity eVariable = null ;
+	protected CDataEntity eStartIndex = null ;
 	public void Clear()
 	{
 		super.Clear() ;
-		m_arrItems.clear();
-		m_arrItemsDelimiters.clear() ;
-		m_eStartIndex = null ;
-		m_eVariable = null;
+		arrItems.clear();
+		arrItemsDelimiters.clear() ;
+		eStartIndex = null ;
+		eVariable = null;
 	}
 	public void SetVariable(CDataEntity e)
 	{
-		m_eVariable = e ;
+		eVariable = e ;
 	}
 	public void SetVariable(CDataEntity e, CDataEntity s)
 	{
-		m_eVariable = e ;
-		m_eStartIndex = s ;
+		eVariable = e ;
+		eStartIndex = s ;
 	}
 	public void AddItem(CDataEntity eItem, CDataEntity eUntil)
 	{
-		m_arrItems.add(eItem);
-		m_arrItemsDelimiters.add(eUntil);
+		arrItems.add(eItem);
+		arrItemsDelimiters.add(eUntil);
 	}
 	public void AddItem(CDataEntity eItem)
 	{
-		m_arrItems.add(eItem);
-		m_arrItemsDelimiters.add(null);
+		arrItems.add(eItem);
+		arrItemsDelimiters.add(null);
 	}
 	public boolean ignore()
 	{
-		boolean ignore = m_eVariable.ignore();
+		boolean ignore = eVariable.ignore();
 		return ignore ;
 	}
 }

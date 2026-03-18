@@ -32,20 +32,20 @@ import nacaLib.exceptions.AbortSessionException;
  */
 public class CAsynchronousTask extends CJMapObject implements Runnable
 {
-	private String m_csProgramParent = null;
-	private String m_csProgramToRun = null ;
-	private int m_nDelaySeconds = 0 ;
-	private Thread m_Thread = null ;
-	private boolean m_bInvalidate = false ;
-	private CESMStartData m_startData = null ;
+	private String csProgramParent = null;
+	private String csProgramToRun = null ;
+	private int nDelaySeconds = 0 ;
+	private Thread thread = null ;
+	private boolean bInvalidate = false ;
+	private CESMStartData startData = null ;
 
 	public CAsynchronousTask(String csProgramToRun, String csProgramParent, CESMStartData startData, int nDelaySeconds) 
 	{
-		m_csProgramToRun = csProgramToRun;
-		m_csProgramParent = csProgramParent;
-		m_nDelaySeconds = nDelaySeconds ;
-		m_startData = startData;
-		m_Thread = new Thread(this, csProgramToRun);
+		csProgramToRun = csProgramToRun;
+		csProgramParent = csProgramParent;
+		nDelaySeconds = nDelaySeconds ;
+		startData = startData;
+		thread = new Thread(this, csProgramToRun);
 	}
 	
 	/* (non-Javadoc)
@@ -55,16 +55,16 @@ public class CAsynchronousTask extends CJMapObject implements Runnable
 	{
 		boolean bUseJmx = BaseResourceManager.getUsingJmx();
 		
-		long lThreadId = m_Thread.getId();
+		long lThreadId = thread.getId();
 		String csThreadId = String.valueOf(lThreadId);
-		String csThreadName = m_Thread.getName();
+		String csThreadName = thread.getName();
 		
 		if(bUseJmx)
 		{
-			AsyncThreadJmxManager.startAsyncProgram(csThreadId, csThreadName, m_csProgramToRun, m_csProgramParent, m_nDelaySeconds);
+			AsyncThreadJmxManager.startAsyncProgram(csThreadId, csThreadName, csProgramToRun, csProgramParent, nDelaySeconds);
 		}
 		
-		Time_ms.wait_ms(m_nDelaySeconds * 1000);
+		Time_ms.wait_ms(nDelaySeconds * 1000);
 
 		while (BaseResourceManager.isInUpdateMode())
 		{
@@ -78,18 +78,18 @@ public class CAsynchronousTask extends CJMapObject implements Runnable
 			openState = BaseResourceManager.getAppOpenState();
 		}
 		
-		if (m_bInvalidate)
+		if (bInvalidate)
 		{
 			return ;
 		}
 
 		OnlineSession session = new OnlineSession(true) ;
 		BaseProgramLoader loader = BaseProgramLoader.GetProgramLoaderInstance() ;
-		BaseEnvironment env = loader.GetEnvironment(session, m_csProgramToRun, m_csProgramParent) ;
+		BaseEnvironment env = loader.GetEnvironment(session, csProgramToRun, csProgramParent) ;
 
 		env.startRunTransaction();
 		
-		env.enqueueData(m_startData);
+		env.enqueueData(startData);
 		
 		try
 		{
@@ -116,23 +116,23 @@ public class CAsynchronousTask extends CJMapObject implements Runnable
 	
 	public void Start()
 	{
-		if (!m_bInvalidate)
+		if (!bInvalidate)
 		{
-			m_Thread.start();
+			thread.start();
 		}
 		else
 		{
-			m_Thread = null ;
+			thread = null ;
 		}
 	}
 	
 	public void Wait()
 	{
-		if (m_Thread != null)
+		if (thread != null)
 		{
 			try
 			{
-				m_Thread.join() ;
+				thread.join() ;
 			} catch (InterruptedException e)
 			{
 				e.printStackTrace();
@@ -142,7 +142,7 @@ public class CAsynchronousTask extends CJMapObject implements Runnable
 
 	public void Invalidate()
 	{
-		m_bInvalidate = true ;
-		m_Thread.interrupt() ;
+		bInvalidate = true ;
+		thread.interrupt() ;
 	}
 }

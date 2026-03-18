@@ -25,23 +25,23 @@ import utils.CObjectCatalog;
  */
 public abstract class CBaseEntityFunction extends CBaseDataReference
 {
-	//protected CDataEntity m_DataRef = null ;
+	//protected CDataEntity dataRef = null ;
 	public void Clear()
 	{
 		super.Clear() ;
-		m_Reference = null ;
+		reference = null ;
 	}
 	
 	public CBaseEntityFunction(CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity data)
 	{
 		super(0, "", cat, out);
-		m_Reference = data ;
+		reference = data ;
 	}
 	public CDataEntityType GetDataType()
 	{
-		if (m_Reference != null)
+		if (reference != null)
 		{
-			return m_Reference.GetDataType();
+			return reference.GetDataType();
 		}
 		else
 		{
@@ -66,9 +66,9 @@ public abstract class CBaseEntityFunction extends CBaseDataReference
 	}
 	public boolean ignore()
 	{
-		if (m_Reference != null)
+		if (reference != null)
 		{
-			return m_Reference.ignore() ;
+			return reference.ignore() ;
 		}
 		else
 		{

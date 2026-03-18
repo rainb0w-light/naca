@@ -31,19 +31,19 @@ public class CFPacInputFile extends CFPacElement
 		super(line);
 	}
 
-	protected int m_ulFileId = 0;
-	protected boolean m_bVariableFile = false;
-	private boolean m_bVSFile = false ;
-	private int m_length = 0 ;
+	protected int ulFileId = 0;
+	protected boolean bVariableFile = false;
+	private boolean bVSFile = false ;
+	private int length = 0 ;
 	@Override
 	protected boolean DoParsing()
 	{
 		CBaseToken tok = GetCurrentToken();
 		if (tok.GetKeyword() == CFPacKeywordList.IPF)
-			m_ulFileId = 0 ;
-		else if (tok.GetKeyword().m_Name.startsWith("IPF"))
+			ulFileId = 0 ;
+		else if (tok.GetKeyword().name.startsWith("IPF"))
 		{
-			m_ulFileId = NumberParser.getAsInt(tok.GetKeyword().m_Name.substring(3)); 
+			ulFileId = NumberParser.getAsInt(tok.GetKeyword().name.substring(3)); 
 		}
 		else
 		{
@@ -60,14 +60,14 @@ public class CFPacInputFile extends CFPacElement
 		tok = GetNext() ;
 		if (tok.GetKeyword() == CFPacKeywordList.SQ)
 		{
-			m_bVariableFile = false ;
+			bVariableFile = false ;
 			tok = GetNext() ;
 			if (tok.GetType() == CTokenType.MINUS)
 			{
 				tok = GetNext() ;
 				if (tok.GetKeyword() == CFPacKeywordList.VAR)
 				{
-					m_bVariableFile = true ;
+					bVariableFile = true ;
 					tok = GetNext() ;
 				}
 				else
@@ -78,7 +78,7 @@ public class CFPacInputFile extends CFPacElement
 		}
 		else if (tok.GetKeyword() == CFPacKeywordList.VS)
 		{
-			m_bVSFile  = true ;
+			bVSFile  = true ;
 			tok = GetNext() ;
 		}
 		else
@@ -92,7 +92,7 @@ public class CFPacInputFile extends CFPacElement
 			tok = GetNext() ;
 			if (tok.GetType() == CTokenType.NUMBER)
 			{
-				m_length  = NumberParser.getAsInt(tok.GetValue()) ;
+				length  = NumberParser.getAsInt(tok.GetValue()) ;
 				tok = GetNext() ;
 			}
 			else 
@@ -108,29 +108,29 @@ public class CFPacInputFile extends CFPacElement
 	@Override
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		if (m_bVSFile)
+		if (bVSFile)
 		{
 			Transcoder.logError(getLine(), "INPUT file type 'VS' not supported") ;
 		}
-		String csDescName = "IPF"+m_ulFileId ;
-		String csDescAlias = "I"+m_ulFileId ;
-		if (m_ulFileId == 0)
+		String csDescName = "IPF"+ulFileId ;
+		String csDescAlias = "I"+ulFileId ;
+		if (ulFileId == 0)
 		{
 			csDescName = "IPF";
 			csDescAlias = "I0" ;
 		}
 		CEntityFileDescriptor att = factory.NewEntityFileDescriptor(getLine(), csDescName) ;
-		factory.m_ProgramCatalog.RegisterFileDescriptor(csDescAlias, att) ;
-		factory.m_ProgramCatalog.RegisterFileDescriptor(csDescName, att) ;
+		factory.programCatalog.RegisterFileDescriptor(csDescAlias, att) ;
+		factory.programCatalog.RegisterFileDescriptor(csDescName, att) ;
 		
 		att.setFileAccessType(CEntityOpenFile.OpenMode.INPUT) ;
-		att.setRecordSizeVariable(m_bVariableFile) ;
+		att.setRecordSizeVariable(bVariableFile) ;
 		
 		CEntityFileBuffer buff = factory.NewEntityFileBuffer(csDescAlias, att) ;
 		NotifRegisterInputFile notif = new NotifRegisterInputFile() ;
 		notif.id = csDescAlias ;
 		notif.fileBuffer = buff ;
-		factory.m_ProgramCatalog.SendNotifRequest(notif) ;
+		factory.programCatalog.SendNotifRequest(notif) ;
 
 		parent.AddChild(att) ;
 		return att ;
@@ -140,8 +140,8 @@ public class CFPacInputFile extends CFPacElement
 	protected Element ExportCustom(Document root)
 	{
 		Element eAdd = root.createElement("InputFile") ;
-		eAdd.setAttribute("FileId", String.valueOf(m_ulFileId)) ;
-		eAdd.setAttribute("Var", String.valueOf(m_bVariableFile)) ;
+		eAdd.setAttribute("FileId", String.valueOf(ulFileId)) ;
+		eAdd.setAttribute("Var", String.valueOf(bVariableFile)) ;
 		return eAdd ;
 	}
 

@@ -23,7 +23,7 @@ import nacaLib.misc.LogFlowCustomNacaRT;
 
 public class SpServerResourceManager extends BaseResourceManager
 {
-	private Tag m_tagRoot = null;
+	private Tag tagRoot = null;
 	
 	SpServerResourceManager()
 	{
@@ -34,7 +34,7 @@ public class SpServerResourceManager extends BaseResourceManager
 	public void initialize(String csINIFilePath)
 	{
 		BasicLogger.log("SpServerResourceManager::initialize 0");
-		m_tagRoot = setXMLConfigFilePath(csINIFilePath) ;
+		tagRoot = setXMLConfigFilePath(csINIFilePath) ;
 		BasicLogger.log("SpServerResourceManager::initialize 1");
 		initSequenceur("");
 		BasicLogger.log("SpServerResourceManager::initialize 2");
@@ -73,9 +73,9 @@ public class SpServerResourceManager extends BaseResourceManager
 	
 	String getSpDbEnvironment()
 	{
-		if(m_tagRoot != null)
+		if(tagRoot != null)
 		{
-			Tag tagSQLConfig = m_tagRoot.getChild("SQLConfig");
+			Tag tagSQLConfig = tagRoot.getChild("SQLConfig");
 			if(tagSQLConfig != null)
 			{
 				String csDbEnvironment = tagSQLConfig.getVal("dbenvironment");
@@ -87,9 +87,9 @@ public class SpServerResourceManager extends BaseResourceManager
 	
 	String getSpDbPackage()
 	{
-		if(m_tagRoot != null)
+		if(tagRoot != null)
 		{
-			Tag tagSQLConfig = m_tagRoot.getChild("SQLConfig");
+			Tag tagSQLConfig = tagRoot.getChild("SQLConfig");
 			if(tagSQLConfig != null)
 			{
 				String csDbPackage = tagSQLConfig.getVal("dbpackage");

@@ -34,9 +34,9 @@ public class VarDefEditInMap extends VarDefEdit
 {
 	public VarDefEditInMap(VarDefBase varDefParent, DeclareTypeEditInMap declareTypeEdit)
 	{
-		super(varDefParent, declareTypeEdit.m_varLevel);
-		//m_mapFieldAttribute = declareTypeEdit.m_mapFieldAttribute;
-		m_nSize = declareTypeEdit.m_nSize;
+		super(varDefParent, declareTypeEdit.varLevel);
+		//mapFieldAttribute = declareTypeEdit.mapFieldAttribute;
+		nSize = declareTypeEdit.nSize;
 	}
 	
 	public VarDefEditInMap()
@@ -46,7 +46,7 @@ public class VarDefEditInMap extends VarDefEdit
 	
 	void transfer(VarBufferPos bufferSource, VarAndEdit Dest)
 	{
-		Dest.m_varDef.write(Dest.m_bufferPos, this, bufferSource);	// PJD EditInMap TO Var
+		Dest.varDef.write(Dest.bufferPos, this, bufferSource);	// PJD EditInMap TO Var
 	}
 	
 	CSQLItemType getSQLType()
@@ -62,7 +62,7 @@ public class VarDefEditInMap extends VarDefEdit
 			
 	public int getBodyLength()
 	{
-		return m_nSize;
+		return nSize;
 	}
 	
 	protected int getHeaderLength()
@@ -131,7 +131,7 @@ public class VarDefEditInMap extends VarDefEdit
 	
 	CStr getAsAlphaNumString(VarBufferPos buffer)
 	{		
-		return buffer.getStringAt(buffer.m_nAbsolutePosition, m_nTotalSize);
+		return buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);
 	}
 
 	
@@ -555,14 +555,14 @@ public class VarDefEditInMap extends VarDefEdit
 	
 	protected int writeEditRepeatingchar(VarBufferPos buffer, char c)
 	{
-		return buffer.writeRepeatingCharAt(buffer.m_nAbsolutePosition+getHeaderLength(), c, m_nTotalSize-getHeaderLength());
+		return buffer.writeRepeatingCharAt(buffer.nAbsolutePosition+getHeaderLength(), c, nTotalSize-getHeaderLength());
 	}	
 	
 	protected int writeEditRepeatingchar(VarBufferPos buffer, char c, int nOffset, int nNbChars)
 	{
-		int nMaxCharOnRight = m_nTotalSize - getHeaderLength() - nOffset;
+		int nMaxCharOnRight = nTotalSize - getHeaderLength() - nOffset;
 		int nNbCharsToWrite = Math.min(nMaxCharOnRight, nNbChars);
-		return buffer.writeRepeatingCharAt(buffer.m_nAbsolutePosition+nOffset+getHeaderLength(), c, nNbCharsToWrite);
+		return buffer.writeRepeatingCharAt(buffer.nAbsolutePosition+nOffset+getHeaderLength(), c, nNbCharsToWrite);
 	}	
 	
 	void write(VarBufferPos buffer, VarDefNumEdited varSource, VarBufferPos bufferSource)
@@ -674,7 +674,7 @@ public class VarDefEditInMap extends VarDefEdit
 	
 	int compare(ComparisonMode mode, VarBufferPos bufferSource, VarAndEdit var2)
 	{
-		// return var2.m_varDef.compare(var2.m_buffer, this, bufferSource);
+		// return var2.varDef.compare(var2.buffer, this, bufferSource);
 		assertIfFalse(false);
 		return 0;
 	}
@@ -1016,7 +1016,7 @@ public class VarDefEditInMap extends VarDefEdit
 		int nPosDest = getBodyAbsolutePosition(bufferDest) + nNbCharSource;
 		while(nNbCharSource < nNbCharDest)
 		{
-			bufferDest.m_acBuffer[nPosDest] = ' ';
+			bufferDest.acBuffer[nPosDest] = ' ';
 			//bufferDest.setCharAt(nPosDest, ' ');
 			nNbCharSource++;
 			nPosDest++;
@@ -1027,15 +1027,15 @@ public class VarDefEditInMap extends VarDefEdit
 	{
 		if(attrManagerSource != null)
 		{
-			m_attrManager = new EditAttributManager();
-			attrManagerSource.copyInto(m_attrManager);
+			attrManager = new EditAttributManager();
+			attrManagerSource.copyInto(attrManager);
 		}
 	}
 	
 	void restoreAttributeManager(EditAttributManager attrManagerDest)
 	{
-		if(m_attrManager != null)
-			m_attrManager.copyInto(attrManagerDest);
+		if(attrManager != null)
+			attrManager.copyInto(attrManagerDest);
 	}
 	
 	public String digits(VarBufferPos buffer)
@@ -1055,7 +1055,7 @@ public class VarDefEditInMap extends VarDefEdit
 	
 	public BtreeSegmentKeyTypeFactory getSegmentKeyTypeFactory()
 	{
-		return VarTypeId.m_segmentKeyTypeFactoryString;
+		return VarTypeId.segmentKeyTypeFactoryString;
 	}
 	
 	public boolean isEbcdicAsciiConvertible()
@@ -1066,18 +1066,18 @@ public class VarDefEditInMap extends VarDefEdit
 	protected void adjustCustomProperty(VarDefBuffer varDefBufferCopySingleItem)
 	{
 		VarDefEditInMap varDefCopy = (VarDefEditInMap) varDefBufferCopySingleItem;
-		varDefCopy.m_nSize = m_nSize;
-		varDefCopy.m_attrManager = m_attrManager;
+		varDefCopy.nSize = nSize;
+		varDefCopy.attrManager = attrManager;
 	}
 
 	protected void adjustCustomPropertyForCharGetAt(VarDefBuffer varDefBufferCopySingleItem)
 	{
 		VarDefEditInMap varDefCopy = (VarDefEditInMap) varDefBufferCopySingleItem;
-		varDefCopy.m_nSize = 1;
-		varDefCopy.m_attrManager = m_attrManager;
+		varDefCopy.nSize = 1;
+		varDefCopy.attrManager = attrManager;
 	}
 
-	private int m_nSize = 0;
-	EditAttributManager m_attrManager = null;
+	private int nSize = 0;
+	EditAttributManager attrManager = null;
 }
  

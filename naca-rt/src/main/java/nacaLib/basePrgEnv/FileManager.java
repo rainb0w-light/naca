@@ -23,19 +23,19 @@ public class FileManager
 {
 	FileManager()
 	{
-		m_hashFileManagerEntry = new Hashtable<String, FileManagerEntry>();
+		hashFileManagerEntry = new Hashtable<String, FileManagerEntry>();
 	}
 	
 	FileManagerEntry createFileManagerEntry(String csLogicalName)
 	{
 		FileManagerEntry entry = new FileManagerEntry();
-		m_hashFileManagerEntry.put(csLogicalName, entry);
+		hashFileManagerEntry.put(csLogicalName, entry);
 		return entry;
 	}
 	
 	public FileManagerEntry getFileManagerEntry(String csLogicalName)
 	{
-		FileManagerEntry entry = m_hashFileManagerEntry.get(csLogicalName);
+		FileManagerEntry entry = hashFileManagerEntry.get(csLogicalName);
 		if(entry == null)
 			entry = createFileManagerEntry(csLogicalName);
 		return entry;
@@ -43,9 +43,9 @@ public class FileManager
 	
 	public void autoCloseOpenFile()
 	{
-		if(m_hashFileManagerEntry != null)
+		if(hashFileManagerEntry != null)
 		{
-			Collection<FileManagerEntry> col = m_hashFileManagerEntry.values();
+			Collection<FileManagerEntry> col = hashFileManagerEntry.values();
 			Iterator<FileManagerEntry> iter = col.iterator();
 			while(iter.hasNext())
 			{
@@ -54,16 +54,16 @@ public class FileManager
 				System.out.println(cs);
 				fileManagerEntry.autoClose();
 			}
-			m_hashFileManagerEntry.clear();
+			hashFileManagerEntry.clear();
 		}
 	}
 	
 	
 	public void autoFlushOpenFile()
 	{
-		if(m_hashFileManagerEntry != null)
+		if(hashFileManagerEntry != null)
 		{
-			Collection<FileManagerEntry> col = m_hashFileManagerEntry.values();
+			Collection<FileManagerEntry> col = hashFileManagerEntry.values();
 			Iterator<FileManagerEntry> iter = col.iterator();
 			while(iter.hasNext())
 			{
@@ -73,5 +73,5 @@ public class FileManager
 		}
 	}
 
-	private Hashtable<String, FileManagerEntry> m_hashFileManagerEntry = null;  
+	private Hashtable<String, FileManagerEntry> hashFileManagerEntry = null;  
 }

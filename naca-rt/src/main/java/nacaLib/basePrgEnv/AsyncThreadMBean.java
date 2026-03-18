@@ -18,22 +18,22 @@ import nacaLib.base.JmxGeneralStat;
  */
 public class AsyncThreadMBean extends BaseCloseMBean
 {
-	private String m_csThreadName = null;
-	private String m_csThreadId = null;
-	private boolean m_bWaiting = false;
-	private String m_csLastWaitEvent = ""; 
-	private String m_csProgram = "";
-	private String m_csProgramParent = "";
-	private int m_nDelaySeconds = 0;
-	private StopWatch m_sw = null;
+	private String csThreadName = null;
+	private String csThreadId = null;
+	private boolean bWaiting = false;
+	private String csLastWaitEvent = ""; 
+	private String csProgram = "";
+	private String csProgramParent = "";
+	private int nDelaySeconds = 0;
+	private StopWatch sw = null;
 
 	AsyncThreadMBean(String csThreadId, String csThreadName)
 	{
 		super();
 		
-		m_csThreadName = csThreadName;
-		m_csThreadId = csThreadId;
-		m_sw = new StopWatch();
+		csThreadName = csThreadName;
+		csThreadId = csThreadId;
+		sw = new StopWatch();
 		if(JmxGeneralStat.showAsyncThreadBeans())
 		{
 			create();
@@ -55,31 +55,31 @@ public class AsyncThreadMBean extends BaseCloseMBean
 	
 	private void create()
 	{
-		String cs = getAsyncThreadMBeanId(m_csThreadName, m_csThreadId);
+		String cs = getAsyncThreadMBeanId(csThreadName, csThreadId);
 		createMBean(cs, cs);
 	}
 	
 	void setWait(boolean bWaiting)
 	{
-		if(m_bWaiting != bWaiting)	// Changing state
-			m_sw.Reset();
-		m_bWaiting = bWaiting;
-		m_csLastWaitEvent = DateUtil.getDisplayTimeStamp();
+		if(bWaiting != bWaiting)	// Changing state
+			sw.Reset();
+		bWaiting = bWaiting;
+		csLastWaitEvent = DateUtil.getDisplayTimeStamp();
 	}
 	
 	void setProgram(String csProgram)
 	{
-		m_csProgram = csProgram;
+		csProgram = csProgram;
 	}
 	
 	void setProgramParent(String csProgramParent)
 	{
-		m_csProgramParent = csProgramParent;
+		csProgramParent = csProgramParent;
 	}
 	
 	void setDelaySeconds(int nDelaySeconds)
 	{
-		m_nDelaySeconds = nDelaySeconds;
+		nDelaySeconds = nDelaySeconds;
 	}
 	
 	private static String getAsyncThreadMBeanId(String csThreadId, String csThreadName)
@@ -99,38 +99,38 @@ public class AsyncThreadMBean extends BaseCloseMBean
 
 	public String getA_ThreadName()
 	{
-		return m_csThreadName;
+		return csThreadName;
 	}
 	
 	public String getB_ThreadId()
 	{
-		return m_csThreadId;
+		return csThreadId;
 	}
 	
 	public String getC_Program()
 	{
-		return m_csProgram;
+		return csProgram;
 	}
 	
 	public String getD_ProgramParent()
 	{
-		return m_csProgramParent;
+		return csProgramParent;
 	}
 	
 	public String getE_WaitStatus()
 	{
 		String cs;
-		if(m_bWaiting)
-			cs = "Waiting since " + m_csLastWaitEvent;
+		if(bWaiting)
+			cs = "Waiting since " + csLastWaitEvent;
 		else
-			cs = "Running since " + m_csLastWaitEvent;
-		long lElapsedTime_s = m_sw.getElapsedTime() / 1000;
+			cs = "Running since " + csLastWaitEvent;
+		long lElapsedTime_s = sw.getElapsedTime() / 1000;
 		cs = cs + " (" + lElapsedTime_s + " s)";
 		return cs;
 	}
 	
 	public int getF_DelaySeconds()
 	{
-		return m_nDelaySeconds;
+		return nDelaySeconds;
 	}
 }

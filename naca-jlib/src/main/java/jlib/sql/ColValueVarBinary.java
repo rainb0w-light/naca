@@ -24,29 +24,29 @@ public class ColValueVarBinary extends ColValue
 	public ColValueVarBinary(String csName, VarBinary vbValue)
 	{
 		super(csName);
-		m_vbValue = vbValue;
+		vbValue = vbValue;
 	}
 	
 	public ColValue duplicate()
 	{
-		return new ColValueVarBinary(m_csName, m_vbValue);
+		return new ColValueVarBinary(csName, vbValue);
 	}
 	
 	public void setParamSQLClause(SQLClause clause)
 	{
-		clause.param(m_vbValue);
+		clause.param(vbValue);
 	}	
 	
 	public void doFillWithResurltSetCol(ResultSet resultSet, int nCol)
 		throws SQLException
 	{
 		byte tb[] = resultSet.getBytes(nCol);
-		m_vbValue = new VarBinary(tb);
+		vbValue = new VarBinary(tb);
 	}
 
 	public String getValueAsString()
 	{
-		return String.valueOf(m_vbValue);
+		return String.valueOf(vbValue);
 	}
 	
 	public int getValueAsInt()
@@ -78,7 +78,7 @@ public class ColValueVarBinary extends ColValue
 	
 	Object getValue()
 	{
-		return m_vbValue;
+		return vbValue;
 	}
 	
 	public boolean canSetColParam()
@@ -88,7 +88,7 @@ public class ColValueVarBinary extends ColValue
 	
 	public boolean setParamIntoStmt(PreparedStatement stmt, int nCol)
 	{
-		byte tb[] = m_vbValue.getBytes();
+		byte tb[] = vbValue.getBytes();
 		try
 		{
 			stmt.setBytes(nCol+1, tb);
@@ -101,5 +101,5 @@ public class ColValueVarBinary extends ColValue
 		return true;
 	}
 	
-	VarBinary m_vbValue = null;
+	VarBinary vbValue = null;
 }

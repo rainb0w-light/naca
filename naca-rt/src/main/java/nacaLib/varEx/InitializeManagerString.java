@@ -22,22 +22,22 @@ public class InitializeManagerString extends InitializeManager
 {
 	public InitializeManagerString(String cs)
 	{
-		m_cs = cs;
+		cs = cs;
 	}
 	
 	public void set(String cs)
 	{
-		m_cs = cs;
+		cs = cs;
 	}
 	
 //	public void initialize(VarBufferPos buffer, VarDefBuffer varDef)
 //	{
-//		varDef.initialize(buffer, m_cs);
+//		varDef.initialize(buffer, cs);
 //	}
 	
 	public void initialize(VarBufferPos buffer, VarDefBuffer varDef, int nOffset, InitializeCache initializeCache)
 	{
-		varDef.initializeAtOffset(buffer, nOffset, m_cs);
+		varDef.initializeAtOffset(buffer, nOffset, cs);
 		if(initializeCache != null)
 			initializeCache.setNotManaged();
 	}
@@ -46,8 +46,8 @@ public class InitializeManagerString extends InitializeManager
 	
 	String getString()
 	{
-		return m_cs;
+		return cs;
 	}
 	
-	private String m_cs;
+	private String cs;
 }

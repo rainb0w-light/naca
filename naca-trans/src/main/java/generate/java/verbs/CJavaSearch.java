@@ -42,19 +42,19 @@ public class CJavaSearch extends CEntitySearch
 	protected void DoExport()
 	{
 		WriteWord("for (move(false, "+FormatIdentifier("Search-Found")+"); ") ;
-		WriteWord("isNot("+FormatIdentifier("Search-Found")+") && isLessOrEqual(" + m_eIndex.ExportReference(getLine()) + 
-							", getNbOccurs(" + m_eVariable.ExportReference(getLine()) + ")); ") ;
-		WriteWord("inc(1, " + m_eIndex.ExportReference(getLine()) + ")) {" ) ;
+		WriteWord("isNot("+FormatIdentifier("Search-Found")+") && isLessOrEqual(" + eIndex.ExportReference(getLine()) + 
+							", getNbOccurs(" + eVariable.ExportReference(getLine()) + ")); ") ;
+		WriteWord("inc(1, " + eIndex.ExportReference(getLine()) + ")) {" ) ;
 		WriteEOL() ;
 		StartOutputBloc() ;
 		ExportChildren() ;
 		EndOutputBloc() ;
 		WriteLine("}") ;
-		if (m_blocElse != null)
+		if (blocElse != null)
 		{
 			WriteLine("if (isNot("+FormatIdentifier("Search-Found")+")) {") ;
 			StartOutputBloc() ;
-			DoExport(m_blocElse) ;
+			DoExport(blocElse) ;
 			EndOutputBloc() ;
 			WriteLine("}") ;
 		}

@@ -23,7 +23,7 @@ public class CTokenIdentifier extends CBaseToken
 	public CTokenIdentifier(String v, int line, boolean newline)
 	{
 		super(line, newline);
-		m_Value = v ;
+		value = v ;
 	}
 	
 	public CTokenType GetType()
@@ -33,7 +33,7 @@ public class CTokenIdentifier extends CBaseToken
 	
 	public String toString()
 	{
-		return "[ID:" + m_Value + "]" ;
+		return "[ID:" + value + "]" ;
 	}
 
 	/* (non-Javadoc)
@@ -41,6 +41,6 @@ public class CTokenIdentifier extends CBaseToken
 	 */
 	public String GetDisplay()
 	{
-		return m_Value + " ";
+		return value + " ";
 	}  
 }

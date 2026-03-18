@@ -28,55 +28,55 @@ import com.sleepycat.je.Environment;
  */
 public class BTreeCommandSort
 {
-	private String m_csTempDir = null;
+	private String csTempDir = null;
 	
-	//private String m_csFileIn = null;
-	//private boolean m_bFileInEbcdic = false;
+	//private String csFileIn = null;
+	//private boolean bFileInEbcdic = false;
 	
-	private String m_csFileOut = null;
+	private String csFileOut = null;
 	
-	private BTreeEnv m_btreeEnv = null;
-	private BtreeKeyDescription m_keyDescription = null;
+	private BTreeEnv btreeEnv = null;
+	private BtreeKeyDescription keyDescription = null;
 	
-	private DataFileWrite m_dataFileKeyOut = null;
-	//private boolean m_bCanSortMultiThreads = false;
+	private DataFileWrite dataFileKeyOut = null;
+	//private boolean bCanSortMultiThreads = false;
 	
 	public BTreeCommandSort()
 	{
-		//m_bCanSortMultiThreads = bCanSortMultiThreads;
+		//bCanSortMultiThreads = bCanSortMultiThreads;
 	}
 	
 	public void setTempDir(String csTempDir)
 	{
-		m_csTempDir = FileSystem.normalizePath(csTempDir);
-		FileSystem.createPath(m_csTempDir);		
+		csTempDir = FileSystem.normalizePath(csTempDir);
+		FileSystem.createPath(csTempDir);		
 	}
 	
 //	public void setPhysicalInFileName(String csFileIn, boolean bFileInEbcdic)
 //	{
-//		m_csFileIn = csFileIn;
-//		m_bFileInEbcdic = bFileInEbcdic;
+//		csFileIn = csFileIn;
+//		bFileInEbcdic = bFileInEbcdic;
 //	}
 
 	public void setPhysicalOutFile(String csFileOut)
 	{
-		m_csFileOut = csFileOut;
+		csFileOut = csFileOut;
 	}
 	
 	public void setFileExportKey(DataFileWrite dataFileKeyOut)
 	{
-		m_dataFileKeyOut = dataFileKeyOut;
+		dataFileKeyOut = dataFileKeyOut;
 	}
 	
 	public void setExportKeyFileOut(String csExportKeyFileOut)
 	{
 		if(csExportKeyFileOut != null)
 		{
-			m_dataFileKeyOut = new DataFileWrite(csExportKeyFileOut, false);
-			boolean bOutKeyOpened = m_dataFileKeyOut.open();
+			dataFileKeyOut = new DataFileWrite(csExportKeyFileOut, false);
+			boolean bOutKeyOpened = dataFileKeyOut.open();
 			if(!bOutKeyOpened)
 			{
-				m_dataFileKeyOut = null;
+				dataFileKeyOut = null;
 				Log.logImportant("Cannot create output key file " + csExportKeyFileOut);
 			}
 		}
@@ -92,15 +92,15 @@ public class BTreeCommandSort
 	
 	public void setKeyDescription(String csKeys)
 	{
-		m_keyDescription = new BtreeKeyDescription();
-		m_keyDescription.set(csKeys, true);
-		TempCacheLocator.getTLSTempCache().setBtreeKeyDescription(m_keyDescription);
+		keyDescription = new BtreeKeyDescription();
+		keyDescription.set(csKeys, true);
+		TempCacheLocator.getTLSTempCache().setBtreeKeyDescription(keyDescription);
 	}
 	
 	public void setKeyDescription(BtreeKeyDescription keyDescription)
 	{
-		m_keyDescription = keyDescription;
-		TempCacheLocator.getTLSTempCache().setBtreeKeyDescription(m_keyDescription);
+		keyDescription = keyDescription;
+		TempCacheLocator.getTLSTempCache().setBtreeKeyDescription(keyDescription);
 	}
 	
 	public boolean execute(int nBufferChunkReadAHead, FileDescriptor fileSortIn, FileDescriptor fileSortOut)
@@ -113,7 +113,7 @@ public class BTreeCommandSort
 		}
 		
 		boolean bFileInEbcdic = fileSortIn.isEbcdic();
-		m_keyDescription.setFileInEncoding(bFileInEbcdic);
+		keyDescription.setFileInEncoding(bFileInEbcdic);
 		
 		String csBtreeDir = getTempFileName();
 		BtreeFile btreeFile = createAndOpenTempBtrieveFile(csBtreeDir);
@@ -123,7 +123,7 @@ public class BTreeCommandSort
 		}
 		else
 		{
-			btreeFile.setKeyDescription(m_keyDescription);
+			btreeFile.setKeyDescription(keyDescription);
 			int nNbRecordRead = importInFile(btreeFile, fileSortIn, nBufferChunkReadAHead, true);
 			if(nNbRecordRead >= 0)
 				exportToOutFile(btreeFile, false, false);
@@ -136,9 +136,9 @@ public class BTreeCommandSort
 	
 	public String getTempFileName()
 	{
-		if(m_csTempDir == null)
-			m_csTempDir = "./";
-		String csTempFile = m_csTempDir + FileSystem.getTempFileName();
+		if(csTempDir == null)
+			csTempDir = "./";
+		String csTempFile = csTempDir + FileSystem.getTempFileName();
 		return csTempFile;		
 	}
 	
@@ -149,7 +149,7 @@ public class BTreeCommandSort
 
 		if(connectBtreeEngine(csBtreeDir))
 		{
-			BtreeFile btreeFile = m_btreeEnv.createBtreeFile("Btree");	//, m_bCanSortMultiThreads);	
+			BtreeFile btreeFile = btreeEnv.createBtreeFile("Btree");	//, bCanSortMultiThreads);	
 			return btreeFile; 
 		}
 		
@@ -161,8 +161,8 @@ public class BTreeCommandSort
 		if(btreeFile != null)
 			btreeFile.close();
 		
-		if(m_btreeEnv != null)
-			m_btreeEnv.close();
+		if(btreeEnv != null)
+			btreeEnv.close();
 		
 		if(csBtreeDir != null)
 			FileSystem.DeleteDirAndContent(csBtreeDir);
@@ -170,10 +170,10 @@ public class BTreeCommandSort
 	
 	private boolean connectBtreeEngine(String csDir)
 	{
-		if(m_btreeEnv == null)
+		if(btreeEnv == null)
 		{
-			m_btreeEnv = new BTreeEnv();
-			boolean b = m_btreeEnv.initEngine(csDir);
+			btreeEnv = new BTreeEnv();
+			boolean b = btreeEnv.initEngine(csDir);
 			return b;
 		}
 		return true;
@@ -193,7 +193,7 @@ public class BTreeCommandSort
 			boolean  b = true;
 			boolean bFileInEbcdic = fileSortIn.isEbcdic();
 			LineRead lineRead = fileSortIn.readALine(dataFileIn, null);
-			Environment env = m_btreeEnv.getEnv();
+			Environment env = btreeEnv.getEnv();
 			while(lineRead != null && b == true)
 			{
 				b = btreeFile.externalSortInsertWithRecordIndexAtEnd(env, lineRead, nNbRecordRead, bFileInEbcdic, bFileInVariableLength);
@@ -215,7 +215,7 @@ public class BTreeCommandSort
 //	public int importInFile(BtreeFile btreeFile, int nBufferChunkReadAHead)
 //	{
 //		int nNbRecordRead = 0;
-//		DataFileLineReader dataFileIn = new DataFileLineReader(m_csFileIn, nBufferChunkReadAHead, 0);
+//		DataFileLineReader dataFileIn = new DataFileLineReader(csFileIn, nBufferChunkReadAHead, 0);
 //		boolean bInOpened = dataFileIn.open();
 //		if(bInOpened)
 //		{
@@ -223,18 +223,18 @@ public class BTreeCommandSort
 //			LineRead lineRead = dataFileIn.readNextUnixLine();
 //			while(lineRead != null && b == true)
 //			{
-////				if(m_bFileInEbcdic)
+////				if(bFileInEbcdic)
 ////					AsciiEbcdicConverter.swapByteEbcdicToAscii(lineRead.getBuffer(), lineRead.getOffset(), lineRead.getTotalLength());
 //				
 //				//String cs = lineRead.getChunkAsString();
 //				
-//				b = btreeFile.externalSortInsertWithRecordIndexAtEnd(m_btreeEnv.getEnv(), lineRead, nNbRecordRead, m_bFileInEbcdic);
+//				b = btreeFile.externalSortInsertWithRecordIndexAtEnd(btreeEnv.getEnv(), lineRead, nNbRecordRead, bFileInEbcdic);
 //				lineRead = dataFileIn.readNextUnixLine();
 //				nNbRecordRead++;
 //			}
 //			dataFileIn.close();
 //		}		
-//		Log.logCritical("" + nNbRecordRead + " records imported into btree file from " + m_csFileIn);
+//		Log.logCritical("" + nNbRecordRead + " records imported into btree file from " + csFileIn);
 //	
 //		return nNbRecordRead;
 //	}
@@ -244,7 +244,7 @@ public class BTreeCommandSort
 		int nNbRecordWrite = 0;
 		boolean bMustWriteFileHeader = false;
 		//boolean bMustWriteFileHeader = BaseResourceManager.getMustWriteFileHeader();
-		DataFileWrite dataFileOut = new DataFileWrite(m_csFileOut, bMustWriteFileHeader);
+		DataFileWrite dataFileOut = new DataFileWrite(csFileOut, bMustWriteFileHeader);
 		boolean bOutOpened = dataFileOut.open();
 		if(bOutOpened)
 		{
@@ -256,10 +256,10 @@ public class BTreeCommandSort
 				byte tBytesData[] = btreeFile.getNextSortedRecord();
 				while(tBytesData != null)
 				{
-					if(m_dataFileKeyOut != null)	// Must export key file
+					if(dataFileKeyOut != null)	// Must export key file
 					{
-						byte tbyKey[] = m_keyDescription.fillKeyBuffer(tBytesData, 0, nNbRecordWrite, false);
-						m_dataFileKeyOut.writeWithEOL(tbyKey, tbyKey.length-4);
+						byte tbyKey[] = keyDescription.fillKeyBuffer(tBytesData, 0, nNbRecordWrite, false);
+						dataFileKeyOut.writeWithEOL(tbyKey, tbyKey.length-4);
 					}
 					int nRecordLengthWithoutHeader = tBytesData.length;
 					if(bMustSwapByteEncodingOnOutput)
@@ -277,18 +277,18 @@ public class BTreeCommandSort
 					
 					nNbRecordWrite++;
 				}
-				if(m_dataFileKeyOut != null)
+				if(dataFileKeyOut != null)
 				{
-					m_dataFileKeyOut.close();
+					dataFileKeyOut.close();
 					
 					// Check key out file 
-					//boolean b = Dumper.isFileRecordsOrdered(m_dataFileKeyOut.getName(), true);
-					m_dataFileKeyOut = null;
+					//boolean b = Dumper.isFileRecordsOrdered(dataFileKeyOut.getName(), true);
+					dataFileKeyOut = null;
 				}
 			}
 			dataFileOut.close();
 		}
-		Log.logNormal("" + nNbRecordWrite + " records exported from btree file into " + m_csFileOut);
+		Log.logNormal("" + nNbRecordWrite + " records exported from btree file into " + csFileOut);
 		return nNbRecordWrite;
 	}
 }

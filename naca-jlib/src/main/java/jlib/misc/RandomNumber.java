@@ -18,23 +18,23 @@ import java.util.Random;
  */
 public class RandomNumber
 {
-	private Random m_rand = null;
+	private Random rand = null;
 	private static RandomNumber ms_randomNumberSingleton = null;
 	
 	public RandomNumber()
 	{
-		m_rand = new Random();
+		rand = new Random();
 	}
 	
 	public RandomNumber(int nSeed)
 	{
-		m_rand = new Random(nSeed);
+		rand = new Random(nSeed);
 	}
 	
 	public int getIntBetween(int nMin, int nMax)
 	{
 		int nRange = nMax - nMin;
-		int n = m_rand.nextInt(nRange);
+		int n = rand.nextInt(nRange);
 		n += nMin;
 		
 		return n;

@@ -26,19 +26,19 @@ public class ParamDeclaration extends CJMapObject
 {	
 	public ParamDeclaration(BaseProgram Program)
 	{
-		m_Program = Program;
+		program = Program;
 	}
 	
 	public ParamDeclaration using(Var var)
 	{
-		m_Program.getProgramManager().using(var);
+		program.getProgramManager().using(var);
 		return this;
 	}
 	
 	public BaseProgram getProgram()
 	{
-		return m_Program;
+		return program;
 	}
 	
-	protected BaseProgram m_Program = null;
+	protected BaseProgram program = null;
 }

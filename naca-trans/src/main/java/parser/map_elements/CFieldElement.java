@@ -50,28 +50,28 @@ public class CFieldElement extends CBMSElement
 	protected Element DoExportCustom(Document root)
 	{
 		Element eF = root.createElement("Field") ;
-		eF.setAttribute("PosLine", String.valueOf(m_PosLine));
-		eF.setAttribute("PosCol", String.valueOf(m_PosCol));
-		eF.setAttribute("Length", String.valueOf(m_Length));
-		if (m_Color != null)
+		eF.setAttribute("PosLine", String.valueOf(posLine));
+		eF.setAttribute("PosCol", String.valueOf(posCol));
+		eF.setAttribute("Length", String.valueOf(length));
+		if (color != null)
 		{
-			eF.setAttribute("Color", m_Color.m_Name);
+			eF.setAttribute("Color", color.name);
 		}
-		if (m_HighLight != null)
+		if (highLight != null)
 		{
-			eF.setAttribute("HighLight", m_HighLight.m_Name);
+			eF.setAttribute("HighLight", highLight.name);
 		}
-		eF.setAttribute("Value", m_Value);
-		for (int i=0; i<m_arrATTRB.size(); i++)
+		eF.setAttribute("Value", value);
+		for (int i=0; i<arrATTRB.size(); i++)
 		{
-			String val = m_arrATTRB.get(i) ;
+			String val = arrATTRB.get(i) ;
 			Element e = root.createElement("ATTRB") ;
 			e.setAttribute("Value", val);
 			eF.appendChild(e) ; 
 		}
-		for (int i=0; i<m_arrJustify.size(); i++)
+		for (int i=0; i<arrJustify.size(); i++)
 		{
-			String val = m_arrJustify.get(i) ;
+			String val = arrJustify.get(i) ;
 			Element e = root.createElement("JUSTIFY") ;
 			e.setAttribute("Value", val);
 			eF.appendChild(e) ; 
@@ -98,7 +98,7 @@ public class CFieldElement extends CBMSElement
 				Transcoder.logError(getLine(), "Expecting NUMBER") ;
 				return false ;
 			}
-			m_PosLine = tok.GetIntValue() ;
+			posLine = tok.GetIntValue() ;
 			tok = GetNext() ;
 			if (tok.GetType() != CTokenType.COMMA)
 			{
@@ -111,7 +111,7 @@ public class CFieldElement extends CBMSElement
 				Transcoder.logError(getLine(), "Expecting NUMBER") ;
 				return false ;
 			}
-			m_PosCol = tok.GetIntValue() ;
+			posCol = tok.GetIntValue() ;
 			tok = GetNext() ;
 			if (tok.GetType() != CTokenType.RIGHT_BRACKET)
 			{
@@ -125,7 +125,7 @@ public class CFieldElement extends CBMSElement
 			CBaseToken tok = GetCurrentToken() ;
 			if (tok.GetType() == CTokenType.NUMBER)
 			{
-				m_Length = tok.GetIntValue();
+				length = tok.GetIntValue();
 			}
 			else
 			{
@@ -145,7 +145,7 @@ public class CFieldElement extends CBMSElement
 				tok.GetConstant() == CBMSConstantList.NEUTRAL || 
 				tok.GetConstant() == CBMSConstantList.DEFAULT)
 			{
-				m_Color = tok.GetConstant();
+				color = tok.GetConstant();
 			}
 			else
 			{
@@ -161,7 +161,7 @@ public class CFieldElement extends CBMSElement
 				tok.GetConstant() == CBMSConstantList.REVERSE ||
 				tok.GetConstant() == CBMSConstantList.UNDERLINE)
 			{
-				m_HighLight = tok.GetConstant();
+				highLight = tok.GetConstant();
 			}
 			else
 			{
@@ -193,7 +193,7 @@ public class CFieldElement extends CBMSElement
 					tok.GetConstant() == CBMSConstantList.FSET ||
 					tok.GetConstant() == CBMSConstantList.NORM)
 				{
-					m_arrATTRB.add(tok.GetValue()) ;
+					arrATTRB.add(tok.GetValue()) ;
 				}
 				else if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 				{
@@ -228,7 +228,7 @@ public class CFieldElement extends CBMSElement
 					tok.GetConstant() == CBMSConstantList.ZERO ||	
 					tok.GetConstant() == CBMSConstantList.BLANK)
 				{
-					m_arrJustify.add(tok.GetValue()) ;
+					arrJustify.add(tok.GetValue()) ;
 				}
 				else if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 				{
@@ -250,7 +250,7 @@ public class CFieldElement extends CBMSElement
 			CBaseToken tok = GetCurrentToken() ;
 			if (tok.GetType() == CTokenType.STRING)
 			{
-				m_Value = tok.GetValue();
+				value = tok.GetValue();
 			}
 			else
 			{
@@ -262,41 +262,41 @@ public class CFieldElement extends CBMSElement
 		else if (kw == CBMSKeywordList.GRPNAME)
 		{ // 
 			CBaseToken tok = GetCurrentToken() ;
-			m_GrpName = tok.GetValue() ;
+			grpName = tok.GetValue() ;
 			StepNext() ;
 		}
 		else if (kw == CBMSKeywordList.PICIN)
 		{ // 
 			CBaseToken tok = GetCurrentToken() ;
-			m_PicIn = tok.GetValue() ;
+			picIn = tok.GetValue() ;
 			StepNext() ;
 		}
 		else if (kw == CBMSKeywordList.PICOUT)
 		{ // 
 			CBaseToken tok = GetCurrentToken() ;
-			m_PicOut = tok.GetValue() ;
+			picOut = tok.GetValue() ;
 			StepNext() ;
 		}
 		else
 		{
-			Transcoder.logError(getLine(), "Unexpecting keyword : "+ kw.m_Name) ;
+			Transcoder.logError(getLine(), "Unexpecting keyword : "+ kw.name) ;
 			return false ;
 		}
 		return true ;
 	}
 
-	protected int m_PosLine = 0 ;
-	protected int m_PosCol = 0 ;
-	protected int m_Length = 0 ;
-	protected CReservedConstant m_Color = null ;
-	protected CReservedConstant m_HighLight = null ;
-	protected ArrayList<String> m_arrATTRB = new ArrayList<String>() ;
-	protected ArrayList<String> m_arrJustify = new ArrayList<String>() ;
-	protected String m_Value = "" ;
-	protected String m_GrpName = "" ;
-	protected String m_PicIn = "" ;
-	protected String m_PicOut = "" ;
-	protected String m_csDisplayName = "";
+	protected int posLine = 0 ;
+	protected int posCol = 0 ;
+	protected int length = 0 ;
+	protected CReservedConstant color = null ;
+	protected CReservedConstant highLight = null ;
+	protected ArrayList<String> arrATTRB = new ArrayList<String>() ;
+	protected ArrayList<String> arrJustify = new ArrayList<String>() ;
+	protected String value = "" ;
+	protected String grpName = "" ;
+	protected String picIn = "" ;
+	protected String picOut = "" ;
+	protected String csDisplayName = "";
 
 	/* (non-Javadoc)
 	 * @see parser.CBMSElement#GetType()
@@ -315,32 +315,32 @@ public class CFieldElement extends CBMSElement
 		if (getName().equals(""))
 		{
 			ef = factory.NewEntityLabelField(getLine()) ;
-			ef.m_csInitialValue = m_Value ;
+			ef.csInitialValue = value ;
 		}
 		else
 		{
 			ef = factory.NewEntityEntryField(getLine(), getName()) ;
-			if (!m_Value.equals(""))
+			if (!value.equals(""))
 			{
-				ef.m_ResourceStrings = m_ResourceStrings ;
-				ef.m_csInitialValue = m_Value ;
+				ef.resourceStrings = resourceStrings ;
+				ef.csInitialValue = value ;
 			}
 		}
-		ef.SetDisplayName(m_csDisplayName);
-		ef.m_nPosCol = m_PosCol ;
-		ef.m_nPosLine = m_PosLine ;
-		ef.m_nLength = m_Length ;
-		if (m_HighLight != null)
+		ef.SetDisplayName(csDisplayName);
+		ef.nPosCol = posCol ;
+		ef.nPosLine = posLine ;
+		ef.nLength = length ;
+		if (highLight != null)
 		{
-			ef.SetHighLight(m_HighLight.m_Name) ;
+			ef.SetHighLight(highLight.name) ;
 		}
-		if (m_Color != null)
+		if (color != null)
 		{
-			ef.SetColor(m_Color.m_Name) ;
+			ef.SetColor(color.name) ;
 		}
-		for (int i=0; i<m_arrATTRB.size(); i++)
+		for (int i=0; i<arrATTRB.size(); i++)
 		{
-			String cs = m_arrATTRB.get(i) ;
+			String cs = arrATTRB.get(i) ;
 			if (cs.equals("ASKIP"))
 			{
 				ef.SetProtection("AUTOSKIP") ;
@@ -374,9 +374,9 @@ public class CFieldElement extends CBMSElement
 				ef.SetCursor();
 			}
 		}
-		for (int i=0; i<m_arrJustify.size(); i++)
+		for (int i=0; i<arrJustify.size(); i++)
 		{
-			String cs = m_arrJustify.get(i) ;
+			String cs = arrJustify.get(i) ;
 			if (cs.equals("LEFT"))
 			{
 				ef.SetRightJustified(false);
@@ -398,13 +398,13 @@ public class CFieldElement extends CBMSElement
 	}
 	public CResourceStrings GetResourceStrings()
 	{
-		return m_ResourceStrings ;
+		return resourceStrings ;
 	}
 	public void SetResourceStrings(CResourceStrings res)
 	{
-		m_ResourceStrings = res ;
+		resourceStrings = res ;
 	}
-	protected CResourceStrings m_ResourceStrings = null ;
+	protected CResourceStrings resourceStrings = null ;
 
 	public void SetName(String csAlias)
 	{
@@ -413,7 +413,7 @@ public class CFieldElement extends CBMSElement
 
 	public String GetGroupName()
 	{
-		return m_GrpName ;
+		return grpName ;
 	}
 
 	public CBMSElement loadTagParameters(Tag tagCurrent)
@@ -424,18 +424,18 @@ public class CFieldElement extends CBMSElement
 		setName(tagCurrent.getVal("Name"));
 
 		String csColor = tagCurrent.getVal("Color");
-		m_Color = new CReservedConstant(null, csColor); 
+		color = new CReservedConstant(null, csColor); 
 
 		String csHighLight = tagCurrent.getVal("HighLight");
-		m_HighLight = new CReservedConstant(null, csHighLight); 
+		highLight = new CReservedConstant(null, csHighLight); 
 
-		m_Length = tagCurrent.getValAsInt("Length");
+		length = tagCurrent.getValAsInt("Length");
 		
-		m_PosCol = tagCurrent.getValAsInt("PosCol");
+		posCol = tagCurrent.getValAsInt("PosCol");
 		
-		m_PosLine = tagCurrent.getValAsInt("PosLine");
+		posLine = tagCurrent.getValAsInt("PosLine");
 		
-		m_Value = tagCurrent.getVal("Value");
+		value = tagCurrent.getVal("Value");
 		
 		// Enum all sub tags		
 		TagCursor curChild = new TagCursor();
@@ -446,12 +446,12 @@ public class CFieldElement extends CBMSElement
 			if(csChildName.equalsIgnoreCase("ATTRB"))
 			{
 				String csVal = tagChild.getVal("Value");
-				m_arrATTRB.add(csVal);
+				arrATTRB.add(csVal);
 			}
 			else if(csChildName.equalsIgnoreCase("JUSTIFY"))
 			{
 				String csVal = tagChild.getVal("Value");
-				m_arrJustify.add(csVal);
+				arrJustify.add(csVal);
 			}
 			tagChild = tagCurrent.getNextChild(curChild);
 		}
@@ -473,22 +473,22 @@ public class CFieldElement extends CBMSElement
 	
 	public boolean setAsClosingHBox(PosLineCol posLineCol)
 	{
-		m_Color = new CReservedConstant(null, "GREEN");
-		m_HighLight = new CReservedConstant(null, "OFF");
+		color = new CReservedConstant(null, "GREEN");
+		highLight = new CReservedConstant(null, "OFF");
 		setName("");
 		setLine(0);
-		m_Length = 0;
-		m_PosLine = posLineCol.getLine();		
-		m_PosCol = posLineCol.getCol() + posLineCol.getLength() + 1;
-		posLineCol.setLineColLength(m_PosLine+1, 0, 0);
-		if(m_PosCol > 80)
+		length = 0;
+		posLine = posLineCol.getLine();		
+		posCol = posLineCol.getCol() + posLineCol.getLength() + 1;
+		posLineCol.setLineColLength(posLine+1, 0, 0);
+		if(posCol > 80)
 			return false;
 		
 		
-		m_Value = "";
+		value = "";
 		
-		m_arrATTRB.add("ASKIP");
-		m_arrATTRB.add("NORM");
+		arrATTRB.add("ASKIP");
+		arrATTRB.add("NORM");
 		return true;
 	}
 	
@@ -496,18 +496,18 @@ public class CFieldElement extends CBMSElement
 	
 	private boolean fillFromBlank(PosLineCol posLineCol, Tag tag, String csCurrentLanguage)
 	{
-		m_Color = new CReservedConstant(null, "GREEN");
-		m_HighLight = new CReservedConstant(null, "OFF");
+		color = new CReservedConstant(null, "GREEN");
+		highLight = new CReservedConstant(null, "OFF");
 		setName("");
 		setLine(ms_nNbBlank++);
-		m_Length = 0;	//tag.getValAsInt("length");
-		m_PosLine = posLineCol.getLine();		
-		m_PosCol = posLineCol.getCol() + posLineCol.getLength() + 1;
+		length = 0;	//tag.getValAsInt("length");
+		posLine = posLineCol.getLine();		
+		posCol = posLineCol.getCol() + posLineCol.getLength() + 1;
 		
-		m_Value = "";
+		value = "";
 		
-		m_arrATTRB.add("ASKIP");
-		m_arrATTRB.add("NORM");
+		arrATTRB.add("ASKIP");
+		arrATTRB.add("NORM");
 		
 		return true;
 	}
@@ -522,18 +522,18 @@ public class CFieldElement extends CBMSElement
 		else if(csTagName.equalsIgnoreCase("label"))
 		{
 			boolean b = fillFromEdit(posLineCol, tag, csCurrentLanguage, "");// "_LABEL");
-			m_arrATTRB.add("ASKIP");
-			m_arrATTRB.add("NORM");
+			arrATTRB.add("ASKIP");
+			arrATTRB.add("NORM");
 			setName("");
 			return b;
 		}
 		else if(csTagName.equalsIgnoreCase("title"))
 		{
 			boolean b = fillFromEdit(posLineCol, tag, csCurrentLanguage, "");
-			while(m_Value.length() < m_Length)
-				m_Value = m_Value + " ";							
-			m_arrATTRB.add("ASKIP");
-			m_arrATTRB.add("NORM");
+			while(value.length() < length)
+				value = value + " ";							
+			arrATTRB.add("ASKIP");
+			arrATTRB.add("NORM");
 			return b;
 		}
 		else if(csTagName.equalsIgnoreCase("blank"))
@@ -552,14 +552,14 @@ public class CFieldElement extends CBMSElement
 	private boolean fillFromEdit(PosLineCol posLineCol, Tag tag, String csCurrentLanguage, String csAppendColor)
 	{
 		String csColor = tag.getVal("color");
-		m_Color = new CReservedConstant(null, csColor.toUpperCase() + csAppendColor); 
+		color = new CReservedConstant(null, csColor.toUpperCase() + csAppendColor); 
 		
 		String csHighLight = tag.getVal("highlighting");
-		m_HighLight = new CReservedConstant(null, csHighLight.toUpperCase());
+		highLight = new CReservedConstant(null, csHighLight.toUpperCase());
 		
 		if (tag.isValExisting("namecopy")) {
 			setName(tag.getVal("namecopy").toUpperCase().replace('_', '-'));
-			m_csDisplayName = tag.getVal("name").toUpperCase();
+			csDisplayName = tag.getVal("name").toUpperCase();
 		} else if (tag.isValExisting("name"))
 			setName(tag.getVal("name").toUpperCase());
 		else
@@ -568,15 +568,15 @@ public class CFieldElement extends CBMSElement
 		//int nSourceLine = tag.getValAsInt("sourceline");
 		//setLine(nSourceLine);
 		
-		m_Length = tag.getValAsInt("length");
+		length = tag.getValAsInt("length");
 		
-		m_PosLine = tag.getValAsInt("line");
+		posLine = tag.getValAsInt("line");
 		
-		m_PosCol = tag.getValAsInt("col");
+		posCol = tag.getValAsInt("col");
 		
-		posLineCol.setLineColLength(m_PosLine, m_PosCol, m_Length);
+		posLineCol.setLineColLength(posLine, posCol, length);
 
-		m_Value = "";
+		value = "";
 		
 		Tag tagTexts = tag.getChild("texts");
 		if(tagTexts != null)
@@ -588,7 +588,7 @@ public class CFieldElement extends CBMSElement
 				String csLanguage = tagText.getVal("lang");
 				if(csLanguage.equalsIgnoreCase(csCurrentLanguage))
 				{
-					m_Value = tagText.getText();
+					value = tagText.getText();
 					break;
 				}
 				tagText = tagTexts.getNextChild(curText);
@@ -597,15 +597,15 @@ public class CFieldElement extends CBMSElement
 			
 		String csJustify = tag.getVal("justify");
 		if(csJustify.equalsIgnoreCase("right"))
-			m_arrJustify.add(CBMSConstantList.RIGHT.m_Name) ;
+			arrJustify.add(CBMSConstantList.RIGHT.name) ;
 		else if(csJustify.equalsIgnoreCase("left"))
-			m_arrJustify.add(CBMSConstantList.LEFT.m_Name) ;
+			arrJustify.add(CBMSConstantList.LEFT.name) ;
 
 		String csFill = tag.getVal("fill");
 		if(csFill.equalsIgnoreCase("blank"))
-			m_arrJustify.add(CBMSConstantList.BLANK.m_Name) ;
+			arrJustify.add(CBMSConstantList.BLANK.name) ;
 		else if(csFill.equalsIgnoreCase("zero"))
-			m_arrJustify.add(CBMSConstantList.ZERO.m_Name) ;
+			arrJustify.add(CBMSConstantList.ZERO.name) ;
 		
 		String csProtection = tag.getVal("protection");
 		manageAttrib(csProtection);
@@ -615,11 +615,11 @@ public class CFieldElement extends CBMSElement
 
 		boolean bModified = tag.getValAsBoolean("modified");
 		if(bModified)
-			m_arrATTRB.add("FSET");
+			arrATTRB.add("FSET");
 		
 		boolean bCursor = tag.getValAsBoolean("cursor");
 		if(bCursor)
-			m_arrATTRB.add("IC");
+			arrATTRB.add("IC");
 		return true;
 	}
 	
@@ -630,15 +630,15 @@ public class CFieldElement extends CBMSElement
 		else
 			setName("");
 		
-		m_Length = tag.getValAsInt("length");
+		length = tag.getValAsInt("length");
 		
-		m_PosLine = tag.getValAsInt("line");
+		posLine = tag.getValAsInt("line");
 		
-		m_PosCol = tag.getValAsInt("col");
+		posCol = tag.getValAsInt("col");
 		
-		posLineCol.setLineColLength(m_PosLine, m_PosCol, m_Length);
+		posLineCol.setLineColLength(posLine, posCol, length);
 
-		m_Value = "";
+		value = "";
 		
 		Tag tagTexts = tag.getChild("texts");
 		if(tagTexts != null)
@@ -650,19 +650,19 @@ public class CFieldElement extends CBMSElement
 				String csLanguage = tagText.getVal("lang");
 				if(csLanguage.equalsIgnoreCase(csCurrentLanguage))
 				{
-					m_Value = tagText.getText();
+					value = tagText.getText();
 					break;
 				}
 				tagText = tagTexts.getNextChild(curText);
 			}
 		}
 			
-		m_arrJustify.add(CBMSConstantList.LEFT.m_Name) ;
+		arrJustify.add(CBMSConstantList.LEFT.name) ;
 		
-		m_arrJustify.add(CBMSConstantList.BLANK.m_Name) ;
+		arrJustify.add(CBMSConstantList.BLANK.name) ;
 		
-		m_arrATTRB.add("ASKIP");
-		m_arrATTRB.add("NORM");
+		arrATTRB.add("ASKIP");
+		arrATTRB.add("NORM");
 		
 		return true;
 	}
@@ -671,19 +671,19 @@ public class CFieldElement extends CBMSElement
 	private void manageAttrib(String cs)
 	{
 		if(cs.equalsIgnoreCase("autoskip"))
-			m_arrATTRB.add("ASKIP");
+			arrATTRB.add("ASKIP");
 		else if(cs.equalsIgnoreCase("UNPROTECTED"))
-			m_arrATTRB.add("UNPROT");
+			arrATTRB.add("UNPROT");
 		else if(cs.equalsIgnoreCase("NUMERIC"))
 		{
-			m_arrATTRB.add("UNPROT");	// correct ?
-			m_arrATTRB.add("NUM");
+			arrATTRB.add("UNPROT");	// correct ?
+			arrATTRB.add("NUM");
 		}
 		else if(cs.equalsIgnoreCase("NORMAL"))
-			m_arrATTRB.add("NORM");
+			arrATTRB.add("NORM");
 		else if(cs.equalsIgnoreCase("DARK"))
-			m_arrATTRB.add("DRK");
+			arrATTRB.add("DRK");
 		else if(cs.equalsIgnoreCase("BRIGHT"))
-			m_arrATTRB.add("BRT");
+			arrATTRB.add("BRT");
 	}
 }

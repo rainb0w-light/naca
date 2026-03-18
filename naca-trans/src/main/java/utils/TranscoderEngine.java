@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 5 août 2004
+ * Created on 5 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -58,7 +58,7 @@ public abstract class TranscoderEngine<T_Elem extends CBaseElement, T_Entity ext
 		String csCallGroupName  = eConf.getVal("ReferenceGroupName") ;
 		String csIncludeGroupName = eConf.getVal("IncludeGroupName") ;
 		String csResGroupName  = eConf.getVal("ResourceGroupName") ;
-		m_cat = new CGlobalCatalog(m_Transcoder, csCallGroupName, csResGroupName, csIncludeGroupName) ;
+		cat = new CGlobalCatalog(transcoder, csCallGroupName, csResGroupName, csIncludeGroupName) ;
 		return CustomInit(eConf) ;
 	}
 	
@@ -68,12 +68,12 @@ public abstract class TranscoderEngine<T_Elem extends CBaseElement, T_Entity ext
 	 */
 	protected abstract boolean CustomInit(Tag conf) ;
 	
-	protected NotificationEngine m_NotificationEngine = new NotificationEngine() ;
-	protected CGlobalCatalog m_cat = null ;
+	protected NotificationEngine notificationEngine = new NotificationEngine() ;
+	protected CGlobalCatalog cat = null ;
 
 	public CGlobalCatalog getGlobalCatalog()
 	{
-		return m_cat ;
+		return cat ;
 	}
 	
 	@Override
@@ -86,20 +86,20 @@ public abstract class TranscoderEngine<T_Elem extends CBaseElement, T_Entity ext
 		}
 		
 		eSem.StartExport() ;
-		if (m_cat.CanExportResources(eSem.GetProgramName()))
+		if (cat.CanExportResources(eSem.GetProgramName()))
 		{
-			eSem.m_ProgramCatalog.ExportRegisteredFormContainer(bResources) ;
+			eSem.programCatalog.ExportRegisteredFormContainer(bResources) ;
 		}
 		eSem.Clear();
 		
-		m_cat.registerProgram(filename);
+		cat.registerProgram(filename);
 		Transcoder.dumpUnboundReferences();
 	}
 	
 	public T_Entity doAllAnalysis(String filename, String csApplication, CTransApplicationGroup grp, boolean bResources)
 	{
 		String outname = generateOutputFileName(filename) ;
-		String csOutputDir = grp.m_csOutputPath ;
+		String csOutputDir = grp.csOutputPath ;
 		if (!csApplication.equals(""))
 		{
 			csOutputDir += csApplication + "/" ;
@@ -113,28 +113,28 @@ public abstract class TranscoderEngine<T_Elem extends CBaseElement, T_Entity ext
 			}
 		}
 		
-		doLogs(grp.m_csInputPath + filename, csOutputDir + outname) ;
+		doLogs(grp.csInputPath + filename, csOutputDir + outname) ;
 		COriginalLisiting listing = new COriginalLisiting() ;
-		CTokenList lst = doLexing(grp.m_csInputPath + filename, listing);
+		CTokenList lst = doLexing(grp.csInputPath + filename, listing);
 		if (lst != null)
 		{			
 			Transcoder.logDebug("Transcoding " + filename);
 			CParser<T_Elem> p = doParsing(lst) ;
 			if (p!= null)
 			{
-				if(m_Transcoder.mustGenerate())
+				if(transcoder.mustGenerate())
 				{
 					NotificationEngine engine = new NotificationEngine() ;
 					doPopulateSpecialActionHandlers(engine) ;
-					CObjectCatalog cat = new CObjectCatalog(m_cat, listing, grp.m_eType, engine) ;
+					CObjectCatalog newCat = new CObjectCatalog(cat, listing, grp.eType, engine) ;
 					try
 					{
-						T_Entity eSem = doSemanticAnalysis(p, csOutputDir + outname, cat, grp, bResources) ;
+						T_Entity eSem = doSemanticAnalysis(p, csOutputDir + outname, newCat, grp, bResources) ;
 						return eSem ;
 					}
 					catch (NacaTransAssertException e)
 					{
-						Transcoder.logError("Failure while transcoding "+filename+" : "+e.m_csMessage) ;
+						Transcoder.logError("Failure while transcoding "+filename+" : "+e.csMessage) ;
 					}
 					p.Clear() ;
 					lst.Clear();
@@ -167,7 +167,7 @@ public abstract class TranscoderEngine<T_Elem extends CBaseElement, T_Entity ext
 				while (tok != null)
 				{
 					//if (tokEntry.getLine() > nCurLine)
-					if (tok.m_bIsNewLine)
+					if (tok.bIsNewLine)
 					{
 						output.println("") ;
 						nCurLine = tok.getLine() ;
@@ -230,7 +230,7 @@ public abstract class TranscoderEngine<T_Elem extends CBaseElement, T_Entity ext
 			boolean b = lexer.StartLexer(file, cat) ;
 			if (b)
 			{
-				if (m_cat.canCount(filename))
+				if (cat.canCount(filename))
 				{
 					lexer.DoCount() ;
 				}

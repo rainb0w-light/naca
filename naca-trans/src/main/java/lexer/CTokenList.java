@@ -23,60 +23,60 @@ import java.util.ListIterator;
  */
 public class CTokenList
 {
-	LinkedList<CBaseToken> m_lstTokens = new LinkedList<CBaseToken>() ;
-	ListIterator m_iter = null ;
-	CBaseToken m_curToken = null ;
+	LinkedList<CBaseToken> lstTokens = new LinkedList<CBaseToken>() ;
+	ListIterator iter = null ;
+	CBaseToken curToken = null ;
 
 	
 	public void Add(CBaseToken tok)
 	{
-		m_lstTokens.add(tok) ;
+		lstTokens.add(tok) ;
 	}
 	
 	public CBaseToken GetCurrentToken()
 	{
-		return m_curToken ;
+		return curToken ;
 	}
 	
 	public void StartIter()
 	{
 		try
 		{
-			m_iter = m_lstTokens.listIterator() ;
-			m_curToken = (CBaseToken)m_iter.next() ;
+			iter = lstTokens.listIterator() ;
+			curToken = (CBaseToken)iter.next() ;
 		}
 		catch (Exception e)
 		{
-			m_iter = null ;
-			m_curToken = null ;
+			iter = null ;
+			curToken = null ;
 		}
 	}
 	public CBaseToken GetNext()
 	{
 		try
 		{
-			if (m_iter == null)
+			if (iter == null)
 			{
-				m_iter = m_lstTokens.listIterator() ;
+				iter = lstTokens.listIterator() ;
 			}
-			m_curToken = (CBaseToken)m_iter.next();
-			return m_curToken;
+			curToken = (CBaseToken)iter.next();
+			return curToken;
 		}
 		catch (Exception e)
 		{
-			m_curToken = null ;
+			curToken = null ;
 			return null ;
 		}
 	} 
 	public int GetNbTokens()
 	{
-		return m_lstTokens.size();
+		return lstTokens.size();
 	}
 
 	public void Clear()
 	{
-		m_curToken = null ;
-		m_iter = null ;
-		m_lstTokens.clear() ;
+		curToken = null ;
+		iter = null ;
+		lstTokens.clear() ;
 	}
 }

@@ -22,22 +22,22 @@ public class VarLevelGroup
 {
 	VarLevelGroup(VarLevel varLevel)
 	{
-		m_varLevel = varLevel;
+		varLevel = varLevel;
 	}
 	
 	public VarGroup var()	// Creates a group
 	{
-		if(m_varLevel != null)
-			return m_varLevel.var();
+		if(varLevel != null)
+			return varLevel.var();
 		return null;
 	}
 	
 	public Var filler()
 	{
-		if(m_varLevel != null)
-			return m_varLevel.filler();
+		if(varLevel != null)
+			return varLevel.filler();
 		return null;
 	}
 	
-	private VarLevel m_varLevel = null;
+	private VarLevel varLevel = null;
 }

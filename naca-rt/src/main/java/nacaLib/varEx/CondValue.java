@@ -25,37 +25,37 @@ public class CondValue
 {
 	CondValue(String sMin, String sMax)
 	{
-		m_sMin = sMin;
-		m_sMax = sMax;
-		m_bInterval = true;
-		m_constant = null;
+		sMin = sMin;
+		sMax = sMax;
+		bInterval = true;
+		constant = null;
 	}
 
 	CondValue(String sValue)
 	{
-		m_sMin = sValue;
-		m_bInterval = false;
-		m_constant = null;
+		sMin = sValue;
+		bInterval = false;
+		constant = null;
 	}
 	
 	CondValue(CobolConstantBase constant)
 	{
-		m_constant = constant;
-		m_bInterval = false;
+		constant = constant;
+		bInterval = false;
 	}
 	
 	public boolean is(Var v)
 	{
-		if(m_constant != null)
-			return v.is(m_constant);
+		if(constant != null)
+			return v.is(constant);
 		else
 		{
-			if(m_bInterval)
+			if(bInterval)
 			{
-				if(v.compareTo(ComparisonMode.Unicode, m_sMin) >= 0 && v.compareTo(ComparisonMode.Unicode, m_sMax) <= 0)
+				if(v.compareTo(ComparisonMode.Unicode, sMin) >= 0 && v.compareTo(ComparisonMode.Unicode, sMax) <= 0)
 					return true;
 			}
-			if(v.equals(m_sMin))
+			if(v.equals(sMin))
 				return true;
 		}
 		return false;		  
@@ -63,22 +63,22 @@ public class CondValue
 	
 	public String getMin()
 	{
-		if(m_constant == null)			
-			return m_sMin;
+		if(constant == null)			
+			return sMin;
 		return null;
 	}
 	
 	public String toString()
 	{
-		if(m_constant != null)		
-			return m_constant.getSTCheckValue();		
-		if(m_bInterval)
-			return "[" + m_sMin + "," + m_sMax + "]";
-		return m_sMin;
+		if(constant != null)		
+			return constant.getSTCheckValue();		
+		if(bInterval)
+			return "[" + sMin + "," + sMax + "]";
+		return sMin;
 	}
 	
-	private CobolConstantBase m_constant = null;
-	private String m_sMin = null; 
-	private String m_sMax = null;
-	private boolean m_bInterval = false;
+	private CobolConstantBase constant = null;
+	private String sMin = null; 
+	private String sMax = null;
+	private boolean bInterval = false;
 }

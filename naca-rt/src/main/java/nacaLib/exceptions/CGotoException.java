@@ -11,17 +11,17 @@ import nacaLib.program.*;
 public class CGotoException extends NacaRTException
 {
 	private static final long serialVersionUID = 1L;
-	public Paragraph m_Paragraph = null;
-	public Section m_Section = null;
+	public Paragraph paragraph = null;
+	public Section section = null;
 	
 	public CGotoException(Paragraph functor)
 	{
 		super();
-		m_Paragraph = functor;
+		paragraph = functor;
 	}
 	public CGotoException(Section functor)
 	{
 		super();
-		m_Section = functor;
+		section = functor;
 	}
 }

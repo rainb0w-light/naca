@@ -29,18 +29,18 @@ public class CDecimalTerminal extends CTerminal
 	
 	public CDecimalTerminal(String intval, String decval)
 	{
-		m_csIntVal = intval ;
-		m_csDecVal = decval ;
+		csIntVal = intval ;
+		csDecVal = decval ;
 	}
 
-	protected String m_csIntVal = "" ;
-	protected String m_csDecVal = "" ;
+	protected String csIntVal = "" ;
+	protected String csDecVal = "" ;
 	/* (non-Javadoc)
 	 * @see parser.expression.CTerminal#ExportTo(org.w3c.dom.Element, org.w3c.dom.Document)
 	 */
 	public void ExportTo(Element e, Document root)
 	{
-		e.setAttribute("Decimal", m_csIntVal + "," + m_csDecVal) ;	
+		e.setAttribute("Decimal", csIntVal + "," + csDecVal) ;	
 	}
 
 	/* (non-Javadoc)
@@ -66,7 +66,7 @@ public class CDecimalTerminal extends CTerminal
 	 */
 //	public void ExportTo(CBaseLanguageExporter e)
 //	{
-//		e.WriteWord(m_csIntVal + "." + m_csDecVal) ;		
+//		e.WriteWord(csIntVal + "." + csDecVal) ;		
 //	}
 
 	/* (non-Javadoc)
@@ -74,7 +74,7 @@ public class CDecimalTerminal extends CTerminal
 	 */
 	public String GetValue()
 	{
-		return m_csIntVal + "." + m_csDecVal ;
+		return csIntVal + "." + csDecVal ;
 	}
 
 	/* (non-Javadoc)
@@ -82,11 +82,11 @@ public class CDecimalTerminal extends CTerminal
 	 */
 	public CDataEntity GetDataEntity(int nLine, CBaseEntityFactory factory)
 	{
-		return factory.NewEntityNumber(m_csIntVal + "." + m_csDecVal);
+		return factory.NewEntityNumber(csIntVal + "." + csDecVal);
 	} 
 	public String toString()
 	{
-		return m_csIntVal +"."+ m_csDecVal ;
+		return csIntVal +"."+ csDecVal ;
 	}
 
 	public boolean IsNumber()

@@ -32,40 +32,40 @@ import nacaLib.varEx.Var;
  */
 public class SQLCall 
 {
-	private String m_csStoredProcName = null;
-	private BaseProgramManager m_programManager = null;
-	private StoredProcParams m_arrStoredProcParams = null;
-	private DbConnectionBase m_SQLConnection = null;
-	private int m_nNbParamToProvide = -1; 	// Number of para to provide to the stored proc
-	private int m_nNbParamProvided = 0;	// Number of parameters provided by application
-	//private ArrayList<Var> m_arrInOutParam = null;
-	private PreparedCallableStatement m_preparedCallableStatement = null;
-	CSQLStatus m_sqlStatus = null;
-	private SQLErrorManager m_errorManager = null;
+	private String csStoredProcName = null;
+	private BaseProgramManager programManager = null;
+	private StoredProcParams arrStoredProcParams = null;
+	private DbConnectionBase sQLConnection = null;
+	private int nNbParamToProvide = -1; 	// Number of para to provide to the stored proc
+	private int nNbParamProvided = 0;	// Number of parameters provided by application
+	//private ArrayList<Var> arrInOutParam = null;
+	private PreparedCallableStatement preparedCallableStatement = null;
+	CSQLStatus sqlStatus = null;
+	private SQLErrorManager errorManager = null;
 		
 	public SQLCall(BaseProgramManager programManager, String csStoredProcName)
 	{
-		m_programManager = programManager;
-		m_csStoredProcName = csStoredProcName;
-		m_errorManager = new SQLErrorManager();
+		programManager = programManager;
+		csStoredProcName = csStoredProcName;
+		errorManager = new SQLErrorManager();
 		create();
 	}
 	
 	private void create()
 	{
-		m_sqlStatus = new CSQLStatus();
+		sqlStatus = new CSQLStatus();
 		
 		// Determine number and way of proc params
 		StoredProcSupport sp = new StoredProcSupport();
 		
-		BaseEnvironment env = m_programManager.getEnv();
-		m_SQLConnection = env.getSQLConnection();
+		BaseEnvironment env = programManager.getEnv();
+		sQLConnection = env.getSQLConnection();
 		
-		if(m_SQLConnection != null)
+		if(sQLConnection != null)
 		{
-			m_arrStoredProcParams = sp.getStoredProcedureParamsList(m_SQLConnection, m_csStoredProcName);
-			if(m_arrStoredProcParams != null)
-				m_nNbParamToProvide = m_arrStoredProcParams.getNbParamToProvide();
+			arrStoredProcParams = sp.getStoredProcedureParamsList(sQLConnection, csStoredProcName);
+			if(arrStoredProcParams != null)
+				nNbParamToProvide = arrStoredProcParams.getNbParamToProvide();
 			manageOperationEnding();
 		}
 	}
@@ -73,12 +73,12 @@ public class SQLCall
 	public SQLCall param(int nParamId, Var var)
 	{
 		nParamId--;	// 0 based
-		if(m_arrStoredProcParams != null && nParamId < m_arrStoredProcParams.getNbParamToProvide())
+		if(arrStoredProcParams != null && nParamId < arrStoredProcParams.getNbParamToProvide())
 		{
-			StoredProcParamDesc storedProcParamDesc = m_arrStoredProcParams.get(nParamId);
+			StoredProcParamDesc storedProcParamDesc = arrStoredProcParams.get(nParamId);
 			storedProcParamDesc.setVar(var);
 		}
-		m_nNbParamProvided++;
+		nNbParamProvided++;
 		
 		manageOperationEnding();
 		return this;
@@ -87,19 +87,19 @@ public class SQLCall
 	// Fake methods
 	public SQLCall onErrorGoto(Paragraph paragraphSQGErrorGoto)
 	{
-		m_errorManager.manageOnErrorGoto(paragraphSQGErrorGoto, m_sqlStatus);
+		errorManager.manageOnErrorGoto(paragraphSQGErrorGoto, sqlStatus);
 		return this;
 	}
 
 	public SQLCall onErrorGoto(Section section)
 	{
-		m_errorManager.manageOnErrorGoto(section, m_sqlStatus);
+		errorManager.manageOnErrorGoto(section, sqlStatus);
 		return this;	
 	}
 
 	public SQLCall onErrorContinue()
 	{
-		m_errorManager.manageOnErrorContinue(m_sqlStatus);
+		errorManager.manageOnErrorContinue(sqlStatus);
 		return this;
 	}
 
@@ -124,9 +124,9 @@ public class SQLCall
 
 	private void manageOperationEnding()
 	{
-		if (m_SQLConnection != null)
+		if (sQLConnection != null)
 		{
-			if (m_nNbParamToProvide == m_nNbParamProvided) // All paraqm have been provided
+			if (nNbParamToProvide == nNbParamProvided) // All paraqm have been provided
 			{
 				if(prepareCallableStatement())
 				{
@@ -141,31 +141,31 @@ public class SQLCall
 
 	private boolean prepareCallableStatement()
 	{
-		m_preparedCallableStatement = new PreparedCallableStatement(null);
-		boolean bPrepared = m_SQLConnection.prepareCallableStatement(m_preparedCallableStatement, m_csStoredProcName, m_nNbParamToProvide);
+		preparedCallableStatement = new PreparedCallableStatement(null);
+		boolean bPrepared = sQLConnection.prepareCallableStatement(preparedCallableStatement, csStoredProcName, nNbParamToProvide);
 		if(bPrepared)
 		{
-			return m_arrStoredProcParams.registerInOutParameters(m_preparedCallableStatement);
+			return arrStoredProcParams.registerInOutParameters(preparedCallableStatement);
 		}
 		return false;
 	}
 	
 	private void retrieveOutValues()
 	{
-		if(m_preparedCallableStatement != null)
+		if(preparedCallableStatement != null)
 		{
-			m_arrStoredProcParams.retrieveOutValues(m_preparedCallableStatement, m_sqlStatus);
+			arrStoredProcParams.retrieveOutValues(preparedCallableStatement, sqlStatus);
 		}
 	}
 	
 	private void execute()
 	{
-		m_sqlStatus.reset();
+		sqlStatus.reset();
 		try
 		{
-			if(m_preparedCallableStatement != null)
+			if(preparedCallableStatement != null)
 			{
-				boolean b = m_preparedCallableStatement.execute();
+				boolean b = preparedCallableStatement.execute();
 			}
 		}
 		catch(SQLException e)
@@ -174,15 +174,15 @@ public class SQLCall
 			String csState = e.getSQLState();
 			String csReason = e.getMessage();
 			Log.logImportant("Catched SQLException from stored procedure: "+csReason + " State="+csState);
-			String csSPName = "StoredProc:" + m_csStoredProcName;
-			m_sqlStatus.setSQLCode(csSPName, e.getErrorCode(), csReason, csState);
+			String csSPName = "StoredProc:" + csStoredProcName;
+			sqlStatus.setSQLCode(csSPName, e.getErrorCode(), csReason, csState);
 		}
 	}
 	
 	private boolean close()
 	{
-		if(m_preparedCallableStatement != null)
-			return m_preparedCallableStatement.close();
+		if(preparedCallableStatement != null)
+			return preparedCallableStatement.close();
 		return false;
 	}
 }

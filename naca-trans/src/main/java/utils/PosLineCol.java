@@ -18,49 +18,49 @@ public class PosLineCol
 {
 	public PosLineCol()
 	{
-		m_nLine = 0;
-		m_nCol = 0;
-		m_nLength = 0;
+		nLine = 0;
+		nCol = 0;
+		nLength = 0;
 	}
 	
 	public void setLine(int n)
 	{
-		m_nLine = n;
+		nLine = n;
 	}
 	
 	public void setCol(int n)
 	{
-		m_nCol = n;
+		nCol = n;
 	}
 
 	public void setLength(int n)
 	{
-		m_nLength = n;
+		nLength = n;
 	}
 	
 	public void setLineColLength(int nLine, int nCol, int nLength)
 	{
-		m_nLine = nLine;
-		m_nCol = nCol;
-		m_nLength = nLength;
+		nLine = nLine;
+		nCol = nCol;
+		nLength = nLength;
 	}
 	
 	public int getLine()
 	{
-		return m_nLine;
+		return nLine;
 	}
 	
 	public int getCol()
 	{
-		return m_nCol;
+		return nCol;
 	}
 	
 	public int getLength()
 	{
-		return m_nLength;
+		return nLength;
 	}
 	
-	private int m_nLine;
-	private int m_nCol;
-	private int m_nLength;
+	private int nLine;
+	private int nCol;
+	private int nLength;
 }

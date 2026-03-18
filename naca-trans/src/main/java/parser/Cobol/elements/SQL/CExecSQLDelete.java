@@ -59,25 +59,25 @@ public class CExecSQLDelete extends CBaseExecSQLAction
 			{
 				String cs = new String("'" + tok.GetValue() + "'");
 				AppendRequiredSpace();
-				m_Clause += cs;
+				clause += cs;
 				GetNext();
 			}
 			else if (tok.GetType() == CTokenType.DOT || tok.GetType() == CTokenType.COMMA)
 			{
 				String cs = new String(tok.GetType().GetSourceValue());
-				m_Clause += cs; 
+				clause += cs; 
 				GetNext();
 			}
 			else if (tok.GetType() == CTokenType.LESS_THAN)
 			{
 				String cs = new String(tok.GetType().GetSourceValue());
 				AppendRequiredSpace() ;
-				m_Clause += cs; 
+				clause += cs; 
 				tok = GetNext();
 				if (tok.GetType() == CTokenType.GREATER_THAN)
 				{
 					cs = new String(tok.GetType().GetSourceValue());
-					m_Clause += cs ;
+					clause += cs ;
 					GetNext() ;
 				}
 				else
@@ -102,20 +102,20 @@ public class CExecSQLDelete extends CBaseExecSQLAction
 				{
 					id = new CIdentifier(cs) ;
 				}
-				m_arrParameters.add(id);
+				arrParameters.add(id);
 				AppendRequiredSpace();
-				m_Clause += "#"+ m_arrParameters.size() ; 
+				clause += "#"+ arrParameters.size() ; 
 			}
 			else if (tok.GetType() == CTokenType.CIRCUMFLEX)
 			{
 				String cs = new String(tok.GetType().GetSourceValue());
 				AppendRequiredSpace() ;
-				m_Clause += cs; 
+				clause += cs; 
 				tok = GetNext();
 				if (tok.GetType() == CTokenType.EQUALS)
 				{
 					cs = new String(tok.GetType().GetSourceValue());
-					m_Clause += cs ;
+					clause += cs ;
 					GetNext() ;
 				}
 			}
@@ -123,25 +123,25 @@ public class CExecSQLDelete extends CBaseExecSQLAction
 			{
 				String cs = new String(tok.GetType().GetSourceValue());
 				AppendRequiredSpace();
-				m_Clause += cs; 
+				clause += cs; 
 				GetNext();
 			}
 			else if (tok.GetType() == CTokenType.STRING)
 			{
 				String cs = new String("'" + tok.GetValue() + "'");
 				AppendRequiredSpace();
-				m_Clause += cs;
+				clause += cs;
 				GetNext();
 			}
 			else
 			{
 				String cs = new String(tok.GetValue());
-				if (tok.GetType() == CTokenType.IDENTIFIER && m_csViewName.equals(""))
+				if (tok.GetType() == CTokenType.IDENTIFIER && csViewName.equals(""))
 				{
-					m_csViewName = cs ;					
+					csViewName = cs ;					
 				}
 				AppendRequiredSpace();
-				m_Clause += cs; 
+				clause += cs; 
 				GetNext();
 			}
 				
@@ -151,15 +151,15 @@ public class CExecSQLDelete extends CBaseExecSQLAction
 		
 	public void AppendRequiredSpace()
 	{
-		if(m_Clause.endsWith(" ") == false && m_Clause.endsWith(":") == false && m_Clause.endsWith(".") == false)
-			m_Clause += " ";			
+		if(clause.endsWith(" ") == false && clause.endsWith(":") == false && clause.endsWith(".") == false)
+			clause += " ";			
 	}
 
 
 	public Element ExportCustom(Document root)
 	{
 		Element e = root.createElement("SQLDelete") ;
-		e.setAttribute("Clause", m_Clause) ;
+		e.setAttribute("Clause", clause) ;
 		//ExportParameters(root, e);
 	
 		return e;
@@ -172,13 +172,13 @@ public class CExecSQLDelete extends CBaseExecSQLAction
 			Element e = root.createElement("Parameters") ;
 			parent.appendChild(e);
 	
-			int nNbItems = m_arrParameters.size();
+			int nNbItems = arrParameters.size();
 			for(int n=0; n<nNbItems; n++)
 			{
 				Element eParam = root.createElement("Parameter") ;
 				e.appendChild(eParam);
 					
-				CIdentifier s = m_arrParameters.get(n);
+				CIdentifier s = arrParameters.get(n);
 				s.ExportTo(eParam, root) ;
 			}
 		}
@@ -192,25 +192,25 @@ public class CExecSQLDelete extends CBaseExecSQLAction
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
 		Vector<CDataEntity> v = new Vector<CDataEntity>();
-		for (int i=0; i<m_arrParameters.size(); i++)
+		for (int i=0; i<arrParameters.size(); i++)
 		{
-			CIdentifier id = m_arrParameters.get(i);
+			CIdentifier id = arrParameters.get(i);
 			CDataEntity e = id.GetDataReference(getLine(), factory);
 			v.add(e);
 		}
-		m_Clause = CExecSQL.CheckConcat(m_Clause, v , factory);
+		clause = CExecSQL.CheckConcat(clause, v , factory);
 		String tablename = "" ;
-		CEntitySQLDeclareTable table = factory.m_ProgramCatalog.GetSQLTable(m_csViewName);
+		CEntitySQLDeclareTable table = factory.programCatalog.GetSQLTable(csViewName);
 		if (table == null)
 		{	
-			CGlobalEntityCounter.GetInstance().RegisterProgramToRewrite(parent.GetProgramName(), getLine(), "Missing table declaration : "+m_csViewName);
-			if (m_csViewName.startsWith("V") && m_csViewName.length() > 6)
+			CGlobalEntityCounter.GetInstance().RegisterProgramToRewrite(parent.GetProgramName(), getLine(), "Missing table declaration : "+csViewName);
+			if (csViewName.startsWith("V") && csViewName.length() > 6)
 			{
-				tablename = m_csViewName.substring(1, m_csViewName.length()-1) ;
+				tablename = csViewName.substring(1, csViewName.length()-1) ;
 			}
 			else
 			{
-				tablename = m_csViewName ;
+				tablename = csViewName ;
 			}
 		}
 		else
@@ -218,50 +218,50 @@ public class CExecSQLDelete extends CBaseExecSQLAction
 			tablename = table.GetTableName();			
 		}
 		CGlobalEntityCounter.GetInstance().CountSQLTableAccess("DELETE", tablename, parent.GetProgramName());
-		m_Clause = m_Clause.replaceAll(m_csViewName, tablename);
+		clause = clause.replaceAll(csViewName, tablename);
 		
 		CEntitySQLCursor cursor = null ;
-		int n = m_Clause.indexOf("WHERE CURRENT OF") ;
+		int n = clause.indexOf("WHERE CURRENT OF") ;
 		if (n>0)
 		{
-			String cur = m_Clause.substring(n + 17) ;
-			cursor = factory.m_ProgramCatalog.GetSQLCursor(cur) ;
+			String cur = clause.substring(n + 17) ;
+			cursor = factory.programCatalog.GetSQLCursor(cur) ;
 			if (cursor == null) 
 			{
 				throw new NacaTransAssertException("Cursor not found : "+cur) ; // ASSERT
 			}
-			m_Clause = m_Clause.substring(0, n);
+			clause = clause.substring(0, n);
 		}
 		else
 		{
-			n = m_Clause.indexOf("SELECT") ;
+			n = clause.indexOf("SELECT") ;
 			if (n>0)
 			{
-				int nFrom = m_Clause.indexOf("FROM", n) ;
+				int nFrom = clause.indexOf("FROM", n) ;
 				while (nFrom > 0)
 				{
-					int nWhere = m_Clause.indexOf("WHERE", nFrom) ;
+					int nWhere = clause.indexOf("WHERE", nFrom) ;
 					String from = "" ;
 					String where = "" ;
 					if (nWhere > 0)
 					{
-						where = m_Clause.substring(nWhere) ;
-						from = m_Clause.substring(nFrom+5, nWhere) ;
+						where = clause.substring(nWhere) ;
+						from = clause.substring(nFrom+5, nWhere) ;
 					}
 					else
 					{
-						from = m_Clause.substring(nFrom+5);
+						from = clause.substring(nFrom+5);
 					}
 					from = CExecSQLSelect.ManageFrom(parent, from, factory, false) ;
-					m_Clause = m_Clause.substring(0, nFrom+5) + from + where ;
+					clause = clause.substring(0, nFrom+5) + from + where ;
 					
-					nFrom = m_Clause.indexOf("FROM", nFrom + 1);
+					nFrom = clause.indexOf("FROM", nFrom + 1);
 				}
 			}
 		}
 
-		CEntitySQLDeleteStatement eSQL = factory.NewEntitySQLDeleteStatement(getLine(), m_Clause, v);
-		Transcoder.checkSQL(getLine(), m_Clause);
+		CEntitySQLDeleteStatement eSQL = factory.NewEntitySQLDeleteStatement(getLine(), clause, v);
+		Transcoder.checkSQL(getLine(), clause);
 		parent.AddChild(eSQL) ;
 		eSQL.setCursor(cursor) ;
 		for (int i=0; i<v.size(); i++)
@@ -272,8 +272,8 @@ public class CExecSQLDelete extends CBaseExecSQLAction
 		return eSQL;
 	}
 	
-	public String m_Clause = "" ;
-	public String m_csViewName = "" ;
-	public Vector<CIdentifier> m_arrParameters = new Vector<CIdentifier>() ;
+	public String clause = "" ;
+	public String csViewName = "" ;
+	public Vector<CIdentifier> arrParameters = new Vector<CIdentifier>() ;
 }
 

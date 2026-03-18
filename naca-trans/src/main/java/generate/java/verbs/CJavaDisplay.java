@@ -39,11 +39,11 @@ public class CJavaDisplay extends CEntityDisplay
 	protected void DoExport()
 	{
 		String cs = "" ;
-		if (m_upon == Upon.CONSOLE)
+		if (upon == Upon.CONSOLE)
 		{
 			cs = "console().display(" ;
 		}
-		else if(m_upon == Upon.ENVINONMENT)
+		else if(upon == Upon.ENVINONMENT)
 		{
 			cs = "displayEnv(";
 		}
@@ -52,14 +52,14 @@ public class CJavaDisplay extends CEntityDisplay
 			cs = "display(";
 		}
 		boolean bValNeeded = false;
-		for (int i=0; i<m_arrItemsToDisplay.size(); i++)
+		for (int i=0; i<arrItemsToDisplay.size(); i++)
 		{
-			CDataEntity e = m_arrItemsToDisplay.get(i);
+			CDataEntity e = arrItemsToDisplay.get(i);
 			if(i != 0)
 				cs += " + "; 	
 			
 			String cs2 = ".display(" + e.ExportReference(getLine()) + ")" ;
-			if(m_arrItemsToDisplay.size() > 1 && e.isValNeeded())
+			if(arrItemsToDisplay.size() > 1 && e.isValNeeded())
 				cs += "val(" + e.ExportReference(getLine()) + ")";
 			else
 				cs += e.ExportReference(getLine());

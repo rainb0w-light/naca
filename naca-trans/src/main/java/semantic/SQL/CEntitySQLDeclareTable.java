@@ -32,22 +32,22 @@ public abstract class CEntitySQLDeclareTable extends CBaseActionEntity
 	public CEntitySQLDeclareTable(int line, CObjectCatalog cat, CBaseLanguageExporter out, String csTableName, String csViewName, ArrayList arrTableColDescription)
 	{
 		super(line, cat, out);
-		m_csViewName = csViewName ;
-		m_csTableName = csTableName;
+		csViewName = csViewName ;
+		csTableName = csTableName;
 		if (csTableName == null)
 		{
 			int n=0; 
 		}
-		m_arrTableColDescription = arrTableColDescription;
-		m_ProgramCatalog.RegisterSQLTable(m_csViewName, this);
+		arrTableColDescription = arrTableColDescription;
+		programCatalog.RegisterSQLTable(csViewName, this);
 	}
-	protected String m_csTableName = "";
-	protected String m_csViewName = "" ;
-	protected ArrayList m_arrTableColDescription = null;
+	protected String csTableName = "";
+	protected String csViewName = "" ;
+	protected ArrayList arrTableColDescription = null;
 	public void Clear()
 	{
 		super.Clear();
-		m_arrTableColDescription.clear() ;
+		arrTableColDescription.clear() ;
 	}
 	/* (non-Javadoc)
 	 * @see semantic.CBaseLanguageEntity#RegisterMySelfToCatalog()
@@ -56,9 +56,9 @@ public abstract class CEntitySQLDeclareTable extends CBaseActionEntity
 	public String ExportColReferences()
 	{
 		String out = "" ;
-		for (int i=0; i<m_arrTableColDescription.size();i++)
+		for (int i=0; i<arrTableColDescription.size();i++)
 		{
-			CSQLTableColDescriptor desc = (CSQLTableColDescriptor)m_arrTableColDescription.get(i);
+			CSQLTableColDescriptor desc = (CSQLTableColDescriptor)arrTableColDescription.get(i);
 			if (!out.equals(""))
 			{
 				out += ", " ;
@@ -70,9 +70,9 @@ public abstract class CEntitySQLDeclareTable extends CBaseActionEntity
 	public String ExportColReferences(String alias)
 	{
 		String out = "" ;
-		for (int i=0; i<m_arrTableColDescription.size();i++)
+		for (int i=0; i<arrTableColDescription.size();i++)
 		{
-			CSQLTableColDescriptor desc = (CSQLTableColDescriptor)m_arrTableColDescription.get(i);
+			CSQLTableColDescriptor desc = (CSQLTableColDescriptor)arrTableColDescription.get(i);
 			if (!out.equals(""))
 			{
 				out += ", " ;
@@ -87,12 +87,12 @@ public abstract class CEntitySQLDeclareTable extends CBaseActionEntity
 	 */
 	public String GetTableName()
 	{
-		return m_csTableName ; 
+		return csTableName ; 
 	}
 
 	public int GetNbCols()
 	{
-		return m_arrTableColDescription.size();
+		return arrTableColDescription.size();
 	}
 	public boolean ignore()
 	{
@@ -103,11 +103,11 @@ public abstract class CEntitySQLDeclareTable extends CBaseActionEntity
 	 */
 	public String GetViewName()
 	{
-		return m_csViewName ;
+		return csViewName ;
 	}
 	public String GetName()
 	{
-		return m_csViewName ;
+		return csViewName ;
 	}
 
 }

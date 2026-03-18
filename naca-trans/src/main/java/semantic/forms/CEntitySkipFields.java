@@ -26,8 +26,8 @@ import utils.CObjectCatalog;
  */
 public abstract class CEntitySkipFields extends CEntityResourceField
 {
-	protected int m_nbFields = 0 ;
-	protected String m_csLevel = "" ;
+	protected int nbFields = 0 ;
+	protected String csLevel = "" ;
 	/**
 	 * @param l
 	 * @param name
@@ -45,8 +45,8 @@ public abstract class CEntitySkipFields extends CEntityResourceField
 				SetName(name) ;
 			}
 		}
-		m_nbFields = nbFields ;
-		m_csLevel = level ;
+		nbFields = nbFields ;
+		csLevel = level ;
 	}
 	/* (non-Javadoc)
 	 * @see semantic.CBaseDataEntity#GetDataType()
@@ -81,6 +81,6 @@ public abstract class CEntitySkipFields extends CEntityResourceField
 	protected void RegisterMySelfToCatalog()
 	{
 		String name = GetName() ;
-		m_ProgramCatalog.RegisterDataEntity(name, this) ;
+		programCatalog.RegisterDataEntity(name, this) ;
 	}
 }

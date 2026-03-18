@@ -33,34 +33,34 @@ public class CCondGreaterStatement extends CExpression
 	public CCondGreaterStatement(int line, CExpression term1,CExpression term2)
 	{
 		super(line) ;
-		m_term1 = term1 ;
-		m_term2 = term2 ;
+		term1 = term1 ;
+		term2 = term2 ;
 	}
 	public CCondGreaterStatement(int line, CExpression term1, CExpression term2, boolean bOrEquals)
 	{
 		super(line) ;
-		m_term1 = term1 ;
-		m_term2 = term2 ;
-		m_bOrEquals = bOrEquals ;
+		term1 = term1 ;
+		term2 = term2 ;
+		bOrEquals = bOrEquals ;
 	}
 	
 	protected boolean CheckMembersBeforeExport()
 	{
-		boolean b = CheckMemberNotNull(m_term1);
-		b &= CheckMemberNotNull(m_term2);
+		boolean b = CheckMemberNotNull(term1);
+		b &= CheckMemberNotNull(term2);
 		return b;
 	}
 	
-	protected boolean m_bOrEquals = false ; 
-	protected CExpression m_term1 = null ;
-	protected CExpression m_term2 = null ;
+	protected boolean bOrEquals = false ; 
+	protected CExpression term1 = null ;
+	protected CExpression term2 = null ;
 	/* (non-Javadoc)
 	 * @see parser.condition.CConditionalStatement#Export(org.w3c.dom.Document)
 	 */
 	public Element DoExport(Document root)
 	{
 		Element e ;
-		if (m_bOrEquals)
+		if (bOrEquals)
 		{
 			e = root.createElement("GreaterThanOrEqual") ;
 		}
@@ -68,15 +68,15 @@ public class CCondGreaterStatement extends CExpression
 		{
 			e = root.createElement("GreaterThan") ;
 		}			
-		Element e1 = m_term1.Export(root) ;
+		Element e1 = term1.Export(root) ;
 		if (e1 == null)
 		{
 			int n = 0 ;
 		}
 		e.appendChild(e1) ;
-		if (m_term2 != null)
+		if (term2 != null)
 		{
-			Element e2 = m_term2.Export(root) ;
+			Element e2 = term2.Export(root) ;
 			if (e2 == null)
 			{
 				int n = 0 ;
@@ -90,7 +90,7 @@ public class CCondGreaterStatement extends CExpression
 	 */
 	public boolean IsOrEquals()
 	{
-		return m_bOrEquals ;
+		return bOrEquals ;
 	}
 	/* (non-Javadoc)
 	 * @see parser.expression.CExpression#GetPriorityLEvel()
@@ -104,7 +104,7 @@ public class CCondGreaterStatement extends CExpression
 	 */
 	public CExpression GetOppositeCondition()
 	{
-		return new CCondLessStatement(getLine(), m_term1, m_term2, !m_bOrEquals);
+		return new CCondLessStatement(getLine(), term1, term2, !bOrEquals);
 	}
 	/* (non-Javadoc)
 	 * @see parser.expression.CExpression#AnalyseExpression(semantic.CBaseEntityFactory)
@@ -119,16 +119,16 @@ public class CCondGreaterStatement extends CExpression
 	public CBaseEntityCondition AnalyseCondition(CBaseEntityFactory factory, CDefaultConditionManager masterCond)
 	{
 		masterCond.SetMasterCondition(this) ;
-		String value = m_term2.GetConstantValue() ;
-		if (!value.equals("") && m_term1.IsReference())
+		String value = term2.GetConstantValue() ;
+		if (!value.equals("") && term1.IsReference())
 		{
-			CDataEntity ref = m_term1.GetReference(factory);
+			CDataEntity ref = term1.GetReference(factory);
 			if (ref == null)
 			{
 				return null ;
 			}
 			CBaseEntityCondition.EConditionType type = CBaseEntityCondition.EConditionType.IS_GREATER_THAN ;
-			if (m_bOrEquals)
+			if (bOrEquals)
 			{
 				type = CBaseEntityCondition.EConditionType.IS_GREATER_THAN_OR_EQUAL ;
 			}
@@ -139,12 +139,12 @@ public class CCondGreaterStatement extends CExpression
 			}
 		}
 		
-		value = m_term1.GetConstantValue() ;
-		if (!value.equals("") && m_term2.IsReference())
+		value = term1.GetConstantValue() ;
+		if (!value.equals("") && term2.IsReference())
 		{
-			CDataEntity ref = m_term2.GetReference(factory);
+			CDataEntity ref = term2.GetReference(factory);
 			CBaseEntityCondition.EConditionType type = CBaseEntityCondition.EConditionType.IS_LESS_THAN_OR_EQUAL ;
-			if (m_bOrEquals)
+			if (bOrEquals)
 			{
 				type = CBaseEntityCondition.EConditionType.IS_LESS_THAN ;
 			}
@@ -155,8 +155,8 @@ public class CCondGreaterStatement extends CExpression
 			}
 		}
 
-		CBaseEntityExpression op1 = m_term1.AnalyseExpression(factory);
-		CBaseEntityExpression op2 = m_term2.AnalyseExpression(factory);
+		CBaseEntityExpression op1 = term1.AnalyseExpression(factory);
+		CBaseEntityExpression op2 = term2.AnalyseExpression(factory);
 		if (op2 == null)
 		{ // maybe the op2 is a structure like 'A > (B OR C)'
 //			if (op1 != null || masterCond == null)
@@ -164,12 +164,12 @@ public class CCondGreaterStatement extends CExpression
 //				masterCond = new CDefaultConditionManager(this) ;
 //			}
 			masterCond.SetMasterCondition(this) ;
-			CBaseEntityCondition eCond = m_term2.AnalyseCondition(factory, masterCond);
-			ASSERT(eCond, m_term2) ;
+			CBaseEntityCondition eCond = term2.AnalyseCondition(factory, masterCond);
+			ASSERT(eCond, term2) ;
 			return eCond ;
 		}
 		CEntityCondCompare eCond = factory.NewEntityCondCompare() ;
-		if (m_bOrEquals)
+		if (bOrEquals)
 		{
 			eCond.SetGreaterOrEqualsThan(op1, op2) ;
 		}
@@ -196,15 +196,15 @@ public class CCondGreaterStatement extends CExpression
 	 */
 	public CExpression GetFirstConditionOperand()
 	{
-		return m_term1;
+		return term1;
 	}
 	/* (non-Javadoc)
 	 * @see parser.expression.CExpression#GetSimilarExpression(parser.expression.CExpression)
 	 */
 	public CExpression GetSimilarExpression(CExpression operand)
 	{
-		CCondGreaterStatement gt = new CCondGreaterStatement(getLine(), m_term1, operand);
-		gt.m_bOrEquals = m_bOrEquals ;
+		CCondGreaterStatement gt = new CCondGreaterStatement(getLine(), term1, operand);
+		gt.bOrEquals = bOrEquals ;
 		return gt ;
 	}
 	/* (non-Javadoc)
@@ -216,13 +216,13 @@ public class CCondGreaterStatement extends CExpression
 	}
 	public String toString()
 	{
-		if (m_bOrEquals)
+		if (bOrEquals)
 		{
-			return "GREATER_OR_EQUAL(" + m_term1.toString() + ", " + m_term2.toString() + ")" ;
+			return "GREATER_OR_EQUAL(" + term1.toString() + ", " + term2.toString() + ")" ;
 		}
 		else
 		{
-			return "GREATER(" + m_term1.toString() + ", " + m_term2.toString() + ")" ;
+			return "GREATER(" + term1.toString() + ", " + term2.toString() + ")" ;
 		}
 	}
 	public CExpression getMasterBinaryCondition()
@@ -232,6 +232,6 @@ public class CCondGreaterStatement extends CExpression
 	@Override
 	public CExpression GetFirstCalculOperand()
 	{
-		return m_term1.GetFirstCalculOperand() ;
+		return term1.GetFirstCalculOperand() ;
 	}
 }

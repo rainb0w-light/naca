@@ -27,21 +27,21 @@ public class CJavaCondEquals extends CEntityCondEquals
 	public CBaseEntityCondition GetOppositeCondition()
 	{
 		CJavaCondEquals newCond = new CJavaCondEquals();
-		if (m_bIsDifferent)
+		if (bIsDifferent)
 		{
-			newCond.SetEqualCondition(m_op1, m_op2) ;
+			newCond.SetEqualCondition(op1, op2) ;
 		}
 		else
 		{
-			newCond.SetDifferentCondition(m_op1, m_op2) ;
+			newCond.SetDifferentCondition(op1, op2) ;
 		}
-		if (m_op1.GetSingleOperator() != null)
+		if (op1.GetSingleOperator() != null)
 		{
-			m_op1.GetSingleOperator().RegisterVarTesting(newCond);
+			op1.GetSingleOperator().RegisterVarTesting(newCond);
 		}
-		if (m_op2.GetSingleOperator() != null)
+		if (op2.GetSingleOperator() != null)
 		{
-			m_op2.GetSingleOperator().RegisterValueAccess(newCond);
+			op2.GetSingleOperator().RegisterValueAccess(newCond);
 		}
 		return newCond ;
 	}
@@ -53,7 +53,7 @@ public class CJavaCondEquals extends CEntityCondEquals
 	public String Export()
 	{
 		String cs = "" ;
-		if (m_bIsDifferent)
+		if (bIsDifferent)
 		{
 			cs = "isDifferent(";
 		}
@@ -61,10 +61,10 @@ public class CJavaCondEquals extends CEntityCondEquals
 		{
 			cs = "isEqual(";
 		}
-		cs += m_op1.Export() + ", " ;
-		if (m_op2 != null)
+		cs += op1.Export() + ", " ;
+		if (op2 != null)
 		{
-			cs += m_op2.Export();
+			cs += op2.Export();
 		}
 		else
 		{

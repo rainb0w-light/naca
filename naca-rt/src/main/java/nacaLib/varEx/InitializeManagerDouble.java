@@ -22,21 +22,21 @@ public class InitializeManagerDouble extends InitializeManager
 {
 	public InitializeManagerDouble(String csd)
 	{
-		m_csd = csd;
+		csd = csd;
 	}
 	
 	public void set(String csd)
 	{
-		m_csd = csd;
+		csd = csd;
 	}
 
 	public void initialize(VarBufferPos buffer, VarDefBuffer varDef, int nOffset, InitializeCache initializeCache)
 	{
-		//varDef.write(buffer, m_csd);
-		varDef.write(buffer, m_csd, nOffset, m_csd.length());
+		//varDef.write(buffer, csd);
+		varDef.write(buffer, csd, nOffset, csd.length());
 		if(initializeCache != null)
 			initializeCache.setNotManaged();
 	}
 	
-	private String m_csd;
+	private String csd;
 }

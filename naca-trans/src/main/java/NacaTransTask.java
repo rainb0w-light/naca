@@ -23,12 +23,12 @@ import utils.NacaTransLauncher;
  */
 public class NacaTransTask extends Task
 {
-	protected String m_cfgFilePath = "" ;
-	private String m_groupToTranscode = "" ;
+	protected String cfgFilePath = "" ;
+	private String groupToTranscode = "" ;
 	
 	public void setConfig(String filename)
 	{
-		m_cfgFilePath = filename ;
+		cfgFilePath = filename ;
 	}
 	
 	public void execute() throws BuildException
@@ -37,7 +37,7 @@ public class NacaTransTask extends Task
 		NacaTransLauncher obj = new NacaTransLauncher() ;
 		try
 		{
-			obj.Start(m_cfgFilePath, m_groupToTranscode) ;
+			obj.Start(cfgFilePath, groupToTranscode) ;
 		}
 		catch (Exception e)
 		{
@@ -50,6 +50,6 @@ public class NacaTransTask extends Task
 	 */
 	public void setGroupToTranscode(String csGroupToTranscode)
 	{
-		m_groupToTranscode = csGroupToTranscode;
+		groupToTranscode = csGroupToTranscode;
 	}
 }

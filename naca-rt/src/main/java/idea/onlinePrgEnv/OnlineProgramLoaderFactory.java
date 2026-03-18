@@ -13,9 +13,9 @@ public class OnlineProgramLoaderFactory extends CBaseProgramLoaderFactory
 {
 	public ProgramSequencer NewSequencer()
 	{
-		OnlineProgramLoader prog = new OnlineProgramLoader(m_connectionManager, m_tagSequencerConfig);
-		prog.init(m_tagSequencerConfig);
-		prog.initMailService(m_tagSequencerConfig);
+		OnlineProgramLoader prog = new OnlineProgramLoader(connectionManager, tagSequencerConfig);
+		prog.init(tagSequencerConfig);
+		prog.initMailService(tagSequencerConfig);
 		return prog ;
 	}
 }

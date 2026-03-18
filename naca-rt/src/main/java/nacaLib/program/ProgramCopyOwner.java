@@ -24,32 +24,32 @@ public class ProgramCopyOwner extends BaseCloseMBean
 		
 		if(JmxGeneralStat.showCopyBeans())
 			createMBean("Copy."+csCopyName, csCopyName);
-		m_csCopyName = csCopyName;
-		m_hashPrograms = new Hashtable<String, String>(); 
+		csCopyName = csCopyName;
+		hashPrograms = new Hashtable<String, String>(); 
 	}
 	
 	void showBean(boolean bToShow)
 	{
 		if(bToShow && !isBeanCreated())
-			createMBean("Copy."+m_csCopyName, m_csCopyName);
+			createMBean("Copy."+csCopyName, csCopyName);
 		else if(!bToShow && isBeanCreated())
 			unregisterMBean();
 	}
 	
 	void add(String csProgramName)
 	{
-		m_hashPrograms.put(csProgramName, csProgramName);
+		hashPrograms.put(csProgramName, csProgramName);
 	}	
 	
 	boolean removeProgramOwner(String csProgramName)
 	{
-		if(m_hashPrograms != null)
+		if(hashPrograms != null)
 		{
-			String cs = m_hashPrograms.get(csProgramName);
+			String cs = hashPrograms.get(csProgramName);
 			if(cs != null)
 			{
-				m_hashPrograms.remove(csProgramName);
-				if(m_hashPrograms.size() == 0)
+				hashPrograms.remove(csProgramName);
+				if(hashPrograms.size() == 0)
 				{
 					unregisterMBean();
 					return true;
@@ -69,22 +69,22 @@ public class ProgramCopyOwner extends BaseCloseMBean
 	
 	public String getName()
 	{
-		return m_csCopyName;
+		return csCopyName;
 	}
 	
 	public int getNbProgramOwner()
 	{
-		if(m_hashPrograms == null)
+		if(hashPrograms == null)
 			return 0;
-		return m_hashPrograms.size();
+		return hashPrograms.size();
 	}
 	
 	public void unloadCopy()
 	{
-		Log.logNormal("unloadCopy; Begin to unload all programs using copy "+m_csCopyName);
-		if(m_hashPrograms != null)
+		Log.logNormal("unloadCopy; Begin to unload all programs using copy "+csCopyName);
+		if(hashPrograms != null)
 		{
-			Collection<String> colProgramNames = m_hashPrograms.values();
+			Collection<String> colProgramNames = hashPrograms.values();
 			Object arrPrograms[] = colProgramNames.toArray();
 			int nNbPrograms = arrPrograms.length;
 			for(int n=nNbPrograms-1; n>=0; n--)
@@ -93,14 +93,14 @@ public class ProgramCopyOwner extends BaseCloseMBean
 				BaseResourceManager.unloadProgram(csProgramName);
 			}
 //			if(m_hashPrograms.size() == 0)
-//				Log.logNormal("unloadCopy; Correctly unload " + nNbPrograms + " programs using copy "+m_csCopyName);
+//				Log.logNormal("unloadCopy; Correctly unload " + nNbPrograms + " programs using copy "+csCopyName);
 //			else
-//				Log.logImportant("unloadCopy; ERROR: unload " + nNbPrograms + " programs using copy "+m_csCopyName + " but " + m_hashPrograms.size() + " remains uncorrectly loaded");
+//				Log.logImportant("unloadCopy; ERROR: unload " + nNbPrograms + " programs using copy "+csCopyName + " but " + m_hashPrograms.size() + " remains uncorrectly loaded");
 		}
 		else
 			Log.logImportant("unloadCopy; ERROR: No program to unload");
 	}
 
-	private String m_csCopyName = null;
-	private Hashtable<String, String> m_hashPrograms = null;
+	private String csCopyName = null;
+	private Hashtable<String, String> hashPrograms = null;
 }

@@ -42,54 +42,54 @@ public abstract class CEntityCalcul extends CBaseActionEntity
 
 	public void SetCalcul(CBaseEntityExpression exp)
 	{
-		m_Expression = exp ;
+		expression = exp ;
 	}
 	
 	public void AddDestination(CDataEntity e)
 	{
-		m_arrDestinations.add(e) ;
+		arrDestinations.add(e) ;
 	}
 	public void AddRoundedDestination(CDataEntity e)
 	{
-		m_arrRoundedDestinations.add(e) ;
+		arrRoundedDestinations.add(e) ;
 	}
-	protected CBaseEntityExpression m_Expression = null ;
-	protected Vector<CDataEntity> m_arrDestinations = new Vector<CDataEntity>();
-	protected Vector<CDataEntity> m_arrRoundedDestinations = new Vector<CDataEntity>();
-	protected CBaseLanguageEntity m_OnErrorBloc = null ;
+	protected CBaseEntityExpression expression = null ;
+	protected Vector<CDataEntity> arrDestinations = new Vector<CDataEntity>();
+	protected Vector<CDataEntity> arrRoundedDestinations = new Vector<CDataEntity>();
+	protected CBaseLanguageEntity onErrorBloc = null ;
 	public void Clear()
 	{
 		super.Clear();
-		if (m_Expression!=null)
+		if (expression!=null)
 		{
-			m_Expression.Clear() ;
+			expression.Clear() ;
 		}
-		m_Expression = null ;
-		m_arrDestinations.clear();
-		m_arrRoundedDestinations.clear() ;
-		if (m_OnErrorBloc!=null)
+		expression = null ;
+		arrDestinations.clear();
+		arrRoundedDestinations.clear() ;
+		if (onErrorBloc!=null)
 		{
-			m_OnErrorBloc.Clear() ;
+			onErrorBloc.Clear() ;
 		}
-		m_OnErrorBloc = null ;
+		onErrorBloc = null ;
 	}
 	
 	public void SetOnErrorBloc(CBaseLanguageEntity eBloc)
 	{
-		m_OnErrorBloc = eBloc ;
+		onErrorBloc = eBloc ;
 	}
 	public boolean ignore()
 	{
-		boolean ignore = m_Expression.ignore() ;
+		boolean ignore = expression.ignore() ;
 		boolean b = true ;
-		for (int i=0; i<m_arrDestinations.size(); i++)
+		for (int i=0; i<arrDestinations.size(); i++)
 		{
-			CDataEntity e = m_arrDestinations.get(i);
+			CDataEntity e = arrDestinations.get(i);
 			b &= e.ignore();
 		}
-		for (int i=0; i<m_arrRoundedDestinations.size(); i++)
+		for (int i=0; i<arrRoundedDestinations.size(); i++)
 		{
-			CDataEntity e = m_arrRoundedDestinations.get(i);
+			CDataEntity e = arrRoundedDestinations.get(i);
 			b &= e.ignore();
 		}
 		ignore |= b ;
@@ -97,10 +97,10 @@ public abstract class CEntityCalcul extends CBaseActionEntity
 	}
 	public boolean IgnoreVariable(CDataEntity data)
 	{
-		if  (m_arrDestinations.contains(data) ||  m_arrRoundedDestinations.contains(data))
+		if  (arrDestinations.contains(data) ||  arrRoundedDestinations.contains(data))
 		{
-			m_arrDestinations.remove(data);
-			m_arrRoundedDestinations.remove(data) ;
+			arrDestinations.remove(data);
+			arrRoundedDestinations.remove(data) ;
 			data.UnRegisterWritingAction(this) ;
 			return true ;
 		}

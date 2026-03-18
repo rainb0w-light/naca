@@ -50,17 +50,17 @@ public class CElseBloc extends CBlocElement
 		}
 		if (fCheckForNextSentence != null)
 		{
-			fCheckForNextSentence.Set(m_fCheckForNextSentence.ISSet()) ;
+			fCheckForNextSentence.Set(fCheckForNextSentence.ISSet()) ;
 		}
 		tok = GetCurrentToken() ;
 		if (tok.GetType() == CTokenType.DOT)
 		{ // end of IF statement
-			m_nEndLine = tok.getLine() ;
+			nEndLine = tok.getLine() ;
 			return true ; 
 		}
 		else if (tok.GetKeyword() == CCobolKeywordList.END_IF)
 		{
-			m_nEndLine = tok.getLine() ;
+			nEndLine = tok.getLine() ;
 			StepNext() ;
 		}
 		return true ;

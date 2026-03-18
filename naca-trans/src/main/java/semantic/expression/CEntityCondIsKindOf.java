@@ -27,44 +27,44 @@ public abstract class CEntityCondIsKindOf extends CUnitaryEntityCondition
 	public void SetIsNumeric(CDataEntity data)
 	{
 		SetConditonReference(data) ;
-		m_bIsNumeric = true ;
-		m_bIsAlphabetic = false ;
-		m_bIsLower = false ;
-		m_bIsUpper = false ;
+		bIsNumeric = true ;
+		bIsAlphabetic = false ;
+		bIsLower = false ;
+		bIsUpper = false ;
 	}
 	public void SetIsAlphabetic(CDataEntity data)
 	{
 		SetConditonReference(data) ;
-		m_bIsNumeric = false ;
-		m_bIsAlphabetic = true ;
-		m_bIsLower = false ;
-		m_bIsUpper = false ;
+		bIsNumeric = false ;
+		bIsAlphabetic = true ;
+		bIsLower = false ;
+		bIsUpper = false ;
 	}
 	public void SetIsLower(CDataEntity data)
 	{
 		SetConditonReference(data) ;
-		m_bIsNumeric = false ;
-		m_bIsAlphabetic = false ;
-		m_bIsLower = true ;
-		m_bIsUpper = false ;
+		bIsNumeric = false ;
+		bIsAlphabetic = false ;
+		bIsLower = true ;
+		bIsUpper = false ;
 	}
 	public void SetIsUpper(CDataEntity data)
 	{
 		SetConditonReference(data) ;
-		m_bIsNumeric = false ;
-		m_bIsAlphabetic = false ;
-		m_bIsLower = false ;
-		m_bIsUpper = true ;
+		bIsNumeric = false ;
+		bIsAlphabetic = false ;
+		bIsLower = false ;
+		bIsUpper = true ;
 	}
 
-	protected boolean m_bIsNumeric = false ;
-	protected boolean m_bIsLower = false ;
-	protected boolean m_bIsUpper = false ;
-	protected boolean m_bIsAlphabetic = false ;
-	protected boolean m_bOpposite = false ;
+	protected boolean bIsNumeric = false ;
+	protected boolean bIsLower = false ;
+	protected boolean bIsUpper = false ;
+	protected boolean bIsAlphabetic = false ;
+	protected boolean bOpposite = false ;
 	public boolean ignore()
 	{
-		return m_Reference.ignore();
+		return reference.ignore();
 	}
 	public CBaseEntityCondition GetSpecialConditionReplacing(String val, CBaseEntityFactory fact, CDataEntity replace)
 	{
@@ -72,18 +72,18 @@ public abstract class CEntityCondIsKindOf extends CUnitaryEntityCondition
 	}
 	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
 	{
-		if (m_Reference == field)
+		if (reference == field)
 		{
 			field.UnRegisterVarTesting(this) ;
 			var.RegisterVarTesting(this) ;
-			m_Reference = var ;
+			reference = var ;
 			return true ;
 		}
 		return false ;
 	}
 	public void setOpposite()
 	{
-		m_bOpposite = !m_bOpposite ;
+		bOpposite = !bOpposite ;
 	}
 	public boolean isBinaryCondition()
 	{

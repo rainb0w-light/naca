@@ -40,7 +40,7 @@ public abstract class CEntityFieldArrayReference extends CEntityArrayReference
 	}
 	public CBaseEntityCondition GetSpecialCondition(int nLine, String value, CBaseEntityCondition.EConditionType type, CBaseEntityFactory factory)
 	{
-		CBaseEntityCondition eCond = m_Reference.GetSpecialCondition(getLine(), value, type, factory);
+		CBaseEntityCondition eCond = reference.GetSpecialCondition(getLine(), value, type, factory);
 		if (eCond == null)
 		{
 			return null ;
@@ -49,8 +49,8 @@ public abstract class CEntityFieldArrayReference extends CEntityArrayReference
 		{
 			CDataEntity eData = eCond.GetConditionReference() ;
 			CEntityFieldArrayReference eArray = factory.NewEntityFieldArrayReference(getLine()) ;
-			eArray.m_arrIndexes = m_arrIndexes ;
-			eArray.m_Reference = eData ;
+			eArray.arrIndexes = arrIndexes ;
+			eArray.reference = eData ;
 			eArray.RegisterVarTesting(eCond) ;
 			eCond.SetConditonReference(eArray);
 			return eCond;

@@ -34,9 +34,9 @@ public abstract class CEntityFieldColor extends CBaseEntityFieldAttribute
 	public static class CFieldColor
 	{
 		protected CFieldColor(String s)	{
-			m_text = s ;
+			text = s ;
 		}
-		public String m_text="" ;
+		public String text="" ;
 		public static CFieldColor RED = new CFieldColor("RED") ; 
 		public static CFieldColor YELLOW = new CFieldColor("YELLOW") ; 
 		public static CFieldColor GREEN = new CFieldColor("GREEN") ; 
@@ -92,10 +92,10 @@ public abstract class CEntityFieldColor extends CBaseEntityFieldAttribute
 	public CBaseActionEntity GetSpecialAssignment(CTerminal term, CBaseEntityFactory factory, int l)
 	{
 		String col = term.GetValue() ;
-		CEntityFieldAttributeReference ref = factory.NewEntityFieldAttributeReference(m_Reference) ;
+		CEntityFieldAttributeReference ref = factory.NewEntityFieldAttributeReference(reference) ;
 		CEntitySetColor eSet = factory.NewEntitySetColor(l, ref);
-		m_Color = CFieldColor.WhichColor(col) ;
-		eSet.SetColor(m_Color) ;
+		color = CFieldColor.WhichColor(col) ;
+		eSet.SetColor(color) ;
 		ref.RegisterWritingAction(eSet) ;
 		return eSet;
 	}
@@ -103,7 +103,7 @@ public abstract class CEntityFieldColor extends CBaseEntityFieldAttribute
 	{
 		if (term.GetDataType() == CDataEntity.CDataEntityType.FIELD_ATTRIBUTE)
 		{
-			CEntityFieldAttributeReference ref = factory.NewEntityFieldAttributeReference(m_Reference) ;
+			CEntityFieldAttributeReference ref = factory.NewEntityFieldAttributeReference(reference) ;
 			CEntitySetColor eSet = factory.NewEntitySetColor(l, ref);
 			eSet.SetColor(term) ;
 			ref.RegisterWritingAction(eSet) ;
@@ -116,15 +116,15 @@ public abstract class CEntityFieldColor extends CBaseEntityFieldAttribute
 		}
 	}
 
-	protected CFieldColor m_Color = null ;
+	protected CFieldColor color = null ;
 	public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory) 
 	{
-		CDataEntity e = m_Reference.GetArrayReference(v, factory) ;
+		CDataEntity e = reference.GetArrayReference(v, factory) ;
 		return factory.NewEntityFieldColor(getLine(), "", e);
 	};
 	public CBaseEntityCondition GetSpecialCondition(int nLine, String value, CBaseEntityCondition.EConditionType type, CBaseEntityFactory factory)
 	{
-		return CEntityFieldColor.GetSpecialCondition(nLine, value, m_Reference, factory, type) ;
+		return CEntityFieldColor.GetSpecialCondition(nLine, value, reference, factory, type) ;
 	}
 	static CUnitaryEntityCondition GetSpecialCondition(int nLine, String value, CDataEntity ref, CBaseEntityFactory factory, CBaseEntityCondition.EConditionType type)
 	{

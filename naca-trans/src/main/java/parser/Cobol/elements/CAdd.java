@@ -56,7 +56,7 @@ public class CAdd extends CCobolElement
 			Transcoder.logError(getLine(), "Expecting 'ADD' keyword") ;
 			return false ;
 		}
-		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().m_Name) ;
+		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
 		GetNext() ; 
 
 		boolean bDone = false ;
@@ -69,7 +69,7 @@ public class CAdd extends CCobolElement
 			}
 			else 
 			{
-				m_arrValues.add(t) ; 
+				arrValues.add(t) ; 
 			}
 			tok = GetCurrentToken() ;
 			if (tok.GetType() == CTokenType.COMMA)
@@ -96,7 +96,7 @@ public class CAdd extends CCobolElement
 				}
 				else 
 				{
-					m_arrIdentifiers.add(t) ; 
+					arrIdentifiers.add(t) ; 
 				}
 				tok = GetCurrentToken() ;
 				if (tok.GetType() == CTokenType.COMMA)
@@ -120,7 +120,7 @@ public class CAdd extends CCobolElement
 				}
 				else 
 				{
-					m_arrResult.add(identifier) ; 
+					arrResult.add(identifier) ; 
 				}
 			}
 		} 
@@ -129,7 +129,7 @@ public class CAdd extends CCobolElement
 		if (tok.GetKeyword() == CCobolKeywordList.ROUNDED)
 		{
 			GetNext() ;
-			m_bRounded = true ;
+			bRounded = true ;
 		}
 
 		return true ;
@@ -140,56 +140,56 @@ public class CAdd extends CCobolElement
 	protected Element ExportCustom(Document root)
 	{
 		Element e = root.createElement("Add") ;
-		for (int i=0; i<m_arrValues.size(); i++)
+		for (int i=0; i<arrValues.size(); i++)
 		{
 			Element eVal = root.createElement("Add");
 			e.appendChild(eVal);
-			CTerminal value = m_arrValues.get(i);
+			CTerminal value = arrValues.get(i);
 			value.ExportTo(eVal, root) ;
 		}
-		for (int i=0; i<m_arrIdentifiers.size(); i++)
+		for (int i=0; i<arrIdentifiers.size(); i++)
 		{
 			Element eTo = root.createElement("To") ;
-			CIdentifier id = m_arrIdentifiers.get(i) ;
+			CIdentifier id = arrIdentifiers.get(i) ;
 			id.ExportTo(eTo, root) ;
 			e.appendChild(eTo) ;
 		}
-		for (int i=0; i<m_arrResult.size(); i++)
+		for (int i=0; i<arrResult.size(); i++)
 		{
 			Element eTo = root.createElement("Giving") ;
-			CIdentifier id = m_arrResult.get(i) ;
+			CIdentifier id = arrResult.get(i) ;
 			id.ExportTo(eTo, root) ;
 			e.appendChild(eTo) ;
 		}
 		return e ;
 	}
 	
-	protected Vector<CTerminal> m_arrValues = new Vector<CTerminal>() ;
-	protected Vector<CIdentifier> m_arrIdentifiers = new Vector<CIdentifier>() ;
-	protected Vector<CIdentifier> m_arrResult = new Vector<CIdentifier>() ;
-	protected boolean m_bRounded = false ;
+	protected Vector<CTerminal> arrValues = new Vector<CTerminal>() ;
+	protected Vector<CIdentifier> arrIdentifiers = new Vector<CIdentifier>() ;
+	protected Vector<CIdentifier> arrResult = new Vector<CIdentifier>() ;
+	protected boolean bRounded = false ;
 	/* (non-Javadoc)
 	 * @see parser.CBaseElement#DoCustomSemanticAnalysis(semantic.CBaseSemanticEntity, semantic.CBaseSemanticEntityFactory)
 	 */
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		if (m_arrResult.size() == 0)
+		if (arrResult.size() == 0)
 		{
 			CEntityAddTo eAdd = factory.NewEntityAddTo(getLine()) ;
 			parent.AddChild(eAdd) ;
-			for (int i=0; i<m_arrValues.size(); i++)
+			for (int i=0; i<arrValues.size(); i++)
 			{
-				CTerminal value = m_arrValues.get(i);
+				CTerminal value = arrValues.get(i);
 				CDataEntity eRef = value.GetDataEntity(getLine(), factory) ;
 				eAdd.SetAddValue(eRef) ;
 			}
-			for (int i=0; i<m_arrIdentifiers.size(); i++)
+			for (int i=0; i<arrIdentifiers.size(); i++)
 			{
-				CIdentifier idDest = m_arrIdentifiers.get(i) ;
+				CIdentifier idDest = arrIdentifiers.get(i) ;
 				CDataEntity eDest = idDest.GetDataReference(getLine(), factory);
 				eAdd.SetAddDest(eDest) ;
 			}
-			if (m_bRounded)
+			if (bRounded)
 			{
 				eAdd.SetRounded(true) ;
 			}
@@ -198,25 +198,25 @@ public class CAdd extends CCobolElement
 		{
 			CEntityAddTo eAdd = factory.NewEntityAddTo(getLine()) ;
 			parent.AddChild(eAdd) ;
-			for (int i=0; i<m_arrValues.size(); i++)
+			for (int i=0; i<arrValues.size(); i++)
 			{
-				CTerminal value = m_arrValues.get(i);
+				CTerminal value = arrValues.get(i);
 				CDataEntity eRef = value.GetDataEntity(getLine(), factory) ;
 				eAdd.SetAddValue(eRef) ;
 			}
-			for (int i=0; i<m_arrIdentifiers.size(); i++)
+			for (int i=0; i<arrIdentifiers.size(); i++)
 			{
-				CIdentifier idDest = m_arrIdentifiers.get(i) ;
+				CIdentifier idDest = arrIdentifiers.get(i) ;
 				CDataEntity eDest = idDest.GetDataReference(getLine(), factory);
 				eAdd.SetAddValue(eDest) ;
 			}
-			if (m_bRounded)
+			if (bRounded)
 			{
 				eAdd.SetRounded(true) ;
 			}
-			for (int i=0; i<m_arrResult.size(); i++)
+			for (int i=0; i<arrResult.size(); i++)
 			{
-				CIdentifier idRes = m_arrResult.get(i) ;
+				CIdentifier idRes = arrResult.get(i) ;
 				CDataEntity eRes = idRes.GetDataReference(getLine(), factory) ;
 				eAdd.SetAddDest(eRes);
 			}

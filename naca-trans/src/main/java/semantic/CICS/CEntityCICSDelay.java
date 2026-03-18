@@ -40,16 +40,16 @@ public abstract class CEntityCICSDelay extends CBaseActionEntity
 
 	public void SetSeconds(CDataEntity entity)
 	{
-		m_Seconds = entity;		
+		seconds = entity;		
 	}
 
 	public void SetInterval(CDataEntity entity)
 	{
-		m_Interval = entity ; 		
+		interval = entity ; 		
 	}
 	
-	protected CDataEntity m_Interval = null ;
-	protected CDataEntity m_Seconds = null ;
+	protected CDataEntity interval = null ;
+	protected CDataEntity seconds = null ;
 
 	public boolean ignore()
 	{
@@ -58,16 +58,16 @@ public abstract class CEntityCICSDelay extends CBaseActionEntity
 	public void Clear()
 	{
 		super.Clear();
-		if (m_Interval != null)
+		if (interval != null)
 		{
-			m_Interval.Clear() ;
+			interval.Clear() ;
 		}
-		if (m_Seconds!=null)
+		if (seconds!=null)
 		{
-			m_Seconds.Clear() ;
-			m_Seconds = null ;
+			seconds.Clear() ;
+			seconds = null ;
 		}
-		m_Interval = null ;
+		interval = null ;
 	}
 	
 }

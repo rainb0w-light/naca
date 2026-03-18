@@ -35,11 +35,11 @@ public class RecordColTypeManagerVarchar extends RecordColTypeManagerBase
 	{
 		try
 		{			
-			String csValue = resultSetSource.getString(m_nColSourceIndex);
+			String csValue = resultSetSource.getString(nColSourceIndex);
 			if (!resultSetSource.wasNull())
-				insertStatementInsert.setString(m_nColSourceIndex, csValue);
+				insertStatementInsert.setString(nColSourceIndex, csValue);
 			else
-				insertStatementInsert.setNull(m_nColSourceIndex, Types.VARCHAR);
+				insertStatementInsert.setNull(nColSourceIndex, Types.VARCHAR);
 			return true;
 		}
 		catch (SQLException e)
@@ -54,7 +54,7 @@ public class RecordColTypeManagerVarchar extends RecordColTypeManagerBase
 		boolean isLongVarCharVarStructure = varInto.getVarDef().isLongVarCharVarStructure();
 		try
 		{
-			String csValue = rs.getString(m_nColSourceIndex);
+			String csValue = rs.getString(nColSourceIndex);
 			if(csValue != null)
 			{
 				if (isLongVarCharVarStructure)
@@ -68,14 +68,14 @@ public class RecordColTypeManagerVarchar extends RecordColTypeManagerBase
 					buf.append(csValue);
 					csValue = buf.toString();
 				}	
-				varInto.m_varDef.write(varInto.m_bufferPos, csValue);
+				varInto.varDef.write(varInto.bufferPos, csValue);
 				return false;				
 			}
 		}
 		catch (SQLException e)
 		{
 			LogSQLException.log(e);
-			// Maybe should I set m_bNull = true; ?
+			// Maybe should I set bNull = true; ?
 		}
 		if (isLongVarCharVarStructure)
 		{	
@@ -86,11 +86,11 @@ public class RecordColTypeManagerVarchar extends RecordColTypeManagerBase
 			buf.append(cHigh);	// big endian
 			buf.append(cLow);
 			buf.append("");
-			varInto.m_varDef.write(varInto.m_bufferPos, buf.toString());
+			varInto.varDef.write(varInto.bufferPos, buf.toString());
 		}
 		else
 		{
-			varInto.m_varDef.write(varInto.m_bufferPos, "");
+			varInto.varDef.write(varInto.bufferPos, "");
 		}
 		return true;
 	}

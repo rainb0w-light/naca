@@ -16,7 +16,7 @@ import utils.CObjectCatalog;
 public abstract class CEntityFormatedVarReference extends CBaseDataReference
 {
 	
-	protected String m_csFormat = "" ;
+	protected String csFormat = "" ;
 
 	/**
 	 * @param l
@@ -27,8 +27,8 @@ public abstract class CEntityFormatedVarReference extends CBaseDataReference
 	public CEntityFormatedVarReference(CDataEntity object, CObjectCatalog cat, CBaseLanguageExporter out, String format)
 	{
 		super(0, "", cat, out);
-		m_csFormat = format ;
-		m_Reference = object ;
+		csFormat = format ;
+		reference = object ;
 	}
 
 	/**
@@ -37,7 +37,7 @@ public abstract class CEntityFormatedVarReference extends CBaseDataReference
 	@Override
 	public CDataEntityType GetDataType()
 	{
-		return m_Reference.GetDataType() ;
+		return reference.GetDataType() ;
 	}
 
 	/**

@@ -26,68 +26,68 @@ public class CSQLTableColDescriptor
 	
 	public void SetName(String csName)
 	{
-		m_csName = csName;
+		csName = csName;
 	}
 	
 	public String GetName()
 	{
-		return m_csName;
+		return csName;
 	}
 	
 	void SetLength(int n)
 	{
-		m_nLength = n;
-		m_bLengthSet = true;
+		nLength = n;
+		bLengthSet = true;
 	}	
 
 	void SetDecimal(int n)
 	{
-		m_nDecimal = n;
-		m_bDecimalSet = true;
+		nDecimal = n;
+		bDecimalSet = true;
 	}
 	
 	public boolean HasSize()
 	{
-		return m_bLengthSet;
+		return bLengthSet;
 	}
 	
 	public String GetSizes()
 	{
-		if(m_bLengthSet)
+		if(bLengthSet)
 		{
-			if(m_bDecimalSet)
-				return String.valueOf(m_nLength) + ", " + String.valueOf(m_nDecimal);
-			return String.valueOf(m_nLength);
+			if(bDecimalSet)
+				return String.valueOf(nLength) + ", " + String.valueOf(nDecimal);
+			return String.valueOf(nLength);
 		}
 		return "";
 	}
 	
 	void SetType(String csType)
 	{
-		m_csType = csType;
+		csType = csType;
 	}
 	
 	public String GetType()
 	{
-		return m_csType;
+		return csType;
 	} 
 	
 	void SetNull(boolean b)
 	{
-		m_bNull = b;
+		bNull = b;
 	}		
 	
 	public boolean IsNull()
 	{
-		return m_bNull;
+		return bNull;
 	}
 	
-	private int m_nLength = 0;
-	private int m_nDecimal = 0;
-	private boolean m_bDecimalSet = false;
-	private boolean m_bLengthSet = false;
-	private String m_csType = "";
-	private String m_csName = "";
-	private boolean m_bNull = false;
+	private int nLength = 0;
+	private int nDecimal = 0;
+	private boolean bDecimalSet = false;
+	private boolean bLengthSet = false;
+	private String csType = "";
+	private String csName = "";
+	private boolean bNull = false;
 
 }

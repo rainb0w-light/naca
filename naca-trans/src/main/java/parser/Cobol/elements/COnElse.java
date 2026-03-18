@@ -53,13 +53,13 @@ public class COnElse extends CCobolElement
 		{
 			return false ;
 		}
-		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().m_Name) ;
+		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
 		tok = GetNext();
-		m_Value = ReadTerminal();
+		value = ReadTerminal();
 		
 		tok = GetCurrentToken();
-		m_ThenBloc = new CThenBloc(tok.getLine());
-		if (!Parse(m_ThenBloc))
+		thenBloc = new CThenBloc(tok.getLine());
+		if (!Parse(thenBloc))
 		{
 			return false ;
 		}
@@ -68,8 +68,8 @@ public class COnElse extends CCobolElement
 		if (tok.GetKeyword() == CCobolKeywordList.ELSE)
 		{
 			tok = GetNext();
-			m_ElseBloc = new CElseBloc(tok.getLine()) ;
-			if (!Parse(m_ElseBloc))
+			elseBloc = new CElseBloc(tok.getLine()) ;
+			if (!Parse(elseBloc))
 			{
 				return false ;
 			}
@@ -80,23 +80,23 @@ public class COnElse extends CCobolElement
 	protected Element ExportCustom(Document root)
 	{
 		Element eOn = root.createElement("On") ;
-		if (m_Value != null)
+		if (value != null)
 		{
 			Element eVal = root.createElement("Value");
-			m_Value.ExportTo(eVal, root);
+			value.ExportTo(eVal, root);
 			eOn.appendChild(eVal);
 		}
-		Element eDo = m_ThenBloc.Export(root);
+		Element eDo = thenBloc.Export(root);
 		eOn.appendChild(eDo);
-		if (m_ElseBloc != null)
+		if (elseBloc != null)
 		{
-			Element eElse = m_ElseBloc.Export(root);
+			Element eElse = elseBloc.Export(root);
 			eOn.appendChild(eElse) ;
 		}
 		return eOn;
 	}
 
-	protected CTerminal m_Value = null ;
-	protected CThenBloc m_ThenBloc = null ;
-	protected CElseBloc m_ElseBloc = null ;
+	protected CTerminal value = null ;
+	protected CThenBloc thenBloc = null ;
+	protected CElseBloc elseBloc = null ;
 }

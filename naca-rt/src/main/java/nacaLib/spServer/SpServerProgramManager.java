@@ -27,24 +27,24 @@ public class SpServerProgramManager //extends BaseProgramManager
 //		
 //	public void setEnv(BaseEnvironment env)
 //	{
-//		//m_env = (SpServerEnvironment)env;
-//		m_env = env;
+//		//env = (SpServerEnvironment)env;
+//		env = env;
 //	}
 //	
 //	public void detachFromEnv()
 //	{
-//		m_env = null;
+//		env = null;
 //	}
 //	
 //	public BaseEnvironment getEnv()
 //	{
-//		return m_env;
+//		return env;
 //	}
 //	
 //	public void prepareRunMain(BaseProgram prg)
 //	{
 //	}
 //	
-//	//private SpServerEnvironment m_env = null;
-//	private BaseEnvironment m_env = null;
+//	//private SpServerEnvironment env = null;
+//	private BaseEnvironment env = null;
 }

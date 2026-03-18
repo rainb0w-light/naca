@@ -42,19 +42,19 @@ public abstract class CEntityFormAccessor extends CBaseDataReference
 	public CEntityFormAccessor(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out, CEntityResourceForm owner)
 	{
 		super(l, name, cat, out);
-		m_Owner = owner ;
-		m_Reference = owner ;
-		m_parent = owner ;
+		owner = owner ;
+		reference = owner ;
+		parent = owner ;
 	}
 	public CEntityResourceForm GetForm()
 	{
-		return m_Owner ;
+		return owner ;
 	}
-	protected CEntityResourceForm m_Owner = null ;
+	protected CEntityResourceForm owner = null ;
 	public void Clear()
 	{
 		super.Clear();
-		m_Owner = null ;
+		owner = null ;
 	}
 	public CBaseActionEntity GetSpecialAssignment(CTerminal term, CBaseEntityFactory factory, int l)
 	{
@@ -62,24 +62,24 @@ public abstract class CEntityFormAccessor extends CBaseDataReference
 		CEntitySetConstant eAssign = factory.NewEntitySetConstant(l) ;
 		if (value.equals("ZERO") || value.equals("ZEROS") || value.equals("ZEROES"))
 		{
-			eAssign.SetToZero(m_Owner) ;
+			eAssign.SetToZero(owner) ;
 		}
 		else if (value.equals("SPACE") || value.equals("SPACES"))
 		{
-			eAssign.SetToSpace(m_Owner) ;
+			eAssign.SetToSpace(owner) ;
 		}
 		else if (value.equals("LOW-VALUE") || value.equals("LOW-VALUES"))
 		{
-			CEntityInitialize init = factory.NewEntityInitialize(l, m_Owner);
-			m_Owner.RegisterWritingAction(init);
+			CEntityInitialize init = factory.NewEntityInitialize(l, owner);
+			owner.RegisterWritingAction(init);
 			return init ;
-			//eAssign.SetToLowValue(m_Owner) ;
+			//eAssign.SetToLowValue(owner) ;
 		}
 		else
 		{
 			return null ;
 		}
-		m_Owner.RegisterWritingAction(eAssign);
+		owner.RegisterWritingAction(eAssign);
 		return eAssign ;
 	}
 	public boolean ignore()
@@ -87,17 +87,17 @@ public abstract class CEntityFormAccessor extends CBaseDataReference
 		return false ;
 	}
 	
-	protected boolean m_bVirtual = false ;
+	protected boolean bVirtual = false ;
 	public void setVirtual()
 	{
-		m_bVirtual = true ;		
+		bVirtual = true ;		
 	}
 	/* (non-Javadoc)
 	 * @see semantic.CBaseDataEntity#GetDataType()
 	 */
 	public CDataEntityType GetDataType()
 	{
-		if (m_bVirtual)
+		if (bVirtual)
 		{
 			return CDataEntityType.VIRTUAL_FORM ;
 		}
@@ -112,10 +112,10 @@ public abstract class CEntityFormAccessor extends CBaseDataReference
 	} 	 
 	public CBaseActionEntity GetSpecialAssignment(CDataEntity term, CBaseEntityFactory factory, int l)
 	{
-		if (term.GetDataType() == CDataEntityType.FORM && !m_Owner.IsSaveCopy())
+		if (term.GetDataType() == CDataEntityType.FORM && !owner.IsSaveCopy())
 		{
 			CEntityNoAction act = factory.NewEntityNoAction(l) ; 
-			factory.m_ProgramCatalog.RegisterMapCopy(act) ;
+			factory.programCatalog.RegisterMapCopy(act) ;
 			return act ;
 		}
 		else
@@ -126,9 +126,9 @@ public abstract class CEntityFormAccessor extends CBaseDataReference
 	public boolean ReplaceVariable(CDataEntity field, CDataEntity var, boolean bRead)
 	{
 		boolean b = super.ReplaceVariable(field, var, bRead) ;
-		if (field == m_Owner)
+		if (field == owner)
 		{
-			m_Owner = (CEntityResourceForm)var ;
+			owner = (CEntityResourceForm)var ;
 			if (bRead)
 			{
 				var.RegisterReadReference(this) ;
@@ -145,11 +145,11 @@ public abstract class CEntityFormAccessor extends CBaseDataReference
 	}
 	public CEntityResourceForm getSaveCopy()
 	{
-		return m_Owner.getSaveCopy() ;
+		return owner.getSaveCopy() ;
 	}
 //	protected void RegisterMySelfToCatalog()
 //	{
-//		m_ProgramCatalog.RegisterDataEntity(GetName(), this) ;
-//		m_ProgramCatalog.RegisterDataEntity("S" + GetName(), this) ;
+//		programCatalog.RegisterDataEntity(GetName(), this) ;
+//		programCatalog.RegisterDataEntity("S" + GetName(), this) ;
 //	}
 }

@@ -19,13 +19,13 @@ public class OccursDefRecordDependingVar extends OccursDef
 	public OccursDefRecordDependingVar(int n, Var varOccurs)
 	{
 		super(n);
-		m_varDepending = varOccurs;
+		varDepending = varOccurs;
 	}
 
 	public Var getRecordDependingVar()
 	{
-		return m_varDepending;
+		return varDepending;
 	}
 	
-	private transient Var m_varDepending = null;
+	private transient Var varDepending = null;
 }

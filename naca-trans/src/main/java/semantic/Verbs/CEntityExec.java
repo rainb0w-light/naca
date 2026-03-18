@@ -32,10 +32,10 @@ public abstract class CEntityExec extends CBaseActionEntity
 	public CEntityExec(int l, CObjectCatalog cat, CBaseLanguageExporter out, String statement)
 	{
 		super(l, cat, out);
-		m_csStatement = statement ;
+		csStatement = statement ;
 	}
 
-	protected String m_csStatement = "" ;
+	protected String csStatement = "" ;
 	public boolean ignore()
 	{
 		return false ;

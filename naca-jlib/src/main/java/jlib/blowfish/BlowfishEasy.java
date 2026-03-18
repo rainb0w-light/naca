@@ -24,14 +24,14 @@ public class BlowfishEasy {
 
 
   // the Blowfish CBC instance
-  BlowfishCBC m_bfish;
+  BlowfishCBC bfish;
 
   // one random generator for all simple callers...
-  static Random m_rndGen;
+  static Random rndGen;
 
   // ...and created early
   static {
-    m_rndGen = new Random();
+    rndGen = new Random();
   }
  
 
@@ -48,7 +48,7 @@ public class BlowfishEasy {
     hasher.finalize();
     
     // setup the encryptor (use a dummy IV)
-    m_bfish = new BlowfishCBC(hasher.getDigest(), 0);
+    bfish = new BlowfishCBC(hasher.getDigest(), 0);
     hasher.clear();  
   }
 
@@ -65,9 +65,9 @@ public class BlowfishEasy {
   {
     // get the IV
     long lCBCIV;
-    synchronized (m_rndGen) 
+    synchronized (rndGen) 
     {
-      lCBCIV = m_rndGen.nextLong();
+      lCBCIV = rndGen.nextLong();
     }
 
     // map the call;
@@ -121,10 +121,10 @@ public class BlowfishEasy {
     }
 
     // create the encryptor
-    m_bfish.setCBCIV(lNewCBCIV);
+    bfish.setCBCIV(lNewCBCIV);
 
     // encrypt the buffer
-    m_bfish.encrypt(buf);
+    bfish.encrypt(buf);
     
     // return the binhex string
     byte[] newCBCIV = new byte[BlowfishCBC.BLOCKSIZE];
@@ -162,7 +162,7 @@ public class BlowfishEasy {
       return null;
 
     // (got it)
-    m_bfish.setCBCIV(cbciv);
+    bfish.setCBCIV(cbciv);
 
     // something left to decrypt?       
     nLen -= BlowfishCBC.BLOCKSIZE;
@@ -188,7 +188,7 @@ public class BlowfishEasy {
     }
 
     // decrypt the buffer
-    m_bfish.decrypt(buf);
+    bfish.decrypt(buf);
 
     // get the last padding byte
     int nPadByte = buf[buf.length - 1] & 0x0ff;
@@ -217,7 +217,7 @@ public class BlowfishEasy {
     */
   public void destroy() 
   {
-    m_bfish.cleanUp();
+    bfish.cleanUp();
   }
 
 }

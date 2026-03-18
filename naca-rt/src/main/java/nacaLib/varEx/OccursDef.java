@@ -23,12 +23,12 @@ public class OccursDef extends OccursDefBase
 {
 	public OccursDef(int n)
 	{
-		m_nNbOccurs = n;
+		nNbOccurs = n;
 	}
 	
 	public int getNbOccurs()
 	{
-		return m_nNbOccurs; 
+		return nNbOccurs; 
 	}
 	
 	public Var getRecordDependingVar()
@@ -40,5 +40,5 @@ public class OccursDef extends OccursDefBase
 	{
 	}
 
-	int m_nNbOccurs = -1;	// Undefined
+	int nNbOccurs = -1;	// Undefined
 }

@@ -23,12 +23,12 @@ public class CJavaRewriteFile extends CEntityRewriteFile
 	{
 		String cs = "";
 		String csFile = "[UnknownReference]" ;
-		if (m_eFileDescriptor != null)
+		if (eFileDescriptor != null)
 		{
-			csFile = m_eFileDescriptor.ExportReference(getLine()) ;
+			csFile = eFileDescriptor.ExportReference(getLine()) ;
 		}
-		if (m_eDataFrom != null)
-			cs = "rewriteFrom(" + csFile + ", " + m_eDataFrom.ExportReference(getLine()) + ") ;";
+		if (eDataFrom != null)
+			cs = "rewriteFrom(" + csFile + ", " + eDataFrom.ExportReference(getLine()) + ") ;";
 		else
 			cs = "rewrite(" + csFile + ") ;";
 		WriteLine(cs) ;

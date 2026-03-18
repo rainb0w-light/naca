@@ -61,7 +61,7 @@ public abstract class CBlocElement extends CCommentContainer
 				}
 				if (tokVerb == GetCurrentToken())
 				{	// this keyword has not been parsed
-					m_nEndLine = tokVerb.getLine()-1 ;
+					nEndLine = tokVerb.getLine()-1 ;
 					bDone = true;
 				}
 			}
@@ -71,7 +71,7 @@ public abstract class CBlocElement extends CCommentContainer
 			}
 			else
 			{
-				m_nEndLine = tokVerb.getLine()-1 ;
+				nEndLine = tokVerb.getLine()-1 ;
 				bDone = true ; // this token can't be parsed by this function
 			}
 		}
@@ -247,11 +247,11 @@ public abstract class CBlocElement extends CCommentContainer
 		return e ;
 	}
 			
-	protected int m_nRewriteLine = 0; 
+	protected int nRewriteLine = 0; 
 	protected boolean ParseVerb()
 	{
 		CBaseToken tokVerb = GetCurrentToken() ;
-		if (m_fCheckForNextSentence.ISSet())
+		if (fCheckForNextSentence.ISSet())
 		{
 			if (tokVerb.GetKeyword() == CCobolKeywordList.END_IF ||
 				tokVerb.GetKeyword() == CCobolKeywordList.ELSE  ||
@@ -265,7 +265,7 @@ public abstract class CBlocElement extends CCommentContainer
 			else if (!isTopLevelBloc())
 			{
 				Transcoder.logError(tokVerb.getLine(), "Unrecommanded usage of NEXT SENTENCE");
-				m_nRewriteLine = tokVerb.getLine() ;
+				nRewriteLine = tokVerb.getLine() ;
 			}
 		}
 		if (tokVerb.GetKeyword()==CCobolKeywordList.EXEC)
@@ -457,7 +457,7 @@ public abstract class CBlocElement extends CCommentContainer
 			}
 			if (f.ISSet())
 			{
-				m_fCheckForNextSentence.Set() ;
+				fCheckForNextSentence.Set() ;
 			}
 			return true ;
 		}
@@ -499,7 +499,7 @@ public abstract class CBlocElement extends CCommentContainer
 		{
 			CCobolElement eVerb = new CNextSentence(tokVerb.getLine()) ;
 			AddChild(eVerb) ;
-			return Parse(eVerb, m_fCheckForNextSentence) ;
+			return Parse(eVerb, fCheckForNextSentence) ;
 		}
 		else if (tokVerb.GetKeyword()==CCobolKeywordList.CONTINUE)
 		{
@@ -555,7 +555,7 @@ public abstract class CBlocElement extends CCommentContainer
 		{
 			Transcoder.logWarn(tokVerb.getLine(), "Keyword not parsed : '" + tokVerb.GetValue() + "'") ;
 			CBaseToken tokDrop = GetNext();
-			while (!tokDrop.m_bIsNewLine)
+			while (!tokDrop.bIsNewLine)
 			{
 				Transcoder.logWarn(tokDrop.getLine(), "Keyword not parsed : '" + tokDrop.GetValue() + "'") ;
 				tokDrop = GetNext();
@@ -669,11 +669,11 @@ public abstract class CBlocElement extends CCommentContainer
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
 		CEntityBloc eBloc = factory.NewEntityBloc(getLine()) ;
-		eBloc.SetEndLine(m_nEndLine) ;
+		eBloc.SetEndLine(nEndLine) ;
 		eBloc.SetParent(parent);
-		if (m_nRewriteLine != 0)
+		if (nRewriteLine != 0)
 		{
-			CGlobalEntityCounter.GetInstance().RegisterProgramToRewrite(parent.GetProgramName(), m_nRewriteLine, "NEXT SENTENCE") ;
+			CGlobalEntityCounter.GetInstance().RegisterProgramToRewrite(parent.GetProgramName(), nRewriteLine, "NEXT SENTENCE") ;
 		}
 //		if (parent != null)
 //		{
@@ -688,13 +688,13 @@ public abstract class CBlocElement extends CCommentContainer
 //	}
 //	protected boolean Parse(CLanguageElement e, CFlag f)
 //	{
-//		return e.Parse(m_lstTokens, m_con, f) ;
+//		return e.Parse(lstTokens, con, f) ;
 //	}
-	protected CFlag m_fCheckForNextSentence = new CFlag();
-	protected int m_nEndLine = 0 ;
+	protected CFlag fCheckForNextSentence = new CFlag();
+	protected int nEndLine = 0 ;
 	public void SetEndLine(int n)
 	{
-		m_nEndLine = n ;
+		nEndLine = n ;
 	}
 
 }

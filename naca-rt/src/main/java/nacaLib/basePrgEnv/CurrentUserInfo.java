@@ -18,19 +18,19 @@ public class CurrentUserInfo
 {
 	public void set(String csLUName, String csUserLdapId)
 	{
-		m_csLUName = csLUName; 
-		m_csUserLdapId = csUserLdapId;
+		csLUName = csLUName; 
+		csUserLdapId = csUserLdapId;
 	}
 	
 	public void reset()
 	{
-		m_csLUName = "";
-		m_csUserLdapId = "";
+		csLUName = "";
+		csUserLdapId = "";
 	}
 	
-	public String m_csPub2000ProfitCenter = "";
-	public String m_csPub2000UserId = "";
+	public String csPub2000ProfitCenter = "";
+	public String csPub2000UserId = "";
 	
-	public String m_csLUName = "";
-	public String m_csUserLdapId = "";
+	public String csLUName = "";
+	public String csUserLdapId = "";
 }

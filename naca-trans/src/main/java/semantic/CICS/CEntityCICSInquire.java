@@ -37,8 +37,8 @@ public abstract class CEntityCICSInquire extends CBaseActionEntity
 		cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
 	}
 	
-	public CDataEntity m_Program = null ;
-	public CDataEntity m_Transaction = null ;
+	public CDataEntity program = null ;
+	public CDataEntity transaction = null ;
 	public boolean ignore()
 	{
 		return false; 
@@ -47,8 +47,8 @@ public abstract class CEntityCICSInquire extends CBaseActionEntity
 	public void Clear()
 	{
 		super.Clear();
-		m_Program = null ;
-		m_Transaction = null ;
+		program = null ;
+		transaction = null ;
 	}
 	
 }

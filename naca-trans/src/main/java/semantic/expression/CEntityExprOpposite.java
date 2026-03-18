@@ -26,18 +26,18 @@ public abstract class CEntityExprOpposite extends CBaseEntityExpression
 	
 	public void SetOpposite(CBaseEntityExpression e)
 	{
-		m_data = e ;
+		data = e ;
 	}
-	protected CBaseEntityExpression m_data = null ;
+	protected CBaseEntityExpression data = null ;
 	public void Clear()
 	{
 		super.Clear() ;
-		m_data.Clear() ;
-		m_data = null ;
+		data.Clear() ;
+		data = null ;
 	}
 	public boolean ignore()
 	{
-		return m_data.ignore();
+		return data.ignore();
 	}
 
 	@Override

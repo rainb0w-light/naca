@@ -44,7 +44,7 @@ public class CJavaSwitchCase extends CEntitySwitchCase
 	 */
 	protected void DoExport()
 	{
-		ListIterator i = m_lstChildren.listIterator() ;
+		ListIterator i = lstChildren.listIterator() ;
 		boolean bFirst = true ;
 		try
 		{

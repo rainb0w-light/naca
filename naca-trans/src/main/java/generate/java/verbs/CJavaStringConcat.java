@@ -38,15 +38,15 @@ public class CJavaStringConcat extends CEntityStringConcat
 	protected void DoExport()
 	{
 		String cs = "" ;
-		boolean bOnError = m_lstChildren.size() > 0 ; 
+		boolean bOnError = lstChildren.size() > 0 ; 
 		if (bOnError)
 		{
 			cs = "if (";
 		}
-		for (int i=0; i<m_arrItems.size(); i++)
+		for (int i=0; i<arrItems.size(); i++)
 		{
-			CDataEntity eItem = m_arrItems.get(i);
-			CDataEntity eUntil = m_arrItemsDelimiters.get(i);
+			CDataEntity eItem = arrItems.get(i);
+			CDataEntity eUntil = arrItemsDelimiters.get(i);
 			if (eUntil != null)
 			{
 				cs += "concatDelimitedBy(" + eItem.ExportReference(getLine()) + ", " + eUntil.ExportReference(getLine()) + ").";
@@ -59,11 +59,11 @@ public class CJavaStringConcat extends CEntityStringConcat
 			cs ="" ;
 		}
 		cs = "" ;
-		if (m_eStartIndex != null)
+		if (eStartIndex != null)
 		{
-			cs += "withPointer(" + m_eStartIndex.ExportReference(getLine()) + ")." ;
+			cs += "withPointer(" + eStartIndex.ExportReference(getLine()) + ")." ;
 		}
-		cs += "into(" + m_eVariable.ExportReference(getLine()) + ")";
+		cs += "into(" + eVariable.ExportReference(getLine()) + ")";
 		WriteWord(cs);
 
 		if (bOnError)

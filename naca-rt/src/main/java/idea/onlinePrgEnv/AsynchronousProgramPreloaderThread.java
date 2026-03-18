@@ -25,21 +25,21 @@ import jlib.xml.Tag;
  */
 public class AsynchronousProgramPreloaderThread extends Thread
 {
-	private OnlineResourceManager m_onlineResourceManager = null;
-	private ProgramPreloader m_programPreloader = null;
-	private ArrayList<PreloadProgramSettings> m_arrProgramToPreload = null;	
-	private String m_csProgramListToKeep = null;
+	private OnlineResourceManager onlineResourceManager = null;
+	private ProgramPreloader programPreloader = null;
+	private ArrayList<PreloadProgramSettings> arrProgramToPreload = null;	
+	private String csProgramListToKeep = null;
 	
 	public AsynchronousProgramPreloaderThread(OnlineResourceManager onlineResourceManager, ProgramPreloader programPreloader, ArrayList<PreloadProgramSettings> arrProgramToPreload, String csProgramListToKeep)
 	{
-		m_onlineResourceManager = onlineResourceManager;
-		m_programPreloader = programPreloader;
-		m_arrProgramToPreload = arrProgramToPreload;
-		m_csProgramListToKeep = csProgramListToKeep;		
+		onlineResourceManager = onlineResourceManager;
+		programPreloader = programPreloader;
+		arrProgramToPreload = arrProgramToPreload;
+		csProgramListToKeep = csProgramListToKeep;		
 	}
 	
 	public void run()
 	{
-		m_onlineResourceManager.AsynchronouslyPreloadPrograms(m_arrProgramToPreload, m_programPreloader, m_csProgramListToKeep);
+		onlineResourceManager.AsynchronouslyPreloadPrograms(arrProgramToPreload, programPreloader, csProgramListToKeep);
 	}
 }

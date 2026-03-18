@@ -38,16 +38,16 @@ public class CJavaCICSStartBrowse extends CEntityCICSStartBrowse
 	protected void DoExport()
 	{
 		String cs = "CESM.startBrowse" ;
-		if (m_DataSet != null)
+		if (dataSet != null)
 		{
-			cs += "DataSet("  + m_DataSet.ExportReference(getLine()) + ")";
+			cs += "DataSet("  + dataSet.ExportReference(getLine()) + ")";
 		}
 		WriteWord(cs);
-		if (m_RecIDField != null)
+		if (recIDField != null)
 		{
-			WriteWord(".recIDField(" + m_RecIDField.ExportReference(getLine()) + ")");
+			WriteWord(".recIDField(" + recIDField.ExportReference(getLine()) + ")");
 		}
-		if (m_bGTEQ)
+		if (bGTEQ)
 		{
 			WriteWord(".gTEQ()");
 		}

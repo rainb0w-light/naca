@@ -33,7 +33,7 @@ public class CalledSession extends BaseSession
 		
 	public BaseEnvironment createEnvironment(DbConnectionManagerBase connectionManager)
 	{
-		CalledEnvironment env = new CalledEnvironment(this, connectionManager, m_baseResourceManager);
+		CalledEnvironment env = new CalledEnvironment(this, connectionManager, baseResourceManager);
 		return env;
 	}
 	

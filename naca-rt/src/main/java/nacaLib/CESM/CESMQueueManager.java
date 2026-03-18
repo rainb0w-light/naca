@@ -31,12 +31,12 @@ public class CESMQueueManager extends CJMapObject
 {
 	public CESMQueueManager(BaseEnvironment env)
 	{
-		m_CESMEnv = env;
+		cESMEnv = env;
 	}
 	
-	private BaseEnvironment m_CESMEnv = null;
-	protected Hashtable<String, CESMTempStorageColl> m_tabTempQueues = new Hashtable<String, CESMTempStorageColl>() ;
-	protected Hashtable m_tabTransientQueues = new Hashtable() ;
+	private BaseEnvironment cESMEnv = null;
+	protected Hashtable<String, CESMTempStorageColl> tabTempQueues = new Hashtable<String, CESMTempStorageColl>() ;
+	protected Hashtable tabTransientQueues = new Hashtable() ;
 	
 	public int writeTempQueue(String csQueueName, InternalCharBuffer Data)
 	{
@@ -48,7 +48,7 @@ public class CESMQueueManager extends CJMapObject
 	{
 		CESMTempStorageColl tempStorageColl = getOrCreateTempStorageColl(csQueueName);
 		if (!tempStorageColl.set(nRewriteItem, varData)) {
-			m_CESMEnv.setCommandReturnCode(CESMReturnCode.ITEMERR) ;
+			cESMEnv.setCommandReturnCode(CESMReturnCode.ITEMERR) ;
 		}
 	}
 
@@ -57,18 +57,18 @@ public class CESMQueueManager extends CJMapObject
 		CESMTempStorageColl tempStorageColl = getExistingTempStorageColl(csQueueName);
 		if(tempStorageColl == null)
 		{
-			m_CESMEnv.setCommandReturnCode(CESMReturnCode.QIDERR) ;
+			cESMEnv.setCommandReturnCode(CESMReturnCode.QIDERR) ;
 			return ;
 		}
 		InternalCharBuffer item = tempStorageColl.getNextItem();
 		if(item == null)
 		{
-			m_CESMEnv.setCommandReturnCode(CESMReturnCode.ITEMERR) ;
+			cESMEnv.setCommandReturnCode(CESMReturnCode.ITEMERR) ;
 			return;
 		}	
 		if (item.getBufferSize() > varDest.getTotalSize())
 		{
-			m_CESMEnv.setCommandReturnCode(CESMReturnCode.LENGERR) ;
+			cESMEnv.setCommandReturnCode(CESMReturnCode.LENGERR) ;
 			return;
 		}
 		varDest.copyBytesFromSourceIntoBody(item);
@@ -79,18 +79,18 @@ public class CESMQueueManager extends CJMapObject
 		CESMTempStorageColl tempStorageColl = getExistingTempStorageColl(csQueueName);
 		if(tempStorageColl == null)
 		{
-			m_CESMEnv.setCommandReturnCode(CESMReturnCode.QIDERR) ;
+			cESMEnv.setCommandReturnCode(CESMReturnCode.QIDERR) ;
 			return ;
 		}
 		InternalCharBuffer item = tempStorageColl.getIndexedTempQueue(nIndex);
 		if(item == null)
 		{
-			m_CESMEnv.setCommandReturnCode(CESMReturnCode.ITEMERR) ;
+			cESMEnv.setCommandReturnCode(CESMReturnCode.ITEMERR) ;
 			return;
 		}	
 		if (item.getBufferSize() > varDest.getTotalSize())
 		{
-			m_CESMEnv.setCommandReturnCode(CESMReturnCode.LENGERR) ;
+			cESMEnv.setCommandReturnCode(CESMReturnCode.LENGERR) ;
 			return;
 		}
 		varDest.copyBytesFromSourceIntoBody(item);
@@ -106,7 +106,7 @@ public class CESMQueueManager extends CJMapObject
 		CESMTempStorageColl tempStorageColl = getExistingTempStorageColl(csQueueName);
 		if(tempStorageColl == null)
 		{
-			m_CESMEnv.setCommandReturnCode(CESMReturnCode.QIDERR) ;
+			cESMEnv.setCommandReturnCode(CESMReturnCode.QIDERR) ;
 			return ;
 		}
 		int n = tempStorageColl.getNbItems();
@@ -119,26 +119,26 @@ public class CESMQueueManager extends CJMapObject
 		CESMTempStorageColl tempStorageColl = getExistingTempStorageColl(csQueueName);
 		if(tempStorageColl == null)
 		{
-			m_CESMEnv.setCommandReturnCode(CESMReturnCode.QIDERR) ;
+			cESMEnv.setCommandReturnCode(CESMReturnCode.QIDERR) ;
 			return ;
 		}
-		m_tabTempQueues.remove(csQueueName);
+		tabTempQueues.remove(csQueueName);
 	}
 	
 	private CESMTempStorageColl getOrCreateTempStorageColl(String csQueueName)
 	{
-		CESMTempStorageColl tempStorageColl = m_tabTempQueues.get(csQueueName);
+		CESMTempStorageColl tempStorageColl = tabTempQueues.get(csQueueName);
 		if (tempStorageColl == null)
 		{
 			tempStorageColl = new CESMTempStorageColl() ;
-			m_tabTempQueues.put(csQueueName, tempStorageColl);
+			tabTempQueues.put(csQueueName, tempStorageColl);
 		}
 		return tempStorageColl;
 	}
 	
 	private CESMTempStorageColl getExistingTempStorageColl(String csQueueName)
 	{
-		CESMTempStorageColl tempStorageColl = m_tabTempQueues.get(csQueueName);
+		CESMTempStorageColl tempStorageColl = tabTempQueues.get(csQueueName);
 		return tempStorageColl;
 	}	
 }

@@ -30,51 +30,51 @@ public abstract class CEntityCICSReadQ extends CBaseActionEntity
 	public CEntityCICSReadQ(int line, CObjectCatalog cat, CBaseLanguageExporter out, boolean bPersistant)
 	{
 		super(line, cat, out);
-		m_bPesistant = bPersistant ;
+		bPesistant = bPersistant ;
 		cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
 	}
 
-	protected boolean m_bPesistant = false ;
-	protected CDataEntity m_QueueName = null ;
-	protected CDataEntity m_DataRef = null ;
-	protected CDataEntity m_DataLength = null ;
-	protected boolean m_bReadNext = false ;
-	protected CDataEntity m_NumItem = null ;
-	protected CDataEntity m_Item = null ;
+	protected boolean bPesistant = false ;
+	protected CDataEntity queueName = null ;
+	protected CDataEntity dataRef = null ;
+	protected CDataEntity dataLength = null ;
+	protected boolean bReadNext = false ;
+	protected CDataEntity numItem = null ;
+	protected CDataEntity item = null ;
 
 	public void Clear()
 	{
 		super.Clear();
-		m_QueueName = null ;
-		m_DataRef = null ;
-		m_DataLength = null ;
-		m_NumItem = null;
-		m_Item = null;
+		queueName = null ;
+		dataRef = null ;
+		dataLength = null ;
+		numItem = null;
+		item = null;
 	}
 
 	public void SetName(CDataEntity entity)
 	{
-		m_QueueName = entity ;		
+		queueName = entity ;		
 	}
 	public void SetDataRef(CDataEntity entity, CDataEntity len)
 	{
-		m_DataRef = entity ;
-		m_DataLength = len ;
+		dataRef = entity ;
+		dataLength = len ;
 	}
 
 	public void ReadNext()
 	{
-		m_bReadNext = true ; 		
+		bReadNext = true ; 		
 	}
 
 	public void ReadNumItem(CDataEntity entity)
 	{
-		m_NumItem = entity ;		
+		numItem = entity ;		
 	}
 
 	public void ReadItem(CDataEntity entity)
 	{
-		m_Item = entity ;
+		item = entity ;
 	}
 	public boolean ignore()
 	{
@@ -82,9 +82,9 @@ public abstract class CEntityCICSReadQ extends CBaseActionEntity
 	}
 	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
 	{
-		if (m_DataRef == field)
+		if (dataRef == field)
 		{
-			m_DataRef = var ;
+			dataRef = var ;
 			field.UnRegisterReadingAction(this) ;
 			var.RegisterReadingAction(this) ;
 			return true ;

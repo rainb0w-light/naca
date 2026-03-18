@@ -60,8 +60,8 @@ public class ActionCompat extends Action
 		super();
 	}
 	
-	InputAnalyser m_inputAnalyser = new InputAnalyser() ;
-	BaseProgramLoader m_prgseq = BaseProgramLoader.GetInstance() ;
+	InputAnalyser inputAnalyser = new InputAnalyser() ;
+	BaseProgramLoader prgseq = BaseProgramLoader.GetInstance() ;
 		
 	public ActionForward execute(
 		ActionMapping mapping,
@@ -70,7 +70,7 @@ public class ActionCompat extends Action
 		HttpServletResponse response)
 		throws Exception
 	{
-		if (m_prgseq == null)
+		if (prgseq == null)
 		{
 			response.setStatus(500) ;
 			response.getOutputStream().println("Internal Error : ProgramSequencer not valid") ;
@@ -97,7 +97,7 @@ public class ActionCompat extends Action
 		if(appSession.blockUntilLocked())
 		{
 			// 1st session has finished
-			return appSession.m_actionForward;
+			return appSession.actionForward;
 		}
 		*/
 		
@@ -112,7 +112,7 @@ public class ActionCompat extends Action
 		if(!appSession.reserveSessionForCurrentThread())
 		{
 			// 1st session has finished
-			return appSession.m_actionForward;
+			return appSession.actionForward;
 		}
 		
 		if(bNewSession)
@@ -141,7 +141,7 @@ public class ActionCompat extends Action
 		// We are the 1st session
 		//appSession.lock();
 		
-		appSession.m_actionForward = doExecute(
+		appSession.actionForward = doExecute(
 						appSession,
 						javaSession,
 						mapping,
@@ -154,7 +154,7 @@ public class ActionCompat extends Action
 		
 		appSession.startNetwork();
 		
-		return appSession.m_actionForward;
+		return appSession.actionForward;
 	}
 	
 	private ActionForward doExecute(
@@ -260,7 +260,7 @@ public class ActionCompat extends Action
 		String csPrintScreen = request.getParameter("printScreen") ;
 		if (csPrintScreen!=null && csPrintScreen.equals("requested"))
 		{
-			m_inputAnalyser.BuildXMLDataForPrintScreen(appSession) ;
+			inputAnalyser.BuildXMLDataForPrintScreen(appSession) ;
 			appSession.getXMLData().getDocumentElement().setAttribute("printScreen", "show") ;
 			appSession.setActionAlias("naca.do") ;
 			return mapping.findForward("ViewCompat");
@@ -269,7 +269,7 @@ public class ActionCompat extends Action
 		String csZoom = request.getParameter("zoom") ;
 		if (csZoom!=null && csZoom.equals("requested"))
 		{
-			m_inputAnalyser.BuildXMLDataForPrintScreen(appSession) ;
+			inputAnalyser.BuildXMLDataForPrintScreen(appSession) ;
 			if (appSession.isZoom())
 			{	
 				appSession.setZoom(false);
@@ -287,7 +287,7 @@ public class ActionCompat extends Action
 		String csBold = request.getParameter("bold") ;
 		if (csBold!=null && csBold.equals("requested"))
 		{
-			m_inputAnalyser.BuildXMLDataForPrintScreen(appSession) ;
+			inputAnalyser.BuildXMLDataForPrintScreen(appSession) ;
 			if (appSession.isBold())
 			{	
 				appSession.setBold(false);
@@ -344,12 +344,12 @@ public class ActionCompat extends Action
 		if (appSession.isCallProgram())
 		{
 			// build XML Data
-			if (m_inputAnalyser.BuildXMLData(appSession))
+			if (inputAnalyser.BuildXMLData(appSession))
 			{
 				try
 				{
 					// call programm
-					appSession.RunProgram(m_prgseq);
+					appSession.RunProgram(prgseq);
 				} 
 				catch (AbortSessionException e)
 				{				
@@ -361,14 +361,14 @@ public class ActionCompat extends Action
 					Element eField = doc.createElement("field") ;
 					eForm.appendChild(eField) ;
 					eField.setAttribute("name", "programName") ;
-					eField.setAttribute("value", e.m_ProgramName) ;
+					eField.setAttribute("value", e.programName) ;
 	
 					eField = doc.createElement("field") ;
 					eForm.appendChild(eField) ;
 					eField.setAttribute("name", "errorMessage") ;
-					eField.setAttribute("value", e.m_Reason.toString()) ;
+					eField.setAttribute("value", e.reason.toString()) ;
 	
-//					StackTraceElement[] tabStack = e.m_Reason.getStackTrace() ;
+//					StackTraceElement[] tabStack = e.reason.getStackTrace() ;
 //					int n = 1 ;
 //					for (int i=0; i<tabStack.length;i++)
 //					{
@@ -416,17 +416,17 @@ public class ActionCompat extends Action
 //	public void RunClientRequest(OnlineSession appSession) throws AbortSessionException
 //	{
 //		// build XML Data
-//		m_inputAnalyser.BuildXMLData(appSession) ;
+//		inputAnalyser.BuildXMLData(appSession) ;
 //		doRunClientRequest(appSession) ;
 //	}
 	public void doRunClientRequest(OnlineSession appSession) throws AbortSessionException
 	{
 		// call programm
-		appSession.RunProgram(m_prgseq);
+		appSession.RunProgram(prgseq);
 		
 		// call view
-		View m_view = new View() ;
-		m_view.mergeOutput(appSession);
+		View view = new View() ;
+		view.mergeOutput(appSession);
 	}
 	
 	public void runClientRequestWithRender(OnlineResourceManager resourceManager, CScenarioPlayer player, OnlineSession session, boolean bExportOutput)
@@ -438,14 +438,14 @@ public class ActionCompat extends Action
 			BaseProgramLoader basePrgLoader = BaseProgramLoader.GetInstance() ;
 			basePrgLoader.removeSession(session);
 			
-			m_inputAnalyser.BuildXMLData(session) ;
+			inputAnalyser.BuildXMLData(session) ;
 
 			// call programm
-			session.RunProgram(m_prgseq);
+			session.RunProgram(prgseq);
 		
 			// call view
-			View m_view = new View() ;
-			m_view.mergeOutput(session);
+			View view = new View() ;
+			view.mergeOutput(session);
 			
 			//String csDir = resourceManager.getScenarioDir() ;
 			Document xmlOutput = session.getXMLOutput();

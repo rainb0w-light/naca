@@ -8,7 +8,7 @@ package nacaLib.varEx;
 
 public class VarType
 {
-	private int m_nId = 0;
+	private int nId = 0;
 	private static int ms_nLastId = 0;
 	
 	public static VarType VarForm = new VarType();
@@ -55,11 +55,11 @@ public class VarType
 	private VarType()
 	{
 		ms_nLastId++;
-		m_nId = ms_nLastId;
+		nId = ms_nLastId;
 	}
 	
 	public int getId()
 	{
-		return m_nId;
+		return nId;
 	}
 }

@@ -19,7 +19,7 @@ import jlib.threads.PooledThread;
  */
 public class BtreePooledReaderThread extends PooledThread
 {
-	private BtreeFile m_btreeFile = null;
+	private BtreeFile btreeFile = null;
 	
 	public BtreePooledReaderThread(PoolOfThreads owningPool)
 	{
@@ -28,21 +28,21 @@ public class BtreePooledReaderThread extends PooledThread
 	
 	void setBtreeFile(BtreeFile btreeFile)
 	{
-		m_btreeFile = btreeFile; 
+		btreeFile = btreeFile; 
 	}
 	
 	public void run()
 	{
 		// fill the queue; act as a producer; Only 1 background thread can enqueue sorted records 
-		byte tbyDataWithHeader[] = m_btreeFile.syncGetFirst();
+		byte tbyDataWithHeader[] = btreeFile.syncGetFirst();
 		while(tbyDataWithHeader != null)
 		{
 			SortedRecordReq sortedRecordReq = new SortedRecordReq(tbyDataWithHeader);
-			m_owningPool.enqueue(sortedRecordReq);
+			owningPool.enqueue(sortedRecordReq);
 			
-			tbyDataWithHeader = m_btreeFile.syncGetNext();
+			tbyDataWithHeader = btreeFile.syncGetNext();
 		}
-		m_owningPool.enqueueFinalRequests();	// So that the main thread knows that no more records are pending in the queue
+		owningPool.enqueueFinalRequests();	// So that the main thread knows that no more records are pending in the queue
 		
 		// This backgroubd thread finishes here; no need to join
 	}

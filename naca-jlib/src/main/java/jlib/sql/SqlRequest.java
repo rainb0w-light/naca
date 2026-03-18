@@ -55,100 +55,100 @@ public class SqlRequest extends DbPreparedStatement
 	
 	public void cmdInsert(String csTable)
 	{
-		m_csTable = csTable;
-		m_csOperation = "Insert"; 
+		csTable = csTable;
+		csOperation = "Insert"; 
 	}
 	
 	public void cmdUpdate(String csTable, String csWhere)
 	{
-		m_csTable = csTable;
-		m_csWhere = csWhere;
-		m_csOperation = "Update";		
+		csTable = csTable;
+		csWhere = csWhere;
+		csOperation = "Update";		
 	}
 
 	public void cmdUpdate(String csTable, String csWhere, String csOrder)
 	{
-		m_csTable = csTable;
-		m_csWhere = csWhere;
-		m_csOrder = csOrder;
-		m_csOperation = "Update";		
+		csTable = csTable;
+		csWhere = csWhere;
+		csOrder = csOrder;
+		csOperation = "Update";		
 	}
 
 	public void cmdUpdate(String csTable, String csWhere, String csOrder, int nNbRows)
 	{
-		m_csTable = csTable;
-		m_csWhere = csWhere;
-		m_csOrder = csOrder;
-		m_nNbRows = nNbRows; 
-		m_csOperation = "Update";		
+		csTable = csTable;
+		csWhere = csWhere;
+		csOrder = csOrder;
+		nNbRows = nNbRows; 
+		csOperation = "Update";		
 	}
 	
 	public void cmdSelect(String csSelect)
 	{
-		m_csSelect = csSelect;
-		m_csOperation = "Select";
+		csSelect = csSelect;
+		csOperation = "Select";
 	}
 
 	public void setCol(String csColName, String csValue)
 	{
 		checkArrCol();
 		ColValue col = new ColValueString(csColName, csValue);
-		m_arrCol.add(col);
+		arrCol.add(col);
 	}
 	
 	public void setCol(String csColName, int nValue)
 	{
 		checkArrCol();
 		ColValue col = new ColValueInt(csColName, nValue);
-		m_arrCol.add(col);
+		arrCol.add(col);
 	}
 	
 	public void setColNow(String csColName)
 	{
 		checkArrCol();
 		ColValue col = new ColValueTimestamp(csColName, null);
-		m_arrCol.add(col);
+		arrCol.add(col);
 	}
 	
 	public void setCol(String csColName, boolean bValue)
 	{
 		checkArrCol();
 		ColValue col = new ColValueBoolean(csColName, bValue);
-		m_arrCol.add(col);
+		arrCol.add(col);
 	}
 	
 	public void setCol(String csColName, double dValue)
 	{
 		checkArrCol();
 		ColValue col = new ColValueDouble(csColName, dValue);
-		m_arrCol.add(col);
+		arrCol.add(col);
 	}
 	
 	public void setParam(String csId, String csValue)
 	{
 		checkArrParam();
 		ColValue col = new ColValueString(csId, csValue);
-		m_arrParam.add(col);
+		arrParam.add(col);
 	}
 	
 	public void setParam(String csId, int nValue)
 	{
 		checkArrParam();
 		ColValue col = new ColValueInt(csId, nValue);
-		m_arrParam.add(col);
+		arrParam.add(col);
 	}
 	
 //	public void execSQLDebug()
 //	{
-//		m_resultSet = null;
-//		m_csRequest = buildSelectClause();
+//		resultSet = null;
+//		csRequest = buildSelectClause();
 //		for(int n=0; n<10000; n++)
 //		{
-//			if(m_curConnection != null)
+//			if(curConnection != null)
 //			{
 //				try
 //				{
-//					m_PreparedStatement = m_curConnection.m_dbConnection.prepareStatement(m_csRequest);
+//					preparedStatement = curConnection.dbConnection.prepareStatement(csRequest);
 //				}
 //				catch (SQLException e)
 //				{
@@ -160,13 +160,13 @@ public class SqlRequest extends DbPreparedStatement
 	
 	public boolean execSQL(DbConnectionBase con)
 	{
-		m_resultSet = null;
-		if(m_csOperation != null)
+		resultSet = null;
+		if(csOperation != null)
 		{
-			if(m_csOperation.equalsIgnoreCase("Select"))
+			if(csOperation.equalsIgnoreCase("Select"))
 			{
-				m_csRequest = buildSelectClause();
-				prepare(con, m_csRequest, false);
+				csRequest = buildSelectClause();
+				prepare(con, csRequest, false);
 				
 				int nNbParam = getNbParam();
 				for(int nParam=0; nParam<nNbParam; nParam++)
@@ -176,21 +176,21 @@ public class SqlRequest extends DbPreparedStatement
 						setColParam(nParam, colValue);
 				}
 				
-				m_resultSet = executeSelect();
-				if(m_resultSet != null)
+				resultSet = executeSelect();
+				if(resultSet != null)
 					return true;
 				return false;
 			}
-			else if(m_csOperation.equalsIgnoreCase("Insert"))
+			else if(csOperation.equalsIgnoreCase("Insert"))
 			{
-				m_csRequest = buildInsertClause();
-				prepare(con, m_csRequest, false);
+				csRequest = buildInsertClause();
+				prepare(con, csRequest, false);
 				
-				if(m_arrCol != null)
+				if(arrCol != null)
 				{
-					for(int n=0; n<m_arrCol.size(); n++)
+					for(int n=0; n<arrCol.size(); n++)
 					{
-						ColValue col = m_arrCol.get(n);
+						ColValue col = arrCol.get(n);
 						setColParam(n, col); 
 					}			
 				}
@@ -200,17 +200,17 @@ public class SqlRequest extends DbPreparedStatement
 					return true;
 				return false;
 			}
-			else if(m_csOperation.equalsIgnoreCase("Update"))
+			else if(csOperation.equalsIgnoreCase("Update"))
 			{
-				m_csRequest = buildUpdateClause();
-				prepare(con, m_csRequest, false);
+				csRequest = buildUpdateClause();
+				prepare(con, csRequest, false);
 				
 				int nCol=0;
-				if(m_arrCol != null)
+				if(arrCol != null)
 				{
-					for(; nCol<m_arrCol.size(); nCol++)
+					for(; nCol<arrCol.size(); nCol++)
 					{
-						ColValue col = m_arrCol.get(nCol);
+						ColValue col = arrCol.get(nCol);
 						setColParam(nCol, col); 
 					}			
 				}
@@ -235,11 +235,11 @@ public class SqlRequest extends DbPreparedStatement
 	
 	public boolean fetch()
 	{
-		if(m_resultSet != null)
+		if(resultSet != null)
 		{
 			try
 			{
-				return m_resultSet.next();
+				return resultSet.next();
 			} 
 			catch (SQLException e)
 			{
@@ -251,11 +251,11 @@ public class SqlRequest extends DbPreparedStatement
 	public String getCol(String csName)
 	{
 		String cs = null;
-		if(m_resultSet != null)
+		if(resultSet != null)
 		{
 			try
 			{
-				cs = m_resultSet.getString(csName);
+				cs = resultSet.getString(csName);
 			} 
 			catch (SQLException e)
 			{
@@ -267,11 +267,11 @@ public class SqlRequest extends DbPreparedStatement
 	public String getCol(int n0BasedColId)
 	{
 		String cs = null;
-		if(m_resultSet != null)
+		if(resultSet != null)
 		{			
 			try
 			{
-				cs = m_resultSet.getString(n0BasedColId+1);
+				cs = resultSet.getString(n0BasedColId+1);
 			} 
 			catch (SQLException e)
 			{
@@ -283,11 +283,11 @@ public class SqlRequest extends DbPreparedStatement
 	public int getColAsInt(String csName)
 	{
 		int n = 0;
-		if(m_resultSet != null)
+		if(resultSet != null)
 		{
 			try
 			{
-				n = m_resultSet.getInt(csName);
+				n = resultSet.getInt(csName);
 			} 
 			catch (SQLException e)
 			{
@@ -299,11 +299,11 @@ public class SqlRequest extends DbPreparedStatement
 	public Date getColAsDate(String csName)
 	{
 		Date date = null;
-		if(m_resultSet != null)
+		if(resultSet != null)
 		{			
 			try
 			{
-				date = m_resultSet.getDate(csName);
+				date = resultSet.getDate(csName);
 			} 
 			catch (SQLException e)
 			{
@@ -316,11 +316,11 @@ public class SqlRequest extends DbPreparedStatement
 	public Date getColAsDate(int n0BasedColId)
 	{
 		Date date = null;
-		if(m_resultSet != null)
+		if(resultSet != null)
 		{			
 			try
 			{
-				date = m_resultSet.getDate(n0BasedColId+1);
+				date = resultSet.getDate(n0BasedColId+1);
 			} 
 			catch (SQLException e)
 			{
@@ -332,11 +332,11 @@ public class SqlRequest extends DbPreparedStatement
 	public Timestamp getColAsTimestamp(String csName)
 	{
 		Timestamp timestamp = null;
-		if(m_resultSet != null)
+		if(resultSet != null)
 		{			
 			try
 			{
-				timestamp = m_resultSet.getTimestamp(csName);
+				timestamp = resultSet.getTimestamp(csName);
 			} 
 			catch (SQLException e)
 			{
@@ -349,11 +349,11 @@ public class SqlRequest extends DbPreparedStatement
 	public Timestamp getColAsTime(int n0BasedColId)
 	{
 		Timestamp timestamp = null;
-		if(m_resultSet != null)
+		if(resultSet != null)
 		{			
 			try
 			{
-				timestamp = m_resultSet.getTimestamp(n0BasedColId+1);
+				timestamp = resultSet.getTimestamp(n0BasedColId+1);
 			} 
 			catch (SQLException e)
 			{
@@ -366,11 +366,11 @@ public class SqlRequest extends DbPreparedStatement
 	public int getColAsInt(int n0BasedColId)
 	{
 		int n = 0;
-		if(m_resultSet != null)
+		if(resultSet != null)
 		{			
 			try
 			{
-				n = m_resultSet.getInt(n0BasedColId+1);
+				n = resultSet.getInt(n0BasedColId+1);
 			} 
 			catch (SQLException e)
 			{
@@ -382,11 +382,11 @@ public class SqlRequest extends DbPreparedStatement
 	public boolean getColAsBoolean(String csName)
 	{
 		boolean b = false;
-		if(m_resultSet != null)
+		if(resultSet != null)
 		{
 			try
 			{
-				b = m_resultSet.getBoolean(csName);
+				b = resultSet.getBoolean(csName);
 			} 
 			catch (SQLException e)
 			{
@@ -398,11 +398,11 @@ public class SqlRequest extends DbPreparedStatement
 	public boolean getColAsBoolean(int n0BasedColId)
 	{
 		boolean b = false;
-		if(m_resultSet != null)
+		if(resultSet != null)
 		{			
 			try
 			{
-				b = m_resultSet.getBoolean(n0BasedColId+1);
+				b = resultSet.getBoolean(n0BasedColId+1);
 			} 
 			catch (SQLException e)
 			{
@@ -413,12 +413,12 @@ public class SqlRequest extends DbPreparedStatement
 	
 	private String buildInsertClause()
 	{
-		String csRequest = "Insert into " + m_csTable;
-		if(m_arrCol != null)
+		String csRequest = "Insert into " + csTable;
+		if(arrCol != null)
 		{
 			String csNames = "(";
 			String csValues = "(";
-			for(int n=0; n<m_arrCol.size(); n++)
+			for(int n=0; n<arrCol.size(); n++)
 			{
 				if(n != 0)
 				{
@@ -426,8 +426,8 @@ public class SqlRequest extends DbPreparedStatement
 					csValues += ", ";
 				}
 				
-				ColValue col = m_arrCol.get(n);
-				csNames += col.m_csName;
+				ColValue col = arrCol.get(n);
+				csNames += col.csName;
 				csValues += "?";
 				//csValues += "'" + col.getValueAsString() + "'";
 			}
@@ -442,37 +442,37 @@ public class SqlRequest extends DbPreparedStatement
 	
 	private String buildSelectClause()
 	{
-		m_csWhere = m_csSelect;
+		csWhere = csSelect;
 		return buildWhere();
 	}
 	
 	private String buildUpdateClause()
 	{
-		String csRequest = "Update " + m_csTable + " set ";
-		for(int n=0; n<m_arrCol.size(); n++)
+		String csRequest = "Update " + csTable + " set ";
+		for(int n=0; n<arrCol.size(); n++)
 		{
 			if(n != 0)
 				csRequest += ", ";
 			
-			ColValue col = m_arrCol.get(n);
-			String cs = col.m_csName + "=?";	// + col.getValueAsString() + "'";
+			ColValue col = arrCol.get(n);
+			String cs = col.csName + "=?";	// + col.getValueAsString() + "'";
 			csRequest += cs; 
 		}
-		if(m_csWhere != null)
+		if(csWhere != null)
 		{
 			csRequest += " Where ";
 			String csWhere = buildWhere();
 			csRequest += csWhere;
 		}
 		
-		if(m_csOrder != null)
+		if(csOrder != null)
 		{
-			csRequest += " Order by " + m_csOrder;
+			csRequest += " Order by " + csOrder;
 		}
 		
-		if(m_nNbRows != -1)
+		if(nNbRows != -1)
 		{
-			csRequest += " Limit " + m_nNbRows;
+			csRequest += " Limit " + nNbRows;
 		}
 		
 		return csRequest;
@@ -482,7 +482,7 @@ public class SqlRequest extends DbPreparedStatement
 	{
 		int nOrder = 0;
 		String csResult = "";
-		String csRight = m_csWhere;
+		String csRight = csWhere;
 		while(csRight != null)
 		{
 			int nSep = csRight.indexOf(':');
@@ -526,28 +526,28 @@ public class SqlRequest extends DbPreparedStatement
 	
 	private void checkArrCol()
 	{
-		if(m_arrCol == null)
+		if(arrCol == null)
 		{
-			m_arrCol = new ArrayList<ColValue>();
+			arrCol = new ArrayList<ColValue>();
 		}
 	}
 	
 	private void checkArrParam()
 	{
-		if(m_arrParam == null)
+		if(arrParam == null)
 		{
-			m_arrParam = new ArrayList<ColValue>();
+			arrParam = new ArrayList<ColValue>();
 		}
 	}
 	
 	private ColValue getParam(String csKey)
 	{
 		ColValue colValue = null;
-		if(m_arrParam != null)
+		if(arrParam != null)
 		{
-			for(int n=0; n<m_arrParam.size(); n++)
+			for(int n=0; n<arrParam.size(); n++)
 			{
-				colValue = m_arrParam.get(n);
+				colValue = arrParam.get(n);
 				if(colValue.hasName(csKey))
 					return colValue; 
 			}
@@ -558,11 +558,11 @@ public class SqlRequest extends DbPreparedStatement
 	private ColValue getParamAtOrder(int nOrder)
 	{
 		ColValue colValue = null;
-		if(m_arrParam != null)
+		if(arrParam != null)
 		{
-			for(int n=0; n<m_arrParam.size(); n++)
+			for(int n=0; n<arrParam.size(); n++)
 			{
-				colValue = m_arrParam.get(n);
+				colValue = arrParam.get(n);
 				if(colValue.isOrder(nOrder))
 					return colValue; 
 			}
@@ -572,19 +572,19 @@ public class SqlRequest extends DbPreparedStatement
 	
 	private int getNbParam()
 	{
-		if(m_arrParam != null)
-			return m_arrParam.size();
+		if(arrParam != null)
+			return arrParam.size();
 		return 0;
 	}	
 	
-	private String m_csRequest = null;
-	private String m_csTable = null;
-	private String m_csWhere = null;
-	private String m_csOrder = null;
-	private String m_csSelect = null;
-	private int m_nNbRows = -1;
-	private String m_csOperation = null;
-	private ArrayList<ColValue> m_arrCol = null;
-	private ArrayList<ColValue> m_arrParam = null;
-	private ResultSet m_resultSet = null;
+	private String csRequest = null;
+	private String csTable = null;
+	private String csWhere = null;
+	private String csOrder = null;
+	private String csSelect = null;
+	private int nNbRows = -1;
+	private String csOperation = null;
+	private ArrayList<ColValue> arrCol = null;
+	private ArrayList<ColValue> arrParam = null;
+	private ResultSet resultSet = null;
 }

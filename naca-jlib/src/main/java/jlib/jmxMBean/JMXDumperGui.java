@@ -35,13 +35,13 @@ public class JMXDumperGui extends BaseCloseMBean
 	
 	public String getOutputFile()
 	{
-		return m_csOutputFile;
+		return csOutputFile;
 	}
 	
 	public void setOutputFile(String csOutputFile)
 	{
-		m_csOutputFile = csOutputFile;
+		csOutputFile = csOutputFile;
 	}
 	
-	private String m_csOutputFile = "./JMXOutput.txt";	
+	private String csOutputFile = "./JMXOutput.txt";	
 }

@@ -36,7 +36,7 @@ public abstract class CEntityFieldHighlight extends CBaseEntityFieldAttribute
 	}
 	public CBaseActionEntity GetSpecialAssignment(CTerminal term, CBaseEntityFactory factory, int l)
 	{
-		return intGetSpecialAssignment(term.GetValue(), m_Reference, factory, l) ;
+		return intGetSpecialAssignment(term.GetValue(), reference, factory, l) ;
 	}
 	/* (non-Javadoc)
 	 * @see semantic.CBaseDataEntity#GetSpecialAssignment(parser.expression.CTerminal)
@@ -45,11 +45,11 @@ public abstract class CEntityFieldHighlight extends CBaseEntityFieldAttribute
 	{
 		CEntityFieldAttributeReference ref = factory.NewEntityFieldAttributeReference(eField) ;
 		CEntitySetHighligh eSet = factory.NewEntitySetHighlight(l, ref);
-		if (v.equals(CCobolConstantList.HIGH_VALUE.m_Name) || v.equals(CCobolConstantList.HIGH_VALUES.m_Name) || v.equals("\u00FF") || v.equals("\u009F"))
+		if (v.equals(CCobolConstantList.HIGH_VALUE.name) || v.equals(CCobolConstantList.HIGH_VALUES.name) || v.equals("\u00FF") || v.equals("\u009F"))
 		{
 			eSet.SetNormal();
 		}
-		else if (v.equals(CCobolConstantList.LOW_VALUE.m_Name) || v.equals(CCobolConstantList.LOW_VALUES.m_Name))
+		else if (v.equals(CCobolConstantList.LOW_VALUE.name) || v.equals(CCobolConstantList.LOW_VALUES.name))
 		{
 			eSet.Reset() ;
 		}
@@ -83,7 +83,7 @@ public abstract class CEntityFieldHighlight extends CBaseEntityFieldAttribute
 	}
 	public CBaseActionEntity GetSpecialAssignment(CDataEntity val, CBaseEntityFactory factory, int l)
 	{
-		CEntityFieldAttributeReference ref = factory.NewEntityFieldAttributeReference(m_Reference) ;
+		CEntityFieldAttributeReference ref = factory.NewEntityFieldAttributeReference(reference) ;
 		CEntitySetHighligh eSet = factory.NewEntitySetHighlight(l, ref);
 		eSet.SetHighLight(val);
 		ref.RegisterWritingAction(eSet) ;
@@ -94,27 +94,27 @@ public abstract class CEntityFieldHighlight extends CBaseEntityFieldAttribute
 		CEntityIsFieldHighlight eCond  ;
 		if (value.equals("4"))
 		{
-			eCond = factory.NewEntityIsFieldHighlight(m_Reference) ;
+			eCond = factory.NewEntityIsFieldHighlight(reference) ;
 			eCond.IsUnderlined();
-			m_Reference.RegisterVarTesting(eCond);
+			reference.RegisterVarTesting(eCond);
 		}
 		else if (value.equals("2"))
 		{
-			eCond = factory.NewEntityIsFieldHighlight(m_Reference) ;
+			eCond = factory.NewEntityIsFieldHighlight(reference) ;
 			eCond.IsReverse();
-			m_Reference.RegisterVarTesting(eCond);
+			reference.RegisterVarTesting(eCond);
 		}
 		else if (value.equals("1"))
 		{
-			eCond = factory.NewEntityIsFieldHighlight(m_Reference) ;
+			eCond = factory.NewEntityIsFieldHighlight(reference) ;
 			eCond.IsBlink() ;
-			m_Reference.RegisterVarTesting(eCond);
+			reference.RegisterVarTesting(eCond);
 		}
 		else if (value.equals("HIGH-VALUE") || value.equals("HIGH-VALUES") || value.equals("\u009F"))
 		{
-			eCond = factory.NewEntityIsFieldHighlight(m_Reference) ;
+			eCond = factory.NewEntityIsFieldHighlight(reference) ;
 			eCond.IsNormal() ;
-			m_Reference.RegisterVarTesting(eCond);
+			reference.RegisterVarTesting(eCond);
 		}
 		else
 		{
@@ -128,7 +128,7 @@ public abstract class CEntityFieldHighlight extends CBaseEntityFieldAttribute
 	}
 	public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory) 
 	{
-		CDataEntity e = m_Reference.GetArrayReference(v, factory) ;
+		CDataEntity e = reference.GetArrayReference(v, factory) ;
 		return factory.NewEntityFieldHighlight(getLine(), "", e);
 	};
 	public boolean ignore()

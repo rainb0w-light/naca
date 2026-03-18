@@ -36,7 +36,7 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 
 	public VarDefEditInMapRedefine(VarDefBase varDefParent, DeclareTypeEditInMapRedefine declareTypeEditInMapRedefine)
 	{
-		super(varDefParent, declareTypeEditInMapRedefine.m_varLevel);
+		super(varDefParent, declareTypeEditInMapRedefine.varLevel);
 	}
 	
 	void assignForm(VarDefForm varDefForm)
@@ -45,17 +45,17 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 		{
 			int n = 0;
 		}
-		m_varDefFormRedefineOrigin = varDefForm;
-		if(m_varDefFormRedefineOrigin == null)
+		varDefFormRedefineOrigin = varDefForm;
+		if(varDefFormRedefineOrigin == null)
 		{
 			int n = 0; 
 		}
-		m_varDefEditOrigin = m_varDefFormRedefineOrigin.getChildAtDefaultPosition(m_nDefaultAbsolutePosition);
+		varDefEditOrigin = varDefFormRedefineOrigin.getChildAtDefaultPosition(nDefaultAbsolutePosition);
 	}
 	
 	VarDefBuffer getVarDefEditInMapOrigin()
 	{
-		return m_varDefEditOrigin;
+		return varDefEditOrigin;
 	}
 	
 	public VarDefEditInMapRedefine()
@@ -71,14 +71,14 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 	void transfer(VarBufferPos bufferSource, VarAndEdit Dest)
 	{
 //		boolean bMoveTextOnly = true;
-//		boolean bDestIsEditInMapRedefine = Dest.m_varDef.isEditInMapRedefine();
+//		boolean bDestIsEditInMapRedefine = Dest.varDef.isEditInMapRedefine();
 //		if(bDestIsEditInMapRedefine)
 //		{
-//			if(m_arrChildren != null)
+//			if(arrChildren != null)
 //			{
-//				for(int n=0; n<m_arrChildren.size(); n++)
+//				for(int n=0; n<arrChildren.size(); n++)
 //				{
-//					VarDefBuffer varDefChild = (VarDefBuffer)m_arrChildren.get(n);
+//					VarDefBuffer varDefChild = (VarDefBuffer)arrChildren.get(n);
 //					if(!varDefChild.isVarInMapRedefine())	// Sub-Edit
 //					{
 //						bMoveTextOnly = false;
@@ -88,7 +88,7 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 //			}
 //		}
 //		if(bMoveTextOnly)
-			Dest.m_varDef.write(Dest.m_bufferPos, this, bufferSource);
+			Dest.varDef.write(Dest.bufferPos, this, bufferSource);
 //		else
 //		{		
 			// Sauver tous les attributs des edits dans le buffer
@@ -97,17 +97,17 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 //			
 //			BaseProgramManager programManager = TempCacheLocator.getTLSTempCache().getProgramManager();
 //			
-//			VarDefEditInMapRedefine destVarDef = (VarDefEditInMapRedefine)Dest.m_varDef;
-//			destVarDef.writeSubEditAndAttributes(Dest.m_bufferPos, this, bufferSource);
+//			VarDefEditInMapRedefine destVarDef = (VarDefEditInMapRedefine)Dest.varDef;
+//			destVarDef.writeSubEditAndAttributes(Dest.bufferPos, this, bufferSource);
 //
 //			// Enum all children to transfer their attributes
 //			int nPosAttributes = Dest.getBodyAbsolutePosition() - Dest.getVarDef().getHeaderLength();	// Position of the attributes in the buffer 
-//			for(int n=0; n<m_arrChildren.size(); n++)
+//			for(int n=0; n<arrChildren.size(); n++)
 //			{
 //				EditInMapRedefine editDestChildTemplate = (EditInMapRedefine)Dest.getEditChildAt(n+1);
 //				EditInMapRedefine subItem = editDestChildTemplate.allocOccursedItem(editDestChildTemplate.getVarDef());
 //
-//				subItem.m_varDef.adjustSetting(editDestChildTemplate.getVarDef(), Dest.getBodyAbsolutePosition()-7, 0, 1, null);
+//				subItem.varDef.adjustSetting(editDestChildTemplate.getVarDef(), Dest.getBodyAbsolutePosition()-7, 0, 1, null);
 //				
 //				int nBodyLength = editDestChildTemplate.getBodyLength();
 //				nPosAttributes += Dest.getVarDef().getHeaderLength() + nBodyLength; 
@@ -124,7 +124,7 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 	
 //	void writeSubEditAndAttributes(VarBufferPos bufferDest, VarDefEditInMapRedefine varSource, VarBufferPos bufferSource)
 //	{
-//		CStr cs = bufferSource.getStringAt(bufferSource.m_nAbsolutePosition, m_nTotalSize);
+//		CStr cs = bufferSource.getStringAt(bufferSource.nAbsolutePosition, nTotalSize);
 //		writeEditAndSubEditRightPadding(bufferDest, cs, ' ');
 //	}
 	
@@ -155,7 +155,7 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 	protected VarDefBuffer allocCopy()
 	{
 		VarDefEditInMapRedefine v = new VarDefEditInMapRedefine();
-		v.m_bJustifyRight = m_bJustifyRight; 
+		v.bJustifyRight = bJustifyRight; 
 		return v;
 	}
 	
@@ -169,7 +169,7 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 	
 	CStr getAsAlphaNumString(VarBufferPos buffer)
 	{		
-		CStr cs = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nTotalSize);
+		CStr cs = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);
 		return cs;		
 	}
 
@@ -218,7 +218,7 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 	void write(VarBufferPos buffer, char c)
 	{
 		String cs = String.valueOf(c);
-		if(!m_bJustifyRight)
+		if(!bJustifyRight)
 			writeEditRightPadding(buffer, cs, ' ');
 		else
 			writeEditJustifyRightPadding(buffer, cs, ' ');
@@ -226,7 +226,7 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 	
 	public void write(VarBufferPos buffer, String cs)
 	{
-		if(!m_bJustifyRight)
+		if(!bJustifyRight)
 			writeEditRightPadding(buffer, cs, ' ');
 		else
 			writeEditJustifyRightPadding(buffer, cs, ' ');
@@ -234,7 +234,7 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 	
 	void write(VarBufferPos buffer, CStr cs)
 	{
-		if(!m_bJustifyRight)
+		if(!bJustifyRight)
 			writeEditRightPadding(buffer, cs, ' ');
 		else
 			writeEditJustifyRightPadding(buffer, cs, ' ');
@@ -259,7 +259,7 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 		if(n < 0)
 			n = -n;
 		String cs = String.valueOf(n);
-		if(!m_bJustifyRight)
+		if(!bJustifyRight)
 			writeEditRightPadding(buffer, cs, ' ');
 		else
 			writeEditJustifyRightPadding(buffer, cs, ' ');
@@ -271,7 +271,7 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 		if(l < 0)
 			l = -l;
 		String cs = String.valueOf(l);
-		if(!m_bJustifyRight)
+		if(!bJustifyRight)
 			writeEditRightPadding(buffer, cs, ' ');
 		else
 			writeEditJustifyRightPadding(buffer, cs, ' ');
@@ -310,7 +310,7 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 		CStr cs = bufferSource.getBodyCStr(varDefSource);
 		//String cs = varDefSource.getRawStringExcludingHeader(bufferSource);
 		
-		if(!m_bJustifyRight)
+		if(!bJustifyRight)
 			writeEditRightPadding(buffer, cs, ' ');
 		else
 			writeEditJustifyRightPadding(buffer, cs, ' ');
@@ -320,7 +320,7 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 	{
 		CStr cs = bufferSource.getBodyCStr(varDefSource);
 		
-		if(!m_bJustifyRight)
+		if(!bJustifyRight)
 			writeEditRightPadding(buffer, cs, ' ');
 		else
 			writeEditJustifyRightPadding(buffer, cs, ' ');
@@ -330,7 +330,7 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 	{
 		CStr cs = bufferSource.getBodyCStr(varDefSource);
 		
-		if(!m_bJustifyRight)
+		if(!bJustifyRight)
 			writeEditRightPadding(buffer, cs, ' ');
 		else
 			writeEditJustifyRightPadding(buffer, cs, ' ');
@@ -389,7 +389,7 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 	void write(VarBufferPos buffer, VarDefNumIntComp0 varSource, VarBufferPos bufferSource)
 	{
 		CStr cs = varSource.getAsAlphaNumString(bufferSource);
-		if(!m_bJustifyRight)
+		if(!bJustifyRight)
 			writeEditRightPadding(buffer, cs, ' ');
 		else
 			writeEditJustifyRightPadding(buffer, cs, ' ');
@@ -399,7 +399,7 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 	void write(VarBufferPos buffer, VarDefNumIntComp0Long varSource, VarBufferPos bufferSource)
 	{
 		CStr cs = varSource.getAsAlphaNumString(bufferSource);
-		if(!m_bJustifyRight)
+		if(!bJustifyRight)
 			writeEditRightPadding(buffer, cs, ' ');
 		else
 			writeEditJustifyRightPadding(buffer, cs, ' ');
@@ -409,7 +409,7 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 	void write(VarBufferPos buffer, VarDefNumIntComp3 varSource, VarBufferPos bufferSource)
 	{
 		CStr cs = varSource.getAsAlphaNumString(bufferSource);
-		if(!m_bJustifyRight)
+		if(!bJustifyRight)
 			writeEditRightPadding(buffer, cs, ' ');
 		else
 			writeEditJustifyRightPadding(buffer, cs, ' ');
@@ -419,7 +419,7 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 	void write(VarBufferPos buffer, VarDefNumIntComp3Long varSource, VarBufferPos bufferSource)
 	{
 		CStr cs = varSource.getAsAlphaNumString(bufferSource);
-		if(!m_bJustifyRight)
+		if(!bJustifyRight)
 			writeEditRightPadding(buffer, cs, ' ');
 		else
 			writeEditJustifyRightPadding(buffer, cs, ' ');
@@ -428,7 +428,7 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 	void write(VarBufferPos buffer, VarDefNumIntComp4 varSource, VarBufferPos bufferSource)
 	{
 		CStr cs = varSource.getAsAlphaNumString(bufferSource);
-		if(!m_bJustifyRight)
+		if(!bJustifyRight)
 			writeEditRightPadding(buffer, cs, ' ');
 		else
 			writeEditJustifyRightPadding(buffer, cs, ' ');
@@ -442,7 +442,7 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 	void write(VarBufferPos buffer, VarDefNumIntComp4Long varSource, VarBufferPos bufferSource)
 	{
 		CStr cs = varSource.getAsAlphaNumString(bufferSource);
-		if(!m_bJustifyRight)
+		if(!bJustifyRight)
 			writeEditRightPadding(buffer, cs, ' ');
 		else
 			writeEditJustifyRightPadding(buffer, cs, ' ');
@@ -456,7 +456,7 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 	void write(VarBufferPos buffer, VarDefNumIntSignComp0 varSource, VarBufferPos bufferSource)
 	{
 		CStr cs = varSource.getAsAlphaNumString(bufferSource);
-		if(!m_bJustifyRight)
+		if(!bJustifyRight)
 			writeEditRightPadding(buffer, cs, ' ');
 		else
 			writeEditJustifyRightPadding(buffer, cs, ' ');
@@ -470,7 +470,7 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 	void write(VarBufferPos buffer, VarDefNumIntSignComp0Long varSource, VarBufferPos bufferSource)
 	{
 		CStr cs = varSource.getAsAlphaNumString(bufferSource);
-		if(!m_bJustifyRight)
+		if(!bJustifyRight)
 			writeEditRightPadding(buffer, cs, ' ');
 		else
 			writeEditJustifyRightPadding(buffer, cs, ' ');
@@ -484,7 +484,7 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 	void write(VarBufferPos buffer, VarDefNumIntSignComp3 varSource, VarBufferPos bufferSource)
 	{
 		CStr cs = varSource.getAsAlphaNumString(bufferSource);
-		if(!m_bJustifyRight)
+		if(!bJustifyRight)
 			writeEditRightPadding(buffer, cs, ' ');
 		else
 			writeEditJustifyRightPadding(buffer, cs, ' ');
@@ -498,7 +498,7 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 	void write(VarBufferPos buffer, VarDefFPacNumIntSignComp3 varSource, VarBufferPos bufferSource)
 	{
 		CStr cs = varSource.getAsAlphaNumString(bufferSource);
-		if(!m_bJustifyRight)
+		if(!bJustifyRight)
 			writeEditRightPadding(buffer, cs, ' ');
 		else
 			writeEditJustifyRightPadding(buffer, cs, ' ');
@@ -514,7 +514,7 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 	void write(VarBufferPos buffer, VarDefNumIntSignComp3Long varSource, VarBufferPos bufferSource)
 	{
 		CStr cs = varSource.getAsAlphaNumString(bufferSource);
-		if(!m_bJustifyRight)
+		if(!bJustifyRight)
 			writeEditRightPadding(buffer, cs, ' ');
 		else
 			writeEditJustifyRightPadding(buffer, cs, ' ');
@@ -529,7 +529,7 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 	void write(VarBufferPos buffer, VarDefNumIntSignComp4 varSource, VarBufferPos bufferSource)
 	{
 		CStr cs = varSource.getAsAlphaNumString(bufferSource);
-		if(!m_bJustifyRight)
+		if(!bJustifyRight)
 			writeEditRightPadding(buffer, cs, ' ');
 		else
 			writeEditJustifyRightPadding(buffer, cs, ' ');
@@ -544,7 +544,7 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 	void write(VarBufferPos buffer, VarDefNumIntSignComp4Long varSource, VarBufferPos bufferSource)
 	{
 		CStr cs = varSource.getAsAlphaNumString(bufferSource);
-		if(!m_bJustifyRight)
+		if(!bJustifyRight)
 			writeEditRightPadding(buffer, cs, ' ');
 		else
 			writeEditJustifyRightPadding(buffer, cs, ' ');
@@ -560,7 +560,7 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 	void write(VarBufferPos buffer, VarDefNumIntSignLeadingComp0 varSource, VarBufferPos bufferSource)
 	{
 		CStr cs = varSource.getAsAlphaNumString(bufferSource);
-		if(!m_bJustifyRight)
+		if(!bJustifyRight)
 			writeEditRightPadding(buffer, cs, ' ');
 		else
 			writeEditJustifyRightPadding(buffer, cs, ' ');
@@ -574,7 +574,7 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 	void write(VarBufferPos buffer, VarDefNumIntSignLeadingComp0Long varSource, VarBufferPos bufferSource)
 	{
  		CStr cs = varSource.getAsAlphaNumString(bufferSource);
-		if(!m_bJustifyRight)
+		if(!bJustifyRight)
 			writeEditRightPadding(buffer, cs, ' ');
 		else
 			writeEditJustifyRightPadding(buffer, cs, ' ');
@@ -588,7 +588,7 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 	void write(VarBufferPos buffer, VarDefNumIntSignTrailingComp0 varSource, VarBufferPos bufferSource)
 	{
 		CStr cs = varSource.getAsAlphaNumString(bufferSource);
-		if(!m_bJustifyRight)
+		if(!bJustifyRight)
 			writeEditRightPadding(buffer, cs, ' ');
 		else
 			writeEditJustifyRightPadding(buffer, cs, ' ');
@@ -602,7 +602,7 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 	void write(VarBufferPos buffer, VarDefNumIntSignTrailingComp0Long varSource, VarBufferPos bufferSource)
 	{
 		CStr cs = varSource.getAsAlphaNumString(bufferSource);
-		if(!m_bJustifyRight)
+		if(!bJustifyRight)
 			writeEditRightPadding(buffer, cs, ' ');
 		else
 			writeEditJustifyRightPadding(buffer, cs, ' ');
@@ -622,8 +622,8 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 	
 //	private int writeEditAndSubEditRightPadding(VarBufferPos buffer, CStr cs, char cPad)
 //	{
-//		int nBodyPosStart = buffer.m_nAbsolutePosition;
-//		int nBodyLength = m_nTotalSize;
+//		int nBodyPosStart = buffer.nAbsolutePosition;
+//		int nBodyLength = nTotalSize;
 //		return internalWriteRightPadding(buffer, nBodyPosStart, nBodyLength, cs, cPad);
 //	}
 	
@@ -651,20 +651,20 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 
 	protected int writeEditRepeatingchar(VarBufferPos buffer, char c)
 	{
-		return buffer.writeRepeatingCharAt(buffer.m_nAbsolutePosition+getHeaderLength(), c, m_nTotalSize-getHeaderLength());
+		return buffer.writeRepeatingCharAt(buffer.nAbsolutePosition+getHeaderLength(), c, nTotalSize-getHeaderLength());
 	}	
 	
 	protected int writeEditRepeatingchar(VarBufferPos buffer, char c, int nOffset, int nNbChars)
 	{
-		int nMaxCharOnRight = m_nTotalSize - getHeaderLength() - nOffset;
+		int nMaxCharOnRight = nTotalSize - getHeaderLength() - nOffset;
 		int nNbCharsToWrite = Math.min(nMaxCharOnRight, nNbChars);
-		return buffer.writeRepeatingCharAt(buffer.m_nAbsolutePosition+nOffset+getHeaderLength(), c, nNbCharsToWrite);
+		return buffer.writeRepeatingCharAt(buffer.nAbsolutePosition+nOffset+getHeaderLength(), c, nNbCharsToWrite);
 	}	
 	
 	void write(VarBufferPos buffer, VarDefNumEdited varSource, VarBufferPos bufferSource)
 	{
 		CStr cs = varSource.getAsDecodedString(bufferSource);
-		if(!m_bJustifyRight)
+		if(!bJustifyRight)
 			writeEditRightPadding(buffer, cs, ' ');
 		else
 			writeEditJustifyRightPadding(buffer, cs, ' ');
@@ -772,7 +772,7 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 	
 	int compare(ComparisonMode mode, VarBufferPos bufferSource, VarAndEdit var2)
 	{
-		// return var2.m_varDef.compare(var2.m_buffer, this, bufferSource);
+		// return var2.varDef.compare(var2.buffer, this, bufferSource);
 		assertIfFalse(false);
 		return 0;
 	}
@@ -1113,7 +1113,7 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 		int nPosDest = getBodyAbsolutePosition(bufferDest) + nNbCharSource;
 		while(nNbCharSource < nNbCharDest)
 		{
-			bufferDest.m_acBuffer[nPosDest] = ' ';
+			bufferDest.acBuffer[nPosDest] = ' ';
 			//bufferDest.setCharAt(nPosDest, ' ');
 			nNbCharSource++;
 			nPosDest++;
@@ -1127,7 +1127,7 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 	
 	public BtreeSegmentKeyTypeFactory getSegmentKeyTypeFactory()
 	{
-		return VarTypeId.m_segmentKeyTypeFactoryString;
+		return VarTypeId.segmentKeyTypeFactoryString;
 	}	
 
 	public boolean isEbcdicAsciiConvertible()

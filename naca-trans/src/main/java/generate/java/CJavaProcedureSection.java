@@ -41,25 +41,25 @@ public class CJavaProcedureSection extends CEntityProcedureSection
 	protected void DoExport()
 	{
 		String label = FormatIdentifier(GetName()) ;
-		if (m_bReducedToProcedure)
+		if (bReducedToProcedure)
 		{
-			if (m_SectionBloc != null)
+			if (sectionBloc != null)
 			{
 				String line = "Paragraph " + label + " = new Paragraph(this);" ;
 				WriteLine(line) ;
 				WriteLine("public void "+label+"() {") ;
-				DoExport(m_SectionBloc) ;
+				DoExport(sectionBloc) ;
 				WriteLine("}", 0) ;
 			}
 		}
 		else
 		{
-			if (m_SectionBloc != null)
+			if (sectionBloc != null)
 			{
 				String line = "Section " + label + " = new Section(this);" ;
 				WriteLine(line) ;
 				WriteLine("public void "+label+"() {") ;
-				DoExport(m_SectionBloc) ;
+				DoExport(sectionBloc) ;
 				WriteLine("}", 0) ;
 			}
 			else

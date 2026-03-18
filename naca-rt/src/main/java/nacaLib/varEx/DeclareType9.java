@@ -25,9 +25,9 @@ import nacaLib.tempCache.TempCacheLocator;
 
 public class DeclareType9 extends DeclareTypeBase
 {
-	protected NumericValue m_numericValue = new NumericValue(); 
-	private CInitialValue m_InitialValue = null;
-	boolean m_bBlankWhenZero = false;
+	protected NumericValue numericValue = new NumericValue(); 
+	private CInitialValue initialValue = null;
+	boolean bBlankWhenZero = false;
 	
 	public DeclareType9()
 	{
@@ -36,92 +36,92 @@ public class DeclareType9 extends DeclareTypeBase
 	public void set(VarLevel varLevel, boolean bSigned, int nNbDigitInteger, int nNbDigitDecimal)
 	{
 		super.set(varLevel);
-		m_numericValue.set(bSigned, nNbDigitInteger, nNbDigitDecimal);
-		m_InitialValue = null;
-		m_bBlankWhenZero = false;
+		numericValue.set(bSigned, nNbDigitInteger, nNbDigitDecimal);
+		initialValue = null;
+		bBlankWhenZero = false;
 	}
 	
 	public VarDefBuffer createVarDef(VarDefBuffer varDefParent)
 	{
-		VarDefBuffer varDef = m_numericValue.createVarDef(varDefParent, this);
+		VarDefBuffer varDef = numericValue.createVarDef(varDefParent, this);
 		return varDef;		
 	}
 	
 	public VarNum var()
 	{
-		VarNum var = m_numericValue.createVar(this);
+		VarNum var = numericValue.createVar(this);
 		return var;
 	}
 
 	public VarNum filler()
 	{
-		VarNum var = m_numericValue.createVar(this);
+		VarNum var = numericValue.createVar(this);
 		var.declareAsFiller();
 		return null;
 	}	
 	
 	public DeclareType9 signLeadingSeparated()
 	{
-		m_numericValue.setSignLeadingSeparated(true);
+		numericValue.setSignLeadingSeparated(true);
 		return this;
 	}
 
 	public DeclareType9 signTrailingSeparated()
 	{
-		m_numericValue.setSignLeadingSeparated(false);
+		numericValue.setSignLeadingSeparated(false);
 		return this;
 	}		
 	
 	public DeclareType9 comp3()
 	{
-		m_numericValue.m_nComp = -3;
+		numericValue.nComp = -3;
 		return this;		
 	}
 
 	public DeclareType9 comp()
 	{
-		m_numericValue.m_nComp = -4;
+		numericValue.nComp = -4;
 		return this;		
 	}
 	
 	public DeclareType9 value(double d)
 	{
 		if(getProgramManager().isFirstInstance())
-			m_InitialValue = new CInitialValue(d, false);
+			initialValue = new CInitialValue(d, false);
 		return this;
 	}
 	
 	public DeclareType9 value(String s)
 	{
 		if(getProgramManager().isFirstInstance())
-			m_InitialValue = new CInitialValue(s, false);
+			initialValue = new CInitialValue(s, false);
 		return this;
 	}
 		
 	public DeclareType9 value(int n)
 	{
 		if(getProgramManager().isFirstInstance())
-			m_InitialValue = new CInitialValue(n, false);
+			initialValue = new CInitialValue(n, false);
 		return this;
 	}
 
 	public DeclareType9 valueSpaces()
 	{
-		//m_InitialValue = new CInitialValue(CobolConstant.Space.getValue(), true);
+		//initialValue = new CInitialValue(CobolConstant.Space.getValue(), true);
 		if(getProgramManager().isFirstInstance())
-			m_InitialValue = CInitialValueStd.Spaces;
+			initialValue = CInitialValueStd.Spaces;
 		return this;
 	}
 
 	//	
-//	// private VarLevelManager m_varLevelManager = null;
+//	// private VarLevelManager varLevelManager = null;
 //
 //
 	public DeclareType9 valueZero()
 	{
-		//m_InitialValue = new CInitialValue(CobolConstant.Zero.getValue(), false);
+		//initialValue = new CInitialValue(CobolConstant.Zero.getValue(), false);
 		if(getProgramManager().isFirstInstance())
-			m_InitialValue = new CInitialValue(0, false);
+			initialValue = new CInitialValue(0, false);
 		return this ;
 	}
 
@@ -132,14 +132,14 @@ public class DeclareType9 extends DeclareTypeBase
 	
 	public CInitialValue getInitialValue()
 	{
-		return m_InitialValue;
+		return initialValue;
 	}
 	
 	
 
 	public DeclareType9 blankWhenZero()
 	{
-		m_bBlankWhenZero = true;
+		bBlankWhenZero = true;
 		return this;
 	}
 	
@@ -150,7 +150,7 @@ public class DeclareType9 extends DeclareTypeBase
 	{
 		TempCache tempCache = TempCacheLocator.getTLSTempCache();
 		DeclareTypeEditInMapRedefineNum declareTypeEditInMapRedefineNum = tempCache.getDeclareTypeEditInMapRedefineNum();
-		declareTypeEditInMapRedefineNum.set(getLevel(), m_numericValue);
+		declareTypeEditInMapRedefineNum.set(getLevel(), numericValue);
 		
 		EditInMapRedefineNum var2Edit = new EditInMapRedefineNum(declareTypeEditInMapRedefineNum);
 		return var2Edit;

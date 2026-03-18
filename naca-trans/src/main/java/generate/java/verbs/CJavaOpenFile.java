@@ -22,7 +22,7 @@ public class CJavaOpenFile extends CEntityOpenFile
 	protected void DoExport()
 	{
 		String cs ;
-		switch (m_eMode)
+		switch (eMode)
 		{
 			case APPEND:
 				cs = ".openExtend() ;" ;
@@ -40,7 +40,7 @@ public class CJavaOpenFile extends CEntityOpenFile
 				cs = ".open() ;" ;
 			break ;
 		}
-		WriteLine(m_eFileDescriptor.ExportReference(getLine()) + cs) ;
+		WriteLine(eFileDescriptor.ExportReference(getLine()) + cs) ;
 	}
 
 }

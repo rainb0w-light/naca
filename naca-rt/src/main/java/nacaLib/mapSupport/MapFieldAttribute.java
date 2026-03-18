@@ -24,19 +24,19 @@ import org.w3c.dom.*;
 
 public class MapFieldAttribute extends CJMapObject
 {
-	private MapFieldAttrProtection m_Protection = null ; //MapFieldAttrProtection.AUTOSKIP;
-	private MapFieldAttrIntensity m_Intensity = null ; //MapFieldAttrIntensity.NORMAL;
-	private MapFieldAttrModified m_Modified = null ; //MapFieldAttrModified.UNMODIFIED;
+	private MapFieldAttrProtection protection = null ; //MapFieldAttrProtection.AUTOSKIP;
+	private MapFieldAttrIntensity intensity = null ; //MapFieldAttrIntensity.NORMAL;
+	private MapFieldAttrModified modified = null ; //MapFieldAttrModified.UNMODIFIED;
 	
 	// Stand alone field
-	private MapFieldAttrColor m_Color = null ; //MapFieldAttrColor.DEFAULT;
+	private MapFieldAttrColor color = null ; //MapFieldAttrColor.DEFAULT;
 
 	// Stand alone field
-	private MapFieldAttrHighlighting m_Highlighting = null ; //MapFieldAttrHighlighting.OFF ;
+	private MapFieldAttrHighlighting highlighting = null ; //MapFieldAttrHighlighting.OFF ;
 	
 	// Into Encoded bit field
-	private MapFieldAttrJustify m_Justify = MapFieldAttrJustify.LEFT;
-	private MapFieldAttrFill m_Fill = MapFieldAttrFill.BLANK;
+	private MapFieldAttrJustify justify = MapFieldAttrJustify.LEFT;
+	private MapFieldAttrFill fill = MapFieldAttrFill.BLANK;
 	
 	public MapFieldAttribute()
 	{
@@ -45,24 +45,24 @@ public class MapFieldAttribute extends CJMapObject
 	
 	public void resetDefaultValues()
 	{
-		m_Protection = null ;
-		m_Intensity = null ;
-		m_Modified = null ;
-		m_Color = null ;
-		m_Highlighting = null ;
-		m_Justify = MapFieldAttrJustify.LEFT;
-		m_Fill = MapFieldAttrFill.BLANK;
+		protection = null ;
+		intensity = null ;
+		modified = null ;
+		color = null ;
+		highlighting = null ;
+		justify = MapFieldAttrJustify.LEFT;
+		fill = MapFieldAttrFill.BLANK;
 	}
 	
 	public void set(MapFieldAttribute att)
 	{
-		m_Protection = att.m_Protection ;
-		m_Intensity = att.m_Intensity ;
-		m_Modified = att.m_Modified ;
-		m_Color = att.m_Color;
-		m_Justify = att.m_Justify;
-		m_Fill = att.m_Fill;
-		m_Highlighting = att.m_Highlighting;
+		protection = att.protection ;
+		intensity = att.intensity ;
+		modified = att.modified ;
+		color = att.color;
+		justify = att.justify;
+		fill = att.fill;
+		highlighting = att.highlighting;
 	}
 	
 	public MapFieldAttribute duplicate()
@@ -85,92 +85,92 @@ public class MapFieldAttribute extends CJMapObject
 	public String toString()
 	{
 		String cs = new String();
-		if(m_Protection != null)
-			cs += m_Protection.toString() + ";"; 
-		if(m_Intensity != null)
-			cs += m_Intensity.toString() + ";"; 
-		if(m_Modified != null)
-			cs += m_Modified.toString() + ";"; 
-		if(m_Color != null)
-			cs += m_Color.toString() + ";"; 
-		if(m_Justify != null)
-			cs += m_Justify.toString() + ";"; 
-		if(m_Fill != null)
-			cs += m_Fill.toString() + ";"; 
-		if(m_Highlighting != null)
-			cs += m_Highlighting.toString(); 
+		if(protection != null)
+			cs += protection.toString() + ";"; 
+		if(intensity != null)
+			cs += intensity.toString() + ";"; 
+		if(modified != null)
+			cs += modified.toString() + ";"; 
+		if(color != null)
+			cs += color.toString() + ";"; 
+		if(justify != null)
+			cs += justify.toString() + ";"; 
+		if(fill != null)
+			cs += fill.toString() + ";"; 
+		if(highlighting != null)
+			cs += highlighting.toString(); 
 		return cs;
 	}
 
 //	void setLineCol(int nLine, int nCol)	
 //	{
-//		m_nCol = nCol;
-//		m_nLine = nLine;
+//		nCol = nCol;
+//		nLine = nLine;
 //	}
 //	
 	public void setProtection(MapFieldAttrProtection Protection)
 	{
-		m_Protection = Protection;
-		if (m_Protection == MapFieldAttrProtection.NUMERIC)
+		protection = Protection;
+		if (protection == MapFieldAttrProtection.NUMERIC)
 		{
-			if (m_Justify == null)
+			if (justify == null)
 			{
-				m_Justify = MapFieldAttrJustify.RIGHT ;
+				justify = MapFieldAttrJustify.RIGHT ;
 			}
-			if (m_Fill == null)
+			if (fill == null)
 			{
-				m_Fill = MapFieldAttrFill.ZERO ;
+				fill = MapFieldAttrFill.ZERO ;
 			}
 		}
 	}
 	
 	public MapFieldAttrProtection getProtection()
 	{
-		return m_Protection;
+		return protection;
 	}
 
 	// Intensity
 	public void setIntensity(MapFieldAttrIntensity Intensity)
 	{
-		m_Intensity = Intensity;
+		intensity = Intensity;
 	}
 	
 	public MapFieldAttrIntensity getIntensity()
 	{
-		return m_Intensity;
+		return intensity;
 	} 
 	
 	// Highlight
 	public void setHighlighting(MapFieldAttrHighlighting hl)
 	{
-		m_Highlighting = hl ;
+		highlighting = hl ;
 	}
 	
 	public MapFieldAttrHighlighting getHighlighting()
 	{
-		return m_Highlighting; 
+		return highlighting; 
 	}	
 	
 	// Attribut modified
 	public void setAttrModified(MapFieldAttrModified Modified)
 	{
-		m_Modified = Modified;
+		modified = Modified;
 	}
 
 	public MapFieldAttrModified getAttrModified()
 	{
-		return m_Modified;
+		return modified;
 	}
 
 
 	public void setColor(MapFieldAttrColor Color)
 	{
-		m_Color = Color;
+		color = Color;
 	}
 	
 	public MapFieldAttrColor getColor()
 	{
-		return m_Color;
+		return color;
 	}
 	
 	public void exportAllAttributes(Element eEdit)
@@ -184,45 +184,45 @@ public class MapFieldAttribute extends CJMapObject
 	
 	private void exportColor(Element eEdit)
 	{
-		if (m_Color != null)
+		if (color != null)
  		{
-			String csFieldColor = m_Color.getText();
+			String csFieldColor = color.getText();
 			eEdit.setAttribute("color", csFieldColor) ;
  		}
  	}
 
 	private void exportIntensity(Element eEdit)
 	{
- 		if (m_Intensity != null)
+ 		if (intensity != null)
  		{
-			String csIntens = m_Intensity.getText();
+			String csIntens = intensity.getText();
 			eEdit.setAttribute("intensity", csIntens) ;
  		}
 	}
 	
 	private void exportHighlighting(Element eEdit)
 	{
-		if (m_Highlighting != null)
+		if (highlighting != null)
 		{
-			String csHL = m_Highlighting.getText();
+			String csHL = highlighting.getText();
 			eEdit.setAttribute("highlighting", csHL) ;
 		}
 	}
 	 
 	private void exportProtection(Element eEdit)
 	{
-		if (m_Protection != null)
+		if (protection != null)
 		{
-			String csProtect = m_Protection.getText();
+			String csProtect = protection.getText();
 			eEdit.setAttribute("protection", csProtect) ;
 		}
 	}
 	
 	private void exportModified(Element eEdit)
 	{
-		if (m_Modified != null)
+		if (modified != null)
 		{
-			if (m_Modified == MapFieldAttrModified.TO_BE_MODIFIED)
+			if (modified == MapFieldAttrModified.TO_BE_MODIFIED)
 			{
 				eEdit.setAttribute("modified", "true");
 			}
@@ -239,48 +239,48 @@ public class MapFieldAttribute extends CJMapObject
 
 	public void setJustify(MapFieldAttrJustify Justify)
 	{
-		m_Justify = Justify;
-		if (m_Fill == null)
+		justify = Justify;
+		if (fill == null)
 		{
-			if (m_Justify == MapFieldAttrJustify.LEFT)
+			if (justify == MapFieldAttrJustify.LEFT)
 			{
-				m_Fill = MapFieldAttrFill.BLANK ;
+				fill = MapFieldAttrFill.BLANK ;
 			}
-			else if (m_Justify == MapFieldAttrJustify.RIGHT)
+			else if (justify == MapFieldAttrJustify.RIGHT)
 			{
-				m_Fill = MapFieldAttrFill.ZERO ;
+				fill = MapFieldAttrFill.ZERO ;
 			}
 		}
 	}
 
 	public void setFill(MapFieldAttrFill Fill)
 	{
-		m_Fill = Fill;
-		if (m_Justify == null)
+		fill = Fill;
+		if (justify == null)
 		{
-			if (m_Fill == MapFieldAttrFill.BLANK)
+			if (fill == MapFieldAttrFill.BLANK)
 			{
-				m_Justify = MapFieldAttrJustify.LEFT ;
+				justify = MapFieldAttrJustify.LEFT ;
 			}
-			else if (m_Fill == MapFieldAttrFill.ZERO)
+			else if (fill == MapFieldAttrFill.ZERO)
 			{
-				m_Justify = MapFieldAttrJustify.RIGHT ;
+				justify = MapFieldAttrJustify.RIGHT ;
 			}
 		} 
 	}
 	
 	public boolean isFillZero()
 	{
-		if(m_Fill != null && m_Fill.isFillZero())
+		if(fill != null && fill.isFillZero())
 			return true;
 		return false;
 	}
 	
 	public boolean isFillBlank()
 	{
-		if(m_Fill != null)
+		if(fill != null)
 		{
-			if(m_Fill.isFillBlank())
+			if(fill.isFillBlank())
 				return true;
 			else
 				return false;
@@ -290,16 +290,16 @@ public class MapFieldAttribute extends CJMapObject
 	
 	public boolean isJustifyRight()
 	{
-		if(m_Justify != null && m_Justify.isJustifyRight())
+		if(justify != null && justify.isJustifyRight())
 			return true;
 		return false;
 	}
 	
 	public boolean isJustifyLeft()
 	{
-		if(m_Justify != null)
+		if(justify != null)
 		{
-			if(m_Justify.isJustifyLeft())
+			if(justify.isJustifyLeft())
 				return true;
 			else
 				return false;
@@ -312,32 +312,32 @@ public class MapFieldAttribute extends CJMapObject
 		int nEncodedValue = 0;
 		
 		nEncodedValue = nEncodedValue << MapFieldAttrProtection.getNbBitsEncoding();
-		if (m_Protection != null)
-			nEncodedValue |= m_Protection.getBitEncoding();
+		if (protection != null)
+			nEncodedValue |= protection.getBitEncoding();
 
 		nEncodedValue = nEncodedValue << MapFieldAttrIntensity.getNbBitsEncoding();
-		if (m_Intensity != null)
-			nEncodedValue |= m_Intensity.getBitEncoding();
+		if (intensity != null)
+			nEncodedValue |= intensity.getBitEncoding();
 
 		nEncodedValue = nEncodedValue << MapFieldAttrModified.getNbBitsEncoding();
-		if (m_Modified != null)
-			nEncodedValue |= m_Modified.getBitEncoding();
+		if (modified != null)
+			nEncodedValue |= modified.getBitEncoding();
 		
 		nEncodedValue = nEncodedValue << MapFieldAttrColor.getNbBitsEncoding();
-		if (m_Color != null)
-			nEncodedValue |= m_Color.getBitEncoding();
+		if (color != null)
+			nEncodedValue |= color.getBitEncoding();
 
 		nEncodedValue = nEncodedValue << MapFieldAttrHighlighting.getNbBitsEncoding();
-		if (m_Highlighting != null)
-			nEncodedValue |= m_Highlighting.getBitEncoding();
+		if (highlighting != null)
+			nEncodedValue |= highlighting.getBitEncoding();
 				
 		nEncodedValue = nEncodedValue << MapFieldAttrJustify.getNbBitsEncoding();
-		if (m_Justify != null)
-			nEncodedValue |= m_Justify.getBitEncoding();
+		if (justify != null)
+			nEncodedValue |= justify.getBitEncoding();
 
 		nEncodedValue = nEncodedValue << MapFieldAttrFill.getNbBitsEncoding();
-		if (m_Fill != null)
-			nEncodedValue |= m_Fill.getBitEncoding();
+		if (fill != null)
+			nEncodedValue |= fill.getBitEncoding();
 		
 		return nEncodedValue;
 	}
@@ -347,43 +347,43 @@ public class MapFieldAttribute extends CJMapObject
 		int nValue;
 		
 		nValue = nEncodedValue & MapFieldAttrFill.getMask();
-		m_Fill = MapFieldAttrFill.Select(nValue);		
+		fill = MapFieldAttrFill.Select(nValue);		
 		nEncodedValue = nEncodedValue >> MapFieldAttrFill.getNbBitsEncoding();
 
 		nValue = nEncodedValue & MapFieldAttrJustify.getMask();
-		m_Justify = MapFieldAttrJustify.Select(nValue);		
+		justify = MapFieldAttrJustify.Select(nValue);		
 		nEncodedValue = nEncodedValue >> MapFieldAttrJustify.getNbBitsEncoding();
 
 		nValue = nEncodedValue & MapFieldAttrHighlighting.getMask();
-		m_Highlighting = MapFieldAttrHighlighting.Select(nValue);		
+		highlighting = MapFieldAttrHighlighting.Select(nValue);		
 		nEncodedValue = nEncodedValue >> MapFieldAttrHighlighting.getNbBitsEncoding();
 
 		nValue = nEncodedValue & MapFieldAttrColor.getMask();
-		m_Color = MapFieldAttrColor.Select(nValue);		
+		color = MapFieldAttrColor.Select(nValue);		
 		nEncodedValue = nEncodedValue >> MapFieldAttrColor.getNbBitsEncoding();		
 
 		nValue = nEncodedValue & MapFieldAttrModified.getMask();
-		m_Modified = MapFieldAttrModified.Select(nValue);		
+		modified = MapFieldAttrModified.Select(nValue);		
 		nEncodedValue = nEncodedValue >> MapFieldAttrModified.getNbBitsEncoding();		
 
 		nValue = nEncodedValue & MapFieldAttrIntensity.getMask();
-		m_Intensity = MapFieldAttrIntensity.Select(nValue);		
+		intensity = MapFieldAttrIntensity.Select(nValue);		
 		nEncodedValue = nEncodedValue >> MapFieldAttrIntensity.getNbBitsEncoding();
 
 		nValue = nEncodedValue & MapFieldAttrProtection.getMask();
-		m_Protection = MapFieldAttrProtection.Select(nValue);		
+		protection = MapFieldAttrProtection.Select(nValue);		
 		nEncodedValue = nEncodedValue >> MapFieldAttrProtection.getNbBitsEncoding();
 	}
 
 	public void initialize()
 	{
-		m_Protection = null ; //MapFieldAttrProtection.AUTOSKIP;
-		m_Intensity = null ; //MapFieldAttrIntensity.NORMAL;
-		m_Modified = null ; //MapFieldAttrModified.UNMODIFIED;
-		m_Color = null ; //vMapFieldAttrColor.DEFAULT;
-		m_Highlighting = null ; //MapFieldAttrHighlighting.OFF ;
-//		m_Justify = MapFieldAttrJustify.LEFT;
-//		m_Fill = MapFieldAttrFill.BLANK;
+		protection = null ; //MapFieldAttrProtection.AUTOSKIP;
+		intensity = null ; //MapFieldAttrIntensity.NORMAL;
+		modified = null ; //MapFieldAttrModified.UNMODIFIED;
+		color = null ; //vMapFieldAttrColor.DEFAULT;
+		highlighting = null ; //MapFieldAttrHighlighting.OFF ;
+//		justify = MapFieldAttrJustify.LEFT;
+//		fill = MapFieldAttrFill.BLANK;
 	}
 }
 

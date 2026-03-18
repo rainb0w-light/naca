@@ -27,27 +27,27 @@ public abstract class CEntityIsKeyPressed extends CBaseEntityCondition
 
 	public void isKeyPressed(CDataEntity key)
 	{
-		m_KeyPressed = key ;
-		m_bIsNot = false ;
+		keyPressed = key ;
+		bIsNot = false ;
 	}
 	public void isNotKeyPressed(CDataEntity key)
 	{
-		m_KeyPressed = key ;
-		m_bIsNot = true ;
+		keyPressed = key ;
+		bIsNot = true ;
 	}
-	protected CDataEntity m_KeyPressed = null ;
-	protected boolean m_bIsNot = false ;
+	protected CDataEntity keyPressed = null ;
+	protected boolean bIsNot = false ;
 	public void Clear()
 	{
 		super.Clear();
-		m_KeyPressed = null ;
+		keyPressed = null ;
 	}
 	
 //	public CBaseEntityCondition getSimilarCondition(CBaseEntityFactory factory, CTerminal term)
 //	{
 //		CEntityIsKeyPressed ikp = factory.NewEntityIsKeyPressed() ;
-//		ikp.m_bIsNot = m_bIsNot ;
-//		ikp.m_KeyPressed = term.GetDataEntity(factory);
+//		ikp.bIsNot = bIsNot ;
+//		ikp.keyPressed = term.GetDataEntity(factory);
 //		return ikp ;
 //	}
 	public boolean ignore()

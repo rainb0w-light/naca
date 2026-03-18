@@ -34,80 +34,80 @@ public class CIdentifier
 {
 	public CIdentifier(String s)
 	{
-		m_Name = s ;
+		name = s ;
 	}
 	public CIdentifier(String s, String m)
 	{
-		m_Name = s ;
-		m_MemberOf = m;
+		name = s ;
+		memberOf = m;
 	}
 	public String GetName()
 	{
-		return m_Name ;
+		return name ;
 	}
 		
 	public void ExportTo(Element e, Document root)
 	{
-		if (m_arrArrayIndex != null && m_arrArrayIndex.size()>0 && m_exprStringLengthReference != null && m_exprStringStartReference != null)
+		if (arrArrayIndex != null && arrArrayIndex.size()>0 && exprStringLengthReference != null && exprStringStartReference != null)
 		{
-			e.setAttribute("SubStringOfArrayIdem", m_Name) ;
+			e.setAttribute("SubStringOfArrayIdem", name) ;
 		}
-		else if (m_arrArrayIndex != null && m_arrArrayIndex.size()>0)
+		else if (arrArrayIndex != null && arrArrayIndex.size()>0)
 		{
-			e.setAttribute("ArrayItem", m_Name) ;
+			e.setAttribute("ArrayItem", name) ;
 		}
-		else if (m_exprStringLengthReference != null || m_exprStringStartReference != null)
+		else if (exprStringLengthReference != null || exprStringStartReference != null)
 		{
-			e.setAttribute("SubStringOf", m_Name) ;
+			e.setAttribute("SubStringOf", name) ;
 		}
 		else
 		{
-			e.setAttribute("Identifier", m_Name) ;
+			e.setAttribute("Identifier", name) ;
 		}
-		if (m_arrArrayIndex != null && m_arrArrayIndex.size()>0)
+		if (arrArrayIndex != null && arrArrayIndex.size()>0)
 		{
-			for (int i=0; i<m_arrArrayIndex.size(); i++)
+			for (int i=0; i<arrArrayIndex.size(); i++)
 			{
-				CExpression exp = m_arrArrayIndex.get(i);
+				CExpression exp = arrArrayIndex.get(i);
 				Element eIndexLabel = root.createElement("Index"+i) ;
 				e.appendChild(eIndexLabel) ;
 				Element eIndex = exp.Export(root);
 				eIndexLabel.appendChild(eIndex) ;
 			}
 		}
-		if (m_exprStringStartReference  != null)
+		if (exprStringStartReference  != null)
 		{
 			Element eStart = root.createElement("Start") ;
 			e.appendChild(eStart) ;
-			eStart.appendChild(m_exprStringStartReference.Export(root)) ;
+			eStart.appendChild(exprStringStartReference.Export(root)) ;
 		}
-		if (m_exprStringLengthReference != null)
+		if (exprStringLengthReference != null)
 		{
 			Element eLength = root.createElement("Length") ;
 			e.appendChild(eLength) ;
-			eLength.appendChild(m_exprStringLengthReference.Export(root)) ;			
+			eLength.appendChild(exprStringLengthReference.Export(root)) ;			
 		}
-		if (!m_MemberOf.equals(""))
+		if (!memberOf.equals(""))
 		{
 			Element eOf = root.createElement("Of") ;
 			e.appendChild(eOf) ;
-			eOf.setAttribute("Ascendant", m_MemberOf) ;
+			eOf.setAttribute("Ascendant", memberOf) ;
 		}
 	}
 	
 	public void SetSubStringReference(CExpression exp1, CExpression exp2)
 	{
-		m_exprStringStartReference = exp1 ;
-		m_exprStringLengthReference = exp2 ;
+		exprStringStartReference = exp1 ;
+		exprStringLengthReference = exp2 ;
 	}		
 	
 	public void AddArrayIndex(CExpression e)
 	{
-		if (m_arrArrayIndex==null)
+		if (arrArrayIndex==null)
 		{
-			m_arrArrayIndex = new Vector<CExpression>() ;
+			arrArrayIndex = new Vector<CExpression>() ;
 		}
-		m_arrArrayIndex.add(e) ;
+		arrArrayIndex.add(e) ;
 	}
 	
 	public CDataEntity GetDataReference(int nLine, CBaseEntityFactory fact)
@@ -118,67 +118,67 @@ public class CIdentifier
 	public CDataEntity GetDataReference(int nLine, CBaseEntityFactory fact, CBaseLanguageEntity parent)
 	{
 		CDataEntity e = null ;
-		if (fact.m_ProgramCatalog.IsExistingDataEntity(m_Name, m_MemberOf))
+		if (fact.programCatalog.IsExistingDataEntity(name, memberOf))
 		{
-			e = fact.m_ProgramCatalog.GetDataEntity(nLine, m_Name, m_MemberOf) ;
+			e = fact.programCatalog.GetDataEntity(nLine, name, memberOf) ;
 			if (e == null)
 			{
-				Transcoder.addOnceUnboundReference(nLine, m_Name);
-				//Transcoder.ms_logger.error("ERROR : identifier not bound : "+m_Name);
-				return fact.NewEntityUnknownReference(nLine, m_Name) ;
+				Transcoder.addOnceUnboundReference(nLine, name);
+				//Transcoder.ms_logger.error("ERROR : identifier not bound : "+name);
+				return fact.NewEntityUnknownReference(nLine, name) ;
 			}
 		}
-		else if (m_MemberOf.equals("") && parent != null)
+		else if (memberOf.equals("") && parent != null)
 		{
-			if (fact.m_ProgramCatalog.IsExistingDataEntity(m_Name, parent.GetName()))
+			if (fact.programCatalog.IsExistingDataEntity(name, parent.GetName()))
 			{
-				e = fact.m_ProgramCatalog.GetDataEntity(nLine, m_Name, parent.GetName()) ;
+				e = fact.programCatalog.GetDataEntity(nLine, name, parent.GetName()) ;
 			}
 			else
 			{
-				e = fact.m_ProgramCatalog.GetDataEntity(nLine, m_Name, m_MemberOf) ;
-				Transcoder.addOnceUnboundReference(nLine, m_Name);
-				//Transcoder.ms_logger.error("ERROR : identifier not bound : "+m_Name);
-				return fact.NewEntityUnknownReference(nLine, m_Name) ;
+				e = fact.programCatalog.GetDataEntity(nLine, name, memberOf) ;
+				Transcoder.addOnceUnboundReference(nLine, name);
+				//Transcoder.ms_logger.error("ERROR : identifier not bound : "+name);
+				return fact.NewEntityUnknownReference(nLine, name) ;
 			}
 		}
 		else
 		{
-			e = fact.m_ProgramCatalog.GetDataEntity(nLine, m_Name, m_MemberOf) ;
-			Transcoder.addOnceUnboundReference(nLine, m_Name);
-			//Transcoder.ms_logger.error("ERROR : identifier not bound : "+m_Name);
-			return fact.NewEntityUnknownReference(nLine, m_Name) ;
+			e = fact.programCatalog.GetDataEntity(nLine, name, memberOf) ;
+			Transcoder.addOnceUnboundReference(nLine, name);
+			//Transcoder.ms_logger.error("ERROR : identifier not bound : "+name);
+			return fact.NewEntityUnknownReference(nLine, name) ;
 		}
-		if (m_arrArrayIndex != null)
+		if (arrArrayIndex != null)
 		{
-			e = e.GetArrayReference(m_arrArrayIndex, fact);
+			e = e.GetArrayReference(arrArrayIndex, fact);
 		}
-		if (m_exprStringStartReference != null)
+		if (exprStringStartReference != null)
 		{
-			CBaseEntityExpression expStart = m_exprStringStartReference.AnalyseExpression(fact);
-			CBaseEntityExpression expLen = m_exprStringLengthReference != null ? m_exprStringLengthReference.AnalyseExpression(fact) : null; 
+			CBaseEntityExpression expStart = exprStringStartReference.AnalyseExpression(fact);
+			CBaseEntityExpression expLen = exprStringLengthReference != null ? exprStringLengthReference.AnalyseExpression(fact) : null; 
 			e = e.GetSubStringReference(expStart, expLen, fact);
 		}
 		
 		return e ;
 	}
 	
-	protected CExpression m_exprStringStartReference = null ;
-	protected CExpression m_exprStringLengthReference = null ;
-	protected Vector<CExpression> m_arrArrayIndex = null ;
-	protected String m_Name = "" ;
-	protected String m_MemberOf = "" ;
+	protected CExpression exprStringStartReference = null ;
+	protected CExpression exprStringLengthReference = null ;
+	protected Vector<CExpression> arrArrayIndex = null ;
+	protected String name = "" ;
+	protected String memberOf = "" ;
 	public String toString()
 	{
 		String cs = "" ;
-		if (!m_MemberOf.equals(""))
+		if (!memberOf.equals(""))
 		{
-			cs = m_MemberOf +"." ;
+			cs = memberOf +"." ;
 		}
-		cs += m_Name ;
-		if (m_arrArrayIndex != null)
+		cs += name ;
+		if (arrArrayIndex != null)
 		{
-			for (int i=0; i<m_arrArrayIndex.size(); i++)
+			for (int i=0; i<arrArrayIndex.size(); i++)
 			{
 				if (i==0)
 				{
@@ -188,14 +188,14 @@ public class CIdentifier
 				{
 					cs += ", " ;
 				}
-				CExpression exp = m_arrArrayIndex.get(i);
+				CExpression exp = arrArrayIndex.get(i);
 				cs += exp.toString() ;
 			}
 			cs += ")" ;
 		}
-		if (m_exprStringLengthReference != null &&  m_exprStringStartReference != null)
+		if (exprStringLengthReference != null &&  exprStringStartReference != null)
 		{
-			cs += "("+m_exprStringStartReference.toString()+":"+m_exprStringLengthReference.toString()+")" ;
+			cs += "("+exprStringStartReference.toString()+":"+exprStringLengthReference.toString()+")" ;
 		}
 		return cs ;
 	}
@@ -204,15 +204,15 @@ public class CIdentifier
 	 */
 	public String GetMemberOf()
 	{
-		return m_MemberOf ;
+		return memberOf ;
 	}
 	public void setMemberOf(String string)
 	{
-		if (!m_MemberOf.equals(""))
+		if (!memberOf.equals(""))
 		{
-			m_MemberOf += ";" ;
+			memberOf += ";" ;
 		}
-		m_MemberOf += string ;
+		memberOf += string ;
 	}
 
 }

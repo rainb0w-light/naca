@@ -20,8 +20,8 @@ public class VarFPacNumEdited extends Var
 	public VarFPacNumEdited(DeclareTypeFPacNumEdited declareTypeFPacNumEdited, VarBuffer varBuffer, int nPosition)
 	{
 		super(declareTypeFPacNumEdited);
-		m_bufferPos = new VarBufferPos(varBuffer, nPosition);
-		m_varDef.setTotalSize(m_varDef.getSingleItemRequiredStorageSize());
+		bufferPos = new VarBufferPos(varBuffer, nPosition);
+		varDef.setTotalSize(varDef.getSingleItemRequiredStorageSize());
 	}
 	
 	public VarFPacNumEdited(DeclareTypeFPacNumEdited declareTypeFPacNumEdited)
@@ -43,7 +43,7 @@ public class VarFPacNumEdited extends Var
 
 	protected String getAsLoggableString()
 	{
-		CStr cstr = m_bufferPos.getOwnCStr(m_varDef.getLength());
+		CStr cstr = bufferPos.getOwnCStr(varDef.getLength());
 		String cs = cstr.getAsString();
 		//cstr.resetManagerCache();
 		return cs;

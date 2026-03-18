@@ -41,7 +41,7 @@ public abstract class CEntitySwitchCase extends CBaseActionEntity
 	}
 	public boolean hasExplicitGetOut()
 	{
-		Iterator iter = m_lstChildren.iterator() ;
+		Iterator iter = lstChildren.iterator() ;
 		boolean bExplicit = true ;
 		while (iter.hasNext())
 		{

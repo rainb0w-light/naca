@@ -45,7 +45,7 @@ public class OnlineMain
 		String csPrgClassName = null;
 		String csDB = "";
 		String csLogCfg = null;
-		String m_csConfigFile = null;
+		String csConfigFile = null;
 		int nNbLoops = 1;
 		int nNbThreads = 1;
 		int nWait = 0;
@@ -105,7 +105,7 @@ public class OnlineMain
 					
 					if(sArgUpper.startsWith("CONFIGFILE="))
 					{
-						m_csConfigFile = sArg.substring(11);
+						csConfigFile = sArg.substring(11);
 					}
 				}
 			}
@@ -118,7 +118,7 @@ public class OnlineMain
 					return;
 				}
 				
-				OnlineResourceManager resourceManager = OnlineResourceManagerFactory.GetInstance(m_csConfigFile, csDB);
+				OnlineResourceManager resourceManager = OnlineResourceManagerFactory.GetInstance(csConfigFile, csDB);
 				if(BaseResourceManager.getAppOpenState() != CalendarOpenState.AppOpened)
 				{
 					Log.logCritical("Application is closed");

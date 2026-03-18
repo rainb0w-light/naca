@@ -20,8 +20,8 @@ package nacaLib.varEx;
  */
 public class DeclareTypeEditInMapRedefineNumEdited extends DeclareTypeBase
 {
-	private String m_csNumEditedFormat = null;
-	private boolean m_bBlankWhenZero = false;
+	private String csNumEditedFormat = null;
+	private boolean bBlankWhenZero = false;
 	
 	public DeclareTypeEditInMapRedefineNumEdited()
 	{
@@ -30,8 +30,8 @@ public class DeclareTypeEditInMapRedefineNumEdited extends DeclareTypeBase
 	public void set(VarLevel varLevel, String csFormat, boolean bBlankWhenZero)
 	{
 		super.set(varLevel);
-		m_csNumEditedFormat = csFormat;
-		m_bBlankWhenZero = bBlankWhenZero;
+		csNumEditedFormat = csFormat;
+		bBlankWhenZero = bBlankWhenZero;
 	}
 	
 	public VarDefBuffer createVarDef(VarDefBuffer varDefParent)
@@ -47,12 +47,12 @@ public class DeclareTypeEditInMapRedefineNumEdited extends DeclareTypeBase
 	
 	String getNumEditedFormat()
 	{
-		return m_csNumEditedFormat;
+		return csNumEditedFormat;
 	}
 	
 	boolean getBlankWhenZero()
 	{
-		return m_bBlankWhenZero;
+		return bBlankWhenZero;
 	}
 	
 }

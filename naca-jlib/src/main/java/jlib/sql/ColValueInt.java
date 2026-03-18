@@ -16,43 +16,43 @@ public class ColValueInt extends ColValue
 	public ColValueInt(String csName, int nValue)
 	{
 		super(csName);
-		m_nValue = nValue;
+		nValue = nValue;
 	}
 	
 	public ColValue duplicate()
 	{
-		return new ColValueInt(m_csName, m_nValue);
+		return new ColValueInt(csName, nValue);
 	}
 	
 	public void setParamSQLClause(SQLClause clause)
 	{
-		clause.param(m_nValue);
+		clause.param(nValue);
 	}
 	
 	public void doFillWithResurltSetCol(ResultSet resultSet, int nCol)
 		throws SQLException
 	{
-		m_nValue = resultSet.getInt(nCol);
+		nValue = resultSet.getInt(nCol);
 	}
 
 	public String getValueAsString()
 	{
-		return String.valueOf(m_nValue);
+		return String.valueOf(nValue);
 	}
 	
 	String getDumpValueAsString()
 	{
-		return "(Int):'"+String.valueOf(m_nValue)+"'";
+		return "(Int):'"+String.valueOf(nValue)+"'";
 	}
 	
 	public int getValueAsInt()
 	{
-		return m_nValue;
+		return nValue;
 	}
 	
 	double getValueAsDouble()
 	{
-		return (double)m_nValue;
+		return (double)nValue;
 	}
 	
 	String getType()
@@ -67,9 +67,9 @@ public class ColValueInt extends ColValue
 	
 	Object getValue()
 	{
-		return String.valueOf(Integer.valueOf(m_nValue));
+		return String.valueOf(Integer.valueOf(nValue));
 	}
 
 	
-	int m_nValue = 0;
+	int nValue = 0;
 }

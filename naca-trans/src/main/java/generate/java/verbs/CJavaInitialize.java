@@ -40,32 +40,32 @@ public class CJavaInitialize extends CEntityInitialize
 	 */
 	protected void DoExport()
 	{
-		if (m_FillAlphaWith != null)
+		if (fillAlphaWith != null)
 		{
-			WriteLine("initializeReplacingAlphaNum("+m_data.ExportReference(getLine())+", "+m_FillAlphaWith.ExportReference(getLine())+") ;") ;
-			//WriteLine("initializeFillingAlphaNum("+m_data.ExportReference(getLine())+", "+m_FillAlphaWith.ExportReference(getLine())+") ;") ;
+			WriteLine("initializeReplacingAlphaNum("+data.ExportReference(getLine())+", "+fillAlphaWith.ExportReference(getLine())+") ;") ;
+			//WriteLine("initializeFillingAlphaNum("+data.ExportReference(getLine())+", "+fillAlphaWith.ExportReference(getLine())+") ;") ;
 		}
-		else if (m_RepAlphaWith != null)
+		else if (repAlphaWith != null)
 		{
-			WriteLine("initializeReplacingAlphaNum("+m_data.ExportReference(getLine())+", "+m_RepAlphaWith.ExportReference(getLine())+") ;") ;
+			WriteLine("initializeReplacingAlphaNum("+data.ExportReference(getLine())+", "+repAlphaWith.ExportReference(getLine())+") ;") ;
 		}
-		else if (m_RepNumWith != null)
+		else if (repNumWith != null)
 		{
-			WriteLine("initializeReplacingNum("+m_data.ExportReference(getLine())+", "+m_RepNumWith.ExportReference(getLine())+") ;") ;
+			WriteLine("initializeReplacingNum("+data.ExportReference(getLine())+", "+repNumWith.ExportReference(getLine())+") ;") ;
 		}
-		else if (m_RepNumEditedWith != null)
+		else if (repNumEditedWith != null)
 		{
-			WriteLine("initializeReplacingNumEdited("+m_data.ExportReference(getLine())+", "+m_RepNumEditedWith.ExportReference(getLine())+") ;") ;
+			WriteLine("initializeReplacingNumEdited("+data.ExportReference(getLine())+", "+repNumEditedWith.ExportReference(getLine())+") ;") ;
 		}
 		else
 		{
-			if (m_data.ExportReference(getLine()).equals("getSQLCode()"))
+			if (data.ExportReference(getLine()).equals("getSQLCode()"))
 			{	
 				WriteLine("resetSQLCode(0);") ;
 			}
 			else
 			{
-				WriteLine("initialize(" + m_data.ExportReference(getLine()) + ") ;") ;
+				WriteLine("initialize(" + data.ExportReference(getLine()) + ") ;") ;
 			}
 		}
 	}

@@ -22,44 +22,44 @@ public class CJavaSortReturn extends CEntitySortReturn
 	protected void DoExport()
 	{
 		String cs = "" ;
-		if (m_eFileDesc != null)
+		if (eFileDesc != null)
 		{
-			cs = "returnSort("+m_eFileDesc.ExportReference(getLine()) ;
+			cs = "returnSort("+eFileDesc.ExportReference(getLine()) ;
 		}
 		else
 		{
 			cs = "returnSort([Undefined]" ;
 		}
-		if (m_eDataInto != null)
+		if (eDataInto != null)
 		{
-			cs += ", "+m_eDataInto.ExportReference(getLine())+")" ;
+			cs += ", "+eDataInto.ExportReference(getLine())+")" ;
 		}
 		else
 		{
 			cs += ")" ;
 		}
-		if (m_blocAtEnd != null)
+		if (blocAtEnd != null)
 		{
 			WriteLine("if("+cs+".atEnd()) {") ;
 			StartOutputBloc() ;
-			DoExport(m_blocAtEnd) ;
+			DoExport(blocAtEnd) ;
 			EndOutputBloc() ;
 			WriteLine("}") ;
 			
-			if (m_blocNotAtEnd != null)
+			if (blocNotAtEnd != null)
 			{
 				WriteLine("else {") ;
 				StartOutputBloc() ;
-				DoExport(m_blocNotAtEnd) ;
+				DoExport(blocNotAtEnd) ;
 				EndOutputBloc() ;
 				WriteLine("}") ;
 			}
 		}
-		else if (m_blocNotAtEnd != null)
+		else if (blocNotAtEnd != null)
 		{
 			WriteLine("if(!"+cs+".atEnd()) {") ;
 			StartOutputBloc() ;
-			DoExport(m_blocNotAtEnd) ;
+			DoExport(blocNotAtEnd) ;
 			EndOutputBloc() ;
 			WriteLine("}") ;
 		}

@@ -25,11 +25,11 @@ import utils.CObjectCatalog;
  */
 public abstract class CEntityString extends CDataEntity
 {
-	protected char[] m_carrValue = {} ;
+	protected char[] carrValue = {} ;
 	public CEntityString(CObjectCatalog cat, CBaseLanguageExporter out, char[] val)
 	{
 		super(0, "", cat, out);
-		m_carrValue= val ;
+		carrValue= val ;
 	}
 	public CDataEntityType GetDataType()
 	{
@@ -54,7 +54,7 @@ public abstract class CEntityString extends CDataEntity
 	}
 	public String GetConstantValue()
 	{
-		return new String(m_carrValue);
+		return new String(carrValue);
 	} 	 
 	public CBaseEntityCondition GetSpecialCondition(int nLine, String value, CBaseEntityCondition.EConditionType type, CBaseEntityFactory factory)
 	{

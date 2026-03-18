@@ -29,22 +29,22 @@ public abstract class CCommentContainer extends CCobolElement
 	}
 //	public boolean ParseComment()
 //	{
-//		CBaseToken tok = m_lstTokens.GetCurrentToken() ;
+//		CBaseToken tok = lstTokens.GetCurrentToken() ;
 //		if (tok.GetType() == CTokenType.COMMENTS)
 //		{
 //			CLanguageElement eComment = new CComment(tokEntry.getLine(), tok.GetValue()) ;
 //			AddChild(eComment) ;
-//			m_lstTokens.GetNext();
+//			lstTokens.GetNext();
 //		}
 //		return true ;
 //	}
 //	protected boolean Parse(CLanguageElement e)
 //	{
-//		return e.Parse(m_lstTokens, this) ;
+//		return e.Parse(lstTokens, this) ;
 //	}
 //	protected boolean Parse(CLanguageElement e, CFlag f)
 //	{
-//		return e.Parse(m_lstTokens, this, f) ;
+//		return e.Parse(lstTokens, this, f) ;
 //	}
 //	public boolean Parse(CTokenList lstTokens)
 //	{

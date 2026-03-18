@@ -26,17 +26,17 @@ public class VarDefEncodingConvertibleManagerContainer
 	
 	public VarDefEncodingConvertibleManager getEncodingManager(VarBase varDest)
 	{
-		if(m_hash == null)
-			m_hash = new Hashtable<Integer, VarDefEncodingConvertibleManager>();
+		if(hash == null)
+			hash = new Hashtable<Integer, VarDefEncodingConvertibleManager>();
 
 		Integer varId = Integer.valueOf(varDest.getId());
-		VarDefEncodingConvertibleManager encodingManager = m_hash.get(varId);
+		VarDefEncodingConvertibleManager encodingManager = hash.get(varId);
 		if(encodingManager == null)
 		{
 			encodingManager = new VarDefEncodingConvertibleManager();
 			varDest.getVarDef().getChildrenEncodingConvertiblePosition(encodingManager);
 			encodingManager.compress();
-			m_hash.put(varId, encodingManager);
+			hash.put(varId, encodingManager);
 		}
 		return encodingManager;
 	}
@@ -54,24 +54,24 @@ public class VarDefEncodingConvertibleManagerContainer
 	
 	void getConvertedBytesAsciiToEbcdic(VarBase varSource, byte tbyDest[], int nLengthDest)
 	{
-		if(m_hash == null)
-			m_hash = new Hashtable<Integer, VarDefEncodingConvertibleManager>();
+		if(hash == null)
+			hash = new Hashtable<Integer, VarDefEncodingConvertibleManager>();
 
 		Integer varId = Integer.valueOf(varSource.getId());
-		VarDefEncodingConvertibleManager v = m_hash.get(varId);
+		VarDefEncodingConvertibleManager v = hash.get(varId);
 		if(v == null)
 		{
 			v = new VarDefEncodingConvertibleManager();
 			varSource.getVarDef().getChildrenEncodingConvertiblePosition(v);
 			v.compress();
-			m_hash.put(varId, v);
+			hash.put(varId, v);
 		}				
 		if(v != null)
 		{
 			varSource.exportIntoByteArray(tbyDest, nLengthDest);
-			v.getConvertedBytesAsciiToEbcdic(varSource.m_bufferPos.m_nAbsolutePosition, tbyDest, nLengthDest);
+			v.getConvertedBytesAsciiToEbcdic(varSource.bufferPos.nAbsolutePosition, tbyDest, nLengthDest);
 		}
 	}
 	
-	private Hashtable<Integer, VarDefEncodingConvertibleManager> m_hash = null;	
+	private Hashtable<Integer, VarDefEncodingConvertibleManager> hash = null;	
 }

@@ -36,9 +36,9 @@ public class VarDefNumDecComp0 extends VarDefNum
 	private static final long serialVersionUID = 1L;
 	public VarDefNumDecComp0(VarDefBase varDefParent, DeclareType9 declareType9, NumericValue numericValue)
 	{
-		super(varDefParent, declareType9.m_varLevel);
-		m_nNbDigitInteger = numericValue.m_nNbDigitInteger;
-		m_nNbDigitDecimal = numericValue.m_nNbDigitDecimal;
+		super(varDefParent, declareType9.varLevel);
+		nNbDigitInteger = numericValue.nNbDigitInteger;
+		nNbDigitDecimal = numericValue.nNbDigitDecimal;
 	}
 
 	protected VarDefNumDecComp0()
@@ -49,8 +49,8 @@ public class VarDefNumDecComp0 extends VarDefNum
 //	VarDefNumDecComp0(VarDefNumDecComp0 varDefSource)
 //	{
 //		super(varDefSource);
-//		m_nNbDigitInteger = varDefSource.m_nNbDigitInteger;
-//		m_nNbDigitDecimal = varDefSource.m_nNbDigitDecimal;
+//		nNbDigitInteger = varDefSource.nNbDigitInteger;
+//		nNbDigitDecimal = varDefSource.nNbDigitDecimal;
 //	}
 //	
 //	VarDefBuffer deepDuplicate()
@@ -60,25 +60,25 @@ public class VarDefNumDecComp0 extends VarDefNum
 	
 	void transfer(VarBufferPos bufferSource, VarAndEdit Dest)
 	{
-		Dest.m_varDef.write(Dest.m_bufferPos, this, bufferSource);
+		Dest.varDef.write(Dest.bufferPos, this, bufferSource);
 	}
 	
 	protected VarDefBuffer allocCopy()
 	{
 		VarDefNumDecComp0 v = new VarDefNumDecComp0();
-		v.m_nNbDigitInteger = m_nNbDigitInteger;
-		v.m_nNbDigitDecimal = m_nNbDigitDecimal;
+		v.nNbDigitInteger = nNbDigitInteger;
+		v.nNbDigitDecimal = nNbDigitDecimal;
 		return v;
 	}
 	
 	CSQLItemType getSQLType()
 	{
-		return getDecimalSQLType(m_nNbDigitInteger, m_nNbDigitDecimal);
+		return getDecimalSQLType(nNbDigitInteger, nNbDigitDecimal);
 	}
 
 	public int getBodyLength()
 	{
-		return m_nTotalSize;
+		return nTotalSize;
 	}
 	
 	protected int getHeaderLength()
@@ -89,18 +89,18 @@ public class VarDefNumDecComp0 extends VarDefNum
 	
 	public int getSingleItemRequiredStorageSize()
 	{
-		return m_nNbDigitInteger + m_nNbDigitDecimal;
+		return nNbDigitInteger + nNbDigitDecimal;
 	}
 	
 	int getAsDecodedInt(VarBufferPos buffer)
 	{
-		int n = buffer.getAsUnsignedInt(buffer.m_nAbsolutePosition, m_nNbDigitInteger);
+		int n = buffer.getAsUnsignedInt(buffer.nAbsolutePosition, nNbDigitInteger);
 		return n;
 	}
 	
 	int getAsDecodedUnsignedInt(VarBufferPos buffer)
 	{
-		int n = buffer.getAsUnsignedInt(buffer.m_nAbsolutePosition, m_nNbDigitInteger);
+		int n = buffer.getAsUnsignedInt(buffer.nAbsolutePosition, nNbDigitInteger);
 		return n;
 	}
 
@@ -108,18 +108,18 @@ public class VarDefNumDecComp0 extends VarDefNum
 	
 	long getAsDecodedLong(VarBufferPos buffer)
 	{
-		long l = buffer.getAsUnsignedLong(buffer.m_nAbsolutePosition, m_nNbDigitInteger);
+		long l = buffer.getAsUnsignedLong(buffer.nAbsolutePosition, nNbDigitInteger);
 		return l;
 	}
 	
 	Dec getAsDecodedDec(VarBufferPos buffer)
 	{
-		//BufChunk bufChunkInt = buffer.getBufChunkAt(m_nNbDigitInteger);
-		//BufChunk bufChunkDec = buffer.getBufChunkAt(buffer.m_nAbsolutePosition+m_nNbDigitInteger, m_nNbDigitDecimal);
+		//BufChunk bufChunkInt = buffer.getBufChunkAt(nNbDigitInteger);
+		//BufChunk bufChunkDec = buffer.getBufChunkAt(buffer.nAbsolutePosition+nNbDigitInteger, nNbDigitDecimal);
 		//Dec dec = new Dec(bufChunkInt.getAsLong(), bufChunkDec);
 		
-		long l = buffer.getAsLong(m_nNbDigitInteger);
-		CStr cs = buffer.getBufChunkAt(buffer.m_nAbsolutePosition+m_nNbDigitInteger, m_nNbDigitDecimal);
+		long l = buffer.getAsLong(nNbDigitInteger);
+		CStr cs = buffer.getBufChunkAt(buffer.nAbsolutePosition+nNbDigitInteger, nNbDigitDecimal);
 		Dec dec = new Dec(l, cs);
 		//cs.resetManagerCache();
 		return dec;
@@ -127,8 +127,8 @@ public class VarDefNumDecComp0 extends VarDefNum
 	
 	CStr getAsAlphaNumString(VarBufferPos buffer)
 	{
-		CStr csInt = buffer.getBufChunkAt(m_nNbDigitInteger);
-		CStr csDec = buffer.getBufChunkAt(buffer.m_nAbsolutePosition+m_nNbDigitInteger, m_nNbDigitDecimal);
+		CStr csInt = buffer.getBufChunkAt(nNbDigitInteger);
+		CStr csDec = buffer.getBufChunkAt(buffer.nAbsolutePosition+nNbDigitInteger, nNbDigitDecimal);
 		CStr cstr = TempCacheLocator.getTLSTempCache().getReusableCStr();
 		cstr.resetMinimalSize(csInt.length() + csDec.length() + 1);
 		cstr.append(csInt);
@@ -247,16 +247,16 @@ public class VarDefNumDecComp0 extends VarDefNum
 	
 	public void moveIntoSameType(VarBufferPos bufferDest, VarDefBuffer varDefSource, VarBufferPos bufferSource)
 	{
-		if(m_nTotalSize == varDefSource.m_nTotalSize)	// Same type and same size: Directly copy bytes
+		if(nTotalSize == varDefSource.nTotalSize)	// Same type and same size: Directly copy bytes
 		{
 			VarDefNumDecComp0 varDefSourceComp0 = (VarDefNumDecComp0)varDefSource;
-			if(m_nNbDigitDecimal == varDefSourceComp0.m_nNbDigitDecimal && m_nNbDigitInteger == varDefSourceComp0.m_nNbDigitInteger)
+			if(nNbDigitDecimal == varDefSourceComp0.nNbDigitDecimal && nNbDigitInteger == varDefSourceComp0.nNbDigitInteger)
 			{
-				int nPositionDest = bufferDest.m_nAbsolutePosition;
-				int nPositionSource = bufferSource.m_nAbsolutePosition;
-				for(int n=0; n<m_nTotalSize; n++)
+				int nPositionDest = bufferDest.nAbsolutePosition;
+				int nPositionSource = bufferSource.nAbsolutePosition;
+				for(int n=0; n<nTotalSize; n++)
 				{
-					bufferDest.m_acBuffer[nPositionDest++] = bufferSource.m_acBuffer[nPositionSource++];
+					bufferDest.acBuffer[nPositionDest++] = bufferSource.acBuffer[nPositionSource++];
 				}
 				return ;
 			}
@@ -267,13 +267,13 @@ public class VarDefNumDecComp0 extends VarDefNum
 		
 	void write(VarBufferPos buffer, VarDefNumDecComp0 varSource, VarBufferPos bufferSource)
 	{
-		if(m_nTotalSize == varSource.m_nTotalSize)	// Same type and same size: Directly copy bytes
+		if(nTotalSize == varSource.nTotalSize)	// Same type and same size: Directly copy bytes
 		{
-			int nPositionDest = buffer.m_nAbsolutePosition;
-			int nPositionSource = bufferSource.m_nAbsolutePosition;
-			for(int n=0; n<m_nTotalSize; n++)
+			int nPositionDest = buffer.nAbsolutePosition;
+			int nPositionSource = bufferSource.nAbsolutePosition;
+			for(int n=0; n<nTotalSize; n++)
 			{
-				buffer.m_acBuffer[nPositionDest++] = bufferSource.m_acBuffer[nPositionSource++];
+				buffer.acBuffer[nPositionDest++] = bufferSource.acBuffer[nPositionSource++];
 			}
 			return ;
 		}
@@ -516,18 +516,18 @@ public class VarDefNumDecComp0 extends VarDefNum
 			
 	private int writeDecComp0(VarBufferPos buffer, Dec decValue)
 	{
-		//return internalWriteDecComp0(buffer, decValue, m_nNbDigitInteger, m_nNbDigitDecimal);
+		//return internalWriteDecComp0(buffer, decValue, nNbDigitInteger, nNbDigitDecimal);
 		
-		//RWNumIntComp0.setFromRightToLeft(buffer, 0, decValue.getUnsignedLong(), m_nTotalSize, m_nNbDigitInteger);
-		int nPosition = RWNumIntComp0.internalWriteAbsoluteIntComp0AsLong(buffer, decValue.getUnsignedLong(), buffer.m_nAbsolutePosition, m_nNbDigitInteger);
+		//RWNumIntComp0.setFromRightToLeft(buffer, 0, decValue.getUnsignedLong(), nTotalSize, nNbDigitInteger);
+		int nPosition = RWNumIntComp0.internalWriteAbsoluteIntComp0AsLong(buffer, decValue.getUnsignedLong(), buffer.nAbsolutePosition, nNbDigitInteger);
 		String csValueDec = decValue.getDecPart();
-		nPosition = internalWriteRightPadding(buffer, nPosition, m_nNbDigitDecimal, csValueDec, '0');
+		nPosition = internalWriteRightPadding(buffer, nPosition, nNbDigitDecimal, csValueDec, '0');
 		return nPosition;
 	}
 
 	private int writeDecComp0(VarBufferPos buffer, int nOffset, Dec decValue)
 	{
-		return internalWriteDecComp0(buffer, nOffset, decValue, m_nNbDigitInteger, m_nNbDigitDecimal);
+		return internalWriteDecComp0(buffer, nOffset, decValue, nNbDigitInteger, nNbDigitDecimal);
 	}
 
 	void write(VarBufferPos buffer, CobolConstantZero cst)
@@ -578,7 +578,7 @@ public class VarDefNumDecComp0 extends VarDefNum
 	
 	int compare(ComparisonMode mode, VarBufferPos bufferSource, VarAndEdit var2)
 	{
-		return var2.m_varDef.compare(mode, var2.m_bufferPos, this, bufferSource);
+		return var2.varDef.compare(mode, var2.bufferPos, this, bufferSource);
 	}
 	
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumDecComp0 varDefNum1, VarBufferPos buffer1)
@@ -592,14 +592,14 @@ public class VarDefNumDecComp0 extends VarDefNum
 	public boolean isEqualWithSameTypeTo(VarBufferPos buffer1, VarDefBuffer varDefBuffer2, VarBufferPos buffer2)
 	{		
 		VarDefNumDecComp0 varDefSourceComp0 = (VarDefNumDecComp0)varDefBuffer2;
-		if(m_nNbDigitDecimal == varDefSourceComp0.m_nNbDigitDecimal && m_nNbDigitInteger == varDefSourceComp0.m_nNbDigitInteger)
+		if(nNbDigitDecimal == varDefSourceComp0.nNbDigitDecimal && nNbDigitInteger == varDefSourceComp0.nNbDigitInteger)
 		{
 			// Same quantity of digits before and after dot
-			int nPosition1 = buffer1.m_nAbsolutePosition;
-			int nPosition2 = buffer2.m_nAbsolutePosition;
-			for(int n=0; n<m_nTotalSize; n++)
+			int nPosition1 = buffer1.nAbsolutePosition;
+			int nPosition2 = buffer2.nAbsolutePosition;
+			for(int n=0; n<nTotalSize; n++)
 			{
-				if(buffer1.m_acBuffer[nPosition1++] != buffer2.m_acBuffer[nPosition2++])
+				if(buffer1.acBuffer[nPosition1++] != buffer2.acBuffer[nPosition2++])
 					return false;
 			}
 			return true;
@@ -828,8 +828,8 @@ public class VarDefNumDecComp0 extends VarDefNum
 	
 	public String digits(VarBufferPos buffer)
 	{
-		CStr csInt = buffer.getBufChunkAt(m_nNbDigitInteger);
-		CStr csDec = buffer.getBufChunkAt(buffer.m_nAbsolutePosition+m_nNbDigitInteger, m_nNbDigitDecimal);
+		CStr csInt = buffer.getBufChunkAt(nNbDigitInteger);
+		CStr csDec = buffer.getBufChunkAt(buffer.nAbsolutePosition+nNbDigitInteger, nNbDigitDecimal);
 		CStr cstr = TempCacheLocator.getTLSTempCache().getReusableCStr();
 		cstr.resetMinimalSize(csInt.length() + csDec.length());
 		cstr.append(csInt);
@@ -841,7 +841,7 @@ public class VarDefNumDecComp0 extends VarDefNum
 	
 	public int getNbDigitDecimal()
 	{
-		return m_nNbDigitDecimal;
+		return nNbDigitDecimal;
 	}
 	
 	boolean isConvertibleInEbcdic()
@@ -862,22 +862,22 @@ public class VarDefNumDecComp0 extends VarDefNum
 	
 	public BtreeSegmentKeyTypeFactory getSegmentKeyTypeFactory()
 	{
-		return VarTypeId.m_segmentKeyTypeFactoryComp0;
+		return VarTypeId.segmentKeyTypeFactoryComp0;
 	}
 	
 
 	protected void adjustCustomProperty(VarDefBuffer varDefBufferCopySingleItem)
 	{
 		VarDefNumDecComp0 varDefCopy = (VarDefNumDecComp0)varDefBufferCopySingleItem;
-		varDefCopy.m_nNbDigitInteger = m_nNbDigitInteger;
-		varDefCopy.m_nNbDigitDecimal = m_nNbDigitDecimal;
+		varDefCopy.nNbDigitInteger = nNbDigitInteger;
+		varDefCopy.nNbDigitDecimal = nNbDigitDecimal;
 	}
 	
 	protected void adjustCustomPropertyForCharGetAt(VarDefBuffer varDefBufferCopySingleItem)
 	{
 		VarDefNumDecComp0 varDefCopy = (VarDefNumDecComp0)varDefBufferCopySingleItem;
-		varDefCopy.m_nNbDigitInteger = 1;
-		varDefCopy.m_nNbDigitDecimal = 0;
+		varDefCopy.nNbDigitInteger = 1;
+		varDefCopy.nNbDigitDecimal = 0;
 	}
 	
 	boolean isNumeric(VarBufferPos buffer)
@@ -886,6 +886,6 @@ public class VarDefNumDecComp0 extends VarDefNum
 		return cs.isOnlyNumericComp0(false, true);
 	}
 	
-	private int m_nNbDigitInteger;
-	private int m_nNbDigitDecimal;
+	private int nNbDigitInteger;
+	private int nNbDigitDecimal;
 }

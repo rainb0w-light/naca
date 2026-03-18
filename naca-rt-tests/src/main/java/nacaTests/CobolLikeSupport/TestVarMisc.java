@@ -233,7 +233,7 @@ public class TestVarMisc extends OnlineProgram
 		acBuffer[4] = 'E';
 		acBuffer[5] = 'F';
 
-		TUAZONE.setCustomBuffer(acBuffer);	// was Var2LinkageSection.set(CallParam.m_Var2)
+		TUAZONE.setCustomBuffer(acBuffer);	// was Var2LinkageSection.set(CallParam.var2)
 		assertIfDifferent(subString(TUAZONE, 1, 6), "ABCDEF");
 		assertIfDifferent(TUAZONE_A.getString(), "A");
 		assertIfDifferent(subString(TUAZONE_B, 1, 5), "BCDEF");

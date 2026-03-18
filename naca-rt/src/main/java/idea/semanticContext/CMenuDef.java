@@ -28,29 +28,29 @@ public class CMenuDef
 	
 	void setTitle(String csTitle)
 	{
-		m_csTitle = csTitle;
+		csTitle = csTitle;
 	}
 	
 	CMenuOptionDef createAndRegisterNewOption()
 	{
 		CMenuOptionDef MenuOptionDef = new CMenuOptionDef();
-		m_arrOptions.add(MenuOptionDef);
+		arrOptions.add(MenuOptionDef);
 		return MenuOptionDef;
 	}
 	
 	public String buildHTMLMenu()
 	{
-		String cs = "<H1><CENTER>"+m_csTitle+"</CENTER></H1><BR><table>";
-		for(int n=0; n<m_arrOptions.size(); n++)
+		String cs = "<H1><CENTER>"+csTitle+"</CENTER></H1><BR><table>";
+		for(int n=0; n<arrOptions.size(); n++)
 		{
-			CMenuOptionDef MenuOptionDef = m_arrOptions.get(n);
-			cs += "<tr><td><BUTTON TYPE=SUBMIT>" + MenuOptionDef.m_csLabel + "</BUTTON></td></tr>";
-			// use MenuOptionDef.m_csAction to identify option
+			CMenuOptionDef MenuOptionDef = arrOptions.get(n);
+			cs += "<tr><td><BUTTON TYPE=SUBMIT>" + MenuOptionDef.csLabel + "</BUTTON></td></tr>";
+			// use MenuOptionDef.csAction to identify option
 		}
 		cs += "</table>";
 		return cs;
 	}
 		
-	ArrayList<CMenuOptionDef> m_arrOptions = new ArrayList<CMenuOptionDef>();	// Array of  MenuOptionDef
-	public String m_csTitle = null;
+	ArrayList<CMenuOptionDef> arrOptions = new ArrayList<CMenuOptionDef>();	// Array of  MenuOptionDef
+	public String csTitle = null;
 }

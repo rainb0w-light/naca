@@ -15,14 +15,14 @@ import nacaLib.basePrgEnv.FileManagerEntry;
 
 public abstract class BaseFileDescriptor extends CJMapObject
 {	
-	protected BaseSession m_baseSession = null;
-	protected FileManagerEntry m_fileManagerEntry = null; 
-	protected String m_csLogicalName = null;
-	protected Var m_varLevel01 = null;
-	private Var m_varVariableLengthMarker = null;
-	private Var m_varLengthDependingOn = null;	// Variable declared by a FileDescriptorDepending: it gives the variable whose value give the length of the dynamic part of the record
-	private int m_nSizeConstantRecordLength = 0;
-	private int m_nSizeOccursDependingOn = 1;
+	protected BaseSession baseSession = null;
+	protected FileManagerEntry fileManagerEntry = null; 
+	protected String csLogicalName = null;
+	protected Var varLevel01 = null;
+	private Var varVariableLengthMarker = null;
+	private Var varLengthDependingOn = null;	// Variable declared by a FileDescriptorDepending: it gives the variable whose value give the length of the dynamic part of the record
+	private int nSizeConstantRecordLength = 0;
+	private int nSizeOccursDependingOn = 1;
 	
 	BaseFileDescriptor()
 	{
@@ -30,81 +30,81 @@ public abstract class BaseFileDescriptor extends CJMapObject
 	
 	public BaseFileDescriptor(BaseEnvironment env, String csLogicalName)
 	{
-		m_csLogicalName = csLogicalName;
+		csLogicalName = csLogicalName;
 		if(env != null)
-			m_fileManagerEntry = env.getFileManagerEntry(csLogicalName);
+			fileManagerEntry = env.getFileManagerEntry(csLogicalName);
 		else
-			m_fileManagerEntry = new FileManagerEntry();
+			fileManagerEntry = new FileManagerEntry();
 	}
 		
 	public void restoreFileManagerEntry(FileManagerEntry fileManagerEntry)
 	{
-		m_fileManagerEntry = fileManagerEntry;
+		fileManagerEntry = fileManagerEntry;
 	}
 
 	public String getLogicalName()
 	{
-		return m_csLogicalName;
+		return csLogicalName;
 	}
 	
 	public void setRecordStruct(Var varLevel01)
 	{
-		m_varLevel01 = varLevel01;
+		this.varLevel01 = varLevel01;
 	}
 	
 	public void setVarVariableLengthMarker(Var var)
 	{
-		m_varVariableLengthMarker = var;
+		varVariableLengthMarker = var;
 	}
 	
 	private void computeSizeConstantRecordLength()
 	{
-		if(m_varVariableLengthMarker != null && m_varLevel01 != null)
+		if(varVariableLengthMarker != null && varLevel01 != null)
 		{
-			int nPosFixRecordStart = m_varLevel01.getAbsolutePosition();
-			int nPosVariableRecordStart = m_varVariableLengthMarker.getAbsolutePosition(); 
-			m_nSizeConstantRecordLength = nPosVariableRecordStart - nPosFixRecordStart;
-			m_nSizeOccursDependingOn = m_varVariableLengthMarker.getAt(1).getTotalSize();
+			int nPosFixRecordStart = varLevel01.getAbsolutePosition();
+			int nPosVariableRecordStart = varVariableLengthMarker.getAbsolutePosition(); 
+			nSizeConstantRecordLength = nPosVariableRecordStart - nPosFixRecordStart;
+			nSizeOccursDependingOn = varVariableLengthMarker.getAt(1).getTotalSize();
 		}
 		else
 		{	
-			m_nSizeConstantRecordLength = 0;
-			m_nSizeOccursDependingOn = 1;
+			nSizeConstantRecordLength = 0;
+			nSizeOccursDependingOn = 1;
 		}	
 	}
 	
 	int getConstantRecordSize()
 	{
-		return m_nSizeConstantRecordLength;
+		return nSizeConstantRecordLength;
 	}
 	
 	int getOccursDependingOnRecordSize()
 	{
-		return m_nSizeOccursDependingOn;
+		return nSizeOccursDependingOn;
 	}
 		
 	int getTotalRecordSize()
 	{
-		if(m_varLevel01 != null)
-			return m_varLevel01.getTotalSize();
+		if(varLevel01 != null)
+			return varLevel01.getTotalSize();
 		return 0;
 	}
 	
 	int getVariableRecordLength(int nTotalRecordLength)
 	{
-		return (nTotalRecordLength - m_nSizeConstantRecordLength) / getOccursDependingOnRecordSize();
+		return (nTotalRecordLength - nSizeConstantRecordLength) / getOccursDependingOnRecordSize();
 	}
 		
 	protected int getRecordLength(VarBase varSource)
 	{
-		if(m_varLengthDependingOn != null)
+		if(varLengthDependingOn != null)
 		{
-			return getConstantRecordSize() + (m_varLengthDependingOn.getInt() * getOccursDependingOnRecordSize());
+			return getConstantRecordSize() + (varLengthDependingOn.getInt() * getOccursDependingOnRecordSize());
 		}
 
-		if (m_fileManagerEntry != null)
+		if (fileManagerEntry != null)
 		{	
-			RecordLengthDefinition recordLengthDefinition = m_fileManagerEntry.getRecordLengthDefinition();
+			RecordLengthDefinition recordLengthDefinition = fileManagerEntry.getRecordLengthDefinition();
 			if(recordLengthDefinition != null)	// No record length defined by the FileDescriptor
 				return recordLengthDefinition.getRecordLength();
 		}
@@ -117,20 +117,20 @@ public abstract class BaseFileDescriptor extends CJMapObject
 	
 	public boolean hasVarVariableLengthMarker()
 	{
-		if(m_varVariableLengthMarker != null || m_varLengthDependingOn != null)
+		if(varVariableLengthMarker != null || varLengthDependingOn != null)
 			return true;
 		return false;
 	}
 	
 	void fillVarLengthDependingOn(int nVariableRecordLength)
 	{
-		if(m_varLengthDependingOn != null)
-			m_varLengthDependingOn.set(nVariableRecordLength);
+		if(varLengthDependingOn != null)
+			varLengthDependingOn.set(nVariableRecordLength);
 	}
 	
 	protected void setVarLengthDependingOn(Var varLengthDependingOn)
 	{
-		m_varLengthDependingOn = varLengthDependingOn;
+		varLengthDependingOn = varLengthDependingOn;
 	}
 	
 	public BaseFileDescriptor openOutputNoFileHeaderWrite()
@@ -149,7 +149,7 @@ public abstract class BaseFileDescriptor extends CJMapObject
 		if(hasVarVariableLengthMarker())
 			bVariableLength = true;
 		
-		boolean bOpened = m_fileManagerEntry.doOpenOutput(m_csLogicalName, m_baseSession, bVariableLength, bCanAuthoriseFileHeaderWrite);
+		boolean bOpened = fileManagerEntry.doOpenOutput(csLogicalName, baseSession, bVariableLength, bCanAuthoriseFileHeaderWrite);
 		if(bOpened)
 			return this;
 		return null;
@@ -161,7 +161,7 @@ public abstract class BaseFileDescriptor extends CJMapObject
 		if(hasVarVariableLengthMarker())
 			bVariableLength = true;
 
-		boolean bOpened = m_fileManagerEntry.doOpenInputOutput(m_csLogicalName, m_baseSession, bVariableLength);
+		boolean bOpened = fileManagerEntry.doOpenInputOutput(csLogicalName, baseSession, bVariableLength);
 		if(bOpened)
 			return this;
 		return null;
@@ -173,7 +173,7 @@ public abstract class BaseFileDescriptor extends CJMapObject
 		if(hasVarVariableLengthMarker())
 			bVariableLength = true;
 		
-		boolean bOpened = m_fileManagerEntry.doOpenInput(m_csLogicalName, m_baseSession, bVariableLength);
+		boolean bOpened = fileManagerEntry.doOpenInput(csLogicalName, baseSession, bVariableLength);
 		if(bOpened)
 			return this;
 		return null;
@@ -181,9 +181,9 @@ public abstract class BaseFileDescriptor extends CJMapObject
 	
 	public BaseDataFile getBaseDataFile()
 	{
-		if(m_fileManagerEntry != null)
-			if(m_fileManagerEntry.m_dataFile != null)
-				return m_fileManagerEntry.m_dataFile;
+		if(fileManagerEntry != null)
+			if(fileManagerEntry.dataFile != null)
+				return fileManagerEntry.dataFile;
 		return null;
 	}
 	
@@ -194,7 +194,7 @@ public abstract class BaseFileDescriptor extends CJMapObject
 		if(hasVarVariableLengthMarker())
 			bVariableLength = true;
 		
-		boolean bOpened = m_fileManagerEntry.doOpenExtend(m_csLogicalName, m_baseSession, bVariableLength);
+		boolean bOpened = fileManagerEntry.doOpenExtend(csLogicalName, baseSession, bVariableLength);
 		if(bOpened)
 			return this;
 		return null;
@@ -202,63 +202,63 @@ public abstract class BaseFileDescriptor extends CJMapObject
 	
 	public void close()
 	{
-		boolean b = m_fileManagerEntry.doClose(m_csLogicalName, m_baseSession);
+		boolean b = fileManagerEntry.doClose(csLogicalName, baseSession);
 		if(b)
-			m_fileManagerEntry.reportFileDescriptorStatus(FileDescriptorOpenStatus.CLOSE);
+			fileManagerEntry.reportFileDescriptorStatus(FileDescriptorOpenStatus.CLOSE);
 	}
 	
 	public void write(byte[] tBytes, int nOffset, int nLength, boolean bWriteEndOfRecordMarker)
 	{
-		m_fileManagerEntry.m_dataFile.write(tBytes, nOffset, nLength);
+		fileManagerEntry.dataFile.write(tBytes, nOffset, nLength);
 		if(bWriteEndOfRecordMarker)
-			m_fileManagerEntry.m_dataFile.writeEndOfRecordMarker();			
+			fileManagerEntry.dataFile.writeEndOfRecordMarker();			
 	}
 	
 	public void setSession(BaseSession baseSession)
 	{
-		m_baseSession = baseSession;
+		baseSession = baseSession;
 		computeSizeConstantRecordLength();
 	}
 		
 	public String getPhysicalName()
 	{
-		return m_fileManagerEntry.getPhysicalName(m_csLogicalName, m_baseSession);
+		return fileManagerEntry.getPhysicalName(csLogicalName, baseSession);
 	}
 	
 	public String getEbcdic()
 	{
-		return m_fileManagerEntry.getPhysicalName(m_csLogicalName, m_baseSession);
+		return fileManagerEntry.getPhysicalName(csLogicalName, baseSession);
 	}
 	
 	public boolean isEbcdic()
 	{
-		return m_fileManagerEntry.isEbcdic();
+		return fileManagerEntry.isEbcdic();
 	}
 		
 	public BaseDataFile getDataFile()
 	{
-		if(m_fileManagerEntry != null)
-			return m_fileManagerEntry.getDataFile();
+		if(fileManagerEntry != null)
+			return fileManagerEntry.getDataFile();
 		return null;
 	}
 	
 	protected void incNbRecordRead()
 	{
-		if(m_fileManagerEntry != null)
-			m_fileManagerEntry.incNbRecordRead();
+		if(fileManagerEntry != null)
+			fileManagerEntry.incNbRecordRead();
 	}
 
 	
 	protected void incNbRecordWrite()
 	{
-		if(m_fileManagerEntry != null)
-			m_fileManagerEntry.incNbRecordWrite();
+		if(fileManagerEntry != null)
+			fileManagerEntry.incNbRecordWrite();
 	}
 	
 	public boolean isEOF()
 	{
-		if(m_fileManagerEntry != null)
-			return m_fileManagerEntry.isEOF();
+		if(fileManagerEntry != null)
+			return fileManagerEntry.isEOF();
 		return true;
 	}
 }

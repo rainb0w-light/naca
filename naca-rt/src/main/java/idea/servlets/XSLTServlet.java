@@ -46,7 +46,7 @@ public class XSLTServlet extends HttpServlet
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private View m_view ;
+	private View view ;
 
 	protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException
 	{	
@@ -66,7 +66,7 @@ public class XSLTServlet extends HttpServlet
 		 
 		if (path.equalsIgnoreCase("/showprintscreen"))
 		{
-			m_view.mergeOutputForPrintScreen(appSession) ;
+			view.mergeOutputForPrintScreen(appSession) ;
 			ShowPrintScreen(appSession, res) ;
 			return ;
 		}
@@ -74,11 +74,11 @@ public class XSLTServlet extends HttpServlet
 		// make output
 		if (appSession.isUpdatedValues())
 		{
-			m_view.updateOutput(appSession) ;
+			view.updateOutput(appSession) ;
 		}
 		else
 		{
-			m_view.mergeOutput(appSession) ;
+			view.mergeOutput(appSession) ;
 		}
 		
 		// render output
@@ -229,6 +229,6 @@ public class XSLTServlet extends HttpServlet
 	public void init(ServletConfig arg0) throws ServletException
 	{
 		super.init(arg0);
-		m_view = new View() ;
+		view = new View() ;
 	}
 }

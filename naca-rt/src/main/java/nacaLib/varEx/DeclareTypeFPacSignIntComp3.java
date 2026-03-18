@@ -20,7 +20,7 @@ public class DeclareTypeFPacSignIntComp3 extends DeclareType9
 	
 	public VarDefBuffer createVarDef(VarDefBuffer varDefParent)
 	{
-		VarDefBuffer varDef = m_numericValue.createVarDefFPacNum(varDefParent, this);
+		VarDefBuffer varDef = numericValue.createVarDefFPacNum(varDefParent, this);
 		return varDef;		
 	}
 }

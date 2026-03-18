@@ -39,11 +39,11 @@ public abstract class CEntityCICSSendMap extends CBaseActionEntity
 	}
 	public void SetName(CDataEntity name)
 	{
-		m_MapName = name ;
+		mapName = name ;
 	}
 	public void SetMapSet(CDataEntity name)
 	{
-		m_MapSetName = name ;
+		mapSetName = name ;
 	}
 	
 	public void SetDataFrom(CDataEntity from, CDataEntity len, boolean b)
@@ -54,79 +54,79 @@ public abstract class CEntityCICSSendMap extends CBaseActionEntity
 			if (form.getSaveCopy() != null)
 			{
 				form.UnRegisterReadingAction(this) ;
-				m_DataFrom = form.getSaveCopy() ;
-				m_DataFrom.RegisterReadingAction(this) ;
+				dataFrom = form.getSaveCopy() ;
+				dataFrom.RegisterReadingAction(this) ;
 			}
 			else
 			{
-				m_DataFrom = from ;
+				dataFrom = from ;
 			}
 		}
 		else
 		{
-			m_DataFrom = from ;
+			dataFrom = from ;
 		}
-		m_DataLength = len ;
-		m_bDataOnly = b ;
+		dataLength = len ;
+		bDataOnly = b ;
 	}
 	
 	public void SetAccum(boolean b)
 	{
-		m_bAccum = b ;
+		bAccum = b ;
 	}
 	
 	public void SetAlarm(boolean b)
 	{
-		m_bAlarm = b ;
+		bAlarm = b ;
 	}
 	
 	public void SetErase(boolean b)
 	{
-		m_bErase = b ;
+		bErase = b ;
 	}
 	
 	public void SetFreeKB(boolean b)
 	{
-		m_bFreeKB = b ;
+		bFreeKB = b ;
 	}
 	
 	public void SetPaging(boolean b)
 	{
-		m_bPaging = b ;
+		bPaging = b ;
 	}
 	
 	public void SetWait(boolean b)
 	{
-		m_bWait = b ;
+		bWait = b ;
 	}
 	
 	public void SetCursor(CDataEntity e)
 	{
-		m_bCursor = true ;
-		m_CursorValue = e ;
+		bCursor = true ;
+		cursorValue = e ;
 	}
 	
-	protected CDataEntity m_MapName = null ;
-	protected CDataEntity m_MapSetName = null ;
-	protected CDataEntity m_DataFrom = null ;
-	protected CDataEntity m_DataLength = null ;
-	protected CDataEntity m_CursorValue = null ;
-	protected boolean m_bFreeKB= false ;
-	protected boolean m_bDataOnly = false ;
-	protected boolean m_bCursor = false ;
-	protected boolean m_bErase = false ;
-	protected boolean m_bAlarm = false ; 
-	protected boolean m_bWait = false ; 
-	protected boolean m_bAccum = false ;
-	protected boolean m_bPaging = false ;
+	protected CDataEntity mapName = null ;
+	protected CDataEntity mapSetName = null ;
+	protected CDataEntity dataFrom = null ;
+	protected CDataEntity dataLength = null ;
+	protected CDataEntity cursorValue = null ;
+	protected boolean bFreeKB= false ;
+	protected boolean bDataOnly = false ;
+	protected boolean bCursor = false ;
+	protected boolean bErase = false ;
+	protected boolean bAlarm = false ; 
+	protected boolean bWait = false ; 
+	protected boolean bAccum = false ;
+	protected boolean bPaging = false ;
 	public void Clear()
 	{
 		super.Clear();
-		m_MapName = null ;
-		m_MapSetName = null ;
-		m_DataFrom = null ;
-		m_DataLength = null ;
-		m_CursorValue = null ;
+		mapName = null ;
+		mapSetName = null ;
+		dataFrom = null ;
+		dataLength = null ;
+		cursorValue = null ;
 	}
 	public boolean ignore()
 	{
@@ -134,10 +134,10 @@ public abstract class CEntityCICSSendMap extends CBaseActionEntity
 	}
 	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
 	{
-		if (m_DataFrom == field)
+		if (dataFrom == field)
 		{
 			field.UnRegisterReadingAction(this) ;
-			m_DataFrom = var ;
+			dataFrom = var ;
 			var.RegisterReadingAction(this) ;
 			return true ;
 		}

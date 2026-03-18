@@ -49,7 +49,7 @@ public class BMSTranscoderEngine extends TranscoderEngine<CMapSetElement, CEntit
 			ms_BMSTranscoderEngine = this;
 	}
 	
-	protected CFormEnhancer m_FormEnhancer = null ;  
+	protected CFormEnhancer formEnhancer = null ;  
 
 
 	@Override
@@ -71,13 +71,13 @@ public class BMSTranscoderEngine extends TranscoderEngine<CMapSetElement, CEntit
 	@Override
 	protected CEntityResourceFormContainer doSemanticAnalysis(CParser<CMapSetElement> parser, String fileName, CObjectCatalog cat, CTransApplicationGroup grp, boolean bResources)
 	{
-		CJavaExporter outjava = new CJavaExporter(cat.m_Listing, fileName, parser.m_CommentContainer, bResources) ;
+		CJavaExporter outjava = new CJavaExporter(cat.listing, fileName, parser.commentContainer, bResources) ;
 		CJavaEntityFactory factory = new CJavaEntityFactory(cat, outjava) ;
 		CEntityResourceFormContainer eSem = (CEntityResourceFormContainer)parser.GetRootElement().DoSemanticAnalysis(null, factory) ;
 
-		if(m_FormEnhancer != null)
+		if(formEnhancer != null)
 		{	
-			m_FormEnhancer.ProcessFormContainer(eSem, bResources) ;
+			formEnhancer.ProcessFormContainer(eSem, bResources) ;
 		}	
 		
 		return eSem ;
@@ -94,23 +94,23 @@ public class BMSTranscoderEngine extends TranscoderEngine<CMapSetElement, CEntit
 		if (csFileNameNoExt.endsWith("S"))
 		{
 			String map = csFileNameNoExt.substring(0, csFileNameNoExt.length()-1) ;
-			CEntityResourceFormContainer cont = m_cat.GetFormContainer(map, grp, bResources) ;
+			CEntityResourceFormContainer cont = cat.GetFormContainer(map, grp, bResources) ;
 			if (cont != null)
 			{
-				String fileNameJavaS = grp.m_csOutputPath + csFileNameNoExt + ".java" ;
+				String fileNameJavaS = grp.csOutputPath + csFileNameNoExt + ".java" ;
 				CJavaExporter outjavaS = new CJavaExporter(cont.getExporter(), fileNameJavaS) ;
-				CJavaEntityFactory factoryS = new CJavaEntityFactory(cont.m_ProgramCatalog, outjavaS) ;
+				CJavaEntityFactory factoryS = new CJavaEntityFactory(cont.programCatalog, outjavaS) ;
 				CEntityResourceFormContainer eSav = cont.MakeSavCopy(factoryS, false) ;
-				m_cat.RegisterFormContainer(eSav.GetName(), eSav) ;
-				if(m_FormEnhancer != null)
-					m_FormEnhancer.ProcessFormContainer(eSav, bResources) ;
+				cat.RegisterFormContainer(eSav.GetName(), eSav) ;
+				if(formEnhancer != null)
+					formEnhancer.ProcessFormContainer(eSav, bResources) ;
 				return eSav;
 			}
 		}
 
 		CEntityResourceFormContainer ext = importRESResource(filename, csApplication, grp, bResources) ;
 		if(ext != null)
-			m_cat.RegisterFormContainer(filename, ext) ;
+			cat.RegisterFormContainer(filename, ext) ;
 		return ext;
 	}
 	
@@ -127,15 +127,15 @@ public class BMSTranscoderEngine extends TranscoderEngine<CMapSetElement, CEntit
 		if (filename.endsWith("S"))
 		{
 			String map = filename.substring(0, filename.length()-1) ;
-			CEntityResourceFormContainer cont = m_cat.GetFormContainer(map, grp, bResources) ;
+			CEntityResourceFormContainer cont = cat.GetFormContainer(map, grp, bResources) ;
 			if (cont != null)
 			{
-				String fileNameJavaS = grp.m_csOutputPath + filename + ".java" ;
+				String fileNameJavaS = grp.csOutputPath + filename + ".java" ;
 				CJavaExporter outjavaS = new CJavaExporter(cont.getExporter(), fileNameJavaS) ;
-				CJavaEntityFactory factoryS = new CJavaEntityFactory(cont.m_ProgramCatalog, outjavaS) ;
+				CJavaEntityFactory factoryS = new CJavaEntityFactory(cont.programCatalog, outjavaS) ;
 				CEntityResourceFormContainer eSav = cont.MakeSavCopy(factoryS, false) ;
-				m_cat.RegisterFormContainer(eSav.GetName(), eSav) ;
-				m_FormEnhancer.ProcessFormContainer(eSav, bResources) ;
+				cat.RegisterFormContainer(eSav.GetName(), eSav) ;
+				formEnhancer.ProcessFormContainer(eSav, bResources) ;
 				return eSav;
 			}
 		}
@@ -143,7 +143,7 @@ public class BMSTranscoderEngine extends TranscoderEngine<CMapSetElement, CEntit
 		CEntityResourceFormContainer ext = super.doAllAnalysis(filename, csApplication, grp, bResources) ;
 		if (ext != null)
 		{
-			m_cat.RegisterFormContainer(filename, ext) ;
+			cat.RegisterFormContainer(filename, ext) ;
 		}
 		return ext ;
 	}
@@ -173,7 +173,7 @@ public class BMSTranscoderEngine extends TranscoderEngine<CMapSetElement, CEntit
 		{
 			String csFormTransformPath = tagCobol.getVal("FormTransformPath") ; 
 			String csGlobalTransformPath = tagCobol.getVal("GlobalFormTransform") ; 
-			m_FormEnhancer = new CFormEnhancer(csFormTransformPath, csGlobalTransformPath) ;
+			formEnhancer = new CFormEnhancer(csFormTransformPath, csGlobalTransformPath) ;
 		}
 		return true ;
 	}
@@ -213,18 +213,18 @@ public class BMSTranscoderEngine extends TranscoderEngine<CMapSetElement, CEntit
 	private CEntityResourceFormContainer importRESResource(String inputFileName, String csApplication, CTransApplicationGroup grp, boolean bResources)
 	{
 		String csOutputFile = generateOutputFileName(inputFileName) ;
-		CTransApplicationGroup grpResources = m_cat.getGroupResources();
-		String csFullInputFileName = grpResources.m_csOutputPath + inputFileName;
+		CTransApplicationGroup grpResources = cat.getGroupResources();
+		String csFullInputFileName = grpResources.csOutputPath + inputFileName;
 		
 		//String csOutputFile = generateOutputFileName(inputFileName) ;
-		//createDirIsRequired(grp.m_csOutputPath, csApplication);	// For .res output
+		//createDirIsRequired(grp.csOutputPath, csApplication);	// For .res output
 		
 		Tag tagRoot = Tag.createFromFile(csFullInputFileName);
 		if(tagRoot == null)
 			return null;
 		
-		if(grp.m_csOutputPath != null)
-			createDirIsRequired(grp.m_csOutputPath, csApplication);	// For .java output
+		if(grp.csOutputPath != null)
+			createDirIsRequired(grp.csOutputPath, csApplication);	// For .java output
 		
 		CBMSParser BMSParser = parseRESResource(tagRoot);
 		if(BMSParser != null)
@@ -235,34 +235,26 @@ public class BMSTranscoderEngine extends TranscoderEngine<CMapSetElement, CEntit
 			NotificationEngine engine = new NotificationEngine() ;
 			doPopulateSpecialActionHandlers(engine) ;
 			COriginalLisiting listing = new COriginalLisiting();
-			CObjectCatalog cat = new CObjectCatalog(m_cat, listing, grp.m_eType, engine) ;
+			CObjectCatalog newCat = new CObjectCatalog(cat, listing, grp.eType, engine) ;
 			try
 			{
-				if(grp.m_csOutputPath != null)
+				if(grp.csOutputPath != null)
 				{
-					String csJavaOutFileName = FileSystem.appendFilePath(grp.m_csOutputPath + csApplication, ReplaceExtensionFileName(csOutputFile, "java"));
-					CEntityResourceFormContainer ext = doSemanticAnalysis(BMSParser, csJavaOutFileName, cat, grp, bResources) ;
+					String csJavaOutFileName = FileSystem.appendFilePath(grp.csOutputPath + csApplication, ReplaceExtensionFileName(csOutputFile, "java"));
+					CEntityResourceFormContainer ext = doSemanticAnalysis(BMSParser, csJavaOutFileName, newCat, grp, bResources) ;
 					if (ext != null)
 					{
-						// To reexport .res file, uncomment below
-//						String csResOutFileName = grp.m_csOutputPath + ReplaceExtensionFileName(csOutputFile, "res");					
-//						ext.setExportFilePath(csResOutFileName);	
-//						
-//						Transcoder.logInfo("Exporting resource file "+csResOutFileName);
-//						ext.MakeXMLOutput(true) ;
-						
-
-						m_cat.RegisterFormContainer(inputFileName, ext) ;
+						cat.RegisterFormContainer(inputFileName, ext) ;
 						
 						// PJD 08/08/2007 Uncomment to export xxx.java screen copy file. These are duplicated files generated twice beforecorrect generation export by    
 						//Transcoder.logInfo("Exporting java file "+csJavaOutFileName);
 						//ext.StartExport() ;
 						
-						String fileNameJavaS = FileSystem.appendFilePath(grp.m_csOutputPath + csApplication, ReplaceExtensionFileNameWithSuffix(csOutputFile, "S", "java"));
-						//String fileNameJavaS = grp.m_csOutputPath + csApplication + "/" + ReplaceExtensionFileNameWithSuffix(csOutputFile, "S", "java");
+						String fileNameJavaS = FileSystem.appendFilePath(grp.csOutputPath + csApplication, ReplaceExtensionFileNameWithSuffix(csOutputFile, "S", "java"));
+						//String fileNameJavaS = grp.csOutputPath + csApplication + "/" + ReplaceExtensionFileNameWithSuffix(csOutputFile, "S", "java");
 						CJavaExporter outjavaS = new CJavaExporter(ext.getExporter(), fileNameJavaS) ;
-						CJavaEntityFactory factoryS0 = new CJavaEntityFactory(ext.m_ProgramCatalog, outjavaS) ;
-						m_cat = ms_BMSTranscoderEngine.getGlobalCatalog();
+						CJavaEntityFactory factoryS0 = new CJavaEntityFactory(ext.programCatalog, outjavaS) ;
+						cat = ms_BMSTranscoderEngine.getGlobalCatalog();
 						CJavaEntityFactory factoryS = new CJavaEntityFactory(cat, outjavaS) ;
 												
 						ext.clearSavCopy(factoryS) ;
@@ -280,7 +272,7 @@ public class BMSTranscoderEngine extends TranscoderEngine<CMapSetElement, CEntit
 			}
 			catch (NacaTransAssertException e)
 			{
-				Transcoder.logError("Failure while transcoding "+csFullInputFileName+" : "+e.m_csMessage) ;
+				Transcoder.logError("Failure while transcoding "+csFullInputFileName+" : "+e.csMessage) ;
 			}
 		}
 			

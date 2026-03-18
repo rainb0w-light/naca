@@ -23,30 +23,30 @@ public class CLevel
 {
 	CLevel(VarDefBuffer varDef, int nLevel)
 	{
-		m_nLevel = nLevel;
-		m_varDef = varDef;
+		nLevel = nLevel;
+		varDef = varDef;
 	};
 	
 	void setWith(CLevel levelSource)
 	{
-		m_nLevel = levelSource.m_nLevel;
-		m_varDef = levelSource.m_varDef;
+		nLevel = levelSource.nLevel;
+		varDef = levelSource.varDef;
 	}
 	
 	VarDefBuffer getVarDef()
 	{
-		return m_varDef;
+		return varDef;
 	}
 	
 	boolean hasLowerLevel(int nLevel)
 	{
-		if(m_nLevel < nLevel)
+		if(nLevel < nLevel)
 			return true;
 		return false;
 	}
 
-	int m_nLevel = 0;
-	private VarDefBuffer m_varDef = null ;
+	int nLevel = 0;
+	private VarDefBuffer varDef = null ;
 }
 
 

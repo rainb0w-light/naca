@@ -38,22 +38,22 @@ public abstract class CEntityCICSReturn extends CBaseActionEntity
 	}
 	public void SetTransID(CDataEntity TID, CDataEntity comma, CDataEntity comlen, boolean bChecked)
 	{
-		m_TransID = TID;
-		m_CommArea = comma ;
-		m_CommLenght = comlen ;
-		m_bChecked = bChecked ;
+		transID = TID;
+		commArea = comma ;
+		commLenght = comlen ;
+		bChecked = bChecked ;
 	}
 	
-	protected boolean m_bChecked = false ;
-	protected CDataEntity m_TransID = null ;
-	protected CDataEntity m_CommArea = null ;
-	protected CDataEntity m_CommLenght = null ;
+	protected boolean bChecked = false ;
+	protected CDataEntity transID = null ;
+	protected CDataEntity commArea = null ;
+	protected CDataEntity commLenght = null ;
 	public void Clear()
 	{
 		super.Clear();
-		m_TransID = null ;
-		m_CommArea = null ;
-		m_CommLenght = null ;
+		transID = null ;
+		commArea = null ;
+		commLenght = null ;
 	}
 	public boolean ignore()
 	{
@@ -61,16 +61,16 @@ public abstract class CEntityCICSReturn extends CBaseActionEntity
 	}
 	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
 	{
-		if (m_TransID == field)
+		if (transID == field)
 		{
-			m_TransID = var ;
+			transID = var ;
 			field.UnRegisterReadingAction(this) ;
 			var.RegisterReadingAction(this) ;
 			return true ;
 		}
-		else if (m_CommArea == field)
+		else if (commArea == field)
 		{
-			m_CommArea = var ;
+			commArea = var ;
 			field.UnRegisterReadingAction(this) ;
 			var.RegisterReadingAction(this) ;
 			return true ;

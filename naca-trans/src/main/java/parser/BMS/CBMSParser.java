@@ -37,8 +37,8 @@ public class CBMSParser extends CParser<CMapSetElement>
 	
 	protected boolean DoParsing(CTokenList lstTokens)
 	{
-		m_CommentContainer = new CGlobalCommentContainer();
-//		m_CommentContainer.m_lstTokens = lstTokens ;
+		commentContainer = new CGlobalCommentContainer();
+//		commentContainer.lstTokens = lstTokens ;
 		
 		CBaseToken tokID = lstTokens.GetCurrentToken() ;
 		String name = "" ;
@@ -59,8 +59,8 @@ public class CBMSParser extends CParser<CMapSetElement>
 			return false ;
 		}
 		lstTokens.GetNext();
-		m_eRoot = new CMapSetElement(name, tokID.getLine()) ;
-		if (!m_eRoot.Parse(lstTokens, m_CommentContainer))
+		eRoot = new CMapSetElement(name, tokID.getLine()) ;
+		if (!eRoot.Parse(lstTokens, commentContainer))
 		{
 			Transcoder.logError("Error while parsing MAPSET") ;
 			return false ;
@@ -83,9 +83,9 @@ public class CBMSParser extends CParser<CMapSetElement>
 			if (tokMap.GetKeyword() == CBMSKeywordList.DFHMDI)
 			{
 				lstTokens.GetNext() ;
-				m_curMap = new CMapElement(elName, tokMap.getLine()) ;
-				m_eRoot.AddElement(m_curMap) ;
-				if (!m_curMap.Parse(lstTokens, m_CommentContainer))
+				curMap = new CMapElement(elName, tokMap.getLine()) ;
+				eRoot.AddElement(curMap) ;
+				if (!curMap.Parse(lstTokens, commentContainer))
 				{
 					Transcoder.logError("Error while parsing MAP") ;
 					return false ; 
@@ -95,7 +95,7 @@ public class CBMSParser extends CParser<CMapSetElement>
 			{
 				lstTokens.GetNext();
 				CFieldElement eField = new CFieldElement(elName, tokMap.getLine()) ;
-				if (!eField.Parse(lstTokens, m_CommentContainer))
+				if (!eField.Parse(lstTokens, commentContainer))
 				{
 					Transcoder.logError("Error while parsing FIELD") ;
 					return false ; 
@@ -110,11 +110,11 @@ public class CBMSParser extends CParser<CMapSetElement>
 						eField.SetName(csAlias) ;
 						if (csAlias.indexOf('(')>0 && csAlias.indexOf(')')>0)
 						{
-							m_curMap.setFindArrays();
+							curMap.setFindArrays();
 						} 
 						csAlias = "" ;
 					}
-					m_curMap.AddElement(eField) ;
+					curMap.AddElement(eField) ;
 				}
 				else
 				{
@@ -129,7 +129,7 @@ public class CBMSParser extends CParser<CMapSetElement>
 					{
 						grpField = new CFieldGroup(grpName);
 						tabGroups.put(grp, grpField);
-						m_curMap.AddElement(grpField) ;
+						curMap.AddElement(grpField) ;
 						grpField.setPosition(eField);
 					}
 					grpField.AddChildField(eField) ;
@@ -145,7 +145,7 @@ public class CBMSParser extends CParser<CMapSetElement>
 				}
 				else
 				{
-					m_CommentContainer.ParseComment(lstTokens) ;
+					commentContainer.ParseComment(lstTokens) ;
 				}
 			}
 			else if (tokMap.GetType() == CTokenType.END_OF_BLOCK)
@@ -161,7 +161,7 @@ public class CBMSParser extends CParser<CMapSetElement>
 		return true ;
 	}  
 
-	protected CMapElement m_curMap = null ; 
+	protected CMapElement curMap = null ; 
 
 //	public class CBMSCommentContainer extends CCommentContainer
 //	{
@@ -178,5 +178,5 @@ public class CBMSParser extends CParser<CMapSetElement>
 //			return null;
 //		}
 //	}
-//	public CGlobalCommentContainer m_CommentContainer = null ;
+//	public CGlobalCommentContainer commentContainer = null ;
 }

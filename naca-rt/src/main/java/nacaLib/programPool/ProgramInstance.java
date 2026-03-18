@@ -25,77 +25,77 @@
 //{
 //	public ProgramInstance(String csProgramName, BaseProgram program, boolean bNewProgramInstance)//, ClassLoaderUnloaderRef classLoaderUnloaderRef)
 //	{
-//		//m_csProgramName = csProgramName;
-//		//m_bNewProgramInstance = bNewProgramInstance;
-//		m_program = program;
-//		if(m_program != null)
+//		//csProgramName = csProgramName;
+//		//bNewProgramInstance = bNewProgramInstance;
+//		program = program;
+//		if(program != null)
 //		{
-//			m_program.setProgramName(csProgramName);
-//			m_program.setNewInstance(bNewProgramInstance);
+//			program.setProgramName(csProgramName);
+//			program.setNewInstance(bNewProgramInstance);
 //		}
 //		
 //	}
 //	
 //	public void setNewProgramInstance(boolean bNewProgramInstance)
 //	{
-//		//m_bNewProgramInstance = b;
-//		if(m_program != null)
+//		//bNewProgramInstance = b;
+//		if(program != null)
 //		{
-//			m_program.setNewInstance(bNewProgramInstance);
+//			program.setNewInstance(bNewProgramInstance);
 //		}
 //	}
 //	
 //	public BaseProgram getProgram()
 //	{
-//		return m_program;
+//		return program;
 //	}
 //	
 //	public boolean isNewProgramInstance()
 //	{
-//		if(m_program != null)
+//		if(program != null)
 //		{
-//			return m_program.getNewInstance();
+//			return program.getNewInstance();
 //		}
 //		return false;
 //	}
 //	
 //	String getProgramName()
 //	{
-//		if(m_program != null)
-//			return m_program.getProgramName();
+//		if(program != null)
+//			return program.getProgramName();
 //		return "";
 //	}
 //	
 //	/*
 //	public Class getUnloadableClass()
 //	{
-//		return m_classLoaderUnloaderRef.get();
+//		return classLoaderUnloaderRef.get();
 //	}
 //	*/
 //	
 //	long getTimeRun()
 //	{
-//		return m_program.getProgramManager().getTimeRun();
+//		return program.getProgramManager().getTimeRun();
 //	}
 //
 //	long getTimeLastRunBegin_ms()
 //	{
-//		return m_program.getProgramManager().getTimeLastRunBegin_ms();
+//		return program.getProgramManager().getTimeLastRunBegin_ms();
 //	}
 //	
 //	void setLastTimeRunBegin()
 //	{
-//		m_program.getProgramManager().setLastTimeRunBegin();
+//		program.getProgramManager().setLastTimeRunBegin();
 //	}
 //	
 //	void setLastTimeRunEnd()
 //	{
-//		m_program.getProgramManager().setLastTimeRunEnd();
+//		program.getProgramManager().setLastTimeRunEnd();
 //	}
 //	
 //	void unloadClassCode()
 //	{		
-//		SharedProgramInstanceData sharedProgramInstanceData = m_program.getProgramManager().getSharedProgramInstanceData();
+//		SharedProgramInstanceData sharedProgramInstanceData = program.getProgramManager().getSharedProgramInstanceData();
 //		int nNbCopy = sharedProgramInstanceData.getNbCopy();
 //		String csProgramName = getProgramName();
 //		for(int n=0; n<nNbCopy; n++)
@@ -105,7 +105,7 @@
 //		}
 //		
 //		
-////		Class classParent = m_program.getClass();
+////		Class classParent = program.getClass();
 ////		// Get all copy
 ////		Field fieldlist[] = classParent.getDeclaredFields();
 ////		for (int i=0; i < fieldlist.length; i++) 
@@ -117,7 +117,7 @@
 ////			String csTypeName = type.getName();
 ////			try
 ////			{
-////				Object obj = fld.get(m_program);
+////				Object obj = fld.get(program);
 ////				if(obj != null)
 ////				{
 ////					if(type != null)
@@ -144,14 +144,14 @@
 ////			}
 ////		}
 //		
-//		//m_program.getProgramManager().prepareAutoRemoval();
-//		m_program = null;
+//		//program.getProgramManager().prepareAutoRemoval();
+//		program = null;
 //	}
 //	
 //		
-//	//String m_csProgramName = null;
-//	//boolean m_bNewProgramInstance = false;
-//	BaseProgram m_program = null;
+//	//String csProgramName = null;
+//	//boolean bNewProgramInstance = false;
+//	BaseProgram program = null;
 //	
-//	//ClassLoaderUnloaderRef m_classLoaderUnloaderRef = null;
+//	//ClassLoaderUnloaderRef classLoaderUnloaderRef = null;
 //}

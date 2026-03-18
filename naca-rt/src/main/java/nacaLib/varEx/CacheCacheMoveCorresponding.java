@@ -20,18 +20,18 @@ public class CacheCacheMoveCorresponding
 {
 	public CacheCacheMoveCorresponding()
 	{
-		m_h = new Hashtable<Integer, MoveCorrespondingEntryManager>();
+		h = new Hashtable<Integer, MoveCorrespondingEntryManager>();
 	}
 	
 	public MoveCorrespondingEntryManager get(int nId)
 	{
-		return m_h.get(nId);
+		return h.get(nId);
 	}
 
 	public void add(int nId, MoveCorrespondingEntryManager c)
 	{
-		m_h.put(nId, c);
+		h.put(nId, c);
 	}
 
-	private Hashtable<Integer, MoveCorrespondingEntryManager> m_h = null;
+	private Hashtable<Integer, MoveCorrespondingEntryManager> h = null;
 }

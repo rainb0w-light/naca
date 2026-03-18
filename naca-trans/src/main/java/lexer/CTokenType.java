@@ -22,25 +22,25 @@ public class CTokenType
 {
 	protected CTokenType()
 	{
-		m_bSourceValueDefined = false;
+		bSourceValueDefined = false;
 	}
 	protected CTokenType(String val)
 	{
-		m_Value = val ;
-		m_bSourceValueDefined = false;
+		value = val ;
+		bSourceValueDefined = false;
 	}
 	
 	protected CTokenType(String val, String csSourceValue)
 	{
-		m_Value = val ;
-		m_csSourceValue = csSourceValue;
-		m_bSourceValueDefined = true;
+		value = val ;
+		csSourceValue = csSourceValue;
+		bSourceValueDefined = true;
 	}
 	
 	public String GetSourceValue()
 	{
-		if(m_bSourceValueDefined)
-			return m_csSourceValue;
+		if(bSourceValueDefined)
+			return csSourceValue;
 		
 		// Should assert
 		return "";
@@ -48,7 +48,7 @@ public class CTokenType
 
 	public boolean HasSourceValue()
 	{
-		return m_bSourceValueDefined;
+		return bSourceValueDefined;
 	}
 	
 	public static CTokenType IDENTIFIER = new CTokenType() ; 
@@ -89,7 +89,7 @@ public class CTokenType
 
 	//public static CTokenType  = new CTokenType("") ;
 		
-	public String m_Value = "" ; 
-	protected String m_csSourceValue = "" ;
-	protected boolean m_bSourceValueDefined = false;	
+	public String value = "" ; 
+	protected String csSourceValue = "" ;
+	protected boolean bSourceValueDefined = false;	
 }

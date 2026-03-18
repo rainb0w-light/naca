@@ -22,33 +22,33 @@ public class CallParamByRef extends CCallParam
 {
 	public CallParamByRef(Var var)
 	{
-		m_var = var;
-		m_edit = null;
+		var = var;
+		edit = null;
 	}
 	
 	public CallParamByRef(Edit edit)
 	{
-		m_var = null;
-		m_edit = edit;
+		var = null;
+		edit = edit;
 	}
 	
 	public int getParamLength()
 	{
-		if(m_var != null)
-			return m_var.getLength();
-		if(m_edit != null)
-			return m_edit.getLength();
+		if(var != null)
+			return var.getLength();
+		if(edit != null)
+			return edit.getLength();
 		return 0;
 	}
 	
 	public void MapOn(Var varLinkageSection)
 	{
-		if(m_var != null)
-			varLinkageSection.setAtAdress(m_var);
+		if(var != null)
+			varLinkageSection.setAtAdress(var);
 		else
-			varLinkageSection.setAtAdress(m_edit);
+			varLinkageSection.setAtAdress(edit);
 	}
 
-	private Var m_var;
-	private Edit m_edit;
+	private Var var;
+	private Edit edit;
 }

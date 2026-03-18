@@ -49,22 +49,22 @@ public class CExecCICSSet extends CCobolElement
 	 */
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		if (m_TDQueue != null)
+		if (tDQueue != null)
 		{
 			CEntityCICSSetTDQueue eCICS = factory.NewEntityCICSSetTDQueue(getLine()) ;
 			parent.AddChild(eCICS);
-			eCICS.SetQueue(m_TDQueue.GetDataEntity(getLine(), factory));
-			if (m_bTDQueueOpen)
+			eCICS.SetQueue(tDQueue.GetDataEntity(getLine(), factory));
+			if (bTDQueueOpen)
 			{
 				eCICS.SetOpen(true);
 			}
-			else if (m_bTDQueueClosed)
+			else if (bTDQueueClosed)
 			{
 				eCICS.SetOpen(false);
 			}
 			return eCICS ;
 		}
-		else if (m_DataSet != null)
+		else if (dataSet != null)
 		{
 			Transcoder.logError(getLine(), "No Semantic Analysis for EXEC CICS SET DATASET") ;
 			return null ;
@@ -98,7 +98,7 @@ public class CExecCICSSet extends CCobolElement
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
 				{
 					tok = GetNext() ;
-					m_TDQueue = ReadTerminal() ;
+					tDQueue = ReadTerminal() ;
 					tok = GetCurrentToken();
 					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 					{
@@ -107,14 +107,14 @@ public class CExecCICSSet extends CCobolElement
 				}
 				if (tok.GetKeyword() == CCobolKeywordList.OPEN)
 				{
-					m_bTDQueueClosed = false ;
-					m_bTDQueueOpen = true ;
+					bTDQueueClosed = false ;
+					bTDQueueOpen = true ;
 					tok = GetNext();
 				}
 				else if (tok.GetKeyword() == CCobolKeywordList.CLOSED)
 				{
-					m_bTDQueueClosed = true ;
-					m_bTDQueueOpen = false ;
+					bTDQueueClosed = true ;
+					bTDQueueOpen = false ;
 					tok = GetNext();
 				}
 				else
@@ -129,7 +129,7 @@ public class CExecCICSSet extends CCobolElement
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
 				{
 					tok = GetNext() ;
-					m_DataSet = ReadTerminal() ;
+					dataSet = ReadTerminal() ;
 					tok = GetCurrentToken();
 					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 					{
@@ -138,23 +138,23 @@ public class CExecCICSSet extends CCobolElement
 				}
 				if (tok.GetKeyword() == CCobolKeywordList.OPEN)
 				{
-					m_bDataSetClosed = false ;
-					m_bDataSetOpen = true ;
-					m_bDataSetEnabled = false ;
+					bDataSetClosed = false ;
+					bDataSetOpen = true ;
+					bDataSetEnabled = false ;
 					tok = GetNext();
 				}
 				else if (tok.GetKeyword() == CCobolKeywordList.CLOSED)
 				{
-					m_bDataSetClosed = true ;
-					m_bDataSetOpen = false ;
-					m_bDataSetEnabled = false ;
+					bDataSetClosed = true ;
+					bDataSetOpen = false ;
+					bDataSetEnabled = false ;
 					tok = GetNext();
 				}
 				else if (tok.GetKeyword() == CCobolKeywordList.ENABLED)
 				{
-					m_bDataSetClosed = false ;
-					m_bDataSetOpen = false ;
-					m_bDataSetEnabled = true ;
+					bDataSetClosed = false ;
+					bDataSetOpen = false ;
+					bDataSetEnabled = true ;
 					tok = GetNext();
 				}
 				else
@@ -168,7 +168,7 @@ public class CExecCICSSet extends CCobolElement
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
 				{
 					tok = GetNext() ;
-					m_Terminal = ReadTerminal() ;
+					terminal = ReadTerminal() ;
 					tok = GetCurrentToken();
 					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 					{
@@ -177,12 +177,12 @@ public class CExecCICSSet extends CCobolElement
 				}
 				if (tok.GetKeyword() == CCobolKeywordList.UCTRAN)
 				{
-					m_bTerminalUpperCase = true ;
+					bTerminalUpperCase = true ;
 					tok = GetNext();
 				}
 				else if (tok.GetKeyword() == CCobolKeywordList.NOUCTRAN)
 				{
-					m_bTerminalUpperCase = false ;
+					bTerminalUpperCase = false ;
 					tok = GetNext();
 				}
 				else
@@ -210,15 +210,15 @@ public class CExecCICSSet extends CCobolElement
 	 */
 	protected Element ExportCustom(Document root)
 	{
-		if (m_TDQueue != null)
+		if (tDQueue != null)
 		{
 			Element e = root.createElement("ExecCICSSetTDQueue") ;
-			m_TDQueue.ExportTo(e, root) ;
-			if (m_bTDQueueClosed)
+			tDQueue.ExportTo(e, root) ;
+			if (bTDQueueClosed)
 			{
 				e.setAttribute("Option", "Closed");
 			}
-			else if (m_bTDQueueOpen)
+			else if (bTDQueueOpen)
 			{
 				e.setAttribute("Option", "Open");
 			}
@@ -232,18 +232,18 @@ public class CExecCICSSet extends CCobolElement
 	}
 	
 	// DataSet
-	protected CTerminal m_DataSet = null ;
-	protected boolean m_bDataSetOpen = false ; 
-	protected boolean m_bDataSetClosed = false ; 
-	protected boolean m_bDataSetEnabled = false ; 
+	protected CTerminal dataSet = null ;
+	protected boolean bDataSetOpen = false ; 
+	protected boolean bDataSetClosed = false ; 
+	protected boolean bDataSetEnabled = false ; 
 
 	// Terminal
-	protected CTerminal m_Terminal = null ;
-	protected boolean m_bTerminalUpperCase = false ;
+	protected CTerminal terminal = null ;
+	protected boolean bTerminalUpperCase = false ;
 	
 	// TDQueues	
-	protected CTerminal m_TDQueue = null ;
-	protected boolean m_bTDQueueClosed = false ;
-	protected boolean m_bTDQueueOpen = false ;
+	protected CTerminal tDQueue = null ;
+	protected boolean bTDQueueClosed = false ;
+	protected boolean bTDQueueOpen = false ;
 
 }

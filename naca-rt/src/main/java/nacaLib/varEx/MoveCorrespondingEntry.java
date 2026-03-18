@@ -20,21 +20,21 @@ public class MoveCorrespondingEntry
 {
 	MoveCorrespondingEntry(VarDefBase varDefSource, VarDefBase varDefDest)
 	{
-		m_varDefSource = varDefSource;
-		m_varDefDest = varDefDest;
+		varDefSource = varDefSource;
+		varDefDest = varDefDest;
 	}
 	
 	void doMove(BaseProgramManager programManager, int nSourceOffset, int nDestOffset)
 	{
-		VarBase varSource = programManager.getVarFullName(m_varDefSource);
-		VarBase varDest = programManager.getVarFullName(m_varDefDest);
-		varSource.m_bufferPos.m_nAbsolutePosition += nSourceOffset;
-		varDest.m_bufferPos.m_nAbsolutePosition += nDestOffset;
+		VarBase varSource = programManager.getVarFullName(varDefSource);
+		VarBase varDest = programManager.getVarFullName(varDefDest);
+		varSource.bufferPos.nAbsolutePosition += nSourceOffset;
+		varDest.bufferPos.nAbsolutePosition += nDestOffset;
 		varDest.set(varSource);
-		varSource.m_bufferPos.m_nAbsolutePosition -= nSourceOffset;
-		varDest.m_bufferPos.m_nAbsolutePosition -= nDestOffset;
+		varSource.bufferPos.nAbsolutePosition -= nSourceOffset;
+		varDest.bufferPos.nAbsolutePosition -= nDestOffset;
 	}
 	
-	private VarDefBase m_varDefSource = null;
-	private VarDefBase m_varDefDest = null;
+	private VarDefBase varDefSource = null;
+	private VarDefBase varDefDest = null;
 }

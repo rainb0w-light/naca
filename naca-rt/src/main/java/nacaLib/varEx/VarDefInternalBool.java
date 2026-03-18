@@ -35,11 +35,11 @@ public class VarDefInternalBool extends VarDefNum
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private VarInternalBool m_var = null;
+	private VarInternalBool var = null;
 	
 	VarDefInternalBool(VarInternalBool var)
 	{
-		m_var = var;
+		var = var;
 	}
 	
 	void transfer(VarBufferPos bufferSource, VarAndEdit Dest)
@@ -50,8 +50,8 @@ public class VarDefInternalBool extends VarDefNum
 	protected VarDefBuffer allocCopy()
 	{
 		VarInternalBool varCopy = new VarInternalBool();
-		varCopy.set(m_var.getBool()); 
-		return varCopy.m_varDef;
+		varCopy.set(var.getBool()); 
+		return varCopy.varDef;
 	}
 	
 	CSQLItemType getSQLType()
@@ -61,7 +61,7 @@ public class VarDefInternalBool extends VarDefNum
 
 	public int getBodyLength()
 	{
-		return m_nTotalSize;
+		return nTotalSize;
 	}
 	
 	protected int getHeaderLength()
@@ -78,29 +78,29 @@ public class VarDefInternalBool extends VarDefNum
 	
 	int getAsDecodedInt(VarBufferPos buffer)
 	{
-		return m_var.getInt();
+		return var.getInt();
 	}
 	
 	int getAsDecodedUnsignedInt(VarBufferPos buffer)
 	{
-		return m_var.getInt();
+		return var.getInt();
 	}
 	
 	long getAsDecodedLong(VarBufferPos buffer)
 	{
-		return m_var.getLong();
+		return var.getLong();
 	}
 
 	Dec getAsDecodedDec(VarBufferPos buffer)
 	{
-		long lInt = m_var.getLong();
+		long lInt = var.getLong();
 		Dec dec = new Dec(lInt, "");
 		return dec;
 	}
 	
 	CStr getAsAlphaNumString(VarBufferPos buffer)
 	{
-		int n = m_var.getInt();
+		int n = var.getInt();
 		CStrNumber csNum = TempCacheLocator.getTLSTempCache().getCStrNumber();		
 		csNum.valueOf(n);		
 		return csNum;
@@ -119,20 +119,20 @@ public class VarDefInternalBool extends VarDefNum
 	void write(VarBufferPos buffer, char c)
 	{
 		int n = NumberParser.getAsUnsignedInt(c);
-		m_var.set(n);
+		var.set(n);
 	}
 	
 	public void write(VarBufferPos buffer, String cs)
 	{
 		int n = NumberParser.getAsUnsignedInt(cs);
-		m_var.set(n);
+		var.set(n);
 	}
 	
 	public void inc(VarBufferPos buffer, int n)
 	{
-		int nVal = m_var.getInt();
+		int nVal = var.getInt();
 		nVal += n;
-		m_var.set(nVal);
+		var.set(nVal);
 	}
 	
 	public void inc(VarBufferPos buffer, BigDecimal bdStep)
@@ -146,7 +146,7 @@ public class VarDefInternalBool extends VarDefNum
 	{
 		if(n < 0)
 			n = -n; 
-		m_var.set(n);
+		var.set(n);
 	}
 	
 	public void write(VarBufferPos buffer, long l)
@@ -159,19 +159,19 @@ public class VarDefInternalBool extends VarDefNum
 		int n = (int) d;
 		if(n < 0)
 			n = -n; 		
-		m_var.set(n);
+		var.set(n);
 	}
 		
 	void write(VarBufferPos buffer, Dec dec)
 	{
 		int n = dec.getUnsignedInt();
-		m_var.set(n);
+		var.set(n);
 	}
 	
 	public void write(VarBufferPos buffer, BigDecimal bigDecimal)
 	{
 		long l = bigDecimal.longValue();
-		m_var.set(l);
+		var.set(l);
 	}
 	
 	void write(VarBufferPos buffer, VarDefG varSource, VarBufferPos bufferSource)
@@ -183,193 +183,193 @@ public class VarDefInternalBool extends VarDefNum
 	void write(VarBufferPos buffer, VarDefX varSource, VarBufferPos bufferSource)
 	{
 		int n = varSource.getUnsignedInt(bufferSource);
-		m_var.set(n);
+		var.set(n);
 	}
 	
 	void write(VarBufferPos buffer, VarDefFPacAlphaNum varSource, VarBufferPos bufferSource)
 	{
 		int n = varSource.getUnsignedInt(bufferSource);
-		m_var.set(n);
+		var.set(n);
 	}
 	
 	void write(VarBufferPos buffer, VarDefFPacRaw varSource, VarBufferPos bufferSource)
 	{
 		int n = varSource.getUnsignedInt(bufferSource);
-		m_var.set(n);
+		var.set(n);
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumDecComp0 varSource, VarBufferPos bufferSource)
 	{
 		int n = varSource.getUnsignedInt(bufferSource);
-		m_var.set(n);
+		var.set(n);
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumDecComp3 varSource, VarBufferPos bufferSource)
 	{
 		int n = varSource.getAsDecodedInt(bufferSource);
-		m_var.set(n);
+		var.set(n);
 	}
 
 	void write(VarBufferPos buffer, VarDefNumDecComp4 varSource, VarBufferPos bufferSource)
 	{
 		int n = varSource.getUnsignedInt(bufferSource);
-		m_var.set(n);
+		var.set(n);
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumDecSignComp4 varSource, VarBufferPos bufferSource)
 	{
 		int n = varSource.getAsDecodedInt(bufferSource);
-		m_var.set(n);
+		var.set(n);
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumDecSignComp0 varSource, VarBufferPos bufferSource)
 	{
 		int n = varSource.getUnsignedInt(bufferSource);
-		m_var.set(n);
+		var.set(n);
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumDecSignComp3 varSource, VarBufferPos bufferSource)
 	{
 		int n = varSource.getUnsignedInt(bufferSource);
-		m_var.set(n);
+		var.set(n);
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumDecSignLeadingComp0 varSource, VarBufferPos bufferSource)
 	{
 		int n = varSource.getUnsignedInt(bufferSource);
-		m_var.set(n);
+		var.set(n);
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumDecSignTrailingComp0 varSource, VarBufferPos bufferSource)
 	{
 		int n = varSource.getUnsignedInt(bufferSource);
-		m_var.set(n);
+		var.set(n);
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumIntComp0 varSource, VarBufferPos bufferSource)
 	{
 		int n = varSource.getUnsignedInt(bufferSource);
-		m_var.set(n);
+		var.set(n);
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumIntComp0Long varSource, VarBufferPos bufferSource)
 	{
 		long l = varSource.getUnsignedLong(bufferSource);
-		m_var.set(l);
+		var.set(l);
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumIntComp3 varSource, VarBufferPos bufferSource)
 	{
 		int n = varSource.getAsDecodedInt(bufferSource);
-		m_var.set(n);
+		var.set(n);
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumIntComp3Long varSource, VarBufferPos bufferSource)
 	{
 		long l = varSource.getAsDecodedLong(bufferSource);
-		m_var.set(l);
+		var.set(l);
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumIntComp4 varSource, VarBufferPos bufferSource)
 	{
 		int n = varSource.getUnsignedInt(bufferSource);
-		m_var.set(n);
+		var.set(n);
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumIntComp4Long varSource, VarBufferPos bufferSource)
 	{
 		long l = varSource.getAsDecodedLong(bufferSource);
-		m_var.set(l);
+		var.set(l);
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumIntSignComp0 varSource, VarBufferPos bufferSource)
 	{
 		int n = varSource.getUnsignedInt(bufferSource);
-		m_var.set(n);
+		var.set(n);
 	}
 
 	void write(VarBufferPos buffer, VarDefNumIntSignComp0Long varSource, VarBufferPos bufferSource)
 	{
 		long l = varSource.getUnsignedLong(bufferSource);
-		m_var.set(l);
+		var.set(l);
 	}
 
 	void write(VarBufferPos buffer, VarDefNumIntSignComp3 varSource, VarBufferPos bufferSource)
 	{
 		int n = varSource.getUnsignedInt(bufferSource);
-		m_var.set(n);
+		var.set(n);
 	}
 	
 	void write(VarBufferPos buffer, VarDefFPacNumIntSignComp3 varSource, VarBufferPos bufferSource)
 	{
 		int n = varSource.getUnsignedInt(bufferSource);
-		m_var.set(n);
+		var.set(n);
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumIntSignComp3Long varSource, VarBufferPos bufferSource)
 	{
 		long l = varSource.getAsDecodedLong(bufferSource);
-		m_var.set(l);
+		var.set(l);
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumIntSignComp4 varSource, VarBufferPos bufferSource)
 	{
 		int n = varSource.getUnsignedInt(bufferSource);
-		m_var.set(n);
+		var.set(n);
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumIntSignComp4Long varSource, VarBufferPos bufferSource)
 	{
 		long l = varSource.getUnsignedLong(bufferSource);
-		m_var.set(l);
+		var.set(l);
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumIntSignLeadingComp0 varSource, VarBufferPos bufferSource)
 	{
 		int n = varSource.getUnsignedInt(bufferSource);
-		m_var.set(n);
+		var.set(n);
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumIntSignLeadingComp0Long varSource, VarBufferPos bufferSource)
 	{
 		long l = varSource.getUnsignedLong(bufferSource);
-		m_var.set(l);
+		var.set(l);
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumIntSignTrailingComp0 varSource, VarBufferPos bufferSource)
 	{
 		int n = varSource.getUnsignedInt(bufferSource);
-		m_var.set(n);
+		var.set(n);
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumIntSignTrailingComp0Long varSource, VarBufferPos bufferSource)
 	{
 		long l = varSource.getUnsignedLong(bufferSource);
-		m_var.set(l);
+		var.set(l);
 	}
 	
 	void write(VarBufferPos buffer, VarDefEditInMap varSource, VarBufferPos bufferSource)
 	{
 		int n = varSource.getUnsignedInt(bufferSource);
-		m_var.set(n);
+		var.set(n);
 	}
 	
 	void write(VarBufferPos buffer, VarDefEditInMapRedefine varSource, VarBufferPos bufferSource)
 	{
 		int n = varSource.getUnsignedInt(bufferSource);
-		m_var.set(n);
+		var.set(n);
 	}	
 	
 	void write(VarBufferPos buffer, VarDefEditInMapRedefineNumEdited varSource, VarBufferPos bufferSource)
 	{
 		int n = varSource.getUnsignedInt(bufferSource);
-		m_var.set(n);
+		var.set(n);
 	}
 	
 	void write(VarBufferPos buffer, VarDefEditInMapRedefineNum varSource, VarBufferPos bufferSource)
 	{
 		int n = varSource.getUnsignedInt(bufferSource);
-		m_var.set(n);
+		var.set(n);
 	}
 
 	
@@ -377,12 +377,12 @@ public class VarDefInternalBool extends VarDefNum
 	{
 		// see http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_029.htm#index_x_737
 		int n = varSource.getUnsignedInt(bufferSource);
-		m_var.set(n);
+		var.set(n);
 	}	
 	
 	void write(VarBufferPos buffer, CobolConstantZero cst)
 	{
-		m_var.set(0);
+		var.set(0);
 	}
 
 	void write(VarBufferPos buffer, CobolConstantSpace cst)
@@ -428,35 +428,35 @@ public class VarDefInternalBool extends VarDefNum
 	
 //	public void initialize(VarBufferPos buffer)
 //	{
-//		m_var.set(0);
+//		var.set(0);
 //	}
 	
 	public void initializeAtOffset(VarBufferPos buffer, int nOffset, InitializeCache initializeCache)
 	{
-		m_var.set(0);
+		var.set(0);
 		if(initializeCache != null)
 			initializeCache.setNotManaged();
 	}
 	
 //	void initialize(VarBufferPos buffer, String cs)
 //	{
-//		m_var.set(cs);
+//		var.set(cs);
 //	}
 	
 	void initializeAtOffset(VarBufferPos buffer, int nOffset, String cs)
 	{
-		m_var.set(cs);
+		var.set(cs);
 	}
 	
 	
 //	void initialize(VarBufferPos buffer, int n)
 //	{
-//		m_var.set(n);
+//		var.set(n);
 //	}
 	
 	void initializeAtOffset(VarBufferPos buffer, int nOffset, int n)
 	{
-		m_var.set(n);
+		var.set(n);
 	}
 	
 	void initializeEditedAtOffset(VarBufferPos buffer, int nOffset, int nValue)
@@ -470,102 +470,102 @@ public class VarDefInternalBool extends VarDefNum
 			
 	void initializeEdited(VarBufferPos buffer, String cs)
 	{
-		m_var.set(cs);
+		var.set(cs);
 	}
 	
 	void initializeEdited(VarBufferPos buffer, int n)
 	{
-		m_var.set(n);
+		var.set(n);
 	}
 		
 	int compare(ComparisonMode mode, VarBufferPos bufferSource, VarAndEdit var2)
 	{
 		assertIfFalse(false);
-		//return var2.m_varDef.compare(var2.m_bufferPos, this, bufferSource);
+		//return var2.varDef.compare(var2.bufferPos, this, bufferSource);
 		return 0;
 	}
 	
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumDecComp0 varDefNum1, VarBufferPos buffer1)
 	{
 		Dec dec1 = varDefNum1.getAsDecodedDec(buffer1);
-		int n2 = m_var.getInt();
+		int n2 = var.getInt();
 		return internalCompare(dec1, n2);
 	}
 	
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumDecComp3 varDefNum1, VarBufferPos buffer1)
 	{
 		Dec dec1 = varDefNum1.getAsDecodedDec(buffer1);
-		int n2 = m_var.getInt();
+		int n2 = var.getInt();
 		return internalCompare(dec1, n2);
 	}
 
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumDecComp4 varDefNum1, VarBufferPos buffer1)
 	{
 		Dec dec1 = varDefNum1.getAsDecodedDec(buffer1);
-		int n2 = m_var.getInt();
+		int n2 = var.getInt();
 		return internalCompare(dec1, n2);
 	}
 
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumDecSignComp4 varDefNum1, VarBufferPos buffer1)
 	{
 		Dec dec1 = varDefNum1.getUnsignedDec(buffer1);
-		int n2 = m_var.getInt();
+		int n2 = var.getInt();
 		return internalCompare(dec1, n2);
 	}
 	
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumDecSignComp0 varDefNum1, VarBufferPos buffer1)
 	{
 		Dec dec1 = varDefNum1.getAsDecodedDec(buffer1);
-		int n2 = m_var.getInt();
+		int n2 = var.getInt();
 		return internalCompare(dec1, n2);
 	}
 	
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumDecSignComp3 varDefNum1, VarBufferPos buffer1)
 	{
 		Dec dec1 = varDefNum1.getAsDecodedDec(buffer1);
-		int n2 = m_var.getInt();
+		int n2 = var.getInt();
 		return internalCompare(dec1, n2);
 	}
 
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumDecSignLeadingComp0 varDefNum1, VarBufferPos buffer1)
 	{
 		Dec dec1 = varDefNum1.getAsDecodedDec(buffer1);
-		int n2 = m_var.getInt();
+		int n2 = var.getInt();
 		return internalCompare(dec1, n2);
 	}
 
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumDecSignTrailingComp0 varDefNum1, VarBufferPos buffer1)
 	{
 		Dec dec1 = varDefNum1.getAsDecodedDec(buffer1);
-		int n2 = m_var.getInt();
+		int n2 = var.getInt();
 		return internalCompare(dec1, n2);
 	}
 
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntComp0 varDefNum1, VarBufferPos buffer1)
 	{
 		int n1 = varDefNum1.getAsDecodedInt(buffer1);
-		int n2 = m_var.getInt();
+		int n2 = var.getInt();
 		return internalCompare(n1, n2);
 	}
 	
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntComp0Long varDefNum1, VarBufferPos buffer1)
 	{
 		long l1 = varDefNum1.getAsDecodedLong(buffer1);
-		long l2 = m_var.getLong();
+		long l2 = var.getLong();
 		return internalCompare(l1, l2);
 	}
 	
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntComp3 varDefNum1, VarBufferPos buffer1)
 	{
 		int n1 = varDefNum1.getAsDecodedInt(buffer1);
-		int n2 = m_var.getInt();
+		int n2 = var.getInt();
 		return internalCompare(n1, n2);
 	}
 
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntComp3Long varDefNum1, VarBufferPos buffer1)
 	{
 		long l1 = varDefNum1.getAsDecodedLong(buffer1);
-		long l2 = m_var.getLong();
+		long l2 = var.getLong();
 		return internalCompare(l1, l2);
 	}
 
@@ -573,14 +573,14 @@ public class VarDefInternalBool extends VarDefNum
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntComp4 varDefNum1, VarBufferPos buffer1)
 	{
 		int n1 = varDefNum1.getAsDecodedInt(buffer1);
-		int n2 = m_var.getInt();
+		int n2 = var.getInt();
 		return internalCompare(n1, n2);
 	}
 	
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntComp4Long varDefNum1, VarBufferPos buffer1)
 	{
 		long l1 = varDefNum1.getAsDecodedLong(buffer1);
-		long l2 = m_var.getLong();
+		long l2 = var.getLong();
 		return internalCompare(l1, l2);
 	}
 
@@ -588,49 +588,49 @@ public class VarDefInternalBool extends VarDefNum
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntSignComp0 varDefNum1, VarBufferPos buffer1)
 	{
 		int n1 = varDefNum1.getAsDecodedInt(buffer1);
-		int n2 = m_var.getInt();
+		int n2 = var.getInt();
 		return internalCompare(n1, n2);
 	}
 	
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntSignComp0Long varDefNum1, VarBufferPos buffer1)
 	{
 		long l1 = varDefNum1.getAsDecodedLong(buffer1);
-		long l2 = m_var.getLong();
+		long l2 = var.getLong();
 		return internalCompare(l1, l2);
 	}
 	
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntSignComp3 varDefNum1, VarBufferPos buffer1)
 	{
 		int n1 = varDefNum1.getAsDecodedInt(buffer1);
-		int n2 = m_var.getInt();
+		int n2 = var.getInt();
 		return internalCompare(n1, n2);
 	}
 	
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefFPacNumIntSignComp3 varDefNum1, VarBufferPos buffer1)
 	{
 		int n1 = varDefNum1.getAsDecodedInt(buffer1);
-		int n2 = m_var.getInt();
+		int n2 = var.getInt();
 		return internalCompare(n1, n2);
 	}
 	
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntSignComp3Long varDefNum1, VarBufferPos buffer1)
 	{
 		long l1 = varDefNum1.getAsDecodedLong(buffer1);
-		long l2 = m_var.getLong();
+		long l2 = var.getLong();
 		return internalCompare(l1, l2);
 	}
 
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntSignComp4 varDefNum1, VarBufferPos buffer1)
 	{
 		int n1 = varDefNum1.getAsDecodedInt(buffer1);
-		int n2 = m_var.getInt();
+		int n2 = var.getInt();
 		return internalCompare(n1, n2);
 	}	
 	
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntSignComp4Long varDefNum1, VarBufferPos buffer1)
 	{
 		long l1 = varDefNum1.getAsDecodedLong(buffer1);
-		long l2 = m_var.getLong();
+		long l2 = var.getLong();
 		return internalCompare(l1, l2);
 	}
 
@@ -638,28 +638,28 @@ public class VarDefInternalBool extends VarDefNum
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntSignLeadingComp0 varDefNum1, VarBufferPos buffer1)
 	{
 		int n1 = varDefNum1.getAsDecodedInt(buffer1);
-		int n2 = m_var.getInt();
+		int n2 = var.getInt();
 		return internalCompare(n1, n2);
 	}	
 	
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntSignLeadingComp0Long varDefNum1, VarBufferPos buffer1)
 	{
 		long l1 = varDefNum1.getAsDecodedInt(buffer1);
-		long l2 = m_var.getLong();
+		long l2 = var.getLong();
 		return internalCompare(l1, l2);
 	}
 	
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntSignTrailingComp0 varDefNum1, VarBufferPos buffer1)
 	{
 		int n1 = varDefNum1.getAsDecodedInt(buffer1);
-		int n2 = m_var.getInt();
+		int n2 = var.getInt();
 		return internalCompare(n1, n2);
 	}	
 	
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntSignTrailingComp0Long varDefNum1, VarBufferPos buffer1)
 	{
 		long l1 = varDefNum1.getAsDecodedInt(buffer1);
-		int n2 = m_var.getInt();
+		int n2 = var.getInt();
 		return internalCompare(l1, n2);
 	}
 	
@@ -712,7 +712,7 @@ public class VarDefInternalBool extends VarDefNum
 		// The compiler ignores the description of the numeric item (except for length) and, therefore, includes in its length any operational sign, whether carried as a separate character or as an overpunched character. Overpunched characters are never ASCII numeric digits. They are characters ranging from A to R, left brace ({), or right brace (}). Thus, the sign and the digits, stored as ASCII bytes, take part in the comparison, and zeros are not supplied for P characters in the PICTURE character-string. 
 		//String cs1 = varDef1.getRawStringExcludingHeader(buffer1);
 		CStr cs1 = buffer1.getBodyCStr(varDef1);
-		int n2 = m_var.getInt();
+		int n2 = var.getInt();
 //		String cs2 = getStringRightPadded(n2, ' ', varDef1.getTotalSize());
 		return StringAsciiEbcdicUtil.compare(mode, cs1, String.valueOf(n2));
 	}	
@@ -746,19 +746,19 @@ public class VarDefInternalBool extends VarDefNum
 	
 	public BtreeSegmentKeyTypeFactory getSegmentKeyTypeFactory()
 	{
-		return VarTypeId.m_segmentKeyTypeFactoryUnsignComp4;
+		return VarTypeId.segmentKeyTypeFactoryUnsignComp4;
 	}	
 	
 	protected void adjustCustomProperty(VarDefBuffer varDefBufferCopySingleItem)
 	{
 		VarDefInternalBool varDefCopy = (VarDefInternalBool)varDefBufferCopySingleItem;
-		varDefCopy.m_var = m_var;
+		varDefCopy.var = var;
 	}
 		
 	protected void adjustCustomPropertyForCharGetAt(VarDefBuffer varDefBufferCopySingleItem)
 	{
 		VarDefInternalBool varDefCopy = (VarDefInternalBool)varDefBufferCopySingleItem;
-		varDefCopy.m_var = m_var;
+		varDefCopy.var = var;
 	}
 
 	boolean isNumeric(VarBufferPos buffer)

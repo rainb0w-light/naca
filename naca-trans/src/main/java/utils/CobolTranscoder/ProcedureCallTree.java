@@ -33,17 +33,17 @@ public class ProcedureCallTree
 {
 	private class BaseNode
 	{
-		boolean m_bExplicitCallByGoto = false ;
-		boolean m_bExplicitCallAsProcedure = false ;
-		boolean m_bImplicitCall = false ;
-		boolean m_bHasExplicitGetOut = false ;
-		Vector<CEntityCallFunction> m_arrProcedureCallRef = new Vector<CEntityCallFunction>() ;
-		Vector<CEntityGoto> m_arrGotoRef = new Vector<CEntityGoto>() ;
-		Vector<BaseNode> m_arrProcedureCallNode = new Vector<BaseNode>() ;
-		Vector<BaseNode> m_arrGotoNode = new Vector<BaseNode>() ;
+		boolean bExplicitCallByGoto = false ;
+		boolean bExplicitCallAsProcedure = false ;
+		boolean bImplicitCall = false ;
+		boolean bHasExplicitGetOut = false ;
+		Vector<CEntityCallFunction> arrProcedureCallRef = new Vector<CEntityCallFunction>() ;
+		Vector<CEntityGoto> arrGotoRef = new Vector<CEntityGoto>() ;
+		Vector<BaseNode> arrProcedureCallNode = new Vector<BaseNode>() ;
+		Vector<BaseNode> arrGotoNode = new Vector<BaseNode>() ;
 		public boolean isCalled()
 		{
-			return m_bExplicitCallByGoto || m_bExplicitCallAsProcedure || m_bImplicitCall ;
+			return bExplicitCallByGoto || bExplicitCallAsProcedure || bImplicitCall ;
 		}
 	}
 	
@@ -51,21 +51,21 @@ public class ProcedureCallTree
 	{
 		public RootNodeDivision()
 		{
-			m_bImplicitCall = true ;
+			bImplicitCall = true ;
 		}
-		public CEntityProcedureDivision m_div = null ;
-		public Vector<NodeSection> m_arrSections = new Vector<NodeSection>() ;
-		public Vector<NodeProcedure> m_arrProcedures = new Vector<NodeProcedure>() ;
-		public Vector<CProcedureReference> m_arrGlobalGotoRef = new Vector<CProcedureReference>() ;
+		public CEntityProcedureDivision div = null ;
+		public Vector<NodeSection> arrSections = new Vector<NodeSection>() ;
+		public Vector<NodeProcedure> arrProcedures = new Vector<NodeProcedure>() ;
+		public Vector<CProcedureReference> arrGlobalGotoRef = new Vector<CProcedureReference>() ;
 	}
 	private class NodeSection extends BaseNode
 	{
 		public NodeSection(CEntityProcedureSection div)
 		{
-			m_Sec = div ;
+			sec = div ;
 		}
-		public CEntityProcedureSection m_Sec = null ;
-		public Vector<NodeProcedure> m_arrProcedures = new Vector<NodeProcedure>() ;
+		public CEntityProcedureSection sec = null ;
+		public Vector<NodeProcedure> arrProcedures = new Vector<NodeProcedure>() ;
 		/**
 		 * @return
 		 */
@@ -74,9 +74,9 @@ public class ProcedureCallTree
 	{
 		public NodeProcedure(CEntityProcedure div)
 		{
-			m_Proc = div ;
+			proc = div ;
 		}
-		public CEntityProcedure m_Proc = null ;
+		public CEntityProcedure proc = null ;
 	}
 	
 	/**
@@ -84,13 +84,13 @@ public class ProcedureCallTree
 	 */
 	public void SetProcedureDivision(CEntityProcedureDivision division)
 	{
-		m_root.m_div = division ;
+		root.div = division ;
 	}
 	
-	protected RootNodeDivision m_root = new RootNodeDivision() ;
-	protected NodeSection m_currentNodeSection = null ;
-	protected NodeProcedure m_currentNodeProcedure = null ;
-	protected Hashtable<CEntityProcedure, BaseNode> m_tabProcedureNodes = new Hashtable<CEntityProcedure, BaseNode>() ;
+	protected RootNodeDivision root = new RootNodeDivision() ;
+	protected NodeSection currentNodeSection = null ;
+	protected NodeProcedure currentNodeProcedure = null ;
+	protected Hashtable<CEntityProcedure, BaseNode> tabProcedureNodes = new Hashtable<CEntityProcedure, BaseNode>() ;
 	
 	/**
 	 * @param cont
@@ -98,15 +98,15 @@ public class ProcedureCallTree
 	public void RegisterProcedure(CEntityProcedure cont)
 	{
 		NodeProcedure node = new NodeProcedure(cont) ;
-		m_tabProcedureNodes.put(cont, node) ;
-		m_currentNodeProcedure = node ;
-		if (m_currentNodeSection != null)
+		tabProcedureNodes.put(cont, node) ;
+		currentNodeProcedure = node ;
+		if (currentNodeSection != null)
 		{
-			m_currentNodeSection.m_arrProcedures.add(node) ;
+			currentNodeSection.arrProcedures.add(node) ;
 		}
 		else
 		{
-			m_root.m_arrProcedures.add(node) ;
+			root.arrProcedures.add(node) ;
 		}
 	}
 
@@ -116,10 +116,10 @@ public class ProcedureCallTree
 	public void RegisterSection(CEntityProcedureSection sec)
 	{
 		NodeSection node = new NodeSection(sec) ;
-		m_tabProcedureNodes.put(sec, node) ;
-		m_currentNodeSection = node ;
-		m_currentNodeProcedure = null ;
-		m_root.m_arrSections.add(node) ;
+		tabProcedureNodes.put(sec, node) ;
+		currentNodeSection = node ;
+		currentNodeProcedure = null ;
+		root.arrSections.add(node) ;
 	}
 
 	/**
@@ -127,17 +127,17 @@ public class ProcedureCallTree
 	 */
 	public void RegisterGoto(CEntityGoto ref)
 	{
-		if (m_currentNodeProcedure != null)
+		if (currentNodeProcedure != null)
 		{
-			m_currentNodeProcedure.m_arrGotoRef.addElement(ref) ;
+			currentNodeProcedure.arrGotoRef.addElement(ref) ;
 		}
-		else if (m_currentNodeSection != null)
+		else if (currentNodeSection != null)
 		{
-			m_currentNodeSection.m_arrGotoRef.addElement(ref) ;
+			currentNodeSection.arrGotoRef.addElement(ref) ;
 		}
 		else
 		{
-			m_root.m_arrGotoRef.addElement(ref) ;
+			root.arrGotoRef.addElement(ref) ;
 		}
 	}
 
@@ -146,17 +146,17 @@ public class ProcedureCallTree
 	 */
 	public void RegisterProcedureCall(CEntityCallFunction ref)
 	{
-		if (m_currentNodeProcedure != null)
+		if (currentNodeProcedure != null)
 		{
-			m_currentNodeProcedure.m_arrProcedureCallRef.addElement(ref) ;
+			currentNodeProcedure.arrProcedureCallRef.addElement(ref) ;
 		}
-		else if (m_currentNodeSection != null)
+		else if (currentNodeSection != null)
 		{
-			m_currentNodeSection.m_arrProcedureCallRef.addElement(ref) ;
+			currentNodeSection.arrProcedureCallRef.addElement(ref) ;
 		}
 		else
 		{
-			m_root.m_arrProcedureCallRef.addElement(ref) ;
+			root.arrProcedureCallRef.addElement(ref) ;
 		}
 	}
 
@@ -165,74 +165,74 @@ public class ProcedureCallTree
 	 */
 	public void ComputeTree()
 	{
-		if (m_root.m_div == null)
+		if (root.div == null)
 		{
 			return ;
 		}
 		// compute all the tree : analyse calls in each procedure
-		ComputeNodeCalls(m_root) ;
-		for (int i=0; i<m_root.m_arrProcedures.size(); i++)
+		ComputeNodeCalls(root) ;
+		for (int i=0; i<root.arrProcedures.size(); i++)
 		{
-			NodeProcedure node = m_root.m_arrProcedures.get(i) ;
+			NodeProcedure node = root.arrProcedures.get(i) ;
 			ComputeNodeCalls(node) ;
 		}
-		for (int i=0; i<m_root.m_arrSections.size(); i++)
+		for (int i=0; i<root.arrSections.size(); i++)
 		{
-			NodeSection node = m_root.m_arrSections.get(i) ;
+			NodeSection node = root.arrSections.get(i) ;
 			ComputeNodeCalls(node) ;
-			for (int j=0; j<node.m_arrProcedures.size(); j++)
+			for (int j=0; j<node.arrProcedures.size(); j++)
 			{
-				NodeProcedure nodeP = node.m_arrProcedures.get(j) ;
+				NodeProcedure nodeP = node.arrProcedures.get(j) ;
 				ComputeNodeCalls(nodeP) ;
 			}
 		}
 		
 		// analyse status of each procedure
-		boolean bProcedureDivisionFinished = m_root.m_div.hasExplicitGetout() ;
-		m_root.m_bHasExplicitGetOut = bProcedureDivisionFinished ;
+		boolean bProcedureDivisionFinished = root.div.hasExplicitGetout() ;
+		root.bHasExplicitGetOut = bProcedureDivisionFinished ;
 		
 		boolean bPrecedentFinished = bProcedureDivisionFinished ;
-		for (int i=0; i<m_root.m_arrProcedures.size(); i++)
+		for (int i=0; i<root.arrProcedures.size(); i++)
 		{
-			NodeProcedure node = m_root.m_arrProcedures.get(i) ;
-			String nameP = node.m_Proc.GetName() ;
-			node.m_bImplicitCall = !bPrecedentFinished ;
-			if (node.m_bImplicitCall)
+			NodeProcedure node = root.arrProcedures.get(i) ;
+			String nameP = node.proc.GetName() ;
+			node.bImplicitCall = !bPrecedentFinished ;
+			if (node.bImplicitCall)
 			{
 				Transcoder.logDebug("Procedure implicitly called : "+nameP) ;
 			}
-			node.m_bHasExplicitGetOut = node.m_Proc.hasExplicitGetOut() ;
+			node.bHasExplicitGetOut = node.proc.hasExplicitGetOut() ;
 
-			bPrecedentFinished = node.m_bExplicitCallAsProcedure || node.m_bHasExplicitGetOut ;
+			bPrecedentFinished = node.bExplicitCallAsProcedure || node.bHasExplicitGetOut ;
 		}
 		
-		for (int i=0; i<m_root.m_arrSections.size(); i++)
+		for (int i=0; i<root.arrSections.size(); i++)
 		{
-			NodeSection node = m_root.m_arrSections.get(i) ;
-			String name = node.m_Sec.GetName() ;
-			node.m_bImplicitCall = !bPrecedentFinished ;
-			if (node.m_bImplicitCall)
+			NodeSection node = root.arrSections.get(i) ;
+			String name = node.sec.GetName() ;
+			node.bImplicitCall = !bPrecedentFinished ;
+			if (node.bImplicitCall)
 			{
 				Transcoder.logDebug("Section implicitly called : "+name) ;
 			}
-			node.m_bHasExplicitGetOut = node.m_Sec.hasExplicitGetOut() ;
+			node.bHasExplicitGetOut = node.sec.hasExplicitGetOut() ;
 			
-			boolean bPrecedentParagraphFinished = !(node.isCalled() && !node.m_bHasExplicitGetOut) ;
-			for (int j=0; j<node.m_arrProcedures.size(); j++)
+			boolean bPrecedentParagraphFinished = !(node.isCalled() && !node.bHasExplicitGetOut) ;
+			for (int j=0; j<node.arrProcedures.size(); j++)
 			{
-				NodeProcedure nodeP = node.m_arrProcedures.get(j) ;
-				String nameP = nodeP.m_Proc.GetName() ;
-				nodeP.m_bImplicitCall = !bPrecedentParagraphFinished ;
-				if (nodeP.m_bImplicitCall)
+				NodeProcedure nodeP = node.arrProcedures.get(j) ;
+				String nameP = nodeP.proc.GetName() ;
+				nodeP.bImplicitCall = !bPrecedentParagraphFinished ;
+				if (nodeP.bImplicitCall)
 				{
 					Transcoder.logDebug("Procedure implicitly called : "+nameP) ;
 				}
-				nodeP.m_bHasExplicitGetOut = nodeP.m_Proc.hasExplicitGetOut() ;
+				nodeP.bHasExplicitGetOut = nodeP.proc.hasExplicitGetOut() ;
 
-				bPrecedentParagraphFinished = nodeP.m_bExplicitCallAsProcedure || nodeP.m_bHasExplicitGetOut ;
+				bPrecedentParagraphFinished = nodeP.bExplicitCallAsProcedure || nodeP.bHasExplicitGetOut ;
 			}
 
-			bPrecedentFinished = node.m_bExplicitCallAsProcedure || !node.isCalled() || node.m_bHasExplicitGetOut  ;
+			bPrecedentFinished = node.bExplicitCallAsProcedure || !node.isCalled() || node.bHasExplicitGetOut  ;
 			
 			
 		}
@@ -245,12 +245,12 @@ public class ProcedureCallTree
 	private void ComputeNodeCalls(RootNodeDivision node)
 	{
 		ComputeNodeCalls((BaseNode)node) ;
-		for (int i=0; i<node.m_arrGlobalGotoRef.size(); i++)
+		for (int i=0; i<node.arrGlobalGotoRef.size(); i++)
 		{
-			CProcedureReference ref = node.m_arrGlobalGotoRef.get(i) ;
+			CProcedureReference ref = node.arrGlobalGotoRef.get(i) ;
 			CEntityProcedure proc = ref.getProcedure() ;
-			BaseNode n = m_tabProcedureNodes.get(proc) ;
-			n.m_bExplicitCallByGoto = true ;
+			BaseNode n = tabProcedureNodes.get(proc) ;
+			n.bExplicitCallByGoto = true ;
 		}
 	}
 
@@ -259,33 +259,33 @@ public class ProcedureCallTree
 	 */
 	private void ComputeNodeCalls(BaseNode node)
 	{
-		for (int i=0; i<node.m_arrGotoRef.size(); i++)
+		for (int i=0; i<node.arrGotoRef.size(); i++)
 		{
-			CEntityGoto gto = node.m_arrGotoRef.get(i);
+			CEntityGoto gto = node.arrGotoRef.get(i);
 			CProcedureReference ref = gto.getReference() ;
 			CEntityProcedure proc = ref.getProcedure() ;
 			if (proc != null)
 			{
-				BaseNode p = m_tabProcedureNodes.get(proc) ;
+				BaseNode p = tabProcedureNodes.get(proc) ;
 				if (p!=null)
 				{
-					p.m_bExplicitCallByGoto = true ;
-					node.m_arrGotoNode.add(p) ;
+					p.bExplicitCallByGoto = true ;
+					node.arrGotoNode.add(p) ;
 				}
 			}
 		}
-		for (int i=0; i<node.m_arrProcedureCallRef.size(); i++)
+		for (int i=0; i<node.arrProcedureCallRef.size(); i++)
 		{
-			CEntityCallFunction call = node.m_arrProcedureCallRef.get(i);
+			CEntityCallFunction call = node.arrProcedureCallRef.get(i);
 			CProcedureReference ref = call.getReference() ; 
 			CEntityProcedure proc = ref.getProcedure() ;
 			if (proc != null)
 			{
-				BaseNode p = m_tabProcedureNodes.get(proc) ;
+				BaseNode p = tabProcedureNodes.get(proc) ;
 				if (p!=null)
 				{
-					p.m_bExplicitCallAsProcedure = true ;
-					node.m_arrProcedureCallNode.add(p) ;
+					p.bExplicitCallAsProcedure = true ;
+					node.arrProcedureCallNode.add(p) ;
 				}
 			}
 		}
@@ -296,41 +296,41 @@ public class ProcedureCallTree
 	 */
 	public void DoFilterSections(CBaseEntityFactory factory)
 	{
-		for (int i=0; i<m_root.m_arrProcedures.size(); i++)
+		for (int i=0; i<root.arrProcedures.size(); i++)
 		{
-			NodeProcedure nodeP = m_root.m_arrProcedures.get(i) ;
-			String nameP = nodeP.m_Proc.GetName() ;
+			NodeProcedure nodeP = root.arrProcedures.get(i) ;
+			String nameP = nodeP.proc.GetName() ;
 			if (!nodeP.isCalled())
 			{
 				// this procedure is never called...
 				Transcoder.logDebug("Procedure ignored (4) : "+nameP) ;
-				nodeP.m_Proc.setIgnore() ;
+				nodeP.proc.setIgnore() ;
 			}
-			else if (nodeP.m_Proc.isEmpty())
+			else if (nodeP.proc.isEmpty())
 			{
 				// this procedure do nothing...
 				Transcoder.logDebug("Procedure ignored (5) : "+nameP) ;
-				nodeP.m_Proc.setIgnore() ;
+				nodeP.proc.setIgnore() ;
 			}
-			else if (i==0 && nodeP.m_bImplicitCall && nodeP.m_bHasExplicitGetOut)
+			else if (i==0 && nodeP.bImplicitCall && nodeP.bHasExplicitGetOut)
 			{
-				if (m_root.m_div.getProcedureBloc() != null)
+				if (root.div.getProcedureBloc() != null)
 				{
 					CEntityCallFunction ePerform = factory.NewEntityCallFunction(0, nameP, "", null) ;
-					m_root.m_div.getProcedureBloc().AddChild(ePerform) ;
+					root.div.getProcedureBloc().AddChild(ePerform) ;
 					Transcoder.logDebug("Perform to "+nameP+" added to procedure division") ;
-					nodeP.m_bImplicitCall = false ;
-					nodeP.m_bExplicitCallAsProcedure = true ;
+					nodeP.bImplicitCall = false ;
+					nodeP.bExplicitCallAsProcedure = true ;
 				}
 			}
 		}
 		
 		boolean bAllSectionsAreReduced = true ;  // flag to tell is all sections before the current one have been reduced ;
 												// if so, we can reduce current one, else we can't
-		for (int i=0; i<m_root.m_arrSections.size(); i++)
+		for (int i=0; i<root.arrSections.size(); i++)
 		{
-			NodeSection node = m_root.m_arrSections.get(i) ;
-			String name = node.m_Sec.GetName() ;
+			NodeSection node = root.arrSections.get(i) ;
+			String name = node.sec.GetName() ;
 			
 			boolean bIgnoreAllProcedures = true ;
 			boolean bCanReduceCurrentSection = true ;  // flag to tell if current section can be reduced :
@@ -338,38 +338,38 @@ public class ProcedureCallTree
 						// -> no implicit call between procedures, and all procedures are called by perform : section can be reduce to procedure
 			int nbValidProcedures = 0 ;
 			NodeProcedure lastValidProcedure = null ;
-			for (int j=0; j<node.m_arrProcedures.size(); j++)
+			for (int j=0; j<node.arrProcedures.size(); j++)
 			{
-				NodeProcedure nodeP = node.m_arrProcedures.get(j) ;
-				String nameP = nodeP.m_Proc.GetName() ;
+				NodeProcedure nodeP = node.arrProcedures.get(j) ;
+				String nameP = nodeP.proc.GetName() ;
 				if (!nodeP.isCalled())
 				{
 					// this procedure is never called...
  					Transcoder.logDebug("Procedure ignored (3) : "+nameP) ;
-					nodeP.m_Proc.setIgnore() ;
+					nodeP.proc.setIgnore() ;
 				}
-				else if (nodeP.m_Proc.isEmpty())
+				else if (nodeP.proc.isEmpty())
 				{
 					// this procedure do nothing...
-					if (nodeP.m_bImplicitCall && !nodeP.m_bExplicitCallAsProcedure && !nodeP.m_bExplicitCallByGoto)
+					if (nodeP.bImplicitCall && !nodeP.bExplicitCallAsProcedure && !nodeP.bExplicitCallByGoto)
 					{
 						// simply ignore current procedure
 						Transcoder.logDebug("Procedure ignored (2) : "+nameP) ;
-						nodeP.m_Proc.setIgnore() ;
+						nodeP.proc.setIgnore() ;
 					}
-					else if (nodeP.m_bExplicitCallAsProcedure)
+					else if (nodeP.bExplicitCallAsProcedure)
 					{
 						// simply ignore current procedure, call will be ignore too
 						Transcoder.logDebug("Procedure ignored (1) : "+nameP) ;
-						nodeP.m_Proc.setIgnore() ;
+						nodeP.proc.setIgnore() ;
 					}
-					else if (nodeP.m_bExplicitCallByGoto)
+					else if (nodeP.bExplicitCallByGoto)
 					{
-						if (j==node.m_arrProcedures.size()-1  && node.m_bExplicitCallAsProcedure)
+						if (j==node.arrProcedures.size()-1  && node.bExplicitCallAsProcedure)
 						{ // if this is the last procedure => EXIT procedure
-							for (int k=0; k<node.m_arrGotoRef.size(); k++)
+							for (int k=0; k<node.arrGotoRef.size(); k++)
 							{
-								CEntityGoto gto = node.m_arrGotoRef.get(k) ;
+								CEntityGoto gto = node.arrGotoRef.get(k) ;
 //								Vector v = gto.GetParent().GetListOfChildren() ;
 //								int index = v.size()-1  ;
 //								if (v.get(index) == gto)
@@ -387,38 +387,38 @@ public class ProcedureCallTree
 //								}
 							}
 							Transcoder.logDebug("Procedure ignored (6) : "+nameP) ;
-							nodeP.m_Proc.setIgnore() ;
+							nodeP.proc.setIgnore() ;
 						}
 						else
 						{ // change GOTO to the next procedure
-							NodeProcedure nextnode = node.m_arrProcedures.get(j+1) ;
+							NodeProcedure nextnode = node.arrProcedures.get(j+1) ;
 							throw new NacaTransAssertException("unmanaged situation") ;
 						}
 					}
 				}
-				else if (!nodeP.m_bExplicitCallAsProcedure && !nodeP.m_bExplicitCallByGoto && nodeP.m_bImplicitCall)
+				else if (!nodeP.bExplicitCallAsProcedure && !nodeP.bExplicitCallByGoto && nodeP.bImplicitCall)
 				{  // in this case, the procedure is never called by itself, and can be suppressed, its content added to the previous procedure.
 					if (nbValidProcedures == 0)
 					{
-						CBaseLanguageEntity[] lst = nodeP.m_Proc.GetChildrenList(null, null) ;
-						if (node.m_Sec.getSectionBloc() == null)
+						CBaseLanguageEntity[] lst = nodeP.proc.GetChildrenList(null, null) ;
+						if (node.sec.getSectionBloc() == null)
 						{
-							node.m_Sec.SetSectionBloc(factory.NewEntityBloc(node.m_Sec.getLine())) ;
+							node.sec.SetSectionBloc(factory.NewEntityBloc(node.sec.getLine())) ;
 						}
 						for (int k=0; k<lst.length; k++)
 						{
 							CBaseLanguageEntity le = lst[k] ;
-							node.m_Sec.getSectionBloc().AddChild(le) ;
+							node.sec.getSectionBloc().AddChild(le) ;
 						}
 						Transcoder.logDebug("Procedure "+nameP+" merged into "+name) ;
-						nodeP.m_Proc.setIgnore() ;
+						nodeP.proc.setIgnore() ;
 					}
 					else
 					{
 						throw new NacaTransAssertException("unmanaged situation") ;
 					}
 				}
-				else if (nodeP.m_bExplicitCallAsProcedure && !nodeP.m_bExplicitCallByGoto && !nodeP.m_bImplicitCall)
+				else if (nodeP.bExplicitCallAsProcedure && !nodeP.bExplicitCallByGoto && !nodeP.bImplicitCall)
 				{  // in this case, the section can be reduced, because the procedure doesn't need a section and can be alone in the programme.
 					bIgnoreAllProcedures = false ;
 					lastValidProcedure = nodeP ;
@@ -438,18 +438,18 @@ public class ProcedureCallTree
 				// this section is never called...
 				if (bIgnoreAllProcedures)
 				{	// all of the procedures are never called
-					node.m_Sec.setIgnore() ;
+					node.sec.setIgnore() ;
 					Transcoder.logDebug("Section ignored : "+name) ;
 				}
 				else if (bAllSectionsAreReduced)
 				{ // remove section object, and leave all procedures alone in program
 					//CBaseTranscoder.logInfo("Section reduced : "+name) ;
-					node.m_Sec.ReduceToProcedure() ;
+					node.sec.ReduceToProcedure() ;
 				}
 				else if (bCanReduceCurrentSection)
 				{
 					//CBaseTranscoder.logInfo("Section reduced : "+name) ;
-					node.m_Sec.ReduceToProcedure() ;
+					node.sec.ReduceToProcedure() ;
 				}
 				else if (bAllSectionsAreReduced)
 				{
@@ -460,24 +460,24 @@ public class ProcedureCallTree
 			else if (bCanReduceCurrentSection && bAllSectionsAreReduced)
 			{
 				//CBaseTranscoder.logInfo("Section reduced : "+name) ;
-				node.m_Sec.ReduceToProcedure() ;
+				node.sec.ReduceToProcedure() ;
 			}
 			else if (nbValidProcedures == 1)
 			{
 				if (node.isCalled() && !lastValidProcedure.isCalled())
 				{
-					String cs = node.m_Sec.GetName() ;
-					node.m_Sec.Rename("$"+cs+"$") ;
-					lastValidProcedure.m_Proc.Rename(cs) ;
-					node.m_Sec.ReduceToProcedure() ;
+					String cs = node.sec.GetName() ;
+					node.sec.Rename("$"+cs+"$") ;
+					lastValidProcedure.proc.Rename(cs) ;
+					node.sec.ReduceToProcedure() ;
 				}
-				else if (node.isCalled() && lastValidProcedure.m_bImplicitCall && lastValidProcedure.m_bExplicitCallAsProcedure)
+				else if (node.isCalled() && lastValidProcedure.bImplicitCall && lastValidProcedure.bExplicitCallAsProcedure)
 				{
-					String nameP = lastValidProcedure.m_Proc.GetName() ;
-					CEntityCallFunction ePerform = factory.NewEntityCallFunction(0, nameP, "", node.m_Sec) ;
-					node.m_Sec.getSectionBloc().AddChild(ePerform) ;
+					String nameP = lastValidProcedure.proc.GetName() ;
+					CEntityCallFunction ePerform = factory.NewEntityCallFunction(0, nameP, "", node.sec) ;
+					node.sec.getSectionBloc().AddChild(ePerform) ;
 					Transcoder.logDebug("Section reduced : "+name+" and perform to "+nameP+" added") ;
-					node.m_Sec.ReduceToProcedure() ;
+					node.sec.ReduceToProcedure() ;
 				}
 				else
 				{
@@ -498,6 +498,6 @@ public class ProcedureCallTree
 	 */
 	public void RegisterGlobalGoto(CProcedureReference ref)
 	{
-		m_root.m_arrGlobalGotoRef.add(ref) ;
+		root.arrGlobalGotoRef.add(ref) ;
 	}
 }

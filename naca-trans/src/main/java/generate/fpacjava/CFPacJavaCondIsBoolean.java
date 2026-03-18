@@ -20,8 +20,8 @@ public class CFPacJavaCondIsBoolean extends CEntityCondIsBoolean
 	public CBaseEntityCondition GetOppositeCondition()
 	{
 		CFPacJavaCondIsBoolean cond = new CFPacJavaCondIsBoolean() ;
-		cond.m_Reference = m_Reference ;
-		cond.m_bIsTrue = !m_bIsTrue;
+		cond.reference = reference ;
+		cond.bIsTrue = !bIsTrue;
 		return cond;
 	}
 
@@ -29,11 +29,11 @@ public class CFPacJavaCondIsBoolean extends CEntityCondIsBoolean
 	public String Export()
 	{
 		String cs = "" ;
-		if (!m_bIsTrue)
+		if (!bIsTrue)
 		{
 			cs += "!" ;
 		}
-		cs += m_Reference.ExportReference(getLine()) ;
+		cs += reference.ExportReference(getLine()) ;
 		return cs ;
 	}
 

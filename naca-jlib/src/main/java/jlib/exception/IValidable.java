@@ -24,24 +24,24 @@ package jlib.exception;
  * // Item whose internal state can be validated
  * class Item implements IValidable	
  * {
- * 		private String m_csSomeNotEmptyValue = null;
- *  	private int m_nSomePositiveValue = 0;
+ * 		private String csSomeNotEmptyValue = null;
+ *  	private int nSomePositiveValue = 0;
  *  	...
  *  	Item(String csSomeNotEmptyValue, int nSomePositiveValue)
  *  	{
- *  		m_csSomeNotEmptyValue = csSomeNotEmptyValue;
- *  		m_nSomePositiveValue = nSomePositiveValue;
+ *  		csSomeNotEmptyValue = csSomeNotEmptyValue;
+ *  		nSomePositiveValue = nSomePositiveValue;
  *  	}
  *  
  *  	void dec()
  *  	{
- *  		m_nSomePositiveValue--;
+ *  		nSomePositiveValue--;
  *  	}
  *  
  *  	public boolean isValid()
  *  	{
- *  		if(m_nSomePositiveValue > 0)
- *  			if(!StringUtil.isEmtpy(m_csUpperCaseOnlyValue))
+ *  		if(nSomePositiveValue > 0)
+ *  			if(!StringUtil.isEmtpy(csUpperCaseOnlyValue))
  *  				return true;		// The internal state of Item is valid
  *  		return false;		// Item'state is invalid
  *  	}
@@ -64,9 +64,9 @@ package jlib.exception;
  * 		private void handleItem(Item item)
  * 			throws CustomApplicativeException
  * 		{ 
- * 			item.dec();	// item.m_nSomePositiveValue is set to 0 !
+ * 			item.dec();	// item.nSomePositiveValue is set to 0 !
  * 
- * 			// An exception will be thrown in this sample, as item.m_nSomePositiveValue == 0 !
+ * 			// An exception will be thrown in this sample, as item.nSomePositiveValue == 0 !
  * 			CustomApplicativeException.throwIfNullOrInvalid(
  * 				item, 
  * 				CustomApplicativeException.INVALID_ITEM, 

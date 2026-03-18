@@ -33,7 +33,7 @@ public class CIdentifierTerminal extends CTerminal
 	 */
 	public CIdentifierTerminal(CIdentifier Id)
 	{
-		m_Identifier = Id;
+		identifier = Id;
 	}
 	
 //	public String GetType()
@@ -42,18 +42,18 @@ public class CIdentifierTerminal extends CTerminal
 //	}
 //	public String GetValue()
 //	{
-//		return m_Identifier.Export() ;
+//		return identifier.Export() ;
 //	}
-	CIdentifier m_Identifier = null ;
+	CIdentifier identifier = null ;
 
 	/* (non-Javadoc)
 	 * @see parser.expression.CTerminal#ExportTo(org.w3c.dom.Element, org.w3c.dom.Document)
 	 */
 	public void ExportTo(Element e, Document root)
 	{
-		if (m_Identifier != null)
+		if (identifier != null)
 		{
-			m_Identifier.ExportTo(e, root) ;
+			identifier.ExportTo(e, root) ;
 		}		
 	}
 
@@ -77,7 +77,7 @@ public class CIdentifierTerminal extends CTerminal
 	
 	public CIdentifier GetIdentifier()
 	{
-		return m_Identifier ;
+		return identifier ;
 	}
 
 	/* (non-Javadoc)
@@ -93,22 +93,22 @@ public class CIdentifierTerminal extends CTerminal
 	 */
 	public CDataEntity GetDataEntity(int nLine, CBaseEntityFactory factory)
 	{
-		CDataEntity e = m_Identifier.GetDataReference(nLine, factory);
+		CDataEntity e = identifier.GetDataReference(nLine, factory);
 		if (e == null)
 		{
-			Transcoder.logError(nLine, "ERROR : identifier not found : "+m_Identifier.GetName());
+			Transcoder.logError(nLine, "ERROR : identifier not found : "+identifier.GetName());
 			int n = 0 ;
 		}
 		return e ; 
 	}
 	public String toString()
 	{
-		return m_Identifier.toString() ;
+		return identifier.toString() ;
 	}
 	
 	public CDataEntity GetDataReference(int nLine, CBaseEntityFactory factory)
 	{
-		return m_Identifier.GetDataReference(nLine, factory);
+		return identifier.GetDataReference(nLine, factory);
 	}	
 
 	public boolean IsNumber()

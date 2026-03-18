@@ -22,41 +22,41 @@ public class LogInfoMember
 {	
 	LogInfoMember(String csName, String csValue)
 	{
-		m_csName = csName;
-		m_csValue = csValue;
+		csName = csName;
+		csValue = csValue;
 	}
 	
 	LogInfoMember(String csName, int nValue)
 	{
-		m_csName = csName;
-		m_iValue = Integer.valueOf(nValue);
+		csName = csName;
+		iValue = Integer.valueOf(nValue);
 	}
 	
 	String getAsString()
 	{
-		if(m_csValue != null)
-			return m_csName + "=" + m_csValue;
-		if(m_iValue != null)
-			return m_csName + "=" + m_iValue.toString();
-		return m_csName + "=?";
+		if(csValue != null)
+			return csName + "=" + csValue;
+		if(iValue != null)
+			return csName + "=" + iValue.toString();
+		return csName + "=?";
 	}
 	
 	String getName()
 	{
-		return m_csName; 
+		return csName; 
 	}
 	
 	String getValue()
 	{
-		if(m_csValue != null)
-			return m_csValue;
-		else if(m_iValue != null)
-			return m_iValue.toString();
+		if(csValue != null)
+			return csValue;
+		else if(iValue != null)
+			return iValue.toString();
 		return "";
 	}
 
 	
-	String m_csName = null;
-	String m_csValue = null;
-	Integer m_iValue = null;	
+	String csName = null;
+	String csValue = null;
+	Integer iValue = null;	
 }

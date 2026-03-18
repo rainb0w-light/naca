@@ -13,31 +13,31 @@ public abstract class BaseControler
 {
 	public BaseControler(int nbSteps)
 	{
-		m_arrStatus = new Vector<String>(nbSteps) ;
-		m_arrDtStarts = new Vector<Date>(nbSteps)  ;
-		m_arrDtEnds = new Vector<Date>(nbSteps)  ;
+		arrStatus = new Vector<String>(nbSteps) ;
+		arrDtStarts = new Vector<Date>(nbSteps)  ;
+		arrDtEnds = new Vector<Date>(nbSteps)  ;
 		for (int i=0; i<nbSteps; i++)
 		{
-			m_arrStatus.add("NONE") ;
-			m_arrDtEnds.add(null) ;
-			m_arrDtStarts.add(null) ;
+			arrStatus.add("NONE") ;
+			arrDtEnds.add(null) ;
+			arrDtStarts.add(null) ;
 		}
 	}
-	private Vector<String> m_arrStatus; 
-	private Vector<Date> m_arrDtStarts ;
-	private Vector<Date> m_arrDtEnds ;
+	private Vector<String> arrStatus; 
+	private Vector<Date> arrDtStarts ;
+	private Vector<Date> arrDtEnds ;
 	
-	private boolean m_bIsRunning = false ;
-	private int m_nCurrentStep = 0 ;
+	private boolean bIsRunning = false ;
+	private int nCurrentStep = 0 ;
 	
 	public String getStatus(int stepId)
 	{
-		if (stepId >= m_arrStatus.size())
+		if (stepId >= arrStatus.size())
 		{
 			return "NONE" ;
 		}
-		String status = m_arrStatus.get(stepId) ;
-		if (getTaskConfig().isModeGroup() || stepId == m_nCurrentStep)
+		String status = arrStatus.get(stepId) ;
+		if (getTaskConfig().isModeGroup() || stepId == nCurrentStep)
 		{
 			if (status.startsWith("NONE") || status.startsWith("ERROR") || status.startsWith("STARTING"))
 			{
@@ -60,24 +60,24 @@ public abstract class BaseControler
 
 	public void setStatus(int currentSite, String string)
 	{
-		m_arrStatus.set(currentSite, string) ;
+		arrStatus.set(currentSite, string) ;
 	}
 	public void setStartDate(int currentSite, Date dt)
 	{
-		m_arrDtStarts.set(currentSite, dt) ;
+		arrDtStarts.set(currentSite, dt) ;
 	}
 
 	public boolean RunStep(int currentSite)
 	{
-		m_bIsRunning = true ;
-		m_nCurrentStep = currentSite ;
+		bIsRunning = true ;
+		nCurrentStep = currentSite ;
 		BaseControlerTaskConfig conf = getTaskConfig() ;
-		BaseControlerStepConfig step = conf.getStep(m_nCurrentStep) ;
+		BaseControlerStepConfig step = conf.getStep(nCurrentStep) ;
 //		step.setCurrentControler(this) ;
 		
 		boolean b = DoOneStep(currentSite) ;
 		
-		m_bIsRunning = false ;
+		bIsRunning = false ;
 //		step.setCurrentControler(null) ;
 		return b ;
 	}
@@ -88,17 +88,17 @@ public abstract class BaseControler
 
 	public Date getDateGroupEnds()
 	{
-		return m_dtGroupEnds;
+		return dtGroupEnds;
 	}
 	public void setDateGroupEnds()
 	{
-		m_dtGroupEnds = new Date() ;
+		dtGroupEnds = new Date() ;
 	}
-	private Date m_dtGroupEnds = null ;
+	private Date dtGroupEnds = null ;
 
 	public Date getDateStepEnds(int currentSite)
 	{
-		return m_arrDtEnds.get(currentSite) ;
+		return arrDtEnds.get(currentSite) ;
 	}
 
 	public String getStepName(int stepId)
@@ -108,11 +108,11 @@ public abstract class BaseControler
 	
 	protected boolean isRunning()
 	{
-		return m_bIsRunning ;
+		return bIsRunning ;
 	}
 	protected int getCurrentStep()
 	{
-		return m_nCurrentStep ;
+		return nCurrentStep ;
 	}
 
 }

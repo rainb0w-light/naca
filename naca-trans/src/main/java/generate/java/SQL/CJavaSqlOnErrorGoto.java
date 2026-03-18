@@ -40,30 +40,30 @@ public class CJavaSqlOnErrorGoto extends CEntitySqlOnErrorGoto
 	 */
 	protected void DoExport()
 	{
-		if (m_bOnWarning)
+		if (bOnWarning)
 		{
-			if (m_csRef.equals(""))
+			if (csRef.equals(""))
 			{
 				// WriteLine("// onSQLWarningContinue() ;") ;
-				m_ProgramCatalog.registerSQLWarningContinue(null);
+				programCatalog.registerSQLWarningContinue(null);
 			}
 			else
 			{
-				// WriteLine("// onSQLWarningGoto(" + FormatIdentifier(m_csRef) + ") ;") ;
-				m_ProgramCatalog.registerSQLWarningGoto(FormatIdentifier(m_csRef));
+				// WriteLine("// onSQLWarningGoto(" + FormatIdentifier(csRef) + ") ;") ;
+				programCatalog.registerSQLWarningGoto(FormatIdentifier(csRef));
 			}
 		}
 		else
 		{
-			if (m_csRef.equals(""))
+			if (csRef.equals(""))
 			{
 				// WriteLine("// onSQLErrorContinue() ;") ;
-				m_ProgramCatalog.RegisterSQLErrorContinue(null);
+				programCatalog.RegisterSQLErrorContinue(null);
 			}
 			else
 			{
-				// WriteLine("// onSQLErrorGoto(" + FormatIdentifier(m_csRef) + ") ;") ;
-				m_ProgramCatalog.registerSQLErrorGoto(FormatIdentifier(m_csRef));
+				// WriteLine("// onSQLErrorGoto(" + FormatIdentifier(csRef) + ") ;") ;
+				programCatalog.registerSQLErrorGoto(FormatIdentifier(csRef));
 			}
 		}
 	}

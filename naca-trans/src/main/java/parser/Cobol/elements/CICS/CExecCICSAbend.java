@@ -51,9 +51,9 @@ public class CExecCICSAbend extends CCobolElement
 	{
 		CEntityCICSAbend abend = factory.NewEntityCICSAbend(getLine());
 		parent.AddChild(abend) ;
-		if (m_ABCode != null)
+		if (aBCode != null)
 		{
-			CDataEntity e = m_ABCode.GetDataEntity(getLine(), factory) ;
+			CDataEntity e = aBCode.GetDataEntity(getLine(), factory) ;
 			e.RegisterReadingAction(abend) ;
 			abend.SetABCode(e);
 		}
@@ -77,7 +77,7 @@ public class CExecCICSAbend extends CCobolElement
 			if (tok.GetType() == CTokenType.LEFT_BRACKET)
 			{
 				tok = GetNext() ;
-				m_ABCode = ReadTerminal();
+				aBCode = ReadTerminal();
 				tok = GetCurrentToken() ;
 				if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 				{
@@ -100,14 +100,14 @@ public class CExecCICSAbend extends CCobolElement
 	protected Element ExportCustom(Document root)
 	{
 		Element e = root.createElement("ExecCICSAbend") ;
-		if (m_ABCode != null)
+		if (aBCode != null)
 		{
 			Element eAB = root.createElement("ABCode");
 			e.appendChild(eAB);
-			m_ABCode.ExportTo(eAB, root);
+			aBCode.ExportTo(eAB, root);
 		}
 		return e;
 	}
 
-	protected CTerminal m_ABCode = null ;
+	protected CTerminal aBCode = null ;
 }

@@ -20,12 +20,12 @@ public abstract class CEntityFileDescriptor extends CBaseLanguageEntity
 	@Override
 	protected void RegisterMySelfToCatalog()
 	{
-		m_ProgramCatalog.RegisterFileDescriptor(this) ;
-		m_FileSelect = m_ProgramCatalog.getFileSelect(GetName()) ;
+		programCatalog.RegisterFileDescriptor(this) ;
+		fileSelect = programCatalog.getFileSelect(GetName()) ;
 	}
 
 
-	protected CEntityFileSelect m_FileSelect ;
+	protected CEntityFileSelect fileSelect ;
 
 
 	public String ExportReference(int nLine)
@@ -35,7 +35,7 @@ public abstract class CEntityFileDescriptor extends CBaseLanguageEntity
 
 	public CDataEntity GetRecord()
 	{
-		if (!m_lstChildren.isEmpty() && m_lstChildren.getFirst() != null)
+		if (!lstChildren.isEmpty() && lstChildren.getFirst() != null)
 		{
 			CDataEntity le = FindFirstDataEntityAtLevel(1) ;
 			if (le != null)
@@ -46,35 +46,35 @@ public abstract class CEntityFileDescriptor extends CBaseLanguageEntity
 		return null ;
 	}
 
-	protected CEntityOpenFile.OpenMode m_eAccessMode = null ;
+	protected CEntityOpenFile.OpenMode eAccessMode = null ;
 	public void setFileAccessType(CEntityOpenFile.OpenMode access)
 	{
-		m_eAccessMode = access;		
+		eAccessMode = access;		
 	}
 	public CEntityOpenFile.OpenMode getAccessMode()
 	{
-		return m_eAccessMode;
+		return eAccessMode;
 	}
 
-	protected boolean m_bVariableFile = false ;
-	protected CDataEntity m_RecSizeDependingOn = null ;
-	protected CDataEntity m_eOutputBufferInitialValue = null ;
+	protected boolean bVariableFile = false ;
+	protected CDataEntity recSizeDependingOn = null ;
+	protected CDataEntity eOutputBufferInitialValue = null ;
 	public void setRecordSizeVariable(boolean variableFile)
 	{
-		m_bVariableFile = variableFile ; 
+		bVariableFile = variableFile ; 
 	}
 	public void setRecordSizeVariable(CDataEntity depOn)
 	{
-		m_bVariableFile = true ; 
-		m_RecSizeDependingOn = depOn ;
+		bVariableFile = true ; 
+		recSizeDependingOn = depOn ;
 	}
 	public CDataEntity getRecordSizeDepending()
 	{
-		return m_RecSizeDependingOn;
+		return recSizeDependingOn;
 	}
 	public boolean isRecordSizeVariable()
 	{
-		return m_bVariableFile ;
+		return bVariableFile ;
 	}
 
 	/**
@@ -82,6 +82,6 @@ public abstract class CEntityFileDescriptor extends CBaseLanguageEntity
 	 */
 	public void setOutputBufferInitialValue(CDataEntity e)
 	{
-		m_eOutputBufferInitialValue  = e ;
+		eOutputBufferInitialValue  = e ;
 	}
 }

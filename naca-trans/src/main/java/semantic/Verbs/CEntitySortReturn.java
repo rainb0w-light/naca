@@ -21,29 +21,29 @@ public abstract class CEntitySortReturn extends CBaseActionEntity
 		super(line, cat, out);
 	}
 
-	protected CEntityFileDescriptor m_eFileDesc = null ;
+	protected CEntityFileDescriptor eFileDesc = null ;
 	public void setDataReference(CEntityFileDescriptor ref)
 	{
-		m_eFileDesc = ref ;	
+		eFileDesc = ref ;	
 	}
-	protected CDataEntity m_eDataInto = null;
+	protected CDataEntity eDataInto = null;
 	public void setDataReference(CEntityFileDescriptor ref, CDataEntity into)
 	{
-		m_eDataInto = into ;
-		m_eFileDesc = ref ;
+		eDataInto = into ;
+		eFileDesc = ref ;
 	}
 	
-	protected CBaseLanguageEntity m_blocAtEnd = null ;
-	protected CBaseLanguageEntity m_blocNotAtEnd = null ;
+	protected CBaseLanguageEntity blocAtEnd = null ;
+	protected CBaseLanguageEntity blocNotAtEnd = null ;
 	
 	public void SetAtEndBloc(CBaseLanguageEntity le)
 	{
-		m_blocAtEnd = le ;
+		blocAtEnd = le ;
 	}
 
 	public void SetNotAtEndBloc(CBaseLanguageEntity le)
 	{
-		m_blocNotAtEnd = le ;
+		blocNotAtEnd = le ;
 	}
 
 }

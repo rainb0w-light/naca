@@ -10,8 +10,8 @@ public class AbortSessionException extends NacaRTException
 {
 	private static final long serialVersionUID = 1L;
 	
-	public Throwable m_Reason = null ;
-	public String m_ProgramName = "" ;
+	public Throwable reason = null ;
+	public String programName = "" ;
 	
 	public AbortSessionException()
 	{
@@ -26,20 +26,20 @@ public class AbortSessionException extends NacaRTException
 	public String getMessage()
 	{
 		String cs = "";
-		if(m_ProgramName != null)
-			cs = "AbortSessionException Prg=" + m_ProgramName;
-		if(m_Reason != null && m_Reason.getMessage() != null)
-			cs += " Reason=" + m_Reason.getMessage();
+		if(programName != null)
+			cs = "AbortSessionException Prg=" + programName;
+		if(reason != null && reason.getMessage() != null)
+			cs += " Reason=" + reason.getMessage();
 		return cs;		
 	}
 	
 	public String getReason()
 	{
-		if(m_Reason != null && m_Reason.getMessage() != null)
+		if(reason != null && reason.getMessage() != null)
 		{
-			String cs = m_Reason.getMessage();
+			String cs = reason.getMessage();
 			return cs;
 		}
-		return "AbortSessionException Prg=" + m_ProgramName;
+		return "AbortSessionException Prg=" + programName;
 	}
 }

@@ -43,21 +43,21 @@ public class CJavaEnvironmentVariable extends CEntityEnvironmentVariable
 	 */
 	public String ExportReference(int nLine)
 	{
-		return m_csAccessor ;
+		return csAccessor ;
 	}
 	/* (non-Javadoc)
 	 * @see semantic.CBaseDataEntity#HasAccessors()
 	 */
 	public boolean HasAccessors()
 	{
-		return !m_csWriteAccessor.equals("") ;
+		return !csWriteAccessor.equals("") ;
 	}
 	/* (non-Javadoc)
 	 * @see semantic.CBaseDataEntity#ExportWriteAccessorTo(semantic.CBaseLanguageExporter)
 	 */
 	public String ExportWriteAccessorTo(String value)
 	{
-		return m_csWriteAccessor + value + ");" ;
+		return csWriteAccessor + value + ");" ;
 	}
 	
 	public boolean isValNeeded()
@@ -78,7 +78,7 @@ public class CJavaEnvironmentVariable extends CEntityEnvironmentVariable
 	 */
 	public CDataEntityType GetDataType()
 	{
-		if (m_bNumericVariable)
+		if (bNumericVariable)
 		{
 			return CDataEntityType.NUMERIC_VAR ;
 		}

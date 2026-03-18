@@ -34,51 +34,51 @@ public abstract class CEntityCICSStart extends CBaseActionEntity
 	public CEntityCICSStart(int line, CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity TID)
 	{
 		super(line, cat, out);
-		m_TransID = TID ;
+		transID = TID ;
 		cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
 	}
 	
 	public void SetInterval(CDataEntity inter)
 	{
-		m_Interval = inter ;
+		interval = inter ;
 	}
 	public void SetTime(CDataEntity time)
 	{
-		m_Time = time ;
+		time = time ;
 	}
 	public void SetDataFrom(CDataEntity from, CDataEntity len)
 	{
-		m_DataFrom = from ;
-		m_DataLength = len ;
+		dataFrom = from ;
+		dataLength = len ;
 	}
 	public void SetSysID(CDataEntity sys)
 	{
-		m_SysID = sys ;
+		sysID = sys ;
 	}
 	public void SetTermID(CDataEntity term)
 	{
-		m_TermID = term ;
+		termID = term ;
 	}
 	
-	protected CDataEntity m_TransID = null ;
-	protected CDataEntity m_TermID = null ;
-	protected CDataEntity m_SysID = null ;
+	protected CDataEntity transID = null ;
+	protected CDataEntity termID = null ;
+	protected CDataEntity sysID = null ;
 	
-	protected CDataEntity m_Interval = null ;
-	protected CDataEntity m_Time = null ;
+	protected CDataEntity interval = null ;
+	protected CDataEntity time = null ;
 	
-	protected CDataEntity m_DataFrom = null ;
-	protected CDataEntity m_DataLength = null ;
+	protected CDataEntity dataFrom = null ;
+	protected CDataEntity dataLength = null ;
 	public void Clear()
 	{
 		super.Clear();
-		m_TransID = null ;
-		m_TermID = null ;
-		m_SysID = null ;
-		m_Interval = null ;
-		m_Time = null ;
-		m_DataFrom = null ;
-		m_DataLength = null ;
+		transID = null ;
+		termID = null ;
+		sysID = null ;
+		interval = null ;
+		time = null ;
+		dataFrom = null ;
+		dataLength = null ;
 	}
 	public boolean ignore()
 	{
@@ -90,7 +90,7 @@ public abstract class CEntityCICSStart extends CBaseActionEntity
 	 */
 	public void setVerified(boolean checked)
 	{
-		m_bVerified = checked ;
+		bVerified = checked ;
 	}
-	protected boolean m_bVerified = false ;
+	protected boolean bVerified = false ;
 }

@@ -36,59 +36,59 @@ public class CJavaSubtractTo extends CEntitySubtractTo
 	}
 	protected void DoExport()
 	{
-		if (m_OnErrorBloc != null)
+		if (onErrorBloc != null)
 		{
 			WriteWord("if (") ;
 		}
-		if (!m_Destination.isEmpty())
+		if (!destination.isEmpty())
 		{
-			String cs = "subtract(" + m_Variable.ExportReference(getLine()) ;
-			for(CDataEntity value : m_Values)
+			String cs = "subtract(" + variable.ExportReference(getLine()) ;
+			for(CDataEntity value : values)
 			{
 				cs += ", " + value.ExportReference(getLine()) ;
 			}
 			cs += ")" ;
 			WriteWord(cs);
-			for(CDataEntity value : m_Destination)
+			for(CDataEntity value : destination)
 			{
 				WriteWord(".to(" + value.ExportReference(getLine()) + ")") ;
 			}
 		} 
-		else if(m_Values.size() == 1)
+		else if(values.size() == 1)
 		{
-			CDataEntity m_Value = m_Values.get(0);
-			if (m_Value.GetConstantValue().equals("1"))
+			CDataEntity value = values.get(0);
+			if (value.GetConstantValue().equals("1"))
 			{
-				String cs = "dec(" + m_Variable.ExportReference(getLine()) + ")" ;
+				String cs = "dec(" + variable.ExportReference(getLine()) + ")" ;
 				WriteLine(cs) ;
 			}
-			else  if (m_Value.GetConstantValue().equals("-1"))
+			else  if (value.GetConstantValue().equals("-1"))
 			{
-				String cs = "inc(" + m_Variable.ExportReference(getLine()) + ")" ;
+				String cs = "inc(" + variable.ExportReference(getLine()) + ")" ;
 				WriteLine(cs) ;
 			}
 			else
 			{
-				String cs = "dec(" + m_Value.ExportReference(getLine()) + ", " + m_Variable.ExportReference(getLine()) +")" ;
+				String cs = "dec(" + value.ExportReference(getLine()) + ", " + variable.ExportReference(getLine()) +")" ;
 				WriteWord(cs) ;
 			}
 		} 
 		else
 		{
 			String cs = "dec(" ;
-			for(CDataEntity m_Value : m_Values)
+			for(CDataEntity value : values)
 			{
-				cs += m_Value.ExportReference(getLine()) + ", " ;
+				cs += value.ExportReference(getLine()) + ", " ;
 			}
-			cs += m_Variable.ExportReference(getLine()) +")" ;
+			cs += variable.ExportReference(getLine()) +")" ;
 			WriteWord(cs) ;
 		}
-		if (m_OnErrorBloc != null)
+		if (onErrorBloc != null)
 		{
 			WriteWord(".isError()") ;
 			WriteWord(") {") ;
 			WriteEOL() ;
-			DoExport(m_OnErrorBloc) ;
+			DoExport(onErrorBloc) ;
 			WriteLine("}");
 		}
 		else

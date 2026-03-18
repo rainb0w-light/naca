@@ -37,7 +37,7 @@ public class LogCenterConsole extends LogCenter
 			
 	public void loadSpecificsEntries(Tag tagLogCenter)
 	{
-		m_csFormat = tagLogCenter.getVal("Format");
+		csFormat = tagLogCenter.getVal("Format");
 	}
 	
 	boolean open()
@@ -56,7 +56,7 @@ public class LogCenterConsole extends LogCenter
 	
 	protected void sendOutput(LogParams logParam)
 	{
-		String csOut = m_patternLayout.format(logParam, 0);
+		String csOut = patternLayout.format(logParam, 0);
 		System.out.println(csOut);
 	}
 	
@@ -67,10 +67,10 @@ public class LogCenterConsole extends LogCenter
 	
 	String getFormat()
 	{
-		return m_csFormat;
+		return csFormat;
 	}
 	
-	private String m_csFormat = null;
+	private String csFormat = null;
 	
 	public String getType()
 	{

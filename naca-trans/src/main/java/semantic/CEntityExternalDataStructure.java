@@ -32,18 +32,18 @@ public abstract class CEntityExternalDataStructure extends CBaseExternalEntity
 	 */
 	public boolean IsNeedDeclarationInClass()
 	{
-		return !m_bInline ;
+		return !bInline ;
 	}
 /**
 	 * @param name
 	 * @param cat
 	 * @param out
 	 */
-	protected String m_csClassName = "" ;
+	protected String csClassName = "" ;
 	public CEntityExternalDataStructure(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
 		super(l, name, cat, out);
-		m_csClassName = name ;
+		csClassName = name ;
 	}
 	/* (non-Javadoc)
 	 * @see semantic.CBaseDataEntity#GetSpecialAssignment(parser.expression.CTerminal)
@@ -65,9 +65,9 @@ public abstract class CEntityExternalDataStructure extends CBaseExternalEntity
 		{
 			int i =0;
 			int level = 0 ;
-			while (i<m_lstChildren.size())
+			while (i<lstChildren.size())
 			{
-				CBaseLanguageEntity child = m_lstChildren.get(i);
+				CBaseLanguageEntity child = lstChildren.get(i);
 				int l = child.GetInternalLevel() ;
 				if (l>0 && level==0)
 				{
@@ -79,9 +79,9 @@ public abstract class CEntityExternalDataStructure extends CBaseExternalEntity
 				}
 				i ++ ;
 			}
-			if (level > 0 && level == m_ReplaceLevel)
+			if (level > 0 && level == replaceLevel)
 			{
-				return m_ReplaceBy ;
+				return replaceBy ;
 			}
 			return level ;
 		}
@@ -98,9 +98,9 @@ public abstract class CEntityExternalDataStructure extends CBaseExternalEntity
 	public void Rename(String name)
 	{
 		super.Rename(name);
-		if (m_csClassName.equals(""))
+		if (csClassName.equals(""))
 		{
-			m_csClassName = name ;
+			csClassName = name ;
 		}
 	}
 	public boolean ignore()
@@ -112,17 +112,17 @@ public abstract class CEntityExternalDataStructure extends CBaseExternalEntity
 		// nothing
 	}
 	
-	protected boolean m_bInline = false ;
+	protected boolean bInline = false ;
 	public void SetInline(boolean bInline)
 	{
-		m_bInline = bInline;
+		bInline = bInline;
 	}
 	/**
 	 * @return
 	 */
 	public boolean isInlined()
 	{
-		return m_bInline ;
+		return bInline ;
 	}
 	/**
 	 * @return
@@ -131,8 +131,8 @@ public abstract class CEntityExternalDataStructure extends CBaseExternalEntity
 	{
 		try
 		{
-			CBaseLanguageEntity[] arr = new CBaseLanguageEntity[m_lstChildren.size()] ;
-			m_lstChildren.toArray(arr) ;
+			CBaseLanguageEntity[] arr = new CBaseLanguageEntity[lstChildren.size()] ;
+			lstChildren.toArray(arr) ;
 			for (CBaseLanguageEntity e : arr)
 			{
 				int n = e.GetInternalLevel() ;

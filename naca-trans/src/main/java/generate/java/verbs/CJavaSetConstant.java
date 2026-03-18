@@ -37,45 +37,45 @@ public class CJavaSetConstant extends CEntitySetConstant
 	protected void DoExport()
 	{
 		String cs = "" ;
-		if (m_CsteValue != null)
+		if (csteValue != null)
 		{
-			cs = "moveAll(" + m_CsteValue.ExportReference(getLine()) + ", " + m_Variable.ExportReference(getLine()) + ") ;" ;			
+			cs = "moveAll(" + csteValue.ExportReference(getLine()) + ", " + variable.ExportReference(getLine()) + ") ;" ;			
 		}
 		else 
 		{
 			cs = "move" ;
-			if (m_SubStringRefLength != null && m_SubStringRefStart != null)
+			if (subStringRefLength != null && subStringRefStart != null)
 			{
 				cs += "SubString" ;
 			}
-			if (m_bSetToLowValue)
+			if (bSetToLowValue)
 			{
 				cs += "LowValue(";
 			}
-			else if (m_bSetToHighValue)
+			else if (bSetToHighValue)
 			{
 				cs += ("HighValue(");
 			}
-			else if (m_bSetToSpace)
+			else if (bSetToSpace)
 			{
 				cs += ("Space(");
 			}
-			else if (m_bSetToZero)
+			else if (bSetToZero)
 			{
 				cs += ("Zero(");
 			}
-			else if (m_bSetToTrue)
+			else if (bSetToTrue)
 			{
 				cs += ("True(");
 			}
-			else if (m_bSetToFalse)
+			else if (bSetToFalse)
 			{
 				cs += ("False(");
 			}
-			cs += m_Variable.ExportReference(getLine()) ;
-			if (m_SubStringRefStart != null && m_SubStringRefLength != null)
+			cs += variable.ExportReference(getLine()) ;
+			if (subStringRefStart != null && subStringRefLength != null)
 			{
-				cs += ", " + m_SubStringRefStart.Export() + ", " + m_SubStringRefLength.Export();
+				cs += ", " + subStringRefStart.Export() + ", " + subStringRefLength.Export();
 			}
 			cs += ") ;" ;
 		}

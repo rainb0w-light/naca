@@ -46,17 +46,17 @@ public abstract class CEntityArrayReference extends CBaseDataReference
 	
 	public void SetReference(CDataEntity e)
 	{
-		m_Reference = e ;
+		reference = e ;
 	}
 	public void AddIndex(CBaseEntityExpression e)
 	{
-		m_arrIndexes.add(e);
+		arrIndexes.add(e);
 	}
-	protected Vector<CBaseEntityExpression> m_arrIndexes = new Vector<CBaseEntityExpression>() ;
-//	protected CDataEntity m_Reference = null ;
+	protected Vector<CBaseEntityExpression> arrIndexes = new Vector<CBaseEntityExpression>() ;
+//	protected CDataEntity reference = null ;
 	public CBaseEntityCondition GetSpecialCondition(int nLine, String value, CBaseEntityCondition.EConditionType type, CBaseEntityFactory factory)
 	{
-		CBaseEntityCondition eCond = m_Reference.GetSpecialCondition(getLine(), value, type, factory);
+		CBaseEntityCondition eCond = reference.GetSpecialCondition(getLine(), value, type, factory);
 		if (eCond == null)
 		{
 			return null ;
@@ -65,8 +65,8 @@ public abstract class CEntityArrayReference extends CBaseDataReference
 		{
 			CDataEntity eData = eCond.GetConditionReference() ;
 			CEntityArrayReference eArray = factory.NewEntityArrayReference(getLine()) ;
-			eArray.m_arrIndexes = m_arrIndexes ;
-			eArray.m_Reference = eData ;
+			eArray.arrIndexes = arrIndexes ;
+			eArray.reference = eData ;
 			eArray.RegisterVarTesting(eCond) ;
 			eCond.SetConditonReference(eArray);
 			return eCond;
@@ -74,7 +74,7 @@ public abstract class CEntityArrayReference extends CBaseDataReference
 	}
 	public CUnitaryEntityCondition GetAssociatedCondition(CBaseEntityFactory factory)
 	{
-		CUnitaryEntityCondition eCond = m_Reference.GetAssociatedCondition(factory);
+		CUnitaryEntityCondition eCond = reference.GetAssociatedCondition(factory);
 		if (eCond == null)
 		{
 			return null ;
@@ -83,8 +83,8 @@ public abstract class CEntityArrayReference extends CBaseDataReference
 		{
 			CDataEntity eData = eCond.GetConditionReference() ;
 			CEntityArrayReference eArray = factory.NewEntityArrayReference(getLine()) ;
-			eArray.m_arrIndexes = m_arrIndexes ;
-			eArray.m_Reference = eData ;
+			eArray.arrIndexes = arrIndexes ;
+			eArray.reference = eData ;
 			eArray.RegisterVarTesting(eCond) ;
 			eCond.SetConditonReference(eArray);
 			return eCond;
@@ -127,7 +127,7 @@ public abstract class CEntityArrayReference extends CBaseDataReference
 	 */
 	public boolean ignore()
 	{
-		return m_Reference.ignore() ;
+		return reference.ignore() ;
 	}
 	public String GetConstantValue()
 	{
@@ -146,6 +146,6 @@ public abstract class CEntityArrayReference extends CBaseDataReference
 	public void Clear()
 	{
 		super.Clear();
-		m_arrIndexes.clear() ;
+		arrIndexes.clear() ;
 	}
 }

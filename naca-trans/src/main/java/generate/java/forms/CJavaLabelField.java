@@ -46,85 +46,85 @@ public class CJavaLabelField extends CEntityResourceField
 	public Element DoXMLExport(Document doc, CResourceStrings res)
 	{
 		Element ef ;
-		if (m_Mode == FieldMode.TITLE)
+		if (mode == FieldMode.TITLE)
 		{
 			ef = doc.createElement("title") ;
 		}
-		else if (m_Mode == FieldMode.HIDDEN)
+		else if (mode == FieldMode.HIDDEN)
 		{
 			return null ;
 		}
-		else if (m_Mode == FieldMode.ACTIVE_CHOICE)
+		else if (mode == FieldMode.ACTIVE_CHOICE)
 		{
 			ef = doc.createElement("label") ;
 			ef.setAttribute("type", "activeChoice") ;
-			ef.setAttribute("activeChoiceValue", m_csActiveChoiceValue);
-			ef.setAttribute("activeChoiceTarget", m_csActiveChoiceTarget);
-			ef.setAttribute("activeChoiceSubmit", m_bActiveChoiceSubmit?"true":"false");
+			ef.setAttribute("activeChoiceValue", csActiveChoiceValue);
+			ef.setAttribute("activeChoiceTarget", csActiveChoiceTarget);
+			ef.setAttribute("activeChoiceSubmit", bActiveChoiceSubmit?"true":"false");
 		}
-		else if (m_Mode == FieldMode.LINKED_ACTIVE_CHOICE)
+		else if (mode == FieldMode.LINKED_ACTIVE_CHOICE)
 		{
 			ef = doc.createElement("label") ;
 			ef.setAttribute("type", "linkedActiveChoice") ;
-			ef.setAttribute("activeChoiceLink", FormatIdentifier(m_csActiveChoiceValue));
-			ef.setAttribute("activeChoiceTarget", m_csActiveChoiceTarget);
-			ef.setAttribute("activeChoiceSubmit", m_bActiveChoiceSubmit?"true":"false");
+			ef.setAttribute("activeChoiceLink", FormatIdentifier(csActiveChoiceValue));
+			ef.setAttribute("activeChoiceTarget", csActiveChoiceTarget);
+			ef.setAttribute("activeChoiceSubmit", bActiveChoiceSubmit?"true":"false");
 		}
 		else
 		{
 			ef = doc.createElement("label") ;
 		}
-		ef.setAttribute("length", String.valueOf(m_nLength)) ;
-		ef.setAttribute("line", String.valueOf(m_nPosLine)) ;
-		ef.setAttribute("col", String.valueOf(m_nPosCol)) ;
-		if (!m_csInitialValue.equals(""))
+		ef.setAttribute("length", String.valueOf(nLength)) ;
+		ef.setAttribute("line", String.valueOf(nPosLine)) ;
+		ef.setAttribute("col", String.valueOf(nPosCol)) ;
+		if (!csInitialValue.equals(""))
 		{
 //			res.GetResource;
-			//ef.setAttribute("InitialValue", m_initialValue) ;
-			ef.appendChild(res.ExportResource(m_csInitialValue, doc)) ;
+			//ef.setAttribute("InitialValue", initialValue) ;
+			ef.appendChild(res.ExportResource(csInitialValue, doc)) ;
 		}
-		if (!m_csDisplayName.equals(""))
+		if (!csDisplayName.equals(""))
 		{
-			ef.setAttribute("name", m_csDisplayName);
+			ef.setAttribute("name", csDisplayName);
 		}
 //		if (!GetName().equals(""))
 //		{
 //			ef.setAttribute("Name", GetName()) ;
 //		}
-		if (!m_csColor.equals(""))
+		if (!csColor.equals(""))
 		{
-			ef.setAttribute("color", m_csColor.toLowerCase());
+			ef.setAttribute("color", csColor.toLowerCase());
 		}
-		if (!m_csHighLight.equals(""))
+		if (!csHighLight.equals(""))
 		{
-			ef.setAttribute("highlighting", m_csHighLight.toLowerCase());
+			ef.setAttribute("highlighting", csHighLight.toLowerCase());
 		}
-		if (!m_csBrightness.equals(""))
+		if (!csBrightness.equals(""))
 		{
-			ef.setAttribute("brightness", m_csBrightness.toLowerCase());
+			ef.setAttribute("brightness", csBrightness.toLowerCase());
 		}
-//		if (!m_Protection.equals(""))
+//		if (!protection.equals(""))
 //		{
-//			ef.setAttribute("Protection", m_Protection);
+//			ef.setAttribute("Protection", protection);
 //		}
-//		if (!m_FillValue.equals(""))
+//		if (!fillValue.equals(""))
 //		{
-//			ef.setAttribute("FillValue", m_FillValue);
+//			ef.setAttribute("FillValue", fillValue);
 //		}
-//		if (!m_Justify.equals(""))
+//		if (!justify.equals(""))
 //		{
-//			ef.setAttribute("Justify", m_Justify);
+//			ef.setAttribute("Justify", justify);
 //		}
-//		for (int i=0; i<m_arrAttrib.size(); i++)
+//		for (int i=0; i<arrAttrib.size(); i++)
 //		{
-//			String cs = m_arrAttrib.get(i);
+//			String cs = arrAttrib.get(i);
 //			Element e = doc.createElement("Attribute");
 //			ef.appendChild(e);
 //			e.setAttribute("Value", cs);			
 //		}
-//		for (int i=0; i<m_arrJustify.size(); i++)
+//		for (int i=0; i<arrJustify.size(); i++)
 //		{
-//			String cs = m_arrJustify.get(i);
+//			String cs = arrJustify.get(i);
 //			Element e = doc.createElement("Justify");
 //			ef.appendChild(e) ;
 //			e.setAttribute("Value", cs);			

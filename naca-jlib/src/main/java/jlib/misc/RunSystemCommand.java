@@ -132,12 +132,12 @@ public class RunSystemCommand
 	 */
 	public static Process Launch(ProcessExecutionTask task)
 	{
-		String args[] = new String[task.m_arrParameters.size()];
-		for (int i=0; i<task.m_arrParameters.size(); i++)
+		String args[] = new String[task.arrParameters.size()];
+		for (int i=0; i<task.arrParameters.size(); i++)
 		{
-			args[i] = task.m_arrParameters.get(i) ;
+			args[i] = task.arrParameters.get(i) ;
 		}
-		return Launch(task.m_csCommand, args, task.m_dirRuntimeDir) ;
+		return Launch(task.csCommand, args, task.dirRuntimeDir) ;
 	}
 	
 	public static boolean runSystemCommand(String command, String[] args)

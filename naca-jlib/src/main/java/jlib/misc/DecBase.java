@@ -19,9 +19,9 @@ import java.math.BigDecimal;
  */
 public class DecBase
 {
-	protected String m_csDec;
-	protected long m_lInt;
-	protected boolean m_bPositive;
+	protected String csDec;
+	protected long lInt;
+	protected boolean bPositive;
 	
 	public DecBase()
 	{
@@ -31,7 +31,7 @@ public class DecBase
 	{
 		long lInt = NumberParser.getAsLong(csInt);
 		setLong(lInt);
-		m_csDec = csDec;
+		this.csDec = csDec;
 	}
 	
 	public DecBase(long lInt, String csDec)
@@ -44,76 +44,76 @@ public class DecBase
 	{
 		if(lInt >= 0)
 		{
-			m_lInt = lInt;
-			m_bPositive = true;
+			this.lInt = lInt;
+			bPositive = true;
 		}
 		else
 		{
-			m_lInt = -lInt;
-			m_bPositive = false;
+			this.lInt = -lInt;
+			bPositive = false;
 		}
 	}
 	
 	public void setPositive(boolean bPositive)
 	{
-		m_bPositive = bPositive;
+		this.bPositive = bPositive;
 	}
 
 	public void setNegativeForced()
 	{
-		m_bPositive = false;
+		bPositive = false;
 	}
 
 	public boolean isNegative()
 	{
-		return !m_bPositive;
+		return !bPositive;
 	}
 
 	public boolean isPositive()
 	{
-		return m_bPositive;
+		return bPositive;
 	}
 
 	public void setUnsigned()
 	{
-		m_bPositive = true;
+		bPositive = true;
 	}
 
 	public void setDecPart(String csDec)
 	{
-		m_csDec = csDec;
+		this.csDec = csDec;
 	}
 	
 	public long getUnsignedLong()
 	{
-		return m_lInt;
+		return lInt;
 	}
 	
 	public long getSignedLong()
 	{
-		if(m_bPositive)
-			return m_lInt;
-		return -m_lInt;
+		if(bPositive)
+			return lInt;
+		return -lInt;
 	}
 
 	
 	public String getDecPart()
 	{
-		return m_csDec;
+		return csDec;
 	}
 	
 	public int getLeftMostDigitOfDecPartAsInt(int nNbDigits)
 	{		
-		if(m_csDec.length() <= 0)
+		if(csDec.length() <= 0)
 			return 0;
 		
 		int n=0;
 		int nDec = 0;
-		int nDecLength = m_csDec.length();
+		int nDecLength = csDec.length();
 		while(n < nDecLength && n < nNbDigits)
 		{
 			nDec *= 10;
-			char c = m_csDec.charAt(n);
+			char c = csDec.charAt(n);
 			nDec += c - '0';
 			n++;
 		}
@@ -165,8 +165,8 @@ public class DecBase
 			cs = "Negative; Int=";
 		else
 			cs = "Positive; Int=";
-		cs += m_lInt;
-		cs += "; Decimal="+m_csDec;
+		cs += lInt;
+		cs += "; Decimal="+csDec;
 		return cs;
 	}
 }

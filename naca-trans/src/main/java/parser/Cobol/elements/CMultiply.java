@@ -52,16 +52,16 @@ public class CMultiply extends CCobolElement
 	{
 		CEntityMultiply eMult = factory.NewEntityMultiply(getLine()) ;
 		parent.AddChild(eMult) ;
-		CDataEntity eWhat = m_MultiplyWhat.GetDataEntity(getLine(), factory);
-		CDataEntity eBy = m_MultiplyBy.GetDataEntity(getLine(), factory);
-		if (m_Result != null)
+		CDataEntity eWhat = multiplyWhat.GetDataEntity(getLine(), factory);
+		CDataEntity eBy = multiplyBy.GetDataEntity(getLine(), factory);
+		if (result != null)
 		{
-			CDataEntity eTo = m_Result.GetDataReference(getLine(), factory);
-			eMult.SetMultiply(eWhat, eBy, eTo, m_bIsRounded) ;
+			CDataEntity eTo = result.GetDataReference(getLine(), factory);
+			eMult.SetMultiply(eWhat, eBy, eTo, bIsRounded) ;
 		}
 		else
 		{
-			eMult.SetMultiply(eWhat, eBy, m_bIsRounded) ;
+			eMult.SetMultiply(eWhat, eBy, bIsRounded) ;
 		}
 		return eMult;
 	}
@@ -76,9 +76,9 @@ public class CMultiply extends CCobolElement
 		{
 			return false ;
 		}
-		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().m_Name) ;
+		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
 		tok = GetNext();
-		m_MultiplyWhat = ReadTerminal();
+		multiplyWhat = ReadTerminal();
 		
 		tok=GetCurrentToken();
 		if (tok.GetKeyword() != CCobolKeywordList.BY)
@@ -87,22 +87,22 @@ public class CMultiply extends CCobolElement
 			return false ;
 		}
 		GetNext() ;
-		m_MultiplyBy = ReadTerminal();
+		multiplyBy = ReadTerminal();
 		
 		tok = GetCurrentToken();
 		if (tok.GetKeyword() == CCobolKeywordList.ROUNDED)
 		{
-			m_bIsRounded = true ;
+			bIsRounded = true ;
 			GetNext() ;
 		} 
 		else if (tok.GetKeyword() == CCobolKeywordList.GIVING)
 		{
 			GetNext();
-			m_Result = ReadIdentifier();
+			result = ReadIdentifier();
 			tok = GetCurrentToken();
 			if (tok.GetKeyword() == CCobolKeywordList.ROUNDED)
 			{
-				m_bIsRounded = true ;
+				bIsRounded = true ;
 				GetNext() ;
 			} 
 		}
@@ -117,21 +117,21 @@ public class CMultiply extends CCobolElement
 		Element eMult = root.createElement("Multiply");
 		Element eWhat = root.createElement("Multiply");
 		eMult.appendChild(eWhat) ;
-		m_MultiplyWhat.ExportTo(eWhat, root);
+		multiplyWhat.ExportTo(eWhat, root);
 		Element eBy = root.createElement("By") ;
 		eMult.appendChild(eBy);
-		m_MultiplyBy.ExportTo(eBy, root);
-		if (m_Result != null)
+		multiplyBy.ExportTo(eBy, root);
+		if (result != null)
 		{
 			Element eResult = root.createElement("To");
 			eMult.appendChild(eResult);
-			m_Result.ExportTo(eResult, root);			
+			result.ExportTo(eResult, root);			
 		}
 		return eMult;
 	}
 	
-	protected CTerminal m_MultiplyWhat = null ;
-	protected CTerminal m_MultiplyBy = null ;
-	protected CIdentifier m_Result = null ;
-	protected boolean m_bIsRounded = false ;
+	protected CTerminal multiplyWhat = null ;
+	protected CTerminal multiplyBy = null ;
+	protected CIdentifier result = null ;
+	protected boolean bIsRounded = false ;
 }

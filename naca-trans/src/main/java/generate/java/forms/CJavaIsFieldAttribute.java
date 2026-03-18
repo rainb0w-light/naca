@@ -29,7 +29,7 @@ public class CJavaIsFieldAttribute extends CEntityIsFieldAttribute
 	 */
 	public int GetPriorityLevel()
 	{
-		if (m_nbConditions <= 1)
+		if (nbConditions <= 1)
 		{
 			return 7;
 		}
@@ -45,20 +45,20 @@ public class CJavaIsFieldAttribute extends CEntityIsFieldAttribute
 	public CBaseEntityCondition GetOppositeCondition()
 	{
 		CJavaIsFieldAttribute cond = new CJavaIsFieldAttribute() ;
-		cond.m_bIsAutoSkip = m_bIsAutoSkip ;
-		cond.m_bIsBright = m_bIsBright ;
-		cond.m_bIsCleared = m_bIsCleared ;
-		cond.m_bIsDark = m_bIsDark ;
-		cond.m_bIsModified = m_bIsModified ;
-		cond.m_bIsProtected = m_bIsProtected ;
-		cond.m_bIsNumeric = m_bIsNumeric ;
-		cond.m_bIsUnmodified = m_bIsUnmodified ;
-		cond.m_bIsUnprotected = m_bIsUnprotected ;
-		cond.m_bOpposite = ! m_bOpposite ;
-		cond.m_nbConditions = m_nbConditions ;
-		cond.m_Reference = m_Reference ;
-		cond.m_VarValue = m_VarValue ;
-		m_Reference.RegisterVarTesting(cond) ;
+		cond.bIsAutoSkip = bIsAutoSkip ;
+		cond.bIsBright = bIsBright ;
+		cond.bIsCleared = bIsCleared ;
+		cond.bIsDark = bIsDark ;
+		cond.bIsModified = bIsModified ;
+		cond.bIsProtected = bIsProtected ;
+		cond.bIsNumeric = bIsNumeric ;
+		cond.bIsUnmodified = bIsUnmodified ;
+		cond.bIsUnprotected = bIsUnprotected ;
+		cond.bOpposite = ! bOpposite ;
+		cond.nbConditions = nbConditions ;
+		cond.reference = reference ;
+		cond.varValue = varValue ;
+		reference.RegisterVarTesting(cond) ;
 		return cond ;
 	}
 
@@ -68,55 +68,55 @@ public class CJavaIsFieldAttribute extends CEntityIsFieldAttribute
 	public String Export()
 	{
 		String start = "is" ;
-		if (m_bOpposite)
+		if (bOpposite)
 		{
 			start += "Not" ;
 		}
 		String cs = "" ;
 		boolean bAddBracket = false;
-		if (m_VarValue != null)
+		if (varValue != null)
 		{
-			cs += start + "FieldAttribute("+ m_Reference.ExportReference(getLine())+", " + m_VarValue.ExportReference(getLine())+ ")";
+			cs += start + "FieldAttribute("+ reference.ExportReference(getLine())+", " + varValue.ExportReference(getLine())+ ")";
 		}		
 		else
 		{
-			if (m_bIsAutoSkip)
+			if (bIsAutoSkip)
 			{
 				cs += BuildString(cs, start+"FieldAutoSkip");
 			}
-			else if (m_bIsProtected)
+			else if (bIsProtected)
 			{
 				cs += BuildString(cs, start+"FieldProtected");
 			}
-			else if (m_bIsNumeric)
+			else if (bIsNumeric)
 			{
 				cs += BuildString(cs, start+"FieldNumeric");
 			}
-			else if (m_bIsUnprotected)
+			else if (bIsUnprotected)
 			{
 				cs += BuildString(cs, start+"FieldUnprotected");
 			}
-			if (m_bIsBright)
+			if (bIsBright)
 			{
 				if (cs.length() > 0) bAddBracket = true; 
 				cs += BuildString(cs, start+"FieldBright");
 			}
-			else if (m_bIsDark)
+			else if (bIsDark)
 			{
 				if (cs.length() > 0) bAddBracket = true;
 				cs += BuildString(cs, start+"FieldDark");
 			}
-			if (m_bIsModified)
+			if (bIsModified)
 			{
 				if (cs.length() > 0) bAddBracket = true;
 				cs += BuildString(cs, start+"FieldModified");
 			}
-			else if (m_bIsUnmodified)
+			else if (bIsUnmodified)
 			{
 				if (cs.length() > 0) bAddBracket = true;
 				cs += BuildString(cs, start+"FieldUnmodified");
 			}
-			else if (m_bIsCleared)
+			else if (bIsCleared)
 			{
 				if (cs.length() > 0) bAddBracket = true;
 				cs += BuildString(cs, start+"FieldCleared");
@@ -132,7 +132,7 @@ public class CJavaIsFieldAttribute extends CEntityIsFieldAttribute
 		String toto = "" ;
 		if (line.length() > 0)
 		{
-			if (m_bOpposite)
+			if (bOpposite)
 			{
 				toto += " || " ;
 			}
@@ -141,7 +141,7 @@ public class CJavaIsFieldAttribute extends CEntityIsFieldAttribute
 				toto += " && " ;
 			}
 		}
-		return toto + cs + "(" + m_Reference.ExportReference(getLine()) + ")" ;
+		return toto + cs + "(" + reference.ExportReference(getLine()) + ")" ;
 	} 
 
 }

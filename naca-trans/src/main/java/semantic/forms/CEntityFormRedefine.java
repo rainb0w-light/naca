@@ -32,12 +32,12 @@ public abstract class CEntityFormRedefine extends CEntityResourceForm //CEntityA
 	 * @param cat
 	 * @param out
 	 */
-	protected CDataEntity m_eForm = null ;
-	//protected CEntityResourceForm m_eForm = null ;
+	protected CDataEntity eForm = null ;
+	//protected CEntityResourceForm eForm = null ;
 	public void Clear()
 	{
 		super.Clear();
-		m_eForm = null ;
+		eForm = null ;
 	}
 	
 	public CEntityFormRedefine(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity eForm, boolean bSaveMap)
@@ -51,7 +51,7 @@ public abstract class CEntityFormRedefine extends CEntityResourceForm //CEntityA
 				SetName(name) ;
 			}
 		}
-		m_eForm = eForm ;
+		eForm = eForm ;
 	}
 	public CDataEntityType GetDataType()
 	{

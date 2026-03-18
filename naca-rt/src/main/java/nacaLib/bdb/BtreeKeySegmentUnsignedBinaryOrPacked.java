@@ -23,26 +23,26 @@ public class BtreeKeySegmentUnsignedBinaryOrPacked extends BtreeKeySegment
 	int compare(byte tby1[], byte tby2[])
 	{
 		int n1, n2;
-		int nPos = m_nKeyPosition;
-		for (int n=0; n<m_nKeyLength; n++, nPos++)
+		int nPos = nKeyPosition;
+		for (int n=0; n<nKeyLength; n++, nPos++)
 		{
 		    n1 = tby1[nPos] & 0xff;	// Get unsigned
 		    n2 = tby2[nPos] & 0xff;
 		    if(n1 == n2)
 		    	continue;
 			if(n1 < n2)
-		    	return m_bAscending ? -1 : 1;
-	    	return m_bAscending ? 1 : -1;
+		    	return bAscending ? -1 : 1;
+	    	return bAscending ? 1 : -1;
 		}
 		return 0;
 //		
-//		for(int n=0; n<m_nKeyLength; n++)
+//		for(int n=0; n<nKeyLength; n++)
 //		{			
-//			int n1 = tby1[m_nKeyPosition + n];
+//			int n1 = tby1[nKeyPosition + n];
 //			if(n1 < 0)
 //				n1 += 256;
 //			
-//			int n2 = tby2[m_nKeyPosition + n];
+//			int n2 = tby2[nKeyPosition + n];
 //			if(n2 < 0)
 //				n2 += 256;
 //			

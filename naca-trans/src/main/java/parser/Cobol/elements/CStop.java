@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 13 août 2004
+ * Created on 13 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -49,12 +49,11 @@ public class CStop extends CCobolElement
 	 */
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		if (m_Ref == null)
+		if (ref == null)
 		{
 			CEntityReturn eStop = factory.NewEntityReturn(getLine());
-			int returning = m_Returning == null ? 0 : Integer
-					.parseInt(m_Returning.GetValue());
-			eStop.SetStopProgram(returning);
+			int returningValue = this.returning == null ? 0 : Integer.parseInt(this.returning.GetValue());
+			eStop.SetStopProgram(returningValue);
 			parent.AddChild(eStop);
 			return eStop ;
 		}
@@ -80,16 +79,16 @@ public class CStop extends CCobolElement
 		{
 			tok = GetNext();
 			CGlobalEntityCounter.GetInstance().CountCobolVerb("STOP_RUN") ;
-			m_Ref = null;
+			ref = null;
 			if (tok.GetKeyword() == CCobolKeywordList.RETURNING)
 			{
 				GetNext();
-				m_Returning = ReadTerminal();
+				returning = ReadTerminal();
 			}
 		}
 		else 
 		{
-			m_Ref = ReadIdentifier();
+			ref = ReadIdentifier();
 			CGlobalEntityCounter.GetInstance().CountCobolVerb("STOP_INPUT") ;
 		}
 		return true;
@@ -100,18 +99,18 @@ public class CStop extends CCobolElement
 	 */
 	protected Element ExportCustom(Document root)
 	{
-		if (m_Ref == null)
+		if (ref == null)
 		{
 			return root.createElement("StopRun");
 		}
 		else
 		{
 			Element e = root.createElement("StopInput");
-			m_Ref.ExportTo(e, root);
+			ref.ExportTo(e, root);
 			return e ;
 		}
 	}
 	
-	protected CIdentifier m_Ref = null ; // if NULL => STOP RUN ;
-	protected CTerminal m_Returning = null ;
+	protected CIdentifier ref = null ; // if NULL => STOP RUN ;
+	protected CTerminal returning = null ;
 }

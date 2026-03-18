@@ -34,10 +34,10 @@ public abstract class CEntitySQLFetchStatement extends CBaseActionEntity
 	@Override
 	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
 	{
-		if (m_arrInto.contains(field))
+		if (arrInto.contains(field))
 		{
-			int pos = m_arrInto.indexOf(field) ;
-			m_arrInto.set(pos, var) ;
+			int pos = arrInto.indexOf(field) ;
+			arrInto.set(pos, var) ;
 			field.UnRegisterWritingAction(this) ;
 			var.RegisterWritingAction(this) ;
 			return true ;
@@ -47,19 +47,19 @@ public abstract class CEntitySQLFetchStatement extends CBaseActionEntity
 	public CEntitySQLFetchStatement(int line, CObjectCatalog cat, CBaseLanguageExporter out, CEntitySQLCursor cur)
 	{
 		super(line, cat, out);
-		m_Cursor = cur;
-		m_arrInto = new Vector<CDataEntity>() ;
-		m_arrIndicators = new Vector<CDataEntity>() ;
+		cursor = cur;
+		arrInto = new Vector<CDataEntity>() ;
+		arrIndicators = new Vector<CDataEntity>() ;
 	}
-	protected CEntitySQLCursor m_Cursor = null ;
-	protected Vector<CDataEntity> m_arrInto = null;
-	protected Vector<CDataEntity> m_arrIndicators = null;
+	protected CEntitySQLCursor cursor = null ;
+	protected Vector<CDataEntity> arrInto = null;
+	protected Vector<CDataEntity> arrIndicators = null;
 	public void Clear()
 	{
 		super.Clear();
-		m_arrInto.clear() ;
-		m_Cursor.Clear() ;
-		m_Cursor = null ;
+		arrInto.clear() ;
+		cursor.Clear() ;
+		cursor = null ;
 	}
 	public boolean ignore()
 	{
@@ -67,7 +67,7 @@ public abstract class CEntitySQLFetchStatement extends CBaseActionEntity
 	}
 	public void AddFetchInto(CDataEntity e, CDataEntity eInd)
 	{
-		m_arrInto.add(e) ;
-		m_arrIndicators.add(eInd) ;
+		arrInto.add(e) ;
+		arrIndicators.add(eInd) ;
 	}
 }

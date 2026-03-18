@@ -33,23 +33,23 @@ public class CJavaSQLFetchStatement extends CEntitySQLFetchStatement
    
 	protected void DoExport()
 	{
-		String s = "cursorFetch(" + m_Cursor.ExportReference(getLine()) + ")";
+		String s = "cursorFetch(" + cursor.ExportReference(getLine()) + ")";
 		WriteWord(s);
    
-		for(int i=0; i<m_arrInto.size(); i++)
+		for(int i=0; i<arrInto.size(); i++)
 		{
 			if(i != 0)
 				WriteEOL();
-			CDataEntity e = m_arrInto.get(i);
+			CDataEntity e = arrInto.get(i);
 			String cs = e.ExportReference(getLine());
-			CDataEntity eInd = m_arrIndicators.get(i) ;
+			CDataEntity eInd = arrIndicators.get(i) ;
 			if (eInd != null)
 			{
 				cs += ", " + eInd.ExportReference(getLine()) ;
 			}
 			WriteWord(".into(" + cs + ")");
 		}
-		String csSQLErrorWarningStatement = m_ProgramCatalog.getSQLWarningErrorStatement();
+		String csSQLErrorWarningStatement = programCatalog.getSQLWarningErrorStatement();
 		if(csSQLErrorWarningStatement != null)
 		{
 			WriteEOL();

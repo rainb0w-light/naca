@@ -37,46 +37,46 @@ public abstract class CEntityDivide extends CBaseActionEntity
 		super(line, cat, out);
 	}
 	
-	protected CDataEntity m_What = null ;
-	protected CDataEntity m_By = null ;
-	protected CDataEntity m_Result = null ;
-	protected CDataEntity m_Remainder = null ;
-	protected boolean m_bIsRounded = false ;
+	protected CDataEntity what = null ;
+	protected CDataEntity by = null ;
+	protected CDataEntity result = null ;
+	protected CDataEntity remainder = null ;
+	protected boolean bIsRounded = false ;
 	public void Clear()
 	{
 		super.Clear() ;
-		m_What = null ;
-		m_By = null ;
-		m_Result = null ;
-		m_Remainder = null ;
+		what = null ;
+		by = null ;
+		result = null ;
+		remainder = null ;
 	}
 	
 	public void SetDivide(CDataEntity what, CDataEntity by, CDataEntity result, boolean isRounded) 
 	{
-		m_What = what ;
-		m_By = by ;
-		m_bIsRounded = isRounded ;
-		m_Result = result ;
+		what = what ;
+		by = by ;
+		bIsRounded = isRounded ;
+		result = result ;
 	}
 	public void SetDivide(CDataEntity what, CDataEntity by, boolean isRounded) 
 	{
-		m_What = what ;
-		m_By = by ;
-		m_bIsRounded = isRounded ;
-		m_Result = what ;
+		what = what ;
+		by = by ;
+		bIsRounded = isRounded ;
+		result = what ;
 	}
 	public void SetRemainder(CDataEntity rem)
 	{
-		m_Remainder = rem ;
+		remainder = rem ;
 	}
 	public boolean ignore()
 	{
-		boolean ignore = m_What.ignore() ;
-		ignore |= m_By.ignore() ;
-		ignore |= m_Result.ignore() ;
-		if (m_Remainder != null)
+		boolean ignore = what.ignore() ;
+		ignore |= by.ignore() ;
+		ignore |= result.ignore() ;
+		if (remainder != null)
 		{
-			ignore |= m_Remainder.ignore() ;
+			ignore |= remainder.ignore() ;
 		}
 		return ignore ;
 	}

@@ -37,17 +37,17 @@ public class CCondNotStatement extends CExpression
 		{
 			int n=0; // breakpoint 
 		}
-		m_cond = cond ;
+		cond = cond ;
 	} 
 //	public CExpression NewCopy(CExpression term1, CExpression term2)
 //	{
-//		if (m_cond == null)
+//		if (cond == null)
 //		{
 //			return null ;
 //		} 
-//		return new CCondNotStatement(m_cond.NewCopy(term1, term2));
+//		return new CCondNotStatement(cond.NewCopy(term1, term2));
 //	}
-	protected CExpression m_cond = null ;
+	protected CExpression cond = null ;
 	
 	protected boolean CheckMembersBeforeExport()
 	{
@@ -60,9 +60,9 @@ public class CCondNotStatement extends CExpression
 	public Element DoExport(Document root)
 	{
 		Element e = root.createElement("Not") ;
-		if (m_cond != null)
+		if (cond != null)
 		{
-			e.appendChild(m_cond.Export(root)) ;
+			e.appendChild(cond.Export(root)) ;
 		}
 		return e;
 	}
@@ -71,7 +71,7 @@ public class CCondNotStatement extends CExpression
 	 */
 	public CExpression GetOppositeCondition()
 	{
-		return m_cond;
+		return cond;
 	}
 	/* (non-Javadoc)
 	 * @see parser.expression.CExpression#AnalyseExpression(semantic.CBaseEntityFactory)
@@ -85,10 +85,10 @@ public class CCondNotStatement extends CExpression
 	 */
 	public CBaseEntityCondition AnalyseCondition(CBaseEntityFactory factory, CDefaultConditionManager condMaster)
 	{
-		CBaseEntityCondition eCond = m_cond.AnalyseCondition(factory, condMaster);
-		if ((m_cond.IsConstant() || m_cond.IsReference()) && eCond.isBinaryCondition())
+		CBaseEntityCondition eCond = cond.AnalyseCondition(factory, condMaster);
+		if ((cond.IsConstant() || cond.IsReference()) && eCond.isBinaryCondition())
 		{
-			Transcoder.logWarn(m_cond.getLine(), "be carrefull to Abbreviated combined relation condition") ;  
+			Transcoder.logWarn(cond.getLine(), "be carrefull to Abbreviated combined relation condition") ;  
 		}
 		CEntityCondNot eNot = factory.NewEntityCondNot();
 		eNot.SetCondition(eCond) ;  
@@ -99,14 +99,14 @@ public class CCondNotStatement extends CExpression
 	 */
 	public CExpression GetFirstConditionOperand()
 	{
-		return m_cond.GetFirstConditionOperand() ;
+		return cond.GetFirstConditionOperand() ;
 	}
 	/* (non-Javadoc)
 	 * @see parser.expression.CExpression#GetSimilarExpression(parser.expression.CExpression)
 	 */
 	public CExpression GetSimilarExpression(CExpression operand)
 	{
-		CCondNotStatement not = new CCondNotStatement(getLine(), m_cond.GetSimilarExpression(operand));
+		CCondNotStatement not = new CCondNotStatement(getLine(), cond.GetSimilarExpression(operand));
 		return not;
 	}
 	/* (non-Javadoc)
@@ -114,18 +114,18 @@ public class CCondNotStatement extends CExpression
 	 */
 	public boolean IsBinaryCondition()
 	{
-		return m_cond.IsBinaryCondition() ;
+		return cond.IsBinaryCondition() ;
 	}
 	public String toString()
 	{
-		return "NOT(" + m_cond.toString() + ")" ;
+		return "NOT(" + cond.toString() + ")" ;
 	}
 //	public CExpression getMasterBinaryCondition()
 //	{
-//		CExpression master = m_cond.getMasterBinaryCondition() ;
+//		CExpression master = cond.getMasterBinaryCondition() ;
 ////		if (master != null)
 ////		{
-////			if (m_cond.IsBinaryCondition())
+////			if (cond.IsBinaryCondition())
 ////			{
 ////				return new CCondNotStatement(master) ;
 ////			}
@@ -135,6 +135,6 @@ public class CCondNotStatement extends CExpression
 	@Override
 	public CExpression GetFirstCalculOperand()
 	{
-		return m_cond.GetFirstCalculOperand() ;
+		return cond.GetFirstCalculOperand() ;
 	}
 }

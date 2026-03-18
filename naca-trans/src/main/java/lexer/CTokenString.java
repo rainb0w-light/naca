@@ -23,8 +23,8 @@ public class CTokenString extends CBaseToken
 	public CTokenString(char[] v, int line, boolean newline)
 	{
 		super(line, newline);
-		m_CharArrayValue =  v ;
-		m_Value = new String(v);
+		charArrayValue =  v ;
+		value = new String(v);
 	}
 	
 	public CTokenType GetType()
@@ -33,7 +33,7 @@ public class CTokenString extends CBaseToken
 	}
 	public String toString()
 	{
-		return "(\"" + m_Value + "\")" ;
+		return "(\"" + value + "\")" ;
 	}
 
 	/* (non-Javadoc)
@@ -41,12 +41,12 @@ public class CTokenString extends CBaseToken
 	 */
 	public String GetDisplay()
 	{
-		return "'" + m_Value + "'" ;
+		return "'" + value + "'" ;
 	}
 	public char[] GetCharValue()
 	{
-		return m_CharArrayValue ;
+		return charArrayValue ;
 	}
 	
-	protected char[] m_CharArrayValue = {} ;
+	protected char[] charArrayValue = {} ;
 }

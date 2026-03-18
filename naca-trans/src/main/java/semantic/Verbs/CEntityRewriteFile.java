@@ -22,10 +22,10 @@ public abstract class CEntityRewriteFile extends CBaseActionEntity
 
 	public void setFileDescriptor(CEntityFileDescriptor efd, CDataEntity data)
 	{
-		m_eFileDescriptor = efd ;
-		m_eDataFrom = data ;
+		eFileDescriptor = efd ;
+		eDataFrom = data ;
 	}
-	protected CEntityFileDescriptor m_eFileDescriptor = null  ;
-	protected CDataEntity m_eDataFrom = null ;
+	protected CEntityFileDescriptor eFileDescriptor = null  ;
+	protected CDataEntity eDataFrom = null ;
 
 }

@@ -39,62 +39,62 @@ public class CJavaExporter extends CBaseLanguageExporter
 	public CJavaExporter(COriginalLisiting cat, String file, CGlobalCommentContainer commCont, boolean bResources)
 	{
 		super(cat, commCont);
-		//m_output = new PrintStream(out) ;
-		m_FileName = file ;
-		m_bResources = bResources;
+		//output = new PrintStream(out) ;
+		fileName = file ;
+		bResources = bResources;
 		InitReservedWords() ;
 	}
 	
 	public CJavaExporter(CBaseLanguageExporter exporter, String file)
 	{
 		super(exporter);
-		m_FileName = file ;
+		fileName = file ;
 		InitReservedWords() ;
 	}
 
-	protected Hashtable m_tabReservedWords = new Hashtable() ;
+	protected Hashtable tabReservedWords = new Hashtable() ;
 	/**
 	 * 
 	 */
 	private void InitReservedWords()
 	{
-		m_tabReservedWords.put("new", "new");
-		m_tabReservedWords.put("long", "long");
-		m_tabReservedWords.put("char", "char");
-		m_tabReservedWords.put("enum", "enum");
-		m_tabReservedWords.put("int", "int");
-		m_tabReservedWords.put("double", "double");
-		m_tabReservedWords.put("for", "for");
-		m_tabReservedWords.put("string", "String");
-		m_tabReservedWords.put("switch", "switch");
-		m_tabReservedWords.put("interface", "interface");
+		tabReservedWords.put("new", "new");
+		tabReservedWords.put("long", "long");
+		tabReservedWords.put("char", "char");
+		tabReservedWords.put("enum", "enum");
+		tabReservedWords.put("int", "int");
+		tabReservedWords.put("double", "double");
+		tabReservedWords.put("for", "for");
+		tabReservedWords.put("string", "String");
+		tabReservedWords.put("switch", "switch");
+		tabReservedWords.put("interface", "interface");
 	}
 
 	public void DoWriteLine(String line)
 	{
-		if (m_output == null)
+		if (output == null)
 		{
 			CreateFile() ;
 		}
-		m_output.println(m_Indent + line) ;
+		output.println(indent + line) ;
 	}
 	/**
 	 * 
 	 */
 	private void CreateFile()
 	{
-		File f = new File(m_FileName);
+		File f = new File(fileName);
 		if (f.exists() && f.isFile())
 		{
-			m_bFileExisting = true ;
-			m_csTempFileName = GenereTempFileName(m_FileName) ;
-			f = new File(m_csTempFileName) ;
+			bFileExisting = true ;
+			csTempFileName = GenereTempFileName(fileName) ;
+			f = new File(csTempFileName) ;
 
 		}
 		try
 		{
 			//OutputStream out = new FileOutputStream(cs);
-			m_output = new PrintStream(f, "ISO-8859-1") ;
+			output = new PrintStream(f, "ISO-8859-1") ;
 		} 
 		catch (FileNotFoundException e)
 		{
@@ -107,11 +107,11 @@ public class CJavaExporter extends CBaseLanguageExporter
 		}	
 	}
 
-	protected PrintStream m_output ;
-	protected String m_FileName = "" ;
-	protected boolean m_bResources = false ;
-	protected boolean m_bFileExisting = false ;
-	protected String m_csTempFileName = "" ;
+	protected PrintStream output ;
+	protected String fileName = "" ;
+	protected boolean bResources = false ;
+	protected boolean bFileExisting = false ;
+	protected String csTempFileName = "" ;
 
 	public void GenereJavaCode(Element root)
 	{
@@ -423,7 +423,7 @@ public class CJavaExporter extends CBaseLanguageExporter
 			}
 		}
 		out = out.replace('#', '$') ;
-		if (m_tabReservedWords.containsKey(out.toLowerCase()))
+		if (tabReservedWords.containsKey(out.toLowerCase()))
 		{
 			out += "$" ;
 		}
@@ -435,11 +435,11 @@ public class CJavaExporter extends CBaseLanguageExporter
 	 */
 	protected void doCloseOutput()
 	{
-		m_output.close() ;
-		if (m_bFileExisting)
+		output.close() ;
+		if (bFileExisting)
 		{
-			File newF = new File(m_csTempFileName) ;
-			File file = new File(m_FileName) ;
+			File newF = new File(csTempFileName) ;
+			File file = new File(fileName) ;
 			file.delete() ;
 			newF.renameTo(file) ;
 		}
@@ -448,14 +448,14 @@ public class CJavaExporter extends CBaseLanguageExporter
 	@Override
 	public String getOutputDir()
 	{
-		File f = new File(m_FileName);
+		File f = new File(fileName);
 		return f.getParent() +  "/" ;
 	}
 	
 	@Override
 	public boolean isResources()
 	{
-		return m_bResources;
+		return bResources;
 	}
 
 }

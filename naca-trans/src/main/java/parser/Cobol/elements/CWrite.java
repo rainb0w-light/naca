@@ -50,29 +50,29 @@ public class CWrite extends CCobolElement
 		CEntityWriteFile eWrite = factory.NewEntityWriteFile(getLine()) ;
 		parent.AddChild(eWrite) ;
 		
-		CEntityFileDescriptor eFD = factory.m_ProgramCatalog.getFileDescriptor(m_FileDesc.GetName()) ;
+		CEntityFileDescriptor eFD = factory.programCatalog.getFileDescriptor(fileDesc.GetName()) ;
 		if (eFD != null)
 		{
 			CDataEntity eData = null ;
-			if (m_DataFrom != null)
+			if (dataFrom != null)
 			{
-				eData = m_DataFrom.GetDataReference(getLine(), factory) ;
+				eData = dataFrom.GetDataReference(getLine(), factory) ;
 			}
 			eWrite.setFileDescriptor(eFD, eData) ;
 		}
 		else
 		{
-			Transcoder.logError(getLine(), "File descriptor not found : " + m_FileDesc.GetName());
+			Transcoder.logError(getLine(), "File descriptor not found : " + fileDesc.GetName());
 		}
-		if  (m_bWriteAfterPositioning)
+		if  (bWriteAfterPositioning)
 		{
-			eWrite.SetAfter(m_NbLinesPositioning.GetDataEntity(getLine(), factory));
+			eWrite.SetAfter(nbLinesPositioning.GetDataEntity(getLine(), factory));
 		}
-		if (m_bWriteBeforePositioning)
+		if (bWriteBeforePositioning)
 		{
 			Transcoder.logError(getLine(), "No semantic analysis for WriteFile/ WriteBeforePositioning");
 		}
-		if (m_blocInvalidKey != null)
+		if (blocInvalidKey != null)
 		{
 			Transcoder.logError(getLine(), "No semantic analysis for WriteFile/ InvalidKeyBloc");
 		}
@@ -85,16 +85,16 @@ public class CWrite extends CCobolElement
 		{
 			return false ;
 		}
-		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().m_Name) ;
+		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
 		
 		tok = GetNext() ;
-		m_FileDesc = ReadIdentifier();
+		fileDesc = ReadIdentifier();
 		
 		tok = GetCurrentToken() ;
 		if (tok.GetKeyword() == CCobolKeywordList.FROM)
 		{
 			tok = GetNext() ;
-			m_DataFrom = ReadIdentifier();
+			dataFrom = ReadIdentifier();
 		}
 		
 		tok = GetCurrentToken() ;
@@ -102,11 +102,11 @@ public class CWrite extends CCobolElement
 		{
 			if (tok.GetKeyword() == CCobolKeywordList.AFTER)
 			{
-				m_bWriteAfterPositioning = true ;
+				bWriteAfterPositioning = true ;
 			}
 			else
 			{
-				m_bWriteBeforePositioning = true ;
+				bWriteBeforePositioning = true ;
 			}
 			tok = GetNext() ;
 			if (tok.GetKeyword() == CCobolKeywordList.ADVANCING || tok.GetKeyword() == CCobolKeywordList.POSITIONING)
@@ -116,14 +116,14 @@ public class CWrite extends CCobolElement
 			if (tok.GetKeyword() == CCobolKeywordList.PAGE)
 			{
 				GetNext() ;
-				m_NbLinesPositioning = new CNumberTerminal("-1") ;
+				nbLinesPositioning = new CNumberTerminal("-1") ;
 			}
 			else
 			{
 				CTerminal term = ReadTerminal();
 				if (term != null)
 				{
-					m_NbLinesPositioning = term ;
+					nbLinesPositioning = term ;
 				}
 				else
 				{
@@ -146,8 +146,8 @@ public class CWrite extends CCobolElement
 			{
 				tok = GetNext();
 			}
-			m_blocInvalidKey = new CGenericBloc("InvalidKey", getLine());
-			if (!Parse(m_blocInvalidKey))
+			blocInvalidKey = new CGenericBloc("InvalidKey", getLine());
+			if (!Parse(blocInvalidKey))
 			{
 				return false ;
 			}
@@ -166,29 +166,29 @@ public class CWrite extends CCobolElement
 		
 		Element eFile = root.createElement("File");
 		eWr.appendChild(eFile);
-		m_FileDesc.ExportTo(eFile, root);
+		fileDesc.ExportTo(eFile, root);
 		
-		if (m_DataFrom != null)
+		if (dataFrom != null)
 		{
 			Element e = root.createElement("DataFrom");
 			eWr.appendChild(e);
-			m_DataFrom.ExportTo(e, root);
+			dataFrom.ExportTo(e, root);
 		}
 		
-		if (m_NbLinesPositioning != null)
+		if (nbLinesPositioning != null)
 		{
 			String cs = "" ;
-			if (m_bWriteAfterPositioning)
+			if (bWriteAfterPositioning)
 			{
 				cs = "WriteAfterPositioning";
 			}
-			else if (m_bWriteBeforePositioning)
+			else if (bWriteBeforePositioning)
 			{
 				cs = "WriteBeforePositioning";
 			}
 			Element ePos = root.createElement(cs);
 			eWr.appendChild(ePos);
-			if (m_NbLinesPositioning.GetValue().equals("-1"))
+			if (nbLinesPositioning.GetValue().equals("-1"))
 			{
 				Element e = root.createElement("Page");
 				ePos.appendChild(e);
@@ -196,23 +196,23 @@ public class CWrite extends CCobolElement
 			else
 			{
 				Element e = root.createElement("Lines");
-				m_NbLinesPositioning.ExportTo(e, root);
+				nbLinesPositioning.ExportTo(e, root);
 				ePos.appendChild(e);
 			}
 		}
 		
-		if (m_blocInvalidKey != null)
+		if (blocInvalidKey != null)
 		{
-			Element e = m_blocInvalidKey.Export(root);
+			Element e = blocInvalidKey.Export(root);
 			eWr.appendChild(e);	
 		}
 		return eWr;
 	}
 	
-	protected CIdentifier m_FileDesc = null ;
-	protected CIdentifier m_DataFrom = null ;
-	protected boolean m_bWriteAfterPositioning = false ;
-	protected boolean m_bWriteBeforePositioning = false ;
-	protected CTerminal m_NbLinesPositioning = null ; // -1 means PAGE
-	protected CGenericBloc m_blocInvalidKey = null ;
+	protected CIdentifier fileDesc = null ;
+	protected CIdentifier dataFrom = null ;
+	protected boolean bWriteAfterPositioning = false ;
+	protected boolean bWriteBeforePositioning = false ;
+	protected CTerminal nbLinesPositioning = null ; // -1 means PAGE
+	protected CGenericBloc blocInvalidKey = null ;
 }

@@ -18,8 +18,8 @@ import utils.CObjectCatalog;
 public abstract class CEntityInc extends CBaseActionEntity
 {
 
-	protected CDataEntity m_AddDest;
-	protected CDataEntity m_AddValue;
+	protected CDataEntity addDest;
+	protected CDataEntity addValue;
 
 	/**
 	 * @param line
@@ -36,7 +36,7 @@ public abstract class CEntityInc extends CBaseActionEntity
 	 */
 	public void SetAddDest(CDataEntity dest)
 	{
-		m_AddDest = dest ;		
+		addDest = dest ;		
 	}
 
 	/**
@@ -44,7 +44,7 @@ public abstract class CEntityInc extends CBaseActionEntity
 	 */
 	public void SetAddValue(CDataEntity val)
 	{
-		m_AddValue = val ;
+		addValue = val ;
 	}
 
 

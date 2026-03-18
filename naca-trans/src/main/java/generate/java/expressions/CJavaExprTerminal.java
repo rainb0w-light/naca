@@ -35,9 +35,9 @@ public class CJavaExprTerminal extends CEntityExprTerminal
 	}
 	public String Export()
 	{
-		if (m_Term != null)
+		if (term != null)
 		{
-			return m_Term.ExportReference(getLine());
+			return term.ExportReference(getLine());
 		}
 		else
 		{

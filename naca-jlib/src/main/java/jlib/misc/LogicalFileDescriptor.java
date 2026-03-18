@@ -16,57 +16,57 @@ package jlib.misc;
  */
 public class LogicalFileDescriptor
 {
-	private boolean m_bDummyFile = false;
-	private String m_csLogicalName = null;
-	private String m_csPath = null;
-	private boolean m_bExt = false;
-	private boolean m_bEbcdic = false;
-	private boolean m_bVariableLength = false;
-	private boolean m_bVariableLength4BytesLF = false;
-	private RecordLengthDefinition m_recordLengthDefinition = null;
-	private int m_nFileHeaderLength = 0;
-	private RecordLengthInfoDefinitionType m_recordLengthInfoDefinitionType = null;
+	private boolean bDummyFile = false;
+	private String csLogicalName = null;
+	private String csPath = null;
+	private boolean bExt = false;
+	private boolean bEbcdic = false;
+	private boolean bVariableLength = false;
+	private boolean bVariableLength4BytesLF = false;
+	private RecordLengthDefinition recordLengthDefinition = null;
+	private int nFileHeaderLength = 0;
+	private RecordLengthInfoDefinitionType recordLengthInfoDefinitionType = null;
 	
 	public LogicalFileDescriptor(String csLogicalName, String csPhysicalDesc)
 	{
-		m_csLogicalName = csLogicalName;
-		if(BaseDataFile.isNullFile(csPhysicalDesc))	//	if(m_csLogicalName.equalsIgnoreCase("wrk/nullfile"))
-			m_bDummyFile = true;
+		csLogicalName = csLogicalName;
+		if(BaseDataFile.isNullFile(csPhysicalDesc))	//	if(csLogicalName.equalsIgnoreCase("wrk/nullfile"))
+			bDummyFile = true;
 		else
 		{
-			m_bDummyFile = false;
+			bDummyFile = false;
 			fill(csPhysicalDesc);			
 		}			
 	}
 	
 	public boolean isDummyFile()
 	{
-		return m_bDummyFile;
+		return bDummyFile;
 	}
 	
 	public boolean isEbcdic()
 	{
-		return m_bEbcdic;
+		return bEbcdic;
 	}
 
 	public boolean getExt()
 	{
-		return m_bExt;
+		return bExt;
 	}
 
 	public String getPath()
 	{
-		return m_csPath;
+		return csPath;
 	}
 	
 	public RecordLengthDefinition getRecordLengthDefinition()
 	{
-		return m_recordLengthDefinition;
+		return recordLengthDefinition;
 	}
 	
 	public void setRecordLengthDefinition(RecordLengthDefinition recLengthDefSource)
 	{
-		m_recordLengthDefinition = recLengthDefSource;
+		recordLengthDefinition = recLengthDefSource;
 	}
 	
 	public void fill(String csPhysicalDesc)
@@ -74,7 +74,7 @@ public class LogicalFileDescriptor
 		int nIndex = csPhysicalDesc.indexOf(",");
 		if(nIndex >= 0)
 		{
-			m_csPath = csPhysicalDesc.substring(0, nIndex).trim();
+			csPath = csPhysicalDesc.substring(0, nIndex).trim();
 			csPhysicalDesc = csPhysicalDesc.substring(nIndex+1);
 			nIndex = csPhysicalDesc.indexOf(",");
 			while(nIndex != -1)
@@ -88,71 +88,71 @@ public class LogicalFileDescriptor
 			manageOptionalWord(csPhysicalDesc);
 		}
 		else
-			m_csPath = csPhysicalDesc.trim();
+			csPath = csPhysicalDesc.trim();
 	}
 	
 	private void manageOptionalWord(String csWord)
 	{
 		if(csWord.equalsIgnoreCase("ext"))
-			m_bExt = true;
+			bExt = true;
 		else if(csWord.equalsIgnoreCase("ebcdic"))
-			m_bEbcdic = true;
+			bEbcdic = true;
 		else if(csWord.equalsIgnoreCase("ascii"))
-			m_bEbcdic = false;	
+			bEbcdic = false;	
 		else if(csWord.equalsIgnoreCase("fb"))
 		{
-			m_bVariableLength = false;
-			m_bVariableLength4BytesLF = false;
-			m_recordLengthInfoDefinitionType = RecordLengthInfoDefinitionType.FileDescriptorDef;
+			bVariableLength = false;
+			bVariableLength4BytesLF = false;
+			recordLengthInfoDefinitionType = RecordLengthInfoDefinitionType.FileDescriptorDef;
 		}		
 		else if(csWord.equalsIgnoreCase("vb"))
 		{	
-			m_bVariableLength = true;
-			m_bVariableLength4BytesLF = true;
-			m_recordLengthInfoDefinitionType = RecordLengthInfoDefinitionType.FileDescriptorDef;
+			bVariableLength = true;
+			bVariableLength4BytesLF = true;
+			recordLengthInfoDefinitionType = RecordLengthInfoDefinitionType.FileDescriptorDef;
 		}
 		else if(csWord.equalsIgnoreCase("vh"))
 		{	
-			m_bVariableLength = true;
-			m_bVariableLength4BytesLF = false;
-			m_recordLengthInfoDefinitionType = RecordLengthInfoDefinitionType.FileDescriptorDef;
+			bVariableLength = true;
+			bVariableLength4BytesLF = false;
+			recordLengthInfoDefinitionType = RecordLengthInfoDefinitionType.FileDescriptorDef;
 		}
 		else	// Maybe record length if all digits
 		{
 			if(StringUtil.isAllDigits(csWord))
 			{
-				m_recordLengthDefinition = new RecordLengthDefinition(NumberParser.getAsInt(csWord));
-				m_recordLengthInfoDefinitionType = RecordLengthInfoDefinitionType.FileDescriptorDef;
+				recordLengthDefinition = new RecordLengthDefinition(NumberParser.getAsInt(csWord));
+				recordLengthInfoDefinitionType = RecordLengthInfoDefinitionType.FileDescriptorDef;
 			}			
 		}
 	}
 	
 	public void setVariableLength()
 	{
-		m_bVariableLength = true;
+		bVariableLength = true;
 	}
 	
 	public boolean isVariableLength()
 	{
-		return m_bVariableLength;
+		return bVariableLength;
 	}
 	
 	public boolean isVariableLength4BytesHeaderWithLF()
 	{
-		return m_bVariableLength4BytesLF;
+		return bVariableLength4BytesLF;
 	}
 	
 	public String toString()
 	{
 		String cs = "";
-		if(m_csPath != null)
-			cs += "Path="+m_csPath;
-		cs += " Ext="+m_bExt;
-		cs += " Ebcdic="+m_bEbcdic;
-		cs += " VariableLength="+m_bVariableLength;
-		cs += " HAs 4 bytes header and LF="+m_bVariableLength4BytesLF;
-		if(m_recordLengthDefinition != null)
-			cs += " RecordLength="+m_recordLengthDefinition.toString();
+		if(csPath != null)
+			cs += "Path="+csPath;
+		cs += " Ext="+bExt;
+		cs += " Ebcdic="+bEbcdic;
+		cs += " VariableLength="+bVariableLength;
+		cs += " HAs 4 bytes header and LF="+bVariableLength4BytesLF;
+		if(recordLengthDefinition != null)
+			cs += " RecordLength="+recordLengthDefinition.toString();
 		else
 			cs += " NoRecordLengthDefined";
 		return cs;
@@ -161,9 +161,9 @@ public class LogicalFileDescriptor
 	public String getName()
 	{
 		String cs = "";
-		if(m_csLogicalName != null)
+		if(csLogicalName != null)
 		{
-			cs = m_csLogicalName;
+			cs = csLogicalName;
 			cs += getPathName();
 		}
 		else
@@ -176,10 +176,10 @@ public class LogicalFileDescriptor
 	
 	private String getPathName()
 	{
-		if (m_bDummyFile)
+		if (bDummyFile)
 			return " (Dummy file) ";
-		if(m_csPath != null)
-			return " (" + m_csPath + ") ";
+		if(csPath != null)
+			return " (" + csPath + ") ";
 		return " (Unkown physical path) ";
 	}
 	
@@ -197,22 +197,22 @@ public class LogicalFileDescriptor
 	private String getAsFileHeaderString()
 	{
 		String cs = null;
-		if(m_bEbcdic)
+		if(bEbcdic)
 			cs = "<FileHeader Version=\"1\" Encoding=\"ebcdic\" ";
 		else
 			cs = "<FileHeader Version=\"1\" Encoding=\"ascii\" ";
 		
-		if(m_bVariableLength)
+		if(bVariableLength)
 		{
-			if(m_bVariableLength4BytesLF)
+			if(bVariableLength4BytesLF)
 				cs += "Length=\"VB\"";
 			else
 				cs += "Length=\"VH\"";
 		}
 		else
 		{	
-			if(m_recordLengthDefinition != null)
-				cs += "Length=\"" + m_recordLengthDefinition.toString() + "\"";
+			if(recordLengthDefinition != null)
+				cs += "Length=\"" + recordLengthDefinition.toString() + "\"";
 			else
 				cs += "Length=\"Unknown\"";
 		}
@@ -236,9 +236,9 @@ public class LogicalFileDescriptor
 						if(!StringUtil.isEmpty(csEncoding))
 						{
 							if(csEncoding.equalsIgnoreCase("ebcdic"))
-								m_bEbcdic = true;
+								bEbcdic = true;
 							if(csEncoding.equalsIgnoreCase("ascii"))
-								m_bEbcdic = false;
+								bEbcdic = false;
 						}
 						
 						String csLength = StringUtil.getUncotedParameterValue(cs, "Length");
@@ -246,24 +246,24 @@ public class LogicalFileDescriptor
 						{
 							if(csLength.equalsIgnoreCase("VB"))
 							{
-								m_bVariableLength = true;
-								m_bVariableLength4BytesLF = true;
-								m_recordLengthInfoDefinitionType = RecordLengthInfoDefinitionType.FileHeaderDef;
-								m_recordLengthDefinition = null;
+								bVariableLength = true;
+								bVariableLength4BytesLF = true;
+								recordLengthInfoDefinitionType = RecordLengthInfoDefinitionType.FileHeaderDef;
+								recordLengthDefinition = null;
 							}
 							else if(csLength.equalsIgnoreCase("VH"))
 							{
-								m_bVariableLength = true;
-								m_bVariableLength4BytesLF = false;
-								m_recordLengthInfoDefinitionType = RecordLengthInfoDefinitionType.FileHeaderDef;
-								m_recordLengthDefinition = null;
+								bVariableLength = true;
+								bVariableLength4BytesLF = false;
+								recordLengthInfoDefinitionType = RecordLengthInfoDefinitionType.FileHeaderDef;
+								recordLengthDefinition = null;
 							}
 							else if(StringUtil.isAllDigits(csLength))
 							{
-								m_bVariableLength = false;
-								m_recordLengthInfoDefinitionType = RecordLengthInfoDefinitionType.FileHeaderDef;
+								bVariableLength = false;
+								recordLengthInfoDefinitionType = RecordLengthInfoDefinitionType.FileHeaderDef;
 								int nLength = NumberParser.getAsInt(csLength);
-								m_recordLengthDefinition = new RecordLengthDefinition(nLength);
+								recordLengthDefinition = new RecordLengthDefinition(nLength);
 							}
 						}
 					}
@@ -285,7 +285,7 @@ public class LogicalFileDescriptor
 				boolean bFileHeaderFound = setFromFileHeaderString(cs);
 				if(bFileHeaderFound)
 				{
-					m_nFileHeaderLength = dataFile.skipFileHeader(cs);
+					nFileHeaderLength = dataFile.skipFileHeader(cs);
 					return true;
 				}
 			}
@@ -302,24 +302,24 @@ public class LogicalFileDescriptor
 		RecordLengthDefinition recLengthDefSource = logicalFileDescriptorSource.getRecordLengthDefinition();
 		setRecordLengthDefinition(recLengthDefSource);
 		
-		m_bVariableLength = logicalFileDescriptorSource.m_bVariableLength;
-		m_bVariableLength4BytesLF = logicalFileDescriptorSource.m_bVariableLength4BytesLF;
-		m_recordLengthInfoDefinitionType = logicalFileDescriptorSource.m_recordLengthInfoDefinitionType;
+		bVariableLength = logicalFileDescriptorSource.bVariableLength;
+		bVariableLength4BytesLF = logicalFileDescriptorSource.bVariableLength4BytesLF;
+		recordLengthInfoDefinitionType = logicalFileDescriptorSource.recordLengthInfoDefinitionType;
 	}
 	
 	public int getFileHeaderLength()
 	{
-		return m_nFileHeaderLength;
+		return nFileHeaderLength;
 	}
 	
 	public RecordLengthInfoDefinitionType recordLengthInfoDefitionType()
 	{
-		return m_recordLengthInfoDefinitionType;
+		return recordLengthInfoDefinitionType;
 	}
 	
 	public boolean isLengthInfoDefined()
 	{
-		if(m_recordLengthInfoDefinitionType != null)
+		if(recordLengthInfoDefinitionType != null)
 			return true;
 		return false;
 	}
@@ -346,7 +346,7 @@ public class LogicalFileDescriptor
 	
 	private boolean tryDetermineVariableLengthRecord(BaseDataFile dataFile)
 	{		
-		// the m_bVariableLength4BytesLF is not supported in autodermination
+		// the bVariableLength4BytesLF is not supported in autodermination
 		try
 		{
 			int nNbRecordHeaderOk = 0;
@@ -375,9 +375,9 @@ public class LogicalFileDescriptor
 			}
 			if(nNbRecordHeaderOk == nNbRecordControled && nNbRecordHeaderOk > 0 && nNbRecordHeaderNotOk == 0)	// All record cheked are ok, even if less than 3 records in the file !
 			{
-				m_recordLengthInfoDefinitionType = RecordLengthInfoDefinitionType.AutoDetermination;
-				m_bVariableLength = true;  
-				m_bVariableLength4BytesLF = true;
+				recordLengthInfoDefinitionType = RecordLengthInfoDefinitionType.AutoDetermination;
+				bVariableLength = true;  
+				bVariableLength4BytesLF = true;
 				return true;
 			}
 		}
@@ -432,10 +432,10 @@ public class LogicalFileDescriptor
 		
 		if(nLengthFound != -1)
 		{
-			m_recordLengthInfoDefinitionType = RecordLengthInfoDefinitionType.AutoDetermination;
-			m_bVariableLength = false;  
-			m_bVariableLength4BytesLF = false;
-			m_recordLengthDefinition = new RecordLengthDefinition(nLengthFound);	// Length found included trailing LF
+			recordLengthInfoDefinitionType = RecordLengthInfoDefinitionType.AutoDetermination;
+			bVariableLength = false;  
+			bVariableLength4BytesLF = false;
+			recordLengthDefinition = new RecordLengthDefinition(nLengthFound);	// Length found included trailing LF
 		}
 		if (nNbQtyfound == 1)
 			return true;

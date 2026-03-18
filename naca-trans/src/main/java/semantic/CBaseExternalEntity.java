@@ -49,16 +49,16 @@ public abstract class CBaseExternalEntity extends CDataEntity
 		CBaseLanguageEntity le = null ;
 		try
 		{
-			le = m_lstChildren.getLast() ;
+			le = lstChildren.getLast() ;
 		}
 		catch (NoSuchElementException e)
 		{
 			return this ;
 		}
 		int nLevel = le.GetInternalLevel() ; 
-		if (m_ReplaceLevel != 0 && nLevel == m_ReplaceLevel)
+		if (replaceLevel != 0 && nLevel == replaceLevel)
 		{
-			nLevel = m_ReplaceBy ;
+			nLevel = replaceBy ;
 		}
 		if (nLevel>0 && nLevel < level)
 		{
@@ -72,9 +72,9 @@ public abstract class CBaseExternalEntity extends CDataEntity
 				return le ;
 			}
 		}
-//		else if (m_parent != null)
+//		else if (parent != null)
 //		{
-//			return m_parent.FindLastEntityAvailableForLevel(level) ;
+//			return parent.FindLastEntityAvailableForLevel(level) ;
 //		}
 		else
 		{
@@ -91,19 +91,19 @@ public abstract class CBaseExternalEntity extends CDataEntity
 	
 	public void ReplaceLevel(int n1, int n2)
 	{
-		m_ReplaceLevel = n1 ;
-		m_ReplaceBy = n2 ;
+		replaceLevel = n1 ;
+		replaceBy = n2 ;
 	}
 	
-	protected int m_ReplaceLevel = 0 ;
-	protected int m_ReplaceBy = 0 ;
+	protected int replaceLevel = 0 ;
+	protected int replaceBy = 0 ;
 	public int GetReplaceItem()
 	{
-		return m_ReplaceLevel ;
+		return replaceLevel ;
 	}
 	public int GetReplaceValue()
 	{
-		return m_ReplaceBy ;
+		return replaceBy ;
 	}
 	public String GetConstantValue()
 	{
@@ -111,18 +111,18 @@ public abstract class CBaseExternalEntity extends CDataEntity
 	} 	 
 	public void RegisterInlineAction(CEntityInline act)
 	{
-		m_InlineAction = act ;
+		inlineAction = act ;
 	}
-	protected CEntityInline m_InlineAction = null ;
+	protected CEntityInline inlineAction = null ;
 	public CEntityInline GetInlineAction()
 	{
-		if (m_InlineAction != null)
+		if (inlineAction != null)
 		{
-			return m_InlineAction ;
+			return inlineAction ;
 		}
-		else if (m_Of != null)
+		else if (of != null)
 		{
-			return m_Of.GetInlineAction() ;
+			return of.GetInlineAction() ;
 		}
 		else
 		{
@@ -132,7 +132,7 @@ public abstract class CBaseExternalEntity extends CDataEntity
 	public void Clear()
 	{
 		super.Clear();
-		m_InlineAction = null ;
+		inlineAction = null ;
 	}
 
 

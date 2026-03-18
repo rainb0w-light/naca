@@ -32,9 +32,9 @@ public abstract class CEntitySQLSingleStatement extends CBaseActionEntity
 	public CEntitySQLSingleStatement(int line, CObjectCatalog cat, CBaseLanguageExporter out, String st)
 	{
 		super(line, cat, out);
-		m_csStatement = st ;
+		csStatement = st ;
 	}
-	protected String m_csStatement = "" ;
+	protected String csStatement = "" ;
 	public boolean ignore()
 	{
 		return false ;

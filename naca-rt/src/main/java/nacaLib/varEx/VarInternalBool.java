@@ -22,16 +22,16 @@ import jlib.misc.AsciiEbcdicConverter;
  */
 public class VarInternalBool extends Var
 {
-	private boolean m_bValue = false ;
+	private boolean bValue = false ;
 	/**
 	 * @param declareTypeBase
 	 */
 	public VarInternalBool()
 	{
 		super(null);
-		m_varDef = new VarDefInternalBool(this);
-		m_varTypeId = m_varDef.getTypeId();
-		m_bValue = false;
+		varDef = new VarDefInternalBool(this);
+		varTypeId = varDef.getTypeId();
+		bValue = false;
 	}
 
 	/* (non-Javadoc)
@@ -48,7 +48,7 @@ public class VarInternalBool extends Var
 	 */
 	protected String getAsLoggableString()
 	{
-		if (m_bValue)
+		if (bValue)
 		{
 			return "true" ;
 		}
@@ -69,73 +69,73 @@ public class VarInternalBool extends Var
 	public void set(int n)
 	{
 		if(n == 0)
-			m_bValue = false;
+			bValue = false;
 		else
-			m_bValue = true;
+			bValue = true;
 	}
 
 	public void set(long l)
 	{
 		if(l == 0)
-			m_bValue = false;
+			bValue = false;
 		else
-			m_bValue = true;
+			bValue = true;
 	}
 
 	public void set(String cs)
 	{
 		if(cs.equalsIgnoreCase("false") || cs.equalsIgnoreCase("0")) 
-			m_bValue = false;
+			bValue = false;
 		else
-			m_bValue = true;
+			bValue = true;
 	}
 
 	public void set(boolean b)
 	{
-		m_bValue = b ;
+		bValue = b ;
 	}
 
 	public boolean compareTo(boolean b)
 	{
-		return (m_bValue && b) || (!m_bValue && !b);
+		return (bValue && b) || (!bValue && !b);
 	}
 	
 	public boolean getBool()
 	{
-		return m_bValue;
+		return bValue;
 	}
 	
 	public int getInt()
 	{
-		if(m_bValue)
+		if(bValue)
 			return 1;
 		return 0;
 	}
 		
 	public long getLong()
 	{
-		if(m_bValue)
+		if(bValue)
 			return 1L;
 		return 0L;
 	}
 	
 	public double getDouble()
 	{
-		if(m_bValue)
+		if(bValue)
 			return 1.0;
 		return 0.0;
 	}
 	
 	public String getString()
 	{
-		if(m_bValue)
+		if(bValue)
 			return "1";
 		return "0";
 	}
 	
 	public String toString()
 	{
-		if(m_bValue)
+		if(bValue)
 			return "true";
 		return "false";
 	}

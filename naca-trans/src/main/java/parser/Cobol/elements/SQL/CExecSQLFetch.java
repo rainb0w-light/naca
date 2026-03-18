@@ -47,7 +47,7 @@ public class CExecSQLFetch extends CBaseExecSQLAction
 	public Element ExportCustom(Document root)
 	{
 		Element e = root.createElement("SQLFetch") ;
-		e.setAttribute("Name", m_csCursorName);
+		e.setAttribute("Name", csCursorName);
 		ExportInto(root, e);
 		
 		return e;
@@ -60,13 +60,13 @@ public class CExecSQLFetch extends CBaseExecSQLAction
 			Element e = root.createElement("Into") ;
 			parent.appendChild(e);
 
-			int nNbItems = m_arrInto.size();
+			int nNbItems = arrInto.size();
 			for(int n=0; n<nNbItems; n++)
 			{
 				Element eParam = root.createElement("Parameter") ;
 				e.appendChild(eParam);
 				
-				CIdentifier id = m_arrInto.get(n);
+				CIdentifier id = arrInto.get(n);
 				id.ExportTo(eParam, root) ;
 			}
 		}
@@ -79,18 +79,18 @@ public class CExecSQLFetch extends CBaseExecSQLAction
 
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		CEntitySQLCursor cur = factory.m_ProgramCatalog.GetSQLCursor(m_csCursorName);
+		CEntitySQLCursor cur = factory.programCatalog.GetSQLCursor(csCursorName);
 		if (cur == null)
 		{
-			Transcoder.logError(getLine(), "Cursor can't be found : "+m_csCursorName);
+			Transcoder.logError(getLine(), "Cursor can't be found : "+csCursorName);
 			return null ;
 		}
 		int nbCol = cur.GetNbColumns();
-		boolean bResolve = nbCol > m_arrInto.size() && m_arrInto.size()==1 ;
+		boolean bResolve = nbCol > arrInto.size() && arrInto.size()==1 ;
 		Vector<CBaseLanguageEntity> v = new Vector<CBaseLanguageEntity>();
-		for (int i=0; i<m_arrInto.size(); i++)
+		for (int i=0; i<arrInto.size(); i++)
 		{
-			CIdentifier id = m_arrInto.get(i);
+			CIdentifier id = arrInto.get(i);
 			CDataEntity e = id.GetDataReference(getLine(), factory);
 			if (e == null)
 			{
@@ -115,9 +115,9 @@ public class CExecSQLFetch extends CBaseExecSQLAction
 
 		CEntitySQLFetchStatement eSQL = factory.NewEntitySQLFetchStatement(getLine(), cur) ;
 		Vector<CDataEntity> arrInd = new Vector<CDataEntity>(); 
-		for (int i=0; i<m_arrIndicators.size(); i++)
+		for (int i=0; i<arrIndicators.size(); i++)
 		{
-			CIdentifier id = m_arrIndicators.get(i) ;
+			CIdentifier id = arrIndicators.get(i) ;
 			if (id != null)
 			{
 				CDataEntity e = id .GetDataReference(getLine(), factory) ;
@@ -163,7 +163,7 @@ public class CExecSQLFetch extends CBaseExecSQLAction
 				}
 				else
 				{
-					m_csCursorName = new String(tok.GetValue());
+					csCursorName = new String(tok.GetValue());
 					tok = GetNext() ;
 				}
 				continue;
@@ -225,7 +225,7 @@ public class CExecSQLFetch extends CBaseExecSQLAction
 		{
 			id = new CIdentifier(cs) ;
 		}
-		m_arrInto.addElement(id);	
+		arrInto.addElement(id);	
 		
 		tok = GetCurrentToken() ;
 		if (tok.GetType() == CTokenType.COLON)
@@ -272,16 +272,16 @@ public class CExecSQLFetch extends CBaseExecSQLAction
 					}
 				}
 			}
-			m_arrIndicators.addElement(id);
+			arrIndicators.addElement(id);
 		}
 		else
 		{
-			m_arrIndicators.add(null) ;
+			arrIndicators.add(null) ;
 		}
 		return true ;
 	}
 
-	private String m_csCursorName = null;
-	private Vector<CIdentifier> m_arrInto = new Vector<CIdentifier>() ;
-	private Vector<CIdentifier> m_arrIndicators = new Vector<CIdentifier>() ;
+	private String csCursorName = null;
+	private Vector<CIdentifier> arrInto = new Vector<CIdentifier>() ;
+	private Vector<CIdentifier> arrIndicators = new Vector<CIdentifier>() ;
 }

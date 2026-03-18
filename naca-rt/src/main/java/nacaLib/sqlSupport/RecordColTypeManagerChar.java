@@ -40,11 +40,11 @@ public class RecordColTypeManagerChar extends RecordColTypeManagerBase
 	{
 		try
 		{			
-			String csValue = resultSetSource.getString(m_nColSourceIndex);
+			String csValue = resultSetSource.getString(nColSourceIndex);
 			if (!resultSetSource.wasNull())
-				insertStatementInsert.setString(m_nColSourceIndex, csValue);
+				insertStatementInsert.setString(nColSourceIndex, csValue);
 			else
-				insertStatementInsert.setNull(m_nColSourceIndex, Types.CHAR);
+				insertStatementInsert.setNull(nColSourceIndex, Types.CHAR);
 			return true;
 		}
 		catch (SQLException e)
@@ -58,21 +58,21 @@ public class RecordColTypeManagerChar extends RecordColTypeManagerBase
 	{
 		try
 		{			
-			String csValue = rs.getString(m_nColSourceIndex);
+			String csValue = rs.getString(nColSourceIndex);
 			if(csValue != null)
 			{
 				if(BaseResourceManager.isUpdateCodeDbToJava())
 					csValue = BaseResourceManager.updateCodeDbToJava(csValue);
-				varInto.m_varDef.write(varInto.m_bufferPos, csValue);
+				varInto.varDef.write(varInto.bufferPos, csValue);
 				return false;
 			}
 		}
 		catch (SQLException e)
 		{
 			LogSQLException.log(e);
-			// Maybe should I set m_bNull = true; ?
+			// Maybe should I set bNull = true; ?
 		}
-		varInto.m_varDef.write(varInto.m_bufferPos, "");	//varInto.set("");
+		varInto.varDef.write(varInto.bufferPos, "");	//varInto.set("");
 		return true;
 	}	
 }

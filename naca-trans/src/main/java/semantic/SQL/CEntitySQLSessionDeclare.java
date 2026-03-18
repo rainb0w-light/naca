@@ -12,7 +12,7 @@ import utils.CObjectCatalog;
 
 public abstract class CEntitySQLSessionDeclare extends CBaseActionEntity
 {
-	protected String m_csSql = "" ;
+	protected String csSql = "" ;
 	
 	/**
 	 * @param line
@@ -29,6 +29,6 @@ public abstract class CEntitySQLSessionDeclare extends CBaseActionEntity
 	 */
 	public void setSql(String string)
 	{
-		m_csSql = string ;
+		csSql = string ;
 	}
 }

@@ -26,13 +26,13 @@ public class CExecSQLSessionDeclare extends CBaseExecSQLAction
 	public Element ExportCustom(Document root)
 	{
 		Element eExe = root.createElement("SQLSessionDeclare");
-		eExe.setAttribute("sql", m_csSql);
+		eExe.setAttribute("sql", csSql);
 		return eExe;
 	}
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
 		CEntitySQLSessionDeclare session = factory.NewEntitySQLSessionDeclare(getLine()) ;
-		session.setSql(m_csSql);
+		session.setSql(csSql);
 		parent.AddChild(session);
 		return session;
 	}
@@ -40,31 +40,31 @@ public class CExecSQLSessionDeclare extends CBaseExecSQLAction
 	{
 		CBaseToken tok;
 		
-		m_csSql = "DECLARE GLOBAL";
+		csSql = "DECLARE GLOBAL";
 		boolean bDone = false ;
 		while (!bDone)
 		{
 			tok = GetNext() ;
 			if (tok.GetType()==CTokenType.DOT)
 			{
-				m_csSql += tok.GetType().GetSourceValue();
+				csSql += tok.GetType().GetSourceValue();
 				tok = GetNext();
-				m_csSql += tok.GetValue();
-				m_csSql += " ";
+				csSql += tok.GetValue();
+				csSql += " ";
 			}
 			else if (tok.GetType()==CTokenType.LEFT_BRACKET)
 			{
-				m_csSql += tok.GetType().GetSourceValue();
+				csSql += tok.GetType().GetSourceValue();
 				tok = GetNext();
-				m_csSql += tok.GetValue();
+				csSql += tok.GetValue();
 			}
 			else if (tok.GetType()==CTokenType.RIGHT_BRACKET)
 			{
-				m_csSql += tok.GetType().GetSourceValue();				
+				csSql += tok.GetType().GetSourceValue();				
 			}
 			else if (tok.GetType()==CTokenType.COMMA)
 			{
-				m_csSql += tok.GetType().GetSourceValue();
+				csSql += tok.GetType().GetSourceValue();
 			}
 			else if (tok.GetType()==CTokenType.KEYWORD && tok.GetKeyword()==CCobolKeywordList.END_EXEC)
 			{
@@ -72,11 +72,11 @@ public class CExecSQLSessionDeclare extends CBaseExecSQLAction
 			}
 			else
 			{
-				m_csSql += " " + tok.GetValue();
+				csSql += " " + tok.GetValue();
 			}
 		}
 		return true ;
 	}
 	
-	protected String m_csSql = null ;
+	protected String csSql = null ;
 }

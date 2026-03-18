@@ -26,78 +26,78 @@ public class CStrNumber extends CStr
 		super();
 		set(new char[40], 0, 40);
 		for(int n=NB_MAXI_DIGIT; n<40; n++)
-			m_acBuffer[n] = ' ';
+			acBuffer[n] = ' ';
 	}
 	
 	private void checkBuffer(int nMinBufferLength)
 	{
-		if(m_acBuffer == null)
-			m_acBuffer = new char[nMinBufferLength];
-		else if(m_acBuffer.length < nMinBufferLength)
-			m_acBuffer = new char[nMinBufferLength];
+		if(acBuffer == null)
+			acBuffer = new char[nMinBufferLength];
+		else if(acBuffer.length < nMinBufferLength)
+			acBuffer = new char[nMinBufferLength];
 	}
 	
 	public void set(CStr cs, int nReserve)
 	{
-		m_nStartPos = 0;
-		checkBuffer(cs.m_nLength + nReserve);
+		nStartPos = 0;
+		checkBuffer(cs.nLength + nReserve);
 		
-		m_nLength = cs.m_nLength;
-		for(int n=0; n<cs.m_nLength; n++)
+		nLength = cs.nLength;
+		for(int n=0; n<cs.nLength; n++)
 		{
-			m_acBuffer[n] = cs.charAt(n);
+			acBuffer[n] = cs.charAt(n);
 		}
 	}
 	
 	public void setAbsoluteValueRightPadded(int nValue, int nRequiredLength)
 	{
-		m_nStartPos = NB_MAXI_DIGIT+1;
-		m_nLength = 0;		
+		nStartPos = NB_MAXI_DIGIT+1;
+		nLength = 0;		
 		checkBuffer(nRequiredLength + NB_MAXI_DIGIT);
 		
 		do
 		{
-			m_nStartPos--;
+			nStartPos--;
 			int nDigit = nValue % 10; 
 			nValue /= 10; 
 			char cDigit = (char)('0' + nDigit);
-			m_acBuffer[m_nStartPos] = cDigit; 			
-			m_nLength++;
+			acBuffer[nStartPos] = cDigit; 			
+			nLength++;
 		}
 		while(nValue != 0);
 		
 		// Pad on right with spaces
 		int n = NB_MAXI_DIGIT+1;
-		while(m_nLength < nRequiredLength)
+		while(nLength < nRequiredLength)
 		{
-			m_acBuffer[n] = ' ';
-			m_nLength++;
+			acBuffer[n] = ' ';
+			nLength++;
 		}
 	}
 	
 //	public void setAbsoluteValueRightPadded(long lValue, int nRequiredLength)
 //	{
-//		m_nStartPos = NB_MAXI_DIGIT+1;
-//		m_nLength = 0;		
+//		nStartPos = NB_MAXI_DIGIT+1;
+//		nLength = 0;		
 //		checkBuffer(nRequiredLength + NB_MAXI_DIGIT);
 //		
 //		do
 //		{
-//			m_nStartPos--;
+//			nStartPos--;
 //			int nDigit = (int)(lValue % 10); 
 //			lValue /= 10; 
 //			char cDigit = (char)('0' + nDigit);
-//			m_acBuffer[m_nStartPos] = cDigit; 			
-//			m_nLength++;
+//			acBuffer[nStartPos] = cDigit; 			
+//			nLength++;
 //		}
 //		while(lValue != 0);
 //		
 //		// Pad on right with spaces
 //		int n = NB_MAXI_DIGIT+1;
-//		while(m_nLength < nRequiredLength)
+//		while(nLength < nRequiredLength)
 //		{
-//			m_acBuffer[n] = ' ';
-//			m_nLength++;
+//			acBuffer[n] = ' ';
+//			nLength++;
 //		}
 //	}
 		
@@ -112,24 +112,24 @@ public class CStrNumber extends CStr
 			nOffset = 1;
 		}
 		
-		m_nStartPos = NB_MAXI_DIGIT+1+nOffset;
-		m_nLength = 0;
+		nStartPos = NB_MAXI_DIGIT+1+nOffset;
+		nLength = 0;
 		checkBuffer(40);
 		do
 		{
-			m_nStartPos--;
+			nStartPos--;
 			int nDigit = nValue % 10;
 			nValue /= 10;
 			char cDigit = (char)('0' + nDigit);
-			m_acBuffer[m_nStartPos+nOffset] = cDigit; 
-			m_nLength++;
+			acBuffer[nStartPos+nOffset] = cDigit; 
+			nLength++;
 		}
 		while(nValue != 0);
 		
 		if(bNegative)
 		{
-			m_acBuffer[m_nStartPos] = '-';
-			m_nLength++;
+			acBuffer[nStartPos] = '-';
+			nLength++;
 		}			
 	}
 	
@@ -144,31 +144,31 @@ public class CStrNumber extends CStr
 			nOffset = 1;
 		}
 		
-		m_nStartPos = NB_MAXI_DIGIT+1+nOffset;
-		m_nLength = 0;
+		nStartPos = NB_MAXI_DIGIT+1+nOffset;
+		nLength = 0;
 		checkBuffer(40);
 		do
 		{
-			m_nStartPos--;
+			nStartPos--;
 			int nDigit = (int)(lValue % 10);
 			lValue /= 10;
 			char cDigit = (char)('0' + nDigit);
-			m_acBuffer[m_nStartPos+nOffset] = cDigit; 
-			m_nLength++;
+			acBuffer[nStartPos+nOffset] = cDigit; 
+			nLength++;
 		}
 		while(lValue != 0);
 		
 		if(bNegative)
 		{
-			m_acBuffer[m_nStartPos] = '-';
-			m_nLength++;
+			acBuffer[nStartPos] = '-';
+			nLength++;
 		}
 	}
 	
 	public void decodeComp3String(CStr s, int nNbDigitInteger)
 	{
-		m_nStartPos = 0;
-		m_nLength = 0;
+		nStartPos = 0;
+		nLength = 0;
 		checkBuffer(40);
 		
 		boolean bEvenNumberOfDigits = false;
@@ -206,8 +206,8 @@ public class CStrNumber extends CStr
 	
 	public void decodeSignComp3String(CStr s, int nNbDigitInteger)
 	{
-		m_nStartPos = 0;
-		m_nLength = 0;
+		nStartPos = 0;
+		nLength = 0;
 		checkBuffer(40);
 		
 		boolean bEvenNumberOfDigits = false;
@@ -253,24 +253,24 @@ public class CStrNumber extends CStr
 			nValue = -nValue;
 		checkBuffer(40);
 
-		m_nStartPos = NB_MAXI_DIGIT+1;
-		m_nLength = 0;
+		nStartPos = NB_MAXI_DIGIT+1;
+		nLength = 0;
 		do
 		{
-			m_nStartPos--;
+			nStartPos--;
 			int nDigit = (nValue % 10);
 			nValue /= 10;
 			char cDigit = (char)('0' + nDigit);
-			m_acBuffer[m_nStartPos] = cDigit; 
-			m_nLength++;
+			acBuffer[nStartPos] = cDigit; 
+			nLength++;
 		}
-		while(nValue != 0 && m_nLength <= nNbDigitInteger);
+		while(nValue != 0 && nLength <= nNbDigitInteger);
 		
-		while(m_nLength != nNbDigitInteger)// Padding with '0' on the left
+		while(nLength != nNbDigitInteger)// Padding with '0' on the left
 		{
-			m_nStartPos--;
-			m_acBuffer[m_nStartPos] = '0';
-			m_nLength++;
+			nStartPos--;
+			acBuffer[nStartPos] = '0';
+			nLength++;
 		}
 	}
 	
@@ -280,24 +280,24 @@ public class CStrNumber extends CStr
 			lValue = -lValue;
 		checkBuffer(40);
 
-		m_nStartPos = NB_MAXI_DIGIT+1;
-		m_nLength = 0;
+		nStartPos = NB_MAXI_DIGIT+1;
+		nLength = 0;
 		do
 		{
-			m_nStartPos--;
+			nStartPos--;
 			int nDigit = (int)(lValue % 10);
 			lValue /= 10;
 			char cDigit = (char)('0' + nDigit);
-			m_acBuffer[m_nStartPos] = cDigit;			
-			m_nLength++;
+			acBuffer[nStartPos] = cDigit;			
+			nLength++;
 		}
-		while(lValue != 0 && m_nLength <= nNbDigitInteger);
+		while(lValue != 0 && nLength <= nNbDigitInteger);
 		
-		while(m_nLength != nNbDigitInteger)// Padding with '0' on the left
+		while(nLength != nNbDigitInteger)// Padding with '0' on the left
 		{
-			m_nStartPos--;
-			m_acBuffer[m_nStartPos] = '0';
-			m_nLength++;
+			nStartPos--;
+			acBuffer[nStartPos] = '0';
+			nLength++;
 		}
 	}
 }

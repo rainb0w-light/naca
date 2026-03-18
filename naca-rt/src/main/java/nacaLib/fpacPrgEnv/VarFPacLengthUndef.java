@@ -11,15 +11,15 @@ import nacaLib.varEx.VarBuffer;
 
 public abstract class VarFPacLengthUndef
 {
-	protected FPacVarManager m_fpacVarManager = null;
-	protected int m_nAbsolutePosition1Based = 0;
-	protected VarBuffer m_varBuffer = null;
+	protected FPacVarManager fpacVarManager = null;
+	protected int nAbsolutePosition1Based = 0;
+	protected VarBuffer varBuffer = null;
 	
 	VarFPacLengthUndef(FPacVarManager fpacVarManager, VarBuffer varBuffer, int nAbsolutePosition1Based)
 	{
-		m_fpacVarManager = fpacVarManager;
-		m_varBuffer = varBuffer;
-		m_nAbsolutePosition1Based = nAbsolutePosition1Based;
+		fpacVarManager = fpacVarManager;
+		varBuffer = varBuffer;
+		nAbsolutePosition1Based = nAbsolutePosition1Based;
 	}
 	
 	public abstract Var createVar();

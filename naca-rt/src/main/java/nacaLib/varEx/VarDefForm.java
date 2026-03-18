@@ -31,8 +31,8 @@ public class VarDefForm extends VarDefBuffer
 {
 	public VarDefForm(VarDefBase varDefParent, DeclareTypeForm declareTypeForm)
 	{
-		super(varDefParent, declareTypeForm.m_varLevel);
-		m_arrFields = new ArrayDyn<VarDefBuffer>(); 
+		super(varDefParent, declareTypeForm.varLevel);
+		arrFields = new ArrayDyn<VarDefBuffer>(); 
 	}
 			
 	protected VarDefForm()
@@ -84,7 +84,7 @@ public class VarDefForm extends VarDefBuffer
 	
 	public int getBodyLength()
 	{
-		return m_nTotalSize - getHeaderLength();
+		return nTotalSize - getHeaderLength();
 	}
 	
 	protected int getHeaderLength()
@@ -99,13 +99,13 @@ public class VarDefForm extends VarDefBuffer
 		
 	CStr getAsDecodedString(VarBufferPos buffer)
 	{
-		CStr cs = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nTotalSize);
+		CStr cs = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);
 		return cs;
 	}
 	
 	int getAsDecodedInt(VarBufferPos buffer)
 	{
-		CStr cs = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nTotalSize);
+		CStr cs = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);
 		int n = cs.getAsInt();
 		return n;
 	}
@@ -119,7 +119,7 @@ public class VarDefForm extends VarDefBuffer
 	
 	long getAsDecodedLong(VarBufferPos buffer)
 	{
-		CStr cs = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nTotalSize);
+		CStr cs = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);
 		long l = cs.getAsLong();
 		return l;
 	}
@@ -133,13 +133,13 @@ public class VarDefForm extends VarDefBuffer
 	
 	CStr getAsAlphaNumString(VarBufferPos buffer)
 	{		
-		CStr cs = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nTotalSize);
+		CStr cs = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);
 		return cs;
 	}
 	
 	CStr getDottedSignedString(VarBufferPos buffer)
 	{	
-		CStr cs = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nTotalSize);
+		CStr cs = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);
 		return cs;
 	}
 	
@@ -160,7 +160,7 @@ public class VarDefForm extends VarDefBuffer
 	
 	private int writeRightPadding(VarBufferPos buffer, String cs, char cPad)
 	{
-		return internalWriteRightPadding(buffer, buffer.m_nAbsolutePosition, m_nTotalSize, cs, cPad);
+		return internalWriteRightPadding(buffer, buffer.nAbsolutePosition, nTotalSize, cs, cPad);
 	}
 	
 	public void inc(VarBufferPos buffer, int n)
@@ -679,20 +679,20 @@ public class VarDefForm extends VarDefBuffer
 	
 	public void addField(VarDefBuffer varDefEdit)
 	{
-		m_arrFields.add(varDefEdit);		 		
+		arrFields.add(varDefEdit);		 		
 	}
 	
 	int getNbFields()
 	{
-		if(m_arrFields != null)
-			return m_arrFields.size();
+		if(arrFields != null)
+			return arrFields.size();
 		return 0;
 	}
 	
 	VarDefEdit getEditAt(int nIndex)
 	{
-		if(m_arrFields != null)
-			return (VarDefEdit) m_arrFields.get(nIndex);
+		if(arrFields != null)
+			return (VarDefEdit) arrFields.get(nIndex);
 		return null;
 	}
 
@@ -702,7 +702,7 @@ public class VarDefForm extends VarDefBuffer
 		InternalCharBuffer tempCharBuffer = encodeToCharBuffer(nDestLength);
 		varDest.copyBytesFromSourceIntoBody(tempCharBuffer);
 		//int nOffset = varDest.getBodyAbsolutePosition();
-		//varDest.m_bufferPos.inheritSemanticContext(tempCharBuffer, nOffset);
+		//varDest.bufferPos.inheritSemanticContext(tempCharBuffer, nOffset);
 	}
 	
 	public InternalCharBuffer encodeToCharBuffer(int nDestLength)
@@ -732,10 +732,10 @@ public class VarDefForm extends VarDefBuffer
 					{
 						Edit var2Edit = (Edit)programManager.getVarFullName(varDefEdit);
 						
-						CStr cs = var2Edit.m_bufferPos.getBodyCStr(varDefChild);
+						CStr cs = var2Edit.bufferPos.getBodyCStr(varDefChild);
 						String csText = cs.getAsString();
 								
-						//String csText = varDefChild.getRawStringExcludingHeader(var2Edit.m_bufferPos);	// getString
+						//String csText = varDefChild.getRawStringExcludingHeader(var2Edit.bufferPos);	// getString
 						int nEditLength = varDefEdit.getBodyLength();
 
 //						String csSemanticContextValue = var2Edit.getSemanticContextValue();
@@ -757,10 +757,10 @@ public class VarDefForm extends VarDefBuffer
 //						String csSemanticContextValue = varChild.getSemanticContextValue();
 //						charBuffer.setSemanticContextValue(csSemanticContextValue, nPos);
 
-						if(varDefChild.m_varDefRedefinOrigin == null)	// Not a redefine
+						if(varDefChild.varDefRedefinOrigin == null)	// Not a redefine
 						{	
-							//String csText = varDefChild.getRawStringExcludingHeader(varChild.m_bufferPos);
-							String csText = varChild.m_bufferPos.getBodyCStr(varDefChild).getAsString();							
+							//String csText = varDefChild.getRawStringExcludingHeader(varChild.bufferPos);
+							String csText = varChild.bufferPos.getBodyCStr(varDefChild).getAsString();							
 							nPos = charBuffer.writeString(csText, nSourceLength, nPos);
 						}	
 					}
@@ -812,7 +812,7 @@ public class VarDefForm extends VarDefBuffer
 				{
 					//String csSemanticContextValue = varSource.getSemanticContextValue();
 					// PJD: Semantic context to move 		
-					if(varDefChild.m_varDefRedefinOrigin == null)	// Not a redefine
+					if(varDefChild.varDefRedefinOrigin == null)	// Not a redefine
 					{
 						int nDestLength = varDefChild.getLength();
 						nPosSource = copySourceChunk(bufferDest, varSource, nPosSource-12, nPosSource, nDestLength);
@@ -864,7 +864,7 @@ public class VarDefForm extends VarDefBuffer
 	
 	protected int writeRepeatingchar(VarBufferPos buffer, char c)
 	{
-		return buffer.writeRepeatingCharAt(buffer.m_nAbsolutePosition, c, m_nTotalSize);
+		return buffer.writeRepeatingCharAt(buffer.nAbsolutePosition, c, nTotalSize);
 	}
 	
 	protected int writeRepeatingcharAt(VarBufferPos buffer, int nPosition, char c, int nNbChars)
@@ -882,7 +882,7 @@ public class VarDefForm extends VarDefBuffer
 		for(int nChild=0; nChild<nNbChildren; nChild++)	// Skip fake header
 		{
 			VarDefBuffer varDefChild = getChild(nChild);
-			if(varDefChild.m_nDefaultAbsolutePosition == nAbsolutePosition)
+			if(varDefChild.nDefaultAbsolutePosition == nAbsolutePosition)
 				return varDefChild;
 		}
 		return null;
@@ -895,17 +895,17 @@ public class VarDefForm extends VarDefBuffer
 	
 	public void compress()
 	{
-		if(m_arrFields != null)
+		if(arrFields != null)
 		{
-			// Swap the type inside m_arrRedefinition 
-			if(m_arrFields.isDyn())
+			// Swap the type inside arrRedefinition 
+			if(arrFields.isDyn())
 			{
-				int nSize = m_arrFields.size();
+				int nSize = arrFields.size();
 				VarDefBuffer arr[] = new VarDefBuffer[nSize];
-				m_arrFields.transferInto(arr);
+				arrFields.transferInto(arr);
 				
 				ArrayFix<VarDefBuffer> arrFix = new ArrayFix<VarDefBuffer>(arr);
-				m_arrFields = arrFix;	// replace by a fix one (uning less memory)
+				arrFields = arrFix;	// replace by a fix one (uning less memory)
 			}
 		}
 		super.compress();
@@ -913,7 +913,7 @@ public class VarDefForm extends VarDefBuffer
 	
 	public void prepareAutoRemoval()
 	{
-		m_arrFields = null;
+		arrFields = null;
 		super.prepareAutoRemoval();
 	}
 	
@@ -929,7 +929,7 @@ public class VarDefForm extends VarDefBuffer
 	
 	public BtreeSegmentKeyTypeFactory getSegmentKeyTypeFactory()
 	{
-		return VarTypeId.m_segmentKeyTypeFactoryString;
+		return VarTypeId.segmentKeyTypeFactoryString;
 	}		
 
 	public boolean isEbcdicAsciiConvertible()
@@ -940,13 +940,13 @@ public class VarDefForm extends VarDefBuffer
 	protected void adjustCustomProperty(VarDefBuffer varDefBufferCopySingleItem)
 	{
 		VarDefForm varDefCopy = (VarDefForm)varDefBufferCopySingleItem;
-		varDefCopy.m_arrFields = m_arrFields;
+		varDefCopy.arrFields = arrFields;
 	}
 	
 	protected void adjustCustomPropertyForCharGetAt(VarDefBuffer varDefBufferCopySingleItem)
 	{
 		VarDefForm varDefCopy = (VarDefForm)varDefBufferCopySingleItem;
-		varDefCopy.m_arrFields = m_arrFields;
+		varDefCopy.arrFields = arrFields;
 	}
 	
 	// Should never be called
@@ -954,5 +954,5 @@ public class VarDefForm extends VarDefBuffer
 	{
 	}
 	
-	protected ArrayFixDyn<VarDefBuffer> m_arrFields = null;	// Array of VarDefEdit
+	protected ArrayFixDyn<VarDefBuffer> arrFields = null;	// Array of VarDefEdit
 }

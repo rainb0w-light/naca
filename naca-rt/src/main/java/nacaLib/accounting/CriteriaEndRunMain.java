@@ -25,8 +25,8 @@ public class CriteriaEndRunMain
 	public static final CriteriaEndRunMain Abort = new CriteriaEndRunMain(5, "Abort");
 	public static final CriteriaEndRunMain Dump = new CriteriaEndRunMain(6, "Dump");
 	public static final CriteriaEndRunMain GotoInAsyncStart = new CriteriaEndRunMain(7, "GotoInAsyncStart");
-	private int m_nIndex = 0;
-	private String m_csName = null;
+	private int nIndex = 0;
+	private String csName = null;
 
 	public static final int getNbIndex()
 	{
@@ -35,17 +35,17 @@ public class CriteriaEndRunMain
 
 	private CriteriaEndRunMain(int n, String csName)
 	{
-		m_csName = csName;
-		m_nIndex = n;
+		csName = csName;
+		nIndex = n;
 	}
 	
 	public String getName()
 	{
-		return m_csName;
+		return csName;
 	}
 
 	public int getIndex()
 	{
-		return m_nIndex;
+		return nIndex;
 	}
 }

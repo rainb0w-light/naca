@@ -40,21 +40,21 @@ public abstract class CEntityCICSLink extends CBaseActionEntity
 	
 	public void SetProgramName(CDataEntity prgm, boolean bChecked)
 	{
-		m_refProgram = prgm ;
-		m_bChecked = bChecked ;
+		refProgram = prgm ;
+		bChecked = bChecked ;
 	}
 	
-	protected boolean m_bChecked = false ;
-	protected CDataEntity m_refProgram = null ;
-	protected CDataEntity m_refCommArea = null ;
-	protected CDataEntity m_CommAreaLength = null ;
-	protected CDataEntity m_CommAreaDataLength = null ;
+	protected boolean bChecked = false ;
+	protected CDataEntity refProgram = null ;
+	protected CDataEntity refCommArea = null ;
+	protected CDataEntity commAreaLength = null ;
+	protected CDataEntity commAreaDataLength = null ;
 	
 	public void SetCommArea(CDataEntity eCommArea, CDataEntity eCALength, CDataEntity eCADataLength)
 	{
-		m_refCommArea = eCommArea ;
-		m_CommAreaLength = eCALength ;
-		m_CommAreaDataLength = eCADataLength ;
+		refCommArea = eCommArea ;
+		commAreaLength = eCALength ;
+		commAreaDataLength = eCADataLength ;
 	}
 	public boolean ignore()
 	{
@@ -63,10 +63,10 @@ public abstract class CEntityCICSLink extends CBaseActionEntity
 	public void Clear()
 	{
 		super.Clear();
-		m_refProgram = null ;
-		m_refCommArea = null ;
-		m_CommAreaDataLength = null ;
-		m_CommAreaLength = null ;
+		refProgram = null ;
+		refCommArea = null ;
+		commAreaDataLength = null ;
+		commAreaLength = null ;
 	}
 
 	/**
@@ -74,7 +74,7 @@ public abstract class CEntityCICSLink extends CBaseActionEntity
 	 */
 	public CDataEntity GetProgramReference()
 	{
-		return m_refProgram ;
+		return refProgram ;
 	}
 
 	/**
@@ -82,7 +82,7 @@ public abstract class CEntityCICSLink extends CBaseActionEntity
 	 */
 	public CDataEntity GetCommareaParameter()
 	{
-		return m_refCommArea ;
+		return refCommArea ;
 	}
 
 	/**
@@ -90,6 +90,6 @@ public abstract class CEntityCICSLink extends CBaseActionEntity
 	 */
 	public boolean isReferenceChecked()
 	{
-		return m_bChecked ;
+		return bChecked ;
 	}
 }

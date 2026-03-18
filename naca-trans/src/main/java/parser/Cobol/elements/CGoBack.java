@@ -50,7 +50,7 @@ public class CGoBack extends CCobolElement
 			Transcoder.logError(getLine(), "Expecting 'GOBACK' keyword") ;
 			return false ;
 		}
-		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().m_Name) ;
+		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
 		GetNext();
 		return true ; 
 	}

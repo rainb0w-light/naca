@@ -49,11 +49,11 @@ public abstract class CEntityResourceForm extends CBaseResourceEntity
 {
 	public class CFormByteConsumingState
 	{
-		public int m_nCurrentField = 0 ;
-		public int m_nCurrentByteInField = 0 ;
+		public int nCurrentField = 0 ;
+		public int nCurrentByteInField = 0 ;
 	}
 	
-	protected boolean m_bSaveMap = false ;
+	protected boolean bSaveMap = false ;
 
 	/**
 	 * @param name
@@ -63,7 +63,7 @@ public abstract class CEntityResourceForm extends CBaseResourceEntity
 	public CEntityResourceForm(int l, String name, CObjectCatalog cat, CBaseLanguageExporter lexp, boolean bSaveCopy)
 	{
 		super(l, name, cat, lexp);
-		m_bSaveMap = bSaveCopy ;
+		bSaveMap = bSaveCopy ;
 	}
 
 	/* (non-Javadoc)
@@ -72,57 +72,57 @@ public abstract class CEntityResourceForm extends CBaseResourceEntity
 //	protected void RegisterMySelfToCatalog()
 //	{
 //		super.RegisterMySelfToCatalog() ;
-//		if (!m_bSaveMap)
+//		if (!bSaveMap)
 //		{
-//			m_ProgramCatalog.RegisterMasterMap(this) ;
+//			programCatalog.RegisterMasterMap(this) ;
 //		}
 //	}
 	
 	public void InitDependences(CBaseEntityFactory factory) 
 	{
-		for (int i=0; i<m_arrFields.size(); i++)
+		for (int i=0; i<arrFields.size(); i++)
 		{
-			CEntityResourceField f = (CEntityResourceField)m_arrFields.get(i);
+			CEntityResourceField f = (CEntityResourceField)arrFields.get(i);
 			f.SetParent(this) ;
 			f.InitDependences(factory) ; 
 		}
-		for (int i=0; i<m_arrFormReferences.size();i++)
+		for (int i=0; i<arrFormReferences.size();i++)
 		{
-			String cs = m_arrFormReferences.get(i);
+			String cs = arrFormReferences.get(i);
 //			CEntityFormAccessor fa1 = factory.NewEntityFormAccessor(getLine(), cs+"I", this) ; 
 //			CEntityFormAccessor fa2 = factory.NewEntityFormAccessor(getLine(), cs+"O", this) ; 
 //			CEntityFormAccessor fa3 = factory.NewEntityFormAccessor(getLine(), cs, this) ; 
-			factory.m_ProgramCatalog.RegisterDataEntity(cs+"I", this) ;
-			factory.m_ProgramCatalog.RegisterDataEntity(cs+"O", this) ;
-			factory.m_ProgramCatalog.RegisterDataEntity(cs, this) ;
+			factory.programCatalog.RegisterDataEntity(cs+"I", this) ;
+			factory.programCatalog.RegisterDataEntity(cs+"O", this) ;
+			factory.programCatalog.RegisterDataEntity(cs, this) ;
 		}
 		String cs = GetName() ;
 //		CEntityFormAccessor fa1 = factory.NewEntityFormAccessor(getLine(), GetName()+"I", this) ; 
 //		CEntityFormAccessor fa2 = factory.NewEntityFormAccessor(getLine(), GetName()+"O", this) ; 
 //		CEntityFormAccessor fa3 = factory.NewEntityFormAccessor(getLine(), GetName(), this) ; 
-		factory.m_ProgramCatalog.RegisterDataEntity(cs+"I", this) ;
-		factory.m_ProgramCatalog.RegisterDataEntity(cs+"O", this) ;
-		factory.m_ProgramCatalog.RegisterDataEntity(cs, this) ;
+		factory.programCatalog.RegisterDataEntity(cs+"I", this) ;
+		factory.programCatalog.RegisterDataEntity(cs+"O", this) ;
+		factory.programCatalog.RegisterDataEntity(cs, this) ;
 	}
 
 	public void AddField(CBaseResourceEntity e)
 	{
-		m_arrFields.add(e) ;
+		arrFields.add(e) ;
 	}
 
-	protected Vector<CBaseResourceEntity> m_arrFields = new Vector<CBaseResourceEntity>() ;
-	protected ArrayList<String> m_arrFormReferences = new ArrayList<String>() ;
+	protected Vector<CBaseResourceEntity> arrFields = new Vector<CBaseResourceEntity>() ;
+	protected ArrayList<String> arrFormReferences = new ArrayList<String>() ;
 	public void SetReferences(ArrayList<String> v)
 	{
-		m_arrFormReferences = v ;
+		arrFormReferences = v ;
 	}	
 	public void SetSize(int col, int line)
 	{
-		m_nSizeCol = col ;
-		m_nSizeLine = line ;
+		nSizeCol = col ;
+		nSizeLine = line ;
 	}
-	protected int m_nSizeCol = 0 ;
-	protected int m_nSizeLine = 0 ;
+	protected int nSizeCol = 0 ;
+	protected int nSizeLine = 0 ;
 
 	/* (non-Javadoc)
 	 * @see semantic.CBaseDataEntity#GetSpecialAssignment(parser.expression.CTerminal)
@@ -168,7 +168,7 @@ public abstract class CEntityResourceForm extends CBaseResourceEntity
 				if (term.GetDataType() == CDataEntityType.FORM && !IsSaveCopy())
 				{
 					CEntityNoAction act = factory.NewEntityNoAction(l) ; 
-					factory.m_ProgramCatalog.RegisterMapCopy(act) ;
+					factory.programCatalog.RegisterMapCopy(act) ;
 					return act ;
 				}
 			}
@@ -178,10 +178,10 @@ public abstract class CEntityResourceForm extends CBaseResourceEntity
 
 	public void MakeSavCopy(CEntityResourceForm form, CBaseEntityFactory factory, boolean bFromRes)
 	{
-		form.SetSize(m_nSizeCol, m_nSizeLine) ;
-		for (int i=0; i<m_arrFields.size(); i++)
+		form.SetSize(nSizeCol, nSizeLine) ;
+		for (int i=0; i<arrFields.size(); i++)
 		{
-			CEntityResourceField f = (CEntityResourceField)m_arrFields.get(i);
+			CEntityResourceField f = (CEntityResourceField)arrFields.get(i);
 			CEntityResourceField fs ;
 			if (f.IsEntryField())
 			{
@@ -195,65 +195,65 @@ public abstract class CEntityResourceForm extends CBaseResourceEntity
 					fs = factory.NewEntityEntryField(f.getLine(), "S"+f.GetName()) ;
 					fs.SetDisplayName(f.GetDisplayName());
 				}
-				factory.m_ProgramCatalog.RegisterSaveField(fs, f) ;
+				factory.programCatalog.RegisterSaveField(fs, f) ;
 			}
 			else
 			{
 				fs = factory.NewEntityLabelField(f.getLine()) ;
 			}
-			fs.m_Of = form.m_Of ;
-			fs.m_csInitialValue = f.m_csInitialValue ;
-			fs.m_nLength = f.m_nLength ;
-			fs.m_nPosCol = f.m_nPosCol ;
-			fs.m_nPosLine = f.m_nPosLine ;
-			fs.m_ProgramCatalog = f.m_ProgramCatalog ;
-			fs.m_csColor = f.m_csColor ;
-			fs.m_csHighLight = f.m_csHighLight ;
-			fs.m_csBrightness = f.m_csBrightness ;
-			fs.m_csFillValue = f.m_csFillValue ;
-			fs.m_csProtection = f.m_csProtection ;
-			fs.m_bRightJustified = f.m_bRightJustified ;
-			fs.m_ResourceStrings = f.m_ResourceStrings ;
+			fs.of = form.of ;
+			fs.csInitialValue = f.csInitialValue ;
+			fs.nLength = f.nLength ;
+			fs.nPosCol = f.nPosCol ;
+			fs.nPosLine = f.nPosLine ;
+			fs.programCatalog = f.programCatalog ;
+			fs.csColor = f.csColor ;
+			fs.csHighLight = f.csHighLight ;
+			fs.csBrightness = f.csBrightness ;
+			fs.csFillValue = f.csFillValue ;
+			fs.csProtection = f.csProtection ;
+			fs.bRightJustified = f.bRightJustified ;
+			fs.resourceStrings = f.resourceStrings ;
 			if(bFromRes)
-				fs.setDevelopable(f.m_csDevelopableFlagMark);
+				fs.setDevelopable(f.csDevelopableFlagMark);
 			
-			form.m_arrFields.add(fs) ;
+			form.arrFields.add(fs) ;
 		}
 	}
 	
-	protected int m_nCurrentField = -1;
-	protected int m_nCurrentByteInField = 0 ;
+	protected int nCurrentField = -1;
+	protected int nCurrentByteInField = 0 ;
 	public void StartFieldAnalyse()
 	{
-		m_nCurrentField = -1 ;
-		m_nCurrentByteInField = 0 ;
+		nCurrentField = -1 ;
+		nCurrentByteInField = 0 ;
 	}
 	public int getCurrentPositionInField()
 	{
-		return m_nCurrentByteInField ;
+		return nCurrentByteInField ;
 	}
 	public CFormByteConsumingState getCurrentConsumingState()
 	{
 		CFormByteConsumingState state = new CFormByteConsumingState() ;
-		state.m_nCurrentByteInField = m_nCurrentByteInField ;
-		state.m_nCurrentField = m_nCurrentField ;
+		state.nCurrentByteInField = nCurrentByteInField ;
+		state.nCurrentField = nCurrentField ;
 		return state ;
 	}
 	public void setCurrentConsumingState(CFormByteConsumingState state)
 	{
 		if (state != null)
 		{
-			m_nCurrentByteInField = state.m_nCurrentByteInField ;
-			m_nCurrentField = state.m_nCurrentField ;
+			nCurrentByteInField = state.nCurrentByteInField ;
+			nCurrentField = state.nCurrentField ;
 		}
 	}
 	public int ConsumeFieldsAsBytes(int bytes)
 	{
 		int nbBytesLeft = bytes ;
-		if (m_nCurrentField == -1 && m_nCurrentByteInField == 0)
+		if (nCurrentField == -1 && nCurrentByteInField == 0)
 		{
 			nbBytesLeft -= 12 ; // there are 12 bytes at begining of MAP
-			m_nCurrentField = 0 ;
+			nCurrentField = 0 ;
 			if (nbBytesLeft <0)
 			{
 				Transcoder.logError(getLine(), "Unexpecting situation");
@@ -265,23 +265,23 @@ public abstract class CEntityResourceForm extends CBaseResourceEntity
 			}
 		}	
 		int nbFields = 0;
-		while (nbBytesLeft > 0 && m_nCurrentField < m_arrFields.size())
+		while (nbBytesLeft > 0 && nCurrentField < arrFields.size())
 		{
 			CEntityResourceField f = getCurrentField();
 			if (f != null)
 			{
-				int byteLeftInField = f.GetByteLength() - m_nCurrentByteInField ;
+				int byteLeftInField = f.GetByteLength() - nCurrentByteInField ;
 				if (nbBytesLeft < byteLeftInField)
 				{
-					m_nCurrentByteInField += nbBytesLeft ;
+					nCurrentByteInField += nbBytesLeft ;
 					nbBytesLeft = 0 ;
 				}
 				else
 				{
 					nbBytesLeft -= byteLeftInField ;
 					nbFields ++ ;
-					m_nCurrentByteInField = 0;
-					m_nCurrentField ++ ;
+					nCurrentByteInField = 0;
+					nCurrentField ++ ;
 				}
 			}
 		} 
@@ -301,17 +301,17 @@ public abstract class CEntityResourceForm extends CBaseResourceEntity
 	 */
 	private CEntityResourceField getCurrentField()
 	{
-		if (m_nCurrentField < m_arrFields.size())
+		if (nCurrentField < arrFields.size())
 		{
-			CEntityResourceField f = (CEntityResourceField)m_arrFields.get(m_nCurrentField) ;
+			CEntityResourceField f = (CEntityResourceField)arrFields.get(nCurrentField) ;
 			while (!f.IsEntryField())
 			{
-				m_nCurrentField ++ ;
-				if (m_nCurrentField == m_arrFields.size())
+				nCurrentField ++ ;
+				if (nCurrentField == arrFields.size())
 				{
 					return null ;
 				}
-				f = (CEntityResourceField)m_arrFields.get(m_nCurrentField) ;
+				f = (CEntityResourceField)arrFields.get(nCurrentField) ;
 			}
 			return f ;
 		}
@@ -321,14 +321,14 @@ public abstract class CEntityResourceForm extends CBaseResourceEntity
 	public void ConsumeFields(int n)
 	{
 		int nToDO = n ;
-		while (m_nCurrentField < m_arrFields.size() && nToDO>0)
+		while (nCurrentField < arrFields.size() && nToDO>0)
 		{
-			CEntityResourceField f = (CEntityResourceField)m_arrFields.get(m_nCurrentField);
+			CEntityResourceField f = (CEntityResourceField)arrFields.get(nCurrentField);
 			if (f.IsEntryField())
 			{
 				nToDO -- ;
 			}
-			m_nCurrentField ++ ;
+			nCurrentField ++ ;
 		}
 	}
 	public CEntityHierarchy GetHierarchy()
@@ -341,7 +341,7 @@ public abstract class CEntityResourceForm extends CBaseResourceEntity
 
 	public boolean IsSaveCopy()
 	{
-		return m_bSaveMap;
+		return bSaveMap;
 	}
 
 	public class CFieldRedefineDescription
@@ -349,128 +349,128 @@ public abstract class CEntityResourceForm extends CBaseResourceEntity
 		public String SKIP = "SKIP" ;
 		public String FIELD = "FIELD" ;
 		public String OCCURS = "OCCURS" ;
-		public CEntityResourceField m_Field = null ;
-		public String m_Name = "" ;
-		public String m_Type = "" ;
-		public int m_Size = 0 ;
+		public CEntityResourceField field = null ;
+		public String name = "" ;
+		public String type = "" ;
+		public int size = 0 ;
 		
 		public CFieldRedefineDescription Next()
 		{
-			if (m_Next == null)
+			if (next == null)
 			{
-				m_Next = new CFieldRedefineDescription() ;
+				next = new CFieldRedefineDescription() ;
 			}
-			return m_Next ;
+			return next ;
 		}
-		protected CFieldRedefineDescription m_Next = null ;
+		protected CFieldRedefineDescription next = null ;
 	}
 	public class CFieldRedefineStructure
 	{
 		public CFieldRedefineDescription Current()
 		{
-			return m_Current ;
+			return current ;
 		}
 		public CFieldRedefineDescription Next()
 		{
-			m_Current = m_Current.Next() ;
-			return m_Current;
+			current = current.Next() ;
+			return current;
 		}
-		protected CFieldRedefineDescription m_Current = null ;
-		protected CFieldRedefineDescription m_Start = null ;
+		protected CFieldRedefineDescription current = null ;
+		protected CFieldRedefineDescription start = null ;
 	}
 	public CFieldRedefineStructure GetRedefineStructure()
 	{
-		if (m_RedefineStructure.m_Start == null)
+		if (redefineStructure.start == null)
 		{
-			m_RedefineStructure.m_Start = new CFieldRedefineDescription() ;
+			redefineStructure.start = new CFieldRedefineDescription() ;
 		}
-		m_RedefineStructure.m_Current = m_RedefineStructure.m_Start ;
-		return m_RedefineStructure;
+		redefineStructure.current = redefineStructure.start ;
+		return redefineStructure;
 	}
-	protected CFieldRedefineStructure m_RedefineStructure = new CFieldRedefineStructure() ;
+	protected CFieldRedefineStructure redefineStructure = new CFieldRedefineStructure() ;
 
 	public void ExportXMLFields(SortedSet<CEntityResourceFormContainer.FieldExportDescription> setFields, Document doc, CResourceStrings res)
 	{
-		for (int i=0; i<m_arrFields.size(); i++)
+		for (int i=0; i<arrFields.size(); i++)
 		{
-			CEntityResourceField field = (CEntityResourceField)m_arrFields.get(i);
+			CEntityResourceField field = (CEntityResourceField)arrFields.get(i);
 			Element e = field.DoXMLExport(doc, res) ;
 			if (e != null)
 			{
 				CEntityResourceFormContainer.FieldExportDescription exp = new CEntityResourceFormContainer.FieldExportDescription() ;
-				exp.m_Col = field.m_nPosCol ;
-				exp.setLine(field.m_nPosLine);
-				exp.m_Length = field.m_nLength ;
-				exp.m_bRightJustified = field.m_bRightJustified;
-				exp.m_csFillValue = field.m_csFillValue;
+				exp.col = field.nPosCol ;
+				exp.setLine(field.nPosLine);
+				exp.length = field.nLength ;
+				exp.bRightJustified = field.bRightJustified;
+				exp.csFillValue = field.csFillValue;
 				
-				exp.m_Tag = e ;
+				exp.tag = e ;
 				if (e.getNodeName().equalsIgnoreCase("edit"))
 				{
-					exp.m_Type = CEntityResourceFormContainer.FieldExportType.TYPE_EDIT ;
+					exp.type = CEntityResourceFormContainer.FieldExportType.TYPE_EDIT ;
 				}
 				else if (e.getNodeName().equalsIgnoreCase("label"))
 				{
-					exp.m_Type = CEntityResourceFormContainer.FieldExportType.TYPE_LABEL ;
+					exp.type = CEntityResourceFormContainer.FieldExportType.TYPE_LABEL ;
 				}
 				else if (e.getNodeName().equalsIgnoreCase("title"))
 				{
-					exp.m_Type = CEntityResourceFormContainer.FieldExportType.TYPE_LABEL ;
+					exp.type = CEntityResourceFormContainer.FieldExportType.TYPE_LABEL ;
 				}
 				setFields.add(exp) ;
 			}
 		}
 		
-		if (m_arrAddedItems != null)
+		if (arrAddedItems != null)
 		{
-			for (int i=0; i<m_arrAddedItems.size(); i++)
+			for (int i=0; i<arrAddedItems.size(); i++)
 			{
-				CEntityResourceFormContainer.FieldExportDescription exp = m_arrAddedItems.get(i) ;
-				exp.m_Tag = (Element)doc.importNode(exp.m_Tag, true) ;
+				CEntityResourceFormContainer.FieldExportDescription exp = arrAddedItems.get(i) ;
+				exp.tag = (Element)doc.importNode(exp.tag, true) ;
 				setFields.add(exp) ;
 			}
 		}
-		if (m_arrLines != null)
+		if (arrLines != null)
 		{
-			for (int i=0; i<m_arrLines.size(); i++)
+			for (int i=0; i<arrLines.size(); i++)
 			{
-				CEntityResourceFormContainer.FieldExportDescription exp = m_arrLines.get(i) ;
-				exp.m_Tag = doc.createElement("line") ;
-				exp.m_Tag.setAttribute("line", String.valueOf(exp.getLine())) ;
-				exp.m_Tag.setAttribute("start", String.valueOf(exp.m_Col)) ;
-				exp.m_Tag.setAttribute("length", String.valueOf(exp.m_Length)) ;
+				CEntityResourceFormContainer.FieldExportDescription exp = arrLines.get(i) ;
+				exp.tag = doc.createElement("line") ;
+				exp.tag.setAttribute("line", String.valueOf(exp.getLine())) ;
+				exp.tag.setAttribute("start", String.valueOf(exp.col)) ;
+				exp.tag.setAttribute("length", String.valueOf(exp.length)) ;
 				setFields.add(exp) ;
 			}
 		}
 	}
 	
-	protected HashMap<String, String> m_tabActivePFKeys = new HashMap<String, String>() ;
+	protected HashMap<String, String> tabActivePFKeys = new HashMap<String, String>() ;
 	public String getPFActive(String key)
 	{
-		return m_tabActivePFKeys.get(key);
+		return tabActivePFKeys.get(key);
 	}
 	public void setPFActive(String key, String status)
 	{
-		m_tabActivePFKeys.put(key, status);
+		tabActivePFKeys.put(key, status);
 	}	
 	
-	protected HashMap<String, String> m_tabActionPFKeys = new HashMap<String, String>() ;
+	protected HashMap<String, String> tabActionPFKeys = new HashMap<String, String>() ;
 	public String getPFAction(String key)
 	{
-		return m_tabActionPFKeys.get(key);
+		return tabActionPFKeys.get(key);
 	}
 	public void setPFAction(String key, String action)
 	{
-		m_tabActionPFKeys.put(key, action);
+		tabActionPFKeys.put(key, action);
 	}
 	
 	public Element MakePFKeysDescriptionDefine(Document doc)
 	{
 		Element ePFKEys = doc.createElement("pfkeydefine") ;
-		for (int i=0; i<m_tabActivePFKeys.size(); i+=2)
+		for (int i=0; i<tabActivePFKeys.size(); i+=2)
 		{
-			String pf = m_tabActivePFKeys.get(i) ;
-			String status = m_tabActivePFKeys.get(i+1);
+			String pf = tabActivePFKeys.get(i) ;
+			String status = tabActivePFKeys.get(i+1);
 			if (status.equals("true"))
 			{
 				ePFKEys.setAttribute(pf, status) ;
@@ -481,10 +481,10 @@ public abstract class CEntityResourceForm extends CBaseResourceEntity
 	public Element MakePFKeysDescriptionAction(Document doc)
 	{
 		Element ePFKEys = doc.createElement("pfkeyaction") ;
-		for (int i=0; i<m_tabActionPFKeys.size(); i+=2)
+		for (int i=0; i<tabActionPFKeys.size(); i+=2)
 		{
-			String pf = m_tabActionPFKeys.get(i) ;
-			String action = m_tabActionPFKeys.get(i+1);
+			String pf = tabActionPFKeys.get(i) ;
+			String action = tabActionPFKeys.get(i+1);
 			ePFKEys.setAttribute(pf, action) ;
 		}
 		return ePFKEys;
@@ -492,34 +492,34 @@ public abstract class CEntityResourceForm extends CBaseResourceEntity
 
 	public void setSavCopy(CEntityResourceForm fs)
 	{
-		m_SaveCopy = fs ;
+		saveCopy = fs ;
 	}
-	CEntityResourceForm m_SaveCopy = null ;
+	CEntityResourceForm saveCopy = null ;
 	public CEntityResourceForm getSaveCopy()
 	{
-		return m_SaveCopy ;
+		return saveCopy ;
 	}
 
 //	public void setDisplayName(String string)
 //	{
-//		m_csDisplayName = string ;
+//		csDisplayName = string ;
 //	}
-//	protected String m_csDisplayName = "" ;
+//	protected String csDisplayName = "" ;
 
 	public void Clear()
 	{
 		super.Clear();
-		for (int i=0; i<m_arrFields.size(); i++)
+		for (int i=0; i<arrFields.size(); i++)
 		{
-			CEntityResourceField field = (CEntityResourceField)m_arrFields.get(i);
+			CEntityResourceField field = (CEntityResourceField)arrFields.get(i);
 			field.Clear() ;
 		}
-		if (m_SaveCopy!=null)
+		if (saveCopy!=null)
 		{
-			m_SaveCopy.Clear();
+			saveCopy.Clear();
 		}
-		m_SaveCopy = null ;
-		m_arrFields.clear() ;
+		saveCopy = null ;
+		arrFields.clear() ;
 	}
 
 	/**
@@ -569,9 +569,9 @@ public abstract class CEntityResourceForm extends CBaseResourceEntity
 	
 	protected CEntityResourceField getField(String name)
 	{
-		for (int i=0; i<m_arrFields.size(); i++)
+		for (int i=0; i<arrFields.size(); i++)
 		{
-			CEntityResourceField field = (CEntityResourceField)m_arrFields.get(i) ;
+			CEntityResourceField field = (CEntityResourceField)arrFields.get(i) ;
 			if (field != null)
 			{
 				if (field.GetDisplayName().equalsIgnoreCase(name))
@@ -584,12 +584,12 @@ public abstract class CEntityResourceForm extends CBaseResourceEntity
 	}
 	protected CEntityResourceField getField(int col, int line)
 	{
-		for (int i=0; i<m_arrFields.size(); i++)
+		for (int i=0; i<arrFields.size(); i++)
 		{
-			CEntityResourceField field = (CEntityResourceField)m_arrFields.get(i) ;
+			CEntityResourceField field = (CEntityResourceField)arrFields.get(i) ;
 			if (field != null)
 			{
-				if (field.m_nPosCol == col && field.m_nPosLine == line)
+				if (field.nPosCol == col && field.nPosLine == line)
 				{
 					return field ;
 				}
@@ -620,8 +620,8 @@ public abstract class CEntityResourceForm extends CBaseResourceEntity
 		CEntityResourceField field = getField(name); 
 		if (field != null)
 		{
-			CEntityResourceFormContainer cont = (CEntityResourceFormContainer)m_Of ;
-			field.SetTitle(cont.m_resStrings) ;
+			CEntityResourceFormContainer cont = (CEntityResourceFormContainer)of ;
+			field.SetTitle(cont.resStrings) ;
 		}
 	}
 
@@ -672,17 +672,17 @@ public abstract class CEntityResourceForm extends CBaseResourceEntity
 	 */
 	public int GetRemainingBytesInCurrentField()
 	{
-		if (m_nCurrentField>=0)
+		if (nCurrentField>=0)
 		{
 			CEntityResourceField field = getCurrentField() ;
 			if (field != null)
 			{
-				return field.GetByteLength() - m_nCurrentByteInField ;
+				return field.GetByteLength() - nCurrentByteInField ;
 			}
 		}
 		else
 		{
-			return  12 - m_nCurrentByteInField ;
+			return  12 - nCurrentByteInField ;
 		}
 		return 0 ;
 	}
@@ -706,9 +706,9 @@ public abstract class CEntityResourceForm extends CBaseResourceEntity
 		{
 			return true ;
 		}
-		for (int i=0; i<m_arrFormReferences.size(); i++)
+		for (int i=0; i<arrFormReferences.size(); i++)
 		{
-			if (m_arrFormReferences.get(i).equals(id))
+			if (arrFormReferences.get(i).equals(id))
 			{
 				return true ;
 			}
@@ -721,27 +721,27 @@ public abstract class CEntityResourceForm extends CBaseResourceEntity
 	 */
 	public void SetCustomOnload(String method)
 	{
-		m_csCustomOnloadMethod = method ;
+		csCustomOnloadMethod = method ;
 	}
-	protected String m_csCustomOnloadMethod = "" ;
+	protected String csCustomOnloadMethod = "" ;
 
 	/**
 	 * @param method
 	 */
 	public void SetCustomSubmit(String method)
 	{
-		m_csCustomSubmitMethod = method ;
+		csCustomSubmitMethod = method ;
 	}
-	protected String m_csCustomSubmitMethod = "" ;
+	protected String csCustomSubmitMethod = "" ;
 	
 	/**
 	 * @param field
 	 */
 	public void SetDefaultCursor(String field)
 	{
-		m_csDefaultCursor = field ;
+		csDefaultCursor = field ;
 	}
-	protected String m_csDefaultCursor = "";
+	protected String csDefaultCursor = "";
 
 	/**
 	 * @param root
@@ -749,17 +749,17 @@ public abstract class CEntityResourceForm extends CBaseResourceEntity
 	public void ExportCustomProperties(Document doc)
 	{
 		Element eForm = doc.getDocumentElement() ;
-		if (!m_csCustomOnloadMethod.equals(""))
+		if (!csCustomOnloadMethod.equals(""))
 		{
-			eForm.setAttribute("customOnload", m_csCustomOnloadMethod) ;
+			eForm.setAttribute("customOnload", csCustomOnloadMethod) ;
 		}
-		if (!m_csCustomSubmitMethod.equals(""))
+		if (!csCustomSubmitMethod.equals(""))
 		{
-			eForm.setAttribute("customSubmit", m_csCustomSubmitMethod) ;
+			eForm.setAttribute("customSubmit", csCustomSubmitMethod) ;
 		}
-		if (!m_csDefaultCursor.equals(""))
+		if (!csDefaultCursor.equals(""))
 		{
-			eForm.setAttribute("defaultCursor", m_csDefaultCursor) ;
+			eForm.setAttribute("defaultCursor", csDefaultCursor) ;
 		}
 	}
 
@@ -792,34 +792,34 @@ public abstract class CEntityResourceForm extends CBaseResourceEntity
 
 	public void AddItem(int c, int l, int s, Element tag)
 	{
-		if (m_arrAddedItems == null)
+		if (arrAddedItems == null)
 		{
-			m_arrAddedItems = new Vector<CEntityResourceFormContainer.FieldExportDescription>() ;
+			arrAddedItems = new Vector<CEntityResourceFormContainer.FieldExportDescription>() ;
 		}
 		CEntityResourceFormContainer.FieldExportDescription exp = new CEntityResourceFormContainer.FieldExportDescription() ;
-		exp.m_Col = c ;
+		exp.col = c ;
 		exp.setLine(l) ;
-		exp.m_Length = s ;
-		exp.m_Tag = tag ;
-		exp.m_Type = FieldExportType.TYPE_CUSTOM ;
-		m_arrAddedItems.add(exp) ;
+		exp.length = s ;
+		exp.tag = tag ;
+		exp.type = FieldExportType.TYPE_CUSTOM ;
+		arrAddedItems.add(exp) ;
 	} 
-	protected Vector<CEntityResourceFormContainer.FieldExportDescription> m_arrAddedItems = null ;
-	protected Vector<CEntityResourceFormContainer.FieldExportDescription> m_arrLines = null ;
+	protected Vector<CEntityResourceFormContainer.FieldExportDescription> arrAddedItems = null ;
+	protected Vector<CEntityResourceFormContainer.FieldExportDescription> arrLines = null ;
 
 	public void AddLine(int c, int l, int s)
 	{
-		if (m_arrLines == null)
+		if (arrLines == null)
 		{
-			m_arrLines = new Vector<CEntityResourceFormContainer.FieldExportDescription>() ;
+			arrLines = new Vector<CEntityResourceFormContainer.FieldExportDescription>() ;
 		}
 		CEntityResourceFormContainer.FieldExportDescription exp = new CEntityResourceFormContainer.FieldExportDescription() ;
-		exp.m_Col = c ;
+		exp.col = c ;
 		exp.setLine(l) ;
-		exp.m_Length = s ;
-		exp.m_Tag = null ;
-		exp.m_Type = FieldExportType.TYPE_LINE;
-		m_arrLines.add(exp) ;
+		exp.length = s ;
+		exp.tag = null ;
+		exp.type = FieldExportType.TYPE_LINE;
+		arrLines.add(exp) ;
 	}
 
 	public void MoveField(String name, int nc, int nl)
@@ -842,8 +842,8 @@ public abstract class CEntityResourceForm extends CBaseResourceEntity
 
 	public void setResourceName(String name)
 	{
-		m_csResourceName = name ;
+		csResourceName = name ;
 	}
-	protected String m_csResourceName = "" ;
+	protected String csResourceName = "" ;
 
 }

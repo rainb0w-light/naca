@@ -38,11 +38,11 @@ public class CJavaMultiply extends CEntityMultiply
 	{
 		String cs = "" ;
 		cs = "multiply(" ;
-		cs += m_What.ExportReference(getLine()) + ", " + m_By.ExportReference(getLine()) + ")" ;
+		cs += what.ExportReference(getLine()) + ", " + by.ExportReference(getLine()) + ")" ;
 		WriteWord(cs);
-		if (m_To != null)
+		if (to != null)
 		{
-			if (m_bIsRounded)
+			if (bIsRounded)
 			{
 				WriteWord(".toRounded");
 			}
@@ -51,7 +51,7 @@ public class CJavaMultiply extends CEntityMultiply
 				WriteWord(".to");
 			}
 			
-			WriteWord("(" + m_To.ExportReference(getLine()) + ")" );
+			WriteWord("(" + to.ExportReference(getLine()) + ")" );
 		}
 		WriteWord(";");
 		WriteEOL();

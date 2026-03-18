@@ -21,21 +21,21 @@ public abstract class CEntityFunctionCall extends CBaseEntityFunction
 	{
 		super(cat, out, data);
 	}
-	protected String m_csFunction = "" ;
-	protected Vector<CDataEntity> m_arrParameters = new Vector<CDataEntity>() ;
+	protected String csFunction = "" ;
+	protected Vector<CDataEntity> arrParameters = new Vector<CDataEntity>() ;
 
 	public void CallFunction(String function)
 	{
-		m_csFunction = function ;
+		csFunction = function ;
 	}
 	public void AddParameter(CDataEntity e)
 	{
-		m_arrParameters.add(e) ;
+		arrParameters.add(e) ;
 	}
 
 	public boolean ignore()
 	{
-		return m_Reference.ignore() ;
+		return reference.ignore() ;
 	}
 
 }

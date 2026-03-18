@@ -12,12 +12,12 @@ import utils.CObjectCatalog;
 
 public class CEntityFileBuffer extends CDataEntity
 {
-	protected CEntityFileDescriptor m_FileDescriptor = null ;
+	protected CEntityFileDescriptor fileDescriptor = null ;
 	
 	protected CEntityFileBuffer(String name, CEntityFileDescriptor filedesc, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
 		super(0, name, cat, out);
-		m_FileDescriptor = filedesc ;
+		fileDescriptor = filedesc ;
 	}
 
 	@Override
@@ -29,12 +29,12 @@ public class CEntityFileBuffer extends CDataEntity
 	@Override
 	public String ExportReference(int nLine)
 	{
-		return m_FileDescriptor.ExportReference(getLine()) ;
+		return fileDescriptor.ExportReference(getLine()) ;
 	}
 	
 	public CEntityFileDescriptor GetFileDescriptor()
 	{
-		return m_FileDescriptor ;
+		return fileDescriptor ;
 	}
 	
 	@Override

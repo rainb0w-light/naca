@@ -25,23 +25,23 @@ import jlib.sql.StoredProcParamDescBase;
  */
 public class StoredProcParamDesc extends StoredProcParamDescBase
 {
-	private Var m_varInOut = null;
+	private Var varInOut = null;
 		
 	void setVar(Var var)
 	{
-		m_varInOut = var;
+		varInOut = var;
 	}
 	
 	public void retrieveOutValues(int nParamId, PreparedCallableStatement callableStatement, CSQLStatus sqlStatus)
 	{
 		nParamId++;	// 1 based
-		if(m_sColType == DatabaseMetaData.procedureColumnOut || m_sColType == DatabaseMetaData.procedureColumnInOut)
+		if(sColType == DatabaseMetaData.procedureColumnOut || sColType == DatabaseMetaData.procedureColumnInOut)
 		{
 			try
 			{
 				String csOutLang = callableStatement.getOutValueString(nParamId);				
-				if(m_varInOut != null)
-					m_varInOut.set(csOutLang);
+				if(varInOut != null)
+					varInOut.set(csOutLang);
 			} 			
 			catch (SQLException e)
 			{
@@ -62,9 +62,9 @@ public class StoredProcParamDesc extends StoredProcParamDescBase
 	
 	public boolean fillInValue(int nParamId, DbPreparedCallableStatement callableStatement)
 	{
-		if(m_varInOut != null)
+		if(varInOut != null)
 		{			
-			BaseDbColDefinition def = m_colDescriptionInfo.makeDbColDefinition();
+			BaseDbColDefinition def = colDescriptionInfo.makeDbColDefinition();
 			return def.fillCallableStatementParam(nParamId, this, callableStatement);
 		}
 		return false;
@@ -72,25 +72,25 @@ public class StoredProcParamDesc extends StoredProcParamDescBase
 	
 	public String getInValueAsString()
 	{
-		String cs = m_varInOut.getString();
+		String cs = varInOut.getString();
 		return cs;
 	}
 	
 	public double getInValueAsDouble()
 	{
-		double d = m_varInOut.getDouble();
+		double d = varInOut.getDouble();
 		return d;
 	}
 	
 	public int getInValueAsInt()
 	{
-		int n = m_varInOut.getInt();
+		int n = varInOut.getInt();
 		return n;
 	}
 	
 	public short getInValueAsShort()
 	{
-		int n = m_varInOut.getInt();
+		int n = varInOut.getInt();
 		return (short)n;
 	}
 

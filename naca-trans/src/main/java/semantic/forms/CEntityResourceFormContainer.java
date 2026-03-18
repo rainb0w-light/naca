@@ -45,7 +45,7 @@ import utils.Transcoder;
  */
 public abstract class CEntityResourceFormContainer extends CBaseResourceEntity
 {
-	protected boolean m_bSaveCopy = false ;
+	protected boolean bSaveCopy = false ;
 	/**
 	 * @param name
 	 * @param cat
@@ -54,7 +54,7 @@ public abstract class CEntityResourceFormContainer extends CBaseResourceEntity
 	public CEntityResourceFormContainer(int l, String name, CObjectCatalog cat, CBaseLanguageExporter lexp, boolean bSaveCopy)
 	{
 		super(l, name, cat, lexp);
-		m_bSaveCopy = bSaveCopy ;
+		bSaveCopy = bSaveCopy ;
 	}
 
 	/* (non-Javadoc)
@@ -62,28 +62,28 @@ public abstract class CEntityResourceFormContainer extends CBaseResourceEntity
 	 */
 	protected void RegisterMySelfToCatalog()
 	{
-//		m_ProgramCatalog.RegisterFormContainer(GetName(), this) ;		
+//		programCatalog.RegisterFormContainer(GetName(), this) ;		
 	}
 	public void AddForm(CEntityResourceForm form)
 	{
-		m_arrForm.add(form) ;
+		arrForm.add(form) ;
 	}
 	
 	public void InitDependences(CBaseEntityFactory factory) 
 	{
-		for (int i=0; i<m_arrForm.size(); i++)
+		for (int i=0; i<arrForm.size(); i++)
 		{ 
-			CEntityResourceForm form = m_arrForm.get(i);
+			CEntityResourceForm form = arrForm.get(i);
 			form.InitDependences(factory) ;
 		}
 
 //		String sav = GetName()+"S" ;
 //		CIgnoreExternalEntity ext = factory.NewIgnoreExternalEntity(sav) ;
-//		m_ProgramCatalog.AddIgnoredExternalEntity(sav, ext);
+//		programCatalog.AddIgnoredExternalEntity(sav, ext);
 	}
 	
-	protected Vector<CEntityResourceForm> m_arrForm = new Vector<CEntityResourceForm>() ;
-	protected CEntityResourceFormContainer m_Owner = null ;
+	protected Vector<CEntityResourceForm> arrForm = new Vector<CEntityResourceForm>() ;
+	protected CEntityResourceFormContainer owner = null ;
 
 	/* (non-Javadoc)
 	 * @see semantic.CBaseDataEntity#GetSpecialAssignment(parser.expression.CTerminal)
@@ -101,40 +101,40 @@ public abstract class CEntityResourceFormContainer extends CBaseResourceEntity
 		return null;
 	}
 	
-	public CResourceStrings m_resStrings = null ;
+	public CResourceStrings resStrings = null ;
 	
 	
 	public void clearSavCopy(CBaseEntityFactory factory)
 	{
-		factory.m_ProgramCatalog.ClearSavCopy();
+		factory.programCatalog.ClearSavCopy();
 	}
 	
 	public CEntityResourceFormContainer MakeSavCopy(CBaseEntityFactory factory, boolean bFromRes)
 	{
 		CEntityResourceFormContainer newContainer = factory.NewEntityFormContainer(getLine(), GetName()+"S", true) ;
 		//newContainer.SetDisplayName(GetName());
-		newContainer.m_Of = this ;
-		newContainer.m_Owner = null ;
-		m_SavCopy = newContainer ;
+		newContainer.of = this ;
+		newContainer.owner = null ;
+		savCopy = newContainer ;
 		
 		CObjectCatalog o = Transcoder.getCurrentObjectCatalog();
 		o.clearSaveMaps();
 		
-		for (int i=0; i<m_arrForm.size(); i++)
+		for (int i=0; i<arrForm.size(); i++)
 		{ 
-			CEntityResourceForm form = m_arrForm.get(i);
+			CEntityResourceForm form = arrForm.get(i);
 			CEntityResourceForm fs = factory.NewEntityForm(form.getLine(), form.GetName()+"S", true) ;
 			fs.setResourceName(GetName()) ;
 			fs.SetDisplayName(form.GetName());
 			form.setSavCopy(fs) ;
-			fs.m_Of = newContainer ;
+			fs.of = newContainer ;
 			form.MakeSavCopy(fs, factory, bFromRes) ;
-			factory.m_ProgramCatalog.RegisterSaveMap(fs, form) ;
+			factory.programCatalog.RegisterSaveMap(fs, form) ;
 			newContainer.AddForm(fs) ;
 		}
 		return newContainer ;
 	}
-	protected CEntityResourceFormContainer m_SavCopy = null ;
+	protected CEntityResourceFormContainer savCopy = null ;
 	/* (non-Javadoc)
 	 * @see semantic.CBaseLanguageEntity#ignore()
 	 */
@@ -146,7 +146,7 @@ public abstract class CEntityResourceFormContainer extends CBaseResourceEntity
 			boolean bReduce = t.getValAsBoolean("active") ;
 			if (bReduce)
 			{
-				return m_bSaveCopy ;
+				return bSaveCopy ;
 			}
 		}
 		return false ;
@@ -159,17 +159,17 @@ public abstract class CEntityResourceFormContainer extends CBaseResourceEntity
 			return null;
 		}
 
-		if (m_csExportFilePath.equals("") || m_arrForm.size()==0)
+		if (csExportFilePath.equals("") || arrForm.size()==0)
 		{
 			return null ;
 		}
 		Document doc = createNewDocument() ;
 		FieldComparator comp = new FieldComparator() ;
 		SortedSet<FieldExportDescription> setFields = new TreeSet<FieldExportDescription>(comp) ;
-//		for (int i=0; i<m_arrForm.size(); i++)
+//		for (int i=0; i<arrForm.size(); i++)
 //		{
-		CEntityResourceForm form = m_arrForm.get(0);
-		form.ExportXMLFields(setFields, doc, m_resStrings) ;
+		CEntityResourceForm form = arrForm.get(0);
+		form.ExportXMLFields(setFields, doc, resStrings) ;
 //		}
 		
 		String name = FormatIdentifier(GetName()) ;
@@ -191,7 +191,7 @@ public abstract class CEntityResourceFormContainer extends CBaseResourceEntity
 		for (int i=0; i<nb; i++)
 		{
 			FieldExportDescription f = arr[i] ;
-			if (f.m_Type == FieldExportType.TYPE_LINE)
+			if (f.type == FieldExportType.TYPE_LINE)
 			{
 				eLineToAdd = f ;
 				continue ;
@@ -201,7 +201,7 @@ public abstract class CEntityResourceFormContainer extends CBaseResourceEntity
 			{
 				if (eLineToAdd != null && curline == eLineToAdd.getLine())
 				{
-					eBody.appendChild(eLineToAdd.m_Tag) ;
+					eBody.appendChild(eLineToAdd.tag) ;
 					eLineToAdd = null ;
 				}
 				for (int j=0; j<nl-curline-1; j++)
@@ -209,7 +209,7 @@ public abstract class CEntityResourceFormContainer extends CBaseResourceEntity
 					curLineElem = createHBox(doc, eBody);
 					if (eLineToAdd != null && curline+j+1 == eLineToAdd.getLine())
 					{
-						eBody.appendChild(eLineToAdd.m_Tag) ;
+						eBody.appendChild(eLineToAdd.tag) ;
 						eLineToAdd = null ;
 					}
 				}
@@ -218,8 +218,8 @@ public abstract class CEntityResourceFormContainer extends CBaseResourceEntity
 				curCol = 1 ;
 				lastType = null ;
 			}
-			int nc = f.m_Col ;
-			int nlen = f.m_Length;
+			int nc = f.col ;
+			int nlen = f.length;
 			if (curCol == 1 && nc == 2)
 			{
 				createBlank(doc, curLineElem, 0) ;
@@ -236,13 +236,13 @@ public abstract class CEntityResourceFormContainer extends CBaseResourceEntity
 				}
 			}
 			curCol = nc + nlen ;
-			curLineElem.appendChild(f.m_Tag);
-			lastType = f.m_Type ;
+			curLineElem.appendChild(f.tag);
+			lastType = f.type ;
 		}
 		
 		Tag t = new Tag();
 		t.setDoc(doc);
-		t.exportToFile(m_csExportFilePath);
+		t.exportToFile(csExportFilePath);
 
 		return doc;
 	}
@@ -271,7 +271,7 @@ public abstract class CEntityResourceFormContainer extends CBaseResourceEntity
 		eForm.appendChild(ePFKeysSpecial);
 		
 		// list all languages
-		String lang = m_resStrings.ExportAllLangId() ;
+		String lang = resStrings.ExportAllLangId() ;
 		eForm.setAttribute("allLanguages", lang) ;
 		
 		Element eBody = doc.createElement("formbody");
@@ -309,25 +309,25 @@ public abstract class CEntityResourceFormContainer extends CBaseResourceEntity
 	} 
 	public static class FieldExportDescription
 	{
-		private int m_line = 0 ;
-		int m_Col = 0 ;
-		int m_Length = 0 ;
+		private int line = 0 ;
+		int col = 0 ;
+		int length = 0 ;
 		
-		boolean m_bRightJustified = false;	// Valid only for Edits
-		String m_csFillValue = "";			// Valid only for Edits
+		boolean bRightJustified = false;	// Valid only for Edits
+		String csFillValue = "";			// Valid only for Edits
 		
-		Element m_Tag = null ;
-		FieldExportType m_Type = null ;
+		Element tag = null ;
+		FieldExportType type = null ;
 		
 		void setLine(int n)
 		{
-			m_line = n;
-			Transcoder.setLine(m_line);
+			line = n;
+			Transcoder.setLine(line);
 		}
 		
 		int getLine()
 		{
-			return m_line;
+			return line;
 		}
 	}
 	public enum FieldExportType 
@@ -350,8 +350,8 @@ public abstract class CEntityResourceFormContainer extends CBaseResourceEntity
 			}
 			else 
 			{
-				int col1 = e1.m_Col ;
-				int col2 = e2.m_Col ;
+				int col1 = e1.col ;
+				int col2 = e2.col ;
 				if (col1 < col2)
 				{
 					return -1 ;
@@ -367,40 +367,40 @@ public abstract class CEntityResourceFormContainer extends CBaseResourceEntity
 			}
 		}
 	}
-	protected String m_csExportFilePath = "" ;
+	protected String csExportFilePath = "" ;
 	public void setExportFilePath(String string)
 	{
-		m_csExportFilePath = string ;
+		csExportFilePath = string ;
 	}
 
 	public boolean isSavCopy()
 	{
-		return m_bSaveCopy ;
+		return bSaveCopy ;
 	}
 //	public String getExportFilePath()
 //	{
-//		return m_csExportFilePath ;
+//		return csExportFilePath ;
 //	} 
 
 	public void Clear()
 	{
-		if (m_ProgramCatalog != null)
+		if (programCatalog != null)
 		{
-			m_ProgramCatalog.GetGlobalCatalog().ClearFormContainers() ;
+			programCatalog.GetGlobalCatalog().ClearFormContainers() ;
 		}
 		super.Clear();
-		if (m_SavCopy!=null)
+		if (savCopy!=null)
 		{
-			m_SavCopy.Clear() ;
-			m_SavCopy = null ;
+			savCopy.Clear() ;
+			savCopy = null ;
 		}
-		for (int i=0; i<m_arrForm.size(); i++)
+		for (int i=0; i<arrForm.size(); i++)
 		{
-			CEntityResourceForm form = m_arrForm.get(i);
+			CEntityResourceForm form = arrForm.get(i);
 			form.Clear() ;
 		}
-		m_arrForm.clear() ;
-		m_Owner = null ;
+		arrForm.clear() ;
+		owner = null ;
 	}
 
 	/**
@@ -408,7 +408,7 @@ public abstract class CEntityResourceFormContainer extends CBaseResourceEntity
 	 */
 	public CEntityResourceFormContainer GetSavCopy()
 	{
-		return m_SavCopy ;
+		return savCopy ;
 	}
 
 	/**
@@ -416,9 +416,9 @@ public abstract class CEntityResourceFormContainer extends CBaseResourceEntity
 	 */
 	public CEntityResourceForm getForm()
 	{
-		if (m_arrForm.size()>0)
+		if (arrForm.size()>0)
 		{
-			return m_arrForm.get(0);
+			return arrForm.get(0);
 		}
 		return null;
 	}
@@ -428,7 +428,7 @@ public abstract class CEntityResourceFormContainer extends CBaseResourceEntity
 	 */
 	public int GetNbForms()
 	{
-		return m_arrForm.size() ;
+		return arrForm.size() ;
 	}
 	
 	/* (non-Javadoc)

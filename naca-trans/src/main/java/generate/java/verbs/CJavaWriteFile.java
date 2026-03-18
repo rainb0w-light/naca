@@ -23,14 +23,14 @@ public class CJavaWriteFile extends CEntityWriteFile
 	{
 		String cs = "";
 		String csFile = "[UnknownReference]" ;
-		if (m_eFileDescriptor != null)
+		if (eFileDescriptor != null)
 		{
-			csFile = m_eFileDescriptor.ExportReference(getLine()) ;
+			csFile = eFileDescriptor.ExportReference(getLine()) ;
 		}
-		if (m_eDataFrom != null)
-			cs = "writeFrom(" + csFile + ", " + m_eDataFrom.ExportReference(getLine()) + ") ;";
-		else if (m_after != null)
-			cs = "writeAfter(" + csFile + ", " + m_after.ExportReference(getLine()) + ") ;";
+		if (eDataFrom != null)
+			cs = "writeFrom(" + csFile + ", " + eDataFrom.ExportReference(getLine()) + ") ;";
+		else if (after != null)
+			cs = "writeAfter(" + csFile + ", " + after.ExportReference(getLine()) + ") ;";
 		else
 			cs = "write(" + csFile + ") ;";
 		WriteLine(cs) ;

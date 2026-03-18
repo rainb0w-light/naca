@@ -43,37 +43,37 @@ public abstract class CEntityCallFunction extends CBaseActionEntity
 		}
 		if (!ref.equals(""))
 		{	
-			m_Reference = new CProcedureReference(ref, sec, cat) ;
+			reference = new CProcedureReference(ref, sec, cat) ;
 			cat.getCallTree().RegisterProcedureCall(this) ;
 		}	
 		if (!refThru.equals(""))
 		{
-			m_ReferenceThru = new CProcedureReference(refThru, sec, cat) ;;
+			referenceThru = new CProcedureReference(refThru, sec, cat) ;;
 		}
 	}
-	protected CProcedureReference m_Reference = null;
-	protected CProcedureReference m_ReferenceThru = null ;
+	protected CProcedureReference reference = null;
+	protected CProcedureReference referenceThru = null ;
 	public void Clear()
 	{
 		super.Clear();
-		if (m_Reference != null)
+		if (reference != null)
 		{	
-			m_Reference.Clear() ;
+			reference.Clear() ;
 		}
-		if (m_ReferenceThru != null)
+		if (referenceThru != null)
 		{
-			m_ReferenceThru.Clear() ;
+			referenceThru.Clear() ;
 		}
-		m_Reference = null;
-		m_ReferenceThru = null ;
+		reference = null;
+		referenceThru = null ;
 	}
 	public boolean ignore()
 	{
-		if (m_ReferenceThru == null)
+		if (referenceThru == null)
 		{
-			if (m_Reference != null && m_Reference.getProcedure() != null)
+			if (reference != null && reference.getProcedure() != null)
 			{	
-				return m_Reference.getProcedure().ignore() ;
+				return reference.getProcedure().ignore() ;
 			}	
 		}
 		return false ;
@@ -88,19 +88,19 @@ public abstract class CEntityCallFunction extends CBaseActionEntity
 	 */
 	public CEntityProcedure getFirstProcedure()
 	{
-		return m_Reference.getProcedure() ;
+		return reference.getProcedure() ;
 	}
 	/**
 	 * @return
 	 */
 	public CEntityProcedure getLastProcedure()
 	{
-		return m_ReferenceThru.getProcedure() ;
+		return referenceThru.getProcedure() ;
 	}
 	
 	public boolean hasExplicitGetOut()
 	{
-		CEntityProcedure proc = m_Reference.getProcedure() ;
+		CEntityProcedure proc = reference.getProcedure() ;
 		return proc.hasExplicitGetOut() ;
 	}
 	/**
@@ -108,12 +108,12 @@ public abstract class CEntityCallFunction extends CBaseActionEntity
 	 */
 	public CProcedureReference getReference()
 	{
-		return m_Reference ;
+		return reference ;
 	}
 	public void SetRepetitions(CDataEntity entity)
 	{
-		m_refRepetitions = entity ;
+		refRepetitions = entity ;
 	}
-	protected CDataEntity m_refRepetitions = null;
+	protected CDataEntity refRepetitions = null;
 
 }

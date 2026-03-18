@@ -47,7 +47,7 @@ public class CThenBloc extends CBlocElement
 		}
 		if (fCheckForNextSentence != null)
 		{
-			fCheckForNextSentence.Set(m_fCheckForNextSentence.ISSet()) ;
+			fCheckForNextSentence.Set(fCheckForNextSentence.ISSet()) ;
 		}
 		return true ;
 	}

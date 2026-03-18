@@ -16,23 +16,23 @@ package jlib.misc;
 
 public class MailService 
 {
-	private String m_csSMTPServer = null;
-	private String m_csAddressFrom = null;
-	private StringArray m_arrAddressTo = new StringArray() ;
+	private String csSMTPServer = null;
+	private String csAddressFrom = null;
+	private StringArray arrAddressTo = new StringArray() ;
 	
 	public MailService(String smtp, String from) 
 	{
-		this.m_csSMTPServer = smtp;
-		this.m_csAddressFrom = from;
+		this.csSMTPServer = smtp;
+		this.csAddressFrom = from;
 	}
 
 	public Mail createMail() 
 	{
 		Mail m = new Mail(this);
-		m.setFrom(m_csAddressFrom);
-		for (int i=0; i<m_arrAddressTo.size(); i++)
+		m.setFrom(csAddressFrom);
+		for (int i=0; i<arrAddressTo.size(); i++)
 		{
-			String add = m_arrAddressTo.get(i) ;
+			String add = arrAddressTo.get(i) ;
 			m.addTo(add);
 		}
 		return m ;
@@ -40,16 +40,16 @@ public class MailService
 
 	public String getSMTPServer() 
 	{
-		return m_csSMTPServer;
+		return csSMTPServer;
 	}
 //
 //	public String getFrom() 
 //	{
-//		return m_csAddressFrom;
+//		return csAddressFrom;
 //	}
 
 	public void addAddressTo(String add) 
 	{
-		m_arrAddressTo.add(add); 
+		arrAddressTo.add(add); 
 	}
 }

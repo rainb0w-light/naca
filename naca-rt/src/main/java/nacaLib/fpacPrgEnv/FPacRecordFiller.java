@@ -16,7 +16,7 @@ package nacaLib.fpacPrgEnv;
  */
 public class FPacRecordFiller
 {
-	private byte m_byFiller = 0;
+	private byte byFiller = 0;
 	
 	FPacRecordFiller(byte by)
 	{
@@ -30,19 +30,19 @@ public class FPacRecordFiller
 	
 	void setFiller(byte by)
 	{
-		m_byFiller = by;
+		byFiller = by;
 	}
 	
 	void setFiller(char c)
 	{
-		m_byFiller = (byte)c;
+		byFiller = (byte)c;
 	}
 	
 	void fillBuffer(char tChars[])
 	{
 		for(int n=0; n<tChars.length; n++)
 		{
-			tChars[n] = (char)m_byFiller; 
+			tChars[n] = (char)byFiller; 
 		}
 	}
 }

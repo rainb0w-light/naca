@@ -28,32 +28,32 @@ public class MapFieldFlag
 	public MapFieldFlag duplicate()
 	{
 		MapFieldFlag copy = new MapFieldFlag();
-		copy.m_csValue = m_csValue;
+		copy.csValue = csValue;
 		return copy;
 	}
 	
 	public void set(String cs)
 	{
-		m_csValue = cs;
+		csValue = cs;
 	}
 
 	public void set(char c)
 	{
 		if (c == 0)
 		{
-			m_csValue = null ;
+			csValue = null ;
 		}
 		else
 		{
-			m_csValue = new String(Character.toString(c));
+			csValue = new String(Character.toString(c));
 		}
 	}
 	
 	public String get()
 	{
-		if (m_csValue != null)
+		if (csValue != null)
 		{
-			return m_csValue;
+			return csValue;
 		}
 		else
 		{
@@ -63,17 +63,17 @@ public class MapFieldFlag
 	
 	public boolean isFlag(String cs)
 	{
-		if (m_csValue == null)
+		if (csValue == null)
 		{
 			return false ;
 		}
-		return m_csValue.equals(cs);
+		return csValue.equals(cs);
 	}
 	
 	public char getEncodedValue()
 	{
-		if(m_csValue!=null && m_csValue.length() >= 1)
-			return m_csValue.charAt(0);
+		if(csValue!=null && csValue.length() >= 1)
+			return csValue.charAt(0);
 		return 0; 
 	}
 
@@ -82,14 +82,14 @@ public class MapFieldFlag
 		set(cEncodedValue);
 	}
 	
-	private String m_csValue = null;
+	private String csValue = null;
 
 	/**
 	 * @return
 	 */
 	public boolean isSet()
 	{
-		return m_csValue != null ;
+		return csValue != null ;
 	}
 
 	/**
@@ -97,6 +97,6 @@ public class MapFieldFlag
 	 */
 	public void reset()
 	{
-		m_csValue = null ;		
+		csValue = null ;		
 	}
 }

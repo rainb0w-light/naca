@@ -28,40 +28,40 @@ public abstract class CEntityIsFieldHighlight extends CUnitaryEntityCondition
 
 	public CEntityIsFieldHighlight(CDataEntity ref)
 	{
-		m_Reference = ref ;
+		reference = ref ;
 	}
 	
 	public void IsBlink()
 	{
-		m_bIsBlink = true ;
+		bIsBlink = true ;
 	}
 	public void IsReverse()
 	{
-		m_bIsReverse = true ;
+		bIsReverse = true ;
 	}
 	public void IsUnderlined()
 	{
-		m_bIsUnderlined = true ;
+		bIsUnderlined = true ;
 	}
 	//protected CFieldHighligh m_highlight = null ;
-	protected boolean m_bIsBlink = false ;
-	protected boolean m_bIsReverse = false ;
-	protected boolean m_bIsUnderlined = false ;
-	protected boolean m_bOpposite = false ;
+	protected boolean bIsBlink = false ;
+	protected boolean bIsReverse = false ;
+	protected boolean bIsUnderlined = false ;
+	protected boolean bOpposite = false ;
 	
 	public boolean ignore()
 	{
-		return m_Reference.ignore() ;
+		return reference.ignore() ;
 	}
 	public CBaseEntityCondition GetSpecialConditionReplacing(String val, CBaseEntityFactory fact, CDataEntity replace)
 	{
-		return m_Reference.GetSpecialCondition(getLine(), val, EConditionType.IS_EQUAL, fact);
+		return reference.GetSpecialCondition(getLine(), val, EConditionType.IS_EQUAL, fact);
 	}
 	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
 	{
-		if (m_Reference == field)
+		if (reference == field)
 		{
-			m_Reference = var ;
+			reference = var ;
 			field.UnRegisterVarTesting(this) ;
 			var.RegisterVarTesting(this) ;
 			return true ;
@@ -74,9 +74,9 @@ public abstract class CEntityIsFieldHighlight extends CUnitaryEntityCondition
 	 */
 	public void IsNormal()
 	{
-		m_bIsBlink = false ;
-		m_bIsReverse = false ;
-		m_bIsUnderlined = false ;
+		bIsBlink = false ;
+		bIsReverse = false ;
+		bIsUnderlined = false ;
 	}
 	public boolean isBinaryCondition()
 	{
@@ -85,6 +85,6 @@ public abstract class CEntityIsFieldHighlight extends CUnitaryEntityCondition
 	
 	public void setOpposite() 
 	{
-		m_bOpposite = !m_bOpposite ;
+		bOpposite = !bOpposite ;
 	}
 }

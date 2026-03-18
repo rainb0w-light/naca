@@ -41,13 +41,13 @@ public class CJavaCondIsConstant extends CEntityCondIsConstant
 	public CBaseEntityCondition GetOppositeCondition()
 	{
 		CJavaCondIsConstant not = new CJavaCondIsConstant() ;
-		not.m_bIsLowValue = m_bIsLowValue ;
-		not.m_bIsHighValue = m_bIsHighValue ;
-		not.m_bIsOpposite = ! m_bIsOpposite ;
-		not.m_bIsSpace = m_bIsSpace ;
-		not.m_bIsZero = m_bIsZero ;
-		not.m_Reference = m_Reference ;
-		m_Reference.RegisterVarTesting(not);
+		not.bIsLowValue = bIsLowValue ;
+		not.bIsHighValue = bIsHighValue ;
+		not.bIsOpposite = ! bIsOpposite ;
+		not.bIsSpace = bIsSpace ;
+		not.bIsZero = bIsZero ;
+		not.reference = reference ;
+		reference.RegisterVarTesting(not);
 		return not;
 	}
 
@@ -57,27 +57,27 @@ public class CJavaCondIsConstant extends CEntityCondIsConstant
 	public String Export()
 	{
 		String cs = "is" ;
-		if (m_bIsOpposite)
+		if (bIsOpposite)
 		{
 			cs += "Not" ;
 		}
-		if (m_bIsZero)
+		if (bIsZero)
 		{
 			cs += "Zero(";
 		}
-		else if (m_bIsSpace)
+		else if (bIsSpace)
 		{
 			cs += "Space(";
 		}
-		else if (m_bIsLowValue)
+		else if (bIsLowValue)
 		{
 			cs += "LowValue(";
 		}
-		else if (m_bIsHighValue)
+		else if (bIsHighValue)
 		{
 			cs += "HighValue(";
 		}
-		cs += m_Reference.ExportReference(getLine()) + ")";
+		cs += reference.ExportReference(getLine()) + ")";
 		return cs ;
 
 	}

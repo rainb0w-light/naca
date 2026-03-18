@@ -8,11 +8,11 @@ package jlib.threads;
 
 public class PooledThread extends BaseThread
 {
-	protected PoolOfThreads m_owningPool = null;
+	protected PoolOfThreads owningPool = null;
 	
 	public PooledThread(PoolOfThreads owningPool)
 	{
-		m_owningPool = owningPool;
+		owningPool = owningPool;
 	}
 	
 	protected boolean canHandleRequest()
@@ -32,7 +32,7 @@ public class PooledThread extends BaseThread
 			boolean bCanRun = preRun();
 			while(bCanRun)
 			{
-				ThreadPoolRequest request = m_owningPool.dequeue();
+				ThreadPoolRequest request = owningPool.dequeue();
 				if(request != null)
 				{
 					if(!request.getTerminaisonRequest())		// Treat the request; the parameter pRequest describes the request to do
@@ -44,7 +44,7 @@ public class PooledThread extends BaseThread
 					}
 					else
 					{
-						m_owningPool.signalThreadTerminating();
+						owningPool.signalThreadTerminating();
 						return;
 					}
 				}
@@ -52,8 +52,8 @@ public class PooledThread extends BaseThread
 		}
 		catch(Exception e)
 		{
-			m_owningPool.signalPooledThreadThrowException(e);
-			m_owningPool.signalThreadTerminating(); // This thread is not avaible any more for the owner pool of thread.
+			owningPool.signalPooledThreadThrowException(e);
+			owningPool.signalThreadTerminating(); // This thread is not avaible any more for the owner pool of thread.
 		}
 		postRun();
 	}

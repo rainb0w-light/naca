@@ -24,35 +24,35 @@ public class GenericValueInt extends GenericValue
 {
 	GenericValueInt(int n)
 	{
-		m_n = n;
+		n = n;
 	}
 	
 	String getAsRawString()
 	{
-		return String.valueOf(m_n);
+		return String.valueOf(n);
 	}
 	
 	String getAsString()
 	{
-		return String.valueOf(m_n);
+		return String.valueOf(n);
 	}
 
 	
 	int getAsInt()
 	{
-		return m_n;
+		return n;
 	}
 	
 	int getAsUnsignedInt()
 	{
-		if(m_n < 0)
-			return -m_n;
-		return m_n;
+		if(n < 0)
+			return -n;
+		return n;
 	}
 	
 	Dec getAsDec()
 	{
-		Dec dec = new Dec(m_n, "");
+		Dec dec = new Dec(n, "");
 		return dec;
 	}
 	
@@ -65,8 +65,8 @@ public class GenericValueInt extends GenericValue
 	
 	double getAsDouble()
 	{
-		return m_n;
+		return n;
 	}	
 	
-	private int m_n;
+	private int n;
 }

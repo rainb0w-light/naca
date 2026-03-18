@@ -22,9 +22,9 @@ import com.sleepycat.je.StatsConfig;
 
 public class BTreeEnv
 {
-    private Environment m_env = null;
-    private DatabaseConfig m_DbConfig = null;
-    private BtreeEncoding m_encoding = null;
+    private Environment env = null;
+    private DatabaseConfig dbConfig = null;
+    private BtreeEncoding encoding = null;
     
     // Our constructor does nothing
     public BTreeEnv()
@@ -40,33 +40,33 @@ public class BTreeEnv
     public boolean initEngine(File envHome)
     {
 	    EnvironmentConfig envConfig = new EnvironmentConfig();
-	    m_DbConfig = new DatabaseConfig();
+	    dbConfig = new DatabaseConfig();
 	
 	    // If the environment is read-only, then
 	    // make the databases read-only too.
 	    envConfig.setReadOnly(false);
-	    m_DbConfig.setReadOnly(false);
+	    dbConfig.setReadOnly(false);
 	
 	    // If the environment is opened for write, then we want to be 
 	    // able to create the environment and databases if 
 	    // they do not exist.
 	    envConfig.setAllowCreate(true);
-	    m_DbConfig.setAllowCreate(true);
+	    dbConfig.setAllowCreate(true);
 	
 	    // Allow transactions if we are writing to the database
 	    envConfig.setTransactional(false);
-	    m_DbConfig.setTransactional(false);
+	    dbConfig.setTransactional(false);
 	    
-	    m_DbConfig.setDeferredWrite(true);
+	    dbConfig.setDeferredWrite(true);
 	    
 	    envConfig.setLocking(false);	// No locking
 
-    m_DbConfig.setBtreeComparator(new BtreeKeyComparator());
+    dbConfig.setBtreeComparator(new BtreeKeyComparator());
 	
 	    // Open the environment
 	    try
 	    {
-	    	m_env = new Environment(envHome, envConfig);
+	    	env = new Environment(envHome, envConfig);
 	    	return true;
 	    }
 	    catch(DatabaseException e)
@@ -80,7 +80,7 @@ public class BTreeEnv
         // Now open, or create and open, the database
 		try
 		{
-			Database bdb = m_env.openDatabase(null, csName, m_DbConfig);
+			Database bdb = env.openDatabase(null, csName, dbConfig);
 			BtreeFile btreeFile = new BtreeFile(bdb);	//, bCanSortMultiThreads);
 			return btreeFile;
 		}
@@ -97,22 +97,22 @@ public class BTreeEnv
     // Needed for things like beginning transactions
     public Environment getEnv()
     {
-        return m_env;
+        return env;
     }
 
     //Close the environment
     public boolean close() 
     {
-        if (m_env != null) 
+        if (env != null) 
         {
             try 
             {
 //            	StatsConfig config = new StatsConfig();
 //            	config.setClear(true);
-//            	System.err.println(m_env.getStats(config));
+//            	System.err.println(env.getStats(config));
             	
                 // Finally, close the environment.
-                m_env.close();
+                env.close();
             }
             catch(DatabaseException dbe) 
             {
@@ -127,13 +127,13 @@ public class BTreeEnv
     {
     	try
 		{
-			m_env.removeDatabase(null, csName);
+			env.removeDatabase(null, csName);
 		}
 		catch (DatabaseException e)
 		{
 			e.printStackTrace();
 		}
-    	m_env = null;
+    	env = null;
     }
 
 }

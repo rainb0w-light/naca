@@ -32,50 +32,50 @@ public class CNameConflictSolver
 {
 	protected class CNameConflictItem
 	{
-		String m_ConflictName = "" ;
-		Vector<CDataEntity> m_arrEntities = new Vector<CDataEntity>() ;
-		//Vector m_arrHierachies = new Vector() ;
+		String conflictName = "" ;
+		Vector<CDataEntity> arrEntities = new Vector<CDataEntity>() ;
+		//Vector arrHierachies = new Vector() ;
 	}
 	
-	protected Hashtable<String, CNameConflictItem> m_tabConflicts = new Hashtable<String, CNameConflictItem>() ;
+	protected Hashtable<String, CNameConflictItem> tabConflicts = new Hashtable<String, CNameConflictItem>() ;
 
 	public void AddConflictedEntity(String name, CDataEntity eCont)
 	{
-		CNameConflictItem item = m_tabConflicts.get(name) ;
+		CNameConflictItem item = tabConflicts.get(name) ;
 		if (item == null)
 		{
 			item = new CNameConflictItem() ;
-			item.m_ConflictName = name ;
-			m_tabConflicts.put(name, item);
-			item.m_arrEntities.add(eCont) ;
+			item.conflictName = name ;
+			tabConflicts.put(name, item);
+			item.arrEntities.add(eCont) ;
 			CEntityHierarchy newHier = eCont.GetHierarchy() ;
 			if (newHier == null)
 			{
 				int n = 0 ;
 			}
-			//item.m_arrHierachies.add(newHier) ;
+			//item.arrHierachies.add(newHier) ;
 		}
 		else
 		{
-			if (item.m_arrEntities.contains(eCont))
+			if (item.arrEntities.contains(eCont))
 			{
 				return ;
 			}
 					
-			item.m_arrEntities.add(eCont) ;
+			item.arrEntities.add(eCont) ;
 			CEntityHierarchy newHier = eCont.GetHierarchy() ;
 			if (newHier == null)
 			{
 				int n = 0 ;
 			}
-			//item.m_arrHierachies.add(newHier) ;
+			//item.arrHierachies.add(newHier) ;
 			
 			ArrayList<String> arr = new ArrayList<String>() ;
 			boolean bToDo = false ;
-			for (int i=0; i<item.m_arrEntities.size(); i++)
+			for (int i=0; i<item.arrEntities.size(); i++)
 			{
-				CDataEntity e = item.m_arrEntities.get(i) ;
-				if (e.m_Of == null)
+				CDataEntity e = item.arrEntities.get(i) ;
+				if (e.of == null)
 				{
 					String cs = e.GetName() ;
 					if (arr.contains(cs))
@@ -93,19 +93,19 @@ public class CNameConflictSolver
 			{
 				//int counter = 0 ;
 				// rename entities, except the first one, which is not renamed 
-				for (int i=1; i<item.m_arrEntities.size(); i++)
+				for (int i=1; i<item.arrEntities.size(); i++)
 				{
-					CDataEntity currentEntity = item.m_arrEntities.get(i);
-					if (currentEntity.m_Of == null)
+					CDataEntity currentEntity = item.arrEntities.get(i);
+					if (currentEntity.of == null)
 					{ // if this entity is part of an external structure (like COPY), this name is qualified this way
 						CEntityHierarchy hier = currentEntity.GetHierarchy() ;
-						CEntityHierarchy tab[] = new CEntityHierarchy[item.m_arrEntities.size()-1] ;
+						CEntityHierarchy tab[] = new CEntityHierarchy[item.arrEntities.size()-1] ;
 						int k = 0 ; 
-						for (int j=0; j<item.m_arrEntities.size(); j++)
+						for (int j=0; j<item.arrEntities.size(); j++)
 						{
 							if (i != j)
 							{
-								CDataEntity d = item.m_arrEntities.get(j) ;
+								CDataEntity d = item.arrEntities.get(j) ;
 								tab[k] = d.GetHierarchy();
 								k ++ ;
 							}
@@ -117,7 +117,7 @@ public class CNameConflictSolver
 //							counter ++ ;
 //						}
 //						goodName = currentEntity.GetName() + "$" + goodName ;
-						currentEntity.m_ProgramCatalog.EntityRenamed(goodName, currentEntity) ;
+						currentEntity.programCatalog.EntityRenamed(goodName, currentEntity) ;
 						currentEntity.SetName(goodName);
 					}
 				}
@@ -127,11 +127,11 @@ public class CNameConflictSolver
 	
 	public boolean HasConflictForName(String name)
 	{
-		return m_tabConflicts.containsKey(name) ;
+		return tabConflicts.containsKey(name) ;
 	}
 	public boolean HasConflictForName(String name, String memberOf)
 	{
-		CNameConflictItem item = m_tabConflicts.get(name) ;
+		CNameConflictItem item = tabConflicts.get(name) ;
 		if (item == null)
 		{
 			return false ;
@@ -140,10 +140,10 @@ public class CNameConflictSolver
 		{
 			if (memberOf.equals(""))
 			{
-				for (int i=0; i<item.m_arrEntities.size(); i++)
+				for (int i=0; i<item.arrEntities.size(); i++)
 				{
-					CDataEntity d = item.m_arrEntities.get(i) ;
-					if (d.m_Of == null)
+					CDataEntity d = item.arrEntities.get(i) ;
+					if (d.of == null)
 					{
 						return true ;
 					}	
@@ -152,9 +152,9 @@ public class CNameConflictSolver
 			}
 			else
 			{
-				for (int i=0; i<item.m_arrEntities.size(); i++)
+				for (int i=0; i<item.arrEntities.size(); i++)
 				{
-					CDataEntity d = item.m_arrEntities.get(i) ;				
+					CDataEntity d = item.arrEntities.get(i) ;				
 					CEntityHierarchy hier = d.GetHierarchy() ;				
 					if (hier.CheckAscendant(memberOf))
 					{
@@ -168,7 +168,7 @@ public class CNameConflictSolver
 	
 	public boolean IsExistingDataEntity(String name, String of)
 	{
-		CNameConflictItem item = m_tabConflicts.get(name) ;
+		CNameConflictItem item = tabConflicts.get(name) ;
 		if (item == null)
 		{
 			return false ;
@@ -178,10 +178,10 @@ public class CNameConflictSolver
 			if (of.equals(""))
 			{
 				CDataEntity eData = null ;
-				for (int i=0; i<item.m_arrEntities.size(); i++)
+				for (int i=0; i<item.arrEntities.size(); i++)
 				{
-					CDataEntity d = item.m_arrEntities.get(i) ;
-					if (d.m_Of == null)
+					CDataEntity d = item.arrEntities.get(i) ;
+					if (d.of == null)
 					{
 						if (eData == null)
 						{
@@ -198,9 +198,9 @@ public class CNameConflictSolver
 			else
 			{
 				CDataEntity eData = null ;
-				for (int i=0; i<item.m_arrEntities.size(); i++)
+				for (int i=0; i<item.arrEntities.size(); i++)
 				{
-					CDataEntity d = item.m_arrEntities.get(i) ;				
+					CDataEntity d = item.arrEntities.get(i) ;				
 					CEntityHierarchy hier = d.GetHierarchy() ;				
 					if (hier.CheckAscendant(of))
 					{
@@ -224,7 +224,7 @@ public class CNameConflictSolver
 	}
 	public CDataEntity GetQualifiedReference(String name, String of)
 	{
-		CNameConflictItem item = m_tabConflicts.get(name) ;
+		CNameConflictItem item = tabConflicts.get(name) ;
 		if (item == null)
 		{
 			return null ;
@@ -234,10 +234,10 @@ public class CNameConflictSolver
 			if (of.equals(""))
 			{
 				CDataEntity eData = null ;
-				for (int i=0; i<item.m_arrEntities.size(); i++)
+				for (int i=0; i<item.arrEntities.size(); i++)
 				{
-					CDataEntity d = item.m_arrEntities.get(i) ;
-					if (d.m_Of == null)
+					CDataEntity d = item.arrEntities.get(i) ;
+					if (d.of == null)
 					{
 						if (eData == null)
 						{
@@ -254,9 +254,9 @@ public class CNameConflictSolver
 			else
 			{
 				CDataEntity eData = null ;
-				for (int i=0; i<item.m_arrEntities.size(); i++)
+				for (int i=0; i<item.arrEntities.size(); i++)
 				{
-					CDataEntity d = item.m_arrEntities.get(i) ;				
+					CDataEntity d = item.arrEntities.get(i) ;				
 					CEntityHierarchy hier = d.GetHierarchy() ;				
 					if (hier.CheckAscendant(of))
 					{
@@ -285,19 +285,19 @@ public class CNameConflictSolver
 	public void RemoveObject(CBaseLanguageEntity e)
 	{
 //		ArrayList<String> arrToRemove = new ArrayList<String>() ;
-		Enumeration enumere = m_tabConflicts.elements() ;
+		Enumeration enumere = tabConflicts.elements() ;
 		try
 		{
 			CNameConflictItem item = (CNameConflictItem)enumere.nextElement() ;
 			while (item != null)
 			{
-				if (item.m_arrEntities.contains(e))
+				if (item.arrEntities.contains(e))
 				{
-					item.m_arrEntities.remove(e) ;
-					if (item.m_arrEntities.size() == 1)
+					item.arrEntities.remove(e) ;
+					if (item.arrEntities.size() == 1)
 					{
-						CDataEntity alone = item.m_arrEntities.get(0);
-						String itemName = item.m_ConflictName ;
+						CDataEntity alone = item.arrEntities.get(0);
+						String itemName = item.conflictName ;
 
 						try
 						{
@@ -307,7 +307,7 @@ public class CNameConflictSolver
 						{
 							item = null ;
 						}
-						m_tabConflicts.remove(itemName) ;
+						tabConflicts.remove(itemName) ;
 						
 						String cs = alone.GetName() ;
 						int nPos = cs.indexOf('$') ;
@@ -315,7 +315,7 @@ public class CNameConflictSolver
 						{
 							cs = cs.substring(0, nPos) ;
 						}
-						alone.m_ProgramCatalog.EntityRenamed(cs, alone);
+						alone.programCatalog.EntityRenamed(cs, alone);
 						alone.SetName(cs) ;
 						continue ;
 //						arrToRemove.add(item.m_ConflictName) ;
@@ -330,7 +330,7 @@ public class CNameConflictSolver
 //		for (int i=0; i<arrToRemove.size(); i++)
 //		{
 //			String cs = arrToRemove.get(i) ;
-//			m_tabConflicts.remove(cs) ;
+//			tabConflicts.remove(cs) ;
 //		}
 	}
 }

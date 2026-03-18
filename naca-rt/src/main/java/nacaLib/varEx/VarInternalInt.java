@@ -27,9 +27,9 @@ public class VarInternalInt extends Var
 	public VarInternalInt()
 	{
 		super(null);
-		m_varDef = new VarDefInternalInt(this);
-		m_varTypeId = m_varDef.getTypeId();
-		m_n = 0;
+		varDef = new VarDefInternalInt(this);
+		varTypeId = varDef.getTypeId();
+		n = 0;
 	}
 	
 	protected VarBase allocCopy()
@@ -40,27 +40,27 @@ public class VarInternalInt extends Var
 	
 	public void set(int n)
 	{
-		m_n = n;
+		n = n;
 	}
 	
 	public void set(String cs)
 	{
-		m_n = NumberParser.getAsInt(cs);
+		n = NumberParser.getAsInt(cs);
 	}
 	
 	public void set(char c)
 	{
-		m_n = NumberParser.getAsInt(c);
+		n = NumberParser.getAsInt(c);
 	}
 	
 //	public void set(GenericValue gv)
 //	{
-//		//m_n = gv.getInt();
+//		//n = gv.getInt();
 //	}
 
 	protected String getAsLoggableString()
 	{
-		return String.valueOf(m_n);
+		return String.valueOf(n);
 	}
 	
 	public boolean hasType(VarTypeEnum e)
@@ -73,39 +73,39 @@ public class VarInternalInt extends Var
 	
 //	public String getString()
 //	{
-//		return String.valueOf(m_n); 
+//		return String.valueOf(n); 
 //	}
 	
 //	public String getDottedSignedString()
 //	{
-//		return String.valueOf(m_n);
+//		return String.valueOf(n);
 //	}
 	
 	public int getInt()
 	{
-		return m_n;
+		return n;
 	}
 	
 	public double getDouble()
 	{
-		return m_n;
+		return n;
 	} 
 
 //	VarNumberChunk getNumberChunks()
 //	{
 //		VarNumberChunk chunk = new VarNumberChunk() ;
-//		if(m_n < 0)
+//		if(n < 0)
 //			chunk.setNegative(true);
 //		else
 //			chunk.setNegative(false);
-//		chunk.m_sAbsInt = String.valueOf(Math.abs(m_n));
+//		chunk.m_sAbsInt = String.valueOf(Math.abs(n));
 //		chunk.m_sDec = "" ;
 //		return chunk ;
 //	}
 	
 	public String toString()
 	{
-		return "InternalVar: " + String.valueOf(m_n);
+		return "InternalVar: " + String.valueOf(n);
 	}
 	
 	int getSingleItemRequiredStorageSize()
@@ -113,15 +113,15 @@ public class VarInternalInt extends Var
 		return 0;
 	}
 
-	int m_n;
+	int n;
 	
 	public void transferTo(Var varDest)
 	{
-		varDest.set(m_n);
+		varDest.set(n);
 	}
 	public String getSTCheckValue()
 	{
-		return "VarInternalInt("+m_n+")" ;
+		return "VarInternalInt("+n+")" ;
 	}
 	
 	public int compareTo(int nValue)

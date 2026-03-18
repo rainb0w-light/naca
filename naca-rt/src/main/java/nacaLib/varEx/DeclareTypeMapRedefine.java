@@ -20,8 +20,8 @@ package nacaLib.varEx;
  */
 public class DeclareTypeMapRedefine extends DeclareTypeBase
 {
-	private int m_nLength = 0;
-	Form m_formRedefineOrigin = null;
+	private int nLength = 0;
+	Form formRedefineOrigin = null;
 	
 	public DeclareTypeMapRedefine()
 	{
@@ -30,19 +30,19 @@ public class DeclareTypeMapRedefine extends DeclareTypeBase
 	public void set(VarLevel varLevel, Form formRedefineOrigin)
 	{
 		super.set(varLevel);
-		m_formRedefineOrigin = formRedefineOrigin;
-		m_nLength = 0;
+		formRedefineOrigin = formRedefineOrigin;
+		nLength = 0;
 	}	
 	
 	int getLength()
 	{
-		return m_nLength;
+		return nLength;
 	}
 	
 	public VarDefBuffer createVarDef(VarDefBuffer varDefParent)
 	{
 		VarDefMapRedefine varDef = new VarDefMapRedefine(varDefParent, this);
-		varDef.m_varDefFormRedefineOrigin = m_formRedefineOrigin.getDefForm(); 
+		varDef.varDefFormRedefineOrigin = formRedefineOrigin.getDefForm(); 
 		return varDef;		
 	}
 	

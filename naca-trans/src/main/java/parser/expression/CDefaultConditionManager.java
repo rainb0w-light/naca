@@ -22,17 +22,17 @@ public class CDefaultConditionManager
 {
 	public CDefaultConditionManager(CExpression exp)
 	{
-		m_expMaster = exp ;
+		expMaster = exp ;
 	}
 	
-	protected CExpression m_expMaster = null ;
+	protected CExpression expMaster = null ;
 	
 	public boolean isDefaultOperatorSetted()
 	{
-		return m_bIsDefaultOperatorSetted ;
+		return bIsDefaultOperatorSetted ;
 	}
 	
-	protected boolean m_bIsDefaultOperatorSetted = false ;
+	protected boolean bIsDefaultOperatorSetted = false ;
 
 	/**
 	 * @param expression
@@ -40,8 +40,8 @@ public class CDefaultConditionManager
 	 */
 	public CExpression GetSimilarExpression(CTermExpression expression)
 	{
-		m_bIsDefaultOperatorSetted = true ;
-		return m_expMaster.GetSimilarExpression(expression);
+		bIsDefaultOperatorSetted = true ;
+		return expMaster.GetSimilarExpression(expression);
 	}
 
 	/**
@@ -49,8 +49,8 @@ public class CDefaultConditionManager
 	 */
 	public void SetMasterCondition(CExpression st1)
 	{
-		m_bIsDefaultOperatorSetted = false ;
-		m_expMaster = st1 ;
+		bIsDefaultOperatorSetted = false ;
+		expMaster = st1 ;
 	}
 
 	/**
@@ -58,7 +58,7 @@ public class CDefaultConditionManager
 	 */
 	public CExpression GetFirstOperand()
 	{
-		return m_expMaster.GetFirstConditionOperand() ;
+		return expMaster.GetFirstConditionOperand() ;
 	}
 
 	/**
@@ -66,6 +66,6 @@ public class CDefaultConditionManager
 	 */
 	public boolean isSetted()
 	{
-		return m_expMaster != null ;
+		return expMaster != null ;
 	}
 }

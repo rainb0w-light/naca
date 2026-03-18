@@ -26,7 +26,7 @@ public class OpenCalendar
 		
 	void loadDefinition(String csFile)
 	{
-		m_csFile = csFile;
+		csFile = csFile;
 		Tag tag = Tag.createFromFile(csFile);
 		if(tag != null)
 		{
@@ -49,18 +49,18 @@ public class OpenCalendar
 			}
 		}
 		
-		if(m_week != null)
-			m_week.generateSortedIntervals();
+		if(week != null)
+			week.generateSortedIntervals();
 
-		if(m_rangesForDates != null)
-			m_rangesForDates.generateSortedIntervals();
+		if(rangesForDates != null)
+			rangesForDates.generateSortedIntervals();
 	}
 	
 	void reloadDefinition()
 	{
-		m_week = null;
-		m_rangesForDates = null;
-		loadDefinition(m_csFile);
+		week = null;
+		rangesForDates = null;
+		loadDefinition(csFile);
 	}
 	
 	private void loadDayRange(int nDayOfWeeekId, Tag tagDay)
@@ -77,9 +77,9 @@ public class OpenCalendar
 		
 	private void addRange(int nDayId, String csType, String csMin, String csMax)
 	{
-		if(m_week == null)
-			m_week = new OpenCalendarWeek();
-		m_week.addRange(nDayId, csType, csMin, csMax);
+		if(week == null)
+			week = new OpenCalendarWeek();
+		week.addRange(nDayId, csType, csMin, csMax);
 	}
 	
 	private int getDayOfWeeekId(String csDayValue)
@@ -133,31 +133,31 @@ public class OpenCalendar
 	{
 		if(csType.equalsIgnoreCase("Close") || csType.equalsIgnoreCase("Open"))
 		{
-			if(m_rangesForDates == null)
-				m_rangesForDates = new OpenCalendarRangesForDates();
+			if(rangesForDates == null)
+				rangesForDates = new OpenCalendarRangesForDates();
 			
 			CalendarOpenState state = CalendarOpenState.AppOpened; 
 			if(csType.equalsIgnoreCase("Close"))
 				state = CalendarOpenState.AppClosed;
-			m_rangesForDates.addDateRange(iDate, state, csMin, csMax);
+			rangesForDates.addDateRange(iDate, state, csMin, csMax);
 		}
 	}
 
 	CalendarOpenState getOpenState(CalendarCacheManager cacheManager, boolean bCacheState)
 	{
-		if(m_rangesForDates != null)	// Check individual dates
+		if(rangesForDates != null)	// Check individual dates
 		{
-			CalendarOpenState state = m_rangesForDates.getOpenState(cacheManager, bCacheState);
+			CalendarOpenState state = rangesForDates.getOpenState(cacheManager, bCacheState);
 			if(state.isKnown())
 				return state;
 		}
 		
-		if(m_week != null)
-			return m_week.getOpenState(cacheManager, bCacheState);
+		if(week != null)
+			return week.getOpenState(cacheManager, bCacheState);
 		return CalendarOpenState.Unknown;
 	}
 	
-	private String m_csFile = null;
-	private OpenCalendarWeek m_week = null;
-	private OpenCalendarRangesForDates m_rangesForDates = null;
+	private String csFile = null;
+	private OpenCalendarWeek week = null;
+	private OpenCalendarRangesForDates rangesForDates = null;
 }

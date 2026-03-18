@@ -32,22 +32,22 @@ public class CExecSQLOnErrorGoto extends CBaseExecSQLAction
 	public CExecSQLOnErrorGoto(int l, String reference)
 	{
 		super(l);
-		m_ref = reference;
+		ref = reference;
 	}
-	public String m_ref = "" ;
+	public String ref = "" ;
 	public Element ExportCustom(Document root)
 	{
 		Element e = root.createElement("SQLOnErrorGoto") ;
-		e.setAttribute("Reference", m_ref) ;
+		e.setAttribute("Reference", ref) ;
 		return e ;
 	}
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		CEntitySqlOnErrorGoto eGoto = factory.NewEntitySQLOnErrorGoto(getLine(), m_ref) ; 
-		if (!m_ref.equals(""))
+		CEntitySqlOnErrorGoto eGoto = factory.NewEntitySQLOnErrorGoto(getLine(), ref) ;
+		if (!ref.equals(""))
 		{
-			CProcedureReference ref = new CProcedureReference(m_ref, "", factory.m_ProgramCatalog) ;
-			factory.m_ProgramCatalog.getCallTree().RegisterGlobalGoto(ref) ; 
+			CProcedureReference refNew = new CProcedureReference(this.ref, "", factory.programCatalog) ;
+			factory.programCatalog.getCallTree().RegisterGlobalGoto(refNew) ;
 		}
 		parent.AddChild(eGoto) ;
 		return eGoto ;

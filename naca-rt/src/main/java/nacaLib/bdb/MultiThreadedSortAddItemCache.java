@@ -21,14 +21,14 @@ public class MultiThreadedSortAddItemCache
 {
 	MultiThreadedSortAddItemCache()
 	{
-		m_stk = new Stack<MultiThreadedSortAddItem>(); 
+		stk = new Stack<MultiThreadedSortAddItem>(); 
 	}
 	
 	MultiThreadedSortAddItem getUsusedItem()
 	{	
 		try
 		{
-			MultiThreadedSortAddItem item = m_stk.pop();
+			MultiThreadedSortAddItem item = stk.pop();
 			return item;			
 		}
 		catch (EmptyStackException e) 
@@ -39,8 +39,8 @@ public class MultiThreadedSortAddItemCache
 	
 	void disposeItemForReuse(MultiThreadedSortAddItem item)
 	{
-		m_stk.push(item);
+		stk.push(item);
 	}
 	
-	private Stack<MultiThreadedSortAddItem> m_stk = null;
+	private Stack<MultiThreadedSortAddItem> stk = null;
 }

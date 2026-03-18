@@ -21,7 +21,7 @@ public abstract class CEntityCloseFile extends CBaseActionEntity
 
 	public void setFileDescriptor(CEntityFileDescriptor fd)
 	{
-		m_eFileDescriptor = fd ;
+		eFileDescriptor = fd ;
 	}
-	protected CEntityFileDescriptor m_eFileDescriptor = null ;
+	protected CEntityFileDescriptor eFileDescriptor = null ;
 }

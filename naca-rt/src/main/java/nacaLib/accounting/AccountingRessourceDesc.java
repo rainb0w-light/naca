@@ -31,17 +31,17 @@ public class AccountingRessourceDesc
 	{
 		if(tagAccounting != null)
 		{
-			m_csTableName = tagAccounting.getVal("TableName");
-			m_csMachineId = tagAccounting.getVal("MachineId");
-			m_csTomcatId = tagAccounting.getVal("TomcatId");
-			m_connectionManager = new SQLConnectionManager();
-			DbConnectionPool dbConnectionPool = m_connectionManager.init("", tagAccounting);
+			csTableName = tagAccounting.getVal("TableName");
+			csMachineId = tagAccounting.getVal("MachineId");
+			csTomcatId = tagAccounting.getVal("TomcatId");
+			connectionManager = new SQLConnectionManager();
+			DbConnectionPool dbConnectionPool = connectionManager.init("", tagAccounting);
 			BaseResourceManager.addDbConnectionPool(dbConnectionPool);
-			m_nMaxLevelDepth = tagAccounting.getValAsInt("MaxLevelDepth");
+			nMaxLevelDepth = tagAccounting.getValAsInt("MaxLevelDepth");
 			String csDbEnvironment = tagAccounting.getVal("dbenvironment");
 			if(csDbEnvironment != null && !StringUtil.isEmpty(csDbEnvironment))
-				m_csTableName = csDbEnvironment + "." + m_csTableName;
-			m_csInsertClause = "Insert into " + m_csTableName +
+				csTableName = csDbEnvironment + "." + csTableName;
+			csInsertClause = "Insert into " + csTableName +
 				"(SESSIONID, TRANSACTIONID, START_TIMESTAMP, LEVEL_DEPTH, TRANSACTIONNAME, PROGRAMNAME, SESSIONTYPE, MACHINEID, TOMCATID, RUNTIME_MS, TERMINALID, LUNAME, USERLDAPID, CRITERIAEND, NBSELECT, NBINSERT, NBUPDATE, NBDELETE, NBOPENCURSOR, NBFETCHCURSOR, PROFITCENTERP2000, USERIDP2000, DB_IO_TIME_MS, NETWORK_MS)" + 
 				" values " +
 				"(?, ?, ?, ?, ?, ?,	?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,	?, ?, ?, ?,	?, ?)";
@@ -54,17 +54,17 @@ public class AccountingRessourceDesc
 	
 	String getMachineId()
 	{
-		return m_csMachineId;
+		return csMachineId;
 	}
 	
 	String getTomcatId()
 	{
-		return m_csTomcatId;
+		return csTomcatId;
 	}
 	
 	boolean canWrite(int nCurrentDepth)
 	{
-		if(nCurrentDepth <= m_nMaxLevelDepth)
+		if(nCurrentDepth <= nMaxLevelDepth)
 			return true;
 		return false;
 	}
@@ -72,11 +72,11 @@ public class AccountingRessourceDesc
 	
 	DbConnectionBase getConnection()
 	{
-		if(m_connectionManager != null)
+		if(connectionManager != null)
 		{
 			try
 			{
-				DbConnectionBase dbConnection = m_connectionManager.getConnection("Accounting", true);
+				DbConnectionBase dbConnection = connectionManager.getConnection("Accounting", true);
 				return dbConnection;
 			}
 			catch (DbConnectionException e)
@@ -89,19 +89,19 @@ public class AccountingRessourceDesc
 	
 	DbPreparedStatement getInsertStatement(DbConnectionBase dbConnection)
 	{
-		DbPreparedStatement st = dbConnection.prepareStatement(m_csInsertClause, 0, false);
+		DbPreparedStatement st = dbConnection.prepareStatement(csInsertClause, 0, false);
 		return st;
 	}
 	
 	void returnConnection(DbConnectionBase dbConnection)
 	{
-		m_connectionManager.returnConnection(dbConnection);
+		connectionManager.returnConnection(dbConnection);
 	}
 
-	private SQLConnectionManager m_connectionManager = null;
-	private String m_csTableName = null;
-	private String m_csMachineId = null;
-	private String m_csTomcatId = null;
-	private int m_nMaxLevelDepth = 0;
-	private String m_csInsertClause = null;
+	private SQLConnectionManager connectionManager = null;
+	private String csTableName = null;
+	private String csMachineId = null;
+	private String csTomcatId = null;
+	private int nMaxLevelDepth = 0;
+	private String csInsertClause = null;
 }

@@ -55,18 +55,18 @@ public class CSubtract extends CCobolElement
 	 */
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		List<CDataEntity> eValues = new ArrayList<CDataEntity>(m_Value.size());
-		for (CTerminal value : m_Value)
+		List<CDataEntity> eValues = new ArrayList<CDataEntity>(value.size());
+		for (CTerminal value : value)
 		{
 			eValues.add(value.GetDataEntity(getLine(), factory));
 		}
 		CEntitySubtractTo eSub = null;
-		for (int i=0; i<m_arrVariables.size(); i++)
+		for (int i=0; i<arrVariables.size(); i++)
 		{
 			eSub = factory.NewEntitySubtractTo(getLine());
 			parent.AddChild(eSub) ;
 
-			CTerminal variable = m_arrVariables.get(i) ;
+			CTerminal variable = arrVariables.get(i) ;
 			CDataEntity eVar = variable.GetDataEntity(getLine(), factory);
 			eVar.RegisterReadingAction(eSub) ;
 			for (CDataEntity eValue : eValues)
@@ -74,7 +74,7 @@ public class CSubtract extends CCobolElement
 				eValue.RegisterReadingAction(eSub) ;
 			}
 			List<CDataEntity> eRess = new ArrayList<CDataEntity>() ;
-			for (CIdentifier idRes : m_arrResult)
+			for (CIdentifier idRes : arrResult)
 			{
 				CDataEntity eRes = idRes.GetDataReference(getLine(), factory);
 				eRes.RegisterWritingAction(eSub) ;
@@ -83,9 +83,9 @@ public class CSubtract extends CCobolElement
 			eVar.RegisterWritingAction(eSub) ;
 			eSub.SetSubstract(eVar, eValues, eRess);
 		}
-		if (m_OnErrorBloc != null)
+		if (onErrorBloc != null)
 		{
-			CBaseLanguageEntity eBloc = m_OnErrorBloc.DoSemanticAnalysis(eSub, factory) ;
+			CBaseLanguageEntity eBloc = onErrorBloc.DoSemanticAnalysis(eSub, factory) ;
 			eSub.SetOnErrorBloc(eBloc);
 		}
 		return null;
@@ -101,11 +101,11 @@ public class CSubtract extends CCobolElement
 		{
 			return false ;
 		}
-		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().m_Name) ;
+		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
 		tok = GetNext() ;
 		while (tok.GetType() == CTokenType.NUMBER || tok.GetType() == CTokenType.IDENTIFIER)
 		{
-			m_Value.add(ReadTerminal());
+			value.add(ReadTerminal());
 			tok = GetCurrentToken();
 		}
 		if (tok.GetKeyword() != CCobolKeywordList.FROM)
@@ -117,7 +117,7 @@ public class CSubtract extends CCobolElement
 		CTerminal term = ReadTerminal() ;
 		while (term != null)
 		{
-			m_arrVariables.add(term); 
+			arrVariables.add(term); 
 			tok = GetCurrentToken() ;
 			if (tok.GetType() == CTokenType.COMMA)
 			{
@@ -132,7 +132,7 @@ public class CSubtract extends CCobolElement
 			CIdentifier variable = ReadIdentifier() ;
 			while (variable != null)
 			{
-				m_arrResult.add(variable); 
+				arrResult.add(variable); 
 				variable = ReadIdentifier() ;
 			}
 		}
@@ -140,7 +140,7 @@ public class CSubtract extends CCobolElement
 		if (tok.GetKeyword() == CCobolKeywordList.ROUNDED)
 		{
 			tok = GetNext() ;
-			m_bRounded = true ;
+			bRounded = true ;
 		}
 		if(tok.GetKeyword() == CCobolKeywordList.END_SUBTRACT)
 		{
@@ -151,8 +151,8 @@ public class CSubtract extends CCobolElement
 			GetNext() ;
 			Assert(CCobolKeywordList.SIZE);
 			Assert(CCobolKeywordList.ERROR);
-			m_OnErrorBloc = new CGenericBloc("OnError", tok.getLine()) ;
-			if (!Parse(m_OnErrorBloc))
+			onErrorBloc = new CGenericBloc("OnError", tok.getLine()) ;
+			if (!Parse(onErrorBloc))
 			{
 				return false ;
 			}
@@ -166,20 +166,20 @@ public class CSubtract extends CCobolElement
 	protected Element ExportCustom(Document root)
 	{
 		Element e = root.createElement("Substract") ;
-		for (CTerminal value : m_Value)
+		for (CTerminal value : value)
 		{
 			value.ExportTo(e, root) ;
 		}
-		for (int i=0; i<m_arrVariables.size(); i++)
+		for (int i=0; i<arrVariables.size(); i++)
 		{
 			Element eTo = root.createElement("From") ;
-			CTerminal variable = m_arrVariables.get(i) ;
+			CTerminal variable = arrVariables.get(i) ;
 			variable.ExportTo(eTo, root) ;
 			e.appendChild(eTo) ;
-			if (m_arrResult.size() == m_arrVariables.size())
+			if (arrResult.size() == arrVariables.size())
 			{
 				Element eToOther = root.createElement("To") ;
-				CIdentifier variableOther = m_arrResult.get(i) ;
+				CIdentifier variableOther = arrResult.get(i) ;
 				variableOther.ExportTo(eToOther, root) ;
 				eTo.appendChild(eToOther) ;
 			}
@@ -187,9 +187,9 @@ public class CSubtract extends CCobolElement
 		return e ;
 	}
 	
-	protected List<CTerminal> m_Value = new ArrayList<CTerminal>();
-	protected boolean m_bRounded ;
-	protected Vector<CTerminal> m_arrVariables = new Vector<CTerminal>() ;
-	protected Vector<CIdentifier> m_arrResult = new Vector<CIdentifier>() ;
-	private CGenericBloc m_OnErrorBloc ;
+	protected List<CTerminal> value = new ArrayList<CTerminal>();
+	protected boolean bRounded ;
+	protected Vector<CTerminal> arrVariables = new Vector<CTerminal>() ;
+	protected Vector<CIdentifier> arrResult = new Vector<CIdentifier>() ;
+	private CGenericBloc onErrorBloc ;
 }

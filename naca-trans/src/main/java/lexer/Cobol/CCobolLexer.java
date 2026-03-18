@@ -40,7 +40,7 @@ public class CCobolLexer extends CBaseLexer
 	@Override
 	protected boolean IsCommentMarker(char current, boolean isNewLine)
 	{
-		if (isNewLine && m_nCurrentPositionInLine == 0)
+		if (isNewLine && nCurrentPositionInLine == 0)
 		{
 			if (current == '*')
 			{
@@ -62,9 +62,9 @@ public class CCobolLexer extends CBaseLexer
 	{
 		if (current == 'x' || current == 'X')
 		{
-			if (m_arrCurrentLine[m_nCurrentPositionInLine+1] == '\'')
+			if (arrCurrentLine[nCurrentPositionInLine+1] == '\'')
 			{ // there is a HEXA string
-				m_nCurrentPositionInLine += 2 ; // consume X and '
+				nCurrentPositionInLine += 2 ; // consume X and '
 				CBaseToken tok = ReadHexaString();
 				return tok ;
 			}

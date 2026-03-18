@@ -45,29 +45,29 @@ public class CJavaCallFunction extends CEntityCallFunction
 	 */
 	protected void DoExport()
 	{
-		if (m_refRepetitions != null)
+		if (refRepetitions != null)
 		{
 			String index = "loop_index" ;
-			while (m_ProgramCatalog.IsExistingDataEntity(index, ""))
+			while (programCatalog.IsExistingDataEntity(index, ""))
 			{
 				index += "$" ;
 			}
-			CJavaUnknownReference ref = new CJavaUnknownReference(getLine(), GetName(), m_ProgramCatalog, null) ;
-			m_ProgramCatalog.RegisterDataEntity(index, ref) ;
-			String cs = "for (int "+index+"=0; isLess("+index+", " + m_refRepetitions.ExportReference(getLine()) + "); "+index+"++) {"  ;
+			CJavaUnknownReference ref = new CJavaUnknownReference(getLine(), GetName(), programCatalog, null) ;
+			programCatalog.RegisterDataEntity(index, ref) ;
+			String cs = "for (int "+index+"=0; isLess("+index+", " + refRepetitions.ExportReference(getLine()) + "); "+index+"++) {"  ;
 			WriteLine(cs) ;
 			StartOutputBloc() ;
 		}
-		if (m_ReferenceThru != null)
+		if (referenceThru != null)
 		{
-			CEntityProcedure e = m_Reference.getProcedure() ;
-			CEntityProcedure eThru = m_ReferenceThru.getProcedure() ;
+			CEntityProcedure e = reference.getProcedure() ;
+			CEntityProcedure eThru = referenceThru.getProcedure() ;
 			String line = "performThrough(" + e.ExportReference(getLine()) + ", " +eThru.ExportReference(getLine())+ ") ;" ;
 			WriteLine(line);
 		}
-		else if (m_Reference != null)
+		else if (reference != null)
 		{
-			CEntityProcedure e = m_Reference.getProcedure() ;
+			CEntityProcedure e = reference.getProcedure() ;
 			if (e!=null)
 			{
 				String line = "perform(" + e.ExportReference(getLine()) +") ;" ;
@@ -83,7 +83,7 @@ public class CJavaCallFunction extends CEntityCallFunction
 		{
 			ExportChildren();
 		}
-		if (m_refRepetitions != null)
+		if (refRepetitions != null)
 		{
 			EndOutputBloc() ;
 			WriteLine("}") ;

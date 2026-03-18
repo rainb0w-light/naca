@@ -23,31 +23,31 @@ public class CalendarOpenState
 	
 	private CalendarOpenState(int nId, boolean bKnown, boolean bOpen, boolean bManual)
 	{
-		m_nId = nId;
-		m_bKnown = bKnown;
-		m_bOpen = bOpen;
-		m_bManual = bManual;
+		nId = nId;
+		bKnown = bKnown;
+		bOpen = bOpen;
+		bManual = bManual;
 	}
 	
 	public boolean isKnown()
 	{
-		return m_bKnown;
+		return bKnown;
 	}
 	
 	public boolean isOpen()
 	{
-		return m_bOpen;
+		return bOpen;
 	}
 	
 	public String getString()
 	{
-		if(m_bKnown)
+		if(bKnown)
 		{
-			if(m_bOpen)
+			if(bOpen)
 				return "Ouvert / geöffnet / aperto";
 			else
 			{
-				if(m_bManual)
+				if(bManual)
 					return "Fermé manuellement / Manuell geschlossen / Chiuso manualmente ";
 				return "Fermé / geschlossen / chiuso";
 			}
@@ -57,11 +57,11 @@ public class CalendarOpenState
 	
 	public int getId()
 	{
-		return m_nId;
+		return nId;
 	}
 
-	private int m_nId = 0;
-	private boolean m_bKnown = false;
-	private boolean m_bOpen = false;
-	private boolean m_bManual = false;
+	private int nId = 0;
+	private boolean bKnown = false;
+	private boolean bOpen = false;
+	private boolean bManual = false;
 }

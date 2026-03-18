@@ -24,17 +24,17 @@ public class GenericValueDec extends GenericValue
 {
 	GenericValueDec(Dec dec)
 	{
-		m_dec = dec;
+		dec = dec;
 	}
 	
 	GenericValueDec(int nInt, String csDec)
 	{
-		m_dec = new Dec(nInt, csDec);
+		dec = new Dec(nInt, csDec);
 	}
 	
 	String getAsRawString()
 	{
-		String cs = m_dec.getAsString();
+		String cs = dec.getAsString();
 		return cs;
 	}
 	
@@ -45,36 +45,36 @@ public class GenericValueDec extends GenericValue
 	
 	int getAsInt()
 	{
-		return m_dec.getSignedInt();
+		return dec.getSignedInt();
 	}
 	
 	int getAsUnsignedInt()
 	{
-		return m_dec.getUnsignedInt();
+		return dec.getUnsignedInt();
 	}
 
 	Dec getAsDec()
 	{
-		return m_dec;
+		return dec;
 	}
 		
 	Dec getAsUnsignedDec()
 	{
-		if(m_dec.isNegative())
-		{			
-			Dec dec = new Dec(m_dec);
+		if(dec.isNegative())
+		{
+			Dec dec = new Dec(this.dec);
 			dec.setPositive(true);
 			return dec;
 		}
-		return m_dec;
+		return dec;
 	}
 	
 	
 	double getAsDouble()
 	{
-		return m_dec.getAsDouble(); 
+		return dec.getAsDouble(); 
 	}	
 
 	
-	private Dec m_dec = null;
+	private Dec dec = null;
 }

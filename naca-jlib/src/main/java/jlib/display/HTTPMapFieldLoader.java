@@ -28,16 +28,16 @@ import jakarta.servlet.http.HttpServletRequest;
  */
 public class HTTPMapFieldLoader
 {
-	protected HttpServletRequest m_HttpRequest = null ;
+	protected HttpServletRequest httpRequest = null ;
 	public HTTPMapFieldLoader(HttpServletRequest req)
 	{
-		m_HttpRequest = req ;
+		httpRequest = req ;
 	}
 
 
 	public Enumeration getFieldNames()
 	{
-		return m_HttpRequest.getParameterNames() ;
+		return httpRequest.getParameterNames() ;
 	}
 	
 	public String getAction() 
@@ -49,9 +49,9 @@ public class HTTPMapFieldLoader
 	 */
 	public String getFieldValue(String fieldName)
 	{
-		if (m_HttpRequest != null)
+		if (httpRequest != null)
 		{
-			String cs = m_HttpRequest.getParameter(fieldName);
+			String cs = httpRequest.getParameter(fieldName);
 			if (cs == null)
 			{
 				return "" ;

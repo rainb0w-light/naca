@@ -33,11 +33,11 @@ public abstract class CEntityCICSSyncPoint extends CBaseActionEntity
 	public CEntityCICSSyncPoint(int line, CObjectCatalog cat, CBaseLanguageExporter out, boolean bRollback)
 	{
 		super(line, cat, out);
-		m_bRollback = bRollback ;
+		bRollback = bRollback ;
 		cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
 	}
 	
-	protected boolean m_bRollback = false ;
+	protected boolean bRollback = false ;
 	public boolean ignore()
 	{
 		return false; 

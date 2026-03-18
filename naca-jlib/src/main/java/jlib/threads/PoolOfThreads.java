@@ -13,19 +13,19 @@ public class PoolOfThreads
 {
 	public PoolOfThreads(BasePooledThreadFactory pooledThreadFactory, int nNbThreads, int nNbMaxRequestAsyncSortPending)
 	{
-		m_bTerminationRequested = false;
+		bTerminationRequested = false;
 		
-		m_QueueRequests = new FixedSizeBlockingQueue<ThreadPoolRequest>(nNbMaxRequestAsyncSortPending);
-		m_arrPooledThreads = new ArrayList<PooledThread>();
+		queueRequests = new FixedSizeBlockingQueue<ThreadPoolRequest>(nNbMaxRequestAsyncSortPending);
+		arrPooledThreads = new ArrayList<PooledThread>();
 		addThreadSize(nNbThreads, pooledThreadFactory);
 	}
 	
 	public void startAllThreads()
 	{
-		int nNbThreads = m_arrPooledThreads.size();
+		int nNbThreads = arrPooledThreads.size();
 		for(int n=0; n<nNbThreads; n++)
 		{
-			PooledThread thread = m_arrPooledThreads.get(n);
+			PooledThread thread = arrPooledThreads.get(n);
 			thread.start();
 		}
 	}
@@ -33,17 +33,17 @@ public class PoolOfThreads
 	public Exception stop()
 	{
 		join(); // Join to do for all CPooledThread
-		return m_expThrownByPooledThread;
+		return expThrownByPooledThread;
 	}
 
 	private void addThreadSize(int nNbThreadsToAdd, BasePooledThreadFactory pooledThreadFactory)
 	{
-		m_signalThreadsTerminated = new CountDownLatch(nNbThreadsToAdd);
+		signalThreadsTerminated = new CountDownLatch(nNbThreadsToAdd);
 		
 		for(int nThread=0; nThread<nNbThreadsToAdd; nThread++)	// Create all required CPooledThread *
 		{
 			PooledThread pooledThread = pooledThreadFactory.make(this);
-			m_arrPooledThreads.add(pooledThread);	// Add the pool in the vector
+			arrPooledThreads.add(pooledThread);	// Add the pool in the vector
 		}
 	}
 	
@@ -60,9 +60,9 @@ public class PoolOfThreads
 	*/
 	public boolean enqueue(ThreadPoolRequest request)
 	{
-		if(m_QueueRequests != null)
+		if(queueRequests != null)
 		{
-			m_QueueRequests.enqueue(request); // Put the request in the queue
+			queueRequests.enqueue(request); // Put the request in the queue
 			return true;
 		}
 		return false;
@@ -75,7 +75,7 @@ public class PoolOfThreads
 	*/
 	public ThreadPoolRequest dequeue()
 	{
-		ThreadPoolRequest request = m_QueueRequests.dequeue();
+		ThreadPoolRequest request = queueRequests.dequeue();
 		return request;
 	}
 		
@@ -93,16 +93,16 @@ public class PoolOfThreads
 	
 	private void terminate()
 	{
-		if (!m_bTerminationRequested)
+		if (!bTerminationRequested)
 		{
 			// Enqueue as much TerminaisonRequest requests as there are threads in the pool
-			m_bTerminationRequested = true ;
+			bTerminationRequested = true ;
 	
-			int nNbThreads = m_arrPooledThreads.size();
+			int nNbThreads = arrPooledThreads.size();
 			for(int nThread=0; nThread<nNbThreads; nThread++)
 			{
 				ThreadPoolRequest request = new ThreadPoolRequestTerminaison();
-				m_QueueRequests.enqueue(request);
+				queueRequests.enqueue(request);
 			}
 		}
 	}
@@ -117,7 +117,7 @@ public class PoolOfThreads
 		terminate();
 		try
 		{
-			m_signalThreadsTerminated.await();
+			signalThreadsTerminated.await();
 		} 
 		catch (InterruptedException e)
 		{
@@ -127,17 +127,17 @@ public class PoolOfThreads
 	
 	void signalThreadTerminating()
 	{
-		m_signalThreadsTerminated.countDown();
+		signalThreadsTerminated.countDown();
 	}
 	
 	void signalPooledThreadThrowException(Exception expThrownByPooledThread)
 	{
-		m_expThrownByPooledThread = expThrownByPooledThread;
+		expThrownByPooledThread = expThrownByPooledThread;
 	}
 	
-	private boolean m_bTerminationRequested = false;
-	private ArrayList<PooledThread> m_arrPooledThreads = null;
-	private FixedSizeBlockingQueue<ThreadPoolRequest> m_QueueRequests = null;
-	private CountDownLatch m_signalThreadsTerminated = null;
-	private Exception m_expThrownByPooledThread = null; // Exception thrown by a thread belonging to the pool
+	private boolean bTerminationRequested = false;
+	private ArrayList<PooledThread> arrPooledThreads = null;
+	private FixedSizeBlockingQueue<ThreadPoolRequest> queueRequests = null;
+	private CountDownLatch signalThreadsTerminated = null;
+	private Exception expThrownByPooledThread = null; // Exception thrown by a thread belonging to the pool
 }

@@ -37,7 +37,7 @@ public class CProcedureSection extends CCommentContainer
 	public CProcedureSection(String name, int line)
 	{
 		super(line);
-		m_Name = name ;
+		name = name ;
 	}
 	
 	protected boolean DoParsing()
@@ -49,8 +49,8 @@ public class CProcedureSection extends CCommentContainer
 		}
 		if (tok.GetType() == CTokenType.KEYWORD)
 		{
-			m_SectionBloc = new CBaseProcedure(getLine());
-			if (!Parse(m_SectionBloc))
+			sectionBloc = new CBaseProcedure(getLine());
+			if (!Parse(sectionBloc))
 			{
 				return false ;
 			}
@@ -61,13 +61,13 @@ public class CProcedureSection extends CCommentContainer
 	protected Element ExportCustom(Document root)
 	{
 		Element e = root.createElement("ProcedureSection") ;
-		if (!m_Name.equals(""))
+		if (!name.equals(""))
 		{
-			e.setAttribute("Name", m_Name) ;
+			e.setAttribute("Name", name) ;
 		}
-		if (m_SectionBloc != null)
+		if (sectionBloc != null)
 		{
-			Element eBloc = m_SectionBloc.Export(root);
+			Element eBloc = sectionBloc.Export(root);
 			e.appendChild(eBloc);
 		}
 		return e;
@@ -77,26 +77,26 @@ public class CProcedureSection extends CCommentContainer
 		AddChild(p) ;
 	}
 	
-	protected String m_Name = "" ;
-	protected CBaseProcedure m_SectionBloc = null ;
+	protected String name = "" ;
+	protected CBaseProcedure sectionBloc = null ;
 
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
 		CEntityProcedureSection eSection ;
-		if (m_Name.equals(""))
+		if (name.equals(""))
 		{
 			eSection = factory.NewEntityProcedureSection(0, "") ;
 		}
 		else
 		{
-			eSection = factory.NewEntityProcedureSection(getLine(), m_Name) ;
-			factory.m_ProgramCatalog.RegisterProcedureSection(eSection) ;
+			eSection = factory.NewEntityProcedureSection(getLine(), name) ;
+			factory.programCatalog.RegisterProcedureSection(eSection) ;
 		}
 		parent.AddChild(eSection);
 
-		if (m_SectionBloc != null)
+		if (sectionBloc != null)
 		{
-			CEntityBloc el = (CEntityBloc)m_SectionBloc.DoSemanticAnalysis(eSection, factory);
+			CEntityBloc el = (CEntityBloc)sectionBloc.DoSemanticAnalysis(eSection, factory);
 			eSection.SetSectionBloc(el) ;
 		}		
 		return eSection;

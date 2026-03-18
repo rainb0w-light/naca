@@ -19,31 +19,31 @@ public class TranscoderAction
 	public static TranscoderAction SyntaxCheck = new TranscoderAction(true, false);
 	public static TranscoderAction All = new TranscoderAction(true, true);
 	
-	private boolean m_bSyntaxCheck = false;
-	private boolean m_bGeneration = false;
+	private boolean bSyntaxCheck = false;
+	private boolean bGeneration = false;
 	
 	private TranscoderAction(boolean bSyntax, boolean bGeneration)
 	{
-		m_bSyntaxCheck = bSyntax;
-		m_bGeneration = bGeneration;
+		bSyntaxCheck = bSyntax;
+		bGeneration = bGeneration;
 	}
 	
 	public boolean isSyntaxCheck()
 	{
-		return m_bSyntaxCheck;
+		return bSyntaxCheck;
 	}
 	
 	public boolean isGeneration()
 	{
-		return m_bGeneration;
+		return bGeneration;
 	}
 	
 	public String getAsString()
 	{
 		String cs = "";
-		if(m_bSyntaxCheck)
+		if(bSyntaxCheck)
 			cs = "SyntaxCheck";
-		if(m_bGeneration)
+		if(bGeneration)
 			cs = " Semantic Generation";
 		return cs;			
 	}

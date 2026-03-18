@@ -16,27 +16,27 @@ package idea.manager;
  */
 public class PreloadProgramSettings
 {
-	private String m_csProgramName = null;
-	private int m_nQty = 0;
+	private String csProgramName = null;
+	private int nQty = 0;
 	
 	PreloadProgramSettings(String csName)
 	{
-		m_csProgramName = csName;
-		m_nQty = 1;
+		csProgramName = csName;
+		nQty = 1;
 	}
 	
 	void setQty(int nQty)
 	{
-		m_nQty = nQty;
+		nQty = nQty;
 	}
 	
 	String getName()
 	{
-		return m_csProgramName;
+		return csProgramName;
 	}
 	
 	int getQty()
 	{
-		return m_nQty;
+		return nQty;
 	}	
 }

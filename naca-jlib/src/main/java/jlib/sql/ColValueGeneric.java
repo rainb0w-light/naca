@@ -29,53 +29,53 @@ public class ColValueGeneric extends ColValue
 	
 	public ColValue duplicate()
 	{
-		return new ColValueGeneric(m_csName);
+		return new ColValueGeneric(csName);
 	}
 	
 	public void setParamSQLClause(SQLClause clause)
 	{
-		clause.param(m_csValue);
+		clause.param(csValue);
 	}
 	
 	public void doFillWithResurltSetCol(ResultSet resultSet, int nCol)
 		throws SQLException
 	{
-		m_csValue = resultSet.getString(nCol);
+		csValue = resultSet.getString(nCol);
 	}
 	
 	public void setValue(String csValue)
 	{
-		m_csValue = csValue;
+		csValue = csValue;
 	}
 	
 	public void setValue(int n)
 	{
-		m_csValue = String.valueOf(n);
+		csValue = String.valueOf(n);
 	}
 	
 	public void setValue(long l)
 	{
-		m_csValue = String.valueOf(l);
+		csValue = String.valueOf(l);
 	}
 	
 	public String getValueAsString()
 	{
-		return m_csValue;
+		return csValue;
 	}
 		
 	public int getValueAsInt()
 	{
-		return NumberParser.getAsInt(m_csValue);
+		return NumberParser.getAsInt(csValue);
 	}
 	
 	double getValueAsDouble()
 	{
-		return NumberParser.getAsDouble(m_csValue);
+		return NumberParser.getAsDouble(csValue);
 	}
 	
 	String getDumpValueAsString()
 	{
-		return "(Generic):'"+m_csValue+"'";
+		return "(Generic):'"+csValue+"'";
 	}
 	
 	String getType()
@@ -90,8 +90,8 @@ public class ColValueGeneric extends ColValue
 	
 	Object getValue()
 	{
-		return m_csValue;
+		return csValue;
 	}
 	
-	private String m_csValue = null;
+	private String csValue = null;
 }

@@ -23,58 +23,58 @@ public class AccountingRecordProgram
 {
 	public AccountingRecordProgram()
 	{
-		m_dateStart = new Date();
-		m_stopWatchNano.reset();
+		dateStart = new Date();
+		stopWatchNano.reset();
 	}
 	
 	public void beginRunProgram(String csProgramName)
 	{
-		m_csProgramName = csProgramName;
+		csProgramName = csProgramName;
 	}
 	
 	public void endRunProgram(CriteriaEndRunMain criteria)
 	{
-		m_nRunTime_ms = (int)StopWatchNano.getMilliSecond(m_stopWatchNano.getElapsedTime());
-		m_csCriteriaEnd = criteria.getName();
+		nRunTime_ms = (int)StopWatchNano.getMilliSecond(stopWatchNano.getElapsedTime());
+		csCriteriaEnd = criteria.getName();
 	}
 	
 	int getRunTime_ms()
 	{
-		return m_nRunTime_ms;
+		return nRunTime_ms;
 	}
 	
 	long getRunTimeIO_ns()
 	{
-		return m_nRunTimeIO_ns;
+		return nRunTimeIO_ns;
 	}
 	
 	long getTimeDateStart()
 	{
-		if(m_dateStart != null)
-			return m_dateStart.getTime();
+		if(dateStart != null)
+			return dateStart.getTime();
 		return 0;
 	}
 	
 	void reportDBIOTime(long lDBIOTime_ns)
 	{
-		m_nRunTimeIO_ns += lDBIOTime_ns;
+		nRunTimeIO_ns += lDBIOTime_ns;
 	}
 	
 	String getProgramName()
 	{
-		return m_csProgramName;
+		return csProgramName;
 	}
 	
 	String getCriteriaEnd()
 	{
-		return m_csCriteriaEnd;
+		return csCriteriaEnd;
 	}
 	
-	private Date m_dateStart = null;
-	private String m_csProgramName = "";
-	private int m_nRunTime_ms = 0;
-	private long m_nRunTimeIO_ns = 0;
+	private Date dateStart = null;
+	private String csProgramName = "";
+	private int nRunTime_ms = 0;
+	private long nRunTimeIO_ns = 0;
 
-	private String m_csCriteriaEnd = "";
-	private StopWatchNano m_stopWatchNano = new StopWatchNano();	
+	private String csCriteriaEnd = "";
+	private StopWatchNano stopWatchNano = new StopWatchNano();	
 }

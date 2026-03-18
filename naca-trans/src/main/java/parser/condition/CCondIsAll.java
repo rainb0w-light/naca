@@ -31,14 +31,14 @@ import semantic.expression.CEntityCondIsAll;
  */
 public class CCondIsAll extends CExpression
 {
-	protected CExpression m_term1 = null ;
-	protected CExpression m_term2 = null ;
+	protected CExpression term1 = null ;
+	protected CExpression term2 = null ;
 	
 	public CCondIsAll(int line, CExpression term1, CExpression term2)
 	{
 		super(line) ;
-		m_term1 = term1 ;
-		m_term2 = term2 ;
+		term1 = term1 ;
+		term2 = term2 ;
 	}
 	/* (non-Javadoc)
 	 * @see parser.expression.CExpression#WriteTo(parser.expression.CBaseExpressionExporter)
@@ -54,8 +54,8 @@ public class CCondIsAll extends CExpression
 	
 	protected boolean CheckMembersBeforeExport()
 	{
-		boolean b = CheckMemberNotNull(m_term1);
-		b &= CheckMemberNotNull(m_term2);
+		boolean b = CheckMemberNotNull(term1);
+		b &= CheckMemberNotNull(term2);
 		return b;
 	}
 
@@ -65,8 +65,8 @@ public class CCondIsAll extends CExpression
 	public Element DoExport(Document root)
 	{
 		Element e = root.createElement("IsAll") ;
-		e.appendChild(m_term1.Export(root)) ;
-		e.appendChild(m_term2.Export(root)) ;
+		e.appendChild(term1.Export(root)) ;
+		e.appendChild(term2.Export(root)) ;
 		return e;
 	}
 
@@ -89,11 +89,11 @@ public class CCondIsAll extends CExpression
 	 */
 	public CBaseEntityCondition AnalyseCondition(CBaseEntityFactory factory, CDefaultConditionManager condMaster)
 	{
-		CBaseEntityExpression op1 = m_term1.AnalyseExpression(factory);
-		CBaseEntityExpression op2 = m_term2.AnalyseExpression(factory);
+		CBaseEntityExpression op1 = term1.AnalyseExpression(factory);
+		CBaseEntityExpression op2 = term2.AnalyseExpression(factory);
 		CEntityCondIsAll eIsAll = factory.NewEntityCondIsAll();
 		eIsAll.SetCondition(op1, op2) ;
-		if (m_bIsOpposite)
+		if (bIsOpposite)
 		{
 			eIsAll.setOpposite() ;
 		}
@@ -104,7 +104,7 @@ public class CCondIsAll extends CExpression
 	 */
 	public CExpression GetFirstConditionOperand()
 	{
-		return m_term1 ;
+		return term1 ;
 	}
 	/* (non-Javadoc)
 	 * @see parser.expression.CExpression#GetSimilarExpression(parser.expression.CExpression)
@@ -123,13 +123,13 @@ public class CCondIsAll extends CExpression
 	}
 	public String toString()
 	{
-		if (m_bIsOpposite)
+		if (bIsOpposite)
 		{
-			return "IS_NOT_ALL(" + m_term1.toString() + ", " + m_term2.toString() + ")" ;
+			return "IS_NOT_ALL(" + term1.toString() + ", " + term2.toString() + ")" ;
 		}
 		else
 		{
-			return "IS_ALL(" + m_term1.toString() + ", " + m_term2.toString() + ")" ;
+			return "IS_ALL(" + term1.toString() + ", " + term2.toString() + ")" ;
 		}
 	}
 	public CExpression getMasterBinaryCondition()
@@ -141,14 +141,14 @@ public class CCondIsAll extends CExpression
 	 */
 	public void setOpposite()
 	{
-		m_bIsOpposite = !m_bIsOpposite ;
+		bIsOpposite = !bIsOpposite ;
 	}
-	protected boolean m_bIsOpposite = false ;
+	protected boolean bIsOpposite = false ;
 
 	@Override
 	public CExpression GetFirstCalculOperand()
 	{
-		return m_term1.GetFirstCalculOperand() ;
+		return term1.GetFirstCalculOperand() ;
 	}
 
 }

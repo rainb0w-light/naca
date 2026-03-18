@@ -22,54 +22,54 @@ public class InitializeCache
 {
 	public InitializeCache()
 	{
-		m_arr = new ArrayDyn<InitializeCachedItem>();
+		arr = new ArrayDyn<InitializeCachedItem>();
 	}
 	
 	void setFilledAndcompress(int nBaseAbsolutePosition)
 	{
-		m_bFilled = true;
-		m_nBaseAbsolutePosition = nBaseAbsolutePosition;
+		bFilled = true;
+		nBaseAbsolutePosition = nBaseAbsolutePosition;
 
-		if(m_arr != null)
+		if(arr != null)
 		{	
-			// Swap the type inside m_arrRedefinition 
-			if(m_arr.isDyn())
+			// Swap the type inside arr
+			if(arr.isDyn())
 			{
-				int nSize = m_arr.size();
-				InitializeCachedItem arr[] = new InitializeCachedItem[nSize];
-				m_arr.transferInto(arr);
-				
-				ArrayFix<InitializeCachedItem> arrInitializeCachedItemFix = new ArrayFix<InitializeCachedItem>(arr);
-				m_arr = arrInitializeCachedItemFix;	// replace by a fix one (uning less memory)
+				int nSize = arr.size();
+				InitializeCachedItem targetArr[] = new InitializeCachedItem[nSize];
+				arr.transferInto(targetArr);
+
+				ArrayFix<InitializeCachedItem> arrInitializeCachedItemFix = new ArrayFix<InitializeCachedItem>(targetArr);
+				arr = arrInitializeCachedItemFix;	// replace by a fix one (uning less memory)
 			}
 		}
 	}
 	
 	void setNotManaged()
 	{
-		m_bManaged = false;
+		bManaged = false;
 	}
 	
 	boolean isFilled()
 	{
-		return m_bFilled;
+		return bFilled;
 	}
 	
 	public boolean isManaged()
 	{
-		return m_bManaged;
+		return bManaged;
 	}
 	
 	void addItem(char cPad, int nPosition, int nNbChars)
 	{
 		InitializeCachedItem initializeCachedItem = new InitializeCachedItemRepeatingChar(cPad, nPosition, nNbChars);
-		m_arr.add(initializeCachedItem);
+		arr.add(initializeCachedItem);
 	}
 	
 	void addItem(VarBufferPos buffer, int nOffset, int nNbChars)
 	{
 		char tChars[] = buffer.getAsCharArray(nOffset, nNbChars);
-		int nPos = buffer.m_nAbsolutePosition+nOffset;
+		int nPos = buffer.nAbsolutePosition+nOffset;
 		doAddItem(tChars, nPos);
 	}
 	
@@ -83,21 +83,21 @@ public class InitializeCache
 	private void doAddItem(char tChars[], int nPos)
 	{		
 		InitializeCachedItem initializeCachedItem = new InitializeCachedItemCharsArray(tChars, nPos);
-		m_arr.add(initializeCachedItem);
+		arr.add(initializeCachedItem);
 	}
 	
 	void applyItems(VarBufferPos varBufferPos, int nCurrentAbsolutePosition)	//, int nOffset)
 	{
-		int nSize = m_arr.size();
+		int nSize = arr.size();
 		for(int n=0; n<nSize; n++)
 		{
-			InitializeCachedItem initializeCachedItem = m_arr.get(n);
-			initializeCachedItem.apply(m_nBaseAbsolutePosition, varBufferPos, nCurrentAbsolutePosition);	//, nOffset);			
+			InitializeCachedItem initializeCachedItem = arr.get(n);
+			initializeCachedItem.apply(nBaseAbsolutePosition, varBufferPos, nCurrentAbsolutePosition);	//, nOffset);			
 		}
 	}
 	
-	private boolean m_bFilled = false;
-	private boolean m_bManaged = true;
-	private ArrayFixDyn<InitializeCachedItem> m_arr = null;
-	private int m_nBaseAbsolutePosition = 0;
+	private boolean bFilled = false;
+	private boolean bManaged = true;
+	private ArrayFixDyn<InitializeCachedItem> arr = null;
+	private int nBaseAbsolutePosition = 0;
 }

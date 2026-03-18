@@ -47,7 +47,7 @@ public class CRulesManager
 	
 	public void LoadRulesFile(Tag tag)
 	{
-		m_tagRules = tag;
+		tagRules = tag;
 		LoadRules() ;
 	}
 	/**
@@ -55,10 +55,10 @@ public class CRulesManager
 	 */
 	private void LoadRules()
 	{
-		if (m_tagRules != null)
+		if (tagRules != null)
 		{
 			TagCursor cur = new TagCursor() ;
-			Tag tagCat = m_tagRules.getFirstChild(cur, "category") ;
+			Tag tagCat = tagRules.getFirstChild(cur, "category") ;
 			while  (tagCat != null)
 			{
 				String id = tagCat.getVal("id");
@@ -67,14 +67,14 @@ public class CRulesManager
 					Vector<Tag> lstRules = tagCat.getChilds("rule") ;
 					if (lstRules.size()>0)
 					{
-						m_tabCategories.put(id, lstRules);
+						tabCategories.put(id, lstRules);
 					}
 				}
-				tagCat = m_tagRules.getNextChild(cur) ;
+				tagCat = tagRules.getNextChild(cur) ;
 			}
 			
 			cur = new TagCursor() ;
-			Tag tagRule = m_tagRules.getFirstChild(cur, "rule") ;
+			Tag tagRule = tagRules.getFirstChild(cur, "rule") ;
 			while  (tagRule != null)
 			{
 				String id = tagRule.getVal("id");
@@ -82,19 +82,19 @@ public class CRulesManager
 				{
 					Vector<Tag> lstRules = new Vector<Tag>() ;
 					lstRules.add(tagRule) ;
-					m_tabCategories.put(id, lstRules);
+					tabCategories.put(id, lstRules);
 				}
-				tagRule = m_tagRules.getNextChild(cur) ;
+				tagRule = tagRules.getNextChild(cur) ;
 			}
 		}
 		
 	}
-	protected Tag m_tagRules = null ;
-	protected Hashtable<String, Vector<Tag>> m_tabCategories = new Hashtable<String, Vector<Tag>>() ;
+	protected Tag tagRules = null ;
+	protected Hashtable<String, Vector<Tag>> tabCategories = new Hashtable<String, Vector<Tag>>() ;
 	
 	public int getNbRules(String category)
 	{
-		Vector<Tag> lst = m_tabCategories.get(category);
+		Vector<Tag> lst = tabCategories.get(category);
 		if (lst != null)
 		{
 			return lst.size() ;
@@ -103,7 +103,7 @@ public class CRulesManager
 	}
 	public Tag getRule(String category, int index)
 	{
-		Vector<Tag> lst = m_tabCategories.get(category);
+		Vector<Tag> lst = tabCategories.get(category);
 		if (lst != null && index < lst.size())
 		{
 			return lst.get(index) ;
@@ -112,7 +112,7 @@ public class CRulesManager
 	}
 	public Tag getRule(String category)
 	{
-		Vector<Tag> lst = m_tabCategories.get(category);
+		Vector<Tag> lst = tabCategories.get(category);
 		if (lst != null)
 		{
 			return lst.get(0) ;

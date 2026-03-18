@@ -41,7 +41,7 @@ public class CJavaDigits extends CEntityDigits
 	 */
 	public String ExportReference(int nLine)
 	{
-		return "digits("+m_Reference.ExportReference(getLine())+")";
+		return "digits("+reference.ExportReference(getLine())+")";
 	}
 	public boolean isValNeeded()
 	{

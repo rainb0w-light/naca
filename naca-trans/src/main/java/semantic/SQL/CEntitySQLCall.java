@@ -20,8 +20,8 @@ import utils.CObjectCatalog;
 public abstract class CEntitySQLCall extends CBaseActionEntity
 {
 
-	protected CDataEntity m_ProgramReference = null ;
-	protected Vector<CDataEntity> m_arrParameters = new Vector<CDataEntity>() ;
+	protected CDataEntity programReference = null ;
+	protected Vector<CDataEntity> arrParameters = new Vector<CDataEntity>() ;
 	
 	/**
 	 * @param line
@@ -38,7 +38,7 @@ public abstract class CEntitySQLCall extends CBaseActionEntity
 	 */
 	public void setReference(CDataEntity prgRef)
 	{
-		m_ProgramReference = prgRef ;
+		programReference = prgRef ;
 	}
 
 	/**
@@ -46,7 +46,7 @@ public abstract class CEntitySQLCall extends CBaseActionEntity
 	 */
 	public void addParameter(CDataEntity param)
 	{
-		m_arrParameters.add(param) ;
+		arrParameters.add(param) ;
 	}
 
 

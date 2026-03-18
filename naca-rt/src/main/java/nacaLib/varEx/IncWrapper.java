@@ -22,18 +22,18 @@ public class IncWrapper
 {
 	IncWrapper()
 	{
-		m_n = 0;
+		n = 0;
 	}
 	
 	void inc()
 	{
-		m_n++;
+		n++;
 	}
 	
 	int get()
 	{
-		return m_n;
+		return n;
 	}
 	
-	private int m_n;
+	private int n;
 }

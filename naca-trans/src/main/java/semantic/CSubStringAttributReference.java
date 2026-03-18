@@ -41,13 +41,13 @@ public abstract class CSubStringAttributReference extends CBaseDataReference
 	}
 	public void SetReference(CDataEntity ref, CBaseEntityExpression start, CBaseEntityExpression length)
 	{
-		m_Reference = ref ;
-		m_Start = start ;
-		m_Length = length;
+		reference = ref ;
+		start = start ;
+		length = length;
 	}
 	
-	protected CBaseEntityExpression m_Start = null ;
-	protected CBaseEntityExpression m_Length = null ;
+	protected CBaseEntityExpression start = null ;
+	protected CBaseEntityExpression length = null ;
 
 	/* (non-Javadoc)
 	 * @see semantic.CBaseDataEntity#GetSpecialAssignment(parser.expression.CTerminal)
@@ -56,28 +56,28 @@ public abstract class CSubStringAttributReference extends CBaseDataReference
 	{
 		String value = term.GetValue() ;
 		CEntitySetConstant eAssign = factory.NewEntitySetConstant(l) ;
-		eAssign.SetSubStringRef(m_Start, m_Length);
-		if (value.equals(CCobolConstantList.ZERO.m_Name) || value.equals(CCobolConstantList.ZEROS.m_Name) || value.equals(CCobolConstantList.ZEROES.m_Name))
+		eAssign.SetSubStringRef(start, length);
+		if (value.equals(CCobolConstantList.ZERO.name) || value.equals(CCobolConstantList.ZEROS.name) || value.equals(CCobolConstantList.ZEROES.name))
 		{
-			eAssign.SetToZero(m_Reference) ;
+			eAssign.SetToZero(reference) ;
 		}
-		else if (value.equals(CCobolConstantList.SPACE.m_Name) || value.equals(CCobolConstantList.SPACES.m_Name))
+		else if (value.equals(CCobolConstantList.SPACE.name) || value.equals(CCobolConstantList.SPACES.name))
 		{
-			eAssign.SetToSpace(m_Reference) ;
+			eAssign.SetToSpace(reference) ;
 		}
-		else if (value.equals(CCobolConstantList.LOW_VALUE.m_Name) || value.equals(CCobolConstantList.LOW_VALUES.m_Name))
+		else if (value.equals(CCobolConstantList.LOW_VALUE.name) || value.equals(CCobolConstantList.LOW_VALUES.name))
 		{
-			eAssign.SetToLowValue(m_Reference) ;
+			eAssign.SetToLowValue(reference) ;
 		}
-		else if (value.equals(CCobolConstantList.HIGH_VALUE.m_Name) || value.equals(CCobolConstantList.HIGH_VALUES.m_Name))
+		else if (value.equals(CCobolConstantList.HIGH_VALUE.name) || value.equals(CCobolConstantList.HIGH_VALUES.name))
 		{
-			eAssign.SetToHighValue(m_Reference) ;
+			eAssign.SetToHighValue(reference) ;
 		}
 		else
 		{
 			return null ;
 		}
-		m_Reference.RegisterWritingAction(eAssign) ;
+		reference.RegisterWritingAction(eAssign) ;
 		//RegisterWritingAction(eAssign) ;
 		return eAssign ;
 	}
@@ -91,7 +91,7 @@ public abstract class CSubStringAttributReference extends CBaseDataReference
 	}
 	public CBaseEntityCondition GetSpecialCondition(int nLine, String value, CBaseEntityCondition.EConditionType type, CBaseEntityFactory factory)
 	{
-		CBaseEntityCondition eCond = m_Reference.GetSpecialCondition(getLine(), value, type, factory);
+		CBaseEntityCondition eCond = reference.GetSpecialCondition(getLine(), value, type, factory);
 		if (eCond == null)
 		{
 			return null ;
@@ -100,9 +100,9 @@ public abstract class CSubStringAttributReference extends CBaseDataReference
 		{
 			CDataEntity eData = eCond.GetConditionReference() ;
 			CSubStringAttributReference eSubStr = factory.NewEntitySubString(getLine()) ;
-			eSubStr.m_Length = m_Length ;
-			eSubStr.m_Start = m_Start ;
-			eSubStr.m_Reference = eData ;
+			eSubStr.length = length ;
+			eSubStr.start = start ;
+			eSubStr.reference = eData ;
 			eCond.SetConditonReference(eSubStr);
 			eSubStr.RegisterVarTesting(eCond) ;
 			return eCond;
@@ -110,9 +110,9 @@ public abstract class CSubStringAttributReference extends CBaseDataReference
 	}
 	public boolean ignore()
 	{
-		if (m_Reference == null)
+		if (reference == null)
 			return true ;
-		return m_Reference.ignore() ;
+		return reference.ignore() ;
 	}
 	public String GetConstantValue()
 	{
@@ -121,10 +121,10 @@ public abstract class CSubStringAttributReference extends CBaseDataReference
 	public void Clear()
 	{
 		super.Clear();
-		m_Length.Clear();
-		m_Length = null ;
-		m_Start.Clear() ;
-		m_Start = null ;
+		length.Clear();
+		length = null ;
+		start.Clear() ;
+		start = null ;
 	}
 	
 }

@@ -24,12 +24,12 @@ public abstract class CEntityIsNamedCondition extends CUnitaryEntityCondition
 {
 	public void SetCondition(CEntityNamedCondition cond)
 	{
-		m_Reference = cond ;
+		reference = cond ;
 	} 
-	protected boolean m_bOpposite = false ;
+	protected boolean bOpposite = false ;
 	public boolean ignore()
 	{
-		return m_Reference.ignore();
+		return reference.ignore();
 	}
 	public boolean isBinaryCondition()
 	{

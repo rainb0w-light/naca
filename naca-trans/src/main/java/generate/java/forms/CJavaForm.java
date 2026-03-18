@@ -47,18 +47,18 @@ public class CJavaForm extends CEntityResourceForm
 //	{
 //		Element eForm = doc.createElement("form") ;
 //		// set attributes 
-//		eForm.setAttribute("name", m_parent.GetName()) ;
-//		eForm.setAttribute("sizecol", ""+m_nSizeCol);		
-//		eForm.setAttribute("sizeline", ""+m_nSizeLine);
-//		if (!m_csCustomSubmitMethod.equals(""))
+//		eForm.setAttribute("name", parent.GetName()) ;
+//		eForm.setAttribute("sizecol", ""+nSizeCol);		
+//		eForm.setAttribute("sizeline", ""+nSizeLine);
+//		if (!csCustomSubmitMethod.equals(""))
 //		{
-//			eForm.setAttribute("customSubmit", m_csCustomSubmitMethod) ;
+//			eForm.setAttribute("customSubmit", csCustomSubmitMethod) ;
 //		}				
 //		
 //		// add fields
-////		for(int nCurField = 0 ; nCurField<m_arrFields.size(); nCurField++) 
+////		for(int nCurField = 0 ; nCurField<arrFields.size(); nCurField++) 
 ////		{
-////			CEntityResourceField field = (CEntityResourceField)m_arrFields.get(nCurField);
+////			CEntityResourceField field = (CEntityResourceField)arrFields.get(nCurField);
 ////			Element eField = field.DoXMLExport() ;
 ////			eForm.appendChild(eField) ;
 ////		}
@@ -71,9 +71,9 @@ public class CJavaForm extends CEntityResourceForm
 	public String ExportReference(int nLine)
 	{
 		String cs = "" ;
-		if (m_Of != null)
+		if (of != null)
 		{
-			cs = m_Of.ExportReference(getLine()) + "." ;
+			cs = of.ExportReference(getLine()) + "." ;
 		}
 		cs += FormatIdentifier(GetName()) ;
 		return cs ;		
@@ -85,14 +85,14 @@ public class CJavaForm extends CEntityResourceForm
 	protected void DoExport()
 	{
 		String name = FormatIdentifier(GetName()) ;
-		String formname = FormatIdentifier(m_csResourceName);
-		WriteLine("Form " + name + " = declare.form(\""+formname+"\", "+m_nSizeLine+", "+m_nSizeCol+") ;") ;
+		String formname = FormatIdentifier(csResourceName);
+		WriteLine("Form " + name + " = declare.form(\""+formname+"\", "+nSizeLine+", "+nSizeCol+") ;") ;
 			
 		StartOutputBloc() ;
-		int nbFields = m_arrFields.size() ;
+		int nbFields = arrFields.size() ;
 		for (int j=0;j<nbFields; j++)
 		{
-			CEntityResourceField eField = (CEntityResourceField)m_arrFields.get(j);
+			CEntityResourceField eField = (CEntityResourceField)arrFields.get(j);
 //			String cs = GetLineForField(eField) ;
 //			WriteLine(cs);
 			DoExport(eField) ;

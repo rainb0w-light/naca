@@ -21,14 +21,14 @@ import java.util.Set;
  */
 public class ArrayDynDiscontinuous<T> extends ArrayFixDyn<T>
 {
-	Hashtable<Integer, T> m_arr = null;
+	Hashtable<Integer, T> arr = null;
 	
 	public int size()
 	{
-		if(m_arr != null)
+		if(arr != null)
 		{
 			int nMaxKey = -1;
-			Set<Integer> keySet = m_arr.keySet();
+			Set<Integer> keySet = arr.keySet();
 			Iterator<Integer> keyIter = keySet.iterator();
 			while(keyIter.hasNext())
 			{
@@ -43,8 +43,8 @@ public class ArrayDynDiscontinuous<T> extends ArrayFixDyn<T>
 	
 	public T get(int n)
 	{
-		if(m_arr != null)
-			return m_arr.get(n);
+		if(arr != null)
+			return arr.get(n);
 		return null;
 	}
 	
@@ -52,19 +52,19 @@ public class ArrayDynDiscontinuous<T> extends ArrayFixDyn<T>
 	{
 	}
 	
-	public void transferInto(T arr[])
+	public void transferInto(T targetArr[])
 	{
-		if(m_arr != null)
+		if(arr != null)
 		{
-			Set<Integer> keySet = m_arr.keySet();
+			Set<Integer> keySet = arr.keySet();
 			if(keySet != null)
 			{
 				Iterator<Integer> keyIter = keySet.iterator();
 				while(keyIter.hasNext())
 				{
 					Integer nKey = keyIter.next();
-					T t = m_arr.get(nKey);
-					arr[nKey] = t;			
+					T t = arr.get(nKey);
+					targetArr[nKey] = t;			
 				}
 			}
 		}
@@ -81,8 +81,8 @@ public class ArrayDynDiscontinuous<T> extends ArrayFixDyn<T>
 
 	public void set(int n, T t)
 	{
-		if(m_arr == null)
-			m_arr = new Hashtable<Integer, T>();
-		m_arr.put(n, t);
+		if(arr == null)
+			arr = new Hashtable<Integer, T>();
+		arr.put(n, t);
 	}
 }

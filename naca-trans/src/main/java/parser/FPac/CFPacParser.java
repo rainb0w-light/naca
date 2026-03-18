@@ -17,8 +17,8 @@ public class CFPacParser extends CParser<CFPacScript>
 	protected boolean DoParsing(CTokenList lstTokens)
 	{
 		CFPacScript p = new CFPacScript(0) ;
-		m_eRoot = p ;
-		boolean bParsed = p.Parse(lstTokens, m_CommentContainer) ; 
+		eRoot = p ;
+		boolean bParsed = p.Parse(lstTokens, commentContainer) ; 
 		return bParsed ;
 	}
 

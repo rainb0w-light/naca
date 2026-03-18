@@ -49,19 +49,19 @@ public class CRewrite extends CCobolElement
 		CEntityRewriteFile eWrite = factory.NewEntityRewriteFile(getLine()) ;
 		parent.AddChild(eWrite) ;
 		
-		CEntityFileDescriptor eFD = factory.m_ProgramCatalog.getFileDescriptor(m_FileDesc.GetName()) ;
+		CEntityFileDescriptor eFD = factory.programCatalog.getFileDescriptor(fileDesc.GetName()) ;
 		if (eFD != null)
 		{
 			CDataEntity eData = null ;
-			if (m_DataRef != null)
+			if (dataRef != null)
 			{
-				eData = m_DataRef.GetDataReference(getLine(), factory) ;
+				eData = dataRef.GetDataReference(getLine(), factory) ;
 			}
 			eWrite.setFileDescriptor(eFD, eData) ;
 		}
 		else
 		{
-			Transcoder.logError(getLine(), "File descriptor not found : " + m_FileDesc.GetName());
+			Transcoder.logError(getLine(), "File descriptor not found : " + fileDesc.GetName());
 		}
 		return eWrite ;
 	}
@@ -72,16 +72,16 @@ public class CRewrite extends CCobolElement
 		{
 			return false ;
 		}
-		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().m_Name) ;
+		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
 		
 		tok = GetNext() ;
-		m_FileDesc = ReadIdentifier();
+		fileDesc = ReadIdentifier();
 		
 		tok = GetCurrentToken() ;
 		if (tok.GetKeyword() == CCobolKeywordList.FROM)
 		{
 			tok = GetNext() ;
-			m_DataRef = ReadIdentifier();
+			dataRef = ReadIdentifier();
 			tok = GetCurrentToken() ;
 		}
 		
@@ -92,8 +92,8 @@ public class CRewrite extends CCobolElement
 			{
 				tok = GetNext();
 			}
-			m_OnInvalidKey = new CGenericBloc("OnInvalidKey",  tok.getLine());
-			if (!Parse(m_OnInvalidKey))
+			onInvalidKey = new CGenericBloc("OnInvalidKey",  tok.getLine());
+			if (!Parse(onInvalidKey))
 			{
 				return false ;
 			}
@@ -105,18 +105,18 @@ public class CRewrite extends CCobolElement
 		Element eRW = root.createElement("ReWrite");
 		Element eRecord = root.createElement("File");
 		eRW.appendChild(eRecord);
-		m_FileDesc.ExportTo(eRecord, root);
+		fileDesc.ExportTo(eRecord, root);
 		
-		if (m_DataRef != null)
+		if (dataRef != null)
 		{
 			Element e = root.createElement("From");
-			m_DataRef.ExportTo(e, root);
+			dataRef.ExportTo(e, root);
 			eRW.appendChild(e);
 		}
 		return eRW;
 	}
 
-	protected CIdentifier m_FileDesc = null ;
-	protected CIdentifier m_DataRef = null ;
-	protected CGenericBloc m_OnInvalidKey = null ;
+	protected CIdentifier fileDesc = null ;
+	protected CIdentifier dataRef = null ;
+	protected CGenericBloc onInvalidKey = null ;
 }

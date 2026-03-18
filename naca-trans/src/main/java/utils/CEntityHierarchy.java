@@ -34,11 +34,11 @@ public class CEntityHierarchy
 //			Concat(hier) ;
 //		}
 //	}	
-	protected Vector<String> m_arrAscendants = new Vector<String>() ;
+	protected Vector<String> arrAscendants = new Vector<String>() ;
 
 	public void AddLevel(String level)
 	{
-		m_arrAscendants.addElement(level) ;
+		arrAscendants.addElement(level) ;
 	}
 	
 	public boolean CheckAscendant(String name)
@@ -48,7 +48,7 @@ public class CEntityHierarchy
 			String [] arr = name.split(";") ;
 			return CheckAscendants(arr) ;
 		}
-		return m_arrAscendants.contains(name) && !m_arrAscendants.elementAt(m_arrAscendants.size()-1).equals(name);
+		return arrAscendants.contains(name) && !arrAscendants.elementAt(arrAscendants.size()-1).equals(name);
 	}	
 	public boolean CheckAscendants(String[] arr)
 	{
@@ -69,10 +69,10 @@ public class CEntityHierarchy
 			radical = curName.substring(0, n) ;
 		}
 		String goodName = "" ;
-		for (int i=0; i<m_arrAscendants.size()-1 ; i++) // hierarchy starts with object's name
+		for (int i=0; i<arrAscendants.size()-1 ; i++) // hierarchy starts with object's name
 		{
 			boolean bFound = false ;
-			String asc = m_arrAscendants.get(i);
+			String asc = arrAscendants.get(i);
 			for (int j=0; j<tab.length && !bFound ; j++)
 			{
 				bFound |= tab[j].CheckAscendant(asc);
@@ -92,9 +92,9 @@ public class CEntityHierarchy
 	
 	public CEntityHierarchy Concat(CEntityHierarchy hier)
 	{
-		for (int i=0; i<hier.m_arrAscendants.size(); i++)
+		for (int i=0; i<hier.arrAscendants.size(); i++)
 		{
-			m_arrAscendants.addElement(hier.m_arrAscendants.get(i));
+			arrAscendants.addElement(hier.arrAscendants.get(i));
 		}		
 		return this ;
 	}

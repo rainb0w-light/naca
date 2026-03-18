@@ -137,19 +137,19 @@ public class LogLevel
  */
 	LogLevel(LogLevel logLevel)
 	{
-		m_nLevel = logLevel.m_nLevel;
-		m_csName = logLevel.m_csName;
+		nLevel = logLevel.nLevel;
+		csName = logLevel.csName;
 	}
 	
 	private LogLevel(int nLevel, String csName)
 	{
-		m_nLevel = nLevel;
-		m_csName = csName;
+		nLevel = nLevel;
+		csName = csName;
 	}
 	
 	private boolean hasName(String cs)
 	{
-		return cs.equalsIgnoreCase(m_csName);
+		return cs.equalsIgnoreCase(csName);
 	}
 /**
  * Translates a string into a LogLevel. Translation are case insensitive.
@@ -201,8 +201,8 @@ public class LogLevel
 	void set(String cs)
 	{
 		LogLevel l = getLevel(cs);
-		m_nLevel = l.m_nLevel;
-		m_csName = l.m_csName;
+		nLevel = l.nLevel;
+		csName = l.csName;
 	}
 /**
  * Retrieves the current log level as a string.
@@ -211,7 +211,7 @@ public class LogLevel
  */		
 	String getAsString()
 	{
-		return m_csName;
+		return csName;
 	}
 
 /**
@@ -223,11 +223,11 @@ public class LogLevel
  */
 	boolean isGreaterOrEqual(LogLevel minLogLevel)
 	{
-		if(m_nLevel >= minLogLevel.m_nLevel)
+		if(nLevel >= minLogLevel.nLevel)
 			return true;
 		return false;			
 	}
 	
-	private int m_nLevel = 0;
-	private String m_csName = null;
+	private int nLevel = 0;
+	private String csName = null;
 }

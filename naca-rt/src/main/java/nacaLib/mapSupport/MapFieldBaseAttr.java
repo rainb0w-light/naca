@@ -23,26 +23,26 @@ public abstract class MapFieldBaseAttr
 {
 	protected MapFieldBaseAttr(int nValue, String text)
 	{
-		m_nValue = nValue;
-		m_csText = text ;
+		nValue = nValue;
+		csText = text ;
 	}
 	
 	int getBitEncoding()
 	{
-		return m_nValue;
+		return nValue;
 	}	
 
 //	void setBitEncoding(int nValue)
 //	{
-//		m_nValue = nValue;
+//		nValue = nValue;
 //	}		
 
 	
-	private int m_nValue = 0;
-	private String m_csText = "" ;
+	private int nValue = 0;
+	private String csText = "" ;
 	protected int getInternalValue()
 	{
-		return m_nValue ;
+		return nValue ;
 	}
 	public String toString()
 	{
@@ -50,7 +50,7 @@ public abstract class MapFieldBaseAttr
 	}
 	public String getText()
 	{
-		return m_csText ;
+		return csText ;
 	}
 	
 	public String getSTCheckValue()

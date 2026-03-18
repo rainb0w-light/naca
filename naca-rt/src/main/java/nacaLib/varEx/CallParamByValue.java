@@ -22,22 +22,22 @@ public class CallParamByValue extends CCallParam
 {
 	public CallParamByValue(Var var)
 	{
-		m_var = var;
+		var = var;
 	}
 	
 	public int getParamLength()
 	{
-		if(m_var != null)
-			return m_var.getLength();
+		if(var != null)
+			return var.getLength();
 		return 0;
 	}
 	
 	public void MapOn(Var varLinkageSection)
 	{
-		m_var.transferTo(varLinkageSection);
+		var.transferTo(varLinkageSection);
 	}
 
 
 	
-	private Var m_var; 
+	private Var var; 
 }

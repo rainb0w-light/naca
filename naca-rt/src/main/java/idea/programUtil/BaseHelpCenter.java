@@ -29,16 +29,16 @@ public abstract class BaseHelpCenter extends CJMapObject
 {
 	public void setLangCode(String langId)
 	{
-		m_csLangId = langId ;
+		csLangId = langId ;
 	}
-	protected String m_csLangId = "" ;
+	protected String csLangId = "" ;
 	 
 	public abstract void doHelp(BaseEnvironment env, CBaseMapFieldLoader fieldLoader) ;
 	public abstract Document getHelpPage() ;
-	protected CLocalizedTextManager m_localizedTextManager = CLocalizedTextManager.getInstance() ;
+	protected CLocalizedTextManager localizedTextManager = CLocalizedTextManager.getInstance() ;
 	
 	protected String getLocalizedText(String id)
 	{
-		return m_localizedTextManager.getLocalizedString(id, m_csLangId) ;
+		return localizedTextManager.getLocalizedString(id, csLangId) ;
 	}
 }

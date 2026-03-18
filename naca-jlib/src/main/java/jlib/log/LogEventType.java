@@ -110,7 +110,7 @@ public class LogEventType
  */
 	LogEventType(String csType)
 	{
-		m_csType = csType;
+		csType = csType;
 	}
 
 /**
@@ -130,8 +130,8 @@ public class LogEventType
  */	
 	public String getType()
 	{
-		return m_csType;
+		return csType;
 	}
 	
-	private String m_csType = null;
+	private String csType = null;
 }

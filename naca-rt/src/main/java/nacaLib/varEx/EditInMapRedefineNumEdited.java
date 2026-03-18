@@ -39,29 +39,29 @@ public class EditInMapRedefineNumEdited extends EditInMapRedefine
 	public EditInMapRedefine allocOccursedItem(VarDefBuffer varDefItem)
 	{ 
 //		EditInMapRedefineNumEdited vItem = new EditInMapRedefineNumEdited();
-//		vItem.m_bufferPos = m_bufferPos;
-//		vItem.m_varDef = varDefItem;
+//		vItem.bufferPos = bufferPos;
+//		vItem.varDef = varDefItem;
 //		
-//		vItem.m_attrManager = vItem.getEditAttributManager(m_bufferPos.getProgramManager());
+//		vItem.attrManager = vItem.getEditAttributManager(bufferPos.getProgramManager());
 //		//Inherit attributes
 //		return vItem;
 		EditInMapRedefineNumEdited vItem = new EditInMapRedefineNumEdited();
-		vItem.m_varDef = varDefItem;
+		vItem.varDef = varDefItem;
 		
-		int nOffset = m_bufferPos.m_nAbsolutePosition - m_varDef.m_nDefaultAbsolutePosition;
-		vItem.m_bufferPos = new VarBufferPos(m_bufferPos, varDefItem.m_nDefaultAbsolutePosition + nOffset);
-		vItem.m_varTypeId = varDefItem.getTypeId();
+		int nOffset = bufferPos.nAbsolutePosition - varDef.nDefaultAbsolutePosition;
+		vItem.bufferPos = new VarBufferPos(bufferPos, varDefItem.nDefaultAbsolutePosition + nOffset);
+		vItem.varTypeId = varDefItem.getTypeId();
 		
-		//assertIfFalse(vItem.m_bufferPos.getProgramManager() == m_bufferPos.getProgramManager());
+		//assertIfFalse(vItem.bufferPos.getProgramManager() == bufferPos.getProgramManager());
 		
-		vItem.m_attrManager = vItem.getEditAttributManager();
+		vItem.attrManager = vItem.getEditAttributManager();
 		return vItem;
 	}
 	
 //	
 //	public void set(String cs)
 //	{
-//		String csFormatted = ((VarDefEditInMapRedefineNumEdited)m_varDef).applyFormatting(cs);
-//		m_Var2EditInMap.set(csFormatted);
+//		String csFormatted = ((VarDefEditInMapRedefineNumEdited)varDef).applyFormatting(cs);
+//		var2EditInMap.set(csFormatted);
 //	}
 }

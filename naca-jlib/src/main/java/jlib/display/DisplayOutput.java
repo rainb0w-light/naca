@@ -30,30 +30,30 @@ import jlib.xml.XSLTransformer;
  */
 public class DisplayOutput
 {
-	protected DisplayContext m_Context = null  ;
-	protected DisplayConfig m_Config = null ;
+	protected DisplayContext context = null  ;
+	protected DisplayConfig config = null ;
 	public DisplayOutput(DisplayContext context)
 	{
-		m_Context = context ;
-		m_Config = DisplayConfig.getInstance() ;
+		context = context ;
+		config = DisplayConfig.getInstance() ;
 	}
 	/**
 	 * @param tagOutput
 	 */
 	public void setXMLDisplay(Tag tagOutput)
 	{
-		m_tagDisplayOutput = tagOutput ;		
+		tagDisplayOutput = tagOutput ;		
 	}
 	
-	protected Tag m_tagDisplayOutput = null ;
+	protected Tag tagDisplayOutput = null ;
 
 	public void doRenderOutput(HttpServletResponse res)
 	{
 		res.setContentType("text/html");
 		try
 		{
-			Document xmlOutput = m_tagDisplayOutput.getEmbeddedDocument() ;
-			m_tagDisplayOutput.exportToFile(m_Config.getRootPath()+"output.xml") ;
+			Document xmlOutput = tagDisplayOutput.getEmbeddedDocument() ;
+			tagDisplayOutput.exportToFile(config.getRootPath()+"output.xml") ;
 			
 			ServletOutputStream out = res.getOutputStream();
 			if (xmlOutput == null)
@@ -63,7 +63,7 @@ public class DisplayOutput
 			}
 			else
 			{
-				ResourceManager man = m_Config.getResourceManager() ;
+				ResourceManager man = config.getResourceManager() ;
 				XSLTransformer trans = man.getXSLTransformer("MAIN") ;
 				if (trans == null)
 				{
@@ -89,6 +89,6 @@ public class DisplayOutput
 	 */
 	public void setURL(String s)
 	{
-		m_tagDisplayOutput.addVal("URL", s) ;
+		tagDisplayOutput.addVal("URL", s) ;
 	}
 }

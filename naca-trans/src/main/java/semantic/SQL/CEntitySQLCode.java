@@ -32,7 +32,7 @@ import utils.CObjectCatalog;
  */
 public abstract class CEntitySQLCode extends CDataEntity
 {
-	protected CBaseEntityExpression m_eHistoryItem = null ;
+	protected CBaseEntityExpression eHistoryItem = null ;
 	/**
 	 * @param l
 	 * @param name
@@ -46,7 +46,7 @@ public abstract class CEntitySQLCode extends CDataEntity
 	public CEntitySQLCode(String name, CObjectCatalog cat, CBaseLanguageExporter out, CBaseEntityExpression eHistoryItem)
 	{
 		super(0, name, cat, out);
-		m_eHistoryItem = eHistoryItem ;
+		eHistoryItem = eHistoryItem ;
 	}
 	/* (non-Javadoc)
 	 * @see semantic.CDataEntity#GetDataType()
@@ -60,7 +60,7 @@ public abstract class CEntitySQLCode extends CDataEntity
 	 */
 	public CBaseEntityCondition GetSpecialCondition(int nLine, String value, EConditionType type, CBaseEntityFactory factory)
 	{
-		if (m_eHistoryItem!=null) return null;
+		if (eHistoryItem!=null) return null;
 		int n =0 ;
 		try
 		{

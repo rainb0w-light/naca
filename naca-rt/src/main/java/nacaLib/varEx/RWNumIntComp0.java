@@ -175,12 +175,12 @@ public class RWNumIntComp0
 		if(nValue < 0)
 			nValue = -nValue;
 
-		int nRelativePosStart = buffer.m_nAbsolutePosition + nOffset;
-		int nRelativePos = buffer.m_nAbsolutePosition + nOffset + nNbDigitInteger-1;
+		int nRelativePosStart = buffer.nAbsolutePosition + nOffset;
+		int nRelativePos = buffer.nAbsolutePosition + nOffset + nNbDigitInteger-1;
 		do
 		{
 			char cDigit = (char)((nValue % 10) + '0');
-			buffer.m_acBuffer[nRelativePos] = cDigit;
+			buffer.acBuffer[nRelativePos] = cDigit;
 			//buffer.setCharAt(nRelativePos, cDigit);
 			nRelativePos--;
 			nValue /= 10;
@@ -189,7 +189,7 @@ public class RWNumIntComp0
 		
 		while(nRelativePos >= nRelativePosStart)
 		{
-			buffer.m_acBuffer[nRelativePos] = '0';
+			buffer.acBuffer[nRelativePos] = '0';
 			//buffer.setCharAt(nRelativePos, '0');
 			nRelativePos--;
 		}
@@ -203,13 +203,13 @@ public class RWNumIntComp0
 		if(lValue < 0)
 			lValue = -lValue;
 
-		int nRelativePosStart = buffer.m_nAbsolutePosition + nOffset;
-		int nRelativePos = buffer.m_nAbsolutePosition + nOffset + nNbDigitInteger-1;
+		int nRelativePosStart = buffer.nAbsolutePosition + nOffset;
+		int nRelativePos = buffer.nAbsolutePosition + nOffset + nNbDigitInteger-1;
 		do
 		{
 			char cDigit = (char)((lValue % 10) + '0');
 			
-			buffer.m_acBuffer[nRelativePos] = cDigit;
+			buffer.acBuffer[nRelativePos] = cDigit;
 			//buffer.setCharAt(nRelativePos, cDigit);
 			nRelativePos--;
 			lValue /= 10;
@@ -218,7 +218,7 @@ public class RWNumIntComp0
 		
 		while(nRelativePos >= nRelativePosStart)
 		{
-			buffer.m_acBuffer[nRelativePos] = '0';
+			buffer.acBuffer[nRelativePos] = '0';
 			//buffer.setCharAt(nRelativePos, '0');
 			nRelativePos--;
 		}

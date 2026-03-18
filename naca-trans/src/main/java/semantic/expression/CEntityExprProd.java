@@ -24,24 +24,24 @@ public abstract class CEntityExprProd extends CBaseEntityExpression
 {
 	public void SetProdExpression(CBaseEntityExpression Op1, CBaseEntityExpression Op2, CProdExpression.CProdType Type)
 	{
-		m_Op1 = Op1 ;
-		m_Op2 = Op2 ;
-		m_Type = Type ;
+		op1 = Op1 ;
+		op2 = Op2 ;
+		type = Type ;
 	} 
-	protected CProdExpression.CProdType m_Type = null ;
-	protected CBaseEntityExpression m_Op1 = null ;
-	protected CBaseEntityExpression m_Op2 = null ;
+	protected CProdExpression.CProdType type = null ;
+	protected CBaseEntityExpression op1 = null ;
+	protected CBaseEntityExpression op2 = null ;
 	public void Clear()
 	{
 		super.Clear() ;
-		m_Op1.Clear() ;
-		m_Op1 = null ;
-		m_Op2.Clear() ;
-		m_Op2 = null ;
+		op1.Clear() ;
+		op1 = null ;
+		op2.Clear() ;
+		op2 = null ;
 	}
 	public boolean ignore()
 	{
-		return m_Op1.ignore() || m_Op2.ignore() ;
+		return op1.ignore() || op2.ignore() ;
 	}
 
 	@Override

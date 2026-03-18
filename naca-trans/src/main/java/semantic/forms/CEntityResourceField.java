@@ -49,46 +49,46 @@ public abstract class CEntityResourceField extends CBaseResourceEntity  implemen
 	/* (non-Javadoc)
 	 * @see semantic.ITypableEntity#SetTypeEdited(java.lang.String)
 	 */
-	protected String m_Format = "" ;
-	protected String m_Type = "" ;
+	protected String format = "" ;
+	protected String type = "" ;
 	public void SetTypeEdited(String format)
 	{
-		m_Type = "pic" ;
-		m_nLength = 0;
-		m_nDecimals = 0;
-		m_Format = format ;
+		type = "pic" ;
+		nLength = 0;
+		nDecimals = 0;
+		format = format ;
 	}
 	/* (non-Javadoc)
 	 * @see semantic.ITypableEntity#SetTypeNum(int, int)
 	 */
 	public void SetTypeNum(int length, int decimal)
 	{
-		m_Type = "pic9" ;
-		m_nLength = length ;
-		m_nDecimals = decimal ;
+		type = "pic9" ;
+		nLength = length ;
+		nDecimals = decimal ;
 	}
 	/* (non-Javadoc)
 	 * @see semantic.ITypableEntity#SetTypeSigned(int, int)
 	 */
 	public void SetTypeSigned(int length, int decimal)
 	{
-		m_Type = "picS9" ;
-		m_nLength = length ;
-		m_nDecimals = decimal ;
+		type = "picS9" ;
+		nLength = length ;
+		nDecimals = decimal ;
 	}
 	/* (non-Javadoc)
 	 * @see semantic.ITypableEntity#SetTypeString(int)
 	 */
 	public void SetTypeString(int length)
 	{
-		m_Type = "" ;
-		m_nLength = length ;
+		type = "" ;
+		nLength = length ;
 	}
 	protected enum FieldMode
 	{
 		NORMAL, CHECKBOX,TITLE, ACTIVE_CHOICE, LINKED_ACTIVE_CHOICE, SWITCH, HIDDEN; 
 	}
-	protected FieldMode m_Mode = FieldMode.NORMAL ;
+	protected FieldMode mode = FieldMode.NORMAL ;
 	/**
 	 * @param name
 	 * @param cat
@@ -111,20 +111,20 @@ public abstract class CEntityResourceField extends CBaseResourceEntity  implemen
 		String name = GetName() ;
 		if (!name.equals(""))
 		{
-			CBaseEntityFieldAttribute m_Length = factory.NewEntityFieldLengh(getLine(), name+"L", this);
-			CBaseEntityFieldAttribute m_Color = factory.NewEntityFieldColor(getLine(), name+"C", this); 
-			CBaseEntityFieldAttribute m_Highlight = factory.NewEntityFieldHighlight(getLine(), name+"H", this);
-			CBaseEntityFieldAttribute m_Flag = factory.NewEntityFieldFlag(getLine(), name+"P", this);
-			CBaseEntityFieldAttribute m_AttributeF = factory.NewEntityFieldAttribute(getLine(), name+"F", this);
-			CBaseEntityFieldAttribute m_Attribute = factory.NewEntityFieldAttribute(getLine(), name+"A", this);
-//			factory.m_ProgramCatalog.RegisterDataEntity(name, this);
-			factory.m_ProgramCatalog.RegisterDataEntity(name+"I", this);
-			factory.m_ProgramCatalog.RegisterDataEntity(name+"O", this);
-//			CBaseEntityFieldAttribute m_DataI = factory.NewEntityFieldData(getLine(), name+"I", this);
-//			CBaseEntityFieldAttribute m_DataO = factory.NewEntityFieldData(getLine(), name+"O", this);
+			CBaseEntityFieldAttribute length = factory.NewEntityFieldLengh(getLine(), name+"L", this);
+			CBaseEntityFieldAttribute color = factory.NewEntityFieldColor(getLine(), name+"C", this); 
+			CBaseEntityFieldAttribute highlight = factory.NewEntityFieldHighlight(getLine(), name+"H", this);
+			CBaseEntityFieldAttribute flag = factory.NewEntityFieldFlag(getLine(), name+"P", this);
+			CBaseEntityFieldAttribute attributeF = factory.NewEntityFieldAttribute(getLine(), name+"F", this);
+			CBaseEntityFieldAttribute attribute = factory.NewEntityFieldAttribute(getLine(), name+"A", this);
+//			factory.programCatalog.RegisterDataEntity(name, this);
+			factory.programCatalog.RegisterDataEntity(name+"I", this);
+			factory.programCatalog.RegisterDataEntity(name+"O", this);
+//			CBaseEntityFieldAttribute dataI = factory.NewEntityFieldData(getLine(), name+"I", this);
+//			CBaseEntityFieldAttribute dataO = factory.NewEntityFieldData(getLine(), name+"O", this);
 			//m_Validation = factory.NewEntityFieldValidation(getLine(), name+"V", CBaseEntityFieldAttribute.CEntityFieldAttributeType.VALIDATION, this);
 		}
-//		ListIterator iter = m_lstChildren.listIterator() ;
+//		ListIterator iter = lstChildren.listIterator() ;
 //		try
 //		{
 //			CEntityResourceField field = (CEntityResourceField)iter.next() ;
@@ -138,10 +138,10 @@ public abstract class CEntityResourceField extends CBaseResourceEntity  implemen
 //		{
 //		}
 	} 
-//	CBaseEntityFieldAttribute m_Length = null ;
-//	CBaseEntityFieldAttribute m_Color = null ;
-//	CBaseEntityFieldAttribute m_DataI = null ;
-//	CBaseEntityFieldAttribute m_DataO = null ;
+//	CBaseEntityFieldAttribute length = null ;
+//	CBaseEntityFieldAttribute color = null ;
+//	CBaseEntityFieldAttribute dataI = null ;
+//	CBaseEntityFieldAttribute dataO = null ;
 //	CBaseEntityFieldAttribute m_Highlight = null ;
 //	CBaseEntityFieldAttribute m_Protected = null ;
 //	CBaseEntityFieldAttribute m_Flag = null ;
@@ -152,67 +152,67 @@ public abstract class CEntityResourceField extends CBaseResourceEntity  implemen
 	 */
 //	protected void RegisterMySelfToCatalog()
 //	{
-////		m_ProgramCatalog.RegisterDataEntity(GetName()+"I", this) ;
-////		m_ProgramCatalog.RegisterDataEntity(GetName()+"O", this);
+////		programCatalog.RegisterDataEntity(GetName()+"I", this) ;
+////		programCatalog.RegisterDataEntity(GetName()+"O", this);
 //	}
 
-	public CResourceStrings m_ResourceStrings = null ;
-	public int m_nOccurs = 0 ;
-	public int m_nPosCol = 0 ;
-	public int m_nPosLine = 0 ; 
-	public int m_nLength = 0 ;
-	public int m_nDecimals = 0 ;
-	public String m_csInitialValue = "" ;
-	protected String m_csHighLight = "" ;
+	public CResourceStrings resourceStrings = null ;
+	public int nOccurs = 0 ;
+	public int nPosCol = 0 ;
+	public int nPosLine = 0 ; 
+	public int nLength = 0 ;
+	public int nDecimals = 0 ;
+	public String csInitialValue = "" ;
+	protected String csHighLight = "" ;
 	public void Clear()
 	{
 		super.Clear();
-		m_ResourceStrings = null ;
+		resourceStrings = null ;
 	}
 
 	public void SetHighLight(String cs)
 	{
-		m_csHighLight = cs ;
+		csHighLight = cs ;
 	}
-	protected String m_csColor = "" ;
+	protected String csColor = "" ;
 	public void SetColor(String cs)
 	{
-		m_csColor = cs ;
+		csColor = cs ;
 	}
-//	protected StringVector m_arrJustify = new StringVector() ;
+//	protected StringVector arrJustify = new StringVector() ;
 //	public void AddJustify(String cs)
 //	{
-//		m_arrJustify.addElement(cs);
+//		arrJustify.addElement(cs);
 //	} 
-//	protected StringVector m_arrAttrib = new StringVector() ;
+//	protected StringVector arrAttrib = new StringVector() ;
 //	public void AddAttrib(String cs)
 //	{
-//		m_arrAttrib.addElement(cs);
+//		arrAttrib.addElement(cs);
 //	}
-	protected String m_csFillValue = "" ;
+	protected String csFillValue = "" ;
 	public void SetFillValue(String cs)
 	{
-		m_csFillValue = cs ;
+		csFillValue = cs ;
 	}
-	protected String m_csProtection = "" ;
+	protected String csProtection = "" ;
 	public void SetProtection(String cs)
 	{
-		m_csProtection = cs ;
+		csProtection = cs ;
 	}
-	protected String m_csBrightness = "" ;
+	protected String csBrightness = "" ;
 	public void SetBrightness(String cs)
 	{
-		m_csBrightness = cs ;
+		csBrightness = cs ;
 	}
-	protected boolean m_bModified = false ;
+	protected boolean bModified = false ;
 	public void SetModified()
 	{
-		m_bModified = true ;
+		bModified = true ;
 	}
-	protected boolean m_bCursor = false ;
+	protected boolean bCursor = false ;
 	public void SetCursor()
 	{
-		m_bCursor = true ;
+		bCursor = true ;
 	}
 	
 	
@@ -267,7 +267,7 @@ public abstract class CEntityResourceField extends CBaseResourceEntity  implemen
 	
 	public int GetByteLength ()
 	{
-		return 7 + m_nLength ;
+		return 7 + nLength ;
 	}
 	public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory) 
 	{
@@ -311,7 +311,7 @@ public abstract class CEntityResourceField extends CBaseResourceEntity  implemen
 			{
 				eCond.SetIsSpace(this);
 			}
-			else if (value.equals(CCobolConstantList.LOW_VALUE.m_Name) || value.equals(CCobolConstantList.LOW_VALUES.m_Name))
+			else if (value.equals(CCobolConstantList.LOW_VALUE.name) || value.equals(CCobolConstantList.LOW_VALUES.name))
 			{
 				eCond.SetIsLowValue(this);
 			}
@@ -383,9 +383,9 @@ public abstract class CEntityResourceField extends CBaseResourceEntity  implemen
 	protected void RegisterMySelfToCatalog()
 	{
 		String name = GetName() ;
-//		m_ProgramCatalog.RegisterDataEntity(name, this) ;
-		m_ProgramCatalog.RegisterDataEntity(name+"I", this) ;
-		m_ProgramCatalog.RegisterDataEntity(name+"O", this) ;
+//		programCatalog.RegisterDataEntity(name, this) ;
+		programCatalog.RegisterDataEntity(name+"I", this) ;
+		programCatalog.RegisterDataEntity(name+"O", this) ;
 	}
 
 	/* (non-Javadoc)
@@ -406,13 +406,13 @@ public abstract class CEntityResourceField extends CBaseResourceEntity  implemen
 
 	public void SetOf(CEntityResourceFormContainer container)
 	{
-		m_Of = container ;
-		CDataEntity [] arr = new CDataEntity[m_lstChildren.size()] ;
-		m_lstChildren.toArray(arr) ;
+		of = container ;
+		CDataEntity [] arr = new CDataEntity[lstChildren.size()] ;
+		lstChildren.toArray(arr) ;
 		for (int i=0; i<arr.length; i++)
 		{
 			CDataEntity e = arr[i] ;
-			e.m_Of = container ;
+			e.of = container ;
 		}
 	}
 
@@ -421,39 +421,39 @@ public abstract class CEntityResourceField extends CBaseResourceEntity  implemen
 	 */
 //	public void setDisplayName(String string)
 //	{
-//		m_csDisplayName = string ;		
+//		csDisplayName = string ;		
 //	}
-//	protected String m_csDisplayName = "" ;
+//	protected String csDisplayName = "" ;
 	/**
 	 * @param valueOn
 	 * @param valueOff
 	 */
 	public void setCheckBox(String valueOn, String valueOff)
 	{
-		m_Mode = FieldMode.CHECKBOX ;
-		m_csCheckBoxValueOff = valueOff ;
-		m_csCheckBoxValueOn = valueOn ;
+		mode = FieldMode.CHECKBOX ;
+		csCheckBoxValueOff = valueOff ;
+		csCheckBoxValueOn = valueOn ;
 	}
-	protected String m_csCheckBoxValueOn = "" ;
-	protected String m_csCheckBoxValueOff = "" ;
+	protected String csCheckBoxValueOn = "" ;
+	protected String csCheckBoxValueOff = "" ;
 
 	/**
 	 * @param flagMark
 	 */
 	public void setDevelopable(String flagMark)
 	{
-		m_csDevelopableFlagMark = flagMark ;
+		csDevelopableFlagMark = flagMark ;
 	}
-	protected String m_csDevelopableFlagMark = "" ;
+	protected String csDevelopableFlagMark = "" ;
 	
 	/**
 	 * @param flagMark
 	 */
 	public void setFormat(String format)
 	{
-		m_csFormat = format;
+		csFormat = format;
 	}
-	protected String m_csFormat = "" ;
+	protected String csFormat = "" ;
 	
 	/**
 	 * @param strings
@@ -461,10 +461,10 @@ public abstract class CEntityResourceField extends CBaseResourceEntity  implemen
 	 */
 	public void SetTitle(CResourceStrings strings)
 	{
-		m_Mode = FieldMode.TITLE ;
+		mode = FieldMode.TITLE ;
 		if (strings != null)
 		{
-			strings.FormatResource(m_csInitialValue) ;
+			strings.FormatResource(csInitialValue) ;
 		}
 	}
 
@@ -475,68 +475,68 @@ public abstract class CEntityResourceField extends CBaseResourceEntity  implemen
 	 */
 	public void setActiveChoice(String value, String target, boolean submit)
 	{
-		m_Mode = FieldMode.ACTIVE_CHOICE ;
-		m_csActiveChoiceTarget = target ;
-		m_csActiveChoiceValue = value ;
-		m_bActiveChoiceSubmit = submit ;
+		mode = FieldMode.ACTIVE_CHOICE ;
+		csActiveChoiceTarget = target ;
+		csActiveChoiceValue = value ;
+		bActiveChoiceSubmit = submit ;
 	}
 	public void setLinkedActiveChoice(String value, String target, boolean submit)
 	{
-		m_Mode = FieldMode.LINKED_ACTIVE_CHOICE ;
-		m_csActiveChoiceTarget = target ;
-		m_csActiveChoiceValue = value ;
-		m_bActiveChoiceSubmit = submit ;
+		mode = FieldMode.LINKED_ACTIVE_CHOICE ;
+		csActiveChoiceTarget = target ;
+		csActiveChoiceValue = value ;
+		bActiveChoiceSubmit = submit ;
 	}
-	protected String m_csActiveChoiceValue = "" ;
-	protected String m_csActiveChoiceTarget = "" ;
-	protected boolean m_bActiveChoiceSubmit = true ;
+	protected String csActiveChoiceValue = "" ;
+	protected String csActiveChoiceTarget = "" ;
+	protected boolean bActiveChoiceSubmit = true ;
 	/**
 	 * 
 	 */
 	public void setReplayMutable()
 	{
-		m_bReplayMutable = true ;
+		bReplayMutable = true ;
 	}
-	protected boolean m_bReplayMutable = false ;
+	protected boolean bReplayMutable = false ;
 	public void AddSwitchCase(String value, String protection, Element tag)
 	{
-		m_Mode = FieldMode.SWITCH ;
-		if (m_arrSwitchCaseElement == null)
+		mode = FieldMode.SWITCH ;
+		if (arrSwitchCaseElement == null)
 		{
-			m_arrSwitchCaseElement = new Vector<CSwitchCaseElement>() ;
+			arrSwitchCaseElement = new Vector<CSwitchCaseElement>() ;
 		}
 		CSwitchCaseElement el = new CSwitchCaseElement() ;
-		el.m_val = value;
-		el.m_protection = protection;
-		el.m_tag = tag ;
-		m_arrSwitchCaseElement.add(el) ;
+		el.val = value;
+		el.protection = protection;
+		el.tag = tag ;
+		arrSwitchCaseElement.add(el) ;
 	}
-	protected Vector<CSwitchCaseElement> m_arrSwitchCaseElement = null ;
+	protected Vector<CSwitchCaseElement> arrSwitchCaseElement = null ;
 	protected class CSwitchCaseElement
 	{
-		public String m_val = "" ;
-		public String m_protection = "" ;
-		public Element m_tag = null ;
+		public String val = "" ;
+		public String protection = "" ;
+		public Element tag = null ;
 	}
 	public void Hide()
 	{
-		m_Mode = FieldMode.HIDDEN ;		
+		mode = FieldMode.HIDDEN ;		
 	}
 	public void SetRightJustified(boolean justifiedRight)
 	{
-		m_bRightJustified = justifiedRight ;
+		bRightJustified = justifiedRight ;
 	}
-	protected boolean m_bRightJustified = false ;
+	protected boolean bRightJustified = false ;
 	
 	public void SetBlankWhenZero(boolean blankWhenZero)
 	{
-		m_bBlankWhenZero = blankWhenZero ;
+		bBlankWhenZero = blankWhenZero ;
 	}
-	protected boolean m_bBlankWhenZero = false ;
+	protected boolean bBlankWhenZero = false ;
 	
 	public void move(int nc, int nl)
 	{
-		m_nPosCol = nc ;
-		m_nPosLine = nl ;		
+		nPosCol = nc ;
+		nPosLine = nl ;		
 	}
 }

@@ -37,7 +37,7 @@ public class CJavaSQLCommit extends CEntitySQLCommit
 	protected void DoExport()
 	{
 		WriteWord("sqlCommit()");
-		String csSQLErrorWarningStatement = m_ProgramCatalog.getSQLWarningErrorStatement();
+		String csSQLErrorWarningStatement = programCatalog.getSQLWarningErrorStatement();
 		if(csSQLErrorWarningStatement != null)
 		{
 			WriteWord(csSQLErrorWarningStatement);

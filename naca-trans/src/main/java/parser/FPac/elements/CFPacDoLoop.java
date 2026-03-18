@@ -28,10 +28,10 @@ import utils.Transcoder;
 public class CFPacDoLoop extends CFPacElement
 {
 
-	private CExpression m_expUntil;
-	private CExpression m_expWhile ;
-	private CFPacCodeBloc m_DoBloc;
-	private CTerminal m_termNbLoops;
+	private CExpression expUntil;
+	private CExpression expWhile ;
+	private CFPacCodeBloc doBloc;
+	private CTerminal termNbLoops;
 
 	public CFPacDoLoop(int line)
 	{
@@ -53,14 +53,14 @@ public class CFPacDoLoop extends CFPacElement
 			if (tok.GetKeyword() == CFPacKeywordList.UNTIL)
 			{
 				tok = GetNext() ;
-				m_expUntil = ReadCondition() ;
-				if (m_expUntil == null)
+				expUntil = ReadCondition() ;
+				if (expUntil == null)
 				{
 					return false ;
 				}
 				
-				m_DoBloc = new CFPacCodeBloc(tok.getLine(), "") ;
-				if (!Parse(m_DoBloc))
+				doBloc = new CFPacCodeBloc(tok.getLine(), "") ;
+				if (!Parse(doBloc))
 				{
 					return false ;
 				}
@@ -68,28 +68,28 @@ public class CFPacDoLoop extends CFPacElement
 			else if (tok.GetKeyword() == CFPacKeywordList.WHILE)
 			{
 				tok = GetNext() ;
-				m_expWhile = ReadCondition() ;
-				if (m_expWhile == null)
+				expWhile = ReadCondition() ;
+				if (expWhile == null)
 				{
 					return false ;
 				}
 				
-				m_DoBloc = new CFPacCodeBloc(tok.getLine(), "") ;
-				if (!Parse(m_DoBloc))
+				doBloc = new CFPacCodeBloc(tok.getLine(), "") ;
+				if (!Parse(doBloc))
 				{
 					return false ;
 				}
 			}
 			else
 			{
-				m_termNbLoops = ReadTerminal() ;
-				if (m_termNbLoops == null)
+				termNbLoops = ReadTerminal() ;
+				if (termNbLoops == null)
 				{
 					Transcoder.logError(tok.getLine(), "Expecting 'UNTIL' after DO- instead of token : "+tok.toString()) ;
 					return false ;
 				}
-				m_DoBloc = new CFPacCodeBloc(tok.getLine(), "") ;
-				if (!Parse(m_DoBloc))
+				doBloc = new CFPacCodeBloc(tok.getLine(), "") ;
+				if (!Parse(doBloc))
 				{
 					return false ;
 				}
@@ -117,36 +117,36 @@ public class CFPacDoLoop extends CFPacElement
 	@Override
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		if (m_expUntil != null)
+		if (expUntil != null)
 		{
-			CBaseEntityCondition condUntil = m_expUntil.AnalyseCondition(factory);
+			CBaseEntityCondition condUntil = expUntil.AnalyseCondition(factory);
 			if (condUntil != null)
 			{
 				CEntityLoopWhile loop = factory.NewEntityLoopWhile(getLine()) ;
 				loop.SetUntilCondition(condUntil) ;
-				CBaseLanguageEntity bloc = m_DoBloc.DoSemanticAnalysis(loop, factory) ;
+				CBaseLanguageEntity bloc = doBloc.DoSemanticAnalysis(loop, factory) ;
 				parent.AddChild(loop) ;
 				return loop ;
 			}
 		}
-		else if (m_expWhile != null)
+		else if (expWhile != null)
 		{
-			CBaseEntityCondition condWhile = m_expWhile.AnalyseCondition(factory);
+			CBaseEntityCondition condWhile = expWhile.AnalyseCondition(factory);
 			if (condWhile != null)
 			{
 				CEntityLoopWhile loop = factory.NewEntityLoopWhile(getLine()) ;
 				loop.SetWhileCondition(condWhile) ;
-				CBaseLanguageEntity bloc = m_DoBloc.DoSemanticAnalysis(loop, factory) ;
+				CBaseLanguageEntity bloc = doBloc.DoSemanticAnalysis(loop, factory) ;
 				parent.AddChild(loop) ;
 				return loop ;
 			}
 		}
-		else if (m_termNbLoops != null)
+		else if (termNbLoops != null)
 		{
-			CDataEntity nbLoops = m_termNbLoops.GetDataEntity(getLine(), factory) ;
+			CDataEntity nbLoops = termNbLoops.GetDataEntity(getLine(), factory) ;
 			CEntityLoopIter iter = factory.NewEntityLoopIter(getLine()) ;
-			CBaseLanguageEntity bloc = m_DoBloc.DoSemanticAnalysis(iter, factory) ;
-			CDataEntity index = factory.m_ProgramCatalog.GetDataEntity("INDEX", "") ;
+			CBaseLanguageEntity bloc = doBloc.DoSemanticAnalysis(iter, factory) ;
+			CDataEntity index = factory.programCatalog.GetDataEntity("INDEX", "") ;
 			iter.SetLoopIterInc(index, factory.NewEntityNumber(0)) ;
 			CEntityCondCompare comp = factory.NewEntityCondCompare() ;
 			comp.SetLessThan(factory.NewEntityExprTerminal(index), factory.NewEntityExprTerminal(nbLoops)) ;
@@ -161,19 +161,19 @@ public class CFPacDoLoop extends CFPacElement
 	protected Element ExportCustom(Document root)
 	{
 		Element e = root.createElement("Do") ;
-		if (m_expUntil != null)
+		if (expUntil != null)
 		{
 			Element eUntil = root.createElement("Until") ;
 			e.appendChild(eUntil) ;
-			eUntil.appendChild(m_expUntil.Export(root)) ;
+			eUntil.appendChild(expUntil.Export(root)) ;
 		}
-		if (m_expWhile != null)
+		if (expWhile != null)
 		{
 			Element eUntil = root.createElement("While") ;
 			e.appendChild(eUntil) ;
-			eUntil.appendChild(m_expWhile.Export(root)) ;
+			eUntil.appendChild(expWhile.Export(root)) ;
 		}
-		e.appendChild(m_DoBloc.Export(root)) ;
+		e.appendChild(doBloc.Export(root)) ;
 		return e ;
 	}
 

@@ -19,18 +19,18 @@ import nacaLib.basePrgEnv.BaseProgram;
 
 public class ProgramPoolManager //extends BaseOpenMBean
 {
-	private Hashtable<String, ProgramInstancesPool> m_hashProgramInstancesPool = null;
+	private Hashtable<String, ProgramInstancesPool> hashProgramInstancesPool = null;
 	
 	public ProgramPoolManager(boolean bUseJmx)
 	{
-		m_hashProgramInstancesPool = new Hashtable<String, ProgramInstancesPool>();	// hash table of ProgramInstancePool, indexed by program name
+		hashProgramInstancesPool = new Hashtable<String, ProgramInstancesPool>();	// hash table of ProgramInstancePool, indexed by program name
 		if(bUseJmx)
 			JmxGeneralStat.addProgramPoolManager(this);
 	}
 	
 	public void setShowProgramBeans(boolean b)
 	{
-		Collection<ProgramInstancesPool> col = m_hashProgramInstancesPool.values();
+		Collection<ProgramInstancesPool> col = hashProgramInstancesPool.values();
 		Iterator<ProgramInstancesPool> iter = col.iterator();
 		while(iter.hasNext())
 		{
@@ -41,7 +41,7 @@ public class ProgramPoolManager //extends BaseOpenMBean
 	
 	public BaseProgram loadPooledProgramInstance(String csProgramName)
 	{
-		ProgramInstancesPool programInstancesPool = m_hashProgramInstancesPool.get(csProgramName);
+		ProgramInstancesPool programInstancesPool = hashProgramInstancesPool.get(csProgramName);
 		if(programInstancesPool == null)	// new program pool: this prg has never been loaded
 		{
 			programInstancesPool = createProgramInstancesPool(csProgramName);
@@ -51,7 +51,7 @@ public class ProgramPoolManager //extends BaseOpenMBean
 		// if programInstance != null then we are inside a read lock, else no read lock set
 		
 		// Double check programInstancesPool, as it may have been destroyed in jmx thread (double check pattern)
-		programInstancesPool = m_hashProgramInstancesPool.get(csProgramName);
+		programInstancesPool = hashProgramInstancesPool.get(csProgramName);
 		if(programInstancesPool == null)	// new program pool: this prg has never been loaded
 		{
 			programInstancesPool = createProgramInstancesPool(csProgramName);
@@ -62,7 +62,7 @@ public class ProgramPoolManager //extends BaseOpenMBean
 	
 	public BaseProgram preloadSecondInstanceProgram(String csProgramName)
 	{
-		ProgramInstancesPool programInstancesPool = m_hashProgramInstancesPool.get(csProgramName);
+		ProgramInstancesPool programInstancesPool = hashProgramInstancesPool.get(csProgramName);
 		if(programInstancesPool != null)	// The prg pool must exists
 		{
 			BaseProgram program = programInstancesPool.preloadSecondInstance();
@@ -73,7 +73,7 @@ public class ProgramPoolManager //extends BaseOpenMBean
 	
 	public void unloadAllPrograms(boolean bDoGCAfterEachProgramUnload)
 	{
-		Collection<ProgramInstancesPool> colProgramInstancesPool = m_hashProgramInstancesPool.values();
+		Collection<ProgramInstancesPool> colProgramInstancesPool = hashProgramInstancesPool.values();
 		if(colProgramInstancesPool != null)
 		{
 			// Create another ProgramInstancesPool container, as m_hashProgramInstancesPool will be structurally modified in ProgramInstancesPool::unloadProgram() call
@@ -112,7 +112,7 @@ public class ProgramPoolManager //extends BaseOpenMBean
 	
 	public ProgramInstancesPool getProgramPool(String csProgramName)
 	{
-		ProgramInstancesPool programInstancesPool = m_hashProgramInstancesPool.get(csProgramName);
+		ProgramInstancesPool programInstancesPool = hashProgramInstancesPool.get(csProgramName);
 		return programInstancesPool;
 	}
 	
@@ -120,20 +120,20 @@ public class ProgramPoolManager //extends BaseOpenMBean
 	{
 		// create a program pool, and register it into the hash table
 		ProgramInstancesPool programPool = new ProgramInstancesPool(this, csProgramName);
-		m_hashProgramInstancesPool.put(csProgramName, programPool);
+		hashProgramInstancesPool.put(csProgramName, programPool);
 		return programPool;
 	}
 	
 	public void removeProgramInstancesPool(String csProgramName)
 	{
-		m_hashProgramInstancesPool.remove(csProgramName);
+		hashProgramInstancesPool.remove(csProgramName);
 	}
 
 	
 	public void returnProgramInstanceToPool(BaseProgram program)
 	{
 		String csProgramName = program.getProgramManager().getProgramName();
-		ProgramInstancesPool programInstancesPool = m_hashProgramInstancesPool.get(csProgramName);
+		ProgramInstancesPool programInstancesPool = hashProgramInstancesPool.get(csProgramName);
 		if(programInstancesPool != null)
 		{
 			programInstancesPool.returnProgram(program);
@@ -143,7 +143,7 @@ public class ProgramPoolManager //extends BaseOpenMBean
 	public int getNbProgramStacked()
 	{
 		int n = 0;
-		Collection<ProgramInstancesPool> col = m_hashProgramInstancesPool.values();
+		Collection<ProgramInstancesPool> col = hashProgramInstancesPool.values();
 		Iterator<ProgramInstancesPool> iter = col.iterator();
 		while(iter.hasNext())
 		{

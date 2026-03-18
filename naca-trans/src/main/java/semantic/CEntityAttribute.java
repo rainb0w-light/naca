@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 2 août 2004
+ * Created on 2 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -55,80 +55,80 @@ public abstract class CEntityAttribute extends CGenericDataEntityReference imple
 	}
 	public void SetComp(String s)
 	{
-		m_Comp = s ;
+		comp = s ;
 	}
 	public void SetTypeString(int length) 
 	{
-		m_Type = "picX" ;
-		m_Length = length ;
+		type = "picX" ;
+		length = length ;
 	};
 	public void SetTypeNum(int length, int dec)
 	{
-		m_Type = "pic9" ;
-		m_Length = length ;
-		m_Decimals = dec ;
+		type = "pic9" ;
+		length = length ;
+		decimals = dec ;
 	};
 	public void SetTypeSigned(int length, int dec)
 	{
-		m_Type = "picS9" ;
-		m_Length = length ;
-		m_Decimals = dec ;
+		type = "picS9" ;
+		length = length ;
+		decimals = dec ;
 	};
 	public void SetInitialValueSpaces()
 	{
-		m_bInitialValueIsSpaces = true ;
-		m_bInitialValueIsZeros = false ;
-		m_bInitialValueIsLowValue = false ;
-		m_bInitialValueIsHighValue = false ;
-		m_Value = null ;
+		bInitialValueIsSpaces = true ;
+		bInitialValueIsZeros = false ;
+		bInitialValueIsLowValue = false ;
+		bInitialValueIsHighValue = false ;
+		value = null ;
 	}
 	public void SetInitialValueZeros()
 	{
-		m_bInitialValueIsSpaces = false ;
-		m_bInitialValueIsZeros = true ;
-		m_bInitialValueIsLowValue = false ;
-		m_bInitialValueIsHighValue = false ;
-		m_Value = null ;
+		bInitialValueIsSpaces = false ;
+		bInitialValueIsZeros = true ;
+		bInitialValueIsLowValue = false ;
+		bInitialValueIsHighValue = false ;
+		value = null ;
 	}
 	public void SetInitialLowValue()
 	{
-		m_Value = null ;
-		m_bInitialValueIsSpaces = false ;
-		m_bInitialValueIsZeros = false ;
-		m_bInitialValueIsLowValue = true ;
-		m_bInitialValueIsHighValue = false ;
+		value = null ;
+		bInitialValueIsSpaces = false ;
+		bInitialValueIsZeros = false ;
+		bInitialValueIsLowValue = true ;
+		bInitialValueIsHighValue = false ;
 	}
 	public void SetInitialHighValue()
 	{
-		m_Value = null ;
-		m_bInitialValueIsSpaces = false ;
-		m_bInitialValueIsZeros = false ;
-		m_bInitialValueIsLowValue = false ;
-		m_bInitialValueIsHighValue = true ;
+		value = null ;
+		bInitialValueIsSpaces = false ;
+		bInitialValueIsZeros = false ;
+		bInitialValueIsLowValue = false ;
+		bInitialValueIsHighValue = true ;
 	}
 	public void SetInitialValueAll(CDataEntity s)
 	{
-		m_Value = s ;
-		m_bFillWithValue = true ;
-		m_bInitialValueIsSpaces = false ;
-		m_bInitialValueIsZeros = false ;
-		m_bInitialValueIsLowValue = false ;
-		m_bInitialValueIsHighValue = false ;
+		value = s ;
+		bFillWithValue = true ;
+		bInitialValueIsSpaces = false ;
+		bInitialValueIsZeros = false ;
+		bInitialValueIsLowValue = false ;
+		bInitialValueIsHighValue = false ;
 	}
 	public void SetInitialValue(CDataEntity s)
 	{
-		m_Value = s ;
-		m_bInitialValueIsSpaces = false ;
-		m_bInitialValueIsZeros = false ;
-		m_bInitialValueIsLowValue = false ;
-		m_bInitialValueIsHighValue = false ;
+		value = s ;
+		bInitialValueIsSpaces = false ;
+		bInitialValueIsZeros = false ;
+		bInitialValueIsLowValue = false ;
+		bInitialValueIsHighValue = false ;
 	}
 	public void SetTypeEdited(String f)
 	{
-		m_Type = "pic" ;
-		m_Length = 0;
-		m_Decimals = 0;
-		m_Format =f ;
+		type = "pic" ;
+		length = 0;
+		decimals = 0;
+		format =f ;
 	}
 
 	public CDataEntity GetSubStringReference(CBaseEntityExpression start, CBaseEntityExpression length, CBaseEntityFactory factory) 
@@ -138,21 +138,21 @@ public abstract class CEntityAttribute extends CGenericDataEntityReference imple
 		return ref ;
 	};
 	
-	protected CDataEntity m_Value = null ; 
-	protected boolean m_bInitialValueIsSpaces = false ;
-	protected boolean m_bInitialValueIsZeros = false ;
-	protected boolean m_bInitialValueIsLowValue = false ;
-	protected boolean m_bInitialValueIsHighValue = false ;
-	protected String m_Comp = "" ;
-	protected String m_Type = "" ;
-	protected int m_Length = 0 ;
-	protected int m_Decimals = 0 ;
-	protected String m_Format = "" ;
-	protected boolean m_bSync = false ;
-	protected boolean m_bFillWithValue = false ;
+	protected CDataEntity value = null ; 
+	protected boolean bInitialValueIsSpaces = false ;
+	protected boolean bInitialValueIsZeros = false ;
+	protected boolean bInitialValueIsLowValue = false ;
+	protected boolean bInitialValueIsHighValue = false ;
+	protected String comp = "" ;
+	protected String type = "" ;
+	protected int length = 0 ;
+	protected int decimals = 0 ;
+	protected String format = "" ;
+	protected boolean bSync = false ;
+	protected boolean bFillWithValue = false ;
 	public void SetSync(boolean b)
 	{
-		m_bSync = b ;
+		bSync = b ;
 	}
 
 	/* (non-Javadoc)
@@ -162,31 +162,31 @@ public abstract class CEntityAttribute extends CGenericDataEntityReference imple
 	{
 		String value = term.GetValue() ;
 		CEntitySetConstant eAssign = factory.NewEntitySetConstant(l) ;
-		if (value.equals(CCobolConstantList.ZERO.m_Name) || value.equals(CCobolConstantList.ZEROS.m_Name) || value.equals(CCobolConstantList.ZEROES.m_Name))
+		if (value.equals(CCobolConstantList.ZERO.name) || value.equals(CCobolConstantList.ZEROS.name) || value.equals(CCobolConstantList.ZEROES.name))
 		{
 			eAssign.SetToZero(this) ;
 		}
-		else if (value.equals(CCobolConstantList.SPACE.m_Name) || value.equals(CCobolConstantList.SPACES.m_Name))
+		else if (value.equals(CCobolConstantList.SPACE.name) || value.equals(CCobolConstantList.SPACES.name))
 		{
 			eAssign.SetToSpace(this) ;
 		}
-		else if (value.equals(CCobolConstantList.LOW_VALUE.m_Name) || value.equals(CCobolConstantList.LOW_VALUES.m_Name))
+		else if (value.equals(CCobolConstantList.LOW_VALUE.name) || value.equals(CCobolConstantList.LOW_VALUES.name))
 		{
 			eAssign.SetToLowValue(this) ;
 		}
-		else if (value.equals(CCobolConstantList.HIGH_VALUE.m_Name) || value.equals(CCobolConstantList.HIGH_VALUES.m_Name))
+		else if (value.equals(CCobolConstantList.HIGH_VALUE.name) || value.equals(CCobolConstantList.HIGH_VALUES.name))
 		{
 			eAssign.SetToHighValue(this) ;
 		}
-		else if (term.IsNumber() && (m_Type.equals("picX") || m_Type.equals("")))
+		else if (term.IsNumber() && (type.equals("picX") || type.equals("")))
 		{
-			String type = m_Type ;
-			if (type.equals(""))
-				type = "GROUP" ;
+			String typeCopy = type ;
+			if (typeCopy.equals(""))
+				typeCopy = "GROUP" ;
 			CEntityAssign asgn = factory.NewEntityAssign(l) ;
 			asgn.SetValue(factory.NewEntityString(value)) ;
 			asgn.AddRefTo(this) ;
-			Transcoder.logDebug(l, "Number converted to string to move into "+type+" var ("+GetName()+"): "+value) ;
+			Transcoder.logDebug(l, "Number converted to string to move into "+typeCopy+" var ("+GetName()+"): "+value) ;
 			RegisterWritingAction(asgn) ;
 			return asgn ;
 		}
@@ -232,7 +232,7 @@ public abstract class CEntityAttribute extends CGenericDataEntityReference imple
 		{
 			eCond.SetIsHighValue(this);
 		}
-//		else if (m_Type.equals("picX"))
+//		else if (type.equals("picX"))
 //		{
 //			try
 //			{
@@ -297,9 +297,9 @@ public abstract class CEntityAttribute extends CGenericDataEntityReference imple
 	} 
 	public String GetInitialValue()
 	{
-		if (m_Value != null)
+		if (value != null)
 		{
-			return m_Value.GetConstantValue() ;
+			return value.GetConstantValue() ;
 		}
 		else
 		{
@@ -308,13 +308,13 @@ public abstract class CEntityAttribute extends CGenericDataEntityReference imple
 	}
 	public String GetConstantValue()
 	{
-		if (m_Value == null)
+		if (value == null)
 		{
 			return "" ;
 		}
 		else
 		{
-			return m_Value.GetConstantValue() ;
+			return value.GetConstantValue() ;
 		}
 	} 	 
 	/* (non-Javadoc)
@@ -323,24 +323,24 @@ public abstract class CEntityAttribute extends CGenericDataEntityReference imple
 	public void Clear()
 	{
 		super.Clear();
-		m_Value = null ;
+		value = null ;
 	}
 	public void SetJustifiedRight(boolean bJustifiedRight)
 	{
-		m_bJustifiedRight = bJustifiedRight ;
+		bJustifiedRight = bJustifiedRight ;
 	}
-	protected boolean m_bJustifiedRight = false ;
+	protected boolean bJustifiedRight = false ;
 	
 	public void SetBlankWhenZero(boolean blankWhenZero)
 	{
-		m_bBlankWhenZero = blankWhenZero ;
+		bBlankWhenZero = blankWhenZero ;
 	}
-	protected boolean m_bBlankWhenZero = false ;
+	protected boolean bBlankWhenZero = false ;
 	public void SetSignSeparateType(CWorkingSignType signSeparateType)
 	{
-		m_bSignSeparateType = signSeparateType ;
+		bSignSeparateType = signSeparateType ;
 	}
-	protected CWorkingSignType m_bSignSeparateType ;
+	protected CWorkingSignType bSignSeparateType ;
 
 
 	/**
@@ -349,9 +349,9 @@ public abstract class CEntityAttribute extends CGenericDataEntityReference imple
 	@Override
 	public boolean ReplaceVariable(CDataEntity field, CDataEntity var, boolean bRead)
 	{
-		if (m_Value == field)
+		if (value == field)
 		{
-			m_Value = var ;
+			value = var ;
 			return false;
 		}
 		return false;
@@ -361,7 +361,7 @@ public abstract class CEntityAttribute extends CGenericDataEntityReference imple
 	 */
 	public String getComp()
 	{
-		return m_Comp;
+		return comp;
 	}
 
 }

@@ -25,7 +25,7 @@ public class CJavaExprOpposite extends CEntityExprOpposite
 {
 	public String Export()
 	{
-		return "opposite(" + m_data.Export() +")";
+		return "opposite(" + data.Export() +")";
 				
 	}
 }

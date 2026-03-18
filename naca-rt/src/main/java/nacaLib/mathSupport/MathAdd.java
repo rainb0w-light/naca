@@ -35,7 +35,7 @@ public class MathAdd extends MathBase
 //	public MathAdd(VarAndEdit VarAndEdit1)
 //	{
 //		String s1 = VarAndEdit1.getDottedSignedString();
-//		m_d = new BigDecimal(s1);
+//		d = new BigDecimal(s1);
 //	}
 	
 	/**
@@ -46,11 +46,11 @@ public class MathAdd extends MathBase
 	public MathAdd(VarAndEdit VarAndEdit1, VarAndEdit VarAndEdit2)
 	{
 		String s1 = VarAndEdit1.getDottedSignedString();
-		m_d = new BigDecimal(s1);
+		d = new BigDecimal(s1);
 		
 		String s2 = VarAndEdit2.getDottedSignedString();
 		BigDecimal val2 = new BigDecimal(s2);
-		m_d = m_d.add(val2); 
+		d = d.add(val2); 
 	}
 
 	/**
@@ -61,10 +61,10 @@ public class MathAdd extends MathBase
 	public MathAdd(VarAndEdit VarAndEdit1, int n)
 	{
 		String s1 = VarAndEdit1.getDottedSignedString();
-		m_d = new BigDecimal(s1);
+		d = new BigDecimal(s1);
 		
 		BigDecimal val2 = new BigDecimal(String.valueOf(n));
-		m_d = m_d.add(val2); 
+		d = d.add(val2); 
 	}
 	
 	/**
@@ -74,10 +74,10 @@ public class MathAdd extends MathBase
 	 */	
 	public MathAdd(int m, int n)
 	{
-		m_d = new BigDecimal(String.valueOf(m));
+		d = new BigDecimal(String.valueOf(m));
 		
 		BigDecimal val2 = new BigDecimal(String.valueOf(n));
-		m_d = m_d.add(val2); 
+		d = d.add(val2); 
 	}
 	
 	/**
@@ -86,42 +86,42 @@ public class MathAdd extends MathBase
 	 */	
 	public MathAdd(int n)
 	{
-		m_d = new BigDecimal(String.valueOf(n));
+		d = new BigDecimal(String.valueOf(n));
 	}
 
 	/**
-	 * @param double 
+	 * @param double
 	 * Set current object to d
 	 */
 	public MathAdd(double d)
 	{
-		m_d = new BigDecimal(d);
+		this.d = new BigDecimal(d);
 	}
 	
 	public MathAdd(String s1, int n)
 	{
-		m_d = new BigDecimal(s1);
+		d = new BigDecimal(s1);
 		BigDecimal val2 = new BigDecimal(n);
-		m_d = m_d.add(val2); 
+		d = d.add(val2); 
 	}
 	
 	public MathAdd(CStr s1, int n)
 	{
-		m_d = s1.makeBigDecimal();
+		d = s1.makeBigDecimal();
 		BigDecimal val2 = new BigDecimal(n);
-		m_d = m_d.add(val2); 
+		d = d.add(val2); 
 	}
 	
 //	public MathAdd(String s1, BigDecimal val2)
 //	{
-//		m_d = new BigDecimal(s1);
-//		m_d = m_d.add(val2); 
+//		d = new BigDecimal(s1);
+//		d = d.add(val2); 
 //	}
 	
 	public MathAdd(String s1, MathBase mathBase)
 	{
-		m_d = new BigDecimal(s1);
-		m_d = m_d.add(mathBase.m_d); 
+		d = new BigDecimal(s1);
+		d = d.add(mathBase.d); 
 	}
 	
 //	public static Dec inc(String s1, BigDecimal val2)
@@ -163,10 +163,10 @@ public class MathAdd extends MathBase
 	public MathAdd(VarAndEdit VarAndEdit1, double d)
 	{
 		String s1 = VarAndEdit1.getDottedSignedString();
-		m_d = new BigDecimal(s1);
-		
+		this.d = new BigDecimal(s1);
+
 		BigDecimal val2 = new BigDecimal(d);
-		m_d = m_d.add(val2); 
+		this.d = this.d.add(val2);
 	}
 
 	/**
@@ -177,10 +177,10 @@ public class MathAdd extends MathBase
 	public MathAdd(VarAndEdit VarAndEdit1, String s)
 	{
 		String s1 = VarAndEdit1.getDottedSignedString();
-		m_d = new BigDecimal(s1);
+		d = new BigDecimal(s1);
 		
 		BigDecimal val2 = new BigDecimal(s);
-		m_d = m_d.add(val2); 
+		d = d.add(val2); 
 	}
 	
 	/**
@@ -191,9 +191,9 @@ public class MathAdd extends MathBase
 	public MathAdd(VarAndEdit VarAndEdit1, MathBase mathBase)
 	{
 		String s1 = VarAndEdit1.getDottedSignedString();
-		m_d = new BigDecimal(s1);
+		d = new BigDecimal(s1);
 		
-		m_d = m_d.add(mathBase.m_d); 
+		d = d.add(mathBase.d); 
 	}	
 
 	/**
@@ -203,9 +203,9 @@ public class MathAdd extends MathBase
 	 */
 	public MathAdd(MathBase VarAndEdit1, MathBase mathBase)
 	{
-		m_d = VarAndEdit1.m_d ;
+		d = VarAndEdit1.d ;
 		
-		m_d = m_d.add(mathBase.m_d); 
+		d = d.add(mathBase.d); 
 	}	
 
 	/**
@@ -216,9 +216,9 @@ public class MathAdd extends MathBase
 	public MathAdd(MathBase mathBase, int n)
 	{
 		String s1 = String.valueOf(n);
-		m_d = new BigDecimal(s1);
+		d = new BigDecimal(s1);
 		
-		m_d = m_d.add(mathBase.m_d); 
+		d = d.add(mathBase.d); 
 	}		
 	
 	/**
@@ -229,9 +229,9 @@ public class MathAdd extends MathBase
 	public MathAdd(int n, MathBase mathBase)
 	{
 		String s1 = String.valueOf(n);
-		m_d = new BigDecimal(s1);
+		d = new BigDecimal(s1);
 		
-		m_d = m_d.add(mathBase.m_d); 
+		d = d.add(mathBase.d); 
 	}		
 	
 	/**
@@ -243,7 +243,7 @@ public class MathAdd extends MathBase
 		String s = VarAndEdit.getDottedSignedString();
 		
 		BigDecimal val = new BigDecimal(s);
-		m_d = m_d.add(val);
+		d = d.add(val);
 		return this;
 	}	
 	
@@ -254,7 +254,7 @@ public class MathAdd extends MathBase
 	public MathAdd add(String cs)
 	{
 		BigDecimal val = new BigDecimal(cs);
-		m_d = m_d.add(val);
+		d = d.add(val);
 		return this;
 	}
 
@@ -265,7 +265,7 @@ public class MathAdd extends MathBase
 	public MathAdd add(int n)
 	{
 		long l = n;
-		m_d = m_d.add(BigDecimal.valueOf(l));
+		d = d.add(BigDecimal.valueOf(l));
 		return this;
 	}
 
@@ -276,7 +276,7 @@ public class MathAdd extends MathBase
 	public MathAdd add(double d)
 	{
 		BigDecimal val = new BigDecimal(d);
-		m_d = m_d.add(val);
+		this.d = this.d.add(val);
 		return this;
 	}
 	
@@ -286,7 +286,7 @@ public class MathAdd extends MathBase
 	 */	
 	public MathAdd add(MathBase mathBase)
 	{
-		m_d = m_d.add(mathBase.m_d);
+		d = d.add(mathBase.d);
 		return this;
 	}
 }

@@ -17,7 +17,7 @@ public abstract class CEntityAddress extends CDataEntity
 	public CEntityAddress(CObjectCatalog cat, CBaseLanguageExporter out, String address)
 	{
 		super(0, "", cat, out);
-		m_csAddress = address ;
+		csAddress = address ;
 	}
 
 	@Override
@@ -26,7 +26,7 @@ public abstract class CEntityAddress extends CDataEntity
 		return CDataEntityType.ADDRESS ;
 	}
 
-	protected String m_csAddress ="" ;
+	protected String csAddress ="" ;
 
 	@Override
 	public boolean HasAccessors()
@@ -50,7 +50,7 @@ public abstract class CEntityAddress extends CDataEntity
 	@Override
 	public String GetConstantValue()
 	{
-		return m_csAddress;
+		return csAddress;
 	}
 
 

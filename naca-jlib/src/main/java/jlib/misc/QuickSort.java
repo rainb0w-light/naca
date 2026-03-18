@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class QuickSort<Item extends SortableItem> 
 {
-	protected ArrayList<Item> m_arr = null;
+	protected ArrayList<Item> arr = null;
 	/** This is a generic version of C.A.R Hoare's Quick Sort 
 	* algorithm.  This will handle arrays that are already
 	* sorted, and arrays with duplicate keys.
@@ -30,13 +30,13 @@ public class QuickSort<Item extends SortableItem>
 
 	public QuickSort(ArrayList<Item> arr)
 	{
-		m_arr = arr;
+		arr = arr;
 	}
 	
 	public void sort()
 	{
-		if(m_arr != null)
-			sort(0, m_arr.size()-1);
+		if(arr != null)
+			sort(0, arr.size()-1);
 	}
 	
 	private void sort(int lo0, int hi0)
@@ -53,7 +53,7 @@ public class QuickSort<Item extends SortableItem>
 			* the array.
 			*/
 			int nIndex = (lo0 + hi0 ) / 2; 
-			mid = m_arr.get(nIndex);
+			mid = arr.get(nIndex);
 
 			// loop through the array until indices cross
 			while( lo <= hi )
@@ -61,13 +61,13 @@ public class QuickSort<Item extends SortableItem>
 				/* find the first element that is greater than or equal to 
 				* the partition element starting from the left Index.
 				*/
-				while( ( lo < hi0 ) && ( m_arr.get(lo).compare(mid) < 0 ) )
+				while( ( lo < hi0 ) && ( arr.get(lo).compare(mid) < 0 ) )
 					++lo;
 
 				/* find an element that is smaller than or equal to 
 				* the partition element starting from the right Index.
 				*/
-				while( ( hi > lo0 ) && ( m_arr.get(hi).compare(mid) > 0 ) )
+				while( ( hi > lo0 ) && ( arr.get(hi).compare(mid) > 0 ) )
 					--hi;
 
 				// if the indexes have not crossed, swap
@@ -98,9 +98,9 @@ public class QuickSort<Item extends SortableItem>
 
 	protected void swap(int i, int j)
 	{
-		Item ti = m_arr.get(i);
-		Item tj = m_arr.get(j);
-		m_arr.set(i, tj);
-		m_arr.set(j, ti);
+		Item ti = arr.get(i);
+		Item tj = arr.get(j);
+		arr.set(i, tj);
+		arr.set(j, ti);
 	}
 }

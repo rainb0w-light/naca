@@ -34,30 +34,30 @@ public class CJavaIsFieldHighlight extends CEntityIsFieldHighlight
 	}
 	public CBaseEntityCondition GetOppositeCondition()
 	{
-		CJavaIsFieldHighlight not = new CJavaIsFieldHighlight(m_Reference) ;
-		not.m_bIsBlink = m_bIsBlink ;
-		not.m_bIsReverse = m_bIsReverse ;
-		not.m_bIsUnderlined = m_bIsUnderlined ;
-		not.m_bOpposite = !m_bOpposite ;
-		m_Reference.RegisterVarTesting(not) ;
+		CJavaIsFieldHighlight not = new CJavaIsFieldHighlight(reference) ;
+		not.bIsBlink = bIsBlink ;
+		not.bIsReverse = bIsReverse ;
+		not.bIsUnderlined = bIsUnderlined ;
+		not.bOpposite = !bOpposite ;
+		reference.RegisterVarTesting(not) ;
 		return not;
 	}
 	public String Export()
 	{
 		String cs = "is" ;
-		if (m_bOpposite)
+		if (bOpposite)
 		{
 			cs += "Not" ;
 		}
-		if (m_bIsUnderlined)
+		if (bIsUnderlined)
 		{
 			cs += "FieldUnderlined(";
 		}
-		else if (m_bIsBlink)
+		else if (bIsBlink)
 		{
 			cs += "FieldBlink(";
 		}
-		else if (m_bIsReverse)
+		else if (bIsReverse)
 		{
 			cs += "FieldReverse(";
 		}
@@ -65,7 +65,7 @@ public class CJavaIsFieldHighlight extends CEntityIsFieldHighlight
 		{
 			cs += "FieldHighlightNormal(";
 		}
-		cs += m_Reference.ExportReference(getLine()) + ")";
+		cs += reference.ExportReference(getLine()) + ")";
 		return cs ;
 	}
 

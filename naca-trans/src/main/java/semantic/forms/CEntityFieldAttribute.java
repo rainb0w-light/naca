@@ -50,7 +50,7 @@ public abstract class CEntityFieldAttribute extends CBaseEntityFieldAttribute
 	 */
 	public CBaseActionEntity GetSpecialAssignment(CDataEntity data, CBaseEntityFactory factory, int l)
 	{
-		CEntityFieldAttributeReference ref = factory.NewEntityFieldAttributeReference(m_Reference) ;
+		CEntityFieldAttributeReference ref = factory.NewEntityFieldAttributeReference(reference) ;
 		CEntitySetAttribute eSet = factory.NewEntitySetAttribute(l, ref) ;
 		eSet.SetAttribute(data) ;
 		ref.RegisterWritingAction(eSet) ;
@@ -59,7 +59,7 @@ public abstract class CEntityFieldAttribute extends CBaseEntityFieldAttribute
 	
 	public CBaseActionEntity GetSpecialAssignment(CTerminal term, CBaseEntityFactory factory, int l)
 	{
-		return CEntityFieldAttribute.intGetSpecialAssignment(m_Reference, term, factory, l) ;
+		return CEntityFieldAttribute.intGetSpecialAssignment(reference, term, factory, l) ;
 	}
 	
 	public static CBaseActionEntity intGetSpecialAssignment(CDataEntity field, CTerminal term, CBaseEntityFactory factory, int l)
@@ -114,12 +114,12 @@ public abstract class CEntityFieldAttribute extends CBaseEntityFieldAttribute
 	}
 	public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory) 
 	{
-		CDataEntity e = m_Reference.GetArrayReference(v, factory) ;
+		CDataEntity e = reference.GetArrayReference(v, factory) ;
 		return factory.NewEntityFieldAttribute(getLine(), "", e);
 	};
 	public CBaseEntityCondition GetSpecialCondition(int nLine, String v, CBaseEntityCondition.EConditionType type, CBaseEntityFactory factory)
 	{
-		CUnitaryEntityCondition cond = CEntityFieldAttribute.GetSpecialCondition(nLine, v, m_Reference, factory, type) ;
+		CUnitaryEntityCondition cond = CEntityFieldAttribute.GetSpecialCondition(nLine, v, reference, factory, type) ;
 		if (type == CBaseEntityCondition.EConditionType.IS_EQUAL || type == CBaseEntityCondition.EConditionType.IS_DIFFERENT)
 		{
 			return cond ;
@@ -180,7 +180,7 @@ public abstract class CEntityFieldAttribute extends CBaseEntityFieldAttribute
 	public CBaseEntityCondition GetSpecialCondition(int nLine, CDataEntity eData2, CBaseEntityCondition.EConditionType type, CBaseEntityFactory factory)
 	{
 		CEntityIsFieldAttribute eCond = factory.NewEntityIsFieldAttribute() ;
-		eCond.IsAttribute(eData2, m_Reference);
+		eCond.IsAttribute(eData2, reference);
 		if (type == EConditionType.IS_DIFFERENT)
 		{
 			eCond.SetOpposite() ;

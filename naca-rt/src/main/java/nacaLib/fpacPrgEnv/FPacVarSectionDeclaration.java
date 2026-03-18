@@ -20,7 +20,7 @@ public class FPacVarSectionDeclaration extends VarSectionDeclaration
 	{
 		return new FPacFileDeclaration(this, csName);
 //		DataSectionFile fileSection = fileSection();
-//		FPacFileDescriptor fileDef = new FPacFileDescriptor((BaseFPacProgram)m_Program, csName);
+//		FPacFileDescriptor fileDef = new FPacFileDescriptor((BaseFPacProgram)program, csName);
 //		fileSection.setCurrentFileDef(fileDef);
 //		return fileDef;
 	}

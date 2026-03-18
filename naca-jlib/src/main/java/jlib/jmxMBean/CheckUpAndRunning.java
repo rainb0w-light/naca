@@ -10,30 +10,30 @@ public class CheckUpAndRunning implements CheckUpAndRunningMBean
 {
 	public boolean isUp()
 	{
-		if(m_bInc)	
-			m_nbUp++;
+		if(bInc)	
+			nbUp++;
 		else
-			m_nbUp--;
+			nbUp--;
 		return true;
 	}
 	
 	public int getNbCheckUp()
 	{
-		return m_nbUp;
+		return nbUp;
 	}
 
 	public boolean getInc()
 	{
-		return m_bInc;
+		return bInc;
 	}
 	
 	public void setInc(boolean b)
 	{
-		m_bInc = b;
+		bInc = b;
 	}
 
-	private int m_nbUp = 0;
-	private boolean m_bInc = true;
+	private int nbUp = 0;
+	private boolean bInc = true;
 }
 
 

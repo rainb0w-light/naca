@@ -30,28 +30,28 @@ import jlib.sql.StoredProcParamDescBase;
 
 public class SQLClauseSPParamsDesc
 {
-	private ArrayList<SQLClauseSPParamDesc> m_arrParamDesc = null;
+	private ArrayList<SQLClauseSPParamDesc> arrParamDesc = null;
 	
 	public SQLClauseSPParamsDesc()
 	{
-		m_arrParamDesc = new ArrayList<SQLClauseSPParamDesc>();
+		arrParamDesc = new ArrayList<SQLClauseSPParamDesc>();
 	}
 	
 	public void addAParam(ResultSet rsParams)
 	{
 		SQLClauseSPParamDesc param = new SQLClauseSPParamDesc();
 		if(param.fill(rsParams))
-			m_arrParamDesc.add(param);
+			arrParamDesc.add(param);
 	}
 	
 	public int getNbParamToProvide()
 	{
-		return m_arrParamDesc.size();
+		return arrParamDesc.size();
 	}
 	
 	public SQLClauseSPParamDesc get(int nParamId)
 	{
-		return m_arrParamDesc.get(nParamId);
+		return arrParamDesc.get(nParamId);
 	}
 	
 	public boolean registerInOutParameters(DbPreparedCallableStatement callableStatement)
@@ -72,9 +72,9 @@ public class SQLClauseSPParamsDesc
 //	{
 //		if(preparedCallableStatement != null)
 //		{
-//			for(int n=0; n<m_arrParamDesc.size(); n++)
+//			for(int n=0; n<arrParamDesc.size(); n++)
 //			{
-//				SQLClauseSPParamDesc paramDesc = m_arrParamDesc.get(n);
+//				SQLClauseSPParamDesc paramDesc = arrParamDesc.get(n);
 //				paramDesc.retrieveOutValues(n, preparedCallableStatement, sqlStatus);
 //			}
 //		}

@@ -27,7 +27,7 @@ public class CJavaSortedFileDescriptor extends CEntitySortedFileDescriptor
 		String cs = "SortDescriptor " + FormatIdentifier(GetDisplayName()) + " = declare.sort() ;" ;
 		WriteLine(cs) ;
 		
-		CBaseLanguageEntity child = m_lstChildren.getFirst() ; 
+		CBaseLanguageEntity child = lstChildren.getFirst() ; 
 		DoExport(child);
 	}
 

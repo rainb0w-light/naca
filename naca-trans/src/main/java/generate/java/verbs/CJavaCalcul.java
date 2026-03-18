@@ -41,23 +41,23 @@ public class CJavaCalcul extends CEntityCalcul
 	protected void DoExport()
 	{
 		String csOperation = "compute" ;
-		if (m_arrRoundedDestinations.size() > 0)
+		if (arrRoundedDestinations.size() > 0)
 		{
 			csOperation += "Rounded";
 		}
 		csOperation += "(";
-		String csExpression = m_Expression.Export() ;
+		String csExpression = expression.Export() ;
 		
 		boolean bOnError = false ;
-		if (m_OnErrorBloc != null)
+		if (onErrorBloc != null)
 		{
 			WriteWord("if (") ;
 			bOnError = true ;
 		}
 		boolean bFound = false ;
-		for (int i=0; i<m_arrDestinations.size();i++)
+		for (int i=0; i<arrDestinations.size();i++)
 		{
-			CDataEntity destination = m_arrDestinations.get(i);
+			CDataEntity destination = arrDestinations.get(i);
 			String line = "" ;
 			if (bFound && bOnError)
 			{
@@ -87,9 +87,9 @@ public class CJavaCalcul extends CEntityCalcul
 				WriteLine(line) ;
 			}
 		}
-		for (int i=0; i<m_arrRoundedDestinations.size();i++)
+		for (int i=0; i<arrRoundedDestinations.size();i++)
 		{
-			CDataEntity destination = m_arrRoundedDestinations.get(i);
+			CDataEntity destination = arrRoundedDestinations.get(i);
 			String line = "" ;
 			if (bFound && bOnError)
 			{
@@ -123,7 +123,7 @@ public class CJavaCalcul extends CEntityCalcul
 		{
 			WriteWord(") {") ;
 			WriteEOL() ;
-			DoExport(m_OnErrorBloc) ;
+			DoExport(onErrorBloc) ;
 			WriteLine("}");
 		}
 	}

@@ -25,8 +25,8 @@ import utils.Transcoder;
 public class CFPacScript extends CFPacElement 
 {
 
-	private String m_csName = "" ;
-	private Vector<CFPacSubr> m_arrSubr;
+	private String csName = "" ;
+	private Vector<CFPacSubr> arrSubr;
 
 	public CFPacScript(int line)
 	{
@@ -43,7 +43,7 @@ public class CFPacScript extends CFPacElement
 	@Override
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		CEntityClass cl = factory.NewEntityClass(getLine(), m_csName) ;
+		CEntityClass cl = factory.NewEntityClass(getLine(), csName) ;
 		
 		return cl ;
 	}
@@ -110,8 +110,8 @@ public class CFPacScript extends CFPacElement
 		tok = GetCurrentToken() ;
 		while (tok != null && tok.GetKeyword() == CFPacKeywordList.SUBR)
 		{
-			if (m_arrSubr == null)
-				m_arrSubr = new Vector<CFPacSubr>() ;
+			if (arrSubr == null)
+				arrSubr = new Vector<CFPacSubr>() ;
 			CFPacSubr subr = new  CFPacSubr(tok.getLine()) ;
 			if (!Parse(subr))
 			{
@@ -146,7 +146,7 @@ public class CFPacScript extends CFPacElement
 
 	public void setName(String name)
 	{
-		m_csName = name ;
+		csName = name ;
 	};
 	
 }

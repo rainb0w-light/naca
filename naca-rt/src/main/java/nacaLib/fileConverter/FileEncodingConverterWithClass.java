@@ -30,9 +30,9 @@ public class FileEncodingConverterWithClass extends FileEncodingConverter
 	
 	public boolean execute(String csCopyClass)
 	{
-		m_fileIn.getPhysicalName();
-		m_fileOut.getPhysicalName();
-		if(m_fileIn.isEbcdic() != m_fileOut.isEbcdic() || m_bHost)
+		fileIn.getPhysicalName();
+		fileOut.getPhysicalName();
+		if(fileIn.isEbcdic() != fileOut.isEbcdic() || bHost)
 		{
 			return convert(csCopyClass);
 		}
@@ -44,8 +44,8 @@ public class FileEncodingConverterWithClass extends FileEncodingConverter
 
 	private boolean convert(String csCopyClass)
 	{
-		boolean bEbcdicIn = m_fileIn.isEbcdic();
-		boolean bEbcdicOut = m_fileOut.isEbcdic();
+		boolean bEbcdicIn = fileIn.isEbcdic();
+		boolean bEbcdicOut = fileOut.isEbcdic();
 
 		BaseResourceManager.initCopyConverterClassLoader();
 		
@@ -66,25 +66,25 @@ public class FileEncodingConverterWithClass extends FileEncodingConverter
 		VarDefEncodingConvertibleManagerContainer varDefEncodingConvertibleManagerContainer = new VarDefEncodingConvertibleManagerContainer();
 		
 		// Read all record form source into structure
-		String csFileIn = m_fileIn.getPhysicalName();
+		String csFileIn = fileIn.getPhysicalName();
 		DataFileLineReader dataFileIn = new DataFileLineReader(csFileIn, 65536, 0);
 		boolean bInOpened = dataFileIn.open();
 		if(bInOpened)
 		{
-			m_fileOut.openOutput();
-			boolean bVariableLength = m_fileIn.isVariableLength();
-			if (m_bHost)
+			fileOut.openOutput();
+			boolean bVariableLength = fileIn.isVariableLength();
+			if (bHost)
 			{
-				if (m_bHeaderEbcdic)
+				if (bHeaderEbcdic)
 				{
 					byte[] tbyHeaderEbcdic = new String("<FileHeader Version=\"1\" Encoding=\"ebcdic\"/>").getBytes();
-					m_fileOut.write(tbyHeaderEbcdic, 0, tbyHeaderEbcdic.length, true);
+					fileOut.write(tbyHeaderEbcdic, 0, tbyHeaderEbcdic.length, true);
 				}
 
-				if (m_nLengthRecord == 0)
+				if (nLengthRecord == 0)
 				{
 					byte[] tbyHeader4 = new byte[4];
-					if (m_bVariable4)
+					if (bVariable4)
 					{	
 						LineRead lineRead = dataFileIn.readBuffer(4, false);
 						while (lineRead != null)
@@ -98,7 +98,7 @@ public class FileEncodingConverterWithClass extends FileEncodingConverter
 							if (bVariableLength)
 							{
 								LittleEndingSignBinaryBufferStorage.writeInt(tbyHeader4, nCurrentRecordLength, 0);
-								m_fileOut.write(tbyHeader4, 0, tbyHeader4.length, false);
+								fileOut.write(tbyHeader4, 0, tbyHeader4.length, false);
 							}
 							
 							lineRead = dataFileIn.readBuffer(nCurrentRecordLength, false);
@@ -106,8 +106,8 @@ public class FileEncodingConverterWithClass extends FileEncodingConverter
 								varDefEncodingConvertibleManagerContainer.getEncodingManagerConvertAndWrite(lineRead, varRoot);
 							else
 								varRoot.setFromLineRead(lineRead);
-							m_fileOut.writeFrom(varRoot);
-							m_fileOut.getBaseDataFile().writeEndOfRecordMarker();
+							fileOut.writeFrom(varRoot);
+							fileOut.getBaseDataFile().writeEndOfRecordMarker();
 							lineRead = dataFileIn.readBuffer(4, false);
 						}
 					}
@@ -123,7 +123,7 @@ public class FileEncodingConverterWithClass extends FileEncodingConverter
 							if (bVariableLength)
 							{
 								LittleEndingSignBinaryBufferStorage.writeInt(tbyHeader4, nCurrentRecordLength, 0);
-								m_fileOut.write(tbyHeader4, 0, tbyHeader4.length, false);
+								fileOut.write(tbyHeader4, 0, tbyHeader4.length, false);
 							}
 							
 							lineRead = dataFileIn.readBuffer(nCurrentRecordLength, false);
@@ -131,30 +131,30 @@ public class FileEncodingConverterWithClass extends FileEncodingConverter
 								varDefEncodingConvertibleManagerContainer.getEncodingManagerConvertAndWrite(lineRead, varRoot);
 							else
 								varRoot.setFromLineRead(lineRead);
-							m_fileOut.writeFrom(varRoot);
-							m_fileOut.getBaseDataFile().writeEndOfRecordMarker();
+							fileOut.writeFrom(varRoot);
+							fileOut.getBaseDataFile().writeEndOfRecordMarker();
 							lineRead = dataFileIn.readBuffer(3, false);
 						}
 					}
 				}
 				else
 				{
-					LineRead lineRead = dataFileIn.readBuffer(m_nLengthRecord, false);
+					LineRead lineRead = dataFileIn.readBuffer(nLengthRecord, false);
 					while (lineRead != null)
 					{
 						if (bEbcdicIn && !bEbcdicOut)	// Must convert string chunks to ascii
 							varDefEncodingConvertibleManagerContainer.getEncodingManagerConvertAndWrite(lineRead, varRoot);
 						else	// !bEbcdicIn && bEbcdicOut
 							varRoot.setFromLineRead(lineRead);
-						m_fileOut.writeFrom(varRoot);
-						m_fileOut.getBaseDataFile().writeEndOfRecordMarker();
-						lineRead = dataFileIn.readBuffer(m_nLengthRecord, false);
+						fileOut.writeFrom(varRoot);
+						fileOut.getBaseDataFile().writeEndOfRecordMarker();
+						lineRead = dataFileIn.readBuffer(nLengthRecord, false);
 					}
 				}
 			}
 			else
 			{
-				LineRead lineRead = m_fileIn.readALine(dataFileIn, null);
+				LineRead lineRead = fileIn.readALine(dataFileIn, null);
 				while(lineRead != null)
 				{
 					if(bVariableLength)
@@ -168,11 +168,11 @@ public class FileEncodingConverterWithClass extends FileEncodingConverter
 					if(bVariableLength)
 						lineRead.shiftOffset(-4);
 	
-					m_fileOut.writeFrom(varRoot);
-					lineRead = m_fileIn.readALine(dataFileIn, lineRead);
+					fileOut.writeFrom(varRoot);
+					lineRead = fileIn.readALine(dataFileIn, lineRead);
 				}
 			}	
-			m_fileOut.close();
+			fileOut.close();
 			dataFileIn.close();
 		}
 		

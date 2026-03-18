@@ -16,46 +16,46 @@ public abstract class BaseControlerStepConfig
 
 	public BaseControlerStepConfig(String csStepName)
 	{
-		m_csName = csStepName ;
+		csName = csStepName ;
 	}
 	
-	private String m_csName = "" ;
-	private boolean m_bActive = false ;
-	private int m_nDelayBeforeStart = 0 ;
-	private int m_nDelayBeforeRestart = 0 ;
+	private String csName = "" ;
+	private boolean bActive = false ;
+	private int nDelayBeforeStart = 0 ;
+	private int nDelayBeforeRestart = 0 ;
 
 	public String getName()
 	{
-		return m_csName ;
+		return csName ;
 	}
 
 	public boolean isActive()
 	{
-		return m_bActive ;
+		return bActive ;
 	} 
 
 	protected int getDelayBeforeStart()
 	{
-		return m_nDelayBeforeStart;
+		return nDelayBeforeStart;
 	}
 
 	protected int getDelayBeforeRestart()
 	{
-		return m_nDelayBeforeRestart ;
+		return nDelayBeforeRestart ;
 	}
 
 	void Setup(Tag tagSite)
 	{
-		m_nDelayBeforeStart = tagSite.getValAsInt("startdelay") ;
-		m_nDelayBeforeRestart = tagSite.getValAsInt("restartdelay") ;
+		nDelayBeforeStart = tagSite.getValAsInt("startdelay") ;
+		nDelayBeforeRestart = tagSite.getValAsInt("restartdelay") ;
 		String cs = tagSite.getVal("status") ;
 		if (cs.equalsIgnoreCase("active"))
 		{
-			m_bActive = true ;
+			bActive = true ;
 		}
 		else
 		{
-			m_bActive = false ;
+			bActive = false ;
 		}
 		
 		intSetup(tagSite) ;
@@ -64,14 +64,14 @@ public abstract class BaseControlerStepConfig
 	protected abstract void intSetup(Tag tagSite) ;
 //	void setCurrentControler(BaseControler ctrl)
 //	{
-//		m_CurrentControler = ctrl ;
+//		currentControler = ctrl ;
 //	}
-//	private BaseControler m_CurrentControler = null  ;
+//	private BaseControler currentControler = null  ;
 //	void OnDeleteConfig()
 //	{
-//		if (m_CurrentControler != null)
+//		if (currentControler != null)
 //		{
-//			m_CurrentControler.Stop(true) ;
+//			currentControler.Stop(true) ;
 //		}
 //	}
 }

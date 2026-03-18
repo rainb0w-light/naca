@@ -28,30 +28,30 @@ public class VarDeclarationInMap extends VarDeclaration
 	public VarDeclarationInMap(BaseProgram prg, Map mapOwner)
 	{
 		super(prg);
-		m_mapOwner = mapOwner;
+		mapOwner = mapOwner;
 	}
 	
-	private VarDefForm m_curDefForm = null;
-	private Form m_curVarForm = null;
-	private Map m_mapOwner = null;
+	private VarDefForm curDefForm = null;
+	private Form curVarForm = null;
+	private Map mapOwner = null;
 	
 	public DeclareTypeEditInMap edit(String csName, int nWidth)
 	{
 		TempCache tempCache = TempCacheLocator.getTLSTempCache();
 		VarLevel varlevel = tempCache.getVarLevel();
-		varlevel.set(m_Program, 2);
-		//VarLevel varlevel = new VarLevel(m_Program, 2);
+		varlevel.set(program, 2);
+		//VarLevel varlevel = new VarLevel(program, 2);
 		DeclareTypeEditInMap declareTypeEdit = tempCache.getDeclareTypeEditInMap();
-		declareTypeEdit.set(varlevel, m_curVarForm, m_curDefForm, csName, nWidth);
+		declareTypeEdit.set(varlevel, curVarForm, curDefForm, csName, nWidth);
 		return declareTypeEdit;
 	}
 		
 
-//		Var varParent = m_Program.getProgramManager().getVarAtParentLevel(2);
+//		Var varParent = program.getProgramManager().getVarAtParentLevel(2);
 //		if(varParent != null)
 //		{
 //			Edit edit = new Edit(varParent, csName, nWidth);
-//			m_curForm.addField(edit);
+//			curForm.addField(edit);
 //			return edit;
 //		}
 //		return null;
@@ -61,27 +61,27 @@ public class VarDeclarationInMap extends VarDeclaration
 	{
 		TempCache tempCache = TempCacheLocator.getTLSTempCache();
 		VarLevel varlevel = tempCache.getVarLevel();
-		varlevel.set(m_Program, 1);
+		varlevel.set(program, 1);
 
 		DeclareTypeForm declareTypeForm = tempCache.getDeclareTypeForm();
 		declareTypeForm.set(varlevel);
 		
 		Form varForm = new Form(declareTypeForm, csName);
-		m_curDefForm = varForm.getDefForm();
-		m_curVarForm = varForm;
-		if(m_mapOwner != null)
-			m_mapOwner.registerForm(m_curDefForm);
+		curDefForm = varForm.getDefForm();
+		curVarForm = varForm;
+		if(mapOwner != null)
+			mapOwner.registerForm(curDefForm);
 		
 		return varForm;
 		
 		
-//		Var varParent = m_Program.getProgramManager().getVarAtParentLevel(1);	// The forms are at level depth 1
+//		Var varParent = program.getProgramManager().getVarAtParentLevel(1);	// The forms are at level depth 1
 //		if(varParent != null)
 //		{
 //			Form form = new Form(varParent, csName, col, line);	//, m_tabLocalizedTexts);
-//			m_curForm = form;
-//			if(m_mapOwner != null)
-//				m_mapOwner.registerForm(form);
+//			curForm = form;
+//			if(mapOwner != null)
+//				mapOwner.registerForm(form);
 //			return form;
 //		}
 //		return null;

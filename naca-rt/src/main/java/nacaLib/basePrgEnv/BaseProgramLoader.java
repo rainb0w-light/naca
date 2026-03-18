@@ -48,21 +48,21 @@ import org.w3c.dom.Document;
 
 public abstract class BaseProgramLoader extends ProgramSequencer	//ProgramSequencerExt
 {
-	private DbConnectionManagerBase m_connectionManager = null;
+	private DbConnectionManagerBase connectionManager = null;
 	private static ReentrantLock ms_lock = new ReentrantLock(); 
 	protected static BaseProgramLoader ms_Instance = null ;
 	
-	protected MailService m_MailService = null ;
-	protected String m_csAlertMailSubjectTitle = "" ;
+	protected MailService mailService = null ;
+	protected String csAlertMailSubjectTitle = "" ;
 	
-	private Hashtable<BaseSession, BaseEnvironment> m_tabSyncSessions = null; 
+	private Hashtable<BaseSession, BaseEnvironment> tabSyncSessions = null; 
 	protected static StringArray ms_arrPath = null;
 	
-	protected Tag m_tagCESMConfig = null ;
+	protected Tag tagCESMConfig = null ;
 
 	protected static Hashtable<String, String> ms_tabTransID = null;
 	protected static Hashtable<String, String> ms_tabPrograms = null;
-	private ProgramPoolManager m_programPoolManager = null;
+	private ProgramPoolManager programPoolManager = null;
 
 
 	public static BaseProgramLoader GetInstance()
@@ -79,24 +79,24 @@ public abstract class BaseProgramLoader extends ProgramSequencer	//ProgramSequen
 	{	
 		super();
 		
-		m_tabSyncSessions = new Hashtable<BaseSession, BaseEnvironment>() ;
+		tabSyncSessions = new Hashtable<BaseSession, BaseEnvironment>() ;
 		ms_arrPath = new StringArray();
 		ms_tabTransID = new Hashtable<String, String>();
 		ms_tabPrograms = new Hashtable<String, String>() ;
 		
-		//m_programPoolManager = new ProgramPoolManager(bUseJmx);
+		//programPoolManager = new ProgramPoolManager(bUseJmx);
 		
 		if(tagSequencerConfig != null)
 		{
-			m_tagCESMConfig = tagSequencerConfig.getChild("CESMConfig");
+			tagCESMConfig = tagSequencerConfig.getChild("CESMConfig");
 		}	
 		
-		m_connectionManager = connectionManager;
+		connectionManager = connectionManager;
 		
 		ms_Instance = this ;				  
 		
 		ms_arrPath = new StringArray();
-		m_programPoolManager = new ProgramPoolManager(bUseJmx);
+		programPoolManager = new ProgramPoolManager(bUseJmx);
 	}
 	
 	public void setPaths(StringArray arrPath)
@@ -106,7 +106,7 @@ public abstract class BaseProgramLoader extends ProgramSequencer	//ProgramSequen
 	
 	private void returnProgramInstanceToPool(BaseProgram program)
 	{
-		m_programPoolManager.returnProgramInstanceToPool(program);
+		programPoolManager.returnProgramInstanceToPool(program);
 	}
 	
 	private void doNotReturnProgramInstanceToPool(BaseProgram program)
@@ -115,7 +115,7 @@ public abstract class BaseProgramLoader extends ProgramSequencer	//ProgramSequen
 		//TempCache tempCache = TempCacheLocator.getTLSTempCache();
 		//tempCache.resetStackProgram();
 		
-		//m_programPoolManager.returnProgramInstanceToPool(currentProgramInstance);
+		//programPoolManager.returnProgramInstanceToPool(currentProgramInstance);
 	}
 	
 	public SharedProgramInstanceData forcePreloadSessionProgram(String csDefaultProgramName, int nNbInstanceToPreload)
@@ -133,7 +133,7 @@ public abstract class BaseProgramLoader extends ProgramSequencer	//ProgramSequen
 			SharedProgramInstanceData s = currentProgram.getProgramManager().getSharedProgramInstanceData();
 			SharedProgramInstanceDataCatalog.putSharedProgramInstanceData(csDefaultProgramName, s);
 			
-			ProgramInstancesPool programInstancesPool = m_programPoolManager.getProgramPool(csDefaultProgramName);
+			ProgramInstancesPool programInstancesPool = programPoolManager.getProgramPool(csDefaultProgramName);
 			if(programInstancesPool != null)
 				programInstancesPool.returnProgram(currentProgram);
 			
@@ -145,7 +145,7 @@ public abstract class BaseProgramLoader extends ProgramSequencer	//ProgramSequen
 			for(int n=1; n<nNbInstanceToPreload; n++)
 			{
 				Log.logNormal("Program=" + csDefaultProgramName + " nb instances preloaded=" + nNbInstancesPreloaded);
-				BaseProgram currentProgram2ndInstance = m_programPoolManager.preloadSecondInstanceProgram(csDefaultProgramName);
+				BaseProgram currentProgram2ndInstance = programPoolManager.preloadSecondInstanceProgram(csDefaultProgramName);
 				if(currentProgram2ndInstance != null && programInstancesPool != null)
 				{
 					boolean bNewProgramInstance = currentProgram2ndInstance.getProgramManager().isNewProgramInstance();
@@ -165,10 +165,10 @@ public abstract class BaseProgramLoader extends ProgramSequencer	//ProgramSequen
 		}
 		else	// Destroy program instance pool
 		{
-			ProgramInstancesPool programInstancesPool = m_programPoolManager.getProgramPool(csDefaultProgramName);
+			ProgramInstancesPool programInstancesPool = programPoolManager.getProgramPool(csDefaultProgramName);
 			if(programInstancesPool != null)
 				programInstancesPool.unregisterMBean();
-			m_programPoolManager.removeProgramInstancesPool(csDefaultProgramName);
+			programPoolManager.removeProgramInstancesPool(csDefaultProgramName);
 		}
 		return null;
 	}
@@ -201,14 +201,14 @@ public abstract class BaseProgramLoader extends ProgramSequencer	//ProgramSequen
 	
 	public void unloadProgram(String csProgramName)
 	{
-		ProgramInstancesPool programInstancesPool = m_programPoolManager.getProgramPool(csProgramName);
+		ProgramInstancesPool programInstancesPool = programPoolManager.getProgramPool(csProgramName);
 		if(programInstancesPool != null)
 			programInstancesPool.unloadProgram();		
 	}
 
 	private BaseProgram loadPooledProgramInstance(String csProgramName)
 	{
-		return m_programPoolManager.loadPooledProgramInstance(csProgramName);
+		return programPoolManager.loadPooledProgramInstance(csProgramName);
 	}
 	
 	private BaseProgram loadUnpooledProgramInstance(String csProgName)
@@ -260,16 +260,16 @@ public abstract class BaseProgramLoader extends ProgramSequencer	//ProgramSequen
 	
 	public BaseEnvironment GetEnvironment(BaseSession appSession, String defaultProgramName, String csProgramParent) 
 	{
-		BaseEnvironment env = m_tabSyncSessions.get(appSession);
+		BaseEnvironment env = tabSyncSessions.get(appSession);
 		if (env == null)
 		{			
-			env = appSession.createEnvironment(m_connectionManager);
+			env = appSession.createEnvironment(connectionManager);
 			if(env != null)
 			{
-				env.Init(m_tagCESMConfig) ;
+				env.Init(tagCESMConfig) ;
 				
 				if(!appSession.isAsync())
-					m_tabSyncSessions.put(appSession, env) ;
+					tabSyncSessions.put(appSession, env) ;
 				if (defaultProgramName != null)
 				{
 					env.setNextProgramToLoad(defaultProgramName, csProgramParent) ;
@@ -368,8 +368,8 @@ public abstract class BaseProgramLoader extends ProgramSequencer	//ProgramSequen
 	private void throwAbortSession(Throwable e, String csProgramName)
 	{
 		AbortSessionException exp = new AbortSessionException(e);
-		exp.m_ProgramName = csProgramName;
-		exp.m_Reason = e;
+		exp.programName = csProgramName;
+		exp.reason = e;
 		throw exp;
 	}
 	
@@ -383,7 +383,7 @@ public abstract class BaseProgramLoader extends ProgramSequencer	//ProgramSequen
 		if (prgLast != null)
 		{
 			csClassName = prgLast.getSimpleName();
-			sqlStatus = prgLast.m_BaseProgramManager.getSQLStatus();
+			sqlStatus = prgLast.baseProgramManager.getSQLStatus();
 		}
 		logMail(env, csClassName, "FATAL occured", e, sqlStatus);
 		
@@ -400,7 +400,7 @@ public abstract class BaseProgramLoader extends ProgramSequencer	//ProgramSequen
 		if (prgLast != null)
 		{
 			csClassName = prgLast.getSimpleName();
-			sqlStatus = prgLast.m_BaseProgramManager.getSQLStatus();
+			sqlStatus = prgLast.baseProgramManager.getSQLStatus();
 		}
 		logMail(env, csClassName, "FATAL occured", e, sqlStatus);
 
@@ -508,14 +508,14 @@ public abstract class BaseProgramLoader extends ProgramSequencer	//ProgramSequen
 					currentProgram.getProgramManager().mapCalledPrgReturnParameters(arrCallerCallParam);
 					TempCacheLocator.getTLSTempCache().popCurrentProgram();
 					env.endRunProgram(CriteriaEndRunMain.XCtl);
-					env = e.m_Environment ;
+					env = e.environment ;
 					returnProgramInstanceToPool(currentProgram);	// Return program to pool
 					continue ;
 				}
 				catch (AbortSessionException e)
 				{
 					env.endRunProgram(CriteriaEndRunMain.Abort);
-					e.m_ProgramName = csProgramName;
+					e.programName = csProgramName;
 					doNotReturnProgramInstanceToPool(currentProgram);	// Do not return program to pool anymore
 					currentProgram = null;
 					throw e;
@@ -627,7 +627,7 @@ public abstract class BaseProgramLoader extends ProgramSequencer	//ProgramSequen
 		catch (AbortSessionException e)
 		{
 			CESMEnv.endRunProgram(CriteriaEndRunMain.Abort);
-			e.m_ProgramName = currentProgram.getSimpleName();
+			e.programName = currentProgram.getSimpleName();
 			doNotReturnProgramInstanceToPool(currentProgram);
 			currentProgram = null;
 			throw e;
@@ -656,11 +656,11 @@ public abstract class BaseProgramLoader extends ProgramSequencer	//ProgramSequen
 	public void logMail(BaseEnvironment env, String className, String label, Throwable e, CSQLStatus sqlStatus) 
 	{
 	    DateUtil date = new DateUtil();
-		String subject = date.toString() + " - " + m_csAlertMailSubjectTitle + " - " + className + " - " + label;
-		if (m_MailService != null) 
+		String subject = date.toString() + " - " + csAlertMailSubjectTitle + " - " + className + " - " + label;
+		if (mailService != null) 
 		{
-			if (e instanceof AbortSessionException && ((AbortSessionException)e).m_Reason != null) {
-				e = ((AbortSessionException)e).m_Reason;
+			if (e instanceof AbortSessionException && ((AbortSessionException)e).reason != null) {
+				e = ((AbortSessionException)e).reason;
 			}
 				
 		    StringBuffer sb = new StringBuffer();
@@ -729,7 +729,7 @@ public abstract class BaseProgramLoader extends ProgramSequencer	//ProgramSequen
 		    	}
 		    }
 
-		    Mail mail = m_MailService.createMail();
+		    Mail mail = mailService.createMail();
 			mail.setSubject(subject);
 			mail.setText(sb.toString());
 			mail.send();
@@ -744,8 +744,8 @@ public abstract class BaseProgramLoader extends ProgramSequencer	//ProgramSequen
 	public static void logMail(String csSubject, String csBodyText, Throwable e)
 	{
 	    DateUtil date = new DateUtil();
-		String subject = date.toString() + " - " + ms_Instance.m_csAlertMailSubjectTitle + " - " + csSubject;
-		if (ms_Instance.m_MailService != null) 
+		String subject = date.toString() + " - " + ms_Instance.csAlertMailSubjectTitle + " - " + csSubject;
+		if (ms_Instance.mailService != null) 
 		{
 		    StringBuffer sb = new StringBuffer();
 		    String csText;
@@ -767,7 +767,7 @@ public abstract class BaseProgramLoader extends ProgramSequencer	//ProgramSequen
 					sb.append(te.toString() + "\r\n");
 			    }
 		    }
-		    Mail mail = ms_Instance.m_MailService.createMail();
+		    Mail mail = ms_Instance.mailService.createMail();
 			mail.setSubject(subject);
 			mail.setText(csText);
 			mail.send();
@@ -777,12 +777,12 @@ public abstract class BaseProgramLoader extends ProgramSequencer	//ProgramSequen
 	
 	public void removeSession(BaseSession session)
 	{
-		m_tabSyncSessions.remove(session);
+		tabSyncSessions.remove(session);
 	}
 	
 	public BaseEnvironment getEnvironment(BaseSession appSession)
 	{
-		return m_tabSyncSessions.get(appSession);
+		return tabSyncSessions.get(appSession);
 	}
 	
 	/**
@@ -795,14 +795,14 @@ public abstract class BaseProgramLoader extends ProgramSequencer	//ProgramSequen
 		{
 			String addressFrom = tagMailConfig.getVal("addressFrom") ;
 			String smtpServer = tagMailConfig.getVal("smtpServer");
-			m_csAlertMailSubjectTitle = tagMailConfig.getVal("title");
-			m_MailService = new MailService(smtpServer, addressFrom) ;
+			csAlertMailSubjectTitle = tagMailConfig.getVal("title");
+			mailService = new MailService(smtpServer, addressFrom) ;
 			
 			Tag tagAdressTo = tagMailConfig.getEnumChild("addressTo") ;
 			while(tagAdressTo != null)
 			{
 				String add = tagAdressTo.getVal("email");
-				m_MailService.addAddressTo(add) ;
+				mailService.addAddressTo(add) ;
 				tagAdressTo = tagMailConfig.getEnumChild() ;
 			}
 		}
@@ -815,7 +815,7 @@ public abstract class BaseProgramLoader extends ProgramSequencer	//ProgramSequen
 	@Override
 	public SessionEnvironmentRequester getSessionEnvironmentRequester(BaseSession appSession)
 	{
-		BaseEnvironment env = m_tabSyncSessions.get(appSession);
+		BaseEnvironment env = tabSyncSessions.get(appSession);
 		return env ;
 	}
 	

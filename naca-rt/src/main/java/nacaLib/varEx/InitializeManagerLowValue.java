@@ -24,6 +24,6 @@ public class InitializeManagerLowValue extends InitializeManager
 	{
 		varDefBuffer.writeRepeatingcharAtOffset(buffer, nOffset, '\0') ;
 		if(initializeCache != null)
-			initializeCache.addItem('\0', buffer.m_nAbsolutePosition+nOffset, varDefBuffer.m_nTotalSize);
+			initializeCache.addItem('\0', buffer.nAbsolutePosition+nOffset, varDefBuffer.nTotalSize);
 	}
 }

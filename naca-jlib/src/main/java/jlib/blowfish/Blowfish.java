@@ -11,7 +11,7 @@ import java.net.UnknownHostException;
 
 public class Blowfish
 {
-	private String m_csKey = null;
+	private String csKey = null;
 	
     public Blowfish(String csKey, boolean bMixWithIpAdress)
 	{
@@ -35,12 +35,12 @@ public class Blowfish
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		m_csKey = csKey;
+		csKey = csKey;
 	}
 	
     public String encrypt(String csClearValue)
 	{
-        byte[] testkey = m_csKey.getBytes();
+        byte[] testkey = csKey.getBytes();
 
         BlowfishECB bfecb = new BlowfishECB(testkey);
         
@@ -73,7 +73,7 @@ public class Blowfish
 	
     public String decrypt(String csCryptedValue)
 	{
-		byte[] testkey = m_csKey.getBytes();
+		byte[] testkey = csKey.getBytes();
         BlowfishECB bfecb = new BlowfishECB(testkey);
 
         int n = csCryptedValue.length()/2;

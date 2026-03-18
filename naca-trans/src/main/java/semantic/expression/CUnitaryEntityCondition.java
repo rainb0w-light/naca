@@ -32,9 +32,9 @@ public abstract class CUnitaryEntityCondition extends CBaseEntityCondition
 	@Override
 	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
 	{
-		if (m_Reference == field)
+		if (reference == field)
 		{
-			m_Reference = var ;
+			reference = var ;
 			field.UnRegisterVarTesting(this) ;
 			field.RegisterVarTesting(this) ;
 			return true ;
@@ -44,16 +44,16 @@ public abstract class CUnitaryEntityCondition extends CBaseEntityCondition
 	public void SetConditonReference(CDataEntity e)
 	{
 		ASSERT(e) ;
-		m_Reference = e ;
+		reference = e ;
 	}
 	public CDataEntity GetConditionReference()
 	{
-		return m_Reference ;
+		return reference ;
 	}
-	protected CDataEntity m_Reference = null; 
+	protected CDataEntity reference = null; 
 	public void Clear()
 	{
 		super.Clear() ;
-		m_Reference = null ;
+		reference = null ;
 	}
 }

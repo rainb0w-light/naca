@@ -38,33 +38,33 @@ public class CJavaCount extends CEntityCount
 
 	protected void DoExport()
 	{
-		WriteWord("inspectTallying(" + m_Variable.ExportReference(getLine()) + ")");
-		for (int i =0; i<m_arrCountAllToken.size();i++)
+		WriteWord("inspectTallying(" + variable.ExportReference(getLine()) + ")");
+		for (int i =0; i<arrCountAllToken.size();i++)
 		{
-			CDataEntity eTok = m_arrCountAllToken.get(i);
+			CDataEntity eTok = arrCountAllToken.get(i);
 			WriteWord(".countAll(" + eTok.ExportReference(getLine()) + ")");
 		}
-		for (int i =0; i<m_arrCountLeadingToken.size();i++)
+		for (int i =0; i<arrCountLeadingToken.size();i++)
 		{
-			CDataEntity eTok = m_arrCountLeadingToken.get(i);
+			CDataEntity eTok = arrCountLeadingToken.get(i);
 			WriteWord(".countLeading(" + eTok.ExportReference(getLine()) + ")");
 		}
-		if(m_arrCountAllToken.isEmpty() && m_arrCountLeadingToken.isEmpty() && 
-				(!m_arrCountBeforeToken.isEmpty() || !m_arrCountAfterToken.isEmpty()))
+		if(arrCountAllToken.isEmpty() && arrCountLeadingToken.isEmpty() && 
+				(!arrCountBeforeToken.isEmpty() || !arrCountAfterToken.isEmpty()))
 		{
 			WriteWord(".forChars()");
 		}
-		for (int i =0; i<m_arrCountAfterToken.size();i++)
+		for (int i =0; i<arrCountAfterToken.size();i++)
 		{
-			CDataEntity eTok = m_arrCountAfterToken.get(i);
+			CDataEntity eTok = arrCountAfterToken.get(i);
 			WriteWord(".after(" + eTok.ExportReference(getLine()) + ")");
 		}
-		for (int i =0; i<m_arrCountBeforeToken.size();i++)
+		for (int i =0; i<arrCountBeforeToken.size();i++)
 		{
-			CDataEntity eTok = m_arrCountBeforeToken.get(i);
+			CDataEntity eTok = arrCountBeforeToken.get(i);
 			WriteWord(".before(" + eTok.ExportReference(getLine()) + ")");
 		}
-		WriteWord(".to(" + m_ToVariable.ExportReference(getLine()) + ")");
+		WriteWord(".to(" + toVariable.ExportReference(getLine()) + ")");
 		WriteWord(";");
 		WriteEOL();		
 	}

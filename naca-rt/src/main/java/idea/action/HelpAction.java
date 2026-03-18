@@ -127,17 +127,17 @@ public class HelpAction extends Action
 			Element eName = doc.createElement("titledlabel") ;
 			eHelp.appendChild(eName) ;
 			eName.setAttribute("title", "Field Name") ;
-			eName.setAttribute("text", detail.m_PageFieldDetails.name) ;
+			eName.setAttribute("text", detail.pageFieldDetails.name) ;
 
 			Element eLine = doc.createElement("titledlabel") ;
 			eHelp.appendChild(eLine) ;
 			eLine.setAttribute("title", "Field Line") ;
-			eLine.setAttribute("text", detail.m_PageFieldDetails.posline) ;
+			eLine.setAttribute("text", detail.pageFieldDetails.posline) ;
 
 			Element eCol = doc.createElement("titledlabel") ;
 			eHelp.appendChild(eCol) ;
 			eCol.setAttribute("title", "Field Column") ;
-			eCol.setAttribute("text", detail.m_PageFieldDetails.poscol) ;
+			eCol.setAttribute("text", detail.pageFieldDetails.poscol) ;
 
 			eline = doc.createElement("line") ;
 			eHelp.appendChild(eline) ;
@@ -145,14 +145,14 @@ public class HelpAction extends Action
 			Element eOrVal = doc.createElement("titledlabel") ;
 			eHelp.appendChild(eOrVal) ;
 			eOrVal.setAttribute("title", "Original Value") ;
-			eOrVal.setAttribute("text", detail.m_ScenarioFieldDetails.value) ;
+			eOrVal.setAttribute("text", detail.scenarioFieldDetails.value) ;
 
 			Element eCurVal = doc.createElement("titledlabel") ;
 			eHelp.appendChild(eCurVal) ;
 			eCurVal.setAttribute("title", "Current Value") ;
-			eCurVal.setAttribute("text", detail.m_PageFieldDetails.value) ;
+			eCurVal.setAttribute("text", detail.pageFieldDetails.value) ;
 
-			if (detail.m_ScenarioFieldDetails.mutable)
+			if (detail.scenarioFieldDetails.mutable)
 			{
 				Element eButton = doc.createElement("sub-title") ;
 				eHelp.appendChild(eButton) ;

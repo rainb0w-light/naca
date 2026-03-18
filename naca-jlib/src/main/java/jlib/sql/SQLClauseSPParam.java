@@ -21,11 +21,11 @@ import jlib.exception.TechnicalException;
  */
 public abstract class SQLClauseSPParam
 {
-	private SQLClauseSPParamWay m_wayInOut = null;
+	private SQLClauseSPParamWay wayInOut = null;
 	
 	protected SQLClauseSPParam(SQLClauseSPParamWay wayInOut)
 	{
-		m_wayInOut = wayInOut;		
+		wayInOut = wayInOut;		
 	}
 	
 	void registerIntoCallableStatement(int nParamId, DbPreparedCallableStatement callableStatement, SQLClauseSPParamDesc paramDesc)
@@ -35,7 +35,7 @@ public abstract class SQLClauseSPParam
 		String csError = null;
 		try
 		{
-			if(m_wayInOut == SQLClauseSPParamWay.In)
+			if(wayInOut == SQLClauseSPParamWay.In)
 			{
 				if(paramDesc != null && paramDesc.isColIn())
 				{
@@ -45,7 +45,7 @@ public abstract class SQLClauseSPParam
 				}
 			}
 
-			if(m_wayInOut == SQLClauseSPParamWay.Out)
+			if(wayInOut == SQLClauseSPParamWay.Out)
 			{
 				if(paramDesc != null && paramDesc.isColOut())
 				{
@@ -55,7 +55,7 @@ public abstract class SQLClauseSPParam
 				}	
 			}
 			
-			if(m_wayInOut == SQLClauseSPParamWay.InOut)
+			if(wayInOut == SQLClauseSPParamWay.InOut)
 			{
 				if(paramDesc != null && paramDesc.isColInOut())
 				{
@@ -77,7 +77,7 @@ public abstract class SQLClauseSPParam
 	
 	public String toString()
 	{
-		return m_wayInOut.toString();
+		return wayInOut.toString();
 	}
 	
 	public String toString(SQLClauseSPParamDesc paramDesc)

@@ -19,7 +19,7 @@ public class OpenCalendarWeek
 {
 	OpenCalendarWeek()
 	{
-		m_tRangesOfDays = new OpenCalendarRanges[8]; 
+		tRangesOfDays = new OpenCalendarRanges[8]; 
 	}
 	
 	void addRange(int nDayOfWeek, String csType, String csMin, String csMax)
@@ -28,11 +28,11 @@ public class OpenCalendarWeek
 		if(csType.equalsIgnoreCase("Open"))
 			openState = CalendarOpenState.AppOpened;
 		
-		OpenCalendarRanges rangesOfDay = m_tRangesOfDays[nDayOfWeek];
+		OpenCalendarRanges rangesOfDay = tRangesOfDays[nDayOfWeek];
 		if(rangesOfDay == null)
 		{
 			rangesOfDay = new OpenCalendarRanges();
-			m_tRangesOfDays[nDayOfWeek] = rangesOfDay;
+			tRangesOfDays[nDayOfWeek] = rangesOfDay;
 		}
 		
 		OpenCalendarRange range = new OpenCalendarRange();
@@ -45,15 +45,15 @@ public class OpenCalendarWeek
 	{
 		for(int nDayOfWeek=0; nDayOfWeek<8; nDayOfWeek++)
 		{
-			if(m_tRangesOfDays[nDayOfWeek] == null)	// No definition for day: It's closed all day long 
+			if(tRangesOfDays[nDayOfWeek] == null)	// No definition for day: It's closed all day long 
 			{
 				OpenCalendarRanges rangesOfDay = new OpenCalendarRanges();
-				m_tRangesOfDays[nDayOfWeek] = rangesOfDay;
+				tRangesOfDays[nDayOfWeek] = rangesOfDay;
 				rangesOfDay.setCloseAllDay();
 			}
 			else	// Merge definitions
 			{
-				OpenCalendarRanges rangesOfDay = m_tRangesOfDays[nDayOfWeek];
+				OpenCalendarRanges rangesOfDay = tRangesOfDays[nDayOfWeek];
 				rangesOfDay.sortIntervals();
 			}			
 		}
@@ -63,10 +63,10 @@ public class OpenCalendarWeek
 	{
 		int nDayOfWeek = cacheManager.getCurrentDayOfWeek();
 		
-		OpenCalendarRanges rangesOfDay = m_tRangesOfDays[nDayOfWeek];
+		OpenCalendarRanges rangesOfDay = tRangesOfDays[nDayOfWeek];
 		return rangesOfDay.getOpenState(cacheManager, bCacheState);		
 	}
 	
-	private OpenCalendarRanges[] m_tRangesOfDays = null;
+	private OpenCalendarRanges[] tRangesOfDays = null;
 }
 

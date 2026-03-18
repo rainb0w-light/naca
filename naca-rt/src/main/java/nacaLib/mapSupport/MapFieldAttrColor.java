@@ -70,9 +70,9 @@ public class MapFieldAttrColor extends MapFieldBaseAttr
 //	void decode(char cValue)
 //	{
 //		if(cValue >= 1 && cValue <= 7)
-//			m_nValue = Character.digit(cValue, 10);
+//			nValue = Character.digit(cValue, 10);
 //		else
-//			m_nValue = 7; 
+//			nValue = 7; 
 //	}
 	
 	public static MapFieldAttrColor BLUE = new MapFieldAttrColor(1, "blue");

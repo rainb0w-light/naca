@@ -36,26 +36,26 @@ public abstract class CEntityDisplay extends CBaseActionEntity
 	public CEntityDisplay(int line, CObjectCatalog cat, CBaseLanguageExporter out, Upon t)
 	{
 		super(line, cat, out);
-		m_upon = t ;
+		upon = t ;
 	}
 	public void AddItemToDisplay(CDataEntity e)
 	{
-		m_arrItemsToDisplay.add(e) ; 
+		arrItemsToDisplay.add(e) ; 
 	}
 	
-	protected Vector<CDataEntity> m_arrItemsToDisplay = new Vector<CDataEntity>();
-	protected Upon m_upon = Upon.DEFAULT ;
+	protected Vector<CDataEntity> arrItemsToDisplay = new Vector<CDataEntity>();
+	protected Upon upon = Upon.DEFAULT ;
 	public void Clear()
 	{
 		super.Clear() ;
-		m_arrItemsToDisplay.clear();
+		arrItemsToDisplay.clear();
 	}
 	public boolean ignore()
 	{
 		boolean ignore = true ;
-		for (int i=0; i<m_arrItemsToDisplay.size(); i++)
+		for (int i=0; i<arrItemsToDisplay.size(); i++)
 		{
-			CDataEntity e = m_arrItemsToDisplay.get(i);
+			CDataEntity e = arrItemsToDisplay.get(i);
 			ignore &= e.ignore() ;
 		}
 		return ignore ;

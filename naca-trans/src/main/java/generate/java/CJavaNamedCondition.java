@@ -43,9 +43,9 @@ public class CJavaNamedCondition extends CEntityNamedCondition
 	public String ExportReference(int nLine)
 	{
 		String cs = "" ;
-		if (m_Of != null)
+		if (of != null)
 		{
-			cs = m_Of.ExportReference(getLine()) + "." ;
+			cs = of.ExportReference(getLine()) + "." ;
 		}
 		cs += FormatIdentifier(GetName()) ;
 		return cs ;		
@@ -57,9 +57,9 @@ public class CJavaNamedCondition extends CEntityNamedCondition
 	protected void DoExport()
 	{
 		WriteWord("Cond "+ FormatIdentifier(GetName()) + " = declare.condition()")  ;
-		for (int i=0; i<m_arrValues.size();i++)
+		for (int i=0; i<arrValues.size();i++)
 		{
-			CDataEntity e = m_arrValues.get(i);
+			CDataEntity e = arrValues.get(i);
 			if (e == null)
 			{
 				WriteWord(".value([undefined])");
@@ -69,10 +69,10 @@ public class CJavaNamedCondition extends CEntityNamedCondition
 				WriteWord(".value(" + e.ExportReference(getLine()) + ")");
 			}
 		}
-		for (int i=0; i<m_arrStartIntervals.size() && i<m_arrEndIntervals.size();i++)
+		for (int i=0; i<arrStartIntervals.size() && i<arrEndIntervals.size();i++)
 		{
-			CDataEntity e1 = m_arrStartIntervals.get(i);
-			CDataEntity e2 = m_arrEndIntervals.get(i);
+			CDataEntity e1 = arrStartIntervals.get(i);
+			CDataEntity e2 = arrEndIntervals.get(i);
 			WriteWord(".value(" + e1.ExportReference(getLine())+ ", "+ e2.ExportReference(getLine()) + ")");
 		}
 		WriteWord(".var() ;");

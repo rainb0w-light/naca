@@ -30,20 +30,20 @@ public class CEntityRoutineEmulation
 	 */
 	public CEntityRoutineEmulation(String alias, String display)
 	{
-		m_csAlias = alias ; 
-		m_csDisplay = display ;
+		csAlias = alias ; 
+		csDisplay = display ;
 	}
 
-	protected String m_csDisplay = "" ;
-	protected String m_csAlias = "" ;
+	protected String csDisplay = "" ;
+	protected String csAlias = "" ;
 	/**
-	 * @param m_line
+	 * @param line
 	 * @return
 	 */
 	public CEntityRoutineEmulationCall NewCall(int line, CBaseEntityFactory factory)
 	{
 		CEntityRoutineEmulationCall call = factory.NewEntityRoutineEmulationCall(line) ;
-		call.SetDisplay(m_csDisplay) ;
+		call.SetDisplay(csDisplay) ;
 		return call;
 	}
 }

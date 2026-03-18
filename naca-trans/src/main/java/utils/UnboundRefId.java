@@ -20,42 +20,42 @@ public class UnboundRefId
 {
 	UnboundRefId(int nLine, String csFile)
 	{
-		m_arrLines = new ArrayList<Integer>();
-		m_arrLines.add(nLine);
-		m_csFile = csFile;
+		arrLines = new ArrayList<Integer>();
+		arrLines.add(nLine);
+		csFile = csFile;
 	}
 	
 	void addLineOnce(int nLine)
 	{
-		if(m_arrLines != null)
+		if(arrLines != null)
 		{
-			for(int n=0; n<m_arrLines.size(); n++)
+			for(int n=0; n<arrLines.size(); n++)
 			{
-				int nVal = m_arrLines.get(n);
+				int nVal = arrLines.get(n);
 				if(nVal == nLine)
 					return;
 			}
-			m_arrLines.add(nLine);
+			arrLines.add(nLine);
 		}
 	}
 	
 	int getFirstLine()
 	{
-		if(m_arrLines != null && m_arrLines.size() > 0)
-			return m_arrLines.get(0);
+		if(arrLines != null && arrLines.size() > 0)
+			return arrLines.get(0);
 		return 0;
 	}
 	
 	String getAllLinesAsString()
 	{
 		String cs = "";
-		if(m_arrLines != null && m_arrLines.size() > 0)
+		if(arrLines != null && arrLines.size() > 0)
 		{
-			for(int n=1; n<m_arrLines.size(); n++)
+			for(int n=1; n<arrLines.size(); n++)
 			{
 				if(n != 1)
 					cs += ", ";
-				cs += m_arrLines.get(n);
+				cs += arrLines.get(n);
 			}
 		}
 		return cs;
@@ -63,9 +63,9 @@ public class UnboundRefId
 	
 	String getFile()
 	{
-		return m_csFile;
+		return csFile;
 	}
 		
-	private ArrayList<Integer> m_arrLines = null;
-	private String m_csFile = null;
+	private ArrayList<Integer> arrLines = null;
+	private String csFile = null;
 }

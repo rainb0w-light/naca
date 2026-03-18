@@ -24,15 +24,15 @@ public class CFPacJavaAssignWithAccessor extends CEntityAssignWithAccessor
 	protected void DoExport()
 	{
 		String val = "" ;
-		if (m_Value != null)
+		if (value != null)
 		{
-			val = m_Value.ExportReference(getLine()) ;
+			val = value.ExportReference(getLine()) ;
 		}
-		if (m_Value.GetDataType() == CDataEntityType.VAR && m_Reference.GetDataType() == CDataEntityType.NUMERIC_VAR)
+		if (value.GetDataType() == CDataEntityType.VAR && reference.GetDataType() == CDataEntityType.NUMERIC_VAR)
 		{
 			val += ".getInt()" ;
 		}
-		String out = m_Reference.ExportWriteAccessorTo(val) ;
+		String out = reference.ExportWriteAccessorTo(val) ;
 		if (out == null)
 		{
 			WriteLine("");

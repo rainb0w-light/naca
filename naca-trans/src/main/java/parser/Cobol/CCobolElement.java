@@ -84,22 +84,22 @@ public abstract class CCobolElement extends CLanguageElement
 		}
 		else if (tok.GetKeyword() == CCobolKeywordList.FUNCTION)
 		{
-			ident = new CFunctionIdentifier(m_lstTokens, this);
+			ident = new CFunctionIdentifier(lstTokens, this);
 			tok = GetCurrentToken() ;
 		}
 		else if (tok.GetKeyword() == CCobolKeywordList.CURRENT_DATE)
 		{
-			ident = new CFunctionIdentifier(m_lstTokens, this);
+			ident = new CFunctionIdentifier(lstTokens, this);
 			tok = GetCurrentToken() ;
 		}
 		else if (tok.GetKeyword() == CCobolKeywordList.LENGTH)
 		{
-			ident = new CFunctionIdentifier(m_lstTokens, this);
+			ident = new CFunctionIdentifier(lstTokens, this);
 			tok = GetCurrentToken() ;
 		}
 		else if (tok.GetKeyword() == CCobolKeywordList.ADDRESS)
 		{
-			ident = new CFunctionIdentifier(m_lstTokens, this);
+			ident = new CFunctionIdentifier(lstTokens, this);
 			tok = this.GetCurrentToken() ;
 		}
 		else
@@ -870,7 +870,7 @@ public abstract class CCobolElement extends CLanguageElement
 	{
 		String data = "" ;
 		CBaseToken tok = GetCurrentToken() ;
-		if (tok.m_bIsNewLine)
+		if (tok.bIsNewLine)
 		{
 			return data ;
 		}

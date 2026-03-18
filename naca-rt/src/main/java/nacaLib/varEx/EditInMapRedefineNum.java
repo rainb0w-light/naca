@@ -33,17 +33,17 @@ public class EditInMapRedefineNum extends EditInMapRedefine
 	public EditInMapRedefine allocOccursedItem(VarDefBuffer varDefItem)
 	{ 
 		EditInMapRedefineNum vItem = new EditInMapRedefineNum();
-		vItem.m_bufferPos = m_bufferPos;
-		vItem.m_varDef = varDefItem;
+		vItem.bufferPos = bufferPos;
+		vItem.varDef = varDefItem;
 		
-		vItem.m_attrManager = vItem.getEditAttributManager();
+		vItem.attrManager = vItem.getEditAttributManager();
 		//Inherit attributes
 		return vItem;
 	}
 //	
 //	public void set(String cs)
 //	{
-//		String csFormatted = ((VarDefEditInMapRedefineNumEdited)m_varDef).applyFormatting(cs);
-//		m_Var2EditInMap.set(csFormatted);
+//		String csFormatted = ((VarDefEditInMapRedefineNumEdited)varDef).applyFormatting(cs);
+//		var2EditInMap.set(csFormatted);
 //	}
 }

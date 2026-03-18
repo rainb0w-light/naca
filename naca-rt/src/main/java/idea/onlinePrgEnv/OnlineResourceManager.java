@@ -48,45 +48,45 @@ import org.w3c.dom.NodeList;
  */
 public class OnlineResourceManager extends BaseResourceManager
 {	
-	protected String m_csResourcePath = "" ; //"D:\\Dev\\CJTests\\CJTestDev\\src\\" ;
-	protected String m_csAlternateResourcePath = "";
+	protected String csResourcePath = "" ; //"D:\\Dev\\CJTests\\CJTestDev\\src\\" ;
+	protected String csAlternateResourcePath = "";
 		
-	protected int m_nNbInstanceToPreload = 1;
-	protected boolean m_bPreLoadAllProgramFromDir = false;	// true if try to load all programs form directory
-	protected boolean m_bKeepPreloadedProgramList = false;	// true if you want to register into [m_csPreLoadProgramList] the preloaded program list; usefull to build the list of program from the dir  
-	protected boolean m_bPreLoadAllProgramFromList = false;	// true if load all programs indiciated in [m_csPreLoadProgramList] 
-	protected String m_csPreLoadProgramList = "";	// Gives the path and name of the file indicating a program list to be loaded in mode m_bPreLoadAllProgramFromList; it is updated in mode m_bPreLoadAllProgramFromDir   
+	protected int nNbInstanceToPreload = 1;
+	protected boolean bPreLoadAllProgramFromDir = false;	// true if try to load all programs form directory
+	protected boolean bKeepPreloadedProgramList = false;	// true if you want to register into [csPreLoadProgramList] the preloaded program list; usefull to build the list of program from the dir  
+	protected boolean bPreLoadAllProgramFromList = false;	// true if load all programs indiciated in [csPreLoadProgramList] 
+	protected String csPreLoadProgramList = "";	// Gives the path and name of the file indicating a program list to be loaded in mode bPreLoadAllProgramFromList; it is updated in mode bPreLoadAllProgramFromDir   
 	
-	protected String m_csXMLFrameFilePath = "";
-	protected String m_csXMLFramePSFilePath = "";
+	protected String csXMLFrameFilePath = "";
+	protected String csXMLFramePSFilePath = "";
 	
-	protected String m_csSemanticContextPathFile = "";
+	protected String csSemanticContextPathFile = "";
 	
 	
-	protected String m_csJarXMLFile = "";
-	protected String m_csCustomApplicationLauncherConfigFilePath = "" ;
+	protected String csJarXMLFile = "";
+	protected String csCustomApplicationLauncherConfigFilePath = "" ;
 	
-	private Document m_xmlFrame = null ;
+	private Document xmlFrame = null ;
 	
-	private jlib.display.ResourceManager m_StdResourceManager = new jlib.display.ResourceManager() ;
+	private jlib.display.ResourceManager stdResourceManager = new jlib.display.ResourceManager() ;
 	
-	private OnlineResourceBeanManager m_resourceBeanManager = null;
+	private OnlineResourceBeanManager resourceBeanManager = null;
 	
 		OnlineResourceManager()
 	{
 		super(true);
-		m_resourceBeanManager = new OnlineResourceBeanManager(this);
+		resourceBeanManager = new OnlineResourceBeanManager(this);
 	}
 	
 	public Document getXmlFrame()
 	{
-		return m_xmlFrame;
+		return xmlFrame;
 	}
 	
 	private void doInitialize(String csINIFilePath, boolean bLoadSemanticContextDef)
 	{
-		m_resourceBeanManager.setJarXMLFile(m_csJarXMLFile);
-		m_resourceBeanManager.LoadResourceCache(ms_bCacheResourceFiles);
+		resourceBeanManager.setJarXMLFile(csJarXMLFile);
+		resourceBeanManager.LoadResourceCache(ms_bCacheResourceFiles);
 		if(bLoadSemanticContextDef)
 		{
 			// Load semantic context data dictionnary: Defines semantic context associtaed to DB columns
@@ -115,7 +115,7 @@ public class OnlineResourceManager extends BaseResourceManager
 	{
 		setXMLConfigFilePath(csINIFilePath) ;
 		initSequenceur(csDBParameterPrefix);
-		boolean bLoadSemanticContextDef = !StringUtil.isEmpty(m_csSemanticContextPathFile);
+		boolean bLoadSemanticContextDef = !StringUtil.isEmpty(csSemanticContextPathFile);
 		doInitialize(csINIFilePath, bLoadSemanticContextDef);
 	}	
 
@@ -123,16 +123,16 @@ public class OnlineResourceManager extends BaseResourceManager
 	{
 		ProgramPreloader programPreloader = null;
 		ArrayList<PreloadProgramSettings> arrProgramToPreload = null;
-		if(m_bPreLoadAllProgramFromDir)
+		if(bPreLoadAllProgramFromDir)
 		{
 			programPreloader = new ProgramPreloader(); 
-			if(!StringUtil.isEmpty(m_csApplicationClassPath))
-				arrProgramToPreload = programPreloader.buildArrayPreloadProgramFromDir(m_csApplicationClassPath);			
+			if(!StringUtil.isEmpty(csApplicationClassPath))
+				arrProgramToPreload = programPreloader.buildArrayPreloadProgramFromDir(csApplicationClassPath);			
 		}
-		else if(m_bPreLoadAllProgramFromList)
+		else if(bPreLoadAllProgramFromList)
 		{
 			programPreloader = new ProgramPreloader();
-			arrProgramToPreload = programPreloader.buildArrayPreloadProgramFromList(m_csPreLoadProgramList);
+			arrProgramToPreload = programPreloader.buildArrayPreloadProgramFromList(csPreLoadProgramList);
 		}
 		
 		if(programPreloader != null && arrProgramToPreload != null)
@@ -140,8 +140,8 @@ public class OnlineResourceManager extends BaseResourceManager
 			Log.logNormal("Program preload starts");
 			StopWatch sw = new StopWatch(); 
 			
-			String csProgramListToKeep = m_csPreLoadProgramList;
-			if(!m_bKeepPreloadedProgramList)
+			String csProgramListToKeep = csPreLoadProgramList;
+			if(!bKeepPreloadedProgramList)
 				csProgramListToKeep = null;
 			
 			if(BaseResourceManager.isAsynchronousPreloadPrograms())
@@ -150,7 +150,7 @@ public class OnlineResourceManager extends BaseResourceManager
 				asynchronousProgramPreloaderThread.start();				
 			}
 			else
-				programPreloader.preloadProgramsSynchronous(arrProgramToPreload, m_Sequencer, csProgramListToKeep);
+				programPreloader.preloadProgramsSynchronous(arrProgramToPreload, sequencer, csProgramListToKeep);
 
 			Log.logNormal("Program preload ends: it took " + sw.getElapsedTime() + " ms");
 		}
@@ -158,53 +158,53 @@ public class OnlineResourceManager extends BaseResourceManager
 	
 	public void AsynchronouslyPreloadPrograms(ArrayList<PreloadProgramSettings> arrProgramToPreload, ProgramPreloader programPreloader, String csProgramListToKeep)
 	{
-		programPreloader.preloadProgramsSynchronous(arrProgramToPreload, m_Sequencer, csProgramListToKeep);
+		programPreloader.preloadProgramsSynchronous(arrProgramToPreload, sequencer, csProgramListToKeep);
 	}
 	
 	public XSLTransformer getHelpTransformer()
 	{
-		return m_StdResourceManager.getXSLTransformer("IDEA_HELP") ;
+		return stdResourceManager.getXSLTransformer("IDEA_HELP") ;
 	}
 	public XSLTransformer getPrintScreenTransformer()
 	{
-		return m_StdResourceManager.getXSLTransformer("IDEA_PRINT_SCREEN") ;
+		return stdResourceManager.getXSLTransformer("IDEA_PRINT_SCREEN") ;
 	}
 	
 	public XSLTransformer getXSLTransformer()
 	{
-		return m_StdResourceManager.getXSLTransformer("IDEA") ;
+		return stdResourceManager.getXSLTransformer("IDEA") ;
 	}
 	
 	public XSLTransformer getXSLTransformerBold()
 	{
-		return m_StdResourceManager.getXSLTransformer("IDEA_BOLD") ;
+		return stdResourceManager.getXSLTransformer("IDEA_BOLD") ;
 	}
 	
 	public XSLTransformer getXSLTransformerZoom()
 	{
-		return m_StdResourceManager.getXSLTransformer("IDEA_ZOOM") ;
+		return stdResourceManager.getXSLTransformer("IDEA_ZOOM") ;
 	}
 	
 	public XSLTransformer getXSLTransformerZoomBold()
 	{
-		return m_StdResourceManager.getXSLTransformer("IDEA_ZOOM_BOLD") ;
+		return stdResourceManager.getXSLTransformer("IDEA_ZOOM_BOLD") ;
 	}
 	
 	public Document GetXMLPage(String csIdPageupperCase)
 	{
-		return m_resourceBeanManager.GetXMLPage(csIdPageupperCase);
+		return resourceBeanManager.GetXMLPage(csIdPageupperCase);
 	}
 	
 	public Document GetXMLStructure(String idPage)
 	{
-		return m_resourceBeanManager.GetXMLStructure(idPage);
+		return resourceBeanManager.GetXMLStructure(idPage);
 	}			
 
 	public Document GetXMLStructureForPrintScreen(String idPage)
 	{
-		if (m_csXMLFramePSFilePath == null || m_csXMLFramePSFilePath.equals(""))
+		if (csXMLFramePSFilePath == null || csXMLFramePSFilePath.equals(""))
 		{
-			return m_resourceBeanManager.GetXMLStructure(idPage);
+			return resourceBeanManager.GetXMLStructure(idPage);
 		}
 		else
 		{	
@@ -221,7 +221,7 @@ public class OnlineResourceManager extends BaseResourceManager
 					String name = eForm.getAttribute("name") ;
 					if (name.equalsIgnoreCase(idPage))
 					{
-						Document xmlFramePS = XMLUtil.LoadXML(m_csXMLFramePSFilePath) ;
+						Document xmlFramePS = XMLUtil.LoadXML(csXMLFramePSFilePath) ;
 						struct = merger.BuildXLMStructure(xmlFramePS, eForm) ;
 						XMLMergerManager.release(merger);
 						return struct ;
@@ -234,11 +234,11 @@ public class OnlineResourceManager extends BaseResourceManager
 	}
 
 
-	protected Document m_docLogSettings = null ;
-	protected String m_csScenarioFilePath = "" ;
+	protected Document docLogSettings = null ;
+	protected String csScenarioFilePath = "" ;
 	
-	protected String m_csScenarioDir = "" ;
-	protected String m_csScenarioOutputDir ="" ;
+	protected String csScenarioDir = "" ;
+	protected String csScenarioOutputDir ="" ;
 	
 	protected void LoadConfigFromFile(Tag tagRoot)
 	{
@@ -268,77 +268,77 @@ public class OnlineResourceManager extends BaseResourceManager
 			OnlineResourceManager.setOnceRootPath(csEmulWebRootPath);
 						
 			String csXSLFilePath = tagRoot.getVal("XSLFilePath") ;
-			m_StdResourceManager.setXSLFilePath("IDEA", csXSLFilePath) ;
+			stdResourceManager.setXSLFilePath("IDEA", csXSLFilePath) ;
 			
 			String csXSLFilePathBold = tagRoot.getVal("XSLFilePathBold") ;
 			if (csXSLFilePathBold != null && !csXSLFilePathBold.equals(""))
-				m_StdResourceManager.setXSLFilePath("IDEA_BOLD", csXSLFilePathBold) ;
+				stdResourceManager.setXSLFilePath("IDEA_BOLD", csXSLFilePathBold) ;
 			
 			String csXSLFilePathZoom = tagRoot.getVal("XSLFilePathZoom") ;
 			if (csXSLFilePathZoom != null && !csXSLFilePathZoom.equals(""))
-				m_StdResourceManager.setXSLFilePath("IDEA_ZOOM", csXSLFilePathZoom) ;
+				stdResourceManager.setXSLFilePath("IDEA_ZOOM", csXSLFilePathZoom) ;
 			
 			String csXSLFilePathZoomBold = tagRoot.getVal("XSLFilePathZoomBold") ;
 			if (csXSLFilePathZoomBold != null && !csXSLFilePathZoomBold.equals(""))
-				m_StdResourceManager.setXSLFilePath("IDEA_ZOOM_BOLD", csXSLFilePathZoomBold) ;
+				stdResourceManager.setXSLFilePath("IDEA_ZOOM_BOLD", csXSLFilePathZoomBold) ;
 
 			String csXSLPSFilePath = /*getRootPath() + */tagRoot.getVal("PSXSLFilePath") ;
 			if (csXSLPSFilePath != null && !csXSLPSFilePath.equals(""))
-				m_StdResourceManager.setXSLFilePath("IDEA_PRINT_SCREEN", csXSLPSFilePath) ;
+				stdResourceManager.setXSLFilePath("IDEA_PRINT_SCREEN", csXSLPSFilePath) ;
 			
 			String csXSLHelpFilePath = /*getRootPath() + */tagRoot.getVal("HelpXSLFilePath") ;
-			m_StdResourceManager.setXSLFilePath("IDEA_HELP", csXSLHelpFilePath) ;
+			stdResourceManager.setXSLFilePath("IDEA_HELP", csXSLHelpFilePath) ;
 			
-			m_csResourcePath = getApplicationRootPath() + tagRoot.getVal("ResourcePath") ;
-			m_csResourcePath = FileSystem.normalizePath(m_csResourcePath);
+			csResourcePath = getApplicationRootPath() + tagRoot.getVal("ResourcePath") ;
+			csResourcePath = FileSystem.normalizePath(csResourcePath);
 			
-			m_csAlternateResourcePath = getApplicationRootPath() + tagRoot.getVal("AlternateResourcePath") ;
-			if(!StringUtil.isEmpty(m_csAlternateResourcePath))
-				m_csAlternateResourcePath = FileSystem.normalizePath(m_csAlternateResourcePath);
+			csAlternateResourcePath = getApplicationRootPath() + tagRoot.getVal("AlternateResourcePath") ;
+			if(!StringUtil.isEmpty(csAlternateResourcePath))
+				csAlternateResourcePath = FileSystem.normalizePath(csAlternateResourcePath);
 			
-			m_bPreLoadAllProgramFromDir = tagRoot.getValAsBoolean("PreLoadAllProgramFromDir") ;
-			m_bKeepPreloadedProgramList = tagRoot.getValAsBoolean("KeepPreloadedProgramList") ;
+			bPreLoadAllProgramFromDir = tagRoot.getValAsBoolean("PreLoadAllProgramFromDir") ;
+			bKeepPreloadedProgramList = tagRoot.getValAsBoolean("KeepPreloadedProgramList") ;
 			
 //			String cs = tagRoot.getVal("NbInstanceToPreload");
 //			if(cs == null)
-//				m_nNbInstanceToPreload = 1;
+//				nNbInstanceToPreload = 1;
 //			else
-//				m_nNbInstanceToPreload = NumberParser.getAsInt(cs);
+//				nNbInstanceToPreload = NumberParser.getAsInt(cs);
 			
-			m_bPreLoadAllProgramFromList = tagRoot.getValAsBoolean("PreLoadAllProgramFromList");
-			m_csPreLoadProgramList = tagRoot.getVal("PreLoadProgramList") ;
+			bPreLoadAllProgramFromList = tagRoot.getValAsBoolean("PreLoadAllProgramFromList");
+			csPreLoadProgramList = tagRoot.getVal("PreLoadProgramList") ;
 						
 			
-			m_csXMLFrameFilePath = tagRoot.getVal("XMLFrameFilePath") ;
-			m_csXMLFramePSFilePath = tagRoot.getVal("XMLFramePSFilePath") ;
-			m_csSemanticContextPathFile = /*getRootPath() + */tagRoot.getVal("SemanticContextPathFile") ;
+			csXMLFrameFilePath = tagRoot.getVal("XMLFrameFilePath") ;
+			csXMLFramePSFilePath = tagRoot.getVal("XMLFramePSFilePath") ;
+			csSemanticContextPathFile = /*getRootPath() + */tagRoot.getVal("SemanticContextPathFile") ;
 
-			m_csJarXMLFile = tagRoot.getVal("JarXMLFile") ;
+			csJarXMLFile = tagRoot.getVal("JarXMLFile") ;
 			
 			int nMaxSizeMemPoolCodeCache_Mb = tagRoot.getValAsInt("MaxSizeMemPoolCodeCache_Mb") ;
 			int nMaxSizeMemPoolPermGen_Mb = tagRoot.getValAsInt("MaxSizeMemPoolPermGen_Mb") ;
 			CodeManager.initCodeSizeLimits(nMaxSizeMemPoolCodeCache_Mb, nMaxSizeMemPoolPermGen_Mb);
 						
-			m_csServerName = tagRoot.getVal("ServerName") ;
-			m_csLDAPServer = tagRoot.getVal("LDAPServer") ;
-			m_csLDAPServer2 = tagRoot.getVal("LDAPServer2") ;
-			m_csLDAPServer3 = tagRoot.getVal("LDAPServer3") ;
-			m_csLDAPDomain = tagRoot.getVal("LDAPDomain") ;
-			m_csLDAPRootOU = tagRoot.getVal("LDAPRootOU") ;
-			m_csLDAPGenericUser = tagRoot.getVal("LDAPGenericUser") ;
-			m_csLDAPGenericPassword = tagRoot.getVal("LDAPGenericPassword") ;
+			csServerName = tagRoot.getVal("ServerName") ;
+			csLDAPServer = tagRoot.getVal("LDAPServer") ;
+			csLDAPServer2 = tagRoot.getVal("LDAPServer2") ;
+			csLDAPServer3 = tagRoot.getVal("LDAPServer3") ;
+			csLDAPDomain = tagRoot.getVal("LDAPDomain") ;
+			csLDAPRootOU = tagRoot.getVal("LDAPRootOU") ;
+			csLDAPGenericUser = tagRoot.getVal("LDAPGenericUser") ;
+			csLDAPGenericPassword = tagRoot.getVal("LDAPGenericPassword") ;
 			
-			m_csScenarioFilePath = tagRoot.getVal("ScenarioFilePath") ;
+			csScenarioFilePath = tagRoot.getVal("ScenarioFilePath") ;
 			
-			m_csScenarioDir = tagRoot.getVal("ScenarioDir") ;
+			csScenarioDir = tagRoot.getVal("ScenarioDir") ;
 			
-			m_csScenarioOutputDir = tagRoot.getVal("ScenarioOutputDir") ;
-			m_csScenarioOutputDir = FileSystem.normalizePath(m_csScenarioOutputDir);
-			FileSystem.createPath(m_csScenarioOutputDir);
+			csScenarioOutputDir = tagRoot.getVal("ScenarioOutputDir") ;
+			csScenarioOutputDir = FileSystem.normalizePath(csScenarioOutputDir);
+			FileSystem.createPath(csScenarioOutputDir);
 						
 			
 			
-			m_csCustomApplicationLauncherConfigFilePath = tagRoot.getVal("AppLauncherConfig") ;
+			csCustomApplicationLauncherConfigFilePath = tagRoot.getVal("AppLauncherConfig") ;
 		}		
 	}
 
@@ -346,8 +346,8 @@ public class OnlineResourceManager extends BaseResourceManager
 	{
 		baseInitSequenceur(csDBParameterPrefix);
 
-		m_xmlFrame = XMLUtil.LoadXML(m_csXMLFrameFilePath) ;
-		if (m_xmlFrame == null)
+		xmlFrame = XMLUtil.LoadXML(csXMLFrameFilePath) ;
+		if (xmlFrame == null)
 		{
 			return ;
 		}	
@@ -355,7 +355,7 @@ public class OnlineResourceManager extends BaseResourceManager
 	
 	public void removeSession(OnlineSession session)
 	{	
-		m_Sequencer.removeSession(session);
+		sequencer.removeSession(session);
 	}
 	
 	/**
@@ -369,53 +369,53 @@ public class OnlineResourceManager extends BaseResourceManager
 		
 	public String getSemanticContextPathFile()
 	{
-		return m_csSemanticContextPathFile;
+		return csSemanticContextPathFile;
 	}
 	
 	public void registerSemanticManager(SemanticManager semanticManager)
 	{
-		m_semanticManager = semanticManager;
+		semanticManager = semanticManager;
 	}
 	
 	public CMenuDef getMenuForSemanticContext(String csScreen, String csSemanticContext)
 	{
-		if(m_semanticManager != null)
-			return m_semanticManager.getMenuForSemanticContext(csScreen, csSemanticContext);
+		if(semanticManager != null)
+			return semanticManager.getMenuForSemanticContext(csScreen, csSemanticContext);
 		return null;
 	}
 	
-	private SemanticManager m_semanticManager = null;
+	private SemanticManager semanticManager = null;
 	
 	/**
 	 * @return
 	 */
 	public String getScenarioFilePath()
 	{
-		return m_csScenarioFilePath ;
+		return csScenarioFilePath ;
 	}
 
 	public String getScenarioDir()
 	{
-		if (m_csScenarioDir == null || m_csScenarioDir.equals(""))
+		if (csScenarioDir == null || csScenarioDir.equals(""))
 		{
-			File file = new File(m_csScenarioFilePath) ;
+			File file = new File(csScenarioFilePath) ;
 			String csDir = file.getParent() ;
 			return csDir;
 		}
 		else
 		{
-			return m_csScenarioDir ;
+			return csScenarioDir ;
 		}
 	}
 	public String getOutputDir()
 	{
-		if (m_csScenarioOutputDir.equals(""))
+		if (csScenarioOutputDir.equals(""))
 		{
 			return getScenarioDir() ;
 		}
 		else
 		{
-			return m_csScenarioOutputDir ;
+			return csScenarioOutputDir ;
 		}
 	}
 	/**
@@ -469,11 +469,11 @@ public class OnlineResourceManager extends BaseResourceManager
 	 */
 	public Document getMainPage(String string)
 	{
-		int nPos = m_csXMLFrameFilePath.lastIndexOf('/') ;
-		int nPos2 = m_csXMLFrameFilePath.lastIndexOf('\\') ;
+		int nPos = csXMLFrameFilePath.lastIndexOf('/') ;
+		int nPos2 = csXMLFrameFilePath.lastIndexOf('\\') ;
 		if (nPos2>nPos)
 			nPos = nPos2 ;
-		String dir = m_csXMLFrameFilePath.substring(0, nPos+1) ;
+		String dir = csXMLFrameFilePath.substring(0, nPos+1) ;
 		String path = dir + string + ".xml" ;
 		return XMLUtil.LoadXML(path) ;
 	}
@@ -486,36 +486,36 @@ public class OnlineResourceManager extends BaseResourceManager
 	
 	protected static int ms_nHttpSessionMaxInactiveInterval_s = -1;	// Infinite by default
 	
-	protected String m_csServerName = "" ;
+	protected String csServerName = "" ;
 	public String getServerName()
 	{
-		return m_csServerName;
+		return csServerName;
 	}
 	
 	/**
 	 * @return
 	 */
-	private String m_csLDAPServer = "" ;
-	private String m_csLDAPServer2 = "" ;
-	private String m_csLDAPServer3 = "" ;
-	private String m_csLDAPDomain = "" ;
-	private String m_csLDAPRootOU = "" ;
-	private String m_csLDAPGenericUser = "" ;
-	private String m_csLDAPGenericPassword = "" ;
+	private String csLDAPServer = "" ;
+	private String csLDAPServer2 = "" ;
+	private String csLDAPServer3 = "" ;
+	private String csLDAPDomain = "" ;
+	private String csLDAPRootOU = "" ;
+	private String csLDAPGenericUser = "" ;
+	private String csLDAPGenericPassword = "" ;
 	public static boolean ms_bCacheResourceFiles = false;
 	
 	public LdapRequester getLdapRequester()
 	{
-		return new LdapRequester(m_csLDAPServer, m_csLDAPServer2, m_csLDAPServer3, m_csLDAPDomain, m_csLDAPRootOU, m_csLDAPGenericUser, m_csLDAPGenericPassword) ;
+		return new LdapRequester(csLDAPServer, csLDAPServer2, csLDAPServer3, csLDAPDomain, csLDAPRootOU, csLDAPGenericUser, csLDAPGenericPassword) ;
 	}
 
 	public Tag getCustomApplicationLauncherConfig()
 	{
-		return Tag.createFromFile(m_csCustomApplicationLauncherConfigFilePath) ;
+		return Tag.createFromFile(csCustomApplicationLauncherConfigFilePath) ;
 	}
 	
 	public void doRemoveResourceCache(String csForm)
 	{
-		m_resourceBeanManager.removeResourceCache(csForm);
+		resourceBeanManager.removeResourceCache(csForm);
 	}
 }

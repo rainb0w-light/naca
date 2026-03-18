@@ -27,7 +27,7 @@ public class PatternLayoutRawLine extends LogPatternLayout
 	public PatternLayoutRawLine(String csFormat)
 	{
 		super();
-		m_csFormat = csFormat;
+		csFormat = csFormat;
 	}
 	
 	String getMessage(LogParams logParams)
@@ -41,13 +41,13 @@ public class PatternLayoutRawLine extends LogPatternLayout
 	{
 		if(n == 0)
 		{
-			if(StringUtil.isEmpty(m_csFormat))
+			if(StringUtil.isEmpty(csFormat))
 			{
 				return logParams.toString() + "\r\n";
 			}
 			else
 			{
-				String cs = m_csFormat;
+				String cs = csFormat;
 				cs = StringUtil.replace(cs, "%FullText", logParams.toString(), true);
 				cs = StringUtil.replace(cs, "%Message", logParams.getMessage(), true);
 				cs = StringUtil.replace(cs, "%ThreadName", logParams.getThreadName(), true);
@@ -68,5 +68,5 @@ public class PatternLayoutRawLine extends LogPatternLayout
 		return 1;
 	}
 	
-	private String m_csFormat = null;
+	private String csFormat = null;
 }

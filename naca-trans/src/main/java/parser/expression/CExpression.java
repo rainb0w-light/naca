@@ -34,13 +34,13 @@ public abstract class CExpression
 	//public abstract int GetPriorityLevel() ;
 	public CExpression(int line)
 	{
-		m_line = line ;
+		line = line ;
 	}
-	private int m_line = 0 ;
+	private int line = 0 ;
 	
 	public int getLine()
 	{
-		return m_line;
+		return line;
 	}
 	
 	public abstract CBaseEntityExpression AnalyseExpression(CBaseEntityFactory factory);

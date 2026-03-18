@@ -41,13 +41,13 @@ public class CJavaSetFlag extends CEntitySetFlag
 	 */
 	protected void DoExport()
 	{
-		if (m_FlagValue != null)
+		if (flagValue != null)
 		{
-			WriteLine("moveFlag(\"" + m_FlagValue + "\", " + m_RefField.ExportReference(getLine()) + ") ;") ;
+			WriteLine("moveFlag(\"" + flagValue + "\", " + refField.ExportReference(getLine()) + ") ;") ;
 		}
 		else
 		{
-			WriteLine("resetFlag("+m_RefField.ExportReference(getLine()) + ") ;") ;
+			WriteLine("resetFlag("+refField.ExportReference(getLine()) + ") ;") ;
 		}
 	}
 

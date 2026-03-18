@@ -23,7 +23,7 @@ public class CTokenComment extends CBaseToken
 	public CTokenComment(String Comm, int line, boolean newline)
 	{
 		super(line, newline);
-		m_Value = Comm ;
+		value = Comm ;
 	}
 	
 	public CTokenType GetType()
@@ -32,7 +32,7 @@ public class CTokenComment extends CBaseToken
 	}
 	public String toString()
 	{
-		return "[COMMENT: " + m_Value + "]" ;
+		return "[COMMENT: " + value + "]" ;
 	}
 
 	/* (non-Javadoc)

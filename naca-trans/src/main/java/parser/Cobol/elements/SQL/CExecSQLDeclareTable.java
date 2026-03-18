@@ -51,7 +51,7 @@ public class CExecSQLDeclareTable extends CBaseExecSQLAction
 		{
 			int n = 0; 
 		}
-		m_csTableName = csTableName;
+		csTableName = csTableName;
 	} 
 	
 	/* (non-Javadoc)
@@ -61,11 +61,11 @@ public class CExecSQLDeclareTable extends CBaseExecSQLAction
 	{
 	//	Element eSelect = null;
 		Element eReturned = null;
-	/*	if(m_bCursor)
+	/*	if(bCursor)
 		{
 			Element eCursor = root.createElement("SQLDeclareTable") ;
 			eReturned = eCursor; 
-			eCursor.setAttribute("Name", m_csCursorName);
+			eCursor.setAttribute("Name", csCursorName);
 			
 			eSelect = root.createElement("SQLSelect") ;
 			eCursor.appendChild(eSelect);
@@ -75,7 +75,7 @@ public class CExecSQLDeclareTable extends CBaseExecSQLAction
 			eSelect = root.createElement("SQLSelect") ;
 			eReturned = eSelect;
 		}
-		eSelect.setAttribute("Clause", m_Clause) ;
+		eSelect.setAttribute("Clause", clause) ;
 		ExportParameters(root, eSelect);
 		ExportInto(root, eSelect);
 */
@@ -90,15 +90,15 @@ public class CExecSQLDeclareTable extends CBaseExecSQLAction
 	{
 		CheckTabViewRenamed() ;
 		String csActualTableName = "" ;
-		if (m_csTableName.startsWith("V"))
+		if (csTableName.startsWith("V"))
 		{
-			String table = (String)ms_tabViewRenamed.get(m_csTableName);
+			String table = (String)ms_tabViewRenamed.get(csTableName);
 			if (table == null)
 			{
-				if (m_csTableName.length() > 6)
-					csActualTableName = m_csTableName.substring(1, m_csTableName.length()-1);
+				if (csTableName.length() > 6)
+					csActualTableName = csTableName.substring(1, csTableName.length()-1);
 				else
-					csActualTableName = m_csTableName;
+					csActualTableName = csTableName;
 			}
 			else
 			{
@@ -107,9 +107,9 @@ public class CExecSQLDeclareTable extends CBaseExecSQLAction
 		}
 		else
 		{
-			csActualTableName = m_csTableName ;
+			csActualTableName = csTableName ;
 		}
-		CEntitySQLDeclareTable eSQL = factory.NewEntitySQLDeclareTable(getLine(), csActualTableName, m_csTableName, m_arrTableColDescription);
+		CEntitySQLDeclareTable eSQL = factory.NewEntitySQLDeclareTable(getLine(), csActualTableName, csTableName, arrTableColDescription);
 		parent.AddChild(eSQL) ;
 		return eSQL;	
 	}	
@@ -242,11 +242,11 @@ public class CExecSQLDeclareTable extends CBaseExecSQLAction
 			if (tok.GetType() == CTokenType.COMMA)
 			{
 				tok = GetNext();	
-				m_arrTableColDescription.add(SQLTableColDescriptor);
+				arrTableColDescription.add(SQLTableColDescriptor);
 			}
 			else if (tok.GetType() == CTokenType.RIGHT_BRACKET)	// Last ')'
 			{
-				m_arrTableColDescription.add(SQLTableColDescriptor);
+				arrTableColDescription.add(SQLTableColDescriptor);
 				tok = GetNext();
 			}
 
@@ -259,7 +259,7 @@ public class CExecSQLDeclareTable extends CBaseExecSQLAction
 		return true ;
 	}
 	
-	protected ArrayList<CSQLTableColDescriptor> m_arrTableColDescription = new ArrayList<CSQLTableColDescriptor>();
-	protected String m_csTableName = "" ;
+	protected ArrayList<CSQLTableColDescriptor> arrTableColDescription = new ArrayList<CSQLTableColDescriptor>();
+	protected String csTableName = "" ;
 }
 

@@ -15,21 +15,21 @@ public class EmulWebThreadedRun
 {
 	EmulWebThreadedRun(EmulWebRunner emulWebRunner, OnlineResourceManager resourceManager, int nbLoops, boolean bCheckScenario, boolean bOutputExport)
 	{
-		m_emulWebRunner = emulWebRunner;
-		m_resourceManager = resourceManager;
-		m_nbLoops = nbLoops;
-		m_bCheckScenario = bCheckScenario;
-		m_bOutputExport = bOutputExport;
+		emulWebRunner = emulWebRunner;
+		resourceManager = resourceManager;
+		nbLoops = nbLoops;
+		bCheckScenario = bCheckScenario;
+		bOutputExport = bOutputExport;
 	}
 	
 	void run()
 	{	
 		OnlineSession session = new OnlineSession(false) ;
-		session.setCheckScenario(m_bCheckScenario);
-		for (int i=0; i<m_nbLoops; i++)
+		session.setCheckScenario(bCheckScenario);
+		for (int i=0; i<nbLoops; i++)
 		{
 			StopWatch sw = new StopWatch();
-			EmulWebRunner.PlayScenario(session, m_resourceManager, m_bOutputExport) ;
+			EmulWebRunner.PlayScenario(session, resourceManager, bOutputExport) ;
 			Log.logCritical("Scneario loop executed in " + sw.getElapsedTimeReset() + " ms");
 			waitUntilNextLoopEnabled(i);
 			session.reset();
@@ -39,10 +39,10 @@ public class EmulWebThreadedRun
 	
 	private void waitUntilNextLoopEnabled(int i)
 	{	
-//		if(!m_bEnableRemainingLoops)
+//		if(!bEnableRemainingLoops)
 //		{
 //			Log.logCritical("EmulWeb Loop " + i + " Done; waiting to be enabled by jmx ...");	
-//			while(!m_bNextLoopEnabled)
+//			while(!bNextLoopEnabled)
 //			{
 //				try
 //				{
@@ -54,13 +54,13 @@ public class EmulWebThreadedRun
 //					e.printStackTrace();
 //				}
 //			}
-//			m_bNextLoopEnabled= false;
+//			bNextLoopEnabled= false;
 //		}
 	}
 	
-	int m_nbLoops = 0;
-	boolean m_bCheckScenario = false;
-	boolean m_bOutputExport = false;
-	OnlineResourceManager m_resourceManager = null;
-	EmulWebRunner m_emulWebRunner = null;
+	int nbLoops = 0;
+	boolean bCheckScenario = false;
+	boolean bOutputExport = false;
+	OnlineResourceManager resourceManager = null;
+	EmulWebRunner emulWebRunner = null;
 }

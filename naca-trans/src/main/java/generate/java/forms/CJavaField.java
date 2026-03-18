@@ -42,9 +42,9 @@ public class CJavaField extends CEntityResourceField
 	public String ExportReference(int nLine)
 	{
 		String cs = "" ;
-		if (m_Of != null)
+		if (of != null)
 		{
-			cs += m_Of.ExportReference(getLine());
+			cs += of.ExportReference(getLine());
 			cs += ".";
 		}
 		cs += FormatIdentifier(GetName()) ;
@@ -58,67 +58,67 @@ public class CJavaField extends CEntityResourceField
 //		String line = eField.getAttribute("Line");
 		if (!fieldname.equals(""))
 		{
-			String displayName = FormatIdentifier(m_csDisplayName) ;
+			String displayName = FormatIdentifier(csDisplayName) ;
 			if (displayName.equals(""))
 			{
 				displayName = fieldname ;
 			} 
-			String cs = "Edit " + fieldname + " = declare.edit(\""+displayName+"\", "+m_nLength+")" ;
+			String cs = "Edit " + fieldname + " = declare.edit(\""+displayName+"\", "+nLength+")" ;
 //			if (m_occurs > 0)
 //			{
 //				cs += ".occurs("+ m_occurs +")" ;
 //			}
-			if (!m_csInitialValue.equals(""))
+			if (!csInitialValue.equals(""))
 			{
-				String display = FormatIdentifier(m_csInitialValue) ;
-				String res = m_ResourceStrings.ExportForField(m_csInitialValue, display) ;
+				String display = FormatIdentifier(csInitialValue) ;
+				String res = resourceStrings.ExportForField(csInitialValue, display) ;
 				WriteLine(res) ;
 				cs += ".initialValue("+display+")" ;
 			}
-//			if (!m_csColor.equals(""))
+//			if (!csColor.equals(""))
 //			{
-//				cs += ".color(MapFieldAttrColor."+ m_csColor+")" ;
+//				cs += ".color(MapFieldAttrColor."+ csColor+")" ;
 //			}
-//			if (!m_csHighLight.equals(""))
+//			if (!csHighLight.equals(""))
 //			{
-//				cs += ".highLighting(MapFieldAttrHighlighting."+ m_csHighLight+")" ;
+//				cs += ".highLighting(MapFieldAttrHighlighting."+ csHighLight+")" ;
 //			}
-//			if (!m_csBrightness.equals(""))
+//			if (!csBrightness.equals(""))
 //			{
-//				cs += ".intensity(MapFieldAttrIntensity."+ m_csBrightness+")" ;
+//				cs += ".intensity(MapFieldAttrIntensity."+ csBrightness+")" ;
 //			}
-//			if (!m_csProtection.equals(""))
+//			if (!csProtection.equals(""))
 //			{
-//				cs += ".protection(MapFieldAttrProtection."+ m_csProtection+")" ;
+//				cs += ".protection(MapFieldAttrProtection."+ csProtection+")" ;
 //			}
-			if (!m_csFillValue.equals(""))
+			if (!csFillValue.equals(""))
 			{
-				cs += ".justifyFill(MapFieldAttrFill."+ m_csFillValue+")" ;
+				cs += ".justifyFill(MapFieldAttrFill."+ csFillValue+")" ;
 			}
-			if (m_bRightJustified)
+			if (bRightJustified)
 			{
 				cs += ".justifyRight()" ;
 			}
-//			if (m_bCursor)
+//			if (bCursor)
 //			{
 //				cs += ".setCursor(true)" ;
 //			}
-//			if (m_bModified)
+//			if (bModified)
 //			{
 //				cs += ".setModified()" ;
 //			}
-			if (!m_csDevelopableFlagMark.equals(""))
+			if (!csDevelopableFlagMark.equals(""))
 			{
-				cs += ".setDevelopableMark(\"" + m_csDevelopableFlagMark + "\")" ;
+				cs += ".setDevelopableMark(\"" + csDevelopableFlagMark + "\")" ;
 			}
-			if (!m_csFormat.equals(""))
+			if (!csFormat.equals(""))
 			{
-				cs += ".format(\"" + m_csFormat + "\")" ;
+				cs += ".format(\"" + csFormat + "\")" ;
 			}
 			cs += ".edit() ;" ;
 			WriteLine(cs);
 		}
-		if (m_lstChildren.size()> 0)
+		if (lstChildren.size()> 0)
 		{
 			StartOutputBloc() ;
 			ExportChildren();
@@ -129,38 +129,38 @@ public class CJavaField extends CEntityResourceField
 	public Element DoXMLExport(Document doc, CResourceStrings res)
 	{
 		Element ef;
-		if (m_Mode == FieldMode.TITLE)
+		if (mode == FieldMode.TITLE)
 		{
 			ef = doc.createElement("title") ;
 		}
-		else if (m_Mode == FieldMode.SWITCH)
+		else if (mode == FieldMode.SWITCH)
 		{
 			ef = doc.createElement("switch") ;
 			ef.setAttribute("linkedvalue", FormatIdentifier(GetDisplayName())) ;
 			ef.setAttribute("name", FormatIdentifier(GetDisplayName())) ;
-			ef.setAttribute("length", String.valueOf(m_nLength)) ;
-			for  (int i=0; i<m_arrSwitchCaseElement.size(); i++)
+			ef.setAttribute("length", String.valueOf(nLength)) ;
+			for  (int i=0; i<arrSwitchCaseElement.size(); i++)
 			{
-				CSwitchCaseElement el = m_arrSwitchCaseElement.get(i) ;
+				CSwitchCaseElement el = arrSwitchCaseElement.get(i) ;
 				Element eCase ;
-				if (el.m_val != null)
+				if (el.val != null)
 				{
 					eCase = doc.createElement("case") ;
 					ef.appendChild(eCase) ;
-					eCase.setAttribute("value", el.m_val) ;
+					eCase.setAttribute("value", el.val) ;
 				}
-				else if (el.m_protection != null)
+				else if (el.protection != null)
 				{
 					eCase = doc.createElement("case") ;
 					ef.appendChild(eCase) ;
-					eCase.setAttribute("protection", el.m_protection) ;
+					eCase.setAttribute("protection", el.protection) ;
 				}
 				else
 				{
 					eCase = doc.createElement("default") ;
 					ef.appendChild(eCase) ;
 				}
-				Element etag = (Element)doc.importNode(el.m_tag, true) ;
+				Element etag = (Element)doc.importNode(el.tag, true) ;
 				eCase.appendChild(etag) ;
 			}
 			return ef ;
@@ -176,35 +176,35 @@ public class CJavaField extends CEntityResourceField
 		
 		//ef.setAttribute("", "" + getLine()) ;
 		
-		if (!m_csInitialValue.equals(""))
+		if (!csInitialValue.equals(""))
 		{
 //			res.GetResource;
-			//ef.setAttribute("InitialValue", m_initialValue) ;
-			ef.appendChild(res.ExportResource(m_csInitialValue, doc)) ;
+			//ef.setAttribute("InitialValue", initialValue) ;
+			ef.appendChild(res.ExportResource(csInitialValue, doc)) ;
 		}
 
 		
-		if (m_Mode == FieldMode.CHECKBOX)
+		if (mode == FieldMode.CHECKBOX)
 		{
 			ef.setAttribute("type", "checkbox") ;
-			ef.setAttribute("valueOn", m_csCheckBoxValueOn);
-			ef.setAttribute("valueOff", m_csCheckBoxValueOff);
+			ef.setAttribute("valueOn", csCheckBoxValueOn);
+			ef.setAttribute("valueOff", csCheckBoxValueOff);
 		}
-		else if (m_Mode == FieldMode.ACTIVE_CHOICE)
+		else if (mode == FieldMode.ACTIVE_CHOICE)
 		{
 			ef.setAttribute("type", "activeChoice") ;
-			ef.setAttribute("activeChoiceValue", m_csActiveChoiceValue);
-			ef.setAttribute("activeChoiceTarget", m_csActiveChoiceTarget);
-			ef.setAttribute("activeChoiceSubmit", m_bActiveChoiceSubmit?"true":"false");
+			ef.setAttribute("activeChoiceValue", csActiveChoiceValue);
+			ef.setAttribute("activeChoiceTarget", csActiveChoiceTarget);
+			ef.setAttribute("activeChoiceSubmit", bActiveChoiceSubmit?"true":"false");
 		}
-		else if (m_Mode == FieldMode.LINKED_ACTIVE_CHOICE)
+		else if (mode == FieldMode.LINKED_ACTIVE_CHOICE)
 		{
 			ef.setAttribute("type", "linkedActiveChoice") ;
-			ef.setAttribute("activeChoiceLink", FormatIdentifier(m_csActiveChoiceValue));
-			ef.setAttribute("activeChoiceTarget", m_csActiveChoiceTarget);
-			ef.setAttribute("activeChoiceSubmit", m_bActiveChoiceSubmit?"true":"false");
+			ef.setAttribute("activeChoiceLink", FormatIdentifier(csActiveChoiceValue));
+			ef.setAttribute("activeChoiceTarget", csActiveChoiceTarget);
+			ef.setAttribute("activeChoiceSubmit", bActiveChoiceSubmit?"true":"false");
 		}
-		if (m_Mode == FieldMode.HIDDEN)
+		if (mode == FieldMode.HIDDEN)
 		{
 			ef.setAttribute("type", "hidden") ;
 			ef.setAttribute("length", "0") ;
@@ -213,9 +213,9 @@ public class CJavaField extends CEntityResourceField
 		}
 		else
 		{
-			ef.setAttribute("length", String.valueOf(m_nLength)) ;
-			ef.setAttribute("line", String.valueOf(m_nPosLine)) ;
-			ef.setAttribute("col", String.valueOf(m_nPosCol)) ;
+			ef.setAttribute("length", String.valueOf(nLength)) ;
+			ef.setAttribute("line", String.valueOf(nPosLine)) ;
+			ef.setAttribute("col", String.valueOf(nPosCol)) ;
 		}
 		ef.setAttribute("linkedvalue", FormatIdentifier(GetDisplayName())) ;
 		if (!GetName().equals(""))
@@ -226,39 +226,39 @@ public class CJavaField extends CEntityResourceField
 			if (!csNameCopy.equals(csName))
 				ef.setAttribute("namecopy", FormatIdentifier(GetName())) ;
 		}
-		if (!m_csColor.equals(""))
+		if (!csColor.equals(""))
 		{
-			ef.setAttribute("color", m_csColor.toLowerCase());
+			ef.setAttribute("color", csColor.toLowerCase());
 		}
-		if (!m_csHighLight.equals(""))
+		if (!csHighLight.equals(""))
 		{
-			ef.setAttribute("highlighting", m_csHighLight.toLowerCase());
+			ef.setAttribute("highlighting", csHighLight.toLowerCase());
 		}
-		if (!m_csBrightness.equals(""))
+		if (!csBrightness.equals(""))
 		{
-			ef.setAttribute("intensity", m_csBrightness.toLowerCase());
+			ef.setAttribute("intensity", csBrightness.toLowerCase());
 		}
-		if (!m_csProtection.equals(""))
+		if (!csProtection.equals(""))
 		{
-			ef.setAttribute("protection", m_csProtection.toLowerCase());
+			ef.setAttribute("protection", csProtection.toLowerCase());
 		}
-		if (m_bCursor)
+		if (bCursor)
 		{
 			ef.setAttribute("cursor", "true") ;
 		}
-		if (m_bModified)
+		if (bModified)
 		{
 			ef.setAttribute("modified", "true") ;
 		}
-		if (m_bReplayMutable)
+		if (bReplayMutable)
 		{
 			ef.setAttribute("replayMutable", "true") ;
 		}
-		if (m_bRightJustified)
+		if (bRightJustified)
 			ef.setAttribute("justify", "right") ;
 		else
 			ef.setAttribute("justify", "left") ;
-		ef.setAttribute("fill", m_csFillValue.toLowerCase()) ;
+		ef.setAttribute("fill", csFillValue.toLowerCase()) ;
 		return ef ;
 	}
 	public boolean IsNeedDeclarationInClass()

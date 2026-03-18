@@ -55,7 +55,7 @@ public abstract class CBaseEntityCondition extends CBaseEntityCondExpr
 	
 	public void Replace(CBaseEntityCondition newCond)
 	{
-		m_parent.UpdateCondition(this, newCond) ;		
+		parent.UpdateCondition(this, newCond) ;		
 	}
 
 //	public CBaseEntityCondition getSimilarCondition(CBaseEntityFactory factory, CTerminal term)

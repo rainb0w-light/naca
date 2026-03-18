@@ -39,21 +39,21 @@ public class CJavaSQLOpenStatement extends CEntitySQLOpenStatement
    
 	protected void DoExport()
 	{
-		CEntitySQLCursorSelectStatement select = m_cursor.getSelect() ;
+		CEntitySQLCursorSelectStatement select = cursor.getSelect() ;
 		if (select != null)
 		{
 			DoExport(select) ;
 		}
 		else
 		{
-			String s = "cursorOpen(" + m_cursor.ExportReference(getLine()) ;
-			if (m_VariableStatement != null)
+			String s = "cursorOpen(" + cursor.ExportReference(getLine()) ;
+			if (variableStatement != null)
 			{
-				s += ", " + m_VariableStatement.ExportReference(getLine()) ;
+				s += ", " + variableStatement.ExportReference(getLine()) ;
 			}
 			s += ")";
 			WriteWord(s);
-			String csSQLErrorWarningStatement = m_ProgramCatalog.getSQLWarningErrorStatement();
+			String csSQLErrorWarningStatement = programCatalog.getSQLWarningErrorStatement();
 			if(csSQLErrorWarningStatement != null)
 			{
 				WriteWord(csSQLErrorWarningStatement);

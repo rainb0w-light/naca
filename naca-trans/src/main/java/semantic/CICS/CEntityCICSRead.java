@@ -35,49 +35,49 @@ public abstract class CEntityCICSRead extends CBaseActionEntity
 	public CEntityCICSRead(int line, CObjectCatalog cat, CBaseLanguageExporter out, CEntityCICSReadMode mode)
 	{
 		super(line, cat, out);
-		m_Mode = mode ;
+		mode = mode ;
 		cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
 	}
 	public void ReadFile(CDataEntity name)
 	{
-		m_Name = name ;
-		m_bReadtoDataSet = false ;
-		m_bReadToFile = true ;
+		name = name ;
+		bReadtoDataSet = false ;
+		bReadToFile = true ;
 	}
 	public void ReadDataSet(CDataEntity name)
 	{
-		m_Name = name ;
-		m_bReadtoDataSet = true ;
-		m_bReadToFile = false ;
+		name = name ;
+		bReadtoDataSet = true ;
+		bReadToFile = false ;
 	}
 	public void SetDataInto(CDataEntity from, CDataEntity length)
 	{
-		m_DataInto = from ;
-		m_DataLength = length;
+		dataInto = from ;
+		dataLength = length;
 	}
 	public void SetRecIDField(CDataEntity rec)
 	{
-		m_RecIDField = rec ;
+		recIDField = rec ;
 	}
 	
-	protected CDataEntity m_RecIDField = null ;
-	protected CDataEntity m_DataInto = null ;
-	protected CDataEntity m_DataLength = null ;
-	protected CDataEntity m_Name ;
-	protected boolean m_bReadToFile = false ;
-	protected boolean m_bReadtoDataSet = false ;
-	protected CEntityCICSReadMode m_Mode = null ;
-	protected CDataEntity m_KeyLength = null ;
-	protected boolean m_bEqual = false ;
+	protected CDataEntity recIDField = null ;
+	protected CDataEntity dataInto = null ;
+	protected CDataEntity dataLength = null ;
+	protected CDataEntity name ;
+	protected boolean bReadToFile = false ;
+	protected boolean bReadtoDataSet = false ;
+	protected CEntityCICSReadMode mode = null ;
+	protected CDataEntity keyLength = null ;
+	protected boolean bEqual = false ;
 
 	public void SetKeyLength(CDataEntity entity)
 	{
-		m_KeyLength = entity ;
+		keyLength = entity ;
 	}
 
 	public void SetEqual()
 	{
-		m_bEqual = true ;
+		bEqual = true ;
 	}
 	public boolean ignore()
 	{
@@ -86,11 +86,11 @@ public abstract class CEntityCICSRead extends CBaseActionEntity
 	public void Clear()
 	{
 		super.Clear();
-		m_RecIDField = null ;
-		m_DataInto = null ;
-		m_DataLength = null ;
-		m_Name = null ;
-		m_KeyLength = null ;
-		m_Mode = null ;
+		recIDField = null ;
+		dataInto = null ;
+		dataLength = null ;
+		name = null ;
+		keyLength = null ;
+		mode = null ;
 	}
 }

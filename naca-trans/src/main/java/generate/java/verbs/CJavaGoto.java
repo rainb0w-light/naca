@@ -43,7 +43,7 @@ public class CJavaGoto extends CEntityGoto
 	 */
 	protected void DoExport()
 	{
-		CEntityProcedure e = m_Reference.getProcedure() ;
+		CEntityProcedure e = reference.getProcedure() ;
 		String line = "goTo(" + e.ExportReference(getLine()) + ") ;" ;
 		WriteLine(line) ;
 	}

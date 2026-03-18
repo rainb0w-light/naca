@@ -36,8 +36,8 @@ public abstract class CEntityLoopIter extends CBaseActionEntity
 	 * @param out
 	 */
 	
-	protected boolean m_bIncrementByOne = false ;
-	protected boolean m_bDecrementByOne = false ;
+	protected boolean bIncrementByOne = false ;
+	protected boolean bDecrementByOne = false ;
 	
 	public CEntityLoopIter(int line, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
@@ -45,75 +45,75 @@ public abstract class CEntityLoopIter extends CBaseActionEntity
 	}
 	public void SetLoopIterInc(CDataEntity v, CDataEntity init)
 	{
-		m_Variable = v ;
-		m_Increment = null ;
-		m_bIncrementByOne = true ;
-		m_bDecrementByOne = false ;
-		m_InitialValue = init ;
+		variable = v ;
+		increment = null ;
+		bIncrementByOne = true ;
+		bDecrementByOne = false ;
+		initialValue = init ;
 	}
 	public void SetLoopIterDec(CDataEntity v, CDataEntity init)
 	{
-		m_Variable = v ;
-		m_Increment = null ;
-		m_bIncrementByOne = false ;
-		m_bDecrementByOne = true ;
-		m_InitialValue = init ;
+		variable = v ;
+		increment = null ;
+		bIncrementByOne = false ;
+		bDecrementByOne = true ;
+		initialValue = init ;
 	}
 	public void SetLoopIter(CDataEntity v, CDataEntity init, CDataEntity inc)
 	{
-		m_Variable = v ;
-		m_Increment = inc ;
-		m_bIncrementByOne = false ;
-		m_bDecrementByOne = false ;
-		m_InitialValue = init ;
+		variable = v ;
+		increment = inc ;
+		bIncrementByOne = false ;
+		bDecrementByOne = false ;
+		initialValue = init ;
 	}
 	public void SetWhileCondition(CBaseEntityCondition cond, boolean testBefore)
 	{
-		m_WhileCondition = cond  ;
-		m_bTestBefore = testBefore;
+		whileCondition = cond  ;
+		bTestBefore = testBefore;
 	}
 	public void SetUntilCondition(CBaseEntityCondition cond, boolean testBefore)
 	{
-		m_WhileCondition = cond.GetOppositeCondition() ;
-		m_bTestBefore = testBefore;
+		whileCondition = cond.GetOppositeCondition() ;
+		bTestBefore = testBefore;
 	}
 
-	protected boolean m_bTestBefore = true ;
-	protected CDataEntity m_Variable = null ;
-	protected CBaseEntityCondition m_WhileCondition = null ;
-	protected CDataEntity m_InitialValue = null ;
-	protected CDataEntity m_Increment = null ;
-	protected List<CEntityAfter> m_Afters = new ArrayList<CEntityAfter>();
+	protected boolean bTestBefore = true ;
+	protected CDataEntity variable = null ;
+	protected CBaseEntityCondition whileCondition = null ;
+	protected CDataEntity initialValue = null ;
+	protected CDataEntity increment = null ;
+	protected List<CEntityAfter> afters = new ArrayList<CEntityAfter>();
 	public void Clear()
 	{
 		super.Clear() ;
-		m_Variable = null ;
-		m_WhileCondition.Clear() ;
-		m_WhileCondition = null ;
-		m_Increment = null ;
-		m_InitialValue = null ;
-		m_Afters.clear();
+		variable = null ;
+		whileCondition.Clear() ;
+		whileCondition = null ;
+		increment = null ;
+		initialValue = null ;
+		afters.clear();
 	}
 	public boolean ignore()
 	{
-		boolean ignore = m_Variable.ignore() ;
-		ignore |= m_WhileCondition.ignore();
-		ignore |= m_InitialValue.ignore() ;
-		if (m_Increment != null)
+		boolean ignore = variable.ignore() ;
+		ignore |= whileCondition.ignore();
+		ignore |= initialValue.ignore() ;
+		if (increment != null)
 		{
-			ignore |= m_Increment.ignore();
+			ignore |= increment.ignore();
 		}
 		//ignore |= isChildrenIgnored() ;
 		return ignore ;
 	}
 	public boolean UpdateAction(CBaseActionEntity entity, CBaseActionEntity newCond)
 	{
-		for (int i=0; i<m_lstChildren.size(); i++)
+		for (int i=0; i<lstChildren.size(); i++)
 		{
-			CBaseActionEntity act = (CBaseActionEntity)m_lstChildren.get(i) ;
+			CBaseActionEntity act = (CBaseActionEntity)lstChildren.get(i) ;
 			if (act == entity)
 			{
-				m_lstChildren.set(i, newCond) ;
+				lstChildren.set(i, newCond) ;
 				return true ;
 			}
 		}
@@ -122,21 +122,21 @@ public abstract class CEntityLoopIter extends CBaseActionEntity
 	public void AddAfter(CDataEntity after,
 			CDataEntity from, CDataEntity by,
 			CBaseEntityCondition until) {
-		m_Afters.add(new CEntityAfter(after, from, by, until));
+		afters.add(new CEntityAfter(after, from, by, until));
 	}
 	protected class CEntityAfter
 	{
-		public CDataEntity m_VariableAfter = null ;
-		public CDataEntity m_varFromValueAfter = null ;
-		public CDataEntity m_varByValueAfter = null ;
-		public CBaseEntityCondition m_condUntilAfter = null ;
+		public CDataEntity variableAfter = null ;
+		public CDataEntity varFromValueAfter = null ;
+		public CDataEntity varByValueAfter = null ;
+		public CBaseEntityCondition condUntilAfter = null ;
 		public CEntityAfter(CDataEntity after, CDataEntity from,
 				CDataEntity by, CBaseEntityCondition until)
 		{
-			m_VariableAfter = after;
-			m_varFromValueAfter = from;
-			m_varByValueAfter = by;
-			m_condUntilAfter = until;
+			variableAfter = after;
+			varFromValueAfter = from;
+			varByValueAfter = by;
+			condUntilAfter = until;
 		}
 	}
 

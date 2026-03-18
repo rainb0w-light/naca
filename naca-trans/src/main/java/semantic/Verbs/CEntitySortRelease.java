@@ -19,18 +19,18 @@ public abstract class CEntitySortRelease extends CBaseActionEntity
 		super(line, cat, out);
 	}
 
-	protected CDataEntity m_eSortField = null ;
+	protected CDataEntity eSortField = null ;
 	
 	public void setDataReference(CDataEntity e)
 	{
-		m_eSortField = e ;		
+		eSortField = e ;		
 	}
 
-	protected CDataEntity m_eDatReference = null ;
+	protected CDataEntity eDatReference = null ;
 	public void setDataReference(CDataEntity e, CDataEntity from)
 	{
-		m_eDatReference = from ;
-		m_eSortField = e ;
+		eDatReference = from ;
+		eSortField = e ;
 	}
 
 }

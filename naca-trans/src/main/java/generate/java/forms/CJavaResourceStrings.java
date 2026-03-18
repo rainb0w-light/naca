@@ -47,7 +47,7 @@ public class CJavaResourceStrings extends CResourceStrings
 	{
 		Element eRoot = root.createElement("Strings") ;
 		parent.appendChild(eRoot);
-		Enumeration enumere = m_tabTexts.elements() ;
+		Enumeration enumere = tabTexts.elements() ;
 		CLocalizedText lText = null ;
 		try
 		{
@@ -56,14 +56,14 @@ public class CJavaResourceStrings extends CResourceStrings
 			{
 				Element eString = root.createElement("String");
 				eRoot.appendChild(eString) ;
-				eString.setAttribute("Name", lText.m_csId) ;
-				for (int i=0; i<lText.m_TextTable.size(); i += 2)
+				eString.setAttribute("Name", lText.csId) ;
+				for (int i=0; i<lText.textTable.size(); i += 2)
 				{
 					Element eText = root.createElement("LocalizedText") ;
 					eString.appendChild(eText);
-					String cs = lText.m_TextTable.get(i) ;
+					String cs = lText.textTable.get(i) ;
 					eText.setAttribute("LangID", cs);
-					String text = lText.m_TextTable.get(i+1) ;
+					String text = lText.textTable.get(i+1) ;
 					eText.setAttribute("Text", text) ;
 				}
 				lText = (CLocalizedText)enumere.nextElement() ;
@@ -79,13 +79,13 @@ public class CJavaResourceStrings extends CResourceStrings
 	
 	public String ExportForField(String initialValue, String display)
 	{
-		CLocalizedText ltext = m_tabTexts.get(initialValue) ;
+		CLocalizedText ltext = tabTexts.get(initialValue) ;
 		String out = "LocalizedString " + display + " = declare.localizedString()" ;
-		for (int i=0; i<ltext.m_TextTable.size(); i += 2)
+		for (int i=0; i<ltext.textTable.size(); i += 2)
 		{
-			String cs = ltext.m_TextTable.get(i) ;
+			String cs = ltext.textTable.get(i) ;
 			cs = "LanguageCode."+cs ;
-			String text = ltext.m_TextTable.get(i+1) ;
+			String text = ltext.textTable.get(i+1) ;
 			out += ".text("+cs+", \"" + text + "\")" ;
 		}
 		out += ";" ;
@@ -94,32 +94,32 @@ public class CJavaResourceStrings extends CResourceStrings
 
 	public void FormatResource(String name)
 	{
-		CLocalizedText res = m_tabTexts.get(name) ;
+		CLocalizedText res = tabTexts.get(name) ;
 		if (res == null)
 		{
 			return ;
 		}
 		HashMap<String, String> tab = new HashMap<String, String>() ;
-		int n = res.m_TextTable.size() ;
+		int n = res.textTable.size() ;
 		for (int i=0; i<n; i+=2)
 		{
-			String id = res.m_TextTable.get(i) ;
-			String text = res.m_TextTable.get(i+1) ;
+			String id = res.textTable.get(i) ;
+			String text = res.textTable.get(i+1) ;
 			text = text.trim() ;			
 			tab.put(id, text) ;
 		}
-		res.m_TextTable = tab ;
-//		CLocalizedText res = m_tabTexts.get(name) ;
+		res.textTable = tab ;
+//		CLocalizedText res = tabTexts.get(name) ;
 //		if (res == null)
 //		{
 //			return ;
 //		}
 //		HashMap<String, String> tab = new HashMap<String, String>() ;
-//		int n = res.m_TextTable.size() ;
+//		int n = res.textTable.size() ;
 //		for (int i=0; i<n; i+=2)
 //		{
-//			String id = res.m_TextTable.get(i) ;
-//			String text = res.m_TextTable.get(i+1) ;
+//			String id = res.textTable.get(i) ;
+//			String text = res.textTable.get(i+1) ;
 //			text = text.toLowerCase().trim() ;
 //			String out = "" ;
 //			int npos = 0 ;
@@ -140,6 +140,6 @@ public class CJavaResourceStrings extends CResourceStrings
 //			}
 //			tab.put(id, out) ;
 //		}
-//		res.m_TextTable = tab ;
+//		res.textTable = tab ;
 	}
 }

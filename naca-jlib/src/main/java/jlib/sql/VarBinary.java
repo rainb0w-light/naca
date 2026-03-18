@@ -20,19 +20,19 @@ public class VarBinary
 {
 	public VarBinary()
 	{
-		m_tb = null;
+		tb = null;
 	}
 	
 	public VarBinary(byte tb[])
 	{
-		m_tb = tb;
+		tb = tb;
 	}
 	
 	public String getAsString()
 	{
-		if(m_tb	!= null)
+		if(tb	!= null)
 		{
-			String cs = new String(m_tb);
+			String cs = new String(tb);
 			return cs; 
 		}
 		
@@ -41,12 +41,12 @@ public class VarBinary
 	
 	public String getAsUTF8String()
 	{
-		if(m_tb	!= null)
+		if(tb	!= null)
 		{
 			String cs;
 			try
 			{
-				cs = new String(m_tb, "UTF-8");
+				cs = new String(tb, "UTF-8");
 				return cs; 
 			}
 			catch (UnsupportedEncodingException e)
@@ -62,7 +62,7 @@ public class VarBinary
 	{
 		try
 		{
-			m_tb = cs.getBytes("UTF-8");
+			tb = cs.getBytes("UTF-8");
 			return true;
 		}
 		catch (UnsupportedEncodingException e)
@@ -73,13 +73,13 @@ public class VarBinary
 	
 	public byte [] getBytes()
 	{
-		return m_tb;
+		return tb;
 	}
 	
 	public void setBytes(byte [] tb)
 	{
-		m_tb = tb;
+		tb = tb;
 	}
 	
-	private byte m_tb[] = null;
+	private byte tb[] = null;
 }

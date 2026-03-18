@@ -30,16 +30,16 @@ import jlib.misc.NumberParser;
  */
 public class DbColDefinitionDecimal extends BaseDbColDefinition
 {
-	private int m_nNbDigits = 0;
-	private int m_nNbDecimals = 0;
-	private boolean m_rbNegative[] = null;
+	private int nNbDigits = 0;
+	private int nNbDecimals = 0;
+	private boolean rbNegative[] = null;
 	
 	DbColDefinitionDecimal(ColDescriptionInfo colDescription)
 	{
 		super(colDescription);
-		m_nNbDigits = colDescription.getPrecision();
-		m_nNbDecimals = colDescription.getScale();
-		m_rbNegative = new boolean[1];
+		nNbDigits = colDescription.getPrecision();
+		nNbDecimals = colDescription.getScale();
+		rbNegative = new boolean[1];
 	}
 	
 	public byte[] getByteValue(ResultSet resultSet, int nCol1Based, boolean bEbcdicOutput)
@@ -50,8 +50,8 @@ public class DbColDefinitionDecimal extends BaseDbColDefinition
 
 			int nNbDigits = rsMetaData.getPrecision(nCol1Based);
 			int nNbDecimals = rsMetaData.getScale(nCol1Based);
-			Asserter.assertIfFalse(nNbDigits == m_nNbDigits);
-			Asserter.assertIfFalse(nNbDecimals == m_nNbDecimals);
+			Asserter.assertIfFalse(nNbDigits == nNbDigits);
+			Asserter.assertIfFalse(nNbDecimals == nNbDecimals);
 	
 			if((nNbDigits % 2) == 0)
 				nNbDigits++;
@@ -63,10 +63,10 @@ public class DbColDefinitionDecimal extends BaseDbColDefinition
 			byte [] aBytes = new byte[nNbCharsInComp3];
 			
 			boolean bPositive = !decValue.isNegative();
-			String cs = Comp3Support.encodeDecComp3(decValue, m_nNbDigits-m_nNbDecimals, m_nNbDecimals);
+			String cs = Comp3Support.encodeDecComp3(decValue, nNbDigits-nNbDecimals, nNbDecimals);
 			Comp3Support.internalWriteEncodeComp3(aBytes, cs, bPositive, true);
 						
-			//m_nPhysicalPosInRecordSet += nNbCharsInComp3;
+			//nPhysicalPosInRecordSet += nNbCharsInComp3;
 			return aBytes;					
 		}
 		catch (SQLException e)
@@ -79,8 +79,8 @@ public class DbColDefinitionDecimal extends BaseDbColDefinition
 	
 //	public int setByteValue(byte arrByteValue[], int nSourceOffset, boolean bEbcdicInput, ColValueGeneric colValueGenericDest)
 //	{
-//		int nSize = 1+(m_nNbDigits / 2);
-//		String cs = getAsString(arrByteValue, nSourceOffset, m_nNbDigits, m_nNbDecimals, nSize);
+//		int nSize = 1+(nNbDigits / 2);
+//		String cs = getAsString(arrByteValue, nSourceOffset, nNbDigits, nNbDecimals, nSize);
 //		colValueGenericDest.setValue(cs);
 //		
 //		return nSize;
@@ -88,24 +88,24 @@ public class DbColDefinitionDecimal extends BaseDbColDefinition
 	
 	public int setByteValueInStmtCol(DbColDefErrorManager dbColDefErrorManager, DbPreparedStatement stmt, int nCol, byte arrByteValue[], int nSourceOffset, boolean bEbcdicInput)
 	{
-		int nSize = 1+(m_nNbDigits / 2);
-		if(m_nNbDigits < 18) // Binary value fits in a long
+		int nSize = 1+(nNbDigits / 2);
+		if(nNbDigits < 18) // Binary value fits in a long
 		{
-			if(m_nNbDecimals == 0)					
+			if(nNbDecimals == 0)					
 			{
-				long lOriginalValue = BasePic9Comp3BufferSupport.getAsLong(arrByteValue, nSourceOffset, m_nNbDigits, nSize);
-				long lValue = BasePic9Comp3BufferSupport.keepRightMostDigits(lOriginalValue, m_nNbDigits);
+				long lOriginalValue = BasePic9Comp3BufferSupport.getAsLong(arrByteValue, nSourceOffset, nNbDigits, nSize);
+				long lValue = BasePic9Comp3BufferSupport.keepRightMostDigits(lOriginalValue, nNbDigits);
 				if(lOriginalValue != lValue)
 					dbColDefErrorManager.reportTruncationError(lOriginalValue, lValue, getColumnName());
 				stmt.setColParam(nCol, lValue);
 			}
 			else
 			{
-				long lOriginalValue = BasePic9Comp3BufferSupport.getAsLong(arrByteValue, nSourceOffset, m_nNbDigits, nSize);
-				long lValue = BasePic9Comp3BufferSupport.keepRightMostDigits(lOriginalValue, m_nNbDigits);
+				long lOriginalValue = BasePic9Comp3BufferSupport.getAsLong(arrByteValue, nSourceOffset, nNbDigits, nSize);
+				long lValue = BasePic9Comp3BufferSupport.keepRightMostDigits(lOriginalValue, nNbDigits);
 				if(lOriginalValue != lValue)
 					dbColDefErrorManager.reportTruncationError(lOriginalValue, lValue, getColumnName());
-				String csValue = BasePic9Comp3BufferSupport.makeDottedString(lValue, m_nNbDecimals);
+				String csValue = BasePic9Comp3BufferSupport.makeDottedString(lValue, nNbDecimals);
 //				if(csValue.startsWith("815"))
 //				{
 //					int n = 0;					
@@ -115,21 +115,21 @@ public class DbColDefinitionDecimal extends BaseDbColDefinition
 		}
 		else	// Cannot use a long (64 bits is not enough ...)
 		{			
-			String csOriginalValue = getAsString(arrByteValue, nSourceOffset, m_nNbDigits, m_nNbDecimals, nSize, m_rbNegative);
+			String csOriginalValue = getAsString(arrByteValue, nSourceOffset, nNbDigits, nNbDecimals, nSize, rbNegative);
 			int nPosDot = csOriginalValue.indexOf(".");
 			String csDec = "";
 			String csInt;
 			if(nPosDot >= 0)
 			{
 				csDec = csOriginalValue.substring(nPosDot);
-				if(m_rbNegative[0])	// A leading sign has been added
+				if(rbNegative[0])	// A leading sign has been added
 					csInt = csOriginalValue.substring(1, nPosDot);
 				else
 					csInt = csOriginalValue.substring(0, nPosDot);
 			}
 			else
 				csInt = csOriginalValue;
-			int nNbDigitsInt = m_nNbDigits - m_nNbDecimals; 
+			int nNbDigitsInt = nNbDigits - nNbDecimals; 
 			if(csInt.length() > nNbDigitsInt)	// Integer part is too long
 			{
 				int nNbDigitsToRemoveOnLeft = csInt.length() - nNbDigitsInt;
@@ -139,7 +139,7 @@ public class DbColDefinitionDecimal extends BaseDbColDefinition
 					bSignificantTruncation = true;
 					
 				csInt = csInt.substring(nNbDigitsToRemoveOnLeft);
-				if(m_rbNegative[0])
+				if(rbNegative[0])
 					csInt = "-" + csInt;
 				String csValue = csInt + csDec;
 				if(bSignificantTruncation)

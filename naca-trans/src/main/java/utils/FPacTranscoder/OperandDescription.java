@@ -28,10 +28,10 @@ import utils.FPacTranscoder.notifs.NotifGetDefaultOutputFile;
 
 public class OperandDescription
 {
-	public CDataEntity m_eObject = null ;
-	public CBaseEntityExpression m_expStart = null ; 
-	public CBaseEntityExpression m_expLength = null ;
-	public boolean m_bHexaNoPacked = false;
+	public CDataEntity eObject = null ;
+	public CBaseEntityExpression expStart = null ; 
+	public CBaseEntityExpression expLength = null ;
+	public boolean bHexaNoPacked = false;
 	
 	public static OperandDescription FindFirstDataEntity(ListIterator<CExpression> iter, CBaseEntityFactory factory)
 	{
@@ -48,9 +48,9 @@ public class OperandDescription
 				String val = term.GetConstantValue() ;
 				CEntityNumber number = factory.NewEntityNumber(val) ;
 				OperandDescription desc = new OperandDescription() ;
-				desc.m_eObject = number ;
-				desc.m_expStart = null ;
-				desc.m_expLength = null ; //factory.NewEntityExprTerminal(factory.NewEntityNumber(val.length()))  ;
+				desc.eObject = number ;
+				desc.expStart = null ;
+				desc.expLength = null ; //factory.NewEntityExprTerminal(factory.NewEntityNumber(val.length()))  ;
 				return desc ;
 			}
 			else if (term.GetDataType() == CDataEntityType.STRING)
@@ -58,9 +58,9 @@ public class OperandDescription
 				String val = term.GetConstantValue() ;
 				CEntityString string = factory.NewEntityString(val) ;
 				OperandDescription desc = new OperandDescription() ;
-				desc.m_eObject = string ;
-				desc.m_expStart = null ;
-				desc.m_expLength = factory.NewEntityExprTerminal(factory.NewEntityNumber(val.length()))  ;
+				desc.eObject = string ;
+				desc.expStart = null ;
+				desc.expLength = factory.NewEntityExprTerminal(factory.NewEntityNumber(val.length()))  ;
 				return desc ;
 			}
 			else if (term.GetDataType() == CDataEntityType.ADDRESS)
@@ -72,22 +72,22 @@ public class OperandDescription
 				{ //file buffer 
 					CDataEntity buffer ;
 					if (bFromOutput)
-						buffer = getDefaultOutputFileBuffer(factory.m_ProgramCatalog) ;
+						buffer = getDefaultOutputFileBuffer(factory.programCatalog) ;
 					else
-						buffer = getDefaultInputFileBuffer(factory.m_ProgramCatalog) ;
+						buffer = getDefaultInputFileBuffer(factory.programCatalog) ;
 					OperandDescription desc = new OperandDescription() ;
-					desc.m_eObject = buffer ;
-					desc.m_expStart = term ;
-					desc.m_expLength = null  ;
+					desc.eObject = buffer ;
+					desc.expStart = term ;
+					desc.expLength = null  ;
 					return desc ;
 				}
 				else
 				{ // working
-					CDataEntity working = factory.m_ProgramCatalog.GetDataEntity("WORKING", "") ;
+					CDataEntity working = factory.programCatalog.GetDataEntity("WORKING", "") ;
 					OperandDescription desc = new OperandDescription() ;
-					desc.m_eObject = working ;
-					desc.m_expStart = term ;
-					desc.m_expLength = null  ;
+					desc.eObject = working ;
+					desc.expStart = term ;
+					desc.expLength = null  ;
 					return desc ;
 				}
 			}
@@ -102,9 +102,9 @@ public class OperandDescription
 					if (!vallen.equals(""))
 					{
 						OperandDescription desc = new OperandDescription() ;
-						desc.m_eObject = var ;
-						desc.m_expStart = termstart ;
-						desc.m_expLength = null  ;
+						desc.eObject = var ;
+						desc.expStart = termstart ;
+						desc.expLength = null  ;
 						return desc ;
 					}
 				}
@@ -113,9 +113,9 @@ public class OperandDescription
 			{
 				CDataEntity var = term.GetSingleOperator() ;
 				OperandDescription desc = new OperandDescription() ;
-				desc.m_eObject = var ;
-				desc.m_expStart = null ;
-				desc.m_expLength = null  ;
+				desc.eObject = var ;
+				desc.expStart = null ;
+				desc.expLength = null  ;
 				return desc ;
 			}
 			return null ;
@@ -132,22 +132,22 @@ public class OperandDescription
 				{ //file buffer 
 					CDataEntity buffer ;
 					if (bFromOutput)
-						buffer = getDefaultOutputFileBuffer(factory.m_ProgramCatalog) ;
+						buffer = getDefaultOutputFileBuffer(factory.programCatalog) ;
 					else
-						buffer = getDefaultInputFileBuffer(factory.m_ProgramCatalog) ;
+						buffer = getDefaultInputFileBuffer(factory.programCatalog) ;
 					OperandDescription desc = new OperandDescription() ;
-					desc.m_eObject = buffer ;
-					desc.m_expStart = term ;
-					desc.m_expLength = null  ;
+					desc.eObject = buffer ;
+					desc.expStart = term ;
+					desc.expLength = null  ;
 					return desc ;
 				}
 				else
 				{ // working
-					CDataEntity working = factory.m_ProgramCatalog.GetDataEntity("WORKING", "") ;
+					CDataEntity working = factory.programCatalog.GetDataEntity("WORKING", "") ;
 					OperandDescription desc = new OperandDescription() ;
-					desc.m_eObject = working ;
-					desc.m_expStart = term ;
-					desc.m_expLength = null  ;
+					desc.eObject = working ;
+					desc.expStart = term ;
+					desc.expLength = null  ;
 					return desc ;
 				}
 			}
@@ -200,19 +200,19 @@ public class OperandDescription
 				{ //file buffer 
 					CDataEntity buffer ;
 					if (toInput)
-						buffer = getDefaultInputFileBuffer(factory.m_ProgramCatalog) ;
+						buffer = getDefaultInputFileBuffer(factory.programCatalog) ;
 					else 
-						buffer = getDefaultOutputFileBuffer(factory.m_ProgramCatalog) ;
-					desc.m_eObject = buffer ;
-					desc.m_expStart = term ;
-					desc.m_expLength = termlen  ;
+						buffer = getDefaultOutputFileBuffer(factory.programCatalog) ;
+					desc.eObject = buffer ;
+					desc.expStart = term ;
+					desc.expLength = termlen  ;
 				}
 				else
 				{ // working
-					CDataEntity working = factory.m_ProgramCatalog.GetDataEntity("WORKING", "") ;
-					desc.m_eObject = working ;
-					desc.m_expStart = term ;
-					desc.m_expLength = termlen  ;
+					CDataEntity working = factory.programCatalog.GetDataEntity("WORKING", "") ;
+					desc.eObject = working ;
+					desc.expStart = term ;
+					desc.expLength = termlen  ;
 				}
 				return desc ;
 			}
@@ -230,18 +230,18 @@ public class OperandDescription
 						if (termlen.GetDataType() == CDataEntityType.ADDRESS)
 						{
 							OperandDescription desc = new OperandDescription() ;
-							desc.m_eObject = var ;
-							desc.m_expStart = termstart ;
-							desc.m_expLength = termlen  ;
+							desc.eObject = var ;
+							desc.expStart = termstart ;
+							desc.expLength = termlen  ;
 							return desc ;
 						}
 					}
 					else
 					{
 						OperandDescription desc = new OperandDescription() ;
-						desc.m_eObject = var ;
-						desc.m_expStart = termstart ;
-						desc.m_expLength = null  ;
+						desc.eObject = var ;
+						desc.expStart = termstart ;
+						desc.expLength = null  ;
 						return desc ;
 					}
 				}
@@ -250,14 +250,14 @@ public class OperandDescription
 			{
 				CDataEntity var = term.GetSingleOperator() ;
 				OperandDescription desc = new OperandDescription() ;
-				desc.m_eObject = var ;
-				desc.m_expStart = null ;
-				desc.m_expLength = null ;
+				desc.eObject = var ;
+				desc.expStart = null ;
+				desc.expLength = null ;
 				if (iter.hasNext())
 				{
 					CExpression explen = iter.next()  ;
 					CBaseEntityExpression termlen = explen.AnalyseExpression(factory) ;
-					desc.m_expLength = termlen ;
+					desc.expLength = termlen ;
 				}
 				return desc ;
 			}
@@ -283,20 +283,20 @@ public class OperandDescription
 				}
 				if (add < 5000)
 				{ //file buffer 
-					CDataEntity buffer = getDefaultOutputFileBuffer(factory.m_ProgramCatalog) ;
+					CDataEntity buffer = getDefaultOutputFileBuffer(factory.programCatalog) ;
 					OperandDescription desc = new OperandDescription() ;
-					desc.m_eObject = buffer ;
-					desc.m_expStart = term ;
-					desc.m_expLength = termlen  ;
+					desc.eObject = buffer ;
+					desc.expStart = term ;
+					desc.expLength = termlen  ;
 					return desc ;
 				}
 				else
 				{ // working
-					CDataEntity working = factory.m_ProgramCatalog.GetDataEntity("WORKING", "") ;
+					CDataEntity working = factory.programCatalog.GetDataEntity("WORKING", "") ;
 					OperandDescription desc = new OperandDescription() ;
-					desc.m_eObject = working ;
-					desc.m_expStart = term ;
-					desc.m_expLength = termlen  ;
+					desc.eObject = working ;
+					desc.expStart = term ;
+					desc.expLength = termlen  ;
 					return desc ;
 				}
 			}

@@ -25,8 +25,8 @@ import nacaLib.programPool.SharedProgramInstanceData;
  */
 public abstract class DeclareTypeBase extends CJMapObject
 {
-	protected VarLevel m_varLevel = null;
-	private boolean m_bVariableLengthDeclaration = false;
+	protected VarLevel varLevel = null;
+	private boolean bVariableLengthDeclaration = false;
 	
 	public DeclareTypeBase()
 	{
@@ -40,18 +40,18 @@ public abstract class DeclareTypeBase extends CJMapObject
 	
 	void set(VarLevel varLevel)
 	{
-		m_varLevel = varLevel;
-		m_bVariableLengthDeclaration = false;
+		varLevel = varLevel;
+		bVariableLengthDeclaration = false;
 	}
 	
 	public VarLevel getLevel()
 	{
-		return m_varLevel;
+		return varLevel;
 	}
 	
 	int getLevelValue()
 	{
-		return m_varLevel.getLevel();
+		return varLevel.getLevel();
 	}
 	
 	public VarDefBuffer getOrCreateVarDef(SharedProgramInstanceData sharedProgramInstanceData /*VarInstancesHolder varInstancesHolder*/)
@@ -96,22 +96,22 @@ public abstract class DeclareTypeBase extends CJMapObject
 	
 	BaseProgramManager getProgramManager()
 	{
-		return m_varLevel.getProgramManager();
+		return varLevel.getProgramManager();
 	}
 	
 	BaseProgram getProgram()
 	{
-		return m_varLevel.getProgram();
+		return varLevel.getProgram();
 	}
 	
 	void setVariableLengthDeclaration()
 	{
-		m_bVariableLengthDeclaration = true;
+		bVariableLengthDeclaration = true;
 	}
 	
 	boolean isVariableLengthDeclaration()
 	{
-		return m_bVariableLengthDeclaration;
+		return bVariableLengthDeclaration;
 	}
 	
 	public abstract VarDefBuffer createVarDef(VarDefBuffer varDefParent);

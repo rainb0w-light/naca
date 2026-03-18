@@ -23,19 +23,19 @@ import jlib.log.Log;
 
 public class ClassDynLoader extends ClassLoader
 {
-	protected ClassLoader m_DefaultClassLoader = null ;
+	protected ClassLoader defaultClassLoader = null ;
 	protected static Hashtable<String, CoupleCodeLoader> ms_hashByName = new Hashtable<String, CoupleCodeLoader>();
 	private static int 	ms_nActive = 0;
-	protected ArrayList<String> m_arrPaths = null;
-	protected JarEntries m_jarEntries = null;
-	protected boolean m_bCanLoadJar = false;
-	protected boolean m_bCanLoadClass = false;
-    protected String m_csCurrentClassName = null;
+	protected ArrayList<String> arrPaths = null;
+	protected JarEntries jarEntries = null;
+	protected boolean bCanLoadJar = false;
+	protected boolean bCanLoadClass = false;
+    protected String csCurrentClassName = null;
     
 	public ClassDynLoader()
 	{
 		super();
-		m_DefaultClassLoader = getClass().getClassLoader() ;
+		defaultClassLoader = getClass().getClassLoader() ;
 		Log.logDebug("ClassDynLoader created: " +toString());
 		ms_nActive++;
 	}
@@ -48,8 +48,8 @@ public class ClassDynLoader extends ClassLoader
 	
 	public ClassDynLoader(ArrayList<String> arrPaths, JarEntries jarEntries, boolean bCanLoadClass, boolean bCanLoadJar)
 	{
-		m_arrPaths = arrPaths;
-		m_DefaultClassLoader = getClass().getClassLoader() ;
+		arrPaths = arrPaths;
+		defaultClassLoader = getClass().getClassLoader() ;
 		addJarEntry(jarEntries, bCanLoadClass, bCanLoadJar);
 		Log.logDebug("ClassDynLoader created: " +toString());
 		
@@ -58,42 +58,42 @@ public class ClassDynLoader extends ClassLoader
 	
 	public void addPathURL(String csSourcePath)
 	{
-		if(m_arrPaths == null)
-			m_arrPaths = new ArrayList<String>();
-		m_arrPaths.add(csSourcePath);
+		if(arrPaths == null)
+			arrPaths = new ArrayList<String>();
+		arrPaths.add(csSourcePath);
 	}
 
 	public void addPathURL(ArrayList<String> arrSourcePath)
 	{
 		if(arrSourcePath != null)
 		{
-			if(m_arrPaths == null)
-				m_arrPaths = new ArrayList<String>();
+			if(arrPaths == null)
+				arrPaths = new ArrayList<String>();
 			for(int n=0; n<arrSourcePath.size(); n++)
 			{
 				String csPath = arrSourcePath.get(n);
-				m_arrPaths.add(csPath);
+				arrPaths.add(csPath);
 			}
 		}
 	}
 	
 	public void addJarEntry(JarEntries jarEntries, boolean bCanLoadClass, boolean bCanLoadJar)
 	{
-		m_jarEntries = jarEntries;
-		m_bCanLoadClass = bCanLoadClass;
-		m_bCanLoadJar = bCanLoadJar;
+		jarEntries = jarEntries;
+		bCanLoadClass = bCanLoadClass;
+		bCanLoadJar = bCanLoadJar;
 	}
 	
 	protected byte[] getClassFileBytes(String className) 
 	{
 		byte result[] = null;
     	
-		if(m_bCanLoadClass)
+		if(bCanLoadClass)
 		{
 			String clpack = className.replace('.', '/') ;
-	 	    for(int n=0; n<m_arrPaths.size(); n++)
+	 	    for(int n=0; n<arrPaths.size(); n++)
 	    	{
-	 	    	String csPath = m_arrPaths.get(n);
+	 	    	String csPath = arrPaths.get(n);
 		    	try 
 		    	{
 		    		FileInputStream fi = new FileInputStream(csPath + clpack + ".class");
@@ -108,9 +108,9 @@ public class ClassDynLoader extends ClassLoader
 	    	}
 		}
 
-		if(m_bCanLoadJar && m_jarEntries != null)
+		if(bCanLoadJar && jarEntries != null)
 		{
-			result = m_jarEntries.loadJarEntry(className);
+			result = jarEntries.loadJarEntry(className);
 		}
 		return result;
 	}
@@ -133,7 +133,7 @@ public class ClassDynLoader extends ClassLoader
 //			}
 //			if(!csClassName.equals("RS01A10"))		// && !csClassName.equals("RS01A10S"))
 //		    {
-				Class classCode = m_DefaultClassLoader.loadClass(csClassName);
+				Class classCode = defaultClassLoader.loadClass(csClassName);
 		    	return classCode;
 //		    }
 //			else
@@ -202,12 +202,12 @@ public class ClassDynLoader extends ClassLoader
         
     protected void inMakeNewInstance(String csCurrentClassName)
     {
-    	m_csCurrentClassName = csCurrentClassName;
+    	csCurrentClassName = csCurrentClassName;
     }
     
     protected void outMakeNewInstance()
     {
-    	m_csCurrentClassName = null;
+    	csCurrentClassName = null;
     }
 
 	Object makeNewInstance(String csClassName, Class classCode)
@@ -268,7 +268,7 @@ public class ClassDynLoader extends ClassLoader
 	protected JarEntries preloadJarEntries(String csJarFile)
 	{		
 		JarEntries jarEntries = new JarEntries();
-		jarEntries.open(csJarFile, m_arrPaths);
+		jarEntries.open(csJarFile, arrPaths);
 		return jarEntries;
 	}
 	
@@ -276,9 +276,9 @@ public class ClassDynLoader extends ClassLoader
 	{
 		Hashtable<String, Integer> hashFileSize = new Hashtable<String, Integer>(); 
 
- 	    for(int n=0; n<m_arrPaths.size(); n++)
+ 	    for(int n=0; n<arrPaths.size(); n++)
     	{
- 	    	String csPath = m_arrPaths.get(n);
+ 	    	String csPath = arrPaths.get(n);
 	    	try 
 	    	{
 	    		String csFullPathJarFile = csPath +  csJarFile;

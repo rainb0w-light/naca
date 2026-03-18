@@ -27,23 +27,23 @@ import jlib.misc.BaseJmxGeneralStat;
  */
 public class ArrayDbConnectionPool
 {	
-	private ArrayList<DbConnectionPool> m_arrDbConnectionPool = new ArrayList<DbConnectionPool>();
-	private int m_nNbTotalStatementRemoved = 0;
+	private ArrayList<DbConnectionPool> arrDbConnectionPool = new ArrayList<DbConnectionPool>();
+	private int nNbTotalStatementRemoved = 0;
 	
 	public synchronized void addDbConnectionPool(DbConnectionPool dbConnectionPool)
 	{
-		m_arrDbConnectionPool.add(dbConnectionPool);
+		arrDbConnectionPool.add(dbConnectionPool);
 	}
 	
 	// Normally executed in the context of the GCThread
 	synchronized void handleCleanings(MemoryPoolMXBean tenuredPool, int nNbStatementsToRemoveBeforeGC, int nNbStatementForcedRemoved, int nNbSystemGCCall)
 	{
-		if(m_arrDbConnectionPool != null)
+		if(arrDbConnectionPool != null)
 		{				
-			for(int n=0; n<m_arrDbConnectionPool.size(); n++)
+			for(int n=0; n<arrDbConnectionPool.size(); n++)
 			{
-				DbConnectionPool dbConnectionPool = m_arrDbConnectionPool.get(n);
-				m_nNbTotalStatementRemoved += dbConnectionPool.garbageCollectorStatementsOfAllCollections();
+				DbConnectionPool dbConnectionPool = arrDbConnectionPool.get(n);
+				nNbTotalStatementRemoved += dbConnectionPool.garbageCollectorStatementsOfAllCollections();
 			}
 			int nNbStatementAggressiveRemoved = 0;
 			if(tenuredPool != null && tenuredPool.isUsageThresholdExceeded() && nNbStatementForcedRemoved > 0)
@@ -51,21 +51,21 @@ public class ArrayDbConnectionPool
 				// Aggressivelly remove statements is heap usage is to high 
 				// Collect all statements from all pools
 				SortedMap<Long, StatementPosInPool> mapStatements = new TreeMap<Long, StatementPosInPool>();
-				for(int n=0; n<m_arrDbConnectionPool.size(); n++)
+				for(int n=0; n<arrDbConnectionPool.size(); n++)
 				{
-					DbConnectionPool dbConnectionPool = m_arrDbConnectionPool.get(n);
+					DbConnectionPool dbConnectionPool = arrDbConnectionPool.get(n);
 					dbConnectionPool.buildStatementOrderedList(mapStatements);
 				}
 				nNbStatementAggressiveRemoved = aggressiveRemoveObsoleteStatements(tenuredPool, mapStatements, nNbStatementForcedRemoved, nNbSystemGCCall);
 				if(nNbStatementAggressiveRemoved != 0)
 					Log.logNormal("Aggressivelly removed " + nNbStatementAggressiveRemoved + " SQL statements, because mem usage is too high");
 			}
-			m_nNbTotalStatementRemoved += nNbStatementAggressiveRemoved;
-			if(m_nNbTotalStatementRemoved >= nNbStatementsToRemoveBeforeGC)
+			nNbTotalStatementRemoved += nNbStatementAggressiveRemoved;
+			if(nNbTotalStatementRemoved >= nNbStatementsToRemoveBeforeGC)
 			{
 				Log.logNormal("Forcing garbage collector");
 				tryForceGC(nNbSystemGCCall);
-				m_nNbTotalStatementRemoved = 0;
+				nNbTotalStatementRemoved = 0;
 			}
 		}				
 	}
@@ -116,11 +116,11 @@ public class ArrayDbConnectionPool
 	public synchronized void forceRemoveAllDBConnections()
 	{
 		ConnectionGenerationManager.incCurrentGenerationId();	// Change current generation of connection 
-		if(m_arrDbConnectionPool != null)
+		if(arrDbConnectionPool != null)
 		{
-			for(int n=0; n<m_arrDbConnectionPool.size(); n++)
+			for(int n=0; n<arrDbConnectionPool.size(); n++)
 			{
-				DbConnectionPool dbConnectionPool = m_arrDbConnectionPool.get(n);
+				DbConnectionPool dbConnectionPool = arrDbConnectionPool.get(n);
 				dbConnectionPool.forceRemoveAllStatementsOfAllCollections();
 			}
 		}

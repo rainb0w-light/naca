@@ -42,8 +42,8 @@ public class CSort extends CCobolElement
 
 	public class CSortKey
 	{
-		public CIdentifier m_Id = null ;
-		public boolean m_bAscending = true ; 
+		public CIdentifier id = null ;
+		public boolean bAscending = true ; 
 	}
 	/**
 	 * @param line
@@ -57,42 +57,42 @@ public class CSort extends CCobolElement
 		CEntitySort eSort = factory.NewEntitySort(getLine()) ;
 		parent.AddChild(eSort) ;
 		
-		CEntityFileDescriptor fileDesc = factory.m_ProgramCatalog.getFileDescriptor(m_TempSortFile.GetName()) ;
+		CEntityFileDescriptor fileDesc = factory.programCatalog.getFileDescriptor(tempSortFile.GetName()) ;
 		if (fileDesc != null)
 		{
 			eSort.setFileDesriptor(fileDesc) ;
 		}
 		else
 		{
-			Transcoder.logError(getLine(), "File descriptor not found : " + m_TempSortFile.GetName());
+			Transcoder.logError(getLine(), "File descriptor not found : " + tempSortFile.GetName());
 		}
 		
-		for (int i=0; i<m_arrKeys.size(); i++)
+		for (int i=0; i<arrKeys.size(); i++)
 		{
-			CSortKey key = m_arrKeys.get(i) ;
-			CDataEntity eKey = key.m_Id.GetDataReference(getLine(), factory) ;
-			eSort.AddKey(key.m_bAscending, eKey) ;
+			CSortKey key = arrKeys.get(i) ;
+			CDataEntity eKey = key.id.GetDataReference(getLine(), factory) ;
+			eSort.AddKey(key.bAscending, eKey) ;
 		}
 		
-		if (m_InputFile != null)
+		if (inputFile != null)
 		{
-			CEntityFileDescriptor eInput = factory.m_ProgramCatalog.getFileDescriptor(m_InputFile.GetName()) ;
+			CEntityFileDescriptor eInput = factory.programCatalog.getFileDescriptor(inputFile.GetName()) ;
 			eSort.setInputFile(eInput) ;
 		}
-		if (m_InputProcedure != null)
+		if (inputProcedure != null)
 		{
-			//CEntityProcedure proc = factory.m_ProgramCatalog.GetProcedure(m_InputProcedure.GetName(), "") ;
-			eSort.setInputProcedure(m_InputProcedure.GetName()) ;
+			//CEntityProcedure proc = factory.programCatalog.GetProcedure(inputProcedure.GetName(), "") ;
+			eSort.setInputProcedure(inputProcedure.GetName()) ;
 		}
-		if (m_OutputFile != null)
+		if (outputFile != null)
 		{
-			CEntityFileDescriptor eOutput = factory.m_ProgramCatalog.getFileDescriptor(m_OutputFile .GetName()) ;
+			CEntityFileDescriptor eOutput = factory.programCatalog.getFileDescriptor(outputFile .GetName()) ;
 			eSort.setOutputFile(eOutput) ;
 		}
-		if (m_OutputProcedure != null)
+		if (outputProcedure != null)
 		{
-			//CEntityProcedure proc = factory.m_ProgramCatalog.GetProcedure(m_OutputProcedure.GetName(), "") ;
-			eSort.setOutputProcedure(m_OutputProcedure.GetName()) ;
+			//CEntityProcedure proc = factory.programCatalog.GetProcedure(outputProcedure.GetName(), "") ;
+			eSort.setOutputProcedure(outputProcedure.GetName()) ;
 		}
 		
 		return eSort ;
@@ -104,10 +104,10 @@ public class CSort extends CCobolElement
 		{
 			return false ;
 		}
-		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().m_Name) ;
+		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
 		
 		tok = GetNext() ;
-		m_TempSortFile = ReadIdentifier() ;
+		tempSortFile = ReadIdentifier() ;
 		
 		tok = GetCurrentToken() ;
 		boolean bAscending = true ;
@@ -141,9 +141,9 @@ public class CSort extends CCobolElement
 			{
 				CIdentifier id = ReadIdentifier();
 				CSortKey k = new CSortKey() ;
-				k.m_Id = id ;
-				k.m_bAscending = bAscending ;
-				m_arrKeys.add(k);
+				k.id = id ;
+				k.bAscending = bAscending ;
+				arrKeys.add(k);
 				
 				tok = GetCurrentToken() ;
 				if (tok.GetType() == CTokenType.COMMA)
@@ -163,7 +163,7 @@ public class CSort extends CCobolElement
 		if (tok.GetKeyword() == CCobolKeywordList.USING)
 		{
 			tok = GetNext() ;
-			m_InputFile = ReadIdentifier();
+			inputFile = ReadIdentifier();
 		}
 		else if (tok.GetKeyword() == CCobolKeywordList.INPUT)
 		{
@@ -175,7 +175,7 @@ public class CSort extends CCobolElement
 				{
 					tok = GetNext();
 				}
-				m_InputProcedure = ReadIdentifier();
+				inputProcedure = ReadIdentifier();
 			}
 			else
 			{
@@ -189,7 +189,7 @@ public class CSort extends CCobolElement
 		if (tok.GetKeyword() == CCobolKeywordList.GIVING)
 		{
 			tok = GetNext() ;
-			m_OutputFile = ReadIdentifier();
+			outputFile = ReadIdentifier();
 		}
 		else if (tok.GetKeyword() == CCobolKeywordList.OUTPUT)
 		{
@@ -201,7 +201,7 @@ public class CSort extends CCobolElement
 				{
 					tok = GetNext();
 				}
-				m_OutputProcedure = ReadIdentifier();
+				outputProcedure = ReadIdentifier();
 			}
 			else
 			{
@@ -218,14 +218,14 @@ public class CSort extends CCobolElement
 		Element eSort = root.createElement(cs);
 		
 		Element eFile = root.createElement("File");
-		m_TempSortFile.ExportTo(eFile, root);
+		tempSortFile.ExportTo(eFile, root);
 		eSort.appendChild(eFile);
 		
-		for (int i =0; i<m_arrKeys.size(); i++)
+		for (int i =0; i<arrKeys.size(); i++)
 		{
-			CSortKey k = m_arrKeys.get(i);
+			CSortKey k = arrKeys.get(i);
 			Element eK = root.createElement("Key");
-			if (k.m_bAscending)
+			if (k.bAscending)
 			{
 				cs += "Ascending" ;
 			}
@@ -234,42 +234,42 @@ public class CSort extends CCobolElement
 				cs += "Descending" ;
 			}
 			eK.setAttribute("Sort", cs) ;
-			k.m_Id.ExportTo(eK, root);
+			k.id.ExportTo(eK, root);
 			eSort.appendChild(eK);
 		}
 		
-		if (m_InputFile != null)
+		if (inputFile != null)
 		{
 			Element e = root.createElement("InputFile");
 			eSort.appendChild(e);
-			m_InputFile.ExportTo(e, root);
+			inputFile.ExportTo(e, root);
 		}
-		if (m_InputProcedure != null)
+		if (inputProcedure != null)
 		{
 			Element e = root.createElement("InputProcedure");
 			eSort.appendChild(e);
-			m_InputProcedure.ExportTo(e, root);
+			inputProcedure.ExportTo(e, root);
 		}
-		if (m_OutputFile != null)
+		if (outputFile != null)
 		{
 			Element e = root.createElement("OutputFile");
 			eSort.appendChild(e);
-			m_OutputFile.ExportTo(e, root);
+			outputFile.ExportTo(e, root);
 		}
-		if (m_OutputProcedure != null)
+		if (outputProcedure != null)
 		{
 			Element e = root.createElement("OutputProcedure");
 			eSort.appendChild(e);
-			m_OutputProcedure.ExportTo(e, root);
+			outputProcedure.ExportTo(e, root);
 		}
 		return eSort;
 	}
 
-	protected CIdentifier m_TempSortFile = null ;
-//	protected boolean m_bAscending = false ;
-	protected Vector<CSortKey> m_arrKeys = new Vector<CSortKey>() ; 
-	protected CIdentifier m_InputFile = null ;
-	protected CIdentifier m_OutputFile = null ;
-	protected CIdentifier m_InputProcedure = null ;
-	protected CIdentifier m_OutputProcedure = null ;
+	protected CIdentifier tempSortFile = null ;
+//	protected boolean bAscending = false ;
+	protected Vector<CSortKey> arrKeys = new Vector<CSortKey>() ; 
+	protected CIdentifier inputFile = null ;
+	protected CIdentifier outputFile = null ;
+	protected CIdentifier inputProcedure = null ;
+	protected CIdentifier outputProcedure = null ;
 }

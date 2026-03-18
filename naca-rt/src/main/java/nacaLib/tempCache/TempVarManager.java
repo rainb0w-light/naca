@@ -18,64 +18,64 @@ import nacaLib.varEx.*;
  */
 //public class TempVarManager<T>
 //{
-//	private TempVarTypeManager<T> m_tarrTemp[] = null;
+//	private TempVarTypeManager<T> tarrTemp[] = null;
 //
 //	public TempVarManager(int nNbTypes)
 //	{
-//		m_tarrTemp = new TempVarTypeManager[nNbTypes];
+//		tarrTemp = new TempVarTypeManager[nNbTypes];
 //		for(int n=0; n<nNbTypes; n++)
 //		{
-//			m_tarrTemp[n] = new TempVarTypeManager();
+//			tarrTemp[n] = new TempVarTypeManager();
 //		}
 //	}
 //	
 //	public CoupleVar<T> getTempCouple(int nVarDefTypeId)
 //	{
-//		return m_tarrTemp[nVarDefTypeId].getTempCoupleVar();
+//		return tarrTemp[nVarDefTypeId].getTempCoupleVar();
 //	}
 //	
 //	public CoupleVar addTemp(int nVarDefTypeId, VarDefBuffer varDefItem, T var)
 //	{
-//		return m_tarrTemp[nVarDefTypeId].addTempVar(varDefItem, var);
+//		return tarrTemp[nVarDefTypeId].addTempVar(varDefItem, var);
 //	}
 //	
 //	public void resetTempIndex(int nVarDefTypeId)
 //	{
-//		m_tarrTemp[nVarDefTypeId].reset();
+//		tarrTemp[nVarDefTypeId].reset();
 //	}
 //}
 
 public class TempVarManager
 {
-	private TempVarTypeManager m_tarrTemp[] = null;
+	private TempVarTypeManager tarrTemp[] = null;
 
 	public TempVarManager(int nNbTypes)
 	{
-		m_tarrTemp = new TempVarTypeManager[nNbTypes];
+		tarrTemp = new TempVarTypeManager[nNbTypes];
 		for(int n=0; n<nNbTypes; n++)
 		{
-			m_tarrTemp[n] = new TempVarTypeManager();
+			tarrTemp[n] = new TempVarTypeManager();
 		}
 	}
 	
 	public CoupleVar getTempCouple(int nVarDefTypeId)
 	{
-		return m_tarrTemp[nVarDefTypeId].getTempCoupleVar();
+		return tarrTemp[nVarDefTypeId].getTempCoupleVar();
 	}
 	
 	public CoupleVar addTemp(int nVarDefTypeId, VarDefBuffer varDefItem, VarBase var)
 	{
-		return m_tarrTemp[nVarDefTypeId].addTempVar(varDefItem, var);
+		return tarrTemp[nVarDefTypeId].addTempVar(varDefItem, var);
 	}
 	
 	public void resetTempIndex(int nVarDefTypeId)
 	{
-		m_tarrTemp[nVarDefTypeId].reset();
+		tarrTemp[nVarDefTypeId].reset();
 	}
 	
 	public void resetTempIndexAndForbidReuse(int nVarDefTypeId)
 	{
-		m_tarrTemp[nVarDefTypeId].resetAndForbidReuse();
+		tarrTemp[nVarDefTypeId].resetAndForbidReuse();
 	}
 
 }

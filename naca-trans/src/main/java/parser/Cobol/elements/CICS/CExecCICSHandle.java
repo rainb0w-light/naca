@@ -53,14 +53,14 @@ public class CExecCICSHandle extends CCobolElement
 	 */
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		if (m_arrConditions != null && m_arrConditions.size()>0)
+		if (arrConditions != null && arrConditions.size()>0)
 		{
 			CEntityCICSHandleCondition handle = factory.NewEntityCICSHandleCondition(getLine());
 			parent.AddChild(handle);
-			for (int i=0; i<m_arrConditions.size();i++)
+			for (int i=0; i<arrConditions.size();i++)
 			{
-				String cond = m_arrConditions.get(i);
-				CIdentifier id = m_arrLabels.get(i);
+				String cond = arrConditions.get(i);
+				CIdentifier id = arrLabels.get(i);
 				if (id != null)
 				{
 					handle.HandleCondition(cond, id.GetName());
@@ -72,14 +72,14 @@ public class CExecCICSHandle extends CCobolElement
 			}
 			return handle;
 		}
-		else if (m_arrAID.size()>0)
+		else if (arrAID.size()>0)
 		{
 			CEntityCICSHandleAID handle = factory.NewEntityCICSHandleAID(getLine());
 			parent.AddChild(handle);
-			for (int i=0; i<m_arrConditions.size();i++)
+			for (int i=0; i<arrConditions.size();i++)
 			{
-				String cond = m_arrConditions.get(i);
-				CIdentifier id = m_arrLabels.get(i);
+				String cond = arrConditions.get(i);
+				CIdentifier id = arrLabels.get(i);
 				if (id != null)
 				{
 					handle.HandleAID(cond, id.GetName());
@@ -134,8 +134,8 @@ public class CExecCICSHandle extends CCobolElement
 							tok = GetNext();
 						}
 					}
-					m_arrConditions.add(cond);
-					m_arrLabels.add(label) ; 
+					arrConditions.add(cond);
+					arrLabels.add(label) ; 
 				}
 			}
 		}
@@ -165,8 +165,8 @@ public class CExecCICSHandle extends CCobolElement
 							tok = GetNext();
 						}
 					}
-					m_arrAID.add(cond);
-					m_arrLabels.add(label) ; 
+					arrAID.add(cond);
+					arrLabels.add(label) ; 
 				}
 			}
 		}
@@ -199,10 +199,10 @@ public class CExecCICSHandle extends CCobolElement
 	protected Element ExportCustom(Document root)
 	{
 		Element eHandle = root.createElement("ExecCICSHandle") ;
-		for (int i=0; i<m_arrConditions.size();i++)
+		for (int i=0; i<arrConditions.size();i++)
 		{
-			String cond = m_arrConditions.get(i);
-			CIdentifier id = m_arrLabels.get(i);
+			String cond = arrConditions.get(i);
+			CIdentifier id = arrLabels.get(i);
 			Element e ;
 			if (id != null)
 			{
@@ -219,8 +219,8 @@ public class CExecCICSHandle extends CCobolElement
 		return eHandle;
 	}
 	
-	protected Vector<CIdentifier> m_arrLabels = new Vector<CIdentifier>() ;
-	protected ArrayList<String> m_arrConditions = new ArrayList<String>() ;
-	protected ArrayList<String> m_arrAID = new ArrayList<String>() ;
+	protected Vector<CIdentifier> arrLabels = new Vector<CIdentifier>() ;
+	protected ArrayList<String> arrConditions = new ArrayList<String>() ;
+	protected ArrayList<String> arrAID = new ArrayList<String>() ;
 
 }

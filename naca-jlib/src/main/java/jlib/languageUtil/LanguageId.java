@@ -23,10 +23,10 @@ import jlib.log.Log;
  */
 public class LanguageId
 {
-	private String m_csIsoCode = null;		    // Public ISO code
-	private String m_csCodeUpper = null;		// Public textual code; Used to select a language id; it's fr, de, it, , ... It has the corresponding value in lower case in m_csCodeLower
-	private String m_csCodeLower = null;		// Public textual code in lowercase matching m_csCodeUpper 
-	private String m_csNumericCode = null;		// P2000 code; Used to select a language id; It's a numeric value 01, 02, 03, 04
+	private String csIsoCode = null;		    // Public ISO code
+	private String csCodeUpper = null;		// Public textual code; Used to select a language id; it's fr, de, it, , ... It has the corresponding value in lower case in csCodeLower
+	private String csCodeLower = null;		// Public textual code in lowercase matching csCodeUpper 
+	private String csNumericCode = null;		// P2000 code; Used to select a language id; It's a numeric value 01, 02, 03, 04
 	
 	private static LanguageId ms_defaultLanguageId = null;	// Holder for default language id
 	private static ArrayList<LanguageId> ms_arrLanguages = null; 	// List of all language Id
@@ -59,10 +59,10 @@ public class LanguageId
 	
 	private LanguageId(String csCode, String csNumericCode, boolean bDefault)
 	{
-		m_csCodeUpper = csCode.toUpperCase();
-		m_csCodeLower = csCode.toLowerCase();
-		m_csIsoCode = csCode.toLowerCase();
-		m_csNumericCode = csNumericCode;
+		csCodeUpper = csCode.toUpperCase();
+		csCodeLower = csCode.toLowerCase();
+		csIsoCode = csCode.toLowerCase();
+		csNumericCode = csNumericCode;
 		
 		if(ms_arrLanguages == null)
 			ms_arrLanguages = new ArrayList<LanguageId>(); 	// List of all language Id
@@ -73,22 +73,22 @@ public class LanguageId
 	
 	public String getNumericCode()
 	{
-		return m_csNumericCode;
+		return csNumericCode;
 	}
 	
 	public String getTextCodeLowerCase()
 	{
-		return m_csCodeLower;
+		return csCodeLower;
 	}
 	
 	public String getTextCodeUpperCase()
 	{
-		return m_csCodeUpper;
+		return csCodeUpper;
 	}
 	
 	public String getIsoCode()
 	{
-		return m_csIsoCode;
+		return csIsoCode;
 	}
 	
 	/* 
@@ -111,6 +111,6 @@ public class LanguageId
 	
 	public String toString()
 	{
-		return m_csCodeUpper + "/" + m_csCodeLower + "/" + m_csNumericCode;
+		return csCodeUpper + "/" + csCodeLower + "/" + csNumericCode;
 	}
 }

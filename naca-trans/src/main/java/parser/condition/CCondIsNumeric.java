@@ -34,22 +34,22 @@ public class CCondIsNumeric extends CExpression
 	public CCondIsNumeric(int line, CExpression term)
 	{
 		super(line) ;
-		m_term = term ;
-		m_bIsOpposite = false ;
+		term = term ;
+		bIsOpposite = false ;
 	}
 	public CCondIsNumeric(int line, CExpression term, boolean bOpposite)
 	{
 		super(line) ;
-		m_term = term ;
-		m_bIsOpposite = bOpposite ;
+		term = term ;
+		bIsOpposite = bOpposite ;
 	}
-	protected boolean m_bIsOpposite = false ;
+	protected boolean bIsOpposite = false ;
 	
-	CExpression m_term = null ;
+	CExpression term = null ;
 	
 	protected boolean CheckMembersBeforeExport()
 	{
-		return CheckMemberNotNull(m_term);
+		return CheckMemberNotNull(term);
 	}
 
 	/* (non-Javadoc)
@@ -58,7 +58,7 @@ public class CCondIsNumeric extends CExpression
 	public Element DoExport(Document root)
 	{
 		Element e = root.createElement("IsNumeric") ;
-		e.appendChild(m_term.Export(root)) ;
+		e.appendChild(term.Export(root)) ;
 		return e;
 	}
 
@@ -75,7 +75,7 @@ public class CCondIsNumeric extends CExpression
 	 */
 	public CExpression GetOppositeCondition()
 	{
-		return new CCondIsNumeric(getLine(), m_term, !m_bIsOpposite) ;
+		return new CCondIsNumeric(getLine(), term, !bIsOpposite) ;
 	}
 
 	/* (non-Javadoc)
@@ -92,13 +92,13 @@ public class CCondIsNumeric extends CExpression
 	public CBaseEntityCondition AnalyseCondition(CBaseEntityFactory factory, CDefaultConditionManager condMaster)
 	{
 		CEntityCondIsKindOf eCond = factory.NewEntityCondIsKindOf() ;
-		if (m_bIsOpposite)
+		if (bIsOpposite)
 		{
 			eCond.setOpposite() ;
 		}
-		if (m_term.IsReference())
+		if (term.IsReference())
 		{
-			CDataEntity eData = m_term.GetReference(factory) ;
+			CDataEntity eData = term.GetReference(factory) ;
 			eCond.SetIsNumeric(eData);
 			eData.RegisterVarTesting(eCond) ;
 			return eCond;
@@ -115,7 +115,7 @@ public class CCondIsNumeric extends CExpression
 	 */
 	public CExpression GetFirstConditionOperand()
 	{
-		return m_term;
+		return term;
 	}
 
 	public CExpression GetSimilarExpression(CExpression operand)
@@ -133,7 +133,7 @@ public class CCondIsNumeric extends CExpression
 	}
 	public String toString()
 	{
-		return "IS_NUMERIC(" + m_term.toString() + ")" ;
+		return "IS_NUMERIC(" + term.toString() + ")" ;
 	}
 	public CExpression getMasterBinaryCondition()
 	{
@@ -142,6 +142,6 @@ public class CCondIsNumeric extends CExpression
 	@Override
 	public CExpression GetFirstCalculOperand()
 	{
-		return m_term.GetFirstCalculOperand() ;
+		return term.GetFirstCalculOperand() ;
 	}
 }

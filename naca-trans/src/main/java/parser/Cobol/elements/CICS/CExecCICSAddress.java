@@ -48,19 +48,19 @@ public class CExecCICSAddress extends CCobolElement
 	{
 		CEntityCICSAddress eCICS = factory.NewEntityCICSAddress(getLine());
 		parent.AddChild(eCICS);
-		if (m_RefCWA != null)
+		if (refCWA != null)
 		{ 
-			CDataEntity e = m_RefCWA.GetDataReference(getLine(), factory);
+			CDataEntity e = refCWA.GetDataReference(getLine(), factory);
 			eCICS.SetRefForCWA(e) ;
 		}
-		if (m_RefTCTUA != null)
+		if (refTCTUA != null)
 		{ 
-			CDataEntity e = m_RefTCTUA.GetDataReference(getLine(), factory);
+			CDataEntity e = refTCTUA.GetDataReference(getLine(), factory);
 			eCICS.SetRefForTCTUA(e) ;
 		}
-		if (m_RefTWA != null)
+		if (refTWA != null)
 		{ 
-			CDataEntity e = m_RefTWA.GetDataReference(getLine(), factory);
+			CDataEntity e = refTWA.GetDataReference(getLine(), factory);
 			eCICS.SetRefForTWA(e) ;
 		}
 		return eCICS;
@@ -88,7 +88,7 @@ public class CExecCICSAddress extends CCobolElement
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
 				{
 					tok = GetNext();
-					m_RefTCTUA = ReadIdentifier() ;
+					refTCTUA = ReadIdentifier() ;
 					tok = GetCurrentToken() ;
 					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 					{
@@ -103,7 +103,7 @@ public class CExecCICSAddress extends CCobolElement
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
 				{
 					tok = GetNext();
-					m_RefTWA = ReadIdentifier() ;
+					refTWA = ReadIdentifier() ;
 					tok = GetCurrentToken() ;
 					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 					{
@@ -118,7 +118,7 @@ public class CExecCICSAddress extends CCobolElement
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
 				{
 					tok = GetNext();
-					m_RefCWA = ReadIdentifier() ;
+					refCWA = ReadIdentifier() ;
 					tok = GetCurrentToken() ;
 					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 					{
@@ -147,28 +147,28 @@ public class CExecCICSAddress extends CCobolElement
 	protected Element ExportCustom(Document root)
 	{
 		Element eAdd = root.createElement("ExecCICSAddress") ;
-		if (m_RefTCTUA != null)
+		if (refTCTUA != null)
 		{
 			Element e = root.createElement("TCTUA");
 			eAdd.appendChild(e);
-			m_RefTCTUA.ExportTo(e, root);
+			refTCTUA.ExportTo(e, root);
 		}
-		if (m_RefTWA != null)
+		if (refTWA != null)
 		{
 			Element e = root.createElement("TWA");
 			eAdd.appendChild(e);
-			m_RefTWA.ExportTo(e, root);
+			refTWA.ExportTo(e, root);
 		}
-		if (m_RefCWA != null)
+		if (refCWA != null)
 		{
 			Element e = root.createElement("CWA");
 			eAdd.appendChild(e);
-			m_RefCWA.ExportTo(e, root);
+			refCWA.ExportTo(e, root);
 		}
 		return eAdd;
 	}
 
-	protected CIdentifier m_RefTCTUA = null ;
-	protected CIdentifier m_RefTWA = null ;
-	protected CIdentifier m_RefCWA = null ;
+	protected CIdentifier refTCTUA = null ;
+	protected CIdentifier refTWA = null ;
+	protected CIdentifier refCWA = null ;
 }

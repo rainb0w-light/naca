@@ -37,9 +37,9 @@ public class CJavaCICSAbend extends CEntityCICSAbend
 	protected void DoExport()
 	{
 		String cs = "CESM.abend(" ;
-		if (m_ABCode!= null)
+		if (aBCode!= null)
 		{
-			cs += m_ABCode.ExportReference(getLine()) ;
+			cs += aBCode.ExportReference(getLine()) ;
 		}
 		WriteLine(cs + ") ;");
 	}

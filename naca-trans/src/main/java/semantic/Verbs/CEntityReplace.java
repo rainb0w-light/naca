@@ -44,11 +44,11 @@ public abstract class CEntityReplace extends CBaseActionEntity
 	}
 	protected class CReplaceItem
 	{
-		public CReplaceMode m_Mode = null ;
-		public CReplaceType m_ReplaceDataType = null ;
-		public CDataEntity m_ReplaceData = null ;
-		public CReplaceType m_ByDataType = null ;
-		public CDataEntity m_ByData = null ;
+		public CReplaceMode mode = null ;
+		public CReplaceType replaceDataType = null ;
+		public CDataEntity replaceData = null ;
+		public CReplaceType byDataType = null ;
+		public CDataEntity byData = null ;
 	} 
 	/**
 	 * @param line
@@ -60,105 +60,105 @@ public abstract class CEntityReplace extends CBaseActionEntity
 		super(line, cat, out);
 	}
 	
-	protected CDataEntity m_Variable = null ; 
-	protected Vector<CReplaceItem> m_arrItemsToReplace = new Vector<CReplaceItem>() ;
-	private CReplaceItem m_curItem = null ;
+	protected CDataEntity variable = null ; 
+	protected Vector<CReplaceItem> arrItemsToReplace = new Vector<CReplaceItem>() ;
+	private CReplaceItem curItem = null ;
 	public void Clear()
 	{
 		super.Clear() ;
-		m_Variable = null ;
-		m_arrItemsToReplace.clear() ;
-		if (m_curItem != null)
+		variable = null ;
+		arrItemsToReplace.clear() ;
+		if (curItem != null)
 		{
-			m_curItem.m_ByData = null ;
-			m_curItem.m_ByDataType = null ;
-			m_curItem.m_ReplaceData = null ;
-			m_curItem = null ;
+			curItem.byData = null ;
+			curItem.byDataType = null ;
+			curItem.replaceData = null ;
+			curItem = null ;
 		}
 	}
 
 	public void SetReplace(CDataEntity e)
 	{
-		m_Variable = e ;
+		variable = e ;
 	}
 	public void AddReplaceLeading()
 	{
-		m_curItem = new CReplaceItem() ;
-		m_curItem.m_Mode = CReplaceMode.LEADING;
+		curItem = new CReplaceItem() ;
+		curItem.mode = CReplaceMode.LEADING;
 	}
 	public void AddReplaceAll()
 	{
-		m_curItem = new CReplaceItem() ;
-		m_curItem.m_Mode = CReplaceMode.ALL;
+		curItem = new CReplaceItem() ;
+		curItem.mode = CReplaceMode.ALL;
 	}
 	public void AddReplaceFirst()
 	{
-		m_curItem = new CReplaceItem() ;
-		m_curItem.m_Mode = CReplaceMode.FIRST;
+		curItem = new CReplaceItem() ;
+		curItem.mode = CReplaceMode.FIRST;
 	}
 	public void ReplaceSpaces()
 	{
-		m_curItem.m_ReplaceDataType = CReplaceType.SPACES ;
-		m_curItem.m_ReplaceData = null ;
+		curItem.replaceDataType = CReplaceType.SPACES ;
+		curItem.replaceData = null ;
 	}
 	public void ReplaceZeros()
 	{
-		m_curItem.m_ReplaceDataType = CReplaceType.ZEROS ;
-		m_curItem.m_ReplaceData = null ;
+		curItem.replaceDataType = CReplaceType.ZEROS ;
+		curItem.replaceData = null ;
 	}
 	public void ReplaceLowValues()
 	{
-		m_curItem.m_ReplaceDataType = CReplaceType.LOW_VALUES ;
-		m_curItem.m_ReplaceData = null ;
+		curItem.replaceDataType = CReplaceType.LOW_VALUES ;
+		curItem.replaceData = null ;
 	}
 	public void ReplaceHighValues()
 	{
-		m_curItem.m_ReplaceDataType = CReplaceType.HIGH_VALUES;
-		m_curItem.m_ReplaceData = null ;
+		curItem.replaceDataType = CReplaceType.HIGH_VALUES;
+		curItem.replaceData = null ;
 	}
 	public void BySpaces()
 	{
-		m_curItem.m_ByDataType = CReplaceType.SPACES ;
-		m_curItem.m_ByData = null ;
-		m_arrItemsToReplace.add(m_curItem) ;
-		m_curItem = null ;
+		curItem.byDataType = CReplaceType.SPACES ;
+		curItem.byData = null ;
+		arrItemsToReplace.add(curItem) ;
+		curItem = null ;
 	}
 	public void ByZeros()
 	{
-		m_curItem.m_ByDataType = CReplaceType.ZEROS ;
-		m_curItem.m_ByData = null ;
-		m_arrItemsToReplace.add(m_curItem) ;
-		m_curItem = null ;
+		curItem.byDataType = CReplaceType.ZEROS ;
+		curItem.byData = null ;
+		arrItemsToReplace.add(curItem) ;
+		curItem = null ;
 	}
 	public void ByLowValues()
 	{
-		m_curItem.m_ByDataType = CReplaceType.LOW_VALUES ;
-		m_curItem.m_ByData = null ;
-		m_arrItemsToReplace.add(m_curItem) ;
-		m_curItem = null ;
+		curItem.byDataType = CReplaceType.LOW_VALUES ;
+		curItem.byData = null ;
+		arrItemsToReplace.add(curItem) ;
+		curItem = null ;
 	}
 	public void ByHighValues()
 	{
-		m_curItem.m_ByDataType = CReplaceType.HIGH_VALUES ;
-		m_curItem.m_ByData = null ;
-		m_arrItemsToReplace.add(m_curItem) ;
-		m_curItem = null ;
+		curItem.byDataType = CReplaceType.HIGH_VALUES ;
+		curItem.byData = null ;
+		arrItemsToReplace.add(curItem) ;
+		curItem = null ;
 	}
 	public void ReplaceData(CDataEntity e)
 	{
-		m_curItem.m_ReplaceDataType = CReplaceType.CUSTOM ;
-		m_curItem.m_ReplaceData = e ;
+		curItem.replaceDataType = CReplaceType.CUSTOM ;
+		curItem.replaceData = e ;
 	}
 	public void ByData(CDataEntity e)
 	{
-		m_curItem.m_ByDataType = CReplaceType.CUSTOM ;
-		m_curItem.m_ByData = e ;
-		m_arrItemsToReplace.add(m_curItem) ;
-		m_curItem = null ;
+		curItem.byDataType = CReplaceType.CUSTOM ;
+		curItem.byData = e ;
+		arrItemsToReplace.add(curItem) ;
+		curItem = null ;
 	}
 	public boolean ignore()
 	{
-		return m_Variable.ignore();
+		return variable.ignore();
 	}
 
 	/* (non-Javadoc)
@@ -167,9 +167,9 @@ public abstract class CEntityReplace extends CBaseActionEntity
 	@Override
 	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
 	{
-		if (m_Variable == field)
+		if (variable == field)
 		{
-			m_Variable = var ;
+			variable = var ;
 			field.UnRegisterWritingAction(this) ;
 			var.RegisterWritingAction(this) ;
 			return true ;

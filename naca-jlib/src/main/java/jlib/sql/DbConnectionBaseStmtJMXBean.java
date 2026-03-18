@@ -21,13 +21,13 @@ import jlib.misc.DateUtil;
  */
 public class DbConnectionBaseStmtJMXBean extends BaseCloseMBean
 {
-	private String m_csStmt = null;
-	private long m_lLastUsageTimeValue = 0;
+	private String csStmt = null;
+	private long lLastUsageTimeValue = 0;
 	
 	DbConnectionBaseStmtJMXBean(String csStmt, long lLastUsageTimeValue)
 	{
-		 m_csStmt = csStmt;
-		 m_lLastUsageTimeValue = lLastUsageTimeValue;
+		 csStmt = csStmt;
+		 lLastUsageTimeValue = lLastUsageTimeValue;
 	}
 		
 	void cleanup()
@@ -42,12 +42,12 @@ public class DbConnectionBaseStmtJMXBean extends BaseCloseMBean
 	
 	public String getStmt()
 	{
-		return m_csStmt;
+		return csStmt;
 	}
 	
 	public String getLastTimeStamp()
 	{
-		Date date = new Date(m_lLastUsageTimeValue);
+		Date date = new Date(lLastUsageTimeValue);
 		String cs = DateUtil.getDisplayTimeStamp(date);
 		return cs;
 	}

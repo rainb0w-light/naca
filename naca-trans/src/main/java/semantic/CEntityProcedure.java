@@ -31,22 +31,22 @@ public abstract class CEntityProcedure extends CBaseLanguageEntity
 	protected CEntityProcedure(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out, CEntityProcedureSection section)
 	{
 		super(l, "", cat, out);
-		m_sectionContainer = section ;
+		sectionContainer = section ;
 		SetName(name);
 	}
-	protected CEntityProcedureSection m_sectionContainer = null ;
+	protected CEntityProcedureSection sectionContainer = null ;
 	/* (non-Javadoc)
 	 * @see semantic.CBaseSemanticEntity#RegisterMySelfToCatalog()
 	 */
 	protected void RegisterMySelfToCatalog()
 	{
-		m_ProgramCatalog.RegisterProcedure(GetName(), this, m_sectionContainer) ;
-		m_ProgramCatalog.getCallTree().RegisterProcedure(this) ;
+		programCatalog.RegisterProcedure(GetName(), this, sectionContainer) ;
+		programCatalog.getCallTree().RegisterProcedure(this) ;
 	}
 
 	public void setFullName()
 	{
-		if (m_sectionContainer == null)
+		if (sectionContainer == null)
 		{
 			String fullName = GetName() + "$" + ms_nLastProcedureIndex ;
 			ms_nLastProcedureIndex ++ ;
@@ -60,7 +60,7 @@ public abstract class CEntityProcedure extends CBaseLanguageEntity
 		}
 		else
 		{
-			String fullName = GetName() + "$" + m_sectionContainer.GetName() ;
+			String fullName = GetName() + "$" + sectionContainer.GetName() ;
 			Rename(fullName) ;
 		}
 	}
@@ -72,22 +72,22 @@ public abstract class CEntityProcedure extends CBaseLanguageEntity
 	 */
 	public boolean ignore()
 	{
-		if (m_bIgnore)
+		if (bIgnore)
 		{
 			int n=0;
 		}
-		return m_bIgnore ;
+		return bIgnore ;
 	}
 
 	public boolean UpdateAction(CBaseActionEntity entity, CBaseActionEntity newCond)
 	{
-//		return m_sectionContainer.UpdateAction(entity, newCond);
-		for (int i=0; i<m_lstChildren.size(); i++)
+//		return sectionContainer.UpdateAction(entity, newCond);
+		for (int i=0; i<lstChildren.size(); i++)
 		{
-			CBaseActionEntity act = (CBaseActionEntity)m_lstChildren.get(i) ;
+			CBaseActionEntity act = (CBaseActionEntity)lstChildren.get(i) ;
 			if (act == entity)
 			{
-				m_lstChildren.set(i, newCond) ;
+				lstChildren.set(i, newCond) ;
 				return true ;
 			}
 		}
@@ -96,7 +96,7 @@ public abstract class CEntityProcedure extends CBaseLanguageEntity
 	public void Clear()
 	{
 		super.Clear();
-		m_sectionContainer = null ;
+		sectionContainer = null ;
 	}
 
 	/**
@@ -104,11 +104,11 @@ public abstract class CEntityProcedure extends CBaseLanguageEntity
 	 */
 	public boolean hasExplicitGetOut()
 	{
-		if (m_lstChildren.isEmpty())
+		if (lstChildren.isEmpty())
 		{
 			return false ;
 		}
-		CBaseActionEntity le = (CBaseActionEntity)m_lstChildren.getLast() ;
+		CBaseActionEntity le = (CBaseActionEntity)lstChildren.getLast() ;
 		return le.hasExplicitGetOut() ;
 	}
 
@@ -117,7 +117,7 @@ public abstract class CEntityProcedure extends CBaseLanguageEntity
 	 */
 	public void setIgnore()
 	{
-		m_bIgnore = true ;
+		bIgnore = true ;
 	}
 	/**
 	 * @return
@@ -125,9 +125,9 @@ public abstract class CEntityProcedure extends CBaseLanguageEntity
 	public boolean isEmpty()
 	{
 		boolean bIsEmpty = true ;
-		for (int i=0; i<m_lstChildren.size() && bIsEmpty; i++)
+		for (int i=0; i<lstChildren.size() && bIsEmpty; i++)
 		{
-			CBaseActionEntity act = (CBaseActionEntity)m_lstChildren.get(i) ;
+			CBaseActionEntity act = (CBaseActionEntity)lstChildren.get(i) ;
 			bIsEmpty &= act.ignore() ;
 		}
 		return bIsEmpty ;
@@ -139,9 +139,9 @@ public abstract class CEntityProcedure extends CBaseLanguageEntity
 	 */
 	public void SetEndLine(int endLine)
 	{
-		m_nEndLine = endLine ;
+		nEndLine = endLine ;
 	}
 
-	protected int m_nEndLine = 0 ;
+	protected int nEndLine = 0 ;
 
 }

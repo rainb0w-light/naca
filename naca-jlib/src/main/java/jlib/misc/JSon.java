@@ -23,43 +23,43 @@ public class JSon
 	// The following variables types are supported: int, double, String, StringBuffer, StringBuilder, Array, boolean, short, long
 	// See http://www.json.org/
 	
-	private StringBuilder m_sbOut = null;
-	private int m_nNbItemSet = 0;
-	private int m_nTabDepth = 0;
-	private boolean m_bSetLines = true;
+	private StringBuilder sbOut = null;
+	private int nNbItemSet = 0;
+	private int nTabDepth = 0;
+	private boolean bSetLines = true;
 	
 	public void setLines(boolean b)
 	{
-		m_bSetLines = b;
+		bSetLines = b;
 	}
 	
 	public boolean exportAsJSon(Object oSource)
 	{
-		m_nTabDepth = 0;
-		m_sbOut = new StringBuilder();
+		nTabDepth = 0;
+		sbOut = new StringBuilder();
 		
 		boolean b = export(oSource, null);
 		if(!b)
-			m_sbOut = null;
+			sbOut = null;
 		return b;
 	}
 	
 	public String getResult()
 	{
-		if(m_sbOut != null)
-			return m_sbOut.toString();
+		if(sbOut != null)
+			return sbOut.toString();
 		return "";
 	}
 	
 	public static String exportAsJSon(Object oSource, String className)
 	{
 		JSon json = new JSon();
-		json.m_bSetLines = false;
-		json.m_nTabDepth = 0;
-		json.m_sbOut = new StringBuilder();
+		json.bSetLines = false;
+		json.nTabDepth = 0;
+		json.sbOut = new StringBuilder();
 		boolean b = json.export(oSource, className);
 		if (b)
-			return json.m_sbOut.toString();
+			return json.sbOut.toString();
 		return null;
 	}
 	
@@ -70,14 +70,14 @@ public class JSon
 	
 	private boolean export(Object oSource, String className)
 	{
-		m_nNbItemSet = 0;
+		nNbItemSet = 0;
 		if(oSource != null)
 		{
-			beginNewLine(m_sbOut);
-			m_sbOut.append("{");
-			if(m_bSetLines)
-				m_sbOut.append(EndOfLine.CR);
-			m_nTabDepth++;
+			beginNewLine(sbOut);
+			sbOut.append("{");
+			if(bSetLines)
+				sbOut.append(EndOfLine.CR);
+			nTabDepth++;
 			
 			if (className == null)
 			{
@@ -94,16 +94,16 @@ public class JSon
 			}
 			else
 			{
-				m_sbOut.append("\"" + className + "\":");				
+				sbOut.append("\"" + className + "\":");				
 				exportItem(oSource);
 			}
 			
-			if(m_bSetLines)
-				m_sbOut.append(EndOfLine.CR);
-			beginNewLine(m_sbOut);
-			m_sbOut.append("}");
-			if(m_bSetLines)
-				m_sbOut.append(EndOfLine.CR);
+			if(bSetLines)
+				sbOut.append(EndOfLine.CR);
+			beginNewLine(sbOut);
+			sbOut.append("}");
+			if(bSetLines)
+				sbOut.append(EndOfLine.CR);
 		}
 		return true;
 	}
@@ -123,9 +123,9 @@ public class JSon
 			String csTypeName = type.getName();
 			try
 			{
-				if(m_nNbItemSet > 0) // Terminates previous line is there was one
-					endCurrentLine(m_sbOut);
-				beginNewLine(m_sbOut);
+				if(nNbItemSet > 0) // Terminates previous line is there was one
+					endCurrentLine(sbOut);
+				beginNewLine(sbOut);
 				
 				// remove prefix membership
 				if(csName.startsWith("m_"))
@@ -133,7 +133,7 @@ public class JSon
 				else if(csName.startsWith("_"))
 					csName = csName.substring(1);
 				
-				m_sbOut.append("\"" + csName + "\":");	// Write "<name>":
+				sbOut.append("\"" + csName + "\":");	// Write "<name>":
 				Object oMember = fld.get(oSource);
 				if(oMember != null)
 				{
@@ -145,17 +145,17 @@ public class JSon
 					}
 				}
 				else
-					m_sbOut.append("null");
-				m_nNbItemSet++;
+					sbOut.append("null");
+				nNbItemSet++;
 			}
 			catch (IllegalArgumentException e)
 			{
-				m_sbOut.append("null");
+				sbOut.append("null");
 				return false;
 			}
 			catch (IllegalAccessException e)
 			{
-				m_sbOut.append("null");
+				sbOut.append("null");
 				return false;
 			}
 		}
@@ -168,68 +168,68 @@ public class JSon
 		{
 			String csValue = oMember.toString();
 			csValue = quoteAndReplaceSpecialChars(csValue);
-			m_sbOut.append(csValue);
+			sbOut.append(csValue);
 			return true;
 		}
 		else if (oMember instanceof Boolean)
 		{
 			String csValue = oMember.toString();			
-			m_sbOut.append(csValue);
+			sbOut.append(csValue);
 			return true;
 		}
 		else if (oMember instanceof Integer)
 		{
 			String csValue = oMember.toString();
-			m_sbOut.append(csValue);
+			sbOut.append(csValue);
 			return true;
 		}
 		else if (oMember instanceof java.util.ArrayList)
 		{
-			return exportArrayAsJSon(oMember, m_sbOut);
+			return exportArrayAsJSon(oMember, sbOut);
 		}
 		else if (oMember instanceof Long)
 		{
 			String csValue = oMember.toString();
-			m_sbOut.append(csValue);
+			sbOut.append(csValue);
 			return true;
 		}
 		else if (oMember instanceof Double)
 		{
 			String csValue = oMember.toString();
-			m_sbOut.append(csValue);
+			sbOut.append(csValue);
 			return true;
 		}
 		else if (oMember instanceof Float)
 		{
 			String csValue = oMember.toString();
-			m_sbOut.append(csValue);
+			sbOut.append(csValue);
 			return true;
 		}
 		else if (oMember instanceof Short)
 		{
 			String csValue = oMember.toString();
-			m_sbOut.append(csValue);
+			sbOut.append(csValue);
 			return true;
 		}
 		else if (oMember instanceof java.util.Date)
 		{
 			String csValue = oMember.toString();
 			csValue = quoteAndReplaceSpecialChars(csValue);
-			m_sbOut.append(csValue);
+			sbOut.append(csValue);
 			return true;
 		}	
 		else if (oMember instanceof StringBuffer)
 		{
 			String csValue = oMember.toString();
 			csValue = quoteAndReplaceSpecialChars(csValue);
-			m_sbOut.append(csValue);
+			sbOut.append(csValue);
 			return true;
 		}
 		else if (oMember instanceof StringBuilder)
 		{
 			String csValue = oMember.toString();
 			csValue = quoteAndReplaceSpecialChars(csValue);
-			m_sbOut.append(csValue);
+			sbOut.append(csValue);
 			return true;
 		}
 		
@@ -324,9 +324,9 @@ public class JSon
 	private boolean exportArrayAsJSon(Object oArray, StringBuilder sbOut)
 	{
 		sbOut.append("[ ");
-		if(m_bSetLines)
+		if(bSetLines)
 			sbOut.append(EndOfLine.CR);
-		m_nTabDepth++;
+		nTabDepth++;
 		ArrayList<Object> arr = (ArrayList<Object>)oArray;
 		for(int n=0; n<arr.size(); n++)
 		{
@@ -341,15 +341,15 @@ public class JSon
 			}									
 		}
 		sbOut.append(" ]");
-		m_nTabDepth--;
+		nTabDepth--;
 		return true;
 	}
 	
 	private void beginNewLine(StringBuilder sbOut)
 	{
-		if(m_bSetLines)
+		if(bSetLines)
 		{
-			for(int n=0; n<m_nTabDepth; n++)
+			for(int n=0; n<nTabDepth; n++)
 				sbOut.append(EndOfLine.TAB);
 		}
 	}
@@ -357,7 +357,7 @@ public class JSon
 	private void endCurrentLine(StringBuilder sbOut)
 	{		
 		sbOut.append(",");
-		if(m_bSetLines)
+		if(bSetLines)
 			sbOut.append(EndOfLine.CR);
 	}
 

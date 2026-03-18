@@ -52,7 +52,7 @@ public class CFPacSubr extends CFPacCodeBloc
 		
 		if (tok.GetType() == CTokenType.IDENTIFIER)
 		{
-			super.m_csName = tok.GetValue() ;
+			super.csName = tok.GetValue() ;
 			tok = GetNext() ;
 		}
 		else
@@ -67,7 +67,7 @@ public class CFPacSubr extends CFPacCodeBloc
 		tok = GetCurrentToken() ;
 		if (tok.GetKeyword() == CFPacKeywordList.SUBREND)
 		{
-			m_nEndLine= tok.getLine() ;
+			nEndLine= tok.getLine() ;
 			tok = GetNext() ;
 		}
 		return true ;

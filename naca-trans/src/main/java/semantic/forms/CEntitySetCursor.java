@@ -34,24 +34,24 @@ public abstract class CEntitySetCursor extends CBaseActionEntity
 	public CEntitySetCursor(int line, CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity field)
 	{
 		super(line, cat, out);
-		m_RefField = field ;
+		refField = field ;
 	}
 	
-	protected CDataEntity m_RefField = null ;
+	protected CDataEntity refField = null ;
 	public void Clear()
 	{
 		super.Clear();
-		m_RefField = null ;
+		refField = null ;
 	}
 	public boolean ignore()
 	{
-		return m_RefField == null || (m_ReferenceValue!=null && m_ReferenceValue.ignore());
+		return refField == null || (referenceValue!=null && referenceValue.ignore());
 	}
 	public boolean IgnoreVariable(CDataEntity data)
 	{
-		if (data == m_RefField)
+		if (data == refField)
 		{
-			m_RefField = null ;
+			refField = null ;
 			data.UnRegisterWritingAction(this) ;
 			return true ;
 		}
@@ -59,9 +59,9 @@ public abstract class CEntitySetCursor extends CBaseActionEntity
 	}
 	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
 	{
-		if (m_RefField == field)
+		if (refField == field)
 		{
-			m_RefField = var ;
+			refField = var ;
 			field.UnRegisterWritingAction(this) ;
 			var.RegisterWritingAction(this) ;
 			return true ;
@@ -73,16 +73,16 @@ public abstract class CEntitySetCursor extends CBaseActionEntity
 	 */
 	public void removeCursor()
 	{
-		m_bRemoveCursor = true ;		
+		bRemoveCursor = true ;		
 	}
-	protected boolean m_bRemoveCursor = false ;
+	protected boolean bRemoveCursor = false ;
 	/**
 	 * @param term
 	 */
 	public void SetReference(CDataEntity term)
 	{
-		m_ReferenceValue = term ;
+		referenceValue = term ;
 	}
-	protected CDataEntity m_ReferenceValue = null ;
+	protected CDataEntity referenceValue = null ;
 
 }

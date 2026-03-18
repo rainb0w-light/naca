@@ -19,15 +19,15 @@ package jlib.threads;
 /*
 public class MyTimer extends Timer
 {
-	private Caller m_c = null;
+	private Caller c = null;
 	MyTimer(Caller c)
 	{
-		m_c = c;	
+		c = c;	
 	}
 	
 	protected boolean pulse()
 	{
-		return m_c.onTimerPulse();
+		return c.onTimerPulse();
 	}
 }
 
@@ -54,7 +54,7 @@ class Caller
 
 public abstract class Timer extends Thread
 {
-	private int m_nPeriodWait_ms = 1000;
+	private int nPeriodWait_ms = 1000;
 	
 	public Timer()
 	{
@@ -62,7 +62,7 @@ public abstract class Timer extends Thread
 	
 	public void startTimer(int nPeriodWait_ms)
 	{
-		m_nPeriodWait_ms = nPeriodWait_ms;
+		nPeriodWait_ms = nPeriodWait_ms;
 		start();
 	}
 	
@@ -73,7 +73,7 @@ public abstract class Timer extends Thread
 		{
 			try
 			{
-				Thread.sleep(m_nPeriodWait_ms);
+				Thread.sleep(nPeriodWait_ms);
 				bContinue = pulse();
 			} 
 			catch (InterruptedException e)

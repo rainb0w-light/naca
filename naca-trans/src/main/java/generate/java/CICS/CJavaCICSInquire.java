@@ -35,22 +35,22 @@ public class CJavaCICSInquire extends CEntityCICSInquire
 	}
 	protected void DoExport()
 	{
-		if (m_Transaction != null && m_Program != null)
+		if (transaction != null && program != null)
 		{
-			String cs = "tools.getProgramForTransID(" + m_Transaction.ExportReference(getLine()) + 
-						", " + m_Program.ExportReference(getLine()) + ") ;" ;
+			String cs = "tools.getProgramForTransID(" + transaction.ExportReference(getLine()) + 
+						", " + program.ExportReference(getLine()) + ") ;" ;
 			WriteLine(cs) ;
 		}
 		else
 		{
 			String cs = "CESM.inquire(";
-			if (m_Program != null)
+			if (program != null)
 			{
-				cs += ").program("  + m_Program.ExportReference(getLine());
+				cs += ").program("  + program.ExportReference(getLine());
 			}
-			if (m_Transaction != null)
+			if (transaction != null)
 			{
-				cs += ").transaction(" + m_Transaction.ExportReference(getLine());
+				cs += ").transaction(" + transaction.ExportReference(getLine());
 			}
 			cs += (") ;");
 			WriteLine(cs);

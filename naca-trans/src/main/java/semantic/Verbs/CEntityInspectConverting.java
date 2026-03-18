@@ -21,30 +21,30 @@ public abstract class CEntityInspectConverting extends CBaseActionEntity
 	public void Clear()
 	{
 		super.Clear() ;
-		m_Variable = null;
+		variable = null;
 	}
 	
 	public boolean ignore()
 	{
-		return m_Variable.ignore();
+		return variable.ignore();
 	}
 	
 	public void SetConvert(CDataEntity var)
 	{
-		m_Variable = var;
+		variable = var;
 	}
 	
 	public void SetFrom(CDataEntity var)
 	{
-		m_From = var;
+		from = var;
 	}
 	
 	public void SetTo(CDataEntity var)
 	{
-		m_To = var;
+		to = var;
 	}
 	
-	protected CDataEntity m_Variable = null ;
-	protected CDataEntity m_From = null ;
-	protected CDataEntity m_To = null ;
+	protected CDataEntity variable = null ;
+	protected CDataEntity from = null ;
+	protected CDataEntity to = null ;
 }

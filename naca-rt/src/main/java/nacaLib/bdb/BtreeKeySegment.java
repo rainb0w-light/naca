@@ -17,49 +17,49 @@ package nacaLib.bdb;
  */
 public abstract class BtreeKeySegment
 {
-	protected int m_nKeyPositionInData = 0;
-	protected int m_nKeyPosition = 0;
-	protected int m_nKeyLength = 0;
-	protected boolean m_bAscending = true;	// Ascending
-	protected boolean m_bFileInEbcdic = false;
+	protected int nKeyPositionInData = 0;
+	protected int nKeyPosition = 0;
+	protected int nKeyLength = 0;
+	protected boolean bAscending = true;	// Ascending
+	protected boolean bFileInEbcdic = false;
 	
 	public BtreeKeySegment(int nKeyPositionInData, int nKeyPositionInKey, int nKeyLength, boolean bAscending)
 	{
-		m_nKeyPositionInData = nKeyPositionInData; 
-		m_nKeyPosition = nKeyPositionInKey;
-		m_nKeyLength = nKeyLength;
-		m_bAscending = bAscending;
+		nKeyPositionInData = nKeyPositionInData; 
+		nKeyPosition = nKeyPositionInKey;
+		nKeyLength = nKeyLength;
+		bAscending = bAscending;
 	}
 
 	public void setDescending()
 	{
-		m_bAscending = false;
+		bAscending = false;
 	}
 	
 	public void setAscending()
 	{
-		m_bAscending = true;
+		bAscending = true;
 	}
 	
 	int getLength()
 	{
-		return m_nKeyLength; 
+		return nKeyLength; 
 	}
 		
 	protected int appendKeySegmentData(byte tbyData[], int nOffset, byte tbyKey[])	//, boolean bConvertKeyToAscii)
 	{
-		int nDest = m_nKeyPosition;
-		int nSource = m_nKeyPositionInData + nOffset;
-		for(int n=0; n<m_nKeyLength; n++, nDest++, nSource++)
+		int nDest = nKeyPosition;
+		int nSource = nKeyPositionInData + nOffset;
+		for(int n=0; n<nKeyLength; n++, nDest++, nSource++)
 		{				
 			tbyKey[nDest] = tbyData[nSource];
 		}
-		return m_nKeyPosition + m_nKeyLength;
+		return nKeyPosition + nKeyLength;
 	}
 	
 	void setFileInEncoding(boolean bFileInEbcdic)
 	{
-		m_bFileInEbcdic = bFileInEbcdic;
+		bFileInEbcdic = bFileInEbcdic;
 	}
 	
 	abstract int compare(byte tby1[], byte tby2[]);

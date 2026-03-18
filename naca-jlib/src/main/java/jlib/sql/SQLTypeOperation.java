@@ -41,16 +41,16 @@ public class SQLTypeOperation
 	public static final SQLTypeOperation Lock = new SQLTypeOperation(true);
 	public static final SQLTypeOperation Declare = new SQLTypeOperation(false);
 	
-	private boolean m_bExecuteWithStatement;
+	private boolean bExecuteWithStatement;
 		
 	private SQLTypeOperation(boolean bExecuteWithStatement)
 	{
-		m_bExecuteWithStatement = bExecuteWithStatement;
+		bExecuteWithStatement = bExecuteWithStatement;
 	}
 	
 	public boolean executeWithStatement()
 	{
-		return m_bExecuteWithStatement;
+		return bExecuteWithStatement;
 	}
 		
 	public static SQLTypeOperation determineOperationType(String csQuery, boolean bCursor)

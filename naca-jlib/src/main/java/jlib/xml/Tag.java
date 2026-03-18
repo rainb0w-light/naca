@@ -82,48 +82,48 @@ public class Tag
 {
 	public Tag()
 	{
-		m_doc = CreateDocument();
+		doc = CreateDocument();
 	}
 	
 	public Tag(String name)
 	{
-		m_doc = CreateDocument();
-		m_elem = m_doc.createElement(name) ;
-		m_doc.appendChild(m_elem) ;
+		doc = CreateDocument();
+		elem = doc.createElement(name) ;
+		doc.appendChild(elem) ;
 	}
 	
 	public void setDoc(Document doc)
 	{
-		m_doc = doc;
-		m_elem = m_doc.getDocumentElement();
+		doc = doc;
+		elem = doc.getDocumentElement();
 	}
 	
 	public Document getDoc()
 	{
-		return m_doc;
+		return doc;
 	}
 			
 	private Tag(Document doc, Element elem)
 	{
-		m_doc = doc;
-		m_elem = elem;
+		doc = doc;
+		elem = elem;
 	}
 	
 	private Tag(Tag tag)
 	{
-		m_doc = tag.m_doc;
-		m_elem = tag.m_elem;
+		doc = tag.doc;
+		elem = tag.elem;
 	}	
 	
 	private Tag(Tag tagParent, String csTagName)
 	{
-		m_doc = tagParent.m_doc;
+		doc = tagParent.doc;
 				
-		m_elem = m_doc.createElement(csTagName);
-		if(tagParent.m_elem != null)
-			tagParent.m_elem.appendChild(m_elem);
+		elem = doc.createElement(csTagName);
+		if(tagParent.elem != null)
+			tagParent.elem.appendChild(elem);
 		else
-			m_doc.appendChild(m_elem);
+			doc.appendChild(elem);
 	}
 	
 	private Document CreateDocument()
@@ -162,7 +162,7 @@ public class Tag
 			csValue = "";
 		try
 		{
-			m_elem.setAttribute(csArgName, csValue);
+			elem.setAttribute(csArgName, csValue);
 		}
 		catch (DOMException e)
 		{
@@ -179,7 +179,7 @@ public class Tag
 			csValue = String.valueOf(dateValue.getTime());
 		try
 		{
-			m_elem.setAttribute(csArgName, csValue);
+			elem.setAttribute(csArgName, csValue);
 		}
 		catch (DOMException e)
 		{
@@ -193,7 +193,7 @@ public class Tag
 	{
 		try
 		{
-			m_elem.setAttribute(csArgName, String.valueOf(nValue));
+			elem.setAttribute(csArgName, String.valueOf(nValue));
 		}
 		catch (DOMException e)
 		{
@@ -207,7 +207,7 @@ public class Tag
 	{
 		try
 		{
-			m_elem.setAttribute(csArgName, String.valueOf(dValue));
+			elem.setAttribute(csArgName, String.valueOf(dValue));
 		}
 		catch (DOMException e)
 		{
@@ -221,7 +221,7 @@ public class Tag
 	{
 		try
 		{
-			m_elem.setAttribute(csArgName, String.valueOf(lValue));
+			elem.setAttribute(csArgName, String.valueOf(lValue));
 		}
 		catch (DOMException e)
 		{
@@ -235,7 +235,7 @@ public class Tag
 	{
 		try
 		{
-			m_elem.setAttribute(csArgName, String.valueOf(bValue));
+			elem.setAttribute(csArgName, String.valueOf(bValue));
 		}
 		catch (DOMException e)
 		{
@@ -249,7 +249,7 @@ public class Tag
 	{
 		try
 		{
-			m_elem.removeAttribute(csArgName);
+			elem.removeAttribute(csArgName);
 		}
 		catch (DOMException e)
 		{
@@ -261,16 +261,16 @@ public class Tag
 	
 	public String getVal(String csArgName)
 	{
-		if(m_elem != null)
-			return m_elem.getAttribute(csArgName);
+		if(elem != null)
+			return elem.getAttribute(csArgName);
 		return null;
 	}
 	
 	public void updateVal(String csArgName, String csValue)
 	{
-		if(m_elem != null)
+		if(elem != null)
 		{
-			if(m_elem.getAttribute(csArgName) != null)
+			if(elem.getAttribute(csArgName) != null)
 				removeVal(csArgName);
 			addVal(csArgName, csValue);
 		}
@@ -278,16 +278,16 @@ public class Tag
 	
 	public String getNodeVal()
 	{
-		if(m_elem != null)
-			return m_elem.getFirstChild().getNodeValue() ;
+		if(elem != null)
+			return elem.getFirstChild().getNodeValue() ;
 		return null;
 	}
 	
 	public int getValAsInt(String csArgName)
 	{
-		if(m_elem != null)
+		if(elem != null)
 		{
-			String cs = m_elem.getAttribute(csArgName);
+			String cs = elem.getAttribute(csArgName);
 			return NumberParser.getAsInt(cs);
 		}
 		return 0;
@@ -295,9 +295,9 @@ public class Tag
 	
 	public int getValAsInt(String csArgName, int nDefaultValue)
 	{
-		if(m_elem != null)
+		if(elem != null)
 		{
-			String cs = m_elem.getAttribute(csArgName);
+			String cs = elem.getAttribute(csArgName);
 			if(StringUtil.isEmpty(cs))
 				return nDefaultValue;
 			return NumberParser.getAsInt(cs);
@@ -307,9 +307,9 @@ public class Tag
 	
 	public long getValAsLong(String csArgName)
 	{
-		if(m_elem != null)
+		if(elem != null)
 		{
-			String cs = m_elem.getAttribute(csArgName);
+			String cs = elem.getAttribute(csArgName);
 			return NumberParser.getAsLong(cs);
 		}
 		return 0L;
@@ -317,9 +317,9 @@ public class Tag
 	
 	public Date getValAsDate(String csArgName)
 	{
-		if(m_elem != null)
+		if(elem != null)
 		{
-			String cs = m_elem.getAttribute(csArgName);
+			String cs = elem.getAttribute(csArgName);
 			long lTime = NumberParser.getAsLong(cs);
 			Date date = new Date(lTime);
 			return date;
@@ -329,9 +329,9 @@ public class Tag
 	
 	public double getValAsDouble(String csArgName)
 	{
-		if(m_elem != null)
+		if(elem != null)
 		{
-			String cs = m_elem.getAttribute(csArgName);
+			String cs = elem.getAttribute(csArgName);
 			return NumberParser.getAsDouble(cs);
 		}
 		return 0.0;
@@ -340,9 +340,9 @@ public class Tag
 	
 	public boolean getValAsBoolean(String csArgName)
 	{
-		if(m_elem != null)
+		if(elem != null)
 		{
-			String cs = m_elem.getAttribute(csArgName);
+			String cs = elem.getAttribute(csArgName);
 			return NumberParser.getAsBoolean(cs);
 		}
 		return false;
@@ -350,9 +350,9 @@ public class Tag
 	
 	public boolean getValAsBoolean(String csArgName, boolean bDefaultValue)
 	{
-		if(m_elem != null)
+		if(elem != null)
 		{
-			String cs = m_elem.getAttribute(csArgName);
+			String cs = elem.getAttribute(csArgName);
 			if(!StringUtil.isEmpty(cs))
 				return NumberParser.getAsBoolean(cs);
 		}
@@ -361,9 +361,9 @@ public class Tag
 	
 	public boolean isValExisting(String csArgName)
 	{
-		if(m_elem != null)
+		if(elem != null)
 		{
-			boolean b = m_elem.hasAttribute(csArgName);
+			boolean b = elem.hasAttribute(csArgName);
 			return b ;
 		}
 		return false;
@@ -373,12 +373,12 @@ public class Tag
 	// Reading
 	public String getName()
 	{
-		return m_elem.getTagName();
+		return elem.getTagName();
 	}
 	
 	public boolean isNamed(String csNameSearched)
 	{
-		String cs = m_elem.getTagName();
+		String cs = elem.getTagName();
 		if(cs.equalsIgnoreCase(csNameSearched))
 			return true;
 		return false;
@@ -387,16 +387,16 @@ public class Tag
 	public Tag getRootTag()
 	{
 		Tag tagRoot = new Tag(this);
-		tagRoot.m_elem = tagRoot.m_doc.getDocumentElement();
+		tagRoot.elem = tagRoot.doc.getDocumentElement();
 		return tagRoot;
 	}
 	
 	public Tag getParent()
 	{
-		Element eParent = (Element)m_elem.getParentNode();
+		Element eParent = (Element)elem.getParentNode();
 		if(eParent != null)
 		{
-			Tag tagParent = new Tag(m_doc, eParent);
+			Tag tagParent = new Tag(doc, eParent);
 			return tagParent;
 		}
 		return null;
@@ -460,7 +460,7 @@ public class Tag
 				return tagChild.getChild(csName);
 			}
 		}
-		Node node = m_elem.getFirstChild();
+		Node node = elem.getFirstChild();
 		while(node != null)
 		{
 			String cs = node.getNodeName();
@@ -468,7 +468,7 @@ public class Tag
 			{
 				if(node.getNodeType() == Node.ELEMENT_NODE)
 				{
-					Tag tagChild = new Tag(m_doc, (Element)node);
+					Tag tagChild = new Tag(doc, (Element)node);
 					return tagChild;
 				}
 			}
@@ -489,27 +489,27 @@ public class Tag
 	
 	public Tag getEnumChild(String csName)
 	{		
-		if(m_curTag == null)
+		if(curTag == null)
 		{
-			m_curTag = new TagCursor();
-			Tag currentChild = getFirstChild(m_curTag, csName);		
+			curTag = new TagCursor();
+			Tag currentChild = getFirstChild(curTag, csName);		
 			if(currentChild == null)
-				m_curTag = null;
+				curTag = null;
 			return currentChild; 
 		}
 		else
 		{
-			Tag currentChild = getNextChild(m_curTag);
+			Tag currentChild = getNextChild(curTag);
 			if(currentChild == null)
-				m_curTag = null;
+				curTag = null;
 			return currentChild; 
 		}
 	}
 	
 	public Tag GetCurrentChild()
 	{
-		if(m_curTag != null)
-			return m_curTag.getCurrentTag();
+		if(curTag != null)
+			return curTag.getCurrentTag();
 		return null;
 	}
 	
@@ -517,7 +517,7 @@ public class Tag
 	{
 		int nNbTextNode = 0;
 		int nNbNodeNotText = 0;
-		Node node = m_elem.getFirstChild();
+		Node node = elem.getFirstChild();
 		while(node != null)
 		{
 			if(node.getNodeType() == Node.ELEMENT_NODE)
@@ -545,7 +545,7 @@ public class Tag
 	public Tag getFirstChild(TagCursor cur, String csName)
 	{		
 		cur.setNameEnumeration(csName);
-		Node node = m_elem.getFirstChild();
+		Node node = elem.getFirstChild();
 		while(node != null)
 		{
 			if(csName != null)	// Must check name
@@ -564,7 +564,7 @@ public class Tag
 				Element eChild = (Element)node;
 				if(eChild != null)
 				{
-					Tag tagChild = new Tag(m_doc, eChild);
+					Tag tagChild = new Tag(doc, eChild);
 					if(cur != null)
 						cur.setCurrentTag(tagChild);
 					return tagChild;
@@ -584,7 +584,7 @@ public class Tag
 		Tag tagChild = cur.getCurrentTag();
 		if(tagChild == null)
 			return null;
-		Node node = tagChild.m_elem.getNextSibling();
+		Node node = tagChild.elem.getNextSibling();
 		while(node != null)
 		{
 			if(csName != null)
@@ -602,7 +602,7 @@ public class Tag
 				Element eNextChild = (Element)node;		
 				if(eNextChild != null)
 				{
-					Tag tagNextChild = new Tag(tagChild.m_doc, eNextChild);
+					Tag tagNextChild = new Tag(tagChild.doc, eNextChild);
 					cur.setCurrentTag(tagNextChild);
 					return tagNextChild;
 				}
@@ -620,8 +620,8 @@ public class Tag
 	
 //	public void replaceChild(Tag tagOld, Tag tagNew)
 //	{
-//		Tag tagNewCurrentDoc = new Tag(m_doc, tagNew.m_elem);
-//		m_elem.replaceChild(tagNewCurrentDoc.m_elem, tagOld.m_elem);
+//		Tag tagNewCurrentDoc = new Tag(doc, tagNew.elem);
+//		elem.replaceChild(tagNewCurrentDoc.elem, tagOld.elem);
 //	}
 	
 	public void removeAllChildren()
@@ -663,7 +663,7 @@ public class Tag
 				return tagChild.getChild(csName);
 			}
 		}*/
-		Node node = m_elem.getFirstChild();
+		Node node = elem.getFirstChild();
 		while(node != null)
 		{
 			String cs = node.getNodeName();
@@ -671,7 +671,7 @@ public class Tag
 			{
 				if(node.getNodeType() == Node.ELEMENT_NODE)
 				{
-					Tag tagChild = new Tag(m_doc, (Element)node);
+					Tag tagChild = new Tag(doc, (Element)node);
 					boolean bMatchesCondition = false;
 					
 					if (csTagValName == null || csTagValName.equals(""))
@@ -709,13 +709,13 @@ public class Tag
 	{
 		if(tagchild != null)
 		{
-			m_elem.removeChild(tagchild.m_elem);
+			elem.removeChild(tagchild.elem);
 		}
 	}
 	
 	public String getFirstVal(ValCursor cur)
 	{
-		NamedNodeMap nodeMap = m_elem.getAttributes();
+		NamedNodeMap nodeMap = elem.getAttributes();
 		cur.setEnumVal(nodeMap);
 		return cur.getFirstVal();
 	}
@@ -727,7 +727,7 @@ public class Tag
 
 	public Node getFirstParam(ValCursor cur)
 	{
-		NamedNodeMap nodeMap = m_elem.getAttributes();
+		NamedNodeMap nodeMap = elem.getAttributes();
 		cur.setEnumVal(nodeMap);
 		return cur.getFirstParam();
 	}
@@ -739,7 +739,7 @@ public class Tag
 	
 	public void normalize()
 	{
-		m_doc.normalizeDocument();
+		doc.normalizeDocument();
 	}
 	
 	public String getFirstNamedVal(ValCursor cur, String csParameterName)
@@ -826,11 +826,11 @@ public class Tag
 			
 //	private boolean exportToStream(StreamResult res)
 //	{
-//		if (m_doc != null)
+//		if (doc != null)
 //		{
 //			try
 //			{
-//				Source source = new DOMSource(m_elem);
+//				Source source = new DOMSource(elem);
 //				
 //				Transformer xformer = TransformerFactory.newInstance().newTransformer();
 //				xformer.setOutputProperty(OutputKeys.ENCODING, "ISO8859-1");
@@ -856,11 +856,11 @@ public class Tag
 	
 	private boolean exportToStream(StreamResult res, String csEncoding)
 	{
-		if (m_doc != null)
+		if (doc != null)
 		{
 			try
 			{
-				Source source = new DOMSource(m_elem);
+				Source source = new DOMSource(elem);
 				
 				Transformer xformer = TransformerFactory.newInstance().newTransformer();
 				xformer.setOutputProperty(OutputKeys.ENCODING, csEncoding);
@@ -984,8 +984,8 @@ public class Tag
 			TransformerFactory tr = TransformerFactory.newInstance();
 			Transformer xformer = tr.newTransformer();
 			xformer.transform(file, res);
-			m_doc = doc;
-			m_elem = m_doc.getDocumentElement();			
+			doc = doc;
+			elem = doc.getDocumentElement();			
 			return true;
 		}
 		catch (Exception e)
@@ -1001,8 +1001,8 @@ public class Tag
 		{
 			StringReader stringReader = new StringReader(cs);
 			InputSource inputSource = new InputSource(stringReader);
-			m_doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(inputSource); 
-			m_elem = m_doc.getDocumentElement();			
+			doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(inputSource); 
+			elem = doc.getDocumentElement();			
 			return true;
 		}
 		catch (Exception e)
@@ -1012,10 +1012,10 @@ public class Tag
 		}
 	}
 	
-	private Document m_doc = null;
-	private Element m_elem = null;
-	private TagCursor m_curTag = null;
-	//private Tag m_currentChild = null;
+	private Document doc = null;
+	private Element elem = null;
+	private TagCursor curTag = null;
+	//private Tag currentChild = null;
 	/**
 	 * @param string The child name.
 	 * @return The text contained in the child.
@@ -1051,40 +1051,40 @@ public class Tag
 
 	public String getText()
 	{
-		return m_elem.getTextContent() ;
+		return elem.getTextContent() ;
 	}
 
 	public Document getEmbeddedDocument()
 	{
-		return m_doc ;
+		return doc ;
 	}
 
 	public void addChild(Tag tagForm)
 	{
-		Element el = tagForm.m_elem ;
+		Element el = tagForm.elem ;
 		if (el != null)
 		{
-			if (tagForm.m_doc != m_doc)
+			if (tagForm.doc != doc)
 			{
-				el = (Element)m_doc.importNode(el, true) ;
+				el = (Element)doc.importNode(el, true) ;
 			}
-			if (m_elem != null)
+			if (elem != null)
 			{
-				m_elem.appendChild(el) ;
+				elem.appendChild(el) ;
 			}
 			else
 			{
-				m_doc.appendChild(el) ;
+				doc.appendChild(el) ;
 			}
 		}
 	}
 	public Tag getCopy()
 	{
-		if (m_elem == null || m_doc == null)
+		if (elem == null || doc == null)
 		{
 			return null ;
 		}
-//		Element e = m_doc.createElement(m_elem.getNodeName()) ;
+//		Element e = doc.createElement(elem.getNodeName()) ;
 //		NamedNodeMap map = e.getAttributes() ;
 //		int nb = map.getLength() ;
 //		for (int i=0; i<nb; i++)
@@ -1095,18 +1095,18 @@ public class Tag
 //			String val = att.getValue() ;
 //			e.setAttribute(name, val) ;
 //		}
-		Element e = (Element)m_elem.cloneNode(true) ;
-		Tag ntag = new Tag(m_doc, e) ;
+		Element e = (Element)elem.cloneNode(true) ;
+		Tag ntag = new Tag(doc, e) ;
 		return ntag ;
 	}
 	public void setName(String string)
 	{
-		m_doc.renameNode(m_elem, "", string) ;
+		doc.renameNode(elem, "", string) ;
 	}
 	
 	public void setText(String csText)
 	{
-		m_elem.setTextContent(csText);
+		elem.setTextContent(csText);
 	}
 
 	public void exportToFile(File f)
@@ -1129,8 +1129,8 @@ public class Tag
 	
 	public void addCData(String csCData)
 	{
-		CDATASection cdata = m_doc.createCDATASection(csCData);
-		m_elem.appendChild(cdata);
+		CDATASection cdata = doc.createCDATASection(csCData);
+		elem.appendChild(cdata);
 	}
 	
 	public void addCData(int nData)

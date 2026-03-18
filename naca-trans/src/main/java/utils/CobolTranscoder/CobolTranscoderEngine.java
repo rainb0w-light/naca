@@ -74,7 +74,7 @@ public class CobolTranscoderEngine extends TranscoderEngine<CProgram, CEntityCla
 		Transcoder.logDebug("Init Global Entities...");
 		CJavaEntityFactory factory = new CJavaEntityFactory(null, null) ;
 		InitGlobalEntitiesFromRules(factory) ;
-		factory.InitCustomGlobalEntities(m_cat) ;
+		factory.InitCustomGlobalEntities(cat) ;
 
 		return true ;
 	}
@@ -162,7 +162,7 @@ public class CobolTranscoderEngine extends TranscoderEngine<CProgram, CEntityCla
 							if (f>0)
 							{
 								String prog = var.substring(i+8, f) ;
-								//m_cat.registerTransID(TID, prog) ;
+								//cat.registerTransID(TID, prog) ;
 							}
 						}
 						var = inputStream.readLine() ;
@@ -187,7 +187,7 @@ public class CobolTranscoderEngine extends TranscoderEngine<CProgram, CEntityCla
 			Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument() ;
 			Element eRoot = doc.createElement("root") ;
 			doc.appendChild(eRoot);
-			m_cat.ExportTransID(eRoot, doc);
+			cat.ExportTransID(eRoot, doc);
 			Source source = new DOMSource(doc);
 			FileOutputStream file = new FileOutputStream(xmlFilePath);
 			StreamResult res = new StreamResult(file) ;
@@ -237,7 +237,7 @@ public class CobolTranscoderEngine extends TranscoderEngine<CProgram, CEntityCla
 					String program = e.getVal("program");
 					if (id != null && !id.equals("") && program != null && !program.equals(""))
 					{
-						m_cat.registerTransID(id, program);
+						cat.registerTransID(id, program);
 					}
 				}
 			}
@@ -250,14 +250,14 @@ public class CobolTranscoderEngine extends TranscoderEngine<CProgram, CEntityCla
 	
 	protected CEntityClass doSemanticAnalysis(CParser<CProgram> parser, String fileName, CObjectCatalog cat, CTransApplicationGroup grp, boolean bResources)
 	{
-		CJavaExporter out = new CJavaExporter(cat.m_Listing, fileName, parser.m_CommentContainer, bResources) ;
+		CJavaExporter out = new CJavaExporter(cat.listing, fileName, parser.commentContainer, bResources) ;
 		cat.setExporter(out) ;
 		CJavaEntityFactory factory = new CJavaEntityFactory(cat, out) ;
 		InitCustomCICSEntriesFromRules(factory) ;
 		factory.InitCustomCICSEntities();
 		CProgram prg = parser.GetRootElement() ;
 		CEntityClass eSem = prg.DoSemanticAnalysis(factory) ;
-		parser.m_CommentContainer.DoSemanticAnalysis(factory) ;
+		parser.commentContainer.DoSemanticAnalysis(factory) ;
 		DoAlgorythmicAnalysis(cat, factory);
 		
 		return eSem ;
@@ -265,27 +265,27 @@ public class CobolTranscoderEngine extends TranscoderEngine<CProgram, CEntityCla
 	
 	private void InitGlobalEntitiesFromRules(CBaseEntityFactory factory)
 	{
-		int nb = m_RulesManager.getNbRules("ignoredCopy") ;
+		int nb = rulesManager.getNbRules("ignoredCopy") ;
 		for (int i=0; i<nb; i++)
 		{
-			Tag e = m_RulesManager.getRule("ignoredCopy", i) ;
+			Tag e = rulesManager.getRule("ignoredCopy", i) ;
 			String name = e.getVal("copyName") ;
-			m_cat.AddIgnoredExternal(factory.NewIgnoreExternalEntity(name)) ;
+			cat.AddIgnoredExternal(factory.NewIgnoreExternalEntity(name)) ;
 		}
 
-		nb = m_RulesManager.getNbRules("customSubProgram") ;
+		nb = rulesManager.getNbRules("customSubProgram") ;
 		for (int i=0; i<nb; i++)
 		{
-			Tag e = m_RulesManager.getRule("customSubProgram", i) ;
+			Tag e = rulesManager.getRule("customSubProgram", i) ;
 			String name = e.getVal("subProgram") ;
 			boolean bIgnore = e.getValAsBoolean("ignore") ;
-			m_cat.AddCustomSubProgram(name, bIgnore);
+			cat.AddCustomSubProgram(name, bIgnore);
 		}
 
-		nb = m_RulesManager.getNbRules("SpecialConstantValue") ;
+		nb = rulesManager.getNbRules("SpecialConstantValue") ;
 		for (int i=0; i<nb; i++)
 		{
-			Tag e = m_RulesManager.getRule("SpecialConstantValue", i) ;
+			Tag e = rulesManager.getRule("SpecialConstantValue", i) ;
 			String value = e.getVal("value") ;
 			String constant = e.getVal("constant") ;
 			char[] arr = value.toCharArray() ;
@@ -306,51 +306,51 @@ public class CobolTranscoderEngine extends TranscoderEngine<CProgram, CEntityCla
 	 */
 	private void InitCustomCICSEntriesFromRules(CBaseEntityFactory factory)
 	{
-		int nb = m_RulesManager.getNbRules("ignoreEntity") ;
+		int nb = rulesManager.getNbRules("ignoreEntity") ;
 		for (int i=0; i<nb; i++)
 		{
-			Tag e = m_RulesManager.getRule("ignoreEntity", i) ;
+			Tag e = rulesManager.getRule("ignoreEntity", i) ;
 			String name = e.getVal("name") ;
 			factory.NewIgnoreEntity(name) ;
 		}
-		nb = m_RulesManager.getNbRules("environmentVariable") ;
+		nb = rulesManager.getNbRules("environmentVariable") ;
 		for (int i=0; i<nb; i++)
 		{
-			Tag e = m_RulesManager.getRule("environmentVariable", i) ;
+			Tag e = rulesManager.getRule("environmentVariable", i) ;
 			String name = e.getVal("name") ;
 			String read = e.getVal("methodeRead") ;
 			String write = e.getVal("methodeWrite") ;
 			boolean bNumeric = e.getValAsBoolean("Numeric") ;
 			factory.NewEntityEnvironmentVariable(name, read, write, bNumeric) ;
 		}
-		nb = m_RulesManager.getNbRules("keyPressed") ;
+		nb = rulesManager.getNbRules("keyPressed") ;
 		for (int i=0; i<nb; i++)
 		{
-			Tag e = m_RulesManager.getRule("keyPressed", i) ;
+			Tag e = rulesManager.getRule("keyPressed", i) ;
 			String key = e.getVal("keyName") ;
 			String alias = e.getVal("CICSAlias") ;
 			factory.NewEntityKeyPressed(alias, key) ;
 		}
-		nb = m_RulesManager.getNbRules("routineEmulation") ;
+		nb = rulesManager.getNbRules("routineEmulation") ;
 		for (int i=0; i<nb; i++)
 		{
-			Tag e = m_RulesManager.getRule("routineEmulation", i) ;
+			Tag e = rulesManager.getRule("routineEmulation", i) ;
 			String name = e.getVal("routine") ;
 			String method = e.getVal("method") ;
-			factory.m_ProgramCatalog.RegisterRoutineEmulation(name, method) ;
+			factory.programCatalog.RegisterRoutineEmulation(name, method) ;
 		}
 		
-		nb = m_RulesManager.getNbRules("NoExportResource") ;
+		nb = rulesManager.getNbRules("NoExportResource") ;
 		for (int i=0; i<nb; i++)
 		{
-			Tag e = m_RulesManager.getRule("NoExportResource", i) ;
+			Tag e = rulesManager.getRule("NoExportResource", i) ;
 			String name = e.getVal("program") ;
-			m_cat.RegisterNotExportingResource(name);
+			cat.RegisterNotExportingResource(name);
 		}
-		nb = m_RulesManager.getNbRules("SpecialConstantValue") ;
+		nb = rulesManager.getNbRules("SpecialConstantValue") ;
 		for (int i=0; i<nb; i++)
 		{
-			Tag e = m_RulesManager.getRule("SpecialConstantValue", i) ;
+			Tag e = rulesManager.getRule("SpecialConstantValue", i) ;
 			String value = e.getVal("value") ;
 			String constant = e.getVal("constant") ;
 			char[] arr = value.toCharArray() ;
@@ -373,7 +373,7 @@ public class CobolTranscoderEngine extends TranscoderEngine<CProgram, CEntityCla
 		container.DoRenameSubPrograms(cat, factory);
 		container.DoClearConstantAttributes(cat, factory) ;
 		
-		Tag t = m_RulesManager.getRule("ReduceMaps") ;
+		Tag t = rulesManager.getRule("ReduceMaps") ;
 		if (t != null)
 		{
 			boolean bReduce = t.getValAsBoolean("active") ;

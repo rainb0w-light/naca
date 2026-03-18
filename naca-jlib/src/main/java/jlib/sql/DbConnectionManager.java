@@ -24,7 +24,7 @@ public class DbConnectionManager extends DbConnectionManagerBase
 
 	public DbConnectionBase createConnection(Connection connection, String csPrefId, String csEnvironment, boolean bUseStatementCache, boolean bUseJmx, DbDriverId dbDriver)
 	{
-		DbConnection sqlConnection = new DbConnection(connection, csPrefId, m_DbConnectionParam.getEnvironment(), bUseStatementCache, bUseJmx, dbDriver);
+		DbConnection sqlConnection = new DbConnection(connection, csPrefId, dbConnectionParam.getEnvironment(), bUseStatementCache, bUseJmx, dbDriver);
 		return sqlConnection;
 	}
 }

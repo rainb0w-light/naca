@@ -18,13 +18,13 @@ public class VarFPacNumIntSignComp3LengthUndef extends VarFPacLengthUndef
 	
 	public Var createVar(int nBufferSize)
 	{
-		Var v = m_fpacVarManager.createFPacVarNumIntSignComp3(m_varBuffer, m_nAbsolutePosition1Based, nBufferSize);
+		Var v = fpacVarManager.createFPacVarNumIntSignComp3(varBuffer, nAbsolutePosition1Based, nBufferSize);
 		return v;
 	}
 	
 	public Var createVar()
 	{
-		Var v = m_fpacVarManager.createFPacVarNumIntSignComp3(m_varBuffer, m_nAbsolutePosition1Based, 8);
+		Var v = fpacVarManager.createFPacVarNumIntSignComp3(varBuffer, nAbsolutePosition1Based, 8);
 		return v;
 	}
 	

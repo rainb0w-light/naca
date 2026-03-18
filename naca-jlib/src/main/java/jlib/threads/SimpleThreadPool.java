@@ -13,18 +13,18 @@ public class SimpleThreadPool
 {
 	public SimpleThreadPool(int nNbThread)
 	{
-		m_pool = Executors.newFixedThreadPool(nNbThread);
+		pool = Executors.newFixedThreadPool(nNbThread);
 	}
 	
 	public void enqueue(Runnable runnable)
 	{
-		m_pool.execute(runnable);
+		pool.execute(runnable);
 	}
 	
 	public void requestStop()
 	{
-		m_pool.shutdown();
+		pool.shutdown();
 	}
 	
-	private ExecutorService m_pool = null;
+	private ExecutorService pool = null;
 }

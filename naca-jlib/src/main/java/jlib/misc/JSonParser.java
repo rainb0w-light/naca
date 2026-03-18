@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class JSonParser
 {
-	private Hashtable<String, JSonCoupleItem> m_hashItems = new Hashtable<String, JSonCoupleItem>();
+	private Hashtable<String, JSonCoupleItem> hashItems = new Hashtable<String, JSonCoupleItem>();
 	
 	public static boolean fillObject(String cs, Object oTarget)
 	{
@@ -93,7 +93,7 @@ public class JSonParser
 			boolean b = couple.parse(csItem[i]);
 			if(!b)
 				return false;
-			m_hashItems.put(couple.getName(), couple);
+			hashItems.put(couple.getName(), couple);
 		}
 		
 		boolean b = fillTargetMembers(oTarget);		
@@ -132,7 +132,7 @@ public class JSonParser
 					csName = csName.substring(1);
 				else if(csName.startsWith("m_"))
 					csName = csName.substring(2);
-				JSonCoupleItem couple = m_hashItems.get(csName);
+				JSonCoupleItem couple = hashItems.get(csName);
 				if(couple != null)
 				{
 					Object oMember = fld.get(oTarget);

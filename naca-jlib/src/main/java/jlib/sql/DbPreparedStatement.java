@@ -20,33 +20,33 @@ import jlib.misc.StopWatch;
 
 public class DbPreparedStatement
 {	
-	protected PreparedStatement m_PreparedStatement = null;
-	protected String m_csQueryString = null;
-	private StopWatch m_swLastTimeUsed = new StopWatch(); 
-	private boolean m_bReserved = true;
-	private int m_nBatchSize = 0;
+	protected PreparedStatement preparedStatement = null;
+	protected String csQueryString = null;
+	private StopWatch swLastTimeUsed = new StopWatch(); 
+	private boolean bReserved = true;
+	private int nBatchSize = 0;
 		
 	public DbPreparedStatement()
 	{
-		m_bReserved = true;
+		bReserved = true;
 	}
 
 	Long getLastUsageTimeValue()
 	{
-		return m_swLastTimeUsed.getStartValue();
+		return swLastTimeUsed.getStartValue();
 	}
 	
 	public int getBatchSize()
 	{
-		return m_nBatchSize;
+		return nBatchSize;
 	}
 	
 	public void addBatch()
 	{
 		try
 		{
-			m_PreparedStatement.addBatch();
-			m_nBatchSize++;
+			preparedStatement.addBatch();
+			nBatchSize++;
 		}
 		catch (SQLException e)
 		{			
@@ -56,12 +56,12 @@ public class DbPreparedStatement
 	
 	public SQLLoadStatus executeBatch(int nLineId)
 	{
-		if(m_nBatchSize != 0)
+		if(nBatchSize != 0)
 		{
 			try
 			{
-				m_nBatchSize = 0;
-				m_PreparedStatement.executeBatch();
+				nBatchSize = 0;
+				preparedStatement.executeBatch();
 				return SQLLoadStatus.loadSuccess;
 			}
 			catch (BatchUpdateException e)
@@ -107,15 +107,15 @@ public class DbPreparedStatement
 	
 	public boolean prepare(DbConnectionBase dbConnection, String csQuery, boolean bHoldability)
 	{
-		m_csQueryString = csQuery;
+		csQueryString = csQuery;
 		if(dbConnection != null)
 		{
 			try
 			{
 				if(bHoldability)
-					m_PreparedStatement = dbConnection.getDbConnection().prepareStatement(csQuery, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY, ResultSet.HOLD_CURSORS_OVER_COMMIT);
+					preparedStatement = dbConnection.getDbConnection().prepareStatement(csQuery, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY, ResultSet.HOLD_CURSORS_OVER_COMMIT);
 				else
-					m_PreparedStatement = dbConnection.getDbConnection().prepareStatement(csQuery);
+					preparedStatement = dbConnection.getDbConnection().prepareStatement(csQuery);
 				return true;
 			}
 			catch (SQLException e)
@@ -129,15 +129,15 @@ public class DbPreparedStatement
 	public boolean prepareWithException(DbConnectionBase dbConnection, String csQuery, boolean bHoldability) 
 		throws TechnicalException
 	{
-		m_csQueryString = csQuery;
+		csQueryString = csQuery;
 		if(dbConnection != null)
 		{
 			try
 			{
 				if(bHoldability)
-					m_PreparedStatement = dbConnection.getDbConnection().prepareStatement(csQuery, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY, ResultSet.HOLD_CURSORS_OVER_COMMIT);
+					preparedStatement = dbConnection.getDbConnection().prepareStatement(csQuery, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY, ResultSet.HOLD_CURSORS_OVER_COMMIT);
 				else
-					m_PreparedStatement = dbConnection.getDbConnection().prepareStatement(csQuery);
+					preparedStatement = dbConnection.getDbConnection().prepareStatement(csQuery);
 				return true;
 			}
 			catch (SQLException e)
@@ -150,11 +150,11 @@ public class DbPreparedStatement
 
 	public boolean setColParam(int nCol, ColValue colValue)
 	{		
-		if(m_PreparedStatement != null)
+		if(preparedStatement != null)
 		{
 			if(colValue.canSetColParam())	// Some column types write themseleves directly into the statement's param 
 			{
-				boolean b = colValue.setParamIntoStmt(m_PreparedStatement, nCol);
+				boolean b = colValue.setParamIntoStmt(preparedStatement, nCol);
 				return b;
 			}
 			String cs = colValue.getValueAsString();
@@ -162,7 +162,7 @@ public class DbPreparedStatement
 			{	
 				try
 				{
-					m_PreparedStatement.setObject(nCol+1, cs);
+					preparedStatement.setObject(nCol+1, cs);
 				}
 				catch(IllegalArgumentException e)
 				{
@@ -175,7 +175,7 @@ public class DbPreparedStatement
 						Date date = new Date(lValue);							
 						try
 						{
-							m_PreparedStatement.setDate(nCol+1, date);
+							preparedStatement.setDate(nCol+1, date);
 						}
 						catch (SQLException e1)
 						{
@@ -190,7 +190,7 @@ public class DbPreparedStatement
 						Date date = new Date(lValue);							
 						try
 						{
-							m_PreparedStatement.setDate(nCol+1, date);
+							preparedStatement.setDate(nCol+1, date);
 						}
 						catch (SQLException e1)
 						{
@@ -213,7 +213,7 @@ public class DbPreparedStatement
 			{
 				try
 				{
-					m_PreparedStatement.setNull(nCol+1, colValue.getSQLType());
+					preparedStatement.setNull(nCol+1, colValue.getSQLType());
 				}
 				catch (SQLException e)
 				{
@@ -229,7 +229,7 @@ public class DbPreparedStatement
 	{
 		try
 		{
-			m_PreparedStatement.setDate(nCol+1, date);
+			preparedStatement.setDate(nCol+1, date);
 			return true;
 		}
 		catch (SQLException e)
@@ -242,7 +242,7 @@ public class DbPreparedStatement
 	{
 		try
 		{
-			m_PreparedStatement.setObject(nCol+1, lValue);
+			preparedStatement.setObject(nCol+1, lValue);
 		} 
 		catch (SQLException e)
 		{
@@ -254,7 +254,7 @@ public class DbPreparedStatement
 	{
 		try
 		{
-			m_PreparedStatement.setInt(nCol+1, sValue);
+			preparedStatement.setInt(nCol+1, sValue);
 		} 
 		catch (SQLException e)
 		{
@@ -266,7 +266,7 @@ public class DbPreparedStatement
 	{
 		try
 		{
-			m_PreparedStatement.setInt(nCol+1, nValue);
+			preparedStatement.setInt(nCol+1, nValue);
 		} 
 		catch (SQLException e)
 		{
@@ -278,7 +278,7 @@ public class DbPreparedStatement
 	{
 		try
 		{
-			m_PreparedStatement.setObject(nCol+1, dateValue);
+			preparedStatement.setObject(nCol+1, dateValue);
 		} 
 		catch (SQLException e)
 		{
@@ -290,7 +290,7 @@ public class DbPreparedStatement
 	{
 		try
 		{
-			m_PreparedStatement.setObject(nCol+1, csValue);
+			preparedStatement.setObject(nCol+1, csValue);
 		}
 		catch (SQLException e)
 		{
@@ -302,7 +302,7 @@ public class DbPreparedStatement
 	{
 		try
 		{
-			m_PreparedStatement.setString(nCol+1, csValue);
+			preparedStatement.setString(nCol+1, csValue);
 		}
 		catch (SQLException e)
 		{
@@ -315,7 +315,7 @@ public class DbPreparedStatement
 	{
 		try
 		{
-			m_PreparedStatement.setObject(nCol+1, oValue);
+			preparedStatement.setObject(nCol+1, oValue);
 		}
 		catch (SQLException e)
 		{
@@ -364,7 +364,7 @@ public class DbPreparedStatement
 		else if(typeOperation == SQLTypeOperation.Select) 
 		{
 			// Should never happen: This case should be handled only by DbConnectionBase.prepareAndExecuteWithException
-			ProgrammingException.throwException(ProgrammingException.SQL_PARSING_ERROR, "Should never happen; statement: "+m_csQueryString);
+			ProgrammingException.throwException(ProgrammingException.SQL_PARSING_ERROR, "Should never happen; statement: "+csQueryString);
 		}
 		else
 			return executeWithException(sqlClause);
@@ -374,11 +374,11 @@ public class DbPreparedStatement
 	private int executeWithException(SQLClause sqlClause)
 		throws TechnicalException
 	{
-		if(m_PreparedStatement != null)
+		if(preparedStatement != null)
 		{
 			try
 			{
-				boolean b = m_PreparedStatement.execute();
+				boolean b = preparedStatement.execute();
 				if(b)
 					return 1;
 			}
@@ -394,11 +394,11 @@ public class DbPreparedStatement
 	
 	private int execute()
 	{
-		if(m_PreparedStatement != null)
+		if(preparedStatement != null)
 		{
 			try
 			{
-				boolean b = m_PreparedStatement.execute();
+				boolean b = preparedStatement.execute();
 				if(b)
 					return 1;
 			}
@@ -413,11 +413,11 @@ public class DbPreparedStatement
 	
 	public int executeInsert()
 	{
-		if(m_PreparedStatement != null)
+		if(preparedStatement != null)
 		{
 			try
 			{
-				int n = m_PreparedStatement.executeUpdate();
+				int n = preparedStatement.executeUpdate();
 				return n;
 			}
 			catch (SQLException e)
@@ -431,11 +431,11 @@ public class DbPreparedStatement
 	public int executeInsertWithException(SQLClause sqlClause)
 		throws TechnicalException
 	{
-		if(m_PreparedStatement != null)
+		if(preparedStatement != null)
 		{
 			try
 			{
-				int n = m_PreparedStatement.executeUpdate();
+				int n = preparedStatement.executeUpdate();
 				return n;
 			}
 			catch (SQLException e)
@@ -449,11 +449,11 @@ public class DbPreparedStatement
 	
 	public int executeUpdate()
 	{
-		if(m_PreparedStatement != null)
+		if(preparedStatement != null)
 		{
 			try
 			{
-				int n = m_PreparedStatement.executeUpdate();
+				int n = preparedStatement.executeUpdate();
 				return n;
 			}
 			catch (SQLException e)
@@ -467,11 +467,11 @@ public class DbPreparedStatement
 	public int executeUpdateWithException(SQLClause sqlClause)
 		throws TechnicalException
 	{
-		if(m_PreparedStatement != null)
+		if(preparedStatement != null)
 		{
 			try
 			{
-				int n = m_PreparedStatement.executeUpdate();
+				int n = preparedStatement.executeUpdate();
 				return n;
 			}
 			catch (SQLException e)
@@ -486,18 +486,18 @@ public class DbPreparedStatement
 	private String getDumpClauseString(SQLClause sqlClause)
 	{
 		if(sqlClause != null)
-			return m_csQueryString + "\n" + sqlClause.toString();
-		return m_csQueryString;
+			return csQueryString + "\n" + sqlClause.toString();
+		return csQueryString;
 	}
 	
 	public int executeDeleteWithException(SQLClause sqlClause)
 		throws TechnicalException
 	{
-		if(m_PreparedStatement != null)
+		if(preparedStatement != null)
 		{
 			try
 			{
-				int n = m_PreparedStatement.executeUpdate();
+				int n = preparedStatement.executeUpdate();
 				return n;
 			}
 			catch (SQLException e)
@@ -511,11 +511,11 @@ public class DbPreparedStatement
 	
 	public ResultSet executeSelect()
 	{
-		if(m_PreparedStatement != null)
+		if(preparedStatement != null)
 		{
 			try
 			{
-				ResultSet r = m_PreparedStatement.executeQuery();
+				ResultSet r = preparedStatement.executeQuery();
 				return r;
 			}
 			catch (SQLException e)
@@ -529,17 +529,17 @@ public class DbPreparedStatement
 	public ResultSet executeSelectWithException() 
 		throws TechnicalException
 	{
-		if(m_PreparedStatement != null)
+		if(preparedStatement != null)
 		{
 			try
 			{
-				ResultSet r = m_PreparedStatement.executeQuery();
+				ResultSet r = preparedStatement.executeQuery();
 				return r;
 			}
 			catch (SQLException e)
 			{
 				Log.logCritical("SQL error executing a select: "+e.getMessage());
-				ProgrammingException.throwException(ProgrammingException.DB_ERROR_SELECT, m_csQueryString, e);
+				ProgrammingException.throwException(ProgrammingException.DB_ERROR_SELECT, csQueryString, e);
 			}
 		}
 		return null;
@@ -552,14 +552,14 @@ public class DbPreparedStatement
 	
 	public PreparedStatement getPreparedStatement()
 	{
-		return m_PreparedStatement;
+		return preparedStatement;
 	}
 	
 	public boolean doClose()
 	{
 		try
 		{
-			m_PreparedStatement.close();
+			preparedStatement.close();
 			return true;
 		}
 		catch (SQLException e)
@@ -571,33 +571,33 @@ public class DbPreparedStatement
 	
 	public String getQueryString()
 	{
-		return m_csQueryString;
+		return csQueryString;
 	}
 	
 	boolean isTimeOut(int nMaxStatementLiveTime_ms)
 	{
-		return m_swLastTimeUsed.isTimeElapsed(nMaxStatementLiveTime_ms);
+		return swLastTimeUsed.isTimeElapsed(nMaxStatementLiveTime_ms);
 	}
 	
 	public boolean isReserved()
 	{
-		return m_bReserved;
+		return bReserved;
 	}
 	
 	synchronized public void resetReserved()
 	{
-		m_bReserved = false;
+		bReserved = false;
 	}
 	
 	public void setStatementUsed()
 	{
-		m_bReserved = true;
-		m_swLastTimeUsed.Reset();
+		bReserved = true;
+		swLastTimeUsed.Reset();
 	}
 	
 	synchronized public boolean closeIfNotReserved()
 	{
-		if(!m_bReserved)
+		if(!bReserved)
 		{
 			close();
 			return true;

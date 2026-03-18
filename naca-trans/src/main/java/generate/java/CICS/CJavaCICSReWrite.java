@@ -38,22 +38,22 @@ public class CJavaCICSReWrite extends CEntityCICSReWrite
 	protected void DoExport()
 	{
 		String cs = "CESM.reWrite";
-		if (m_bWritetoDataSet)
+		if (bWritetoDataSet)
 		{
 			cs += "DataSet(";
 		}
-		else if (m_bWriteToFile)
+		else if (bWriteToFile)
 		{
 			cs += "File(";
 		}
-		cs += m_Name.ExportReference(getLine()) + ")" ;
+		cs += name.ExportReference(getLine()) + ")" ;
 		WriteWord(cs);
-		if (m_DataFrom != null)
+		if (dataFrom != null)
 		{
-			cs = ".from(" + m_DataFrom.ExportReference(getLine());
-			if (m_DataLength != null)
+			cs = ".from(" + dataFrom.ExportReference(getLine());
+			if (dataLength != null)
 			{
-				cs += ", " + m_DataLength.ExportReference(getLine());
+				cs += ", " + dataLength.ExportReference(getLine());
 			}
 			WriteWord(cs + ")");
 		}

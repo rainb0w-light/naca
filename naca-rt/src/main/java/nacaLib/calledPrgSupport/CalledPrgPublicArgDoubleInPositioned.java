@@ -18,17 +18,17 @@ public class CalledPrgPublicArgDoubleInPositioned extends BaseCalledPrgPublicArg
 	CalledPrgPublicArgDoubleInPositioned(double dValue)
 	{
 		super();
-		m_dValue = dValue;
+		dValue = dValue;
 	}
 	
 	public void MapOn(Var varLinkageSection)
 	{
-		varLinkageSection.set(m_dValue);
+		varLinkageSection.set(dValue);
 	}
 	
 	public void doFillWithVar(Var varSource)
 	{
-		m_dValue = varSource.getDouble();		
+		dValue = varSource.getDouble();		
 	}
 	
 	public int getParamLength()
@@ -36,5 +36,5 @@ public class CalledPrgPublicArgDoubleInPositioned extends BaseCalledPrgPublicArg
 		return 8;
 	}
 
-	private double m_dValue;
+	private double dValue;
 }

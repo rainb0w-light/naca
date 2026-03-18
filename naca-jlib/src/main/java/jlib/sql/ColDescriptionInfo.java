@@ -18,10 +18,10 @@ import java.sql.Types;
  */
 public class ColDescriptionInfo
 {
-	public String m_csColName = null;
-	public int m_nTypeId = 0;
-	public int m_nPrecision = 0;
-	public int m_nScale = 0;
+	public String csColName = null;
+	public int nTypeId = 0;
+	public int nPrecision = 0;
+	public int nScale = 0;
 	
 	public ColDescriptionInfo()
 	{
@@ -29,59 +29,59 @@ public class ColDescriptionInfo
 	
 	String getColName()
 	{
-		return m_csColName;
+		return csColName;
 	}
 	
 	public int getPrecision()
 	{
-		return m_nPrecision;
+		return nPrecision;
 	}
 
 	public int getScale()
 	{
-		return m_nScale;
+		return nScale;
 	}
 	
 	public BaseDbColDefinition makeDbColDefinition()
 	{
 		BaseDbColDefinition dbColDef = null;
-		if(m_nTypeId == Types.CHAR)
+		if(nTypeId == Types.CHAR)
 		{
 			dbColDef = new DbColDefinitionChar(this);
 		}
-		else if(m_nTypeId == Types.DECIMAL)	// Unsupported type in jlib, but supported in nacaRT
+		else if(nTypeId == Types.DECIMAL)	// Unsupported type in jlib, but supported in nacaRT
 		{
 			dbColDef = new DbColDefinitionDecimal(this);
 		}			
-		else if(m_nTypeId == Types.TIME)
+		else if(nTypeId == Types.TIME)
 		{
 			dbColDef = new DbColDefinitionTime(this);
 		}
-		else if(m_nTypeId == Types.TIMESTAMP)
+		else if(nTypeId == Types.TIMESTAMP)
 		{
 			dbColDef = new DbColDefinitionTimestamp(this);
 		}
-		else if(m_nTypeId == Types.DATE)
+		else if(nTypeId == Types.DATE)
 		{
 			dbColDef = new DbColDefinitionDate(this);
 		}
-		else if(m_nTypeId == Types.VARCHAR)
+		else if(nTypeId == Types.VARCHAR)
 		{
 			dbColDef = new DbColDefinitionVarchar(this);
 		}
-		else if(m_nTypeId == Types.LONGVARCHAR)
+		else if(nTypeId == Types.LONGVARCHAR)
 		{
 			dbColDef = new DbColDefinitionLongVarchar(this);
 		}
-		else if(m_nTypeId == Types.SMALLINT)
+		else if(nTypeId == Types.SMALLINT)
 		{
 			dbColDef = new DbColDefinitionSmallint(this);
 		}
-		else if(m_nTypeId == Types.INTEGER)
+		else if(nTypeId == Types.INTEGER)
 		{
 			dbColDef = new DbColDefinitionInteger(this);
 		}
-		else if(m_nTypeId == Types.DOUBLE)
+		else if(nTypeId == Types.DOUBLE)
 		{
 			dbColDef = new DbColDefinitionDouble(this);
 		}
@@ -91,7 +91,7 @@ public class ColDescriptionInfo
 	
 	public String toString()
 	{
-		return m_csColName + ";" + m_nTypeId + ";" + m_nPrecision + ";" + m_nScale; 
+		return csColName + ";" + nTypeId + ";" + nPrecision + ";" + nScale; 
 	}
 	
 }

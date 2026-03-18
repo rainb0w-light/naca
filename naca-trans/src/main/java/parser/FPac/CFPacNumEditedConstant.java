@@ -20,13 +20,13 @@ import semantic.CDataEntity;
 public class CFPacNumEditedConstant extends CTerminal
 {
 
-	protected String m_csFormat = "" ;
+	protected String csFormat = "" ;
 	/**
 	 * 
 	 */
 	public CFPacNumEditedConstant(String cs)
 	{
-		m_csFormat = cs ;
+		csFormat = cs ;
 	}
 
 	/**
@@ -35,7 +35,7 @@ public class CFPacNumEditedConstant extends CTerminal
 	@Override
 	public String GetValue()
 	{
-		return m_csFormat;
+		return csFormat;
 	}
 
 	/**
@@ -63,7 +63,7 @@ public class CFPacNumEditedConstant extends CTerminal
 	@Override
 	public CDataEntity GetDataEntity(int nLine, CBaseEntityFactory factory)
 	{
-		return factory.NewEntityString(m_csFormat) ;
+		return factory.NewEntityString(csFormat) ;
 	}
 
 

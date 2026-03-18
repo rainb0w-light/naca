@@ -18,53 +18,53 @@ import jlib.engine.BaseNotificationHandler;
 public class DefaultFileManager extends BaseNotificationHandler
 {
 
-	private String m_csDefaultInputFile = "" ;
-	private String m_csDefaultOutputFile = "" ;
-	private Hashtable<String, CEntityFileBuffer> m_tabInputFiles = new  Hashtable<String, CEntityFileBuffer>() ;
-	private Hashtable<String, CEntityFileBuffer> m_tabOutputFiles = new  Hashtable<String, CEntityFileBuffer>() ;
-	private Hashtable<String, CEntityFileBuffer> m_tabUpdateFiles = new  Hashtable<String, CEntityFileBuffer>() ;
-	private Hashtable<CEntityFileDescriptor, Boolean> m_tabOpenFiles = new Hashtable<CEntityFileDescriptor, Boolean>() ;
-	private Hashtable<CEntityFileDescriptor, Boolean> m_tabCloseFiles = new Hashtable<CEntityFileDescriptor, Boolean>() ;
+	private String csDefaultInputFile = "" ;
+	private String csDefaultOutputFile = "" ;
+	private Hashtable<String, CEntityFileBuffer> tabInputFiles = new  Hashtable<String, CEntityFileBuffer>() ;
+	private Hashtable<String, CEntityFileBuffer> tabOutputFiles = new  Hashtable<String, CEntityFileBuffer>() ;
+	private Hashtable<String, CEntityFileBuffer> tabUpdateFiles = new  Hashtable<String, CEntityFileBuffer>() ;
+	private Hashtable<CEntityFileDescriptor, Boolean> tabOpenFiles = new Hashtable<CEntityFileDescriptor, Boolean>() ;
+	private Hashtable<CEntityFileDescriptor, Boolean> tabCloseFiles = new Hashtable<CEntityFileDescriptor, Boolean>() ;
 	
 	public boolean onRegisterInputFile(NotifRegisterInputFile notif) 
 	{
-		m_tabInputFiles.put(notif.id, notif.fileBuffer) ;
-		m_tabInputFiles.put(notif.fileBuffer.GetFileDescriptor().GetName(), notif.fileBuffer) ;
-		m_tabOpenFiles.put(notif.fileBuffer.GetFileDescriptor(), Boolean.FALSE) ;
-		m_tabCloseFiles.put(notif.fileBuffer.GetFileDescriptor(), Boolean.FALSE) ;
+		tabInputFiles.put(notif.id, notif.fileBuffer) ;
+		tabInputFiles.put(notif.fileBuffer.GetFileDescriptor().GetName(), notif.fileBuffer) ;
+		tabOpenFiles.put(notif.fileBuffer.GetFileDescriptor(), Boolean.FALSE) ;
+		tabCloseFiles.put(notif.fileBuffer.GetFileDescriptor(), Boolean.FALSE) ;
 		return true ;
 	}
 	public boolean onRegisterOutputFile(NotifRegisterOutputFile notif) 
 	{
-		m_tabOutputFiles.put(notif.id, notif.fileBuffer) ;
-		m_tabOutputFiles.put(notif.fileBuffer.GetFileDescriptor().GetName(), notif.fileBuffer) ;
-		m_tabOpenFiles.put(notif.fileBuffer.GetFileDescriptor(), Boolean.FALSE) ;
-		m_tabCloseFiles.put(notif.fileBuffer.GetFileDescriptor(), Boolean.FALSE) ;
+		tabOutputFiles.put(notif.id, notif.fileBuffer) ;
+		tabOutputFiles.put(notif.fileBuffer.GetFileDescriptor().GetName(), notif.fileBuffer) ;
+		tabOpenFiles.put(notif.fileBuffer.GetFileDescriptor(), Boolean.FALSE) ;
+		tabCloseFiles.put(notif.fileBuffer.GetFileDescriptor(), Boolean.FALSE) ;
 		return true ;
 	}
 	public boolean onRegisterUpdateFile(NotifRegisterUpdateFile notif) 
 	{
-		m_tabUpdateFiles.put(notif.id, notif.fileBuffer) ;
-		m_tabUpdateFiles.put(notif.fileBuffer.GetFileDescriptor().GetName(), notif.fileBuffer) ;
-		m_tabOpenFiles.put(notif.fileBuffer.GetFileDescriptor(), Boolean.FALSE) ;
-		m_tabCloseFiles.put(notif.fileBuffer.GetFileDescriptor(), Boolean.FALSE) ;
+		tabUpdateFiles.put(notif.id, notif.fileBuffer) ;
+		tabUpdateFiles.put(notif.fileBuffer.GetFileDescriptor().GetName(), notif.fileBuffer) ;
+		tabOpenFiles.put(notif.fileBuffer.GetFileDescriptor(), Boolean.FALSE) ;
+		tabCloseFiles.put(notif.fileBuffer.GetFileDescriptor(), Boolean.FALSE) ;
 		return true ;
 	}
 	public boolean onGetDefaultInputFile(NotifGetDefaultInputFile notif)
 	{
-		if (!m_csDefaultInputFile.equals(""))
+		if (!csDefaultInputFile.equals(""))
 		{
-			notif.fileBuffer = m_tabInputFiles.get(m_csDefaultInputFile) ;
+			notif.fileBuffer = tabInputFiles.get(csDefaultInputFile) ;
 			return true ;
 		}
-		else if (m_tabInputFiles.size() == 1 || m_tabInputFiles.size() == 2)  // two entries per file
+		else if (tabInputFiles.size() == 1 || tabInputFiles.size() == 2)  // two entries per file
 		{
-			notif.fileBuffer = m_tabInputFiles.elements().nextElement() ;
+			notif.fileBuffer = tabInputFiles.elements().nextElement() ;
 			return true ;
 		}
-		else if (m_tabInputFiles.size() == 1 || m_tabUpdateFiles.size() == 2) // two entries per file
+		else if (tabInputFiles.size() == 1 || tabUpdateFiles.size() == 2) // two entries per file
 		{
-			notif.fileBuffer = m_tabUpdateFiles.elements().nextElement() ;
+			notif.fileBuffer = tabUpdateFiles.elements().nextElement() ;
 			return true ;
 		}
 		else
@@ -74,19 +74,19 @@ public class DefaultFileManager extends BaseNotificationHandler
 	}
 	public boolean onGetDefaultOutputFile(NotifGetDefaultOutputFile notif)
 	{
-		if (!m_csDefaultOutputFile.equals(""))
+		if (!csDefaultOutputFile.equals(""))
 		{
-			notif.fileBuffer = m_tabOutputFiles.get(m_csDefaultOutputFile) ;
+			notif.fileBuffer = tabOutputFiles.get(csDefaultOutputFile) ;
 			return true ;
 		}
-		else if (m_tabOutputFiles.size() == 1 || m_tabOutputFiles.size() == 2) // two entries per file
+		else if (tabOutputFiles.size() == 1 || tabOutputFiles.size() == 2) // two entries per file
 		{
-			notif.fileBuffer = m_tabOutputFiles.elements().nextElement() ;
+			notif.fileBuffer = tabOutputFiles.elements().nextElement() ;
 			return true ;
 		}
-		else if (m_tabUpdateFiles.size() == 1 || m_tabUpdateFiles.size() == 2) // two entries per file
+		else if (tabUpdateFiles.size() == 1 || tabUpdateFiles.size() == 2) // two entries per file
 		{
-			notif.fileBuffer = m_tabUpdateFiles.elements().nextElement() ;
+			notif.fileBuffer = tabUpdateFiles.elements().nextElement() ;
 			return true ;
 		}
 		else
@@ -97,13 +97,13 @@ public class DefaultFileManager extends BaseNotificationHandler
 	
 	public boolean onSetDefaultOutputFile(NotifSetDefaultOutputFile notif)
 	{
-		m_csDefaultOutputFile = notif.fileRef ;
+		csDefaultOutputFile = notif.fileRef ;
 		return true ;
 	}
 	
 	public boolean onSetDefaultInputFile(NotifSetDefaultInputFile notif)
 	{
-		m_csDefaultInputFile = notif.fileRef ;
+		csDefaultInputFile = notif.fileRef ;
 		return true ;
 	}
 
@@ -111,48 +111,48 @@ public class DefaultFileManager extends BaseNotificationHandler
 //	{
 //		if (notif.readFile != null)
 //		{
-//			m_bHasExplicitFileGet = true ;
+//			bHasExplicitFileGet = true ;
 //		}
 //		return true ;
 //	}
-//	protected boolean m_bHasExplicitFileGet = false ;
+//	protected boolean bHasExplicitFileGet = false ;
 //	public boolean onHasExplicitFileGet(NotifHasExplicitFileGet notif)
 //	{
-//		notif.hasExplicitFileGet = m_bHasExplicitFileGet ;
+//		notif.hasExplicitFileGet = bHasExplicitFileGet ;
 //		return true ;
 //	}
 	
 	public boolean onRegisterOpenFile(NotifRegisterFileOpen notif)
 	{
-		m_tabOpenFiles.put(notif.m_FileDesc, Boolean.TRUE) ;
+		tabOpenFiles.put(notif.fileDesc, Boolean.TRUE) ;
 		return true ;
 	}
 	public boolean onRegisterCloseFile(NotifRegisterFileClose notif)
 	{
-		m_tabCloseFiles.put(notif.m_FileDesc, Boolean.TRUE) ;
+		tabCloseFiles.put(notif.fileDesc, Boolean.TRUE) ;
 		return true ;
 	}
 	
 	public boolean onGetAllFilesNotOpen(NotifGetAllFilesNotOpen notif)
 	{
-		Set<Entry<CEntityFileDescriptor, Boolean>> set = m_tabOpenFiles.entrySet();
+		Set<Entry<CEntityFileDescriptor, Boolean>> set = tabOpenFiles.entrySet();
 		for (Entry<CEntityFileDescriptor, Boolean> entry : set)
 		{
 			if (!entry.getValue())
 			{
-				notif.m_arrFiles.add(entry.getKey()) ;
+				notif.arrFiles.add(entry.getKey()) ;
 			}
 		}
 		return true ;
 	}
 	public boolean onGetAllFilesNotClosed(NotifGetAllFilesNotClosed notif)
 	{
-		Set<Entry<CEntityFileDescriptor, Boolean>> set = m_tabCloseFiles.entrySet();
+		Set<Entry<CEntityFileDescriptor, Boolean>> set = tabCloseFiles.entrySet();
 		for (Entry<CEntityFileDescriptor, Boolean> entry : set)
 		{
 			if (!entry.getValue())
 			{
-				notif.m_arrFiles.add(entry.getKey()) ;
+				notif.arrFiles.add(entry.getKey()) ;
 			}
 		}
 		return true ;

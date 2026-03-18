@@ -32,9 +32,9 @@ public class CESMRetrieve
 //	
 //	CESMRetrieve into(Var var)
 //	{
-//		m_varInto = var;
+//		varInto = var;
 //		return this;
 //	}
 //	
-//	private Var m_varInto = null;
+//	private Var varInto = null;
 //}

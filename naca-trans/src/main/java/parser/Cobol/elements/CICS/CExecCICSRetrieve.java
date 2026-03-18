@@ -49,13 +49,13 @@ public class CExecCICSRetrieve extends CCobolElement
 	 */
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		CEntityCICSRetrieve eRetr = factory.NewEntityCICSRetreive(getLine(), m_bPointer);
+		CEntityCICSRetrieve eRetr = factory.NewEntityCICSRetreive(getLine(), bPointer);
 		parent.AddChild(eRetr);
-		CDataEntity ref = m_DataReference.GetDataReference(getLine(), factory);
+		CDataEntity ref = dataReference.GetDataReference(getLine(), factory);
 		CDataEntity len = null;
-		if (m_DataLength != null)
+		if (dataLength != null)
 		{
-			len = m_DataLength.GetDataReference(getLine(), factory);
+			len = dataLength.GetDataReference(getLine(), factory);
 			len.RegisterReadingAction(eRetr) ;
 		}
 		eRetr.SetRetrieve(ref, len);
@@ -75,11 +75,11 @@ public class CExecCICSRetrieve extends CCobolElement
 		
 		if (tok.GetKeyword() == CCobolKeywordList.INTO)
 		{
-			m_bPointer = false ;
+			bPointer = false ;
 		}
 		else if (tok.GetKeyword() == CCobolKeywordList.SET)
 		{
-			m_bPointer = true ;
+			bPointer = true ;
 		}
 		else
 		{
@@ -90,7 +90,7 @@ public class CExecCICSRetrieve extends CCobolElement
 		if (tok.GetType() == CTokenType.LEFT_BRACKET)
 		{
 			tok  = GetNext() ;
-			m_DataReference = ReadIdentifier() ;
+			dataReference = ReadIdentifier() ;
 			tok = GetCurrentToken() ;
 			if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 			{
@@ -104,7 +104,7 @@ public class CExecCICSRetrieve extends CCobolElement
 			if (tok.GetType() == CTokenType.LEFT_BRACKET)
 			{
 				tok  = GetNext() ;
-				m_DataLength = ReadIdentifier() ;
+				dataLength = ReadIdentifier() ;
 				tok = GetCurrentToken() ;
 				if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 				{
@@ -128,7 +128,7 @@ public class CExecCICSRetrieve extends CCobolElement
 	{
 		Element e = root.createElement("ExecCICSRetrieve") ;
 		Element eData ;
-		if (m_bPointer)
+		if (bPointer)
 		{
 			eData = root.createElement("SetPointer");
 		}
@@ -137,17 +137,17 @@ public class CExecCICSRetrieve extends CCobolElement
 			eData = root.createElement("IntoData");
 		}
 		e.appendChild(eData);
-		m_DataReference.ExportTo(eData, root);
-		if (m_DataLength != null)
+		dataReference.ExportTo(eData, root);
+		if (dataLength != null)
 		{
 			Element eL = root.createElement("Length");
 			eData.appendChild(eL);
-			m_DataLength.ExportTo(eL, root);
+			dataLength.ExportTo(eL, root);
 		}
 		return e;
 	}
 	
-	protected CIdentifier m_DataReference = null ;
-	protected CIdentifier m_DataLength = null ;
-	protected boolean m_bPointer = false ;
+	protected CIdentifier dataReference = null ;
+	protected CIdentifier dataLength = null ;
+	protected boolean bPointer = false ;
 }

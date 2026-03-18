@@ -15,29 +15,29 @@ import org.w3c.dom.Document;
 
 public abstract class BaseSession
 {
-	protected BaseResourceManager m_baseResourceManager = null;
-	private boolean m_bUseJmx = true;	
+	protected BaseResourceManager baseResourceManager = null;
+	private boolean bUseJmx = true;	
 	
 	public abstract void fillCurrentUserInfo(CurrentUserInfo currentUserInfo);
 	public abstract Document getLastScreenXMLData();
 	
 	public BaseSession(BaseResourceManager baseResourceManager)
 	{
-		m_baseResourceManager = baseResourceManager;
-		m_bUseJmx = m_baseResourceManager.getUsingJmx();
-//		if(m_bUseJmx)
+		baseResourceManager = baseResourceManager;
+		bUseJmx = baseResourceManager.getUsingJmx();
+//		if(bUseJmx)
 //			JmxGeneralStat.incNbSession();
 	}
 	
 //	public void finalize()
 //	{
-//		if(m_bUseJmx)
+//		if(bUseJmx)
 //			JmxGeneralStat.decNbSession();
 //	}
 
 	public BaseResourceManager getBaseResourceManager() 
 	{
-		return m_baseResourceManager;
+		return baseResourceManager;
 	}
 	
 	public abstract BaseEnvironment createEnvironment(DbConnectionManagerBase connectionManager);
@@ -59,74 +59,74 @@ public abstract class BaseSession
 	
 	public LogicalFileDescriptor getLogicalFileDescriptor(String csLogicalName)
 	{
-		if(m_hashLogicalFileDescriptors != null)
-			return m_hashLogicalFileDescriptors.get(csLogicalName);
+		if(hashLogicalFileDescriptors != null)
+			return hashLogicalFileDescriptors.get(csLogicalName);
 		return null;
 	}
 	
 	public void putLogicalFileDescriptor(String csLogicalName, LogicalFileDescriptor logicalFileDescriptor)
 	{
-		if(m_hashLogicalFileDescriptors == null)
-			m_hashLogicalFileDescriptors = new Hashtable<String, LogicalFileDescriptor>(); 
-		m_hashLogicalFileDescriptors.put(csLogicalName, logicalFileDescriptor);
+		if(hashLogicalFileDescriptors == null)
+			hashLogicalFileDescriptors = new Hashtable<String, LogicalFileDescriptor>(); 
+		hashLogicalFileDescriptors.put(csLogicalName, logicalFileDescriptor);
 	}
 
 	public void removeLogicalFileDescriptor(String csLogicalName)
 	{
-		if(m_hashLogicalFileDescriptors != null)
-			m_hashLogicalFileDescriptors.remove(csLogicalName);
+		if(hashLogicalFileDescriptors != null)
+			hashLogicalFileDescriptors.remove(csLogicalName);
 	}
 
-	private Hashtable<String, LogicalFileDescriptor> m_hashLogicalFileDescriptors = null;
+	private Hashtable<String, LogicalFileDescriptor> hashLogicalFileDescriptors = null;
 
 	public void addBatchInfo(String csInfo, String csValue)
 	{
-		if(m_hashLogicalJobInfo == null)
-			m_hashLogicalJobInfo = new Hashtable<String, String>(); 
-		m_hashLogicalJobInfo.put(csInfo, csValue);
+		if(hashLogicalJobInfo == null)
+			hashLogicalJobInfo = new Hashtable<String, String>(); 
+		hashLogicalJobInfo.put(csInfo, csValue);
 	}
 
 	public String getLogicalJobInfo(String csInfo)
 	{
-		if(m_hashLogicalJobInfo != null)
-			return m_hashLogicalJobInfo.get(csInfo);
+		if(hashLogicalJobInfo != null)
+			return hashLogicalJobInfo.get(csInfo);
 		return "";
 	}
 
-	private Hashtable<String, String> m_hashLogicalJobInfo = null;
+	private Hashtable<String, String> hashLogicalJobInfo = null;
 	
 	public boolean isAsync()
 	{
-		return m_bAsync;
+		return bAsync;
 	}
 
 	protected void setAsync(boolean b)
 	{
-		m_bAsync = b;
+		bAsync = b;
 	}
 
-	private boolean m_bAsync = false;
+	private boolean bAsync = false;
 
 	public String getDynamicAllocationInfo(String csKey)
 	{
-		if(m_hashDynamicAllocationInfo != null)
-			return m_hashDynamicAllocationInfo.get(csKey);
+		if(hashDynamicAllocationInfo != null)
+			return hashDynamicAllocationInfo.get(csKey);
 		return null;
 	}
 
 	public void addDynamicAllocationInfo(String csKey, String csValue)
 	{
-		if(m_hashDynamicAllocationInfo == null)
-			m_hashDynamicAllocationInfo = new Hashtable<String, String>(); 
-		m_hashDynamicAllocationInfo.put(csKey, csValue);
+		if(hashDynamicAllocationInfo == null)
+			hashDynamicAllocationInfo = new Hashtable<String, String>(); 
+		hashDynamicAllocationInfo.put(csKey, csValue);
 	}
 	
 	public void resetDynamicAllocationInfo()
 	{
-		m_hashDynamicAllocationInfo.clear();
+		hashDynamicAllocationInfo.clear();
 	}
 
-	private Hashtable<String, String> m_hashDynamicAllocationInfo = null;
+	private Hashtable<String, String> hashDynamicAllocationInfo = null;
 	
 	private static int ms_LastDynamicAllocationID = 0 ;
 	public String getNextDynamicAllocationID()
@@ -135,40 +135,40 @@ public abstract class BaseSession
 		return "" + (n/100)%10 + (n/10)%10 + (n)%10 ;
 	}
 	
-	private int m_nNetwork_ms = 0;
+	private int nNetwork_ms = 0;
 	public int getNetwork_ms()
 	{
-		return m_nNetwork_ms;
+		return nNetwork_ms;
 	}
 	public void setNetwork_ms(int nNetwork_ms)
 	{
-		m_nNetwork_ms = nNetwork_ms;
+		nNetwork_ms = nNetwork_ms;
 	}
 	
 	public Object getSpecialObject(String csKey)
 	{
-		if(m_hashSpecialObject != null)
-			return m_hashSpecialObject.get(csKey);
+		if(hashSpecialObject != null)
+			return hashSpecialObject.get(csKey);
 		return null;
 	}
 
 	public void addSpecialObject(String csKey, Object object)
 	{
-		if(m_hashSpecialObject == null)
-			m_hashSpecialObject = new Hashtable<String, Object>(); 
-		m_hashSpecialObject.put(csKey, object);
+		if(hashSpecialObject == null)
+			hashSpecialObject = new Hashtable<String, Object>(); 
+		hashSpecialObject.put(csKey, object);
 	}
 	
 	public void removeSpecialObject(String csKey)
 	{
-		if(m_hashSpecialObject != null)
-			m_hashSpecialObject.remove(csKey);
+		if(hashSpecialObject != null)
+			hashSpecialObject.remove(csKey);
 	}
 	
 	public void resetSpecialObject()
 	{
-		m_hashSpecialObject.clear();
+		hashSpecialObject.clear();
 	}
 
-	private Hashtable<String, Object> m_hashSpecialObject = null;
+	private Hashtable<String, Object> hashSpecialObject = null;
 }

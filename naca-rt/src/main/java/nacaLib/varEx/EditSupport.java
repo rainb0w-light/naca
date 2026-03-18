@@ -40,7 +40,7 @@ public class EditSupport extends DeclareTypeBase
 	
 //	public Edit edit()	// Edit in a map redefine
 //	{
-//		Edit edt = m_VarLevelManager.createEdit();
+//		Edit edt = varLevelManager.createEdit();
 //		return edt;
 //	}
 //	
@@ -51,13 +51,13 @@ public class EditSupport extends DeclareTypeBase
 //
 //	public Edit editSkip(int nNbItemToSkip)
 //	{
-//		m_VarLevelManager.editSkip(nNbItemToSkip);
+//		varLevelManager.editSkip(nNbItemToSkip);
 //		return null;
 //	}
 //	
 //	public Edit editOccurs(int nNbOccurs, String csName)
 //	{
-//		Edit edt = m_VarLevelManager.editOccurs(nNbOccurs, csName);
+//		Edit edt = varLevelManager.editOccurs(nNbOccurs, csName);
 //		return edt;
 //	}
 }

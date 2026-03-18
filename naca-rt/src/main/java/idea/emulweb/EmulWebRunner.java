@@ -367,30 +367,30 @@ public class EmulWebRunner extends BaseCloseMBean
     
 	public Boolean getEnableNextLoop()
 	{
-		return m_bNextLoopEnabled;
+		return bNextLoopEnabled;
 	}
 	
 	public void setEnableNextLoop(Boolean b)
 	{
-		m_bNextLoopEnabled = b;
+		bNextLoopEnabled = b;
 	}
 	
 	public void setEnableRemainingLoops(Boolean b)
 	{
-		m_bEnableRemainingLoops = b;
+		bEnableRemainingLoops = b;
 	}
 	
 	public Boolean getEnableRemainingLoops()
 	{
-		return m_bEnableRemainingLoops;
+		return bEnableRemainingLoops;
 	}
 //	
 //	private void waitUntilNextLoopEnabled(int i)
 //	{	
-//		if(!m_bEnableRemainingLoops)
+//		if(!bEnableRemainingLoops)
 //		{
 //			Log.logCritical("EmulWeb Loop " + i + " Done; waiting to be enabled by jmx ...");	
-//			while(!m_bNextLoopEnabled)
+//			while(!bNextLoopEnabled)
 //			{
 //				try
 //				{
@@ -402,10 +402,10 @@ public class EmulWebRunner extends BaseCloseMBean
 //					e.printStackTrace();
 //				}
 //			}
-//			m_bNextLoopEnabled= false;
+//			bNextLoopEnabled= false;
 //		}
 //	}
 	
-	private boolean m_bNextLoopEnabled = false;
-	private boolean m_bEnableRemainingLoops = false;
+	private boolean bNextLoopEnabled = false;
+	private boolean bEnableRemainingLoops = false;
 }

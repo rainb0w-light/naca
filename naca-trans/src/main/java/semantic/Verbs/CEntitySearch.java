@@ -43,18 +43,18 @@ public abstract class CEntitySearch extends CBaseActionEntity
 	 */
 	public void setVariable(CDataEntity var, CDataEntity index)
 	{
-		m_eVariable = var ;
-		m_eIndex = index ;
+		eVariable = var ;
+		eIndex = index ;
 	}
-	protected CDataEntity m_eVariable = null ;
-	protected CDataEntity m_eIndex = null ;
-	protected CEntityBloc m_blocElse = null;
+	protected CDataEntity eVariable = null ;
+	protected CDataEntity eIndex = null ;
+	protected CEntityBloc blocElse = null;
 	/**
 	 * @param bloc
 	 */
 	public void setElseBloc(CEntityBloc bloc)
 	{
-		m_blocElse = bloc ;
+		blocElse = bloc ;
 	}
 
 

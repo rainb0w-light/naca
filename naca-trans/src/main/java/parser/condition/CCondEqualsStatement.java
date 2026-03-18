@@ -39,20 +39,20 @@ public class CCondEqualsStatement extends CExpression
 		{
 			int n =0; // breakpoint
 		}
-		m_term1 = term1 ;
-		m_term2 = term2 ;
+		term1 = term1 ;
+		term2 = term2 ;
 	}
 	public CExpression NewCopy(int line, CExpression term1, CExpression term2)
 	{
 		return new CCondEqualsStatement(line, term1, term2);
 	}
-	protected CExpression m_term1 = null ;
-	protected CExpression m_term2 = null ;
+	protected CExpression term1 = null ;
+	protected CExpression term2 = null ;
 	
 	protected boolean CheckMembersBeforeExport()
 	{
-		boolean b = CheckMemberNotNull(m_term1);
-		b &= CheckMemberNotNull(m_term2);
+		boolean b = CheckMemberNotNull(term1);
+		b &= CheckMemberNotNull(term2);
 		return b;
 	}
 	
@@ -62,13 +62,13 @@ public class CCondEqualsStatement extends CExpression
 	public Element DoExport(Document root)
 	{
 		Element e = root.createElement("Equals") ;
-		Element e1 = m_term1.Export(root) ;
+		Element e1 = term1.Export(root) ;
 		if (e1 == null)
 		{
 			int n = 0 ;
 		}
 		e.appendChild(e1) ;
-		Element e2 = m_term2.Export(root) ;
+		Element e2 = term2.Export(root) ;
 		if (e2 == null)
 		{
 			int n = 0 ;
@@ -91,7 +91,7 @@ public class CCondEqualsStatement extends CExpression
 	 */
 	public CExpression GetOppositeCondition()
 	{
-		return new CCondDifferentStatement(getLine(), m_term1, m_term2) ;
+		return new CCondDifferentStatement(getLine(), term1, term2) ;
 	}
 	/* (non-Javadoc)
 	 * @see parser.expression.CExpression#AnalyseExpression(semantic.CBaseEntityFactory)
@@ -106,24 +106,24 @@ public class CCondEqualsStatement extends CExpression
 	public CBaseEntityCondition AnalyseCondition(CBaseEntityFactory factory, CDefaultConditionManager masterCond)
 	{
 		masterCond.SetMasterCondition(this) ;
-		CDataEntity eData1 = m_term1.GetReference(factory);
-		CDataEntity eData2 = m_term2.GetReference(factory);
-		if (m_term1.IsConstant() && m_term1.GetConstantValue().equals("TRUE"))
+		CDataEntity eData1 = term1.GetReference(factory);
+		CDataEntity eData2 = term2.GetReference(factory);
+		if (term1.IsConstant() && term1.GetConstantValue().equals("TRUE"))
 		{
-			return m_term2.AnalyseCondition(factory);
+			return term2.AnalyseCondition(factory);
 		}
-		if (m_term1.IsConstant() && m_term1.GetConstantValue().equals("FALSE"))
+		if (term1.IsConstant() && term1.GetConstantValue().equals("FALSE"))
 		{
-			CBaseEntityCondition cond = m_term2.AnalyseCondition(factory);
+			CBaseEntityCondition cond = term2.AnalyseCondition(factory);
 			return cond.GetOppositeCondition() ;
 		}
-		if (m_term2.IsConstant() && m_term2.GetConstantValue().equals("TRUE"))
+		if (term2.IsConstant() && term2.GetConstantValue().equals("TRUE"))
 		{
-			return m_term1.AnalyseCondition(factory) ;
+			return term1.AnalyseCondition(factory) ;
 		}
-		if (m_term2.IsConstant() && m_term2.GetConstantValue().equals("FALSE"))
+		if (term2.IsConstant() && term2.GetConstantValue().equals("FALSE"))
 		{
-			CBaseEntityCondition cond = m_term1.AnalyseCondition(factory) ;
+			CBaseEntityCondition cond = term1.AnalyseCondition(factory) ;
 			return cond.GetOppositeCondition() ;
 		}
 		String value = "" ;
@@ -139,10 +139,10 @@ public class CCondEqualsStatement extends CExpression
 			}
 			else
 			{
-				CBaseEntityExpression op2 = m_term2.AnalyseExpression(factory);
+				CBaseEntityExpression op2 = term2.AnalyseExpression(factory);
 				if (op2 == null)
 				{
-					op2 = factory.NewEntityExprTerminal(factory.NewEntityString(m_term2.GetConstantValue())) ;
+					op2 = factory.NewEntityExprTerminal(factory.NewEntityString(term2.GetConstantValue())) ;
 					CEntityCondEquals eCond = factory.NewEntityCondEquals();
 					eCond.SetEqualCondition(op1, op2) ;
 					return eCond  ;
@@ -155,9 +155,9 @@ public class CCondEqualsStatement extends CExpression
 				}
 			}
 		}
-		else if (m_term1.IsReference() && m_term2.IsConstant())
+		else if (term1.IsReference() && term2.IsConstant())
 		{
-			value = m_term2.GetConstantValue() ;
+			value = term2.GetConstantValue() ;
 			if (eData1 != null)
 			{
 				CBaseEntityCondition eCond = eData1.GetSpecialCondition(getLine(), value, CBaseEntityCondition.EConditionType.IS_EQUAL, factory) ;
@@ -168,9 +168,9 @@ public class CCondEqualsStatement extends CExpression
 				}
 			}
 		}
-		else if (m_term2.IsReference() && m_term1.IsConstant())
+		else if (term2.IsReference() && term1.IsConstant())
 		{
-			value = m_term1.GetConstantValue() ;
+			value = term1.GetConstantValue() ;
 			if (eData2 != null)
 			{
 				CBaseEntityCondition eCond = eData2.GetSpecialCondition(getLine(), value, CBaseEntityCondition.EConditionType.IS_EQUAL, factory) ;
@@ -181,7 +181,7 @@ public class CCondEqualsStatement extends CExpression
 				}
 			}
 		} 
-		else if (m_term1.IsReference() && m_term2.IsReference())
+		else if (term1.IsReference() && term2.IsReference())
 		{
 			if (eData1 != null && eData2 != null)
 			{
@@ -195,13 +195,13 @@ public class CCondEqualsStatement extends CExpression
 			}
 		}
 		
-		CBaseEntityExpression op1 = m_term1.AnalyseExpression(factory);
+		CBaseEntityExpression op1 = term1.AnalyseExpression(factory);
 		if(op1 == null)
 		{
-			ASSERT(op1, m_term1);
+			ASSERT(op1, term1);
 			
 		}
-		CBaseEntityExpression op2 = m_term2.AnalyseExpression(factory);
+		CBaseEntityExpression op2 = term2.AnalyseExpression(factory);
 		if (op2 == null)
 		{ // maybe the op2 is a structure like 'A = (B OR C)'
 //			if (op1 != null || masterCond == null)
@@ -209,8 +209,8 @@ public class CCondEqualsStatement extends CExpression
 //				masterCond = new CDefaultConditionManager(this) ;
 //			}
 			masterCond.SetMasterCondition(this) ;
-			CBaseEntityCondition eCond = m_term2.AnalyseCondition(factory, masterCond);
-			ASSERT(eCond, m_term2) ;
+			CBaseEntityCondition eCond = term2.AnalyseCondition(factory, masterCond);
+			ASSERT(eCond, term2) ;
 			return eCond ;
 		}
 		CEntityCondEquals eCond = factory.NewEntityCondEquals();
@@ -230,14 +230,14 @@ public class CCondEqualsStatement extends CExpression
 	 */
 	public CExpression GetFirstConditionOperand()
 	{
-		return m_term1 ;
+		return term1 ;
 	}
 	/* (non-Javadoc)
 	 * @see parser.expression.CExpression#GetSimilarExpression(parser.expression.CExpression)
 	 */
 	public CExpression GetSimilarExpression(CExpression operand)
 	{
-		return new CCondEqualsStatement(getLine(), m_term1, operand) ;
+		return new CCondEqualsStatement(getLine(), term1, operand) ;
 	}
 	/* (non-Javadoc)
 	 * @see parser.expression.CExpression#IsBinaryCondition()
@@ -248,7 +248,7 @@ public class CCondEqualsStatement extends CExpression
 	}
 	public String toString()
 	{
-		return "EQUAL(" + m_term1.toString() + ", " + m_term2.toString() + ")" ;
+		return "EQUAL(" + term1.toString() + ", " + term2.toString() + ")" ;
 	}
 	public CExpression getMasterBinaryCondition()
 	{
@@ -257,6 +257,6 @@ public class CCondEqualsStatement extends CExpression
 	@Override
 	public CExpression GetFirstCalculOperand()
 	{
-		return m_term1.GetFirstCalculOperand() ;
+		return term1.GetFirstCalculOperand() ;
 	}
 }

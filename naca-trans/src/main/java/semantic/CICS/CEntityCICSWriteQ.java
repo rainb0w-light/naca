@@ -30,62 +30,62 @@ public abstract class CEntityCICSWriteQ extends CBaseActionEntity
 	public CEntityCICSWriteQ(int line, CObjectCatalog cat, CBaseLanguageExporter out, boolean bPersistant)
 	{
 		super(line, cat, out);
-		m_bPersistant = bPersistant ;
+		bPersistant = bPersistant ;
 		cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
 	}
 
-	protected boolean m_bPersistant = false ;
-	protected CDataEntity m_QueueName = null ;
-	protected CDataEntity m_DataRef = null ;
-	protected CDataEntity m_DataLength = null ;
-	protected CDataEntity m_NumItem = null ;
-	protected CDataEntity m_Item = null ;
-	protected boolean m_bAuxiliary = false ;
-	protected boolean m_bMain = false ;
-	protected boolean m_bRewrite = false ;	
+	protected boolean bPersistant = false ;
+	protected CDataEntity queueName = null ;
+	protected CDataEntity dataRef = null ;
+	protected CDataEntity dataLength = null ;
+	protected CDataEntity numItem = null ;
+	protected CDataEntity item = null ;
+	protected boolean bAuxiliary = false ;
+	protected boolean bMain = false ;
+	protected boolean bRewrite = false ;	
 	public void Clear()
 	{
 		super.Clear();
-		m_QueueName = null ;
-		m_DataLength = null ;
-		m_DataRef = null ;
-		m_NumItem = null ;
-		m_Item = null ;
+		queueName = null ;
+		dataLength = null ;
+		dataRef = null ;
+		numItem = null ;
+		item = null ;
 	}
 
 	public void SetName(CDataEntity entity)
 	{
-		m_QueueName = entity ;		
+		queueName = entity ;		
 	}
 	public void SetDataRef(CDataEntity entity, CDataEntity len)
 	{
-		m_DataRef = entity ;
-		m_DataLength = len ;
+		dataRef = entity ;
+		dataLength = len ;
 	}
 
 	public void WriteNumItem(CDataEntity entity)
 	{
-		m_NumItem = entity ;		
+		numItem = entity ;		
 	}
 
 	public void WriteItem(CDataEntity entity)
 	{
-		m_Item = entity ;
+		item = entity ;
 	}
 
 	public void SetRewrite()
 	{
-		m_bRewrite = true ;
+		bRewrite = true ;
 	}
 
 	public void SetMain()
 	{
-		m_bMain = true ;		
+		bMain = true ;		
 	}
 
 	public void SetAuxiliary()
 	{
-		m_bAuxiliary = true ; 		
+		bAuxiliary = true ; 		
 	}
 	public boolean ignore()
 	{
@@ -98,9 +98,9 @@ public abstract class CEntityCICSWriteQ extends CBaseActionEntity
 	@Override
 	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
 	{
-		if (m_DataRef == field)
+		if (dataRef == field)
 		{
-			m_DataRef = var ;
+			dataRef = var ;
 			field.UnRegisterWritingAction(this) ;
 			var.RegisterWritingAction(this) ;
 			return true ;

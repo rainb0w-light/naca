@@ -62,8 +62,8 @@ public class CFieldGroup extends CFieldElement
 	{
 		Element eGrp = root.createElement("Group") ;
 		eGrp.setAttribute("Name", getName()) ;
-		eGrp.setAttribute("PosLine", String.valueOf(m_PosLine));
-		eGrp.setAttribute("PosCol", String.valueOf(m_PosCol));
+		eGrp.setAttribute("PosLine", String.valueOf(posLine));
+		eGrp.setAttribute("PosCol", String.valueOf(posCol));
 		return eGrp ;
 	}
 
@@ -100,30 +100,30 @@ public class CFieldGroup extends CFieldElement
 		CEntityHierarchy hier = null ;
 		ef = factory.NewEntityEntryField(getLine(), getName()) ;
 		
-		CFieldElement[] arrFields = new CFieldElement[m_children.size()] ;
-		m_children.toArray(arrFields) ;
-		ef.m_nLength = 0;
+		CFieldElement[] arrFields = new CFieldElement[children.size()] ;
+		children.toArray(arrFields) ;
+		ef.nLength = 0;
 		for (int i=0; i<arrFields.length; i++)
 		{
 			CFieldElement el = arrFields[i] ;
-			ef.m_nLength += el.m_Length ;
+			ef.nLength += el.length ;
 			if (i==0)
 			{
-				ef.m_nPosCol = el.m_PosCol ;
-				ef.m_nPosLine = el.m_PosLine ;
-				ef.m_csInitialValue = "" ; 
-				// el.m_Value ;
-				if (el.m_HighLight != null)
+				ef.nPosCol = el.posCol ;
+				ef.nPosLine = el.posLine ;
+				ef.csInitialValue = "" ; 
+				// el.value ;
+				if (el.highLight != null)
 				{
-					ef.SetHighLight(el.m_HighLight.m_Name) ;
+					ef.SetHighLight(el.highLight.name) ;
 				}
-				if (el.m_Color != null)
+				if (el.color != null)
 				{
-					ef.SetColor(el.m_Color.m_Name) ;
+					ef.SetColor(el.color.name) ;
 				}
-				for (int j=0; j<el.m_arrATTRB.size(); j++)
+				for (int j=0; j<el.arrATTRB.size(); j++)
 				{
-					String cs = el.m_arrATTRB.get(j) ;
+					String cs = el.arrATTRB.get(j) ;
 					if (cs.equals("ASKIP")){
 						ef.SetProtection("AUTOSKIP") ;	}
 					else if (cs.equals("UNPROT")){
@@ -144,9 +144,9 @@ public class CFieldGroup extends CFieldElement
 						int n=0 ;
 					}
 				}
-				for (int j=0; j<el.m_arrJustify.size(); j++)
+				for (int j=0; j<el.arrJustify.size(); j++)
 				{
-					String cs = el.m_arrJustify.get(j) ;
+					String cs = el.arrJustify.get(j) ;
 					if (cs.equals("LEFT")){
 						ef.SetRightJustified(false) ;}
 					else if (cs.equals("RIGHT")){
@@ -161,9 +161,9 @@ public class CFieldGroup extends CFieldElement
 				}
 			}
 			CEntityStructure es = factory.NewEntityStructure(0, el.getName(), "10") ;
-			CEntityString val = factory.NewEntityString(el.m_Value) ;
+			CEntityString val = factory.NewEntityString(el.value) ;
 			es.SetInitialValue(val) ;
-			es.SetTypeString(el.m_Length) ;
+			es.SetTypeString(el.length) ;
 			ef.AddChild(es) ;
 		}
 		return ef;
@@ -171,8 +171,8 @@ public class CFieldGroup extends CFieldElement
 
 	public void setPosition(CFieldElement eField)
 	{
-		m_PosCol = eField.m_PosCol ;
-		m_PosLine = eField.m_PosLine ;		
+		posCol = eField.posCol ;
+		posLine = eField.posLine ;		
 	}
 	
 	public void AddChildField(CFieldElement e)

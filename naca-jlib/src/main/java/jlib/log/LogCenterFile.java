@@ -39,20 +39,20 @@ public class LogCenterFile extends LogCenter
 	
 	public void loadSpecificsEntries(Tag tagLogCenter)	// Special values for file appenders
 	{
-		m_csFormat = tagLogCenter.getVal("Format");
+		csFormat = tagLogCenter.getVal("Format");
 		String csFileStrategy = tagLogCenter.getVal("FileStrategy");
 		String csFilePath = tagLogCenter.getVal("FilePath");
 		csFilePath = FileSystem.normalizePath(csFilePath);
 		String csFileName = tagLogCenter.getVal("FileName");
 		
-		m_csFile = FileSystem.buildFileName(csFilePath, csFileName, null);
-		FileSystem.createPath(m_csFile);
+		csFile = FileSystem.buildFileName(csFilePath, csFileName, null);
+		FileSystem.createPath(csFile);
 		
 		if(csFileStrategy.equalsIgnoreCase("Append"))
-			m_bAppend = true;
+			bAppend = true;
 		else if(csFileStrategy.equalsIgnoreCase("BackupOnstart"))	// Backup On Start
 		{
-			m_bAppend = false;
+			bAppend = false;
 			
 			// Read the backup strategy tag
 			Tag tagBackup = tagLogCenter.getChild("Backup");
@@ -70,7 +70,7 @@ public class LogCenterFile extends LogCenter
 				
 				String csBackupFile = FileSystem.buildFileName(csBackupPath, csBackupFileFormat, null);
 				
-				FileSystem.moveOrCopy(m_csFile, csBackupFile);
+				FileSystem.moveOrCopy(csFile, csBackupFile);
 				
 				int nMaxBackupFileCount = tagBackup.getValAsInt("MaxBackupFileCount");
 				if(nMaxBackupFileCount >= 0)
@@ -78,7 +78,7 @@ public class LogCenterFile extends LogCenter
 			}
 		}		
 		else
-			m_bAppend = false;
+			bAppend = false;
 	}
 	
 	private String normalizeBackupFileFormat(String csBackupFileFormat)
@@ -97,7 +97,7 @@ public class LogCenterFile extends LogCenter
 	{
 		try 
 		{ 			
-			m_printWriter = new PrintWriter(new BufferedWriter(new FileWriter(m_csFile, m_bAppend)));
+			printWriter = new PrintWriter(new BufferedWriter(new FileWriter(csFile, bAppend)));
 		} 
 		catch (Exception e) 
 		{ 
@@ -109,7 +109,7 @@ public class LogCenterFile extends LogCenter
 	
 	boolean closeLogCenter()
 	{
-		m_printWriter.close();
+		printWriter.close();
 		return true;
 	}
 	
@@ -120,34 +120,34 @@ public class LogCenterFile extends LogCenter
 	
 	void sendOutput(LogParams logParam)
 	{
-		if(m_printWriter != null)
+		if(printWriter != null)
 		{
-			int nNbLoops = m_patternLayout.getNbLoop(logParam);
+			int nNbLoops = patternLayout.getNbLoop(logParam);
 			for(int n=0; n<nNbLoops; n++)
 			{
-				String csOut = m_patternLayout.format(logParam, n);
-				m_printWriter.print(csOut);
+				String csOut = patternLayout.format(logParam, n);
+				printWriter.print(csOut);
 			}
 		}
 	}	
 		
 	void postSendOutput()
 	{
-		if(m_printWriter != null)
-			m_printWriter.flush();
+		if(printWriter != null)
+			printWriter.flush();
 	}
 	
 	String getFormat()
 	{
-		return m_csFormat;
+		return csFormat;
 	}
 		
-	private String m_csFile = null;
-	private boolean m_bAppend  = false;
+	private String csFile = null;
+	private boolean bAppend  = false;
 	
-	private PrintWriter m_printWriter = null;
+	private PrintWriter printWriter = null;
 	
-	private String m_csFormat = null;
+	private String csFormat = null;
 	
 	public String getType()
 	{

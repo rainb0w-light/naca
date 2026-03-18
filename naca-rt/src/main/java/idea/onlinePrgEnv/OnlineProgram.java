@@ -26,7 +26,7 @@ import nacaLib.varEx.*;
 */
 public class OnlineProgram extends BaseProgram
 {
-	//private OnlineProgramManager m_ProgramManager = null;
+	//private OnlineProgramManager programManager = null;
 	private static OnlineProgramManagerFactory ms_onlineProgramManagerFactory = new OnlineProgramManagerFactory();  
 	
 	public OnlineProgram()
@@ -37,7 +37,7 @@ public class OnlineProgram extends BaseProgram
 	
 	public OnlineProgramManager getProgramManager()
 	{
-		return (OnlineProgramManager)m_BaseProgramManager;
+		return (OnlineProgramManager)baseProgramManager;
 	}
 
 	public CESMManager CESM = null ;				// GUI methods accessor used by GUI applications
@@ -100,12 +100,12 @@ public class OnlineProgram extends BaseProgram
 		if (val.equals("\u00d8"))
 		{
 			boolean b = e.isCleared() ;
-			getTempCache().resetTempVarIndex(e.m_varTypeId);
+			getTempCache().resetTempVarIndex(e.varTypeId);
 			return b;
 		}
 		else
 		{
-			getTempCache().resetTempVarIndex(e.m_varTypeId);
+			getTempCache().resetTempVarIndex(e.varTypeId);
 			return false ;
 		}
 	}	
@@ -121,7 +121,7 @@ public class OnlineProgram extends BaseProgram
 			Log.logFineDebug("isFieldColored_E_Color:" + e.getSTCheckValue());
 
 		boolean b = e.IsColored(color) ;
-		getTempCache().resetTempVarIndex(e.m_varTypeId);
+		getTempCache().resetTempVarIndex(e.varTypeId);
 		return b;
 	}	
 	
@@ -131,7 +131,7 @@ public class OnlineProgram extends BaseProgram
 			Log.logFineDebug("isNotFieldColored_E_Color:" + e.getSTCheckValue());
 
 		boolean b = ! e.IsColored(color) ;
-		getTempCache().resetTempVarIndex(e.m_varTypeId);
+		getTempCache().resetTempVarIndex(e.varTypeId);
 		return b;
 	}
 
@@ -146,7 +146,7 @@ public class OnlineProgram extends BaseProgram
 			Log.logFineDebug("isFieldBright_E:" + e.getSTCheckValue());
 
 		boolean b = e.IsAttribute(MapFieldAttrIntensity.BRIGHT) ;
-		getTempCache().resetTempVarIndex(e.m_varTypeId);
+		getTempCache().resetTempVarIndex(e.varTypeId);
 		return b;
 	}
 	
@@ -156,7 +156,7 @@ public class OnlineProgram extends BaseProgram
 			Log.logFineDebug("isNotFieldBright_E:" + e.getSTCheckValue());
 
 		boolean b = ! e.IsAttribute(MapFieldAttrIntensity.BRIGHT) ;
-		getTempCache().resetTempVarIndex(e.m_varTypeId);
+		getTempCache().resetTempVarIndex(e.varTypeId);
 		return b;
 	}
 	
@@ -170,7 +170,7 @@ public class OnlineProgram extends BaseProgram
 			Log.logFineDebug("isFieldBlink_E:" + e.getSTCheckValue());
 
 		boolean b = e.IsHighlighting(MapFieldAttrHighlighting.BLINK) ;
-		getTempCache().resetTempVarIndex(e.m_varTypeId);
+		getTempCache().resetTempVarIndex(e.varTypeId);
 		return b;
 	}
 	
@@ -184,7 +184,7 @@ public class OnlineProgram extends BaseProgram
 			Log.logFineDebug("isFieldUnprotected_E:" + e.getSTCheckValue());
 
 		boolean b = e.IsAttribute(MapFieldAttrProtection.UNPROTECTED) ;
-		getTempCache().resetTempVarIndex(e.m_varTypeId);
+		getTempCache().resetTempVarIndex(e.varTypeId);
 		return b;
 	}
 
@@ -194,7 +194,7 @@ public class OnlineProgram extends BaseProgram
 			Log.logFineDebug("isNotFieldUnprotected_E:" + e.getSTCheckValue());
 
 		boolean b = ! e.IsAttribute(MapFieldAttrProtection.UNPROTECTED) ;
-		getTempCache().resetTempVarIndex(e.m_varTypeId);
+		getTempCache().resetTempVarIndex(e.varTypeId);
 		return b;
 	}
 
@@ -210,7 +210,7 @@ public class OnlineProgram extends BaseProgram
 			Log.logFineDebug("moveAttribute_Intens_E:" + intens.getSTCheckValue() + ":" + e.getSTCheckValue());
 
 		e.intensity(intens) ;
-		getTempCache().resetTempVarIndex(e.m_varTypeId);
+		getTempCache().resetTempVarIndex(e.varTypeId);
 	}	
 
 	protected void moveAttribute(Var v, Edit e)
@@ -221,7 +221,7 @@ public class OnlineProgram extends BaseProgram
 		String cs = v.getString() ;
 		int n = cs.charAt(0) ;
 		e.setAttributes(n) ;
-		getTempCache().resetTempVarIndex(e.m_varTypeId);
+		getTempCache().resetTempVarIndex(e.varTypeId);
 }	
 
 	
@@ -236,7 +236,7 @@ public class OnlineProgram extends BaseProgram
 		if(IsSTCheck)
 			Log.logFineDebug("moveAttribute_Attr_E:" + att.getSTCheckValue() + ":" + e.getSTCheckValue());
 		e.setAttribute(att) ;
-		getTempCache().resetTempVarIndex(e.m_varTypeId);
+		getTempCache().resetTempVarIndex(e.varTypeId);
 	}	
 	
 	protected void moveFlag(int n, Edit e)
@@ -246,7 +246,7 @@ public class OnlineProgram extends BaseProgram
 
 		String cs = String.valueOf(n);
 		e.setFlag(cs) ;
-		getTempCache().resetTempVarIndex(e.m_varTypeId);
+		getTempCache().resetTempVarIndex(e.varTypeId);
 	}	
 
 	protected void moveFlag(Var v, Edit e)
@@ -258,8 +258,8 @@ public class OnlineProgram extends BaseProgram
 		e.setFlag(cs) ;
 		
 		TempCache tempCache = getTempCache();
-		tempCache.resetTempVarIndex(e.m_varTypeId);
-		tempCache.resetTempVarIndex(v.m_varTypeId);
+		tempCache.resetTempVarIndex(e.varTypeId);
+		tempCache.resetTempVarIndex(v.varTypeId);
 
 //		e.resetTempIndex(getTempCache());
 //		v.resetTempIndex(getTempCache());
@@ -276,7 +276,7 @@ public class OnlineProgram extends BaseProgram
 			Log.logFineDebug("getAttribute_E:" + e.getSTCheckValue());
 
 		MapFieldAttribute mapFieldAttribute = e.getAttribute() ;
-		getTempCache().resetTempVarIndex(e.m_varTypeId);
+		getTempCache().resetTempVarIndex(e.varTypeId);
 		return mapFieldAttribute;
 	}	
 	
@@ -290,7 +290,7 @@ public class OnlineProgram extends BaseProgram
 			Log.logFineDebug("getHighlighting_E:" + e.getSTCheckValue());
 
 		MapFieldAttrHighlighting a = e.getHighlighting() ;
-		getTempCache().resetTempVarIndex(e.m_varTypeId);
+		getTempCache().resetTempVarIndex(e.varTypeId);
 		return a;
 	}	
 	
@@ -305,7 +305,7 @@ public class OnlineProgram extends BaseProgram
 			Log.logFineDebug("getHighlighting_Protect_E:" + att.getSTCheckValue()+ ":" + e.getSTCheckValue());
 
 		e.protection(att) ;
-		getTempCache().resetTempVarIndex(e.m_varTypeId);
+		getTempCache().resetTempVarIndex(e.varTypeId);
 	}	
 	
 	protected void moveFlag(String cs, Edit e)
@@ -314,7 +314,7 @@ public class OnlineProgram extends BaseProgram
 			Log.logFineDebug("moveFlag_cs_E:" + cs+ ":" + e.getSTCheckValue());
 
 		e.setFlag(cs) ;
-		getTempCache().resetTempVarIndex(e.m_varTypeId);
+		getTempCache().resetTempVarIndex(e.varTypeId);
 	}	
 
 	protected void resetFlag(Edit e)
@@ -323,7 +323,7 @@ public class OnlineProgram extends BaseProgram
 			Log.logFineDebug("resetFlag_E:" + e.getSTCheckValue());
 
 		e.resetFlag();
-		getTempCache().resetTempVarIndex(e.m_varTypeId);
+		getTempCache().resetTempVarIndex(e.varTypeId);
 	}	
 
 	protected boolean isFieldFlag(Edit e, String cs)
@@ -332,7 +332,7 @@ public class OnlineProgram extends BaseProgram
 			Log.logFineDebug("isFieldFlag_E_cs:" + e.getSTCheckValue() + ":" + cs);
 
 		boolean b = e.isFlag(cs) ;
-		getTempCache().resetTempVarIndex(e.m_varTypeId);
+		getTempCache().resetTempVarIndex(e.varTypeId);
 		return b;
 	}	
 	
@@ -342,7 +342,7 @@ public class OnlineProgram extends BaseProgram
 			Log.logFineDebug("isFieldFlagSet_E:" + e.getSTCheckValue());
 
 		boolean b = e.isFlagSet() ;
-		getTempCache().resetTempVarIndex(e.m_varTypeId);
+		getTempCache().resetTempVarIndex(e.varTypeId);
 		return b;
 	}	
 	
@@ -352,7 +352,7 @@ public class OnlineProgram extends BaseProgram
 			Log.logFineDebug("isNotFieldFlag_E_cs:" + e.getSTCheckValue() + ":" + cs);
 
 		boolean b = !e.isFlag(cs) ;
-		getTempCache().resetTempVarIndex(e.m_varTypeId);
+		getTempCache().resetTempVarIndex(e.varTypeId);
 		return b;
 	}	
 
@@ -362,7 +362,7 @@ public class OnlineProgram extends BaseProgram
 			Log.logFineDebug("isNotFieldFlagSet_E:" + e.getSTCheckValue());
 
 		boolean b = !e.isFlagSet() ;
-		getTempCache().resetTempVarIndex(e.m_varTypeId);
+		getTempCache().resetTempVarIndex(e.varTypeId);
 		return b;
 	}	
 	
@@ -380,7 +380,7 @@ public class OnlineProgram extends BaseProgram
 			e.setModified(MapFieldAttrModified.TO_BE_MODIFIED) ;
 		else
 			e.setModified(att) ;
-		getTempCache().resetTempVarIndex(e.m_varTypeId);
+		getTempCache().resetTempVarIndex(e.varTypeId);
 	}	
 	
 	/**
@@ -393,7 +393,7 @@ public class OnlineProgram extends BaseProgram
 			Log.logFineDebug("isFieldModified_E:" + e.getSTCheckValue());
 
 		boolean b = e.isModified() ;
-		getTempCache().resetTempVarIndex(e.m_varTypeId);
+		getTempCache().resetTempVarIndex(e.varTypeId);
 		return b;
 	}	
 	
@@ -403,7 +403,7 @@ public class OnlineProgram extends BaseProgram
 			Log.logFineDebug("isNotFieldModified_E:" + e.getSTCheckValue());
 
 		boolean b = !e.isModified() ;
-		getTempCache().resetTempVarIndex(e.m_varTypeId);
+		getTempCache().resetTempVarIndex(e.varTypeId);
 		return b;
 	}	
 
@@ -418,7 +418,7 @@ public class OnlineProgram extends BaseProgram
 			Log.logFineDebug("isFieldCleared_E:" + e.getSTCheckValue());
 
 		boolean b = e.isCleared() ;
-		getTempCache().resetTempVarIndex(e.m_varTypeId);
+		getTempCache().resetTempVarIndex(e.varTypeId);
 		return b;
 	}	
 	
@@ -432,7 +432,7 @@ public class OnlineProgram extends BaseProgram
 			Log.logFineDebug("isFieldCleared_E:" + e.getSTCheckValue());
 
 		boolean b = !e.isCleared() ;
-		getTempCache().resetTempVarIndex(e.m_varTypeId);
+		getTempCache().resetTempVarIndex(e.varTypeId);
 		return b;
 	}	
 	
@@ -446,7 +446,7 @@ public class OnlineProgram extends BaseProgram
 			Log.logFineDebug("isFieldUnmodified_E:" + e.getSTCheckValue());
 
 		boolean b = e.isUnmodified() ;
-		getTempCache().resetTempVarIndex(e.m_varTypeId);
+		getTempCache().resetTempVarIndex(e.varTypeId);
 		return b;
 	}	
 	
@@ -460,7 +460,7 @@ public class OnlineProgram extends BaseProgram
 			Log.logFineDebug("isFieldUnderlined_E:" + e.getSTCheckValue());
 
 		boolean b = e.isUnderlined();	
-		getTempCache().resetTempVarIndex(e.m_varTypeId);
+		getTempCache().resetTempVarIndex(e.varTypeId);
 		return b;
 	}
 	
@@ -470,7 +470,7 @@ public class OnlineProgram extends BaseProgram
 			Log.logFineDebug("isNotFieldUnderlined_E:" + e.getSTCheckValue());
 
 		boolean b = !e.isUnderlined();
-		getTempCache().resetTempVarIndex(e.m_varTypeId);
+		getTempCache().resetTempVarIndex(e.varTypeId);
 		return b;
 	}
 	
@@ -480,7 +480,7 @@ public class OnlineProgram extends BaseProgram
 			Log.logFineDebug("isFieldReverse_E:" + e.getSTCheckValue());
 
 		boolean b = e.isReverse();
-		getTempCache().resetTempVarIndex(e.m_varTypeId);
+		getTempCache().resetTempVarIndex(e.varTypeId);
 		return b;
 	}
 	
@@ -490,7 +490,7 @@ public class OnlineProgram extends BaseProgram
 			Log.logFineDebug("isNotFieldReverse_E:" + e.getSTCheckValue());
 
 		boolean b = !e.isReverse();
-		getTempCache().resetTempVarIndex(e.m_varTypeId);
+		getTempCache().resetTempVarIndex(e.varTypeId);
 		return b;
 	}
 	
@@ -500,7 +500,7 @@ public class OnlineProgram extends BaseProgram
 			Log.logFineDebug("isFieldHighlightNormal_E:" + e.getSTCheckValue());
 
 		boolean b = e.isHighlightNormal();
-		getTempCache().resetTempVarIndex(e.m_varTypeId);
+		getTempCache().resetTempVarIndex(e.varTypeId);
 		return b;
 	}
 	
@@ -510,7 +510,7 @@ public class OnlineProgram extends BaseProgram
 			Log.logFineDebug("isNotFieldHighlightNormal_E:" + e.getSTCheckValue());
 
 		boolean b = !e.isHighlightNormal();
-		getTempCache().resetTempVarIndex(e.m_varTypeId);
+		getTempCache().resetTempVarIndex(e.varTypeId);
 		return b;
 	}
 	
@@ -526,7 +526,7 @@ public class OnlineProgram extends BaseProgram
 			Log.logFineDebug("isFieldAutoSkip_E:" + e.getSTCheckValue());
 
 		boolean b = e.isAutoSkip() ;
-		getTempCache().resetTempVarIndex(e.m_varTypeId);
+		getTempCache().resetTempVarIndex(e.varTypeId);
 		return b;
 	}	
 	
@@ -536,7 +536,7 @@ public class OnlineProgram extends BaseProgram
 			Log.logFineDebug("isNotFieldAutoSkip_E:" + e.getSTCheckValue());
 
 		boolean b = !e.isAutoSkip() ;
-		getTempCache().resetTempVarIndex(e.m_varTypeId);
+		getTempCache().resetTempVarIndex(e.varTypeId);
 		return b;
 	}	
 	
@@ -546,7 +546,7 @@ public class OnlineProgram extends BaseProgram
 			Log.logFineDebug("isFieldDark_E:" + e.getSTCheckValue());
 
 		boolean b = e.isDark() ;
-		getTempCache().resetTempVarIndex(e.m_varTypeId);
+		getTempCache().resetTempVarIndex(e.varTypeId);
 		return b;
 	}	
 	
@@ -556,7 +556,7 @@ public class OnlineProgram extends BaseProgram
 			Log.logFineDebug("isNotFieldDark_E:" + e.getSTCheckValue());
 
 		boolean b = !e.isDark() ;
-		getTempCache().resetTempVarIndex(e.m_varTypeId);
+		getTempCache().resetTempVarIndex(e.varTypeId);
 		return b;
 	}	
 
@@ -570,7 +570,7 @@ public class OnlineProgram extends BaseProgram
 			Log.logFineDebug("setCursor_E:" + e.getSTCheckValue());
 
 		e.setCursor(true) ;
-		getTempCache().resetTempVarIndex(e.m_varTypeId);
+		getTempCache().resetTempVarIndex(e.varTypeId);
 	}
 
 	protected void moveCursor(Edit from, Edit e)
@@ -583,8 +583,8 @@ public class OnlineProgram extends BaseProgram
 			e.setCursor(true) ;
 		}
 		TempCache tempCache = getTempCache();
-		tempCache.resetTempVarIndex(e.m_varTypeId);
-		tempCache.resetTempVarIndex(from.m_varTypeId);
+		tempCache.resetTempVarIndex(e.varTypeId);
+		tempCache.resetTempVarIndex(from.varTypeId);
 //		e.resetTempIndex(getTempCache());
 //		from.resetTempIndex(getTempCache());		
 	}
@@ -594,8 +594,8 @@ public class OnlineProgram extends BaseProgram
 		if(IsSTCheck)
 			Log.logFineDebug("moveCursor_V_E:" + e.getSTCheckValue() + ":" + e.getSTCheckValue());
 		TempCache tempCache = getTempCache();
-		tempCache.resetTempVarIndex(e.m_varTypeId);
-		tempCache.resetTempVarIndex(from.m_varTypeId);
+		tempCache.resetTempVarIndex(e.varTypeId);
+		tempCache.resetTempVarIndex(from.varTypeId);
 //		e.resetTempIndex(getTempCache());
 //		from.resetTempIndex(getTempCache());
 		// Fake method
@@ -607,7 +607,7 @@ public class OnlineProgram extends BaseProgram
 			Log.logFineDebug("removeCursor_E:" + e.getSTCheckValue());
 
 		e.setCursor(false) ;
-		getTempCache().resetTempVarIndex(e.m_varTypeId);
+		getTempCache().resetTempVarIndex(e.varTypeId);
 	}
 		
 	/**
@@ -620,7 +620,7 @@ public class OnlineProgram extends BaseProgram
 			Log.logFineDebug("isFieldHasCursor_E:" + e.getSTCheckValue());
 
 		boolean b = e.hasCursor() ;
-		getTempCache().resetTempVarIndex(e.m_varTypeId);
+		getTempCache().resetTempVarIndex(e.varTypeId);
 		return b;
 	}
 	
@@ -635,7 +635,7 @@ public class OnlineProgram extends BaseProgram
 			Log.logFineDebug("isNotFieldHasCursor_E:" + e.getSTCheckValue());
 
 		boolean b = !e.hasCursor() ;
-		getTempCache().resetTempVarIndex(e.m_varTypeId);
+		getTempCache().resetTempVarIndex(e.varTypeId);
 		return b;
 	}
 
@@ -651,7 +651,7 @@ public class OnlineProgram extends BaseProgram
 			Log.logFineDebug("isColored_E_color:" + e.getSTCheckValue() + ":" + color.getSTCheckValue());
 		
 		boolean b = e.isColored(color);
-		getTempCache().resetTempVarIndex(e.m_varTypeId);
+		getTempCache().resetTempVarIndex(e.varTypeId);
 		return b;
 	}
 	
@@ -661,7 +661,7 @@ public class OnlineProgram extends BaseProgram
 			Log.logFineDebug("moveColor_color_E:" + color.getSTCheckValue() + ":" +  e.getSTCheckValue());
 
 		e.color(color);
-		getTempCache().resetTempVarIndex(e.m_varTypeId);
+		getTempCache().resetTempVarIndex(e.varTypeId);
 	}	
 	
 	protected void moveColor(Edit edt, Edit e)
@@ -673,8 +673,8 @@ public class OnlineProgram extends BaseProgram
 		e.color(color);
 		
 		TempCache tempCache = getTempCache();
-		tempCache.resetTempVarIndex(e.m_varTypeId);
-		tempCache.resetTempVarIndex(edt.m_varTypeId);
+		tempCache.resetTempVarIndex(e.varTypeId);
+		tempCache.resetTempVarIndex(edt.varTypeId);
 		
 //		e.resetTempIndex(getTempCache());
 //		edt.resetTempIndex(getTempCache());
@@ -690,8 +690,8 @@ public class OnlineProgram extends BaseProgram
 		e.color(color);
 		
 		TempCache tempCache = getTempCache();
-		tempCache.resetTempVarIndex(e.m_varTypeId);
-		tempCache.resetTempVarIndex(v.m_varTypeId);
+		tempCache.resetTempVarIndex(e.varTypeId);
+		tempCache.resetTempVarIndex(v.varTypeId);
 //		e.resetTempIndex(getTempCache());
 //		v.resetTempIndex(getTempCache());
 	}	
@@ -739,8 +739,8 @@ public class OnlineProgram extends BaseProgram
 			e.highLighting(MapFieldAttrHighlighting.OFF);
 		
 		TempCache tempCache = getTempCache();
-		tempCache.resetTempVarIndex(var.m_varTypeId);
-		tempCache.resetTempVarIndex(e.m_varTypeId);
+		tempCache.resetTempVarIndex(var.varTypeId);
+		tempCache.resetTempVarIndex(e.varTypeId);
 //
 //		var.resetTempIndex(getTempCache());
 //		e.resetTempIndex(getTempCache());
@@ -758,7 +758,7 @@ public class OnlineProgram extends BaseProgram
 			Log.logFineDebug("moveHighLighting_high_E:" + att.getSTCheckValue() + ":" +  e.getSTCheckValue());
 
 		e.highLighting(att);
-		getTempCache().resetTempVarIndex(e.m_varTypeId);
+		getTempCache().resetTempVarIndex(e.varTypeId);
 	}
 	
 	
@@ -772,7 +772,7 @@ public class OnlineProgram extends BaseProgram
 			Log.logFineDebug("setFieldUnhighlighted_E:" + e.getSTCheckValue());
 
 		e.highLighting(MapFieldAttrHighlighting.OFF);
-		getTempCache().resetTempVarIndex(e.m_varTypeId);
+		getTempCache().resetTempVarIndex(e.varTypeId);
 	}
 	
 	/**
@@ -785,7 +785,7 @@ public class OnlineProgram extends BaseProgram
 			Log.logFineDebug("setFieldReverse_E:" + e.getSTCheckValue());
 
 		e.highLighting(MapFieldAttrHighlighting.REVERSE) ;
-		getTempCache().resetTempVarIndex(e.m_varTypeId);
+		getTempCache().resetTempVarIndex(e.varTypeId);
 	}
 	
 	/**
@@ -798,7 +798,7 @@ public class OnlineProgram extends BaseProgram
 			Log.logFineDebug("setFieldBlink_E:" + e.getSTCheckValue());
 
 		e.highLighting(MapFieldAttrHighlighting.BLINK) ;
-		getTempCache().resetTempVarIndex(e.m_varTypeId);
+		getTempCache().resetTempVarIndex(e.varTypeId);
 	}
 	
 	/**
@@ -811,7 +811,7 @@ public class OnlineProgram extends BaseProgram
 			Log.logFineDebug("setFieldUnderline_E:" + e.getSTCheckValue());
 
 		e.highLighting(MapFieldAttrHighlighting.UNDERLINE) ;
-		getTempCache().resetTempVarIndex(e.m_varTypeId);
+		getTempCache().resetTempVarIndex(e.varTypeId);
 	}
 	
 
@@ -833,7 +833,7 @@ public class OnlineProgram extends BaseProgram
 		if(IsSTCheck)
 			Log.logFineDebug("setSemanticContextValue_E_cs" + editDest.getSTCheckValue() + ":" + csValue);
 		editDest.setSemanticContextValue(csValue);
-		getTempCache().resetTempVarIndex(editDest.m_varTypeId);
+		getTempCache().resetTempVarIndex(editDest.varTypeId);
 	}
 	
 	/**
@@ -846,7 +846,7 @@ public class OnlineProgram extends BaseProgram
 			Log.logFineDebug("getSemanticContextValue_V" + varSource.getSTCheckValue());
 
 		String cs = varSource.getSemanticContextValue();
-		getTempCache().resetTempVarIndex(varSource.m_varTypeId);
+		getTempCache().resetTempVarIndex(varSource.varTypeId);
 		return cs;
 	}
 
@@ -862,7 +862,7 @@ public class OnlineProgram extends BaseProgram
 		if(IsSTCheck)
 			Log.logFineDebug("isDifferent_V_k:" + var1.getSTCheckValue()+ "/" + key.getSTCheckValue());
 		boolean b = !isEqual(var1, key);
-		getTempCache().resetTempVarIndex(var1.m_varTypeId);
+		getTempCache().resetTempVarIndex(var1.varTypeId);
 		return b;
 	}
 	
@@ -877,7 +877,7 @@ public class OnlineProgram extends BaseProgram
 		if(IsSTCheck)
 			Log.logFineDebug("isEqual_V_k:" + var.getSTCheckValue()+ "/" + k.getSTCheckValue());
 		int nResult = var.compareTo(ComparisonMode.Unicode, k.getValue());
-		getTempCache().resetTempVarIndex(var.m_varTypeId);
+		getTempCache().resetTempVarIndex(var.varTypeId);
 		if(nResult == 0)
 			return true;
 		return false;
@@ -905,7 +905,7 @@ public class OnlineProgram extends BaseProgram
 		if(isLogCESM)
 			Log.logDebug("moveEdit: keypressed="+k.getName()+" to Edit="+varDest.getLoggableValue());
 		varDest.set(k.getValue());
-		getTempCache().resetTempVarIndex(varDest.m_varTypeId);
+		getTempCache().resetTempVarIndex(varDest.varTypeId);
 		return this;
 	}
 	
@@ -921,7 +921,7 @@ public class OnlineProgram extends BaseProgram
 		if(IsSTCheck)
 			Log.logFineDebug("isFieldNumeric_E:" + edit.getSTCheckValue());
 		boolean b = edit.isNumericProtected() ;
-		getTempCache().resetTempVarIndex(edit.m_varTypeId);
+		getTempCache().resetTempVarIndex(edit.varTypeId);
 		return b;
 	}
 
@@ -930,7 +930,7 @@ public class OnlineProgram extends BaseProgram
 		if(IsSTCheck)
 			Log.logFineDebug("isNotFieldNumeric_E:" + edit.getSTCheckValue());
 		boolean b = ! edit.isNumericProtected() ;
-		getTempCache().resetTempVarIndex(edit.m_varTypeId);
+		getTempCache().resetTempVarIndex(edit.varTypeId);
 		return b;
 
 	}

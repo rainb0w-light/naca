@@ -32,17 +32,17 @@ public abstract class CEntityAddressReference extends CBaseDataReference
 	public CEntityAddressReference(CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity ref)
 	{
 		super(0, "", cat, out);
-		m_Reference = ref ;
+		reference = ref ;
 	}
 	public CDataEntityType GetDataType()
 	{
 		return CDataEntityType.ADDRESS ;
 	}
-//	protected CDataEntity m_Reference = null ;
+//	protected CDataEntity reference = null ;
 
 	public boolean ignore()
 	{
-		return m_Reference.ignore() ;
+		return reference.ignore() ;
 	}
 	public String GetConstantValue()
 	{

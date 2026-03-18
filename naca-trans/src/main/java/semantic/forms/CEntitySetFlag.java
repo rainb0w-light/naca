@@ -34,29 +34,29 @@ public abstract class CEntitySetFlag extends CBaseActionEntity
 	public CEntitySetFlag(int line, CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity field)
 	{
 		super(line, cat, out);
-		m_RefField = field ;
+		refField = field ;
 	}
 	
 	public void SetFlag(String cs)
 	{
-		m_FlagValue = cs ;
+		flagValue = cs ;
 	}
-	protected String m_FlagValue = null ;
-	protected CDataEntity m_RefField = null ;
+	protected String flagValue = null ;
+	protected CDataEntity refField = null ;
 	public void Clear()
 	{
 		super.Clear();
-		m_RefField = null ;
+		refField = null ;
 	}
 	public boolean ignore()
 	{
-		return m_RefField == null ;
+		return refField == null ;
 	}
 	public boolean IgnoreVariable(CDataEntity data)
 	{
-		if (data == m_RefField)
+		if (data == refField)
 		{
-			m_RefField = null ;
+			refField = null ;
 			data.UnRegisterWritingAction(this) ;
 			
 			return true ;
@@ -65,9 +65,9 @@ public abstract class CEntitySetFlag extends CBaseActionEntity
 	}
 	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
 	{
-		if (m_RefField == field)
+		if (refField == field)
 		{
-			m_RefField = var ;
+			refField = var ;
 			field.UnRegisterWritingAction(this) ;
 			var.RegisterWritingAction(this) ;
 			return true ;
@@ -80,6 +80,6 @@ public abstract class CEntitySetFlag extends CBaseActionEntity
 	 */
 	public void ResetFlag()
 	{
-		m_FlagValue = null ;
+		flagValue = null ;
 	}
 }

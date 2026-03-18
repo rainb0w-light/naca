@@ -34,9 +34,9 @@ public abstract class CEntityCount extends CBaseActionEntity
 	@Override
 	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
 	{
-		if (m_Variable == field)
+		if (variable == field)
 		{
-			m_Variable = var ;
+			variable = var ;
 			field.UnRegisterReadingAction(this)  ;
 			var.RegisterReadingAction(this) ;
 			return true ;
@@ -56,51 +56,51 @@ public abstract class CEntityCount extends CBaseActionEntity
 
 	public void SetCount(CDataEntity var)
 	{
-		m_Variable = var ;
+		variable = var ;
 	}
 
 	public void SetToVar(CDataEntity var)
 	{
-		m_ToVariable = var ;
+		toVariable = var ;
 	}
 	
-	protected CDataEntity m_Variable = null ;
-	protected CDataEntity m_ToVariable = null ;
-	protected Vector<CDataEntity> m_arrCountLeadingToken = new Vector<CDataEntity>() ; 
-	protected Vector<CDataEntity> m_arrCountAllToken = new Vector<CDataEntity>() ; 
-	protected Vector<CDataEntity> m_arrCountAfterToken = new Vector<CDataEntity>() ; 
-	protected Vector<CDataEntity> m_arrCountBeforeToken = new Vector<CDataEntity>() ; 
+	protected CDataEntity variable = null ;
+	protected CDataEntity toVariable = null ;
+	protected Vector<CDataEntity> arrCountLeadingToken = new Vector<CDataEntity>() ; 
+	protected Vector<CDataEntity> arrCountAllToken = new Vector<CDataEntity>() ; 
+	protected Vector<CDataEntity> arrCountAfterToken = new Vector<CDataEntity>() ; 
+	protected Vector<CDataEntity> arrCountBeforeToken = new Vector<CDataEntity>() ; 
 	public void Clear()
 	{
 		super.Clear() ;
-		m_arrCountAfterToken.clear() ;
-		m_arrCountAllToken.clear() ;
-		m_arrCountBeforeToken.clear() ;
-		m_Variable = null ;
-		m_ToVariable = null ;
+		arrCountAfterToken.clear() ;
+		arrCountAllToken.clear() ;
+		arrCountBeforeToken.clear() ;
+		variable = null ;
+		toVariable = null ;
 	}
 
 	public void CountBefore(CDataEntity entity)
 	{
-		m_arrCountBeforeToken.add(entity) ;
+		arrCountBeforeToken.add(entity) ;
 	}
 
 	public void CountAll(CDataEntity entity)
 	{
-		m_arrCountAllToken.add(entity) ;
+		arrCountAllToken.add(entity) ;
 	}
 	
 	public void CountLeading(CDataEntity entity)
 	{
-		m_arrCountLeadingToken.add(entity) ;
+		arrCountLeadingToken.add(entity) ;
 	}
 
 	public void CountAfter(CDataEntity entity)
 	{
-		m_arrCountAfterToken.add(entity) ;
+		arrCountAfterToken.add(entity) ;
 	}
 	public boolean ignore()
 	{
-		return m_Variable.ignore();
+		return variable.ignore();
 	}
 }

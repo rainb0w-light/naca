@@ -12,26 +12,26 @@ public class SortKeySegmentDefinition
 {
 	SortKeySegmentDefinition(Var var, boolean bAscending)
 	{
-		m_var = var;
-		m_bAscending = bAscending;
+		var = var;
+		bAscending = bAscending;
 	}
 	
 	public int getBufferStartPosKey()
 	{
-		int n = m_var.getOffsetFromLevel01();
+		int n = var.getOffsetFromLevel01();
 		return n;
 	}
 	
 	public int getBufferLengthKey()
 	{
-		return m_var.getLength();
+		return var.getLength();
 	}
 	
 	public BtreeSegmentKeyTypeFactory getSegmentKeyType()
 	{
-		return m_var.getVarDef().getSegmentKeyTypeFactory();
+		return var.getVarDef().getSegmentKeyTypeFactory();
 	}
 	
-	public Var m_var = null;
-	public boolean m_bAscending = true;
+	public Var var = null;
+	public boolean bAscending = true;
 }

@@ -47,15 +47,15 @@ public class CAccept extends CCobolElement
 	{
 		CEntityAccept eAcc = factory.NewEntityAccept(getLine()) ;
 		parent.AddChild(eAcc) ;
-		CDataEntity eVar = m_Variable.GetDataReference(getLine(), factory) ;
-		if (m_From == AcceptMode.FROM_VARIABLE) 
+		CDataEntity eVar = variable.GetDataReference(getLine(), factory) ;
+		if (from == AcceptMode.FROM_VARIABLE) 
 		{
-			CDataEntity eSource = m_Source.GetDataReference(getLine(), factory) ;
+			CDataEntity eSource = source.GetDataReference(getLine(), factory) ;
 			eAcc.AcceptFromVariable(eVar, eSource) ;
 		}
-		else if (m_From != null)
+		else if (from != null)
 		{
-			eAcc.AcceptFrom(m_From, eVar) ;
+			eAcc.AcceptFrom(from, eVar) ;
 		}
 		else 
 		{
@@ -71,10 +71,10 @@ public class CAccept extends CCobolElement
 		{
 			return false ;
 		} 
-		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().m_Name) ;
+		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
 	
 		tok = GetNext() ;
-		m_Variable = ReadIdentifier();
+		variable = ReadIdentifier();
 		
 		tok = GetCurrentToken() ;
 		if (tok.GetKeyword() == CCobolKeywordList.FROM)
@@ -83,39 +83,39 @@ public class CAccept extends CCobolElement
 			if (tok.GetKeyword() == CCobolKeywordList.DATE)
 			{
 				tok = GetNext() ;
-				m_From = AcceptMode.FROM_DATE ;
+				from = AcceptMode.FROM_DATE ;
 			}
 			else if (tok.GetKeyword() == CCobolKeywordList.DAY)
 			{
 				tok = GetNext() ;
-				m_From = AcceptMode.FROM_DAY ;
+				from = AcceptMode.FROM_DAY ;
 			}
 			else if (tok.GetKeyword() == CCobolKeywordList.DAY_OF_WEEK)
 			{
 				tok = GetNext() ;
-				m_From = AcceptMode.FROM_DAYOFWEEK ;
+				from = AcceptMode.FROM_DAYOFWEEK ;
 			}
 			else if (tok.GetKeyword() == CCobolKeywordList.TIME)
 			{
 				tok = GetNext() ;
-				m_From = AcceptMode.FROM_TIME ;
+				from = AcceptMode.FROM_TIME ;
 			}
 			else if (tok.GetKeyword() == CCobolKeywordList.CONSOLE)
 			{
 				tok = GetNext() ;
-				m_From = AcceptMode.FROM_INPUT ;
+				from = AcceptMode.FROM_INPUT ;
 			}
 			else if (tok.GetKeyword() == CCobolKeywordList.ENVIRONMENT_VALUE)
 			{
 				tok = GetNext() ;
-				m_From = AcceptMode.FROM_ENVIRONMENT_VALUE ;
+				from = AcceptMode.FROM_ENVIRONMENT_VALUE ;
 			}
 			else
 			{
-				m_Source = ReadIdentifier();
-				if (m_Source != null)
+				source = ReadIdentifier();
+				if (source != null)
 				{
-					m_From = AcceptMode.FROM_VARIABLE ;
+					from = AcceptMode.FROM_VARIABLE ;
 				}
 				else
 				{
@@ -126,52 +126,52 @@ public class CAccept extends CCobolElement
 		}
 		else
 		{
-			m_From = AcceptMode.FROM_INPUT ;
+			from = AcceptMode.FROM_INPUT ;
 		}
 		return true ;
 	}
 	protected Element ExportCustom(Document root)
 	{
 		Element eAcc = root.createElement("Accept");
-		if (m_From == AcceptMode.FROM_DATE)
+		if (from == AcceptMode.FROM_DATE)
 		{
 			Element eFrom = root.createElement("FromDate");
 			eAcc.appendChild(eFrom);
 		}
-		else if (m_From == AcceptMode.FROM_DAY)
+		else if (from == AcceptMode.FROM_DAY)
 		{
 			Element eFrom = root.createElement("FromDay");
 			eAcc.appendChild(eFrom);
 		}
-		else if (m_From == AcceptMode.FROM_DAYOFWEEK)
+		else if (from == AcceptMode.FROM_DAYOFWEEK)
 		{
 			Element eFrom = root.createElement("FromDayOfWeek");
 			eAcc.appendChild(eFrom);
 		}
-		else if (m_From == AcceptMode.FROM_INPUT)
+		else if (from == AcceptMode.FROM_INPUT)
 		{
 			Element eFrom = root.createElement("FromInput");
 			eAcc.appendChild(eFrom);
 		}
-		else if (m_From == AcceptMode.FROM_TIME)
+		else if (from == AcceptMode.FROM_TIME)
 		{
 			Element eFrom = root.createElement("FromTime");
 			eAcc.appendChild(eFrom);
 		}
-		else if (m_From == AcceptMode.FROM_VARIABLE)
+		else if (from == AcceptMode.FROM_VARIABLE)
 		{
 			Element eFrom = root.createElement("From");
 			eAcc.appendChild(eFrom);
-			m_Source.ExportTo(eFrom, root) ;
+			source.ExportTo(eFrom, root) ;
 		}
 		Element eTo = root.createElement("To");
-		m_Variable.ExportTo(eTo, root);
+		variable.ExportTo(eTo, root);
 		eAcc.appendChild(eTo);
 		return eAcc;
 	}
 	
-	protected CIdentifier m_Variable = null ; 
-	protected CIdentifier m_Source = null;
-	protected AcceptMode m_From ;
+	protected CIdentifier variable = null ; 
+	protected CIdentifier source = null;
+	protected AcceptMode from ;
 	
 }

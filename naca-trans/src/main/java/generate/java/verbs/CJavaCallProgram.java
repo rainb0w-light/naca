@@ -41,39 +41,39 @@ public class CJavaCallProgram extends CEntityCallProgram
 	 */
 	protected void DoExport()
 	{
-		if (m_OnErrorBloc != null)
+		if (onErrorBloc != null)
 		{
 			WriteWord("if (") ;
 		}
-		String name = m_Reference.ExportReference(getLine());
-		if (name.startsWith("\"") && m_bChecked)
+		String name = reference.ExportReference(getLine());
+		if (name.startsWith("\"") && bChecked)
 		{
 			name = name.substring(1, name.length()-1);
 			name = CobolNameUtil.fixJavaName(name);
 			name += ".class";
 		}
 		WriteWord("call(" +  name + ")") ;
-		if (m_arrParameters.size()>0)
+		if (arrParameters.size()>0)
 		{
-			for (int i=0; i<m_arrParameters.size(); i++)
+			for (int i=0; i<arrParameters.size(); i++)
 			{
-				CCallParameter p = m_arrParameters.get(i) ;
-				if (!p.m_Reference.ignore())
+				CCallParameter p = arrParameters.get(i) ;
+				if (!p.reference.ignore())
 				{
 					String cs = "" ;
-					if (p.m_Methode == CCallParameterMethode.BY_REFERENCE)
+					if (p.methode == CCallParameterMethode.BY_REFERENCE)
 					{
 						cs = ".using(";
 					}
-					else if (p.m_Methode == CCallParameterMethode.LENGTH_OF)
+					else if (p.methode == CCallParameterMethode.LENGTH_OF)
 					{
 						cs = ".usingLengthOf(";
 					}
-					else if (p.m_Methode == CCallParameterMethode.BY_VALUE)
+					else if (p.methode == CCallParameterMethode.BY_VALUE)
 					{
 						cs = ".usingValue(";
 					}
-					else if (p.m_Methode == CCallParameterMethode.BY_CONTENT)
+					else if (p.methode == CCallParameterMethode.BY_CONTENT)
 					{
 						cs = ".usingContent(";
 					}
@@ -81,9 +81,9 @@ public class CJavaCallProgram extends CEntityCallProgram
 					{
 						cs = ".using(";
 					}			
-					if (p.m_Reference != null)
+					if (p.reference != null)
 					{
-						cs += p.m_Reference.ExportReference(getLine());
+						cs += p.reference.ExportReference(getLine());
 					}
 					else
 					{
@@ -94,12 +94,12 @@ public class CJavaCallProgram extends CEntityCallProgram
 				}
 			}
 		}
-		if (m_OnErrorBloc != null)
+		if (onErrorBloc != null)
 		{
 			WriteWord(".executeCallSafe()") ;
 			WriteWord(") {") ;
 			WriteEOL() ;
-			DoExport(m_OnErrorBloc) ;
+			DoExport(onErrorBloc) ;
 			WriteLine("}");
 			return;
 		}

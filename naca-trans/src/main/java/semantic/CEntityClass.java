@@ -40,7 +40,7 @@ public abstract class CEntityClass extends CBaseLanguageEntity
 	 */
 	protected void RegisterMySelfToCatalog()
 	{
-		m_ProgramCatalog.RegisterContainer(GetName(), this);
+		programCatalog.RegisterContainer(GetName(), this);
 
 	}
 

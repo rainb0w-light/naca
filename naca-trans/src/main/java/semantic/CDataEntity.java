@@ -75,7 +75,7 @@ public abstract class CDataEntity extends CBaseLanguageEntity
 
 	protected void RegisterMySelfToCatalog()
 	{
-		m_ProgramCatalog.RegisterDataEntity(GetName(), this) ;
+		programCatalog.RegisterDataEntity(GetName(), this) ;
 	}
 
 	public abstract String ExportReference(int nLine) ;
@@ -108,7 +108,7 @@ public abstract class CDataEntity extends CBaseLanguageEntity
 		return null ;
 	}
 		
-	public CBaseExternalEntity m_Of = null ;
+	public CBaseExternalEntity of = null ;
 	
 	public abstract boolean HasAccessors() ;
 	public abstract String ExportWriteAccessorTo(String value) ;
@@ -137,55 +137,55 @@ public abstract class CDataEntity extends CBaseLanguageEntity
 	}
 	
 	// algorythmic analysis
-	protected Vector<CBaseActionEntity> m_arrActionsWriting = new Vector<CBaseActionEntity>() ; // when this var is accessed in write mode : MOVE a TO THIS
-	protected Vector<CBaseActionEntity> m_arrActionsReading = new Vector<CBaseActionEntity>() ; // when this var is accessed in read mode : MOVE THIS TO a
-	protected Vector<CGenericDataEntityReference> m_arrWriteReference = new Vector<CGenericDataEntityReference>() ; // when this var is accessed in write mode : MOVE a TO THIS
-	protected Vector<CGenericDataEntityReference> m_arrReadReference = new Vector<CGenericDataEntityReference>() ; // when this var is accessed in read mode : MOVE THIS TO a
-	protected Vector<CBaseEntityCondition> m_arrTestsAsVar = new Vector<CBaseEntityCondition>() ; // when this var is tested : IF THIS = a / IF IS NUMERIC(THIS)
-	protected Vector<CBaseEntityCondExpr> m_arrAccessAsValue = new Vector<CBaseEntityCondExpr>() ; // when the value of this var occures in a test : IF a = THIS
-	protected Vector<CEntityFileDescriptor> m_arrFileDescriptorDepending = new Vector<CEntityFileDescriptor>() ; // when this var is used in a file descriptor : DEPENDING ON THIS
+	protected Vector<CBaseActionEntity> arrActionsWriting = new Vector<CBaseActionEntity>() ; // when this var is accessed in write mode : MOVE a TO THIS
+	protected Vector<CBaseActionEntity> arrActionsReading = new Vector<CBaseActionEntity>() ; // when this var is accessed in read mode : MOVE THIS TO a
+	protected Vector<CGenericDataEntityReference> arrWriteReference = new Vector<CGenericDataEntityReference>() ; // when this var is accessed in write mode : MOVE a TO THIS
+	protected Vector<CGenericDataEntityReference> arrReadReference = new Vector<CGenericDataEntityReference>() ; // when this var is accessed in read mode : MOVE THIS TO a
+	protected Vector<CBaseEntityCondition> arrTestsAsVar = new Vector<CBaseEntityCondition>() ; // when this var is tested : IF THIS = a / IF IS NUMERIC(THIS)
+	protected Vector<CBaseEntityCondExpr> arrAccessAsValue = new Vector<CBaseEntityCondExpr>() ; // when the value of this var occures in a test : IF a = THIS
+	protected Vector<CEntityFileDescriptor> arrFileDescriptorDepending = new Vector<CEntityFileDescriptor>() ; // when this var is used in a file descriptor : DEPENDING ON THIS
 	
 	public void RegisterReadReference(CGenericDataEntityReference ent)
 	{
-		m_arrReadReference.add(ent) ;
+		arrReadReference.add(ent) ;
 	}
 	public void RegisterWriteReference(CGenericDataEntityReference ent)
 	{
-		m_arrWriteReference.add(ent) ;
+		arrWriteReference.add(ent) ;
 	}
 	public void RegisterWritingAction(CBaseActionEntity act)
 	{
-		m_arrActionsWriting.add(act) ;
+		arrActionsWriting.add(act) ;
 	}
 	public void UnRegisterWritingAction(int i)
 	{
-		m_arrActionsWriting.remove(i) ;
+		arrActionsWriting.remove(i) ;
 	}
 	public void UnRegisterWritingAction(CBaseActionEntity e)
 	{
-		m_arrActionsWriting.remove(e) ;
+		arrActionsWriting.remove(e) ;
 	}
 	public void RegisterFileDescriptorDepending(CEntityFileDescriptor fileDescriptor)
 	{
-		m_arrFileDescriptorDepending.add(fileDescriptor) ;
+		arrFileDescriptorDepending.add(fileDescriptor) ;
 	}
 	public int GetNbWriteReferences()
 	{
-		return m_arrWriteReference.size();
+		return arrWriteReference.size();
 	}
 	public int GetNbReadReferences()
 	{
-		return m_arrReadReference.size();
+		return arrReadReference.size();
 	}
 	public int GetNbWrittingActions()
 	{
-		return m_arrActionsWriting.size();
+		return arrActionsWriting.size();
 	}
 	public CBaseActionEntity GetActionWriting(int i)
 	{
-		if (i<m_arrActionsWriting.size())
+		if (i<arrActionsWriting.size())
 		{
-			return m_arrActionsWriting.get(i);
+			return arrActionsWriting.get(i);
 		}
 		else
 		{
@@ -194,9 +194,9 @@ public abstract class CDataEntity extends CBaseLanguageEntity
 	}
 	public CGenericDataEntityReference GetWriteReference(int i)
 	{
-		if (i<m_arrWriteReference.size())
+		if (i<arrWriteReference.size())
 		{
-			return m_arrWriteReference.get(i);
+			return arrWriteReference.get(i);
 		}
 		else
 		{
@@ -205,9 +205,9 @@ public abstract class CDataEntity extends CBaseLanguageEntity
 	}
 	public CGenericDataEntityReference GetReadReference(int i)
 	{
-		if (i<m_arrReadReference.size())
+		if (i<arrReadReference.size())
 		{
-			return m_arrReadReference.get(i);
+			return arrReadReference.get(i);
 		}
 		else
 		{
@@ -216,25 +216,25 @@ public abstract class CDataEntity extends CBaseLanguageEntity
 	}
 	public void RegisterReadingAction(CBaseActionEntity act)
 	{
-		m_arrActionsReading.add(act) ;
+		arrActionsReading.add(act) ;
 	}
 	public void UnRegisterReadingAction(int i)
 	{
-		m_arrActionsReading.remove(i) ;
+		arrActionsReading.remove(i) ;
 	}
 	public void UnRegisterReadingAction(CBaseActionEntity e)
 	{
-		m_arrActionsReading.remove(e) ;
+		arrActionsReading.remove(e) ;
 	}
 	public int GetNbReadingActions()
 	{
-		return m_arrActionsReading.size();
+		return arrActionsReading.size();
 	}
 	public CBaseActionEntity GetActionReading(int i)
 	{
-		if (i<m_arrActionsReading.size())
+		if (i<arrActionsReading.size())
 		{
-			return m_arrActionsReading.get(i);
+			return arrActionsReading.get(i);
 		}
 		else
 		{
@@ -243,21 +243,21 @@ public abstract class CDataEntity extends CBaseLanguageEntity
 	}
 	public void RegisterVarTesting(CBaseEntityCondition cond)
 	{
-		m_arrTestsAsVar.add(cond) ;
+		arrTestsAsVar.add(cond) ;
 	}
 	public void UnRegisterVarTesting(int i)
 	{
-		m_arrTestsAsVar.remove(i) ;
+		arrTestsAsVar.remove(i) ;
 	}
 	public int GetNbVarTesting()
 	{
-		return m_arrTestsAsVar.size();
+		return arrTestsAsVar.size();
 	}
 	public CBaseEntityCondition GetVarTesting(int i)
 	{
-		if (i<m_arrTestsAsVar.size())
+		if (i<arrTestsAsVar.size())
 		{
-			return m_arrTestsAsVar.get(i);
+			return arrTestsAsVar.get(i);
 		}
 		else
 		{
@@ -266,21 +266,21 @@ public abstract class CDataEntity extends CBaseLanguageEntity
 	}
 	public void RegisterValueAccess(CBaseEntityCondExpr cond)
 	{
-		m_arrAccessAsValue.add(cond) ;
+		arrAccessAsValue.add(cond) ;
 	}
 	public void UnRegisterValueAccess(int i)
 	{
-		m_arrAccessAsValue.remove(i) ;
+		arrAccessAsValue.remove(i) ;
 	}
 	public int GetNbValueAccess()
 	{
-		return m_arrAccessAsValue.size();
+		return arrAccessAsValue.size();
 	}
 	public CBaseEntityCondExpr GetValueAccess(int i)
 	{
-		if (i<m_arrAccessAsValue.size())
+		if (i<arrAccessAsValue.size())
 		{
-			return m_arrAccessAsValue.get(i);
+			return arrAccessAsValue.get(i);
 		}
 		else
 		{
@@ -291,55 +291,55 @@ public abstract class CDataEntity extends CBaseLanguageEntity
 	public abstract String GetConstantValue() ;
 	public boolean ignore()
 	{
-		boolean ignore = m_arrActionsReading.size()== 0 ;
-		ignore &= m_arrActionsWriting.size() == 0 ;
-		ignore &= m_arrReadReference.size() == 0 ;
-		ignore &= m_arrWriteReference.size() == 0 ;
-		ignore &= m_arrAccessAsValue.size() == 0 ;
-		ignore &= m_arrTestsAsVar.size() == 0 ;
-		ignore &= m_arrFileDescriptorDepending.size() == 0 ;
-		ignore &= m_lstChildren.size()== 0 ;
+		boolean ignore = arrActionsReading.size()== 0 ;
+		ignore &= arrActionsWriting.size() == 0 ;
+		ignore &= arrReadReference.size() == 0 ;
+		ignore &= arrWriteReference.size() == 0 ;
+		ignore &= arrAccessAsValue.size() == 0 ;
+		ignore &= arrTestsAsVar.size() == 0 ;
+		ignore &= arrFileDescriptorDepending.size() == 0 ;
+		ignore &= lstChildren.size()== 0 ;
 		if (ignore)
 		{
 			return true ;
 		}
-		return m_bIgnore ;
+		return bIgnore ;
 	}
 	public void ReplaceBy(CDataEntity var)
 	{
-		for (int j = 0; j<m_arrActionsReading.size();)
+		for (int j = 0; j<arrActionsReading.size();)
 		{
-			CBaseActionEntity act = m_arrActionsReading.get(j);
+			CBaseActionEntity act = arrActionsReading.get(j);
 			if (!act.ReplaceVariable(this, var))
 				j++ ;
 		}
-		for (int j = 0; j<m_arrActionsWriting.size(); )
+		for (int j = 0; j<arrActionsWriting.size(); )
 		{
-			CBaseActionEntity act = m_arrActionsWriting.get(j);
+			CBaseActionEntity act = arrActionsWriting.get(j);
 			if (!act.ReplaceVariable(this, var))
 				j++ ;
 		}
-		for (int j = 0; j<m_arrAccessAsValue.size();)
+		for (int j = 0; j<arrAccessAsValue.size();)
 		{
-			CBaseEntityCondExpr act = m_arrAccessAsValue.get(j);
+			CBaseEntityCondExpr act = arrAccessAsValue.get(j);
 			if (!act.ReplaceVariable(this, var))
 				j++ ;
 		}
-		for (int j = 0; j<m_arrTestsAsVar.size(); )
+		for (int j = 0; j<arrTestsAsVar.size(); )
 		{
-			CBaseEntityCondition act = m_arrTestsAsVar.get(j);
+			CBaseEntityCondition act = arrTestsAsVar.get(j);
 			if (!act.ReplaceVariable(this, var))
 				j++ ;
 		}
-		for (int j = 0; j<m_arrReadReference.size(); )
+		for (int j = 0; j<arrReadReference.size(); )
 		{
-			CGenericDataEntityReference act = m_arrReadReference.get(j);
+			CGenericDataEntityReference act = arrReadReference.get(j);
 			if (!act.ReplaceVariable(this, var, true))
 				j++ ;
 		}
-		for (int j = 0; j<m_arrWriteReference.size();)
+		for (int j = 0; j<arrWriteReference.size();)
 		{
-			CGenericDataEntityReference act = m_arrWriteReference.get(j);
+			CGenericDataEntityReference act = arrWriteReference.get(j);
 			if (!act.ReplaceVariable(this, var, false))
 				j++ ;
 		}
@@ -347,28 +347,28 @@ public abstract class CDataEntity extends CBaseLanguageEntity
 	public void Clear()
 	{
 		super.Clear();
-		m_arrActionsReading.clear() ;
-		m_arrActionsWriting.clear() ;
-		m_arrReadReference.clear() ;
-		m_arrAccessAsValue.clear() ;
-		m_arrTestsAsVar.clear() ;
-		m_arrWriteReference.clear() ;
-		m_arrFileDescriptorDepending.clear() ;
-		if (m_Of != null)
+		arrActionsReading.clear() ;
+		arrActionsWriting.clear() ;
+		arrReadReference.clear() ;
+		arrAccessAsValue.clear() ;
+		arrTestsAsVar.clear() ;
+		arrWriteReference.clear() ;
+		arrFileDescriptorDepending.clear() ;
+		if (of != null)
 		{
-			m_Of = null ;
+			of = null ;
 		}
 	}
 	
 	public void ResetReferenceCount()
 	{
-		m_arrActionsReading.clear() ;
-		m_arrActionsWriting.clear() ;
-		m_arrReadReference.clear() ;
-		m_arrAccessAsValue.clear() ;
-		m_arrTestsAsVar.clear() ;
-		m_arrWriteReference.clear() ;
-		m_arrFileDescriptorDepending.clear() ;
+		arrActionsReading.clear() ;
+		arrActionsWriting.clear() ;
+		arrReadReference.clear() ;
+		arrAccessAsValue.clear() ;
+		arrTestsAsVar.clear() ;
+		arrWriteReference.clear() ;
+		arrFileDescriptorDepending.clear() ;
 	}
 	public int getActualSubLevel()
 	{
@@ -377,29 +377,29 @@ public abstract class CDataEntity extends CBaseLanguageEntity
 
 	public void UnRegisterReadReference(CBaseDataReference reference)
 	{
-		m_arrReadReference.remove(reference) ;
+		arrReadReference.remove(reference) ;
 	}
 
 	public void UnRegisterWriteReference(CBaseDataReference reference)
 	{
-		m_arrWriteReference.remove(reference) ;
+		arrWriteReference.remove(reference) ;
 	}
 
 	public void UnRegisterVarTesting(CBaseEntityCondition cond)
 	{
-		m_arrTestsAsVar.remove(cond) ;
+		arrTestsAsVar.remove(cond) ;
 	}
 
 	public void UnRegisterValueAccess(CBaseEntityCondExpr attribute)
 	{
-		m_arrAccessAsValue.remove(attribute) ;
+		arrAccessAsValue.remove(attribute) ;
 	}
 
 	// ==================== ST4 Template Accessors ====================
 
 	public CBaseExternalEntity getOfQualifier()
 	{
-		return m_Of;
+		return of;
 	}
 
 }

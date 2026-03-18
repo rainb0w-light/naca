@@ -236,7 +236,7 @@ public class JmxGeneralStat extends BaseJmxGeneralStat
 		//m_lSumTimeTransaction_ms += lRuntimeTrans_ms;
 //		if(m_lMaxTimeTransaction_ms < lRuntimeTrans_ms)
 //			m_lMaxTimeTransaction_ms = lRuntimeTrans_ms;
-		//m_nNbTransaction++;
+		//nNbTransaction++;
 		//ms_nNbCurrentRunningTrans--;
 	}
 	
@@ -486,7 +486,7 @@ public class JmxGeneralStat extends BaseJmxGeneralStat
 	
 	public void setHideEnvironments()
 	{
-		m_bshowTransThreadBeans = false;
+		bshowTransThreadBeans = false;
 		TransThreadManager.hide();
 	}
 	
@@ -513,7 +513,7 @@ public class JmxGeneralStat extends BaseJmxGeneralStat
 	
 	public void setViewEnvironments()
 	{
-		m_bshowTransThreadBeans = true;
+		bshowTransThreadBeans = true;
 		TransThreadManager.view(ms_nMinTransExecTime_s);
 	}
 	
@@ -552,7 +552,7 @@ public class JmxGeneralStat extends BaseJmxGeneralStat
 //	{
 //		if(m_lMaxDbTimeIo_ms < lDbTimeIo_ms)
 //			m_lMaxDbTimeIo_ms = lDbTimeIo_ms;
-//		m_nNbDbIo++;
+//		nNbDbIo++;
 //		m_lSumDbTimeIo_ms += lDbTimeIo_ms;
 //	}
 	
@@ -564,8 +564,8 @@ public class JmxGeneralStat extends BaseJmxGeneralStat
 	
 //	public long getNDB1_TimeMoyDbIO_ms()
 //	{
-//		if(m_nNbDbIo != 0)
-//			return m_lSumDbTimeIo_ms / m_nNbDbIo;
+//		if(nNbDbIo != 0)
+//			return m_lSumDbTimeIo_ms / nNbDbIo;
 //		return 0L;
 //	}
 	
@@ -576,7 +576,7 @@ public class JmxGeneralStat extends BaseJmxGeneralStat
 	
 //	public int getNDB3_NbTotalDbIO()
 //	{
-//		return m_nNbDbIo;
+//		return nNbDbIo;
 //	}
 	
 //	public long getNTR0_TimeMaxTransaction_ms()
@@ -586,8 +586,8 @@ public class JmxGeneralStat extends BaseJmxGeneralStat
 	
 //	public long getNTR1_TimeMoyTransaction_ms()
 //	{
-//		if(m_nNbTransaction != 0)
-//			return m_lSumTimeTransaction_ms / m_nNbTransaction;
+//		if(nNbTransaction != 0)
+//			return m_lSumTimeTransaction_ms / nNbTransaction;
 //		return 0L;
 //	}
 	
@@ -598,7 +598,7 @@ public class JmxGeneralStat extends BaseJmxGeneralStat
 	
 //	public int getNTR3_NbTotalTransaction()
 //	{
-//		return m_nNbTransaction;
+//		return nNbTransaction;
 //	}
 	
 //	public int getNTR4_NbCurrentRunningTrans()
@@ -608,41 +608,41 @@ public class JmxGeneralStat extends BaseJmxGeneralStat
 
 //	public long getO_TimeMoyTransExceptDbIO_ms()
 //	{
-//		if(m_nNbTransaction != 0)
-//			return (m_lSumTimeTransaction_ms - m_lSumDbTimeIo_ms) / m_nNbTransaction;
+//		if(nNbTransaction != 0)
+//			return (m_lSumTimeTransaction_ms - m_lSumDbTimeIo_ms) / nNbTransaction;
 //		return 0;						
 //	}
 	
 //	public void setResetCounter_N_O()
 //	{
 //		//m_lMaxDbTimeIo_ms = 0;
-//		//m_nNbDbIo = 0;
+//		//nNbDbIo = 0;
 //		//m_lSumDbTimeIo_ms = 0;
 //		
 //		//m_lMaxTimeTransaction_ms = 0;
-////		m_nNbTransaction = 0;
+////		nNbTransaction = 0;
 //		//m_lSumTimeTransaction_ms = 0;
 //	}
 		
 	public static boolean showTransThreadBeans()
 	{
-		return m_bshowTransThreadBeans;
+		return bshowTransThreadBeans;
 	}
 	
 	public static boolean showAsyncThreadBeans()
 	{
-		return m_bshowAsyncThreadBeans;
+		return bshowAsyncThreadBeans;
 	}
 	
 	public void setViewAsynchronousThreads()
 	{
-		m_bshowAsyncThreadBeans = true;
+		bshowAsyncThreadBeans = true;
 		AsyncThreadJmxManager.view();
 	}
 	
 	public void setHideAsynchronousThreads()
 	{
-		m_bshowAsyncThreadBeans = false;
+		bshowAsyncThreadBeans = false;
 		AsyncThreadJmxManager.hide();
 	}
 
@@ -673,14 +673,14 @@ public class JmxGeneralStat extends BaseJmxGeneralStat
 	//public static int ms_nNbCurrentOnlineSession = 0;
 	//public static int ms_nNbCurrentAsyncStartSession = 0;
 	//public static long m_lMaxDbTimeIo_ms = 0;
-	//public static int m_nNbDbIo = 0;
+	//public static int nNbDbIo = 0;
 	//public static long m_lSumDbTimeIo_ms = 0;
 	
 	//public static long m_lMaxTimeTransaction_ms = 0;
-	//public static int m_nNbTransaction = 0;
+	//public static int nNbTransaction = 0;
 	//public static long m_lSumTimeTransaction_ms = 0;
 	//public static int ms_nNbCurrentRunningTrans = 0;
-	public static boolean m_bshowTransThreadBeans = false;
+	public static boolean bshowTransThreadBeans = false;
 	private static int ms_nMinTransExecTime_s = 0;
-	public static boolean m_bshowAsyncThreadBeans = false;
+	public static boolean bshowAsyncThreadBeans = false;
 }

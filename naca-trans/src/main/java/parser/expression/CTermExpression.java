@@ -34,33 +34,33 @@ public class CTermExpression extends CExpression
 	public CTermExpression(int line, CTerminal t)
 	{
 		super(line) ;
-		m_term = t ;
+		term = t ;
 	}
 	
-	CTerminal m_term = null ;
+	CTerminal term = null ;
 	
 	protected boolean CheckMembersBeforeExport()
 	{
-		return CheckMemberNotNull(m_term);
+		return CheckMemberNotNull(term);
 	}
 	
 	public Element DoExport(Document root)
 	{
 		Element e = root.createElement("Value");
-		m_term.ExportTo(e, root) ;
+		term.ExportTo(e, root) ;
 		return e;
 	}
 	public CTerminal GetTerminal()
 	{
-		return m_term ;
+		return term ;
 	}
 
 	public CBaseEntityExpression AnalyseExpression(CBaseEntityFactory factory)
 	{
-		CDataEntity eData = m_term.GetDataReference(getLine(), factory);
+		CDataEntity eData = term.GetDataReference(getLine(), factory);
 		if (eData == null)
 		{
-			eData = m_term.GetDataEntity(getLine(), factory);
+			eData = term.GetDataEntity(getLine(), factory);
 		}
 		if (eData == null)
 		{
@@ -72,7 +72,7 @@ public class CTermExpression extends CExpression
 	}
 	public CBaseEntityCondition AnalyseCondition(CBaseEntityFactory factory, CDefaultConditionManager condMaster)
 	{
-		CDataEntity eData = m_term.GetDataEntity(getLine(), factory);
+		CDataEntity eData = term.GetDataEntity(getLine(), factory);
 		if (eData != null)
 		{
 			CBaseEntityCondition eCond = eData.GetAssociatedCondition(factory) ;
@@ -87,7 +87,7 @@ public class CTermExpression extends CExpression
 				return eCond ;
 			}
 		}
-		else if (!m_term.IsReference())
+		else if (!term.IsReference())
 		{
 			if (condMaster != null)
 			{
@@ -107,26 +107,26 @@ public class CTermExpression extends CExpression
 	}
 	public boolean IsReference()
 	{
-		return m_term.IsReference() ;
+		return term.IsReference() ;
 	}	
 	public boolean IsConstant()
 	{
-		return !m_term.IsReference() ;
+		return !term.IsReference() ;
 	}
 	public CDataEntity GetReference(CBaseEntityFactory factory)
 	{
-		CDataEntity e = m_term.GetDataReference(getLine(), factory);
+		CDataEntity e = term.GetDataReference(getLine(), factory);
 		return e;
 	} 
 	public String GetConstantValue()
 	{
-		if (m_term.IsReference())
+		if (term.IsReference())
 		{
 			return "" ;
 		}
 		else
 		{
-			return m_term.GetValue();
+			return term.GetValue();
 		}
 	}
 	/* (non-Javadoc)
@@ -154,7 +154,7 @@ public class CTermExpression extends CExpression
 	}
 	public String toString()
 	{
-		return m_term.toString() ;
+		return term.toString() ;
 	}
 	public CExpression getMasterBinaryCondition()
 	{

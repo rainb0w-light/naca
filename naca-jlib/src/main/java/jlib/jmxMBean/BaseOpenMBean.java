@@ -35,30 +35,30 @@ public abstract class BaseOpenMBean extends BaseDynamicMBean	//implements Dynami
 	private void registerOpenInfos(String csName, String csDescription)
 	{
 		OpenMBeanAttributeInfo[] arrAttributes = null;
-		if(m_arrOpenMBeanAttributeInfosWrapper != null)
+		if(arrOpenMBeanAttributeInfosWrapper != null)
 		{
-			int nNbItems = m_arrOpenMBeanAttributeInfosWrapper.size();
+			int nNbItems = arrOpenMBeanAttributeInfosWrapper.size();
 			arrAttributes = new OpenMBeanAttributeInfo[nNbItems]; 
 			for(int n=0; n<nNbItems; n++)
 			{
-				OpenMBeanAttributeInfoWrapper wrapper = m_arrOpenMBeanAttributeInfosWrapper.get(n);
+				OpenMBeanAttributeInfoWrapper wrapper = arrOpenMBeanAttributeInfosWrapper.get(n);
 				arrAttributes[n] = wrapper.getAttribute();
 			}
 		} 
 		
-		m_OpenMBeanInfo = new OpenMBeanInfoSupport(csName, csDescription, arrAttributes, null, null, null); 
+		openMBeanInfo = new OpenMBeanInfoSupport(csName, csDescription, arrAttributes, null, null, null); 
 	}
 	
 	public Object getAttribute(String csName) 
 	{
-		if (csName == null || m_arrOpenMBeanAttributeInfosWrapper == null) 
+		if (csName == null || arrOpenMBeanAttributeInfosWrapper == null) 
 		{
 			return null;
         }
 		
-		for(int n=0; n<m_arrOpenMBeanAttributeInfosWrapper.size(); n++)
+		for(int n=0; n<arrOpenMBeanAttributeInfosWrapper.size(); n++)
 		{
-			OpenMBeanAttributeInfoWrapper attributeInfoWrapper = m_arrOpenMBeanAttributeInfosWrapper.get(n);
+			OpenMBeanAttributeInfoWrapper attributeInfoWrapper = arrOpenMBeanAttributeInfosWrapper.get(n);
 			OpenMBeanAttributeInfo attributeInfo = attributeInfoWrapper.getAttribute();
 			if(attributeInfo.getName().equalsIgnoreCase(csName))	// Found attribut
 			{
@@ -101,9 +101,9 @@ public abstract class BaseOpenMBean extends BaseDynamicMBean	//implements Dynami
 	        String csName = attribute.getName();
 	        Object oValue = attribute.getValue();
 	        
-      		for(int n=0; n<m_arrOpenMBeanAttributeInfosWrapper.size(); n++)
+      		for(int n=0; n<arrOpenMBeanAttributeInfosWrapper.size(); n++)
 			{
-				OpenMBeanAttributeInfoWrapper attributeInfoWrapper = m_arrOpenMBeanAttributeInfosWrapper.get(n);
+				OpenMBeanAttributeInfoWrapper attributeInfoWrapper = arrOpenMBeanAttributeInfosWrapper.get(n);
 				OpenMBeanAttributeInfo attributeInfo = attributeInfoWrapper.getAttribute();
 				if(attributeInfo.getName().equalsIgnoreCase(csName))	// Found attribut
 				{
@@ -147,9 +147,9 @@ public abstract class BaseOpenMBean extends BaseDynamicMBean	//implements Dynami
 	{
 //        if (csOperationName != null) 
 //        {
-//        	for(int n=0; n<m_arrOpenMBeanAttributeInfosWrapper.size(); n++)
+//        	for(int n=0; n<arrOpenMBeanAttributeInfosWrapper.size(); n++)
 //			{
-//				OpenMBeanAttributeInfoWrapper operationInfoWrapper = m_arrOpenMBeanAttributeInfosWrapper.get(n);
+//				OpenMBeanAttributeInfoWrapper operationInfoWrapper = arrOpenMBeanAttributeInfosWrapper.get(n);
 //				OpenMBeanAttributeInfo operationInfo = operationInfoWrapper.getOperation();
 //				if(operationInfo.getName().equalsIgnoreCase(csOperationName))	// Found attribut
 //				{
@@ -197,9 +197,9 @@ public abstract class BaseOpenMBean extends BaseDynamicMBean	//implements Dynami
 		OpenMBeanAttributeInfoSupport attrOpen = new OpenMBeanAttributeInfoSupport(csMethodName, csDescription, compositeType, bCanGet, bCanSet, false); 
 		OpenMBeanAttributeInfoWrapper attr = new OpenMBeanAttributeInfoWrapper(csMethodName, csDescription, attrOpen, methodGet, methodSet);
 		
-		if(m_arrOpenMBeanAttributeInfosWrapper == null)
-			m_arrOpenMBeanAttributeInfosWrapper = new ArrayList<OpenMBeanAttributeInfoWrapper>();
-		m_arrOpenMBeanAttributeInfosWrapper.add(attr);
+		if(arrOpenMBeanAttributeInfosWrapper == null)
+			arrOpenMBeanAttributeInfosWrapper = new ArrayList<OpenMBeanAttributeInfoWrapper>();
+		arrOpenMBeanAttributeInfosWrapper.add(attr);
 	}
 	
 	protected void addOpenAttribute(String csDescription, Class cls, String csMethodName, TabularType tabularType)
@@ -216,18 +216,18 @@ public abstract class BaseOpenMBean extends BaseDynamicMBean	//implements Dynami
 		OpenMBeanAttributeInfoSupport attrOpen = new OpenMBeanAttributeInfoSupport(csMethodName, csDescription, tabularType, bCanGet, bCanSet, false); 
 		OpenMBeanAttributeInfoWrapper attr = new OpenMBeanAttributeInfoWrapper(csMethodName, csDescription, attrOpen, methodGet, methodSet);
 		
-		if(m_arrOpenMBeanAttributeInfosWrapper == null)
-			m_arrOpenMBeanAttributeInfosWrapper = new ArrayList<OpenMBeanAttributeInfoWrapper>();
-		m_arrOpenMBeanAttributeInfosWrapper.add(attr);
+		if(arrOpenMBeanAttributeInfosWrapper == null)
+			arrOpenMBeanAttributeInfosWrapper = new ArrayList<OpenMBeanAttributeInfoWrapper>();
+		arrOpenMBeanAttributeInfosWrapper.add(attr);
 	}
 
 	public MBeanInfo getMBeanInfo()
     {
-        return m_OpenMBeanInfo;
+        return openMBeanInfo;
     }
 	
 	protected abstract void buildDynamicMBeanInfo();
 	    
-    private OpenMBeanInfoSupport m_OpenMBeanInfo = null;
-    private ArrayList<OpenMBeanAttributeInfoWrapper> m_arrOpenMBeanAttributeInfosWrapper = null;
+    private OpenMBeanInfoSupport openMBeanInfo = null;
+    private ArrayList<OpenMBeanAttributeInfoWrapper> arrOpenMBeanAttributeInfosWrapper = null;
 }

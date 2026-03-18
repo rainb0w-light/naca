@@ -18,7 +18,7 @@ import java.util.Hashtable;
  */
 public class DbDriverId
 {
-	private String m_csName = null;
+	private String csName = null;
 	private static Hashtable<String, DbDriverId> ms_hashDriverByClass = new Hashtable<String, DbDriverId>();  
 	
 	public static DbDriverId SQLServer = new DbDriverId("SQLServer", "SQLServerDriver");
@@ -28,7 +28,7 @@ public class DbDriverId
 	
 	private DbDriverId(String csName, String csClassName)
 	{
-		m_csName = csName;
+		csName = csName;
 		put(csClassName, this);
 	}
 	
@@ -52,6 +52,6 @@ public class DbDriverId
 	
 	public String toString()
 	{
-		return m_csName;
+		return csName;
 	}
 }

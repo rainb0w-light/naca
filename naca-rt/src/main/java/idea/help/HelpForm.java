@@ -52,9 +52,9 @@ public class HelpForm extends ActionForm
 	 */
 	public void reset(ActionMapping mapping, HttpServletRequest request)
 	{
-		m_field = "" ;
-		m_help = "" ;
-		m_Page = "" ;
+		field = "" ;
+		help = "" ;
+		page = "" ;
 	}
 
 	/**
@@ -62,13 +62,13 @@ public class HelpForm extends ActionForm
 	 */
 	public void setCurrentField(String field)
 	{
-		m_field = field ;		
+		field = field ;		
 	}
 	public String getCurrentField()
 	{
-		return m_field ;	
+		return field ;	
 	}
-	protected String m_field = "" ;
+	protected String field = "" ;
 
 	public String getPageList()
 	{
@@ -77,24 +77,24 @@ public class HelpForm extends ActionForm
 	
 	public void setCurrentPage(String page)
 	{
-		m_Page = page ;
+		page = page ;
 	}
-	protected String m_Page = "" ;
+	protected String page = "" ;
 	public String getCurrentPage()
 	{
-		return m_Page ;
+		return page ;
 	}
 	/**
 	 * @param help
 	 */
 	public void setHelp(String help)
 	{
-		m_help = help ;		
+		help = help ;		
 	} 
-	protected String m_help = "" ;
+	protected String help = "" ;
 	public String getHelp()
 	{
-		return m_help ;
+		return help ;
 	}
 	public HelpForm getHelpForm()
 	{

@@ -24,12 +24,12 @@ import jlib.misc.NumberParser;
  */
 public class DbColDefinitionInteger extends BaseDbColDefinition
 {
-	private int m_nNbDigits = 0;
+	private int nNbDigits = 0;
 	
 	DbColDefinitionInteger(ColDescriptionInfo colDescription)
 	{
 		super(colDescription);
-		m_nNbDigits = colDescription.getPrecision();
+		nNbDigits = colDescription.getPrecision();
 	}
 	
 	public byte[] getByteValue(ResultSet resultSet, int nCol1Based, boolean bEbcdicOutput)
@@ -59,7 +59,7 @@ public class DbColDefinitionInteger extends BaseDbColDefinition
 	public int setByteValueInStmtCol(DbColDefErrorManager dbColDefErrorManager, DbPreparedStatement stmt, int nCol, byte arrByteValue[], int nSourceOffset, boolean bEbcdicInput)
 	{	
 		long lOriginalValue = LittleEndingUnsignBinaryBufferStorage.readInt(arrByteValue, nSourceOffset);
-		long lValue = BasePic9Comp3BufferSupport.keepRightMostDigits(lOriginalValue, m_nNbDigits);
+		long lValue = BasePic9Comp3BufferSupport.keepRightMostDigits(lOriginalValue, nNbDigits);
 		if(lOriginalValue != lValue)
 			dbColDefErrorManager.reportTruncationError(lOriginalValue, lValue, getColumnName());
 		

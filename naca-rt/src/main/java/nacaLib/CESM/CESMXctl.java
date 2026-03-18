@@ -15,30 +15,30 @@ import nacaLib.varEx.Var;
 
 public class CESMXctl extends CJMapObject
 {
-	protected BaseEnvironment m_Environment = null;
+	protected BaseEnvironment environment = null;
 	
 	public CESMXctl(BaseEnvironment env, String csProgramName)
 	{
-		m_Environment = env ;
-		m_Environment.setNextProgramToLoad(csProgramName);
+		environment = env ;
+		environment.setNextProgramToLoad(csProgramName);
 	}
 	
 	public void go()
 	{
 		if(isLogCESM)
-			Log.logDebug("Xctling program: "+m_Environment.getNextProgramToLoad());
-		CXctlException exp = new CXctlException(m_Environment);
+			Log.logDebug("Xctling program: "+environment.getNextProgramToLoad());
+		CXctlException exp = new CXctlException(environment);
 		throw exp ;		
 	}
 	
 	public void commarea(Var var, int length)
 	{
 		CCommarea comm = new CCommarea() ;
-		m_Environment.setCommarea(comm);	
+		environment.setCommarea(comm);	
 		comm.setVarPassedByValue(var, length) ;
 		if(isLogCESM)
-			Log.logDebug("Xctling program: "+m_Environment.getNextProgramToLoad());
-		CXctlException exp = new CXctlException(m_Environment) ;
+			Log.logDebug("Xctling program: "+environment.getNextProgramToLoad());
+		CXctlException exp = new CXctlException(environment) ;
 		throw exp ;
 	}
 	

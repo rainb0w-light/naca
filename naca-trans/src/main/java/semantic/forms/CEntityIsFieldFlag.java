@@ -29,19 +29,19 @@ public abstract class CEntityIsFieldFlag extends CUnitaryEntityCondition
 {
 	public void SetIsFlag(CDataEntity eData, String cs)
 	{
-		m_Value = cs ;
-		m_bIsSet = false ;
-		m_Reference = eData ;
+		value = cs ;
+		bIsSet = false ;
+		reference = eData ;
 	}
-	protected String m_Value = "" ;
-	protected boolean m_bIsSet = false ;
-	//protected CDataEntity m_Reference = null ; 
-	protected boolean m_bOpposite = false ;
+	protected String value = "" ;
+	protected boolean bIsSet = false ;
+	//protected CDataEntity reference = null ; 
+	protected boolean bOpposite = false ;
 	public void Clear()
 	{
 		super.Clear();
-		m_Reference = null ;
-		m_bIsSet = false ;
+		reference = null ;
+		bIsSet = false ;
 	}
 	public CBaseEntityCondition getSimilarCondition(CBaseEntityFactory factory, CTerminal term)
 	{
@@ -53,29 +53,29 @@ public abstract class CEntityIsFieldFlag extends CUnitaryEntityCondition
 		else
 		{
 			CEntityIsFieldFlag eCond = factory.NewEntityIsFieldFlag();
-			eCond.SetIsFlag(m_Reference, term.GetValue());
+			eCond.SetIsFlag(reference, term.GetValue());
 			return eCond;
 		}
 	}
 	public void SetOpposite()
 	{
-		m_bOpposite = !m_bOpposite ;		
+		bOpposite = !bOpposite ;		
 	}
 	public boolean ignore()
 	{
-		return m_Reference.ignore() ;
+		return reference.ignore() ;
 	}
 	public CBaseEntityCondition GetSpecialConditionReplacing(String val, CBaseEntityFactory fact, CDataEntity replace)
 	{
-		return m_Reference.GetSpecialCondition(getLine(), val, EConditionType.IS_EQUAL, fact);
+		return reference.GetSpecialCondition(getLine(), val, EConditionType.IS_EQUAL, fact);
 	}
 	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
 	{
-		if (m_Reference == field)
+		if (reference == field)
 		{
 			field.UnRegisterVarTesting(this) ;
 			var.RegisterVarTesting(this) ;
-			m_Reference = var ;
+			reference = var ;
 			return true ;
 		}
 		return false ;
@@ -85,9 +85,9 @@ public abstract class CEntityIsFieldFlag extends CUnitaryEntityCondition
 	 */
 	public void SetIsFlagSet(CDataEntity refField)
 	{
-		m_Value = "" ;
-		m_bIsSet = true ;
-		m_Reference = refField ;
+		value = "" ;
+		bIsSet = true ;
+		reference = refField ;
 	}
 	public boolean isBinaryCondition()
 	{

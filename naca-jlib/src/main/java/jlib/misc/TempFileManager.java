@@ -27,27 +27,27 @@ import jlib.xml.Tag;
  */
 public class TempFileManager
 {
-	private String m_csTempPath = null;
-	private String m_csLastTempFilePathName = null;
+	private String csTempPath = null;
+	private String csLastTempFilePathName = null;
 	
 	public TempFileManager(String csTempPath)
 	{
-		m_csTempPath = FileSystem.normalizePath(csTempPath);
-		FileSystem.createPath(m_csTempPath);
-		cleanupTempPath(m_csTempPath);
+		csTempPath = FileSystem.normalizePath(csTempPath);
+		FileSystem.createPath(csTempPath);
+		cleanupTempPath(csTempPath);
 	}
 	
 	public void cleanupTempPath(String csTempPath)
 	{
-		m_csTempPath = FileSystem.normalizePath(csTempPath);
-		FileSystem.DeleteContent(m_csTempPath);
+		csTempPath = FileSystem.normalizePath(csTempPath);
+		FileSystem.DeleteContent(csTempPath);
 	}
 
 	public String makeTempFileName(String csFileName, String csTmpExt)
 	{
 		csFileName = FileSystem.getNameWithoutExtension(csFileName);
-		m_csLastTempFilePathName = FileSystem.buildFileName(m_csTempPath, csFileName, csTmpExt);
-		return m_csLastTempFilePathName;
+		csLastTempFilePathName = FileSystem.buildFileName(csTempPath, csFileName, csTmpExt);
+		return csLastTempFilePathName;
 	}
 	
 //	public void saveTmpFile(Tag tag, String csFile, String csExt, int nStep)
@@ -110,6 +110,6 @@ public class TempFileManager
 		
 	public String getLastTempFilePathName()
 	{
-		return m_csLastTempFilePathName;
+		return csLastTempFilePathName;
 	}
 }

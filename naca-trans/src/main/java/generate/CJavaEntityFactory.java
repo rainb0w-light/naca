@@ -424,214 +424,214 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 	}
 	
 	public CEntitySQLSelectStatement NewEntitySQLSelectStatement(int nLine, String csStatement, Vector<CDataEntity> arrParameters, Vector<CDataEntity> arrInto, Vector<CDataEntity> arrInd)	{
-		return new CJavaSQLSelectStatement(nLine, m_ProgramCatalog, m_LangOutput, csStatement, arrParameters, arrInto, arrInd);
+		return new CJavaSQLSelectStatement(nLine, programCatalog, langOutput, csStatement, arrParameters, arrInto, arrInd);
 	}
 	public CEntitySQLCursorSelectStatement NewEntitySQLCursorSelectStatement(int nLine)	{
-		return new CJavaSQLCursorSelectStatement(nLine, m_ProgramCatalog, m_LangOutput);
+		return new CJavaSQLCursorSelectStatement(nLine, programCatalog, langOutput);
 	}
 	public CEntitySQLFetchStatement NewEntitySQLFetchStatement(int nLine, CEntitySQLCursor cur)	{
-		return new CJavaSQLFetchStatement(nLine, m_ProgramCatalog, m_LangOutput, cur);
+		return new CJavaSQLFetchStatement(nLine, programCatalog, langOutput, cur);
 	}
 	public CEntitySQLOpenStatement NewEntitySQLOpenStatement(int nLine, CEntitySQLCursor cur)	{
-		return new CJavaSQLOpenStatement(nLine, m_ProgramCatalog, m_LangOutput, cur);
+		return new CJavaSQLOpenStatement(nLine, programCatalog, langOutput, cur);
 	}
 	public CEntitySQLCloseStatement NewEntitySQLCloseStatement(int nLine, CEntitySQLCursor cur)	{
-		return new CJavaSQLCloseStatement(nLine, m_ProgramCatalog, m_LangOutput, cur);
+		return new CJavaSQLCloseStatement(nLine, programCatalog, langOutput, cur);
 	}
 	public CEntitySQLDeleteStatement NewEntitySQLDeleteStatement(int nLine, String csStatement, Vector<CDataEntity> arrParameters)	{
-		return new CJavaSQLDeleteStatement(nLine, m_ProgramCatalog, m_LangOutput, csStatement, arrParameters);
+		return new CJavaSQLDeleteStatement(nLine, programCatalog, langOutput, csStatement, arrParameters);
 	}
 	public CEntitySQLUpdateStatement NewEntitySQLUpdateStatement(int nLine, String csStatement, Vector<CDataEntity> arrSets, Vector<CDataEntity> arrParameters)	{
-		return new CJavaSQLUpdateStatement(nLine, m_ProgramCatalog, m_LangOutput, csStatement, arrSets, arrParameters);
+		return new CJavaSQLUpdateStatement(nLine, programCatalog, langOutput, csStatement, arrSets, arrParameters);
 	}
 	public CEntitySQLInsertStatement NewEntitySQLInsertStatement(int nLine)	{
-		return new CJavaSQLInsertStatement(nLine, m_ProgramCatalog, m_LangOutput);
+		return new CJavaSQLInsertStatement(nLine, programCatalog, langOutput);
 	}
 	public CEntitySQLDeclareTable NewEntitySQLDeclareTable(int nLine, String csTableName, String csViewName, ArrayList arrTableColDescription)	{
-		return new CJavaSQLDeclareTable(nLine, m_ProgramCatalog, m_LangOutput, csTableName, csViewName, arrTableColDescription);
+		return new CJavaSQLDeclareTable(nLine, programCatalog, langOutput, csTableName, csViewName, arrTableColDescription);
 	}
 	public CEntityClass NewEntityClass(int l, String name)	{
-		return new CJavaClass(l, name, m_ProgramCatalog, m_LangOutput);
+		return new CJavaClass(l, name, programCatalog, langOutput);
 	}
 	public CEntityComment NewEntityComment(int l, String comment)	{
-		return new CJavaComment(l, m_ProgramCatalog, m_LangOutput, comment);
+		return new CJavaComment(l, programCatalog, langOutput, comment);
 	}
 	public CEntityAttribute NewEntityAttribute(int l, String name)	{
-		return new CJavaAttribute(l, name, m_ProgramCatalog, m_LangOutput);
+		return new CJavaAttribute(l, name, programCatalog, langOutput);
 	}
 	public CEntityStructure NewEntityStructure(int l, String name, String level)	{
-		return new CJavaStructure(l, name, m_ProgramCatalog, m_LangOutput, level);
+		return new CJavaStructure(l, name, programCatalog, langOutput, level);
 	}
 	public CEntityProcedure NewEntityProcedure(int l, String name, CEntityProcedureSection section)	{
-		return new CJavaProcedure(l, name, m_ProgramCatalog, m_LangOutput, section);
+		return new CJavaProcedure(l, name, programCatalog, langOutput, section);
 	}
 	public CEntityProcedureSection NewEntityProcedureSection(int l, String name)	{
-		return new CJavaProcedureSection(l, name, m_ProgramCatalog, m_LangOutput);
+		return new CJavaProcedureSection(l, name, programCatalog, langOutput);
 	}
 	public CEntityAssign NewEntityAssign(int l)	{
-		return new CJavaAssign(l, m_ProgramCatalog, m_LangOutput) ;
+		return new CJavaAssign(l, programCatalog, langOutput) ;
 	}
 	public CEntityExternalDataStructure NewEntityExternalDataStructure(int l, String name)	{
-		return new CJavaExternalDataStructure(l, name, m_ProgramCatalog, m_LangOutput);
+		return new CJavaExternalDataStructure(l, name, programCatalog, langOutput);
 	}
 	public CEntityInline NewEntityInline(int l, CBaseExternalEntity ext)	{
-		return new CJavaInline(l, m_ProgramCatalog, m_LangOutput, ext);
+		return new CJavaInline(l, programCatalog, langOutput, ext);
 	}
 	public CEntityCondition NewEntityCondition(int l)	{
-		return new CJavaCondition(l, m_ProgramCatalog, m_LangOutput);
+		return new CJavaCondition(l, programCatalog, langOutput);
 	}
 	public CEntityBloc NewEntityBloc(int l)	{
-		return new CJavaBloc(l, m_ProgramCatalog, m_LangOutput);
+		return new CJavaBloc(l, programCatalog, langOutput);
 	}
 	public CEntityCalcul NewEntityCalcul(int l)	{
-		return new CJavaCalcul(l, m_ProgramCatalog, m_LangOutput);
+		return new CJavaCalcul(l, programCatalog, langOutput);
 	}
 	public CEntitySqlOnErrorGoto NewEntitySQLOnErrorGoto(int l, String ref)	{
-		return new CJavaSqlOnErrorGoto(l, m_ProgramCatalog, m_LangOutput, ref, false) ;
+		return new CJavaSqlOnErrorGoto(l, programCatalog, langOutput, ref, false) ;
 	}
 	public CEntitySqlOnErrorGoto NewEntitySQLOnWarningGoto(int l, String ref)	{
-		return new CJavaSqlOnErrorGoto(l, m_ProgramCatalog, m_LangOutput, ref, true) ;
+		return new CJavaSqlOnErrorGoto(l, programCatalog, langOutput, ref, true) ;
 	}
 	public CEntityExec NewEntityExec(int l, String statement)	{
-		return new CJavaExec(l, m_ProgramCatalog, m_LangOutput, statement);
+		return new CJavaExec(l, programCatalog, langOutput, statement);
 	}
 	public CEntityResourceFormContainer NewEntityFormContainer(int l, String name, boolean bSave)	{
-		return new CJavaFormContainer(l, name, m_ProgramCatalog, m_LangOutput, bSave);
+		return new CJavaFormContainer(l, name, programCatalog, langOutput, bSave);
 	}
 	public CEntityResourceForm NewEntityForm(int l, String name, boolean bSave)	{
-		return new CJavaForm(l, name, m_ProgramCatalog, m_LangOutput, bSave);
+		return new CJavaForm(l, name, programCatalog, langOutput, bSave);
 	}
 	public CEntityFieldAttribute NewEntityFieldAttribute(int l, String name, CDataEntity owner)	{
-		return new CJavaFieldAttribute(l, name, m_ProgramCatalog, m_LangOutput, owner);
+		return new CJavaFieldAttribute(l, name, programCatalog, langOutput, owner);
 	}
 	public CEntityCallFunction NewEntityCallFunction(int l, String reference, String csRefThru, CEntityProcedureSection section)	{
-		return new CJavaCallFunction(l, m_ProgramCatalog, m_LangOutput, reference, csRefThru, section);
+		return new CJavaCallFunction(l, programCatalog, langOutput, reference, csRefThru, section);
 	}
 	public CEntityInitialize NewEntityInitialize(int l, CDataEntity data)	{
-		return new CJavaInitialize(l, m_ProgramCatalog, m_LangOutput, data);
+		return new CJavaInitialize(l, programCatalog, langOutput, data);
 	}
 	public CEntityReturn NewEntityReturn(int l)	{
-		return new CJavaReturn(l, m_ProgramCatalog, m_LangOutput) ;
+		return new CJavaReturn(l, programCatalog, langOutput) ;
 	}
 	public CEntityCallProgram NewEntityCallProgram(int l, CDataEntity reference)	{
-		return new CJavaCallProgram(l, m_ProgramCatalog, m_LangOutput, reference);
+		return new CJavaCallProgram(l, programCatalog, langOutput, reference);
 	}
 	public CEntitySwitchCase NewEntitySwitchCase(int l)	{
-		return new CJavaSwitchCase(l, m_ProgramCatalog, m_LangOutput) ;
+		return new CJavaSwitchCase(l, programCatalog, langOutput) ;
 	}
 	public CEntityCase NewEntityCase(int l, int endline)	{
-		return new CJavaCase(l, m_ProgramCatalog, m_LangOutput, endline);
+		return new CJavaCase(l, programCatalog, langOutput, endline);
 	}
 	public CSubStringAttributReference NewEntitySubString(int l)	{
-		return new CJavaSubStringReference(l, m_ProgramCatalog, m_LangOutput);
+		return new CJavaSubStringReference(l, programCatalog, langOutput);
 	}
 	public CEntityArrayReference NewEntityArrayReference(int l)	{
-		return new CJavaArrayReference(l, m_ProgramCatalog, m_LangOutput);
+		return new CJavaArrayReference(l, programCatalog, langOutput);
 	}
 	public CEntityGoto NewEntityGoto(int l, String Reference, CEntityProcedureSection section)	{
-		return new CJavaGoto(l, m_ProgramCatalog, m_LangOutput, Reference, section) ;
+		return new CJavaGoto(l, programCatalog, langOutput, Reference, section) ;
 	}
 	public CJavaGotoDepending NewEntityGotoDepending(int l, List<String> refs, CDataEntity dep, CEntityProcedureSection section)	{
-		return new CJavaGotoDepending(l, m_ProgramCatalog, m_LangOutput, refs, dep, section) ;
+		return new CJavaGotoDepending(l, programCatalog, langOutput, refs, dep, section) ;
 	}
 	public CEntityLoopWhile NewEntityLoopWhile(int l)	{
-		return new CJavaLoopWhile(l, m_ProgramCatalog, m_LangOutput);
+		return new CJavaLoopWhile(l, programCatalog, langOutput);
 	}
 	public CEntityLoopIter NewEntityLoopIter(int l)	{
-		return new CJavaLoopIter(l, m_ProgramCatalog, m_LangOutput);
+		return new CJavaLoopIter(l, programCatalog, langOutput);
 	}
 	public CEntityAddTo NewEntityAddTo(int l)	{
-		return new CJavaAddTo(l, m_ProgramCatalog, m_LangOutput);
+		return new CJavaAddTo(l, programCatalog, langOutput);
 	}
 	public CEntityContinue NewEntityContinue(int l)	{
-		return new CJavaContinue(l, m_ProgramCatalog, m_LangOutput);
+		return new CJavaContinue(l, programCatalog, langOutput);
 	}
 	public CEntityNextSentence NewEntityNextSentence(int l)	{
-		return new CJavaNextSentence(l, m_ProgramCatalog, m_LangOutput);
+		return new CJavaNextSentence(l, programCatalog, langOutput);
 	}
 	public CEntityNamedCondition NewEntityNamedCondition(int l, String name)	{
-		return new CJavaNamedCondition(l, name, m_ProgramCatalog, m_LangOutput);
+		return new CJavaNamedCondition(l, name, programCatalog, langOutput);
 	}
 	public CEntitySQLSingleStatement NewEntitySQLSingleStatement(int l, String st)	{
-		return new CJavaSQLSingleStatement(l, m_ProgramCatalog, m_LangOutput, st);
+		return new CJavaSQLSingleStatement(l, programCatalog, langOutput, st);
 	}
 	public CEntitySetColor NewEntitySetColor(int l, CDataEntity field)	{
-		m_ProgramCatalog.addImportDeclaration("MAP") ;
-		return new CJavaSetColor(l, m_ProgramCatalog, m_LangOutput, field) ;
+		programCatalog.addImportDeclaration("MAP") ;
+		return new CJavaSetColor(l, programCatalog, langOutput, field) ;
 	}
 	public CEntityFieldLength NewEntityFieldLengh(int l, String name, CDataEntity field)	{
-		return new CJavaFieldLength(l, name, m_ProgramCatalog, m_LangOutput, field) ;
+		return new CJavaFieldLength(l, name, programCatalog, langOutput, field) ;
 	}
 	public CEntityFieldColor NewEntityFieldColor(int l, String name, CDataEntity field)	{
-		return new CJavaFieldColor(l, name, m_ProgramCatalog, m_LangOutput, field) ;
+		return new CJavaFieldColor(l, name, programCatalog, langOutput, field) ;
 	}
 	public CEntityFieldHighlight NewEntityFieldHighlight(int l, String name, CDataEntity field)	{
-		return new CJavaFieldHighligh(l, name, m_ProgramCatalog, m_LangOutput, field) ;
+		return new CJavaFieldHighligh(l, name, programCatalog, langOutput, field) ;
 	}
 //	public CEntityFieldFlag NewEntityFieldFlag(int l, String name, CBaseDataEntity field)
 //	{
-//		return new CJavaFieldFlag(l, name, m_ProgramCatalog, m_LangOutput, field) ;
+//		return new CJavaFieldFlag(l, name, programCatalog, langOutput, field) ;
 //	}
 	public CEntityFieldFlag NewEntityFieldFlag(int l, String name, CDataEntity field)	{
-		return new CJavaFieldFlag(l, name, m_ProgramCatalog, m_LangOutput, field) ;
+		return new CJavaFieldFlag(l, name, programCatalog, langOutput, field) ;
 	}
 	public CEntitySetHighligh NewEntitySetHighlight(int l, CDataEntity field)	{
-		m_ProgramCatalog.addImportDeclaration("MAP") ;
-		return new CJavaSetHighlight(l, m_ProgramCatalog, m_LangOutput, field) ;
+		programCatalog.addImportDeclaration("MAP") ;
+		return new CJavaSetHighlight(l, programCatalog, langOutput, field) ;
 	}
 	public CEntitySetFlag NewEntitySetFlag(int l, CDataEntity field)	{
-		return new CJavaSetFlag(l, m_ProgramCatalog, m_LangOutput, field) ;
+		return new CJavaSetFlag(l, programCatalog, langOutput, field) ;
 	}
 	public CEntitySetCursor NewEntitySetCursor(int l, CDataEntity field)	{
-		return new CJavaSetCursor(l, m_ProgramCatalog, m_LangOutput, field) ;
+		return new CJavaSetCursor(l, programCatalog, langOutput, field) ;
 	}
 	public CEntitySetAttribute NewEntitySetAttribute(int l, CDataEntity field)	{
-		m_ProgramCatalog.addImportDeclaration("MAP") ;
-		return new CJavaSetAttribute(l, m_ProgramCatalog, m_LangOutput, field) ;
+		programCatalog.addImportDeclaration("MAP") ;
+		return new CJavaSetAttribute(l, programCatalog, langOutput, field) ;
 	}
 	public CEntityAssignWithAccessor NewEntityAssignWithAccessor(int l)	{
-		return new CJavaAssignWithAccessor(l, m_ProgramCatalog, m_LangOutput) ;
+		return new CJavaAssignWithAccessor(l, programCatalog, langOutput) ;
 	}
 	public CEntityFieldData NewEntityFieldData(int l, String name, CDataEntity field)	{
-		return new CJavaFieldData(l, name, m_ProgramCatalog, m_LangOutput, field);
+		return new CJavaFieldData(l, name, programCatalog, langOutput, field);
 	}
 	public CResourceStrings NewResourceString(int nbLines, int nbCols)	{
 		return new CJavaResourceStrings(nbLines, nbCols);
 	}
 	public CEntityEnvironmentVariable NewEntityEnvironmentVariable(String name, String acc, boolean bNumeric)	{
-		return new CJavaEnvironmentVariable(0, name, m_ProgramCatalog, m_LangOutput, acc, bNumeric);
+		return new CJavaEnvironmentVariable(0, name, programCatalog, langOutput, acc, bNumeric);
 	}
 	public CEntityEnvironmentVariable NewEntityEnvironmentVariable(String name, String acc, String write, boolean bNumeric)	{
-		return new CJavaEnvironmentVariable(0, name, m_ProgramCatalog, m_LangOutput, acc, write, bNumeric);
+		return new CJavaEnvironmentVariable(0, name, programCatalog, langOutput, acc, write, bNumeric);
 	}
 //	public CEntityFormAccessor NewEntityFormAccessor(int l, String name, CEntityResourceForm owner)	{
-//		return new CJavaFormAccessor(l, name, m_ProgramCatalog, m_LangOutput, owner);
+//		return new CJavaFormAccessor(l, name, programCatalog, langOutput, owner);
 //	}
 	public CEntitySkipFields NewEntityWorkingSkipField(int l, String name, int nbFields, String level)	{
-		return new CJavaSkipField(l, name, m_ProgramCatalog, m_LangOutput, nbFields, level);
+		return new CJavaSkipField(l, name, programCatalog, langOutput, nbFields, level);
 	}
 	public CEntityResourceField NewEntityEntryField(int l, String name)	{
-		return new CJavaField(l, name, m_ProgramCatalog, m_LangOutput);	
+		return new CJavaField(l, name, programCatalog, langOutput);	
 	}
 	public CEntityResourceField NewEntityLabelField(int l)	{
-		return new CJavaLabelField(l, m_ProgramCatalog, m_LangOutput);
+		return new CJavaLabelField(l, programCatalog, langOutput);
 	}
 	public CEntityFieldRedefine NewEntityFieldRedefine(int l, String name, String level)	{
-		return new CJavaFieldRedefine(l, name, m_ProgramCatalog, m_LangOutput, level);	
+		return new CJavaFieldRedefine(l, name, programCatalog, langOutput, level);	
 	}
 	public CEntityFormRedefine NewEntityFormRedefine(int l, String name, CDataEntity eForm, boolean bSaveMap)	{
-		//m_ProgramCatalog.addImportDeclaration("MAP") ;
-		return new CJavaFormRedefine(l, name, m_ProgramCatalog, m_LangOutput, eForm, bSaveMap);
+		//programCatalog.addImportDeclaration("MAP") ;
+		return new CJavaFormRedefine(l, name, programCatalog, langOutput, eForm, bSaveMap);
 	}
 	public CEntityString NewEntityString(char[] value)	{
-		CJavaString e = new CJavaString(m_ProgramCatalog, m_LangOutput, value) ;
+		CJavaString e = new CJavaString(programCatalog, langOutput, value) ;
 		return e ;
 	}
 	public CEntityCondOr NewEntityCondOr()	{
 		return new CJavaCondOr();
 	}
 	public CEntityNumber NewEntityNumber(String value)	{
-		return new CJavaEntityNumber(m_ProgramCatalog, m_LangOutput, value) ;
+		return new CJavaEntityNumber(programCatalog, langOutput, value) ;
 	}
 	public CEntityExprTerminal NewEntityExprTerminal(CDataEntity eData)	{
 		return new CJavaExprTerminal(eData);
@@ -667,242 +667,242 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CJavaIsFieldFlag();
 	}
 	public CEntitySetConstant NewEntitySetConstant(int l)	{
-		return new CJavaSetConstant(l, m_ProgramCatalog, m_LangOutput);
+		return new CJavaSetConstant(l, programCatalog, langOutput);
 	}
 	public CEntityIsFieldColor NewEntityIsFieldColor()	{
-		m_ProgramCatalog.addImportDeclaration("MAP") ;
+		programCatalog.addImportDeclaration("MAP") ;
 		return new CJavaIsFieldColor();
 	}
 	public CEntityIsFieldAttribute NewEntityIsFieldAttribute()	{
-		m_ProgramCatalog.addImportDeclaration("MAP") ;
+		programCatalog.addImportDeclaration("MAP") ;
 		return new CJavaIsFieldAttribute() ;
 	}
 	public CEntityAddressReference NewEntityAddressReference(CDataEntity ref)	{
-		return new CJavaAddressReference(m_ProgramCatalog, m_LangOutput, ref);
+		return new CJavaAddressReference(programCatalog, langOutput, ref);
 	}
 	public CEntityMoveReference NewEntityMoveReference(int l)	{
-		return new CJavaMoveReference(l, m_ProgramCatalog, m_LangOutput) ;
+		return new CJavaMoveReference(l, programCatalog, langOutput) ;
 	}
 	public CEntitySubtractTo NewEntitySubtractTo(int l)	{
-		return new CJavaSubtractTo(l, m_ProgramCatalog, m_LangOutput);
+		return new CJavaSubtractTo(l, programCatalog, langOutput);
 	}
 	public CEntityIsNamedCondition NewEntityIsNamedCondition()	{
 		return new CJavaIsNamedCondition();
 	}
 	public CEntityDataSection NewEntityDataSection(int l, String name)	{
-		return new CJavaDataSection(l, name, m_ProgramCatalog, m_LangOutput);
+		return new CJavaDataSection(l, name, programCatalog, langOutput);
 	}
 	public CEntityReplace NewEntityReplace(int l)	{
-		return new CJavaReplace(l, m_ProgramCatalog, m_LangOutput);
+		return new CJavaReplace(l, programCatalog, langOutput);
 	}
 	public CEntityIsFieldHighlight NewEntityIsFieldHighlight(CDataEntity ref)	{
-		m_ProgramCatalog.addImportDeclaration("MAP") ;
+		programCatalog.addImportDeclaration("MAP") ;
 		return new CJavaIsFieldHighlight(ref) ;
 	}
 	public CEntityFieldValidated NewEntityFieldValidated(int l, String name, CDataEntity field)	{
-		return new CJavaFieldValidated(l, name, m_ProgramCatalog, m_LangOutput, field) ;
+		return new CJavaFieldValidated(l, name, programCatalog, langOutput, field) ;
 	}
 	public CEntityStringConcat NewEntityStringConcat(int l)	{
-		return new CJavaStringConcat(l, m_ProgramCatalog, m_LangOutput);
+		return new CJavaStringConcat(l, programCatalog, langOutput);
 	}
 	public CEntityDivide NewEntityDivide(int l)	{
-		return new CJavaDivide(l, m_ProgramCatalog, m_LangOutput);
+		return new CJavaDivide(l, programCatalog, langOutput);
 	}
 	public CEntityMultiply NewEntityMultiply(int l)	{
-		return new CJavaMultiply(l, m_ProgramCatalog, m_LangOutput);
+		return new CJavaMultiply(l, programCatalog, langOutput);
 	}
 	public CEntityParseString NewEntityParseString(int l)	{
-		return new CJavaParseString(l, m_ProgramCatalog, m_LangOutput);
+		return new CJavaParseString(l, programCatalog, langOutput);
 	}
 	public CEntitySQLRollBack NewEntitySQLRollBack(int l)	{
-		return new CJavaSQLRollBack(l, m_ProgramCatalog, m_LangOutput);
+		return new CJavaSQLRollBack(l, programCatalog, langOutput);
 	}
 	public CEntitySQLCommit NewEntitySQLCommit(int l)	{
-		return new CJavaSQLCommit(l, m_ProgramCatalog, m_LangOutput);
+		return new CJavaSQLCommit(l, programCatalog, langOutput);
 	}
 	public CEntityExprOpposite NewEntityExprOpposite()	{
 		return new CJavaExprOpposite();
 	}
 	public CEntityCICSXctl NewEntityCICSXctl(int l)	{
-		return new CJavaCICSXctl(l, m_ProgramCatalog, m_LangOutput);
+		return new CJavaCICSXctl(l, programCatalog, langOutput);
 	}
 	public CEntityCICSLink NewEntityCICSLink(int l)	{
-		return new CJavaCICSLink(l, m_ProgramCatalog, m_LangOutput);
+		return new CJavaCICSLink(l, programCatalog, langOutput);
 	}
 	public CEntityCICSAddress NewEntityCICSAddress(int l) {
-		return new CJavaCICSAddress(l, m_ProgramCatalog, m_LangOutput);
+		return new CJavaCICSAddress(l, programCatalog, langOutput);
 	}
 	public CEntityCICSAskTime NewEntityCICSAskTime(int l)	{
-		return new CJavaCICSAskTime(l, m_ProgramCatalog, m_LangOutput);
+		return new CJavaCICSAskTime(l, programCatalog, langOutput);
 	}
 	public CEntityCurrentDate NewEntityCurrentDate()	{
-		return new CJavaCurrentDate(m_ProgramCatalog, m_LangOutput);
+		return new CJavaCurrentDate(programCatalog, langOutput);
 	}
 	public CEntityAddressOf NewEntityAddressOf(CDataEntity data)	{
-		return new CJavaAddressOf(m_ProgramCatalog, m_LangOutput, data);
+		return new CJavaAddressOf(programCatalog, langOutput, data);
 	}
 	public CEntityLengthOf NewEntityLengthOf(CDataEntity data)	{
-		return new CJavaLengthOf(m_ProgramCatalog, m_LangOutput, data);
+		return new CJavaLengthOf(programCatalog, langOutput, data);
 	}
 	public CEntityCICSHandleCondition NewEntityCICSHandleCondition(int l)	{
-		return new CJavaCICSHandleCondition(l, m_ProgramCatalog, m_LangOutput);
+		return new CJavaCICSHandleCondition(l, programCatalog, langOutput);
 	}
 	public CEntityCICSHandleAID NewEntityCICSHandleAID(int l)	{
-		return new CJavaCICSHandleAID(l, m_ProgramCatalog, m_LangOutput);
+		return new CJavaCICSHandleAID(l, programCatalog, langOutput);
 	}
 	public CEntityCICSIgnoreCondition NewEntityCICSIgnoreCondition(int l)	{
-		return new CJavaCICSIgnoreCondition(l, m_ProgramCatalog, m_LangOutput);
+		return new CJavaCICSIgnoreCondition(l, programCatalog, langOutput);
 	}
 	public CEntityCICSRetrieve NewEntityCICSRetreive(int l, boolean bPointer)	{
-		return new CJavaCICSRetrieve(l, m_ProgramCatalog, m_LangOutput, bPointer);
+		return new CJavaCICSRetrieve(l, programCatalog, langOutput, bPointer);
 	}
 	public CEntityCICSStart NewEntityCICSStart(int l, CDataEntity TID)	{
-		return new CJavaCICSStart(l, m_ProgramCatalog, m_LangOutput, TID);
+		return new CJavaCICSStart(l, programCatalog, langOutput, TID);
 	}
 	public CEntityCICSReturn NewEntityCICSReturn(int l)	{
-		return new CJavaCICSReturn(l, m_ProgramCatalog, m_LangOutput);
+		return new CJavaCICSReturn(l, programCatalog, langOutput);
 	}
 	public CEntityCICSSendMap NewEntityCICSSendMap(int l)	{
-		return new CJavaCICSSendMap(l, m_ProgramCatalog, m_LangOutput);
+		return new CJavaCICSSendMap(l, programCatalog, langOutput);
 	}
 	public CEntityCICSWrite NewEntityCICSWrite(int l)	{
-		return new CJavaCICSWrite(l, m_ProgramCatalog, m_LangOutput);
+		return new CJavaCICSWrite(l, programCatalog, langOutput);
 	}
 	public CEntityCICSReceiveMap NewEntityCICSReceiveMap(int l, CDataEntity name)	{
-		return new CJavaCICSReceiveMap(l, m_ProgramCatalog, m_LangOutput, name);
+		return new CJavaCICSReceiveMap(l, programCatalog, langOutput, name);
 	}
 	public CEntityIsFieldModified NewEntityIsFieldModified() {
 		return new CJavaIsFieldModified();
 	}
 	public CEntityCICSSyncPoint NewEntityCICSSyncPoint(int l, boolean bRollBack)	{
-		return new CJavaCICSSyncPoint(l, m_ProgramCatalog, m_LangOutput, bRollBack);
+		return new CJavaCICSSyncPoint(l, programCatalog, langOutput, bRollBack);
 	}
 	public CEntityCICSInquire NewEntityCICSInquire(int l)	{
-		return new CJavaCICSInquire(l, m_ProgramCatalog, m_LangOutput);
+		return new CJavaCICSInquire(l, programCatalog, langOutput);
 	}
 	public CEntityCICSAbend NewEntityCICSAbend(int l)	{
-		return new CJavaCICSAbend(l, m_ProgramCatalog, m_LangOutput);
+		return new CJavaCICSAbend(l, programCatalog, langOutput);
 	}
 	public CEntityCICSRead NewEntityCICSRead(int l, CEntityCICSRead.CEntityCICSReadMode mode)	{
-		return new CJavaCICSRead(l, m_ProgramCatalog, m_LangOutput, mode);
+		return new CJavaCICSRead(l, programCatalog, langOutput, mode);
 	}
 	public CEntityCICSStartBrowse NewEntityCICSStartBrowse(int l)	{
-		return new CJavaCICSStartBrowse(l, m_ProgramCatalog, m_LangOutput);
+		return new CJavaCICSStartBrowse(l, programCatalog, langOutput);
 	}
 	public CEntityCICSDeleteQ NewEntityCICSDeleteQ(int l, boolean b)	{
-		return new CJavaCICSDeleteQ(l, m_ProgramCatalog, m_LangOutput, b);
+		return new CJavaCICSDeleteQ(l, programCatalog, langOutput, b);
 	}
 	public CEntityCICSWriteQ NewEntityCICSWriteQ(int l, boolean b)	{
-		return new CJavaCICSWriteQ(l, m_ProgramCatalog, m_LangOutput, b);
+		return new CJavaCICSWriteQ(l, programCatalog, langOutput, b);
 	}
 	public CEntityCICSReadQ NewEntityCICSReadQ(int l, boolean b)	{
-		return new CJavaCICSReadQ(l, m_ProgramCatalog, m_LangOutput, b);
+		return new CJavaCICSReadQ(l, programCatalog, langOutput, b);
 	}
 	public CEntityCICSAssign NewEntityCICSAssign(int l)	{
-		return new CJavaCICSAssign(l, m_ProgramCatalog, m_LangOutput);
+		return new CJavaCICSAssign(l, programCatalog, langOutput);
 	}
 	public CEntityDisplay NewEntityDisplay(int l, Upon t)	{
-		return new CJavaDisplay(l, m_ProgramCatalog, m_LangOutput, t);
+		return new CJavaDisplay(l, programCatalog, langOutput, t);
 	}
 	public CEntityCount NewEntityCount(int l)	{
-		return new CJavaCount(l, m_ProgramCatalog, m_LangOutput);
+		return new CJavaCount(l, programCatalog, langOutput);
 	}
 	public CEntityInspectConverting NewEntityInspectConverting(int l) {
-		return new CJavaInspectConverting(l, m_ProgramCatalog, m_LangOutput);
+		return new CJavaInspectConverting(l, programCatalog, langOutput);
 	}
 	public CEntityCICSReWrite NewEntityCICSReWrite(int l)	{
-		return new CJavaCICSReWrite(l, m_ProgramCatalog, m_LangOutput);
+		return new CJavaCICSReWrite(l, programCatalog, langOutput);
 	}
 	public CEntityCICSDelay NewEntityCICSDelay(int l)	{
-		return new CJavaCICSDelay(l, m_ProgramCatalog, m_LangOutput);
+		return new CJavaCICSDelay(l, programCatalog, langOutput);
 	}
 	public CEntityCICSSetTDQueue NewEntityCICSSetTDQueue(int l)	{
-		return new CJavaCICSSetTDQueue(l, m_ProgramCatalog, m_LangOutput);
+		return new CJavaCICSSetTDQueue(l, programCatalog, langOutput);
 	}
 	public CEntityCICSDeQ NewEntityCICSDeQ(int l)	{
-		return new CJavaCICSDeQ(l, m_ProgramCatalog, m_LangOutput);
+		return new CJavaCICSDeQ(l, programCatalog, langOutput);
 	}
 	public CEntityCICSEnQ NewEntityCICSEnQ(int l)	{
-		return new CJavaCICSEnQ(l, m_ProgramCatalog, m_LangOutput);
+		return new CJavaCICSEnQ(l, programCatalog, langOutput);
 	}
 	public CEntityProcedureDivision NewEntityProcedureDivision(int l)	{
-		return new CJavaProcedureDivision(l, m_ProgramCatalog, m_LangOutput);
+		return new CJavaProcedureDivision(l, programCatalog, langOutput);
 	}
 	public CEntitySQLCursorSection NewEntitySQLCursorSection()	{
-		return new CJavaSQLCursorSection(m_ProgramCatalog, m_LangOutput);
+		return new CJavaSQLCursorSection(programCatalog, langOutput);
 	}
 	public CEntityFieldArrayReference NewEntityFieldArrayReference(int l)	{
-		return new CJavaFieldArrayReference(l, m_ProgramCatalog, m_LangOutput);
+		return new CJavaFieldArrayReference(l, programCatalog, langOutput);
 	}
 	public CEntityIndex NewEntityIndex(String name)	{
-		return new CJavaIndex(name, m_ProgramCatalog, m_LangOutput);
+		return new CJavaIndex(name, programCatalog, langOutput);
 	}
 	public CEntitySQLCursor NewEntitySQLCursor(String name)	{
-		return new CJavaSQLCursor(name, m_ProgramCatalog, m_LangOutput);
+		return new CJavaSQLCursor(name, programCatalog, langOutput);
 	}
 	public CEntityKeyPressed NewEntityKeyPressed(String name, String caption)	{
-		//m_ProgramCatalog.UseMapSupport() ;
-		return new CJavaKeyPressed(0, name, m_ProgramCatalog, m_LangOutput, caption);
+		//programCatalog.UseMapSupport() ;
+		return new CJavaKeyPressed(0, name, programCatalog, langOutput, caption);
 	}
 	public CEntityGetKeyPressed NewEntityGetKeyPressed(String name)	{
-		return new CJavaGetKeyPressed(name, m_ProgramCatalog, m_LangOutput);
+		return new CJavaGetKeyPressed(name, programCatalog, langOutput);
 	}
 	public CEntityIsKeyPressed NewEntityIsKeyPressed()	{
-		m_ProgramCatalog.addImportDeclaration("KEYPRESSED") ;
+		programCatalog.addImportDeclaration("KEYPRESSED") ;
 		return new CJavaIsKeyPressed();
 	}
 	public CEntityFieldOccurs NewEntityFieldOccurs(int l, String name)	{
-		return new CJavaFieldOccurs(l, name, m_ProgramCatalog, m_LangOutput);
+		return new CJavaFieldOccurs(l, name, programCatalog, langOutput);
 	}
 	public CEntityUnknownReference NewEntityUnknownReference(int nLine, String csName)
 	{
-		return new CJavaUnknownReference(nLine, csName, m_ProgramCatalog, m_LangOutput);
+		return new CJavaUnknownReference(nLine, csName, programCatalog, langOutput);
 	}
 	public CEntityCICSGetMain NewEntityCICSGetMain(int l)	{
-		return new CJavaCICSGetMain(l, m_ProgramCatalog, m_LangOutput);
+		return new CJavaCICSGetMain(l, programCatalog, langOutput);
 	}
 	public CEntityResetKeyPressed NewEntityResetKeyPressed(int l)	{
-		return new CJavaResetKeyPressed(l, m_ProgramCatalog, m_LangOutput);
+		return new CJavaResetKeyPressed(l, programCatalog, langOutput);
 	}
 	public CEntityResourceFieldArray NewEntityFieldArray()	{
-		return new CJavaFieldArray(0, "", m_ProgramCatalog, m_LangOutput);
+		return new CJavaFieldArray(0, "", programCatalog, langOutput);
 	}
 	public CEntitySQLCode NewEntitySQLCode(String name)	{
-		return new CJavaSQLCode(name, m_ProgramCatalog, m_LangOutput);
+		return new CJavaSQLCode(name, programCatalog, langOutput);
 	}
 	public CEntitySQLCode NewEntitySQLCode(String name, CBaseEntityExpression eHistoryItem)	{
-		return new CJavaSQLCode(name, m_ProgramCatalog, m_LangOutput, eHistoryItem);
+		return new CJavaSQLCode(name, programCatalog, langOutput, eHistoryItem);
 	}
 	public CEntityCondIsSQLCode NewEntityCondIsSQLCode()	{
-		m_ProgramCatalog.addImportDeclaration("SQL") ;
+		programCatalog.addImportDeclaration("SQL") ;
 		return new CJavaCondIsSQLCode();
 	}
 	public CEntityRoutineEmulationCall NewEntityRoutineEmulationCall(int l)	{
-		return new CJavaRoutineEmulationCall(l, m_ProgramCatalog, m_LangOutput) ;
+		return new CJavaRoutineEmulationCall(l, programCatalog, langOutput) ;
 	}
 
-	protected Hashtable<String, CDataEntity> m_tabConstantValues = new Hashtable<String, CDataEntity>() ; 
+	protected Hashtable<String, CDataEntity> tabConstantValues = new Hashtable<String, CDataEntity>() ; 
 	public void addSpecialConstantValue(String value, String constant)
 	{
-		m_tabConstantValues.put(value, new CJavaConstantValue(m_ProgramCatalog, m_LangOutput, constant));
+		tabConstantValues.put(value, new CJavaConstantValue(programCatalog, langOutput, constant));
 	}
 	public CDataEntity getSpecialConstantValue(String value)
 	{
-		if (m_tabConstantValues.containsKey(value))
+		if (tabConstantValues.containsKey(value))
 		{
-			return m_tabConstantValues.get(value) ;
+			return tabConstantValues.get(value) ;
 		}
 		else
 		{
-			int n = m_ProgramCatalog.GetNbMap() ;
+			int n = programCatalog.GetNbMap() ;
 			for (int i=0; i<n; i++)
 			{
-				CEntityResourceForm form = m_ProgramCatalog.GetMap(i) ; 
+				CEntityResourceForm form = programCatalog.GetMap(i) ; 
 				if (form.isFormAlias(value))
 				{
 					String code = "LanguageCode."+CResourceStrings.getOfficialLanguageCode(value);
-					m_ProgramCatalog.addImportDeclaration("MAP") ;
-					return new CJavaConstantValue(m_ProgramCatalog, m_LangOutput, code) ;
+					programCatalog.addImportDeclaration("MAP") ;
+					return new CJavaConstantValue(programCatalog, langOutput, code) ;
 				}
 			}
 			return null;
@@ -911,7 +911,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 	public Vector<CDataEntity> getAllSpecialConstantAttributes()
 	{
 		Vector<CDataEntity> arr = new Vector<CDataEntity>() ; 
-		Enumeration<CDataEntity> iter = m_tabConstantValues.elements();
+		Enumeration<CDataEntity> iter = tabConstantValues.elements();
 		while (iter.hasMoreElements())
 		{
 			arr.add(iter.nextElement()) ;
@@ -919,58 +919,58 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return arr ;
 	}	
 	public CEntityConcat NewEntityConcat(CDataEntity e1, CDataEntity e2)	{
-		return new CJavaConcat(m_ProgramCatalog, m_LangOutput, e1, e2) ;
+		return new CJavaConcat(programCatalog, langOutput, e1, e2) ;
 	}
 	public CEntityIsFieldCursor NewEntityIsFieldCursor()	{
 		return new CJavaIsFieldCursor() ;
 	}
 	public CEntityList NewEntityList(String name)	{
-		return new CJavaList(name, m_ProgramCatalog, m_LangOutput);
+		return new CJavaList(name, programCatalog, langOutput);
 	}
 	public CEntityDigits NewEntityDigits(CDataEntity nel)	{
-		return new CJavaDigits(m_ProgramCatalog, m_LangOutput, nel);
+		return new CJavaDigits(programCatalog, langOutput, nel);
 	}
 	public CEntitySearch NewEntitySearch(int line)	{
-		return new CJavaSearch(line, m_ProgramCatalog, m_LangOutput) ;
+		return new CJavaSearch(line, programCatalog, langOutput) ;
 	}
 	public CEntityInternalBool NewEntityInternalBool(String name)	{
-		return new CJavaInternalBool(name, m_ProgramCatalog, m_LangOutput) ;
+		return new CJavaInternalBool(name, programCatalog, langOutput) ;
 	}
 	public CEntityBreak NewEntityBreak(int line)	{
-		return new CJavaBreak(line, m_ProgramCatalog, m_LangOutput) ;
+		return new CJavaBreak(line, programCatalog, langOutput) ;
 	}
 	public CEntityFileDescriptor NewEntityFileDescriptor(int line, String name) {
-		return new CJavaFileDescriptor(line, name, m_ProgramCatalog, m_LangOutput) ;
+		return new CJavaFileDescriptor(line, name, programCatalog, langOutput) ;
 	}
 	public CEntitySortedFileDescriptor NewEntitySortedFileDescriptor(int line, String name)	{
-		return new CJavaSortedFileDescriptor(line, name, m_ProgramCatalog, m_LangOutput) ;
+		return new CJavaSortedFileDescriptor(line, name, programCatalog, langOutput) ;
 	}
 	public CEntityOpenFile NewEntityOpenFile(int line) 	{
-		return new CJavaOpenFile(line, m_ProgramCatalog, m_LangOutput);
+		return new CJavaOpenFile(line, programCatalog, langOutput);
 	}
 	public CEntityCloseFile NewEntityCloseFile(int line)	{
-		return new CJavaCloseFile(line, m_ProgramCatalog, m_LangOutput);
+		return new CJavaCloseFile(line, programCatalog, langOutput);
 	}
 	public CEntityReadFile NewEntityReadFile(int line)	{
-		return new CJavaReadFile(line, m_ProgramCatalog, m_LangOutput);
+		return new CJavaReadFile(line, programCatalog, langOutput);
 	}
 	public CEntityWriteFile NewEntityWriteFile(int line) {
-		return new CJavaWriteFile(line, m_ProgramCatalog, m_LangOutput);
+		return new CJavaWriteFile(line, programCatalog, langOutput);
 	}
 	public CEntityAccept NewEntityAccept(int line){
-		return new CJavaAccept(line, m_ProgramCatalog, m_LangOutput);
+		return new CJavaAccept(line, programCatalog, langOutput);
 	}
 	public CEntitySort NewEntitySort(int line)	{
-		return new CJavaSort(line, m_ProgramCatalog, m_LangOutput);
+		return new CJavaSort(line, programCatalog, langOutput);
 	}
 	public CEntitySortRelease NewEntitySortRelease(int line)	{
-		return new CJavaSortRelease(line, m_ProgramCatalog, m_LangOutput);
+		return new CJavaSortRelease(line, programCatalog, langOutput);
 	}
 	public CEntitySortReturn NewEntitySortReturn(int line)	{
-		return new CJavaSortReturn(line, m_ProgramCatalog, m_LangOutput);
+		return new CJavaSortReturn(line, programCatalog, langOutput);
 	}
 	public CEntityRewriteFile NewEntityRewriteFile(int line)	{
-		return new CJavaRewriteFile(line, m_ProgramCatalog, m_LangOutput);
+		return new CJavaRewriteFile(line, programCatalog, langOutput);
 	}
 	public CEntityAddress NewEntityAddress(String csAddresse)	{
 		throw new NacaTransAssertException("Method not implemented") ;
@@ -982,16 +982,16 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 	public CEntitySQLSessionDeclare NewEntitySQLSessionDeclare(int line)	{
-		return new CJavaSQLSessionDeclare(line, m_ProgramCatalog, m_LangOutput) ;
+		return new CJavaSQLSessionDeclare(line, programCatalog, langOutput) ;
 	}
 	public CEntitySQLSessionDrop NewEntitySQLSessionDrop(int line)	{
-		return new CJavaSQLSessionDrop(line, m_ProgramCatalog, m_LangOutput) ;
+		return new CJavaSQLSessionDrop(line, programCatalog, langOutput) ;
 	}
 	public CEntitySQLLock NewEntitySQLLock(int line)	{
-		return new CJavaSQLLock(line, m_ProgramCatalog, m_LangOutput) ;
+		return new CJavaSQLLock(line, programCatalog, langOutput) ;
 	}
 	public CEntitySQLExecute NewEntitySQLExecute(int line)	{
-		return new CJavaSQLExecute(line, m_ProgramCatalog, m_LangOutput) ;
+		return new CJavaSQLExecute(line, programCatalog, langOutput) ;
 	}
 	public CEntityFormatedVarReference NewEntityFormatedVarReference(CDataEntity object, String format)	{
 		throw new NacaTransAssertException("Method not implemented") ;
@@ -1009,13 +1009,13 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CJavaConstant(val) ;
 	}
 	public CEntityFileDescriptorLengthDependency NewEntityFileDescriptorLengthDependency(String name)	{
-		return new CJavaFileDescriptorLengthDependency(name, m_ProgramCatalog, m_LangOutput) ;
+		return new CJavaFileDescriptorLengthDependency(name, programCatalog, langOutput) ;
 	}
 	public CEntityAssignSpecial NewEntityAssignSpecial(int l)	{
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 	public CEntitySQLCall NewEntitySQLCall(int line) {
-		return new CJavaSQLCall(line, m_ProgramCatalog, m_LangOutput);
+		return new CJavaSQLCall(line, programCatalog, langOutput);
 	}
 
 

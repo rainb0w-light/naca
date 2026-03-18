@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 18 août 2004
+ * Created on 18 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -25,56 +25,56 @@ import semantic.CDataEntity;
 public abstract class CEntityCondNot extends CBaseEntityCondition
 {
 	
-	protected CBaseEntityCondition m_Cond ;
+	protected CBaseEntityCondition cond ;
 	public void Clear()
 	{
 		super.Clear() ;
-		m_Cond.Clear() ;
-		m_Cond = null ;
+		cond.Clear() ;
+		cond = null ;
 	}
 
 	public void SetCondition(CBaseEntityCondition cond)
 	{
 		ASSERT(cond);
-		m_Cond = cond ;
-		m_Cond.SetParent(this);
+		cond = cond ;
+		cond.SetParent(this);
 	}
 	public boolean ignore()
 	{
-		return m_Cond.ignore();
+		return cond.ignore();
 	}
 	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
 	{
-		return m_Cond.ReplaceVariable(field, var) ;
+		return cond.ReplaceVariable(field, var) ;
 	}
 	public CBaseEntityCondition GetSpecialConditionReplacing(String val, CBaseEntityFactory fact, CDataEntity replace)
 	{
-		CBaseEntityCondition cond = m_Cond.GetSpecialConditionReplacing(val, fact, replace);
-		CBaseEntityCondition notcond = cond.GetOppositeCondition() ;
+		CBaseEntityCondition condNew = cond.GetSpecialConditionReplacing(val, fact, replace);
+		CBaseEntityCondition notcond = condNew.GetOppositeCondition() ;
 		if (notcond == null)
 		{
 			CEntityCondNot notCond = fact.NewEntityCondNot() ;
-			notCond.SetCondition(cond);
+			notCond.SetCondition(condNew);
 		}
 		return notcond ;
 	}
 //	public CBaseEntityCondition getSimilarCondition(CBaseEntityFactory factory, CTerminal term)
 //	{
 //		CEntityCondNot not = factory.NewEntityCondNot() ;
-//		CBaseEntityCondition cond = m_Cond.getSimilarCondition(factory, term) ;
+//		CBaseEntityCondition cond = cond.getSimilarCondition(factory, term) ;
 //		not.SetCondition(cond);
 //		return not ;
 //	}
 	public void UpdateCondition(CBaseEntityCondition condition, CBaseEntityCondition newCond)
 	{
-		if (m_Cond == condition)
+		if (cond == condition)
 		{
-			m_Cond = newCond ;
+			cond = newCond ;
 		}
 	}
 	public boolean isBinaryCondition()
 	{
-		return m_Cond.isBinaryCondition() ;
+		return cond.isBinaryCondition() ;
 	}
 	/**
 	 * @see semantic.expression.CBaseEntityCondition#GetConditionReference()

@@ -46,7 +46,7 @@ public class CWorkingValueEntry extends CCobolElement
 	public CWorkingValueEntry(int line) 
 	{
 		super(line);
-		//m_Reference = ref ;
+		//reference = ref ;
 	}
 	/* (non-Javadoc)
 	 * @see parser.CLanguageElement#Parse(lexer.CTokenList)
@@ -67,7 +67,7 @@ public class CWorkingValueEntry extends CCobolElement
 			Transcoder.logError(getLine(), "Expecting an identifier after '88' keyword");
 			return false ;
 		} 
-		m_csIdentifier = tok.GetValue() ;
+		csIdentifier = tok.GetValue() ;
 		
 		tok = GetNext() ;
 		if (tok.GetKeyword() != CCobolKeywordList.VALUE && tok.GetKeyword() != CCobolKeywordList.VALUES)
@@ -93,17 +93,17 @@ public class CWorkingValueEntry extends CCobolElement
 			if (tokVal.GetType() == CTokenType.STRING || tokVal.GetType() == CTokenType.NUMBER || tokVal.GetType() == CTokenType.CONSTANT || tokVal.GetType() == CTokenType.MINUS)
 			{
 				val = ReadTerminal();
-				m_arrValues.addElement(val) ;
+				arrValues.addElement(val) ;
 				
 				CBaseToken tokNext = GetCurrentToken();
 				if (tokNext.GetType() == CTokenType.COMMA)
 				{
-					m_arrValues.addElement(val) ; // values are intervals, so for a single value, it is added twice, as an interval of one single value
+					arrValues.addElement(val) ; // values are intervals, so for a single value, it is added twice, as an interval of one single value
 					GetNext(); // consume ","
 				} 
 				else if (tokNext.GetType() == CTokenType.STRING || tokNext.GetType() == CTokenType.NUMBER || tokNext.GetType() == CTokenType.CONSTANT)
 				{
-					m_arrValues.addElement(val) ; // values are intervals, so for a single value, it is added twice, as an interval of one single value
+					arrValues.addElement(val) ; // values are intervals, so for a single value, it is added twice, as an interval of one single value
 				}
 				else if (tokNext.GetKeyword() == CCobolKeywordList.THROUGH || tokNext.GetKeyword() == CCobolKeywordList.THRU)
 				{
@@ -111,7 +111,7 @@ public class CWorkingValueEntry extends CCobolElement
 					if (tokNext.GetType() == CTokenType.STRING || tokNext.GetType() == CTokenType.NUMBER || tokNext.GetType() == CTokenType.CONSTANT)
 					{
 						val = ReadTerminal();
-						m_arrValues.addElement(val) ;
+						arrValues.addElement(val) ;
 					}
 					else
 					{
@@ -121,7 +121,7 @@ public class CWorkingValueEntry extends CCobolElement
 				}
 				else
 				{
-					m_arrValues.addElement(val) ; // values are intervals, so for a single value, it is added twice, as an interval of one single value
+					arrValues.addElement(val) ; // values are intervals, so for a single value, it is added twice, as an interval of one single value
 					bDone = true ;
 				} 
 			}
@@ -135,7 +135,7 @@ public class CWorkingValueEntry extends CCobolElement
 		{
 			GetNext(); // consume DOT at the end of the statement
 		}
-		if (m_arrValues.size()>0)
+		if (arrValues.size()>0)
 		{
 			return true ;
 		}
@@ -150,10 +150,10 @@ public class CWorkingValueEntry extends CCobolElement
 	protected Element ExportCustom(Document root)
 	{
 		Element e = root.createElement("ConditionName") ;
-		for (int i=0; i<m_arrValues.size(); i+=2)
+		for (int i=0; i<arrValues.size(); i+=2)
 		{
-			CTerminal term1 = m_arrValues.get(i) ;
-			CTerminal term2 = m_arrValues.get(i+1) ;
+			CTerminal term1 = arrValues.get(i) ;
+			CTerminal term2 = arrValues.get(i+1) ;
 			if (term1.GetValue().equals(term2.GetValue()))
 			{
 				Element eval = root.createElement("Value") ;
@@ -173,27 +173,27 @@ public class CWorkingValueEntry extends CCobolElement
 		return e;
 	}
 	
-	protected String m_csIdentifier = "" ;
-	protected Vector<CTerminal> m_arrValues = new Vector<CTerminal>() ; // maybe several values
+	protected String csIdentifier = "" ;
+	protected Vector<CTerminal> arrValues = new Vector<CTerminal>() ; // maybe several values
 	/* (non-Javadoc)
 	 * @see parser.CBaseElement#DoCustomSemanticAnalysis(semantic.CBaseSemanticEntity, semantic.CBaseSemanticEntityFactory)
 	 */
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		CEntityNamedCondition eCond = factory.NewEntityNamedCondition(getLine(), m_csIdentifier) ;
+		CEntityNamedCondition eCond = factory.NewEntityNamedCondition(getLine(), csIdentifier) ;
 		parent.AddChild(eCond);
 
-		for (int i=0; i<m_arrValues.size(); i+=2)
+		for (int i=0; i<arrValues.size(); i+=2)
 		{
-			CTerminal term1 = m_arrValues.get(i) ;
-			CTerminal term2 = m_arrValues.get(i+1) ;
+			CTerminal term1 = arrValues.get(i) ;
+			CTerminal term2 = arrValues.get(i+1) ;
 			if (term1.GetValue().equals(term2.GetValue()))
 			{
 				CDataEntity eVal = term1.GetDataEntity(getLine(), factory);
 				if (eVal == null && !term1.IsReference())
 				{
 					String cs = term1.GetValue() ;
-					if (cs.equals(CCobolConstantList.HIGH_VALUE.m_Name) || cs.equals(CCobolConstantList.HIGH_VALUES.m_Name))
+					if (cs.equals(CCobolConstantList.HIGH_VALUE.name) || cs.equals(CCobolConstantList.HIGH_VALUES.name))
 					{
 						eVal = factory.NewEntityConstant(CEntityConstant.Value.HIGH_VALUE) ;
 					}

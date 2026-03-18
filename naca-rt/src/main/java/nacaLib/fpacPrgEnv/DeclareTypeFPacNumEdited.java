@@ -13,15 +13,15 @@ public class DeclareTypeFPacNumEdited extends DeclareTypeBase
 	public DeclareTypeFPacNumEdited(VarLevel varLevel, String csMask)
 	{
 		super(varLevel);
-		m_csMask = csMask;
+		csMask = csMask;
 	}
 
 	public int getLength()
 	{
-		return m_csMask.length();
+		return csMask.length();
 	}
 	
-	public String m_csMask = null;
+	public String csMask = null;
 	
 	
 	public VarFPacNumEdited var()
@@ -50,51 +50,51 @@ public class DeclareTypeFPacNumEdited extends DeclareTypeBase
 
 	public DeclareTypeFPacNumEdited value(String cs)
 	{
-		m_InitialValue = new CInitialValue(cs, false);
+		initialValue = new CInitialValue(cs, false);
 		return this;
 	}
 	
 	public DeclareTypeFPacNumEdited valueAll(char c)
 	{
-		m_InitialValue = new CInitialValue(c, true);
+		initialValue = new CInitialValue(c, true);
 		return this;
 	}
 
 	public DeclareTypeFPacNumEdited valueAll(String cs)
 	{
-		m_InitialValue = new CInitialValue(cs, true);
+		initialValue = new CInitialValue(cs, true);
 		return this;
 	}
 	
 	public DeclareTypeFPacNumEdited valueSpaces()
 	{
-		m_InitialValue = new CInitialValue(CobolConstant.Space.getValue(), true);
+		initialValue = new CInitialValue(CobolConstant.Space.getValue(), true);
 		return this;
 	}
 
 	public DeclareTypeFPacNumEdited valueZero()
 	{
-		m_InitialValue = new CInitialValue(CobolConstant.Zero.getValue(), true);
+		initialValue = new CInitialValue(CobolConstant.Zero.getValue(), true);
 		return this;
 	}
 
 	public DeclareTypeFPacNumEdited valueHighValue()
 	{
-		m_InitialValue = new CInitialValue(CobolConstant.HighValue.getValue(), true);
+		initialValue = new CInitialValue(CobolConstant.HighValue.getValue(), true);
 		return this;
 	}
 
 	public DeclareTypeFPacNumEdited valueLowValue()
 	{
-		m_InitialValue = new CInitialValue(CobolConstant.LowValue.getValue(), true);
+		initialValue = new CInitialValue(CobolConstant.LowValue.getValue(), true);
 		return this;
 	} 
 	
 	public CInitialValue getInitialValue()
 	{
-		return m_InitialValue;
+		return initialValue;
 	}
 	
-	private CInitialValue m_InitialValue = null;
+	private CInitialValue initialValue = null;
 }
 

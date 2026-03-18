@@ -34,14 +34,14 @@ public class SQLExecuteStart extends SQL
 	public SQL param(String csName, String csStatement)
 	{
 		csStatement = csStatement.trim();
-		SQL sql = new SQL(m_programManager, csStatement, null/*, ""*/, 0);
+		SQL sql = new SQL(programManager, csStatement, null/*, ""*/, 0);
 		return sql;
 	}
 
 	public SQL param(int nName, String csStatement)
 	{
 		csStatement = csStatement.trim();
-		SQL sql = new SQL(m_programManager, csStatement, null/*, ""*/, 0);
+		SQL sql = new SQL(programManager, csStatement, null/*, ""*/, 0);
 		return sql;
 	}
 	

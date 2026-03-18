@@ -28,7 +28,7 @@ public class MapRedefine extends Var
 	public MapRedefine(DeclareTypeMapRedefine declareTypeMapRedefine)
 	{
 		super(declareTypeMapRedefine);
-		m_formRedefineOrigin = declareTypeMapRedefine.m_formRedefineOrigin;
+		formRedefineOrigin = declareTypeMapRedefine.formRedefineOrigin;
 	}
 	
 	protected MapRedefine()
@@ -47,8 +47,8 @@ public class MapRedefine extends Var
 	 */
 	protected String getAsLoggableString()
 	{
-		//return m_varDef.getRawStringIncludingHeader(m_bufferPos);
-		CStr cstr = m_bufferPos.getOwnCStr(m_varDef.getLength());
+		//return varDef.getRawStringIncludingHeader(bufferPos);
+		CStr cstr = bufferPos.getOwnCStr(varDef.getLength());
 		String cs = cstr.getAsString();
 		//cstr.resetManagerCache();
 		return cs;
@@ -61,43 +61,43 @@ public class MapRedefine extends Var
 
 	public void encodeToVar(Var varDest)
 	{
-		m_varDef.m_varDefFormRedefineOrigin.encodeToVar(m_bufferPos, varDest);
+		varDef.varDefFormRedefineOrigin.encodeToVar(bufferPos, varDest);
 	}
 	
 	public void decodeFromVar(Var varSource)
 	{
-		m_varDef.m_varDefFormRedefineOrigin.decodeFromVar(m_bufferPos, varSource);
+		varDef.varDefFormRedefineOrigin.decodeFromVar(bufferPos, varSource);
 	}
 	
 	public InternalCharBuffer encodeToCharBuffer()
 	{
-		int nDestLength = m_varDef.getBodyLength() + m_varDef.getHeaderLength();
-		VarDefForm varDefFormOrigin = m_varDef.m_varDefFormRedefineOrigin;
+		int nDestLength = varDef.getBodyLength() + varDef.getHeaderLength();
+		VarDefForm varDefFormOrigin = varDef.varDefFormRedefineOrigin;
 		return varDefFormOrigin.encodeToCharBuffer(nDestLength);
 	}
 	
 	public void decodeFromCharBuffer(InternalCharBuffer charBufferSource)
 	{
-		VarDefForm varDefFormOrigin = m_varDef.m_varDefFormRedefineOrigin;
-		varDefFormOrigin.decodeFromCharBuffer(m_bufferPos, charBufferSource);
+		VarDefForm varDefFormOrigin = varDef.varDefFormRedefineOrigin;
+		varDefFormOrigin.decodeFromCharBuffer(bufferPos, charBufferSource);
 	}
 	
 	public String getStringIncludingHeader()
 	{
-		CStr cstr = m_bufferPos.getOwnCStr(m_varDef.getLength());
+		CStr cstr = bufferPos.getOwnCStr(varDef.getLength());
 		String cs = cstr.getAsString();
 		//cstr.resetManagerCache();
 		return cs;
-		//return m_varDef.getRawStringIncludingHeader(m_bufferPos);
+		//return varDef.getRawStringIncludingHeader(bufferPos);
 	}
 	
 	public void initialize()
 	{
-		if(m_formRedefineOrigin != null)
+		if(formRedefineOrigin != null)
 		{
 			InitializeCache initializeCache = getProgramManager().getOrCreateInitializeCache(getVarDef());
-			m_formRedefineOrigin.initialize(initializeCache);
-			// Was before optimizations: m_formRedefineOrigin.initialize();
+			formRedefineOrigin.initialize(initializeCache);
+			// Was before optimizations: formRedefineOrigin.initialize();
 		}
 	}
 	
@@ -135,5 +135,5 @@ public class MapRedefine extends Var
 		return VarType.VarMapRedefine;
 	}
 	
-	Form m_formRedefineOrigin = null;
+	Form formRedefineOrigin = null;
 }

@@ -33,7 +33,7 @@ public abstract class CEntitySetConstant extends CBaseActionEntity
 	@Override
 	public CDataEntity getValueAssigned()
 	{
-		return m_CsteValue ;
+		return csteValue ;
 	}
 
 	/**
@@ -48,15 +48,15 @@ public abstract class CEntitySetConstant extends CBaseActionEntity
 
 	public void SetToZero(CDataEntity var)
 	{
-		m_Variable = var ;
+		variable = var ;
 		if (var == null)
 		{
 			int n=0 ;
 		}
-		m_bSetToZero = true ; 
-		m_bSetToSpace = false ; 
-		m_bSetToLowValue = false ;
-		m_bSetToHighValue = false ; 
+		bSetToZero = true ; 
+		bSetToSpace = false ; 
+		bSetToLowValue = false ;
+		bSetToHighValue = false ; 
 	}
 	public void SetToSpace(CDataEntity var)
 	{
@@ -64,11 +64,11 @@ public abstract class CEntitySetConstant extends CBaseActionEntity
 		{
 			int n=0 ;
 		}
-		m_Variable = var ;
-		m_bSetToZero = false ; 
-		m_bSetToSpace = true ; 
-		m_bSetToLowValue = false ;
-		m_bSetToHighValue = false ; 
+		variable = var ;
+		bSetToZero = false ; 
+		bSetToSpace = true ; 
+		bSetToLowValue = false ;
+		bSetToHighValue = false ; 
 	}
 	public void SetToHighValue(CDataEntity var)
 	{
@@ -76,11 +76,11 @@ public abstract class CEntitySetConstant extends CBaseActionEntity
 		{
 			int n=0 ;
 		}
-		m_Variable = var ;
-		m_bSetToZero = false ; 
-		m_bSetToSpace = false ; 
-		m_bSetToLowValue = false ;
-		m_bSetToHighValue = true ; 
+		variable = var ;
+		bSetToZero = false ; 
+		bSetToSpace = false ; 
+		bSetToLowValue = false ;
+		bSetToHighValue = true ; 
 	}
 	public void SetToLowValue(CDataEntity var)
 	{
@@ -88,11 +88,11 @@ public abstract class CEntitySetConstant extends CBaseActionEntity
 		{
 			int n=0 ;
 		}
-		m_Variable = var ;
-		m_bSetToZero = false ; 
-		m_bSetToSpace = false ; 
-		m_bSetToHighValue = false ;
-		m_bSetToLowValue = true ; 
+		variable = var ;
+		bSetToZero = false ; 
+		bSetToSpace = false ; 
+		bSetToHighValue = false ;
+		bSetToLowValue = true ; 
 	}
 	public void SetCsteValue(CDataEntity var, CDataEntity val)
 	{
@@ -100,18 +100,18 @@ public abstract class CEntitySetConstant extends CBaseActionEntity
 		{
 			int n=0 ;
 		}
-		m_Variable = var ;
-		m_bSetToZero = false ; 
-		m_bSetToSpace = false ; 
-		m_bSetToLowValue = false ;
-		m_bSetToHighValue = false ;
-		m_CsteValue = val ;
+		variable = var ;
+		bSetToZero = false ; 
+		bSetToSpace = false ; 
+		bSetToLowValue = false ;
+		bSetToHighValue = false ;
+		csteValue = val ;
 	}
 
 	public void SetSubStringRef(CBaseEntityExpression s, CBaseEntityExpression l)
 	{
-		m_SubStringRefStart = s ;
-		m_SubStringRefLength = l ;
+		subStringRefStart = s ;
+		subStringRefLength = l ;
 	}
 	public void SetCondition(CDataEntity cond, boolean bCond)
 	{
@@ -119,52 +119,52 @@ public abstract class CEntitySetConstant extends CBaseActionEntity
 		{
 			int n=0 ;
 		}
-		m_Variable = cond ;
-		m_bSetToZero = false ; 
-		m_bSetToSpace = false ; 
-		m_bSetToLowValue = false ;
-		m_bSetToHighValue = false ;
-		m_CsteValue = null ;
-		m_bSetToTrue = bCond ;
-		m_bSetToFalse = !bCond ;
+		variable = cond ;
+		bSetToZero = false ; 
+		bSetToSpace = false ; 
+		bSetToLowValue = false ;
+		bSetToHighValue = false ;
+		csteValue = null ;
+		bSetToTrue = bCond ;
+		bSetToFalse = !bCond ;
 	}
 	
-	protected CDataEntity m_Variable = null ;
-	protected boolean m_bSetToZero = false ; 
-	protected boolean m_bSetToSpace = false ; 
-	protected boolean m_bSetToLowValue = false ;
-	protected boolean m_bSetToHighValue = false ;
-	protected boolean m_bSetToTrue = false ;
-	protected boolean m_bSetToFalse = false ;
+	protected CDataEntity variable = null ;
+	protected boolean bSetToZero = false ; 
+	protected boolean bSetToSpace = false ; 
+	protected boolean bSetToLowValue = false ;
+	protected boolean bSetToHighValue = false ;
+	protected boolean bSetToTrue = false ;
+	protected boolean bSetToFalse = false ;
 
-	protected CDataEntity m_CsteValue = null ; 
-	protected CBaseEntityExpression m_SubStringRefStart = null ;
-	protected CBaseEntityExpression m_SubStringRefLength = null ;
+	protected CDataEntity csteValue = null ; 
+	protected CBaseEntityExpression subStringRefStart = null ;
+	protected CBaseEntityExpression subStringRefLength = null ;
 	public void Clear()
 	{
 		super.Clear() ;
-		m_CsteValue = null ;
-		m_Variable =  null ;
-		if (m_SubStringRefLength!=null)
+		csteValue = null ;
+		variable =  null ;
+		if (subStringRefLength!=null)
 		{
-			m_SubStringRefLength.Clear() ;
-			m_SubStringRefLength = null ;
+			subStringRefLength.Clear() ;
+			subStringRefLength = null ;
 		}
-		if (m_SubStringRefStart!=null)
+		if (subStringRefStart!=null)
 		{
-			m_SubStringRefStart.Clear() ;
-			m_SubStringRefStart = null ;
+			subStringRefStart.Clear() ;
+			subStringRefStart = null ;
 		}
 	}
 	public boolean ignore()
 	{
-		return m_Variable == null ;
+		return variable == null ;
 	}
 	public boolean IgnoreVariable(CDataEntity data)
 	{
-		if (data == m_Variable)
+		if (data == variable)
 		{
-			m_Variable = null ;
+			variable = null ;
 			data.UnRegisterWritingAction(this) ;
 			return true ;
 		}
@@ -172,9 +172,9 @@ public abstract class CEntitySetConstant extends CBaseActionEntity
 	}
 	public boolean ReplaceVariable(CDataEntity var, CDataEntity by)
 	{
-		if (m_Variable == var)
+		if (variable == var)
 		{
-			m_Variable = by ;
+			variable = by ;
 			var.UnRegisterWritingAction(this);
 			by.RegisterWritingAction(this) ;
 			return true ;

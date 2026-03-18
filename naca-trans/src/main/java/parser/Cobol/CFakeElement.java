@@ -22,7 +22,7 @@ public class CFakeElement extends CCobolElement
 	public CFakeElement(CTokenList lstTokens)
 	{
 		super(0) ;
-		m_lstTokens = lstTokens;
+		lstTokens = lstTokens;
 	}
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{

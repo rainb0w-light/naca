@@ -54,10 +54,10 @@ public class CTransform extends CCobolElement
 		{
 			return false ;
 		}
-		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().m_Name) ;
+		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
 		
 		tok = GetNext();
-		m_Variable = ReadIdentifier();
+		variable = ReadIdentifier();
 		
 		tok = GetCurrentToken();
 		if (tok.GetKeyword() != CCobolKeywordList.FROM)
@@ -65,7 +65,7 @@ public class CTransform extends CCobolElement
 			return false ;
 		}
 		tok = GetNext();
-		m_ValueFrom = ReadTerminal();
+		valueFrom = ReadTerminal();
 		
 		tok = GetCurrentToken();
 		if (tok.GetKeyword() != CCobolKeywordList.TO)
@@ -73,7 +73,7 @@ public class CTransform extends CCobolElement
 			return false ;
 		}
 		tok = GetNext();
-		m_ValueTo = ReadTerminal();
+		valueTo = ReadTerminal();
 
 		return true ;
 	}
@@ -82,20 +82,20 @@ public class CTransform extends CCobolElement
 		Element eTr = root.createElement("Transform") ;
 		Element eVar = root.createElement("Variable");
 		eTr.appendChild(eVar);
-		m_Variable.ExportTo(eVar, root);
+		variable.ExportTo(eVar, root);
 		
 		Element eFrom = root.createElement("From");
 		eTr.appendChild(eFrom);
-		m_ValueFrom.ExportTo(eFrom, root);
+		valueFrom.ExportTo(eFrom, root);
 		
 		Element eTo = root.createElement("To");
 		eTr.appendChild(eTo);
-		m_ValueTo.ExportTo(eTo, root);
+		valueTo.ExportTo(eTo, root);
 		
 		return eTr;
 	}
 
-	protected CIdentifier m_Variable = null ;
-	protected CTerminal m_ValueFrom = null ;
-	protected CTerminal m_ValueTo = null ;
+	protected CIdentifier variable = null ;
+	protected CTerminal valueFrom = null ;
+	protected CTerminal valueTo = null ;
 }

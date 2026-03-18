@@ -38,13 +38,13 @@ public class CJavaCICSDelay extends CEntityCICSDelay
 	protected void DoExport()
 	{
 		String cs = "CESM.delay";
-		if (m_Interval != null)
+		if (interval != null)
 		{
-			cs += "Interval(" + m_Interval.ExportReference(getLine());
+			cs += "Interval(" + interval.ExportReference(getLine());
 		}
-		else if (m_Seconds != null)
+		else if (seconds != null)
 		{
-			cs += "Seconds(" + m_Seconds.ExportReference(getLine());
+			cs += "Seconds(" + seconds.ExportReference(getLine());
 		}
 		cs += ") ;";
 		WriteLine(cs);		

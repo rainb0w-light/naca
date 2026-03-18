@@ -56,7 +56,7 @@ public abstract class CEntityDataSection extends CBaseLanguageEntity
 	} 
 	public boolean ignore()
 	{
-		return m_lstChildren.isEmpty() ;
+		return lstChildren.isEmpty() ;
 	}
 
 }

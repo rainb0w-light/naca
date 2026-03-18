@@ -19,11 +19,11 @@ public class CFPacJavaMultiply extends CEntityMultiply {
 	@Override
 	protected void DoExport() {
 		WriteWord("multiply(") ;
-		WriteWord(this.m_What.ExportReference(getLine())) ;
+		WriteWord(this.what.ExportReference(getLine())) ;
 		WriteWord(", ") ;
-		WriteWord(this.m_By.ExportReference(getLine())) ;
+		WriteWord(this.by.ExportReference(getLine())) ;
 		WriteWord(").to(") ;
-		WriteWord(this.m_To.ExportReference(getLine())) ;		
+		WriteWord(this.to.ExportReference(getLine())) ;		
 		WriteWord(") ;") ;
 		WriteEOL() ;
 	}

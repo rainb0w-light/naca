@@ -16,34 +16,34 @@ package jlib.misc;
  */
 public class PreallocatedFileBufferManager
 {
-	private byte[] m_tBytes = null;
-	private int m_nOverheadSize = 1000;
+	private byte[] tBytes = null;
+	private int nOverheadSize = 1000;
 	
 	PreallocatedFileBufferManager()
 	{
-		m_nOverheadSize = 1000;
+		nOverheadSize = 1000;
 	}
 	
 	PreallocatedFileBufferManager(int nOverheadSize)
 	{
-		m_nOverheadSize = nOverheadSize;
+		nOverheadSize = nOverheadSize;
 	}
 	
 	protected byte[] checkBuffer(int nSize)
 	{
-		if(m_tBytes == null || m_tBytes.length < nSize)
-			m_tBytes = new byte[nSize + m_nOverheadSize];
-		return m_tBytes;
+		if(tBytes == null || tBytes.length < nSize)
+			tBytes = new byte[nSize + nOverheadSize];
+		return tBytes;
 	}
 	
 	public byte[] getByteBuffer(int nSize)
 	{
 		checkBuffer(nSize);
-		return m_tBytes;
+		return tBytes;
 	}
 	
 	byte[] getBytes()
 	{
-		return m_tBytes; 
+		return tBytes; 
 	}
 }

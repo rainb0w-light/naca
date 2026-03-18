@@ -34,32 +34,32 @@ public class CCondAndStatement extends CExpression
 	public CCondAndStatement(int line, CExpression st1, CExpression st2)
 	{
 		super(line);
-		m_st1 = st1 ;
-		m_st2 = st2 ;
+		st1 = st1 ;
+		st2 = st2 ;
 	}
-	protected CExpression m_st1 = null ;
-	protected CExpression m_st2 = null ;
+	protected CExpression st1 = null ;
+	protected CExpression st2 = null ;
 	/* (non-Javadoc)
 	 * @see parser.condition.CConditionalStatement#Export(org.w3c.dom.Document)
 	 */
 	
 	protected boolean CheckMembersBeforeExport()
 	{
-		boolean b = CheckMemberNotNull(m_st1);
-		b &= CheckMemberNotNull(m_st2);
+		boolean b = CheckMemberNotNull(st1);
+		b &= CheckMemberNotNull(st2);
 		return b;
 	}
 	
 	public Element DoExport(Document root)
 	{
 		Element e = root.createElement("And") ;
-		Element e1 = m_st1.Export(root) ;
+		Element e1 = st1.Export(root) ;
 		if (e1 == null)
 		{
 			int n = 0 ;
 		}
 		e.appendChild(e1) ;
-		Element e2 = m_st2.Export(root) ;
+		Element e2 = st2.Export(root) ;
 		if (e2 == null)
 		{
 			int n = 0 ;
@@ -86,14 +86,14 @@ public class CCondAndStatement extends CExpression
 	 */
 	public CBaseEntityCondition AnalyseCondition(CBaseEntityFactory factory, CDefaultConditionManager masterCond)
 	{
-		CBaseEntityCondition op1 = m_st1.AnalyseCondition(factory, masterCond);
-		ASSERT(op1, m_st1);
-//		if (m_st1.IsBinaryCondition() && !masterCond.isSetted())
+		CBaseEntityCondition op1 = st1.AnalyseCondition(factory, masterCond);
+		ASSERT(op1, st1);
+//		if (st1.IsBinaryCondition() && !masterCond.isSetted())
 //		{
-//			masterCond.SetMasterCondition(m_st1);
+//			masterCond.SetMasterCondition(st1);
 //		}
-		CBaseEntityCondition op2 = m_st2.AnalyseCondition(factory, masterCond);
-		ASSERT(op2, m_st2);
+		CBaseEntityCondition op2 = st2.AnalyseCondition(factory, masterCond);
+		ASSERT(op2, st2);
 		CEntityCondAnd eAnd = factory.NewEntityCondAnd();
 		eAnd.SetCondition(op1, op2) ;
 		return eAnd ;
@@ -101,7 +101,7 @@ public class CCondAndStatement extends CExpression
 
 	public CExpression GetFirstConditionOperand()
 	{
-		return m_st1.GetFirstConditionOperand() ;
+		return st1.GetFirstConditionOperand() ;
 	}
 	/* (non-Javadoc)
 	 * @see parser.expression.CExpression#GetSimilarExpression(parser.expression.CExpression)
@@ -120,21 +120,21 @@ public class CCondAndStatement extends CExpression
 	}
 	public String toString()
 	{
-		return "AND(" + m_st1.toString() + ", " + m_st2.toString() + ")" ;
+		return "AND(" + st1.toString() + ", " + st2.toString() + ")" ;
 	}
 //	public CExpression getMasterBinaryCondition()
 //	{
-//		CExpression master = m_st2.getMasterBinaryCondition() ;
+//		CExpression master = st2.getMasterBinaryCondition() ;
 //		if (master == null)
 //		{
-//			master = m_st1.getMasterBinaryCondition() ;
+//			master = st1.getMasterBinaryCondition() ;
 //		}
 //		return master ;
 //	}
 	@Override
 	public CExpression GetFirstCalculOperand()
 	{
-		return m_st1.GetFirstCalculOperand() ;
+		return st1.GetFirstCalculOperand() ;
 	}
 	
 }

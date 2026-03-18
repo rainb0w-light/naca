@@ -20,12 +20,12 @@ import jlib.misc.AsciiEbcdicConverter;
  */
 public class DbColDefinitionChar extends BaseDbColDefinition
 {
-	private int m_nLength = 0;
+	private int nLength = 0;
 	
 	DbColDefinitionChar(ColDescriptionInfo colDescription)
 	{
 		super(colDescription);
-		m_nLength = colDescription.getPrecision();
+		nLength = colDescription.getPrecision();
 	}
 	
 	public byte[] getByteValue(ResultSet resultSet, int nCol1Based, boolean bEbcdicOutput)
@@ -47,21 +47,21 @@ public class DbColDefinitionChar extends BaseDbColDefinition
 //	public int setByteValue(byte arrByteValue[], int nSourceOffset, boolean bEbcdicInput, ColValueGeneric colValueGenericDest)
 //	{
 //		if(bEbcdicInput)	// Must outout in ebcdic
-//			AsciiEbcdicConverter.swapByteEbcdicToAscii(arrByteValue, nSourceOffset, m_nLength);	
-//		String cs = new String(arrByteValue, nSourceOffset, m_nLength);
+//			AsciiEbcdicConverter.swapByteEbcdicToAscii(arrByteValue, nSourceOffset, nLength);	
+//		String cs = new String(arrByteValue, nSourceOffset, nLength);
 //		colValueGenericDest.setValue(cs);
 //		
-//		return m_nLength;
+//		return nLength;
 //	}
 	
 	public int setByteValueInStmtCol(DbColDefErrorManager dbColDefErrorManager, DbPreparedStatement stmt, int nCol, byte arrByteValue[], int nSourceOffset, boolean bEbcdicInput)
 	{
 		if(bEbcdicInput)	// Must outout in ebcdic
-			AsciiEbcdicConverter.swapByteEbcdicToAscii(arrByteValue, nSourceOffset, m_nLength);	
-		String csValue = new String(arrByteValue, nSourceOffset, m_nLength);
+			AsciiEbcdicConverter.swapByteEbcdicToAscii(arrByteValue, nSourceOffset, nLength);	
+		String csValue = new String(arrByteValue, nSourceOffset, nLength);
 		stmt.setColParam(nCol, csValue);
 		
-		return m_nLength;
+		return nLength;
 	}
 
 	public boolean fillCallableStatementParam(int nParamId, StoredProcParamDescBase storedProcParamDescBase, DbPreparedCallableStatement callableStatement)

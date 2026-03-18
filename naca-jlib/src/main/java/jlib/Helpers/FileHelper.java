@@ -46,7 +46,7 @@ public class FileHelper implements FilenameFilter
 //****************************************************************************
 //**                          The class constructor.                        **
 //****************************************************************************
-	private Pattern m_pattern = null;
+	private Pattern pattern = null;
 /**
  * Sets the wildcard to use for filtering filenames.
  * @param wildcard The wildcard to use for filtering filenames.
@@ -104,7 +104,7 @@ public class FileHelper implements FilenameFilter
 			}
 
 //************************* Compiles the translated pattern ***************************
-			m_pattern = Pattern.compile(regex.toString(), Pattern.CASE_INSENSITIVE);
+			pattern = Pattern.compile(regex.toString(), Pattern.CASE_INSENSITIVE);
 		} 
 	}
 //************************************************************************************
@@ -116,7 +116,7 @@ public class FileHelper implements FilenameFilter
  */
 	public boolean accept(File folder, String filename)
 	{
-		if (m_pattern==null)
+		if (pattern==null)
 			return true;
 		
 		if (filename == null)
@@ -125,7 +125,7 @@ public class FileHelper implements FilenameFilter
 		if (filename.length() == 0)
 			return false;
 		
-		Matcher m = m_pattern.matcher(filename);
+		Matcher m = pattern.matcher(filename);
 		return m.matches();
 	}
 	

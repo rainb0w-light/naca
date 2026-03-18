@@ -35,18 +35,18 @@ public abstract class CEntityCurrentDate extends CBaseEntityFunction
 	}
 	public void RegisterReadingAction(CBaseActionEntity act)
 	{
-		m_arrActionsReading.add(act) ;
+		arrActionsReading.add(act) ;
 	}
 	public void RegisterValueAccess(CBaseEntityCondExpr cond)
 	{
-		m_arrAccessAsValue.add(cond) ;
+		arrAccessAsValue.add(cond) ;
 	}
 	public void RegisterVarTesting(CBaseEntityCondition cond)
 	{
-		m_arrTestsAsVar.add(cond) ;
+		arrTestsAsVar.add(cond) ;
 	}
 	public void RegisterWritingAction(CBaseActionEntity act)
 	{
-		m_arrActionsWriting.add(act) ;
+		arrActionsWriting.add(act) ;
 	}
 }

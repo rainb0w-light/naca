@@ -26,12 +26,12 @@ import utils.CObjectCatalog;
 public abstract class CEntityNumber extends CDataEntity
 {
 
-	protected String m_csValue = "" ;
+	protected String csValue = "" ;
 	
 	public CEntityNumber(CObjectCatalog cat, CBaseLanguageExporter out, String number)
 	{
 		super(0, "", cat, out);
-		m_csValue = number;
+		csValue = number;
 	}
 	public CDataEntityType GetDataType()
 	{

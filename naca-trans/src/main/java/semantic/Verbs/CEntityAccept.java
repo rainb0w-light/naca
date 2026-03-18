@@ -29,21 +29,21 @@ public abstract class CEntityAccept extends CBaseActionEntity
 		super(line, cat, out);
 	}
 	
-	protected CDataEntity m_eVariable = null  ;
-	protected CDataEntity m_eSource = null ;
-	protected AcceptMode m_eMode ;
+	protected CDataEntity eVariable = null  ;
+	protected CDataEntity eSource = null ;
+	protected AcceptMode eMode ;
 
 	public void AcceptFrom(AcceptMode mode, CDataEntity var)
 	{
-		m_eMode = mode ;
-		m_eVariable = var ;		
+		eMode = mode ;
+		eVariable = var ;		
 	}
 
 	public void AcceptFromVariable(CDataEntity var, CDataEntity source)
 	{
-		m_eMode = AcceptMode.FROM_VARIABLE;
-		m_eVariable = var ;		
-		m_eSource = source ;
+		eMode = AcceptMode.FROM_VARIABLE;
+		eVariable = var ;		
+		eSource = source ;
 	}
 	
 	

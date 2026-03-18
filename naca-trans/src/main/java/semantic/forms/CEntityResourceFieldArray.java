@@ -50,23 +50,23 @@ public abstract class CEntityResourceFieldArray extends CEntityResourceField
 
 	public void SetArray(int nbItems, int NbCol, boolean bVerticalFilling)
 	{
-		m_NbItems = nbItems ;
-		m_NbColumns = NbCol ;
-		m_bVerticalFilling = bVerticalFilling ;
+		nbItems = nbItems ;
+		nbColumns = NbCol ;
+		bVerticalFilling = bVerticalFilling ;
 	}
 	
-	protected int m_NbItems = 0 ;
-	protected int m_NbColumns = 0 ;
-	protected boolean m_bVerticalFilling = false ;
+	protected int nbItems = 0 ;
+	protected int nbColumns = 0 ;
+	protected boolean bVerticalFilling = false ;
 
 	public void SetPosition(int Line, int Col)
 	{
-		m_nPosCol = Col ;
-		m_nPosLine = Line ;		
+		nPosCol = Col ;
+		nPosLine = Line ;		
 	} 
 	public void InitDependences(CBaseEntityFactory factory)
 	{
-		ListIterator iter = m_lstChildren.listIterator() ;
+		ListIterator iter = lstChildren.listIterator() ;
 		try
 		{
 			CEntityResourceField field = (CEntityResourceField)iter.next() ;

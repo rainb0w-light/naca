@@ -23,9 +23,9 @@ public class StackLevel extends CJMapObject
 	CLevel getParentLevel(int nLevel)
 	{
 		CLevel level = null;
-		for(int n=m_nTopValidIndex; n>=0; n--)
+		for(int n=nTopValidIndex; n>=0; n--)
 		{
-			level = m_arr.get(n);
+			level = arr.get(n);
 			if(level.hasLowerLevel(nLevel))
 				return level; 
 		}		
@@ -34,10 +34,10 @@ public class StackLevel extends CJMapObject
 	
 	void push(CLevel levelToPush)
 	{
-		int nLevelToPush = levelToPush.m_nLevel; 
-		for(int n=m_nTopValidIndex; n>=0; n--)
+		int nLevelToPush = levelToPush.nLevel; 
+		for(int n=nTopValidIndex; n>=0; n--)
 		{
-			CLevel levelStacked = m_arr.get(n);
+			CLevel levelStacked = arr.get(n);
 			if(levelStacked.hasLowerLevel(nLevelToPush))
 			{
 				setLevelInArray(n+1, levelToPush);
@@ -49,20 +49,20 @@ public class StackLevel extends CJMapObject
 	
 	private void setLevelInArray(int nIndex, CLevel levelToPush)
 	{
-		if(nIndex < m_arr.size())
+		if(nIndex < arr.size())
 		{
-			CLevel levelStacked = m_arr.get(nIndex);
+			CLevel levelStacked = arr.get(nIndex);
 			levelStacked.setWith(levelToPush);
-			m_nTopValidIndex = nIndex; 
+			nTopValidIndex = nIndex; 
 		}
 		else
 		{
-			assertIfFalse(nIndex == m_arr.size());
-			m_arr.add(levelToPush);
-			m_nTopValidIndex = nIndex;
+			assertIfFalse(nIndex == arr.size());
+			arr.add(levelToPush);
+			nTopValidIndex = nIndex;
 		}
 	}
 	
-	private int m_nTopValidIndex = -1;
-	private ArrayList<CLevel> m_arr = new ArrayList<CLevel>(); 
+	private int nTopValidIndex = -1;
+	private ArrayList<CLevel> arr = new ArrayList<CLevel>(); 
 }

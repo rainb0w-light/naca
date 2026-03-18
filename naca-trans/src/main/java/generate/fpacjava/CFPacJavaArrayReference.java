@@ -22,18 +22,18 @@ public class CFPacJavaArrayReference extends CEntityArrayReference
 	@Override
 	public CDataEntityType GetDataType()
 	{
-		return m_Reference.GetDataType() ;
+		return reference.GetDataType() ;
 	}
 
 	@Override
 	public String ExportReference(int nLine)
 	{
 		String cs = "" ;
-		for (CBaseEntityExpression exp : m_arrIndexes)
+		for (CBaseEntityExpression exp : arrIndexes)
 		{
 			if (cs.equals(""))
 			{
-				cs = m_Reference.ExportReference(getLine()) + "(" + exp.ExportReference(getLine()) ;
+				cs = reference.ExportReference(getLine()) + "(" + exp.ExportReference(getLine()) ;
 			}
 			else
 			{

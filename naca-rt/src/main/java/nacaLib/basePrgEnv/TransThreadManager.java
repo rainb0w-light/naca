@@ -49,7 +49,7 @@ public class TransThreadManager
 
 	private static void show(boolean bShow, int nMinRunTime_s)
 	{
-		Set<Entry<Integer, TransThreadMBean> > entries =  m_hashTrans.entrySet();
+		Set<Entry<Integer, TransThreadMBean> > entries =  hashTrans.entrySet();
 		Iterator<Entry<Integer, TransThreadMBean> > iter = entries.iterator();
 		while (iter.hasNext())
 		{
@@ -71,11 +71,11 @@ public class TransThreadManager
 		if(env != null && env.canManageThreadMBean())
 		{
 			Integer iEnvId = env.getEnvId();
-			TransThreadMBean transThreadMBean = m_hashTrans.get(iEnvId);
+			TransThreadMBean transThreadMBean = hashTrans.get(iEnvId);
 			if(transThreadMBean == null)
 			{
 				transThreadMBean = new TransThreadMBean(env);
-				m_hashTrans.put(iEnvId, transThreadMBean);
+				hashTrans.put(iEnvId, transThreadMBean);
 			}
 		}
 	}
@@ -85,18 +85,18 @@ public class TransThreadManager
 		if(env != null && env.canManageThreadMBean())
 		{
 			Integer iEnvId = env.getEnvId();
-			TransThreadMBean transThreadMBean = m_hashTrans.get(iEnvId);
+			TransThreadMBean transThreadMBean = hashTrans.get(iEnvId);
 			if(transThreadMBean != null)
 			{
 				if(BaseResourceManager.getUsingJmx())
 				{
 					transThreadMBean.setEnvClosed();
 				}
-				m_hashTrans.remove(iEnvId);
+				hashTrans.remove(iEnvId);
 			}
 		}
 	}
 	
-	private static Hashtable<Integer, TransThreadMBean> m_hashTrans = new Hashtable<Integer, TransThreadMBean>();
+	private static Hashtable<Integer, TransThreadMBean> hashTrans = new Hashtable<Integer, TransThreadMBean>();
 	//private static ArrayList<TransThreadMBean> ms_arrShownTransThreadMBean = new ArrayList<TransThreadMBean>();;
 }

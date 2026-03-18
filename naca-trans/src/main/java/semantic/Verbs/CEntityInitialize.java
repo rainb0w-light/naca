@@ -33,46 +33,46 @@ public abstract class CEntityInitialize extends CBaseActionEntity
 	public CEntityInitialize(int l, CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity data)
 	{
 		super(l, cat, out);
-		m_data = data ;
+		data = data ;
 	}
 
-	protected CDataEntity m_data = null ;
+	protected CDataEntity data = null ;
 
-	protected CDataEntity m_RepNumWith = null ;
+	protected CDataEntity repNumWith = null ;
 	public void ReplaceNumWith(CDataEntity d)
 	{
-		m_RepNumWith = d ;
+		repNumWith = d ;
 	}
 
-	protected CDataEntity m_RepNumEditedWith = null ;
+	protected CDataEntity repNumEditedWith = null ;
 	public void ReplaceNumEditedWith(CDataEntity d)
 	{
-		m_RepNumEditedWith = d ;
+		repNumEditedWith = d ;
 	}
 
-	protected CDataEntity m_RepAlphaWith = null ;
+	protected CDataEntity repAlphaWith = null ;
 	public void ReplaceAlphaNumWith(CDataEntity d)
 	{
-		m_RepAlphaWith = d ;
+		repAlphaWith = d ;
 	}
 
-	protected CDataEntity m_FillAlphaWith = null ;
+	protected CDataEntity fillAlphaWith = null ;
 	public void FillAlphaNumWith(CDataEntity d)
 	{
-		m_FillAlphaWith = d ;
+		fillAlphaWith = d ;
 	}
 	public void Clear()
 	{
 		super.Clear() ;
-		m_data = null ;
-		m_FillAlphaWith = null ;
-		m_RepAlphaWith = null ;
-		m_RepNumEditedWith = null ;
-		m_RepNumWith = null ;
+		data = null ;
+		fillAlphaWith = null ;
+		repAlphaWith = null ;
+		repNumEditedWith = null ;
+		repNumWith = null ;
 	}
 	public boolean ignore()
 	{
-		return m_data == null || m_data.ignore();
+		return data == null || data.ignore();
 	}
 
 	/* (non-Javadoc)
@@ -80,37 +80,37 @@ public abstract class CEntityInitialize extends CBaseActionEntity
 	 */
 	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
 	{
-		if (m_data == field)
+		if (data == field)
 		{
-			m_data = var ;
+			data = var ;
 			field.UnRegisterWritingAction(this);
 			var.RegisterWritingAction(this) ;
 			return true ;
 		}
-		else if (m_FillAlphaWith == field)
+		else if (fillAlphaWith == field)
 		{
-			m_FillAlphaWith = var ;
+			fillAlphaWith = var ;
 			field.UnRegisterReadingAction(this);
 			var.RegisterReadingAction(this) ;
 			return true ;
 		}
-		else if (m_RepAlphaWith == field)
+		else if (repAlphaWith == field)
 		{
-			m_RepAlphaWith = var ;
+			repAlphaWith = var ;
 			field.UnRegisterReadingAction(this);
 			var.RegisterReadingAction(this) ;
 			return true ;
 		}
-		else if (m_RepNumEditedWith == field)
+		else if (repNumEditedWith == field)
 		{
-			m_RepNumEditedWith = var ;
+			repNumEditedWith = var ;
 			field.UnRegisterReadingAction(this);
 			var.RegisterReadingAction(this) ;
 			return true ;
 		}
-		else if (m_RepNumWith == field)
+		else if (repNumWith == field)
 		{
-			m_RepNumWith = var ;
+			repNumWith = var ;
 			field.UnRegisterReadingAction(this);
 			var.RegisterReadingAction(this) ;
 			return true ;
@@ -123,33 +123,33 @@ public abstract class CEntityInitialize extends CBaseActionEntity
 	 */
 	public boolean IgnoreVariable(CDataEntity field)
 	{
-		if (m_data == field)
+		if (data == field)
 		{
-			m_data = null ;
+			data = null ;
 			field.UnRegisterWritingAction(this);
 			return true ;
 		}
-		else if (m_FillAlphaWith == field)
+		else if (fillAlphaWith == field)
 		{
-			m_FillAlphaWith = null ;
+			fillAlphaWith = null ;
 			field.UnRegisterReadingAction(this);
 			return true ;
 		}
-		else if (m_RepAlphaWith == field)
+		else if (repAlphaWith == field)
 		{
-			m_RepAlphaWith = null ;
+			repAlphaWith = null ;
 			field.UnRegisterReadingAction(this);
 			return true ;
 		}
-		else if (m_RepNumEditedWith == field)
+		else if (repNumEditedWith == field)
 		{
-			m_RepNumEditedWith = null ;
+			repNumEditedWith = null ;
 			field.UnRegisterReadingAction(this);
 			return true ;
 		}
-		else if (m_RepNumWith == field)
+		else if (repNumWith == field)
 		{
-			m_RepNumWith = null ;
+			repNumWith = null ;
 			field.UnRegisterReadingAction(this);
 			return true ;
 		}

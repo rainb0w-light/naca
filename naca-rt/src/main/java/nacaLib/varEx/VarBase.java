@@ -41,11 +41,11 @@ public abstract class VarBase extends CJMapObject
 			BaseProgramManager programManager = declareTypeBase.getProgramManager();
 			
 			SharedProgramInstanceData sharedProgramInstanceData = programManager.getSharedProgramInstanceData();   
-			m_varDef = declareTypeBase.getOrCreateVarDef(sharedProgramInstanceData/*varInstancesHolder*/);
-			m_varTypeId = m_varDef.getTypeId();
+			varDef = declareTypeBase.getOrCreateVarDef(sharedProgramInstanceData/*varInstancesHolder*/);
+			varTypeId = varDef.getTypeId();
 			
-			if(m_varDef.m_varDefRedefinOrigin != null)	// We redefine another var
-				m_varDef.m_varDefRedefinOrigin.addRedefinition(m_varDef);
+			if(varDef.varDefRedefinOrigin != null)	// We redefine another var
+				varDef.varDefRedefinOrigin.addRedefinition(varDef);
 			
 			if(declareTypeBase.isVariableLengthDeclaration())
 				programManager.defineVarDynLengthMarker((Var)this);
@@ -62,7 +62,7 @@ public abstract class VarBase extends CJMapObject
 	
 //	public void finalize()
 //	{
-//		if(m_varDef != null && m_varDef.getIsGetAt())
+//		if(varDef != null && varDef.getIsGetAt())
 //			JmxGeneralStat.decNbVarGetAt();
 //		else
 //			JmxGeneralStat.decNbVar();
@@ -70,21 +70,21 @@ public abstract class VarBase extends CJMapObject
 	
 	public VarDefBuffer getVarDef()
 	{
-		return m_varDef;
+		return varDef;
 	}
 	
 	public VarDefBuffer DEBUGgetVarDef()
 	{
-		return m_varDef;
+		return varDef;
 	}	
 	public VarBufferPos getBuffer()
 	{
-		return m_bufferPos;
+		return bufferPos;
 	}
 	
 	boolean isBufferComputed()
 	{
-		if(m_bufferPos != null)
+		if(bufferPos != null)
 			return true;
 		return false;
 	}
@@ -113,21 +113,21 @@ public abstract class VarBase extends CJMapObject
 	
 	public String getLoggableValue()
 	{
-		if(m_varDef != null)
+		if(varDef != null)
 		{
 			SharedProgramInstanceData sharedProgramInstanceData = getSharedProgramInstanceData();
 			if(sharedProgramInstanceData != null)
 			{
-				String cs = m_varDef.toDump(sharedProgramInstanceData);
-				int nDefaultAbsolutePosition = m_varDef.DEBUGgetDefaultAbsolutePosition();
-				if(m_bufferPos != null)
+				String cs = varDef.toDump(sharedProgramInstanceData);
+				int nDefaultAbsolutePosition = varDef.DEBUGgetDefaultAbsolutePosition();
+				if(bufferPos != null)
 				{
-					int nAbsolutePosition = m_bufferPos.m_nAbsolutePosition;
+					int nAbsolutePosition = bufferPos.nAbsolutePosition;
 					if(nDefaultAbsolutePosition != nAbsolutePosition)
 					{
 						cs += " (@" + nAbsolutePosition + ")";
 					}
-					cs += ":" + m_varDef.getDottedSignedString(m_bufferPos);
+					cs += ":" + varDef.getDottedSignedString(bufferPos);
 				}
 				else
 					cs += ":(null)";
@@ -140,7 +140,7 @@ public abstract class VarBase extends CJMapObject
 	
 //	private void dupVarDefShiftingAbsoluteStartPosition(int nShift, ArrayList<VarDefBase> arrVarShifted)
 //	{	
-//		VarEnumerator e = new VarEnumerator(m_bufferPos.getProgramManager(), this); 
+//		VarEnumerator e = new VarEnumerator(bufferPos.getProgramManager(), this); 
 //		VarBase var = e.getFirstVarChild();
 //		while(var != null)
 //		{
@@ -149,23 +149,23 @@ public abstract class VarBase extends CJMapObject
 //		}
 //		// Shift occurs
 //		
-//		m_varDef.shiftAbsolutePosition(this, nShift, arrVarShifted);
+//		varDef.shiftAbsolutePosition(this, nShift, arrVarShifted);
 //		
 //		// Shift redefines
-//		int nNbRedefinition = m_varDef.getNbRedefinition();
+//		int nNbRedefinition = varDef.getNbRedefinition();
 //		for(int n=0; n<nNbRedefinition; n++)
 //		{
-//			VarDefBase varDefRedefines = m_varDef.getRedefinitionAt(n);
-//			VarBase varChild = m_bufferPos.getProgramManager().getVarFullName(varDefRedefines);
+//			VarDefBase varDefRedefines = varDef.getRedefinitionAt(n);
+//			VarBase varChild = bufferPos.getProgramManager().getVarFullName(varDefRedefines);
 //			varChild.dupVarDefShiftingAbsoluteStartPosition(nShift, arrVarShifted);
 //		}		
 //	}
 	
 	public void internalAssignBufferShiftPosition(char oldBuffer[], int nStartPos, int nLength, VarBuffer bufferSource, int nShift)
 	{
-		if(getBuffer().m_acBuffer == oldBuffer && getBodyAbsolutePosition() >= nStartPos && getBodyAbsolutePosition() < nStartPos+nLength)
+		if(getBuffer().acBuffer == oldBuffer && getBodyAbsolutePosition() >= nStartPos && getBodyAbsolutePosition() < nStartPos+nLength)
 		{
-			m_bufferPos = new VarBufferPos(bufferSource, m_varDef.m_nDefaultAbsolutePosition - nShift);
+			bufferPos = new VarBufferPos(bufferSource, varDef.nDefaultAbsolutePosition - nShift);
 			getEditAttributManager();
 		}
 	}
@@ -173,11 +173,11 @@ public abstract class VarBase extends CJMapObject
 //	void assignBuffer(BaseProgramManager programManagerDest, VarBuffer bufferSource)
 //	{
 //		Log.logCritical("var buffer assigned"+toString());
-//		m_bufferPos = new VarBufferPos(programManagerDest, bufferSource, m_varDef.m_nDefaultAbsolutePosition);
+//		bufferPos = new VarBufferPos(programManagerDest, bufferSource, varDef.nDefaultAbsolutePosition);
 //
-//		getEditAttributManager(m_bufferPos.getProgramManager());
+//		getEditAttributManager(bufferPos.getProgramManager());
 //
-//		VarEnumerator e = new VarEnumerator(m_bufferPos.getProgramManager(), this); 
+//		VarEnumerator e = new VarEnumerator(bufferPos.getProgramManager(), this); 
 //		VarBase var = e.getFirstVarChild();
 //		while(var != null)
 //		{ 
@@ -186,11 +186,11 @@ public abstract class VarBase extends CJMapObject
 //		}
 //		
 //		// The redefinitions must also be linked to the new buffer
-//		int nNbRedefinition = m_varDef.getNbRedefinition();
+//		int nNbRedefinition = varDef.getNbRedefinition();
 //		for(int n=0; n<nNbRedefinition; n++)
 //		{
-//			VarDefBase varDefRedefines = m_varDef.getRedefinitionAt(n);
-//			VarBase varChild = m_bufferPos.getProgramManager().getVarFullName(varDefRedefines);
+//			VarDefBase varDefRedefines = varDef.getRedefinitionAt(n);
+//			VarBase varChild = bufferPos.getProgramManager().getVarFullName(varDefRedefines);
 //			varChild.assignBuffer(programManagerDest, bufferSource);
 //		}
 //	}
@@ -198,7 +198,7 @@ public abstract class VarBase extends CJMapObject
 	public void setAtAdress(VarAndEdit varSource)
 	{
 		// Old Code
-//		assignBuffer(m_bufferPos.getProgramManager(), varSource.m_bufferPos);
+//		assignBuffer(bufferPos.getProgramManager(), varSource.bufferPos);
 //		int nShift = varSource.getBodyAbsolutePosition() - getBodyAbsolutePosition();
 //		
 //		ArrayList<VarDefBase> arrVarShifted = new ArrayList<VarDefBase>(); 
@@ -206,7 +206,7 @@ public abstract class VarBase extends CJMapObject
 		
 		// New Code
 		int nStartPos = getBodyAbsolutePosition();
-		char oldBuffer[] = m_bufferPos.m_acBuffer;
+		char oldBuffer[] = bufferPos.acBuffer;
 		int nLength = getTotalSize();
 		
 		int nShift = varSource.getBodyAbsolutePosition() - getBodyAbsolutePosition();
@@ -224,29 +224,29 @@ public abstract class VarBase extends CJMapObject
 	public void setCustomBuffer(char [] cBuffer)
 	{		
 		// Old Code
-//		if(m_varDef.getLevel() != 1)	// Only level 01 can have a custom buffer; their children are also mapped the the buffer 
+//		if(varDef.getLevel() != 1)	// Only level 01 can have a custom buffer; their children are also mapped the the buffer 
 //			return ;
 //		
-//		BaseProgramManager programManager = m_bufferPos.getProgramManager();
+//		BaseProgramManager programManager = bufferPos.getProgramManager();
 //		
 //		// Create a VarBuffer and set it as the buffer of this
 //		VarBuffer varBuffer = new VarBuffer(programManager, cBuffer);		// But it has it's own private var buffer
-//		int nShift = m_bufferPos.m_nAbsolutePosition;
+//		int nShift = bufferPos.nAbsolutePosition;
 //
 //		assignBuffer(programManager, varBuffer);	// The current var and all it's children must use the current var buffer		
 //		ArrayList<VarDefBase> arrVarShifted = new ArrayList<VarDefBase>();
 //		dupVarDefShiftingAbsoluteStartPosition(0 - nShift, arrVarShifted);
 		
 		// New code
-		if(m_varDef.getLevel() != 1)	// Only level 01 can have a custom buffer; their children are also mapped the the buffer 
+		if(varDef.getLevel() != 1)	// Only level 01 can have a custom buffer; their children are also mapped the the buffer 
 			return ;
 		
 		int nStartPos = getBodyAbsolutePosition();
-		char oldBuffer[] = m_bufferPos.m_acBuffer;
+		char oldBuffer[] = bufferPos.acBuffer;
 		int nLength = getTotalSize();
 		
 		VarBuffer newVarBuffer = new VarBuffer(cBuffer);
-		int nShift = m_bufferPos.m_nAbsolutePosition;
+		int nShift = bufferPos.nAbsolutePosition;
 		
 		BaseProgramManager pm = TempCacheLocator.getTLSTempCache().getProgramManager();
 		pm.changeBufferAndShiftPosition(oldBuffer, nStartPos, nLength, newVarBuffer, nShift);
@@ -261,8 +261,8 @@ public abstract class VarBase extends CJMapObject
 //		int nSourceOffset = getInitializeReplacingOffset(tempCache);
 //		
 //		SharedProgramInstanceData sharedProgramInstanceData = tempCache.getSharedProgramInstanceData();
-//		m_varDef.moveCorrespondingItemAndChildren(sharedProgramInstanceData, tempCache.getProgramManager(), varDefDestGroup, nSourceOffset, nDestOffset);
-//		//m_varDef.initializeItemAndChildren(m_bufferPos.getProgramManager(), initializeManagerManager, nOffset);
+//		varDef.moveCorrespondingItemAndChildren(sharedProgramInstanceData, tempCache.getProgramManager(), varDefDestGroup, nSourceOffset, nDestOffset);
+//		//varDef.initializeItemAndChildren(bufferPos.getProgramManager(), initializeManagerManager, nOffset);
 //	}
 
 	public void moveCorresponding(MoveCorrespondingEntryManager moveCorrespondingEntryManager, VarBase varDestGroup)
@@ -280,7 +280,7 @@ public abstract class VarBase extends CJMapObject
 		else
 		{
 			SharedProgramInstanceData sharedProgramInstanceData = tempCache.getSharedProgramInstanceData();
-			m_varDef.moveCorrespondingItemAndChildren(moveCorrespondingEntryManager, sharedProgramInstanceData, tempCache.getProgramManager(), varDefDestGroup, nSourceOffset, nDestOffset);
+			varDef.moveCorrespondingItemAndChildren(moveCorrespondingEntryManager, sharedProgramInstanceData, tempCache.getProgramManager(), varDefDestGroup, nSourceOffset, nDestOffset);
 			
 			if(moveCorrespondingEntryManager != null)
 				moveCorrespondingEntryManager.setFilledAndCompress();
@@ -294,14 +294,14 @@ public abstract class VarBase extends CJMapObject
 //		InitializeManager initializeManagerManager = tempCache.getInitializeManagerNone();
 //		
 //		int nOffset = getInitializeReplacingOffset(tempCache);
-//		m_varDef.initializeItemAndChildren(m_bufferPos, initializeManagerManager, nOffset);
+//		varDef.initializeItemAndChildren(bufferPos, initializeManagerManager, nOffset);
 //	}
 	
 	public void initialize(InitializeCache initializeCache)
 	{
 		//TempCache tempCache = TempCacheLocator.getTLSTempCache();
 		//int nOffset = getInitializeReplacingOffset(tempCache);
-		m_varDef.initializeAtOffset(m_bufferPos, 0, initializeCache);
+		varDef.initializeAtOffset(bufferPos, 0, initializeCache);
 	}
 	
 	public void initializeReplacingNum(int n)
@@ -310,7 +310,7 @@ public abstract class VarBase extends CJMapObject
 		InitializeManager initializeManagerManager = tempCache.getInitializeManagerInt(n);
 		
 		int nOffset = getInitializeReplacingOffset(tempCache);
-		m_varDef.initializeItemAndChildren(m_bufferPos, initializeManagerManager, nOffset, null);
+		varDef.initializeItemAndChildren(bufferPos, initializeManagerManager, nOffset, null);
 	}
 	
 	public void initializeReplacingNum(String cs)
@@ -319,19 +319,19 @@ public abstract class VarBase extends CJMapObject
 		InitializeManager initializeManagerManager = tempCache.getInitializeManagerDouble(cs);
 		
 		int nOffset = getInitializeReplacingOffset(tempCache);
-		m_varDef.initializeItemAndChildren(m_bufferPos, initializeManagerManager, nOffset, null);
+		varDef.initializeItemAndChildren(bufferPos, initializeManagerManager, nOffset, null);
 	}
 	
 	int getInitializeReplacingOffset(TempCache tempCache)
 	{
-		int nCatalogPos = m_varDef.m_nDefaultAbsolutePosition;
-		VarDefBase varDefMaster = m_varDef.getVarDefMaster(tempCache.getSharedProgramInstanceData());
+		int nCatalogPos = varDef.nDefaultAbsolutePosition;
+		VarDefBase varDefMaster = varDef.getVarDefMaster(tempCache.getSharedProgramInstanceData());
 		if(varDefMaster != null)
 		{
-			nCatalogPos = varDefMaster.m_nDefaultAbsolutePosition;
-			m_varDef.m_arrChildren = varDefMaster.m_arrChildren;
+			nCatalogPos = varDefMaster.nDefaultAbsolutePosition;
+			varDef.arrChildren = varDefMaster.arrChildren;
 		}
-		int nItemPos =  m_varDef.m_nDefaultAbsolutePosition;
+		int nItemPos =  varDef.nDefaultAbsolutePosition;
 		int nOffset = nItemPos - nCatalogPos;
 		
 		return nOffset;
@@ -342,7 +342,7 @@ public abstract class VarBase extends CJMapObject
 		TempCache tempCache = TempCacheLocator.getTLSTempCache();
 		InitializeManager initializeManagerManager = tempCache.getInitializeManagerString(cs);
 		int nOffset = getInitializeReplacingOffset(tempCache);
-		m_varDef.initializeItemAndChildren(m_bufferPos, initializeManagerManager, nOffset, null);
+		varDef.initializeItemAndChildren(bufferPos, initializeManagerManager, nOffset, null);
 	}
 	
 	public void initializeReplacingNumEdited(int n)
@@ -350,7 +350,7 @@ public abstract class VarBase extends CJMapObject
 		TempCache tempCache = TempCacheLocator.getTLSTempCache();
 		InitializeManager initializeManagerManager = tempCache.getInitializeManagerIntEdited(n);
 		int nOffset = getInitializeReplacingOffset(tempCache);
-		m_varDef.initializeItemAndChildren(m_bufferPos, initializeManagerManager, nOffset, null);
+		varDef.initializeItemAndChildren(bufferPos, initializeManagerManager, nOffset, null);
 	}
 	
 	public void initializeReplacingNumEdited(double d)
@@ -358,7 +358,7 @@ public abstract class VarBase extends CJMapObject
 		TempCache tempCache = TempCacheLocator.getTLSTempCache();
 		InitializeManager initializeManagerManager = tempCache.getInitializeManagerDoubleEdited(d);
 		int nOffset = getInitializeReplacingOffset(tempCache);
-		m_varDef.initializeItemAndChildren(m_bufferPos, initializeManagerManager, nOffset, null);
+		varDef.initializeItemAndChildren(bufferPos, initializeManagerManager, nOffset, null);
 	}
 
 	public void initializeReplacingAlphaNumEdited(String cs)
@@ -366,7 +366,7 @@ public abstract class VarBase extends CJMapObject
 		TempCache tempCache = TempCacheLocator.getTLSTempCache();
 		InitializeManager initializeManagerManager = tempCache.getInitializeManagerStringEdited();
 		int nOffset = getInitializeReplacingOffset(tempCache);
-		m_varDef.initializeItemAndChildren(m_bufferPos, initializeManagerManager, nOffset, null);
+		varDef.initializeItemAndChildren(bufferPos, initializeManagerManager, nOffset, null);
 	}
 
 	public String toString()
@@ -376,42 +376,42 @@ public abstract class VarBase extends CJMapObject
 	
 	public int getTotalSize()
 	{
-		return m_varDef.getTotalSize();
+		return varDef.getTotalSize();
 	}
 	
 	public void set(char c)
 	{
-		m_varDef.write(m_bufferPos, c);
+		varDef.write(bufferPos, c);
 	}
 	
 	public void set(int n)
 	{
-		m_varDef.write(m_bufferPos, n);
+		varDef.write(bufferPos, n);
 	}
 	
 	public void set(double d)
 	{
-		m_varDef.write(m_bufferPos, d);
+		varDef.write(bufferPos, d);
 	}
 	
 	public void set(long l)
 	{
-		m_varDef.write(m_bufferPos, l);
+		varDef.write(bufferPos, l);
 	}
 	
 	public void set(String cs)
 	{
-		m_varDef.write(m_bufferPos, cs);
+		varDef.write(bufferPos, cs);
 	}
 	
 	public void set(Dec dec)
 	{
-		m_varDef.write(m_bufferPos, dec);
+		varDef.write(bufferPos, dec);
 	}
 	
 	public void set(BigDecimal bigDecimal)
 	{
-		m_varDef.write(m_bufferPos, bigDecimal);
+		varDef.write(bufferPos, bigDecimal);
 	}
 	
 	public void set(VarBase varSource)
@@ -424,30 +424,30 @@ public abstract class VarBase extends CJMapObject
 	
 	public void declareAsFiller()
 	{
-		m_varDef.setFiller(true);
+		varDef.setFiller(true);
 	}
 	
 	int getBodyAbsolutePosition()
 	{
-		return m_varDef.getBodyAbsolutePosition(m_bufferPos);
+		return varDef.getBodyAbsolutePosition(bufferPos);
 	}
 	
 	public int DEBUGgetBodyAbsolutePosition()
 	{
-		return m_varDef.getBodyAbsolutePosition(m_bufferPos);
+		return varDef.getBodyAbsolutePosition(bufferPos);
 	}
 
 	
 	int getBodyLength()
 	{
-		return m_varDef.getBodyLength();
+		return varDef.getBodyLength();
 	}
 	
 //	public String getFullName()
 //	{
-//		if(m_varDef != null)
+//		if(varDef != null)
 //		{
-//			String cs = m_varDef.getFullName(m_bufferPos.getProgramManager().getSharedProgramInstanceData());
+//			String cs = varDef.getFullName(bufferPos.getProgramManager().getSharedProgramInstanceData());
 //			return cs;
 //		}
 //		return "";
@@ -455,9 +455,9 @@ public abstract class VarBase extends CJMapObject
 	
 //	public String getFullName(SharedProgramInstanceData s)
 //	{
-//		if(m_varDef != null)
+//		if(varDef != null)
 //		{
-//			String cs = m_varDef.getFullName(s);
+//			String cs = varDef.getFullName(s);
 //			return cs;
 //		}
 //		return "";
@@ -465,9 +465,9 @@ public abstract class VarBase extends CJMapObject
 	
 //	public String getFullNameUpperCase()
 //	{
-//		if(m_varDef != null)
+//		if(varDef != null)
 //		{
-//			String cs = m_varDef.getFullName(m_bufferPos.getProgramManager().getSharedProgramInstanceData());
+//			String cs = varDef.getFullName(bufferPos.getProgramManager().getSharedProgramInstanceData());
 //			cs = cs.toUpperCase();
 //			return cs;
 //		}
@@ -489,7 +489,7 @@ public abstract class VarBase extends CJMapObject
 //	public VarBase getUnprefixedNamedChild(String csName)
 //	{		
 //		csName = NameManager.getUnprefixedName(csName);
-//		VarEnumerator e = new VarEnumerator(m_bufferPos.getProgramManager(), this); 
+//		VarEnumerator e = new VarEnumerator(bufferPos.getProgramManager(), this); 
 //		VarBase varChild = e.getFirstVarChild();
 //		while(varChild != null)
 //		{
@@ -514,7 +514,7 @@ public abstract class VarBase extends CJMapObject
 		}
 		InternalCharBuffer charBufferDest = new InternalCharBuffer(nLength);
 
-		charBufferDest.copyBytes(0, nLength, m_bufferPos.m_nAbsolutePosition, m_bufferPos);
+		charBufferDest.copyBytes(0, nLength, bufferPos.nAbsolutePosition, bufferPos);
 		
 		return charBufferDest;
 	}
@@ -524,11 +524,11 @@ public abstract class VarBase extends CJMapObject
 		int nLength = getLength() ;
 		char [] arr = new char [nLength]; 
 		int nPositionDest = 0;
-		int nPositionSource = m_bufferPos.m_nAbsolutePosition;
+		int nPositionSource = bufferPos.nAbsolutePosition;
 		
 		for(int n=0; n<nLength; n++, nPositionDest++, nPositionSource++)
 		{
-			char cSource = m_bufferPos.m_acBuffer[nPositionSource];
+			char cSource = bufferPos.acBuffer[nPositionSource];
 			arr[nPositionDest] = cSource;
 		}
 		return arr;
@@ -537,56 +537,56 @@ public abstract class VarBase extends CJMapObject
 	public void exportToByteArray(byte arr[], int nLength)
 	{
 		int nPositionDest = 0;
-		int nPositionSource = m_bufferPos.m_nAbsolutePosition;
+		int nPositionSource = bufferPos.nAbsolutePosition;
 		
 		for(int n=0; n<nLength; n++)
 		{
-			arr[nPositionDest++] = (byte)m_bufferPos.m_acBuffer[nPositionSource++];
+			arr[nPositionDest++] = (byte)bufferPos.acBuffer[nPositionSource++];
 		}
 	}
 		
 	public void exportToByteArray(byte arr[], int nOffsetDest, int nLength)
 	{
 		int nPositionDest = nOffsetDest;
-		int nPositionSource = m_bufferPos.m_nAbsolutePosition;
+		int nPositionSource = bufferPos.nAbsolutePosition;
 		
 		for(int n=0; n<nLength; n++, nPositionDest++, nPositionSource++)
 		{
-			arr[nPositionDest] = (byte)m_bufferPos.m_acBuffer[nPositionSource];
+			arr[nPositionDest] = (byte)bufferPos.acBuffer[nPositionSource];
 		}
 	}
 	
 	public void fill(CobolConstantBase constant)
 	{
 		char c = constant.getValue();
-		m_varDef.writeRepeatingchar(m_bufferPos, c);		
+		varDef.writeRepeatingchar(bufferPos, c);		
 	}
 	
 	public void fillEndOfRecord(int nNbRecordByteAlreadyFilled, int nRecordTotalLength)
 	{
 		int nNbBytesToFill = nRecordTotalLength - nNbRecordByteAlreadyFilled;
-		m_varDef.writeRepeatingcharAtOffsetWithLength(m_bufferPos, nNbRecordByteAlreadyFilled, CobolConstant.LowValue.getValue(), nNbBytesToFill);
-		//m_varDef.writeRepeatingchar(m_bufferPos, CobolConstant.LowValue);		
+		varDef.writeRepeatingcharAtOffsetWithLength(bufferPos, nNbRecordByteAlreadyFilled, CobolConstant.LowValue.getValue(), nNbBytesToFill);
+		//varDef.writeRepeatingchar(bufferPos, CobolConstant.LowValue);		
 	}
 	
 	public void copyBytesFromSourceIntoBody(InternalCharBuffer charBuffer)
 	{
-		m_varDef.copyBytesFromSource(m_bufferPos, getBodyAbsolutePosition(), charBuffer);
+		varDef.copyBytesFromSource(bufferPos, getBodyAbsolutePosition(), charBuffer);
 	}
 	
 //	public void copyBytesFromSourceIntoBodyAndHeader(InternalCharBuffer charBuffer)
 //	{
-//		m_varDef.copyBytesFromSource(m_bufferPos, m_bufferPos.m_nAbsolutePosition, charBuffer);
+//		varDef.copyBytesFromSource(bufferPos, bufferPos.nAbsolutePosition, charBuffer);
 //	}
 	
 //	public BaseProgram getProgram()
 //	{
-//		return m_bufferPos.getProgramManager().getProgram();
+//		return bufferPos.getProgramManager().getProgram();
 //	}
 	
 	int getLength()
 	{
-		return m_varDef.getLength(); 
+		return varDef.getLength(); 
 	}
 	
 //	public String getHexaValueFromAsciiToEbcdic()
@@ -596,8 +596,8 @@ public abstract class VarBase extends CJMapObject
 //		int nPos = getBodyAbsolutePosition();
 //		for(int n=0; n<nLg; n++, nPos++)
 //		{			
-//			char c = m_bufferPos.m_acBuffer[nPos];
-//			//char c = m_bufferPos.getCharAt(nPos);
+//			char c = bufferPos.acBuffer[nPos];
+//			//char c = bufferPos.getCharAt(nPos);
 //			int nCode = c;
 //			String cs = AsciiEbcdicConverter.getEbcdicHexaValue(nCode);
 //			csOut += cs;
@@ -613,8 +613,8 @@ public abstract class VarBase extends CJMapObject
 		int nPos = getBodyAbsolutePosition(); 
 		for(int n=0; n<nLg; n++, nPos++)
 		{			
-			char c = m_bufferPos.m_acBuffer[nPos];
-			//char c = m_bufferPos.getCharAt(nPos);
+			char c = bufferPos.acBuffer[nPos];
+			//char c = bufferPos.getCharAt(nPos);
 			int nCode = c;
 			String cs = AsciiEbcdicConverter.getHexaValue(nCode);
 			csOut += cs;
@@ -630,8 +630,8 @@ public abstract class VarBase extends CJMapObject
 	
 	public CSQLItemType getSQLType()
 	{
-		if(m_varDef != null)
-			return m_varDef.getSQLType();
+		if(varDef != null)
+			return varDef.getSQLType();
 		return null;
 	}
 	
@@ -645,15 +645,15 @@ public abstract class VarBase extends CJMapObject
 	
 	public void setSemanticContextValue(String csValue)
 	{
-//		if(m_bufferPos != null)
-//			m_bufferPos.setSemanticContextValue(csValue, m_bufferPos.m_nAbsolutePosition);
+//		if(bufferPos != null)
+//			bufferPos.setSemanticContextValue(csValue, bufferPos.nAbsolutePosition);
 	}
 	
 	public String getSemanticContextValue()
 	{
-//		if(m_bufferPos != null)
+//		if(bufferPos != null)
 //		{
-//			String csSemanticValue = m_bufferPos.getSemanticContextValue(m_bufferPos.m_nAbsolutePosition);
+//			String csSemanticValue = bufferPos.getSemanticContextValue(bufferPos.nAbsolutePosition);
 //			return csSemanticValue;
 //		}
 		return "";			
@@ -661,9 +661,9 @@ public abstract class VarBase extends CJMapObject
 	
 	public String getSemanticContextValue(int nAbsolutePosition)
 	{
-//		if(m_bufferPos != null)
+//		if(bufferPos != null)
 //		{
-//			String csSemanticValue = m_bufferPos.getSemanticContextValue(nAbsolutePosition);
+//			String csSemanticValue = bufferPos.getSemanticContextValue(nAbsolutePosition);
 //			return csSemanticValue;
 //		}
 		return "";			
@@ -671,28 +671,28 @@ public abstract class VarBase extends CJMapObject
 	
 	public void restoreDefaultAbsolutePosition()
 	{	
-		if(m_varDef != null && m_bufferPos != null)
-			m_bufferPos.m_nAbsolutePosition = m_varDef.m_nDefaultAbsolutePosition;
+		if(varDef != null && bufferPos != null)
+			bufferPos.nAbsolutePosition = varDef.nDefaultAbsolutePosition;
 	}
 	
 	public double getDouble()
 	{
-		return m_varDef.getDouble(m_bufferPos);
+		return varDef.getDouble(bufferPos);
 	}
 	
 	public int getInt()
 	{
-		return m_varDef.getAsDecodedInt(m_bufferPos);
+		return varDef.getAsDecodedInt(bufferPos);
 	}
 	
 	public long getLong()
 	{
-		return m_varDef.getAsDecodedLong(m_bufferPos);
+		return varDef.getAsDecodedLong(bufferPos);
 	}
 	
 	public boolean isWSVar()
 	{
-		return m_varDef.getWSVar();
+		return varDef.getWSVar();
 	}
 	
 	public int setFromLineRead(LineRead lineRead)
@@ -701,7 +701,7 @@ public abstract class VarBase extends CJMapObject
 		int nDestLength = getBodyLength();
 		if(nSourceLength > nDestLength)
 			nSourceLength = nDestLength;
-		m_bufferPos.setByteArray(lineRead.getBuffer(), lineRead.getOffset(), nSourceLength);
+		bufferPos.setByteArray(lineRead.getBuffer(), lineRead.getOffset(), nSourceLength);
 		return nSourceLength;
 	}
 	
@@ -730,7 +730,7 @@ public abstract class VarBase extends CJMapObject
 		if(nDest1Length > nDest2Length)		// The length of destination variable 2 (file descriptor) is shoreter than the length of the variable specified by into()
 			nDest2Length = nDest1Length;
 				
-		m_bufferPos.setByteArray(lineRead.getBuffer(), lineRead.getOffset(), nSourceLength, varDest2.m_bufferPos, nDest2Length);
+		bufferPos.setByteArray(lineRead.getBuffer(), lineRead.getOffset(), nSourceLength, varDest2.bufferPos, nDest2Length);
 		
 		if(nFillLength1 != 0)
 			fillEndOfRecord(nSourceLength, nFillLength1);
@@ -741,25 +741,25 @@ public abstract class VarBase extends CJMapObject
 	
 	public void set(byte[] tBytes)
 	{
-		setFromByteArray(tBytes, 0, Math.min(m_varDef.m_nTotalSize, tBytes.length));
+		setFromByteArray(tBytes, 0, Math.min(varDef.nTotalSize, tBytes.length));
 	}
 
 	public void setFromByteArray(byte[] tBytes, int nOffsetSource, int nLength)
 	{
-		m_bufferPos.setByteArray(tBytes, nOffsetSource, nLength);
+		bufferPos.setByteArray(tBytes, nOffsetSource, nLength);
 	}
 	
 //	void fillWithSameByteAtOffset(byte by, int nOffset, int nNbOccurences)
 //	{
-//		m_bufferPos.fillWithSameByteAtOffset(by, nOffset, nNbOccurences);
+//		bufferPos.fillWithSameByteAtOffset(by, nOffset, nNbOccurences);
 //	}
 	
 	
 	public byte[] getAsByteArray()
 	{
 		//int nLength = getLength();
-		int nLength = m_varDef.getRecordDependingLength(m_bufferPos);
-		char[] tChars = m_bufferPos.getByteArray(this, nLength);
+		int nLength = varDef.getRecordDependingLength(bufferPos);
+		char[] tChars = bufferPos.getByteArray(this, nLength);
 		byte[] tBytes = AsciiEbcdicConverter.noConvertUnicodeToEbcdic(tChars);
 		return tBytes;
 	}
@@ -768,7 +768,7 @@ public abstract class VarBase extends CJMapObject
 	public byte[] getAsEbcdicByteArray()
 	{
 		int nLength = getLength();
-		char[] tChars = m_bufferPos.getByteArray(this, nLength);
+		char[] tChars = bufferPos.getByteArray(this, nLength);
 		byte[] tBytes = convertUnicodeToEbcdic(tChars);
 		return tBytes;
 	}
@@ -789,7 +789,7 @@ public abstract class VarBase extends CJMapObject
 	
 //	public void resetTempIndex(TempCache tempCache)
 //	{
-//		tempCache.resetTempVarIndex(m_varTypeId);
+//		tempCache.resetTempVarIndex(varTypeId);
 //	}
 
 	public abstract String getString() ;
@@ -809,23 +809,23 @@ public abstract class VarBase extends CJMapObject
 	
 	public void importFromByteArray(byte tBytesSource[], int nSizeSource)
 	{
-		m_bufferPos.importFromByteArray(tBytesSource, m_varDef.getTotalSize(), nSizeSource);
+		bufferPos.importFromByteArray(tBytesSource, varDef.getTotalSize(), nSizeSource);
 	}
 	
 	public void exportIntoByteArray(byte tbyDest[], int nLengthDest)
 	{
-		m_bufferPos.exportIntoByteArray(tbyDest, nLengthDest, m_varDef.getTotalSize());
+		bufferPos.exportIntoByteArray(tbyDest, nLengthDest, varDef.getTotalSize());
 	}
 	
 	
 	public int getId()
 	{
-		return m_varDef.getId();
+		return varDef.getId();
 	}
 		
 //	public int getIdSolvedDim()
 //	{
-//		return m_varDef.getIdSolvedDim();
+//		return varDef.getIdSolvedDim();
 //	}
 	
 
@@ -833,30 +833,30 @@ public abstract class VarBase extends CJMapObject
 	
 	
 	
-	/*protected*/ public VarDefBuffer m_varDef = null;		// definition of variable options and memory storage (common with other vars)
-	/*protected*/ public VarBufferPos m_bufferPos = null;		// physical data buffer
+	/*protected*/ public VarDefBuffer varDef = null;		// definition of variable options and memory storage (common with other vars)
+	/*protected*/ public VarBufferPos bufferPos = null;		// physical data buffer
 	public abstract VarType getVarType();
-	//private String m_csSemanticContextValue = null;
+	//private String csSemanticContextValue = null;
 	
 	// Experimental optimizations
 //	public void setTempVar()
 //	{
-//		m_bTempVar = true;
+//		bTempVar = true;
 //	}
 	
 //	public boolean isTempVar()
 //	{
-//		return m_bTempVar; 
+//		return bTempVar; 
 //	}
 	
 //	public int getTypeId()
 //	{
-////		if(m_varTypeId == VarTypeId.VarDefUnknownTypeId)
-////			m_varTypeId = m_varDef.getTypeId();
-//		return m_varTypeId;
+////		if(varTypeId == VarTypeId.VarDefUnknownTypeId)
+////			varTypeId = varDef.getTypeId();
+//		return varTypeId;
 //	}
 	
-	public int m_varTypeId = VarTypeId.VarDefUnknownTypeId;
-	//private boolean m_bTempVar = false;
+	public int varTypeId = VarTypeId.VarDefUnknownTypeId;
+	//private boolean bTempVar = false;
 
 }

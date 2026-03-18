@@ -24,51 +24,51 @@ public abstract class CEntitySQLInsertStatement extends CBaseActionEntity
 	
 	public void SetInsert(CEntitySQLDeclareTable table, Vector arrVal)
 	{
-		m_table = table ;
-		m_arrValues = arrVal;
+		table = table ;
+		arrValues = arrVal;
 	}
 	public void SetInsert(String tableName, ArrayList<String> arrColumns, Vector arrVal)
 	{
-		m_csTable = tableName;
+		csTable = tableName;
 		ASSERT(arrColumns) ;
-		m_arrCollumns = arrColumns ;
+		arrCollumns = arrColumns ;
 		ASSERT(arrVal) ;
-		m_arrValues = arrVal ;
+		arrValues = arrVal ;
 	}
 	public void SetInsert(String tablename, String clause, Vector arrParam)
 	{
-		m_csTable = tablename ;
-		m_SelectClause = clause ;
-		m_arrSelectParameters = arrParam ;	
+		csTable = tablename ;
+		selectClause = clause ;
+		arrSelectParameters = arrParam ;	
 	}
 	
 	public void setSessionTable(boolean bSessionTable)
 	{
-		m_bSessionTable = bSessionTable;
+		bSessionTable = bSessionTable;
 	}
 	
-	protected String m_csTable = "" ;
-	protected boolean m_bSessionTable = false;
-	protected CEntitySQLDeclareTable m_table = null ;
-	protected ArrayList<String> m_arrCollumns = null;
-	protected Vector m_arrValues = null;
-	protected String m_SelectClause = "" ;
-	protected Vector m_arrSelectParameters = null ;
+	protected String csTable = "" ;
+	protected boolean bSessionTable = false;
+	protected CEntitySQLDeclareTable table = null ;
+	protected ArrayList<String> arrCollumns = null;
+	protected Vector arrValues = null;
+	protected String selectClause = "" ;
+	protected Vector arrSelectParameters = null ;
 	
 	public void Clear()
 	{
 		super.Clear();
-		if (m_table != null)
+		if (table != null)
 		{
-			m_table.Clear() ;
+			table.Clear() ;
 		}
-		if (m_arrValues != null)
+		if (arrValues != null)
 		{
-			m_arrValues.clear() ;
+			arrValues.clear() ;
 		}
-		if (m_arrSelectParameters != null)
+		if (arrSelectParameters != null)
 		{
-			m_arrSelectParameters.clear() ;
+			arrSelectParameters.clear() ;
 		}
 	}
 	public boolean ignore()

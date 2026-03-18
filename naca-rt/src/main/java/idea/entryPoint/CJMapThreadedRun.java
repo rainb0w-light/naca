@@ -22,10 +22,10 @@ public class CJMapThreadedRun
 {
 	CJMapThreadedRun(OnlineResourceManager resourceManager, int nNbLoops, String csPrgClassName, StringArray arrPath)
 	{
-		m_resourceManager = resourceManager;
-		m_nNbLoops = nNbLoops;
-		m_csPrgClassName = csPrgClassName;
-		m_arrPath = arrPath;
+		resourceManager = resourceManager;
+		nNbLoops = nNbLoops;
+		csPrgClassName = csPrgClassName;
+		arrPath = arrPath;
 	}
 	
 	void run()
@@ -37,13 +37,13 @@ public class CJMapThreadedRun
 		{	
 			env.startRunTransaction();
 			
-			loader.setPaths(m_arrPath);
-			env.setNextProgramToLoad(m_csPrgClassName);
+			loader.setPaths(arrPath);
+			env.setNextProgramToLoad(csPrgClassName);
 			
 			//StopWatch sw = new StopWatch(); 
-			for(int n =0; n<m_nNbLoops; n++)
+			for(int n =0; n<nNbLoops; n++)
 			{
-				env.setNextProgramToLoad(m_csPrgClassName);
+				env.setNextProgramToLoad(csPrgClassName);
 				loader.runTopProgram(env, null);
 			}
 			env.endRunTransaction(CriteriaEndRunMain.Normal);
@@ -56,8 +56,8 @@ public class CJMapThreadedRun
 		}
 	}	
 	
-	OnlineResourceManager m_resourceManager = null;
-	int m_nNbLoops = 0;
-	String m_csPrgClassName = null;
-	StringArray m_arrPath = null;
+	OnlineResourceManager resourceManager = null;
+	int nNbLoops = 0;
+	String csPrgClassName = null;
+	StringArray arrPath = null;
 }

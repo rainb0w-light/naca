@@ -22,16 +22,16 @@ import jlib.threads.ThreadPoolRequest;
  */
 public class PooledThreadDbTransfer extends PooledThread
 {
-	private DbTransferDesc m_dbTransferDesc = null;
-	private DbConnectionBase m_dbConnectionSource = null;
-	private DbConnectionBase m_dbConnectionDestination = null;
+	private DbTransferDesc dbTransferDesc = null;
+	private DbConnectionBase dbConnectionSource = null;
+	private DbConnectionBase dbConnectionDestination = null;
 	
 	public PooledThreadDbTransfer(PoolOfThreads owningPool, DbTransferDesc dbTransferDesc, DbConnectionBase dbConnectionSource, DbConnectionBase dbConnectionDestination)
 	{
 		super(owningPool);
-		m_dbTransferDesc = dbTransferDesc;
-		m_dbConnectionSource = dbConnectionSource;
-		m_dbConnectionDestination = dbConnectionDestination;
+		dbTransferDesc = dbTransferDesc;
+		dbConnectionSource = dbConnectionSource;
+		dbConnectionDestination = dbConnectionDestination;
 	}
 	
 	public boolean preRun()
@@ -51,6 +51,6 @@ public class PooledThreadDbTransfer extends PooledThread
 	protected void handleRequest(ThreadPoolRequest request)
 	{
 		TableToTransfer tableToTransfer = (TableToTransfer)request;
-		tableToTransfer.execute(m_dbConnectionSource, m_dbConnectionDestination, m_dbTransferDesc);
+		tableToTransfer.execute(dbConnectionSource, dbConnectionDestination, dbTransferDesc);
 	}
 }

@@ -36,7 +36,7 @@ public class CJavaAddressOf extends CEntityAddressOf
 	}
 	public String ExportReference(int nLine)
 	{
-		return "addressOf(" + m_Reference.ExportReference(getLine()) + ")";
+		return "addressOf(" + reference.ExportReference(getLine()) + ")";
 	}
 	public boolean isValNeeded()
 	{

@@ -61,10 +61,10 @@ public class ActionPopup extends Action
 //		appSession.setInputWrapper(reqLoader);
 //		
 //		// build XML Data
-//		m_inputAnalyser.BuildXMLData(appSession) ;
+//		inputAnalyser.BuildXMLData(appSession) ;
 //		
 //		// call programm
-//		m_prgseq.RunProgram(appSession) ;
+//		prgseq.RunProgram(appSession) ;
 		String id = request.getParameter("id");
 		String val = request.getParameter("val");
 		request.setAttribute("id", id) ;

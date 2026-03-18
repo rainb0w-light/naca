@@ -40,35 +40,35 @@ public abstract class CEntityCICSReWrite extends CBaseActionEntity
 
 	public void WriteFile(CDataEntity filename)
 	{
-		m_bWriteToFile = true ;
-		m_bWritetoDataSet = false ;
-		m_Name = filename;
+		bWriteToFile = true ;
+		bWritetoDataSet = false ;
+		name = filename;
 	}
 
 	public void WriteDataSet(CDataEntity filename)
 	{
-		m_bWritetoDataSet = true ;
-		m_bWriteToFile = false ;
-		m_Name = filename;
+		bWritetoDataSet = true ;
+		bWriteToFile = false ;
+		name = filename;
 	}
 
 	public void SetDataFrom(CDataEntity edata, CDataEntity eLen)
 	{
-		m_DataFrom = edata ;
-		m_DataLength = eLen ;		
+		dataFrom = edata ;
+		dataLength = eLen ;		
 	}
 	
-	protected CDataEntity m_DataLength = null ;
-	protected CDataEntity m_DataFrom = null ;
-	protected CDataEntity m_Name ;
-	protected boolean m_bWriteToFile = false ;
-	protected boolean m_bWritetoDataSet = false ;
+	protected CDataEntity dataLength = null ;
+	protected CDataEntity dataFrom = null ;
+	protected CDataEntity name ;
+	protected boolean bWriteToFile = false ;
+	protected boolean bWritetoDataSet = false ;
 	public void Clear()
 	{
 		super.Clear();
-		m_DataLength = null ;
-		m_DataFrom = null;
-		m_Name = null ;
+		dataLength = null ;
+		dataFrom = null;
+		name = null ;
 	}
 	public boolean ignore()
 	{

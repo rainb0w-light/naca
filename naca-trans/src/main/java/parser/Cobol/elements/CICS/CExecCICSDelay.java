@@ -50,13 +50,13 @@ public class CExecCICSDelay extends CCobolElement
 	{
 		CEntityCICSDelay eCICS = factory.NewEntityCICSDelay(getLine()) ;
 		parent.AddChild(eCICS);
-		if (m_Interval != null)
+		if (interval != null)
 		{
-			eCICS.SetInterval(m_Interval.GetDataEntity(getLine(), factory)) ;
+			eCICS.SetInterval(interval.GetDataEntity(getLine(), factory)) ;
 		}
-		else if (m_Seconds != null)
+		else if (seconds != null)
 		{
-			eCICS.SetSeconds(m_Seconds.GetDataEntity(getLine(), factory));
+			eCICS.SetSeconds(seconds.GetDataEntity(getLine(), factory));
 		}
 		return eCICS ;
 	}
@@ -78,7 +78,7 @@ public class CExecCICSDelay extends CCobolElement
 			if (tok.GetType() == CTokenType.LEFT_BRACKET)
 			{
 				tok = GetNext() ;
-				m_Interval = ReadTerminal() ;
+				interval = ReadTerminal() ;
 				tok = GetCurrentToken() ;
 				if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 				{
@@ -96,7 +96,7 @@ public class CExecCICSDelay extends CCobolElement
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
 				{
 					tok =GetNext();
-					m_Seconds = ReadTerminal() ;
+					seconds = ReadTerminal() ;
 					tok = GetCurrentToken() ;
 					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 					{
@@ -121,21 +121,21 @@ public class CExecCICSDelay extends CCobolElement
 	protected Element ExportCustom(Document root)
 	{
 		Element e = root.createElement("ExecCICSDelay") ;
-		if (m_Interval != null)
+		if (interval != null)
 		{
 			Element eI = root.createElement("Interval") ;
 			e.appendChild(eI);
-			m_Interval.ExportTo(eI, root);
+			interval.ExportTo(eI, root);
 		}
-		if (m_Seconds != null)
+		if (seconds != null)
 		{
 			Element eI = root.createElement("Seconds") ;
 			e.appendChild(eI);
-			m_Seconds.ExportTo(eI, root);
+			seconds.ExportTo(eI, root);
 		}
 		return e;
 	}
 
-	protected CTerminal m_Interval = null ;
-	protected CTerminal m_Seconds = null ;
+	protected CTerminal interval = null ;
+	protected CTerminal seconds = null ;
 }

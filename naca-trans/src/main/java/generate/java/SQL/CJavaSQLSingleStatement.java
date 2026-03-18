@@ -39,6 +39,6 @@ public class CJavaSQLSingleStatement extends CEntitySQLSingleStatement
 	 */
 	protected void DoExport()
 	{
-		WriteLine("getDBConnection().execSQL(\"" + m_csStatement + "\") ;") ;
+		WriteLine("getDBConnection().execSQL(\"" + csStatement + "\") ;") ;
 	}
 }

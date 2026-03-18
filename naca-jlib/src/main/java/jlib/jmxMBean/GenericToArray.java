@@ -12,25 +12,25 @@ public class GenericToArray<T>
 {
 	public GenericToArray(ArrayList<T> arrList)
 	{
-		m_arrList = arrList;
+		arrList = arrList;
 	}
 
 	public boolean toArray(T[] arr)
 	{
-		if(m_arrList != null && arr != null)
+		if(arrList != null && arr != null)
 		{			
-			int nNbItems = m_arrList.size();
+			int nNbItems = arrList.size();
 			
 			for(int n=0; n<nNbItems; n++)
 			{
-				arr[n] = m_arrList.get(n);
+				arr[n] = arrList.get(n);
 			}
 			return true;
 		}
 		return false;
 	}
 	
-	private ArrayList<T> m_arrList = null;	
+	private ArrayList<T> arrList = null;	
 }
 
 // sample call to convert a ArrayList<MBeanOperationInfo> to a MBeanOperationInfo[] 

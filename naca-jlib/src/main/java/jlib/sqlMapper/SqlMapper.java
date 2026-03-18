@@ -16,8 +16,8 @@ import jlib.sql.DbAccessor;
 
 public class SqlMapper 
 {
-	private Hashtable<String, SqlMapperManagedTable> m_hashTables = null; 	// Hash for get managed table by name
-	private ArrayList<SqlMapperManagedTable> m_arrTables = null; 	// Array for get managed table by dependency order
+	private Hashtable<String, SqlMapperManagedTable> hashTables = null; 	// Hash for get managed table by name
+	private ArrayList<SqlMapperManagedTable> arrTables = null; 	// Array for get managed table by dependency order
 	
 	public SqlMapper() 
 	{
@@ -25,17 +25,17 @@ public class SqlMapper
 	
 	public synchronized SqlMapperManagedTable registerTable(String csTableName) 
 	{
-		if(m_hashTables == null)
-			m_hashTables = new Hashtable<String, SqlMapperManagedTable>();
-		if(m_arrTables == null)
-			 m_arrTables = new ArrayList<SqlMapperManagedTable>();
+		if(hashTables == null)
+			hashTables = new Hashtable<String, SqlMapperManagedTable>();
+		if(arrTables == null)
+			 arrTables = new ArrayList<SqlMapperManagedTable>();
 		
-		SqlMapperManagedTable managedTable = m_hashTables.get(csTableName);
+		SqlMapperManagedTable managedTable = hashTables.get(csTableName);
 		if(managedTable == null)
 		{
 			managedTable = new SqlMapperManagedTable(csTableName);
-			m_hashTables.put(csTableName, managedTable);
-			m_arrTables.add(managedTable);
+			hashTables.put(csTableName, managedTable);
+			arrTables.add(managedTable);
 		}
 		return managedTable;
 	}
@@ -114,7 +114,7 @@ public class SqlMapper
 	
 	public synchronized SqlMapperManagedTable getRegisteredTable(String csTableName) 
 	{
-		SqlMapperManagedTable managedTable = m_hashTables.get(csTableName);
+		SqlMapperManagedTable managedTable = hashTables.get(csTableName);
 		return managedTable;
 	}
 	
@@ -147,9 +147,9 @@ public class SqlMapper
 	public void executeInserts(DbAccessor dbAccessor)
 	{
 		// Insert records for all tables 
-		for(int nTable=0; nTable<m_arrTables.size(); nTable++)	// A recordId may concern multiple tables; enum all tables that are potential concerned by a record Id
+		for(int nTable=0; nTable<arrTables.size(); nTable++)	// A recordId may concern multiple tables; enum all tables that are potential concerned by a record Id
 		{
-			SqlMapperManagedTable managedTable = m_arrTables.get(nTable);
+			SqlMapperManagedTable managedTable = arrTables.get(nTable);
 			managedTable.executeInserts(dbAccessor);	// Execute an insert for the record id in the table 
 		}
 	}
@@ -158,9 +158,9 @@ public class SqlMapper
 	public void executeSelects(DbAccessor dbAccessor)
 	{
 		// Select records for all tables; The select "where" is given by the values stored in the recordId
-		for(int nTable=0; nTable<m_arrTables.size(); nTable++)	// A recordId may concern multiple tables; enum all tables that are potential concerned by a record Id
+		for(int nTable=0; nTable<arrTables.size(); nTable++)	// A recordId may concern multiple tables; enum all tables that are potential concerned by a record Id
 		{
-			SqlMapperManagedTable managedTable = m_arrTables.get(nTable);
+			SqlMapperManagedTable managedTable = arrTables.get(nTable);
 			managedTable.executeSelects(dbAccessor);	// Execute an insert for the record id in the table 
 		}
 	}
@@ -169,9 +169,9 @@ public class SqlMapper
 	public void executeDeletes(DbAccessor dbAccessor)
 	{
 		// Delete records for all tables; The select "where" is given by the values stored in the recordId
-		for(int nTable=0; nTable<m_arrTables.size(); nTable++)	// A recordId may concern multiple tables; enum all tables that are potential concerned by a record Id
+		for(int nTable=0; nTable<arrTables.size(); nTable++)	// A recordId may concern multiple tables; enum all tables that are potential concerned by a record Id
 		{
-			SqlMapperManagedTable managedTable = m_arrTables.get(nTable);
+			SqlMapperManagedTable managedTable = arrTables.get(nTable);
 			managedTable.executeDeletes(dbAccessor);	// Execute an insert for the record id in the table 
 		}
 	}
@@ -179,9 +179,9 @@ public class SqlMapper
 	public String toString()
 	{
 		StringBuilder sb = new StringBuilder(); 
-		for(int nTable=0; nTable<m_arrTables.size(); nTable++)	// A recordId may concern multiple tables; enum all tables that are potential concerned by a record Id
+		for(int nTable=0; nTable<arrTables.size(); nTable++)	// A recordId may concern multiple tables; enum all tables that are potential concerned by a record Id
 		{
-			SqlMapperManagedTable managedTable = m_arrTables.get(nTable);
+			SqlMapperManagedTable managedTable = arrTables.get(nTable);
 			String cs = managedTable.toString();
 			sb.append(cs+"\r");
 		}
@@ -190,9 +190,9 @@ public class SqlMapper
 	
 	public void clearValues()
 	{
-		for(int nTable=0; nTable<m_arrTables.size(); nTable++)	// A recordId may concern multiple tables; enum all tables that are potential concerned by a record Id
+		for(int nTable=0; nTable<arrTables.size(); nTable++)	// A recordId may concern multiple tables; enum all tables that are potential concerned by a record Id
 		{
-			SqlMapperManagedTable managedTable = m_arrTables.get(nTable);
+			SqlMapperManagedTable managedTable = arrTables.get(nTable);
 			managedTable.clearValues();
 		}
 	}

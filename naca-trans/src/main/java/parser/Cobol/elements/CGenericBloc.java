@@ -30,7 +30,7 @@ public class CGenericBloc extends CBlocElement
 	public CGenericBloc(String type, int line)
 	{
 		super(line);
-		m_Type = type ;
+		type = type ;
 	}
 
 	/* (non-Javadoc)
@@ -38,11 +38,11 @@ public class CGenericBloc extends CBlocElement
 	 */
 	protected Element ExportCustom(Document root)
 	{
-		Element e = root.createElement(m_Type) ;
+		Element e = root.createElement(type) ;
 		return e;
 	}
 	
-	protected String m_Type = "" ;
+	protected String type = "" ;
 
 	/* (non-Javadoc)
 	 * @see parser.elements.CBlocElement#isTopLevelBloc()

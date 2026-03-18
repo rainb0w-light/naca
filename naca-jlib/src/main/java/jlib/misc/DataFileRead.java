@@ -17,7 +17,7 @@ import java.io.IOException;
 
 public class DataFileRead extends BaseDataFileBuffered
 {
-	private BufferedInputStream m_in = null;
+	private BufferedInputStream in = null;
 		
 	public DataFileRead()
 	{
@@ -25,7 +25,7 @@ public class DataFileRead extends BaseDataFileBuffered
 	
 	public DataFileRead(String csName)
 	{
-		m_csName = csName;
+		csName = csName;
 	}
 		
 //	public boolean open(String csName)
@@ -38,7 +38,7 @@ public class DataFileRead extends BaseDataFileBuffered
 	{
 		try
 		{
-			m_in = new BufferedInputStream(new DataInputStream(new FileInputStream(getName())));
+			in = new BufferedInputStream(new DataInputStream(new FileInputStream(getName())));
 			return true;
 		}
 		catch (FileNotFoundException e)
@@ -62,10 +62,10 @@ public class DataFileRead extends BaseDataFileBuffered
 	{
 		try
 		{
-			if(m_in != null)
+			if(in != null)
 			{
-				m_in.close();
-				m_in = null;
+				in.close();
+				in = null;
 				return true;
 			}
 		}
@@ -83,18 +83,18 @@ public class DataFileRead extends BaseDataFileBuffered
 
 	public boolean isOpen()
 	{
-		if(m_in != null)
+		if(in != null)
 			return true;
 		return false;
 	}
 	
 	public String toString()
 	{
-		String cs = m_csName + " (";
+		String cs = csName + " (";
 		if(isOpen())
 		{
 			cs += "Open";
-			if(m_in != null)
+			if(in != null)
 				cs += " Read";
 		}
 		else
@@ -132,11 +132,11 @@ public class DataFileRead extends BaseDataFileBuffered
 	public boolean readEndOfLineMarker()
 	{
 		int nByte = 0;
-		if(m_in != null)
+		if(in != null)
 		{
 			try
 			{
-				nByte = m_in.read();
+				nByte = in.read();
 				if(nByte == -1)
 				{
 					setEOF(true);
@@ -160,12 +160,12 @@ public class DataFileRead extends BaseDataFileBuffered
 		
 	public byte[] read(int nSize)
 	{
-		if(m_in != null)
+		if(in != null)
 		{
 			try
 			{
 				byte byteBuffer[] = getByteBuffer(nSize);
-				int nNBytesRead = m_in.read(byteBuffer, 0, nSize);
+				int nNBytesRead = in.read(byteBuffer, 0, nSize);
 				if(nNBytesRead == -1)
 					setEOF(true);
 				return byteBuffer;
@@ -183,13 +183,13 @@ public class DataFileRead extends BaseDataFileBuffered
 	{
 		int n = 0;
 		byte[] tVal = new byte[1];
-		if(m_in != null)
+		if(in != null)
 		{
 			try
 			{	
 				while(tVal[0] != FileEndOfLine.LF)
 				{
-					int nNBytesRead = m_in.read(tVal, 0, 1);
+					int nNBytesRead = in.read(tVal, 0, 1);
 					if(nNBytesRead == -1)
 					{
 						setEOF(true);
@@ -212,13 +212,13 @@ public class DataFileRead extends BaseDataFileBuffered
 	{
 		int n = 0;
 		byte[] tVal = new byte[1];
-		if(m_in != null)
+		if(in != null)
 		{
 			try
 			{	
 				while(tVal[0] != FileEndOfLine.LF)
 				{
-					int nNBytesRead = m_in.read(tVal, 0, 1);
+					int nNBytesRead = in.read(tVal, 0, 1);
 					if(nNBytesRead != -1)
 						tBytes[n++] = tVal[0];
 					else
@@ -244,13 +244,13 @@ public class DataFileRead extends BaseDataFileBuffered
 	{
 		int n = nOffset;
 		byte[] tVal = new byte[1];
-		if(m_in != null)
+		if(in != null)
 		{
 			try
 			{	
 				while(tVal[0] != FileEndOfLine.LF)
 				{
-					int nNBytesRead = m_in.read(tVal, 0, 1);
+					int nNBytesRead = in.read(tVal, 0, 1);
 					if(nNBytesRead != -1)
 						tBytes[n++] = tVal[0];
 					else
@@ -273,11 +273,11 @@ public class DataFileRead extends BaseDataFileBuffered
 	public int readChunk(byte tBytes[], int nNbBytes)
 	{
 		int n = -1;
-		if(m_in != null && !isEOF())
+		if(in != null && !isEOF())
 		{
 			try
 			{	
-				int nNBytesRead = m_in.read(tBytes, 0, nNbBytes);
+				int nNBytesRead = in.read(tBytes, 0, nNbBytes);
 				if(nNBytesRead == -1)
 					setEOF(true);
 				return nNBytesRead;
@@ -294,11 +294,11 @@ public class DataFileRead extends BaseDataFileBuffered
 	public int readChunk(byte tBytes[], int nOffset, int nNbBytes)
 	{
 		int n = -1;
-		if(m_in != null && !isEOF())
+		if(in != null && !isEOF())
 		{
 			try
 			{	
-				int nNBytesRead = m_in.read(tBytes, nOffset, nNbBytes);
+				int nNBytesRead = in.read(tBytes, nOffset, nNbBytes);
 				if(nNBytesRead == -1)
 					setEOF(true);
 				return nNBytesRead;
@@ -314,12 +314,12 @@ public class DataFileRead extends BaseDataFileBuffered
 	
 	public byte[] readWholeFileAsArray()
 	{
-		if(m_in != null)
+		if(in != null)
 		{
 			int nSize;
 			try
 			{
-				nSize = m_in.available();
+				nSize = in.available();
 				return read(nSize);
 			}
 			catch (IOException e)
@@ -380,9 +380,9 @@ public class DataFileRead extends BaseDataFileBuffered
 	
 	public boolean savePosition(int nMaxReadAheadSize)
 	{
-		if(m_in != null && m_in.markSupported())
+		if(in != null && in.markSupported())
 		{
-			m_in.mark(nMaxReadAheadSize);
+			in.mark(nMaxReadAheadSize);
 			return true;
 		}
 		return false;
@@ -390,11 +390,11 @@ public class DataFileRead extends BaseDataFileBuffered
 	
 	public boolean returnAtSavedPosition()
 	{
-		if(m_in != null && m_in.markSupported())
+		if(in != null && in.markSupported())
 		{
 			try
 			{
-				m_in.reset();
+				in.reset();
 				return true;
 			}
 			catch (IOException e)

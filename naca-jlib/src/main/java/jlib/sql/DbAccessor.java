@@ -17,7 +17,7 @@ import jlib.jmxMBean.BaseCloseMBean;
  * A DbAcessor is attached to a Db 
  * It contains a Database identifier.
  * All databases must be uniquely identified by an single instance of derivated from this class
- * The m_csKey value must point to the section of an app.properties file.
+ * The csKey value must point to the section of an app.properties file.
  * The app.properties file section must be accessible in the classpath, and must contains 
  * the following values in the case of PUB2000Db:
  * 
@@ -27,21 +27,21 @@ import jlib.jmxMBean.BaseCloseMBean;
  * PUB2000Db.password=<Password>
  * PUB2000Db.environment=TEST
  * 
- * In that sample, m_csKey must be set to "PUB2000Db"
+ * In that sample, csKey must be set to "PUB2000Db"
  */
 public class DbAccessor extends BaseCloseMBean
 {
-	private String m_csKey = null;	// Gives the section name within the app.properties file. This section is used to provide DB parameters
+	private String csKey = null;	// Gives the section name within the app.properties file. This section is used to provide DB parameters
 	
 	public DbAccessor(String csKey)
 	{
 		super("DbAccessor_" + csKey, csKey);
-		m_csKey = csKey;
+		csKey = csKey;
 	}
 	
 	public String getKey()	// Access to the app.properties section's key 
 	{
-		return m_csKey;
+		return csKey;
 	}
 	
 	/**
@@ -133,18 +133,18 @@ public class DbAccessor extends BaseCloseMBean
 		return n;
 	}
 	
-	private boolean m_bShowRunningCon = false;
+	private boolean bShowRunningCon = false;
 	
 	// Operation
 	public void setShowRunningCon()
 	{
-		m_bShowRunningCon = !m_bShowRunningCon;
-		DbAccessorConnectionManager.showHideRunningConnections(this, m_bShowRunningCon);		
+		bShowRunningCon = !bShowRunningCon;
+		DbAccessorConnectionManager.showHideRunningConnections(this, bShowRunningCon);		
 	}
 	
 	public boolean getAreConnectionsShown()
 	{
-		return m_bShowRunningCon;
+		return bShowRunningCon;
 	}
 	
 	public static String dumpConnectionsForAllAccessors()

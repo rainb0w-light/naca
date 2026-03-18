@@ -43,18 +43,18 @@ public class CProdExpression extends CExpression
 	public CProdExpression(int line, CExpression op1, CExpression op2, CProdType t)
 	{
 		super(line) ;
-		m_Op1 = op1 ;
-		m_Op2 = op2 ;
-		m_Type = t ;
+		op1 = op1 ;
+		op2 = op2 ;
+		type = t ;
 	}
-	protected CExpression m_Op1 = null ;
-	protected CExpression m_Op2 = null ;
-	protected CProdType m_Type = null ;
+	protected CExpression op1 = null ;
+	protected CExpression op2 = null ;
+	protected CProdType type = null ;
 	
 	protected boolean CheckMembersBeforeExport()
 	{
-		boolean b = CheckMemberNotNull(m_Op1);
-		b &= CheckMemberNotNull(m_Op2);
+		boolean b = CheckMemberNotNull(op1);
+		b &= CheckMemberNotNull(op2);
 		return b;
 	}
 
@@ -64,23 +64,23 @@ public class CProdExpression extends CExpression
 	 */
 	public Element DoExport(Document root)
 	{
-		Element e = root.createElement(m_Type.Text) ;
-		Element e1 = m_Op1.Export(root) ;
+		Element e = root.createElement(type.Text) ;
+		Element e1 = op1.Export(root) ;
 		e.appendChild(e1) ;
-		Element e2 = m_Op2.Export(root) ;
+		Element e2 = op2.Export(root) ;
 		e.appendChild(e2) ;
 		return e;
 	}
 	public CProdType GetType()
 	{
-		return m_Type ;
+		return type ;
 	}
 	public CBaseEntityExpression AnalyseExpression(CBaseEntityFactory factory)
 	{
 		CEntityExprProd eProd = factory.NewEntityExprProd();
-		CBaseEntityExpression op1 = m_Op1.AnalyseExpression(factory) ;
-		CBaseEntityExpression op2 = m_Op2.AnalyseExpression(factory) ;
-		eProd.SetProdExpression(op1, op2, m_Type) ;
+		CBaseEntityExpression op1New = this.op1.AnalyseExpression(factory) ;
+		CBaseEntityExpression op2New = this.op2.AnalyseExpression(factory) ;
+		eProd.SetProdExpression(op1New, op2New, type) ;
 		return eProd;
 	}
 	public CBaseEntityCondition AnalyseCondition(CBaseEntityFactory factory, CDefaultConditionManager condMaster)
@@ -112,17 +112,17 @@ public class CProdExpression extends CExpression
 	}
 	public String toString()
 	{
-		if (m_Type == CProdType.PROD)
+		if (type == CProdType.PROD)
 		{
-			return "MULT("+m_Op1.toString()+", "+m_Op2.toString()+")" ;
+			return "MULT("+op1.toString()+", "+op2.toString()+")" ;
 		}
-		else if (m_Type == CProdType.DIVIDE)
+		else if (type == CProdType.DIVIDE)
 		{
-			return "DIV("+m_Op1.toString()+", "+m_Op2.toString()+")" ;
+			return "DIV("+op1.toString()+", "+op2.toString()+")" ;
 		}
 		else
 		{
-			return "POW("+m_Op1.toString()+", "+m_Op2.toString()+")" ;
+			return "POW("+op1.toString()+", "+op2.toString()+")" ;
 		}
 	}
 	public CExpression getMasterBinaryCondition()
@@ -132,6 +132,6 @@ public class CProdExpression extends CExpression
 	@Override
 	public CExpression GetFirstCalculOperand()
 	{
-		return m_Op1.GetFirstCalculOperand() ;
+		return op1.GetFirstCalculOperand() ;
 	}
 }

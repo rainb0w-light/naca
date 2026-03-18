@@ -35,29 +35,29 @@ public class CESMSendMap extends CJMapObject
 	CESMSendMap setMapName(String csMapName)
 	{
 		// Find the map which has to name in parameter: To DO
-		m_MapName = csMapName.trim() ; 
+		mapName = csMapName.trim() ; 
 		return this;
 	}
 	
 	public CESMSendMap mapSet(String csMapName)
 	{
-		m_MapSetName = csMapName ;
+		mapSetName = csMapName ;
 		return this;
 	}
 	public CESMSendMap mapSet(Var MapName)
 	{
-		m_MapSetName = MapName.getString() ;
+		mapSetName = MapName.getString() ;
 		return this;
 	}
 
 	public CESMSendMap from(Form map)
 	{
-		m_varFrom = map;
+		varFrom = map;
 		return this;
 	}
 	public CESMSendMap dataOnlyFrom(Form map)
 	{
-		m_varFrom = map;
+		varFrom = map;
 		return this;
 	}
 	public CESMSendMap dataOnlyFrom(Var map)
@@ -68,7 +68,7 @@ public class CESMSendMap extends CJMapObject
 	}
 	public CESMSendMap dataFrom(Form map)
 	{
-		m_varFrom = map;
+		varFrom = map;
 		return this;
 	}
 	public CESMSendMap dataFrom(Var map)
@@ -95,11 +95,11 @@ public class CESMSendMap extends CJMapObject
 	}
 	public CESMSendMap erase()
 	{
-//		m_bErase = true;
+//		bErase = true;
 		// unsupported
 		return this;
 	}
-//	protected boolean m_bErase = false ;
+//	protected boolean bErase = false ;
 	public CESMSendMap freeKB()
 	{
 		// unsupported
@@ -107,10 +107,10 @@ public class CESMSendMap extends CJMapObject
 	}
 	public CESMSendMap cursor(Var v)
 	{
-		m_nCursorPosition = v.getInt() ;
+		nCursorPosition = v.getInt() ;
 		return this;
 	}
-	protected int m_nCursorPosition = 0; 
+	protected int nCursorPosition = 0; 
 	
 	
 	public Element buildXMLToSend(Document root)
@@ -119,7 +119,7 @@ public class CESMSendMap extends CJMapObject
 	}
 	
 	//protected CBaseMap m_BaseMap = null;
-	protected Form m_varFrom = null;
-	protected String m_MapName = "" ;
-	protected String m_MapSetName = "" ;
+	protected Form varFrom = null;
+	protected String mapName = "" ;
+	protected String mapSetName = "" ;
 }

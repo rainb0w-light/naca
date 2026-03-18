@@ -29,7 +29,7 @@ public abstract class CEntityFieldLength extends CBaseEntityFieldAttribute
 	 */
 	public CBaseActionEntity GetSpecialAssignment(CDataEntity term, CBaseEntityFactory factory, int l)
 	{
-		CEntityFieldAttributeReference ref = factory.NewEntityFieldAttributeReference(m_Reference) ;
+		CEntityFieldAttributeReference ref = factory.NewEntityFieldAttributeReference(reference) ;
 		CEntitySetCursor eSet = factory.NewEntitySetCursor(l, ref) ;
 		eSet.SetReference(term) ;
 		term.RegisterReadingAction(eSet) ;
@@ -45,7 +45,7 @@ public abstract class CEntityFieldLength extends CBaseEntityFieldAttribute
 	 */
 	public CBaseActionEntity GetSpecialAssignment(CTerminal term, CBaseEntityFactory factory, int l)
 	{
-		CEntityFieldAttributeReference ref = factory.NewEntityFieldAttributeReference(m_Reference) ;
+		CEntityFieldAttributeReference ref = factory.NewEntityFieldAttributeReference(reference) ;
 		String v = term.GetValue() ;
 		int n = 0 ;
 		try	{
@@ -64,15 +64,15 @@ public abstract class CEntityFieldLength extends CBaseEntityFieldAttribute
 			ref.RegisterWritingAction(eSet) ;
 			return eSet ;
 		}
-		else if (v.equals("0") || v.equals(CCobolConstantList.ZERO.m_Name) || v.equals(CCobolConstantList.ZEROS.m_Name) || v.equals(CCobolConstantList.ZEROES.m_Name))
+		else if (v.equals("0") || v.equals(CCobolConstantList.ZERO.name) || v.equals(CCobolConstantList.ZEROS.name) || v.equals(CCobolConstantList.ZEROES.name))
 		{
 			CEntitySetCursor eSet = factory.NewEntitySetCursor(l, ref) ;
 			eSet.removeCursor() ;
 			ref.RegisterWritingAction(eSet) ;
 			return eSet ;
 //			CEntitySetConstant eSet = factory.NewEntitySetConstant(l);
-//			eSet.SetToZero(m_RefField) ;
-//			m_RefField.RegisterWritingAction(eSet) ;
+//			eSet.SetToZero(refField) ;
+//			refField.RegisterWritingAction(eSet) ;
 //			return eSet ;
 		}
 		return null;
@@ -87,8 +87,8 @@ public abstract class CEntityFieldLength extends CBaseEntityFieldAttribute
 		if (type == CBaseEntityCondition.EConditionType.IS_GREATER_THAN && bZero)
 		{
 			CEntityIsFieldModified e = factory.NewEntityIsFieldModified();
-			e.SetIsModified(m_Reference);
-			m_Reference.RegisterVarTesting(e) ;
+			e.SetIsModified(reference);
+			reference.RegisterVarTesting(e) ;
 			return e ;
 		}
 		if (!bZero && Integer.parseInt(value)==-1)
@@ -96,20 +96,20 @@ public abstract class CEntityFieldLength extends CBaseEntityFieldAttribute
 			CEntityIsFieldCursor e = factory.NewEntityIsFieldCursor() ;
 			if (type == CBaseEntityCondition.EConditionType.IS_EQUAL)
 			{
-				e.SetHasCursor(m_Reference) ;
+				e.SetHasCursor(reference) ;
 			}
 			else
 			{
-				e.SetHasNotCursor(m_Reference) ;
+				e.SetHasNotCursor(reference) ;
 			}
-			m_Reference.RegisterVarTesting(e) ;
+			reference.RegisterVarTesting(e) ;
 			return e ;
 		}
 		return null ;
 	}
 	public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory) 
 	{
-		CDataEntity e = m_Reference.GetArrayReference(v, factory) ;
+		CDataEntity e = reference.GetArrayReference(v, factory) ;
 		return factory.NewEntityFieldLengh(getLine(), "", e);
 	};
 }

@@ -32,37 +32,37 @@ public class CJavaSQLInsertStatement extends CEntitySQLInsertStatement
 	protected void DoExport()
 	{
 		String statement = "INSERT INTO " ;
-		if (m_bSessionTable)
+		if (bSessionTable)
 		{
 			statement += "SESSION.";
 		}
-		if (m_table != null)
+		if (table != null)
 		{
-			statement += m_table.GetTableName() + " (" + m_table.ExportColReferences() + ")";
+			statement += table.GetTableName() + " (" + table.ExportColReferences() + ")";
 		}
 		else
 		{
-			statement += m_csTable;
-			if (m_arrCollumns != null)
+			statement += csTable;
+			if (arrCollumns != null)
 			{
 				statement += " (" ; 
-				for (int i=0; i<m_arrCollumns.size(); i++)
+				for (int i=0; i<arrCollumns.size(); i++)
 				{
 					if (i>0)
 					{
 						statement += ", " ;
 					}
-					statement += m_arrCollumns.get(i) ;
+					statement += arrCollumns.get(i) ;
 				}
 				statement += ")" ;
 			}
 		}
-		if (m_SelectClause.equals(""))
+		if (selectClause.equals(""))
 		{
 			statement += " VALUES (" ;
-			for (int i=0; i<m_arrValues.size(); i++)
+			for (int i=0; i<arrValues.size(); i++)
 			{
-				CDataEntity e = (CDataEntity)m_arrValues.get(i);
+				CDataEntity e = (CDataEntity)arrValues.get(i);
 				if (i>0)
 				{
 					statement += ", " ;
@@ -80,16 +80,16 @@ public class CJavaSQLInsertStatement extends CEntitySQLInsertStatement
 		}
 		else
 		{
-			statement += " " + m_SelectClause ;
+			statement += " " + selectClause ;
 		}
 		WriteWord("sql(");
 		WriteLongString(statement);
 		WriteWord(")");
-		if (m_arrValues != null)
+		if (arrValues != null)
 		{
-			for (int i=0; i<m_arrValues.size(); i++)
+			for (int i=0; i<arrValues.size(); i++)
 			{
-				CDataEntity e = (CDataEntity)m_arrValues.get(i);
+				CDataEntity e = (CDataEntity)arrValues.get(i);
 				if (e.GetDataType() == CDataEntity.CDataEntityType.NUMBER || e.GetDataType() == CDataEntity.CDataEntityType.STRING)
 				{
 				}
@@ -100,11 +100,11 @@ public class CJavaSQLInsertStatement extends CEntitySQLInsertStatement
 				}
 			}
 		}
-		if (m_arrSelectParameters != null)
+		if (arrSelectParameters != null)
 		{
-			for(int i=0; i<m_arrSelectParameters.size(); i++)
+			for(int i=0; i<arrSelectParameters.size(); i++)
 			{
-				CDataEntity cs = (CDataEntity)m_arrSelectParameters.get(i);
+				CDataEntity cs = (CDataEntity)arrSelectParameters.get(i);
 				if (cs != null)
 				{
 					WriteEOL();
@@ -112,7 +112,7 @@ public class CJavaSQLInsertStatement extends CEntitySQLInsertStatement
 				}
 			}
 		}
-		String csSQLErrorWarningStatement = m_ProgramCatalog.getSQLWarningErrorStatement();
+		String csSQLErrorWarningStatement = programCatalog.getSQLWarningErrorStatement();
 		if(csSQLErrorWarningStatement != null)
 		{
 			WriteEOL();

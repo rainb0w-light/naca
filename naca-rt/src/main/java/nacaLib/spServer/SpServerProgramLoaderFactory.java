@@ -24,19 +24,19 @@ public class SpServerProgramLoaderFactory extends CBaseProgramLoaderFactory
 	{
 		BasicLogger.log("SpServerProgramLoaderFactory::NewSequencer() (with exception handler)");
 		
-		if(m_connectionManager != null)
-			BasicLogger.log("m_connectionManager="+m_connectionManager.toString());
+		if(connectionManager != null)
+			BasicLogger.log("connectionManager="+connectionManager.toString());
 		else
-			BasicLogger.log("m_connectionManager=null");
+			BasicLogger.log("connectionManager=null");
 		
-		if(m_connectionManager != null)
-			BasicLogger.log("m_tagSequencerConfig="+m_tagSequencerConfig.toString());
+		if(connectionManager != null)
+			BasicLogger.log("tagSequencerConfig="+tagSequencerConfig.toString());
 		else
-			BasicLogger.log("m_tagSequencerConfig=null");
+			BasicLogger.log("tagSequencerConfig=null");
 		try
 		{
 			SpServerProgramLoader prog = new SpServerProgramLoader(null, null);
-			prog.initMailService(m_tagSequencerConfig);
+			prog.initMailService(tagSequencerConfig);
 			BasicLogger.log("SpServerProgramLoaderFactory::NewSequencer; SpServerProgramLoader="+prog.toString());
 			return prog;
 		}

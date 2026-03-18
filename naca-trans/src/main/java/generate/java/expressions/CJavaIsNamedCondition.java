@@ -32,14 +32,14 @@ public class CJavaIsNamedCondition extends CEntityIsNamedCondition
 	public CBaseEntityCondition GetOppositeCondition()
 	{
 		CJavaIsNamedCondition not = new CJavaIsNamedCondition();
-		not.m_bOpposite = !m_bOpposite ;
-		not.m_Reference = m_Reference ;
+		not.bOpposite = !bOpposite ;
+		not.reference = reference ;
 		return not ;
 	}
 	public String Export()
 	{
 		String cs ;
-		if (m_bOpposite)
+		if (bOpposite)
 		{
 			cs = "isNot(" ;
 		}
@@ -48,7 +48,7 @@ public class CJavaIsNamedCondition extends CEntityIsNamedCondition
 			cs = "is(" ;
 		}
 			
-		return cs + m_Reference.ExportReference(getLine()) + ")" ;
+		return cs + reference.ExportReference(getLine()) + ")" ;
 	}
 	public CBaseEntityCondition GetSpecialConditionReplacing(String val, CBaseEntityFactory fact, CDataEntity replace)
 	{

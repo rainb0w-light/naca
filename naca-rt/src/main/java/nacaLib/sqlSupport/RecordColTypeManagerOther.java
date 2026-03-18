@@ -34,8 +34,8 @@ public class RecordColTypeManagerOther extends RecordColTypeManagerBase
 	{
 		try
 		{			
-			String csValue = resultSetSource.getString(m_nColSourceIndex);
-			insertStatementInsert.setString(m_nColSourceIndex, csValue);
+			String csValue = resultSetSource.getString(nColSourceIndex);
+			insertStatementInsert.setString(nColSourceIndex, csValue);
 			return true;
 		}
 		catch (SQLException e)
@@ -49,10 +49,10 @@ public class RecordColTypeManagerOther extends RecordColTypeManagerBase
 	{
 		try
 		{			
-			String csValue = rs.getString(m_nColSourceIndex);
+			String csValue = rs.getString(nColSourceIndex);
 			if(csValue != null)
 			{
-				varInto.m_varDef.write(varInto.m_bufferPos, csValue);
+				varInto.varDef.write(varInto.bufferPos, csValue);
 				return false;
 			}
 			
@@ -61,9 +61,9 @@ public class RecordColTypeManagerOther extends RecordColTypeManagerBase
 		catch (SQLException e)
 		{
 			LogSQLException.log(e);
-			// Maybe should I set m_bNull = true; ?
+			// Maybe should I set bNull = true; ?
 		}
-		varInto.m_varDef.write(varInto.m_bufferPos, "");	//varInto.set("");
+		varInto.varDef.write(varInto.bufferPos, "");	//varInto.set("");
 		return true;
 	}
 }

@@ -22,15 +22,15 @@ public abstract class CEntityWriteFile extends CBaseActionEntity
 
 	public void setFileDescriptor(CEntityFileDescriptor efd, CDataEntity data)
 	{
-		m_eFileDescriptor = efd ;
-		m_eDataFrom = data ;
+		eFileDescriptor = efd ;
+		eDataFrom = data ;
 	}
 	public void SetAfter(CDataEntity after)
 	{
-		m_after = after;
+		after = after;
 	}
-	protected CEntityFileDescriptor m_eFileDescriptor = null  ;
-	protected CDataEntity m_eDataFrom = null ;
-	protected CDataEntity m_after ;
+	protected CEntityFileDescriptor eFileDescriptor = null  ;
+	protected CDataEntity eDataFrom = null ;
+	protected CDataEntity after ;
 
 }

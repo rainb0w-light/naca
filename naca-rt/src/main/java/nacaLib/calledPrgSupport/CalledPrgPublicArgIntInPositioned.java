@@ -18,17 +18,17 @@ public class CalledPrgPublicArgIntInPositioned extends BaseCalledPrgPublicArgPos
 	CalledPrgPublicArgIntInPositioned(int nValue)
 	{
 		super();
-		m_nValue = nValue;
+		nValue = nValue;
 	}
 	
 	public void MapOn(Var varLinkageSection)
 	{
-		varLinkageSection.set(m_nValue);
+		varLinkageSection.set(nValue);
 	}
 	
 	public void doFillWithVar(Var varSource)
 	{
-		m_nValue = varSource.getInt();		
+		nValue = varSource.getInt();		
 	}
 	
 	public int getParamLength()
@@ -36,5 +36,5 @@ public class CalledPrgPublicArgIntInPositioned extends BaseCalledPrgPublicArgPos
 		return 4;
 	}
 		
-	private int m_nValue;
+	private int nValue;
 }

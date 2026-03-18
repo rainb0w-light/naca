@@ -27,9 +27,9 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
 		c = ms_tEncodeByteComp3Unsigned[nDigit];
 		lValue /= 10;
 		
-		int nDestPos = buffer.m_nAbsolutePosition+nBytePos;
+		int nDestPos = buffer.nAbsolutePosition+nBytePos;
 		
-		buffer.m_acBuffer[nDestPos] = c;
+		buffer.acBuffer[nDestPos] = c;
 		//buffer.setCharAtOffset(nOffset + nBytePos, c);
 		nBytePos--;
 		nDestPos--;
@@ -40,7 +40,7 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
 				int nDigits = (int)(lValue % 100);
 				lValue /= 100;
 				c = ms_tEncodeByteComp3[nDigits];
-				buffer.m_acBuffer[nDestPos--] = c;
+				buffer.acBuffer[nDestPos--] = c;
 				//buffer.setCharAtOffset(nOffset + nBytePos, c);
 				nBytePos--;
 				continue;
@@ -74,9 +74,9 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
 		
 		lValue /= 10;
 		
-		int nDestPos = buffer.m_nAbsolutePosition+nBytePos;
+		int nDestPos = buffer.nAbsolutePosition+nBytePos;
 		
-		buffer.m_acBuffer[nDestPos] = c;
+		buffer.acBuffer[nDestPos] = c;
 		//buffer.setCharAtOffset(nOffset + nBytePos, c);
 		nBytePos--;
 		nDestPos--;
@@ -87,7 +87,7 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
 				int nDigits = (int)(lValue % 100);
 				lValue /= 100;
 				c = ms_tEncodeByteComp3[nDigits];
-				buffer.m_acBuffer[nDestPos--] = c;
+				buffer.acBuffer[nDestPos--] = c;
 				//buffer.setCharAtOffset(nOffset + nBytePos, c);
 				nBytePos--;
 				continue;
@@ -121,9 +121,9 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
 		
 		lValue /= 10;
 		
-		int nDestPos = buffer.m_nAbsolutePosition+nBytePos;
+		int nDestPos = buffer.nAbsolutePosition+nBytePos;
 		
-		buffer.m_acBuffer[nDestPos] = c;
+		buffer.acBuffer[nDestPos] = c;
 		//buffer.setCharAtOffset(nOffset + nBytePos, c);
 		nBytePos--;
 		nDestPos--;
@@ -134,7 +134,7 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
 				int nDigits = (int)(lValue % 100);
 				lValue /= 100;
 				c = ms_tEncodeByteComp3[nDigits];
-				buffer.m_acBuffer[nDestPos--] = c;
+				buffer.acBuffer[nDestPos--] = c;
 				//buffer.setCharAtOffset(nOffset + nBytePos, c);
 				nBytePos--;
 				continue;
@@ -159,8 +159,8 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
 		c = ms_tEncodeByteComp3Unsigned[nDigit];
 		lValue /= 10;
 		
-		int nDestPos = buffer.m_nAbsolutePosition+nOffset+nBytePos;
-		buffer.m_acBuffer[nDestPos] = c;
+		int nDestPos = buffer.nAbsolutePosition+nOffset+nBytePos;
+		buffer.acBuffer[nDestPos] = c;
 		//buffer.setCharAtOffset(nOffset + nBytePos, c);
 		nBytePos--;
 		nDestPos--;
@@ -171,7 +171,7 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
 				int nDigits = (int)(lValue % 100);
 				lValue /= 100;
 				c = ms_tEncodeByteComp3[nDigits];
-				buffer.m_acBuffer[nDestPos--] = c;
+				buffer.acBuffer[nDestPos--] = c;
 				//buffer.setCharAtOffset(nOffset + nBytePos, c);
 				nBytePos--;
 				continue;
@@ -196,8 +196,8 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
 		c = ms_tEncodeByteComp3Unsigned[nDigit];
 		lValue /= 10;
 		
-		int nDestPos = buffer.m_nAbsolutePosition+nBytePos;
-		buffer.m_acBuffer[nDestPos] = c;
+		int nDestPos = buffer.nAbsolutePosition+nBytePos;
+		buffer.acBuffer[nDestPos] = c;
 		//buffer.setCharAtOffset(nOffset + nBytePos, c);
 		nBytePos--;
 		nDestPos--;
@@ -208,7 +208,7 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
 				int nDigits = (int)(lValue % 100);
 				lValue /= 100;
 				c = ms_tEncodeByteComp3[nDigits];
-				buffer.m_acBuffer[nDestPos--] = c;
+				buffer.acBuffer[nDestPos--] = c;
 				//buffer.setCharAtOffset(nOffset + nBytePos, c);
 				nBytePos--;
 				continue;
@@ -240,8 +240,8 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
 		}				
 		lValue /= 10;
 		
-		int nDestPos = buffer.m_nAbsolutePosition+nOffset+nBytePos;
-		buffer.m_acBuffer[nDestPos] = c;
+		int nDestPos = buffer.nAbsolutePosition+nOffset+nBytePos;
+		buffer.acBuffer[nDestPos] = c;
 		//buffer.setCharAtOffset(nOffset + nBytePos, c);
 		nBytePos--;
 		nDestPos--;
@@ -252,7 +252,7 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
 				int nDigits = (int)(lValue % 100);
 				lValue /= 100;
 				c = ms_tEncodeByteComp3[nDigits];
-				buffer.m_acBuffer[nDestPos--] = c;
+				buffer.acBuffer[nDestPos--] = c;
 				//buffer.setCharAtOffset(nOffset + nBytePos, c);
 				nBytePos--;
 				continue;
@@ -294,8 +294,8 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
 		}
 		lValue /= 10;
 		
-		int nDestPos = buffer.m_nAbsolutePosition+nOffset+nBytePos;
-		buffer.m_acBuffer[nDestPos] = c;
+		int nDestPos = buffer.nAbsolutePosition+nOffset+nBytePos;
+		buffer.acBuffer[nDestPos] = c;
 		//buffer.setCharAtOffset(nOffset + nBytePos, c);
 		nBytePos--;
 		nDestPos--;
@@ -306,7 +306,7 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
 				int nDigits = (int)(lValue % 100);
 				lValue /= 100;
 				c = ms_tEncodeByteComp3[nDigits];
-				buffer.m_acBuffer[nDestPos--] = c;
+				buffer.acBuffer[nDestPos--] = c;
 				//buffer.setCharAtOffset(nOffset + nBytePos, c);
 				nBytePos--;
 				continue;
@@ -381,17 +381,17 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
 		int nValue = 0;
 		int nNbChars = nTotalSize;
 		int nEncodedByte = 0;
-		int nPosSource = buffer.m_nAbsolutePosition;
+		int nPosSource = buffer.nAbsolutePosition;
 		for(int n=0; n<nNbChars-1; n++)
 		{
-			nEncodedByte = buffer.m_acBuffer[nPosSource++];
+			nEncodedByte = buffer.acBuffer[nPosSource++];
 			if(nValue != 0)
 				nValue *= 100;
 			nValue += ms_tDecodeByteComp3[nEncodedByte];
 		}
 		
 		// Last byte
-		nEncodedByte = buffer.m_acBuffer[buffer.m_nAbsolutePosition+nNbChars-1];
+		nEncodedByte = buffer.acBuffer[buffer.nAbsolutePosition+nNbChars-1];
 		//nEncodedByte = buffer.getCharAtOffset(nNbChars-1);
 		nValue *= 10;
 		nValue += ms_tDecodeLastByteDigitComp3[nEncodedByte];
@@ -415,10 +415,10 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
 		int nValue = 0;
 		int nNbChars = nTotalSize;
 		int nEncodedByte = 0;
-		int nPosSource = buffer.m_nAbsolutePosition;
+		int nPosSource = buffer.nAbsolutePosition;
 		for(int n=0; n<nNbChars-1; n++)
 		{
-			nEncodedByte = buffer.m_acBuffer[nPosSource++];
+			nEncodedByte = buffer.acBuffer[nPosSource++];
 			//int nEncodedByte = buffer.getCharAtOffset(n);
 			if(nValue != 0)
 				nValue *= 100;
@@ -426,7 +426,7 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
 		}
 		
 		// Last byte
-		nEncodedByte = buffer.m_acBuffer[buffer.m_nAbsolutePosition+nNbChars-1];
+		nEncodedByte = buffer.acBuffer[buffer.nAbsolutePosition+nNbChars-1];
 		//nEncodedByte = buffer.getCharAtOffset(nNbChars-1);
 		nValue *= 10;
 		nValue += ms_tDecodeLastByteDigitComp3[nEncodedByte];
@@ -450,17 +450,17 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
 		long lValue = 0;
 		int nNbChars = nTotalSize;
 		int nEncodedByte = 0;
-		int nPosSource = buffer.m_nAbsolutePosition;
+		int nPosSource = buffer.nAbsolutePosition;
 		for(int n=0; n<nNbChars-1; n++)
 		{
-			nEncodedByte = buffer.m_acBuffer[nPosSource++];
+			nEncodedByte = buffer.acBuffer[nPosSource++];
 			if(lValue != 0)
 				lValue *= 100;
 			lValue += ms_tDecodeByteComp3[nEncodedByte];
 		}
 		
 		// Last byte
-		nEncodedByte = buffer.m_acBuffer[buffer.m_nAbsolutePosition+nNbChars-1];
+		nEncodedByte = buffer.acBuffer[buffer.nAbsolutePosition+nNbChars-1];
 		lValue *= 10;
 		lValue += ms_tDecodeLastByteDigitComp3[nEncodedByte];
 
@@ -475,18 +475,18 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
 		long lValue = 0;
 		int nNbChars = nTotalSize;
 		int nEncodedByte = 0;
-		int nPosSource = buffer.m_nAbsolutePosition;
+		int nPosSource = buffer.nAbsolutePosition;
 		for(int n=0; n<nNbChars-1; n++)
 		{
-			nEncodedByte = buffer.m_acBuffer[nPosSource++];
-//			int nEncodedByte = buffer.getCharAtOffset(m_nAbsolutePosition+n);
+			nEncodedByte = buffer.acBuffer[nPosSource++];
+//			int nEncodedByte = buffer.getCharAtOffset(nAbsolutePosition+n);
 			if(lValue != 0)
 				lValue *= 100;
 			lValue += ms_tDecodeByteComp3[nEncodedByte];
 		}
 		
 		// Last byte
-		nEncodedByte = buffer.m_acBuffer[buffer.m_nAbsolutePosition+nNbChars-1];
+		nEncodedByte = buffer.acBuffer[buffer.nAbsolutePosition+nNbChars-1];
 		//int nEncodedByte = buffer.getCharAtOffset(nNbChars-1);
 		lValue *= 10;
 		lValue += ms_tDecodeLastByteDigitComp3[nEncodedByte];
@@ -505,10 +505,10 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
 		String csOut = new String();
 		char c;
 		int nNbChars = nTotalSize;
-		int nSourcePos = buffer.m_nAbsolutePosition;
+		int nSourcePos = buffer.nAbsolutePosition;
 		for(int n=0; n<nNbChars; n++)
 		{
-			int nByte = buffer.m_acBuffer[nSourcePos++];
+			int nByte = buffer.acBuffer[nSourcePos++];
 //			int nByte = buffer.getCharAtOffset(n);
 			int nHigh = (nByte & 0x00F0) >> 4;
 			c = (char)(nHigh + '0');

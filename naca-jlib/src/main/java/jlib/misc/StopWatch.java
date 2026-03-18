@@ -24,32 +24,32 @@ public class StopWatch
 {
 	public StopWatch()
 	{
-		m_lStart = System.currentTimeMillis();
+		lStart = System.currentTimeMillis();
 	}
 	
 	public long getElapsedTime()
 	{
 		long lStop = System.currentTimeMillis();
-		return lStop - m_lStart;
+		return lStop - lStart;
 	}
 
 	public long getElapsedTimeReset()
 	{
 		long lStop = System.currentTimeMillis();
-		long l = lStop - m_lStart;
-		m_lStart = lStop;
+		long l = lStop - lStart;
+		lStart = lStop;
 		return l;		
 	}
 	
 	public void Reset()
 	{
-		m_lStart = System.currentTimeMillis();
+		lStart = System.currentTimeMillis();
 	}
 	
 	public boolean isTimeElapsed(long lTimeOut)
 	{
 		long lNow = System.currentTimeMillis();
-		long lElapsed = lNow - m_lStart;
+		long lElapsed = lNow - lStart;
 		if(lElapsed >= lTimeOut)
 			return true;
 		return false;
@@ -57,8 +57,8 @@ public class StopWatch
 	
 	public long getStartValue()
 	{
-		return m_lStart;
+		return lStart;
 	}
 	
-	private long m_lStart = 0;
+	private long lStart = 0;
 }

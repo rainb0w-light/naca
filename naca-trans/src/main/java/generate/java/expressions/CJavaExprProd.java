@@ -27,11 +27,11 @@ public class CJavaExprProd extends CEntityExprProd
 	public String Export()
 	{
 		String cs ;
-		if (m_Type == CProdExpression.CProdType.PROD)
+		if (type == CProdExpression.CProdType.PROD)
 		{
 			cs = "multiply(" ;
 		}
-		else if (m_Type == CProdExpression.CProdType.DIVIDE)
+		else if (type == CProdExpression.CProdType.DIVIDE)
 		{
 			cs = "divide(" ;
 		}
@@ -39,7 +39,7 @@ public class CJavaExprProd extends CEntityExprProd
 		{
 			cs = "pow(" ;
 		}
-		cs += m_Op1.Export() + ", \n" + m_Op2.Export() + ")" ;
+		cs += op1.Export() + ", \n" + op2.Export() + ")" ;
 		return cs ;
 	}
 

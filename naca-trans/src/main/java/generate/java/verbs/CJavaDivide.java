@@ -38,20 +38,20 @@ public class CJavaDivide extends CEntityDivide
 	{
 		String cs = "" ;
 		cs = "divide(" ;
-		cs += m_What.ExportReference(getLine()) + ", ";
-		cs += m_By.ExportReference(getLine()) + ")" ;
+		cs += what.ExportReference(getLine()) + ", ";
+		cs += by.ExportReference(getLine()) + ")" ;
 		WriteWord(cs);
-		if (m_bIsRounded)
+		if (bIsRounded)
 		{
-			cs = ".toRounded(" + m_Result.ExportReference(getLine()) ;
+			cs = ".toRounded(" + result.ExportReference(getLine()) ;
 		}
 		else
 		{
-			cs = ".to(" + m_Result.ExportReference(getLine()) ;
+			cs = ".to(" + result.ExportReference(getLine()) ;
 		}
-		if (m_Remainder != null)
+		if (remainder != null)
 		{
-			cs += ", " + m_Remainder.ExportReference(getLine());
+			cs += ", " + remainder.ExportReference(getLine());
 		}
 		cs += (") ;");
 		WriteWord(cs);

@@ -26,16 +26,16 @@ import utils.CobolTranscoder.Notifs.NotifDeclareUseCICSPreprocessor;
  */
 public abstract class CEntityCICSStartBrowse extends CBaseActionEntity
 {
-	protected boolean m_bGTEQ = false ;
-	protected CDataEntity m_DataSet = null ;
-	protected CDataEntity m_RecIDField = null ;
-	protected CDataEntity m_KeyLength = null ;
+	protected boolean bGTEQ = false ;
+	protected CDataEntity dataSet = null ;
+	protected CDataEntity recIDField = null ;
+	protected CDataEntity keyLength = null ;
 	public void Clear()
 	{
 		super.Clear();
-		m_DataSet = null ;
-		m_RecIDField = null ;
-		m_KeyLength = null ;
+		dataSet = null ;
+		recIDField = null ;
+		keyLength = null ;
 	}
 
 	/**
@@ -50,15 +50,15 @@ public abstract class CEntityCICSStartBrowse extends CBaseActionEntity
 	}
 	public void SetGTEQ()
 	{
-		m_bGTEQ = true ;		
+		bGTEQ = true ;		
 	}
 	public void BrowseDataSet(CDataEntity entity)
 	{
-		m_DataSet = entity ;
+		dataSet = entity ;
 	}
 	public void SetRecIDField(CDataEntity entity)
 	{
-		m_RecIDField = entity ;
+		recIDField = entity ;
 	}
 	public boolean ignore()
 	{
@@ -69,6 +69,6 @@ public abstract class CEntityCICSStartBrowse extends CBaseActionEntity
 	 */
 	public void SetKeyLength(CDataEntity entity)
 	{
-		m_KeyLength = entity ;
+		keyLength = entity ;
 	}
 }

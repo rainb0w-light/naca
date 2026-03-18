@@ -49,11 +49,11 @@ import nacaLib.varEx.VarAndEdit;
 
 public class NacaToolBox extends CJMapObject
 {
-	private BaseProgramManager m_ProgramManager;
+	private BaseProgramManager programManager;
 	
 	public NacaToolBox(BaseProgramManager manager)
 	{
-		m_ProgramManager = manager ;
+		programManager = manager ;
 	}
 	
 	/**
@@ -888,7 +888,7 @@ public class NacaToolBox extends CJMapObject
 		//else
 		//{	
 		//	VI0801Sql vi0801sql = new VI0801Sql();
-		//	vi0801sql.read(m_ProgramManager, adrpayn.getString());
+		//	vi0801sql.read(programManager, adrpayn.getString());
 		//	formatting = vi0801sql.getAdrpyem();
 		//}
 		if (formatting.equals(""))
@@ -1031,25 +1031,25 @@ public class NacaToolBox extends CJMapObject
 		returnCode.set("0");
 		try
 		{
-			String prefix = m_ProgramManager.getEnv().getConfigOption("StartBatchPrefix");
+			String prefix = programManager.getEnv().getConfigOption("StartBatchPrefix");
 			String jobId = OnlineEnvironment.getNextJobBatchID();
 			
-			File temp = File.createTempFile(m_ProgramManager.getEnv().getTerminalID() + new DateUtil("HHmmssSSS").toString(), null);
-			if (m_ProgramManager.getEnv().getConfigOption("StartBatchHostFtpUrl").equals(""))
+			File temp = File.createTempFile(programManager.getEnv().getTerminalID() + new DateUtil("HHmmssSSS").toString(), null);
+			if (programManager.getEnv().getConfigOption("StartBatchHostFtpUrl").equals(""))
 			{
 				startBatchLinuxPrepareFtp(temp, cards);
-				String local = m_ProgramManager.getEnv().getConfigOption("StartBatchLinuxLocal");
+				String local = programManager.getEnv().getConfigOption("StartBatchLinuxLocal");
 				boolean isLocal = Boolean.parseBoolean(local);
-				String ftpUrl = m_ProgramManager.getEnv().getConfigOption("StartBatchLinuxFtpUrl") ;
+				String ftpUrl = programManager.getEnv().getConfigOption("StartBatchLinuxFtpUrl") ;
 				String date = new DateUtil("yyyyMMdd").toString();
 				String time = new DateUtil("HHmmssSSS").toString().substring(0, 7) + jobId.substring(2);
 				String filename = "temp." + procedure + "." + date + "." + time;				
 				int rc = 0;
 				if (rc == 0)
 				{
-					String sshPath = m_ProgramManager.getEnv().getConfigOption("StartBatchLinuxSshPath");
-					String sshUser = m_ProgramManager.getEnv().getConfigOption("StartBatchLinuxSshUser");
-					String sshCommand = m_ProgramManager.getEnv().getConfigOption("StartBatchLinuxSshCommand");
+					String sshPath = programManager.getEnv().getConfigOption("StartBatchLinuxSshPath");
+					String sshUser = programManager.getEnv().getConfigOption("StartBatchLinuxSshUser");
+					String sshCommand = programManager.getEnv().getConfigOption("StartBatchLinuxSshCommand");
 					String jobclass = startBatchLinuxGetJobclass(cards);
 					String jobname = job.substring(0, 4) + prefix + jobId.substring(1);
 					rc = startBatchLinuxSsh(isLocal, sshPath, sshUser, ftpUrl, sshCommand, procedure, account, entity, reference, filename, date, time, jobclass, jobname);
@@ -1171,7 +1171,7 @@ public class NacaToolBox extends CJMapObject
 		int nPos = jobCard.indexOf("CLASS=");
 		if (nPos == -1)
 		{
-			String test = m_ProgramManager.getEnv().getConfigOption("StartBatchHostTest");
+			String test = programManager.getEnv().getConfigOption("StartBatchHostTest");
 			boolean isTest = Boolean.parseBoolean(test);
 			if (isTest)
 			{
@@ -1196,7 +1196,7 @@ public class NacaToolBox extends CJMapObject
 	{
 		BufferedWriter out = new BufferedWriter(new FileWriter(temp));
 		
-		String test = m_ProgramManager.getEnv().getConfigOption("StartBatchHostTest");
+		String test = programManager.getEnv().getConfigOption("StartBatchHostTest");
 		boolean isTest = Boolean.parseBoolean(test);
 		
 		int cardItem = 0;
@@ -1255,7 +1255,7 @@ public class NacaToolBox extends CJMapObject
 		}
 		out.write(" JOB (" + account + "," + entity + "),");
 		out.newLine();
-		out.write("// " + m_ProgramManager.getEnv().getSQLConnection().getEnvironmentPrefix() + jobClass + msgClass + jobCard);
+		out.write("// " + programManager.getEnv().getSQLConnection().getEnvironmentPrefix() + jobClass + msgClass + jobCard);
 	
 		// output card
 		int cardOutput = 0;
@@ -1343,14 +1343,14 @@ public class NacaToolBox extends CJMapObject
 	public void dumpProgram(Var var1, Var var2)
 	{
 		JVMReturnCodeManager.setExitCode(var1.getInt());
-		DumpProgramException dumpProgramException = new DumpProgramException(m_ProgramManager, var1, var2);
+		DumpProgramException dumpProgramException = new DumpProgramException(programManager, var1, var2);
 		throw dumpProgramException;
 	}	
 	
 	public void dumpProgram(Var var1)
 	{
 		JVMReturnCodeManager.setExitCode(var1.getInt());
-		DumpProgramException dumpProgramException = new DumpProgramException(m_ProgramManager, var1, null);
+		DumpProgramException dumpProgramException = new DumpProgramException(programManager, var1, null);
 		throw dumpProgramException;
 	}	
 	
@@ -1359,7 +1359,7 @@ public class NacaToolBox extends CJMapObject
 		int nSizeBufferError = varErrorMessage.getVarChildAt(1).getInt();
 		int nSizeLine = varErrorTextLen.getInt();
 		
-		CSQLStatus sqlStatus = m_ProgramManager.getSQLStatus();
+		CSQLStatus sqlStatus = programManager.getSQLStatus();
 		if (sqlStatus != null)
 		{		
 			varErrorMessage.getVarChildAt(2).set(sqlStatus.toString());
@@ -1394,8 +1394,8 @@ public class NacaToolBox extends CJMapObject
 	}
 	public String getJobInfoForKey(String key) {
 		String value = EnvironmentVar.getParamValue(key);
-		if (value.equals("") && m_ProgramManager.getEnv().getBaseSession() != null)
-			value = m_ProgramManager.getEnv().getBaseSession().getLogicalJobInfo(key);
+		if (value.equals("") && programManager.getEnv().getBaseSession() != null)
+			value = programManager.getEnv().getBaseSession().getLogicalJobInfo(key);
 		return value;
 	}
 
@@ -1467,7 +1467,7 @@ public class NacaToolBox extends CJMapObject
 				{
 					value = params[i].getString().substring(8).trim();
 				} 
-				m_ProgramManager.getEnv().getBaseSession().addDynamicAllocationInfo(key, value);
+				programManager.getEnv().getBaseSession().addDynamicAllocationInfo(key, value);
 			}
 		}
 		else
@@ -1479,8 +1479,8 @@ public class NacaToolBox extends CJMapObject
 		{
 			String dynamicAllocationPath = FileSystem.normalizePath(BaseResourceManager.getDynamicAllocationPath());
 			
-			String ddname = m_ProgramManager.getEnv().getBaseSession().getDynamicAllocationInfo("DDNAME");
-			String dsn = m_ProgramManager.getEnv().getBaseSession().getDynamicAllocationInfo("DSN");
+			String ddname = programManager.getEnv().getBaseSession().getDynamicAllocationInfo("DDNAME");
+			String dsn = programManager.getEnv().getBaseSession().getDynamicAllocationInfo("DSN");
 
 			if (dsn == null)
 			{
@@ -1497,7 +1497,7 @@ public class NacaToolBox extends CJMapObject
 					getJobInfoForKey("STEPID") +
 					".I" + csDate +
 					".H" + csHour + 
-					m_ProgramManager.getEnv().getBaseSession().getNextDynamicAllocationID();
+					programManager.getEnv().getBaseSession().getNextDynamicAllocationID();
 				dsn = dsn.toLowerCase();
 			}
 			else
@@ -1731,11 +1731,11 @@ public class NacaToolBox extends CJMapObject
 	/*
 	private TextPrintHelper formatPSFTextGetInstance()
 	{
-		TextPrintHelper textPrintHelper = (TextPrintHelper)m_ProgramManager.getEnv().getBaseSession().getSpecialObject("TextPrintHelper");
+		TextPrintHelper textPrintHelper = (TextPrintHelper)programManager.getEnv().getBaseSession().getSpecialObject("TextPrintHelper");
 		if (textPrintHelper == null)
 		{
 			textPrintHelper = new TextPrintHelper();
-			m_ProgramManager.getEnv().getBaseSession().addSpecialObject("TextPrintHelper", textPrintHelper);
+			programManager.getEnv().getBaseSession().addSpecialObject("TextPrintHelper", textPrintHelper);
 		}
 		return textPrintHelper;
 	}
@@ -1743,13 +1743,13 @@ public class NacaToolBox extends CJMapObject
 	public void formatPSFOrderText(Var input, Var output)
 	{
 		/*
-		ImagePrintHelper imagePrintHelper = (ImagePrintHelper)m_ProgramManager.getEnv().getBaseSession().getSpecialObject("ImagePrintHelper");
+		ImagePrintHelper imagePrintHelper = (ImagePrintHelper)programManager.getEnv().getBaseSession().getSpecialObject("ImagePrintHelper");
 		if (imagePrintHelper == null)
 		{
 			imagePrintHelper = new ImagePrintHelper();
-			m_ProgramManager.getEnv().getBaseSession().addSpecialObject("ImagePrintHelper", imagePrintHelper);
+			programManager.getEnv().getBaseSession().addSpecialObject("ImagePrintHelper", imagePrintHelper);
 		}
-		imagePrintHelper.setProgramManager(m_ProgramManager);
+		imagePrintHelper.setProgramManager(programManager);
 		imagePrintHelper.print(input, output);
 		*/
 	}
@@ -1757,13 +1757,13 @@ public class NacaToolBox extends CJMapObject
 	public void formatXMLOrder(Var input, Var output)
 	{
 		/*
-		XmlPrintHelper xmlPrintHelper = (XmlPrintHelper)m_ProgramManager.getEnv().getBaseSession().getSpecialObject("XmlPrintHelper");
+		XmlPrintHelper xmlPrintHelper = (XmlPrintHelper)programManager.getEnv().getBaseSession().getSpecialObject("XmlPrintHelper");
 		if (xmlPrintHelper == null)
 		{
 			xmlPrintHelper = new XmlPrintHelper();
-			m_ProgramManager.getEnv().getBaseSession().addSpecialObject("XmlPrintHelper", xmlPrintHelper);
+			programManager.getEnv().getBaseSession().addSpecialObject("XmlPrintHelper", xmlPrintHelper);
 		}
-		xmlPrintHelper.setProgramManager(m_ProgramManager);
+		xmlPrintHelper.setProgramManager(programManager);
 		xmlPrintHelper.print(input, output);
 		*/
 	}
@@ -1777,7 +1777,7 @@ public class NacaToolBox extends CJMapObject
 	
 	public void restartFile(String csLogicalFileName, int nNbRecordsToKeep)
 	{
-		FileDescriptor file = new FileDescriptor(csLogicalFileName, m_ProgramManager.getEnv().getBaseSession());
+		FileDescriptor file = new FileDescriptor(csLogicalFileName, programManager.getEnv().getBaseSession());
 		moveEndOfFilePointer(file, nNbRecordsToKeep);	
 	}
 	

@@ -37,11 +37,11 @@ public class CJavaCICSRead extends CEntityCICSRead
 
 	protected void DoExport()
 	{
-		if (m_bReadtoDataSet && m_DataInto.GetName().equals("PLAU-ZONE"))
+		if (bReadtoDataSet && dataInto.GetName().equals("PLAU-ZONE"))
 		{
-			if (m_DataInto.m_Of != null)
+			if (dataInto.of != null)
 			{
-				String cs = "Pub2000Routines.readCode(getProgramManager(), " + m_DataInto.m_Of.ExportReference(getLine()) + ") ;" ;
+				String cs = "Pub2000Routines.readCode(getProgramManager(), " + dataInto.of.ExportReference(getLine()) + ") ;" ;
 				WriteLine(cs);
 				return ;
 			}
@@ -50,11 +50,11 @@ public class CJavaCICSRead extends CEntityCICSRead
 				ASSERT(null);
 			}
 		}
-		else if (m_bReadtoDataSet && m_DataInto.GetName().equals("PLAU-ZONE-ASP"))
+		else if (bReadtoDataSet && dataInto.GetName().equals("PLAU-ZONE-ASP"))
 		{
-			if (m_DataInto.m_Of != null)
+			if (dataInto.of != null)
 			{
-				String cs = "Pub2000Routines.readCodeMedia(getProgramManager(), " + m_DataInto.m_Of.ExportReference(getLine()) + ") ;" ;
+				String cs = "Pub2000Routines.readCodeMedia(getProgramManager(), " + dataInto.of.ExportReference(getLine()) + ") ;" ;
 				WriteLine(cs);
 				return ;
 			}
@@ -63,11 +63,11 @@ public class CJavaCICSRead extends CEntityCICSRead
 				ASSERT(null);
 			}
 		}
-		else if (m_bReadtoDataSet && m_DataInto.GetName().equals("MSG-ZONE"))
+		else if (bReadtoDataSet && dataInto.GetName().equals("MSG-ZONE"))
 		{
-			if (m_DataInto.m_Of != null)
+			if (dataInto.of != null)
 			{
-				String cs = "Pub2000Routines.readMessage(getProgramManager(), " + m_DataInto.m_Of.ExportReference(getLine()) + ") ;" ;
+				String cs = "Pub2000Routines.readMessage(getProgramManager(), " + dataInto.of.ExportReference(getLine()) + ") ;" ;
 				WriteLine(cs);
 				return ;
 			}
@@ -76,13 +76,13 @@ public class CJavaCICSRead extends CEntityCICSRead
 				ASSERT(null);
 			}
 		}
-		else if ((m_Mode == CEntityCICSReadMode.PREVIOUS || m_Mode == CEntityCICSReadMode.NEXT) &&
-				m_DataInto.GetName().equals("CURS-ZONE"))
+		else if ((mode == CEntityCICSReadMode.PREVIOUS || mode == CEntityCICSReadMode.NEXT) &&
+				dataInto.GetName().equals("CURS-ZONE"))
 		{
-			if (m_DataInto.m_Of != null && m_RecIDField != null)
+			if (dataInto.of != null && recIDField != null)
 			{
 				String cs = "Pub2000Routines.readFieldInMap";
-				if (m_Mode == CEntityCICSReadMode.PREVIOUS)
+				if (mode == CEntityCICSReadMode.PREVIOUS)
 				{	
 					cs += "Previous";
 				}
@@ -90,7 +90,7 @@ public class CJavaCICSRead extends CEntityCICSRead
 				{
 					cs += "Next";
 				}
-				cs += "(getProgramManager(), " + m_DataInto.m_Of.ExportReference(getLine()) + ", " +	m_RecIDField.ExportReference(getLine()) + ");";
+				cs += "(getProgramManager(), " + dataInto.of.ExportReference(getLine()) + ", " +	recIDField.ExportReference(getLine()) + ");";
 				WriteLine(cs);
 				return ;
 			}
@@ -99,13 +99,13 @@ public class CJavaCICSRead extends CEntityCICSRead
 				ASSERT(null);
 			}
 		}
-		else if (m_bReadtoDataSet && m_DataInto.GetName().equals("CURS-ZONE"))
+		else if (bReadtoDataSet && dataInto.GetName().equals("CURS-ZONE"))
 		{
-			if (m_DataInto.m_Of != null && m_RecIDField != null)
+			if (dataInto.of != null && recIDField != null)
 			{
 				String cs = "Pub2000Routines.readFieldInMap(getProgramManager(), " +
-							m_DataInto.m_Of.ExportReference(getLine()) + ", " +
-							m_RecIDField.ExportReference(getLine()) + ");";
+							dataInto.of.ExportReference(getLine()) + ", " +
+							recIDField.ExportReference(getLine()) + ");";
 				WriteLine(cs);
 				return ;
 			}
@@ -117,38 +117,38 @@ public class CJavaCICSRead extends CEntityCICSRead
 		else
 		{
 			String title = "" ;
-			if (m_Mode == CEntityCICSReadMode.NORMAL)
+			if (mode == CEntityCICSReadMode.NORMAL)
 			{
 				title = "CESM.read" ;
 			}
-			else if (m_Mode == CEntityCICSReadMode.PREVIOUS)
+			else if (mode == CEntityCICSReadMode.PREVIOUS)
 			{
 				title = "CESM.readPrevious" ;
 			}
-			else if (m_Mode == CEntityCICSReadMode.NEXT)
+			else if (mode == CEntityCICSReadMode.NEXT)
 			{
 				title = "CESM.readNext" ;
 			}
-			if (m_bReadtoDataSet)
+			if (bReadtoDataSet)
 			{
 				title += "DataSet(" ;
 			}
-			else if (m_bReadToFile)
+			else if (bReadToFile)
 			{
 				title += "File(" ;
 			}
-			title += m_Name.ExportReference(getLine()) + ")" ;
+			title += name.ExportReference(getLine()) + ")" ;
 			WriteWord(title) ;
-			WriteWord(".into(" + m_DataInto.ExportReference(getLine()) + ")") ;
-			if (m_RecIDField != null)
+			WriteWord(".into(" + dataInto.ExportReference(getLine()) + ")") ;
+			if (recIDField != null)
 			{
-				WriteWord(".recIDField(" + m_RecIDField.ExportReference(getLine()) + ")");
+				WriteWord(".recIDField(" + recIDField.ExportReference(getLine()) + ")");
 			}
-			if (m_KeyLength != null)
+			if (keyLength != null)
 			{
-				WriteWord(".keyLength(" + m_KeyLength.ExportReference(getLine()) + ")");
+				WriteWord(".keyLength(" + keyLength.ExportReference(getLine()) + ")");
 			}
-			if (m_bEqual)
+			if (bEqual)
 			{
 				WriteWord(".equal()") ;
 			}

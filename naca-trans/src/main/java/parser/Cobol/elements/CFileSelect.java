@@ -50,36 +50,36 @@ public class CFileSelect extends CCobolElement
 	 */
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		CEntityFileSelect eFS = factory.NewEntityFileSelect(m_FileReference.GetName()) ;
-		eFS.setFileName(m_FileName.GetDataEntity(getLine(), factory)) ;
+		CEntityFileSelect eFS = factory.NewEntityFileSelect(fileReference.GetName()) ;
+		eFS.setFileName(fileName.GetDataEntity(getLine(), factory)) ;
 		
-		if (m_bAccessModeDynamic)
+		if (bAccessModeDynamic)
 		{
 			eFS.setAccessMode(CEntityFileSelect.AccessMode.DYNAMIC) ;
 		}
-		else  if (m_bAccessModeRandom)
+		else  if (bAccessModeRandom)
 		{
 			eFS.setAccessMode(CEntityFileSelect.AccessMode.RANDOM) ;
 		}
-		else if (m_bAccessModeSequential)
+		else if (bAccessModeSequential)
 		{
 			eFS.setAccessMode(CEntityFileSelect.AccessMode.SEQUENTIAL) ;
 		}
 		
-		if (m_bOrganizationIndexed)
+		if (bOrganizationIndexed)
 		{
 			eFS.setOrganizationMode(CEntityFileSelect.OrganizationMode.INDEXED) ;
 		}
-		else if (m_bOrganizationSequential)
+		else if (bOrganizationSequential)
 		{
 			eFS.setOrganizationMode(CEntityFileSelect.OrganizationMode.INDEXED) ;
 		}
 		
-		if (m_FileStatus != null)
+		if (fileStatus != null)
 		{
-			eFS.setFileStatus(m_FileStatus.GetDataReference(getLine(), factory));
+			eFS.setFileStatus(fileStatus.GetDataReference(getLine(), factory));
 		}
-		if (m_RecordKey != null)
+		if (recordKey != null)
 		{
 			Transcoder.logWarn(getLine(), "No semantic analysis for FileSelect / Record Key");
 		}
@@ -95,12 +95,12 @@ public class CFileSelect extends CCobolElement
 		{
 			return false ;
 		}
-		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().m_Name) ;
+		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
 		
 		// file local identifier
 		tok = GetNext();
-		m_FileReference = ReadIdentifier();
-		if (m_FileReference == null)
+		fileReference = ReadIdentifier();
+		if (fileReference == null)
 		{
 			Transcoder.logError(tok.getLine(), "Expecting identifier");
 			return false ;
@@ -126,14 +126,14 @@ public class CFileSelect extends CCobolElement
 		}
 		if (tok.GetType() == CTokenType.DOT)
 		{
-			m_FileName = new CStringTerminal(m_FileReference.GetName());
+			fileName = new CStringTerminal(fileReference.GetName());
 			GetNext();
 			return true;
 		}
 		
 		// file name in computer file system
-		m_FileName = ReadTerminal();
-		if (m_FileName == null)
+		fileName = ReadTerminal();
+		if (fileName == null)
 		{
 			Transcoder.logError(tok.getLine(), "Expecting identifier");
 			return false ;
@@ -159,7 +159,7 @@ public class CFileSelect extends CCobolElement
 				{
 					tok = GetNext();
 				}
-				m_RecordKey = ReadIdentifier();
+				recordKey = ReadIdentifier();
 			}
 			else if (tok.GetKeyword() == CCobolKeywordList.FILE)
 			{
@@ -172,7 +172,7 @@ public class CFileSelect extends CCobolElement
 				{
 					tok = GetNext();
 				}
-				m_FileStatus = ReadIdentifier();
+				fileStatus = ReadIdentifier();
 			}
 			else if (tok.GetKeyword() == CCobolKeywordList.ACCESS)
 			{
@@ -187,23 +187,23 @@ public class CFileSelect extends CCobolElement
 				}
 				if (tok.GetKeyword() == CCobolKeywordList.DYNAMIC)
 				{
-					m_bAccessModeDynamic = true ;
-					m_bAccessModeRandom = false ;
-					m_bAccessModeSequential = false ;
+					bAccessModeDynamic = true ;
+					bAccessModeRandom = false ;
+					bAccessModeSequential = false ;
 					GetNext();
 				}
 				else if (tok.GetKeyword() == CCobolKeywordList.SEQUENTIAL)
 				{
-					m_bAccessModeDynamic = false ;
-					m_bAccessModeRandom = false ;
-					m_bAccessModeSequential = true ;
+					bAccessModeDynamic = false ;
+					bAccessModeRandom = false ;
+					bAccessModeSequential = true ;
 					GetNext();
 				}
 				else if (tok.GetKeyword() == CCobolKeywordList.RANDOM)
 				{
-					m_bAccessModeDynamic = false ;
-					m_bAccessModeRandom = true ;
-					m_bAccessModeSequential = false ;
+					bAccessModeDynamic = false ;
+					bAccessModeRandom = true ;
+					bAccessModeSequential = false ;
 					GetNext();
 				}
 				else
@@ -226,14 +226,14 @@ public class CFileSelect extends CCobolElement
 				if (tok.GetKeyword() == CCobolKeywordList.SEQUENTIAL)
 				{
 					GetNext() ;
-					m_bOrganizationSequential = true ;
-					m_bOrganizationIndexed = false ;
+					bOrganizationSequential = true ;
+					bOrganizationIndexed = false ;
 				}
 				else if (tok.GetKeyword() == CCobolKeywordList.INDEXED)
 				{
 					GetNext() ;
-					m_bOrganizationSequential = false ;
-					m_bOrganizationIndexed = true ;
+					bOrganizationSequential = false ;
+					bOrganizationIndexed = true ;
 				}
 				else
 				{
@@ -257,58 +257,58 @@ public class CFileSelect extends CCobolElement
 		Element eFile = root.createElement("FileSelect");
 		
 		Element eName = root.createElement("FileName");
-		m_FileName.ExportTo(eName, root);
+		fileName.ExportTo(eName, root);
 		eFile.appendChild(eName);
 		
 		Element eRef = root.createElement("Reference");
 		eFile.appendChild(eRef);
-		m_FileReference.ExportTo(eRef, root);
+		fileReference.ExportTo(eRef, root);
 		
-		if (m_RecordKey != null)
+		if (recordKey != null)
 		{
 			Element eKey = root.createElement("RecordKey");
 			eFile.appendChild(eKey);
-			m_RecordKey.ExportTo(eKey, root);
+			recordKey.ExportTo(eKey, root);
 		}
 		
-		if (m_FileStatus != null)
+		if (fileStatus != null)
 		{
 			Element eSt = root.createElement("FileStatus");
 			eFile.appendChild(eSt);
-			m_FileStatus.ExportTo(eSt, root);
+			fileStatus.ExportTo(eSt, root);
 		}
 		
-		if (m_bOrganizationIndexed)
+		if (bOrganizationIndexed)
 		{
 			eFile.setAttribute("Organization", "Indexed");
 		}
-		else if (m_bOrganizationSequential)
+		else if (bOrganizationSequential)
 		{
 			eFile.setAttribute("Organization", "Sequential");
 		}
 		
-		if (m_bAccessModeDynamic)
+		if (bAccessModeDynamic)
 		{
 			eFile.setAttribute("AccessMode", "Dynamic");
 		}
-		else if (m_bAccessModeRandom)
+		else if (bAccessModeRandom)
 		{
 			eFile.setAttribute("AccessMode", "Random");
 		}
-		else if (m_bAccessModeSequential)
+		else if (bAccessModeSequential)
 		{
 			eFile.setAttribute("AccessMode", "Sequential");
 		} 
 		return eFile;
 	}
 	
-	protected CIdentifier m_FileReference = null ;
-	protected CTerminal m_FileName = null ;
-	protected CIdentifier m_RecordKey = null ;
-	protected CIdentifier m_FileStatus = null ;
-	protected boolean m_bOrganizationSequential = false ;
-	protected boolean m_bOrganizationIndexed  = false ;
-	protected boolean m_bAccessModeRandom = false ;
-	protected boolean m_bAccessModeSequential = false ;
-	protected boolean m_bAccessModeDynamic = false ;
+	protected CIdentifier fileReference = null ;
+	protected CTerminal fileName = null ;
+	protected CIdentifier recordKey = null ;
+	protected CIdentifier fileStatus = null ;
+	protected boolean bOrganizationSequential = false ;
+	protected boolean bOrganizationIndexed  = false ;
+	protected boolean bAccessModeRandom = false ;
+	protected boolean bAccessModeSequential = false ;
+	protected boolean bAccessModeDynamic = false ;
 }

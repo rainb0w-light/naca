@@ -23,13 +23,13 @@ public class CTokenKeyword extends CBaseToken
 	public CTokenKeyword(CReservedKeyword kw, int line, boolean newline)
 	{
 		super(line, newline);
-		m_kw = kw ;
-		m_Value = kw.m_Name ;
+		kw = kw ;
+		value = kw.name ;
 	}
 	
 	public CReservedKeyword GetKeyword()
 	{
-		return m_kw ;
+		return kw ;
 	}
 	
 	public CTokenType GetType()
@@ -37,13 +37,13 @@ public class CTokenKeyword extends CBaseToken
 		return CTokenType.KEYWORD ;
 	}
 	
-	CReservedKeyword m_kw ;
+	CReservedKeyword kw ;
 
 	/* (non-Javadoc)
 	 * @see lexer.CBaseToken#GetDisplay()
 	 */
 	public String GetDisplay()
 	{
-		return m_kw.m_Name + " ";
+		return kw.name + " ";
 	}
 }

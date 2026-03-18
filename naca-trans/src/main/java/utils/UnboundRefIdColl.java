@@ -26,24 +26,24 @@ public class UnboundRefIdColl
 	
 	UnboundRefId find(String csName)
 	{
-		return m_hash.get(csName);
+		return hash.get(csName);
 	}
 	
 	void add(int nLine, String csName, String csFile)
 	{
 		UnboundRefId ref = new UnboundRefId(nLine, csFile); 
-		m_hash.put(csName, ref);
+		hash.put(csName, ref);
 	}
 	
 	Enumeration<String> getKeys()
 	{
-		return m_hash.keys();
+		return hash.keys();
 	}
 	
 	UnboundRefId getVal(String csName)
 	{
-		return m_hash.get(csName);
+		return hash.get(csName);
 	}
 	
-	Hashtable<String, UnboundRefId> m_hash = new Hashtable<String, UnboundRefId>(); 
+	Hashtable<String, UnboundRefId> hash = new Hashtable<String, UnboundRefId>(); 
 }

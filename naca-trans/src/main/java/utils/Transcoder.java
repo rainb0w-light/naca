@@ -33,15 +33,15 @@ public class Transcoder
 {
 	private static Logger ms_logger;
 
-	private CRulesManager m_RulesManager = CRulesManager.getInstance() ;
+	private CRulesManager rulesManager = CRulesManager.getInstance() ;
 	
-	private String m_csInfoDir = "" ;
+	private String csInfoDir = "" ;
 	
-	private Hashtable<String, CTransApplicationGroup> m_tabGroups = new Hashtable<String, CTransApplicationGroup>();
-	private Vector<CTransApplicationGroup> m_arrGroups = new Vector<CTransApplicationGroup>() ;
-	private Tag m_eConf = null ;
-	private Hashtable<String, BaseEngine> m_tabEngines = null ;
-	private TranscoderAction m_transcoderAction = TranscoderAction.All;
+	private Hashtable<String, CTransApplicationGroup> tabGroups = new Hashtable<String, CTransApplicationGroup>();
+	private Vector<CTransApplicationGroup> arrGroups = new Vector<CTransApplicationGroup>() ;
+	private Tag eConf = null ;
+	private Hashtable<String, BaseEngine> tabEngines = null ;
+	private TranscoderAction transcoderAction = TranscoderAction.All;
 	
 	private static int ms_nReportLineCounter = 0;	
 
@@ -51,12 +51,12 @@ public class Transcoder
 	private static int ms_nNbError = 0;
 	private static int ms_nLastLine = 0;
 	
-	private static boolean m_bSQLCheck = false;
-	private static Connection m_connection = null;
+	private static boolean bSQLCheck = false;
+	private static Connection connection = null;
 
 	public boolean Init(Tag eConf)
 	{
-		m_eConf = eConf ;
+		eConf = eConf ;
 		String log4jConf = eConf.getVal("Log4jConf");
 		File f = new File(log4jConf) ;
 		if (f.isFile())
@@ -89,10 +89,10 @@ public class Transcoder
 	 */
 	private boolean LoadEngines()
 	{
-		Tag tagEngines = m_eConf.getChild("Engines") ;
+		Tag tagEngines = eConf.getChild("Engines") ;
 		if (tagEngines != null)
 		{
-			m_tabEngines = new Hashtable<String, BaseEngine>() ;
+			tabEngines = new Hashtable<String, BaseEngine>() ;
 			TagCursor cur = new TagCursor() ;
 			Tag tagTrans = tagEngines.getFirstChild(cur, "Transcoder") ;
 			while (tagTrans != null)
@@ -102,14 +102,14 @@ public class Transcoder
 				try
 				{
 					BaseEngine engine = (BaseEngine)Class.forName(cl).newInstance() ;
-					engine.setRulesManager(m_RulesManager);
+					engine.setRulesManager(rulesManager);
 					engine.setTranscoder(this) ;
 					if (!engine.MainInit(tagTrans))
 					{
 						ms_logger.error("Failure while Engine init : "+name);
 						return false ;
 					}
-					m_tabEngines.put(name, engine) ;
+					tabEngines.put(name, engine) ;
 				}
 				catch (InstantiationException e)
 				{
@@ -126,7 +126,7 @@ public class Transcoder
 					e.printStackTrace();
 					return false ;
 				}
-				tagTrans = m_eConf.getNextChild(cur) ;
+				tagTrans = eConf.getNextChild(cur) ;
 			}
 		}
 		return true ;
@@ -139,10 +139,10 @@ public class Transcoder
 			String path = ePaths.getVal("RuleFilePath") ;
 			if (path != null && !path.equals(""))
 			{
-				m_RulesManager.LoadRulesFile(path);
+				rulesManager.LoadRulesFile(path);
 			}
 			
-			m_csInfoDir = ePaths.getVal("InfoPath") ; 
+			csInfoDir = ePaths.getVal("InfoPath") ; 
 		}
 	}
 
@@ -165,39 +165,39 @@ public class Transcoder
 				String csOutputDir2 = null; 
 				if(eGroup.isValExisting("OutputPath2"))
 					csOutputDir2 = eGroup.getVal("OutputPath2") ;
-				BaseEngine engine = m_tabEngines.get(engineName) ;
+				BaseEngine engine = tabEngines.get(engineName) ;
 //				if (engine != null)
 //				{
 					CTransApplicationGroup grp = new CTransApplicationGroup(engine) ;
-					grp.m_csName = csName ;
-					grp.m_csOutputPath = csOutputDir ;
+					grp.csName = csName ;
+					grp.csOutputPath = csOutputDir ;
 					new File(csOutputDir).mkdirs() ;
-					grp.m_csInputPath = eGroup.getVal("InputPath") ;
-					grp.m_csInterPath = eGroup.getVal("InterPath") ;
-					new File(grp.m_csInterPath).mkdirs() ;
+					grp.csInputPath = eGroup.getVal("InputPath") ;
+					grp.csInterPath = eGroup.getVal("InterPath") ;
+					new File(grp.csInterPath).mkdirs() ;
 					String csType = eGroup.getVal("Type") ;
 					if (csType.equalsIgnoreCase("Online"))
 					{
-						grp.m_eType = CTransApplicationGroup.EProgramType.TYPE_ONLINE ;
+						grp.eType = CTransApplicationGroup.EProgramType.TYPE_ONLINE ;
 					}
 					else if (csType.equalsIgnoreCase("Batch"))
 					{
-						grp.m_eType = CTransApplicationGroup.EProgramType.TYPE_BATCH ;
+						grp.eType = CTransApplicationGroup.EProgramType.TYPE_BATCH ;
 					}
 					else if (csType.equalsIgnoreCase("Included"))
 					{
-						grp.m_eType = CTransApplicationGroup.EProgramType.TYPE_INCLUDED ;
+						grp.eType = CTransApplicationGroup.EProgramType.TYPE_INCLUDED ;
 					}
 					else if (csType.equalsIgnoreCase("Map"))
 					{
-						grp.m_eType = CTransApplicationGroup.EProgramType.TYPE_MAP;
+						grp.eType = CTransApplicationGroup.EProgramType.TYPE_MAP;
 					}
 					else
 					{
-						grp.m_eType = CTransApplicationGroup.EProgramType.TYPE_CALLED;
+						grp.eType = CTransApplicationGroup.EProgramType.TYPE_CALLED;
 					}
-					m_tabGroups.put(csName, grp) ;
-					m_arrGroups.add(grp) ;
+					tabGroups.put(csName, grp) ;
+					arrGroups.add(grp) ;
 //				}
 				eGroup = eGroups.getNextChild(cur) ;
 			}
@@ -207,11 +207,11 @@ public class Transcoder
 	private void LoadApplications()
 	{
 		TagCursor curGrp = new TagCursor() ;
-		Tag eGroup = m_eConf.getFirstChild(curGrp, "Group") ;
+		Tag eGroup = eConf.getFirstChild(curGrp, "Group") ;
 		while (eGroup != null)
 		{
 			String grpName = eGroup.getVal("Name")  ;
-			CTransApplicationGroup group = m_tabGroups.get(grpName) ;
+			CTransApplicationGroup group = tabGroups.get(grpName) ;
 			if (group != null)
 			{
 				TagCursor cur = new TagCursor() ;
@@ -219,42 +219,42 @@ public class Transcoder
 				while (eApp != null)
 				{
 					String name = eApp.getVal("Name") ;
-					group.m_tabApplication.put(name, eApp) ;
-					group.m_arrApplications.addElement(name) ;
+					group.tabApplication.put(name, eApp) ;
+					group.arrApplications.addElement(name) ;
 					eApp = eGroup.getNextChild(cur) ;
 				}
 			}
-			eGroup = m_eConf.getNextChild(curGrp) ;
+			eGroup = eConf.getNextChild(curGrp) ;
 		}
 	}
 
 	public int getNbGroups()
 	{
-		return m_arrGroups.size() ;
+		return arrGroups.size() ;
 	}
 	public String getGroupName(int i)
 	{
-		if (i<m_arrGroups.size())
+		if (i<arrGroups.size())
 		{
-			return m_arrGroups.get(i).m_csName ;
+			return arrGroups.get(i).csName ;
 		}
 		return "" ;
 	}
 	public int getNbApplications(String group)
 	{
-		CTransApplicationGroup grp = m_tabGroups.get(group) ;
+		CTransApplicationGroup grp = tabGroups.get(group) ;
 		if (grp != null)
 		{
-			return grp.m_arrApplications.size() ;
+			return grp.arrApplications.size() ;
 		}
 		return 0 ;
 	}
 	public String getApplicationName(String group, int i)
 	{
-		CTransApplicationGroup grp = m_tabGroups.get(group) ;
+		CTransApplicationGroup grp = tabGroups.get(group) ;
 		if (grp != null)
 		{
-			String cs = grp.m_arrApplications.get(i) ;
+			String cs = grp.arrApplications.get(i) ;
 			return cs ;
 		}
 		return "" ;
@@ -263,21 +263,21 @@ public class Transcoder
 	@SuppressWarnings("unchecked")
 	public void DoAllApplications()
 	{
-		for (BaseEngine engine : m_tabEngines.values())
+		for (BaseEngine engine : tabEngines.values())
 		{
 			engine.getGlobalCatalog().ClearFormContainers() ;
 		}
-		for (int j=0; j<m_arrGroups.size(); j++)
+		for (int j=0; j<arrGroups.size(); j++)
 		{
-			CTransApplicationGroup grp = m_arrGroups.get(j) ;
-			for (int i=0; i<grp.m_arrApplications.size(); i++)
+			CTransApplicationGroup grp = arrGroups.get(j) ;
+			for (int i=0; i<grp.arrApplications.size(); i++)
 			{
-				String app = grp.m_arrApplications.get(i) ;
-				Tag tag = grp.m_tabApplication.get(app) ;
+				String app = grp.arrApplications.get(i) ;
+				Tag tag = grp.tabApplication.get(app) ;
 				DoApplication(tag, grp) ;
 			}
 		}
-		for (BaseEngine engine : m_tabEngines.values())
+		for (BaseEngine engine : tabEngines.values())
 		{
 			engine.getGlobalCatalog().doRegisteredDependencies() ;
 		}
@@ -305,10 +305,10 @@ public class Transcoder
 
 	public void DoApplication(String appName, String groupName)
 	{
-		CTransApplicationGroup grp = m_tabGroups.get(groupName) ;
+		CTransApplicationGroup grp = tabGroups.get(groupName) ;
 		if (grp != null)
 		{
-			Tag eApp = grp.m_tabApplication.get(appName) ;
+			Tag eApp = grp.tabApplication.get(appName) ;
 			if (eApp == null)
 			{
 				return ;
@@ -319,12 +319,12 @@ public class Transcoder
 
 	public void setTranscoderAction(TranscoderAction transcoderAction)
 	{
-		m_transcoderAction = transcoderAction;
+		transcoderAction = transcoderAction;
 	}
 	
 	public boolean mustGenerate()
 	{
-		if(m_transcoderAction.isGeneration())
+		if(transcoderAction.isGeneration())
 			return true;
 		return false;
 	}
@@ -370,7 +370,7 @@ public class Transcoder
 	
 	public void startForPlugin(String csSingleFile, String csApplication, String csGroupToTranscode, String csAction, boolean bResources)
 	{
-		m_bSQLCheck = true;
+		bSQLCheck = true;
 		Transcoder.clearCurrentTranscodedUnits();
 		
 		TranscoderAction transcoderAction = getTranscoderAction(csAction);
@@ -381,7 +381,7 @@ public class Transcoder
 			DoProgramForPlugin(csGroupToTranscode, csApplication, csSingleFile, bResources);
 			
 			logDebug("Exporting Infos...");
-			CGlobalEntityCounter.GetInstance().Export(m_csInfoDir+"ItemCount");
+			CGlobalEntityCounter.GetInstance().Export(csInfoDir+"ItemCount");
 		}
 		catch (Exception e)
 		{
@@ -429,7 +429,7 @@ public class Transcoder
 			}
 			
 			logDebug("Exporting Infos...");
-			CGlobalEntityCounter.GetInstance().Export(m_csInfoDir+"ItemCount");
+			CGlobalEntityCounter.GetInstance().Export(csInfoDir+"ItemCount");
 		}
 		catch (Exception e)
 		{
@@ -452,13 +452,13 @@ public class Transcoder
 			String[] arrGroups = groupToTranscode.split(";") ;
 			for (String group : arrGroups)
 			{
-				CTransApplicationGroup grp = m_tabGroups.get(group) ;
+				CTransApplicationGroup grp = tabGroups.get(group) ;
 				if (grp != null)
 				{
-					for (int i=0; i<grp.m_arrApplications.size(); i++)
+					for (int i=0; i<grp.arrApplications.size(); i++)
 					{
-						String app = grp.m_arrApplications.get(i) ;
-						Tag tag = grp.m_tabApplication.get(app) ;
+						String app = grp.arrApplications.get(i) ;
+						Tag tag = grp.tabApplication.get(app) ;
 						DoApplication(tag, grp) ;
 					}
 					if (!arrCatalogs.contains(grp.getEngine().getGlobalCatalog()))
@@ -473,7 +473,7 @@ public class Transcoder
 		else
 		{
 			TagCursor cur = new TagCursor() ;
-			Tag eFile = m_eConf.getFirstChild(cur, "SingleFile") ;
+			Tag eFile = eConf.getFirstChild(cur, "SingleFile") ;
 			boolean bFound = eFile != null ;
 			while (eFile != null)
 			{
@@ -483,10 +483,10 @@ public class Transcoder
 					bResources = eFile.getValAsBoolean("Resources");
 				String csCurrentApplication = eFile.getVal("Application") ;
 				String csCurrentGroup = eFile.getVal("Group") ;
-				CTransApplicationGroup grp = m_tabGroups.get(csCurrentGroup) ;
+				CTransApplicationGroup grp = tabGroups.get(csCurrentGroup) ;
 				if (grp != null)
 				{
-					Transcoder.pushTranscodedUnit(fileName, grp.m_csInputPath);
+					Transcoder.pushTranscodedUnit(fileName, grp.csInputPath);
 					try
 					{
 						grp.getEngine().doFileTranscoding(fileName, csCurrentApplication, grp, bResources);
@@ -502,7 +502,7 @@ public class Transcoder
 					}
 					Transcoder.popTranscodedUnit();
 				}
-				eFile = m_eConf.getNextChild(cur) ;
+				eFile = eConf.getNextChild(cur) ;
 			}
 			if (!bFound)
 			{		
@@ -513,10 +513,10 @@ public class Transcoder
 	
 	public String[] getProgramsForApplication(String group, String appName)
 	{
-		CTransApplicationGroup grp = m_tabGroups.get(group) ;
+		CTransApplicationGroup grp = tabGroups.get(group) ;
 		if (grp != null)
 		{
-			Tag eApp = grp.m_tabApplication.get(appName);
+			Tag eApp = grp.tabApplication.get(appName);
 			if (eApp != null)
 			{
 				TagCursor cur = new TagCursor() ;
@@ -540,10 +540,10 @@ public class Transcoder
 	 */
 	public void DoProgram(String group, String appName, String prgName)
 	{
-		CTransApplicationGroup grp = m_tabGroups.get(group) ;
+		CTransApplicationGroup grp = tabGroups.get(group) ;
 		if (grp != null)
 		{
-			Tag eApp = grp.m_tabApplication.get(appName) ;
+			Tag eApp = grp.tabApplication.get(appName) ;
 			if (eApp == null)
 			{
 				return ;
@@ -574,10 +574,10 @@ public class Transcoder
 	 */
 	public void DoProgramForPlugin(String group, String appName, String prgName, boolean bResources)
 	{
-		CTransApplicationGroup grp = m_tabGroups.get(group) ;
+		CTransApplicationGroup grp = tabGroups.get(group) ;
 		if (grp != null)
 		{
-			Transcoder.pushTranscodedUnit(prgName, grp.m_csInputPath);
+			Transcoder.pushTranscodedUnit(prgName, grp.csInputPath);
 			grp.getEngine().doFileTranscoding(prgName, appName, grp, bResources);
 		}
 	}
@@ -588,7 +588,7 @@ public class Transcoder
 	 */
 	public CTransApplicationGroup getGroup(String csGroupName)
 	{
-		return m_tabGroups.get(csGroupName);
+		return tabGroups.get(csGroupName);
 	}
 	
 	public static Logger getLogger()
@@ -788,7 +788,7 @@ public class Transcoder
 	
 	public static void checkSQL(int nLine, String csQuery)
 	{
-		if (m_bSQLCheck)
+		if (bSQLCheck)
 		{
 			Connection connection = getConnection();
 			try
@@ -817,7 +817,7 @@ public class Transcoder
 	
 	public static Connection getConnection()
 	{
-		if (m_connection == null)
+		if (connection == null)
 		{	
 			try
 			{
@@ -827,24 +827,24 @@ public class Transcoder
 				String className = "com.ibm.db2.jcc.DB2Driver";
 				
 				Class.forName(className).newInstance();
-				m_connection = DriverManager.getConnection(url, userId, password);
+				connection = DriverManager.getConnection(url, userId, password);
 			}
 			catch (Exception ex)
 			{
 				throw new RuntimeException(ex);
 			}
 		}
-		return m_connection;
+		return connection;
 	}
 	
 	public static void releaseConnection()
 	{
-		if (m_connection != null)
+		if (connection != null)
 		{
 			try
 			{
-				m_connection.close();
-				m_connection = null;
+				connection.close();
+				connection = null;
 			}
 			catch (Exception ex)
 			{

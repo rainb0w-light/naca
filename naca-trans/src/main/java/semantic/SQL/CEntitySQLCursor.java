@@ -33,10 +33,10 @@ public abstract class CEntitySQLCursor extends CDataEntity
 	public CEntitySQLCursor(String name, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
 		super(0, name, cat, out);
-		m_ProgramCatalog.RegisterSQLCursor(this);
+		programCatalog.RegisterSQLCursor(this);
 		if (!name.equals(this.GetName()))
 		{
-			m_ProgramCatalog.RegisterSQLCursor(name, this);
+			programCatalog.RegisterSQLCursor(name, this);
 		}
 	}
 
@@ -51,17 +51,17 @@ public abstract class CEntitySQLCursor extends CDataEntity
 
 	public void SetSelect(CEntitySQLCursorSelectStatement eSQL)
 	{
-		m_Select = eSQL ;
+		select = eSQL ;
 	}
 	
-	protected CEntitySQLCursorSelectStatement m_Select = null ;
-	protected CDataEntity m_VariableStatement = null ;
+	protected CEntitySQLCursorSelectStatement select = null ;
+	protected CDataEntity variableStatement = null ;
 
 	public int GetNbColumns()
 	{
-		if (m_Select == null)
+		if (select == null)
 			return 0 ;
-		return m_Select.GetNbColumns() ;
+		return select.GetNbColumns() ;
 	}
 	public boolean ignore()
 	{
@@ -77,7 +77,7 @@ public abstract class CEntitySQLCursor extends CDataEntity
 	 */
 	public CEntitySQLCursorSelectStatement getSelect()
 	{
-		return m_Select ;
+		return select ;
 	}
 
 	/**
@@ -85,11 +85,11 @@ public abstract class CEntitySQLCursor extends CDataEntity
 	 */
 	public void setVariableStatement(CDataEntity var)
 	{
-		m_VariableStatement = var ;
+		variableStatement = var ;
 	}
 	public CDataEntity getVariableStatement()
 	{
-		return m_VariableStatement ;
+		return variableStatement ;
 	}
 
 }

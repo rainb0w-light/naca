@@ -47,10 +47,10 @@ public class CRelease extends CCobolElement
 		CEntitySortRelease eRel = factory.NewEntitySortRelease(getLine()) ;
 		parent.AddChild(eRel) ;
 		
-		CDataEntity e = m_SortFile.GetDataReference(getLine(), factory) ;
-		if (m_DataRef != null)
+		CDataEntity e = sortFile.GetDataReference(getLine(), factory) ;
+		if (dataRef != null)
 		{
-			CDataEntity eFrom = m_DataRef.GetDataReference(getLine(), factory) ;
+			CDataEntity eFrom = dataRef.GetDataReference(getLine(), factory) ;
 			eRel.setDataReference(e, eFrom) ;
 		}
 		else
@@ -68,16 +68,16 @@ public class CRelease extends CCobolElement
 		{
 			return false ;
 		}
-		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().m_Name) ;
+		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
 		
 		tok = GetNext() ;
-		m_SortFile = ReadIdentifier();
+		sortFile = ReadIdentifier();
 		
 		tok = GetCurrentToken();
 		if (tok.GetKeyword() == CCobolKeywordList.FROM)
 		{
 			tok = GetNext();
-			m_DataRef = ReadIdentifier();
+			dataRef = ReadIdentifier();
 		}
 		return true;
 	}
@@ -87,17 +87,17 @@ public class CRelease extends CCobolElement
 		
 		Element eRecord = root.createElement("Record");
 		eRelease.appendChild(eRecord);
-		m_SortFile.ExportTo(eRecord, root);
+		sortFile.ExportTo(eRecord, root);
 		
-		if (m_DataRef != null)
+		if (dataRef != null)
 		{
 			Element e = root.createElement("From");
-			m_DataRef.ExportTo(e, root);
+			dataRef.ExportTo(e, root);
 			eRelease.appendChild(e);
 		}
 		return eRelease;
 	}
 
-	protected CIdentifier m_SortFile = null ;
-	protected CIdentifier m_DataRef = null ;
+	protected CIdentifier sortFile = null ;
+	protected CIdentifier dataRef = null ;
 }

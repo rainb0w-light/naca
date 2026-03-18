@@ -39,41 +39,41 @@ public class CBMSLexer extends CBaseLexer
 	protected CBaseToken ReadString(InputStream buffer)
 	{
 		Vector<Character> val = new Vector<Character>() ;
-		char delimit = m_cCurrent ;
-		m_nCurrentPositionInLine ++ ; // '\''
+		char delimit = cCurrent ;
+		nCurrentPositionInLine ++ ; // '\''
 		boolean bDone = false ;
-		while (!bDone && m_nCurrentPositionInLine < m_nCurrentLineLength)
+		while (!bDone && nCurrentPositionInLine < nCurrentLineLength)
 		{
-			m_cCurrent = m_arrCurrentLine[m_nCurrentPositionInLine];
-			Character b = new Character(m_cCurrent) ;
-			if (m_cCurrent == '*' && m_nCurrentPositionInLine == m_nCurrentLineLength-1)
+			cCurrent = arrCurrentLine[nCurrentPositionInLine];
+			Character b = new Character(cCurrent) ;
+			if (cCurrent == '*' && nCurrentPositionInLine == nCurrentLineLength-1)
 			{	// the string continues on next line.
 				if (!ReadLine(buffer))
 				{
 					return null ;
 				}
-				m_nCurrentPositionInLine = 15 ;
+				nCurrentPositionInLine = 15 ;
 				continue ;  
 			}
-			if (m_cCurrent != delimit && m_cCurrent != '\n' && m_cCurrent != '\r')
+			if (cCurrent != delimit && cCurrent != '\n' && cCurrent != '\r')
 			{
 				val.add(b) ;
 			}
-			else if (m_cCurrent == delimit && m_nCurrentPositionInLine==m_nCurrentLineLength-1)
+			else if (cCurrent == delimit && nCurrentPositionInLine==nCurrentLineLength-1)
 			{
 				bDone = true ;
 			}
-			else if (m_cCurrent == delimit && m_nCurrentPositionInLine==m_nCurrentLineLength-2 
-					&& m_arrCurrentLine[m_nCurrentPositionInLine+1]=='*')
+			else if (cCurrent == delimit && nCurrentPositionInLine==nCurrentLineLength-2 
+					&& arrCurrentLine[nCurrentPositionInLine+1]=='*')
 			{ // maybe the string continues on the next line : it depends on the first character on the next line.
 				if (!ReadLine(buffer))
 				{
 					return null ;
 				}
-				m_nCurrentPositionInLine = 15 ;
-				if (m_arrCurrentLine[m_nCurrentPositionInLine] == delimit)
+				nCurrentPositionInLine = 15 ;
+				if (arrCurrentLine[nCurrentPositionInLine] == delimit)
 				{
-					m_nCurrentPositionInLine ++ ; // in this case current position += 2
+					nCurrentPositionInLine ++ ; // in this case current position += 2
 					val.add(b) ;
 				}
 				else
@@ -82,21 +82,21 @@ public class CBMSLexer extends CBaseLexer
 				}
 				continue ;  
 			}
-			else if (m_cCurrent == delimit && m_arrCurrentLine[m_nCurrentPositionInLine+1]==delimit)
+			else if (cCurrent == delimit && arrCurrentLine[nCurrentPositionInLine+1]==delimit)
 			{
-				m_nCurrentPositionInLine ++ ; // in this case current position += 2
+				nCurrentPositionInLine ++ ; // in this case current position += 2
 				val.add(b) ;
 			}
-			else if (m_cCurrent == delimit)
+			else if (cCurrent == delimit)
 			{
 				bDone = true ;
 			}
 			else
 			{
-//					m_nCurrentPositionInLine ++ ;
+//					nCurrentPositionInLine ++ ;
 //					break ;
 			}
-			m_nCurrentPositionInLine ++ ;
+			nCurrentPositionInLine ++ ;
 		}
 		char[] res = new char[val.size()];
 		for (int i=0; i<val.size(); i++)
@@ -118,16 +118,16 @@ public class CBMSLexer extends CBaseLexer
 		String val = new String() ;
 		try 
 		{
-			m_nCurrentPositionInLine ++ ;
+			nCurrentPositionInLine ++ ;
 			boolean bDone = false;
 			while (!bDone)
 			{
-				while (m_nCurrentPositionInLine < m_nCurrentLineLength)
+				while (nCurrentPositionInLine < nCurrentLineLength)
 				{
-					val += m_arrCurrentLine[m_nCurrentPositionInLine] ;
-					m_nCurrentPositionInLine ++ ;
+					val += arrCurrentLine[nCurrentPositionInLine] ;
+					nCurrentPositionInLine ++ ;
 				}
-				char c = m_arrCurrentLine[m_nCurrentLineLength-1] ;
+				char c = arrCurrentLine[nCurrentLineLength-1] ;
 				if (c == '*')
 				{
 					ReadLine(buffer) ;
@@ -148,7 +148,7 @@ public class CBMSLexer extends CBaseLexer
 	@Override
 	protected boolean IsCommentMarker(char current, boolean isNewLine)
 	{
-		if (isNewLine && m_nCurrentPositionInLine <= 12)
+		if (isNewLine && nCurrentPositionInLine <= 12)
 		{
 			if (current == '*' || current == '/')
 			{

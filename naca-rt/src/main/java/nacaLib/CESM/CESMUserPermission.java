@@ -29,10 +29,10 @@ public class CESMUserPermission
 //{
 //	public CESMUserPermission(CESMUserIdentity id)
 //	{
-//		m_Identity = id ;
+//		identity = id ;
 //	}
-//	protected CESMUserIdentity m_Identity = null ;
-//	protected Vector m_arrRights = new Vector() ;
+//	protected CESMUserIdentity identity = null ;
+//	protected Vector arrRights = new Vector() ;
 //	protected class UserRight
 //	{
 //		public String m_Description = "" ;
@@ -61,9 +61,9 @@ public class CESMUserPermission
 //		  " ORDER BY CDAPPLI";
 //		SQL reqUser = new SQL(null, conn, req, false) ;
 //		reqUser.param(1, proj) ;
-//		reqUser.param(2, m_Identity.getCompany()) ;
-//		reqUser.param(3, m_Identity.getAgency()) ;
-//		reqUser.param(4, m_Identity.getId()) ;
+//		reqUser.param(2, identity.getCompany()) ;
+//		reqUser.param(3, identity.getAgency()) ;
+//		reqUser.param(4, identity.getId()) ;
 //		CSQLResultSet result = reqUser.executeQuery() ;
 //		
 //		if (result != null)
@@ -85,7 +85,7 @@ public class CESMUserPermission
 //					right.m_Grouping = s ;
 //					if (!right.m_Grouping.equals(""))
 //					{
-//						m_Identity.setGrouping(right.m_Grouping) ;
+//						identity.setGrouping(right.m_Grouping) ;
 //					}
 //					s = rs.getString("CDMUT") ;
 //					right.m_Update = s ;
@@ -97,7 +97,7 @@ public class CESMUserPermission
 //					s = rs.getString("DTMUT") ;
 //					s = rs.getString("REMUT") ;
 //					right.m_Description = ReadApplicationDescription(right.m_Application, conn, proj) ; 
-//					m_arrRights.add(right) ;
+//					arrRights.add(right) ;
 //				}
 //				rs.close() ;
 //			}
@@ -140,7 +140,7 @@ public class CESMUserPermission
 //		SQL reqUser = new SQL(null, conn, req, false) ;
 //		reqUser.param(1, "DICAPP");
 //		reqUser.param(2, app);
-//		reqUser.param(3, m_Identity.getLangCode());
+//		reqUser.param(3, identity.getLangCode());
 //		CSQLResultSet result = reqUser.executeQuery() ;
 //		String desc = "" ;
 //		if (result != null)

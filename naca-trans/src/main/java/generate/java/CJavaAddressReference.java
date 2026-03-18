@@ -38,13 +38,13 @@ public class CJavaAddressReference extends CEntityAddressReference
 	public String ExportReference(int nLine)
 	{
 		String out = "addressOf(" ;
-		if (m_Reference == null)
+		if (reference == null)
 		{
 			out += "[UNDEFINED]" ;
 		}
 		else
 		{
-			out += m_Reference.ExportReference(getLine());
+			out += reference.ExportReference(getLine());
 		}
 		out += ")" ;
 		return out ;

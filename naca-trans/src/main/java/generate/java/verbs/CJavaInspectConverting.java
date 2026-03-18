@@ -20,11 +20,11 @@ public class CJavaInspectConverting extends CEntityInspectConverting
 	protected void DoExport()
 	{
 		WriteWord("inspectConverting(");
-		WriteWord(m_Variable.ExportReference(getLine()));
+		WriteWord(variable.ExportReference(getLine()));
 		WriteWord(").to(");
-		WriteWord(m_From.ExportReference(getLine()));
+		WriteWord(from.ExportReference(getLine()));
 		WriteWord(",");
-		WriteWord(m_To.ExportReference(getLine()));
+		WriteWord(to.ExportReference(getLine()));
 		WriteWord(")");
 		WriteWord(";");
 		WriteEOL();		

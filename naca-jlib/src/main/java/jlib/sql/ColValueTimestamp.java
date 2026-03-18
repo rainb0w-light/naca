@@ -21,45 +21,45 @@ public class ColValueTimestamp extends ColValue
 	public ColValueTimestamp(String csName,  Timestamp timestampValue)
 	{
 		super(csName);
-		m_timestampValue = timestampValue;
+		timestampValue = timestampValue;
 	}
 	
 	public ColValue duplicate()
 	{
-		return new ColValueTimestamp(m_csName, m_timestampValue);
+		return new ColValueTimestamp(csName, timestampValue);
 	}
 	
 	public void setParamSQLClause(SQLClause clause)
 	{
-		clause.param(m_timestampValue);
+		clause.param(timestampValue);
 	}	
 	
 	public void doFillWithResurltSetCol(ResultSet resultSet, int nCol)
 		throws SQLException
 	{
-		m_timestampValue = resultSet.getTimestamp(nCol);
+		timestampValue = resultSet.getTimestamp(nCol);
 	}
 
 	public String getValueAsString()
 	{
-		if(m_timestampValue == null)	// Now
+		if(timestampValue == null)	// Now
 		{
 			Date date = new Date();
 			Time time = new Time(date.getTime());
 			return String.valueOf(time);
 		}
-		return String.valueOf(m_timestampValue);		
+		return String.valueOf(timestampValue);		
 	}
 	
 	String getDumpValueAsString()
 	{
-		if(m_timestampValue == null)	// Now
+		if(timestampValue == null)	// Now
 		{
 			Date date = new Date();
 			Time time = new Time(date.getTime());
 			return "(Timestamp now):'"+String.valueOf(time)+"'";
 		}
-		return "(Timestamp):'"+String.valueOf(m_timestampValue)+"'";		
+		return "(Timestamp):'"+String.valueOf(timestampValue)+"'";		
 	}
 	
 	public int getValueAsInt()
@@ -84,16 +84,16 @@ public class ColValueTimestamp extends ColValue
 	
 	Object getValue()
 	{
-		if(m_timestampValue == null)	// Now
+		if(timestampValue == null)	// Now
 		{
 			Date date = new Date();
 			Timestamp ts = new Timestamp(date.getTime()); 
 			return ts;
 		}
-		return m_timestampValue;
+		return timestampValue;
 	}
 
 	
-	Timestamp m_timestampValue = null;
+	Timestamp timestampValue = null;
 }
 

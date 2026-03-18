@@ -51,7 +51,7 @@ public class CLocalizedTextManager extends CJMapObject
 			{
 				String csId = tagCode.getVal("id");
 				String csLang = tagCode.getVal("lang");
-				m_tabLanguageCodes.put(csId, csLang);
+				tabLanguageCodes.put(csId, csLang);
 				
 				tagCode = tagLanguages.getEnumChild();
 			}
@@ -63,7 +63,7 @@ public class CLocalizedTextManager extends CJMapObject
 		{
 			String csId = tagItem.getVal("id");
 			MapStringByString table = new MapStringByString() ;
-			m_tabLocalizedTexts.put(csId, table) ;
+			tabLocalizedTexts.put(csId, table) ;
 
 			Tag tagText = tagItem.getEnumChild("text");
 			while(tagText != null)
@@ -80,13 +80,13 @@ public class CLocalizedTextManager extends CJMapObject
 	
 	public String getLocalizedString(String id, String code)
 	{
-		String lang = m_tabLanguageCodes.get(code);
+		String lang = tabLanguageCodes.get(code);
 		if (lang == null)
 		{
 			lang = code ;
 		}
 		
-		MapStringByString table = m_tabLocalizedTexts.get(id);
+		MapStringByString table = tabLocalizedTexts.get(id);
 		if (table != null)
 		{
 			String text = table.get(lang) ;
@@ -98,7 +98,7 @@ public class CLocalizedTextManager extends CJMapObject
 		return id ;
 	}
 
-	protected Hashtable<String, String> m_tabLanguageCodes = new Hashtable<String, String>() ;
-	protected Hashtable<String, MapStringByString> m_tabLocalizedTexts = new Hashtable<String, MapStringByString>() ;
+	protected Hashtable<String, String> tabLanguageCodes = new Hashtable<String, String>() ;
+	protected Hashtable<String, MapStringByString> tabLocalizedTexts = new Hashtable<String, MapStringByString>() ;
 	
 }

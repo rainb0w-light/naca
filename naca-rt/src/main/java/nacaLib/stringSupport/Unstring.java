@@ -26,7 +26,7 @@ public class Unstring
 {
 	public Unstring(VarAndEdit varSource)
 	{
-		m_UnstringManager = new UnstringManager(varSource);
+		unstringManager = new UnstringManager(varSource);
 	}
 	
 	public Unstring delimitedBy(VarAndEdit varDelimiter)
@@ -37,7 +37,7 @@ public class Unstring
 	public Unstring delimitedBy(String csDelimiter)
 	{
 		UnstringDelimiter Delimiter = new UnstringDelimiter(csDelimiter, false);
-		m_UnstringManager.m_arrDelimiters.add(Delimiter);
+		unstringManager.arrDelimiters.add(Delimiter);
 		return this;		
 	}
 	
@@ -49,49 +49,49 @@ public class Unstring
 	public Unstring delimitedByAll(String csDelimiter)
 	{
 		UnstringDelimiter Delimiter = new UnstringDelimiter(csDelimiter, true);
-		m_UnstringManager.m_arrDelimiters.add(Delimiter);
+		unstringManager.arrDelimiters.add(Delimiter);
 		return this;		
 	}
 	
 	public Unstring tallying(Var varTallying)
 	{
-		m_UnstringManager.tallying(varTallying);
+		unstringManager.tallying(varTallying);
 		return this;
 	}
 	
 	public UnstringToManager to(Var varDelimiterDest, Var varDelimiterIn, Var varCountDest)
 	{
-		UnstringToManager unstringToManager = new UnstringToManager(m_UnstringManager);
-		m_UnstringManager.doInto(varDelimiterDest, varDelimiterIn, varCountDest);
+		UnstringToManager unstringToManager = new UnstringToManager(unstringManager);
+		unstringManager.doInto(varDelimiterDest, varDelimiterIn, varCountDest);
 		return unstringToManager;
 	}
 	
 	public UnstringToManager to(Var varDelimiterDest)
 	{
-		UnstringToManager unstringToManager = new UnstringToManager(m_UnstringManager);
-		m_UnstringManager.doInto(varDelimiterDest, null, null);
+		UnstringToManager unstringToManager = new UnstringToManager(unstringManager);
+		unstringManager.doInto(varDelimiterDest, null, null);
 		return unstringToManager;
 	}
 	
 //	public boolean failed()
 //	{
-//		if(m_UnstringManager == null)
+//		if(unstringManager == null)
 //			return true;
-//		return m_UnstringManager.failed();
+//		return unstringManager.failed();
 //	}
 //	
 //	public boolean notFailed()
 //	{
-//		if(m_UnstringManager == null)
+//		if(unstringManager == null)
 //			return false;
-//		return !m_UnstringManager.failed();
+//		return !unstringManager.failed();
 //	}
 	
 	public Unstring withPointer(Var varPointer)
 	{
-		m_UnstringManager.withPointer(varPointer);
+		unstringManager.withPointer(varPointer);
 		return this ;
 	}
 	
-	private UnstringManager m_UnstringManager = null;
+	private UnstringManager unstringManager = null;
 }

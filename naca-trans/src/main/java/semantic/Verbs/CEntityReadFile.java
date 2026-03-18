@@ -23,44 +23,44 @@ public abstract class CEntityReadFile extends CBaseActionEntity
 
 	public void setFileDescriptor(CEntityFileDescriptor efd, CDataEntity data)
 	{
-		m_eFileDescriptor = efd ;
-		m_eDataInto = data ;
+		eFileDescriptor = efd ;
+		eDataInto = data ;
 	}
-	protected CEntityFileDescriptor m_eFileDescriptor = null  ;
-	protected CDataEntity m_eDataInto = null ;
+	protected CEntityFileDescriptor eFileDescriptor = null  ;
+	protected CDataEntity eDataInto = null ;
 	
 	public void SetAtEndBloc(CBaseLanguageEntity bloc)
 	{
-		m_eAtEndBloc = bloc ;
+		eAtEndBloc = bloc ;
 	}
-	protected CBaseLanguageEntity m_eAtEndBloc = null ;
-	protected CBaseLanguageEntity m_eNotAtEndBloc = null ;
+	protected CBaseLanguageEntity eAtEndBloc = null ;
+	protected CBaseLanguageEntity eNotAtEndBloc = null ;
 
 	public void SetNotAtEndBloc(CBaseLanguageEntity bloc)
 	{
-		m_eNotAtEndBloc = bloc ;
+		eNotAtEndBloc = bloc ;
 	}
 
 	// ==================== ST4 Template Accessors ====================
 
 	public CEntityFileDescriptor getFileDescriptor()
 	{
-		return m_eFileDescriptor;
+		return eFileDescriptor;
 	}
 
 	public CDataEntity getDataInto()
 	{
-		return m_eDataInto;
+		return eDataInto;
 	}
 
 	public CBaseLanguageEntity getAtEndBloc()
 	{
-		return m_eAtEndBloc;
+		return eAtEndBloc;
 	}
 
 	public CBaseLanguageEntity getNotAtEndBloc()
 	{
-		return m_eNotAtEndBloc;
+		return eNotAtEndBloc;
 	}
 
 }

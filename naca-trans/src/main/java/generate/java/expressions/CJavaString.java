@@ -32,9 +32,9 @@ public class CJavaString extends CEntityString
 	{
 		String cs = "" ;
 		boolean bSpecialCharacters = false ;
-		for (int i=0; i<m_carrValue.length;i++)
+		for (int i=0; i<carrValue.length;i++)
 		{
-			char b = m_carrValue[i] ;
+			char b = carrValue[i] ;
 			if (b=='"')
 			{
 				cs += "\\\"" ;

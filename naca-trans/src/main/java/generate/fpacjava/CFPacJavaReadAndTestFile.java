@@ -22,7 +22,7 @@ public class CFPacJavaReadAndTestFile extends CEntityFunctionCall
 	@Override
 	public String ExportReference(int nLine)
 	{
-		String cs = m_Reference.ExportReference(getLine()) + ".read().atEnd()" ;
+		String cs = reference.ExportReference(getLine()) + ".read().atEnd()" ;
 		return cs ;
 	}
 

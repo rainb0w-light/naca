@@ -19,11 +19,11 @@ public class CFPacJavaDivide extends CEntityDivide {
 	@Override
 	protected void DoExport() {
 		WriteWord("divide(") ;
-		WriteWord(this.m_What.ExportReference(getLine())) ;
+		WriteWord(this.what.ExportReference(getLine())) ;
 		WriteWord(", ") ;
-		WriteWord(this.m_By.ExportReference(getLine())) ;
+		WriteWord(this.by.ExportReference(getLine())) ;
 		WriteWord(").to(") ;
-		WriteWord(this.m_Result.ExportReference(getLine())) ;
+		WriteWord(this.result.ExportReference(getLine())) ;
 		
 		WriteWord(") ;") ;
 		WriteEOL() ;

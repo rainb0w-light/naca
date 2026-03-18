@@ -22,33 +22,33 @@ public class CFPacJavaCondition extends CEntityCondition
 	@Override
 	protected void DoExport()
 	{
-		if (m_Condition == null)
+		if (condition == null)
 		{
 			return ;
 		}
 
-		if (!m_bAlternativeCondition)
+		if (!bAlternativeCondition)
 			WriteWord("if (");
 		else
 			WriteWord("else if (");
-		String cs = m_Condition.Export() ;
+		String cs = condition.Export() ;
 		cs += ") {" ;
 		WriteWord(cs) ;
 		WriteEOL() ;
-		DoExport(m_ThenBloc) ;
-		int n = m_ThenBloc.GetEndLine() ;
-		if (n == 0 && m_ElseBloc != null)
+		DoExport(thenBloc) ;
+		int n = thenBloc.GetEndLine() ;
+		if (n == 0 && elseBloc != null)
 		{
-			n = m_ElseBloc.getLine() -1 ;
+			n = elseBloc.getLine() -1 ;
 		}
-		if (m_arrAlternativeConditions != null)
+		if (arrAlternativeConditions != null)
 		{
-			if (!m_arrAlternativeConditions.isEmpty())
+			if (!arrAlternativeConditions.isEmpty())
 			{
-				n = m_lstChildren.getFirst().getLine() -1 ;
+				n = lstChildren.getFirst().getLine() -1 ;
 			}
 			WriteLine("}", n) ;
-			for (CBaseLanguageEntity e : m_arrAlternativeConditions)
+			for (CBaseLanguageEntity e : arrAlternativeConditions)
 			{
 				DoExport(e) ;
 			}
@@ -57,11 +57,11 @@ public class CFPacJavaCondition extends CEntityCondition
 		{
 			WriteLine("}", n) ;
 		}
-		if (m_ElseBloc != null)
+		if (elseBloc != null)
 		{
-			WriteLine("else {", m_ElseBloc.getLine()) ;
-			DoExport(m_ElseBloc) ;
-			WriteLine("}", m_ElseBloc.GetEndLine()) ;
+			WriteLine("else {", elseBloc.getLine()) ;
+			DoExport(elseBloc) ;
+			WriteLine("}", elseBloc.GetEndLine()) ;
 		}	}
 
 }

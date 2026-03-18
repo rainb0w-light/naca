@@ -19,20 +19,20 @@ import nacaLib.varEx.VarBufferPos;
 public class PackWorking extends FPacVarManager
 {
 	static private final int WORKING_SIZE = 10001;	// Nb bytes in preallocated working
-	private int m_nBufferId = 0;
-	private FPacVarCacheManager m_fpacVarCacheManager = null;
+	private int nBufferId = 0;
+	private FPacVarCacheManager fpacVarCacheManager = null;
 	
 	public PackWorking(FPacProgram program)
 	{
 		super(program);
 		
-		m_nBufferId = FPacBufferCounter.getBufferId();
+		nBufferId = FPacBufferCounter.getBufferId();
 		
 		char acBuffer[] = new char [WORKING_SIZE];
-		m_varBuffer = new VarBuffer(acBuffer); 
+		varBuffer = new VarBuffer(acBuffer); 
 		
 		init();
-		m_fpacVarCacheManager = program.getFPacVarCacheManager();
+		fpacVarCacheManager = program.getFPacVarCacheManager();
 	}
 	
 	private void init()
@@ -96,34 +96,34 @@ public class PackWorking extends FPacVarManager
 	
 	private int getBufferId()
 	{
-		return m_nBufferId;
+		return nBufferId;
 	}
 	
 	Var createFPacVar(int nPosition1Based, int nBufferLength)
 	{		
 		if(isPositionInRangeComp3(nPosition1Based))		
 		{
-			return createFPacVarNumIntSignComp3(m_varBuffer, nPosition1Based, nBufferLength);
+			return createFPacVarNumIntSignComp3(varBuffer, nPosition1Based, nBufferLength);
 		}
 		else //if(nPosition >= 7000 && nPosition <= 7999)
 		{
-			return createFPacVarAlphaNum(m_varBuffer, nPosition1Based, nBufferLength);
+			return createFPacVarAlphaNum(varBuffer, nPosition1Based, nBufferLength);
 		}
 	}
 	
 	Var createFPacVarX(int nPosition1Based, int nBufferLength)
 	{		
-		return createFPacVarAlphaNum(m_varBuffer, nPosition1Based, nBufferLength);
+		return createFPacVarAlphaNum(varBuffer, nPosition1Based, nBufferLength);
 	}
 	
 	Var createFPacVarP(int nPosition1Based, int nBufferLength)
 	{		
-		return createFPacVarNumIntSignComp3(m_varBuffer, nPosition1Based, nBufferLength);
+		return createFPacVarNumIntSignComp3(varBuffer, nPosition1Based, nBufferLength);
 	}
 	
 	Var createFPacVar(int nPosition1Based, String csEditMask)
 	{		
-		return createFPacVarNumEdited(m_varBuffer, nPosition1Based, csEditMask);
+		return createFPacVarNumEdited(varBuffer, nPosition1Based, csEditMask);
 	}
 
 //	
@@ -142,33 +142,33 @@ public class PackWorking extends FPacVarManager
 	
 	private void setAtLowValue(int n)
 	{
-		m_varBuffer.setCharAt(n, CobolConstant.LowValue.getValue());
+		varBuffer.setCharAt(n, CobolConstant.LowValue.getValue());
 	}
 	
 	private void setAtHighValue(int n)
 	{
-		m_varBuffer.setCharAt(n, CobolConstant.HighValue.getValue());
+		varBuffer.setCharAt(n, CobolConstant.HighValue.getValue());
 	}
 
 	private void setAtSpace(int n)
 	{
-		m_varBuffer.setCharAt(n, CobolConstant.Space.getValue());
+		varBuffer.setCharAt(n, CobolConstant.Space.getValue());
 	}
 	
 	private void setInitPacked8Digits(int nAbsoluteStartPosition)
 	{
-		VarBufferPos varBufferPos = new VarBufferPos(m_varBuffer, nAbsoluteStartPosition);
-		m_varBuffer.setIntSignComp3At(varBufferPos, 0L, 15, 8);
+		VarBufferPos varBufferPos = new VarBufferPos(varBuffer, nAbsoluteStartPosition);
+		varBuffer.setIntSignComp3At(varBufferPos, 0L, 15, 8);
 	}
 	
 	VarBuffer getVarBuffer()
 	{
-		return m_varBuffer;
+		return varBuffer;
 	}
 	
 	public void dumpHexa(int nPosition, int nLength)
 	{
-		m_varBuffer.dumpHexa(nPosition, nLength);
+		varBuffer.dumpHexa(nPosition, nLength);
 	}
 	
 	void fillCommarea(int nLength, CCommarea commarea)
@@ -178,5 +178,5 @@ public class PackWorking extends FPacVarManager
 		callParamFPac.MapOn(varDest);		
 	}
 	
-	private VarBuffer m_varBuffer = null;	
+	private VarBuffer varBuffer = null;	
 }

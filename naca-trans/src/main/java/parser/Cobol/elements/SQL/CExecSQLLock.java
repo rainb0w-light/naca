@@ -43,13 +43,13 @@ public class CExecSQLLock extends CBaseExecSQLAction
 	public Element ExportCustom(Document root)
 	{
 		Element eExe = root.createElement("SQLLock");
-		eExe.setAttribute("Table", m_idTable.GetName());
+		eExe.setAttribute("Table", idTable.GetName());
 		return eExe;
 	}
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
 		CEntitySQLLock lock = factory.NewEntitySQLLock(getLine()) ;
-		lock.setTable(m_idTable.GetName()) ;
+		lock.setTable(idTable.GetName()) ;
 		parent.AddChild(lock) ;
 		return lock ;
 	}
@@ -62,7 +62,7 @@ public class CExecSQLLock extends CBaseExecSQLAction
 		}
 		if (tok.GetType() == CTokenType.IDENTIFIER)
 		{
-			m_idTable = new CIdentifier(tok.GetValue()) ;
+			idTable = new CIdentifier(tok.GetValue()) ;
 			tok = GetNext() ;
 		}
 		else
@@ -84,5 +84,5 @@ public class CExecSQLLock extends CBaseExecSQLAction
 		return true ;
 	}
 	
-	protected CIdentifier m_idTable = null ;
+	protected CIdentifier idTable = null ;
 }

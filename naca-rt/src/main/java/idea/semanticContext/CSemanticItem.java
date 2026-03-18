@@ -22,10 +22,10 @@ public class CSemanticItem
 {
 	CSemanticItem(String csScreenId, CMenuDef MenuDef)
 	{
-		m_csScreenId = csScreenId; 
-		m_MenuDef = MenuDef;
+		csScreenId = csScreenId; 
+		menuDef = MenuDef;
 	}
 	
-	String m_csScreenId = null;
-	CMenuDef m_MenuDef = null;
+	String csScreenId = null;
+	CMenuDef menuDef = null;
 }

@@ -20,9 +20,9 @@ public class CJavaSQLSessionDeclare extends CEntitySQLSessionDeclare
 	protected void DoExport()
 	{
 		WriteWord("sql(") ;
-		WriteLongString(m_csSql);
+		WriteLongString(csSql);
 		WriteWord(")");
-		String csSQLErrorWarningStatement = m_ProgramCatalog.getSQLWarningErrorStatement();
+		String csSQLErrorWarningStatement = programCatalog.getSQLWarningErrorStatement();
 		if(csSQLErrorWarningStatement != null)
 		{
 			WriteWord(csSQLErrorWarningStatement);

@@ -37,15 +37,15 @@ import jlib.sql.SQLClause;
 public class ProgrammingException extends RuntimeException
 {
 	private static final long serialVersionUID = 6564135776272937738L;
-	private String m_csError = null;
-	private String m_csMessage = null;
+	private String csError = null;
+	private String csMessage = null;
 
 /**
  * Returns a description of the technical exception.
  * @return A description of the technical exception.
  */
 	public String getError() {
-		return m_csMessage;
+		return csMessage;
 	}
 
 /**
@@ -53,37 +53,37 @@ public class ProgrammingException extends RuntimeException
  * @return The error code.
  */
 	public String getCode() {
-		return m_csError;
+		return csError;
 	}
 	
 	public ProgrammingException(String csError, String csMessage)
 	{
 		super(StringUtil.concatArgWithSeparator(csError,"-",csMessage));
-		m_csError = csError;
-		m_csMessage = csMessage;	
+		csError = csError;
+		csMessage = csMessage;	
 	}
 
 	public ProgrammingException(String csError, SQLClause sqlClause, SQLException sqlException)
 	{
 		super(StringUtil.concatArgWithSeparator(csError,"-",sqlClause.toString()),sqlException);
-		m_csError = csError;
-		m_csMessage = sqlClause.toString();
+		csError = csError;
+		csMessage = sqlClause.toString();
 	}
 
 	
 	public ProgrammingException(String csError, String csMessage, Exception exception)
 	{
 		super(StringUtil.concatArgWithSeparator(csError,"-",csMessage),exception);
-		m_csError = csError;
-		m_csMessage = csMessage;
+		csError = csError;
+		csMessage = csMessage;
 	}
 
 
 	public ProgrammingException(String csError, String csMessage, IOException eIO)
 	{
 		super(StringUtil.concatArgWithSeparator(csError,"-",csMessage),eIO);
-		m_csError = csError;
-		m_csMessage = csMessage;
+		csError = csError;
+		csMessage = csMessage;
 	}
 	
 	public static void throwException(String csError, SQLClause sqlClause, SQLException sqlException)

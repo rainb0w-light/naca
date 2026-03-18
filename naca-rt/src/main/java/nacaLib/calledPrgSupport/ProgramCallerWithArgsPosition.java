@@ -25,26 +25,26 @@ import nacaLib.exceptions.ProgramCallerException;
  */
 public class ProgramCallerWithArgsPosition extends CalledProgramParamSupportByPosition
 {
-	private String m_csConfigFile = null;
-	private DbConnectionBase m_dbConnection = null;
-	private String m_csPrgClassName = null;
+	private String csConfigFile = null;
+	private DbConnectionBase dbConnection = null;
+	private String csPrgClassName = null;
 	
 	public ProgramCallerWithArgsPosition(String csConfigFile, DbConnectionBase dbConnection, String csPrgClassName)
 	{
-		m_csConfigFile = csConfigFile;
-		m_dbConnection = dbConnection;
-		m_csPrgClassName = csPrgClassName;
+		csConfigFile = csConfigFile;
+		dbConnection = dbConnection;
+		csPrgClassName = csPrgClassName;
 	}
 	public ProgramCallerWithArgsPosition(String csConfigFile, DbConnectionBase dbConnection, Class classPrgToCall)
 	{
-		m_csConfigFile = csConfigFile;
-		m_dbConnection = dbConnection;
-		m_csPrgClassName = classPrgToCall.getName();
+		csConfigFile = csConfigFile;
+		dbConnection = dbConnection;
+		csPrgClassName = classPrgToCall.getName();
 	}
 
 	public boolean execute() throws ProgramCallerException
 	{
-		CalledResourceManager calledResourceManager = CalledResourceManagerFactory.GetInstance(m_csConfigFile, m_dbConnection.getEnvironmentPrefix());
+		CalledResourceManager calledResourceManager = CalledResourceManagerFactory.GetInstance(csConfigFile, dbConnection.getEnvironmentPrefix());
 		if(calledResourceManager == null)
 			return false;
 		
@@ -54,10 +54,10 @@ public class ProgramCallerWithArgsPosition extends CalledProgramParamSupportByPo
 		try
 		{
 			BaseProgramLoader loader = CalledProgramLoader.GetProgramLoaderInstance() ;
-			env = loader.GetEnvironment(session, m_csPrgClassName, null) ;
-			env.setExternalDbConnection(m_dbConnection);
+			env = loader.GetEnvironment(session, csPrgClassName, null) ;
+			env.setExternalDbConnection(dbConnection);
 			boolean bUseStatementCache = BaseResourceManager.getUseStatementCache();
-			env.fillEnvConnectionWithAllocatedConnection(m_dbConnection.getDbConnection(), "ExternalConnection", m_dbConnection.getEnvironmentPrefix(), bUseStatementCache);							
+			env.fillEnvConnectionWithAllocatedConnection(dbConnection.getDbConnection(), "ExternalConnection", dbConnection.getEnvironmentPrefix(), bUseStatementCache);							
 	
 			boolean bStarted = env.startRunTransaction();
 			if(!bStarted)
@@ -66,7 +66,7 @@ public class ProgramCallerWithArgsPosition extends CalledProgramParamSupportByPo
 				return false;
 			}
 				
-			loader.runTopProgram(env, m_arrPublicArgs);
+			loader.runTopProgram(env, arrPublicArgs);
 			
 			env.endRunTransaction(CriteriaEndRunMain.Normal);
 			return true;

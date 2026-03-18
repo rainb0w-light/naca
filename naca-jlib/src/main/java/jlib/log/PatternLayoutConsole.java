@@ -26,7 +26,7 @@ public class PatternLayoutConsole extends LogPatternLayout
 	public PatternLayoutConsole(String csFormat)
 	{
 		super();
-		m_csFormat = csFormat;
+		csFormat = csFormat;
 	}
 	
 	String getMessage(LogParams logParams)
@@ -36,7 +36,7 @@ public class PatternLayoutConsole extends LogPatternLayout
 	
 	String format(LogParams logParams, int n)
 	{
-		String cs = m_csFormat;
+		String cs = csFormat;
 		cs = StringUtil.replace(cs, "%Message", logParams.toString(), true);
 		cs = StringUtil.replace(cs, "%ThreadName", logParams.getThreadName(), true);
 		cs = StringUtil.replace(cs, "%ThreadId", logParams.getThreadId(), true);
@@ -52,5 +52,5 @@ public class PatternLayoutConsole extends LogPatternLayout
 		return 1;
 	}
 	
-	private String m_csFormat = null;
+	private String csFormat = null;
 }

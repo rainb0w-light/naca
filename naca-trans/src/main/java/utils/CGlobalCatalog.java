@@ -39,18 +39,18 @@ public class CGlobalCatalog
 {
 	protected class CProgramFilenameFilter implements FilenameFilter
 	{
-		protected String m_PrgName = "" ;
+		protected String prgName = "" ;
 		public CProgramFilenameFilter(String name)
 		{
-			m_PrgName = name ;
+			prgName = name ;
 		}
 		public boolean accept(File dir, String name)
 		{
-			if (name.equalsIgnoreCase(m_PrgName))
+			if (name.equalsIgnoreCase(prgName))
 			{
 				return true ;
 			}
-			if (name.equalsIgnoreCase(m_PrgName+".cbl"))
+			if (name.equalsIgnoreCase(prgName+".cbl"))
 			{
 				return true ;
 			}
@@ -58,26 +58,26 @@ public class CGlobalCatalog
 		}
 	}
 	
-	protected Hashtable<String, CEntityExternalDataStructure> m_tabIncludedStructures = new Hashtable<String, CEntityExternalDataStructure>() ;
+	protected Hashtable<String, CEntityExternalDataStructure> tabIncludedStructures = new Hashtable<String, CEntityExternalDataStructure>() ;
 	//protected Hashtable<String, CEntityResourceFormContainer> m_tabFormContainers = new Hashtable<String, CEntityResourceFormContainer>() ;
-	protected Hashtable<String, CIgnoreExternalEntity> m_tabIgnoredExternals = new Hashtable<String, CIgnoreExternalEntity>() ;
+	protected Hashtable<String, CIgnoreExternalEntity> tabIgnoredExternals = new Hashtable<String, CIgnoreExternalEntity>() ;
 	//private Logger m_logger = Transcoder.ms_logger ;
-	protected Transcoder m_Transcoder ;
-	private String m_csReferenceGroupName = "" ;
-	private String m_csResourceGroupName = "" ;
-	private String m_csIncludeGroupName = "" ;
+	protected Transcoder transcoder ;
+	private String csReferenceGroupName = "" ;
+	private String csResourceGroupName = "" ;
+	private String csIncludeGroupName = "" ;
 	
 	
 	public void AddIgnoredExternal(CIgnoreExternalEntity e)
 	{
 		String name = e.GetName() ;
-		m_tabIgnoredExternals.put(name, e) ;
+		tabIgnoredExternals.put(name, e) ;
 	}
 	public boolean IsIgnoredExternal(String name)
 	{
 		try
 		{
-			return m_tabIgnoredExternals.get(name) != null ;
+			return tabIgnoredExternals.get(name) != null ;
 		}
 		catch (Exception e)
 		{
@@ -86,25 +86,25 @@ public class CGlobalCatalog
 	}
 	public CGlobalCatalog(Transcoder trans, String grpReferences, String grpResources, String grpIncludes) 
 	{
-		m_Transcoder = trans ;
-		m_csIncludeGroupName = grpIncludes ;
-		m_csReferenceGroupName = grpReferences ;
-		m_csResourceGroupName = grpResources ;
+		transcoder = trans ;
+		csIncludeGroupName = grpIncludes ;
+		csReferenceGroupName = grpReferences ;
+		csResourceGroupName = grpResources ;
 	}
 	
 	
 	@SuppressWarnings("unchecked")
 	public CEntityResourceFormContainer GetFormContainer(String contName, CBaseEntityFactory factory)
 	{
-		CTransApplicationGroup grpResources = m_Transcoder.getGroup(m_csResourceGroupName) ;
+		CTransApplicationGroup grpResources = transcoder.getGroup(csResourceGroupName) ;
 		if (grpResources != null)
 		{
 			BaseEngine<CEntityResourceFormContainer> engine = grpResources.getEngine() ;
 			CTransApplicationGroup grp = new CTransApplicationGroup(engine);
-			grp.m_csInputPath = grpResources.m_csInputPath ;
-			grp.m_csInterPath = grpResources.m_csInterPath ;
-			grp.m_csOutputPath = factory.m_LangOutput.getOutputDir() ;
-			CEntityResourceFormContainer ext = GetFormContainer(contName, grp, factory.m_ProgramCatalog.m_Exporter.isResources()) ;
+			grp.csInputPath = grpResources.csInputPath ;
+			grp.csInterPath = grpResources.csInterPath ;
+			grp.csOutputPath = factory.langOutput.getOutputDir() ;
+			CEntityResourceFormContainer ext = GetFormContainer(contName, grp, factory.programCatalog.exporter.isResources()) ;
 
 			return ext ;
 		}
@@ -113,9 +113,9 @@ public class CGlobalCatalog
 	@SuppressWarnings("unchecked")
 	public CEntityResourceFormContainer GetFormContainer(String contName, CTransApplicationGroup grp, boolean bResources)
 	{
-		if (m_tabFormContainers.containsKey(contName))
+		if (tabFormContainers.containsKey(contName))
 		{
-			CEntityResourceFormContainer cont = m_tabFormContainers.get(contName) ;
+			CEntityResourceFormContainer cont = tabFormContainers.get(contName) ;
 			return cont ;
 		}
 		else
@@ -125,10 +125,10 @@ public class CGlobalCatalog
 			
 			if (ext != null)
 			{
-				CTransApplicationGroup grpResources = m_Transcoder.getGroup(m_csResourceGroupName) ;
+				CTransApplicationGroup grpResources = transcoder.getGroup(csResourceGroupName) ;
 				if(grpResources != null)
 				{
-					String csFilePathXML = grpResources.m_csOutputPath + contName + ".res" ;
+					String csFilePathXML = grpResources.csOutputPath + contName + ".res" ;
 					ext.setExportFilePath(csFilePathXML);
 				}
 			}			
@@ -138,19 +138,19 @@ public class CGlobalCatalog
 	
 	public CTransApplicationGroup getGroupResources()
 	{
-		return  m_Transcoder.getGroup(m_csResourceGroupName) ;
+		return  transcoder.getGroup(csResourceGroupName) ;
 	}
 	
-	protected Hashtable<String, CEntityResourceFormContainer> m_tabFormContainers = new Hashtable<String, CEntityResourceFormContainer>() ; 
+	protected Hashtable<String, CEntityResourceFormContainer> tabFormContainers = new Hashtable<String, CEntityResourceFormContainer>() ; 
 	public void RegisterFormContainer(String name, CEntityResourceFormContainer cont)
 	{
 		if (cont == null)
 		{
-			m_tabFormContainers.remove(name) ;
+			tabFormContainers.remove(name) ;
 		}
 		else
 		{
-			m_tabFormContainers.put(name, cont);
+			tabFormContainers.put(name, cont);
 		}
 	}
 
@@ -202,10 +202,10 @@ public class CGlobalCatalog
 	} 
 	public boolean isProgramReference(String cs)
 	{
-		CTransApplicationGroup grpReferences = m_Transcoder.getGroup(m_csReferenceGroupName) ;
+		CTransApplicationGroup grpReferences = transcoder.getGroup(csReferenceGroupName) ;
 		if (grpReferences != null)
 		{
-			File dir = new File(grpReferences.m_csInputPath) ;
+			File dir = new File(grpReferences.csInputPath) ;
 			FilenameFilter filter = new CProgramFilenameFilter(cs);
 			File[] list = dir.listFiles(filter) ;
 			if (list.length > 0)
@@ -217,34 +217,34 @@ public class CGlobalCatalog
 	} 
 	public void RegisterExternalDataStructure(CEntityExternalDataStructure structure)
 	{
-		m_tabIncludedStructures.put(structure.GetName(), structure) ;
+		tabIncludedStructures.put(structure.GetName(), structure) ;
 	}
 	@SuppressWarnings("unchecked")
 	public CEntityExternalDataStructure GetExternalDataStructure(String name)
 	{
-		CIgnoreExternalEntity ign = m_tabIgnoredExternals.get(name);
+		CIgnoreExternalEntity ign = tabIgnoredExternals.get(name);
 		if (ign != null)
 		{
 			return ign ;
 		}
 		
-		CEntityExternalDataStructure ext = m_tabIncludedStructures.get(name);
+		CEntityExternalDataStructure ext = tabIncludedStructures.get(name);
 		if (ext != null)
 		{
 			return ext ;
 		}
 		
 		// else do transcoding ;
-		for (String includeGroupName : m_csIncludeGroupName.split(":"))
+		for (String includeGroupName : csIncludeGroupName.split(":"))
 		{
-			CTransApplicationGroup grpIncludes = m_Transcoder.getGroup(includeGroupName) ;
+			CTransApplicationGroup grpIncludes = transcoder.getGroup(includeGroupName) ;
 			if (grpIncludes == null)
 				continue;
 			BaseEngine<CEntityExternalDataStructure> engine = grpIncludes.getEngine() ;
-			Transcoder.pushTranscodedUnit(name, grpIncludes.m_csInputPath);
+			Transcoder.pushTranscodedUnit(name, grpIncludes.csInputPath);
 			ext = engine.doAllAnalysis(name, "", grpIncludes, false) ;
 			Transcoder.popTranscodedUnit();
-	//		ext = m_TranscoderEngine.getExternalDataStructure(name, null) ;
+	//		ext = transcoderEngine.getExternalDataStructure(name, null) ;
 			if (ext != null)
 			{
 				ext.StartExport() ;
@@ -254,14 +254,14 @@ public class CGlobalCatalog
 		Transcoder.logError("Missing include file : "+name) ;
 		return null ;
 	}
-	protected Hashtable<String, String> m_tabTransID = new Hashtable<String, String>() ;
+	protected Hashtable<String, String> tabTransID = new Hashtable<String, String>() ;
 	public void registerTransID(String TID, String prog)
 	{
-		m_tabTransID.put(TID, prog);		
+		tabTransID.put(TID, prog);		
 	}
 	public String GetProgramForTransaction(String transID)
 	{
-		String p = m_tabTransID.get(transID);
+		String p = tabTransID.get(transID);
 		if (p == null)
 		{
 			p = "" ;
@@ -270,13 +270,13 @@ public class CGlobalCatalog
 	}
 	public void ExportTransID(Element eRoot, Document doc)
 	{
-		Enumeration enumere = m_tabTransID.keys() ;
+		Enumeration enumere = tabTransID.keys() ;
 		try
 		{
 			String cs = (String)enumere.nextElement() ;
 			while (cs != null)
 			{
-				String p = m_tabTransID.get(cs);
+				String p = tabTransID.get(cs);
 				if (p != null)
 				{
 					Element e = doc.createElement("transid") ;
@@ -299,7 +299,7 @@ public class CGlobalCatalog
 			Element e = (Element)lst.item(i);
 			String tid = e.getAttribute("id");
 			String p = e.getAttribute("program");
-			m_tabTransID.put(tid, p);
+			tabTransID.put(tid, p);
 		}
 	}
 	/**
@@ -309,65 +309,65 @@ public class CGlobalCatalog
 	{
 		if (bIgnore)
 		{
-			m_arrIgnoreSubProgram.addElement(name) ;
+			arrIgnoreSubProgram.addElement(name) ;
 		}
 		else
 		{
-			m_arrCustomSubProgram.addElement(name) ;
+			arrCustomSubProgram.addElement(name) ;
 		}
 	}
 	public boolean isCustomSubProgram(String name)
 	{
-		return m_arrCustomSubProgram.contains(name) ;
+		return arrCustomSubProgram.contains(name) ;
 	}
 	public boolean isIgnoreSubProgram(String name)
 	{
-		return m_arrIgnoreSubProgram.contains(name) ;
+		return arrIgnoreSubProgram.contains(name) ;
 	}
-	protected Vector<String> m_arrCustomSubProgram = new Vector<String>() ;
-	protected Vector<String> m_arrIgnoreSubProgram = new Vector<String>() ;
+	protected Vector<String> arrCustomSubProgram = new Vector<String>() ;
+	protected Vector<String> arrIgnoreSubProgram = new Vector<String>() ;
 	public boolean CanExportResources(String name)
 	{
-		String cs = m_tabProgramNotExportingResource.get(name);
+		String cs = tabProgramNotExportingResource.get(name);
 		return cs == null ;
 	}
 	public void RegisterNotExportingResource(String name)
 	{
-		m_tabProgramNotExportingResource.put(name, name) ;
+		tabProgramNotExportingResource.put(name, name) ;
 	}
-	protected Hashtable<String, String> m_tabProgramNotExportingResource = new Hashtable<String, String>() ;
+	protected Hashtable<String, String> tabProgramNotExportingResource = new Hashtable<String, String>() ;
 	
 	
 	
 	protected class CSubProgramCallDescription
 	{
-		public String m_SubProgramName = "" ;
-		public boolean m_bCalledLikeCICS = false ; // <=> with implicit DFHCOMMAREA
-		public int m_nNbParameters = 0 ;	// except DFHCOMMAREA
+		public String subProgramName = "" ;
+		public boolean bCalledLikeCICS = false ; // <=> with implicit DFHCOMMAREA
+		public int nNbParameters = 0 ;	// except DFHCOMMAREA
 	}
 	public boolean registerSubProgram(String cs, boolean bWithDFHCommarea, int nbParameters)
 	{
-		CSubProgramCallDescription desc = m_tabSubProgramCall.get(cs) ;
+		CSubProgramCallDescription desc = tabSubProgramCall.get(cs) ;
 		if (desc == null)
 		{
 			desc = new CSubProgramCallDescription() ;
-			desc.m_SubProgramName = cs ; 
-			desc.m_bCalledLikeCICS = bWithDFHCommarea ;
-			desc.m_nNbParameters = nbParameters ;
-			m_tabSubProgramCall.put(cs, desc) ;
-			m_arrSubProgramCalls.add(desc) ;
+			desc.subProgramName = cs ; 
+			desc.bCalledLikeCICS = bWithDFHCommarea ;
+			desc.nNbParameters = nbParameters ;
+			tabSubProgramCall.put(cs, desc) ;
+			arrSubProgramCalls.add(desc) ;
 			return true ;
 		}
 		else
 		{
-			if (desc.m_bCalledLikeCICS != bWithDFHCommarea)
+			if (desc.bCalledLikeCICS != bWithDFHCommarea)
 			{
 				// Transcoder.logError("Bad call to "+cs+" : expecting DFHCOMMAREA parameter");
 				return true ;
 			}
-			else if (nbParameters != desc.m_nNbParameters)
+			else if (nbParameters != desc.nNbParameters)
 			{
-				//m_logger.error("Bad call to "+cs+" : expecting "+desc.m_nNbParameters+" parameters");
+				//m_logger.error("Bad call to "+cs+" : expecting "+desc.nNbParameters+" parameters");
 				return true ; //return false ;
 			}
 			else
@@ -376,21 +376,21 @@ public class CGlobalCatalog
 			}
 		}
 	}
-	protected Hashtable<String, CSubProgramCallDescription> m_tabSubProgramCall = new Hashtable<String, CSubProgramCallDescription>() ;
-	protected Vector<CSubProgramCallDescription> m_arrSubProgramCalls = new Vector<CSubProgramCallDescription>() ;
+	protected Hashtable<String, CSubProgramCallDescription> tabSubProgramCall = new Hashtable<String, CSubProgramCallDescription>() ;
+	protected Vector<CSubProgramCallDescription> arrSubProgramCalls = new Vector<CSubProgramCallDescription>() ;
 
 
 	public void doRegisteredDependencies()
 	{
-		CTransApplicationGroup grpReferences = m_Transcoder.getGroup(m_csReferenceGroupName) ;
+		CTransApplicationGroup grpReferences = transcoder.getGroup(csReferenceGroupName) ;
 		if (grpReferences != null)
 		{
-			for (int i=0; i<m_arrSubProgramCalls.size(); i++)
+			for (int i=0; i<arrSubProgramCalls.size(); i++)
 			{
-				CSubProgramCallDescription desc = m_arrSubProgramCalls.get(i) ;
-				String ssprg = desc.m_SubProgramName ;
+				CSubProgramCallDescription desc = arrSubProgramCalls.get(i) ;
+				String ssprg = desc.subProgramName ;
 				BaseEngine engine = grpReferences.getEngine() ;
-				if (!m_arrProgramDone.contains(ssprg))
+				if (!arrProgramDone.contains(ssprg))
 				{
 					engine.doFileTranscoding(ssprg, "", grpReferences, false) ;
 				} 
@@ -400,14 +400,14 @@ public class CGlobalCatalog
 
 	public void registerProgram(String cs)
 	{
-		if (!m_arrProgramDone.contains(cs))
+		if (!arrProgramDone.contains(cs))
 		{
-			m_arrProgramDone.addElement(cs) ;
+			arrProgramDone.addElement(cs) ;
 		}
 	}
-	protected Vector<String> m_arrProgramDone = new Vector<String>() ;
+	protected Vector<String> arrProgramDone = new Vector<String>() ;
 
-	private Hashtable<String, String> m_tabAlreadyCountedItems = new Hashtable<String, String>() ;
+	private Hashtable<String, String> tabAlreadyCountedItems = new Hashtable<String, String>() ;
 
 
 	/**
@@ -416,9 +416,9 @@ public class CGlobalCatalog
 	 */
 	public boolean canCount(String filename)
 	{
-		if (!m_tabAlreadyCountedItems.contains(filename))
+		if (!tabAlreadyCountedItems.contains(filename))
 		{
-			m_tabAlreadyCountedItems.put(filename, filename) ;
+			tabAlreadyCountedItems.put(filename, filename) ;
 			return true ;
 		}
 		return false ;
@@ -426,7 +426,7 @@ public class CGlobalCatalog
 	
 	public void ClearFormContainers()
 	{
-		m_tabFormContainers.clear() ;
+		tabFormContainers.clear() ;
 	}
 	
 }

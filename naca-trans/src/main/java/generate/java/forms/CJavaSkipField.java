@@ -58,7 +58,7 @@ public class CJavaSkipField extends CEntitySkipFields
 
 	protected void DoExport()
 	{
-		String cs = "Edit " + FormatIdentifier(GetName()) + " = declare.level("+Integer.parseInt(m_csLevel)+").editSkip(" + m_nbFields + ") ;" ;
+		String cs = "Edit " + FormatIdentifier(GetName()) + " = declare.level("+Integer.parseInt(csLevel)+").editSkip(" + nbFields + ") ;" ;
 		WriteLine(cs);
 		
 		StartOutputBloc();

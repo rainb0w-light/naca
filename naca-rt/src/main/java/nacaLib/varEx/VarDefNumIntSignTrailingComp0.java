@@ -36,8 +36,8 @@ public class VarDefNumIntSignTrailingComp0 extends VarDefNum
 
 	public VarDefNumIntSignTrailingComp0(VarDefBase varDefParent, DeclareType9 declareType9, NumericValue numericValue)
 	{
-		super(varDefParent, declareType9.m_varLevel);
-		m_nNbDigitInteger = numericValue.m_nNbDigitInteger;
+		super(varDefParent, declareType9.varLevel);
+		nNbDigitInteger = numericValue.nNbDigitInteger;
 	}
 	
 	protected VarDefNumIntSignTrailingComp0()
@@ -48,7 +48,7 @@ public class VarDefNumIntSignTrailingComp0 extends VarDefNum
 //	VarDefNumIntSignTrailingComp0(VarDefNumIntSignTrailingComp0 varDefSource)
 //	{
 //		super(varDefSource);
-//		m_nNbDigitInteger = varDefSource.m_nNbDigitInteger;
+//		nNbDigitInteger = varDefSource.nNbDigitInteger;
 //	}
 //	
 //	VarDefBuffer deepDuplicate()
@@ -58,24 +58,24 @@ public class VarDefNumIntSignTrailingComp0 extends VarDefNum
 	
 	CSQLItemType getSQLType()
 	{
-		return getIntegerSQLType(m_nNbDigitInteger);
+		return getIntegerSQLType(nNbDigitInteger);
 	}
 	
 	void transfer(VarBufferPos bufferSource, VarAndEdit Dest)
 	{
-		Dest.m_varDef.write(Dest.m_bufferPos, this, bufferSource);
+		Dest.varDef.write(Dest.bufferPos, this, bufferSource);
 	}
 	
 	protected VarDefBuffer allocCopy()
 	{
 		VarDefNumIntSignTrailingComp0 v = new VarDefNumIntSignTrailingComp0();
-		v.m_nNbDigitInteger = m_nNbDigitInteger;
+		v.nNbDigitInteger = nNbDigitInteger;
 		return v;
 	}
 	
 	public int getBodyLength()
 	{
-		return m_nTotalSize;
+		return nTotalSize;
 	}
 	
 	protected int getHeaderLength()
@@ -86,7 +86,7 @@ public class VarDefNumIntSignTrailingComp0 extends VarDefNum
 	
 	public int getSingleItemRequiredStorageSize()
 	{
-		return m_nNbDigitInteger + 1;
+		return nNbDigitInteger + 1;
 	}
 	
 	void write(VarBufferPos buffer, char c)
@@ -312,13 +312,13 @@ public class VarDefNumIntSignTrailingComp0 extends VarDefNum
 
 	public void moveIntoSameType(VarBufferPos buffer, VarDefBuffer varSource, VarBufferPos bufferSource)
 	{
-		if(m_nTotalSize == varSource.m_nTotalSize)	// Same type and same size: Directly copy bytes
+		if(nTotalSize == varSource.nTotalSize)	// Same type and same size: Directly copy bytes
 		{
-			int nPositionDest = buffer.m_nAbsolutePosition;
-			int nPositionSource = bufferSource.m_nAbsolutePosition;
-			for(int n=0; n<m_nTotalSize; n++)
+			int nPositionDest = buffer.nAbsolutePosition;
+			int nPositionSource = bufferSource.nAbsolutePosition;
+			for(int n=0; n<nTotalSize; n++)
 			{
-				buffer.m_acBuffer[nPositionDest++] = bufferSource.m_acBuffer[nPositionSource++];
+				buffer.acBuffer[nPositionDest++] = bufferSource.acBuffer[nPositionSource++];
 			}			
 			return ;
 		}
@@ -329,13 +329,13 @@ public class VarDefNumIntSignTrailingComp0 extends VarDefNum
 	
 	void write(VarBufferPos buffer, VarDefNumIntSignTrailingComp0 varSource, VarBufferPos bufferSource)
 	{
-		if(m_nTotalSize == varSource.m_nTotalSize)	// Same type and same size: Directly copy bytes
+		if(nTotalSize == varSource.nTotalSize)	// Same type and same size: Directly copy bytes
 		{
-			int nPositionDest = buffer.m_nAbsolutePosition;
-			int nPositionSource = bufferSource.m_nAbsolutePosition;
-			for(int n=0; n<m_nTotalSize; n++)
+			int nPositionDest = buffer.nAbsolutePosition;
+			int nPositionSource = bufferSource.nAbsolutePosition;
+			for(int n=0; n<nTotalSize; n++)
 			{
-				buffer.m_acBuffer[nPositionDest++] = bufferSource.m_acBuffer[nPositionSource++];
+				buffer.acBuffer[nPositionDest++] = bufferSource.acBuffer[nPositionSource++];
 			}			
 			return ;
 		}
@@ -479,28 +479,28 @@ public class VarDefNumIntSignTrailingComp0 extends VarDefNum
 
 	private void writeSignSeparatedTrailingIntComp0(VarBufferPos buffer, int nValue)
 	{
-		Pic9Comp0BufferSupport.setFromRightToLeft(buffer, buffer.m_nAbsolutePosition, m_nTotalSize, m_nTotalSize, 0, true, false, nValue);
+		Pic9Comp0BufferSupport.setFromRightToLeft(buffer, buffer.nAbsolutePosition, nTotalSize, nTotalSize, 0, true, false, nValue);
 		
-//		int nPos = RWNumIntComp0.internalWriteAbsoluteIntComp0(buffer, nValue, buffer.m_nAbsolutePosition, m_nTotalSize-1);
+//		int nPos = RWNumIntComp0.internalWriteAbsoluteIntComp0(buffer, nValue, buffer.nAbsolutePosition, nTotalSize-1);
 //		if(nValue >= 0)
-//			buffer.setCharAt(buffer.m_nAbsolutePosition+m_nTotalSize-1, '+');
+//			buffer.setCharAt(buffer.nAbsolutePosition+nTotalSize-1, '+');
 //		else
-//			buffer.setCharAt(buffer.m_nAbsolutePosition+m_nTotalSize-1, '-');
+//			buffer.setCharAt(buffer.nAbsolutePosition+nTotalSize-1, '-');
 //		return nPos;
 	}
 	
 	private int writeSignSeparatedTrailingIntComp0(VarBufferPos buffer, int nOffset, int nValue)
 	{
-		int nPos = RWNumIntComp0.internalWriteAbsoluteIntComp0(buffer, nOffset, nValue, buffer.m_nAbsolutePosition, m_nTotalSize-1);
+		int nPos = RWNumIntComp0.internalWriteAbsoluteIntComp0(buffer, nOffset, nValue, buffer.nAbsolutePosition, nTotalSize-1);
 		if(nValue >= 0)
 		{
-			buffer.m_acBuffer[buffer.m_nAbsolutePosition+m_nTotalSize-1+nOffset] = '+';
-			//buffer.setCharAt(buffer.m_nAbsolutePosition+m_nTotalSize-1+nOffset, '+');
+			buffer.acBuffer[buffer.nAbsolutePosition+nTotalSize-1+nOffset] = '+';
+			//buffer.setCharAt(buffer.nAbsolutePosition+nTotalSize-1+nOffset, '+');
 		}
 		else
 		{
-			buffer.m_acBuffer[buffer.m_nAbsolutePosition+m_nTotalSize-1+nOffset] = '-';
-			//buffer.setCharAt(buffer.m_nAbsolutePosition+m_nTotalSize-1+nOffset, '-');
+			buffer.acBuffer[buffer.nAbsolutePosition+nTotalSize-1+nOffset] = '-';
+			//buffer.setCharAt(buffer.nAbsolutePosition+nTotalSize-1+nOffset, '-');
 		}
 		return nPos;
 	}
@@ -508,66 +508,66 @@ public class VarDefNumIntSignTrailingComp0 extends VarDefNum
 	
 	private int writeSignSeparatedTrailingIntComp0AsLong(VarBufferPos buffer, long lValue)
 	{
-		int nPos = RWNumIntComp0.internalWriteAbsoluteIntComp0AsLong(buffer, lValue, buffer.m_nAbsolutePosition, m_nTotalSize-1);
+		int nPos = RWNumIntComp0.internalWriteAbsoluteIntComp0AsLong(buffer, lValue, buffer.nAbsolutePosition, nTotalSize-1);
 		if(lValue >= 0)
 		{
-			buffer.m_acBuffer[buffer.m_nAbsolutePosition+m_nTotalSize-1] = '+';
-			//buffer.setCharAt(buffer.m_nAbsolutePosition+m_nTotalSize-1, '+');
+			buffer.acBuffer[buffer.nAbsolutePosition+nTotalSize-1] = '+';
+			//buffer.setCharAt(buffer.nAbsolutePosition+nTotalSize-1, '+');
 		}
 		else
 		{
-			buffer.m_acBuffer[buffer.m_nAbsolutePosition+m_nTotalSize-1] = '-';
-			//buffer.setCharAt(buffer.m_nAbsolutePosition+m_nTotalSize-1, '-');
+			buffer.acBuffer[buffer.nAbsolutePosition+nTotalSize-1] = '-';
+			//buffer.setCharAt(buffer.nAbsolutePosition+nTotalSize-1, '-');
 		}
 		return nPos;
 	}
 	
 	int getAsDecodedInt(VarBufferPos buffer)
 	{
-		int n = buffer.getAsInt(m_nTotalSize);
+		int n = buffer.getAsInt(nTotalSize);
 		return n;
 	}
 	
 	int getAsDecodedUnsignedInt(VarBufferPos buffer)
 	{
-		int n = buffer.getAsUnsignedInt(m_nTotalSize);
+		int n = buffer.getAsUnsignedInt(nTotalSize);
 		return n;
 	}
 	
 	long getAsDecodedLong(VarBufferPos buffer)
 	{
-		long l = buffer.getAsLong(m_nTotalSize);
+		long l = buffer.getAsLong(nTotalSize);
 		return l;
 	}
 	
 	Dec getAsDecodedDec(VarBufferPos buffer)
 	{
-		long l = buffer.getAsLong(m_nTotalSize);
+		long l = buffer.getAsLong(nTotalSize);
 		Dec dec = new Dec(l, "");
 		return dec;
 	}
 	
 	CStr getAsAlphaNumString(VarBufferPos buffer)
 	{
-		CStr cs = internalReadSignedIntComp0AsUnsignedString(buffer, buffer.m_nAbsolutePosition, m_nTotalSize);
+		CStr cs = internalReadSignedIntComp0AsUnsignedString(buffer, buffer.nAbsolutePosition, nTotalSize);
 		return cs;
 	}	
 	
 	CStr getDottedSignedString(VarBufferPos buffer)
 	{	
-		CStr cs = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nTotalSize);		
+		CStr cs = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);		
 		return cs;
 	}
 	
 	CStr getDottedSignedStringAsSQLCol(VarBufferPos buffer)
 	{
-		CStr cs = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nTotalSize);		
+		CStr cs = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);		
 		return cs;
 	}
 
 	int compare(ComparisonMode mode, VarBufferPos bufferSource, VarAndEdit var2)
 	{
-		return var2.m_varDef.compare(mode, var2.m_bufferPos, this, bufferSource);
+		return var2.varDef.compare(mode, var2.bufferPos, this, bufferSource);
 	}
 	
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumDecComp0 varDefNum1, VarBufferPos buffer1)
@@ -839,19 +839,19 @@ public class VarDefNumIntSignTrailingComp0 extends VarDefNum
 	
 	public BtreeSegmentKeyTypeFactory getSegmentKeyTypeFactory()
 	{
-		return VarTypeId.m_segmentKeyTypeFactoryComp0;
+		return VarTypeId.segmentKeyTypeFactoryComp0;
 	}
 	
 	protected void adjustCustomProperty(VarDefBuffer varDefBufferCopySingleItem)
 	{
 		VarDefNumIntSignTrailingComp0 varDefCopy = (VarDefNumIntSignTrailingComp0)varDefBufferCopySingleItem;
-		varDefCopy.m_nNbDigitInteger = m_nNbDigitInteger;
+		varDefCopy.nNbDigitInteger = nNbDigitInteger;
 	}
 	
 	protected void adjustCustomPropertyForCharGetAt(VarDefBuffer varDefBufferCopySingleItem)
 	{
 		VarDefNumIntSignTrailingComp0 varDefCopy = (VarDefNumIntSignTrailingComp0)varDefBufferCopySingleItem;
-		varDefCopy.m_nNbDigitInteger = 1;
+		varDefCopy.nNbDigitInteger = 1;
 	}
 	
 	boolean isNumeric(VarBufferPos buffer)
@@ -860,5 +860,5 @@ public class VarDefNumIntSignTrailingComp0 extends VarDefNum
 		return cs.isOnlyNumericComp0SignTrailing(false);
 	}
 		
-	private int m_nNbDigitInteger;
+	private int nNbDigitInteger;
 }

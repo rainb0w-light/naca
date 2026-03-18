@@ -52,25 +52,25 @@ public abstract class Edit extends VarAndEdit
 	
 	public int getAbsolutePosition()
 	{
-		return m_bufferPos.m_nAbsolutePosition;	// m_varDef.m_nAbsolutePosition;
+		return bufferPos.nAbsolutePosition;	// varDef.nAbsolutePosition;
 	}
 	
 	public int DEBUGgetAbsolutePosition()
 	{
-		return m_bufferPos.m_nAbsolutePosition;	// m_varDef.m_nAbsolutePosition;
+		return bufferPos.nAbsolutePosition;	// varDef.nAbsolutePosition;
 	}
 	
 	public void assignBufferExt(VarBuffer bufferSource)
 	{
-		m_bufferPos = new VarBufferPos(bufferSource, m_varDef.m_nDefaultAbsolutePosition);
+		bufferPos = new VarBufferPos(bufferSource, varDef.nDefaultAbsolutePosition);
 		getEditAttributManager();	// Must be called for EditInMapRedefine
 	}
 	
 
 	protected String getAsLoggableString()
 	{
-		//return m_varDef.getRawStringIncludingHeader(m_bufferPos);
-		CStr cstr = m_bufferPos.getOwnCStr(m_varDef.getLength());
+		//return varDef.getRawStringIncludingHeader(bufferPos);
+		CStr cstr = bufferPos.getOwnCStr(varDef.getLength());
 		String cs = cstr.getAsString();
 		//cstr.resetManagerCache();
 		return cs;
@@ -86,7 +86,7 @@ public abstract class Edit extends VarAndEdit
 
 	public String getString()
 	{
-		CStr cstr = m_varDef.getAsDecodedString(m_bufferPos);
+		CStr cstr = varDef.getAsDecodedString(bufferPos);
 		String cs = cstr.getAsString();
 		//cstr.resetManagerCache();
 		return cs;
@@ -95,34 +95,34 @@ public abstract class Edit extends VarAndEdit
 	public void setAndFill(String csValue)
 	{
 		if(csValue.length() > 0)
-			m_varDef.writeAndFill(m_bufferPos, csValue.charAt(0));
+			varDef.writeAndFill(bufferPos, csValue.charAt(0));
 	}
 
 	public String getDottedSignedString()
 	{
-		String cs = m_varDef.getDottedSignedString(m_bufferPos).getAsString();
+		String cs = varDef.getDottedSignedString(bufferPos).getAsString();
 		return cs;
 	}
 	
 	public String getDottedSignedStringAsSQLCol()
 	{
-		String cs = m_varDef.getDottedSignedStringAsSQLCol(m_bufferPos).getAsString();
+		String cs = varDef.getDottedSignedStringAsSQLCol(bufferPos).getAsString();
 		return cs;
 	}
 
 	public double getDouble()
 	{
-		return m_varDef.getDouble(m_bufferPos);
+		return varDef.getDouble(bufferPos);
 	}
 	
 	public int getInt()
 	{
-		return m_varDef.getAsDecodedInt(m_bufferPos);
+		return varDef.getAsDecodedInt(bufferPos);
 	}
 	
 	public Dec getDec()
 	{
-		return m_varDef.getAsDecodedDec(m_bufferPos);
+		return varDef.getAsDecodedDec(bufferPos);
 	}
 
 	public Edit getEditAt(Var x)
@@ -157,7 +157,7 @@ public abstract class Edit extends VarAndEdit
 	public abstract Edit getAt(int x);
 	public Edit getAt(MathBase Index)
 	{
-		int nIndex = Index.m_d.intValue() ;
+		int nIndex = Index.d.intValue() ;
 		return getAt(nIndex) ;
 	}
 	public abstract Edit getAt(int y, int x);
@@ -206,9 +206,9 @@ public abstract class Edit extends VarAndEdit
 /*	
 	public String toString()
 	{
-		String cs = m_csFullName + "[" + m_VarManager.getValueAbsoluteStartPosition() + "-" + getStorageSize() + "]:" +
+		String cs = csFullName + "[" + varManager.getValueAbsoluteStartPosition() + "-" + getStorageSize() + "]:" +
 			"\"" + getString() + "\";" + 
-			m_FieldAttributes.toString(); 
+			fieldAttributes.toString(); 
 			
 		return cs;
 	}
@@ -225,17 +225,17 @@ public abstract class Edit extends VarAndEdit
 				if (val.trim().equals(""))
 				{
 					set("") ;
-					m_attrManager.setCleared() ;
+					attrManager.setCleared() ;
 				}
 				else
 				{
 					set(val, true);
-					m_attrManager.setModified() ;
+					attrManager.setModified() ;
 				}
 			}
 			else
 			{
-				m_attrManager.setUnmodified() ;
+				attrManager.setUnmodified() ;
 			}
 //			else if (!val.equals(""))
 //			{
@@ -248,98 +248,98 @@ public abstract class Edit extends VarAndEdit
 	
 	public Edit attrib(MapFieldAttrModified Modified)
 	{
-		m_attrManager.attrib(Modified);
+		attrManager.attrib(Modified);
 		return this;
 	}
 	
 	public Edit setModified(MapFieldAttrModified Modified)
 	{
-		m_attrManager.setModified(Modified);
+		attrManager.setModified(Modified);
 		return this;
 	}
 	
 	public Edit color(MapFieldAttrColor color)
 	{
-		m_attrManager.color(color);
+		attrManager.color(color);
 		return this;
 	}
 	
 	public boolean isColored(MapFieldAttrColor color)
 	{
-		return m_attrManager.isColored(color);
+		return attrManager.isColored(color);
 	}
 	
 	
 	public MapFieldAttrHighlighting getHighlighting()
 	{
-		return m_attrManager.getHighlighting();
+		return attrManager.getHighlighting();
 	}
 	
 	public Edit highLighting(MapFieldAttrHighlighting hl)
 	{
-		m_attrManager.highLighting(hl);
+		attrManager.highLighting(hl);
 		return this;
 	}
 		
 	public Edit intensity(MapFieldAttrIntensity intensity)
 	{
-		m_attrManager.intensity(intensity);
+		attrManager.intensity(intensity);
 		return this;
 	}
 		
 	
 	public Edit protection(MapFieldAttrProtection protection)
 	{
-		m_attrManager.protection(protection);
+		attrManager.protection(protection);
 		return this;
 	}
 	
 	public Edit setModified()
 	{
-		m_attrManager.setModified();
+		attrManager.setModified();
 		return this;
 	}
 	
 	public void setUnmodified()
 	{
-		m_attrManager.setUnmodified();
+		attrManager.setUnmodified();
 	}
 	
 	public void setCleared()
 	{
-		m_attrManager.setCleared();
+		attrManager.setCleared();
 	}
 	
 	public boolean isModified()
 	{
-		return m_attrManager.isModified();
+		return attrManager.isModified();
 	}
 
 	public boolean isUnmodified()
 	{
-		return m_attrManager.isUnmodified();
+		return attrManager.isUnmodified();
 	}
 
 	public boolean isCleared()
 	{
-		return m_attrManager.isCleared();
+		return attrManager.isCleared();
 	}
 
 	public Edit justify(MapFieldAttrJustify justify)
 	{
-		m_attrManager.justify(justify);
+		attrManager.justify(justify);
 		return this;
 	}
 	
 	public Edit justifyFill(MapFieldAttrFill fill)
 	{
-		m_attrManager.justifyFill(fill);
+		attrManager.justifyFill(fill);
 		return this;
 	}
 	
 	public void set(String csValue)
 	{
-		m_varDef.write(m_bufferPos, csValue);
+		varDef.write(bufferPos, csValue);
 	}
 		
 	protected void set(String csValue, boolean bWithPadding)
@@ -349,9 +349,9 @@ public abstract class Edit extends VarAndEdit
 			if (bWithPadding)
 			{
 				String csChar = "";
-				if(m_attrManager.isFillBlank())
+				if(attrManager.isFillBlank())
 					csChar = " ";
-				if(m_attrManager.isFillZero())
+				if(attrManager.isFillZero())
 					csChar = "0";
 				
 				String csFilling = new String();
@@ -364,59 +364,59 @@ public abstract class Edit extends VarAndEdit
 					nNbChars--;
 				}
 				
-				if(m_attrManager.isJustifyRight())
+				if(attrManager.isJustifyRight())
 				{
 					csValue = csFilling + csValue; 
 				}
 				
-				if(m_attrManager.isJustifyLeft())
+				if(attrManager.isJustifyLeft())
 				{
 					csValue += csFilling;  
 				}
 			}
-			m_varDef.write(m_bufferPos, csValue);
+			varDef.write(bufferPos, csValue);
 		}
 //
 //			
-//			m_varDef.write(m_bufferPos, csValue);
-//			if(m_VarTypeFormat != null)
+//			varDef.write(bufferPos, csValue);
+//			if(varTypeFormat != null)
 //			{
-//				m_VarTypeFormat.set(this, sValue);
+//				varTypeFormat.set(this, sValue);
 //			}
 //			else
 //			{	
-//				if(sValue.length() > m_nMaxStringLength)
-//					sValue = sValue.substring(0, m_nMaxStringLength);	// Keep only leftmost chars
-//				int nPosition = m_VarManager.getValueAbsoluteStartPosition()+7;
+//				if(sValue.length() > nMaxStringLength)
+//					sValue = sValue.substring(0, nMaxStringLength);	// Keep only leftmost chars
+//				int nPosition = varManager.getValueAbsoluteStartPosition()+7;
 //				
 //				if (bWithPadding)
 //				{
-//					if(m_FieldAttributes.isJustifyRight())
+//					if(fieldAttributes.isJustifyRight())
 //					{
-//						int nNbLeftPadChar = m_nMaxStringLength - sValue.length();
+//						int nNbLeftPadChar = nMaxStringLength - sValue.length();
 //						if(nNbLeftPadChar > 0)
 //						{
-//							if(m_FieldAttributes.isFillBlank())
-//								nPosition = m_VarManager.writeRepeatingCharAt(nPosition, ' ', nNbLeftPadChar);
-//							else if(m_FieldAttributes.isFillZero())
-//								nPosition = m_VarManager.writeRepeatingCharAt(nPosition, '0', nNbLeftPadChar);
+//							if(fieldAttributes.isFillBlank())
+//								nPosition = varManager.writeRepeatingCharAt(nPosition, ' ', nNbLeftPadChar);
+//							else if(fieldAttributes.isFillZero())
+//								nPosition = varManager.writeRepeatingCharAt(nPosition, '0', nNbLeftPadChar);
 //						}
 //					}
 //				}
 //				
-//				nPosition = m_VarManager.setStringAt(nPosition, sValue);
+//				nPosition = varManager.setStringAt(nPosition, sValue);
 //				
 //				if (bWithPadding)
 //				{
-//					if(m_FieldAttributes.isJustifyLeft())
+//					if(fieldAttributes.isJustifyLeft())
 //					{
-//						int nNbRightPadChar = m_nMaxStringLength - sValue.length();
+//						int nNbRightPadChar = nMaxStringLength - sValue.length();
 //						if(nNbRightPadChar > 0)
 //						{
-//							if(m_FieldAttributes.isFillBlank())
-//								m_VarManager.writeRepeatingCharAt(nPosition, ' ', nNbRightPadChar);
-//							else if(m_FieldAttributes.isFillZero())
-//								m_VarManager.writeRepeatingCharAt(nPosition, '0', nNbRightPadChar);
+//							if(fieldAttributes.isFillBlank())
+//								varManager.writeRepeatingCharAt(nPosition, ' ', nNbRightPadChar);
+//							else if(fieldAttributes.isFillZero())
+//								varManager.writeRepeatingCharAt(nPosition, '0', nNbRightPadChar);
 //						}
 //					}
 //				}
@@ -426,99 +426,99 @@ public abstract class Edit extends VarAndEdit
 
 	public Edit setCursor(boolean b)
 	{
-		m_attrManager.setCursor(b);
+		attrManager.setCursor(b);
 		return this;
 	}
 
 	
 	public void setFlag(String cs)
 	{
-		m_attrManager.setFlag(cs);
+		attrManager.setFlag(cs);
 	}
 	
 	
 	public void resetFlag()
 	{
-		m_attrManager.resetFlag();
+		attrManager.resetFlag();
 	}
 	public boolean isFlag(String cs)
 	{
-		return m_attrManager.isFlag(cs);
+		return attrManager.isFlag(cs);
 	}
 	
 	public boolean isAutoSkip()
 	{
-		return m_attrManager.isAutoSkip();
+		return attrManager.isAutoSkip();
 	}
 
 	public boolean isDark()
 	{
-		return m_attrManager.isDark();
+		return attrManager.isDark();
 	}
 	
 	public boolean isProtected()
 	{
-		return m_attrManager.isProtected();
+		return attrManager.isProtected();
 	}	
 	
 	public boolean isNumericProtected()
 	{
-		return m_attrManager.isNumericProtected();
+		return attrManager.isNumericProtected();
 	}
 	
 	public boolean isUnprotected()
 	{
-		return m_attrManager.isUnmodified();
+		return attrManager.isUnmodified();
 	}
 	
 	public boolean IsColored(MapFieldAttrColor col)
 	{
-		return m_attrManager.isColored(col);
+		return attrManager.isColored(col);
 	}
 	
 	public boolean isUnderlined()
 	{	
-		return m_attrManager.isUnderlined();
+		return attrManager.isUnderlined();
 	}
 
 	public boolean isReverse()
 	{	
-		return m_attrManager.isReverse();
+		return attrManager.isReverse();
 	}
 	
 	public boolean IsAttribute(MapFieldAttrIntensity intensity)
 	{	
-		return m_attrManager.IsAttribute(intensity);
+		return attrManager.IsAttribute(intensity);
 	}
 	
 	public boolean IsAttribute(MapFieldAttrProtection protection)
 	{
-		return m_attrManager.IsAttribute(protection);
+		return attrManager.IsAttribute(protection);
 	}
 	
 	public boolean IsHighlighting(MapFieldAttrHighlighting highlighting)
 	{
-		return m_attrManager.IsHighlighting(highlighting);
+		return attrManager.IsHighlighting(highlighting);
 	}
 	
 	
 	public MapFieldAttribute getAttribute()
 	{
-		return m_attrManager.getAttribute();
+		return attrManager.getAttribute();
 	}
 	
 	public void setAttribute(MapFieldAttribute att)
 	{
-		m_attrManager.setAttribute(att);
+		attrManager.setAttribute(att);
 	}
 	/*
 	public int encodeAndAppend(Var varDest, int nVarDestAbsStartposition, int nTextLength)
 	{
 		//Custon serialization process uncompatible with direct modification of header bytes form Cobol
-		int nAttrEncoded = m_FieldAttributes.getEncodedValue();	// Will use 4 char position
+		int nAttrEncoded = fieldAttributes.getEncodedValue();	// Will use 4 char position
 		char cProgrammedSymbolSet = m_Flag.getEncodedValue();	// Will use 1 char
 		//int setEncodedEdit(int nAttributes, char cProgrammedSymbolSet, String csText, int nVarDestAbsStartposition)
-		int nSize = varDest.m_VarManager.setEncodedEdit(nAttrEncoded, cProgrammedSymbolSet, getString(), nVarDestAbsStartposition, nTextLength);
+		int nSize = varDest.varManager.setEncodedEdit(nAttrEncoded, cProgrammedSymbolSet, getString(), nVarDestAbsStartposition, nTextLength);
 	
 		return nSize; 
 	}
@@ -527,73 +527,73 @@ public abstract class Edit extends VarAndEdit
 	// debug
 	public int getEncodedAttr()
 	{
-		return m_attrManager.getEncodedAttr();
+		return attrManager.getEncodedAttr();
 	}
 	
 	public void setEncodedAttr(int n)
 	{
-		m_attrManager.setEncodedAttr(n);
+		attrManager.setEncodedAttr(n);
 	}
 	
 	public boolean hasCursor()
 	{
-		return m_attrManager.hasCursor();
+		return attrManager.hasCursor();
 	}
 	
 	public abstract Element exportXML(Document doc, String csLangId);
 	
 	public boolean isFlagSet()
 	{
-		return m_attrManager.isFlagSet();
+		return attrManager.isFlagSet();
 	}
 	public MapFieldAttrColor getColor()
 	{
-		return m_attrManager.getColor();
+		return attrManager.getColor();
 	}
 	
 	public boolean isHighlightNormal()
 	{
-		return m_attrManager.isHighlightNormal();
+		return attrManager.isHighlightNormal();
 	}
 	
 	public void setAttributes(int n)
 	{
-		m_attrManager.setAttributes(n);
+		attrManager.setAttributes(n);
 	}
 
 	public String getFlag()
 	{
-		return m_attrManager.getFlag();
+		return attrManager.getFlag();
 	}
 		
 	public void setStringAtPosition(String csValue, int nOffsetPosition, int nNbChar)
 	{
-		m_varDef.write(m_bufferPos, csValue, nOffsetPosition+getVarDef().getHeaderLength(), nNbChar);
+		varDef.write(bufferPos, csValue, nOffsetPosition+getVarDef().getHeaderLength(), nNbChar);
 	}
 	
 	public void set(CobolConstantZero cst)
 	{
-		m_varDef.write(m_bufferPos, cst);
+		varDef.write(bufferPos, cst);
 	}
 
 	public void set(CobolConstantSpace cst)
 	{
-		m_varDef.write(m_bufferPos, cst);
+		varDef.write(bufferPos, cst);
 	}
 
 	public void set(CobolConstantHighValue cst)
 	{
-		m_varDef.write(m_bufferPos, cst);
+		varDef.write(bufferPos, cst);
 	}
 
 	public void set(CobolConstantLowValue cst)
 	{
-		m_varDef.write(m_bufferPos, cst);
+		varDef.write(bufferPos, cst);
 	}
 	
 	public String digits()
 	{
-		return "";	// m_varDef.digits(); 
+		return "";	// varDef.digits(); 
 	}
 	
 	public String getValue()
@@ -603,11 +603,11 @@ public abstract class Edit extends VarAndEdit
 	
 	public int encodeIntoCharBuffer(InternalCharBuffer charBuffer, String csText, int nTextLength, int nPos)
 	{
-		int nAttrEncoded = m_attrManager.getAttributeEncodedValue();	// Will use 4 char position
+		int nAttrEncoded = attrManager.getAttributeEncodedValue();	// Will use 4 char position
 		nPos = charBuffer.writeInt(nAttrEncoded, nPos);
 		if(nPos != -1)
 		{
-			char cProgrammedSymbolSet = m_attrManager.getEncodedFlag();	// Will use 1 char
+			char cProgrammedSymbolSet = attrManager.getEncodedFlag();	// Will use 1 char
 			nPos = charBuffer.writeChar(cProgrammedSymbolSet, nPos);
 			if(nPos != -1)
 			{
@@ -632,15 +632,15 @@ public abstract class Edit extends VarAndEdit
 	{
 		int nPositionSource = varSource.getBodyAbsolutePosition() + nPos;
 		
-		int nAttrEncoded = VarDefBuffer.getDecodedEditAttributes(varSource.m_bufferPos, nPositionSource);
-		m_attrManager.setAttributeEncodedValue(nAttrEncoded);	// Will use 4 char position
+		int nAttrEncoded = VarDefBuffer.getDecodedEditAttributes(varSource.bufferPos, nPositionSource);
+		attrManager.setAttributeEncodedValue(nAttrEncoded);	// Will use 4 char position
 		
-		char cProgrammedSymbolSet = VarDefBuffer.getDecodedEditFlag(varSource.m_bufferPos, nPositionSource);
-		m_attrManager.setEncodedFlag(cProgrammedSymbolSet);	// Will use 4 char position
+		char cProgrammedSymbolSet = VarDefBuffer.getDecodedEditFlag(varSource.bufferPos, nPositionSource);
+		attrManager.setEncodedFlag(cProgrammedSymbolSet);	// Will use 4 char position
 		 
 		int nPositionDest = getBodyAbsolutePosition();
 		nPositionSource += 7;
-		m_bufferPos.copyBytesFromSource(nPositionDest, varSource.m_bufferPos, nPositionSource, nDestLength);
+		bufferPos.copyBytesFromSource(nPositionDest, varSource.bufferPos, nPositionSource, nDestLength);
 			
 		if(isLogCESM)
 			Log.logDebug("edit decodeFromVar source="+varSource.getLoggableValue()+" to edit="+getLoggableValue());
@@ -652,14 +652,14 @@ public abstract class Edit extends VarAndEdit
 		int nPositionSource = nPos;
 		
 		int nAttrEncoded = VarDefBuffer.getDecodedEditAttributes(charBuffer, nPositionSource);
-		m_attrManager.setAttributeEncodedValue(nAttrEncoded);	// Will use 4 char position
+		attrManager.setAttributeEncodedValue(nAttrEncoded);	// Will use 4 char position
 		
 		char cProgrammedSymbolSet = VarDefBuffer.getDecodedEditFlag(charBuffer, nPositionSource);
-		m_attrManager.setEncodedFlag(cProgrammedSymbolSet);	// Will use 4 char position
+		attrManager.setEncodedFlag(cProgrammedSymbolSet);	// Will use 4 char position
 		 
 		int nPositionDest = getBodyAbsolutePosition();
 		nPositionSource += 7;
-		m_bufferPos.copyBytesFromSource(nPositionDest, charBuffer, nPositionSource, nDestLength);
+		bufferPos.copyBytesFromSource(nPositionDest, charBuffer, nPositionSource, nDestLength);
 			
 //		logCesm("edit decodeFromVar source="+varSource.getLoggableValue()+" to edit="+getLoggableValue());
 		return nPos + 7 + nDestLength; 
@@ -667,7 +667,7 @@ public abstract class Edit extends VarAndEdit
 		
 	public int getLength()
 	{
-		return m_varDef.getBodyLength();
+		return varDef.getBodyLength();
 	}
 	
 	public void setLength(int n)
@@ -730,31 +730,31 @@ public abstract class Edit extends VarAndEdit
 
 	public void initialize(InitializeCache initializeCache)
 	{
-		m_varDef.write(m_bufferPos, CobolConstant.Space) ;
+		varDef.write(bufferPos, CobolConstant.Space) ;
 	
-//		//if(m_attrManager != null)
-//		//	m_attrManager.initialize();
+//		//if(attrManager != null)
+//		//	attrManager.initialize();
 	}
 	
 	
 	public Edit setDevelopableMark(String string)
 	{
-		m_attrManager.setDevelopableMark(string);
+		attrManager.setDevelopableMark(string);
 		return this ;
 	}
 	
 	public Edit setFormat(String string)
 	{
-		m_attrManager.setFormat(string);
+		attrManager.setFormat(string);
 		return this ;
 	}
 	
 	public void initializeAttributes()
 	{
-		m_attrManager.initialize() ;
+		attrManager.initialize() ;
 	}	
 	
-	protected EditAttributManager m_attrManager = null;
+	protected EditAttributManager attrManager = null;
 }
 
 

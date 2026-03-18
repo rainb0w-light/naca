@@ -31,8 +31,8 @@ import utils.FPacTranscoder.OperandDescription;
 public class CFPacWTO extends CFPacElement
 {
 
-	private CTerminal m_termToDisplay;
-	private CTerminal m_termLength ;
+	private CTerminal termToDisplay;
+	private CTerminal termLength ;
 
 	public CFPacWTO(int line)
 	{
@@ -50,12 +50,12 @@ public class CFPacWTO extends CFPacElement
 		{
 			tok = GetNext() ;
 			CTerminal term = ReadTerminal() ;
-			m_termToDisplay = term ;
+			termToDisplay = term ;
 			tok = GetCurrentToken() ;
 			if (tok.GetType() == CTokenType.COMMA)
 			{
 				tok = GetNext() ;
-				m_termLength = ReadTerminal() ;
+				termLength = ReadTerminal() ;
 			}
 		}
 		else
@@ -70,13 +70,13 @@ public class CFPacWTO extends CFPacElement
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
 		CEntityDisplay disp = factory.NewEntityDisplay(getLine(), Upon.CONSOLE) ;
-		CDataEntity e = m_termToDisplay.GetDataEntity(getLine(), factory) ;
+		CDataEntity e = termToDisplay.GetDataEntity(getLine(), factory) ;
 		CDataEntity toDisp = null ;
 		if (e.GetDataType() == CDataEntityType.ADDRESS)
 		{
-			if (m_termLength != null)
+			if (termLength != null)
 			{
-				CDataEntity len = m_termLength.GetDataEntity(getLine(), factory) ;
+				CDataEntity len = termLength.GetDataEntity(getLine(), factory) ;
 				CBaseEntityExpression explen = factory.NewEntityExprTerminal(len) ;
 				CBaseEntityExpression expadd = factory.NewEntityExprTerminal(e) ;
 				
@@ -85,11 +85,11 @@ public class CFPacWTO extends CFPacElement
 				CDataEntity buffer = null ;
 				if (nadd < 5000)
 				{ //file buffer 
-					buffer = OperandDescription.getDefaultInputFileBuffer(factory.m_ProgramCatalog) ;
+					buffer = OperandDescription.getDefaultInputFileBuffer(factory.programCatalog) ;
 				}
 				else
 				{ // working
-					buffer = factory.m_ProgramCatalog.GetDataEntity("WORKING", "") ;
+					buffer = factory.programCatalog.GetDataEntity("WORKING", "") ;
 				}
 				CEntityConvertReference conv = factory.NewEntityConvert(getLine()) ;
 				conv.convertToAlphaNum(buffer) ;
@@ -113,7 +113,7 @@ public class CFPacWTO extends CFPacElement
 	{
 		Element eAdd = root.createElement("WriteToOuput") ;
 		Element e = root.createElement("Data") ;
-		m_termToDisplay.ExportTo(e, root) ;
+		termToDisplay.ExportTo(e, root) ;
 		eAdd.appendChild(e) ;
 		return eAdd ;
 	}

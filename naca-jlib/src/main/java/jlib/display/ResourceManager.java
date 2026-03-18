@@ -29,43 +29,43 @@ public class ResourceManager extends BaseCloseMBean
     	addOperation("Unload cached ressource", getClass(), "unloadCachedResources");
 	}
 	
-	//public static ArrayList<DbPreparedStatement> m_arrDEBUG = null;	// To be removed
+	//public static ArrayList<DbPreparedStatement> arrDEBUG = null;	// To be removed
 	
 	public int getNbResourcesFiles()
 	{
 		int n = 0;
-		m_unloadRWLock.readLock().lock();
-		if(m_tabXSLFiles != null)
-			n = m_tabXSLFiles.size();
-		m_unloadRWLock.readLock().unlock();
+		unloadRWLock.readLock().lock();
+		if(tabXSLFiles != null)
+			n = tabXSLFiles.size();
+		unloadRWLock.readLock().unlock();
 		return n;
 	}
 
 	public int getNbResourcesCached()
 	{
 		int n = 0;
-		m_unloadRWLock.readLock().lock();
-		if(m_tabXSLTransformerCache != null)
-			n = m_tabXSLTransformerCache.size();
-		m_unloadRWLock.readLock().unlock();
+		unloadRWLock.readLock().lock();
+		if(tabXSLTransformerCache != null)
+			n = tabXSLTransformerCache.size();
+		unloadRWLock.readLock().unlock();
 		return n;
 	}
 
 	public void unloadCachedResources()
 	{
 		Log.logImportant("unloadCachedResources started");
-		m_unloadRWLock.writeLock().lock();	// Get exclusive lock
+		unloadRWLock.writeLock().lock();	// Get exclusive lock
 		
-		if(m_tabXSLTransformerCache != null)
-			m_tabXSLTransformerCache.clear();		
+		if(tabXSLTransformerCache != null)
+			tabXSLTransformerCache.clear();		
 		
-		m_unloadRWLock.writeLock().unlock();	// Release exclusive lock; unlocking optinal thread waiting to obtain read lock in getUnusedInstance()
+		unloadRWLock.writeLock().unlock();	// Release exclusive lock; unlocking optinal thread waiting to obtain read lock in getUnusedInstance()
 		Log.logImportant("unloadCachedResources ended");
 	}
 
 	public void setXSLFilePath(String ID, File filePath)
 	{
-		m_tabXSLFiles.put(ID, filePath) ;
+		tabXSLFiles.put(ID, filePath) ;
 	}
 	
 	public void setXSLFilePath(String ID, String csXSLFilePath)
@@ -75,26 +75,26 @@ public class ResourceManager extends BaseCloseMBean
 	
 	public XSLTransformer getXSLTransformer(String ID)
 	{
-		m_unloadRWLock.readLock().lock();
-		if (!m_tabXSLTransformerCache.containsKey(ID))
+		unloadRWLock.readLock().lock();
+		if (!tabXSLTransformerCache.containsKey(ID))
 		{
-			File f = m_tabXSLFiles.get(ID) ;
+			File f = tabXSLFiles.get(ID) ;
 			if (f == null)
 			{
-				m_unloadRWLock.readLock().unlock();
+				unloadRWLock.readLock().unlock();
 				return null;
 			}				
 			XSLTransformer tr = XSLTransformer.loadFromFile(f, true) ;
-			m_tabXSLTransformerCache.put(ID, tr) ;
-			m_unloadRWLock.readLock().unlock();
+			tabXSLTransformerCache.put(ID, tr) ;
+			unloadRWLock.readLock().unlock();
 			return tr ;
 		}
-		XSLTransformer tr = m_tabXSLTransformerCache.get(ID) ;
-		m_unloadRWLock.readLock().unlock();
+		XSLTransformer tr = tabXSLTransformerCache.get(ID) ;
+		unloadRWLock.readLock().unlock();
 		return tr;
 	}
 
-	private Map<String, File> m_tabXSLFiles = new HashMap<String, File>() ;
-	private Map<String, XSLTransformer> m_tabXSLTransformerCache = new HashMap<String, XSLTransformer>() ;
-	private ReentrantReadWriteLock m_unloadRWLock = new ReentrantReadWriteLock();
+	private Map<String, File> tabXSLFiles = new HashMap<String, File>() ;
+	private Map<String, XSLTransformer> tabXSLTransformerCache = new HashMap<String, XSLTransformer>() ;
+	private ReentrantReadWriteLock unloadRWLock = new ReentrantReadWriteLock();
 }

@@ -51,35 +51,35 @@ public class CExecCICSReadQ extends CCobolElement
 	 */
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		CEntityCICSReadQ eRQ = factory.NewEntityCICSReadQ(getLine(), m_bPersistant);
+		CEntityCICSReadQ eRQ = factory.NewEntityCICSReadQ(getLine(), bPersistant);
 		parent.AddChild(eRQ);
 		
-		eRQ.SetName(m_QueueName.GetDataEntity(getLine(), factory)) ;
-		if (m_DataRef != null)
+		eRQ.SetName(queueName.GetDataEntity(getLine(), factory)) ;
+		if (dataRef != null)
 		{
 			CDataEntity len = null ;
-			if (m_Length != null)
+			if (length != null)
 			{
-				len = m_Length.GetDataEntity(getLine(), factory);
+				len = length.GetDataEntity(getLine(), factory);
 				len.RegisterWritingAction(eRQ); 
 			}
-			CDataEntity data = m_DataRef.GetDataReference(getLine(), factory) ;
+			CDataEntity data = dataRef.GetDataReference(getLine(), factory) ;
 			data.RegisterWritingAction(eRQ); 
 			eRQ.SetDataRef(data, len);
 		}
-		if (m_bNext)
+		if (bNext)
 		{
 			eRQ.ReadNext() ;
 		}
-		else if (m_Item != null)
+		else if (item != null)
 		{
-			CDataEntity e = m_Item.GetDataEntity(getLine(), factory) ;
+			CDataEntity e = item.GetDataEntity(getLine(), factory) ;
 			e.RegisterReadingAction(eRQ) ;
 			eRQ.ReadItem(e);
 		}
-		if (m_NumItem != null)
+		if (numItem != null)
 		{
-			CDataEntity e = m_NumItem.GetDataEntity(getLine(), factory) ;
+			CDataEntity e = numItem.GetDataEntity(getLine(), factory) ;
 			eRQ.ReadNumItem(e);
 			e.RegisterReadingAction(eRQ) ;
 		}
@@ -101,18 +101,18 @@ public class CExecCICSReadQ extends CCobolElement
 		{
 			CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("READQ", "TD") ;
 			tok = GetNext(); 
-			m_bPersistant = true ;
+			bPersistant = true ;
 		}
 		else if (tok.GetValue().equals("TS"))
 		{
 			CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("READQ", "TS") ;
 			tok = GetNext(); 
-			m_bPersistant = false ;
+			bPersistant = false ;
 		}
 		else
 		{
 			CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("READQ", "Unknown") ;
-			m_bPersistant = false ;
+			bPersistant = false ;
 		}
 		
 		boolean bDone = false ;
@@ -124,7 +124,7 @@ public class CExecCICSReadQ extends CCobolElement
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
 				{
 					tok = GetNext();
-					m_QueueName = ReadTerminal();
+					queueName = ReadTerminal();
 					tok = GetCurrentToken() ;
 					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 					{
@@ -138,7 +138,7 @@ public class CExecCICSReadQ extends CCobolElement
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
 				{
 					tok = GetNext();
-					m_DataRef = ReadIdentifier();
+					dataRef = ReadIdentifier();
 					tok = GetCurrentToken() ;
 					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 					{
@@ -152,7 +152,7 @@ public class CExecCICSReadQ extends CCobolElement
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
 				{
 					tok = GetNext();
-					m_Length = ReadTerminal() ;
+					length = ReadTerminal() ;
 					tok = GetCurrentToken() ;
 					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 					{
@@ -163,7 +163,7 @@ public class CExecCICSReadQ extends CCobolElement
 			else if (tok.GetKeyword() == CCobolKeywordList.NEXT)
 			{
 				tok = GetNext() ;
-				m_bNext = true ;
+				bNext = true ;
 			}
 			else if (tok.GetValue().equals("ITEM"))
 			{
@@ -171,7 +171,7 @@ public class CExecCICSReadQ extends CCobolElement
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
 				{
 					tok = GetNext();
-					m_Item = ReadTerminal() ;
+					item = ReadTerminal() ;
 					tok = GetCurrentToken() ;
 					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 					{
@@ -185,7 +185,7 @@ public class CExecCICSReadQ extends CCobolElement
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
 				{
 					tok = GetNext();
-					m_NumItem = ReadTerminal() ;
+					numItem = ReadTerminal() ;
 					tok = GetCurrentToken() ;
 					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 					{
@@ -214,7 +214,7 @@ public class CExecCICSReadQ extends CCobolElement
 	protected Element ExportCustom(Document root)
 	{
 		Element eRead = root.createElement("ExecCICSReadQ") ;
-		if (m_bPersistant)
+		if (bPersistant)
 		{
 			eRead.setAttribute("Persistant", "true") ;
 		}
@@ -222,49 +222,49 @@ public class CExecCICSReadQ extends CCobolElement
 		{
 			eRead.setAttribute("Persistant", "false") ;
 		}
-		if (m_bNext)
+		if (bNext)
 		{
 			eRead.setAttribute("Next", "true") ;
 		}
-		if (m_QueueName != null)
+		if (queueName != null)
 		{
 			Element e = root.createElement("QueueName");
 			eRead.appendChild(e);
-			m_QueueName.ExportTo(e, root) ;
+			queueName.ExportTo(e, root) ;
 		}
-		if (m_DataRef != null)
+		if (dataRef != null)
 		{
 			Element e = root.createElement("Into");
 			eRead.appendChild(e);
-			m_DataRef.ExportTo(e, root) ;
+			dataRef.ExportTo(e, root) ;
 		}
-		if (m_NumItem != null)
+		if (numItem != null)
 		{
 			Element e = root.createElement("NumItems");
 			eRead.appendChild(e);
-			m_NumItem.ExportTo(e, root) ;
+			numItem.ExportTo(e, root) ;
 		}
-		if (m_Item != null)
+		if (item != null)
 		{
 			Element e = root.createElement("Item");
 			eRead.appendChild(e);
-			m_Item.ExportTo(e, root) ;
+			item.ExportTo(e, root) ;
 		}
-		if (m_Length != null)
+		if (length != null)
 		{
 			Element e = root.createElement("Length");
 			eRead.appendChild(e);
-			m_Length.ExportTo(e, root) ;
+			length.ExportTo(e, root) ;
 		}
 		return eRead;
 	}
 	
-	protected boolean m_bPersistant = false ;
-	protected CTerminal m_QueueName = null ;
-	protected CIdentifier m_DataRef  = null ;
-	protected CTerminal m_NumItem = null ;
-	protected CTerminal m_Item = null ;
-	protected CTerminal m_Length = null ;
-	protected boolean m_bNext = false ;
+	protected boolean bPersistant = false ;
+	protected CTerminal queueName = null ;
+	protected CIdentifier dataRef  = null ;
+	protected CTerminal numItem = null ;
+	protected CTerminal item = null ;
+	protected CTerminal length = null ;
+	protected boolean bNext = false ;
 }
  

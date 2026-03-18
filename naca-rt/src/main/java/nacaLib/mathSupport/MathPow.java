@@ -18,7 +18,7 @@ public class MathPow extends MathBase
 	 */
 	public MathPow(String var1, String s)
 	{
-		m_d = new BigDecimal(Math.pow(Double.parseDouble(var1), Double
+		d = new BigDecimal(Math.pow(Double.parseDouble(var1), Double
 				.parseDouble(s)));
 	}
 

@@ -22,17 +22,17 @@ public class CFPacJavaSubtractTo extends CEntitySubtractTo
 	@Override
 	protected void DoExport() {
 		WriteWord("subtract(") ;
-		WriteWord(this.m_Variable.ExportReference(getLine())) ;
-		for(CDataEntity m_Value : m_Values)
+		WriteWord(this.variable.ExportReference(getLine())) ;
+		for(CDataEntity value : values)
 		{
 			WriteWord(", ") ;
-			WriteWord(m_Value.ExportReference(getLine())) ;
+			WriteWord(value.ExportReference(getLine())) ;
 		}
 		WriteWord(")") ;
-		for(CDataEntity m_Value : m_Destination)
+		for(CDataEntity value : this.destination)
 		{
 			WriteWord(".to(");
-			WriteWord(m_Value.ExportReference(getLine())) ;
+			WriteWord(value.ExportReference(getLine())) ;
 			WriteWord(")");
 		}
 		WriteWord(" ;") ;

@@ -30,8 +30,8 @@ public class CJavaCondIsSQLCode extends CEntityCondIsSQLCode
 	public CBaseEntityCondition GetOppositeCondition()
 	{
 		CJavaCondIsSQLCode cond = new CJavaCondIsSQLCode() ;
-		cond.m_bIsEqual = ! m_bIsEqual ;
-		cond.m_nValue = m_nValue ;
+		cond.bIsEqual = ! bIsEqual ;
+		cond.nValue = nValue ;
 		return cond ;
 	}
 
@@ -41,39 +41,39 @@ public class CJavaCondIsSQLCode extends CEntityCondIsSQLCode
 	public String Export()
 	{
 		String value = "" ;
-		if (m_nValue == 0)
+		if (nValue == 0)
 		{
 			value = "SQLCode.SQL_OK" ;
 		}
-		else if (m_nValue == 100)
+		else if (nValue == 100)
 		{
 			value = "SQLCode.SQL_NOT_FOUND" ;
 		}
-		else if (m_nValue == -811)
+		else if (nValue == -811)
 		{
 			value = "SQLCode.SQL_MORE_THAN_ONE_ROW" ;
 		}
-		else if (m_nValue == -803)
+		else if (nValue == -803)
 		{
 			value = "SQLCode.SQL_DUPLICATE_INDEX_KEY" ;
 		}
-		else if (m_nValue == -502)
+		else if (nValue == -502)
 		{
 			value = "SQLCode.SQL_CURSOR_ALREADY_OPENED" ;
 		}
-		else if (m_nValue == -501)
+		else if (nValue == -501)
 		{
 			value = "SQLCode.SQL_CURSOR_NOT_OPEN" ;
 		}
-		else if (m_nValue == -305)
+		else if (nValue == -305)
 		{
 			value = "SQLCode.SQL_VALUE_NULL" ;
 		}
 		else
 		{
-			value += m_nValue ;
+			value += nValue ;
 		}
-		if (m_bIsEqual)
+		if (bIsEqual)
 		{
 			String cs = "isSQLCode(" + value + ")" ;
 			return cs ;

@@ -12,89 +12,89 @@ import java.util.Vector;
 
 public class HostFileInputStream extends InputStream
 {
-	protected InputStream m_Stream = null ;
-	protected boolean m_bHeaderVariable = false;
-	protected int m_nLength = 0;
-	protected int[] m_Record = null;
-	protected int m_nCurrentRecordRead = 0;
-	private byte[] m_tbyHeader = new byte[4];
+	protected InputStream stream = null ;
+	protected boolean bHeaderVariable = false;
+	protected int nLength = 0;
+	protected int[] record = null;
+	protected int nCurrentRecordRead = 0;
+	private byte[] tbyHeader = new byte[4];
 	
 	public HostFileInputStream(InputStream is, String csFormat, int nLength)
 	{
-		m_Stream = is;
+		stream = is;
 		if (csFormat != null && csFormat.equals("VB")) {
-			m_bHeaderVariable = true;
+			bHeaderVariable = true;
 		}
-		m_nLength = nLength;
+		nLength = nLength;
 	}
 
 	public int read() throws IOException
 	{
-		if (m_Record == null)
+		if (record == null)
 		{
-			if (m_Stream.available() == 0)
+			if (stream.available() == 0)
 			{
 				return -1;
 			}
 			Vector<Integer> v = new Vector<Integer>();
-			if (m_bHeaderVariable)
+			if (bHeaderVariable)
 			{
-				m_tbyHeader[0] = (byte)m_Stream.read();
-				m_tbyHeader[1] = (byte)m_Stream.read();
-				m_tbyHeader[2] = (byte)m_Stream.read();
-				m_tbyHeader[3] = (byte)m_Stream.read();
-				int nLengthExcludingHeader = LittleEndingSignBinaryBufferStorage.readInt(m_tbyHeader, 0);
+				tbyHeader[0] = (byte)stream.read();
+				tbyHeader[1] = (byte)stream.read();
+				tbyHeader[2] = (byte)stream.read();
+				tbyHeader[3] = (byte)stream.read();
+				int nLengthExcludingHeader = LittleEndingSignBinaryBufferStorage.readInt(tbyHeader, 0);
 				for (int i=0; i < nLengthExcludingHeader; i++)
 				{
-					v.add(m_Stream.read());
+					v.add(stream.read());
 				}
-				m_Stream.read();
+				stream.read();
 			}
 			else
 			{
-				if (m_nLength == 0)
+				if (nLength == 0)
 				{
-					int b = m_Stream.read();
+					int b = stream.read();
 					while (b != '\n' && b != -1)
 					{
 						v.add(b) ;
-						b = m_Stream.read();
+						b = stream.read();
 					}
 				}
 				else
 				{
-					for (int i=0; i < m_nLength; i++)
+					for (int i=0; i < nLength; i++)
 					{
-						v.add(m_Stream.read());
+						v.add(stream.read());
 					}
-					m_Stream.read();
+					stream.read();
 				}
 			}
 			
-			m_Record = new int[v.size()+3];
-			if (m_Stream.available() == 0)
+			record = new int[v.size()+3];
+			if (stream.available() == 0)
 			{
-				m_Record[0] = 64;
+				record[0] = 64;
 			}
 			else
 			{
-				m_Record[0] = 128;
+				record[0] = 128;
 			}
-			m_Record[1] = v.size() / 256; 
-			m_Record[2] = v.size() % 256;
+			record[1] = v.size() / 256; 
+			record[2] = v.size() % 256;
 			for (int i=0; i<v.size(); i++)
 			{
-				m_Record[i+3] = v.get(i);
+				record[i+3] = v.get(i);
 			}
-			m_nCurrentRecordRead = 0;
+			nCurrentRecordRead = 0;
 		}
 		
-		int b = m_Record[m_nCurrentRecordRead];
-		m_nCurrentRecordRead++;
-		if (m_nCurrentRecordRead == m_Record.length)
+		int b = record[nCurrentRecordRead];
+		nCurrentRecordRead++;
+		if (nCurrentRecordRead == record.length)
 		{
-			m_Record = null;
-			m_nCurrentRecordRead = 0;
+			record = null;
+			nCurrentRecordRead = 0;
 		}
 		
 		return b;
@@ -102,11 +102,11 @@ public class HostFileInputStream extends InputStream
 
 	public int available() throws IOException
 	{
-		return m_Stream.available() + m_Record.length-m_nCurrentRecordRead ;
+		return stream.available() + record.length-nCurrentRecordRead ;
 	}
 
 	public void close() throws IOException
 	{
-		m_Stream.close() ;
+		stream.close() ;
 	}
 }

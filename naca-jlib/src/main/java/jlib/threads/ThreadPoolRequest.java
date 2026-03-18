@@ -10,17 +10,17 @@ public abstract class ThreadPoolRequest
 {
 	public ThreadPoolRequest(boolean bTerminaison)
 	{
-		m_bTerminaisonRequest = bTerminaison;
+		bTerminaisonRequest = bTerminaison;
 	}
 
 	public boolean getTerminaisonRequest()
 	{
-		return m_bTerminaisonRequest;
+		return bTerminaisonRequest;
 	};
 	
 	protected void setNotTerminaisonRequest()
 	{
-		m_bTerminaisonRequest = false;
+		bTerminaisonRequest = false;
 	};
 	
 	/*!	
@@ -30,5 +30,5 @@ public abstract class ThreadPoolRequest
 	*/
 	public abstract void execute();
 	
-	private	boolean m_bTerminaisonRequest;
+	private	boolean bTerminaisonRequest;
 }

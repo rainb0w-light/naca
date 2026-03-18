@@ -37,46 +37,46 @@ public abstract class CEntityLoopWhile extends CBaseActionEntity
 	}
 	public void SetWhileCondition(CBaseEntityCondition exp)
 	{
-		m_WhileCondition = exp ;
-		m_bDoBefore = false ;
+		whileCondition = exp ;
+		bDoBefore = false ;
 	}
 	public void SetDoWhileCondition(CBaseEntityCondition exp)
 	{
-		m_WhileCondition = exp ;
-		m_bDoBefore = true ;
+		whileCondition = exp ;
+		bDoBefore = true ;
 	}
 	public void SetDoUntilCondition(CBaseEntityCondition exp)
 	{
-		m_WhileCondition = exp.GetOppositeCondition() ;
-		m_bDoBefore = true;
+		whileCondition = exp.GetOppositeCondition() ;
+		bDoBefore = true;
 	}
 	public void SetUntilCondition(CBaseEntityCondition exp)
 	{
-		m_WhileCondition = exp.GetOppositeCondition() ;
-		m_bDoBefore = false ;
+		whileCondition = exp.GetOppositeCondition() ;
+		bDoBefore = false ;
 	}
-	protected CBaseEntityCondition m_WhileCondition = null ;
-	protected boolean m_bDoBefore = false ; // false = WHILE DO / true = DO WHILE  
+	protected CBaseEntityCondition whileCondition = null ;
+	protected boolean bDoBefore = false ; // false = WHILE DO / true = DO WHILE  
 	public void Clear()
 	{
 		super.Clear() ;
-		m_WhileCondition.Clear() ;
-		m_WhileCondition = null ;
+		whileCondition.Clear() ;
+		whileCondition = null ;
 	}
 	public boolean ignore()
 	{
-		boolean ignore = m_WhileCondition.ignore() ;
+		boolean ignore = whileCondition.ignore() ;
 //		ignore |= (isChildrenIgnored() && m_;
 		return ignore ;
 	}
 	public boolean UpdateAction(CBaseActionEntity entity, CBaseActionEntity newCond)
 	{
-		for (int i=0; i<m_lstChildren.size(); i++)
+		for (int i=0; i<lstChildren.size(); i++)
 		{
-			CBaseActionEntity act = (CBaseActionEntity)m_lstChildren.get(i) ;
+			CBaseActionEntity act = (CBaseActionEntity)lstChildren.get(i) ;
 			if (act == entity)
 			{
-				m_lstChildren.set(i, newCond) ;
+				lstChildren.set(i, newCond) ;
 				return true ;
 			}
 		}
@@ -87,12 +87,12 @@ public abstract class CEntityLoopWhile extends CBaseActionEntity
 
 	public CBaseEntityCondition getWhileCondition()
 	{
-		return m_WhileCondition;
+		return whileCondition;
 	}
 
 	public boolean isDoBefore()
 	{
-		return m_bDoBefore;
+		return bDoBefore;
 	}
 
 }

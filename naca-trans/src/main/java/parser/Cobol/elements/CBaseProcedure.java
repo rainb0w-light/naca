@@ -49,9 +49,9 @@ public class CBaseProcedure extends CBlocElement
 			}
 			else if (tok.GetType()== CTokenType.DOT)
 			{
-				if (m_fCheckForNextSentence.ISSet())
+				if (fCheckForNextSentence.ISSet())
 				{
-					m_fCheckForNextSentence.UnSet() ; // 
+					fCheckForNextSentence.UnSet() ; // 
 				}
 				GetNext();
 				//  continue

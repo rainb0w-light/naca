@@ -29,7 +29,7 @@ public abstract class CEntityExprTerminal extends CBaseEntityExpression
 	@Override
 	public CDataEntityType GetDataType()
 	{
-		return m_Term.GetDataType();
+		return term.GetDataType();
 	}
 	/**
 	 * @param line
@@ -39,27 +39,27 @@ public abstract class CEntityExprTerminal extends CBaseEntityExpression
 	public CEntityExprTerminal(CDataEntity term)
 	{
 		ASSERT(term);
-		m_Term = term ;
+		term = term ;
 	}
-	protected CDataEntity m_Term = null ;
+	protected CDataEntity term = null ;
 	public void Clear()
 	{
 		super.Clear() ;
-		m_Term = null ;
+		term = null ;
 	}
 	public CDataEntity GetSingleOperator()
 	{
-		return m_Term ;
+		return term ;
 	}
 	public boolean ignore()
 	{
-		return m_Term.ignore() ;
+		return term.ignore() ;
 	}
 	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
 	{
-		if (m_Term == field)
+		if (term == field)
 		{
-			m_Term = var ;
+			term = var ;
 			return true ;
 		}
 		return false ;
@@ -68,7 +68,7 @@ public abstract class CEntityExprTerminal extends CBaseEntityExpression
 	@Override
 	public CEntityExpressionType getExpressionType()
 	{
-		CDataEntityType type = m_Term.GetDataType() ;
+		CDataEntityType type = term.GetDataType() ;
 		if (type == null)
 		{
 			return null ;
@@ -105,6 +105,6 @@ public abstract class CEntityExprTerminal extends CBaseEntityExpression
 	@Override
 	public String GetConstantValue()
 	{
-		return m_Term.GetConstantValue() ;
+		return term.GetConstantValue() ;
 	}
 }

@@ -20,8 +20,8 @@ import jlib.misc.NumberParser;
  */
 public class SQLColTypeDate
 {
-	private Timestamp m_ts = null;
-	private boolean m_bValid = false;
+	private Timestamp ts = null;
+	private boolean bValid = false;
 	
 	public SQLColTypeDate(String csYYYYMMDD)
 	{
@@ -29,8 +29,8 @@ public class SQLColTypeDate
 		int nMM = NumberParser.getAsInt(csYYYYMMDD.substring(4, 6));
 		int nDD = NumberParser.getAsInt(csYYYYMMDD.substring(6, 8));
 		
-		m_ts = new Timestamp(nYYYY, nMM, nDD, 0, 0, 0, 0);
-		m_bValid = true;
+		ts = new Timestamp(nYYYY, nMM, nDD, 0, 0, 0, 0);
+		bValid = true;
 	}
 	
 	public SQLColTypeDate(int nYYYYMMDD)
@@ -40,23 +40,23 @@ public class SQLColTypeDate
 		int nMM = NumberParser.getAsInt(csYYYYMMDD.substring(4, 6));
 		int nDD = NumberParser.getAsInt(csYYYYMMDD.substring(6, 8));
 		
-		m_ts = new Timestamp(nYYYY, nMM, nDD, 0, 0, 0, 0);
-		m_bValid = true;
+		ts = new Timestamp(nYYYY, nMM, nDD, 0, 0, 0, 0);
+		bValid = true;
 	}
 	
 	public void setInfinite()
 	{
-		m_ts = new Timestamp(2038, 12, 31, 0, 0, 0, 0);
-		m_bValid = true;
+		ts = new Timestamp(2038, 12, 31, 0, 0, 0, 0);
+		bValid = true;
 	}
 	
 	public boolean isValid()
 	{
-		return m_bValid;
+		return bValid;
 	}
 	
 	public Timestamp getTimeStamp()
 	{
-		return m_ts;
+		return ts;
 	}
 }

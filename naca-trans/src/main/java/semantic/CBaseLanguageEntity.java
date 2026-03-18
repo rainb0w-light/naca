@@ -40,64 +40,64 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 	protected String GetDefaultName()
 	{
 		
-		String name = "Filler$" + m_output.GetLastFillerIndex() ;
+		String name = "Filler$" + output.GetLastFillerIndex() ;
 		return name ;
 	}
 	public String GetName()
 	{
-		return m_Name ;
+		return name ;
 	}
-	private String m_Name = "" ;
+	private String name = "" ;
 	public void SetName(String name)
 	{
-		m_Name = name ;
+		name = name ;
 		RegisterMySelfToCatalog() ;		
 	}
 	public void Rename(String name)
 	{
-		if (!m_Name.equals(""))
+		if (!name.equals(""))
 		{
-			m_ProgramCatalog.RemoveObject(this) ;
+			programCatalog.RemoveObject(this) ;
 		}
-		m_Name = name ;
+		name = name ;
 		RegisterMySelfToCatalog() ;		
 	}
 	protected abstract void RegisterMySelfToCatalog() ;
-	public CObjectCatalog m_ProgramCatalog = null ;
+	public CObjectCatalog programCatalog = null ;
 
 //	protected CEntityHierarchy m_Hierarchy = null ;
-	protected CBaseLanguageEntity m_parent = null ;
+	protected CBaseLanguageEntity parent = null ;
 	public void SetParent(CBaseLanguageEntity e)
 	{
-		if (m_parent != null)
+		if (parent != null)
 		{
-			boolean b = m_parent.m_lstChildren.remove(this) ;
+			boolean b = parent.lstChildren.remove(this) ;
 			int n =0 ;
 		}
-		m_parent = e ;
+		parent = e ;
 	}
 	public CBaseLanguageEntity GetParent()
 	{
-		return m_parent ;
+		return parent ;
 	}
 	public CEntityHierarchy GetHierarchy()
 	{
 		CEntityHierarchy hier = null ;
-		if (m_parent == null)
+		if (parent == null)
 		{
 			hier = new CEntityHierarchy() ;
 		}
 		else
 		{
-			hier = m_parent.GetHierarchy() ;
+			hier = parent.GetHierarchy() ;
 		}
-		if (!m_Name.equals(""))
+		if (!name.equals(""))
 		{
-			hier.AddLevel(m_Name);
+			hier.AddLevel(name);
 		}
-		if (m_arrAliases != null)
+		if (arrAliases != null)
 		{
-			for (String alias : m_arrAliases)
+			for (String alias : arrAliases)
 			{
 				hier.AddLevel(alias) ;
 			}
@@ -107,16 +107,16 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 	
 	private void AddAlias(String alias)
 	{
-		if (m_arrAliases == null)
+		if (arrAliases == null)
 		{
-			m_arrAliases = new Vector<String>() ;
+			arrAliases = new Vector<String>() ;
 		}
-		m_arrAliases.add(alias) ;
+		arrAliases.add(alias) ;
 	}
-	protected Vector<String> m_arrAliases = null ;
+	protected Vector<String> arrAliases = null ;
 	protected void ApplyAliasPatternToChildren(String csPattern)
 	{
-		for (CBaseLanguageEntity le : m_lstChildren)
+		for (CBaseLanguageEntity le : lstChildren)
 		{
 			String name = le.GetName() ;
 			name = csPattern + name.substring(csPattern.length()) ;
@@ -129,38 +129,38 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 	//protected Logger m_logger = Transcoder.ms_logger ;
  
  
- 	private int m_line = 0 ;
+ 	private int line = 0 ;
  	
  	public void SetLine(int line)
  	{
- 		m_line = line ;
- 		Transcoder.setLine(m_line);
+ 		line = line ;
+ 		Transcoder.setLine(line);
  	}
  	public int getLine()
  	{
- 		return m_line;
+ 		return line;
  	}
  	
 	protected CBaseLanguageEntity(int line, String name, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
 		SetLine(line);
-		m_ProgramCatalog = cat ;
+		programCatalog = cat ;
 		if (cat == null)
 		{
 			int n=0 ;
 		}
-		m_Name = name ;
-		if (!m_Name.equals(""))
+		name = name ;
+		if (!name.equals(""))
 		{
 			RegisterMySelfToCatalog() ;
 		}
-		m_output = out ;
+		output = out ;
 	}
 	public void AddChild(CBaseLanguageEntity e)
 	{
 		if (e != this)
 		{
-			m_lstChildren.add(e) ;
+			lstChildren.add(e) ;
 			e.SetParent(this) ;
 		}
 	}
@@ -168,13 +168,13 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 	{
 		if (e != this)
 		{
-			m_lstChildren.add(e) ;
+			lstChildren.add(e) ;
 		}
 	}
 	protected void
     ExportChildren()
 	{
-		ListIterator i = m_lstChildren.listIterator() ;
+		ListIterator i = lstChildren.listIterator() ;
 		try
 		{
 			CBaseLanguageEntity le = (CBaseLanguageEntity)i.next() ;
@@ -201,7 +201,7 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 	public Vector<CBaseLanguageEntity> GetListOfChildren()
 	{
 		Vector<CBaseLanguageEntity> v = new Vector<CBaseLanguageEntity>() ;
-		ListIterator i = m_lstChildren.listIterator() ;
+		ListIterator i = lstChildren.listIterator() ;
 		try
 		{
 			CBaseLanguageEntity le = (CBaseLanguageEntity)i.next() ;
@@ -217,16 +217,16 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 		}
 		return v ;
 	}
-	protected LinkedList<CBaseLanguageEntity> m_lstChildren = new LinkedList<CBaseLanguageEntity>() ;
+	protected LinkedList<CBaseLanguageEntity> lstChildren = new LinkedList<CBaseLanguageEntity>() ;
 	public boolean HasChildren()
 	{
-		return ! m_lstChildren.isEmpty();
+		return ! lstChildren.isEmpty();
 	}
-	private CBaseLanguageExporter m_output = null ;
+	private CBaseLanguageExporter output = null ;
 	public void setLanguageExporter(CBaseLanguageExporter exp)
 	{
-		m_output = exp ;
-		ListIterator i = m_lstChildren.listIterator() ;
+		output = exp ;
+		ListIterator i = lstChildren.listIterator() ;
 		try
 		{
 			CBaseLanguageEntity le = (CBaseLanguageEntity)i.next() ;
@@ -243,49 +243,49 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 	}
 	protected CBaseLanguageExporter GetXMLOutput()
 	{
-		return m_output;
+		return output;
 	}
 	protected void WriteComment(String text)
 	{
-		m_output.WriteComment(text, getLine());
+		output.WriteComment(text, getLine());
 	}
 	protected void WriteLine(String text)
 	{
-		m_output.WriteLine(text, getLine());
+		output.WriteLine(text, getLine());
 	}
 	protected void WriteLine(String text, int l)
 	{
-		m_output.WriteLine(text, l);
+		output.WriteLine(text, l);
 	}
 	protected void WriteEOL()
 	{
-		m_output.WriteEOL(getLine());
+		output.WriteEOL(getLine());
 	}
 	protected void WriteWord(String text)
 	{
-		m_output.WriteWord(text, getLine());
+		output.WriteWord(text, getLine());
 	}
 	protected void WriteLongString(String text)
 	{
-		m_output.WriteLongString(text, getLine());
+		output.WriteLongString(text, getLine());
 	}
 	protected void WriteWord(String text, int l)
 	{
-		m_output.WriteWord(text, l);
+		output.WriteWord(text, l);
 	}
 	protected void StartOutputBloc()
 	{
-		m_output.StartBloc();
+		output.StartBloc();
 	}
 	protected void EndOutputBloc()
 	{
-		m_output.EndBloc();
+		output.EndBloc();
 	}
 	protected String FormatIdentifier(String cs)
 	{
-		if (m_output != null)
+		if (output != null)
 		{
-			return m_output.FormatIdentifier(cs);
+			return output.FormatIdentifier(cs);
 		}
 		else
 		{
@@ -300,7 +300,7 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 	public void StartExport()
 	{
 		DoExport() ;
-		m_output.closeOutput() ;
+		output.closeOutput() ;
 	}
 	
 	protected void ASSERT(Object o)
@@ -320,7 +320,7 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 		CBaseLanguageEntity le = null ;
 		try
 		{
-			le = m_lstChildren.getLast() ;
+			le = lstChildren.getLast() ;
 		}
 		catch (NoSuchElementException e)
 		{
@@ -338,9 +338,9 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 				return le ;
 			}
 		}
-//		else if (m_parent != null)
+//		else if (parent != null)
 //		{
-//			return m_parent.FindLastEntityAvailableForLevel(level) ;
+//			return parent.FindLastEntityAvailableForLevel(level) ;
 //		}
 		else
 		{
@@ -352,9 +352,9 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 	{
 		CBaseLanguageEntity le = null ;
 
-		for (int i=0; i<m_lstChildren.size(); i++)
+		for (int i=0; i<lstChildren.size(); i++)
 		{
-			le = m_lstChildren.get(i) ;
+			le = lstChildren.get(i) ;
 
 			if (le.GetInternalLevel() <= level)
 			{
@@ -370,17 +370,17 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 	
 	public String GetProgramName()
 	{
-		if (m_parent != null)
+		if (parent != null)
 		{
-			return m_parent.GetProgramName();
+			return parent.GetProgramName();
 		}
 		return "" ;
 	}
 	public CEntityProcedureSection getSectionContainer()
 	{
-		if (m_parent != null)
+		if (parent != null)
 		{
-			return m_parent.getSectionContainer() ;
+			return parent.getSectionContainer() ;
 		}
 		else
 		{
@@ -390,11 +390,11 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 	
 	public boolean ignore() 
 	{
-		return m_bIgnore ;
+		return bIgnore ;
 	}
 	protected boolean isChildrenIgnored()
 	{
-		Iterator i = m_lstChildren.iterator() ;
+		Iterator i = lstChildren.iterator() ;
 		boolean ignore = true ;
 		try
 		{
@@ -418,7 +418,7 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 	}
 	public void Clear()
 	{
-		Iterator i = m_lstChildren.iterator() ;
+		Iterator i = lstChildren.iterator() ;
 		try
 		{
 			CBaseLanguageEntity e = (CBaseLanguageEntity)i.next() ;
@@ -431,10 +431,10 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 		catch (NoSuchElementException e)
 		{
 		}
-		m_lstChildren.clear();
-		m_parent = null ;
-		m_ProgramCatalog = null ;
-		m_output = null ;
+		lstChildren.clear();
+		parent = null ;
+		programCatalog = null ;
+		output = null ;
 	}
 	/**
 	 * @param entity
@@ -453,16 +453,16 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 	 */
 //	public void ReplaceChild(CBaseLanguageEntity link, CBaseLanguageEntity call)
 //	{
-//		int n = m_lstChildren.indexOf(link) ;
+//		int n = lstChildren.indexOf(link) ;
 //		if (n>=0)
 //		{
-//			m_lstChildren.set(n, call) ;
+//			lstChildren.set(n, call) ;
 //		}
 //	}
 	public void SetIgnoreStructure()
 	{
-		m_bIgnore = true ;
-		ListIterator i = m_lstChildren.listIterator() ;
+		bIgnore = true ;
+		ListIterator i = lstChildren.listIterator() ;
 		try
 		{
 			CBaseLanguageEntity le = (CBaseLanguageEntity)i.next() ;
@@ -477,7 +477,7 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 			//System.out.println(e.toString());
 		}
 	}
-	protected boolean m_bIgnore = false ;
+	protected boolean bIgnore = false ;
 	/**
 	 * @param start
 	 * @param end
@@ -488,14 +488,14 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 		int nStart = 0 ;
 		if (start != null)
 		{
-			nStart = m_lstChildren.indexOf(start) ;
+			nStart = lstChildren.indexOf(start) ;
 		}
-		int nEnd = m_lstChildren.size()-1 ;
+		int nEnd = lstChildren.size()-1 ;
 		if (end != null)
 		{
-			nEnd = m_lstChildren.indexOf(end) ;
+			nEnd = lstChildren.indexOf(end) ;
 		}
-		List<CBaseLanguageEntity> l = m_lstChildren.subList(nStart, nEnd+1) ;
+		List<CBaseLanguageEntity> l = lstChildren.subList(nStart, nEnd+1) ;
 		CBaseLanguageEntity[] arr = new CBaseLanguageEntity[l.size()] ;
 		l.toArray(arr) ;
 		return arr;
@@ -506,10 +506,10 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 	 */
 	public void ReplaceChild(CBaseLanguageEntity th, CBaseLanguageEntity call1)
 	{
-		int n = m_lstChildren.indexOf(th) ;
+		int n = lstChildren.indexOf(th) ;
 		if (n>=0)
 		{
-			m_lstChildren.set(n, call1) ;
+			lstChildren.set(n, call1) ;
 		}
 	}
 	/**
@@ -520,33 +520,33 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 	{
 		if (call1 == null)
 		{
-			m_lstChildren.add(0, call2) ;
+			lstChildren.add(0, call2) ;
 		}
 		else
 		{
-			int n = m_lstChildren.indexOf(call1) ;
+			int n = lstChildren.indexOf(call1) ;
 			if (n>=0)
 			{
-				m_lstChildren.add(n+1, call2) ;
+				lstChildren.add(n+1, call2) ;
 			}
 		}
 	}
 
 	public String GetDisplayName()
 	{
-		if (m_csDisplayName.equals(""))
+		if (csDisplayName.equals(""))
 		{
 			return GetName() ;
 		}
 		else
 		{
-			return m_csDisplayName ;
+			return csDisplayName ;
 		}
 	}
-	protected String m_csDisplayName = "" ;
+	protected String csDisplayName = "" ;
 	public void SetDisplayName(String name)
 	{
-		m_csDisplayName = name ;
+		csDisplayName = name ;
 	}
 	
 	public boolean canOwnTableSize()
@@ -562,7 +562,7 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 	 */
 	public LinkedList<CBaseLanguageEntity> getChildren()
 	{
-		return m_lstChildren;
+		return lstChildren;
 	}
 	
 	/**
@@ -581,9 +581,9 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 	 */
 	public String getFormattedName()
 	{
-		if (m_output != null)
+		if (output != null)
 		{
-			return m_output.FormatIdentifier(GetDisplayName());
+			return output.FormatIdentifier(GetDisplayName());
 		}
 		return GetDisplayName();
 	}

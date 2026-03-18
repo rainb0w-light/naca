@@ -29,36 +29,36 @@ import nacaLib.varEx.VarBase;
 
 public class CSQLResultSet extends CJMapObject
 {
-	private SQL m_sql = null;
-	private String m_csQuery = null;
-	private String m_csProgramName = null;
+	private SQL sql = null;
+	private String csQuery = null;
+	private String csProgramName = null;
 	
 	public CSQLResultSet(ResultSet r, SemanticContextDef semanticContextDef, SQL sql)
 	{
-		m_sql = sql;
-		m_csQuery = sql.m_csQuery;
-		m_csProgramName = sql.getProgram();
-		m_r = r;
-		m_arrColSelectType = sql.m_arrColSelectType;
-		m_sqlStatus = sql.m_sqlStatus;
+		sql = sql;
+		csQuery = sql.csQuery;
+		csProgramName = sql.getProgram();
+		r = r;
+		arrColSelectType = sql.arrColSelectType;
+		sqlStatus = sql.sqlStatus;
 	}
 	
-	protected CSQLStatus m_sqlStatus = null ;
+	protected CSQLStatus sqlStatus = null ;
 	
 	public boolean next()
 	{
-		if(m_r != null)
+		if(r != null)
 		{	
 			try
 			{
-				if (m_r.next())
+				if (r.next())
 				{	
 					return true;
 				}	
 				else
 				{	
-					if (m_sqlStatus != null)
-						m_sqlStatus.setSQLCode(SQLCode.SQL_NOT_FOUND);
+					if (sqlStatus != null)
+						sqlStatus.setSQLCode(SQLCode.SQL_NOT_FOUND);
 				}
 			}
 			catch (SQLException e)
@@ -66,9 +66,9 @@ public class CSQLResultSet extends CJMapObject
 				if (e.getErrorCode() == -99999)
 				{
 					LogSQLException.log(e);
-					BaseProgramLoader.logMail(m_csProgramName + " - JDBC warning", "Warning while executing CSQLResultSet::next() on result set for program="+m_csProgramName + ", clause="+m_csQuery, e);
-					if (m_sqlStatus != null)
-						m_sqlStatus.setSQLCode(SQLCode.SQL_NOT_FOUND);
+					BaseProgramLoader.logMail(csProgramName + " - JDBC warning", "Warning while executing CSQLResultSet::next() on result set for program="+csProgramName + ", clause="+csQuery, e);
+					if (sqlStatus != null)
+						sqlStatus.setSQLCode(SQLCode.SQL_NOT_FOUND);
 				}
 				else
 				{
@@ -83,7 +83,7 @@ public class CSQLResultSet extends CJMapObject
 	{
 		try
 		{
-			boolean bHasNext = m_r.next();
+			boolean bHasNext = r.next();
 			if(bHasNext == false)
 			{
 				return true;
@@ -102,7 +102,7 @@ public class CSQLResultSet extends CJMapObject
 	{
 		try
 		{
-			ResultSetMetaData rsMetaData = m_r.getMetaData();
+			ResultSetMetaData rsMetaData = r.getMetaData();
 			String csColName = rsMetaData.getColumnName(nColSourceIndex);
 			return csColName;
 		}
@@ -118,7 +118,7 @@ public class CSQLResultSet extends CJMapObject
 		// DB2 JDBC Driver supports rsMetaData.getTableName(nColSourceIndex); See http://publib.boulder.ibm.com/infocenter/db2help/index.jsp?topic=/com.ibm.db2.udb.doc/ad/rjvjdapi.htm
 		try
 		{
-			ResultSetMetaData rsMetaData = m_r.getMetaData();
+			ResultSetMetaData rsMetaData = r.getMetaData();
 			String csTableName = rsMetaData.getTableName(nColSourceIndex);
 			String csColName = rsMetaData.getColumnName(nColSourceIndex);
 			String csTableColName = SemanticContextDef.getTableColName(csTableName, csColName);
@@ -140,11 +140,11 @@ public class CSQLResultSet extends CJMapObject
 		sqlIntoItem.setColValueNull(bNull);
 		if (bNull && sqlIntoItem.getVarIndicator() == null)
 		{
-			m_bNullError = true;
+			bNullError = true;
 		}
 	}
 	
-	boolean m_bNullError = false;
+	boolean bNullError = false;
 	
 	boolean fillColValue(int nColSourceIndex0Based, VarBase varInto, RecordSetCacheColTypeType recordSetCacheColTypeType)
 	{
@@ -152,13 +152,13 @@ public class CSQLResultSet extends CJMapObject
 		RecordColTypeManagerBase baseRecordColTypeManager = recordSetCacheColTypeType.getRecordColTypeManager(nColSourceIndex0Based);
 		if(baseRecordColTypeManager != null)
 		{
-			return baseRecordColTypeManager.fillColValue(m_r, varInto);
+			return baseRecordColTypeManager.fillColValue(r, varInto);
 		}		
 		else
 		{			
 			try
 			{
-				ResultSetMetaData rsMetaData = m_r.getMetaData();
+				ResultSetMetaData rsMetaData = r.getMetaData();
 				String csColTypeName = rsMetaData.getColumnTypeName(nColSourceIndex);
 				if(csColTypeName.equals("CHAR"))
 				{
@@ -241,22 +241,22 @@ public class CSQLResultSet extends CJMapObject
 			{
 				LogSQLException.log(e);	// Unkown col type ! 
 			}
-			return baseRecordColTypeManager.fillColValue(m_r, varInto);
+			return baseRecordColTypeManager.fillColValue(r, varInto);
 		}
 	}	
 
 	public ResultSet getResultSet()
 	{
-		return m_r ;
+		return r ;
 	}
 	
 	private boolean isSelectStar(int nColDest)	// Select * From ...
 	{
-		if(m_arrColSelectType != null)
+		if(arrColSelectType != null)
 		{
-			for(int n=0; n<m_arrColSelectType.size(); n++)
+			for(int n=0; n<arrColSelectType.size(); n++)
 			{
-				Integer iColId = m_arrColSelectType.get(n);
+				Integer iColId = arrColSelectType.get(n);
 				if(iColId.intValue() == nColDest)
 					return true;
 			}
@@ -264,14 +264,14 @@ public class CSQLResultSet extends CJMapObject
 		return false;
 	}
 	
-	private ArrayFixDyn<Integer> m_arrColSelectType = null;	// hash table of boolean, indexed by col id, indexed based 0
-	//private SemanticContextDef m_semanticContextDef = null;
+	private ArrayFixDyn<Integer> arrColSelectType = null;	// hash table of boolean, indexed by col id, indexed based 0
+	//private SemanticContextDef semanticContextDef = null;
 	
 	private int getRecordSetColumnCount()
 	{
 		try
 		{
-			return m_r.getMetaData().getColumnCount();
+			return r.getMetaData().getColumnCount();
 		}
 		catch(SQLException e)
 		{
@@ -321,20 +321,20 @@ public class CSQLResultSet extends CJMapObject
 	
 	private void manageSQLCode(boolean bCursor)
 	{
-		if (m_bNullError)
+		if (bNullError)
 		{
-			m_sqlStatus.setSQLCode(SQLCode.SQL_VALUE_NULL);
+			sqlStatus.setSQLCode(SQLCode.SQL_VALUE_NULL);
 		}
 		else if (bCursor)
 		{
-			m_sqlStatus.setSQLCode(SQLCode.SQL_OK);
+			sqlStatus.setSQLCode(SQLCode.SQL_OK);
 		}
 		else
 		{
 			if(isTheOnlyOne())
-				m_sqlStatus.setSQLCode(SQLCode.SQL_OK) ;
+				sqlStatus.setSQLCode(SQLCode.SQL_OK) ;
 			else
-				m_sqlStatus.setSQLCode(SQLCode.SQL_MORE_THAN_ONE_ROW) ;
+				sqlStatus.setSQLCode(SQLCode.SQL_MORE_THAN_ONE_ROW) ;
 		}
 	}
 	
@@ -342,7 +342,7 @@ public class CSQLResultSet extends CJMapObject
 	{
 		BaseProgramManager programManager = TempCacheLocator.getTLSTempCache().getProgramManager();
 		
-		int nNbColDest = sql.m_arrIntoItems.size();
+		int nNbColDest = sql.arrIntoItems.size();
 		
 		// Consume leading and ending unitary columns; a select with * must follow the syntax: Select [col]*, [*]*, [col]* from ...
 		// There cannot be unique cols between stars: that is select toto, *, titi, *, tutu is illegal.
@@ -356,7 +356,7 @@ public class CSQLResultSet extends CJMapObject
 		
 		if(!sql.getOneStarOnlyMode())	// we do not a select * from ...
 		{
-			if(m_arrColSelectType != null && m_arrColSelectType.size() > 0)	// We have at least a star
+			if(arrColSelectType != null && arrColSelectType.size() > 0)	// We have at least a star
 			{
 				for(int nColDest = 0; nColDest<nNbColDest; nColDest++)
 				{
@@ -385,16 +385,16 @@ public class CSQLResultSet extends CJMapObject
 		//Var2 varIntoDest = null;
 		for(int nColDest=0; nColDest<nNbcolUnitaryLeft; nColDest++)
 		{
-			CSQLIntoItem sqlIntoItem = sql.m_arrIntoItems.get(nColDest);
+			CSQLIntoItem sqlIntoItem = sql.arrIntoItems.get(nColDest);
 			setInto(nColDest, sqlIntoItem, sqlRecordSetVarFiller); 
 		}
 
 		// Unitary cols on the right
-		int nNbColsDest = sql.m_arrIntoItems.size();
+		int nNbColsDest = sql.arrIntoItems.size();
 		int nColRecordSetCurrent = nNbColInRecordSet-1;
 		for(int nColDest=nNbColsDest-1; nColDest>=nNbColsDest-nNbcolUnitaryRight; nColDest--)
 		{
-			CSQLIntoItem sqlIntoItem = sql.m_arrIntoItems.get(nColDest);
+			CSQLIntoItem sqlIntoItem = sql.arrIntoItems.get(nColDest);
 			setInto(nColRecordSetCurrent, sqlIntoItem, sqlRecordSetVarFiller);
 			nColRecordSetCurrent--;
 		}	
@@ -414,7 +414,7 @@ public class CSQLResultSet extends CJMapObject
 				String csColName = getColName(nColRecordSet+1);
 				for(int nColDest=nNbcolUnitaryLeft; nColDest<nNbColsDest-nNbcolUnitaryRight; nColDest++)	// Enum all groups
 				{					
-					CSQLIntoItem sqlIntoItem = sql.m_arrIntoItems.get(nColDest);
+					CSQLIntoItem sqlIntoItem = sql.arrIntoItems.get(nColDest);
 					VarAndEdit varDestParent = sqlIntoItem.getVarInto();
 					Var varDestIndicatorParent = sqlIntoItem.getVarIndicator();
 					 
@@ -443,9 +443,9 @@ public class CSQLResultSet extends CJMapObject
 							
 							//System.out.println("varChild filled="+varChild.toString());
 							
-//							if(m_semanticContextDef != null)
+//							if(semanticContextDef != null)
 //							{
-//								String csSemanticContext = m_semanticContextDef.getSemanticContextValueDefinition(csTableColName);
+//								String csSemanticContext = semanticContextDef.getSemanticContextValueDefinition(csTableColName);
 //								varChild.setSemanticContextValue(csSemanticContext);
 //							}
 							
@@ -483,8 +483,8 @@ public class CSQLResultSet extends CJMapObject
 	{
 		try
 		{
-			if(m_r != null)
-				return m_r.getCursorName();
+			if(r != null)
+				return r.getCursorName();
 		}
 		catch(SQLException e)
 		{
@@ -493,13 +493,13 @@ public class CSQLResultSet extends CJMapObject
 		return null;
 	}
 		
-	private ResultSet m_r = null;	
+	private ResultSet r = null;	
 
 	public String getString(String string)
 	{
 		try
 		{
-			return m_r.getString(string);
+			return r.getString(string);
 		}
 		catch (SQLException e)
 		{
@@ -512,7 +512,7 @@ public class CSQLResultSet extends CJMapObject
 	{
 		try
 		{
-			return m_r.getInt(i);
+			return r.getInt(i);
 		}
 		catch (SQLException e)
 		{
@@ -525,7 +525,7 @@ public class CSQLResultSet extends CJMapObject
 	{
 		try
 		{
-			return m_r.getInt(string);
+			return r.getInt(string);
 		}
 		catch (SQLException e)
 		{
@@ -538,8 +538,8 @@ public class CSQLResultSet extends CJMapObject
 	{
 		try
 		{
-			m_r.close() ;
-			m_r = null;
+			r.close() ;
+			r = null;
 		} 
 		catch (SQLException e)
 		{
@@ -550,10 +550,10 @@ public class CSQLResultSet extends CJMapObject
 	
 	private void manageSQLException(SQLException e)
 	{
-		if(m_sqlStatus != null)
+		if(sqlStatus != null)
 		{
-			m_sqlStatus.setSQLCode("next", e, m_csQuery, m_sql) ;
-			m_sqlStatus.fillLastSQLCodeErrorText();
+			sqlStatus.setSQLCode("next", e, csQuery, sql) ;
+			sqlStatus.fillLastSQLCodeErrorText();
 		}
 	}
 }

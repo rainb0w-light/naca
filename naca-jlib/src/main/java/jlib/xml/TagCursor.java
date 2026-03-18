@@ -27,36 +27,36 @@ public class TagCursor
 	
 	void setCurrentTag(Tag tag)
 	{
-		m_tag = tag;
+		tag = tag;
 	}
 	
 	Tag getCurrentTag()
 	{
-		return m_tag;
+		return tag;
 	}
 	
 	void setInvalid()
 	{
-		m_tag = null;
+		tag = null;
 	}
 	
 	public boolean isValid()
 	{
-		return m_tag != null; 
+		return tag != null; 
 	}
 	
 	void setNameEnumeration(String csName)
 	{
-		m_csName = csName;
+		csName = csName;
 	}
 	
 	String getNameEnumeration()
 	{
-		return m_csName;
+		return csName;
 	}
 	
 	
-	Tag m_tag = null;
-	String m_csName = null;
+	Tag tag = null;
+	String csName = null;
 	
 }

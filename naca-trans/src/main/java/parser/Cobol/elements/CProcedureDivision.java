@@ -107,9 +107,9 @@ public class CProcedureDivision extends CCommentContainer
 			}
 			else if (tok.GetType() == CTokenType.KEYWORD)
 			{
-				m_ProcedureDivisionBloc = new CBaseProcedure(getLine());
+				procedureDivisionBloc = new CBaseProcedure(getLine());
 				CBaseToken tok1 = GetCurrentToken() ;
-				if (!Parse(m_ProcedureDivisionBloc))
+				if (!Parse(procedureDivisionBloc))
 				{
 					return false ;
 				}
@@ -142,16 +142,16 @@ public class CProcedureDivision extends CCommentContainer
 	protected Element ExportCustom(Document root)
 	{
 		Element eProc = root.createElement("ProcedureDivision") ;
-		for (int i=0; i<m_arrUsingRef.size();i++)
+		for (int i=0; i<arrUsingRef.size();i++)
 		{
-			CIdentifier id = m_arrUsingRef.get(i);
+			CIdentifier id = arrUsingRef.get(i);
 			Element euse = root.createElement("Using");
 			eProc.appendChild(euse);
 			id.ExportTo(euse, root);
 		}
-		if (m_ProcedureDivisionBloc != null)
+		if (procedureDivisionBloc != null)
 		{
-			Element e = m_ProcedureDivisionBloc.Export(root) ;
+			Element e = procedureDivisionBloc.Export(root) ;
 			eProc.appendChild(e);
 		}
 		return eProc;
@@ -161,32 +161,32 @@ public class CProcedureDivision extends CCommentContainer
 	 */
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		if (factory.m_ProgramCatalog.isMissingIncludeStructure())
+		if (factory.programCatalog.isMissingIncludeStructure())
 		{
 			return null ;
 		}
 		CEntityProcedureDivision pro = factory.NewEntityProcedureDivision(getLine()) ;
 		parent.AddChild(pro) ;
-		for (int i=0; i<m_arrUsingRef.size();i++)
+		for (int i=0; i<arrUsingRef.size();i++)
 		{
-			CIdentifier id = m_arrUsingRef.get(i);
+			CIdentifier id = arrUsingRef.get(i);
 			CDataEntity e = id.GetDataReference(getLine(), factory); 
 			pro.AddCallParameter(e) ;
 		}
-		if (m_ProcedureDivisionBloc != null)
+		if (procedureDivisionBloc != null)
 		{
-			CEntityBloc e = (CEntityBloc)m_ProcedureDivisionBloc.DoSemanticAnalysis(pro, factory);
+			CEntityBloc e = (CEntityBloc)procedureDivisionBloc.DoSemanticAnalysis(pro, factory);
 			pro.SetProcedureBloc(e) ;
 		}
 
 		return parent ;
 	}
 	
-	protected Vector<CIdentifier> m_arrUsingRef = new Vector<CIdentifier>() ;
+	protected Vector<CIdentifier> arrUsingRef = new Vector<CIdentifier>() ;
 	public void AddUsingRef(CIdentifier id)
 	{
-		m_arrUsingRef.add(id);		
+		arrUsingRef.add(id);		
 	} 
 	
-	protected CBaseProcedure m_ProcedureDivisionBloc = null ;
+	protected CBaseProcedure procedureDivisionBloc = null ;
 }

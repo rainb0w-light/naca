@@ -31,32 +31,32 @@ public class CJavaCondIsKindOf extends CEntityCondIsKindOf
 	public CBaseEntityCondition GetOppositeCondition()
 	{
 		CJavaCondIsKindOf not = new CJavaCondIsKindOf() ;
-		not.m_bIsAlphabetic = m_bIsAlphabetic ;
-		not.m_bIsLower = m_bIsLower ;
-		not.m_bIsNumeric = m_bIsNumeric ;
-		not.m_bIsUpper = m_bIsUpper ;
-		not.m_bOpposite = ! m_bOpposite ;
-		not.m_Reference = m_Reference ;
+		not.bIsAlphabetic = bIsAlphabetic ;
+		not.bIsLower = bIsLower ;
+		not.bIsNumeric = bIsNumeric ;
+		not.bIsUpper = bIsUpper ;
+		not.bOpposite = ! bOpposite ;
+		not.reference = reference ;
 		return not;
 	}
 	public String Export()
 	{
 		String cs = "is" ;
-		if (m_bOpposite)
+		if (bOpposite)
 		{
 			cs += "Not" ;
 		}
-		if (m_bIsNumeric)
+		if (bIsNumeric)
 		{
 			cs += "Numeric(";
 		}
-		else if (m_bIsAlphabetic)
+		else if (bIsAlphabetic)
 		{
 			cs += "Alphabetic(";
 		}
-		if (m_Reference != null)
+		if (reference != null)
 		{
-			cs += m_Reference.ExportReference(getLine());
+			cs += reference.ExportReference(getLine());
 		}
 		else
 		{

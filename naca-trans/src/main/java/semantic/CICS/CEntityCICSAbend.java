@@ -39,10 +39,10 @@ public abstract class CEntityCICSAbend extends CBaseActionEntity
 	
 	public void SetABCode(CDataEntity ab)
 	{
-		m_ABCode = ab ;
+		aBCode = ab ;
 	}
 	
-	protected CDataEntity m_ABCode = null ;
+	protected CDataEntity aBCode = null ;
 	public boolean ignore()
 	{
 		return false; 
@@ -50,8 +50,8 @@ public abstract class CEntityCICSAbend extends CBaseActionEntity
 	public void Clear()
 	{
 		super.Clear();
-		m_ABCode.Clear() ;
-		m_ABCode = null ;
+		aBCode.Clear() ;
+		aBCode = null ;
 	}
 	public boolean hasExplicitGetOut()
 	{

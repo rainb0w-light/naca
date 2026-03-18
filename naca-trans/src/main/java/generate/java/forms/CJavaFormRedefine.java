@@ -60,10 +60,10 @@ public class CJavaFormRedefine extends CEntityFormRedefine
 	
 	protected void DoExport()
 	{
-//		if (!m_bSaveMap)
+//		if (!bSaveMap)
 //		{
 			String cs = "MapRedefine " + FormatIdentifier(GetName()) + " = declare.level(1).redefinesMap(" ;
-			cs += m_eForm.ExportReference(getLine()) ;
+			cs += eForm.ExportReference(getLine()) ;
 			WriteLine(cs + ") ;");
 			StartOutputBloc();
 			ExportChildren();

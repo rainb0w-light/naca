@@ -38,86 +38,86 @@ public class CJavaStructure extends CEntityStructure
 	}
 	protected void DoExport()
 	{
-		if (m_bBlankWhenZero && m_Type.equals("pic9"))
+		if (bBlankWhenZero && type.equals("pic9"))
 		{
-			m_Type = "pic";
-			m_Format = "";
-			for (int i=0; i < m_Length; i++)
-				m_Format += "9";
-			if (m_Decimals>0)
+			type = "pic";
+			format = "";
+			for (int i=0; i < length; i++)
+				format += "9";
+			if (decimals>0)
 			{
-				m_Format += ".";
-				for (int i=0; i < m_Decimals; i++)
-					m_Format += "9";
+				format += ".";
+				for (int i=0; i < decimals; i++)
+					format += "9";
 			}
 		}
-		String line = "Var " + FormatIdentifier(GetDisplayName()) + " = declare.level(" + Integer.parseInt(m_csLevel) + ")" ;
-		if (m_RefRedefine != null)
+		String line = "Var " + FormatIdentifier(GetDisplayName()) + " = declare.level(" + Integer.parseInt(csLevel) + ")" ;
+		if (refRedefine != null)
 		{
-			line += ".redefines(" + m_RefRedefine.ExportReference(getLine()) + ")" ;
+			line += ".redefines(" + refRedefine.ExportReference(getLine()) + ")" ;
 		}
-		if (m_TableSize != null)
+		if (tableSize != null)
 		{
-			if (m_TableSizeDepending != null)
+			if (tableSizeDepending != null)
 			{
-				line += ".occursDepending(" + m_TableSize.ExportReference(getLine()) + ", " ;
-				line += m_TableSizeDepending.ExportReference(getLine()) + ")" ;
+				line += ".occursDepending(" + tableSize.ExportReference(getLine()) + ", " ;
+				line += tableSizeDepending.ExportReference(getLine()) + ")" ;
 			}
-			else if (m_bIsVariableLenght)
+			else if (bIsVariableLenght)
 			{
 				line += ".variableLength()" ; 
-				m_Length = m_Length * getTableSizeAsInt() ;
+				length = length * getTableSizeAsInt() ;
 			}
 			else
 			{
-				line += ".occurs(" + m_TableSize.ExportReference(getLine()) + ")" ;
+				line += ".occurs(" + tableSize.ExportReference(getLine()) + ")" ;
 			}
 		}
-		if (!m_Type.equals(""))
+		if (!type.equals(""))
 		{
-			line += "." + m_Type + "(" ;
-			if (m_Format.equals(""))
+			line += "." + type + "(" ;
+			if (format.equals(""))
 			{
-				line += m_Length ;
-				if (m_Decimals > 0)
+				line += length ;
+				if (decimals > 0)
 				{
-					line += "," + m_Decimals ;
+					line += "," + decimals ;
 				}
 			}
 			else
 			{
-				line += "\"" + m_Format + "\"" ;
+				line += "\"" + format + "\"" ;
 			}
 			line += ")" ;
 		}
-		if (!m_Comp.equals(""))
+		if (!comp.equals(""))
 		{
-			if (m_Comp.equalsIgnoreCase("Comp3"))
+			if (comp.equalsIgnoreCase("Comp3"))
 			{
 				line += ".comp3()" ;
 			}
-			else if (m_Comp.equalsIgnoreCase("Comp4"))
+			else if (comp.equalsIgnoreCase("Comp4"))
 			{
 				line += ".comp()" ;
 			}
-			else if (m_Comp.equalsIgnoreCase("Comp"))
+			else if (comp.equalsIgnoreCase("Comp"))
 			{
 				line += ".comp()" ;
 			}
-			else if (m_Comp.equalsIgnoreCase("Comp2"))
+			else if (comp.equalsIgnoreCase("Comp2"))
 			{
 				line += ".comp2()" ;
 			}
 		}
 		WriteWord(line) ;
-		if (m_bSync)
+		if (bSync)
 		{
 			WriteWord(".sync()");
 		}
-		if (m_Value != null)
+		if (value != null)
 		{
 			String cs = "" ;
-			if (m_bFillWithValue)
+			if (bFillWithValue)
 			{
 				cs = ".valueAll(" ;
 			}
@@ -125,42 +125,42 @@ public class CJavaStructure extends CEntityStructure
 			{
 				cs = ".value(" ;
 			}
-			cs += m_Value.ExportReference(getLine());
+			cs += value.ExportReference(getLine());
 			WriteWord(cs + ")") ;
 		}
-		else if (m_bInitialValueIsSpaces)
+		else if (bInitialValueIsSpaces)
 		{
 			WriteWord(".valueSpaces()") ;
 		}
-		else if (m_bInitialValueIsZeros)
+		else if (bInitialValueIsZeros)
 		{
 			WriteWord(".valueZero()") ;
 		}
-		else if (m_bInitialValueIsLowValue)
+		else if (bInitialValueIsLowValue)
 		{
 			WriteWord(".valueLowValue()") ;
 		}
-		else if (m_bInitialValueIsHighValue)
+		else if (bInitialValueIsHighValue)
 		{
 			WriteWord(".valueHighValue()") ;
 		}
-		if (m_bJustifiedRight)
+		if (bJustifiedRight)
 		{
 			WriteWord(".justifyRight()") ;
 		}
-		if (m_bBlankWhenZero)
+		if (bBlankWhenZero)
 		{
 			WriteWord(".blankWhenZero()") ;
 		}
-		if (m_bSignSeparateType == CWorkingSignType.LEADING)
+		if (bSignSeparateType == CWorkingSignType.LEADING)
 		{
 			WriteWord(".signLeadingSeparated()");
 		}
-		else if (m_bSignSeparateType == CWorkingSignType.TRAILING)
+		else if (bSignSeparateType == CWorkingSignType.TRAILING)
 		{
 			WriteWord(".signTrailingSeparated()");
 		}
-		if (m_bFiller)
+		if (bFiller)
 		{
 			WriteWord(".filler() ;") ;
 		}
@@ -179,9 +179,9 @@ public class CJavaStructure extends CEntityStructure
 	public String ExportReference(int nLine)
 	{
 		String cs = "" ;
-		if (m_Of != null)
+		if (of != null)
 		{
-			cs += m_Of.ExportReference(getLine()) + "." ;
+			cs += of.ExportReference(getLine()) + "." ;
 		}
 		cs += FormatIdentifier(GetDisplayName()) ;
 		
@@ -200,9 +200,9 @@ public class CJavaStructure extends CEntityStructure
 	public int getNbDimOccurs()
 	{
 		int nNbDim = 0;
-		if(m_TableSize != null)
+		if(tableSize != null)
 			nNbDim++;
-		CBaseLanguageEntity e = m_parent;
+		CBaseLanguageEntity e = parent;
 		while(e != null)
 		{
 			if(e.canOwnTableSize())
@@ -239,7 +239,7 @@ public class CJavaStructure extends CEntityStructure
 	 */
 	public CDataEntityType GetDataType()
 	{
-		if (m_Type.equals("picS9") || m_Type.equals("pic9"))
+		if (type.equals("picS9") || type.equals("pic9"))
 		{
 			return CDataEntityType.NUMERIC_VAR ;
 		}

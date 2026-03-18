@@ -23,12 +23,12 @@ public class CFPacJavaAddress extends CEntityAddress
 	@Override
 	public String ExportReference(int nLine)
 	{
-		return m_csAddress ;
+		return csAddress ;
 	}
 	
 	public String toString()
 	{
-		return "@" + m_csAddress ;
+		return "@" + csAddress ;
 	}
 
 }

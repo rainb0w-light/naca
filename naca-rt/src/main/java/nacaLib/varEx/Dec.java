@@ -28,9 +28,9 @@ public class Dec extends DecBase
 	public Dec(Dec dec)
 	{
 		super();
-		m_lInt = dec.m_lInt;
-		m_csDec = dec.m_csDec;
-		m_bPositive = dec.m_bPositive;
+		lInt = dec.lInt;
+		csDec = dec.csDec;
+		bPositive = dec.bPositive;
 	}
 	
 	public Dec(long lInt, CStr csDec)
@@ -52,40 +52,40 @@ public class Dec extends DecBase
 	
 	public void setDecPart(CStr csDec)
 	{
-		m_csDec = csDec.getAsString();
+		this.csDec = csDec.getAsString();
 	}
 	
 	double getAsDouble()
 	{
-		String cs = String.valueOf(m_lInt) + "." + m_csDec;
+		String cs = String.valueOf(lInt) + "." + csDec;
 		double d = Double.parseDouble(cs);
-		if(!m_bPositive)
+		if(!bPositive)
 			return -d;
 		return d;
 	}
 	
 	int getSignedInt()
 	{
-		if(m_bPositive)
-			return (int)m_lInt;
-		return (int) -m_lInt;
+		if(bPositive)
+			return (int)lInt;
+		return (int) -lInt;
 	}
 	
 	public long getSignedLong()
 	{
-		if(m_bPositive)
-			return m_lInt;
-		return -m_lInt;
+		if(bPositive)
+			return lInt;
+		return -lInt;
 	}
 	
 	int getUnsignedInt()
 	{
-		return (int)m_lInt;
+		return (int)lInt;
 	}
 	
 	String getUnsignedLongAsString()
 	{
-		String cs = String.valueOf(m_lInt);
+		String cs = String.valueOf(lInt);
 		return cs;
 	}
 
@@ -101,8 +101,8 @@ public class Dec extends DecBase
 			cs = "-";
 		long l = getUnsignedLong();
 		cs += String.valueOf(l);
-		if(!m_csDec.equals(""))
-			cs += "." + m_csDec;
+		if(!csDec.equals(""))
+			cs += "." + csDec;
 		return cs;
 	}
 	
@@ -156,16 +156,16 @@ public class Dec extends DecBase
 	
 	public long getDecAsLong()
 	{
-		String csDec = StringUtil.rightPad(m_csDec, 14, '0');
-		long l = NumberParser.getAsLong(csDec);
-		if(m_bPositive)
+		String csDecPadded = StringUtil.rightPad(this.csDec, 14, '0');
+		long l = NumberParser.getAsLong(csDecPadded);
+		if(bPositive)
 			return l;
 		return -l;
 	}
 	
 	public boolean isZero()
 	{
-		if(m_lInt == 0 && NumberParser.getAsInt(m_csDec) == 0)
+		if(lInt == 0 && NumberParser.getAsInt(csDec) == 0)
 			return true;
 		return false;
 	}

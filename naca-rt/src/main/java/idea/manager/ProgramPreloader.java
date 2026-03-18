@@ -98,7 +98,7 @@ public class ProgramPreloader
 	{
 		TempCacheLocator.setTempCache();
 
-		m_sharedProgramInstanceDataCatalog = new SharedProgramInstanceDataCatalog();
+		sharedProgramInstanceDataCatalog = new SharedProgramInstanceDataCatalog();
 
 		//OnlineSession session = new OnlineSession() ;
 	
@@ -167,6 +167,6 @@ public class ProgramPreloader
 		return 0;
 	}
 	
-	//private ArrayList<String> m_arrProgramToPreload = null;
-	SharedProgramInstanceDataCatalog m_sharedProgramInstanceDataCatalog = null;
+	//private ArrayList<String> arrProgramToPreload = null;
+	SharedProgramInstanceDataCatalog sharedProgramInstanceDataCatalog = null;
 }

@@ -13,7 +13,7 @@ import nacaLib.varEx.VarType;
 
 public class FPacVarCacheManager
 {
-	private Hashtable<Long, Var> m_hashVar = new Hashtable<Long, Var>();
+	private Hashtable<Long, Var> hashVar = new Hashtable<Long, Var>();
 	
 	public FPacVarCacheManager()
 	{
@@ -22,27 +22,27 @@ public class FPacVarCacheManager
 	Var get(int nBufferId, VarType varType, int nPosition1Based, int nBufferLength)
 	{
 		long lId = getId(nBufferId, varType, nPosition1Based, nBufferLength);
-		Var v = m_hashVar.get(lId); 
+		Var v = hashVar.get(lId); 
 		return v;
 	}
 	
 	void set(Var v, int nBufferId, int nPosition1Based, int nBufferLength)
 	{
 		long lId = getId(nBufferId, v.getVarType(), nPosition1Based, nBufferLength);
-		m_hashVar.put(lId, v); 
+		hashVar.put(lId, v); 
 	}	
 	
 	Var get(int nBufferId, VarType varType, int nPosition1Based, String csMask)
 	{
 		long lId = getId(nBufferId, varType, nPosition1Based, csMask);
-		Var v = m_hashVar.get(lId); 
+		Var v = hashVar.get(lId); 
 		return v;
 	}
 	
 	void set(Var v, int nBufferId, int nPosition1Based, String csMask)
 	{
 		long lId = getId(nBufferId, v.getVarType(), nPosition1Based, csMask);
-		m_hashVar.put(lId, v); 
+		hashVar.put(lId, v); 
 	}
 	
 		

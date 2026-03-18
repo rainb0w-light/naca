@@ -30,8 +30,8 @@ public class DeclareTypeNumEdited extends DeclareTypeBase
 	public void set(VarLevel varLevel, String csFormat)
 	{
 		super.set(varLevel);
-		m_csFormat = csFormat;	
-		m_bBlankWhenZero = false;
+		csFormat = csFormat;	
+		bBlankWhenZero = false;
 	}
 	
 	public VarDefBuffer createVarDef(VarDefBuffer varDefParent)
@@ -50,7 +50,7 @@ public class DeclareTypeNumEdited extends DeclareTypeBase
 	{		
 		TempCache tempCache = TempCacheLocator.getTLSTempCache();
 		DeclareTypeEditInMapRedefineNumEdited declareTypeEditInMapRedefineNumEdited = tempCache.getDeclareTypeEditInMapRedefineNumEdited();
-		declareTypeEditInMapRedefineNumEdited.set(getLevel(), m_csFormat, m_bBlankWhenZero);
+		declareTypeEditInMapRedefineNumEdited.set(getLevel(), csFormat, bBlankWhenZero);
 
 		EditInMapRedefineNumEdited var2Edit = new EditInMapRedefineNumEdited(declareTypeEditInMapRedefineNumEdited);
 		return var2Edit;
@@ -65,34 +65,34 @@ public class DeclareTypeNumEdited extends DeclareTypeBase
 	
 	public DeclareTypeNumEdited value(double d)
 	{
-		m_InitialValue = new CInitialValue(d, false);
+		initialValue = new CInitialValue(d, false);
 		return this;
 	}
 		
 	public DeclareTypeNumEdited value(int n)
 	{
-		m_InitialValue = new CInitialValue(n, false);
+		initialValue = new CInitialValue(n, false);
 		return this;
 	}
 	
 	public CInitialValue getInitialValue()
 	{
-		return m_InitialValue;
+		return initialValue;
 	}
  
-	private CInitialValue m_InitialValue = null;
-	String m_csFormat = null;
-	boolean m_bBlankWhenZero = false;
+	private CInitialValue initialValue = null;
+	String csFormat = null;
+	boolean bBlankWhenZero = false;
 
 	public DeclareTypeNumEdited valueZero()
 	{
-		m_InitialValue = new CInitialValue(0, true);
+		initialValue = new CInitialValue(0, true);
 		return this;
 	}
 	
 	public DeclareTypeNumEdited blankWhenZero()
 	{
-		m_bBlankWhenZero = true;
+		bBlankWhenZero = true;
 		return this;
 	}
 
@@ -101,7 +101,7 @@ public class DeclareTypeNumEdited extends DeclareTypeBase
 	 */
 	public DeclareTypeNumEdited valueSpaces()
 	{
-		m_InitialValue = new CInitialValue(' ', true);
+		initialValue = new CInitialValue(' ', true);
 		return this;
 	}
 }

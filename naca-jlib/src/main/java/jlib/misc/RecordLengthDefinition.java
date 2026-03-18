@@ -16,21 +16,21 @@ package jlib.misc;
  */
 public class RecordLengthDefinition
 {
-	private int m_nRecordLength = 0;
-	//private boolean m_bRecordLengthForced = false;
+	private int nRecordLength = 0;
+	//private boolean bRecordLengthForced = false;
 	
 	public RecordLengthDefinition(int n)
 	{
-		m_nRecordLength = n;
+		nRecordLength = n;
 	}
 	
 	public int getRecordLength()
 	{
-		return m_nRecordLength;
+		return nRecordLength;
 	}
 	
 	public String toString()
 	{
-		return String.valueOf(m_nRecordLength);
+		return String.valueOf(nRecordLength);
 	}
 }

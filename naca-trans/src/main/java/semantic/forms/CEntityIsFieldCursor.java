@@ -27,13 +27,13 @@ public abstract class CEntityIsFieldCursor extends CUnitaryEntityCondition
 	 */
 	public CBaseEntityCondition GetSpecialConditionReplacing(String val, CBaseEntityFactory fact, CDataEntity replace)
 	{
-		if (m_bHasCursor)
+		if (bHasCursor)
 		{
-			return m_Reference.GetSpecialCondition(getLine(), val, EConditionType.IS_EQUAL, fact);
+			return reference.GetSpecialCondition(getLine(), val, EConditionType.IS_EQUAL, fact);
 		}
 		else
 		{
-			return m_Reference.GetSpecialCondition(getLine(), val, EConditionType.IS_DIFFERENT, fact);
+			return reference.GetSpecialCondition(getLine(), val, EConditionType.IS_DIFFERENT, fact);
 		}
 	}
 
@@ -42,17 +42,17 @@ public abstract class CEntityIsFieldCursor extends CUnitaryEntityCondition
 	 */
 	public boolean ignore()
 	{
-		return m_Reference.ignore();
+		return reference.ignore();
 	}
 	
-	protected boolean m_bHasCursor = true ; 
+	protected boolean bHasCursor = true ; 
 	/**
 	 * @param refField
 	 */
 	public void SetHasCursor(CDataEntity refField)
 	{
-		m_Reference = refField ;
-		m_bHasCursor = true ;
+		reference = refField ;
+		bHasCursor = true ;
 	}
 
 	/**
@@ -60,8 +60,8 @@ public abstract class CEntityIsFieldCursor extends CUnitaryEntityCondition
 	 */
 	public void SetHasNotCursor(CDataEntity refField)
 	{
-		m_Reference = refField ;
-		m_bHasCursor = false ;
+		reference = refField ;
+		bHasCursor = false ;
 	}
 	public boolean isBinaryCondition()
 	{

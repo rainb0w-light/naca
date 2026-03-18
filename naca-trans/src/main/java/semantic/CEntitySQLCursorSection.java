@@ -38,10 +38,10 @@ public abstract class CEntitySQLCursorSection extends CEntityDataSection
 		super(0, "SQLCursorSection", cat, out);
 	}
 	
-	protected Vector m_arrCursors = null ;
+	protected Vector arrCursors = null ;
 	public void SetCursors(Vector v)
 	{
-		m_arrCursors = v ;
+		arrCursors = v ;
 	}
 	public CEntityProcedureSection getSectionContainer()
 	{
@@ -50,12 +50,12 @@ public abstract class CEntitySQLCursorSection extends CEntityDataSection
 	public void Clear()
 	{
 		super.Clear();
-		for (int i=0; i<m_arrCursors.size(); i++)
+		for (int i=0; i<arrCursors.size(); i++)
 		{
-			CEntitySQLCursor cur = (CEntitySQLCursor)m_arrCursors.get(i);
+			CEntitySQLCursor cur = (CEntitySQLCursor)arrCursors.get(i);
 			cur.Clear() ;
 		}
-		m_arrCursors.clear() ;
+		arrCursors.clear() ;
 	}
 	/* (non-Javadoc)
 	 * @see semantic.CEntityDataSection#ignore()
@@ -63,6 +63,6 @@ public abstract class CEntitySQLCursorSection extends CEntityDataSection
 	@Override
 	public boolean ignore()
 	{
-		return m_arrCursors.isEmpty() ;
+		return arrCursors.isEmpty() ;
 	}
 }

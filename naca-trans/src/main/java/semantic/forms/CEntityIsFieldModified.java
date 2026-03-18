@@ -27,21 +27,21 @@ public abstract class CEntityIsFieldModified extends CUnitaryEntityCondition
 {
 	public void SetIsModified(CDataEntity eData)
 	{
-		m_Reference = eData ;
+		reference = eData ;
 	}
-	protected CDataEntity m_Reference = null ; 
+	protected CDataEntity reference = null ; 
 	public void Clear()
 	{
 		super.Clear();
-		m_Reference = null ;
+		reference = null ;
 	}
 	public boolean ignore()
 	{
-		return m_Reference.ignore();
+		return reference.ignore();
 	}
 	public CBaseEntityCondition GetSpecialConditionReplacing(String val, CBaseEntityFactory fact, CDataEntity replace)
 	{
-		return m_Reference.GetSpecialCondition(getLine(), val, EConditionType.IS_EQUAL, fact);
+		return reference.GetSpecialCondition(getLine(), val, EConditionType.IS_EQUAL, fact);
 	}
 	public boolean isBinaryCondition()
 	{

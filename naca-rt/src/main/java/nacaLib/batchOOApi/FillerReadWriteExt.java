@@ -13,107 +13,107 @@ import nacaLib.varEx.RWNumIntComp0;
 
 public class FillerReadWriteExt
 {
-	private WriteBufferExt m_bufferExt = null;
-	private ModeReadWriteExt m_currentModeReadWriteExt = ModeReadWriteExt.Unknown;
-	private int m_nVariableChunkLength = -1;
-	private int m_nPositionEndFixedRecordChunk = -1;
+	private WriteBufferExt bufferExt = null;
+	private ModeReadWriteExt currentModeReadWriteExt = ModeReadWriteExt.Unknown;
+	private int nVariableChunkLength = -1;
+	private int nPositionEndFixedRecordChunk = -1;
 	
 	public WriteBufferExt getBuffer()
 	{
-		return m_bufferExt;
+		return bufferExt;
 	}
 	
 	public void setMode(ModeReadWriteExt mode)
 	{
-		m_currentModeReadWriteExt = mode;
+		currentModeReadWriteExt = mode;
 	}
 	
 	public int getVariableChunkLength()
 	{
-		return m_nVariableChunkLength;
+		return nVariableChunkLength;
 	}
 	
 	public void setVariableChunkLength(int nVariableChunkLength)
 	{
-		m_nVariableChunkLength = nVariableChunkLength;
+		nVariableChunkLength = nVariableChunkLength;
 	}
 	
 	public void markEndFixedRecordChunk()
 	{
-		m_nPositionEndFixedRecordChunk = m_bufferExt.getRecordCurrentPosition();
-		if(m_currentModeReadWriteExt == ModeReadWriteExt.Read)
+		nPositionEndFixedRecordChunk = bufferExt.getRecordCurrentPosition();
+		if(currentModeReadWriteExt == ModeReadWriteExt.Read)
 		{			
-			m_nVariableChunkLength = m_bufferExt.getVariableRecordWholeLength() - m_nPositionEndFixedRecordChunk;
+			nVariableChunkLength = bufferExt.getVariableRecordWholeLength() - nPositionEndFixedRecordChunk;
 		}
 	}
 	
 	public void allocOrResetBufferExt()
 	{
-		if(m_bufferExt == null)
+		if(bufferExt == null)
 		{
 			int nBufSize = BaseResourceManager.getFileLineReaderBufferSize();		
-			m_bufferExt = new WriteBufferExt(nBufSize);
+			bufferExt = new WriteBufferExt(nBufSize);
 		}
 		else
-			m_bufferExt.resetCurrentPosition();
+			bufferExt.resetCurrentPosition();
 	}
 
 	public String fill(String csValue, int nLength)
 	{
-		if(m_currentModeReadWriteExt == ModeReadWriteExt.Read)
+		if(currentModeReadWriteExt == ModeReadWriteExt.Read)
 		{
-			csValue = m_bufferExt.getString(nLength);
+			csValue = bufferExt.getString(nLength);
 		}
-		else if(m_currentModeReadWriteExt == ModeReadWriteExt.Write)
+		else if(currentModeReadWriteExt == ModeReadWriteExt.Write)
 		{
-			m_bufferExt.fillWriteAsPicX(csValue, nLength);
+			bufferExt.fillWriteAsPicX(csValue, nLength);
 		}
-		m_bufferExt.advanceCurrentPosition(nLength);
+		bufferExt.advanceCurrentPosition(nLength);
 		return csValue;
 	}
 	
 	public int fillComp0Unsigned(int nValue, int nLength)
 	{
-		if(m_currentModeReadWriteExt == ModeReadWriteExt.Read)
+		if(currentModeReadWriteExt == ModeReadWriteExt.Read)
 		{
-			String cs = m_bufferExt.getString(nLength);
+			String cs = bufferExt.getString(nLength);
 			nValue = NumberParser.getAsUnsignedInt(cs);
 		}
-		else if(m_currentModeReadWriteExt == ModeReadWriteExt.Write)
+		else if(currentModeReadWriteExt == ModeReadWriteExt.Write)
 		{
-			RWNumIntComp0.setFromRightToLeft(m_bufferExt, 0, nValue, nLength, nLength);			
+			RWNumIntComp0.setFromRightToLeft(bufferExt, 0, nValue, nLength, nLength);			
 		}
-		m_bufferExt.advanceCurrentPosition(nLength);
+		bufferExt.advanceCurrentPosition(nLength);
 		return nValue;
 	}
 	
 	public int fillComp3Unsigned(int nValue, int nLength)
 	{
-		if(m_currentModeReadWriteExt == ModeReadWriteExt.Read)
+		if(currentModeReadWriteExt == ModeReadWriteExt.Read)
 		{	
-			nValue = Pic9Comp3BufferSupport.getAsUnsignedInt(m_bufferExt, nLength);
+			nValue = Pic9Comp3BufferSupport.getAsUnsignedInt(bufferExt, nLength);
 		}
-		else if(m_currentModeReadWriteExt == ModeReadWriteExt.Write)
+		else if(currentModeReadWriteExt == ModeReadWriteExt.Write)
 		{
-			Pic9Comp3BufferSupport.setFromRightToLeftUnsigned(m_bufferExt, nLength, nLength, nValue);			
+			Pic9Comp3BufferSupport.setFromRightToLeftUnsigned(bufferExt, nLength, nLength, nValue);			
 		}
 		int nNbBytesWritten = (nLength / 2) + 1; 
-		m_bufferExt.advanceCurrentPosition(nNbBytesWritten);
+		bufferExt.advanceCurrentPosition(nNbBytesWritten);
 		return nValue;
 	}
 	
 	public int fillComp3Signed(int nValue, int nLength)
 	{
-		if(m_currentModeReadWriteExt == ModeReadWriteExt.Read)
+		if(currentModeReadWriteExt == ModeReadWriteExt.Read)
 		{
-			nValue = Pic9Comp3BufferSupport.getAsInt(m_bufferExt, nLength);
+			nValue = Pic9Comp3BufferSupport.getAsInt(bufferExt, nLength);
 		}
-		else if(m_currentModeReadWriteExt == ModeReadWriteExt.Write)
+		else if(currentModeReadWriteExt == ModeReadWriteExt.Write)
 		{
-			Pic9Comp3BufferSupport.setFromRightToLeftSigned(m_bufferExt, nLength, nLength, nValue);			
+			Pic9Comp3BufferSupport.setFromRightToLeftSigned(bufferExt, nLength, nLength, nValue);			
 		}
 		int nNbBytesWritten = (nLength / 2) + 1;
-		m_bufferExt.advanceCurrentPosition(nNbBytesWritten);
+		bufferExt.advanceCurrentPosition(nNbBytesWritten);
 		return nValue;
 	}
 }

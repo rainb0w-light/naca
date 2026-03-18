@@ -17,32 +17,32 @@ public class MBeanAttributeInfoWrapper
 	{
 		try
 		{
-			m_attribute = new MBeanAttributeInfo(csName, csDescription, getter, setter);
+			attribute = new MBeanAttributeInfo(csName, csDescription, getter, setter);
 		} 
 		catch (IntrospectionException e)
 		{
 			e.printStackTrace();
 		}
-		m_getter = getter;
-		m_setter = setter;
+		getter = getter;
+		setter = setter;
 	}
 	
 	MBeanAttributeInfo getAttribute()
 	{
-		return m_attribute;
+		return attribute;
 	}
 	
 	Method getMethodGetter()
 	{
-		return m_getter;
+		return getter;
 	}
 	
 	Method getMethodSetter()
 	{
-		return m_setter;
+		return setter;
 	}
 	
-	private Method m_getter = null;
-	private Method m_setter = null;
-	private MBeanAttributeInfo m_attribute = null;
+	private Method getter = null;
+	private Method setter = null;
+	private MBeanAttributeInfo attribute = null;
 }

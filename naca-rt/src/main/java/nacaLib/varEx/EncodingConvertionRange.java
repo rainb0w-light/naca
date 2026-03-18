@@ -19,93 +19,93 @@ public class EncodingConvertionRange
 	private static final byte BLANK_EBCDIC = (byte)0x40;
 	private static final byte BLANK_ASCII = (byte)0x20;
 	
-	private int m_nPosition = 0;
-	private int m_nLength = 0;
-	private boolean m_bConvertOnlyIfBlank = false;
-	private boolean m_bConvertPrint = false;
+	private int nPosition = 0;
+	private int nLength = 0;
+	private boolean bConvertOnlyIfBlank = false;
+	private boolean bConvertPrint = false;
 	
 	public int set(int nPosition, int nLength)
 	{
-		m_nPosition = nPosition;
-		m_nLength = nLength;
-		return m_nPosition + m_nLength;  
+		this.nPosition = nPosition;
+		this.nLength = nLength;
+		return nPosition + nLength;  
 	}
 	
 	public void setConvertOnlyIfBlank(boolean bConvertOnlyIfBlank)
 	{
-		m_bConvertOnlyIfBlank = bConvertOnlyIfBlank;
+		bConvertOnlyIfBlank = bConvertOnlyIfBlank;
 	}
 	
 	public void setConvertPrint(boolean bConvertPrint)
 	{
-		m_bConvertPrint = bConvertPrint;
+		bConvertPrint = bConvertPrint;
 	}
 	
 	boolean endsJustBefore(int nPosition)
 	{
-		if(m_nPosition + m_nLength == nPosition)
+		if(nPosition + nLength == nPosition)
 			return true;
 		return false;
 	}
 	
 	public int append(int nLength)
 	{
-		m_nLength += nLength;
-		return m_nPosition + m_nLength;
+		nLength += nLength;
+		return nPosition + nLength;
 	}
 	
 	public void convertEbcdicToAscii(VarBase varDest, int nLastPosToConvert)
 	{
-		int nLength = m_nLength;
-		int nLastPos = m_nPosition + m_nLength -1;
+		int nLength = this.nLength;
+		int nLastPos = nPosition + nLength -1;
 		if(nLastPos > nLastPosToConvert)
-			nLength = nLastPosToConvert - m_nPosition; 
+			nLength = nLastPosToConvert - nPosition; 
 		if(nLength > 0)
-			varDest.m_bufferPos.convertEbcdicToAscii(m_nPosition, nLength);
+			varDest.bufferPos.convertEbcdicToAscii(nPosition, nLength);
 	}
 	
 	public void convertEbcdicToAscii(byte tbyDest[], int nOffsetDest, int nMaxLengthDest)
 	{	
-		int nLength = Math.min(nMaxLengthDest, m_nLength);
-		swapByteEbcdicToAscii(tbyDest, m_nPosition-nOffsetDest, nLength);	
+		int nLength = Math.min(nMaxLengthDest, this.nLength);
+		swapByteEbcdicToAscii(tbyDest, nPosition-nOffsetDest, nLength);	
 	}
 	public void convertAsciiToEbcdic(byte tbyDest[], int nOffsetDest, int nMaxLengthDest)
 	{
-		int nLength = Math.min(nMaxLengthDest, m_nLength);
-		swapByteAsciiToEbcdic(tbyDest, m_nPosition-nOffsetDest, nLength);	
+		int nLength = Math.min(nMaxLengthDest, this.nLength);
+		swapByteAsciiToEbcdic(tbyDest, nPosition-nOffsetDest, nLength);	
 	}
 	
 	public void convertEbcdicToAscii(LineRead lineRead)
 	{
-		int nLength = Math.min(lineRead.getTotalLength() - m_nPosition, m_nLength);
-		swapByteEbcdicToAscii(lineRead.getBuffer(), lineRead.getOffset()+m_nPosition, nLength);	
+		int nLength = Math.min(lineRead.getTotalLength() - nPosition, this.nLength);
+		swapByteEbcdicToAscii(lineRead.getBuffer(), lineRead.getOffset()+nPosition, nLength);	
 	}
 	public void convertAsciiToEbcdic(LineRead lineRead)
 	{
-		int nLength = Math.min(lineRead.getTotalLength() - m_nPosition, m_nLength);
-		swapByteAsciiToEbcdic(lineRead.getBuffer(), lineRead.getOffset()+m_nPosition, nLength);	
+		int nLength = Math.min(lineRead.getTotalLength() - nPosition, this.nLength);
+		swapByteAsciiToEbcdic(lineRead.getBuffer(), lineRead.getOffset()+nPosition, nLength);	
 	}
 	
 	public int getPosition()
 	{
-		return m_nPosition;
+		return nPosition;
 	}
 	
 	public boolean isConvertOnlyIfBlank()
 	{
-		return m_bConvertOnlyIfBlank;
+		return bConvertOnlyIfBlank;
 	}
 	
 	public boolean isConvertPrint()
 	{
-		return m_bConvertPrint;
+		return bConvertPrint;
 	}
 	
 	private void swapByteEbcdicToAscii(byte tBytesData[], int nOffset, int nLength)
 	{
-		if (m_bConvertOnlyIfBlank)
+		if (bConvertOnlyIfBlank)
 			if (!isAll(tBytesData, nOffset, nLength, BLANK_EBCDIC)) return;
-		if (m_bConvertPrint)
+		if (bConvertPrint)
 			AsciiEbcdicConverter.swapByteEbcdicToAsciiPrintAFP(tBytesData, nOffset, nLength);
 		else
 			AsciiEbcdicConverter.swapByteEbcdicToAscii(tBytesData, nOffset, nLength);
@@ -113,9 +113,9 @@ public class EncodingConvertionRange
 
 	private void swapByteAsciiToEbcdic(byte tBytesData[], int nOffset, int nLength)
 	{
-		if (m_bConvertOnlyIfBlank)
+		if (bConvertOnlyIfBlank)
 			if (!isAll(tBytesData, nOffset, nLength, BLANK_ASCII)) return;
-		if (m_bConvertPrint)
+		if (bConvertPrint)
 			AsciiEbcdicConverter.swapByteAsciiToEbcdicPrintAFP(tBytesData, nOffset, nLength);
 		else
 			AsciiEbcdicConverter.swapByteAsciiToEbcdic(tBytesData, nOffset, nLength);

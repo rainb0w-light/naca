@@ -40,16 +40,16 @@ public class LogParams
  */
 	LogParams(String csChannel, LogEvent logEvent, String csMessage)
 	{
-		m_csChannel = csChannel;
-		m_logEvent = logEvent;
-		m_csMessage = csMessage;
-		m_lStartTime = Log.getRunningTime_ms();
+		csChannel = csChannel;
+		logEvent = logEvent;
+		csMessage = csMessage;
+		lStartTime = Log.getRunningTime_ms();
 		Thread thread = Thread.currentThread();
-		m_lThreadId = thread.getId();
-		m_csThreadName = thread.getName();
-		m_csTimestamp = DateUtil.getDisplayTimeStamp();
-		m_csRunId = null;
-		m_csRuntimeId = null;
+		lThreadId = thread.getId();
+		csThreadName = thread.getName();
+		csTimestamp = DateUtil.getDisplayTimeStamp();
+		csRunId = null;
+		csRuntimeId = null;
 	}
 /**
  * Class constructor specifying the <i>RunId</i> and <i>RuntimeId</i> identifiers.
@@ -62,33 +62,33 @@ public class LogParams
  */
 	LogParams(String csChannel, LogEvent logEvent, String csMessage, String csRunId, String csRuntimeId)
 	{
-		m_csChannel = csChannel;
-		m_logEvent = logEvent;
-		m_csMessage = csMessage;
-		m_lStartTime = Log.getRunningTime_ms();
+		csChannel = csChannel;
+		logEvent = logEvent;
+		csMessage = csMessage;
+		lStartTime = Log.getRunningTime_ms();
 		Thread thread = Thread.currentThread();
-		m_lThreadId = thread.getId();
-		m_csThreadName = thread.getName();
-		m_csTimestamp = DateUtil.getDisplayTimeStamp();
-		m_csRunId = csRunId;
-		m_csRuntimeId = csRuntimeId;
+		lThreadId = thread.getId();
+		csThreadName = thread.getName();
+		csTimestamp = DateUtil.getDisplayTimeStamp();
+		csRunId = csRunId;
+		csRuntimeId = csRuntimeId;
 	}
 
 	LogEventType getLogEventType()
 	{
-		return m_logEvent.getLogEventType();
+		return logEvent.getLogEventType();
 	}
 	
 	String getDisplayTimestamp()
 	{
-		return m_csTimestamp;	
+		return csTimestamp;	
 	}
 	
 	boolean isAcceptable(LogLevel minLogLevel, LogFlow logFlow)
 	{
-		if(logFlow.isAcceptable(m_logEvent.getLogFlow()))
+		if(logFlow.isAcceptable(logEvent.getLogFlow()))
 		{
-			if(m_logEvent.getLogLevel().isGreaterOrEqual(minLogLevel))
+			if(logEvent.getLogLevel().isGreaterOrEqual(minLogLevel))
 				return true;
 		}
 		return false;
@@ -101,18 +101,18 @@ public class LogParams
 		{
 			cs += getMessage();
 		} 
-		cs += m_logEvent.getAsString();
+		cs += logEvent.getAsString();
 		return cs;
 	}
 	
 	public String getTextItem(int n)
 	{
-		return m_logEvent.getTextAsString(n);
+		return logEvent.getTextAsString(n);
 	}
 	
 	public String getItemValue(int n)
 	{
-		return m_logEvent.getItemValue(n);
+		return logEvent.getItemValue(n);
 	}
 	
 	void fillAppCallerLocation(CallStackExclusion callStackExclusion)
@@ -125,38 +125,38 @@ public class LogParams
 			String csClassName = tStack[n].getClassName();
 			if(callStackExclusion.doNotContains(csClassName))
 			{
-				m_caller = tStack[n];
+				caller = tStack[n];
 				return;
 			}
 		}
-		m_caller = null;
+		caller = null;
 	}
 	
 	long getThreadId()
 	{
-		return m_lThreadId;
+		return lThreadId;
 	}
 	
 	String getThreadName()
 	{
-		return m_csThreadName;
+		return csThreadName;
 	}
 	
 	long getStartTime()
 	{
-		return m_lStartTime;
+		return lStartTime;
 	}
 	
 	String getType()
 	{
-		return m_logEvent.getLogEventType().getType();
+		return logEvent.getLogEventType().getType();
 	}
 	
 	String getFile()
 	{
 		String fileName=null;
-		if(m_caller != null)
-			fileName = m_caller.getFileName();
+		if(caller != null)
+			fileName = caller.getFileName();
 
 // If application is compiled without debug information, the file name
 // is not available:
@@ -169,8 +169,8 @@ public class LogParams
 	String getMethod()
 	{
 		String method = null;
-		if(m_caller != null)
-			method = m_caller.getMethodName();
+		if(caller != null)
+			method = caller.getMethodName();
 // If application is compiled without debug information, the method name
 // is not available:
 		if (method==null)
@@ -180,19 +180,19 @@ public class LogParams
 
 	int getLine()
 	{
-		if(m_caller != null)
-			return m_caller.getLineNumber();
+		if(caller != null)
+			return caller.getLineNumber();
 		return 0;
 	}
 	
 	String getEventName()
 	{
-		return m_logEvent.getName();		
+		return logEvent.getName();		
 	}
 	
 	String getShortEventName()
 	{
-		String cs = m_logEvent.getName();
+		String cs = logEvent.getName();
 		int n = cs.lastIndexOf('.');
 		if(n > 0)
 		{
@@ -203,7 +203,7 @@ public class LogParams
 	
 	int getEventId()
 	{
-		String cs = m_logEvent.getName();
+		String cs = logEvent.getName();
 		int nNbParam = getNbParamInfoMember();
 		cs += nNbParam;
 		for(int n=0; n<nNbParam; n++)
@@ -217,19 +217,19 @@ public class LogParams
 	
 	String getMessage()
 	{
-		if(m_csMessage != null)
-			return m_csMessage;
+		if(csMessage != null)
+			return csMessage;
 		return "";
 	}
 	
 	LogInfoMember getParamInfoMember(int n)
 	{
-		return m_logEvent.getParamInfoMember(n);
+		return logEvent.getParamInfoMember(n);
 	}
 	
 	int getNbParamInfoMember()
 	{
-		int n = m_logEvent.getNbParamInfoMember();
+		int n = logEvent.getNbParamInfoMember();
 		if(n > 10)
 			n = 10;
 		return n;
@@ -237,19 +237,19 @@ public class LogParams
 	
 	String getProduct()
 	{
-		String csProduct = m_logEvent.getProduct();
+		String csProduct = logEvent.getProduct();
 		return csProduct;
 	}
 
-	String m_csChannel = null;
-	LogEvent m_logEvent = null;
-	String m_csMessage = null;
-	StackTraceElement m_caller = null;	
-	String m_csThreadName;
-	long m_lThreadId = 0;
-	long m_lStartTime = 0;
-	String m_csTimestamp = null;
-	String m_csRunId;
-	String m_csRuntimeId;
+	String csChannel = null;
+	LogEvent logEvent = null;
+	String csMessage = null;
+	StackTraceElement caller = null;	
+	String csThreadName;
+	long lThreadId = 0;
+	long lStartTime = 0;
+	String csTimestamp = null;
+	String csRunId;
+	String csRuntimeId;
 }
  

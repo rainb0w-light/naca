@@ -22,8 +22,8 @@ public class VarDefFPacAlphaNum extends VarDefVariable
 	private static final long serialVersionUID = 1L;
 	public VarDefFPacAlphaNum(VarDefBase varDefParent, DeclareTypeFPacAlphaNum declareTypeFPacAlphaNum)
 	{
-		super(varDefParent, declareTypeFPacAlphaNum.m_varLevel);
-		m_nSize = declareTypeFPacAlphaNum.getLength();
+		super(varDefParent, declareTypeFPacAlphaNum.varLevel);
+		nSize = declareTypeFPacAlphaNum.getLength();
 	}
 
 	protected VarDefFPacAlphaNum()
@@ -33,13 +33,13 @@ public class VarDefFPacAlphaNum extends VarDefVariable
 	
 	void transfer(VarBufferPos bufferSource, VarAndEdit Dest)
 	{
-		Dest.m_varDef.write(Dest.m_bufferPos, this, bufferSource);
+		Dest.varDef.write(Dest.bufferPos, this, bufferSource);
 	}
 	
 //	VarDefX(VarDefX varDefSource)
 //	{
 //		super(varDefSource);
-//		m_nSize = varDefSource.m_nSize;
+//		nSize = varDefSource.nSize;
 //	}
 //	
 //	VarDefBuffer deepDuplicate()
@@ -50,7 +50,7 @@ public class VarDefFPacAlphaNum extends VarDefVariable
 	protected VarDefBuffer allocCopy()
 	{
 		VarDefFPacAlphaNum v = new VarDefFPacAlphaNum();
-		v.m_nSize = m_nSize;
+		v.nSize = nSize;
 		return v;
 	}
 			
@@ -61,7 +61,7 @@ public class VarDefFPacAlphaNum extends VarDefVariable
 	
 	public int getBodyLength()
 	{
-		return m_nTotalSize;
+		return nTotalSize;
 	}
 	
 	protected int getHeaderLength()
@@ -71,24 +71,24 @@ public class VarDefFPacAlphaNum extends VarDefVariable
 
 	public int getSingleItemRequiredStorageSize()
 	{
-		return m_nSize;
+		return nSize;
 	}
 	
 //	String getRawString(VarBuffer buffer)
 //	{
-//		String cs = buffer.getStringAt(m_nAbsolutePosition, m_nTotalSize);
+//		String cs = buffer.getStringAt(nAbsolutePosition, nTotalSize);
 //		return cs;
 //	}
 	
 	CStr getAsDecodedString(VarBufferPos buffer)
 	{
-		CStr cs = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nTotalSize);
+		CStr cs = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);
 		return cs;
 	}
 	
 	int getAsDecodedInt(VarBufferPos buffer)
 	{
-		CStr cs = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nTotalSize);
+		CStr cs = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);
 		int n = cs.getAsInt();
 		return n;
 	}
@@ -102,7 +102,7 @@ public class VarDefFPacAlphaNum extends VarDefVariable
 
 	long getAsDecodedLong(VarBufferPos buffer)
 	{
-		CStr cs = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nTotalSize);
+		CStr cs = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);
 		long l = cs.getAsLong();
 		return l;
 	}
@@ -116,19 +116,19 @@ public class VarDefFPacAlphaNum extends VarDefVariable
 	
 	CStr getAsAlphaNumString(VarBufferPos buffer)
 	{
-		CStr cs = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nTotalSize);
+		CStr cs = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);
 		return cs;
 	}	
 	
 	CStr getDottedSignedString(VarBufferPos buffer)
 	{	
-		CStr cs = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nTotalSize);
+		CStr cs = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);
 		return cs;
 	}
 	
 	CStr getDottedSignedStringAsSQLCol(VarBufferPos buffer)
 	{	
-		CStr cs = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nTotalSize);
+		CStr cs = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);
 		return cs;
 	}
 	
@@ -218,7 +218,7 @@ public class VarDefFPacAlphaNum extends VarDefVariable
 			nPositionSource++;
 			if(nPositionSource == nNbCharSource)
 				nPositionSource = 0;
-			buffer.m_acBuffer[nPositionDest] = cSource;
+			buffer.acBuffer[nPositionDest] = cSource;
 		}
 	}
 	
@@ -236,7 +236,7 @@ public class VarDefFPacAlphaNum extends VarDefVariable
 			nPositionSource++;
 			if(nPositionSource == nNbCharSource)
 				nPositionSource = 0;
-			buffer.m_acBuffer[nPositionDest] = cSource;
+			buffer.acBuffer[nPositionDest] = cSource;
 		}
 	}
 
@@ -254,7 +254,7 @@ public class VarDefFPacAlphaNum extends VarDefVariable
 			nPositionSource++;
 			if(nPositionSource == nNbCharSource)
 				nPositionSource = 0;
-			buffer.m_acBuffer[nPositionDest] = cSource;
+			buffer.acBuffer[nPositionDest] = cSource;
 		}
 	}
 
@@ -435,7 +435,7 @@ public class VarDefFPacAlphaNum extends VarDefVariable
 	void write(VarBufferPos buffer, VarDefFPacNumIntSignComp3 varSource, VarBufferPos bufferSource)
 	{		
 		CStr cs = varSource.getAsDecodedString(bufferSource);
-		//String cs = varSource.getAsUnsignedString(bufferSource, varSource.m_nNbDigitInteger, varSource.m_nTotalSize);
+		//String cs = varSource.getAsUnsignedString(bufferSource, varSource.nNbDigitInteger, varSource.nTotalSize);
  		writeRightPadding(buffer, cs, ' ');
 	}
 	
@@ -536,17 +536,17 @@ public class VarDefFPacAlphaNum extends VarDefVariable
 
 	private int writeRightPadding(VarBufferPos buffer, String cs, char cPad)
 	{
-		return internalWriteRightPadding(buffer, buffer.m_nAbsolutePosition, m_nTotalSize, cs, cPad);
+		return internalWriteRightPadding(buffer, buffer.nAbsolutePosition, nTotalSize, cs, cPad);
 	}
 
 	private int writeRightPadding(VarBufferPos buffer, CStr cs, char cPad)
 	{
-		return internalWriteRightPadding(buffer, buffer.m_nAbsolutePosition, m_nTotalSize, cs, cPad);
+		return internalWriteRightPadding(buffer, buffer.nAbsolutePosition, nTotalSize, cs, cPad);
 	}
 	
 	private int writeRightPadding(VarBufferPos buffer, int nOffset, String cs, char cPad)
 	{
-		return internalWriteRightPadding(buffer, buffer.m_nAbsolutePosition+nOffset, m_nTotalSize, cs, cPad);
+		return internalWriteRightPadding(buffer, buffer.nAbsolutePosition+nOffset, nTotalSize, cs, cPad);
 	}
 	
 	void write(VarBufferPos buffer, CobolConstantZero cst)
@@ -652,7 +652,7 @@ public class VarDefFPacAlphaNum extends VarDefVariable
 			
 	int compare(ComparisonMode mode, VarBufferPos bufferSource, VarAndEdit var2)
 	{
-		return var2.m_varDef.compare(mode, var2.m_bufferPos, this, bufferSource);
+		return var2.varDef.compare(mode, var2.bufferPos, this, bufferSource);
 	}
 	
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumDecComp0 varDefNum1, VarBufferPos buffer1)
@@ -1061,21 +1061,21 @@ public class VarDefFPacAlphaNum extends VarDefVariable
 	
 	public BtreeSegmentKeyTypeFactory getSegmentKeyTypeFactory()
 	{
-		return VarTypeId.m_segmentKeyTypeFactoryString;
+		return VarTypeId.segmentKeyTypeFactoryString;
 	}	
 	
 	protected void adjustCustomProperty(VarDefBuffer varDefBufferCopySingleItem)
 	{
 		VarDefFPacAlphaNum varDefCopy = (VarDefFPacAlphaNum)varDefBufferCopySingleItem;
-		varDefCopy.m_nSize = m_nSize;
+		varDefCopy.nSize = nSize;
 	}
 	
 	protected void adjustCustomPropertyForCharGetAt(VarDefBuffer varDefBufferCopySingleItem)
 	{
 		VarDefFPacAlphaNum varDefCopy = (VarDefFPacAlphaNum)varDefBufferCopySingleItem;
-		varDefCopy.m_nSize = 1;
+		varDefCopy.nSize = 1;
 	}
 	
-	private int m_nSize = 0;
+	private int nSize = 0;
 }
 

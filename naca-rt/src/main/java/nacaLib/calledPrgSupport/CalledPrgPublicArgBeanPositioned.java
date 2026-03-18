@@ -17,8 +17,8 @@ import nacaLib.varEx.Var;
  */
 public abstract class CalledPrgPublicArgBeanPositioned extends BaseCalledPrgPublicArgPositioned
 {
-	private FillerReadWriteExt m_filler = new FillerReadWriteExt();
-	private String m_csValue = null;
+	private FillerReadWriteExt filler = new FillerReadWriteExt();
+	private String csValue = null;
 	
 	public CalledPrgPublicArgBeanPositioned()
 	{
@@ -32,7 +32,7 @@ public abstract class CalledPrgPublicArgBeanPositioned extends BaseCalledPrgPubl
 	
 	public FillerReadWriteExt getFiller()
 	{
-		return m_filler;
+		return filler;
 	}
 	
 	public void MapOn(Var varLinkageSection)
@@ -46,17 +46,17 @@ public abstract class CalledPrgPublicArgBeanPositioned extends BaseCalledPrgPubl
 	
 	public void doFillWithVar(Var varSource)
 	{
-		m_csValue = varSource.getString();
+		csValue = varSource.getString();
 		getFiller().setMode(ModeReadWriteExt.Read);
 		getFiller().allocOrResetBufferExt();
-		getFiller().getBuffer().setStringAt(0, m_csValue, m_csValue.length());
+		getFiller().getBuffer().setStringAt(0, csValue, csValue.length());
 		fillRW();
 		getFiller().setMode(ModeReadWriteExt.Unknown);
 	}
 	
 	public int getParamLength()
 	{
-		return m_csValue.length();
+		return csValue.length();
 	}
 	
 	public abstract void fillRW();

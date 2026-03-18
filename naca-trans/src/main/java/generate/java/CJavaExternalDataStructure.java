@@ -49,9 +49,9 @@ public class CJavaExternalDataStructure extends CEntityExternalDataStructure
 	 */
 	protected void DoExport()
 	{
-		if (!m_bInline)
+		if (!bInline)
 		{
-			String name = m_csClassName.replace('-', '_') ;
+			String name = csClassName.replace('-', '_') ;
 			name = CobolNameUtil.fixJavaName(name);
 			WriteEOL() ;
 			WriteLine("import nacaLib.program.* ;") ;
@@ -119,7 +119,7 @@ public class CJavaExternalDataStructure extends CEntityExternalDataStructure
 	 */
 	public String GetTypeDecl()
 	{
-		return m_csClassName.replace('-', '_');
+		return csClassName.replace('-', '_');
 	}
 }
  

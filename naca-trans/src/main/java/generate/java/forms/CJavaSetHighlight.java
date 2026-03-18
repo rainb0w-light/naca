@@ -41,29 +41,29 @@ public class CJavaSetHighlight extends CEntitySetHighligh
 	 */
 	protected void DoExport()
 	{
-		if (m_bIsBlink)
+		if (bIsBlink)
 		{
-			WriteLine("setFieldBlink(" + m_RefField.ExportReference(getLine())  + ") ;") ;
+			WriteLine("setFieldBlink(" + refField.ExportReference(getLine())  + ") ;") ;
 		}
-		if (m_bIsReverse)
+		if (bIsReverse)
 		{
-			WriteLine("setFieldReverse("+ m_RefField.ExportReference(getLine())  + ") ;") ;
+			WriteLine("setFieldReverse("+ refField.ExportReference(getLine())  + ") ;") ;
 		}
-		if (m_bIsUnderlined)
+		if (bIsUnderlined)
 		{
-			WriteLine("setFieldUnderline(" + m_RefField.ExportReference(getLine())  + ") ;") ;
+			WriteLine("setFieldUnderline(" + refField.ExportReference(getLine())  + ") ;") ;
 		}
-		if (m_bIsNormal)
+		if (bIsNormal)
 		{
-			WriteLine("setFieldUnhighlighted(" + m_RefField.ExportReference(getLine())  + ") ;") ;
+			WriteLine("setFieldUnhighlighted(" + refField.ExportReference(getLine())  + ") ;") ;
 		}
-		if (m_HighLightValue != null)
+		if (highLightValue != null)
 		{
-			WriteLine("moveHighLighting(" + m_HighLightValue.ExportReference(getLine()) + ", " + m_RefField.ExportReference(getLine())  + ") ;") ;
+			WriteLine("moveHighLighting(" + highLightValue.ExportReference(getLine()) + ", " + refField.ExportReference(getLine())  + ") ;") ;
 		}
-		if (!m_bIsBlink && !m_bIsNormal && !m_bIsUnderlined && !m_bIsReverse && m_HighLightValue==null)
+		if (!bIsBlink && !bIsNormal && !bIsUnderlined && !bIsReverse && highLightValue==null)
 		{
-			WriteLine("resetFieldHighlighting(" + m_RefField.ExportReference(getLine())  + ") ;") ;
+			WriteLine("resetFieldHighlighting(" + refField.ExportReference(getLine())  + ") ;") ;
 		}
 	}
 

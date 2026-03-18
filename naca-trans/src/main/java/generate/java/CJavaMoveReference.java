@@ -35,6 +35,6 @@ public class CJavaMoveReference extends CEntityMoveReference
 	}
 	protected void DoExport()
 	{
-		WriteLine("moveReferenceTo(" + m_From.ExportReference(getLine()) + ", " + m_To.ExportReference(getLine()) + ") ;");
+		WriteLine("moveReferenceTo(" + from.ExportReference(getLine()) + ", " + to.ExportReference(getLine()) + ") ;");
 	}
 }

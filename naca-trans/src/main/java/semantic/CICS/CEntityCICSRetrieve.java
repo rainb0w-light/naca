@@ -34,24 +34,24 @@ public abstract class CEntityCICSRetrieve extends CBaseActionEntity
 	public CEntityCICSRetrieve(int line,CObjectCatalog cat, CBaseLanguageExporter out, boolean bPointer)
 	{
 		super(line, cat, out);
-		m_bPointer = bPointer ;
+		bPointer = bPointer ;
 		cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
 	}
 	
 	public void SetRetrieve(CDataEntity into, CDataEntity length)
 	{
-		m_refInto = into ;
-		m_dataLength = length ;
+		refInto = into ;
+		dataLength = length ;
 	}
 	
-	protected CDataEntity m_refInto = null;
-	protected CDataEntity m_dataLength = null ;
-	protected boolean m_bPointer = false ; 
+	protected CDataEntity refInto = null;
+	protected CDataEntity dataLength = null ;
+	protected boolean bPointer = false ; 
 	public void Clear()
 	{
 		super.Clear();
-		m_refInto = null ;
-		m_dataLength = null ;
+		refInto = null ;
+		dataLength = null ;
 	}
 	public boolean ignore()
 	{

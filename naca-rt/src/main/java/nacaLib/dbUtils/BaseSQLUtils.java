@@ -23,18 +23,18 @@ import jlib.sql.SQLTypeOperation;
  */
 public abstract class BaseSQLUtils
 {
-	DbConnectionBase m_dbConnection = null;
-	private BaseSession m_session = null; 
+	DbConnectionBase dbConnection = null;
+	private BaseSession session = null; 
 	
 	BaseSQLUtils(BaseSession session, DbConnectionBase dbConnection)
 	{
-		m_dbConnection = dbConnection;
-		m_session = session;
+		dbConnection = dbConnection;
+		session = session;
 	}
 	
 	BaseSession getSession()
 	{
-		return m_session; 
+		return session; 
 	}
 	
 	int executeSQLClause(String csClause)
@@ -47,8 +47,8 @@ public abstract class BaseSQLUtils
 		
 		if(typeOperation.executeWithStatement())
 		{	
-			csClause = SQLTypeOperation.addEnvironmentPrefix(m_dbConnection.getEnvironmentPrefix(), csClause, typeOperation, "");
-			DbPreparedStatement stmt = m_dbConnection.prepareStatement(csClause, 0, false);
+			csClause = SQLTypeOperation.addEnvironmentPrefix(dbConnection.getEnvironmentPrefix(), csClause, typeOperation, "");
+			DbPreparedStatement stmt = dbConnection.prepareStatement(csClause, 0, false);
 			if(stmt != null)
 			{
 				int n = stmt.execute(typeOperation);
@@ -57,7 +57,7 @@ public abstract class BaseSQLUtils
 		}
 		else
 		{
-			int n = m_dbConnection.executeOperation(typeOperation);
+			int n = dbConnection.executeOperation(typeOperation);
 			return n;
 		}
 		return -1;
@@ -74,8 +74,8 @@ public abstract class BaseSQLUtils
 		int nStatus = -1;
 		if(typeOperation.executeWithStatement())
 		{
-			csClause = SQLTypeOperation.addEnvironmentPrefix(m_dbConnection.getEnvironmentPrefix(), csClause, typeOperation, "");
-			DbPreparedStatement stmt = m_dbConnection.prepareStatement(csClause, 0, false);
+			csClause = SQLTypeOperation.addEnvironmentPrefix(dbConnection.getEnvironmentPrefix(), csClause, typeOperation, "");
+			DbPreparedStatement stmt = dbConnection.prepareStatement(csClause, 0, false);
 			
 			boolean b = true;			
 			int nNbParam = arrColValues.size();
@@ -92,7 +92,7 @@ public abstract class BaseSQLUtils
 		}
 		else
 		{
-			nStatus = m_dbConnection.executeOperation(typeOperation);
+			nStatus = dbConnection.executeOperation(typeOperation);
 		}
 		
 		if(nStatus < 0)
@@ -108,7 +108,7 @@ public abstract class BaseSQLUtils
 	{
 		int nStatus = -1;
 
-		DbPreparedStatement stmt = m_dbConnection.prepareStatement(csClause, 0, false);
+		DbPreparedStatement stmt = dbConnection.prepareStatement(csClause, 0, false);
 		
 		boolean b = true;			
 		int nNbParam = arrColValues.size();

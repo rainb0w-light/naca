@@ -33,21 +33,21 @@ public class DeclareTypeCond extends CJMapObject
 	
 	public void set(BaseProgram program)
 	{
-		m_ProgramManager = program.getProgramManager();
-		m_arrValues = new ArrayList<CondValue>();
+		programManager = program.getProgramManager();
+		arrValues = new ArrayList<CondValue>();
 	}
 	
 	public DeclareTypeCond value(String s)
 	{
 		CondValue condValue = new CondValue(s);
-		m_arrValues.add(condValue);
+		arrValues.add(condValue);
 		return this;
 	}
 
 	public DeclareTypeCond value(String sMin, String sMax)
 	{
 		CondValue condValue = new CondValue(sMin, sMax);
-		m_arrValues.add(condValue);
+		arrValues.add(condValue);
 		return this;
 	}
 	
@@ -57,7 +57,7 @@ public class DeclareTypeCond extends CJMapObject
 		String sMax = String.valueOf(nMax);
 
 		CondValue condValue = new CondValue(sMin, sMax);
-		m_arrValues.add(condValue);
+		arrValues.add(condValue);
 		return this;
 	}
 	
@@ -66,25 +66,25 @@ public class DeclareTypeCond extends CJMapObject
 		String s = String.valueOf(n);
 
 		CondValue condValue = new CondValue(s);
-		m_arrValues.add(condValue);
+		arrValues.add(condValue);
 		return this;
 	}
 
 	public DeclareTypeCond value(CobolConstantBase constant)
 	{
 		CondValue condValue = new CondValue(constant);
-		m_arrValues.add(condValue);
+		arrValues.add(condValue);
 		return this;
 	}
 	
 	public Cond var()
 	{
-		Var varParent = (Var)m_ProgramManager.getLastVarCreated();
+		Var varParent = (Var)programManager.getLastVarCreated();
 
 		Cond cond = new Cond(varParent, this);
 		return cond;
 	}
 	
-	ArrayList<CondValue> m_arrValues = null;
-	BaseProgramManager m_ProgramManager = null;
+	ArrayList<CondValue> arrValues = null;
+	BaseProgramManager programManager = null;
 }

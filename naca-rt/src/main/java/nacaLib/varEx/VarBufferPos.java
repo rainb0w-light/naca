@@ -26,43 +26,43 @@ import nacaLib.tempCache.TempCacheLocator;
 
 public class VarBufferPos extends VarBuffer
 {	
-	protected int m_nAbsolutePosition = 0;	
-	private CStr m_cstr = null;
+	protected int nAbsolutePosition = 0;	
+	private CStr cstr = null;
 	
 	public VarBufferPos(VarBuffer varBuffer, int nPosition)
 	{	
 		super(varBuffer);
-		m_nAbsolutePosition = nPosition;
+		nAbsolutePosition = nPosition;
 	}
 	
 	public VarBufferPos(int nSize)
 	{
 		super(nSize);
-		m_nAbsolutePosition = 0;
+		nAbsolutePosition = 0;
 	}
 	
 	public VarBufferPos(char [] acBuffer)
 	{
 		super(acBuffer);
-		m_nAbsolutePosition = 0;
+		nAbsolutePosition = 0;
 	}
 	
 	public void setAsVar(VarBase varBase)
 	{	
-		shareDataBufferFrom(varBase.m_bufferPos);
-		m_nAbsolutePosition = varBase.m_bufferPos.m_nAbsolutePosition;
+		shareDataBufferFrom(varBase.bufferPos);
+		nAbsolutePosition = varBase.bufferPos.nAbsolutePosition;
 	}
 	
 	void reuse(VarBuffer bufferSource, int nPosition)
 	{
 		shareDataBufferFrom(bufferSource);
-		m_nAbsolutePosition = nPosition;
+		nAbsolutePosition = nPosition;
 	}
 	
 	
 	public String toString()
 	{
-		String cs = "Buffer @" + m_nAbsolutePosition + " (Id=" + m_acBuffer.hashCode() + ")";   
+		String cs = "Buffer @" + nAbsolutePosition + " (Id=" + acBuffer.hashCode() + ")";   
 		return cs;
 	}
 //	
@@ -71,10 +71,10 @@ public class VarBufferPos extends VarBuffer
 //		if(nSize < 0)
 //			nSize = 0;
 //		
-//		int nMaxSize = m_acBuffer.length - m_nAbsolutePosition;
+//		int nMaxSize = acBuffer.length - nAbsolutePosition;
 //		if(nSize > nMaxSize)
 //			nSize = nMaxSize;
-//		BufChunk bufChunk = new BufChunk(this, m_nAbsolutePosition, nSize);
+//		BufChunk bufChunk = new BufChunk(this, nAbsolutePosition, nSize);
 //		return bufChunk;
 //	}
 	
@@ -83,36 +83,36 @@ public class VarBufferPos extends VarBuffer
 		if(nSize < 0)
 			nSize = 0;
 		
-		int nMaxSize = m_acBuffer.length - m_nAbsolutePosition;
+		int nMaxSize = acBuffer.length - nAbsolutePosition;
 		if(nSize > nMaxSize)
 			nSize = nMaxSize;
 		CStr cs = TempCacheLocator.getTLSTempCache().getMappedCStr();
-		cs.set(m_acBuffer, m_nAbsolutePosition, nSize);
+		cs.set(acBuffer, nAbsolutePosition, nSize);
 		return cs;
 	}
 	
 	public CStr getOwnCStr(int nSize)
 	{
-		if(m_cstr == null)
-			m_cstr = new CStr();
+		if(cstr == null)
+			cstr = new CStr();
 		if(nSize < 0)
 			nSize = 0;
 		
-		int nMaxSize = m_acBuffer.length - m_nAbsolutePosition;
+		int nMaxSize = acBuffer.length - nAbsolutePosition;
 		if(nSize > nMaxSize)
 			nSize = nMaxSize;
 		
-		m_cstr.set(m_acBuffer, m_nAbsolutePosition, nSize);
-		return m_cstr;
+		cstr.set(acBuffer, nAbsolutePosition, nSize);
+		return cstr;
 	}
 		
 //	public BufChunk getBodyBufChunk(VarDefBuffer varDef)
 //	{
 //		int nBodyLength = varDef.getBodyLength();
 //			
-//		int nBodyAbsolutePosition = m_nAbsolutePosition + varDef.getHeaderLength();
+//		int nBodyAbsolutePosition = nAbsolutePosition + varDef.getHeaderLength();
 //				
-//		int nMaxSize = m_acBuffer.length - nBodyAbsolutePosition;
+//		int nMaxSize = acBuffer.length - nBodyAbsolutePosition;
 //		if(nBodyLength > nMaxSize)
 //			nBodyLength = nMaxSize;
 //		BufChunk bufChunk = new BufChunk(this, nBodyAbsolutePosition, nBodyLength);
@@ -123,12 +123,12 @@ public class VarBufferPos extends VarBuffer
 //	{
 //		int nBodyLength = varDef.getBodyLength();
 //			
-//		int nBodyAbsolutePosition = m_nAbsolutePosition + varDef.getHeaderLength();
+//		int nBodyAbsolutePosition = nAbsolutePosition + varDef.getHeaderLength();
 //				
-//		int nMaxSize = m_acBuffer.length - nBodyAbsolutePosition;
+//		int nMaxSize = acBuffer.length - nBodyAbsolutePosition;
 //		if(nBodyLength > nMaxSize)
 //			nBodyLength = nMaxSize;
-//		String cs = new String(m_acBuffer, nBodyAbsolutePosition, nBodyLength);
+//		String cs = new String(acBuffer, nBodyAbsolutePosition, nBodyLength);
 //		return cs;
 //	}
 	
@@ -136,14 +136,14 @@ public class VarBufferPos extends VarBuffer
 	{
 		int nBodyLength = varDef.getBodyLength();
 			
-		int nBodyAbsolutePosition = m_nAbsolutePosition + varDef.getHeaderLength();
+		int nBodyAbsolutePosition = nAbsolutePosition + varDef.getHeaderLength();
 				
-		int nMaxSize = m_acBuffer.length - nBodyAbsolutePosition;
+		int nMaxSize = acBuffer.length - nBodyAbsolutePosition;
 		if(nBodyLength > nMaxSize)
 			nBodyLength = nMaxSize;
 		//CStr cs = new CStr();
 		CStr cs = TempCacheLocator.getTLSTempCache().getMappedCStr();
-		cs.set(m_acBuffer, nBodyAbsolutePosition, nBodyLength);
+		cs.set(acBuffer, nBodyAbsolutePosition, nBodyLength);
 		return cs;
 	}
 	
@@ -151,9 +151,9 @@ public class VarBufferPos extends VarBuffer
 //	{
 //		int nBodyLength = varDef.getBodyLength();
 //			
-//		int nBodyAbsolutePosition = m_nAbsolutePosition + varDef.getHeaderLength();
+//		int nBodyAbsolutePosition = nAbsolutePosition + varDef.getHeaderLength();
 //				
-//		int nMaxSize = m_acBuffer.length - nBodyAbsolutePosition;
+//		int nMaxSize = acBuffer.length - nBodyAbsolutePosition;
 //		if(nBodyLength > nMaxSize)
 //			nBodyLength = nMaxSize;
 //		BufChunk bufChunk = new BufChunk(this, nBodyAbsolutePosition, nBodyLength);
@@ -175,7 +175,7 @@ public class VarBufferPos extends VarBuffer
 //			
 //		int nBodyAbsolutePosition = nAbsolutePosition + varDef.getHeaderLength();
 //				
-//		int nMaxSize = m_acBuffer.length - nBodyAbsolutePosition;
+//		int nMaxSize = acBuffer.length - nBodyAbsolutePosition;
 //		if(nBodyLength > nMaxSize)
 //			nBodyLength = nMaxSize;
 //		BufChunk bufChunk = new BufChunk(this, nBodyAbsolutePosition, nBodyLength, true, true);
@@ -198,11 +198,11 @@ public class VarBufferPos extends VarBuffer
 			
 		int nBodyAbsolutePosition = nAbsolutePosition + varDef.getHeaderLength();
 				
-		int nMaxSize = m_acBuffer.length - nBodyAbsolutePosition;
+		int nMaxSize = acBuffer.length - nBodyAbsolutePosition;
 		if(nBodyLength > nMaxSize)
 			nBodyLength = nMaxSize;
 		CStr cs = TempCacheLocator.getTLSTempCache().getMappedCStr();
-		cs.set(m_acBuffer, nBodyAbsolutePosition, nBodyLength);
+		cs.set(acBuffer, nBodyAbsolutePosition, nBodyLength);
 		CStr csDuplicate = cs.duplicate();
 		
 		
@@ -219,11 +219,11 @@ public class VarBufferPos extends VarBuffer
 
 	char[] getByteArray(VarBase var, int nLength)
 	{
-		int nPosSource = m_nAbsolutePosition;
+		int nPosSource = nAbsolutePosition;
 		char[] tc = new char[nLength];
 		for(int nOffset=0; nOffset<nLength; nOffset++)
 		{
-			tc[nOffset] = m_acBuffer[nPosSource++];			
+			tc[nOffset] = acBuffer[nPosSource++];			
 		}
 		return tc;
 	}
@@ -235,14 +235,14 @@ public class VarBufferPos extends VarBuffer
 //			int nLength = tBytes.length;
 //			for(int nOffset=0; nOffset<nLength; nOffset++)
 //			{
-//				m_acBuffer[m_nAbsolutePosition + nOffset] = (char)tBytes[nOffset];			
+//				acBuffer[nAbsolutePosition + nOffset] = (char)tBytes[nOffset];			
 //			}
 //		}
 //	}
 
 	void importFromByteArray(byte[] tBySource, int nLengthDest, int nLengthSource)
 	{
-		int nPosDest = m_nAbsolutePosition;
+		int nPosDest = nAbsolutePosition;
 		int nLength = Math.min(nLengthSource, nLengthDest);
 		if(tBySource != null)
 		{
@@ -251,14 +251,14 @@ public class VarBufferPos extends VarBuffer
 				int n = tBySource[nOffset];
 				if(n < 0)
 					n += 256;
-				m_acBuffer[nPosDest++] = (char)n;			
+				acBuffer[nPosDest++] = (char)n;			
 			}
 		}
 	}
 		
 	void setByteArray(byte[] tBytesSource, int nOffsetSource, int nLength)
 	{	
-		int nPosDest = m_nAbsolutePosition;
+		int nPosDest = nAbsolutePosition;
 		if(tBytesSource != null)
 		{
 			for(int n=0; n<nLength; n++)
@@ -266,7 +266,7 @@ public class VarBufferPos extends VarBuffer
 				int nSource = tBytesSource[nOffsetSource + n];
 				if(nSource < 0)
 					nSource += 256;
-				m_acBuffer[nPosDest++] = (char)nSource;
+				acBuffer[nPosDest++] = (char)nSource;
 			}
 		}
 	}
@@ -274,8 +274,8 @@ public class VarBufferPos extends VarBuffer
 	void setByteArray(byte[] tSourceBytes, int nSourceOffset, int nSourceLength, VarBufferPos buf2, int nDest2Length)
 	{	
 		int nPosSource = nSourceOffset;
-		int nPosDest1 = m_nAbsolutePosition;
-		int nPosDest2 = buf2.m_nAbsolutePosition;
+		int nPosDest1 = nAbsolutePosition;
+		int nPosDest2 = buf2.nAbsolutePosition;
 		if(tSourceBytes != null)
 		{
 			for(int n=0; n<nSourceLength; n++)
@@ -285,19 +285,19 @@ public class VarBufferPos extends VarBuffer
 					nByte += 256;
 				
 				char c = (char)nByte;
-				m_acBuffer[nPosDest1++] = c;
+				acBuffer[nPosDest1++] = c;
 				if(n < nDest2Length)
-					buf2.m_acBuffer[nPosDest2++] = c;
+					buf2.acBuffer[nPosDest2++] = c;
 			}
 		}
 	}
 	
 //	void fillNull(int nOffsetDest, int nLength)
 //	{
-//		int m = m_nAbsolutePosition + nOffsetDest;
+//		int m = nAbsolutePosition + nOffsetDest;
 //		for(int n=0; n<nLength; n++, m++)
 //		{			
-//			m_acBuffer[m] = 0;
+//			acBuffer[m] = 0;
 //		}
 //	}
 	
@@ -309,16 +309,16 @@ public class VarBufferPos extends VarBuffer
 //		char c  = (char)nSource;
 //
 //		for(int n=0; n<nNbOccurences; n++)
-//			m_acBuffer[m_nAbsolutePosition + nOffset + n] = c;
+//			acBuffer[nAbsolutePosition + nOffset + n] = c;
 //	}
 	
 	void exportIntoByteArray(byte tByDest[], int nLengthDest, int nLengthSource)
 	{
 		int nLength = Math.min(nLengthSource, nLengthDest);
-		int n = m_nAbsolutePosition;
+		int n = nAbsolutePosition;
 		for(int nPos=0; nPos<nLength; nPos++)
 		{
-			tByDest[nPos] = (byte) m_acBuffer[n++];
+			tByDest[nPos] = (byte) acBuffer[n++];
 		}
 	}
 	
@@ -326,60 +326,60 @@ public class VarBufferPos extends VarBuffer
 	{
 		char tcDest[] = new char [nLength];
 		
-		int n = nOffset + m_nAbsolutePosition;
+		int n = nOffset + nAbsolutePosition;
 		for(int nPos=0; nPos<nLength; nPos++)
 		{
-			//tcDest[nPos] = m_acBuffer[n + nPos];
-			tcDest[nPos] = m_acBuffer[n++];
+			//tcDest[nPos] = acBuffer[n + nPos];
+			tcDest[nPos] = acBuffer[n++];
 		}
 		return tcDest;
 	}
 	
 	void fillBlankComp3AtOffset(int nTotalSize, int nOffset)
 	{
-		int nPos = m_nAbsolutePosition + nOffset;
+		int nPos = nAbsolutePosition + nOffset;
 		for(int n=0; n<=nTotalSize; n++)
 		{
-			m_acBuffer[nPos++] = 0; 
+			acBuffer[nPos++] = 0; 
 		}
 	}
 		
 	void fillZeroesComp0AtOffset(int nTotalSize, int nOffset)
 	{
-		int nPos = m_nAbsolutePosition + nOffset;
+		int nPos = nAbsolutePosition + nOffset;
 		for(int n=0; n<nTotalSize; n++)
 		{
-			m_acBuffer[nPos++] = '0'; 
+			acBuffer[nPos++] = '0'; 
 		}
 	}
 	
 	void fillBlankComp0AtOffset(int nTotalSize, int nOffset)
 	{
-		int nPos = m_nAbsolutePosition + nOffset;
+		int nPos = nAbsolutePosition + nOffset;
 		for(int n=0; n<nTotalSize; n++)
 		{
-			m_acBuffer[nPos++] = ' '; 
+			acBuffer[nPos++] = ' '; 
 		}
 	}
 	
 //	void setBufferByteAtOffset(int nCharPos, byte byHighValue, byte byLowValue)
 //	{
 //		char cChar = (char)((byHighValue * 16) + byLowValue);
-//		m_acBuffer[nCharPos] = cChar;
+//		acBuffer[nCharPos] = cChar;
 //	}
 	
 //	void setBufferByteAtOffset(int nCharPos, int nByteIndex, byte byValue)
 //	{
-//		char c = m_acBuffer[nCharPos];
+//		char c = acBuffer[nCharPos];
 //		if(nByteIndex == 1)
 //		{
-//			m_acBuffer[m_nAbsolutePosition+nCharPos] &= 0xFFF0;
-//			m_acBuffer[m_nAbsolutePosition+nCharPos] |= byValue;
+//			acBuffer[nAbsolutePosition+nCharPos] &= 0xFFF0;
+//			acBuffer[nAbsolutePosition+nCharPos] |= byValue;
 //		}
 //		else
 //		{
-//			m_acBuffer[m_nAbsolutePosition+nCharPos] &= 0x000F;
-//			m_acBuffer[m_nAbsolutePosition+nCharPos] |= (byValue << 4);			
+//			acBuffer[nAbsolutePosition+nCharPos] &= 0x000F;
+//			acBuffer[nAbsolutePosition+nCharPos] |= (byValue << 4);			
 //		}			
 //	}
 	
@@ -387,28 +387,28 @@ public class VarBufferPos extends VarBuffer
 	{		
 		int nCharPos = nNibblePos / 2;
 		int nNibbleIndex = nNibblePos % 2;
-		int nIndex = m_nAbsolutePosition+nOffset+nCharPos;
+		int nIndex = nAbsolutePosition+nOffset+nCharPos;
 		if(nNibbleIndex == 1)	// char is 16 bits in 4 nibbles: 0000 0000 nible0 nibble1
 		{
-			m_acBuffer[nIndex] &= 0xFFF0;
-			m_acBuffer[nIndex] |= byValue;
+			acBuffer[nIndex] &= 0xFFF0;
+			acBuffer[nIndex] |= byValue;
 		}
 		else
 		{
-			m_acBuffer[nIndex] &= 0x000F;
-			m_acBuffer[nIndex] |= (byValue << 4);			
+			acBuffer[nIndex] &= 0x000F;
+			acBuffer[nIndex] |= (byValue << 4);			
 		}
 	}
 	
 //	char getCharAtOffset(int nCharPos)
 //	{
-//		char c = m_acBuffer[m_nAbsolutePosition+nCharPos];
+//		char c = acBuffer[nAbsolutePosition+nCharPos];
 //		return c;
 //	}
 	
 //	void setCharAtOffset(int nCharPos, char c)
 //	{
-//		m_acBuffer[m_nAbsolutePosition+nCharPos] = c;
+//		acBuffer[nAbsolutePosition+nCharPos] = c;
 //	}
 	
 	int getAsInt(int nSize)
@@ -416,11 +416,11 @@ public class VarBufferPos extends VarBuffer
 		if(nSize < 0)
 			nSize = 0;
 		
-		int nMaxSize = m_acBuffer.length - m_nAbsolutePosition;
+		int nMaxSize = acBuffer.length - nAbsolutePosition;
 		if(nSize > nMaxSize)
 			nSize = nMaxSize;
 		
-		return getAsInt(m_nAbsolutePosition, nSize);
+		return getAsInt(nAbsolutePosition, nSize);
 	}
 	
 	int getAsInt(int nAbsolutePosition, int nTotalSize)
@@ -433,7 +433,7 @@ public class VarBufferPos extends VarBuffer
 		boolean bNegative = false;
 		while(n < nMax)
 		{
-			char c = m_acBuffer[n++];
+			char c = acBuffer[n++];
 			if(c >= '0' && c <= '9')
 			{
 				nValue = 10 * nValue + (c - '0');
@@ -457,11 +457,11 @@ public class VarBufferPos extends VarBuffer
 		if(nSize < 0)
 			nSize = 0;
 		
-		int nMaxSize = m_acBuffer.length - m_nAbsolutePosition;
+		int nMaxSize = acBuffer.length - nAbsolutePosition;
 		if(nSize > nMaxSize)
 			nSize = nMaxSize;
 		
-		return getAsUnsignedInt(m_nAbsolutePosition, nSize);
+		return getAsUnsignedInt(nAbsolutePosition, nSize);
 	}
 	
 	int getAsUnsignedInt(int nAbsolutePosition, int nTotalSize)
@@ -473,7 +473,7 @@ public class VarBufferPos extends VarBuffer
 		int nMax = nAbsolutePosition + nTotalSize;
 		while(n < nMax)
 		{
-			char c = m_acBuffer[n++];
+			char c = acBuffer[n++];
 			if(c >= '0' && c <= '9')
 			{
 				nValue = 10 * nValue + (c - '0');
@@ -490,11 +490,11 @@ public class VarBufferPos extends VarBuffer
 		if(nSize < 0)
 			nSize = 0;
 		
-		int nMaxSize = m_acBuffer.length - m_nAbsolutePosition;
+		int nMaxSize = acBuffer.length - nAbsolutePosition;
 		if(nSize > nMaxSize)
 			nSize = nMaxSize;
 		
-		return getAsLong(m_nAbsolutePosition, nSize);
+		return getAsLong(nAbsolutePosition, nSize);
 	}
 	
 	public long getAsLong(int nAbsolutePosition, int nTotalSize)
@@ -508,7 +508,7 @@ public class VarBufferPos extends VarBuffer
 		boolean bNegative = false;
 		while(n < nMax)
 		{
-			char c = m_acBuffer[n++];
+			char c = acBuffer[n++];
 			if(c >= '0' && c <= '9')
 			{
 				lValue = 10 * lValue + (c - '0');
@@ -532,11 +532,11 @@ public class VarBufferPos extends VarBuffer
 		if(nSize < 0)
 			nSize = 0;
 		
-		int nMaxSize = m_acBuffer.length - m_nAbsolutePosition;
+		int nMaxSize = acBuffer.length - nAbsolutePosition;
 		if(nSize > nMaxSize)
 			nSize = nMaxSize;
 		
-		return getAsUnsignedLong(m_nAbsolutePosition, nSize);
+		return getAsUnsignedLong(nAbsolutePosition, nSize);
 	}
 	
 	public long getAsUnsignedLong(int nAbsolutePosition, int nTotalSize)
@@ -549,7 +549,7 @@ public class VarBufferPos extends VarBuffer
 		int nMax = nAbsolutePosition+nTotalSize;
 		while(n < nMax)
 		{
-			char c = m_acBuffer[n++];
+			char c = acBuffer[n++];
 			if(c >= '0' && c <= '9')
 			{
 				lValue = 10 * lValue + (c - '0');
@@ -567,29 +567,29 @@ public class VarBufferPos extends VarBuffer
 	
 	public void copy(int nNbCharToCopy, VarBufferPos varBufPosSource)
 	{
-		copyBytes(m_nAbsolutePosition, nNbCharToCopy, varBufPosSource.m_nAbsolutePosition, varBufPosSource);
+		copyBytes(nAbsolutePosition, nNbCharToCopy, varBufPosSource.nAbsolutePosition, varBufPosSource);
 	}
 	
 	void restore(int nOldAbsolutePosition, char acOldBuffer[])	//, boolean bShared)
 	{
-		m_nAbsolutePosition = nOldAbsolutePosition;
-		m_acBuffer = acOldBuffer;
+		nAbsolutePosition = nOldAbsolutePosition;
+		acBuffer = acOldBuffer;
 	}
 	
 	
 	// Experimental performance code
 	
-//	private int m_nLastChecksum = 0;
-//	public int m_nLastValue = 0;
+//	private int nLastChecksum = 0;
+//	public int nLastValue = 0;
 //
 //	public void resetLastChecksum()
 //	{
-//		m_nLastChecksum = 0;
+//		nLastChecksum = 0;
 //	}
 //	
 //	public void setChecksum(int n)
 //	{
-//		m_nLastChecksum = n;
+//		nLastChecksum = n;
 //	}
 //	
 //	public boolean isLastChecksumValid(int nTotalSize)
@@ -597,11 +597,11 @@ public class VarBufferPos extends VarBuffer
 //		int nChecksum = 0;
 //		for(int n=0; n<nTotalSize; n++)
 //		{
-//			nChecksum += m_acBuffer[n+m_nAbsolutePosition];
+//			nChecksum += acBuffer[n+nAbsolutePosition];
 //		}
-//		if(nChecksum == m_nLastChecksum)
+//		if(nChecksum == nLastChecksum)
 //			return true;
-//		m_nLastChecksum = nChecksum;
+//		nLastChecksum = nChecksum;
 //		return false;
 //	}
 }
@@ -612,10 +612,10 @@ class CEditSemanticContextMapAssoc
 {
 	CEditSemanticContextMapAssoc(Edit edit, String csSemantiContext)
 	{
-		m_edit = edit;
-		m_csSemantiContext = csSemantiContext;
+		edit = edit;
+		csSemantiContext = csSemantiContext;
 	}
-	Edit m_edit = null; 
-	String m_csSemantiContext = null;
+	Edit edit = null; 
+	String csSemantiContext = null;
 }
 

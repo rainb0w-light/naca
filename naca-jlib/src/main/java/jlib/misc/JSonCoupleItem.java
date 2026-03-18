@@ -16,9 +16,9 @@ package jlib.misc;
  */
 public class JSonCoupleItem
 {
-	private String m_csName;
-	private String m_csValue;
-	private JSonCoupleItemType m_type;
+	private String csName;
+	private String csValue;
+	private JSonCoupleItemType type;
 	
 	JSonCoupleItem()
 	{
@@ -26,22 +26,22 @@ public class JSonCoupleItem
 	
 	String getName()
 	{
-		return m_csName;
+		return csName;
 	}
 	
 	int getValueAsInt()
 	{
-		return NumberParser.getAsInt(m_csValue);
+		return NumberParser.getAsInt(csValue);
 	}
 	
 	String getValueAsString()
 	{
-		return m_csValue;
+		return csValue;
 	}
 	
 	boolean getValueAsBoolean()
 	{
-		return NumberParser.getAsBoolean(m_csValue);
+		return NumberParser.getAsBoolean(csValue);
 	}
 	
 	boolean parse(String csCouple)
@@ -49,45 +49,45 @@ public class JSonCoupleItem
 		int nIndex = csCouple.indexOf(":");
 		if(nIndex != -1)
 		{
-			m_csName = csCouple.substring(0, nIndex);
-			m_csName = StringUtil.removeSurroundingQuotes(m_csName);
+			csName = csCouple.substring(0, nIndex);
+			csName = StringUtil.removeSurroundingQuotes(csName);
 			
 			String csValue = csCouple.substring(nIndex+1);
 			if(csValue.startsWith("\"") && csValue.endsWith("\""))
 			{
 				// Remove quotes
-				m_csValue = StringUtil.removeSurroundingQuotes(csValue);
-				m_type = JSonCoupleItemType.TypeString;
+				csValue = StringUtil.removeSurroundingQuotes(csValue);
+				type = JSonCoupleItemType.TypeString;
 				return true;
 			}
 			else	// Number or null
 			{
 				if(csValue.equals("null"))
 				{
-					m_csValue = null;
-					m_type = JSonCoupleItemType.TypeString;
+					csValue = null;
+					type = JSonCoupleItemType.TypeString;
 					return true;
 				}
 				else if(csValue.equalsIgnoreCase("true"))
 				{
-					m_csValue = csValue;
-					m_type = JSonCoupleItemType.TypeBoolean;
+					csValue = csValue;
+					type = JSonCoupleItemType.TypeBoolean;
 					return true;
 				}
 				else if(csValue.equalsIgnoreCase("false"))
 				{
-					m_csValue = csValue;
-					m_type = JSonCoupleItemType.TypeBoolean;
+					csValue = csValue;
+					type = JSonCoupleItemType.TypeBoolean;
 					return true;
 				}
 				else	// Number
 				{
 					// Check numeric value
-					m_csValue = csValue;
+					csValue = csValue;
 					if(csValue.indexOf(".") >= 0)	// ouble
-						m_type = JSonCoupleItemType.TypeDouble;
+						type = JSonCoupleItemType.TypeDouble;
 					else
-						m_type = JSonCoupleItemType.TypeInteger;
+						type = JSonCoupleItemType.TypeInteger;
 					return true;
 				}				
 			}

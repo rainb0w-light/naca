@@ -38,14 +38,14 @@ import utils.FPacTranscoder.OperandDescription;
 
 public class CFPacArithmeticOperation extends CFPacElement
 {
-	private Vector<CExpression> m_arrExp ;
-	private CReservedKeyword m_command ;
+	private Vector<CExpression> arrExp ;
+	private CReservedKeyword command ;
 	
 	public CFPacArithmeticOperation(int line, Vector<CExpression> arrTerms, CReservedKeyword command)
 	{
 		super(line);
-		m_arrExp = arrTerms ;
-		m_command = command ;
+		arrExp = arrTerms ;
+		command = command ;
 	}
 
 	@Override
@@ -58,109 +58,109 @@ public class CFPacArithmeticOperation extends CFPacElement
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
 		boolean bFirstPacked = false, bSecondPacked = false ;
-		if (m_command == CFPacKeywordList.A || m_command == CFPacKeywordList.S || m_command == CFPacKeywordList.M || m_command == CFPacKeywordList.D)
+		if (command == CFPacKeywordList.A || command == CFPacKeywordList.S || command == CFPacKeywordList.M || command == CFPacKeywordList.D)
 		{
 			bFirstPacked = true ;
 			bSecondPacked = true ;
 		}
-		else if (m_command == CFPacKeywordList.U)
+		else if (command == CFPacKeywordList.U)
 		{
 			bFirstPacked = true ;
 		}
 
-		ListIterator<CExpression> iter = m_arrExp.listIterator() ;
+		ListIterator<CExpression> iter = arrExp.listIterator() ;
 
 		OperandDescription op1 = findFirstDataEntity(iter, factory, bFirstPacked) ;
-		if (op1 == null || op1.m_eObject == null)
+		if (op1 == null || op1.eObject == null)
 		{
 			Transcoder.logError(getLine(), "Unexpecting entity") ;
 			return null ;
 		}
 		
 		OperandDescription op2 = findSecondDataEntity(iter, factory, bSecondPacked) ;
-		if (op2 == null || op2.m_eObject == null)
+		if (op2 == null || op2.eObject == null)
 		{
 			Transcoder.logError(getLine(), "Unexpecting entity.") ;
 			return null ;
 		}
 		// manage length and start
-		if (op1.m_expStart != null && op1.m_expLength == null)
+		if (op1.expStart != null && op1.expLength == null)
 		{
 			if (iter.hasNext())
 			{
 				CExpression explen = iter.next()  ;
 				CBaseEntityExpression termlen = explen.AnalyseExpression(factory) ;
-				op1.m_expLength = termlen ;
+				op1.expLength = termlen ;
 			}
-			else if (op2.m_expLength != null)
+			else if (op2.expLength != null)
 			{
-				if (op2.m_expLength.GetDataType() == CDataEntityType.NUMBER)
+				if (op2.expLength.GetDataType() == CDataEntityType.NUMBER)
 				{
-					op1.m_expLength = op2.m_expLength ;
+					op1.expLength = op2.expLength ;
 				}
 				else
 				{
-					String cs = op2.m_expLength.GetConstantValue() ;
+					String cs = op2.expLength.GetConstantValue() ;
 					if (!cs.equals(""))
 					{
-						op1.m_expLength = factory.NewEntityExprTerminal(factory.NewEntityNumber(cs.length())) ;
+						op1.expLength = factory.NewEntityExprTerminal(factory.NewEntityNumber(cs.length())) ;
 					}
 				}
 			}
 		}
-		if (op2.m_expStart != null && op2.m_expLength == null)
+		if (op2.expStart != null && op2.expLength == null)
 		{
 			if (iter.hasNext())
 			{
 				CExpression explen = iter.next()  ;
 				CBaseEntityExpression termlen = explen.AnalyseExpression(factory) ;
-				op2.m_expLength = termlen ;
+				op2.expLength = termlen ;
 			}
-			else if (op1.m_expLength != null)
+			else if (op1.expLength != null)
 			{
-				op2.m_expLength = op1.m_expLength ;
+				op2.expLength = op1.expLength ;
 			}
 		}
-		if (op2.m_expLength == null && op1.m_expLength == null)
+		if (op2.expLength == null && op1.expLength == null)
 		{
-			if (op2.m_expStart != null)
+			if (op2.expStart != null)
 			{
-				int start2 = NumberParser.getAsInt(op2.m_expStart.GetConstantValue()) ;
+				int start2 = NumberParser.getAsInt(op2.expStart.GetConstantValue()) ;
 				if (start2>=6000 && start2<7000)
-					op2.m_expLength = factory.NewEntityExprTerminal(factory.NewEntityNumber(8)) ;
+					op2.expLength = factory.NewEntityExprTerminal(factory.NewEntityNumber(8)) ;
 			}
-			if (op1.m_expStart != null)
+			if (op1.expStart != null)
 			{
-				int start1 = NumberParser.getAsInt(op1.m_expStart.GetConstantValue()) ;
+				int start1 = NumberParser.getAsInt(op1.expStart.GetConstantValue()) ;
 				if (start1>=6000 && start1<7000)
-					op1.m_expLength = factory.NewEntityExprTerminal(factory.NewEntityNumber(8)) ;
+					op1.expLength = factory.NewEntityExprTerminal(factory.NewEntityNumber(8)) ;
 			}
 		}
 		
 		// build variables
 		CDataEntity var1= null, var2 = null ;
-		if (op1.m_expStart != null)
+		if (op1.expStart != null)
 		{
 			CSubStringAttributReference e1 = factory.NewEntitySubString(getLine()) ;
-			e1.SetReference(op1.m_eObject, op1.m_expStart, op1.m_expLength) ;
+			e1.SetReference(op1.eObject, op1.expStart, op1.expLength) ;
 			var1 = e1;
 		}
 		else
 		{
-			var1 = op1.m_eObject ;
+			var1 = op1.eObject ;
 		}
-		if (op2.m_expStart != null)
+		if (op2.expStart != null)
 		{
 			CSubStringAttributReference e2 = factory.NewEntitySubString(getLine()) ;
-			e2.SetReference(op2.m_eObject, op2.m_expStart, op2.m_expLength) ;
+			e2.SetReference(op2.eObject, op2.expStart, op2.expLength) ;
 			var2 = e2 ;
 		}
 		else
 		{
-			var2 = op2.m_eObject ;
+			var2 = op2.eObject ;
 		}
 		
-		if (m_command == CFPacKeywordList.A)
+		if (command == CFPacKeywordList.A)
 		{
 			CEntityAddTo add = factory.NewEntityAddTo(getLine()) ;
 			var1.RegisterReadingAction(add) ;
@@ -170,7 +170,7 @@ public class CFPacArithmeticOperation extends CFPacElement
 			parent.AddChild(add) ;
 			return add ;
 		}
-		else if (m_command == CFPacKeywordList.U)
+		else if (command == CFPacKeywordList.U)
 		{
 			CEntityAssign add = factory.NewEntityAssign(getLine()) ;
 			var2.RegisterWritingAction(add) ;
@@ -180,7 +180,7 @@ public class CFPacArithmeticOperation extends CFPacElement
 			parent.AddChild(add) ;
 			return add ;
 		}
-		else if (m_command == CFPacKeywordList.M)
+		else if (command == CFPacKeywordList.M)
 		{
 			CEntityMultiply mult = factory.NewEntityMultiply(getLine()) ;
 			var2.RegisterWritingAction(mult) ;
@@ -189,7 +189,7 @@ public class CFPacArithmeticOperation extends CFPacElement
 			parent.AddChild(mult) ;
 			return mult ;
 		}
-		else if (m_command == CFPacKeywordList.D)
+		else if (command == CFPacKeywordList.D)
 		{
 			CEntityDivide divide = factory.NewEntityDivide(getLine()) ;
 			var2.RegisterWritingAction(divide) ;
@@ -198,7 +198,7 @@ public class CFPacArithmeticOperation extends CFPacElement
 			parent.AddChild(divide) ;
 			return divide ;
 		}
-		else if (m_command == CFPacKeywordList.S)
+		else if (command == CFPacKeywordList.S)
 		{
 			CEntitySubtractTo subtract = factory.NewEntitySubtractTo(getLine()) ;
 			var1.RegisterReadingAction(subtract) ;
@@ -209,7 +209,7 @@ public class CFPacArithmeticOperation extends CFPacElement
 		}
 		else
 		{
-			throw new NacaTransAssertException("Arithmetic operation not managed : "+m_command) ;
+			throw new NacaTransAssertException("Arithmetic operation not managed : "+command) ;
 		}
 	}
 
@@ -234,27 +234,27 @@ public class CFPacArithmeticOperation extends CFPacElement
 				OperandDescription desc = new OperandDescription() ;
 				if (add < 5000)
 				{ //file buffer 
-					CDataEntity buffer = OperandDescription.getDefaultOutputFileBuffer(factory.m_ProgramCatalog) ;
+					CDataEntity buffer = OperandDescription.getDefaultOutputFileBuffer(factory.programCatalog) ;
 					CEntityConvertReference conv = factory.NewEntityConvert(getLine()) ;
 					if (secondPacked)
 						conv.convertToPacked(buffer) ;
 					else
 						conv.convertToAlphaNum(buffer) ;
-					desc.m_eObject = conv ;
-					desc.m_expStart = term ;
-					desc.m_expLength = termlen  ;
+					desc.eObject = conv ;
+					desc.expStart = term ;
+					desc.expLength = termlen  ;
 				}
 				else
 				{ // working
-					CDataEntity working = factory.m_ProgramCatalog.GetDataEntity("WORKING", "") ;
+					CDataEntity working = factory.programCatalog.GetDataEntity("WORKING", "") ;
 					CEntityConvertReference conv = factory.NewEntityConvert(getLine()) ;
 					if (secondPacked)
 						conv.convertToPacked(working) ;
 					else
 						conv.convertToAlphaNum(working) ;
-					desc.m_eObject = conv ;
-					desc.m_expStart = term ;
-					desc.m_expLength = termlen  ;
+					desc.eObject = conv ;
+					desc.expStart = term ;
+					desc.expLength = termlen  ;
 				}
 				return desc ;
 			}
@@ -271,9 +271,9 @@ public class CFPacArithmeticOperation extends CFPacElement
 						conv.convertToPacked(var) ;
 					else
 						conv.convertToAlphaNum(var) ;
-					desc.m_eObject = conv ;
-					desc.m_expStart = termstart ;
-					desc.m_expLength = null  ;
+					desc.eObject = conv ;
+					desc.expStart = termstart ;
+					desc.expLength = null  ;
 					return desc ;
 				}
 			}
@@ -281,9 +281,9 @@ public class CFPacArithmeticOperation extends CFPacElement
 			{
 				CDataEntity var = term.GetSingleOperator() ;
 				OperandDescription desc = new OperandDescription() ;
-				desc.m_eObject = var ;
-				desc.m_expStart = null ;
-				desc.m_expLength = null ;
+				desc.eObject = var ;
+				desc.expStart = null ;
+				desc.expLength = null ;
 				return desc ;
 			}
 			return null ;
@@ -313,9 +313,9 @@ public class CFPacArithmeticOperation extends CFPacElement
 				String val = term.GetConstantValue() ;
 				CEntityNumber number = factory.NewEntityNumber(val) ;
 				OperandDescription desc = new OperandDescription() ;
-				desc.m_eObject = number ;
-				desc.m_expStart = null ;
-				desc.m_expLength = null ; //factory.NewEntityExprTerminal(factory.NewEntityNumber(val.length()))  ;
+				desc.eObject = number ;
+				desc.expStart = null ;
+				desc.expLength = null ; //factory.NewEntityExprTerminal(factory.NewEntityNumber(val.length()))  ;
 				return desc ;
 			}
 			else if (term.GetDataType() == CDataEntityType.ADDRESS)
@@ -325,30 +325,30 @@ public class CFPacArithmeticOperation extends CFPacElement
 				
 				if (add < 5000)
 				{ //file buffer 
-					CDataEntity buffer = OperandDescription.getDefaultInputFileBuffer(factory.m_ProgramCatalog) ;
+					CDataEntity buffer = OperandDescription.getDefaultInputFileBuffer(factory.programCatalog) ;
 					OperandDescription desc = new OperandDescription() ;
 					CEntityConvertReference conv = factory.NewEntityConvert(getLine()) ;
 					if (firstPacked)
 						conv.convertToPacked(buffer) ;
 					else
 						conv.convertToAlphaNum(buffer) ;
-					desc.m_eObject = conv ;
-					desc.m_expStart = term ;
-					desc.m_expLength = null  ;
+					desc.eObject = conv ;
+					desc.expStart = term ;
+					desc.expLength = null  ;
 					return desc ;
 				}
 				else
 				{ // working
-					CDataEntity working = factory.m_ProgramCatalog.GetDataEntity("WORKING", "") ;
+					CDataEntity working = factory.programCatalog.GetDataEntity("WORKING", "") ;
 					OperandDescription desc = new OperandDescription() ;
 					CEntityConvertReference conv = factory.NewEntityConvert(getLine()) ;
 					if (firstPacked)
 						conv.convertToPacked(working) ;
 					else
 						conv.convertToAlphaNum(working) ;
-					desc.m_eObject = conv ;
-					desc.m_expStart = term ;
-					desc.m_expLength = null  ;
+					desc.eObject = conv ;
+					desc.expStart = term ;
+					desc.expLength = null  ;
 					return desc ;
 				}
 			}
@@ -368,9 +368,9 @@ public class CFPacArithmeticOperation extends CFPacElement
 							conv.convertToPacked(var) ;
 						else
 							conv.convertToAlphaNum(var) ;
-						desc.m_eObject = conv ;
-						desc.m_expStart = termstart ;
-						desc.m_expLength = null  ;
+						desc.eObject = conv ;
+						desc.expStart = termstart ;
+						desc.expLength = null  ;
 						return desc ;
 					}
 				}
@@ -379,9 +379,9 @@ public class CFPacArithmeticOperation extends CFPacElement
 			{
 				CDataEntity var = term.GetSingleOperator() ;
 				OperandDescription desc = new OperandDescription() ;
-				desc.m_eObject = var ;
-				desc.m_expStart = null ;
-				desc.m_expLength = null  ;
+				desc.eObject = var ;
+				desc.expStart = null ;
+				desc.expLength = null  ;
 				return desc ;
 			}
 			return null ;
@@ -398,22 +398,22 @@ public class CFPacArithmeticOperation extends CFPacElement
 //				{ //file buffer 
 //					CDataEntity buffer ;
 //					if (bFromOutput)
-//						buffer = getDefaultOutputFileBuffer(factory.m_ProgramCatalog) ;
+//						buffer = getDefaultOutputFileBuffer(factory.programCatalog) ;
 //					else
-//						buffer = getDefaultInputFileBuffer(factory.m_ProgramCatalog) ;
+//						buffer = getDefaultInputFileBuffer(factory.programCatalog) ;
 //					OperandDescription desc = new OperandDescription() ;
-//					desc.m_eObject = buffer ;
-//					desc.m_expStart = term ;
-//					desc.m_expLength = null  ;
+//					desc.eObject = buffer ;
+//					desc.expStart = term ;
+//					desc.expLength = null  ;
 //					return desc ;
 //				}
 //				else
 //				{ // working
-//					CDataEntity working = factory.m_ProgramCatalog.GetDataEntity("WORKING", "") ;
+//					CDataEntity working = factory.programCatalog.GetDataEntity("WORKING", "") ;
 //					OperandDescription desc = new OperandDescription() ;
-//					desc.m_eObject = working ;
-//					desc.m_expStart = term ;
-//					desc.m_expLength = null  ;
+//					desc.eObject = working ;
+//					desc.expStart = term ;
+//					desc.expLength = null  ;
 //					return desc ;
 //				}
 //			}
@@ -428,7 +428,7 @@ public class CFPacArithmeticOperation extends CFPacElement
 	protected Element ExportCustom(Document root)
 	{
 		Element eAdd = root.createElement("Add") ;
-		for (CExpression t : m_arrExp)
+		for (CExpression t : arrExp)
 		{
 			Element e = root.createElement("Exp") ;
 			e.appendChild(t.Export(root)) ;

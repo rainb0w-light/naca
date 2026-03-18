@@ -18,20 +18,20 @@ import java.util.Hashtable;
  */
 public class MapStringByString
 {
-	private Hashtable<String, String> m_tab = null;
+	private Hashtable<String, String> tab = null;
 	
 	public MapStringByString()
 	{
-		m_tab = new Hashtable<String, String>();
+		tab = new Hashtable<String, String>();
 	}
 	
 	public String get(String csKey)
 	{
-		return m_tab.get(csKey);
+		return tab.get(csKey);
 	}
 	
 	public void put(String csKey, String csValue)
 	{
-		m_tab.put(csKey, csValue);
+		tab.put(csKey, csValue);
 	}
 }

@@ -35,21 +35,21 @@ public abstract class CEntityMoveReference extends CBaseActionEntity
 	
 	public void SetMoveReference(CEntityAddressReference from, CEntityAddressReference to)
 	{
-		m_From = from ;
-		m_To = to;
+		from = from ;
+		to = to;
 	}
-	protected CEntityAddressReference m_From = null ;
-	protected CEntityAddressReference m_To = null ;
+	protected CEntityAddressReference from = null ;
+	protected CEntityAddressReference to = null ;
 	public boolean ignore()
 	{
-		return m_From.ignore() || m_To.ignore();
+		return from.ignore() || to.ignore();
 	}
 	public void Clear()
 	{
 		super.Clear();
-		m_From.Clear() ;
-		m_To.Clear() ;
-		m_From = null ;
-		m_To = null ;
+		from.Clear() ;
+		to.Clear() ;
+		from = null ;
+		to = null ;
 	}
 }

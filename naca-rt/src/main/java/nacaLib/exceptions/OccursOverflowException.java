@@ -11,22 +11,22 @@ import nacaLib.varEx.VarDefBase;
 public class OccursOverflowException extends NacaRTException
 {
 	private static final long serialVersionUID = 1L;
-	private String m_csVarDefBase = null;
-	private int m_nIndexRequestedBase1 = 0;
-	private int m_nIndexMaxValueBase1 = 0;
-	private String m_csIndexName = null;
+	private String csVarDefBase = null;
+	private int nIndexRequestedBase1 = 0;
+	private int nIndexMaxValueBase1 = 0;
+	private String csIndexName = null;
 	
 	public OccursOverflowException(VarDefBase varDefBase, int nIndexRequestedBase0, int nIndexMaxValue, String csIndexName)
 	{
-		m_csVarDefBase = varDefBase.toString();
-		m_nIndexRequestedBase1 = nIndexRequestedBase0+1;
-		m_nIndexMaxValueBase1 = nIndexMaxValue;
-		m_csIndexName = csIndexName;
+		csVarDefBase = varDefBase.toString();
+		nIndexRequestedBase1 = nIndexRequestedBase0+1;
+		nIndexMaxValueBase1 = nIndexMaxValue;
+		csIndexName = csIndexName;
 	}
 	
 	public String getMessage()
 	{
-		String cs = "OccursOverflowException: Index " + m_csIndexName + " value requested/Max:" + m_nIndexRequestedBase1 + "/" + m_nIndexMaxValueBase1 + "; VarDef:" + m_csVarDefBase; // + "; Stack="+m_csStack;
+		String cs = "OccursOverflowException: Index " + csIndexName + " value requested/Max:" + nIndexRequestedBase1 + "/" + nIndexMaxValueBase1 + "; VarDef:" + csVarDefBase; // + "; Stack="+csStack;
 		return cs;
 	}
 }

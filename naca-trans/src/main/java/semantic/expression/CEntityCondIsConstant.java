@@ -30,59 +30,59 @@ public abstract class CEntityCondIsConstant extends CUnitaryEntityCondition
 	
 	public void SetIsZero(CDataEntity eData)
 	{
-		m_bIsZero = true ;
-		m_bIsSpace = false ;
-		m_bIsLowValue = false ;
-		m_bIsHighValue = false ;
+		bIsZero = true ;
+		bIsSpace = false ;
+		bIsLowValue = false ;
+		bIsHighValue = false ;
 		SetConditonReference(eData) ;
 	}
 
 	public void SetIsSpace(CDataEntity eData)
 	{
-		m_bIsZero = false ;
-		m_bIsSpace = true ;
-		m_bIsLowValue = false ;
-		m_bIsHighValue = false ;
+		bIsZero = false ;
+		bIsSpace = true ;
+		bIsLowValue = false ;
+		bIsHighValue = false ;
 		SetConditonReference(eData) ;
 	}
 
 	public void SetIsHighValue(CDataEntity eData)
 	{
-		m_bIsZero = false ;
-		m_bIsSpace = false ;
-		m_bIsLowValue = false ;
-		m_bIsHighValue = true;
+		bIsZero = false ;
+		bIsSpace = false ;
+		bIsLowValue = false ;
+		bIsHighValue = true;
 		SetConditonReference(eData) ;
 	}
 	public void SetIsLowValue(CDataEntity eData)
 	{
-		m_bIsZero = false ;
-		m_bIsSpace = false ;
-		m_bIsLowValue = true ;
-		m_bIsHighValue = false ;
+		bIsZero = false ;
+		bIsSpace = false ;
+		bIsLowValue = true ;
+		bIsHighValue = false ;
 		SetConditonReference(eData) ;
 	}
 	public void SetOpposite()
 	{
-		m_bIsOpposite = true ;
+		bIsOpposite = true ;
 	}
 
-	protected boolean m_bIsOpposite = false ;
-	protected boolean m_bIsZero = false ;
-	protected boolean m_bIsSpace = false ;
-	protected boolean m_bIsLowValue = false ;
-	protected boolean m_bIsHighValue = false ;
+	protected boolean bIsOpposite = false ;
+	protected boolean bIsZero = false ;
+	protected boolean bIsSpace = false ;
+	protected boolean bIsLowValue = false ;
+	protected boolean bIsHighValue = false ;
 	public boolean ignore()
 	{
-		return m_Reference.ignore() ; 
+		return reference.ignore() ; 
 	}
 	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
 	{
-		if (m_Reference == field)
+		if (reference == field)
 		{
 			field.UnRegisterVarTesting(this) ;
 			var.RegisterVarTesting(this) ;
-			m_Reference = var ;
+			reference = var ;
 			return true ;
 		}
 		return false ;
@@ -94,9 +94,9 @@ public abstract class CEntityCondIsConstant extends CUnitaryEntityCondition
 //		{
 //			CDataEntity e = term.GetDataEntity(factory) ;
 //			CEntityCondEquals eq = factory.NewEntityCondEquals() ;
-//			CBaseEntityExpression op1 = factory.NewEntityExprTerminal(m_Reference);
+//			CBaseEntityExpression op1 = factory.NewEntityExprTerminal(reference);
 //			CBaseEntityExpression op2 = factory.NewEntityExprTerminal(e);
-//			if (m_bIsOpposite)
+//			if (bIsOpposite)
 //			{
 //				eq.SetDifferentCondition(op1, op2);
 //			}
@@ -109,18 +109,18 @@ public abstract class CEntityCondIsConstant extends CUnitaryEntityCondition
 //		else
 //		{
 //			CBaseEntityCondition.ConditionType type = CBaseEntityCondition.ConditionType.IS_EQUAL ;
-//			if (m_bIsOpposite)
+//			if (bIsOpposite)
 //			{
 //				type = CBaseEntityCondition.ConditionType.IS_DIFFERENT ;
 //			}
-//			CBaseEntityCondition cond = m_Reference.GetSpecialCondition(term.GetValue(), type, factory) ;
+//			CBaseEntityCondition cond = reference.GetSpecialCondition(term.GetValue(), type, factory) ;
 //			if (cond == null)
 //			{
 //				CDataEntity e = term.GetDataEntity(factory) ;
 //				CEntityCondEquals eq = factory.NewEntityCondEquals() ;
-//				CBaseEntityExpression op1 = factory.NewEntityExprTerminal(m_Reference);
+//				CBaseEntityExpression op1 = factory.NewEntityExprTerminal(reference);
 //				CBaseEntityExpression op2 = factory.NewEntityExprTerminal(e);
-//				if (m_bIsOpposite)
+//				if (bIsOpposite)
 //				{
 //					eq.SetDifferentCondition(op1, op2);
 //				}

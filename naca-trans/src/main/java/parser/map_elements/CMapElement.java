@@ -70,37 +70,37 @@ public class CMapElement extends CBMSElement
 		Element eMS = root.createElement("Map") ;
 		Element eAttr = root.createElement("Attributes") ;
 		eMS.appendChild(eAttr) ;
-		eAttr.setAttribute("SizeCol", String.valueOf(m_Size_Col)) ;
-		eAttr.setAttribute("SizeLine", String.valueOf(m_Size_Line)) ;
-		eAttr.setAttribute("Line", m_Line.m_Name) ;
-		eAttr.setAttribute("Column", m_Column.m_Name) ;
-		eAttr.setAttribute("Data", m_Data.m_Name) ;
-		eAttr.setAttribute("TIOAPFX", m_TIOAPFX.m_Name) ;
-		eAttr.setAttribute("OBFMT", m_OBFMT.m_Name) ;
-		for (int i=0; i<m_arrCTRL.size(); i++)
+		eAttr.setAttribute("SizeCol", String.valueOf(size_Col)) ;
+		eAttr.setAttribute("SizeLine", String.valueOf(size_Line)) ;
+		eAttr.setAttribute("Line", line.name) ;
+		eAttr.setAttribute("Column", column.name) ;
+		eAttr.setAttribute("Data", data.name) ;
+		eAttr.setAttribute("TIOAPFX", tIOAPFX.name) ;
+		eAttr.setAttribute("OBFMT", oBFMT.name) ;
+		for (int i=0; i<arrCTRL.size(); i++)
 		{
-			String val = m_arrCTRL.get(i) ;
+			String val = arrCTRL.get(i) ;
 			Element e = root.createElement("CTRL") ;
 			e.setAttribute("Value", val);
 			eAttr.appendChild(e) ; 
 		}
-		for (int i=0; i<m_arrMAPATTS.size(); i++)
+		for (int i=0; i<arrMAPATTS.size(); i++)
 		{
-			String val = m_arrMAPATTS.get(i) ;
+			String val = arrMAPATTS.get(i) ;
 			Element e = root.createElement("MAPATTS") ;
 			e.setAttribute("Value", val);
 			eAttr.appendChild(e) ; 
 		}
-		for (int i=0; i<m_arrJUSTIFY.size(); i++)
+		for (int i=0; i<arrJUSTIFY.size(); i++)
 		{
-			String val = m_arrJUSTIFY.get(i) ;
+			String val = arrJUSTIFY.get(i) ;
 			Element e = root.createElement("JUSTIFY") ;
 			e.setAttribute("Value", val);
 			eAttr.appendChild(e) ; 
 		}
-		for (int i=0; i<m_arrDSATTS.size(); i++)
+		for (int i=0; i<arrDSATTS.size(); i++)
 		{
-			String val = m_arrDSATTS.get(i) ;
+			String val = arrDSATTS.get(i) ;
 			Element e = root.createElement("DSATTS") ;
 			e.setAttribute("Value", val);
 			eAttr.appendChild(e) ; 
@@ -128,7 +128,7 @@ public class CMapElement extends CBMSElement
 				Transcoder.logError(getLine(), "Expecting NUMBER") ;
 				return false ;
 			}
-			m_Size_Line = tok.GetIntValue() ;
+			size_Line = tok.GetIntValue() ;
 			tok = GetNext() ;
 			if (tok.GetType() != CTokenType.COMMA)
 			{
@@ -141,7 +141,7 @@ public class CMapElement extends CBMSElement
 				Transcoder.logError(getLine(), "Expecting NUMBER") ;
 				return false ;
 			}
-			m_Size_Col = tok.GetIntValue() ;
+			size_Col = tok.GetIntValue() ;
 			tok = GetNext() ;
 			if (tok.GetType() != CTokenType.RIGHT_BRACKET)
 			{
@@ -155,7 +155,7 @@ public class CMapElement extends CBMSElement
 			CBaseToken tok = GetCurrentToken() ;
 			if (tok.GetConstant() == CBMSConstantList.NEXT)
 			{
-				m_Line = tok.GetConstant();
+				line = tok.GetConstant();
 			}
 			else
 			{
@@ -169,7 +169,7 @@ public class CMapElement extends CBMSElement
 			CBaseToken tok = GetCurrentToken() ;
 			if (tok.GetConstant() == CBMSConstantList.SAME)
 			{
-				m_Column = tok.GetConstant();
+				column = tok.GetConstant();
 			}
 			else
 			{
@@ -183,7 +183,7 @@ public class CMapElement extends CBMSElement
 			CBaseToken tok = GetCurrentToken() ;
 			if (tok.GetConstant() == CBMSConstantList.FIELD)
 			{
-				m_Data = tok.GetConstant();
+				data = tok.GetConstant();
 			}
 			else
 			{
@@ -197,7 +197,7 @@ public class CMapElement extends CBMSElement
 			CBaseToken tok = GetCurrentToken() ;
 			if (tok.GetConstant() == CBMSConstantList.NO)
 			{
-				m_OBFMT = tok.GetConstant();
+				oBFMT = tok.GetConstant();
 			}
 			else
 			{
@@ -211,7 +211,7 @@ public class CMapElement extends CBMSElement
 			CBaseToken tok = GetCurrentToken() ;
 			if (tok.GetConstant() == CBMSConstantList.YES)
 			{
-				m_TIOAPFX = tok.GetConstant();
+				tIOAPFX = tok.GetConstant();
 			}
 			else
 			{
@@ -239,7 +239,7 @@ public class CMapElement extends CBMSElement
 					tok.GetConstant() == CBMSConstantList.FRSET || 
 					tok.GetConstant() == CBMSConstantList.L80)
 				{
-					m_arrCTRL.add(tok.GetValue()) ;
+					arrCTRL.add(tok.GetValue()) ;
 				}
 				else if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 				{
@@ -274,7 +274,7 @@ public class CMapElement extends CBMSElement
 					tok.GetKeyword() == CBMSKeywordList.HILIGHT ||
 					tok.GetConstant() == CBMSConstantList.VALIDN)
 				{
-					m_arrMAPATTS.add(tok.GetValue()) ;
+					arrMAPATTS.add(tok.GetValue()) ;
 				}
 				else if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 				{
@@ -309,7 +309,7 @@ public class CMapElement extends CBMSElement
 					tok.GetKeyword() == CBMSKeywordList.HILIGHT ||
 					tok.GetConstant() == CBMSConstantList.VALIDN)
 				{
-					m_arrDSATTS.add(tok.GetValue()) ;
+					arrDSATTS.add(tok.GetValue()) ;
 				}
 				else if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 				{
@@ -344,7 +344,7 @@ public class CMapElement extends CBMSElement
 //					tok.GetConstant() == CBMSConstantList. ||
 					tok.GetConstant() == CBMSConstantList.BLANK)
 				{
-					m_arrJUSTIFY.add(tok.GetValue()) ;
+					arrJUSTIFY.add(tok.GetValue()) ;
 				}
 				else if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 				{
@@ -378,7 +378,7 @@ public class CMapElement extends CBMSElement
 //					tok.GetConstant() == CBMSConstantList. ||
 //					tok.GetConstant() == CBMSConstantList.)
 //				{
-//					m_arr.add(tok.add(tok.GetValue()) ;
+//					arr.add(tok.add(tok.GetValue()) ;
 //				}
 //				else if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 //				{
@@ -410,12 +410,12 @@ public class CMapElement extends CBMSElement
 		else if (kw == CBMSKeywordList.TRAILER)
 		{ // 
 			CBaseToken tok = GetCurrentToken() ;
-			m_Trailer = tok.GetValue();
+			trailer = tok.GetValue();
 			GetNext() ;
 		}
 		else
 		{
-			Transcoder.logError(getLine(), "Unexpecting keyword : " + kw.m_Name) ;
+			Transcoder.logError(getLine(), "Unexpecting keyword : " + kw.name) ;
 			return false ;
 		}
 		return true ;
@@ -442,9 +442,9 @@ public class CMapElement extends CBMSElement
 		}
 		
 		boolean bFirstForm = false ;
-		if (m_resStrings == null)
+		if (resStrings == null)
 		{
-			m_resStrings = factory.NewResourceString(m_Size_Line, m_Size_Col);
+			resStrings = factory.NewResourceString(size_Line, size_Col);
 			bFirstForm = true ;
 		}
 		CEntityResourceForm ef= null ; 
@@ -458,17 +458,17 @@ public class CMapElement extends CBMSElement
 //			{
 				ef = factory.NewEntityForm(getLine(), getName(), false) ;
 //			}
-		 	factory.m_ProgramCatalog.RegisterMap(ef) ;
-			ef.SetSize(m_Size_Col, m_Size_Line) ;
-			ef.m_Of = container ;
+		 	factory.programCatalog.RegisterMap(ef) ;
+			ef.SetSize(size_Col, size_Line) ;
+			ef.of = container ;
 		}
 		
-		if (m_bFindArrays)
+		if (bFindArrays)
 		{
 			ManageArray() ;
 		}
 		
-		ListIterator i = m_children.listIterator() ;
+		ListIterator i = children.listIterator() ;
 		try
 		{
 			Object o = i.next() ;
@@ -477,46 +477,46 @@ public class CMapElement extends CBMSElement
 			{
 				if (le.GetType()==EBMSElementType.FIELD)
 				{
-					le.SetResourceStrings(m_resStrings) ;
+					le.SetResourceStrings(resStrings) ;
 					CEntityResourceField field = (CEntityResourceField)le.DoSemanticAnalysis(ef, factory) ;
-					if (field.m_nLength>0)
+					if (field.nLength>0)
 					{
-						field.m_Of = container ;
-						if (field.m_nPosCol + field.m_nLength > m_Size_Col+1)
+						field.of = container ;
+						if (field.nPosCol + field.nLength > size_Col+1)
 						{
-							Transcoder.logWarn(0, "Form : "+m_Name+" / Field : "+
-									field.GetName()+"("+field.m_nPosLine+","+field.m_nPosCol+") is too long : "								
-									+field.m_nLength) ;
+							Transcoder.logWarn(0, "Form : "+name+" / Field : "+
+									field.GetName()+"("+field.nPosLine+","+field.nPosCol+") is too long : "								
+									+field.nLength) ;
 						}
 						if (!bFirstForm)
 						{
-							if (!m_resStrings.isExistingField(field.m_nPosLine, field.m_nPosCol, field.m_nLength))
+							if (!resStrings.isExistingField(field.nPosLine, field.nPosCol, field.nLength))
 							{
-								Transcoder.logWarn(0, "Form : "+m_Name+" / Field : "+
-										field.GetName()+"("+field.m_nPosCol+","+field.m_nPosLine+") does not match fields in other form") ;
+								Transcoder.logWarn(0, "Form : "+name+" / Field : "+
+										field.GetName()+"("+field.nPosCol+","+field.nPosLine+") does not match fields in other form") ;
 							}
 						}
 						if (bStore)
 						{
 							ef.AddField(field) ;
-							factory.m_ProgramCatalog.RegisterSymbolicField(field) ;
+							factory.programCatalog.RegisterSymbolicField(field) ;
 							String resId = "" ;
-							if (!field.m_csInitialValue.equals(""))
+							if (!field.csInitialValue.equals(""))
 							{
 								String name = field.GetName() ;
 								if (name.equals(""))
 								{
-									name = m_resStrings.CreateName(getName()) ;
+									name = resStrings.CreateName(getName()) ;
 									field.SetName(name) ;
 								}
 								resId = "STR-" + name.toUpperCase() ;
 							}
-							m_resStrings.SetResourceText(field.m_nPosLine, field.m_nPosCol, field.m_csInitialValue, getName(), resId, field.m_nLength) ;
-							field.m_csInitialValue = resId ;
+							resStrings.SetResourceText(field.nPosLine, field.nPosCol, field.csInitialValue, getName(), resId, field.nLength) ;
+							field.csInitialValue = resId ;
 						}
-						else // if (!field.m_csInitialValue.equals(""))
+						else // if (!field.csInitialValue.equals(""))
 						{
-							m_resStrings.SetResourceText(field.m_nPosLine, field.m_nPosCol, field.m_csInitialValue, getName(), field.m_nLength) ; // MAP name is used as langid
+							resStrings.SetResourceText(field.nPosLine, field.nPosCol, field.csInitialValue, getName(), field.nLength) ; // MAP name is used as langid
 						}
 					}
 				}
@@ -527,7 +527,7 @@ public class CMapElement extends CBMSElement
 					if (bStore)
 					{
 						ef.AddField(field) ;
-						factory.m_ProgramCatalog.RegisterSymbolicField(field) ;
+						factory.programCatalog.RegisterSymbolicField(field) ;
 					}
 				}
 				else if (le.GetType() == EBMSElementType.ARRAY)
@@ -537,7 +537,7 @@ public class CMapElement extends CBMSElement
 					if (bStore)
 					{
 						ef.AddField(field) ;
-						factory.m_ProgramCatalog.RegisterSymbolicField(field) ;
+						factory.programCatalog.RegisterSymbolicField(field) ;
 					}
 				}
 				le = (CBMSElement)i.next() ;
@@ -557,8 +557,8 @@ public class CMapElement extends CBMSElement
 	{
 		public int compare(CFieldElement e1, CFieldElement e2)
 		{
-			int line1 = e1.m_PosLine ;
-			int line2 = e2.m_PosLine ;
+			int line1 = e1.posLine ;
+			int line2 = e2.posLine ;
 			if (line1 < line2)
 			{
 				return -1 ;
@@ -569,8 +569,8 @@ public class CMapElement extends CBMSElement
 			}
 			else 
 			{
-				int col1 = e1.m_PosCol ;
-				int col2 = e2.m_PosCol ;
+				int col1 = e1.posCol ;
+				int col2 = e2.posCol ;
 				if (col1 < col2)
 				{
 					return -1 ;
@@ -591,7 +591,7 @@ public class CMapElement extends CBMSElement
 		LinkedList<CBaseElement> newList = new LinkedList<CBaseElement>() ;
 		FieldComparator comp = new FieldComparator() ;
 		SortedSet<CFieldElement> setFields =  new TreeSet<CFieldElement>(comp) ;
-		ListIterator<CBaseElement> iter = m_children.listIterator() ;
+		ListIterator<CBaseElement> iter = children.listIterator() ;
 		try
 		{
 			CBaseElement o = iter.next() ;
@@ -660,21 +660,21 @@ public class CMapElement extends CBMSElement
 				}
 			}
 		}
-		m_children = newList ;
+		children = newList ;
 	}
 
-	protected int m_Size_Col = 0 ;
-	protected int m_Size_Line = 0 ;
-	protected CReservedConstant m_Line = null ;
-	protected CReservedConstant m_Column = null ;
-	protected CReservedConstant m_Data = null ;
-	protected CReservedConstant m_OBFMT = null ;
-	protected CReservedConstant m_TIOAPFX = null ;
-	protected ArrayList<String> m_arrCTRL = new ArrayList<String>() ;
-	protected ArrayList<String> m_arrMAPATTS = new ArrayList<String>() ;
-	protected ArrayList<String> m_arrDSATTS = new ArrayList<String>() ;
-	protected ArrayList<String> m_arrJUSTIFY = new ArrayList<String>() ;
-	protected String m_Trailer = "" ;
+	protected int size_Col = 0 ;
+	protected int size_Line = 0 ;
+	protected CReservedConstant line = null ;
+	protected CReservedConstant column = null ;
+	protected CReservedConstant data = null ;
+	protected CReservedConstant oBFMT = null ;
+	protected CReservedConstant tIOAPFX = null ;
+	protected ArrayList<String> arrCTRL = new ArrayList<String>() ;
+	protected ArrayList<String> arrMAPATTS = new ArrayList<String>() ;
+	protected ArrayList<String> arrDSATTS = new ArrayList<String>() ;
+	protected ArrayList<String> arrJUSTIFY = new ArrayList<String>() ;
+	protected String trailer = "" ;
 	/* (non-Javadoc)
 	 * @see parser.CBMSElement#GetType()
 	 */
@@ -683,28 +683,28 @@ public class CMapElement extends CBMSElement
 		return EBMSElementType.MAP ;
 	}
 
-	protected CResourceStrings m_resStrings = null ;
+	protected CResourceStrings resStrings = null ;
 	public CResourceStrings GetResourceStrings()
 	{
-		return m_resStrings;
+		return resStrings;
 	}
 	public void SetResourceStrings(CResourceStrings res)
 	{
-		m_resStrings = res ;
+		resStrings = res ;
 		
 	}
 
 	public void setFindArrays()
 	{
-		m_bFindArrays = true ;
+		bFindArrays = true ;
 	}
-	protected boolean m_bFindArrays = false ;
+	protected boolean bFindArrays = false ;
 	
 	public CBMSElement loadTagParameters(Tag tagCurrent)
 	{
 		int nLine = tagCurrent.getValAsInt("Line");
 		setLine(nLine);
-		//m_Line = new CReservedConstant(null, "" + nLine);
+		//line = new CReservedConstant(null, "" + nLine);
 		setName(tagCurrent.getVal("Name"));
 		
 		return loadInternalTags(tagCurrent);
@@ -716,18 +716,18 @@ public class CMapElement extends CBMSElement
 		CBMSElement elem = null;
 		if(csName.equalsIgnoreCase("Attributes"))
 		{
-			m_Size_Col = tag.getValAsInt("SizeCol");
-			m_Size_Line = tag.getValAsInt("SizeLine");
+			size_Col = tag.getValAsInt("SizeCol");
+			size_Line = tag.getValAsInt("SizeLine");
 			
-			m_Line = new CReservedConstant(null, tag.getVal("Line"));
+			line = new CReservedConstant(null, tag.getVal("Line"));
 			
-			m_Column = new CReservedConstant(null, tag.getVal("Column"));
+			column = new CReservedConstant(null, tag.getVal("Column"));
 			
-			m_Data = new CReservedConstant(null, tag.getVal("Data"));
+			data = new CReservedConstant(null, tag.getVal("Data"));
 			
-			m_TIOAPFX = new CReservedConstant(null, tag.getVal("TIOAPFX"));
+			tIOAPFX = new CReservedConstant(null, tag.getVal("TIOAPFX"));
 			
-			m_OBFMT = new CReservedConstant(null, tag.getVal("OBFMT"));
+			oBFMT = new CReservedConstant(null, tag.getVal("OBFMT"));
 			
 			// Enum all sub tags		
 			TagCursor curChild = new TagCursor();
@@ -738,22 +738,22 @@ public class CMapElement extends CBMSElement
 				if(csChildName.equalsIgnoreCase("CTRL"))
 				{
 					String csVal = tagChild.getVal("Value");
-					m_arrCTRL.add(csVal);
+					arrCTRL.add(csVal);
 				}
 				else if(csChildName.equalsIgnoreCase("MAPATTS"))
 				{
 					String csVal = tagChild.getVal("Value");
-					m_arrMAPATTS.add(csVal);
+					arrMAPATTS.add(csVal);
 				}
 				else if(csChildName.equalsIgnoreCase("JUSTIFY"))
 				{
 					String csVal = tagChild.getVal("Value");
-					m_arrJUSTIFY.add(csVal);
+					arrJUSTIFY.add(csVal);
 				}
 				else if(csChildName.equalsIgnoreCase("DSATTS"))
 				{
 					String csVal = tagChild.getVal("Value");
-					m_arrDSATTS.add(csVal);
+					arrDSATTS.add(csVal);
 				}
 				tagChild = tag.getNextChild(curChild);
 			}
@@ -794,25 +794,25 @@ public class CMapElement extends CBMSElement
 		else
 			setName(csName);
 		
-		m_Size_Col = 100;
-		m_Size_Line = 30;		
-		m_Line = new CReservedConstant(null, "NEXT");		
-		m_Column = new CReservedConstant(null, "SAME");		
-		m_Data = new CReservedConstant(null, "FIELD");		
-		m_TIOAPFX = new CReservedConstant(null, "YES");		
-		m_OBFMT = new CReservedConstant(null, "NO");
+		size_Col = 100;
+		size_Line = 30;		
+		line = new CReservedConstant(null, "NEXT");		
+		column = new CReservedConstant(null, "SAME");		
+		data = new CReservedConstant(null, "FIELD");		
+		tIOAPFX = new CReservedConstant(null, "YES");		
+		oBFMT = new CReservedConstant(null, "NO");
 		
-		m_arrCTRL.add("HONEOM");
-		m_arrCTRL.add("FREEKB");
-		m_arrMAPATTS.add("COLOR");
-		m_arrMAPATTS.add("PS");
-		m_arrMAPATTS.add("HILIGHT");
-		m_arrMAPATTS.add("VALIDN");
-		m_arrJUSTIFY.add("LEFT");
-		m_arrDSATTS.add("COLOR");
-		m_arrDSATTS.add("PS");
-		m_arrDSATTS.add("HILIGHT");
-		m_arrDSATTS.add("VALIDN");
+		arrCTRL.add("HONEOM");
+		arrCTRL.add("FREEKB");
+		arrMAPATTS.add("COLOR");
+		arrMAPATTS.add("PS");
+		arrMAPATTS.add("HILIGHT");
+		arrMAPATTS.add("VALIDN");
+		arrJUSTIFY.add("LEFT");
+		arrDSATTS.add("COLOR");
+		arrDSATTS.add("PS");
+		arrDSATTS.add("HILIGHT");
+		arrDSATTS.add("VALIDN");
 	}
 
 }

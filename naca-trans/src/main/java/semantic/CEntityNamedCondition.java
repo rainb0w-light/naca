@@ -48,10 +48,10 @@ public abstract class CEntityNamedCondition extends CDataEntity
 
 //	public void SetCondition(CBaseEntityCondition cond)
 //	{
-//		m_Condition = cond ;
+//		condition = cond ;
 //	}
 	
-//	protected CBaseEntityCondition m_Condition = null ;
+//	protected CBaseEntityCondition condition = null ;
 
 	/* (non-Javadoc)
 	 * @see semantic.CBaseDataEntity#GetSpecialAssignment(parser.expression.CTerminal)
@@ -90,12 +90,12 @@ public abstract class CEntityNamedCondition extends CDataEntity
 	
 	public void AddInterval(CDataEntity eStart, CDataEntity eEnd)
 	{
-		m_arrEndIntervals.add(eEnd);
-		m_arrStartIntervals.add(eStart);
+		arrEndIntervals.add(eEnd);
+		arrStartIntervals.add(eStart);
 	}
 	public void AddValue(CDataEntity eValue)
 	{
-		m_arrValues.add(eValue);	
+		arrValues.add(eValue);	
 	}
 	public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory) 
 	{
@@ -110,12 +110,12 @@ public abstract class CEntityNamedCondition extends CDataEntity
 		return e ;
 	};
 	
-	protected Vector<CDataEntity> m_arrStartIntervals = new Vector<CDataEntity>() ;
-	protected Vector<CDataEntity> m_arrEndIntervals = new Vector<CDataEntity>() ;
-	protected Vector<CDataEntity> m_arrValues = new Vector<CDataEntity>() ;
+	protected Vector<CDataEntity> arrStartIntervals = new Vector<CDataEntity>() ;
+	protected Vector<CDataEntity> arrEndIntervals = new Vector<CDataEntity>() ;
+	protected Vector<CDataEntity> arrValues = new Vector<CDataEntity>() ;
 	public boolean ignore()
 	{
-		return m_arrStartIntervals.size() == 0 && m_arrEndIntervals.size() == 0 && m_arrValues.size() == 0 ;
+		return arrStartIntervals.size() == 0 && arrEndIntervals.size() == 0 && arrValues.size() == 0 ;
 	}
 	public String GetConstantValue()
 	{
@@ -124,9 +124,9 @@ public abstract class CEntityNamedCondition extends CDataEntity
 	public void Clear()
 	{
 		super.Clear();
-		m_arrStartIntervals.clear() ;
-		m_arrEndIntervals.clear() ;
-		m_arrValues.clear() ;
+		arrStartIntervals.clear() ;
+		arrEndIntervals.clear() ;
+		arrValues.clear() ;
 	}
 	
 }

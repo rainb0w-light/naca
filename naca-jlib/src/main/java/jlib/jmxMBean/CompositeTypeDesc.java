@@ -16,35 +16,35 @@ public class CompositeTypeDesc
 {
 	public CompositeTypeDesc(String csName, String csDescription)
 	{
-		m_csName = csName;
-		m_csDescription = csDescription;
+		csName = csName;
+		csDescription = csDescription;
 	}
 	
 	public void addItem(String csName, String csDescription, OpenType openType)
 	{
 		CompositeTypeDescItem itemDesc = new CompositeTypeDescItem(csName, csDescription, openType);
-		m_arrItemDesc.add(itemDesc);		
+		arrItemDesc.add(itemDesc);		
 	}
 	
 	public CompositeType generateCompositeType()
 	{
 		try
 		{
-			int nNbItems = m_arrItemDesc.size();
+			int nNbItems = arrItemDesc.size();
 			OpenType [] openTypes = new OpenType [nNbItems];
 			String [] itemTypeNames = new String [nNbItems];
 			String [] itemTypeDescriptions = new String [nNbItems];
 			for(int n=0; n<nNbItems; n++)
 			{
-				CompositeTypeDescItem itemDesc = m_arrItemDesc.get(n);
-				openTypes[n] = itemDesc.m_openType;
-				itemTypeNames[n] = itemDesc.m_csName;
-				itemTypeDescriptions[n] = itemDesc.m_csDescription;			
+				CompositeTypeDescItem itemDesc = arrItemDesc.get(n);
+				openTypes[n] = itemDesc.openType;
+				itemTypeNames[n] = itemDesc.csName;
+				itemTypeDescriptions[n] = itemDesc.csDescription;			
 			}
 			
 			CompositeType compositeType = new CompositeType(
-				m_csName,
-			    m_csDescription,
+				csName,
+			    csDescription,
 			    itemTypeNames,
 			    itemTypeDescriptions,
 			    openTypes);
@@ -58,7 +58,7 @@ public class CompositeTypeDesc
 	}
 	
 	
-	private String m_csName = null;
-	private String m_csDescription = null;
-	private ArrayList<CompositeTypeDescItem> m_arrItemDesc = new ArrayList<CompositeTypeDescItem>(); 
+	private String csName = null;
+	private String csDescription = null;
+	private ArrayList<CompositeTypeDescItem> arrItemDesc = new ArrayList<CompositeTypeDescItem>(); 
 }

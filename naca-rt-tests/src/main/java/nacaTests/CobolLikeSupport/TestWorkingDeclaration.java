@@ -224,7 +224,7 @@ public class TestWorkingDeclaration extends OnlineProgram
 		acBuffer[5] = 'F';
 
 		Var v2Before = TUAZONE_B_Redef1.getAt(2);
-		TUAZONE.setCustomBuffer(acBuffer);	// was varLinkageSection.set(CallParam.m_var)
+		TUAZONE.setCustomBuffer(acBuffer);	// was varLinkageSection.set(CallParam.var)
 		Var v2 = TUAZONE_B_Redef1.getAt(2);
 		Var v1 = TUAZONE_B_Redef1.getAt(1);		
 		String cs = TUAZONE.toString();

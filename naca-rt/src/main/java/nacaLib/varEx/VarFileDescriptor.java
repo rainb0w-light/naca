@@ -20,18 +20,18 @@ public class VarFileDescriptor extends FileDescriptor {
 		super(env, "");
 		this.env = env;
 		this.var = var;
-		m_fileManagerEntry = new VarFileManagerEntry();
+		fileManagerEntry = new VarFileManagerEntry();
 	}
 
 	private String getVarName() {
-		return m_csLogicalName = var.getString().trim();
+		return csLogicalName = var.getString().trim();
 	}
 
 	@Override
 	public String getLogicalName()
 	{
-		if("".equals(m_csLogicalName)) {
-			m_fileManagerEntry = env.getFileManagerEntry(getVarName());
+		if("".equals(csLogicalName)) {
+			fileManagerEntry = env.getFileManagerEntry(getVarName());
 		}
 		return super.getLogicalName();
 	}

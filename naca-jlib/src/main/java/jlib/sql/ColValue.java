@@ -14,14 +14,14 @@ public abstract class ColValue
 {
 	public ColValue(String csName, String csReplacement)
 	{
-		m_csName = csName;
-		m_csReplacement = csReplacement;
+		csName = csName;
+		csReplacement = csReplacement;
 	}
 	
 	public ColValue(String csName)
 	{
-		m_csName = csName;
-		m_csReplacement = "?";
+		csName = csName;
+		csReplacement = "?";
 	}
 	
 	abstract String getDumpValueAsString();
@@ -55,41 +55,41 @@ public abstract class ColValue
 	
 	boolean hasName(String csKey)
 	{
-		if(m_csName.equalsIgnoreCase(csKey))
+		if(csName.equalsIgnoreCase(csKey))
 			return true;
 		return false;
 	}
 	
 	boolean isOrder(int nOrder)
 	{
-		if(m_nOrder == nOrder)
+		if(nOrder == nOrder)
 			return true;
 		return false;
 	}
 	
 	void setOrder(int n)
 	{
-		m_nOrder = n;
+		nOrder = n;
 	}
 	
 	public String toString()
 	{
-		return "[" + getType() + "] " + m_csName + "='" + getValueAsString() + "'";
+		return "[" + getType() + "] " + csName + "='" + getValueAsString() + "'";
 	}
 	
 	public String getName()
 	{
-		return m_csName;
+		return csName;
 	}
 	
 	public String getNameUppercase()
 	{
-		return m_csName.toUpperCase();
+		return csName.toUpperCase();
 	}
 
 	public String getReplacement()
 	{
-		return m_csReplacement;
+		return csReplacement;
 	}
 	
 	public boolean canSetColParam()
@@ -102,7 +102,7 @@ public abstract class ColValue
 		return false;
 	}
 	
-	String m_csName = null;
-	String m_csReplacement=null;
-	int m_nOrder = 0;
+	String csName = null;
+	String csReplacement=null;
+	int nOrder = 0;
 }

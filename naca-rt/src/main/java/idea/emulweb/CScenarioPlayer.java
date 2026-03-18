@@ -49,83 +49,83 @@ public class CScenarioPlayer extends CJMapObject
 	}
 	public class CScenarioWarningDetail extends CJMapObject
 	{
-		public Element m_PageField;
-		public Element m_ScenarioField;
-		public EditedField m_PageFieldDetails;
-		public EditedField m_ScenarioFieldDetails;
+		public Element pageField;
+		public Element scenarioField;
+		public EditedField pageFieldDetails;
+		public EditedField scenarioFieldDetails;
 
 	}
 	public CScenarioPlayer(String filepath, OnlineSession session)
 	{
-		m_session = session ;
-		m_FilePath = filepath ;
-		m_docScenario = XMLUtil.LoadXML(filepath) ;
-		if (m_docScenario == null)
+		session = session ;
+		filePath = filepath ;
+		docScenario = XMLUtil.LoadXML(filepath) ;
+		if (docScenario == null)
 		{
-			m_lstPages = null ;
+			lstPages = null ;
 		}
 		else
 		{
-			String title = m_docScenario.getDocumentElement().getNodeName() ;
+			String title = docScenario.getDocumentElement().getNodeName() ;
 			String csXMLItemName = "" ;
 			if (title.equalsIgnoreCase("datarecord"))
 			{
-				m_modeRecord = ScenarioRecordDataMode.MODE_WEB ;
+				modeRecord = ScenarioRecordDataMode.MODE_WEB ;
 				csXMLItemName = "form" ;
 			}
 			else if (title.equalsIgnoreCase("ST3270Catch"))
 			{
-				m_modeRecord = ScenarioRecordDataMode.MODE_3270 ;
+				modeRecord = ScenarioRecordDataMode.MODE_3270 ;
 				csXMLItemName = "Cycle" ;
 			}
 			else
 			{
 				throw new RuntimeException() ;
 			}
-			m_lstPages = m_docScenario.getElementsByTagName(csXMLItemName) ;
-			m_nCurrentPage = 0 ;
+			lstPages = docScenario.getElementsByTagName(csXMLItemName) ;
+			nCurrentPage = 0 ;
 		}
 	}
-	protected OnlineSession m_session = null ;
-	protected String m_FilePath = "" ;
+	protected OnlineSession session = null ;
+	protected String filePath = "" ;
 		/**
-	 * @param m_docScenario
+	 * @param docScenario
 	 */
 
-	protected Document m_docScenario = null ;
-	protected NodeList m_lstPages = null ;
-	protected int m_nPlayerState = 0 ;
-	protected int m_nCurrentPage = 0 ;
-	protected ScenarioRecordDataMode m_modeRecord = null ; 
-//	protected String m_csScenarioFilePath = "" ;
+	protected Document docScenario = null ;
+	protected NodeList lstPages = null ;
+	protected int nPlayerState = 0 ;
+	protected int nCurrentPage = 0 ;
+	protected ScenarioRecordDataMode modeRecord = null ; 
+//	protected String csScenarioFilePath = "" ;
 	
 	public void rewindScenario()
 	{
-		m_nPlayerState = 0 ;
-		m_nCurrentPage = 0 ;
+		nPlayerState = 0 ;
+		nCurrentPage = 0 ;
 	}
 	
 	protected Document getCurrentPage()
 	{
 		Document docData = XMLUtil.CreateDocument() ;
-		if (m_nCurrentPage>=0 && m_nCurrentPage<m_lstPages.getLength())
+		if (nCurrentPage>=0 && nCurrentPage<lstPages.getLength())
 		{
-			if (m_modeRecord == ScenarioRecordDataMode.MODE_WEB)
+			if (modeRecord == ScenarioRecordDataMode.MODE_WEB)
 			{
-				Element eForm = (Element)m_lstPages.item(m_nCurrentPage) ;
+				Element eForm = (Element)lstPages.item(nCurrentPage) ;
 				Element e = (Element)docData.importNode(eForm, true) ;
 				docData.appendChild(e);
 			}
-			else if (m_modeRecord == ScenarioRecordDataMode.MODE_3270)
+			else if (modeRecord == ScenarioRecordDataMode.MODE_3270)
 			{
-				Element eCycle = (Element)m_lstPages.item(m_nCurrentPage) ;
+				Element eCycle = (Element)lstPages.item(nCurrentPage) ;
 				Element eForm = docData.createElement("form") ;
 				docData.appendChild(eForm) ;
 				
 				String csKeyPressed = SelectKeyPressedFrom3270(eCycle) ;
 				eForm.setAttribute("keypressed", csKeyPressed) ;
 
-				Document xmlOutput = m_session.getXMLOutput();
+				Document xmlOutput = session.getXMLOutput();
 				String page = getPageNameFromXMLOutput(xmlOutput) ;
 				eForm.setAttribute("page", page) ;
 				
@@ -247,7 +247,7 @@ public class CScenarioPlayer extends CJMapObject
 			KeyPressed k = KeyPressed.getKey(val) ;
 			if (k != null)
 			{
-				return k.m_csValue ;
+				return k.csValue ;
 			}
 			else
 			{
@@ -262,35 +262,35 @@ public class CScenarioPlayer extends CJMapObject
 	 */
 	public boolean isPlayingScenario()
 	{
-		return m_docScenario != null && m_nCurrentPage < m_lstPages.getLength() ;
+		return docScenario != null && nCurrentPage < lstPages.getLength() ;
 	}
 	/**
 	 * @return
 	 */
 	public boolean isCallProgram()
 	{
-		return m_nPlayerState == ScenarioPlayerState.CALL_PROGRAM;
+		return nPlayerState == ScenarioPlayerState.CALL_PROGRAM;
 	}
 	/**
 	 * 
 	 */
 	public void StepScenario()
 	{
-		if (m_nPlayerState == 0)
+		if (nPlayerState == 0)
 		{ // initial state : call program for first page
-			m_nPlayerState = ScenarioPlayerState.CALL_PROGRAM;
+			nPlayerState = ScenarioPlayerState.CALL_PROGRAM;
 		}
-		else if (m_nPlayerState == ScenarioPlayerState.CALL_PROGRAM)
+		else if (nPlayerState == ScenarioPlayerState.CALL_PROGRAM)
 		{	// program has been called, show the page with new fields
-			m_nPlayerState = ScenarioPlayerState.SHOW_PAGE ; 
+			nPlayerState = ScenarioPlayerState.SHOW_PAGE ; 
 			Document data = getCurrentPage() ;
-			m_session.setXMLData(data) ;
+			session.setXMLData(data) ;
 		}
-		else if (m_nPlayerState == ScenarioPlayerState.SHOW_PAGE)
+		else if (nPlayerState == ScenarioPlayerState.SHOW_PAGE)
 		{ // the new page has been shown, call program with real values
-			m_nPlayerState = ScenarioPlayerState.CALL_PROGRAM ;
+			nPlayerState = ScenarioPlayerState.CALL_PROGRAM ;
 			Document data = getCurrentPage() ;
-			CMapFieldLoader fieldLoader = m_session.getInputWrapper() ;
+			CMapFieldLoader fieldLoader = session.getInputWrapper() ;
 			KeyPressed kp = fieldLoader.getKeyPressed() ;
 			if (kp == KeyPressed.ENTER)
 			{ // replace key pressed by scenario key pressed
@@ -303,28 +303,28 @@ public class CScenarioPlayer extends CJMapObject
 			}
 			else
 			{	// user hit some key : stop scenario
-				m_docScenario = null ;
-				m_lstPages = null ;
-				m_nCurrentPage = 0 ;
-				m_nPlayerState = 0 ;
+				docScenario = null ;
+				lstPages = null ;
+				nCurrentPage = 0 ;
+				nPlayerState = 0 ;
 				return ;
 			}
 			
-			m_nCurrentPage ++ ; 
+			nCurrentPage ++ ; 
 			
 		} 
 	}
 	public String getDisplay()
 	{
-		if (m_docScenario != null && m_lstPages != null)
+		if (docScenario != null && lstPages != null)
 		{
-			if (m_nCurrentPage < m_lstPages.getLength())
+			if (nCurrentPage < lstPages.getLength())
 			{
-				if (m_nPlayerState == ScenarioPlayerState.CALL_PROGRAM)
+				if (nPlayerState == ScenarioPlayerState.CALL_PROGRAM)
 				{	// program has been called, show the page with new fields
 					return "Replay program call" ;
 				}
-				else if (m_nPlayerState == ScenarioPlayerState.SHOW_PAGE)
+				else if (nPlayerState == ScenarioPlayerState.SHOW_PAGE)
 				{ // the new page has been shown, call program with real values
 					return "Fill Fields" ;
 				}
@@ -337,7 +337,7 @@ public class CScenarioPlayer extends CJMapObject
 	 */
 	public boolean isShowPage()
 	{
-		return m_nPlayerState == ScenarioPlayerState.SHOW_PAGE ;
+		return nPlayerState == ScenarioPlayerState.SHOW_PAGE ;
 	}
 
 	/**
@@ -345,17 +345,17 @@ public class CScenarioPlayer extends CJMapObject
 	 */
 	public int nextPage()
 	{
-		m_nCurrentPage ++ ;
-		return m_nCurrentPage ;
+		nCurrentPage ++ ;
+		return nCurrentPage ;
 	}
 
-	protected Hashtable<String, CScenarioWarningDetail> m_tabScenarioWarningDetails = new Hashtable<String, CScenarioWarningDetail>() ;
+	protected Hashtable<String, CScenarioWarningDetail> tabScenarioWarningDetails = new Hashtable<String, CScenarioWarningDetail>() ;
 	/**
 	 * @param xmlOutput
 	 */
 	public void CheckOutput(Document xmlOutput)
 	{
-		if (m_docScenarioPlayingLog == null)
+		if (docScenarioPlayingLog == null)
 		{
 			doCheckOutput(xmlOutput) ;
 		}
@@ -367,11 +367,11 @@ public class CScenarioPlayer extends CJMapObject
 
 	private void doLogPlaying(Document xmlOutput)
 	{	
-		Element ePage = m_docScenarioPlayingLog.createElement("Output") ;
-		m_docScenarioPlayingLog.getDocumentElement().appendChild(ePage) ;
+		Element ePage = docScenarioPlayingLog.createElement("Output") ;
+		docScenarioPlayingLog.getDocumentElement().appendChild(ePage) ;
 		String name = getPageNameFromXMLOutput(xmlOutput) ;
 		ePage.setAttribute("program", name) ;
-		if (m_modeRecord == ScenarioRecordDataMode.MODE_3270)
+		if (modeRecord == ScenarioRecordDataMode.MODE_3270)
 		{
 			String lang = xmlOutput.getDocumentElement().getAttribute("lang") ;
 			Hashtable<String, EditedField> tabPageFields = new Hashtable<String, EditedField>() ;
@@ -429,7 +429,7 @@ public class CScenarioPlayer extends CJMapObject
 				tabPageFields.put(csKey, f) ;
 			}
 			
-			Element eCycle = (Element)m_lstPages.item(m_nCurrentPage) ;
+			Element eCycle = (Element)lstPages.item(nCurrentPage) ;
 			lst = eCycle.getElementsByTagName("Field") ;
 			if (lst.getLength() == 0)
 			{
@@ -455,7 +455,7 @@ public class CScenarioPlayer extends CJMapObject
 				EditedField ff = tabPageFields.get(csKey) ;
 				if (ff != null)
 				{
-					Element e = m_docScenarioPlayingLog.createElement("Field") ;
+					Element e = docScenarioPlayingLog.createElement("Field") ;
 					ePage.appendChild(e) ;
 					e.setAttribute("name", ff.name) ;
 					e.setAttribute("key", ff.posline+"."+ff.poscol) ;
@@ -471,12 +471,12 @@ public class CScenarioPlayer extends CJMapObject
 
 	private void doCheckOutput(Document xmlOutput)
 	{
-		m_tabScenarioWarningDetails.clear() ;
-		if (m_modeRecord == ScenarioRecordDataMode.MODE_3270)
+		tabScenarioWarningDetails.clear() ;
+		if (modeRecord == ScenarioRecordDataMode.MODE_3270)
 		{
 			String lang = xmlOutput.getDocumentElement().getAttribute("lang") ;
 			Hashtable<String, EditedField> tabPageFields = new Hashtable<String, EditedField>() ;
-			Element eCycle = (Element)m_lstPages.item(m_nCurrentPage) ;
+			Element eCycle = (Element)lstPages.item(nCurrentPage) ;
 			NodeList lst = eCycle.getElementsByTagName("Field") ;
 			if (lst.getLength() == 0)
 			{
@@ -533,13 +533,13 @@ public class CScenarioPlayer extends CJMapObject
 						}
 						eEdit.getParentNode().insertBefore(eWarn, eEdit) ;
 						CScenarioWarningDetail detail = new CScenarioWarningDetail() ;
-						detail.m_PageField = eEdit ;
-						detail.m_ScenarioField = ff.field ;
-						detail.m_PageFieldDetails = f ;
-						detail.m_ScenarioFieldDetails = ff ;
+						detail.pageField = eEdit ;
+						detail.scenarioField = ff.field ;
+						detail.pageFieldDetails = f ;
+						detail.scenarioFieldDetails = ff ;
 						String id = "EDIT" + i ;
 						eWarn.setAttribute("id", id) ;
-						m_tabScenarioWarningDetails.put(id, detail) ;
+						tabScenarioWarningDetails.put(id, detail) ;
 					}
 					tabPageFields.remove(csKey) ;
 				}
@@ -577,13 +577,13 @@ public class CScenarioPlayer extends CJMapObject
 						}
 						eEdit.getParentNode().insertBefore(eWarn, eEdit) ;
 						CScenarioWarningDetail detail = new CScenarioWarningDetail() ;
-						detail.m_PageField = eEdit ;
-						detail.m_ScenarioField = ff.field ;
-						detail.m_PageFieldDetails = f ;
-						detail.m_ScenarioFieldDetails = ff ;
+						detail.pageField = eEdit ;
+						detail.scenarioField = ff.field ;
+						detail.pageFieldDetails = f ;
+						detail.scenarioFieldDetails = ff ;
 						String id = "LABEL" + i ;
 						eWarn.setAttribute("id", id) ;
-						m_tabScenarioWarningDetails.put(id, detail) ;
+						tabScenarioWarningDetails.put(id, detail) ;
 						if (f.name.equals(""))
 						{
 							f.name = "(label)" ;
@@ -625,13 +625,13 @@ public class CScenarioPlayer extends CJMapObject
 						}
 						eEdit.getParentNode().insertBefore(eWarn, eEdit) ;
 						CScenarioWarningDetail detail = new CScenarioWarningDetail() ;
-						detail.m_PageField = eEdit ;
-						detail.m_ScenarioField = ff.field ;
-						detail.m_PageFieldDetails = f ;
-						detail.m_ScenarioFieldDetails = ff ;
+						detail.pageField = eEdit ;
+						detail.scenarioField = ff.field ;
+						detail.pageFieldDetails = f ;
+						detail.scenarioFieldDetails = ff ;
 						String id = "TITLE" + i ;
 						eWarn.setAttribute("id", id) ;
-						m_tabScenarioWarningDetails.put(id, detail) ;
+						tabScenarioWarningDetails.put(id, detail) ;
 					}
 					tabPageFields.remove(csKey) ;
 				}
@@ -693,7 +693,7 @@ public class CScenarioPlayer extends CJMapObject
 	 */
 	public CScenarioWarningDetail getWarningDetail(String sceId)
 	{
-		return m_tabScenarioWarningDetails.get(sceId) ;
+		return tabScenarioWarningDetails.get(sceId) ;
 	}
 
 	/**
@@ -701,13 +701,13 @@ public class CScenarioPlayer extends CJMapObject
 	 */
 	public void IgnoreWarning(String sceId)
 	{
-		CScenarioWarningDetail detail = m_tabScenarioWarningDetails.get(sceId) ;
+		CScenarioWarningDetail detail = tabScenarioWarningDetails.get(sceId) ;
 		if (detail != null)
 		{
-			detail.m_ScenarioField.setAttribute("mutable", "true") ;
-			if (XMLUtil.ExportXML(m_docScenario, m_FilePath))
+			detail.scenarioField.setAttribute("mutable", "true") ;
+			if (XMLUtil.ExportXML(docScenario, filePath))
 			{
-				detail.m_ScenarioFieldDetails.mutable = true ;
+				detail.scenarioFieldDetails.mutable = true ;
 			}
 		}
 	}
@@ -717,8 +717,8 @@ public class CScenarioPlayer extends CJMapObject
 	 */
 	public void setDocumentTracing(Document docOutput)
 	{
-		m_docScenarioPlayingLog = docOutput ;
+		docScenarioPlayingLog = docOutput ;
 	}
-	protected Document m_docScenarioPlayingLog = null ;
+	protected Document docScenarioPlayingLog = null ;
 
 }

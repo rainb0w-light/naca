@@ -38,26 +38,26 @@ public abstract class CEntityCondition extends CBaseActionEntity
 	
 	public void SetCondition(CBaseEntityCondition exp, CEntityBloc ifyes, CEntityBloc ifnot)
 	{
-		m_Condition = exp ;
+		condition = exp ;
 		if (exp != null)
-			m_Condition.SetParent(this);
-		m_ElseBloc = ifnot ;
-		m_ThenBloc = ifyes ;
+			condition.SetParent(this);
+		elseBloc = ifnot ;
+		thenBloc = ifyes ;
 	} 
-	protected CBaseEntityCondition m_Condition = null ;
-	protected CEntityBloc m_ElseBloc = null ;
-	protected CEntityBloc m_ThenBloc = null ;
-	protected boolean m_bAlternativeCondition = false ;
+	protected CBaseEntityCondition condition = null ;
+	protected CEntityBloc elseBloc = null ;
+	protected CEntityBloc thenBloc = null ;
+	protected boolean bAlternativeCondition = false ;
 	
 	public boolean ignore()
 	{
-		return m_Condition == null || m_Condition.ignore() || ((m_ElseBloc == null || m_ElseBloc.ignore()) && m_ThenBloc.ignore()) ;
+		return condition == null || condition.ignore() || ((elseBloc == null || elseBloc.ignore()) && thenBloc.ignore()) ;
 	}
 	public void UpdateCondition(CBaseEntityCondition condition, CBaseEntityCondition newCond)
 	{
-		if (m_Condition == condition)
+		if (condition == condition)
 		{
-			m_Condition = newCond ;
+			condition = newCond ;
 		}
 	}
 	/* (non-Javadoc)
@@ -66,21 +66,21 @@ public abstract class CEntityCondition extends CBaseActionEntity
 	public void Clear()
 	{
 		super.Clear();
-		if (m_Condition != null)
-			m_Condition.Clear() ;
-		if (m_ElseBloc != null)
+		if (condition != null)
+			condition.Clear() ;
+		if (elseBloc != null)
 		{
-			m_ElseBloc.Clear() ;
+			elseBloc.Clear() ;
 		}
-		m_ThenBloc.Clear() ;
-		m_Condition = null ;
-		m_ElseBloc = null ;
-		m_ThenBloc = null ;
+		thenBloc.Clear() ;
+		condition = null ;
+		elseBloc = null ;
+		thenBloc = null ;
 	}
 	public boolean hasExplicitGetOut()
 	{
-		boolean bExplicit = m_ThenBloc.hasExplicitGetOut() ;
-		bExplicit &= m_ElseBloc != null && m_ElseBloc.hasExplicitGetOut() ;
+		boolean bExplicit = thenBloc.hasExplicitGetOut() ;
+		bExplicit &= elseBloc != null && elseBloc.hasExplicitGetOut() ;
 		return bExplicit ;
 	}
 
@@ -90,12 +90,12 @@ public abstract class CEntityCondition extends CBaseActionEntity
 	 */
 	public void SetAlternativeCondition(CBaseEntityCondition exp, CEntityBloc blocthen)
 	{
-		m_Condition = exp ;
+		condition = exp ;
 		if (exp != null)
-			m_Condition.SetParent(this);
-		m_ElseBloc = null ;
-		m_ThenBloc = blocthen ;
-		m_bAlternativeCondition  = true ;
+			condition.SetParent(this);
+		elseBloc = null ;
+		thenBloc = blocthen ;
+		bAlternativeCondition  = true ;
 	}
 
 	/**
@@ -103,47 +103,47 @@ public abstract class CEntityCondition extends CBaseActionEntity
 	 */
 	public void addAlternativeCondition(CBaseLanguageEntity e)
 	{
-		if (m_arrAlternativeConditions == null)
-			m_arrAlternativeConditions = new Vector<CBaseLanguageEntity>() ;
-		m_arrAlternativeConditions.add(e) ;
+		if (arrAlternativeConditions == null)
+			arrAlternativeConditions = new Vector<CBaseLanguageEntity>() ;
+		arrAlternativeConditions.add(e) ;
 	}
-	protected Vector<CBaseLanguageEntity> m_arrAlternativeConditions = null;
+	protected Vector<CBaseLanguageEntity> arrAlternativeConditions = null;
 
 	// ==================== ST4 Template Accessors ====================
 
 	public CBaseEntityCondition getCondition()
 	{
-		return m_Condition;
+		return condition;
 	}
 
 	public CEntityBloc getThenBloc()
 	{
-		return m_ThenBloc;
+		return thenBloc;
 	}
 
 	public CEntityBloc getElseBloc()
 	{
-		return m_ElseBloc;
+		return elseBloc;
 	}
 
 	public boolean isAlternativeCondition()
 	{
-		return m_bAlternativeCondition;
+		return bAlternativeCondition;
 	}
 
 	public Vector<CBaseLanguageEntity> getAlternativeConditions()
 	{
-		return m_arrAlternativeConditions;
+		return arrAlternativeConditions;
 	}
 
 	public boolean isConditionIgnored()
 	{
-		return m_Condition == null || m_Condition.ignore();
+		return condition == null || condition.ignore();
 	}
 
 	public boolean shouldRenderElseBlock()
 	{
-		return m_ElseBloc != null && !m_ElseBloc.ignore() && isConditionIgnored();
+		return elseBloc != null && !elseBloc.ignore() && isConditionIgnored();
 	}
 
 }

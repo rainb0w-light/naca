@@ -14,10 +14,10 @@ public class Pic9Comp0BufferSupport
 //	
 //	void set(VarBufferPos buffer, int nPosition, int nNbDigitInteger, int nTotalSize)
 //	{		
-//		m_buffer = buffer;
-//		m_nPosition = nPosition;
-//		m_nTotalSize = nTotalSize;
-//		m_nNbDigitInteger = nNbDigitInteger;
+//		buffer = buffer;
+//		nPosition = nPosition;
+//		nTotalSize = nTotalSize;
+//		nNbDigitInteger = nNbDigitInteger;
 //	}
 
 
@@ -37,7 +37,7 @@ public class Pic9Comp0BufferSupport
 		int nPosDigit = nPosition+nOffset+nNbDigitInteger-1;
 		if(bSigned && !bSignLeading)
 		{
-			buffer.m_acBuffer[nPosDigit] = cSign;
+			buffer.acBuffer[nPosDigit] = cSign;
 			//buffer.setCharAt(nPosDigit, cSign);
 			nPosDigit--;
 		}
@@ -45,7 +45,7 @@ public class Pic9Comp0BufferSupport
 		do
 		{
 			char cDigit = (char)((nValue % 10) + '0');
-			buffer.m_acBuffer[nPosDigit] = cDigit;
+			buffer.acBuffer[nPosDigit] = cDigit;
 			//buffer.setCharAt(nPosDigit, cDigit);
 			nPosDigit--;
 			nValue /= 10;
@@ -55,7 +55,7 @@ public class Pic9Comp0BufferSupport
 		// Fill leftmost 0
 		while(nPosDigit >= nMinIndex)
 		{
-			buffer.m_acBuffer[nPosDigit] = '0';
+			buffer.acBuffer[nPosDigit] = '0';
 			//buffer.setCharAt(nPosDigit, '0');
 			nPosDigit--;
 		}
@@ -63,7 +63,7 @@ public class Pic9Comp0BufferSupport
 		// Add optional sign		
 		if(bSigned && bSignLeading)
 		{
-			buffer.m_acBuffer[nPosition+nOffset] = cSign;
+			buffer.acBuffer[nPosition+nOffset] = cSign;
 			//buffer.setCharAt(nPosition+nOffset, cSign);
 		}
 	}
@@ -84,7 +84,7 @@ public class Pic9Comp0BufferSupport
 		int nPosDigit = nPosition+nOffset+nNbDigitInteger-1;
 		if(bSigned && !bSignLeading)
 		{
-			buffer.m_acBuffer[nPosDigit] = cSign;
+			buffer.acBuffer[nPosDigit] = cSign;
 			//buffer.setCharAt(nPosDigit, cSign);
 			nPosDigit--;
 		}
@@ -92,7 +92,7 @@ public class Pic9Comp0BufferSupport
 		do
 		{
 			char cDigit = (char)((lValue % 10) + '0');
-			buffer.m_acBuffer[nPosDigit] = cDigit;
+			buffer.acBuffer[nPosDigit] = cDigit;
 			//buffer.setCharAt(nPosDigit, cDigit);
 			nPosDigit--;
 			lValue /= 10;
@@ -102,7 +102,7 @@ public class Pic9Comp0BufferSupport
 		// Fill leftmost 0
 		while(nPosDigit >= nMinIndex)
 		{
-			buffer.m_acBuffer[nPosDigit] = '0';
+			buffer.acBuffer[nPosDigit] = '0';
 			//buffer.setCharAt(nPosDigit, '0');
 			nPosDigit--;
 		}
@@ -110,7 +110,7 @@ public class Pic9Comp0BufferSupport
 		// Add optional sign		
 		if(bSigned && bSignLeading)
 		{
-			buffer.m_acBuffer[nPosition+nOffset] = cSign;
+			buffer.acBuffer[nPosition+nOffset] = cSign;
 			//buffer.setCharAt(nPosition+nOffset, cSign);
 		}
 	}
@@ -177,14 +177,14 @@ public class Pic9Comp0BufferSupport
 		
 		int nMinPosition = nPosition + nOffset;
 		int nDigitPosition = nMinPosition + nNibblePos;	
-		buffer.m_acBuffer[nDigitPosition] = (char)nDigitWithSign;
+		buffer.acBuffer[nDigitPosition] = (char)nDigitWithSign;
 		//buffer.setCharAt(nDigitPosition, (char)nDigitWithSign);
 		nDigitPosition--;
 		nValue /= 10;		
 		while (nValue != 0 && nDigitPosition >= nMinPosition)
 		{
 			char cDigit = (char)((nValue % 10) + '0');
-			buffer.m_acBuffer[nDigitPosition] = cDigit;
+			buffer.acBuffer[nDigitPosition] = cDigit;
 			//buffer.setCharAt(nDigitPosition, cDigit);
 			nDigitPosition--;
 			nValue /= 10;
@@ -194,7 +194,7 @@ public class Pic9Comp0BufferSupport
 //			buffer.fillBlankComp0AtOffset(nDigitPosition - nMinPosition + 1, nOffset);
 		while(nDigitPosition >= nMinPosition)
 		{
-			buffer.m_acBuffer[nDigitPosition] = '0';
+			buffer.acBuffer[nDigitPosition] = '0';
 			//buffer.setCharAt(nDigitPosition, '0');
 			nDigitPosition--;			
 		}
@@ -215,7 +215,7 @@ public class Pic9Comp0BufferSupport
 		do
 		{
 			char cDigit = (char)((nValue % 10) + '0');
-			buffer.m_acBuffer[nDestPos] = cDigit;
+			buffer.acBuffer[nDestPos] = cDigit;
 			//buffer.setCharAt(nPosition+nNibblePos+nOffset, cDigit);
 			nNibblePos--;
 			nDestPos--;
@@ -324,9 +324,9 @@ public class Pic9Comp0BufferSupport
 //		buffer.setCharAt(nPosition+nNibblePos+nOffset, cDigitValue);
 //	}
 	
-//	private VarBufferPos m_buffer = null;
-//	private int m_nNibblePos = 0;
-//	private int m_nTotalSize = 0;
-//	private int m_nNbDigitInteger = 0;
-//	private int m_nPosition = 0;
+//	private VarBufferPos buffer = null;
+//	private int nNibblePos = 0;
+//	private int nTotalSize = 0;
+//	private int nNbDigitInteger = 0;
+//	private int nPosition = 0;
 }

@@ -57,7 +57,7 @@ public class CIfStatement extends CCommentContainer
 			Transcoder.logError(getLine(), "Expecting 'IF' keyword") ;
 			return false ; 
 		}
-		CGlobalEntityCounter.GetInstance().CountCobolVerb(tokIf.GetKeyword().m_Name) ;
+		CGlobalEntityCounter.GetInstance().CountCobolVerb(tokIf.GetKeyword().name) ;
 		GetNext() ;
 		
 		if (!ReadCondition())
@@ -76,8 +76,8 @@ public class CIfStatement extends CCommentContainer
 	
 	protected boolean ReadCondition()
 	{
-		m_Condition = ReadConditionalStatement() ;
-		if (m_Condition == null)
+		condition = ReadConditionalStatement() ;
+		if (condition == null)
 		{
 			return false ;
 		}
@@ -85,8 +85,8 @@ public class CIfStatement extends CCommentContainer
 	}
 	protected boolean ReadThenStatement(CFlag fCheckForNextSentence)
 	{
-		m_ThenBloc = new CThenBloc(GetCurrentToken().getLine()) ;
-		if (!Parse(m_ThenBloc, fCheckForNextSentence))
+		thenBloc = new CThenBloc(GetCurrentToken().getLine()) ;
+		if (!Parse(thenBloc, fCheckForNextSentence))
 		{
 			Transcoder.logError(getLine(), "Failure while parsing THEN bloc") ;
 			return false ;
@@ -108,12 +108,12 @@ public class CIfStatement extends CCommentContainer
 		else if (tok.GetKeyword() == CCobolKeywordList.END_IF)
 		{
 			StepNext();
-			m_ThenBloc.SetEndLine(tok.getLine()) ;
+			thenBloc.SetEndLine(tok.getLine()) ;
 			return true ;
 		}
 		else if (tok.GetType() == CTokenType.DOT)
 		{
-			m_ThenBloc.SetEndLine(tok.getLine()) ;
+			thenBloc.SetEndLine(tok.getLine()) ;
 			return true ;
 		}
 		else
@@ -126,8 +126,8 @@ public class CIfStatement extends CCommentContainer
 		CBaseToken tok = GetCurrentToken() ;
 		if (tok.IsKeyword() && tok.GetKeyword() == CCobolKeywordList.ELSE)
 		{
-			m_ElseBloc = new CElseBloc(tok.getLine()) ;
-			if (!Parse(m_ElseBloc, fCheckForNextSentence))
+			elseBloc = new CElseBloc(tok.getLine()) ;
+			if (!Parse(elseBloc, fCheckForNextSentence))
 			{
 				Transcoder.logError(getLine(), "Failure while parsing ELSE bloc") ;
 				return false ;
@@ -136,13 +136,13 @@ public class CIfStatement extends CCommentContainer
 		}
 		else if (tok.IsKeyword() && tok.GetKeyword() == CCobolKeywordList.END_IF)
 		{
-			m_ElseBloc.SetEndLine(tok.getLine()) ;
+			elseBloc.SetEndLine(tok.getLine()) ;
 			StepNext() ;
 			return true ;
 		}
 		else if (tok.GetType() == CTokenType.DOT)
 		{
-			m_ElseBloc.SetEndLine(tok.getLine()) ;
+			elseBloc.SetEndLine(tok.getLine()) ;
 			return true ;
 		}
 		else
@@ -159,7 +159,7 @@ public class CIfStatement extends CCommentContainer
 	 */
 	protected Element ExportCustom(Document root)
 	{
-		if (m_Condition == null || m_ThenBloc == null)
+		if (condition == null || thenBloc == null)
 		{
 			Element e = root.createElement("UnparsedIF") ;
 			return e ;
@@ -167,18 +167,18 @@ public class CIfStatement extends CCommentContainer
 		Element eIf = root.createElement("IF") ;
 		Element eCond = root.createElement("Condition") ;
 		eIf.appendChild(eCond) ;
-		eCond.appendChild(m_Condition.Export(root)) ;
+		eCond.appendChild(condition.Export(root)) ;
 
 		ExportChildren(root, eIf) ;
-		Element eThen = m_ThenBloc.Export(root) ;
+		Element eThen = thenBloc.Export(root) ;
 		if (eThen == null)
 		{
 			int n = 0 ;
 		}
 		eIf.appendChild(eThen) ;
-		if (m_ElseBloc != null)
+		if (elseBloc != null)
 		{
-			Element eElse = m_ElseBloc.Export(root) ;
+			Element eElse = elseBloc.Export(root) ;
 			if (eElse == null)
 			{
 				int n = 0 ;
@@ -188,9 +188,9 @@ public class CIfStatement extends CCommentContainer
 		return eIf;
 	}
 	
-	protected CExpression m_Condition = null ;
-	protected CElseBloc m_ElseBloc = null ;
-	protected CThenBloc m_ThenBloc = null ;
+	protected CExpression condition = null ;
+	protected CElseBloc elseBloc = null ;
+	protected CThenBloc thenBloc = null ;
 	/* (non-Javadoc)
 	 * @see parser.CBaseElement#DoCustomSemanticAnalysis(semantic.CBaseSemanticEntity, semantic.CBaseSemanticEntityFactory)
 	 */
@@ -200,18 +200,18 @@ public class CIfStatement extends CCommentContainer
 		parent.AddChild(eIf) ;
 		
 		CEntityBloc blocThen = null ;
-		if (m_ThenBloc != null)
+		if (thenBloc != null)
 		{
-			blocThen = (CEntityBloc)m_ThenBloc.DoSemanticAnalysis(eIf, factory);
+			blocThen = (CEntityBloc)thenBloc.DoSemanticAnalysis(eIf, factory);
 			eIf.AddChild(blocThen) ;
 		}
 		CEntityBloc blocElse = null ;
-		if (m_ElseBloc != null)
+		if (elseBloc != null)
 		{
-			blocElse = (CEntityBloc)m_ElseBloc.DoSemanticAnalysis(eIf, factory);
+			blocElse = (CEntityBloc)elseBloc.DoSemanticAnalysis(eIf, factory);
 			eIf.AddChild(blocElse) ;
 		}
-		CBaseEntityCondition eCond = m_Condition.AnalyseCondition(factory);
+		CBaseEntityCondition eCond = condition.AnalyseCondition(factory);
 		eIf.SetCondition(eCond, blocThen, blocElse) ;
 		return eIf;
 	}

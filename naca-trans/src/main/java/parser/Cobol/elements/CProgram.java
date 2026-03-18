@@ -39,10 +39,10 @@ import utils.Transcoder;
  */
 public class CProgram extends CCommentContainer
 {
-	private CWorking m_eWorking;
-	private CLinkageSection m_eLinkage;
-	private CFileSection m_eFile;
-	private CProcedureDivision m_eProcDiv;
+	private CWorking eWorking;
+	private CLinkageSection eLinkage;
+	private CFileSection eFile;
+	private CProcedureDivision eProcDiv;
 	/**
 	 * @param line
 	 */
@@ -190,19 +190,19 @@ public class CProgram extends CCommentContainer
 					}
 					if (kw == CCobolKeywordList.PROGRAM_ID)
 					{
-						m_ProgramID = cs ;
+						programID = cs ;
 					}
 					else if (kw == CCobolKeywordList.AUTHOR)
 					{
-						m_Author = cs ;
+						author = cs ;
 					}
 					else if (kw == CCobolKeywordList.DATE_WRITTEN)
 					{
-						m_DateWritten = cs ;
+						dateWritten = cs ;
 					}
 					else if (kw == CCobolKeywordList.REMARKS)
 					{
-						m_Remark = cs ;
+						remark = cs ;
 					}
 				}
 				else if (kw == CCobolKeywordList.ENVIRONMENT || kw == CCobolKeywordList.DATA)
@@ -214,7 +214,7 @@ public class CProgram extends CCommentContainer
 					String cs =  "" ;
 					cs = tok.GetValue();
 					tok = GetNext();
-					while (tok != null && !tok.m_bIsNewLine)
+					while (tok != null && !tok.bIsNewLine)
 					{
 						cs += " " + tok.GetValue() ;
 						tok = GetNext();
@@ -233,7 +233,7 @@ public class CProgram extends CCommentContainer
 				String cs =  "" ;
 				cs = tok.GetValue();
 				tok = GetNext();
-				while (!tok.m_bIsNewLine)
+				while (!tok.bIsNewLine)
 				{
 					cs += " " + tok.GetValue() ;
 					tok = GetNext();
@@ -380,9 +380,9 @@ public class CProgram extends CCommentContainer
 //				tokDot = GetNext() ; // consume DOT 
 //				if (tokVar.GetKeyword() == CCobolKeywordList.WORKING_STORAGE)
 //				{
-//					m_eWorking = new CWorking(tokVar.m_line) ;
-//					AddChild(m_eWorking) ;
-//					if (!Parse(m_eWorking))
+//					eWorking = new CWorking(tokVar.line) ;
+//					AddChild(eWorking) ;
+//					if (!Parse(eWorking))
 //					{
 //						return false ;
 //					}
@@ -390,9 +390,9 @@ public class CProgram extends CCommentContainer
 //				else if (tokVar.GetKeyword() == CCobolKeywordList.LINKAGE)
 //				{
 //					//ConsumeEndLineWithDot() ;
-//					m_eLinkage = new CLinkageSection(tokVar.m_line) ;
-//					AddChild(m_eLinkage) ;
-//					if (!Parse(m_eLinkage))
+//					eLinkage = new CLinkageSection(tokVar.line) ;
+//					AddChild(eLinkage) ;
+//					if (!Parse(eLinkage))
 //					{
 //						return false ;
 //					}
@@ -400,9 +400,9 @@ public class CProgram extends CCommentContainer
 //				else if (tokVar.GetKeyword() == CCobolKeywordList.FILE)
 //				{
 //					//ConsumeEndLineWithDot() ;
-//					m_eFile = new CFileSection(tokVar.m_line) ;
-//					AddChild(m_eFile) ;
-//					if (!Parse(m_eFile))
+//					eFile = new CFileSection(tokVar.line) ;
+//					AddChild(eFile) ;
+//					if (!Parse(eFile))
 //					{
 //						return false ;
 //					}
@@ -503,9 +503,9 @@ public class CProgram extends CCommentContainer
 				tokDot = GetNext() ; // consume DOT 
 				if (tokVar.GetKeyword() == CCobolKeywordList.WORKING_STORAGE)
 				{
-					m_eWorking = new CWorking(tokVar.getLine()) ;
-					AddChild(m_eWorking) ;
-					if (!Parse(m_eWorking))
+					eWorking = new CWorking(tokVar.getLine()) ;
+					AddChild(eWorking) ;
+					if (!Parse(eWorking))
 					{
 						return false ;
 					}
@@ -513,9 +513,9 @@ public class CProgram extends CCommentContainer
 				else if (tokVar.GetKeyword() == CCobolKeywordList.LINKAGE)
 				{
 					//ConsumeEndLineWithDot() ;
-					m_eLinkage = new CLinkageSection(tokVar.getLine()) ;
-					AddChild(m_eLinkage) ;
-					if (!Parse(m_eLinkage))
+					eLinkage = new CLinkageSection(tokVar.getLine()) ;
+					AddChild(eLinkage) ;
+					if (!Parse(eLinkage))
 					{
 						return false ;
 					}
@@ -523,9 +523,9 @@ public class CProgram extends CCommentContainer
 				else if (tokVar.GetKeyword() == CCobolKeywordList.FILE)
 				{
 					//ConsumeEndLineWithDot() ;
-					m_eFile = new CFileSection(tokVar.getLine()) ;
-					AddChild(m_eFile) ;
-					if (!Parse(m_eFile))
+					eFile = new CFileSection(tokVar.getLine()) ;
+					AddChild(eFile) ;
+					if (!Parse(eFile))
 					{
 						return false ;
 					}
@@ -591,7 +591,7 @@ public class CProgram extends CCommentContainer
 	{
 		CBaseToken tok = GetCurrentToken() ;
 		
-		m_eProcDiv = new CProcedureDivision(tok.getLine()) ;
+		eProcDiv = new CProcedureDivision(tok.getLine()) ;
 		if (tok.GetType() == CTokenType.DOT)
 		{
 			GetNext();
@@ -605,7 +605,7 @@ public class CProgram extends CCommentContainer
 				if (tok.GetType() == CTokenType.IDENTIFIER)
 				{
 					CIdentifier id = ReadIdentifier();
-					m_eProcDiv.AddUsingRef(id) ;
+					eProcDiv.AddUsingRef(id) ;
 					tok = GetCurrentToken() ;
 				}
 				else if (tok.GetType() == CTokenType.DOT)
@@ -629,8 +629,8 @@ public class CProgram extends CCommentContainer
 			return false ;
 		} 
 		
-		AddChild(m_eProcDiv) ;
-		if (!Parse(m_eProcDiv))
+		AddChild(eProcDiv) ;
+		if (!Parse(eProcDiv))
 		{
 			return false ;
 		}
@@ -640,16 +640,16 @@ public class CProgram extends CCommentContainer
 	public Element ExportCustom(Document rootdoc)
 	{
 		Element e = rootdoc.createElement("Program") ;
-		e.setAttribute("Program_ID", m_ProgramID) ;
-		e.setAttribute("Date_Written", m_DateWritten) ;
-		e.setAttribute("Author", m_Author) ;
+		e.setAttribute("Program_ID", programID) ;
+		e.setAttribute("Date_Written", dateWritten) ;
+		e.setAttribute("Author", author) ;
 		return e ;
 	}
 
-	private String m_ProgramID = "" ;
-	private String m_DateWritten = "" ;
-	private String m_Author = "" ;
-	private String m_Remark = "" ;
+	private String programID = "" ;
+	private String dateWritten = "" ;
+	private String author = "" ;
+	private String remark = "" ;
 	/* (non-Javadoc)
 	 * @see parser.CLanguageElement#DoSemanticAnalysis(semantic.CBaseSemanticEntity, semantic.CBaseSemanticEntityFactory)
 	 */
@@ -660,10 +660,10 @@ public class CProgram extends CCommentContainer
 			return null ;
 		}
 		
-		CEntityClass container = factory.NewEntityClass(getLine(), m_ProgramID) ;
+		CEntityClass container = factory.NewEntityClass(getLine(), programID) ;
 		
 		CEntitySQLCursorSection sec = factory.NewEntitySQLCursorSection() ;
-		sec.SetCursors(factory.m_ProgramCatalog.GetSQLCursorList()) ;
+		sec.SetCursors(factory.programCatalog.GetSQLCursorList()) ;
 		container.AddChild(sec);
 		return container ;
 	}
@@ -674,7 +674,7 @@ public class CProgram extends CCommentContainer
 	@Override
 //	protected void DoSemanticAnalysisForChildren(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 //	{
-//		ListIterator i = m_children.listIterator() ;
+//		ListIterator i = children.listIterator() ;
 //		CLanguageElement le = null ;
 //		try
 //		{	
@@ -688,12 +688,12 @@ public class CProgram extends CCommentContainer
 //		CBaseLanguageEntity eFileSection = null ;
 //		while (le != null)
 //		{
-//			if (le == m_eFile)
+//			if (le == eFile)
 //			{
-//				eVariableSection = m_eWorking.DoSemanticAnalysisForVariables(null, factory) ;
+//				eVariableSection = eWorking.DoSemanticAnalysisForVariables(null, factory) ;
 //			}
 //			CBaseLanguageEntity e = le.DoSemanticAnalysis(parent, factory) ;
-//			if (le == m_eFile)
+//			if (le == eFile)
 //			{
 //				eFileSection = e ;
 //			}
@@ -701,7 +701,7 @@ public class CProgram extends CCommentContainer
 //			{
 //				parent.AddChild(e) ;
 //			}
-//			if (le == m_eWorking)
+//			if (le == eWorking)
 //			{
 //				if (eVariableSection != null)
 //				{
@@ -735,11 +735,11 @@ public class CProgram extends CCommentContainer
 //				le = null ;
 //			}
 //		}
-//		m_bAnalysisDoneForChildren = true ;
+//		bAnalysisDoneForChildren = true ;
 //	}
 	protected void DoSemanticAnalysisForChildren(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		ListIterator<CBaseElement> i = m_children.listIterator() ;
+		ListIterator<CBaseElement> i = children.listIterator() ;
 		CCobolElement le = null ;
 		try
 		{	
@@ -749,23 +749,23 @@ public class CProgram extends CCommentContainer
 		{
 		}
 
-		CBaseLanguageEntity eVariableSection = m_eWorking.DoSemanticAnalysis(parent, factory) ;
-		CBaseLanguageEntity eLinkage = m_eLinkage.DoSemanticAnalysis(parent, factory) ;
+		CBaseLanguageEntity eVariableSection = eWorking.DoSemanticAnalysis(parent, factory) ;
+		CBaseLanguageEntity eLinkageNew = this.eLinkage.DoSemanticAnalysis(parent, factory) ;
 		while (le != null)
 		{
-			if (le == m_eFile)
+			if (le == eFile)
 			{
 				// Ignore
 			}
-			else if (le == m_eWorking)
+			else if (le == eWorking)
 			{
 				parent.AddChild(eVariableSection) ;
 			}
-			else if (le == m_eLinkage)
+			else if (le == eLinkage)
 			{
-				parent.AddChild(eLinkage) ;
-				if(m_eFile != null)
-					parent.AddChild(m_eFile.DoSemanticAnalysis(parent, factory)) ;
+				parent.AddChild(eLinkageNew) ;
+				if(eFile != null)
+					parent.AddChild(eFile.DoSemanticAnalysis(parent, factory)) ;
 			}
 			else
 			{
@@ -786,7 +786,7 @@ public class CProgram extends CCommentContainer
 				le = null ;
 			}
 		}
-		m_bAnalysisDoneForChildren = true ;
+		bAnalysisDoneForChildren = true ;
 	}
 
 

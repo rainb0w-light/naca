@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 19 août 2004
+ * Created on 19 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -41,10 +41,10 @@ public class CJavaIsFieldColor extends CEntityIsFieldColor
 //		not.SetCondition(this) ;
 //		return not;
 		CJavaIsFieldColor cond = new CJavaIsFieldColor() ;
-		cond.m_bOpposite =  ! m_bOpposite ;
-		cond.m_IsColor = m_IsColor ;
-		cond.m_Reference = m_Reference ;
-		m_Reference.RegisterVarTesting(cond) ;
+		cond.bOpposite =  ! bOpposite ;
+		cond.isColor = this.isColor ;
+		cond.reference = this.reference ;
+		reference.RegisterVarTesting(cond) ;
 		return cond ;
 	}
 
@@ -54,11 +54,11 @@ public class CJavaIsFieldColor extends CEntityIsFieldColor
 	public String Export()
 	{
 		String cs = "is" ;
-		if (m_bOpposite)
+		if (bOpposite)
 		{
-			cs += "Not" ;	
+			cs += "Not" ;
 		}
-		return cs += "FieldColored(" + m_Reference.ExportReference(getLine()) + ", MapFieldAttrColor."+ m_IsColor.m_text + ")";		
+		return cs += "FieldColored(" + reference.ExportReference(getLine()) + ", MapFieldAttrColor."+ this.isColor.text + ")";
 	}
 
 }

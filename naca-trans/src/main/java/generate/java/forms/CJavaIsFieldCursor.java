@@ -38,9 +38,9 @@ public class CJavaIsFieldCursor extends CEntityIsFieldCursor
 	public CBaseEntityCondition GetOppositeCondition()
 	{
 		CJavaIsFieldCursor cur = new CJavaIsFieldCursor() ;
-		cur.m_bHasCursor = ! m_bHasCursor ;
-		cur.m_Reference = m_Reference ;
-		m_Reference.RegisterVarTesting(cur) ;
+		cur.bHasCursor = ! bHasCursor ;
+		cur.reference = reference ;
+		reference.RegisterVarTesting(cur) ;
 		return cur;
 	}
 
@@ -50,11 +50,11 @@ public class CJavaIsFieldCursor extends CEntityIsFieldCursor
 	public String Export()
 	{
 		String cs = "is";
-		if (!m_bHasCursor)
+		if (!bHasCursor)
 		{
 			cs += "Not";
 		}
-		cs += "FieldHasCursor("+m_Reference.ExportReference(getLine())+")";
+		cs += "FieldHasCursor("+reference.ExportReference(getLine())+")";
 		return cs;
 	}
 

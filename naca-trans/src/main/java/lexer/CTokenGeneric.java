@@ -23,19 +23,19 @@ public class CTokenGeneric extends CBaseToken
 	public CTokenGeneric(CTokenType type, int line, boolean newline)
 	{
 		super(line, newline);
-		m_Type = type ;
-		m_Value = type.m_Value ;
+		type = type ;
+		value = type.value ;
 	}
 	public CTokenType GetType()
 	{
-		return m_Type;
+		return type;
 	}
-	CTokenType m_Type = null ;
+	CTokenType type = null ;
 	/* (non-Javadoc)
 	 * @see lexer.CBaseToken#GetDisplay()
 	 */
 	public String GetDisplay()
 	{
-		return m_Type.m_csSourceValue ;
+		return type.csSourceValue ;
 	}
 }

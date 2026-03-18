@@ -27,18 +27,18 @@ public class SQLRecordSetVarFiller
 {	
 	public SQLRecordSetVarFiller()
 	{
-		m_recordSetCacheColTypeType = new RecordSetCacheColTypeType();
+		recordSetCacheColTypeType = new RecordSetCacheColTypeType();
 	}
 	
 	void apply(CSQLResultSet resultSet)
 	{
-		if(m_arrItem != null)
+		if(arrItem != null)
 		{
-			int nNbItems = m_arrItem.size();
+			int nNbItems = arrItem.size();
 			for(int n=0; n<nNbItems; n++)
 			{
-				SQLRecordSetVarFillerItem item = m_arrItem.get(n);
-				item.apply(resultSet, m_recordSetCacheColTypeType); 
+				SQLRecordSetVarFillerItem item = arrItem.get(n);
+				item.apply(resultSet, recordSetCacheColTypeType); 
 			}
 		}
 	}
@@ -46,43 +46,43 @@ public class SQLRecordSetVarFiller
 	void addLinkColDestination(int nColSource, VarBase varInto, VarBase varIndicator)
 	{
 		SQLRecordSetVarFillerItem item = new SQLRecordSetVarFillerItem(nColSource, varInto, varIndicator);
-		if(m_arrItem == null)
-			m_arrItem = new ArrayDyn<SQLRecordSetVarFillerItem>();	// new ArrayList<SQLRecordSetVarFillerItem>();
-		m_arrItem.add(item);
+		if(arrItem == null)
+			arrItem = new ArrayDyn<SQLRecordSetVarFillerItem>();	// new ArrayList<SQLRecordSetVarFillerItem>();
+		arrItem.add(item);
 	}
 	
 	void compress()
 	{
-		if(m_arrItem.isDyn())
+		if(arrItem.isDyn())
 		{
-			int nSize = m_arrItem.size();
+			int nSize = arrItem.size();
 			SQLRecordSetVarFillerItem arr[] = new SQLRecordSetVarFillerItem[nSize];
-			m_arrItem.transferInto(arr);
+			arrItem.transferInto(arr);
 			
 			ArrayFix<SQLRecordSetVarFillerItem> arrFix = new ArrayFix<SQLRecordSetVarFillerItem>(arr);
-			m_arrItem = arrFix;	// replace by a fix one (uning less memory)
+			arrItem = arrFix;	// replace by a fix one (uning less memory)
 		}
 	}
 	
 	RecordSetCacheColTypeType getRecordSetCacheColTypeType()
 	{
-		return m_recordSetCacheColTypeType;
+		return recordSetCacheColTypeType;
 	}
 	
 	public int getNbCol()
 	{
-		return m_nNbColResultSet;
+		return nNbColResultSet;
 	}
 	
 	public void setNbCol(int nNbColResultSet)
 	{
-		m_nNbColResultSet = nNbColResultSet;
+		nNbColResultSet = nNbColResultSet;
 	}
 	
-	private int m_nNbColResultSet = 0;
+	private int nNbColResultSet = 0;
 	
-	private ArrayFixDyn<SQLRecordSetVarFillerItem> m_arrItem = null;
-	// ArrayFixDynList<SQLRecordSetVarFillerItem> m_arrItem = null;
+	private ArrayFixDyn<SQLRecordSetVarFillerItem> arrItem = null;
+	// ArrayFixDynList<SQLRecordSetVarFillerItem> arrItem = null;
 	
-	private RecordSetCacheColTypeType m_recordSetCacheColTypeType = null; 
+	private RecordSetCacheColTypeType recordSetCacheColTypeType = null; 
 }

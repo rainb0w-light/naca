@@ -25,67 +25,67 @@ public class BtreeKeySegmentSignBinary extends BtreeKeySegment
 	
 	int compare(byte tby1[], byte tby2[])
 	{
-		if(m_nKeyLength == 4)
+		if(nKeyLength == 4)
 		{
-			int n1 = LittleEndingSignBinaryBufferStorage.readInt(tby1, m_nKeyPosition);
-			int n2 = LittleEndingSignBinaryBufferStorage.readInt(tby2, m_nKeyPosition);
+			int n1 = LittleEndingSignBinaryBufferStorage.readInt(tby1, nKeyPosition);
+			int n2 = LittleEndingSignBinaryBufferStorage.readInt(tby2, nKeyPosition);
 			if(n1 == n2)
 				return 0;
 			if(n1 < n2)
 			{
-		    	if(m_bAscending)
+		    	if(bAscending)
 		    		return -1;
 		    	return 1;
 			}
-	    	if(m_bAscending)
+	    	if(bAscending)
 	    		return 1;
 	    	return -1;
 		}
-		else if(m_nKeyLength == 8)
+		else if(nKeyLength == 8)
 		{
-			long l1 = LittleEndingSignBinaryBufferStorage.readLong(tby1, m_nKeyPosition);
-			long l2 = LittleEndingSignBinaryBufferStorage.readLong(tby2, m_nKeyPosition);
+			long l1 = LittleEndingSignBinaryBufferStorage.readLong(tby1, nKeyPosition);
+			long l2 = LittleEndingSignBinaryBufferStorage.readLong(tby2, nKeyPosition);
 			if(l1 == l2)
 				return 0;
 			if(l1 < l2)
 			{
-		    	if(m_bAscending)
+		    	if(bAscending)
 		    		return -1;
 		    	return 1;
 			}
-	    	if(m_bAscending)
+	    	if(bAscending)
 	    		return 1;
 	    	return -1;
 		}
-		else if(m_nKeyLength == 2)
+		else if(nKeyLength == 2)
 		{
-			short s1 = LittleEndingSignBinaryBufferStorage.readShort(tby1, m_nKeyPosition);
-			short s2 = LittleEndingSignBinaryBufferStorage.readShort(tby2, m_nKeyPosition);
+			short s1 = LittleEndingSignBinaryBufferStorage.readShort(tby1, nKeyPosition);
+			short s2 = LittleEndingSignBinaryBufferStorage.readShort(tby2, nKeyPosition);
 			if(s1 == s2)
 				return 0;
 			if(s1 < s2)
 			{
-		    	if(m_bAscending)
+		    	if(bAscending)
 		    		return -1;
 		    	return 1;
 			}
-	    	if(m_bAscending)
+	    	if(bAscending)
 	    		return 1;
 	    	return -1;
 		}		
-		else if(m_nKeyLength == 1)
+		else if(nKeyLength == 1)
 		{
-			byte b1 = LittleEndingSignBinaryBufferStorage.readByte(tby1, m_nKeyPosition);
-			byte b2 = LittleEndingSignBinaryBufferStorage.readByte(tby2, m_nKeyPosition);
+			byte b1 = LittleEndingSignBinaryBufferStorage.readByte(tby1, nKeyPosition);
+			byte b2 = LittleEndingSignBinaryBufferStorage.readByte(tby2, nKeyPosition);
 			if(b1 == b2)
 				return 0;
 			if(b1 < b2)
 			{
-		    	if(m_bAscending)
+		    	if(bAscending)
 		    		return -1;
 		    	return 1;
 			}
-	    	if(m_bAscending)
+	    	if(bAscending)
 	    		return 1;
 	    	return -1;
 		}

@@ -48,47 +48,47 @@ public class CRead extends CCobolElement
 		CEntityReadFile eRead = factory.NewEntityReadFile(getLine()) ;
 		parent.AddChild(eRead) ;
 		
-		CEntityFileDescriptor eFD = factory.m_ProgramCatalog.getFileDescriptor(m_FileDescriptor.GetName()) ;
+		CEntityFileDescriptor eFD = factory.programCatalog.getFileDescriptor(fileDescriptor.GetName()) ;
 		if (eFD != null)
 		{
 			CDataEntity eData = null ;
-			if (m_DataInto != null)
+			if (dataInto != null)
 			{
-				eData = m_DataInto.GetDataReference(getLine(), factory) ;
+				eData = dataInto.GetDataReference(getLine(), factory) ;
 			}
 			eRead.setFileDescriptor(eFD, eData) ;
-			if (m_AtEndBloc != null) 
+			if (atEndBloc != null) 
 			{
-				CBaseLanguageEntity eBloc = m_AtEndBloc.DoSemanticAnalysis(eRead, factory) ;
+				CBaseLanguageEntity eBloc = atEndBloc.DoSemanticAnalysis(eRead, factory) ;
 				eRead.SetAtEndBloc(eBloc) ;
 			}
-			if (m_NotAtEndBloc != null) 
+			if (notAtEndBloc != null) 
 			{
-				CBaseLanguageEntity eBloc = m_NotAtEndBloc.DoSemanticAnalysis(eRead, factory) ;
+				CBaseLanguageEntity eBloc = notAtEndBloc.DoSemanticAnalysis(eRead, factory) ;
 				eRead.SetNotAtEndBloc(eBloc) ;
 			}
 		}
 		else
 		{
-			Transcoder.logError(getLine(), "File descriptor not found : " + m_FileDescriptor.GetName());
+			Transcoder.logError(getLine(), "File descriptor not found : " + fileDescriptor.GetName());
 		}
-//		if  (m_bReadNextRecord)
+//		if  (bReadNextRecord)
 //		{
 //			m_Logger.error("No semantic analysis for ReadFile/ ReadNextRecord ");
 //		}
-		if (m_bReadPreviousRecord)
+		if (bReadPreviousRecord)
 		{
 			Transcoder.logError(getLine(), "No semantic analysis for ReadFile/ ReadPreviousRecord");
 		}
-		if (m_Key != null)
+		if (key != null)
 		{
 			Transcoder.logError(getLine(), "No semantic analysis for ReadFile/ KEY");
 		}
-		if (m_InvalidKeyBloc != null)
+		if (invalidKeyBloc != null)
 		{
 			Transcoder.logError(getLine(), "No semantic analysis for ReadFile/ InvalidKeyBloc");
 		}
-		if (m_NotInvalidKeyBloc != null)
+		if (notInvalidKeyBloc != null)
 		{
 			Transcoder.logError(getLine(), "No semantic analysis for ReadFile/ NotInvalidKeyBloc");
 		}
@@ -101,16 +101,16 @@ public class CRead extends CCobolElement
 		{
 			return false ;
 		}
-		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().m_Name) ;
+		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
 		
 		tok = GetNext() ;
-		m_FileDescriptor = ReadIdentifier();
+		fileDescriptor = ReadIdentifier();
 		
 		tok = GetCurrentToken() ;
 		if (tok.GetKeyword() == CCobolKeywordList.NEXT)
 		{
-			m_bReadNextRecord = true ;
-			m_bReadPreviousRecord = false ;
+			bReadNextRecord = true ;
+			bReadPreviousRecord = false ;
 			tok = GetNext() ;
 			if (tok.GetKeyword() == CCobolKeywordList.RECORD)
 			{
@@ -119,8 +119,8 @@ public class CRead extends CCobolElement
 		}
 		else if (tok.GetKeyword() == CCobolKeywordList.PREVIOUS)
 		{
-			m_bReadNextRecord = false ;
-			m_bReadPreviousRecord = true ;
+			bReadNextRecord = false ;
+			bReadPreviousRecord = true ;
 			tok = GetNext() ;
 			if (tok.GetKeyword() == CCobolKeywordList.RECORD)
 			{
@@ -130,7 +130,7 @@ public class CRead extends CCobolElement
 		if (tok.GetKeyword() == CCobolKeywordList.INTO)
 		{
 			tok = GetNext() ;
-			m_DataInto = ReadIdentifier();
+			dataInto = ReadIdentifier();
 			tok = GetCurrentToken() ;
 		}
 		
@@ -141,7 +141,7 @@ public class CRead extends CCobolElement
 			{
 				tok = GetNext();
 			}
-			m_Key = ReadIdentifier();
+			key = ReadIdentifier();
 			tok = GetCurrentToken();
 		}
 		
@@ -151,8 +151,8 @@ public class CRead extends CCobolElement
 			if (tok.GetKeyword() == CCobolKeywordList.END)
 			{
 				tok = GetNext() ;
-				m_AtEndBloc = new CGenericBloc("AtEnd", tok.getLine()) ;
-				if (!Parse(m_AtEndBloc))
+				atEndBloc = new CGenericBloc("AtEnd", tok.getLine()) ;
+				if (!Parse(atEndBloc))
 				{
 					return false ;
 				}
@@ -168,8 +168,8 @@ public class CRead extends CCobolElement
 				if (tok.GetKeyword() == CCobolKeywordList.END)
 				{
 					tok = GetNext() ;
-					m_NotAtEndBloc = new CGenericBloc("NotAtEnd", tok.getLine()) ;
-					if (!Parse(m_NotAtEndBloc))
+					notAtEndBloc = new CGenericBloc("NotAtEnd", tok.getLine()) ;
+					if (!Parse(notAtEndBloc))
 					{
 						return false ;
 					}
@@ -185,8 +185,8 @@ public class CRead extends CCobolElement
 			{
 				tok = GetNext() ;
 			}
-			m_InvalidKeyBloc = new CGenericBloc("InvalidKey", tok.getLine()) ;
-			if (!Parse(m_InvalidKeyBloc))
+			invalidKeyBloc = new CGenericBloc("InvalidKey", tok.getLine()) ;
+			if (!Parse(invalidKeyBloc))
 			{
 				return false ;
 			}
@@ -202,8 +202,8 @@ public class CRead extends CCobolElement
 				{
 					tok = GetNext() ;
 				}
-				m_NotInvalidKeyBloc = new CGenericBloc("NotInvalidKey", tok.getLine()) ;
-				if (!Parse(m_NotInvalidKeyBloc))
+				notInvalidKeyBloc = new CGenericBloc("NotInvalidKey", tok.getLine()) ;
+				if (!Parse(notInvalidKeyBloc))
 				{
 					return false ;
 				}
@@ -221,63 +221,63 @@ public class CRead extends CCobolElement
 	{
 		Element eRead = root.createElement("Read");
 		String cs = "File" ;
-//		if (m_bReadNextRecord)
+//		if (bReadNextRecord)
 //		{
 //			cs = "NextRecord" ;
 //		}
-		if (m_bReadPreviousRecord)
+		if (bReadPreviousRecord)
 		{
 			cs = "PreviousRecord" ;
 		}
 		Element eFile = root.createElement(cs);
 		eRead.appendChild(eFile);
-		m_FileDescriptor.ExportTo(eFile, root);
+		fileDescriptor.ExportTo(eFile, root);
 		
-		if (m_DataInto != null)
+		if (dataInto != null)
 		{
 			Element eTo = root.createElement("Into");
 			eRead.appendChild(eTo);
-			m_DataInto.ExportTo(eTo, root);
+			dataInto.ExportTo(eTo, root);
 		}
 		
-		if (m_Key != null)
+		if (key != null)
 		{
 			Element eKey = root.createElement("Key");
 			eRead.appendChild(eKey);
-			m_Key.ExportTo(eKey, root);
+			key.ExportTo(eKey, root);
 		}
 		
-		if (m_AtEndBloc != null)
+		if (atEndBloc != null)
 		{
-			Element e = m_AtEndBloc.Export(root);
+			Element e = atEndBloc.Export(root);
 			eRead.appendChild(e);
 		} 
-		if (m_NotAtEndBloc != null)
+		if (notAtEndBloc != null)
 		{
-			Element e = m_NotAtEndBloc.Export(root);
+			Element e = notAtEndBloc.Export(root);
 			eRead.appendChild(e);
 		} 
-		if (m_InvalidKeyBloc != null)
+		if (invalidKeyBloc != null)
 		{
-			Element e = m_InvalidKeyBloc.Export(root);
+			Element e = invalidKeyBloc.Export(root);
 			eRead.appendChild(e);
 		} 
-		if (m_NotInvalidKeyBloc != null)
+		if (notInvalidKeyBloc != null)
 		{
-			Element e = m_NotInvalidKeyBloc.Export(root);
+			Element e = notInvalidKeyBloc.Export(root);
 			eRead.appendChild(e);
 		} 
 		return eRead;
 	}
 	
-	protected CIdentifier m_FileDescriptor = null ;
-	protected CIdentifier m_DataInto = null ; 
-	protected CIdentifier m_Key = null ;
-	protected CGenericBloc m_AtEndBloc = null ;
-	protected CGenericBloc m_NotAtEndBloc = null ;
-	protected CGenericBloc m_InvalidKeyBloc = null ;
-	protected CGenericBloc m_NotInvalidKeyBloc = null ;
-	protected boolean m_bReadNextRecord = false ;
-	protected boolean m_bReadPreviousRecord = false ;
+	protected CIdentifier fileDescriptor = null ;
+	protected CIdentifier dataInto = null ; 
+	protected CIdentifier key = null ;
+	protected CGenericBloc atEndBloc = null ;
+	protected CGenericBloc notAtEndBloc = null ;
+	protected CGenericBloc invalidKeyBloc = null ;
+	protected CGenericBloc notInvalidKeyBloc = null ;
+	protected boolean bReadNextRecord = false ;
+	protected boolean bReadPreviousRecord = false ;
 
 }

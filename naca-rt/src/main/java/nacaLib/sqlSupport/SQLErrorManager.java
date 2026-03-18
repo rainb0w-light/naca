@@ -41,9 +41,9 @@ public class SQLErrorManager extends CJMapObject
 	
 	public void reuse()
 	{
-		m_sectionErrorGoto = null;
-		m_paragraphErrorGoto = null;
-		m_SQLErrorGotoContinueType = null;
+		sectionErrorGoto = null;
+		paragraphErrorGoto = null;
+		sQLErrorGotoContinueType = null;
 	}
 	
 	public void manageOnErrorGoto(Paragraph paragraphSQGErrorGoto, CSQLStatus sqlStatus)
@@ -69,23 +69,23 @@ public class SQLErrorManager extends CJMapObject
 	
 	private void registerOnErrorGoto(Section section)
 	{
-		m_sectionErrorGoto = section;
-		m_paragraphErrorGoto = null;
-		m_SQLErrorGotoContinueType = SQLErrorGotoContinueType.OnErrorGoto;
+		sectionErrorGoto = section;
+		paragraphErrorGoto = null;
+		sQLErrorGotoContinueType = SQLErrorGotoContinueType.OnErrorGoto;
 	}
 
 	private void registerOnErrorGoto(Paragraph paragraph)
 	{
-		m_sectionErrorGoto = null;
-		m_paragraphErrorGoto = paragraph;
-		m_SQLErrorGotoContinueType = SQLErrorGotoContinueType.OnErrorGoto;
+		sectionErrorGoto = null;
+		paragraphErrorGoto = paragraph;
+		sQLErrorGotoContinueType = SQLErrorGotoContinueType.OnErrorGoto;
 	}
 	
 	private void registerOnErrorContinue()
 	{
-		m_sectionErrorGoto = null;
-		m_paragraphErrorGoto = null;
-		m_SQLErrorGotoContinueType = SQLErrorGotoContinueType.OnErrorContinue;
+		sectionErrorGoto = null;
+		paragraphErrorGoto = null;
+		sQLErrorGotoContinueType = SQLErrorGotoContinueType.OnErrorContinue;
 	}
 	
 	public void manageSQLError(CSQLStatus sqlStatus)
@@ -95,20 +95,20 @@ public class SQLErrorManager extends CJMapObject
 			boolean bSQLCodeError = sqlStatus.isLastSQLCodeAnError();
 			if(bSQLCodeError)
 			{
-				if(m_SQLErrorGotoContinueType == SQLErrorGotoContinueType.OnErrorGoto)
+				if(sQLErrorGotoContinueType == SQLErrorGotoContinueType.OnErrorGoto)
 				{
-					if(m_paragraphErrorGoto != null)
+					if(paragraphErrorGoto != null)
 					{
-						CGotoException e = new CGotoException(m_paragraphErrorGoto);
+						CGotoException e = new CGotoException(paragraphErrorGoto);
 						throw e;
 					}
-					else if(m_sectionErrorGoto != null)
+					else if(sectionErrorGoto != null)
 					{
-						CGotoException e = new CGotoException(m_sectionErrorGoto);
+						CGotoException e = new CGotoException(sectionErrorGoto);
 						throw e;
 					}
 				}
-				else if(m_SQLErrorGotoContinueType == SQLErrorGotoContinueType.OnErrorContinue)
+				else if(sQLErrorGotoContinueType == SQLErrorGotoContinueType.OnErrorContinue)
 				{
 					; // Do nothing
 				}
@@ -120,8 +120,8 @@ public class SQLErrorManager extends CJMapObject
 		}
 	}
 	
-	private Section m_sectionErrorGoto = null;
-	private Paragraph m_paragraphErrorGoto = null;
+	private Section sectionErrorGoto = null;
+	private Paragraph paragraphErrorGoto = null;
 	
-	private SQLErrorGotoContinueType m_SQLErrorGotoContinueType = null;
+	private SQLErrorGotoContinueType sQLErrorGotoContinueType = null;
 }

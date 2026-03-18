@@ -29,43 +29,43 @@ public class CESMStart extends CJMapObject
 {
 	public CESMStart(String cs, BaseEnvironment env)
 	{
-		m_csTransID = cs ;
-		m_Environment = env;
+		csTransID = cs ;
+		environment = env;
 	}
-	private BaseEnvironment m_Environment = null ;
-	public String m_csTransID = "" ;
-	public String m_csTermID = "" ;
-	private CESMStartData m_data = null;
+	private BaseEnvironment environment = null ;
+	public String csTransID = "" ;
+	public String csTermID = "" ;
+	private CESMStartData data = null;
 	
 	public CESMStart termID(String string)
 	{
-		m_csTermID = string ;
+		csTermID = string ;
 		return this ;
 	}
 	public void doStart()
 	{
-		if (!m_csTermID.equals(""))
+		if (!csTermID.equals(""))
 		{
-			assertIfFalse(m_Environment.getTerminalID().equals(m_csTermID)) ;
-			m_Environment.enqueueProgram(m_csTransID, m_data) ;
+			assertIfFalse(environment.getTerminalID().equals(csTermID)) ;
+			environment.enqueueProgram(csTransID, data) ;
 		}
 		else
 		{
 			TempCache t = TempCacheLocator.getTLSTempCache();
 			String csCurrentProgram = t.getProgramManager().getProgramName();
-			m_Environment.StartAsynchronousProgram(m_csTransID, csCurrentProgram, m_data, m_nIntervalTimeSeconds);
+			environment.StartAsynchronousProgram(csTransID, csCurrentProgram, data, nIntervalTimeSeconds);
 		}
 	}
 
 	public CESMStart dataFrom(Var var, Var varLength)
 	{
-		m_data = new CESMStartData(var, varLength);
+		data = new CESMStartData(var, varLength);
 		return this ;
 	}
 	
 	public CESMStart dataFrom(Var var)
 	{
-		m_data = new CESMStartData(var, null);
+		data = new CESMStartData(var, null);
 		return this ;
 	}
 	
@@ -79,9 +79,9 @@ public class CESMStart extends CJMapObject
 		int nNbSecondsSinceMidnightFromNow_s = DateUtil.getNbSecondSinceMidnight();
 		int nNextTime_s = DateUtil.getNbSecondsFromHour(trans_Time.getInt());
 		if (nNbSecondsSinceMidnightFromNow_s < nNextTime_s)	// We are before next time 
-			m_nIntervalTimeSeconds = nNextTime_s - nNbSecondsSinceMidnightFromNow_s;
+			nIntervalTimeSeconds = nNextTime_s - nNbSecondsSinceMidnightFromNow_s;
 		else
-			m_nIntervalTimeSeconds = 0;
+			nIntervalTimeSeconds = 0;
 		return this;
 	}
 	/**
@@ -91,8 +91,8 @@ public class CESMStart extends CJMapObject
 	public CESMStart interval(Var interval)
 	{
 		// interval uses format HHMMSS
-		m_nIntervalTimeSeconds = DateUtil.getNbSecondsFromHour(interval.getInt());
+		nIntervalTimeSeconds = DateUtil.getNbSecondsFromHour(interval.getInt());
 		return this;
 	}
-	protected int m_nIntervalTimeSeconds = 0 ;
+	protected int nIntervalTimeSeconds = 0 ;
 }

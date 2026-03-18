@@ -37,11 +37,11 @@ import org.w3c.dom.Document;
  */
 public class XSLTransformer
 {
-	private Templates m_Template = null ;
+	private Templates template = null ;
 	
 	protected XSLTransformer(Templates trans)
 	{
-		m_Template = trans ;
+		template = trans ;
 	}
 	
 	public static XSLTransformer loadFromFile(File fSS, boolean bForCache)
@@ -66,7 +66,7 @@ public class XSLTransformer
 	{
 		try
 		{
-			Transformer xformer = m_Template.newTransformer() ;
+			Transformer xformer = template.newTransformer() ;
 			Source source = new DOMSource(xmlOutput);
 			StreamResult result = new StreamResult(out) ;
 			xformer.setOutputProperty(OutputKeys.ENCODING, "ISO-8859-1");

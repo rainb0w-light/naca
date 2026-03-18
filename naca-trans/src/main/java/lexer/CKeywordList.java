@@ -28,15 +28,15 @@ public class CKeywordList
 	
 	public void Register(CReservedKeyword kw)
 	{
-		m_tabKeyWords.put(kw.m_Name, kw) ;
+		tabKeyWords.put(kw.name, kw) ;
 	}
 	
 	public CReservedKeyword GetKeyword(String name)
 	{
-		CReservedKeyword kw = m_tabKeyWords.get(name);
+		CReservedKeyword kw = tabKeyWords.get(name);
 		return kw ;
 	}
-	private Hashtable<String, CReservedKeyword> m_tabKeyWords = new Hashtable<String, CReservedKeyword>() ;
+	private Hashtable<String, CReservedKeyword> tabKeyWords = new Hashtable<String, CReservedKeyword>() ;
 	
 	
 }

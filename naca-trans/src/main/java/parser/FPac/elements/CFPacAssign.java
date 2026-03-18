@@ -22,14 +22,14 @@ import semantic.expression.CBaseEntityExpression;
 public class CFPacAssign extends CFPacElement
 {
 	
-	protected CIdentifier m_Identifier= null ;
-	protected CExpression m_expression = null ;
+	protected CIdentifier identifier= null ;
+	protected CExpression expression = null ;
 
 	public CFPacAssign(int line, CIdentifier id, CExpression exp)
 	{
 		super(line);
-		m_Identifier = id ;
-		m_expression = exp ;
+		identifier = id ;
+		expression = exp ;
 	}
 
 	@Override
@@ -42,10 +42,10 @@ public class CFPacAssign extends CFPacElement
 	@Override
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		CDataEntity eid = m_Identifier.GetDataReference(getLine(), factory) ;
+		CDataEntity eid = identifier.GetDataReference(getLine(), factory) ;
 		if (eid != null)
 		{
-			CBaseEntityExpression exp = m_expression.AnalyseExpression(factory) ;
+			CBaseEntityExpression exp = expression.AnalyseExpression(factory) ;
 			if (exp != null)
 			{
 				if (eid.HasAccessors())
@@ -74,10 +74,10 @@ public class CFPacAssign extends CFPacElement
 		Element e = root.createElement("Assign") ;
 		Element eVar = root.createElement("Var") ;
 		e.appendChild(eVar) ;
-		m_Identifier.ExportTo(eVar, root) ;
+		identifier.ExportTo(eVar, root) ;
 		Element eVal = root.createElement("Value") ;
 		e.appendChild(eVal) ;
-		eVal.appendChild(m_expression.Export(root));
+		eVal.appendChild(expression.Export(root));
 		return e;
 	}
 

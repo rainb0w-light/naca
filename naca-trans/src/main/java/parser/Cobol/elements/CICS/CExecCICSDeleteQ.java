@@ -49,12 +49,12 @@ public class CExecCICSDeleteQ extends CCobolElement
 	 */
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		CEntityCICSDeleteQ eDelQ = factory.NewEntityCICSDeleteQ(getLine(), m_bPersistant);
+		CEntityCICSDeleteQ eDelQ = factory.NewEntityCICSDeleteQ(getLine(), bPersistant);
 		parent.AddChild(eDelQ);
-		eDelQ.SetName(m_QueueName.GetDataEntity(getLine(), factory));
-		if (m_SysID != null)
+		eDelQ.SetName(queueName.GetDataEntity(getLine(), factory));
+		if (sysID != null)
 		{
-			eDelQ.SetSysID(m_SysID.GetDataEntity(getLine(), factory));
+			eDelQ.SetSysID(sysID.GetDataEntity(getLine(), factory));
 		}
 		return eDelQ ;
 	}
@@ -74,18 +74,18 @@ public class CExecCICSDeleteQ extends CCobolElement
 		{
 			CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("DELETEQ", "TD") ;
 			tok = GetNext(); 
-			m_bPersistant = true ;
+			bPersistant = true ;
 		}
 		else if (tok.GetValue().equals("TS"))
 		{
 			CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("DELETEQ", "TS") ;
 			tok = GetNext(); 
-			m_bPersistant = false ;
+			bPersistant = false ;
 		}
 		else
 		{
 			CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("DELETEQ", "Unkonwn") ;
-			m_bPersistant = false ;
+			bPersistant = false ;
 		}
 		
 		boolean bDone = false ;
@@ -97,7 +97,7 @@ public class CExecCICSDeleteQ extends CCobolElement
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
 				{
 					tok = GetNext();
-					m_QueueName = ReadTerminal();
+					queueName = ReadTerminal();
 					tok = GetCurrentToken() ;
 					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 					{
@@ -111,7 +111,7 @@ public class CExecCICSDeleteQ extends CCobolElement
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
 				{
 					tok = GetNext();
-					m_SysID = ReadTerminal();
+					sysID = ReadTerminal();
 					tok = GetCurrentToken() ;
 					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 					{
@@ -140,7 +140,7 @@ public class CExecCICSDeleteQ extends CCobolElement
 	protected Element ExportCustom(Document root)
 	{
 		Element eDel = root.createElement("ExecCICSDeleteQ") ;
-		if (m_bPersistant)
+		if (bPersistant)
 		{
 			eDel.setAttribute("Persistant", "true") ;
 		}
@@ -148,22 +148,22 @@ public class CExecCICSDeleteQ extends CCobolElement
 		{
 			eDel.setAttribute("Persistant", "false") ;
 		}
-		if (m_QueueName != null)
+		if (queueName != null)
 		{
 			Element e = root.createElement("QueueName");
 			eDel.appendChild(e);
-			m_QueueName.ExportTo(e, root) ;
+			queueName.ExportTo(e, root) ;
 		}
-		if (m_SysID != null)
+		if (sysID != null)
 		{
 			Element e = root.createElement("SYSID");
 			eDel.appendChild(e);
-			m_SysID.ExportTo(e, root) ;
+			sysID.ExportTo(e, root) ;
 		}
 		return eDel;
 	}
 
-	protected boolean m_bPersistant = false ;
-	protected CTerminal m_QueueName= null ;
-	protected CTerminal m_SysID = null ;
+	protected boolean bPersistant = false ;
+	protected CTerminal queueName= null ;
+	protected CTerminal sysID = null ;
 }

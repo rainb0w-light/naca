@@ -17,7 +17,7 @@ import utils.CObjectCatalog;
 public abstract class CEntitySQLLock extends CBaseActionEntity
 {
 
-	protected String m_csTableName = "" ;
+	protected String csTableName = "" ;
 	
 	/**
 	 * @param line
@@ -34,7 +34,7 @@ public abstract class CEntitySQLLock extends CBaseActionEntity
 	 */
 	public void setTable(String string)
 	{
-		m_csTableName = string ;
+		csTableName = string ;
 	}
 
 

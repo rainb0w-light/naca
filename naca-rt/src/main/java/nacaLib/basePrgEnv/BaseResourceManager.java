@@ -48,7 +48,7 @@ public abstract class BaseResourceManager extends CJMapObject
 	static public void unloadProgram(String csProgramName)
 	{
 		if(ms_Instance != null)
-			ms_Instance.m_Sequencer.unloadProgram(csProgramName);
+			ms_Instance.sequencer.unloadProgram(csProgramName);
 	}
 	
 	public int getUniqueSessionRequestId()
@@ -84,12 +84,12 @@ public abstract class BaseResourceManager extends CJMapObject
 	
 	public Tag setXMLConfigFilePath(String csINIFilePath)
 	{
-		m_csIniFilePath = csINIFilePath ;
-		Tag tagRoot = Tag.createFromFile(m_csIniFilePath);
+		csIniFilePath = csINIFilePath ;
+		Tag tagRoot = Tag.createFromFile(csIniFilePath);
 		
 		if(tagRoot != null)
 		{
-			m_bSimulateRealEnvironment = tagRoot.getValAsBoolean("SimulateRealEnvironment", false) ;
+			bSimulateRealEnvironment = tagRoot.getValAsBoolean("SimulateRealEnvironment", false) ;
 			
 			ms_bUseProgramPool = tagRoot.getValAsBoolean("UseProgramPool") ;
 			ms_bUseStatementCache = tagRoot.getValAsBoolean("UseSQLStatementCache") ;
@@ -105,23 +105,23 @@ public abstract class BaseResourceManager extends CJMapObject
 			ms_bGCAfterPreloadPrograms = tagRoot.getValAsBoolean("GCAfterPreloadPrograms", false);
 			ms_bLoadCopyByPrimordialLoader = tagRoot.getValAsBoolean("LoadCopyByPrimordialLoader", true);
 
-			m_csApplicationClassPath = tagRoot.getVal("ApplicationClassPath") ;
-			m_csApplicationClassPath = FileSystem.normalizePath(m_csApplicationClassPath);
-			m_csJarFile = tagRoot.getVal("JarFile") ;
-			m_bCanLoadJar = tagRoot.getValAsBoolean("CanLoadJar") ;
-			m_bCanLoadClass = tagRoot.getValAsBoolean("CanLoadClass") ;
+			csApplicationClassPath = tagRoot.getVal("ApplicationClassPath") ;
+			csApplicationClassPath = FileSystem.normalizePath(csApplicationClassPath);
+			csJarFile = tagRoot.getVal("JarFile") ;
+			bCanLoadJar = tagRoot.getValAsBoolean("CanLoadJar") ;
+			bCanLoadClass = tagRoot.getValAsBoolean("CanLoadClass") ;
 			
 			//ms_bMustWriteFileHeader = tagRoot.getValAsBoolean("MustWriteFileHeader") ;
 			
-			m_csSequencerFactoryClass = tagRoot.getVal("SequencerFactoryClass") ;
-			m_tagSequencerConfig = tagRoot.getChild("SequencerConfig") ;
+			csSequencerFactoryClass = tagRoot.getVal("SequencerFactoryClass") ;
+			tagSequencerConfig = tagRoot.getChild("SequencerConfig") ;
 			ms_lMaxSessionExecTime_ms = tagRoot.getValAsLong("MaxSessionExecTime_ms");
 			
-			m_csDynamicAllocationPath = tagRoot.getVal("DynamicAllocationPath");
+			csDynamicAllocationPath = tagRoot.getVal("DynamicAllocationPath");
 			ms_csTempDir = tagRoot.getVal("TempDir");			
-			m_csTomcatStartCommand = tagRoot.getVal("TomcatStartCommand");			
-			m_csCmpGetTextGifUrl = tagRoot.getVal("CmpGetTextGifUrl");
-			m_csCmpDefaultTextGif = tagRoot.getVal("CmpDefaultTextGif");
+			csTomcatStartCommand = tagRoot.getVal("TomcatStartCommand");			
+			csCmpGetTextGifUrl = tagRoot.getVal("CmpGetTextGifUrl");
+			csCmpDefaultTextGif = tagRoot.getVal("CmpDefaultTextGif");
 			
 			boolean b = tagRoot.isValExisting("NbThreadsSort");
 			if(b)
@@ -152,9 +152,9 @@ public abstract class BaseResourceManager extends CJMapObject
 			{
 				String csComparisonMode = tagRoot.getVal("ComparisonMode") ;
 				if(csComparisonMode.equalsIgnoreCase("EBCDIC"))
-					m_bComparisonInEbcdic = true;
+					bComparisonInEbcdic = true;
 				else
-					m_bComparisonInEbcdic = false;
+					bComparisonInEbcdic = false;
 			}
 			
 			ms_csTempDir = FileSystem.normalizePath(ms_csTempDir);
@@ -183,8 +183,8 @@ public abstract class BaseResourceManager extends CJMapObject
 			Tag tagAccounting = tagRoot.getChild("Accounting");
 			if(tagAccounting != null)
 			{
-				m_accountingRessourceDesc = new AccountingRessourceDesc();
-				m_accountingRessourceDesc.load(tagAccounting);
+				accountingRessourceDesc = new AccountingRessourceDesc();
+				accountingRessourceDesc.load(tagAccounting);
 			}
 			
 			Tag tagDebugLoadTest = tagRoot.getChild("DebugLoadTest");
@@ -229,10 +229,10 @@ public abstract class BaseResourceManager extends CJMapObject
 	
 	private void doInitCopyConverterClassLoader()
 	{
-		CopyConverterClassLoader.init(m_csApplicationClassPath, m_bCanLoadClass, m_bCanLoadJar);
+		CopyConverterClassLoader.init(csApplicationClassPath, bCanLoadClass, bCanLoadJar);
 	}
 	
-	private AccountingRessourceDesc m_accountingRessourceDesc = null;
+	private AccountingRessourceDesc accountingRessourceDesc = null;
 	private static ThreadStatementGC ms_threadStatementGC = null;
 	
 	public static void addDbConnectionPool(DbConnectionPool dbConnectionPool)
@@ -242,32 +242,32 @@ public abstract class BaseResourceManager extends CJMapObject
 	
 	public AccountingRessourceDesc getAccountingRessourceDesc()
 	{
-		return m_accountingRessourceDesc;
+		return accountingRessourceDesc;
 	}
 
 	protected void baseInitSequenceur(String csDBParameterPrefix)
 	{
 		//boolean bSpServerMode = false;
 		
-		if (m_csApplicationClassPath != null && !m_csApplicationClassPath.equals(""))
+		if (csApplicationClassPath != null && !csApplicationClassPath.equals(""))
 		{
-			CodeManager.setPath(m_csApplicationClassPath);
+			CodeManager.setPath(csApplicationClassPath);
 		}
 		
-		CodeManager.initLoadPossibilities(m_bCanLoadClass, m_bCanLoadJar);
+		CodeManager.initLoadPossibilities(bCanLoadClass, bCanLoadJar);
 		
-		CodeManager.preloadJar(CustomClassDynLoaderFactory.getInstance(), m_csJarFile);
+		CodeManager.preloadJar(CustomClassDynLoaderFactory.getInstance(), csJarFile);
 		
 		// load program sequencer		
-		m_seqFactory = loadSequencerFactory(m_csSequencerFactoryClass);		
-		if (m_seqFactory == null)
+		seqFactory = loadSequencerFactory(csSequencerFactoryClass);		
+		if (seqFactory == null)
 		{
 			throw new RuntimeException() ;
 		}
 		
-		m_seqFactory.init(csDBParameterPrefix, m_tagSequencerConfig);	//, m_ClassLoader);		
-		if(m_seqFactory != null)
-			m_Sequencer = m_seqFactory.NewSequencer() ;
+		seqFactory.init(csDBParameterPrefix, tagSequencerConfig);	//, m_ClassLoader);		
+		if(seqFactory != null)
+			sequencer = seqFactory.NewSequencer() ;
 	}
 	
 	
@@ -343,24 +343,24 @@ public abstract class BaseResourceManager extends CJMapObject
 	protected static boolean ms_bUseSQLObjectCache = false;
 	public static boolean ms_bUseVarFillCache = false;
 	//protected static boolean ms_bMustWriteFileHeader = false;
-	protected String m_csApplicationClassPath = "" ;
-	protected String m_csJarFile = "";
-	protected boolean m_bCanLoadJar = true;
-	protected boolean m_bCanLoadClass = true;
-	protected String m_csSequencerFactoryClass = ""; //"CESMProgramManagerFactory" ;
-	protected Tag m_tagSequencerConfig = null ;
-	protected CBaseProgramLoaderFactory m_seqFactory = null ;
-	protected ProgramSequencer m_Sequencer = null ;
+	protected String csApplicationClassPath = "" ;
+	protected String csJarFile = "";
+	protected boolean bCanLoadJar = true;
+	protected boolean bCanLoadClass = true;
+	protected String csSequencerFactoryClass = ""; //"CESMProgramManagerFactory" ;
+	protected Tag tagSequencerConfig = null ;
+	protected CBaseProgramLoaderFactory seqFactory = null ;
+	protected ProgramSequencer sequencer = null ;
 	private static long ms_lMaxSessionExecTime_ms = 0;
 	private static JMXDumperGui ms_JMXDumperGui = new JMXDumperGui("./JMXOutput.xml");
-	protected String m_csIniFilePath = "" ;
-	private static boolean m_bComparisonInEbcdic = false;
+	protected String csIniFilePath = "" ;
+	private static boolean bComparisonInEbcdic = false;
 	private static boolean ms_bForcedComparisonInEbcdic = false;
 	
-	private static String m_csDynamicAllocationPath = "";	
-	private static String m_csTomcatStartCommand = "";
-	private static String m_csCmpGetTextGifUrl = "";
-	private static String m_csCmpDefaultTextGif = "";
+	private static String csDynamicAllocationPath = "";	
+	private static String csTomcatStartCommand = "";
+	private static String csCmpGetTextGifUrl = "";
+	private static String csCmpDefaultTextGif = "";
 	
 	//private static boolean ms_bUseSQLMBean = false;
 	public static boolean ms_bLogAllSQLException = false;
@@ -398,12 +398,12 @@ public abstract class BaseResourceManager extends CJMapObject
 	
 	public static String getDynamicAllocationPath()
 	{
-		return m_csDynamicAllocationPath;
+		return csDynamicAllocationPath;
 	}
 	
 	public static String getTomcatStartCommand()
 	{
-		return m_csTomcatStartCommand;
+		return csTomcatStartCommand;
 	}
 	
 	public static String getTempDir()
@@ -413,12 +413,12 @@ public abstract class BaseResourceManager extends CJMapObject
 	
 	public static String getCmpGetTextGifUrl()
 	{
-		return m_csCmpGetTextGifUrl;
+		return csCmpGetTextGifUrl;
 	}
 	
 	public static String getCmpDefaultTextGif()
 	{
-		return m_csCmpDefaultTextGif;
+		return csCmpDefaultTextGif;
 	}
 	
 	public static int getNbThreadsSort()
@@ -474,9 +474,9 @@ public abstract class BaseResourceManager extends CJMapObject
 	
 	protected void loadDBSemanticContextDef()
 	{
-		if (m_seqFactory!=null)
+		if (seqFactory!=null)
 		{
-			DbConnectionBase sqlConnection = m_seqFactory.getConnection("", false);
+			DbConnectionBase sqlConnection = seqFactory.getConnection("", false);
 			
 			// Load db semantic defintion with the specified connection
 			
@@ -488,17 +488,17 @@ public abstract class BaseResourceManager extends CJMapObject
 
 	public static SemanticContextDef getSemanticContextDef()
 	{
-		return ms_Instance.m_semanticContextDef;
+		return ms_Instance.semanticContextDef;
 	}
 	
 	private void defineDBSemanticContext(String csTable, String csCol, String csSemanticContext)
 	{
-		m_semanticContextDef.setSemanticContextValueDefinition(csTable, csCol, csSemanticContext);
+		semanticContextDef.setSemanticContextValueDefinition(csTable, csCol, csSemanticContext);
 	}
 	
 	public String getDBSemanticContext(String csTable, String csCol)
 	{
-		return m_semanticContextDef.getSemanticContextValueDefinition(csTable, csCol);
+		return semanticContextDef.getSemanticContextValueDefinition(csTable, csCol);
 	}
 	
 	public static final StringBuffer getEmptyStringBuffer()
@@ -508,7 +508,7 @@ public abstract class BaseResourceManager extends CJMapObject
 	
 	private static final StringBuffer ms_sbEmptyStringBuffer = new StringBuffer();
 	
-	private SemanticContextDef m_semanticContextDef = new SemanticContextDef();
+	private SemanticContextDef semanticContextDef = new SemanticContextDef();
 	
 	public static boolean isInUpdateMode()
 	{
@@ -651,13 +651,13 @@ public abstract class BaseResourceManager extends CJMapObject
 	
 	public static boolean getComparisonInEbcdic()
 	{
-		return m_bComparisonInEbcdic;
+		return bComparisonInEbcdic;
 	}
 	
 	public static void setForcedComparisonInEbcdic(boolean bComparisonInEbcdic)
 	{
 		ms_bForcedComparisonInEbcdic = true;
-		m_bComparisonInEbcdic = bComparisonInEbcdic;
+		bComparisonInEbcdic = bComparisonInEbcdic;
 	}
 	
 //	public static boolean getMustWriteFileHeader()
@@ -693,10 +693,10 @@ public abstract class BaseResourceManager extends CJMapObject
 	
 	public boolean getSimulateRealEnvironment()
 	{
-		return m_bSimulateRealEnvironment;
+		return bSimulateRealEnvironment;
 	}
 	
-	private boolean m_bSimulateRealEnvironment = true;
+	private boolean bSimulateRealEnvironment = true;
 	private static OpenCalendarManager ms_calendarManager = null;
 
 	private static boolean ms_bAppManuallyClosed = false;

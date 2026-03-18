@@ -22,20 +22,20 @@ public class InitializeManagerInt extends InitializeManager
 {
 	public InitializeManagerInt(int n)
 	{
-		m_n = n;
+		n = n;
 	}
 	
 	public void set(int n)
 	{
-		m_n = n;
+		n = n;
 	}
 
 	public void initialize(VarBufferPos buffer, VarDefBuffer varDef, int nOffset, InitializeCache initializeCache)
 	{
-		varDef.initializeAtOffset(buffer, nOffset, m_n);
+		varDef.initializeAtOffset(buffer, nOffset, n);
 		if(initializeCache != null)
 			initializeCache.setNotManaged();
 	}
 
-	private int m_n;
+	private int n;
 }

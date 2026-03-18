@@ -18,17 +18,17 @@ import jlib.threads.ThreadPoolRequest;
  */
 public class SortedRecordReq extends ThreadPoolRequest
 {
-	private byte m_tbyData[] = null;
+	private byte tbyData[] = null;
 	
 	SortedRecordReq(byte tbyData[])
 	{
 		super(false);
 		
 		int nLength = tbyData.length;
-		m_tbyData = new byte[nLength];
+		tbyData = new byte[nLength];
 		for(int n=0; n<nLength; n++)
 		{
-			m_tbyData[n] = tbyData[n];
+			tbyData[n] = tbyData[n];
 		}
 	}
 	
@@ -39,6 +39,6 @@ public class SortedRecordReq extends ThreadPoolRequest
 	
 	byte[] getData()
 	{
-		return m_tbyData;
+		return tbyData;
 	}
 }

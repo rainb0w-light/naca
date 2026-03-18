@@ -39,17 +39,17 @@ public class CJavaAssign extends CEntityAssign
 	protected void DoExport()
 	{
 		String cs = "move(" ;
-		if (m_bFillAll)
+		if (bFillAll)
 		{
 			cs = "moveAll(";
 		}
-		else if (m_bMoveCorresponding)
+		else if (bMoveCorresponding)
 		{
 			cs = "moveCorresponding(";
 		}
-		if (m_Value != null)
+		if (value != null)
 		{
-			cs += m_Value.ExportReference(getLine()) ;
+			cs += value.ExportReference(getLine()) ;
 		}
 		else
 		{

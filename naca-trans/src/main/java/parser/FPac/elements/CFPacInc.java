@@ -20,8 +20,8 @@ import semantic.Verbs.CEntityInc;
 public class CFPacInc extends CLanguageElement
 {
 
-	private CIdentifier m_id;
-	private CTerminal m_term;
+	private CIdentifier id;
+	private CTerminal term;
 
 	public CFPacInc(int line)
 	{
@@ -33,8 +33,8 @@ public class CFPacInc extends CLanguageElement
 	{
 		CEntityInc add = factory.NewEntityInc(getLine()) ;
 		parent.AddChild(add) ;
-		CDataEntity dest = m_id.GetDataReference(getLine(), factory) ;
-		CDataEntity val = m_term.GetDataEntity(getLine(), factory) ;
+		CDataEntity dest = id.GetDataReference(getLine(), factory) ;
+		CDataEntity val = term.GetDataEntity(getLine(), factory) ;
 		add.SetAddDest(dest) ;
 		add.SetAddValue(val) ;
 		return add ;
@@ -47,17 +47,17 @@ public class CFPacInc extends CLanguageElement
 		Element e = root.createElement("Increment") ;
 		Element eid = root.createElement("Var") ;
 		e.appendChild(eid) ;
-		m_id.ExportTo(eid, root) ;
+		id.ExportTo(eid, root) ;
 		Element eval = root.createElement("Val") ;
 		e.appendChild(eval) ;
-		m_term.ExportTo(eval, root) ;
+		term.ExportTo(eval, root) ;
 		return e;
 	}
 
 	public void Increments(CIdentifier id, CTerminal term)
 	{
-		m_id = id ;
-		m_term = term ;
+		id = id ;
+		term = term ;
 	}
 
 

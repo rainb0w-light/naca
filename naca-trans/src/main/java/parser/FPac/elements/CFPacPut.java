@@ -25,7 +25,7 @@ import utils.FPacTranscoder.notifs.NotifGetDefaultOutputFile;
 public class CFPacPut extends CFPacElement
 {
 
-	private CIdentifier m_PutFile;
+	private CIdentifier putFile;
 
 	public CFPacPut(int line)
 	{
@@ -52,8 +52,8 @@ public class CFPacPut extends CFPacElement
 		
 		if (tok.GetType() == CTokenType.IDENTIFIER)
 		{
-			m_PutFile = ReadIdentifier() ;
-			if (m_PutFile == null)
+			putFile = ReadIdentifier() ;
+			if (putFile == null)
 			{
 				Transcoder.logError(getLine(), "Expecting identifier after 'PUT-'") ;
 				return false  ;
@@ -70,7 +70,7 @@ public class CFPacPut extends CFPacElement
 				tok.GetKeyword() == CFPacKeywordList.OPF8 ||
 				tok.GetKeyword() == CFPacKeywordList.OPF9)
 		{
-			m_PutFile = new CIdentifier(tok.GetValue()) ;
+			putFile = new CIdentifier(tok.GetValue()) ;
 			tok = GetNext() ;
 		}
 		else
@@ -86,10 +86,10 @@ public class CFPacPut extends CFPacElement
 	{
 		CEntityWriteFile writefile = factory.NewEntityWriteFile(getLine());
 		CEntityFileDescriptor desc = null ;
-		if (m_PutFile == null)
+		if (putFile == null)
 		{
 			NotifGetDefaultOutputFile notif = new NotifGetDefaultOutputFile() ;
-			factory.m_ProgramCatalog.SendNotifRequest(notif) ;
+			factory.programCatalog.SendNotifRequest(notif) ;
 			if (notif.fileBuffer != null)
 			{
 				desc = notif.fileBuffer.GetFileDescriptor() ;
@@ -97,7 +97,7 @@ public class CFPacPut extends CFPacElement
 		}
 		else
 		{
-			desc = factory.m_ProgramCatalog.getFileDescriptor(m_PutFile.GetName()) ;
+			desc = factory.programCatalog.getFileDescriptor(putFile.GetName()) ;
 		}
 		if (desc == null)
 		{
@@ -113,10 +113,10 @@ public class CFPacPut extends CFPacElement
 	protected Element ExportCustom(Document root)
 	{
 		Element eAdd = root.createElement("Put") ;
-		if (m_PutFile != null)
+		if (putFile != null)
 		{
 			Element e = root.createElement("File") ;
-			m_PutFile.ExportTo(e, root) ;
+			putFile.ExportTo(e, root) ;
 			eAdd.appendChild(e) ;
 		}
 		return eAdd ;

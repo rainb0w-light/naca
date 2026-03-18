@@ -38,76 +38,76 @@ public class CJavaReplace extends CEntityReplace
 	 */
 	protected void DoExport()
 	{
-		String begin = "inspectReplacing("+ m_Variable.ExportReference(getLine()) + ")";
+		String begin = "inspectReplacing("+ variable.ExportReference(getLine()) + ")";
 		//WriteWord(cs);
-		for (int i=0; i<m_arrItemsToReplace.size(); i++)
+		for (int i=0; i<arrItemsToReplace.size(); i++)
 		{
 			WriteWord(begin) ;
 			String cs = "" ;
-			CReplaceItem item = m_arrItemsToReplace.get(i);
-			if (item.m_Mode == CReplaceMode.ALL)
+			CReplaceItem item = arrItemsToReplace.get(i);
+			if (item.mode == CReplaceMode.ALL)
 			{
 				cs = ".all" ;
 			}
-			else if (item.m_Mode == CReplaceMode.FIRST)
+			else if (item.mode == CReplaceMode.FIRST)
 			{
 				cs = ".first" ;
 			}
-			else if (item.m_Mode == CReplaceMode.LEADING)
+			else if (item.mode == CReplaceMode.LEADING)
 			{
 				cs = ".leading" ;
 			}
 			
-			if (item.m_ReplaceDataType == CReplaceType.SPACES)
+			if (item.replaceDataType == CReplaceType.SPACES)
 			{
 				cs += "Spaces(" ;
 			}
-			else if (item.m_ReplaceDataType == CReplaceType.ZEROS)
+			else if (item.replaceDataType == CReplaceType.ZEROS)
 			{
 				cs += "Zeros(" ;
 			}
-			else if (item.m_ReplaceDataType == CReplaceType.LOW_VALUES)
+			else if (item.replaceDataType == CReplaceType.LOW_VALUES)
 			{
 				cs += "LowValues(" ;
 			}
-			else if (item.m_ReplaceDataType == CReplaceType.HIGH_VALUES)
+			else if (item.replaceDataType == CReplaceType.HIGH_VALUES)
 			{
 				cs += "HighValues(" ;
 			}
-			else if (item.m_ReplaceDataType == CReplaceType.CUSTOM)
+			else if (item.replaceDataType == CReplaceType.CUSTOM)
 			{
 				cs += "(" ;
 			}
-			if (item.m_ReplaceData != null)
+			if (item.replaceData != null)
 			{
-				cs += item.m_ReplaceData.ExportReference(getLine()) ;
+				cs += item.replaceData.ExportReference(getLine()) ;
 			}
 			WriteWord(cs + ")");
 			
 			cs = ".by" ;
-			if (item.m_ByDataType == CReplaceType.SPACES)
+			if (item.byDataType == CReplaceType.SPACES)
 			{
 				cs += "Spaces(" ;
 			}
-			else if (item.m_ByDataType == CReplaceType.ZEROS)
+			else if (item.byDataType == CReplaceType.ZEROS)
 			{
 				cs += "Zero(" ;
 			}
-			else if (item.m_ByDataType == CReplaceType.LOW_VALUES)
+			else if (item.byDataType == CReplaceType.LOW_VALUES)
 			{
 				cs += "LowValues(" ;
 			}
-			else if (item.m_ByDataType == CReplaceType.HIGH_VALUES)
+			else if (item.byDataType == CReplaceType.HIGH_VALUES)
 			{
 				cs += "HighValues(" ;
 			}
-			else if (item.m_ByDataType == CReplaceType.CUSTOM)
+			else if (item.byDataType == CReplaceType.CUSTOM)
 			{
 				cs += "(" ;
 			}
-			if (item.m_ByData != null)
+			if (item.byData != null)
 			{
-				cs += item.m_ByData.ExportReference(getLine());
+				cs += item.byData.ExportReference(getLine());
 			}
 			WriteWord(cs + ")");
 			WriteWord(" ;");

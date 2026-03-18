@@ -34,28 +34,28 @@ public class CFPacJavaConvertReference extends CEntityConvertReference
 	public String ExportReference(int nLine)
 	{
 		String csF = "" ;
-		if (m_bConvertToPacked)
+		if (bConvertToPacked)
 		{
 			csF = "P" ;
 		}
-		else if (m_bConvertToAlphaNum)
+		else if (bConvertToAlphaNum)
 		{
 			csF = "X" ;
 		}
 		else
 		{
-			return m_Reference.ExportReference(getLine());
+			return reference.ExportReference(getLine());
 		}
-		if (m_Reference.HasAccessors())
+		if (reference.HasAccessors())
 		{
-			String cs = m_Reference.ExportReference(getLine()) ;
+			String cs = reference.ExportReference(getLine()) ;
 			cs += csF  ;
 			return cs ;
 		}
 		else
 		{
 			String cs = "buffer"+csF+"(";
-			cs += m_Reference.ExportReference(getLine()) ;
+			cs += reference.ExportReference(getLine()) ;
 			return cs ;
 		}
 	}

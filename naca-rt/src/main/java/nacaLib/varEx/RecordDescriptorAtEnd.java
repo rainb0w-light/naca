@@ -13,13 +13,13 @@ public class RecordDescriptorAtEnd
 	
 	private RecordDescriptorAtEnd(boolean bEnd)
 	{
-		m_bEnd = bEnd;
+		bEnd = bEnd;
 	}
 	
 	public boolean atEnd()
 	{
-		return m_bEnd;
+		return bEnd;
 	}
 	
-	private boolean m_bEnd = false;
+	private boolean bEnd = false;
 }

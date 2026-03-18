@@ -22,14 +22,14 @@ public class VarDefItemManagerStored extends VarDefItemManager
 {
 	VarDefItemManagerStored(int nNbItems)
 	{
-		m_aVarDefItems = new VarDefBuffer[nNbItems];
+		aVarDefItems = new VarDefBuffer[nNbItems];
 	}
 	
 	VarDefBuffer getAtAllDim(int nStorageIndex)
 	{
-		if(m_aVarDefItems != null)
+		if(aVarDefItems != null)
 		{
-			VarDefBuffer varDefItem = m_aVarDefItems[nStorageIndex];
+			VarDefBuffer varDefItem = aVarDefItems[nStorageIndex];
 			return varDefItem;
 		}
 		return null;
@@ -37,16 +37,16 @@ public class VarDefItemManagerStored extends VarDefItemManager
 	
 	VarDefBuffer getAt(VarDefBase varDef, int x)
 	{
-		int n = m_aVarDefItems.length;
+		int n = aVarDefItems.length;
 		int index = x % n;
-		VarDefBuffer varDefItem = m_aVarDefItems[index];
+		VarDefBuffer varDefItem = aVarDefItems[index];
 		return varDefItem;
 	}
 	
 	VarDefBuffer getAt(VarDefBase varDefMaster, int y, int x)
 	{
 		int nStorageIndex = getStorageIndex(varDefMaster, y, x);
-		VarDefBuffer varDefItem = m_aVarDefItems[nStorageIndex];
+		VarDefBuffer varDefItem = aVarDefItems[nStorageIndex];
 		return varDefItem;
 	}
 	
@@ -54,7 +54,7 @@ public class VarDefItemManagerStored extends VarDefItemManager
 	{
 		int nStorageIndex = getStorageIndex(varDefMaster, z, y, x);
 		
-		VarDefBuffer varDefItem = m_aVarDefItems[nStorageIndex];
+		VarDefBuffer varDefItem = aVarDefItems[nStorageIndex];
 		return varDefItem;
 	}
 	
@@ -115,13 +115,13 @@ public class VarDefItemManagerStored extends VarDefItemManager
 //			varDef.getDistanceFromOccursOwner(0);				
 //
 //		VarDefBuffer varDefBuffer = varDef.createCopySingleItem(nAbsStart, String.valueOf(nXBase0+1));
-//		varDefBuffer.m_varDefParent = varDefOccursParent;
+//		varDefBuffer.varDefParent = varDefOccursParent;
 //		
 //		if(varDefOccursParent != null)
 //		{
-//			if(varDefOccursParent.m_arrChildren == null)
-//				varDefOccursParent.m_arrChildren = new ArrayList<VarDefBase>();
-//			varDefOccursParent.m_arrChildren.add(varDefBuffer);
+//			if(varDefOccursParent.arrChildren == null)
+//				varDefOccursParent.arrChildren = new ArrayList<VarDefBase>();
+//			varDefOccursParent.arrChildren.add(varDefBuffer);
 //		}	
 //		
 //		return varDefBuffer;
@@ -142,12 +142,12 @@ public class VarDefItemManagerStored extends VarDefItemManager
 //			String csIndexes = String.valueOf(nYBase0+1) + "," + String.valueOf(nXBase0+1);
 //			VarDefBuffer varDefBuffer = varDef.createCopySingleItem(n, csIndexes);
 //			
-//			varDefBuffer.m_varDefParent = varDefOccursParent;
+//			varDefBuffer.varDefParent = varDefOccursParent;
 //			if(varDefOccursParent != null)
 //			{
-//				if(varDefOccursParent.m_arrChildren == null)
-//					varDefOccursParent.m_arrChildren = new ArrayList<VarDefBase>();
-//				varDefOccursParent.m_arrChildren.add(varDefBuffer);
+//				if(varDefOccursParent.arrChildren == null)
+//					varDefOccursParent.arrChildren = new ArrayList<VarDefBase>();
+//				varDefOccursParent.arrChildren.add(varDefBuffer);
 //			}	
 //			return varDefBuffer;
 //		}
@@ -170,12 +170,12 @@ public class VarDefItemManagerStored extends VarDefItemManager
 //			String csIndexes = String.valueOf(nZBase0+1) + "," + String.valueOf(nYBase0+1) + "," + String.valueOf(nXBase0+1);
 //			VarDefBuffer varDefBuffer = varDef.createCopySingleItem(n, csIndexes);
 //			
-//			varDefBuffer.m_varDefParent = varDefOccursParent;
+//			varDefBuffer.varDefParent = varDefOccursParent;
 //			if(varDefOccursParent != null)
 //			{
-//				if(varDefOccursParent.m_arrChildren == null)
-//					varDefOccursParent.m_arrChildren = new ArrayList<VarDefBase>();
-//				varDefOccursParent.m_arrChildren.add(varDefBuffer);
+//				if(varDefOccursParent.arrChildren == null)
+//					varDefOccursParent.arrChildren = new ArrayList<VarDefBase>();
+//				varDefOccursParent.arrChildren.add(varDefBuffer);
 //			}	
 //			return varDefBuffer;
 //		}
@@ -184,5 +184,5 @@ public class VarDefItemManagerStored extends VarDefItemManager
 //	}	
 
 	
-	VarDefBuffer m_aVarDefItems[] = null;
+	VarDefBuffer aVarDefItems[] = null;
 }

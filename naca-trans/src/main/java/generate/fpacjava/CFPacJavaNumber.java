@@ -21,13 +21,13 @@ public class CFPacJavaNumber extends CEntityNumber
 	@Override
 	public String ExportReference(int nLine)
 	{
-		if (m_csValue.startsWith("0x"))
+		if (csValue.startsWith("0x"))
 		{
-			return "hexa(\""+m_csValue.substring(2)+"\")" ;
+			return "hexa(\""+csValue.substring(2)+"\")" ;
 		}
 		else
 		{
-			return m_csValue ;
+			return csValue ;
 		}
 	}
 
@@ -40,7 +40,7 @@ public class CFPacJavaNumber extends CEntityNumber
 	@Override
 	public String GetConstantValue()
 	{
-		return m_csValue ;
+		return csValue ;
 	}
 	
 	public String toString()

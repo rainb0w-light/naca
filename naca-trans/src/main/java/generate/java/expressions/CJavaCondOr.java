@@ -27,22 +27,22 @@ public class CJavaCondOr extends CEntityCondOr
 
 	public String Export()
 	{
-		if (m_Op1.ignore())
+		if (op1.ignore())
 		{
-			return m_Op2.Export();
+			return op2.Export();
 		}
-		else if (m_Op2.ignore())
+		else if (op2.ignore())
 		{
-			return m_Op1.Export();
+			return op1.Export();
 		}
-		String cs = CJavaExporter.ExportChildCondition(GetPriorityLevel(), m_Op1) ;
-		cs += " \n|| " + CJavaExporter.ExportChildCondition(GetPriorityLevel(), m_Op2) ;
+		String cs = CJavaExporter.ExportChildCondition(GetPriorityLevel(), op1) ;
+		cs += " \n|| " + CJavaExporter.ExportChildCondition(GetPriorityLevel(), op2) ;
 		return cs ;
 	}
 	public CBaseEntityCondition GetOppositeCondition()
 	{
 		CJavaCondAnd eAnd = new CJavaCondAnd();
-		eAnd.SetCondition(m_Op1.GetOppositeCondition(), m_Op2.GetOppositeCondition()) ;
+		eAnd.SetCondition(op1.GetOppositeCondition(), op2.GetOppositeCondition()) ;
 		return eAnd;
 	}
 	public int GetPriorityLevel()

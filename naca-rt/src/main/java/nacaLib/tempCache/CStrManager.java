@@ -20,94 +20,94 @@ public  class CStrManager
 {
 	public CStr getMapped()
 	{
-		if(m_nIndexCStrMapped < m_arrCStrMapped.size())
+		if(nIndexCStrMapped < arrCStrMapped.size())
 		{
-			CStr cs = m_arrCStrMapped.get(m_nIndexCStrMapped);
+			CStr cs = arrCStrMapped.get(nIndexCStrMapped);
 			//cs.set(null, 0, 0);	// Erase previous buffer, as we are mapped
-			m_nIndexCStrMapped++;
+			nIndexCStrMapped++;
 			return cs;			
 		}
 		else
 		{
 			CStr cs = new CStr();
-			m_arrCStrMapped.add(cs);
-			m_nIndexCStrMapped = m_arrCStrMapped.size();
+			arrCStrMapped.add(cs);
+			nIndexCStrMapped = arrCStrMapped.size();
 			return cs;
 		}		
 	}
 	
 	public CStr getReusable()
 	{
-		if(m_nIndexCStrReusable < m_arrCStrReusable.size())
+		if(nIndexCStrReusable < arrCStrReusable.size())
 		{
-			CStr cs = m_arrCStrReusable.get(m_nIndexCStrReusable);
-			m_nIndexCStrReusable++;
+			CStr cs = arrCStrReusable.get(nIndexCStrReusable);
+			nIndexCStrReusable++;
 			return cs;			
 		}
 		else
 		{
 			CStr cs = new CStr();
-			m_arrCStrReusable.add(cs);
-			m_nIndexCStrReusable = m_arrCStrReusable.size();
+			arrCStrReusable.add(cs);
+			nIndexCStrReusable = arrCStrReusable.size();
 			return cs;
 		}		
 	}
 	
 	public CStrNumber getNumber()
 	{
-		if(m_nIndexCStrNumber < m_arrCStrNumber.size())
+		if(nIndexCStrNumber < arrCStrNumber.size())
 		{
-			CStrNumber csNum = m_arrCStrNumber.get(m_nIndexCStrNumber);
-			m_nIndexCStrNumber++;
+			CStrNumber csNum = arrCStrNumber.get(nIndexCStrNumber);
+			nIndexCStrNumber++;
 			return csNum;			
 		}
 		else
 		{
 			CStrNumber csNum = new CStrNumber();
-			m_arrCStrNumber.add(csNum);
-			m_nIndexCStrNumber = m_arrCStrNumber.size();
+			arrCStrNumber.add(csNum);
+			nIndexCStrNumber = arrCStrNumber.size();
 			return csNum;
 		}			
 	}
 	
 	public CStrString getString()
 	{
-		if(m_nIndexCStrString < m_arrCStrString.size())
+		if(nIndexCStrString < arrCStrString.size())
 		{
-			CStrString cs = m_arrCStrString.get(m_nIndexCStrString);
-			m_nIndexCStrString++;
+			CStrString cs = arrCStrString.get(nIndexCStrString);
+			nIndexCStrString++;
 			return cs;			
 		}
 		else
 		{
 			CStrString cs = new CStrString();
-			m_arrCStrString.add(cs);
-			m_nIndexCStrString = m_arrCStrString.size();
+			arrCStrString.add(cs);
+			nIndexCStrString = arrCStrString.size();
 			return cs;
 		}
 	}
 	
-	private ArrayList<CStr> m_arrCStrMapped = new ArrayList<CStr>();
-	private ArrayList<CStr> m_arrCStrReusable = new ArrayList<CStr>();
-	private ArrayList<CStrNumber> m_arrCStrNumber = new ArrayList<CStrNumber>();	
-	private ArrayList<CStrString> m_arrCStrString = new ArrayList<CStrString>();
+	private ArrayList<CStr> arrCStrMapped = new ArrayList<CStr>();
+	private ArrayList<CStr> arrCStrReusable = new ArrayList<CStr>();
+	private ArrayList<CStrNumber> arrCStrNumber = new ArrayList<CStrNumber>();	
+	private ArrayList<CStrString> arrCStrString = new ArrayList<CStrString>();
 	
 
-	private int m_nIndexCStrMapped = 0;
-	private int m_nIndexCStrReusable = 0;
-	private int m_nIndexCStrNumber = 0;
-	private int m_nIndexCStrString = 0;
+	private int nIndexCStrMapped = 0;
+	private int nIndexCStrReusable = 0;
+	private int nIndexCStrNumber = 0;
+	private int nIndexCStrString = 0;
 	
 	public void reset()
 	{
-		m_nIndexCStrMapped = 0;
-		m_nIndexCStrReusable = 0;
-		m_nIndexCStrNumber = 0;
-		m_nIndexCStrString = 0;
+		nIndexCStrMapped = 0;
+		nIndexCStrReusable = 0;
+		nIndexCStrNumber = 0;
+		nIndexCStrString = 0;
 	}
 	
 	public void rewindCStrMapped(int n)
 	{
-		m_nIndexCStrMapped -= n;
+		nIndexCStrMapped -= n;
 	}
 }

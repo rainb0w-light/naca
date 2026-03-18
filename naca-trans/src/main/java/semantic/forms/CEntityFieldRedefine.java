@@ -37,11 +37,11 @@ public abstract class CEntityFieldRedefine extends CEntityResourceField
 	 * @param cat
 	 * @param out
 	 */
-	public String m_csLevel = "" ;
+	public String csLevel = "" ;
 	public CEntityFieldRedefine(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out, String level)
 	{
 		super(l, name, cat, out);
-		m_csLevel = level;
+		csLevel = level;
 	}
 	public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory) 
 	{
@@ -60,7 +60,7 @@ public abstract class CEntityFieldRedefine extends CEntityResourceField
 	 */
 //	public void SetFormat(String format)
 //	{
-//		m_csFormat = format ;
+//		csFormat = format ;
 //	}
 	/* (non-Javadoc)
 	 * @see semantic.CBaseLanguageEntity#RegisterMySelfToCatalog()
@@ -74,7 +74,7 @@ public abstract class CEntityFieldRedefine extends CEntityResourceField
 	{
 		//super.RegisterMySelfToCatalog();
 //		String name = GetName() ;
-//		boolean b = m_ProgramCatalog.IsExistingDataEntity(name, "") ;
+//		boolean b = programCatalog.IsExistingDataEntity(name, "") ;
 //		if (b)
 //		{
 //			String newname = "" ;
@@ -83,7 +83,7 @@ public abstract class CEntityFieldRedefine extends CEntityResourceField
 //			{
 //				n++ ;
 //				newname = name + "$" + n ;
-//				b = m_ProgramCatalog.IsExistingDataEntity(newname, "") ;
+//				b = programCatalog.IsExistingDataEntity(newname, "") ;
 //			}
 //			SetName(newname) ;
 //		}

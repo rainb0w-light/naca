@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /*
- * Created on 6 déc. 04
+ * Created on 6 dï¿½c. 04
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -34,97 +34,97 @@ public class InspectReplacing
 	
 	public InspectReplacing(VarAndEdit var)
 	{
-		m_var = var;
+		var = var;
 	}
 	
 	public InspectReplacing before(String csBefore)
 	{
-		m_csBefore = csBefore;
+		csBefore = csBefore;
 		return this;
 	}
 	
 	public InspectReplacing before(VarAndEdit varBefore)
 	{
-		m_csBefore = varBefore.getString();
+		csBefore = varBefore.getString();
 		return this;
 	}
 
 	public InspectReplacing after(String csAfter)
 	{
-		m_csAfter = csAfter;
+		csAfter = csAfter;
 		return this;
 	}
 
 	public InspectReplacing after(VarAndEdit varAfter)
 	{
-		m_csAfter = varAfter.getString();
+		csAfter = varAfter.getString();
 		return this;
 	}
 
 	
 	public InspectReplacing first(String cs)
 	{
-		m_InspectReplacingType = TypeFirst;
-		m_csPattern = cs;
+		inspectReplacingType = TypeFirst;
+		csPattern = cs;
 		return this;
 	}
 	
 	public InspectReplacing first(VarAndEdit var)
 	{
-		m_InspectReplacingType = TypeFirst;
-		m_csPattern = var.getString();
+		inspectReplacingType = TypeFirst;
+		csPattern = var.getString();
 		return this;
 	}
 	
 	public InspectReplacing leading(String cs)
 	{
-		m_InspectReplacingType = TypeLeading;
-		m_csPattern = cs;
+		inspectReplacingType = TypeLeading;
+		csPattern = cs;
 		return this;
 	}
 	
 	public InspectReplacing allLowValues()
 	{
-		m_InspectReplacingType = TypeAllLowValue;
+		inspectReplacingType = TypeAllLowValue;
 		return this ;
 	}
 	
 	public InspectReplacing allHighValues()
 	{
-		m_InspectReplacingType = TypeAllHighValue;
+		inspectReplacingType = TypeAllHighValue;
 		return this ;
 	}
 	
 	public InspectReplacing all(String s)
 	{
-		m_InspectReplacingType = TypeAll;
-		m_csPattern = s ;
+		inspectReplacingType = TypeAll;
+		csPattern = s ;
 		return this ;
 	}
 	
 	public InspectReplacing all(VarAndEdit v)
 	{
-		m_InspectReplacingType = TypeAll;
-		m_csPattern = v.getString() ;
+		inspectReplacingType = TypeAll;
+		csPattern = v.getString() ;
 		return this ;
 	}
 	
 	public InspectReplacing allSpaces()
 	{
-		m_InspectReplacingType = TypeAll;
-		m_csPattern = " " ;
+		inspectReplacingType = TypeAll;
+		csPattern = " " ;
 		return this ;
 	}
 
 	public InspectReplacing leadingSpaces()
 	{
-		m_InspectReplacingType = TypeLeadingSpaces;
+		inspectReplacingType = TypeLeadingSpaces;
 		return this ;
 	}
 
 	public InspectReplacing leadingZeros()
 	{
-		m_InspectReplacingType = TypeLeadingZeroes;
+		inspectReplacingType = TypeLeadingZeroes;
 		return this ;
 	}
 		
@@ -164,30 +164,30 @@ public class InspectReplacing
 	public void by(String csReplacing)
 	{
 		int nNbCall = 0;
-		m_csSource = m_var.getString();
+		csSource = var.getString();
 		String csPrefixe = null;
 		String csSuffixe = null;
 		
 		// Find substring where to count
-		if(m_csAfter != null)	// We have a starting point
+		if(csAfter != null)	// We have a starting point
 		{
-			int nPosAfter = m_csSource.indexOf(m_csAfter);
+			int nPosAfter = csSource.indexOf(csAfter);
 			if(nPosAfter == -1)	// No delimiter found: Nothing to do
 				return;
-			csPrefixe = m_csSource.substring(0, nPosAfter+1);
-			m_csSource = m_csSource.substring(nPosAfter+1);			
+			csPrefixe = csSource.substring(0, nPosAfter+1);
+			csSource = csSource.substring(nPosAfter+1);			
 		}
 		
-		if(m_csBefore != null)	// We have a ending point
+		if(csBefore != null)	// We have a ending point
 		{
-			int nPosBefore = m_csSource.indexOf(m_csBefore);
+			int nPosBefore = csSource.indexOf(csBefore);
 			if(nPosBefore == -1)	// No delimiter found: Nothing to do
 				return;
-			csSuffixe = m_csSource.substring(nPosBefore);
-			m_csSource = m_csSource.substring(0, nPosBefore);
+			csSuffixe = csSource.substring(nPosBefore);
+			csSource = csSource.substring(0, nPosBefore);
 		}
 		
-		StringBuffer csDest = new StringBuffer(m_csSource);
+		StringBuffer csDest = new StringBuffer(csSource);
 		
 		int nReplaceLength = getReplaceLength();
 		int nPos = getReplacePosition(nNbCall, 0, nReplaceLength);
@@ -222,45 +222,45 @@ public class InspectReplacing
 				cs = csPrefixe + cs;
 			if(csPrefixe != null)
 				cs = cs + csSuffixe;
-			m_var.set(cs);
+			var.set(cs);
 		}
 		else
-			m_var.set(csDest.toString());		
+			var.set(csDest.toString());		
 	}
 	
 	private int getReplacePosition(int nNbCall, int nPosStart, int nNbOccurences)
 	{
-		String csSource = m_csSource;
+		String csSource = this.csSource;
 		if(nPosStart != 0)
-			csSource = m_csSource.substring(nPosStart);
+			csSource = csSource.substring(nPosStart);
 		int nLg = csSource.length();
-		if(m_InspectReplacingType == TypeFirst)
+		if(inspectReplacingType == TypeFirst)
 		{
 			if(nNbCall == 0 && nPosStart == 0)	// 1st call
 			{
-				int nPosPattern = csSource.indexOf(m_csPattern);	// found the 1st position of the pattern
+				int nPosPattern = csSource.indexOf(csPattern);	// found the 1st position of the pattern
 				if(nPosPattern >= 0)
 					return nPosPattern;
 			}
 		}
-		else if(m_InspectReplacingType == TypeLeading)
+		else if(inspectReplacingType == TypeLeading)
 		{
 			if(nNbCall == 0 && nPosStart == 0)	// 1st call
 			{
-				int nPosPattern = csSource.indexOf(m_csPattern);	// found the 1st position of the pattern
+				int nPosPattern = csSource.indexOf(csPattern);	// found the 1st position of the pattern
 				if(nPosPattern >= 0)
 					return nPosPattern;
 				return -1;
 			}
-			int nPosPattern = csSource.indexOf(m_csPattern);
+			int nPosPattern = csSource.indexOf(csPattern);
 			return nPosPattern; 
 		}
-		else if(m_InspectReplacingType == TypeAll)
+		else if(inspectReplacingType == TypeAll)
 		{
-			int nPosPattern = csSource.indexOf(m_csPattern);
+			int nPosPattern = csSource.indexOf(csPattern);
 			return nPosPattern; 
 		}
-		else if(m_InspectReplacingType == TypeAllLowValue)
+		else if(inspectReplacingType == TypeAllLowValue)
 		{
 			// Try to find a consecutive range of nReplaceLength low value chars
  			int nOccurences = 0;
@@ -285,7 +285,7 @@ public class InspectReplacing
 				return n;
 			return -1;
 		}
-		else if(m_InspectReplacingType == TypeAllHighValue)
+		else if(inspectReplacingType == TypeAllHighValue)
 		{
 			// Try to find a consecutive range of nReplaceLength low value chars
  			int nOccurences = 0;
@@ -310,11 +310,11 @@ public class InspectReplacing
 				return n;
 			return -1;
 		}
-		else if(m_InspectReplacingType == TypeLeadingSpaces)
+		else if(inspectReplacingType == TypeLeadingSpaces)
 		{
 			return getReplacePositionLeading(csSource, nLg, ' '); 
 		}
-		else if(m_InspectReplacingType == TypeLeadingZeroes)
+		else if(inspectReplacingType == TypeLeadingZeroes)
 		{
 			return getReplacePositionLeading(csSource, nLg, '0'); 
 		}
@@ -334,21 +334,21 @@ public class InspectReplacing
 
 	private int getReplaceLength()
 	{
-		if(m_InspectReplacingType == TypeLeadingSpaces)
+		if(inspectReplacingType == TypeLeadingSpaces)
 			return 1;
-		if(m_InspectReplacingType == TypeLeadingZeroes)
+		if(inspectReplacingType == TypeLeadingZeroes)
 			return 1;
-		else if(m_InspectReplacingType == TypeAllLowValue)
+		else if(inspectReplacingType == TypeAllLowValue)
 			return 1;
-		else if(m_InspectReplacingType == TypeAllHighValue)
+		else if(inspectReplacingType == TypeAllHighValue)
 			return 1;
-		return m_csPattern.length();
+		return csPattern.length();
 	}
 	
-	VarAndEdit m_var = null;
-	String m_csBefore = null;
-	String m_csAfter = null;
-	String m_csSource = null;
-	String m_csPattern = null;
-	InspectReplacingType m_InspectReplacingType = null;
+	VarAndEdit var = null;
+	String csBefore = null;
+	String csAfter = null;
+	String csSource = null;
+	String csPattern = null;
+	InspectReplacingType inspectReplacingType = null;
 }

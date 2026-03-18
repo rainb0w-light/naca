@@ -79,7 +79,7 @@ public abstract class VarDefNum extends VarDefVariable
 	
 	public VarDefNum(VarDefBase varDefParent, VarLevel varLevel)
 	{
-		super(varDefParent, varLevel);	//declareType9.m_varLevel);
+		super(varDefParent, varLevel);	//declareType9.varLevel);
 	}
 	
 //	VarDefNum(VarDefNum varDefSource)
@@ -90,20 +90,20 @@ public abstract class VarDefNum extends VarDefVariable
 	
 //	CStr getAsDecodedString(VarBufferPos buffer)
 //	{
-//		String cs = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nTotalSize);
+//		String cs = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);
 //		return cs;
 //	}
 	
 	CStr getAsDecodedString(VarBufferPos buffer)
 	{
-		CStr cs = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nTotalSize);
+		CStr cs = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);
 		return cs;
 	}
 	
 	// Comp0	
 //	protected int internalWriteDecComp0(VarBufferPos buffer, Dec decValue, int nNbDigitInteger, int nNbDigitDecimal)
 //	{
-//		int nPosition = RWNumIntComp0.internalWriteAbsoluteIntComp0AsLong(buffer, decValue.getUnsignedLong(), buffer.m_nAbsolutePosition, nNbDigitInteger);
+//		int nPosition = RWNumIntComp0.internalWriteAbsoluteIntComp0AsLong(buffer, decValue.getUnsignedLong(), buffer.nAbsolutePosition, nNbDigitInteger);
 //		String csValueDec = decValue.getDecPart();
 //		nPosition = internalWriteRightPadding(buffer, nPosition, nNbDigitDecimal, csValueDec, '0');
 //		return nPosition;
@@ -111,7 +111,7 @@ public abstract class VarDefNum extends VarDefVariable
 	
 	protected int internalWriteDecComp0(VarBufferPos buffer, int nOffset, Dec decValue, int nNbDigitInteger, int nNbDigitDecimal)
 	{
-		int nPosition = RWNumIntComp0.internalWriteAbsoluteIntComp0AsLong(buffer, nOffset, decValue.getUnsignedLong(), buffer.m_nAbsolutePosition, nNbDigitInteger);
+		int nPosition = RWNumIntComp0.internalWriteAbsoluteIntComp0AsLong(buffer, nOffset, decValue.getUnsignedLong(), buffer.nAbsolutePosition, nNbDigitInteger);
 		String csValueDec = decValue.getDecPart();
 		nPosition = internalWriteRightPadding(buffer, nPosition, nNbDigitDecimal, csValueDec, '0');
 		return nPosition;
@@ -126,15 +126,15 @@ public abstract class VarDefNum extends VarDefVariable
 		// CJMap:
 		// +123 		'1' '2' '3'
 		// -4321        '4' '3' '2' 0xF0+'1'
-		int nPos = buffer.m_nAbsolutePosition+m_nTotalSize-1;
-		char cRightMost = buffer.m_acBuffer[nPos];
+		int nPos = buffer.nAbsolutePosition+nTotalSize-1;
+		char cRightMost = buffer.acBuffer[nPos];
 		//char cRightMost = buffer.getCharAt(nPos);
 		int nDigit = cRightMost - '0'; 
 		if(bPositive)
 			nDigit += 0xC0;
 		else
 			nDigit += 0xD0;
-		buffer.m_acBuffer[nPos] = (char)nDigit;
+		buffer.acBuffer[nPos] = (char)nDigit;
 		//buffer.setCharAt(nPos, (char)nDigit);
 	}
 	
@@ -147,15 +147,15 @@ public abstract class VarDefNum extends VarDefVariable
 		// CJMap:
 		// +123 		'1' '2' '3'
 		// -4321        '4' '3' '2' 0xF0+'1'
-		int nPos = buffer.m_nAbsolutePosition+m_nTotalSize-1+nOffset;
-		char cRightMost = buffer.m_acBuffer[nPos];
+		int nPos = buffer.nAbsolutePosition+nTotalSize-1+nOffset;
+		char cRightMost = buffer.acBuffer[nPos];
 		//char cRightMost = buffer.getCharAt(nPos);
 		int nDigit = cRightMost - '0'; 
 		if(bPositive)
 			nDigit += 0xC0;
 		else
 			nDigit += 0xD0;
-		buffer.m_acBuffer[nPos] = (char)nDigit;
+		buffer.acBuffer[nPos] = (char)nDigit;
 		//buffer.setCharAt(nPos, (char)nDigit);
 	}
 
@@ -188,7 +188,7 @@ public abstract class VarDefNum extends VarDefVariable
 		int nValue = buffer.getAsInt(nAbsolutePosition, nTotalSize-1);
 		nValue *= 10;
 		
-		char cDigitSign = buffer.m_acBuffer[nAbsolutePosition+nTotalSize-1];
+		char cDigitSign = buffer.acBuffer[nAbsolutePosition+nTotalSize-1];
 		//char cDigitSign = buffer.getCharAt(nAbsolutePosition+nTotalSize-1);
 		int nDigit = 0;
 		if(cDigitSign >= 0xD0)
@@ -217,7 +217,7 @@ public abstract class VarDefNum extends VarDefVariable
 		int nValue = buffer.getAsUnsignedInt(nAbsolutePosition, nTotalSize-1);
 		nValue *= 10;
 		
-		char cDigitSign = buffer.m_acBuffer[nAbsolutePosition+nTotalSize-1];
+		char cDigitSign = buffer.acBuffer[nAbsolutePosition+nTotalSize-1];
 		//char cDigitSign = buffer.getCharAt(nAbsolutePosition+nTotalSize-1);
 		int nDigit = 0;
 		if(cDigitSign >= 0xD0)
@@ -244,7 +244,7 @@ public abstract class VarDefNum extends VarDefVariable
 		long lValue = buffer.getAsLong(nAbsolutePosition, nTotalSize-1);
 		lValue *= 10;
 		
-		char cDigitSign = buffer.m_acBuffer[nAbsolutePosition+nTotalSize-1];
+		char cDigitSign = buffer.acBuffer[nAbsolutePosition+nTotalSize-1];
 		//char cDigitSign = buffer.getCharAt(nAbsolutePosition+nTotalSize-1);
 		int nDigit = 0;
 		if(cDigitSign >= 0xD0)
@@ -272,7 +272,7 @@ public abstract class VarDefNum extends VarDefVariable
 		long lValue = buffer.getAsLong(nAbsolutePosition, nTotalSize-1);
 		lValue *= 10;
 		
-		char cDigitSign = buffer.m_acBuffer[nAbsolutePosition+nTotalSize-1];
+		char cDigitSign = buffer.acBuffer[nAbsolutePosition+nTotalSize-1];
 		//char cDigitSign = buffer.getCharAt(nAbsolutePosition+nTotalSize-1);
 		int nDigit = 0;
 		if(cDigitSign >= 0xD0)
@@ -302,7 +302,7 @@ public abstract class VarDefNum extends VarDefVariable
 //		int nValue = NumberParser.getAsInt(cs);
 //		nValue *= 10;
 		
-		char cDigitSign = buffer.m_acBuffer[nAbsolutePosition+nTotalSize-1];
+		char cDigitSign = buffer.acBuffer[nAbsolutePosition+nTotalSize-1];
 		//char cDigitSign = buffer.getCharAt(nAbsolutePosition+nTotalSize-1);
 		int nDigit = 0;
 		if(cDigitSign >= 0xD0)
@@ -331,7 +331,7 @@ public abstract class VarDefNum extends VarDefVariable
 		CStrNumber csNum = TempCacheLocator.getTLSTempCache().getCStrNumber();
 		csNum.set(cs, 1);
 		
-		char cDigitSign = buffer.m_acBuffer[nAbsolutePosition+nTotalSize-1];
+		char cDigitSign = buffer.acBuffer[nAbsolutePosition+nTotalSize-1];
 		//char cDigitSign = buffer.getCharAt(nAbsolutePosition+nTotalSize-1);
 		if(cDigitSign >= 0xD0)
 		{
@@ -390,20 +390,20 @@ public abstract class VarDefNum extends VarDefVariable
 //
 //			int nChar = (nHigh * 16) + nLow;
 //			char cChar = (char)nChar;  
-//			buffer.setCharAt(buffer.m_nAbsolutePosition+nCharDest+nOffset, cChar);
+//			buffer.setCharAt(buffer.nAbsolutePosition+nCharDest+nOffset, cChar);
 //						 
 //			n++;
 //			nCharDest++;
 //		}
-//		return buffer.m_nAbsolutePosition+nCharDest+nOffset;
+//		return buffer.nAbsolutePosition+nCharDest+nOffset;
 //	}
 	
 //	protected int internalReadIntSignComp3(VarBufferPos buffer, int nNbDigitInteger)
 //	{
-//		int nValue = Pic9Comp3BufferSupport.getAsInt(buffer, nNbDigitInteger, m_nTotalSize);
+//		int nValue = Pic9Comp3BufferSupport.getAsInt(buffer, nNbDigitInteger, nTotalSize);
 //		return nValue;
 ////		
-////		String s = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nTotalSize);
+////		String s = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);
 ////		s = StringUtil.decodeSignComp3String(s, nNbDigitInteger);
 ////		int nInt = NumberParser.getAsInt(s);
 ////		return nInt;
@@ -411,9 +411,9 @@ public abstract class VarDefNum extends VarDefVariable
 	
 //	protected long internalReadIntSignComp3AsLong(VarBufferPos buffer, int nNbDigits)
 //	{
-//		long lValue = Pic9Comp3BufferSupport.getAsLong(buffer, nNbDigits, m_nTotalSize);
+//		long lValue = Pic9Comp3BufferSupport.getAsLong(buffer, nNbDigits, nTotalSize);
 //		return lValue;
-////		String s = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nTotalSize);
+////		String s = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);
 ////		s = StringUtil.decodeSignComp3String(s, nNbDigits);
 ////		long l = NumberParser.getAsLong(s);
 ////		return l;
@@ -421,10 +421,10 @@ public abstract class VarDefNum extends VarDefVariable
 	
 //	protected int internalReadIntComp3(VarBufferPos buffer, int nNbDigitInteger)
 //	{
-//		int nValue = Pic9Comp3BufferSupport.getAsInt(buffer, nNbDigitInteger, m_nTotalSize);
+//		int nValue = Pic9Comp3BufferSupport.getAsInt(buffer, nNbDigitInteger, nTotalSize);
 //		return nValue;
 ////		
-////		String s = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nTotalSize);
+////		String s = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);
 ////		s = StringUtil.decodeComp3String(s, nNbDigitInteger);
 ////		int nInt = NumberParser.getAsInt(s);
 ////		return nInt;
@@ -432,10 +432,10 @@ public abstract class VarDefNum extends VarDefVariable
 		
 //	protected long internalReadIntComp3AsLong(VarBufferPos buffer, int nNbDigitInteger)
 //	{
-//		long lValue = Pic9Comp3BufferSupport.getAsLong(buffer, nNbDigitInteger, m_nTotalSize);
+//		long lValue = Pic9Comp3BufferSupport.getAsLong(buffer, nNbDigitInteger, nTotalSize);
 //		return lValue;
 //		
-////		String s = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nTotalSize);
+////		String s = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);
 ////		s = StringUtil.decodeComp3String(s, nNbDigitInteger);
 ////		long l = NumberParser.getAsLong(s);
 ////		return l;
@@ -454,7 +454,7 @@ public abstract class VarDefNum extends VarDefVariable
 	
 //	protected void writeIntComp3(VarBufferPos buffer, int nValue, int nNbDigitInteger)
 //	{
-//		Pic9Comp3BufferSupport.setFromRightToLeft(buffer, nNbDigitInteger, m_nTotalSize, 0, false, nValue);
+//		Pic9Comp3BufferSupport.setFromRightToLeft(buffer, nNbDigitInteger, nTotalSize, 0, false, nValue);
 //	}
 	
 //	protected int writeIntComp3(VarBufferPos buffer, int nOffset, int nValue, int nNbDigitInteger)
@@ -469,7 +469,7 @@ public abstract class VarDefNum extends VarDefVariable
 	
 //	protected void writeIntComp3(VarBufferPos buffer, int nOffset, int nValue, int nNbDigitInteger)
 //	{
-//		Pic9Comp3BufferSupport.setFromRightToLeft(buffer, nNbDigitInteger, m_nTotalSize, nOffset, false, nValue);
+//		Pic9Comp3BufferSupport.setFromRightToLeft(buffer, nNbDigitInteger, nTotalSize, nOffset, false, nValue);
 //	}
 	
 //	protected int writeIntComp3AsLong(VarBufferPos buffer, long lValue, int nNbDigitInteger)
@@ -484,7 +484,7 @@ public abstract class VarDefNum extends VarDefVariable
 	
 //	protected void writeIntComp3AsLong(VarBufferPos buffer, long lValue, int nNbDigitInteger)
 //	{
-//		Pic9Comp3BufferSupport.setFromRightToLeft(buffer, nNbDigitInteger, m_nTotalSize, 0, false, lValue);
+//		Pic9Comp3BufferSupport.setFromRightToLeft(buffer, nNbDigitInteger, nTotalSize, 0, false, lValue);
 //	}
 	
 //	protected int writeIntComp3AsLong(VarBufferPos buffer, int nOffset, long lValue, int nNbDigitInteger)
@@ -499,7 +499,7 @@ public abstract class VarDefNum extends VarDefVariable
 	
 //	protected void writeIntComp3AsLong_TOTO(VarBufferPos buffer, int nOffset, long lValue, int nNbDigitInteger)
 //	{
-//		Pic9Comp3BufferSupport.setFromRightToLeft(buffer, nNbDigitInteger, m_nTotalSize, nOffset, false, lValue);
+//		Pic9Comp3BufferSupport.setFromRightToLeft(buffer, nNbDigitInteger, nTotalSize, nOffset, false, lValue);
 //	}
 
 		
@@ -518,12 +518,12 @@ public abstract class VarDefNum extends VarDefVariable
 	
 //	protected void writeIntSignComp3(VarBufferPos buffer, int nValue, int nNbDigitInteger)
 //	{
-//		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, nNbDigitInteger, m_nTotalSize, nValue);
+//		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, nNbDigitInteger, nTotalSize, nValue);
 //	}
 	
 //	protected void writeIntSignComp3(VarBufferPos buffer, String csValue, int nNbDigitInteger)
 //	{
-//		Pic9Comp3BufferSupport.setFromRightToLeft(buffer, nNbDigitInteger, m_nTotalSize, 0, true, csValue);
+//		Pic9Comp3BufferSupport.setFromRightToLeft(buffer, nNbDigitInteger, nTotalSize, 0, true, csValue);
 //	}
 //	
 //	protected int writeIntSignComp3(VarBufferPos buffer, int nOffset, int nValue, int nNbDigitInteger)
@@ -541,7 +541,7 @@ public abstract class VarDefNum extends VarDefVariable
 	
 //	protected void writeIntSignComp3(VarBufferPos buffer, int nOffset, int nValue, int nNbDigitInteger)
 //	{
-//		Pic9Comp3BufferSupport.setFromRightToLeft(buffer, nNbDigitInteger, m_nTotalSize, nOffset, true, nValue);
+//		Pic9Comp3BufferSupport.setFromRightToLeft(buffer, nNbDigitInteger, nTotalSize, nOffset, true, nValue);
 //	}
 	
 //	protected int writeIntSignComp3AsLong(VarBufferPos buffer, long lValue, int nNbDigitInteger)
@@ -569,17 +569,17 @@ public abstract class VarDefNum extends VarDefVariable
 		int nBinaryNumberStorage = getSingleItemRequiredStorageSize();
 		if(nBinaryNumberStorage == 4)	// int
 		{				
-			int n = buffer.getIntAt(buffer.m_nAbsolutePosition);
+			int n = buffer.getIntAt(buffer.nAbsolutePosition);
 			return n;
 		}	
 		else if(nBinaryNumberStorage == 2)	// short
 		{
-			short s = buffer.getShortAt(buffer.m_nAbsolutePosition);
+			short s = buffer.getShortAt(buffer.nAbsolutePosition);
 			return s;
 		}
 		else // long
 		{			
-			long l = buffer.getLongAt(buffer.m_nAbsolutePosition);
+			long l = buffer.getLongAt(buffer.nAbsolutePosition);
 			return (int)l;
 		}
 	}
@@ -590,15 +590,15 @@ public abstract class VarDefNum extends VarDefVariable
 		int nBinaryNumberStorage = getSingleItemRequiredStorageSize();
 		if(nBinaryNumberStorage == 4)	// int
 		{				
-			lValue = (long)buffer.getIntAt(buffer.m_nAbsolutePosition);
+			lValue = (long)buffer.getIntAt(buffer.nAbsolutePosition);
 		}	
 		else if(nBinaryNumberStorage == 2)	// short
 		{
-			lValue = (long)buffer.getShortAt(buffer.m_nAbsolutePosition);
+			lValue = (long)buffer.getShortAt(buffer.nAbsolutePosition);
 		}
 		else // long
 		{			
-			lValue = buffer.getLongAt(buffer.m_nAbsolutePosition);	
+			lValue = buffer.getLongAt(buffer.nAbsolutePosition);	
 		}
 		// lValue = Pic9Comp3BufferSupport.keepRightMostDigits(varDef, lValue, nNbDigitsToKeep);
 		return (int)lValue;
@@ -610,15 +610,15 @@ public abstract class VarDefNum extends VarDefVariable
 		int nBinaryNumberStorage = getSingleItemRequiredStorageSize();
 		if(nBinaryNumberStorage == 4)	// int
 		{				
-			lValue = (long)buffer.getIntAt(buffer.m_nAbsolutePosition);
+			lValue = (long)buffer.getIntAt(buffer.nAbsolutePosition);
 		}	
 		else if(nBinaryNumberStorage == 2)	// short
 		{
-			lValue = (long)buffer.getShortAt(buffer.m_nAbsolutePosition);
+			lValue = (long)buffer.getShortAt(buffer.nAbsolutePosition);
 		}
 		else // long
 		{			
-			lValue = buffer.getLongAt(buffer.m_nAbsolutePosition);	
+			lValue = buffer.getLongAt(buffer.nAbsolutePosition);	
 		}
 		// lValue = Pic9Comp3BufferSupport.keepRightMostDigits(varDef, lValue, nNbDigitsToKeep);
 		return lValue;
@@ -629,17 +629,17 @@ public abstract class VarDefNum extends VarDefVariable
 		int nBinaryNumberStorage = getSingleItemRequiredStorageSize();
 		if(nBinaryNumberStorage == 4)	// int
 		{				
-			int n = buffer.getIntAt(buffer.m_nAbsolutePosition);
+			int n = buffer.getIntAt(buffer.nAbsolutePosition);
 			return n;
 		}	
 		else if(nBinaryNumberStorage == 2)	// short
 		{
-			short s = buffer.getShortAt(buffer.m_nAbsolutePosition);
+			short s = buffer.getShortAt(buffer.nAbsolutePosition);
 			return s;
 		}
 		else // long
 		{			
-			long l = buffer.getLongAt(buffer.m_nAbsolutePosition);
+			long l = buffer.getLongAt(buffer.nAbsolutePosition);
 			return l;
 		}
 	}

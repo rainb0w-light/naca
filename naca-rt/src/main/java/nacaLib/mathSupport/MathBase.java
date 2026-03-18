@@ -41,7 +41,7 @@ public class MathBase extends CJMapObject
 	
 	public String getSTCheckValue()
 	{
-		String sValue = m_d.abs().unscaledValue().toString();
+		String sValue = d.abs().unscaledValue().toString();
 		return sValue;
 	}
 	
@@ -86,11 +86,11 @@ public class MathBase extends CJMapObject
 	
 	public MathBase to(VarAndEdit varDest)
 	{
-		Dec dec = MathBase.toDec(m_d);
+		Dec dec = MathBase.toDec(d);
 		varDest.set(dec);
 		if(varDest.getVarDef().getLength() < dec.toString().length())
 		{
-			m_bError = true;
+			bError = true;
 		}
 		return this;
 	}
@@ -112,7 +112,7 @@ public class MathBase extends CJMapObject
 		int nNbDecimal = varDef.getNbDigitDecimal();
 		if(nNbDecimal >= 0)
 		{
-			m_d = m_d.setScale(nNbDecimal, BigDecimal.ROUND_HALF_UP);
+			d = d.setScale(nNbDecimal, BigDecimal.ROUND_HALF_UP);
 		}
 	}
 	
@@ -160,7 +160,7 @@ public class MathBase extends CJMapObject
 	 */	
 	public int compareTo(BigDecimal bigValue)
 	{
-		return m_d.compareTo(bigValue); 
+		return d.compareTo(bigValue); 
 	}
 
 	/**
@@ -169,7 +169,7 @@ public class MathBase extends CJMapObject
 	 */
 	public boolean isError()
 	{
-		return m_bError;
+		return bError;
 	} 
 	
 	/**
@@ -178,25 +178,25 @@ public class MathBase extends CJMapObject
 	 */
 	public void setError(boolean b)
 	{
-		m_bError = b;
+		bError = b;
 	}
 	
 	public String toString()
 	{
-		if(m_bError)
+		if(bError)
 			return "Math Error";
-		if(m_d != null)
-			return m_d.toString();
+		if(d != null)
+			return d.toString();
 		return "Unknown";
 	}
 	
 
 	protected void setWithMathBase(MathBase mathBase)
 	{
-		m_d = new BigDecimal(0) ;
-		m_d = m_d.add(mathBase.m_d);
+		d = new BigDecimal(0) ;
+		d = d.add(mathBase.d);
 	}
 
-	public BigDecimal m_d = null;
-	private boolean m_bError = false;
+	public BigDecimal d = null;
+	private boolean bError = false;
 }

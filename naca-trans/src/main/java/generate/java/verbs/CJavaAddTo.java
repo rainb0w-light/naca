@@ -42,14 +42,14 @@ public class CJavaAddTo extends CEntityAddTo
 	 */
 	protected void DoExport()
 	{
-		if (m_arrValues.size() == 0)
+		if (arrValues.size() == 0)
 		{
 			return ;
 		}
-		else if (m_arrValues.size() == 1)
+		else if (arrValues.size() == 1)
 		{
 			String line = "" ;
-			CDataEntity value = m_arrValues.get(0);
+			CDataEntity value = arrValues.get(0);
 			if (value.GetDataType() == CDataEntityType.NUMBER && value.GetConstantValue().equals("1"))
 			{
 				line = "inc(" ;
@@ -62,10 +62,10 @@ public class CJavaAddTo extends CEntityAddTo
 			{
 				line = "inc(" + value.ExportReference(getLine()) + ", " ;
 			}
-			for (int i=0; i<m_arrDest.size(); i++)
+			for (int i=0; i<arrDest.size(); i++)
 			{
 				String cs = line ;
-				CDataEntity dest = m_arrDest.get(i);
+				CDataEntity dest = arrDest.get(i);
 				if (dest != null)
 				{
 					if (dest.HasAccessors())
@@ -87,7 +87,7 @@ public class CJavaAddTo extends CEntityAddTo
 		}
 		else
 		{
-			CDataEntity val1 = m_arrValues.get(0) ;
+			CDataEntity val1 = arrValues.get(0) ;
 			String line ;
 			if (val1 == null)
 			{
@@ -98,9 +98,9 @@ public class CJavaAddTo extends CEntityAddTo
 				line = val1.ExportReference(getLine()) ;
 			}
 			
-			for (int j=1; j<m_arrValues.size(); j++)
+			for (int j=1; j<arrValues.size(); j++)
 			{
-				CDataEntity val2 = m_arrValues.get(j);
+				CDataEntity val2 = arrValues.get(j);
 				if (val2 != null)
 				{
 					line = "add(" + line + ", " + val2.ExportReference(getLine()) + ")" ;
@@ -110,12 +110,12 @@ public class CJavaAddTo extends CEntityAddTo
 					line = "add(" + line + ", [Undefined])" ;
 				}
 			}
-			for (int i=0; i<m_arrDest.size(); i++)
+			for (int i=0; i<arrDest.size(); i++)
 			{
 				WriteWord(line) ;
 	
 				String cs = "." ;
-				if (m_bRounded)
+				if (bRounded)
 				{
 					cs += "toRounded(" ;
 				}
@@ -123,7 +123,7 @@ public class CJavaAddTo extends CEntityAddTo
 				{
 					cs += "to(" ;
 				}
-				CDataEntity dest = m_arrDest.get(i);
+				CDataEntity dest = arrDest.get(i);
 				if (dest != null)
 				{
 					cs += dest.ExportReference(getLine()) ;

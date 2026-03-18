@@ -28,7 +28,7 @@ import nacaLib.tempCache.TempCacheLocator;
 
 public class VarDeclaration extends ParamDeclaration
 {
-	private VarLevel m_varLevel = null;
+	private VarLevel varLevel = null;
 	
 	public VarDeclaration(BaseProgram prg)
 	{
@@ -38,7 +38,7 @@ public class VarDeclaration extends ParamDeclaration
 	public VarDeclaration(BaseProgram prg, CopyReplacing copyReplacing)
 	{
 		super(prg);
-		m_CopyReplacing = copyReplacing; 
+		copyReplacing = copyReplacing; 
 	}
 	
 	public VarLevel level(int nLevel)
@@ -46,16 +46,16 @@ public class VarDeclaration extends ParamDeclaration
 		short sLevel = (short)nLevel;
 		if(sLevel != 77)	// Level 77 is assimiled to a level 1, but cannot be a parent
 		{
-			if(m_CopyReplacing != null)
-				sLevel = (short)m_CopyReplacing.getReplacedLevel(nLevel);
+			if(copyReplacing != null)
+				sLevel = (short)copyReplacing.getReplacedLevel(nLevel);
 		}		
 		
 		if(sLevel == 1)
-			m_Program.getProgramManager().checkWorkingStorageSection();
+			program.getProgramManager().checkWorkingStorageSection();
 			
 		if(sLevel == 1 || sLevel == 77)
 		{
-			m_Program.getProgramManager().setCurrentMapRedefine(null);
+			program.getProgramManager().setCurrentMapRedefine(null);
 		}
 		
 		return varLevel(sLevel);
@@ -70,7 +70,7 @@ public class VarDeclaration extends ParamDeclaration
 	{
 		TempCache tempCache = TempCacheLocator.getTLSTempCache();
 		VarLevel varLevel = tempCache.getVarLevel();
-		varLevel.set(m_Program, nLevel);
+		varLevel.set(program, nLevel);
 		return varLevel;
 	}
 	
@@ -89,7 +89,7 @@ public class VarDeclaration extends ParamDeclaration
 	public DeclareTypeCond condition()
 	{
 		DeclareTypeCond declareTypeCond = TempCacheLocator.getTLSTempCache().getDeclareTypeCond();
-		declareTypeCond.set(m_Program);
+		declareTypeCond.set(program);
 		return declareTypeCond; 
 	}
 	
@@ -101,5 +101,5 @@ public class VarDeclaration extends ParamDeclaration
 		return copyReplacing;
 	}
 	
-	private CopyReplacing m_CopyReplacing = null;
+	private CopyReplacing copyReplacing = null;
 }

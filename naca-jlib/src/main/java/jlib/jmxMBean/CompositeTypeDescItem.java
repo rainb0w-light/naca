@@ -12,13 +12,13 @@ public class CompositeTypeDescItem
 {
 	CompositeTypeDescItem(String csName, String csDescription, OpenType openType)
 	{
-		m_csName = csName;
-		m_csDescription = csDescription;
-		m_openType = openType;
+		csName = csName;
+		csDescription = csDescription;
+		openType = openType;
 	}
 	
-	String m_csName = null;
-	String m_csDescription = null;
-	OpenType m_openType = null;
+	String csName = null;
+	String csDescription = null;
+	OpenType openType = null;
 
 }

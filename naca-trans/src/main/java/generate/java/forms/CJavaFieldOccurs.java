@@ -57,7 +57,7 @@ public class CJavaFieldOccurs extends CEntityFieldOccurs
 	protected void DoExport()
 	{
 		String name = FormatIdentifier(GetName());
-		String cs = "Edit " + name + " = declare.level("+Integer.parseInt(m_csLevel)+").editOccurs(" + m_Occurs.ExportReference(getLine()) + ", \"" + name + "\") ;" ;
+		String cs = "Edit " + name + " = declare.level("+Integer.parseInt(csLevel)+").editOccurs(" + occurs.ExportReference(getLine()) + ", \"" + name + "\") ;" ;
 		WriteLine(cs) ;
 		StartOutputBloc();
 		ExportChildren();

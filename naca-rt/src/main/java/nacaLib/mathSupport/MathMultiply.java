@@ -33,11 +33,11 @@ public class MathMultiply extends MathBase
 	public MathMultiply(VarAndEdit var1, VarAndEdit var2)
 	{
 		String s1 = var1.getDottedSignedString();
-		m_d = new BigDecimal(s1);
+		d = new BigDecimal(s1);
 		
 		String s2 = var2.getDottedSignedString();
 		BigDecimal val2 = new BigDecimal(s2);
-		m_d = m_d.multiply(val2);
+		d = d.multiply(val2);
 	}
 
 	/**
@@ -48,10 +48,10 @@ public class MathMultiply extends MathBase
 	public MathMultiply(VarAndEdit var1, int n)
 	{
 		String s1 = var1.getDottedSignedString();
-		m_d = new BigDecimal(s1);
+		d = new BigDecimal(s1);
 		
 		BigDecimal val2 = new BigDecimal(String.valueOf(n));
-		m_d = m_d.multiply(val2); 
+		d = d.multiply(val2); 
 	}
 	
 	/**
@@ -62,10 +62,10 @@ public class MathMultiply extends MathBase
 	public MathMultiply(int a, int n)
 	{
 		String s1 = String.valueOf(a);
-		m_d = new BigDecimal(s1);
+		d = new BigDecimal(s1);
 		
 		BigDecimal val2 = new BigDecimal(String.valueOf(n));
-		m_d = m_d.multiply(val2); 
+		d = d.multiply(val2); 
 	}
 
 	/**
@@ -76,10 +76,10 @@ public class MathMultiply extends MathBase
 	public MathMultiply(VarAndEdit var1, double d)
 	{
 		String s1 = var1.getDottedSignedString();
-		m_d = new BigDecimal(s1);
-		
+		this.d = new BigDecimal(s1);
+
 		BigDecimal val2 = new BigDecimal(d);
-		m_d = m_d.multiply(val2); 
+		this.d = this.d.multiply(val2);
 	}
 
 	/**
@@ -90,10 +90,10 @@ public class MathMultiply extends MathBase
 	public MathMultiply(VarAndEdit var1, String s)
 	{
 		String s1 = var1.getDottedSignedString();
-		m_d = new BigDecimal(s1);
+		d = new BigDecimal(s1);
 		
 		BigDecimal val2 = new BigDecimal(s);
-		m_d = m_d.multiply(val2); 
+		d = d.multiply(val2); 
 	}
 	
 	/**
@@ -104,9 +104,9 @@ public class MathMultiply extends MathBase
 	public MathMultiply(VarAndEdit var1, MathBase mathBase)
 	{
 		String s1 = var1.getDottedSignedString();
-		m_d = new BigDecimal(s1);
+		d = new BigDecimal(s1);
 		
-		m_d = m_d.multiply(mathBase.m_d);
+		d = d.multiply(mathBase.d);
 	}	
 	
 	/**
@@ -117,9 +117,9 @@ public class MathMultiply extends MathBase
 	public MathMultiply(int n, MathBase mathBase)
 	{
 		String s1 = String.valueOf(n);
-		m_d = new BigDecimal(s1);
+		d = new BigDecimal(s1);
 		
-		m_d = m_d.multiply(mathBase.m_d);
+		d = d.multiply(mathBase.d);
 	}	
 	
 	/**
@@ -129,8 +129,8 @@ public class MathMultiply extends MathBase
 	 */	
 	public MathMultiply(double d, MathBase mathBase)
 	{
-		m_d = new BigDecimal(d);
-		m_d = m_d.multiply(mathBase.m_d);	
+		this.d = new BigDecimal(d);
+		this.d = this.d.multiply(mathBase.d);
 	}
 	
 	/**
@@ -141,7 +141,7 @@ public class MathMultiply extends MathBase
 	public MathMultiply(MathBase mathBase1, MathBase mathBase2)
 	{
 		setWithMathBase(mathBase1);
-		m_d = m_d.multiply(mathBase2.m_d);
+		d = d.multiply(mathBase2.d);
 	}	
 	
 
@@ -156,7 +156,7 @@ public class MathMultiply extends MathBase
 		String s = var.getDottedSignedString();
 		
 		BigDecimal val = new BigDecimal(s);
-		m_d = m_d.multiply(val);
+		d = d.multiply(val);
 		return this;
 	}	
 	
@@ -168,7 +168,7 @@ public class MathMultiply extends MathBase
 	public MathMultiply multiply(String s)
 	{
 		BigDecimal val = new BigDecimal(s);
-		m_d = m_d.multiply(val);
+		d = d.multiply(val);
 		return this;
 	}
 
@@ -180,7 +180,7 @@ public class MathMultiply extends MathBase
 	public MathMultiply multiply(int n)
 	{
 		long l = n;
-		m_d = m_d.multiply(BigDecimal.valueOf(l));
+		d = d.multiply(BigDecimal.valueOf(l));
 		return this;
 	}
 
@@ -192,7 +192,7 @@ public class MathMultiply extends MathBase
 	public MathMultiply multiply(double d)
 	{
 		BigDecimal val = new BigDecimal(d);
-		m_d = m_d.multiply(val);
+		this.d = this.d.multiply(val);
 		return this;
 	}
 	
@@ -203,7 +203,7 @@ public class MathMultiply extends MathBase
 	 */
 	public MathMultiply multiply(MathBase mathBase)
 	{
-		m_d = m_d.multiply(mathBase.m_d);
+		d = d.multiply(mathBase.d);
 		return this;
 	}	
 	

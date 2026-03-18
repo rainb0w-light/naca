@@ -42,7 +42,7 @@ public class CJavaConcat extends CEntityConcat
 	 */
 	public String ExportReference(int nLine)
 	{
-		String cs = "concat(" + m_Reference.ExportReference(getLine()) + ", " + m_dataRef2.ExportReference(getLine()) + ")" ;
+		String cs = "concat(" + reference.ExportReference(getLine()) + ", " + dataRef2.ExportReference(getLine()) + ")" ;
 		return cs ;
 	}
 	public boolean isValNeeded()

@@ -37,10 +37,10 @@ public class CJavaCICSEnQ extends CEntityCICSEnQ
 
 	protected void DoExport()
 	{
-		String cs = "CESM.enQ(" + m_Resource.ExportReference(getLine());
-		if (m_Length != null)
+		String cs = "CESM.enQ(" + resource.ExportReference(getLine());
+		if (length != null)
 		{
-			cs += ", " + m_Length.ExportReference(getLine());
+			cs += ", " + length.ExportReference(getLine());
 		}
 		WriteLine(cs + ") ;");
 	}

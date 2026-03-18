@@ -22,15 +22,15 @@ public class SQLClauseSPParamWay
 	
 	private SQLClauseSPParamWay(String cs)
 	{
-		m_cs = cs;
+		cs = cs;
 	}
 	
 	public String toString()
 	{
-		return m_cs;
+		return cs;
 	}
 	
-	private String m_cs = null;
+	private String cs = null;
 	
 	
 }

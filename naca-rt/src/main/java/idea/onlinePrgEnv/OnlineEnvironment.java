@@ -50,39 +50,39 @@ public class OnlineEnvironment extends BaseEnvironment
 	public OnlineEnvironment(OnlineSession session, DbConnectionManagerBase connectionManager)
 	{
 		super(session, connectionManager, session.getBaseResourceManager());
-		m_Session = session ;			
+		session = session ;			
 	}
 	
-	protected OnlineSession m_Session = null;
-	protected CESMSendMap m_SendMapOrder = null;
-	protected boolean m_bHasOutput = false;
-	private Document m_xmlData = null;
+	protected OnlineSession session = null;
+	protected CESMSendMap sendMapOrder = null;
+	protected boolean bHasOutput = false;
+	private Document xmlData = null;
 	
-	/* m_csLastCommandCode 
+	/* csLastCommandCode 
 	 * see for info :
 	 * http://publib.boulder.ibm.com/infocenter/txen/index.jsp?topic=/com.ibm.txseries510.doc/erzhai00148.htm
 	 */
 	public BaseSession getSession()
 	{
-		return m_Session;
+		return session;
 	}
 	
 	public void resetSession()
 	{
-		m_Session = null;
+		session = null;
 		super.resetSession();
 	}
 
 	public void setXMLData(Document xmlData)
 	{
-		m_xmlData = xmlData;
+		xmlData = xmlData;
 	}
 	
 
 	
 	public Document getXMLData()
 	{
-		return m_xmlData ;
+		return xmlData ;
 	}
 
 	public Document getXMLDisplay()
@@ -90,9 +90,9 @@ public class OnlineEnvironment extends BaseEnvironment
 		Document doc = createNewDocument() ;
 		FieldComparator comp = new FieldComparator() ;
 		SortedSet<Element> setFields = new TreeSet<Element>(comp) ;
-//		if (m_SendMapOrder != null)
+//		if (sendMapOrder != null)
 //		{
-//			Form form = m_SendMapOrder.m_varFrom ;
+//			Form form = sendMapOrder.varFrom ;
 //		}
 		
 		Element eRoot = createNewFormBody(doc, "CESM", "CESM") ;
@@ -222,37 +222,37 @@ public class OnlineEnvironment extends BaseEnvironment
 
 	public void addMapOrder(CESMSendMap order)
 	{
-		m_SendMapOrder = order ;		
+		sendMapOrder = order ;		
 	}
 	
 	public void addOutput()
 	{
-		m_bHasOutput = true;
+		bHasOutput = true;
 	}
 	
 	public void resetOutput()
 	{
-		m_bHasOutput = false;
+		bHasOutput = false;
 	}
 
 	public void resetNewTransaction()
 	{
 		doResetNewTransaction();
-		m_SendMapOrder = null  ;
+		sendMapOrder = null  ;
 	}
 	public boolean hasOutput()
 	{
-		return m_SendMapOrder != null || m_bHasOutput;
+		return sendMapOrder != null || bHasOutput;
 	}	
 	
 	public void RegisterOutput()
 	{
-		if (m_SendMapOrder != null)
+		if (sendMapOrder != null)
 		{
-			String csDeclaredFormName = m_SendMapOrder.m_varFrom.getDeclaredFormName(); 
-			m_Session.setIdPage(csDeclaredFormName) ;
-			Document doc = m_SendMapOrder.m_varFrom.getXMLData(m_SendMapOrder.m_MapName, m_SendMapOrder.m_nCursorPosition) ;
-			m_Session.setXMLData(doc) ;
+			String csDeclaredFormName = sendMapOrder.varFrom.getDeclaredFormName(); 
+			session.setIdPage(csDeclaredFormName) ;
+			Document doc = sendMapOrder.varFrom.getXMLData(sendMapOrder.mapName, sendMapOrder.nCursorPosition) ;
+			session.setXMLData(doc) ;
 		}
 		
 	}
@@ -270,37 +270,37 @@ public class OnlineEnvironment extends BaseEnvironment
 			
 			if(tagCESMConfig.isValExisting("StartCommandCode"))
 			{
-				m_csLastCommandCode = tagCESMConfig.getVal("StartCommandCode") ;
-				if (m_csLastCommandCode.equals("XCTL"))
+				csLastCommandCode = tagCESMConfig.getVal("StartCommandCode") ;
+				if (csLastCommandCode.equals("XCTL"))
 				{
-					m_csLastCommandCode = CESMCommandCode.XCTL ;
+					csLastCommandCode = CESMCommandCode.XCTL ;
 				}
-				else if (m_csLastCommandCode.equals("START"))
+				else if (csLastCommandCode.equals("START"))
 				{
-					m_csLastCommandCode = CESMCommandCode.START ;
+					csLastCommandCode = CESMCommandCode.START ;
 				}
 				else  
 				{
-					m_csLastCommandCode = "" ;
+					csLastCommandCode = "" ;
 				}
 			}
 			
 			if(tagCESMConfig.isValExisting("DataRecordPath"))
 			{
-				m_csDataRecordPath = tagCESMConfig.getVal("DataRecordPath") ;
+				csDataRecordPath = tagCESMConfig.getVal("DataRecordPath") ;
 				
 				if (tagCESMConfig.isValExisting("DataRecordFilePattern"))
 				{
-					m_csDataRecordFilePattern = tagCESMConfig.getVal("DataRecordFilePattern") ;
+					csDataRecordFilePattern = tagCESMConfig.getVal("DataRecordFilePattern") ;
 				}
 				
-				if (!m_csDataRecordPath.endsWith("\\") && !m_csDataRecordPath.endsWith("/"))
+				if (!csDataRecordPath.endsWith("\\") && !csDataRecordPath.endsWith("/"))
 				{
-					m_csDataRecordPath += '/' ;
+					csDataRecordPath += '/' ;
 				}
 			}
 		}
-		m_csTermID = OnlineEnvironment.getNextTermID() ; 
+		csTermID = OnlineEnvironment.getNextTermID() ; 
 	}
 	
 	
@@ -319,7 +319,7 @@ public class OnlineEnvironment extends BaseEnvironment
 
 	public String getLanguageCode()
 	{
-		String cs = "" + m_acTCTTUA[36] + m_acTCTTUA[37] ;
+		String cs = "" + acTCTTUA[36] + acTCTTUA[37] ;
 		return cs ;
 	}
 	/**
@@ -327,7 +327,7 @@ public class OnlineEnvironment extends BaseEnvironment
 	 */
 	public String getSocietyCode()
 	{
-		String cs = "" + m_acTCTTUA[12] + m_acTCTTUA[13] + m_acTCTTUA[14] ;
+		String cs = "" + acTCTTUA[12] + acTCTTUA[13] + acTCTTUA[14] ;
 		return cs ;
 	}
 	/**
@@ -335,7 +335,7 @@ public class OnlineEnvironment extends BaseEnvironment
 	 */
 	public String getAgencyCode()
 	{
-		String cs = "" + m_acTCTTUA[15] + m_acTCTTUA[16] + m_acTCTTUA[17] ;
+		String cs = "" + acTCTTUA[15] + acTCTTUA[16] + acTCTTUA[17] ;
 		return cs ;
 	}
 	/**
@@ -343,7 +343,7 @@ public class OnlineEnvironment extends BaseEnvironment
 	 */
 	public String getUserId()
 	{
-		String cs = "" + m_acTCTTUA[38] + m_acTCTTUA[39] + m_acTCTTUA[40] ;
+		String cs = "" + acTCTTUA[38] + acTCTTUA[39] + acTCTTUA[40] ;
 		return cs ;
 	}
 	
@@ -352,23 +352,23 @@ public class OnlineEnvironment extends BaseEnvironment
 	 */
 	public String getApplication()
 	{
-		String cs = "" + m_acTCTTUA[127] + m_acTCTTUA[128] ;
+		String cs = "" + acTCTTUA[127] + acTCTTUA[128] ;
 		return cs ;
 	}
 	
-	protected String m_csDataRecordFilePattern = "" ;
-	protected String m_csDataRecordPath = "" ;
-	protected String m_csDataRecordFilePath = "" ;
-	protected Document m_docDataRecord = null ;
+	protected String csDataRecordFilePattern = "" ;
+	protected String csDataRecordPath = "" ;
+	protected String csDataRecordFilePath = "" ;
+	protected Document docDataRecord = null ;
 
 	public void recordInput()
 	{
-		if (m_docDataRecord == null)
+		if (docDataRecord == null)
 		{
-			m_csDataRecordFilePath = m_csDataRecordPath + m_csDataRecordFilePattern + m_csTermID + ".xml" ;
+			csDataRecordFilePath = csDataRecordPath + csDataRecordFilePattern + csTermID + ".xml" ;
 			try
 			{
-				m_docDataRecord = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument() ;
+				docDataRecord = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument() ;
 			}
 			catch (ParserConfigurationException e)
 			{
@@ -378,13 +378,13 @@ public class OnlineEnvironment extends BaseEnvironment
 			{
 				e.printStackTrace();
 			}
-			Element e = m_docDataRecord.createElement("datarecord") ;
-			m_docDataRecord.appendChild(e) ;
+			Element e = docDataRecord.createElement("datarecord") ;
+			docDataRecord.appendChild(e) ;
 		}
-		Element eRoot = m_docDataRecord.getDocumentElement() ;
-		Element eCopy = (Element)m_docDataRecord.importNode(m_xmlData.getDocumentElement(), true) ;
+		Element eRoot = docDataRecord.getDocumentElement() ;
+		Element eCopy = (Element)docDataRecord.importNode(xmlData.getDocumentElement(), true) ;
 		eRoot.appendChild(eCopy) ;
-		XMLUtil.ExportXML(m_docDataRecord, m_csDataRecordFilePath) ;
+		XMLUtil.ExportXML(docDataRecord, csDataRecordFilePath) ;
 	}
 
 	public String getUserLanguageId()
@@ -399,15 +399,15 @@ public class OnlineEnvironment extends BaseEnvironment
 
 //	public String getCmpSession()
 //	{
-//		if(m_Session != null)
-//			return m_Session.getCmp();
+//		if(session != null)
+//			return session.getCmp();
 //		return "";
 //	}
 
 	public String getUserLdapId()
 	{
-		if(m_Session != null)
-			return m_Session.getUserLdapId();
+		if(session != null)
+			return session.getUserLdapId();
 		return "";
 	}
 

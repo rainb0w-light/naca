@@ -54,7 +54,7 @@ public class CSpecialActionContainer
 					if (cat.IsExistingDataEntity(name, ""))
 					{
 						CDataEntity e = cat.GetDataEntity(name, "") ;
-						if (e!= null && e.m_Of == null && le != e)
+						if (e!= null && e.of == null && le != e)
 						{
 							CDataEntity.CDataEntityType type = e.GetDataType() ;
 							if (type != CDataEntity.CDataEntityType.FIELD_ATTRIBUTE)
@@ -96,7 +96,7 @@ public class CSpecialActionContainer
 			{
 				form = cat.GetSaveMap(i-n) ;
 			}
-			if (form.m_Of == null)  // redefine ?
+			if (form.of == null)  // redefine ?
 			{
 				DoCheckEditNameDescending(form, cat) ;
 			}
@@ -384,7 +384,7 @@ public class CSpecialActionContainer
 			} 
 			else if (act1 == null && act2 != null)
 			{
-				act2.ReplaceExternalData(sav.m_Of, map.m_Of) ;
+				act2.ReplaceExternalData(sav.of, map.of) ;
 			}
 
 
@@ -530,7 +530,7 @@ public class CSpecialActionContainer
 		}
 		NotifIsUsedCICSPreprocessor notifIsUsed = new NotifIsUsedCICSPreprocessor() ;
 		cat.SendNotifRequest(notifIsUsed) ;
-		if (notifIsUsed.m_bUsed)
+		if (notifIsUsed.bUsed)
 		{
 			Vector<CBaseLanguageEntity> arrChildren = linkage.GetListOfChildren() ;
 			boolean bHasStructure = false ;
@@ -881,11 +881,11 @@ public class CSpecialActionContainer
 		}
 		return null ;
 	}
-	protected CEntityRenamer m_SubProgramRenamer = null ;
+	protected CEntityRenamer subProgramRenamer = null ;
 	
 	protected void InitSubProgramRenamer()
 	{
-		m_SubProgramRenamer = new CEntityRenamer() ;
+		subProgramRenamer = new CEntityRenamer() ;
 		CRulesManager manager = CRulesManager.getInstance() ;
 		int n = manager.getNbRules("subProgramRename") ;
 		for (int i=0; i<n; i++)
@@ -894,13 +894,13 @@ public class CSpecialActionContainer
 			String csMask = e.getVal("subProgramMask");
 			String action = e.getVal("action") ;
 			String param = e.getVal("param");
-			m_SubProgramRenamer.AddRule(csMask, action, param);
+			subProgramRenamer.AddRule(csMask, action, param);
 		}
 	}
 
 	public void DoRenameSubPrograms(CObjectCatalog cat, CBaseEntityFactory factory)
 	{
-		if (m_SubProgramRenamer == null)
+		if (subProgramRenamer == null)
 		{
 			InitSubProgramRenamer();
 		}
@@ -914,12 +914,12 @@ public class CSpecialActionContainer
 				String prg = ePrg.GetConstantValue() ;
 				if (prg != null && !prg.equals(""))
 				{
-					String newprg = m_SubProgramRenamer.FindAndApplyRule(prg);
+					String newprg = subProgramRenamer.FindAndApplyRule(prg);
 					if (newprg!=null && !newprg.equals(prg))
 					{
 						CEntityString str = factory.NewEntityString(newprg);
 						CEntityCallProgram call = factory.NewEntityCallProgram(link.getLine(), str) ;
-						boolean b = cat.m_Global.CheckProgramReference(newprg, false, 1, true) ;
+						boolean b = cat.global.CheckProgramReference(newprg, false, 1, true) ;
 						call.setChecked(b) ;
 						CDataEntity param = link.GetCommareaParameter() ;
 						call.SetParameterByRef(param) ;
@@ -943,12 +943,12 @@ public class CSpecialActionContainer
 				String prg = ePrg.GetConstantValue() ;
 				if (prg != null && !prg.equals(""))
 				{
-					String newprg = m_SubProgramRenamer.FindAndApplyRule(prg);
+					String newprg = subProgramRenamer.FindAndApplyRule(prg);
 					if (newprg!=null && !newprg.equals(prg))
 					{
 						CDataEntity eNewProgram = factory.NewEntityString(newprg);
 						call.UpdateProgramReference(eNewProgram) ;
-						boolean b = cat.m_Global.CheckProgramReference(newprg, false, 1, true) ;
+						boolean b = cat.global.CheckProgramReference(newprg, false, 1, true) ;
 						call.setChecked(b) ;
 					}
 				}

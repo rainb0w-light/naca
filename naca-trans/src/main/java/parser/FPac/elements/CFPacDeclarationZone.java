@@ -36,19 +36,19 @@ public class CFPacDeclarationZone extends CFPacElement
 	{
 		CEntityDataSection data = factory.NewEntityDataSection(getLine(), "DeclarationSection") ;
 		
-		for (CConstantTerminal c : m_arrParams)
+		for (CConstantTerminal c : arrParams)
 		{
 			// TODO do semantic analysis
 		}
-		for (CFPacInputFile f : m_arrInputFiles)
+		for (CFPacInputFile f : arrInputFiles)
 		{
 			f.DoSemanticAnalysis(data, factory) ;
 		}
-		for (CFPacOutputFile f : m_arrOutputFiles)
+		for (CFPacOutputFile f : arrOutputFiles)
 		{
 			f.DoSemanticAnalysis(data, factory) ;
 		}
-		for (CFPacUpdateFile f : m_arrUpdateFiles)
+		for (CFPacUpdateFile f : arrUpdateFiles)
 		{
 			f.DoSemanticAnalysis(data, factory) ;
 		}
@@ -61,23 +61,23 @@ public class CFPacDeclarationZone extends CFPacElement
 	protected Element ExportCustom(Document root)
 	{
 		Element eAdd = root.createElement("Declarations") ;
-		for (CConstantTerminal c : m_arrParams)
+		for (CConstantTerminal c : arrParams)
 		{
 			Element e = root.createElement("Param") ;
 			c.ExportTo(e, root) ;
 			eAdd.appendChild(e) ;
 		}
-		for (CFPacInputFile f : m_arrInputFiles)
+		for (CFPacInputFile f : arrInputFiles)
 		{
 			Element e = f.Export(root) ;
 			eAdd.appendChild(e) ;
 		}
-		for (CFPacOutputFile f : m_arrOutputFiles)
+		for (CFPacOutputFile f : arrOutputFiles)
 		{
 			Element e = f.Export(root) ;
 			eAdd.appendChild(e) ;
 		}
-		for (CFPacUpdateFile f : m_arrUpdateFiles)
+		for (CFPacUpdateFile f : arrUpdateFiles)
 		{
 			Element e = f.Export(root) ;
 			eAdd.appendChild(e) ;
@@ -101,22 +101,22 @@ public class CFPacDeclarationZone extends CFPacElement
 		if (tok.GetKeyword() == null)
 			return false ;
 		CFPacElement el = null ;
-		if (tok.GetKeyword().m_Name.startsWith("IPF"))
+		if (tok.GetKeyword().name.startsWith("IPF"))
 		{
 			CFPacInputFile file = new CFPacInputFile(tok.getLine());
 			el = file ;
-			m_arrInputFiles.add(file) ;
+			arrInputFiles.add(file) ;
 		}
-		else if (tok.GetKeyword().m_Name.startsWith("OPF"))
+		else if (tok.GetKeyword().name.startsWith("OPF"))
 		{
 			CFPacOutputFile file = new CFPacOutputFile(tok.getLine());
-			m_arrOutputFiles.add(file) ;
+			arrOutputFiles.add(file) ;
 			el = file ;
 		}
-		else if (tok.GetKeyword().m_Name.startsWith("UPF"))
+		else if (tok.GetKeyword().name.startsWith("UPF"))
 		{
 			CFPacUpdateFile file = new CFPacUpdateFile(tok.getLine());
-			m_arrUpdateFiles.add(file) ;
+			arrUpdateFiles.add(file) ;
 			el = file ;
 		}
 		else if(tok.GetKeyword() == CFPacKeywordList.PARM)
@@ -131,7 +131,7 @@ public class CFPacDeclarationZone extends CFPacElement
 					if (tok.GetType() == CTokenType.CONSTANT)
 					{
 						CConstantTerminal term = new CConstantTerminal(tok.GetValue()) ;
-						m_arrParams.add(term) ;
+						arrParams.add(term) ;
 					}
 					else
 					{
@@ -167,8 +167,8 @@ public class CFPacDeclarationZone extends CFPacElement
 		return true ;
 	}
 
-	protected Collection<CFPacInputFile> m_arrInputFiles = new LinkedList<CFPacInputFile>() ;
-	protected Collection<CFPacOutputFile> m_arrOutputFiles = new LinkedList<CFPacOutputFile>() ;
-	protected Collection<CFPacUpdateFile> m_arrUpdateFiles = new LinkedList<CFPacUpdateFile>() ;
-	protected Collection<CConstantTerminal> m_arrParams = new LinkedList<CConstantTerminal>() ;
+	protected Collection<CFPacInputFile> arrInputFiles = new LinkedList<CFPacInputFile>() ;
+	protected Collection<CFPacOutputFile> arrOutputFiles = new LinkedList<CFPacOutputFile>() ;
+	protected Collection<CFPacUpdateFile> arrUpdateFiles = new LinkedList<CFPacUpdateFile>() ;
+	protected Collection<CConstantTerminal> arrParams = new LinkedList<CConstantTerminal>() ;
 }

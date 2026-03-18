@@ -51,19 +51,19 @@ public class CExecCICSStartBR extends CCobolElement
 	{
 		CEntityCICSStartBrowse eSt = factory.NewEntityCICSStartBrowse(getLine()) ;
 		parent.AddChild(eSt);
-		if (m_DataSet != null)
+		if (dataSet != null)
 		{
-			eSt.BrowseDataSet(m_DataSet.GetDataEntity(getLine(), factory)); 
+			eSt.BrowseDataSet(dataSet.GetDataEntity(getLine(), factory)); 
 		}
-		if (m_KeyLength != null)
+		if (keyLength != null)
 		{
-			eSt.SetKeyLength(m_KeyLength.GetDataEntity(getLine(), factory)); 
+			eSt.SetKeyLength(keyLength.GetDataEntity(getLine(), factory)); 
 		}
-		if (m_RecIDField != null)
+		if (recIDField != null)
 		{
-			eSt.SetRecIDField(m_RecIDField.GetDataReference(getLine(), factory)); 
+			eSt.SetRecIDField(recIDField.GetDataReference(getLine(), factory)); 
 		}
-		if (m_bGTEQ)
+		if (bGTEQ)
 		{
 			eSt.SetGTEQ() ;
 		}
@@ -91,7 +91,7 @@ public class CExecCICSStartBR extends CCobolElement
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
 				{
 					tok = GetNext() ;
-					m_DataSet = ReadTerminal() ;
+					dataSet = ReadTerminal() ;
 					tok = GetCurrentToken() ;
 					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 					{
@@ -105,7 +105,7 @@ public class CExecCICSStartBR extends CCobolElement
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
 				{
 					tok = GetNext() ;
-					m_KeyLength = ReadTerminal() ;
+					keyLength = ReadTerminal() ;
 					tok = GetCurrentToken() ;
 					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 					{
@@ -119,7 +119,7 @@ public class CExecCICSStartBR extends CCobolElement
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
 				{
 					tok = GetNext() ;
-					m_RecIDField = ReadIdentifier() ;
+					recIDField = ReadIdentifier() ;
 					tok = GetCurrentToken() ;
 					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 					{
@@ -129,7 +129,7 @@ public class CExecCICSStartBR extends CCobolElement
 			}
 			else if (tok.GetValue().equals("GTEQ"))
 			{
-				m_bGTEQ = true ;
+				bGTEQ = true ;
 				tok = GetNext() ;
 			}
 			else 
@@ -153,19 +153,19 @@ public class CExecCICSStartBR extends CCobolElement
 	protected Element ExportCustom(Document root)
 	{
 		Element eCICS = root.createElement("ExecCICSStartBrowse") ;
-		if (m_DataSet != null)
+		if (dataSet != null)
 		{
 			Element e = root.createElement("DataSet") ;
 			eCICS.appendChild(e) ;
-			m_DataSet.ExportTo(e, root); 
+			dataSet.ExportTo(e, root); 
 		}
-		if (m_RecIDField != null)
+		if (recIDField != null)
 		{
 			Element e = root.createElement("RecIdField") ;
 			eCICS.appendChild(e) ;
-			m_RecIDField.ExportTo(e, root); 
+			recIDField.ExportTo(e, root); 
 		}
-		if (m_bGTEQ)
+		if (bGTEQ)
 		{
 			eCICS.setAttribute("GTEQ", "true") ;
 		}
@@ -173,8 +173,8 @@ public class CExecCICSStartBR extends CCobolElement
 	}
 
 
-	protected CTerminal m_DataSet = null ;
-	protected CTerminal m_KeyLength = null ;
-	protected CIdentifier m_RecIDField = null ;
-	protected boolean m_bGTEQ = false ;
+	protected CTerminal dataSet = null ;
+	protected CTerminal keyLength = null ;
+	protected CIdentifier recIDField = null ;
+	protected boolean bGTEQ = false ;
 }

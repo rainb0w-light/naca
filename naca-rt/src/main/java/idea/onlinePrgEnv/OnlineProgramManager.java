@@ -27,49 +27,49 @@ public class OnlineProgramManager extends BaseProgramManager
 	
 	public void setCurrentMapRedefine(MapRedefine mapRedefined)
 	{
-		m_currentMapRedefined = mapRedefined;
+		currentMapRedefined = mapRedefined;
 	}
 
 	public MapRedefine getCurrentMapRedefine()
 	{
-		return m_currentMapRedefined;
+		return currentMapRedefined;
 	}
 	
-	private MapRedefine m_currentMapRedefined = null;
-	private MapRedefine m_currentRedefineMap = null;
+	private MapRedefine currentMapRedefined = null;
+	private MapRedefine currentRedefineMap = null;
 
 	protected MapRedefine getCurrentRedefineMap()
 	{
-		return m_currentRedefineMap;
+		return currentRedefineMap;
 	}
 	
 	
 	public void prepareRunMain(BaseProgram prg)
 	{
-		((OnlineProgram)prg).prepareRunMain(m_CESMEnv);
+		((OnlineProgram)prg).prepareRunMain(cESMEnv);
 	}
 	
 	public String getTerminalID()
 	{
-		return m_CESMEnv.getTerminalID();
+		return cESMEnv.getTerminalID();
 	}
 	
 	public void setEnv(BaseEnvironment env)
 	{
-		m_CESMEnv = (OnlineEnvironment)env;
+		cESMEnv = (OnlineEnvironment)env;
 	}
 	
 	public void detachFromEnv()
 	{
-		m_CESMEnv = null;
+		cESMEnv = null;
 	}
 	
 	public BaseEnvironment getEnv()
 	{
-		return m_CESMEnv;
+		return cESMEnv;
 	}
 	
-	private OnlineEnvironment m_CESMEnv = null; 
+	private OnlineEnvironment cESMEnv = null; 
 }
 
 

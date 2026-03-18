@@ -22,10 +22,10 @@ public class Mail
 {
 	private MimeMessage mimeMessage = null;
 
-	private String m_csFrom = "";
-	private Vector<String> m_arrToList = new Vector<String>(0);
-	private Vector<String> m_arrCCList = new Vector<String>(0);
-	private Vector<String> m_arrBCCList= new Vector<String>(0);
+	private String csFrom = "";
+	private Vector<String> arrToList = new Vector<String>(0);
+	private Vector<String> arrCCList = new Vector<String>(0);
+	private Vector<String> arrBCCList= new Vector<String>(0);
 	
 	/**
 	 * Contructeur du message � envoyer
@@ -67,7 +67,7 @@ public class Mail
 	 */
 	public void setFrom(String from) 
 	{	
-		m_csFrom = from;
+		csFrom = from;
   	}
 
 	/**
@@ -90,7 +90,7 @@ public class Mail
 	 */
 	public void addTo(String to) 
 	{
-	    add(m_arrToList, to);
+	    add(arrToList, to);
 	}
 
   /**
@@ -98,7 +98,7 @@ public class Mail
    */
 	public void addCc(String cc) 
 	{
-		add(m_arrCCList, cc);
+		add(arrCCList, cc);
 	}
 
   /**
@@ -106,7 +106,7 @@ public class Mail
    */
 	public void addBcc(String bcc) 
 	{
-    	add(m_arrBCCList, bcc);
+    	add(arrBCCList, bcc);
 	}
 
 	private void add(Vector<String> from, String mail) 
@@ -125,7 +125,7 @@ public class Mail
 	 */
 	public void clearTo() 
 	{
-    	m_arrToList.clear();
+    	arrToList.clear();
 	}
 
 	/**
@@ -133,7 +133,7 @@ public class Mail
 	 */
 	public void clearCc() 
 	{
-    	m_arrCCList.clear();
+    	arrCCList.clear();
   	}
 
   	/**
@@ -141,7 +141,7 @@ public class Mail
   	 */
   	public void clearBcc() 
   	{
-    	m_arrBCCList.clear();
+    	arrBCCList.clear();
   	}
 
   	/**
@@ -151,23 +151,23 @@ public class Mail
   	{
 	    try 
 		{
-	    	mimeMessage.setFrom(new InternetAddress(m_csFrom));
+	    	mimeMessage.setFrom(new InternetAddress(csFrom));
 	
-			Enumeration entriesMail = m_arrToList.elements();
+			Enumeration entriesMail = arrToList.elements();
 		    while (entriesMail.hasMoreElements()) 
 		    {
 		        mimeMessage.addRecipient(Message.RecipientType.TO,
 		                                 new InternetAddress((String)entriesMail.nextElement()));
 		    }
 	
-		    entriesMail = m_arrCCList.elements();
+		    entriesMail = arrCCList.elements();
 		    while (entriesMail.hasMoreElements()) 
 		    {
 		        mimeMessage.addRecipient(Message.RecipientType.CC,
 		                                 new InternetAddress((String)entriesMail.nextElement()));
 		    }
 	
-			entriesMail = m_arrBCCList.elements();
+			entriesMail = arrBCCList.elements();
 			while (entriesMail.hasMoreElements()) 
 			{
 				mimeMessage.addRecipient(Message.RecipientType.BCC,

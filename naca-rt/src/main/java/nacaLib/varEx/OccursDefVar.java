@@ -18,19 +18,19 @@ public class OccursDefVar extends OccursDefBase
 {	
 	public OccursDefVar(Var var)
 	{
-		m_var = var;
+		var = var;
 	}
 		
 	public int getNbOccurs()
 	{
-		if(m_var != null)
-			return m_var.getInt();
+		if(var != null)
+			return var.getInt();
 		return -1; 
 	}
 	
 	public void prepareAutoRemoval()
 	{
-		m_var = null;
+		var = null;
 	}
 	
 	public Var getRecordDependingVar()
@@ -38,5 +38,5 @@ public class OccursDefVar extends OccursDefBase
 		return null;
 	}
 
-	Var m_var = null;
+	Var var = null;
 }

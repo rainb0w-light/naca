@@ -12,39 +12,39 @@ public class ThreadSafeCounter
 {
 	public ThreadSafeCounter()
 	{
-		m_nCount.set(0);
+		nCount.set(0);
 	}
 	
 	public ThreadSafeCounter(int n)
 	{
-		m_nCount.set(n);
+		nCount.set(n);
 	}
 	
 	public int reset()
 	{
-		m_nCount.set(0);
+		nCount.set(0);
 		return 0; 
 	}
 	
 	public int inc(int n)
 	{ 
-		return m_nCount.addAndGet(n);
+		return nCount.addAndGet(n);
 	}
 	
 	public int get()
 	{
-		return m_nCount.get();
+		return nCount.get();
 	}
 	
 	public int inc()
 	{
-		return m_nCount.incrementAndGet();
+		return nCount.incrementAndGet();
 	}
 
 	public int dec()
 	{
-		return m_nCount.decrementAndGet();
+		return nCount.decrementAndGet();
 	}
 	
-	private AtomicInteger m_nCount = new AtomicInteger(0); // count starts at zero
+	private AtomicInteger nCount = new AtomicInteger(0); // count starts at zero
 }

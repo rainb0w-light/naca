@@ -13,14 +13,14 @@ public class CBaseTokenTest {
         assertEquals("testId", token.GetValue());
         assertEquals(CTokenType.IDENTIFIER, token.GetType());
         assertEquals(10, token.getLine());
-        assertFalse(token.m_bIsNewLine);
+        assertFalse(token.bIsNewLine);
     }
 
     @Test
     @DisplayName("Test CTokenIdentifier newline flag")
     void testTokenIdentifierNewline() {
         CTokenIdentifier token = new CTokenIdentifier("myVar", 5, true);
-        assertTrue(token.m_bIsNewLine);
+        assertTrue(token.bIsNewLine);
     }
 
     @Test

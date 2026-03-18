@@ -39,7 +39,7 @@ import utils.Transcoder;
  */
 public class CWorking extends CCommentContainer
 {
-//	private Vector<CCobolElement> m_arrVariables = new Vector<CCobolElement>() ;
+//	private Vector<CCobolElement> arrVariables = new Vector<CCobolElement>() ;
 	/**
 	 * @param line
 	 */
@@ -115,7 +115,7 @@ public class CWorking extends CCommentContainer
 				else if (n == 77)
 				{
 					CCobolElement eEntry = new CWorkingEntry(tokEntry.getLine()) ;
-//					m_arrVariables.add(eEntry) ;
+//					arrVariables.add(eEntry) ;
 					AddChild(eEntry) ;
 					if (!Parse(eEntry))
 					{
@@ -169,7 +169,7 @@ public class CWorking extends CCommentContainer
 				}
 //				else if (tokType.GetKeyword() == CCobolKeywordList.CICS)
 //				{
-//					eExec = new CExecCICS(tokVerb.m_line) ;
+//					eExec = new CExecCICS(tokVerb.line) ;
 //				}
 				else
 				{
@@ -209,20 +209,20 @@ public class CWorking extends CCommentContainer
 	 */
 //	protected CBaseLanguageEntity DoSemanticAnalysisForVariables(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 //	{
-//		m_eVariableSection = factory.NewEntityDataSection(0, "VariableSection");
+//		eVariableSection = factory.NewEntityDataSection(0, "VariableSection");
 //		if (parent != null)
 //		{
-//			parent.AddChild(m_eVariableSection);
+//			parent.AddChild(eVariableSection);
 //		}
 //
-//		for (int i=0; i<m_arrVariables.size();i++)
+//		for (int i=0; i<arrVariables.size();i++)
 //		{
-//			CCobolElement le = m_arrVariables.get(i) ;
-//			CBaseLanguageEntity e = le.DoSemanticAnalysis(m_eVariableSection, factory) ;
+//			CCobolElement le = arrVariables.get(i) ;
+//			CBaseLanguageEntity e = le.DoSemanticAnalysis(eVariableSection, factory) ;
 //		}
-//		return m_eVariableSection ;
+//		return eVariableSection ;
 //	}
-//	private CEntityDataSection m_eVariableSection = null ;
+//	private CEntityDataSection eVariableSection = null ;
 	/* (non-Javadoc)
 	 * @see parser.CBaseElement#DoCustomSemanticAnalysis(semantic.CBaseSemanticEntity, semantic.CBaseSemanticEntityFactory)
 	 */
@@ -231,16 +231,16 @@ public class CWorking extends CCommentContainer
 		CEntityDataSection eSection = factory.NewEntityDataSection(getLine(), GetType());
 		parent.AddChild(eSection);
 	
-//		if (m_eVariableSection == null)
+//		if (eVariableSection == null)
 //		{
-//			for (int i=0; i<m_arrVariables.size();i++)
+//			for (int i=0; i<arrVariables.size();i++)
 //			{
-//				CCobolElement le = m_arrVariables.get(i) ;
+//				CCobolElement le = arrVariables.get(i) ;
 //				CBaseLanguageEntity e = le.DoSemanticAnalysis(eSection, factory) ;
 //			}
 //		}
 
-		ListIterator i = m_children.listIterator() ;
+		ListIterator i = children.listIterator() ;
 		CBaseLanguageEntity eLast = null;
 		
 		CCobolElement le = null ;
@@ -283,7 +283,7 @@ public class CWorking extends CCommentContainer
 				le = null ;
 			}
 		}
-		m_bAnalysisDoneForChildren = true ;
+		bAnalysisDoneForChildren = true ;
 	
 		return eSection ;
 	}

@@ -16,7 +16,7 @@ public class VarFPacNumIntSignComp3 extends VarNumIntSignComp3
 	public VarFPacNumIntSignComp3(DeclareTypeFPacSignIntComp3 type, VarBuffer varBuffer, int nPosition)
 	{
 		super(type);		
-		m_bufferPos = new VarBufferPos(varBuffer, nPosition);
-		m_varDef.setTotalSize(m_varDef.getSingleItemRequiredStorageSize());
+		bufferPos = new VarBufferPos(varBuffer, nPosition);
+		varDef.setTotalSize(varDef.getSingleItemRequiredStorageSize());
 	}
 }

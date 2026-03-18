@@ -21,18 +21,18 @@ import jlib.misc.LineRead;
  */
 public class FileKeyExporter
 {
-	private DataFileWrite m_dataFileKeyOut = null;
-	private BtreeKeyDescription m_keyDescription = null;
+	private DataFileWrite dataFileKeyOut = null;
+	private BtreeKeyDescription keyDescription = null;
 	
 	public FileKeyExporter(String csKeys, String csExportKeyFileOut, boolean bFileInEbcdic)
 	{
 		if(csExportKeyFileOut != null)
 		{
-			m_dataFileKeyOut = new DataFileWrite(csExportKeyFileOut, false);
-			boolean bOutKeyOpened = m_dataFileKeyOut.open();
+			dataFileKeyOut = new DataFileWrite(csExportKeyFileOut, false);
+			boolean bOutKeyOpened = dataFileKeyOut.open();
 			if(!bOutKeyOpened)
 			{
-				m_dataFileKeyOut = null;
+				dataFileKeyOut = null;
 				Log.logImportant("Cannot create output key file " + csExportKeyFileOut);
 			}
 		}
@@ -42,10 +42,10 @@ public class FileKeyExporter
 	
 	private void setKeyDescription(String csKeys, boolean bFileInEbcdic)
 	{
-		m_keyDescription = new BtreeKeyDescription();
-		m_keyDescription.set(csKeys, false);
-		m_keyDescription.prepare();
-		m_keyDescription.setFileInEncoding(bFileInEbcdic);
+		keyDescription = new BtreeKeyDescription();
+		keyDescription.set(csKeys, false);
+		keyDescription.prepare();
+		keyDescription.setFileInEncoding(bFileInEbcdic);
 	}
 	
 	public void execute(String csFileIn, int nBufferChunkReadAHead)
@@ -60,13 +60,13 @@ public class FileKeyExporter
 			LineRead lineRead = dataFileIn.readNextUnixLine();
 			while(lineRead != null && b == true)
 			{
-				byte tbKey[] = m_keyDescription.fillKeyBufferIncludingRecordId(lineRead, false);	//, false);
-				m_dataFileKeyOut.writeWithEOL(tbKey, tbKey.length);
+				byte tbKey[] = keyDescription.fillKeyBufferIncludingRecordId(lineRead, false);	//, false);
+				dataFileKeyOut.writeWithEOL(tbKey, tbKey.length);
 
 				lineRead = dataFileIn.readNextUnixLine();
 				nNbRecordRead++;
 			}
-			m_dataFileKeyOut.close();
+			dataFileKeyOut.close();
 			dataFileIn.close();
 		}		
 		Log.logNormal("" + nNbRecordRead + " records read file from " + csFileIn);

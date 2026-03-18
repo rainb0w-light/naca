@@ -12,24 +12,24 @@ import java.util.Vector;
 
 public class HostFileOuputStream extends OutputStream
 {
-	protected OutputStream m_Stream = null ;
-	protected boolean m_bHeaderVariable = false;
-	protected int m_nCurrentRecordLength = 0;
-	protected int m_nCurrentRecordWritten = 0;
-	protected Vector<Integer> m_arrRecordHeader = new Vector<Integer>();
-	private byte[] m_tbyHeader = new byte[4];
+	protected OutputStream stream = null ;
+	protected boolean bHeaderVariable = false;
+	protected int nCurrentRecordLength = 0;
+	protected int nCurrentRecordWritten = 0;
+	protected Vector<Integer> arrRecordHeader = new Vector<Integer>();
+	private byte[] tbyHeader = new byte[4];
 	
 	public HostFileOuputStream(OutputStream stream, String csFormat, boolean bHeaderEbcdic)
 	{
-		m_Stream = stream ;
+		stream = stream ;
 		if (csFormat != null && csFormat.equals("VB")) {
-			m_bHeaderVariable = true;
+			bHeaderVariable = true;
 		}
 		if (bHeaderEbcdic) {
 			try
 			{
-				m_Stream.write(new String("<FileHeader Version=\"1\" Encoding=\"ebcdic\"/>").getBytes());
-				FileSystem.WriteEOL(m_Stream);
+				stream.write(new String("<FileHeader Version=\"1\" Encoding=\"ebcdic\"/>").getBytes());
+				FileSystem.WriteEOL(stream);
 			}
 			catch (IOException ex)
 			{
@@ -40,47 +40,47 @@ public class HostFileOuputStream extends OutputStream
 
 	public void write(int arg0) throws IOException
 	{
-		if  (m_nCurrentRecordLength == 0)
+		if  (nCurrentRecordLength == 0)
 		{
-			m_arrRecordHeader.add(arg0 >= 0 ? arg0 : 256 + arg0);
+			arrRecordHeader.add(arg0 >= 0 ? arg0 : 256 + arg0);
 			
-			if (m_arrRecordHeader.size() >= 3)
+			if (arrRecordHeader.size() >= 3)
 			{
-				int i1 = m_arrRecordHeader.get(1); 
-				int i2 = m_arrRecordHeader.get(2); 
-				m_nCurrentRecordLength = i1 * 256 + i2;
-				m_nCurrentRecordWritten = 0;
-				m_arrRecordHeader.clear();
+				int i1 = arrRecordHeader.get(1); 
+				int i2 = arrRecordHeader.get(2); 
+				nCurrentRecordLength = i1 * 256 + i2;
+				nCurrentRecordWritten = 0;
+				arrRecordHeader.clear();
 				
-				if (m_bHeaderVariable)
+				if (bHeaderVariable)
 				{
-					LittleEndingSignBinaryBufferStorage.writeInt(m_tbyHeader, m_nCurrentRecordLength, 0);
-					m_Stream.write(m_tbyHeader);
+					LittleEndingSignBinaryBufferStorage.writeInt(tbyHeader, nCurrentRecordLength, 0);
+					stream.write(tbyHeader);
 				}
 				
-				if (m_nCurrentRecordLength == 0)
-					FileSystem.WriteEOL(m_Stream);
+				if (nCurrentRecordLength == 0)
+					FileSystem.WriteEOL(stream);
 			}
 		}
 		else
 		{
-			m_Stream.write(arg0);
-			m_nCurrentRecordWritten++;
-			if (m_nCurrentRecordWritten == m_nCurrentRecordLength)
+			stream.write(arg0);
+			nCurrentRecordWritten++;
+			if (nCurrentRecordWritten == nCurrentRecordLength)
 			{
-				FileSystem.WriteEOL(m_Stream);
-				m_nCurrentRecordLength = 0;
+				FileSystem.WriteEOL(stream);
+				nCurrentRecordLength = 0;
 			}
 		}
 	}
 
 	public void close() throws IOException
 	{
-		m_Stream.close() ;
+		stream.close() ;
 	}
 
 	public void flush() throws IOException
 	{
-		m_Stream.flush()  ;
+		stream.flush()  ;
 	}
 }

@@ -44,27 +44,27 @@ public abstract class CBaseEntityFactory
 	 */
 	public CBaseEntityFactory(CObjectCatalog cat, CBaseLanguageExporter out)
 	{
-		m_ProgramCatalog = cat ;
-		m_LangOutput = out ;
+		programCatalog = cat ;
+		langOutput = out ;
 	}
 
 //	public abstract CEntity NewEntityCondition(int l, String name) ;
 	public abstract CEntityIsFieldCursor NewEntityIsFieldCursor() ;
 	public CEntityNoAction NewEntityNoAction(int l)
 	{
-		return new CEntityNoAction(l, m_ProgramCatalog, m_LangOutput); 
+		return new CEntityNoAction(l, programCatalog, langOutput); 
 	}
 	public CIgnoreExternalEntity NewIgnoreExternalEntity(String name)
 	{
-		return new CIgnoreExternalEntity(0, name, m_ProgramCatalog, m_LangOutput); 
+		return new CIgnoreExternalEntity(0, name, programCatalog, langOutput); 
 	}
 	public CIgnoredEntity NewIgnoreEntity(String name) 
 	{
-		return new CIgnoredEntity(0, name, m_ProgramCatalog, m_LangOutput); 
+		return new CIgnoredEntity(0, name, programCatalog, langOutput); 
 	};
 	public CIgnoredEntity NewIgnoreEntity(int l, String name) 
 	{
-		return new CIgnoredEntity(l, name, m_ProgramCatalog, m_LangOutput); 
+		return new CIgnoredEntity(l, name, programCatalog, langOutput); 
 	};
 	public abstract CEntityResetKeyPressed NewEntityResetKeyPressed(int l) ;
 	public abstract CEntityCICSGetMain NewEntityCICSGetMain(int l) ;
@@ -224,8 +224,8 @@ public abstract class CBaseEntityFactory
 	public abstract CEntityFieldRedefine NewEntityFieldRedefine(int l, String name, String level) ;
 	public abstract CEntityFormRedefine NewEntityFormRedefine(int l, String name, CDataEntity eForm, boolean bSaveMap) ;
 	 	
-	public CObjectCatalog m_ProgramCatalog = null ;
-	public CBaseLanguageExporter m_LangOutput = null;
+	public CObjectCatalog programCatalog = null ;
+	public CBaseLanguageExporter langOutput = null;
 	public abstract CDataEntity getSpecialConstantValue(String value) ;
 	public abstract Collection<CDataEntity> getAllSpecialConstantAttributes() ;
 	public abstract void addSpecialConstantValue(String value, String constant) ;
@@ -243,7 +243,7 @@ public abstract class CBaseEntityFactory
 	public abstract CEntityFileDescriptor NewEntityFileDescriptor(int line, String name) ;
 	public abstract CEntitySortedFileDescriptor NewEntitySortedFileDescriptor(int line, String name) ;
 	public CEntityFileSelect NewEntityFileSelect(String ref) {
-		return new CEntityFileSelect(ref, m_ProgramCatalog, m_LangOutput);
+		return new CEntityFileSelect(ref, programCatalog, langOutput);
 	}
 	public abstract CEntityOpenFile NewEntityOpenFile(int line) ;
 	public abstract CEntityCloseFile NewEntityCloseFile(int line) ;
@@ -254,17 +254,17 @@ public abstract class CBaseEntityFactory
 	public abstract CEntitySortRelease NewEntitySortRelease(int line);
 	public abstract CEntitySortReturn NewEntitySortReturn(int line) ;
 	public CEntityValueReference NewEntityValueReference(CDataEntity dep)	{
-		return new CEntityValueReference(m_ProgramCatalog, m_LangOutput, dep);
+		return new CEntityValueReference(programCatalog, langOutput, dep);
 	}
 	public abstract CEntityRewriteFile NewEntityRewriteFile(int line) ;
 
 	public CEntityFieldAttributeReference NewEntityFieldAttributeReference(CDataEntity field)
 	{
-		return new CEntityFieldAttributeReference(m_ProgramCatalog, m_LangOutput, field);
+		return new CEntityFieldAttributeReference(programCatalog, langOutput, field);
 	}
 
 	public CEntityFileBuffer NewEntityFileBuffer(String name, CEntityFileDescriptor att)	{
-		return new CEntityFileBuffer(name, att, m_ProgramCatalog,m_LangOutput) ;
+		return new CEntityFileBuffer(name, att, programCatalog,langOutput) ;
 	}
 
 	public abstract CEntityAddress NewEntityAddress(String csAddresse) ;

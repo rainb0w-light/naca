@@ -32,10 +32,10 @@ public class ColDescription extends ColDescriptionInfo
 	{
 		try
 		{
-			m_csColName = col.getString("COLUMN_NAME");
-			m_nTypeId = col.getInt("DATA_TYPE");
-			m_nScale = col.getInt("DECIMAL_DIGITS");
-			m_nPrecision = col.getInt("COLUMN_SIZE");
+			csColName = col.getString("COLUMN_NAME");
+			nTypeId = col.getInt("DATA_TYPE");
+			nScale = col.getInt("DECIMAL_DIGITS");
+			nPrecision = col.getInt("COLUMN_SIZE");
 			
 			return true;
 		}
@@ -50,10 +50,10 @@ public class ColDescription extends ColDescriptionInfo
 	{
 		try
 		{
-			m_csColName = mt.getColumnName(nColId);
-			m_nTypeId = mt.getColumnType(nColId);
-			m_nPrecision = mt.getPrecision(nColId);
-			m_nScale = mt.getScale(nColId);
+			csColName = mt.getColumnName(nColId);
+			nTypeId = mt.getColumnType(nColId);
+			nPrecision = mt.getPrecision(nColId);
+			nScale = mt.getScale(nColId);
 			return true;
 		}
 		catch (SQLException e)

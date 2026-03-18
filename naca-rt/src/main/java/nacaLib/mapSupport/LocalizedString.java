@@ -29,21 +29,21 @@ public class LocalizedString
 	/*
 	LocalizedString(String cs)
 	{
-		m_csName = cs ;
+		csName = cs ;
 	}
 		*/
 	public String getTextForLanguage(String csLangId)
 	{
-		String cs = m_tabTexts.get(csLangId.trim());
+		String cs = tabTexts.get(csLangId.trim());
 		return cs;
 	}
 	
 	public LocalizedString text(String csId, String text)
 	{
-		m_tabTexts.put(csId, text); 		
+		tabTexts.put(csId, text); 		
 		return this ;
 	}
 
-	//protected String m_csName = "" ;
-	protected MapStringByString m_tabTexts = new MapStringByString() ;
+	//protected String csName = "" ;
+	protected MapStringByString tabTexts = new MapStringByString() ;
 }

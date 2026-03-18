@@ -103,9 +103,9 @@ public class SQLClauseSPCall extends SQLClauseSPCallBase
 //	{
 //		if(preparedCallableStatement != null)
 //		{
-//			for(int n=0; n<m_arrParamDesc.size(); n++)
+//			for(int n=0; n<arrParamDesc.size(); n++)
 //			{
-//				StoredProcParamDesc paramDesc = m_arrParamDesc.get(n);
+//				StoredProcParamDesc paramDesc = arrParamDesc.get(n);
 //				paramDesc.retrieveOutValues(n, preparedCallableStatement, sqlStatus);
 //			}
 //		}

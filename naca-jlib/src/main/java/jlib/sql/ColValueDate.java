@@ -19,42 +19,42 @@ public class ColValueDate extends ColValue
 	ColValueDate(String csName, String csReplacement, Date dateValue)
 	{
 		super(csName, csReplacement);
-		m_dateValue = dateValue;
+		dateValue = dateValue;
 	}
 	
 	ColValueDate(String csName, Date dateValue)
 	{
 		super(csName);
-		m_dateValue = dateValue;
+		dateValue = dateValue;
 	}
 	
 	public ColValue duplicate()
 	{
-		return new ColValueDate(m_csName, m_dateValue);
+		return new ColValueDate(csName, dateValue);
 	}
 	
 	public void setParamSQLClause(SQLClause clause)
 	{
-		clause.param(m_dateValue);
+		clause.param(dateValue);
 	}	
 	
 	public void doFillWithResurltSetCol(ResultSet resultSet, int nCol)
 		throws SQLException
 	{
-		m_dateValue = resultSet.getDate(nCol);
+		dateValue = resultSet.getDate(nCol);
 	}
 
 	public String getValueAsString()
 	{	
-		if(m_dateValue == null)	// Now
+		if(dateValue == null)	// Now
 		{
 			return null;
 //			Date date = new Date();
 //			return new DateUtil("yyyyMMdd HH:mm:ss", date).toString();
 //			return String.valueOf(date);
 		}
-		return new DateUtil("yyyyMMdd HH:mm:ss", m_dateValue).toString();
-//		return String.valueOf(m_dateValue);		
+		return new DateUtil("yyyyMMdd HH:mm:ss", dateValue).toString();
+//		return String.valueOf(dateValue);		
 	}
 	
 	public int getValueAsInt()
@@ -69,12 +69,12 @@ public class ColValueDate extends ColValue
 	
 	String getDumpValueAsString()
 	{
-		if(m_dateValue == null)	// Now
+		if(dateValue == null)	// Now
 		{
 			Date date = new Date();
 			return "(Date now):'"+String.valueOf(date)+"'";
 		}
-		return "(Date):'"+String.valueOf(m_dateValue)+"'";		
+		return "(Date):'"+String.valueOf(dateValue)+"'";		
 	}	
 	
 	String getType()
@@ -89,14 +89,14 @@ public class ColValueDate extends ColValue
 	
 	Object getValue()
 	{
-//		if(m_dateValue == null)	// Now
+//		if(dateValue == null)	// Now
 //		{
 //			Date date = new Date();
 //			return date;
 //		}
-		return m_dateValue;
+		return dateValue;
 	}
 
 	
-	Date m_dateValue = null;
+	Date dateValue = null;
 }

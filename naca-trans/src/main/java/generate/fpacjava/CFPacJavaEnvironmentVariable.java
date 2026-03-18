@@ -23,25 +23,25 @@ public class CFPacJavaEnvironmentVariable extends CEntityEnvironmentVariable
 	@Override
 	public String ExportReference(int nLine)
 	{
-		return m_csAccessor ;
+		return csAccessor ;
 	}
 
 	@Override
 	public boolean HasAccessors()
 	{
-		return m_csWriteAccessor != null  && !m_csWriteAccessor.equals("");
+		return csWriteAccessor != null  && !csWriteAccessor.equals("");
 	}
 
 	@Override
 	public String ExportWriteAccessorTo(String value)
 	{
-		if (m_csWriteAccessor.endsWith("("))
+		if (csWriteAccessor.endsWith("("))
 		{
-			return m_csWriteAccessor + value + ") ;" ;
+			return csWriteAccessor + value + ") ;" ;
 		}
 		else
 		{
-			return m_csWriteAccessor + value + " ;" ;
+			return csWriteAccessor + value + " ;" ;
 		}
 	}
 
@@ -59,7 +59,7 @@ public class CFPacJavaEnvironmentVariable extends CEntityEnvironmentVariable
 	
 	public String toString()
 	{
-		return m_csAccessor ;
+		return csAccessor ;
 	}
 
 }

@@ -32,12 +32,12 @@ public abstract class CEntitySqlOnErrorGoto extends CBaseActionEntity
 	public CEntitySqlOnErrorGoto(int l, CObjectCatalog cat, CBaseLanguageExporter out, String Reference, boolean OnWarning)
 	{
 		super(l, cat, out);
-		m_csRef = Reference ; 
-		m_bOnWarning = OnWarning ;
+		csRef = Reference ; 
+		bOnWarning = OnWarning ;
 	}
 	
-	protected String m_csRef = "" ;
-	protected boolean m_bOnWarning = false ; 
+	protected String csRef = "" ;
+	protected boolean bOnWarning = false ; 
 	public boolean ignore()
 	{
 		return false ;

@@ -35,27 +35,27 @@ public abstract class CEntitySetColor extends CBaseActionEntity
 	public CEntitySetColor(int line, CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity field)
 	{
 		super(line, cat, out);
-		m_Field = field ;
+		field = field ;
 	}
 	
 	public void SetColor(CEntityFieldColor.CFieldColor c)
 	{
-		m_Color = c ;
+		color = c ;
 	}
-	protected CEntityFieldColor.CFieldColor m_Color = null ;
-	protected CDataEntity m_Field = null ;
+	protected CEntityFieldColor.CFieldColor color = null ;
+	protected CDataEntity field = null ;
 	public void Clear()
 	{
 		super.Clear();
-		m_Field = null ;
+		field = null ;
 	}
 	public boolean ignore()
 	{
-		if (m_Field == null || m_Field.ignore())
+		if (field == null || field.ignore())
 		{
 			return true ;
 		}
-		else if (m_ColorVariable != null && m_ColorVariable.ignore())
+		else if (colorVariable != null && colorVariable.ignore())
 		{
 			return true ;
 		}
@@ -63,9 +63,9 @@ public abstract class CEntitySetColor extends CBaseActionEntity
 	}
 	public boolean IgnoreVariable(CDataEntity data)
 	{
-		if (data == m_Field)
+		if (data == field)
 		{
-			m_Field = null ;
+			field = null ;
 			data.UnRegisterWritingAction(this) ;
 			return true ;
 		}
@@ -73,9 +73,9 @@ public abstract class CEntitySetColor extends CBaseActionEntity
 	}
 	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
 	{
-		if (m_Field == field)
+		if (field == field)
 		{
-			m_Field = var ;
+			field = var ;
 			field.UnRegisterWritingAction(this) ;
 			var.RegisterWritingAction(this) ;
 			return true ;
@@ -88,8 +88,8 @@ public abstract class CEntitySetColor extends CBaseActionEntity
 	 */
 	public void SetColor(CDataEntity term)
 	{
-		m_Color = null ;
-		m_ColorVariable = term ;		
+		color = null ;
+		colorVariable = term ;		
 	}
-	protected CDataEntity m_ColorVariable = null ;
+	protected CDataEntity colorVariable = null ;
 }

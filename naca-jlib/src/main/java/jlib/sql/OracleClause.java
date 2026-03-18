@@ -117,7 +117,7 @@ public class OracleClause extends SQLClause {
 			catch (SQLException e)
 			{
 				forceCloseOnExceptionCatched();
-				ProgrammingException.throwException(ProgrammingException.DB_ERROR_RESULT_SET_COL_ACCESS_STRING+csColName, m_csQuery, e);
+				ProgrammingException.throwException(ProgrammingException.DB_ERROR_RESULT_SET_COL_ACCESS_STRING+csColName, csQuery, e);
 			}			
 		}
 		return null;
@@ -138,7 +138,7 @@ public class OracleClause extends SQLClause {
 			catch (SQLException e)
 			{
 				forceCloseOnExceptionCatched();
-				ProgrammingException.throwException(ProgrammingException.DB_ERROR_RESULT_SET_COL_ACCESS_INT+nColNumber, m_csQuery, e);
+				ProgrammingException.throwException(ProgrammingException.DB_ERROR_RESULT_SET_COL_ACCESS_INT+nColNumber, csQuery, e);
 			}			
 		}
 		return null;
@@ -166,10 +166,10 @@ public class OracleClause extends SQLClause {
  */
 	public OracleClause paramInsert(String csName,Date dVal) {
 		String s=String.format("%1$tY/%1$tm/%1$td %1$tH:%1$tM:%1$tS",dVal);
-		if(m_arrInsertParams == null)
-			m_arrInsertParams = new ArrayList<ColValue>();
+		if(arrInsertParams == null)
+			arrInsertParams = new ArrayList<ColValue>();
 		ColValueString colVal = new ColValueString(csName, "to_date(?,'yyyy/mm/dd hh24:mi:ss')",s); 
-		m_arrInsertParams.add(colVal);
+		arrInsertParams.add(colVal);
 		return this;
 	}
 }

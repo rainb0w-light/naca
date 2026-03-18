@@ -18,41 +18,41 @@ import java.util.ArrayList;
  */
 public class ArrayDyn<T> extends ArrayFixDyn<T>
 {
-	ArrayList<T> m_arr = null;
+	ArrayList<T> arr = null;
 	
 //	public T[] getAsArray()
 //	{
-//		return (T[])m_arr.toArray();
+//		return (T[])arr.toArray();
 //	}
 	
 	public int size()
 	{
-		if(m_arr != null)
-			return m_arr.size();
+		if(arr != null)
+			return arr.size();
 		return 0;
 	}
 	
 	public T get(int n)
 	{
-		if(m_arr != null)
-			return m_arr.get(n);
+		if(arr != null)
+			return arr.get(n);
 		return null;
 	}
 	
 	public void add(T t)
 	{
-		if(m_arr == null)
-			m_arr = new ArrayList<T>();
-		m_arr.add(t);
+		if(arr == null)
+			arr = new ArrayList<T>();
+		arr.add(t);
 	}
 	
-	public void transferInto(T arr[])
+	public void transferInto(T targetArr[])
 	{
 		int nSize = size();
 		for(int n=0; n<nSize; n++)
 		{
-			T t = m_arr.get(n);
-			arr[n] = t;				
+			T t = arr.get(n);
+			targetArr[n] = t;				
 		}
 	}
 	
@@ -67,6 +67,6 @@ public class ArrayDyn<T> extends ArrayFixDyn<T>
 
 	public void set(int n, T t)
 	{
-		m_arr.set(n, t);
+		arr.set(n, t);
 	}
 }

@@ -15,11 +15,11 @@ import java.io.RandomAccessFile;
 
 public class DataFileReadWrite extends BaseDataFileBuffered
 {
-	private RandomAccessFile m_rw = null;
-	private byte m_t1Byte[] = new byte[1];
-	private LineRead m_lineRead = null;
+	private RandomAccessFile rw = null;
+	private byte t1Byte[] = new byte[1];
+	private LineRead lineRead = null;
 	private final static int ms_nMaxRecordLength = 65536;
-	private long m_lSavedPosition = -1;
+	private long lSavedPosition = -1;
 	
 	public DataFileReadWrite()
 	{
@@ -27,7 +27,7 @@ public class DataFileReadWrite extends BaseDataFileBuffered
 	
 	public DataFileReadWrite(String csName)
 	{
-		m_csName = csName;
+		csName = csName;
 	}
 		
 //	public boolean open(String csName)
@@ -40,8 +40,8 @@ public class DataFileReadWrite extends BaseDataFileBuffered
 	{
 		try
 		{
-			m_rw = new RandomAccessFile(getName(), "rw");
-			m_lineRead = new LineRead();
+			rw = new RandomAccessFile(getName(), "rw");
+			lineRead = new LineRead();
 			initLineRead();
 			return true;
 		}
@@ -64,17 +64,17 @@ public class DataFileReadWrite extends BaseDataFileBuffered
 	
 	private void initLineRead()
 	{
-		m_lineRead.resetAndGaranteeBufferStorage(ms_nMaxRecordLength, ms_nMaxRecordLength);
+		lineRead.resetAndGaranteeBufferStorage(ms_nMaxRecordLength, ms_nMaxRecordLength);
 	}
 
 	public boolean close()
 	{
 		try
 		{
-			if(m_rw != null)
+			if(rw != null)
 			{
-				m_rw.close();
-				m_rw = null;
+				rw.close();
+				rw = null;
 				return true;
 			}
 		}
@@ -89,9 +89,9 @@ public class DataFileReadWrite extends BaseDataFileBuffered
 	{
 		try
 		{
-			if(m_rw != null)
+			if(rw != null)
 			{		
-				m_rw.getFD().sync();
+				rw.getFD().sync();
 				return true;
 			}
 		}
@@ -104,14 +104,14 @@ public class DataFileReadWrite extends BaseDataFileBuffered
 
 	public boolean isOpen()
 	{
-		if(m_rw != null)
+		if(rw != null)
 			return true;
 		return false;
 	}
 	
 	public String toString()
 	{
-		String cs = m_csName + " (";
+		String cs = csName + " (";
 		if(isOpen())
 		{
 			cs += "Open RW";
@@ -128,11 +128,11 @@ public class DataFileReadWrite extends BaseDataFileBuffered
 	{
 		if(tBytes != null)
 		{
-			if(m_rw != null)
+			if(rw != null)
 			{
 				try
 				{
-					m_rw.write(tBytes, nOffset, nLength);
+					rw.write(tBytes, nOffset, nLength);
 				}
 				catch (IOException e)
 				{
@@ -146,12 +146,12 @@ public class DataFileReadWrite extends BaseDataFileBuffered
 	public void writeRecord(String cs)
 	{
 		int nLg = cs.length();
-		if(m_rw != null)
+		if(rw != null)
 		{
 			try
 			{
-				m_rw.write(cs.getBytes(), 0, nLg);
-				m_rw.write((char)FileEndOfLine.LF);
+				rw.write(cs.getBytes(), 0, nLg);
+				rw.write((char)FileEndOfLine.LF);
 			}
 			catch (IOException e)
 			{	
@@ -165,11 +165,11 @@ public class DataFileReadWrite extends BaseDataFileBuffered
 	{
 		if(tBytes != null)
 		{
-			if(m_rw != null)
+			if(rw != null)
 			{
 				try
 				{
-					m_rw.write(tBytes, 0, tBytes.length);
+					rw.write(tBytes, 0, tBytes.length);
 				}
 				catch (IOException e)
 				{
@@ -184,19 +184,19 @@ public class DataFileReadWrite extends BaseDataFileBuffered
 	{
 		if(tBytes != null)
 		{
-			if(m_rw != null)
+			if(rw != null)
 			{
 				try
 				{
 					if(nSize+1 < tBytes.length)
 					{
 						tBytes[nSize] = FileEndOfLine.LF;
-						m_rw.write(tBytes, 0, nSize+1);
+						rw.write(tBytes, 0, nSize+1);
 					}
 					else
 					{
-						m_rw.write(tBytes, 0, nSize);
-						m_rw.write(FileEndOfLine.LF);
+						rw.write(tBytes, 0, nSize);
+						rw.write(FileEndOfLine.LF);
 					}
 				}
 				catch (IOException e)
@@ -210,12 +210,12 @@ public class DataFileReadWrite extends BaseDataFileBuffered
 	
 	public void writeWithEOL(LineRead lineRead)
 	{
-		if(m_rw != null)
+		if(rw != null)
 		{
 			try
 			{
-				m_rw.write(lineRead.getBuffer(), lineRead.getOffset(), lineRead.getTotalLength());
-				m_rw.write(FileEndOfLine.LF);
+				rw.write(lineRead.getBuffer(), lineRead.getOffset(), lineRead.getTotalLength());
+				rw.write(FileEndOfLine.LF);
 			}
 			catch (IOException e)
 			{
@@ -227,11 +227,11 @@ public class DataFileReadWrite extends BaseDataFileBuffered
 	
 	public void writeEndOfRecordMarker()
 	{
-		if(m_rw != null)
+		if(rw != null)
 		{
 			try
 			{
-				m_rw.write(FileEndOfLine.LF);
+				rw.write(FileEndOfLine.LF);
 			}
 			catch (IOException e)
 			{
@@ -245,11 +245,11 @@ public class DataFileReadWrite extends BaseDataFileBuffered
 	{
 		getFileCurrentPosition();
 		int nByte = 0;
-		if(m_rw != null)
+		if(rw != null)
 		{
 			try
 			{
-				nByte = m_rw.read();
+				nByte = rw.read();
 				if(nByte == -1)
 				{
 					setEOF(true);
@@ -274,12 +274,12 @@ public class DataFileReadWrite extends BaseDataFileBuffered
 	public byte[] read(int nSize)
 	{
 		//getFileCurrentPosition();
-		if(m_rw != null)
+		if(rw != null)
 		{
 			try
 			{
 				byte byteBuffer[] = getByteBuffer(nSize);
-				int nNBytesRead = m_rw.read(byteBuffer, 0, nSize);
+				int nNBytesRead = rw.read(byteBuffer, 0, nSize);
 				if(nNBytesRead == -1)
 					setEOF(true);
 				return byteBuffer;
@@ -298,13 +298,13 @@ public class DataFileReadWrite extends BaseDataFileBuffered
 //		getCurrentPosition();
 //		int n = 0;
 //		byte[] tVal = new byte[1];
-//		if(m_rw != null)
+//		if(rw != null)
 //		{
 //			try
 //			{	
 //				while(tVal[0] != FileEndOfLine.LF)
 //				{
-//					int nNBytesRead = m_rw.read(tVal, 0, 1);
+//					int nNBytesRead = rw.read(tVal, 0, 1);
 //					if(nNBytesRead == -1)
 //					{
 //						setEOF(true);
@@ -325,17 +325,17 @@ public class DataFileReadWrite extends BaseDataFileBuffered
 	
 	private int readUnixLine(byte tBytes[], int nMaxLineSize)
 	{
-		if(m_rw != null)
+		if(rw != null)
 		{
 			try
 			{
 				int n = 0;
-				m_t1Byte[0] = 0;
-				while(m_t1Byte[0] != FileEndOfLine.LF)
+				t1Byte[0] = 0;
+				while(t1Byte[0] != FileEndOfLine.LF)
 				{
-					int nNBytesRead = m_rw.read(m_t1Byte, 0, 1);
+					int nNBytesRead = rw.read(t1Byte, 0, 1);
 					if(nNBytesRead != -1)
-						tBytes[n++] = m_t1Byte[0];
+						tBytes[n++] = t1Byte[0];
 					else
 					{
 						setEOF(true);
@@ -360,13 +360,13 @@ public class DataFileReadWrite extends BaseDataFileBuffered
 //		getCurrentPosition();
 //		int n = nOffset;
 //		byte[] tVal = new byte[1];
-//		if(m_rw != null)
+//		if(rw != null)
 //		{
 //			try
 //			{	
 //				while(tVal[0] != FileEndOfLine.LF)
 //				{
-//					int nNBytesRead = m_rw.read(tVal, 0, 1);
+//					int nNBytesRead = rw.read(tVal, 0, 1);
 //					if(nNBytesRead != -1)
 //						tBytes[n++] = tVal[0];
 //					else
@@ -390,11 +390,11 @@ public class DataFileReadWrite extends BaseDataFileBuffered
 	{
 		getFileCurrentPosition();
 		int n = -1;
-		if(m_rw != null && !isEOF())
+		if(rw != null && !isEOF())
 		{
 			try
 			{	
-				int nNBytesRead = m_rw.read(tBytes, 0, nNbBytes);
+				int nNBytesRead = rw.read(tBytes, 0, nNbBytes);
 				if(nNBytesRead == -1)
 					setEOF(true);
 				return nNBytesRead;
@@ -412,11 +412,11 @@ public class DataFileReadWrite extends BaseDataFileBuffered
 	{
 		getFileCurrentPosition();
 		int n = -1;
-		if(m_rw != null && !isEOF())
+		if(rw != null && !isEOF())
 		{
 			try
 			{	
-				int nNBytesRead = m_rw.read(tBytes, nOffset, nNbBytes);
+				int nNBytesRead = rw.read(tBytes, nOffset, nNbBytes);
 				if(nNBytesRead == -1)
 					setEOF(true);
 				return nNBytesRead;
@@ -432,7 +432,7 @@ public class DataFileReadWrite extends BaseDataFileBuffered
 	
 	public LineRead readNextUnixLine()
 	{
-		if(m_rw == null)
+		if(rw == null)
 			return null;
 
 		long lLastPosition = getFileCurrentPosition();
@@ -440,18 +440,18 @@ public class DataFileReadWrite extends BaseDataFileBuffered
 		
 		initLineRead();
 			
-		int nDataLength = readUnixLine(m_lineRead.getBuffer(), ms_nMaxRecordLength);
+		int nDataLength = readUnixLine(lineRead.getBuffer(), ms_nMaxRecordLength);
 		if(nDataLength > 0)
 		{
-			m_lineRead.setDataLengthStartingAt0(nDataLength);
-			return m_lineRead;
+			lineRead.setDataLengthStartingAt0(nDataLength);
+			return lineRead;
 		}
 		return null;
 	}	
 	
 	public LineRead readBuffer(int nLength, boolean bTryReadNextLF)
 	{		
-		if(m_rw != null)
+		if(rw != null)
 		{
 			long lLastPosition = getFileCurrentPosition();
 			setLastPosition(lLastPosition);
@@ -461,13 +461,13 @@ public class DataFileReadWrite extends BaseDataFileBuffered
 				nFullLength++;
 	
 			initLineRead();
-			int nLengthRead = readChunk(m_lineRead.getBuffer(), 0, nFullLength);
+			int nLengthRead = readChunk(lineRead.getBuffer(), 0, nFullLength);
 			if(nLengthRead >= 0)
 			{
-				m_lineRead.setDataLengthStartingAt0(nLengthRead);
+				lineRead.setDataLengthStartingAt0(nLengthRead);
 				if(bTryReadNextLF)
-					m_lineRead.manageTrailingLF();
-				return m_lineRead;
+					lineRead.manageTrailingLF();
+				return lineRead;
 			}
 		}
 		return null;
@@ -508,7 +508,7 @@ public class DataFileReadWrite extends BaseDataFileBuffered
 	{
 		try
 		{
-			long lPos = m_rw.getFilePointer();
+			long lPos = rw.getFilePointer();
 			return lPos; 
 		}
 		catch (IOException e)
@@ -521,7 +521,7 @@ public class DataFileReadWrite extends BaseDataFileBuffered
 	{
 		try
 		{
-			m_rw.seek(lCurrentPosition);
+			rw.seek(lCurrentPosition);
 			return true;
 		}
 		catch (IOException e)
@@ -532,16 +532,16 @@ public class DataFileReadWrite extends BaseDataFileBuffered
 	
 	public boolean savePosition(int nMaxReadAheadSize)
 	{
-		m_lSavedPosition = getFileCurrentPosition();
-		if(m_lSavedPosition >= 0)
+		lSavedPosition = getFileCurrentPosition();
+		if(lSavedPosition >= 0)
 			return true;
 		return false;
 	}
 	
 	public boolean returnAtSavedPosition()
 	{
-		if(m_lSavedPosition >= 0)
-			return setFileCurrentPosition(m_lSavedPosition);
+		if(lSavedPosition >= 0)
+			return setFileCurrentPosition(lSavedPosition);
 		return false;
 	}
 	
@@ -573,7 +573,7 @@ public class DataFileReadWrite extends BaseDataFileBuffered
 	{
 		try
 		{
-			m_rw.setLength(lFileLength);
+			rw.setLength(lFileLength);
 			return true;
 		}
 		catch (IOException e)
@@ -586,8 +586,8 @@ public class DataFileReadWrite extends BaseDataFileBuffered
 	{
 		try
 		{
-			long lPos = m_rw.getFilePointer();				
-			m_rw.setLength(lPos);
+			long lPos = rw.getFilePointer();				
+			rw.setLength(lPos);
 			return true;
 		}
 		catch (IOException e)

@@ -27,8 +27,8 @@ public class VarDefFPacRaw extends VarDefVariable
 	private static final long serialVersionUID = 1L;
 	public VarDefFPacRaw(VarDefBase varDefParent, DeclareTypeFPacRaw declareTypeFPacRaw)
 	{
-		super(varDefParent, declareTypeFPacRaw.m_varLevel);
-		m_nSize = declareTypeFPacRaw.getLength();
+		super(varDefParent, declareTypeFPacRaw.varLevel);
+		nSize = declareTypeFPacRaw.getLength();
 	}
 
 	protected VarDefFPacRaw()
@@ -38,13 +38,13 @@ public class VarDefFPacRaw extends VarDefVariable
 	
 	void transfer(VarBufferPos bufferSource, VarAndEdit Dest)
 	{
-		Dest.m_varDef.write(Dest.m_bufferPos, this, bufferSource);
+		Dest.varDef.write(Dest.bufferPos, this, bufferSource);
 	}
 
 	protected VarDefBuffer allocCopy()
 	{
 		VarDefFPacRaw v = new VarDefFPacRaw();
-		v.m_nSize = m_nSize;
+		v.nSize = nSize;
 		return v;
 	}
 			
@@ -55,7 +55,7 @@ public class VarDefFPacRaw extends VarDefVariable
 	
 	public int getBodyLength()
 	{
-		return m_nTotalSize;
+		return nTotalSize;
 	}
 	
 	protected int getHeaderLength()
@@ -65,32 +65,32 @@ public class VarDefFPacRaw extends VarDefVariable
 
 	public int getSingleItemRequiredStorageSize()
 	{
-		return m_nSize;
+		return nSize;
 	}
 	
 	CStr getAsDecodedString(VarBufferPos buffer)
 	{
-		CStr cs = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nTotalSize);
+		CStr cs = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);
 		return cs;
 	}
 	
 	int getAsDecodedInt(VarBufferPos buffer)
 	{
-		CStr cs = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nTotalSize);
+		CStr cs = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);
 		int n = cs.getAsInt();
 		return n;
 	}
 	
 	int getAsDecodedUnsignedInt(VarBufferPos buffer)
 	{
-		CStr cs = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nTotalSize);
+		CStr cs = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);
 		int n = cs.getAsUnsignedInt();
 		return n;
 	}
 
 	long getAsDecodedLong(VarBufferPos buffer)
 	{
-		CStr cs = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nTotalSize);
+		CStr cs = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);
 		long l = cs.getAsLong();
 		return l;
 	}
@@ -104,19 +104,19 @@ public class VarDefFPacRaw extends VarDefVariable
 	
 	CStr getAsAlphaNumString(VarBufferPos buffer)
 	{
-		CStr cs = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nTotalSize);
+		CStr cs = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);
 		return cs;
 	}	
 	
 	CStr getDottedSignedString(VarBufferPos buffer)
 	{	
-		CStr cs = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nTotalSize);
+		CStr cs = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);
 		return cs;
 	}
 	
 	CStr getDottedSignedStringAsSQLCol(VarBufferPos buffer)
 	{	
-		CStr cs = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nTotalSize);
+		CStr cs = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);
 		return cs;
 	}
 	
@@ -206,7 +206,7 @@ public class VarDefFPacRaw extends VarDefVariable
 			nPositionSource++;
 			if(nPositionSource == nNbCharSource)
 				nPositionSource = 0;
-			buffer.m_acBuffer[nPositionDest] = cSource;
+			buffer.acBuffer[nPositionDest] = cSource;
 		}
 	}
 	
@@ -224,7 +224,7 @@ public class VarDefFPacRaw extends VarDefVariable
 			nPositionSource++;
 			if(nPositionSource == nNbCharSource)
 				nPositionSource = 0;
-			buffer.m_acBuffer[nPositionDest] = cSource;
+			buffer.acBuffer[nPositionDest] = cSource;
 		}
 	}
 	
@@ -242,7 +242,7 @@ public class VarDefFPacRaw extends VarDefVariable
 			nPositionSource++;
 			if(nPositionSource == nNbCharSource)
 				nPositionSource = 0;
-			buffer.m_acBuffer[nPositionDest] = cSource;
+			buffer.acBuffer[nPositionDest] = cSource;
 		}
 	}
 	
@@ -283,7 +283,7 @@ public class VarDefFPacRaw extends VarDefVariable
 		int nValue = varSource.getUnsignedInt(bufferSource);
  		String cs = String.valueOf(nValue);
  		//writeRightPadding(buffer, cs, ' ');
- 		Pic9Comp0BufferSupport.setFromRightToLeft(buffer, buffer.m_nAbsolutePosition, m_nTotalSize, m_nTotalSize, 0, false, true, nValue);
+ 		Pic9Comp0BufferSupport.setFromRightToLeft(buffer, buffer.nAbsolutePosition, nTotalSize, nTotalSize, 0, false, true, nValue);
 	}
 
 	void write(VarBufferPos buffer, VarDefNumIntComp0Long varSource, VarBufferPos bufferSource)
@@ -291,7 +291,7 @@ public class VarDefFPacRaw extends VarDefVariable
 		long lValue = varSource.getUnsignedInt(bufferSource);
 // 		String cs = String.valueOf(lValue);
 // 		writeRightPadding(buffer, cs, ' ');
-		Pic9Comp0BufferSupport.setFromRightToLeft(buffer, buffer.m_nAbsolutePosition, m_nTotalSize, m_nTotalSize, 0, false, true, lValue);
+		Pic9Comp0BufferSupport.setFromRightToLeft(buffer, buffer.nAbsolutePosition, nTotalSize, nTotalSize, 0, false, true, lValue);
 	}
 
 	void write(VarBufferPos buffer, VarDefNumIntComp3 varSource, VarBufferPos bufferSource)
@@ -299,7 +299,7 @@ public class VarDefFPacRaw extends VarDefVariable
 		int nValue = varSource.getUnsignedInt(bufferSource);
 // 		String cs = String.valueOf(nValue);
 // 		writeRightPadding(buffer, cs, ' ');
-		Pic9Comp0BufferSupport.setFromRightToLeft(buffer, buffer.m_nAbsolutePosition, m_nTotalSize, m_nTotalSize, 0, false, true, nValue);
+		Pic9Comp0BufferSupport.setFromRightToLeft(buffer, buffer.nAbsolutePosition, nTotalSize, nTotalSize, 0, false, true, nValue);
 	}
 
 	void write(VarBufferPos buffer, VarDefNumIntComp3Long varSource, VarBufferPos bufferSource)
@@ -307,7 +307,7 @@ public class VarDefFPacRaw extends VarDefVariable
 		long lValue = varSource.getUnsignedLong(bufferSource);
 // 		String cs = String.valueOf(lValue);
 // 		writeRightPadding(buffer, cs, ' ');
- 		Pic9Comp0BufferSupport.setFromRightToLeft(buffer, buffer.m_nAbsolutePosition, m_nTotalSize, m_nTotalSize, 0, false, true, lValue);
+ 		Pic9Comp0BufferSupport.setFromRightToLeft(buffer, buffer.nAbsolutePosition, nTotalSize, nTotalSize, 0, false, true, lValue);
 	}
 
 	void write(VarBufferPos buffer, VarDefNumIntComp4 varSource, VarBufferPos bufferSource)
@@ -321,7 +321,7 @@ public class VarDefFPacRaw extends VarDefVariable
 		int nValue = varSource.getUnsignedInt(bufferSource);
 // 		String cs = String.valueOf(nValue);
 // 		writeRightPadding(buffer, cs, ' ');
-		Pic9Comp0BufferSupport.setFromRightToLeft(buffer, buffer.m_nAbsolutePosition, m_nTotalSize, m_nTotalSize, 0, false, true, nValue);
+		Pic9Comp0BufferSupport.setFromRightToLeft(buffer, buffer.nAbsolutePosition, nTotalSize, nTotalSize, 0, false, true, nValue);
 	}
 
 	void write(VarBufferPos buffer, VarDefNumIntComp4Long varSource, VarBufferPos bufferSource)
@@ -336,7 +336,7 @@ public class VarDefFPacRaw extends VarDefVariable
 // 		String cs = String.valueOf(l);
 // 		writeRightPadding(buffer, cs, ' ');
 
- 		Pic9Comp0BufferSupport.setFromRightToLeft(buffer, buffer.m_nAbsolutePosition, m_nTotalSize, m_nTotalSize, 0, false, true, lValue);
+ 		Pic9Comp0BufferSupport.setFromRightToLeft(buffer, buffer.nAbsolutePosition, nTotalSize, nTotalSize, 0, false, true, lValue);
 	}
 
 	void write(VarBufferPos buffer, VarDefNumIntSignComp0 varSource, VarBufferPos bufferSource)
@@ -345,7 +345,7 @@ public class VarDefFPacRaw extends VarDefVariable
 // 		String cs = String.valueOf(nValue);
 // 		writeRightPadding(buffer, cs, ' ');
 		
-		Pic9Comp0BufferSupport.setFromRightToLeft(buffer, buffer.m_nAbsolutePosition, m_nTotalSize, m_nTotalSize, 0, false, true, nValue);
+		Pic9Comp0BufferSupport.setFromRightToLeft(buffer, buffer.nAbsolutePosition, nTotalSize, nTotalSize, 0, false, true, nValue);
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumIntSignComp0Long varSource, VarBufferPos bufferSource)
@@ -356,7 +356,7 @@ public class VarDefFPacRaw extends VarDefVariable
 // 		String cs = String.valueOf(l);
 // 		writeRightPadding(buffer, cs, ' ');
  		
- 		Pic9Comp0BufferSupport.setFromRightToLeft(buffer, buffer.m_nAbsolutePosition, m_nTotalSize, m_nTotalSize, 0, false, true, lValue);
+ 		Pic9Comp0BufferSupport.setFromRightToLeft(buffer, buffer.nAbsolutePosition, nTotalSize, nTotalSize, 0, false, true, lValue);
 	}
 
 	void write(VarBufferPos buffer, VarDefNumIntSignComp3 varSource, VarBufferPos bufferSource)
@@ -364,7 +364,7 @@ public class VarDefFPacRaw extends VarDefVariable
 		int nValue = varSource.getUnsignedInt(bufferSource);
 // 		String cs = String.valueOf(nValue);
 // 		writeRightPadding(buffer, cs, ' ');
-		Pic9Comp0BufferSupport.setFromRightToLeft(buffer, buffer.m_nAbsolutePosition, m_nTotalSize, m_nTotalSize, 0, false, true, nValue);
+		Pic9Comp0BufferSupport.setFromRightToLeft(buffer, buffer.nAbsolutePosition, nTotalSize, nTotalSize, 0, false, true, nValue);
 	}
 
 	void write(VarBufferPos buffer, VarDefFPacNumIntSignComp3 varSource, VarBufferPos bufferSource)
@@ -373,7 +373,7 @@ public class VarDefFPacRaw extends VarDefVariable
 // 		String cs = String.valueOf(nValue);
 // 		writeRightPadding(buffer, cs, ' ');
 		
-		Pic9Comp0BufferSupport.setFromRightToLeft(buffer, buffer.m_nAbsolutePosition, m_nTotalSize, m_nTotalSize, 0, false, true, nValue);
+		Pic9Comp0BufferSupport.setFromRightToLeft(buffer, buffer.nAbsolutePosition, nTotalSize, nTotalSize, 0, false, true, nValue);
 	}
 
 	void write(VarBufferPos buffer, VarDefNumIntSignComp3Long varSource, VarBufferPos bufferSource)
@@ -381,7 +381,7 @@ public class VarDefFPacRaw extends VarDefVariable
 		long lValue = varSource.getUnsignedLong(bufferSource);
 //		String cs = String.valueOf(lValue);
 //		writeRightPadding(buffer, cs, ' ');
-		Pic9Comp0BufferSupport.setFromRightToLeft(buffer, buffer.m_nAbsolutePosition, m_nTotalSize, m_nTotalSize, 0, false, true, lValue);
+		Pic9Comp0BufferSupport.setFromRightToLeft(buffer, buffer.nAbsolutePosition, nTotalSize, nTotalSize, 0, false, true, lValue);
 	}
 
 	void write(VarBufferPos buffer, VarDefNumIntSignComp4 varSource, VarBufferPos bufferSource)
@@ -389,7 +389,7 @@ public class VarDefFPacRaw extends VarDefVariable
 		int nValue = varSource.getUnsignedInt(bufferSource);
 //		String cs = String.valueOf(nValue);
 //		writeRightPadding(buffer, cs, ' ');
-		Pic9Comp0BufferSupport.setFromRightToLeft(buffer, buffer.m_nAbsolutePosition, m_nTotalSize, m_nTotalSize, 0, false, true, nValue);
+		Pic9Comp0BufferSupport.setFromRightToLeft(buffer, buffer.nAbsolutePosition, nTotalSize, nTotalSize, 0, false, true, nValue);
  	}
 	
 	void write(VarBufferPos buffer, VarDefNumIntSignComp4Long varSource, VarBufferPos bufferSource)
@@ -397,7 +397,7 @@ public class VarDefFPacRaw extends VarDefVariable
 		long lValue = varSource.getUnsignedLong(bufferSource);
 // 		String cs = String.valueOf(lValue);
 // 		writeRightPadding(buffer, cs, ' ');
-		Pic9Comp0BufferSupport.setFromRightToLeft(buffer, buffer.m_nAbsolutePosition, m_nTotalSize, m_nTotalSize, 0, false, true, lValue);
+		Pic9Comp0BufferSupport.setFromRightToLeft(buffer, buffer.nAbsolutePosition, nTotalSize, nTotalSize, 0, false, true, lValue);
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumIntSignLeadingComp0 varSource, VarBufferPos bufferSource)
@@ -405,7 +405,7 @@ public class VarDefFPacRaw extends VarDefVariable
 		int nValue = varSource.getUnsignedInt(bufferSource);
 // 		String cs = String.valueOf(nValue);
 // 		writeRightPadding(buffer, cs, ' ');
- 		Pic9Comp0BufferSupport.setFromRightToLeft(buffer, buffer.m_nAbsolutePosition, m_nTotalSize, m_nTotalSize, 0, false, true, nValue);
+ 		Pic9Comp0BufferSupport.setFromRightToLeft(buffer, buffer.nAbsolutePosition, nTotalSize, nTotalSize, 0, false, true, nValue);
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumIntSignLeadingComp0Long varSource, VarBufferPos bufferSource)
@@ -413,7 +413,7 @@ public class VarDefFPacRaw extends VarDefVariable
 		long lValue = varSource.getUnsignedLong(bufferSource);
 // 		String cs = String.valueOf(lValue);
 // 		writeRightPadding(buffer, cs, ' ');
-		Pic9Comp0BufferSupport.setFromRightToLeft(buffer, buffer.m_nAbsolutePosition, m_nTotalSize, m_nTotalSize, 0, false, true, lValue);
+		Pic9Comp0BufferSupport.setFromRightToLeft(buffer, buffer.nAbsolutePosition, nTotalSize, nTotalSize, 0, false, true, lValue);
 	}
 
 	
@@ -422,7 +422,7 @@ public class VarDefFPacRaw extends VarDefVariable
 		int nValue = varSource.getUnsignedInt(bufferSource);
 // 		String cs = String.valueOf(nValue);
 // 		writeRightPadding(buffer, cs, ' ');
-		Pic9Comp0BufferSupport.setFromRightToLeft(buffer, buffer.m_nAbsolutePosition, m_nTotalSize, m_nTotalSize, 0, false, true, nValue);
+		Pic9Comp0BufferSupport.setFromRightToLeft(buffer, buffer.nAbsolutePosition, nTotalSize, nTotalSize, 0, false, true, nValue);
 	}
 
 	void write(VarBufferPos buffer, VarDefNumIntSignTrailingComp0Long varSource, VarBufferPos bufferSource)
@@ -430,7 +430,7 @@ public class VarDefFPacRaw extends VarDefVariable
 		long lValue = varSource.getUnsignedLong(bufferSource);
 // 		String cs = String.valueOf(lValue);
 // 		writeRightPadding(buffer, cs, ' ');
- 		Pic9Comp0BufferSupport.setFromRightToLeft(buffer, buffer.m_nAbsolutePosition, m_nTotalSize, m_nTotalSize, 0, false, true, lValue);
+ 		Pic9Comp0BufferSupport.setFromRightToLeft(buffer, buffer.nAbsolutePosition, nTotalSize, nTotalSize, 0, false, true, lValue);
 	}
 
 	void write(VarBufferPos buffer, VarDefEditInMap varSource, VarBufferPos bufferSource)
@@ -460,17 +460,17 @@ public class VarDefFPacRaw extends VarDefVariable
 
 	private int writeRightPadding(VarBufferPos buffer, String cs, char cPad)
 	{
-		return internalWriteRightPadding(buffer, buffer.m_nAbsolutePosition, m_nTotalSize, cs, cPad);
+		return internalWriteRightPadding(buffer, buffer.nAbsolutePosition, nTotalSize, cs, cPad);
 	}
 
 	private int writeRightPadding(VarBufferPos buffer, CStr cs, char cPad)
 	{
-		return internalWriteRightPadding(buffer, buffer.m_nAbsolutePosition, m_nTotalSize, cs, cPad);
+		return internalWriteRightPadding(buffer, buffer.nAbsolutePosition, nTotalSize, cs, cPad);
 	}
 	
 	private int writeRightPadding(VarBufferPos buffer, int nOffset, String cs, char cPad)
 	{
-		return internalWriteRightPadding(buffer, buffer.m_nAbsolutePosition+nOffset, m_nTotalSize, cs, cPad);
+		return internalWriteRightPadding(buffer, buffer.nAbsolutePosition+nOffset, nTotalSize, cs, cPad);
 	}
 	
 	void write(VarBufferPos buffer, CobolConstantZero cst)
@@ -578,7 +578,7 @@ public class VarDefFPacRaw extends VarDefVariable
 	
 	int compare(ComparisonMode mode, VarBufferPos bufferSource, VarAndEdit var2)
 	{
-		return var2.m_varDef.compare(mode, var2.m_bufferPos, this, bufferSource);
+		return var2.varDef.compare(mode, var2.bufferPos, this, bufferSource);
 	}
 	
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumDecComp0 varDefNum1, VarBufferPos buffer1)
@@ -981,23 +981,23 @@ public class VarDefFPacRaw extends VarDefVariable
 	
 	public BtreeSegmentKeyTypeFactory getSegmentKeyTypeFactory()
 	{
-		return VarTypeId.m_segmentKeyTypeFactoryString;
+		return VarTypeId.segmentKeyTypeFactoryString;
 	}	
 	
 	protected void adjustCustomProperty(VarDefBuffer varDefBufferCopySingleItem)
 	{
 		VarDefFPacRaw varDefCopy = (VarDefFPacRaw)varDefBufferCopySingleItem;
-		varDefCopy.m_nSize = m_nSize;
+		varDefCopy.nSize = nSize;
 	}
 	
 	protected void adjustCustomPropertyForCharGetAt(VarDefBuffer varDefBufferCopySingleItem)
 	{
 		VarDefFPacRaw varDefCopy = (VarDefFPacRaw)varDefBufferCopySingleItem;
-		varDefCopy.m_nSize = 1;
+		varDefCopy.nSize = 1;
 	}
 
 	
 	
-	private int m_nSize = 0;
+	private int nSize = 0;
 }
 

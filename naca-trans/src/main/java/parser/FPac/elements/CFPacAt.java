@@ -63,8 +63,8 @@ public class CFPacAt extends CFPacElement
 		if (tok.GetKeyword() == CFPacKeywordList.EOF) 
 		{
 			tok = GetNext() ;
-			m_atEofBloc = new CFPacCodeBloc(getLine(), "") ;
-			if (!Parse(m_atEofBloc))
+			atEofBloc = new CFPacCodeBloc(getLine(), "") ;
+			if (!Parse(atEofBloc))
 			{
 				return false ;
 			}
@@ -77,7 +77,7 @@ public class CFPacAt extends CFPacElement
 		return true ;
 	}
 	
-	private CFPacCodeBloc m_atEofBloc = null ; 
+	private CFPacCodeBloc atEofBloc = null ; 
 
 	
 	/**
@@ -88,13 +88,13 @@ public class CFPacAt extends CFPacElement
 	{
 		CEntityCondition cond = factory.NewEntityCondition(getLine()) ;
 		
-		if (m_atEofBloc != null)
+		if (atEofBloc != null)
 		{
-			CEntityFileBuffer fb = OperandDescription.getDefaultInputFileBuffer(factory.m_ProgramCatalog) ;
+			CEntityFileBuffer fb = OperandDescription.getDefaultInputFileBuffer(factory.programCatalog) ;
 			parent.AddChild(cond) ;
 			
 			CEntityIsFileEOF eof = factory.NewEntityIsFileEOF(fb.GetFileDescriptor()) ;
-			CEntityBloc le = (CEntityBloc)m_atEofBloc.DoSemanticAnalysis(cond, factory) ;
+			CEntityBloc le = (CEntityBloc)atEofBloc.DoSemanticAnalysis(cond, factory) ;
 			
 			cond.SetCondition(eof, le, null) ;
 		}
@@ -109,9 +109,9 @@ public class CFPacAt extends CFPacElement
 	protected Element ExportCustom(Document root)
 	{
 		Element e = root.createElement("AtEnd") ;
-		if (m_atEofBloc != null)
+		if (atEofBloc != null)
 		{
-			Element bloc = m_atEofBloc.Export(root) ;
+			Element bloc = atEofBloc.Export(root) ;
 			e.appendChild(bloc) ;			
 		}
 		return e; 

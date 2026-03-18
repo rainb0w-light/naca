@@ -15,14 +15,14 @@ import nacaLib.varEx.FileDescriptor;
 
 public class MailUtil
 {
-	private FileDescriptor m_file = null;
+	private FileDescriptor file = null;
 	
-	private String m_csForcedMail = null;
-	private String m_csSmtpServer = "smtp.intra.consultas.ch";
+	private String csForcedMail = null;
+	private String csSmtpServer = "smtp.intra.consultas.ch";
 
 	public MailUtil(FileDescriptor file)
 	{
-		m_file = file;
+		file = file;
 	}
 
 	public boolean execute(String csParameter)
@@ -35,27 +35,27 @@ public class MailUtil
 				int nPos = csParameterUpper.indexOf("FORCEDMAIL=") + 11;
 				int nPosEnd = csParameterUpper.indexOf(",", nPos);
 				if (nPosEnd == -1)
-					m_csForcedMail = csParameter.substring(nPos);
+					csForcedMail = csParameter.substring(nPos);
 				else
-					m_csForcedMail = csParameter.substring(nPos, nPosEnd);
+					csForcedMail = csParameter.substring(nPos, nPosEnd);
 			}
 			if (csParameterUpper.indexOf("SMTPSERVER=") != -1)
 			{
 				int nPos = csParameterUpper.indexOf("SMTPSERVER=") + 11;
 				int nPosEnd = csParameterUpper.indexOf(",", nPos);
 				if (nPosEnd == -1)
-					m_csSmtpServer = csParameter.substring(nPos);
+					csSmtpServer = csParameter.substring(nPos);
 				else
-					m_csSmtpServer = csParameter.substring(nPos, nPosEnd);
+					csSmtpServer = csParameter.substring(nPos, nPosEnd);
 			}
 		}
 		
-		if (m_csForcedMail != null)
-			System.out.println("MailUtil: Forced mail " + m_csForcedMail);
+		if (csForcedMail != null)
+			System.out.println("MailUtil: Forced mail " + csForcedMail);
 		
 		try
 		{
-			String csFile = m_file.getPhysicalName();
+			String csFile = file.getPhysicalName();
 			mail(csFile);
 		}
 		catch(Exception ex)
@@ -78,7 +78,7 @@ public class MailUtil
 				LineRead lineRead = dataFileIn.readNextUnixLine();
 				if (lineRead != null)
 				{
-					MailService mailService = new MailService(m_csSmtpServer, "");
+					MailService mailService = new MailService(csSmtpServer, "");
 					
 					String csMail = null;
 					String csSubject = null;
@@ -110,10 +110,10 @@ public class MailUtil
 						{
 							Mail mail = mailService.createMail();
 							mail.setFrom(csMailFrom);
-							if (m_csForcedMail == null)
+							if (csForcedMail == null)
 								mail.addTo(csMail);
 							else
-								mail.addTo(m_csForcedMail);
+								mail.addTo(csForcedMail);
 							mail.setSubject(csSubject);
 							mail.setText(sbText.toString());
 							mail.send();

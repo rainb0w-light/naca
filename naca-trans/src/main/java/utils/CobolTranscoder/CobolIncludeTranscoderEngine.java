@@ -53,29 +53,29 @@ public class CobolIncludeTranscoderEngine extends TranscoderEngine<CStandAloneWo
 	protected CEntityExternalDataStructure doSemanticAnalysis(CParser<CStandAloneWorking> parser, String filePath, CObjectCatalog cat, CTransApplicationGroup grp, boolean bResources)
 	{
 		String fileName = FileSystem.getNameWithoutExtension(filePath) ;
-		String finalName = m_tabRulesRenameCopy.get(fileName);
+		String finalName = tabRulesRenameCopy.get(fileName);
 		if (finalName == null)
 		{
 			finalName = fileName ;
 		}
-		if (m_cat.isProgramReference(finalName))
+		if (cat.isProgramReference(finalName))
 		{
 			finalName += finalName+"$Copy" ;
 		}
 		String javafilePath = filePath.replaceAll(fileName, finalName) ;
-		CJavaExporter exp = new CJavaExporter(cat.m_Listing, javafilePath, parser.m_CommentContainer, bResources) ;
+		CJavaExporter exp = new CJavaExporter(cat.listing, javafilePath, parser.commentContainer, bResources) ;
 		CJavaEntityFactory factory = new CJavaEntityFactory(cat, exp) ;
 		
 		CStandAloneWorking working = parser.GetRootElement() ;
 		CEntityExternalDataStructure eFile = working.DoSemanticAnalysis(factory);
 		
-		String replace = m_tabRulesReplaceCopy.get(fileName) ;
+		String replace = tabRulesReplaceCopy.get(fileName) ;
 		if (replace == null)
 		{
 			eFile.Rename(finalName) ;
-			if (m_tabRulesRenameCopy.containsKey(fileName))
+			if (tabRulesRenameCopy.containsKey(fileName))
 			{
-				String newname = m_tabRulesRenameCopy.get(fileName) ;
+				String newname = tabRulesRenameCopy.get(fileName) ;
 				CBaseLanguageEntity[] lsta = eFile.GetChildrenList(null, null) ;
 				for (int i=0; i<lsta.length; i++)
 				{
@@ -94,7 +94,7 @@ public class CobolIncludeTranscoderEngine extends TranscoderEngine<CStandAloneWo
 		{
 			Transcoder.logDebug("Include " + fileName + " is replaced by " + replace);
 			Transcoder.popTranscodedUnit();
-			Transcoder.pushTranscodedUnit(replace, grp.m_csInputPath);
+			Transcoder.pushTranscodedUnit(replace, grp.csInputPath);
 			CEntityExternalDataStructure newext = doAllAnalysis(replace, "", grp, false) ;
 			if(newext == null)
 			{
@@ -121,16 +121,16 @@ public class CobolIncludeTranscoderEngine extends TranscoderEngine<CStandAloneWo
 
 	private void setReplaceRule(String name, String replace)
 	{
-		m_tabRulesReplaceCopy.put(name, replace);	
+		tabRulesReplaceCopy.put(name, replace);	
 	}
 
 	private void setRenameRule(String name, String rename)
 	{
-		m_tabRulesRenameCopy.put(name, rename);
+		tabRulesRenameCopy.put(name, rename);
 	}
 
-	private Hashtable<String, String> m_tabRulesReplaceCopy = new Hashtable<String, String>() ;
-	private Hashtable<String, String> m_tabRulesRenameCopy = new Hashtable<String, String>() ;
+	private Hashtable<String, String> tabRulesReplaceCopy = new Hashtable<String, String>() ;
+	private Hashtable<String, String> tabRulesRenameCopy = new Hashtable<String, String>() ;
 
 
 	@Override
@@ -153,10 +153,10 @@ public class CobolIncludeTranscoderEngine extends TranscoderEngine<CStandAloneWo
 	@Override
 	public boolean CustomInit(Tag eConf)
 	{
-		int nb = m_RulesManager.getNbRules("renameCopy") ;
+		int nb = rulesManager.getNbRules("renameCopy") ;
 		for (int i=0; i<nb; i++)
 		{
-			Tag e = m_RulesManager.getRule("renameCopy", i) ;
+			Tag e = rulesManager.getRule("renameCopy", i) ;
 			String name = e.getVal("name") ;
 			String rename = e.getVal("rename") ;
 			String replace = e.getVal("replace") ;

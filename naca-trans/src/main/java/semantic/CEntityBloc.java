@@ -48,22 +48,22 @@ public abstract class CEntityBloc extends CBaseLanguageEntity
 
 	public void SetEndLine(int n)
 	{
-		m_nEndLine = n ;
+		nEndLine = n ;
 	}
-	protected int m_nEndLine = 0 ;
+	protected int nEndLine = 0 ;
 
 	public int GetEndLine()
 	{
-		return m_nEndLine ;
+		return nEndLine ;
 	}
 	public boolean UpdateAction(CBaseActionEntity entity, CBaseActionEntity newCond)
 	{
-		for (int i=0; i<m_lstChildren.size(); i++)
+		for (int i=0; i<lstChildren.size(); i++)
 		{
-			CBaseActionEntity act = (CBaseActionEntity)m_lstChildren.get(i) ;
+			CBaseActionEntity act = (CBaseActionEntity)lstChildren.get(i) ;
 			if (act == entity)
 			{
-				m_lstChildren.set(i, newCond) ;
+				lstChildren.set(i, newCond) ;
 				return true ;
 			}
 		}
@@ -75,11 +75,11 @@ public abstract class CEntityBloc extends CBaseLanguageEntity
 	 */
 	public boolean hasExplicitGetOut()
 	{
-		if (m_lstChildren.isEmpty())
+		if (lstChildren.isEmpty())
 		{
 			return false ;
 		}
-		CBaseActionEntity le = (CBaseActionEntity)m_lstChildren.getLast() ;
+		CBaseActionEntity le = (CBaseActionEntity)lstChildren.getLast() ;
 		return le.hasExplicitGetOut() ;
 	}
 }

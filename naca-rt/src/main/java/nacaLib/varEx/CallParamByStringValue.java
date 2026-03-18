@@ -16,19 +16,19 @@ public class CallParamByStringValue extends CCallParam
 {
  public CallParamByStringValue(String cs)
  {
-  m_cs = cs;
+  cs = cs;
  }
  
  public int getParamLength()
  {
-  if(m_cs != null)
-   return m_cs.length();
+  if(cs != null)
+   return cs.length();
   return 0;
  }
  
  public void MapOn(Var varLinkageSection)
  {
-  varLinkageSection.set(m_cs);
+  varLinkageSection.set(cs);
  }
  
  public Var getCallerSourceVar()
@@ -36,5 +36,5 @@ public class CallParamByStringValue extends CCallParam
   return null;
  }
  
- private String m_cs = null;
+ private String cs = null;
 }

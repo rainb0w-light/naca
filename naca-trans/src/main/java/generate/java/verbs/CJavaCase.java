@@ -39,16 +39,16 @@ public class CJavaCase extends CEntityCase
 	 */
 	protected void DoExport()
 	{
-		if (m_Condition != null)
-		{ // if m_Condition == null => OTHER Statement
-			WriteWord("if (" + m_Condition.Export() + ")") ;
+		if (condition != null)
+		{ // if condition == null => OTHER Statement
+			WriteWord("if (" + condition.Export() + ")") ;
 		}
 		WriteLine("{") ;
 		WriteEOL() ;
 		StartOutputBloc();
 		ExportChildren();
 		EndOutputBloc();
-		WriteLine("}", m_nEndBlocLine) ;		
+		WriteLine("}", nEndBlocLine) ;		
 		
 	}
 

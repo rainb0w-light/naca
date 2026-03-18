@@ -51,43 +51,43 @@ public class CExecCICSWriteQ extends CCobolElement
 	 */
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		CEntityCICSWriteQ eWQ = factory.NewEntityCICSWriteQ(getLine(), m_bPersistant);
+		CEntityCICSWriteQ eWQ = factory.NewEntityCICSWriteQ(getLine(), bPersistant);
 		parent.AddChild(eWQ);
 		
-		eWQ.SetName(m_QueueName.GetDataEntity(getLine(), factory)) ;
-		if (m_DataRef != null)
+		eWQ.SetName(queueName.GetDataEntity(getLine(), factory)) ;
+		if (dataRef != null)
 		{
 			CDataEntity len = null ;
-			if (m_Length != null)
+			if (length != null)
 			{
-				len = m_Length.GetDataEntity(getLine(), factory);
+				len = length.GetDataEntity(getLine(), factory);
 				len.RegisterWritingAction(eWQ); 
 			}
-			CDataEntity data = m_DataRef.GetDataReference(getLine(), factory) ;
+			CDataEntity data = dataRef.GetDataReference(getLine(), factory) ;
 			data.RegisterWritingAction(eWQ); 
 			eWQ.SetDataRef(data, len);
 		}
-		if (m_Item != null)
+		if (item != null)
 		{
-			CDataEntity e = m_Item.GetDataEntity(getLine(), factory) ;
+			CDataEntity e = item.GetDataEntity(getLine(), factory) ;
 			eWQ.WriteItem(e);
 			e.RegisterReadingAction(eWQ) ;
 		}
-		if (m_NumItem != null)
+		if (numItem != null)
 		{
-			CDataEntity e = m_NumItem.GetDataEntity(getLine(), factory) ;
+			CDataEntity e = numItem.GetDataEntity(getLine(), factory) ;
 			eWQ.WriteNumItem(e);
 			e.RegisterReadingAction(eWQ) ;
 		}
-		if (m_bAuxiliary)
+		if (bAuxiliary)
 		{
 			eWQ.SetAuxiliary() ;
 		}
-		else if (m_bMain)
+		else if (bMain)
 		{
 			eWQ.SetMain() ;
 		}
-		if (m_bRewrite)
+		if (bRewrite)
 		{
 			eWQ.SetRewrite() ;
 		}
@@ -109,18 +109,18 @@ public class CExecCICSWriteQ extends CCobolElement
 		{
 			CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("WRITEQ", "TD") ;
 			tok = GetNext(); 
-			m_bPersistant = true ;
+			bPersistant = true ;
 		}
 		else if (tok.GetValue().equals("TS"))
 		{
 			CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("WRITEQ", "TS") ;
 			tok = GetNext(); 
-			m_bPersistant = false ;
+			bPersistant = false ;
 		}
 		else
 		{
 			CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("WRITEQ", "Unknown") ;
-			m_bPersistant = false ;
+			bPersistant = false ;
 		}
 		
 		boolean bDone = false ;
@@ -132,7 +132,7 @@ public class CExecCICSWriteQ extends CCobolElement
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
 				{
 					tok = GetNext();
-					m_QueueName = ReadTerminal();
+					queueName = ReadTerminal();
 					tok = GetCurrentToken() ;
 					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 					{
@@ -146,7 +146,7 @@ public class CExecCICSWriteQ extends CCobolElement
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
 				{
 					tok = GetNext();
-					m_DataRef = ReadIdentifier();
+					dataRef = ReadIdentifier();
 					tok = GetCurrentToken() ;
 					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 					{
@@ -160,7 +160,7 @@ public class CExecCICSWriteQ extends CCobolElement
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
 				{
 					tok = GetNext();
-					m_Length = ReadTerminal() ;
+					length = ReadTerminal() ;
 					tok = GetCurrentToken() ;
 					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 					{
@@ -174,7 +174,7 @@ public class CExecCICSWriteQ extends CCobolElement
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
 				{
 					tok = GetNext();
-					m_Item = ReadTerminal() ;
+					item = ReadTerminal() ;
 					tok = GetCurrentToken() ;
 					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 					{
@@ -188,7 +188,7 @@ public class CExecCICSWriteQ extends CCobolElement
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
 				{
 					tok = GetNext();
-					m_SysID = ReadTerminal() ;
+					sysID = ReadTerminal() ;
 					tok = GetCurrentToken() ;
 					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 					{
@@ -199,17 +199,17 @@ public class CExecCICSWriteQ extends CCobolElement
 			else if (tok.GetValue().equals("MAIN"))
 			{
 				tok = GetNext() ;
-				m_bMain = true ;
+				bMain = true ;
 			}
 			else if (tok.GetValue().equals("AUXILIARY"))
 			{
 				tok = GetNext() ;
-				m_bAuxiliary = true ;
+				bAuxiliary = true ;
 			}
 			else if (tok.GetValue().equals("REWRITE"))
 			{
 				tok = GetNext() ;
-				m_bRewrite = true ;
+				bRewrite = true ;
 			}
 			else if (tok.GetValue().equals("NUMITEM"))
 			{
@@ -217,7 +217,7 @@ public class CExecCICSWriteQ extends CCobolElement
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
 				{
 					tok = GetNext();
-					m_NumItem = ReadTerminal() ;
+					numItem = ReadTerminal() ;
 					tok = GetCurrentToken() ;
 					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 					{
@@ -246,7 +246,7 @@ public class CExecCICSWriteQ extends CCobolElement
 	protected Element ExportCustom(Document root)
 	{
 		Element eWrite = root.createElement("ExecCICSWriteQ") ;
-		if (m_bPersistant)
+		if (bPersistant)
 		{
 			eWrite.setAttribute("Persistant", "true") ;
 		}
@@ -254,65 +254,65 @@ public class CExecCICSWriteQ extends CCobolElement
 		{
 			eWrite.setAttribute("Persistant", "false") ;
 		}
-		if (m_bMain)
+		if (bMain)
 		{
 			eWrite.setAttribute("Main", "true") ;
 		}
-		if (m_bAuxiliary)
+		if (bAuxiliary)
 		{
 			eWrite.setAttribute("Auxiliary", "true") ;
 		}
-		if (m_bRewrite)
+		if (bRewrite)
 		{
 			eWrite.setAttribute("Rewrite", "true") ;
 		}
-		if (m_QueueName != null)
+		if (queueName != null)
 		{
 			Element e = root.createElement("QueueName");
 			eWrite.appendChild(e);
-			m_QueueName.ExportTo(e, root) ;
+			queueName.ExportTo(e, root) ;
 		}
-		if (m_SysID != null)
+		if (sysID != null)
 		{
 			Element e = root.createElement("SysID");
 			eWrite.appendChild(e);
-			m_SysID.ExportTo(e, root) ;
+			sysID.ExportTo(e, root) ;
 		}
-		if (m_DataRef != null)
+		if (dataRef != null)
 		{
 			Element e = root.createElement("From");
 			eWrite.appendChild(e);
-			m_DataRef.ExportTo(e, root) ;
+			dataRef.ExportTo(e, root) ;
 		}
-		if (m_NumItem != null)
+		if (numItem != null)
 		{
 			Element e = root.createElement("NumItem");
 			eWrite.appendChild(e);
-			m_NumItem.ExportTo(e, root) ;
+			numItem.ExportTo(e, root) ;
 		}
-		if (m_Item != null)
+		if (item != null)
 		{
 			Element e = root.createElement("Item");
 			eWrite.appendChild(e);
-			m_Item.ExportTo(e, root) ;
+			item.ExportTo(e, root) ;
 		}
-		if (m_Length != null)
+		if (length != null)
 		{
 			Element e = root.createElement("Length");
 			eWrite.appendChild(e);
-			m_Length.ExportTo(e, root) ;
+			length.ExportTo(e, root) ;
 		}
 		return eWrite;
 	}
 
-	protected boolean m_bPersistant = false ;
-	protected CTerminal m_QueueName = null ;
-	protected CIdentifier m_DataRef = null ;
-	protected CTerminal m_Length = null ;
-	protected CTerminal m_Item = null ;
-	protected CTerminal m_NumItem = null ;
-	protected boolean m_bMain = false ;
-	protected boolean m_bRewrite = false ;
-	protected boolean m_bAuxiliary = false ;
-	protected CTerminal m_SysID = null ;
+	protected boolean bPersistant = false ;
+	protected CTerminal queueName = null ;
+	protected CIdentifier dataRef = null ;
+	protected CTerminal length = null ;
+	protected CTerminal item = null ;
+	protected CTerminal numItem = null ;
+	protected boolean bMain = false ;
+	protected boolean bRewrite = false ;
+	protected boolean bAuxiliary = false ;
+	protected CTerminal sysID = null ;
 }

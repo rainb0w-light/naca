@@ -34,22 +34,22 @@ public class OpenCalendarRanges
 	
 	void addRange(OpenCalendarRange range)
 	{
-		if(m_arrRanges == null)
-			m_arrRanges = new ArrayList<OpenCalendarRange>();
-		m_arrRanges.add(range);
+		if(arrRanges == null)
+			arrRanges = new ArrayList<OpenCalendarRange>();
+		arrRanges.add(range);
 	}
 	
 	void sortIntervals()
 	{
-		if(m_arrRanges == null)
+		if(arrRanges == null)
 		{
 			setCloseAllDay();
 		}
 		
 		ArrayList<CalendarInstant> arrInstant = new ArrayList<CalendarInstant>();
-		for(int n=0; n<m_arrRanges.size(); n++)
+		for(int n=0; n<arrRanges.size(); n++)
 		{
-			OpenCalendarRange range = m_arrRanges.get(n);
+			OpenCalendarRange range = arrRanges.get(n);
 			
 			CalendarInstant begin = range.getInstant(0);
 			arrInstant.add(begin);
@@ -57,7 +57,7 @@ public class OpenCalendarRanges
 			CalendarInstant end = range.getInstant(1);
 			arrInstant.add(end);			
 		}
-		m_arrRanges.clear();
+		arrRanges.clear();
 		
 		QuickSort<CalendarInstant> qs = new QuickSort<CalendarInstant>(arrInstant);
 		qs.sort();
@@ -73,7 +73,7 @@ public class OpenCalendarRanges
 			CalendarInstant end = arrInstant.get(n);
 			range.setEnd(end);
 			
-			m_arrRanges.add(range);
+			arrRanges.add(range);
 			
 			n++;
 		}
@@ -90,9 +90,9 @@ public class OpenCalendarRanges
 	CalendarOpenState getOpenState(CalendarCacheManager cacheManager, boolean bCacheState)
 	{
 		CurrentDateInfo currentDate = cacheManager.getCurrentDate();
-		for(int n=0; n<m_arrRanges.size(); n++)
+		for(int n=0; n<arrRanges.size(); n++)
 		{
-			OpenCalendarRange range = m_arrRanges.get(n);
+			OpenCalendarRange range = arrRanges.get(n);
 			if(range.concernDate(currentDate))
 			{
 				CalendarOpenState state = range.getOpenState();
@@ -106,5 +106,5 @@ public class OpenCalendarRanges
 		return CalendarOpenState.Unknown;
 	}
 	
-	private ArrayList<OpenCalendarRange> m_arrRanges = null;
+	private ArrayList<OpenCalendarRange> arrRanges = null;
 }

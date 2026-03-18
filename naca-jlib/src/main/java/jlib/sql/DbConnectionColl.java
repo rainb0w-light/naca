@@ -34,54 +34,54 @@ import jlib.misc.Time_ms;
  */
 public class DbConnectionColl
 {
-	private LinkedList<DbConnectionBase> m_collFreeConnections = null;		// Collection of the connections currently not in use
-	private LinkedList<DbConnectionBase> m_collUsedConnections = null;		// Collection of the connections currently in use 
+	private LinkedList<DbConnectionBase> collFreeConnections = null;		// Collection of the connections currently not in use
+	private LinkedList<DbConnectionBase> collUsedConnections = null;		// Collection of the connections currently in use 
 	
-	private DbConnectionParam m_dbConnectionParam = null;
-	private int m_nGarbageCollectorStatement_ms = 0;
+	private DbConnectionParam dbConnectionParam = null;
+	private int nGarbageCollectorStatement_ms = 0;
 	
-	private int m_nNbMaxConnection = 1;	// Unlimited
-	private int m_nTimeBeforeRemoveConnection_ms = 0;
-	private int m_nMaxStatementLiveTime_ms = -1;
-	private boolean m_bUseExplain = false;
-	private StopWatch m_swLastCheckRemoveObsoleteConnections = new StopWatch();
-	//private int m_nNbConnectionCreated = 0;
-	private ThreadSafeCounter m_tscNbConnectionCreated = new ThreadSafeCounter(0);
-	private boolean m_bInit = false;
-	private String m_csName = null;
-	private boolean m_bShowRunningConnections = false;
+	private int nNbMaxConnection = 1;	// Unlimited
+	private int nTimeBeforeRemoveConnection_ms = 0;
+	private int nMaxStatementLiveTime_ms = -1;
+	private boolean bUseExplain = false;
+	private StopWatch swLastCheckRemoveObsoleteConnections = new StopWatch();
+	//private int nNbConnectionCreated = 0;
+	private ThreadSafeCounter tscNbConnectionCreated = new ThreadSafeCounter(0);
+	private boolean bInit = false;
+	private String csName = null;
+	private boolean bShowRunningConnections = false;
 	
 	DbConnectionColl(String csName, int nNbMaxConnection, int nTimeBeforeRemoveConnection_ms, int nMaxStatementLiveTime_ms, boolean bUseExplain, int nGarbageCollectorStatement_ms)
 	{
-		m_collFreeConnections = new LinkedList<DbConnectionBase>();
-		m_collUsedConnections = new LinkedList<DbConnectionBase>();
-		m_nNbMaxConnection = nNbMaxConnection;
-		m_nTimeBeforeRemoveConnection_ms = nTimeBeforeRemoveConnection_ms;
-		m_nMaxStatementLiveTime_ms = nMaxStatementLiveTime_ms;
-		m_bUseExplain = bUseExplain;
-		m_nGarbageCollectorStatement_ms = nGarbageCollectorStatement_ms;
-		m_csName = csName;
+		collFreeConnections = new LinkedList<DbConnectionBase>();
+		collUsedConnections = new LinkedList<DbConnectionBase>();
+		nNbMaxConnection = nNbMaxConnection;
+		nTimeBeforeRemoveConnection_ms = nTimeBeforeRemoveConnection_ms;
+		nMaxStatementLiveTime_ms = nMaxStatementLiveTime_ms;
+		bUseExplain = bUseExplain;
+		nGarbageCollectorStatement_ms = nGarbageCollectorStatement_ms;
+		csName = csName;
 	}
 	
 	public boolean isInit()
 	{
-		return m_bInit;
+		return bInit;
 	}
 	
 	void setName(String csName)
 	{
-		m_csName = csName;
+		csName = csName;
 	}
 
 	public String getName()
 	{
-		return m_csName;
+		return csName;
 	}
 
 	void init(DbConnectionParam dbConnectionParam)
 	{
-		m_dbConnectionParam = dbConnectionParam;
-		m_bInit = true;
+		dbConnectionParam = dbConnectionParam;
+		bInit = true;
 	}
 
 
@@ -89,11 +89,11 @@ public class DbConnectionColl
 	{
 		try
 		{
-			if(m_collFreeConnections.size() > 0)
+			if(collFreeConnections.size() > 0)
 			{
-				DbConnectionBase connection = m_collFreeConnections.remove(nIndex);	// The connection is not free anymore
-				m_collUsedConnections.add(connection);		// It's then in use
-				connection.showHideJMXBean(m_bShowRunningConnections);
+				DbConnectionBase connection = collFreeConnections.remove(nIndex);	// The connection is not free anymore
+				collUsedConnections.add(connection);		// It's then in use
+				connection.showHideJMXBean(bShowRunningConnections);
 				return connection;
 			}
 		}
@@ -111,7 +111,7 @@ public class DbConnectionColl
 			DbConnectionBase sqlConnection = popAtIndex(0);
 			while(sqlConnection != null)
 			{
-				if(sqlConnection.canBeUsed(m_nTimeBeforeRemoveConnection_ms, csValidationQuery))
+				if(sqlConnection.canBeUsed(nTimeBeforeRemoveConnection_ms, csValidationQuery))
 				{
 //					Log.logNormal("Re-using validated db connection from cache. "+ getNbFreeConnection()+" still available.");
 					return sqlConnection;
@@ -137,7 +137,7 @@ public class DbConnectionColl
 		// No sqlConnection found in the pool: Create a new one if max limit not reached
 		DbConnectionBase sqlConnection = createNewConnection(csPoolName, bUseStatementCache, connectionManager, csValidationQuery);
 		//if (sqlConnection != null) // PJD 19/06/2008: commented line
-			//m_tscNbConnectionCreated.dec();	// PJD 19/06/2008: commented line
+			//tscNbConnectionCreated.dec();	// PJD 19/06/2008: commented line
 		return sqlConnection;
 	}
 	
@@ -171,22 +171,22 @@ public class DbConnectionColl
 		throws DbConnectionException
 	{
 		
-//		Log.logNormal(m_tscNbConnectionCreated.get()+" created connections, out of "+m_nNbMaxConnection+" allowed.");
+//		Log.logNormal(tscNbConnectionCreated.get()+" created connections, out of "+nNbMaxConnection+" allowed.");
 		
-		if(m_tscNbConnectionCreated.get() < m_nNbMaxConnection || m_nNbMaxConnection == -1)
+		if(tscNbConnectionCreated.get() < nNbMaxConnection || nNbMaxConnection == -1)
 		{
 		    try
 			{
-		    	String csUrl = m_dbConnectionParam.m_csUrl;
-		    	if(m_dbConnectionParam.m_csConnectionUrlOptionalParams != null)
-		    		csUrl += m_dbConnectionParam.m_csConnectionUrlOptionalParams;
+		    	String csUrl = dbConnectionParam.csUrl;
+		    	if(dbConnectionParam.csConnectionUrlOptionalParams != null)
+		    		csUrl += dbConnectionParam.csConnectionUrlOptionalParams;
 		    	csUrl = StringUtil.replace(csUrl, "$FoundPoolName", csPoolName, true);
 		    	csUrl = replaceEnvVarsByValue(csUrl);
 		    	
 				Connection connection = null;
-				String csUser = (String)m_dbConnectionParam.m_propertiesUserPassword.get("user");
-				String csCryptedPassword = (String)m_dbConnectionParam.m_propertiesUserPassword.get("CryptedPassword");
-				String csCryptKey = (String)m_dbConnectionParam.m_propertiesUserPassword.get("CryptKey");
+				String csUser = (String)dbConnectionParam.propertiesUserPassword.get("user");
+				String csCryptedPassword = (String)dbConnectionParam.propertiesUserPassword.get("CryptedPassword");
+				String csCryptKey = (String)dbConnectionParam.propertiesUserPassword.get("CryptKey");
 				if(!StringUtil.isEmpty(csCryptedPassword) && !StringUtil.isEmpty(csCryptKey))
 				{
 					// Got a crypted db password
@@ -198,48 +198,48 @@ public class DbConnectionColl
 					propertiesUserPassword.setProperty("user", csUser);	
 					propertiesUserPassword.setProperty("password", csPassword);
 				
-					connection = m_dbConnectionParam.m_driver.connect(csUrl, propertiesUserPassword);
+					connection = dbConnectionParam.driver.connect(csUrl, propertiesUserPassword);
 //					if(connection != null)
-//						Log.logNormal("Correctly created new DB connection with crypted user/password. "+ m_tscNbConnectionCreated.get()+" created connections, out of "+m_nNbMaxConnection+" allowed.");
+//						Log.logNormal("Correctly created new DB connection with crypted user/password. "+ tscNbConnectionCreated.get()+" created connections, out of "+nNbMaxConnection+" allowed.");
 					
 				}
 				else
 				{
-					connection = m_dbConnectionParam.m_driver.connect(csUrl, m_dbConnectionParam.m_propertiesUserPassword);
+					connection = dbConnectionParam.driver.connect(csUrl, dbConnectionParam.propertiesUserPassword);
 //					if(connection != null)
-//						Log.logNormal("Correctly created new DB connection. "+ m_tscNbConnectionCreated.get()+" created connections, out of "+m_nNbMaxConnection+" allowed.");
+//						Log.logNormal("Correctly created new DB connection. "+ tscNbConnectionCreated.get()+" created connections, out of "+nNbMaxConnection+" allowed.");
 				}
 				if(connection == null)
 				{
-//					Log.logCritical("ERROR: Could not create new DB connection. "+ m_tscNbConnectionCreated.get()+" existing connections, out of "+m_nNbMaxConnection+" allowed.");
+//					Log.logCritical("ERROR: Could not create new DB connection. "+ tscNbConnectionCreated.get()+" existing connections, out of "+nNbMaxConnection+" allowed.");
 					throw new DbConnectionException("Could not get valid DB Connection");
 				}
 
-				if (!StringUtil.isEmpty(m_dbConnectionParam.m_csPackage))
+				if (!StringUtil.isEmpty(dbConnectionParam.csPackage))
 				{
-					setConnectionPackage(connection, m_dbConnectionParam.m_csPackage);
+					setConnectionPackage(connection, dbConnectionParam.csPackage);
 				}
 
-		    	connection.setAutoCommit(m_dbConnectionParam.m_bAutoCommit);
-		    	if(m_dbConnectionParam.m_bCloseCursorOnCommit)
+		    	connection.setAutoCommit(dbConnectionParam.bAutoCommit);
+		    	if(dbConnectionParam.bCloseCursorOnCommit)
 		    	{
 		    		connection.setHoldability(ResultSet.CLOSE_CURSORS_AT_COMMIT);
 		    	}
 		    	
-		    	DbDriverId dbDriverId = m_dbConnectionParam.getDbDriverId();
+		    	DbDriverId dbDriverId = dbConnectionParam.getDbDriverId();
 		    	
-		    	DbConnectionBase sqlConnection = connectionManager.createConnection(connection, csPoolName, m_dbConnectionParam.getEnvironment(), bUseStatementCache, true, dbDriverId);
+		    	DbConnectionBase sqlConnection = connectionManager.createConnection(connection, csPoolName, dbConnectionParam.getEnvironment(), bUseStatementCache, true, dbDriverId);
 		    	sqlConnection.setDbConnectionColl(this);
 		    	
 		    	sqlConnection.setUseExplain(getUseExplain());
 				
 				if(sqlConnection.checkWithQuery(csValidationQuery))
 				{
-					m_tscNbConnectionCreated.inc();
+					tscNbConnectionCreated.inc();
 					String csPrefix = connectionManager.getPropertyPrefix();
 					sqlConnection.setOnceUUID(csPrefix);
-					m_collUsedConnections.add(sqlConnection);	// this connection is in use
-					sqlConnection.showHideJMXBean(m_bShowRunningConnections);
+					collUsedConnections.add(sqlConnection);	// this connection is in use
+					sqlConnection.showHideJMXBean(bShowRunningConnections);
 					return sqlConnection;
 				}
 				else
@@ -282,19 +282,19 @@ public class DbConnectionColl
 	{
 		int n = connection.removeAllPreparedStatements();
 		connection.close();
-		connection.m_dbConnectionColl = null;
-		connection.m_dbConnection = null;
-		m_tscNbConnectionCreated.dec();
-//		Log.logNormal("Removing DB connection from pool. "+ m_tscNbConnectionCreated.get()+" existing connections, out of "+m_nNbMaxConnection+" allowed.");
+		connection.dbConnectionColl = null;
+		connection.dbConnection = null;
+		tscNbConnectionCreated.dec();
+//		Log.logNormal("Removing DB connection from pool. "+ tscNbConnectionCreated.get()+" existing connections, out of "+nNbMaxConnection+" allowed.");
 
 		return n;
 	}
 	
 	void removeConnectionFromUsed(DbConnectionBase sqlConnection)
 	{
-		if(m_collUsedConnections.contains(sqlConnection))
+		if(collUsedConnections.contains(sqlConnection))
 		{
-			m_collUsedConnections.remove(sqlConnection);
+			collUsedConnections.remove(sqlConnection);
 			sqlConnection.showHideJMXBean(false);	// Hide
 		}
 	}
@@ -307,20 +307,20 @@ public class DbConnectionColl
 			// Check if the current generation matches the last generation
 			sqlConnection.markLastTimeUsage();
 			
-			if(m_swLastCheckRemoveObsoleteConnections.isTimeElapsed(m_nGarbageCollectorStatement_ms))
+			if(swLastCheckRemoveObsoleteConnections.isTimeElapsed(nGarbageCollectorStatement_ms))
 			{
 				removeObsoleteConnections(); // Remove connections in timeout
 				sqlConnection.garbageCollectorStatementsOptinalResetReservedStatement(true);
 			}
 			else
 				sqlConnection.resetReservedStatements();
-//			Log.logNormal("Returning DB connection to pool. "+ m_tscNbConnectionCreated.get()+" existing connections, out of "+m_nNbMaxConnection+" allowed.");
-			m_collFreeConnections.addFirst(sqlConnection);
+//			Log.logNormal("Returning DB connection to pool. "+ tscNbConnectionCreated.get()+" existing connections, out of "+nNbMaxConnection+" allowed.");
+			collFreeConnections.addFirst(sqlConnection);
 		}
 		else
 		{
 			// The connection generation has changed and connection can't be kept
-//			Log.logNormal("DB Connection generation changed; DB connection is not returned to pool and removed. "+ m_tscNbConnectionCreated.get()+" existing connections, out of "+m_nNbMaxConnection+" allowed.");
+//			Log.logNormal("DB Connection generation changed; DB connection is not returned to pool and removed. "+ tscNbConnectionCreated.get()+" existing connections, out of "+nNbMaxConnection+" allowed.");
 			removeConnection(sqlConnection);
 			sqlConnection = null;
 		}
@@ -329,18 +329,18 @@ public class DbConnectionColl
 	synchronized private void removeObsoleteConnections()
 	{	
 		DbConnectionBase connection = null;
-		if(m_collFreeConnections.size() > 0)
-			connection = m_collFreeConnections.getLast();
-		while(connection != null && !connection.isValid(m_nTimeBeforeRemoveConnection_ms))
+		if(collFreeConnections.size() > 0)
+			connection = collFreeConnections.getLast();
+		while(connection != null && !connection.isValid(nTimeBeforeRemoveConnection_ms))
 		{
 			removeConnection(connection);
-			m_collFreeConnections.removeLast();
-			if(m_collFreeConnections.size() > 0)
-				connection = m_collFreeConnections.getLast();
+			collFreeConnections.removeLast();
+			if(collFreeConnections.size() > 0)
+				connection = collFreeConnections.getLast();
 			else
 				connection = null;
 		}
-		m_swLastCheckRemoveObsoleteConnections.Reset();
+		swLastCheckRemoveObsoleteConnections.Reset();
 	}	
 	
 	synchronized int garbageCollectorStatementsOfCollection()
@@ -351,7 +351,7 @@ public class DbConnectionColl
 		DbConnectionBase connection = popAtIndex(nIndex);
 		while(connection != null)
 		{			
-			if(!connection.isValid(m_nTimeBeforeRemoveConnection_ms))
+			if(!connection.isValid(nTimeBeforeRemoveConnection_ms))
 			{
 				nNbStatementRemoved += removeConnection(connection);
 			}
@@ -359,7 +359,7 @@ public class DbConnectionColl
 			{
 				// Connection is still valid
 				nNbStatementRemoved += connection.garbageCollectorStatementsOptinalResetReservedStatement(false);
-				m_collFreeConnections.add(nIndex, connection);
+				collFreeConnections.add(nIndex, connection);
 				nIndex++;
 			}
 			
@@ -381,26 +381,26 @@ public class DbConnectionColl
 	
 	synchronized void dumpListStatements(SortedMap<Long, StatementPosInPool> mapStatements)
 	{
-		for(int nConnectionId=0; nConnectionId<m_collFreeConnections.size(); nConnectionId++)
+		for(int nConnectionId=0; nConnectionId<collFreeConnections.size(); nConnectionId++)
 		{
-			DbConnectionBase connection = m_collFreeConnections.get(nConnectionId);
+			DbConnectionBase connection = collFreeConnections.get(nConnectionId);
 			connection.dumpListStatements(mapStatements);
 		}
 	}
 	
 	int getMaxStatementLiveTime_ms()
 	{
-		return m_nMaxStatementLiveTime_ms;
+		return nMaxStatementLiveTime_ms;
 	}
 	
 	private boolean getUseExplain()
 	{
-		return m_bUseExplain;
+		return bUseExplain;
 	}
 	
 	int getNbMaxConnection()
 	{
-		return m_nNbMaxConnection;
+		return nNbMaxConnection;
 	}
 
 	/**
@@ -410,20 +410,20 @@ public class DbConnectionColl
 	 */
 	synchronized int getNbFreeConnection()
 	{
-		if(m_collFreeConnections != null)
-			return m_collFreeConnections.size();
+		if(collFreeConnections != null)
+			return collFreeConnections.size();
 		return 0;
 	}
 	
 	synchronized int getNbCachedStatementsForAccessor()
 	{
-		if(m_collFreeConnections == null)
+		if(collFreeConnections == null)
 			return 0;
 		
 		int n = 0;
-		for(int nConnectionId=0; nConnectionId<m_collFreeConnections.size(); nConnectionId++)		
+		for(int nConnectionId=0; nConnectionId<collFreeConnections.size(); nConnectionId++)		
 		{
-			DbConnectionBase connection = m_collFreeConnections.get(nConnectionId);
+			DbConnectionBase connection = collFreeConnections.get(nConnectionId);
 			n += connection.getNbCachedStatements();
 		}
 		return n;
@@ -431,36 +431,36 @@ public class DbConnectionColl
 	
 	int getNbAllocConnnections()
 	{
-		return m_tscNbConnectionCreated.get();
+		return tscNbConnectionCreated.get();
 	}
 	
 	int getNbRunningConnections()
 	{
-		if(m_collUsedConnections != null)
-			return m_collUsedConnections.size();
+		if(collUsedConnections != null)
+			return collUsedConnections.size();
 		return 0;
 	}
 
 	void showHideRunningConnections(boolean bShowRunningCon)
 	{
-		m_bShowRunningConnections = bShowRunningCon;
-		if(m_collUsedConnections != null)
+		bShowRunningConnections = bShowRunningCon;
+		if(collUsedConnections != null)
 		{
-			for(int nConnectionId=0; nConnectionId<m_collUsedConnections.size(); nConnectionId++)		
+			for(int nConnectionId=0; nConnectionId<collUsedConnections.size(); nConnectionId++)		
 			{
-				DbConnectionBase connection = m_collUsedConnections.get(nConnectionId);
-				connection.showHideJMXBean(m_bShowRunningConnections);
+				DbConnectionBase connection = collUsedConnections.get(nConnectionId);
+				connection.showHideJMXBean(bShowRunningConnections);
 			}
 		}		
 	}
 	
 	public void dumpConnections(StringBuilder sbText)
 	{
-		if(m_collUsedConnections != null)
+		if(collUsedConnections != null)
 		{
-			for(int nConnectionId=0; nConnectionId<m_collUsedConnections.size(); nConnectionId++)		
+			for(int nConnectionId=0; nConnectionId<collUsedConnections.size(); nConnectionId++)		
 			{
-				DbConnectionBase connection = m_collUsedConnections.get(nConnectionId);
+				DbConnectionBase connection = collUsedConnections.get(nConnectionId);
 				connection.dumpConnections(sbText);
 			}
 		}		

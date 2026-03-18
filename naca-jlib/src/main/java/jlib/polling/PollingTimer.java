@@ -21,13 +21,13 @@ import jlib.threads.Timer;
  */
 public class PollingTimer extends Timer
 {
-	private ArrayList<BaseDirectoryPoller> m_arrDirsPollers = null;
+	private ArrayList<BaseDirectoryPoller> arrDirsPollers = null;
 	
 	synchronized public void addDirectoryPoller(BaseDirectoryPoller dirPoller)
 	{
-		if(m_arrDirsPollers == null)
-			m_arrDirsPollers = new ArrayList<BaseDirectoryPoller>();
-		m_arrDirsPollers.add(dirPoller);			
+		if(arrDirsPollers == null)
+			arrDirsPollers = new ArrayList<BaseDirectoryPoller>();
+		arrDirsPollers.add(dirPoller);			
 	}
 	
 	public boolean PollAtLoadTime()
@@ -42,11 +42,11 @@ public class PollingTimer extends Timer
 	
 	synchronized private boolean doPulse()
 	{
-		if(m_arrDirsPollers != null)
+		if(arrDirsPollers != null)
 		{
-			for(int n=0; n<m_arrDirsPollers.size(); n++)
+			for(int n=0; n<arrDirsPollers.size(); n++)
 			{
-				BaseDirectoryPoller dirPoller = m_arrDirsPollers.get(n);
+				BaseDirectoryPoller dirPoller = arrDirsPollers.get(n);
 				dirPoller.poll();
 			}
 		}

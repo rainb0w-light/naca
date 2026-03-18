@@ -23,12 +23,12 @@ import jlib.misc.FileSystem;
  */
 public abstract class BaseDirectoryPoller
 {
-	private String m_csPath;						// Path polled; the sub dir are not polled
-	public MaskFileFilter m_maskFileFilter = null; 
+	private String csPath;						// Path polled; the sub dir are not polled
+	public MaskFileFilter maskFileFilter = null; 
 		
 	public BaseDirectoryPoller(String csPath)
 	{
-		m_csPath = FileSystem.normalizePath(csPath);
+		csPath = FileSystem.normalizePath(csPath);
 	}
 	
 	// Pass a list of ; separated file masks e.g. *.xml;*.pdf
@@ -41,15 +41,15 @@ public abstract class BaseDirectoryPoller
 
 	public void addSingleMask(String csMask)
 	{
-		if(m_maskFileFilter == null)
-			m_maskFileFilter = new MaskFileFilter();
-		m_maskFileFilter.add(csMask);
+		if(maskFileFilter == null)
+			maskFileFilter = new MaskFileFilter();
+		maskFileFilter.add(csMask);
 	}
 
 	public void poll()
 	{
-		File path = new File(m_csPath);
-		File[] files = path.listFiles(m_maskFileFilter);
+		File path = new File(csPath);
+		File[] files = path.listFiles(maskFileFilter);
 		if (files != null)
 		{
 			ArrayList<File> arr = new ArrayList<File>();

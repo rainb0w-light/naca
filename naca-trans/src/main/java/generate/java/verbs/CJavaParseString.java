@@ -38,38 +38,38 @@ public class CJavaParseString extends CEntityParseString
 	protected void DoExport()
 	{
 		String cs = "" ;
-		if (m_lstChildren.size()>0)
+		if (lstChildren.size()>0)
 		{
 			cs = "if (" ;
 		}
-		cs += "unstring(" + m_Variable.ExportReference(getLine()) + ")";
+		cs += "unstring(" + variable.ExportReference(getLine()) + ")";
 		WriteWord(cs);
 		cs = "" ;
-		for (int i=0; i<m_arrDelimitersSingle.size(); i++)
+		for (int i=0; i<arrDelimitersSingle.size(); i++)
 		{
-			CDataEntity e = m_arrDelimitersSingle.get(i);
+			CDataEntity e = arrDelimitersSingle.get(i);
 			cs = ".delimitedBy(" + e.ExportReference(getLine()) + ")";
 			WriteWord(cs);
 		}
-		for (int i=0; i<m_arrDelimitersMulti.size(); i++)
+		for (int i=0; i<arrDelimitersMulti.size(); i++)
 		{
-			CDataEntity e = m_arrDelimitersMulti.get(i);
+			CDataEntity e = arrDelimitersMulti.get(i);
 			cs = ".delimitedByAll(" + e.ExportReference(getLine())+")" ;
 			WriteWord(cs);
 		}
-		if (m_WithPointer != null)
+		if (withPointer != null)
 		{
-			cs = ".withPointer(" + m_WithPointer.ExportReference(getLine())+")" ;
+			cs = ".withPointer(" + withPointer.ExportReference(getLine())+")" ;
 			WriteWord(cs);
 		}
-		if (m_Tallying != null)
+		if (tallying != null)
 		{
-			cs = ".tallying(" + m_Tallying.ExportReference(getLine())+")" ;
+			cs = ".tallying(" + tallying.ExportReference(getLine())+")" ;
 			WriteWord(cs);
 		}
-		for (int i=0; i<m_arrDestinations.size(); i++)
+		for (int i=0; i<arrDestinations.size(); i++)
 		{
-			CDataEntity[] entities = m_arrDestinations.get(i);
+			CDataEntity[] entities = arrDestinations.get(i);
 			CDataEntity eTo = entities[0];
 			CDataEntity eDelimiterIn = entities[1];
 			CDataEntity eCountIn = entities[2];
@@ -90,7 +90,7 @@ public class CJavaParseString extends CEntityParseString
 			csTo += ")";
 			WriteWord(csTo);
 		}		
-		if (m_lstChildren.size()>0)
+		if (lstChildren.size()>0)
 		{
 			WriteWord(".failed()) {") ;
 			WriteEOL() ;

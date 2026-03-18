@@ -56,13 +56,13 @@ public class CUnstring extends CCobolElement
 	{
 		CEntityParseString eParse = factory.NewEntityParseString(getLine()) ;
 		parent.AddChild(eParse);
-		CDataEntity eVar = m_Variable.GetDataReference(getLine(), factory);
+		CDataEntity eVar = variable.GetDataReference(getLine(), factory);
 		eVar.RegisterReadingAction(eParse) ;
 		eParse.ParseString(eVar);
 		
-		for (int i=0; i<m_arrDelimitersSingle.size();i++)
+		for (int i=0; i<arrDelimitersSingle.size();i++)
 		{
-			CTerminal term = m_arrDelimitersSingle.get(i);
+			CTerminal term = arrDelimitersSingle.get(i);
 			CDataEntity e = term.GetDataEntity(getLine(), factory);
 			if (e == null)
 			{
@@ -79,9 +79,9 @@ public class CUnstring extends CCobolElement
 			}
 			eParse.AddDelimiterSingle(e);
 		}
-		for (int i=0; i<m_arrDelimitersMulti.size();i++)
+		for (int i=0; i<arrDelimitersMulti.size();i++)
 		{
-			CTerminal term = m_arrDelimitersMulti.get(i);
+			CTerminal term = arrDelimitersMulti.get(i);
 			CDataEntity e = term.GetDataEntity(getLine(), factory);
 			if (e == null)
 			{
@@ -93,9 +93,9 @@ public class CUnstring extends CCobolElement
 			}
 			eParse.AddDelimiterMulti(e);
 		}
-		for (int i=0; i<m_arrTargets.size();i++)
+		for (int i=0; i<arrTargets.size();i++)
 		{
-			CIdentifier[] ids = m_arrTargets.get(i);
+			CIdentifier[] ids = arrTargets.get(i);
 			CDataEntity[] entities = new CDataEntity[3];
 			for (int j=0; j < ids.length; j++)
 			{
@@ -110,22 +110,22 @@ public class CUnstring extends CCobolElement
 			}
 			eParse.AddDestination(entities);
 		}
-		if (m_Tallying != null)
+		if (tallying != null)
 		{
-			CDataEntity entity = m_Tallying.GetDataReference(getLine(), factory);
+			CDataEntity entity = tallying.GetDataReference(getLine(), factory);
 			entity.RegisterWritingAction(eParse);
 			eParse.setTallying(entity);
 		}
-		if (m_WithPointer != null)
+		if (withPointer != null)
 		{
-			CDataEntity entity = m_WithPointer.GetDataReference(getLine(), factory);
+			CDataEntity entity = withPointer.GetDataReference(getLine(), factory);
 			entity.RegisterWritingAction(eParse);
 			eParse.setWithPointer(entity);
 		}
 		
-		if (m_OnOverflowBloc != null)
+		if (onOverflowBloc != null)
 		{
-			eParse.AddChildSpecial(m_OnOverflowBloc.DoSemanticAnalysis(eParse, factory)) ;
+			eParse.AddChildSpecial(onOverflowBloc.DoSemanticAnalysis(eParse, factory)) ;
 		}
 		return eParse;
 	}
@@ -140,9 +140,9 @@ public class CUnstring extends CCobolElement
 		{
 			return false ;
 		}
-		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().m_Name) ;
+		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
 		GetNext();
-		m_Variable = ReadIdentifier();
+		variable = ReadIdentifier();
 		tok = GetCurrentToken() ;
 		if (tok.GetKeyword() != CCobolKeywordList.DELIMITED)
 		{
@@ -162,12 +162,12 @@ public class CUnstring extends CCobolElement
 			{
 				tok = GetNext() ; 
 				CTerminal t = ReadTerminal();
-				m_arrDelimitersMulti.add(t) ;
+				arrDelimitersMulti.add(t) ;
 			}
 			else
 			{
 				CTerminal t = ReadTerminal();
-				m_arrDelimitersSingle.add(t) ;
+				arrDelimitersSingle.add(t) ;
 			}
 		}
 		tok = GetCurrentToken();
@@ -180,12 +180,12 @@ public class CUnstring extends CCobolElement
 			{
 				tok = GetNext() ; 
 				CTerminal t = ReadTerminal();
-				m_arrDelimitersMulti.add(t) ;
+				arrDelimitersMulti.add(t) ;
 			}
 			else
 			{
 				CTerminal t = ReadTerminal();
-				m_arrDelimitersSingle.add(t) ;
+				arrDelimitersSingle.add(t) ;
 			}
 			tok = GetCurrentToken();			
 			if (tok.GetType()  == CTokenType.COMMA)
@@ -235,7 +235,7 @@ public class CUnstring extends CCobolElement
 					tok =GetCurrentToken();
 				}
 				ids[2] = countIn;
-				m_arrTargets.add(ids);
+				arrTargets.add(ids);
 				
 				if (tok.GetType()== CTokenType.COMMA)
 				{
@@ -254,8 +254,8 @@ public class CUnstring extends CCobolElement
 				if (tok.GetKeyword() == CCobolKeywordList.OVERFLOW)
 				{
 					GetNext();
-					m_OnOverflowBloc = new CGenericBloc("OnOverflow", GetCurrentToken().getLine()) ;
-					if (!Parse(m_OnOverflowBloc))
+					onOverflowBloc = new CGenericBloc("OnOverflow", GetCurrentToken().getLine()) ;
+					if (!Parse(onOverflowBloc))
 					{
 						Transcoder.logError(getLine(), "Failure while parsing bloc") ;
 						return false ;
@@ -269,7 +269,7 @@ public class CUnstring extends CCobolElement
 				{
 					tok = GetNext();
 				}
-				m_Tallying = ReadIdentifier();
+				tallying = ReadIdentifier();
 			}
 			else if (tok.GetKeyword() == CCobolKeywordList.WITH || tok.GetKeyword() == CCobolKeywordList.POINTER)
 			{
@@ -278,7 +278,7 @@ public class CUnstring extends CCobolElement
 					tok = GetNext();
 				}
 				tok = GetNext();
-				m_WithPointer = ReadIdentifier();
+				withPointer = ReadIdentifier();
 			}
 			else if (tok.GetKeyword() == CCobolKeywordList.END_UNSTRING)
 			{
@@ -309,37 +309,37 @@ public class CUnstring extends CCobolElement
 	{
 		Element eUS = root.createElement("UnString");
 		Element eVar = root.createElement("Variable");
-		m_Variable.ExportTo(eVar, root) ;
+		variable.ExportTo(eVar, root) ;
 		eUS.appendChild(eVar) ;
-		for (int i=0; i<m_arrDelimitersSingle.size(); i++)
+		for (int i=0; i<arrDelimitersSingle.size(); i++)
 		{
-			CTerminal t = m_arrDelimitersSingle.get(i);
+			CTerminal t = arrDelimitersSingle.get(i);
 			Element eT = root.createElement("SingleDelimiter");
 			eUS.appendChild(eT);
 			t.ExportTo(eT, root);
 		}
-		for (int i=0; i<m_arrDelimitersMulti.size(); i++)
+		for (int i=0; i<arrDelimitersMulti.size(); i++)
 		{
-			CTerminal t = m_arrDelimitersMulti.get(i);
+			CTerminal t = arrDelimitersMulti.get(i);
 			Element eT = root.createElement("MultiDelimiter");
 			eUS.appendChild(eT);
 			t.ExportTo(eT, root);
 		}
-		for (int i=0; i<m_arrTargets.size(); i++)
+		for (int i=0; i<arrTargets.size(); i++)
 		{
-			CIdentifier id = m_arrTargets.get(i)[0];
+			CIdentifier id = arrTargets.get(i)[0];
 			Element eT = root.createElement("Target");
 			eUS.appendChild(eT);
 			id.ExportTo(eT, root);
 			
-			id = m_arrTargets.get(i)[1];
+			id = arrTargets.get(i)[1];
 			if (id != null)
 			{
 				Element eTDelimiterIn = root.createElement("DelimiterIn");
 				eUS.appendChild(eTDelimiterIn);
 				id.ExportTo(eTDelimiterIn, root);
 			}
-			id = m_arrTargets.get(i)[2];
+			id = arrTargets.get(i)[2];
 			if (id != null)
 			{
 				Element eTCountIn = root.createElement("CountIn");
@@ -347,20 +347,20 @@ public class CUnstring extends CCobolElement
 				id.ExportTo(eTCountIn, root);
 			}
 		}
-		if (m_OnOverflowBloc != null)
+		if (onOverflowBloc != null)
 		{
 			Element eBloc = root.createElement("OnOverflow");
-			eBloc.appendChild(m_OnOverflowBloc.Export(root));
+			eBloc.appendChild(onOverflowBloc.Export(root));
 			eUS.appendChild(eBloc);
 		}
 		return eUS ;
 	}
 	
-	protected CIdentifier m_Variable = null ;
-	protected Vector<CTerminal> m_arrDelimitersSingle = new Vector<CTerminal>() ;
-	protected Vector<CTerminal> m_arrDelimitersMulti = new Vector<CTerminal>() ;
-	protected Vector<CIdentifier[]> m_arrTargets = new Vector<CIdentifier[]>(); 
-	protected CBlocElement m_OnOverflowBloc = null ;
-	protected CIdentifier m_WithPointer = null ;
-	protected CIdentifier m_Tallying = null ; 
+	protected CIdentifier variable = null ;
+	protected Vector<CTerminal> arrDelimitersSingle = new Vector<CTerminal>() ;
+	protected Vector<CTerminal> arrDelimitersMulti = new Vector<CTerminal>() ;
+	protected Vector<CIdentifier[]> arrTargets = new Vector<CIdentifier[]>(); 
+	protected CBlocElement onOverflowBloc = null ;
+	protected CIdentifier withPointer = null ;
+	protected CIdentifier tallying = null ; 
 }

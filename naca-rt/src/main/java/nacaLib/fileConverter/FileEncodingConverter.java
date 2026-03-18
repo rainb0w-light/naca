@@ -16,49 +16,49 @@ import nacaLib.varEx.FileDescriptor;
  */
 public class FileEncodingConverter
 {
-	protected FileDescriptor m_fileIn = null;
-	protected FileDescriptor m_fileOut = null;
+	protected FileDescriptor fileIn = null;
+	protected FileDescriptor fileOut = null;
 	
-	protected boolean m_bHost = false;
-	protected int m_nLengthRecord = 0;
-	protected boolean m_bVariable4 = false;
-	protected boolean m_bHeaderEbcdic = false;
+	protected boolean bHost = false;
+	protected int nLengthRecord = 0;
+	protected boolean bVariable4 = false;
+	protected boolean bHeaderEbcdic = false;
 
 	public FileEncodingConverter(FileDescriptor fileIn, FileDescriptor fileOut)
 	{
-		m_fileIn = fileIn;
-		m_fileOut = fileOut;
+		fileIn = fileIn;
+		fileOut = fileOut;
 	}
 	
 	public void setHost(String csParameter)
 	{
-		m_bHost = true;
+		bHost = true;
 		String csParameterUpper = csParameter.toUpperCase();
 		if (csParameterUpper.indexOf("RECORDLENGTH={") != -1)
 		{
 			int nPos = csParameterUpper.indexOf("RECORDLENGTH={") + 14;
 			int nPosEnd = csParameterUpper.indexOf("}", nPos);
-			m_nLengthRecord = Integer.valueOf(csParameter.substring(nPos, nPosEnd)).intValue();				
+			nLengthRecord = Integer.valueOf(csParameter.substring(nPos, nPosEnd)).intValue();				
 		}
 		if (csParameterUpper.indexOf("VARIABLE4") != -1)
 		{
-			m_bVariable4 = true;
+			bVariable4 = true;
 		}
 		if (csParameterUpper.indexOf("HEADEREBCDIC") != -1)
 		{
-			m_bHeaderEbcdic = true;
+			bHeaderEbcdic = true;
 		}
 		System.out.println("FileEncodingConverter: Converting Host file");
-		if (m_nLengthRecord == 0)
+		if (nLengthRecord == 0)
 			System.out.println("FileEncodingConverter: Length record determined by header");
 		else	
-			System.out.println("FileEncodingConverter: Length record : " + m_nLengthRecord);
-		if (m_bHeaderEbcdic)
+			System.out.println("FileEncodingConverter: Length record : " + nLengthRecord);
+		if (bHeaderEbcdic)
 			System.out.println("FileEncodingConverter: Add header ebcdic");
 	}
 
 	protected boolean copyFile()
 	{
-		return FileSystem.copy(m_fileIn.getPhysicalName(), m_fileOut.getPhysicalName());
+		return FileSystem.copy(fileIn.getPhysicalName(), fileOut.getPhysicalName());
 	}
 }

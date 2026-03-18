@@ -61,7 +61,7 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityUnknownReference NewEntityUnknownReference(int nLine, String csName)
 	{
-		return new CFPacJavaUnknownReference(nLine, csName, m_ProgramCatalog, m_LangOutput);
+		return new CFPacJavaUnknownReference(nLine, csName, programCatalog, langOutput);
 	}
 
 	@Override
@@ -179,7 +179,7 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityDisplay NewEntityDisplay(int l, Upon t)
 	{
-		return new CFPacJavaDisplay(l, m_ProgramCatalog, m_LangOutput, t)  ;
+		return new CFPacJavaDisplay(l, programCatalog, langOutput, t)  ;
 	}
 
 	@Override
@@ -395,13 +395,13 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityMultiply NewEntityMultiply(int l)
 	{
-		return new CFPacJavaMultiply(l, m_ProgramCatalog, m_LangOutput) ;
+		return new CFPacJavaMultiply(l, programCatalog, langOutput) ;
 	}
 
 	@Override
 	public CEntityDivide NewEntityDivide(int l)
 	{
-		return new CFPacJavaDivide(l, m_ProgramCatalog, m_LangOutput) ;
+		return new CFPacJavaDivide(l, programCatalog, langOutput) ;
 	}
 
 	@Override
@@ -427,7 +427,7 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityDataSection NewEntityDataSection(int l, String name)
 	{
-		return new CFPacJavaDataSection(l, name, m_ProgramCatalog, m_LangOutput);
+		return new CFPacJavaDataSection(l, name, programCatalog, langOutput);
 	}
 
 	@Override
@@ -440,7 +440,7 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntitySubtractTo NewEntitySubtractTo(int l)
 	{
-		return new CFPacJavaSubtractTo(l, m_ProgramCatalog, m_LangOutput);
+		return new CFPacJavaSubtractTo(l, programCatalog, langOutput);
 	}
 
 	@Override
@@ -507,7 +507,7 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityString NewEntityString(char[] value)
 	{
-		return new CJavaString(m_ProgramCatalog, m_LangOutput, value) ;
+		return new CJavaString(programCatalog, langOutput, value) ;
 	}
 
 	@Override
@@ -519,7 +519,7 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityNumber NewEntityNumber(String value)
 	{
-		return new CFPacJavaNumber(m_ProgramCatalog, m_LangOutput, value) ;
+		return new CFPacJavaNumber(programCatalog, langOutput, value) ;
 	}
 
 	@Override
@@ -568,13 +568,13 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 
 	@Override
 	public CEntityClass NewEntityClass(int l, String name)	{
-		return new CFPacJavaClass(l, name, m_ProgramCatalog, m_LangOutput);
+		return new CFPacJavaClass(l, name, programCatalog, langOutput);
 	}
 
 	@Override
 	public CEntityComment NewEntityComment(int l, String comment)
 	{
-		return new CFPacJavaComment(l, m_ProgramCatalog, m_LangOutput, comment) ;
+		return new CFPacJavaComment(l, programCatalog, langOutput, comment) ;
 	}
 
 	@Override
@@ -594,7 +594,7 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityProcedure NewEntityProcedure(int l, String name,	CEntityProcedureSection section)
 	{
-		return new CFPacJavaProcedure(l, name, m_ProgramCatalog, m_LangOutput, section) ;
+		return new CFPacJavaProcedure(l, name, programCatalog, langOutput, section) ;
 	}
 
 	@Override
@@ -607,7 +607,7 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityAssign NewEntityAssign(int l)
 	{
-		return new CFPacJavaAssign(l, m_ProgramCatalog, m_LangOutput) ;
+		return new CFPacJavaAssign(l, programCatalog, langOutput) ;
 	}
 
 	@Override
@@ -628,13 +628,13 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityCondition NewEntityCondition(int l)
 	{
-		return new CFPacJavaCondition(l, m_ProgramCatalog,m_LangOutput) ;
+		return new CFPacJavaCondition(l, programCatalog,langOutput) ;
 	}
 
 	@Override
 	public CEntityBloc NewEntityBloc(int l)
 	{
-		return new CFPacJavaBloc(l, m_ProgramCatalog, m_LangOutput) ;
+		return new CFPacJavaBloc(l, programCatalog, langOutput) ;
 	}
 
 	@Override
@@ -699,7 +699,7 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	public CEntityCallFunction NewEntityCallFunction(int l, String reference,
 					String refThru, CEntityProcedureSection section)
 	{
-		return new CFPacJavaCallFunction(l, m_ProgramCatalog, m_LangOutput, reference) ;
+		return new CFPacJavaCallFunction(l, programCatalog, langOutput, reference) ;
 	}
 
 	@Override
@@ -712,13 +712,13 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityReturn NewEntityReturn(int l)
 	{
-		return new CFPacJavaReturn(l, m_ProgramCatalog, m_LangOutput) ;
+		return new CFPacJavaReturn(l, programCatalog, langOutput) ;
 	}
 
 	@Override
 	public CEntityCallProgram NewEntityCallProgram(int l, CDataEntity reference)
 	{
-		return new CFPacJavaCallProgram(l, m_ProgramCatalog, m_LangOutput, reference) ;
+		return new CFPacJavaCallProgram(l, programCatalog, langOutput, reference) ;
 	}
 
 	@Override
@@ -738,19 +738,19 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CSubStringAttributReference NewEntitySubString(int l)
 	{
-		return new CFPacJavaSubStringAttributeReference(l, m_ProgramCatalog,m_LangOutput) ;
+		return new CFPacJavaSubStringAttributeReference(l, programCatalog,langOutput) ;
 	}
 
 	@Override
 	public CEntityArrayReference NewEntityArrayReference(int l)
 	{
-		return new CFPacJavaArrayReference(l, m_ProgramCatalog, m_LangOutput) ;
+		return new CFPacJavaArrayReference(l, programCatalog, langOutput) ;
 	}
 
 	@Override
 	public CEntityGoto NewEntityGoto(int l, String Reference, CEntityProcedureSection section)
 	{
-		return new CFPacJavaGoto(l, m_ProgramCatalog, m_LangOutput, Reference, section) ;
+		return new CFPacJavaGoto(l, programCatalog, langOutput, Reference, section) ;
 	}
 
 	@Override
@@ -763,25 +763,25 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityLoopWhile NewEntityLoopWhile(int l)
 	{
-		return new CFPacJavaLoopWhile(l, m_ProgramCatalog, m_LangOutput) ;
+		return new CFPacJavaLoopWhile(l, programCatalog, langOutput) ;
 	}
 
 	@Override
 	public CEntityLoopIter NewEntityLoopIter(int l)
 	{
-		return new CFPacJavaLoopIter(l, m_ProgramCatalog, m_LangOutput) ;
+		return new CFPacJavaLoopIter(l, programCatalog, langOutput) ;
 	}
 
 	@Override
 	public CEntityAddTo NewEntityAddTo(int l)
 	{
-		return new CFPacJavaAddTo(l, m_ProgramCatalog, m_LangOutput);
+		return new CFPacJavaAddTo(l, programCatalog, langOutput);
 	}
 
 	@Override
 	public CEntityContinue NewEntityContinue(int l)
 	{
-		return new CFPacJavaContinue(l, m_ProgramCatalog, m_LangOutput) ;
+		return new CFPacJavaContinue(l, programCatalog, langOutput) ;
 	}
 
 	@Override
@@ -974,7 +974,7 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityAssignWithAccessor NewEntityAssignWithAccessor(int l)
 	{
-		return new CFPacJavaAssignWithAccessor(l, m_ProgramCatalog, m_LangOutput) ;
+		return new CFPacJavaAssignWithAccessor(l, programCatalog, langOutput) ;
 	}
 
 	@Override
@@ -995,7 +995,7 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityEnvironmentVariable NewEntityEnvironmentVariable(String namev, String acc, String write, boolean bNumeric)
 	{
-		return new CFPacJavaEnvironmentVariable(0, namev, m_ProgramCatalog, m_LangOutput, acc, write, bNumeric) ;
+		return new CFPacJavaEnvironmentVariable(0, namev, programCatalog, langOutput, acc, write, bNumeric) ;
 	}
 
 	@Override
@@ -1060,7 +1060,7 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityRoutineEmulationCall NewEntityRoutineEmulationCall(int l)
 	{
-		return new CJavaRoutineEmulationCall(l, m_ProgramCatalog, m_LangOutput) ;
+		return new CJavaRoutineEmulationCall(l, programCatalog, langOutput) ;
 	}
 
 	@Override
@@ -1101,13 +1101,13 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityBreak NewEntityBreak(int line)
 	{
-		return new CJavaBreak(line, m_ProgramCatalog, m_LangOutput) ;
+		return new CJavaBreak(line, programCatalog, langOutput) ;
 	}
 
 	@Override
 	public CEntityFileDescriptor NewEntityFileDescriptor(int line, String name)
 	{
-		return new CFPacJavaFileDescriptor(line, name, m_ProgramCatalog, m_LangOutput) ;
+		return new CFPacJavaFileDescriptor(line, name, programCatalog, langOutput) ;
 	}
 
 	@Override
@@ -1121,25 +1121,25 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityOpenFile NewEntityOpenFile(int line)
 	{
-		return new CFpacJavaOpenFile(line, m_ProgramCatalog, m_LangOutput) ;
+		return new CFpacJavaOpenFile(line, programCatalog, langOutput) ;
 	}
 
 	@Override
 	public CEntityCloseFile NewEntityCloseFile(int line)
 	{
-		return new CFPacJavaCloseFile(line, m_ProgramCatalog, m_LangOutput) ;
+		return new CFPacJavaCloseFile(line, programCatalog, langOutput) ;
 	}
 
 	@Override
 	public CEntityReadFile NewEntityReadFile(int line)
 	{
-		return new CFPacJavaReadFile(line, m_ProgramCatalog, m_LangOutput) ;
+		return new CFPacJavaReadFile(line, programCatalog, langOutput) ;
 	}
 
 	@Override
 	public CEntityWriteFile NewEntityWriteFile(int line)
 	{
-		return new CFPacJavaWriteFile(line, m_ProgramCatalog, m_LangOutput) ;
+		return new CFPacJavaWriteFile(line, programCatalog, langOutput) ;
 	}
 
 	@Override
@@ -1180,7 +1180,7 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityAddress NewEntityAddress(String csAddress)
 	{
-		return new CFPacJavaAddress(m_ProgramCatalog, m_LangOutput, csAddress);
+		return new CFPacJavaAddress(programCatalog, langOutput, csAddress);
 	}
 
 	@Override
@@ -1188,7 +1188,7 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	{
 		if (mehodName.equalsIgnoreCase("ReadAndTestFile"))
 		{
-			return new CFPacJavaReadAndTestFile(m_ProgramCatalog, m_LangOutput, object) ;
+			return new CFPacJavaReadAndTestFile(programCatalog, langOutput, object) ;
 		}
 		else
 		{
@@ -1248,12 +1248,12 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityFormatedVarReference NewEntityFormatedVarReference(CDataEntity object, String format)
 	{
-		return new CFPacJavaFormatedVarReference(object, m_ProgramCatalog, m_LangOutput, format) ;
+		return new CFPacJavaFormatedVarReference(object, programCatalog, langOutput, format) ;
 	}
 	@Override
 	public CEntityInc NewEntityInc(int line)
 	{
-		return new CFPacJavaInc(line,  m_ProgramCatalog, m_LangOutput);
+		return new CFPacJavaInc(line,  programCatalog, langOutput);
 	}
 
 	/**
@@ -1262,7 +1262,7 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityConvertReference NewEntityConvert(int line)
 	{
-		return new CFPacJavaConvertReference(m_ProgramCatalog, m_LangOutput) ;
+		return new CFPacJavaConvertReference(programCatalog, langOutput) ;
 	}
 
 	/**
@@ -1312,7 +1312,7 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	}
 
 	public CEntityAssignSpecial NewEntityAssignSpecial(int l)	{
-		return new CFPacJavaAssignSpecial(l, m_ProgramCatalog, m_LangOutput);
+		return new CFPacJavaAssignSpecial(l, programCatalog, langOutput);
 	}
 
 	/**

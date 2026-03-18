@@ -26,49 +26,49 @@ public class MoveCorrespondingEntryManager
 {
 	public MoveCorrespondingEntryManager()
 	{	
-		m_arrEntries = new ArrayDyn<MoveCorrespondingEntry>();
-		m_bFilled = false;
+		arrEntries = new ArrayDyn<MoveCorrespondingEntry>();
+		bFilled = false;
 	}
 	
 	void addEntry(MoveCorrespondingEntry entry)
 	{
-		m_arrEntries.add(entry);
+		arrEntries.add(entry);
 	}
 	
 	boolean isFilled()
 	{
-		return m_bFilled;
+		return bFilled;
 	}
 	
 	void setFilledAndCompress()
 	{
-		m_bFilled = true;
-		if(m_arrEntries != null)
+		bFilled = true;
+		if(arrEntries != null)
 		{		
-			if(m_arrEntries.isDyn())
+			if(arrEntries.isDyn())
 			{
-				int nSize = m_arrEntries.size();
+				int nSize = arrEntries.size();
 				MoveCorrespondingEntry arr[] = new MoveCorrespondingEntry[nSize];
-				m_arrEntries.transferInto(arr);
+				arrEntries.transferInto(arr);
 				ArrayFix<MoveCorrespondingEntry> arrVarDefFix = new ArrayFix<MoveCorrespondingEntry>(arr);
-				m_arrEntries = arrVarDefFix;	// replace by a fix one (uning less memory)
+				arrEntries = arrVarDefFix;	// replace by a fix one (uning less memory)
 			}
 		}
 	}
 	
 	void doMoves(BaseProgramManager programManager, int nSourceOffset, int nDestOffset)
 	{
-		if(m_arrEntries != null)
+		if(arrEntries != null)
 		{			
-			int nNbEntries = m_arrEntries.size();
+			int nNbEntries = arrEntries.size();
 			for(int n=0; n<nNbEntries; n++)
 			{
-				MoveCorrespondingEntry entry = m_arrEntries.get(n);
+				MoveCorrespondingEntry entry = arrEntries.get(n);
 				entry.doMove(programManager, nSourceOffset, nDestOffset);
 			}
 		}
 	}
 	
-	private boolean m_bFilled = false; 
-	private ArrayFixDyn<MoveCorrespondingEntry> m_arrEntries = null;
+	private boolean bFilled = false; 
+	private ArrayFixDyn<MoveCorrespondingEntry> arrEntries = null;
 }

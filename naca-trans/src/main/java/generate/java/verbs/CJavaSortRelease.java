@@ -21,17 +21,17 @@ public class CJavaSortRelease extends CEntitySortRelease
 	@Override
 	protected void DoExport()
 	{
-		if (m_eSortField != null)
+		if (eSortField != null)
 		{
-			WriteWord("release(" + m_eSortField.ExportReference(getLine())) ;
+			WriteWord("release(" + eSortField.ExportReference(getLine())) ;
 		}
 		else
 		{
 			WriteWord("release([Undefined]") ;
 		}
-		if (m_eDatReference != null)
+		if (eDatReference != null)
 		{
-			WriteWord(", "+m_eDatReference.ExportReference(getLine())+") ;") ;
+			WriteWord(", "+eDatReference.ExportReference(getLine())+") ;") ;
 		}
 		else
 		{

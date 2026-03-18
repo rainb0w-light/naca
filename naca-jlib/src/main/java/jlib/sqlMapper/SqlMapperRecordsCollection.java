@@ -25,33 +25,33 @@ import jlib.sql.SQLClause;
  */
 public class SqlMapperRecordsCollection
 {
-	ArrayList<SqlMapperManagedRecord> m_arr = null;
+	ArrayList<SqlMapperManagedRecord> arr = null;
 	
 	SqlMapperRecordsCollection()
 	{
-		m_arr = new ArrayList<SqlMapperManagedRecord>();
+		arr = new ArrayList<SqlMapperManagedRecord>();
 	}
 	
 	void add(SqlMapperManagedRecord recordCols)
 	{
-		m_arr.add(recordCols);
+		arr.add(recordCols);
 	}
 	
 	public SqlMapperManagedRecord getFirstRecord()
 	{
-		if(m_arr.size() > 0)
-			return m_arr.get(0);
+		if(arr.size() > 0)
+			return arr.get(0);
 		return null;
 	}
 	
 	public SqlMapperManagedRecord getRecordAt(int nIndex)
 	{
-		return m_arr.get(nIndex);
+		return arr.get(nIndex);
 	}
 
 	public int getNbRecords()
 	{
-		return m_arr.size();
+		return arr.size();
 	}
 	
 	public void clearValues()
@@ -107,7 +107,7 @@ public class SqlMapperRecordsCollection
 					recordColsTypeMaster.handleColsType(clause, resultSet);
 				}
 				if(record.fillColValues(clause, resultSet, recordColsTypeMaster))	// Fill the recordCols with the column's value, with typing management
-					m_arr.add(record);
+					arr.add(record);
 			}
 			
 			// Callback to call to inform application code of the records read; it can filter; It must return only 1 record

@@ -23,7 +23,7 @@ public class CTokenUnrecognized extends CBaseToken
 	public CTokenUnrecognized(char c, int line, boolean newline)
 	{
 		super(line, newline);
-		m_Value = "UNRECOGNIZED: " + c ; 
+		value = "UNRECOGNIZED: " + c ; 
 	}
 	public CTokenType GetType()
 	{
@@ -32,13 +32,13 @@ public class CTokenUnrecognized extends CBaseToken
 	
 	public String toString()
 	{
-		return "[?" + m_Value + "!]" ;	
+		return "[?" + value + "!]" ;	
 	}
 	/* (non-Javadoc)
 	 * @see lexer.CBaseToken#GetDisplay()
 	 */
 	public String GetDisplay()
 	{
-		return m_Value;
+		return value;
 	}
 }

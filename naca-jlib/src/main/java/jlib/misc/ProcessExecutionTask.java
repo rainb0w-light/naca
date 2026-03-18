@@ -23,32 +23,32 @@ import java.util.Map;
  */
 public class ProcessExecutionTask
 {
-	protected Map<String, String> m_Env ;
-	protected String m_csCommand = "" ;
-	protected File m_dirRuntimeDir = null ;
-	protected StringArray m_arrParameters = new StringArray() ;
-	protected StringArray m_arrClassPath = new StringArray() ;
+	protected Map<String, String> env ;
+	protected String csCommand = "" ;
+	protected File dirRuntimeDir = null ;
+	protected StringArray arrParameters = new StringArray() ;
+	protected StringArray arrClassPath = new StringArray() ;
 
 	public void setCommand(String cmd)
 	{
 		if (cmd != null  && !cmd.equals(""))
 		{
-			m_csCommand = cmd ;
+			csCommand = cmd ;
 		}
 	}
 	public void addParameter(String p)
 	{
 		if (p!= null && !p.equals(""))
 		{
-			m_arrParameters.add(p) ;
+			arrParameters.add(p) ;
 		}
 	}
 	public boolean setRuntimeDirectory(String dir)
 	{
 		if (dir != null && !dir.equals(""))
 		{
-			m_dirRuntimeDir = new File(dir) ;
-			return m_dirRuntimeDir.isDirectory() ;
+			dirRuntimeDir = new File(dir) ;
+			return dirRuntimeDir.isDirectory() ;
 		}
 		return false ;
 	}
@@ -56,18 +56,18 @@ public class ProcessExecutionTask
 	{
 		if (dir != null)
 		{
-			m_dirRuntimeDir = dir ;
-			return m_dirRuntimeDir.isDirectory() ;
+			dirRuntimeDir = dir ;
+			return dirRuntimeDir.isDirectory() ;
 		}
 		return false ;
 	}
 //	public void addClassPath(String path)
 //	{
-//		m_arrClassPath.addElement(path) ;
+//		arrClassPath.addElement(path) ;
 //	}
 	public void addEnvironmentVariable(String var, String val)
 	{
-		m_Env.put(var, val) ;
+		env.put(var, val) ;
 	}
 
 }

@@ -25,7 +25,7 @@ import utils.FPacTranscoder.notifs.NotifRegisterFileClose;
 public class CFPacClose extends CFPacElement
 {
 
-	private CIdentifier m_CloseFile;
+	private CIdentifier closeFile;
 
 	public CFPacClose(int line)
 	{
@@ -53,8 +53,8 @@ public class CFPacClose extends CFPacElement
 		
 		if (tok.GetType() == CTokenType.IDENTIFIER)
 		{
-			m_CloseFile = ReadIdentifier() ;
-			if (m_CloseFile == null)
+			closeFile = ReadIdentifier() ;
+			if (closeFile == null)
 			{
 				Transcoder.logError(getLine(), "Expecting identifier after 'CLOSE-'") ;
 				return false  ;
@@ -71,10 +71,10 @@ public class CFPacClose extends CFPacElement
 	@Override
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		CEntityFileDescriptor desc = factory.m_ProgramCatalog.getFileDescriptor(m_CloseFile.GetName()) ;
+		CEntityFileDescriptor desc = factory.programCatalog.getFileDescriptor(closeFile.GetName()) ;
 		NotifRegisterFileClose notif = new NotifRegisterFileClose() ;
-		notif.m_FileDesc = desc ;
-		factory.m_ProgramCatalog.SendNotifRequest(notif) ;
+		notif.fileDesc = desc ;
+		factory.programCatalog.SendNotifRequest(notif) ;
 		
 		CEntityCloseFile close = factory.NewEntityCloseFile(getLine()) ;
 		close.setFileDescriptor(desc) ;
@@ -87,7 +87,7 @@ public class CFPacClose extends CFPacElement
 	{
 		Element eAdd = root.createElement("Close") ;
 		Element e = root.createElement("File") ;
-		m_CloseFile.ExportTo(e, root) ;
+		closeFile.ExportTo(e, root) ;
 		eAdd.appendChild(e) ;
 		return eAdd ;
 	}

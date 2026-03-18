@@ -45,19 +45,19 @@ public abstract class CEntityCICSAssign extends CBaseActionEntity
 	
 	public void AddRequest(String param, CDataEntity var)
 	{
-		m_arrParameters.add(param);
-		m_arrVariables.add(var) ;
+		arrParameters.add(param);
+		arrVariables.add(var) ;
 	}
 	
-	protected ArrayList<String> m_arrParameters = new ArrayList<String>() ;
-	protected Vector<CDataEntity> m_arrVariables = new Vector<CDataEntity>() ;
+	protected ArrayList<String> arrParameters = new ArrayList<String>() ;
+	protected Vector<CDataEntity> arrVariables = new Vector<CDataEntity>() ;
 
 	public boolean ignore()
 	{
 		boolean ignore = true ;
-		for (int i=0; i<m_arrParameters.size(); i++)
+		for (int i=0; i<arrParameters.size(); i++)
 		{
-			CDataEntity e = m_arrVariables.get(i);
+			CDataEntity e = arrVariables.get(i);
 			ignore &= e.ignore() ;
 		}
 		return ignore;
@@ -66,7 +66,7 @@ public abstract class CEntityCICSAssign extends CBaseActionEntity
 	public void Clear()
 	{
 		super.Clear();
-		m_arrVariables.clear() ;
+		arrVariables.clear() ;
 	}
 
 }

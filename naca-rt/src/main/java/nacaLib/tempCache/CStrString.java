@@ -29,13 +29,13 @@ public class CStrString extends CStr
 	
 	public void set(CStr csIn, char cPad, int nNbCharDest)
 	{
-		if(m_acBuffer == null)
-			m_acBuffer = new char[nNbCharDest];
-		else if(m_acBuffer.length < nNbCharDest)
-			m_acBuffer = new char[nNbCharDest];
+		if(acBuffer == null)
+			acBuffer = new char[nNbCharDest];
+		else if(acBuffer.length < nNbCharDest)
+			acBuffer = new char[nNbCharDest];
 		
-		m_nLength = nNbCharDest;
-		m_nStartPos = 0;
+		nLength = nNbCharDest;
+		nStartPos = 0;
 				
 		int nLength = 0;
 		if(csIn != null)
@@ -43,12 +43,12 @@ public class CStrString extends CStr
 			nLength = Math.min(csIn.length(), nNbCharDest);
 			for(int n=0; n<nLength; n++)
 			{
-				m_acBuffer[n] = csIn.charAt(n);
+				acBuffer[n] = csIn.charAt(n);
 			}
 		}
 		while(nLength < nNbCharDest)	// Pad on the right
 		{
-			m_acBuffer[nLength] = cPad;
+			acBuffer[nLength] = cPad;
 			nLength++;
 		}			
 	}

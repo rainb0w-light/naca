@@ -24,23 +24,23 @@ public class GenericValueDouble extends GenericValue
 {
 	GenericValueDouble(double d)
 	{
-		m_d = d;
+		d = d;
 	}
 	
 	String getAsRawString()
 	{
-		return String.valueOf(m_d);
+		return String.valueOf(d);
 	}
 	
 	String getAsString()
 	{
-		return String.valueOf(m_d);
+		return String.valueOf(d);
 	}
 
 	
 	int getAsInt()
 	{
-		return (int)m_d;
+		return (int)d;
 	}
 	
 		
@@ -54,12 +54,12 @@ public class GenericValueDouble extends GenericValue
 	
 	double getAsDouble()
 	{
-		return m_d;
+		return d;
 	}
 	
 	Dec getAsDec()
 	{
-		String cs = String.valueOf(m_d);
+		String cs = String.valueOf(d);
 		int nDot = cs.indexOf('.');
 		if(nDot == -1)
 		{
@@ -85,5 +85,5 @@ public class GenericValueDouble extends GenericValue
 		return dec;
 	}
 	
-	private double m_d;
+	private double d;
 }

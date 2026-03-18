@@ -31,20 +31,20 @@ import lexer.*;
  */
 public abstract class CBaseElement
 {
-	private int m_line = 0 ;
+	private int line = 0 ;
 	
 	public int getLine()
 	{
-		return m_line;
+		return line;
 	}
 	
 	public void setLine(int n)
 	{
-		m_line = n;
-		Transcoder.setLine(m_line);
+		line = n;
+		Transcoder.setLine(line);
 	}
 	
-	protected CTokenList m_lstTokens = null ;
+	protected CTokenList lstTokens = null ;
 	protected boolean DoParsing() 
 	{
 		return false ;
@@ -55,54 +55,54 @@ public abstract class CBaseElement
 	};
 	protected CBaseToken GetNext()
 	{
-		CBaseToken tok = m_lstTokens.GetNext() ;
+		CBaseToken tok = lstTokens.GetNext() ;
 		while (tok != null && tok.GetType() == CTokenType.COMMENTS)
 		{
 			ParseComment() ;
-			tok = m_lstTokens.GetCurrentToken() ;
+			tok = lstTokens.GetCurrentToken() ;
 		}
 		return tok ;
 	}
 	protected void StepNext()
 	{
-		m_lstTokens.GetNext() ;
+		lstTokens.GetNext() ;
 	}
 	protected CBaseToken GetCurrentToken()
 	{
-		CBaseToken tok = m_lstTokens.GetCurrentToken() ;
+		CBaseToken tok = lstTokens.GetCurrentToken() ;
 		while (tok != null && tok.GetType() == CTokenType.COMMENTS)
 		{
 			ParseComment() ;
-			tok = m_lstTokens.GetCurrentToken() ;
+			tok = lstTokens.GetCurrentToken() ;
 		}
 		return tok ;
 	}		
 	public boolean Parse(CTokenList lst, CGlobalCommentContainer container)
 	{
-		m_lstTokens = lst ;
-		m_Container = container ;
+		lstTokens = lst ;
+		container = container ;
 		return DoParsing();
 	}
 	public boolean Parse(CTokenList lst, CGlobalCommentContainer container, CFlag f)
 	{
-		m_lstTokens = lst ;
-		m_Container = container ;
+		lstTokens = lst ;
+		container = container ;
 		return DoParsing(f);
 	}
 	protected boolean Parse(CBaseElement e, CFlag f)
 	{
-		return e.Parse(m_lstTokens, m_Container, f) ;
+		return e.Parse(lstTokens, container, f) ;
 	}
 	protected boolean Parse(CBaseElement e)
 	{
-		return e.Parse(m_lstTokens, m_Container) ;
+		return e.Parse(lstTokens, container) ;
 	}
 	protected boolean ParseComment()
 	{
-		return m_Container.ParseComment(m_lstTokens);
+		return container.ParseComment(lstTokens);
 	}
 	
-	private CGlobalCommentContainer m_Container = null ;
+	private CGlobalCommentContainer container = null ;
 	
 	//protected Logger m_Logger = Transcoder.ms_logger ;
 
@@ -115,13 +115,13 @@ public abstract class CBaseElement
 	
 	protected void AddChild(CBaseElement el)
 	{
-		m_children.add(el) ;
+		children.add(el) ;
 	}
-	protected LinkedList<CBaseElement> m_children = new LinkedList<CBaseElement>() ;
+	protected LinkedList<CBaseElement> children = new LinkedList<CBaseElement>() ;
 	
 
 	protected abstract Element ExportCustom(Document root);
-	private boolean m_bExportDoneForChildren = false ;
+	private boolean bExportDoneForChildren = false ;
 	public final Element Export(Document rootdoc)
 	{
 		Element e = ExportCustom(rootdoc) ;
@@ -135,9 +135,9 @@ public abstract class CBaseElement
 	}
 	protected void ExportChildren(Document root, Element parent)
 	{
-		if (!m_bExportDoneForChildren)
+		if (!bExportDoneForChildren)
 		{
-			ListIterator<CBaseElement> i = m_children.listIterator() ;
+			ListIterator<CBaseElement> i = children.listIterator() ;
 			try
 			{
 				CBaseElement le = i.next() ;
@@ -155,7 +155,7 @@ public abstract class CBaseElement
 			{
 				//System.out.println(e.toString());
 			}
-			m_bExportDoneForChildren = true;
+			bExportDoneForChildren = true;
 		}
 	}
 
@@ -166,28 +166,28 @@ public abstract class CBaseElement
 		}
 		public void Set()
 		{
-			m_bFlag = true ;
+			bFlag = true ;
 		}
 		public void UnSet()
 		{
-			m_bFlag = false ;
+			bFlag = false ;
 		}
 		public void Set(boolean b)
 		{
-			m_bFlag = b ;
+			bFlag = b ;
 		}
 		public boolean ISSet()
 		{
-			return m_bFlag ;
+			return bFlag ;
 		}
-		protected boolean m_bFlag = false ;
+		protected boolean bFlag = false ;
 	}
 	public void Clear()
 	{
-		m_lstTokens = null ;
-		m_Container = null ;
+		lstTokens = null ;
+		container = null ;
 		
-		ListIterator<CBaseElement> i = m_children.listIterator() ;
+		ListIterator<CBaseElement> i = children.listIterator() ;
 		try
 		{
 			CBaseElement le = i.next() ;

@@ -19,19 +19,19 @@ import jlib.misc.AsciiEbcdicConverter;
  */
 public class BtreeKeySegmentAlphaNum extends BtreeKeySegment
 {
-	private boolean m_bCompareInEbcdic = false;
+	private boolean bCompareInEbcdic = false;
 	
 	public BtreeKeySegmentAlphaNum(int nKeyPositionInData, int nKeyPositionInKey, int nKeyLength, boolean bAscending)
 	{
 		super(nKeyPositionInData, nKeyPositionInKey, nKeyLength, bAscending);
-		m_bCompareInEbcdic = BaseResourceManager.getComparisonInEbcdic(); 
+		bCompareInEbcdic = BaseResourceManager.getComparisonInEbcdic(); 
 	}
 	
 	int compare(byte tby1[], byte tby2[])
 	{
 		byte b1, b2;
-		int nPos = m_nKeyPosition;
-		for (int n=0; n<m_nKeyLength; n++, nPos++)
+		int nPos = nKeyPosition;
+		for (int n=0; n<nKeyLength; n++, nPos++)
 		{
 		    b1 = tby1[nPos];
 		    b2 = tby2[nPos];
@@ -43,9 +43,9 @@ public class BtreeKeySegmentAlphaNum extends BtreeKeySegment
 		    	int n1 = b1 & 0xff;
 		    	int n2 = b2 & 0xff;
 		    	
-				if(m_bCompareInEbcdic != m_bFileInEbcdic)	// encoding is different from collating seq
+				if(bCompareInEbcdic != bFileInEbcdic)	// encoding is different from collating seq
 				{
-		    		if(!m_bFileInEbcdic)	// File is in ascii and collating seq is ecbdic
+		    		if(!bFileInEbcdic)	// File is in ascii and collating seq is ecbdic
 		    		{
 				    	n1 = AsciiEbcdicConverter.getEbcdicChar((char)n1);
 				    	n2 = AsciiEbcdicConverter.getEbcdicChar((char)n2);
@@ -57,8 +57,8 @@ public class BtreeKeySegmentAlphaNum extends BtreeKeySegment
 		    		}
 				}
 				if(n1 < n2)					
-			    	return m_bAscending ? -1 : 1;
-		    	return m_bAscending ? 1 : -1;
+			    	return bAscending ? -1 : 1;
+		    	return bAscending ? 1 : -1;
 		    }
 		}
 		return 0;

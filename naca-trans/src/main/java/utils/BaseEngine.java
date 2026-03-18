@@ -28,9 +28,9 @@ public abstract class BaseEngine<T_Entity extends CBaseLanguageEntity>
 
 	public abstract void doFileTranscoding(String filename, String csApplication, CTransApplicationGroup grp, boolean bResources);
 
-	protected CRulesManager m_RulesManager = null ;
+	protected CRulesManager rulesManager = null ;
 	
-	protected Transcoder m_Transcoder = null ;
+	protected Transcoder transcoder = null ;
 
 
 	/**
@@ -38,7 +38,7 @@ public abstract class BaseEngine<T_Entity extends CBaseLanguageEntity>
 	 */
 	public CRulesManager getRulesManager()
 	{
-		return m_RulesManager;
+		return rulesManager;
 	}
 
 	/**
@@ -46,7 +46,7 @@ public abstract class BaseEngine<T_Entity extends CBaseLanguageEntity>
 	 */
 	public void setRulesManager(CRulesManager ruleManager)
 	{
-		m_RulesManager = ruleManager;
+		rulesManager = ruleManager;
 	}
 
 	/**
@@ -54,7 +54,7 @@ public abstract class BaseEngine<T_Entity extends CBaseLanguageEntity>
 	 */
 	public Transcoder getTranscoder()
 	{
-		return m_Transcoder;
+		return transcoder;
 	}
 
 	/**
@@ -62,7 +62,7 @@ public abstract class BaseEngine<T_Entity extends CBaseLanguageEntity>
 	 */
 	public void setTranscoder(Transcoder transcoder)
 	{
-		m_Transcoder = transcoder;
+		transcoder = transcoder;
 	}
 
 	/**

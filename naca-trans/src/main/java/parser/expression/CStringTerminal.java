@@ -28,21 +28,21 @@ public class CStringTerminal extends CTerminal
 {
 	public CStringTerminal(char[] arr)
 	{
-		m_Value = arr ;
-		m_Str = new String(m_Value);
+		value = arr ;
+		str = new String(value);
 	}
 	public CStringTerminal(String cs)
 	{
-		m_Value = cs.toCharArray() ;
-		m_Str = cs ;
+		value = cs.toCharArray() ;
+		str = cs ;
 	}
 
-	protected char[] m_Value = {} ;
-	protected String m_Str = "" ;
+	protected char[] value = {} ;
+	protected String str = "" ;
 
 	public void ExportTo(Element e, Document root)
 	{
-		String cs = new String(m_Value);
+		String cs = new String(value);
 		e.setAttribute("String", cs) ;		
 	}
 
@@ -64,13 +64,13 @@ public class CStringTerminal extends CTerminal
 
 	public String GetValue()
 	{
-		String cs = new String(m_Value);
+		String cs = new String(value);
 		return cs ;
 	}
 
 	public CDataEntity GetDataEntity(int nLine, CBaseEntityFactory factory)
 	{
-		String val = new String(m_Value) ;
+		String val = new String(value) ;
 		CDataEntity e = factory.getSpecialConstantValue(val);
 		if (e != null)
 		{
@@ -78,12 +78,12 @@ public class CStringTerminal extends CTerminal
 		}
 		else
 		{
-			return factory.NewEntityString(m_Value);
+			return factory.NewEntityString(value);
 		}
 	}
 	public String toString()
 	{
-		return "\"" + new String(m_Value) + "\"" ;
+		return "\"" + new String(value) + "\"" ;
 	}
 
 	public boolean IsNumber()

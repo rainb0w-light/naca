@@ -20,21 +20,21 @@ package nacaLib.varEx;
  */
 public class InitializeManagerIntEdited extends InitializeManager
 {
-	private int m_nValue = 0;
+	private int nValue = 0;
 	
 	public InitializeManagerIntEdited(int nValue)
 	{
-		m_nValue = nValue;
+		nValue = nValue;
 	}
 	
 	public void set(int nValue)
 	{
-		m_nValue = nValue;
+		nValue = nValue;
 	}
 	
 	public void initialize(VarBufferPos buffer, VarDefBuffer varDef, int nOffset, InitializeCache initializeCache)
 	{
-		varDef.initializeEditedAtOffset(buffer, nOffset, m_nValue);
+		varDef.initializeEditedAtOffset(buffer, nOffset, nValue);
 		if(initializeCache != null)
 			initializeCache.setNotManaged();
 	}

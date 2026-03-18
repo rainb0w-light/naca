@@ -19,13 +19,13 @@ import nacaLib.base.JmxGeneralStat;
  */
 public class TransThreadMBean extends BaseCloseMBean
 {
-	private BaseEnvironment m_env = null;
+	private BaseEnvironment env = null;
 
 	TransThreadMBean(BaseEnvironment env)
 	{
 		super();
 		
-		m_env = env;		
+		env = env;		
 		if(JmxGeneralStat.showTransThreadBeans())
 		{
 			create();
@@ -35,7 +35,7 @@ public class TransThreadMBean extends BaseCloseMBean
 	
 	void setEnvClosed()
 	{
-		m_env = null;
+		env = null;
 		unregisterMBean();
 	}
 	
@@ -49,9 +49,9 @@ public class TransThreadMBean extends BaseCloseMBean
 	
 	private void create()
 	{
-		if(m_env != null)
+		if(env != null)
 		{
-			String cs = "00000" + m_env.getEnvId();
+			String cs = "00000" + env.getEnvId();
 			cs = "Trans." + cs.substring(cs.length()-6);
 			createMBean(cs, cs);
 		}
@@ -75,112 +75,112 @@ public class TransThreadMBean extends BaseCloseMBean
 	
 	public String getA_User()
 	{
-		if(m_env != null)
-			return m_env.getUserId();
+		if(env != null)
+			return env.getUserId();
 		return "";
 	}
 	
 	public String getA_LDapUser()
 	{
-		if(m_env != null)
-			return m_env.getUserLdapId();
+		if(env != null)
+			return env.getUserLdapId();
 		return "";
 	}
 	
 	public String getA_Terminal()
 	{
-		if(m_env != null)
-			return m_env.getTerminalID();
+		if(env != null)
+			return env.getTerminalID();
 		return "";
 	}
 	
 	public String getB_EnvironmentCreationTime()
 	{
-		if(m_env != null)
-			return m_env.getCreationDateInfo().getDisplayableDateTime();
+		if(env != null)
+			return env.getCreationDateInfo().getDisplayableDateTime();
 		return "";
 	}
 	
 	public String getC_LastTransactionName()
 	{
-		if(m_env != null)
-			return m_env.m_csCurrentTransaction;
+		if(env != null)
+			return env.csCurrentTransaction;
 		return "";
 	}
 	
 	
 	public String getC_TransactionStatus()
 	{
-		if(m_env != null)
+		if(env != null)
 		{
-			return m_env.getStatusAsString();
+			return env.getStatusAsString();
 		}
 		return "Deleted: Must refresh";					
 	}
 	
 	public String getD0_LastTransactionStartTime()
 	{
-		if(m_env != null)
+		if(env != null)
 		{
-			return m_env.getStartRunTime().getDisplayableDateTime();
+			return env.getStartRunTime().getDisplayableDateTime();
 		}
 		return "Obsolete entry";
 	}
 	
 	public String getD1_LastTransactionEndTime()
 	{
-		if(m_env != null)
+		if(env != null)
 		{
-			if(m_env.isRunning())
+			if(env.isRunning())
 			{
 				return "Execution in way";
 			}
-			return m_env.getEndRunTime().getDisplayableDateTime();
+			return env.getEndRunTime().getDisplayableDateTime();
 		}
 		return "";
 	}
 	
 	public String getD2_LastTransactionExecTime_ms()
 	{
-		if(m_env != null)
+		if(env != null)
 		{
-			return "" + m_env.getLastTransactionExecTime_ms();
+			return "" + env.getLastTransactionExecTime_ms();
 		}
 		return "";		
 	}
 	
 	public String getE0_SumTransactionsExecTime_ms()
 	{
-		if(m_env != null)
+		if(env != null)
 		{
-			return "" + m_env.getSumTransactionsExecTime_ms();
+			return "" + env.getSumTransactionsExecTime_ms();
 		}
 		return "";
 	}
 	
 	public int getE1_NbTransactionsExecuted()
 	{
-		if(m_env != null)
+		if(env != null)
 		{
-			return m_env.getNbTransactionsExecuted();
+			return env.getNbTransactionsExecuted();
 		}
 		return 0; 
 	}
 	
 	public int getLastTransactionExecTime_s()
 	{
-		if(m_env != null)
+		if(env != null)
 		{
-			if(!m_env.isRunning())
-				return (int)m_env.getStartRunTime().getTimeOffset_ms(m_env.getEndRunTime()) / 1000;
-			return (int)m_env.getStartRunTime().getTimeOffsetFromNow_ms() / 1000;
+			if(!env.isRunning())
+				return (int)env.getStartRunTime().getTimeOffset_ms(env.getEndRunTime()) / 1000;
+			return (int)env.getStartRunTime().getTimeOffsetFromNow_ms() / 1000;
 		}
 		return 0;		
 	}
 	
 	public void StopProcessing()
 	{
-		if(m_env != null)
-			m_env.requestStopProcessing();
+		if(env != null)
+			env.requestStopProcessing();
 	}
 }

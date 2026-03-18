@@ -42,18 +42,18 @@ import org.w3c.dom.NodeList;
  */
 public class XMLMerger
 {
-	protected OnlineSession m_AppSession = null ;
-	private Element m_CursorField = null ;
-	private DocumentBuilder m_docBuilder = null;
-	private Hashtable<String, Element> m_tab = null;
+	protected OnlineSession appSession = null ;
+	private Element cursorField = null ;
+	private DocumentBuilder docBuilder = null;
+	private Hashtable<String, Element> tab = null;
 
 	public XMLMerger(OnlineSession appSession)
 	{
-		m_AppSession = appSession ;
-		m_tab = new Hashtable<String, Element>() ;
+		appSession = appSession ;
+		tab = new Hashtable<String, Element>() ;
 		try
 		{
-			m_docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+			docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 		}
 		catch (ParserConfigurationException e)
 		{
@@ -64,14 +64,14 @@ public class XMLMerger
 	
 	void set(OnlineSession appSession)
 	{
-		m_AppSession = appSession ;
+		appSession = appSession ;
 	}
 	
 	void clear()
 	{
-		m_AppSession = null ;
-		m_CursorField = null ;
-		m_tab.clear();
+		appSession = null ;
+		cursorField = null ;
+		tab.clear();
 	}
 	
 	
@@ -123,7 +123,7 @@ public class XMLMerger
 				int editLength = NumberParser.getAsInt(e.getAttribute("length"));
 				if (line == editLine && pos >= editCol && pos <= editCol + editLength)
 				{
-					m_CursorField = e;
+					cursorField = e;
 					return;
 				}
 			}
@@ -179,7 +179,7 @@ public class XMLMerger
 		{
 			Element e = (Element)lstFields.item(i) ;
 			String name = e.getAttribute("name");
-			m_tab.put(name, e) ;
+			tab.put(name, e) ;
 		}
 		
 		SetLabelTags(eOutput);
@@ -188,20 +188,20 @@ public class XMLMerger
 		//SetEditTagsForName(eOutput, tabFields, defaultCursorField, "activedit");
 		SetSwitchTags(eOutput) ;
 		
-		if (m_CursorField == null)
+		if (cursorField == null)
 		{
-			m_CursorField = defaultCursorField ;
+			cursorField = defaultCursorField ;
 		}
 		eOutput.setAttribute("updateTime", BaseResourceManager.getUpdateTimeFormated());
 		eOutput.setAttribute("autoRefresh", BaseResourceManager.getUpdateTimeAutoRefresh());
-		eOutput.setAttribute("userName", m_AppSession.getUserLdapName());
-		eOutput.setAttribute("serverName", m_AppSession.getServerName());
-		eOutput.setAttribute("terminalName", m_AppSession.getTerminalTerm());
+		eOutput.setAttribute("userName", appSession.getUserLdapName());
+		eOutput.setAttribute("serverName", appSession.getServerName());
+		eOutput.setAttribute("terminalName", appSession.getTerminalTerm());
 		
 		BaseProgramLoader prgseq = BaseProgramLoader.GetInstance() ;
 		if (prgseq != null)
 		{
-			SessionEnvironmentRequester req = prgseq.getSessionEnvironmentRequester(m_AppSession);
+			SessionEnvironmentRequester req = prgseq.getSessionEnvironmentRequester(appSession);
 			if (req != null)
 			{
 				eOutput.setAttribute("profitCenter", req.getProfitCenter());
@@ -218,7 +218,7 @@ public class XMLMerger
 			Element e = (Element)lst.item(0) ;
 			
 			String ref = e.getAttribute("linkedvalue");
-			Element efield = m_tab.get(ref);
+			Element efield = tab.get(ref);
 			if (efield != null)
 			{
 				String value = efield.getAttribute("value") ;
@@ -297,7 +297,7 @@ public class XMLMerger
 				if (e.getAttribute("type").equals("activeChoice"))
 				{
 					String target = e.getAttribute("activeChoiceTarget") ;
-					Element eTarget = m_tab.get(target);
+					Element eTarget = tab.get(target);
 					if (eTarget==null || eTarget.getAttribute("protection").equals("autoskip"))
 					{
 						e.setAttribute("type", "") ;
@@ -322,7 +322,7 @@ public class XMLMerger
 				}
 			}
 			String ref = e.getAttribute("linkedvalue");
-			Element efield = m_tab.get(ref);
+			Element efield = tab.get(ref);
 			if (efield != null)
 			{
 				MergeFieldAttributes(e, efield) ;
@@ -333,7 +333,7 @@ public class XMLMerger
 				if (e.getAttribute("type").equals("linkedActiveChoice"))
 				{
 					String link = e.getAttribute("activeChoiceLink") ;
-					Element eLink = m_tab.get(link);
+					Element eLink = tab.get(link);
 					if (eLink==null || eLink.getAttribute("value").trim().equals(""))
 					{
 						e.setAttribute("type", "") ;
@@ -341,7 +341,7 @@ public class XMLMerger
 					else
 					{	
 						String target = e.getAttribute("activeChoiceTarget") ;
-						Element eTarget = m_tab.get(target);
+						Element eTarget = tab.get(target);
 						if (eTarget==null || eTarget.getAttribute("protection").equals("autoskip"))
 						{
 							e.setAttribute("type", "") ;
@@ -351,7 +351,7 @@ public class XMLMerger
 				else if (e.getAttribute("type").equals("activeChoice"))
 				{		
 					String target = e.getAttribute("activeChoiceTarget") ;
-					Element eTarget = m_tab.get(target);
+					Element eTarget = tab.get(target);
 					if (eTarget==null || eTarget.getAttribute("protection").equals("autoskip"))
 					{
 						e.setAttribute("type", "") ;
@@ -412,9 +412,9 @@ public class XMLMerger
 		}
 		if (eData.hasAttribute("cursor"))
 		{
-			if (eData.getAttribute("cursor").equals("true") && m_CursorField==null)
+			if (eData.getAttribute("cursor").equals("true") && cursorField==null)
 			{
-				m_CursorField = eField ;
+				cursorField = eField ;
 			}
 		}
 	}
@@ -428,23 +428,23 @@ public class XMLMerger
 			Element eForm = (Element)lstForms.item(i) ;
 			String name = eForm.getAttribute("name") ;
 			String dataname = eData.getAttribute("name") ;
-			if (m_AppSession.isZoom())
+			if (appSession.isZoom())
 				eForm.setAttribute("zoom", "true") ;
 			else
 				eForm.setAttribute("zoom", "false") ;
-			if (m_AppSession.isBold())
+			if (appSession.isBold())
 				eForm.setAttribute("bold", "true") ;
 			else
 				eForm.setAttribute("bold", "false") ;
-			//eForm.setAttribute("cmpSession", m_AppSession.getCmp()) ;
+			//eForm.setAttribute("cmpSession", appSession.getCmp()) ;
 			if (name.equals(dataname))
 			{
 				String lang = eData.getAttribute("lang") ;
 				eOutput.setAttribute("lang", lang) ;
 			}
-			if (m_CursorField != null)
+			if (cursorField != null)
 			{
-				String cur = m_CursorField.getAttribute("name");
+				String cur = cursorField.getAttribute("name");
 				eForm.setAttribute("cursor", cur) ;
 			}
 			String cs = eData.getAttribute("printScreen") ;
@@ -457,7 +457,7 @@ public class XMLMerger
 	}
 	public Document BuildXLMStructure(Document xmlFrame, Element xmlForm)
 	{
-		Document xmlStruct = m_docBuilder.newDocument();
+		Document xmlStruct = docBuilder.newDocument();
 		Element eStruct = (Element)xmlStruct.importNode(xmlFrame.getDocumentElement(), true) ;
 		xmlStruct.appendChild(eStruct) ;
 		
@@ -479,7 +479,7 @@ public class XMLMerger
 		{
 			Element e = (Element)lst.item(i);
 			String name = e.getAttribute("name");
-			m_tab.put(name, e) ;
+			tab.put(name, e) ;
 		}
 		while (true)
 		{
@@ -492,7 +492,7 @@ public class XMLMerger
 			{
 				Element eRep = (Element)lst.item(0);
 				String name = eRep.getAttribute("name");
-				Element e = m_tab.get(name) ;
+				Element e = tab.get(name) ;
 				if (e != null)
 				{
 					String length = e.getAttribute("length") ;

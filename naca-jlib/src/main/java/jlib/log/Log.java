@@ -29,7 +29,7 @@ public class Log
 	//private ArrayList ms_arrExclude = null;
 	private static StopWatch ms_processStopWatch = new StopWatch();
 //	private static Hashtable<String, LogChannelSetting> ms_hashSettings = new Hashtable<String, LogChannelSetting>();
-	//private static String m_csChannel = null;
+	//private static String csChannel = null;
 	
 	Log()
 	{	
@@ -134,12 +134,12 @@ public class Log
  */
 	synchronized public static void setRunId(String csChannel, String csRunId)
 	{
-		if(m_arrLogCenter != null)
+		if(arrLogCenter != null)
 		{
-			int nNbLogCenter = m_arrLogCenter.size();
+			int nNbLogCenter = arrLogCenter.size();
 			for(int n=0; n<nNbLogCenter; n++)
 			{
-				LogCenter logCenter = m_arrLogCenter.get(n);
+				LogCenter logCenter = arrLogCenter.get(n);
 				if (logCenter.getChannel().equals(csChannel) || csChannel==null)
 					logCenter.setRunId(csRunId);				
 			}
@@ -158,12 +158,12 @@ public class Log
  */
 	synchronized public static void setRuntimeId(String csChannel, String csRuntimeId)
 	{
-		if(m_arrLogCenter != null)
+		if(arrLogCenter != null)
 		{
-			int nNbLogCenter = m_arrLogCenter.size();
+			int nNbLogCenter = arrLogCenter.size();
 			for(int n=0; n<nNbLogCenter; n++)
 			{
-				LogCenter logCenter = m_arrLogCenter.get(n);
+				LogCenter logCenter = arrLogCenter.get(n);
 				if (logCenter.getChannel().equals(csChannel) || csChannel==null)
 					logCenter.setRuntimeId(csRuntimeId);				
 			}
@@ -177,12 +177,12 @@ public class Log
  */		
 	synchronized public static String getRunId(String csChannel)
 	{
-		if(m_arrLogCenter != null)
+		if(arrLogCenter != null)
 		{
-			int nNbLogCenter = m_arrLogCenter.size();
+			int nNbLogCenter = arrLogCenter.size();
 			for(int n=0; n<nNbLogCenter; n++)
 			{
-				LogCenter logCenter = m_arrLogCenter.get(n);
+				LogCenter logCenter = arrLogCenter.get(n);
 				if (logCenter.getChannel().equals(csChannel))
 					return logCenter.getRunId();				
 			}
@@ -196,12 +196,12 @@ public class Log
  */	
 	synchronized public static String getRuntimeId(String csChannel)
 	{
-		if(m_arrLogCenter != null)
+		if(arrLogCenter != null)
 		{
-			int nNbLogCenter = m_arrLogCenter.size();
+			int nNbLogCenter = arrLogCenter.size();
 			for(int n=0; n<nNbLogCenter; n++)
 			{
-				LogCenter logCenter = m_arrLogCenter.get(n);
+				LogCenter logCenter = arrLogCenter.get(n);
 				if (logCenter.getChannel().equals(csChannel))
 					return logCenter.getRuntimeId();				
 			}
@@ -217,12 +217,12 @@ public class Log
  */	
 	synchronized public static void setProduct(String csChannel, String csProduct)
 	{
-		if(m_arrLogCenter != null)
+		if(arrLogCenter != null)
 		{
-			int nNbLogCenter = m_arrLogCenter.size();
+			int nNbLogCenter = arrLogCenter.size();
 			for(int n=0; n<nNbLogCenter; n++)
 			{
-				LogCenter logCenter = m_arrLogCenter.get(n);
+				LogCenter logCenter = arrLogCenter.get(n);
 				if (logCenter.getChannel().equals(csChannel) || csChannel==null)
 					logCenter.setProduct(csProduct);				
 			}
@@ -235,12 +235,12 @@ public class Log
  */	
 	synchronized public static String getProduct(String csChannel)
 	{
-		if(m_arrLogCenter != null)
+		if(arrLogCenter != null)
 		{
-			int nNbLogCenter = m_arrLogCenter.size();
+			int nNbLogCenter = arrLogCenter.size();
 			for(int n=0; n<nNbLogCenter; n++)
 			{
-				LogCenter logCenter = m_arrLogCenter.get(n);
+				LogCenter logCenter = arrLogCenter.get(n);
 				if (logCenter.getChannel().equals(csChannel))
 					return logCenter.getProduct();				
 			}
@@ -256,12 +256,12 @@ public class Log
  */	
 	synchronized public static void setProcess(String csChannel, String csProcess)
 	{
-		if(m_arrLogCenter != null)
+		if(arrLogCenter != null)
 		{
-			int nNbLogCenter = m_arrLogCenter.size();
+			int nNbLogCenter = arrLogCenter.size();
 			for(int n=0; n<nNbLogCenter; n++)
 			{
-				LogCenter logCenter = m_arrLogCenter.get(n);
+				LogCenter logCenter = arrLogCenter.get(n);
 				if (logCenter.getChannel().equals(csChannel) || csChannel==null)
 					logCenter.setProcess(csProcess);				
 			}
@@ -274,12 +274,12 @@ public class Log
  */	
 	synchronized public static String getProcess(String csChannel)
 	{
-		if(m_arrLogCenter != null)
+		if(arrLogCenter != null)
 		{
-			int nNbLogCenter = m_arrLogCenter.size();
+			int nNbLogCenter = arrLogCenter.size();
 			for(int n=0; n<nNbLogCenter; n++)
 			{
-				LogCenter logCenter = m_arrLogCenter.get(n);
+				LogCenter logCenter = arrLogCenter.get(n);
 				if (logCenter.getChannel().equals(csChannel))
 					return logCenter.getProcess();				
 			}
@@ -346,12 +346,12 @@ public class Log
 	
 	synchronized public static void close()
 	{
-		if(m_arrLogCenter != null)
+		if(arrLogCenter != null)
 		{
-			int nNbLogCenter = m_arrLogCenter.size();
+			int nNbLogCenter = arrLogCenter.size();
 			for(int n=0; n<nNbLogCenter; n++)
 			{
-				LogCenter LogCenter = m_arrLogCenter.get(n);
+				LogCenter LogCenter = arrLogCenter.get(n);
 				LogCenter.close();
 			}
 		}			
@@ -367,20 +367,20 @@ public class Log
 		boolean b = logCenter.doOpen();
 		if(b)
 		{
-			if(m_arrLogCenter == null)
-				m_arrLogCenter = new ArrayList<LogCenter>();
+			if(arrLogCenter == null)
+				arrLogCenter = new ArrayList<LogCenter>();
 			
-			m_arrLogCenter.add(logCenter);
+			arrLogCenter.add(logCenter);
 		}
 	}
 	
 	public synchronized static LogCenterPluginConsole getLogCenterPluginConsole()
 	{
-		if(m_arrLogCenter != null)
+		if(arrLogCenter != null)
 		{
-			for(int n=0; n<m_arrLogCenter.size(); n++)
+			for(int n=0; n<arrLogCenter.size(); n++)
 			{
-				LogCenter logCenter = m_arrLogCenter.get(n);
+				LogCenter logCenter = arrLogCenter.get(n);
 				if(logCenter.getType().equalsIgnoreCase("LogCenterPluginConsole"))
 					return (LogCenterPluginConsole)logCenter;
 			}
@@ -396,7 +396,7 @@ public class Log
 		logCenter.closeLogCenter();
 	}
 	
-	private static ArrayList<LogCenter> m_arrLogCenter = null;
+	private static ArrayList<LogCenter> arrLogCenter = null;
 	
 /**
  * Dispatches the description of to all registered log centers.
@@ -406,7 +406,7 @@ public class Log
  * <ul>
  * 	<li>The event is sent on the channel the <i>LogCenter</i> is listening to.</li>
  * 	<li>The event has a {@link LogFlow} accepted by the <i>LogCenter</i> flow (see protected
- * 	property {@link #m_logFlow}).</li>
+ * 	property {@link #logFlow}).</li>
  * 	<li>The event has a {@link LogLevel} equal or higher than the
  * 	minimal required by the <i>LogCenter</i> (see property {@link getLevel}.</li> 
  * </ul>
@@ -417,12 +417,12 @@ public class Log
 	synchronized static void sendLog(LogParams logParams)
 	{
 		String csOut = "";
-		if(m_arrLogCenter != null)
+		if(arrLogCenter != null)
 		{
-			int nNbLogCenter = m_arrLogCenter.size();
+			int nNbLogCenter = arrLogCenter.size();
 			for(int n=0; n<nNbLogCenter; n++)
 			{
-				LogCenter LogCenter = m_arrLogCenter.get(n);
+				LogCenter LogCenter = arrLogCenter.get(n);
 				LogCenter.output(logParams);				
 			}
 		}

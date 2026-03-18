@@ -24,7 +24,7 @@ public class BatchSession extends BaseSession
 		
 	public BaseEnvironment createEnvironment(DbConnectionManagerBase connectionManager)
 	{
-		BatchEnvironment env = new BatchEnvironment(this, connectionManager, m_baseResourceManager);
+		BatchEnvironment env = new BatchEnvironment(this, connectionManager, baseResourceManager);
 		return env;
 	}
 	

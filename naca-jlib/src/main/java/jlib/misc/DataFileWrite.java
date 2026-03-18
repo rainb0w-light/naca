@@ -11,14 +11,14 @@ import java.nio.channels.*;
 
 public class DataFileWrite extends BaseDataFileBuffered
 {
-	private BufferedOutputStream m_out = null;
-	private FileLock m_outLock = null;
-	private boolean m_bMustWriteFileHeader = false;
+	private BufferedOutputStream out = null;
+	private FileLock outLock = null;
+	private boolean bMustWriteFileHeader = false;
 	
 	public DataFileWrite(String csName, boolean bMustWriteFileHeader)
 	{
-		m_csName = csName;
-		m_bMustWriteFileHeader = bMustWriteFileHeader;
+		csName = csName;
+		bMustWriteFileHeader = bMustWriteFileHeader;
 	}
 		
 	public boolean open(String csName)
@@ -48,11 +48,11 @@ public class DataFileWrite extends BaseDataFileBuffered
 		try
 		{
 			FileOutputStream fileOutput = new FileOutputStream(getName(), bAppend);
-			m_out = new BufferedOutputStream(new DataOutputStream(fileOutput));
+			out = new BufferedOutputStream(new DataOutputStream(fileOutput));
 			FileChannel outChannel = fileOutput.getChannel();
 			try
 			{
-				m_outLock = outChannel.lock();
+				outLock = outChannel.lock();
 			}
 			catch(IOException e)
 			{
@@ -82,7 +82,7 @@ public class DataFileWrite extends BaseDataFileBuffered
 				logicalFileDescriptor.readFileHeader(this);
 			else 	// Create a new file
 			{
-				if(m_bMustWriteFileHeader)	// open the file in output not append with writing file header 
+				if(bMustWriteFileHeader)	// open the file in output not append with writing file header 
 					logicalFileDescriptor.writeFileHeader(this);
 			}				
 		}
@@ -93,15 +93,15 @@ public class DataFileWrite extends BaseDataFileBuffered
 	{
 		try
 		{
-			if(m_out != null)
+			if(out != null)
 			{
-				if(m_outLock != null)
+				if(outLock != null)
 				{
-					m_outLock.release();
-					m_outLock = null;
+					outLock.release();
+					outLock = null;
 				}
-				m_out.close();
-				m_out = null;
+				out.close();
+				out = null;
 				return true;
 			}
 		}
@@ -116,9 +116,9 @@ public class DataFileWrite extends BaseDataFileBuffered
 	{
 		try
 		{
-			if(m_out != null)
+			if(out != null)
 			{
-				m_out.flush();
+				out.flush();
 				return true;
 			}
 		}
@@ -131,18 +131,18 @@ public class DataFileWrite extends BaseDataFileBuffered
 
 	public boolean isOpen()
 	{
-		if(m_out != null)
+		if(out != null)
 			return true;
 		return false;
 	}
 	
 	public String toString()
 	{
-		String cs = m_csName + " (";
+		String cs = csName + " (";
 		if(isOpen())
 		{
 			cs += "Open";
-			if(m_out != null)
+			if(out != null)
 				cs += " Write";
 		}
 		else
@@ -157,11 +157,11 @@ public class DataFileWrite extends BaseDataFileBuffered
 	{
 		if(tBytes != null)
 		{
-			if(m_out != null)
+			if(out != null)
 			{
 				try
 				{
-					m_out.write(tBytes, nOffset, nLength);
+					out.write(tBytes, nOffset, nLength);
 				}
 				catch (IOException e)
 				{
@@ -175,12 +175,12 @@ public class DataFileWrite extends BaseDataFileBuffered
 	public void writeRecord(String cs)
 	{
 		int nLg = cs.length();
-		if(m_out != null)
+		if(out != null)
 		{
 			try
 			{
-				m_out.write(cs.getBytes(), 0, nLg);
-				m_out.write((char)FileEndOfLine.LF);
+				out.write(cs.getBytes(), 0, nLg);
+				out.write((char)FileEndOfLine.LF);
 			}
 			catch (IOException e)
 			{
@@ -194,11 +194,11 @@ public class DataFileWrite extends BaseDataFileBuffered
 	{
 		if(tBytes != null)
 		{
-			if(m_out != null)
+			if(out != null)
 			{
 				try
 				{
-					m_out.write(tBytes, 0, tBytes.length);
+					out.write(tBytes, 0, tBytes.length);
 				}
 				catch (IOException e)
 				{
@@ -213,19 +213,19 @@ public class DataFileWrite extends BaseDataFileBuffered
 	{
 		if(tBytes != null)
 		{
-			if(m_out != null)
+			if(out != null)
 			{
 				try
 				{
 					if(nSize+1 < tBytes.length)
 					{
 						tBytes[nSize] = FileEndOfLine.LF;
-						m_out.write(tBytes, 0, nSize+1);
+						out.write(tBytes, 0, nSize+1);
 					}
 					else
 					{
-						m_out.write(tBytes, 0, nSize);
-						m_out.write(FileEndOfLine.LF);
+						out.write(tBytes, 0, nSize);
+						out.write(FileEndOfLine.LF);
 					}
 				}
 				catch (IOException e)
@@ -239,12 +239,12 @@ public class DataFileWrite extends BaseDataFileBuffered
 	
 	public void writeWithEOL(LineRead lineRead)
 	{
-		if(m_out != null)
+		if(out != null)
 		{
 			try
 			{
-				m_out.write(lineRead.getBuffer(), lineRead.getOffset(), lineRead.getTotalLength());
-				m_out.write(FileEndOfLine.LF);
+				out.write(lineRead.getBuffer(), lineRead.getOffset(), lineRead.getTotalLength());
+				out.write(FileEndOfLine.LF);
 			}
 			catch (IOException e)
 			{
@@ -256,11 +256,11 @@ public class DataFileWrite extends BaseDataFileBuffered
 	
 	public void writeEndOfRecordMarker()
 	{
-		if(m_out != null)
+		if(out != null)
 		{
 			try
 			{
-				m_out.write(FileEndOfLine.LF);
+				out.write(FileEndOfLine.LF);
 			}
 			catch (IOException e)
 			{

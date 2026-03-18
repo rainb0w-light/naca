@@ -27,7 +27,7 @@ import utils.Transcoder;
 public class CFPacDoSubr extends CFPacElement
 {
 
-	private CIdentifier m_idSubr;
+	private CIdentifier idSubr;
 
 	/**
 	 * @param line
@@ -59,8 +59,8 @@ public class CFPacDoSubr extends CFPacElement
 			return false ;
 		}
 		
-		m_idSubr = ReadIdentifier() ;
-		if (m_idSubr == null)
+		idSubr = ReadIdentifier() ;
+		if (idSubr == null)
 		{
 			Transcoder.logError(getLine(), "Expecting IDENTIFIER after DOSUBR-") ;
 			return false ;
@@ -74,7 +74,7 @@ public class CFPacDoSubr extends CFPacElement
 	@Override
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		CEntityCallFunction call = factory.NewEntityCallFunction(getLine(), m_idSubr.GetName(), null, null)  ;
+		CEntityCallFunction call = factory.NewEntityCallFunction(getLine(), idSubr.GetName(), null, null)  ;
 		parent.AddChild(call) ;
 		return call ;
 	}
@@ -86,7 +86,7 @@ public class CFPacDoSubr extends CFPacElement
 	protected Element ExportCustom(Document root)
 	{
 		Element e = root.createElement("DoSubr") ;
-		m_idSubr.ExportTo(e, root);
+		idSubr.ExportTo(e, root);
 		return e ;
 	}
 

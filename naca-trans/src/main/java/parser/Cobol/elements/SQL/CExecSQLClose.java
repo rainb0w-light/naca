@@ -40,13 +40,13 @@ public class CExecSQLClose extends CBaseExecSQLAction
 	public Element ExportCustom(Document root)
 	{
 		Element e = root.createElement("SQLCloseCursor") ;
-		e.setAttribute("Name", m_csCursorName);
+		e.setAttribute("Name", csCursorName);
 		return e;
 	}
 
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		CEntitySQLCursor cur = factory.m_ProgramCatalog.GetSQLCursor(m_csCursorName) ;
+		CEntitySQLCursor cur = factory.programCatalog.GetSQLCursor(csCursorName) ;
 		if (cur != null)
 		{
 			CEntitySQLCloseStatement eSQL = factory.NewEntitySQLCloseStatement(getLine(), cur) ;
@@ -66,7 +66,7 @@ public class CExecSQLClose extends CBaseExecSQLAction
 			CBaseToken tok = GetCurrentToken() ;
 			if (tok.GetType() == CTokenType.IDENTIFIER)
 			{
-				m_csCursorName = new String(tok.GetValue());
+				csCursorName = new String(tok.GetValue());
 			}
 			if (tok.GetKeyword() == CCobolKeywordList.END_EXEC)
 			{
@@ -78,7 +78,7 @@ public class CExecSQLClose extends CBaseExecSQLAction
 		return true ; 	
 	}
 	
-	private String m_csCursorName = null;
+	private String csCursorName = null;
 
 
 }

@@ -23,7 +23,7 @@ import jlib.xml.Tag;
  */
 public class DbTransfer
 {
-	private DbTransferDesc m_dbTransferDesc = null;
+	private DbTransferDesc dbTransferDesc = null;
 	
 	public DbTransfer()
 	{
@@ -37,12 +37,12 @@ public class DbTransfer
 			Tag tagDbTransfer = tagRoot.getChild("DBTR");
 			if(tagDbTransfer != null)
 			{
-				m_dbTransferDesc = new DbTransferDesc();
-				boolean b = m_dbTransferDesc.load(tagDbTransfer);
+				dbTransferDesc = new DbTransferDesc();
+				boolean b = dbTransferDesc.load(tagDbTransfer);
 				if(b)
-					b = m_dbTransferDesc.getTablesList(env);
+					b = dbTransferDesc.getTablesList(env);
 				if(b)
-					b = m_dbTransferDesc.doTransfers(env);
+					b = dbTransferDesc.doTransfers(env);
 				if(b)
 					return 0;
 			}

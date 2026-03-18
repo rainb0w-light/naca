@@ -26,31 +26,31 @@ public class NumericValue
 	
 	void set(boolean bSigned, int nNbDigitInteger, int nNbDigitDecimal)
 	{
-		m_bSigned = bSigned;
-		m_nNbDigitInteger = nNbDigitInteger;
-		m_nNbDigitDecimal = nNbDigitDecimal;
-		m_bSignSeparated = false;
-		m_bSignLeading = false;
-		m_nComp = 0;
+		bSigned = bSigned;
+		nNbDigitInteger = nNbDigitInteger;
+		nNbDigitDecimal = nNbDigitDecimal;
+		bSignSeparated = false;
+		bSignLeading = false;
+		nComp = 0;
 	}
 	
 	NumericValue(NumericValue master)
 	{
-		m_bSigned = master.m_bSigned;
-		m_nNbDigitInteger = master.m_nNbDigitInteger;
-		m_nNbDigitDecimal = master.m_nNbDigitDecimal;
-		m_nComp = master.m_nComp;
-		m_bSignSeparated = master.m_bSignSeparated;
-		m_bSignLeading = master.m_bSignLeading;
+		bSigned = master.bSigned;
+		nNbDigitInteger = master.nNbDigitInteger;
+		nNbDigitDecimal = master.nNbDigitDecimal;
+		nComp = master.nComp;
+		bSignSeparated = master.bSignSeparated;
+		bSignLeading = master.bSignLeading;
 	}
 	
 	VarDefBuffer createVarDefFPacNum(VarDefBase varDefParent, DeclareType9 declareType9)
 	{
-		if(m_nComp == -3)	// Comp-3 specified: 2 digits by char (1 by nibble), with the sign in the rightmost nibble
+		if(nComp == -3)	// Comp-3 specified: 2 digits by char (1 by nibble), with the sign in the rightmost nibble
 		{
-			if(m_bSigned)
+			if(bSigned)
 			{
-				if(m_nNbDigitDecimal == 0)
+				if(nNbDigitDecimal == 0)
 				{
 					if(isIntEnough())
 						return new VarDefFPacNumIntSignComp3(varDefParent, declareType9, this);
@@ -62,13 +62,13 @@ public class NumericValue
 	
 	VarDefBuffer createVarDef(VarDefBase varDefParent, DeclareType9 declareType9)
 	{
-		if(m_nComp == 0)	// No Comp-... specified: 1 char is a digit, except maybe the sign that may be embbed in the last char	
+		if(nComp == 0)	// No Comp-... specified: 1 char is a digit, except maybe the sign that may be embbed in the last char	
 		{
-			if(m_nNbDigitDecimal == 0)
+			if(nNbDigitDecimal == 0)
 			{
-				if(m_bSigned && m_bSignSeparated)
+				if(bSigned && bSignSeparated)
 				{
-					if(m_bSignLeading)
+					if(bSignLeading)
 					{
 						if(isIntEnough())
 							return new VarDefNumIntSignLeadingComp0(varDefParent, declareType9, this);
@@ -83,7 +83,7 @@ public class NumericValue
 							return new VarDefNumIntSignTrailingComp0Long(varDefParent, declareType9, this);
 					}
 				}
-				else if(m_bSigned)
+				else if(bSigned)
 				{
 					if(isIntEnough())
 						return new VarDefNumIntSignComp0(varDefParent, declareType9, this);
@@ -100,24 +100,24 @@ public class NumericValue
 			}
 			else
 			{
-				if(m_bSigned && m_bSignSeparated)
+				if(bSigned && bSignSeparated)
 				{
-					if(m_bSignLeading)
+					if(bSignLeading)
 						return new VarDefNumDecSignLeadingComp0(varDefParent, declareType9, this);
 					else	// Trailing
 						return new VarDefNumDecSignTrailingComp0(varDefParent, declareType9, this);
 				}
-				else if(m_bSigned)
+				else if(bSigned)
 					return new VarDefNumDecSignComp0(varDefParent, declareType9, this);
 				else
 					return new VarDefNumDecComp0(varDefParent, declareType9, this);
 			}
 		}
-		else if(m_nComp == -3)	// Comp-3 specified: 2 digits by char (1 by nibble), with the sign in the rightmost nibble
+		else if(nComp == -3)	// Comp-3 specified: 2 digits by char (1 by nibble), with the sign in the rightmost nibble
 		{
-			if(!m_bSigned)
+			if(!bSigned)
 			{
-				if(m_nNbDigitDecimal == 0)
+				if(nNbDigitDecimal == 0)
 				{
 					if(isIntEnough())
 						return new VarDefNumIntComp3(varDefParent, declareType9, this);
@@ -129,7 +129,7 @@ public class NumericValue
 			}
 			else
 			{
-				if(m_nNbDigitDecimal == 0)
+				if(nNbDigitDecimal == 0)
 				{
 					if(isIntEnough())
 						return new VarDefNumIntSignComp3(varDefParent, declareType9, this);
@@ -140,11 +140,11 @@ public class NumericValue
 					return new VarDefNumDecSignComp3(varDefParent, declareType9, this);
 			}
 		}
-		else if(m_nComp == -4)	// Binary
+		else if(nComp == -4)	// Binary
 		{
-			if(m_nNbDigitDecimal == 0)
+			if(nNbDigitDecimal == 0)
 			{
-				if(!m_bSigned)
+				if(!bSigned)
 				{
 					if(isIntEnough())
 						return new VarDefNumIntComp4(varDefParent, declareType9, this);
@@ -161,7 +161,7 @@ public class NumericValue
 			}
 			else 
 			{
-				if(!m_bSigned)
+				if(!bSigned)
 					return new VarDefNumDecComp4(varDefParent, declareType9, this);
 				else
 					return new VarDefNumDecSignComp4(varDefParent, declareType9, this);
@@ -172,25 +172,25 @@ public class NumericValue
 	
 	private boolean isIntEnough()
 	{
-		return IntLongDeterminator.isIntEnough(m_nNbDigitInteger);
+		return IntLongDeterminator.isIntEnough(nNbDigitInteger);
 	}
 	
 	VarNum createVar(DeclareType9 declareType9)
 	{		
-		if(m_nComp == 0)
+		if(nComp == 0)
 		{
-			if(!m_bSigned)
+			if(!bSigned)
 			{
 				if(isIntEnough())
 				{
-					if(m_nNbDigitDecimal == 0)
+					if(nNbDigitDecimal == 0)
 						return new VarNumIntComp0(declareType9);
 					else
 						return new VarNumDecComp0(declareType9);
 				}
 				else
 				{
-					if(m_nNbDigitDecimal == 0)
+					if(nNbDigitDecimal == 0)
 						return new VarNumIntComp0Long(declareType9);
 					else
 						return new VarNumDecComp0Long(declareType9);
@@ -198,11 +198,11 @@ public class NumericValue
 			}
 			else
 			{
-				if(m_nNbDigitDecimal == 0)
+				if(nNbDigitDecimal == 0)
 				{
-					if(m_bSignSeparated)
+					if(bSignSeparated)
 					{
-						if(m_bSignLeading)
+						if(bSignLeading)
 							return new VarNumIntSignLeadingComp0(declareType9);
 						else
 							return new VarNumIntSignTrailingComp0(declareType9);
@@ -212,9 +212,9 @@ public class NumericValue
 				}
 				else
 				{
-					if(m_bSignSeparated)
+					if(bSignSeparated)
 					{
-						if(m_bSignLeading)
+						if(bSignLeading)
 							return new VarNumDecSignLeadingComp0(declareType9);
 						else
 							return new VarNumDecSignTrailingComp0(declareType9);
@@ -224,28 +224,28 @@ public class NumericValue
 				}
 			}
 		}
-		else if(m_nComp == -3)
+		else if(nComp == -3)
 		{
-			if(!m_bSigned)
+			if(!bSigned)
 			{
-				if(m_nNbDigitDecimal == 0)
+				if(nNbDigitDecimal == 0)
 					return new VarNumIntComp3(declareType9);
 				else
 					return new VarNumDecComp3(declareType9);
 			}
 			else
 			{
-				if(m_nNbDigitDecimal == 0)
+				if(nNbDigitDecimal == 0)
 					return new VarNumIntSignComp3(declareType9);
 				else
 					return new VarNumDecSignComp3(declareType9);
 			}
 		}
-		else if(m_nComp == -4)
+		else if(nComp == -4)
 		{
-			if(m_nNbDigitDecimal == 0)
+			if(nNbDigitDecimal == 0)
 			{
-				if(!m_bSigned)
+				if(!bSigned)
 				{
 					if(isIntEnough())
 						return new VarNumIntComp4(declareType9);
@@ -262,7 +262,7 @@ public class NumericValue
 			}
 			else
 			{
-				if(!m_bSigned)
+				if(!bSigned)
 					return new VarNumDecComp4(declareType9);
 				else
 					return new VarNumDecSignComp4(declareType9);
@@ -273,15 +273,15 @@ public class NumericValue
 
 	void setSignLeadingSeparated(boolean bLeading)
 	{
-		m_bSigned = true;
-		m_bSignSeparated = true;
-		m_bSignLeading = bLeading;
+		bSigned = true;
+		bSignSeparated = true;
+		bSignLeading = bLeading;
 	}
 	
-	boolean m_bSigned = false;
-	boolean m_bSignSeparated = false;
-	boolean m_bSignLeading = false;
-	int m_nComp = 0;
-	int m_nNbDigitInteger = 0; 
-	int m_nNbDigitDecimal = 0;
+	boolean bSigned = false;
+	boolean bSignSeparated = false;
+	boolean bSignLeading = false;
+	int nComp = 0;
+	int nNbDigitInteger = 0; 
+	int nNbDigitDecimal = 0;
 }

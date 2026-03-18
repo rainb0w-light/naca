@@ -61,10 +61,10 @@ public class CSet extends CCobolElement
 	 */
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		if (m_AddressOfFrom != null && m_AddressOfTo != null)
+		if (addressOfFrom != null && addressOfTo != null)
 		{
-			CDataEntity eFrom = m_AddressOfFrom.GetDataReference(getLine(), factory);
-			CDataEntity eTo = m_AddressOfTo.GetDataReference(getLine(), factory);
+			CDataEntity eFrom = addressOfFrom.GetDataReference(getLine(), factory);
+			CDataEntity eTo = addressOfTo.GetDataReference(getLine(), factory);
 			CEntityAddressReference eAddFrom = factory.NewEntityAddressReference(eFrom);
 			CEntityAddressReference eAddTo = factory.NewEntityAddressReference(eTo);
 			CEntityMoveReference eMove = factory.NewEntityMoveReference(getLine()) ;
@@ -72,19 +72,19 @@ public class CSet extends CCobolElement
 			parent.AddChild(eMove);
 			return eMove;
 		}
-		else if (m_arrIdTo.size()>0)
+		else if (arrIdTo.size()>0)
 		{
-			//CBaseDataEntity eTo = m_IdTo.GetDataReference(factory);
-			if (m_ValFrom != null)
+			//CBaseDataEntity eTo = idTo.GetDataReference(factory);
+			if (valFrom != null)
 			{
-				if (m_ValFrom.IsReference())
+				if (valFrom.IsReference())
 				{
-					CDataEntity eFrom = m_ValFrom.GetDataEntity(getLine(), factory) ;
+					CDataEntity eFrom = valFrom.GetDataEntity(getLine(), factory) ;
 					CEntityAssign eAssign = factory.NewEntityAssign(getLine());
 					eAssign.SetValue(eFrom);
-					for (int i=0; i<m_arrIdTo.size(); i++)
+					for (int i=0; i<arrIdTo.size(); i++)
 					{
-						CIdentifier idTo = m_arrIdTo.get(i);
+						CIdentifier idTo = arrIdTo.get(i);
 						CDataEntity eTo = idTo.GetDataReference(getLine(), factory);
 						eAssign.AddRefTo(eTo);
 					}
@@ -93,14 +93,14 @@ public class CSet extends CCobolElement
 				}
 				else
 				{
-					for (int i=0; i<m_arrIdTo.size(); i++)
+					for (int i=0; i<arrIdTo.size(); i++)
 					{
-						CIdentifier idTo = m_arrIdTo.get(i);
+						CIdentifier idTo = arrIdTo.get(i);
 						CDataEntity eTo = idTo.GetDataReference(getLine(), factory);
-						CBaseActionEntity eAssign = eTo.GetSpecialAssignment(m_ValFrom, factory, i) ;
+						CBaseActionEntity eAssign = eTo.GetSpecialAssignment(valFrom, factory, i) ;
 						if (eAssign == null)
 						{
-							CDataEntity eVal = m_ValFrom.GetDataEntity(getLine(), factory);
+							CDataEntity eVal = valFrom.GetDataEntity(getLine(), factory);
 							CEntityAssign eAssgn = factory.NewEntityAssign(getLine());
 							eAssgn.SetValue(eVal);
 							eAssgn.AddRefTo(eTo);
@@ -114,28 +114,28 @@ public class CSet extends CCobolElement
 					return parent; 
 				}
 			}
-			else if (m_DownByValue != null)
+			else if (downByValue != null)
 			{
-				for (int i=0; i<m_arrIdTo.size(); i++)
+				for (int i=0; i<arrIdTo.size(); i++)
 				{
-					CIdentifier idTo = m_arrIdTo.get(i);
+					CIdentifier idTo = arrIdTo.get(i);
 					CDataEntity eTo = idTo.GetDataReference(getLine(), factory);
 					CEntitySubtractTo eSub = factory.NewEntitySubtractTo(getLine());
-					CDataEntity val = m_DownByValue.GetDataEntity(getLine(), factory);
+					CDataEntity val = downByValue.GetDataEntity(getLine(), factory);
 					List<CDataEntity> dest = Collections.emptyList();
 					eSub.SetSubstract(eTo, Arrays.asList(val), dest) ;
 					parent.AddChild(eSub);
 				}
 				return null ;
 			}
-			else if (m_UpByValue != null)
+			else if (upByValue != null)
 			{
-				for (int i=0; i<m_arrIdTo.size(); i++)
+				for (int i=0; i<arrIdTo.size(); i++)
 				{
-					CIdentifier idTo = m_arrIdTo.get(i);
+					CIdentifier idTo = arrIdTo.get(i);
 					CDataEntity eTo = idTo.GetDataReference(getLine(), factory);
 					CEntityAddTo eAdd = factory.NewEntityAddTo(getLine());
-					CDataEntity val = m_UpByValue.GetDataEntity(getLine(), factory);
+					CDataEntity val = upByValue.GetDataEntity(getLine(), factory);
 					eAdd.SetAddValue(val) ;
 					eAdd.SetAddDest(eTo) ;
 					parent.AddChild(eAdd);
@@ -157,7 +157,7 @@ public class CSet extends CCobolElement
 		{
 			return false ;
 		}
-		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().m_Name) ;
+		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
 		tok = GetNext(); 
 		if (tok.GetKeyword() == CCobolKeywordList.ADDRESS)
 		{
@@ -168,7 +168,7 @@ public class CSet extends CCobolElement
 				return false ;
 			}
 			tok = GetNext() ;
-			m_AddressOfTo = ReadIdentifier() ;
+			addressOfTo = ReadIdentifier() ;
 		}
 		else
 		{
@@ -177,7 +177,7 @@ public class CSet extends CCobolElement
 				CIdentifier idTo = ReadIdentifier() ;
 				if (idTo != null)
 				{
-					m_arrIdTo.add(idTo);
+					arrIdTo.add(idTo);
 				}
 				else
 				{
@@ -199,11 +199,11 @@ public class CSet extends CCobolElement
 					return false ;
 				}
 				tok = GetNext() ;
-				m_AddressOfFrom = ReadIdentifier() ;
+				addressOfFrom = ReadIdentifier() ;
 			}
 			else
 			{
-				m_ValFrom = ReadTerminal();
+				valFrom = ReadTerminal();
 			}
 		}
 		else if (tok.GetKeyword() == CCobolKeywordList.DOWN)
@@ -213,7 +213,7 @@ public class CSet extends CCobolElement
 			{
 				tok = GetNext();
 			}
-			m_DownByValue = ReadTerminal();
+			downByValue = ReadTerminal();
 		}
 		else if (tok.GetKeyword() == CCobolKeywordList.UP)
 		{
@@ -222,7 +222,7 @@ public class CSet extends CCobolElement
 			{
 				tok = GetNext();
 			}
-			m_UpByValue = ReadTerminal();
+			upByValue = ReadTerminal();
 		}
 		else
 		{
@@ -238,58 +238,58 @@ public class CSet extends CCobolElement
 	protected Element ExportCustom(Document root)
 	{
 		Element eSet = root.createElement("Set") ;
-		if (m_arrIdTo.size()>0)
+		if (arrIdTo.size()>0)
 		{
-			for (int i=0; i<m_arrIdTo.size();i++)
+			for (int i=0; i<arrIdTo.size();i++)
 			{
 				Element eTo = root.createElement("Variable")  ;
 				eSet.appendChild(eTo);
-				CIdentifier idTo = m_arrIdTo.get(i); 
+				CIdentifier idTo = arrIdTo.get(i); 
 				idTo.ExportTo(eTo, root) ;
 			}
 		}
-		else if (m_AddressOfTo != null)
+		else if (addressOfTo != null)
 		{
 			Element eTo = root.createElement("Variable")  ;
 			eSet.appendChild(eTo);
 			Element eAdd = root.createElement("AddressOf");
 			eTo.appendChild(eAdd) ;
-			m_AddressOfTo.ExportTo(eAdd, root) ;
+			addressOfTo.ExportTo(eAdd, root) ;
 		}
-		if (m_DownByValue == null && m_UpByValue == null)
+		if (downByValue == null && upByValue == null)
 		{
 			Element eFrom = root.createElement("From") ;
 			eSet.appendChild(eFrom) ;
-			if (m_ValFrom != null)
+			if (valFrom != null)
 			{
-				m_ValFrom.ExportTo(eFrom, root) ;
+				valFrom.ExportTo(eFrom, root) ;
 			}
-			else if (m_AddressOfFrom != null)
+			else if (addressOfFrom != null)
 			{
 				Element eAdd = root.createElement("AddressOf");
 				eFrom.appendChild(eAdd) ;
-				m_AddressOfFrom.ExportTo(eAdd, root) ;
+				addressOfFrom.ExportTo(eAdd, root) ;
 			}
 		}
-		else if (m_DownByValue != null && m_UpByValue == null)
+		else if (downByValue != null && upByValue == null)
 		{
 			Element e = root.createElement("DownByValue");
 			eSet.appendChild(e);
-			m_DownByValue.ExportTo(e, root) ;
+			downByValue.ExportTo(e, root) ;
 		}
-		else if (m_DownByValue == null && m_UpByValue != null)
+		else if (downByValue == null && upByValue != null)
 		{
 			Element e = root.createElement("UpByValue");
 			eSet.appendChild(e);
-			m_UpByValue.ExportTo(e, root) ;
+			upByValue.ExportTo(e, root) ;
 		}
 		return eSet ;
 	}
 
-	protected CIdentifier m_AddressOfFrom = null ;
-	protected CIdentifier m_AddressOfTo = null ;
-	protected CTerminal m_ValFrom = null ;
-	protected Vector<CIdentifier> m_arrIdTo = new Vector<CIdentifier>() ;
-	protected CTerminal m_DownByValue = null ;
-	protected CTerminal m_UpByValue = null ;
+	protected CIdentifier addressOfFrom = null ;
+	protected CIdentifier addressOfTo = null ;
+	protected CTerminal valFrom = null ;
+	protected Vector<CIdentifier> arrIdTo = new Vector<CIdentifier>() ;
+	protected CTerminal downByValue = null ;
+	protected CTerminal upByValue = null ;
 }

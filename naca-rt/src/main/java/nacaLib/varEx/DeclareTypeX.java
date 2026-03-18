@@ -22,9 +22,9 @@ package nacaLib.varEx;
 
 public class DeclareTypeX extends DeclareTypeBase
 {		
-	private int m_nLength = 0;
-	private boolean m_bJustifyRight = false;
-	private CInitialValue m_InitialValue = null;
+	private int nLength = 0;
+	private boolean bJustifyRight = false;
+	private CInitialValue initialValue = null;
 	
 	public DeclareTypeX()
 	{
@@ -33,19 +33,19 @@ public class DeclareTypeX extends DeclareTypeBase
 	public void set(VarLevel varLevel, int nLength)
 	{
 		super.set(varLevel);
-		m_nLength = nLength;
-		m_bJustifyRight = false;
-		m_InitialValue = null;
+		nLength = nLength;
+		bJustifyRight = false;
+		initialValue = null;
 	}
 	
 	int getLength()
 	{
-		return m_nLength;
+		return nLength;
 	}
 	
 	boolean getJustifyRight()
 	{
-		return m_bJustifyRight;
+		return bJustifyRight;
 	}
 	
 	public VarAlphaNum var()
@@ -75,64 +75,64 @@ public class DeclareTypeX extends DeclareTypeBase
 	public DeclareTypeX value(String cs)
 	{
 		if(getProgramManager().isFirstInstance())
-			m_InitialValue = new CInitialValue(cs, false);
+			initialValue = new CInitialValue(cs, false);
 		return this;
 	}
 	
 	public DeclareTypeX valueAll(char c)
 	{
 		if(getProgramManager().isFirstInstance())
-			m_InitialValue = new CInitialValue(c, true);
+			initialValue = new CInitialValue(c, true);
 		return this;
 	}
 
 	public DeclareTypeX valueAll(String cs)
 	{
 		if(getProgramManager().isFirstInstance())
-			m_InitialValue = new CInitialValue(cs, true);
+			initialValue = new CInitialValue(cs, true);
 		return this;
 	}
 	
 	public DeclareTypeX valueSpaces()
 	{
-		//m_InitialValue = new CInitialValue(CobolConstant.Space.getValue(), true);
+		//initialValue = new CInitialValue(CobolConstant.Space.getValue(), true);
 		if(getProgramManager().isFirstInstance())
-			m_InitialValue = CInitialValueStd.Spaces;
+			initialValue = CInitialValueStd.Spaces;
 		return this;
 	}
 
 	public DeclareTypeX valueZero()
 	{
-		//m_InitialValue = new CInitialValue(CobolConstant.Zero.getValue(), true);
+		//initialValue = new CInitialValue(CobolConstant.Zero.getValue(), true);
 		if(getProgramManager().isFirstInstance())
-			m_InitialValue = CInitialValueStd.Zero;
+			initialValue = CInitialValueStd.Zero;
 		return this;
 	}
 
 	public DeclareTypeX valueHighValue()
 	{
-		//m_InitialValue = new CInitialValue(CobolConstant.HighValue.getValue(), true);
+		//initialValue = new CInitialValue(CobolConstant.HighValue.getValue(), true);
 		if(getProgramManager().isFirstInstance())
-			m_InitialValue = CInitialValueStd.HighValue;
+			initialValue = CInitialValueStd.HighValue;
 		return this;
 	}
 
 	public DeclareTypeX valueLowValue()
 	{
-		//m_InitialValue = new CInitialValue(CobolConstant.LowValue.getValue(), true);
+		//initialValue = new CInitialValue(CobolConstant.LowValue.getValue(), true);
 		if(getProgramManager().isFirstInstance())
-			m_InitialValue = CInitialValueStd.LowValue;
+			initialValue = CInitialValueStd.LowValue;
 		return this;
 	} 
 	
 	public CInitialValue getInitialValue()
 	{
-		return m_InitialValue;
+		return initialValue;
 	}
 	
 	public DeclareTypeX justifyRight()
 	{
-		m_bJustifyRight = true;
+		bJustifyRight = true;
 		return this ;
 	}
 }

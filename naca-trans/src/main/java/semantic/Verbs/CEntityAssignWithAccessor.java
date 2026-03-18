@@ -38,37 +38,37 @@ public abstract class CEntityAssignWithAccessor extends CBaseActionEntity
 	
 	public void SetAssign(CDataEntity e, CDataEntity val)
 	{
-		m_Reference = e ;
-		m_Value = val ;
+		reference = e ;
+		value = val ;
 	}
-	protected CDataEntity m_Reference = null ;
-	protected CDataEntity m_Value = null ;
-	protected boolean m_bFillAll = false ;
+	protected CDataEntity reference = null ;
+	protected CDataEntity value = null ;
+	protected boolean bFillAll = false ;
 	public void Clear()
 	{
 		super.Clear();
-		m_Reference= null ;
-		m_Value = null ;
+		reference= null ;
+		value = null ;
 	}
 	public boolean ignore()
 	{
-		if (m_Reference == null || m_Value == null)
+		if (reference == null || value == null)
 		{
 			return true ;
 		}
-		return m_Reference.ignore() || m_Value.ignore() ;
+		return reference.ignore() || value.ignore() ;
 	}
 	public boolean IgnoreVariable(CDataEntity data)
 	{
-		if (m_Reference == data)
+		if (reference == data)
 		{
-			m_Reference = null ;
+			reference = null ;
 			data.UnRegisterWritingAction(this) ;
 			return true ;
 		}
-		else if (m_Value == data)
+		else if (value == data)
 		{
-			m_Value = null ;
+			value = null ;
 			data.UnRegisterReadingAction(this) ;
 			return true ;
 		}
@@ -76,16 +76,16 @@ public abstract class CEntityAssignWithAccessor extends CBaseActionEntity
 	}
 	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
 	{
-		if (m_Reference == field)
+		if (reference == field)
 		{
-			m_Reference = var ;
+			reference = var ;
 			field.UnRegisterWritingAction(this) ;
 			var.RegisterWritingAction(this) ;
 			return true ;
 		}
-		if (m_Value == field)
+		if (value == field)
 		{
-			m_Value = var ;
+			value = var ;
 			field.UnRegisterReadingAction(this) ;
 			var.RegisterReadingAction(this) ;
 			return true ;
@@ -98,7 +98,7 @@ public abstract class CEntityAssignWithAccessor extends CBaseActionEntity
 	 */
 	public void SetValue(CDataEntity e1)
 	{
-		m_Value = e1 ;
+		value = e1 ;
 	}
 
 	/**
@@ -106,7 +106,7 @@ public abstract class CEntityAssignWithAccessor extends CBaseActionEntity
 	 */
 	public void SetRefTo(CDataEntity e2)
 	{
-		m_Reference = e2 ;
+		reference = e2 ;
 	}
 
 	/**
@@ -114,7 +114,7 @@ public abstract class CEntityAssignWithAccessor extends CBaseActionEntity
 	 */
 	public void SetFillAll(boolean fillAll)
 	{
-		m_bFillAll = fillAll;
+		bFillAll = fillAll;
 	}
 
 }

@@ -25,13 +25,13 @@ public class CurrentDateInfo
 	
 	public long setNow()
 	{
-		m_cal = Calendar.getInstance();
-		return m_cal.getTimeInMillis();
+		cal = Calendar.getInstance();
+		return cal.getTimeInMillis();
 	}
 	
 	public void setYear(int nYear, int nMonth, int nDay, int nHourOfDay, int nMinute, int nSecond)
 	{
-		m_cal.set(nYear, nMonth, nDay, nHourOfDay, nMinute, nSecond);
+		cal.set(nYear, nMonth, nDay, nHourOfDay, nMinute, nSecond);
 	}
 
 	public void setDateDDDotMMDotYYYY(String csDD_MM_YYYY)
@@ -40,7 +40,7 @@ public class CurrentDateInfo
 		int nMonth = NumberParser.getAsInt(csDD_MM_YYYY.substring(3, 5));
 		nMonth--;	// Month is 0 based (January = 0)
 		int nYear = NumberParser.getAsInt(csDD_MM_YYYY.substring(6, 10));
-		m_cal.set(nYear, nMonth, nDay, 0, 0, 0);
+		cal.set(nYear, nMonth, nDay, 0, 0, 0);
 	}
 		
 	public void setHourHHDotMMDotSS(String csHH_MM_SS)
@@ -48,12 +48,12 @@ public class CurrentDateInfo
 		int nHour = NumberParser.getAsInt(csHH_MM_SS.substring(0, 2));
 		int nMinute = NumberParser.getAsInt(csHH_MM_SS.substring(3, 5));
 		int nSecond = NumberParser.getAsInt(csHH_MM_SS.substring(6, 8));
-		m_cal.set(1970, 0, 1, nHour, nMinute, nSecond);
+		cal.set(1970, 0, 1, nHour, nMinute, nSecond);
 	}	
 	
 	public long getTimeInMillis()
 	{
-		return m_cal.getTimeInMillis();
+		return cal.getTimeInMillis();
 	}
 	
 	public long getTimeOffsetFromNow_ms()
@@ -74,7 +74,7 @@ public class CurrentDateInfo
 	
 	public Integer getDateAsIntegerYYYYMMDD()
 	{
-		int n = (m_cal.get(Calendar.YEAR) * 10000) + ((m_cal.get(Calendar.MONTH)+1) *100) + m_cal.get(Calendar.DAY_OF_MONTH);
+		int n = (cal.get(Calendar.YEAR) * 10000) + ((cal.get(Calendar.MONTH)+1) *100) + cal.get(Calendar.DAY_OF_MONTH);
 		Integer iDate = Integer.valueOf(n);
 		return iDate;
 	}
@@ -87,48 +87,48 @@ public class CurrentDateInfo
 	
 	public int getYear()
 	{
-		return m_cal.get(Calendar.YEAR);
+		return cal.get(Calendar.YEAR);
 	}
 	
 	public int getMonth()
 	{
-		return m_cal.get(Calendar.MONTH);
+		return cal.get(Calendar.MONTH);
 	}
 	
 	public int getMonthBase1()
 	{
-		return m_cal.get(Calendar.MONTH)+1;
+		return cal.get(Calendar.MONTH)+1;
 	}
 	
 	public int getDay()
 	{
-		return m_cal.get(Calendar.DAY_OF_MONTH);
+		return cal.get(Calendar.DAY_OF_MONTH);
 	}
 	
 	public int getDayOfWeek()
 	{
-		return m_cal.get(Calendar.DAY_OF_WEEK);
+		return cal.get(Calendar.DAY_OF_WEEK);
 	}
 	
 	public int getHour()
 	{
-		return m_cal.get(Calendar.HOUR_OF_DAY);
+		return cal.get(Calendar.HOUR_OF_DAY);
 	}
 	
 	public int getMinute()
 	{
-		return m_cal.get(Calendar.MINUTE);
+		return cal.get(Calendar.MINUTE);
 	}
 	
 	public int getSecond()
 	{
-		return m_cal.get(Calendar.SECOND);
+		return cal.get(Calendar.SECOND);
 	}
 	
 	public String toString()
 	{
-		return m_cal.toString();
+		return cal.toString();
 	}
 	
-	private Calendar m_cal = null;
+	private Calendar cal = null;
 }

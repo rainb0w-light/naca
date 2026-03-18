@@ -15,27 +15,27 @@ public class OpenMBeanAttributeInfoWrapper
 {
 	public OpenMBeanAttributeInfoWrapper(String csName, String csDescription, OpenMBeanAttributeInfoSupport openType, Method getter, Method setter)
 	{
-		m_openType = openType;
-		m_getter = getter;
-		m_setter = setter;
+		openType = openType;
+		getter = getter;
+		setter = setter;
 	}
 	
 	OpenMBeanAttributeInfo getAttribute()
 	{
-		return m_openType;
+		return openType;
 	}
 	
 	Method getMethodGetter()
 	{
-		return m_getter;
+		return getter;
 	}
 	
 	Method getMethodSetter()
 	{
-		return m_setter;
+		return setter;
 	}
 	
-	private Method m_getter = null;
-	private Method m_setter = null;
-	private OpenMBeanAttributeInfoSupport m_openType = null;
+	private Method getter = null;
+	private Method setter = null;
+	private OpenMBeanAttributeInfoSupport openType = null;
 }

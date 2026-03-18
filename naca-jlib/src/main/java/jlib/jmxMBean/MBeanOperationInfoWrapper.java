@@ -14,21 +14,21 @@ public class MBeanOperationInfoWrapper
 {
 	public MBeanOperationInfoWrapper(String csDescription, Method method)
 	{
-		m_operation = new MBeanOperationInfo(csDescription, method);
-		m_method = method;
+		operation = new MBeanOperationInfo(csDescription, method);
+		method = method;
 	}
 	
 	MBeanOperationInfo getOperation()
 	{
-		return m_operation;
+		return operation;
 	}
 	
 	Method getMethod()
 	{
-		return m_method;
+		return method;
 	}
 	
-	private Method m_method = null;
-	MBeanOperationInfo m_operation = null;
+	private Method method = null;
+	MBeanOperationInfo operation = null;
 
 }

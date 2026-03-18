@@ -53,11 +53,11 @@ public class SQLLoad extends BaseSQLUtils
 
 	SQLLoadStatus executeStatement(IntegerRef rnNbRecord, LoadScriptLineInfo loadInfo)
 	{
-		String csDefaultTablePrefix = m_dbConnection.getEnvironmentPrefix();
+		String csDefaultTablePrefix = dbConnection.getEnvironmentPrefix();
 		String csTableFullName = loadInfo.getFullTableName(csDefaultTablePrefix);
 		
 		BaseDbColDefinitionFactory dbColDefinitionFactory = new BaseDbColDefinitionFactory();
-		ArrayList<BaseDbColDefinition> arrDbColDef = dbColDefinitionFactory.makeArrayDbColDefinitions(m_dbConnection, loadInfo.getTablePrefix(), loadInfo.getUnprefixedTableName());
+		ArrayList<BaseDbColDefinition> arrDbColDef = dbColDefinitionFactory.makeArrayDbColDefinitions(dbConnection, loadInfo.getTablePrefix(), loadInfo.getUnprefixedTableName());
 		if (arrDbColDef != null)
 		{
 			String csFileDataIn = loadInfo.getInddnValue();
@@ -89,7 +89,7 @@ public class SQLLoad extends BaseSQLUtils
 			lockTable(csTableFullName);
 			deleteTable(csTableFullName);
 			if (nBatchCommitSize > 0)
-				m_dbConnection.commit();
+				dbConnection.commit();
 		}
 		
 		FileDescriptor fileDescriptorIn = new FileDescriptor(csLogicalFileDataIn);
@@ -119,8 +119,8 @@ public class SQLLoad extends BaseSQLUtils
 		if(csInsertClause.endsWith(";"))
 			csInsertClause = csInsertClause.substring(0, csInsertClause.length()-1);
 		
-		csInsertClause = SQLTypeOperation.addEnvironmentPrefix(m_dbConnection.getEnvironmentPrefix(), csInsertClause, typeOperation, "");
-		DbPreparedStatement stmt = m_dbConnection.prepareStatement(csInsertClause, 0, false);
+		csInsertClause = SQLTypeOperation.addEnvironmentPrefix(dbConnection.getEnvironmentPrefix(), csInsertClause, typeOperation, "");
+		DbPreparedStatement stmt = dbConnection.prepareStatement(csInsertClause, 0, false);
 		if(stmt == null)
 		{
 			Log.logCritical("Could not prepare statement; SQL load aborted" + csInsertClause);
@@ -168,7 +168,7 @@ public class SQLLoad extends BaseSQLUtils
 				{
 					if (nBatchDone >= nBatchCommitSize)
 					{
-						m_dbConnection.commit();
+						dbConnection.commit();
 						bLockReplace = false;
 						nBatchDone = 0;
 					}
@@ -187,7 +187,7 @@ public class SQLLoad extends BaseSQLUtils
 		}
 		if (globalStatus != SQLLoadStatus.loadFailure && bLoadReplace && nBatchCommitSize > 0 && nBatchDone > 0)
 		{
-			m_dbConnection.commit();
+			dbConnection.commit();
 		}
 		dataFileIn.close();
 		

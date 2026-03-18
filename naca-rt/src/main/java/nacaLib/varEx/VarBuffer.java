@@ -74,15 +74,15 @@ public class VarBuffer extends InternalCharBuffer
 	
 //	public void addMapAssociatedSemanticContext(Edit edit, String csSemanticContext)
 //	{
-//		if(m_arrMapAssociatedSemanticContext == null)
-//			m_arrMapAssociatedSemanticContext = new ArrayList();
+//		if(arrMapAssociatedSemanticContext == null)
+//			arrMapAssociatedSemanticContext = new ArrayList();
 //		CEditSemanticContextMapAssoc EditSemanticContextMapAssoc = new CEditSemanticContextMapAssoc(edit, csSemanticContext);
-//		m_arrMapAssociatedSemanticContext.add(EditSemanticContextMapAssoc);
+//		arrMapAssociatedSemanticContext.add(EditSemanticContextMapAssoc);
 //	}
 	
 	public String toString()
 	{
-		return m_acBuffer.toString();
+		return acBuffer.toString();
 	}
 	
 
@@ -90,7 +90,7 @@ public class VarBuffer extends InternalCharBuffer
 //	{
 //		for(int n=0; n<nNbCharsToCopy; n++, nPositionSource++, nPositionDest++)
 //		{
-//			m_acBuffer[nPositionDest] = m_acBuffer[nPositionSource];
+//			acBuffer[nPositionDest] = acBuffer[nPositionSource];
 //		}
 //		return nPositionDest;
 //	}
@@ -99,26 +99,26 @@ public class VarBuffer extends InternalCharBuffer
 	{
 		for(int n=0; n<nNbCharsToCopy; n++)
 		{
-			m_acBuffer[nPositionDest++] = Source.m_acBuffer[nPositionSource++];
+			acBuffer[nPositionDest++] = Source.acBuffer[nPositionSource++];
 		}
 		return nPositionDest;
 	}
 	
 //	public void copyInternalData(int nPositionDest, VarBufferPos Source, int nNbCharsToCopy)
 //	{
-//		int nPositionSource = Source.m_nAbsolutePosition;
+//		int nPositionSource = Source.nAbsolutePosition;
 //		for(int n=0; n<nNbCharsToCopy; n++)
 //		{
-//			m_acBuffer[nPositionDest++] = Source.m_acBuffer[nPositionSource++];
+//			acBuffer[nPositionDest++] = Source.acBuffer[nPositionSource++];
 //		}
 //	}
 	
 	public void copyBytesFromSource(int nPositionDest, InternalCharBuffer sourceCharBuffer)
 	{
-		int nNbCharsToCopy = sourceCharBuffer.m_acBuffer.length;
+		int nNbCharsToCopy = sourceCharBuffer.acBuffer.length;
 		for(int nSource=0; nSource<nNbCharsToCopy; nSource++, nPositionDest++)
 		{
-			m_acBuffer[nPositionDest] = sourceCharBuffer.m_acBuffer[nSource];
+			acBuffer[nPositionDest] = sourceCharBuffer.acBuffer[nSource];
 		}
 	}
 //	
@@ -129,7 +129,7 @@ public class VarBuffer extends InternalCharBuffer
 //			int nByte = tBytesSource[n];
 //			if(nByte < 0)
 //				nByte += 256; 
-//			m_acBuffer[n] = (char)nByte;
+//			acBuffer[n] = (char)nByte;
 //		}
 //	}
 	
@@ -140,7 +140,7 @@ public class VarBuffer extends InternalCharBuffer
 //			int nByte = tBytesSource[n];
 //			if(nByte < 0)
 //				nByte += 256; 
-//			m_acBuffer[nOffsetDest+n] = (char)nByte;
+//			acBuffer[nOffsetDest+n] = (char)nByte;
 //		}
 //	}
 	
@@ -155,11 +155,11 @@ public class VarBuffer extends InternalCharBuffer
 			int nByte = bufSource[nSourceOffset + n];
 			if(nByte < 0)
 				nByte += 256; 		
-			m_acBuffer[nOffsetDest + n] = (char) nByte;
+			acBuffer[nOffsetDest + n] = (char) nByte;
 		}		
 		if(nSourceLength > 0)
 		{
-			if(m_acBuffer[nOffsetDest + nSourceLength - 1] == FileEndOfLine.LF)
+			if(acBuffer[nOffsetDest + nSourceLength - 1] == FileEndOfLine.LF)
 				return nSourceLength-1;	// Return length excluding ending LF
 		}
 		return nSourceLength;
@@ -167,18 +167,18 @@ public class VarBuffer extends InternalCharBuffer
 	
 	public int getFirstEndOfLinePosition(byte byEOL)
 	{
-		for(int n=0; n<m_acBuffer.length; n++)
+		for(int n=0; n<acBuffer.length; n++)
 		{
-			byte b = (byte)m_acBuffer[n];
+			byte b = (byte)acBuffer[n];
 			if(b == byEOL)
 				return n;
 		}
-		return m_acBuffer.length-1;
+		return acBuffer.length-1;
 	}
 	
 //	public char [] getCharArray()
 //	{
-//		return m_acBuffer;
+//		return acBuffer;
 //	}
 	
 	
@@ -189,7 +189,7 @@ public class VarBuffer extends InternalCharBuffer
 		int n=0; 
 		while(n<nLength)
 		{			
-			char c = m_acBuffer[n+nPosition];
+			char c = acBuffer[n+nPosition];
 			String csHexa = AsciiEbcdicConverter.getHexaValue(c);
 			cs += "0x" + csHexa + " ";
 			n++;

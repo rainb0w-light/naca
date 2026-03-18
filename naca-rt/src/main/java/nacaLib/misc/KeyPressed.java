@@ -24,11 +24,11 @@ public class KeyPressed
 {
 	private KeyPressed(String cs, String name)
 	{
-		m_csValue = cs ;
-		m_csName = name ;
+		csValue = cs ;
+		csName = name ;
 	}
-	public String m_csValue = "" ;
-	public String m_csName = "" ; 
+	public String csValue = "" ;
+	public String csName = "" ; 
 	
 	public static KeyPressed CLEAR = new KeyPressed("_", "CLEAR") ;
 	public static KeyPressed ENTER = new KeyPressed("'", "ENTER") ;
@@ -61,17 +61,17 @@ public class KeyPressed
 	
 	public String getName()
 	{
-		return m_csName;
+		return csName;
 	}
 
 	public String getValue()
 	{
-		return m_csValue;
+		return csValue;
 	}
 	
 	public String getSTCheckValue()
 	{
-		return m_csName;
+		return csName;
 	}	
 	
 	public static KeyPressed getKeyFromHttp(String csKey)
@@ -200,115 +200,115 @@ public class KeyPressed
 
 	public static KeyPressed getKey(String cs)
 	{
-		if (cs.equals(CLEAR.m_csValue) || cs.equalsIgnoreCase(CLEAR.m_csName))
+		if (cs.equals(CLEAR.csValue) || cs.equalsIgnoreCase(CLEAR.csName))
 		{
 			return CLEAR ;
 		}
-		else if (cs.equals(ENTER.m_csValue) || cs.equalsIgnoreCase(ENTER.m_csName))
+		else if (cs.equals(ENTER.csValue) || cs.equalsIgnoreCase(ENTER.csName))
 		{
 			return ENTER ;
 		}
-		else if (cs.equals(PF1.m_csValue) || cs.equalsIgnoreCase(PF1.m_csName))
+		else if (cs.equals(PF1.csValue) || cs.equalsIgnoreCase(PF1.csName))
 		{
 			return PF1;
 		}
-		else if (cs.equals(PF2.m_csValue) || cs.equalsIgnoreCase(PF2.m_csName))
+		else if (cs.equals(PF2.csValue) || cs.equalsIgnoreCase(PF2.csName))
 		{
 			return PF2;
 		}
-		else if (cs.equals(PF3.m_csValue) || cs.equalsIgnoreCase(PF3.m_csName))
+		else if (cs.equals(PF3.csValue) || cs.equalsIgnoreCase(PF3.csName))
 		{
 			return PF3;
 		}
-		else if (cs.equals(PF4.m_csValue) || cs.equalsIgnoreCase(PF4.m_csName))
+		else if (cs.equals(PF4.csValue) || cs.equalsIgnoreCase(PF4.csName))
 		{
 			return PF4;
 		}
-		else if (cs.equals(PF5.m_csValue) || cs.equalsIgnoreCase(PF5.m_csName))
+		else if (cs.equals(PF5.csValue) || cs.equalsIgnoreCase(PF5.csName))
 		{
 			return PF5;
 		}
-		else if (cs.equals(PF6.m_csValue) || cs.equalsIgnoreCase(PF6.m_csName))
+		else if (cs.equals(PF6.csValue) || cs.equalsIgnoreCase(PF6.csName))
 		{
 			return PF6;
 		}
-		else if (cs.equals(PF7.m_csValue) || cs.equalsIgnoreCase(PF7.m_csName))
+		else if (cs.equals(PF7.csValue) || cs.equalsIgnoreCase(PF7.csName))
 		{
 			return PF7;
 		}
-		else if (cs.equals(PF8.m_csValue) || cs.equalsIgnoreCase(PF8.m_csName))
+		else if (cs.equals(PF8.csValue) || cs.equalsIgnoreCase(PF8.csName))
 		{
 			return PF8;
 		}
-		else if (cs.equals(PF9.m_csValue) || cs.equalsIgnoreCase(PF9.m_csName))
+		else if (cs.equals(PF9.csValue) || cs.equalsIgnoreCase(PF9.csName))
 		{
 			return PF9;
 		}
-		else if (cs.equals(PF10.m_csValue) || cs.equalsIgnoreCase(PF10.m_csName))
+		else if (cs.equals(PF10.csValue) || cs.equalsIgnoreCase(PF10.csName))
 		{
 			return PF10 ;
 		}
-		else if (cs.equals(PF11.m_csValue) || cs.equalsIgnoreCase(PF11.m_csName))
+		else if (cs.equals(PF11.csValue) || cs.equalsIgnoreCase(PF11.csName))
 		{
 			return PF11;
 		}
-		else if (cs.equals(PF12.m_csValue) || cs.equalsIgnoreCase(PF12.m_csName))
+		else if (cs.equals(PF12.csValue) || cs.equalsIgnoreCase(PF12.csName))
 		{
 			return PF12;
 		}
-		else if (cs.equals(PF13.m_csValue) || cs.equalsIgnoreCase(PF13.m_csName))
+		else if (cs.equals(PF13.csValue) || cs.equalsIgnoreCase(PF13.csName))
 		{
 			return PF13;
 		}
-		else if (cs.equals(PF14.m_csValue) || cs.equalsIgnoreCase(PF14.m_csName))
+		else if (cs.equals(PF14.csValue) || cs.equalsIgnoreCase(PF14.csName))
 		{
 			return PF14;
 		}
-		else if (cs.equals(PF15.m_csValue) || cs.equalsIgnoreCase(PF15.m_csName))
+		else if (cs.equals(PF15.csValue) || cs.equalsIgnoreCase(PF15.csName))
 		{
 			return PF15;
 		}
-		else if (cs.equals(PF16.m_csValue) || cs.equalsIgnoreCase(PF16.m_csName))
+		else if (cs.equals(PF16.csValue) || cs.equalsIgnoreCase(PF16.csName))
 		{
 			return PF16;
 		}
-		else if (cs.equals(PF17.m_csValue) || cs.equalsIgnoreCase(PF17.m_csName))
+		else if (cs.equals(PF17.csValue) || cs.equalsIgnoreCase(PF17.csName))
 		{
 			return PF17;
 		}
-		else if (cs.equals(PF18.m_csValue) || cs.equalsIgnoreCase(PF18.m_csName))
+		else if (cs.equals(PF18.csValue) || cs.equalsIgnoreCase(PF18.csName))
 		{
 			return PF18;
 		}
-		else if (cs.equals(PF19.m_csValue) || cs.equalsIgnoreCase(PF19.m_csName))
+		else if (cs.equals(PF19.csValue) || cs.equalsIgnoreCase(PF19.csName))
 		{
 			return PF19;
 		}
-		else if (cs.equals(PF20.m_csValue) || cs.equalsIgnoreCase(PF20.m_csName))
+		else if (cs.equals(PF20.csValue) || cs.equalsIgnoreCase(PF20.csName))
 		{
 			return PF20;
 		}
-		else if (cs.equals(PF21.m_csValue) || cs.equalsIgnoreCase(PF21.m_csName))
+		else if (cs.equals(PF21.csValue) || cs.equalsIgnoreCase(PF21.csName))
 		{
 			return PF21;
 		}
-		else if (cs.equals(PF22.m_csValue) || cs.equalsIgnoreCase(PF22.m_csName))
+		else if (cs.equals(PF22.csValue) || cs.equalsIgnoreCase(PF22.csName))
 		{
 			return PF22;
 		}
-		else if (cs.equals(PF23.m_csValue) || cs.equalsIgnoreCase(PF23.m_csName))
+		else if (cs.equals(PF23.csValue) || cs.equalsIgnoreCase(PF23.csName))
 		{
 			return PF23;
 		}
-		else if (cs.equals(PF24.m_csValue) || cs.equalsIgnoreCase(PF24.m_csName))
+		else if (cs.equals(PF24.csValue) || cs.equalsIgnoreCase(PF24.csName))
 		{
 			return PF24;
 		}
-		else if (cs.equals(LOG_OUT.m_csValue) || cs.equalsIgnoreCase(LOG_OUT.m_csName))
+		else if (cs.equals(LOG_OUT.csValue) || cs.equalsIgnoreCase(LOG_OUT.csName))
 		{
 			return LOG_OUT;
 		}
-		else if (cs.equals(CHANGE_USER.m_csValue) || cs.equalsIgnoreCase(CHANGE_USER.m_csName))
+		else if (cs.equals(CHANGE_USER.csValue) || cs.equalsIgnoreCase(CHANGE_USER.csName))
 		{
 			return CHANGE_USER;
 		}
@@ -320,7 +320,7 @@ public class KeyPressed
 	
 	public String toString()
 	{
-		return m_csName + ": " + m_csValue;
+		return csName + ": " + csValue;
 	}
 
 }

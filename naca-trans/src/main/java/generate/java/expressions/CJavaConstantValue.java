@@ -34,7 +34,7 @@ public class CJavaConstantValue extends CDataEntity
 	public CJavaConstantValue(CObjectCatalog cat, CBaseLanguageExporter out, String val)
 	{
 		super(0, "", cat, out);
-		m_Value = val ;
+		value = val ;
 	}
 
 	public CDataEntityType GetDataType()
@@ -44,7 +44,7 @@ public class CJavaConstantValue extends CDataEntity
 
 	public String ExportReference(int nLine)
 	{
-		return m_Value ;
+		return value ;
 	}
 
 	public boolean HasAccessors()
@@ -59,9 +59,9 @@ public class CJavaConstantValue extends CDataEntity
 
 	public String GetConstantValue()
 	{
-		return m_Value;
+		return value;
 	}
-	protected String m_Value = "" ;
+	protected String value = "" ;
 
 	protected void DoExport()
 	{

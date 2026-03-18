@@ -37,12 +37,12 @@ public class CJavaAssignWithAccessor extends CEntityAssignWithAccessor
 	protected void DoExport()
 	{
 		String val = "" ;
-		if (m_Value != null)
+		if (value != null)
 		{
-			val = m_Value.ExportReference(getLine()) ;
+			val = value.ExportReference(getLine()) ;
 		}
-		String out = m_Reference.ExportWriteAccessorTo(val) ;
-		if (m_bFillAll)
+		String out = reference.ExportWriteAccessorTo(val) ;
+		if (bFillAll)
 		{
 			out = out.replaceFirst("([^\\(]*)(\\(.*)", "$1All$2") ;
 		}

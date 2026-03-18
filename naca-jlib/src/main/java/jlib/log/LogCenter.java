@@ -42,39 +42,39 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
  */
 	public LogCenter(LogCenterLoader logCenterLoader)
 	{
-		super(logCenterLoader.m_csName + " (" + logCenterLoader.m_csMode + ")", "Log center Open MBean");
+		super(logCenterLoader.csName + " (" + logCenterLoader.csMode + ")", "Log center Open MBean");
 		
-		m_bEnable = logCenterLoader.m_bEnable;
-		m_csChannel = logCenterLoader.m_csChannel;
-		m_logLevel = new LogLevel(logCenterLoader.m_logLevel);
-		m_csMode = logCenterLoader.m_csMode;
-		m_logFlow = logCenterLoader.m_logFlow;
-		m_nNbRequestBufferSize = logCenterLoader.m_nNbRequestBufferSize;
-		m_arrLogParamItem = new ArrayList<LogParams>();
+		bEnable = logCenterLoader.bEnable;
+		csChannel = logCenterLoader.csChannel;
+		logLevel = new LogLevel(logCenterLoader.logLevel);
+		csMode = logCenterLoader.csMode;
+		logFlow = logCenterLoader.logFlow;
+		nNbRequestBufferSize = logCenterLoader.nNbRequestBufferSize;
+		arrLogParamItem = new ArrayList<LogParams>();
 	}
 	
 	public void setPatternLayout(LogPatternLayout patternLayout)
 	{
-		m_patternLayout = patternLayout;
+		patternLayout = patternLayout;
 	}	
 	
-	protected LogPatternLayout m_patternLayout = null;
+	protected LogPatternLayout patternLayout = null;
 
-	protected boolean m_bEnable = false;                    // If not enabled, the log center doesn't accept any event.
-	protected String m_csChannel = null;
-	protected LogFlow m_logFlow = null;
-	protected LogLevel m_logLevel = new LogLevel(LogLevel.Normal);
+	protected boolean bEnable = false;                    // If not enabled, the log center doesn't accept any event.
+	protected String csChannel = null;
+	protected LogFlow logFlow = null;
+	protected LogLevel logLevel = new LogLevel(LogLevel.Normal);
 
-	protected String m_csMode = "";
-	protected String m_csProcess = null;
-	protected String m_csProduct = null;
-	protected String m_csRunId = null;
-	protected String m_csRuntimeId = null;
+	protected String csMode = "";
+	protected String csProcess = null;
+	protected String csProduct = null;
+	protected String csRunId = null;
+	protected String csRuntimeId = null;
 
-	private ArrayList<LogParams> m_arrLogParamItem = null;
+	private ArrayList<LogParams> arrLogParamItem = null;
 
-	protected int m_nNbRequestBufferSize = 0;
-	protected boolean m_bAsync = false;
+	protected int nNbRequestBufferSize = 0;
+	protected boolean bAsync = false;
 /**
  * Receives the description of a {@link LogEvent} (wrapped up in a
  * {@link LogParams} decorator}, checks if the event
@@ -84,7 +84,7 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
  * <ul>
  * 	<li>The event is sent on the channel the <i>LogCenter</i> is listening to.</li>
  * 	<li>The event has a {@link LogFlow} accepted by the <i>LogCenter</i> flow (see protected
- * 	property {@link m_logFlow}).</li>
+ * 	property {@link logFlow}).</li>
  * 	<li>The event has a {@link LogLevel} equal or higher than the
  * 	minimal required by the <i>LogCenter</i> (see property {@link getLevel}.</li> 
  * </ul>
@@ -94,19 +94,19 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
  */
 	void output(LogParams logParam)
 	{
-		if(m_bOpen && m_bEnable)
+		if(bOpen && bEnable)
 		{
 			boolean b = false;
-			if(logParam.m_csChannel == null)
+			if(logParam.csChannel == null)
 				b = true;
-			else if(logParam.m_csChannel.equalsIgnoreCase(m_csChannel))
+			else if(logParam.csChannel.equalsIgnoreCase(csChannel))
 				b = true;
 			if(b)
 			{
-				b = logParam.isAcceptable(m_logLevel, m_logFlow);
+				b = logParam.isAcceptable(logLevel, logFlow);
 				if(b)
 				{
-					if(m_nNbRequestBufferSize == 0)	// No buffering
+					if(nNbRequestBufferSize == 0)	// No buffering
 					{
 						preSendOutput();
 						sendOutput(logParam);
@@ -127,8 +127,8 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
  */
 	synchronized void addLogParamItem(LogParams logParam)
 	{
-		m_arrLogParamItem.add(logParam);
-		if(m_arrLogParamItem.size() >= m_nNbRequestBufferSize)
+		arrLogParamItem.add(logParam);
+		if(arrLogParamItem.size() >= nNbRequestBufferSize)
 		{
 			outputAllLogParamsItems();
 		}
@@ -145,21 +145,21 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
  */	
 	synchronized void flushCachedLogParamsItems()
 	{
-		if(m_arrLogParamItem != null)
+		if(arrLogParamItem != null)
 			outputAllLogParamsItems();
 	}
 	
 	synchronized private void outputAllLogParamsItems()
 	{
-		int nNbEntries = m_arrLogParamItem.size();
+		int nNbEntries = arrLogParamItem.size();
 		preSendOutput();
 		for(int n=0; n<nNbEntries; n++)
 		{
-			LogParams logParam = m_arrLogParamItem.get(n);
+			LogParams logParam = arrLogParamItem.get(n);
 			sendOutput(logParam);
 		}
 		postSendOutput();
-		m_arrLogParamItem.clear();
+		arrLogParamItem.clear();
 	}
 	
 	abstract boolean open();
@@ -201,28 +201,28 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
 	
 	boolean isOpen()
 	{
-		return m_bOpen;
+		return bOpen;
 	}
 	
 	boolean doOpen()
 	{
-		if(!m_bOpen)
-			m_bOpen = open();
-		return m_bOpen;
+		if(!bOpen)
+			bOpen = open();
+		return bOpen;
 	}
 	
 	
 	boolean close()
 	{
-		if(m_bOpen)
+		if(bOpen)
 		{
 			flushCachedLogParamsItems();
-			m_bOpen = !closeLogCenter();
+			bOpen = !closeLogCenter();
 		}
-		return !m_bOpen;
+		return !bOpen;
 	}	
 	
-	private boolean m_bOpen = false;
+	private boolean bOpen = false;
 /**
  * Returns <i>true</i> if the <i>LogCenter</i> is enabled.
  * A disabled <i>LogCenter</i> doesn't accept any {@link LogEvent}. An
@@ -231,7 +231,7 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
  * <ul>
  * 	<li>The event is sent on the channel the <i>LogCenter</i> is listening to.</li>
  * 	<li>The event has a {@link LogFlow} accepted by the <i>LogCenter</i> flow (see protected
- * 	property {@link #m_logFlow}).</li>
+ * 	property {@link #logFlow}).</li>
  * 	<li>The event has a {@link LogLevel} equal or higher than the
  * 	minimal required by the <i>LogCenter</i> (see property {@link #getLevel}.</li> 
  * </ul>
@@ -239,7 +239,7 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
  */	
 	public Boolean getEnable()
 	{
-		return m_bEnable;
+		return bEnable;
 	}
 /**
  * Enables the <i>LogCenter</i>.
@@ -249,7 +249,7 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
  * <ul>
  * 	<li>The event is sent on the channel the <i>LogCenter</i> is listening to.</li>
  * 	<li>The event has a {@link LogFlow} accepted by the <i>LogCenter</i> flow (see protected
- * 	property {@link #m_logFlow}).</li>
+ * 	property {@link #logFlow}).</li>
  * 	<li>The event has a {@link LogLevel} equal or higher than the
  * 	minimal required by the <i>LogCenter</i> (see property {@link #getLevel}.</li> 
  * </ul>
@@ -258,7 +258,7 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
  */	
 	public void setEnable(Boolean b)
 	{
-		m_bEnable = b;
+		bEnable = b;
 	}
 /**
  * Returns the current {@link LogLevel} of the <i>LogCenter</i> as a string.
@@ -266,7 +266,7 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
  */	
 	public String getLevel()
 	{
-		return m_logLevel.getAsString();
+		return logLevel.getAsString();
 	}
 /**
  * Sets the minimal level required for the {@link LogEvent}s to be
@@ -276,7 +276,7 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
  */	
 	public void setLevel(String csLevel)
 	{
-		m_logLevel.set(csLevel);
+		logLevel.set(csLevel);
 	}
 	
 /**
@@ -357,35 +357,35 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
 
 	public String getChannel() 
 	{
-		return m_csChannel;
+		return csChannel;
 	}
 
 	public void setRunId(String csRunId) 
 	{
-		m_csRunId=csRunId;
+		csRunId=csRunId;
 	}
 
 	public String getRunId() 
 	{
-		if (m_csRunId==null) 
+		if (csRunId==null) 
 		{
-			m_csRunId=UUID.randomUUID().toString();
+			csRunId=UUID.randomUUID().toString();
 		}
-		return m_csRunId;
+		return csRunId;
 	}
 
 	public void setRuntimeId(String csRuntimeId)
 	{
-		m_csRuntimeId=csRuntimeId;		
+		csRuntimeId=csRuntimeId;		
 	}
 
 	public String getRuntimeId() 
 	{
-		if (m_csRuntimeId==null) 
+		if (csRuntimeId==null) 
 		{
-			m_csRuntimeId=UUID.randomUUID().toString();
+			csRuntimeId=UUID.randomUUID().toString();
 		}
-		return m_csRuntimeId;
+		return csRuntimeId;
 	}
 /**
  * Sets the default product for the <i>LogCenter</i>
@@ -393,22 +393,22 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
  */
 	public void setProduct(String csProduct) 
 	{
-		m_csProduct=csProduct;
+		csProduct=csProduct;
 	}
 
 	public String getProduct()
 	{
-		return m_csProduct;
+		return csProduct;
 	}
 
 	public void setProcess(String csProcess)
 	{
-		m_csProcess=csProcess;
+		csProcess=csProcess;
 	}
 
 	public String getProcess()
 	{
-		return m_csProcess;
+		return csProcess;
 	}
 	
 	public abstract String getType();

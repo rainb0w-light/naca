@@ -11,11 +11,11 @@ import nacaLib.program.Section;
 public class CGotoOtherSectionException extends NacaRTException
 {
 	private static final long serialVersionUID = 1L;
-	public Section m_Section = null;
+	public Section section = null;
 
 	public CGotoOtherSectionException(Section section)
 	{
 		super();
-		m_Section = section;
+		section = section;
 	}
 }

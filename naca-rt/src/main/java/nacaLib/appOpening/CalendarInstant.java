@@ -18,17 +18,17 @@ import jlib.misc.SortableItem;
  */
 public class CalendarInstant extends SortableItem
 {
-	CalendarOpenState m_openState = CalendarOpenState.Unknown;
-	int m_nHour = 0;
-	int m_nMinute = 0;
-	int m_nSecond = 0;
+	CalendarOpenState openState = CalendarOpenState.Unknown;
+	int nHour = 0;
+	int nMinute = 0;
+	int nSecond = 0;
 	
 	public int compare(SortableItem item)
 	{
 		CalendarInstant i = (CalendarInstant)item;
-		if(m_nHour == i.m_nHour && m_nMinute == i.m_nMinute && m_nSecond == i.m_nSecond)
+		if(nHour == i.nHour && nMinute == i.nMinute && nSecond == i.nSecond)
 			return 0;
-		else if(m_nHour < i.m_nHour || (m_nHour == i.m_nHour && m_nMinute < i.m_nMinute) || (m_nHour == i.m_nHour && m_nMinute == i.m_nMinute && m_nSecond == i.m_nSecond))
+		else if(nHour < i.nHour || (nHour == i.nHour && nMinute < i.nMinute) || (nHour == i.nHour && nMinute == i.nMinute && nSecond == i.nSecond))
 			return -1;
 		return 1;
 	}

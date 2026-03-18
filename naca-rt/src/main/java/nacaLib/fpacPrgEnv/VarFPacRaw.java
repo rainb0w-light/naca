@@ -20,8 +20,8 @@ public class VarFPacRaw extends Var
 	public VarFPacRaw(DeclareTypeFPacRaw declareTypeFPacRaw, VarBuffer varBuffer, int nPosition)
 	{
 		super(declareTypeFPacRaw);
-		m_bufferPos = new VarBufferPos(varBuffer, nPosition);
-		m_varDef.setTotalSize(m_varDef.getSingleItemRequiredStorageSize());
+		bufferPos = new VarBufferPos(varBuffer, nPosition);
+		varDef.setTotalSize(varDef.getSingleItemRequiredStorageSize());
 	}
 	
 	public VarFPacRaw(DeclareTypeFPacRaw declareTypeFPacRaw)
@@ -37,8 +37,8 @@ public class VarFPacRaw extends Var
 	public void copy(VarFPacRaw varSource)
 	{
 		int nNbCharToCopy = Math.min(varSource.getLength(), getLength());
-		// m_bufferPos.copyBytes(m_bufferPos.m_nAbsolutePosition, nNbCharToCopy, varSource.getBuffer().m_nAbsolutePosition, varSource.getBuffer());
-		m_bufferPos.copy(nNbCharToCopy, varSource.getBuffer());
+		// bufferPos.copyBytes(bufferPos.nAbsolutePosition, nNbCharToCopy, varSource.getBuffer().nAbsolutePosition, varSource.getBuffer());
+		bufferPos.copy(nNbCharToCopy, varSource.getBuffer());
 	}
 	
 	protected VarBase allocCopy()
@@ -50,7 +50,7 @@ public class VarFPacRaw extends Var
 
 	protected String getAsLoggableString()
 	{
-		CStr cstr = m_bufferPos.getOwnCStr(m_varDef.getLength());
+		CStr cstr = bufferPos.getOwnCStr(varDef.getLength());
 		String cs = cstr.getAsString();
 		//cstr.resetManagerCache();
 		return cs;

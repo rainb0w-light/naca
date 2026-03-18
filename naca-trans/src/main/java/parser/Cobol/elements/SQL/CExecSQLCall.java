@@ -47,10 +47,10 @@ public class CExecSQLCall extends CBaseExecSQLAction
 	public Element ExportCustom(Document root)
 	{
 		Element eCall = root.createElement("SQLCall");
-		eCall.setAttribute("Reference", m_Reference.GetName());
-		for (int i=0; i<m_arrParameters.size();i++)
+		eCall.setAttribute("Reference", reference.GetName());
+		for (int i=0; i<arrParameters.size();i++)
 		{
-			CIdentifier id = m_arrParameters.get(i);
+			CIdentifier id = arrParameters.get(i);
 			Element e = root.createElement("Parameter");
 			eCall.appendChild(e);
 			id.ExportTo(e, root);
@@ -60,10 +60,10 @@ public class CExecSQLCall extends CBaseExecSQLAction
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
 		CEntitySQLCall eCall = factory.NewEntitySQLCall(getLine()) ;
-		CDataEntity prgRef = m_Reference.GetDataReference(getLine(), factory) ;
+		CDataEntity prgRef = reference.GetDataReference(getLine(), factory) ;
 		eCall.setReference(prgRef) ;
 		
-		for (CIdentifier term : m_arrParameters)
+		for (CIdentifier term : arrParameters)
 		{
 			CDataEntity param = term.GetDataReference(getLine(), factory) ;
 			eCall.addParameter(param) ; 
@@ -84,7 +84,7 @@ public class CExecSQLCall extends CBaseExecSQLAction
 		{
 			tok = GetNext() ;
 		}
-		m_Reference = new CIdentifier(tok.GetValue()) ;
+		reference = new CIdentifier(tok.GetValue()) ;
 		
 		tok = GetNext() ;
 		if (tok.GetType() == CTokenType.LEFT_BRACKET)
@@ -98,7 +98,7 @@ public class CExecSQLCall extends CBaseExecSQLAction
 				{
 					tok = GetNext() ;
 					CIdentifier id = ReadIdentifier();
-					m_arrParameters.add(id);
+					arrParameters.add(id);
 					tok = GetCurrentToken() ;
 					if (tok.GetType() == CTokenType.COMMA)
 					{
@@ -122,7 +122,7 @@ public class CExecSQLCall extends CBaseExecSQLAction
 		return true ;
 	}
 	
-	protected CIdentifier m_Reference = null ;
-	protected Vector<CIdentifier> m_arrParameters = new Vector<CIdentifier>() ;
+	protected CIdentifier reference = null ;
+	protected Vector<CIdentifier> arrParameters = new Vector<CIdentifier>() ;
 
 }

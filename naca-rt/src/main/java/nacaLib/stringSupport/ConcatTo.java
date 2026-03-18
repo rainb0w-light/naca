@@ -16,15 +16,15 @@ package nacaLib.stringSupport;
  */
 public class ConcatTo
 {
-	private Concat m_concat = null;
+	private Concat concat = null;
 	
 	ConcatTo(Concat concat)
 	{
-		m_concat = concat;
+		concat = concat;
 	}
 	
 	public boolean failed()
 	{
-		return m_concat.failed();
+		return concat.failed();
 	}
 }

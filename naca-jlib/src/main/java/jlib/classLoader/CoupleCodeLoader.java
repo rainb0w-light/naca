@@ -12,20 +12,20 @@ public class CoupleCodeLoader
 {
 	public CoupleCodeLoader(Class classCode, ClassDynLoader classDynLoader)
 	{
-		m_classCode = classCode;
-		m_classDynLoader = classDynLoader;
+		classCode = classCode;
+		classDynLoader = classDynLoader;
 	}
 	
 	public Class getClassCode()
 	{
-		return m_classCode;
+		return classCode;
 	}
 
 	void addInstance(Object obj)
 	{
-		if(m_arrInstances == null)
-			m_arrInstances = new ArrayList<Object>();
-		m_arrInstances.add(obj);
+		if(arrInstances == null)
+			arrInstances = new ArrayList<Object>();
+		arrInstances.add(obj);
 	}
 
 	
@@ -34,15 +34,15 @@ public class CoupleCodeLoader
 //		Object obj = null;
 //		try
 //		{
-//			m_classDynLoader.inMakeNewInstance();
-//			obj = m_classCode.newInstance();
+//			classDynLoader.inMakeNewInstance();
+//			obj = classCode.newInstance();
 //			if(obj != null)
 //			{
-//				if(m_arrInstances == null)
-//					m_arrInstances = new ArrayList<Object>();
-//				m_arrInstances.add(obj);
+//				if(arrInstances == null)
+//					arrInstances = new ArrayList<Object>();
+//				arrInstances.add(obj);
 //			}
-//			m_classDynLoader.outMakeNewInstance();
+//			classDynLoader.outMakeNewInstance();
 //			return obj;
 //		}
 //		catch (InstantiationException e)
@@ -60,7 +60,7 @@ public class CoupleCodeLoader
 	
 	void removeAllInstances()
 	{
-		if(m_arrInstances != null)
+		if(arrInstances != null)
 		{
 //			int nNbinstances = getNbInstances();
 //			for(int nInstance=0; nInstance<nNbinstances; nInstance++)
@@ -68,34 +68,34 @@ public class CoupleCodeLoader
 //				Object obj = getInstance(nInstance);
 //				// remove all copy parented by obj 
 //			}
-			m_arrInstances.clear();
-			m_arrInstances = null;
+			arrInstances.clear();
+			arrInstances = null;
 		}
-		m_classCode = null;
-		m_classDynLoader = null;
+		classCode = null;
+		classDynLoader = null;
 	}
 	
 	int getNbInstances()
 	{
-		if(m_arrInstances != null)
+		if(arrInstances != null)
 		{
-			return m_arrInstances.size();
+			return arrInstances.size();
 		}
 		return 0;
 	}
 	
 	Object getInstance(int n)
 	{
-		if(m_arrInstances != null)
+		if(arrInstances != null)
 		{
-			return m_arrInstances.get(n);
+			return arrInstances.get(n);
 		}
 		return null;
 	}
 	
 	
 
-	private Class m_classCode = null;
-	private ClassDynLoader m_classDynLoader = null;	// Holds a ref; do not delete 
-	private ArrayList<Object> m_arrInstances = null;	
+	private Class classCode = null;
+	private ClassDynLoader classDynLoader = null;	// Holds a ref; do not delete 
+	private ArrayList<Object> arrInstances = null;	
 }

@@ -34,14 +34,14 @@ import jlib.xml.Tag;
  */
 public class DbTransferDesc
 {
-	private int m_nBatchSize = 0;
-	private int m_nCommitEveryBatch = 0;
-	private int m_nThreadsQuantity = 0;
-	private String m_csDefinitionTable;
-	private SQLConnectionManager m_connectionManager = null;
-	private ArrayList<TableToTransfer> m_arrTableToTransfer = new ArrayList<TableToTransfer>();
-	private PoolOfThreads m_threadsPool = null;
-	private boolean m_bTransferGlobalStatus = true; 
+	private int nBatchSize = 0;
+	private int nCommitEveryBatch = 0;
+	private int nThreadsQuantity = 0;
+	private String csDefinitionTable;
+	private SQLConnectionManager connectionManager = null;
+	private ArrayList<TableToTransfer> arrTableToTransfer = new ArrayList<TableToTransfer>();
+	private PoolOfThreads threadsPool = null;
+	private boolean bTransferGlobalStatus = true; 
 	
 	boolean load(Tag tagDbTransfer)
 	{
@@ -52,18 +52,18 @@ public class DbTransferDesc
 			Tag tagParameters = tagDbTransfer.getChild("Parameters");
 			if(tagParameters != null)
 			{
-				m_nBatchSize = tagParameters.getValAsInt("BatchSize");
-				m_nCommitEveryBatch = tagParameters.getValAsInt("CommitEveryBatch");
-				m_nThreadsQuantity = tagParameters.getValAsInt("ThreadsQuantity");
-				m_csDefinitionTable = tagParameters.getVal("DefinitionTable");
+				nBatchSize = tagParameters.getValAsInt("BatchSize");
+				nCommitEveryBatch = tagParameters.getValAsInt("CommitEveryBatch");
+				nThreadsQuantity = tagParameters.getValAsInt("ThreadsQuantity");
+				csDefinitionTable = tagParameters.getVal("DefinitionTable");
 			}
 			else b = false;
 			
 			Tag tagSQLConfig = tagDbTransfer.getChild("SQLConfig");
 			if(tagSQLConfig != null)
 			{
-				m_connectionManager = new SQLConnectionManager();
-				DbConnectionPool dbConnectionPool = m_connectionManager.init("", tagSQLConfig);
+				connectionManager = new SQLConnectionManager();
+				DbConnectionPool dbConnectionPool = connectionManager.init("", tagSQLConfig);
 				BaseResourceManager.addDbConnectionPool(dbConnectionPool);
 			}
 			else b = false;
@@ -80,7 +80,7 @@ public class DbTransferDesc
 	{
 		String csUpdateClause = getUpdateStatementString();
 		
-		String csClause = "Select TName, Replace, LastWrite, NbRead, NbWrite, SQLError From " + m_csDefinitionTable + " order by TName asc";
+		String csClause = "Select TName, Replace, LastWrite, NbRead, NbWrite, SQLError From " + csDefinitionTable + " order by TName asc";
 		DbConnectionBase dbConnectionSource = env.getSQLConnection();
 		DbPreparedStatement st = dbConnectionSource.prepareStatement(csClause, 0, false);
 		if(st != null)
@@ -100,7 +100,7 @@ public class DbTransferDesc
 						cs = resultSet.getString(6);
 						
 						TableToTransfer tableToTransfer = new TableToTransfer(csTableName, csReplace, csUpdateClause);
-						m_arrTableToTransfer.add(tableToTransfer);
+						arrTableToTransfer.add(tableToTransfer);
 					}
 					st.close();
 					return true;
@@ -117,7 +117,7 @@ public class DbTransferDesc
 	private String getUpdateStatementString()
 	{
 		StringBuilder sbUpdate = new StringBuilder("update ");
-		sbUpdate.append(m_csDefinitionTable);
+		sbUpdate.append(csDefinitionTable);
 		sbUpdate.append(" set LASTWRITE=?, NBREAD=?, NBWRITE=?, SQLERROR=? Where TNAME=");
 		String csUpdate = sbUpdate.toString();
 		return csUpdate;
@@ -125,11 +125,11 @@ public class DbTransferDesc
 	
 	DbConnectionBase getNewDestinationConnection()
 	{
-		if(m_connectionManager != null)
+		if(connectionManager != null)
 		{
 			try
 			{
-				DbConnectionBase dbConnection = m_connectionManager.getConnection("DBTR", false);	// get a new db connection
+				DbConnectionBase dbConnection = connectionManager.getConnection("DBTR", false);	// get a new db connection
 				return dbConnection;
 			}
 			catch (DbConnectionException e)
@@ -148,35 +148,35 @@ public class DbTransferDesc
 		
 	boolean doTransfers(BaseEnvironment env)
 	{		
-		int nNbTables = m_arrTableToTransfer.size();
+		int nNbTables = arrTableToTransfer.size();
 		
 		PooledThreadDbTransferFactory pooledThreadDbTransferFactory = new PooledThreadDbTransferFactory(this, env);
 		
-		m_threadsPool = new PoolOfThreads(pooledThreadDbTransferFactory, m_nThreadsQuantity, nNbTables);
-		m_threadsPool.startAllThreads();
+		threadsPool = new PoolOfThreads(pooledThreadDbTransferFactory, nThreadsQuantity, nNbTables);
+		threadsPool.startAllThreads();
 		for(int n=0; n<nNbTables; n++)
 		{
-			TableToTransfer tableToTransfer = m_arrTableToTransfer.get(n);
-			m_threadsPool.enqueue(tableToTransfer);
+			TableToTransfer tableToTransfer = arrTableToTransfer.get(n);
+			threadsPool.enqueue(tableToTransfer);
 		}
 		
-		m_threadsPool.stop();
-		return m_bTransferGlobalStatus;
+		threadsPool.stop();
+		return bTransferGlobalStatus;
 	}	
 	
 	synchronized void setTransferGlobalFailure()
 	{
-		m_bTransferGlobalStatus = false;;
+		bTransferGlobalStatus = false;;
 	}
 	
 	int getCommitEveryBatch()
 	{
-		return m_nCommitEveryBatch;
+		return nCommitEveryBatch;
 	}
 	
 	int getBatchSize()
 	{
-		return m_nBatchSize;
+		return nBatchSize;
 	}
 }
 

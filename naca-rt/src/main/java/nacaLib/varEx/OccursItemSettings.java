@@ -22,26 +22,26 @@ public class OccursItemSettings
 {
 	OccursItemSettings()
 	{
-		m_arrVarDefOccursOwner = new ArrayDyn<VarDefBase>();
+		arrVarDefOccursOwner = new ArrayDyn<VarDefBase>();
 	}
 	
 	void compress()
 	{
-		if(m_arrVarDefOccursOwner != null)
+		if(arrVarDefOccursOwner != null)
 		{	
-			// Swap the type inside m_arrRedefinition 
-			if(m_arrVarDefOccursOwner.isDyn())
+			// Swap the type inside arrRedefinition 
+			if(arrVarDefOccursOwner.isDyn())
 			{
-				int nSize = m_arrVarDefOccursOwner.size();
+				int nSize = arrVarDefOccursOwner.size();
 				VarDefBase arr[] = new VarDefBase [nSize];
-				m_arrVarDefOccursOwner.transferInto(arr);
+				arrVarDefOccursOwner.transferInto(arr);
 				
 				ArrayFix<VarDefBase> arrVarDefOccursOwnerFix = new ArrayFix<VarDefBase>(arr);
-				m_arrVarDefOccursOwner = arrVarDefOccursOwnerFix;	// replace by a fix one (uning less memory)
+				arrVarDefOccursOwner = arrVarDefOccursOwnerFix;	// replace by a fix one (uning less memory)
 			}
 		}
 	}
 	
-	protected OccursOwnerLocation m_aOccursOwnerLocation[] = null;
-	protected ArrayFixDyn<VarDefBase> m_arrVarDefOccursOwner = null;	// Array of VarDefBase; That is all occurs owner; may include ourself
+	protected OccursOwnerLocation aOccursOwnerLocation[] = null;
+	protected ArrayFixDyn<VarDefBase> arrVarDefOccursOwner = null;	// Array of VarDefBase; That is all occurs owner; may include ourself
 }

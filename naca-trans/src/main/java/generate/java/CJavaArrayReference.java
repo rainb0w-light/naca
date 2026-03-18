@@ -43,21 +43,21 @@ public class CJavaArrayReference extends CEntityArrayReference
 	public String ExportReference(int nLine)
 	{
 		String out = "" ;
-		if (m_Reference != null && m_arrIndexes != null)
+		if (reference != null && arrIndexes != null)
 		{
-			CBaseEntityExpression exp = m_arrIndexes.get(0) ;
-			out = m_Reference.ExportReference(nLine) + ".getAt(" + exp.Export();
-			for (int i=1; i<m_arrIndexes.size();i++)
+			CBaseEntityExpression exp = arrIndexes.get(0) ;
+			out = reference.ExportReference(nLine) + ".getAt(" + exp.Export();
+			for (int i=1; i<arrIndexes.size();i++)
 			{
-				exp = m_arrIndexes.get(i) ;
+				exp = arrIndexes.get(i) ;
 				out += ", " + exp.Export();
 			} 
 			out += ")" ;
 			
-//			int nNbOccurs = m_Reference.getNbDimOccurs();
-//			if(nNbOccurs != m_arrIndexes.size())
+//			int nNbOccurs = reference.getNbDimOccurs();
+//			if(nNbOccurs != arrIndexes.size())
 //			{
-//				Transcoder.logWarn(nLine, "Invalid number of indexes specified for variable: "+m_Reference.GetName()+"; There should be "+ nNbOccurs + " indexes");
+//				Transcoder.logWarn(nLine, "Invalid number of indexes specified for variable: "+reference.GetName()+"; There should be "+ nNbOccurs + " indexes");
 //			}
 		}
 		return out ;

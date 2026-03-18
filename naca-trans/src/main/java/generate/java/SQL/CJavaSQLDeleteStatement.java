@@ -33,29 +33,29 @@ public class CJavaSQLDeleteStatement extends CEntitySQLDeleteStatement
 	
 	protected void DoExport()
 	{
-		if (m_Cursor == null)
+		if (cursor == null)
 		{
 			WriteWord("sql(");
-			WriteLongString(m_csStatement.trim());
+			WriteLongString(csStatement.trim());
 			WriteWord(")");
 		}
 		else
 		{
 			WriteWord("cursorDeleteCurrent(");
-			WriteWord(m_Cursor.ExportReference(getLine())+ ", ");
-			WriteLongString(m_csStatement.trim());
+			WriteWord(cursor.ExportReference(getLine())+ ", ");
+			WriteLongString(csStatement.trim());
 			WriteWord(")");
 		}
-		for(int i=0; i<m_arrParameters.size(); i++)
+		for(int i=0; i<arrParameters.size(); i++)
 		{
-			CDataEntity e = m_arrParameters.get(i);
+			CDataEntity e = arrParameters.get(i);
 			if (e != null)
 			{
 				WriteEOL();
 				WriteWord(".param("+(i+1)+", " + e.ExportReference(getLine())+ ")");
 			}
 		}
-		String csSQLErrorWarningStatement = m_ProgramCatalog.getSQLWarningErrorStatement();
+		String csSQLErrorWarningStatement = programCatalog.getSQLWarningErrorStatement();
 		if(csSQLErrorWarningStatement != null)
 		{
 			WriteEOL();

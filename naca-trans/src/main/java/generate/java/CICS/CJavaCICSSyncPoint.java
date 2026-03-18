@@ -37,7 +37,7 @@ public class CJavaCICSSyncPoint extends CEntityCICSSyncPoint
 
 	protected void DoExport()
 	{
-		if (m_bRollback)
+		if (bRollback)
 		{
 			WriteLine("CESM.syncPointRollback() ;");
 		}

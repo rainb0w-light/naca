@@ -38,25 +38,25 @@ public abstract class CEntityCICSAddress extends CBaseActionEntity
 	}
 	public void SetRefForCWA(CDataEntity e)
 	{
-		m_RefCWA = e ;
+		refCWA = e ;
 	}
 	public void SetRefForTCTUA(CDataEntity e)
 	{
-		m_RefTCTUA = e ;
+		refTCTUA = e ;
 	} 
 	public void SetRefForTWA(CDataEntity e)
 	{
-		m_RefTWA = e ;
+		refTWA = e ;
 	}
 	
-	protected CDataEntity m_RefCWA = null;
-	protected CDataEntity m_RefTCTUA = null;
-	protected CDataEntity m_RefTWA = null;
+	protected CDataEntity refCWA = null;
+	protected CDataEntity refTCTUA = null;
+	protected CDataEntity refTWA = null;
 	public void Clear()
 	{
 		super.Clear();
-		m_RefCWA = null ;
-		m_RefTCTUA = null ;
-		m_RefTWA = null ;
+		refCWA = null ;
+		refTCTUA = null ;
+		refTWA = null ;
 	}
 }

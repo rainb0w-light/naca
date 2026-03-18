@@ -38,11 +38,11 @@ public class CJavaIsFieldFlag extends CEntityIsFieldFlag
 	public CBaseEntityCondition GetOppositeCondition()
 	{
 		CJavaIsFieldFlag not = new CJavaIsFieldFlag() ;
-		not.m_Reference = m_Reference ;
-		not.m_Value = m_Value ;
-		not.m_bOpposite = !m_bOpposite ;
-		not.m_bIsSet = m_bIsSet ;
-		m_Reference.RegisterVarTesting(not) ;
+		not.reference = reference ;
+		not.value = value ;
+		not.bOpposite = !bOpposite ;
+		not.bIsSet = bIsSet ;
+		reference.RegisterVarTesting(not) ;
 		return not;  
 	}
 
@@ -52,17 +52,17 @@ public class CJavaIsFieldFlag extends CEntityIsFieldFlag
 	public String Export()
 	{
 		String cs = "is" ;
-		if (m_bOpposite)
+		if (bOpposite)
 		{
 			cs += "Not" ;
 		}
-		if (m_bIsSet)
+		if (bIsSet)
 		{
-			cs += "FieldFlagSet(" + m_Reference.ExportReference(getLine()) + ")" ;
+			cs += "FieldFlagSet(" + reference.ExportReference(getLine()) + ")" ;
 		}
 		else
 		{
-			cs += "FieldFlag(" + m_Reference.ExportReference(getLine()) + ", \"" + m_Value + "\")" ;
+			cs += "FieldFlag(" + reference.ExportReference(getLine()) + ", \"" + value + "\")" ;
 		}
 		return cs ;
 	}

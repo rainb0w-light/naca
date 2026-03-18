@@ -63,7 +63,7 @@ public class CEvaluate extends CCobolElement
 			Transcoder.logError(getLine(), "Expecting 'EVALUATE' keyword") ;
 			return false ;
 		}
-		CGlobalEntityCounter.GetInstance().CountCobolVerb(tokEval.GetKeyword().m_Name) ;
+		CGlobalEntityCounter.GetInstance().CountCobolVerb(tokEval.GetKeyword().name) ;
 		// read evaluate expression
 		boolean bDone = false ;
 		while (!bDone)
@@ -77,7 +77,7 @@ public class CEvaluate extends CCobolElement
 			}
 			else
 			{
-				m_arrIdToEval.add(term) ;
+				arrIdToEval.add(term) ;
 			}
 			CBaseToken tokAlso = GetCurrentToken() ;
 			if (tokAlso.GetKeyword() != CCobolKeywordList.ALSO)
@@ -153,7 +153,7 @@ public class CEvaluate extends CCobolElement
 				{
 					cond = ReadSingleCondition(i) ;
 					i++ ;
-					while (m_arrIdToEval.size() > i)
+					while (arrIdToEval.size() > i)
 					{	// there must be some 'also' statements
 						CBaseToken tok = GetCurrentToken();
 						if (tok.GetKeyword() == CCobolKeywordList.ALSO)
@@ -215,7 +215,7 @@ public class CEvaluate extends CCobolElement
 			CExpression term = ReadExpression() ;
 			if (term != null)
 			{
-				cond = new CCondEqualsStatement(tok.getLine(), m_arrIdToEval.get(i), term) ;
+				cond = new CCondEqualsStatement(tok.getLine(), arrIdToEval.get(i), term) ;
 				cond = new CCondNotStatement(tok.getLine(), cond) ;
 			}
 			else
@@ -229,7 +229,7 @@ public class CEvaluate extends CCobolElement
 			CExpression term = ReadExpression() ;
 			if (term != null)
 			{
-				CExpression expr = m_arrIdToEval.get(i) ;
+				CExpression expr = arrIdToEval.get(i) ;
 				CBaseToken tokThru = GetCurrentToken() ;
 				if (tokThru.GetKeyword() == CCobolKeywordList.THRU || tokThru.GetKeyword() == CCobolKeywordList.THROUGH)
 				{
@@ -269,7 +269,7 @@ public class CEvaluate extends CCobolElement
 		return e ;
 	}
 	
-	protected Vector<CExpression> m_arrIdToEval = new Vector<CExpression>() ;
+	protected Vector<CExpression> arrIdToEval = new Vector<CExpression>() ;
 
 	/* (non-Javadoc)
 	 * @see parser.CBaseElement#DoCustomSemanticAnalysis(semantic.CBaseSemanticEntity, semantic.CBaseSemanticEntityFactory)

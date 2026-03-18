@@ -36,16 +36,16 @@ public abstract class CEntityReturn extends CBaseActionEntity
 
 	public void SetStopProgram(int returning)
 	{
-		m_bStopAllStackCalls = returning;
+		bStopAllStackCalls = returning;
 	}
 	
 	public void SetOnlyReturnFromProcedure()
 	{
-		m_bonlyLeaveParagraph = true;
+		bonlyLeaveParagraph = true;
 	}
 	
-	protected int m_bStopAllStackCalls = -1 ;
-	protected boolean m_bonlyLeaveParagraph = false ;
+	protected int bStopAllStackCalls = -1 ;
+	protected boolean bonlyLeaveParagraph = false ;
 	public boolean ignore()
 	{
 		return false ;

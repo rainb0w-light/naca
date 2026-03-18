@@ -23,8 +23,8 @@ import utils.Transcoder;
  */
 public class CExecSQLVariableCursor extends CBaseExecSQLAction
 {
-	protected String m_csStatementName ;
-	protected String m_csCursorName ;
+	protected String csStatementName ;
+	protected String csCursorName ;
 	/**
 	 * @see parser.CBaseElement#DoParsing()
 	 */
@@ -34,7 +34,7 @@ public class CExecSQLVariableCursor extends CBaseExecSQLAction
 		CBaseToken tok = GetCurrentToken() ;
 		if (tok.GetType() == CTokenType.IDENTIFIER)
 		{
-			m_csStatementName = tok.GetValue()  ;
+			csStatementName = tok.GetValue()  ;
 			tok = GetNext() ;
 		}
 		else
@@ -51,7 +51,7 @@ public class CExecSQLVariableCursor extends CBaseExecSQLAction
 	public CExecSQLVariableCursor(int l, String curName)
 	{
 		super(l);
-		m_csCursorName = curName ;
+		csCursorName = curName ;
 	}
 
 	/**
@@ -60,16 +60,16 @@ public class CExecSQLVariableCursor extends CBaseExecSQLAction
 	@Override
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		CEntitySQLCursor cur = factory.m_ProgramCatalog.GetSQLCursor(m_csCursorName) ;
+		CEntitySQLCursor cur = factory.programCatalog.GetSQLCursor(csCursorName) ;
 		if (cur == null)
 		{
-			cur = factory.NewEntitySQLCursor(m_csCursorName);
+			cur = factory.NewEntitySQLCursor(csCursorName);
 		}
 		else
 		{
-			Transcoder.logError(getLine(), "Cursor already defined : " + m_csCursorName);
+			Transcoder.logError(getLine(), "Cursor already defined : " + csCursorName);
 		}
-		factory.m_ProgramCatalog.RegisterSQLCursor(m_csStatementName, cur) ;
+		factory.programCatalog.RegisterSQLCursor(csStatementName, cur) ;
 		return null ;
 		
 	}
@@ -81,7 +81,7 @@ public class CExecSQLVariableCursor extends CBaseExecSQLAction
 	protected Element ExportCustom(Document root)
 	{
 		Element e = root.createElement("DeclareVariableCursor") ;
-		e.setAttribute("Name", m_csStatementName) ;
+		e.setAttribute("Name", csStatementName) ;
 		return e ;
 	}
 

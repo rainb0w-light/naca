@@ -33,12 +33,12 @@ import nacaLib.misc.KeyPressed;
  */
 public class CHTTPMapFieldLoader extends CMapFieldLoader
 {
-	protected HttpServletRequest m_HttpRequest = null ;
+	protected HttpServletRequest httpRequest = null ;
 	public CHTTPMapFieldLoader(HttpServletRequest req)
 	{
-		m_HttpRequest = req ;
+		httpRequest = req ;
 		String csKey = req.getParameter("PFKey") ;
-		m_KeyPressed = KeyPressed.getKeyFromHttp(csKey);
+		keyPressed = KeyPressed.getKeyFromHttp(csKey);
 	}
 
 
@@ -47,7 +47,7 @@ public class CHTTPMapFieldLoader extends CMapFieldLoader
 	 */
 	public String getFieldValue(String fieldName)
 	{
-		String cs = m_HttpRequest.getParameter(fieldName);
+		String cs = httpRequest.getParameter(fieldName);
 		if (cs == null)
 		{
 			return "" ;
@@ -57,7 +57,7 @@ public class CHTTPMapFieldLoader extends CMapFieldLoader
 			String encoding = "" ;
 			try
 			{
-				InputStreamReader isr = new InputStreamReader(m_HttpRequest.getInputStream()) ;
+				InputStreamReader isr = new InputStreamReader(httpRequest.getInputStream()) ;
 				encoding = isr.getEncoding() ;
 			}
 			catch (IOException e)
@@ -103,7 +103,7 @@ public class CHTTPMapFieldLoader extends CMapFieldLoader
 	 */
 	public boolean isFieldModified(String fieldName)
 	{
-		String cs = m_HttpRequest.getParameter(fieldName+"UPD");
+		String cs = httpRequest.getParameter(fieldName+"UPD");
 		if (cs == null)
 		{
 			return false ;
@@ -128,7 +128,7 @@ public class CHTTPMapFieldLoader extends CMapFieldLoader
 	 */
 	public String getIDPage()
 	{
-		String cs = m_HttpRequest.getParameter("idPage");
+		String cs = httpRequest.getParameter("idPage");
 		if (cs == null)
 		{
 			cs = "" ;

@@ -20,8 +20,8 @@ import nacaLib.varEx.VarDefEncodingConvertibleManager;
  */
 public class FileEncodingConverterWithDesc extends FileEncodingConverter
 {
-	private String m_csDesc = null;
-	private VarDefEncodingConvertibleManager m_encodingManager = null;  
+	private String csDesc = null;
+	private VarDefEncodingConvertibleManager encodingManager = null;  
 	
 	public FileEncodingConverterWithDesc(FileDescriptor fileIn, FileDescriptor fileOut)
 	{
@@ -30,9 +30,9 @@ public class FileEncodingConverterWithDesc extends FileEncodingConverter
 		
 	public boolean execute(String csDesc)
 	{
-		m_fileIn.getPhysicalName();
-		m_fileOut.getPhysicalName();
-		if (m_fileIn.isEbcdic() != m_fileOut.isEbcdic() || m_bHost)
+		fileIn.getPhysicalName();
+		fileOut.getPhysicalName();
+		if (fileIn.isEbcdic() != fileOut.isEbcdic() || bHost)
 		{
 			return convert(csDesc);
 		}
@@ -47,29 +47,29 @@ public class FileEncodingConverterWithDesc extends FileEncodingConverter
 		if (!csDesc.equals(""))
 			fillDesc(csDesc);
 		
-		boolean bEbcdicIn = m_fileIn.isEbcdic();
-		boolean bEbcdicOut = m_fileOut.isEbcdic();
+		boolean bEbcdicIn = fileIn.isEbcdic();
+		boolean bEbcdicOut = fileOut.isEbcdic();
 
 		// Read all record form source into structure
-		String csFileIn = m_fileIn.getPhysicalName();
+		String csFileIn = fileIn.getPhysicalName();
 		DataFileLineReader dataFileIn = new DataFileLineReader(csFileIn, 65536, 0);
 		boolean bInOpened = dataFileIn.open();
 		if(bInOpened)
 		{
-			m_fileOut.openOutput();
-			boolean bVariableLength = m_fileIn.isVariableLength();
-			if (m_bHost)
+			fileOut.openOutput();
+			boolean bVariableLength = fileIn.isVariableLength();
+			if (bHost)
 			{
-				if (m_bHeaderEbcdic)
+				if (bHeaderEbcdic)
 				{
 					byte[] tbyHeaderEbcdic = new String("<FileHeader Version=\"1\" Encoding=\"ebcdic\"/>").getBytes();
-					m_fileOut.write(tbyHeaderEbcdic, 0, tbyHeaderEbcdic.length, true);
+					fileOut.write(tbyHeaderEbcdic, 0, tbyHeaderEbcdic.length, true);
 				}
 				
-				if (m_nLengthRecord == 0)
+				if (nLengthRecord == 0)
 				{
 					byte[] tbyHeader4 = new byte[4];
-					if (m_bVariable4)
+					if (bVariable4)
 					{	
 						LineRead lineRead = dataFileIn.readBuffer(4, false);
 						while (lineRead != null)
@@ -83,16 +83,16 @@ public class FileEncodingConverterWithDesc extends FileEncodingConverter
 							if (bVariableLength)
 							{
 								LittleEndingSignBinaryBufferStorage.writeInt(tbyHeader4, nCurrentRecordLength, 0);
-								m_fileOut.write(tbyHeader4, 0, tbyHeader4.length, false);
+								fileOut.write(tbyHeader4, 0, tbyHeader4.length, false);
 							}
 							
 							lineRead = dataFileIn.readBuffer(nCurrentRecordLength, false);
 							if (bEbcdicIn && !bEbcdicOut)
-								m_encodingManager.getConvertedBytesEbcdicToAscii(lineRead);
+								encodingManager.getConvertedBytesEbcdicToAscii(lineRead);
 							else if (!bEbcdicIn && bEbcdicOut)
-								m_encodingManager.getConvertedBytesAsciiToEbcdic(lineRead);
+								encodingManager.getConvertedBytesAsciiToEbcdic(lineRead);
 							
-							m_fileOut.write(lineRead.getBuffer(), lineRead.getOffset(), lineRead.getBodyLength(), true);
+							fileOut.write(lineRead.getBuffer(), lineRead.getOffset(), lineRead.getBodyLength(), true);
 							lineRead = dataFileIn.readBuffer(4, false);
 						}
 					}
@@ -108,55 +108,55 @@ public class FileEncodingConverterWithDesc extends FileEncodingConverter
 							if (bVariableLength)
 							{
 								LittleEndingSignBinaryBufferStorage.writeInt(tbyHeader4, nCurrentRecordLength, 0);
-								m_fileOut.write(tbyHeader4, 0, tbyHeader4.length, false);
+								fileOut.write(tbyHeader4, 0, tbyHeader4.length, false);
 							}
 							
 							lineRead = dataFileIn.readBuffer(nCurrentRecordLength, false);
 							if (bEbcdicIn && !bEbcdicOut)
-								m_encodingManager.getConvertedBytesEbcdicToAscii(lineRead);
+								encodingManager.getConvertedBytesEbcdicToAscii(lineRead);
 							else if (!bEbcdicIn && bEbcdicOut)
-								m_encodingManager.getConvertedBytesAsciiToEbcdic(lineRead);
+								encodingManager.getConvertedBytesAsciiToEbcdic(lineRead);
 							
-							m_fileOut.write(lineRead.getBuffer(), lineRead.getOffset(), lineRead.getBodyLength(), true);
+							fileOut.write(lineRead.getBuffer(), lineRead.getOffset(), lineRead.getBodyLength(), true);
 							lineRead = dataFileIn.readBuffer(3, false);
 						}
 					}
 				}
 				else
 				{
-					LineRead lineRead = dataFileIn.readBuffer(m_nLengthRecord, false);
+					LineRead lineRead = dataFileIn.readBuffer(nLengthRecord, false);
 					while (lineRead != null)
 					{	
 						if (bEbcdicIn && !bEbcdicOut)
-							m_encodingManager.getConvertedBytesEbcdicToAscii(lineRead);
+							encodingManager.getConvertedBytesEbcdicToAscii(lineRead);
 						else if (!bEbcdicIn && bEbcdicOut)
-							m_encodingManager.getConvertedBytesAsciiToEbcdic(lineRead);
-						m_fileOut.write(lineRead.getBuffer(), lineRead.getOffset(), lineRead.getBodyLength(), true);
-						lineRead = dataFileIn.readBuffer(m_nLengthRecord, false);
+							encodingManager.getConvertedBytesAsciiToEbcdic(lineRead);
+						fileOut.write(lineRead.getBuffer(), lineRead.getOffset(), lineRead.getBodyLength(), true);
+						lineRead = dataFileIn.readBuffer(nLengthRecord, false);
 					}
 				}
 			}
 			else
 			{
-				LineRead lineRead = m_fileIn.readALine(dataFileIn, null);
+				LineRead lineRead = fileIn.readALine(dataFileIn, null);
 				while(lineRead != null)
 				{
 					if(bVariableLength)
 						lineRead.shiftOffset(4);	// Skip record header
 	
 					if (bEbcdicIn && !bEbcdicOut)
-						m_encodingManager.getConvertedBytesEbcdicToAscii(lineRead);
+						encodingManager.getConvertedBytesEbcdicToAscii(lineRead);
 					else if (!bEbcdicIn && bEbcdicOut)
-						m_encodingManager.getConvertedBytesAsciiToEbcdic(lineRead);
+						encodingManager.getConvertedBytesAsciiToEbcdic(lineRead);
 	
 					if(bVariableLength)
 						lineRead.shiftOffset(-4);
 	
-					m_fileOut.writeFrom(lineRead);
-					lineRead = m_fileIn.readALine(dataFileIn, lineRead);
+					fileOut.writeFrom(lineRead);
+					lineRead = fileIn.readALine(dataFileIn, lineRead);
 				}
 			}
-			m_fileOut.close();
+			fileOut.close();
 		}
 		
 		return true;
@@ -164,28 +164,28 @@ public class FileEncodingConverterWithDesc extends FileEncodingConverter
 	
 	private void fillDesc(String csDesc)
 	{
-		m_csDesc = csDesc;
-		m_encodingManager = new VarDefEncodingConvertibleManager();
+		csDesc = csDesc;
+		encodingManager = new VarDefEncodingConvertibleManager();
 		
-		while(m_csDesc != null)
+		while(csDesc != null)
 		{
 			int nPosition = getChunkAsInt()-1;
 			int nLength = getChunkAsInt();
 			String csType = getChunk();
 						
 			if(csType.equalsIgnoreCase("CH"))
-				m_encodingManager.add(nPosition, nLength);
+				encodingManager.add(nPosition, nLength);
 			else if(csType.equalsIgnoreCase("CHB"))
-				m_encodingManager.add(nPosition, nLength, true);
+				encodingManager.add(nPosition, nLength, true);
 			else if(csType.equalsIgnoreCase("PRINT"))
-				m_encodingManager.add(nPosition, nLength, false, true);
+				encodingManager.add(nPosition, nLength, false, true);
 			else if(csType.equalsIgnoreCase("Comp0"))
-				m_encodingManager.add(nPosition, nLength);
+				encodingManager.add(nPosition, nLength);
 			else if(csType.equalsIgnoreCase("Comp0Signed"))
-				m_encodingManager.add(nPosition, nLength-1);
+				encodingManager.add(nPosition, nLength-1);
 		}
 		
-		m_encodingManager.compress();
+		encodingManager.compress();
 	}
 	
 	private int getChunkAsInt()
@@ -197,18 +197,18 @@ public class FileEncodingConverterWithDesc extends FileEncodingConverter
 	private String getChunk()
 	{
 		String cs = null;
-		int nIndex = m_csDesc.indexOf(',');
+		int nIndex = csDesc.indexOf(',');
 		if(nIndex == -1)
 		{
-			cs = m_csDesc;
+			cs = csDesc;
 			cs = cs.trim();
-			m_csDesc = null;
+			csDesc = null;
 		}
 		else
 		{
-			cs = m_csDesc.substring(0, nIndex);
+			cs = csDesc.substring(0, nIndex);
 			cs = cs.trim();
-			m_csDesc = m_csDesc.substring(nIndex+1);			
+			csDesc = csDesc.substring(nIndex+1);			
 		}
 		return cs;
 	}

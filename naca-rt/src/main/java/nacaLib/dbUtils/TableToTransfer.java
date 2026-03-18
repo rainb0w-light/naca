@@ -43,9 +43,9 @@ import jlib.threads.ThreadPoolRequest;
  */
 public class TableToTransfer extends ThreadPoolRequest
 {	
-	private String m_csTableName = null;
-	private String m_csUpdateClause = null;
-	private boolean m_bReplace = false;
+	private String csTableName = null;
+	private String csUpdateClause = null;
+	private boolean bReplace = false;
 	
 	TableToTransfer(boolean bTerminaison)
 	{
@@ -56,12 +56,12 @@ public class TableToTransfer extends ThreadPoolRequest
 	{
 		super(false);
 		
-		m_csTableName = csTableName;
-		m_csUpdateClause = csUpdateClause + "'" + csTableName + "'";
+		csTableName = csTableName;
+		csUpdateClause = csUpdateClause + "'" + csTableName + "'";
 		if(csReplace.equalsIgnoreCase("y"))
-			m_bReplace = true;
+			bReplace = true;
 		else
-			m_bReplace = false;
+			bReplace = false;
 	}
 
 	public void execute()
@@ -71,7 +71,7 @@ public class TableToTransfer extends ThreadPoolRequest
 	
 	public void execute(DbConnectionBase dbConnectionSource, DbConnectionBase dbConnectionDestination, DbTransferDesc dbTransferDesc)
 	{
-		if(m_bReplace)
+		if(bReplace)
 		{
 			deleteRecordsOfDestinationTable(dbConnectionDestination);
 		}
@@ -80,7 +80,7 @@ public class TableToTransfer extends ThreadPoolRequest
 	
 	private void deleteRecordsOfDestinationTable(DbConnectionBase dbConnectionDestination)
 	{
-		String csClause = "Delete from  " + dbConnectionDestination.getEnvironmentPrefix() + "." + m_csTableName;
+		String csClause = "Delete from  " + dbConnectionDestination.getEnvironmentPrefix() + "." + csTableName;
 		DbPreparedStatement st = dbConnectionDestination.prepareStatement(csClause, 0, false);
 		st.executeUpdate();
 	}
@@ -90,7 +90,7 @@ public class TableToTransfer extends ThreadPoolRequest
 		StringBuilder csInsertClause = new StringBuilder("Insert into ");
 		csInsertClause.append(dbConnectionDestination.getEnvironmentPrefix());
 		csInsertClause.append(".");
-		csInsertClause.append(m_csTableName);
+		csInsertClause.append(csTableName);
 		csInsertClause.append("(");
 		csInsertClause.append(csColumnNames);
 		csInsertClause.append(") values (");
@@ -112,8 +112,8 @@ public class TableToTransfer extends ThreadPoolRequest
 		ArrayList<RecordColTypeManagerBase> arrColTypes = null;
 		ArrayList<String> arrColNames = new ArrayList<String>();
 		StringBuilder sbSQLError = new StringBuilder(" ");
-		String csPrefixedTableName = dbConnectionSource.getEnvironmentPrefix() + "." + m_csTableName;
-		String csDestinationTableName = dbConnectionDestination.getEnvironmentPrefix() + "." + m_csTableName;
+		String csPrefixedTableName = dbConnectionSource.getEnvironmentPrefix() + "." + csTableName;
+		String csDestinationTableName = dbConnectionDestination.getEnvironmentPrefix() + "." + csTableName;
 		
 		String csClause = "Select * From " + csPrefixedTableName;
 		DbPreparedStatement selectStatement = dbConnectionSource.prepareStatement(csClause, 0, false);
@@ -250,7 +250,7 @@ public class TableToTransfer extends ThreadPoolRequest
 	
 	private synchronized void reportTransfer(DbConnectionBase dbConnectionSource, DbConnectionBase dbConnectionDestination, int nNbRecordRead, StringBuilder sbSQLError, String csPrefixedTableName, StopWatch sw, String csDestinationTableName)
 	{
-		// clause is "update m_csDefinitionTable set LASTWRITE=?, NBREAD=?, NBWRITE=?, SQLERROR=? Where TNAME='xxx'"
+		// clause is "update csDefinitionTable set LASTWRITE=?, NBREAD=?, NBWRITE=?, SQLERROR=? Where TNAME='xxx'"
 		int nNbRecordWritten = getNbRecordsInTable(dbConnectionDestination);
 		
 		CurrentDateInfo now = new CurrentDateInfo();
@@ -258,7 +258,7 @@ public class TableToTransfer extends ThreadPoolRequest
 		String csError = sbSQLError.toString();
 		
 		Log.logCritical("Finished transfer from source table " + csPrefixedTableName + " to destination table " + csDestinationTableName + "; Records read=" + nNbRecordRead + "; Records written="+nNbRecordWritten + "; Transfet Time=" + sw.getElapsedTime() + " ms; Text error="+csError);
-		DbPreparedStatement updateStatement = dbConnectionSource.prepareStatement(m_csUpdateClause, 0, false);
+		DbPreparedStatement updateStatement = dbConnectionSource.prepareStatement(csUpdateClause, 0, false);
 		
 		updateStatement.setDateTime(0, dateNow);
 		updateStatement.setColParam(1, nNbRecordRead);
@@ -267,7 +267,7 @@ public class TableToTransfer extends ThreadPoolRequest
 		int n = updateStatement.executeUpdate();
 		if(n < 0)
 		{
-			Log.logCritical("Error during execution of clause " + m_csUpdateClause);
+			Log.logCritical("Error during execution of clause " + csUpdateClause);
 		}
 		
 		dbConnectionSource.commit();		
@@ -312,7 +312,7 @@ public class TableToTransfer extends ThreadPoolRequest
 		try
 		{
 			String csPrefix = dbConnectionDestination.getEnvironmentPrefix();
-			String csQuery = "select count(*) from " + csPrefix + "." + m_csTableName;
+			String csQuery = "select count(*) from " + csPrefix + "." + csTableName;
 			
 			DbPreparedStatement st = dbConnectionDestination.prepareStatement(csQuery, 0, false);
 			if(st != null)

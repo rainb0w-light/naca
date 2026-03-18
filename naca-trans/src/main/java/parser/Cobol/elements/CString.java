@@ -44,11 +44,11 @@ public class CString extends CCobolElement
 	{
 		CStringConcatItem(CTerminal id, CTerminal t)
 		{
-			m_Value = id ;
-			m_Until = t ;
+			value = id ;
+			until = t ;
 		} 
-		CTerminal m_Value = null ;
-		CTerminal m_Until = null ; // if null => DELIMITED BY SIZE
+		CTerminal value = null ;
+		CTerminal until = null ; // if null => DELIMITED BY SIZE
 	} 
 	/**
 	 * @param line
@@ -66,11 +66,11 @@ public class CString extends CCobolElement
 		CEntityStringConcat eConcat = factory.NewEntityStringConcat(getLine());
 		parent.AddChild(eConcat);
 
-		CDataEntity eVariable = m_Variable.GetDataReference(getLine(), factory);
+		CDataEntity eVariable = variable.GetDataReference(getLine(), factory);
 		eVariable.RegisterWritingAction(eConcat) ;
-		if (m_DestIndexStart != null)
+		if (destIndexStart != null)
 		{
-			CDataEntity eStart = m_DestIndexStart.GetDataEntity(getLine(), factory) ;
+			CDataEntity eStart = destIndexStart.GetDataEntity(getLine(), factory) ;
 			eConcat.SetVariable(eVariable, eStart);
 			eStart.RegisterReadingAction(eConcat) ;
 		}
@@ -79,14 +79,14 @@ public class CString extends CCobolElement
 			eConcat.SetVariable(eVariable);
 		}
 
-		for (int i =0; i<m_arrConcatItems.size(); i++)
+		for (int i =0; i<arrConcatItems.size(); i++)
 		{
-			CStringConcatItem item = m_arrConcatItems.get(i);
-			CDataEntity eItem = item.m_Value.GetDataEntity(getLine(), factory);
-			if (item.m_Until != null)
+			CStringConcatItem item = arrConcatItems.get(i);
+			CDataEntity eItem = item.value.GetDataEntity(getLine(), factory);
+			if (item.until != null)
 			{
-				CDataEntity eUntil = item.m_Until.GetDataEntity(getLine(), factory);
-				if (eUntil == null && !item.m_Until.IsReference() && (item.m_Until.GetValue().equals("SPACES") || item.m_Until.GetValue().equals("SPACE")))
+				CDataEntity eUntil = item.until.GetDataEntity(getLine(), factory);
+				if (eUntil == null && !item.until.IsReference() && (item.until.GetValue().equals("SPACES") || item.until.GetValue().equals("SPACE")))
 				{
 					char [] arr = {' '} ;
 					eUntil = factory.NewEntityString(arr);
@@ -100,9 +100,9 @@ public class CString extends CCobolElement
 			eItem.RegisterReadingAction(eConcat) ;
 		}
 		
-		if (m_Bloc != null)
+		if (bloc != null)
 		{
-			CBaseLanguageEntity e = m_Bloc.DoSemanticAnalysis(eConcat, factory) ;
+			CBaseLanguageEntity e = bloc.DoSemanticAnalysis(eConcat, factory) ;
 			eConcat.AddChildSpecial(e);
 		}
 		return eConcat;
@@ -118,7 +118,7 @@ public class CString extends CCobolElement
 		{
 			return false ;
 		}
-		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().m_Name) ;
+		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
 		tok = GetNext();
 		boolean bDone = false ;
 		Vector<CTerminal> arrTerms = new Vector<CTerminal>() ;  // array used to save read terminals before reading the 'delimited by' statement
@@ -142,9 +142,9 @@ public class CString extends CCobolElement
 					{
 						for (CTerminal idsav : arrTerms)
 						{
-							m_arrConcatItems.add(new CStringConcatItem(idsav, null));	
+							arrConcatItems.add(new CStringConcatItem(idsav, null));	
 						}
-						m_arrConcatItems.add(new CStringConcatItem(id, null));	
+						arrConcatItems.add(new CStringConcatItem(id, null));	
 						GetNext(); 
 					}
 					else 
@@ -152,23 +152,23 @@ public class CString extends CCobolElement
 						CTerminal term = ReadTerminal() ;
 						for (CTerminal idsav : arrTerms)
 						{
-							m_arrConcatItems.add(new CStringConcatItem(idsav, term));	
+							arrConcatItems.add(new CStringConcatItem(idsav, term));	
 						}
-						m_arrConcatItems.add(new CStringConcatItem(id, term));	
+						arrConcatItems.add(new CStringConcatItem(id, term));	
 					}
 					arrTerms.clear() ;
 				}
 				else
 				{
 					arrTerms.add(id) ;
-//					m_arrConcatItems.add(new CStringConcatItem(id, null));	
+//					arrConcatItems.add(new CStringConcatItem(id, null));	
 				}
 				IgnoreComma();
 			}
 			else if (tok.GetKeyword() == CCobolKeywordList.INTO)
 			{
 				GetNext();
-				m_Variable = ReadIdentifier();
+				variable = ReadIdentifier();
 				tok = GetCurrentToken();
 				if (tok.GetKeyword()== CCobolKeywordList.WITH)
 				{
@@ -177,7 +177,7 @@ public class CString extends CCobolElement
 				if (tok.GetKeyword() == CCobolKeywordList.POINTER)
 				{
 					tok = GetNext();
-					m_DestIndexStart = ReadTerminal() ;
+					destIndexStart = ReadTerminal() ;
 				}
 				bDone = true ;
 			}
@@ -194,8 +194,8 @@ public class CString extends CCobolElement
 			if (tok.GetKeyword() == CCobolKeywordList.OVERFLOW)
 			{
 				GetNext();
-				m_Bloc = new CGenericBloc("OnOverflow", GetCurrentToken().getLine()) ;
-				if (!Parse(m_Bloc))
+				bloc = new CGenericBloc("OnOverflow", GetCurrentToken().getLine()) ;
+				if (!Parse(bloc))
 				{
 					Transcoder.logError(getLine(), "Failure while parsing THEN bloc") ;
 					return false ;
@@ -207,7 +207,7 @@ public class CString extends CCobolElement
 		{
 			GetNext();
 		}
-		if (m_Variable != null)
+		if (variable != null)
 		{
 			return true;
 		}
@@ -225,28 +225,28 @@ public class CString extends CCobolElement
 		Element eST = root.createElement("StringConcat") ;
 		Element eInto = root.createElement("Into") ;
 		eST.appendChild(eInto);
-		if (m_Variable != null)
+		if (variable != null)
 		{
-			m_Variable.ExportTo(eInto, root);
+			variable.ExportTo(eInto, root);
 		}
-		for (int i =0; i<m_arrConcatItems.size(); i++)
+		for (int i =0; i<arrConcatItems.size(); i++)
 		{
-			CStringConcatItem item = m_arrConcatItems.get(i) ;
+			CStringConcatItem item = arrConcatItems.get(i) ;
 			Element eItem = root.createElement("Item") ;
 			eST.appendChild(eItem);
-			item.m_Value.ExportTo(eItem, root) ;
-			if (item.m_Until != null)
+			item.value.ExportTo(eItem, root) ;
+			if (item.until != null)
 			{
 				Element eUntil = root.createElement("DelimitedBy") ;
 				eItem.appendChild(eUntil);
-				item.m_Until.ExportTo(eUntil, root) ;
+				item.until.ExportTo(eUntil, root) ;
 			}  
 		}
 		return eST;
 	}
 
-	protected CIdentifier m_Variable = null ;
-	protected Vector<CStringConcatItem> m_arrConcatItems = new Vector<CStringConcatItem>() ;
-	protected CBlocElement m_Bloc = null ;
-	protected CTerminal m_DestIndexStart = null ;
+	protected CIdentifier variable = null ;
+	protected Vector<CStringConcatItem> arrConcatItems = new Vector<CStringConcatItem>() ;
+	protected CBlocElement bloc = null ;
+	protected CTerminal destIndexStart = null ;
 }

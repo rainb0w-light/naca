@@ -56,7 +56,7 @@ public class CMapSetElement extends CBMSElement
 	public CBaseResourceEntity DoSemanticAnalysis(CDataEntity parent, CBaseEntityFactory factory)
 	{
 		CEntityResourceFormContainer eFC = factory.NewEntityFormContainer(getLine(), getName(), false) ;
-		ListIterator i = m_children.listIterator() ;
+		ListIterator i = children.listIterator() ;
 		try
 		{
 			CBMSElement le = (CBMSElement)i.next() ;
@@ -64,29 +64,29 @@ public class CMapSetElement extends CBMSElement
 			{
 				if (le.GetType()==EBMSElementType.MAP)
 				{
-					if (m_resStrings != null)
+					if (resStrings != null)
 					{
-						le.SetResourceStrings(m_resStrings) ;
+						le.SetResourceStrings(resStrings) ;
 					}
 					CEntityResourceForm form = (CEntityResourceForm)le.DoSemanticAnalysis(eFC, factory) ;
-					if (m_resStrings == null)
+					if (resStrings == null)
 					{
-						m_resStrings = le.GetResourceStrings(); 
+						resStrings = le.GetResourceStrings(); 
 					}
 					if (form != null)
 					{
-						form.m_Of = eFC ;
+						form.of = eFC ;
 						eFC.AddForm(form) ;
 						form.setResourceName(getName()) ;
 						if (form.GetName().endsWith("F"))
 						{
-//							m_arrAccessors.add(le.GetName()) ;
-							form.SetReferences(m_arrAccessors) ;
+//							arrAccessors.add(le.GetName()) ;
+							form.SetReferences(arrAccessors) ;
 						}
 					}
 					else if (form == null)
 					{
-						m_arrAccessors.add(le.getName());
+						arrAccessors.add(le.getName());
 					}
 				}
 				le = (CBMSElement)i.next() ;
@@ -96,10 +96,10 @@ public class CMapSetElement extends CBMSElement
 		{
 			//System.out.println(e.toString());
 		}
-		eFC.m_resStrings = m_resStrings ;
+		eFC.resStrings = resStrings ;
 		return eFC ;
 	}
-	protected ArrayList<String> m_arrAccessors = new ArrayList<String>() ;
+	protected ArrayList<String> arrAccessors = new ArrayList<String>() ;
 	
 	/* (non-Javadoc)
 	 * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
@@ -107,8 +107,8 @@ public class CMapSetElement extends CBMSElement
 	protected Element DoExportCustom(Document root)
 	{
 		Element eMS = root.createElement("MapSet") ;
-		eMS.setAttribute("Mode", m_Mode) ;
-		eMS.setAttribute("Language", m_Language) ;
+		eMS.setAttribute("Mode", mode) ;
+		eMS.setAttribute("Language", language) ;
 		return eMS ;
 	}
 
@@ -132,7 +132,7 @@ public class CMapSetElement extends CBMSElement
 			CBaseToken tok = GetCurrentToken() ;
 			if (tok.GetConstant() == CBMSConstantList.INOUT)
 			{
-				m_Mode = tok.GetValue() ;
+				mode = tok.GetValue() ;
 			}
 			else
 			{
@@ -146,7 +146,7 @@ public class CMapSetElement extends CBMSElement
 			CBaseToken tok = GetCurrentToken() ;
 			if (tok.GetConstant() == CBMSConstantList.COBOL)
 			{
-				m_Language = tok.GetValue() ;
+				language = tok.GetValue() ;
 			}
 			else
 			{
@@ -209,14 +209,14 @@ public class CMapSetElement extends CBMSElement
 //		}
 		else
 		{
-			Transcoder.logError(getLine(), "Unexpecting keyword : "+kw.m_Name) ;
+			Transcoder.logError(getLine(), "Unexpecting keyword : "+kw.name) ;
 			return false ;
 		}
 		return true ;
 	}
 	
-	String m_Mode = "" ;
-	String m_Language = "" ;
+	String mode = "" ;
+	String language = "" ;
 	/* (non-Javadoc)
 	 * @see parser.CBMSElement#GetType()
 	 */
@@ -225,22 +225,22 @@ public class CMapSetElement extends CBMSElement
 		return EBMSElementType.MAPSET ;
 	}
 
-	protected CResourceStrings m_resStrings = null ;
+	protected CResourceStrings resStrings = null ;
 	public CResourceStrings GetResourceStrings()
 	{
-		return m_resStrings ;
+		return resStrings ;
 	}
 	public void SetResourceStrings(CResourceStrings res)
 	{
-		m_resStrings = res ;
+		resStrings = res ;
 	}
 	
 	public CBMSElement loadTagParameters(Tag tagCurrent)
 	{
-		m_Language = tagCurrent.getVal("Language");
+		language = tagCurrent.getVal("Language");
 		int nLine = tagCurrent.getValAsInt("Line");
 		setLine(nLine);
-		m_Mode = tagCurrent.getVal("Mode");
+		mode = tagCurrent.getVal("Mode");
 		setName(tagCurrent.getVal("Name"));
 		
 		return loadInternalTags(tagCurrent);
@@ -276,8 +276,8 @@ public class CMapSetElement extends CBMSElement
 	
 	public CBMSElement loadFromRES(String csName)
 	{
-		m_Language = "COBOL";
-		m_Mode = "INOUT";
+		language = "COBOL";
+		mode = "INOUT";
 		setName(csName);
 		setLine(1);
 		return this;			

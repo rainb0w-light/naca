@@ -24,11 +24,11 @@ import nacaLib.varEx.FileDescriptor;
  */
 public class FileExporter
 {
-	private BaseSession m_session = null;
+	private BaseSession session = null;
 	
 	public FileExporter(BaseSession session)
 	{
-		m_session = session;
+		session = session;
 	}
 	
 	public boolean execute(FileDescriptor exportFileIn, FileDescriptor exportFileOut)
@@ -39,7 +39,7 @@ public class FileExporter
 		boolean bInOpened = dataFileIn.open(logicalFileDescriptor);
 		if(bInOpened)
 		{
-			exportFileOut.setSession(m_session);
+			exportFileOut.setSession(session);
 			String csFileOut = exportFileOut.getPhysicalName();
 			
 			exportFileOut.openOutputNoFileHeaderWrite();

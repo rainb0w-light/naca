@@ -54,10 +54,10 @@ public class CStart extends CCobolElement
 		{
 			return false ;
 		}
-		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().m_Name) ;
+		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
 		
 		tok = GetNext();
-		m_FileDesc = ReadIdentifier();
+		fileDesc = ReadIdentifier();
 		
 		tok = GetCurrentToken() ;
 		if (tok.GetKeyword() != CCobolKeywordList.KEY)
@@ -71,17 +71,17 @@ public class CStart extends CCobolElement
 		}
 		if (tok.GetType() == CTokenType.GREATER_THAN)
 		{
-			m_KeyCompare = CTokenType.GREATER_THAN ;
+			keyCompare = CTokenType.GREATER_THAN ;
 			tok = GetNext() ;
 		}
 		else if (tok.GetType() == CTokenType.GREATER_OR_EQUALS)
 		{
-			m_KeyCompare = CTokenType.GREATER_OR_EQUALS ;
+			keyCompare = CTokenType.GREATER_OR_EQUALS ;
 			tok = GetNext() ;
 		}
 		else if (tok.GetType() == CTokenType.EQUALS)
 		{
-			m_KeyCompare = CTokenType.EQUALS ;
+			keyCompare = CTokenType.EQUALS ;
 			tok = GetNext() ;
 		}
 		else if (tok.GetKeyword() == CCobolKeywordList.GREATER)
@@ -91,19 +91,19 @@ public class CStart extends CCobolElement
 			{
 				tok = GetNext() ;
 			}
-			m_KeyCompare = CTokenType.GREATER_THAN ;
+			keyCompare = CTokenType.GREATER_THAN ;
 		}
 		else if (tok.GetKeyword() == CCobolKeywordList.EQUALS)
 		{
 			tok = GetNext() ;
-			m_KeyCompare = CTokenType.EQUALS ;
+			keyCompare = CTokenType.EQUALS ;
 		}
 		else if (tok.GetKeyword() == CCobolKeywordList.NOT)
 		{
 			tok = GetNext() ;
 			if (tok.GetKeyword() == CCobolKeywordList.LESS)
 			{
-				m_KeyCompare = CTokenType.GREATER_OR_EQUALS ;
+				keyCompare = CTokenType.GREATER_OR_EQUALS ;
 				tok = GetNext() ;
 				if (tok.GetKeyword() == CCobolKeywordList.THAN)
 				{
@@ -112,7 +112,7 @@ public class CStart extends CCobolElement
 			}
 			else if (tok.GetType() == CTokenType.LESS_THAN)
 			{
-				m_KeyCompare = CTokenType.GREATER_OR_EQUALS ;
+				keyCompare = CTokenType.GREATER_OR_EQUALS ;
 				tok = GetNext() ;
 			}
 			else 
@@ -125,7 +125,7 @@ public class CStart extends CCobolElement
 			return false ;
 		}
 		
-		m_Value = ReadTerminal();
+		value = ReadTerminal();
 		
 		tok = GetCurrentToken() ;
 		if (tok.GetKeyword() == CCobolKeywordList.INVALID)
@@ -135,8 +135,8 @@ public class CStart extends CCobolElement
 			{
 				tok = GetNext();
 			}
-			m_OnInvalidKey = new CGenericBloc("OnInvalidKey",  tok.getLine());
-			if (!Parse(m_OnInvalidKey))
+			onInvalidKey = new CGenericBloc("OnInvalidKey",  tok.getLine());
+			if (!Parse(onInvalidKey))
 			{
 				return false ;
 			}
@@ -149,18 +149,18 @@ public class CStart extends CCobolElement
 		Element eStart = root.createElement("Start") ;
 		Element eFile = root.createElement("File");
 		eStart.appendChild(eFile);
-		m_FileDesc.ExportTo(eFile, root);
+		fileDesc.ExportTo(eFile, root);
 		
 		String cs = "Key" ;
-		if (m_KeyCompare == CTokenType.EQUALS)
+		if (keyCompare == CTokenType.EQUALS)
 		{
 			cs = "KeyEquals" ;
 		}
-		else if (m_KeyCompare == CTokenType.GREATER_THAN)
+		else if (keyCompare == CTokenType.GREATER_THAN)
 		{
 			cs = "KeyGreaterThan" ;
 		}
-		else if (m_KeyCompare == CTokenType.GREATER_OR_EQUALS)
+		else if (keyCompare == CTokenType.GREATER_OR_EQUALS)
 		{
 			cs = "KeyGreaterThanOrEquals" ;
 		}
@@ -170,12 +170,12 @@ public class CStart extends CCobolElement
 		}
 		Element eKey = root.createElement(cs);
 		eStart.appendChild(eKey);
-		m_Value.ExportTo(eKey, root); 
+		value.ExportTo(eKey, root); 
 		return eStart;
 	}
 
-	protected CIdentifier m_FileDesc = null ;
-	protected CTerminal m_Value = null ;
-	protected CTokenType m_KeyCompare = null ;
-	protected CGenericBloc m_OnInvalidKey = null ;
+	protected CIdentifier fileDesc = null ;
+	protected CTerminal value = null ;
+	protected CTokenType keyCompare = null ;
+	protected CGenericBloc onInvalidKey = null ;
 }

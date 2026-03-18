@@ -50,7 +50,7 @@ public class CExecStatement extends CCobolElement
 		{
 			tokNext = GetNext();
 		}
-		CGlobalEntityCounter.GetInstance().CountCobolVerb(tokNext.GetKeyword().m_Name) ;
+		CGlobalEntityCounter.GetInstance().CountCobolVerb(tokNext.GetKeyword().name) ;
 		boolean bDone = false ;
 		while (!bDone)
 		{
@@ -72,12 +72,12 @@ public class CExecStatement extends CCobolElement
 			}
 			else
 			{
-				m_csSentence += tokNext.GetDisplay() ;
+				csSentence += tokNext.GetDisplay() ;
 				GetNext();
 			}
 			setLine(tokNext.getLine());
 		}
-//		m_Logger.info("(" +getLine()+ ") EXEC CICS "+m_csSentence);
+//		m_Logger.info("(" +getLine()+ ") EXEC CICS "+csSentence);
 		return true;
 	}
 	/* (non-Javadoc)
@@ -86,16 +86,16 @@ public class CExecStatement extends CCobolElement
 	protected Element ExportCustom(Document root)
 	{
 		Element eExec = root.createElement("Exec") ;
-		eExec.setAttribute("Sentence", m_csSentence);
+		eExec.setAttribute("Sentence", csSentence);
 		return eExec;
 	}
-	String m_csSentence = "" ;
+	String csSentence = "" ;
 	/* (non-Javadoc)
 	 * @see parser.CBaseElement#DoCustomSemanticAnalysis(semantic.CBaseSemanticEntity, semantic.CBaseSemanticEntityFactory)
 	 */
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		CEntityExec e = factory.NewEntityExec(getLine(), m_csSentence);
+		CEntityExec e = factory.NewEntityExec(getLine(), csSentence);
 		parent.AddChild(e) ;
 		return e ;
 	}

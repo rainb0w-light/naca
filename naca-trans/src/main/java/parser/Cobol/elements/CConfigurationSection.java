@@ -34,8 +34,8 @@ import utils.Transcoder;
  */
 public class CConfigurationSection extends CCommentContainer
 {
-	protected String m_csSourceComputer = "" ;
-	protected String m_csObjectComputer = "" ;
+	protected String csSourceComputer = "" ;
+	protected String csObjectComputer = "" ;
 	/**
 	 * @param line
 	 */
@@ -79,7 +79,7 @@ public class CConfigurationSection extends CCommentContainer
 					Transcoder.logError(getLine(), "Expecting IDENTIFIER");
 					return false ;
 				}
-				m_csSourceComputer = tok.GetValue();
+				csSourceComputer = tok.GetValue();
 				tok = GetNext();
 				if (tok.GetType() != CTokenType.DOT)
 				{
@@ -102,7 +102,7 @@ public class CConfigurationSection extends CCommentContainer
 					Transcoder.logError(getLine(), "Expecting IDENTIFIER");
 					return false ;
 				}
-				m_csObjectComputer = tok.GetValue();
+				csObjectComputer = tok.GetValue();
 				tok = GetNext();
 				if (tok.GetType() != CTokenType.DOT)
 				{
@@ -169,8 +169,8 @@ public class CConfigurationSection extends CCommentContainer
 	protected Element ExportCustom(Document root)
 	{
 		Element eConfig = root.createElement("Configuration") ;
-		eConfig.setAttribute("SourceComputer", m_csSourceComputer) ;
-		eConfig.setAttribute("ObjectComputer", m_csObjectComputer) ;
+		eConfig.setAttribute("SourceComputer", csSourceComputer) ;
+		eConfig.setAttribute("ObjectComputer", csObjectComputer) ;
 		return eConfig ;
 	}
 

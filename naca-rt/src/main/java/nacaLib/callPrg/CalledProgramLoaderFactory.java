@@ -16,9 +16,9 @@ public class CalledProgramLoaderFactory extends CBaseProgramLoaderFactory
 {
 	public ProgramSequencer NewSequencer()
 	{
-		CalledProgramLoader prog = new CalledProgramLoader(m_connectionManager, m_tagSequencerConfig);
-		if (m_tagSequencerConfig != null)
-			prog.initMailService(m_tagSequencerConfig);
+		CalledProgramLoader prog = new CalledProgramLoader(connectionManager, tagSequencerConfig);
+		if (tagSequencerConfig != null)
+			prog.initMailService(tagSequencerConfig);
 		return prog ;
 	}
 }

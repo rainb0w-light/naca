@@ -74,9 +74,9 @@ public class TranslationPipelineTest {
         LogCenterConsole logCenter = new LogCenterConsole(
                 new LogCenterLoader() {
                     {
-                        m_logLevel = LogLevel.Normal;
-                        m_logFlow = LogFlowStd.Any;
-                        m_csChannel = "NacaRT";
+                        logLevel = LogLevel.Normal;
+                        logFlow = LogFlowStd.Any;
+                        csChannel = "NacaRT";
                     }
                 }) {
             @Override

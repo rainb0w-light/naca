@@ -59,59 +59,59 @@ public abstract class CResourceStrings
 		}
 	}
 	
-	protected ArrayList<String> m_arrLangId = new ArrayList<String>() ;
+	protected ArrayList<String> arrLangId = new ArrayList<String>() ;
 	protected class CLocalizedText
 	{
-		public String m_csId = "" ;
-		public HashMap<String, String> m_TextTable = new HashMap<String, String>();
-		public int m_length =0  ; 
+		public String csId = "" ;
+		public HashMap<String, String> textTable = new HashMap<String, String>();
+		public int length =0  ; 
 	}
 	public CResourceStrings(int nbLines, int nbCols)
 	{
-		m_nbCols = nbCols ;
-		m_nbLines = nbLines ;
-		m_arrLines = new CLocalizedText[m_nbLines+1][];
-		m_tabTexts = new Hashtable<String, CLocalizedText>() ;
+		nbCols = nbCols ;
+		nbLines = nbLines ;
+		arrLines = new CLocalizedText[nbLines+1][];
+		tabTexts = new Hashtable<String, CLocalizedText>() ;
 	}
 	public void SetResourceText(int line, int col, String text, String langID, int length)
 	{
 		String csLang = getOfficialLanguageCode(langID) ; 
-		if (!m_arrLangId.contains(csLang))
+		if (!arrLangId.contains(csLang))
 		{
-			m_arrLangId.add(csLang) ;
+			arrLangId.add(csLang) ;
 		}
 		CLocalizedText lText = GetResourceAt(line, col) ;
-		lText.m_length = length ;
-		lText.m_TextTable.put(csLang, text) ;
+		lText.length = length ;
+		lText.textTable.put(csLang, text) ;
 	}
 	public void SetResourceText(int line, int col, String text, String langID, String id, int length)
 	{
 		String csLang = getOfficialLanguageCode(langID) ; 
-		if (!m_arrLangId.contains(csLang))
+		if (!arrLangId.contains(csLang))
 		{
-			m_arrLangId.add(csLang) ;
+			arrLangId.add(csLang) ;
 		}
 		CLocalizedText lText = GetResourceAt(line, col) ;
-		lText.m_length = length ;
-		lText.m_TextTable.put(csLang, text) ;
+		lText.length = length ;
+		lText.textTable.put(csLang, text) ;
 		if (!id.equals(""))
 		{
-			lText.m_csId = id ;
-			m_tabTexts.put(id, lText) ;
+			lText.csId = id ;
+			tabTexts.put(id, lText) ;
 		}
 	}
 	protected CLocalizedText GetResourceAt(int line, int col)
 	{
 		CLocalizedText lText = null ;
-		if (m_arrLines[line] == null)
+		if (arrLines[line] == null)
 		{
-			m_arrLines[line] = new CLocalizedText[m_nbCols+1] ;
+			arrLines[line] = new CLocalizedText[nbCols+1] ;
 		}
-		lText = m_arrLines[line][col] ;
+		lText = arrLines[line][col] ;
 		if (lText == null)
 		{
 			lText = new CLocalizedText() ;
-			m_arrLines[line][col] = lText ;
+			arrLines[line][col] = lText ;
 		} 
 		return lText ;
 	}
@@ -119,27 +119,27 @@ public abstract class CResourceStrings
 	
 	public String CreateName(String radical)
 	{
-		return radical + "_LABEL_" + m_lastIndex++;
+		return radical + "_LABEL_" + lastIndex++;
 	}
-	protected int m_lastIndex = 0;
-	protected int m_nbLines = 0 ;
-	protected int m_nbCols = 0 ;
-	protected CLocalizedText[][] m_arrLines = null ;
-	protected Hashtable<String, CLocalizedText> m_tabTexts = null ;
+	protected int lastIndex = 0;
+	protected int nbLines = 0 ;
+	protected int nbCols = 0 ;
+	protected CLocalizedText[][] arrLines = null ;
+	protected Hashtable<String, CLocalizedText> tabTexts = null ;
 
 	public Node ExportResource(String name, Document doc)
 	{
-		CLocalizedText res = m_tabTexts.get(name) ;
+		CLocalizedText res = tabTexts.get(name) ;
 		if (res == null)
 		{
 			return null;
 		}
 		Element eText = doc.createElement("texts");
-		int n = res.m_TextTable.size() ;
+		int n = res.textTable.size() ;
 		for (int i=0; i<n; i+=2)
 		{
-			String id = res.m_TextTable.get(i) ;
-			String text = res.m_TextTable.get(i+1) ;
+			String id = res.textTable.get(i) ;
+			String text = res.textTable.get(i+1) ;
 			Element e = doc.createElement("text");
 			e.setAttribute("lang", id) ;
 			eText.appendChild(e);
@@ -149,21 +149,21 @@ public abstract class CResourceStrings
 	}
 	public abstract void FormatResource(String name) ;
 	/**
-	 * @param m_initialValue
+	 * @param initialValue
 	 * @return
 	 */
-	public abstract String ExportForField(String m_initialValue, String display) ; 
+	public abstract String ExportForField(String initialValue, String display) ; 
 	
 	public String ExportAllLangId()
 	{
 		String cs = "" ;
-		for (int i=0; i<m_arrLangId.size(); i++)
+		for (int i=0; i<arrLangId.size(); i++)
 		{
 			if (i>0)
 			{
 				cs += ";" ;
 			}
-			cs += m_arrLangId.get(i) ;
+			cs += arrLangId.get(i) ;
 		}
 		return cs ;
 	}
@@ -174,21 +174,21 @@ public abstract class CResourceStrings
 	 */
 	public boolean isExistingField(int line, int col, int length)
 	{
-		if (line > m_nbLines || col > m_nbCols)
+		if (line > nbLines || col > nbCols)
 		{
 			return false ;
 		}
 		CLocalizedText lText = null ;
-		if (m_arrLines[line] == null)
+		if (arrLines[line] == null)
 		{
 			return  false ;
 		}
-		lText = m_arrLines[line][col] ;
+		lText = arrLines[line][col] ;
 		if (lText == null)
 		{
 			return false ;
 		} 
-		if (lText.m_length != length)
+		if (lText.length != length)
 		{
 			return false ;
 		}

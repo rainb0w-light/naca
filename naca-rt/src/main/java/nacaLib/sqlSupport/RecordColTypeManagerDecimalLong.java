@@ -33,11 +33,11 @@ public class RecordColTypeManagerDecimalLong extends RecordColTypeManagerBase
 	{
 		try
 		{
-			long lValue = resultSetSource.getInt(m_nColSourceIndex);
+			long lValue = resultSetSource.getInt(nColSourceIndex);
 			if (!resultSetSource.wasNull())
-				insertStatementInsert.setLong(m_nColSourceIndex, lValue);
+				insertStatementInsert.setLong(nColSourceIndex, lValue);
 			else
-				insertStatementInsert.setNull(m_nColSourceIndex, Types.INTEGER);
+				insertStatementInsert.setNull(nColSourceIndex, Types.INTEGER);
 			return true;
 		}
 		catch (SQLException e)
@@ -51,19 +51,19 @@ public class RecordColTypeManagerDecimalLong extends RecordColTypeManagerBase
 	{
 		try
 		{		
-			long lValue = rs.getLong(m_nColSourceIndex);
+			long lValue = rs.getLong(nColSourceIndex);
 			if (lValue != 0 || !rs.wasNull())
 			{
-				varInto.m_varDef.write(varInto.m_bufferPos, lValue);
+				varInto.varDef.write(varInto.bufferPos, lValue);
 				return false;
 			}
 		}
 		catch (SQLException e)
 		{
 			LogSQLException.log(e);
-			// Maybe should I set m_bNull = true; ?
+			// Maybe should I set bNull = true; ?
 		}
-		varInto.m_varDef.write(varInto.m_bufferPos, 0);
+		varInto.varDef.write(varInto.bufferPos, 0);
 		return true;
 	}
 }

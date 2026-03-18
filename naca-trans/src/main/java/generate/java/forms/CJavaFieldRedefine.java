@@ -71,34 +71,34 @@ public class CJavaFieldRedefine extends CEntityFieldRedefine
 	{
 		String name = GetName() ;
 		name = FormatIdentifier(name) ;
-		String cs = "Edit " + name + " = declare.level("+Integer.parseInt(m_csLevel)+")" ;
-		if (!m_Type.equals(""))
+		String cs = "Edit " + name + " = declare.level("+Integer.parseInt(csLevel)+")" ;
+		if (!type.equals(""))
 		{
 			cs += ".pic(" ;
-			if (m_Type.equals("pic9"))
+			if (type.equals("pic9"))
 			{
 				cs += "\"";
-				for (int i=0; i < m_nLength; i++)
+				for (int i=0; i < nLength; i++)
 					cs += "9";
-				if (m_nDecimals>0)
+				if (nDecimals>0)
 				{
 					cs += ".";
-					for (int i=0; i < m_nDecimals; i++)
+					for (int i=0; i < nDecimals; i++)
 						cs += "9";
 				}
 				cs += "\"" ;
 			}
-			else if (!m_Format.equals(""))
+			else if (!format.equals(""))
 			{
-				cs += "\"" + m_Format + "\"" ;
+				cs += "\"" + format + "\"" ;
 			}
 			cs += ")" ;
 		}
-		if (m_bRightJustified)
+		if (bRightJustified)
 		{
 			cs += ".justifyRight()" ;
 		}
-		if (m_bBlankWhenZero)
+		if (bBlankWhenZero)
 		{
 			cs += ".blankWhenZero()" ;
 		}

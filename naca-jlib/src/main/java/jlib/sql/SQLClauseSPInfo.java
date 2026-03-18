@@ -20,11 +20,11 @@ import java.sql.SQLException;
  */
 public class SQLClauseSPInfo
 {
-	public String m_csCatalog = null;
-	public String m_csName = null;
-	public String m_csRemarks = null;
-	public String m_csSchem = null;
-	public short m_sType = 0;
+	public String csCatalog = null;
+	public String csName = null;
+	public String csRemarks = null;
+	public String csSchem = null;
+	public short sType = 0;
 	
 	SQLClauseSPInfo()
 	{
@@ -34,11 +34,11 @@ public class SQLClauseSPInfo
 	{
 		try
 		{
-			m_csCatalog = rsProc.getString("PROCEDURE_CAT");
-			m_csName = rsProc.getString("PROCEDURE_NAME");
-			m_csRemarks = rsProc.getString("REMARKS");
-			m_sType = rsProc.getShort("PROCEDURE_TYPE");
-			m_csSchem = rsProc.getString("PROCEDURE_SCHEM");
+			csCatalog = rsProc.getString("PROCEDURE_CAT");
+			csName = rsProc.getString("PROCEDURE_NAME");
+			csRemarks = rsProc.getString("REMARKS");
+			sType = rsProc.getShort("PROCEDURE_TYPE");
+			csSchem = rsProc.getString("PROCEDURE_SCHEM");
 			return true;
 		}
 		catch(SQLException e)

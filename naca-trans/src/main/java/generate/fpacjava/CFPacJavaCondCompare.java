@@ -24,20 +24,20 @@ public class CFPacJavaCondCompare extends CEntityCondCompare
 	public CBaseEntityCondition GetOppositeCondition()
 	{
 		CFPacJavaCondCompare newCond = new CFPacJavaCondCompare();
-		newCond.m_bIsGreater = !m_bIsGreater ;
-		newCond.m_bIsOrEquals = !m_bIsOrEquals ;
-		newCond.m_op1 = m_op1 ;
-		newCond.m_op2 = m_op2 ;
+		newCond.bIsGreater = !bIsGreater ;
+		newCond.bIsOrEquals = !bIsOrEquals ;
+		newCond.op1 = op1 ;
+		newCond.op2 = op2 ;
 		return newCond;
 	}
 	public String Export()
 	{
 		String cs = "" ;
 		String ebcdic = "" ;
-//		if (m_op1.getExpressionType() != CBaseEntityExpression.CEntityExpressionType.MATH 
-//			&& m_op1.getExpressionType() != CBaseEntityExpression.CEntityExpressionType.NUMERIC
-//			&& m_op2.getExpressionType() != CBaseEntityExpression.CEntityExpressionType.MATH 
-//			&& m_op2.getExpressionType() != CBaseEntityExpression.CEntityExpressionType.NUMERIC)
+//		if (op1.getExpressionType() != CBaseEntityExpression.CEntityExpressionType.MATH 
+//			&& op1.getExpressionType() != CBaseEntityExpression.CEntityExpressionType.NUMERIC
+//			&& op2.getExpressionType() != CBaseEntityExpression.CEntityExpressionType.MATH 
+//			&& op2.getExpressionType() != CBaseEntityExpression.CEntityExpressionType.NUMERIC)
 //		{
 //			ebcdic = "InEbcdic" ;
 //		}
@@ -45,23 +45,23 @@ public class CFPacJavaCondCompare extends CEntityCondCompare
 //		{
 //			ebcdic = "" ;
 //		}
-		if (m_bIsGreater && m_bIsOrEquals)
+		if (bIsGreater && bIsOrEquals)
 		{
 			cs = "isGreaterOrEqual"+ebcdic+"(" ;
 		}
-		else if (m_bIsGreater && !m_bIsOrEquals)
+		else if (bIsGreater && !bIsOrEquals)
 		{
 			cs = "isGreater"+ebcdic+"(" ;
 		}
-		else if (!m_bIsGreater && m_bIsOrEquals)
+		else if (!bIsGreater && bIsOrEquals)
 		{
 			cs = "isLessOrEqual"+ebcdic+"("; 
 		}
-		else if (!m_bIsGreater && !m_bIsOrEquals)
+		else if (!bIsGreater && !bIsOrEquals)
 		{
 			cs = "isLess"+ebcdic+"(" ;
 		}
-		cs += m_op1.Export() + ", " + m_op2.Export() + ")";
+		cs += op1.Export() + ", " + op2.Export() + ")";
 		return cs ;
 	}
 

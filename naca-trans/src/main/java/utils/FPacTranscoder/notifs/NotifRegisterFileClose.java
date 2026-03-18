@@ -16,6 +16,6 @@ import jlib.engine.BaseNotification;
 public class NotifRegisterFileClose extends BaseNotification
 {
 
-	public CEntityFileDescriptor m_FileDesc = null ;
+	public CEntityFileDescriptor fileDesc = null ;
 
 }

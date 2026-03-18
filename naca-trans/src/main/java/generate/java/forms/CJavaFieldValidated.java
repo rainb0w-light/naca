@@ -39,7 +39,7 @@ public class CJavaFieldValidated extends CEntityFieldValidated
 	}
 	public String ExportReference(int nLine)
 	{
-		return m_Reference.ExportReference(getLine()) + ".getValidation()" ;
+		return reference.ExportReference(getLine()) + ".getValidation()" ;
 	}
 	public boolean HasAccessors()
 	{
@@ -52,7 +52,7 @@ public class CJavaFieldValidated extends CEntityFieldValidated
 	}
 	public String ExportWriteAccessorTo(String value)
 	{
-		return "moveValidation(" + value +", " + m_Reference.ExportReference(getLine()) + ") ;";
+		return "moveValidation(" + value +", " + reference.ExportReference(getLine()) + ") ;";
 		
 	}
 	public boolean isValNeeded()

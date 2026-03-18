@@ -49,7 +49,7 @@ public class CContinue extends CCobolElement
 			Transcoder.logError(getLine(), "Expecting 'CONTINUE' keyword") ;
 			return false ;
 		}
-		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().m_Name) ;
+		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
 		GetNext();
 		return true ;
 	}

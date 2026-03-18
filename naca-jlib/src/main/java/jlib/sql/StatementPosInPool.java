@@ -18,21 +18,21 @@ public class StatementPosInPool
 {
 	StatementPosInPool(DbConnectionBase connection, String csStatementId)
 	{
-		m_connection = connection; 
-		m_csStatementId = csStatementId;
+		connection = connection; 
+		csStatementId = csStatementId;
 	}
 	
 	boolean forceRemoveStatement()
 	{
-		if(m_connection != null)
+		if(connection != null)
 		{
-			boolean b = m_connection.forceRemoveStatement(m_csStatementId);
-			m_connection = null;
+			boolean b = connection.forceRemoveStatement(csStatementId);
+			connection = null;
 			return b;
 		}
 		return false;
 	}	
 	
-	private DbConnectionBase m_connection = null;
-	private String m_csStatementId = null;
+	private DbConnectionBase connection = null;
+	private String csStatementId = null;
 }

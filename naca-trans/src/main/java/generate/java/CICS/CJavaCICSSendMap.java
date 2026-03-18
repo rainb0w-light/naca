@@ -36,15 +36,15 @@ public class CJavaCICSSendMap extends CEntityCICSSendMap
 
 	protected void DoExport()
 	{
-		WriteWord("CESM.sendMap(" + m_MapName.ExportReference(getLine()) + ")");
-		if (m_MapSetName != null)
+		WriteWord("CESM.sendMap(" + mapName.ExportReference(getLine()) + ")");
+		if (mapSetName != null)
 		{
-			WriteWord(".mapSet(" + m_MapSetName.ExportReference(getLine()) + ")");
+			WriteWord(".mapSet(" + mapSetName.ExportReference(getLine()) + ")");
 		}
-		if (m_DataFrom != null)
+		if (dataFrom != null)
 		{
 			String cs = "";
-			if (m_bDataOnly)
+			if (bDataOnly)
 			{
 				cs = ".dataOnlyFrom(";
 			}
@@ -52,44 +52,44 @@ public class CJavaCICSSendMap extends CEntityCICSSendMap
 			{
 				cs = ".dataFrom(";
 			}
-			cs += m_DataFrom.ExportReference(getLine());
-			if (m_DataLength != null)
+			cs += dataFrom.ExportReference(getLine());
+			if (dataLength != null)
 			{
-				cs += ", " + m_DataLength.ExportReference(getLine()) ;
+				cs += ", " + dataLength.ExportReference(getLine()) ;
 			}
 			cs += ")" ;
 			WriteWord(cs);
 		}
-		if (m_bCursor)
+		if (bCursor)
 		{
 			String cs = ".cursor(";
-			if (m_CursorValue != null)
+			if (cursorValue != null)
 			{
-				cs += m_CursorValue.ExportReference(getLine());
+				cs += cursorValue.ExportReference(getLine());
 			}
 			WriteWord(cs+")");
 		}
-		if (m_bAccum)
+		if (bAccum)
 		{
 			WriteWord(".accum()");
 		}
-		if (m_bAlarm)
+		if (bAlarm)
 		{
 			WriteWord(".alarm()");
 		}
-		if (m_bErase)
+		if (bErase)
 		{
 			WriteWord(".erase()");
 		}
-		if (m_bFreeKB)
+		if (bFreeKB)
 		{
 			WriteWord(".freeKB()");
 		}
-		if (m_bPaging)
+		if (bPaging)
 		{
 			WriteWord(".paging()");
 		}
-		if (m_bWait)
+		if (bWait)
 		{
 			WriteWord(".wait()");
 		}

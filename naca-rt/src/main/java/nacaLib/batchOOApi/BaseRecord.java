@@ -17,17 +17,17 @@ import nacaLib.varEx.FileDescriptor;
  */
 public abstract class BaseRecord
 {
-	private FileDescriptor m_file = null;
-	private FillerReadWriteExt m_filler = new FillerReadWriteExt();
+	private FileDescriptor file = null;
+	private FillerReadWriteExt filler = new FillerReadWriteExt();
 		
 	protected BaseRecord(FileDescriptor file)
 	{
-		m_file = file;
+		file = file;
 	}
 	
 	public FillerReadWriteExt getFiller()
 	{
-		return m_filler;
+		return filler;
 	}
 	
 	/**
@@ -40,9 +40,9 @@ public abstract class BaseRecord
 		
 		fillRW();
 		if (getFiller().getVariableChunkLength() != -1)	// The record has a variable length
-			m_file.write(getFiller().getBuffer(), true);
+			file.write(getFiller().getBuffer(), true);
 		else
-			m_file.write(getFiller().getBuffer(), false);
+			file.write(getFiller().getBuffer(), false);
 		
 		getFiller().setMode(ModeReadWriteExt.Unknown);
 	}
@@ -53,25 +53,25 @@ public abstract class BaseRecord
 		getFiller().allocOrResetBufferExt();
 		
 		fillRW();
-		m_file.rewrite(getFiller().getBuffer());
+		file.rewrite(getFiller().getBuffer());
 		
 		getFiller().setMode(ModeReadWriteExt.Unknown);
 	}
 
 	public boolean read()
 	{
-		if (m_file != null)
+		if (file != null)
 		{
 			getFiller().setMode(ModeReadWriteExt.Read);
-			RecordLengthDefinition recordLengthDefinition = m_file.getRecordLengthDefinition();
+			RecordLengthDefinition recordLengthDefinition = file.getRecordLengthDefinition();
 			if(recordLengthDefinition == null)
 			{
-				BaseDataFile dataFileIn = m_file.getBaseDataFile();
-				m_file.tryAutoDetermineRecordLengthIfRequired(dataFileIn);
+				BaseDataFile dataFileIn = file.getBaseDataFile();
+				file.tryAutoDetermineRecordLengthIfRequired(dataFileIn);
 			}
 			
 			getFiller().allocOrResetBufferExt();
-			boolean bRead = m_file.read(getFiller().getBuffer());
+			boolean bRead = file.read(getFiller().getBuffer());
 			if (bRead)
 				fillRW();
 			

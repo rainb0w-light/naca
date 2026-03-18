@@ -25,24 +25,24 @@ public class CProcedureReference
 
 	public CProcedureReference(String csProcedureName, String csSectionName, CObjectCatalog programCatalog)
 	{
-		m_csProcedureName = csProcedureName ;	
-		m_csSectionName = csSectionName ;
-		m_programCatalog = programCatalog ;		
+		csProcedureName = csProcedureName ;	
+		csSectionName = csSectionName ;
+		programCatalog = programCatalog ;		
 	}
 	public CEntityProcedure getProcedure()
 	{
-		return m_programCatalog.GetProcedure(m_csProcedureName, m_csSectionName) ;
+		return programCatalog.GetProcedure(csProcedureName, csSectionName) ;
 	}
-	protected String m_csProcedureName = "" ;
-	protected String m_csSectionName = "" ;
-	protected CObjectCatalog m_programCatalog = null ;
+	protected String csProcedureName = "" ;
+	protected String csSectionName = "" ;
+	protected CObjectCatalog programCatalog = null ;
 	public void Clear()
 	{
-		m_programCatalog = null ;
+		programCatalog = null ;
 	}
 	public String getProcedureName()
 	{
-		return m_csProcedureName;
+		return csProcedureName;
 	}
 	
 }

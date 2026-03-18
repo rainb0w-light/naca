@@ -63,9 +63,9 @@ public class LogCenters
 					LogCenterLoader logCenterloader = new LogCenterLoader();
 					logCenterloader.loadDefinition(tagLogCenter);
 					
-					if(m_arrLogCenterloader == null)
-						m_arrLogCenterloader = new ArrayList<LogCenterLoader>();
-					m_arrLogCenterloader.add(logCenterloader);
+					if(arrLogCenterloader == null)
+						arrLogCenterloader = new ArrayList<LogCenterLoader>();
+					arrLogCenterloader.add(logCenterloader);
 				}
 				
 				tagLogCenter = tagLogCenters.getEnumChild();
@@ -100,9 +100,9 @@ public class LogCenters
 	public boolean saveDefinition(Tag tagOrganisation)
 	{
 		Tag tagLogCenters = tagOrganisation.addTag("LogCenters");
-		if(m_arrLogCenterloader != null)
+		if(arrLogCenterloader != null)
 		{
-			for(int n=0; n<m_arrLogCenterloader.size(); n++)
+			for(int n=0; n<arrLogCenterloader.size(); n++)
 			{
 				LogCenterLoader logCenterloader = getLogCenterloader(n);
 				
@@ -121,7 +121,7 @@ public class LogCenters
  */
 	public LogCenterLoader getLogCenterloader(int n)
 	{
-		return m_arrLogCenterloader.get(n);
+		return arrLogCenterloader.get(n);
 	}
 
 /**
@@ -130,8 +130,8 @@ public class LogCenters
  */
 	public int getNbLogCenterloader()
 	{
-		return m_arrLogCenterloader.size();
+		return arrLogCenterloader.size();
 	}
 			
-	private ArrayList<LogCenterLoader> m_arrLogCenterloader = null;
+	private ArrayList<LogCenterLoader> arrLogCenterloader = null;
 }

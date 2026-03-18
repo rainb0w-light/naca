@@ -32,7 +32,7 @@ public class CComment extends CCobolElement
 	 */
 	public CComment(int line, String cs) {
 		super(line);
-		m_CommentText = cs ;
+		commentText = cs ;
 	}
 
 	// ParseComment
@@ -48,18 +48,18 @@ public class CComment extends CCobolElement
 	public Element ExportCustom(Document rootdoc)
 	{
 		Element e = rootdoc.createElement("Comment") ;
-		e.setAttribute("Text", m_CommentText) ;
+		e.setAttribute("Text", commentText) ;
 		return e ;
 	}
 
-	String m_CommentText = "" ;
+	String commentText = "" ;
 
 	/* (non-Javadoc)
 	 * @see parser.CBaseElement#DoCustomSemanticAnalysis(semantic.CBaseSemanticEntity, semantic.CBaseSemanticEntityFactory)
 	 */
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		CEntityComment eCom = factory.NewEntityComment(getLine(), m_CommentText) ;
+		CEntityComment eCom = factory.NewEntityComment(getLine(), commentText) ;
 		if (parent != null)
 		{
 			parent.AddChild(eCom);

@@ -33,8 +33,8 @@ public class CJavaSQLExecute extends CEntitySQLExecute
 	@Override
 	protected void DoExport()
 	{
-		WriteWord("sql(\"EXECUTE IMMEDIATE #1\").param(1, "+m_eVariable.ExportReference(getLine())+")");
-		String csSQLErrorWarningStatement = m_ProgramCatalog.getSQLWarningErrorStatement();
+		WriteWord("sql(\"EXECUTE IMMEDIATE #1\").param(1, "+eVariable.ExportReference(getLine())+")");
+		String csSQLErrorWarningStatement = programCatalog.getSQLWarningErrorStatement();
 		if(csSQLErrorWarningStatement != null)
 		{
 			WriteWord(csSQLErrorWarningStatement);

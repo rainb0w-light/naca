@@ -20,7 +20,7 @@ package nacaLib.varEx;
  */
 public class DeclareTypeEditInMapRedefineNum extends DeclareTypeBase
 {
-	private NumericValue m_numericValue = null;
+	private NumericValue numericValue = null;
 	
 	public DeclareTypeEditInMapRedefineNum()
 	{
@@ -29,7 +29,7 @@ public class DeclareTypeEditInMapRedefineNum extends DeclareTypeBase
 	public void set(VarLevel varLevel, NumericValue numericValue)
 	{
 		super.set(varLevel);
-		m_numericValue = numericValue;
+		numericValue = numericValue;
 	}
 	
 	public VarDefBuffer createVarDef(VarDefBuffer varDefParent)
@@ -45,6 +45,6 @@ public class DeclareTypeEditInMapRedefineNum extends DeclareTypeBase
 	
 	NumericValue getNumericValue()
 	{
-		return m_numericValue;
+		return numericValue;
 	}
 }

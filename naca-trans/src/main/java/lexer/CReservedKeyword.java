@@ -22,13 +22,13 @@ public class CReservedKeyword
 {
 	public CReservedKeyword(CKeywordList list, String name)
 	{
-		m_Name = name ;
+		name = name ;
 		list.Register(this) ;
 	}
-	public String m_Name ;
+	public String name ;
 	
 	public String toString()
 	{
-		return m_Name;
+		return name;
 	}
 }

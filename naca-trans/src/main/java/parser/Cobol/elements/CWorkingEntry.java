@@ -72,10 +72,10 @@ public class CWorkingEntry extends CCobolElement
 
 	public static class CWorkingPicType
 	{
-		public String m_Text = "" ;
+		public String text = "" ;
 		protected CWorkingPicType(String text)
 		{
-			m_Text = text ;
+			text = text ;
 		}
 		public static CWorkingPicType STRING = new CWorkingPicType("STRING") ;
 		public static CWorkingPicType NUMBER = new CWorkingPicType("NUMBER") ;
@@ -96,31 +96,31 @@ public class CWorkingEntry extends CCobolElement
 		public static CWorkingSignType LEADING = new CWorkingSignType() ;
 		public static CWorkingSignType TRAILING = new CWorkingSignType() ;
 	}
-	protected int m_EntryLevel = 0 ;
-	protected String m_FormalLevel = "" ;
-	protected CWorkingPicType m_Type = null ;
-	protected String m_Name = "" ;
-	protected CIdentifier m_Redefines = null ;
-	protected int m_Length = 0 ;
-	protected int m_Decimal = 0 ;
-	protected CTerminal m_Value = null ;
-	protected String m_Comp = "" ;
-	protected boolean m_Sync = false ;
-	protected CTerminal m_Occurs = null ;
-	protected CIdentifier m_OccursDepending = null ;
-	protected CWorkingEntryType m_EntryType = null ;
-	protected String m_Format = ""  ;
-	protected final List<CIdentifier> m_OccursIndexedBy = new ArrayList<CIdentifier>() ;
-	protected CTerminal m_BlankWhenValue = null ;
-	protected boolean m_bFillAll = false ;
-	protected boolean m_bIsPointer = false ;
-	protected boolean m_bIsIndex = false;
-	protected boolean m_bJustifiedRight = false ;
-	protected boolean m_bBlankWhenZero = false ;
-	protected CWorkingSignType m_bSignSeparateType ;
-	protected Vector<CIdentifier> m_arrTableSortKey = null ;
-	protected boolean m_bTableSortedAscending = false ;
-	protected boolean m_bBinary = true ;
+	protected int entryLevel = 0 ;
+	protected String formalLevel = "" ;
+	protected CWorkingPicType type = null ;
+	protected String name = "" ;
+	protected CIdentifier redefines = null ;
+	protected int length = 0 ;
+	protected int decimal = 0 ;
+	protected CTerminal value = null ;
+	protected String comp = "" ;
+	protected boolean sync = false ;
+	protected CTerminal occurs = null ;
+	protected CIdentifier occursDepending = null ;
+	protected CWorkingEntryType entryType = null ;
+	protected String format = ""  ;
+	protected final List<CIdentifier> occursIndexedBy = new ArrayList<CIdentifier>() ;
+	protected CTerminal blankWhenValue = null ;
+	protected boolean bFillAll = false ;
+	protected boolean bIsPointer = false ;
+	protected boolean bIsIndex = false;
+	protected boolean bJustifiedRight = false ;
+	protected boolean bBlankWhenZero = false ;
+	protected CWorkingSignType bSignSeparateType ;
+	protected Vector<CIdentifier> arrTableSortKey = null ;
+	protected boolean bTableSortedAscending = false ;
+	protected boolean bBinary = true ;
 	
 
 	/* (non-Javadoc)
@@ -131,27 +131,27 @@ public class CWorkingEntry extends CCobolElement
 		CBaseToken tokEntry = GetCurrentToken();
 		if (tokEntry.GetType() == CTokenType.NUMBER)
 		{
-			m_EntryLevel = tokEntry.GetIntValue() ;
-			if (m_EntryLevel == 77)
+			entryLevel = tokEntry.GetIntValue() ;
+			if (entryLevel == 77)
 			{
-				m_EntryType = CWorkingEntryType.VARIABLE ;
+				entryType = CWorkingEntryType.VARIABLE ;
 				CGlobalEntityCounter.GetInstance().CountCobolVerb("WORKING_VARIABLE") ;
 			}
 			else
 			{
-				m_EntryType = CWorkingEntryType.STRUCTURE ;
+				entryType = CWorkingEntryType.STRUCTURE ;
 				CGlobalEntityCounter.GetInstance().CountCobolVerb("WORKING_ENTRY") ;
 			} 
-			m_FormalLevel = tokEntry.GetValue() ;
+			formalLevel = tokEntry.GetValue() ;
 			CBaseToken tokName = GetNext(); // consume PIC LEVEL
 			if (tokName.IsKeyword() && tokName.GetKeyword()==CCobolKeywordList.FILLER)
 			{
-				m_Name = "" ;
+				name = "" ;
 				GetNext() ; // consume FILLER
 			}
 			else if (tokName.GetType() == CTokenType.IDENTIFIER)
 			{
-				m_Name = tokName.GetValue() ;
+				name = tokName.GetValue() ;
 				GetNext() ; // consume NAME
 			}
 			if (!ParsePicOptions())
@@ -188,7 +188,7 @@ public class CWorkingEntry extends CCobolElement
 				CBaseToken tokRedefine = GetNext() ; // consume REDEFINES, expecting an identifier
 				if (tokRedefine.GetType() == CTokenType.IDENTIFIER)
 				{
-					m_Redefines = ReadIdentifier() ;
+					redefines = ReadIdentifier() ;
 					bNext = true ;
 				}
 				else
@@ -207,31 +207,31 @@ public class CWorkingEntry extends CCobolElement
 			}
 			else if (tokPic.IsKeyword() && tokPic.GetKeyword()==CCobolKeywordList.COMP_4)
 			{
-				m_Comp = "COMP4" ;
+				comp = "COMP4" ;
 				bNext = true ;
 				GetNext();
 			}
 			else if (tokPic.IsKeyword() && tokPic.GetKeyword()==CCobolKeywordList.COMP_3)
 			{
-				m_Comp = "COMP3" ;
+				comp = "COMP3" ;
 				bNext = true ;
 				GetNext();
 			}
 			else if (tokPic.IsKeyword() && tokPic.GetKeyword()==CCobolKeywordList.COMP_2)
 			{
-				m_Comp = "COMP2" ;
+				comp = "COMP2" ;
 				bNext = true ;
 				GetNext();
 			}
 			else if (tokPic.GetKeyword()==CCobolKeywordList.COMP || tokPic.GetKeyword()==CCobolKeywordList.COMP_5 || tokPic.GetKeyword()==CCobolKeywordList.COMPUTATIONAL)
 			{
-				m_Comp = "COMP" ;
+				comp = "COMP" ;
 				bNext = true ;
 				GetNext();
 			}
 			else if (tokPic.IsKeyword() && tokPic.GetKeyword()==CCobolKeywordList.SYNC)
 			{
-				m_Sync = true ;
+				sync = true ;
 				bNext = true ;
 				GetNext();
 			}
@@ -243,7 +243,7 @@ public class CWorkingEntry extends CCobolElement
 					tok = GetNext();
 					if (tok.GetKeyword() == CCobolKeywordList.SEPARATE)
 					{
-						m_bSignSeparateType = CWorkingSignType.TRAILING ;
+						bSignSeparateType = CWorkingSignType.TRAILING ;
 						bNext = true ;
 						GetNext();
 					}
@@ -257,7 +257,7 @@ public class CWorkingEntry extends CCobolElement
 					tok = GetNext();
 					if (tok.GetKeyword() == CCobolKeywordList.SEPARATE)
 					{
-						m_bSignSeparateType = CWorkingSignType.LEADING ;
+						bSignSeparateType = CWorkingSignType.LEADING ;
 						bNext = true ;
 						GetNext();
 					}
@@ -281,7 +281,7 @@ public class CWorkingEntry extends CCobolElement
 				if (tok.GetConstant() == CCobolConstantList.ZERO || tok.GetConstant() == CCobolConstantList.ZEROS || tok.GetConstant() == CCobolConstantList.ZEROES)
 				{
 					tok = GetNext();
-					m_bBlankWhenZero = true ;
+					bBlankWhenZero = true ;
 					bNext = true ;
 				}
 				else
@@ -291,7 +291,7 @@ public class CWorkingEntry extends CCobolElement
 			}
 			else if (tokPic.GetKeyword()==CCobolKeywordList.JUST || tokPic.GetKeyword()==CCobolKeywordList.JUSTIFIED)
 			{
-				m_bJustifiedRight = true ;
+				bJustifiedRight = true ;
 
 				bNext = true ;
 				CBaseToken tok = GetNext();
@@ -310,12 +310,12 @@ public class CWorkingEntry extends CCobolElement
 				}
 				if (tok.GetKeyword() == CCobolKeywordList.POINTER)
 				{
-					m_bIsPointer = true ;
+					bIsPointer = true ;
 					tok = GetNext();
 				}
 				else if (tok.GetKeyword() == CCobolKeywordList.INDEX)
 				{
-					m_bIsIndex = true ;
+					bIsIndex = true ;
 					tok = GetNext();
 				}
 			}
@@ -323,7 +323,7 @@ public class CWorkingEntry extends CCobolElement
 			{
 				GetNext() ;
 				bNext = true ;
-				m_bBinary = true ;
+				bBinary = true ;
 			}
 			else if (tokPic.IsKeyword() && tokPic.GetKeyword()==CCobolKeywordList.VALUE)
 			{
@@ -335,14 +335,14 @@ public class CWorkingEntry extends CCobolElement
 				if (tokValue.GetType()==CTokenType.STRING || tokValue.GetType()==CTokenType.NUMBER || 
 					tokValue.GetType()==CTokenType.CONSTANT || tokValue.GetType()==CTokenType.MINUS)
 				{
-					m_Value = ReadTerminal() ; 
+					value = ReadTerminal() ; 
 				}
 				else if (tokValue.GetType()==CTokenType.PLUS)
 				{
 					CBaseToken tokNum = GetNext();
 					if (tokNum.GetType() == CTokenType.NUMBER)
 					{
-						m_Value = ReadTerminal() ; 
+						value = ReadTerminal() ; 
 					}
 					else
 					{
@@ -352,8 +352,8 @@ public class CWorkingEntry extends CCobolElement
 				else if (tokValue.GetKeyword() == CCobolKeywordList.ALL)
 				{
 					GetNext();
-					m_Value = ReadTerminal() ;
-					m_bFillAll = true ;
+					value = ReadTerminal() ;
+					bFillAll = true ;
 				}
 				bNext = true ;
 			}
@@ -364,7 +364,7 @@ public class CWorkingEntry extends CCobolElement
 				if (tokPic.GetKeyword() == CCobolKeywordList.WHEN)
 				{
 					tokPic = GetNext();
-					m_BlankWhenValue = ReadTerminal() ;
+					blankWhenValue = ReadTerminal() ;
 				}
 			}
 			else if (tokPic.GetKeyword() == CCobolKeywordList.IS)
@@ -382,7 +382,7 @@ public class CWorkingEntry extends CCobolElement
 				CBaseToken tokOccurs = GetNext() ;
 				if (tokOccurs.GetType() == CTokenType.NUMBER)
 				{
-					m_Occurs = ReadTerminal() ;
+					occurs = ReadTerminal() ;
 					CBaseToken tokTimes = GetCurrentToken() ;
 					if (tokTimes.IsKeyword() && tokTimes.GetKeyword()==CCobolKeywordList.TIMES)
 					{
@@ -393,7 +393,7 @@ public class CWorkingEntry extends CCobolElement
 						CBaseToken tokTo = GetNext() ;
 						if (tokTo.GetType() == CTokenType.NUMBER)
 						{
-							m_Occurs = ReadTerminal() ;
+							occurs = ReadTerminal() ;
 							CBaseToken tokDep = GetCurrentToken() ;
 							if (tokDep.GetKeyword() == CCobolKeywordList.TIMES)
 							{
@@ -424,7 +424,7 @@ public class CWorkingEntry extends CCobolElement
 							{
 								return false ;
 							}
-							m_OccursDepending = ReadIdentifier() ;
+							occursDepending = ReadIdentifier() ;
 						}
 						else if (tokOpt.GetKeyword() == CCobolKeywordList.INDEXED)
 						{
@@ -435,7 +435,7 @@ public class CWorkingEntry extends CCobolElement
 							}
 							while (tokBy.GetType() == CTokenType.IDENTIFIER)
 							{
-								m_OccursIndexedBy.add(ReadIdentifier()) ;
+								occursIndexedBy.add(ReadIdentifier()) ;
 								tokBy = GetCurrentToken();
 							}
 						}
@@ -443,11 +443,11 @@ public class CWorkingEntry extends CCobolElement
 						{
 							if (tokOpt.GetKeyword() == CCobolKeywordList.ASCENDING)
 							{
-								m_bTableSortedAscending = true ;
+								bTableSortedAscending = true ;
 							}
 							else
 							{
-								m_bTableSortedAscending = false ;
+								bTableSortedAscending = false ;
 							}
 							tokOpt = GetNext() ;
 							if (tokOpt.GetKeyword() == CCobolKeywordList.KEY)
@@ -458,12 +458,12 @@ public class CWorkingEntry extends CCobolElement
 							{
 								tokOpt = GetNext();
 							}
-							m_arrTableSortKey = new Vector<CIdentifier>() ;							
+							arrTableSortKey = new Vector<CIdentifier>() ;							
 							CIdentifier tableSortKey ;
 							tableSortKey = ReadIdentifier() ;
 							while (tableSortKey != null)
 							{
-								m_arrTableSortKey.add(tableSortKey) ;
+								arrTableSortKey.add(tableSortKey) ;
 								tableSortKey = ReadIdentifier() ;
 							}
 						}
@@ -525,7 +525,7 @@ public class CWorkingEntry extends CCobolElement
 			else if (tok.GetType() == CTokenType.DOT)
 			{ // depending on following token
 				CBaseToken tokNext = GetNext() ;
-				if (tokNext == null || tokNext.m_bIsNewLine)
+				if (tokNext == null || tokNext.bIsNewLine)
 				{
 					return cs ;
 				}
@@ -551,7 +551,7 @@ public class CWorkingEntry extends CCobolElement
 		}
 		return cs ;
 	}
-	protected boolean m_bEdited = false ;
+	protected boolean bEdited = false ;
 	protected boolean ParsePicItSelf()
 	{
 		CBaseToken tokType = GetNext() ; // consume PIC token, expecting S9 / 9 / X / XX ...
@@ -563,133 +563,133 @@ public class CWorkingEntry extends CCobolElement
 		while (nCurrentChar<tab.length)
 		{
 			char c = (char)tab[nCurrentChar] ;
-			if (m_Type == null)
+			if (type == null)
 			{
 				if (c == 'X')
 				{
-					m_Type = CWorkingPicType.STRING ;
-					m_Length = 1 ;
+					type = CWorkingPicType.STRING ;
+					length = 1 ;
 				}
 				else if (c == 'S')
 				{
-					m_Type = CWorkingPicType.SIGNED;
+					type = CWorkingPicType.SIGNED;
 				}
 				else if (c == 'V')
 				{
-					m_Type = CWorkingPicType.DECIMAL ; 
-					m_Length = 0 ;
+					type = CWorkingPicType.DECIMAL ; 
+					length = 0 ;
 				}
 				else if (c == '9')
 				{
-					m_Type = CWorkingPicType.NUMBER;
-					m_Length = 1 ;
+					type = CWorkingPicType.NUMBER;
+					length = 1 ;
 					cRepeatPattern = '9' ;
 				}
 				else if (c == 'Z')
 				{
-					m_Type = CWorkingPicType.NUMBER ;
-					m_Length = 1 ;
-					m_bEdited = true ;
+					type = CWorkingPicType.NUMBER ;
+					length = 1 ;
+					bEdited = true ;
 					cRepeatPattern = 'Z' ;
 				}
 				else if (c == 'B')
 				{
-					m_Type = CWorkingPicType.NUMBER ;
-					m_Length = 1 ;
-					m_bEdited = true ;
+					type = CWorkingPicType.NUMBER ;
+					length = 1 ;
+					bEdited = true ;
 					cRepeatPattern = 'B' ;
 				}
 				else if (c == '+')
 				{
-					m_Type = CWorkingPicType.NUMBER ;
-					m_Length = 0 ;
-					m_bEdited = true ;
+					type = CWorkingPicType.NUMBER ;
+					length = 0 ;
+					bEdited = true ;
 					cRepeatPattern = '+' ;
 				}
 				else if (c == '-')
 				{
-					m_Type = CWorkingPicType.NUMBER ;
-					m_Length = 1 ;
-					m_bEdited = true ;
+					type = CWorkingPicType.NUMBER ;
+					length = 1 ;
+					bEdited = true ;
 					cRepeatPattern = '-' ;
 				}
 				else if (c == '$')
 				{
-					m_Type = CWorkingPicType.NUMBER ;
+					type = CWorkingPicType.NUMBER ;
 				}
 				else
 				{
 					Transcoder.logError(getLine(), "Unexpecting character in Pic Type : " + c);
 					return false ;
 				}
-				m_Format += c ;
+				format += c ;
 			}
 			else
 			{
-				if (c == 'X' && m_Type == CWorkingPicType.STRING)
+				if (c == 'X' && type == CWorkingPicType.STRING)
 				{
-					m_Length ++ ;
-					m_Format += c ;
+					length ++ ;
+					format += c ;
 				}
-				else if (c == '9' && (m_Type == CWorkingPicType.NUMBER || m_Type == CWorkingPicType.SIGNED || m_Type == CWorkingPicType.EDITED))
+				else if (c == '9' && (type == CWorkingPicType.NUMBER || type == CWorkingPicType.SIGNED || type == CWorkingPicType.EDITED))
 				{
-					m_Length ++ ;
-					m_Format += c ;
+					length ++ ;
+					format += c ;
 					cRepeatPattern = '9' ;
 				}
 				else if (c == 'B') // ????
 				{
-					m_Length ++ ;
-					m_Format += c ;
-					m_bEdited = true ;
+					length ++ ;
+					format += c ;
+					bEdited = true ;
 					cRepeatPattern = 'B' ;
 				}
-				else if (c == 'Z' && m_Type == CWorkingPicType.EDITED)
+				else if (c == 'Z' && type == CWorkingPicType.EDITED)
 				{
-					m_Length ++ ;
-					m_Format += c ;
-					m_bEdited = true ;
+					length ++ ;
+					format += c ;
+					bEdited = true ;
 					cRepeatPattern = 'Z' ;
 				}
-				else if (c == 'Z' && m_Type == CWorkingPicType.NUMBER)
+				else if (c == 'Z' && type == CWorkingPicType.NUMBER)
 				{
-					m_Length ++ ;
-					m_Format += c ;
-					m_bEdited = true ;
+					length ++ ;
+					format += c ;
+					bEdited = true ;
 					cRepeatPattern = 'Z' ;
 				}
-				else if (c == '-' && (m_Type == CWorkingPicType.NUMBER || m_Type == CWorkingPicType.DECIMAL))
+				else if (c == '-' && (type == CWorkingPicType.NUMBER || type == CWorkingPicType.DECIMAL))
 				{
-					m_Length ++ ;
-					m_Format += c ;
-					m_bEdited = true ;
+					length ++ ;
+					format += c ;
+					bEdited = true ;
 				}
-				else if (c == '+' && m_Type == CWorkingPicType.NUMBER)
+				else if (c == '+' && type == CWorkingPicType.NUMBER)
 				{
-					m_Length ++ ;
-					m_Format += c ;
-					m_bEdited = true ;
+					length ++ ;
+					format += c ;
+					bEdited = true ;
 				}
-				else if (c == 'V' && m_Type == CWorkingPicType.NUMBER)
+				else if (c == 'V' && type == CWorkingPicType.NUMBER)
 				{
-					m_Type = CWorkingPicType.DECIMAL ; 
-					m_Format += c ;
+					type = CWorkingPicType.DECIMAL ; 
+					format += c ;
 				}
-				else if (c == 'V' && m_Type == CWorkingPicType.SIGNED)
+				else if (c == 'V' && type == CWorkingPicType.SIGNED)
 				{
-					m_Type = CWorkingPicType.SIGNED_DECIMAL ; 
-					m_Format += c ;
+					type = CWorkingPicType.SIGNED_DECIMAL ; 
+					format += c ;
 				}
-				else if (c == '9' && (m_Type == CWorkingPicType.DECIMAL || m_Type == CWorkingPicType.SIGNED_DECIMAL))
+				else if (c == '9' && (type == CWorkingPicType.DECIMAL || type == CWorkingPicType.SIGNED_DECIMAL))
 				{
-					m_Decimal ++ ;
-					m_Format += c ;
+					decimal ++ ;
+					format += c ;
 					cRepeatPattern = '9' ;
 				}
 				else if (c == '.' || c == ',' || c == '$')
 				{
-					m_bEdited = true ;
-					m_Format += c ;
+					bEdited = true ;
+					format += c ;
 				}
 				else if (c == '(')
 				{
@@ -714,24 +714,24 @@ public class CWorkingEntry extends CCobolElement
 						return false ;
 					}
 					char completc = ' ' ;
-					if (m_Type ==CWorkingPicType.STRING)
+					if (type ==CWorkingPicType.STRING)
 					{
-						m_Length *= n ;
+						length *= n ;
 						completc = 'X' ;
 					}
-					else if (m_Type == CWorkingPicType.NUMBER  && m_bEdited)
+					else if (type == CWorkingPicType.NUMBER  && bEdited)
 					{
-						m_Length *= n ;
+						length *= n ;
 						completc = cRepeatPattern ;
 					}
-					else if (m_Type == CWorkingPicType.NUMBER || m_Type == CWorkingPicType.SIGNED)
+					else if (type == CWorkingPicType.NUMBER || type == CWorkingPicType.SIGNED)
 					{
-						m_Length *= n ;
+						length *= n ;
 						completc = '9' ;
 					}
-					else if(m_Type == CWorkingPicType.DECIMAL || m_Type == CWorkingPicType.SIGNED_DECIMAL)
+					else if(type == CWorkingPicType.DECIMAL || type == CWorkingPicType.SIGNED_DECIMAL)
 					{
-						m_Decimal *= n;
+						decimal *= n;
 						completc = '9' ;
 					}
 					else
@@ -741,7 +741,7 @@ public class CWorkingEntry extends CCobolElement
 					}
 					for (int i=1; i<n; i++)
 					{
-						m_Format += completc ;
+						format += completc ;
 					}
 				}
 				else
@@ -767,7 +767,7 @@ public class CWorkingEntry extends CCobolElement
 				CBaseToken tokBraOff = GetNext();
 				if (tokBraOff.GetType() == CTokenType.RIGHT_BRACKET)
 				{
-					m_Length = m_Length * rep ;
+					length = length * rep ;
 					GetNext() ;	// consume ')'
 					return true ;
 				}
@@ -809,7 +809,7 @@ public class CWorkingEntry extends CCobolElement
 					}
 					AddChild(eEntry) ;
 				}
-				else if (level > m_EntryLevel && level <= 49)
+				else if (level > entryLevel && level <= 49)
 				{
 					CCobolElement eEntry = new CWorkingEntry(tokEntry.getLine()) ;
 					if (!Parse(eEntry))
@@ -838,12 +838,12 @@ public class CWorkingEntry extends CCobolElement
 	protected Element ExportCustom(Document root)
 	{
 		Element eItem ;
-		if (m_EntryType == CWorkingEntryType.STRUCTURE)
+		if (entryType == CWorkingEntryType.STRUCTURE)
 		{
 			eItem = root.createElement("Item") ;
-			eItem.setAttribute("Level", m_FormalLevel) ;
+			eItem.setAttribute("Level", formalLevel) ;
 		}
-		else if (m_EntryType == CWorkingEntryType.VARIABLE)
+		else if (entryType == CWorkingEntryType.VARIABLE)
 		{
 			eItem = root.createElement("Variable") ; 
 		}
@@ -851,48 +851,48 @@ public class CWorkingEntry extends CCobolElement
 		{
 			return null ;
 		}
-		if (m_Type != null)
+		if (type != null)
 		{
-			eItem.setAttribute("Type", m_Type.m_Text) ;
+			eItem.setAttribute("Type", type.text) ;
 		}
-		eItem.setAttribute("Name", m_Name) ;
-		if (m_Redefines != null)
+		eItem.setAttribute("Name", name) ;
+		if (redefines != null)
 		{
 			Element eRedef = root.createElement("Redefines") ;
 			eItem.appendChild(eRedef) ;
-			m_Redefines.ExportTo(eRedef, root) ;
+			redefines.ExportTo(eRedef, root) ;
 		}
-		if (m_Length>1)
+		if (length>1)
 		{
-			eItem.setAttribute("Length", String.valueOf(m_Length)) ;
+			eItem.setAttribute("Length", String.valueOf(length)) ;
 		}
-		if (m_Value != null)
+		if (value != null)
 		{
-			m_Value.ExportTo(eItem, root) ;
+			value.ExportTo(eItem, root) ;
 		}
-		if (!m_Comp.equals(""))
+		if (!comp.equals(""))
 		{
-			eItem.setAttribute("Comp", m_Comp);
+			eItem.setAttribute("Comp", comp);
 		}
-		if (m_Occurs != null)
+		if (occurs != null)
 		{
 			Element eOccurs = root.createElement("Occurs") ;
 			eItem.appendChild(eOccurs) ;
-			m_Occurs.ExportTo(eOccurs, root) ;
-			for (CIdentifier indexedBy : m_OccursIndexedBy)
+			occurs.ExportTo(eOccurs, root) ;
+			for (CIdentifier indexedBy : occursIndexedBy)
 			{
 				Element eIndexed = root.createElement("IndexedBy") ;
 				eOccurs.appendChild(eIndexed) ;
 				indexedBy.ExportTo(eIndexed, root) ;
 			}
 		}
-		if (m_Sync)
+		if (sync)
 		{
-			eItem.setAttribute("Sync", m_Sync?"yes":"no");
+			eItem.setAttribute("Sync", sync?"yes":"no");
 		}
-		if (!m_Format.equals(""))
+		if (!format.equals(""))
 		{
-			eItem.setAttribute("Format", m_Format);
+			eItem.setAttribute("Format", format);
 		}
 		return eItem;
 	}
@@ -903,17 +903,17 @@ public class CWorkingEntry extends CCobolElement
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
 		CEntityAttribute eAtt = null ;
-		if (m_EntryType == CWorkingEntryType.STRUCTURE)
+		if (entryType == CWorkingEntryType.STRUCTURE)
 		{
 			CEntityStructure eStruct = null ;
-			if (m_Occurs != null)
+			if (occurs != null)
 			{
-				eStruct = factory.NewEntityStructure(getLine(), m_Name, m_FormalLevel) ;
+				eStruct = factory.NewEntityStructure(getLine(), name, formalLevel) ;
 				eAtt = eStruct ;
-				CDataEntity eSize = m_Occurs.GetDataEntity(getLine(), factory);
-				if (m_OccursDepending != null)
+				CDataEntity eSize = occurs.GetDataEntity(getLine(), factory);
+				if (occursDepending != null)
 				{
-					CDataEntity eDep = m_OccursDepending.GetDataReference(getLine(), factory) ;
+					CDataEntity eDep = occursDepending.GetDataReference(getLine(), factory) ;
 					CEntityValueReference eRef = factory.NewEntityValueReference(eDep) ;
 					eStruct.SetTableSizeDepending(eSize, eRef) ;
 					eDep.RegisterReadReference(eRef) ;
@@ -923,22 +923,22 @@ public class CWorkingEntry extends CCobolElement
 					eStruct.SetTableSize(eSize) ;
 				}
 				
-				for (CIdentifier indexedBy : m_OccursIndexedBy)
+				for (CIdentifier indexedBy : occursIndexedBy)
 				{
 					CEntityIndex index = factory.NewEntityIndex(indexedBy.GetName()) ;
 					eStruct.setOccursIndex(index) ;
 					parent.AddChild(index) ;
 				}
 			}
-			if (m_Redefines != null)
+			if (redefines != null)
 			{
-				CDataEntity e = m_Redefines.GetDataReference(getLine(), factory, parent) ;
+				CDataEntity e = redefines.GetDataReference(getLine(), factory, parent) ;
 				if (e != null)
 				{
 					if (e.GetDataType() == CDataEntity.CDataEntityType.VIRTUAL_FORM)
 					{
-						CIgnoredEntity ign = factory.NewIgnoreEntity(getLine(), m_Name) ;
-						m_bAnalysisDoneForChildren = true ;// this is redefining a ignored structure => ignore children
+						CIgnoredEntity ign = factory.NewIgnoreEntity(getLine(), name) ;
+						bAnalysisDoneForChildren = true ;// this is redefining a ignored structure => ignore children
 						return ign ;
 					}
 					else if (e.GetDataType() == CDataEntity.CDataEntityType.FORM)
@@ -954,33 +954,33 @@ public class CWorkingEntry extends CCobolElement
 					{
 						if (eStruct == null)
 						{
-							eStruct = factory.NewEntityStructure(getLine(), m_Name, m_FormalLevel) ;
+							eStruct = factory.NewEntityStructure(getLine(), name, formalLevel) ;
 						}
 						eStruct.SetRedefine(e) ;
 					}
 				}
 				else
 				{
-					Transcoder.logError(getLine(), "Identifier not found : " + m_Redefines.GetName());
+					Transcoder.logError(getLine(), "Identifier not found : " + redefines.GetName());
 				}
 			}
 			if (eStruct == null)
 			{
-				eStruct = factory.NewEntityStructure(getLine(), m_Name, m_FormalLevel) ;
+				eStruct = factory.NewEntityStructure(getLine(), name, formalLevel) ;
 			}
 			eAtt = eStruct ;
 		}
-		else if (m_EntryType == CWorkingEntryType.VARIABLE)
+		else if (entryType == CWorkingEntryType.VARIABLE)
 		{
-			eAtt = factory.NewEntityAttribute(getLine(), m_Name) ;
-			factory.m_ProgramCatalog.RegisterAttribute(eAtt) ;
+			eAtt = factory.NewEntityAttribute(getLine(), name) ;
+			factory.programCatalog.RegisterAttribute(eAtt) ;
 		}
 		
-		eAtt.SetSignSeparateType(m_bSignSeparateType) ;
-		eAtt.SetJustifiedRight(m_bJustifiedRight) ;
-		eAtt.SetBlankWhenZero(m_bBlankWhenZero) ;
+		eAtt.SetSignSeparateType(bSignSeparateType) ;
+		eAtt.SetJustifiedRight(bJustifiedRight) ;
+		eAtt.SetBlankWhenZero(bBlankWhenZero) ;
 		SetType(eAtt) ;
-		eAtt.SetSync(m_Sync) ;
+		eAtt.SetSync(sync) ;
 		if (parent!=null)
 		{
 			CBaseLanguageEntity par = parent.FindLastEntityAvailableForLevel(eAtt.GetInternalLevel()) ;
@@ -993,30 +993,30 @@ public class CWorkingEntry extends CCobolElement
 				parent.AddChild(eAtt) ;
 			}
 		}
-		if (m_Value != null)
+		if (value != null)
 		{
-			if (m_Value.GetValue().equals(CCobolConstantList.SPACE.m_Name) || m_Value.GetValue().equals(CCobolConstantList.SPACES.m_Name))
+			if (value.GetValue().equals(CCobolConstantList.SPACE.name) || value.GetValue().equals(CCobolConstantList.SPACES.name))
 			{
 				eAtt.SetInitialValueSpaces() ;
 			}
-			else if (m_Value.GetValue().equals(CCobolConstantList.ZERO.m_Name) || m_Value.GetValue().equals(CCobolConstantList.ZEROS.m_Name)|| m_Value.GetValue().equals(CCobolConstantList.ZEROES.m_Name))
+			else if (value.GetValue().equals(CCobolConstantList.ZERO.name) || value.GetValue().equals(CCobolConstantList.ZEROS.name)|| value.GetValue().equals(CCobolConstantList.ZEROES.name))
 			{
 				eAtt.SetInitialValueZeros() ;
 			}
-			else if (m_Value.GetValue().equals(CCobolConstantList.LOW_VALUE.m_Name) || m_Value.GetValue().equals(CCobolConstantList.LOW_VALUES.m_Name))
+			else if (value.GetValue().equals(CCobolConstantList.LOW_VALUE.name) || value.GetValue().equals(CCobolConstantList.LOW_VALUES.name))
 			{
 				eAtt.SetInitialLowValue() ;
 			}
-			else if (m_Value.GetValue().equals(CCobolConstantList.HIGH_VALUE.m_Name) || m_Value.GetValue().equals(CCobolConstantList.HIGH_VALUES.m_Name))
+			else if (value.GetValue().equals(CCobolConstantList.HIGH_VALUE.name) || value.GetValue().equals(CCobolConstantList.HIGH_VALUES.name))
 			{
 				eAtt.SetInitialHighValue() ;
 			}
 			else
 			{
-				CDataEntity eInitial = m_Value.GetDataEntity(getLine(), factory);
+				CDataEntity eInitial = value.GetDataEntity(getLine(), factory);
 				if (eInitial != null)
 				{
-					if (m_bFillAll)
+					if (bFillAll)
 					{
 						eAtt.SetInitialValueAll(eInitial) ;
 					}
@@ -1025,15 +1025,15 @@ public class CWorkingEntry extends CCobolElement
 						eAtt.SetInitialValue(eInitial) ;
 					}
 					eInitial.RegisterReadReference(eAtt) ;
-					factory.m_ProgramCatalog.RegisterInitializedStructure(eAtt) ;
+					factory.programCatalog.RegisterInitializedStructure(eAtt) ;
 				}
 				else
 				{
-					Transcoder.logError(getLine(), "Missing semantic for initial value : "+m_Value.GetValue());
+					Transcoder.logError(getLine(), "Missing semantic for initial value : "+value.GetValue());
 				}
 			}
 		}
-		eAtt.SetComp(m_Comp) ;
+		eAtt.SetComp(comp) ;
 		return eAtt;
 		
 	}
@@ -1043,23 +1043,23 @@ public class CWorkingEntry extends CCobolElement
 	 */
 	private void SetType(ITypableEntity eAtt)
 	{
-		if (m_bEdited)
+		if (bEdited)
 		{
-			eAtt.SetTypeEdited(m_Format) ;
+			eAtt.SetTypeEdited(format) ;
 		}
-		else if (m_Type == CWorkingPicType.STRING)
+		else if (type == CWorkingPicType.STRING)
 		{
-			eAtt.SetTypeString(m_Length) ;
+			eAtt.SetTypeString(length) ;
 		}
-		else if (m_Type == CWorkingPicType.NUMBER || m_Type == CWorkingPicType.DECIMAL)
+		else if (type == CWorkingPicType.NUMBER || type == CWorkingPicType.DECIMAL)
 		{
-			eAtt.SetTypeNum(m_Length, m_Decimal) ;
+			eAtt.SetTypeNum(length, decimal) ;
 		}
-		else if (m_Type == CWorkingPicType.SIGNED || m_Type == CWorkingPicType.SIGNED_DECIMAL)
+		else if (type == CWorkingPicType.SIGNED || type == CWorkingPicType.SIGNED_DECIMAL)
 		{
-			eAtt.SetTypeSigned(m_Length, m_Decimal) ;
+			eAtt.SetTypeSigned(length, decimal) ;
 		}
-		else if (m_Type != null)
+		else if (type != null)
 		{
 			Transcoder.logError(getLine(), "Not managed type");
 		}
@@ -1069,7 +1069,7 @@ public class CWorkingEntry extends CCobolElement
 	{
 		boolean bSaveMap = eForm.IsSaveCopy() ;
 		CEntityResourceForm.CFieldRedefineStructure lstFields  ;
-		CEntityResourceForm map = factory.m_ProgramCatalog.GetAssociatedMap(eForm) ;
+		CEntityResourceForm map = factory.programCatalog.GetAssociatedMap(eForm) ;
 		if (bSaveMap)
 		{
 			lstFields = map.GetRedefineStructure() ;
@@ -1080,16 +1080,16 @@ public class CWorkingEntry extends CCobolElement
 		}
 		CEntityValueReference ref = factory.NewEntityValueReference(eForm) ;
 		eForm.RegisterReadReference(ref) ;
-		CEntityFormRedefine eRedef = factory.NewEntityFormRedefine(getLine(), m_Name, ref, bSaveMap);
+		CEntityFormRedefine eRedef = factory.NewEntityFormRedefine(getLine(), name, ref, bSaveMap);
 		eForm.StartFieldAnalyse();
 		DoSemanticAnalysisForMapRedefineForChildren(eForm, factory, eRedef, bSaveMap, lstFields);
 		if (bSaveMap)
 		{
-			factory.m_ProgramCatalog.RegisterSaveMap(eRedef, map) ;
+			factory.programCatalog.RegisterSaveMap(eRedef, map) ;
 		}
 		else
 		{
-			factory.m_ProgramCatalog.RegisterMap(eRedef) ;
+			factory.programCatalog.RegisterMap(eRedef) ;
 		}
 		return eRedef ;
 	}
@@ -1097,7 +1097,7 @@ public class CWorkingEntry extends CCobolElement
 	{
 		CEntityResourceForm.CFieldRedefineDescription curRedefineStructure = structure.Current() ;
 			// this structure is used to link save-fields with their symbolic-field
-		ListIterator i = m_children.listIterator() ;
+		ListIterator i = children.listIterator() ;
 		CWorkingEntry le = null ;
 		CEntityFieldRedefine eFieldRedef = null ;  // current field
 		CEntityFieldRedefine eLastFieldRedef = null ;  // current field
@@ -1110,19 +1110,19 @@ public class CWorkingEntry extends CCobolElement
 			int nRemainingSizeInField = eForm.GetRemainingBytesInCurrentField();
 			int nbFields = 0 ;
 			if (nElementSize <= nRemainingSizeInField // current entry is part of a field
-					&& le.m_Occurs == null   // current entry is not a group
-					&& (le.m_children.size() == 0   // current entry is not a group
+					&& le.occurs == null   // current entry is not a group
+					&& (le.children.size() == 0   // current entry is not a group
 							|| eForm.getCurrentPositionInField()>0)) // but groups are allowed for DATA attribute field
 			{ // current entry is an attribute of a field, or a field itself
-				CIdentifier idRedefine = le.m_Redefines ;
+				CIdentifier idRedefine = le.redefines ;
 				if (idRedefine != null)
 				{ // current attribute is a redefine of an existing attribute
-					if (factory.m_ProgramCatalog.IsExistingDataEntity(idRedefine.GetName(), idRedefine.GetMemberOf()))
+					if (factory.programCatalog.IsExistingDataEntity(idRedefine.GetName(), idRedefine.GetMemberOf()))
 					{
 						CDataEntity e = idRedefine.GetDataReference(getLine(), factory) ;
-						if (le.m_Name.equals("") && le.m_children.size()==1)
+						if (le.name.equals("") && le.children.size()==1)
 						{
-							le = (CWorkingEntry)le.m_children.get(0) ;
+							le = (CWorkingEntry)le.children.get(0) ;
 						}
 						if (e == null)
 						{
@@ -1135,7 +1135,7 @@ public class CWorkingEntry extends CCobolElement
 						}
 						else if (e.GetDataType() == CDataEntity.CDataEntityType.FIELD_ATTRIBUTE)
 						{
-							factory.m_ProgramCatalog.RegisterDataEntity(le.m_Name, e) ;
+							factory.programCatalog.RegisterDataEntity(le.name, e) ;
 						}
 						else
 						{
@@ -1147,7 +1147,7 @@ public class CWorkingEntry extends CCobolElement
 					{
 						if (idRedefine.GetName().endsWith("F") || idRedefine.GetName().endsWith("A"))
 						{
-							CEntityFieldAttribute eCol = factory.NewEntityFieldAttribute(le.getLine(), le.m_Name, eFieldRedef) ;
+							CEntityFieldAttribute eCol = factory.NewEntityFieldAttribute(le.getLine(), le.name, eFieldRedef) ;
 						}
 						else
 						{
@@ -1155,30 +1155,30 @@ public class CWorkingEntry extends CCobolElement
 						}
 					}
 				}
-				else if (le.m_Name.equals("") && nElementSize < nRemainingSizeInField && eFieldRedef==null)
+				else if (le.name.equals("") && nElementSize < nRemainingSizeInField && eFieldRedef==null)
 				{
-					nbFields = eForm.ConsumeFieldsAsBytes(le.m_Length);
+					nbFields = eForm.ConsumeFieldsAsBytes(le.length);
 				}
-				else if (le.m_Name.equals("") && nElementSize == nRemainingSizeInField && eFieldRedef==null)
+				else if (le.name.equals("") && nElementSize == nRemainingSizeInField && eFieldRedef==null)
 				{
 					nbFields = eForm.ConsumeFieldsAsBytes(nElementSize); // must be 1
 					if (nbFields != -1)
 					{ // -1 means the first 12 bytes => bypass
-						if (le.m_children.size()>0)
+						if (le.children.size()>0)
 						{
 //							CBaseTranscoder.ms_logger.info("INFO : Data field splitted into sub-fields, line" + le.getLine()) ;
-							String name = le.m_Name ;
+							String name = le.name ;
 							if (name.equals(""))
 							{
 								CEntityResourceField curF = eForm.GetCurrentRedefiningField() ;
 								name = curF.GetName() + "$edit" ;
 							}
-							CEntityFieldRedefine eSkip = factory.NewEntityFieldRedefine(le.getLine(), name, le.m_FormalLevel); 
+							CEntityFieldRedefine eSkip = factory.NewEntityFieldRedefine(le.getLine(), name, le.formalLevel); 
 							eParent.AddChild(eSkip) ;
 							le.DoSemanticAnalysisForChildren(eSkip, factory) ;
-							if (curRedefineStructure.m_Field != null)
+							if (curRedefineStructure.field != null)
 							{
-								if (curRedefineStructure.m_Size != 1)
+								if (curRedefineStructure.size != 1)
 								{
 									Transcoder.logError(le.getLine(), "Unexpecting situation while analysing MAP REDEFINE");
 									throw new NacaTransAssertException("ERROR : unexpected situation while analysing MAP REDEFINE, line "+le.getLine()) ; // ASSERT
@@ -1186,18 +1186,18 @@ public class CWorkingEntry extends CCobolElement
 							}
 							else
 							{
-								curRedefineStructure.m_Field = eSkip ;
-								curRedefineStructure.m_Size = nbFields ;
-								curRedefineStructure.m_Type = curRedefineStructure.SKIP ;
+								curRedefineStructure.field = eSkip ;
+								curRedefineStructure.size = nbFields ;
+								curRedefineStructure.type = curRedefineStructure.SKIP ;
 							}
 						}
 						else
 						{
-							CEntitySkipFields eSkip = factory.NewEntityWorkingSkipField(le.getLine(), le.m_Name, 1, le.m_FormalLevel); 
+							CEntitySkipFields eSkip = factory.NewEntityWorkingSkipField(le.getLine(), le.name, 1, le.formalLevel); 
 							eParent.AddChild(eSkip) ;
-							if (curRedefineStructure.m_Field != null)
+							if (curRedefineStructure.field != null)
 							{
-								if (curRedefineStructure.m_Size != 1)
+								if (curRedefineStructure.size != 1)
 								{
 									Transcoder.logError(le.getLine(), "Unexpecting situation while analysing MAP REDEFINE");
 									throw new NacaTransAssertException("ERROR : unexpected situation while analysing MAP REDEFINE, line "+le.getLine()) ; // ASSERT
@@ -1205,9 +1205,9 @@ public class CWorkingEntry extends CCobolElement
 							}
 							else
 							{
-								curRedefineStructure.m_Field = eSkip ;
-								curRedefineStructure.m_Size = nbFields ;
-								curRedefineStructure.m_Type = curRedefineStructure.SKIP ;
+								curRedefineStructure.field = eSkip ;
+								curRedefineStructure.size = nbFields ;
+								curRedefineStructure.type = curRedefineStructure.SKIP ;
 							}
 						}
 						curRedefineStructure = structure.Next() ;
@@ -1222,13 +1222,13 @@ public class CWorkingEntry extends CCobolElement
 					{  // the data field is cut into subfields but with no parent explicit : we must create such a parent for all subfields of the data field
 //						CBaseTranscoder.ms_logger.info("INFO : Data field splitted into sub-fields, line" + le.getLine()) ;
 						CEntityResourceField field = eForm.GetCurrentRedefiningField() ;
-						eFieldRedef = factory.NewEntityFieldRedefine(le.getLine(), field.GetName()+"$edit", le.m_FormalLevel) ;
+						eFieldRedef = factory.NewEntityFieldRedefine(le.getLine(), field.GetName()+"$edit", le.formalLevel) ;
 						eParent.AddChild(eFieldRedef) ;
 						int nTotalSize = 0 ;
 						while (nTotalSize < nRemainingSizeInField && le != null)
 						{
-							int level = new Integer(le.m_FormalLevel).intValue();
-							le.m_FormalLevel = new Integer(level + 1).toString(); 
+							int level = new Integer(le.formalLevel).intValue();
+							le.formalLevel = new Integer(level + 1).toString(); 
 							le.DoCustomSemanticAnalysis(eFieldRedef, factory) ;
 							nTotalSize += le.GetByteLength() ;
 							if (nTotalSize < nRemainingSizeInField)
@@ -1237,29 +1237,29 @@ public class CWorkingEntry extends CCobolElement
 							}
 						}
 						nbFields = eForm.ConsumeFieldsAsBytes(nTotalSize) ;
-						factory.m_ProgramCatalog.RegisterFieldRedefine(eFieldRedef) ;
+						factory.programCatalog.RegisterFieldRedefine(eFieldRedef) ;
 						if (bSaveMap)
 						{
-							//factory.m_ProgramCatalog.RegisterSaveField(eFieldRedef, curRedefineStructure.m_Field) ;
+							//factory.programCatalog.RegisterSaveField(eFieldRedef, curRedefineStructure.field) ;
 						}
 						else
 						{
-							//factory.m_ProgramCatalog.RegisterSymbolicField(eFieldRedef) ;
-							curRedefineStructure.m_Field = eFieldRedef ;
-							curRedefineStructure.m_Type = curRedefineStructure.FIELD ;
-							curRedefineStructure.m_Size = nbFields ; //eField.GetByteLength() ;
-							curRedefineStructure.m_Name = eFieldRedef.GetName() ;
+							//factory.programCatalog.RegisterSymbolicField(eFieldRedef) ;
+							curRedefineStructure.field = eFieldRedef ;
+							curRedefineStructure.type = curRedefineStructure.FIELD ;
+							curRedefineStructure.size = nbFields ; //eField.GetByteLength() ;
+							curRedefineStructure.name = eFieldRedef.GetName() ;
 						}
 					}
 					else
 					{
 						eFieldRedef = CheckRadical(eFieldRedef, le, eParent, factory, curRedefineStructure, bSaveMap) ;
 						CreateAttributeForCurrentPositionInField(le, eForm, eFieldRedef, factory) ;
-						if (le.m_children.size()>0)
+						if (le.children.size()>0)
 						{
-							if (le.m_children.size()==1 && eForm.getCurrentPositionInField()<7)
+							if (le.children.size()==1 && eForm.getCurrentPositionInField()<7)
 							{
-								CWorkingEntry child = (CWorkingEntry)le.m_children.get(0);
+								CWorkingEntry child = (CWorkingEntry)le.children.get(0);
 								CreateAttributeForCurrentPositionInField(child, eForm, eFieldRedef, factory) ;
 							}
 							else
@@ -1279,11 +1279,11 @@ public class CWorkingEntry extends CCobolElement
 					}
 				}
 			}
-			else if (le.m_children.size()>0)
+			else if (le.children.size()>0)
 			{ // current entry is a structure wrapping several fields
-				if (le.m_Redefines != null)
+				if (le.redefines != null)
 				{
-					CDataEntity eRedef = le.m_Redefines.GetDataReference(getLine(), factory) ;
+					CDataEntity eRedef = le.redefines.GetDataReference(getLine(), factory) ;
 					if (eRedef.GetParent() == eParent && eRedef.HasChildren())
 					{
 						CEntityResourceForm.CFormByteConsumingState state_sav = eForm.getCurrentConsumingState();
@@ -1308,17 +1308,17 @@ public class CWorkingEntry extends CCobolElement
 						CBaseLanguageEntity entity = le.DoSemanticAnalysis(eParent, factory) ;
 					}
 				}
-				else if (le.m_Occurs != null)
+				else if (le.occurs != null)
 				{
-					CDataEntity occ = le.m_Occurs.GetDataEntity(getLine(), factory);
-					CEntityFieldOccurs eData = factory.NewEntityFieldOccurs(le.getLine(), le.m_Name);
-					eData.SetFieldOccurs(le.m_FormalLevel, occ);
+					CDataEntity occ = le.occurs.GetDataEntity(getLine(), factory);
+					CEntityFieldOccurs eData = factory.NewEntityFieldOccurs(le.getLine(), le.name);
+					eData.SetFieldOccurs(le.formalLevel, occ);
 					eParent.AddChild(eData);
 					CEntityResourceForm.CFormByteConsumingState state = eForm.getCurrentConsumingState();
 					tabPassedStates.put(eData, state) ;
-					if (curRedefineStructure.m_Field != null)
+					if (curRedefineStructure.field != null)
 					{
-//						if (!curRedefineStructure.m_Type.equals(curRedefineStructure.OCCURS))
+//						if (!curRedefineStructure.type.equals(curRedefineStructure.OCCURS))
 //						{
 //							Transcoder.logError("ERROR : unexpected situation while analysing MAP REDEFINE, line "+le.getLine());
 //							throw new NacaTransAssertException("ERROR : unexpected situation while analysing MAP REDEFINE, line "+le.getLine()) ;
@@ -1326,9 +1326,9 @@ public class CWorkingEntry extends CCobolElement
 					}
 					else
 					{
-						curRedefineStructure.m_Field = eData ;
-						curRedefineStructure.m_Name = le.m_Name ;
-						curRedefineStructure.m_Type = curRedefineStructure.OCCURS ;
+						curRedefineStructure.field = eData ;
+						curRedefineStructure.name = le.name ;
+						curRedefineStructure.type = curRedefineStructure.OCCURS ;
 					}
 					structure.Next() ;
 					nbFieldConsumed += le.DoSemanticAnalysisForMapRedefineForChildren(eForm, factory, eData, bSaveMap, structure) ;
@@ -1352,21 +1352,21 @@ public class CWorkingEntry extends CCobolElement
 			}
 			else
 			{ // current entry is a skipfield, with or without a name
-				nbFields = eForm.ConsumeFieldsAsBytes(le.m_Length);
+				nbFields = eForm.ConsumeFieldsAsBytes(le.length);
 				if (nbFields>0)
 				{
-					CEntitySkipFields eSkip = factory.NewEntityWorkingSkipField(le.getLine(), le.m_Name, nbFields, le.m_FormalLevel); 
+					CEntitySkipFields eSkip = factory.NewEntityWorkingSkipField(le.getLine(), le.name, nbFields, le.formalLevel); 
 					eParent.AddChild(eSkip) ;
 					nbFieldConsumed += nbFields ;
-					if (curRedefineStructure.m_Field != null && bSaveMap)
+					if (curRedefineStructure.field != null && bSaveMap)
 					{
 						int nRemaining = nbFields ;
-						while (curRedefineStructure.m_Size>0 && curRedefineStructure.m_Size < nRemaining)
+						while (curRedefineStructure.size>0 && curRedefineStructure.size < nRemaining)
 						{
-							nRemaining -= curRedefineStructure.m_Size ;
+							nRemaining -= curRedefineStructure.size ;
 							curRedefineStructure = structure.Next() ;
 						}
-						if (curRedefineStructure.m_Size != nRemaining)
+						if (curRedefineStructure.size != nRemaining)
 						{
 							Transcoder.logError(le.getLine(), "Unexpecting situation while analysing MAP REDEFINE");
 							throw new NacaTransAssertException("ERROR : unexpected situation while analysing MAP REDEFINE, line "+le.getLine()) ; // ASSERT
@@ -1374,9 +1374,9 @@ public class CWorkingEntry extends CCobolElement
 					}
 					else
 					{
-						curRedefineStructure.m_Field = eSkip ;
-						curRedefineStructure.m_Size = nbFields ;
-						curRedefineStructure.m_Type = curRedefineStructure.SKIP ;
+						curRedefineStructure.field = eSkip ;
+						curRedefineStructure.size = nbFields ;
+						curRedefineStructure.type = curRedefineStructure.SKIP ;
 					}
 					curRedefineStructure = structure.Next() ;		
 				}
@@ -1390,10 +1390,10 @@ public class CWorkingEntry extends CCobolElement
 			
 		}
 			
-		m_bAnalysisDoneForChildren = true ;
-		if (m_Occurs != null)
+		bAnalysisDoneForChildren = true ;
+		if (occurs != null)
 		{
-			int n = Integer.parseInt(m_Occurs.GetValue());
+			int n = Integer.parseInt(occurs.GetValue());
 			if (n < 2)
 			{
 				Transcoder.logError(le.getLine(), "Unexpecting situation while analysing MAP REDEFINE");
@@ -1407,7 +1407,7 @@ public class CWorkingEntry extends CCobolElement
 		}
 		else if (nbFieldConsumed == 1 && eLastFieldRedef != null)
 		{
-			eLastFieldRedef.m_csLevel = m_FormalLevel ;
+			eLastFieldRedef.csLevel = formalLevel ;
 			eLastFieldRedef.SetLine(getLine()) ;
 			eParent.GetParent().AddChild(eLastFieldRedef) ;
 			eParent.SetParent(null);
@@ -1431,61 +1431,61 @@ public class CWorkingEntry extends CCobolElement
 	private CEntityFieldRedefine CheckRadical(CEntityFieldRedefine fieldRedef, CWorkingEntry le, CBaseLanguageEntity eParent, CBaseEntityFactory factory, CFieldRedefineDescription curRedefineStructure, boolean bSaveMap)
 	{
 		String csRadical = "" ;
-		if (!le.m_Name.equals(""))
+		if (!le.name.equals(""))
 		{
-			csRadical = le.m_Name.substring(0, le.m_Name.length()-1) ;
+			csRadical = le.name.substring(0, le.name.length()-1) ;
 		}
 		if (fieldRedef == null)
 		{
 			String name = csRadical ;
 			int n=1 ;
-			while (factory.m_ProgramCatalog.IsExistingFieldRedefine(name))
+			while (factory.programCatalog.IsExistingFieldRedefine(name))
 			{
 				name = csRadical +"$" + n ;
 				n++ ;
 			}
-			if (factory.m_ProgramCatalog.IsExistingDataEntity(name, ""))
+			if (factory.programCatalog.IsExistingDataEntity(name, ""))
 			{
 				name += "$edit" ;
 			}
-			fieldRedef = factory.NewEntityFieldRedefine(le.getLine(), name, le.m_FormalLevel);
+			fieldRedef = factory.NewEntityFieldRedefine(le.getLine(), name, le.formalLevel);
 			eParent.AddChild(fieldRedef);
-			factory.m_ProgramCatalog.RegisterFieldRedefine(fieldRedef) ;
+			factory.programCatalog.RegisterFieldRedefine(fieldRedef) ;
 			if (bSaveMap)
 			{
-				//factory.m_ProgramCatalog.RegisterSaveField(fieldRedef, curRedefineStructure.m_Field) ;
+				//factory.programCatalog.RegisterSaveField(fieldRedef, curRedefineStructure.field) ;
 			}
 			else
 			{
-				//factory.m_ProgramCatalog.RegisterSymbolicField(fieldRedef) ;
-				curRedefineStructure.m_Field = fieldRedef ;
-				curRedefineStructure.m_Type = curRedefineStructure.FIELD ;
-				curRedefineStructure.m_Size = 1 ; //eField.GetByteLength() ;
-				curRedefineStructure.m_Name = name ;
+				//factory.programCatalog.RegisterSymbolicField(fieldRedef) ;
+				curRedefineStructure.field = fieldRedef ;
+				curRedefineStructure.type = curRedefineStructure.FIELD ;
+				curRedefineStructure.size = 1 ; //eField.GetByteLength() ;
+				curRedefineStructure.name = name ;
 			}
 		}
 		else if (!fieldRedef.GetName().equals(csRadical) && !csRadical.equals(""))
 		{
 			String name = csRadical ;
 			int n=1 ;
-			while (factory.m_ProgramCatalog.IsExistingFieldRedefine(name))
+			while (factory.programCatalog.IsExistingFieldRedefine(name))
 			{
 				name = csRadical +"$" + n ;
 				n++ ;
 			}
-			if (factory.m_ProgramCatalog.IsExistingDataEntity(name, ""))
+			if (factory.programCatalog.IsExistingDataEntity(name, ""))
 			{
 				name += "$edit" ;
 			}
 			fieldRedef.Rename(name) ;
-			factory.m_ProgramCatalog.RegisterFieldRedefine(fieldRedef) ;
+			factory.programCatalog.RegisterFieldRedefine(fieldRedef) ;
 			if (bSaveMap)
 			{
-				//factory.m_ProgramCatalog.RegisterSaveField(fieldRedef, curRedefineStructure.m_Field) ;
+				//factory.programCatalog.RegisterSaveField(fieldRedef, curRedefineStructure.field) ;
 			}
 			else
 			{
-				//factory.m_ProgramCatalog.RegisterSymbolicField(fieldRedef) ;
+				//factory.programCatalog.RegisterSymbolicField(fieldRedef) ;
 			}
 		}
 		return fieldRedef ;
@@ -1500,7 +1500,7 @@ public class CWorkingEntry extends CCobolElement
 	 */
 	private boolean CreateAttributeForCurrentPositionInField(CWorkingEntry le, CEntityResourceForm eForm, CEntityResourceField eField, CBaseEntityFactory factory)
 	{
-		String name = le.m_Name ;
+		String name = le.name ;
 		int length = le.GetByteLength() ;
 		int currentPositionInField = eForm.getCurrentPositionInField() ;
 		if (length == 2 && currentPositionInField == 0)
@@ -1537,15 +1537,15 @@ public class CWorkingEntry extends CCobolElement
 		{
 			if (!name.equals(""))
 			{
-				factory.m_ProgramCatalog.RegisterDataEntity(name, eField) ;
+				factory.programCatalog.RegisterDataEntity(name, eField) ;
 			}
-			if (le.m_Type != CWorkingEntry.CWorkingPicType.STRING && le.m_Type!= null)
+			if (le.type != CWorkingEntry.CWorkingPicType.STRING && le.type!= null)
 			{
-//				CBaseTranscoder.ms_logger.info("INFO : Data field typed as "+le.m_Type.m_Text+":"+le.m_Format+", line" + le.getLine()) ;
+//				CBaseTranscoder.ms_logger.info("INFO : Data field typed as "+le.type.text+":"+le.format+", line" + le.getLine()) ;
 			}
 			le.SetType(eField) ;
-			eField.SetRightJustified(le.m_bJustifiedRight) ;
-			eField.SetBlankWhenZero(le.m_bBlankWhenZero) ;
+			eField.SetRightJustified(le.bJustifiedRight) ;
+			eField.SetBlankWhenZero(le.bBlankWhenZero) ;
 //			return eForm.ConsumeFieldsAsBytes(length);
 		}
 		return true ;
@@ -1570,9 +1570,9 @@ public class CWorkingEntry extends CCobolElement
 	protected int GetByteLength()
 	{
 		int n = 0 ;
-		if (m_children.size() > 0)
+		if (children.size() > 0)
 		{
-			ListIterator i = m_children.listIterator() ;
+			ListIterator i = children.listIterator() ;
 			CWorkingEntry le = null ;
 			try
 			{	
@@ -1583,7 +1583,7 @@ public class CWorkingEntry extends CCobolElement
 			}
 			while (le != null)
 			{
-				if (le.m_Redefines == null)
+				if (le.redefines == null)
 				{
 					n += le.GetByteLength() ;
 				}
@@ -1599,34 +1599,34 @@ public class CWorkingEntry extends CCobolElement
 		}
 		else
 		{
-			if (m_Type == CWorkingPicType.STRING)
+			if (type == CWorkingPicType.STRING)
 			{
-				n = m_Length ;
+				n = length ;
 			}
-			else if (m_Type == CWorkingPicType.EDITED || m_bEdited)
+			else if (type == CWorkingPicType.EDITED || bEdited)
 			{
-				n = m_Format.length() ;
+				n = format.length() ;
 			}
 			else 
 			{	// NUMERIC TYPE
-				if (m_Comp.equals(""))
+				if (comp.equals(""))
 				{
-					n = m_Length + m_Decimal ;
+					n = length + decimal ;
 				}
-				else if (m_Comp.equals("COMP") || m_Comp.equals("COMP4"))
+				else if (comp.equals("COMP") || comp.equals("COMP4"))
 				{
-					switch (m_Length)
+					switch (length)
 					{
 						case 4:
 							n = 2 ;
 							break ;
 						default:
-							n= m_Length / 2 ;
+							n= length / 2 ;
 					}
 				}
-				else if (m_Comp.equals("COMP3"))
+				else if (comp.equals("COMP3"))
 				{
-					n = m_Length/2 + m_Length%2 ;
+					n = length/2 + length%2 ;
 				}
 				else
 				{
@@ -1635,9 +1635,9 @@ public class CWorkingEntry extends CCobolElement
 				}
 			}
 		}
-		if (m_Occurs!=null)
+		if (occurs!=null)
 		{
-			int nocc = Integer.parseInt(m_Occurs.GetValue()) ;
+			int nocc = Integer.parseInt(occurs.GetValue()) ;
 			n *= nocc ;
 		}
 		return n ;

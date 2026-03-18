@@ -18,32 +18,32 @@ public class CoupleVar
 {
 	public CoupleVar(VarDefBuffer varDefBuffer, VarBase var_edit)
 	{
-		m_varDefBuffer = varDefBuffer;
-		m_variable = var_edit;
+		varDefBuffer = varDefBuffer;
+		variable = var_edit;
 	}
 	
 	public VarDefBuffer getVarDefItem()
 	{
-		return m_varDefBuffer;
+		return varDefBuffer;
 	}
 	
-	VarDefBuffer m_varDefBuffer = null;
-	VarBase m_variable = null;
+	VarDefBuffer varDefBuffer = null;
+	VarBase variable = null;
 }
 
 //public class CoupleVar<T>
 //{
 //	public CoupleVar(VarDefBuffer varDefBuffer, T var_edit)
 //	{
-//		m_varDefBuffer = varDefBuffer;
-//		m_variable = var_edit;
+//		varDefBuffer = varDefBuffer;
+//		variable = var_edit;
 //	}
 //	
 //	public VarDefBuffer getVarDefItem()
 //	{
-//		return m_varDefBuffer;
+//		return varDefBuffer;
 //	}
 //	
-//	VarDefBuffer m_varDefBuffer = null;
-//	T m_variable = null;
+//	VarDefBuffer varDefBuffer = null;
+//	T variable = null;
 //}

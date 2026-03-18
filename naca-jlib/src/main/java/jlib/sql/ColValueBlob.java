@@ -22,29 +22,29 @@ public class ColValueBlob extends ColValue
 	public ColValueBlob(String csName, SerialBlob blob)
 	{
 		super(csName);
-		m_blValue = blob;
+		blValue = blob;
 	}
 	
 	public ColValue duplicate()
 	{
-		return new ColValueBlob(m_csName, m_blValue);
+		return new ColValueBlob(csName, blValue);
 	}
 	
 	public void setParamSQLClause(SQLClause clause)
 	{
-		clause.param(m_blValue);
+		clause.param(blValue);
 	}
 	
 	public void doFillWithResurltSetCol(ResultSet resultSet, int nCol)
 		throws SQLException
 	{
 		Blob blob = resultSet.getBlob(nCol);
-		m_blValue = new SerialBlob(blob);
+		blValue = new SerialBlob(blob);
 	}
 
 	public String getValueAsString()
 	{
-		return m_blValue.toString();
+		return blValue.toString();
 	}
 	
 	public int getValueAsInt()
@@ -59,7 +59,7 @@ public class ColValueBlob extends ColValue
 	
 	String getDumpValueAsString()
 	{
-		return "(Blog):'"+m_blValue.toString();
+		return "(Blog):'"+blValue.toString();
 	}
 	
 	String getType()
@@ -74,7 +74,7 @@ public class ColValueBlob extends ColValue
 	
 	Object getValue()
 	{
-		return m_blValue;
+		return blValue;
 	}
 	
 	public boolean canSetColParam()
@@ -87,7 +87,7 @@ public class ColValueBlob extends ColValue
 		InputStream is;
 		try
 		{
-			is = m_blValue.getBinaryStream();
+			is = blValue.getBinaryStream();
 			int nLength = is.available();
 			stmt.setBinaryStream(nCol+1, is, nLength);
 		}
@@ -111,5 +111,5 @@ public class ColValueBlob extends ColValue
 		return true;
 	}
 	
-	private SerialBlob m_blValue = null;
+	private SerialBlob blValue = null;
 }

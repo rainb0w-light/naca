@@ -18,23 +18,23 @@ public class CalledPrgPublicArgStringInPositioned extends BaseCalledPrgPublicArg
 	CalledPrgPublicArgStringInPositioned(String csValue)
 	{
 		super();
-		m_csValue = csValue;
+		csValue = csValue;
 	}
 	
 	public void MapOn(Var varLinkageSection)
 	{
-		varLinkageSection.set(m_csValue);
+		varLinkageSection.set(csValue);
 	}
 	
 	public void doFillWithVar(Var varSource)
 	{
-		m_csValue = varSource.getString();		
+		csValue = varSource.getString();		
 	}
 	
 	public int getParamLength()
 	{
-		return m_csValue.length();
+		return csValue.length();
 	}
 	
-	private String m_csValue = null;
+	private String csValue = null;
 }

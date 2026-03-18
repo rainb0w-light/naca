@@ -17,43 +17,43 @@ public class ColValueLong extends ColValue
 	public ColValueLong(String csName, long lValue)
 	{
 		super(csName);
-		m_lValue = lValue;
+		lValue = lValue;
 	}
 	
 	public ColValue duplicate()
 	{
-		return new ColValueLong(m_csName, m_lValue);
+		return new ColValueLong(csName, lValue);
 	}
 	
 	public void setParamSQLClause(SQLClause clause)
 	{
-		clause.param(m_lValue);
+		clause.param(lValue);
 	}
 	
 	public void doFillWithResurltSetCol(ResultSet resultSet, int nCol)
 		throws SQLException
 	{
-		m_lValue = resultSet.getLong(nCol);
+		lValue = resultSet.getLong(nCol);
 	}
 
 	public String getValueAsString()
 	{
-		return String.valueOf(m_lValue);
+		return String.valueOf(lValue);
 	}
 	
 	public int getValueAsInt()
 	{
-		return (int)m_lValue;
+		return (int)lValue;
 	}
 	
 	double getValueAsDouble()
 	{
-		return (double)m_lValue;
+		return (double)lValue;
 	}
 	
 	String getDumpValueAsString()
 	{
-		return "(long):'"+String.valueOf(m_lValue)+"'";
+		return "(long):'"+String.valueOf(lValue)+"'";
 	}
 	
 	String getType()
@@ -68,8 +68,8 @@ public class ColValueLong extends ColValue
 	
 	Object getValue()
 	{
-		return String.valueOf(Long.valueOf(m_lValue));
+		return String.valueOf(Long.valueOf(lValue));
 	}
 	
-	long m_lValue = 0L;
+	long lValue = 0L;
 }

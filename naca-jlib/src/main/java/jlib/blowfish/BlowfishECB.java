@@ -28,11 +28,11 @@ public class BlowfishECB
   final static int SBOX_ENTRIES = 256;
 
   // the boxes
-  int[] m_pbox;
-  int[] m_sbox1;
-  int[] m_sbox2;
-  int[] m_sbox3;
-  int[] m_sbox4;
+  int[] pbox;
+  int[] sbox1;
+  int[] sbox2;
+  int[] sbox3;
+  int[] sbox4;
 
 
   /**
@@ -44,24 +44,24 @@ public class BlowfishECB
     // create the boxes
     int nI;
 
-    m_pbox = new int[PBOX_ENTRIES];
+    pbox = new int[PBOX_ENTRIES];
 
     for (nI = 0; nI < PBOX_ENTRIES; nI++)
     {
-      m_pbox[nI] = pbox_init[nI];
+      pbox[nI] = pbox_init[nI];
     }
 
-    m_sbox1 = new int[SBOX_ENTRIES];
-    m_sbox2 = new int[SBOX_ENTRIES];
-    m_sbox3 = new int[SBOX_ENTRIES];
-    m_sbox4 = new int[SBOX_ENTRIES];
+    sbox1 = new int[SBOX_ENTRIES];
+    sbox2 = new int[SBOX_ENTRIES];
+    sbox3 = new int[SBOX_ENTRIES];
+    sbox4 = new int[SBOX_ENTRIES];
 
     for (nI = 0; nI < SBOX_ENTRIES; nI++) 
     {
-      m_sbox1[nI] = sbox_init_1[nI];
-      m_sbox2[nI] = sbox_init_2[nI];
-      m_sbox3[nI] = sbox_init_3[nI];
-      m_sbox4[nI] = sbox_init_4[nI];
+      sbox1[nI] = sbox_init_1[nI];
+      sbox2[nI] = sbox_init_2[nI];
+      sbox3[nI] = sbox_init_3[nI];
+      sbox4[nI] = sbox_init_4[nI];
     }
 
     // xor the key over the p-boxes
@@ -83,7 +83,7 @@ public class BlowfishECB
           nKeyPos = 0;
         }
       }
-      m_pbox[nI] ^= nBuild;
+      pbox[nI] ^= nBuild;
     }
 
 
@@ -94,32 +94,32 @@ public class BlowfishECB
     for (nI = 0; nI < PBOX_ENTRIES; nI += 2) 
     {
       lZero = encryptBlock(lZero);
-      m_pbox[nI] = (int) (lZero >>> 32);
-      m_pbox[nI+1] = (int) (lZero & 0x0ffffffffL);
+      pbox[nI] = (int) (lZero >>> 32);
+      pbox[nI+1] = (int) (lZero & 0x0ffffffffL);
     }
     for (nI = 0; nI < SBOX_ENTRIES; nI += 2) 
     {
       lZero = encryptBlock(lZero);
-      m_sbox1[nI] = (int) (lZero >>> 32);
-      m_sbox1[nI+1] = (int) (lZero & 0x0ffffffffL);
+      sbox1[nI] = (int) (lZero >>> 32);
+      sbox1[nI+1] = (int) (lZero & 0x0ffffffffL);
     }
     for (nI = 0; nI < SBOX_ENTRIES; nI += 2) 
     {
       lZero = encryptBlock(lZero);
-      m_sbox2[nI] = (int) (lZero >>> 32);
-      m_sbox2[nI+1] = (int) (lZero & 0x0ffffffffL);
+      sbox2[nI] = (int) (lZero >>> 32);
+      sbox2[nI+1] = (int) (lZero & 0x0ffffffffL);
     }
     for (nI = 0; nI < SBOX_ENTRIES; nI += 2) 
     {
       lZero = encryptBlock(lZero);
-      m_sbox3[nI] = (int) (lZero >>> 32);
-      m_sbox3[nI+1] = (int) (lZero & 0x0ffffffffL);
+      sbox3[nI] = (int) (lZero >>> 32);
+      sbox3[nI+1] = (int) (lZero & 0x0ffffffffL);
     }
     for (nI = 0; nI < SBOX_ENTRIES; nI += 2) 
     {
       lZero = encryptBlock(lZero);
-      m_sbox4[nI] = (int) (lZero >>> 32);
-      m_sbox4[nI+1] = (int) (lZero & 0x0ffffffffL);
+      sbox4[nI] = (int) (lZero >>> 32);
+      sbox4[nI+1] = (int) (lZero & 0x0ffffffffL);
     }
   }
 
@@ -134,12 +134,12 @@ public class BlowfishECB
 
     for (nI = 0; nI < PBOX_ENTRIES; nI++)
     {
-      m_pbox[nI] = 0;
+      pbox[nI] = 0;
     }
 
     for (nI = 0; nI < SBOX_ENTRIES; nI++)
     {
-      m_sbox1[nI] = m_sbox2[nI] = m_sbox3[nI] = m_sbox4[nI] = 0;
+      sbox1[nI] = sbox2[nI] = sbox3[nI] = sbox4[nI] = 0;
     }
   }
 
@@ -223,72 +223,72 @@ public class BlowfishECB
     // (we avoid swapping by using nHi and nLo alternating at
     // odd an even loop nubers) and using local references
 
-    int[] sbox1 = m_sbox1;
-    int[] sbox2 = m_sbox2;
-    int[] sbox3 = m_sbox3;
-    int[] sbox4 = m_sbox4;
+    int[] _sbox1 = sbox1;
+    int[] _sbox2 = sbox2;
+    int[] _sbox3 = sbox3;
+    int[] _sbox4 = sbox4;
 
-    int[] pbox = m_pbox; 
+    int[] _pbox = pbox;
 
-    nHi ^= pbox[0];
-    nLo ^= (((sbox1[nHi >>> 24] + sbox2[(nHi >>> 16) & 0x0ff]) ^ sbox3[(nHi >>> 8) & 0x0ff]) + sbox4[nHi & 0x0ff]) ^ pbox[1];
-    nHi ^= (((sbox1[nLo >>> 24] + sbox2[(nLo >>> 16) & 0x0ff]) ^ sbox3[(nLo >>> 8) & 0x0ff]) + sbox4[nLo & 0x0ff]) ^ pbox[2];
-    nLo ^= (((sbox1[nHi >>> 24] + sbox2[(nHi >>> 16) & 0x0ff]) ^ sbox3[(nHi >>> 8) & 0x0ff]) + sbox4[nHi & 0x0ff]) ^ pbox[3];
-    nHi ^= (((sbox1[nLo >>> 24] + sbox2[(nLo >>> 16) & 0x0ff]) ^ sbox3[(nLo >>> 8) & 0x0ff]) + sbox4[nLo & 0x0ff]) ^ pbox[4];
-    nLo ^= (((sbox1[nHi >>> 24] + sbox2[(nHi >>> 16) & 0x0ff]) ^ sbox3[(nHi >>> 8) & 0x0ff]) + sbox4[nHi & 0x0ff]) ^ pbox[5];
-    nHi ^= (((sbox1[nLo >>> 24] + sbox2[(nLo >>> 16) & 0x0ff]) ^ sbox3[(nLo >>> 8) & 0x0ff]) + sbox4[nLo & 0x0ff]) ^ pbox[6];
-    nLo ^= (((sbox1[nHi >>> 24] + sbox2[(nHi >>> 16) & 0x0ff]) ^ sbox3[(nHi >>> 8) & 0x0ff]) + sbox4[nHi & 0x0ff]) ^ pbox[7];
-    nHi ^= (((sbox1[nLo >>> 24] + sbox2[(nLo >>> 16) & 0x0ff]) ^ sbox3[(nLo >>> 8) & 0x0ff]) + sbox4[nLo & 0x0ff]) ^ pbox[8];
-    nLo ^= (((sbox1[nHi >>> 24] + sbox2[(nHi >>> 16) & 0x0ff]) ^ sbox3[(nHi >>> 8) & 0x0ff]) + sbox4[nHi & 0x0ff]) ^ pbox[9];
-    nHi ^= (((sbox1[nLo >>> 24] + sbox2[(nLo >>> 16) & 0x0ff]) ^ sbox3[(nLo >>> 8) & 0x0ff]) + sbox4[nLo & 0x0ff]) ^ pbox[10];
-    nLo ^= (((sbox1[nHi >>> 24] + sbox2[(nHi >>> 16) & 0x0ff]) ^ sbox3[(nHi >>> 8) & 0x0ff]) + sbox4[nHi & 0x0ff]) ^ pbox[11];
-    nHi ^= (((sbox1[nLo >>> 24] + sbox2[(nLo >>> 16) & 0x0ff]) ^ sbox3[(nLo >>> 8) & 0x0ff]) + sbox4[nLo & 0x0ff]) ^ pbox[12];
-    nLo ^= (((sbox1[nHi >>> 24] + sbox2[(nHi >>> 16) & 0x0ff]) ^ sbox3[(nHi >>> 8) & 0x0ff]) + sbox4[nHi & 0x0ff]) ^ pbox[13];
-    nHi ^= (((sbox1[nLo >>> 24] + sbox2[(nLo >>> 16) & 0x0ff]) ^ sbox3[(nLo >>> 8) & 0x0ff]) + sbox4[nLo & 0x0ff]) ^ pbox[14];
-    nLo ^= (((sbox1[nHi >>> 24] + sbox2[(nHi >>> 16) & 0x0ff]) ^ sbox3[(nHi >>> 8) & 0x0ff]) + sbox4[nHi & 0x0ff]) ^ pbox[15];
-    nHi ^= (((sbox1[nLo >>> 24] + sbox2[(nLo >>> 16) & 0x0ff]) ^ sbox3[(nLo >>> 8) & 0x0ff]) + sbox4[nLo & 0x0ff]) ^ pbox[16];
+    nHi ^= _pbox[0];
+    nLo ^= (((_sbox1[nHi >>> 24] + _sbox2[(nHi >>> 16) & 0x0ff]) ^ _sbox3[(nHi >>> 8) & 0x0ff]) + _sbox4[nHi & 0x0ff]) ^ _pbox[1];
+    nHi ^= (((_sbox1[nLo >>> 24] + _sbox2[(nLo >>> 16) & 0x0ff]) ^ _sbox3[(nLo >>> 8) & 0x0ff]) + _sbox4[nLo & 0x0ff]) ^ _pbox[2];
+    nLo ^= (((_sbox1[nHi >>> 24] + _sbox2[(nHi >>> 16) & 0x0ff]) ^ _sbox3[(nHi >>> 8) & 0x0ff]) + _sbox4[nHi & 0x0ff]) ^ _pbox[3];
+    nHi ^= (((_sbox1[nLo >>> 24] + _sbox2[(nLo >>> 16) & 0x0ff]) ^ _sbox3[(nLo >>> 8) & 0x0ff]) + _sbox4[nLo & 0x0ff]) ^ _pbox[4];
+    nLo ^= (((_sbox1[nHi >>> 24] + _sbox2[(nHi >>> 16) & 0x0ff]) ^ _sbox3[(nHi >>> 8) & 0x0ff]) + _sbox4[nHi & 0x0ff]) ^ _pbox[5];
+    nHi ^= (((_sbox1[nLo >>> 24] + _sbox2[(nLo >>> 16) & 0x0ff]) ^ _sbox3[(nLo >>> 8) & 0x0ff]) + _sbox4[nLo & 0x0ff]) ^ _pbox[6];
+    nLo ^= (((_sbox1[nHi >>> 24] + _sbox2[(nHi >>> 16) & 0x0ff]) ^ _sbox3[(nHi >>> 8) & 0x0ff]) + _sbox4[nHi & 0x0ff]) ^ _pbox[7];
+    nHi ^= (((_sbox1[nLo >>> 24] + _sbox2[(nLo >>> 16) & 0x0ff]) ^ _sbox3[(nLo >>> 8) & 0x0ff]) + _sbox4[nLo & 0x0ff]) ^ _pbox[8];
+    nLo ^= (((_sbox1[nHi >>> 24] + _sbox2[(nHi >>> 16) & 0x0ff]) ^ _sbox3[(nHi >>> 8) & 0x0ff]) + _sbox4[nHi & 0x0ff]) ^ _pbox[9];
+    nHi ^= (((_sbox1[nLo >>> 24] + _sbox2[(nLo >>> 16) & 0x0ff]) ^ _sbox3[(nLo >>> 8) & 0x0ff]) + _sbox4[nLo & 0x0ff]) ^ _pbox[10];
+    nLo ^= (((_sbox1[nHi >>> 24] + _sbox2[(nHi >>> 16) & 0x0ff]) ^ _sbox3[(nHi >>> 8) & 0x0ff]) + _sbox4[nHi & 0x0ff]) ^ _pbox[11];
+    nHi ^= (((_sbox1[nLo >>> 24] + _sbox2[(nLo >>> 16) & 0x0ff]) ^ _sbox3[(nLo >>> 8) & 0x0ff]) + _sbox4[nLo & 0x0ff]) ^ _pbox[12];
+    nLo ^= (((_sbox1[nHi >>> 24] + _sbox2[(nHi >>> 16) & 0x0ff]) ^ _sbox3[(nHi >>> 8) & 0x0ff]) + _sbox4[nHi & 0x0ff]) ^ _pbox[13];
+    nHi ^= (((_sbox1[nLo >>> 24] + _sbox2[(nLo >>> 16) & 0x0ff]) ^ _sbox3[(nLo >>> 8) & 0x0ff]) + _sbox4[nLo & 0x0ff]) ^ _pbox[14];
+    nLo ^= (((_sbox1[nHi >>> 24] + _sbox2[(nHi >>> 16) & 0x0ff]) ^ _sbox3[(nHi >>> 8) & 0x0ff]) + _sbox4[nHi & 0x0ff]) ^ _pbox[15];
+    nHi ^= (((_sbox1[nLo >>> 24] + _sbox2[(nLo >>> 16) & 0x0ff]) ^ _sbox3[(nLo >>> 8) & 0x0ff]) + _sbox4[nLo & 0x0ff]) ^ _pbox[16];
 
     // finalize, cross and return the reassembled block
 
-    return BinConverter.makeLong(nHi, nLo ^ pbox[17]);
+    return BinConverter.makeLong(nHi, nLo ^ _pbox[17]);
   }
 
 
 
   // internal routine to decrypt a 64bit block
-  protected long decryptBlock(long lCipherBlock) 
+  protected long decryptBlock(long lCipherBlock)
   {
     // (same as above)
 
     int nHi = BinConverter.longHi32(lCipherBlock);
     int nLo = BinConverter.longLo32(lCipherBlock);
 
-    int[] sbox1 = m_sbox1;
-    int[] sbox2 = m_sbox2;
-    int[] sbox3 = m_sbox3;
-    int[] sbox4 = m_sbox4;
+    int[] _sbox1 = sbox1;
+    int[] _sbox2 = sbox2;
+    int[] _sbox3 = sbox3;
+    int[] _sbox4 = sbox4;
 
-    int[] pbox = m_pbox; 
+    int[] _pbox = pbox;
 
-    nHi ^= m_pbox[17];
-    nLo ^= (((m_sbox1[nHi >>> 24] + m_sbox2[(nHi >>> 16) & 0x0ff]) ^ m_sbox3[(nHi >>> 8) & 0x0ff]) + m_sbox4[nHi & 0x0ff]) ^ m_pbox[16];
-    nHi ^= (((m_sbox1[nLo >>> 24] + m_sbox2[(nLo >>> 16) & 0x0ff]) ^ m_sbox3[(nLo >>> 8) & 0x0ff]) + m_sbox4[nLo & 0x0ff]) ^ m_pbox[15];
-    nLo ^= (((m_sbox1[nHi >>> 24] + m_sbox2[(nHi >>> 16) & 0x0ff]) ^ m_sbox3[(nHi >>> 8) & 0x0ff]) + m_sbox4[nHi & 0x0ff]) ^ m_pbox[14];
-    nHi ^= (((m_sbox1[nLo >>> 24] + m_sbox2[(nLo >>> 16) & 0x0ff]) ^ m_sbox3[(nLo >>> 8) & 0x0ff]) + m_sbox4[nLo & 0x0ff]) ^ m_pbox[13];
-    nLo ^= (((m_sbox1[nHi >>> 24] + m_sbox2[(nHi >>> 16) & 0x0ff]) ^ m_sbox3[(nHi >>> 8) & 0x0ff]) + m_sbox4[nHi & 0x0ff]) ^ m_pbox[12];
-    nHi ^= (((m_sbox1[nLo >>> 24] + m_sbox2[(nLo >>> 16) & 0x0ff]) ^ m_sbox3[(nLo >>> 8) & 0x0ff]) + m_sbox4[nLo & 0x0ff]) ^ m_pbox[11];
-    nLo ^= (((m_sbox1[nHi >>> 24] + m_sbox2[(nHi >>> 16) & 0x0ff]) ^ m_sbox3[(nHi >>> 8) & 0x0ff]) + m_sbox4[nHi & 0x0ff]) ^ m_pbox[10];
-    nHi ^= (((m_sbox1[nLo >>> 24] + m_sbox2[(nLo >>> 16) & 0x0ff]) ^ m_sbox3[(nLo >>> 8) & 0x0ff]) + m_sbox4[nLo & 0x0ff]) ^ m_pbox[9];
-    nLo ^= (((m_sbox1[nHi >>> 24] + m_sbox2[(nHi >>> 16) & 0x0ff]) ^ m_sbox3[(nHi >>> 8) & 0x0ff]) + m_sbox4[nHi & 0x0ff]) ^ m_pbox[8];
-    nHi ^= (((m_sbox1[nLo >>> 24] + m_sbox2[(nLo >>> 16) & 0x0ff]) ^ m_sbox3[(nLo >>> 8) & 0x0ff]) + m_sbox4[nLo & 0x0ff]) ^ m_pbox[7];
-    nLo ^= (((m_sbox1[nHi >>> 24] + m_sbox2[(nHi >>> 16) & 0x0ff]) ^ m_sbox3[(nHi >>> 8) & 0x0ff]) + m_sbox4[nHi & 0x0ff]) ^ m_pbox[6];
-    nHi ^= (((m_sbox1[nLo >>> 24] + m_sbox2[(nLo >>> 16) & 0x0ff]) ^ m_sbox3[(nLo >>> 8) & 0x0ff]) + m_sbox4[nLo & 0x0ff]) ^ m_pbox[5];
-    nLo ^= (((m_sbox1[nHi >>> 24] + m_sbox2[(nHi >>> 16) & 0x0ff]) ^ m_sbox3[(nHi >>> 8) & 0x0ff]) + m_sbox4[nHi & 0x0ff]) ^ m_pbox[4];
-    nHi ^= (((m_sbox1[nLo >>> 24] + m_sbox2[(nLo >>> 16) & 0x0ff]) ^ m_sbox3[(nLo >>> 8) & 0x0ff]) + m_sbox4[nLo & 0x0ff]) ^ m_pbox[3];
-    nLo ^= (((m_sbox1[nHi >>> 24] + m_sbox2[(nHi >>> 16) & 0x0ff]) ^ m_sbox3[(nHi >>> 8) & 0x0ff]) + m_sbox4[nHi & 0x0ff]) ^ m_pbox[2];
-    nHi ^= (((m_sbox1[nLo >>> 24] + m_sbox2[(nLo >>> 16) & 0x0ff]) ^ m_sbox3[(nLo >>> 8) & 0x0ff]) + m_sbox4[nLo & 0x0ff]) ^ m_pbox[1];
+    nHi ^= _pbox[17];
+    nLo ^= (((_sbox1[nHi >>> 24] + _sbox2[(nHi >>> 16) & 0x0ff]) ^ _sbox3[(nHi >>> 8) & 0x0ff]) + _sbox4[nHi & 0x0ff]) ^ _pbox[16];
+    nHi ^= (((_sbox1[nLo >>> 24] + _sbox2[(nLo >>> 16) & 0x0ff]) ^ _sbox3[(nLo >>> 8) & 0x0ff]) + _sbox4[nLo & 0x0ff]) ^ _pbox[15];
+    nLo ^= (((_sbox1[nHi >>> 24] + _sbox2[(nHi >>> 16) & 0x0ff]) ^ _sbox3[(nHi >>> 8) & 0x0ff]) + _sbox4[nHi & 0x0ff]) ^ _pbox[14];
+    nHi ^= (((_sbox1[nLo >>> 24] + _sbox2[(nLo >>> 16) & 0x0ff]) ^ _sbox3[(nLo >>> 8) & 0x0ff]) + _sbox4[nLo & 0x0ff]) ^ _pbox[13];
+    nLo ^= (((_sbox1[nHi >>> 24] + _sbox2[(nHi >>> 16) & 0x0ff]) ^ _sbox3[(nHi >>> 8) & 0x0ff]) + _sbox4[nHi & 0x0ff]) ^ _pbox[12];
+    nHi ^= (((_sbox1[nLo >>> 24] + _sbox2[(nLo >>> 16) & 0x0ff]) ^ _sbox3[(nLo >>> 8) & 0x0ff]) + _sbox4[nLo & 0x0ff]) ^ _pbox[11];
+    nLo ^= (((_sbox1[nHi >>> 24] + _sbox2[(nHi >>> 16) & 0x0ff]) ^ _sbox3[(nHi >>> 8) & 0x0ff]) + _sbox4[nHi & 0x0ff]) ^ _pbox[10];
+    nHi ^= (((_sbox1[nLo >>> 24] + _sbox2[(nLo >>> 16) & 0x0ff]) ^ _sbox3[(nLo >>> 8) & 0x0ff]) + _sbox4[nLo & 0x0ff]) ^ _pbox[9];
+    nLo ^= (((_sbox1[nHi >>> 24] + _sbox2[(nHi >>> 16) & 0x0ff]) ^ _sbox3[(nHi >>> 8) & 0x0ff]) + _sbox4[nHi & 0x0ff]) ^ _pbox[8];
+    nHi ^= (((_sbox1[nLo >>> 24] + _sbox2[(nLo >>> 16) & 0x0ff]) ^ _sbox3[(nLo >>> 8) & 0x0ff]) + _sbox4[nLo & 0x0ff]) ^ _pbox[7];
+    nLo ^= (((_sbox1[nHi >>> 24] + _sbox2[(nHi >>> 16) & 0x0ff]) ^ _sbox3[(nHi >>> 8) & 0x0ff]) + _sbox4[nHi & 0x0ff]) ^ _pbox[6];
+    nHi ^= (((_sbox1[nLo >>> 24] + _sbox2[(nLo >>> 16) & 0x0ff]) ^ _sbox3[(nLo >>> 8) & 0x0ff]) + _sbox4[nLo & 0x0ff]) ^ _pbox[5];
+    nLo ^= (((_sbox1[nHi >>> 24] + _sbox2[(nHi >>> 16) & 0x0ff]) ^ _sbox3[(nHi >>> 8) & 0x0ff]) + _sbox4[nHi & 0x0ff]) ^ _pbox[4];
+    nHi ^= (((_sbox1[nLo >>> 24] + _sbox2[(nLo >>> 16) & 0x0ff]) ^ _sbox3[(nLo >>> 8) & 0x0ff]) + _sbox4[nLo & 0x0ff]) ^ _pbox[3];
+    nLo ^= (((_sbox1[nHi >>> 24] + _sbox2[(nHi >>> 16) & 0x0ff]) ^ _sbox3[(nHi >>> 8) & 0x0ff]) + _sbox4[nHi & 0x0ff]) ^ _pbox[2];
+    nHi ^= (((_sbox1[nLo >>> 24] + _sbox2[(nLo >>> 16) & 0x0ff]) ^ _sbox3[(nLo >>> 8) & 0x0ff]) + _sbox4[nLo & 0x0ff]) ^ _pbox[1];
 
-    return BinConverter.makeLong(nHi, nLo ^ m_pbox[0]);
+    return BinConverter.makeLong(nHi, nLo ^ _pbox[0]);
   }
 
 

@@ -25,18 +25,18 @@ import semantic.expression.CUnitaryEntityCondition;
  */
 public abstract class CEntityCondIsSQLCode extends CUnitaryEntityCondition
 {
-	protected boolean m_bIsEqual = true ;
-	protected int m_nValue = 0 ;
+	protected boolean bIsEqual = true ;
+	protected int nValue = 0 ;
 	
 	public void setIsEqual(int n)
 	{
-		m_bIsEqual = true ;
-		m_nValue = n ;
+		bIsEqual = true ;
+		nValue = n ;
 	}
 	public void setIsNotEqual(int n)
 	{
-		m_bIsEqual = false ;
-		m_nValue = n ;
+		bIsEqual = false ;
+		nValue = n ;
 	}
 	
 	

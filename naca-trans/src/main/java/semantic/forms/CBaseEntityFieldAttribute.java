@@ -48,16 +48,16 @@ public abstract class CBaseEntityFieldAttribute extends CBaseDataReference
 	protected CBaseEntityFieldAttribute(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out, CEntityFieldAttributeType type, CDataEntity owner)
 	{
 		super(l, name, cat, out);
-		m_Type = type ;
-		m_Reference = owner ;
-		m_parent = owner ; 
+		type = type ;
+		reference = owner ;
+		parent = owner ; 
 	}
-	protected CEntityFieldAttributeType m_Type = null ;
+	protected CEntityFieldAttributeType type = null ;
 
 	public void Clear()
 	{
 		super.Clear() ;
-		m_Reference = null ;
+		reference = null ;
 	}
 
 	/* (non-Javadoc)
@@ -86,8 +86,8 @@ public abstract class CBaseEntityFieldAttribute extends CBaseDataReference
 	 */
 	protected void RegisterMySelfToCatalog()
 	{
-		m_ProgramCatalog.RegisterDataEntity(GetName(), this) ;
-//		m_ProgramCatalog.RegisterDataEntity("S" + GetName(), this) ;
+		programCatalog.RegisterDataEntity(GetName(), this) ;
+//		programCatalog.RegisterDataEntity("S" + GetName(), this) ;
 	}
 	public String GetConstantValue()
 	{

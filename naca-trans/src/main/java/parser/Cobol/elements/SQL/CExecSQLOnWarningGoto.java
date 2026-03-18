@@ -33,24 +33,24 @@ public class CExecSQLOnWarningGoto extends CBaseExecSQLAction
 	public CExecSQLOnWarningGoto(int l, String reference)
 	{
 		super(l);
-		m_ref = reference;
+		ref = reference;
 	}
-	public String m_ref = "" ;
+	public String ref = "" ;
 	public Element ExportCustom(Document root)
 	{
 		Element e = root.createElement("SQLOnWarningGoto") ;
-		e.setAttribute("Reference", m_ref) ;
+		e.setAttribute("Reference", ref) ;
 		return e ;
 	}
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		CEntitySqlOnErrorGoto eGoto = factory.NewEntitySQLOnWarningGoto(getLine(), m_ref) ;
+		CEntitySqlOnErrorGoto eGoto = factory.NewEntitySQLOnWarningGoto(getLine(), ref) ;
 		CEntityProcedureSection sec = parent.getSectionContainer();
 		String secName = "" ;
 		if (sec != null)
 			secName = sec.GetName() ;
-		CProcedureReference ref = new CProcedureReference(m_ref, secName, factory.m_ProgramCatalog) ;
-		factory.m_ProgramCatalog.getCallTree().RegisterGlobalGoto(ref) ;
+		CProcedureReference refNew = new CProcedureReference(this.ref, secName, factory.programCatalog) ;
+		factory.programCatalog.getCallTree().RegisterGlobalGoto(refNew) ;
 		parent.AddChild(eGoto) ;
 		return eGoto ;
 	}

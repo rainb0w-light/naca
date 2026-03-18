@@ -31,32 +31,32 @@ import nacaLib.varEx.Var;
 
 public class CESMLink extends CJMapObject
 {
-	protected BaseEnvironment m_Environment = null ;
-	protected String m_csProgramClassName = null;
+	protected BaseEnvironment environment = null ;
+	protected String csProgramClassName = null;
 	
 	public CESMLink(BaseEnvironment env, String csProgramClassName)
 	{
-		m_Environment = env;
-		m_csProgramClassName = csProgramClassName;
+		environment = env;
+		csProgramClassName = csProgramClassName;
 	}
 	
 	public void go()
 	{
 		if(isLogCESM)
-			Log.logDebug("Linking program: "+m_csProgramClassName);
+			Log.logDebug("Linking program: "+csProgramClassName);
 		BaseProgramLoader baseProgramLoader = BaseProgramLoader.GetProgramLoaderInstance();
-		baseProgramLoader.runSubProgram(m_csProgramClassName, null, m_Environment);
+		baseProgramLoader.runSubProgram(csProgramClassName, null, environment);
 	}
 
 	public void commarea(Var var, int length)
 	{
 		if(isLogCESM)
-			Log.logDebug("Linking program: "+m_csProgramClassName);
+			Log.logDebug("Linking program: "+csProgramClassName);
 		BaseProgramLoader baseProgramLoader = BaseProgramLoader.GetProgramLoaderInstance();
 		CCommarea comm = new CCommarea() ;
-		m_Environment.setCommarea(comm);
+		environment.setCommarea(comm);
 		comm.setVarPassedByRef(var);
-		baseProgramLoader.runSubProgram(m_csProgramClassName, null, m_Environment);
+		baseProgramLoader.runSubProgram(csProgramClassName, null, environment);
 	}
 	
 	public void commarea(Var var)

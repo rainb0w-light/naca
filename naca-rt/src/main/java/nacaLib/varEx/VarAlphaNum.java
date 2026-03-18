@@ -41,7 +41,7 @@ public class VarAlphaNum extends Var
 
 	protected String getAsLoggableString()
 	{
-		CStr cstr = m_bufferPos.getOwnCStr(m_varDef.getLength());		
+		CStr cstr = bufferPos.getOwnCStr(varDef.getLength());		
 		String cs = cstr.getAsString();
 		//cstr.resetManagerCache();
 		return cs;

@@ -36,9 +36,9 @@ public class VarDefNumDecSignTrailingComp0 extends VarDefNum
 	private static final long serialVersionUID = 1L;
 	public VarDefNumDecSignTrailingComp0(VarDefBase varDefParent, DeclareType9 declareType9, NumericValue numericValue)
 	{
-		super(varDefParent, declareType9.m_varLevel);
-		m_nNbDigitInteger = numericValue.m_nNbDigitInteger;
-		m_nNbDigitDecimal = numericValue.m_nNbDigitDecimal;
+		super(varDefParent, declareType9.varLevel);
+		nNbDigitInteger = numericValue.nNbDigitInteger;
+		nNbDigitDecimal = numericValue.nNbDigitDecimal;
 	}
 	
 	protected VarDefNumDecSignTrailingComp0()
@@ -49,8 +49,8 @@ public class VarDefNumDecSignTrailingComp0 extends VarDefNum
 //	VarDefNumDecSignTrailingComp0(VarDefNumDecSignTrailingComp0 varDefSource)
 //	{
 //		super(varDefSource);
-//		m_nNbDigitInteger = varDefSource.m_nNbDigitInteger;
-//		m_nNbDigitDecimal = varDefSource.m_nNbDigitDecimal;
+//		nNbDigitInteger = varDefSource.nNbDigitInteger;
+//		nNbDigitDecimal = varDefSource.nNbDigitDecimal;
 //	}
 //	
 //	VarDefBuffer deepDuplicate()
@@ -62,25 +62,25 @@ public class VarDefNumDecSignTrailingComp0 extends VarDefNum
 	
 	void transfer(VarBufferPos bufferSource, VarAndEdit Dest)
 	{
-		Dest.m_varDef.write(Dest.m_bufferPos, this, bufferSource);
+		Dest.varDef.write(Dest.bufferPos, this, bufferSource);
 	}
 	
 	protected VarDefBuffer allocCopy()
 	{
 		VarDefNumDecSignTrailingComp0 v = new VarDefNumDecSignTrailingComp0();
-		v.m_nNbDigitInteger = m_nNbDigitInteger;
-		v.m_nNbDigitDecimal = m_nNbDigitDecimal;
+		v.nNbDigitInteger = nNbDigitInteger;
+		v.nNbDigitDecimal = nNbDigitDecimal;
 		return v;
 	}
 	
 	CSQLItemType getSQLType()
 	{
-		return getDecimalSQLType(m_nNbDigitInteger, m_nNbDigitDecimal);
+		return getDecimalSQLType(nNbDigitInteger, nNbDigitDecimal);
 	}
 	
 	public int getBodyLength()
 	{
-		return m_nTotalSize;
+		return nTotalSize;
 	}
 	
 	protected int getHeaderLength()
@@ -91,7 +91,7 @@ public class VarDefNumDecSignTrailingComp0 extends VarDefNum
 	
 	public int getSingleItemRequiredStorageSize()
 	{
-		return m_nNbDigitInteger + m_nNbDigitDecimal + 1;
+		return nNbDigitInteger + nNbDigitDecimal + 1;
 	}
 	
 	void write(VarBufferPos buffer, char c)
@@ -223,16 +223,16 @@ public class VarDefNumDecSignTrailingComp0 extends VarDefNum
 	
 	public void moveIntoSameType(VarBufferPos buffer, VarDefBuffer varSource, VarBufferPos bufferSource)
 	{
-		if(m_nTotalSize == varSource.m_nTotalSize)	// Same type and same size: Directly copy bytes
+		if(nTotalSize == varSource.nTotalSize)	// Same type and same size: Directly copy bytes
 		{
 			VarDefNumDecSignTrailingComp0 varDefSourceSignTrailingComp0 = (VarDefNumDecSignTrailingComp0)varSource;
-			if(m_nNbDigitDecimal == varDefSourceSignTrailingComp0.m_nNbDigitDecimal && m_nNbDigitInteger == varDefSourceSignTrailingComp0.m_nNbDigitInteger)
+			if(nNbDigitDecimal == varDefSourceSignTrailingComp0.nNbDigitDecimal && nNbDigitInteger == varDefSourceSignTrailingComp0.nNbDigitInteger)
 			{
-				int nPositionDest = buffer.m_nAbsolutePosition;
-				int nPositionSource = bufferSource.m_nAbsolutePosition;
-				for(int n=0; n<m_nTotalSize; n++)
+				int nPositionDest = buffer.nAbsolutePosition;
+				int nPositionSource = bufferSource.nAbsolutePosition;
+				for(int n=0; n<nTotalSize; n++)
 				{
-					buffer.m_acBuffer[nPositionDest++] = bufferSource.m_acBuffer[nPositionSource++];
+					buffer.acBuffer[nPositionDest++] = bufferSource.acBuffer[nPositionSource++];
 				}
 				return ;
 			}
@@ -244,13 +244,13 @@ public class VarDefNumDecSignTrailingComp0 extends VarDefNum
 	
 	void write(VarBufferPos buffer, VarDefNumDecSignTrailingComp0 varSource, VarBufferPos bufferSource)
 	{
-		if(m_nTotalSize == varSource.m_nTotalSize)	// Same type and same size: Directly copy bytes
+		if(nTotalSize == varSource.nTotalSize)	// Same type and same size: Directly copy bytes
 		{
-			int nPositionDest = buffer.m_nAbsolutePosition;
-			int nPositionSource = bufferSource.m_nAbsolutePosition;
-			for(int n=0; n<m_nTotalSize; n++)
+			int nPositionDest = buffer.nAbsolutePosition;
+			int nPositionSource = bufferSource.nAbsolutePosition;
+			for(int n=0; n<nTotalSize; n++)
 			{
-				buffer.m_acBuffer[nPositionDest++] = bufferSource.m_acBuffer[nPositionSource++];
+				buffer.acBuffer[nPositionDest++] = bufferSource.acBuffer[nPositionSource++];
 			}
 			return ;
 		}
@@ -499,7 +499,7 @@ public class VarDefNumDecSignTrailingComp0 extends VarDefNum
 	
 	int getAsDecodedInt(VarBufferPos buffer)
 	{
-		int n = buffer.getAsInt(m_nTotalSize);
+		int n = buffer.getAsInt(nTotalSize);
 		//int n = internalReadSignSeparatedTrailingIntComp0(buffer);
 		return n;
 	}
@@ -507,13 +507,13 @@ public class VarDefNumDecSignTrailingComp0 extends VarDefNum
 	int getAsDecodedUnsignedInt(VarBufferPos buffer)
 	{
 		//int n = internalReadSignSeparatedTrailingIntComp0(buffer);
-		int n = buffer.getAsUnsignedInt(m_nTotalSize);
+		int n = buffer.getAsUnsignedInt(nTotalSize);
 		return n;
 	}
 	
 	long getAsDecodedLong(VarBufferPos buffer)
 	{
-		long l = buffer.getAsInt(m_nTotalSize);
+		long l = buffer.getAsInt(nTotalSize);
 		//long l = internalReadSignSeparatedTrailingIntComp0(buffer);
 		return l;
 	}
@@ -526,8 +526,8 @@ public class VarDefNumDecSignTrailingComp0 extends VarDefNum
 	
 	CStr getAsAlphaNumString(VarBufferPos buffer)
 	{
-		CStr cs1 = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nNbDigitInteger);
-		CStr cs2 = buffer.getStringAt(buffer.m_nAbsolutePosition+m_nNbDigitInteger, m_nNbDigitDecimal);
+		CStr cs1 = buffer.getStringAt(buffer.nAbsolutePosition, nNbDigitInteger);
+		CStr cs2 = buffer.getStringAt(buffer.nAbsolutePosition+nNbDigitInteger, nNbDigitDecimal);
 		CStr cs3 = TempCacheLocator.getTLSTempCache().getReusableCStr();
 		cs3.resetMinimalSize(cs1.length() + 1 + cs2.length());
 		cs3.append(cs1);
@@ -553,31 +553,31 @@ public class VarDefNumDecSignTrailingComp0 extends VarDefNum
 	
 //	private int internalReadSignSeparatedTrailingIntComp0(VarBufferPos buffer)
 //	{
-////		BufChunk bc = buffer.getBufChunkAt(m_nTotalSize);
+////		BufChunk bc = buffer.getBufChunkAt(nTotalSize);
 ////		int nInt = bc.getAsInt();
 //		
-//		int nInt = buffer.getAsInt(m_nTotalSize);
+//		int nInt = buffer.getAsInt(nTotalSize);
 //		
 //		return nInt;
 //	}
 	
 //	private long internalReadSignSeparatedTrailingIntComp0AsLong(VarBufferPos buffer)
 //	{
-//		long l = buffer.getAsLong(m_nTotalSize);
+//		long l = buffer.getAsLong(nTotalSize);
 //		return l;
 //	}
 //	
 	private Dec internalReadSignSeparatedTrailingDecComp0(VarBufferPos buffer)
 	{
-		CStr cs = buffer.getOwnCStr(m_nTotalSize-1-m_nNbDigitDecimal);
+		CStr cs = buffer.getOwnCStr(nTotalSize-1-nNbDigitDecimal);
 		int nInt = cs.getAsInt();
 		
-		int nPos = buffer.m_nAbsolutePosition+m_nNbDigitInteger;
-		cs.set(buffer.m_acBuffer, nPos, m_nNbDigitDecimal);
+		int nPos = buffer.nAbsolutePosition+nNbDigitInteger;
+		cs.set(buffer.acBuffer, nPos, nNbDigitDecimal);
 		Dec dec = new Dec(nInt, cs);
 		
-		char cSign = buffer.m_acBuffer[nPos+m_nNbDigitDecimal];
-		//char cSign = buffer.getCharAt(buffer.m_nAbsolutePosition+m_nNbDigitInteger+m_nNbDigitDecimal);
+		char cSign = buffer.acBuffer[nPos+nNbDigitDecimal];
+		//char cSign = buffer.getCharAt(buffer.nAbsolutePosition+nNbDigitInteger+nNbDigitDecimal);
 		if(cSign == '-')
 			dec.setPositive(false);		
 				
@@ -592,22 +592,22 @@ public class VarDefNumDecSignTrailingComp0 extends VarDefNum
 	
 	private int writeSignSeparatedTrailingDecComp0(VarBufferPos buffer, int nOffset, Dec decValue)
 	{
-		int nPosition = RWNumIntComp0.internalWriteAbsoluteIntComp0AsLong(buffer, nOffset, decValue.getUnsignedLong(), buffer.m_nAbsolutePosition, m_nNbDigitInteger);
-		if(m_nNbDigitDecimal != 0)
+		int nPosition = RWNumIntComp0.internalWriteAbsoluteIntComp0AsLong(buffer, nOffset, decValue.getUnsignedLong(), buffer.nAbsolutePosition, nNbDigitInteger);
+		if(nNbDigitDecimal != 0)
 		{
 			String csValueDec = decValue.getDecPart();
-			nPosition = internalWriteRightPadding(buffer, buffer.m_nAbsolutePosition+m_nNbDigitInteger+nOffset, m_nNbDigitDecimal, csValueDec, '0');
+			nPosition = internalWriteRightPadding(buffer, buffer.nAbsolutePosition+nNbDigitInteger+nOffset, nNbDigitDecimal, csValueDec, '0');
 		}
 		
 		if(decValue.isNegative())
 		{
-			buffer.m_acBuffer[buffer.m_nAbsolutePosition+m_nTotalSize+nOffset-1] = '-';
-			//buffer.setCharAt(buffer.m_nAbsolutePosition+m_nTotalSize+nOffset-1, '-');
+			buffer.acBuffer[buffer.nAbsolutePosition+nTotalSize+nOffset-1] = '-';
+			//buffer.setCharAt(buffer.nAbsolutePosition+nTotalSize+nOffset-1, '-');
 		}
 		else
 		{
-			buffer.m_acBuffer[buffer.m_nAbsolutePosition+m_nTotalSize+nOffset-1] = '+';
-			//buffer.setCharAt(buffer.m_nAbsolutePosition+m_nTotalSize+nOffset-1, '+');
+			buffer.acBuffer[buffer.nAbsolutePosition+nTotalSize+nOffset-1] = '+';
+			//buffer.setCharAt(buffer.nAbsolutePosition+nTotalSize+nOffset-1, '+');
 		}
 			
 		return nPosition;
@@ -615,7 +615,7 @@ public class VarDefNumDecSignTrailingComp0 extends VarDefNum
 
 	int compare(ComparisonMode mode, VarBufferPos bufferSource, VarAndEdit var2)
 	{
-		return var2.m_varDef.compare(mode, var2.m_bufferPos, this, bufferSource);
+		return var2.varDef.compare(mode, var2.bufferPos, this, bufferSource);
 	}
 	
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumDecComp0 varDefNum1, VarBufferPos buffer1)
@@ -678,14 +678,14 @@ public class VarDefNumDecSignTrailingComp0 extends VarDefNum
 	public boolean isEqualWithSameTypeTo(VarBufferPos buffer1, VarDefBuffer varDefBuffer2, VarBufferPos buffer2)
 	{		
 		VarDefNumDecSignTrailingComp0 varDefSourceSignComp0 = (VarDefNumDecSignTrailingComp0)varDefBuffer2;
-		if(m_nNbDigitDecimal == varDefSourceSignComp0.m_nNbDigitDecimal && m_nNbDigitInteger == varDefSourceSignComp0.m_nNbDigitInteger)
+		if(nNbDigitDecimal == varDefSourceSignComp0.nNbDigitDecimal && nNbDigitInteger == varDefSourceSignComp0.nNbDigitInteger)
 		{
 			// Same quantity of digits before and after dot
-			int nPosition1 = buffer1.m_nAbsolutePosition;
-			int nPosition2 = buffer2.m_nAbsolutePosition;
-			for(int n=0; n<m_nTotalSize; n++)
+			int nPosition1 = buffer1.nAbsolutePosition;
+			int nPosition2 = buffer2.nAbsolutePosition;
+			for(int n=0; n<nTotalSize; n++)
 			{
-				if(buffer1.m_acBuffer[nPosition1++] != buffer2.m_acBuffer[nPosition2++])
+				if(buffer1.acBuffer[nPosition1++] != buffer2.acBuffer[nPosition2++])
 					return false;
 			}
 			return true;
@@ -866,8 +866,8 @@ public class VarDefNumDecSignTrailingComp0 extends VarDefNum
 	
 	public String digits(VarBufferPos buffer)
 	{
-		CStr cs1 = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nNbDigitInteger);
-		CStr cs2 = buffer.getStringAt(buffer.m_nAbsolutePosition+m_nNbDigitInteger, m_nNbDigitDecimal);
+		CStr cs1 = buffer.getStringAt(buffer.nAbsolutePosition, nNbDigitInteger);
+		CStr cs2 = buffer.getStringAt(buffer.nAbsolutePosition+nNbDigitInteger, nNbDigitDecimal);
 		CStr cs3 = TempCacheLocator.getTLSTempCache().getReusableCStr();
 		cs3.resetMinimalSize(cs1.length() + cs2.length());
 		cs3.append(cs1);
@@ -877,7 +877,7 @@ public class VarDefNumDecSignTrailingComp0 extends VarDefNum
 	
 	public int getNbDigitDecimal()
 	{
-		return m_nNbDigitDecimal;
+		return nNbDigitDecimal;
 	}
 	
 	boolean isConvertibleInEbcdic()
@@ -897,21 +897,21 @@ public class VarDefNumDecSignTrailingComp0 extends VarDefNum
 	
 	public BtreeSegmentKeyTypeFactory getSegmentKeyTypeFactory()
 	{
-		return VarTypeId.m_segmentKeyTypeFactoryComp0;
+		return VarTypeId.segmentKeyTypeFactoryComp0;
 	}
 	
 	protected void adjustCustomProperty(VarDefBuffer varDefBufferCopySingleItem)
 	{
 		VarDefNumDecSignTrailingComp0 varDefCopy = (VarDefNumDecSignTrailingComp0)varDefBufferCopySingleItem;
-		varDefCopy.m_nNbDigitInteger = m_nNbDigitInteger;
-		varDefCopy.m_nNbDigitDecimal = m_nNbDigitDecimal;
+		varDefCopy.nNbDigitInteger = nNbDigitInteger;
+		varDefCopy.nNbDigitDecimal = nNbDigitDecimal;
 	}
 		
 	protected void adjustCustomPropertyForCharGetAt(VarDefBuffer varDefBufferCopySingleItem)
 	{
 		VarDefNumDecSignTrailingComp0 varDefCopy = (VarDefNumDecSignTrailingComp0)varDefBufferCopySingleItem;
-		varDefCopy.m_nNbDigitInteger = 1;
-		varDefCopy.m_nNbDigitDecimal = 0;
+		varDefCopy.nNbDigitInteger = 1;
+		varDefCopy.nNbDigitDecimal = 0;
 	}
 	
 	boolean isNumeric(VarBufferPos buffer)
@@ -920,6 +920,6 @@ public class VarDefNumDecSignTrailingComp0 extends VarDefNum
 		return cs.isOnlyNumericComp0SignTrailing(true);
 	}
 
-	private int m_nNbDigitInteger;
-	private int m_nNbDigitDecimal;
+	private int nNbDigitInteger;
+	private int nNbDigitDecimal;
 }

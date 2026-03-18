@@ -17,8 +17,8 @@ public class NotificationEngine
 {
 	protected class NotifHandlerMapping
 	{
-		public BaseNotificationHandler m_Object ;
-		public Method m_Mehod ;
+		public BaseNotificationHandler object ;
+		public Method mehod ;
 	}
 	public void RegisterNotificationHandler(BaseNotificationHandler handler)
 	{ // build a Hashtable with all handlers for each notification class
@@ -32,14 +32,14 @@ public class NotificationEngine
 			{
 				NotifHandlerMapping map = new NotifHandlerMapping();
 				Class clNotif = params[0] ;
-				map.m_Mehod = m ;
-				map.m_Object = handler ;
+				map.mehod = m ;
+				map.object = handler ;
 				
-				Collection<NotifHandlerMapping> colHandlers = m_tabHandlers.get(clNotif) ;
+				Collection<NotifHandlerMapping> colHandlers = tabHandlers.get(clNotif) ;
 				if (colHandlers == null)
 				{
 					colHandlers = new LinkedList<NotifHandlerMapping>() ;
-					m_tabHandlers.put(clNotif, colHandlers) ;
+					tabHandlers.put(clNotif, colHandlers) ;
 				}
 				colHandlers.add(map) ;
 			}
@@ -52,14 +52,14 @@ public class NotificationEngine
 
 		// find all handlers for the notification class, and call for them
 		Class clNotif = notif.getClass() ;
-		Collection<NotifHandlerMapping> colHandler = m_tabHandlers.get(clNotif) ;
+		Collection<NotifHandlerMapping> colHandler = tabHandlers.get(clNotif) ;
 		if (colHandler != null)
 		{
 			for (NotifHandlerMapping map : colHandler)
 			{
 				try
 				{
-					Boolean b = (Boolean)map.m_Mehod.invoke(map.m_Object, new Object[] {notif}) ;
+					Boolean b = (Boolean)map.mehod.invoke(map.object, new Object[] {notif}) ;
 					bDone |= b ;
 				}
 				catch (IllegalArgumentException e)
@@ -79,6 +79,6 @@ public class NotificationEngine
 		return bDone ;
 	}
 	
-	protected Hashtable<Class, Collection<NotifHandlerMapping>> m_tabHandlers = new Hashtable<Class, Collection<NotifHandlerMapping>>() ;
+	protected Hashtable<Class, Collection<NotifHandlerMapping>> tabHandlers = new Hashtable<Class, Collection<NotifHandlerMapping>>() ;
 
 }

@@ -43,34 +43,34 @@ public class CSumExpression extends CExpression
 	public CSumExpression(int line, CExpression op1, CExpression op2, CSumType t)
 	{
 		super(line) ;
-		m_Op1 = op1 ;
-		m_Op2 = op2 ;
-		m_Type = t ;
+		op1 = op1 ;
+		op2 = op2 ;
+		type = t ;
 	}
-	protected CExpression m_Op1 = null ;
-	protected CExpression m_Op2 = null ;
-	protected CSumType m_Type = null ;
+	protected CExpression op1 = null ;
+	protected CExpression op2 = null ;
+	protected CSumType type = null ;
 	
 	protected boolean CheckMembersBeforeExport()
 	{
-		boolean b = CheckMemberNotNull(m_Op1);
-		b &= CheckMemberNotNull(m_Op2);
+		boolean b = CheckMemberNotNull(op1);
+		b &= CheckMemberNotNull(op2);
 		return b;
 	}
 	
 	public Element DoExport(Document root)
 	{
-		Element e = root.createElement(m_Type.Text) ;
-		Element e1 = m_Op1.Export(root) ;
+		Element e = root.createElement(type.Text) ;
+		Element e1 = op1.Export(root) ;
 		e.appendChild(e1) ;
-		Element e2 = m_Op2.Export(root) ;
+		Element e2 = op2.Export(root) ;
 		e.appendChild(e2) ;
 		return e;
 	}
 	
 	public CSumType GetType()
 	{
-		return m_Type ;
+		return type ;
 	}
 	/* (non-Javadoc)
 	 * @see parser.expression.CExpression#AnalyseExpression(semantic.CBaseEntityFactory)
@@ -78,9 +78,9 @@ public class CSumExpression extends CExpression
 	public CBaseEntityExpression AnalyseExpression(CBaseEntityFactory factory)
 	{
 		CEntityExprSum eSum = factory.NewEntityExprSum();
-		CBaseEntityExpression op1 = m_Op1.AnalyseExpression(factory) ;
-		CBaseEntityExpression op2 = m_Op2.AnalyseExpression(factory) ;
-		eSum.SetSumExpression(op1, op2, m_Type) ;
+		CBaseEntityExpression op1New = this.op1.AnalyseExpression(factory) ;
+		CBaseEntityExpression op2New = this.op2.AnalyseExpression(factory) ;
+		eSum.SetSumExpression(op1New, op2New, type) ;
 		return eSum;
 	}
 	public CBaseEntityCondition AnalyseCondition(CBaseEntityFactory factory, CDefaultConditionManager condMaster)
@@ -114,13 +114,13 @@ public class CSumExpression extends CExpression
 	}
 	public String toString()
 	{
-		if (m_Type == CSumType.ADD)
+		if (type == CSumType.ADD)
 		{
-			return "ADD("+m_Op1.toString()+", "+m_Op2.toString()+")" ;
+			return "ADD("+op1.toString()+", "+op2.toString()+")" ;
 		}
 		else
 		{
-			return "SUB("+m_Op1.toString()+", "+m_Op2.toString()+")" ;
+			return "SUB("+op1.toString()+", "+op2.toString()+")" ;
 		}
 	}
 	public CExpression getMasterBinaryCondition()
@@ -131,7 +131,7 @@ public class CSumExpression extends CExpression
 	@Override
 	public CExpression GetFirstCalculOperand()
 	{
-		return m_Op1.GetFirstCalculOperand() ;
+		return op1.GetFirstCalculOperand() ;
 	}
 
 }

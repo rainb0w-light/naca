@@ -34,12 +34,12 @@ public abstract class CEntityRoutineEmulationCall extends CBaseActionEntity
 	@Override
 	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
 	{
-		int pos = m_arrParameters.indexOf(field) ;
+		int pos = arrParameters.indexOf(field) ;
 		if (pos >= 0)
 		{
 			field.UnRegisterReadingAction(this) ;
 			var.RegisterReadingAction(this) ;
-			m_arrParameters.set(pos, var) ;
+			arrParameters.set(pos, var) ;
 			return true ;
 		}
 		return false ;
@@ -54,19 +54,19 @@ public abstract class CEntityRoutineEmulationCall extends CBaseActionEntity
 		super(line, cat, out);
 	}
 
-	protected String m_csDisplay = "" ;
-	protected Vector<CDataEntity> m_arrParameters = new Vector<CDataEntity>() ;
+	protected String csDisplay = "" ;
+	protected Vector<CDataEntity> arrParameters = new Vector<CDataEntity>() ;
 	public void Clear()
 	{
 		super.Clear() ;
-		m_arrParameters.clear() ;
+		arrParameters.clear() ;
 	}
 	public void SetDisplay(String disp)
 	{
-		m_csDisplay = disp ;
+		csDisplay = disp ;
 	}
 	public void AddParameter(CDataEntity e)
 	{
-		m_arrParameters.add(e) ;
+		arrParameters.add(e) ;
 	}
 }

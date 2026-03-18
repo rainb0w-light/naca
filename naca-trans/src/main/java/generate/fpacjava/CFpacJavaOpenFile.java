@@ -21,8 +21,8 @@ public class CFpacJavaOpenFile extends CEntityOpenFile
 	@Override
 	protected void DoExport()
 	{
-		String cs = m_eFileDescriptor.ExportReference(getLine()) + ".open" ;
-		switch (m_eFileDescriptor.getAccessMode())
+		String cs = eFileDescriptor.ExportReference(getLine()) + ".open" ;
+		switch (eFileDescriptor.getAccessMode())
 		{
 			case APPEND:
 				cs += "Extend()" ;
@@ -37,7 +37,7 @@ public class CFpacJavaOpenFile extends CEntityOpenFile
 				cs += "Output()" ;
 				break ;
 		}
-		if (m_eFileDescriptor.isRecordSizeVariable())
+		if (eFileDescriptor.isRecordSizeVariable())
 		{
 			cs += ".variableLength()" ;
 		}

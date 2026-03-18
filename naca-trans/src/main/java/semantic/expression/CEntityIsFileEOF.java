@@ -16,7 +16,7 @@ import semantic.CEntityFileDescriptor;
  */
 public abstract class CEntityIsFileEOF extends CBaseEntityCondition
 {
-	protected CEntityFileDescriptor m_FileDescriptor ;
+	protected CEntityFileDescriptor fileDescriptor ;
 	/**
 	 * @param fb 
 	 * 
@@ -24,7 +24,7 @@ public abstract class CEntityIsFileEOF extends CBaseEntityCondition
 	public CEntityIsFileEOF(CEntityFileDescriptor fb)
 	{
 		super();
-		m_FileDescriptor = fb ;
+		fileDescriptor = fb ;
 	}
 
 
@@ -49,7 +49,7 @@ public abstract class CEntityIsFileEOF extends CBaseEntityCondition
 	@Override
 	public boolean ignore()
 	{
-		return m_FileDescriptor.ignore() ;
+		return fileDescriptor.ignore() ;
 	}
 	/**
 	 * @see semantic.expression.CBaseEntityCondition#GetConditionReference()

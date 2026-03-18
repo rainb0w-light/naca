@@ -45,28 +45,28 @@ public class CExecSQLPrepare extends CBaseExecSQLAction
 	public Element ExportCustom(Document root)
 	{
 		Element eExe = root.createElement("SQLPrepare");
-		eExe.setAttribute("Table", m_idStatement.GetName());
-		eExe.setAttribute("From", m_idFrom.GetName());
+		eExe.setAttribute("Table", idStatement.GetName());
+		eExe.setAttribute("From", idFrom.GetName());
 		return eExe;
 	}
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		CDataEntity var = m_idFrom.GetDataReference(getLine(), factory) ;
-		CEntitySQLCursor cur = factory.m_ProgramCatalog.GetSQLCursor(m_idStatement.GetName()) ;
+		CDataEntity var = idFrom.GetDataReference(getLine(), factory) ;
+		CEntitySQLCursor cur = factory.programCatalog.GetSQLCursor(idStatement.GetName()) ;
 		if (cur != null)
 		{
 			cur.setVariableStatement(var) ;
 		}
 		else
 		{
-			Transcoder.logError(getLine(), "Cursor can't be found : "+m_idStatement.GetName())  ;
+			Transcoder.logError(getLine(), "Cursor can't be found : "+idStatement.GetName())  ;
 		}
 		return null ;
 	}
 	protected boolean DoParsing()
 	{
 		CBaseToken tok = GetNext() ;
-		m_idStatement = ReadIdentifier();
+		idStatement = ReadIdentifier();
 		tok = GetCurrentToken() ;
 		if (tok.GetKeyword() == CCobolKeywordList.FROM)
 		{
@@ -74,12 +74,12 @@ public class CExecSQLPrepare extends CBaseExecSQLAction
 			if (tok.GetType() == CTokenType.COLON)
 			{
 				tok = GetNext() ;
-				m_idFrom = ReadIdentifier();
+				idFrom = ReadIdentifier();
 			}
 		}
 		return true ;
 	}
 	
-	protected CIdentifier m_idStatement = null ;
-	protected CIdentifier m_idFrom = null ;
+	protected CIdentifier idStatement = null ;
+	protected CIdentifier idFrom = null ;
 }

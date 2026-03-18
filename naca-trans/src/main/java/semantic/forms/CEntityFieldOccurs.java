@@ -26,12 +26,12 @@ import utils.CObjectCatalog;
  */
 public abstract class CEntityFieldOccurs extends CEntityResourceField
 {
-	protected CDataEntity m_Occurs = null ;
-	protected String m_csLevel = "" ;
+	protected CDataEntity occurs = null ;
+	protected String csLevel = "" ;
 	public void Clear()
 	{
 		super.Clear() ;
-		m_Occurs = null ;
+		occurs = null ;
 	}
 	
 	public CEntityFieldOccurs(int l, String name, CObjectCatalog cat, CBaseLanguageExporter lexp)
@@ -48,8 +48,8 @@ public abstract class CEntityFieldOccurs extends CEntityResourceField
 	}
 	public void SetFieldOccurs(String level, CDataEntity occurs)
 	{
-		m_Occurs = occurs ;
-		m_csLevel = level ;
+		occurs = occurs ;
+		csLevel = level ;
 	}
 
 	public boolean IsEntryField()
@@ -69,8 +69,8 @@ public abstract class CEntityFieldOccurs extends CEntityResourceField
 	protected void RegisterMySelfToCatalog()
 	{
 		String name = GetName() ;
-		m_ProgramCatalog.RegisterDataEntity(name, this) ;
-//		m_ProgramCatalog.RegisterDataEntity(name+"I", this) ;
-//		m_ProgramCatalog.RegisterDataEntity(name+"O", this) ;
+		programCatalog.RegisterDataEntity(name, this) ;
+//		programCatalog.RegisterDataEntity(name+"I", this) ;
+//		programCatalog.RegisterDataEntity(name+"O", this) ;
 	}
 }

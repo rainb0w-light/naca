@@ -38,8 +38,8 @@ public class VarDefFPacNumIntSignComp3 extends VarDefNum
 
 	public VarDefFPacNumIntSignComp3(VarDefBase varDefParent, DeclareType9 declareType9, NumericValue numericValue)
 	{
-		super(varDefParent, declareType9.m_varLevel);
-		m_nNbDigitInteger = numericValue.m_nNbDigitInteger;
+		super(varDefParent, declareType9.varLevel);
+		nNbDigitInteger = numericValue.nNbDigitInteger;
 	}
 	
 	protected VarDefFPacNumIntSignComp3()
@@ -49,8 +49,8 @@ public class VarDefFPacNumIntSignComp3 extends VarDefNum
 	
 	CStr getAsDecodedString(VarBufferPos buffer)
 	{
-		String s = Pic9Comp3BufferSupport.getAsSignedString(buffer, m_nNbDigitInteger, m_nTotalSize);
-		//CStr cs = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nTotalSize);
+		String s = Pic9Comp3BufferSupport.getAsSignedString(buffer, nNbDigitInteger, nTotalSize);
+		//CStr cs = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);
 		
 		CStr cs = TempCacheLocator.getTLSTempCache().getReusableCStr();
 		cs.set(s);
@@ -60,7 +60,7 @@ public class VarDefFPacNumIntSignComp3 extends VarDefNum
 //	VarDefNumIntSignComp3(VarDefNumIntSignComp3 varDefSource)
 //	{
 //		super(varDefSource);
-//		m_nNbDigitInteger = varDefSource.m_nNbDigitInteger;
+//		nNbDigitInteger = varDefSource.nNbDigitInteger;
 //	}
 //	
 //	VarDefBuffer deepDuplicate()
@@ -71,23 +71,23 @@ public class VarDefFPacNumIntSignComp3 extends VarDefNum
 	protected VarDefBuffer allocCopy()
 	{
 		VarDefFPacNumIntSignComp3 v = new VarDefFPacNumIntSignComp3();
-		v.m_nNbDigitInteger = m_nNbDigitInteger;
+		v.nNbDigitInteger = nNbDigitInteger;
 		return v;
 	}
 	
 	CSQLItemType getSQLType()
 	{
-		return getIntegerSQLType(m_nNbDigitInteger);
+		return getIntegerSQLType(nNbDigitInteger);
 	}
 	
 	void transfer(VarBufferPos bufferSource, VarAndEdit Dest)
 	{
-		Dest.m_varDef.write(Dest.m_bufferPos, this, bufferSource);
+		Dest.varDef.write(Dest.bufferPos, this, bufferSource);
 	}
 	
 	public int getBodyLength()
 	{
-		return m_nTotalSize;
+		return nTotalSize;
 	}
 	
 	protected int getHeaderLength()
@@ -98,13 +98,13 @@ public class VarDefFPacNumIntSignComp3 extends VarDefNum
 	
 	public int getSingleItemRequiredStorageSize()
 	{
-//		int n = m_nNbDigitInteger + 1; // need a nibble for sign
+//		int n = nNbDigitInteger + 1; // need a nibble for sign
 //		double d = n / 2.0;
 //		n = (int)Math.round(d);
 //
 //		return n;
 
-		int nNbDigits = m_nNbDigitInteger + 1; // need a nibble for sign
+		int nNbDigits = nNbDigitInteger + 1; // need a nibble for sign
 		int n = nNbDigits / 2;
 		if((nNbDigits % 2) != 0)
 			n++;
@@ -127,12 +127,12 @@ public class VarDefFPacNumIntSignComp3 extends VarDefNum
 
 	int getAsDecodedInt(VarBufferPos buffer)
 	{
-		return Pic9Comp3BufferSupport.getAsInt(buffer, m_nNbDigitInteger, m_nTotalSize);
+		return Pic9Comp3BufferSupport.getAsInt(buffer, nNbDigitInteger, nTotalSize);
 	}
 	
 	int getAsDecodedUnsignedInt(VarBufferPos buffer)
 	{
-		return Pic9Comp3BufferSupport.getAsUnsignedInt(buffer, m_nNbDigitInteger, m_nTotalSize);
+		return Pic9Comp3BufferSupport.getAsUnsignedInt(buffer, nNbDigitInteger, nTotalSize);
 //		CStr cs = buffer.getStringAt(getBodyAbsolutePosition(buffer), getBodyLength());
 //		int n = cs.getAsUnsignedInt();
 //		return n;
@@ -140,31 +140,31 @@ public class VarDefFPacNumIntSignComp3 extends VarDefNum
 	
 	long getAsDecodedLong(VarBufferPos buffer)
 	{
-		//long l = internalReadIntSignComp3AsLong(buffer, m_nNbDigitInteger);
-		long l = Pic9Comp3BufferSupport.getAsLong(buffer, m_nNbDigitInteger, m_nTotalSize);
+		//long l = internalReadIntSignComp3AsLong(buffer, nNbDigitInteger);
+		long l = Pic9Comp3BufferSupport.getAsLong(buffer, nNbDigitInteger, nTotalSize);
 		return l;
 	}
 	
 	Dec getAsDecodedDec(VarBufferPos buffer)
 	{
-		long lInt = Pic9Comp3BufferSupport.getAsLong(buffer, m_nNbDigitInteger, m_nTotalSize);
-		//long lInt = internalReadIntSignComp3AsLong(buffer, m_nNbDigitInteger);
+		long lInt = Pic9Comp3BufferSupport.getAsLong(buffer, nNbDigitInteger, nTotalSize);
+		//long lInt = internalReadIntSignComp3AsLong(buffer, nNbDigitInteger);
 		Dec dec = new Dec(lInt, "");
 		return dec;
 	}
 	
 	CStr getAsAlphaNumString(VarBufferPos buffer)
 	{
-		CStr cs = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nTotalSize);
+		CStr cs = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);
 		CStrNumber csNum = TempCacheLocator.getTLSTempCache().getCStrNumber();
-		csNum.decodeComp3String(cs, m_nNbDigitInteger);
+		csNum.decodeComp3String(cs, nNbDigitInteger);
 		return csNum;
 	}
 	
 	
 	CStr getDottedSignedString(VarBufferPos buffer)
 	{	
-		int n = Pic9Comp3BufferSupport.getAsInt(buffer, m_nNbDigitInteger, m_nTotalSize);
+		int n = Pic9Comp3BufferSupport.getAsInt(buffer, nNbDigitInteger, nTotalSize);
 		CStrNumber csNum = TempCacheLocator.getTLSTempCache().getCStrNumber();
 		csNum.valueOf(n);		
 		return csNum;
@@ -172,7 +172,7 @@ public class VarDefFPacNumIntSignComp3 extends VarDefNum
 	
 	CStr getDottedSignedStringAsSQLCol(VarBufferPos buffer)
 	{	
-		int n = Pic9Comp3BufferSupport.getAsIntWithMaxNbdigits(this, buffer, m_nNbDigitInteger, m_nTotalSize);
+		int n = Pic9Comp3BufferSupport.getAsIntWithMaxNbdigits(this, buffer, nNbDigitInteger, nTotalSize);
 		CStrNumber csNum = TempCacheLocator.getTLSTempCache().getCStrNumber();
 		csNum.valueOf(n);		
 		return csNum;
@@ -181,15 +181,15 @@ public class VarDefFPacNumIntSignComp3 extends VarDefNum
 	void write(VarBufferPos buffer, char c)
 	{
 		int n = NumberParser.getAsUnsignedInt(c);
-		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, m_nNbDigitInteger, m_nTotalSize, n);
-		//writeIntSignComp3(buffer, n, m_nNbDigitInteger);
+		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, nNbDigitInteger, nTotalSize, n);
+		//writeIntSignComp3(buffer, n, nNbDigitInteger);
 	}
 	
 	public void write(VarBufferPos buffer, String cs)
 	{
 		int n = NumberParser.getAsInt(cs);
-		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, m_nNbDigitInteger, m_nTotalSize, n);
-		//writeIntSignComp3(buffer, n, m_nNbDigitInteger);
+		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, nNbDigitInteger, nTotalSize, n);
+		//writeIntSignComp3(buffer, n, nNbDigitInteger);
 	}
 	
 	public void inc(VarBufferPos buffer, int n)
@@ -208,34 +208,34 @@ public class VarDefFPacNumIntSignComp3 extends VarDefNum
 	
 	public void write(VarBufferPos buffer, int n)
 	{
-		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, m_nNbDigitInteger, m_nTotalSize, n);
-		//writeIntSignComp3(buffer, n, m_nNbDigitInteger);
+		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, nNbDigitInteger, nTotalSize, n);
+		//writeIntSignComp3(buffer, n, nNbDigitInteger);
 	}
 	
 	public void write(VarBufferPos buffer, long l)
 	{
-		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, m_nNbDigitInteger, m_nTotalSize, (int)l);
-		//writeIntSignComp3(buffer, (int)l, m_nNbDigitInteger);
+		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, nNbDigitInteger, nTotalSize, (int)l);
+		//writeIntSignComp3(buffer, (int)l, nNbDigitInteger);
 	}
 
 	
 	void write(VarBufferPos buffer, double d)
 	{
-		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, m_nNbDigitInteger, m_nTotalSize, (int)d);
+		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, nNbDigitInteger, nTotalSize, (int)d);
 //		int n = (int) d;
-//		writeIntSignComp3(buffer, n, m_nNbDigitInteger);
+//		writeIntSignComp3(buffer, n, nNbDigitInteger);
 	}
 	
 	void write(VarBufferPos buffer, Dec dec)
 	{
-		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, m_nNbDigitInteger, m_nTotalSize, dec.getSignedInt());
-		//writeIntSignComp3(buffer, dec.getSignedInt(), m_nNbDigitInteger);
+		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, nNbDigitInteger, nTotalSize, dec.getSignedInt());
+		//writeIntSignComp3(buffer, dec.getSignedInt(), nNbDigitInteger);
 	}
 	
 	public void write(VarBufferPos buffer, BigDecimal bigDecimal)
 	{
 		long lValue = bigDecimal.longValue();
-		Pic9Comp3BufferSupport.setFromRightToLeftSignedLong(buffer, m_nNbDigitInteger, m_nTotalSize, lValue);
+		Pic9Comp3BufferSupport.setFromRightToLeftSignedLong(buffer, nNbDigitInteger, nTotalSize, lValue);
 	}
 
 	
@@ -249,246 +249,246 @@ public class VarDefFPacNumIntSignComp3 extends VarDefNum
 	void write(VarBufferPos buffer, VarDefX varSource, VarBufferPos bufferSource)
 	{
 		int n = varSource.getUnsignedInt(bufferSource);
-		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, m_nNbDigitInteger, m_nTotalSize, n);
-		//writeIntSignComp3(buffer, n, m_nNbDigitInteger);
+		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, nNbDigitInteger, nTotalSize, n);
+		//writeIntSignComp3(buffer, n, nNbDigitInteger);
 	}
 	
 	void write(VarBufferPos buffer, VarDefFPacAlphaNum varSource, VarBufferPos bufferSource)
 	{
 		int n = varSource.getUnsignedInt(bufferSource);
-		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, m_nNbDigitInteger, m_nTotalSize, n);
-		//writeIntSignComp3(buffer, n, m_nNbDigitInteger);
+		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, nNbDigitInteger, nTotalSize, n);
+		//writeIntSignComp3(buffer, n, nNbDigitInteger);
 	}
 	
 	void write(VarBufferPos buffer, VarDefFPacRaw varSource, VarBufferPos bufferSource)
 	{
 		int n = varSource.getUnsignedInt(bufferSource);
-		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, m_nNbDigitInteger, m_nTotalSize, n);
-		//writeIntSignComp3(buffer, n, m_nNbDigitInteger);
+		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, nNbDigitInteger, nTotalSize, n);
+		//writeIntSignComp3(buffer, n, nNbDigitInteger);
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumDecComp0 varSource, VarBufferPos bufferSource)
 	{
 		int n = varSource.getAsDecodedInt(bufferSource);
-		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, m_nNbDigitInteger, m_nTotalSize, n);
-		//writeIntSignComp3(buffer, n, m_nNbDigitInteger);
+		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, nNbDigitInteger, nTotalSize, n);
+		//writeIntSignComp3(buffer, n, nNbDigitInteger);
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumDecComp3 varSource, VarBufferPos bufferSource)
 	{
 		int n = varSource.getAsDecodedInt(bufferSource);
-		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, m_nNbDigitInteger, m_nTotalSize, n);
-		//writeIntSignComp3(buffer, n, m_nNbDigitInteger);
+		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, nNbDigitInteger, nTotalSize, n);
+		//writeIntSignComp3(buffer, n, nNbDigitInteger);
 	}
 
 	void write(VarBufferPos buffer, VarDefNumDecComp4 varSource, VarBufferPos bufferSource)
 	{
 		int n = varSource.getAsDecodedInt(bufferSource);
-		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, m_nNbDigitInteger, m_nTotalSize, n);
-		//writeIntSignComp3(buffer, n, m_nNbDigitInteger);
+		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, nNbDigitInteger, nTotalSize, n);
+		//writeIntSignComp3(buffer, n, nNbDigitInteger);
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumDecSignComp4 varSource, VarBufferPos bufferSource)
 	{
 		int n = varSource.getAsDecodedInt(bufferSource);
-		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, m_nNbDigitInteger, m_nTotalSize, n);
-		//writeIntSignComp3(buffer, n, m_nNbDigitInteger);
+		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, nNbDigitInteger, nTotalSize, n);
+		//writeIntSignComp3(buffer, n, nNbDigitInteger);
 	}
 
 	
 	void write(VarBufferPos buffer, VarDefNumDecSignComp0 varSource, VarBufferPos bufferSource)
 	{
 		int n = varSource.getAsDecodedInt(bufferSource);
-		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, m_nNbDigitInteger, m_nTotalSize, n);
-		//writeIntSignComp3(buffer, n, m_nNbDigitInteger);
+		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, nNbDigitInteger, nTotalSize, n);
+		//writeIntSignComp3(buffer, n, nNbDigitInteger);
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumDecSignComp3 varSource, VarBufferPos bufferSource)
 	{
 		int n = varSource.getAsDecodedInt(bufferSource);
-		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, m_nNbDigitInteger, m_nTotalSize, n);
-		//writeIntSignComp3(buffer, n, m_nNbDigitInteger);
+		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, nNbDigitInteger, nTotalSize, n);
+		//writeIntSignComp3(buffer, n, nNbDigitInteger);
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumDecSignLeadingComp0 varSource, VarBufferPos bufferSource)
 	{
 		int n = varSource.getAsDecodedInt(bufferSource);
-		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, m_nNbDigitInteger, m_nTotalSize, n);
-		//writeIntSignComp3(buffer, n, m_nNbDigitInteger);
+		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, nNbDigitInteger, nTotalSize, n);
+		//writeIntSignComp3(buffer, n, nNbDigitInteger);
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumDecSignTrailingComp0 varSource, VarBufferPos bufferSource)
 	{
 		int n = varSource.getAsDecodedInt(bufferSource);
-		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, m_nNbDigitInteger, m_nTotalSize, n);
-		//writeIntSignComp3(buffer, n, m_nNbDigitInteger);
+		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, nNbDigitInteger, nTotalSize, n);
+		//writeIntSignComp3(buffer, n, nNbDigitInteger);
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumIntComp0 varSource, VarBufferPos bufferSource)
 	{
 		int n = varSource.getAsDecodedInt(bufferSource);
-		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, m_nNbDigitInteger, m_nTotalSize, n);
-		//writeIntSignComp3(buffer, n, m_nNbDigitInteger);
+		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, nNbDigitInteger, nTotalSize, n);
+		//writeIntSignComp3(buffer, n, nNbDigitInteger);
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumIntComp0Long varSource, VarBufferPos bufferSource)
 	{
 		long l = varSource.getAsDecodedLong(bufferSource);
-		Pic9Comp3BufferSupport.setFromRightToLeftSignedLong(buffer, m_nNbDigitInteger, m_nTotalSize, l);
+		Pic9Comp3BufferSupport.setFromRightToLeftSignedLong(buffer, nNbDigitInteger, nTotalSize, l);
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumIntComp3 varSource, VarBufferPos bufferSource)
 	{
 		int n = varSource.getAsDecodedInt(bufferSource);
-		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, m_nNbDigitInteger, m_nTotalSize, n);
-		//writeIntSignComp3(buffer, n, m_nNbDigitInteger);
+		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, nNbDigitInteger, nTotalSize, n);
+		//writeIntSignComp3(buffer, n, nNbDigitInteger);
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumIntComp3Long varSource, VarBufferPos bufferSource)
 	{
 		long l = varSource.getAsDecodedLong(bufferSource);
-		Pic9Comp3BufferSupport.setFromRightToLeftSignedLong(buffer, m_nNbDigitInteger, m_nTotalSize, l);
+		Pic9Comp3BufferSupport.setFromRightToLeftSignedLong(buffer, nNbDigitInteger, nTotalSize, l);
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumIntComp4 varSource, VarBufferPos bufferSource)
 	{
 		int n = varSource.getAsDecodedInt(bufferSource);
-		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, m_nNbDigitInteger, m_nTotalSize, n);
-		//writeIntSignComp3(buffer, n, m_nNbDigitInteger);
+		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, nNbDigitInteger, nTotalSize, n);
+		//writeIntSignComp3(buffer, n, nNbDigitInteger);
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumIntComp4Long varSource, VarBufferPos bufferSource)
 	{
 		long l = varSource.getAsDecodedLong(bufferSource);
-		Pic9Comp3BufferSupport.setFromRightToLeftSignedLong(buffer, m_nNbDigitInteger, m_nTotalSize, l);
+		Pic9Comp3BufferSupport.setFromRightToLeftSignedLong(buffer, nNbDigitInteger, nTotalSize, l);
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumIntSignComp0 varSource, VarBufferPos bufferSource)
 	{
 		int n = varSource.getAsDecodedInt(bufferSource);
-		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, m_nNbDigitInteger, m_nTotalSize, n);
-		//writeIntSignComp3(buffer, n, m_nNbDigitInteger);
+		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, nNbDigitInteger, nTotalSize, n);
+		//writeIntSignComp3(buffer, n, nNbDigitInteger);
 	}
 
 	void write(VarBufferPos buffer, VarDefNumIntSignComp0Long varSource, VarBufferPos bufferSource)
 	{
 		long l = varSource.getAsDecodedLong(bufferSource);
-		Pic9Comp3BufferSupport.setFromRightToLeftSignedLong(buffer, m_nNbDigitInteger, m_nTotalSize, l);
+		Pic9Comp3BufferSupport.setFromRightToLeftSignedLong(buffer, nNbDigitInteger, nTotalSize, l);
 	}
 
 	void write(VarBufferPos buffer, VarDefNumIntSignComp3 varSource, VarBufferPos bufferSource)
 	{
 		int n = varSource.getAsDecodedInt(bufferSource);
-		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, m_nNbDigitInteger, m_nTotalSize, n);
-		//writeIntSignComp3(buffer, n, m_nNbDigitInteger);
+		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, nNbDigitInteger, nTotalSize, n);
+		//writeIntSignComp3(buffer, n, nNbDigitInteger);
 	}
 	
 	public void moveIntoSameType(VarBufferPos buffer, VarDefBuffer varSource, VarBufferPos bufferSource)
 	{
-		if(m_nTotalSize == varSource.m_nTotalSize)	// Same type and same size: Directly copy bytes
+		if(nTotalSize == varSource.nTotalSize)	// Same type and same size: Directly copy bytes
 		{
-			int nPositionDest = buffer.m_nAbsolutePosition;
-			int nPositionSource = bufferSource.m_nAbsolutePosition;
-			for(int n=0; n<m_nTotalSize; n++)
+			int nPositionDest = buffer.nAbsolutePosition;
+			int nPositionSource = bufferSource.nAbsolutePosition;
+			for(int n=0; n<nTotalSize; n++)
 			{
-				buffer.m_acBuffer[nPositionDest++] = bufferSource.m_acBuffer[nPositionSource++];
+				buffer.acBuffer[nPositionDest++] = bufferSource.acBuffer[nPositionSource++];
 			}	
 			return;
 		}
 		int n = varSource.getAsDecodedInt(bufferSource);
-		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, m_nNbDigitInteger, m_nTotalSize, n);
-		//writeIntSignComp3(buffer, n, m_nNbDigitInteger);
+		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, nNbDigitInteger, nTotalSize, n);
+		//writeIntSignComp3(buffer, n, nNbDigitInteger);
 	}
 	
 	void write(VarBufferPos buffer, VarDefFPacNumIntSignComp3 varSource, VarBufferPos bufferSource)
 	{
-		if(m_nTotalSize == varSource.m_nTotalSize)	// Same type and same size: Directly copy bytes
+		if(nTotalSize == varSource.nTotalSize)	// Same type and same size: Directly copy bytes
 		{
-			int nPositionDest = buffer.m_nAbsolutePosition;
-			int nPositionSource = bufferSource.m_nAbsolutePosition;
-			for(int n=0; n<m_nTotalSize; n++)
+			int nPositionDest = buffer.nAbsolutePosition;
+			int nPositionSource = bufferSource.nAbsolutePosition;
+			for(int n=0; n<nTotalSize; n++)
 			{
-				buffer.m_acBuffer[nPositionDest++] = bufferSource.m_acBuffer[nPositionSource++];
+				buffer.acBuffer[nPositionDest++] = bufferSource.acBuffer[nPositionSource++];
 			}	
 			return;
 		}
 		int n = varSource.getAsDecodedInt(bufferSource);
-		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, m_nNbDigitInteger, m_nTotalSize, n);
-		//writeIntSignComp3(buffer, n, m_nNbDigitInteger);
+		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, nNbDigitInteger, nTotalSize, n);
+		//writeIntSignComp3(buffer, n, nNbDigitInteger);
 	}
 	
 
 	void write(VarBufferPos buffer, VarDefNumIntSignComp3Long varSource, VarBufferPos bufferSource)
 	{
 		long l = varSource.getAsDecodedLong(bufferSource);
-		Pic9Comp3BufferSupport.setFromRightToLeftSignedLong(buffer, m_nNbDigitInteger, m_nTotalSize, l);
+		Pic9Comp3BufferSupport.setFromRightToLeftSignedLong(buffer, nNbDigitInteger, nTotalSize, l);
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumIntSignComp4 varSource, VarBufferPos bufferSource)
 	{
 		int n = varSource.getAsDecodedInt(bufferSource);
-		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, m_nNbDigitInteger, m_nTotalSize, n);
-		//writeIntSignComp3(buffer, n, m_nNbDigitInteger);
+		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, nNbDigitInteger, nTotalSize, n);
+		//writeIntSignComp3(buffer, n, nNbDigitInteger);
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumIntSignComp4Long varSource, VarBufferPos bufferSource)
 	{
 		long l = varSource.getAsDecodedLong(bufferSource);
-		Pic9Comp3BufferSupport.setFromRightToLeftSignedLong(buffer, m_nNbDigitInteger, m_nTotalSize, l);
+		Pic9Comp3BufferSupport.setFromRightToLeftSignedLong(buffer, nNbDigitInteger, nTotalSize, l);
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumIntSignLeadingComp0 varSource, VarBufferPos bufferSource)
 	{
 		int n = varSource.getAsDecodedInt(bufferSource);
-		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, m_nNbDigitInteger, m_nTotalSize, n);
-		//writeIntSignComp3(buffer, n, m_nNbDigitInteger);
+		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, nNbDigitInteger, nTotalSize, n);
+		//writeIntSignComp3(buffer, n, nNbDigitInteger);
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumIntSignLeadingComp0Long varSource, VarBufferPos bufferSource)
 	{
 		long l = varSource.getAsDecodedLong(bufferSource);
-		Pic9Comp3BufferSupport.setFromRightToLeftSignedLong(buffer, m_nNbDigitInteger, m_nTotalSize, l);
+		Pic9Comp3BufferSupport.setFromRightToLeftSignedLong(buffer, nNbDigitInteger, nTotalSize, l);
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumIntSignTrailingComp0 varSource, VarBufferPos bufferSource)
 	{
 		int n = varSource.getAsDecodedInt(bufferSource);
-		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, m_nNbDigitInteger, m_nTotalSize, n);
-		//writeIntSignComp3(buffer, n, m_nNbDigitInteger);
+		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, nNbDigitInteger, nTotalSize, n);
+		//writeIntSignComp3(buffer, n, nNbDigitInteger);
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumIntSignTrailingComp0Long varSource, VarBufferPos bufferSource)
 	{
 		long l = varSource.getAsDecodedLong(bufferSource);
-		Pic9Comp3BufferSupport.setFromRightToLeftSignedLong(buffer, m_nNbDigitInteger, m_nTotalSize, l);
+		Pic9Comp3BufferSupport.setFromRightToLeftSignedLong(buffer, nNbDigitInteger, nTotalSize, l);
 	}
 	
 	void write(VarBufferPos buffer, VarDefEditInMap varSource, VarBufferPos bufferSource)
 	{
 		int n = varSource.getAsDecodedInt(bufferSource);
-		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, m_nNbDigitInteger, m_nTotalSize, n);
-		//writeIntSignComp3(buffer, n, m_nNbDigitInteger);
+		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, nNbDigitInteger, nTotalSize, n);
+		//writeIntSignComp3(buffer, n, nNbDigitInteger);
 	}
 	
 	void write(VarBufferPos buffer, VarDefEditInMapRedefine varSource, VarBufferPos bufferSource)
 	{
 		int n = varSource.getAsDecodedInt(bufferSource);
-		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, m_nNbDigitInteger, m_nTotalSize, n);
-		//writeIntSignComp3(buffer, n, m_nNbDigitInteger);
+		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, nNbDigitInteger, nTotalSize, n);
+		//writeIntSignComp3(buffer, n, nNbDigitInteger);
 	}	
 	
 	void write(VarBufferPos buffer, VarDefEditInMapRedefineNumEdited varSource, VarBufferPos bufferSource)
 	{
 		int n = varSource.getAsDecodedInt(bufferSource);
-		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, m_nNbDigitInteger, m_nTotalSize, n);
-		//writeIntSignComp3(buffer, n, m_nNbDigitInteger);
+		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, nNbDigitInteger, nTotalSize, n);
+		//writeIntSignComp3(buffer, n, nNbDigitInteger);
 	}
 	
 	void write(VarBufferPos buffer, VarDefEditInMapRedefineNum varSource, VarBufferPos bufferSource)
 	{
 		int n = varSource.getAsDecodedInt(bufferSource);
-		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, m_nNbDigitInteger, m_nTotalSize, n);
-		//writeIntSignComp3(buffer, n, m_nNbDigitInteger);
+		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, nNbDigitInteger, nTotalSize, n);
+		//writeIntSignComp3(buffer, n, nNbDigitInteger);
 	}
 
 
@@ -497,15 +497,15 @@ public class VarDefFPacNumIntSignComp3 extends VarDefNum
 	{
 		// see http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_029.htm#index_x_737
 		int n = varSource.getAsDecodedInt(bufferSource);
-		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, m_nNbDigitInteger, m_nTotalSize, n);
-		//writeIntSignComp3(buffer, n, m_nNbDigitInteger);
+		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, nNbDigitInteger, nTotalSize, n);
+		//writeIntSignComp3(buffer, n, nNbDigitInteger);
 	}
 	
 	
 	void write(VarBufferPos buffer, CobolConstantZero cst)
 	{
-		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, m_nNbDigitInteger, m_nTotalSize, 0);
-		//writeIntSignComp3(buffer, 0, m_nNbDigitInteger);
+		Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, nNbDigitInteger, nTotalSize, 0);
+		//writeIntSignComp3(buffer, 0, nNbDigitInteger);
 	}
 
 	void write(VarBufferPos buffer, CobolConstantSpace cst)
@@ -547,13 +547,13 @@ public class VarDefFPacNumIntSignComp3 extends VarDefNum
 	
 //	public void initialize(VarBufferPos buffer)
 //	{
-//		writeIntSignComp3(buffer, 0, m_nNbDigitInteger);
+//		writeIntSignComp3(buffer, 0, nNbDigitInteger);
 //	}
 
 	public void initializeAtOffset(VarBufferPos buffer, int nOffset, InitializeCache initializeCache)
 	{
-		Pic9Comp3BufferSupport.setFromRightToLeft(buffer, m_nNbDigitInteger, m_nTotalSize, nOffset, true, 0);
-		//writeIntSignComp3(buffer, nOffset, 0, m_nNbDigitInteger);
+		Pic9Comp3BufferSupport.setFromRightToLeft(buffer, nNbDigitInteger, nTotalSize, nOffset, true, 0);
+		//writeIntSignComp3(buffer, nOffset, 0, nNbDigitInteger);
 		if(initializeCache != null)
 			initializeCache.addItem(buffer, nOffset, getSingleItemRequiredStorageSize());
 	}
@@ -568,12 +568,12 @@ public class VarDefFPacNumIntSignComp3 extends VarDefNum
 
 //	void initialize(VarBufferPos buffer, int n)
 //	{
-//		writeIntSignComp3(buffer, n, m_nNbDigitInteger);
+//		writeIntSignComp3(buffer, n, nNbDigitInteger);
 //	}
 //	
 	void initializeAtOffset(VarBufferPos buffer, int nOffset, int n)
 	{
-		Pic9Comp3BufferSupport.setFromRightToLeft(buffer, m_nNbDigitInteger, m_nTotalSize, nOffset, true, n);
+		Pic9Comp3BufferSupport.setFromRightToLeft(buffer, nNbDigitInteger, nTotalSize, nOffset, true, n);
 	}
 	
 	void initializeEditedAtOffset(VarBufferPos buffer, int nOffset, int nValue)
@@ -595,7 +595,7 @@ public class VarDefFPacNumIntSignComp3 extends VarDefNum
 	
 	int compare(ComparisonMode mode, VarBufferPos bufferSource, VarAndEdit var2)
 	{
-		return var2.m_varDef.compare(mode, var2.m_bufferPos, this, bufferSource);
+		return var2.varDef.compare(mode, var2.bufferPos, this, bufferSource);
 	}
 	
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumDecComp0 varDefNum1, VarBufferPos buffer1)
@@ -840,9 +840,9 @@ public class VarDefFPacNumIntSignComp3 extends VarDefNum
 	
 	public String digits(VarBufferPos buffer)
 	{
-		CStr cs = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nTotalSize);
+		CStr cs = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);
 		CStrNumber csNum = TempCacheLocator.getTLSTempCache().getCStrNumber();
-		csNum.decodeComp3String(cs, m_nNbDigitInteger);
+		csNum.decodeComp3String(cs, nNbDigitInteger);
 		return csNum.getAsString();
 	}
 
@@ -863,7 +863,7 @@ public class VarDefFPacNumIntSignComp3 extends VarDefNum
 	
 	public BtreeSegmentKeyTypeFactory getSegmentKeyTypeFactory()
 	{
-		return VarTypeId.m_segmentKeyTypeFactoryComp3;
+		return VarTypeId.segmentKeyTypeFactoryComp3;
 	}
 
 	public boolean isEbcdicAsciiConvertible()
@@ -874,13 +874,13 @@ public class VarDefFPacNumIntSignComp3 extends VarDefNum
 	protected void adjustCustomProperty(VarDefBuffer varDefBufferCopySingleItem)
 	{
 		VarDefFPacNumIntSignComp3 varDefCopy = (VarDefFPacNumIntSignComp3)varDefBufferCopySingleItem;
-		varDefCopy.m_nNbDigitInteger = m_nNbDigitInteger;
+		varDefCopy.nNbDigitInteger = nNbDigitInteger;
 	}
 	
 	protected void adjustCustomPropertyForCharGetAt(VarDefBuffer varDefBufferCopySingleItem)
 	{
 		VarDefFPacNumIntSignComp3 varDefCopy = (VarDefFPacNumIntSignComp3)varDefBufferCopySingleItem;
-		varDefCopy.m_nNbDigitInteger = 1;
+		varDefCopy.nNbDigitInteger = 1;
 	}
 	
 	boolean isNumeric(VarBufferPos buffer)
@@ -889,5 +889,5 @@ public class VarDefFPacNumIntSignComp3 extends VarDefNum
 		return cs.isOnlyNumericComp3(true);
 	}
 
-	private int m_nNbDigitInteger;
+	private int nNbDigitInteger;
 }

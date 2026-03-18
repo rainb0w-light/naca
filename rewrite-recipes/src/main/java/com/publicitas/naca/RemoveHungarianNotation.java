@@ -14,12 +14,13 @@ import java.util.Set;
 /**
  * Recipe to remove Hungarian notation from field names.
  *
- * Handles patterns like:
- * - m_nVariable -> variable
- * - m_bFlag -> flag
- * - m_arrList -> list
- * - m_csString -> string
- * - _variable -> variable
+ * Only removes the m_ prefix, keeping the type indicator for uniqueness.
+ * For example:
+ * - csDec -> csDec
+ * - lInt -> lInt
+ * - bPositive -> bPositive
+ * - m_hashTables -> hashTables
+ * - arrTables -> arrTables
  */
 public class RemoveHungarianNotation extends Recipe {
 
@@ -37,12 +38,12 @@ public class RemoveHungarianNotation extends Recipe {
 
     @Override
     public String getDisplayName() {
-        return "Remove Hungarian notation from fields";
+        return "Remove m_ prefix from fields";
     }
 
     @Override
     public String getDescription() {
-        return "Renames fields with Hungarian notation prefixes (m_, _b, _n, etc.) to standard Java camelCase.";
+        return "Renames fields with m_ prefix by removing the prefix only.";
     }
 
     @Override
@@ -67,92 +68,19 @@ public class RemoveHungarianNotation extends Recipe {
             }
 
             /**
-             * Determines the new name for a variable by removing Hungarian notation prefixes.
+             * Determines the new name for a variable by removing m_ prefix only.
              */
             private String getRenamedName(String name) {
-                // Handle m_ prefix (most common)
+                // Only handle m_ prefix - remove just the m_ part
                 if (name.startsWith("m_") && name.length() > 2) {
-                    return convertToCamelCase(name.substring(2));
-                }
-
-                // Handle single underscore prefix with type indicator
-                if (name.startsWith("_") && name.length() > 1) {
-                    String afterUnderscore = name.substring(1);
-                    // Only rename if it looks like Hungarian notation (starts with type indicator)
-                    if (isHungarianPrefix(afterUnderscore)) {
-                        return convertToCamelCase(afterUnderscore);
+                    String afterPrefix = name.substring(2);
+                    // Lowercase the first letter if it's uppercase
+                    if (!afterPrefix.isEmpty() && Character.isUpperCase(afterPrefix.charAt(0))) {
+                        return Character.toLowerCase(afterPrefix.charAt(0)) + afterPrefix.substring(1);
                     }
+                    return afterPrefix;
                 }
 
-                return name;
-            }
-
-            /**
-             * Checks if a string starts with a known Hungarian notation type indicator.
-             */
-            private boolean isHungarianPrefix(String name) {
-                if (name.isEmpty()) return false;
-
-                // Single letter type indicators
-                if (name.length() == 1) {
-                    char c = name.charAt(0);
-                    return c == 'b' || c == 'n' || c == 's' || c == 'c' || c == 'i' ||
-                           c == 'l' || c == 'd' || c == 'f' || c == 'e';
-                }
-
-                // Multi-letter type indicators
-                String[] prefixes = {
-                    "b", "nb", "n", "cs", "l", "d", "s", "e",
-                    "arr", "hash", "tsc", "sw", "rb", "ts", "lst", "tab"
-                };
-
-                for (String prefix : prefixes) {
-                    if (name.length() > prefix.length() &&
-                        name.startsWith(prefix) &&
-                        Character.isUpperCase(name.charAt(prefix.length()))) {
-                        return true;
-                    }
-                }
-
-                return false;
-            }
-
-            /**
-             * Converts a Hungarian notation name to standard camelCase by removing type prefixes.
-             */
-            private String convertToCamelCase(String name) {
-                String[][] patterns = {
-                    {"nb", ""}, {"b", ""}, {"n", ""}, {"cs", ""}, {"l", ""},
-                    {"d", ""}, {"s", ""}, {"e", ""}, {"arr", ""},
-                    {"hash", ""}, {"tsc", ""}, {"sw", ""}, {"rb", ""},
-                    {"ts", ""}, {"lst", ""}, {"tab", ""}
-                };
-
-                for (String[] p : patterns) {
-                    String prefix = p[0];
-                    String replacement = p[1];
-                    if (name.length() > prefix.length() &&
-                        name.startsWith(prefix) &&
-                        Character.isUpperCase(name.charAt(prefix.length()))) {
-                        String newName = replacement +
-                                         (replacement.isEmpty() ?
-                                             Character.toLowerCase(name.charAt(prefix.length())) + name.substring(prefix.length() + 1) :
-                                             name.substring(prefix.length()));
-                        if (JAVA_KEYWORDS.contains(newName)) {
-                            return name;
-                        }
-                        return newName;
-                    }
-                }
-
-                // If no prefix matched, just lowercase the first letter if uppercase
-                if (!name.isEmpty() && Character.isUpperCase(name.charAt(0))) {
-                    String newName = Character.toLowerCase(name.charAt(0)) + name.substring(1);
-                    if (JAVA_KEYWORDS.contains(newName)) {
-                        return name;
-                    }
-                    return newName;
-                }
                 return name;
             }
         };

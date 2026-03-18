@@ -38,36 +38,36 @@ public abstract class CEntityCICSWrite extends CBaseActionEntity
 	}
 	public void WriteFile(CDataEntity name)
 	{
-		m_Name = name ;
-		m_bWritetoDataSet = false ;
-		m_bWriteToFile = true ;
+		name = name ;
+		bWritetoDataSet = false ;
+		bWriteToFile = true ;
 	}
 	public void WriteDataSet(CDataEntity name)
 	{
-		m_Name = name ;
-		m_bWritetoDataSet = true ;
-		m_bWriteToFile = false ;
+		name = name ;
+		bWritetoDataSet = true ;
+		bWriteToFile = false ;
 	}
 	public void SetDataFrom(CDataEntity from)
 	{
-		m_DataFrom = from ;
+		dataFrom = from ;
 	}
 	public void SetRecIDField(CDataEntity rec)
 	{
-		m_RecIDField = rec ;
+		recIDField = rec ;
 	}
 	
-	protected CDataEntity m_RecIDField = null ;
-	protected CDataEntity m_DataFrom = null ;
-	protected CDataEntity m_Name ;
-	protected boolean m_bWriteToFile = false ;
-	protected boolean m_bWritetoDataSet = false ;
+	protected CDataEntity recIDField = null ;
+	protected CDataEntity dataFrom = null ;
+	protected CDataEntity name ;
+	protected boolean bWriteToFile = false ;
+	protected boolean bWritetoDataSet = false ;
 	public void Clear()
 	{
 		super.Clear();
-		m_RecIDField = null ;
-		m_DataFrom = null ;
-		m_Name = null ;
+		recIDField = null ;
+		dataFrom = null ;
+		name = null ;
 	}
 	public boolean ignore()
 	{

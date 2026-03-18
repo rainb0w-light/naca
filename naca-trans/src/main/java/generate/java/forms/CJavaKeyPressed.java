@@ -33,13 +33,13 @@ public class CJavaKeyPressed extends CEntityKeyPressed
 	public CJavaKeyPressed(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out, String publicName)
 	{
 		super(l, name, cat, out);
-		m_csPublicName = publicName ;
+		csPublicName = publicName ;
 	}
-	protected String m_csPublicName = "" ;
+	protected String csPublicName = "" ;
 
 	public String ExportReference(int nLine)
 	{
-		return "KeyPressed."+m_csPublicName ;	
+		return "KeyPressed."+csPublicName ;	
 	}
 
 	public boolean HasAccessors()

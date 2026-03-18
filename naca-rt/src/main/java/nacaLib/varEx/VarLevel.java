@@ -27,13 +27,13 @@ import nacaLib.tempCache.TempCacheLocator;
 
 public class VarLevel extends CJMapObject
 {
-	private CInitialValue m_InitialValue = null;
-	private boolean m_bJustifyRight = false;
-	private VarDefBase m_VarDefRedefineOrigin = null;
-	private OccursDefBase m_OccursDef = null;
-	private BaseProgram m_program = null;
-	private short m_sLevel = 0;
-	private boolean m_bVariableLength = false;
+	private CInitialValue initialValue = null;
+	private boolean bJustifyRight = false;
+	private VarDefBase varDefRedefineOrigin = null;
+	private OccursDefBase occursDef = null;
+	private BaseProgram program = null;
+	private short sLevel = 0;
+	private boolean bVariableLength = false;
 	
 	public VarLevel()
 	{
@@ -41,21 +41,21 @@ public class VarLevel extends CJMapObject
 	
 	public void set(BaseProgram program, int nLevel)
 	{
-		m_InitialValue = null;
-		m_bJustifyRight = false;
-		m_VarDefRedefineOrigin = null;
-		m_OccursDef = null;
+		initialValue = null;
+		bJustifyRight = false;
+		varDefRedefineOrigin = null;
+		occursDef = null;
 		
-		m_program = program; 
-		m_sLevel = (short)nLevel;
-		m_bVariableLength = false;
+		program = program; 
+		sLevel = (short)nLevel;
+		bVariableLength = false;
 	}
 	
 	public VarGroup var()	// Creates a group
 	{
 		DeclareTypeG declareTypeG = TempCacheLocator.getTLSTempCache().getDeclareTypeG();
 		declareTypeG.set(this);
-		if(m_bVariableLength)
+		if(bVariableLength)
 			declareTypeG.setVariableLengthDeclaration();
 		VarGroup var2G = new VarGroup(declareTypeG);
 		return var2G;
@@ -91,7 +91,7 @@ public class VarLevel extends CJMapObject
 	{
 		DeclareTypeX declareTypeX = TempCacheLocator.getTLSTempCache().getDeclareTypeX();
 		declareTypeX.set(this, nLength);
-		if(m_bVariableLength)
+		if(bVariableLength)
 			declareTypeX.setVariableLengthDeclaration();
 		
 		//DeclareTypeX varLevelX = new DeclareTypeX(this, nLength);
@@ -134,13 +134,13 @@ public class VarLevel extends CJMapObject
 	
 	public VarLevel redefines(Edit varEditRedefineOrigin)
 	{
-		m_VarDefRedefineOrigin = varEditRedefineOrigin.getVarDef();
+		varDefRedefineOrigin = varEditRedefineOrigin.getVarDef();
 		return this;
 	}
 
 	public VarLevel redefines(Var VarRedefineOrigin)
 	{
-		m_VarDefRedefineOrigin = VarRedefineOrigin.getVarDef();
+		varDefRedefineOrigin = VarRedefineOrigin.getVarDef();
 		return this;
 	}
 
@@ -148,7 +148,7 @@ public class VarLevel extends CJMapObject
 	{
 		BaseProgramManager pm = getProgramManager();
 		if(pm.isFirstInstance())	// || pm.isLinkageSectionCurrent())
-			m_OccursDef = new OccursDef(nNbOccurs);
+			occursDef = new OccursDef(nNbOccurs);
 		return this;
 	}	
 		
@@ -156,7 +156,7 @@ public class VarLevel extends CJMapObject
 	{
 		BaseProgramManager pm = getProgramManager();
 		if(pm.isFirstInstance())	// || pm.isLinkageSectionCurrent())			
-			m_OccursDef = new OccursDefVar(varOccurs);
+			occursDef = new OccursDefVar(varOccurs);
 		return this;
 	}
 
@@ -170,7 +170,7 @@ public class VarLevel extends CJMapObject
 			else
 				occurs(nNbOccurs);
 		}
-		m_bVariableLength = true;
+		bVariableLength = true;
 		return this;
 	}	
 
@@ -179,7 +179,7 @@ public class VarLevel extends CJMapObject
 		BaseProgramManager pm = getProgramManager();
 		if(pm.isFirstInstance())
 		{
-			m_OccursDef = new OccursDefRecordDependingVar(nNbOccurs, varOccurs);
+			occursDef = new OccursDefRecordDependingVar(nNbOccurs, varOccurs);
 		}
 		return this;
 	}	
@@ -211,13 +211,13 @@ public class VarLevel extends CJMapObject
 	
 	public VarLevel justifyRight()	// Edit in a map redefine
 	{
-		m_bJustifyRight = true;
+		bJustifyRight = true;
 		return this;
 	}
 	
 	boolean getJustifyRight()
 	{
-		return m_bJustifyRight;
+		return bJustifyRight;
 	}
 
 		
@@ -251,14 +251,14 @@ public class VarLevel extends CJMapObject
 		BaseProgramManager pm = getProgramManager();
 		
 		if(pm.isFirstInstance())
-			m_OccursDef = new OccursDef(nNbOccurs);
+			occursDef = new OccursDef(nNbOccurs);
 		
 		Edit varEdit = edit();
 		
 		if(pm.isFirstInstance())
 		{
 			this.getProgramManager().getSharedProgramInstanceData().setVarFullName(varEdit.getVarDef().getId(), csName);
-			//varEdit.m_varDef.setFullName(csName);
+			//varEdit.varDef.setFullName(csName);
 		}
 		
 		return varEdit;
@@ -266,34 +266,34 @@ public class VarLevel extends CJMapObject
 
 	BaseProgramManager getProgramManager()
 	{
-		return m_program.getProgramManager();
+		return program.getProgramManager();
 	}
 	
 	BaseProgram getProgram()
 	{
-		return m_program;
+		return program;
 	}
 	
 	public short getLevel()
 	{
-		return m_sLevel;
+		return sLevel;
 	}
 	
 	public VarDefBase getVarDefRedefineOrigin()
 	{
-		return m_VarDefRedefineOrigin;
+		return varDefRedefineOrigin;
 	}
 	
 	public OccursDefBase getOccursDef()
 	{
-		return m_OccursDef;
+		return occursDef;
 	}
 
 	public VarLevelGroup value(String cs)
 	{
 		BaseProgramManager pm = getProgramManager();
 		if(pm.isFirstInstance())
-			m_InitialValue = new CInitialValue(cs, false);
+			initialValue = new CInitialValue(cs, false);
 		VarLevelGroup varLevelGroup = new VarLevelGroup(this);
 		return varLevelGroup;
 	}
@@ -302,7 +302,7 @@ public class VarLevel extends CJMapObject
 	{
 		BaseProgramManager pm = getProgramManager();
 		if(pm.isFirstInstance())
-			m_InitialValue = new CInitialValue(c, true);
+			initialValue = new CInitialValue(c, true);
 		VarLevelGroup varLevelGroup = new VarLevelGroup(this);
 		return varLevelGroup;
 	}
@@ -311,7 +311,7 @@ public class VarLevel extends CJMapObject
 	{
 		BaseProgramManager pm = getProgramManager();
 		if(pm.isFirstInstance())
-			m_InitialValue = new CInitialValue(cs, true);
+			initialValue = new CInitialValue(cs, true);
 		VarLevelGroup varLevelGroup = new VarLevelGroup(this);
 		return varLevelGroup;
 	}
@@ -320,7 +320,7 @@ public class VarLevel extends CJMapObject
 	{
 		BaseProgramManager pm = getProgramManager();
 		if(pm.isFirstInstance())
-			m_InitialValue = new CInitialValue(CobolConstant.Space.getValue(), true);
+			initialValue = new CInitialValue(CobolConstant.Space.getValue(), true);
 		VarLevelGroup varLevelGroup = new VarLevelGroup(this);
 		return varLevelGroup;
 	}
@@ -329,7 +329,7 @@ public class VarLevel extends CJMapObject
 	{
 		BaseProgramManager pm = getProgramManager();
 		if(pm.isFirstInstance())
-			m_InitialValue = new CInitialValue(CobolConstant.Zero.getValue(), true);
+			initialValue = new CInitialValue(CobolConstant.Zero.getValue(), true);
 		VarLevelGroup varLevelGroup = new VarLevelGroup(this);
 		return varLevelGroup;
 	}
@@ -338,7 +338,7 @@ public class VarLevel extends CJMapObject
 	{
 		BaseProgramManager pm = getProgramManager();
 		if(pm.isFirstInstance())
-			m_InitialValue = new CInitialValue(CobolConstant.HighValue.getValue(), true);
+			initialValue = new CInitialValue(CobolConstant.HighValue.getValue(), true);
 		VarLevelGroup varLevelGroup = new VarLevelGroup(this);
 		return varLevelGroup;
 	}
@@ -347,19 +347,19 @@ public class VarLevel extends CJMapObject
 	{
 		BaseProgramManager pm = getProgramManager();
 		if(pm.isFirstInstance())
-			m_InitialValue = new CInitialValue(CobolConstant.LowValue.getValue(), true);
+			initialValue = new CInitialValue(CobolConstant.LowValue.getValue(), true);
 		VarLevelGroup varLevelGroup = new VarLevelGroup(this);
 		return varLevelGroup;
 	} 
 	
 	CInitialValue getInitialValue()
 	{
-		return m_InitialValue;
+		return initialValue;
 	}
 	
 	public VarLevel variableLength()
 	{
-		m_bVariableLength = true;
+		bVariableLength = true;
 		return this;
 	}
 }

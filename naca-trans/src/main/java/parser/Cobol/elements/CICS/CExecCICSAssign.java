@@ -56,13 +56,13 @@ public class CExecCICSAssign extends CCobolElement
 	{
 		CEntityCICSAssign eAss = factory.NewEntityCICSAssign(getLine()) ;
 		parent.AddChild(eAss);
-		Enumeration iter = m_tabRequests.keys() ;
+		Enumeration iter = tabRequests.keys() ;
 		try
 		{
 			String cs = (String)iter.nextElement();
 			while (!cs.equals(""))
 			{
-				CIdentifier id = m_tabRequests.get(cs);
+				CIdentifier id = tabRequests.get(cs);
 				CDataEntity e = id.GetDataReference(getLine(), factory);
 				eAss.AddRequest(cs, e) ;
 				cs = (String)iter.nextElement() ;				
@@ -112,7 +112,7 @@ public class CExecCICSAssign extends CCobolElement
 					{
 						tok = GetNext() ;
 					}
-					m_tabRequests.put(cs, id) ;					
+					tabRequests.put(cs, id) ;					
 				}
 			}
 		}
@@ -132,13 +132,13 @@ public class CExecCICSAssign extends CCobolElement
 	protected Element ExportCustom(Document root)
 	{
 		Element eass = root.createElement("ExecCICSAssign") ;
-		Enumeration enumere = m_tabRequests.keys() ;
+		Enumeration enumere = tabRequests.keys() ;
 		try 
 		{
 			String cs = (String)enumere.nextElement() ;
 			while (cs != null)
 			{
-				CIdentifier id = m_tabRequests.get(cs) ;
+				CIdentifier id = tabRequests.get(cs) ;
 				Element e = root.createElement(cs);
 				eass.appendChild(e) ;
 				id.ExportTo(e, root) ;
@@ -151,5 +151,5 @@ public class CExecCICSAssign extends CCobolElement
 		return eass;
 	}
 
-	protected Hashtable<String, CIdentifier> m_tabRequests = new Hashtable<String, CIdentifier>() ;
+	protected Hashtable<String, CIdentifier> tabRequests = new Hashtable<String, CIdentifier>() ;
 }

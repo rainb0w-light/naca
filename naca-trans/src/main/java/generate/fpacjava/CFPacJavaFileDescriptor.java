@@ -39,9 +39,9 @@ public class CFPacJavaFileDescriptor extends CEntityFileDescriptor
 		String cs = "FPacFileDescriptor " + FormatIdentifier(GetName()) ;
 		cs += " = declare.fpacFile(\""+GetName().toUpperCase()+"\")" ;
 		WriteWord(cs) ;
-		if (m_eOutputBufferInitialValue != null)
+		if (eOutputBufferInitialValue != null)
 		{
-			WriteWord(".fillOutputBuffer("+m_eOutputBufferInitialValue.ExportReference(getLine())+")") ;
+			WriteWord(".fillOutputBuffer("+eOutputBufferInitialValue.ExportReference(getLine())+")") ;
 		}
 		WriteWord(".file() ;") ;
 		WriteEOL() ;

@@ -36,24 +36,24 @@ public class CJavaCICSReturn extends CEntityCICSReturn
 	protected void DoExport()
 	{
 		String cs = "CESM.returnTrans(";
-		if (m_TransID != null)
+		if (transID != null)
 		{
 			String tid ;
-			if (m_bChecked)
+			if (bChecked)
 			{
-				tid = m_TransID.GetConstantValue() + ".class" ;
+				tid = transID.GetConstantValue() + ".class" ;
 			}
 			else
 			{
-				tid = m_TransID.ExportReference(getLine()) ;
+				tid = transID.ExportReference(getLine()) ;
 			}
 			cs += tid ;
-			if (m_CommArea != null)
+			if (commArea != null)
 			{
-				cs += ", " + m_CommArea.ExportReference(getLine());
-				if (m_CommLenght != null)
+				cs += ", " + commArea.ExportReference(getLine());
+				if (commLenght != null)
 				{
-					cs += ", " + m_CommLenght.ExportReference(getLine());
+					cs += ", " + commLenght.ExportReference(getLine());
 				}
 			}
 		}

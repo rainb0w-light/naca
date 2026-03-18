@@ -67,10 +67,10 @@ public class VarTypeId
 	
 	
 	// SegmentKey type
-	public final static BtreeSegmentKeyTypeFactory m_segmentKeyTypeFactoryString = new SegmentKeyTypeFactoryAlphaNum();
-	public final static BtreeSegmentKeyTypeFactory m_segmentKeyTypeFactoryComp0 = new SegmentKeyTypeFactoryComp0();
-	public final static BtreeSegmentKeyTypeFactory m_segmentKeyTypeFactoryComp3 = new SegmentKeyTypeFactoryComp3();
-	public final static BtreeSegmentKeyTypeFactory m_segmentKeyTypeFactorySignComp4 = new SegmentKeyTypeFactorySignBinary();
-	public final static BtreeSegmentKeyTypeFactory m_segmentKeyTypeFactoryUnsignComp4 = new SegmentKeyTypeFactoryUnsignBinary();
+	public final static BtreeSegmentKeyTypeFactory segmentKeyTypeFactoryString = new SegmentKeyTypeFactoryAlphaNum();
+	public final static BtreeSegmentKeyTypeFactory segmentKeyTypeFactoryComp0 = new SegmentKeyTypeFactoryComp0();
+	public final static BtreeSegmentKeyTypeFactory segmentKeyTypeFactoryComp3 = new SegmentKeyTypeFactoryComp3();
+	public final static BtreeSegmentKeyTypeFactory segmentKeyTypeFactorySignComp4 = new SegmentKeyTypeFactorySignBinary();
+	public final static BtreeSegmentKeyTypeFactory segmentKeyTypeFactoryUnsignComp4 = new SegmentKeyTypeFactoryUnsignBinary();
 
 }

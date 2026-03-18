@@ -91,19 +91,19 @@ public class TestWorkingLevel extends OnlineProgram
 	Paragraph TestInternalMap = new Paragraph(this){public void run(){TestInternalMap();}};void TestInternalMap()
 	{
 		assertIfFalse(Screen.fGroup1.getLength() == 10);
-		//assertIfFalse(fGroup1.m_VarManager.m_nAbsoluteStartPosition == 282);
+		//assertIfFalse(fGroup1.varManager.nAbsoluteStartPosition == 282);
 
 		assertIfFalse(vGroupItem1.getLength() == 5);
-		//assertIfFalse(vGroupItem1.m_VarManager.m_nAbsoluteStartPosition == 289);
+		//assertIfFalse(vGroupItem1.varManager.nAbsoluteStartPosition == 289);
 		
 		assertIfFalse(vGroupItem2.getLength() == 5);
-		//assertIfFalse(vGroupItem2.m_VarManager.m_nAbsoluteStartPosition == 294);
+		//assertIfFalse(vGroupItem2.varManager.nAbsoluteStartPosition == 294);
 
 		assertIfFalse(vGroupItem21.getLength() == 2);
-		//assertIfFalse(vGroupItem21.m_VarManager.m_nAbsoluteStartPosition == 294);
+		//assertIfFalse(vGroupItem21.varManager.nAbsoluteStartPosition == 294);
 
 		assertIfFalse(vGroupItem22.getLength() == 3);
-		//assertIfFalse(vGroupItem22.m_VarManager.m_nAbsoluteStartPosition == 296);
+		//assertIfFalse(vGroupItem22.varManager.nAbsoluteStartPosition == 296);
 		
 		move("1234567890", Screen.fGroup1);
 		assertIfFalse(Screen.fGroup1.getString().equals("1234567890"));

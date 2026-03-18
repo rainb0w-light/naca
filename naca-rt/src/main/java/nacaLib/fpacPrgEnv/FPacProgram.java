@@ -24,26 +24,26 @@ import nacaLib.varEx.Var;
 public abstract class FPacProgram extends BaseProgram
 {
 	protected Console wto = null;
-	private FPacVarCacheManager m_fpacVarCacheManager = null;
+	private FPacVarCacheManager fpacVarCacheManager = null;
 	protected FPacVarSectionDeclaration declare = null;
-	private boolean m_bLastDone = false;
+	private boolean bLastDone = false;
 	
 	FPacVarCacheManager getFPacVarCacheManager()
 	{
-		return m_fpacVarCacheManager;
+		return fpacVarCacheManager;
 	}
 	
 	public FPacProgram()
 	{
 		super(new BatchProgramManagerFactory());
 		
-		m_fpacVarCacheManager = new FPacVarCacheManager();
+		fpacVarCacheManager = new FPacVarCacheManager();
 		declare = new FPacVarSectionDeclaration(this);
 		
 		working = new PackWorking(this);
 		wto = new Console();
-		m_StartDate = getCurrentDataJJMMAA();
-		m_StartTime = getCurrentTimeHHMMSS();
+		startDate = getCurrentDataJJMMAA();
+		startTime = getCurrentTimeHHMMSS();
 	}
 	
 	public void procedureDivision()	// Virtual that can be derived
@@ -65,7 +65,7 @@ public abstract class FPacProgram extends BaseProgram
 	
 	private void run()
 	{	
-		m_bLastDone = false;
+		bLastDone = false;
 		int nCurrent = FIRST;
 		int nNext = 0;
 		while(nCurrent != END)
@@ -90,9 +90,9 @@ public abstract class FPacProgram extends BaseProgram
 	
 	private int doOnceLast()
 	{
-		if(m_bLastDone == false)
+		if(bLastDone == false)
 		{
-			m_bLastDone = true;
+			bLastDone = true;
 			last();
 		}
 		return END;
@@ -258,7 +258,7 @@ public abstract class FPacProgram extends BaseProgram
 	
 	protected String Date()
 	{
-		return m_StartDate;
+		return startDate;
 	}
 	
 	protected String CDate()
@@ -277,7 +277,7 @@ public abstract class FPacProgram extends BaseProgram
 	
 	protected String Time()
 	{
-		return m_StartTime;
+		return startTime;
 	}
 	
 	protected String CTime()
@@ -320,8 +320,8 @@ public abstract class FPacProgram extends BaseProgram
 	protected int X[] = null;	 // Array of indexes
 	protected PackWorking working  = null;
 	protected static final byte CR = 13;
-	private String m_StartDate = null;	
-	private String m_StartTime = null;
+	private String startDate = null;	
+	private String startTime = null;
 	protected int index = 0;
 	
 	

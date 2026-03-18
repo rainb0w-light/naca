@@ -43,14 +43,14 @@ public class CJavaSQLCode extends CEntitySQLCode
 	 */
 	public String ExportReference(int nLine)
 	{
-		if (m_eHistoryItem==null)
+		if (eHistoryItem==null)
 		{
 			return "getSQLCode()";
 		}
 		else
 		{
 // http://publib.boulder.ibm.com/infocenter/iseries/v5r3/ic2924/index.htm?info/db2/rbafzmstfielddescsqlca.htm
-			return "getSQLDiagnosticCode("+m_eHistoryItem.Export()+")" ;
+			return "getSQLDiagnosticCode("+eHistoryItem.Export()+")" ;
 		}
 	}
 	/* (non-Javadoc)

@@ -39,28 +39,28 @@ public abstract class CEntityCICSXctl extends CBaseActionEntity
 	
 	public void SetProgramName(CDataEntity prgm, boolean bChecked)
 	{
-		m_refProgram = prgm ;
-		m_bChecked = bChecked ;
+		refProgram = prgm ;
+		bChecked = bChecked ;
 	}
 	
-	protected boolean m_bChecked = false ;
-	protected CDataEntity m_refProgram = null ;
-	protected CDataEntity m_refCommArea = null ;
-	protected CDataEntity m_CommAreaLength = null ;
+	protected boolean bChecked = false ;
+	protected CDataEntity refProgram = null ;
+	protected CDataEntity refCommArea = null ;
+	protected CDataEntity commAreaLength = null ;
 	public void Clear()
 	{
 		super.Clear();
-		m_refCommArea = null ;
-		m_refProgram = null ;
-		m_CommAreaLength = null ;
+		refCommArea = null ;
+		refProgram = null ;
+		commAreaLength = null ;
 	}
-	//protected CBaseDataEntity m_CommAreaDataLength = null ;
+	//protected CBaseDataEntity commAreaDataLength = null ;
 	
 	public void SetCommArea(CDataEntity eCommArea, CDataEntity eCALength)
 	{
-		m_refCommArea = eCommArea ;
-		m_CommAreaLength = eCALength ;
-		//m_CommAreaDataLength = eCADataLength ;
+		refCommArea = eCommArea ;
+		commAreaLength = eCALength ;
+		//commAreaDataLength = eCADataLength ;
 	}
 	public boolean ignore()
 	{

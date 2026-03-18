@@ -21,31 +21,31 @@ import nacaLib.basePrgEnv.CurrentUserInfo;
 
 public class AccountingRecordTrans
 {
-	private BaseResourceManager m_baseResourceManager = null;
+	private BaseResourceManager baseResourceManager = null;
 	
 	public AccountingRecordTrans(BaseResourceManager baseResourceManager)
 	{
-		m_baseResourceManager = baseResourceManager;
-		m_accountingRessourceDesc = m_baseResourceManager.getAccountingRessourceDesc();
-		if(m_accountingRessourceDesc != null)
+		baseResourceManager = baseResourceManager;
+		accountingRessourceDesc = baseResourceManager.getAccountingRessourceDesc();
+		if(accountingRessourceDesc != null)
 		{
-			m_csMachineId = m_accountingRessourceDesc.getMachineId();
-			m_csTomcatId = m_accountingRessourceDesc.getTomcatId();
-			m_nUniqueSessionRequestId = m_baseResourceManager.getUniqueSessionRequestId();
+			csMachineId = accountingRessourceDesc.getMachineId();
+			csTomcatId = accountingRessourceDesc.getTomcatId();
+			nUniqueSessionRequestId = baseResourceManager.getUniqueSessionRequestId();
 		}
 	}
 	
 	public void startRunTransaction(String csCurrentTransaction)
 	{
-		m_bFilled = false;
-		m_nTransactionId++;
-		m_nNbSelect = 0;
-		m_nNbInsert = 0;
-		m_nNbUpdate = 0;
-		m_nNbDelete = 0;
-		m_nNbFetchCursor = 0;
-		m_nNbCursorOpen = 0;
-		m_swnDbTimeRunTransaction.reset();
+		bFilled = false;
+		nTransactionId++;
+		nNbSelect = 0;
+		nNbInsert = 0;
+		nNbUpdate = 0;
+		nNbDelete = 0;
+		nNbFetchCursor = 0;
+		nNbCursorOpen = 0;
+		swnDbTimeRunTransaction.reset();
 		//JmxGeneralStat.startRunTransaction();
 		
 		createNewAccountingRecord(csCurrentTransaction, "");
@@ -55,8 +55,8 @@ public class AccountingRecordTrans
 	{
 		if(BaseResourceManager.getUsingJmx())
 		{
-			long lRuntimeTrans_ns = m_swnDbTimeRunTransaction.getElapsedTime();
-			JmxGeneralStat.endRunTransaction(criteria, lRuntimeTrans_ns / 1000000, m_lSumDbTimeIO_ns / 1000000);
+			long lRuntimeTrans_ns = swnDbTimeRunTransaction.getElapsedTime();
+			JmxGeneralStat.endRunTransaction(criteria, lRuntimeTrans_ns / 1000000, lSumDbTimeIO_ns / 1000000);
 		}
 		
 		endRunProgram(criteria);
@@ -64,20 +64,20 @@ public class AccountingRecordTrans
 
 	public AccountingRecordProgram createNewAccountingRecord(String csCurrentTransaction, String csTermId)
 	{
-		m_csCurrentTransaction = csCurrentTransaction;
-		m_csTerminalId = csTermId;
+		csCurrentTransaction = csCurrentTransaction;
+		csTerminalId = csTermId;
 		AccountingRecordProgram accountingRecord = new AccountingRecordProgram();
-		m_accountingStack.push(accountingRecord);
+		accountingStack.push(accountingRecord);
 		return accountingRecord;
 	}
 	
 	public void endRunProgram(CriteriaEndRunMain criteria)
 	{
-		if(m_accountingRessourceDesc != null)
+		if(accountingRessourceDesc != null)
 		{
-			AccountingRecordProgram accountingRecordProgram = m_accountingStack.pop();
-			int nDepthLevel = m_accountingStack.size();
-			if(m_accountingRessourceDesc.canWrite(nDepthLevel))
+			AccountingRecordProgram accountingRecordProgram = accountingStack.pop();
+			int nDepthLevel = accountingStack.size();
+			if(accountingRessourceDesc.canWrite(nDepthLevel))
 			{
 				accountingRecordProgram.endRunProgram(criteria);
 				write(accountingRecordProgram, nDepthLevel);
@@ -87,47 +87,47 @@ public class AccountingRecordTrans
 	
 	public void write(AccountingRecordProgram accountingRecordProgram, int nDepthLevel)
 	{
-		DbConnectionBase dbConnection = m_accountingRessourceDesc.getConnection();
+		DbConnectionBase dbConnection = accountingRessourceDesc.getConnection();
 		if(dbConnection != null)
 		{
-			DbPreparedStatement stInsert = m_accountingRessourceDesc.getInsertStatement(dbConnection);
+			DbPreparedStatement stInsert = accountingRessourceDesc.getInsertStatement(dbConnection);
 			if(stInsert != null)
 			{
 				try
 				{
 					int nCol = 0;
 					
-					stInsert.setColParam(nCol++, m_nUniqueSessionRequestId);	// INTEGER SESSIONID
-					stInsert.setColParam(nCol++, m_nTransactionId);	// TRANSACTIONID
+					stInsert.setColParam(nCol++, nUniqueSessionRequestId);	// INTEGER SESSIONID
+					stInsert.setColParam(nCol++, nTransactionId);	// TRANSACTIONID
 		
 					long l = accountingRecordProgram.getTimeDateStart();
 					Date date = new Date(l);
 					stInsert.setColParam(nCol++, date);	// START_TIMESTAMP
 		
 					stInsert.setColParam(nCol++, nDepthLevel);	// LEVEL_DEPTH
-					stInsert.setColParam(nCol++, m_csCurrentTransaction);	// TRANSACTIONNAME
+					stInsert.setColParam(nCol++, csCurrentTransaction);	// TRANSACTIONNAME
 					String csProg = accountingRecordProgram.getProgramName();
 					if(csProg.length() > 8)
 						csProg = csProg.substring(0, 8);			
 					stInsert.setColParam(nCol++, csProg);	// PROGRAMNAME
-					stInsert.setColParam(nCol++, m_csSessionType);	// SESSIONTYPE
-					stInsert.setColParam(nCol++, m_csMachineId);	// MACHINEID
-					stInsert.setColParam(nCol++, m_csTomcatId);	// TOMCATID
+					stInsert.setColParam(nCol++, csSessionType);	// SESSIONTYPE
+					stInsert.setColParam(nCol++, csMachineId);	// MACHINEID
+					stInsert.setColParam(nCol++, csTomcatId);	// TOMCATID
 					stInsert.setColParam(nCol++, accountingRecordProgram.getRunTime_ms());	// RUNTIME_MS
-					stInsert.setColParam(nCol++, m_csTerminalId);	// TERMINALID
-					stInsert.setColParam(nCol++, m_currentUserInfo.m_csLUName);	// LUNAME
-					stInsert.setColParam(nCol++, m_currentUserInfo.m_csUserLdapId);	// USERLDAPID
+					stInsert.setColParam(nCol++, csTerminalId);	// TERMINALID
+					stInsert.setColParam(nCol++, currentUserInfo.csLUName);	// LUNAME
+					stInsert.setColParam(nCol++, currentUserInfo.csUserLdapId);	// USERLDAPID
 					stInsert.setColParam(nCol++, accountingRecordProgram.getCriteriaEnd());	// CRITERIAEND
-					stInsert.setColParam(nCol++, m_nNbSelect);	// NBSELECT
-					stInsert.setColParam(nCol++, m_nNbInsert);	// NBINSERT, 
-					stInsert.setColParam(nCol++, m_nNbUpdate);	// NBUPDATE, 
-					stInsert.setColParam(nCol++, m_nNbDelete);	// NBDELETE, 
-					stInsert.setColParam(nCol++, m_nNbCursorOpen);	// NBOPENCURSOR, 
-					stInsert.setColParam(nCol++, m_nNbFetchCursor);	// NBFETCHCURSOR, 
-					stInsert.setColParam(nCol++, m_currentUserInfo.m_csPub2000ProfitCenter);	// PROFITCENTERPUB2000, 
-					stInsert.setColParam(nCol++, m_currentUserInfo.m_csPub2000UserId);	// USERIDPUB2000
+					stInsert.setColParam(nCol++, nNbSelect);	// NBSELECT
+					stInsert.setColParam(nCol++, nNbInsert);	// NBINSERT, 
+					stInsert.setColParam(nCol++, nNbUpdate);	// NBUPDATE, 
+					stInsert.setColParam(nCol++, nNbDelete);	// NBDELETE, 
+					stInsert.setColParam(nCol++, nNbCursorOpen);	// NBOPENCURSOR, 
+					stInsert.setColParam(nCol++, nNbFetchCursor);	// NBFETCHCURSOR, 
+					stInsert.setColParam(nCol++, currentUserInfo.csPub2000ProfitCenter);	// PROFITCENTERPUB2000, 
+					stInsert.setColParam(nCol++, currentUserInfo.csPub2000UserId);	// USERIDPUB2000
 					stInsert.setColParam(nCol++, StopWatchNano.getMilliSecond(accountingRecordProgram.getRunTimeIO_ns()));
-					stInsert.setColParam(nCol++, m_nNetwork_ms);
+					stInsert.setColParam(nCol++, nNetwork_ms);
 					int n = stInsert.executeInsert();
 					if(n != 1)
 					{
@@ -139,56 +139,56 @@ public class AccountingRecordTrans
 					Log.logCritical("Could not insert accounting record, because of exception " + e.getMessage());
 				}
 			}
-			m_accountingRessourceDesc.returnConnection(dbConnection);
+			accountingRessourceDesc.returnConnection(dbConnection);
 		}		
 	}
 	
 	
 	public void incDelete()
 	{
-		m_nNbDelete++;
+		nNbDelete++;
 	}
 	
 	public void incSelect()
 	{
-		m_nNbSelect++;
+		nNbSelect++;
 	}
 
 	public void incCursorOpen()
 	{
-		m_nNbCursorOpen++;
+		nNbCursorOpen++;
 	}
 	
 	public void incFetchCursor()
 	{
-		m_nNbFetchCursor++;
+		nNbFetchCursor++;
 	}
 
 	public void incUpdate()
 	{
-		m_nNbUpdate++;
+		nNbUpdate++;
 	}
 	
 	public void incInsert()
 	{
-		m_nNbInsert++;
+		nNbInsert++;
 	}
 	
 	public void startDbIO()
 	{
-		m_swnDbTimeIO.reset();
+		swnDbTimeIO.reset();
 	}
 
 	public void endDbIO()
 	{
-		m_lDbTimeIO_ns = m_swnDbTimeIO.getElapsedTimeReset();
-		m_lSumDbTimeIO_ns += m_lDbTimeIO_ns; 
-		//JmxGeneralStat.reportDbTimeIo_ns(m_lDbTimeIO_ns / 1000000);
+		lDbTimeIO_ns = swnDbTimeIO.getElapsedTimeReset();
+		lSumDbTimeIO_ns += lDbTimeIO_ns; 
+		//JmxGeneralStat.reportDbTimeIo_ns(lDbTimeIO_ns / 1000000);
 		try
 		{
-			AccountingRecordProgram prg = m_accountingStack.firstElement();
+			AccountingRecordProgram prg = accountingStack.firstElement();
 			if (prg != null)
-				prg.reportDBIOTime(m_lDbTimeIO_ns);
+				prg.reportDBIOTime(lDbTimeIO_ns);
 		}
 		catch (NoSuchElementException e)
 		{
@@ -197,54 +197,54 @@ public class AccountingRecordTrans
 
 	public void setSessionPub2000Info(BaseSession session, String csProfitCenter, String csUserId)
 	{
-		m_currentUserInfo.m_csPub2000ProfitCenter = csProfitCenter;
-		m_currentUserInfo.m_csPub2000UserId = csUserId;
+		currentUserInfo.csPub2000ProfitCenter = csProfitCenter;
+		currentUserInfo.csPub2000UserId = csUserId;
 		
 		if(session != null)
 		{
-			session.fillCurrentUserInfo(m_currentUserInfo);
-			m_csSessionType = session.getType();
-			m_nNetwork_ms = session.getNetwork_ms();
+			session.fillCurrentUserInfo(currentUserInfo);
+			csSessionType = session.getType();
+			nNetwork_ms = session.getNetwork_ms();
 		}
 		else
 		{
-			m_csSessionType = "Batch";
+			csSessionType = "Batch";
 		}
-		m_bFilled = true;
+		bFilled = true;
 	}
 	
 	public boolean isFilled()
 	{
-		return m_bFilled;
+		return bFilled;
 	}
 	
-	private int m_nNbSelect = 0;
-	private int m_nNbInsert = 0;
-	private int m_nNbUpdate = 0;
-	private int m_nNbDelete = 0;
-	private int m_nNbFetchCursor = 0;
-	private int m_nNbCursorOpen = 0;
-	private long m_lDbTimeIO_ns = 0;	// Time in nano seconds
-	private long m_lSumDbTimeIO_ns = 0;
-	private StopWatchNano m_swnDbTimeIO = new StopWatchNano();
-	private StopWatchNano m_swnDbTimeRunTransaction = new StopWatchNano();
+	private int nNbSelect = 0;
+	private int nNbInsert = 0;
+	private int nNbUpdate = 0;
+	private int nNbDelete = 0;
+	private int nNbFetchCursor = 0;
+	private int nNbCursorOpen = 0;
+	private long lDbTimeIO_ns = 0;	// Time in nano seconds
+	private long lSumDbTimeIO_ns = 0;
+	private StopWatchNano swnDbTimeIO = new StopWatchNano();
+	private StopWatchNano swnDbTimeRunTransaction = new StopWatchNano();
 		
-	private String m_csMachineId = "";
-	private String m_csTomcatId = "";
+	private String csMachineId = "";
+	private String csTomcatId = "";
 	
-	private String m_csSessionType = "";
-	private String m_csTerminalId = "";
+	private String csSessionType = "";
+	private String csTerminalId = "";
 	
-  	//int m_nTransactionId = 0;
-	private int m_nUniqueSessionRequestId = 0;
-	private String m_csCurrentTransaction = "";
+  	//int nTransactionId = 0;
+	private int nUniqueSessionRequestId = 0;
+	private String csCurrentTransaction = "";
   	
-	private CurrentUserInfo m_currentUserInfo = new CurrentUserInfo();
+	private CurrentUserInfo currentUserInfo = new CurrentUserInfo();
 	
-	private AccountingRessourceDesc m_accountingRessourceDesc = null;
-	private Stack<AccountingRecordProgram> m_accountingStack = new Stack<AccountingRecordProgram>() ;
-	private int m_nTransactionId = 0;
-	private boolean m_bFilled = false;
+	private AccountingRessourceDesc accountingRessourceDesc = null;
+	private Stack<AccountingRecordProgram> accountingStack = new Stack<AccountingRecordProgram>() ;
+	private int nTransactionId = 0;
+	private boolean bFilled = false;
 	
-	private int m_nNetwork_ms = 0;
+	private int nNetwork_ms = 0;
 }

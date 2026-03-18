@@ -10,42 +10,42 @@ public class ThreadSafeCounterShort
 {
 	public ThreadSafeCounterShort()
 	{
-		m_sCount = 0;
+		sCount = 0;
 	}
 	
 	public ThreadSafeCounterShort(short s)
 	{
-		m_sCount = s;
+		sCount = s;
 	}
 	
-	private short m_sCount = 0; // count starts at zero
+	private short sCount = 0; // count starts at zero
 
 	public synchronized int reset()
 	{
-		m_sCount = 0;
-		return m_sCount; 
+		sCount = 0;
+		return sCount; 
 	}
 	
 	public synchronized short inc(short s)
 	{ 
-		m_sCount += s;
-		return m_sCount; 
+		sCount += s;
+		return sCount; 
 	}
 	
 	public synchronized short get()
 	{
-		return m_sCount;
+		return sCount;
 	}
 	
 	public synchronized short inc()
 	{
-		m_sCount++;
-		return m_sCount;
+		sCount++;
+		return sCount;
 	}
 
 	public synchronized short dec()
 	{
-		m_sCount--;
-		return m_sCount;
+		sCount--;
+		return sCount;
 	}
 }

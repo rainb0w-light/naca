@@ -24,57 +24,57 @@ import nacaLib.varEx.VarEnumerator;
  */
 public class CSQLItem
 {	
-	protected VarAndEdit m_var = null;
-	protected String m_csValue = null;
+	protected VarAndEdit var = null;
+	protected String csValue = null;
 
 	public CSQLItem(VarAndEdit var)
 	{
-		m_var = var;
+		var = var;
 	}
 	public void set(VarAndEdit var)
 	{
-		m_var = var;
-		m_csValue = null;
+		var = var;
+		csValue = null;
 	}
 
 
 	public CSQLItem(int nValue)
 	{
-		m_csValue = String.valueOf(nValue);
+		csValue = String.valueOf(nValue);
 	}
 	public void set(int nValue)
 	{
-		m_var = null;
-		m_csValue = String.valueOf(nValue);
+		var = null;
+		csValue = String.valueOf(nValue);
 	}
 
 	public CSQLItem(double dValue)
 	{
-		m_csValue = String.valueOf(dValue);
+		csValue = String.valueOf(dValue);
 	}
 	public void set(double dValue)
 	{
-		m_var = null;
-		m_csValue = String.valueOf(dValue);
+		var = null;
+		csValue = String.valueOf(dValue);
 	}
 
 	public CSQLItem(String cs)
 	{
-		m_csValue = cs;
+		csValue = cs;
 	}	
 	public void set(String cs)
 	{
-		m_var = null;
-		m_csValue = cs;
+		var = null;
+		csValue = cs;
 	}
 	
 	public String getValue()
 	{
-		if(m_var != null)
+		if(var != null)
 		{
 			if(isLongVarCharVarHolder())
 			{
-				VarEnumerator e = new VarEnumerator(m_var.getProgramManager(), m_var); 
+				VarEnumerator e = new VarEnumerator(var.getProgramManager(), var); 
 				VarBase varChildLength = e.getFirstVarChild();
 				VarBase varChildText = e.getNextVarChild();
 
@@ -86,9 +86,9 @@ public class CSQLItem
 					csValue = csValue.substring(0, nLength);
 				return csValue;
 			}
-			return m_var.getDottedSignedStringAsSQLCol();
+			return var.getDottedSignedStringAsSQLCol();
 		}
-		return m_csValue;
+		return csValue;
 	}
 	
 	public String getDebugValue()
@@ -105,26 +105,26 @@ public class CSQLItem
 		return cs;
 	}
 	
-	private boolean isLongVarCharVarHolder()	// Indicates if the m_var contains a long varchar structure
+	private boolean isLongVarCharVarHolder()	// Indicates if the var contains a long varchar structure
 	{
-		return m_var.getVarDef().isLongVarCharVarStructure();
+		return var.getVarDef().isLongVarCharVarStructure();
 	}
 
 	public CSQLItemType getType()
 	{
-		if(m_var != null)
+		if(var != null)
 		{
-			return m_var.getSQLType(); 
+			return var.getSQLType(); 
 //			
-//			if (m_var.hasType(VarTypeEnum.Type9))
+//			if (var.hasType(VarTypeEnum.Type9))
 //			{
 //				return CSQLItemType.SQL_TYPE_INTEGER;
 //			}
-//			else if (m_var.hasType(VarTypeEnum.TypeX) 
-//				|| m_var.hasType(VarTypeEnum.TypeEditedAlphaNum)
-//				|| m_var.hasType(VarTypeEnum.TypeEditedNum)
-//				|| m_var.hasType(VarTypeEnum.TypeFieldEdit)
-//				|| m_var.hasType(VarTypeEnum.TypeGroup))
+//			else if (var.hasType(VarTypeEnum.TypeX) 
+//				|| var.hasType(VarTypeEnum.TypeEditedAlphaNum)
+//				|| var.hasType(VarTypeEnum.TypeEditedNum)
+//				|| var.hasType(VarTypeEnum.TypeFieldEdit)
+//				|| var.hasType(VarTypeEnum.TypeGroup))
 //			{
 //				return CSQLItemType.SQL_TYPE_STRING ;
 //			}
@@ -141,15 +141,15 @@ public class CSQLItem
 	 */
 	public int getIntValue()
 	{
-		if(m_var != null)
-			return m_var.getInt() ;
+		if(var != null)
+			return var.getInt() ;
 		return 0;
 	}
 	
 	public long getLongValue()
 	{
-		if(m_var != null)
-			return m_var.getLong() ;
+		if(var != null)
+			return var.getLong() ;
 		return 0L;
 	}
 }

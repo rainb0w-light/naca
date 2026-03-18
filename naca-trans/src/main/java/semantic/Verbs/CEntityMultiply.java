@@ -36,37 +36,37 @@ public abstract class CEntityMultiply extends CBaseActionEntity
 		super(line, cat, out);
 	}
 
-	protected CDataEntity m_What = null ;
-	protected CDataEntity m_By = null ;
-	protected CDataEntity m_To = null ;
-	protected boolean m_bIsRounded = false ;
+	protected CDataEntity what = null ;
+	protected CDataEntity by = null ;
+	protected CDataEntity to = null ;
+	protected boolean bIsRounded = false ;
 	public void Clear()
 	{
 		super.Clear() ;
-		m_What = null ;
-		m_By = null ;
-		m_To = null ;
+		what = null ;
+		by = null ;
+		to = null ;
 	}
 	
 	public void SetMultiply(CDataEntity what, CDataEntity by, CDataEntity to, boolean isRounded)
 	{
-		m_What = what ;
-		m_By = by ;
-		m_To = to ; 
-		m_bIsRounded = isRounded ;
+		what = what ;
+		by = by ;
+		to = to ; 
+		bIsRounded = isRounded ;
 	}
 	public void SetMultiply(CDataEntity what, CDataEntity by, boolean isRounded)
 	{
-		m_What = what ;
-		m_By = by ;
-		m_To = by ; 
-		m_bIsRounded = isRounded ;
+		what = what ;
+		by = by ;
+		to = by ; 
+		bIsRounded = isRounded ;
 	}
 	public boolean ignore()
 	{
-		boolean ignore = m_What.ignore();
-		ignore |= m_By.ignore();
-		ignore |= m_To.ignore() ;
+		boolean ignore = what.ignore();
+		ignore |= by.ignore();
+		ignore |= to.ignore() ;
 		return ignore ; 
 	}
 }

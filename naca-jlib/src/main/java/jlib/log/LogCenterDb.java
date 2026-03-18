@@ -55,55 +55,55 @@ public class LogCenterDb extends LogCenter
 //		return true;		
 //	}
 	
-	private String m_csMasterTable = null;
-	private String m_csDetailsTable = null;
-	private String m_csDbUser = null;
-	private String m_csDbPassword = null;
-	private String m_csDbUrl = null;
-	private String m_csDbProvider = null;
-	private boolean m_bUseSequence = false;
-	DbConnectionManager m_manager = null;
-	DbConnectionBase m_dbConnection = null;
+	private String csMasterTable = null;
+	private String csDetailsTable = null;
+	private String csDbUser = null;
+	private String csDbPassword = null;
+	private String csDbUrl = null;
+	private String csDbProvider = null;
+	private boolean bUseSequence = false;
+	DbConnectionManager manager = null;
+	DbConnectionBase dbConnection = null;
 		
 	public void loadSpecificsEntries(Tag tagLogCenter)	// Special values for file appenders
 	{
-		m_csDbUser = tagLogCenter.getVal("DbUser");
-		m_csDbPassword = tagLogCenter.getVal("DbPassword");
-		m_csDbUrl = tagLogCenter.getVal("DbUrl");
-		m_csDbProvider = tagLogCenter.getVal("DbProvider");
-		m_csMasterTable = tagLogCenter.getVal("MasterTable");
-		m_csDetailsTable = tagLogCenter.getVal("DetailsTable");
+		csDbUser = tagLogCenter.getVal("DbUser");
+		csDbPassword = tagLogCenter.getVal("DbPassword");
+		csDbUrl = tagLogCenter.getVal("DbUrl");
+		csDbProvider = tagLogCenter.getVal("DbProvider");
+		csMasterTable = tagLogCenter.getVal("MasterTable");
+		csDetailsTable = tagLogCenter.getVal("DetailsTable");
 	}
 	
 	boolean open()
 	{
 		boolean b = false;
 		int nTime_Ms = 1000 * 60 * 10;		// 10 minutes
-		m_manager = new DbConnectionManager();
-		if(m_csDbProvider.equalsIgnoreCase("MySql"))
+		manager = new DbConnectionManager();
+		if(csDbProvider.equalsIgnoreCase("MySql"))
 		{
-			b = m_manager.initMySql(m_csDbUrl, m_csDbUser, m_csDbPassword, null, 2, nTime_Ms, -1, 0);
-			m_bUseSequence = false;
+			b = manager.initMySql(csDbUrl, csDbUser, csDbPassword, null, 2, nTime_Ms, -1, 0);
+			bUseSequence = false;
 		}
-		else if(m_csDbProvider.equalsIgnoreCase("Oracle"))
+		else if(csDbProvider.equalsIgnoreCase("Oracle"))
 		{
-			b = m_manager.initOracle(m_csDbUrl, m_csDbUser, m_csDbPassword, null, 2, nTime_Ms, -1, 0);
-			m_bUseSequence = false;
+			b = manager.initOracle(csDbUrl, csDbUser, csDbPassword, null, 2, nTime_Ms, -1, 0);
+			bUseSequence = false;
 		}
-		else if(m_csDbProvider.equalsIgnoreCase("SqlServer"))
+		else if(csDbProvider.equalsIgnoreCase("SqlServer"))
 		{
-			b = m_manager.initSqlServer(m_csDbUrl, m_csDbUser, m_csDbPassword, null, 2, nTime_Ms, -1, 0);
-			m_bUseSequence = false;
+			b = manager.initSqlServer(csDbUrl, csDbUser, csDbPassword, null, 2, nTime_Ms, -1, 0);
+			bUseSequence = false;
 		}
-		else if(m_csDbProvider.equalsIgnoreCase("DB2"))
+		else if(csDbProvider.equalsIgnoreCase("DB2"))
 		{
-			b = m_manager.initDB2(m_csDbUrl, m_csDbUser, m_csDbPassword, null, 2, nTime_Ms, -1, 0);
-			m_bUseSequence = false;
+			b = manager.initDB2(csDbUrl, csDbUser, csDbPassword, null, 2, nTime_Ms, -1, 0);
+			bUseSequence = false;
 		}
 		else
 		{
-			b = m_manager.initDriverClass(m_csDbUrl, m_csDbUser, m_csDbPassword, null, m_csDbProvider, 2, nTime_Ms, -1, 0);
-			m_bUseSequence = false;
+			b = manager.initDriverClass(csDbUrl, csDbUser, csDbPassword, null, csDbProvider, 2, nTime_Ms, -1, 0);
+			bUseSequence = false;
 		}
 			
 		return b;
@@ -118,33 +118,33 @@ public class LogCenterDb extends LogCenter
 	{
 		try
 		{
-			m_dbConnection = m_manager.getConnection("LogStatement", null, true);
+			dbConnection = manager.getConnection("LogStatement", null, true);
 		}
 		catch (DbConnectionException e)
 		{
 			e.printStackTrace();
-			m_dbConnection = null;
+			dbConnection = null;
 		}	
 	}
 
 	void sendOutput(LogParams logParam)
 	{	
 		// Insert header
-		if(m_dbConnection != null)
+		if(dbConnection != null)
 		{
 			String cs;
 			
-			if(!m_bUseSequence)
-				cs = "Insert into " + m_csMasterTable + " (" +
+			if(!bUseSequence)
+				cs = "Insert into " + csMasterTable + " (" +
 					"Log_Type, File_Name, Line, Thread, Method, Start_Time, Event_Name, Message) Values (" +
 					"?,    ?,    ?,    ?,      ?,      ?,         ?,         ?)";
 			else
-				cs = "Insert into " + m_csMasterTable + " (" +
+				cs = "Insert into " + csMasterTable + " (" +
 					"Log_Type, File_Name, Line, Thread, Method, Start_Time, Event_Name, Message, Id) Values (" +
 					"?,    		?,    		?,    ?,      ?,      ?,         ?,         ?, 		 SEQ_LOG_ID.nextval)";
 				 
 			int nCol = 0;
-			DbPreparedStatement stInsertHeader = m_dbConnection.prepareStatement(cs, 0, false);
+			DbPreparedStatement stInsertHeader = dbConnection.prepareStatement(cs, 0, false);
 			stInsertHeader.setColParam(nCol++, logParam.getType());
 			stInsertHeader.setColParam(nCol++, logParam.getFile());
 			stInsertHeader.setColParam(nCol++, logParam.getLine());
@@ -158,8 +158,8 @@ public class LogCenterDb extends LogCenter
 			int n0 = stInsertHeader.executeInsert();
 			
 			long lLastId = 0;
-			cs = "SELECT Id FROM " + m_csMasterTable + " order by Id desc";
-			DbPreparedStatement stSelectLastId = m_dbConnection.prepareStatement(cs, 0, false);
+			cs = "SELECT Id FROM " + csMasterTable + " order by Id desc";
+			DbPreparedStatement stSelectLastId = dbConnection.prepareStatement(cs, 0, false);
 			ResultSet resultSet = stSelectLastId.executeSelect();
 			if(resultSet != null)
 			{
@@ -176,14 +176,14 @@ public class LogCenterDb extends LogCenter
 				//resultSet.close();	// TBD
 			}
 			
-			if(!m_bUseSequence)
-				cs = "Insert into " + m_csDetailsTable + " (Id, Name, Value) Values (?,  ?,    ?)";
+			if(!bUseSequence)
+				cs = "Insert into " + csDetailsTable + " (Id, Name, Value) Values (?,  ?,    ?)";
 			else
-				cs = "Insert into " + m_csDetailsTable + "(Id, Name, Value, Detail_Id) Values (?, ?, ?, SEQ_LOGDETAIL_ID.nextval)";
+				cs = "Insert into " + csDetailsTable + "(Id, Name, Value, Detail_Id) Values (?, ?, ?, SEQ_LOGDETAIL_ID.nextval)";
 			
 			int nNbMembers = logParam.getNbParamInfoMember();
 			
-			DbPreparedStatement insDetails = m_dbConnection.prepareStatement(cs, 0, false);
+			DbPreparedStatement insDetails = dbConnection.prepareStatement(cs, 0, false);
 			for(int nMember=0; nMember<nNbMembers; nMember++)
 			{
 				LogInfoMember member = logParam.getParamInfoMember(nMember);
@@ -203,10 +203,10 @@ public class LogCenterDb extends LogCenter
 	
 	void postSendOutput()
 	{
-		if(m_dbConnection != null)
+		if(dbConnection != null)
 		{
-			m_dbConnection.commit();
-			m_dbConnection.returnConnectionToPool();
+			dbConnection.commit();
+			dbConnection.returnConnectionToPool();
 		}
 	}
 	

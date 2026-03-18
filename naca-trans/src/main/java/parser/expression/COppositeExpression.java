@@ -28,12 +28,12 @@ import semantic.expression.CEntityExprOpposite;
  */
 public class COppositeExpression extends CExpression
 {
-	protected CExpression m_Expression = null ;
+	protected CExpression expression = null ;
 	 
 	public COppositeExpression(int line, CExpression term)
 	{
 		super(line) ;
-		m_Expression = term ;
+		expression = term ;
 	}
 	public boolean IsReference()
 	{
@@ -43,7 +43,7 @@ public class COppositeExpression extends CExpression
 	public CBaseEntityExpression AnalyseExpression(CBaseEntityFactory factory)
 	{
 		CEntityExprOpposite eOpp = factory.NewEntityExprOpposite();
-		CBaseEntityExpression op1 = m_Expression.AnalyseExpression(factory) ;
+		CBaseEntityExpression op1 = expression.AnalyseExpression(factory) ;
 		eOpp.SetOpposite(op1) ;
 		return eOpp;
 	}
@@ -57,7 +57,7 @@ public class COppositeExpression extends CExpression
 	
 	protected boolean CheckMembersBeforeExport()
 	{
-		return CheckMemberNotNull(m_Expression);
+		return CheckMemberNotNull(expression);
 	}
 	
 	/* (non-Javadoc)
@@ -66,7 +66,7 @@ public class COppositeExpression extends CExpression
 	public Element DoExport(Document root)
 	{
 		Element eop = root.createElement("Opposite");
-		eop.appendChild(m_Expression.Export(root));
+		eop.appendChild(expression.Export(root));
 		return eop ;		
 	}
 	/* (non-Javadoc)
@@ -93,7 +93,7 @@ public class COppositeExpression extends CExpression
 	}
 	public String toString()
 	{
-		return "MINUS("+m_Expression.toString()+")" ;
+		return "MINUS("+expression.toString()+")" ;
 	}
 	public CExpression getMasterBinaryCondition()
 	{

@@ -27,11 +27,11 @@ public class CJavaCondNot extends CEntityCondNot
 
 	public CBaseEntityCondition GetOppositeCondition()
 	{
-		return m_Cond ;
+		return cond ;
 	}
 	public String Export()
 	{
-		return "!" + CJavaExporter.ExportChildCondition(GetPriorityLevel(), m_Cond) ;
+		return "!" + CJavaExporter.ExportChildCondition(GetPriorityLevel(), cond) ;
 	}
 	public int GetPriorityLevel()
 	{

@@ -36,11 +36,11 @@ public class CJavaSQLCursorSelectStatement extends CEntitySQLCursorSelectStateme
 	protected void DoExport()
 	{
 		boolean bBloc = false ;
-		String s = "cursorOpen(" + m_Cursor.ExportReference(getLine()) + ", " ;
+		String s = "cursorOpen(" + cursor.ExportReference(getLine()) + ", " ;
 		WriteWord(s) ;
-		WriteLongString(m_csStatement.trim()) ;
+		WriteLongString(csStatement.trim()) ;
 		WriteWord(")");
-		if (m_bWithHold)
+		if (bWithHold)
 		{
 			WriteEOL() ;
 			StartOutputBloc() ;
@@ -48,9 +48,9 @@ public class CJavaSQLCursorSelectStatement extends CEntitySQLCursorSelectStateme
 			WriteWord(".setHoldability(true)") ;
 			WriteEOL() ;
 		}
-		for(int i=0; i<m_arrParameters.size(); i++)
+		for(int i=0; i<arrParameters.size(); i++)
 		{
-			CDataEntity e = m_arrParameters.get(i) ;
+			CDataEntity e = arrParameters.get(i) ;
 			if (e != null)
 			{
 				WriteEOL() ;
@@ -62,7 +62,7 @@ public class CJavaSQLCursorSelectStatement extends CEntitySQLCursorSelectStateme
 				WriteWord(".param("+ (i+1) + ", " + e.ExportReference(getLine()) + ")");
 			}
 		}
-		String csSQLErrorWarningStatement = m_ProgramCatalog.getSQLWarningErrorStatement();
+		String csSQLErrorWarningStatement = programCatalog.getSQLWarningErrorStatement();
 		if(csSQLErrorWarningStatement != null)
 		{
 			WriteEOL();

@@ -37,11 +37,11 @@ public class RecordColTypeManagerTimestamp extends RecordColTypeManagerBase
 	{
 		try
 		{			
-			Timestamp value = resultSetSource.getTimestamp(m_nColSourceIndex);
+			Timestamp value = resultSetSource.getTimestamp(nColSourceIndex);
 			if (!resultSetSource.wasNull())
-				insertStatementInsert.setTimestamp(m_nColSourceIndex, value);
+				insertStatementInsert.setTimestamp(nColSourceIndex, value);
 			else
-				insertStatementInsert.setNull(m_nColSourceIndex, Types.TIMESTAMP);
+				insertStatementInsert.setNull(nColSourceIndex, Types.TIMESTAMP);
 			return true;
 		}
 		catch (SQLException e)
@@ -55,7 +55,7 @@ public class RecordColTypeManagerTimestamp extends RecordColTypeManagerBase
 	{
 		try
 		{
-			Timestamp ts = rs.getTimestamp(m_nColSourceIndex);
+			Timestamp ts = rs.getTimestamp(nColSourceIndex);
 			if(ts != null)
 			{
 				String csValue = new DateUtil("yyyy-MM-dd-HH.mm.ss.", new java.util.Date(ts.getTime())).toString();
@@ -75,16 +75,16 @@ public class RecordColTypeManagerTimestamp extends RecordColTypeManagerBase
 					csValue += "0000" + nNanos;
 				else 
 					csValue += "00000" + nNanos;
-				varInto.m_varDef.write(varInto.m_bufferPos, csValue);
+				varInto.varDef.write(varInto.bufferPos, csValue);
 				return false;
 			}
 		}
 		catch (SQLException e)
 		{
 			LogSQLException.log(e);
-			// Maybe should I set m_bNull = true; ?
+			// Maybe should I set bNull = true; ?
 		}
-		varInto.m_varDef.write(varInto.m_bufferPos, "");	//varInto.set("");
+		varInto.varDef.write(varInto.bufferPos, "");	//varInto.set("");
 		return true;
 	}
 }

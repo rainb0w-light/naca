@@ -50,12 +50,12 @@ import utils.FPacTranscoder.notifs.NotifGetDefaultOutputFile;
 
 public class CFPacCodeBloc extends CFPacElement
 {
-	protected int m_nEndLine = 0 ;
-	protected String m_csName = "" ;
+	protected int nEndLine = 0 ;
+	protected String csName = "" ;
 	public CFPacCodeBloc(int line, String csName)
 	{
 		super(line);
-		m_csName = csName ;
+		csName = csName ;
 	}
 
 	@Override
@@ -551,28 +551,28 @@ public class CFPacCodeBloc extends CFPacElement
 	@Override
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		if (m_csName.equals(""))
+		if (csName.equals(""))
 		{
 			CEntityBloc e = factory.NewEntityBloc(getLine()) ;
 			if (parent != null)
 				parent.AddChild(e) ;
-			e.SetEndLine(m_nEndLine) ;
+			e.SetEndLine(nEndLine) ;
 			return e ;
 		}
 		else
 		{
-			CEntityProcedure e = factory.NewEntityProcedure(getLine(), m_csName, null) ;
+			CEntityProcedure e = factory.NewEntityProcedure(getLine(), csName, null) ;
 			if (parent != null)
 				parent.AddChild(e) ;
-			e.SetEndLine(m_nEndLine) ;
+			e.SetEndLine(nEndLine) ;
 			
-			if (m_csName.equalsIgnoreCase("NORMAL"))
+			if (csName.equalsIgnoreCase("NORMAL"))
 			{
 				DoSemanticAnalysisForChildren(e, factory) ;
-				m_bAnalysisDoneForChildren = true;
+				bAnalysisDoneForChildren = true;
 				
 				NotifGetDefaultInputFile notif = new NotifGetDefaultInputFile() ;
-				factory.m_ProgramCatalog.SendNotifRequest(notif) ;
+				factory.programCatalog.SendNotifRequest(notif) ;
 				if (notif.fileBuffer != null)
 				{
 					if (notif.fileBuffer.GetFileDescriptor().GetName().endsWith("F"))  // "IPF" or "IPF1"
@@ -593,7 +593,7 @@ public class CFPacCodeBloc extends CFPacElement
 				if (!e.hasExplicitGetOut())
 				{
 					NotifGetDefaultOutputFile notifOutput = new NotifGetDefaultOutputFile() ;
-					factory.m_ProgramCatalog.SendNotifRequest(notifOutput) ;
+					factory.programCatalog.SendNotifRequest(notifOutput) ;
 					if (notifOutput.fileBuffer != null)
 					{
 						if (notifOutput.fileBuffer.GetFileDescriptor().GetName().endsWith("F"))  // "OPF" or "OPF1"
@@ -613,40 +613,40 @@ public class CFPacCodeBloc extends CFPacElement
 					}
 				}
 			}
-			else if (m_csName.equalsIgnoreCase("FIRST"))
+			else if (csName.equalsIgnoreCase("FIRST"))
 			{
 				DoSemanticAnalysisForChildren(e, factory) ;
-				m_bAnalysisDoneForChildren = true;
+				bAnalysisDoneForChildren = true;
 				
 				NotifGetAllFilesNotOpen notif = new NotifGetAllFilesNotOpen() ;
-				factory.m_ProgramCatalog.SendNotifRequest(notif) ;
-				Collections.sort(notif.m_arrFiles, new Comparator<CEntityFileDescriptor>() {
+				factory.programCatalog.SendNotifRequest(notif) ;
+				Collections.sort(notif.arrFiles, new Comparator<CEntityFileDescriptor>() {
 					public int compare(CEntityFileDescriptor o1, CEntityFileDescriptor o2)
 					{
 						return o1.GetName().compareTo(o2.GetName());
 					}
 				});
-				for (CEntityFileDescriptor desc : notif.m_arrFiles)
+				for (CEntityFileDescriptor desc : notif.arrFiles)
 				{
 					CEntityOpenFile open = factory.NewEntityOpenFile(0) ;
 					open.setFileDescriptor(desc, null) ;
 					e.AddChild(open, null) ;
 				}
 			}
-			else if (m_csName.equalsIgnoreCase("LAST"))
+			else if (csName.equalsIgnoreCase("LAST"))
 			{
 				DoSemanticAnalysisForChildren(e, factory) ;
-				m_bAnalysisDoneForChildren = true;
+				bAnalysisDoneForChildren = true;
 				
 				NotifGetAllFilesNotClosed notif = new NotifGetAllFilesNotClosed() ;
-				factory.m_ProgramCatalog.SendNotifRequest(notif) ;
-				Collections.sort(notif.m_arrFiles, new Comparator<CEntityFileDescriptor>() {
+				factory.programCatalog.SendNotifRequest(notif) ;
+				Collections.sort(notif.arrFiles, new Comparator<CEntityFileDescriptor>() {
 					public int compare(CEntityFileDescriptor o1, CEntityFileDescriptor o2)
 					{
 						return o2.GetName().compareTo(o1.GetName());
 					}
 				});
-				for (CEntityFileDescriptor desc : notif.m_arrFiles)
+				for (CEntityFileDescriptor desc : notif.arrFiles)
 				{
 					CEntityCloseFile close = factory.NewEntityCloseFile(0) ;
 					close.setFileDescriptor(desc) ;
@@ -661,8 +661,8 @@ public class CFPacCodeBloc extends CFPacElement
 	protected Element ExportCustom(Document root)
 	{
 		String cs = "Bloc" ;
-		if (!m_csName.equals(""))
-			cs = m_csName ;
+		if (!csName.equals(""))
+			cs = csName ;
 		Element eAdd = root.createElement(cs) ;
 		return eAdd;
 	}
@@ -672,7 +672,7 @@ public class CFPacCodeBloc extends CFPacElement
 	 */
 	public void SetEndLine(int line)
 	{
-		m_nEndLine = line ;
+		nEndLine = line ;
 	}
 
 }

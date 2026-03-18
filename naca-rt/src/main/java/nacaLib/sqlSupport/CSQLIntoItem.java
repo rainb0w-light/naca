@@ -29,36 +29,36 @@ public class CSQLIntoItem extends CJMapObject
 {
 	public CSQLIntoItem(VarAndEdit varInto, Var varIndicator)
 	{
-		m_varInto = varInto;
-		m_varIndicator = varIndicator;
+		varInto = varInto;
+		varIndicator = varIndicator;
 	}
 	public void set(VarAndEdit varInto, Var varIndicator)
 	{
-		m_varInto = varInto;
-		m_varIndicator = varIndicator;
+		varInto = varInto;
+		varIndicator = varIndicator;
 	}
 	
 
 //	public CSQLIntoItem()
 //	{
-//		m_varIndicator = null;
+//		varIndicator = null;
 //	}
 
 	public void setColValue(String csValue, boolean bNull)	//, String csSemanticContext)
 	{
-		if(m_varInto != null)
+		if(varInto != null)
 		{			
-			m_varInto.m_varDef.write(m_varInto.m_bufferPos, csValue);	//m_varInto.set(csValue);
+			varInto.varDef.write(varInto.bufferPos, csValue);	//varInto.set(csValue);
 			
-			//Sytem.out.println("setColValue: m_varInto="+m_varInto.toString());
-			//m_varInto.setSemanticContextValue(csSemanticContext);
+			//Sytem.out.println("setColValue: varInto="+varInto.toString());
+			//varInto.setSemanticContextValue(csSemanticContext);
 		}
-		if(m_varIndicator != null)
+		if(varIndicator != null)
 		{
 			if(bNull)
-				m_varIndicator.set(-1);	// The col is SQL NULL
+				varIndicator.set(-1);	// The col is SQL NULL
 			else
-				m_varIndicator.set(0);	// The col is not sql null
+				varIndicator.set(0);	// The col is not sql null
 		}
 		if(isLogSql)
 			Log.logDebug("sql into filling:"+getLoggableValue());		
@@ -66,12 +66,12 @@ public class CSQLIntoItem extends CJMapObject
 	
 	public void setColValueNull(boolean bNull)
 	{
-		if(m_varIndicator != null)
+		if(varIndicator != null)
 		{
 			if(bNull)
-				m_varIndicator.set(-1);	// The col is SQL NULL
+				varIndicator.set(-1);	// The col is SQL NULL
 			else
-				m_varIndicator.set(0);	// The col is not sql null
+				varIndicator.set(0);	// The col is not sql null
 		}
 	}
 	
@@ -85,9 +85,9 @@ public class CSQLIntoItem extends CJMapObject
 	
 	public boolean getIndicatorNull()
 	{
-		if(m_varIndicator != null)
+		if(varIndicator != null)
 		{
-			int n = m_varIndicator.getInt();
+			int n = varIndicator.getInt();
 			if(n == -1)
 				return true;	// SQL NULL
 		}
@@ -96,22 +96,22 @@ public class CSQLIntoItem extends CJMapObject
 		
 	public VarAndEdit getVarInto()
 	{
-		return m_varInto;
+		return varInto;
 	}
 		
 	public Var getVarIndicator()
 	{
-		return m_varIndicator;
+		return varIndicator;
 	}
 	
 	public String getLoggableValue()
 	{
-		if(m_varInto != null)
+		if(varInto != null)
 		{
-			if(m_varIndicator != null)
-				return "into="+m_varInto.getLoggableValue() + " Indicator="+m_varIndicator.getLoggableValue();
+			if(varIndicator != null)
+				return "into="+varInto.getLoggableValue() + " Indicator="+varIndicator.getLoggableValue();
 			else
-				return "into="+m_varInto.getLoggableValue() + " IndicatorNull";
+				return "into="+varInto.getLoggableValue() + " IndicatorNull";
 		}
 		return "into=Null";
 	}
@@ -119,12 +119,12 @@ public class CSQLIntoItem extends CJMapObject
 	public long getUniqueHashedId()
 	{
 		long l = 0;
-		if(m_varInto != null)
-			l = m_varInto.getId();
-		if(m_varIndicator != null)
+		if(varInto != null)
+			l = varInto.getId();
+		if(varIndicator != null)
 		{
 			l *= 32678;
-			l += m_varIndicator.getId();
+			l += varIndicator.getId();
 		}
 		return l;
 	}
@@ -137,7 +137,7 @@ public class CSQLIntoItem extends CJMapObject
 	}
 	*/
 	
-	private VarAndEdit m_varInto = null;
-	private Var m_varIndicator = null;	
+	private VarAndEdit varInto = null;
+	private Var varIndicator = null;	
 	// PJD ROWID Support:private oracle.sql.ROWID m_RowId;
 }

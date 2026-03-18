@@ -12,14 +12,14 @@ public class ThreadEmulWeb extends Thread
 {
 	public ThreadEmulWeb(ThreadSafeCounter counter, EmulWebThreadedRun emulWebRun)
 	{
-		m_counter = counter;
-		m_emulWebRun = emulWebRun;
+		counter = counter;
+		emulWebRun = emulWebRun;
 	}
 	
 	public void run()
 	{
-		m_emulWebRun.run();
-		m_counter.dec();
+		emulWebRun.run();
+		counter.dec();
 	}
 	
 	public void requestStop()
@@ -27,6 +27,6 @@ public class ThreadEmulWeb extends Thread
 		interrupt();
 	}
 	
-	private EmulWebThreadedRun m_emulWebRun = null;
-	private ThreadSafeCounter m_counter = null;
+	private EmulWebThreadedRun emulWebRun = null;
+	private ThreadSafeCounter counter = null;
 }

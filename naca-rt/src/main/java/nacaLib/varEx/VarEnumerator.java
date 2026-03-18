@@ -25,41 +25,41 @@ public class VarEnumerator
 {
 	public VarEnumerator(BaseProgramManager programManager, VarBase var)
 	{
-		m_programManager = programManager;
-		m_var = var;
-		if(m_var != null)
-			m_varDef = m_var.getVarDef(); 
+		programManager = programManager;
+		var = var;
+		if(var != null)
+			varDef = var.getVarDef(); 
 	}
 	
 	public VarBase getFirstVarChild()
 	{
-		m_nIndex = 0;
+		nIndex = 0;
 		return getNextVarChild();
 	}
 
 	public VarBase getNextVarChild()
 	{
-		VarBase v = getChildAtIndex(m_nIndex);
-		m_nIndex++;
+		VarBase v = getChildAtIndex(nIndex);
+		nIndex++;
 		return v;
 	}
 	
 	VarBase getChildAtIndex(int nIndex)
 	{
-		if(m_varDef != null)
+		if(varDef != null)
 		{
-			VarDefBase varDefChild = m_varDef.getChild(nIndex);
+			VarDefBase varDefChild = varDef.getChild(nIndex);
 			if(varDefChild != null)
 			{
-				VarBase varChild = m_programManager.getVarFullName(varDefChild);
+				VarBase varChild = programManager.getVarFullName(varDefChild);
 				return varChild;
 			}
 		}		
 		return null; 
 	}
 	
-	private int m_nIndex = 0;
-	private VarBase m_var = null;
-	private VarDefBase m_varDef = null;
-	BaseProgramManager m_programManager = null;
+	private int nIndex = 0;
+	private VarBase var = null;
+	private VarDefBase varDef = null;
+	BaseProgramManager programManager = null;
 }

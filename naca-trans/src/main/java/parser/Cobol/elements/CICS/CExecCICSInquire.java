@@ -50,15 +50,15 @@ public class CExecCICSInquire extends CCobolElement
 	{
 		CEntityCICSInquire inq = factory.NewEntityCICSInquire(getLine());
 		parent.AddChild(inq) ;
-		if (m_Transaction != null)
+		if (transaction != null)
 		{
-			inq.m_Transaction = m_Transaction.GetDataEntity(getLine(), factory) ;
-			inq.m_Transaction.RegisterReadingAction(inq) ;
+			inq.transaction = transaction.GetDataEntity(getLine(), factory) ;
+			inq.transaction.RegisterReadingAction(inq) ;
 		}
-		if (m_Program != null)
+		if (program != null)
 		{
-			inq.m_Program = m_Program.GetDataEntity(getLine(), factory);
-			inq.m_Program.RegisterWritingAction(inq) ;
+			inq.program = program.GetDataEntity(getLine(), factory);
+			inq.program.RegisterWritingAction(inq) ;
 		}
 		return inq ;
 	}
@@ -99,11 +99,11 @@ public class CExecCICSInquire extends CCobolElement
 				} 
 				if (cs.equalsIgnoreCase("TRANSACTION"))
 				{
-					m_Transaction = id ;
+					transaction = id ;
 				}
 				else if (cs.equalsIgnoreCase("PROGRAM"))
 				{
-					m_Program = id ;
+					program = id ;
 				}
 				else if (cs.equalsIgnoreCase("SYSTEM"))
 				{
@@ -111,7 +111,7 @@ public class CExecCICSInquire extends CCobolElement
 				}
 				else if (cs.equalsIgnoreCase("RELEASE"))
 				{
-					m_Release = id ;
+					release = id ;
 				}
 				else
 				{
@@ -136,22 +136,22 @@ public class CExecCICSInquire extends CCobolElement
 	{
 		Element eInq = root.createElement("ExecCICSInquire") ;
 		
-		if (m_Transaction != null)
+		if (transaction != null)
 		{
 			Element e = root.createElement("Transaction");
 			eInq.appendChild(e);
-			m_Transaction.ExportTo(e, root);
+			transaction.ExportTo(e, root);
 		}
-		if (m_Program != null)
+		if (program != null)
 		{
 			Element e = root.createElement("Program");
 			eInq.appendChild(e);
-			m_Program.ExportTo(e, root);
+			program.ExportTo(e, root);
 		}
 		return eInq;
 	}
 
-	protected CTerminal m_Transaction = null ;
-	protected CTerminal m_Release = null ;
-	protected CTerminal m_Program = null ;
+	protected CTerminal transaction = null ;
+	protected CTerminal release = null ;
+	protected CTerminal program = null ;
 }

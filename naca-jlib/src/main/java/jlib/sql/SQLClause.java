@@ -60,21 +60,21 @@ import jlib.sqlColType.SQLColTypeDate;
  */
 public class SQLClause
 {
-	protected String m_csQuery = null;
-	protected ArrayList<ColValue> m_arrParams = null;
-	protected ArrayList<ColValue> m_arrInsertParams = null;
-	private ArrayList<ColValue> m_arrLastParams = null;	// Use for debugging only (toString())
-	private ArrayList<ColValue> m_arrLastInsertParams = null;
-	private SQLClauseSPCall m_spCallClause = null;
+	protected String csQuery = null;
+	protected ArrayList<ColValue> arrParams = null;
+	protected ArrayList<ColValue> arrInsertParams = null;
+	private ArrayList<ColValue> arrLastParams = null;	// Use for debugging only (toString())
+	private ArrayList<ColValue> arrLastInsertParams = null;
+	private SQLClauseSPCall spCallClause = null;
 
-	private ResultSet m_resultSet = null;
-	private DbConnectionBase m_connection = null;
-	private boolean m_bAlternateconnection = false;	// An alternate connection is not managed in the TLS, but can be accessed form the outside 
+	private ResultSet resultSet = null;
+	private DbConnectionBase connection = null;
+	private boolean bAlternateconnection = false;	// An alternate connection is not managed in the TLS, but can be accessed form the outside 
 	
 	public SQLClause(DbAccessor dbAccessor)
 	{
 		if(dbAccessor != null)
-			m_connection = dbAccessor.getConnection();
+			connection = dbAccessor.getConnection();
 	}
 	
 	// Create a new SQLClause on an alternate DB conenction
@@ -87,12 +87,12 @@ public class SQLClause
 		{
 			if(connection == null)	// Alloc an alternate connection
 			{	
-				m_bAlternateconnection = true;
-				m_connection = dbAccessor.getAlternateConnection();
+				bAlternateconnection = true;
+				connection = dbAccessor.getAlternateConnection();
 			}
 			else	// share the alternate connection 
 			{
-				m_connection = connection;
+				connection = connection;
 			}
 		}
 	}
@@ -101,8 +101,8 @@ public class SQLClause
 	// The main connection cannot ba accessed form the outside
 	public DbConnectionBase getAlternateConnection()
 	{
-		if(m_bAlternateconnection)
-			return m_connection;
+		if(bAlternateconnection)
+			return connection;
 		return null; 
 	}
 	
@@ -116,13 +116,13 @@ public class SQLClause
 		List<ColValue> arrParams;
 
 // If the query has been constructed with 'paramInsert(...)':
-		if(m_arrInsertParams != null)
-			arrParams = m_arrInsertParams;
+		if(arrInsertParams != null)
+			arrParams = arrInsertParams;
 		else 
-			arrParams = m_arrLastInsertParams;
+			arrParams = arrLastInsertParams;
 		if (arrParams!=null) 
 		{
-			StringBuilder sbNames = new StringBuilder(m_csQuery+" (");
+			StringBuilder sbNames = new StringBuilder(csQuery+" (");
 			StringBuilder sbValues = new StringBuilder(" (");
 			
 			for(int n=0; n<arrParams.size(); n++)
@@ -149,36 +149,36 @@ public class SQLClause
 		} 
 
 // If the query has been constructed with 'param(...)':
-		if(m_arrParams != null)
-			arrParams = m_arrParams;	
+		if(arrParams != null)
+			arrParams = arrParams;
 		else
-			arrParams = m_arrLastParams;
+			arrParams = arrLastParams;
 
-		StringBuilder csQuery = new StringBuilder();
-		if (m_csQuery==null)
+		StringBuilder sb = new StringBuilder();
+		if (csQuery==null)
 			return "";
-		String[] vQuery = m_csQuery.split("\\?");
+		String[] vQuery = csQuery.split("\\?");
 		int nNbChunks = vQuery.length;
-		
+
 		if (arrParams == null)
-			return "Statement already executed: "+m_csQuery;
-		
+			return "Statement already executed: "+csQuery;
+
 		if(arrParams.size() !=  nNbChunks-1)
-			csQuery.append(" NbParams="+arrParams.size() + " Nb Question marks="+nNbChunks);
-		
+			sb.append(" NbParams="+arrParams.size() + " Nb Question marks="+nNbChunks);
+
 		int nMax = Math.min(arrParams.size(), nNbChunks);
-		for(int nChunk=0; nChunk<nMax; nChunk++) 
+		for(int nChunk=0; nChunk<nMax; nChunk++)
 		{
-			csQuery.append(vQuery[nChunk]);
+			sb.append(vQuery[nChunk]);
 			ColValue colValue=arrParams.get(nChunk);
-			
+
 			if (colValue instanceof ColValueString)
-				csQuery.append("'"+colValue.getValue()+"'");
-			else 
-				csQuery.append(colValue.getValue());
+				sb.append("'"+colValue.getValue()+"'");
+			else
+				sb.append(colValue.getValue());
 		}
 		if(nMax <= nNbChunks)
-			csQuery.append(vQuery[nNbChunks-1]);
+			sb.append(vQuery[nNbChunks-1]);
 //		
 //		csQuery.append("Columns value:\n\n");
 //		for(int nChunk=0; nChunk<nMax; nChunk++) 
@@ -193,36 +193,36 @@ public class SQLClause
 	
 	public SQLClause set(String csQuery)
 	{
-		m_csQuery = csQuery;
+		csQuery = csQuery;
 		return this;
 	}
 	
 	public SQLClause append(String csQuery)
 	{
-		m_csQuery += csQuery;
+		csQuery += csQuery;
 		return this;
 	}
 	
 	public String getQuery()
 	{
 		completeInsertQuery();
-		return m_csQuery;
+		return csQuery;
 	}
 	
 	
 	public String param(ColValue colVal)
 	{
-		if(m_arrParams == null)
-			m_arrParams = new ArrayList<ColValue>();
-		m_arrParams.add(colVal);
+		if(arrParams == null)
+			arrParams = new ArrayList<ColValue>();
+		arrParams.add(colVal);
 		return "?";
 	}
 	
 	public SQLClause paramInsert(ColValue colValue)
 	{
-		if(m_arrInsertParams == null)
-			m_arrInsertParams = new ArrayList<ColValue>();
-		m_arrInsertParams.add(colValue);
+		if(arrInsertParams == null)
+			arrInsertParams = new ArrayList<ColValue>();
+		arrInsertParams.add(colValue);
 		
 		return this;
 	}
@@ -230,22 +230,22 @@ public class SQLClause
 	// String	
 	public String param(String csVal)
 	{
-		if(m_arrParams == null)
-			m_arrParams = new ArrayList<ColValue>();
+		if(arrParams == null)
+			arrParams = new ArrayList<ColValue>();
 		ColValueString colVal = new ColValueString("", csVal); 
-		m_arrParams.add(colVal);
+		arrParams.add(colVal);
 		
 		return "?";
 	}
 			
 	public SQLClause paramInsert(String csName, String csVal)
 	{
-		if(m_arrInsertParams == null)
-			m_arrInsertParams = new ArrayList<ColValue>();
+		if(arrInsertParams == null)
+			arrInsertParams = new ArrayList<ColValue>();
 		/*if(StringUtil.isEmpty(csVal))
 			csVal = " ";*/
 		ColValueString colVal = new ColValueString(csName, csVal); 
-		m_arrInsertParams.add(colVal);
+		arrInsertParams.add(colVal);
 		
 		return this;
 	}
@@ -253,11 +253,11 @@ public class SQLClause
 	public String getString(String csColName) 
 		throws TechnicalException
 	{		
-		if(m_resultSet != null)
+		if(resultSet != null)
 		{
 			try
 			{
-				String csVal = m_resultSet.getString(csColName);
+				String csVal = resultSet.getString(csColName);
 				if(csVal != null)
 					csVal = csVal.trim();
 				return csVal;
@@ -265,7 +265,7 @@ public class SQLClause
 			catch (SQLException e)
 			{
 				forceCloseOnExceptionCatched();
-				ProgrammingException.throwException(ProgrammingException.DB_ERROR_RESULT_SET_COL_ACCESS_STRING+csColName, m_csQuery, e);
+				ProgrammingException.throwException(ProgrammingException.DB_ERROR_RESULT_SET_COL_ACCESS_STRING+csColName, csQuery, e);
 			}			
 		}
 		return "";
@@ -274,11 +274,11 @@ public class SQLClause
 	public String getString(int nColNumber) 
 		throws TechnicalException
 	{		
-		if(m_resultSet != null)
+		if(resultSet != null)
 		{
 			try
 			{
-				String csVal = m_resultSet.getString(nColNumber);
+				String csVal = resultSet.getString(nColNumber);
 				if(csVal != null)
 					csVal = csVal.trim();
 				return csVal;
@@ -286,7 +286,7 @@ public class SQLClause
 			catch (SQLException e)
 			{
 				forceCloseOnExceptionCatched();
-				ProgrammingException.throwException(ProgrammingException.DB_ERROR_RESULT_SET_COL_ACCESS_INT+nColNumber, m_csQuery, e);
+				ProgrammingException.throwException(ProgrammingException.DB_ERROR_RESULT_SET_COL_ACCESS_INT+nColNumber, csQuery, e);
 			}			
 		}
 		return "";
@@ -295,17 +295,17 @@ public class SQLClause
 	public String getStringWithoutTrim(String csColName) 
 		throws TechnicalException
 	{		
-		if(m_resultSet != null)
+		if(resultSet != null)
 		{
 			try
 			{
-				String csVal = m_resultSet.getString(csColName);
+				String csVal = resultSet.getString(csColName);
 				return csVal;
 			}
 			catch (SQLException e)
 			{
 				forceCloseOnExceptionCatched();
-				ProgrammingException.throwException(ProgrammingException.DB_ERROR_RESULT_SET_COL_ACCESS_STRING+csColName, m_csQuery, e);
+				ProgrammingException.throwException(ProgrammingException.DB_ERROR_RESULT_SET_COL_ACCESS_STRING+csColName, csQuery, e);
 			}			
 		}
 		return "";
@@ -314,17 +314,17 @@ public class SQLClause
 	public String getStringWithoutTrim(int nColNumber) 
 		throws TechnicalException
 	{		
-		if(m_resultSet != null)
+		if(resultSet != null)
 		{
 			try
 			{
-				String csVal = m_resultSet.getString(nColNumber);
+				String csVal = resultSet.getString(nColNumber);
 				return csVal;
 			}
 			catch (SQLException e)
 			{
 				forceCloseOnExceptionCatched();
-				ProgrammingException.throwException(ProgrammingException.DB_ERROR_RESULT_SET_COL_ACCESS_INT+nColNumber, m_csQuery, e);
+				ProgrammingException.throwException(ProgrammingException.DB_ERROR_RESULT_SET_COL_ACCESS_INT+nColNumber, csQuery, e);
 			}			
 		}
 		return "";
@@ -333,20 +333,20 @@ public class SQLClause
 	// int
 	public String param(int nVal)
 	{
-		if(m_arrParams == null)
-			m_arrParams = new ArrayList<ColValue>();
+		if(arrParams == null)
+			arrParams = new ArrayList<ColValue>();
 		ColValueInt colVal = new ColValueInt("", nVal);
-		m_arrParams.add(colVal);
+		arrParams.add(colVal);
 		
 		return "?";
 	}
 	
 	public SQLClause paramInsert(String csName, int nVal)
 	{
-		if(m_arrInsertParams == null)
-			m_arrInsertParams = new ArrayList<ColValue>();
+		if(arrInsertParams == null)
+			arrInsertParams = new ArrayList<ColValue>();
 		ColValueInt colVal = new ColValueInt(csName, nVal); 
-		m_arrInsertParams.add(colVal);
+		arrInsertParams.add(colVal);
 		
 		return this;
 	}
@@ -354,17 +354,17 @@ public class SQLClause
 	public int getInt(String csColName) 
 		throws TechnicalException
 	{
-		if(m_resultSet != null)
+		if(resultSet != null)
 		{
 			try
 			{
-				int nVal = m_resultSet.getInt(csColName);
+				int nVal = resultSet.getInt(csColName);
 				return nVal;
 			}
 			catch (SQLException e)
 			{
 				forceCloseOnExceptionCatched();
-				ProgrammingException.throwException(ProgrammingException.DB_ERROR_RESULT_SET_COL_ACCESS_STRING+csColName, m_csQuery, e);
+				ProgrammingException.throwException(ProgrammingException.DB_ERROR_RESULT_SET_COL_ACCESS_STRING+csColName, csQuery, e);
 			}			
 		}
 		return 0;
@@ -373,17 +373,17 @@ public class SQLClause
 	public int getInt(int nColNumber) 
 		throws TechnicalException
 	{
-		if(m_resultSet != null)
+		if(resultSet != null)
 		{
 			try
 			{
-				int nVal = m_resultSet.getInt(nColNumber);
+				int nVal = resultSet.getInt(nColNumber);
 				return nVal;
 			}
 			catch (SQLException e)
 			{
 				forceCloseOnExceptionCatched();
-				ProgrammingException.throwException(ProgrammingException.DB_ERROR_RESULT_SET_COL_ACCESS_INT+nColNumber, m_csQuery, e);
+				ProgrammingException.throwException(ProgrammingException.DB_ERROR_RESULT_SET_COL_ACCESS_INT+nColNumber, csQuery, e);
 			}			
 		}
 		return 0;
@@ -392,17 +392,17 @@ public class SQLClause
 	public double getDouble(String csColName) 
 		throws TechnicalException
 	{
-		if(m_resultSet != null)
+		if(resultSet != null)
 		{
 			try
 			{
-				double nVal = m_resultSet.getDouble(csColName);
+				double nVal = resultSet.getDouble(csColName);
 				return nVal;
 			}
 			catch (SQLException e)
 			{
 				forceCloseOnExceptionCatched();
-				ProgrammingException.throwException(ProgrammingException.DB_ERROR_RESULT_SET_COL_ACCESS_STRING+csColName, m_csQuery, e);
+				ProgrammingException.throwException(ProgrammingException.DB_ERROR_RESULT_SET_COL_ACCESS_STRING+csColName, csQuery, e);
 			}			
 		}
 		return 0;
@@ -411,17 +411,17 @@ public class SQLClause
 	public double getDouble(int nColNumber) 
 		throws TechnicalException
 	{
-		if(m_resultSet != null)
+		if(resultSet != null)
 		{
 			try
 			{
-				double nVal = m_resultSet.getDouble(nColNumber);
+				double nVal = resultSet.getDouble(nColNumber);
 				return nVal;
 			}
 			catch (SQLException e)
 			{
 				forceCloseOnExceptionCatched();
-				ProgrammingException.throwException(ProgrammingException.DB_ERROR_RESULT_SET_COL_ACCESS_INT+nColNumber, m_csQuery, e);
+				ProgrammingException.throwException(ProgrammingException.DB_ERROR_RESULT_SET_COL_ACCESS_INT+nColNumber, csQuery, e);
 			}			
 		}
 		return 0;
@@ -430,17 +430,17 @@ public class SQLClause
 	public Date getDate(String csColName) 
 		throws TechnicalException
 	{
-		if(m_resultSet != null)
+		if(resultSet != null)
 		{
 			try
 			{
-				Date dVal = m_resultSet.getDate(csColName);
+				Date dVal = resultSet.getDate(csColName);
 				return dVal;
 			}
 			catch (SQLException e)
 			{
 				forceCloseOnExceptionCatched();
-				ProgrammingException.throwException(ProgrammingException.DB_ERROR_RESULT_SET_COL_ACCESS_STRING+csColName, m_csQuery, e);
+				ProgrammingException.throwException(ProgrammingException.DB_ERROR_RESULT_SET_COL_ACCESS_STRING+csColName, csQuery, e);
 			}			
 		}
 		return null;
@@ -449,17 +449,17 @@ public class SQLClause
 	public Date getDate(int nColNumber) 
 		throws TechnicalException
 	{
-		if(m_resultSet != null)
+		if(resultSet != null)
 		{
 			try
 			{
-				Date dVal = m_resultSet.getDate(nColNumber);
+				Date dVal = resultSet.getDate(nColNumber);
 				return dVal;
 			}
 			catch (SQLException e)
 			{
 				forceCloseOnExceptionCatched();
-				ProgrammingException.throwException(ProgrammingException.DB_ERROR_RESULT_SET_COL_ACCESS_INT+nColNumber, m_csQuery, e);
+				ProgrammingException.throwException(ProgrammingException.DB_ERROR_RESULT_SET_COL_ACCESS_INT+nColNumber, csQuery, e);
 			}			
 		}
 		return null;
@@ -469,20 +469,20 @@ public class SQLClause
 	// Long
 	public String param(long lVal)
 	{
-		if(m_arrParams == null)
-			m_arrParams = new ArrayList<ColValue>();
+		if(arrParams == null)
+			arrParams = new ArrayList<ColValue>();
 		ColValueLong colVal = new ColValueLong("", lVal); 
-		m_arrParams.add(colVal);
+		arrParams.add(colVal);
 		
 		return "?";
 	}
 	
 	public SQLClause paramInsert(String csName, long lVal)
 	{
-		if(m_arrInsertParams == null)
-			m_arrInsertParams = new ArrayList<ColValue>();
+		if(arrInsertParams == null)
+			arrInsertParams = new ArrayList<ColValue>();
 		ColValueLong colVal = new ColValueLong(csName, lVal); 
-		m_arrInsertParams.add(colVal);
+		arrInsertParams.add(colVal);
 		
 		return this;
 	}
@@ -490,17 +490,17 @@ public class SQLClause
 	public long getLong(String csColName) 
 		throws TechnicalException
 	{
-		if(m_resultSet != null)
+		if(resultSet != null)
 		{
 			try
 			{
-				long lVal = m_resultSet.getLong(csColName);
+				long lVal = resultSet.getLong(csColName);
 				return lVal;
 			}
 			catch (SQLException e)
 			{
 				forceCloseOnExceptionCatched();
-				ProgrammingException.throwException(ProgrammingException.DB_ERROR_RESULT_SET_COL_ACCESS_LONG+csColName, m_csQuery, e);
+				ProgrammingException.throwException(ProgrammingException.DB_ERROR_RESULT_SET_COL_ACCESS_LONG+csColName, csQuery, e);
 			}			
 		}
 		return 0L;
@@ -509,17 +509,17 @@ public class SQLClause
 	public long getLong(int nColNumber) 
 		throws TechnicalException
 	{
-		if(m_resultSet != null)
+		if(resultSet != null)
 		{
 			try
 			{
-				long lVal = m_resultSet.getInt(nColNumber);
+				long lVal = resultSet.getInt(nColNumber);
 				return lVal;
 			}
 			catch (SQLException e)
 			{
 				forceCloseOnExceptionCatched();
-				ProgrammingException.throwException(ProgrammingException.DB_ERROR_RESULT_SET_COL_ACCESS_LONG+nColNumber, m_csQuery, e);
+				ProgrammingException.throwException(ProgrammingException.DB_ERROR_RESULT_SET_COL_ACCESS_LONG+nColNumber, csQuery, e);
 			}			
 		}
 		return 0L;
@@ -528,33 +528,33 @@ public class SQLClause
 	// boolean
 	public String param(boolean bVal)
 	{
-		if(m_arrParams == null)
-			m_arrParams = new ArrayList<ColValue>();
+		if(arrParams == null)
+			arrParams = new ArrayList<ColValue>();
 		ColValueBoolean colVal = new ColValueBoolean("", bVal); 
-		m_arrParams.add(colVal);
+		arrParams.add(colVal);
 		
 		return "?";
 	}
 	
 	public SQLClause paramInsert(String csName, Boolean bVal)
 	{
-		if(m_arrInsertParams == null)
-			m_arrInsertParams = new ArrayList<ColValue>();
+		if(arrInsertParams == null)
+			arrInsertParams = new ArrayList<ColValue>();
 		boolean bNewVal = false;
 		if (bVal != null)
 			bNewVal = bVal;
 		ColValueBoolean colVal = new ColValueBoolean(csName, bNewVal); 
-		m_arrInsertParams.add(colVal);
+		arrInsertParams.add(colVal);
 		
 		return this;
 	}
 	
 	public SQLClause paramInsert(String csName, boolean bVal)
 	{
-		if(m_arrInsertParams == null)
-			m_arrInsertParams = new ArrayList<ColValue>();
+		if(arrInsertParams == null)
+			arrInsertParams = new ArrayList<ColValue>();
 		ColValueBoolean colVal = new ColValueBoolean(csName, bVal); 
-		m_arrInsertParams.add(colVal);
+		arrInsertParams.add(colVal);
 		
 		return this;
 	}
@@ -562,17 +562,17 @@ public class SQLClause
 	public boolean getBoolean(String csColName) 
 		throws TechnicalException
 	{
-		if(m_resultSet != null)
+		if(resultSet != null)
 		{
 			try
 			{
-				boolean bVal = m_resultSet.getBoolean(csColName);
+				boolean bVal = resultSet.getBoolean(csColName);
 				return bVal;
 			}
 			catch (SQLException e)
 			{
 				forceCloseOnExceptionCatched();
-				ProgrammingException.throwException(ProgrammingException.DB_ERROR_RESULT_SET_COL_ACCESS_STRING+csColName, m_csQuery, e);
+				ProgrammingException.throwException(ProgrammingException.DB_ERROR_RESULT_SET_COL_ACCESS_STRING+csColName, csQuery, e);
 			}			
 		}
 		return false;
@@ -581,17 +581,17 @@ public class SQLClause
 	public boolean getBoolean(int nColNumber) 
 		throws TechnicalException
 	{
-		if(m_resultSet != null)
+		if(resultSet != null)
 		{
 			try
 			{
-				boolean bVal = m_resultSet.getBoolean(nColNumber);
+				boolean bVal = resultSet.getBoolean(nColNumber);
 				return bVal;
 			}
 			catch (SQLException e)
 			{
 				forceCloseOnExceptionCatched();
-				ProgrammingException.throwException(ProgrammingException.DB_ERROR_RESULT_SET_COL_ACCESS_INT+nColNumber, m_csQuery, e);
+				ProgrammingException.throwException(ProgrammingException.DB_ERROR_RESULT_SET_COL_ACCESS_INT+nColNumber, csQuery, e);
 			}			
 		}
 		return false;
@@ -600,20 +600,20 @@ public class SQLClause
 	// BigDecimal
 	public String param(BigDecimal bdVal)
 	{
-		if(m_arrParams == null)
-			m_arrParams = new ArrayList<ColValue>();
+		if(arrParams == null)
+			arrParams = new ArrayList<ColValue>();
 		ColValueBigDecimal colVal = new ColValueBigDecimal("", bdVal);
-		m_arrParams.add(colVal);
+		arrParams.add(colVal);
 		
 		return "?";
 	}
 	
 	public SQLClause paramInsert(String csName, BigDecimal bdVal)
 	{
-		if(m_arrInsertParams == null)
-			m_arrInsertParams = new ArrayList<ColValue>();
+		if(arrInsertParams == null)
+			arrInsertParams = new ArrayList<ColValue>();
 		ColValueBigDecimal colVal = new ColValueBigDecimal(csName, bdVal); 
-		m_arrInsertParams.add(colVal);
+		arrInsertParams.add(colVal);
 		
 		return this;
 	}
@@ -622,17 +622,17 @@ public class SQLClause
 	public BigDecimal getBigDecimal(String csColName) 
 		throws TechnicalException
 	{
-		if(m_resultSet != null)
+		if(resultSet != null)
 		{
 			try
 			{
-				BigDecimal bdVal = m_resultSet.getBigDecimal(csColName);
+				BigDecimal bdVal = resultSet.getBigDecimal(csColName);
 				return bdVal;
 			}
 			catch (SQLException e)
 			{
 				forceCloseOnExceptionCatched();
-				ProgrammingException.throwException(ProgrammingException.DB_ERROR_RESULT_SET_COL_BIG_DECIMAL_ACCESS_STRING+csColName, m_csQuery, e);
+				ProgrammingException.throwException(ProgrammingException.DB_ERROR_RESULT_SET_COL_BIG_DECIMAL_ACCESS_STRING+csColName, csQuery, e);
 			}			
 		}
 		return new BigDecimal(0);
@@ -641,17 +641,17 @@ public class SQLClause
 	public BigDecimal getBigDecimal(int nColNumber) 
 		throws TechnicalException
 	{
-		if(m_resultSet != null)
+		if(resultSet != null)
 		{
 			try
 			{
-				BigDecimal bdVal = m_resultSet.getBigDecimal(nColNumber);
+				BigDecimal bdVal = resultSet.getBigDecimal(nColNumber);
 				return bdVal;
 			}
 			catch (SQLException e)
 			{
 				forceCloseOnExceptionCatched();
-				ProgrammingException.throwException(ProgrammingException.DB_ERROR_RESULT_SET_COL_BIG_DECIMAL_ACCESS_INT+nColNumber, m_csQuery, e);
+				ProgrammingException.throwException(ProgrammingException.DB_ERROR_RESULT_SET_COL_BIG_DECIMAL_ACCESS_INT+nColNumber, csQuery, e);
 			}			
 		}
 		return new BigDecimal(0);
@@ -660,20 +660,20 @@ public class SQLClause
 	// double
 	public String param(double dVal)
 	{
-		if(m_arrParams == null)
-			m_arrParams = new ArrayList<ColValue>();
+		if(arrParams == null)
+			arrParams = new ArrayList<ColValue>();
 		ColValueDouble colVal = new ColValueDouble("", dVal); 
-		m_arrParams.add(colVal);
+		arrParams.add(colVal);
 		
 		return "?";
 	}
 	
 	public SQLClause paramInsert(String csName, double dVal)
 	{
-		if(m_arrInsertParams == null)
-			m_arrInsertParams = new ArrayList<ColValue>();
+		if(arrInsertParams == null)
+			arrInsertParams = new ArrayList<ColValue>();
 		ColValueDouble colVal = new ColValueDouble(csName, dVal); 
-		m_arrInsertParams.add(colVal);
+		arrInsertParams.add(colVal);
 		
 		return this;
 	}
@@ -681,20 +681,20 @@ public class SQLClause
 	// Date
 	public String param(Date dateVal)
 	{
-		if(m_arrParams == null)
-			m_arrParams = new ArrayList<ColValue>();
+		if(arrParams == null)
+			arrParams = new ArrayList<ColValue>();
 		ColValueDate colVal = new ColValueDate("", dateVal); 
-		m_arrParams.add(colVal);
+		arrParams.add(colVal);
 		
 		return "?";
 	}
 	
 	public SQLClause paramInsert(String csName, Date dateVal)
 	{
-		if(m_arrInsertParams == null)
-			m_arrInsertParams = new ArrayList<ColValue>();
+		if(arrInsertParams == null)
+			arrInsertParams = new ArrayList<ColValue>();
 		ColValueDate colVal = new ColValueDate(csName, dateVal); 
-		m_arrInsertParams.add(colVal);
+		arrInsertParams.add(colVal);
 		
 		return this;
 	}
@@ -702,30 +702,30 @@ public class SQLClause
 	// Timestamp
 	public String param(Timestamp tsVal)
 	{
-		if(m_arrParams == null)
-			m_arrParams = new ArrayList<ColValue>();
+		if(arrParams == null)
+			arrParams = new ArrayList<ColValue>();
 		ColValueTimestamp colVal = new ColValueTimestamp("", tsVal); 
-		m_arrParams.add(colVal);
+		arrParams.add(colVal);
 		
 		return "?";
 	}
 	
 	public String param(SQLColTypeDate dateVal)
 	{
-		if(m_arrParams == null)
-			m_arrParams = new ArrayList<ColValue>();
+		if(arrParams == null)
+			arrParams = new ArrayList<ColValue>();
 		ColValueTimestamp colVal = new ColValueTimestamp("", dateVal.getTimeStamp()); 
-		m_arrParams.add(colVal);
+		arrParams.add(colVal);
 		
 		return "?";
 	}
 	
 	public SQLClause paramInsert(String csName, Timestamp tsVal)
 	{
-		if(m_arrInsertParams == null)
-			m_arrInsertParams = new ArrayList<ColValue>();
+		if(arrInsertParams == null)
+			arrInsertParams = new ArrayList<ColValue>();
 		ColValueTimestamp colVal = new ColValueTimestamp(csName, tsVal); 
-		m_arrInsertParams.add(colVal);
+		arrInsertParams.add(colVal);
 		
 		return this;
 	}
@@ -734,10 +734,10 @@ public class SQLClause
 	// Managed SQL Type: BLOB
 	public String param(SerialBlob blVal)
 	{
-		if(m_arrParams == null)
-			m_arrParams = new ArrayList<ColValue>();
+		if(arrParams == null)
+			arrParams = new ArrayList<ColValue>();
 		ColValue colVal = new ColValueBlob("", blVal); 
-		m_arrParams.add(colVal);
+		arrParams.add(colVal);
 		
 		return "?";
 	}
@@ -745,27 +745,27 @@ public class SQLClause
 		
 	public SQLClause paramInsert(String csName, SerialBlob blVal)
 	{
-		if(m_arrInsertParams == null)
-			m_arrInsertParams = new ArrayList<ColValue>();
+		if(arrInsertParams == null)
+			arrInsertParams = new ArrayList<ColValue>();
 		ColValue colVal = new ColValueBlob(csName, blVal); 
-		m_arrInsertParams.add(colVal);
+		arrInsertParams.add(colVal);
 		
 		return this;
 	}
 	
 	public Blob getBlob(String csColName)	throws TechnicalException
 	{		
-		if(m_resultSet != null)
+		if(resultSet != null)
 		{
 			try
 			{
-				Blob blVal = m_resultSet.getBlob(csColName);
+				Blob blVal = resultSet.getBlob(csColName);
 				return blVal;
 			}
 			catch (SQLException e)
 			{
 				forceCloseOnExceptionCatched();
-				ProgrammingException.throwException(ProgrammingException.DB_ERROR_RESULT_SET_COL_ACCESS_STRING+csColName, m_csQuery, e);
+				ProgrammingException.throwException(ProgrammingException.DB_ERROR_RESULT_SET_COL_ACCESS_STRING+csColName, csQuery, e);
 			}			
 		}
 		return null;
@@ -774,17 +774,17 @@ public class SQLClause
 	
 	public Blob getBlob(int nColNumber) throws TechnicalException
 	{		
-		if(m_resultSet != null)
+		if(resultSet != null)
 		{
 			try
 			{
-				Blob blVal = m_resultSet.getBlob(nColNumber);
+				Blob blVal = resultSet.getBlob(nColNumber);
 				return blVal;
 			}
 			catch (SQLException e)
 			{
 				forceCloseOnExceptionCatched();
-				ProgrammingException.throwException(ProgrammingException.DB_ERROR_RESULT_SET_COL_ACCESS_INT+nColNumber, m_csQuery, e);
+				ProgrammingException.throwException(ProgrammingException.DB_ERROR_RESULT_SET_COL_ACCESS_INT+nColNumber, csQuery, e);
 			}			
 		}
 		return null;
@@ -799,18 +799,18 @@ public class SQLClause
 	 */
 	public SerialClob getClob(String csColName)	throws TechnicalException
 	{		
-		if(m_resultSet != null)
+		if(resultSet != null)
 		{
 			try
 			{
-				Clob blVal = m_resultSet.getClob(csColName);
+				Clob blVal = resultSet.getClob(csColName);
 				SerialClob sb = new SerialClob(blVal); 
 				return sb;
 			}
 			catch (SQLException e)
 			{
 				forceCloseOnExceptionCatched();
-				ProgrammingException.throwException(ProgrammingException.DB_ERROR_RESULT_SET_COL_ACCESS_STRING+csColName, m_csQuery, e);
+				ProgrammingException.throwException(ProgrammingException.DB_ERROR_RESULT_SET_COL_ACCESS_STRING+csColName, csQuery, e);
 			}			
 		}
 		return null;
@@ -824,18 +824,18 @@ public class SQLClause
 	 */
 	public SerialClob getClob(int nColNumber) throws TechnicalException
 	{		
-		if(m_resultSet != null)
+		if(resultSet != null)
 		{
 			try
 			{
-				Clob blVal = m_resultSet.getClob(nColNumber);
+				Clob blVal = resultSet.getClob(nColNumber);
 				SerialClob sb = new SerialClob(blVal); 
 				return sb;
 			}
 			catch (SQLException e)
 			{
 				forceCloseOnExceptionCatched();
-				ProgrammingException.throwException(ProgrammingException.DB_ERROR_RESULT_SET_COL_ACCESS_INT+nColNumber, m_csQuery, e);
+				ProgrammingException.throwException(ProgrammingException.DB_ERROR_RESULT_SET_COL_ACCESS_INT+nColNumber, csQuery, e);
 			}			
 		}
 		return null;
@@ -847,20 +847,20 @@ public class SQLClause
 	// Managed SQL Type: VARBINARY
 	public String param(VarBinary vbVal)
 	{
-		if(m_arrParams == null)
-			m_arrParams = new ArrayList<ColValue>();
+		if(arrParams == null)
+			arrParams = new ArrayList<ColValue>();
 		ColValueVarBinary colVal = new ColValueVarBinary("", vbVal);
-		m_arrParams.add(colVal);
+		arrParams.add(colVal);
 		
 		return "?";
 	}
 	
 	public SQLClause paramInsert(String csName, VarBinary vbVal)
 	{
-		if(m_arrInsertParams == null)
-			m_arrInsertParams = new ArrayList<ColValue>();
+		if(arrInsertParams == null)
+			arrInsertParams = new ArrayList<ColValue>();
 		ColValueVarBinary colVal = new ColValueVarBinary(csName, vbVal); 
-		m_arrInsertParams.add(colVal);
+		arrInsertParams.add(colVal);
 		
 		return this;
 	}
@@ -869,18 +869,18 @@ public class SQLClause
 	public VarBinary getVarBinary(String csColName) 
 		throws TechnicalException
 	{
-		if(m_resultSet != null)
+		if(resultSet != null)
 		{
 			try
 			{
-				byte tb[] = m_resultSet.getBytes(csColName);
+				byte tb[] = resultSet.getBytes(csColName);
 				VarBinary vb = new VarBinary(tb);
 				return vb;
 			}
 			catch (SQLException e)
 			{
 				forceCloseOnExceptionCatched();
-				ProgrammingException.throwException(ProgrammingException.DB_ERROR_RESULT_SET_COL_BIG_DECIMAL_ACCESS_STRING+csColName, m_csQuery, e);
+				ProgrammingException.throwException(ProgrammingException.DB_ERROR_RESULT_SET_COL_BIG_DECIMAL_ACCESS_STRING+csColName, csQuery, e);
 			}			
 		}
 		return new VarBinary();
@@ -888,18 +888,18 @@ public class SQLClause
 	
 	public VarBinary getVarBinary(int nColNumber) throws TechnicalException
 	{
-		if(m_resultSet != null)
+		if(resultSet != null)
 		{
 			try
 			{
-				byte tb[] = m_resultSet.getBytes(nColNumber);
+				byte tb[] = resultSet.getBytes(nColNumber);
 				VarBinary vb = new VarBinary(tb);
 				return vb;
 			}
 			catch (SQLException e)
 			{
 				forceCloseOnExceptionCatched();
-				ProgrammingException.throwException(ProgrammingException.DB_ERROR_RESULT_SET_COL_BIG_DECIMAL_ACCESS_STRING+nColNumber, m_csQuery, e);
+				ProgrammingException.throwException(ProgrammingException.DB_ERROR_RESULT_SET_COL_BIG_DECIMAL_ACCESS_STRING+nColNumber, csQuery, e);
 			}			
 		}
 		return new VarBinary();
@@ -909,37 +909,37 @@ public class SQLClause
 	// SQL type managed: LONGVARBINARY
 	public String param(InputStream is)
 	{
-		if(m_arrParams == null)
-			m_arrParams = new ArrayList<ColValue>();
+		if(arrParams == null)
+			arrParams = new ArrayList<ColValue>();
 		ColValue colVal = new ColValueBinaryStream("", is); 
-		m_arrParams.add(colVal);
+		arrParams.add(colVal);
 		
 		return "?";
 	}
 			
 	public SQLClause paramInsert(String csName, InputStream is)
 	{
-		if(m_arrInsertParams == null)
-			m_arrInsertParams = new ArrayList<ColValue>();
+		if(arrInsertParams == null)
+			arrInsertParams = new ArrayList<ColValue>();
 		ColValue colVal = new ColValueBinaryStream(csName, is); 
-		m_arrInsertParams.add(colVal);
+		arrInsertParams.add(colVal);
 		
 		return this;
 	}
 	
 	public InputStream getInputStream(String csColName) throws TechnicalException
 	{		
-		if(m_resultSet != null)
+		if(resultSet != null)
 		{
 			try
 			{
-				InputStream is = m_resultSet.getBinaryStream(csColName);
+				InputStream is = resultSet.getBinaryStream(csColName);
 				return is;
 			}
 			catch (SQLException e)
 			{
 				forceCloseOnExceptionCatched();
-				ProgrammingException.throwException(ProgrammingException.DB_ERROR_RESULT_SET_COL_ACCESS_STRING+csColName, m_csQuery, e);
+				ProgrammingException.throwException(ProgrammingException.DB_ERROR_RESULT_SET_COL_ACCESS_STRING+csColName, csQuery, e);
 			}			
 		}
 		return null;
@@ -947,17 +947,17 @@ public class SQLClause
 	
 	public InputStream getInputStream(int nColNumber) throws TechnicalException
 	{		
-		if(m_resultSet != null)
+		if(resultSet != null)
 		{
 			try
 			{
-				InputStream is = m_resultSet.getBinaryStream(nColNumber);
+				InputStream is = resultSet.getBinaryStream(nColNumber);
 				return is;
 			}
 			catch (SQLException e)
 			{
 				forceCloseOnExceptionCatched();
-				ProgrammingException.throwException(ProgrammingException.DB_ERROR_RESULT_SET_COL_ACCESS_INT+nColNumber, m_csQuery, e);
+				ProgrammingException.throwException(ProgrammingException.DB_ERROR_RESULT_SET_COL_ACCESS_INT+nColNumber, csQuery, e);
 			}			
 		}
 		return null;
@@ -968,40 +968,40 @@ public class SQLClause
 		if(preparedStatement == null)
 			return ;
 		
-		if(m_arrParams != null)
+		if(arrParams != null)
 		{
-			for(int nCol=0; nCol<m_arrParams.size(); nCol++)
+			for(int nCol=0; nCol<arrParams.size(); nCol++)
 			{
-				ColValue colVal = m_arrParams.get(nCol);
+				ColValue colVal = arrParams.get(nCol);
 				preparedStatement.setColParam(nCol, colVal);
 			}
 		}
-		if(m_arrInsertParams != null)
+		if(arrInsertParams != null)
 		{
-			for(int nCol=0; nCol<m_arrInsertParams.size(); nCol++)
+			for(int nCol=0; nCol<arrInsertParams.size(); nCol++)
 			{
-				ColValue colVal = m_arrInsertParams.get(nCol);
+				ColValue colVal = arrInsertParams.get(nCol);
 				preparedStatement.setColParam(nCol, colVal);
 			}
 		}
 
-		m_arrLastParams = m_arrParams;
-		m_arrLastInsertParams = m_arrInsertParams;
+		arrLastParams = arrParams;
+		arrLastInsertParams = arrInsertParams;
 		
-		m_arrParams = null;
-		m_arrInsertParams = null;
+		arrParams = null;
+		arrInsertParams = null;
 	}
 		
 	private void completeInsertQuery()
 	{		
-		if(m_arrInsertParams != null)
+		if(arrInsertParams != null)
 		{
 			StringBuilder sbNames = new StringBuilder(" (");
 			StringBuilder sbValues = new StringBuilder(" (");
 			
-			for(int n=0; n<m_arrInsertParams.size(); n++)
+			for(int n=0; n<arrInsertParams.size(); n++)
 			{
-				ColValue colValue = m_arrInsertParams.get(n);
+				ColValue colValue = arrInsertParams.get(n);
 				if(n != 0)
 				{
 					sbNames.append(",");
@@ -1014,7 +1014,7 @@ public class SQLClause
 			sbValues.append(") ");
 			
 			sbNames.append(sbValues);
-			m_csQuery += sbNames.toString(); 
+			csQuery += sbNames.toString(); 
 		}
 	}
 		
@@ -1022,9 +1022,9 @@ public class SQLClause
 	{
 		try 
         {
-            if (m_resultSet != null) 
+            if (resultSet != null) 
             {
-            	m_resultSet.close();
+            	resultSet.close();
             }
             else
             {
@@ -1034,25 +1034,25 @@ public class SQLClause
        catch (Exception ignored) 
        {	        	   
        }
-       m_resultSet = null;
+       resultSet = null;
 	}
 	
 	public void forceCloseOnExceptionCatched()
 	{
 		close();
-		if(m_connection != null)
-			m_connection.returnConnectionToPool();
-		m_connection = null;
+		if(connection != null)
+			connection.returnConnectionToPool();
+		connection = null;
 	}
 	
 	public int prepareAndExecute() 
 		throws TechnicalException
 	{
-		if(m_connection != null)
+		if(connection != null)
 		{
 			try
 			{
-				int n = m_connection.prepareAndExecuteWithException(this);
+				int n = connection.prepareAndExecuteWithException(this);
 				return n;
 			}
 			catch (TechnicalException e)
@@ -1067,9 +1067,9 @@ public class SQLClause
 	public int call() 
 		throws TechnicalException
 	{
-		if(m_connection != null && m_spCallClause != null)
+		if(connection != null && spCallClause != null)
 		{
-			int n = m_spCallClause.prepareAndCallWithException(m_connection);
+			int n = spCallClause.prepareAndCallWithException(connection);
 			return n;
 		}
 		return -1;
@@ -1081,47 +1081,47 @@ public class SQLClause
 	{
 		try 
         {
-            if (m_resultSet != null) 
+            if (resultSet != null) 
             {
-            	return m_resultSet.next();
+            	return resultSet.next();
             }
             Log.logImportant("Resultset is null");
         } 
 		catch (SQLException e) 
 		{	    
 			forceCloseOnExceptionCatched();
-			ProgrammingException.throwException(ProgrammingException.RESULTSET_NEXT_SQL_ERROR, m_csQuery, e);
+			ProgrammingException.throwException(ProgrammingException.RESULTSET_NEXT_SQL_ERROR, csQuery, e);
 		}
 		return false;
 	}
 	
 	void setResultSetSet(ResultSet resultSet)
 	{
-		m_resultSet = resultSet; 
+		resultSet = resultSet; 
 	}
 	
 	public ResultSet getResultSet()
 	{
-		return m_resultSet; 
+		return resultSet; 
 	}
 
 	// Stored Procedure call support
 	public SQLClauseSPCall setCalledStoredProc(String csSPName, boolean bCheckParams)
 	{
-		m_spCallClause = new SQLClauseSPCall(csSPName, bCheckParams);
-		return m_spCallClause;
+		spCallClause = new SQLClauseSPCall(csSPName, bCheckParams);
+		return spCallClause;
 	}
 	
 	/*
 	public DbConnectionBase getConnection()
 	{
-		return m_connection;
+		return connection;
 	}
 	*/
 	public Connection getJDBCConnection()
 	{
-		if(m_connection != null)
-			return m_connection.getDbConnection();
+		if(connection != null)
+			return connection.getDbConnection();
 		return null;
 	}
 }

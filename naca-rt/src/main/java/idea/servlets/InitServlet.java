@@ -49,28 +49,28 @@ public class InitServlet extends HttpServlet
 		String csAppliRootPath = config.getInitParameter("ApplicationRootPath");
 		OnlineResourceManager.setApplicationRootPath(csAppliRootPath) ;
 
-		m_ResourceManager = OnlineResourceManagerFactory.GetInstance(csINIFilePath) ;
+		resourceManager = OnlineResourceManagerFactory.GetInstance(csINIFilePath) ;
 
 /*
-		m_ResourceManager.setXMLConfigFilePath(csINIFilePath) ;
-		m_ResourceManager.Init() ;
+		resourceManager.setXMLConfigFilePath(csINIFilePath) ;
+		resourceManager.Init() ;
 		
-		m_ResourceManager.loadDBSemanticContextDef();
+		resourceManager.loadDBSemanticContextDef();
 
 		// Load semantic context data dictionnary: Defines semantic context associtaed to DB columns
 				
 		
 		// Load semantic context configuration file: Defines menus, options, ...
-		String csSemanticContext = m_ResourceManager.getSemanticContextPathFile();
+		String csSemanticContext = resourceManager.getSemanticContextPathFile();
 		if(csSemanticContext != null && csSemanticContext.length() != 0)
 		{
 			SemanticManager semanticManager = SemanticManager.GetInstance();
 			semanticManager.Init(csSemanticContext);
-			m_ResourceManager.registerSemanticManager(semanticManager);			
+			resourceManager.registerSemanticManager(semanticManager);			
 		}
 	*/
 	}
 	
-	OnlineResourceManager m_ResourceManager = null ;
-	SemanticManager m_SemanticManager = SemanticManager.GetInstance();
+	OnlineResourceManager resourceManager = null ;
+	SemanticManager semanticManager = SemanticManager.GetInstance();
 }

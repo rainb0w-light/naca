@@ -38,28 +38,28 @@ import org.w3c.dom.Element;
 
 public class OnlineSession extends BaseSession implements HttpSessionBindingListener
 {
-	protected OnlineResourceManager m_ResourceManager = null ;
+	protected OnlineResourceManager resourceManager = null ;
 	
-	protected Document m_xmlData = null ;
-	protected Document m_XMLOutput = null ;
-	protected String m_currentPage = "" ;
-	//protected String m_cmp = "" ;
-	protected CScenarioPlayer m_ScenarioPlayer = null ;
-	protected boolean m_bCheckScenario = true;
-	private int m_nHttpSessionMaxInactiveInterval_s;
-	private boolean m_bZoom = false;
-	private boolean m_bBold = false;
-	private boolean m_bInternTest = false;
+	protected Document xmlData = null ;
+	protected Document xMLOutput = null ;
+	protected String currentPage = "" ;
+	//protected String cmp = "" ;
+	protected CScenarioPlayer scenarioPlayer = null ;
+	protected boolean bCheckScenario = true;
+	private int nHttpSessionMaxInactiveInterval_s;
+	private boolean bZoom = false;
+	private boolean bBold = false;
+	private boolean bInternTest = false;
 
 	public OnlineSession(boolean bAsyncSession)
 	{
 		super(OnlineResourceManagerFactory.GetInstance());
-		m_ResourceManager = OnlineResourceManagerFactory.GetInstance() ;
-		m_nHttpSessionMaxInactiveInterval_s = m_ResourceManager.getHttpSessionMaxInactiveInterval_s();
-		String doc = m_ResourceManager.getScenarioFilePath() ;
+		resourceManager = OnlineResourceManagerFactory.GetInstance() ;
+		nHttpSessionMaxInactiveInterval_s = resourceManager.getHttpSessionMaxInactiveInterval_s();
+		String doc = resourceManager.getScenarioFilePath() ;
 		if (doc != null && !doc.equals(""))
 		{
-			m_ScenarioPlayer = new CScenarioPlayer(doc, this) ;
+			scenarioPlayer = new CScenarioPlayer(doc, this) ;
 		}
 		
 		setAsync(bAsyncSession);
@@ -84,51 +84,51 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
 //			JmxGeneralStat.incNbCurrentOnlineSession(-1);
 //	}
 	
-	protected String m_csLUName = "";
+	protected String csLUName = "";
 	
 	public String getTerminalNet()
 	{
-		if(m_csLUName == null || m_csLUName.equals(""))
+		if(csLUName == null || csLUName.equals(""))
 			return "L930CON1";
-		return m_csLUName;
+		return csLUName;
 	}
 	
 	public String getTerminalNetLu62()
 	{
-		if(m_csLUName == null || m_csLUName.equals(""))
+		if(csLUName == null || csLUName.equals(""))
 			return "L930CON1";
-		return m_csLUName;
+		return csLUName;
 	}
 	
 	public String getTerminalTerm()
 	{
-		if(m_csLUName != null && !m_csLUName.equals(""))
+		if(csLUName != null && !csLUName.equals(""))
 		{
-			int nLength = m_csLUName.length();
+			int nLength = csLUName.length();
 			if(nLength >= 4)
-				return m_csLUName.substring(nLength-4, nLength);
+				return csLUName.substring(nLength-4, nLength);
 		}
 		return "CON1";
 	}
 	
 	public String getTerminalTermLu62()
 	{
-		if(m_csLUName != null && !m_csLUName.equals(""))
+		if(csLUName != null && !csLUName.equals(""))
 		{
-			int nLength = m_csLUName.length();
+			int nLength = csLUName.length();
 			if(nLength >= 4)
-				return m_csLUName.substring(nLength-4, nLength);
+				return csLUName.substring(nLength-4, nLength);
 		}
 		return "CON1";
 	}
 
 	public String getLUName()
 	{
-		return m_csLUName;
+		return csLUName;
 	}
 	public void SetLUName(String csLUName)
 	{
-		m_csLUName = csLUName ; 
+		csLUName = csLUName ; 
 	}
 	
 	public void valueBound(HttpSessionBindingEvent event) 
@@ -141,7 +141,7 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
 		{
 			Log.logNormal("Removing session");
 			OnlineSession session = (OnlineSession)event.getValue();
-			m_ResourceManager.removeSession(session);
+			resourceManager.removeSession(session);
 		}
 		else
 		{
@@ -151,28 +151,28 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
 
 	public int getOnceHttpSessionMaxInactiveInterval_s()
 	{
-		int n = m_nHttpSessionMaxInactiveInterval_s;
-		m_nHttpSessionMaxInactiveInterval_s = 0;
+		int n = nHttpSessionMaxInactiveInterval_s;
+		nHttpSessionMaxInactiveInterval_s = 0;
 		return n;		
 	}
 
 	
 	public void reset()
 	{
-		m_xmlData = null ;
-		m_XMLOutput = null ;
-		m_currentPage = "" ;
-		m_InputWrapper = null ;
-		m_bIsLoggedOnLDAP = false ;
-		m_csLDAPUser  = "" ;
-		m_bIsLoggedOnLDAP = false ;
-		m_currentPage = "MapLogin" ;
-		m_csApplicationCredentials = "" ;	
+		xmlData = null ;
+		xMLOutput = null ;
+		currentPage = "" ;
+		inputWrapper = null ;
+		bIsLoggedOnLDAP = false ;
+		csLDAPUser  = "" ;
+		bIsLoggedOnLDAP = false ;
+		currentPage = "MapLogin" ;
+		csApplicationCredentials = "" ;	
 	
-		m_csUserLdapId = "" ;
-		m_csUserLdapName = "" ;
+		csUserLdapId = "" ;
+		csUserLdapName = "" ;
 
-		m_csLUName = null;
+		csLUName = null;
 	}
 
 	public Document CreateXMLDataRoot()
@@ -180,10 +180,10 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
 		try
 		{
 			DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-			m_xmlData = builder.newDocument();
-			Element eRoot = m_xmlData.createElement("form");
-			m_xmlData.appendChild(eRoot);
-			return m_xmlData;
+			xmlData = builder.newDocument();
+			Element eRoot = xmlData.createElement("form");
+			xmlData.appendChild(eRoot);
+			return xmlData;
 		}
 		catch(ParserConfigurationException e)
 		{
@@ -193,13 +193,13 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
 	
 	public Document getLastScreenXMLData()
 	{
-		return m_xmlData ;
+		return xmlData ;
 	}
 	
 
 	public Document getXMLData()
 	{
-		return m_xmlData ;
+		return xmlData ;
 	}
 
 	public Document getXMLStructure(String idPage)
@@ -208,111 +208,111 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
 		{
 			return null ;
 		}
-		return m_ResourceManager.GetXMLStructure(idPage) ;
+		return resourceManager.GetXMLStructure(idPage) ;
 	}
 
 	public Document getCurrentXMLStructure()
 	{
-		return m_ResourceManager.GetXMLStructure(m_currentPage) ;
+		return resourceManager.GetXMLStructure(currentPage) ;
 	}
 
 	public Document getCurrentXMLStructureForPrintScreen()
 	{
-		return m_ResourceManager.GetXMLStructureForPrintScreen(m_currentPage) ;
+		return resourceManager.GetXMLStructureForPrintScreen(currentPage) ;
 	}
 	
 	public Document getCurrentXMLStructureForServerDown()
 	{
-		return m_ResourceManager.GetXMLStructureForPrintScreen(m_currentPage) ;
+		return resourceManager.GetXMLStructureForPrintScreen(currentPage) ;
 	}
 	
 	public CMenuDef getMenuForSemanticContext(String csSemanticContext)
 	{		
-		return m_ResourceManager.getMenuForSemanticContext(m_currentPage, csSemanticContext);
+		return resourceManager.getMenuForSemanticContext(currentPage, csSemanticContext);
 	}
 
 	public Document getXMLOutput()
 	{
-		if (m_ScenarioPlayer != null && m_XMLOutput != null)
+		if (scenarioPlayer != null && xMLOutput != null)
 		{
-			String display = m_ScenarioPlayer.getDisplay() ;
-			m_XMLOutput.getDocumentElement().setAttribute("replay", display);
+			String display = scenarioPlayer.getDisplay() ;
+			xMLOutput.getDocumentElement().setAttribute("replay", display);
 		}
-		return m_XMLOutput ;
+		return xMLOutput ;
 	}
 
 	public String getIdPage()
 	{
-		return m_currentPage;
+		return currentPage;
 	}
 	public void setIdPage(String id)
 	{
-		m_currentPage = id ;
+		currentPage = id ;
 	}
 	
 //	public String getCmp()
 //	{
-//		return m_cmp;
+//		return cmp;
 //	}
 //	public void setCmp(String cmp)
 //	{
-//		m_cmp = cmp;
+//		cmp = cmp;
 //	}
 	
 	public boolean isZoom()
 	{
-		return m_bZoom;
+		return bZoom;
 	}
 	public void setZoom(boolean bZoom) {
-		m_bZoom = bZoom;
+		bZoom = bZoom;
 	}
 	
 	public boolean isBold()
 	{
-		return m_bBold;
+		return bBold;
 	}
 	public void setBold(boolean bBold) {
-		m_bBold = bBold;
+		bBold = bBold;
 	}
 	
 	public boolean isInternTest()
 	{
-		return m_bInternTest;
+		return bInternTest;
 	}
 	public void setInternTest(boolean bInternTest)
 	{
-		m_bInternTest = bInternTest; 
+		bInternTest = bInternTest; 
 	}
 	
 	public void setXMLData(Document doc)
 	{
 		if (doc != null)
 		{
-			m_xmlData = doc ;
+			xmlData = doc ;
 		}
 	}
 
 	public void setInputWrapper(CMapFieldLoader reqLoader)
 	{
-		m_InputWrapper = reqLoader ;
+		inputWrapper = reqLoader ;
 		if (isPlayingScenario())
 		{
-			m_ScenarioPlayer.StepScenario();
+			scenarioPlayer.StepScenario();
 		}
 	}
 	
-	protected CMapFieldLoader m_InputWrapper = null ;
+	protected CMapFieldLoader inputWrapper = null ;
 	public CMapFieldLoader getInputWrapper()
 	{
-		return m_InputWrapper ;
+		return inputWrapper ;
 	}
 
 	public void setXMLOutput(Document xmlOutput)
 	{
-		m_XMLOutput = xmlOutput ;
+		xMLOutput = xmlOutput ;
 		if (isPlayingScenario() && isCheckScenario())
 		{
-			m_ScenarioPlayer.CheckOutput(xmlOutput) ;
+			scenarioPlayer.CheckOutput(xmlOutput) ;
 		}
 	}
 
@@ -321,26 +321,26 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
 	 */
 	public void setHelpPage(Document doc)
 	{
-		m_helpPage = doc ;		
+		helpPage = doc ;		
 	}
 	
 	public Document getHelpPage()
 	{
-		return m_helpPage ;
+		return helpPage ;
 	}
 	
-	protected Document m_helpPage = null ;
+	protected Document helpPage = null ;
 	/**
 	 * @return
 	 */
 	public boolean isPlayingScenario()
 	{
-		return m_ScenarioPlayer != null && m_ScenarioPlayer.isPlayingScenario() ;
+		return scenarioPlayer != null && scenarioPlayer.isPlayingScenario() ;
 	}
 	
 	public boolean isCheckScenario()
 	{
-		return m_bCheckScenario;
+		return bCheckScenario;
 	}
 
 	/**
@@ -348,26 +348,26 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
 	 */
 	public boolean isCallProgram()
 	{
-		if (m_InputWrapper != null && m_InputWrapper.getKeyPressed() == KeyPressed.LOG_OUT)
+		if (inputWrapper != null && inputWrapper.getKeyPressed() == KeyPressed.LOG_OUT)
 		{
 			return false ;
 		}
-		if (m_InputWrapper != null && m_InputWrapper.getKeyPressed() == KeyPressed.CHANGE_USER)
+		if (inputWrapper != null && inputWrapper.getKeyPressed() == KeyPressed.CHANGE_USER)
 		{
-			m_xmlData = null ;
-			m_XMLOutput = null ;
-			m_csApplicationCredentials = "" ;
-			m_currentPage = "" ;
+			xmlData = null ;
+			xMLOutput = null ;
+			csApplicationCredentials = "" ;
+			currentPage = "" ;
 			BaseProgramLoader.GetInstance().removeSession(this) ;			
 			return true ;
 		}
-		if (m_ScenarioPlayer == null || !m_ScenarioPlayer.isPlayingScenario())
+		if (scenarioPlayer == null || !scenarioPlayer.isPlayingScenario())
 		{
 			return true ;
 		}
 		else
 		{
-			return m_ScenarioPlayer.isCallProgram() ;
+			return scenarioPlayer.isCallProgram() ;
 		}
 	}
 
@@ -376,13 +376,13 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
 	 */
 	public boolean isUpdatedValues()
 	{
-		if (m_ScenarioPlayer == null || !m_ScenarioPlayer.isPlayingScenario())
+		if (scenarioPlayer == null || !scenarioPlayer.isPlayingScenario())
 		{
 			return false ;
 		}
 		else
 		{
-			return m_ScenarioPlayer.isShowPage() ;
+			return scenarioPlayer.isShowPage() ;
 		}
 	}
 
@@ -391,7 +391,7 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
 	 */
 	public CScenarioPlayer getScenarioPlayer()
 	{
-		return m_ScenarioPlayer;
+		return scenarioPlayer;
 	}
 
 	/**
@@ -399,11 +399,11 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
 	 */
 	public boolean isLoggedOut()
 	{
-		if (m_InputWrapper == null)
+		if (inputWrapper == null)
 		{
 			return false ;
 		}
-		boolean b = m_InputWrapper.getKeyPressed() == KeyPressed.LOG_OUT ;
+		boolean b = inputWrapper.getKeyPressed() == KeyPressed.LOG_OUT ;
 		return b ;
 	}
 
@@ -412,9 +412,9 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
 	 */
 	public KeyPressed getKeyPressed()
 	{
-		if (m_xmlData != null)
+		if (xmlData != null)
 		{
-			String cs = m_xmlData.getDocumentElement().getAttribute("keypressed") ;
+			String cs = xmlData.getDocumentElement().getAttribute("keypressed") ;
 			return KeyPressed.getKey(cs) ;
 		}
 		return null ;
@@ -425,12 +425,12 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
 	 */
 	public String getActionAlias()
 	{
-		return m_csActionAlias;
+		return csActionAlias;
 	}
-	protected String m_csActionAlias = "" ;
+	protected String csActionAlias = "" ;
 	public void setActionAlias(String cs)
 	{
-		m_csActionAlias = cs ;
+		csActionAlias = cs ;
 	}
 
 	/**
@@ -438,15 +438,15 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
 	 */
 	public void SetScenario(String scenarioFilePath)
 	{
-		m_currentPage = "" ;
-		m_xmlData = null ;
-		m_XMLOutput = null ;
-		m_ScenarioPlayer = new CScenarioPlayer(scenarioFilePath, this) ;		
+		currentPage = "" ;
+		xmlData = null ;
+		xMLOutput = null ;
+		scenarioPlayer = new CScenarioPlayer(scenarioFilePath, this) ;		
 	}
 	
 	public void setCheckScenario(boolean bCheckScenario)
 	{
-		m_bCheckScenario = bCheckScenario;
+		bCheckScenario = bCheckScenario;
 	}
 
 	/**
@@ -454,27 +454,27 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
 	 */
 	public boolean isLogged()
 	{
-		return m_bIsLoggedOnLDAP ;
+		return bIsLoggedOnLDAP ;
 	}
-	protected boolean m_bIsLoggedOnLDAP = false ;
-	protected String m_csLDAPUser  = "" ;
+	protected boolean bIsLoggedOnLDAP = false ;
+	protected String csLDAPUser  = "" ;
 
 	/**
 	 * 
 	 */
 	public boolean doLDAPLogin(/*String csCmp, */String csUserid)
 	{
-		if(csUserid != null && csUserid.equals("test") && m_baseResourceManager.getSimulateRealEnvironment())
+		if(csUserid != null && csUserid.equals("test") && baseResourceManager.getSimulateRealEnvironment())
 		{
-			m_csUserLdapId = csUserid;
-			m_csUserLdapName = csUserid;
-			m_csApplicationCredentials = "all";
-			m_bIsLoggedOnLDAP = true;
+			csUserLdapId = csUserid;
+			csUserLdapName = csUserid;
+			csApplicationCredentials = "all";
+			bIsLoggedOnLDAP = true;
 			return true;
 		}
 		
 		String csMessage = "";
-		if (m_InputWrapper != null && !isLoggedOut())
+		if (inputWrapper != null && !isLoggedOut())
 		{
 			boolean bLoginAuto = false;
 			String csPassword = "";
@@ -483,44 +483,44 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
 //				int nPos = csUserid.indexOf("CN=");
 //				if (nPos != 1)
 //				{
-//					m_csUserLdapId = csUserid.substring(nPos + 3, csUserid.indexOf(",", nPos));
+//					csUserLdapId = csUserid.substring(nPos + 3, csUserid.indexOf(",", nPos));
 //					csPassword = "AUTO";
 //					bLoginAuto = true;
 //				}
 //			}
 //			else
 			//{
-				m_csUserLdapId = m_InputWrapper.getFieldValue("userid");
-				csPassword = m_InputWrapper.getFieldValue("password");
+				csUserLdapId = inputWrapper.getFieldValue("userid");
+				csPassword = inputWrapper.getFieldValue("password");
 			//}
-			if (!m_csUserLdapId.equals("") && !csPassword.equals(""))
+			if (!csUserLdapId.equals("") && !csPassword.equals(""))
 			{
-				m_csUserLdapId = m_csUserLdapId.toUpperCase();
-				LdapRequester ldapReq = m_ResourceManager.getLdapRequester() ;
-				String csUserDN = ldapReq.getUserLogin(m_csUserLdapId, csPassword, bLoginAuto) ;
+				csUserLdapId = csUserLdapId.toUpperCase();
+				LdapRequester ldapReq = resourceManager.getLdapRequester() ;
+				String csUserDN = ldapReq.getUserLogin(csUserLdapId, csPassword, bLoginAuto) ;
 				
 				boolean bLogged = csUserDN != null && !csUserDN.equals("") ;
 				if (bLogged)
 				{
-					m_csApplicationCredentials = ldapReq.getAttribute(csUserDN, "extensionAttribute12") ;
-					if (m_csApplicationCredentials == null)
+					csApplicationCredentials = ldapReq.getAttribute(csUserDN, "extensionAttribute12") ;
+					if (csApplicationCredentials == null)
 					{
-						m_csApplicationCredentials = "" ;
+						csApplicationCredentials = "" ;
 					}
 					String csSn = ldapReq.getAttribute(csUserDN, "sn") ;					
 					if (csSn == null)
 					{
-						m_csUserLdapName = "";
+						csUserLdapName = "";
 					}
 					else
 					{
-						m_csUserLdapName = csSn;
+						csUserLdapName = csSn;
 						String csGivenName = ldapReq.getAttribute(csUserDN, "givenName") ;
 						if (csGivenName != null) {
-							m_csUserLdapName += " " + csGivenName;
+							csUserLdapName += " " + csGivenName;
 						}
 					}
-					m_bIsLoggedOnLDAP = true ;
+					bIsLoggedOnLDAP = true ;
 					return true ;
 				}
 				else
@@ -530,14 +530,14 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
 			}
 			else
 			{
-				if (m_currentPage.equals("MapLogin"))
+				if (currentPage.equals("MapLogin"))
 				{
 					csMessage = "Identification incompl�te / Unvollst�ndige Anmeldung / Identificazione incompleta";
 				}	
 			}
 		}
-		m_bIsLoggedOnLDAP = false ;
-		m_currentPage = "MapLogin" ;
+		bIsLoggedOnLDAP = false ;
+		currentPage = "MapLogin" ;
 
 		Document data = XMLUtil.CreateDocument();
 		Element eForm = data.createElement("form");
@@ -546,7 +546,7 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
 		Element eField = data.createElement("field");
 		eForm.appendChild(eField);
 		eField.setAttribute("name", "userid");
-		eField.setAttribute("value", m_csUserLdapId);
+		eField.setAttribute("value", csUserLdapId);
 		Element eMessage = data.createElement("field");
 		eForm.appendChild(eMessage);
 		eMessage.setAttribute("name", "errormessage");
@@ -556,28 +556,28 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
 		return false ;
 	} 
 	
-	protected String m_csApplicationCredentials = "" ;	
+	protected String csApplicationCredentials = "" ;	
 	public String getApplicationCredentials()
 	{
-		return m_csApplicationCredentials;
+		return csApplicationCredentials;
 	}
 	
-	protected String m_csUserLdapId = "" ;
+	protected String csUserLdapId = "" ;
 	public String getUserLdapId()
 	{
-		return m_csUserLdapId;
+		return csUserLdapId;
 	}
 	
-	protected String m_csUserLdapName = "" ;
+	protected String csUserLdapName = "" ;
 	public String getUserLdapName()
 	{
-		return m_csUserLdapName;
+		return csUserLdapName;
 	}
 	
 	public String getServerName()
 	{
-		String csServerName = m_ResourceManager.getServerName();
-//		if (!m_cmp.equals("")) {
+		String csServerName = resourceManager.getServerName();
+//		if (!cmp.equals("")) {
 //			csServerName += " CMP";
 //		}
 		return csServerName;
@@ -599,8 +599,8 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
 		if(!bStarted)
 		{
 			AbortSessionException e = new AbortSessionException();
-			e.m_Reason = new Error("Could not start Transaction (maybe no DB connection)");
-			e.m_ProgramName = env.getNextProgramToLoad();
+			e.reason = new Error("Could not start Transaction (maybe no DB connection)");
+			e.programName = env.getNextProgramToLoad();
 			throw e;
 		}
 		
@@ -628,7 +628,7 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
 	private void throwAbortSession(Throwable e)
 	{
 		AbortSessionException exp = new AbortSessionException();
-		exp.m_Reason = e;
+		exp.reason = e;
 		throw exp;
 	}
 
@@ -662,7 +662,7 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
 	
 	public void fillCurrentUserInfo(CurrentUserInfo currentUserInfo)
 	{
-		currentUserInfo.set(m_csLUName, m_csUserLdapId);
+		currentUserInfo.set(csLUName, csUserLdapId);
 	}	
 
 	public String getType()
@@ -672,21 +672,21 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
 	
 //	public void lock()
 //	{
-//		m_lock.lock();
+//		lock.lock();
 //	}
 	
 //	public void unlock()
 //	{
-//		m_lock.unlock();
+//		lock.unlock();
 //	}
 	
 //	public boolean blockUntilLocked()
 //	{
-//		if(m_lock.isLocked())
+//		if(lock.isLocked())
 //		{
-//			m_lock.lock();
-//			// Wait until thread that owns m_lock has released it 
-//			m_lock.unlock();
+//			lock.lock();
+//			// Wait until thread that owns lock has released it 
+//			lock.unlock();
 //			return true;
 //		}
 //		return false;
@@ -694,11 +694,11 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
 	
 	public boolean reserveSessionForCurrentThread()
 	{
-		if(!m_lock.tryLock())	// Could not atomically get the lock: the session is already running in another thread
+		if(!lock.tryLock())	// Could not atomically get the lock: the session is already running in another thread
 		{
-			m_lock.lock();
-			// Wait until thos thread that owns m_lock has released it 
-			m_lock.unlock();
+			lock.lock();
+			// Wait until thos thread that owns lock has released it 
+			lock.unlock();
 			return false;
 		}
 		return true;
@@ -706,13 +706,13 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
 	
 	public void unreserveSession()
 	{
-		m_lock.unlock();
+		lock.unlock();
 	}
 	
-	private StopWatch m_stopWatchNetwork = new StopWatch();
+	private StopWatch stopWatchNetwork = new StopWatch();
 	public void startNetwork()
 	{
-		m_stopWatchNetwork.Reset();
+		stopWatchNetwork.Reset();
 	}
 	public void stopNetwork(long clientElapsedTime)
 	{
@@ -722,12 +722,12 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
 		}
 		else
 		{
-			setNetwork_ms((int)(m_stopWatchNetwork.getElapsedTime() - clientElapsedTime));
+			setNetwork_ms((int)(stopWatchNetwork.getElapsedTime() - clientElapsedTime));
 			if (getNetwork_ms() < 0)
 				setNetwork_ms(0);
 		}
 	}
 	
-	public ActionForward m_actionForward = null;
-	private ReentrantLock m_lock = new ReentrantLock(); 
+	public ActionForward actionForward = null;
+	private ReentrantLock lock = new ReentrantLock(); 
 }

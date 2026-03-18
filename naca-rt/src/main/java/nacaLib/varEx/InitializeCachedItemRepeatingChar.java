@@ -18,22 +18,22 @@ public class InitializeCachedItemRepeatingChar extends InitializeCachedItem
 {
 	InitializeCachedItemRepeatingChar(char cPad, int nPosition, int nNbchars)
 	{
-		m_cPad = cPad;
-		m_nNbchars = nNbchars;
-		m_nTemplatePosition = nPosition;
+		cPad = cPad;
+		nNbchars = nNbchars;
+		nTemplatePosition = nPosition;
 	}
 	
 	void apply(int nBaseAbsolutePosition, VarBufferPos varBufferPos, int nCurrentAbsolutePosition)	//, int nOffset)
 	{
-		int nOffsetOrigin = m_nTemplatePosition - nBaseAbsolutePosition;
+		int nOffsetOrigin = nTemplatePosition - nBaseAbsolutePosition;
 		nCurrentAbsolutePosition += nOffsetOrigin; 
-		for(int n=0; n<m_nNbchars; n++)
+		for(int n=0; n<nNbchars; n++)
 		{
-			varBufferPos.m_acBuffer[nCurrentAbsolutePosition++] = m_cPad;
+			varBufferPos.acBuffer[nCurrentAbsolutePosition++] = cPad;
 		}
 	}
 	
-	private char m_cPad;
-	private int m_nTemplatePosition = 0;
-	private int m_nNbchars = 0;
+	private char cPad;
+	private int nTemplatePosition = 0;
+	private int nNbchars = 0;
 }

@@ -38,8 +38,8 @@ public class VarDefEditInMapRedefineNum extends VarDefEditInMapRedefineBase
 
 	public VarDefEditInMapRedefineNum(VarDefBase varDefParent, DeclareTypeEditInMapRedefineNum declareTypeEditInMapRedefineNum)
 	{
-		super(varDefParent, declareTypeEditInMapRedefineNum.m_varLevel);
-		m_numericValue = declareTypeEditInMapRedefineNum.getNumericValue();
+		super(varDefParent, declareTypeEditInMapRedefineNum.varLevel);
+		numericValue = declareTypeEditInMapRedefineNum.getNumericValue();
 	}
 	
 	VarDefEditInMapRedefineNum()
@@ -50,7 +50,7 @@ public class VarDefEditInMapRedefineNum extends VarDefEditInMapRedefineBase
 	
 	void transfer(VarBufferPos bufferSource, VarAndEdit Dest)
 	{
-		Dest.m_varDef.write(Dest.m_bufferPos, this, bufferSource);
+		Dest.varDef.write(Dest.bufferPos, this, bufferSource);
 	}
 	
 	CSQLItemType getSQLType()
@@ -105,7 +105,7 @@ public class VarDefEditInMapRedefineNum extends VarDefEditInMapRedefineBase
 	
 	CStr getAsAlphaNumString(VarBufferPos buffer)
 	{		
-		CStr cs = buffer.getStringAt(buffer.m_nAbsolutePosition, m_nTotalSize);
+		CStr cs = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);
 		return cs;		
 	}
 
@@ -419,14 +419,14 @@ public class VarDefEditInMapRedefineNum extends VarDefEditInMapRedefineBase
 
 	protected int writeEditRepeatingchar(VarBufferPos buffer, char c)
 	{
-		return buffer.writeRepeatingCharAt(buffer.m_nAbsolutePosition+getHeaderLength(), c, m_nTotalSize-getHeaderLength());
+		return buffer.writeRepeatingCharAt(buffer.nAbsolutePosition+getHeaderLength(), c, nTotalSize-getHeaderLength());
 	}	
 	
 	protected int writeEditRepeatingchar(VarBufferPos buffer, char c, int nOffset, int nNbChars)
 	{
-		int nMaxCharOnRight = m_nTotalSize - getHeaderLength() - nOffset;
+		int nMaxCharOnRight = nTotalSize - getHeaderLength() - nOffset;
 		int nNbCharsToWrite = Math.min(nMaxCharOnRight, nNbChars);
-		return buffer.writeRepeatingCharAt(buffer.m_nAbsolutePosition+nOffset+getHeaderLength(), c, nNbCharsToWrite);
+		return buffer.writeRepeatingCharAt(buffer.nAbsolutePosition+nOffset+getHeaderLength(), c, nNbCharsToWrite);
 	}	
 	
 	void write(VarBufferPos buffer, VarDefNumEdited varSource, VarBufferPos bufferSource)
@@ -538,7 +538,7 @@ public class VarDefEditInMapRedefineNum extends VarDefEditInMapRedefineBase
 	
 	int compare(ComparisonMode mode, VarBufferPos bufferSource, VarAndEdit var2)
 	{
-		// return var2.m_varDef.compare(var2.m_bufferPos, this, bufferSource);
+		// return var2.varDef.compare(var2.bufferPos, this, bufferSource);
 		assertIfFalse(false);
 		return 0;
 	}
@@ -866,7 +866,7 @@ public class VarDefEditInMapRedefineNum extends VarDefEditInMapRedefineBase
 	
 	void transmitFormat(VarDefEditInMapRedefineNum varDefDest)
 	{
-		m_numericValue = new NumericValue(varDefDest.m_numericValue);
+		numericValue = new NumericValue(varDefDest.numericValue);
 	}
 	
 	private void writeEditLeftPadding(VarBufferPos buffer, int nValue)
@@ -929,7 +929,7 @@ public class VarDefEditInMapRedefineNum extends VarDefEditInMapRedefineBase
 	
 	public BtreeSegmentKeyTypeFactory getSegmentKeyTypeFactory()
 	{
-		return VarTypeId.m_segmentKeyTypeFactoryString;
+		return VarTypeId.segmentKeyTypeFactoryString;
 	}		
 
 	public boolean isEbcdicAsciiConvertible()
@@ -941,15 +941,15 @@ public class VarDefEditInMapRedefineNum extends VarDefEditInMapRedefineBase
 	{
 		VarDefEditInMapRedefineNum varDefCopy = (VarDefEditInMapRedefineNum)varDefBufferCopySingleItem;
 		super.adjustCustomProperty(varDefBufferCopySingleItem);
-		varDefCopy.m_numericValue = m_numericValue;
+		varDefCopy.numericValue = numericValue;
 	}
 	
 	protected void adjustCustomPropertyForCharGetAt(VarDefBuffer varDefBufferCopySingleItem)
 	{
 		VarDefEditInMapRedefineNum varDefCopy = (VarDefEditInMapRedefineNum)varDefBufferCopySingleItem;
 		super.adjustCustomProperty(varDefBufferCopySingleItem);
-		varDefCopy.m_numericValue = m_numericValue;
+		varDefCopy.numericValue = numericValue;
 	}
 	
-	private NumericValue m_numericValue = null;	
+	private NumericValue numericValue = null;	
 }

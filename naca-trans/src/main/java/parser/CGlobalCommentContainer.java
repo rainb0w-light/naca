@@ -35,20 +35,20 @@ public class CGlobalCommentContainer
 	public void RegisterComment(int line, CComment comm)
 	{
 		Integer in = new Integer(line) ;
-		m_arrComments.add(comm) ;
+		arrComments.add(comm) ;
 	}	
 	public void DoSemanticAnalysis(CBaseEntityFactory factory)
 	{
-		for (int i=0; i<m_arrComments.size(); i++)
+		for (int i=0; i<arrComments.size(); i++)
 		{
-			CComment c = m_arrComments.get(i);
+			CComment c = arrComments.get(i);
 			CEntityComment comm = (CEntityComment)c.DoSemanticAnalysis(null, factory) ;
-			m_arrCommentEntities.add(comm);
+			arrCommentEntities.add(comm);
 		}
 	}
-	protected Vector<CEntityComment> m_arrCommentEntities = new Vector<CEntityComment>() ;
-	protected Vector<CComment> m_arrComments = new Vector<CComment>();
-	protected int m_nCurrentComment = 0;
+	protected Vector<CEntityComment> arrCommentEntities = new Vector<CEntityComment>() ;
+	protected Vector<CComment> arrComments = new Vector<CComment>();
+	protected int nCurrentComment = 0;
 	public boolean ParseComment(CTokenList lstTokens)
 	{
 		CBaseToken tok = lstTokens.GetCurrentToken() ;
@@ -63,15 +63,15 @@ public class CGlobalCommentContainer
 	}
 	public CEntityComment GetCurrentComment()
 	{
-		CEntityComment comm = m_arrCommentEntities.get(m_nCurrentComment);
-		m_nCurrentComment ++ ;
+		CEntityComment comm = arrCommentEntities.get(nCurrentComment);
+		nCurrentComment ++ ;
 		return comm ;
 	}
 	public int GetCurrentCommentLine()
 	{ 
-		if (m_nCurrentComment < m_arrCommentEntities.size())
+		if (nCurrentComment < arrCommentEntities.size())
 		{
-			CEntityComment comm = m_arrCommentEntities.get(m_nCurrentComment);
+			CEntityComment comm = arrCommentEntities.get(nCurrentComment);
 			return comm.getLine() ;
 		}
 		else
@@ -81,14 +81,14 @@ public class CGlobalCommentContainer
 	}
 	public void Clear()
 	{
-		for (int i=0; i<m_arrCommentEntities.size(); i++)
+		for (int i=0; i<arrCommentEntities.size(); i++)
 		{
-			CEntityComment comm = m_arrCommentEntities.get(i);
+			CEntityComment comm = arrCommentEntities.get(i);
 			comm.Clear() ;
 		}
-		m_arrCommentEntities.clear() ;
-		m_arrComments.clear() ;
-		m_nCurrentComment = 0 ;
+		arrCommentEntities.clear() ;
+		arrComments.clear() ;
+		nCurrentComment = 0 ;
 	}
 
 }

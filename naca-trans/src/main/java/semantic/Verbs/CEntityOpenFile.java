@@ -27,10 +27,10 @@ public abstract class CEntityOpenFile extends CBaseActionEntity
 
 	public void setFileDescriptor(CEntityFileDescriptor fd, OpenMode mode)
 	{
-		m_eFileDescriptor = fd ;
-		m_eMode = mode;
+		eFileDescriptor = fd ;
+		eMode = mode;
 	}
-	protected CEntityFileDescriptor m_eFileDescriptor = null ;
-	protected OpenMode m_eMode = null ; 
+	protected CEntityFileDescriptor eFileDescriptor = null ;
+	protected OpenMode eMode = null ; 
 
 }

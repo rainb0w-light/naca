@@ -44,7 +44,7 @@ public class CJavaFormAccessor extends CEntityFormAccessor
 	 */
 	public String ExportReference(int nLine)
 	{
-		return m_Owner.ExportReference(getLine()) ;
+		return owner.ExportReference(getLine()) ;
 	}
 
 	/* (non-Javadoc)
@@ -52,7 +52,7 @@ public class CJavaFormAccessor extends CEntityFormAccessor
 	 */
 	public boolean HasAccessors()
 	{
-		return m_Owner.HasAccessors();
+		return owner.HasAccessors();
 	}
 
 	/* (non-Javadoc)
@@ -60,7 +60,7 @@ public class CJavaFormAccessor extends CEntityFormAccessor
 	 */
 	public String ExportWriteAccessorTo(String value)
 	{
-		return m_Owner.ExportWriteAccessorTo(value) ;
+		return owner.ExportWriteAccessorTo(value) ;
 	}
 	public boolean isValNeeded()
 	{

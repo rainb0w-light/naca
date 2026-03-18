@@ -59,19 +59,19 @@ public class CCopyInWorking extends CCobolElement
 			Transcoder.logError(getLine(), "Expecting 'COPY' keyword") ;
 			return false ;
 		}
-		CGlobalEntityCounter.GetInstance().CountCobolVerb(tokCopy.GetKeyword().m_Name) ;
+		CGlobalEntityCounter.GetInstance().CountCobolVerb(tokCopy.GetKeyword().name) ;
 		CBaseToken tokRef = GetNext();
 		if (tokRef.GetType() != CTokenType.IDENTIFIER && tokRef.GetType() != CTokenType.STRING)
 		{
 			Transcoder.logError(getLine(), "Expecting an identifier after COPY, instead of : " + tokRef.toString()) ;
 			return false ;
 		} 
-		m_csCopyReference = tokRef.GetValue() ;
-		Transcoder.pushTranscodedUnit(m_csCopyReference, "");
+		csCopyReference = tokRef.GetValue() ;
+		Transcoder.pushTranscodedUnit(csCopyReference, "");
 		CBaseToken tokSuppr = GetNext() ;
 		if (tokSuppr.GetKeyword() == CCobolKeywordList.SUPPRESS)
 		{
-			m_bSuppress = true ;
+			bSuppress = true ;
 			tokSuppr = GetNext() ;
 		} 
 		if (tokSuppr.GetKeyword() == CCobolKeywordList.REPLACING)
@@ -80,7 +80,7 @@ public class CCopyInWorking extends CCobolElement
 			while (tok.GetType() == CTokenType.NUMBER || tok.GetType() == CTokenType.STRING || tok.GetType() == CTokenType.IDENTIFIER)
 			{
 				String csReplace = tok.GetValue();
-				m_arrReplace.add(csReplace);
+				arrReplace.add(csReplace);
 				tok = GetNext();
 				if (tok.GetKeyword() != CCobolKeywordList.BY)
 				{
@@ -90,7 +90,7 @@ public class CCopyInWorking extends CCobolElement
 				}
 				tok = GetNext();
 				String csReplaceBy = tok.GetValue();
-				m_arrReplaceBy.add(csReplaceBy);
+				arrReplaceBy.add(csReplaceBy);
 				tok = GetNext();
 			}
 		} 
@@ -143,43 +143,43 @@ public class CCopyInWorking extends CCobolElement
 	protected Element ExportCustom(Document root)
 	{
 		Element eCopy = root.createElement("Copy") ;
-		eCopy.setAttribute("Reference", m_csCopyReference);
-		if (m_bSuppress)
+		eCopy.setAttribute("Reference", csCopyReference);
+		if (bSuppress)
 		{
 			eCopy.setAttribute("Suppress", "true") ;
 		}
-		for (int i=0; i<m_arrReplace.size(); i++)
+		for (int i=0; i<arrReplace.size(); i++)
 		{
 			Element e = root.createElement("Replacing");
 			eCopy.appendChild(e);
-			e.setAttribute("Replace", m_arrReplace.get(i));
-			e.setAttribute("ReplaceBy", m_arrReplaceBy.get(i));
+			e.setAttribute("Replace", arrReplace.get(i));
+			e.setAttribute("ReplaceBy", arrReplaceBy.get(i));
 		}			
 		return eCopy;
 	}
 	
-	protected String m_csCopyReference = "" ;
-	protected ArrayList<String> m_arrReplace = new ArrayList<String>() ;
-	protected ArrayList<String> m_arrReplaceBy = new ArrayList<String>() ;
-	protected boolean m_bSuppress = false ;
+	protected String csCopyReference = "" ;
+	protected ArrayList<String> arrReplace = new ArrayList<String>() ;
+	protected ArrayList<String> arrReplaceBy = new ArrayList<String>() ;
+	protected boolean bSuppress = false ;
 	/* (non-Javadoc)
 	 * @see parser.CBaseElement#DoCustomSemanticAnalysis(semantic.CBaseSemanticEntity, semantic.CBaseSemanticEntityFactory)
 	 */
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		CGlobalEntityCounter.GetInstance().RegisterCopy(parent.GetProgramName(), m_csCopyReference) ;
-		CBaseExternalEntity e = factory.m_ProgramCatalog.GetExternalDataReference(m_csCopyReference, factory) ;
+		CGlobalEntityCounter.GetInstance().RegisterCopy(parent.GetProgramName(), csCopyReference) ;
+		CBaseExternalEntity e = factory.programCatalog.GetExternalDataReference(csCopyReference, factory) ;
 		if (e == null)
 		{			
-			CGlobalEntityCounter.GetInstance().RegisterMissingCopy(parent.GetProgramName(), m_csCopyReference) ;
+			CGlobalEntityCounter.GetInstance().RegisterMissingCopy(parent.GetProgramName(), csCopyReference) ;
 			return null ;
 		}
-		boolean  bOtherData = factory.m_ProgramCatalog.IsExistingDataEntity(e.GetName(), "");
+		boolean  bOtherData = factory.programCatalog.IsExistingDataEntity(e.GetName(), "");
 		
-		if (m_arrReplace.size()>0 && m_arrReplaceBy.size()>0)
+		if (arrReplace.size()>0 && arrReplaceBy.size()>0)
 		{
-			String cs1 = m_arrReplace.get(0);
-			String cs2 = m_arrReplaceBy.get(0);
+			String cs1 = arrReplace.get(0);
+			String cs2 = arrReplaceBy.get(0);
 			int n1 = Integer.parseInt(cs1) ;
 			int n2 = Integer.parseInt(cs2);
 			if (n1 > 0 && n2 > 0)
@@ -199,7 +199,7 @@ public class CCopyInWorking extends CCobolElement
 		ent.AddChild(eil) ;
 		e.SetParent(eil);
 
-		ListIterator i = m_children.listIterator() ;
+		ListIterator i = children.listIterator() ;
 		CCobolElement le = null ;
 		try
 		{	
@@ -231,7 +231,7 @@ public class CCopyInWorking extends CCobolElement
 				le = null ;
 			}
 		}
-		m_bAnalysisDoneForChildren = true ;
+		bAnalysisDoneForChildren = true ;
 		
 		return eil ;
 	}

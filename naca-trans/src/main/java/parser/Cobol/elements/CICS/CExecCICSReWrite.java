@@ -53,12 +53,12 @@ public class CExecCICSReWrite extends CCobolElement
 	{
 		CEntityCICSReWrite write = factory.NewEntityCICSReWrite(getLine());
 		parent.AddChild(write);
-		CDataEntity filename = m_FileName.GetDataEntity(getLine(), factory);
-		if (m_WriteType == CCobolKeywordList.FILE)
+		CDataEntity filename = fileName.GetDataEntity(getLine(), factory);
+		if (writeType == CCobolKeywordList.FILE)
 		{
 			write.WriteFile(filename);
 		}
-		else if (m_WriteType == CCobolKeywordList.DATASET)
+		else if (writeType == CCobolKeywordList.DATASET)
 		{
 			write.WriteDataSet(filename);
 		}
@@ -68,13 +68,13 @@ public class CExecCICSReWrite extends CCobolElement
 			return null ;
 		}
 
-		if (m_DataFrom != null)
+		if (dataFrom != null)
 		{
-			CDataEntity edata = m_DataFrom.GetDataReference(getLine(), factory);
+			CDataEntity edata = dataFrom.GetDataReference(getLine(), factory);
 			CDataEntity eLen = null ;
-			if (m_DataLength != null)
+			if (dataLength != null)
 			{
-				eLen = m_DataLength.GetDataEntity(getLine(), factory);
+				eLen = dataLength.GetDataEntity(getLine(), factory);
 			}
 			write.SetDataFrom(edata, eLen);
 		}
@@ -96,14 +96,14 @@ public class CExecCICSReWrite extends CCobolElement
 		while (!bDone)
 		{
 			tok = GetCurrentToken() ;
-			if (tok.GetKeyword() == CCobolKeywordList.FILE && m_WriteType == null)
+			if (tok.GetKeyword() == CCobolKeywordList.FILE && writeType == null)
 			{
-				m_WriteType = CCobolKeywordList.FILE ;
+				writeType = CCobolKeywordList.FILE ;
 				tok = GetNext() ;
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
 				{ 
 					tok = GetNext();
-					m_FileName = ReadTerminal();
+					fileName = ReadTerminal();
 					tok= GetCurrentToken() ;
 					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 					{
@@ -111,14 +111,14 @@ public class CExecCICSReWrite extends CCobolElement
 					}
 				}
 			}
-			else if (tok.GetKeyword() == CCobolKeywordList.DATASET && m_WriteType == null)
+			else if (tok.GetKeyword() == CCobolKeywordList.DATASET && writeType == null)
 			{
-				m_WriteType = CCobolKeywordList.DATASET ;
+				writeType = CCobolKeywordList.DATASET ;
 				tok = GetNext();
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
 				{ 
 					tok = GetNext();
-					m_FileName = ReadTerminal();
+					fileName = ReadTerminal();
 					tok= GetCurrentToken() ;
 					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 					{
@@ -132,7 +132,7 @@ public class CExecCICSReWrite extends CCobolElement
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
 				{ 
 					tok = GetNext();
-					m_DataFrom = ReadIdentifier() ;
+					dataFrom = ReadIdentifier() ;
 					tok= GetCurrentToken() ;
 					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 					{
@@ -146,7 +146,7 @@ public class CExecCICSReWrite extends CCobolElement
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
 				{ 
 					tok = GetNext();
-					m_DataLength = ReadTerminal() ;
+					dataLength = ReadTerminal() ;
 					tok= GetCurrentToken() ;
 					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 					{
@@ -176,11 +176,11 @@ public class CExecCICSReWrite extends CCobolElement
 	{
 		Element eWr = root.createElement("ExecCICSReWrite") ;
 		Element e ;
-		if (m_WriteType == CCobolKeywordList.FILE)
+		if (writeType == CCobolKeywordList.FILE)
 		{
 			e = root.createElement("File");
 		}
-		else if (m_WriteType == CCobolKeywordList.DATASET)
+		else if (writeType == CCobolKeywordList.DATASET)
 		{
 			e = root.createElement("Dataset");
 		}
@@ -189,25 +189,25 @@ public class CExecCICSReWrite extends CCobolElement
 			return null ;
 		}
 		eWr.appendChild(e);
-		m_FileName.ExportTo(e, root);
+		fileName.ExportTo(e, root);
 		
-		if (m_DataFrom != null)
+		if (dataFrom != null)
 		{
 			Element eFrom = root.createElement("From");
-			m_DataFrom.ExportTo(eFrom, root);
+			dataFrom.ExportTo(eFrom, root);
 			eWr.appendChild(eFrom);
-			if (m_DataLength != null)
+			if (dataLength != null)
 			{
 				Element eLen = root.createElement("Length");
 				eFrom.appendChild(eLen);
-				m_DataLength.ExportTo(eLen, root);
+				dataLength.ExportTo(eLen, root);
 			}
 		}
 		return eWr;
 	}
 
-	protected CReservedKeyword m_WriteType = null ;
-	protected CTerminal m_FileName = null ; 
-	protected CIdentifier m_DataFrom = null ;
-	protected CTerminal m_DataLength = null ;
+	protected CReservedKeyword writeType = null ;
+	protected CTerminal fileName = null ; 
+	protected CIdentifier dataFrom = null ;
+	protected CTerminal dataLength = null ;
 }

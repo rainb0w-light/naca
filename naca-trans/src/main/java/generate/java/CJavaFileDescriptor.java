@@ -21,21 +21,21 @@ public class CJavaFileDescriptor extends CEntityFileDescriptor
 	@Override
 	protected void DoExport()
 	{
-		String file = m_FileSelect.GetFileName().ExportReference(getLine()) ;
+		String file = fileSelect.GetFileName().ExportReference(getLine()) ;
 		String cs = "FileDescriptor " + FormatIdentifier(GetDisplayName()) + " = declare.file("+file+")";
 		WriteWord(cs) ;
-		if (m_FileSelect.getFileStatus() != null)
+		if (fileSelect.getFileStatus() != null)
 		{
-			WriteWord(".status("+m_FileSelect.getFileStatus().ExportReference(getLine())+")");
+			WriteWord(".status("+fileSelect.getFileStatus().ExportReference(getLine())+")");
 		}
-//		if (m_RecSizeDependingOn != null)
+//		if (recSizeDependingOn != null)
 //		{
-//			WriteWord(".lengthDependingOn("+m_RecSizeDependingOn.ExportReference(getLine())+")") ;
+//			WriteWord(".lengthDependingOn("+recSizeDependingOn.ExportReference(getLine())+")") ;
 //		}
 		WriteWord(" ;") ;
 		WriteEOL() ;
 		ExportChildren() ;
-//		CBaseLanguageEntity child = m_lstChildren.getFirst() ; 
+//		CBaseLanguageEntity child = lstChildren.getFirst() ; 
 //		DoExport(child);
 		
 	}

@@ -31,18 +31,18 @@ import jlib.xml.XMLUtil;
 
 public class OnlineResourceBeanManager extends BaseCloseMBean
 {
-	private Hashtable<String, Document> m_tabResources = null;
+	private Hashtable<String, Document> tabResources = null;
 
-	private Hashtable<String, File> m_tabResourceFiles = null;
+	private Hashtable<String, File> tabResourceFiles = null;
 
-	private Hashtable<String, Document> m_tabResourceStruct = null;
+	private Hashtable<String, Document> tabResourceStruct = null;
 
-	private OnlineResourceManager m_resourceManager = null;
+	private OnlineResourceManager resourceManager = null;
 
 	OnlineResourceBeanManager(OnlineResourceManager resourceManager)
 	{
 		super("_ Resources files", "_ Resources files");
-		m_resourceManager = resourceManager;
+		resourceManager = resourceManager;
 	}
 
 	protected void buildDynamicMBeanInfo()
@@ -56,49 +56,49 @@ public class OnlineResourceBeanManager extends BaseCloseMBean
 
 	public int getNbFiles()
 	{
-		m_unloadRWLock.readLock().lock();
+		unloadRWLock.readLock().lock();
 		int n = 0;
-		if (m_tabResourceFiles != null)
-			n = m_tabResourceFiles.size();
-		m_unloadRWLock.readLock().unlock();
+		if (tabResourceFiles != null)
+			n = tabResourceFiles.size();
+		unloadRWLock.readLock().unlock();
 		return n;
 	}
 
 	public int getNbResources()
 	{
-		m_unloadRWLock.readLock().lock();
+		unloadRWLock.readLock().lock();
 		int n = 0;
-		if (m_tabResources != null)
-			n = m_tabResources.size();
-		m_unloadRWLock.readLock().unlock();
+		if (tabResources != null)
+			n = tabResources.size();
+		unloadRWLock.readLock().unlock();
 		return n;
 	}
 
 	public int getNbDocuments()
 	{
-		m_unloadRWLock.readLock().lock();
+		unloadRWLock.readLock().lock();
 		int n = 0;
-		if (m_tabResourceStruct != null)
-			n = m_tabResourceStruct.size();
-		m_unloadRWLock.readLock().unlock();
+		if (tabResourceStruct != null)
+			n = tabResourceStruct.size();
+		unloadRWLock.readLock().unlock();
 		return n;
 	}
 
 	public void reloadResourcesFiles()
 	{
 		Log.logImportant("reloadResourcesFiles started");
-		m_unloadRWLock.writeLock().lock(); // Get exclusive lock
+		unloadRWLock.writeLock().lock(); // Get exclusive lock
 
-		if (m_tabResourceStruct != null)
-			m_tabResourceStruct.clear();
-		if (m_tabResources != null)
-			m_tabResources.clear();
-		if (m_tabResourceFiles != null)
-			m_tabResourceFiles.clear();
+		if (tabResourceStruct != null)
+			tabResourceStruct.clear();
+		if (tabResources != null)
+			tabResources.clear();
+		if (tabResourceFiles != null)
+			tabResourceFiles.clear();
 
 		LoadResourceCache(OnlineResourceManager.ms_bCacheResourceFiles);
 
-		m_unloadRWLock.writeLock().unlock(); // Release exclusive lock;
+		unloadRWLock.writeLock().unlock(); // Release exclusive lock;
 												// unlocking optinal thread
 												// waiting to obtain read lock
 												// in getUnusedInstance()
@@ -107,7 +107,7 @@ public class OnlineResourceBeanManager extends BaseCloseMBean
 
 	void setJarXMLFile(String csJarXMLFile)
 	{
-		m_csJarXMLFile = csJarXMLFile;
+		csJarXMLFile = csJarXMLFile;
 	}
 	
 	private int doLoadResourceFiles(String csResourcePath, boolean bCacheResourceFiles)
@@ -130,9 +130,9 @@ public class OnlineResourceBeanManager extends BaseCloseMBean
 							Element eForm = (Element) lstForms.item(j);
 							String csFormName = eForm.getAttribute("name");
 							csFormName = csFormName.toUpperCase();
-							m_tabResourceFiles.put(csFormName, file);
+							tabResourceFiles.put(csFormName, file);
 							if (bCacheResourceFiles)
-								m_tabResources.put(csFormName, doc);
+								tabResources.put(csFormName, doc);
 						}
 					}
 				}
@@ -145,19 +145,19 @@ public class OnlineResourceBeanManager extends BaseCloseMBean
 
 	void LoadResourceCache(boolean bCacheResourceFiles)
 	{
-		m_unloadRWLock.writeLock().lock();
+		unloadRWLock.writeLock().lock();
 
 		StopWatch sw = new StopWatch();
-		m_tabResourceFiles = new Hashtable<String, File>();
-		m_tabResources = new Hashtable<String, Document>();
-		m_tabResourceStruct = new Hashtable<String, Document>();
+		tabResourceFiles = new Hashtable<String, File>();
+		tabResources = new Hashtable<String, Document>();
+		tabResourceStruct = new Hashtable<String, Document>();
 
 		// 1st load the .res files form standard resource path
-		int nNbFiles = doLoadResourceFiles(m_resourceManager.m_csResourcePath, bCacheResourceFiles);
+		int nNbFiles = doLoadResourceFiles(resourceManager.csResourcePath, bCacheResourceFiles);
 		
 		// can also optionally load the .res files form another resource path
-		if(!StringUtil.isEmpty(m_resourceManager.m_csAlternateResourcePath))
-			nNbFiles += doLoadResourceFiles(m_resourceManager.m_csAlternateResourcePath, bCacheResourceFiles);
+		if(!StringUtil.isEmpty(resourceManager.csAlternateResourcePath))
+			nNbFiles += doLoadResourceFiles(resourceManager.csAlternateResourcePath, bCacheResourceFiles);
 		
 		// bCacheResourceFiles = true;
 
@@ -166,10 +166,10 @@ public class OnlineResourceBeanManager extends BaseCloseMBean
 		if (bCacheResourceFiles) // Jar With XML data is valid only in mode
 									// bCacheResourceFiles
 		{
-			if (!StringUtil.isEmpty(m_csJarXMLFile))
+			if (!StringUtil.isEmpty(csJarXMLFile))
 			{
 				JarEntries jarEntries = new JarEntries();
-				boolean b = jarEntries.open(m_resourceManager.m_csResourcePath, m_csJarXMLFile, true, ".res"); // Load
+				boolean b = jarEntries.open(resourceManager.csResourcePath, csJarXMLFile, true, ".res"); // Load
 																												// all
 																												// .res
 																												// entries
@@ -196,13 +196,13 @@ public class OnlineResourceBeanManager extends BaseCloseMBean
 									csFormName = csFormName.toUpperCase();
 									// m_tabResourceFiles.put(csFormName, file)
 									// ; // Files are unused
-									Document docFile = m_tabResources.get(csFormName);
+									Document docFile = tabResources.get(csFormName);
 									if (docFile == null) // Check that the
 															// form is not
 															// already in
 															// m_tabResources
 									{
-										m_tabResources.put(csFormName, doc);
+										tabResources.put(csFormName, doc);
 										nXMLResource++;
 									}
 								}
@@ -216,55 +216,55 @@ public class OnlineResourceBeanManager extends BaseCloseMBean
 		}
 		Log.logNormal("LoadResourceCache Unique XML files loaded=" + nNbFiles + "; XML from jar resource=" + nXMLResource + "; Total load Time (ms)=" + sw.getElapsedTime());
 
-		m_unloadRWLock.writeLock().unlock();
+		unloadRWLock.writeLock().unlock();
 	}
 
 	public Document GetXMLPage(String csIdPageupperCase)
 	{
-		m_unloadRWLock.readLock().lock();
-		if (m_tabResources != null)
+		unloadRWLock.readLock().lock();
+		if (tabResources != null)
 		{
-			Document docPage = m_tabResources.get(csIdPageupperCase);
+			Document docPage = tabResources.get(csIdPageupperCase);
 			if (docPage == null)
 			{
-				File file = m_tabResourceFiles.get(csIdPageupperCase);
+				File file = tabResourceFiles.get(csIdPageupperCase);
 				if (file == null)
 				{
-					m_unloadRWLock.readLock().unlock();
+					unloadRWLock.readLock().unlock();
 					throw new AssertException("Missing resource file : " + csIdPageupperCase);
 				}
 				docPage = XMLUtil.LoadXML(file);
 				if (docPage != null) // &&
 										// OnlineResourceManager.ms_bCacheResourceFiles)
-					m_tabResources.put(csIdPageupperCase, docPage);
+					tabResources.put(csIdPageupperCase, docPage);
 			}
-			m_unloadRWLock.readLock().unlock();
+			unloadRWLock.readLock().unlock();
 			return docPage;
 		}
-		m_unloadRWLock.readLock().unlock();
+		unloadRWLock.readLock().unlock();
 		return null;
 	}
 
 	public void removeResourceCache(String csForm)
 	{
-		m_unloadRWLock.readLock().lock();
-		if (m_tabResourceStruct != null)
-			m_tabResourceStruct.remove(csForm);
-		if (m_tabResources != null)
-			m_tabResources.remove(csForm);
+		unloadRWLock.readLock().lock();
+		if (tabResourceStruct != null)
+			tabResourceStruct.remove(csForm);
+		if (tabResources != null)
+			tabResources.remove(csForm);
 		// if(m_tabResourceFiles != null)
 		// m_tabResourceFiles.remove(csForm);
-		m_unloadRWLock.readLock().unlock();
+		unloadRWLock.readLock().unlock();
 	}
 
 	public Document GetXMLStructure(String idPage)
 	{
-		m_unloadRWLock.readLock().lock();
+		unloadRWLock.readLock().lock();
 		String csIdPageupperCase = idPage.toUpperCase();
-		Document struct = m_tabResourceStruct.get(csIdPageupperCase);
+		Document struct = tabResourceStruct.get(csIdPageupperCase);
 		if (struct != null)
 		{
-			m_unloadRWLock.readLock().unlock();
+			unloadRWLock.readLock().unlock();
 			return struct;
 		}
 
@@ -280,20 +280,20 @@ public class OnlineResourceBeanManager extends BaseCloseMBean
 				String name = eForm.getAttribute("name");
 				if (name.equalsIgnoreCase(idPage))
 				{
-					struct = merger.BuildXLMStructure(m_resourceManager.getXmlFrame(), eForm);
-					m_tabResourceStruct.put(csIdPageupperCase, struct);
+					struct = merger.BuildXLMStructure(resourceManager.getXmlFrame(), eForm);
+					tabResourceStruct.put(csIdPageupperCase, struct);
 					XMLMergerManager.release(merger);
-					m_unloadRWLock.readLock().unlock();
+					unloadRWLock.readLock().unlock();
 					return struct;
 				}
 			}
 			XMLMergerManager.release(merger);
 		}
-		m_unloadRWLock.readLock().unlock();
+		unloadRWLock.readLock().unlock();
 		return null;
 	}
 
-	private ReentrantReadWriteLock m_unloadRWLock = new ReentrantReadWriteLock();
+	private ReentrantReadWriteLock unloadRWLock = new ReentrantReadWriteLock();
 
-	private String m_csJarXMLFile = null;
+	private String csJarXMLFile = null;
 }

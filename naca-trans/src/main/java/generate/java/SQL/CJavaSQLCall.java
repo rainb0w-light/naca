@@ -33,12 +33,12 @@ public class CJavaSQLCall extends CEntitySQLCall
 	@Override
 	protected void DoExport()
 	{
-		WriteWord("sqlCall("+m_ProgramReference.ExportReference(getLine())+")") ;
-		for (int i=0; i<m_arrParameters.size(); i++)
+		WriteWord("sqlCall("+programReference.ExportReference(getLine())+")") ;
+		for (int i=0; i<arrParameters.size(); i++)
 		{
-			WriteWord(".param("+(i+1)+", "+m_arrParameters.get(i).ExportReference(getLine())+")");
+			WriteWord(".param("+(i+1)+", "+arrParameters.get(i).ExportReference(getLine())+")");
 		}
-		String csSQLErrorWarningStatement = m_ProgramCatalog.getSQLWarningErrorStatement();
+		String csSQLErrorWarningStatement = programCatalog.getSQLWarningErrorStatement();
 		if(csSQLErrorWarningStatement != null)
 		{
 			WriteWord(csSQLErrorWarningStatement);

@@ -26,12 +26,12 @@ public class CEntityRenamer
 	{
 		public CBaseRenameRule(String mask)
 		{
-			m_csMask = mask ;
+			csMask = mask ;
 		}
-		protected String m_csMask ;
+		protected String csMask ;
 		public String getMask() 
 		{
-			return m_csMask ;
+			return csMask ;
 		}
 		public abstract String doRename(String name) ;
 		public abstract void init(String param) ;
@@ -44,14 +44,14 @@ public class CEntityRenamer
 		}
 		public String doRename(String cs)
 		{
-			String out = cs.substring(0, cs.length()-m_nParam) ;
+			String out = cs.substring(0, cs.length()-nParam) ;
 			return out ;
 		}
 		public void init(String param)
 		{
-			m_nParam = Integer.parseInt(param);
+			nParam = Integer.parseInt(param);
 		}
-		protected int m_nParam = 0 ;
+		protected int nParam = 0 ;
 	}
 	protected class CBypassRule extends CBaseRenameRule
 	{
@@ -75,13 +75,13 @@ public class CEntityRenamer
 		}
 		public String doRename(String cs)
 		{
-			return m_csParam;
+			return csParam;
 		}
 		public void init(String param)
 		{
-			m_csParam = param;
+			csParam = param;
 		}
-		protected String m_csParam = "";
+		protected String csParam = "";
 	}
 	/**
 	 * 
@@ -106,13 +106,13 @@ public class CEntityRenamer
 			rule = new CRenameRule(mask) ;
 		}
 		rule.init(param) ;
-		m_arrRules.add(rule) ;
+		arrRules.add(rule) ;
 	}
 	public String FindAndApplyRule(String name)
 	{
-		for (int i=0; i<m_arrRules.size(); i++)
+		for (int i=0; i<arrRules.size(); i++)
 		{
-			CBaseRenameRule rule = m_arrRules.get(i) ;
+			CBaseRenameRule rule = arrRules.get(i) ;
 			String m = rule.getMask() ;
 			if (name.matches(m))
 			{
@@ -122,5 +122,5 @@ public class CEntityRenamer
 		}
 		return null ;
 	}
-	protected Vector<CBaseRenameRule> m_arrRules = new Vector<CBaseRenameRule>();
+	protected Vector<CBaseRenameRule> arrRules = new Vector<CBaseRenameRule>();
 }

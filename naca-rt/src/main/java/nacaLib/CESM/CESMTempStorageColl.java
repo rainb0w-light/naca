@@ -26,20 +26,20 @@ public class CESMTempStorageColl
 {
 	CESMTempStorageColl()
 	{
-		m_arr = new ArrayList<InternalCharBuffer>();
+		arr = new ArrayList<InternalCharBuffer>();
 	}
 	
 	int add(InternalCharBuffer data)
 	{
-		m_arr.add(data);
-		return m_arr.size(); 
+		arr.add(data);
+		return arr.size(); 
 	}
 	
 	boolean set(int item, InternalCharBuffer bufItem)
 	{
-		if (item >=0 && item < m_arr.size())
+		if (item >=0 && item < arr.size())
 		{
-			m_arr.set(item, bufItem);
+			arr.set(item, bufItem);
 			return true;
 		}
 		return false;
@@ -47,10 +47,10 @@ public class CESMTempStorageColl
 
 	InternalCharBuffer getNextItem()
 	{
-		if(m_nLastItemRead+1 < m_arr.size())
+		if(nLastItemRead+1 < arr.size())
 		{
-			m_nLastItemRead++;
-			InternalCharBuffer item = m_arr.get(m_nLastItemRead);
+			nLastItemRead++;
+			InternalCharBuffer item = arr.get(nLastItemRead);
 			return item;
 		}
 		return null;
@@ -58,10 +58,10 @@ public class CESMTempStorageColl
 	
 	InternalCharBuffer getIndexedTempQueue(int nIndex)
 	{
-		m_nLastItemRead = nIndex-1;
-		if(m_nLastItemRead>=0 && m_nLastItemRead < m_arr.size())
+		nLastItemRead = nIndex-1;
+		if(nLastItemRead>=0 && nLastItemRead < arr.size())
 		{
-			InternalCharBuffer item = m_arr.get(m_nLastItemRead);
+			InternalCharBuffer item = arr.get(nLastItemRead);
 			return item;
 		}
 		return null;
@@ -69,12 +69,12 @@ public class CESMTempStorageColl
 	
 	int getNbItems()
 	{
-		return m_arr.size();
+		return arr.size();
 	}
 	
 	
 	
 	
-	private ArrayList<InternalCharBuffer> m_arr = null;
-	private int m_nLastItemRead = -1;
+	private ArrayList<InternalCharBuffer> arr = null;
+	private int nLastItemRead = -1;
 }

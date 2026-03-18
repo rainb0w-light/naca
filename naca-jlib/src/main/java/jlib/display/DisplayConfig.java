@@ -39,17 +39,17 @@ public class DisplayConfig
 	}
 	public void setRootPath(String path)
 	{
-		m_csRootPath = path.replace('\\', '/') ;
-		if (!m_csRootPath.endsWith("/"))
+		csRootPath = path.replace('\\', '/') ;
+		if (!csRootPath.endsWith("/"))
 		{
-			m_csRootPath += '/' ;
+			csRootPath += '/' ;
 		}
-		System.out.println("JLIB DIsplay Config -> Root Path = "+m_csRootPath) ;
+		System.out.println("JLIB DIsplay Config -> Root Path = "+csRootPath) ;
 	}
-	protected String m_csRootPath = "" ;
+	protected String csRootPath = "" ;
 	public String getRootPath()
 	{
-		return m_csRootPath;
+		return csRootPath;
 	}
 	public void LoadConfig(String csINIFilePath)
 	{
@@ -59,60 +59,60 @@ public class DisplayConfig
 			String csInitialDialogClass = tagConfig.getVal("InitialDialogFactory") ;
 			try
 			{
-				m_factoryDialogs = (BaseDialogFactory) Class.forName(csInitialDialogClass).newInstance() ;
+				factoryDialogs = (BaseDialogFactory) Class.forName(csInitialDialogClass).newInstance() ;
 			}
 			catch (ClassNotFoundException e)
 			{
 				e.printStackTrace();
-				m_factoryDialogs = null;
+				factoryDialogs = null;
 			}
 			catch (InstantiationException e)
 			{
 				e.printStackTrace();
-				m_factoryDialogs = null;
+				factoryDialogs = null;
 			}
 			catch (IllegalAccessException e)
 			{
 				e.printStackTrace();
-				m_factoryDialogs = null;
+				factoryDialogs = null;
 			}
 			
-			m_ResourceManager = new ResourceManager() ;
+			resourceManager = new ResourceManager() ;
 			
 			String csXSLFilePath = tagConfig.getVal("XSLFilePath") ;
-			File fXSLFilePath = new File(m_csRootPath + csXSLFilePath) ;
+			File fXSLFilePath = new File(csRootPath + csXSLFilePath) ;
 			if (!fXSLFilePath.isFile())
 			{
 				fXSLFilePath = null ;
 			}
-			m_ResourceManager.setXSLFilePath("MAIN", fXSLFilePath) ;
+			resourceManager.setXSLFilePath("MAIN", fXSLFilePath) ;
 
 			String csLogINIFilePath = tagConfig.getVal("LogINIFilePath") ;
 			if (csLogINIFilePath!=null && !csLogINIFilePath.equals(""))
 			{
-				csLogINIFilePath = m_csRootPath + csLogINIFilePath ;
+				csLogINIFilePath = csRootPath + csLogINIFilePath ;
 				Log.open(csLogINIFilePath);
 			}
 			
 			Tag tagFactory = tagConfig.getChild("factory") ;
 			if (tagFactory != null)
 			{
-				m_factoryDialogs.Init(this, tagFactory) ;
+				factoryDialogs.Init(this, tagFactory) ;
 			}
 		}
 	}
 	
-	private BaseDialogFactory m_factoryDialogs = null ;
-	private ResourceManager m_ResourceManager = null ;
+	private BaseDialogFactory factoryDialogs = null ;
+	private ResourceManager resourceManager = null ;
 	/**
 	 * @return
 	 */
 	public BaseDialogFactory getDialogFactory()
 	{
-		return m_factoryDialogs ;
+		return factoryDialogs ;
 	}
 	public ResourceManager getResourceManager()
 	{
-		return m_ResourceManager ;
+		return resourceManager ;
 	}
 }

@@ -43,29 +43,29 @@ import utils.Transcoder;
  */
 public class CPerformVarying extends CBlocElement
 {
-	protected CIdentifier m_Reference = null ;
-	protected CIdentifier m_RefThru = null ;
-	protected CIdentifier m_Variable = null ;
-	protected CTerminal m_varFromValue = null ;
-	protected CTerminal m_varByValue = null ;
-	protected CExpression m_condUntil = null ;
-	protected boolean m_bTestBefore = true ;
-	private List<After> m_Afters = new ArrayList<After>();
+	protected CIdentifier reference = null ;
+	protected CIdentifier refThru = null ;
+	protected CIdentifier variable = null ;
+	protected CTerminal varFromValue = null ;
+	protected CTerminal varByValue = null ;
+	protected CExpression condUntil = null ;
+	protected boolean bTestBefore = true ;
+	private List<After> afters = new ArrayList<After>();
 	
 	private class After 
 	{
-		protected CIdentifier m_VariableAfter = null ;
-		protected CTerminal m_varFromValueAfter = null ;
-		protected CTerminal m_varByValueAfter = null ;
-		protected CExpression m_condUntilAfter = null ;
+		protected CIdentifier variableAfter = null ;
+		protected CTerminal varFromValueAfter = null ;
+		protected CTerminal varByValueAfter = null ;
+		protected CExpression condUntilAfter = null ;
 	}
 
 	public CPerformVarying(CIdentifier Ref, CIdentifier refThru, int line, boolean bBefore)
 	{
 		super(line);
-		m_Reference = Ref ;
-		m_RefThru = refThru ;
-		m_bTestBefore = bBefore ;
+		reference = Ref ;
+		refThru = refThru ;
+		bTestBefore = bBefore ;
 	}
 	
 	/* (non-Javadoc)
@@ -87,7 +87,7 @@ public class CPerformVarying extends CBlocElement
 			Transcoder.logError(getLine(), "Expecting an identifier as varying variable") ;
 			return false ;
 		}
-		m_Variable = ReadIdentifier() ;
+		variable = ReadIdentifier() ;
 		
 		CBaseToken tokFrom = GetCurrentToken() ;
 		if (tokFrom.GetKeyword() != CCobolKeywordList.FROM)
@@ -97,20 +97,20 @@ public class CPerformVarying extends CBlocElement
 		}
 		
 		GetNext() ;
-		m_varFromValue = ReadTerminal() ;
+		varFromValue = ReadTerminal() ;
 		
 		CBaseToken tokBy = GetCurrentToken();
 		if (tokBy.GetKeyword() == CCobolKeywordList.BY)
 		{
 			tokBy = GetNext() ;
-			m_varByValue = ReadTerminal() ;
+			varByValue = ReadTerminal() ;
 		} 
 		
 		CBaseToken tokUntil = GetCurrentToken() ;
 		if (tokUntil.GetKeyword() == CCobolKeywordList.UNTIL)
 		{
 			GetNext() ;
-			m_condUntil = ReadConditionalStatement() ;
+			condUntil = ReadConditionalStatement() ;
 		}
 		else
 		{
@@ -123,7 +123,7 @@ public class CPerformVarying extends CBlocElement
 		{
 			After after = new After();
 			tok = GetNext() ;
-			after.m_VariableAfter = ReadIdentifier();
+			after.variableAfter = ReadIdentifier();
 			tok = GetCurrentToken() ;
 			if (tok.GetKeyword() != CCobolKeywordList.FROM)
 			{
@@ -131,7 +131,7 @@ public class CPerformVarying extends CBlocElement
 				return false ;
 			}
 			tok = GetNext() ;
-			after.m_varFromValueAfter = ReadTerminal() ;
+			after.varFromValueAfter = ReadTerminal() ;
 			tok = GetCurrentToken() ;
 			if (tok.GetKeyword() != CCobolKeywordList.BY)
 			{
@@ -139,7 +139,7 @@ public class CPerformVarying extends CBlocElement
 				return false ;
 			}
 			tok = GetNext() ;
-			after.m_varByValueAfter = ReadTerminal() ;
+			after.varByValueAfter = ReadTerminal() ;
 			tok = GetCurrentToken() ;
 			if (tok.GetKeyword() != CCobolKeywordList.UNTIL)
 			{
@@ -147,12 +147,12 @@ public class CPerformVarying extends CBlocElement
 				return false ;
 			} 
 			tok = GetNext() ;
-			after.m_condUntilAfter = ReadConditionalStatement() ;
-			m_Afters.add(after);
+			after.condUntilAfter = ReadConditionalStatement() ;
+			afters.add(after);
 			tok = GetCurrentToken();
 		}
 		
-		if (m_Reference == null)
+		if (reference == null)
 		{	// there is no reference to paragraph, the perform must run code inside him.
 			if (!super.DoParsing())
 			{
@@ -165,7 +165,7 @@ public class CPerformVarying extends CBlocElement
 				Transcoder.logError(getLine(), "Expecting 'END-PERFORM' keyword") ;
 				return false ;
 			}
-			m_nEndLine = tok.getLine() ;
+			nEndLine = tok.getLine() ;
 			GetNext();
 		}
 		return true;
@@ -178,29 +178,29 @@ public class CPerformVarying extends CBlocElement
 		Element ePerf = root.createElement("PerfomVarying") ;
 		Element eVar = root.createElement("Variable") ;
 		ePerf.appendChild(eVar) ;
-		m_Variable.ExportTo(eVar, root) ;
+		variable.ExportTo(eVar, root) ;
 		Element eFrom = root.createElement("From") ;
 		ePerf.appendChild(eFrom) ;
-		m_varFromValue.ExportTo(eFrom, root) ;
-		if (m_varByValue != null)
+		varFromValue.ExportTo(eFrom, root) ;
+		if (varByValue != null)
 		{
 			Element eBy = root.createElement("By") ;
 			ePerf.appendChild(eBy) ;
-			m_varByValue.ExportTo(eBy, root) ;
+			varByValue.ExportTo(eBy, root) ;
 		}
-		if (m_Reference != null)
+		if (reference != null)
 		{
-			ePerf.setAttribute("Reference", m_Reference.GetName()) ;
+			ePerf.setAttribute("Reference", reference.GetName()) ;
 		}
-		if (m_RefThru != null)
+		if (refThru != null)
 		{
-			ePerf.setAttribute("Thru", m_RefThru.GetName()) ;
+			ePerf.setAttribute("Thru", refThru.GetName()) ;
 		}
-		if (m_condUntil != null)
+		if (condUntil != null)
 		{
 			Element eUntil = root.createElement("UntilCondition") ;
 			ePerf.appendChild(eUntil) ;
-			Element eCond = m_condUntil.Export(root) ;
+			Element eCond = condUntil.Export(root) ;
 			eUntil.appendChild(eCond) ;
 		}
 		return ePerf ;
@@ -212,53 +212,53 @@ public class CPerformVarying extends CBlocElement
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
 		CEntityLoopIter eLoop = factory.NewEntityLoopIter(getLine()) ;
-		CDataEntity eVar = m_Variable.GetDataReference(getLine(), factory) ; 
+		CDataEntity eVar = variable.GetDataReference(getLine(), factory) ; 
 		eVar.RegisterWritingAction(eLoop) ;
-		CDataEntity eFrom = m_varFromValue.GetDataEntity(getLine(), factory);
-		if (!m_varByValue.IsReference())
+		CDataEntity eFrom = varFromValue.GetDataEntity(getLine(), factory);
+		if (!varByValue.IsReference())
 		{
-			if (m_varByValue.GetValue().equals("1"))
+			if (varByValue.GetValue().equals("1"))
 			{
 				eLoop.SetLoopIterInc(eVar, eFrom);
 			}
-			else if (m_varByValue.GetValue().equals("-1"))
+			else if (varByValue.GetValue().equals("-1"))
 			{
 				eLoop.SetLoopIterDec(eVar, eFrom);
 			}
 			else
 			{
-				CDataEntity eBy = m_varByValue.GetDataEntity(getLine(), factory);
+				CDataEntity eBy = varByValue.GetDataEntity(getLine(), factory);
 				eLoop.SetLoopIter(eVar, eFrom, eBy);
 			}
 		}
 		else
 		{
-			CDataEntity eBy = m_varByValue.GetDataEntity(getLine(), factory);
+			CDataEntity eBy = varByValue.GetDataEntity(getLine(), factory);
 			eLoop.SetLoopIter(eVar, eFrom, eBy);
 		}
-		CBaseEntityCondition condUntil = m_condUntil.AnalyseCondition(factory); 
-		eLoop.SetUntilCondition(condUntil, m_bTestBefore) ;
+		CBaseEntityCondition condUntilNew = this.condUntil.AnalyseCondition(factory);
+		eLoop.SetUntilCondition(condUntilNew, bTestBefore) ;
 		parent.AddChild(eLoop) ;
 		
-		for (After after : m_Afters)
+		for (After after : afters)
 		{
-			CBaseEntityCondition cond = after.m_condUntilAfter
+			CBaseEntityCondition cond = after.condUntilAfter
 					.AnalyseCondition(factory).GetOppositeCondition();
-			eLoop.AddAfter(after.m_VariableAfter.GetDataReference(getLine(),
-					factory), after.m_varFromValueAfter.GetDataEntity(
-					getLine(), factory), after.m_varByValueAfter
+			eLoop.AddAfter(after.variableAfter.GetDataReference(getLine(),
+					factory), after.varFromValueAfter.GetDataEntity(
+					getLine(), factory), after.varByValueAfter
 					.GetDataEntity(getLine(), factory), cond);
 		}
-		if (m_RefThru != null)
+		if (refThru != null)
 		{
-			CEntityCallFunction e = factory.NewEntityCallFunction(getLine(), m_Reference.GetName(), m_RefThru.GetName(), parent.getSectionContainer()) ;
-			factory.m_ProgramCatalog.RegisterPerformThrough(e) ;
+			CEntityCallFunction e = factory.NewEntityCallFunction(getLine(), reference.GetName(), refThru.GetName(), parent.getSectionContainer()) ;
+			factory.programCatalog.RegisterPerformThrough(e) ;
 			eLoop.AddChild(e) ;
 			return e;
 		}
-		else if (m_Reference != null)
+		else if (reference != null)
 		{
-			CEntityCallFunction e = factory.NewEntityCallFunction(getLine(), m_Reference.GetName(), "", eLoop.getSectionContainer()) ;
+			CEntityCallFunction e = factory.NewEntityCallFunction(getLine(), reference.GetName(), "", eLoop.getSectionContainer()) ;
 			eLoop.AddChild(e) ;
 			return e;
 		}

@@ -23,38 +23,38 @@ public class GenericValueChar extends GenericValue
 {
 	GenericValueChar(char c)
 	{
-		m_c = c;
+		c = c;
 	}
 	
 	String getAsRawString()
 	{
-		return String.valueOf(m_c);
+		return String.valueOf(c);
 	}
 	
 	String getAsString()
 	{
-		return String.valueOf(m_c);
+		return String.valueOf(c);
 	}
 	
 	int getAsInt()
 	{
-		return m_c;
+		return c;
 	}
 	
 	int getAsUnsignedInt()
 	{
-		return Math.abs(m_c);
+		return Math.abs(c);
 	}
 	
 	Dec getAsDec()
 	{
-		Dec dec = new Dec(m_c, "");
+		Dec dec = new Dec(c, "");
 		return dec;
 	}
 	
 	Dec getAsUnsignedDec()
 	{
-		Dec dec = new Dec(m_c, "");
+		Dec dec = new Dec(c, "");
 		dec.setUnsigned();
 		return dec;
 	}
@@ -62,8 +62,8 @@ public class GenericValueChar extends GenericValue
 	
 	double getAsDouble()
 	{
-		return m_c;
+		return c;
 	}	
 	
-	private char m_c;
+	private char c;
 }

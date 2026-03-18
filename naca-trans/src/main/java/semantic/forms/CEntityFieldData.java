@@ -52,7 +52,7 @@ public abstract class CEntityFieldData extends CBaseEntityFieldAttribute
 	}
 	public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory) 
 	{
-		CDataEntity e = m_Reference.GetArrayReference(v, factory) ;
+		CDataEntity e = reference.GetArrayReference(v, factory) ;
 		return factory.NewEntityFieldData(getLine(), "", e);
 	};
 	public CDataEntity GetSubStringReference(CBaseEntityExpression start, CBaseEntityExpression length, CBaseEntityFactory factory) 
@@ -66,19 +66,19 @@ public abstract class CEntityFieldData extends CBaseEntityFieldAttribute
 		CEntityCondIsConstant eCond = factory.NewEntityCondIsConstant() ;
 		if (value.equals("ZERO") || value.equals("ZEROS") || value.equals("ZEROES"))
 		{
-			eCond.SetIsZero(m_Reference);
+			eCond.SetIsZero(reference);
 		}
 		else if (value.equals("SPACE") || value.equals("SPACES"))
 		{
-			eCond.SetIsSpace(m_Reference);
+			eCond.SetIsSpace(reference);
 		}
 		else if (value.equals("LOW-VALUE") || value.equals("LOW-VALUES"))
 		{
-			eCond.SetIsLowValue(m_Reference);
+			eCond.SetIsLowValue(reference);
 		}
 		else if (value.equals("HIGH-VALUE") || value.equals("HIGH-VALUES"))
 		{
-			eCond.SetIsHighValue(m_Reference);
+			eCond.SetIsHighValue(reference);
 		}
 		else
 		{
@@ -102,8 +102,8 @@ public abstract class CEntityFieldData extends CBaseEntityFieldAttribute
 	{
 		CEntityAssign eAssign = factory.NewEntityAssign(l) ;
 		eAssign.SetValue(term);
-		eAssign.AddRefTo(m_Reference) ;
-		m_Reference.RegisterWritingAction(eAssign) ;
+		eAssign.AddRefTo(reference) ;
+		reference.RegisterWritingAction(eAssign) ;
 		return eAssign ;
 	}
 	public CBaseActionEntity GetSpecialAssignment(CTerminal term, CBaseEntityFactory factory, int l)
@@ -112,21 +112,21 @@ public abstract class CEntityFieldData extends CBaseEntityFieldAttribute
 		CEntitySetConstant eAssign = factory.NewEntitySetConstant(l) ;
 		if (value.equals("ZERO") || value.equals("ZEROS") || value.equals("ZEROES"))
 		{
-			eAssign.SetToZero(m_Reference) ;
+			eAssign.SetToZero(reference) ;
 		}
 		else if (value.equals("SPACE") || value.equals("SPACES"))
 		{
-			eAssign.SetToSpace(m_Reference) ;
+			eAssign.SetToSpace(reference) ;
 		}
 		else if (value.equals("LOW-VALUE") || value.equals("LOW-VALUES"))
 		{	
-			eAssign.SetToLowValue(m_Reference) ;
+			eAssign.SetToLowValue(reference) ;
 		}
 		else
 		{
 			return null ;
 		}
-		m_Reference.RegisterWritingAction(eAssign) ;
+		reference.RegisterWritingAction(eAssign) ;
 		return eAssign ;
 	}
 	public boolean ignore()

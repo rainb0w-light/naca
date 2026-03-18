@@ -18,14 +18,14 @@ public abstract class BaseControlerTaskConfig
 {
 	protected BaseControlerTaskConfig(String name)
 	{
-		m_csName = name ;
+		csName = name ;
 	}
-	private String m_csName = "" ;
+	private String csName = "" ;
 	protected enum EGroupMode 
 	{
 		MODE_GROUP, MODE_SITE ;
 	}
-	private EGroupMode m_eMode = EGroupMode.MODE_SITE ;
+	private EGroupMode eMode = EGroupMode.MODE_SITE ;
 
 	public abstract int getNbSteps() ;
 
@@ -33,32 +33,32 @@ public abstract class BaseControlerTaskConfig
 
 	public boolean isModeGroup()
 	{
-		return m_eMode == EGroupMode.MODE_GROUP ;
+		return eMode == EGroupMode.MODE_GROUP ;
 	}
 
 	void Setup(Tag tagTask)
 	{
-		m_nDelayBeforeStart = tagTask.getValAsInt("startdelay") ;
-		m_nDelayBeforeRestart = tagTask.getValAsInt("restartdelay") ;
+		nDelayBeforeStart = tagTask.getValAsInt("startdelay") ;
+		nDelayBeforeRestart = tagTask.getValAsInt("restartdelay") ;
 		String cs = tagTask.getVal("mode") ;
 		if (cs.equals("group"))
 		{
-			m_eMode = EGroupMode.MODE_GROUP ;
-			m_bActive = false ; // default value
+			eMode = EGroupMode.MODE_GROUP ;
+			bActive = false ; // default value
 		}
 		else if (cs.equals("site"))
 		{
-			m_eMode = EGroupMode.MODE_SITE ;
-			m_bActive = true ; // default value
+			eMode = EGroupMode.MODE_SITE ;
+			bActive = true ; // default value
 		}
 		cs = tagTask.getVal("status") ;
 		if (cs.equalsIgnoreCase("active"))
 		{
-			m_bActive = true ;
+			bActive = true ;
 		}
 		else if (cs.equalsIgnoreCase("inactive"))
 		{
-			m_bActive = false ;
+			bActive = false ;
 		}
 		
 		
@@ -66,23 +66,23 @@ public abstract class BaseControlerTaskConfig
 	}
 	protected abstract void intSetup(Tag tagTask);
 
-	private int m_nDelayBeforeStart = 0 ;
-	private int m_nDelayBeforeRestart = 0 ;
-	private boolean m_bActive = false ;
+	private int nDelayBeforeStart = 0 ;
+	private int nDelayBeforeRestart = 0 ;
+	private boolean bActive = false ;
 
 	public String getName()
 	{
-		return m_csName ;
+		return csName ;
 	}
 
 	protected int getDelayBeforeStart()
 	{
-		return m_nDelayBeforeStart ;
+		return nDelayBeforeStart ;
 	}
 
 	protected int getDelayBeforeRestart()
 	{
-		return m_nDelayBeforeRestart ;
+		return nDelayBeforeRestart ;
 	}
 
 	public abstract String getLogChannel() ;
@@ -100,14 +100,14 @@ public abstract class BaseControlerTaskConfig
 	
 //	void setCurrentControler(BaseControler ctrl)
 //	{
-//		m_CurrentControler = ctrl ;
+//		currentControler = ctrl ;
 //	}
-//	private BaseControler m_CurrentControler = null  ;
+//	private BaseControler currentControler = null  ;
 //	void OnDeleteConfig()
 //	{
-//		if (m_CurrentControler != null)
+//		if (currentControler != null)
 //		{
-//			m_CurrentControler.Stop(true) ;
+//			currentControler.Stop(true) ;
 //		}
 //		for (int i=0; i<getNbSteps(); i++)
 //		{

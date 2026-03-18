@@ -40,9 +40,9 @@ public class CPerformUntil extends CBlocElement
 	public CPerformUntil(CIdentifier ref, CIdentifier refThru, int line, boolean bBefore)
 	{
 		super(line) ;
-		m_Reference = ref ;
-		m_RefThru = refThru ;
-		m_bTestBefore = bBefore ;
+		reference = ref ;
+		refThru = refThru ;
+		bTestBefore = bBefore ;
 	}
 	/* (non-Javadoc)
 	 * @see parser.CLanguageElement#Parse(lexer.CTokenList)
@@ -57,13 +57,13 @@ public class CPerformUntil extends CBlocElement
 			return false ;
 		}
 		GetNext() ;
-		m_cond = ReadConditionalStatement() ;
-		if (m_cond == null)
+		cond = ReadConditionalStatement() ;
+		if (cond == null)
 		{
 			Transcoder.logError(getLine(), "No condition could be read as UNTIL condition") ;
 			return false ;
 		}  
-		if (m_Reference == null)
+		if (reference == null)
 		{
 			// no reference provided, the code is inside
 			if (!super.DoParsing())
@@ -79,7 +79,7 @@ public class CPerformUntil extends CBlocElement
 			}
 			else
 			{
-				m_nEndLine = tok.getLine() ;
+				nEndLine = tok.getLine() ;
 				GetNext() ;
 			}
 		}
@@ -91,22 +91,22 @@ public class CPerformUntil extends CBlocElement
 	protected Element ExportCustom(Document root)
 	{
 		Element ePerf = root.createElement("PerformUntil") ;
-		if (m_Reference != null)
+		if (reference != null)
 		{
-			ePerf.setAttribute("Reference", m_Reference.GetName()) ;
+			ePerf.setAttribute("Reference", reference.GetName()) ;
 		}
-		if (m_RefThru != null)
+		if (refThru != null)
 		{
-			ePerf.setAttribute("Thru", m_RefThru.GetName()) ;
+			ePerf.setAttribute("Thru", refThru.GetName()) ;
 		}
-		Element eCond = m_cond.Export(root) ;
+		Element eCond = cond.Export(root) ;
 		ePerf.appendChild(eCond) ;
 		return ePerf ;
 	}
-	protected CExpression m_cond = null ; 
-	protected CIdentifier m_Reference = null ;
-	protected CIdentifier m_RefThru = null ;
-	boolean m_bTestBefore = true ;
+	protected CExpression cond = null ; 
+	protected CIdentifier reference = null ;
+	protected CIdentifier refThru = null ;
+	boolean bTestBefore = true ;
 	/* (non-Javadoc)
 	 * @see parser.CBaseElement#DoCustomSemanticAnalysis(semantic.CBaseSemanticEntity, semantic.CBaseSemanticEntityFactory)
 	 */
@@ -114,25 +114,25 @@ public class CPerformUntil extends CBlocElement
 	{
 		CEntityLoopWhile eLoop = factory.NewEntityLoopWhile(getLine()) ;
 		parent.AddChild(eLoop) ;
-		CBaseEntityCondition cond = m_cond.AnalyseCondition(factory);
-		if (m_bTestBefore)
+		CBaseEntityCondition condNew = this.cond.AnalyseCondition(factory);
+		if (bTestBefore)
 		{
-			eLoop.SetUntilCondition(cond) ;
+			eLoop.SetUntilCondition(condNew) ;
 		}
 		else
 		{
-			eLoop.SetDoUntilCondition(cond) ;
+			eLoop.SetDoUntilCondition(condNew) ;
 		}
 
-		if (m_RefThru != null)
+		if (refThru != null)
 		{
-			CEntityCallFunction e = factory.NewEntityCallFunction(getLine(), m_Reference.GetName(), m_RefThru.GetName(), parent.getSectionContainer()) ;
+			CEntityCallFunction e = factory.NewEntityCallFunction(getLine(), reference.GetName(), refThru.GetName(), parent.getSectionContainer()) ;
 			eLoop.AddChild(e) ;
 			return e;
 		}
-		else if (m_Reference != null)
+		else if (reference != null)
 		{
-			CEntityCallFunction e = factory.NewEntityCallFunction(getLine(), m_Reference.GetName(), "", parent.getSectionContainer()) ;
+			CEntityCallFunction e = factory.NewEntityCallFunction(getLine(), reference.GetName(), "", parent.getSectionContainer()) ;
 			eLoop.AddChild(e) ;
 			return e;
 		}

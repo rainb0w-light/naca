@@ -44,7 +44,7 @@ public abstract class VarDefVariable extends VarDefBuffer
 	
 	protected boolean isVarInMapRedefine()
 	{
-		if(m_varDefFormRedefineOrigin != null)
+		if(varDefFormRedefineOrigin != null)
 			return true;
 		return false;
 	}

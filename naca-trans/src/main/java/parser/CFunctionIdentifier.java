@@ -56,7 +56,7 @@ public class CFunctionIdentifier extends CIdentifier
 		
 		if (tok.GetKeyword() == CCobolKeywordList.CURRENT_DATE)
 		{
-			m_Function = tok.GetKeyword() ;
+			function = tok.GetKeyword() ;
 			lstTokens.GetNext() ;
 		}
 		else if (tok.GetKeyword() == CCobolKeywordList.LENGTH)
@@ -64,9 +64,9 @@ public class CFunctionIdentifier extends CIdentifier
 			CBaseToken tokOf = lstTokens.GetNext() ;
 			if (tokOf.GetKeyword() == CCobolKeywordList.OF)
 			{ 
-				m_Function = tok.GetKeyword() ;
+				function = tok.GetKeyword() ;
 				lstTokens.GetNext() ;
-				m_Parameter = owner.ReadIdentifier();
+				parameter = owner.ReadIdentifier();
 			}
 			else
 			{
@@ -78,9 +78,9 @@ public class CFunctionIdentifier extends CIdentifier
 			CBaseToken tokOf = lstTokens.GetNext() ;
 			if (tokOf.GetKeyword() == CCobolKeywordList.OF)
 			{ 
-				m_Function = tok.GetKeyword() ;
+				function = tok.GetKeyword() ;
 				lstTokens.GetNext() ;
-				m_Parameter = owner.ReadIdentifier();
+				parameter = owner.ReadIdentifier();
 			}
 			else
 			{
@@ -96,24 +96,24 @@ public class CFunctionIdentifier extends CIdentifier
 	public CDataEntity GetDataReference(int nLine, CBaseEntityFactory fact)
 	{
 		CBaseEntityFunction f = null ;
-		if (m_Function == CCobolKeywordList.LENGTH)
+		if (function == CCobolKeywordList.LENGTH)
 		{
-			CDataEntity e = m_Parameter.GetDataReference(nLine, fact);
+			CDataEntity e = parameter.GetDataReference(nLine, fact);
 			f = fact.NewEntityLengthOf(e);
 		}
-		else if (m_Function == CCobolKeywordList.ADDRESS)
+		else if (function == CCobolKeywordList.ADDRESS)
 		{
-			CDataEntity e = m_Parameter.GetDataReference(nLine, fact);
+			CDataEntity e = parameter.GetDataReference(nLine, fact);
 			f = fact.NewEntityAddressOf(e);
 		}
-		else if (m_Function == CCobolKeywordList.CURRENT_DATE)
+		else if (function == CCobolKeywordList.CURRENT_DATE)
 		{
 			f = fact.NewEntityCurrentDate();
-			if (m_exprStringLengthReference != null & m_exprStringStartReference != null)
+			if (exprStringLengthReference != null & exprStringStartReference != null)
 			{
 				CSubStringAttributReference ref = fact.NewEntitySubString(nLine);
-				CBaseEntityExpression start = m_exprStringStartReference.AnalyseExpression(fact) ;
-				CBaseEntityExpression len = m_exprStringLengthReference.AnalyseExpression(fact) ;
+				CBaseEntityExpression start = exprStringStartReference.AnalyseExpression(fact) ;
+				CBaseEntityExpression len = exprStringLengthReference.AnalyseExpression(fact) ;
 				ref.SetReference(f, start, len) ;
 				return ref ;
 			}
@@ -128,19 +128,19 @@ public class CFunctionIdentifier extends CIdentifier
 
 	public void ExportTo(Element e, Document root)
 	{
-		if (m_Function == CCobolKeywordList.LENGTH)
+		if (function == CCobolKeywordList.LENGTH)
 		{
 			Element eLen = root.createElement("LengthOf");
 			e.appendChild(eLen);
-			m_Parameter.ExportTo(eLen, root);
+			parameter.ExportTo(eLen, root);
 		}
-		else if (m_Function == CCobolKeywordList.ADDRESS)
+		else if (function == CCobolKeywordList.ADDRESS)
 		{
 			Element eLen = root.createElement("AddressOf");
 			e.appendChild(eLen);
-			m_Parameter.ExportTo(eLen, root);
+			parameter.ExportTo(eLen, root);
 		}
-		else if (m_Function == CCobolKeywordList.CURRENT_DATE)
+		else if (function == CCobolKeywordList.CURRENT_DATE)
 		{
 			e.setAttribute("Function", "Current-Date") ;
 		}
@@ -151,6 +151,6 @@ public class CFunctionIdentifier extends CIdentifier
 		}
 	}
 	
-	protected CReservedKeyword m_Function = null ;
-	protected CIdentifier m_Parameter = null ; 
+	protected CReservedKeyword function = null ;
+	protected CIdentifier parameter = null ; 
 }

@@ -41,121 +41,121 @@ import java.util.ArrayList;
 public class LogEvent
 {
 	public LogEvent(LogEventType logEventType, LogFlow logFlow, LogLevel logLevel, String csProduct, String csProcess, String csName) {
-		m_logEventType = logEventType;
-		m_logLevel = logLevel;
-		m_logFlow = logFlow;
-		m_csProduct = csProduct;
-		m_csProcess = csProcess;
-		m_csName = csName;
+		logEventType = logEventType;
+		logLevel = logLevel;
+		logFlow = logFlow;
+		csProduct = csProduct;
+		csProcess = csProcess;
+		csName = csName;
 	}
 
 	public LogEvent(LogEventType logEventType, LogFlow logFlow, LogLevel logLevel, String csProduct, String csProcess) {
-		m_logEventType = logEventType;
-		m_logLevel = logLevel;
-		m_logFlow = logFlow;
-		m_csProduct = csProduct;
-		m_csProcess = csProcess;
+		logEventType = logEventType;
+		logLevel = logLevel;
+		logFlow = logFlow;
+		csProduct = csProduct;
+		csProcess = csProcess;
 	}
 
 	public LogEvent(LogEventType logEventType, LogFlow logFlow, LogLevel logLevel, String csProduct)
 	{
-		m_logEventType = logEventType;
-		m_logFlow = logFlow;
-		m_logLevel = logLevel;
-		m_csProduct = csProduct;
+		logEventType = logEventType;
+		logFlow = logFlow;
+		logLevel = logLevel;
+		csProduct = csProduct;
 	}
 	
 	public LogEvent(LogEventType logEventType, LogFlow logFlow, LogLevel logLevel)
 	{
-		m_logEventType = logEventType;
-		m_logFlow = logFlow;
-		m_logLevel = logLevel;
+		logEventType = logEventType;
+		logFlow = logFlow;
+		logLevel = logLevel;
 	}
 	
 	public LogEvent(LogFlow logFlow, LogLevel logLevel)
 	{
-		m_logEventType = LogEventType.Remark; 
-		m_logFlow = logFlow;
-		m_logLevel = logLevel;
+		logEventType = LogEventType.Remark; 
+		logFlow = logFlow;
+		logLevel = logLevel;
 	}
 
 	public void setLogLevel(LogLevel logLevel)
 	{
-		m_logLevel = logLevel;
+		logLevel = logLevel;
 	}
 
 	public LogLevel getLogLevel()
 	{
-		return m_logLevel;
+		return logLevel;
 	}
 	
 	public LogEventType getLogEventType()
 	{
-		return m_logEventType;
+		return logEventType;
 	}
 	
 	public void setLogFlow(LogFlow logFlow)
 	{
-		m_logFlow = logFlow;
+		logFlow = logFlow;
 	}
 
 	public LogFlow getLogFlow()
 	{
-		return m_logFlow;
+		return logFlow;
 	}
 
 	public void setName(String csName)
 	{
-		m_csName=csName;
+		csName=csName;
 	}
 
 	public String getName()
 	{
-		if (m_csName==null) 
-			m_csName = getClass().getName();
-		return m_csName;
+		if (csName==null) 
+			csName = getClass().getName();
+		return csName;
 	}
 	
 	String getShortName()
 	{
-		if (m_csName==null) 
-			m_csName = getClass().getName();
-		int n = m_csName.lastIndexOf(".");
+		if (csName==null) 
+			csName = getClass().getName();
+		int n = csName.lastIndexOf(".");
 		if (n<0)
-			return m_csName;
+			return csName;
 		else
-			return m_csName.substring(n+1);
+			return csName.substring(n+1);
 	}
 
 	public void fillMember(String csName, String csValue)
 	{
-		if(m_arrLogInfoMembers == null)
-			m_arrLogInfoMembers = new ArrayList<LogInfoMember>();
+		if(arrLogInfoMembers == null)
+			arrLogInfoMembers = new ArrayList<LogInfoMember>();
 		LogInfoMember logInfomember = new LogInfoMember(csName, csValue);
-		m_arrLogInfoMembers.add(logInfomember);
+		arrLogInfoMembers.add(logInfomember);
 	}
 	
 	public void fillMember(String csName, int nValue)
 	{
-		if(m_arrLogInfoMembers == null)
-			m_arrLogInfoMembers = new ArrayList<LogInfoMember>();
+		if(arrLogInfoMembers == null)
+			arrLogInfoMembers = new ArrayList<LogInfoMember>();
 		LogInfoMember logInfomember = new LogInfoMember(csName, nValue);
-		m_arrLogInfoMembers.add(logInfomember);
+		arrLogInfoMembers.add(logInfomember);
 	}
 
 	public String getAsString()
 	{
 		String cs = "" ;
-		if (m_csProduct != null && !m_csProduct.equals(""))
+		if (csProduct != null && !csProduct.equals(""))
 		{
-			cs = "Product="+m_csProduct+" ; " ;
+			cs = "Product="+csProduct+" ; " ;
 		}
-		if(m_arrLogInfoMembers != null)
+		if(arrLogInfoMembers != null)
 		{
-			int nNbMembers = m_arrLogInfoMembers.size();
+			int nNbMembers = arrLogInfoMembers.size();
 			for(int n=0; n<nNbMembers; n++)
 			{				
-				LogInfoMember logInfoMember = m_arrLogInfoMembers.get(n);
+				LogInfoMember logInfoMember = arrLogInfoMembers.get(n);
 				cs += "; "+ logInfoMember.getAsString();
 			}
 			return cs;
@@ -165,12 +165,12 @@ public class LogEvent
 	
 	String getTextAsString(int n)
 	{
-		if(m_arrLogInfoMembers != null)
+		if(arrLogInfoMembers != null)
 		{
-			int nNbMembers = m_arrLogInfoMembers.size();
+			int nNbMembers = arrLogInfoMembers.size();
 			if(n < nNbMembers)
 			{
-				LogInfoMember logInfoMember = m_arrLogInfoMembers.get(n);
+				LogInfoMember logInfoMember = arrLogInfoMembers.get(n);
 				String cs = logInfoMember.getAsString();
 				return cs;
 			}
@@ -180,12 +180,12 @@ public class LogEvent
 	
 	String getItemValue(int n)
 	{
-		if(m_arrLogInfoMembers != null)
+		if(arrLogInfoMembers != null)
 		{
-			int nNbMembers = m_arrLogInfoMembers.size();
+			int nNbMembers = arrLogInfoMembers.size();
 			if(n < nNbMembers)
 			{
-				LogInfoMember logInfoMember = m_arrLogInfoMembers.get(n);
+				LogInfoMember logInfoMember = arrLogInfoMembers.get(n);
 				String cs = logInfoMember.getValue();
 				return cs;
 			}
@@ -195,12 +195,12 @@ public class LogEvent
 	
 	LogInfoMember getParamInfoMember(int n)
 	{
-		if(m_arrLogInfoMembers != null)
+		if(arrLogInfoMembers != null)
 		{
-			int nNbMembers = m_arrLogInfoMembers.size();
+			int nNbMembers = arrLogInfoMembers.size();
 			if(n < nNbMembers)
 			{
-				LogInfoMember logInfoMember = m_arrLogInfoMembers.get(n);
+				LogInfoMember logInfoMember = arrLogInfoMembers.get(n);
 				return logInfoMember;
 			}
 		}
@@ -209,9 +209,9 @@ public class LogEvent
 	
 	int getNbParamInfoMember()
 	{
-		if(m_arrLogInfoMembers != null)
+		if(arrLogInfoMembers != null)
 		{
-			int nNbMembers = m_arrLogInfoMembers.size();
+			int nNbMembers = arrLogInfoMembers.size();
 			return nNbMembers;
 		}
 		return 0;
@@ -219,19 +219,19 @@ public class LogEvent
 	
 	String getProduct()
 	{
-		return m_csProduct;
+		return csProduct;
 	}
 
 	String getProcess()
 	{
-		return m_csProcess;
+		return csProcess;
 	}
 	
-	private String m_csName = null;
-	private LogEventType m_logEventType = null;
-	private LogLevel m_logLevel = null;
-	private LogFlow m_logFlow = null;
-	private String m_csProduct = null;
-	private String m_csProcess = null;
-	private ArrayList<LogInfoMember> m_arrLogInfoMembers = null;
+	private String csName = null;
+	private LogEventType logEventType = null;
+	private LogLevel logLevel = null;
+	private LogFlow logFlow = null;
+	private String csProduct = null;
+	private String csProcess = null;
+	private ArrayList<LogInfoMember> arrLogInfoMembers = null;
 }

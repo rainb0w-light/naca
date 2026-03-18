@@ -16,8 +16,8 @@ package nacaLib.basePrgEnv;
  */
 public class EnvironmentStatus
 {
-	private String m_csStatus = null;
-	private boolean m_bRunning = false;
+	private String csStatus = null;
+	private boolean bRunning = false;
 	
 	public static final EnvironmentStatus UNKNOWN = new EnvironmentStatus("Unknown", false);
 	public static final EnvironmentStatus RUNNING = new EnvironmentStatus("Running", true);
@@ -26,17 +26,17 @@ public class EnvironmentStatus
 	
 	private EnvironmentStatus(String csStatus, boolean bRunning)
 	{
-		m_csStatus = csStatus;
-		m_bRunning = bRunning;
+		csStatus = csStatus;
+		bRunning = bRunning;
 	}
 	
 	public String getString()
 	{
-		return m_csStatus;
+		return csStatus;
 	}
 	
 	public boolean isRunning()
 	{
-		return m_bRunning;
+		return bRunning;
 	}
 }

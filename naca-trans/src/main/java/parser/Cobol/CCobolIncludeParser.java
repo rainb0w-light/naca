@@ -17,8 +17,8 @@ public class CCobolIncludeParser extends CParser<CStandAloneWorking>
 	protected boolean DoParsing(CTokenList lstTokens)
 	{
 		CStandAloneWorking working = new CStandAloneWorking(0) ;
-		m_eRoot = working ;
-		boolean bParsed = m_eRoot.Parse(lstTokens, m_CommentContainer) ; 
+		eRoot = working ;
+		boolean bParsed = eRoot.Parse(lstTokens, commentContainer) ; 
 		return bParsed ;
 	}
 

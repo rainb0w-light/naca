@@ -21,16 +21,16 @@ public class CFPacJavaLoopWhile extends CEntityLoopWhile
 	@Override
 	protected void DoExport()
 	{
-		if (m_bDoBefore)
+		if (bDoBefore)
 		{
 			WriteLine("do {") ;
 			ExportChildren() ;
 			WriteLine("}");
-			WriteLine("while (" + m_WhileCondition.Export() + ") ;");
+			WriteLine("while (" + whileCondition.Export() + ") ;");
 		}
 		else
 		{
-			WriteLine("while ("+ m_WhileCondition.Export() + ") {");
+			WriteLine("while ("+ whileCondition.Export() + ") {");
 			ExportChildren() ;
 			WriteLine("}");
 		}

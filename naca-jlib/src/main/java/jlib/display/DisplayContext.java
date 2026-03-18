@@ -26,15 +26,15 @@ public class DisplayContext
 {
 	protected class DisplayedElement
 	{
-		public BaseDialog m_Dialog = null ;
-		public String m_Display = "" ;
+		public BaseDialog dialog = null ;
+		public String display = "" ;
 	}
-	protected DisplayConfig m_Config ;
-	protected Stack<DisplayedElement> m_stackDisplayedElements = new Stack<DisplayedElement>() ;
+	protected DisplayConfig config ;
+	protected Stack<DisplayedElement> stackDisplayedElements = new Stack<DisplayedElement>() ;
 	
 	public DisplayContext()
 	{
-		m_Config = DisplayConfig.getInstance() ;
+		config = DisplayConfig.getInstance() ;
 	}
 	
 	/**
@@ -44,9 +44,9 @@ public class DisplayContext
 	 */
 	public boolean OnRequest(HTTPMapFieldLoader reqLoader, DisplayOutput output)
 	{
-		if(m_stackDisplayedElements.isEmpty())
+		if(stackDisplayedElements.isEmpty())
 		{
-			BaseDialogFactory factory = m_Config.getDialogFactory() ;
+			BaseDialogFactory factory = config.getDialogFactory() ;
 			BaseDialog dlg = factory.getInitialDialog(this) ;
 			if (dlg == null)
 			{
@@ -55,8 +55,8 @@ public class DisplayContext
 			return OpenDialog(dlg, output) ;
 		}
 
-		DisplayedElement dlg = m_stackDisplayedElements.lastElement() ;
-		if (!dlg.m_Dialog.HandleRequest(reqLoader))
+		DisplayedElement dlg = stackDisplayedElements.lastElement() ;
+		if (!dlg.dialog.HandleRequest(reqLoader))
 		{
 			return false ;
 		}
@@ -69,11 +69,11 @@ public class DisplayContext
 	 */
 	private boolean ShowFrontDialog(DisplayOutput output)
 	{
-		DisplayedElement element = m_stackDisplayedElements.lastElement() ;
-		if (element == null || element.m_Dialog == null)
+		DisplayedElement element = stackDisplayedElements.lastElement() ;
+		if (element == null || element.dialog == null)
 			return false ;
 
-		Tag tagOutput = element.m_Dialog.getXMLDisplay(element.m_Display) ;
+		Tag tagOutput = element.dialog.getXMLDisplay(element.display) ;
 		if (tagOutput == null)
 			return false  ;
 		
@@ -94,7 +94,7 @@ public class DisplayContext
 	 */
 	public String getRootPath()
 	{
-		String path = m_Config.getRootPath() ;
+		String path = config.getRootPath() ;
 		return path;
 	}
 
@@ -105,8 +105,8 @@ public class DisplayContext
 	public void AddDisplay(BaseDialog dialog, String form)
 	{
 		DisplayedElement el = new DisplayedElement() ;
-		el.m_Dialog = dialog ;
-		el.m_Display = form ;
-		m_stackDisplayedElements.add(el) ;
+		el.dialog = dialog ;
+		el.display = form ;
+		stackDisplayedElements.add(el) ;
 	}
 }
