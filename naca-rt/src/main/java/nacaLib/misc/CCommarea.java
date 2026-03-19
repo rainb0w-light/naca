@@ -55,13 +55,13 @@ public class CCommarea extends CJMapObject
 	public void setVarPassedByRef(Var var)
 	{
 		charBufferCopy = null;
-		var = var;
+		this.var = var;
 		bByValue = false;
 	}
-	
+
 	void setLength(int nLength)
 	{
-		nLength = nLength;
+		this.nLength = nLength;
 		bLengthSpecified = true;
 	}
 	

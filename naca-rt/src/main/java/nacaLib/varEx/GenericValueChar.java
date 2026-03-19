@@ -23,7 +23,7 @@ public class GenericValueChar extends GenericValue
 {
 	GenericValueChar(char c)
 	{
-		c = c;
+		this.c = c;
 	}
 	
 	String getAsRawString()

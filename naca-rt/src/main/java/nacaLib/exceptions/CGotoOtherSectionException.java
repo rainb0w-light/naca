@@ -16,6 +16,6 @@ public class CGotoOtherSectionException extends NacaRTException
 	public CGotoOtherSectionException(Section section)
 	{
 		super();
-		section = section;
+		this.section = section;
 	}
 }

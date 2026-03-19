@@ -24,12 +24,12 @@ public class InitializeManagerDoubleEdited extends InitializeManager
 	
 	public InitializeManagerDoubleEdited(double d)
 	{
-		dValue = d;
+		this.dValue = d;
 	}
-	
+
 	public void set(double d)
 	{
-		dValue = d;
+		this.dValue = d;
 	}
 		
 	public void initialize(VarBufferPos buffer, VarDefBuffer varDef, int nOffset, InitializeCache initializeCache)

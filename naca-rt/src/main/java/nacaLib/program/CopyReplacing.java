@@ -59,10 +59,10 @@ class CopyReplacingItem
 {
 	CopyReplacingItem(int nOldLevel, int nNewLevel)
 	{
-		nOldLevel = nOldLevel;
-		nNewLevel = nNewLevel;
+		this.nOldLevel = nOldLevel;
+		this.nNewLevel = nNewLevel;
 	}
-			
+
 	int nOldLevel = 0;
 	int nNewLevel = 0;
 }

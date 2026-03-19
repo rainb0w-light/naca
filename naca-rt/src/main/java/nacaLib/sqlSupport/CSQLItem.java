@@ -29,11 +29,11 @@ public class CSQLItem
 
 	public CSQLItem(VarAndEdit var)
 	{
-		var = var;
+		this.var = var;
 	}
 	public void set(VarAndEdit var)
 	{
-		var = var;
+		this.var = var;
 		csValue = null;
 	}
 

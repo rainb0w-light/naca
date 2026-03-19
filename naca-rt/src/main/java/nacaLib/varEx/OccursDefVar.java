@@ -18,7 +18,7 @@ public class OccursDefVar extends OccursDefBase
 {	
 	public OccursDefVar(Var var)
 	{
-		var = var;
+		this.var = var;
 	}
 		
 	public int getNbOccurs()

@@ -23,8 +23,8 @@ public class CLevel
 {
 	CLevel(VarDefBuffer varDef, int nLevel)
 	{
-		nLevel = nLevel;
-		varDef = varDef;
+		this.nLevel = nLevel;
+		this.varDef = varDef;
 	};
 	
 	void setWith(CLevel levelSource)
@@ -40,7 +40,7 @@ public class CLevel
 	
 	boolean hasLowerLevel(int nLevel)
 	{
-		if(nLevel < nLevel)
+		if(this.nLevel < nLevel)
 			return true;
 		return false;
 	}

@@ -80,13 +80,13 @@ public class LdapRequester
 
 	public LdapRequester(String csServer1, String csServer2, String csServer3, String csDomain, String ou, String csGenericUser, String csGenericPassword)
 	{
-		csLDAPServer1 = csServer1;
-		csLDAPServer2 = csServer2;
-		csLDAPServer3 = csServer3;
-		csLDAPDomain = csDomain;
-		csLDAPRootOU = ou ;
-		csLDAPGenericUser = csGenericUser;
-		csLDAPGenericPassword = csGenericPassword;
+		this.csLDAPServer1 = csServer1;
+		this.csLDAPServer2 = csServer2;
+		this.csLDAPServer3 = csServer3;
+		this.csLDAPDomain = csDomain;
+		this.csLDAPRootOU = ou ;
+		this.csLDAPGenericUser = csGenericUser;
+		this.csLDAPGenericPassword = csGenericPassword;
 	}
 	
 	/**

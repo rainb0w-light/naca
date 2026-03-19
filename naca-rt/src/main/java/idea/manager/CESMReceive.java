@@ -34,8 +34,8 @@ public class CESMReceive extends CJMapObject
 {
 	CESMReceive(Document Loader, BaseEnvironment env)
 	{
-		xmlData = Loader;
-		env = env ;
+		this.xmlData = Loader;
+		this.env = env;
 	}
 	
 	CESMReceive setMap(String mapName)
@@ -47,7 +47,7 @@ public class CESMReceive extends CJMapObject
 	
 	public void into(Form var)
 	{
-		mapInto = var;
+		this.mapInto = var;
 		receiveData() ;
 		//return this;
 	}

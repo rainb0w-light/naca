@@ -107,7 +107,7 @@ public class DbPreparedStatement
 	
 	public boolean prepare(DbConnectionBase dbConnection, String csQuery, boolean bHoldability)
 	{
-		csQueryString = csQuery;
+		this.csQueryString = csQuery;
 		if(dbConnection != null)
 		{
 			try
@@ -126,10 +126,10 @@ public class DbPreparedStatement
 		return false; 
 	}
 	
-	public boolean prepareWithException(DbConnectionBase dbConnection, String csQuery, boolean bHoldability) 
+	public boolean prepareWithException(DbConnectionBase dbConnection, String csQuery, boolean bHoldability)
 		throws TechnicalException
 	{
-		csQueryString = csQuery;
+		this.csQueryString = csQuery;
 		if(dbConnection != null)
 		{
 			try

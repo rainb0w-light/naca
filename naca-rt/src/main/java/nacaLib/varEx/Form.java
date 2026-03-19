@@ -45,12 +45,12 @@ public class Form extends Var
 	public Form(DeclareTypeForm declareTypeForm, String csDeclaredFormName)
 	{
 		super(declareTypeForm);
-		
+
 		SharedProgramInstanceData sharedProgramInstanceData = declareTypeForm.getProgramManager().getSharedProgramInstanceData();
 		sharedProgramInstanceData.addVarDefForm((VarDefForm)varDef);
-		
-		csDeclaredFormName = csDeclaredFormName;
-		
+
+		this.csDeclaredFormName = csDeclaredFormName;
+
 		//VarLevel varLevelHeader = new VarLevel(declareTypeForm.getProgram(), 2);
 	}
 	

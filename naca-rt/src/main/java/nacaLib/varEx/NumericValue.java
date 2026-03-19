@@ -26,12 +26,12 @@ public class NumericValue
 	
 	void set(boolean bSigned, int nNbDigitInteger, int nNbDigitDecimal)
 	{
-		bSigned = bSigned;
-		nNbDigitInteger = nNbDigitInteger;
-		nNbDigitDecimal = nNbDigitDecimal;
-		bSignSeparated = false;
-		bSignLeading = false;
-		nComp = 0;
+		this.bSigned = bSigned;
+		this.nNbDigitInteger = nNbDigitInteger;
+		this.nNbDigitDecimal = nNbDigitDecimal;
+		this.bSignSeparated = false;
+		this.bSignLeading = false;
+		this.nComp = 0;
 	}
 	
 	NumericValue(NumericValue master)
@@ -62,7 +62,8 @@ public class NumericValue
 	
 	VarDefBuffer createVarDef(VarDefBase varDefParent, DeclareType9 declareType9)
 	{
-		if(nComp == 0)	// No Comp-... specified: 1 char is a digit, except maybe the sign that may be embbed in the last char	
+		System.out.println("DEBUG createVarDef: bSigned=" + bSigned + ", nNbDigitInteger=" + nNbDigitInteger + ", nNbDigitDecimal=" + nNbDigitDecimal + ", nComp=" + nComp);
+		if(nComp == 0)	// No Comp-... specified: 1 char is a digit, except maybe the sign that may be embbed in the last char
 		{
 			if(nNbDigitDecimal == 0)
 			{

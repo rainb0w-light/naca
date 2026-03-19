@@ -15,11 +15,11 @@ public class EmulWebThreadedRun
 {
 	EmulWebThreadedRun(EmulWebRunner emulWebRunner, OnlineResourceManager resourceManager, int nbLoops, boolean bCheckScenario, boolean bOutputExport)
 	{
-		emulWebRunner = emulWebRunner;
-		resourceManager = resourceManager;
-		nbLoops = nbLoops;
-		bCheckScenario = bCheckScenario;
-		bOutputExport = bOutputExport;
+		this.emulWebRunner = emulWebRunner;
+		this.resourceManager = resourceManager;
+		this.nbLoops = nbLoops;
+		this.bCheckScenario = bCheckScenario;
+		this.bOutputExport = bOutputExport;
 	}
 	
 	void run()

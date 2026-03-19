@@ -30,16 +30,16 @@ public abstract class BaseFileDescriptor extends CJMapObject
 	
 	public BaseFileDescriptor(BaseEnvironment env, String csLogicalName)
 	{
-		csLogicalName = csLogicalName;
+		this.csLogicalName = csLogicalName;
 		if(env != null)
 			fileManagerEntry = env.getFileManagerEntry(csLogicalName);
 		else
 			fileManagerEntry = new FileManagerEntry();
 	}
-		
+
 	public void restoreFileManagerEntry(FileManagerEntry fileManagerEntry)
 	{
-		fileManagerEntry = fileManagerEntry;
+		this.fileManagerEntry = fileManagerEntry;
 	}
 
 	public String getLogicalName()
@@ -130,7 +130,7 @@ public abstract class BaseFileDescriptor extends CJMapObject
 	
 	protected void setVarLengthDependingOn(Var varLengthDependingOn)
 	{
-		varLengthDependingOn = varLengthDependingOn;
+		this.varLengthDependingOn = varLengthDependingOn;
 	}
 	
 	public BaseFileDescriptor openOutputNoFileHeaderWrite()
@@ -216,7 +216,7 @@ public abstract class BaseFileDescriptor extends CJMapObject
 	
 	public void setSession(BaseSession baseSession)
 	{
-		baseSession = baseSession;
+		this.baseSession = baseSession;
 		computeSizeConstantRecordLength();
 	}
 		

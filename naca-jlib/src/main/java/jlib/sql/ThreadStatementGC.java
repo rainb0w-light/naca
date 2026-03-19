@@ -35,8 +35,8 @@ public class ThreadStatementGC extends Thread
 	private boolean bMaxPermanentHeap_MoSet = false;
 
 	public ThreadStatementGC(Tag tagGCThread, ArrayDbConnectionPool arrayDbConnectionPool)
-	{				
-		arrayDbConnectionPool = arrayDbConnectionPool;
+	{
+		this.arrayDbConnectionPool = arrayDbConnectionPool;
 		bActive = tagGCThread.getValAsBoolean("ActivateThreadGarbageCollectorStatement");
 		if(bActive)
 		{
@@ -78,7 +78,7 @@ public class ThreadStatementGC extends Thread
 
 	public synchronized void setCurrentMaxPermanentHeap_Mo(int nMaxPermanentHeap_Mo)
 	{
-		nMaxPermanentHeap_Mo = nMaxPermanentHeap_Mo;
+		this.nMaxPermanentHeap_Mo = nMaxPermanentHeap_Mo;
 		bMaxPermanentHeap_MoSet = true;
 	}
 	

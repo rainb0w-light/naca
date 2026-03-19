@@ -33,9 +33,9 @@ public class DeclareTypeX extends DeclareTypeBase
 	public void set(VarLevel varLevel, int nLength)
 	{
 		super.set(varLevel);
-		nLength = nLength;
-		bJustifyRight = false;
-		initialValue = null;
+		this.nLength = nLength;
+		this.bJustifyRight = false;
+		this.initialValue = null;
 	}
 	
 	int getLength()

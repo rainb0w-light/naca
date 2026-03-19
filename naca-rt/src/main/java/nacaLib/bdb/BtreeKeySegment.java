@@ -25,10 +25,10 @@ public abstract class BtreeKeySegment
 	
 	public BtreeKeySegment(int nKeyPositionInData, int nKeyPositionInKey, int nKeyLength, boolean bAscending)
 	{
-		nKeyPositionInData = nKeyPositionInData; 
+		this.nKeyPositionInData = nKeyPositionInData;
 		nKeyPosition = nKeyPositionInKey;
-		nKeyLength = nKeyLength;
-		bAscending = bAscending;
+		this.nKeyLength = nKeyLength;
+		this.bAscending = bAscending;
 	}
 
 	public void setDescending()
@@ -59,7 +59,7 @@ public abstract class BtreeKeySegment
 	
 	void setFileInEncoding(boolean bFileInEbcdic)
 	{
-		bFileInEbcdic = bFileInEbcdic;
+		this.bFileInEbcdic = bFileInEbcdic;
 	}
 	
 	abstract int compare(byte tby1[], byte tby2[]);

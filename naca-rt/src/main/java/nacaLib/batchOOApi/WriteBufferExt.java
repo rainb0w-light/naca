@@ -25,7 +25,7 @@ public class WriteBufferExt extends VarBufferPos
 	
 	void resetCurrentPosition()
 	{
-		nAbsolutePosition = 0;
+		this.nAbsolutePosition = 0;
 	}
 	
 	public void setVariableRecordWholeLength(int n)

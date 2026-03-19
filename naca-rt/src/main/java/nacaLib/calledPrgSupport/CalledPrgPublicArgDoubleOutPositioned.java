@@ -18,7 +18,7 @@ public class CalledPrgPublicArgDoubleOutPositioned extends BaseCalledPrgPublicAr
 	CalledPrgPublicArgDoubleOutPositioned(double dValue[], boolean bInOut)
 	{
 		super(bInOut);
-		dValue = dValue;
+		this.dValue = dValue;
 	}
 	
 	public void MapOn(Var varLinkageSection)

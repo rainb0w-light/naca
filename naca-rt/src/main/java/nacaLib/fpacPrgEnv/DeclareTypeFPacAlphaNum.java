@@ -18,7 +18,7 @@ public class DeclareTypeFPacAlphaNum extends DeclareTypeBase
 	public DeclareTypeFPacAlphaNum(VarLevel varLevel, int nLength)
 	{
 		super(varLevel);
-		nLength = nLength;
+		this.nLength = nLength;
 	}
 
 	public int getLength()

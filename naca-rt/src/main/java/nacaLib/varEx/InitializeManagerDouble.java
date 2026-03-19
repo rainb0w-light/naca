@@ -22,12 +22,12 @@ public class InitializeManagerDouble extends InitializeManager
 {
 	public InitializeManagerDouble(String csd)
 	{
-		csd = csd;
+		this.csd = csd;
 	}
-	
+
 	public void set(String csd)
 	{
-		csd = csd;
+		this.csd = csd;
 	}
 
 	public void initialize(VarBufferPos buffer, VarDefBuffer varDef, int nOffset, InitializeCache initializeCache)

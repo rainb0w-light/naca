@@ -24,7 +24,7 @@ public class SQLClauseSPParamInOutInt extends SQLClauseSPParamInOut
 	public SQLClauseSPParamInOutInt(SQLClauseSPParamWay wayInOut, int tnVal[])
 	{
 		super(wayInOut);
-		tnVal = tnVal;
+		this.tnVal = tnVal;
 	}
 	
 	protected void  setInValueWithException(int nParamId, DbPreparedCallableStatement stmt)

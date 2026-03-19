@@ -35,10 +35,10 @@ public class CSQLResultSet extends CJMapObject
 	
 	public CSQLResultSet(ResultSet r, SemanticContextDef semanticContextDef, SQL sql)
 	{
-		sql = sql;
+		this.sql = sql;
 		csQuery = sql.csQuery;
 		csProgramName = sql.getProgram();
-		r = r;
+		this.r = r;
 		arrColSelectType = sql.arrColSelectType;
 		sqlStatus = sql.sqlStatus;
 	}

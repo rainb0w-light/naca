@@ -35,7 +35,7 @@ public class CESMSendMap extends CJMapObject
 	CESMSendMap setMapName(String csMapName)
 	{
 		// Find the map which has to name in parameter: To DO
-		mapName = csMapName.trim() ; 
+		this.mapName = csMapName.trim() ; 
 		return this;
 	}
 	
@@ -52,12 +52,12 @@ public class CESMSendMap extends CJMapObject
 
 	public CESMSendMap from(Form map)
 	{
-		varFrom = map;
+		this.varFrom = map;
 		return this;
 	}
 	public CESMSendMap dataOnlyFrom(Form map)
 	{
-		varFrom = map;
+		this.varFrom = map;
 		return this;
 	}
 	public CESMSendMap dataOnlyFrom(Var map)
@@ -68,7 +68,7 @@ public class CESMSendMap extends CJMapObject
 	}
 	public CESMSendMap dataFrom(Form map)
 	{
-		varFrom = map;
+		this.varFrom = map;
 		return this;
 	}
 	public CESMSendMap dataFrom(Var map)

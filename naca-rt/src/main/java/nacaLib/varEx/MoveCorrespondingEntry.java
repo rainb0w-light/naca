@@ -20,8 +20,8 @@ public class MoveCorrespondingEntry
 {
 	MoveCorrespondingEntry(VarDefBase varDefSource, VarDefBase varDefDest)
 	{
-		varDefSource = varDefSource;
-		varDefDest = varDefDest;
+		this.varDefSource = varDefSource;
+		this.varDefDest = varDefDest;
 	}
 	
 	void doMove(BaseProgramManager programManager, int nSourceOffset, int nDestOffset)

@@ -28,8 +28,8 @@ public class FPacFileDeclaration
 	
 	FPacFileDeclaration(FPacVarSectionDeclaration section, String csName)
 	{
-		section = section;
-		csName = csName;		
+		this.section = section;
+		this.csName = csName;
 	}
 	
 	public FPacFileDescriptor file()

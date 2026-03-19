@@ -18,8 +18,8 @@ public class InitializeCachedItemCharsArray extends InitializeCachedItem
 {
 	InitializeCachedItemCharsArray(char tChars[], int nPosition)
 	{
-		tChars = tChars;
-		nTemplatePosition = nPosition;
+		this.tChars = tChars;
+		this.nTemplatePosition = nPosition;
 	}
 	
 	void apply(int nBaseAbsolutePosition, VarBufferPos varBufferPos, int nCurrentAbsolutePosition)	//, int nOffset)

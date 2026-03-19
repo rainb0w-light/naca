@@ -29,13 +29,13 @@ public class CSQLIntoItem extends CJMapObject
 {
 	public CSQLIntoItem(VarAndEdit varInto, Var varIndicator)
 	{
-		varInto = varInto;
-		varIndicator = varIndicator;
+		this.varInto = varInto;
+		this.varIndicator = varIndicator;
 	}
 	public void set(VarAndEdit varInto, Var varIndicator)
 	{
-		varInto = varInto;
-		varIndicator = varIndicator;
+		this.varInto = varInto;
+		this.varIndicator = varIndicator;
 	}
 	
 

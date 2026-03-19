@@ -30,8 +30,8 @@ public class DeclareTypeEditInMapRedefineNumEdited extends DeclareTypeBase
 	public void set(VarLevel varLevel, String csFormat, boolean bBlankWhenZero)
 	{
 		super.set(varLevel);
-		csNumEditedFormat = csFormat;
-		bBlankWhenZero = bBlankWhenZero;
+		this.csNumEditedFormat = csFormat;
+		this.bBlankWhenZero = bBlankWhenZero;
 	}
 	
 	public VarDefBuffer createVarDef(VarDefBuffer varDefParent)

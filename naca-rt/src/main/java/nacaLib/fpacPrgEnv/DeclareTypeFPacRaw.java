@@ -26,7 +26,7 @@ public class DeclareTypeFPacRaw extends DeclareTypeBase
 	public DeclareTypeFPacRaw(VarLevel varLevel, int nLength)
 	{
 		super(varLevel);
-		nLength = nLength;
+		this.nLength = nLength;
 	}
 
 	public int getLength()

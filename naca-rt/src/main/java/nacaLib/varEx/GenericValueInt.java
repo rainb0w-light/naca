@@ -24,7 +24,7 @@ public class GenericValueInt extends GenericValue
 {
 	GenericValueInt(int n)
 	{
-		n = n;
+		this.n = n;
 	}
 	
 	String getAsRawString()

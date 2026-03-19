@@ -31,7 +31,7 @@ public class Paragraph extends CJMapRunnable
 	
 	public void name(String csName)
 	{
-		csName = csName;
+		this.csName = csName;
 	}	
 	
 	public void run()

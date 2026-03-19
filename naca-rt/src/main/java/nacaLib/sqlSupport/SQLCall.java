@@ -45,8 +45,8 @@ public class SQLCall
 		
 	public SQLCall(BaseProgramManager programManager, String csStoredProcName)
 	{
-		programManager = programManager;
-		csStoredProcName = csStoredProcName;
+		this.programManager = programManager;
+		this.csStoredProcName = csStoredProcName;
 		errorManager = new SQLErrorManager();
 		create();
 	}

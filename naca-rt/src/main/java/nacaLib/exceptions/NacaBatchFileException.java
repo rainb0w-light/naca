@@ -17,8 +17,8 @@ public class NacaBatchFileException extends NacaRTException
  	
  	public NacaBatchFileException(String csExceptionName, String csFileName, LogicalFileDescriptor logicalFileDescriptor)
  	{
- 		csExceptionName = csExceptionName;
- 		csFileName = csFileName;
+ 		this.csExceptionName = csExceptionName;
+ 		this.csFileName = csFileName;
  		if(logicalFileDescriptor != null)
  			csLogicalFileDescriptor = logicalFileDescriptor.toString();
  		else

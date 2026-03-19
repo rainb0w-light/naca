@@ -102,7 +102,7 @@ public abstract class BaseSession
 
 	protected void setAsync(boolean b)
 	{
-		bAsync = b;
+		this.bAsync = b;
 	}
 
 	private boolean bAsync = false;
@@ -142,7 +142,7 @@ public abstract class BaseSession
 	}
 	public void setNetwork_ms(int nNetwork_ms)
 	{
-		nNetwork_ms = nNetwork_ms;
+		this.nNetwork_ms = nNetwork_ms;
 	}
 	
 	public Object getSpecialObject(String csKey)

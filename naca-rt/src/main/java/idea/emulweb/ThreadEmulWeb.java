@@ -12,8 +12,8 @@ public class ThreadEmulWeb extends Thread
 {
 	public ThreadEmulWeb(ThreadSafeCounter counter, EmulWebThreadedRun emulWebRun)
 	{
-		counter = counter;
-		emulWebRun = emulWebRun;
+		this.counter = counter;
+		this.emulWebRun = emulWebRun;
 	}
 	
 	public void run()

@@ -35,7 +35,7 @@ public class Blowfish
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		csKey = csKey;
+		this.csKey = csKey;
 	}
 	
     public String encrypt(String csClearValue)

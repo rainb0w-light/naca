@@ -21,11 +21,11 @@ public class ProgramCopyOwner extends BaseCloseMBean
 	ProgramCopyOwner(String csCopyName)
 	{
 		super();
-		
+
 		if(JmxGeneralStat.showCopyBeans())
 			createMBean("Copy."+csCopyName, csCopyName);
-		csCopyName = csCopyName;
-		hashPrograms = new Hashtable<String, String>(); 
+		this.csCopyName = csCopyName;
+		hashPrograms = new Hashtable<String, String>();
 	}
 	
 	void showBean(boolean bToShow)

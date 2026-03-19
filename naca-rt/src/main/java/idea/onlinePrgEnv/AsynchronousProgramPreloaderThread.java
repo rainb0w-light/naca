@@ -32,10 +32,10 @@ public class AsynchronousProgramPreloaderThread extends Thread
 	
 	public AsynchronousProgramPreloaderThread(OnlineResourceManager onlineResourceManager, ProgramPreloader programPreloader, ArrayList<PreloadProgramSettings> arrProgramToPreload, String csProgramListToKeep)
 	{
-		onlineResourceManager = onlineResourceManager;
-		programPreloader = programPreloader;
-		arrProgramToPreload = arrProgramToPreload;
-		csProgramListToKeep = csProgramListToKeep;		
+		this.onlineResourceManager = onlineResourceManager;
+		this.programPreloader = programPreloader;
+		this.arrProgramToPreload = arrProgramToPreload;
+		this.csProgramListToKeep = csProgramListToKeep;
 	}
 	
 	public void run()

@@ -30,8 +30,8 @@ public class DeclareTypeNumEdited extends DeclareTypeBase
 	public void set(VarLevel varLevel, String csFormat)
 	{
 		super.set(varLevel);
-		csFormat = csFormat;	
-		bBlankWhenZero = false;
+		this.csFormat = csFormat;
+		this.bBlankWhenZero = false;
 	}
 	
 	public VarDefBuffer createVarDef(VarDefBuffer varDefParent)

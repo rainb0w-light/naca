@@ -24,7 +24,7 @@ public class GenericValueString extends GenericValue
 {
 	GenericValueString(String cs)
 	{
-		cs = cs;
+		this.cs = cs;
 	}
 	
 	String getAsRawString()

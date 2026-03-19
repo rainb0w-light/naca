@@ -89,12 +89,12 @@ public abstract class BaseProgramLoader extends ProgramSequencer	//ProgramSequen
 		if(tagSequencerConfig != null)
 		{
 			tagCESMConfig = tagSequencerConfig.getChild("CESMConfig");
-		}	
-		
-		connectionManager = connectionManager;
-		
-		ms_Instance = this ;				  
-		
+		}
+
+		this.connectionManager = connectionManager;
+
+		ms_Instance = this ;
+
 		ms_arrPath = new StringArray();
 		programPoolManager = new ProgramPoolManager(bUseJmx);
 	}

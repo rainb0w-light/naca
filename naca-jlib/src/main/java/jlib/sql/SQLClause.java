@@ -90,9 +90,9 @@ public class SQLClause
 				bAlternateconnection = true;
 				connection = dbAccessor.getAlternateConnection();
 			}
-			else	// share the alternate connection 
+			else	// share the alternate connection
 			{
-				connection = connection;
+				this.connection = connection;
 			}
 		}
 	}
@@ -193,7 +193,7 @@ public class SQLClause
 	
 	public SQLClause set(String csQuery)
 	{
-		csQuery = csQuery;
+		this.csQuery = csQuery;
 		return this;
 	}
 	

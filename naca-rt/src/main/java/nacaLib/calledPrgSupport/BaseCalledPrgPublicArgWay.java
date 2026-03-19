@@ -22,7 +22,7 @@ public class BaseCalledPrgPublicArgWay
 	
 	private BaseCalledPrgPublicArgWay(boolean bIn, boolean bOut)
 	{
-		bIn = bIn;
-		bOut = bOut;
+		this.bIn = bIn;
+		this.bOut = bOut;
 	}
 }

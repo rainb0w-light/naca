@@ -24,7 +24,7 @@ public class GenericValueDouble extends GenericValue
 {
 	GenericValueDouble(double d)
 	{
-		d = d;
+		this.d = d;
 	}
 	
 	String getAsRawString()

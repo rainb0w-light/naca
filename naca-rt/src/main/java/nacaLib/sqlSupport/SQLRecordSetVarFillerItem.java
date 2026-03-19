@@ -14,9 +14,9 @@ public class SQLRecordSetVarFillerItem
 {
 	SQLRecordSetVarFillerItem(int nColSource, VarBase varInto, VarBase varIndicator)
 	{
-		nColSource = nColSource;
-		varInto = varInto;
-		varIndicator = varIndicator;
+		this.nColSource = nColSource;
+		this.varInto = varInto;
+		this.varIndicator = varIndicator;
 	}
 	
 	void apply(CSQLResultSet resultSet)
@@ -53,9 +53,9 @@ public class SQLRecordSetVarFillerItem
 {
 	SQLRecordSetVarFillerItem(int nColSource, VarBase varInto, VarBase varIndicator)
 	{
-		nColSource = nColSource;
-		varInto = varInto;
-		varIndicator = varIndicator;
+		this.nColSource = nColSource;
+		this.varInto = varInto;
+		this.varIndicator = varIndicator;
 	}
 	
 	void apply(CSQLResultSet resultSet, RecordSetCacheColTypeType recordSetCacheColTypeType)

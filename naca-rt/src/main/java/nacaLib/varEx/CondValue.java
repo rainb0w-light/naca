@@ -25,22 +25,22 @@ public class CondValue
 {
 	CondValue(String sMin, String sMax)
 	{
-		sMin = sMin;
-		sMax = sMax;
+		this.sMin = sMin;
+		this.sMax = sMax;
 		bInterval = true;
 		constant = null;
 	}
 
 	CondValue(String sValue)
 	{
-		sMin = sValue;
+		this.sMin = sValue;
 		bInterval = false;
 		constant = null;
 	}
-	
+
 	CondValue(CobolConstantBase constant)
 	{
-		constant = constant;
+		this.constant = constant;
 		bInterval = false;
 	}
 	

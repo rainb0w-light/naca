@@ -28,7 +28,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /*
- * Created on 8 déc. 2004
+ * Created on 8 dï¿½c. 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -49,7 +49,7 @@ public class XMLMerger
 
 	public XMLMerger(OnlineSession appSession)
 	{
-		appSession = appSession ;
+		this.appSession = appSession;
 		tab = new Hashtable<String, Element>() ;
 		try
 		{
@@ -64,7 +64,7 @@ public class XMLMerger
 	
 	void set(OnlineSession appSession)
 	{
-		appSession = appSession ;
+		this.appSession = appSession;
 	}
 	
 	void clear()

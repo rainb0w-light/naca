@@ -22,7 +22,7 @@ public class UnstringToManager
 	
 	UnstringToManager(UnstringManager unstringManager)
 	{
-		unstringManager = unstringManager;
+		this.unstringManager = unstringManager;
 	}
 	
 	public UnstringToManager to(Var varDelimiterDest, Var varDelimiterIn, Var varCountDest)

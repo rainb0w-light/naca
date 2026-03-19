@@ -22,12 +22,12 @@ public class InitializeManagerInt extends InitializeManager
 {
 	public InitializeManagerInt(int n)
 	{
-		n = n;
+		this.n = n;
 	}
 	
 	public void set(int n)
 	{
-		n = n;
+		this.n = n;
 	}
 
 	public void initialize(VarBufferPos buffer, VarDefBuffer varDef, int nOffset, InitializeCache initializeCache)

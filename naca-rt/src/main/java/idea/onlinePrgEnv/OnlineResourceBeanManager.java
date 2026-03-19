@@ -42,7 +42,7 @@ public class OnlineResourceBeanManager extends BaseCloseMBean
 	OnlineResourceBeanManager(OnlineResourceManager resourceManager)
 	{
 		super("_ Resources files", "_ Resources files");
-		resourceManager = resourceManager;
+		this.resourceManager = resourceManager;
 	}
 
 	protected void buildDynamicMBeanInfo()
@@ -107,7 +107,7 @@ public class OnlineResourceBeanManager extends BaseCloseMBean
 
 	void setJarXMLFile(String csJarXMLFile)
 	{
-		csJarXMLFile = csJarXMLFile;
+		this.csJarXMLFile = csJarXMLFile;
 	}
 	
 	private int doLoadResourceFiles(String csResourcePath, boolean bCacheResourceFiles)

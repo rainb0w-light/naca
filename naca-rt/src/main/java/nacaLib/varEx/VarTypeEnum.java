@@ -30,7 +30,7 @@ public class VarTypeEnum
 	
 	VarTypeEnum(char c)
 	{
-		c = c;
+		this.c = c;
 	}
 	
 	char c = 'X';

@@ -28,7 +28,7 @@ public class InitializeCache
 	void setFilledAndcompress(int nBaseAbsolutePosition)
 	{
 		bFilled = true;
-		nBaseAbsolutePosition = nBaseAbsolutePosition;
+		this.nBaseAbsolutePosition = nBaseAbsolutePosition;
 
 		if(arr != null)
 		{	

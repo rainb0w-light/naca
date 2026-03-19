@@ -22,8 +22,8 @@ public class SortCommand
 	
 	public SortCommand(BaseProgramManager programManager, SortDescriptor sortDescriptorDeclared)
 	{
-		programManager = programManager;
-		sortDescriptorDeclared = sortDescriptorDeclared;
+		this.programManager = programManager;
+		this.sortDescriptorDeclared = sortDescriptorDeclared;
 	}
 	
 	public SortCommand exportKey(String csExportKeyFile)
@@ -54,62 +54,62 @@ public class SortCommand
 	
 	public SortCommand using(FileDescriptor fileDescIn)
 	{
-		fileDescIn = fileDescIn;
+		this.fileDescIn = fileDescIn;
 		return this;
 	}
 
 	public SortCommand giving(FileDescriptor fileDescOut)
 	{
-		fileDescOut = fileDescOut;
+		this.fileDescOut = fileDescOut;
 		return this;
 	}
 
 	public SortCommand usingInput(Paragraph paraInputMin, Paragraph paraInputMax)
 	{
-		paraInputMin = paraInputMin;
-		paraInputMax = paraInputMax;
+		this.paraInputMin = paraInputMin;
+		this.paraInputMax = paraInputMax;
 		sectionInput = null;
 		return this;
 	}
 	
 	public SortCommand usingInput(Paragraph paraInput)
 	{
-		paraInputMin = paraInput;
-		paraInputMax = null;
-		sectionInput = null;
+		this.paraInputMin = paraInput;
+		this.paraInputMax = null;
+		this.sectionInput = null;
 		return this;
 	}
-	
+
 	public SortCommand usingInput(Section section)
 	{
-		paraInputMin = null;
-		paraInputMax = null;
-		sectionInput = section;
+		this.paraInputMin = null;
+		this.paraInputMax = null;
+		this.sectionInput = section;
 		return this;
 	}
 	
 	
 	public SortCommand usingOutput(Paragraph paraOutputMin, Paragraph paraOutputMax)
 	{
-		paraOutputMin = paraOutputMin;
-		paraOutputMax = paraOutputMax;
-		sectionOutput = null;
+		this.paraOutputMin = paraOutputMin;
+		this.paraOutputMax = paraOutputMax;
+		this.sectionOutput = null;
 		return this;
 	}
 
 	public SortCommand usingOutput(Paragraph paraOutput)
 	{
-		paraOutputMin = paraOutput;
-		paraOutputMax = paraOutput;
-		sectionOutput = null;
+		this.paraOutputMin = paraOutput;
+		this.paraOutputMax = paraOutput;
+		this.sectionOutput = null;
 		return this;
 	}
 	
 	public SortCommand usingOutput(Section secOutput)
 	{
-		paraOutputMin = null;
-		paraOutputMax = null;
-		sectionOutput = secOutput;
+		this.paraOutputMin = null;
+		this.paraOutputMax = null;
+		this.sectionOutput = secOutput;
 		return this;
 	}
 	

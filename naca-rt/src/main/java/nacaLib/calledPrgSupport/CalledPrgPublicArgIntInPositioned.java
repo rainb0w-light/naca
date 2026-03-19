@@ -18,7 +18,7 @@ public class CalledPrgPublicArgIntInPositioned extends BaseCalledPrgPublicArgPos
 	CalledPrgPublicArgIntInPositioned(int nValue)
 	{
 		super();
-		nValue = nValue;
+		this.nValue = nValue;
 	}
 	
 	public void MapOn(Var varLinkageSection)

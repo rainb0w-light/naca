@@ -22,7 +22,7 @@ public abstract class BaseRecord
 		
 	protected BaseRecord(FileDescriptor file)
 	{
-		file = file;
+		this.file = file;
 	}
 	
 	public FillerReadWriteExt getFiller()

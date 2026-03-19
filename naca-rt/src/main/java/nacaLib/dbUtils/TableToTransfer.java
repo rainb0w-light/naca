@@ -55,13 +55,13 @@ public class TableToTransfer extends ThreadPoolRequest
 	TableToTransfer(String csTableName, String csReplace, String csUpdateClause)
 	{
 		super(false);
-		
-		csTableName = csTableName;
-		csUpdateClause = csUpdateClause + "'" + csTableName + "'";
+
+		this.csTableName = csTableName;
+		this.csUpdateClause = csUpdateClause + "'" + csTableName + "'";
 		if(csReplace.equalsIgnoreCase("y"))
-			bReplace = true;
+			this.bReplace = true;
 		else
-			bReplace = false;
+			this.bReplace = false;
 	}
 
 	public void execute()

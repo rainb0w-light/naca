@@ -31,15 +31,15 @@ public class ProgramCallerWithArgsPosition extends CalledProgramParamSupportByPo
 	
 	public ProgramCallerWithArgsPosition(String csConfigFile, DbConnectionBase dbConnection, String csPrgClassName)
 	{
-		csConfigFile = csConfigFile;
-		dbConnection = dbConnection;
-		csPrgClassName = csPrgClassName;
+		this.csConfigFile = csConfigFile;
+		this.dbConnection = dbConnection;
+		this.csPrgClassName = csPrgClassName;
 	}
 	public ProgramCallerWithArgsPosition(String csConfigFile, DbConnectionBase dbConnection, Class classPrgToCall)
 	{
-		csConfigFile = csConfigFile;
-		dbConnection = dbConnection;
-		csPrgClassName = classPrgToCall.getName();
+		this.csConfigFile = csConfigFile;
+		this.dbConnection = dbConnection;
+		this.csPrgClassName = classPrgToCall.getName();
 	}
 
 	public boolean execute() throws ProgramCallerException

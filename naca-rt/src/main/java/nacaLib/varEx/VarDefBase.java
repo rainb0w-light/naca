@@ -35,14 +35,14 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
 	{
 		boolean bWSVar = !varLevel.getProgramManager().isLinkageSectionCurrent();
 		setWSVar(bWSVar);
-		
-		varDefParent = varDefParent;
+
+		this.varDefParent = varDefParent;
 		setLevel(varLevel.getLevel());
 		varDefRedefinOrigin = varLevel.getVarDefRedefineOrigin();
-		occursDef = varLevel.getOccursDef();		
-		if(varDefParent != null) 
+		occursDef = varLevel.getOccursDef();
+		if(varDefParent != null)
 			varDefFormRedefineOrigin = varDefParent.varDefFormRedefineOrigin;
-		
+
 		if(varDefParent != null)
 		{
 			if(getLevel() != 77)
@@ -160,41 +160,45 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
 	public int calcSize()
 	{
 		nTotalSize = getSumChildrenSize();
+		System.out.println("DEBUG VarDefBase.calcSize: " + this.getClass().getSimpleName() + " nTotalSize=" + nTotalSize);
 		return nTotalSize;
 	}
 	
 	private int getSumChildrenSize()
 	{
 		int nNbOccurs = getNbOccurs();
-		
+
 		int nSingleItemSize = getSingleItemRequiredStorageSize();
 		int nSumChildrenSize = 0;
 		if(isVarDefForm())
 			nSumChildrenSize = getHeaderLength();
-		
+
+		System.out.println("DEBUG getSumChildrenSize: " + this.getClass().getSimpleName() + " arrChildren=" + (arrChildren != null ? "not null" : "null") + " nSingleItemSize=" + nSingleItemSize);
 		if(arrChildren != null)
-		{			
+		{
 			int nNbChildren = arrChildren.size();
+			System.out.println("DEBUG getSumChildrenSize: nNbChildren=" + nNbChildren);
 			for(int nChild=0; nChild<nNbChildren; nChild++)
 			{
 				VarDefBase varDefChild = getChild(nChild);
 				int nSize = varDefChild.calcSize();
-				if(varDefChild.varDefRedefinOrigin == null || varDefChild.isEditInMapRedefine()) 
+				System.out.println("DEBUG getSumChildrenSize: child " + nChild + " " + varDefChild.getClass().getSimpleName() + " nSize=" + nSize);
+				if(varDefChild.varDefRedefinOrigin == null || varDefChild.isEditInMapRedefine())
 					nSumChildrenSize += nSize;
 				else if(isVarInMapRedefine() && !varDefParent.isEditInMapRedefine())
 					nSumChildrenSize += nSize;
 			}
 		}
-		
+
 		if(nSingleItemSize == 0)	// We have no size defined for ourself
 		{
 			if(isEditInMapRedefine() && occursDef != null)
-				return nNbOccurs * nSumChildrenSize;	
+				return nNbOccurs * nSumChildrenSize;
 			if(varDefRedefinOrigin != null)	// We are a redefine
 			{
 				int n = varDefRedefinOrigin.getTotalSize();
-				return n;	// do not count the number of occurances, because 
-			}			
+				return n;	// do not count the number of occurances, because
+			}
 			return nNbOccurs * nSumChildrenSize;
 		}
 		return nNbOccurs * nSingleItemSize;
@@ -434,7 +438,7 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
 		if(csFullName != null)
 		{
 			csFullName = csFullName + getDebugIndex();
-			cs += "<£" + csFullName + "£>" +"@"+nDefaultAbsolutePosition+"/"+nTotalSize;
+			cs += "<ï¿½" + csFullName + "ï¿½>" +"@"+nDefaultAbsolutePosition+"/"+nTotalSize;
 		}
 		else
 			cs += "?@" + nDefaultAbsolutePosition + "/" + nTotalSize;

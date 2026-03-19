@@ -13,7 +13,7 @@ public class RecordDescriptorAtEnd
 	
 	private RecordDescriptorAtEnd(boolean bEnd)
 	{
-		bEnd = bEnd;
+		this.bEnd = bEnd;
 	}
 	
 	public boolean atEnd()

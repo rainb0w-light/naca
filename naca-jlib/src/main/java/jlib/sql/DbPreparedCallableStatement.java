@@ -28,7 +28,7 @@ public class DbPreparedCallableStatement
 	
 	public void init(CallableStatement callableStatement)
 	{
-		callableStatement = callableStatement;
+		this.callableStatement = callableStatement;
 	}
 	
 	public boolean setInValue(int nParamId, double d)

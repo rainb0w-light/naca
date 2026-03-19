@@ -30,7 +30,7 @@ public class FPacRecordFiller
 	
 	void setFiller(byte by)
 	{
-		byFiller = by;
+		this.byFiller = by;
 	}
 	
 	void setFiller(char c)

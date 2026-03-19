@@ -35,8 +35,8 @@ public class CriteriaEndRunMain
 
 	private CriteriaEndRunMain(int n, String csName)
 	{
-		csName = csName;
-		nIndex = n;
+		this.csName = csName;
+		this.nIndex = n;
 	}
 	
 	public String getName()

@@ -22,7 +22,7 @@ public class SQLClauseSPParamWay
 	
 	private SQLClauseSPParamWay(String cs)
 	{
-		cs = cs;
+		this.cs = cs;
 	}
 	
 	public String toString()

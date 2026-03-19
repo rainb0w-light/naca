@@ -18,8 +18,8 @@ public class CoupleVar
 {
 	public CoupleVar(VarDefBuffer varDefBuffer, VarBase var_edit)
 	{
-		varDefBuffer = varDefBuffer;
-		variable = var_edit;
+		this.varDefBuffer = varDefBuffer;
+		this.variable = var_edit;
 	}
 	
 	public VarDefBuffer getVarDefItem()

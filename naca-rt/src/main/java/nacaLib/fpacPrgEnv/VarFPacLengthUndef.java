@@ -17,9 +17,9 @@ public abstract class VarFPacLengthUndef
 	
 	VarFPacLengthUndef(FPacVarManager fpacVarManager, VarBuffer varBuffer, int nAbsolutePosition1Based)
 	{
-		fpacVarManager = fpacVarManager;
-		varBuffer = varBuffer;
-		nAbsolutePosition1Based = nAbsolutePosition1Based;
+		this.fpacVarManager = fpacVarManager;
+		this.varBuffer = varBuffer;
+		this.nAbsolutePosition1Based = nAbsolutePosition1Based;
 	}
 	
 	public abstract Var createVar();

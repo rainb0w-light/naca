@@ -26,8 +26,8 @@ public class EnvironmentStatus
 	
 	private EnvironmentStatus(String csStatus, boolean bRunning)
 	{
-		csStatus = csStatus;
-		bRunning = bRunning;
+		this.csStatus = csStatus;
+		this.bRunning = bRunning;
 	}
 	
 	public String getString()

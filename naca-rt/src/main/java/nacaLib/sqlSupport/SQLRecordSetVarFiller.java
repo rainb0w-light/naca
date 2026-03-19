@@ -76,7 +76,7 @@ public class SQLRecordSetVarFiller
 	
 	public void setNbCol(int nNbColResultSet)
 	{
-		nNbColResultSet = nNbColResultSet;
+		this.nNbColResultSet = nNbColResultSet;
 	}
 	
 	private int nNbColResultSet = 0;

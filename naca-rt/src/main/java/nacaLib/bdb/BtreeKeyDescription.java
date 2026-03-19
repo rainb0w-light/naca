@@ -42,14 +42,14 @@ public class BtreeKeyDescription
 	
 	boolean set(String csKeys, boolean bAddSegmentRecordId)
 	{
-		csKeys = csKeys.trim();
-		if(csKeys.startsWith("("))
-			csKeys = csKeys.substring(1);
-		if(csKeys.endsWith(")"))
-			csKeys = csKeys.substring(0, csKeys.length()-1);
+		this.csKeys = csKeys.trim();
+		if(this.csKeys.startsWith("("))
+			this.csKeys = this.csKeys.substring(1);
+		if(this.csKeys.endsWith(")"))
+			this.csKeys = this.csKeys.substring(0, this.csKeys.length()-1);
 		
 		nKeyPositionInKey = 0;
-		while(!StringUtil.isEmpty(csKeys))
+		while(!StringUtil.isEmpty(this.csKeys))
 		{
 			int nKeyPositionInData = getChunkAsInt()-1;
 			int nKeyLength = getChunkAsInt();

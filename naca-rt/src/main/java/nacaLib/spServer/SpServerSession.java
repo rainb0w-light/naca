@@ -30,7 +30,7 @@ public class SpServerSession extends BaseSession
 	public SpServerSession(Connection connection, BaseResourceManager baseResourceManager)
 	{
 		super(baseResourceManager);
-		connection = connection;
+		this.connection = connection;
 		setAsync(true);
 	}
 		

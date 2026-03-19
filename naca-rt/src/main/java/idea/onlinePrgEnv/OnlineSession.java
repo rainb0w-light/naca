@@ -264,24 +264,24 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
 		return bZoom;
 	}
 	public void setZoom(boolean bZoom) {
-		bZoom = bZoom;
+		this.bZoom = bZoom;
 	}
-	
+
 	public boolean isBold()
 	{
 		return bBold;
 	}
 	public void setBold(boolean bBold) {
-		bBold = bBold;
+		this.bBold = bBold;
 	}
-	
+
 	public boolean isInternTest()
 	{
 		return bInternTest;
 	}
 	public void setInternTest(boolean bInternTest)
 	{
-		bInternTest = bInternTest; 
+		this.bInternTest = bInternTest;
 	}
 	
 	public void setXMLData(Document doc)
@@ -446,7 +446,7 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
 	
 	public void setCheckScenario(boolean bCheckScenario)
 	{
-		bCheckScenario = bCheckScenario;
+		this.bCheckScenario = bCheckScenario;
 	}
 
 	/**

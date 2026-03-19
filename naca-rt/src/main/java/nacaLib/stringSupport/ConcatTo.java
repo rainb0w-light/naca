@@ -20,7 +20,7 @@ public class ConcatTo
 	
 	ConcatTo(Concat concat)
 	{
-		concat = concat;
+		this.concat = concat;
 	}
 	
 	public boolean failed()

@@ -27,31 +27,31 @@ public class MultiThreadedSortAddItem extends ThreadPoolRequest
 	MultiThreadedSortAddItem(BtreeFile btreeFile, byte tbyData[], int nSourceOffset, int nTotalLength, int nNbRecordRead, boolean bVariableLength)
 	{
 		super(false);
-		
-		btreeFile = btreeFile;
+
+		this.btreeFile = btreeFile;
 		tbyData = new byte[nTotalLength];
 		for(int n=0; n<nTotalLength; n++)
 		{
 			tbyData[n] = tbyData[nSourceOffset++];
 		}
-		nTotalLength = nTotalLength;
-		nNbRecordRead = nNbRecordRead;
-		bVariableLength = bVariableLength;
+		this.nTotalLength = nTotalLength;
+		this.nNbRecordRead = nNbRecordRead;
+		this.bVariableLength = bVariableLength;
 	}
 	
 	void fill(BtreeFile btreeFile, byte tbyData[], int nSourceOffset, int nTotalLength, int nNbRecordRead, boolean bVariableLength)
 	{
-		btreeFile = btreeFile;
+		this.btreeFile = btreeFile;
 
 		if(tbyData.length < nTotalLength)
 			tbyData = new byte[nTotalLength];
-		
+
 		for(int n=0; n<nTotalLength; n++)
 			tbyData[n] = tbyData[nSourceOffset++];
-		
-		nTotalLength = nTotalLength;
-		nNbRecordRead = nNbRecordRead;
-		bVariableLength = bVariableLength;
+
+		this.nTotalLength = nTotalLength;
+		this.nNbRecordRead = nNbRecordRead;
+		this.bVariableLength = bVariableLength;
 	}
 	
 	public void execute()

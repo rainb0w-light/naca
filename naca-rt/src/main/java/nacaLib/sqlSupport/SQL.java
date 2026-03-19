@@ -50,7 +50,7 @@ public class SQL
 
 	public SQL(BaseProgramManager programManager)
 	{
-		programManager = programManager;
+		this.programManager = programManager;
 	}
 	
 	public SQL(BaseProgramManager programManager, String csQuery, SQLCursor cursor/*, String csSourceFileLine*/, int nHashFileLine)
@@ -87,7 +87,7 @@ public class SQL
 
 	private void create(BaseProgramManager programManager, DbConnectionBase SQLConnection, String csQuery, SQLCursor cursor, CSQLStatus status)
 	{
-		programManager = programManager;
+		this.programManager = programManager;
 		if (CJMapObject.isLogSql)
 		{
 			if (cursor == null)
@@ -95,28 +95,28 @@ public class SQL
 			else
 				Log.logDebug("SqlCursor=" + csQuery);
 		}
-		
+
 		status.setQuery(csQuery);
 
-		sqlStatus = status;
-		arrIntoItems = new ArrayDyn<CSQLIntoItem>();
-		hashParam = new HashMap<String, CSQLItem>();
-		hashValue = new HashMap<String, CSQLItem>();
-		sQLConnection = SQLConnection;
+		this.sqlStatus = status;
+		this.arrIntoItems = new ArrayDyn<CSQLIntoItem>();
+		this.hashParam = new HashMap<String, CSQLItem>();
+		this.hashValue = new HashMap<String, CSQLItem>();
+		this.sQLConnection = SQLConnection;
 		// boolean bUseSQLMBean = BaseResourceManager.getUseSQLMBean();
 
 		boolean bUseExplain = SQLConnection.getUseExplain();
-		csQuery = csQuery;
-		csQueryUpper = csQuery.toUpperCase();
-		nSQLUniqueId = getSQLUniqueId();
+		this.csQuery = csQuery;
+		this.csQueryUpper = csQuery.toUpperCase();
+		this.nSQLUniqueId = getSQLUniqueId();
 
-		bRowIdGenerated = false;
-		bOperationExecuted = false;
+		this.bRowIdGenerated = false;
+		this.bOperationExecuted = false;
 
 		boolean bCursor = false;
 		if (cursor != null)
 			bCursor = true;
-		sQLTypeOperation = SQLTypeOperation.determineOperationType(csQueryUpper, bCursor);
+		this.sQLTypeOperation = SQLTypeOperation.determineOperationType(csQueryUpper, bCursor);
 
 		boolean bRowIdToAdd = false;
 
@@ -143,21 +143,21 @@ public class SQL
 		}
 
 		manageOperationDeclaration(bRowIdToAdd);
-		
+
 		sqlStatus.setQuery(csQuery);
-		
-		attachToCursor(cursor);
+
+		this.cursor = cursor;
 		manageOperationEnding();
 
 		if (bUseExplain)
 		{
-			csExplainQuery = "EXPLAIN PLAN SET QUERYNO=" + nSQLUniqueId + " FOR " + csQuery;
+			this.csExplainQuery = "EXPLAIN PLAN SET QUERYNO=" + nSQLUniqueId + " FOR " + csQuery;
 		}
 	}
 
 	private void attachToCursor(SQLCursor cursor)
 	{
-		cursor = cursor;
+		this.cursor = cursor;
 	}
 
 	private SQLCursor cursor = null;

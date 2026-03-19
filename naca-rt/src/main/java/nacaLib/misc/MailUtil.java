@@ -22,7 +22,7 @@ public class MailUtil
 
 	public MailUtil(FileDescriptor file)
 	{
-		file = file;
+		this.file = file;
 	}
 
 	public boolean execute(String csParameter)

@@ -41,7 +41,7 @@ public class BtreeFile
 			
 	BtreeFile(Database bdb)	//, boolean bCanSortMultiThreads)
 	{
-		bdb = bdb;
+		this.bdb = bdb;
 		key = new DatabaseEntry();
 		data = new DatabaseEntry();
 //		if(bCanSortMultiThreads)
@@ -61,7 +61,7 @@ public class BtreeFile
 	
 	public void setKeyDescription(BtreeKeyDescription keyDescription)
 	{
-		keyDescription = keyDescription;
+		this.keyDescription = keyDescription;
 		keyDescription.prepare();
 	}
 

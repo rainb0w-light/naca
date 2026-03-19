@@ -117,7 +117,7 @@ public class CSQLPreparedStatement extends DbPreparedStatement
 	
 	void setSemanticContextDef(SemanticContextDef semanticContextDef)
 	{
-		semanticContextDef = semanticContextDef; 
+		this.semanticContextDef = semanticContextDef;
 	}
 	
 	public CSQLResultSet executeQuery(SQL sql)	//CSQLStatus sqlStatus, ArrayFixDyn<Integer> arrColSelectType, AccountingRecordTrans accountingRecordManager, HashMap<String, CSQLItem> hashParam, HashMap<String, CSQLItem> hashValue)

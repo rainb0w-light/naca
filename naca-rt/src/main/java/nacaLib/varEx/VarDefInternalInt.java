@@ -37,7 +37,7 @@ public class VarDefInternalInt extends VarDefNum
 	private VarInternalInt var = null;
 	VarDefInternalInt(VarInternalInt var)
 	{
-		var = var;
+		this.var = var;
 	}
 	
 	void transfer(VarBufferPos bufferSource, VarAndEdit Dest)

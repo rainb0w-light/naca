@@ -30,8 +30,8 @@ public class DeclareTypeMapRedefine extends DeclareTypeBase
 	public void set(VarLevel varLevel, Form formRedefineOrigin)
 	{
 		super.set(varLevel);
-		formRedefineOrigin = formRedefineOrigin;
-		nLength = 0;
+		this.formRedefineOrigin = formRedefineOrigin;
+		this.nLength = 0;
 	}	
 	
 	int getLength()

@@ -32,7 +32,7 @@ public class Section extends CJMapRunnable
 	public Section(BaseProgram Program, boolean bRun)
 	{
 		program = Program;
-		bRun = bRun;
+		this.bRun = bRun;
 		program.getProgramManager().addSection(this);
 	}
 	
@@ -43,7 +43,7 @@ public class Section extends CJMapRunnable
 	
 	public void name(String csName)
 	{
-		csName = csName;
+		this.csName = csName;
 	}
 	
 	public void addParapgraph(Paragraph Paragraph)

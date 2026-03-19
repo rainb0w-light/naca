@@ -24,12 +24,12 @@ public class InitializeManagerIntEdited extends InitializeManager
 	
 	public InitializeManagerIntEdited(int nValue)
 	{
-		nValue = nValue;
+		this.nValue = nValue;
 	}
-	
+
 	public void set(int nValue)
 	{
-		nValue = nValue;
+		this.nValue = nValue;
 	}
 	
 	public void initialize(VarBufferPos buffer, VarDefBuffer varDef, int nOffset, InitializeCache initializeCache)

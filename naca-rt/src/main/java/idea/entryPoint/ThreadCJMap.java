@@ -12,8 +12,8 @@ public class ThreadCJMap extends Thread
 {
 	public ThreadCJMap(ThreadSafeCounter counter, CJMapThreadedRun cjmapRun)
 	{
-		counter = counter;
-		cjmapRun = cjmapRun;
+		this.counter = counter;
+		this.cjmapRun = cjmapRun;
 	}
 	
 	public void run()

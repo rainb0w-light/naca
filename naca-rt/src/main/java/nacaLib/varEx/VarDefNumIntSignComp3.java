@@ -88,15 +88,11 @@ public class VarDefNumIntSignComp3 extends VarDefNum
 	
 	public int getSingleItemRequiredStorageSize()
 	{
-//		int n = nNbDigitInteger + 1; // need a nibble for sign
-//		double d = n / 2.0;
-//		n = (int)Math.round(d);
-//		return n;
-
 		int nNbDigits = nNbDigitInteger + 1; // need a nibble for sign
 		int n = nNbDigits / 2;
 		if((nNbDigits % 2) != 0)
 			n++;
+		System.out.println("DEBUG VarDefNumIntSignComp3.getSingleItemRequiredStorageSize: nNbDigitInteger=" + nNbDigitInteger + ", result=" + n);
 		return n;
 	}
 

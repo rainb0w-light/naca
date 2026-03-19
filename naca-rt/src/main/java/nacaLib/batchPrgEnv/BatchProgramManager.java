@@ -29,7 +29,7 @@ public class BatchProgramManager extends BaseProgramManager
 		
 	public void setEnv(BaseEnvironment env)
 	{
-		env = env;
+		this.env = env;
 	}
 	
 	public void detachFromEnv()

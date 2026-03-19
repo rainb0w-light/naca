@@ -39,12 +39,12 @@ public class CAsynchronousTask extends CJMapObject implements Runnable
 	private boolean bInvalidate = false ;
 	private CESMStartData startData = null ;
 
-	public CAsynchronousTask(String csProgramToRun, String csProgramParent, CESMStartData startData, int nDelaySeconds) 
+	public CAsynchronousTask(String csProgramToRun, String csProgramParent, CESMStartData startData, int nDelaySeconds)
 	{
-		csProgramToRun = csProgramToRun;
-		csProgramParent = csProgramParent;
-		nDelaySeconds = nDelaySeconds ;
-		startData = startData;
+		this.csProgramToRun = csProgramToRun;
+		this.csProgramParent = csProgramParent;
+		this.nDelaySeconds = nDelaySeconds ;
+		this.startData = startData;
 		thread = new Thread(this, csProgramToRun);
 	}
 	

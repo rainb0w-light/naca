@@ -34,7 +34,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 /*
- * Created on 8 déc. 2004
+ * Created on 8 dï¿½c. 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -374,7 +374,7 @@ public class OnlineResourceManager extends BaseResourceManager
 	
 	public void registerSemanticManager(SemanticManager semanticManager)
 	{
-		semanticManager = semanticManager;
+		this.semanticManager = semanticManager;
 	}
 	
 	public CMenuDef getMenuForSemanticContext(String csScreen, String csSemanticContext)

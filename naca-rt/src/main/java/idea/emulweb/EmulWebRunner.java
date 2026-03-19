@@ -372,12 +372,12 @@ public class EmulWebRunner extends BaseCloseMBean
 	
 	public void setEnableNextLoop(Boolean b)
 	{
-		bNextLoopEnabled = b;
+		this.bNextLoopEnabled = b;
 	}
 	
 	public void setEnableRemainingLoops(Boolean b)
 	{
-		bEnableRemainingLoops = b;
+		this.bEnableRemainingLoops = b;
 	}
 	
 	public Boolean getEnableRemainingLoops()

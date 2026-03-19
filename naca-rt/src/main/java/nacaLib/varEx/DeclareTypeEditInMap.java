@@ -41,19 +41,19 @@ public class DeclareTypeEditInMap extends DeclareTypeBase
 	public void set(VarLevel varLevel, Form curVarForm, VarDefForm curDefForm, String csName, int nSize)
 	{
 		super.set(varLevel);
-		curVarForm = curVarForm;
-		curDefForm = curDefForm;
-		nSize = nSize;
+		this.curVarForm = curVarForm;
+		this.curDefForm = curDefForm;
+		this.nSize = nSize;
 		if(mapFieldAttribute == null)
 			mapFieldAttribute = new MapFieldAttribute();
 		else
 			mapFieldAttribute.resetDefaultValues();
-		csName = csName;
-		
-		localizedString = null;
-		csFormat = null;
-		bHasCursor = false;
-		csDevelopableMark = null;
+		this.csName = csName;
+
+		this.localizedString = null;
+		this.csFormat = null;
+		this.bHasCursor = false;
+		this.csDevelopableMark = null;
 		//csSemanticContextValue = null;
 	}
 	
@@ -77,13 +77,13 @@ public class DeclareTypeEditInMap extends DeclareTypeBase
 	
 	public DeclareTypeEditInMap initialValue(LocalizedString localizedString)
 	{
-		localizedString = localizedString;
+		this.localizedString = localizedString;
 		return this;
 	}	
 	
 	public DeclareTypeEditInMap format(String csFormat)
 	{
-		csFormat = csFormat;
+		this.csFormat = csFormat;
 		return this;
 	}	
 	

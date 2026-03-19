@@ -64,8 +64,8 @@ public class AccountingRecordTrans
 
 	public AccountingRecordProgram createNewAccountingRecord(String csCurrentTransaction, String csTermId)
 	{
-		csCurrentTransaction = csCurrentTransaction;
-		csTerminalId = csTermId;
+		this.csCurrentTransaction = csCurrentTransaction;
+		this.csTerminalId = csTermId;
 		AccountingRecordProgram accountingRecord = new AccountingRecordProgram();
 		accountingStack.push(accountingRecord);
 		return accountingRecord;

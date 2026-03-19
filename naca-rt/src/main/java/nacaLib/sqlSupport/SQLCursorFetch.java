@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /*
- * Created on 22 févr. 2005
+ * Created on 22 fï¿½vr. 2005
  *
  * TODO To change the template for this generated file go to
  * Window - Preferences - Java - Code Style - Code Templates
@@ -32,8 +32,8 @@ public class SQLCursorFetch
 //	}	
 	public SQLCursorFetch(boolean bOpen, SQL sql)
 	{
-		bOpen = bOpen;
-		sQL = sql;
+		this.bOpen = bOpen;
+		this.sQL = sql;
 	}
 	
 //	public SQLCursorFetch fetch()

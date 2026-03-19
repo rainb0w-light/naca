@@ -18,9 +18,9 @@ public class InitializeCachedItemRepeatingChar extends InitializeCachedItem
 {
 	InitializeCachedItemRepeatingChar(char cPad, int nPosition, int nNbchars)
 	{
-		cPad = cPad;
-		nNbchars = nNbchars;
-		nTemplatePosition = nPosition;
+		this.cPad = cPad;
+		this.nNbchars = nNbchars;
+		this.nTemplatePosition = nPosition;
 	}
 	
 	void apply(int nBaseAbsolutePosition, VarBufferPos varBufferPos, int nCurrentAbsolutePosition)	//, int nOffset)

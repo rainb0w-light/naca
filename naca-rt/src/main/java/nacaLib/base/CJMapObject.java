@@ -55,22 +55,38 @@ public class CJMapObject //extends BaseObject
 	
 	protected void assertIfDifferent(String a, String b)
 	{
-		Asserter.assertIfDifferent(a, b);
+		if (nacaLib.testSupport.TestAssertionCollector.isCollecting()) {
+			nacaLib.testSupport.TestAssertionCollector.assertEquals(a, b, "Assertion failed");
+		} else {
+			Asserter.assertIfDifferent(a, b);
+		}
 	}
-	
+
 	protected void assertIfEquals(String a, String b)
 	{
-		Asserter.assertIfEquals(a, b);
+		if (nacaLib.testSupport.TestAssertionCollector.isCollecting()) {
+			nacaLib.testSupport.TestAssertionCollector.assertEquals(a, b, "Assertion failed");
+		} else {
+			Asserter.assertIfEquals(a, b);
+		}
 	}
-	
+
 	protected void assertIfDifferent(int a, int b)
 	{
-		Asserter.assertIfDifferent(a, b);
+		if (nacaLib.testSupport.TestAssertionCollector.isCollecting()) {
+			nacaLib.testSupport.TestAssertionCollector.assertEquals(a, b, "Assertion failed");
+		} else {
+			Asserter.assertIfDifferent(a, b);
+		}
 	}
 
 	protected void assertIfDifferent(double a, double b)
 	{
-		Asserter.assertIfDifferent(a, b);
+		if (nacaLib.testSupport.TestAssertionCollector.isCollecting()) {
+			nacaLib.testSupport.TestAssertionCollector.assertEquals(a, b, "Assertion failed");
+		} else {
+			Asserter.assertIfDifferent(a, b);
+		}
 	}
 	
 	public static final boolean isLogCESM = false;

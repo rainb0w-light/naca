@@ -18,7 +18,7 @@ public class CalledPrgPublicArgStringInPositioned extends BaseCalledPrgPublicArg
 	CalledPrgPublicArgStringInPositioned(String csValue)
 	{
 		super();
-		csValue = csValue;
+		this.csValue = csValue;
 	}
 	
 	public void MapOn(Var varLinkageSection)

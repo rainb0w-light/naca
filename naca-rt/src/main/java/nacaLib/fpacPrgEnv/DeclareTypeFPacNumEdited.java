@@ -13,7 +13,7 @@ public class DeclareTypeFPacNumEdited extends DeclareTypeBase
 	public DeclareTypeFPacNumEdited(VarLevel varLevel, String csMask)
 	{
 		super(varLevel);
-		csMask = csMask;
+		this.csMask = csMask;
 	}
 
 	public int getLength()

@@ -26,7 +26,7 @@ public class OpenCalendar
 		
 	void loadDefinition(String csFile)
 	{
-		csFile = csFile;
+		this.csFile = csFile;
 		Tag tag = Tag.createFromFile(csFile);
 		if(tag != null)
 		{

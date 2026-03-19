@@ -55,37 +55,37 @@ public class SqlRequest extends DbPreparedStatement
 	
 	public void cmdInsert(String csTable)
 	{
-		csTable = csTable;
-		csOperation = "Insert"; 
+		this.csTable = csTable;
+		csOperation = "Insert";
 	}
 	
 	public void cmdUpdate(String csTable, String csWhere)
 	{
-		csTable = csTable;
-		csWhere = csWhere;
-		csOperation = "Update";		
+		this.csTable = csTable;
+		this.csWhere = csWhere;
+		csOperation = "Update";
 	}
 
 	public void cmdUpdate(String csTable, String csWhere, String csOrder)
 	{
-		csTable = csTable;
-		csWhere = csWhere;
-		csOrder = csOrder;
-		csOperation = "Update";		
+		this.csTable = csTable;
+		this.csWhere = csWhere;
+		this.csOrder = csOrder;
+		csOperation = "Update";
 	}
 
 	public void cmdUpdate(String csTable, String csWhere, String csOrder, int nNbRows)
 	{
-		csTable = csTable;
-		csWhere = csWhere;
-		csOrder = csOrder;
-		nNbRows = nNbRows; 
-		csOperation = "Update";		
+		this.csTable = csTable;
+		this.csWhere = csWhere;
+		this.csOrder = csOrder;
+		this.nNbRows = nNbRows;
+		csOperation = "Update";
 	}
 	
 	public void cmdSelect(String csSelect)
 	{
-		csSelect = csSelect;
+		this.csSelect = csSelect;
 		csOperation = "Select";
 	}
 

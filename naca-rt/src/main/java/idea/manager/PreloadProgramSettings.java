@@ -21,13 +21,13 @@ public class PreloadProgramSettings
 	
 	PreloadProgramSettings(String csName)
 	{
-		csProgramName = csName;
+		this.csProgramName = csName;
 		nQty = 1;
 	}
 	
 	void setQty(int nQty)
 	{
-		nQty = nQty;
+		this.nQty = nQty;
 	}
 	
 	String getName()

@@ -169,7 +169,7 @@ public class CCallProgram extends CJMapObject
 	
 	public void setProgramLoader(BaseProgramLoader baseProgramLoader)
 	{
-		baseProgramLoader = baseProgramLoader; 
+		this.baseProgramLoader = baseProgramLoader;
 	}
 
 	protected BaseEnvironment environment = null ;

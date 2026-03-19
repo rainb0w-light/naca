@@ -62,7 +62,7 @@ public class HelpForm extends ActionForm
 	 */
 	public void setCurrentField(String field)
 	{
-		field = field ;		
+		this.field = field;
 	}
 	public String getCurrentField()
 	{
@@ -77,7 +77,7 @@ public class HelpForm extends ActionForm
 	
 	public void setCurrentPage(String page)
 	{
-		page = page ;
+		this.page = page;
 	}
 	protected String page = "" ;
 	public String getCurrentPage()
@@ -89,7 +89,7 @@ public class HelpForm extends ActionForm
 	 */
 	public void setHelp(String help)
 	{
-		help = help ;		
+		this.help = help;
 	} 
 	protected String help = "" ;
 	public String getHelp()

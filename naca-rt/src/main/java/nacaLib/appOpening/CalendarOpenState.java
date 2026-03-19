@@ -23,10 +23,10 @@ public class CalendarOpenState
 	
 	private CalendarOpenState(int nId, boolean bKnown, boolean bOpen, boolean bManual)
 	{
-		nId = nId;
-		bKnown = bKnown;
-		bOpen = bOpen;
-		bManual = bManual;
+		this.nId = nId;
+		this.bKnown = bKnown;
+		this.bOpen = bOpen;
+		this.bManual = bManual;
 	}
 	
 	public boolean isKnown()
@@ -44,12 +44,12 @@ public class CalendarOpenState
 		if(bKnown)
 		{
 			if(bOpen)
-				return "Ouvert / geöffnet / aperto";
+				return "Ouvert / geï¿½ffnet / aperto";
 			else
 			{
 				if(bManual)
-					return "Fermé manuellement / Manuell geschlossen / Chiuso manualmente ";
-				return "Fermé / geschlossen / chiuso";
+					return "Fermï¿½ manuellement / Manuell geschlossen / Chiuso manualmente ";
+				return "Fermï¿½ / geschlossen / chiuso";
 			}
 		}
 		return "Unknown";

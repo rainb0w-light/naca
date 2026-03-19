@@ -33,12 +33,12 @@ public class EncodingConvertionRange
 	
 	public void setConvertOnlyIfBlank(boolean bConvertOnlyIfBlank)
 	{
-		bConvertOnlyIfBlank = bConvertOnlyIfBlank;
+		this.bConvertOnlyIfBlank = bConvertOnlyIfBlank;
 	}
 	
 	public void setConvertPrint(boolean bConvertPrint)
 	{
-		bConvertPrint = bConvertPrint;
+		this.bConvertPrint = bConvertPrint;
 	}
 	
 	boolean endsJustBefore(int nPosition)

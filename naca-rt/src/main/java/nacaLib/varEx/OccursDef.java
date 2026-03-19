@@ -23,7 +23,7 @@ public class OccursDef extends OccursDefBase
 {
 	public OccursDef(int n)
 	{
-		nNbOccurs = n;
+		this.nNbOccurs = n;
 	}
 	
 	public int getNbOccurs()

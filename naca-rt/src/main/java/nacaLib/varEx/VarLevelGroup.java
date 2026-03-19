@@ -22,7 +22,7 @@ public class VarLevelGroup
 {
 	VarLevelGroup(VarLevel varLevel)
 	{
-		varLevel = varLevel;
+		this.varLevel = varLevel;
 	}
 	
 	public VarGroup var()	// Creates a group

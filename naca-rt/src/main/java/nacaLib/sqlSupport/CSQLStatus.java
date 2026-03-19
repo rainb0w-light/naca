@@ -80,16 +80,16 @@ public class CSQLStatus extends CJMapObject
 	}
 
 	public void setSQLCode(String csMethod, SQLException e, String csQueryString/*, String csSourceFileLine*/, SQL sql)
-	{		
+	{
 		nSQLCode = e.getErrorCode();
-		csMethod = csMethod;		
+		this.csMethod = csMethod;
 		csReason = "SQL Exception (" + nSQLCode + "):" + e.getMessage()  + " SQLState="+ e.getSQLState();
 		if(sql != null)
 		{
 			csReasonParams = sql.getDebugParams();
 			csReasonValues = sql.getDebugValues();
-		}	
-		csQueryString = csQueryString;
+		}
+		this.csQueryString = csQueryString;
 	}
 	
 	public void fillLastSQLCodeErrorText()
@@ -102,16 +102,16 @@ public class CSQLStatus extends CJMapObject
 	{
 		csReasonParams = null;
 		csReasonValues = null;
-	
+
 		nSQLCode = nCode;
-		csMethod = csMethod;
-		csReason = csReason;
-		csQueryString = csQueryString;
+		this.csMethod = csMethod;
+		this.csReason = csReason;
+		this.csQueryString = csQueryString;
 	}
 	
 	public void setQuery(String csQueryString)
 	{
-		csQueryString = csQueryString;
+		this.csQueryString = csQueryString;
 	}
 	
 	public boolean isLastSQLCodeAnError()

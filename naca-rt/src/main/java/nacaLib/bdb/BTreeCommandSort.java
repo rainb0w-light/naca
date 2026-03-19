@@ -60,12 +60,12 @@ public class BTreeCommandSort
 
 	public void setPhysicalOutFile(String csFileOut)
 	{
-		csFileOut = csFileOut;
+		this.csFileOut = csFileOut;
 	}
-	
+
 	public void setFileExportKey(DataFileWrite dataFileKeyOut)
 	{
-		dataFileKeyOut = dataFileKeyOut;
+		this.dataFileKeyOut = dataFileKeyOut;
 	}
 	
 	public void setExportKeyFileOut(String csExportKeyFileOut)
@@ -99,7 +99,7 @@ public class BTreeCommandSort
 	
 	public void setKeyDescription(BtreeKeyDescription keyDescription)
 	{
-		keyDescription = keyDescription;
+		this.keyDescription = keyDescription;
 		TempCacheLocator.getTLSTempCache().setBtreeKeyDescription(keyDescription);
 	}
 	

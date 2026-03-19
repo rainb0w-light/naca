@@ -28,7 +28,7 @@ public class CMenuDef
 	
 	void setTitle(String csTitle)
 	{
-		csTitle = csTitle;
+		this.csTitle = csTitle;
 	}
 	
 	CMenuOptionDef createAndRegisterNewOption()

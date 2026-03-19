@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /*
- * Created on 7 déc. 04
+ * Created on 7 dï¿½c. 04
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -32,13 +32,13 @@ public class InspectTallying
 	}
 	public InspectTallying(String var)
 	{
-		source = var;
+		this.source = var;
 	}
 	
 	
 	public InspectTallying countAll(String csSearchForAll)
 	{
-		csSearchForAll = csSearchForAll;
+		this.csSearchForAll = csSearchForAll;
 		inspectTallyingType = TypeForAll;
 		return this;
 	}
@@ -48,7 +48,7 @@ public class InspectTallying
 	}
 	public InspectTallying countAll(String csSearchForAll, VarAndEdit result)
 	{
-		csSearchForAll = csSearchForAll;
+		this.csSearchForAll = csSearchForAll;
 		inspectTallyingType = TypeForAll;
 		return to(result);
 	}
@@ -87,7 +87,7 @@ public class InspectTallying
 	}
 
 	public InspectTallying countCharsBefore(String csBefore, VarAndEdit vto) {
-		csBefore = csBefore;
+		this.csBefore = csBefore;
 		inspectTallyingType = TypeForChars;
 		return to(vto) ;
 	}
@@ -100,7 +100,7 @@ public class InspectTallying
 	
 	public InspectTallying before(String csBefore)
 	{
-		csBefore = csBefore;
+		this.csBefore = csBefore;
 		return this;
 	}
 	
@@ -112,7 +112,7 @@ public class InspectTallying
 
 	public InspectTallying after(String csAfter)
 	{
-		csAfter = csAfter;
+		this.csAfter = csAfter;
 		return this;
 	}
 

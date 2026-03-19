@@ -24,7 +24,7 @@ public class GenericValueDec extends GenericValue
 {
 	GenericValueDec(Dec dec)
 	{
-		dec = dec;
+		this.dec = dec;
 	}
 	
 	GenericValueDec(int nInt, String csDec)

@@ -27,14 +27,14 @@ public class StackLevel extends CJMapObject
 		{
 			level = arr.get(n);
 			if(level.hasLowerLevel(nLevel))
-				return level; 
-		}		
+				return level;
+		}
 		return null;
 	}
 	
 	void push(CLevel levelToPush)
 	{
-		int nLevelToPush = levelToPush.nLevel; 
+		int nLevelToPush = levelToPush.nLevel;
 		for(int n=nTopValidIndex; n>=0; n--)
 		{
 			CLevel levelStacked = arr.get(n);

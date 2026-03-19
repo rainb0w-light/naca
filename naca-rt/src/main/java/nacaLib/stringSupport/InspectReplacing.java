@@ -34,12 +34,12 @@ public class InspectReplacing
 	
 	public InspectReplacing(VarAndEdit var)
 	{
-		var = var;
+		this.var = var;
 	}
-	
+
 	public InspectReplacing before(String csBefore)
 	{
-		csBefore = csBefore;
+		this.csBefore = csBefore;
 		return this;
 	}
 	
@@ -51,7 +51,7 @@ public class InspectReplacing
 
 	public InspectReplacing after(String csAfter)
 	{
-		csAfter = csAfter;
+		this.csAfter = csAfter;
 		return this;
 	}
 

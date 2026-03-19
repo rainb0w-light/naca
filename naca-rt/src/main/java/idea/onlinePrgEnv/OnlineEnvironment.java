@@ -75,7 +75,7 @@ public class OnlineEnvironment extends BaseEnvironment
 
 	public void setXMLData(Document xmlData)
 	{
-		xmlData = xmlData;
+		this.xmlData = xmlData;
 	}
 	
 

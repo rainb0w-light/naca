@@ -24,7 +24,7 @@ public abstract class RecordColTypeManagerBase
 {
 	RecordColTypeManagerBase(int nColSourceIndex)
 	{
-		nColSourceIndex = nColSourceIndex;
+		this.nColSourceIndex = nColSourceIndex;
 	}
 	
 	abstract boolean fillColValue(ResultSet rs, VarBase varInto);

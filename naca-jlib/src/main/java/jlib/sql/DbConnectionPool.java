@@ -29,7 +29,7 @@ public class DbConnectionPool
 
 	DbConnectionPool(String csPoolName, int nNbMaxConnections, int nTimeBeforeRemoveConnection_ms, int nMaxStatementLiveTime_ms, int nGarbageCollectorStatement_ms)
 	{
-		nGarbageCollectorStatement_ms = nGarbageCollectorStatement_ms;
+		this.nGarbageCollectorStatement_ms = nGarbageCollectorStatement_ms;
 		DbConnectionColl dbConnectionColl = new DbConnectionColl(csPoolName, nNbMaxConnections, nTimeBeforeRemoveConnection_ms, nMaxStatementLiveTime_ms, false, nGarbageCollectorStatement_ms);
 		addProgram("", null, dbConnectionColl);
 	}

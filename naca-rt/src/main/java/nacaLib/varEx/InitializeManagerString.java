@@ -22,12 +22,12 @@ public class InitializeManagerString extends InitializeManager
 {
 	public InitializeManagerString(String cs)
 	{
-		cs = cs;
+		this.cs = cs;
 	}
-	
+
 	public void set(String cs)
 	{
-		cs = cs;
+		this.cs = cs;
 	}
 	
 //	public void initialize(VarBufferPos buffer, VarDefBuffer varDef)

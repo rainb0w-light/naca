@@ -25,7 +25,7 @@ public class FillerReadWriteExt
 	
 	public void setMode(ModeReadWriteExt mode)
 	{
-		currentModeReadWriteExt = mode;
+		this.currentModeReadWriteExt = mode;
 	}
 	
 	public int getVariableChunkLength()
@@ -35,7 +35,7 @@ public class FillerReadWriteExt
 	
 	public void setVariableChunkLength(int nVariableChunkLength)
 	{
-		nVariableChunkLength = nVariableChunkLength;
+		this.nVariableChunkLength = nVariableChunkLength;
 	}
 	
 	public void markEndFixedRecordChunk()

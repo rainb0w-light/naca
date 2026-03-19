@@ -66,7 +66,7 @@ public class CEmulMapFieldLoader extends CMapFieldLoader
 	
 	public void setIDPage(String csIdPage)
 	{
-		csIdPage = csIdPage;
+		this.csIdPage = csIdPage;
 	}
 
 	/* (non-Javadoc)

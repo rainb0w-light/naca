@@ -29,7 +29,7 @@ public class AccountingRecordProgram
 	
 	public void beginRunProgram(String csProgramName)
 	{
-		csProgramName = csProgramName;
+		this.csProgramName = csProgramName;
 	}
 	
 	public void endRunProgram(CriteriaEndRunMain criteria)

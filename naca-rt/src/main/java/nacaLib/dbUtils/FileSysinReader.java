@@ -30,7 +30,7 @@ public class FileSysinReader extends BaseFileScriptReader
 	
 	FileSysinReader(BaseSession session)
 	{
-		session = session;
+		this.session = session;
 	}
 	
 	boolean parse(BaseSQLUtils sqlUtils, FileDescriptor fileIn)

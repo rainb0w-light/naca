@@ -12,8 +12,8 @@ public class SortKeySegmentDefinition
 {
 	SortKeySegmentDefinition(Var var, boolean bAscending)
 	{
-		var = var;
-		bAscending = bAscending;
+		this.var = var;
+		this.bAscending = bAscending;
 	}
 	
 	public int getBufferStartPosKey()

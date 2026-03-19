@@ -28,7 +28,7 @@ public class DbDriverId
 	
 	private DbDriverId(String csName, String csClassName)
 	{
-		csName = csName;
+		this.csName = csName;
 		put(csClassName, this);
 	}
 	

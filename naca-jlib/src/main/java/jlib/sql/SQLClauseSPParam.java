@@ -25,7 +25,7 @@ public abstract class SQLClauseSPParam
 	
 	protected SQLClauseSPParam(SQLClauseSPParamWay wayInOut)
 	{
-		wayInOut = wayInOut;		
+		this.wayInOut = wayInOut;		
 	}
 	
 	void registerIntoCallableStatement(int nParamId, DbPreparedCallableStatement callableStatement, SQLClauseSPParamDesc paramDesc)

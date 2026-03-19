@@ -37,9 +37,9 @@ public class CStr
 		
 	public void set(char acBuffer[], int nStartPos, int nLength)
 	{
-		acBuffer = acBuffer;
-		nStartPos = nStartPos; 
-		nLength = nLength;
+		this.acBuffer = acBuffer;
+		this.nStartPos = nStartPos;
+		this.nLength = nLength;
 	}
 	
 	public void set(String cs)

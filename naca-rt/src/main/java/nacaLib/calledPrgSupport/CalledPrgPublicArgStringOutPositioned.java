@@ -18,7 +18,7 @@ public class CalledPrgPublicArgStringOutPositioned extends BaseCalledPrgPublicAr
 	CalledPrgPublicArgStringOutPositioned(String csValue[], boolean bInOut)
 	{
 		super(bInOut);
-		csValue = csValue;
+		this.csValue = csValue;
 	}
 	
 	public void MapOn(Var varLinkageSection)

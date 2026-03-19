@@ -18,7 +18,7 @@ public class CalledPrgPublicArgIntOutPositioned extends BaseCalledPrgPublicArgPo
 	CalledPrgPublicArgIntOutPositioned(int nValue[], boolean bInOut)
 	{
 		super(bInOut);
-		nValue = nValue;
+		this.nValue = nValue;
 	}
 	
 	public void MapOn(Var varLinkageSection)

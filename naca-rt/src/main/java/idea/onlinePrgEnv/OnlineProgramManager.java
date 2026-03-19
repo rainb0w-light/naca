@@ -27,7 +27,7 @@ public class OnlineProgramManager extends BaseProgramManager
 	
 	public void setCurrentMapRedefine(MapRedefine mapRedefined)
 	{
-		currentMapRedefined = mapRedefined;
+		this.currentMapRedefined = mapRedefined;
 	}
 
 	public MapRedefine getCurrentMapRedefine()

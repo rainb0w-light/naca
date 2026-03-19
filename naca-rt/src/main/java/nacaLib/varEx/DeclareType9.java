@@ -37,8 +37,8 @@ public class DeclareType9 extends DeclareTypeBase
 	{
 		super.set(varLevel);
 		numericValue.set(bSigned, nNbDigitInteger, nNbDigitDecimal);
-		initialValue = null;
-		bBlankWhenZero = false;
+		this.initialValue = null;
+		this.bBlankWhenZero = false;
 	}
 	
 	public VarDefBuffer createVarDef(VarDefBuffer varDefParent)

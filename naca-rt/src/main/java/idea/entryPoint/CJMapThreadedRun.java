@@ -22,10 +22,10 @@ public class CJMapThreadedRun
 {
 	CJMapThreadedRun(OnlineResourceManager resourceManager, int nNbLoops, String csPrgClassName, StringArray arrPath)
 	{
-		resourceManager = resourceManager;
-		nNbLoops = nNbLoops;
-		csPrgClassName = csPrgClassName;
-		arrPath = arrPath;
+		this.resourceManager = resourceManager;
+		this.nNbLoops = nNbLoops;
+		this.csPrgClassName = csPrgClassName;
+		this.arrPath = arrPath;
 	}
 	
 	void run()

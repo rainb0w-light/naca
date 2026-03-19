@@ -18,7 +18,7 @@ public class CalledPrgPublicArgDoubleInPositioned extends BaseCalledPrgPublicArg
 	CalledPrgPublicArgDoubleInPositioned(double dValue)
 	{
 		super();
-		dValue = dValue;
+		this.dValue = dValue;
 	}
 	
 	public void MapOn(Var varLinkageSection)

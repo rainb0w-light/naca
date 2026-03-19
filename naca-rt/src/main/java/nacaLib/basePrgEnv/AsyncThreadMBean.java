@@ -30,9 +30,9 @@ public class AsyncThreadMBean extends BaseCloseMBean
 	AsyncThreadMBean(String csThreadId, String csThreadName)
 	{
 		super();
-		
-		csThreadName = csThreadName;
-		csThreadId = csThreadId;
+
+		this.csThreadName = csThreadName;
+		this.csThreadId = csThreadId;
 		sw = new StopWatch();
 		if(JmxGeneralStat.showAsyncThreadBeans())
 		{
@@ -61,25 +61,25 @@ public class AsyncThreadMBean extends BaseCloseMBean
 	
 	void setWait(boolean bWaiting)
 	{
-		if(bWaiting != bWaiting)	// Changing state
+		if(bWaiting != this.bWaiting)	// Changing state
 			sw.Reset();
-		bWaiting = bWaiting;
+		this.bWaiting = bWaiting;
 		csLastWaitEvent = DateUtil.getDisplayTimeStamp();
 	}
 	
 	void setProgram(String csProgram)
 	{
-		csProgram = csProgram;
+		this.csProgram = csProgram;
 	}
-	
+
 	void setProgramParent(String csProgramParent)
 	{
-		csProgramParent = csProgramParent;
+		this.csProgramParent = csProgramParent;
 	}
-	
+
 	void setDelaySeconds(int nDelaySeconds)
 	{
-		nDelaySeconds = nDelaySeconds;
+		this.nDelaySeconds = nDelaySeconds;
 	}
 	
 	private static String getAsyncThreadMBeanId(String csThreadId, String csThreadName)

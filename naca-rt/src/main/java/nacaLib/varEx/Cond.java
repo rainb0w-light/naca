@@ -25,7 +25,7 @@ public class Cond extends CJMapObject
 {
 	public Cond(Var varParent, DeclareTypeCond declareTypeCond)
 	{
-		var = varParent;
+		this.var = varParent;
 		arrValues = declareTypeCond.arrValues;
 	}
 	
@@ -36,8 +36,8 @@ public class Cond extends CJMapObject
 
 	private Cond(Var varParent, Cond condValue)
 	{
-		var = varParent;
-		arrValues = condValue.arrValues;	
+		this.var = varParent;
+		arrValues = condValue.arrValues;
 	}
 
 	public void setTrue()
@@ -96,7 +96,7 @@ public class Cond extends CJMapObject
 	
 	public void setName(String csName)
 	{
-		csName = csName;
+		this.csName = csName;
 	}
 	
 	public String toString()
