@@ -1,9 +1,10 @@
 # Hungarian Notation Refactorer
 
-IntelliJ IDEA 插件，用于批量将匈牙利命名法变量重命名为驼峰命名法。
+IntelliJ IDEA 插件，用于批量将匈牙利命名法变量重命名为驼峰命名法，并提供代码规范修复功能。
 
 ## 功能特性
 
+### 匈牙利命名法重构
 - **智能识别**：基于类型前缀的匈牙利命名法识别（如 `strName` → `name`, `btnSubmit` → `buttonSubmit`）
 - **批量重构**：支持文件、目录、整个项目级别的重构
 - **语义安全**：使用 IntelliJ PSI API 和 RefactoringFactory，确保引用全部更新
@@ -11,6 +12,57 @@ IntelliJ IDEA 插件，用于批量将匈牙利命名法变量重命名为驼峰
 - **可扩展规则**：支持自定义命名规则
 - **无头模式支持**：可通过 CLI 进行批量自动化重构
 - **预览功能**：重构前可预览所有更改
+
+### 代码规范修复 (Code Fixes)
+
+#### 1. Fix Self Assignment - 自赋值修复
+修复构造函数中的 `xxx = xxx` 自赋值问题，自动添加 `this.` 前缀。
+
+**修复前**:
+```java
+public class Person {
+    private String name;
+    
+    public Person(String name) {
+        name = name;  // 无意义自赋值
+    }
+}
+```
+
+**修复后**:
+```java
+public class Person {
+    private String name;
+    
+    public Person(String name) {
+        this.name = name;  // 正确的成员变量赋值
+    }
+}
+```
+
+#### 2. Fix Method Naming - 方法名小写化
+将首字母大写的方法名改为小写开头，符合 Java 命名规范。
+
+**修复前**:
+```java
+public class UserService {
+    public void SetName(String name) { ... }
+    public void GetName() { ... }
+}
+```
+
+**修复后**:
+```java
+public class UserService {
+    public void setName(String name) { ... }
+    public void getName() { ... }
+}
+```
+
+**特性**:
+- 自动检测并重写 overridden 方法（父子类同步修改）
+- 冲突检测：修改后导致签名冲突时会提示警告
+- 跳过构造函数和全大写方法名
 
 ## 安装
 
@@ -34,6 +86,8 @@ cd hungarian-refactorer
 
 ### GUI 方式
 
+#### 匈牙利命名法重构
+
 1. **分析文件**：
    - 右键 Java 文件 → `Code | Hungarian Notation | Analyze Hungarian Variables`
    - 查看文件中有哪些匈牙利命名法变量
@@ -45,6 +99,16 @@ cd hungarian-refactorer
 3. **重构整个项目**：
    - `Code | Hungarian Notation | Refactor Entire Project`
    - ⚠️ 警告：这会修改整个项目的所有相关文件
+
+#### 代码规范修复
+
+1. **修复自赋值**：
+   - 右键 Java 文件 → `Code | Code Fixes | Fix Self Assignment`
+   - 自动修复构造函数中的 `xxx = xxx` 问题
+
+2. **修复方法命名**：
+   - 右键 Java 文件 → `Code | Code Fixes | Fix Method Naming`
+   - 将首字母大写的方法名改为小写开头
 
 ### 配置选项
 
