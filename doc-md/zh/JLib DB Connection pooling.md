@@ -1,4 +1,4 @@
-# JLib DB Connection pooling (英文版 / English Version)
+# JLib DB Connection pooling
 
 # DB connection pooling manager.
 

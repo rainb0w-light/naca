@@ -1,4 +1,4 @@
-# JLib - XML Support (英文版 / English Version)
+# JLib - XML Support
 
 # Tag manager
 

@@ -1,4 +1,4 @@
-# Garbage Collection thread tuning (英文版 / English Version)
+# Garbage Collection thread tuning
 
 These parameters are given in a tag within main tag.
 NacaRT uses an internal thread that periodically do internal cache cleanup.

@@ -1,4 +1,4 @@
-# NacaRT unit testing (英文版 / English Version)
+# NacaRT unit testing
 
 Many cobol like statements are unit-tested by the Naca sub-project NacaRTTests.
 

@@ -1,4 +1,4 @@
-# JLib Logger (英文版 / English Version)
+# JLib Logger
 
 The logger uses a XML configuration file to set the various supported output and their options.
 There is also some java methods to call for generating log events.

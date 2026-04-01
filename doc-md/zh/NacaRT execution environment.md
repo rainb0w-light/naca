@@ -1,3 +1,3 @@
-# NacaRT execution environment (英文版 / English Version)
+# NacaRT execution environment
 
 

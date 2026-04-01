@@ -1,4 +1,4 @@
-# Batch execution mode  custom settings (英文版 / English Version)
+# Batch execution mode  custom settings
 
 These settings are used only by batch programs.
 

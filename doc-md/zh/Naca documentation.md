@@ -1,4 +1,4 @@
-# Naca documentation (英文版 / English Version)
+# Naca documentation
 
 NacaRT internal structure Documentation
 

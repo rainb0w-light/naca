@@ -1,4 +1,4 @@
-# Publicitas Naca (英文版 / English Version)
+# Publicitas Naca
 
 # NacaNacaRT:Naca RunTimeJLib - Java LIbraryDocumentation
 

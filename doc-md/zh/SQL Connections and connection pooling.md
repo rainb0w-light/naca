@@ -1,4 +1,4 @@
-# SQL Connections and connection pooling (英文版 / English Version)
+# SQL Connections and connection pooling
 
 SQL connections are pooled for performance reasons.
 There can be a connection pool by program.

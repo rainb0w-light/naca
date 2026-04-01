@@ -1,0 +1,88 @@
+<idea-plugin>
+    <id>com.example.hungarian-refactorer</id>
+    <name>Hungarian Notation Refactorer</name>
+    <version>1.0.0</version>
+    <vendor email="dev@example.com" url="https://example.com">Example Team</vendor>
+
+    <description><![CDATA[
+    <h2>Hungarian Notation Refactorer</h2>
+    <p>批量将匈牙利命名法变量重命名为驼峰命名法，支持：</p>
+    <ul>
+        <li>智能识别匈牙利命名法（基于类型的前缀匹配）</li>
+        <li>批量重命名变量、字段</li>
+        <li>自动更新相关的 getter/setter 方法</li>
+        <li>跨文件引用更新</li>
+        <li>可扩展的命名规则系统</li>
+        <li>支持 CLI 无头模式批量处理</li>
+    </ul>
+    <h3>使用方法</h3>
+    <ol>
+        <li>右键项目/目录/文件 → Refactor → Hungarian Notation Refactorer</li>
+        <li>或使用菜单：Code → Hungarian Notation Refactorer → Bulk Refactor</li>
+        <li>或使用快捷键：Ctrl+Shift+H (Windows/Linux) / Cmd+Shift+H (Mac)</li>
+    </ol>
+    ]]></description>
+
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.java</depends>
+
+    <!-- 扩展点注册 -->
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- 配置持久化 -->
+        <projectService
+            serviceInterface="com.example.hungarian.HungarianRefactorerSettings"
+            serviceImplementation="com.example.hungarian.HungarianRefactorerSettingsImpl"/>
+
+        <!-- 设置页面 -->
+        <projectConfigurable
+            groupId="tools"
+            displayName="Hungarian Notation"
+            id="com.example.hungarian.settings"
+            instance="com.example.hungarian.HungarianRefactorerConfigurable"/>
+
+        <!-- 应用层服务 -->
+        <applicationService
+            serviceInterface="com.example.hungarian.HungarianPrefixRegistry"
+            serviceImplementation="com.example.hungarian.HungarianPrefixRegistryImpl"/>
+
+        <!-- 启动时执行（用于无头模式） -->
+        <postStartupActivity
+            implementation="com.example.hungarian.HungarianRefactorerStartupActivity"/>
+    </extensions>
+
+    <!-- Actions -->
+    <actions>
+        <!-- 主重构动作 -->
+        <action
+            id="com.example.hungarian.actions.BulkRefactorAction"
+            class="com.example.hungarian.actions.BulkRefactorAction"
+            text="Hungarian Notation Refactorer"
+            description="批量重命名匈牙利命名法变量为驼峰命名法">
+            <add-to-group group-id="RefactoringMenu" anchor="last"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="ctrl shift H"/>
+        </action>
+
+        <!-- 子菜单 -->
+        <group id="com.example.hungarian.actions.MenuGroup"
+               text="Hungarian Notation"
+               description="匈牙利命名法重构工具"
+               popup="true">
+            <add-to-group group-id="CodeMenu" anchor="last"/>
+            <action
+                id="com.example.hungarian.actions.AnalyzeAction"
+                class="com.example.hungarian.actions.AnalyzeAction"
+                text="Analyze Hungarian Variables"
+                description="分析当前文件中的匈牙利命名法变量"/>
+            <action
+                id="com.example.hungarian.actions.RefactorAction"
+                class="com.example.hungarian.actions.RefactorAction"
+                text="Refactor Hungarian Variables"
+                description="重构当前文件中的匈牙利命名法变量"/>
+            <action
+                id="com.example.hungarian.actions.RefactorProjectAction"
+                class="com.example.hungarian.actions.RefactorProjectAction"
+                text="Refactor Entire Project"
+                description="重构整个项目中的匈牙利命名法变量"/>
+        </group>
+    </actions>
+</idea-plugin>

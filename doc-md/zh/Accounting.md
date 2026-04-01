@@ -1,4 +1,4 @@
-# Accounting (英文版 / English Version)
+# Accounting
 
 nacaRT holds accounting informations for statics and billing purpose.
 They are defined here in tag stored within tag .

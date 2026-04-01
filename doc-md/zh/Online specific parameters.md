@@ -1,4 +1,4 @@
-# Online specific parameters (英文版 / English Version)
+# Online specific parameters
 
 These parameters are used only for online programs.
 

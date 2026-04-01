@@ -1,4 +1,4 @@
-# JLib (英文版 / English Version)
+# JLib
 
 This library has primarily been used as a base lib for NacaRT framework, but has been reused by other projects:
 

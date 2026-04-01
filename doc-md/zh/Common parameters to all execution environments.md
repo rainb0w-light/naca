@@ -1,4 +1,4 @@
-# Common parameters to all execution environments (英文版 / English Version)
+# Common parameters to all execution environments
 
 All nacaRT shares some settings, whatever their execution mode (online, batch, stored procedure)
 This pages and it's children describes all these settings.
