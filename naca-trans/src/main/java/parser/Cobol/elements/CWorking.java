@@ -71,17 +71,17 @@ public class CWorking extends CCommentContainer
 	{
 		boolean b = false;
 		beginParseWorking();
-		boolean bLoop = true;
-		while(bLoop)
+		boolean isloop = true;
+		while(isloop)
 		{		
-			bLoop = false;
+			isloop = false;
 			b = internalDoParsing();
 			CBaseToken tokEntry = GetCurrentToken();
 			if(!LevelKeywordStackManager.isTokenManagedByAnyParents(tokEntry))
 			{
 				Transcoder.logError(tokEntry.getLine(), "Consuming token " + tokEntry.toString());
 				GetNext();
-				bLoop = true;
+				isloop = true;
 			}
 			else
 				endParseWorking();
@@ -91,8 +91,8 @@ public class CWorking extends CCommentContainer
 	
 	private boolean internalDoParsing()
 	{
-		boolean bDone = false ;
-		while (!bDone)
+		boolean isdone = false ;
+		while (!isdone)
 		{
 			CBaseToken tokEntry = GetCurrentToken();
 			
@@ -191,7 +191,7 @@ public class CWorking extends CCommentContainer
 			}
 			else
 			{
-				bDone = true ; // this kind of token is not parsed by current function, go back to caller
+				isdone = true ; // this kind of token is not parsed by current function, go back to caller
 			}
 		}
 		return true ;

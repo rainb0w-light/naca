@@ -69,12 +69,12 @@ public class CMove extends CCobolElement
 		CBaseToken tokFrom = GetNext() ;
 		if (tokFrom.GetKeyword() == CCobolKeywordList.CORR || tokFrom.GetKeyword() == CCobolKeywordList.CORRESPONDING)
 		{
-			bMoveCorresponding = true ;
+			ismoveCorresponding = true ;
 			tokFrom = GetNext();
 		}
 		if (tokFrom.GetKeyword() == CCobolKeywordList.ALL)
 		{
-			bFillAll = true ;
+			isfillAll = true ;
 			GetNext();
 		}
 		valueFrom = ReadTerminal() ;
@@ -90,14 +90,14 @@ public class CMove extends CCobolElement
 		
 		GetNext() ;
 		//read the DEST tokens
-		boolean bDone0 = false ;
-		while (!bDone0)
+		boolean isdone0 = false ;
+		while (!isdone0)
 		{
 			CBaseToken tokId = GetCurrentToken() ;
 			if (tokId.GetType() == CTokenType.IDENTIFIER)
 			{
 				CIdentifier id = ReadIdentifier() ;
-				arrToIdentifiers.add(id) ;
+				toIdentifiers.add(id) ;
 			}
 			else if (tokId.GetType() == CTokenType.COMMA)
 			{
@@ -105,11 +105,11 @@ public class CMove extends CCobolElement
 			}
 			else if (tokId.GetType() == CTokenType.DOT)
 			{
-				bDone0 = true ;
+				isdone0 = true ;
 			}
 			else
 			{
-				bDone0 = true ;
+				isdone0 = true ;
 			}
 		}
 		return true;
@@ -120,7 +120,7 @@ public class CMove extends CCobolElement
 	protected Element ExportCustom(Document root)
 	{
 		Element eMove ;
-		if (bMoveCorresponding)
+		if (ismoveCorresponding)
 		{
 			eMove = root.createElement("MoveCorresponding") ;
 		}
@@ -131,14 +131,14 @@ public class CMove extends CCobolElement
 		Element eFrom = root.createElement("From") ;
 		valueFrom.ExportTo(eFrom, root) ;
 		eMove.appendChild(eFrom) ;
-		ListIterator i = arrToIdentifiers.listIterator() ;
+		ListIterator i = toIdentifiers.listIterator() ;
 		try
 		{
 			CIdentifier idDest = (CIdentifier)i.next() ;
 			while (idDest != null)
 			{
 				Element dest ;
-				if (bFillAll)
+				if (isfillAll)
 				{
 					dest = root.createElement("Fill") ;
 				}
@@ -160,8 +160,8 @@ public class CMove extends CCobolElement
 	
 	//protected CMoveFromType fromType = null ;	// STRING / NUMBER / IDENTIFIER / SPACE / ZERO
 	protected CTerminal valueFrom = null ;
-	protected Vector<CIdentifier> arrToIdentifiers = new Vector<CIdentifier>() ;
-	protected boolean bFillAll = false ;
+	protected Vector<CIdentifier> toIdentifiers = new Vector<CIdentifier>() ;
+	protected boolean isfillAll = false ;
 	/* (non-Javadoc)
 	 * @see parser.CBaseElement#DoCustomSemanticAnalysis(semantic.CBaseSemanticEntity, semantic.CBaseSemanticEntityFactory)
 	 */
@@ -170,9 +170,9 @@ public class CMove extends CCobolElement
 		Vector<CDataEntity> vDest = new Vector<CDataEntity>() ;
 		if (!valueFrom.IsReference())
 		{ // no value to used a MOVE, it needs a special assignement function
-			for (int i=0; i<arrToIdentifiers.size(); i++)
+			for (int i = 0; i< toIdentifiers.size(); i++)
 			{
-				CIdentifier id = arrToIdentifiers.get(i) ;
+				CIdentifier id = toIdentifiers.get(i) ;
 				if (id != null)
 				{
 					CDataEntity e = id.GetDataReference(getLine(), factory) ;  
@@ -209,13 +209,13 @@ public class CMove extends CCobolElement
 										CEntityAssignWithAccessor eAcc = factory.NewEntityAssignWithAccessor(getLine()) ;
 										parent.AddChild(eAcc) ;
 										eAcc.SetAssign(e, eFrom) ;
-										eAcc.SetFillAll(bFillAll) ;
+										eAcc.SetFillAll(isfillAll) ;
 										e.RegisterWritingAction(eAcc);
 									}
 									else
 									{
 										CEntityAssign eAsgn = factory.NewEntityAssign(getLine()) ;
-										eAsgn.SetFillAll(bFillAll) ;
+										eAsgn.SetFillAll(isfillAll) ;
 										eAsgn.SetValue(eFrom) ;
 										eAsgn.AddRefTo(e);
 										parent.AddChild(eAsgn) ;
@@ -246,10 +246,10 @@ public class CMove extends CCobolElement
 			CEntityAssign eAsgn = factory.NewEntityAssign(getLine()) ;
 			CDataEntity eFrom = valueFrom.GetDataEntity(getLine(), factory) ;
 			eAsgn.SetValue(eFrom) ;
-			boolean bMoveToUsed = false ;
-			for (int i=0; i<arrToIdentifiers.size(); i++)
+			boolean ismoveToUsed = false ;
+			for (int i = 0; i< toIdentifiers.size(); i++)
 			{
-				CIdentifier id = arrToIdentifiers.get(i) ;
+				CIdentifier id = toIdentifiers.get(i) ;
 				if (id != null)
 				{
 					CDataEntity e = id.GetDataReference(getLine(), factory) ;  
@@ -291,17 +291,17 @@ public class CMove extends CCobolElement
 								else
 								{
 									eAsgn.AddRefTo(e);
-									eAsgn.SetFillAll(bFillAll) ;
-									eAsgn.SetAssignCorresponding(bMoveCorresponding);
+									eAsgn.SetFillAll(isfillAll) ;
+									eAsgn.SetAssignCorresponding(ismoveCorresponding);
 									e.RegisterWritingAction(eAsgn);
-									bMoveToUsed = true ;
+									ismoveToUsed = true ;
 								}
 							}
 						}
 					}
 				}
 			}
-			if (bMoveToUsed)
+			if (ismoveToUsed)
 			{		 
 				parent.AddChild(eAsgn) ;
 				if (eFrom != null)
@@ -316,5 +316,5 @@ public class CMove extends CCobolElement
 			}
 		}
 	}
-	protected boolean bMoveCorresponding = false ;
+	protected boolean ismoveCorresponding = false ;
 }

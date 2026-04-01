@@ -1,11 +1,12 @@
 package com.example.hungarian;
 
+import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.project.Project;
 
 /**
  * 匈牙利重构工具设置接口
  */
-public interface HungarianRefactorerSettings {
+public interface HungarianRefactorerSettings extends PersistentStateComponent<HungarianRefactorerSettingsImpl> {
 
     /**
      * 是否启用重构

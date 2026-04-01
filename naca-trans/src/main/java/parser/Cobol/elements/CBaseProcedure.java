@@ -34,31 +34,31 @@ public class CBaseProcedure extends CBlocElement
 
 	protected boolean DoParsing()
 	{
-		boolean bDone = false ;
-		while (!bDone)
+		boolean isdone = false ;
+		while (!isdone)
 		{
-			boolean bParsed = super.DoParsing() ;
-			if (!bParsed)
+			boolean isparsed = super.DoParsing() ;
+			if (!isparsed)
 			{
 				return false ;
 			}
 			CBaseToken tok = GetCurrentToken() ;
 			if (tok == null)
 			{
-				bDone = true ;
+				isdone = true ;
 			}
 			else if (tok.GetType()== CTokenType.DOT)
 			{
-				if (fCheckForNextSentence.ISSet())
+				if (checkForNextSentence.ISSet())
 				{
-					fCheckForNextSentence.UnSet() ; // 
+					checkForNextSentence.UnSet() ; //
 				}
 				GetNext();
 				//  continue
 			}
 			else
 			{
-				bDone = true ; // this token can't be parsed by this function
+				isdone = true ; // this token can't be parsed by this function
 			}
 		}
 		return true;

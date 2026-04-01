@@ -34,16 +34,16 @@ public class CMenuDef
 	CMenuOptionDef createAndRegisterNewOption()
 	{
 		CMenuOptionDef MenuOptionDef = new CMenuOptionDef();
-		arrOptions.add(MenuOptionDef);
+		options.add(MenuOptionDef);
 		return MenuOptionDef;
 	}
 	
 	public String buildHTMLMenu()
 	{
 		String cs = "<H1><CENTER>"+csTitle+"</CENTER></H1><BR><table>";
-		for(int n=0; n<arrOptions.size(); n++)
+		for(int n = 0; n< options.size(); n++)
 		{
-			CMenuOptionDef MenuOptionDef = arrOptions.get(n);
+			CMenuOptionDef MenuOptionDef = options.get(n);
 			cs += "<tr><td><BUTTON TYPE=SUBMIT>" + MenuOptionDef.csLabel + "</BUTTON></td></tr>";
 			// use MenuOptionDef.csAction to identify option
 		}
@@ -51,6 +51,6 @@ public class CMenuDef
 		return cs;
 	}
 		
-	ArrayList<CMenuOptionDef> arrOptions = new ArrayList<CMenuOptionDef>();	// Array of  MenuOptionDef
+	ArrayList<CMenuOptionDef> options = new ArrayList<CMenuOptionDef>();	// Array of  MenuOptionDef
 	public String csTitle = null;
 }

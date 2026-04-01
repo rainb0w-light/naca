@@ -44,7 +44,7 @@ public abstract class CEntityCICSReturn extends CBaseActionEntity
 		bChecked = bChecked ;
 	}
 	
-	protected boolean bChecked = false ;
+	protected boolean ischecked = false ;
 	protected CDataEntity transID = null ;
 	protected CDataEntity commArea = null ;
 	protected CDataEntity commLenght = null ;

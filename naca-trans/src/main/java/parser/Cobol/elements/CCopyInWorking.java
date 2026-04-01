@@ -71,7 +71,7 @@ public class CCopyInWorking extends CCobolElement
 		CBaseToken tokSuppr = GetNext() ;
 		if (tokSuppr.GetKeyword() == CCobolKeywordList.SUPPRESS)
 		{
-			bSuppress = true ;
+			issuppress = true ;
 			tokSuppr = GetNext() ;
 		} 
 		if (tokSuppr.GetKeyword() == CCobolKeywordList.REPLACING)
@@ -80,7 +80,7 @@ public class CCopyInWorking extends CCobolElement
 			while (tok.GetType() == CTokenType.NUMBER || tok.GetType() == CTokenType.STRING || tok.GetType() == CTokenType.IDENTIFIER)
 			{
 				String csReplace = tok.GetValue();
-				arrReplace.add(csReplace);
+				replace.add(csReplace);
 				tok = GetNext();
 				if (tok.GetKeyword() != CCobolKeywordList.BY)
 				{
@@ -90,7 +90,7 @@ public class CCopyInWorking extends CCobolElement
 				}
 				tok = GetNext();
 				String csReplaceBy = tok.GetValue();
-				arrReplaceBy.add(csReplaceBy);
+				replaceBy.add(csReplaceBy);
 				tok = GetNext();
 			}
 		} 
@@ -107,8 +107,8 @@ public class CCopyInWorking extends CCobolElement
 
 	protected boolean ParseContent()
 	{
-		boolean bDone = false ;
-		while (!bDone)
+		boolean isdone = false ;
+		while (!isdone)
 		{
 			CBaseToken tokEntry = GetCurrentToken();
 			if (tokEntry.GetType()==CTokenType.NUMBER)
@@ -126,12 +126,12 @@ public class CCopyInWorking extends CCobolElement
 				}
 				else
 				{
-					bDone = true ; // this entry is a top-level entry
+					isdone = true ; // this entry is a top-level entry
 				}
 			}
 			else
 			{
-				bDone = true ;	// this token is not parsed by this function, go back to caller
+				isdone = true ;	// this token is not parsed by this function, go back to caller
 			}
 		}
 		return true ;
@@ -144,24 +144,24 @@ public class CCopyInWorking extends CCobolElement
 	{
 		Element eCopy = root.createElement("Copy") ;
 		eCopy.setAttribute("Reference", csCopyReference);
-		if (bSuppress)
+		if (issuppress)
 		{
 			eCopy.setAttribute("Suppress", "true") ;
 		}
-		for (int i=0; i<arrReplace.size(); i++)
+		for (int i = 0; i< replace.size(); i++)
 		{
 			Element e = root.createElement("Replacing");
 			eCopy.appendChild(e);
-			e.setAttribute("Replace", arrReplace.get(i));
-			e.setAttribute("ReplaceBy", arrReplaceBy.get(i));
+			e.setAttribute("Replace", replace.get(i));
+			e.setAttribute("ReplaceBy", replaceBy.get(i));
 		}			
 		return eCopy;
 	}
 	
 	protected String csCopyReference = "" ;
-	protected ArrayList<String> arrReplace = new ArrayList<String>() ;
-	protected ArrayList<String> arrReplaceBy = new ArrayList<String>() ;
-	protected boolean bSuppress = false ;
+	protected ArrayList<String> replace = new ArrayList<String>() ;
+	protected ArrayList<String> replaceBy = new ArrayList<String>() ;
+	protected boolean issuppress = false ;
 	/* (non-Javadoc)
 	 * @see parser.CBaseElement#DoCustomSemanticAnalysis(semantic.CBaseSemanticEntity, semantic.CBaseSemanticEntityFactory)
 	 */
@@ -174,12 +174,12 @@ public class CCopyInWorking extends CCobolElement
 			CGlobalEntityCounter.GetInstance().RegisterMissingCopy(parent.GetProgramName(), csCopyReference) ;
 			return null ;
 		}
-		boolean  bOtherData = factory.programCatalog.IsExistingDataEntity(e.GetName(), "");
+		boolean isotherData = factory.programCatalog.IsExistingDataEntity(e.GetName(), "");
 		
-		if (arrReplace.size()>0 && arrReplaceBy.size()>0)
+		if (replace.size()>0 && replaceBy.size()>0)
 		{
-			String cs1 = arrReplace.get(0);
-			String cs2 = arrReplaceBy.get(0);
+			String cs1 = replace.get(0);
+			String cs2 = replaceBy.get(0);
 			int n1 = Integer.parseInt(cs1) ;
 			int n2 = Integer.parseInt(cs2);
 			if (n1 > 0 && n2 > 0)

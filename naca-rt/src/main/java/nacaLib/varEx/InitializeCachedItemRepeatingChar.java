@@ -16,9 +16,9 @@ package nacaLib.varEx;
  */
 public class InitializeCachedItemRepeatingChar extends InitializeCachedItem
 {
-	InitializeCachedItemRepeatingChar(char cPad, int nPosition, int nNbchars)
+	InitializeCachedItemRepeatingChar(char pad, int nPosition, int nNbchars)
 	{
-		this.cPad = cPad;
+		this.pad = pad;
 		this.nNbchars = nNbchars;
 		this.nTemplatePosition = nPosition;
 	}
@@ -29,11 +29,11 @@ public class InitializeCachedItemRepeatingChar extends InitializeCachedItem
 		nCurrentAbsolutePosition += nOffsetOrigin; 
 		for(int n=0; n<nNbchars; n++)
 		{
-			varBufferPos.acBuffer[nCurrentAbsolutePosition++] = cPad;
+			varBufferPos.acBuffer[nCurrentAbsolutePosition++] = pad;
 		}
 	}
 	
-	private char cPad;
+	private char pad;
 	private int nTemplatePosition = 0;
 	private int nNbchars = 0;
 }

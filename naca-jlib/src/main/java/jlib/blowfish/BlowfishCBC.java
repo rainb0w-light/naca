@@ -16,7 +16,7 @@ public class BlowfishCBC extends BlowfishECB {
 
 
   // here we hold the CBC IV
-  long lCBCIV;
+  long cBCIV;
 
 
   /**
@@ -25,7 +25,7 @@ public class BlowfishCBC extends BlowfishECB {
     */
   public long getCBCIV() 
   {
-    return lCBCIV;
+    return cBCIV;
   }
 
   /**
@@ -34,7 +34,7 @@ public class BlowfishCBC extends BlowfishECB {
     */
   public void getCBCIV(byte[] dest) 
   {
-    BinConverter.longToByteArray(lCBCIV, dest, 0);
+    BinConverter.longToByteArray(cBCIV, dest, 0);
   }
 
   /**
@@ -43,7 +43,7 @@ public class BlowfishCBC extends BlowfishECB {
     */
   public void setCBCIV(long lNewCBCIV) 
   {
-    lCBCIV = lNewCBCIV;
+    cBCIV = lNewCBCIV;
   }
 
   /**
@@ -52,7 +52,7 @@ public class BlowfishCBC extends BlowfishECB {
     */
   public void setCBCIV(byte[] newCBCIV) 
   {
-    lCBCIV = BinConverter.byteArrayToLong(newCBCIV, 0);
+    cBCIV = BinConverter.byteArrayToLong(newCBCIV, 0);
   }
 
 
@@ -105,7 +105,7 @@ public class BlowfishCBC extends BlowfishECB {
     */ 
   public void cleanUp() 
   {
-    lCBCIV = 0;
+    cBCIV = 0;
     super.cleanUp();
   }
 
@@ -114,13 +114,13 @@ public class BlowfishCBC extends BlowfishECB {
   private long encryptBlockCBC(long lPlainblock) 
   {
     // chain with the CBC IV
-    lPlainblock ^= lCBCIV;
+    lPlainblock ^= cBCIV;
 
     // encrypt the block
     lPlainblock = super.encryptBlock(lPlainblock);
 
     // the encrypted block is the new CBC IV
-    return (lCBCIV = lPlainblock);
+    return (cBCIV = lPlainblock);
   }
 
 
@@ -128,16 +128,16 @@ public class BlowfishCBC extends BlowfishECB {
   private long decryptBlockCBC(long lCipherblock) 
   {
     // save the current block
-    long lTemp = lCipherblock;
+    long temp = lCipherblock;
 
     // decrypt the block
     lCipherblock = super.decryptBlock(lCipherblock);
 
     // dechain the block
-    lCipherblock ^= lCBCIV;
+    lCipherblock ^= cBCIV;
 
     // set the new CBC IV
-    lCBCIV = lTemp;
+    cBCIV = temp;
 
     // return the decrypted block
     return lCipherblock;
@@ -155,13 +155,13 @@ public class BlowfishCBC extends BlowfishECB {
                       byte[] outbuffer) 
   {
     int nLen = inbuffer.length;
-    long lTemp;
+    long temp;
     for (int nI = 0; nI < nLen; nI +=8) 
     {
       // encrypt a temporary 64bit block
-      lTemp = BinConverter.byteArrayToLong(inbuffer, nI);
-      lTemp = encryptBlockCBC(lTemp);
-      BinConverter.longToByteArray(lTemp, outbuffer, nI);
+      temp = BinConverter.byteArrayToLong(inbuffer, nI);
+      temp = encryptBlockCBC(temp);
+      BinConverter.longToByteArray(temp, outbuffer, nI);
     }
   }
 
@@ -175,13 +175,13 @@ public class BlowfishCBC extends BlowfishECB {
   {
 
     int nLen = buffer.length;
-    long lTemp;
+    long temp;
     for (int nI = 0; nI < nLen; nI +=8) 
     {
       // encrypt a temporary 64bit block
-      lTemp = BinConverter.byteArrayToLong(buffer, nI);
-      lTemp = encryptBlockCBC(lTemp);
-      BinConverter.longToByteArray(lTemp, buffer, nI);
+      temp = BinConverter.byteArrayToLong(buffer, nI);
+      temp = encryptBlockCBC(temp);
+      BinConverter.longToByteArray(temp, buffer, nI);
     }
   }
 
@@ -199,13 +199,13 @@ public class BlowfishCBC extends BlowfishECB {
                       int[] outbuffer) 
   {
     int nLen = inbuffer.length;
-    long lTemp;
+    long temp;
     for (int nI = 0; nI < nLen; nI +=2) 
     {
       // encrypt a temporary 64bit block
-      lTemp = BinConverter.intArrayToLong(inbuffer, nI);
-      lTemp = encryptBlockCBC(lTemp);
-      BinConverter.longToIntArray(lTemp, outbuffer, nI);
+      temp = BinConverter.intArrayToLong(inbuffer, nI);
+      temp = encryptBlockCBC(temp);
+      BinConverter.longToIntArray(temp, outbuffer, nI);
     }
   }
 
@@ -217,13 +217,13 @@ public class BlowfishCBC extends BlowfishECB {
   public void encrypt(int[] buffer) 
   {
     int nLen = buffer.length;
-    long lTemp;
+    long temp;
     for (int nI = 0; nI < nLen; nI +=2) 
     {
       // encrypt a temporary 64bit block
-      lTemp = BinConverter.intArrayToLong(buffer, nI);
-      lTemp = encryptBlockCBC(lTemp);
-      BinConverter.longToIntArray(lTemp, buffer, nI);
+      temp = BinConverter.intArrayToLong(buffer, nI);
+      temp = encryptBlockCBC(temp);
+      BinConverter.longToIntArray(temp, buffer, nI);
     }
   }
 
@@ -271,13 +271,13 @@ public class BlowfishCBC extends BlowfishECB {
                       byte[] outbuffer) 
   {
     int nLen = inbuffer.length;
-    long lTemp;
+    long temp;
     for (int nI = 0; nI < nLen; nI +=8) 
     {
       // decrypt a temporary 64bit block
-      lTemp = BinConverter.byteArrayToLong(inbuffer, nI);
-      lTemp = decryptBlockCBC(lTemp);
-      BinConverter.longToByteArray(lTemp, outbuffer, nI);
+      temp = BinConverter.byteArrayToLong(inbuffer, nI);
+      temp = decryptBlockCBC(temp);
+      BinConverter.longToByteArray(temp, outbuffer, nI);
     }
   }
 
@@ -290,13 +290,13 @@ public class BlowfishCBC extends BlowfishECB {
   public void  decrypt(byte[] buffer) 
   {
     int nLen = buffer.length;
-    long lTemp;
+    long temp;
     for (int nI = 0; nI < nLen; nI +=8) 
     {
       // decrypt over a temporary 64bit block
-      lTemp = BinConverter.byteArrayToLong(buffer, nI);
-      lTemp = decryptBlockCBC(lTemp);
-      BinConverter.longToByteArray(lTemp, buffer, nI);
+      temp = BinConverter.byteArrayToLong(buffer, nI);
+      temp = decryptBlockCBC(temp);
+      BinConverter.longToByteArray(temp, buffer, nI);
     }
   }
 
@@ -314,13 +314,13 @@ public class BlowfishCBC extends BlowfishECB {
   {
 
     int nLen = inbuffer.length;
-    long lTemp;
+    long temp;
     for (int nI = 0; nI < nLen; nI +=2) 
     {
       // decrypt a temporary 64bit block
-      lTemp = BinConverter.intArrayToLong(inbuffer, nI);
-      lTemp = decryptBlockCBC(lTemp);
-      BinConverter.longToIntArray(lTemp, outbuffer, nI);
+      temp = BinConverter.intArrayToLong(inbuffer, nI);
+      temp = decryptBlockCBC(temp);
+      BinConverter.longToIntArray(temp, outbuffer, nI);
     }
   }
 
@@ -333,13 +333,13 @@ public class BlowfishCBC extends BlowfishECB {
   public void decrypt(int[] buffer) 
   {
     int nLen = buffer.length;
-    long lTemp;
+    long temp;
     for (int nI = 0; nI < nLen; nI +=2) 
     {
       // decrypt a temporary 64bit block
-      lTemp = BinConverter.intArrayToLong(buffer, nI);
-      lTemp = decryptBlockCBC(lTemp);
-      BinConverter.longToIntArray(lTemp, buffer, nI);
+      temp = BinConverter.intArrayToLong(buffer, nI);
+      temp = decryptBlockCBC(temp);
+      BinConverter.longToIntArray(temp, buffer, nI);
     }
   }
 

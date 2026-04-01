@@ -65,18 +65,18 @@ public class CExecCICSReceive extends CCobolElement
 	{
 		if (receiveType == CCICSReceiveType.MAP)
 		{
-			CDataEntity name = mapName.GetDataEntity(getLine(), factory);
+			CDataEntity name = this.name.GetDataEntity(getLine(), factory);
 			CEntityCICSReceiveMap recv = factory.NewEntityCICSReceiveMap(getLine(), name);
 			parent.AddChild(recv);
 			
-			if (mapSetName !=  null)
+			if (setName !=  null)
 			{
-				CDataEntity ms = mapSetName.GetDataEntity(getLine(), factory);
+				CDataEntity ms = setName.GetDataEntity(getLine(), factory);
 				recv.SetMapSet(ms) ;
 			}
-			if (mapInto != null)
+			if (into != null)
 			{
-				CDataEntity into = mapInto.GetDataReference(getLine(), factory);
+				CDataEntity into = this.into.GetDataReference(getLine(), factory);
 				recv.SetDataInto(into);
 			}
 			return recv;
@@ -157,7 +157,7 @@ public class CExecCICSReceive extends CCobolElement
 		if (tok.GetType() == CTokenType.LEFT_BRACKET)
 		{
 			tok = GetNext();
-			mapName = ReadTerminal() ;
+			name = ReadTerminal() ;
 			tok = GetCurrentToken() ;
 			if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 			{
@@ -165,8 +165,8 @@ public class CExecCICSReceive extends CCobolElement
 			}
 		}
 		
-		boolean bDone = false ;
-		while (!bDone)
+		boolean isdone = false ;
+		while (!isdone)
 		{
 			tok  = GetCurrentToken() ;
 			if (tok.GetValue().equals("MAPSET"))
@@ -175,7 +175,7 @@ public class CExecCICSReceive extends CCobolElement
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
 				{
 					tok = GetNext();
-					mapSetName = ReadTerminal() ;
+					setName = ReadTerminal() ;
 					tok = GetCurrentToken() ;
 					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 					{
@@ -189,7 +189,7 @@ public class CExecCICSReceive extends CCobolElement
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
 				{
 					tok = GetNext();
-					mapInto = ReadIdentifier() ;
+					into = ReadIdentifier() ;
 					tok = GetCurrentToken() ;
 					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 					{
@@ -199,7 +199,7 @@ public class CExecCICSReceive extends CCobolElement
 			}
 			else
 			{
-				bDone = true ;
+				isdone = true ;
 			}
 		}
 		return true ;
@@ -215,19 +215,19 @@ public class CExecCICSReceive extends CCobolElement
 			Element eRcv = root.createElement("ExecCICSReceiveMap") ;
 			Element eMap = root.createElement("Map");
 			eRcv.appendChild(eMap);
-			mapName.ExportTo(eMap, root);
+			name.ExportTo(eMap, root);
 			
-			if (mapSetName !=  null)
+			if (setName !=  null)
 			{
 				Element eMapset = root.createElement("MapSet");
 				eRcv.appendChild(eMapset);
-				mapSetName.ExportTo(eMapset, root);
+				setName.ExportTo(eMapset, root);
 			}
-			if (mapInto != null)
+			if (into != null)
 			{
 				Element eMapset = root.createElement("Into");
 				eRcv.appendChild(eMapset);
-				mapInto.ExportTo(eMapset, root);
+				into.ExportTo(eMapset, root);
 			}
 			return eRcv;
 		}
@@ -240,7 +240,7 @@ public class CExecCICSReceive extends CCobolElement
 	
 	
 	protected CCICSReceiveType receiveType = null ;
-	protected CTerminal mapName = null ;
-	protected CTerminal mapSetName = null ;
-	protected CIdentifier mapInto = null ;
+	protected CTerminal name = null ;
+	protected CTerminal setName = null ;
+	protected CIdentifier into = null ;
 }

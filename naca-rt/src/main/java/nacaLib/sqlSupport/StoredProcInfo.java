@@ -23,7 +23,7 @@ public class StoredProcInfo
 	public String csName = null;
 	public String csRemarks = null;
 	public String csSchem = null;
-	public short sType = 0;
+	public short type = 0;
 	
 	StoredProcInfo()
 	{
@@ -36,7 +36,7 @@ public class StoredProcInfo
 			csCatalog = rsProc.getString("PROCEDURE_CAT");
 			csName = rsProc.getString("PROCEDURE_NAME");
 			csRemarks = rsProc.getString("REMARKS");
-			sType = rsProc.getShort("PROCEDURE_TYPE");
+			type = rsProc.getShort("PROCEDURE_TYPE");
 			csSchem = rsProc.getString("PROCEDURE_SCHEM");
 			return true;
 		}

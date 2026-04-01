@@ -46,7 +46,7 @@ public class CExecCICSSyncPoint extends CCobolElement
 	 */
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		CEntityCICSSyncPoint esp = factory.NewEntityCICSSyncPoint(getLine(), bRollBack) ;
+		CEntityCICSSyncPoint esp = factory.NewEntityCICSSyncPoint(getLine(), isrollBack) ;
 		parent.AddChild(esp);
 		return esp;
 	}
@@ -64,7 +64,7 @@ public class CExecCICSSyncPoint extends CCobolElement
 		
 		if (tok.GetValue().equals("ROLLBACK"))
 		{
-			bRollBack = true ;
+			isrollBack = true ;
 			tok = GetNext();
 		}
 		
@@ -82,7 +82,7 @@ public class CExecCICSSyncPoint extends CCobolElement
 	 */
 	protected Element ExportCustom(Document root)
 	{
-		if (bRollBack)
+		if (isrollBack)
 		{
 			Element e = root.createElement("ExecCICSSyncPointRollback") ;
 			return e;
@@ -94,5 +94,5 @@ public class CExecCICSSyncPoint extends CCobolElement
 		}
 	}
 
-	protected boolean bRollBack = false ;
+	protected boolean isrollBack = false ;
 }

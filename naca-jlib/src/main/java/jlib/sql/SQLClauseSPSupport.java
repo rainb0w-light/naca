@@ -14,10 +14,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import jlib.log.Log;
-import jlib.sql.DbConnectionBase;
-import jlib.sql.StoredProcParamDescBase;
-
 /**
  *
  * @author Pierre-Jean Ditscheid, Consultas SA
@@ -35,12 +31,12 @@ public class SQLClauseSPSupport
 		try
 		{
 			DatabaseMetaData dmd = dbConnection.getDbConnection().getMetaData();
-			ResultSet rsProcs = dmd.getProcedures(null, null, "%");
+			ResultSet resultSetprocs = dmd.getProcedures(null, null, "%");
 			boolean b = true;
-			while(rsProcs.next() && b)
+			while(resultSetprocs.next() && b)
 			{
 				SQLClauseSPInfo info = new SQLClauseSPInfo();
-				if(info.fill(rsProcs))
+				if(info.fill(resultSetprocs))
 					arr.add(info);
 			}
 		}
@@ -53,18 +49,18 @@ public class SQLClauseSPSupport
 
 	public SQLClauseSPParamsDesc getStoredProcedureParamsList(DbConnectionBase dbConnection, String csStoredProcName)
 	{
-		SQLClauseSPParamsDesc spParamsDesc = new SQLClauseSPParamsDesc();
+		SQLClauseSPParamsDesc spinnerparamsDesc = new SQLClauseSPParamsDesc();
 				
 		try
 		{
 			DatabaseMetaData dmd = dbConnection.getDbConnection().getMetaData();
 			if (csStoredProcName.indexOf(".") != -1) // suppress the user if exists in the procedure
 				csStoredProcName = csStoredProcName.substring(csStoredProcName.indexOf(".") + 1); 
-			ResultSet rsParams = dmd.getProcedureColumns(null, dbConnection.getEnvironmentPrefix(), csStoredProcName.replace("_", "\\_"), "%");
+			ResultSet resultSetparams = dmd.getProcedureColumns(null, dbConnection.getEnvironmentPrefix(), csStoredProcName.replace("_", "\\_"), "%");
 			boolean b = true;
-			while(rsParams.next() && b)
+			while(resultSetparams.next() && b)
 			{
-				spParamsDesc.addAParam(rsParams);
+				spinnerparamsDesc.addAParam(resultSetparams);
 			}
 		}
 		catch (SQLException e)
@@ -72,7 +68,7 @@ public class SQLClauseSPSupport
 			return null;
 		}
 
-		return spParamsDesc;
+		return spinnerparamsDesc;
 	}
 
 }

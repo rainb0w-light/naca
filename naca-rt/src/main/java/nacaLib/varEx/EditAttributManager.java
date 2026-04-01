@@ -31,7 +31,7 @@ public class EditAttributManager
 	{
 		mapFieldAttribute = declareTypeEdit.mapFieldAttribute.duplicate();
 		localizedString = declareTypeEdit.localizedString;
-		setCursor(declareTypeEdit.bHasCursor);
+		setCursor(declareTypeEdit.ishasCursor);
 		csDevelopableMark = declareTypeEdit.csDevelopableMark;
 		csFormat = declareTypeEdit.csFormat;
 		//csSemanticContext = declareTypeEdit.csSemanticContextValue;
@@ -39,7 +39,7 @@ public class EditAttributManager
 	
 	void initialize()
 	{
-		bHasCursor = false ;
+		ishasCursor = false ;
 		mapFieldAttribute.initialize();
 		flag.reset() ;
 	}
@@ -48,7 +48,7 @@ public class EditAttributManager
 	{
 		attrManagerDest.mapFieldAttribute = mapFieldAttribute.duplicate();
 		attrManagerDest.localizedString = localizedString;	// Not copied; keep the original value as it is never modified
-		attrManagerDest.bHasCursor = bHasCursor;
+		attrManagerDest.ishasCursor = ishasCursor;
 		attrManagerDest.csDevelopableMark = csDevelopableMark;
 		attrManagerDest.csFormat = csFormat;
 		attrManagerDest.flag = flag.duplicate();
@@ -314,12 +314,12 @@ public class EditAttributManager
 	
 	public void setCursor(boolean b)
 	{
-		bHasCursor = b;	
+		ishasCursor = b;
 	}
 	
 	public boolean hasCursor()
 	{
-		return bHasCursor ;
+		return ishasCursor;
 	}
 
 	public String getFlag()
@@ -378,8 +378,8 @@ public class EditAttributManager
 	
 	char getEncodedFlag()	// Will use 4 char position
 	{
-		char cFlag = flag.getEncodedValue();	// Will use 1 char
-		return cFlag;
+		char flag = this.flag.getEncodedValue();	// Will use 1 char
+		return flag;
 	}
 	
 	void setEncodedFlag(char cFlag)	// Will use 4 char position
@@ -429,6 +429,6 @@ public class EditAttributManager
 	LocalizedString localizedString = null;		// Encoded in commarea
 	String csDevelopableMark = null;
 	String csFormat = null;
-	boolean bHasCursor = false ;
+	boolean ishasCursor = false ;
 	//String csSemanticContext = null;
 }

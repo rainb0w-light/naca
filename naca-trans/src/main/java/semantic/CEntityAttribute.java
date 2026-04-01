@@ -19,9 +19,7 @@ import parser.expression.CTerminal;
 import semantic.Verbs.*;
 import semantic.expression.CBaseEntityExpression;
 import semantic.expression.CBaseEntityCondition;
-import semantic.expression.CEntityCondCompare;
 import semantic.expression.CEntityCondIsConstant;
-import semantic.expression.CEntityConstant;
 import utils.*;
 
 /**
@@ -76,52 +74,52 @@ public abstract class CEntityAttribute extends CGenericDataEntityReference imple
 	};
 	public void SetInitialValueSpaces()
 	{
-		bInitialValueIsSpaces = true ;
-		bInitialValueIsZeros = false ;
-		bInitialValueIsLowValue = false ;
-		bInitialValueIsHighValue = false ;
+		isinitialValueIsSpaces = true ;
+		isinitialValueIsZeros = false ;
+		isinitialValueIsLowValue = false ;
+		isinitialValueIsHighValue = false ;
 		value = null ;
 	}
 	public void SetInitialValueZeros()
 	{
-		bInitialValueIsSpaces = false ;
-		bInitialValueIsZeros = true ;
-		bInitialValueIsLowValue = false ;
-		bInitialValueIsHighValue = false ;
+		isinitialValueIsSpaces = false ;
+		isinitialValueIsZeros = true ;
+		isinitialValueIsLowValue = false ;
+		isinitialValueIsHighValue = false ;
 		value = null ;
 	}
 	public void SetInitialLowValue()
 	{
 		value = null ;
-		bInitialValueIsSpaces = false ;
-		bInitialValueIsZeros = false ;
-		bInitialValueIsLowValue = true ;
-		bInitialValueIsHighValue = false ;
+		isinitialValueIsSpaces = false ;
+		isinitialValueIsZeros = false ;
+		isinitialValueIsLowValue = true ;
+		isinitialValueIsHighValue = false ;
 	}
 	public void SetInitialHighValue()
 	{
 		value = null ;
-		bInitialValueIsSpaces = false ;
-		bInitialValueIsZeros = false ;
-		bInitialValueIsLowValue = false ;
-		bInitialValueIsHighValue = true ;
+		isinitialValueIsSpaces = false ;
+		isinitialValueIsZeros = false ;
+		isinitialValueIsLowValue = false ;
+		isinitialValueIsHighValue = true ;
 	}
 	public void SetInitialValueAll(CDataEntity s)
 	{
 		value = s ;
-		bFillWithValue = true ;
-		bInitialValueIsSpaces = false ;
-		bInitialValueIsZeros = false ;
-		bInitialValueIsLowValue = false ;
-		bInitialValueIsHighValue = false ;
+		isfillWithValue = true ;
+		isinitialValueIsSpaces = false ;
+		isinitialValueIsZeros = false ;
+		isinitialValueIsLowValue = false ;
+		isinitialValueIsHighValue = false ;
 	}
 	public void SetInitialValue(CDataEntity s)
 	{
 		value = s ;
-		bInitialValueIsSpaces = false ;
-		bInitialValueIsZeros = false ;
-		bInitialValueIsLowValue = false ;
-		bInitialValueIsHighValue = false ;
+		isinitialValueIsSpaces = false ;
+		isinitialValueIsZeros = false ;
+		isinitialValueIsLowValue = false ;
+		isinitialValueIsHighValue = false ;
 	}
 	public void SetTypeEdited(String f)
 	{
@@ -139,20 +137,20 @@ public abstract class CEntityAttribute extends CGenericDataEntityReference imple
 	};
 	
 	protected CDataEntity value = null ; 
-	protected boolean bInitialValueIsSpaces = false ;
-	protected boolean bInitialValueIsZeros = false ;
-	protected boolean bInitialValueIsLowValue = false ;
-	protected boolean bInitialValueIsHighValue = false ;
+	protected boolean isinitialValueIsSpaces = false ;
+	protected boolean isinitialValueIsZeros = false ;
+	protected boolean isinitialValueIsLowValue = false ;
+	protected boolean isinitialValueIsHighValue = false ;
 	protected String comp = "" ;
 	protected String type = "" ;
 	protected int length = 0 ;
 	protected int decimals = 0 ;
 	protected String format = "" ;
-	protected boolean bSync = false ;
-	protected boolean bFillWithValue = false ;
+	protected boolean issync = false ;
+	protected boolean isfillWithValue = false ;
 	public void SetSync(boolean b)
 	{
-		bSync = b ;
+		issync = b ;
 	}
 
 	/* (non-Javadoc)
@@ -329,18 +327,18 @@ public abstract class CEntityAttribute extends CGenericDataEntityReference imple
 	{
 		bJustifiedRight = bJustifiedRight ;
 	}
-	protected boolean bJustifiedRight = false ;
+	protected boolean isjustifiedRight = false ;
 	
 	public void SetBlankWhenZero(boolean blankWhenZero)
 	{
-		bBlankWhenZero = blankWhenZero ;
+		isblankWhenZero = blankWhenZero ;
 	}
-	protected boolean bBlankWhenZero = false ;
+	protected boolean isblankWhenZero = false ;
 	public void SetSignSeparateType(CWorkingSignType signSeparateType)
 	{
-		bSignSeparateType = signSeparateType ;
+		issignSeparateType = signSeparateType ;
 	}
-	protected CWorkingSignType bSignSeparateType ;
+	protected CWorkingSignType issignSeparateType;
 
 
 	/**

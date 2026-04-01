@@ -20,7 +20,6 @@ import nacaLib.mathSupport.MathAdd;
 import nacaLib.misc.NumberParserDec;
 import nacaLib.sqlSupport.CSQLItemType;
 import nacaLib.tempCache.CStr;
-import nacaLib.tempCache.CStrNumber;
 import nacaLib.tempCache.TempCacheLocator;
 
 /**
@@ -536,7 +535,7 @@ public class VarDefNumDecSignLeadingComp0 extends VarDefNum
 	CStr getDottedSignedString(VarBufferPos buffer)
 	{
 		// Read sign from first position
-		char cSign = buffer.acBuffer[buffer.nAbsolutePosition];
+		char sign = buffer.acBuffer[buffer.nAbsolutePosition];
 
 		// Read integer digits
 		CStr cs1 = buffer.getStringAt(buffer.nAbsolutePosition+1, nNbDigitInteger);
@@ -544,7 +543,7 @@ public class VarDefNumDecSignLeadingComp0 extends VarDefNum
 		// Build result with sign prefix
 		CStr cs = TempCacheLocator.getTLSTempCache().getReusableCStr();
 		cs.resetMinimalSize(1 + cs1.length() + (nNbDigitDecimal > 0 ? 1 + nNbDigitDecimal : 0));
-		cs.append(cSign);
+		cs.append(sign);
 		cs.append(cs1);
 
 		// Add decimal part if present

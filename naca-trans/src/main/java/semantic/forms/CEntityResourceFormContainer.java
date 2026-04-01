@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 5 août 2004
+ * Created on 5 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -143,8 +143,8 @@ public abstract class CEntityResourceFormContainer extends CBaseResourceEntity
 		Tag t = CRulesManager.getInstance().getRule("ReduceMaps") ;
 		if (t != null)
 		{
-			boolean bReduce = t.getValAsBoolean("active") ;
-			if (bReduce)
+			boolean isreduce = t.getValAsBoolean("active") ;
+			if (isreduce)
 			{
 				return bSaveCopy ;
 			}
@@ -165,11 +165,11 @@ public abstract class CEntityResourceFormContainer extends CBaseResourceEntity
 		}
 		Document doc = createNewDocument() ;
 		FieldComparator comp = new FieldComparator() ;
-		SortedSet<FieldExportDescription> setFields = new TreeSet<FieldExportDescription>(comp) ;
+		SortedSet<FieldExportDescription> fields = new TreeSet<FieldExportDescription>(comp) ;
 //		for (int i=0; i<arrForm.size(); i++)
 //		{
 		CEntityResourceForm form = arrForm.get(0);
-		form.ExportXMLFields(setFields, doc, resStrings) ;
+		form.ExportXMLFields(fields, doc, resStrings) ;
 //		}
 		
 		String name = FormatIdentifier(GetName()) ;
@@ -178,9 +178,9 @@ public abstract class CEntityResourceFormContainer extends CBaseResourceEntity
 		Element eRoot = createNewFormBody(doc, name, name, ePFKeysDefine, ePFKeysSpecial) ;
 		form.ExportCustomProperties(doc) ;
 		Element eBody = createVBox(doc, eRoot);
-		int nb = setFields.size() ;
+		int nb = fields.size() ;
 		FieldExportDescription[] arr = new FieldExportDescription[nb] ;
-		setFields.toArray(arr);
+		fields.toArray(arr);
 		int curline = 0 ;
 		int curCol = 0 ;
 		Element curLineElem = null ;
@@ -313,7 +313,7 @@ public abstract class CEntityResourceFormContainer extends CBaseResourceEntity
 		int col = 0 ;
 		int length = 0 ;
 		
-		boolean bRightJustified = false;	// Valid only for Edits
+		boolean isrightJustified = false;	// Valid only for Edits
 		String csFillValue = "";			// Valid only for Edits
 		
 		Element tag = null ;

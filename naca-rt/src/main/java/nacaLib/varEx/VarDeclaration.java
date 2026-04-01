@@ -43,22 +43,22 @@ public class VarDeclaration extends ParamDeclaration
 	
 	public VarLevel level(int nLevel)
 	{
-		short sLevel = (short)nLevel;
-		if(sLevel != 77)	// Level 77 is assimiled to a level 1, but cannot be a parent
+		short level = (short)nLevel;
+		if(level != 77)	// Level 77 is assimiled to a level 1, but cannot be a parent
 		{
 			if(copyReplacing != null)
-				sLevel = (short)copyReplacing.getReplacedLevel(nLevel);
+				level = (short)copyReplacing.getReplacedLevel(nLevel);
 		}		
 		
-		if(sLevel == 1)
+		if(level == 1)
 			program.getProgramManager().checkWorkingStorageSection();
 			
-		if(sLevel == 1 || sLevel == 77)
+		if(level == 1 || level == 77)
 		{
 			program.getProgramManager().setCurrentMapRedefine(null);
 		}
 		
-		return varLevel(sLevel);
+		return varLevel(level);
 	}
 	
 	public VarLevel variable()

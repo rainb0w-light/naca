@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 13 août 2004
+ * Created on 13 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -60,9 +60,9 @@ public class CUnstring extends CCobolElement
 		eVar.RegisterReadingAction(eParse) ;
 		eParse.ParseString(eVar);
 		
-		for (int i=0; i<arrDelimitersSingle.size();i++)
+		for (int i = 0; i< delimitersSingle.size(); i++)
 		{
-			CTerminal term = arrDelimitersSingle.get(i);
+			CTerminal term = delimitersSingle.get(i);
 			CDataEntity e = term.GetDataEntity(getLine(), factory);
 			if (e == null)
 			{
@@ -79,9 +79,9 @@ public class CUnstring extends CCobolElement
 			}
 			eParse.AddDelimiterSingle(e);
 		}
-		for (int i=0; i<arrDelimitersMulti.size();i++)
+		for (int i = 0; i< delimitersMulti.size(); i++)
 		{
-			CTerminal term = arrDelimitersMulti.get(i);
+			CTerminal term = delimitersMulti.get(i);
 			CDataEntity e = term.GetDataEntity(getLine(), factory);
 			if (e == null)
 			{
@@ -93,9 +93,9 @@ public class CUnstring extends CCobolElement
 			}
 			eParse.AddDelimiterMulti(e);
 		}
-		for (int i=0; i<arrTargets.size();i++)
+		for (int i = 0; i< targets.size(); i++)
 		{
-			CIdentifier[] ids = arrTargets.get(i);
+			CIdentifier[] ids = targets.get(i);
 			CDataEntity[] entities = new CDataEntity[3];
 			for (int j=0; j < ids.length; j++)
 			{
@@ -162,12 +162,12 @@ public class CUnstring extends CCobolElement
 			{
 				tok = GetNext() ; 
 				CTerminal t = ReadTerminal();
-				arrDelimitersMulti.add(t) ;
+				delimitersMulti.add(t) ;
 			}
 			else
 			{
 				CTerminal t = ReadTerminal();
-				arrDelimitersSingle.add(t) ;
+				delimitersSingle.add(t) ;
 			}
 		}
 		tok = GetCurrentToken();
@@ -180,12 +180,12 @@ public class CUnstring extends CCobolElement
 			{
 				tok = GetNext() ; 
 				CTerminal t = ReadTerminal();
-				arrDelimitersMulti.add(t) ;
+				delimitersMulti.add(t) ;
 			}
 			else
 			{
 				CTerminal t = ReadTerminal();
-				arrDelimitersSingle.add(t) ;
+				delimitersSingle.add(t) ;
 			}
 			tok = GetCurrentToken();			
 			if (tok.GetType()  == CTokenType.COMMA)
@@ -235,7 +235,7 @@ public class CUnstring extends CCobolElement
 					tok =GetCurrentToken();
 				}
 				ids[2] = countIn;
-				arrTargets.add(ids);
+				targets.add(ids);
 				
 				if (tok.GetType()== CTokenType.COMMA)
 				{
@@ -244,8 +244,8 @@ public class CUnstring extends CCobolElement
 				id = ReadIdentifier() ;
 			}
 		}
-		boolean bDone = false ;
-		while (!bDone)
+		boolean isdone = false ;
+		while (!isdone)
 		{
 			tok = GetCurrentToken();
 			if (tok.GetKeyword() == CCobolKeywordList.ON)
@@ -283,15 +283,15 @@ public class CUnstring extends CCobolElement
 			else if (tok.GetKeyword() == CCobolKeywordList.END_UNSTRING)
 			{
 				GetNext();
-				bDone = true ; 
+				isdone = true ;
 			}
 			else if (tok.GetType() == CTokenType.DOT)
 			{
-				bDone = true ; 
+				isdone = true ;
 			}
 			else if (tok.GetType() == CTokenType.KEYWORD)
 			{
-				bDone = true ; 
+				isdone = true ;
 			}
 			else
 			{
@@ -311,35 +311,35 @@ public class CUnstring extends CCobolElement
 		Element eVar = root.createElement("Variable");
 		variable.ExportTo(eVar, root) ;
 		eUS.appendChild(eVar) ;
-		for (int i=0; i<arrDelimitersSingle.size(); i++)
+		for (int i = 0; i< delimitersSingle.size(); i++)
 		{
-			CTerminal t = arrDelimitersSingle.get(i);
+			CTerminal t = delimitersSingle.get(i);
 			Element eT = root.createElement("SingleDelimiter");
 			eUS.appendChild(eT);
 			t.ExportTo(eT, root);
 		}
-		for (int i=0; i<arrDelimitersMulti.size(); i++)
+		for (int i = 0; i< delimitersMulti.size(); i++)
 		{
-			CTerminal t = arrDelimitersMulti.get(i);
+			CTerminal t = delimitersMulti.get(i);
 			Element eT = root.createElement("MultiDelimiter");
 			eUS.appendChild(eT);
 			t.ExportTo(eT, root);
 		}
-		for (int i=0; i<arrTargets.size(); i++)
+		for (int i = 0; i< targets.size(); i++)
 		{
-			CIdentifier id = arrTargets.get(i)[0];
+			CIdentifier id = targets.get(i)[0];
 			Element eT = root.createElement("Target");
 			eUS.appendChild(eT);
 			id.ExportTo(eT, root);
 			
-			id = arrTargets.get(i)[1];
+			id = targets.get(i)[1];
 			if (id != null)
 			{
 				Element eTDelimiterIn = root.createElement("DelimiterIn");
 				eUS.appendChild(eTDelimiterIn);
 				id.ExportTo(eTDelimiterIn, root);
 			}
-			id = arrTargets.get(i)[2];
+			id = targets.get(i)[2];
 			if (id != null)
 			{
 				Element eTCountIn = root.createElement("CountIn");
@@ -357,9 +357,9 @@ public class CUnstring extends CCobolElement
 	}
 	
 	protected CIdentifier variable = null ;
-	protected Vector<CTerminal> arrDelimitersSingle = new Vector<CTerminal>() ;
-	protected Vector<CTerminal> arrDelimitersMulti = new Vector<CTerminal>() ;
-	protected Vector<CIdentifier[]> arrTargets = new Vector<CIdentifier[]>(); 
+	protected Vector<CTerminal> delimitersSingle = new Vector<CTerminal>() ;
+	protected Vector<CTerminal> delimitersMulti = new Vector<CTerminal>() ;
+	protected Vector<CIdentifier[]> targets = new Vector<CIdentifier[]>();
 	protected CBlocElement onOverflowBloc = null ;
 	protected CIdentifier withPointer = null ;
 	protected CIdentifier tallying = null ; 

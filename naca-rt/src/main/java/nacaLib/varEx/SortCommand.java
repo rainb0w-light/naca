@@ -29,8 +29,8 @@ public class SortCommand
 	public SortCommand exportKey(String csExportKeyFile)
 	{
 		dataFileKeyOut = new DataFileWrite(csExportKeyFile, false);
-		boolean bOutKeyOpened = dataFileKeyOut.open();
-		if(!bOutKeyOpened)
+		boolean isoutKeyOpened = dataFileKeyOut.open();
+		if(!isoutKeyOpened)
 		{
 			dataFileKeyOut = null;
 			Log.logImportant("Cannot create output key file " + csExportKeyFile);
@@ -122,14 +122,14 @@ public class SortCommand
 		btreeCommandSort = new BTreeCommandSort();
 		btreeCommandSort.setTempDir(BaseResourceManager.getTempDir());
 		
-		boolean bInputIsFile = false;
+		boolean isinputIsFile = false;
 		boolean bEbcdicIn = false;
 		// Input
 		if(fileDescIn != null)	// read form input file
 		{
 			//String csFileNameIn = fileDescIn.getPhysicalName();
 			//bEbcdicIn = fileDescIn.isEbcdic();
-			bInputIsFile = true;
+			isinputIsFile = true;
 			
 			btreeKeyDescription.setFileInEncoding(bEbcdicIn);
 
@@ -180,13 +180,13 @@ public class SortCommand
 		if(fileDescOut != null)	// Output to file
 		{
 			String csFileNameOut = fileDescOut.getPhysicalName();
-			boolean bEbcdicOut = fileDescOut.isEbcdic();
-			boolean bMustSwapByteEncodingOnOutput = false;
-			if(bInputIsFile && bEbcdicOut != bEbcdicIn)
-				bMustSwapByteEncodingOnOutput = true;
+			boolean isebcdicOut = fileDescOut.isEbcdic();
+			boolean ismustSwapByteEncodingOnOutput = false;
+			if(isinputIsFile && isebcdicOut != bEbcdicIn)
+				ismustSwapByteEncodingOnOutput = true;
 			btreeCommandSort.setPhysicalOutFile(csFileNameOut);
 			btreeCommandSort.setFileExportKey(dataFileKeyOut);
-			btreeCommandSort.exportToOutFile(btreeFile, bMustSwapByteEncodingOnOutput, bEbcdicOut);
+			btreeCommandSort.exportToOutFile(btreeFile, ismustSwapByteEncodingOnOutput, isebcdicOut);
 		}
 		else if(sectionOutput != null)	// Output to section
 		{
@@ -213,12 +213,12 @@ public class SortCommand
 	{
 		int nTotalLength = 0;
 
-		boolean bVariableLength = false;
+		boolean isvariableLength = false;
 		if(sortDescriptorDeclared != null)
 		{
-			bVariableLength = sortDescriptorDeclared.hasVarVariableLengthMarker();	// The sort descriptor has a variable length marker: The data is of variable length
+			isvariableLength = sortDescriptorDeclared.hasVarVariableLengthMarker();	// The sort descriptor has a variable length marker: The data is of variable length
 			nTotalLength = sortDescriptorDeclared.getRecordLength(varRecord);
-			if(bVariableLength)
+			if(isvariableLength)
 				nTotalLength += 4;	//Reserve space for record header; it will be stored in the data to sort
 		}
 		else	
@@ -247,7 +247,7 @@ public class SortCommand
 //				int nDebugf = 0;
 //			}
 			
-			if(!bVariableLength)
+			if(!isvariableLength)
 				varRecord.exportToByteArray(tBytesDataRelease, nTotalLength);
 			else
 			{
@@ -255,7 +255,7 @@ public class SortCommand
 				varRecord.exportToByteArray(tBytesDataRelease, 4, nTotalLength-4);
 			}
 				
-			boolean b = btreeFile.internalSortInsertWithRecordIndexAtEnd(tBytesDataRelease, 0, nTotalLength, nNbRecordImported, bVariableLength);
+			boolean b = btreeFile.internalSortInsertWithRecordIndexAtEnd(tBytesDataRelease, 0, nTotalLength, nNbRecordImported, isvariableLength);
 			nNbRecordImported++;
 		}		
 	}

@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 18 août 2004
+ * Created on 18 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -31,26 +31,26 @@ public class CJavaCondIsKindOf extends CEntityCondIsKindOf
 	public CBaseEntityCondition GetOppositeCondition()
 	{
 		CJavaCondIsKindOf not = new CJavaCondIsKindOf() ;
-		not.bIsAlphabetic = bIsAlphabetic ;
-		not.bIsLower = bIsLower ;
-		not.bIsNumeric = bIsNumeric ;
-		not.bIsUpper = bIsUpper ;
-		not.bOpposite = ! bOpposite ;
+		not.isisAlphabetic = isisAlphabetic;
+		not.isisLower = isisLower;
+		not.isisNumeric = isisNumeric;
+		not.isisUpper = isisUpper;
+		not.isopposite = !isopposite;
 		not.reference = reference ;
 		return not;
 	}
 	public String Export()
 	{
 		String cs = "is" ;
-		if (bOpposite)
+		if (isopposite)
 		{
 			cs += "Not" ;
 		}
-		if (bIsNumeric)
+		if (isisNumeric)
 		{
 			cs += "Numeric(";
 		}
-		else if (bIsAlphabetic)
+		else if (isisAlphabetic)
 		{
 			cs += "Alphabetic(";
 		}

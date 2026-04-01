@@ -18,8 +18,8 @@ public class CCobolIncludeParser extends CParser<CStandAloneWorking>
 	{
 		CStandAloneWorking working = new CStandAloneWorking(0) ;
 		eRoot = working ;
-		boolean bParsed = eRoot.Parse(lstTokens, commentContainer) ; 
-		return bParsed ;
+		boolean isparsed = eRoot.Parse(lstTokens, commentContainer) ;
+		return isparsed;
 	}
 
 }

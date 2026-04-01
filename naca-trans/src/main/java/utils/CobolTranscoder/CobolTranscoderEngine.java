@@ -279,8 +279,8 @@ public class CobolTranscoderEngine extends TranscoderEngine<CProgram, CEntityCla
 		{
 			Tag e = rulesManager.getRule("customSubProgram", i) ;
 			String name = e.getVal("subProgram") ;
-			boolean bIgnore = e.getValAsBoolean("ignore") ;
-			cat.AddCustomSubProgram(name, bIgnore);
+			boolean isignore = e.getValAsBoolean("ignore") ;
+			cat.AddCustomSubProgram(name, isignore);
 		}
 
 		nb = rulesManager.getNbRules("SpecialConstantValue") ;
@@ -321,8 +321,8 @@ public class CobolTranscoderEngine extends TranscoderEngine<CProgram, CEntityCla
 			String name = e.getVal("name") ;
 			String read = e.getVal("methodeRead") ;
 			String write = e.getVal("methodeWrite") ;
-			boolean bNumeric = e.getValAsBoolean("Numeric") ;
-			factory.NewEntityEnvironmentVariable(name, read, write, bNumeric) ;
+			boolean isnumeric = e.getValAsBoolean("Numeric") ;
+			factory.NewEntityEnvironmentVariable(name, read, write, isnumeric) ;
 		}
 		nb = rulesManager.getNbRules("keyPressed") ;
 		for (int i=0; i<nb; i++)
@@ -377,8 +377,8 @@ public class CobolTranscoderEngine extends TranscoderEngine<CProgram, CEntityCla
 		Tag t = rulesManager.getRule("ReduceMaps") ;
 		if (t != null)
 		{
-			boolean bReduce = t.getValAsBoolean("active") ;
-			if (bReduce)
+			boolean isreduce = t.getValAsBoolean("active") ;
+			if (isreduce)
 			{
 				container.DoClearSymbolicMap(cat, factory) ;
 			}

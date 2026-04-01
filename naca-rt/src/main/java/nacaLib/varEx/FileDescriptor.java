@@ -266,13 +266,13 @@ public class FileDescriptor extends BaseFileDescriptor
 
 		if(hasVarVariableLengthMarker())
 		{
-			long lLastHeaderStartPosition = fileManagerEntry.dataFile.getFileCurrentPosition();	// Keep header start position
+			long lastHeaderStartPosition = fileManagerEntry.dataFile.getFileCurrentPosition();	// Keep header start position
 			LineRead header = fileManagerEntry.dataFile.readBuffer(4, false);		// Read header
 			if(header != null)
 			{				
 				int nLengthExcludingHeader = header.getAsLittleEndingUnsignBinaryInt();	// Length in header doesn't count the header itself
 				LineRead lineRead = fileManagerEntry.dataFile.readBuffer(nLengthExcludingHeader, true);		// Read record body, including trailing LF
-				fileManagerEntry.dataFile.setLastPosition(lLastHeaderStartPosition);	// Save current position at the header start
+				fileManagerEntry.dataFile.setLastPosition(lastHeaderStartPosition);	// Save current position at the header start
 				if(lineRead != null)
 				{
 					fillInto(lineRead, varDest);
@@ -394,9 +394,9 @@ public class FileDescriptor extends BaseFileDescriptor
 
 		if(isVariableLength())
 		{
-			boolean bReadLF = isVariableLength4BytesHeaderWithLF();
-			boolean bHeader4Bytes = isVariableLength4BytesHeaderWithLF();
-			lastLineRead = dataFileIn.readVariableLengthLine(bReadLF, bHeader4Bytes, lastLineRead);	// Read a vairable length line (length is given in record header 4 bytes)
+			boolean isreadLF = isVariableLength4BytesHeaderWithLF();
+			boolean isheader4Bytes = isVariableLength4BytesHeaderWithLF();
+			lastLineRead = dataFileIn.readVariableLengthLine(isreadLF, isheader4Bytes, lastLineRead);	// Read a vairable length line (length is given in record header 4 bytes)
 		}
 		else
 		{
@@ -472,13 +472,13 @@ public class FileDescriptor extends BaseFileDescriptor
 
 		if(isVariableLength())
 		{
-			long lLastHeaderStartPosition = fileManagerEntry.dataFile.getFileCurrentPosition();	// Keep header start position
+			long lastHeaderStartPosition = fileManagerEntry.dataFile.getFileCurrentPosition();	// Keep header start position
 			LineRead header = fileManagerEntry.dataFile.readBuffer(4, false);		// Read header
 			if(header != null)
 			{				
 				int nLengthExcludingHeader = header.getAsLittleEndingUnsignBinaryInt();	// Length in header doesn't count the header itself
 				LineRead lineRead = fileManagerEntry.dataFile.readBuffer(nLengthExcludingHeader, true);		// Read record body, including trailing LF
-				fileManagerEntry.dataFile.setLastPosition(lLastHeaderStartPosition);	// Save current position at the header start
+				fileManagerEntry.dataFile.setLastPosition(lastHeaderStartPosition);	// Save current position at the header start
 				if(lineRead != null)
 				{
 					writeExt.setFromLineRead(lineRead, 0);	

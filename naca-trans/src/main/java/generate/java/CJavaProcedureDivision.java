@@ -37,13 +37,13 @@ public class CJavaProcedureDivision extends CEntityProcedureDivision
 
 	protected void DoExport()
 	{
-		if (arrCallParameters.size() > 0)
+		if (callParameters.size() > 0)
 		{
 			String line = "ParamDeclaration callParameters = declare" ;
 			WriteWord(line);
-			for (int i=0; i<arrCallParameters.size(); i++)
+			for (int i = 0; i< callParameters.size(); i++)
 			{
-				CDataEntity e = arrCallParameters.get(i);
+				CDataEntity e = callParameters.get(i);
 				WriteWord(".using(" + e.ExportReference(getLine())+")");
 			}
 			WriteWord(";");

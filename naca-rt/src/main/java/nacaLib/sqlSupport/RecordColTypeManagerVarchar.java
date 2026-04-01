@@ -12,7 +12,6 @@ package nacaLib.sqlSupport;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.sql.Types;
 
 import nacaLib.varEx.VarBase;
@@ -60,11 +59,11 @@ public class RecordColTypeManagerVarchar extends RecordColTypeManagerBase
 				if (isLongVarCharVarStructure)
 				{	
 					int nLen = csValue.length();
-					char cHigh = (char)(nLen / 256);
-					char cLow = (char)(nLen % 256);
+					char high = (char)(nLen / 256);
+					char low = (char)(nLen % 256);
 					StringBuffer buf = new StringBuffer();
-					buf.append(cHigh);	// big endian
-					buf.append(cLow);
+					buf.append(high);	// big endian
+					buf.append(low);
 					buf.append(csValue);
 					csValue = buf.toString();
 				}	
@@ -80,11 +79,11 @@ public class RecordColTypeManagerVarchar extends RecordColTypeManagerBase
 		if (isLongVarCharVarStructure)
 		{	
 			int nLen = 0;
-			char cHigh = (char)(nLen / 256);
-			char cLow = (char)(nLen % 256);
+			char high = (char)(nLen / 256);
+			char low = (char)(nLen % 256);
 			StringBuffer buf = new StringBuffer();
-			buf.append(cHigh);	// big endian
-			buf.append(cLow);
+			buf.append(high);	// big endian
+			buf.append(low);
 			buf.append("");
 			varInto.varDef.write(varInto.bufferPos, buf.toString());
 		}

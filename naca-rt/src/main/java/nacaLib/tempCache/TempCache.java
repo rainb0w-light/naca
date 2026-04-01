@@ -28,7 +28,7 @@ import nacaLib.varEx.*;
 public class TempCache
 {
 	private TempVarManager tempVarManager = null;
-	private CStrManager cStrManager = null;
+	private CStrManager strManager = null;
 	private VarLevel varLevel = null;
 	private DeclareTypeX declareTypeX = null;
 	private DeclareType9 declareType9 = null;
@@ -66,7 +66,7 @@ public class TempCache
 	TempCache()
 	{
 		tempVarManager = new TempVarManager(VarTypeId.NbTotalVarEditTypes);
-		cStrManager = new CStrManager();
+		strManager = new CStrManager();
 		varLevel = new VarLevel();
 		declareTypeX = new DeclareTypeX();
 	}
@@ -84,12 +84,12 @@ public class TempCache
 	
 	public void resetCStr()
 	{
-		cStrManager.reset();
+		strManager.reset();
 	}
 
 	public void rewindCStrMapped(int n)
 	{
-		cStrManager.rewindCStrMapped(n);
+		strManager.rewindCStrMapped(n);
 	}
 
 	public void resetTempVarIndex(int nVarTypeId)
@@ -97,7 +97,7 @@ public class TempCache
 		if(getAndResetUseTempVar())
 			tempVarManager.resetTempIndex(nVarTypeId);
 		if(getAndResetUseCStr())
-			cStrManager.reset();
+			strManager.reset();
 		if(nCurrentTimeTryCounter-- <= 0)
 			breakCurrentSessionIfTimeout();
 	}
@@ -107,7 +107,7 @@ public class TempCache
 		if(getAndResetUseTempVar())
 			tempVarManager.resetTempIndexAndForbidReuse(varA.varTypeId);
 		if(getAndResetUseCStr())
-			cStrManager.reset();
+			strManager.reset();
 		if(nCurrentTimeTryCounter-- <= 0)
 			breakCurrentSessionIfTimeout();
 	}
@@ -122,7 +122,7 @@ public class TempCache
 			}
 		}
 		if(getAndResetUseCStr())
-			cStrManager.reset();
+			strManager.reset();
 		if(nCurrentTimeTryCounter-- <= 0)
 			breakCurrentSessionIfTimeout();
 	}
@@ -371,25 +371,25 @@ public class TempCache
 	public CStr getReusableCStr()
 	{
 		setUseCStr();
-		return cStrManager.getReusable();
+		return strManager.getReusable();
 	}
 
 	public CStr getMappedCStr()
 	{
 		setUseCStr();
-		return cStrManager.getMapped();
+		return strManager.getMapped();
 	}
 
 	public CStrNumber getCStrNumber()
 	{
 		setUseCStr();
-		return cStrManager.getNumber();
+		return strManager.getNumber();
 	}
 
 	public CStrString getCStrString()
 	{
 		setUseCStr();
-		return cStrManager.getString();
+		return strManager.getString();
 	}
 	
 	public BtreeKeyDescription getBtreeKeyDescription()
@@ -414,9 +414,9 @@ public class TempCache
 	
 	public void setUseTempVar()
 	{
-		if(!bUsedTempVar)
+		if(!isusedTempVar)
 		{
-			bUsedTempVar = true;
+			isusedTempVar = true;
 			if(currentBaseProgram != null)
 				currentBaseProgram.setUseTempVar();
 		}
@@ -424,9 +424,9 @@ public class TempCache
 	
 	public void setUseCStr()
 	{
-		if(!bUsedCStr)
+		if(!isusedCStr)
 		{
-			bUsedCStr = true;
+			isusedCStr = true;
 			if(currentBaseProgram != null)
 				currentBaseProgram.setUseCStr();
 		}
@@ -434,9 +434,9 @@ public class TempCache
 	
 	public boolean getAndResetUseTempVar()
 	{
-		if(bUsedTempVar)
+		if(isusedTempVar)
 		{
-			bUsedTempVar = false;
+			isusedTempVar = false;
 			if(currentBaseProgram != null)
 				currentBaseProgram.resetUseTempVar();
 			return true;
@@ -446,9 +446,9 @@ public class TempCache
 	
 	public boolean getAndResetUseCStr()
 	{
-		if(bUsedCStr)
+		if(isusedCStr)
 		{
-			bUsedCStr = false;
+			isusedCStr = false;
 			if(currentBaseProgram != null)
 				currentBaseProgram.resetUseCStr();
 			return true;
@@ -469,6 +469,6 @@ public class TempCache
 		csLastSQLCodeErrorText = sb.toString();
 	}
 	
-	private boolean bUsedTempVar = false;
-	private boolean bUsedCStr = false;
+	private boolean isusedTempVar = false;
+	private boolean isusedCStr = false;
 }

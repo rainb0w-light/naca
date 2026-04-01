@@ -36,9 +36,9 @@ public class CJavaCICSIgnoreCondition extends CEntityCICSIgnoreCondition
 	protected void DoExport()
 	{
 		WriteWord("CESM");
-		for (int i=0;i<arrConditions.size();i++)
+		for (int i = 0; i< conditions.size(); i++)
 		{
-			String cond = arrConditions.get(i);
+			String cond = conditions.get(i);
 			String cs = ".ignoreCondition(\"" + cond + "\")" ;
 			WriteWord(cs);
 		}

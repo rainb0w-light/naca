@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 2 août 2004
+ * Created on 2 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -48,11 +48,11 @@ public class CIdentifier
 		
 	public void ExportTo(Element e, Document root)
 	{
-		if (arrArrayIndex != null && arrArrayIndex.size()>0 && exprStringLengthReference != null && exprStringStartReference != null)
+		if (arrayIndex != null && arrayIndex.size()>0 && exprStringLengthReference != null && exprStringStartReference != null)
 		{
 			e.setAttribute("SubStringOfArrayIdem", name) ;
 		}
-		else if (arrArrayIndex != null && arrArrayIndex.size()>0)
+		else if (arrayIndex != null && arrayIndex.size()>0)
 		{
 			e.setAttribute("ArrayItem", name) ;
 		}
@@ -64,11 +64,11 @@ public class CIdentifier
 		{
 			e.setAttribute("Identifier", name) ;
 		}
-		if (arrArrayIndex != null && arrArrayIndex.size()>0)
+		if (arrayIndex != null && arrayIndex.size()>0)
 		{
-			for (int i=0; i<arrArrayIndex.size(); i++)
+			for (int i = 0; i< arrayIndex.size(); i++)
 			{
-				CExpression exp = arrArrayIndex.get(i);
+				CExpression exp = arrayIndex.get(i);
 				Element eIndexLabel = root.createElement("Index"+i) ;
 				e.appendChild(eIndexLabel) ;
 				Element eIndex = exp.Export(root);
@@ -103,11 +103,11 @@ public class CIdentifier
 	
 	public void AddArrayIndex(CExpression e)
 	{
-		if (arrArrayIndex==null)
+		if (arrayIndex ==null)
 		{
-			arrArrayIndex = new Vector<CExpression>() ;
+			arrayIndex = new Vector<CExpression>() ;
 		}
-		arrArrayIndex.add(e) ;
+		arrayIndex.add(e) ;
 	}
 	
 	public CDataEntity GetDataReference(int nLine, CBaseEntityFactory fact)
@@ -149,9 +149,9 @@ public class CIdentifier
 			//Transcoder.ms_logger.error("ERROR : identifier not bound : "+name);
 			return fact.NewEntityUnknownReference(nLine, name) ;
 		}
-		if (arrArrayIndex != null)
+		if (arrayIndex != null)
 		{
-			e = e.GetArrayReference(arrArrayIndex, fact);
+			e = e.GetArrayReference(arrayIndex, fact);
 		}
 		if (exprStringStartReference != null)
 		{
@@ -165,7 +165,7 @@ public class CIdentifier
 	
 	protected CExpression exprStringStartReference = null ;
 	protected CExpression exprStringLengthReference = null ;
-	protected Vector<CExpression> arrArrayIndex = null ;
+	protected Vector<CExpression> arrayIndex = null ;
 	protected String name = "" ;
 	protected String memberOf = "" ;
 	public String toString()
@@ -176,9 +176,9 @@ public class CIdentifier
 			cs = memberOf +"." ;
 		}
 		cs += name ;
-		if (arrArrayIndex != null)
+		if (arrayIndex != null)
 		{
-			for (int i=0; i<arrArrayIndex.size(); i++)
+			for (int i = 0; i< arrayIndex.size(); i++)
 			{
 				if (i==0)
 				{
@@ -188,7 +188,7 @@ public class CIdentifier
 				{
 					cs += ", " ;
 				}
-				CExpression exp = arrArrayIndex.get(i);
+				CExpression exp = arrayIndex.get(i);
 				cs += exp.toString() ;
 			}
 			cs += ")" ;

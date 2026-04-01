@@ -47,9 +47,9 @@ public class DbConnectionColl
 	private StopWatch swLastCheckRemoveObsoleteConnections = new StopWatch();
 	//private int nNbConnectionCreated = 0;
 	private ThreadSafeCounter tscNbConnectionCreated = new ThreadSafeCounter(0);
-	private boolean bInit = false;
+	private boolean isinit = false;
 	private String csName = null;
-	private boolean bShowRunningConnections = false;
+	private boolean isshowRunningConnections = false;
 	
 	DbConnectionColl(String csName, int nNbMaxConnection, int nTimeBeforeRemoveConnection_ms, int nMaxStatementLiveTime_ms, boolean bUseExplain, int nGarbageCollectorStatement_ms)
 	{
@@ -65,7 +65,7 @@ public class DbConnectionColl
 	
 	public boolean isInit()
 	{
-		return bInit;
+		return isinit;
 	}
 	
 	void setName(String csName)
@@ -81,7 +81,7 @@ public class DbConnectionColl
 	void init(DbConnectionParam dbConnectionParam)
 	{
 		dbConnectionParam = dbConnectionParam;
-		bInit = true;
+		isinit = true;
 	}
 
 
@@ -93,7 +93,7 @@ public class DbConnectionColl
 			{
 				DbConnectionBase connection = collFreeConnections.remove(nIndex);	// The connection is not free anymore
 				collUsedConnections.add(connection);		// It's then in use
-				connection.showHideJMXBean(bShowRunningConnections);
+				connection.showHideJMXBean(isshowRunningConnections);
 				return connection;
 			}
 		}
@@ -220,8 +220,8 @@ public class DbConnectionColl
 					setConnectionPackage(connection, dbConnectionParam.csPackage);
 				}
 
-		    	connection.setAutoCommit(dbConnectionParam.bAutoCommit);
-		    	if(dbConnectionParam.bCloseCursorOnCommit)
+		    	connection.setAutoCommit(dbConnectionParam.isautoCommit);
+		    	if(dbConnectionParam.iscloseCursorOnCommit)
 		    	{
 		    		connection.setHoldability(ResultSet.CLOSE_CURSORS_AT_COMMIT);
 		    	}
@@ -239,7 +239,7 @@ public class DbConnectionColl
 					String csPrefix = connectionManager.getPropertyPrefix();
 					sqlConnection.setOnceUUID(csPrefix);
 					collUsedConnections.add(sqlConnection);	// this connection is in use
-					sqlConnection.showHideJMXBean(bShowRunningConnections);
+					sqlConnection.showHideJMXBean(isshowRunningConnections);
 					return sqlConnection;
 				}
 				else
@@ -443,13 +443,13 @@ public class DbConnectionColl
 
 	void showHideRunningConnections(boolean bShowRunningCon)
 	{
-		bShowRunningConnections = bShowRunningCon;
+		isshowRunningConnections = bShowRunningCon;
 		if(collUsedConnections != null)
 		{
 			for(int nConnectionId=0; nConnectionId<collUsedConnections.size(); nConnectionId++)		
 			{
 				DbConnectionBase connection = collUsedConnections.get(nConnectionId);
-				connection.showHideJMXBean(bShowRunningConnections);
+				connection.showHideJMXBean(isshowRunningConnections);
 			}
 		}		
 	}

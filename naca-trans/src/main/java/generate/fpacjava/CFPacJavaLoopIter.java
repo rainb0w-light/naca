@@ -34,7 +34,7 @@ public class CFPacJavaLoopIter extends CEntityLoopIter
 	@Override
 	protected void DoExport()
 	{
-		if (bTestBefore)
+		if (istestBefore)
 		{
 			String cs = "for (" + variable.ExportReference(getLine()) + "=" + initialValue.ExportReference(getLine()) + "; " ;
 			WriteWord(cs);
@@ -47,11 +47,11 @@ public class CFPacJavaLoopIter extends CEntityLoopIter
 			}
 			else
 			{
-				if(bIncrementByOne)
+				if(isincrementByOne)
 				{
 					cs += "++" ;
 				}
-				else if(bDecrementByOne)
+				else if(isdecrementByOne)
 				{
 					cs += "--" ;
 				}

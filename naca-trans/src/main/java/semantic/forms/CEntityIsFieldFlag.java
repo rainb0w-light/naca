@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 19 août 2004
+ * Created on 19 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -30,18 +30,18 @@ public abstract class CEntityIsFieldFlag extends CUnitaryEntityCondition
 	public void SetIsFlag(CDataEntity eData, String cs)
 	{
 		value = cs ;
-		bIsSet = false ;
+		isisSet = false ;
 		reference = eData ;
 	}
 	protected String value = "" ;
-	protected boolean bIsSet = false ;
+	protected boolean isisSet = false ;
 	//protected CDataEntity reference = null ; 
-	protected boolean bOpposite = false ;
+	protected boolean isopposite = false ;
 	public void Clear()
 	{
 		super.Clear();
 		reference = null ;
-		bIsSet = false ;
+		isisSet = false ;
 	}
 	public CBaseEntityCondition getSimilarCondition(CBaseEntityFactory factory, CTerminal term)
 	{
@@ -59,7 +59,7 @@ public abstract class CEntityIsFieldFlag extends CUnitaryEntityCondition
 	}
 	public void SetOpposite()
 	{
-		bOpposite = !bOpposite ;		
+		isopposite = !isopposite;
 	}
 	public boolean ignore()
 	{
@@ -86,7 +86,7 @@ public abstract class CEntityIsFieldFlag extends CUnitaryEntityCondition
 	public void SetIsFlagSet(CDataEntity refField)
 	{
 		value = "" ;
-		bIsSet = true ;
+		isisSet = true ;
 		reference = refField ;
 	}
 	public boolean isBinaryCondition()

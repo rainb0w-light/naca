@@ -76,7 +76,7 @@ public class CRead extends CCobolElement
 //		{
 //			m_Logger.error("No semantic analysis for ReadFile/ ReadNextRecord ");
 //		}
-		if (bReadPreviousRecord)
+		if (isreadPreviousRecord)
 		{
 			Transcoder.logError(getLine(), "No semantic analysis for ReadFile/ ReadPreviousRecord");
 		}
@@ -110,7 +110,7 @@ public class CRead extends CCobolElement
 		if (tok.GetKeyword() == CCobolKeywordList.NEXT)
 		{
 			bReadNextRecord = true ;
-			bReadPreviousRecord = false ;
+			isreadPreviousRecord = false ;
 			tok = GetNext() ;
 			if (tok.GetKeyword() == CCobolKeywordList.RECORD)
 			{
@@ -120,7 +120,7 @@ public class CRead extends CCobolElement
 		else if (tok.GetKeyword() == CCobolKeywordList.PREVIOUS)
 		{
 			bReadNextRecord = false ;
-			bReadPreviousRecord = true ;
+			isreadPreviousRecord = true ;
 			tok = GetNext() ;
 			if (tok.GetKeyword() == CCobolKeywordList.RECORD)
 			{
@@ -225,7 +225,7 @@ public class CRead extends CCobolElement
 //		{
 //			cs = "NextRecord" ;
 //		}
-		if (bReadPreviousRecord)
+		if (isreadPreviousRecord)
 		{
 			cs = "PreviousRecord" ;
 		}
@@ -278,6 +278,6 @@ public class CRead extends CCobolElement
 	protected CGenericBloc invalidKeyBloc = null ;
 	protected CGenericBloc notInvalidKeyBloc = null ;
 	protected boolean bReadNextRecord = false ;
-	protected boolean bReadPreviousRecord = false ;
+	protected boolean isreadPreviousRecord = false ;
 
 }

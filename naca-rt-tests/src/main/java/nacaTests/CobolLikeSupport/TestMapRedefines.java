@@ -7,7 +7,7 @@ package nacaTests.CobolLikeSupport;
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 13 déc. 04
+ * Created on 13 dï¿½c. 04
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -54,7 +54,7 @@ public class TestMapRedefines extends OnlineProgram
 		Var varMM = declare.level(2).pic9(2).var();
 		Var varAA = declare.level(2).pic9(2).var();
 		
-	TestMapRedefinesMap mapDest2 = TestMapRedefinesMap.Copy(this) ;
+	TestMapRedefinesMap dest2 = TestMapRedefinesMap.Copy(this) ;
 	
 	Var vBuffer = declare.variable().picX(16).var();
 	
@@ -289,12 +289,12 @@ public class TestMapRedefines extends OnlineProgram
 	{
 		// Form to Form
 		assertIfDifferent(mapDest.E0.getValue(), "abcde");	// Keep only the 16th first chars, as the value was too long
-		move(mapDest.MainForm, mapDest2.MainForm);
-		assertIfDifferent(mapDest2.E0.getValue(), "abcde");	// Keep only the 16th first chars, as the value was too long
+		move(mapDest.MainForm, dest2.MainForm);
+		assertIfDifferent(dest2.E0.getValue(), "abcde");	// Keep only the 16th first chars, as the value was too long
 		
 		// Edit to Edit
 		move("1234567890123456", mapDest.E0);
-		move(mapDest.E0, mapDest2.E0);
+		move(mapDest.E0, dest2.E0);
 		assertIfDifferent(mapDest.E0.getValue(), "12345");
 		
 		// Var to Edit

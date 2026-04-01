@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 11 août 2004
+ * Created on 11 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -73,9 +73,9 @@ public abstract class CEntitySetCursor extends CBaseActionEntity
 	 */
 	public void removeCursor()
 	{
-		bRemoveCursor = true ;		
+		isremoveCursor = true ;
 	}
-	protected boolean bRemoveCursor = false ;
+	protected boolean isremoveCursor = false ;
 	/**
 	 * @param term
 	 */

@@ -555,8 +555,8 @@ public class VarDefNumDecSignTrailingComp0 extends VarDefNum
 		}
 
 		// Append sign at end (trailing sign format)
-		char cSign = buffer.acBuffer[buffer.nAbsolutePosition+nTotalSize-1];
-		cs.append(cSign);
+		char sign = buffer.acBuffer[buffer.nAbsolutePosition+nTotalSize-1];
+		cs.append(sign);
 
 		return cs;
 	}

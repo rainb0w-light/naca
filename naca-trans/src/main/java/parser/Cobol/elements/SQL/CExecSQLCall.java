@@ -48,9 +48,9 @@ public class CExecSQLCall extends CBaseExecSQLAction
 	{
 		Element eCall = root.createElement("SQLCall");
 		eCall.setAttribute("Reference", reference.GetName());
-		for (int i=0; i<arrParameters.size();i++)
+		for (int i = 0; i< parameters.size(); i++)
 		{
-			CIdentifier id = arrParameters.get(i);
+			CIdentifier id = parameters.get(i);
 			Element e = root.createElement("Parameter");
 			eCall.appendChild(e);
 			id.ExportTo(e, root);
@@ -63,7 +63,7 @@ public class CExecSQLCall extends CBaseExecSQLAction
 		CDataEntity prgRef = reference.GetDataReference(getLine(), factory) ;
 		eCall.setReference(prgRef) ;
 		
-		for (CIdentifier term : arrParameters)
+		for (CIdentifier term : parameters)
 		{
 			CDataEntity param = term.GetDataReference(getLine(), factory) ;
 			eCall.addParameter(param) ; 
@@ -90,15 +90,15 @@ public class CExecSQLCall extends CBaseExecSQLAction
 		if (tok.GetType() == CTokenType.LEFT_BRACKET)
 		{
 			GetNext();
-			boolean bDone = false ;
-			while (!bDone)
+			boolean isdone = false ;
+			while (!isdone)
 			{
 				tok = GetCurrentToken() ;
 				if (tok.GetType()== CTokenType.COLON)
 				{
 					tok = GetNext() ;
 					CIdentifier id = ReadIdentifier();
-					arrParameters.add(id);
+					parameters.add(id);
 					tok = GetCurrentToken() ;
 					if (tok.GetType() == CTokenType.COMMA)
 					{
@@ -111,11 +111,11 @@ public class CExecSQLCall extends CBaseExecSQLAction
 				else if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 				{
 					GetNext();
-					bDone = true ;
+					isdone = true ;
 				}
 				else 
 				{
-					bDone = true ;
+					isdone = true ;
 				}
 			}
 		}
@@ -123,6 +123,6 @@ public class CExecSQLCall extends CBaseExecSQLAction
 	}
 	
 	protected CIdentifier reference = null ;
-	protected Vector<CIdentifier> arrParameters = new Vector<CIdentifier>() ;
+	protected Vector<CIdentifier> parameters = new Vector<CIdentifier>() ;
 
 }

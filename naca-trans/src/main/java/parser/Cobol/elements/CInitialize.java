@@ -58,8 +58,8 @@ public class CInitialize extends CCobolElement
 		}
 		CGlobalEntityCounter.GetInstance().CountCobolVerb(tokInit.GetKeyword().name) ;
 		GetNext();
-		boolean bDone = false ;
-		while (!bDone)
+		boolean isdone = false ;
+		while (!isdone)
 		{
 			CBaseToken tok = GetCurrentToken() ;
 			if (tok.GetType() == CTokenType.IDENTIFIER)
@@ -73,7 +73,7 @@ public class CInitialize extends CCobolElement
 			}
 			else 
 			{
-				bDone = true ;
+				isdone = true ;
 			}
 		}
 		CBaseToken tok = GetCurrentToken() ;

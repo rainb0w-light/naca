@@ -11,18 +11,18 @@ import semantic.CDataEntity;
 
 public abstract class CEntityCondIsBoolean extends CUnitaryEntityCondition
 {
-	protected boolean bIsTrue = false ;
+	protected boolean isisTrue = false ;
 	
 	public void setIsTrue(CDataEntity e)
 	{
 		reference = e ;
-		bIsTrue = true ;
+		isisTrue = true ;
 	}
 	
 	public void setIsFalse(CDataEntity e)
 	{
 		reference = e ;
-		bIsTrue = false ;
+		isisTrue = false ;
 	}
 	
 	

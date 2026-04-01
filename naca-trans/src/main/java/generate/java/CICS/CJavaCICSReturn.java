@@ -39,7 +39,7 @@ public class CJavaCICSReturn extends CEntityCICSReturn
 		if (transID != null)
 		{
 			String tid ;
-			if (bChecked)
+			if (ischecked)
 			{
 				tid = transID.GetConstantValue() + ".class" ;
 			}

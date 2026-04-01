@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 18 août 04
+ * Created on 18 aoï¿½t 04
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -42,23 +42,23 @@ public class CJavaSQLSelectStatement extends CEntitySQLSelectStatement
 	 */
 	protected void DoExport()
 	{
-		boolean bBloc = false ;
+		boolean isbloc = false ;
 		WriteWord("sql(") ;
 		WriteLongString(csStatement.trim()) ;
 		WriteWord(")");
-		for(int i=0; i<arrInto.size(); i++)
+		for(int i = 0; i< into.size(); i++)
 		{
 			WriteEOL();
-			if (!bBloc)
+			if (!isbloc)
 			{
 				StartOutputBloc() ;
-				bBloc = true ;
+				isbloc = true ;
 			}
-			CDataEntity cs = arrInto.get(i);
+			CDataEntity cs = into.get(i);
 			String out = ".into(" + cs.ExportReference(getLine()) ;
-			if (i<arrInd.size())
+			if (i< ind.size())
 			{
-				CDataEntity e = arrInd.get(i) ;
+				CDataEntity e = ind.get(i) ;
 				if (e != null)
 				{
 					out += ", "+e.ExportReference(getLine()) ;
@@ -66,16 +66,16 @@ public class CJavaSQLSelectStatement extends CEntitySQLSelectStatement
 			}
 			WriteWord(out + ")");
 		}
-		for(int i=0; i<arrParameters.size(); i++)
+		for(int i = 0; i< parameters.size(); i++)
 		{
-			CDataEntity cs = arrParameters.get(i);
+			CDataEntity cs = parameters.get(i);
 			if (cs != null)
 			{
 				WriteEOL();
-				if (!bBloc)
+				if (!isbloc)
 				{
 					StartOutputBloc() ;
-					bBloc = true ;
+					isbloc = true ;
 				}
 				WriteWord(".param("+ (i+1) + ", " + cs.ExportReference(getLine()) + ")");
 			}
@@ -88,7 +88,7 @@ public class CJavaSQLSelectStatement extends CEntitySQLSelectStatement
 		}
 		WriteWord(" ;") ;
 		WriteEOL() ;
-		if (bBloc)
+		if (isbloc)
 		{
 			EndOutputBloc() ;
 		}

@@ -97,15 +97,15 @@ public abstract class BaseSession
 	
 	public boolean isAsync()
 	{
-		return bAsync;
+		return isasync;
 	}
 
 	protected void setAsync(boolean b)
 	{
-		this.bAsync = b;
+		this.isasync = b;
 	}
 
-	private boolean bAsync = false;
+	private boolean isasync = false;
 
 	public String getDynamicAllocationInfo(String csKey)
 	{

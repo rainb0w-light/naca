@@ -13,7 +13,6 @@
 package nacaLib.sqlSupport;
 
 import jlib.log.Log;
-import jlib.log.StackStraceSupport;
 import nacaLib.base.CJMapObject;
 import nacaLib.basePrgEnv.BaseEnvironment;
 import nacaLib.basePrgEnv.BaseProgramManager;
@@ -51,12 +50,12 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
 	
 	public void setMustBeNamed(boolean bNameToSet)
 	{
-		this.bNameToSet = bNameToSet;
+		this.isnameToSet = bNameToSet;
 	}
 	
 	public boolean getMustNameCursor()
 	{
-		return bNameToSet;
+		return isnameToSet;
 	}
 	
 //	public SQLCursor(ProgramManager programManager, VarBuffer Working, CESMEnvironment env, String csQuery, CSQLStatus sqlstatus)
@@ -98,7 +97,7 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
 		bOpen = false;
 
 		sQL = null;
-		sQLCursorFetch = null;
+		qLCursorFetch = null;
 		return sqlStatus;
 	}
 	
@@ -242,8 +241,8 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
 	
 	public SQLCursorFetch fetch(BaseEnvironment env)
 	{
-		if(sQLCursorFetch == null)
-			sQLCursorFetch = new SQLCursorFetch(bOpen, sQL);
+		if(qLCursorFetch == null)
+			qLCursorFetch = new SQLCursorFetch(bOpen, sQL);
 		if(bOpen && sQL != null)
 		{
 			sQL.resetExecuted(env);
@@ -255,7 +254,7 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
 			//	sQL.into(sqlItemRowId);
 			//}			
 		}
-		return sQLCursorFetch;		
+		return qLCursorFetch;
 	}
 	
 	public void setName(String csProgramName, String csName)
@@ -269,12 +268,12 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
 		return csUniqueName;
 	}
 	
-	private SQLCursorFetch sQLCursorFetch = null; 
+	private SQLCursorFetch qLCursorFetch = null;
 	public /*private*/ SQL sQL = null;
 	private boolean bOpen = false;
 	private BaseProgramManager programManager = null;
 	private String csUniqueName = null;
-	private boolean bNameToSet = false;	
+	private boolean isnameToSet = false;
 	
 	public SQLCursor setHoldability(boolean b)
 	{

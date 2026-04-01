@@ -8,7 +8,6 @@ package idea.action;
 
 import idea.emulweb.CEmulMapFieldLoader;
 import idea.emulweb.CScenarioPlayer;
-import idea.manager.CMapFieldLoader;
 import idea.onlinePrgEnv.OnlineResourceManager;
 import idea.onlinePrgEnv.OnlineResourceManagerFactory;
 import idea.onlinePrgEnv.OnlineSession;
@@ -29,7 +28,6 @@ import nacaLib.appOpening.CalendarOpenState;
 import nacaLib.basePrgEnv.BaseProgramLoader;
 import nacaLib.basePrgEnv.BaseResourceManager;
 import nacaLib.exceptions.AbortSessionException;
-import nacaLib.misc.KeyPressed;
 
 import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
@@ -101,12 +99,12 @@ public class ActionCompat extends Action
 		}
 		*/
 		
-		boolean bNewSession = false;
+		boolean isnewSession = false;
 		OnlineSession appSession = (OnlineSession)javaSession.getAttribute("AppSession");
 		if (appSession == null)
 		{
 			appSession = new OnlineSession(false) ;
-			bNewSession = true;
+			isnewSession = true;
 		}
 
 		if(!appSession.reserveSessionForCurrentThread())
@@ -115,7 +113,7 @@ public class ActionCompat extends Action
 			return appSession.actionForward;
 		}
 		
-		if(bNewSession)
+		if(isnewSession)
 		{
 			javaSession.setAttribute("AppSession", appSession);
 			appSession.setInputWrapper(new CEmulMapFieldLoader());

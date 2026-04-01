@@ -26,13 +26,13 @@ public class FoundFlag
 	
 	void setFound()
 	{
-		b = true;
+		is = true;
 	}
 	
 	boolean isFound()
 	{
-		return b;
+		return is;
 	}
 	
-	private boolean b = false;
+	private boolean is = false;
 }

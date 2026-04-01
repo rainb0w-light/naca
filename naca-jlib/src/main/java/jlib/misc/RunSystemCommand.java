@@ -132,10 +132,10 @@ public class RunSystemCommand
 	 */
 	public static Process Launch(ProcessExecutionTask task)
 	{
-		String args[] = new String[task.arrParameters.size()];
-		for (int i=0; i<task.arrParameters.size(); i++)
+		String args[] = new String[task.parameters.size()];
+		for (int i = 0; i<task.parameters.size(); i++)
 		{
-			args[i] = task.arrParameters.get(i) ;
+			args[i] = task.parameters.get(i) ;
 		}
 		return Launch(task.csCommand, args, task.dirRuntimeDir) ;
 	}
@@ -148,7 +148,7 @@ public class RunSystemCommand
 			boolean haserror = false ;
 			BufferedReader output = new BufferedReader(new InputStreamReader(proc.getInputStream())) ;
 			BufferedReader err = new BufferedReader(new InputStreamReader(proc.getErrorStream())) ;
-			boolean bProcessEnded = false ;
+			boolean isprocessEnded = false ;
 			do
 			{
 				while (output.ready())
@@ -163,8 +163,8 @@ public class RunSystemCommand
 					haserror = true ;
 				}
 
-				bProcessEnded = isTerminated(proc) ;
-				if (!bProcessEnded)
+				isprocessEnded = isTerminated(proc) ;
+				if (!isprocessEnded)
 				{
 					try	{
 						Thread.sleep(1000) ;// 1s
@@ -173,7 +173,7 @@ public class RunSystemCommand
 					}
 				}
 			}
-			while (!bProcessEnded || err.ready() || output.ready()) ;
+			while (!isprocessEnded || err.ready() || output.ready()) ;
 			output.close();
 			err.close();
 			if (haserror)

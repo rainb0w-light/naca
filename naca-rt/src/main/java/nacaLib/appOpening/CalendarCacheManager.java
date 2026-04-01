@@ -32,8 +32,8 @@ public class CalendarCacheManager
 	
 	boolean mustCheckServiceOpenState()
 	{
-		long lCurrentTime_ms = currentDate.setNow();
-		if(lCurrentTime_ms >= timeNextCheck_ms)	// No need to check: not enough tine has elaped
+		long currentTime_ms = currentDate.setNow();
+		if(currentTime_ms >= timeNextCheck_ms)	// No need to check: not enough tine has elaped
 			return true;
 		return false;
 	}
@@ -57,19 +57,19 @@ public class CalendarCacheManager
 	
 	void setCurrentOpenState(CalendarOpenState state, OpenCalendarRange range)
 	{
-		long lCurrentTime_ms = currentDate.getTimeInMillis();
+		long currentTime_ms = currentDate.getTimeInMillis();
 		String cs0 = currentDate.toString();
 		
 		currentState = state;
 		currentOpenCalendarRange = range;
 
-		Calendar calEnd = Calendar.getInstance();
-		calEnd.set(currentDate.getYear(), currentDate.getMonth(), currentDate.getDay(), range.nHour[1], range.nMinute[1], range.nSecond[1]); 
+		Calendar calendarend = Calendar.getInstance();
+		calendarend.set(currentDate.getYear(), currentDate.getMonth(), currentDate.getDay(), range.nHour[1], range.nMinute[1], range.nSecond[1]);
 
-		timeNextCheck_ms = calEnd.getTimeInMillis();
-		String cs = calEnd.toString();
+		timeNextCheck_ms = calendarend.getTimeInMillis();
+		String cs = calendarend.toString();
 		
-		long l = (timeNextCheck_ms - lCurrentTime_ms);
+		long l = (timeNextCheck_ms - currentTime_ms);
 		l /= 1000 ;
 		int n = 0;		
 	}

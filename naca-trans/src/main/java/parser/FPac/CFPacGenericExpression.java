@@ -43,8 +43,8 @@ public class CFPacGenericExpression extends CExpression
 {
 
 	private CReservedKeyword keyword;
-	private Vector<CExpression> arrLeftTerms = new Vector<CExpression>() ;
-	private Vector<CExpression> arrRightTerms = new Vector<CExpression>() ;
+	private Vector<CExpression> leftTerms = new Vector<CExpression>() ;
+	private Vector<CExpression> rightTerms = new Vector<CExpression>() ;
 
 	public CFPacGenericExpression(int line)
 	{
@@ -76,7 +76,7 @@ public class CFPacGenericExpression extends CExpression
 				{
 					desc.expLength = factory.NewEntityExprTerminal(factory.NewEntityNumber((val.length()-2)/2)) ;
 					if (!isPackedHexa(val.substring(2)))
-						desc.bHexaNoPacked = true;
+						desc.ishexaNoPacked = true;
 				}
 				else
 				{
@@ -224,7 +224,7 @@ public class CFPacGenericExpression extends CExpression
 				}
 				else
 				{
-					if (desc2.bHexaNoPacked)
+					if (desc2.ishexaNoPacked)
 						conv.convertToAlphaNum(desc1.eObject) ;
 					else
 						conv.convertToPacked(desc1.eObject) ;
@@ -234,7 +234,7 @@ public class CFPacGenericExpression extends CExpression
 			{
 				if (desc2.eObject.GetDataType() == CDataEntityType.NUMBER)
 				{
-					if (desc2.bHexaNoPacked)
+					if (desc2.ishexaNoPacked)
 						conv.convertToAlphaNum(desc1.eObject) ;
 					else
 						conv.convertToPacked(desc1.eObject) ;
@@ -308,12 +308,12 @@ public class CFPacGenericExpression extends CExpression
 	public CBaseEntityCondition AnalyseCondition(CBaseEntityFactory factory, CDefaultConditionManager masterCond)
 	{
 		//  analyse operands
-		OperandDescription desc1 = FindOperand(arrLeftTerms, factory) ;
-		if (arrRightTerms == null || arrRightTerms.isEmpty())
+		OperandDescription desc1 = FindOperand(leftTerms, factory) ;
+		if (rightTerms == null || rightTerms.isEmpty())
 		{
 			return AnalyseSingleOperand(desc1, factory) ;
 		}
-		OperandDescription desc2 = FindOperand(arrRightTerms, factory) ;
+		OperandDescription desc2 = FindOperand(rightTerms, factory) ;
 		if (desc1 == null || desc2 == null)
 		{
 			return null ;
@@ -465,14 +465,14 @@ public class CFPacGenericExpression extends CExpression
 		eExp.setAttribute("Type", keyword.name) ;
 		Element eLeft = root.createElement("LeftTerms") ;
 		eExp.appendChild(eLeft) ;
-		for (CExpression exp : arrLeftTerms) 
+		for (CExpression exp : leftTerms)
 		{
 			CheckMembersBeforeExport();
 			eLeft.appendChild(exp.DoExport(root)) ;
 		}
 		Element eRight = root.createElement("RightTerms") ;
 		eExp.appendChild(eRight) ;
-		for (CExpression exp : arrRightTerms) 
+		for (CExpression exp : rightTerms)
 		{
 			eRight.appendChild(exp.DoExport(root)) ;
 		}
@@ -504,11 +504,11 @@ public class CFPacGenericExpression extends CExpression
 	{
 		if (keyword == null)
 		{
-			arrLeftTerms.add(exp) ;
+			leftTerms.add(exp) ;
 		}
 		else
 		{
-			arrRightTerms.add(exp);
+			rightTerms.add(exp);
 		}
 		
 	}

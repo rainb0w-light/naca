@@ -23,12 +23,12 @@ public class DbPreparedStatement
 	protected PreparedStatement preparedStatement = null;
 	protected String csQueryString = null;
 	private StopWatch swLastTimeUsed = new StopWatch(); 
-	private boolean bReserved = true;
+	private boolean isreserved = true;
 	private int nBatchSize = 0;
 		
 	public DbPreparedStatement()
 	{
-		bReserved = true;
+		isreserved = true;
 	}
 
 	Long getLastUsageTimeValue()
@@ -581,23 +581,23 @@ public class DbPreparedStatement
 	
 	public boolean isReserved()
 	{
-		return bReserved;
+		return isreserved;
 	}
 	
 	synchronized public void resetReserved()
 	{
-		bReserved = false;
+		isreserved = false;
 	}
 	
 	public void setStatementUsed()
 	{
-		bReserved = true;
+		isreserved = true;
 		swLastTimeUsed.Reset();
 	}
 	
 	synchronized public boolean closeIfNotReserved()
 	{
-		if(!bReserved)
+		if(!isreserved)
 		{
 			close();
 			return true;

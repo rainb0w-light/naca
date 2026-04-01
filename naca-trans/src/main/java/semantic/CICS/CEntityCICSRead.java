@@ -41,14 +41,14 @@ public abstract class CEntityCICSRead extends CBaseActionEntity
 	public void ReadFile(CDataEntity name)
 	{
 		name = name ;
-		bReadtoDataSet = false ;
-		bReadToFile = true ;
+		isreadtoDataSet = false ;
+		isreadToFile = true ;
 	}
 	public void ReadDataSet(CDataEntity name)
 	{
 		name = name ;
-		bReadtoDataSet = true ;
-		bReadToFile = false ;
+		isreadtoDataSet = true ;
+		isreadToFile = false ;
 	}
 	public void SetDataInto(CDataEntity from, CDataEntity length)
 	{
@@ -64,11 +64,11 @@ public abstract class CEntityCICSRead extends CBaseActionEntity
 	protected CDataEntity dataInto = null ;
 	protected CDataEntity dataLength = null ;
 	protected CDataEntity name ;
-	protected boolean bReadToFile = false ;
-	protected boolean bReadtoDataSet = false ;
+	protected boolean isreadToFile = false ;
+	protected boolean isreadtoDataSet = false ;
 	protected CEntityCICSReadMode mode = null ;
 	protected CDataEntity keyLength = null ;
-	protected boolean bEqual = false ;
+	protected boolean isequal = false ;
 
 	public void SetKeyLength(CDataEntity entity)
 	{
@@ -77,7 +77,7 @@ public abstract class CEntityCICSRead extends CBaseActionEntity
 
 	public void SetEqual()
 	{
-		bEqual = true ;
+		isequal = true ;
 	}
 	public boolean ignore()
 	{

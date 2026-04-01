@@ -27,7 +27,7 @@ public class RegExpProcessor {
 		public String export ;
 	}
 	
-	private List<RegExpRule> lstRules = new LinkedList<RegExpRule>() ;
+	private List<RegExpRule> listrules = new LinkedList<RegExpRule>() ;
 	private boolean caseInsensitive = false  ;
 	
 	/**
@@ -43,7 +43,7 @@ public class RegExpProcessor {
 		RegExpRule rule = new RegExpRule() ;
 		rule.pattern = Pattern.compile(regexp, nflags) ;
 		rule.export = output ;
-		lstRules.add(rule) ;
+		listrules.add(rule) ;
 	}
 
 	/**
@@ -51,7 +51,7 @@ public class RegExpProcessor {
 	 * @return
 	 */
 	public String ApplyRules(String text) {
-		for (RegExpRule rule : lstRules)
+		for (RegExpRule rule : listrules)
 		{
 			Matcher matcher = rule.pattern.matcher(text) ;
 			if (matcher.matches())

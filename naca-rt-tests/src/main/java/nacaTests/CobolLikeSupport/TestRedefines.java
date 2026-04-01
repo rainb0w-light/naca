@@ -78,16 +78,16 @@ public class TestRedefines extends OnlineProgram
 		
 		boolean b9_00 = isZero(orsp_Trtdat);
 		assertIfFalse(!b9_00);
-		boolean bX_00 = isZero(val3);
-		assertIfFalse(!bX_00);
+		boolean isx_00 = isZero(val3);
+		assertIfFalse(!isx_00);
 
 		initialize(orsp_Trtdat);
 		move(0, orsp_Trtdat);
 		
 		boolean b9_01 = isZero(orsp_Trtdat);
 		assertIfFalse(b9_01);
-		boolean bX_01 = isZero(val3);
-		assertIfFalse(bX_01);
+		boolean isx_01 = isZero(val3);
+		assertIfFalse(isx_01);
 		
 		Var v = w_Lib01.getAt(1);
 		move(w_Lib01.getAt(1), vDest);                         // (258)        MOVE W-LIB01(I-LNG)  TO SLIB1I

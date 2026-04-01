@@ -20,7 +20,7 @@ public abstract class BaseControlerStepConfig
 	}
 	
 	private String csName = "" ;
-	private boolean bActive = false ;
+	private boolean isactive = false ;
 	private int nDelayBeforeStart = 0 ;
 	private int nDelayBeforeRestart = 0 ;
 
@@ -31,7 +31,7 @@ public abstract class BaseControlerStepConfig
 
 	public boolean isActive()
 	{
-		return bActive ;
+		return isactive;
 	} 
 
 	protected int getDelayBeforeStart()
@@ -51,11 +51,11 @@ public abstract class BaseControlerStepConfig
 		String cs = tagSite.getVal("status") ;
 		if (cs.equalsIgnoreCase("active"))
 		{
-			bActive = true ;
+			isactive = true ;
 		}
 		else
 		{
-			bActive = false ;
+			isactive = false ;
 		}
 		
 		intSetup(tagSite) ;

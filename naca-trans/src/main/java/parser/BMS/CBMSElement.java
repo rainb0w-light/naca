@@ -13,7 +13,6 @@
 package parser.BMS;
 
 import jlib.xml.Tag;
-import jlib.xml.TagCursor;
 import lexer.*;
 
 import org.w3c.dom.Document;
@@ -81,8 +80,8 @@ public abstract class CBMSElement extends CBaseElement
 	
 	protected boolean DoParsing()
 	{
-		boolean bDone = false ;
-		while (!bDone)
+		boolean isdone = false ;
+		while (!isdone)
 		{
 			CBaseToken tokMapSet = lstTokens.GetCurrentToken() ;
 			if (tokMapSet.GetType() == CTokenType.KEYWORD)
@@ -106,7 +105,7 @@ public abstract class CBMSElement extends CBaseElement
 				}
 				else
 				{
-					bDone = true ;
+					isdone = true ;
 				}					
 			}
 			else if(tokMapSet.GetType() == CTokenType.STAR)
@@ -115,14 +114,14 @@ public abstract class CBMSElement extends CBaseElement
 			}
 			else if(tokMapSet.GetType() == CTokenType.IDENTIFIER)
 			{
-				bDone = true ;
+				isdone = true ;
 			}
 			else if(tokMapSet.GetType() == CTokenType.COMMENTS)
 			{
 				String com = tokMapSet.GetValue().trim() ;
 				if (com.startsWith("'") && com.endsWith("'"))
 				{
-					bDone = true ;
+					isdone = true ;
 				}
 				else
 				{

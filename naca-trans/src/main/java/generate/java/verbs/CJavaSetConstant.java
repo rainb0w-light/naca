@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 19 août 2004
+ * Created on 19 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -48,27 +48,27 @@ public class CJavaSetConstant extends CEntitySetConstant
 			{
 				cs += "SubString" ;
 			}
-			if (bSetToLowValue)
+			if (issetToLowValue)
 			{
 				cs += "LowValue(";
 			}
-			else if (bSetToHighValue)
+			else if (issetToHighValue)
 			{
 				cs += ("HighValue(");
 			}
-			else if (bSetToSpace)
+			else if (issetToSpace)
 			{
 				cs += ("Space(");
 			}
-			else if (bSetToZero)
+			else if (issetToZero)
 			{
 				cs += ("Zero(");
 			}
-			else if (bSetToTrue)
+			else if (issetToTrue)
 			{
 				cs += ("True(");
 			}
-			else if (bSetToFalse)
+			else if (issetToFalse)
 			{
 				cs += ("False(");
 			}

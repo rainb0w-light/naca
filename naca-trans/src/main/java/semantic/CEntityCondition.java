@@ -47,7 +47,7 @@ public abstract class CEntityCondition extends CBaseActionEntity
 	protected CBaseEntityCondition condition = null ;
 	protected CEntityBloc elseBloc = null ;
 	protected CEntityBloc thenBloc = null ;
-	protected boolean bAlternativeCondition = false ;
+	protected boolean isalternativeCondition = false ;
 	
 	public boolean ignore()
 	{
@@ -79,9 +79,9 @@ public abstract class CEntityCondition extends CBaseActionEntity
 	}
 	public boolean hasExplicitGetOut()
 	{
-		boolean bExplicit = thenBloc.hasExplicitGetOut() ;
-		bExplicit &= elseBloc != null && elseBloc.hasExplicitGetOut() ;
-		return bExplicit ;
+		boolean isexplicit = thenBloc.hasExplicitGetOut() ;
+		isexplicit &= elseBloc != null && elseBloc.hasExplicitGetOut() ;
+		return isexplicit;
 	}
 
 	/**
@@ -95,7 +95,7 @@ public abstract class CEntityCondition extends CBaseActionEntity
 			condition.SetParent(this);
 		elseBloc = null ;
 		thenBloc = blocthen ;
-		bAlternativeCondition  = true ;
+		isalternativeCondition = true ;
 	}
 
 	/**
@@ -103,11 +103,11 @@ public abstract class CEntityCondition extends CBaseActionEntity
 	 */
 	public void addAlternativeCondition(CBaseLanguageEntity e)
 	{
-		if (arrAlternativeConditions == null)
-			arrAlternativeConditions = new Vector<CBaseLanguageEntity>() ;
-		arrAlternativeConditions.add(e) ;
+		if (alternativeConditions == null)
+			alternativeConditions = new Vector<CBaseLanguageEntity>() ;
+		alternativeConditions.add(e) ;
 	}
-	protected Vector<CBaseLanguageEntity> arrAlternativeConditions = null;
+	protected Vector<CBaseLanguageEntity> alternativeConditions = null;
 
 	// ==================== ST4 Template Accessors ====================
 
@@ -128,12 +128,12 @@ public abstract class CEntityCondition extends CBaseActionEntity
 
 	public boolean isAlternativeCondition()
 	{
-		return bAlternativeCondition;
+		return isalternativeCondition;
 	}
 
 	public Vector<CBaseLanguageEntity> getAlternativeConditions()
 	{
-		return arrAlternativeConditions;
+		return alternativeConditions;
 	}
 
 	public boolean isConditionIgnored()

@@ -40,7 +40,7 @@ public class CFPacJavaCallProgram extends CEntityCallProgram
 		{
 			name = name.subSequence(1, name.length()-1) + ".class";	
 		}
-		if (bChecked)
+		if (ischecked)
 		{
 			WriteWord("call(" +  name + ")") ;
 		}
@@ -48,11 +48,11 @@ public class CFPacJavaCallProgram extends CEntityCallProgram
 		{
 			WriteWord("call(\"" +  name + "\")") ;
 		}
-		if (arrParameters.size()>0)
+		if (parameters.size()>0)
 		{
-			for (int i=0; i<arrParameters.size(); i++)
+			for (int i = 0; i< parameters.size(); i++)
 			{
-				CCallParameter p = arrParameters.get(i) ;
+				CCallParameter p = parameters.get(i) ;
 				if (!p.reference.ignore())
 				{
 					String cs = "" ;

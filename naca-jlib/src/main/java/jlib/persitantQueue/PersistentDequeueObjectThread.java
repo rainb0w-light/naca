@@ -24,19 +24,19 @@ public abstract class PersistentDequeueObjectThread extends BaseThread
 
 	public void run()
 	{
-		boolean bContinue = true;
-		while(bContinue)
+		boolean iscontinue = true;
+		while(iscontinue)
 		{   
 			Object object = persistantQueue.getFirst(baseQueueItemFactory);
 			if(object == null)
 			{
-				bContinue = Threadutil.wait(nLoopWait_ms);   
+				iscontinue = Threadutil.wait(nLoopWait_ms);
 			}
 			else
 			{
 				try
 				{
-					bContinue = handleObject(object);
+					iscontinue = handleObject(object);
 				}
 				catch (Exception e)
 				{

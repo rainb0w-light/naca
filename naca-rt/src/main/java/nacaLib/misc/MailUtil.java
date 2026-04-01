@@ -72,8 +72,8 @@ public class MailUtil
 		LogicalFileDescriptor logicalFileDescriptor = new LogicalFileDescriptor("", csFile);
 		if(logicalFileDescriptor != null)
 		{
-			boolean bInOpened = dataFileIn.open(logicalFileDescriptor);
-			if(bInOpened)
+			boolean isinOpened = dataFileIn.open(logicalFileDescriptor);
+			if(isinOpened)
 			{
 				LineRead lineRead = dataFileIn.readNextUnixLine();
 				if (lineRead != null)
@@ -83,7 +83,7 @@ public class MailUtil
 					String csMail = null;
 					String csSubject = null;
 					String csMailFrom = null;
-					boolean bStartText = false;
+					boolean isstartText = false;
 					StringBuffer sbText = new StringBuffer();
 					
 					while (lineRead != null)
@@ -103,7 +103,7 @@ public class MailUtil
 						}
 						else if (csLine.startsWith("MSGT "))
 						{
-							bStartText = true;
+							isstartText = true;
 							sbText.append("\r\n");
 						}
 						else if (csLine.startsWith("'"))
@@ -117,10 +117,10 @@ public class MailUtil
 							mail.setSubject(csSubject);
 							mail.setText(sbText.toString());
 							mail.send();
-							bStartText = false;
+							isstartText = false;
 							sbText = new StringBuffer();
 						}
-						else if (bStartText)
+						else if (isstartText)
 						{
 							sbText.append(csLine.substring(0, csLine.length() - 2) + "\r\n");
 						}

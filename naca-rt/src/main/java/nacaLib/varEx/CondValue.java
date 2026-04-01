@@ -23,25 +23,25 @@ package nacaLib.varEx;
 
 public class CondValue
 {
-	CondValue(String sMin, String sMax)
+	CondValue(String min, String max)
 	{
-		this.sMin = sMin;
-		this.sMax = sMax;
-		bInterval = true;
+		this.min = min;
+		this.max = max;
+		isinterval = true;
 		constant = null;
 	}
 
 	CondValue(String sValue)
 	{
-		this.sMin = sValue;
-		bInterval = false;
+		this.min = sValue;
+		isinterval = false;
 		constant = null;
 	}
 
 	CondValue(CobolConstantBase constant)
 	{
 		this.constant = constant;
-		bInterval = false;
+		isinterval = false;
 	}
 	
 	public boolean is(Var v)
@@ -50,12 +50,12 @@ public class CondValue
 			return v.is(constant);
 		else
 		{
-			if(bInterval)
+			if(isinterval)
 			{
-				if(v.compareTo(ComparisonMode.Unicode, sMin) >= 0 && v.compareTo(ComparisonMode.Unicode, sMax) <= 0)
+				if(v.compareTo(ComparisonMode.Unicode, min) >= 0 && v.compareTo(ComparisonMode.Unicode, max) <= 0)
 					return true;
 			}
-			if(v.equals(sMin))
+			if(v.equals(min))
 				return true;
 		}
 		return false;		  
@@ -64,7 +64,7 @@ public class CondValue
 	public String getMin()
 	{
 		if(constant == null)			
-			return sMin;
+			return min;
 		return null;
 	}
 	
@@ -72,13 +72,13 @@ public class CondValue
 	{
 		if(constant != null)		
 			return constant.getSTCheckValue();		
-		if(bInterval)
-			return "[" + sMin + "," + sMax + "]";
-		return sMin;
+		if(isinterval)
+			return "[" + min + "," + max + "]";
+		return min;
 	}
 	
 	private CobolConstantBase constant = null;
-	private String sMin = null; 
-	private String sMax = null;
-	private boolean bInterval = false;
+	private String min = null;
+	private String max = null;
+	private boolean isinterval = false;
 }

@@ -13,28 +13,28 @@ public class MapCtrl
 	public class MapMarker
 	{
 		public String csLabel = "" ;
-		public double dLng = 0 ;
-		public double dLat = 0 ;
+		public double lng = 0 ;
+		public double lat = 0 ;
 	}
-	private double dCenterLat = 0 ;
-	private double dCenterLng = 0 ;
+	private double centerLat = 0 ;
+	private double centerLng = 0 ;
 	private int nZoom = 0 ;
 	
 	public double getCenterLng()
 	{
-		return dCenterLng ;
+		return centerLng;
 	}
 	public void setCenterLng(double d)
 	{
-		dCenterLng = d ;
+		centerLng = d ;
 	}
 	public double getCenterLat()
 	{
-		return dCenterLat ;
+		return centerLat;
 	}
 	public void setCenterLat(double d)
 	{
-		dCenterLat = d ;
+		centerLat = d ;
 	}
 	/**
 	 * @return Returns the zoom.
@@ -52,25 +52,25 @@ public class MapCtrl
 	}
 	public void setCenter(double lat, double lng)
 	{
-		dCenterLat = lat ;
-		dCenterLng = lng ;
+		centerLat = lat ;
+		centerLng = lng ;
 	}
 	public void AddMarker(String label, double lat, double lng)
 	{
 		MapMarker mark = new MapMarker() ;
 		mark.csLabel = label ;
-		mark.dLat = lat ;
-		mark.dLng = lng ;
-		arrMarkers.add(mark) ;
+		mark.lat = lat ;
+		mark.lng = lng ;
+		markers.add(mark) ;
 	}
-	protected Vector<MapMarker> arrMarkers = new Vector<MapMarker>() ;
+	protected Vector<MapMarker> markers = new Vector<MapMarker>() ;
 
 	public int getNbmarkers()
 	{
-		return arrMarkers.size() ;
+		return markers.size() ;
 	}
 	public MapMarker getMarker(int i)
 	{
-		return arrMarkers.get(i) ;
+		return markers.get(i) ;
 	}
 }

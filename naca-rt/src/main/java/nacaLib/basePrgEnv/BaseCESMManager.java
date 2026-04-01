@@ -306,15 +306,15 @@ public class BaseCESMManager extends CJMapObject
 	{
 		// delay uses format HHMMSS
 		int nNextTime_s = DateUtil.getNbSecondsFromHour(delay.getInt());
-		long lWaitTime_ms = nNextTime_s * 1000;
-		cESMEnv.offsetMaxTimeLimit(lWaitTime_ms);
-		Time_ms.wait_ms(lWaitTime_ms);
+		long waitTime_ms = nNextTime_s * 1000;
+		cESMEnv.offsetMaxTimeLimit(waitTime_ms);
+		Time_ms.wait_ms(waitTime_ms);
 	}
 	public void delaySeconds(Var delay)
 	{
-		long lWaitTime_ms = delay.getLong() * 1000;
-		cESMEnv.offsetMaxTimeLimit(lWaitTime_ms);
-		Time_ms.wait_ms(lWaitTime_ms);		
+		long waitTime_ms = delay.getLong() * 1000;
+		cESMEnv.offsetMaxTimeLimit(waitTime_ms);
+		Time_ms.wait_ms(waitTime_ms);
 	}
 
 	public boolean hasCredentials()
@@ -379,30 +379,30 @@ public class BaseCESMManager extends CJMapObject
 
 	public String getCurrentDay()
 	{
-		Calendar cal = Calendar.getInstance() ;
-		int day = cal.get(Calendar.DAY_OF_MONTH) ;
+		Calendar calendar = Calendar.getInstance() ;
+		int day = calendar.get(Calendar.DAY_OF_MONTH) ;
 		String cs = "" + (day/10) + (day%10) ;
 		return cs ;
 	}
 
 	public Calendar getCurrentDate()
 	{
-		Calendar cal = Calendar.getInstance() ;
-		return cal ;
+		Calendar calendar = Calendar.getInstance() ;
+		return calendar;
 	}
 
 	public String getCurrentMonth()
 	{
-		Calendar cal = Calendar.getInstance() ;
-		int n = cal.get(Calendar.MONTH) +1 ;
+		Calendar calendar = Calendar.getInstance() ;
+		int n = calendar.get(Calendar.MONTH) +1 ;
 		String cs = "" + (n/10) + (n%10) ;
 		return cs ;
 	}
 
 	public String getCurrentShortYear()
 	{
-		Calendar cal = Calendar.getInstance() ;
-		int n = cal.get(Calendar.YEAR) ;
+		Calendar calendar = Calendar.getInstance() ;
+		int n = calendar.get(Calendar.YEAR) ;
 		String cs = "" + ((n%100)/10) + (n%10) ;
 		return cs ;
 	}

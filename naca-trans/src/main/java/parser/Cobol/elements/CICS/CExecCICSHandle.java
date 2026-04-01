@@ -53,14 +53,14 @@ public class CExecCICSHandle extends CCobolElement
 	 */
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		if (arrConditions != null && arrConditions.size()>0)
+		if (conditions != null && conditions.size()>0)
 		{
 			CEntityCICSHandleCondition handle = factory.NewEntityCICSHandleCondition(getLine());
 			parent.AddChild(handle);
-			for (int i=0; i<arrConditions.size();i++)
+			for (int i = 0; i< conditions.size(); i++)
 			{
-				String cond = arrConditions.get(i);
-				CIdentifier id = arrLabels.get(i);
+				String cond = conditions.get(i);
+				CIdentifier id = labels.get(i);
 				if (id != null)
 				{
 					handle.HandleCondition(cond, id.GetName());
@@ -72,14 +72,14 @@ public class CExecCICSHandle extends CCobolElement
 			}
 			return handle;
 		}
-		else if (arrAID.size()>0)
+		else if (aID.size()>0)
 		{
 			CEntityCICSHandleAID handle = factory.NewEntityCICSHandleAID(getLine());
 			parent.AddChild(handle);
-			for (int i=0; i<arrConditions.size();i++)
+			for (int i = 0; i< conditions.size(); i++)
 			{
-				String cond = arrConditions.get(i);
-				CIdentifier id = arrLabels.get(i);
+				String cond = conditions.get(i);
+				CIdentifier id = labels.get(i);
 				if (id != null)
 				{
 					handle.HandleAID(cond, id.GetName());
@@ -111,13 +111,13 @@ public class CExecCICSHandle extends CCobolElement
 		if (tok.GetKeyword() == CCobolKeywordList.CONDITION)
 		{
 			tok = GetNext() ;
-			boolean bDone = false ;
-			while (!bDone)
+			boolean isdone = false ;
+			while (!isdone)
 			{
 				tok = GetCurrentToken() ;
 				if (tok.GetKeyword() == CCobolKeywordList.END_EXEC)
 				{
-					bDone = true ;
+					isdone = true ;
 				}
 				else
 				{
@@ -134,21 +134,21 @@ public class CExecCICSHandle extends CCobolElement
 							tok = GetNext();
 						}
 					}
-					arrConditions.add(cond);
-					arrLabels.add(label) ; 
+					conditions.add(cond);
+					labels.add(label) ;
 				}
 			}
 		}
 		else if (tok.GetKeyword() == CCobolKeywordList.AID)
 		{
 			tok = GetNext() ;
-			boolean bDone = false ;
-			while (!bDone)
+			boolean isdone = false ;
+			while (!isdone)
 			{
 				tok = GetCurrentToken() ;
 				if (tok.GetKeyword() == CCobolKeywordList.END_EXEC)
 				{
-					bDone = true ;
+					isdone = true ;
 				}
 				else
 				{
@@ -165,8 +165,8 @@ public class CExecCICSHandle extends CCobolElement
 							tok = GetNext();
 						}
 					}
-					arrAID.add(cond);
-					arrLabels.add(label) ; 
+					aID.add(cond);
+					labels.add(label) ;
 				}
 			}
 		}
@@ -199,10 +199,10 @@ public class CExecCICSHandle extends CCobolElement
 	protected Element ExportCustom(Document root)
 	{
 		Element eHandle = root.createElement("ExecCICSHandle") ;
-		for (int i=0; i<arrConditions.size();i++)
+		for (int i = 0; i< conditions.size(); i++)
 		{
-			String cond = arrConditions.get(i);
-			CIdentifier id = arrLabels.get(i);
+			String cond = conditions.get(i);
+			CIdentifier id = labels.get(i);
 			Element e ;
 			if (id != null)
 			{
@@ -219,8 +219,8 @@ public class CExecCICSHandle extends CCobolElement
 		return eHandle;
 	}
 	
-	protected Vector<CIdentifier> arrLabels = new Vector<CIdentifier>() ;
-	protected ArrayList<String> arrConditions = new ArrayList<String>() ;
-	protected ArrayList<String> arrAID = new ArrayList<String>() ;
+	protected Vector<CIdentifier> labels = new Vector<CIdentifier>() ;
+	protected ArrayList<String> conditions = new ArrayList<String>() ;
+	protected ArrayList<String> aID = new ArrayList<String>() ;
 
 }

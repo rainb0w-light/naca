@@ -161,16 +161,16 @@ public class Pic9Comp0BufferSupport
 		// Fill the buffer with '0' on each byte
 		//buffer.fillBlankComp0AtOffset(nTotalSize, nOffset);
 		
-		boolean bPositive = true;
+		boolean ispositive = true;
 		if(nValue < 0)
 		{
 			nValue = -nValue;
-			bPositive = false;
+			ispositive = false;
 		}
 
 		int nNibblePos = nNbDigitInteger-1;
 		int nDigitWithSign = (nValue % 10);
-		if(bPositive)
+		if(ispositive)
 			nDigitWithSign += 0xC0;
 		else
 			nDigitWithSign += 0xD0;

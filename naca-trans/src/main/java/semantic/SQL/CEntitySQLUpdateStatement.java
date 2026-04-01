@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 20 août 04
+ * Created on 20 aoï¿½t 04
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -28,13 +28,13 @@ public abstract class CEntitySQLUpdateStatement extends CBaseActionEntity
 		arrParameters = arrParameters;		
 	}
 	protected String csStatement = "" ;
-	protected Vector<CDataEntity> arrSets = null;
-	protected Vector<CDataEntity> arrParameters = null;	
+	protected Vector<CDataEntity> sets = null;
+	protected Vector<CDataEntity> parameters = null;
 	public void Clear()
 	{
 		super.Clear();
-		arrSets.clear() ;
-		arrParameters.clear() ;
+		sets.clear() ;
+		parameters.clear() ;
 	}
 	public boolean ignore()
 	{
@@ -42,19 +42,19 @@ public abstract class CEntitySQLUpdateStatement extends CBaseActionEntity
 	}
 	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
 	{
-		int n = arrParameters.indexOf(field);
+		int n = parameters.indexOf(field);
 		if (n>=0)
 		{
-			arrParameters.get(n).UnRegisterReadingAction(this) ;
-			arrParameters.set(n, var);
+			parameters.get(n).UnRegisterReadingAction(this) ;
+			parameters.set(n, var);
 			var.RegisterReadingAction(this) ;
 			return true ;
 		}
-		n = arrSets.indexOf(field);
+		n = sets.indexOf(field);
 		if (n>=0)
 		{
-			arrSets.get(n).UnRegisterReadingAction(this) ;
-			arrSets.set(n, var);
+			sets.get(n).UnRegisterReadingAction(this) ;
+			sets.set(n, var);
 			var.RegisterReadingAction(this) ;
 			return true ;
 		}

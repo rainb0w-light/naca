@@ -90,8 +90,8 @@ public class CCall extends CCobolElement
 		}
 		GetNext() ;
 		// read each variable
-		boolean bDone = false ;
-		while (!bDone)
+		boolean isdone = false ;
+		while (!isdone)
 		{
 			CBaseToken tok = GetCurrentToken() ;
 			if (tok.GetType()== CTokenType.IDENTIFIER)
@@ -117,7 +117,7 @@ public class CCall extends CCobolElement
 			else if (tok.GetKeyword() == CCobolKeywordList.END_CALL)
 			{
 				GetNext();
-				bDone = true ;
+				isdone = true ;
 			}
 			else if (tok.GetKeyword() == CCobolKeywordList.BY)
 			{
@@ -259,7 +259,7 @@ public class CCall extends CCobolElement
 			}
 			else
 			{
-				bDone = true ;
+				isdone = true ;
 			}
 		}
 		return true;
@@ -292,7 +292,7 @@ public class CCall extends CCobolElement
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
 		CDataEntity eRef = reference.GetDataEntity(getLine(), factory);
-		boolean bChecked = false ;
+		boolean ischecked = false ;
 		
 		String prg = "" ;
 		if (reference.IsReference())
@@ -347,24 +347,24 @@ public class CCall extends CCobolElement
 			else
 			{
 				CCallParameter p = arrParams.get(0);
-				boolean bWithDFHCommarea = false ;
+				boolean iswithDFHCommarea = false ;
 				int nbParameters = arrParams.size() ;
 				if (p.term.GetValue().equalsIgnoreCase("DFHCOMMAREA"))
 				{
-					bWithDFHCommarea = true ;
+					iswithDFHCommarea = true ;
 					nbParameters -- ;
 				}
 
-				if (!factory.programCatalog.CheckProgramReference(prg, bWithDFHCommarea, nbParameters, true))
+				if (!factory.programCatalog.CheckProgramReference(prg, iswithDFHCommarea, nbParameters, true))
 				{
 					Transcoder.logDebug(getLine(), "Missing sub program : "+prg) ;
 					CGlobalEntityCounter.GetInstance().RegisterMissingSubProgram(parent.GetProgramName(), prg) ;
-					bChecked = false ;
+					ischecked = false ;
 				}
 				else
 				{
 					//m_Logger.info("Referenced program found : "+prg) ;
-					bChecked = true ;
+					ischecked = true ;
 				}
 			}
 		}
@@ -373,7 +373,7 @@ public class CCall extends CCobolElement
 			//m_Logger.warn("Call use a variable to identify program") ;
 		}
 		CEntityCallProgram e = factory.NewEntityCallProgram(getLine(), eRef) ;
-		e.setChecked(bChecked) ;
+		e.setChecked(ischecked) ;
 		parent.AddChild(e) ;
 		for (int i=0; i<arrParams.size();i++)
 		{

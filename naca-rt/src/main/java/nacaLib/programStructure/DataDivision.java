@@ -52,11 +52,11 @@ public class DataDivision extends Division
 	
 	private VarBuffer computeWorkingStorageVarBuffer(BaseProgram prg, boolean bFirstInstance)
 	{
-		if(!bWorkingStorageComputed)
+		if(!isworkingStorageComputed)
 		{
 			grantWorkingStorageSection(prg);
 			VarBuffer varBuffer = workingStorageSection.computeStorage(bFirstInstance);
-			bWorkingStorageComputed = true;
+			isworkingStorageComputed = true;
 			return varBuffer;
 		}
 		return null;
@@ -64,9 +64,9 @@ public class DataDivision extends Division
 	
 	private VarBuffer computeFileVarBuffer(BaseProgram prg, boolean bFirstInstance)
 	{
-		if(!bFileStorageComputed)
+		if(!isfileStorageComputed)
 		{
-			bFileStorageComputed = true;
+			isfileStorageComputed = true;
 			if(fileSection != null)
 			{
 				VarBuffer varBuffer = fileSection.computeStorage(bFirstInstance);				
@@ -184,9 +184,9 @@ public class DataDivision extends Division
 	
 	public DataSectionFile grantAndSetCurrentFileSection(BaseProgram prg)
 	{ 
-		boolean bCreated = grantFileSection(prg);
+		boolean iscreated = grantFileSection(prg);
 		currentDataSection = fileSection;
-		if(bCreated)
+		if(iscreated)
 			fileSection.createRootVarOfSection();
 		resetCurrentFileDef();
 		return fileSection;
@@ -240,6 +240,6 @@ public class DataDivision extends Division
 	private DataSectionWorking workingStorageSection = null; // Allocated WorkingStorageSection
 	private DataSectionFile fileSection = null;
 	private DataSection currentDataSection = null;	// Current data section (either workingStorage or Linkage)
-	private boolean bWorkingStorageComputed = false;	// true when the WS has been computed once
-	private boolean bFileStorageComputed = false;	// true when the File storage has been computed once
+	private boolean isworkingStorageComputed = false;	// true when the WS has been computed once
+	private boolean isfileStorageComputed = false;	// true when the File storage has been computed once
 }

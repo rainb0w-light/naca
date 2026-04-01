@@ -49,7 +49,7 @@ public class CExecCICSDeleteQ extends CCobolElement
 	 */
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		CEntityCICSDeleteQ eDelQ = factory.NewEntityCICSDeleteQ(getLine(), bPersistant);
+		CEntityCICSDeleteQ eDelQ = factory.NewEntityCICSDeleteQ(getLine(), ispersistant);
 		parent.AddChild(eDelQ);
 		eDelQ.SetName(queueName.GetDataEntity(getLine(), factory));
 		if (sysID != null)
@@ -74,22 +74,22 @@ public class CExecCICSDeleteQ extends CCobolElement
 		{
 			CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("DELETEQ", "TD") ;
 			tok = GetNext(); 
-			bPersistant = true ;
+			ispersistant = true ;
 		}
 		else if (tok.GetValue().equals("TS"))
 		{
 			CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("DELETEQ", "TS") ;
 			tok = GetNext(); 
-			bPersistant = false ;
+			ispersistant = false ;
 		}
 		else
 		{
 			CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("DELETEQ", "Unkonwn") ;
-			bPersistant = false ;
+			ispersistant = false ;
 		}
 		
-		boolean bDone = false ;
-		while (!bDone)
+		boolean isdone = false ;
+		while (!isdone)
 		{
 			if (tok.GetValue().equals("QUEUE"))
 			{
@@ -121,7 +121,7 @@ public class CExecCICSDeleteQ extends CCobolElement
 			}
 			else
 			{
-				bDone = true ;
+				isdone = true ;
 			}
 		}
 		
@@ -140,7 +140,7 @@ public class CExecCICSDeleteQ extends CCobolElement
 	protected Element ExportCustom(Document root)
 	{
 		Element eDel = root.createElement("ExecCICSDeleteQ") ;
-		if (bPersistant)
+		if (ispersistant)
 		{
 			eDel.setAttribute("Persistant", "true") ;
 		}
@@ -163,7 +163,7 @@ public class CExecCICSDeleteQ extends CCobolElement
 		return eDel;
 	}
 
-	protected boolean bPersistant = false ;
+	protected boolean ispersistant = false ;
 	protected CTerminal queueName= null ;
 	protected CTerminal sysID = null ;
 }

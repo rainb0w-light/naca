@@ -171,13 +171,13 @@ public class XMLMerger
 
 	private void SetEditTags(Element eOutput, Element eData)
 	{
-		NodeList lstFields = eData.getElementsByTagName("field") ;
+		NodeList listfields = eData.getElementsByTagName("field") ;
 		//Hashtable<String, Element> tabFields = new Hashtable<String, Element>() ;
 		Element defaultCursorField = null ;
-		int nFields = lstFields.getLength() ;
+		int nFields = listfields.getLength() ;
 		for (int i=0; i<nFields; i++)
 		{
-			Element e = (Element)lstFields.item(i) ;
+			Element e = (Element) listfields.item(i) ;
 			String name = e.getAttribute("name");
 			tab.put(name, e) ;
 		}

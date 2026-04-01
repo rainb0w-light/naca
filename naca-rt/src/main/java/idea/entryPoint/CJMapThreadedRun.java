@@ -20,12 +20,12 @@ import idea.onlinePrgEnv.OnlineSession;
 
 public class CJMapThreadedRun
 {
-	CJMapThreadedRun(OnlineResourceManager resourceManager, int nNbLoops, String csPrgClassName, StringArray arrPath)
+	CJMapThreadedRun(OnlineResourceManager resourceManager, int nNbLoops, String csPrgClassName, StringArray path)
 	{
 		this.resourceManager = resourceManager;
 		this.nNbLoops = nNbLoops;
 		this.csPrgClassName = csPrgClassName;
-		this.arrPath = arrPath;
+		this.path = path;
 	}
 	
 	void run()
@@ -37,7 +37,7 @@ public class CJMapThreadedRun
 		{	
 			env.startRunTransaction();
 			
-			loader.setPaths(arrPath);
+			loader.setPaths(path);
 			env.setNextProgramToLoad(csPrgClassName);
 			
 			//StopWatch sw = new StopWatch(); 
@@ -59,5 +59,5 @@ public class CJMapThreadedRun
 	OnlineResourceManager resourceManager = null;
 	int nNbLoops = 0;
 	String csPrgClassName = null;
-	StringArray arrPath = null;
+	StringArray path = null;
 }

@@ -51,7 +51,7 @@ public class CExecCICSReadQ extends CCobolElement
 	 */
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		CEntityCICSReadQ eRQ = factory.NewEntityCICSReadQ(getLine(), bPersistant);
+		CEntityCICSReadQ eRQ = factory.NewEntityCICSReadQ(getLine(), ispersistant);
 		parent.AddChild(eRQ);
 		
 		eRQ.SetName(queueName.GetDataEntity(getLine(), factory)) ;
@@ -67,7 +67,7 @@ public class CExecCICSReadQ extends CCobolElement
 			data.RegisterWritingAction(eRQ); 
 			eRQ.SetDataRef(data, len);
 		}
-		if (bNext)
+		if (isnext)
 		{
 			eRQ.ReadNext() ;
 		}
@@ -101,22 +101,22 @@ public class CExecCICSReadQ extends CCobolElement
 		{
 			CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("READQ", "TD") ;
 			tok = GetNext(); 
-			bPersistant = true ;
+			ispersistant = true ;
 		}
 		else if (tok.GetValue().equals("TS"))
 		{
 			CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("READQ", "TS") ;
 			tok = GetNext(); 
-			bPersistant = false ;
+			ispersistant = false ;
 		}
 		else
 		{
 			CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("READQ", "Unknown") ;
-			bPersistant = false ;
+			ispersistant = false ;
 		}
 		
-		boolean bDone = false ;
-		while (!bDone)
+		boolean isdone = false ;
+		while (!isdone)
 		{
 			if (tok.GetValue().equals("QUEUE"))
 			{
@@ -163,7 +163,7 @@ public class CExecCICSReadQ extends CCobolElement
 			else if (tok.GetKeyword() == CCobolKeywordList.NEXT)
 			{
 				tok = GetNext() ;
-				bNext = true ;
+				isnext = true ;
 			}
 			else if (tok.GetValue().equals("ITEM"))
 			{
@@ -195,7 +195,7 @@ public class CExecCICSReadQ extends CCobolElement
 			}
 			else 
 			{
-				bDone = true ;
+				isdone = true ;
 			}
 		}
 		
@@ -214,7 +214,7 @@ public class CExecCICSReadQ extends CCobolElement
 	protected Element ExportCustom(Document root)
 	{
 		Element eRead = root.createElement("ExecCICSReadQ") ;
-		if (bPersistant)
+		if (ispersistant)
 		{
 			eRead.setAttribute("Persistant", "true") ;
 		}
@@ -222,7 +222,7 @@ public class CExecCICSReadQ extends CCobolElement
 		{
 			eRead.setAttribute("Persistant", "false") ;
 		}
-		if (bNext)
+		if (isnext)
 		{
 			eRead.setAttribute("Next", "true") ;
 		}
@@ -259,12 +259,12 @@ public class CExecCICSReadQ extends CCobolElement
 		return eRead;
 	}
 	
-	protected boolean bPersistant = false ;
+	protected boolean ispersistant = false ;
 	protected CTerminal queueName = null ;
 	protected CIdentifier dataRef  = null ;
 	protected CTerminal numItem = null ;
 	protected CTerminal item = null ;
 	protected CTerminal length = null ;
-	protected boolean bNext = false ;
+	protected boolean isnext = false ;
 }
  

@@ -18,7 +18,7 @@ public class MailService
 {
 	private String csSMTPServer = null;
 	private String csAddressFrom = null;
-	private StringArray arrAddressTo = new StringArray() ;
+	private StringArray addressTo = new StringArray() ;
 	
 	public MailService(String smtp, String from) 
 	{
@@ -30,9 +30,9 @@ public class MailService
 	{
 		Mail m = new Mail(this);
 		m.setFrom(csAddressFrom);
-		for (int i=0; i<arrAddressTo.size(); i++)
+		for (int i = 0; i< addressTo.size(); i++)
 		{
-			String add = arrAddressTo.get(i) ;
+			String add = addressTo.get(i) ;
 			m.addTo(add);
 		}
 		return m ;
@@ -50,6 +50,6 @@ public class MailService
 
 	public void addAddressTo(String add) 
 	{
-		arrAddressTo.add(add); 
+		addressTo.add(add);
 	}
 }

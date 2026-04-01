@@ -23,12 +23,12 @@ public class FileUtil
 	private int nSequencer = 0;
 	private int nCommandNext = -1;
 	
-	private boolean bCount = false;
-	private boolean bReplace = false;
-	private boolean bDelete = false;
-	private boolean bExtract = false;
+	private boolean iscount = false;
+	private boolean isreplace = false;
+	private boolean isdelete = false;
+	private boolean isextract = false;
 	
-	private boolean bList = false;
+	private boolean islist = false;
 	
 	private int nLineBegin = 0;
 	private int nLineEnd = 0;
@@ -39,11 +39,11 @@ public class FileUtil
 	private String csValueHex = null;
 	private String csValueNew = null;
 	private String csValueHexNew = null;
-	private ByteBuffer[] arrByteValue;
-	private byte[] arrByteValueNew;	
+	private ByteBuffer[] byteValue;
+	private byte[] byteValueNew;
 	
-	private boolean bKeepOutputFile = false;
-	private boolean bDebug = false;
+	private boolean iskeepOutputFile = false;
+	private boolean isdebug = false;
 	
 	private int nLine = 0;
 	private int nLineCount = 0;
@@ -60,15 +60,15 @@ public class FileUtil
 		String csParameterUpper = csParameter.toUpperCase();
 		if (csParameterUpper.indexOf("LIST") != -1)
 		{
-			bList = true;
+			islist = true;
 		}		
 		if (csParameterUpper.indexOf("KEEPOUTPUTFILE") != -1)
 		{
-			bKeepOutputFile = true;
+			iskeepOutputFile = true;
 		}		
 		if (csParameterUpper.indexOf("DEBUG") != -1)
 		{
-			bDebug = true;
+			isdebug = true;
 		}
 
 		int nCount = csParameterUpper.indexOf("COUNT");
@@ -93,10 +93,10 @@ public class FileUtil
 		int nPosStart = -1;
 		while (true)
 		{
-			bCount = false;
-			bReplace = false;
-			bDelete = false;
-			bExtract = false;
+			iscount = false;
+			isreplace = false;
+			isdelete = false;
+			isextract = false;
 			
 			nLineBegin = 0;
 			nLineEnd = 0;
@@ -107,27 +107,27 @@ public class FileUtil
 			csValueHex = null;
 			csValueNew = null;
 			csValueHexNew = null;
-			arrByteValue = null;
-			arrByteValueNew = null;
+			byteValue = null;
+			byteValueNew = null;
 			
 			if (nCount != -1 && (nReplace == -1 || nCount < nReplace) && (nDelete == -1 || nCount < nDelete) && (nExtract == -1 || nCount < nExtract))
 			{
-				bCount = true;
+				iscount = true;
 				nPosStart = nCount + 1;
 			}
 			else if (nReplace != -1 && (nCount == -1 || nReplace < nCount) && (nDelete == -1 || nReplace < nDelete) && (nExtract == -1 || nReplace < nExtract))
 			{
-				bReplace = true;
+				isreplace = true;
 				nPosStart = nReplace + 1;
 			}
 			else if (nDelete != -1 && (nCount == -1 || nDelete < nCount) && (nReplace == -1 || nDelete < nReplace) && (nExtract == -1 || nDelete < nExtract))
 			{
-				bDelete = true;
+				isdelete = true;
 				nPosStart = nDelete + 1;
 			}
 			else
 			{
-				bExtract = true;
+				isextract = true;
 				nPosStart = nExtract + 1;
 			}
 			
@@ -160,10 +160,10 @@ public class FileUtil
 				else
 					csValue = csParameterPart.substring(nPos, nPosEnd);
 				String values[] = csValue.split("#or#");
-				arrByteValue = new ByteBuffer[values.length];
+				byteValue = new ByteBuffer[values.length];
 				for (int i = 0; i < values.length; i++)
 				{
-					arrByteValue[i] = ByteBuffer.wrap(values[i].getBytes());
+					byteValue[i] = ByteBuffer.wrap(values[i].getBytes());
 				}	
 			}
 			if (csParameterPartUpper.indexOf("VALUEHEX=") != -1)
@@ -175,10 +175,10 @@ public class FileUtil
 				else
 					csValueHex = csParameterPart.substring(nPos, nPosEnd);
 				String values[] = csValueHex.split("#or#");
-				arrByteValue = new ByteBuffer[values.length];
+				byteValue = new ByteBuffer[values.length];
 				for (int i = 0; i < values.length; i++)
 				{
-					arrByteValue[i] = ByteBuffer.wrap(hexToBytes(values[i]));
+					byteValue[i] = ByteBuffer.wrap(hexToBytes(values[i]));
 				}
 			}
 			if (csParameterPartUpper.indexOf("VALUENEW=") != -1)
@@ -189,7 +189,7 @@ public class FileUtil
 					csValueNew = csParameterPart.substring(nPos);
 				else
 					csValueNew = csParameterPart.substring(nPos, nPosEnd);
-				arrByteValueNew = csValueNew.getBytes();
+				byteValueNew = csValueNew.getBytes();
 			}
 			if (csParameterPartUpper.indexOf("VALUEHEXNEW=") != -1)
 			{
@@ -199,7 +199,7 @@ public class FileUtil
 					csValueHexNew = csParameterPart.substring(nPos);
 				else
 					csValueHexNew = csParameterPart.substring(nPos, nPosEnd);
-				arrByteValueNew = hexToBytes(csValueHexNew);
+				byteValueNew = hexToBytes(csValueHexNew);
 			}
 			
 			if (csParameterPartUpper.indexOf("LINE=") != -1)
@@ -262,7 +262,7 @@ public class FileUtil
 					nColEnd = Integer.valueOf(csParameterPart.substring(nPos, nPosEnd)).intValue();
 			}
 			
-			if (bReplace)
+			if (isreplace)
 			{
 				if (csValue != null || csValueNew != null)
 				{
@@ -291,7 +291,7 @@ public class FileUtil
 					// error
 				}
 			}
-			else if (bDelete)
+			else if (isdelete)
 			{
 				if (csValue != null)
 					System.out.println("FileUtil: Delete when record contains \"" + csValue + "\"");
@@ -300,7 +300,7 @@ public class FileUtil
 				else
 					System.out.println("FileUtil: Delete");
 			}
-			else if (bExtract)
+			else if (isextract)
 			{
 				if (csValue != null)
 					System.out.println("FileUtil: Extract when record contains \"" + csValue + "\"");
@@ -309,7 +309,7 @@ public class FileUtil
 				else
 					System.out.println("FileUtil: Extract");
 			}
-			else if (bCount)
+			else if (iscount)
 			{
 				System.out.println("FileUtil: Count");
 			}
@@ -340,12 +340,12 @@ public class FileUtil
 			
 			try
 			{
-				if (bList)
+				if (islist)
 				{
 					String csFileList = file.getPhysicalName();
 					DataFileLineReader dataFileList = new DataFileLineReader(csFileList, 65536, 0);
-					boolean bConvOpened = dataFileList.open();
-					if(bConvOpened)
+					boolean isconvOpened = dataFileList.open();
+					if(isconvOpened)
 					{
 						LineRead lineRead;
 						while((lineRead = file.readALine(dataFileList, null)) != null)
@@ -374,12 +374,12 @@ public class FileUtil
 			nSequencer++;
 		}
 		
-		if (bList)
+		if (islist)
 		{
 			String csFileList = file.getPhysicalName();
 			DataFileLineReader dataFileList = new DataFileLineReader(csFileList, 65536, 0);
-			boolean bConvOpened = dataFileList.open();
-			if(bConvOpened)
+			boolean isconvOpened = dataFileList.open();
+			if(isconvOpened)
 			{
 				LineRead lineRead;
 				while((lineRead = file.readALine(dataFileList, null)) != null)
@@ -409,14 +409,14 @@ public class FileUtil
 		LogicalFileDescriptor logicalFileDescriptor = new LogicalFileDescriptor("", csFileIn);
 		if(logicalFileDescriptor != null)
 		{
-			boolean bInOpened = dataFileIn.open(logicalFileDescriptor);
-			if(bInOpened)
+			boolean isinOpened = dataFileIn.open(logicalFileDescriptor);
+			if(isinOpened)
 			{	
 				if (!logicalFileDescriptor.isLengthInfoDefined())
 				{
 					logicalFileDescriptor.tryAutoDetermineRecordLength(dataFileIn);
 				}
-				if (!bCount)
+				if (!iscount)
 					fileOutputOpen(csFile);
 				if (logicalFileDescriptor.isVariableLength())
 				{
@@ -454,14 +454,14 @@ public class FileUtil
 				{
 					if (logicalFileDescriptor.getRecordLengthDefinition() != null)
 					{	
-						int iLength = logicalFileDescriptor.getRecordLengthDefinition().getRecordLength();
+						int length = logicalFileDescriptor.getRecordLengthDefinition().getRecordLength();
 						if (nLast != 0)
 						{
-							LineRead lineRead = dataFileIn.readBuffer(iLength, true);
+							LineRead lineRead = dataFileIn.readBuffer(length, true);
 							while (lineRead != null)
 							{
 								nLine++;
-								lineRead = dataFileIn.readBuffer(iLength, true);
+								lineRead = dataFileIn.readBuffer(length, true);
 							}
 							nLineBegin = nLine - nLast + 1;
 							if (nLineBegin < 0)
@@ -472,17 +472,17 @@ public class FileUtil
 							dataFileIn.open(logicalFileDescriptor);
 						}
 						
-						LineRead lineRead = dataFileIn.readBuffer(iLength, true);
+						LineRead lineRead = dataFileIn.readBuffer(length, true);
 						while (lineRead != null)
 						{
 							if (utilNext(dataFileIn, lineRead, null))
 								break;
-							lineRead = dataFileIn.readBuffer(iLength, true);
+							lineRead = dataFileIn.readBuffer(length, true);
 						}
 					}
 				}
 				dataFileIn.close();
-				if (bCount)
+				if (iscount)
 					System.out.println("FileUtil: Number of lines " + nLineCount);
 				else
 					fileOutputClose(csFile);
@@ -495,109 +495,109 @@ public class FileUtil
 
 	private byte[] hexToBytes(String csHex)
 	{
-		byte[] arrByteValue = new byte[csHex.length()/2];
+		byte[] byteValue = new byte[csHex.length()/2];
 		
 		for (int i=0, j=0; i < csHex.length(); j++)
 		{
 			String csDigit = "0x" + csHex.charAt(i++) + csHex.charAt(i++);
 			int nVal = Integer.decode(csDigit).intValue();
-			arrByteValue[j] = (byte)nVal;
+			byteValue[j] = (byte)nVal;
 		}
 		
-		return arrByteValue;
+		return byteValue;
 	}
 
 	private boolean utilNext(DataFileLineReader dataFileIn, LineRead lineRead, byte[] tbyHeader)
 	{
-		boolean bStop = false;
+		boolean isstop = false;
 		nLine++;
-		byte[] arrByteData = lineRead.getBufferCopy();
+		byte[] byteData = lineRead.getBufferCopy();
 		int nLengthLine = lineRead.getBodyLength();
 		
-		boolean bWrite = false;
+		boolean iswrite = false;
 		
-		if (bReplace)
+		if (isreplace)
 		{
-			bWrite = true;
+			iswrite = true;
 			if (nLine >= nLineBegin && (nLineEnd == 0 || nLine <= nLineEnd))
 			{
-				if (replaceValue(arrByteData, nLengthLine))
-					if (bDebug)
+				if (replaceValue(byteData, nLengthLine))
+					if (isdebug)
 						System.out.println("FileUtil: Line " + nLine + " replaced");
 			}
 		}
-		else if (bDelete)
+		else if (isdelete)
 		{
 			if (nLine >= nLineBegin && (nLineEnd == 0 || nLine <= nLineEnd))
 			{
-				if (arrByteValue != null)
+				if (byteValue != null)
 				{	
-					if (!existsValue(arrByteData, nLengthLine))
-						bWrite = true;
+					if (!existsValue(byteData, nLengthLine))
+						iswrite = true;
 				}
 			}
 			else
 			{
-				bWrite = true;
+				iswrite = true;
 			}
-			if (bDebug && !bWrite)
+			if (isdebug && !iswrite)
 				System.out.println("FileUtil: Line " + nLine + " deleted");
 		}
-		else if (bExtract)
+		else if (isextract)
 		{
 			if (nLine >= nLineBegin && (nLineEnd == 0 || nLine <= nLineEnd))
 			{
-				if (arrByteValue == null)
-					bWrite = true;
+				if (byteValue == null)
+					iswrite = true;
 				else
-					if (existsValue(arrByteData, nLengthLine))
-						bWrite = true;
+					if (existsValue(byteData, nLengthLine))
+						iswrite = true;
 			}
 			else
 			{
 				if (nLine >= nLineBegin)
-					bStop = true;
+					isstop = true;
 			}
-			if (bDebug && bWrite)
+			if (isdebug && iswrite)
 				System.out.println("FileUtil: Line " + nLine + " extracted");
 		}
-		else if (bCount)
+		else if (iscount)
 		{
 			if (nLine >= nLineBegin && (nLineEnd == 0 || nLine <= nLineEnd))
 			{
-				if (arrByteValue == null)
-					bWrite = true;
+				if (byteValue == null)
+					iswrite = true;
 				else
-					if (existsValue(arrByteData, nLengthLine))
-						bWrite = true;
+					if (existsValue(byteData, nLengthLine))
+						iswrite = true;
 			}
 			else
 			{
 				if (nLine >= nLineBegin)
-					bStop = true;
+					isstop = true;
 			}
-			if (bWrite)
+			if (iswrite)
 			{
 				nLineCount++;
-				bWrite = false;
-				if (bDebug)
+				iswrite = false;
+				if (isdebug)
 					System.out.println("FileUtil: Line " + nLine + " counted");
 			}	
 		}
 		
-		if (bWrite)
+		if (iswrite)
 		{
 			if (tbyHeader != null)				
 				fileOutput.write(tbyHeader);
-			fileOutput.write(arrByteData, 0, nLengthLine);
+			fileOutput.write(byteData, 0, nLengthLine);
 			fileOutput.writeEndOfRecordMarker();
 		}
-		return bStop;
+		return isstop;
 	}
 
 	private boolean replaceValue(byte[] arrByteData, int nLengthLine)
 	{
-		boolean bReplaced = false;
+		boolean isreplaced = false;
 		int nBegin = 0;
 		if (nColBegin != 0)
 			nBegin = nColBegin - 1;
@@ -606,22 +606,22 @@ public class FileUtil
 			nEnd = nColEnd;		
 		for ( ;nBegin < nEnd; )
 		{
-			boolean bEqual = checkValue(arrByteData, nBegin);
-			if (bEqual)
+			boolean isequal = checkValue(arrByteData, nBegin);
+			if (isequal)
 			{
-				bReplaced = true;
-				for (int i=0; i < arrByteValueNew.length; i++)
+				isreplaced = true;
+				for (int i = 0; i < byteValueNew.length; i++)
 				{
-					arrByteData[nBegin + i] = arrByteValueNew[i];
+					arrByteData[nBegin + i] = byteValueNew[i];
 				}
-				nBegin += arrByteValueNew.length;
+				nBegin += byteValueNew.length;
 			}
 			else
 			{
 				nBegin++;
 			}
 		}
-		return bReplaced;
+		return isreplaced;
 	}
 	
 	private boolean existsValue(byte[] arrByteData, int nLengthLine)
@@ -634,8 +634,8 @@ public class FileUtil
 			nEnd = nColEnd;		
 		for ( ;nBegin < nEnd; nBegin++)
 		{
-			boolean bEqual = checkValue(arrByteData, nBegin);
-			if (bEqual)
+			boolean isequal = checkValue(arrByteData, nBegin);
+			if (isequal)
 				return true;			
 		}
 		return false;
@@ -643,15 +643,15 @@ public class FileUtil
 	
 	private boolean checkValue(byte[] arrByteData, int nBegin)
 	{
-		if (arrByteValue == null) return true;
+		if (byteValue == null) return true;
 		
-		for (int i=0; i < arrByteValue.length; i++)
+		for (int i = 0; i < byteValue.length; i++)
 		{
-			boolean bEqual = true;
-			byte[] bytes = arrByteValue[i].array();
+			boolean isequal = true;
+			byte[] bytes = byteValue[i].array();
 			if (nBegin + bytes.length > arrByteData.length)
 			{
-				bEqual = false;
+				isequal = false;
 			}
 			else
 			{
@@ -659,12 +659,12 @@ public class FileUtil
 				{
 					if (arrByteData[nBegin + j] != bytes[j])
 					{
-						bEqual = false;
+						isequal = false;
 						break;
 					}
 				}
 			}
-			if (bEqual)
+			if (isequal)
 				return true;
 		}		
 		return false;
@@ -691,7 +691,7 @@ public class FileUtil
 	
 	private void fileEnd(String csFile)
 	{
-		if (bKeepOutputFile)
+		if (iskeepOutputFile)
 		{	
 			System.out.println("FileUtil: File " + csFile + " treated in file " + csFile + ".util");
 		}	

@@ -37,7 +37,7 @@ public class AccountingRecordTrans
 	
 	public void startRunTransaction(String csCurrentTransaction)
 	{
-		bFilled = false;
+		isfilled = false;
 		nTransactionId++;
 		nNbSelect = 0;
 		nNbInsert = 0;
@@ -55,8 +55,8 @@ public class AccountingRecordTrans
 	{
 		if(BaseResourceManager.getUsingJmx())
 		{
-			long lRuntimeTrans_ns = swnDbTimeRunTransaction.getElapsedTime();
-			JmxGeneralStat.endRunTransaction(criteria, lRuntimeTrans_ns / 1000000, lSumDbTimeIO_ns / 1000000);
+			long runtimeTrans_ns = swnDbTimeRunTransaction.getElapsedTime();
+			JmxGeneralStat.endRunTransaction(criteria, runtimeTrans_ns / 1000000, sumDbTimeIO_ns / 1000000);
 		}
 		
 		endRunProgram(criteria);
@@ -182,7 +182,7 @@ public class AccountingRecordTrans
 	public void endDbIO()
 	{
 		lDbTimeIO_ns = swnDbTimeIO.getElapsedTimeReset();
-		lSumDbTimeIO_ns += lDbTimeIO_ns; 
+		sumDbTimeIO_ns += lDbTimeIO_ns;
 		//JmxGeneralStat.reportDbTimeIo_ns(lDbTimeIO_ns / 1000000);
 		try
 		{
@@ -210,12 +210,12 @@ public class AccountingRecordTrans
 		{
 			csSessionType = "Batch";
 		}
-		bFilled = true;
+		isfilled = true;
 	}
 	
 	public boolean isFilled()
 	{
-		return bFilled;
+		return isfilled;
 	}
 	
 	private int nNbSelect = 0;
@@ -225,7 +225,7 @@ public class AccountingRecordTrans
 	private int nNbFetchCursor = 0;
 	private int nNbCursorOpen = 0;
 	private long lDbTimeIO_ns = 0;	// Time in nano seconds
-	private long lSumDbTimeIO_ns = 0;
+	private long sumDbTimeIO_ns = 0;
 	private StopWatchNano swnDbTimeIO = new StopWatchNano();
 	private StopWatchNano swnDbTimeRunTransaction = new StopWatchNano();
 		
@@ -244,7 +244,7 @@ public class AccountingRecordTrans
 	private AccountingRessourceDesc accountingRessourceDesc = null;
 	private Stack<AccountingRecordProgram> accountingStack = new Stack<AccountingRecordProgram>() ;
 	private int nTransactionId = 0;
-	private boolean bFilled = false;
+	private boolean isfilled = false;
 	
 	private int nNetwork_ms = 0;
 }

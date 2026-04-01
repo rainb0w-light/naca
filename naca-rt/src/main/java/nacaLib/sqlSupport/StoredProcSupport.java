@@ -14,9 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import jlib.log.Log;
 import jlib.sql.DbConnectionBase;
-import jlib.sql.StoredProcParamDescBase;
 
 /**
  *
@@ -35,12 +33,12 @@ public class StoredProcSupport
 		try
 		{
 			DatabaseMetaData dmd = dbConnection.getDbConnection().getMetaData();
-			ResultSet rsProcs = dmd.getProcedures(null, null, "%");
+			ResultSet resultSetprocs = dmd.getProcedures(null, null, "%");
 			boolean b = true;
-			while(rsProcs.next() && b)
+			while(resultSetprocs.next() && b)
 			{
 				StoredProcInfo info = new StoredProcInfo();
-				if(info.fill(rsProcs))
+				if(info.fill(resultSetprocs))
 					arr.add(info);
 			}
 		}
@@ -59,11 +57,11 @@ public class StoredProcSupport
 		{
 			DatabaseMetaData dmd = dbConnection.getDbConnection().getMetaData();
 			String user = dbConnection.getEnvironmentPrefix();
-			ResultSet rsParams = dmd.getProcedureColumns(null, dbConnection.getEnvironmentPrefix(), csStoredProcName, "%");
+			ResultSet resultSetparams = dmd.getProcedureColumns(null, dbConnection.getEnvironmentPrefix(), csStoredProcName, "%");
 			boolean b = true;
-			while(rsParams.next() && b)
+			while(resultSetparams.next() && b)
 			{
-				storedProcParams.addAParam(rsParams);
+				storedProcParams.addAParam(resultSetparams);
 			}
 		}
 		catch (SQLException e)

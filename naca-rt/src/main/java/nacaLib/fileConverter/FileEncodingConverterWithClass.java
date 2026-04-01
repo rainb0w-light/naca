@@ -32,7 +32,7 @@ public class FileEncodingConverterWithClass extends FileEncodingConverter
 	{
 		fileIn.getPhysicalName();
 		fileOut.getPhysicalName();
-		if(fileIn.isEbcdic() != fileOut.isEbcdic() || bHost)
+		if(fileIn.isEbcdic() != fileOut.isEbcdic() || ishost)
 		{
 			return convert(csCopyClass);
 		}
@@ -68,14 +68,14 @@ public class FileEncodingConverterWithClass extends FileEncodingConverter
 		// Read all record form source into structure
 		String csFileIn = fileIn.getPhysicalName();
 		DataFileLineReader dataFileIn = new DataFileLineReader(csFileIn, 65536, 0);
-		boolean bInOpened = dataFileIn.open();
-		if(bInOpened)
+		boolean isinOpened = dataFileIn.open();
+		if(isinOpened)
 		{
 			fileOut.openOutput();
-			boolean bVariableLength = fileIn.isVariableLength();
-			if (bHost)
+			boolean isvariableLength = fileIn.isVariableLength();
+			if (ishost)
 			{
-				if (bHeaderEbcdic)
+				if (isheaderEbcdic)
 				{
 					byte[] tbyHeaderEbcdic = new String("<FileHeader Version=\"1\" Encoding=\"ebcdic\"/>").getBytes();
 					fileOut.write(tbyHeaderEbcdic, 0, tbyHeaderEbcdic.length, true);
@@ -84,7 +84,7 @@ public class FileEncodingConverterWithClass extends FileEncodingConverter
 				if (nLengthRecord == 0)
 				{
 					byte[] tbyHeader4 = new byte[4];
-					if (bVariable4)
+					if (isvariable4)
 					{	
 						LineRead lineRead = dataFileIn.readBuffer(4, false);
 						while (lineRead != null)
@@ -95,7 +95,7 @@ public class FileEncodingConverterWithClass extends FileEncodingConverter
 							if (i2 < 0) i2 = 256 + i2;
 							int nCurrentRecordLength = (i1 * 256) + i2 - 4;
 							
-							if (bVariableLength)
+							if (isvariableLength)
 							{
 								LittleEndingSignBinaryBufferStorage.writeInt(tbyHeader4, nCurrentRecordLength, 0);
 								fileOut.write(tbyHeader4, 0, tbyHeader4.length, false);
@@ -120,7 +120,7 @@ public class FileEncodingConverterWithClass extends FileEncodingConverter
 							int i2 = lineRead.getBuffer()[lineRead.getOffset() + 2];
 							int nCurrentRecordLength = i1 * 256 + i2;
 							
-							if (bVariableLength)
+							if (isvariableLength)
 							{
 								LittleEndingSignBinaryBufferStorage.writeInt(tbyHeader4, nCurrentRecordLength, 0);
 								fileOut.write(tbyHeader4, 0, tbyHeader4.length, false);
@@ -157,7 +157,7 @@ public class FileEncodingConverterWithClass extends FileEncodingConverter
 				LineRead lineRead = fileIn.readALine(dataFileIn, null);
 				while(lineRead != null)
 				{
-					if(bVariableLength)
+					if(isvariableLength)
 						lineRead.shiftOffset(4);	// Skip record header
 					
 					if (bEbcdicIn && !bEbcdicOut)	// Must convert string chunks to ascii
@@ -165,7 +165,7 @@ public class FileEncodingConverterWithClass extends FileEncodingConverter
 					else	// !bEbcdicIn && bEbcdicOut
 						varRoot.setFromLineRead(lineRead);
 	
-					if(bVariableLength)
+					if(isvariableLength)
 						lineRead.shiftOffset(-4);
 	
 					fileOut.writeFrom(varRoot);

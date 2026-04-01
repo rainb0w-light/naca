@@ -29,10 +29,10 @@ public class CDefaultConditionManager
 	
 	public boolean isDefaultOperatorSetted()
 	{
-		return bIsDefaultOperatorSetted ;
+		return isisDefaultOperatorSetted;
 	}
 	
-	protected boolean bIsDefaultOperatorSetted = false ;
+	protected boolean isisDefaultOperatorSetted = false ;
 
 	/**
 	 * @param expression
@@ -40,7 +40,7 @@ public class CDefaultConditionManager
 	 */
 	public CExpression GetSimilarExpression(CTermExpression expression)
 	{
-		bIsDefaultOperatorSetted = true ;
+		isisDefaultOperatorSetted = true ;
 		return expMaster.GetSimilarExpression(expression);
 	}
 
@@ -49,7 +49,7 @@ public class CDefaultConditionManager
 	 */
 	public void SetMasterCondition(CExpression st1)
 	{
-		bIsDefaultOperatorSetted = false ;
+		isisDefaultOperatorSetted = false ;
 		expMaster = st1 ;
 	}
 

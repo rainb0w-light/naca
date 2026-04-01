@@ -41,8 +41,8 @@ public class CExecSQLSessionDeclare extends CBaseExecSQLAction
 		CBaseToken tok;
 		
 		csSql = "DECLARE GLOBAL";
-		boolean bDone = false ;
-		while (!bDone)
+		boolean isdone = false ;
+		while (!isdone)
 		{
 			tok = GetNext() ;
 			if (tok.GetType()==CTokenType.DOT)
@@ -68,7 +68,7 @@ public class CExecSQLSessionDeclare extends CBaseExecSQLAction
 			}
 			else if (tok.GetType()==CTokenType.KEYWORD && tok.GetKeyword()==CCobolKeywordList.END_EXEC)
 			{
-				bDone = true ;
+				isdone = true ;
 			}
 			else
 			{

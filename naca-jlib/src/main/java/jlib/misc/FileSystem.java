@@ -365,7 +365,7 @@ public class FileSystem
         
         try 
         {
-			// Création du fichier :
+			// Crï¿½ation du fichier :
         	destination.createNewFile();
 			
 			// Ouverture des flux
@@ -383,7 +383,7 @@ public class FileSystem
 						destinationFile.write(buffer, 0, nNbBytesRead);
 						nNbBytesRead = sourceFile.read(buffer);
 					}
-					// Copie réussie
+					// Copie rï¿½ussie
 					resultat = true;
 				}
 			}
@@ -771,14 +771,14 @@ public class FileSystem
 			return null;
 	
 		StringBuilder sbOut = new StringBuilder();
-		boolean bContinue = true;
+		boolean iscontinue = true;
 		try
 		{
 			int n=0;
-			while(bContinue && buf.available() > 0)
+			while(iscontinue && buf.available() > 0)
 			{
 				char cChar = (char)buf.read();
-//				if(n == 1140 || cChar== 'Ã' || cChar== '¼')
+//				if(n == 1140 || cChar== 'ï¿½' || cChar== 'ï¿½')
 //				{
 //					int gg =0 ;
 //				}

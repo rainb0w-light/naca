@@ -138,11 +138,11 @@ public class Dec extends DecBase
 			
 	public int compare(Dec dec2)
 	{
-		long lSignedInt = getSignedLong();
-		long lSignedInt2 = dec2.getSignedLong();
-		if(lSignedInt < lSignedInt2)
+		long signedInt = getSignedLong();
+		long signedInt2 = dec2.getSignedLong();
+		if(signedInt < signedInt2)
 			return -1;
-		if(lSignedInt == lSignedInt2)
+		if(signedInt == signedInt2)
 		{
 			long l1 = getDecAsLong();
 			long l2 = dec2.getDecAsLong();

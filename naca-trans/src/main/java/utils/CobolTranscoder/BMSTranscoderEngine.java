@@ -350,8 +350,8 @@ public class BMSTranscoderEngine extends TranscoderEngine<CMapSetElement, CEntit
 							PosLineCol posLineCol = hashPosLineColByLanguage.get(csLg);
 	
 							CFieldElement eField = new CFieldElement("", 0);
-							boolean bToAdd = eField.loadTagParameters(posLineCol, tagEditTitle, csLg);
-							if(bToAdd)
+							boolean istoAdd = eField.loadTagParameters(posLineCol, tagEditTitle, csLg);
+							if(istoAdd)
 								eMap.AddElement(eField);
 						}
 						
@@ -380,8 +380,8 @@ public class BMSTranscoderEngine extends TranscoderEngine<CMapSetElement, CEntit
 			PosLineCol posLineCol = hashPosLineColByLanguage.get(csLg);
 
 			CFieldElement eField = new CFieldElement("", 0);
-			boolean bAdd = eField.setAsClosingHBox(posLineCol);
-			if(bAdd)
+			boolean isadd = eField.setAsClosingHBox(posLineCol);
+			if(isadd)
 				eMap.AddElement(eField);
 		}
 	}

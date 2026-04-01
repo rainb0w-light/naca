@@ -21,7 +21,7 @@ public class CFPacJavaLoopWhile extends CEntityLoopWhile
 	@Override
 	protected void DoExport()
 	{
-		if (bDoBefore)
+		if (isdoBefore)
 		{
 			WriteLine("do {") ;
 			ExportChildren() ;

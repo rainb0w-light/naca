@@ -34,7 +34,6 @@ import org.w3c.dom.Element;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.ArrayList;
 
 /**
  * @author U930CV
@@ -65,7 +64,7 @@ public class CGlobalEntityCounter
 	{
 		public String itemName = "" ;
 		public HashMap<String, Integer> tabCount = new HashMap<String, Integer>() ;
-		public ArrayList<String> arrDeps = new ArrayList<String>();
+		public ArrayList<String> deps = new ArrayList<String>();
 	}
 	
 	protected Hashtable<String, CItemCounter> tabProperties = new Hashtable<String, CItemCounter>() ;
@@ -112,10 +111,10 @@ public class CGlobalEntityCounter
 			xformer.setOutputProperty(OutputKeys.INDENT, "yes");
 			xformer.transform(source, res);
 			
-			File fSS = new File(path+".xsl");
-			if(!fSS.exists())
+			File sS = new File(path+".xsl");
+			if(!sS.exists())
 				return;
-			Source stylesheet = new StreamSource(fSS) ; 
+			Source stylesheet = new StreamSource(sS) ;
 			Templates templ = TransformerFactory.newInstance().newTemplates(stylesheet) ;
 			Transformer xformer2 = templ.newTransformer() ;			
 
@@ -361,9 +360,9 @@ public class CGlobalEntityCounter
 				Element e = root.createElement("Copy");
 				e.setAttribute("Name", ic.itemName);
 				eCopy.appendChild(e);
-				for (int i=0; i<ic.arrDeps.size();i++)
+				for (int i = 0; i<ic.deps.size(); i++)
 				{
-					String cs = ic.arrDeps.get(i);
+					String cs = ic.deps.get(i);
 					Element eOpt = root.createElement("Program");
 					eOpt.setAttribute("Name", cs);
 					e.appendChild(eOpt);
@@ -382,9 +381,9 @@ public class CGlobalEntityCounter
 				Element e = root.createElement("Copy");
 				e.setAttribute("Name", ic.itemName);
 				eCopy.appendChild(e);
-				for (int i=0; i<ic.arrDeps.size();i++)
+				for (int i = 0; i<ic.deps.size(); i++)
 				{
-					String cs = ic.arrDeps.get(i);
+					String cs = ic.deps.get(i);
 					Element eOpt = root.createElement("Program");
 					eOpt.setAttribute("Name", cs);
 					e.appendChild(eOpt);
@@ -403,9 +402,9 @@ public class CGlobalEntityCounter
 				Element e = root.createElement("Program");
 				e.setAttribute("Name", ic.itemName);
 				eCopy.appendChild(e);
-				for (int i=0; i<ic.arrDeps.size();i++)
+				for (int i = 0; i<ic.deps.size(); i++)
 				{
-					String cs = ic.arrDeps.get(i);
+					String cs = ic.deps.get(i);
 					Element eOpt = root.createElement("Copy");
 					eOpt.setAttribute("Name", cs);
 					e.appendChild(eOpt);
@@ -424,9 +423,9 @@ public class CGlobalEntityCounter
 				Element e = root.createElement("Program");
 				e.setAttribute("Name", ic.itemName);
 				eCopy.appendChild(e);
-				for (int i=0; i<ic.arrDeps.size();i++)
+				for (int i = 0; i<ic.deps.size(); i++)
 				{
-					String cs = ic.arrDeps.get(i);
+					String cs = ic.deps.get(i);
 					Element eOpt = root.createElement("SubProgram");
 					eOpt.setAttribute("Name", cs);
 //					int n = ic.m_tabCount.get(cs) ;
@@ -447,9 +446,9 @@ public class CGlobalEntityCounter
 				Element e = root.createElement("SubProgram");
 				e.setAttribute("Name", ic.itemName);
 				eCopy.appendChild(e);
-				for (int i=0; i<ic.arrDeps.size();i++)
+				for (int i = 0; i<ic.deps.size(); i++)
 				{
-					String cs = ic.arrDeps.get(i);
+					String cs = ic.deps.get(i);
 					Element eOpt = root.createElement("Program");
 					eOpt.setAttribute("Name", cs);
 //					int n = ic.m_tabCount.get(cs) ;
@@ -470,9 +469,9 @@ public class CGlobalEntityCounter
 				Element e = root.createElement("SubProgram");
 				e.setAttribute("Name", ic.itemName);
 				eCopy.appendChild(e);
-				for (int i=0; i<ic.arrDeps.size();i++)
+				for (int i = 0; i<ic.deps.size(); i++)
 				{
-					String cs = ic.arrDeps.get(i);
+					String cs = ic.deps.get(i);
 					Element eOpt = root.createElement("Program");
 					eOpt.setAttribute("Name", cs);
 //					int n = ic.m_tabCount.get(cs) ;
@@ -482,16 +481,16 @@ public class CGlobalEntityCounter
 				ic = GetNextDep(enumere);
 			}
 		}
-		if (arrProgramToRewrite.size()>0)
+		if (programToRewrite.size()>0)
 		{
 			Element eRew = root.createElement("ProgramsToRewrite");
 			eItemCount.appendChild(eRew);
-			for (int i=0; i<arrProgramToRewrite.size(); i++)
+			for (int i = 0; i< programToRewrite.size(); i++)
 			{
 				Element e = root.createElement("Program");
-				e.setAttribute("Name", arrProgramToRewrite.get(i));
-				e.setAttribute("Line", ""+arrProgramLinesToRewrite.get(i));
-				e.setAttribute("Reason", arrProgramToRewriteReason.get(i));
+				e.setAttribute("Name", programToRewrite.get(i));
+				e.setAttribute("Line", ""+ programLinesToRewrite.get(i));
+				e.setAttribute("Reason", programToRewriteReason.get(i));
 				eRew.appendChild(e);
 			}
 		}
@@ -694,14 +693,14 @@ public class CGlobalEntityCounter
 			dep.itemName = copyName ;
 			tabCopyForPrograms.put(copyName, dep);
 		}
-		if (dep.arrDeps.contains(programName))
+		if (dep.deps.contains(programName))
 		{
 			int n = dep.tabCount.get(programName);
 			dep.tabCount.put(programName, n+1) ;
 		}
 		else
 		{
-			dep.arrDeps.add(programName) ;
+			dep.deps.add(programName) ;
 			dep.tabCount.put(programName, 1) ;
 		}
 
@@ -713,14 +712,14 @@ public class CGlobalEntityCounter
 			dep.itemName = programName ;
 			tabProgramsUsingCopy.put(programName, dep);
 		}
-		if (dep.arrDeps.contains(copyName))
+		if (dep.deps.contains(copyName))
 		{
 			int n = dep.tabCount.get(copyName);
 			dep.tabCount.put(copyName, n+1) ;
 		}
 		else
 		{
-			dep.arrDeps.add(copyName) ;
+			dep.deps.add(copyName) ;
 			dep.tabCount.put(copyName, 1) ;
 		}
 	}
@@ -733,14 +732,14 @@ public class CGlobalEntityCounter
 			dep.itemName = copyName ;
 			tabMissingCopy.put(copyName, dep);
 		}
-		if (dep.arrDeps.contains(programName))
+		if (dep.deps.contains(programName))
 		{
 			int n = dep.tabCount.get(programName);
 			dep.tabCount.put(programName, n+1) ;
 		}
 		else
 		{
-			dep.arrDeps.add(programName) ;
+			dep.deps.add(programName) ;
 			dep.tabCount.put(programName, 1) ;
 		}
 	}
@@ -753,14 +752,14 @@ public class CGlobalEntityCounter
 			dep.itemName = prg ;
 			tabMissingSubProgram.put(prg, dep);
 		}
-		if (dep.arrDeps.contains(programName))
+		if (dep.deps.contains(programName))
 		{
 			int n = dep.tabCount.get(programName);
 			dep.tabCount.put(programName, n+1) ;
 		}
 		else
 		{
-			dep.arrDeps.add(programName) ;
+			dep.deps.add(programName) ;
 			dep.tabCount.put(programName, 1) ;
 		}
 	}
@@ -778,14 +777,14 @@ public class CGlobalEntityCounter
 			dep.itemName = prg ;
 			tabProgramCalled.put(prg, dep);
 		}
-		if (dep.arrDeps.contains(programName))
+		if (dep.deps.contains(programName))
 		{
 			int n = dep.tabCount.get(programName);
 			dep.tabCount.put(programName, n+1) ;
 		}
 		else
 		{
-			dep.arrDeps.add(programName) ;
+			dep.deps.add(programName) ;
 			dep.tabCount.put(programName, 1) ;
 		}
 
@@ -797,25 +796,25 @@ public class CGlobalEntityCounter
 			dep.itemName = programName ;
 			tabSubProgramCalls.put(programName, dep);
 		}
-		if (dep.arrDeps.contains(prg))
+		if (dep.deps.contains(prg))
 		{
 			int n = dep.tabCount.get(prg);
 			dep.tabCount.put(prg, n+1) ;
 		}
 		else
 		{
-			dep.arrDeps.add(prg) ;
+			dep.deps.add(prg) ;
 			dep.tabCount.put(prg, 1) ;
 		}
 	}
 	
 	public void RegisterProgramToRewrite(String progName, int line, String reason)
 	{
-		arrProgramLinesToRewrite.add(line);
-		arrProgramToRewrite.add(progName);
-		arrProgramToRewriteReason.add(reason);
+		programLinesToRewrite.add(line);
+		programToRewrite.add(progName);
+		programToRewriteReason.add(reason);
 	}
-	protected ArrayList<String> arrProgramToRewrite = new ArrayList<String>();
-	protected ArrayList<String> arrProgramToRewriteReason = new ArrayList<String>();
-	protected ArrayList<Integer> arrProgramLinesToRewrite = new ArrayList<Integer>() ;
+	protected ArrayList<String> programToRewrite = new ArrayList<String>();
+	protected ArrayList<String> programToRewriteReason = new ArrayList<String>();
+	protected ArrayList<Integer> programLinesToRewrite = new ArrayList<Integer>() ;
 }

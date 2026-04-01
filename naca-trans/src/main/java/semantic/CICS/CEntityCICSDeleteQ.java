@@ -32,10 +32,10 @@ public abstract class CEntityCICSDeleteQ extends CBaseActionEntity
 	 * @param cat
 	 * @param out
 	 */
-	public CEntityCICSDeleteQ(int line, CObjectCatalog cat, CBaseLanguageExporter out, boolean bPersistent)
+	public CEntityCICSDeleteQ(int line, CObjectCatalog cat, CBaseLanguageExporter out, boolean ispersistent)
 	{
 		super(line, cat, out);
-		bPersistent = bPersistent ;
+		ispersistent = ispersistent;
 		cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
 	}
 	
@@ -48,7 +48,7 @@ public abstract class CEntityCICSDeleteQ extends CBaseActionEntity
 		sysID = sys ;
 	}
 	
-	protected boolean bPersistent = false ;
+	protected boolean ispersistent = false ;
 	protected CDataEntity name = null ;
 	protected CDataEntity sysID = null ;
 

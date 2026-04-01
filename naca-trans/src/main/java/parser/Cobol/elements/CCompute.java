@@ -60,8 +60,8 @@ public class CCompute extends CCobolElement
 		CGlobalEntityCounter.GetInstance().CountCobolVerb(tokComp.GetKeyword().name) ;
 		
 		CBaseToken tokId = GetNext();
-		boolean bDone = false ;
-		while (!bDone)
+		boolean isdone = false ;
+		while (!isdone)
 		{
 			tokId = GetCurrentToken();
 			if (tokId.GetType()!= CTokenType.IDENTIFIER)
@@ -79,17 +79,17 @@ public class CCompute extends CCobolElement
 			CBaseToken tok = GetCurrentToken() ;
 			if (tok.GetKeyword() == CCobolKeywordList.ROUNDED)
 			{
-				arrRoundedDestinations.add(idDestination);
+				roundedDestinations.add(idDestination);
 				tok = GetNext(); 
 			}
 			else
 			{
-				arrDestinations.add(idDestination);
+				destinations.add(idDestination);
 			}
 			
 			if (tok.GetType() != CTokenType.IDENTIFIER)
 			{
-				bDone = true ;
+				isdone = true ;
 			} 
 		}
 
@@ -139,16 +139,16 @@ public class CCompute extends CCobolElement
 	protected Element ExportCustom(Document root)
 	{
 		Element eComp = root.createElement("Compute") ;
-		for (int i=0; i<arrDestinations.size();i++)
+		for (int i = 0; i< destinations.size(); i++)
 		{
-			CIdentifier idDestination = arrDestinations.get(i) ;
+			CIdentifier idDestination = destinations.get(i) ;
 			Element eDest = root.createElement("Destination");
 			eComp.appendChild(eDest);
 			idDestination.ExportTo(eDest, root) ;
 		}
-		for (int i=0; i<arrRoundedDestinations.size();i++)
+		for (int i = 0; i< roundedDestinations.size(); i++)
 		{
-			CIdentifier idDestination = arrRoundedDestinations.get(i) ;
+			CIdentifier idDestination = roundedDestinations.get(i) ;
 			Element eDest = root.createElement("RoundedDestination");
 			eComp.appendChild(eDest);
 			idDestination.ExportTo(eDest, root) ;
@@ -166,8 +166,8 @@ public class CCompute extends CCobolElement
 		return eComp ;
 	}
 	
-	protected Vector<CIdentifier> arrDestinations = new Vector<CIdentifier>() ;
-	protected Vector<CIdentifier> arrRoundedDestinations = new Vector<CIdentifier>() ;
+	protected Vector<CIdentifier> destinations = new Vector<CIdentifier>() ;
+	protected Vector<CIdentifier> roundedDestinations = new Vector<CIdentifier>() ;
 	protected CExpression expr = null ;
 	protected CBlocElement onErrorBloc = null ;
 	/* (non-Javadoc)
@@ -181,9 +181,9 @@ public class CCompute extends CCobolElement
 			CDataEntity val = expr.GetReference(factory) ;
 			val.RegisterReadingAction(assgn) ;
 			assgn.SetValue(val) ;
-			for (int i=0; i<arrDestinations.size();i++)
+			for (int i = 0; i< destinations.size(); i++)
 			{
-				CIdentifier idDestination = arrDestinations.get(i) ;
+				CIdentifier idDestination = destinations.get(i) ;
 				CDataEntity dest = idDestination.GetDataReference(getLine(), factory) ;
 				dest.RegisterWritingAction(assgn);
 				assgn.AddRefTo(dest);
@@ -195,16 +195,16 @@ public class CCompute extends CCobolElement
 		{
 			CEntityCalcul eCalc = factory.NewEntityCalcul(getLine()) ;
 			parent.AddChild(eCalc) ;
-			for (int i=0; i<arrDestinations.size();i++)
+			for (int i = 0; i< destinations.size(); i++)
 			{
-				CIdentifier idDestination = arrDestinations.get(i) ;
+				CIdentifier idDestination = destinations.get(i) ;
 				CDataEntity dest = idDestination.GetDataReference(getLine(), factory) ;
 				dest.RegisterWritingAction(eCalc);
 				eCalc.AddDestination(dest);
 			}
-			for (int i=0; i<arrRoundedDestinations.size();i++)
+			for (int i = 0; i< roundedDestinations.size(); i++)
 			{
-				CIdentifier idDestination = arrRoundedDestinations.get(i) ;
+				CIdentifier idDestination = roundedDestinations.get(i) ;
 				CDataEntity dest = idDestination.GetDataReference(getLine(), factory) ;
 				dest.RegisterWritingAction(eCalc);
 				eCalc.AddRoundedDestination(dest);

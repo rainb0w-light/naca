@@ -51,8 +51,8 @@ public class DbColDefinitionDouble extends BaseDbColDefinition
 	
 	public int setByteValueInStmtCol(DbColDefErrorManager dbColDefErrorManager, DbPreparedStatement stmt, int nCol, byte arrByteValue[], int nSourceOffset, boolean bEbcdicInput)
 	{	
-		long lOriginalValue = LittleEndingUnsignBinaryBufferStorage.readLong(arrByteValue, nSourceOffset);
-		stmt.setColParam(nCol, lOriginalValue);
+		long originalValue = LittleEndingUnsignBinaryBufferStorage.readLong(arrByteValue, nSourceOffset);
+		stmt.setColParam(nCol, originalValue);
 		
 		return 8;
 	}

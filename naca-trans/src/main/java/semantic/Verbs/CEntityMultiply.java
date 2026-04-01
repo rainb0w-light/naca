@@ -39,7 +39,7 @@ public abstract class CEntityMultiply extends CBaseActionEntity
 	protected CDataEntity what = null ;
 	protected CDataEntity by = null ;
 	protected CDataEntity to = null ;
-	protected boolean bIsRounded = false ;
+	protected boolean isisRounded = false ;
 	public void Clear()
 	{
 		super.Clear() ;
@@ -53,14 +53,14 @@ public abstract class CEntityMultiply extends CBaseActionEntity
 		what = what ;
 		by = by ;
 		to = to ; 
-		bIsRounded = isRounded ;
+		isisRounded = isRounded ;
 	}
 	public void SetMultiply(CDataEntity what, CDataEntity by, boolean isRounded)
 	{
 		what = what ;
 		by = by ;
 		to = by ; 
-		bIsRounded = isRounded ;
+		isisRounded = isRounded ;
 	}
 	public boolean ignore()
 	{

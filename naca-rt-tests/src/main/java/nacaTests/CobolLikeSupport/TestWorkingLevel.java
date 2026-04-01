@@ -40,13 +40,13 @@ public class TestWorkingLevel extends OnlineProgram
 	
 	TestWorkingLevelForm Screen = TestWorkingLevelForm.Copy(this);
 		MapRedefine MainFormRedefined = declare.level(1).redefinesMap(Screen.MainForm);
-			Edit fGroup1Redefined = declare.level(5).edit();
+			Edit group1Redefined = declare.level(5).edit();
 			Var vGroupItem1 = declare.level(10).picX(5).var();
 			Var vGroupItem2 = declare.level(10).var();
 				Var vGroupItem21 = declare.level(15).picX(2).var();
 				Var vGroupItem22 = declare.level(15).picX(3).var();
 				
-			Edit fGroup2Redefined = declare.level(5).edit();
+			Edit group2Redefined = declare.level(5).edit();
 
 	
 	public void procedureDivision()
@@ -116,7 +116,7 @@ public class TestWorkingLevel extends OnlineProgram
 	
 	Paragraph TestInternalMapRedefine = new Paragraph(this){public void run(){TestInternalMapRedefine();}};void TestInternalMapRedefine()
 	{
-		move("ABCDEFGHIJ", fGroup1Redefined);
+		move("ABCDEFGHIJ", group1Redefined);
 		assertIfFalse(Screen.fGroup1.getString().equals("ABCDEFGHIJ"));
 
 		move("12", vGroupItem21);
@@ -125,11 +125,11 @@ public class TestWorkingLevel extends OnlineProgram
 		move("a", vGroupItem2);
 		assertIfFalse(Screen.fGroup1.getString().equals("ABCDEa    "));	// Space padded on right, as we wrote in a var, not an edit
 
-		move("qw", fGroup1Redefined);
+		move("qw", group1Redefined);
 		assertIfFalse(Screen.fGroup1.getString().equals("qw        "));
 		assertIfFalse(vGroupItem1.getString().equals("qw   "));
 
-		move("1234567890abcdef", fGroup1Redefined);
+		move("1234567890abcdef", group1Redefined);
 		assertIfFalse(Screen.fGroup1.getString().equals("1234567890"));
 		assertIfFalse(vGroupItem1.getString().equals("12345"));
 		assertIfFalse(vGroupItem21.getString().equals("67"));
@@ -138,9 +138,9 @@ public class TestWorkingLevel extends OnlineProgram
 				
 		moveSpace(Screen.fGroup2);			// No space padded on the right, as we set the edit
 		move("Group", Screen.fGroup2);			// No space padded on the right, as we set the edit 
-		assertIfFalse(fGroup2Redefined.getString().equals("Group     "));
+		assertIfFalse(group2Redefined.getString().equals("Group     "));
 
-		move("TOTO", fGroup2Redefined);			// No space padded on the right, as we set the edit 
+		move("TOTO", group2Redefined);			// No space padded on the right, as we set the edit
 		assertIfFalse(Screen.fGroup2.getString().equals("TOTO      "));
 		
 	}

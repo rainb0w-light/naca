@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 19 août 2004
+ * Created on 19 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -53,10 +53,10 @@ public abstract class CEntitySetConstant extends CBaseActionEntity
 		{
 			int n=0 ;
 		}
-		bSetToZero = true ; 
-		bSetToSpace = false ; 
-		bSetToLowValue = false ;
-		bSetToHighValue = false ; 
+		issetToZero = true ;
+		issetToSpace = false ;
+		issetToLowValue = false ;
+		issetToHighValue = false ;
 	}
 	public void SetToSpace(CDataEntity var)
 	{
@@ -65,10 +65,10 @@ public abstract class CEntitySetConstant extends CBaseActionEntity
 			int n=0 ;
 		}
 		variable = var ;
-		bSetToZero = false ; 
-		bSetToSpace = true ; 
-		bSetToLowValue = false ;
-		bSetToHighValue = false ; 
+		issetToZero = false ;
+		issetToSpace = true ;
+		issetToLowValue = false ;
+		issetToHighValue = false ;
 	}
 	public void SetToHighValue(CDataEntity var)
 	{
@@ -77,10 +77,10 @@ public abstract class CEntitySetConstant extends CBaseActionEntity
 			int n=0 ;
 		}
 		variable = var ;
-		bSetToZero = false ; 
-		bSetToSpace = false ; 
-		bSetToLowValue = false ;
-		bSetToHighValue = true ; 
+		issetToZero = false ;
+		issetToSpace = false ;
+		issetToLowValue = false ;
+		issetToHighValue = true ;
 	}
 	public void SetToLowValue(CDataEntity var)
 	{
@@ -89,10 +89,10 @@ public abstract class CEntitySetConstant extends CBaseActionEntity
 			int n=0 ;
 		}
 		variable = var ;
-		bSetToZero = false ; 
-		bSetToSpace = false ; 
-		bSetToHighValue = false ;
-		bSetToLowValue = true ; 
+		issetToZero = false ;
+		issetToSpace = false ;
+		issetToHighValue = false ;
+		issetToLowValue = true ;
 	}
 	public void SetCsteValue(CDataEntity var, CDataEntity val)
 	{
@@ -101,10 +101,10 @@ public abstract class CEntitySetConstant extends CBaseActionEntity
 			int n=0 ;
 		}
 		variable = var ;
-		bSetToZero = false ; 
-		bSetToSpace = false ; 
-		bSetToLowValue = false ;
-		bSetToHighValue = false ;
+		issetToZero = false ;
+		issetToSpace = false ;
+		issetToLowValue = false ;
+		issetToHighValue = false ;
 		csteValue = val ;
 	}
 
@@ -120,22 +120,22 @@ public abstract class CEntitySetConstant extends CBaseActionEntity
 			int n=0 ;
 		}
 		variable = cond ;
-		bSetToZero = false ; 
-		bSetToSpace = false ; 
-		bSetToLowValue = false ;
-		bSetToHighValue = false ;
+		issetToZero = false ;
+		issetToSpace = false ;
+		issetToLowValue = false ;
+		issetToHighValue = false ;
 		csteValue = null ;
-		bSetToTrue = bCond ;
-		bSetToFalse = !bCond ;
+		issetToTrue = bCond ;
+		issetToFalse = !bCond ;
 	}
 	
 	protected CDataEntity variable = null ;
-	protected boolean bSetToZero = false ; 
-	protected boolean bSetToSpace = false ; 
-	protected boolean bSetToLowValue = false ;
-	protected boolean bSetToHighValue = false ;
-	protected boolean bSetToTrue = false ;
-	protected boolean bSetToFalse = false ;
+	protected boolean issetToZero = false ;
+	protected boolean issetToSpace = false ;
+	protected boolean issetToLowValue = false ;
+	protected boolean issetToHighValue = false ;
+	protected boolean issetToTrue = false ;
+	protected boolean issetToFalse = false ;
 
 	protected CDataEntity csteValue = null ; 
 	protected CBaseEntityExpression subStringRefStart = null ;

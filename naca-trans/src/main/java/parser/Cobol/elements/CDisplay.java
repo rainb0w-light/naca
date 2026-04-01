@@ -51,9 +51,9 @@ public class CDisplay extends CCobolElement
 	{
 		CEntityDisplay eDisp = factory.NewEntityDisplay(getLine(), upon);
 		parent.AddChild(eDisp) ;
-		for (int i=0; i<arrToDisplay.size(); i++)
+		for (int i = 0; i< toDisplay.size(); i++)
 		{
-			CTerminal term = arrToDisplay.get(i);
+			CTerminal term = toDisplay.get(i);
 			CDataEntity e = term.GetDataEntity(getLine(), factory);
 			e.RegisterReadingAction(eDisp) ;
 			eDisp.AddItemToDisplay(e) ;
@@ -74,7 +74,7 @@ public class CDisplay extends CCobolElement
 		CTerminal term = ReadTerminal();
 		while (term != null)
 		{
-			arrToDisplay.add(term);
+			toDisplay.add(term);
 			tok = GetCurrentToken() ;
 			if (tok.GetType() == CTokenType.COMMA)
 			{
@@ -103,7 +103,7 @@ public class CDisplay extends CCobolElement
 				return false ;
 			}
 		}
-		return arrToDisplay.size() > 0 ;
+		return toDisplay.size() > 0 ;
 	}
 	protected Element ExportCustom(Document root)
 	{
@@ -117,16 +117,16 @@ public class CDisplay extends CCobolElement
 			name = "Display" ;
 		}
 		Element eDisp = root.createElement(name);
-		for (int i=0; i<arrToDisplay.size(); i++)
+		for (int i = 0; i< toDisplay.size(); i++)
 		{
 			Element e = root.createElement("Data");
 			eDisp.appendChild(e) ;
-			CTerminal term = arrToDisplay.get(i);
+			CTerminal term = toDisplay.get(i);
 			term.ExportTo(e, root) ;
 		}
 		return eDisp;
 	}
 
-	protected Vector<CTerminal> arrToDisplay = new Vector<CTerminal>() ;
+	protected Vector<CTerminal> toDisplay = new Vector<CTerminal>() ;
 	protected Upon upon = Upon.DEFAULT ; 
 }

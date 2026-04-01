@@ -244,15 +244,15 @@ public class LogCenterDbFlat extends LogCenter
 		ResultSet rs = st.executeSelect();
 		if(rs != null)
 		{
-			boolean bNext;
+			boolean isnext;
 			try
 			{
-				bNext = rs.next();
-				while(bNext)
+				isnext = rs.next();
+				while(isnext)
 				{
 					Integer i = rs.getInt("Event_Id");
 					hashDefinedLogEvent.put(i, new Boolean(true));
-					bNext = rs.next();
+					isnext = rs.next();
 				}
 			}
 			catch (SQLException e)
@@ -267,8 +267,8 @@ public class LogCenterDbFlat extends LogCenter
 		Boolean b = hashDefinedLogEvent.get(nEventId);
 		if(b == null)	// Log event not defined yet
 		{
-			boolean bInserted = addLogEventDefinition(nEventId, logParam);
-			if(bInserted)
+			boolean isinserted = addLogEventDefinition(nEventId, logParam);
+			if(isinserted)
 			{
 				hashDefinedLogEvent.put(nEventId, new Boolean(true));
 			}
@@ -359,11 +359,11 @@ public class LogCenterDbFlat extends LogCenter
 		}
 		if(rs != null)
 		{
-			boolean bNext;
+			boolean isnext;
 			try
 			{
-				bNext = rs.next();
-				if(bNext)
+				isnext = rs.next();
+				if(isnext)
 				{
 					int nRunId = rs.getInt("RunId");
 					nRunId++;

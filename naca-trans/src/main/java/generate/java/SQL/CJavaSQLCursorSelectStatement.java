@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 19 août 04
+ * Created on 19 aoï¿½t 04
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -35,29 +35,29 @@ public class CJavaSQLCursorSelectStatement extends CEntitySQLCursorSelectStateme
 	 */
 	protected void DoExport()
 	{
-		boolean bBloc = false ;
+		boolean isbloc = false ;
 		String s = "cursorOpen(" + cursor.ExportReference(getLine()) + ", " ;
 		WriteWord(s) ;
 		WriteLongString(csStatement.trim()) ;
 		WriteWord(")");
-		if (bWithHold)
+		if (iswithHold)
 		{
 			WriteEOL() ;
 			StartOutputBloc() ;
-			bBloc = true ;
+			isbloc = true ;
 			WriteWord(".setHoldability(true)") ;
 			WriteEOL() ;
 		}
-		for(int i=0; i<arrParameters.size(); i++)
+		for(int i = 0; i< parameters.size(); i++)
 		{
-			CDataEntity e = arrParameters.get(i) ;
+			CDataEntity e = parameters.get(i) ;
 			if (e != null)
 			{
 				WriteEOL() ;
-				if (!bBloc)
+				if (!isbloc)
 				{
 					StartOutputBloc() ;
-					bBloc = true ;
+					isbloc = true ;
 				}
 				WriteWord(".param("+ (i+1) + ", " + e.ExportReference(getLine()) + ")");
 			}
@@ -70,7 +70,7 @@ public class CJavaSQLCursorSelectStatement extends CEntitySQLCursorSelectStateme
 		}
 		WriteWord(" ;") ;
 		WriteEOL();		
-		if (bBloc)
+		if (isbloc)
 		{
 			EndOutputBloc() ;
 		}

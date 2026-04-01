@@ -54,7 +54,7 @@ import jlib.misc.StringUtil;
  * @author U930GN
  */
 public class Db {
-// Requête utile pour contrôler le nombre de curseurs ouverts:
+// Requï¿½te utile pour contrï¿½ler le nombre de curseurs ouverts:
 //	SELECT sum(v.value) AS numopencursors,
 //       substr(s.machine,1,20) as machine,
 //       substr(s.osuser,1,10) as osuser,
@@ -267,13 +267,13 @@ public class Db {
 
 // If it is a Date / Time:
 					case 'd':
-						Calendar cal;
+						Calendar calendar;
 						try {
-							cal=StringUtil.StringToCalendar(parameter.substring(1));
+							calendar =StringUtil.StringToCalendar(parameter.substring(1));
 						} catch (Exception e) {
 							throw new Exception("Parameter "+n0+" ('"+parameter+"') could not be transformed to a date:"+e.getMessage());
 						}
-						java.sql.Date date=new Date(cal.getTimeInMillis());
+						java.sql.Date date=new Date(calendar.getTimeInMillis());
 						preparedStatement.setDate(n0+1, date);
 						break;
 
@@ -303,7 +303,7 @@ public class Db {
 //**                         Constructeurs.                                   **
 //******************************************************************************
 
-//......................... Constructeur par défaut ............................
+//......................... Constructeur par dï¿½faut ............................
 /**
  * The default constructor.
  * After creating the instance, {@link #connectTo} has to be called.
@@ -311,7 +311,7 @@ public class Db {
 	public Db() {
 	}
 
-//.................. Constructeur avec paramètres de connection ................
+//.................. Constructeur avec paramï¿½tres de connection ................
 /**
  * Immediately establishes a connection to the specified database.
  * The specified parameters are copied into the properties {@link #_driver}, 
@@ -322,10 +322,10 @@ public class Db {
 	}
 
 //******************************************************************************
-//**              Crée une connection à partir d'une chaine de connection.    **
+//**              Crï¿½e une connection ï¿½ partir d'une chaine de connection.    **
 //******************************************************************************
 
-//*************** Crée une connection à partir des proprietés de la classe *****
+//*************** Crï¿½e une connection ï¿½ partir des proprietï¿½s de la classe *****
 /**
  * Establishes a new connection to a database.
  * The connection parameters are set in the properties {@link #_driver}, {@link #_conString},
@@ -348,7 +348,7 @@ public class Db {
 		}
 	}
 
-//*********************************** Crée une connection **********************
+//*********************************** Crï¿½e une connection **********************
 /**
  * Establishes a new connection to the specified database.
  * The specified parameters are copied into the properties {@link #_driver}, 
@@ -388,7 +388,7 @@ public class Db {
 	}
 
 //*****************************************************************************
-//**                 Ferme la connection à la BD.                            **
+//**                 Ferme la connection ï¿½ la BD.                            **
 //*****************************************************************************
 /**
  * Closes the connection to the database.

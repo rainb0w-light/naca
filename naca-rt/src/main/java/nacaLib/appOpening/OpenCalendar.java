@@ -43,8 +43,8 @@ public class OpenCalendar
 			while(tagDate != null)
 			{
 				String csDateValue = tagDate.getVal("Value");
-				Integer iDate = getDate(csDateValue);
-				loadDateRange(iDate, tagDate);
+				Integer date = getDate(csDateValue);
+				loadDateRange(date, tagDate);
 				tagDate = tag.getEnumChild();
 			}
 		}
@@ -111,8 +111,8 @@ public class OpenCalendar
 		
 		csDateValue = csDateValue.substring(n+1);
 		
-		Integer iDate = Integer.valueOf(csDateValue + csMonth + csDay);
-		return iDate;
+		Integer date = Integer.valueOf(csDateValue + csMonth + csDay);
+		return date;
 	}
 	
 

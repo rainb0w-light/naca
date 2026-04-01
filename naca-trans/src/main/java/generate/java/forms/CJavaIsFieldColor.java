@@ -41,7 +41,7 @@ public class CJavaIsFieldColor extends CEntityIsFieldColor
 //		not.SetCondition(this) ;
 //		return not;
 		CJavaIsFieldColor cond = new CJavaIsFieldColor() ;
-		cond.bOpposite =  ! bOpposite ;
+		cond.isopposite =  !isopposite;
 		cond.isColor = this.isColor ;
 		cond.reference = this.reference ;
 		reference.RegisterVarTesting(cond) ;
@@ -54,7 +54,7 @@ public class CJavaIsFieldColor extends CEntityIsFieldColor
 	public String Export()
 	{
 		String cs = "is" ;
-		if (bOpposite)
+		if (isopposite)
 		{
 			cs += "Not" ;
 		}

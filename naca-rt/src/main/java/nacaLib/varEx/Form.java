@@ -17,7 +17,6 @@ import jlib.misc.ArrayDyn;
 import jlib.misc.ArrayFix;
 import jlib.misc.ArrayFixDyn;
 import jlib.misc.AsciiEbcdicConverter;
-import nacaLib.basePrgEnv.BaseProgramManager;
 import nacaLib.programPool.SharedProgramInstanceData;
 import nacaLib.tempCache.TempCache;
 import nacaLib.tempCache.TempCacheLocator;
@@ -75,8 +74,8 @@ public class Form extends Var
 			EditInMap arr[] = new EditInMap[nSize];
 			arrEdits.transferInto(arr);
 			
-			ArrayFix<EditInMap> arrFix = new ArrayFix<EditInMap>(arr);
-			arrEdits = arrFix;	// replace by a fix one (uning less memory)
+			ArrayFix<EditInMap> fix = new ArrayFix<EditInMap>(arr);
+			arrEdits = fix;	// replace by a fix one (uning less memory)
 		}
 	}
 	
@@ -212,12 +211,12 @@ public class Form extends Var
 	public void loadValues(Document xmlData)
 	{
 		Element eForm = xmlData.getDocumentElement() ;
-		NodeList lstFields = eForm.getElementsByTagName("field") ;
+		NodeList listfields = eForm.getElementsByTagName("field") ;
 		Hashtable<String, Element> tabFields = new Hashtable<String, Element>() ;
-		int nFields = lstFields.getLength() ;
+		int nFields = listfields.getLength() ;
 		for (int i=0; i<nFields; i++)
 		{
-			Element e = (Element)lstFields.item(i) ;
+			Element e = (Element) listfields.item(i) ;
 			String name = e.getAttribute("name");
 			tabFields.put(name, e) ;
 		}
@@ -276,8 +275,8 @@ public class Form extends Var
 	
 	public int compareTo(double dValue)
 	{
-		double dVarValue = getDouble();
-		double d = dVarValue - dValue;
+		double varValue = getDouble();
+		double d = varValue - dValue;
 		if(d < -0.00001)	//Consider epsilon precision at 10 e-5 
 			return -1;
 		else if(d > 0.00001)	//Consider epsilon precision at 10 e-5

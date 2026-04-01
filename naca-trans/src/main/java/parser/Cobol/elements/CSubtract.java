@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 12 août 2004
+ * Created on 12 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -74,7 +74,7 @@ public class CSubtract extends CCobolElement
 				eValue.RegisterReadingAction(eSub) ;
 			}
 			List<CDataEntity> eRess = new ArrayList<CDataEntity>() ;
-			for (CIdentifier idRes : arrResult)
+			for (CIdentifier idRes : result)
 			{
 				CDataEntity eRes = idRes.GetDataReference(getLine(), factory);
 				eRes.RegisterWritingAction(eSub) ;
@@ -132,7 +132,7 @@ public class CSubtract extends CCobolElement
 			CIdentifier variable = ReadIdentifier() ;
 			while (variable != null)
 			{
-				arrResult.add(variable); 
+				result.add(variable);
 				variable = ReadIdentifier() ;
 			}
 		}
@@ -140,7 +140,7 @@ public class CSubtract extends CCobolElement
 		if (tok.GetKeyword() == CCobolKeywordList.ROUNDED)
 		{
 			tok = GetNext() ;
-			bRounded = true ;
+			isrounded = true ;
 		}
 		if(tok.GetKeyword() == CCobolKeywordList.END_SUBTRACT)
 		{
@@ -176,10 +176,10 @@ public class CSubtract extends CCobolElement
 			CTerminal variable = arrVariables.get(i) ;
 			variable.ExportTo(eTo, root) ;
 			e.appendChild(eTo) ;
-			if (arrResult.size() == arrVariables.size())
+			if (result.size() == arrVariables.size())
 			{
 				Element eToOther = root.createElement("To") ;
-				CIdentifier variableOther = arrResult.get(i) ;
+				CIdentifier variableOther = result.get(i) ;
 				variableOther.ExportTo(eToOther, root) ;
 				eTo.appendChild(eToOther) ;
 			}
@@ -188,8 +188,8 @@ public class CSubtract extends CCobolElement
 	}
 	
 	protected List<CTerminal> value = new ArrayList<CTerminal>();
-	protected boolean bRounded ;
+	protected boolean isrounded;
 	protected Vector<CTerminal> arrVariables = new Vector<CTerminal>() ;
-	protected Vector<CIdentifier> arrResult = new Vector<CIdentifier>() ;
+	protected Vector<CIdentifier> result = new Vector<CIdentifier>() ;
 	private CGenericBloc onErrorBloc ;
 }

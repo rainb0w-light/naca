@@ -40,15 +40,15 @@ public class CFPacDeclarationZone extends CFPacElement
 		{
 			// TODO do semantic analysis
 		}
-		for (CFPacInputFile f : arrInputFiles)
+		for (CFPacInputFile f : inputFiles)
 		{
 			f.DoSemanticAnalysis(data, factory) ;
 		}
-		for (CFPacOutputFile f : arrOutputFiles)
+		for (CFPacOutputFile f : outputFiles)
 		{
 			f.DoSemanticAnalysis(data, factory) ;
 		}
-		for (CFPacUpdateFile f : arrUpdateFiles)
+		for (CFPacUpdateFile f : updateFiles)
 		{
 			f.DoSemanticAnalysis(data, factory) ;
 		}
@@ -67,17 +67,17 @@ public class CFPacDeclarationZone extends CFPacElement
 			c.ExportTo(e, root) ;
 			eAdd.appendChild(e) ;
 		}
-		for (CFPacInputFile f : arrInputFiles)
+		for (CFPacInputFile f : inputFiles)
 		{
 			Element e = f.Export(root) ;
 			eAdd.appendChild(e) ;
 		}
-		for (CFPacOutputFile f : arrOutputFiles)
+		for (CFPacOutputFile f : outputFiles)
 		{
 			Element e = f.Export(root) ;
 			eAdd.appendChild(e) ;
 		}
-		for (CFPacUpdateFile f : arrUpdateFiles)
+		for (CFPacUpdateFile f : updateFiles)
 		{
 			Element e = f.Export(root) ;
 			eAdd.appendChild(e) ;
@@ -87,10 +87,10 @@ public class CFPacDeclarationZone extends CFPacElement
 	
 	protected boolean DoParsing() 
 	{
-		boolean bParsed = true ;
-		while (bParsed)
+		boolean isparsed = true ;
+		while (isparsed)
 		{
-			bParsed = CustomParsing() ;
+			isparsed = CustomParsing() ;
 		}
 		return true ;
 	}
@@ -105,18 +105,18 @@ public class CFPacDeclarationZone extends CFPacElement
 		{
 			CFPacInputFile file = new CFPacInputFile(tok.getLine());
 			el = file ;
-			arrInputFiles.add(file) ;
+			inputFiles.add(file) ;
 		}
 		else if (tok.GetKeyword().name.startsWith("OPF"))
 		{
 			CFPacOutputFile file = new CFPacOutputFile(tok.getLine());
-			arrOutputFiles.add(file) ;
+			outputFiles.add(file) ;
 			el = file ;
 		}
 		else if (tok.GetKeyword().name.startsWith("UPF"))
 		{
 			CFPacUpdateFile file = new CFPacUpdateFile(tok.getLine());
-			arrUpdateFiles.add(file) ;
+			updateFiles.add(file) ;
 			el = file ;
 		}
 		else if(tok.GetKeyword() == CFPacKeywordList.PARM)
@@ -125,8 +125,8 @@ public class CFPacDeclarationZone extends CFPacElement
 			if (tok.GetType() == CTokenType.EQUALS)
 			{
 				tok= GetNext() ;
-				boolean bDone = false ;
-				while (!bDone) 
+				boolean isdone = false ;
+				while (!isdone)
 				{
 					if (tok.GetType() == CTokenType.CONSTANT)
 					{
@@ -146,7 +146,7 @@ public class CFPacDeclarationZone extends CFPacElement
 					}
 					else
 					{
-						bDone = true ;
+						isdone = true ;
 					}
 				}
 			}
@@ -167,8 +167,8 @@ public class CFPacDeclarationZone extends CFPacElement
 		return true ;
 	}
 
-	protected Collection<CFPacInputFile> arrInputFiles = new LinkedList<CFPacInputFile>() ;
-	protected Collection<CFPacOutputFile> arrOutputFiles = new LinkedList<CFPacOutputFile>() ;
-	protected Collection<CFPacUpdateFile> arrUpdateFiles = new LinkedList<CFPacUpdateFile>() ;
+	protected Collection<CFPacInputFile> inputFiles = new LinkedList<CFPacInputFile>() ;
+	protected Collection<CFPacOutputFile> outputFiles = new LinkedList<CFPacOutputFile>() ;
+	protected Collection<CFPacUpdateFile> updateFiles = new LinkedList<CFPacUpdateFile>() ;
 	protected Collection<CConstantTerminal> arrParams = new LinkedList<CConstantTerminal>() ;
 }

@@ -43,9 +43,9 @@ public class LogParams
 		this.csChannel = csChannel;
 		this.logEvent = logEvent;
 		this.csMessage = csMessage;
-		lStartTime = Log.getRunningTime_ms();
+		startTime = Log.getRunningTime_ms();
 		Thread thread = Thread.currentThread();
-		lThreadId = thread.getId();
+		threadId = thread.getId();
 		csThreadName = thread.getName();
 		csTimestamp = DateUtil.getDisplayTimeStamp();
 		csRunId = null;
@@ -65,9 +65,9 @@ public class LogParams
 		this.csChannel = csChannel;
 		this.logEvent = logEvent;
 		this.csMessage = csMessage;
-		lStartTime = Log.getRunningTime_ms();
+		startTime = Log.getRunningTime_ms();
 		Thread thread = Thread.currentThread();
-		lThreadId = thread.getId();
+		threadId = thread.getId();
 		csThreadName = thread.getName();
 		csTimestamp = DateUtil.getDisplayTimeStamp();
 		csRunId = csRunId;
@@ -134,7 +134,7 @@ public class LogParams
 	
 	long getThreadId()
 	{
-		return lThreadId;
+		return threadId;
 	}
 	
 	String getThreadName()
@@ -144,7 +144,7 @@ public class LogParams
 	
 	long getStartTime()
 	{
-		return lStartTime;
+		return startTime;
 	}
 	
 	String getType()
@@ -246,8 +246,8 @@ public class LogParams
 	String csMessage = null;
 	StackTraceElement caller = null;	
 	String csThreadName;
-	long lThreadId = 0;
-	long lStartTime = 0;
+	long threadId = 0;
+	long startTime = 0;
 	String csTimestamp = null;
 	String csRunId;
 	String csRuntimeId;

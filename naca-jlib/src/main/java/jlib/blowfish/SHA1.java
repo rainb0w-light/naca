@@ -22,7 +22,7 @@ public class SHA1 {
 
     // members
     private int[]  state;
-    private long   lCount;
+    private long count;
     private byte[] digestBits;
     private int[]  block;
     private int    nBlockIndex;
@@ -46,7 +46,7 @@ public class SHA1 {
       int nI;
       for (nI = 0; nI < state.length; nI++) 
         state[nI] = 0;
-      lCount = 0;
+      count = 0;
       for (nI = 0; nI < digestBits.length; nI++) 
         digestBits[nI] = 0;
       for (nI = 0; nI < block.length; nI++) 
@@ -210,7 +210,7 @@ public class SHA1 {
       state[2] = 0x98badcfe;
       state[3] = 0x10325476;
       state[4] = 0xc3d2e1f0;
-      lCount = 0;
+      count = 0;
       digestBits = new byte[20];
       nBlockIndex = 0;
     }
@@ -223,7 +223,7 @@ public class SHA1 {
 
         int nMask = (nBlockIndex & 3) << 3;
 
-        lCount += 8;
+        count += 8;
         block[nBlockIndex >> 2] &= ~(0xff << nMask);
         block[nBlockIndex >> 2] |= (bB & 0xff) << nMask;
         nBlockIndex++;
@@ -264,7 +264,7 @@ public class SHA1 {
         byte bits[] = new byte[8];
 
         for (nI = 0; nI < 8; nI++) {
-          bits[nI] = (byte)((lCount >>> (((7 - nI) << 3))) & 0xff);
+          bits[nI] = (byte)((count >>> (((7 - nI) << 3))) & 0xff);
         }
 
         update((byte) 128);

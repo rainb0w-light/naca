@@ -22,9 +22,9 @@ import jlib.jmxMBean.BaseCloseMBean;
 public class DbConnectionBaseJMXBean extends BaseCloseMBean
 {
 	private DbConnectionBase dbConnectionBase = null;
-	private boolean bShowStatements = false;
+	private boolean isshowStatements = false;
 	private DbConnectionBaseStmtJMXBean dbConnectionBaseStmtJMXBean = null;
-	private ArrayList<DbConnectionBaseStmtJMXBean> arrStmts = null;
+	private ArrayList<DbConnectionBaseStmtJMXBean> stmts = null;
 	
 	DbConnectionBaseJMXBean(DbConnectionBase dbConnectionBase)
 	{
@@ -33,7 +33,7 @@ public class DbConnectionBaseJMXBean extends BaseCloseMBean
 	
 	void cleanup()
 	{
-		bShowStatements = false;	// Hide sttm beans
+		isshowStatements = false;	// Hide sttm beans
 		doSetShowStatments();
 		dbConnectionBaseStmtJMXBean = null;		
 		dbConnectionBase = null;
@@ -55,28 +55,28 @@ public class DbConnectionBaseJMXBean extends BaseCloseMBean
 	
 	public boolean getAreStatementsShown()
 	{
-		return bShowStatements;
+		return isshowStatements;
 	}
 	
 	public void setShowStatments()
 	{
-		bShowStatements = !bShowStatements;
+		isshowStatements = !isshowStatements;
 		doSetShowStatments();
 	}
 	
 	synchronized void doSetShowStatments()
 	{
-		if(bShowStatements)	//&& !isBeanCreated())
+		if(isshowStatements)	//&& !isBeanCreated())
 		{
 			dbConnectionBase.createStmtJMXBeans(this, getMBeanName() + "_Stmt", getMBeanName());
 		}
-		else if(!bShowStatements)	// && isBeanCreated())
+		else if(!isshowStatements)	// && isBeanCreated())
 		{
-			if(arrStmts != null)
+			if(stmts != null)
 			{
-				for(int n=0; n<arrStmts.size(); n++)
+				for(int n = 0; n< stmts.size(); n++)
 				{
-					DbConnectionBaseStmtJMXBean bean = arrStmts.get(n);
+					DbConnectionBaseStmtJMXBean bean = stmts.get(n);
 					bean.unregisterMBean();
 				}
 			}
@@ -85,8 +85,8 @@ public class DbConnectionBaseJMXBean extends BaseCloseMBean
 	
 	synchronized void add(DbConnectionBaseStmtJMXBean dbConnectionBaseStmtJMXBean)
 	{
-		if(arrStmts == null)
-			arrStmts = new ArrayList<DbConnectionBaseStmtJMXBean>(); 
-		arrStmts.add(dbConnectionBaseStmtJMXBean);
+		if(stmts == null)
+			stmts = new ArrayList<DbConnectionBaseStmtJMXBean>();
+		stmts.add(dbConnectionBaseStmtJMXBean);
 	}
 }

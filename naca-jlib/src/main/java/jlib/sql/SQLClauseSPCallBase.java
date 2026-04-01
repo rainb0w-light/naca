@@ -14,7 +14,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import jlib.exception.TechnicalException;
-import jlib.log.Log;
 
 /**
  *
@@ -23,9 +22,9 @@ import jlib.log.Log;
  */
 public class SQLClauseSPCallBase
 {
-	private boolean bCheckParams = false;
+	private boolean ischeckParams = false;
 	private String csName = null;
-	private ArrayList<SQLClauseSPParam> arrParams = new ArrayList<SQLClauseSPParam>();
+	private ArrayList<SQLClauseSPParam> params = new ArrayList<SQLClauseSPParam>();
 	private DbPreparedCallableStatement preparedCallableStatement = null; 
 	
 	protected SQLClauseSPParamsDesc getStoredProcedureParamsList(DbConnectionBase connection)
@@ -35,15 +34,15 @@ public class SQLClauseSPCallBase
 		return paramsDesc;		
 	}
 	
-	protected SQLClauseSPCallBase(String csName, boolean bCheckParams)
+	protected SQLClauseSPCallBase(String csName, boolean ischeckParams)
 	{
 		csName = csName;
-		bCheckParams = bCheckParams;
+		ischeckParams = ischeckParams;
 	}
 	
 	protected void addParam(SQLClauseSPParam param)
 	{
-		arrParams.add(param);
+		params.add(param);
 	}
 	
 	protected int prepareAndCallWithException(DbConnectionBase connection)
@@ -62,10 +61,10 @@ public class SQLClauseSPCallBase
 	public String toString()
 	{
 		StringBuilder sb = new StringBuilder("StoredProc: "+csName+"\n");
-		int nNbParams = arrParams.size();
+		int nNbParams = params.size();
 		for(int n=0; n<nNbParams; n++)
 		{
-			SQLClauseSPParam param = arrParams.get(n);
+			SQLClauseSPParam param = params.get(n);
 			int n1Based = n+1;
 			sb.append("Parameter " + n1Based + ": " + param.toString()+"\n");
 		}
@@ -74,7 +73,7 @@ public class SQLClauseSPCallBase
 	
 	public String dump(DbConnectionBase connection)
 	{
-		int nNbParams = arrParams.size();
+		int nNbParams = params.size();
 		int nMin = nNbParams; 
 		
 		SQLClauseSPParamsDesc paramsDesc = getStoredProcedureParamsList(connection);
@@ -91,7 +90,7 @@ public class SQLClauseSPCallBase
 		
 		for(int n=0; n<nMin; n++)
 		{
-			SQLClauseSPParam param = arrParams.get(n);
+			SQLClauseSPParam param = params.get(n);
 			int n1Based = n+1;
 			sb.append("Parameter " + n1Based + ": " + param.toString());
 			if(paramsDesc != null)
@@ -107,7 +106,7 @@ public class SQLClauseSPCallBase
 		throws TechnicalException
 	{
 		String csSql = "CALL " + csName;
-		int nNbParams = arrParams.size();
+		int nNbParams = params.size();
 		int n=0;
 		for(; n<nNbParams; n++)
 		{
@@ -120,7 +119,7 @@ public class SQLClauseSPCallBase
 			csSql += ")";
 		
 		SQLClauseSPParamsDesc paramsDesc = null; 
-		if(bCheckParams)
+		if(ischeckParams)
 			paramsDesc = getStoredProcedureParamsList(connection);
 		
 		try
@@ -148,7 +147,7 @@ public class SQLClauseSPCallBase
 		
 		if(callableStatement != null)
 		{
-			int nNbParams = arrParams.size();
+			int nNbParams = params.size();
 			int nNbParamDesc = nNbParams; 
 			if(paramsDesc != null)	// If we check the parameters; check their number
 				nNbParamDesc = paramsDesc.getNbParamToProvide();
@@ -156,7 +155,7 @@ public class SQLClauseSPCallBase
 			{				
 				for(int n=0; n<nNbParams; n++)
 				{
-					SQLClauseSPParam param = arrParams.get(n);
+					SQLClauseSPParam param = params.get(n);
 					if(paramsDesc != null)			// We have parameters to check
 						paramDesc = paramsDesc.get(n);
 					try
@@ -192,9 +191,9 @@ public class SQLClauseSPCallBase
 		int n=0;
 		try
 		{
-			for(; n<arrParams.size(); n++)	// 1 based
+			for(; n< params.size(); n++)	// 1 based
 			{
-				SQLClauseSPParam param = arrParams.get(n);
+				SQLClauseSPParam param = params.get(n);
 				int n1Based = n+1;  
 				param.retrieveOutValuesWithException(n1Based, preparedCallableStatement);
 			}

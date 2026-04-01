@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 19 août 2004
+ * Created on 19 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -30,36 +30,36 @@ public abstract class CEntityCondIsConstant extends CUnitaryEntityCondition
 	
 	public void SetIsZero(CDataEntity eData)
 	{
-		bIsZero = true ;
-		bIsSpace = false ;
-		bIsLowValue = false ;
-		bIsHighValue = false ;
+		isisZero = true ;
+		isisSpace = false ;
+		isisLowValue = false ;
+		isisHighValue = false ;
 		SetConditonReference(eData) ;
 	}
 
 	public void SetIsSpace(CDataEntity eData)
 	{
-		bIsZero = false ;
-		bIsSpace = true ;
-		bIsLowValue = false ;
-		bIsHighValue = false ;
+		isisZero = false ;
+		isisSpace = true ;
+		isisLowValue = false ;
+		isisHighValue = false ;
 		SetConditonReference(eData) ;
 	}
 
 	public void SetIsHighValue(CDataEntity eData)
 	{
-		bIsZero = false ;
-		bIsSpace = false ;
-		bIsLowValue = false ;
-		bIsHighValue = true;
+		isisZero = false ;
+		isisSpace = false ;
+		isisLowValue = false ;
+		isisHighValue = true;
 		SetConditonReference(eData) ;
 	}
 	public void SetIsLowValue(CDataEntity eData)
 	{
-		bIsZero = false ;
-		bIsSpace = false ;
-		bIsLowValue = true ;
-		bIsHighValue = false ;
+		isisZero = false ;
+		isisSpace = false ;
+		isisLowValue = true ;
+		isisHighValue = false ;
 		SetConditonReference(eData) ;
 	}
 	public void SetOpposite()
@@ -68,10 +68,10 @@ public abstract class CEntityCondIsConstant extends CUnitaryEntityCondition
 	}
 
 	protected boolean bIsOpposite = false ;
-	protected boolean bIsZero = false ;
-	protected boolean bIsSpace = false ;
-	protected boolean bIsLowValue = false ;
-	protected boolean bIsHighValue = false ;
+	protected boolean isisZero = false ;
+	protected boolean isisSpace = false ;
+	protected boolean isisLowValue = false ;
+	protected boolean isisHighValue = false ;
 	public boolean ignore()
 	{
 		return reference.ignore() ; 

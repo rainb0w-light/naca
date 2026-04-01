@@ -53,7 +53,7 @@ public class NumberParserDec extends NumberParser
 		{
 			char c;			
 			long lInt = 0;
-			boolean bPositive = true;
+			boolean ispositive = true;
 			
 			int nIndex = 0;
 			// Integer part
@@ -67,7 +67,7 @@ public class NumberParserDec extends NumberParser
 				}
 				else if (c == '-')
 				{
-					bPositive = false;
+					ispositive = false;
 				}
 				else if (c == '.')
 				{
@@ -90,7 +90,7 @@ public class NumberParserDec extends NumberParser
 					}
 					else if (c == '-')
 					{
-						bPositive = false;
+						ispositive = false;
 					}
 					nIndex++;
 				}
@@ -98,13 +98,13 @@ public class NumberParserDec extends NumberParser
 				if (csDec.equals("")) csDec = "0";
 					
 				Dec dec = new Dec(lInt, csDec);
-				dec.setPositive(bPositive);
+				dec.setPositive(ispositive);
 				return dec;
 			}
 			else
 			{
 				Dec dec = new Dec(lInt, "0");
-				dec.setPositive(bPositive);
+				dec.setPositive(ispositive);
 				return dec;
 			}
 		}

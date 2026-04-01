@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 9 août 2004
+ * Created on 9 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -42,14 +42,14 @@ public class CJavaAddTo extends CEntityAddTo
 	 */
 	protected void DoExport()
 	{
-		if (arrValues.size() == 0)
+		if (values.size() == 0)
 		{
 			return ;
 		}
-		else if (arrValues.size() == 1)
+		else if (values.size() == 1)
 		{
 			String line = "" ;
-			CDataEntity value = arrValues.get(0);
+			CDataEntity value = values.get(0);
 			if (value.GetDataType() == CDataEntityType.NUMBER && value.GetConstantValue().equals("1"))
 			{
 				line = "inc(" ;
@@ -62,10 +62,10 @@ public class CJavaAddTo extends CEntityAddTo
 			{
 				line = "inc(" + value.ExportReference(getLine()) + ", " ;
 			}
-			for (int i=0; i<arrDest.size(); i++)
+			for (int i = 0; i< dest.size(); i++)
 			{
 				String cs = line ;
-				CDataEntity dest = arrDest.get(i);
+				CDataEntity dest = this.dest.get(i);
 				if (dest != null)
 				{
 					if (dest.HasAccessors())
@@ -87,7 +87,7 @@ public class CJavaAddTo extends CEntityAddTo
 		}
 		else
 		{
-			CDataEntity val1 = arrValues.get(0) ;
+			CDataEntity val1 = values.get(0) ;
 			String line ;
 			if (val1 == null)
 			{
@@ -98,9 +98,9 @@ public class CJavaAddTo extends CEntityAddTo
 				line = val1.ExportReference(getLine()) ;
 			}
 			
-			for (int j=1; j<arrValues.size(); j++)
+			for (int j = 1; j< values.size(); j++)
 			{
-				CDataEntity val2 = arrValues.get(j);
+				CDataEntity val2 = values.get(j);
 				if (val2 != null)
 				{
 					line = "add(" + line + ", " + val2.ExportReference(getLine()) + ")" ;
@@ -110,12 +110,12 @@ public class CJavaAddTo extends CEntityAddTo
 					line = "add(" + line + ", [Undefined])" ;
 				}
 			}
-			for (int i=0; i<arrDest.size(); i++)
+			for (int i = 0; i< dest.size(); i++)
 			{
 				WriteWord(line) ;
 	
 				String cs = "." ;
-				if (bRounded)
+				if (isrounded)
 				{
 					cs += "toRounded(" ;
 				}
@@ -123,7 +123,7 @@ public class CJavaAddTo extends CEntityAddTo
 				{
 					cs += "to(" ;
 				}
-				CDataEntity dest = arrDest.get(i);
+				CDataEntity dest = this.dest.get(i);
 				if (dest != null)
 				{
 					cs += dest.ExportReference(getLine()) ;

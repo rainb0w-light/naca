@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 5 août 2004
+ * Created on 5 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -478,40 +478,40 @@ public abstract class CEntityResourceField extends CBaseResourceEntity  implemen
 		mode = FieldMode.ACTIVE_CHOICE ;
 		csActiveChoiceTarget = target ;
 		csActiveChoiceValue = value ;
-		bActiveChoiceSubmit = submit ;
+		isactiveChoiceSubmit = submit ;
 	}
 	public void setLinkedActiveChoice(String value, String target, boolean submit)
 	{
 		mode = FieldMode.LINKED_ACTIVE_CHOICE ;
 		csActiveChoiceTarget = target ;
 		csActiveChoiceValue = value ;
-		bActiveChoiceSubmit = submit ;
+		isactiveChoiceSubmit = submit ;
 	}
 	protected String csActiveChoiceValue = "" ;
 	protected String csActiveChoiceTarget = "" ;
-	protected boolean bActiveChoiceSubmit = true ;
+	protected boolean isactiveChoiceSubmit = true ;
 	/**
 	 * 
 	 */
 	public void setReplayMutable()
 	{
-		bReplayMutable = true ;
+		isreplayMutable = true ;
 	}
-	protected boolean bReplayMutable = false ;
+	protected boolean isreplayMutable = false ;
 	public void AddSwitchCase(String value, String protection, Element tag)
 	{
 		mode = FieldMode.SWITCH ;
-		if (arrSwitchCaseElement == null)
+		if (switchCaseElement == null)
 		{
-			arrSwitchCaseElement = new Vector<CSwitchCaseElement>() ;
+			switchCaseElement = new Vector<CSwitchCaseElement>() ;
 		}
 		CSwitchCaseElement el = new CSwitchCaseElement() ;
 		el.val = value;
 		el.protection = protection;
 		el.tag = tag ;
-		arrSwitchCaseElement.add(el) ;
+		switchCaseElement.add(el) ;
 	}
-	protected Vector<CSwitchCaseElement> arrSwitchCaseElement = null ;
+	protected Vector<CSwitchCaseElement> switchCaseElement = null ;
 	protected class CSwitchCaseElement
 	{
 		public String val = "" ;
@@ -524,15 +524,15 @@ public abstract class CEntityResourceField extends CBaseResourceEntity  implemen
 	}
 	public void SetRightJustified(boolean justifiedRight)
 	{
-		bRightJustified = justifiedRight ;
+		isrightJustified = justifiedRight ;
 	}
-	protected boolean bRightJustified = false ;
+	protected boolean isrightJustified = false ;
 	
 	public void SetBlankWhenZero(boolean blankWhenZero)
 	{
-		bBlankWhenZero = blankWhenZero ;
+		isblankWhenZero = blankWhenZero ;
 	}
-	protected boolean bBlankWhenZero = false ;
+	protected boolean isblankWhenZero = false ;
 	
 	public void move(int nc, int nl)
 	{

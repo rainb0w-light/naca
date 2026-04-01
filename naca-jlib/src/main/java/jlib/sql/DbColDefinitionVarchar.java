@@ -38,9 +38,9 @@ public class DbColDefinitionVarchar extends BaseDbColDefinition
 		{
 			String csValue = resultSet.getString(nCol1Based);
 			
-			ResultSetMetaData rsMetaData = resultSet.getMetaData();
+			ResultSetMetaData resultSetmetaData = resultSet.getMetaData();
 
-			int nColWidth = rsMetaData.getPrecision(nCol1Based);
+			int nColWidth = resultSetmetaData.getPrecision(nCol1Based);
 			int nValueLength = csValue.length();
 			
 			byte[] aBytes = new byte[2 + nColWidth];

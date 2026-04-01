@@ -14,7 +14,6 @@ package nacaLib.varEx;
 
 import jlib.misc.AsciiEbcdicConverter;
 import nacaLib.base.CJMapObject;
-import nacaLib.base.JmxGeneralStat;
 import nacaLib.tempCache.CStr;
 import nacaLib.tempCache.TempCacheLocator;
 
@@ -554,9 +553,9 @@ public class InternalCharBuffer extends CJMapObject
 	{
 		for(int n=0; n<nLength; n++)
 		{
-			char cEbcdic = acBuffer[nPosition+n];
-			char cAscii = AsciiEbcdicConverter.getAsciiChar(cEbcdic);
-			acBuffer[nPosition+n] = cAscii;
+			char ebcdic = acBuffer[nPosition+n];
+			char ascii = AsciiEbcdicConverter.getAsciiChar(ebcdic);
+			acBuffer[nPosition+n] = ascii;
 		}
 	}
 	
@@ -564,9 +563,9 @@ public class InternalCharBuffer extends CJMapObject
 	{
 		for(int n=0; n<nLength; n++)
 		{
-			char cAscii = acBuffer[nPosition+n];
-			char cEbcdic = AsciiEbcdicConverter.getEbcdicChar(cAscii);
-			acBuffer[nPosition+n] = cEbcdic;
+			char ascii = acBuffer[nPosition+n];
+			char ebcdic = AsciiEbcdicConverter.getEbcdicChar(ascii);
+			acBuffer[nPosition+n] = ebcdic;
 		}
 	}
 	
@@ -574,9 +573,9 @@ public class InternalCharBuffer extends CJMapObject
 	{
 		for(int n=0; n<nLength; n++)
 		{
-			char cAscii = acBuffer[nPositionDest+n];
-			char cEbcdic = AsciiEbcdicConverter.getEbcdicChar(cAscii);
-			tbyDest[n] = (byte)cEbcdic;
+			char ascii = acBuffer[nPositionDest+n];
+			char ebcdic = AsciiEbcdicConverter.getEbcdicChar(ascii);
+			tbyDest[n] = (byte) ebcdic;
 		}
 	}
 

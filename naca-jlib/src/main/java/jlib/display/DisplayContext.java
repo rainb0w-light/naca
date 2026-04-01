@@ -47,16 +47,16 @@ public class DisplayContext
 		if(stackDisplayedElements.isEmpty())
 		{
 			BaseDialogFactory factory = config.getDialogFactory() ;
-			BaseDialog dlg = factory.getInitialDialog(this) ;
-			if (dlg == null)
+			BaseDialog dialog = factory.getInitialDialog(this) ;
+			if (dialog == null)
 			{
 				return false ;
 			}
-			return OpenDialog(dlg, output) ;
+			return OpenDialog(dialog, output) ;
 		}
 
-		DisplayedElement dlg = stackDisplayedElements.lastElement() ;
-		if (!dlg.dialog.HandleRequest(reqLoader))
+		DisplayedElement dialog = stackDisplayedElements.lastElement() ;
+		if (!dialog.dialog.HandleRequest(reqLoader))
 		{
 			return false ;
 		}

@@ -35,7 +35,7 @@ public class VarDefEditInMapRedefineNumEdited extends VarDefEditInMapRedefineBas
 	{
 		super(varDefParent, declareTypeEditInMapRedefineNumEdited.varLevel);
 		csFormat = declareTypeEditInMapRedefineNumEdited.getNumEditedFormat();
-		bBlankWhenZero = declareTypeEditInMapRedefineNumEdited.getBlankWhenZero();
+		isblankWhenZero = declareTypeEditInMapRedefineNumEdited.getBlankWhenZero();
 	}
 	
 	VarDefEditInMapRedefineNumEdited()
@@ -57,7 +57,7 @@ public class VarDefEditInMapRedefineNumEdited extends VarDefEditInMapRedefineBas
 	{
 		CStr cs = varSource.getAsDecodedString(bufferSource);
 		Dec dec = NumberParserDec.getAsDec(cs);
-		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, bBlankWhenZero);
+		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, isblankWhenZero);
 		writeEditRightPadding(buffer, csFormatted, ' ');
 	}
 
@@ -65,7 +65,7 @@ public class VarDefEditInMapRedefineNumEdited extends VarDefEditInMapRedefineBas
 	{
 		CStr cs = varSource.getAsDecodedString(bufferSource);
 		Dec dec = NumberParserDec.getAsDec(cs);
-		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, bBlankWhenZero);
+		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, isblankWhenZero);
 		writeEditRightPadding(buffer, csFormatted, ' ');
 	}
 	
@@ -73,7 +73,7 @@ public class VarDefEditInMapRedefineNumEdited extends VarDefEditInMapRedefineBas
 	{
 		CStr cs = varSource.getAsDecodedString(bufferSource);
 		Dec dec = NumberParserDec.getAsDec(cs);
-		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, bBlankWhenZero);
+		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, isblankWhenZero);
 		writeEditRightPadding(buffer, csFormatted, ' ');
 	}
 	
@@ -81,7 +81,7 @@ public class VarDefEditInMapRedefineNumEdited extends VarDefEditInMapRedefineBas
 	{
 		CStr cs = varSource.getAsDecodedString(bufferSource);
 		Dec dec = NumberParserDec.getAsDec(cs);
-		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, bBlankWhenZero);
+		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, isblankWhenZero);
 		writeEditRightPadding(buffer, csFormatted, ' ');
 	}
 	
@@ -89,7 +89,7 @@ public class VarDefEditInMapRedefineNumEdited extends VarDefEditInMapRedefineBas
 	{
 		CStr cs = varSource.getAsDecodedString(bufferSource);
 		Dec dec = NumberParserDec.getAsDec(cs);
-		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, bBlankWhenZero);
+		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, isblankWhenZero);
 		writeEditRightPadding(buffer, csFormatted, ' ');
 	}
 	
@@ -158,14 +158,14 @@ public class VarDefEditInMapRedefineNumEdited extends VarDefEditInMapRedefineBas
 	void write(VarBufferPos buffer, char c)
 	{
 		Dec dec = NumberParserDec.getAsDec(c);
-		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, bBlankWhenZero);
+		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, isblankWhenZero);
 		writeEditRightPadding(buffer, csFormatted, ' ');			
 	}
 	
 	public void write(VarBufferPos buffer, String cs)
 	{
 		Dec dec = NumberParserDec.getAsDec(cs);
-		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, bBlankWhenZero);
+		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, isblankWhenZero);
 		writeEditRightPadding(buffer, csFormatted, ' ');			
 	}
 	
@@ -186,14 +186,14 @@ public class VarDefEditInMapRedefineNumEdited extends VarDefEditInMapRedefineBas
 	public void write(VarBufferPos buffer, int n)
 	{
 		Dec dec = NumberParserDec.getAsDec(n);
-		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, bBlankWhenZero);
+		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, isblankWhenZero);
 		writeEditRightPadding(buffer, csFormatted, ' ');			
 	}
 	
 	public void write(VarBufferPos buffer, long l)
 	{
 		Dec dec = NumberParserDec.getAsDec(l);
-		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, bBlankWhenZero);
+		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, isblankWhenZero);
 		writeEditRightPadding(buffer, csFormatted, ' ');			
 	}
 	
@@ -201,20 +201,20 @@ public class VarDefEditInMapRedefineNumEdited extends VarDefEditInMapRedefineBas
 	void write(VarBufferPos buffer, double d)
 	{
 		Dec dec = NumberParserDec.getAsDec(d);
-		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, bBlankWhenZero);
+		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, isblankWhenZero);
 		writeEditRightPadding(buffer, csFormatted, ' ');			
 	}
 	
 	void write(VarBufferPos buffer, Dec dec)
 	{
-		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, bBlankWhenZero);
+		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, isblankWhenZero);
 		writeEditRightPadding(buffer, csFormatted, ' ');			
 	}
 	
 	public void write(VarBufferPos buffer, BigDecimal bigDecimal)
 	{
 		Dec dec = NumberParserDec.getAsDec(bigDecimal);
-		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, bBlankWhenZero);
+		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, isblankWhenZero);
 		writeEditRightPadding(buffer, csFormatted, ' ');
 	}	
 	
@@ -230,7 +230,7 @@ public class VarDefEditInMapRedefineNumEdited extends VarDefEditInMapRedefineBas
 		//String cs = varSource.getRawStringExcludingHeader(bufferSource);
 		CStr cs = bufferSource.getBodyCStr(varDefSource);
 		Dec dec = NumberParserDec.getAsDec(cs);
-		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, bBlankWhenZero);
+		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, isblankWhenZero);
 		writeEditRightPadding(buffer, csFormatted, ' ');			
 	}
 	
@@ -239,7 +239,7 @@ public class VarDefEditInMapRedefineNumEdited extends VarDefEditInMapRedefineBas
 		//String cs = varSource.getRawStringExcludingHeader(bufferSource);
 		CStr cs = bufferSource.getBodyCStr(varDefSource);
 		Dec dec = NumberParserDec.getAsDec(cs);
-		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, bBlankWhenZero);
+		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, isblankWhenZero);
 		writeEditRightPadding(buffer, csFormatted, ' ');			
 	}
 	
@@ -247,7 +247,7 @@ public class VarDefEditInMapRedefineNumEdited extends VarDefEditInMapRedefineBas
 	{
 		CStr cs = bufferSource.getBodyCStr(varDefSource);
 		Dec dec = NumberParserDec.getAsDec(cs);
-		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, bBlankWhenZero);
+		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, isblankWhenZero);
 		writeEditRightPadding(buffer, csFormatted, ' ');			
 	}
 	
@@ -256,14 +256,14 @@ public class VarDefEditInMapRedefineNumEdited extends VarDefEditInMapRedefineBas
 	void write(VarBufferPos buffer, VarDefNumDecComp0 varSource, VarBufferPos bufferSource)
 	{
 		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, bBlankWhenZero);
+		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, isblankWhenZero);
 		writeEditRightPadding(buffer, csFormatted, ' ');			
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumDecComp3 varSource, VarBufferPos bufferSource)
 	{
 		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, bBlankWhenZero);
+		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, isblankWhenZero);
 		writeEditRightPadding(buffer, csFormatted, ' ');			
 	}
 
@@ -271,14 +271,14 @@ public class VarDefEditInMapRedefineNumEdited extends VarDefEditInMapRedefineBas
 	void write(VarBufferPos buffer, VarDefNumDecComp4 varSource, VarBufferPos bufferSource)
 	{
 		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, bBlankWhenZero);
+		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, isblankWhenZero);
 		writeEditRightPadding(buffer, csFormatted, ' ');			
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumDecSignComp4 varSource, VarBufferPos bufferSource)
 	{
 		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, bBlankWhenZero);
+		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, isblankWhenZero);
 		writeEditRightPadding(buffer, csFormatted, ' ');			
 	}
 
@@ -286,56 +286,56 @@ public class VarDefEditInMapRedefineNumEdited extends VarDefEditInMapRedefineBas
 	void write(VarBufferPos buffer, VarDefNumDecSignComp0 varSource, VarBufferPos bufferSource)
 	{
 		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, bBlankWhenZero);
+		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, isblankWhenZero);
 		writeEditRightPadding(buffer, csFormatted, ' ');			
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumDecSignComp3 varSource, VarBufferPos bufferSource)
 	{
 		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, bBlankWhenZero);
+		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, isblankWhenZero);
 		writeEditRightPadding(buffer, csFormatted, ' ');			
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumDecSignLeadingComp0 varSource, VarBufferPos bufferSource)
 	{
 		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, bBlankWhenZero);
+		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, isblankWhenZero);
 		writeEditRightPadding(buffer, csFormatted, ' ');			
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumDecSignTrailingComp0 varSource, VarBufferPos bufferSource)
 	{
 		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, bBlankWhenZero);
+		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, isblankWhenZero);
 		writeEditRightPadding(buffer, csFormatted, ' ');			
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumIntComp0 varSource, VarBufferPos bufferSource)
 	{
 		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, bBlankWhenZero);
+		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, isblankWhenZero);
 		writeEditRightPadding(buffer, csFormatted, ' ');			
 	}
 
 	void write(VarBufferPos buffer, VarDefNumIntComp0Long varSource, VarBufferPos bufferSource)
 	{
 		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, bBlankWhenZero);
+		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, isblankWhenZero);
 		writeEditRightPadding(buffer, csFormatted, ' ');			
 	}
 
 	void write(VarBufferPos buffer, VarDefNumIntComp3 varSource, VarBufferPos bufferSource)
 	{
 		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, bBlankWhenZero);
+		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, isblankWhenZero);
 		writeEditRightPadding(buffer, csFormatted, ' ');			
 	}	
 	
 	void write(VarBufferPos buffer, VarDefNumIntComp3Long varSource, VarBufferPos bufferSource)
 	{
 		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, bBlankWhenZero);
+		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, isblankWhenZero);
 		writeEditRightPadding(buffer, csFormatted, ' ');			
 	}	
 
@@ -344,91 +344,91 @@ public class VarDefEditInMapRedefineNumEdited extends VarDefEditInMapRedefineBas
 	void write(VarBufferPos buffer, VarDefNumIntComp4 varSource, VarBufferPos bufferSource)
 	{
 		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, bBlankWhenZero);
+		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, isblankWhenZero);
 		writeEditRightPadding(buffer, csFormatted, ' ');			
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumIntComp4Long varSource, VarBufferPos bufferSource)
 	{
 		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, bBlankWhenZero);
+		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, isblankWhenZero);
 		writeEditRightPadding(buffer, csFormatted, ' ');			
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumIntSignComp0 varSource, VarBufferPos bufferSource)
 	{
 		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, bBlankWhenZero);
+		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, isblankWhenZero);
 		writeEditRightPadding(buffer, csFormatted, ' ');			
 	}
 
 	void write(VarBufferPos buffer, VarDefNumIntSignComp0Long varSource, VarBufferPos bufferSource)
 	{
 		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, bBlankWhenZero);
+		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, isblankWhenZero);
 		writeEditRightPadding(buffer, csFormatted, ' ');			
 	}
 
 	void write(VarBufferPos buffer, VarDefNumIntSignComp3 varSource, VarBufferPos bufferSource)
 	{
 		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, bBlankWhenZero);
+		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, isblankWhenZero);
 		writeEditRightPadding(buffer, csFormatted, ' ');			
 	}
 	
 	void write(VarBufferPos buffer, VarDefFPacNumIntSignComp3 varSource, VarBufferPos bufferSource)
 	{
 		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, bBlankWhenZero);
+		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, isblankWhenZero);
 		writeEditRightPadding(buffer, csFormatted, ' ');			
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumIntSignComp3Long varSource, VarBufferPos bufferSource)
 	{
 		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, bBlankWhenZero);
+		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, isblankWhenZero);
 		writeEditRightPadding(buffer, csFormatted, ' ');			
 	}
 
 	void write(VarBufferPos buffer, VarDefNumIntSignComp4 varSource, VarBufferPos bufferSource)
 	{
 		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, bBlankWhenZero);
+		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, isblankWhenZero);
 		writeEditRightPadding(buffer, csFormatted, ' ');			
  	}
 	
 	void write(VarBufferPos buffer, VarDefNumIntSignComp4Long varSource, VarBufferPos bufferSource)
 	{
 		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, bBlankWhenZero);
+		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, isblankWhenZero);
 		writeEditRightPadding(buffer, csFormatted, ' ');			
 	}
 	
 	void write(VarBufferPos buffer, VarDefNumIntSignLeadingComp0 varSource, VarBufferPos bufferSource)
 	{
 		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, bBlankWhenZero);
+		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, isblankWhenZero);
 		writeEditRightPadding(buffer, csFormatted, ' ');			
 	}
 
 	void write(VarBufferPos buffer, VarDefNumIntSignLeadingComp0Long varSource, VarBufferPos bufferSource)
 	{
 		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, bBlankWhenZero);
+		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, isblankWhenZero);
 		writeEditRightPadding(buffer, csFormatted, ' ');			
 	}
 
 	void write(VarBufferPos buffer, VarDefNumIntSignTrailingComp0 varSource, VarBufferPos bufferSource)
 	{
 		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, bBlankWhenZero);
+		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, isblankWhenZero);
 		writeEditRightPadding(buffer, csFormatted, ' ');			
 	}
 
 	void write(VarBufferPos buffer, VarDefNumIntSignTrailingComp0Long varSource, VarBufferPos bufferSource)
 	{
 		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, bBlankWhenZero);
+		String csFormatted = RWNumEdited.internalFormatAndWrite(dec, csFormat, isblankWhenZero);
 		writeEditRightPadding(buffer, csFormatted, ' ');			
 	}
 
@@ -483,7 +483,7 @@ public class VarDefEditInMapRedefineNumEdited extends VarDefEditInMapRedefineBas
 	
 	private void internalFormatAndWrite(VarBufferPos buffer, Dec dec)
 	{
-		String cs = RWNumEdited.internalFormatAndWrite(dec, csFormat, bBlankWhenZero);
+		String cs = RWNumEdited.internalFormatAndWrite(dec, csFormat, isblankWhenZero);
 		internalWriteRightPadding(buffer, getBodyAbsolutePosition(buffer), getBodyLength(), cs, '\0');	// Padding with \0 on the right
 	}
 
@@ -906,7 +906,7 @@ public class VarDefEditInMapRedefineNumEdited extends VarDefEditInMapRedefineBas
 	void transmitFormat(VarDefEditInMapRedefineNumEdited varDefDest)
 	{
 		varDefDest.csFormat = csFormat; 
-		varDefDest.bBlankWhenZero = bBlankWhenZero;
+		varDefDest.isblankWhenZero = isblankWhenZero;
 	}
 	
 	public String digits(VarBufferPos buffer)
@@ -938,17 +938,17 @@ public class VarDefEditInMapRedefineNumEdited extends VarDefEditInMapRedefineBas
 	{
 		VarDefEditInMapRedefineNumEdited varDefCopy = (VarDefEditInMapRedefineNumEdited)varDefBufferCopySingleItem;
 		varDefCopy.csFormat = csFormat;
-		varDefCopy.bBlankWhenZero = bBlankWhenZero;
+		varDefCopy.isblankWhenZero = isblankWhenZero;
 	}
 	
 	protected void adjustCustomPropertyForCharGetAt(VarDefBuffer varDefBufferCopySingleItem)
 	{
 		VarDefEditInMapRedefineNumEdited varDefCopy = (VarDefEditInMapRedefineNumEdited)varDefBufferCopySingleItem;
 		varDefCopy.csFormat = csFormat;
-		varDefCopy.bBlankWhenZero = bBlankWhenZero;
+		varDefCopy.isblankWhenZero = isblankWhenZero;
 	}
 
 	
 	private String csFormat = null;	
-	private boolean bBlankWhenZero = false;
+	private boolean isblankWhenZero = false;
 }

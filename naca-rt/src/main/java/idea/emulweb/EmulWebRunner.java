@@ -98,21 +98,21 @@ public class EmulWebRunner extends BaseCloseMBean
 		}
 		else
 		{			
-			ArrayList<ThreadEmulWeb> arrThreads = new ArrayList<ThreadEmulWeb>(); 
+			ArrayList<ThreadEmulWeb> threads = new ArrayList<ThreadEmulWeb>();
 			// Creates threads
 			ThreadSafeCounter counter = new ThreadSafeCounter(ms_nNbThreads); 
 			for(int n=0; n<ms_nNbThreads; n++)
 			{
 				EmulWebThreadedRun emulWebThreadedRun = new EmulWebThreadedRun(this, resourceManager, ms_nbLoops, ms_bCheckScenario, ms_bOutputExport);  
 				ThreadEmulWeb threadEmulWeb = new ThreadEmulWeb(counter, emulWebThreadedRun);
-				arrThreads.add(threadEmulWeb);
+				threads.add(threadEmulWeb);
 			}
 			
 			StopWatch sw = new StopWatch();
 			// Starts threads
 			for(int n=0; n<ms_nNbThreads; n++)
 			{
-				ThreadEmulWeb thread = arrThreads.get(n);
+				ThreadEmulWeb thread = threads.get(n);
 				thread.start();
 			}
 			

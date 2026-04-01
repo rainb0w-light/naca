@@ -15,7 +15,6 @@ import jlib.misc.DataFileLineReader;
 import jlib.misc.DataFileWrite;
 import jlib.misc.FileSystem;
 import jlib.misc.LineRead;
-import nacaLib.basePrgEnv.BaseResourceManager;
 import nacaLib.tempCache.TempCacheLocator;
 import nacaLib.varEx.FileDescriptor;
 
@@ -73,8 +72,8 @@ public class BTreeCommandSort
 		if(csExportKeyFileOut != null)
 		{
 			dataFileKeyOut = new DataFileWrite(csExportKeyFileOut, false);
-			boolean bOutKeyOpened = dataFileKeyOut.open();
-			if(!bOutKeyOpened)
+			boolean isoutKeyOpened = dataFileKeyOut.open();
+			if(!isoutKeyOpened)
 			{
 				dataFileKeyOut = null;
 				Log.logImportant("Cannot create output key file " + csExportKeyFileOut);
@@ -112,8 +111,8 @@ public class BTreeCommandSort
 			fileSortIn.inheritSettings(fileSortOut);
 		}
 		
-		boolean bFileInEbcdic = fileSortIn.isEbcdic();
-		keyDescription.setFileInEncoding(bFileInEbcdic);
+		boolean isfileInEbcdic = fileSortIn.isEbcdic();
+		keyDescription.setFileInEncoding(isfileInEbcdic);
 		
 		String csBtreeDir = getTempFileName();
 		BtreeFile btreeFile = createAndOpenTempBtrieveFile(csBtreeDir);
@@ -184,19 +183,19 @@ public class BTreeCommandSort
 		int nNbRecordRead = 0;
 		String csFileIn = fileSortIn.getPhysicalName();
 		DataFileLineReader dataFileIn = new DataFileLineReader(csFileIn, nBufferChunkReadAHead, 0);
-		boolean bInOpened = dataFileIn.open();
-		if(bInOpened)
+		boolean isinOpened = dataFileIn.open();
+		if(isinOpened)
 		{
 			fileSortIn.tryAutoDetermineRecordLengthIfRequired(dataFileIn);
 			
-			boolean bFileInVariableLength = fileSortIn.hasVarVariableLengthMarker();
+			boolean isfileInVariableLength = fileSortIn.hasVarVariableLengthMarker();
 			boolean  b = true;
-			boolean bFileInEbcdic = fileSortIn.isEbcdic();
+			boolean isfileInEbcdic = fileSortIn.isEbcdic();
 			LineRead lineRead = fileSortIn.readALine(dataFileIn, null);
 			Environment env = btreeEnv.getEnv();
 			while(lineRead != null && b == true)
 			{
-				b = btreeFile.externalSortInsertWithRecordIndexAtEnd(env, lineRead, nNbRecordRead, bFileInEbcdic, bFileInVariableLength);
+				b = btreeFile.externalSortInsertWithRecordIndexAtEnd(env, lineRead, nNbRecordRead, isfileInEbcdic, isfileInVariableLength);
 				nNbRecordRead++;
 				lineRead = fileSortIn.readALine(dataFileIn, lineRead);
 			}
@@ -245,8 +244,8 @@ public class BTreeCommandSort
 		boolean bMustWriteFileHeader = false;
 		//boolean bMustWriteFileHeader = BaseResourceManager.getMustWriteFileHeader();
 		DataFileWrite dataFileOut = new DataFileWrite(csFileOut, bMustWriteFileHeader);
-		boolean bOutOpened = dataFileOut.open();
-		if(bOutOpened)
+		boolean isoutOpened = dataFileOut.open();
+		if(isoutOpened)
 		{
 			if(btreeFile != null)	// We have a sorted file to write on output
 			{

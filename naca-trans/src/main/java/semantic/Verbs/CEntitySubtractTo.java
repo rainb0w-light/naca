@@ -37,13 +37,13 @@ public abstract class CEntitySubtractTo extends CBaseActionEntity
 	@Override
 	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
 	{
-		boolean bRes = false ;
+		boolean isres = false ;
 		if (variable == field)
 		{
 			variable = var ;
 			field.UnRegisterReadingAction(this) ;
 			var.RegisterReadingAction(this) ;
-			bRes = true ;
+			isres = true ;
 		}
 		for (CDataEntity value : values)
 		{
@@ -51,7 +51,7 @@ public abstract class CEntitySubtractTo extends CBaseActionEntity
 			{
 				field.UnRegisterReadingAction(this) ;
 				var.RegisterReadingAction(this) ;
-				bRes = true ;
+				isres = true ;
 			}
 		}
 		for (CDataEntity value : destination)
@@ -60,16 +60,16 @@ public abstract class CEntitySubtractTo extends CBaseActionEntity
 			{
 				field.UnRegisterWritingAction(this) ;
 				var.RegisterWritingAction(this) ;
-				bRes = true ;
+				isres = true ;
 			}
 		}
 		if (destination.isEmpty())
 		{
 			field.UnRegisterWritingAction(this) ;
 			var.RegisterWritingAction(this) ;
-			bRes = true ;
+			isres = true ;
 		}
-		return bRes ;
+		return isres;
 	}
 
 	/**

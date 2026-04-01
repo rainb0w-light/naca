@@ -20,8 +20,8 @@ public class CCobolParser extends CParser<CProgram>
 		CProgram p = new CProgram(lstTokens.GetCurrentToken().getLine()) ;
 		eRoot = p ;
 		ms_bCommaIsDecimalPoint = false ;
-		boolean bParsed = p.Parse(lstTokens, commentContainer) ;
-		return bParsed ;
+		boolean isparsed = p.Parse(lstTokens, commentContainer) ;
+		return isparsed;
 	}
 
 	public static boolean ms_bCommaIsDecimalPoint = false ;

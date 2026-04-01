@@ -27,7 +27,7 @@ public class DeclareType9 extends DeclareTypeBase
 {
 	protected NumericValue numericValue = new NumericValue(); 
 	private CInitialValue initialValue = null;
-	boolean bBlankWhenZero = false;
+	boolean isblankWhenZero = false;
 	
 	public DeclareType9()
 	{
@@ -38,7 +38,7 @@ public class DeclareType9 extends DeclareTypeBase
 		super.set(varLevel);
 		numericValue.set(bSigned, nNbDigitInteger, nNbDigitDecimal);
 		this.initialValue = null;
-		this.bBlankWhenZero = false;
+		this.isblankWhenZero = false;
 	}
 	
 	public VarDefBuffer createVarDef(VarDefBuffer varDefParent)
@@ -139,7 +139,7 @@ public class DeclareType9 extends DeclareTypeBase
 
 	public DeclareType9 blankWhenZero()
 	{
-		bBlankWhenZero = true;
+		isblankWhenZero = true;
 		return this;
 	}
 	

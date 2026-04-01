@@ -9,7 +9,6 @@ package jlib.controler;
 
 import java.util.Date;
 
-import jlib.log.stdEvents.EventRemark;
 import jlib.log.stdEvents.StdInfo;
 
 
@@ -20,10 +19,10 @@ public class ControlerThread extends Thread
 	private BaseControler controler = null ;
 	private BaseControlerTaskConfig grpConfig =  null ;
 	private int nCurrentSite = -1 ;
-	private boolean bDoAllSites = false ;
+	private boolean isdoAllSites = false ;
 	private String csControlerName = "" ;
 	private boolean bForceStarting = false ;
-	private boolean bStopASAP = false ; 	   //Un flag qui permet d'arrêter le crawl en urgence.
+	private boolean isstopASAP = false ; 	   //Un flag qui permet d'arrï¿½ter le crawl en urgence.
 	
 	public ControlerThread(BaseControler ctrl)
 	{
@@ -68,12 +67,12 @@ public class ControlerThread extends Thread
 		if (grpConfig.isModeGroup() || nStepId == -1 || (grpConfig.getNbSteps()==1 && nStepId==0))
 		{
 			nCurrentSite = 0 ;
-			bDoAllSites = true ;
+			isdoAllSites = true ;
 		}
 		else
 		{
 			nCurrentSite = nStepId ;
-			bDoAllSites = false ;
+			isdoAllSites = false ;
 		}
 		start() ;
 	}
@@ -85,8 +84,8 @@ public class ControlerThread extends Thread
 
 	//	..............................................................................................................
 	/*
-	 * Méthode principale du thread.
-	 * Cette méthode vérifie l'état dans lequel se trouve le crawling et agit en conséquence.
+	 * Mï¿½thode principale du thread.
+	 * Cette mï¿½thode vï¿½rifie l'ï¿½tat dans lequel se trouve le crawling et agit en consï¿½quence.
 	 */
 	public void run() 
 	{
@@ -103,15 +102,15 @@ public class ControlerThread extends Thread
 	{
 		int nSite = nCurrentSite ;
 
-		boolean bAlreadyRun = false ;
-		boolean bContinue = true ;
-		while(bContinue)
+		boolean isalreadyRun = false ;
+		boolean iscontinue = true ;
+		while(iscontinue)
 		{
-			if ((!bForceStarting || bAlreadyRun) && bDoAllSites)
+			if ((!bForceStarting || isalreadyRun) && isdoAllSites)
 			{
-				Date dtGrpEnds = controler.getDateGroupEnds() ;
+				Date dategrpEnds = controler.getDateGroupEnds() ;
 				
-				if (dtGrpEnds == null)
+				if (dategrpEnds == null)
 				{
 					if (grpConfig.getDelayBeforeStart() > 0)
 					{
@@ -132,7 +131,7 @@ public class ControlerThread extends Thread
 				else
 				{
 					Date now = new Date() ;
-					long msec = now.getTime() - dtGrpEnds.getTime() ;
+					long msec = now.getTime() - dategrpEnds.getTime() ;
 					if (grpConfig.getDelayBeforeRestart()*1000 > msec)
 					{
 						StdInfo.log(grpConfig.getLogChannel(), grpConfig.getName(), "Waiting to restart") ; 
@@ -151,8 +150,8 @@ public class ControlerThread extends Thread
 				}
 			}
 
-			bContinue &= !bStopASAP ;
-			while (bContinue && nSite < grpConfig.getNbSteps())
+			iscontinue &= !isstopASAP;
+			while (iscontinue && nSite < grpConfig.getNbSteps())
 			{
 				nCurrentSite = nSite ;
 				BaseControlerStepConfig stepConfig = grpConfig.getStep(nCurrentSite);
@@ -164,22 +163,22 @@ public class ControlerThread extends Thread
 				{
 					controler.setStatus(nCurrentSite, "NONE : Inactive") ;
 					StdInfo.log(grpConfig.getLogChannel(), context, "Site is INACTIVE") ; 
-					bContinue = bDoAllSites ;
+					iscontinue = isdoAllSites;
 					nSite ++ ;
 					continue ;
 				}
 	
 				//if (!bForceStarting)
 				//{
-					Date dtStepEnds = controler.getDateStepEnds(nCurrentSite) ;
+					Date datestepEnds = controler.getDateStepEnds(nCurrentSite) ;
 					
-					if (dtStepEnds == null)
+					if (datestepEnds == null)
 					{
 						if (stepConfig.getDelayBeforeStart() < 0)
 						{
 							controler.setStatus(nCurrentSite, "NONE : Not started ") ;
 							StdInfo.log(grpConfig.getLogChannel(), context, "Site is not Autostart") ; 
-							bContinue = bDoAllSites ;
+							iscontinue = isdoAllSites;
 							nSite ++ ;
 							continue ;
 						}
@@ -201,13 +200,13 @@ public class ControlerThread extends Thread
 					}
 					else
 					{
-						long msec = (new Date()).getTime() - dtStepEnds.getTime() ;
+						long msec = (new Date()).getTime() - datestepEnds.getTime() ;
 						
 						if (stepConfig.getDelayBeforeRestart() < 0)
 						{
 							controler.setStatus(nCurrentSite, "NONE : Not started ") ;
 							StdInfo.log(grpConfig.getLogChannel(), context, "Site is not Autostart") ; 
-							bContinue = bDoAllSites ;
+							iscontinue = isdoAllSites;
 							nSite ++ ;
 							continue ;
 						}
@@ -231,19 +230,19 @@ public class ControlerThread extends Thread
 					}
 				//}
 			
-				boolean bRet = controler.RunStep(nCurrentSite) ;
+				boolean isret = controler.RunStep(nCurrentSite) ;
 
-				if (!bRet) 
+				if (!isret)
 				{
-					bContinue = false ;
+					iscontinue = false ;
 				}
-				else if (bStopASAP)
+				else if (isstopASAP)
 				{
-					bContinue = false ;
+					iscontinue = false ;
 				}
 				else
 				{
-					bContinue = bDoAllSites ;
+					iscontinue = isdoAllSites;
 					nSite ++ ;
 				}
 				
@@ -255,7 +254,7 @@ public class ControlerThread extends Thread
 				}*/
 				
 			}
-			bAlreadyRun = true ;
+			isalreadyRun = true ;
 			nSite = 0 ;
 			controler.setDateGroupEnds() ;
 		}
@@ -264,7 +263,7 @@ public class ControlerThread extends Thread
 	public void StopControler(boolean bRestart, boolean bForce)
 	{
 		this.isDaemon() ;
-		bStopASAP = !bRestart ;
+		isstopASAP = !bRestart ;
 		StopControler(bForce) ;
 	}
 

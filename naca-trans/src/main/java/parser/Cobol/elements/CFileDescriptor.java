@@ -52,13 +52,13 @@ public class CFileDescriptor extends CCobolElement
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
 		CEntityFileDescriptor eFD = null ;
-		if (bSorted)
+		if (issorted)
 		{
-			eFD = factory.NewEntitySortedFileDescriptor(getLine(), fD.GetName()) ;
+			eFD = factory.NewEntitySortedFileDescriptor(getLine(), d.GetName()) ;
 		}
 		else
 		{
-			eFD = factory.NewEntityFileDescriptor(getLine(), fD.GetName()) ;
+			eFD = factory.NewEntityFileDescriptor(getLine(), d.GetName()) ;
 		}
 		parent.AddChild(eFD) ;
 		
@@ -107,11 +107,11 @@ public class CFileDescriptor extends CCobolElement
 		CBaseToken tok = GetCurrentToken() ;
 		if (tok.GetKeyword() == CCobolKeywordList.FD)
 		{
-			bSorted = false; 
+			issorted = false;
 		}
 		else if (tok.GetKeyword() == CCobolKeywordList.SD)
 		{
-			bSorted = true ;
+			issorted = true ;
 		}
 		else
 		{
@@ -120,14 +120,14 @@ public class CFileDescriptor extends CCobolElement
 		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
 		
 		tok = GetNext() ;
-		fD = ReadIdentifier();
-		if (fD == null)
+		d = ReadIdentifier();
+		if (d == null)
 		{
 			return false ;
 		}
 		
-		boolean bDone = false ;
-		while (!bDone)
+		boolean isdone = false ;
+		while (!isdone)
 		{
 			tok = GetCurrentToken() ;
 			if (tok.GetType() == CTokenType.COMMA)
@@ -329,7 +329,7 @@ public class CFileDescriptor extends CCobolElement
 //			}
 			else
 			{
-				bDone = true ;
+				isdone = true ;
 			}
 		} 
 		
@@ -339,8 +339,8 @@ public class CFileDescriptor extends CCobolElement
 		{
 			tok = GetNext() ;
 		}
-		bDone = false ;
-		while (!bDone)
+		isdone = false ;
+		while (!isdone)
 		{
 //			if (tok.GetType() == CTokenType.COMMENT)
 //			{
@@ -393,7 +393,7 @@ public class CFileDescriptor extends CCobolElement
 			}
 			else 
 			{
-				bDone = true; 
+				isdone = true;
 			}
 			tok = GetCurrentToken();
 		}
@@ -407,7 +407,7 @@ public class CFileDescriptor extends CCobolElement
 	protected Element ExportCustom(Document root)
 	{
 		Element eFD = null ;
-		if (bSorted)
+		if (issorted)
 		{
 			eFD = root.createElement("SD");
 		}
@@ -415,7 +415,7 @@ public class CFileDescriptor extends CCobolElement
 		{
 			eFD = root.createElement("FD");
 		}
-		fD.ExportTo(eFD, root);
+		d.ExportTo(eFD, root);
 		
 		Element rec = root.createElement("Record");
 		eFD.appendChild(rec);		
@@ -464,7 +464,7 @@ public class CFileDescriptor extends CCobolElement
 		return eFD;
 	}
 	
-	protected CIdentifier fD = null ;
+	protected CIdentifier d = null ;
 	protected int maxLenghtRecord = 0 ; 
 	protected int minLenghtRecord = 0 ;
 	protected boolean variableLenghtRecord = false ;
@@ -473,6 +473,6 @@ public class CFileDescriptor extends CCobolElement
 	protected int minBlockLenght = 0 ;
 	protected CIdentifier dataRecord = null ;
 	protected CTerminal recordingMode = null;
-	protected boolean bSorted = false ;
+	protected boolean issorted = false ;
 	//protected CIdentifier m_DependingLengthRecordRef = null ;
 }

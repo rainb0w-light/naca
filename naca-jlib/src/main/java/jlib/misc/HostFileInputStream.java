@@ -13,7 +13,7 @@ import java.util.Vector;
 public class HostFileInputStream extends InputStream
 {
 	protected InputStream stream = null ;
-	protected boolean bHeaderVariable = false;
+	protected boolean isheaderVariable = false;
 	protected int nLength = 0;
 	protected int[] record = null;
 	protected int nCurrentRecordRead = 0;
@@ -23,7 +23,7 @@ public class HostFileInputStream extends InputStream
 	{
 		stream = is;
 		if (csFormat != null && csFormat.equals("VB")) {
-			bHeaderVariable = true;
+			isheaderVariable = true;
 		}
 		nLength = nLength;
 	}
@@ -37,7 +37,7 @@ public class HostFileInputStream extends InputStream
 				return -1;
 			}
 			Vector<Integer> v = new Vector<Integer>();
-			if (bHeaderVariable)
+			if (isheaderVariable)
 			{
 				tbyHeader[0] = (byte)stream.read();
 				tbyHeader[1] = (byte)stream.read();

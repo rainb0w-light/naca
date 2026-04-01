@@ -59,8 +59,8 @@ public class ProgramCallerWithArgsPosition extends CalledProgramParamSupportByPo
 			boolean bUseStatementCache = BaseResourceManager.getUseStatementCache();
 			env.fillEnvConnectionWithAllocatedConnection(dbConnection.getDbConnection(), "ExternalConnection", dbConnection.getEnvironmentPrefix(), bUseStatementCache);							
 	
-			boolean bStarted = env.startRunTransaction();
-			if(!bStarted)
+			boolean isstarted = env.startRunTransaction();
+			if(!isstarted)
 			{
 				env.endRunTransaction(CriteriaEndRunMain.Abort);
 				return false;

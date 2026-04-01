@@ -28,12 +28,12 @@ import nacaLib.tempCache.TempCacheLocator;
 public class VarLevel extends CJMapObject
 {
 	private CInitialValue initialValue = null;
-	private boolean bJustifyRight = false;
+	private boolean isjustifyRight = false;
 	private VarDefBase varDefRedefineOrigin = null;
 	private OccursDefBase occursDef = null;
 	private BaseProgram program = null;
-	private short sLevel = 0;
-	private boolean bVariableLength = false;
+	private short level = 0;
+	private boolean isvariableLength = false;
 	
 	public VarLevel()
 	{
@@ -42,20 +42,20 @@ public class VarLevel extends CJMapObject
 	public void set(BaseProgram program, int nLevel)
 	{
 		initialValue = null;
-		bJustifyRight = false;
+		isjustifyRight = false;
 		varDefRedefineOrigin = null;
 		occursDef = null;
 		
 		this.program = program;
-		sLevel = (short)nLevel;
-		bVariableLength = false;
+		level = (short)nLevel;
+		isvariableLength = false;
 	}
 	
 	public VarGroup var()	// Creates a group
 	{
 		DeclareTypeG declareTypeG = TempCacheLocator.getTLSTempCache().getDeclareTypeG();
 		declareTypeG.set(this);
-		if(bVariableLength)
+		if(isvariableLength)
 			declareTypeG.setVariableLengthDeclaration();
 		VarGroup var2G = new VarGroup(declareTypeG);
 		return var2G;
@@ -91,7 +91,7 @@ public class VarLevel extends CJMapObject
 	{
 		DeclareTypeX declareTypeX = TempCacheLocator.getTLSTempCache().getDeclareTypeX();
 		declareTypeX.set(this, nLength);
-		if(bVariableLength)
+		if(isvariableLength)
 			declareTypeX.setVariableLengthDeclaration();
 		
 		//DeclareTypeX varLevelX = new DeclareTypeX(this, nLength);
@@ -170,7 +170,7 @@ public class VarLevel extends CJMapObject
 			else
 				occurs(nNbOccurs);
 		}
-		bVariableLength = true;
+		isvariableLength = true;
 		return this;
 	}	
 
@@ -211,13 +211,13 @@ public class VarLevel extends CJMapObject
 	
 	public VarLevel justifyRight()	// Edit in a map redefine
 	{
-		bJustifyRight = true;
+		isjustifyRight = true;
 		return this;
 	}
 	
 	boolean getJustifyRight()
 	{
-		return bJustifyRight;
+		return isjustifyRight;
 	}
 
 		
@@ -276,7 +276,7 @@ public class VarLevel extends CJMapObject
 	
 	public short getLevel()
 	{
-		return sLevel;
+		return level;
 	}
 	
 	public VarDefBase getVarDefRedefineOrigin()
@@ -359,7 +359,7 @@ public class VarLevel extends CJMapObject
 	
 	public VarLevel variableLength()
 	{
-		bVariableLength = true;
+		isvariableLength = true;
 		return this;
 	}
 }

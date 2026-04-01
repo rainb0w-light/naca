@@ -8,7 +8,7 @@ package jlib.misc;
 
 
 /*
- * Created on 17 déc. 2004
+ * Created on 17 dï¿½c. 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -34,7 +34,7 @@ public class NumberParser
 			
 			short sValue = 0;			
 			int n = 0;
-			boolean bNegative = false;
+			boolean isnegative = false;
 	
 			while(n < nLength)
 			{
@@ -42,12 +42,12 @@ public class NumberParser
 				if(c >= '0' && c <= '9')
 					sValue = (short)(10 * sValue + (c - '0'));
 				else if(c == '-')
-					bNegative = true;
+					isnegative = true;
 				else if(c == '.')
 					break;
 				n++;
 			}
-			if(bNegative)
+			if(isnegative)
 				return (short)-sValue;
 			return sValue;	
 		}
@@ -85,7 +85,7 @@ public class NumberParser
 		int nLength = s.length();
 		int nValue = 0;
 		int n = 0;
-		boolean bNegative = false;
+		boolean isnegative = false;
 		while(n < nLength)
 		{
 			char c = s.charAt(n);
@@ -97,7 +97,7 @@ public class NumberParser
 			}
 			else if(c == '-')
 			{
-				bNegative = true;
+				isnegative = true;
 				n++;
 				continue;
 			}
@@ -110,7 +110,7 @@ public class NumberParser
 				return 0 ;
 			n++;
 		}
-		if(bNegative)
+		if(isnegative)
 			return -nValue;
 		return nValue;	
 	}
@@ -160,19 +160,19 @@ public class NumberParser
 	
 			long lValue = 0;
 			int n = 0;
-			boolean bNegative = false;
+			boolean isnegative = false;
 			while(n < nLength)
 			{
 				char c = s.charAt(n);
 				if(c >= '0' && c <= '9')
 					lValue = 10 * lValue + (c - '0');
 				else if(c == '-')
-					bNegative = true;
+					isnegative = true;
 				else if(c == '.')
 					break;
 				n++;
 			}
-			if(bNegative)
+			if(isnegative)
 				return -lValue;
 			return lValue;	
 		}
@@ -216,7 +216,7 @@ public class NumberParser
 			
 			double nChunk[] = {0.0, 0.0};
 			int n = 0;
-			boolean bNegative = false;
+			boolean isnegative = false;
 			int nPart = 0;
 			int nNbDecimals = 0;
 			while(n < nLength)
@@ -229,20 +229,20 @@ public class NumberParser
 					nChunk[nPart] = 10 * nChunk[nPart] + (c - '0');
 				}
 				else if(c == '-')
-					bNegative = true;
+					isnegative = true;
 				else if(c == '.')
 					nPart++;
 				n++;
 			}
-			double dDec = nChunk[1];
-			dDec = dDec / Math.pow(10, nNbDecimals);
+			double dec = nChunk[1];
+			dec = dec / Math.pow(10, nNbDecimals);
 			 
-			double d = (nChunk[0]) + dDec;
+			double d = (nChunk[0]) + dec;
 			
 			// Trunc at 6 digits below decimal point
 			d *= 100000.0;
 			d /= 100000.0; 
-			if(bNegative)
+			if(isnegative)
 				return -d;
 			return d;	
 		}

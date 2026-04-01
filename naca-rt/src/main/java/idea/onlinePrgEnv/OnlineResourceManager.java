@@ -53,7 +53,7 @@ public class OnlineResourceManager extends BaseResourceManager
 		
 	protected int nNbInstanceToPreload = 1;
 	protected boolean bPreLoadAllProgramFromDir = false;	// true if try to load all programs form directory
-	protected boolean bKeepPreloadedProgramList = false;	// true if you want to register into [csPreLoadProgramList] the preloaded program list; usefull to build the list of program from the dir  
+	protected boolean iskeepPreloadedProgramList = false;	// true if you want to register into [csPreLoadProgramList] the preloaded program list; usefull to build the list of program from the dir
 	protected boolean bPreLoadAllProgramFromList = false;	// true if load all programs indiciated in [csPreLoadProgramList] 
 	protected String csPreLoadProgramList = "";	// Gives the path and name of the file indicating a program list to be loaded in mode bPreLoadAllProgramFromList; it is updated in mode bPreLoadAllProgramFromDir   
 	
@@ -115,42 +115,42 @@ public class OnlineResourceManager extends BaseResourceManager
 	{
 		setXMLConfigFilePath(csINIFilePath) ;
 		initSequenceur(csDBParameterPrefix);
-		boolean bLoadSemanticContextDef = !StringUtil.isEmpty(csSemanticContextPathFile);
-		doInitialize(csINIFilePath, bLoadSemanticContextDef);
+		boolean isloadSemanticContextDef = !StringUtil.isEmpty(csSemanticContextPathFile);
+		doInitialize(csINIFilePath, isloadSemanticContextDef);
 	}	
 
 	private void preloadPrograms()
 	{
 		ProgramPreloader programPreloader = null;
-		ArrayList<PreloadProgramSettings> arrProgramToPreload = null;
+		ArrayList<PreloadProgramSettings> programToPreload = null;
 		if(bPreLoadAllProgramFromDir)
 		{
 			programPreloader = new ProgramPreloader(); 
 			if(!StringUtil.isEmpty(csApplicationClassPath))
-				arrProgramToPreload = programPreloader.buildArrayPreloadProgramFromDir(csApplicationClassPath);			
+				programToPreload = programPreloader.buildArrayPreloadProgramFromDir(csApplicationClassPath);
 		}
 		else if(bPreLoadAllProgramFromList)
 		{
 			programPreloader = new ProgramPreloader();
-			arrProgramToPreload = programPreloader.buildArrayPreloadProgramFromList(csPreLoadProgramList);
+			programToPreload = programPreloader.buildArrayPreloadProgramFromList(csPreLoadProgramList);
 		}
 		
-		if(programPreloader != null && arrProgramToPreload != null)
+		if(programPreloader != null && programToPreload != null)
 		{
 			Log.logNormal("Program preload starts");
 			StopWatch sw = new StopWatch(); 
 			
 			String csProgramListToKeep = csPreLoadProgramList;
-			if(!bKeepPreloadedProgramList)
+			if(!iskeepPreloadedProgramList)
 				csProgramListToKeep = null;
 			
 			if(BaseResourceManager.isAsynchronousPreloadPrograms())
 			{
-				AsynchronousProgramPreloaderThread asynchronousProgramPreloaderThread = new AsynchronousProgramPreloaderThread(this, programPreloader, arrProgramToPreload, csProgramListToKeep);
+				AsynchronousProgramPreloaderThread asynchronousProgramPreloaderThread = new AsynchronousProgramPreloaderThread(this, programPreloader, programToPreload, csProgramListToKeep);
 				asynchronousProgramPreloaderThread.start();				
 			}
 			else
-				programPreloader.preloadProgramsSynchronous(arrProgramToPreload, sequencer, csProgramListToKeep);
+				programPreloader.preloadProgramsSynchronous(programToPreload, sequencer, csProgramListToKeep);
 
 			Log.logNormal("Program preload ends: it took " + sw.getElapsedTime() + " ms");
 		}
@@ -297,7 +297,7 @@ public class OnlineResourceManager extends BaseResourceManager
 				csAlternateResourcePath = FileSystem.normalizePath(csAlternateResourcePath);
 			
 			bPreLoadAllProgramFromDir = tagRoot.getValAsBoolean("PreLoadAllProgramFromDir") ;
-			bKeepPreloadedProgramList = tagRoot.getValAsBoolean("KeepPreloadedProgramList") ;
+			iskeepPreloadedProgramList = tagRoot.getValAsBoolean("KeepPreloadedProgramList") ;
 			
 //			String cs = tagRoot.getVal("NbInstanceToPreload");
 //			if(cs == null)

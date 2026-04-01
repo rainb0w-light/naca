@@ -55,7 +55,7 @@ public class OnlineEnvironment extends BaseEnvironment
 	
 	protected OnlineSession session = null;
 	protected CESMSendMap sendMapOrder = null;
-	protected boolean bHasOutput = false;
+	protected boolean ishasOutput = false;
 	private Document xmlData = null;
 	
 	/* csLastCommandCode 
@@ -89,7 +89,7 @@ public class OnlineEnvironment extends BaseEnvironment
 	{
 		Document doc = createNewDocument() ;
 		FieldComparator comp = new FieldComparator() ;
-		SortedSet<Element> setFields = new TreeSet<Element>(comp) ;
+		SortedSet<Element> fields = new TreeSet<Element>(comp) ;
 //		if (sendMapOrder != null)
 //		{
 //			Form form = sendMapOrder.varFrom ;
@@ -97,9 +97,9 @@ public class OnlineEnvironment extends BaseEnvironment
 		
 		Element eRoot = createNewFormBody(doc, "CESM", "CESM") ;
 		Element eBody = createVBox(doc, eRoot);
-		int nb = setFields.size() ;
+		int nb = fields.size() ;
 		Element[] arr = new Element[nb] ;
-		setFields.toArray(arr);
+		fields.toArray(arr);
 		int curline = 0 ;
 		int curCol = 0 ;
 		Element curLineElem = null ;
@@ -227,12 +227,12 @@ public class OnlineEnvironment extends BaseEnvironment
 	
 	public void addOutput()
 	{
-		bHasOutput = true;
+		ishasOutput = true;
 	}
 	
 	public void resetOutput()
 	{
-		bHasOutput = false;
+		ishasOutput = false;
 	}
 
 	public void resetNewTransaction()
@@ -242,7 +242,7 @@ public class OnlineEnvironment extends BaseEnvironment
 	}
 	public boolean hasOutput()
 	{
-		return sendMapOrder != null || bHasOutput;
+		return sendMapOrder != null || ishasOutput;
 	}	
 	
 	public void RegisterOutput()

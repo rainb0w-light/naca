@@ -20,39 +20,39 @@ public class DataSectionFile extends DataSection
 	public DataSectionFile(BaseProgram prg)
 	{
 		super(prg, DataSectionType.File);
-		bRecordDefSet = false;
+		isrecordDefSet = false;
 	}
 	
 	public void setCurrentFileDef(BaseFileDescriptor fileDescriptor)
 	{
 		recordDef = fileDescriptor;
-		bRecordDefSet = false;
+		isrecordDefSet = false;
 		if(fileDescriptor != null)
 		{
-			if(arrFileDefs == null)
-				 arrFileDefs = new ArrayList<BaseFileDescriptor>();
-			arrFileDefs.add(fileDescriptor);
+			if(fileDefs == null)
+				 fileDefs = new ArrayList<BaseFileDescriptor>();
+			fileDefs.add(fileDescriptor);
 		}
 	}
 
 	public void setCurrentSortDef(SortDescriptor sortDescriptor)
 	{
 		recordDef = sortDescriptor;
-		bRecordDefSet = false;
+		isrecordDefSet = false;
 		if(sortDescriptor != null)
 		{
-			if(arrFileDefs == null)
-				 arrFileDefs = new ArrayList<BaseFileDescriptor>();
-			arrFileDefs.add(sortDescriptor);
+			if(fileDefs == null)
+				 fileDefs = new ArrayList<BaseFileDescriptor>();
+			fileDefs.add(sortDescriptor);
 		}
 	}
 	
 	public void assignLevel01(Var varLevel01)	
 	{
-		if(recordDef != null && !bRecordDefSet)
+		if(recordDef != null && !isrecordDefSet)
 		{
 			recordDef.setRecordStruct(varLevel01);
-			bRecordDefSet = true;
+			isrecordDefSet = true;
 		}
 		else
 		{
@@ -71,11 +71,11 @@ public class DataSectionFile extends DataSection
 	
 	public void setOnSession(BaseSession session)
 	{
-		if(arrFileDefs != null)
+		if(fileDefs != null)
 		{
-			for(int n=0; n<arrFileDefs.size(); n++)
+			for(int n = 0; n< fileDefs.size(); n++)
 			{
-				BaseFileDescriptor fileDescriptor = arrFileDefs.get(n);
+				BaseFileDescriptor fileDescriptor = fileDefs.get(n);
 				fileDescriptor.setSession(session);
 			}
 		}
@@ -83,11 +83,11 @@ public class DataSectionFile extends DataSection
 	
 	public void restoreFileManagerEntries(BaseEnvironment env)
 	{
-		if(arrFileDefs != null)
+		if(fileDefs != null)
 		{
-			for(int n=0; n<arrFileDefs.size(); n++)
+			for(int n = 0; n< fileDefs.size(); n++)
 			{
-				BaseFileDescriptor fileDescriptor = arrFileDefs.get(n);
+				BaseFileDescriptor fileDescriptor = fileDefs.get(n);
 				String csLogicalName = fileDescriptor.getLogicalName();
 				FileManagerEntry fileManagerEntry = env.getFileManagerEntry(csLogicalName);
 				fileDescriptor.restoreFileManagerEntry(fileManagerEntry);
@@ -97,6 +97,6 @@ public class DataSectionFile extends DataSection
 	}
 	
 	private BaseFileDescriptor recordDef = null;
-	private ArrayList<BaseFileDescriptor> arrFileDefs = null;
-	private boolean bRecordDefSet = false;
+	private ArrayList<BaseFileDescriptor> fileDefs = null;
+	private boolean isrecordDefSet = false;
 }

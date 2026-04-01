@@ -24,9 +24,9 @@ public class CJavaSort extends CEntitySort
 		String cs = fileDescriptor.ExportReference(getLine()) ;
 		WriteWord("sort("+cs+")") ;
 		
-		for (int i=0; i<arrSortKey.size(); i++) 
+		for (int i = 0; i< sortKey.size(); i++)
 		{
-			CEntitySortKey key = arrSortKey.get(i) ;
+			CEntitySortKey key = sortKey.get(i) ;
 			if (key.bAscending)
 			{
 				cs = ".ascKey(" ;

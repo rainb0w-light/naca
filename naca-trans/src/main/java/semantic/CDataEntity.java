@@ -139,19 +139,19 @@ public abstract class CDataEntity extends CBaseLanguageEntity
 	// algorythmic analysis
 	protected Vector<CBaseActionEntity> arrActionsWriting = new Vector<CBaseActionEntity>() ; // when this var is accessed in write mode : MOVE a TO THIS
 	protected Vector<CBaseActionEntity> arrActionsReading = new Vector<CBaseActionEntity>() ; // when this var is accessed in read mode : MOVE THIS TO a
-	protected Vector<CGenericDataEntityReference> arrWriteReference = new Vector<CGenericDataEntityReference>() ; // when this var is accessed in write mode : MOVE a TO THIS
-	protected Vector<CGenericDataEntityReference> arrReadReference = new Vector<CGenericDataEntityReference>() ; // when this var is accessed in read mode : MOVE THIS TO a
+	protected Vector<CGenericDataEntityReference> writeReference = new Vector<CGenericDataEntityReference>() ; // when this var is accessed in write mode : MOVE a TO THIS
+	protected Vector<CGenericDataEntityReference> readReference = new Vector<CGenericDataEntityReference>() ; // when this var is accessed in read mode : MOVE THIS TO a
 	protected Vector<CBaseEntityCondition> arrTestsAsVar = new Vector<CBaseEntityCondition>() ; // when this var is tested : IF THIS = a / IF IS NUMERIC(THIS)
-	protected Vector<CBaseEntityCondExpr> arrAccessAsValue = new Vector<CBaseEntityCondExpr>() ; // when the value of this var occures in a test : IF a = THIS
-	protected Vector<CEntityFileDescriptor> arrFileDescriptorDepending = new Vector<CEntityFileDescriptor>() ; // when this var is used in a file descriptor : DEPENDING ON THIS
+	protected Vector<CBaseEntityCondExpr> accessAsValue = new Vector<CBaseEntityCondExpr>() ; // when the value of this var occures in a test : IF a = THIS
+	protected Vector<CEntityFileDescriptor> fileDescriptorDepending = new Vector<CEntityFileDescriptor>() ; // when this var is used in a file descriptor : DEPENDING ON THIS
 	
 	public void RegisterReadReference(CGenericDataEntityReference ent)
 	{
-		arrReadReference.add(ent) ;
+		readReference.add(ent) ;
 	}
 	public void RegisterWriteReference(CGenericDataEntityReference ent)
 	{
-		arrWriteReference.add(ent) ;
+		writeReference.add(ent) ;
 	}
 	public void RegisterWritingAction(CBaseActionEntity act)
 	{
@@ -167,15 +167,15 @@ public abstract class CDataEntity extends CBaseLanguageEntity
 	}
 	public void RegisterFileDescriptorDepending(CEntityFileDescriptor fileDescriptor)
 	{
-		arrFileDescriptorDepending.add(fileDescriptor) ;
+		fileDescriptorDepending.add(fileDescriptor) ;
 	}
 	public int GetNbWriteReferences()
 	{
-		return arrWriteReference.size();
+		return writeReference.size();
 	}
 	public int GetNbReadReferences()
 	{
-		return arrReadReference.size();
+		return readReference.size();
 	}
 	public int GetNbWrittingActions()
 	{
@@ -194,9 +194,9 @@ public abstract class CDataEntity extends CBaseLanguageEntity
 	}
 	public CGenericDataEntityReference GetWriteReference(int i)
 	{
-		if (i<arrWriteReference.size())
+		if (i< writeReference.size())
 		{
-			return arrWriteReference.get(i);
+			return writeReference.get(i);
 		}
 		else
 		{
@@ -205,9 +205,9 @@ public abstract class CDataEntity extends CBaseLanguageEntity
 	}
 	public CGenericDataEntityReference GetReadReference(int i)
 	{
-		if (i<arrReadReference.size())
+		if (i< readReference.size())
 		{
-			return arrReadReference.get(i);
+			return readReference.get(i);
 		}
 		else
 		{
@@ -266,21 +266,21 @@ public abstract class CDataEntity extends CBaseLanguageEntity
 	}
 	public void RegisterValueAccess(CBaseEntityCondExpr cond)
 	{
-		arrAccessAsValue.add(cond) ;
+		accessAsValue.add(cond) ;
 	}
 	public void UnRegisterValueAccess(int i)
 	{
-		arrAccessAsValue.remove(i) ;
+		accessAsValue.remove(i) ;
 	}
 	public int GetNbValueAccess()
 	{
-		return arrAccessAsValue.size();
+		return accessAsValue.size();
 	}
 	public CBaseEntityCondExpr GetValueAccess(int i)
 	{
-		if (i<arrAccessAsValue.size())
+		if (i< accessAsValue.size())
 		{
-			return arrAccessAsValue.get(i);
+			return accessAsValue.get(i);
 		}
 		else
 		{
@@ -293,17 +293,17 @@ public abstract class CDataEntity extends CBaseLanguageEntity
 	{
 		boolean ignore = arrActionsReading.size()== 0 ;
 		ignore &= arrActionsWriting.size() == 0 ;
-		ignore &= arrReadReference.size() == 0 ;
-		ignore &= arrWriteReference.size() == 0 ;
-		ignore &= arrAccessAsValue.size() == 0 ;
+		ignore &= readReference.size() == 0 ;
+		ignore &= writeReference.size() == 0 ;
+		ignore &= accessAsValue.size() == 0 ;
 		ignore &= arrTestsAsVar.size() == 0 ;
-		ignore &= arrFileDescriptorDepending.size() == 0 ;
+		ignore &= fileDescriptorDepending.size() == 0 ;
 		ignore &= lstChildren.size()== 0 ;
 		if (ignore)
 		{
 			return true ;
 		}
-		return bIgnore ;
+		return isignore;
 	}
 	public void ReplaceBy(CDataEntity var)
 	{
@@ -319,9 +319,9 @@ public abstract class CDataEntity extends CBaseLanguageEntity
 			if (!act.ReplaceVariable(this, var))
 				j++ ;
 		}
-		for (int j = 0; j<arrAccessAsValue.size();)
+		for (int j = 0; j< accessAsValue.size();)
 		{
-			CBaseEntityCondExpr act = arrAccessAsValue.get(j);
+			CBaseEntityCondExpr act = accessAsValue.get(j);
 			if (!act.ReplaceVariable(this, var))
 				j++ ;
 		}
@@ -331,15 +331,15 @@ public abstract class CDataEntity extends CBaseLanguageEntity
 			if (!act.ReplaceVariable(this, var))
 				j++ ;
 		}
-		for (int j = 0; j<arrReadReference.size(); )
+		for (int j = 0; j< readReference.size(); )
 		{
-			CGenericDataEntityReference act = arrReadReference.get(j);
+			CGenericDataEntityReference act = readReference.get(j);
 			if (!act.ReplaceVariable(this, var, true))
 				j++ ;
 		}
-		for (int j = 0; j<arrWriteReference.size();)
+		for (int j = 0; j< writeReference.size();)
 		{
-			CGenericDataEntityReference act = arrWriteReference.get(j);
+			CGenericDataEntityReference act = writeReference.get(j);
 			if (!act.ReplaceVariable(this, var, false))
 				j++ ;
 		}
@@ -349,11 +349,11 @@ public abstract class CDataEntity extends CBaseLanguageEntity
 		super.Clear();
 		arrActionsReading.clear() ;
 		arrActionsWriting.clear() ;
-		arrReadReference.clear() ;
-		arrAccessAsValue.clear() ;
+		readReference.clear() ;
+		accessAsValue.clear() ;
 		arrTestsAsVar.clear() ;
-		arrWriteReference.clear() ;
-		arrFileDescriptorDepending.clear() ;
+		writeReference.clear() ;
+		fileDescriptorDepending.clear() ;
 		if (of != null)
 		{
 			of = null ;
@@ -364,11 +364,11 @@ public abstract class CDataEntity extends CBaseLanguageEntity
 	{
 		arrActionsReading.clear() ;
 		arrActionsWriting.clear() ;
-		arrReadReference.clear() ;
-		arrAccessAsValue.clear() ;
+		readReference.clear() ;
+		accessAsValue.clear() ;
 		arrTestsAsVar.clear() ;
-		arrWriteReference.clear() ;
-		arrFileDescriptorDepending.clear() ;
+		writeReference.clear() ;
+		fileDescriptorDepending.clear() ;
 	}
 	public int getActualSubLevel()
 	{
@@ -377,12 +377,12 @@ public abstract class CDataEntity extends CBaseLanguageEntity
 
 	public void UnRegisterReadReference(CBaseDataReference reference)
 	{
-		arrReadReference.remove(reference) ;
+		readReference.remove(reference) ;
 	}
 
 	public void UnRegisterWriteReference(CBaseDataReference reference)
 	{
-		arrWriteReference.remove(reference) ;
+		writeReference.remove(reference) ;
 	}
 
 	public void UnRegisterVarTesting(CBaseEntityCondition cond)
@@ -392,7 +392,7 @@ public abstract class CDataEntity extends CBaseLanguageEntity
 
 	public void UnRegisterValueAccess(CBaseEntityCondExpr attribute)
 	{
-		arrAccessAsValue.remove(attribute) ;
+		accessAsValue.remove(attribute) ;
 	}
 
 	// ==================== ST4 Template Accessors ====================

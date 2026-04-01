@@ -26,7 +26,7 @@ public class ProcessExecutionTask
 	protected Map<String, String> env ;
 	protected String csCommand = "" ;
 	protected File dirRuntimeDir = null ;
-	protected StringArray arrParameters = new StringArray() ;
+	protected StringArray parameters = new StringArray() ;
 	protected StringArray arrClassPath = new StringArray() ;
 
 	public void setCommand(String cmd)
@@ -40,7 +40,7 @@ public class ProcessExecutionTask
 	{
 		if (p!= null && !p.equals(""))
 		{
-			arrParameters.add(p) ;
+			parameters.add(p) ;
 		}
 	}
 	public boolean setRuntimeDirectory(String dir)

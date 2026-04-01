@@ -148,8 +148,8 @@ public abstract class BaseProgramLoader extends ProgramSequencer	//ProgramSequen
 				BaseProgram currentProgram2ndInstance = programPoolManager.preloadSecondInstanceProgram(csDefaultProgramName);
 				if(currentProgram2ndInstance != null && programInstancesPool != null)
 				{
-					boolean bNewProgramInstance = currentProgram2ndInstance.getProgramManager().isNewProgramInstance();
-					currentProgram2ndInstance.getProgramManager().prepareCall(this, currentProgram, null, null, bNewProgramInstance);
+					boolean isnewProgramInstance = currentProgram2ndInstance.getProgramManager().isNewProgramInstance();
+					currentProgram2ndInstance.getProgramManager().prepareCall(this, currentProgram, null, null, isnewProgramInstance);
 					programInstancesPool.returnProgram(currentProgram2ndInstance);
 					
 					tempCache.resetStackProgram();
@@ -411,15 +411,15 @@ public abstract class BaseProgramLoader extends ProgramSequencer	//ProgramSequen
 	private void runProgram(BaseEnvironment env, ArrayList<BaseCalledPrgPublicArgPositioned> arrCallerCallParam) throws Exception
 	{
 		TempCacheLocator.getTLSTempCache().setCurrentEnv(env);
-		boolean bContinue = true ;
-		while (bContinue)
+		boolean iscontinue = true ;
+		while (iscontinue)
 		{
 			String csProgramID = env.getNextProgramToLoad() ;
 			//ProgramInstance currentProgramInstance = null ;
 			
 			if(csProgramID.equals(""))	// No current program
 			{
-				bContinue = false ;
+				iscontinue = false ;
 			}
 			else
 			{
@@ -447,8 +447,8 @@ public abstract class BaseProgramLoader extends ProgramSequencer	//ProgramSequen
 				String csProgramName = currentProgram.getSimpleName();
 				try
 				{
-					boolean bNewInstance = currentProgram.getProgramManager().isNewProgramInstance();
-					currentProgram.getProgramManager().prepareCall(this, currentProgram, arrCallerCallParam, env, bNewInstance) ;
+					boolean isnewInstance = currentProgram.getProgramManager().isNewProgramInstance();
+					currentProgram.getProgramManager().prepareCall(this, currentProgram, arrCallerCallParam, env, isnewInstance) ;
 					ms_lock.unlock();
 				}
 				catch(Exception e)
@@ -483,7 +483,7 @@ public abstract class BaseProgramLoader extends ProgramSequencer	//ProgramSequen
 					env.endRunProgram(CriteriaEndRunMain.Return);
 					if(isLogCESM || isLogFlow)
 						Log.logVerbose("Program finished: "+csProgramName);
-					bContinue = false ;
+					iscontinue = false ;
 				}
 				catch (CExitException e)
 				{
@@ -492,7 +492,7 @@ public abstract class BaseProgramLoader extends ProgramSequencer	//ProgramSequen
 					env.endRunProgram(CriteriaEndRunMain.Exit);
 					if(isLogCESM || isLogFlow)
 						Log.logVerbose("Program exited: "+csProgramName);
-					bContinue = false ;
+					iscontinue = false ;
 				}
 				catch (CStopRunException e)
 				{
@@ -501,7 +501,7 @@ public abstract class BaseProgramLoader extends ProgramSequencer	//ProgramSequen
 					env.endRunProgram(CriteriaEndRunMain.StopRun);
 					if(isLogCESM || isLogFlow)
 						Log.logVerbose("Program exited: "+csProgramName);
-					bContinue = false ;
+					iscontinue = false ;
 				}
 				catch (CXctlException e)
 				{
@@ -555,12 +555,12 @@ public abstract class BaseProgramLoader extends ProgramSequencer	//ProgramSequen
 						env.setNextProgramToLoad(csProgramID);
 						env.setCommarea(null);
 					}
-					bContinue = false ;
+					iscontinue = false ;
 				}
 				else
 				{
 					env.deQueueProgram() ;
-					bContinue = true ;
+					iscontinue = true ;
 				}
 				
 				returnProgramInstanceToPool(currentProgram);
@@ -584,8 +584,8 @@ public abstract class BaseProgramLoader extends ProgramSequencer	//ProgramSequen
 		try
 		{
 			BaseProgramManager baseProgramManager = currentProgram.getProgramManager();
-			boolean bNewProgramInstance = baseProgramManager.isNewProgramInstance();
-			baseProgramManager.prepareCall(this, currentProgram, arrCallerCallParam, CESMEnv, bNewProgramInstance) ;
+			boolean isnewProgramInstance = baseProgramManager.isNewProgramInstance();
+			baseProgramManager.prepareCall(this, currentProgram, arrCallerCallParam, CESMEnv, isnewProgramInstance) ;
 			
 			ms_lock.unlock();
 		}

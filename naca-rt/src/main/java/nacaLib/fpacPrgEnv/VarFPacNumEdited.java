@@ -7,7 +7,6 @@
 package nacaLib.fpacPrgEnv;
 
 import nacaLib.tempCache.CStr;
-import nacaLib.tempCache.TempCacheLocator;
 import nacaLib.varEx.Var;
 import nacaLib.varEx.VarBase;
 import nacaLib.varEx.VarBuffer;
@@ -64,8 +63,8 @@ public class VarFPacNumEdited extends Var
 		
 	public int compareTo(double dValue)
 	{
-		double dVarValue = getDouble();
-		double d = dVarValue - dValue;
+		double varValue = getDouble();
+		double d = varValue - dValue;
 		if(d < -0.00001)	//Consider epsilon precision at 10 e-5 
 			return -1;
 		else if(d > 0.00001)	//Consider epsilon precision at 10 e-5

@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 11 août 2004
+ * Created on 11 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -59,7 +59,7 @@ public abstract class CResourceStrings
 		}
 	}
 	
-	protected ArrayList<String> arrLangId = new ArrayList<String>() ;
+	protected ArrayList<String> langId = new ArrayList<String>() ;
 	protected class CLocalizedText
 	{
 		public String csId = "" ;
@@ -70,15 +70,15 @@ public abstract class CResourceStrings
 	{
 		nbCols = nbCols ;
 		nbLines = nbLines ;
-		arrLines = new CLocalizedText[nbLines+1][];
+		lines = new CLocalizedText[nbLines+1][];
 		tabTexts = new Hashtable<String, CLocalizedText>() ;
 	}
 	public void SetResourceText(int line, int col, String text, String langID, int length)
 	{
 		String csLang = getOfficialLanguageCode(langID) ; 
-		if (!arrLangId.contains(csLang))
+		if (!langId.contains(csLang))
 		{
-			arrLangId.add(csLang) ;
+			langId.add(csLang) ;
 		}
 		CLocalizedText lText = GetResourceAt(line, col) ;
 		lText.length = length ;
@@ -87,9 +87,9 @@ public abstract class CResourceStrings
 	public void SetResourceText(int line, int col, String text, String langID, String id, int length)
 	{
 		String csLang = getOfficialLanguageCode(langID) ; 
-		if (!arrLangId.contains(csLang))
+		if (!langId.contains(csLang))
 		{
-			arrLangId.add(csLang) ;
+			langId.add(csLang) ;
 		}
 		CLocalizedText lText = GetResourceAt(line, col) ;
 		lText.length = length ;
@@ -102,18 +102,18 @@ public abstract class CResourceStrings
 	}
 	protected CLocalizedText GetResourceAt(int line, int col)
 	{
-		CLocalizedText lText = null ;
-		if (arrLines[line] == null)
+		CLocalizedText text = null ;
+		if (lines[line] == null)
 		{
-			arrLines[line] = new CLocalizedText[nbCols+1] ;
+			lines[line] = new CLocalizedText[nbCols+1] ;
 		}
-		lText = arrLines[line][col] ;
-		if (lText == null)
+		text = lines[line][col] ;
+		if (text == null)
 		{
-			lText = new CLocalizedText() ;
-			arrLines[line][col] = lText ;
+			text = new CLocalizedText() ;
+			lines[line][col] = text;
 		} 
-		return lText ;
+		return text;
 	}
 	public abstract Element Export(Element parent, Document root);
 	
@@ -124,7 +124,7 @@ public abstract class CResourceStrings
 	protected int lastIndex = 0;
 	protected int nbLines = 0 ;
 	protected int nbCols = 0 ;
-	protected CLocalizedText[][] arrLines = null ;
+	protected CLocalizedText[][] lines = null ;
 	protected Hashtable<String, CLocalizedText> tabTexts = null ;
 
 	public Node ExportResource(String name, Document doc)
@@ -157,13 +157,13 @@ public abstract class CResourceStrings
 	public String ExportAllLangId()
 	{
 		String cs = "" ;
-		for (int i=0; i<arrLangId.size(); i++)
+		for (int i = 0; i< langId.size(); i++)
 		{
 			if (i>0)
 			{
 				cs += ";" ;
 			}
-			cs += arrLangId.get(i) ;
+			cs += langId.get(i) ;
 		}
 		return cs ;
 	}
@@ -178,17 +178,17 @@ public abstract class CResourceStrings
 		{
 			return false ;
 		}
-		CLocalizedText lText = null ;
-		if (arrLines[line] == null)
+		CLocalizedText text = null ;
+		if (lines[line] == null)
 		{
 			return  false ;
 		}
-		lText = arrLines[line][col] ;
-		if (lText == null)
+		text = lines[line][col] ;
+		if (text == null)
 		{
 			return false ;
 		} 
-		if (lText.length != length)
+		if (text.length != length)
 		{
 			return false ;
 		}

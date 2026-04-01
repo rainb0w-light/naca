@@ -35,10 +35,10 @@ public class CFPacOutputFile extends CFPacElement
 	}
 
 	protected String csFileId = "";
-	protected boolean bVariableFile = false; 
-	private CTerminal cLR;
-	private boolean bPFFile = false ;
-	private boolean bCDFile = false ; 
+	protected boolean isvariableFile = false;
+	private CTerminal lR;
+	private boolean ispFFile = false ;
+	private boolean iscDFile = false ;
 
 	@Override
 	protected boolean DoParsing()
@@ -65,7 +65,7 @@ public class CFPacOutputFile extends CFPacElement
 		tok = GetNext() ;
 		if (tok.GetKeyword() == CFPacKeywordList.SQ)
 		{
-			bVariableFile = false ;
+			isvariableFile = false ;
 			tok = GetNext() ;
 			if (tok.GetType() == CTokenType.MINUS)
 			{
@@ -73,7 +73,7 @@ public class CFPacOutputFile extends CFPacElement
 				if (tok.GetKeyword() == CFPacKeywordList.VAR)
 				{
 					tok =GetNext() ;
-					bVariableFile = true ;
+					isvariableFile = true ;
 				}
 				else
 				{
@@ -83,12 +83,12 @@ public class CFPacOutputFile extends CFPacElement
 		}
 		else if (tok.GetKeyword() == CFPacKeywordList.PR)
 		{
-			bPFFile  = true ;
+			ispFFile = true ;
 			tok = GetNext() ;
 		}
 		else if (tok.GetKeyword() == CFPacKeywordList.CD)
 		{
-			bCDFile   = true ;
+			iscDFile = true ;
 			tok = GetNext() ;
 		}
 		else
@@ -106,7 +106,7 @@ public class CFPacOutputFile extends CFPacElement
 				if (tok.GetType() == CTokenType.EQUALS) 
 				{
 					tok = GetNext() ;
-					cLR = ReadTerminal() ;
+					lR = ReadTerminal() ;
 				}
 				else
 				{
@@ -116,7 +116,7 @@ public class CFPacOutputFile extends CFPacElement
 			}
 			else if (tok.GetType() == CTokenType.NUMBER)
 			{
-				arrNumbers.add(tok.GetValue()) ;
+				numbers.add(tok.GetValue()) ;
 				tok = GetNext();
 			}
 			else
@@ -129,16 +129,16 @@ public class CFPacOutputFile extends CFPacElement
 		
 	}
 	
-	protected Vector<String> arrNumbers = new Vector<String>() ;
+	protected Vector<String> numbers = new Vector<String>() ;
 
 	@Override
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		if (bPFFile)
+		if (ispFFile)
 		{
 			Transcoder.logError(getLine(), "PR file not supported yet") ;
 		}
-		if (bCDFile)
+		if (iscDFile)
 		{
 			Transcoder.logError(getLine(), "CD file not supported yet") ;
 		}
@@ -154,11 +154,11 @@ public class CFPacOutputFile extends CFPacElement
 		factory.programCatalog.RegisterFileDescriptor(csDescName, att) ;
 
 		att.setFileAccessType(CEntityOpenFile.OpenMode.OUTPUT) ;
-		att.setRecordSizeVariable(bVariableFile) ;
+		att.setRecordSizeVariable(isvariableFile) ;
 		
-		if (cLR != null)
+		if (lR != null)
 		{
-			CDataEntity e = cLR.GetDataEntity(getLine(), factory) ;
+			CDataEntity e = lR.GetDataEntity(getLine(), factory) ;
 			if (e != null)
 			{
 				att.setOutputBufferInitialValue(e) ;
@@ -180,14 +180,14 @@ public class CFPacOutputFile extends CFPacElement
 	{
 		Element eAdd = root.createElement("OutputFile") ;
 		eAdd.setAttribute("FileId", csFileId) ;
-		eAdd.setAttribute("Var", String.valueOf(bVariableFile)) ;
-		if (cLR != null)
+		eAdd.setAttribute("Var", String.valueOf(isvariableFile)) ;
+		if (lR != null)
 		{
 			Element eCLR = root.createElement("CLR") ;
-			cLR.ExportTo(eCLR, root) ;
+			lR.ExportTo(eCLR, root) ;
 			eAdd.appendChild(eCLR) ;
 		}
-		for (String cs: arrNumbers)
+		for (String cs: numbers)
 		{
 			Element e = root.createElement("Number") ;
 			eAdd.appendChild(e) ;

@@ -49,10 +49,10 @@ public class LogCenterFile extends LogCenter
 		FileSystem.createPath(csFile);
 		
 		if(csFileStrategy.equalsIgnoreCase("Append"))
-			bAppend = true;
+			isappend = true;
 		else if(csFileStrategy.equalsIgnoreCase("BackupOnstart"))	// Backup On Start
 		{
-			bAppend = false;
+			isappend = false;
 			
 			// Read the backup strategy tag
 			Tag tagBackup = tagLogCenter.getChild("Backup");
@@ -78,7 +78,7 @@ public class LogCenterFile extends LogCenter
 			}
 		}		
 		else
-			bAppend = false;
+			isappend = false;
 	}
 	
 	private String normalizeBackupFileFormat(String csBackupFileFormat)
@@ -97,7 +97,7 @@ public class LogCenterFile extends LogCenter
 	{
 		try 
 		{ 			
-			printWriter = new PrintWriter(new BufferedWriter(new FileWriter(csFile, bAppend)));
+			printWriter = new PrintWriter(new BufferedWriter(new FileWriter(csFile, isappend)));
 		} 
 		catch (Exception e) 
 		{ 
@@ -143,7 +143,7 @@ public class LogCenterFile extends LogCenter
 	}
 		
 	private String csFile = null;
-	private boolean bAppend  = false;
+	private boolean isappend = false;
 	
 	private PrintWriter printWriter = null;
 	

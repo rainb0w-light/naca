@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 9 août 2004
+ * Created on 9 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -90,12 +90,12 @@ public abstract class CEntityNamedCondition extends CDataEntity
 	
 	public void AddInterval(CDataEntity eStart, CDataEntity eEnd)
 	{
-		arrEndIntervals.add(eEnd);
-		arrStartIntervals.add(eStart);
+		endIntervals.add(eEnd);
+		startIntervals.add(eStart);
 	}
 	public void AddValue(CDataEntity eValue)
 	{
-		arrValues.add(eValue);	
+		values.add(eValue);
 	}
 	public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory) 
 	{
@@ -110,12 +110,12 @@ public abstract class CEntityNamedCondition extends CDataEntity
 		return e ;
 	};
 	
-	protected Vector<CDataEntity> arrStartIntervals = new Vector<CDataEntity>() ;
-	protected Vector<CDataEntity> arrEndIntervals = new Vector<CDataEntity>() ;
-	protected Vector<CDataEntity> arrValues = new Vector<CDataEntity>() ;
+	protected Vector<CDataEntity> startIntervals = new Vector<CDataEntity>() ;
+	protected Vector<CDataEntity> endIntervals = new Vector<CDataEntity>() ;
+	protected Vector<CDataEntity> values = new Vector<CDataEntity>() ;
 	public boolean ignore()
 	{
-		return arrStartIntervals.size() == 0 && arrEndIntervals.size() == 0 && arrValues.size() == 0 ;
+		return startIntervals.size() == 0 && endIntervals.size() == 0 && values.size() == 0 ;
 	}
 	public String GetConstantValue()
 	{
@@ -124,9 +124,9 @@ public abstract class CEntityNamedCondition extends CDataEntity
 	public void Clear()
 	{
 		super.Clear();
-		arrStartIntervals.clear() ;
-		arrEndIntervals.clear() ;
-		arrValues.clear() ;
+		startIntervals.clear() ;
+		endIntervals.clear() ;
+		values.clear() ;
 	}
 	
 }

@@ -7,7 +7,7 @@
 package jlib.xml;
 
 /*
- * Created on 2 févr. 2005
+ * Created on 2 fï¿½vr. 2005
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -53,8 +53,8 @@ public class XMLUtil
 		{
 			return null ;
 		}
-		File fSS = new File(csFilePath);
-		return LoadXML(fSS) ;
+		File sS = new File(csFilePath);
+		return LoadXML(sS) ;
 	}
 	
 	public static Document LoadXML(File f)
@@ -220,15 +220,15 @@ public class XMLUtil
 	public static byte[] decode64(String cs)
 	{
 		Base64 base64 = new Base64();
-		byte[] arrBytes = cs.getBytes();
-		return base64.decode(arrBytes);
+		byte[] bytes = cs.getBytes();
+		return base64.decode(bytes);
 	}
 	
 	public static String decode64AsString(String cs)
 	{
 		Base64 base64 = new Base64();
-		byte[] arrBytes = cs.getBytes();
-		byte[] tOut = base64.decode(arrBytes);
+		byte[] bytes = cs.getBytes();
+		byte[] tOut = base64.decode(bytes);
 		String csOut = new String(tOut);
 		return csOut;
 	}
@@ -236,52 +236,52 @@ public class XMLUtil
 	public static String encode64AsString(String cs)
 	{
 		Base64 base64 = new Base64();
-		byte[] arrBytes = cs.getBytes();
-		byte[] tOut = base64.encode(arrBytes);
+		byte[] bytes = cs.getBytes();
+		byte[] tOut = base64.encode(bytes);
 		String csOut = new String(tOut);
 		return csOut;
 	}
 	
 	public static boolean encode64File(String csIn, String csOut)
 	{
-		DataFileRead fIn = new DataFileRead(csIn); 
-		boolean b = fIn.open(null);
+		DataFileRead in = new DataFileRead(csIn);
+		boolean b = in.open(null);
 		if(b)
 		{
-			byte[] tIn = fIn.readWholeFileAsArray();
+			byte[] tIn = in.readWholeFileAsArray();
 
-			DataFileWrite fOut = new DataFileWrite(csOut, false); 
-			boolean bOut = fOut.open();
-			if(bOut)
+			DataFileWrite out = new DataFileWrite(csOut, false);
+			boolean isout = out.open();
+			if(isout)
 			{
 				byte[] tOut = XMLUtil.encode64(tIn);
-				fOut.write(tOut);
-				fOut.close();
+				out.write(tOut);
+				out.close();
 				return true;
 			}
-			fIn.close();			
+			in.close();
 		}
 		return false;
 	}
 	
 	public static boolean decode64File(String csIn, String csOut)
 	{
-		DataFileRead fIn = new DataFileRead(csIn); 
-		boolean b = fIn.open(null);
+		DataFileRead in = new DataFileRead(csIn);
+		boolean b = in.open(null);
 		if(b)
 		{
-			byte[] tIn = fIn.readWholeFileAsArray();
+			byte[] tIn = in.readWholeFileAsArray();
 
-			DataFileWrite fOut = new DataFileWrite(csOut, false); 
-			boolean bOut = fOut.open();
-			if(bOut)
+			DataFileWrite out = new DataFileWrite(csOut, false);
+			boolean isout = out.open();
+			if(isout)
 			{
 				byte[] tOut = XMLUtil.decode64(tIn);
-				fOut.write(tOut);
-				fOut.close();
+				out.write(tOut);
+				out.close();
 				return true;
 			}
-			fIn.close();			
+			in.close();
 		}
 		return false;
 	}

@@ -34,11 +34,11 @@ public class CEntityHierarchy
 //			Concat(hier) ;
 //		}
 //	}	
-	protected Vector<String> arrAscendants = new Vector<String>() ;
+	protected Vector<String> ascendants = new Vector<String>() ;
 
 	public void AddLevel(String level)
 	{
-		arrAscendants.addElement(level) ;
+		ascendants.addElement(level) ;
 	}
 	
 	public boolean CheckAscendant(String name)
@@ -48,7 +48,7 @@ public class CEntityHierarchy
 			String [] arr = name.split(";") ;
 			return CheckAscendants(arr) ;
 		}
-		return arrAscendants.contains(name) && !arrAscendants.elementAt(arrAscendants.size()-1).equals(name);
+		return ascendants.contains(name) && !ascendants.elementAt(ascendants.size()-1).equals(name);
 	}	
 	public boolean CheckAscendants(String[] arr)
 	{
@@ -69,15 +69,15 @@ public class CEntityHierarchy
 			radical = curName.substring(0, n) ;
 		}
 		String goodName = "" ;
-		for (int i=0; i<arrAscendants.size()-1 ; i++) // hierarchy starts with object's name
+		for (int i = 0; i< ascendants.size()-1 ; i++) // hierarchy starts with object's name
 		{
-			boolean bFound = false ;
-			String asc = arrAscendants.get(i);
-			for (int j=0; j<tab.length && !bFound ; j++)
+			boolean isfound = false ;
+			String asc = ascendants.get(i);
+			for (int j = 0; j<tab.length && !isfound; j++)
 			{
-				bFound |= tab[j].CheckAscendant(asc);
+				isfound |= tab[j].CheckAscendant(asc);
 			}
-			if (!bFound)
+			if (!isfound)
 			{
 				goodName = asc ;
 				break ;
@@ -92,9 +92,9 @@ public class CEntityHierarchy
 	
 	public CEntityHierarchy Concat(CEntityHierarchy hier)
 	{
-		for (int i=0; i<hier.arrAscendants.size(); i++)
+		for (int i = 0; i<hier.ascendants.size(); i++)
 		{
-			arrAscendants.addElement(hier.arrAscendants.get(i));
+			ascendants.addElement(hier.ascendants.get(i));
 		}		
 		return this ;
 	}

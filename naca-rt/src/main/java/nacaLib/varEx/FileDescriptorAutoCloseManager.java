@@ -27,7 +27,7 @@ public class FileDescriptorAutoCloseManager
 	
 	public void reportFileDescriptorStatus(FileDescriptor fileDescriptor, FileDescriptorOpenStatus status)
 	{
-		if(hashFileDescriptor != null && !bIsInAutoClose)
+		if(hashFileDescriptor != null && !isisInAutoClose)
 		{
 			hashFileDescriptor.remove(fileDescriptor);
 			hashFileDescriptor.put(fileDescriptor, status);
@@ -45,7 +45,7 @@ public class FileDescriptorAutoCloseManager
 	{
 		if(hashFileDescriptor != null)
 		{
-			bIsInAutoClose = true;
+			isisInAutoClose = true;
 			Set<Entry<FileDescriptor, FileDescriptorOpenStatus> > entries = hashFileDescriptor.entrySet();
 			Iterator<Entry<FileDescriptor, FileDescriptorOpenStatus> > iter = entries.iterator();
 			while (iter.hasNext())
@@ -58,10 +58,10 @@ public class FileDescriptorAutoCloseManager
 				}
 			}
 			hashFileDescriptor.clear();
-			bIsInAutoClose = false;
+			isisInAutoClose = false;
 		}		
 	}
 	
 	private Hashtable<FileDescriptor, FileDescriptorOpenStatus> hashFileDescriptor  = null;
-	private boolean bIsInAutoClose = false;
+	private boolean isisInAutoClose = false;
 }

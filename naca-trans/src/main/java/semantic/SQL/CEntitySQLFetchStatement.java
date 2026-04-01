@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 19 août 04
+ * Created on 19 aoï¿½t 04
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -34,10 +34,10 @@ public abstract class CEntitySQLFetchStatement extends CBaseActionEntity
 	@Override
 	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
 	{
-		if (arrInto.contains(field))
+		if (into.contains(field))
 		{
-			int pos = arrInto.indexOf(field) ;
-			arrInto.set(pos, var) ;
+			int pos = into.indexOf(field) ;
+			into.set(pos, var) ;
 			field.UnRegisterWritingAction(this) ;
 			var.RegisterWritingAction(this) ;
 			return true ;
@@ -48,16 +48,16 @@ public abstract class CEntitySQLFetchStatement extends CBaseActionEntity
 	{
 		super(line, cat, out);
 		cursor = cur;
-		arrInto = new Vector<CDataEntity>() ;
-		arrIndicators = new Vector<CDataEntity>() ;
+		into = new Vector<CDataEntity>() ;
+		indicators = new Vector<CDataEntity>() ;
 	}
 	protected CEntitySQLCursor cursor = null ;
-	protected Vector<CDataEntity> arrInto = null;
-	protected Vector<CDataEntity> arrIndicators = null;
+	protected Vector<CDataEntity> into = null;
+	protected Vector<CDataEntity> indicators = null;
 	public void Clear()
 	{
 		super.Clear();
-		arrInto.clear() ;
+		into.clear() ;
 		cursor.Clear() ;
 		cursor = null ;
 	}
@@ -67,7 +67,7 @@ public abstract class CEntitySQLFetchStatement extends CBaseActionEntity
 	}
 	public void AddFetchInto(CDataEntity e, CDataEntity eInd)
 	{
-		arrInto.add(e) ;
-		arrIndicators.add(eInd) ;
+		into.add(e) ;
+		indicators.add(eInd) ;
 	}
 }

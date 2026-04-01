@@ -90,7 +90,7 @@ public abstract class CEntityCICSStart extends CBaseActionEntity
 	 */
 	public void setVerified(boolean checked)
 	{
-		bVerified = checked ;
+		isverified = checked ;
 	}
-	protected boolean bVerified = false ;
+	protected boolean isverified = false ;
 }

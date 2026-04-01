@@ -92,8 +92,8 @@ public class CExecCICSWrite extends CCobolElement
 			tok = GetNext();
 		}
 		
-		boolean bDone = false ;
-		while (!bDone)
+		boolean isdone = false ;
+		while (!isdone)
 		{
 			tok = GetCurrentToken() ;
 			if (tok.GetKeyword() == CCobolKeywordList.FILE && writeType == null)
@@ -184,7 +184,7 @@ public class CExecCICSWrite extends CCobolElement
 			}		
 			else 
 			{
-				bDone = true ;
+				isdone = true ;
 			}
 		}
 				

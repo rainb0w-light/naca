@@ -148,30 +148,30 @@ public class BasePic9Comp3BufferSupport
 		lValue *= 10;
 		lValue += nDecodedByte;
 
-		boolean bNegative = ms_tDecodeLastByteNegativeComp3[nEncodedByte];
-		if(bNegative)
+		boolean isnegative = ms_tDecodeLastByteNegativeComp3[nEncodedByte];
+		if(isnegative)
 			lValue = -lValue;
 		return lValue;
 	}
 	
 	public static long keepRightMostDigits(long lOriginalValue, int nNbDigitsToKeep)
 	{
-		long lPower10 = ms_tModulo[nNbDigitsToKeep];
+		long power10 = ms_tModulo[nNbDigitsToKeep];
 		if(lOriginalValue < 0)
 		{
 			long lValue = -lOriginalValue;			
-			if(lValue > lPower10)	// 1234 > 1000, when we want to keep only 3 digits for n, then returning only 234
+			if(lValue > power10)	// 1234 > 1000, when we want to keep only 3 digits for n, then returning only 234
 			{				
-				long lLeftDigits = (lValue / lPower10) * lPower10;
-				lValue = lValue - lLeftDigits;
+				long leftDigits = (lValue / power10) * power10;
+				lValue = lValue - leftDigits;
 				return -lValue;
 			}
 			return lOriginalValue;
 		}
-		if(lOriginalValue > lPower10)	// 1234 > 1000, when we want to keep only 3 digits for n, then returning only 234
+		if(lOriginalValue > power10)	// 1234 > 1000, when we want to keep only 3 digits for n, then returning only 234
 		{
-			long lLeftDigits = (lOriginalValue / lPower10) * lPower10;
-			long lValue = lOriginalValue - lLeftDigits;
+			long leftDigits = (lOriginalValue / power10) * power10;
+			long lValue = lOriginalValue - leftDigits;
 			return lValue;
 		}
 		return lOriginalValue;		
@@ -179,15 +179,15 @@ public class BasePic9Comp3BufferSupport
 	
 	public static String makeDottedString(long lValue, int nNbDecimals)
 	{
-		long lPower10 = ms_tModulo[nNbDecimals];
-		long lInt = lValue / lPower10;
+		long power10 = ms_tModulo[nNbDecimals];
+		long lInt = lValue / power10;
 		
-		long lAbsValue = lValue;
-		if(lAbsValue < 0)
-			lAbsValue = -lAbsValue;
-		long lDec = lAbsValue % lPower10;
+		long absValue = lValue;
+		if(absValue < 0)
+			absValue = -absValue;
+		long dec = absValue % power10;
 		
-		String csDec = "" + lDec;
+		String csDec = "" + dec;
 		if(csDec.length() < nNbDecimals)	// Must prefix with leading 0
 		{
 			int nNbLeading0 = nNbDecimals - csDec.length();

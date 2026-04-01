@@ -119,11 +119,11 @@ public class TranslationPipelineTest {
         @DisplayName("Run GnuCOBOL version check")
         void testGnuCOBOLVersion() throws Exception {
             Assumptions.assumeTrue(dockerAvailable, "Docker not available - skipping");
-            ProcessBuilder pb = new ProcessBuilder(
+            ProcessBuilder progressBar = new ProcessBuilder(
                 "docker", "run", "--rm", "dagui0/gnucobol:latest", "cobc", "--version"
             );
-            pb.redirectErrorStream(true);
-            Process p = pb.start();
+            progressBar.redirectErrorStream(true);
+            Process p = progressBar.start();
             
             StringBuilder output = new StringBuilder();
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()))) {

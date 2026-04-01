@@ -88,38 +88,38 @@ public class BlowfishECB
 
 
     // encrypt all boxes with the all zero string
-    long lZero = 0;
+    long zero = 0;
 
     // (same as above)
     for (nI = 0; nI < PBOX_ENTRIES; nI += 2) 
     {
-      lZero = encryptBlock(lZero);
-      pbox[nI] = (int) (lZero >>> 32);
-      pbox[nI+1] = (int) (lZero & 0x0ffffffffL);
+      zero = encryptBlock(zero);
+      pbox[nI] = (int) (zero >>> 32);
+      pbox[nI+1] = (int) (zero & 0x0ffffffffL);
     }
     for (nI = 0; nI < SBOX_ENTRIES; nI += 2) 
     {
-      lZero = encryptBlock(lZero);
-      sbox1[nI] = (int) (lZero >>> 32);
-      sbox1[nI+1] = (int) (lZero & 0x0ffffffffL);
+      zero = encryptBlock(zero);
+      sbox1[nI] = (int) (zero >>> 32);
+      sbox1[nI+1] = (int) (zero & 0x0ffffffffL);
     }
     for (nI = 0; nI < SBOX_ENTRIES; nI += 2) 
     {
-      lZero = encryptBlock(lZero);
-      sbox2[nI] = (int) (lZero >>> 32);
-      sbox2[nI+1] = (int) (lZero & 0x0ffffffffL);
+      zero = encryptBlock(zero);
+      sbox2[nI] = (int) (zero >>> 32);
+      sbox2[nI+1] = (int) (zero & 0x0ffffffffL);
     }
     for (nI = 0; nI < SBOX_ENTRIES; nI += 2) 
     {
-      lZero = encryptBlock(lZero);
-      sbox3[nI] = (int) (lZero >>> 32);
-      sbox3[nI+1] = (int) (lZero & 0x0ffffffffL);
+      zero = encryptBlock(zero);
+      sbox3[nI] = (int) (zero >>> 32);
+      sbox3[nI+1] = (int) (zero & 0x0ffffffffL);
     }
     for (nI = 0; nI < SBOX_ENTRIES; nI += 2) 
     {
-      lZero = encryptBlock(lZero);
-      sbox4[nI] = (int) (lZero >>> 32);
-      sbox4[nI+1] = (int) (lZero & 0x0ffffffffL);
+      zero = encryptBlock(zero);
+      sbox4[nI] = (int) (zero >>> 32);
+      sbox4[nI+1] = (int) (zero & 0x0ffffffffL);
     }
   }
 
@@ -306,13 +306,13 @@ public class BlowfishECB
                       byte[] outbuffer) 
   {
     int nLen = inbuffer.length;
-    long lTemp;
+    long temp;
     for (int nI = 0; nI < nLen; nI +=8)
     {
       // encrypt a temporary 64bit block
-      lTemp = BinConverter.byteArrayToLong(inbuffer, nI);
-      lTemp = encryptBlock(lTemp);
-      BinConverter.longToByteArray(lTemp, outbuffer, nI);
+      temp = BinConverter.byteArrayToLong(inbuffer, nI);
+      temp = encryptBlock(temp);
+      BinConverter.longToByteArray(temp, outbuffer, nI);
     }
   }
 
@@ -325,13 +325,13 @@ public class BlowfishECB
   public void encrypt(byte[] buffer) 
   {
     int nLen = buffer.length;
-    long lTemp;
+    long temp;
     for (int nI = 0; nI < nLen; nI +=8)
     {
       // encrypt a temporary 64bit block
-      lTemp = BinConverter.byteArrayToLong(buffer, nI);
-      lTemp = encryptBlock(lTemp);
-      BinConverter.longToByteArray(lTemp, buffer, nI);
+      temp = BinConverter.byteArrayToLong(buffer, nI);
+      temp = encryptBlock(temp);
+      BinConverter.longToByteArray(temp, buffer, nI);
     }
   }
 
@@ -349,13 +349,13 @@ public class BlowfishECB
                       int[] outbuffer) 
   {
     int nLen = inbuffer.length;
-    long lTemp;
+    long temp;
     for (int nI = 0; nI < nLen; nI +=2) 
     {
       // encrypt a temporary 64bit block
-      lTemp = BinConverter.intArrayToLong(inbuffer, nI);
-      lTemp = encryptBlock(lTemp);
-      BinConverter.longToIntArray(lTemp, outbuffer, nI);
+      temp = BinConverter.intArrayToLong(inbuffer, nI);
+      temp = encryptBlock(temp);
+      BinConverter.longToIntArray(temp, outbuffer, nI);
     }
   }
 
@@ -368,13 +368,13 @@ public class BlowfishECB
   public void encrypt(int[] buffer) 
   {
     int nLen = buffer.length;
-    long lTemp;
+    long temp;
     for (int nI = 0; nI < nLen; nI +=2) 
     {
       // encrypt a temporary 64bit block
-      lTemp = BinConverter.intArrayToLong(buffer, nI);
-      lTemp = encryptBlock(lTemp);
-      BinConverter.longToIntArray(lTemp, buffer, nI);
+      temp = BinConverter.intArrayToLong(buffer, nI);
+      temp = encryptBlock(temp);
+      BinConverter.longToIntArray(temp, buffer, nI);
     }
   }
 
@@ -422,13 +422,13 @@ public class BlowfishECB
                       byte[] outbuffer) 
   {
     int nLen = inbuffer.length;
-    long lTemp;
+    long temp;
     for (int nI = 0; nI < nLen; nI +=8) 
     {
       // decrypt a temporary 64bit block
-      lTemp = BinConverter.byteArrayToLong(inbuffer, nI);
-      lTemp = decryptBlock(lTemp);
-      BinConverter.longToByteArray(lTemp, outbuffer, nI);
+      temp = BinConverter.byteArrayToLong(inbuffer, nI);
+      temp = decryptBlock(temp);
+      BinConverter.longToByteArray(temp, outbuffer, nI);
     }
   }
 
@@ -441,13 +441,13 @@ public class BlowfishECB
   public void decrypt(byte[] buffer) 
   {
     int nLen = buffer.length;
-    long lTemp;
+    long temp;
     for (int nI = 0; nI < nLen; nI +=8) 
     {
       // decrypt over a temporary 64bit block
-      lTemp = BinConverter.byteArrayToLong(buffer, nI);
-      lTemp = decryptBlock(lTemp);
-      BinConverter.longToByteArray(lTemp, buffer, nI);
+      temp = BinConverter.byteArrayToLong(buffer, nI);
+      temp = decryptBlock(temp);
+      BinConverter.longToByteArray(temp, buffer, nI);
     }
   }
 
@@ -464,13 +464,13 @@ public class BlowfishECB
                       int[] outbuffer) 
   {
     int nLen = inbuffer.length;
-    long lTemp;
+    long temp;
     for (int nI = 0; nI < nLen; nI +=2) 
     {
       // decrypt a temporary 64bit block
-      lTemp = BinConverter.intArrayToLong(inbuffer, nI);
-      lTemp = decryptBlock(lTemp);
-      BinConverter.longToIntArray(lTemp, outbuffer, nI);
+      temp = BinConverter.intArrayToLong(inbuffer, nI);
+      temp = decryptBlock(temp);
+      BinConverter.longToIntArray(temp, outbuffer, nI);
     }
   }
 
@@ -483,13 +483,13 @@ public class BlowfishECB
   public void decrypt(int[] buffer) 
   {
     int nLen = buffer.length;
-    long lTemp;
+    long temp;
     for (int nI = 0; nI < nLen; nI +=2) 
     {
       // decrypt a temporary 64bit block
-      lTemp = BinConverter.intArrayToLong(buffer, nI);
-      lTemp = decryptBlock(lTemp);
-      BinConverter.longToIntArray(lTemp, buffer, nI);
+      temp = BinConverter.intArrayToLong(buffer, nI);
+      temp = decryptBlock(temp);
+      BinConverter.longToIntArray(temp, buffer, nI);
     }
   }
 

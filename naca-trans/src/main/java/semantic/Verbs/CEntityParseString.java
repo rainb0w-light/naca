@@ -24,17 +24,17 @@ public abstract class CEntityParseString extends CBaseActionEntity
 {
 	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
 	{
-		boolean bReplace = false;
+		boolean isreplace = false;
 		if (variable == field)
 		{
 			variable = var ;
 			field.UnRegisterReadingAction(this) ;
 			var.RegisterReadingAction(this) ;
-			bReplace = true;
+			isreplace = true;
 		}
-		for (int i=0; i < arrDestinations.size(); i++)
+		for (int i = 0; i < destinations.size(); i++)
 		{
-			CDataEntity[] entities = arrDestinations.get(i);
+			CDataEntity[] entities = destinations.get(i);
 			for (int j=0; j < entities.length; j++)
 			{
 				CDataEntity entity = entities[j];
@@ -43,41 +43,41 @@ public abstract class CEntityParseString extends CBaseActionEntity
 					entity = var ;
 					field.UnRegisterReadingAction(this) ;
 					var.RegisterReadingAction(this) ;
-					bReplace = true;
+					isreplace = true;
 				}
 			}
 		}
-		if (arrDelimitersMulti.contains(field))
+		if (delimitersMulti.contains(field))
 		{
-			int pos = arrDelimitersMulti.indexOf(field) ;
-			arrDelimitersMulti.set(pos, var) ;
+			int pos = delimitersMulti.indexOf(field) ;
+			delimitersMulti.set(pos, var) ;
 			field.UnRegisterWritingAction(this) ;
 			var.RegisterWritingAction(this) ;
-			bReplace = true ;
+			isreplace = true ;
 		}
-		if (arrDelimitersSingle.contains(field))
+		if (delimitersSingle.contains(field))
 		{
-			int pos = arrDelimitersSingle.indexOf(field) ;
-			arrDelimitersSingle.set(pos, var) ;
+			int pos = delimitersSingle.indexOf(field) ;
+			delimitersSingle.set(pos, var) ;
 			field.UnRegisterWritingAction(this) ;
 			var.RegisterWritingAction(this) ;
-			bReplace = true ;
+			isreplace = true ;
 		}
 		if (tallying == field)
 		{
 			tallying = var ;
 			field.UnRegisterReadingAction(this) ;
 			var.RegisterReadingAction(this) ;
-			bReplace = true;
+			isreplace = true;
 		}
 		if (withPointer == field)
 		{
 			withPointer = var ;
 			field.UnRegisterWritingAction(this) ;
 			var.RegisterWritingAction(this) ;
-			bReplace = true;
+			isreplace = true;
 		}
-		return bReplace;
+		return isreplace;
 	}
 
 	/**
@@ -96,15 +96,15 @@ public abstract class CEntityParseString extends CBaseActionEntity
 	}
 	public void AddDelimiterSingle(CDataEntity e)
 	{
-		arrDelimitersSingle.add(e);
+		delimitersSingle.add(e);
 	}
 	public void AddDelimiterMulti(CDataEntity e)
 	{
-		arrDelimitersMulti.add(e);
+		delimitersMulti.add(e);
 	}
 	public void AddDestination(CDataEntity[] e)
 	{
-		arrDestinations.add(e);
+		destinations.add(e);
 	}
 	public void setTallying(CDataEntity e)
 	{
@@ -115,9 +115,9 @@ public abstract class CEntityParseString extends CBaseActionEntity
 		withPointer = e;
 	}
 	protected CDataEntity variable = null ;
-	protected Vector<CDataEntity[]> arrDestinations = new Vector<CDataEntity[]>() ;
-	protected Vector<CDataEntity> arrDelimitersMulti = new Vector<CDataEntity>() ;
-	protected Vector<CDataEntity> arrDelimitersSingle = new Vector<CDataEntity>() ;
+	protected Vector<CDataEntity[]> destinations = new Vector<CDataEntity[]>() ;
+	protected Vector<CDataEntity> delimitersMulti = new Vector<CDataEntity>() ;
+	protected Vector<CDataEntity> delimitersSingle = new Vector<CDataEntity>() ;
 	protected CDataEntity tallying = null ;
 	protected CDataEntity withPointer = null ;
 	
@@ -125,9 +125,9 @@ public abstract class CEntityParseString extends CBaseActionEntity
 	{
 		super.Clear() ;
 		variable = null ;
-		arrDelimitersMulti.clear() ;
-		arrDelimitersSingle.clear() ;
-		arrDestinations.clear();
+		delimitersMulti.clear() ;
+		delimitersSingle.clear() ;
+		destinations.clear();
 	}
 	public boolean ignore()
 	{

@@ -31,10 +31,10 @@ public abstract class CEntityCICSRetrieve extends CBaseActionEntity
 	 * @param cat
 	 * @param out
 	 */
-	public CEntityCICSRetrieve(int line,CObjectCatalog cat, CBaseLanguageExporter out, boolean bPointer)
+	public CEntityCICSRetrieve(int line,CObjectCatalog cat, CBaseLanguageExporter out, boolean ispointer)
 	{
 		super(line, cat, out);
-		bPointer = bPointer ;
+		ispointer = ispointer;
 		cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
 	}
 	
@@ -46,7 +46,7 @@ public abstract class CEntityCICSRetrieve extends CBaseActionEntity
 	
 	protected CDataEntity refInto = null;
 	protected CDataEntity dataLength = null ;
-	protected boolean bPointer = false ; 
+	protected boolean ispointer = false ;
 	public void Clear()
 	{
 		super.Clear();

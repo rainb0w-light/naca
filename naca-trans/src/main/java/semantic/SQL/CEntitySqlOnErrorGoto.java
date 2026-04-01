@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 4 août 2004
+ * Created on 4 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -33,11 +33,11 @@ public abstract class CEntitySqlOnErrorGoto extends CBaseActionEntity
 	{
 		super(l, cat, out);
 		csRef = Reference ; 
-		bOnWarning = OnWarning ;
+		isonWarning = OnWarning ;
 	}
 	
 	protected String csRef = "" ;
-	protected boolean bOnWarning = false ; 
+	protected boolean isonWarning = false ;
 	public boolean ignore()
 	{
 		return false ;

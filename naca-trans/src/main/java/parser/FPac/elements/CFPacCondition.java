@@ -29,8 +29,8 @@ public class CFPacCondition extends CFPacElement
 	private CFPacCodeBloc thenBloc ;
 	private CFPacCodeBloc elseBloc ;
 	private int nEndLine = 0 ;
-	private Vector<CFPacCondition> arrElseIfStatement = null ;
-	private boolean bElseIfStatement = false ; 
+	private Vector<CFPacCondition> elseIfStatement = null ;
+	private boolean iselseIfStatement = false ;
 
 	public CFPacCondition(int line)
 	{
@@ -47,7 +47,7 @@ public class CFPacCondition extends CFPacElement
 		}
 		else if (tok.GetKeyword() == CFPacKeywordList.ELSEIF)
 		{
-			bElseIfStatement  = true ;
+			iselseIfStatement = true ;
 			tok = GetNext() ;
 		}
 		
@@ -67,13 +67,13 @@ public class CFPacCondition extends CFPacElement
 			return false  ;
 		}
 		
-		if (bElseIfStatement)
+		if (iselseIfStatement)
 			return true ; // in case of ELSEIF statement, the ELSE and ENDIF keywords are parsed by parent.
 		
 		tok = GetCurrentToken() ;
 		if (tok.GetKeyword() == CFPacKeywordList.ELSEIF)
 		{
-			arrElseIfStatement = new Vector<CFPacCondition>() ;
+			elseIfStatement = new Vector<CFPacCondition>() ;
 			while (tok.GetKeyword() == CFPacKeywordList.ELSEIF)
 			{
 				CFPacCondition elseIfStatement  = new CFPacCondition(tok.getLine()) ;
@@ -81,7 +81,7 @@ public class CFPacCondition extends CFPacElement
 				{
 					return false ;
 				}
-				arrElseIfStatement.add(elseIfStatement) ;
+				this.elseIfStatement.add(elseIfStatement) ;
 				tok = GetCurrentToken() ;
 			}
 		}
@@ -124,16 +124,16 @@ public class CFPacCondition extends CFPacElement
 		{
 			blocthen.SetEndLine(nEndLine) ;
 		}
-		if (bElseIfStatement)
+		if (iselseIfStatement)
 		{
 			cond.SetAlternativeCondition(exp, blocthen) ;
 		}
 		else
 		{
 			cond.SetCondition(exp, blocthen, blocelse) ;
-			if (arrElseIfStatement != null)
+			if (elseIfStatement != null)
 			{
-				for (CFPacCondition c : arrElseIfStatement)
+				for (CFPacCondition c : elseIfStatement)
 				{
 					CBaseLanguageEntity e = c.DoSemanticAnalysis(cond, factory) ;
 					cond.addAlternativeCondition(e) ;
@@ -148,7 +148,7 @@ public class CFPacCondition extends CFPacElement
 	protected Element ExportCustom(Document root)
 	{
 		String title = "If" ;
-		if (bElseIfStatement)
+		if (iselseIfStatement)
 			title = "ElseIf" ;
 		Element e = root.createElement(title) ;
 		Element eCond = root.createElement("Condition") ;

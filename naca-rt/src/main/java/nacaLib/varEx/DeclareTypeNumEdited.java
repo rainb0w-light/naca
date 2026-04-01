@@ -31,7 +31,7 @@ public class DeclareTypeNumEdited extends DeclareTypeBase
 	{
 		super.set(varLevel);
 		this.csFormat = csFormat;
-		this.bBlankWhenZero = false;
+		this.isblankWhenZero = false;
 	}
 	
 	public VarDefBuffer createVarDef(VarDefBuffer varDefParent)
@@ -50,7 +50,7 @@ public class DeclareTypeNumEdited extends DeclareTypeBase
 	{		
 		TempCache tempCache = TempCacheLocator.getTLSTempCache();
 		DeclareTypeEditInMapRedefineNumEdited declareTypeEditInMapRedefineNumEdited = tempCache.getDeclareTypeEditInMapRedefineNumEdited();
-		declareTypeEditInMapRedefineNumEdited.set(getLevel(), csFormat, bBlankWhenZero);
+		declareTypeEditInMapRedefineNumEdited.set(getLevel(), csFormat, isblankWhenZero);
 
 		EditInMapRedefineNumEdited var2Edit = new EditInMapRedefineNumEdited(declareTypeEditInMapRedefineNumEdited);
 		return var2Edit;
@@ -82,7 +82,7 @@ public class DeclareTypeNumEdited extends DeclareTypeBase
  
 	private CInitialValue initialValue = null;
 	String csFormat = null;
-	boolean bBlankWhenZero = false;
+	boolean isblankWhenZero = false;
 
 	public DeclareTypeNumEdited valueZero()
 	{
@@ -92,7 +92,7 @@ public class DeclareTypeNumEdited extends DeclareTypeBase
 	
 	public DeclareTypeNumEdited blankWhenZero()
 	{
-		bBlankWhenZero = true;
+		isblankWhenZero = true;
 		return this;
 	}
 

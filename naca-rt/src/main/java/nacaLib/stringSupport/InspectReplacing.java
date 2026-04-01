@@ -197,8 +197,8 @@ public class InspectReplacing
 			// Replace chars
 			for(int nDest=nPos, nReplacing=0; nDest<nPos+nReplaceLength; nDest++)
 			{
-				char cReplacingChar = csReplacing.charAt(nReplacing);
-				csDest.setCharAt(nDest, cReplacingChar);	
+				char replacingChar = csReplacing.charAt(nReplacing);
+				csDest.setCharAt(nDest, replacingChar);
 			
 				nReplacing++;
 				if(nReplacing == csReplacing.length())

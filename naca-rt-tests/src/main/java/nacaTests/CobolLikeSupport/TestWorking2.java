@@ -21,7 +21,6 @@ package nacaTests.CobolLikeSupport;
  */
 import idea.onlinePrgEnv.OnlineProgram;
 import jlib.log.Asserter;
-import jlib.log.Log;
 import nacaLib.program.Paragraph;
 import nacaLib.varEx.DataSection;
 import nacaLib.varEx.Var;
@@ -253,8 +252,8 @@ public class TestWorking2 extends OnlineProgram
 		move(-12.04, TSTS);
 		cs0 = TSTS.getString();
 		assertIfDifferent("-12.04", TSTS);
-		double dS = TSTS.getDouble();
-		assertIfFalse(dS == -12.04);
+		double s = TSTS.getDouble();
+		assertIfFalse(s == -12.04);
 
 //		move("1234", det1_Cdlib);
 //		move("567", det1_Cdlib);

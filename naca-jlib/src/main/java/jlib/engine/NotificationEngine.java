@@ -23,8 +23,8 @@ public class NotificationEngine
 	public void RegisterNotificationHandler(BaseNotificationHandler handler)
 	{ // build a Hashtable with all handlers for each notification class
 		Class cl = handler.getClass() ;
-		Method[] arrMet = cl.getMethods() ;
-		for (Method m : arrMet)
+		Method[] met = cl.getMethods() ;
+		for (Method m : met)
 		{
 			Class[] params = m.getParameterTypes() ;
 			Class ret = m.getReturnType() ;
@@ -35,32 +35,32 @@ public class NotificationEngine
 				map.mehod = m ;
 				map.object = handler ;
 				
-				Collection<NotifHandlerMapping> colHandlers = tabHandlers.get(clNotif) ;
-				if (colHandlers == null)
+				Collection<NotifHandlerMapping> collectionhandlers = tabHandlers.get(clNotif) ;
+				if (collectionhandlers == null)
 				{
-					colHandlers = new LinkedList<NotifHandlerMapping>() ;
-					tabHandlers.put(clNotif, colHandlers) ;
+					collectionhandlers = new LinkedList<NotifHandlerMapping>() ;
+					tabHandlers.put(clNotif, collectionhandlers) ;
 				}
-				colHandlers.add(map) ;
+				collectionhandlers.add(map) ;
 			}
 		}
 	}
 	
 	public boolean SendNotification(BaseNotification notif)
 	{
-		boolean bDone = false ;
+		boolean isdone = false ;
 
 		// find all handlers for the notification class, and call for them
 		Class clNotif = notif.getClass() ;
-		Collection<NotifHandlerMapping> colHandler = tabHandlers.get(clNotif) ;
-		if (colHandler != null)
+		Collection<NotifHandlerMapping> collectionhandler = tabHandlers.get(clNotif) ;
+		if (collectionhandler != null)
 		{
-			for (NotifHandlerMapping map : colHandler)
+			for (NotifHandlerMapping map : collectionhandler)
 			{
 				try
 				{
 					Boolean b = (Boolean)map.mehod.invoke(map.object, new Object[] {notif}) ;
-					bDone |= b ;
+					isdone |= b ;
 				}
 				catch (IllegalArgumentException e)
 				{
@@ -76,7 +76,7 @@ public class NotificationEngine
 				}
 			}
 		}
-		return bDone ;
+		return isdone;
 	}
 	
 	protected Hashtable<Class, Collection<NotifHandlerMapping>> tabHandlers = new Hashtable<Class, Collection<NotifHandlerMapping>>() ;

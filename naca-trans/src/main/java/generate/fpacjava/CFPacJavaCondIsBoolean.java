@@ -21,7 +21,7 @@ public class CFPacJavaCondIsBoolean extends CEntityCondIsBoolean
 	{
 		CFPacJavaCondIsBoolean cond = new CFPacJavaCondIsBoolean() ;
 		cond.reference = reference ;
-		cond.bIsTrue = !bIsTrue;
+		cond.isisTrue = !isisTrue;
 		return cond;
 	}
 
@@ -29,7 +29,7 @@ public class CFPacJavaCondIsBoolean extends CEntityCondIsBoolean
 	public String Export()
 	{
 		String cs = "" ;
-		if (!bIsTrue)
+		if (!isisTrue)
 		{
 			cs += "!" ;
 		}

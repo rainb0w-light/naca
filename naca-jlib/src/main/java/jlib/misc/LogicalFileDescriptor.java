@@ -16,12 +16,12 @@ package jlib.misc;
  */
 public class LogicalFileDescriptor
 {
-	private boolean bDummyFile = false;
+	private boolean isdummyFile = false;
 	private String csLogicalName = null;
 	private String csPath = null;
-	private boolean bExt = false;
-	private boolean bEbcdic = false;
-	private boolean bVariableLength = false;
+	private boolean isext = false;
+	private boolean isebcdic = false;
+	private boolean isvariableLength = false;
 	private boolean bVariableLength4BytesLF = false;
 	private RecordLengthDefinition recordLengthDefinition = null;
 	private int nFileHeaderLength = 0;
@@ -31,27 +31,27 @@ public class LogicalFileDescriptor
 	{
 		csLogicalName = csLogicalName;
 		if(BaseDataFile.isNullFile(csPhysicalDesc))	//	if(csLogicalName.equalsIgnoreCase("wrk/nullfile"))
-			bDummyFile = true;
+			isdummyFile = true;
 		else
 		{
-			bDummyFile = false;
+			isdummyFile = false;
 			fill(csPhysicalDesc);			
 		}			
 	}
 	
 	public boolean isDummyFile()
 	{
-		return bDummyFile;
+		return isdummyFile;
 	}
 	
 	public boolean isEbcdic()
 	{
-		return bEbcdic;
+		return isebcdic;
 	}
 
 	public boolean getExt()
 	{
-		return bExt;
+		return isext;
 	}
 
 	public String getPath()
@@ -94,26 +94,26 @@ public class LogicalFileDescriptor
 	private void manageOptionalWord(String csWord)
 	{
 		if(csWord.equalsIgnoreCase("ext"))
-			bExt = true;
+			isext = true;
 		else if(csWord.equalsIgnoreCase("ebcdic"))
-			bEbcdic = true;
+			isebcdic = true;
 		else if(csWord.equalsIgnoreCase("ascii"))
-			bEbcdic = false;	
+			isebcdic = false;
 		else if(csWord.equalsIgnoreCase("fb"))
 		{
-			bVariableLength = false;
+			isvariableLength = false;
 			bVariableLength4BytesLF = false;
 			recordLengthInfoDefinitionType = RecordLengthInfoDefinitionType.FileDescriptorDef;
 		}		
 		else if(csWord.equalsIgnoreCase("vb"))
 		{	
-			bVariableLength = true;
+			isvariableLength = true;
 			bVariableLength4BytesLF = true;
 			recordLengthInfoDefinitionType = RecordLengthInfoDefinitionType.FileDescriptorDef;
 		}
 		else if(csWord.equalsIgnoreCase("vh"))
 		{	
-			bVariableLength = true;
+			isvariableLength = true;
 			bVariableLength4BytesLF = false;
 			recordLengthInfoDefinitionType = RecordLengthInfoDefinitionType.FileDescriptorDef;
 		}
@@ -129,12 +129,12 @@ public class LogicalFileDescriptor
 	
 	public void setVariableLength()
 	{
-		bVariableLength = true;
+		isvariableLength = true;
 	}
 	
 	public boolean isVariableLength()
 	{
-		return bVariableLength;
+		return isvariableLength;
 	}
 	
 	public boolean isVariableLength4BytesHeaderWithLF()
@@ -147,9 +147,9 @@ public class LogicalFileDescriptor
 		String cs = "";
 		if(csPath != null)
 			cs += "Path="+csPath;
-		cs += " Ext="+bExt;
-		cs += " Ebcdic="+bEbcdic;
-		cs += " VariableLength="+bVariableLength;
+		cs += " Ext="+ isext;
+		cs += " Ebcdic="+ isebcdic;
+		cs += " VariableLength="+ isvariableLength;
 		cs += " HAs 4 bytes header and LF="+bVariableLength4BytesLF;
 		if(recordLengthDefinition != null)
 			cs += " RecordLength="+recordLengthDefinition.toString();
@@ -176,7 +176,7 @@ public class LogicalFileDescriptor
 	
 	private String getPathName()
 	{
-		if (bDummyFile)
+		if (isdummyFile)
 			return " (Dummy file) ";
 		if(csPath != null)
 			return " (" + csPath + ") ";
@@ -197,12 +197,12 @@ public class LogicalFileDescriptor
 	private String getAsFileHeaderString()
 	{
 		String cs = null;
-		if(bEbcdic)
+		if(isebcdic)
 			cs = "<FileHeader Version=\"1\" Encoding=\"ebcdic\" ";
 		else
 			cs = "<FileHeader Version=\"1\" Encoding=\"ascii\" ";
 		
-		if(bVariableLength)
+		if(isvariableLength)
 		{
 			if(bVariableLength4BytesLF)
 				cs += "Length=\"VB\"";
@@ -236,9 +236,9 @@ public class LogicalFileDescriptor
 						if(!StringUtil.isEmpty(csEncoding))
 						{
 							if(csEncoding.equalsIgnoreCase("ebcdic"))
-								bEbcdic = true;
+								isebcdic = true;
 							if(csEncoding.equalsIgnoreCase("ascii"))
-								bEbcdic = false;
+								isebcdic = false;
 						}
 						
 						String csLength = StringUtil.getUncotedParameterValue(cs, "Length");
@@ -246,21 +246,21 @@ public class LogicalFileDescriptor
 						{
 							if(csLength.equalsIgnoreCase("VB"))
 							{
-								bVariableLength = true;
+								isvariableLength = true;
 								bVariableLength4BytesLF = true;
 								recordLengthInfoDefinitionType = RecordLengthInfoDefinitionType.FileHeaderDef;
 								recordLengthDefinition = null;
 							}
 							else if(csLength.equalsIgnoreCase("VH"))
 							{
-								bVariableLength = true;
+								isvariableLength = true;
 								bVariableLength4BytesLF = false;
 								recordLengthInfoDefinitionType = RecordLengthInfoDefinitionType.FileHeaderDef;
 								recordLengthDefinition = null;
 							}
 							else if(StringUtil.isAllDigits(csLength))
 							{
-								bVariableLength = false;
+								isvariableLength = false;
 								recordLengthInfoDefinitionType = RecordLengthInfoDefinitionType.FileHeaderDef;
 								int nLength = NumberParser.getAsInt(csLength);
 								recordLengthDefinition = new RecordLengthDefinition(nLength);
@@ -282,8 +282,8 @@ public class LogicalFileDescriptor
 			String cs = dataFile.unbufferedReadAheadLine(100);
 			if(cs != null)
 			{
-				boolean bFileHeaderFound = setFromFileHeaderString(cs);
-				if(bFileHeaderFound)
+				boolean isfileHeaderFound = setFromFileHeaderString(cs);
+				if(isfileHeaderFound)
 				{
 					nFileHeaderLength = dataFile.skipFileHeader(cs);
 					return true;
@@ -302,7 +302,7 @@ public class LogicalFileDescriptor
 		RecordLengthDefinition recLengthDefSource = logicalFileDescriptorSource.getRecordLengthDefinition();
 		setRecordLengthDefinition(recLengthDefSource);
 		
-		bVariableLength = logicalFileDescriptorSource.bVariableLength;
+		isvariableLength = logicalFileDescriptorSource.isvariableLength;
 		bVariableLength4BytesLF = logicalFileDescriptorSource.bVariableLength4BytesLF;
 		recordLengthInfoDefinitionType = logicalFileDescriptorSource.recordLengthInfoDefinitionType;
 	}
@@ -376,7 +376,7 @@ public class LogicalFileDescriptor
 			if(nNbRecordHeaderOk == nNbRecordControled && nNbRecordHeaderOk > 0 && nNbRecordHeaderNotOk == 0)	// All record cheked are ok, even if less than 3 records in the file !
 			{
 				recordLengthInfoDefinitionType = RecordLengthInfoDefinitionType.AutoDetermination;
-				bVariableLength = true;  
+				isvariableLength = true;
 				bVariableLength4BytesLF = true;
 				return true;
 			}
@@ -433,7 +433,7 @@ public class LogicalFileDescriptor
 		if(nLengthFound != -1)
 		{
 			recordLengthInfoDefinitionType = RecordLengthInfoDefinitionType.AutoDetermination;
-			bVariableLength = false;  
+			isvariableLength = false;
 			bVariableLength4BytesLF = false;
 			recordLengthDefinition = new RecordLengthDefinition(nLengthFound);	// Length found included trailing LF
 		}

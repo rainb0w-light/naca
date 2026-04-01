@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 20 août 04
+ * Created on 20 aoï¿½t 04
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -46,15 +46,15 @@ public class CExecSQLUpdate extends CBaseExecSQLAction
 
 	protected boolean DoParsing()
 	{
-		boolean bWhere = false ;
-		boolean bValue = false ;
-		boolean bDone = false ;
-		while (!bDone)
+		boolean iswhere = false ;
+		boolean isvalue = false ;
+		boolean isdone = false ;
+		while (!isdone)
 		{
 			CBaseToken tok = GetCurrentToken() ;
 			if (tok.GetKeyword() == CCobolKeywordList.END_EXEC)
 			{
-				bDone = true ;
+				isdone = true ;
 			}
 			else if (tok.GetType() == CTokenType.STRING)
 			{
@@ -121,17 +121,17 @@ public class CExecSQLUpdate extends CBaseExecSQLAction
 				{
 					id = new CIdentifier(cs) ;
 				}
-				if (bValue)
+				if (isvalue)
 				{
-					arrSets.add(id);
+					sets.add(id);
 					AppendRequiredSpace();
-					clause += "#"+ arrSets.size() ; 
+					clause += "#"+ sets.size() ;
 				}
-				else if (bWhere)
+				else if (iswhere)
 				{
-					arrParameters.add(id);
+					parameters.add(id);
 					AppendRequiredSpace();
-					clause += "#"+ (arrParameters.size() + arrSets.size()) ; 
+					clause += "#"+ (parameters.size() + sets.size()) ;
 				}
 			}
 			else if (tok.GetType() == CTokenType.CIRCUMFLEX)
@@ -165,16 +165,16 @@ public class CExecSQLUpdate extends CBaseExecSQLAction
 			{
 				if (tok.GetKeyword() == CCobolKeywordList.WHERE)
 				{
-					bWhere = true ;
-					bValue = false ;
+					iswhere = true ;
+					isvalue = false ;
 				}
 				else if (tok.GetKeyword() == CCobolKeywordList.SET)
 				{
-					bWhere = false ;
-					bValue = true ;
+					iswhere = false ;
+					isvalue = true ;
 				}
 				String cs = new String(tok.GetValue());
-				if (!bWhere && !bValue && tok.GetType() == CTokenType.IDENTIFIER && csViewName.equals(""))
+				if (!iswhere && !isvalue && tok.GetType() == CTokenType.IDENTIFIER && csViewName.equals(""))
 				{
 					csViewName = cs ; 
 				} 
@@ -210,13 +210,13 @@ public class CExecSQLUpdate extends CBaseExecSQLAction
 			Element e = root.createElement("Parameters") ;
 			parent.appendChild(e);
 
-			int nNbItems = arrParameters.size();
+			int nNbItems = parameters.size();
 			for(int n=0; n<nNbItems; n++)
 			{
 				Element eParam = root.createElement("Parameter") ;
 				e.appendChild(eParam);
 				
-				CIdentifier s = arrParameters.get(n);
+				CIdentifier s = parameters.get(n);
 				s.ExportTo(eParam, root) ;
 			}
 		}
@@ -233,13 +233,13 @@ public class CExecSQLUpdate extends CBaseExecSQLAction
 			Element e = root.createElement("Set") ;
 			parent.appendChild(e);
 
-			int nNbItems = arrSets.size();
+			int nNbItems = sets.size();
 			for(int n=0; n<nNbItems; n++)
 			{
 				Element eParam = root.createElement("Parameter") ;
 				e.appendChild(eParam);
 				
-				CIdentifier s = arrSets.get(n);
+				CIdentifier s = sets.get(n);
 				s.ExportTo(eParam, root) ;
 			}
 		}
@@ -252,16 +252,16 @@ public class CExecSQLUpdate extends CBaseExecSQLAction
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
 		Vector<CDataEntity> vVal = new Vector<CDataEntity>();
-		for (int i=0; i<arrSets.size(); i++)
+		for (int i = 0; i< sets.size(); i++)
 		{
-			CIdentifier id = arrSets.get(i);
+			CIdentifier id = sets.get(i);
 			CDataEntity e = id.GetDataReference(getLine(), factory);
 			vVal.add(e); 
 		}
 		Vector<CDataEntity> vPar = new Vector<CDataEntity>();
-		for (int i=0; i<arrParameters.size(); i++)
+		for (int i = 0; i< parameters.size(); i++)
 		{
-			CIdentifier id = arrParameters.get(i);
+			CIdentifier id = parameters.get(i);
 			CDataEntity e = id.GetDataReference(getLine(), factory);
 			vPar.add(e); 
 		}
@@ -346,7 +346,7 @@ public class CExecSQLUpdate extends CBaseExecSQLAction
 	
 	public String clause = "" ;
 	public String csViewName = "" ;
-	public Vector<CIdentifier> arrParameters = new Vector<CIdentifier>() ;
-	public Vector<CIdentifier> arrSets = new Vector<CIdentifier>() ;
+	public Vector<CIdentifier> parameters = new Vector<CIdentifier>() ;
+	public Vector<CIdentifier> sets = new Vector<CIdentifier>() ;
 }
 

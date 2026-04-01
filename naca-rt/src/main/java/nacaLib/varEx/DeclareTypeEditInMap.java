@@ -30,7 +30,7 @@ public class DeclareTypeEditInMap extends DeclareTypeBase
 	String csName = null;
 	LocalizedString localizedString = null;
 	String csFormat = null;
-	boolean bHasCursor = false;
+	boolean ishasCursor = false;
 	String csDevelopableMark = null;
 	//String csSemanticContextValue = null;
 	
@@ -52,7 +52,7 @@ public class DeclareTypeEditInMap extends DeclareTypeBase
 
 		this.localizedString = null;
 		this.csFormat = null;
-		this.bHasCursor = false;
+		this.ishasCursor = false;
 		this.csDevelopableMark = null;
 		//csSemanticContextValue = null;
 	}
@@ -132,7 +132,7 @@ public class DeclareTypeEditInMap extends DeclareTypeBase
 	
 	public DeclareTypeEditInMap setCursor(boolean b)
 	{
-		bHasCursor = b;
+		ishasCursor = b;
 		return this;
 	}
 	

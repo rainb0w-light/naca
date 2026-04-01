@@ -38,7 +38,7 @@ public class CJavaCICSStart extends CEntityCICSStart
 	protected void DoExport()
 	{
 		String tid ;
-		if (bVerified)
+		if (isverified)
 		{
 			tid = transID.GetConstantValue() + ".class" ;
 		}

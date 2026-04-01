@@ -13,7 +13,7 @@ public class DataFileWrite extends BaseDataFileBuffered
 {
 	private BufferedOutputStream out = null;
 	private FileLock outLock = null;
-	private boolean bMustWriteFileHeader = false;
+	private boolean ismustWriteFileHeader = false;
 	
 	public DataFileWrite(String csName, boolean bMustWriteFileHeader)
 	{
@@ -75,18 +75,18 @@ public class DataFileWrite extends BaseDataFileBuffered
 	
 	private boolean open(boolean bAppend, LogicalFileDescriptor logicalFileDescriptor)
 	{
-		boolean bOpened = open(bAppend);
-		if(bOpened && logicalFileDescriptor != null)
+		boolean isopened = open(bAppend);
+		if(isopened && logicalFileDescriptor != null)
 		{
 			if(bAppend)	// append something to the file: Read it's header as the file must already exists
 				logicalFileDescriptor.readFileHeader(this);
 			else 	// Create a new file
 			{
-				if(bMustWriteFileHeader)	// open the file in output not append with writing file header 
+				if(ismustWriteFileHeader)	// open the file in output not append with writing file header
 					logicalFileDescriptor.writeFileHeader(this);
 			}				
 		}
-		return bOpened;
+		return isopened;
 	}
 
 	public boolean close()

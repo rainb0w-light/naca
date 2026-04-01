@@ -77,8 +77,8 @@ public class CExecCICSAddress extends CCobolElement
 			tok = GetNext();
 		}
 		
-		boolean bDone = false ;
-		while (!bDone)
+		boolean isdone = false ;
+		while (!isdone)
 		{
 			tok = GetCurrentToken() ;
 			if (tok.GetValue().equals("TCTUA"))
@@ -128,7 +128,7 @@ public class CExecCICSAddress extends CCobolElement
 			}
 			else 
 			{
-				bDone = true ;
+				isdone = true ;
 			}
 		}
 		

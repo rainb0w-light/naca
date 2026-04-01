@@ -27,7 +27,7 @@ public class CFPacJavaCondition extends CEntityCondition
 			return ;
 		}
 
-		if (!bAlternativeCondition)
+		if (!isalternativeCondition)
 			WriteWord("if (");
 		else
 			WriteWord("else if (");
@@ -41,14 +41,14 @@ public class CFPacJavaCondition extends CEntityCondition
 		{
 			n = elseBloc.getLine() -1 ;
 		}
-		if (arrAlternativeConditions != null)
+		if (alternativeConditions != null)
 		{
-			if (!arrAlternativeConditions.isEmpty())
+			if (!alternativeConditions.isEmpty())
 			{
 				n = lstChildren.getFirst().getLine() -1 ;
 			}
 			WriteLine("}", n) ;
-			for (CBaseLanguageEntity e : arrAlternativeConditions)
+			for (CBaseLanguageEntity e : alternativeConditions)
 			{
 				DoExport(e) ;
 			}

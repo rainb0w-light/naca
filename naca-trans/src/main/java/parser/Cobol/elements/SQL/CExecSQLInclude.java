@@ -118,8 +118,8 @@ public class CExecSQLInclude extends CBaseExecSQLAction
 	}
 	public boolean ParseContent()
 	{
-		boolean bDone = false ;
-		while (!bDone)
+		boolean isdone = false ;
+		while (!isdone)
 		{
 			CBaseToken tokEntry = GetCurrentToken();
 			if (tokEntry.GetType()==CTokenType.NUMBER)
@@ -137,12 +137,12 @@ public class CExecSQLInclude extends CBaseExecSQLAction
 				}
 				else
 				{
-					bDone = true ; // this entry is a top-level entry
+					isdone = true ; // this entry is a top-level entry
 				}
 			}
 			else
 			{
-				bDone = true ;	// this token is not parsed by this function, go back to caller
+				isdone = true ;	// this token is not parsed by this function, go back to caller
 			}
 		}
 		return true ;

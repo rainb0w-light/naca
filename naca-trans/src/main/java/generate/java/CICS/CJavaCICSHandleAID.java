@@ -37,24 +37,24 @@ public class CJavaCICSHandleAID extends CEntityCICSHandleAID
 
 	protected void DoExport()
 	{
-		if (arrHandledAIDs.size() == 0 && arrUnhandledAIDs.size() == 0)
+		if (handledAIDs.size() == 0 && unhandledAIDs.size() == 0)
 		{
 			return ;
 		}
-		for (int i=0;i<arrHandledAIDs.size();i++)
+		for (int i = 0; i< handledAIDs.size(); i++)
 		{
 			WriteWord("CESM");
-			String cond = arrHandledAIDs.get(i);
-			String label = arrHandledAIDLabels.get(i);
+			String cond = handledAIDs.get(i);
+			String label = handledAIDLabels.get(i);
 			String cs = ".handleAID(\"" + cond + "\", " + FormatIdentifier(label) + ")" ;
 			WriteWord(cs);
 			WriteWord(" ;");
 			WriteEOL() ;		
 		}
-		for (int i=0;i<arrUnhandledAIDs.size();i++)
+		for (int i = 0; i< unhandledAIDs.size(); i++)
 		{
 			WriteWord("CESM");
-			String cond = arrUnhandledAIDs.get(i);
+			String cond = unhandledAIDs.get(i);
 			String cs = ".unhandleAID(\"" + cond + "\")" ;
 			WriteWord(cs);
 			WriteWord(" ;");

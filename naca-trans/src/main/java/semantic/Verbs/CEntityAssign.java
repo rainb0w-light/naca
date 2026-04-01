@@ -54,32 +54,32 @@ public abstract class CEntityAssign extends CBaseActionEntity
 	
 	public void AddRefTo(CDataEntity id)
 	{
-		arrRefTo.add(id) ;
+		refTo.add(id) ;
 	}
 	protected CDataEntity GetRefTo(int i)
 	{
-		if (i >= arrRefTo.size())
+		if (i >= refTo.size())
 		{
 			return null ;
 		}
 		else
 		{
-			return arrRefTo.get(i) ;
+			return refTo.get(i) ;
 		}
 	}
 	protected int GetNbRefTo()
 	{
-		return arrRefTo.size() ;
+		return refTo.size() ;
 	}
 	
 	protected CDataEntity value = null ;
-	protected boolean bFillAll = false ;
-	protected boolean bMoveCorresponding = false ;
-	private Vector<CDataEntity> arrRefTo = new Vector<CDataEntity>() ;
+	protected boolean isfillAll = false ;
+	protected boolean ismoveCorresponding = false ;
+	private Vector<CDataEntity> refTo = new Vector<CDataEntity>() ;
 	public void Clear()
 	{
 		super.Clear();
-		arrRefTo.clear() ;
+		refTo.clear() ;
 	}
 
 	public void SetFillAll(boolean bFillAll)
@@ -89,7 +89,7 @@ public abstract class CEntityAssign extends CBaseActionEntity
 
 	public void SetAssignCorresponding(boolean bCorr)
 	{
-		bMoveCorresponding = bCorr ;
+		ismoveCorresponding = bCorr ;
 	}
 	
 	public boolean ignore()
@@ -101,9 +101,9 @@ public abstract class CEntityAssign extends CBaseActionEntity
 		else
 		{
 			boolean ignore = true ;
-			for (int i=0; i<arrRefTo.size(); i++)
+			for (int i = 0; i< refTo.size(); i++)
 			{
-				CDataEntity e = arrRefTo.get(i);
+				CDataEntity e = refTo.get(i);
 				ignore &= e.ignore() ;
 			}
 			if (ignore)
@@ -123,7 +123,7 @@ public abstract class CEntityAssign extends CBaseActionEntity
 		}
 		else
 		{
-			if (arrRefTo.remove(data))
+			if (refTo.remove(data))
 			{
 				data.UnRegisterWritingAction(this) ;
 				return true ;
@@ -136,7 +136,7 @@ public abstract class CEntityAssign extends CBaseActionEntity
 		if (value == field)
 		{
 			value.UnRegisterReadingAction(this) ;
-			if (arrRefTo.contains(var))
+			if (refTo.contains(var))
 			{
 				value = null ;
 			}
@@ -147,17 +147,17 @@ public abstract class CEntityAssign extends CBaseActionEntity
 			}
 			return true ;
 		} 
-		else if (arrRefTo.contains(field))
+		else if (refTo.contains(field))
 		{
 			field.UnRegisterWritingAction(this) ;
-			if (value == var || arrRefTo.contains(var))
+			if (value == var || refTo.contains(var))
 			{
-				arrRefTo.remove(field);
+				refTo.remove(field);
 			}
 			else
 			{
-				int n = arrRefTo.indexOf(field) ;
-				arrRefTo.set(n, var) ;
+				int n = refTo.indexOf(field) ;
+				refTo.set(n, var) ;
 				var.RegisterWritingAction(this) ;
 			}
 			return true ;
@@ -167,9 +167,9 @@ public abstract class CEntityAssign extends CBaseActionEntity
 
 	public CBaseActionEntity GetSpecialAssignement(String val, CBaseEntityFactory factory)
 	{
-		if (arrRefTo.size() == 1)
+		if (refTo.size() == 1)
 		{
-			CDataEntity ref = arrRefTo.get(0) ;
+			CDataEntity ref = refTo.get(0) ;
 			CTerminal term = new CStringTerminal(val) ;
 			CBaseActionEntity act = ref.GetSpecialAssignment(term, factory, getLine()) ;
 			return act ;
@@ -182,7 +182,7 @@ public abstract class CEntityAssign extends CBaseActionEntity
 	}
 	public Vector getVarsAssigned()
 	{
-		return arrRefTo ;
+		return refTo;
 	}
 
 	// ==================== ST4 Template Accessors ====================
@@ -194,17 +194,17 @@ public abstract class CEntityAssign extends CBaseActionEntity
 
 	public Vector<CDataEntity> getDestinations()
 	{
-		return arrRefTo;
+		return refTo;
 	}
 
 	public boolean isFillAll()
 	{
-		return bFillAll;
+		return isfillAll;
 	}
 
 	public boolean isMoveCorresponding()
 	{
-		return bMoveCorresponding;
+		return ismoveCorresponding;
 	}
 
 }

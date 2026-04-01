@@ -25,22 +25,22 @@ public class JarEntries
 	
 	public boolean open(String csJar, ArrayList<String> arrPaths)
 	{
-		boolean bOpened = false;
-	    for(int n=0; n<arrPaths.size() && !bOpened; n++)
+		boolean isopened = false;
+	    for(int n = 0; n<arrPaths.size() && !isopened; n++)
 	    {
 		   	String csPath = arrPaths.get(n);
 		   	String csFullPathJarFile = FileSystem.appendFilePath(csPath, csJar);
-    		bOpened = open(csFullPathJarFile, true, ".class");
+    		isopened = open(csFullPathJarFile, true, ".class");
 	    }
-	    return bOpened;
+	    return isopened;
 	}
 	
 	public boolean open(String csPath, String csJar, boolean bFilterByExtension, String csExtension)
 	{
 		csPath = FileSystem.normalizePath(csPath);
    		String csFullPathJarFile = csPath + csJar;
-   		boolean bOpened = open(csFullPathJarFile, bFilterByExtension, csExtension);
-	    return bOpened;
+   		boolean isopened = open(csFullPathJarFile, bFilterByExtension, csExtension);
+	    return isopened;
 	}
 	
 	public boolean open(String csFullPathJarFile, boolean bFilterByExtension, String csExtension)

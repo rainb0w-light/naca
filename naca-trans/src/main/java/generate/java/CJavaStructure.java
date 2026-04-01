@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 2 août 2004
+ * Created on 2 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -38,7 +38,7 @@ public class CJavaStructure extends CEntityStructure
 	}
 	protected void DoExport()
 	{
-		if (bBlankWhenZero && type.equals("pic9"))
+		if (isblankWhenZero && type.equals("pic9"))
 		{
 			type = "pic";
 			format = "";
@@ -63,7 +63,7 @@ public class CJavaStructure extends CEntityStructure
 				line += ".occursDepending(" + tableSize.ExportReference(getLine()) + ", " ;
 				line += tableSizeDepending.ExportReference(getLine()) + ")" ;
 			}
-			else if (bIsVariableLenght)
+			else if (isisVariableLenght)
 			{
 				line += ".variableLength()" ; 
 				length = length * getTableSizeAsInt() ;
@@ -110,14 +110,14 @@ public class CJavaStructure extends CEntityStructure
 			}
 		}
 		WriteWord(line) ;
-		if (bSync)
+		if (issync)
 		{
 			WriteWord(".sync()");
 		}
 		if (value != null)
 		{
 			String cs = "" ;
-			if (bFillWithValue)
+			if (isfillWithValue)
 			{
 				cs = ".valueAll(" ;
 			}
@@ -128,39 +128,39 @@ public class CJavaStructure extends CEntityStructure
 			cs += value.ExportReference(getLine());
 			WriteWord(cs + ")") ;
 		}
-		else if (bInitialValueIsSpaces)
+		else if (isinitialValueIsSpaces)
 		{
 			WriteWord(".valueSpaces()") ;
 		}
-		else if (bInitialValueIsZeros)
+		else if (isinitialValueIsZeros)
 		{
 			WriteWord(".valueZero()") ;
 		}
-		else if (bInitialValueIsLowValue)
+		else if (isinitialValueIsLowValue)
 		{
 			WriteWord(".valueLowValue()") ;
 		}
-		else if (bInitialValueIsHighValue)
+		else if (isinitialValueIsHighValue)
 		{
 			WriteWord(".valueHighValue()") ;
 		}
-		if (bJustifiedRight)
+		if (isjustifiedRight)
 		{
 			WriteWord(".justifyRight()") ;
 		}
-		if (bBlankWhenZero)
+		if (isblankWhenZero)
 		{
 			WriteWord(".blankWhenZero()") ;
 		}
-		if (bSignSeparateType == CWorkingSignType.LEADING)
+		if (issignSeparateType == CWorkingSignType.LEADING)
 		{
 			WriteWord(".signLeadingSeparated()");
 		}
-		else if (bSignSeparateType == CWorkingSignType.TRAILING)
+		else if (issignSeparateType == CWorkingSignType.TRAILING)
 		{
 			WriteWord(".signTrailingSeparated()");
 		}
-		if (bFiller)
+		if (isfiller)
 		{
 			WriteWord(".filler() ;") ;
 		}

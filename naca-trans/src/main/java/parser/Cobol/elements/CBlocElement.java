@@ -45,8 +45,8 @@ public abstract class CBlocElement extends CCommentContainer
 
 	protected boolean DoParsing()
 	{
-		boolean bDone = false ;
-		while (!bDone)
+		boolean isdone = false ;
+		while (!isdone)
 		{
 			CBaseToken tokVerb = GetCurrentToken() ;
 			if (tokVerb == null)
@@ -62,7 +62,7 @@ public abstract class CBlocElement extends CCommentContainer
 				if (tokVerb == GetCurrentToken())
 				{	// this keyword has not been parsed
 					nEndLine = tokVerb.getLine()-1 ;
-					bDone = true;
+					isdone = true;
 				}
 			}
 			else if (tokVerb.GetType() == CTokenType.SEMI_COLON)
@@ -72,7 +72,7 @@ public abstract class CBlocElement extends CCommentContainer
 			else
 			{
 				nEndLine = tokVerb.getLine()-1 ;
-				bDone = true ; // this token can't be parsed by this function
+				isdone = true ; // this token can't be parsed by this function
 			}
 		}
 		return true;
@@ -251,7 +251,7 @@ public abstract class CBlocElement extends CCommentContainer
 	protected boolean ParseVerb()
 	{
 		CBaseToken tokVerb = GetCurrentToken() ;
-		if (fCheckForNextSentence.ISSet())
+		if (checkForNextSentence.ISSet())
 		{
 			if (tokVerb.GetKeyword() == CCobolKeywordList.END_IF ||
 				tokVerb.GetKeyword() == CCobolKeywordList.ELSE  ||
@@ -457,7 +457,7 @@ public abstract class CBlocElement extends CCommentContainer
 			}
 			if (f.ISSet())
 			{
-				fCheckForNextSentence.Set() ;
+				checkForNextSentence.Set() ;
 			}
 			return true ;
 		}
@@ -499,7 +499,7 @@ public abstract class CBlocElement extends CCommentContainer
 		{
 			CCobolElement eVerb = new CNextSentence(tokVerb.getLine()) ;
 			AddChild(eVerb) ;
-			return Parse(eVerb, fCheckForNextSentence) ;
+			return Parse(eVerb, checkForNextSentence) ;
 		}
 		else if (tokVerb.GetKeyword()==CCobolKeywordList.CONTINUE)
 		{
@@ -555,7 +555,7 @@ public abstract class CBlocElement extends CCommentContainer
 		{
 			Transcoder.logWarn(tokVerb.getLine(), "Keyword not parsed : '" + tokVerb.GetValue() + "'") ;
 			CBaseToken tokDrop = GetNext();
-			while (!tokDrop.bIsNewLine)
+			while (!tokDrop.isisNewLine)
 			{
 				Transcoder.logWarn(tokDrop.getLine(), "Keyword not parsed : '" + tokDrop.GetValue() + "'") ;
 				tokDrop = GetNext();
@@ -588,7 +588,7 @@ public abstract class CBlocElement extends CCommentContainer
 		}
 		
 		// PERFORM usage depends on following keyword
-		boolean bTestBefore = true ; // default value
+		boolean istestBefore = true ; // default value
 		if (tokKW.GetKeyword() == CCobolKeywordList.WITH)
 		{
 			tokKW =GetNext();
@@ -599,12 +599,12 @@ public abstract class CBlocElement extends CCommentContainer
 			if (tokKW.GetKeyword() == CCobolKeywordList.BEFORE)
 			{
 				tokKW = GetNext();
-				bTestBefore = true ;
+				istestBefore = true ;
 			}
 			else if (tokKW.GetKeyword() == CCobolKeywordList.AFTER)
 			{
 				tokKW = GetNext();
-				bTestBefore = false ;
+				istestBefore = false ;
 			}
 			else
 			{
@@ -614,13 +614,13 @@ public abstract class CBlocElement extends CCommentContainer
 		}
 		if (tokKW.GetKeyword() == CCobolKeywordList.UNTIL)
 		{
-			CCobolElement ePerform = new CPerformUntil(identifier, identifierThru, tokKW.getLine(), bTestBefore);
+			CCobolElement ePerform = new CPerformUntil(identifier, identifierThru, tokKW.getLine(), istestBefore);
 			AddChild(ePerform);
 			return Parse(ePerform) ;
 		}
 		else if (tokKW.GetKeyword() == CCobolKeywordList.VARYING)
 		{
-			CCobolElement ePerform = new CPerformVarying(identifier, identifierThru, tokKW.getLine(), bTestBefore);
+			CCobolElement ePerform = new CPerformVarying(identifier, identifierThru, tokKW.getLine(), istestBefore);
 			AddChild(ePerform);
 			return Parse(ePerform) ;
 		}
@@ -690,7 +690,7 @@ public abstract class CBlocElement extends CCommentContainer
 //	{
 //		return e.Parse(lstTokens, con, f) ;
 //	}
-	protected CFlag fCheckForNextSentence = new CFlag();
+	protected CFlag checkForNextSentence = new CFlag();
 	protected int nEndLine = 0 ;
 	public void SetEndLine(int n)
 	{

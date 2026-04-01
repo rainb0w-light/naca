@@ -34,10 +34,10 @@ public class Time_ms
 	
 	public static String formatYYYYMMDDHHMMSS_ms(long l)
 	{
-		Calendar cal = new GregorianCalendar();
-		cal.setTimeInMillis(l);
+		Calendar calendar = new GregorianCalendar();
+		calendar.setTimeInMillis(l);
 		
-		Date date = cal.getTime();
+		Date date = calendar.getTime();
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
 		String cs = formatter.format(date) ;
 		return cs ;
@@ -45,10 +45,10 @@ public class Time_ms
 	
 	public static String formatDMY_HHMMSS_ms(long l)
 	{
-		Calendar cal = new GregorianCalendar();
-		cal.setTimeInMillis(l);
+		Calendar calendar = new GregorianCalendar();
+		calendar.setTimeInMillis(l);
 		
-		Date date = cal.getTime();
+		Date date = calendar.getTime();
 		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yy HH:mm:ss.SSS");
 		String cs = formatter.format(date) ;
 		return cs ;

@@ -35,7 +35,7 @@ import utils.Transcoder;
  */
 public class CExecCICSIgnore extends CCobolElement
 {
-	protected ArrayList<String> arrConditions = new ArrayList<String>() ;
+	protected ArrayList<String> conditions = new ArrayList<String>() ;
 
 	/**
 	 * @param line
@@ -52,9 +52,9 @@ public class CExecCICSIgnore extends CCobolElement
 	{
 		CEntityCICSIgnoreCondition ignore = factory.NewEntityCICSIgnoreCondition(getLine());
 		parent.AddChild(ignore) ;
-		for (int i=0; i<arrConditions.size();i++)
+		for (int i = 0; i< conditions.size(); i++)
 		{
-			String cond = arrConditions.get(i);
+			String cond = conditions.get(i);
 			ignore.IgnoreCondition(cond);
 		}
 		return ignore;
@@ -74,19 +74,19 @@ public class CExecCICSIgnore extends CCobolElement
 		if (tok.GetKeyword() == CCobolKeywordList.CONDITION)
 		{
 			tok = GetNext() ;
-			boolean bDone = false ;
-			while (!bDone)
+			boolean isdone = false ;
+			while (!isdone)
 			{
 				tok = GetCurrentToken() ;
 				if (tok.GetKeyword() == CCobolKeywordList.END_EXEC)
 				{
-					bDone = true ;
+					isdone = true ;
 				}
 				else
 				{
 					String cond = tok.GetValue() ;
 					tok = GetNext() ;
-					arrConditions.add(cond);
+					conditions.add(cond);
 				}
 			}
 		}
@@ -119,9 +119,9 @@ public class CExecCICSIgnore extends CCobolElement
 	protected Element ExportCustom(Document root)
 	{
 		Element eIgnore = root.createElement("ExecCICSIgnore") ;
-		for (int i=0; i<arrConditions.size();i++)
+		for (int i = 0; i< conditions.size(); i++)
 		{
-			String cond = arrConditions.get(i);
+			String cond = conditions.get(i);
 			Element e = root.createElement("Ignore");
 			eIgnore.appendChild(e);
 			e.setAttribute("Condition", cond);

@@ -550,10 +550,10 @@ public class VarDefNumIntSignComp0 extends VarDefNum
 	{
 		int nPos = RWNumIntComp0.internalWriteAbsoluteIntComp0(buffer, nOffset, nValue, buffer.nAbsolutePosition, nTotalSize);
 
-		boolean bPositive = true;
+		boolean ispositive = true;
 		if(nValue < 0)
-			bPositive = false;
-		internalWriteEmbeddedComp0Sign(buffer, nOffset, bPositive);
+			ispositive = false;
+		internalWriteEmbeddedComp0Sign(buffer, nOffset, ispositive);
 		
 		return nPos;
 	}
@@ -563,10 +563,10 @@ public class VarDefNumIntSignComp0 extends VarDefNum
 	{
 		int nPos = RWNumIntComp0.internalWriteAbsoluteIntComp0AsLong(buffer, lValue, buffer.nAbsolutePosition, nTotalSize);
 
-		boolean bPositive = true;
+		boolean ispositive = true;
 		if(lValue < 0)
-			bPositive = false;
-		internalWriteEmbeddedComp0Sign(buffer, bPositive);
+			ispositive = false;
+		internalWriteEmbeddedComp0Sign(buffer, ispositive);
 		
 		return nPos;
 	}

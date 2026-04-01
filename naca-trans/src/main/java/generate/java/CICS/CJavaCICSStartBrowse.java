@@ -47,7 +47,7 @@ public class CJavaCICSStartBrowse extends CEntityCICSStartBrowse
 		{
 			WriteWord(".recIDField(" + recIDField.ExportReference(getLine()) + ")");
 		}
-		if (bGTEQ)
+		if (isgTEQ)
 		{
 			WriteWord(".gTEQ()");
 		}

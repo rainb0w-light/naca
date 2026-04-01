@@ -38,8 +38,8 @@ public class CJavaCICSReceiveMap extends CEntityCICSReceiveMap
 
 	protected void DoExport()
 	{
-		WriteWord("CESM.receiveMap("+ mapName.ExportReference(getLine()) + ")");
-		WriteWord(".mapSet(" + mapSetName.ExportReference(getLine()) + ")");
+		WriteWord("CESM.receiveMap("+ name.ExportReference(getLine()) + ")");
+		WriteWord(".mapSet(" + setName.ExportReference(getLine()) + ")");
 		WriteWord(".into(" + dataInto.ExportReference(getLine()) + ") ;");
 		WriteEOL();
 	}

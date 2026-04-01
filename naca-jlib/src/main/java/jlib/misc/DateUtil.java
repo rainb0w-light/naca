@@ -82,8 +82,8 @@ public class DateUtil
   
 	public String getCurrentDateYYYYMMDD()
 	{
-		Calendar cal = new GregorianCalendar();
-		return getCurrentDateYYYYMMDD(cal);
+		Calendar calendar = new GregorianCalendar();
+		return getCurrentDateYYYYMMDD(calendar);
 	}
 	
 	public static String GetDisplayDateHour(Calendar cal)
@@ -109,8 +109,8 @@ public class DateUtil
   	
   	public String getCurrentTimeHHMMSS()
 	{
-		Calendar cal = new GregorianCalendar();
-		return getCurrentTimeHHMMSS(cal);
+		Calendar calendar = new GregorianCalendar();
+		return getCurrentTimeHHMMSS(calendar);
 	}
   	
   	public String getCurrentTimeHHMMSS(Calendar cal)
@@ -123,10 +123,10 @@ public class DateUtil
   	
   	public static int getNbSecondSinceMidnight()
   	{
-  		Calendar cal = new GregorianCalendar();
-  		int nH = cal.get(Calendar.HOUR_OF_DAY);
-  		int nM = cal.get(Calendar.MINUTE);
-  		int nS = cal.get(Calendar.SECOND);
+  		Calendar calendar = new GregorianCalendar();
+  		int nH = calendar.get(Calendar.HOUR_OF_DAY);
+  		int nM = calendar.get(Calendar.MINUTE);
+  		int nS = calendar.get(Calendar.SECOND);
   		int n = nS + (nM * 60) + (nH * 3600);
   		return n;
   	}
@@ -139,8 +139,8 @@ public class DateUtil
   	
  	public String getCurrentDateTimeYYYYMMDD_HHMMSS()
 	{
-		Calendar cal = new GregorianCalendar();
- 		return getCurrentDateYYYYMMDD(cal) + getCurrentTimeHHMMSS(cal);
+		Calendar calendar = new GregorianCalendar();
+ 		return getCurrentDateYYYYMMDD(calendar) + getCurrentTimeHHMMSS(calendar);
 	}
  	
  	public String getCurrentDateDisplayDateTime()
@@ -152,7 +152,7 @@ public class DateUtil
 
 
  	/**
- 	 * Transforme la date sous un spécial format
+ 	 * Transforme la date sous un spï¿½cial format
  	 */
  	public String toString()
  	{
@@ -162,20 +162,20 @@ public class DateUtil
  	
  	public static String getCurrentDisplayableDateTime()
 	{ 		
- 		GregorianCalendar cal = new GregorianCalendar();  
+ 		GregorianCalendar calendar = new GregorianCalendar();
 		StringBuffer sb = new StringBuffer();
 		
-		sb.append(StringUtil.FormatWithFill2LeftZero(cal.get(Calendar.DAY_OF_MONTH)));
+		sb.append(StringUtil.FormatWithFill2LeftZero(calendar.get(Calendar.DAY_OF_MONTH)));
 		sb.append('/');
-		sb.append(StringUtil.FormatWithFill2LeftZero(cal.get(Calendar.MONTH)+1));
+		sb.append(StringUtil.FormatWithFill2LeftZero(calendar.get(Calendar.MONTH)+1));
 		sb.append('/');
-		sb.append(StringUtil.FormatWithFill2LeftZero(cal.get(Calendar.YEAR)));
+		sb.append(StringUtil.FormatWithFill2LeftZero(calendar.get(Calendar.YEAR)));
 		sb.append(' ');
-		sb.append(StringUtil.FormatWithFill2LeftZero(cal.get(Calendar.HOUR_OF_DAY)));
+		sb.append(StringUtil.FormatWithFill2LeftZero(calendar.get(Calendar.HOUR_OF_DAY)));
 		sb.append(':');
-		sb.append(StringUtil.FormatWithFill2LeftZero(cal.get(Calendar.MINUTE)));
+		sb.append(StringUtil.FormatWithFill2LeftZero(calendar.get(Calendar.MINUTE)));
 		sb.append(':');
-		sb.append(StringUtil.FormatWithFill2LeftZero(cal.get(Calendar.SECOND)));
+		sb.append(StringUtil.FormatWithFill2LeftZero(calendar.get(Calendar.SECOND)));
 		return sb.toString();
 	}
  	
@@ -316,16 +316,16 @@ public class DateUtil
 	 */
 	public static String createStringListOfDates(Collection<Date> dateColl, String sDateFormat, String sSeparator) {
 
-		StringBuffer listOfDates = new StringBuffer();
+		StringBuffer listofDates = new StringBuffer();
 		
 		for (Date date : dateColl) {
 			
 			String sDate = formatDateToString(date, sDateFormat);
-			listOfDates.append(sDate);
-			listOfDates.append(sSeparator);
+			listofDates.append(sDate);
+			listofDates.append(sSeparator);
 		}
 		
-		return listOfDates.toString();
+		return listofDates.toString();
 	}		
  	
  	/**
@@ -558,7 +558,7 @@ public class DateUtil
 	
 
 //	***************************************************************************************
-//	**                   Fonction qui ajoute une durée (un entier) à une date            **
+//	**                   Fonction qui ajoute une durï¿½e (un entier) ï¿½ une date            **
 //	***************************************************************************************
 
 	/**
@@ -632,10 +632,10 @@ public class DateUtil
 	
 	public Calendar dateString2Calendar(String s) throws Exception 
 	{
-	    Calendar cal=Calendar.getInstance();
+	    Calendar calendar =Calendar.getInstance();
 	    Date d1 = ms_dfYYYYMMDD.parse(s);
-	    cal.setTime(d1);
-	    return cal;
+	    calendar.setTime(d1);
+	    return calendar;
 	  }
 	
 //	***************************************************************************************************

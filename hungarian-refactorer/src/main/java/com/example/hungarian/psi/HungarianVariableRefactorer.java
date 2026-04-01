@@ -1,16 +1,22 @@
 package com.example.hungarian.psi;
 
 import com.example.hungarian.HungarianPrefixRegistry;
+import com.example.hungarian.HungarianRefactorerSettings;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
-import com.intellij.psi.*;
-import com.intellij.psi.search.searches.ReferencesSearch;
-import com.intellij.psi.util.PsiTreeUtil;
+import com.intellij.psi.PsiClass;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiField;
+import com.intellij.psi.PsiMethod;
+import com.intellij.psi.PsiType;
 import com.intellij.refactoring.RefactoringFactory;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 匈牙利命名法变量重构器
@@ -66,11 +72,7 @@ public class HungarianVariableRefactorer {
         RefactoringFactory factory = RefactoringFactory.getInstance(project);
 
         // 创建重命名重构
-        RenameRefactoring refactoring = factory.createRename(element, newName);
-
-        // 配置重构选项
-        refactoring.searchInComments(settings.isUpdateComments());
-        refactoring.searchInNonJavaFiles(false);
+        var refactoring = factory.createRename(element, newName);
 
         // 执行重命名
         refactoring.run();
@@ -182,7 +184,7 @@ class AccessorUpdater {
         Project project = method.getProject();
         RefactoringFactory factory = RefactoringFactory.getInstance(project);
 
-        RenameRefactoring refactoring = factory.createRename(method, newName);
+        var refactoring = factory.createRename(method, newName);
         refactoring.run();
 
         LOG.debug("Renamed method: " + method.getName() + " -> " + newName);

@@ -35,18 +35,18 @@ public abstract class CEntityAddTo extends CBaseActionEntity
 	@Override
 	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
 	{
-		if (arrDest.contains(field))
+		if (dest.contains(field))
 		{
-			int pos = arrDest.indexOf(field) ;
-			arrDest.set(pos, var) ;
+			int pos = dest.indexOf(field) ;
+			dest.set(pos, var) ;
 			field.UnRegisterWritingAction(this) ;
 			var.RegisterWritingAction(this) ;
 			return true ;
 		}
-		if (arrValues.contains(field))
+		if (values.contains(field))
 		{
-			int pos = arrValues.indexOf(field) ;
-			arrValues.set(pos, var) ;
+			int pos = values.indexOf(field) ;
+			values.set(pos, var) ;
 			field.UnRegisterReadingAction(this) ;
 			var.RegisterReadingAction(this) ;
 			return true ;
@@ -67,32 +67,32 @@ public abstract class CEntityAddTo extends CBaseActionEntity
 	public void SetAddDest(CDataEntity dest)
 	{
 		dest.RegisterWritingAction(this);
-		arrDest.add(dest);
+		this.dest.add(dest);
 	}
 	public void SetAddValue(CDataEntity val)
 	{
 		val.RegisterReadingAction(this);
-		arrValues.add(val);
+		values.add(val);
 	}
 	public void SetRounded(boolean b)
 	{
-		bRounded = b ;
+		isrounded = b ;
 	}
-	protected Vector<CDataEntity> arrValues = new Vector<CDataEntity>() ;
-	protected Vector<CDataEntity> arrDest = new Vector<CDataEntity>() ;
-	protected boolean bRounded = false ;
+	protected Vector<CDataEntity> values = new Vector<CDataEntity>() ;
+	protected Vector<CDataEntity> dest = new Vector<CDataEntity>() ;
+	protected boolean isrounded = false ;
 	public void Clear()
 	{
 		super.Clear();
-		arrValues.clear() ;
-		arrDest.clear();
+		values.clear() ;
+		dest.clear();
 	}
 	public boolean ignore()
 	{
 		boolean ignore = true ;
-		for (int i = 0; i<arrDest.size(); i++)
+		for (int i = 0; i< dest.size(); i++)
 		{
-			CDataEntity e = arrDest.get(i);
+			CDataEntity e = dest.get(i);
 			ignore &= e.ignore() ; 
 		}
 		if (ignore)
@@ -100,24 +100,24 @@ public abstract class CEntityAddTo extends CBaseActionEntity
 			return ignore ;
 		}
 		ignore = true ;
-		for (int i = 0; i<arrValues.size(); i++)
+		for (int i = 0; i< values.size(); i++)
 		{
-			CDataEntity e = arrValues.get(i);
+			CDataEntity e = values.get(i);
 			ignore &= e.ignore() ; 
 		}
 		return ignore ; 
 	}
 	public boolean IgnoreVariable(CDataEntity data)
 	{
-		if (arrDest.contains(data))
+		if (dest.contains(data))
 		{
-			arrDest.remove(data);
+			dest.remove(data);
 			data.UnRegisterWritingAction(this) ;
 			return true ;
 		}
-		if (arrValues.contains(data))
+		if (values.contains(data))
 		{
-			arrValues.remove(data) ;
+			values.remove(data) ;
 			data.UnRegisterReadingAction(this) ;
 			return true ;
 		}
@@ -128,38 +128,38 @@ public abstract class CEntityAddTo extends CBaseActionEntity
 
 	public Vector<CDataEntity> getValues()
 	{
-		return arrValues;
+		return values;
 	}
 
 	public Vector<CDataEntity> getDestinations()
 	{
-		return arrDest;
+		return dest;
 	}
 
 	public boolean isRounded()
 	{
-		return bRounded;
+		return isrounded;
 	}
 
 	public boolean hasSingleValue()
 	{
-		return arrValues.size() == 1;
+		return values.size() == 1;
 	}
 
 	public CDataEntity getSingleValue()
 	{
-		if (arrValues.size() == 1)
+		if (values.size() == 1)
 		{
-			return arrValues.get(0);
+			return values.get(0);
 		}
 		return null;
 	}
 
 	public CDataEntity getSingleDestination()
 	{
-		if (arrDest.size() == 1)
+		if (dest.size() == 1)
 		{
-			return arrDest.get(0);
+			return dest.get(0);
 		}
 		return null;
 	}

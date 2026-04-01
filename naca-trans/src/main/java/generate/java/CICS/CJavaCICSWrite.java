@@ -36,7 +36,7 @@ public class CJavaCICSWrite extends CEntityCICSWrite
 
 	protected void DoExport()
 	{
-		if (bWritetoDataSet && dataFrom.GetName().equals("CUM-COLL"))
+		if (iswritetoDataSet && dataFrom.GetName().equals("CUM-COLL"))
 		{
 			if (dataFrom.of != null)
 			{
@@ -52,11 +52,11 @@ public class CJavaCICSWrite extends CEntityCICSWrite
 		else
 		{	
 			String title = "CESM.write" ;
-			if (bWritetoDataSet)
+			if (iswritetoDataSet)
 			{
 				title += "DataSet(" ;
 			}
-			else if (bWriteToFile)
+			else if (iswriteToFile)
 			{
 				title += "File(" ;
 			}

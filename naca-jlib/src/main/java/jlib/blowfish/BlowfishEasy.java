@@ -64,14 +64,14 @@ public class BlowfishEasy {
   public String encryptString(String sPlainText) 
   {
     // get the IV
-    long lCBCIV;
+    long cBCIV;
     synchronized (rndGen) 
     {
-      lCBCIV = rndGen.nextLong();
+      cBCIV = rndGen.nextLong();
     }
 
     // map the call;
-    return encStr(sPlainText, lCBCIV); 
+    return encStr(sPlainText, cBCIV);
   }
 
 
@@ -86,10 +86,10 @@ public class BlowfishEasy {
                               Random rndGen) 
   {
     // get the IV
-    long lCBCIV = rndGen.nextLong();
+    long cBCIV = rndGen.nextLong();
 
     // map the call;
-    return encStr(sPlainText, lCBCIV); 
+    return encStr(sPlainText, cBCIV);
   }
 
 
@@ -108,16 +108,16 @@ public class BlowfishEasy {
     int nPos = 0;
     for (nI = 0; nI < nStrLen; nI++) 
     {
-      char cActChar = sPlainText.charAt(nI);
-      buf[nPos++] = (byte) ((cActChar >> 8) & 0x0ff);
-      buf[nPos++] = (byte) (cActChar & 0x0ff) ;
+      char actChar = sPlainText.charAt(nI);
+      buf[nPos++] = (byte) ((actChar >> 8) & 0x0ff);
+      buf[nPos++] = (byte) (actChar & 0x0ff) ;
     }
 
     // pad the rest with the PKCS5 scheme
-    byte bPadVal = (byte)(buf.length - (nStrLen << 1));
+    byte ispadVal = (byte)(buf.length - (nStrLen << 1));
     while (nPos < buf.length)
     {
-      buf[nPos++] = bPadVal;
+      buf[nPos++] = ispadVal;
     }
 
     // create the encryptor

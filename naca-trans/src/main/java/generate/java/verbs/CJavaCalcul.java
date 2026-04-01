@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 3 août 2004
+ * Created on 3 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -41,31 +41,31 @@ public class CJavaCalcul extends CEntityCalcul
 	protected void DoExport()
 	{
 		String csOperation = "compute" ;
-		if (arrRoundedDestinations.size() > 0)
+		if (roundedDestinations.size() > 0)
 		{
 			csOperation += "Rounded";
 		}
 		csOperation += "(";
 		String csExpression = expression.Export() ;
 		
-		boolean bOnError = false ;
+		boolean isonError = false ;
 		if (onErrorBloc != null)
 		{
 			WriteWord("if (") ;
-			bOnError = true ;
+			isonError = true ;
 		}
-		boolean bFound = false ;
-		for (int i=0; i<arrDestinations.size();i++)
+		boolean isfound = false ;
+		for (int i = 0; i< destinations.size(); i++)
 		{
-			CDataEntity destination = arrDestinations.get(i);
+			CDataEntity destination = destinations.get(i);
 			String line = "" ;
-			if (bFound && bOnError)
+			if (isfound && isonError)
 			{
 				line = " || " ;
 			}
 			else
 			{
-				bFound = true ;
+				isfound = true ;
 			}
 			String csDest = destination.ExportReference(getLine());
 			if (csDest.equals("getSQLCode()"))
@@ -76,7 +76,7 @@ public class CJavaCalcul extends CEntityCalcul
 			{
 				line += csOperation + csExpression + ", " + csDest + ")" ;
 			}
-			if (bOnError)
+			if (isonError)
 			{
 				line += ".isError()" ;
 				WriteWord(line);
@@ -87,17 +87,17 @@ public class CJavaCalcul extends CEntityCalcul
 				WriteLine(line) ;
 			}
 		}
-		for (int i=0; i<arrRoundedDestinations.size();i++)
+		for (int i = 0; i< roundedDestinations.size(); i++)
 		{
-			CDataEntity destination = arrRoundedDestinations.get(i);
+			CDataEntity destination = roundedDestinations.get(i);
 			String line = "" ;
-			if (bFound && bOnError)
+			if (isfound && isonError)
 			{
 				line = " || " ;
 			}
 			else
 			{
-				bFound = true ;
+				isfound = true ;
 			}
 			String csDest = destination.ExportReference(getLine());
 			if (csDest.equals("getSQLCode()"))
@@ -108,7 +108,7 @@ public class CJavaCalcul extends CEntityCalcul
 			{
 				line += csOperation + csExpression + ", " + csDest + ")" ;
 			}
-			if (bOnError)
+			if (isonError)
 			{
 				line += ".isError()" ;
 				WriteWord(line);
@@ -119,7 +119,7 @@ public class CJavaCalcul extends CEntityCalcul
 				WriteLine(line) ;
 			}
 		}
-		if (bOnError)
+		if (isonError)
 		{
 			WriteWord(") {") ;
 			WriteEOL() ;

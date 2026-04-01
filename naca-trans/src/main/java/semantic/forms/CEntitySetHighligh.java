@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 11 août 2004
+ * Created on 11 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -49,21 +49,21 @@ public abstract class CEntitySetHighligh extends CBaseActionEntity
 	
 	public void SetBlink()
 	{
-		bIsBlink = true ;
+		isisBlink = true ;
 	}
 	public void SetReverse()
 	{
-		bIsReverse = true ;
+		isisReverse = true ;
 	}
 	public void SetUnderlined()
 	{
-		bIsUnderlined = true ;
+		isisUnderlined = true ;
 	}
 	//protected CFieldHighligh m_highlight = null ;
-	protected boolean bIsBlink = false ;
-	protected boolean bIsReverse = false ;
-	protected boolean bIsUnderlined = false ;
-	protected boolean bIsNormal = false ;
+	protected boolean isisBlink = false ;
+	protected boolean isisReverse = false ;
+	protected boolean isisUnderlined = false ;
+	protected boolean isisNormal = false ;
 	protected CDataEntity refField = null ;
 	protected CDataEntity highLightValue = null ;
 	public void Clear()
@@ -80,7 +80,7 @@ public abstract class CEntitySetHighligh extends CBaseActionEntity
 
 	public void SetNormal()
 	{
-		bIsNormal = true ;		
+		isisNormal = true ;
 	}
 	public boolean ignore()
 	{
@@ -125,10 +125,10 @@ public abstract class CEntitySetHighligh extends CBaseActionEntity
 	 */
 	public void Reset()
 	{
-		bIsBlink = false ;
-		bIsNormal = false ;
-		bIsReverse = false ;
-		bIsUnderlined = false ;
+		isisBlink = false ;
+		isisNormal = false ;
+		isisReverse = false ;
+		isisUnderlined = false ;
 		highLightValue = null ;		
 	}
 }

@@ -15,8 +15,6 @@ package parser.BMS;
 
 import java.util.Hashtable;
 
-import org.apache.log4j.Logger;
-
 import parser.CGlobalCommentContainer;
 import parser.CParser;
 import parser.map_elements.*;
@@ -68,8 +66,8 @@ public class CBMSParser extends CParser<CMapSetElement>
 		
 		String csAlias = "" ;
 		Hashtable<String, CFieldGroup> tabGroups = new Hashtable<String, CFieldGroup>();
-		boolean bDone = false ;
-		while (!bDone)
+		boolean isdone = false ;
+		while (!isdone)
 		{
 			tokID = lstTokens.GetCurrentToken() ; 
 			String elName = "" ;
@@ -154,7 +152,7 @@ public class CBMSParser extends CParser<CMapSetElement>
 			}
 			else
 			{
-				bDone = true ;
+				isdone = true ;
 			}
 			
 		}

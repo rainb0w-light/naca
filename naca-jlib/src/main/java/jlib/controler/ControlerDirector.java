@@ -18,7 +18,7 @@ public class ControlerDirector
 		public int nStepId = -1 ;
 	}
 
-	private Vector<ControlerItemDescription> arrDesc = null ;
+	private Vector<ControlerItemDescription> desc = null ;
 //	private Vector<BaseControler> arrControler = null ;
 //	private Vector<ControlerThread> arrThreads = null ;
 	private BaseControlerConfig config = null;
@@ -27,7 +27,7 @@ public class ControlerDirector
 	
 	public void Init(BaseControlerConfig config)
 	{
-		arrDesc = new Vector<ControlerItemDescription>() ;
+		desc = new Vector<ControlerItemDescription>() ;
 //		arrControler = new Vector<BaseControler>() ;
 //		arrThreads = new Vector<ControlerThread>() ;
 		tabControlers = new Hashtable<String, BaseControler>() ;
@@ -40,7 +40,7 @@ public class ControlerDirector
 //	public void launchControlers()
 //	{
 //	   	
-//	    //Pour chaque site et pour chaque groupe présent dans le fichier de configuration on crée un thread.
+//	    //Pour chaque site et pour chaque groupe prï¿½sent dans le fichier de configuration on crï¿½e un thread.
 //	    for (int i=0; i<config.getNbTasks(); i++) 
 //	    {
 //	    	BaseControler ctrl = factory.getControlerForTask(i) ;
@@ -68,7 +68,7 @@ public class ControlerDirector
 	    	ControlerItemDescription descSite = new ControlerItemDescription() ;
 	    	descSite.csControlerName = confgrp.getName() ;
 	    	descSite.nStepId = 0 ; // single item
-	    	arrDesc.add(descSite) ;
+	    	desc.add(descSite) ;
     	}
     	else
     	{
@@ -78,7 +78,7 @@ public class ControlerDirector
 		    	ControlerItemDescription descSite = new ControlerItemDescription() ;
 		    	descSite.csControlerName = confgrp.getName() ;
 		    	descSite.nStepId = j ; // single item
-		    	arrDesc.add(descSite) ;
+		    	desc.add(descSite) ;
 	    	}
     	}
 
@@ -105,9 +105,9 @@ public class ControlerDirector
 
 	public void startControler(int i, boolean bForceStart)
 	{
-		if (i<arrDesc.size())
+		if (i< desc.size())
 		{
-			ControlerItemDescription desc = arrDesc.get(i) ;
+			ControlerItemDescription desc = this.desc.get(i) ;
 			BaseControler ctrl = tabControlers.get(desc.csControlerName) ;
 			ControlerThread th = tabThreads.get(desc.csControlerName) ;
 			if ((th == null || !th.isAlive()) && ctrl != null)
@@ -132,9 +132,9 @@ public class ControlerDirector
 	 */
 	public void StopControler(int i, boolean bForce)
 	{
-		if (i<arrDesc.size())
+		if (i< desc.size())
 		{
-			ControlerItemDescription desc = arrDesc.get(i) ;
+			ControlerItemDescription desc = this.desc.get(i) ;
 			BaseControler ctrl = tabControlers.get(desc.csControlerName) ;
 			ControlerThread th = tabThreads.get(desc.csControlerName) ;
 			if (th != null)
@@ -151,9 +151,9 @@ public class ControlerDirector
 	 */
 	public String getStatus(int i)
 	{
-		if (i<arrDesc.size())
+		if (i< desc.size())
 		{
-			ControlerItemDescription desc = arrDesc.get(i) ;
+			ControlerItemDescription desc = this.desc.get(i) ;
 			BaseControler ctrl = tabControlers.get(desc.csControlerName) ;
 			return ctrl.getStatus(desc.nStepId) ;
 		}
@@ -165,7 +165,7 @@ public class ControlerDirector
 
 	public int getNbControlers()
 	{
-		return arrDesc.size() ;
+		return desc.size() ;
 	}
 
 	public void ReloadConfig()
@@ -175,9 +175,9 @@ public class ControlerDirector
 
 	public String getStepName(int i)
 	{
-		if (i<arrDesc.size())
+		if (i< desc.size())
 		{
-			ControlerItemDescription desc = arrDesc.get(i) ;
+			ControlerItemDescription desc = this.desc.get(i) ;
 			BaseControler ctrl = tabControlers.get(desc.csControlerName) ;
 			String name = ctrl.getStepName(desc.nStepId) ;
 			return name ;
@@ -190,9 +190,9 @@ public class ControlerDirector
 
 	public BaseControler getControler(int i)
 	{
-		if (i<arrDesc.size())
+		if (i< desc.size())
 		{
-			ControlerItemDescription desc = arrDesc.get(i) ;
+			ControlerItemDescription desc = this.desc.get(i) ;
 			BaseControler ctrl = tabControlers.get(desc.csControlerName) ;
 			return ctrl ;
 		}
@@ -201,9 +201,9 @@ public class ControlerDirector
 
 	public ControlerThread getThread(int i)
 	{
-		if (i<arrDesc.size())
+		if (i< desc.size())
 		{
-			ControlerItemDescription desc = arrDesc.get(i) ;
+			ControlerItemDescription desc = this.desc.get(i) ;
 			return tabThreads.get(desc.csControlerName) ;
 		}
 		return null ;
@@ -226,12 +226,12 @@ public class ControlerDirector
 		String name = conf.getName();
 		if (tabControlers.containsKey(name))
 		{
-			for (int i=0; i<arrDesc.size(); )
+			for (int i=0; i< desc.size(); )
 			{
-				ControlerItemDescription desc = arrDesc.get(i) ;
+				ControlerItemDescription desc = this.desc.get(i) ;
 				if (desc.csControlerName.equals(name))
 				{
-					arrDesc.remove(i) ;
+					this.desc.remove(i) ;
 				}
 				else
 				{
@@ -258,13 +258,13 @@ public class ControlerDirector
 			String name = cfg.getName() ;
 			if (tabControlers.containsKey(name))
 			{
-				int iStep = cfg.getNbSteps() ;
-				for (int i=0; i<arrDesc.size(); )
+				int step = cfg.getNbSteps() ;
+				for (int i=0; i< desc.size(); )
 				{
-					ControlerItemDescription desc = arrDesc.get(i) ;
-					if (desc.csControlerName.equals(name) && desc.nStepId == iStep)
+					ControlerItemDescription desc = this.desc.get(i) ;
+					if (desc.csControlerName.equals(name) && desc.nStepId == step)
 					{
-						arrDesc.remove(i) ;
+						this.desc.remove(i) ;
 					}
 					else
 					{
@@ -283,17 +283,17 @@ public class ControlerDirector
 			BaseControler ctrl = tabControlers.get(name) ;
 			if (ctrl != null)
 			{
-				int iStep = cfg.getNbSteps()-1 ;
+				int step = cfg.getNbSteps()-1 ;
 				ControlerItemDescription desc = new ControlerItemDescription() ;
 				desc.csControlerName = name ;
-				desc.nStepId = iStep ;
+				desc.nStepId = step;
 
-				for (int i=0; i<arrDesc.size(); i++)
+				for (int i = 0; i< this.desc.size(); i++)
 				{
-					ControlerItemDescription d = arrDesc.get(i) ;
-					if (d.csControlerName.equals(name) && d.nStepId == iStep-1)
+					ControlerItemDescription d = this.desc.get(i) ;
+					if (d.csControlerName.equals(name) && d.nStepId == step -1)
 					{
-						arrDesc.insertElementAt(desc, i+1) ;
+						this.desc.insertElementAt(desc, i+1) ;
 					}
 				}
 

@@ -13,30 +13,30 @@ public abstract class BaseControler
 {
 	public BaseControler(int nbSteps)
 	{
-		arrStatus = new Vector<String>(nbSteps) ;
-		arrDtStarts = new Vector<Date>(nbSteps)  ;
-		arrDtEnds = new Vector<Date>(nbSteps)  ;
+		status = new Vector<String>(nbSteps) ;
+		dtStarts = new Vector<Date>(nbSteps)  ;
+		dtEnds = new Vector<Date>(nbSteps)  ;
 		for (int i=0; i<nbSteps; i++)
 		{
-			arrStatus.add("NONE") ;
-			arrDtEnds.add(null) ;
-			arrDtStarts.add(null) ;
+			status.add("NONE") ;
+			dtEnds.add(null) ;
+			dtStarts.add(null) ;
 		}
 	}
-	private Vector<String> arrStatus; 
-	private Vector<Date> arrDtStarts ;
-	private Vector<Date> arrDtEnds ;
+	private Vector<String> status;
+	private Vector<Date> dtStarts;
+	private Vector<Date> dtEnds;
 	
-	private boolean bIsRunning = false ;
+	private boolean isisRunning = false ;
 	private int nCurrentStep = 0 ;
 	
 	public String getStatus(int stepId)
 	{
-		if (stepId >= arrStatus.size())
+		if (stepId >= status.size())
 		{
 			return "NONE" ;
 		}
-		String status = arrStatus.get(stepId) ;
+		String status = this.status.get(stepId) ;
 		if (getTaskConfig().isModeGroup() || stepId == nCurrentStep)
 		{
 			if (status.startsWith("NONE") || status.startsWith("ERROR") || status.startsWith("STARTING"))
@@ -60,16 +60,16 @@ public abstract class BaseControler
 
 	public void setStatus(int currentSite, String string)
 	{
-		arrStatus.set(currentSite, string) ;
+		status.set(currentSite, string) ;
 	}
 	public void setStartDate(int currentSite, Date dt)
 	{
-		arrDtStarts.set(currentSite, dt) ;
+		dtStarts.set(currentSite, dt) ;
 	}
 
 	public boolean RunStep(int currentSite)
 	{
-		bIsRunning = true ;
+		isisRunning = true ;
 		nCurrentStep = currentSite ;
 		BaseControlerTaskConfig conf = getTaskConfig() ;
 		BaseControlerStepConfig step = conf.getStep(nCurrentStep) ;
@@ -77,7 +77,7 @@ public abstract class BaseControler
 		
 		boolean b = DoOneStep(currentSite) ;
 		
-		bIsRunning = false ;
+		isisRunning = false ;
 //		step.setCurrentControler(null) ;
 		return b ;
 	}
@@ -88,17 +88,17 @@ public abstract class BaseControler
 
 	public Date getDateGroupEnds()
 	{
-		return dtGroupEnds;
+		return dategroupEnds;
 	}
 	public void setDateGroupEnds()
 	{
-		dtGroupEnds = new Date() ;
+		dategroupEnds = new Date() ;
 	}
-	private Date dtGroupEnds = null ;
+	private Date dategroupEnds = null ;
 
 	public Date getDateStepEnds(int currentSite)
 	{
-		return arrDtEnds.get(currentSite) ;
+		return dtEnds.get(currentSite) ;
 	}
 
 	public String getStepName(int stepId)
@@ -108,7 +108,7 @@ public abstract class BaseControler
 	
 	protected boolean isRunning()
 	{
-		return bIsRunning ;
+		return isisRunning;
 	}
 	protected int getCurrentStep()
 	{

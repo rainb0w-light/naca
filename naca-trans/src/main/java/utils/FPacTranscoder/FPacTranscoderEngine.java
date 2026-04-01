@@ -85,8 +85,8 @@ public class FPacTranscoderEngine extends TranscoderEngine<CFPacScript, CFPacJav
 			String name = e.getVal("name") ;
 			String read = e.getVal("methodeRead") ;
 			String write = e.getVal("methodeWrite") ;
-			boolean bNumeric = e.getValAsBoolean("Numeric") ;
-			factory.NewEntityEnvironmentVariable(name, read, write, bNumeric) ;
+			boolean isnumeric = e.getValAsBoolean("Numeric") ;
+			factory.NewEntityEnvironmentVariable(name, read, write, isnumeric) ;
 		}
 //		nb = rulesManager.getNbRules("keyPressed") ;
 //		for (int i=0; i<nb; i++)

@@ -69,12 +69,12 @@ public class DataFileLineReader extends BaseDataFileBuffered
 		if(logicalFileDescriptor != null && logicalFileDescriptor.isDummyFile())
 			return false;
 		
-		boolean bOpened = doOpen();
-		if(bOpened && logicalFileDescriptor != null)
+		boolean isopened = doOpen();
+		if(isopened && logicalFileDescriptor != null)
 		{
 			logicalFileDescriptor.readFileHeader(this);
 		}
-		return bOpened; 
+		return isopened;
 	}
 
 	public boolean flush()

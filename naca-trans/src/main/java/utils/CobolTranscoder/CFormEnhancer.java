@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 16 févr. 2005
+ * Created on 16 fï¿½vr. 2005
  *
  * Window - Preferences - Java - Code Style - Code Templates
  */
@@ -415,20 +415,20 @@ public class CFormEnhancer
 		String submit = element.getAttribute("submit");
 		if (field!= null && !field.equals(""))
 		{
-			boolean bSubmit = false ;
+			boolean issubmit = false ;
 			if (submit != null && submit.equals("true"))
 			{
-				bSubmit = true ;
+				issubmit = true ;
 			}
 			if (target!=null && !target.equals(""))
 			{
 				if (value != null && !value.equals(""))
 				{
-					form.setActiveChoice(field, value, target, bSubmit) ;
+					form.setActiveChoice(field, value, target, issubmit) ;
 				}
 				else if (editvalue != null && !editvalue.equals(""))
 				{
-					form.setLinkedActiveChoice(field, editvalue, target, bSubmit) ;
+					form.setLinkedActiveChoice(field, editvalue, target, issubmit) ;
 				}
 			}
 		}

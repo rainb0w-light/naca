@@ -19,6 +19,6 @@ import jlib.engine.BaseNotification;
 public class NotifGetAllFilesNotOpen extends BaseNotification
 {
 
-	public Vector<CEntityFileDescriptor> arrFiles = new Vector<CEntityFileDescriptor>() ;
+	public Vector<CEntityFileDescriptor> files = new Vector<CEntityFileDescriptor>() ;
 
 }

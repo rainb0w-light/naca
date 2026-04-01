@@ -61,13 +61,13 @@ public class CFPacCodeBloc extends CFPacElement
 	@Override
 	protected boolean DoParsing()
 	{
-		boolean bDone = false ;
-		while  (!bDone)
+		boolean isdone = false ;
+		while  (!isdone)
 		{
 			CBaseToken tok = GetCurrentToken() ;
 			if  (tok == null)
 			{
-				bDone = true ;
+				isdone = true ;
 			}
 			else if (tok.GetKeyword() == CFPacKeywordList.P ||
 							tok.GetKeyword() == CFPacKeywordList.X ||
@@ -86,7 +86,7 @@ public class CFPacCodeBloc extends CFPacElement
 				{
 					if (tok == GetCurrentToken())
 					{
-						bDone = true ;
+						isdone = true ;
 					}
 					else
 						return false ;
@@ -94,7 +94,7 @@ public class CFPacCodeBloc extends CFPacElement
 			}
 			else
 			{
-				bDone = true ;
+				isdone = true ;
 			}
 		}
 		return true ;
@@ -102,11 +102,11 @@ public class CFPacCodeBloc extends CFPacElement
 
 	private boolean ParseInstructionLine()
 	{
-		Vector<CExpression> arrTerms = new Vector<CExpression>() ;
+		Vector<CExpression> terms = new Vector<CExpression>() ;
 		CReservedKeyword kCommand = null ;
 		int nLine = GetCurrentToken().getLine() ;
-		boolean bOk = true ;
-		while (bOk)
+		boolean isok = true ;
+		while (isok)
 		{
 			CBaseToken tok = GetCurrentToken() ;
 			if  (tok.GetKeyword() == CFPacKeywordList.P)
@@ -116,7 +116,7 @@ public class CFPacCodeBloc extends CFPacElement
 				{
 					String cs = tok.GetValue() ;
 					CTerminal term = new CNumberTerminal(cs);
-					arrTerms.add(new CTermExpression(tok.getLine(), term)) ;
+					terms.add(new CTermExpression(tok.getLine(), term)) ;
 					tok = GetNext() ;
 				}
 				else if (tok.GetType() == CTokenType.COMMA)
@@ -136,7 +136,7 @@ public class CFPacCodeBloc extends CFPacElement
 				{
 					String cs = tok.GetValue() ;
 					CTerminal term = new CStringTerminal(cs);
-					arrTerms.add(new CTermExpression(tok.getLine(), term)) ;
+					terms.add(new CTermExpression(tok.getLine(), term)) ;
 				}
 				else
 				{
@@ -149,7 +149,7 @@ public class CFPacCodeBloc extends CFPacElement
 			{
 				String cs = tok.GetValue() ;
 				CTerminal term = new CStringTerminal(cs);
-				arrTerms.add(new CTermExpression(tok.getLine(), term)) ;
+				terms.add(new CTermExpression(tok.getLine(), term)) ;
 				tok = GetNext() ;
 			}
 			else if (tok.GetKeyword() == CFPacKeywordList.E)
@@ -159,7 +159,7 @@ public class CFPacCodeBloc extends CFPacElement
 				{
 					String cs = tok.GetValue() ;
 					CTerminal term = new CStringTerminal(cs);
-					arrTerms.add(new CTermExpression(tok.getLine(), term)) ;
+					terms.add(new CTermExpression(tok.getLine(), term)) ;
 				}
 				else
 				{
@@ -175,7 +175,7 @@ public class CFPacCodeBloc extends CFPacElement
 				{
 					String cs = tok.GetValue() ;
 					CTerminal term = new CNumberTerminal("0x" + cs);
-					arrTerms.add(new CTermExpression(tok.getLine(), term)) ;
+					terms.add(new CTermExpression(tok.getLine(), term)) ;
 				}
 				else
 				{
@@ -249,11 +249,11 @@ public class CFPacCodeBloc extends CFPacElement
 						return false ;
 					}
 					CSumExpression sum = new CSumExpression(tok.getLine(), exp, exp2, CSumExpression.CSumType.ADD) ;
-					arrTerms.add(sum) ;
+					terms.add(sum) ;
 				}
 				else
 				{
-					arrTerms.add(exp) ;
+					terms.add(exp) ;
 				}
 			}
 			else if (tok.GetType() == CTokenType.IDENTIFIER)
@@ -269,8 +269,8 @@ public class CFPacCodeBloc extends CFPacElement
 						CExpression exp = new CTermExpression(0, new CAddressTerminal(tok.GetValue())) ;
 						//id.SetSubStringReference(exp, null) ;
 						CTerminal term = new CIdentifierTerminal(id) ;
-						arrTerms.add(new CTermExpression(tok.getLine(), term)) ;
-						arrTerms.add(exp) ;
+						terms.add(new CTermExpression(tok.getLine(), term)) ;
+						terms.add(exp) ;
 						tok = GetNext() ;
 					}
 					else
@@ -318,7 +318,7 @@ public class CFPacCodeBloc extends CFPacElement
 						CSumExpression sum = new CSumExpression(tok.getLine(), 
 										new CTermExpression(tok.getLine(), new CIdentifierTerminal(id)), 
 										new CTermExpression(tok.getLine(), term), CSumExpression.CSumType.ADD) ;
-						arrTerms.add(sum) ;
+						terms.add(sum) ;
 					}
 					else
 					{
@@ -335,12 +335,12 @@ public class CFPacCodeBloc extends CFPacElement
 				else if (tok.GetType() == CTokenType.COMMA)
 				{
 					CTerminal term = new CIdentifierTerminal(id) ;
-					arrTerms.add(new CTermExpression(tok.getLine(), term)) ;
+					terms.add(new CTermExpression(tok.getLine(), term)) ;
 				}
 				else
 				{
 					CTerminal term = new CIdentifierTerminal(id) ;
-					arrTerms.add(new CTermExpression(tok.getLine(), term)) ;
+					terms.add(new CTermExpression(tok.getLine(), term)) ;
 				}
 			}
 		
@@ -351,13 +351,13 @@ public class CFPacCodeBloc extends CFPacElement
 			}
 			else
 			{
-				bOk = false ;
+				isok = false ;
 			}
 		}
 		
 		if (kCommand == CFPacKeywordList.A)
 		{
-			CFPacArithmeticOperation add = new CFPacArithmeticOperation(nLine, arrTerms, kCommand) ;
+			CFPacArithmeticOperation add = new CFPacArithmeticOperation(nLine, terms, kCommand) ;
 			if (!Parse(add))
 			{
 				return false ;
@@ -366,7 +366,7 @@ public class CFPacCodeBloc extends CFPacElement
 		}
 		else if (kCommand == CFPacKeywordList.P)
 		{
-			CFPacConvert conv = new CFPacConvert(nLine, arrTerms, kCommand) ;
+			CFPacConvert conv = new CFPacConvert(nLine, terms, kCommand) ;
 			if (!Parse(conv))
 			{
 				return false ;
@@ -375,26 +375,26 @@ public class CFPacCodeBloc extends CFPacElement
 		}
 		else if (kCommand == CFPacKeywordList.II)
 		{
-			CFPacMove ass = new CFPacMove(nLine, arrTerms) ;
+			CFPacMove ass = new CFPacMove(nLine, terms) ;
 			ass.moveToInput();
 			AddChild(ass) ;
 		}
 		else if (kCommand == CFPacKeywordList.OO)
 		{
-			CFPacMove ass = new CFPacMove(nLine, arrTerms) ;
+			CFPacMove ass = new CFPacMove(nLine, terms) ;
 			ass.moveFromOutput();
 			AddChild(ass) ;
 		}
 		else if (kCommand == CFPacKeywordList.ZA)
 		{
-			CFPacMove ass = new CFPacMove(nLine, arrTerms) ;
+			CFPacMove ass = new CFPacMove(nLine, terms) ;
 //			Transcoder.warn("WARNING : ZA command not managed yet") ;
 			ass.movePacked();
 			AddChild(ass) ;
 		}
 		else if (kCommand == CFPacKeywordList.M)
 		{
-			CFPacArithmeticOperation add = new CFPacArithmeticOperation(nLine, arrTerms, kCommand) ;
+			CFPacArithmeticOperation add = new CFPacArithmeticOperation(nLine, terms, kCommand) ;
 			if (!Parse(add))
 			{
 				return false ;
@@ -403,7 +403,7 @@ public class CFPacCodeBloc extends CFPacElement
 		}
 		else if (kCommand == CFPacKeywordList.S)
 		{
-			CFPacArithmeticOperation add = new CFPacArithmeticOperation(nLine, arrTerms, kCommand) ;
+			CFPacArithmeticOperation add = new CFPacArithmeticOperation(nLine, terms, kCommand) ;
 			if (!Parse(add))
 			{
 				return false ;
@@ -412,7 +412,7 @@ public class CFPacCodeBloc extends CFPacElement
 		}
 		else if (kCommand == CFPacKeywordList.D)
 		{
-			CFPacArithmeticOperation add = new CFPacArithmeticOperation(nLine, arrTerms, kCommand) ;
+			CFPacArithmeticOperation add = new CFPacArithmeticOperation(nLine, terms, kCommand) ;
 			if (!Parse(add))
 			{
 				return false ;
@@ -421,19 +421,19 @@ public class CFPacCodeBloc extends CFPacElement
 		}
 		else if (kCommand == CFPacKeywordList.CB)
 		{
-			CFPacMove ass = new CFPacMove(nLine, arrTerms) ;
+			CFPacMove ass = new CFPacMove(nLine, terms) ;
 			Transcoder.logWarn(nLine, "CB command not managed yet") ;
 			AddChild(ass) ;
 		}
 		else if (kCommand == CFPacKeywordList.CD)
 		{
-			CFPacMove ass = new CFPacMove(nLine, arrTerms) ;
+			CFPacMove ass = new CFPacMove(nLine, terms) ;
 			Transcoder.logWarn(nLine, "CD command not managed yet") ;
 			AddChild(ass) ;
 		}
 		else if (kCommand == CFPacKeywordList.U)
 		{
-			CFPacArithmeticOperation add = new CFPacArithmeticOperation(nLine, arrTerms, kCommand) ;
+			CFPacArithmeticOperation add = new CFPacArithmeticOperation(nLine, terms, kCommand) ;
 			if (!Parse(add))
 			{
 				return false ;
@@ -442,7 +442,7 @@ public class CFPacCodeBloc extends CFPacElement
 		}
 		else
 		{
-			CFPacMove ass = new CFPacMove(nLine, arrTerms) ;
+			CFPacMove ass = new CFPacMove(nLine, terms) ;
 			if (!Parse(ass)) 
 			{
 				return false ;
@@ -620,13 +620,13 @@ public class CFPacCodeBloc extends CFPacElement
 				
 				NotifGetAllFilesNotOpen notif = new NotifGetAllFilesNotOpen() ;
 				factory.programCatalog.SendNotifRequest(notif) ;
-				Collections.sort(notif.arrFiles, new Comparator<CEntityFileDescriptor>() {
+				Collections.sort(notif.files, new Comparator<CEntityFileDescriptor>() {
 					public int compare(CEntityFileDescriptor o1, CEntityFileDescriptor o2)
 					{
 						return o1.GetName().compareTo(o2.GetName());
 					}
 				});
-				for (CEntityFileDescriptor desc : notif.arrFiles)
+				for (CEntityFileDescriptor desc : notif.files)
 				{
 					CEntityOpenFile open = factory.NewEntityOpenFile(0) ;
 					open.setFileDescriptor(desc, null) ;
@@ -640,13 +640,13 @@ public class CFPacCodeBloc extends CFPacElement
 				
 				NotifGetAllFilesNotClosed notif = new NotifGetAllFilesNotClosed() ;
 				factory.programCatalog.SendNotifRequest(notif) ;
-				Collections.sort(notif.arrFiles, new Comparator<CEntityFileDescriptor>() {
+				Collections.sort(notif.files, new Comparator<CEntityFileDescriptor>() {
 					public int compare(CEntityFileDescriptor o1, CEntityFileDescriptor o2)
 					{
 						return o2.GetName().compareTo(o1.GetName());
 					}
 				});
-				for (CEntityFileDescriptor desc : notif.arrFiles)
+				for (CEntityFileDescriptor desc : notif.files)
 				{
 					CEntityCloseFile close = factory.NewEntityCloseFile(0) ;
 					close.setFileDescriptor(desc) ;

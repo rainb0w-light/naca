@@ -9,8 +9,6 @@
  */
 package nacaLib.varEx;
 
-import java.util.ArrayList;
-
 import jlib.misc.ArrayDyn;
 import jlib.misc.ArrayFix;
 import jlib.misc.ArrayFixDyn;
@@ -26,49 +24,49 @@ public class MoveCorrespondingEntryManager
 {
 	public MoveCorrespondingEntryManager()
 	{	
-		arrEntries = new ArrayDyn<MoveCorrespondingEntry>();
-		bFilled = false;
+		entries = new ArrayDyn<MoveCorrespondingEntry>();
+		isfilled = false;
 	}
 	
 	void addEntry(MoveCorrespondingEntry entry)
 	{
-		arrEntries.add(entry);
+		entries.add(entry);
 	}
 	
 	boolean isFilled()
 	{
-		return bFilled;
+		return isfilled;
 	}
 	
 	void setFilledAndCompress()
 	{
-		bFilled = true;
-		if(arrEntries != null)
+		isfilled = true;
+		if(entries != null)
 		{		
-			if(arrEntries.isDyn())
+			if(entries.isDyn())
 			{
-				int nSize = arrEntries.size();
+				int nSize = entries.size();
 				MoveCorrespondingEntry arr[] = new MoveCorrespondingEntry[nSize];
-				arrEntries.transferInto(arr);
-				ArrayFix<MoveCorrespondingEntry> arrVarDefFix = new ArrayFix<MoveCorrespondingEntry>(arr);
-				arrEntries = arrVarDefFix;	// replace by a fix one (uning less memory)
+				entries.transferInto(arr);
+				ArrayFix<MoveCorrespondingEntry> varDefFix = new ArrayFix<MoveCorrespondingEntry>(arr);
+				entries = varDefFix;	// replace by a fix one (uning less memory)
 			}
 		}
 	}
 	
 	void doMoves(BaseProgramManager programManager, int nSourceOffset, int nDestOffset)
 	{
-		if(arrEntries != null)
+		if(entries != null)
 		{			
-			int nNbEntries = arrEntries.size();
+			int nNbEntries = entries.size();
 			for(int n=0; n<nNbEntries; n++)
 			{
-				MoveCorrespondingEntry entry = arrEntries.get(n);
+				MoveCorrespondingEntry entry = entries.get(n);
 				entry.doMove(programManager, nSourceOffset, nDestOffset);
 			}
 		}
 	}
 	
-	private boolean bFilled = false; 
-	private ArrayFixDyn<MoveCorrespondingEntry> arrEntries = null;
+	private boolean isfilled = false;
+	private ArrayFixDyn<MoveCorrespondingEntry> entries = null;
 }

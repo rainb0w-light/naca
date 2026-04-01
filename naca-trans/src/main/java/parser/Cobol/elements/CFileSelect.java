@@ -53,24 +53,24 @@ public class CFileSelect extends CCobolElement
 		CEntityFileSelect eFS = factory.NewEntityFileSelect(fileReference.GetName()) ;
 		eFS.setFileName(fileName.GetDataEntity(getLine(), factory)) ;
 		
-		if (bAccessModeDynamic)
+		if (isaccessModeDynamic)
 		{
 			eFS.setAccessMode(CEntityFileSelect.AccessMode.DYNAMIC) ;
 		}
-		else  if (bAccessModeRandom)
+		else  if (isaccessModeRandom)
 		{
 			eFS.setAccessMode(CEntityFileSelect.AccessMode.RANDOM) ;
 		}
-		else if (bAccessModeSequential)
+		else if (isaccessModeSequential)
 		{
 			eFS.setAccessMode(CEntityFileSelect.AccessMode.SEQUENTIAL) ;
 		}
 		
-		if (bOrganizationIndexed)
+		if (isorganizationIndexed)
 		{
 			eFS.setOrganizationMode(CEntityFileSelect.OrganizationMode.INDEXED) ;
 		}
-		else if (bOrganizationSequential)
+		else if (isorganizationSequential)
 		{
 			eFS.setOrganizationMode(CEntityFileSelect.OrganizationMode.INDEXED) ;
 		}
@@ -139,13 +139,13 @@ public class CFileSelect extends CCobolElement
 			return false ;
 		}
 		
-		boolean bDone = false ;
-		while (!bDone)
+		boolean isdone = false ;
+		while (!isdone)
 		{
 			tok = GetCurrentToken() ;
 			if (tok.GetType() == CTokenType.DOT)
 			{
-				bDone = true ;
+				isdone = true ;
 				GetNext() ;
 			}
 			else if (tok.GetKeyword() == CCobolKeywordList.RECORD)
@@ -187,23 +187,23 @@ public class CFileSelect extends CCobolElement
 				}
 				if (tok.GetKeyword() == CCobolKeywordList.DYNAMIC)
 				{
-					bAccessModeDynamic = true ;
-					bAccessModeRandom = false ;
-					bAccessModeSequential = false ;
+					isaccessModeDynamic = true ;
+					isaccessModeRandom = false ;
+					isaccessModeSequential = false ;
 					GetNext();
 				}
 				else if (tok.GetKeyword() == CCobolKeywordList.SEQUENTIAL)
 				{
-					bAccessModeDynamic = false ;
-					bAccessModeRandom = false ;
-					bAccessModeSequential = true ;
+					isaccessModeDynamic = false ;
+					isaccessModeRandom = false ;
+					isaccessModeSequential = true ;
 					GetNext();
 				}
 				else if (tok.GetKeyword() == CCobolKeywordList.RANDOM)
 				{
-					bAccessModeDynamic = false ;
-					bAccessModeRandom = true ;
-					bAccessModeSequential = false ;
+					isaccessModeDynamic = false ;
+					isaccessModeRandom = true ;
+					isaccessModeSequential = false ;
 					GetNext();
 				}
 				else
@@ -226,14 +226,14 @@ public class CFileSelect extends CCobolElement
 				if (tok.GetKeyword() == CCobolKeywordList.SEQUENTIAL)
 				{
 					GetNext() ;
-					bOrganizationSequential = true ;
-					bOrganizationIndexed = false ;
+					isorganizationSequential = true ;
+					isorganizationIndexed = false ;
 				}
 				else if (tok.GetKeyword() == CCobolKeywordList.INDEXED)
 				{
 					GetNext() ;
-					bOrganizationSequential = false ;
-					bOrganizationIndexed = true ;
+					isorganizationSequential = false ;
+					isorganizationIndexed = true ;
 				}
 				else
 				{
@@ -278,24 +278,24 @@ public class CFileSelect extends CCobolElement
 			fileStatus.ExportTo(eSt, root);
 		}
 		
-		if (bOrganizationIndexed)
+		if (isorganizationIndexed)
 		{
 			eFile.setAttribute("Organization", "Indexed");
 		}
-		else if (bOrganizationSequential)
+		else if (isorganizationSequential)
 		{
 			eFile.setAttribute("Organization", "Sequential");
 		}
 		
-		if (bAccessModeDynamic)
+		if (isaccessModeDynamic)
 		{
 			eFile.setAttribute("AccessMode", "Dynamic");
 		}
-		else if (bAccessModeRandom)
+		else if (isaccessModeRandom)
 		{
 			eFile.setAttribute("AccessMode", "Random");
 		}
-		else if (bAccessModeSequential)
+		else if (isaccessModeSequential)
 		{
 			eFile.setAttribute("AccessMode", "Sequential");
 		} 
@@ -306,9 +306,9 @@ public class CFileSelect extends CCobolElement
 	protected CTerminal fileName = null ;
 	protected CIdentifier recordKey = null ;
 	protected CIdentifier fileStatus = null ;
-	protected boolean bOrganizationSequential = false ;
-	protected boolean bOrganizationIndexed  = false ;
-	protected boolean bAccessModeRandom = false ;
-	protected boolean bAccessModeSequential = false ;
-	protected boolean bAccessModeDynamic = false ;
+	protected boolean isorganizationSequential = false ;
+	protected boolean isorganizationIndexed = false ;
+	protected boolean isaccessModeRandom = false ;
+	protected boolean isaccessModeSequential = false ;
+	protected boolean isaccessModeDynamic = false ;
 }

@@ -31,7 +31,7 @@ public class ProgramPreloader
 	public ArrayList<PreloadProgramSettings> buildArrayPreloadProgramFromList(String csPreLoadProgramFile)
 	{
 		Log.logNormal("Building array of programs to preload from file " + csPreLoadProgramFile);
-		ArrayList<PreloadProgramSettings> arrProgramToPreload = new ArrayList<PreloadProgramSettings>();
+		ArrayList<PreloadProgramSettings> programToPreload = new ArrayList<PreloadProgramSettings>();
 		Tag tagList = Tag.createFromFile(csPreLoadProgramFile);
 		if(tagList != null)
 		{
@@ -46,17 +46,17 @@ public class ProgramPreloader
 					int nQty = tagProgram.getValAsInt("Qty");
 					preloadProgramSettings.setQty(nQty);
 				}
-				arrProgramToPreload.add(preloadProgramSettings);				
+				programToPreload.add(preloadProgramSettings);
 				tagProgram = tagList.getEnumChild();
 			}
 		}
 		Log.logNormal("Done");
-		return arrProgramToPreload;
+		return programToPreload;
 	}
 	
 	public ArrayList<PreloadProgramSettings> buildArrayPreloadProgramFromDir(String csPreLoadProgramDir)
 	{
-		ArrayList<PreloadProgramSettings> arrProgramToPreload = new ArrayList<PreloadProgramSettings>(); 
+		ArrayList<PreloadProgramSettings> programToPreload = new ArrayList<PreloadProgramSettings>();
 		Log.logNormal("Building array of programs to preload from directory " + csPreLoadProgramDir);
 		
 		PreloadFileFilter preloadFileFilter = new PreloadFileFilter();  
@@ -72,11 +72,11 @@ public class ProgramPreloader
 			//String csId = csName + "_" + lLastModifiedTime + "_" + lLength; 
 			
 			PreloadProgramSettings preloadProgramSettings = new PreloadProgramSettings(csName);
-			arrProgramToPreload.add(preloadProgramSettings);
+			programToPreload.add(preloadProgramSettings);
 		}
 		Log.logNormal("Done");
 		
-		return arrProgramToPreload;
+		return programToPreload;
 	}
 	
 	

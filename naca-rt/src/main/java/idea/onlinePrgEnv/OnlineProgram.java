@@ -275,9 +275,9 @@ public class OnlineProgram extends BaseProgram
 		if(IsSTCheck)
 			Log.logFineDebug("getAttribute_E:" + e.getSTCheckValue());
 
-		MapFieldAttribute mapFieldAttribute = e.getAttribute() ;
+		MapFieldAttribute fieldAttribute = e.getAttribute() ;
 		getTempCache().resetTempVarIndex(e.varTypeId);
-		return mapFieldAttribute;
+		return fieldAttribute;
 	}	
 	
 	/**

@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 20 août 04
+ * Created on 20 aoï¿½t 04
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -37,25 +37,25 @@ public class CSQLTableColDescriptor
 	void SetLength(int n)
 	{
 		nLength = n;
-		bLengthSet = true;
+		islengthSet = true;
 	}	
 
 	void SetDecimal(int n)
 	{
 		nDecimal = n;
-		bDecimalSet = true;
+		isdecimalSet = true;
 	}
 	
 	public boolean HasSize()
 	{
-		return bLengthSet;
+		return islengthSet;
 	}
 	
 	public String GetSizes()
 	{
-		if(bLengthSet)
+		if(islengthSet)
 		{
-			if(bDecimalSet)
+			if(isdecimalSet)
 				return String.valueOf(nLength) + ", " + String.valueOf(nDecimal);
 			return String.valueOf(nLength);
 		}
@@ -74,20 +74,20 @@ public class CSQLTableColDescriptor
 	
 	void SetNull(boolean b)
 	{
-		bNull = b;
+		isnull = b;
 	}		
 	
 	public boolean IsNull()
 	{
-		return bNull;
+		return isnull;
 	}
 	
 	private int nLength = 0;
 	private int nDecimal = 0;
-	private boolean bDecimalSet = false;
-	private boolean bLengthSet = false;
+	private boolean isdecimalSet = false;
+	private boolean islengthSet = false;
 	private String csType = "";
 	private String csName = "";
-	private boolean bNull = false;
+	private boolean isnull = false;
 
 }

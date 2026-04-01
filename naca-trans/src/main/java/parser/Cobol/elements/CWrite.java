@@ -64,11 +64,11 @@ public class CWrite extends CCobolElement
 		{
 			Transcoder.logError(getLine(), "File descriptor not found : " + fileDesc.GetName());
 		}
-		if  (bWriteAfterPositioning)
+		if  (iswriteAfterPositioning)
 		{
 			eWrite.SetAfter(nbLinesPositioning.GetDataEntity(getLine(), factory));
 		}
-		if (bWriteBeforePositioning)
+		if (iswriteBeforePositioning)
 		{
 			Transcoder.logError(getLine(), "No semantic analysis for WriteFile/ WriteBeforePositioning");
 		}
@@ -102,11 +102,11 @@ public class CWrite extends CCobolElement
 		{
 			if (tok.GetKeyword() == CCobolKeywordList.AFTER)
 			{
-				bWriteAfterPositioning = true ;
+				iswriteAfterPositioning = true ;
 			}
 			else
 			{
-				bWriteBeforePositioning = true ;
+				iswriteBeforePositioning = true ;
 			}
 			tok = GetNext() ;
 			if (tok.GetKeyword() == CCobolKeywordList.ADVANCING || tok.GetKeyword() == CCobolKeywordList.POSITIONING)
@@ -178,11 +178,11 @@ public class CWrite extends CCobolElement
 		if (nbLinesPositioning != null)
 		{
 			String cs = "" ;
-			if (bWriteAfterPositioning)
+			if (iswriteAfterPositioning)
 			{
 				cs = "WriteAfterPositioning";
 			}
-			else if (bWriteBeforePositioning)
+			else if (iswriteBeforePositioning)
 			{
 				cs = "WriteBeforePositioning";
 			}
@@ -211,8 +211,8 @@ public class CWrite extends CCobolElement
 	
 	protected CIdentifier fileDesc = null ;
 	protected CIdentifier dataFrom = null ;
-	protected boolean bWriteAfterPositioning = false ;
-	protected boolean bWriteBeforePositioning = false ;
+	protected boolean iswriteAfterPositioning = false ;
+	protected boolean iswriteBeforePositioning = false ;
 	protected CTerminal nbLinesPositioning = null ; // -1 means PAGE
 	protected CGenericBloc blocInvalidKey = null ;
 }

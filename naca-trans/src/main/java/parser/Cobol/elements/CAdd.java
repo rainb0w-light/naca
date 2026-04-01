@@ -59,17 +59,17 @@ public class CAdd extends CCobolElement
 		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
 		GetNext() ; 
 
-		boolean bDone = false ;
-		while (!bDone)
+		boolean isdone = false ;
+		while (!isdone)
 		{
 			CTerminal t = ReadTerminal() ;
 			if (t == null)
 			{
-				bDone = true ;
+				isdone = true ;
 			}
 			else 
 			{
-				arrValues.add(t) ; 
+				values.add(t) ;
 			}
 			tok = GetCurrentToken() ;
 			if (tok.GetType() == CTokenType.COMMA)
@@ -78,7 +78,7 @@ public class CAdd extends CCobolElement
 			}
 			else if (tok.GetKeyword() == CCobolKeywordList.TO) 
 			{
-				bDone = true ;
+				isdone = true ;
 			}
 		}
 				
@@ -86,17 +86,17 @@ public class CAdd extends CCobolElement
 		if (tokTo.GetKeyword() == CCobolKeywordList.TO)
 		{ // 'TO' is optional
 			GetNext() ; 
-			bDone = false ;
-			while (!bDone)
+			isdone = false ;
+			while (!isdone)
 			{
 				CIdentifier t = ReadIdentifier() ;
 				if (t == null)
 				{
-					bDone = true ;
+					isdone = true ;
 				}
 				else 
 				{
-					arrIdentifiers.add(t) ; 
+					identifiers.add(t) ;
 				}
 				tok = GetCurrentToken() ;
 				if (tok.GetType() == CTokenType.COMMA)
@@ -110,17 +110,17 @@ public class CAdd extends CCobolElement
 		if (tok.GetKeyword() == CCobolKeywordList.GIVING)
 		{
 			GetNext();
-			bDone = false ;
-			while (!bDone)
+			isdone = false ;
+			while (!isdone)
 			{
 				CIdentifier identifier = ReadIdentifier() ;
 				if (identifier == null)
 				{
-					bDone = true ;
+					isdone = true ;
 				}
 				else 
 				{
-					arrResult.add(identifier) ; 
+					result.add(identifier) ;
 				}
 			}
 		} 
@@ -129,7 +129,7 @@ public class CAdd extends CCobolElement
 		if (tok.GetKeyword() == CCobolKeywordList.ROUNDED)
 		{
 			GetNext() ;
-			bRounded = true ;
+			isrounded = true ;
 		}
 
 		return true ;
@@ -140,56 +140,56 @@ public class CAdd extends CCobolElement
 	protected Element ExportCustom(Document root)
 	{
 		Element e = root.createElement("Add") ;
-		for (int i=0; i<arrValues.size(); i++)
+		for (int i = 0; i< values.size(); i++)
 		{
 			Element eVal = root.createElement("Add");
 			e.appendChild(eVal);
-			CTerminal value = arrValues.get(i);
+			CTerminal value = values.get(i);
 			value.ExportTo(eVal, root) ;
 		}
-		for (int i=0; i<arrIdentifiers.size(); i++)
+		for (int i = 0; i< identifiers.size(); i++)
 		{
 			Element eTo = root.createElement("To") ;
-			CIdentifier id = arrIdentifiers.get(i) ;
+			CIdentifier id = identifiers.get(i) ;
 			id.ExportTo(eTo, root) ;
 			e.appendChild(eTo) ;
 		}
-		for (int i=0; i<arrResult.size(); i++)
+		for (int i = 0; i< result.size(); i++)
 		{
 			Element eTo = root.createElement("Giving") ;
-			CIdentifier id = arrResult.get(i) ;
+			CIdentifier id = result.get(i) ;
 			id.ExportTo(eTo, root) ;
 			e.appendChild(eTo) ;
 		}
 		return e ;
 	}
 	
-	protected Vector<CTerminal> arrValues = new Vector<CTerminal>() ;
-	protected Vector<CIdentifier> arrIdentifiers = new Vector<CIdentifier>() ;
-	protected Vector<CIdentifier> arrResult = new Vector<CIdentifier>() ;
-	protected boolean bRounded = false ;
+	protected Vector<CTerminal> values = new Vector<CTerminal>() ;
+	protected Vector<CIdentifier> identifiers = new Vector<CIdentifier>() ;
+	protected Vector<CIdentifier> result = new Vector<CIdentifier>() ;
+	protected boolean isrounded = false ;
 	/* (non-Javadoc)
 	 * @see parser.CBaseElement#DoCustomSemanticAnalysis(semantic.CBaseSemanticEntity, semantic.CBaseSemanticEntityFactory)
 	 */
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		if (arrResult.size() == 0)
+		if (result.size() == 0)
 		{
 			CEntityAddTo eAdd = factory.NewEntityAddTo(getLine()) ;
 			parent.AddChild(eAdd) ;
-			for (int i=0; i<arrValues.size(); i++)
+			for (int i = 0; i< values.size(); i++)
 			{
-				CTerminal value = arrValues.get(i);
+				CTerminal value = values.get(i);
 				CDataEntity eRef = value.GetDataEntity(getLine(), factory) ;
 				eAdd.SetAddValue(eRef) ;
 			}
-			for (int i=0; i<arrIdentifiers.size(); i++)
+			for (int i = 0; i< identifiers.size(); i++)
 			{
-				CIdentifier idDest = arrIdentifiers.get(i) ;
+				CIdentifier idDest = identifiers.get(i) ;
 				CDataEntity eDest = idDest.GetDataReference(getLine(), factory);
 				eAdd.SetAddDest(eDest) ;
 			}
-			if (bRounded)
+			if (isrounded)
 			{
 				eAdd.SetRounded(true) ;
 			}
@@ -198,25 +198,25 @@ public class CAdd extends CCobolElement
 		{
 			CEntityAddTo eAdd = factory.NewEntityAddTo(getLine()) ;
 			parent.AddChild(eAdd) ;
-			for (int i=0; i<arrValues.size(); i++)
+			for (int i = 0; i< values.size(); i++)
 			{
-				CTerminal value = arrValues.get(i);
+				CTerminal value = values.get(i);
 				CDataEntity eRef = value.GetDataEntity(getLine(), factory) ;
 				eAdd.SetAddValue(eRef) ;
 			}
-			for (int i=0; i<arrIdentifiers.size(); i++)
+			for (int i = 0; i< identifiers.size(); i++)
 			{
-				CIdentifier idDest = arrIdentifiers.get(i) ;
+				CIdentifier idDest = identifiers.get(i) ;
 				CDataEntity eDest = idDest.GetDataReference(getLine(), factory);
 				eAdd.SetAddValue(eDest) ;
 			}
-			if (bRounded)
+			if (isrounded)
 			{
 				eAdd.SetRounded(true) ;
 			}
-			for (int i=0; i<arrResult.size(); i++)
+			for (int i = 0; i< result.size(); i++)
 			{
-				CIdentifier idRes = arrResult.get(i) ;
+				CIdentifier idRes = result.get(i) ;
 				CDataEntity eRes = idRes.GetDataReference(getLine(), factory) ;
 				eAdd.SetAddDest(eRes);
 			}

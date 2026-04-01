@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 5 août 2004
+ * Created on 5 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -46,18 +46,18 @@ public class CJavaCallProgram extends CEntityCallProgram
 			WriteWord("if (") ;
 		}
 		String name = reference.ExportReference(getLine());
-		if (name.startsWith("\"") && bChecked)
+		if (name.startsWith("\"") && ischecked)
 		{
 			name = name.substring(1, name.length()-1);
 			name = CobolNameUtil.fixJavaName(name);
 			name += ".class";
 		}
 		WriteWord("call(" +  name + ")") ;
-		if (arrParameters.size()>0)
+		if (parameters.size()>0)
 		{
-			for (int i=0; i<arrParameters.size(); i++)
+			for (int i = 0; i< parameters.size(); i++)
 			{
-				CCallParameter p = arrParameters.get(i) ;
+				CCallParameter p = parameters.get(i) ;
 				if (!p.reference.ignore())
 				{
 					String cs = "" ;

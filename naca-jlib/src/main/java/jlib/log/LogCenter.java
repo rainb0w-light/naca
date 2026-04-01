@@ -44,13 +44,13 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
 	{
 		super(logCenterLoader.csName + " (" + logCenterLoader.csMode + ")", "Log center Open MBean");
 		
-		bEnable = logCenterLoader.bEnable;
+		isenable = logCenterLoader.isenable;
 		csChannel = logCenterLoader.csChannel;
 		logLevel = new LogLevel(logCenterLoader.logLevel);
 		csMode = logCenterLoader.csMode;
 		logFlow = logCenterLoader.logFlow;
 		nNbRequestBufferSize = logCenterLoader.nNbRequestBufferSize;
-		arrLogParamItem = new ArrayList<LogParams>();
+		logParamItem = new ArrayList<LogParams>();
 	}
 	
 	public void setPatternLayout(LogPatternLayout patternLayout)
@@ -60,7 +60,7 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
 	
 	protected LogPatternLayout patternLayout = null;
 
-	protected boolean bEnable = false;                    // If not enabled, the log center doesn't accept any event.
+	protected boolean isenable = false;                    // If not enabled, the log center doesn't accept any event.
 	protected String csChannel = null;
 	protected LogFlow logFlow = null;
 	protected LogLevel logLevel = new LogLevel(LogLevel.Normal);
@@ -71,10 +71,10 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
 	protected String csRunId = null;
 	protected String csRuntimeId = null;
 
-	private ArrayList<LogParams> arrLogParamItem = null;
+	private ArrayList<LogParams> logParamItem = null;
 
 	protected int nNbRequestBufferSize = 0;
-	protected boolean bAsync = false;
+	protected boolean isasync = false;
 /**
  * Receives the description of a {@link LogEvent} (wrapped up in a
  * {@link LogParams} decorator}, checks if the event
@@ -94,7 +94,7 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
  */
 	void output(LogParams logParam)
 	{
-		if(bOpen && bEnable)
+		if(isopen && isenable)
 		{
 			boolean b = false;
 			if(logParam.csChannel == null)
@@ -127,8 +127,8 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
  */
 	synchronized void addLogParamItem(LogParams logParam)
 	{
-		arrLogParamItem.add(logParam);
-		if(arrLogParamItem.size() >= nNbRequestBufferSize)
+		logParamItem.add(logParam);
+		if(logParamItem.size() >= nNbRequestBufferSize)
 		{
 			outputAllLogParamsItems();
 		}
@@ -145,21 +145,21 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
  */	
 	synchronized void flushCachedLogParamsItems()
 	{
-		if(arrLogParamItem != null)
+		if(logParamItem != null)
 			outputAllLogParamsItems();
 	}
 	
 	synchronized private void outputAllLogParamsItems()
 	{
-		int nNbEntries = arrLogParamItem.size();
+		int nNbEntries = logParamItem.size();
 		preSendOutput();
 		for(int n=0; n<nNbEntries; n++)
 		{
-			LogParams logParam = arrLogParamItem.get(n);
+			LogParams logParam = logParamItem.get(n);
 			sendOutput(logParam);
 		}
 		postSendOutput();
-		arrLogParamItem.clear();
+		logParamItem.clear();
 	}
 	
 	abstract boolean open();
@@ -201,28 +201,28 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
 	
 	boolean isOpen()
 	{
-		return bOpen;
+		return isopen;
 	}
 	
 	boolean doOpen()
 	{
-		if(!bOpen)
-			bOpen = open();
-		return bOpen;
+		if(!isopen)
+			isopen = open();
+		return isopen;
 	}
 	
 	
 	boolean close()
 	{
-		if(bOpen)
+		if(isopen)
 		{
 			flushCachedLogParamsItems();
-			bOpen = !closeLogCenter();
+			isopen = !closeLogCenter();
 		}
-		return !bOpen;
+		return !isopen;
 	}	
 	
-	private boolean bOpen = false;
+	private boolean isopen = false;
 /**
  * Returns <i>true</i> if the <i>LogCenter</i> is enabled.
  * A disabled <i>LogCenter</i> doesn't accept any {@link LogEvent}. An
@@ -239,7 +239,7 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
  */	
 	public Boolean getEnable()
 	{
-		return bEnable;
+		return isenable;
 	}
 /**
  * Enables the <i>LogCenter</i>.
@@ -258,7 +258,7 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
  */	
 	public void setEnable(Boolean b)
 	{
-		bEnable = b;
+		isenable = b;
 	}
 /**
  * Returns the current {@link LogLevel} of the <i>LogCenter</i> as a string.

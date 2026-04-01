@@ -129,7 +129,7 @@ public class FileManagerEntry extends CJMapObject
 	
 	public boolean doOpenExtend(String csLogicalName, BaseSession baseSession, boolean bVariableLength)
 	{
-		boolean bOpened = false;
+		boolean isopened = false;
 		if(checkCanOpen())
 		{
 			getPhysicalName(csLogicalName, baseSession);
@@ -141,8 +141,8 @@ public class FileManagerEntry extends CJMapObject
 			
 			DataFileWrite dataFile = new DataFileWrite(logicalFileDescriptor.getPath(), false);
 			dataFile = dataFile;
-			bOpened = dataFile.openInAppend(logicalFileDescriptor);			
-			if(!bOpened)
+			isopened = dataFile.openInAppend(logicalFileDescriptor);
+			if(!isopened)
 			{
 				JVMReturnCodeManager.setExitCode(8);
 				CannotOpenFileException e = new CannotOpenFileException(csLogicalName, logicalFileDescriptor);
@@ -150,12 +150,12 @@ public class FileManagerEntry extends CJMapObject
 			}			
 			reportFileDescriptorStatus(FileDescriptorOpenStatus.OPEN);
 		}
-		return bOpened;
+		return isopened;
 	}
 	
 	public boolean doOpenOutput(String csLogicalName, BaseSession baseSession, boolean bVariableLength, boolean bCanAuthoriseFileHeaderWrite)
 	{
-		boolean bOpened = false;
+		boolean isopened = false;
 		if(checkCanOpen())
 		{			
 			String csPhysicalFileName = getPhysicalName(csLogicalName, baseSession);
@@ -167,7 +167,7 @@ public class FileManagerEntry extends CJMapObject
 				return true;
 			
 			if(BaseDataFile.isNullFile(csPhysicalFileName))
-				bOpened = true;	// Physical outout file is null: Simulte a correct open
+				isopened = true;	// Physical outout file is null: Simulte a correct open
 			else
 			{	
 				if(bVariableLength)
@@ -177,9 +177,9 @@ public class FileManagerEntry extends CJMapObject
 				//if(bCanAuthoriseFileHeaderWrite)
 				//	bMustWriteFileHeader = BaseResourceManager.getMustWriteFileHeader(); 
 				dataFile = new DataFileWrite(logicalFileDescriptor.getPath(), bMustWriteFileHeader);
-				bOpened = dataFile.open(logicalFileDescriptor);
+				isopened = dataFile.open(logicalFileDescriptor);
 			}			
-			if(!bOpened)
+			if(!isopened)
 			{
 				JVMReturnCodeManager.setExitCode(8);
 				CannotOpenFileException e = new CannotOpenFileException(csLogicalName, logicalFileDescriptor);
@@ -197,7 +197,7 @@ public class FileManagerEntry extends CJMapObject
 					// StringUtil.rightPad(jobId, 8, ' ')
 					sb.append("#300#");
 					sb.append("PPSSSCCCAANNYYYYMMDDHHMMSSC");
-					sb.append(StringUtil.leftPad(baseSession.getDynamicAllocationInfo("COPIES"), 3, '0'));  // Nb copies supplémentaires
+					sb.append(StringUtil.leftPad(baseSession.getDynamicAllocationInfo("COPIES"), 3, '0'));  // Nb copies supplï¿½mentaires
 					sb.append(StringUtil.rightPad(baseSession.getDynamicAllocationInfo("SYSOUT").substring(9), 4, ' '));  // No de formulaire
 					sb.append(StringUtil.rightPad(baseSession.getDynamicAllocationInfo("DEST"), 8, ' '));  // Nom imprimante
 					sb.append(StringUtil.rightPad(baseSession.getDynamicAllocationInfo("SYSOUT").substring(0, 1), 1, ' '));  // Classe impression
@@ -219,12 +219,12 @@ public class FileManagerEntry extends CJMapObject
 				baseSession.resetDynamicAllocationInfo();
 			}
 		}
-		return bOpened;
+		return isopened;
 	}
 	
 	public boolean doOpenInput(String csLogicalName, BaseSession baseSession, boolean bVariableLength)
 	{		
-		boolean bOpened = false;
+		boolean isopened = false;
 		if(checkCanOpen())
 		{
 			getPhysicalName(csLogicalName, baseSession);
@@ -235,8 +235,8 @@ public class FileManagerEntry extends CJMapObject
 				setVariableLength();
 			
 			dataFile = new DataFileLineReader(logicalFileDescriptor.getPath(), 65536, 0);
-			bOpened = dataFile.open(logicalFileDescriptor);
-			if(!bOpened)
+			isopened = dataFile.open(logicalFileDescriptor);
+			if(!isopened)
 			{				
 				JVMReturnCodeManager.setExitCode(8);
 				InputFileNotFoundException e = new InputFileNotFoundException(csLogicalName, logicalFileDescriptor);
@@ -250,12 +250,12 @@ public class FileManagerEntry extends CJMapObject
 			CannotOpenFileException e = new CannotOpenFileException(csLogicalName, logicalFileDescriptor);
 			throw(e);
 		}
-		return bOpened;
+		return isopened;
 	}
 	
 	public boolean doOpenInputOutput(String csLogicalName, BaseSession baseSession, boolean bVariableLength)
 	{
-		boolean bOpened = false;
+		boolean isopened = false;
 		if(checkCanOpen())
 		{
 			getPhysicalName(csLogicalName, baseSession);
@@ -266,8 +266,8 @@ public class FileManagerEntry extends CJMapObject
 				setVariableLength();
 			
 			dataFile = new DataFileReadWrite(logicalFileDescriptor.getPath());
-			bOpened = dataFile.open(logicalFileDescriptor);
-			if(!bOpened)
+			isopened = dataFile.open(logicalFileDescriptor);
+			if(!isopened)
 			{
 				JVMReturnCodeManager.setExitCode(8);
 				InputFileNotFoundException e = new InputFileNotFoundException(csLogicalName, logicalFileDescriptor);
@@ -275,7 +275,7 @@ public class FileManagerEntry extends CJMapObject
 			}
 			reportFileDescriptorStatus(FileDescriptorOpenStatus.OPEN);
 		}
-		return bOpened;
+		return isopened;
 	}
 	
 	public boolean doClose(String csLogicalName, BaseSession baseSession)

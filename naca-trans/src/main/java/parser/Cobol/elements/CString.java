@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 13 août 2004
+ * Created on 13 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -120,10 +120,10 @@ public class CString extends CCobolElement
 		}
 		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
 		tok = GetNext();
-		boolean bDone = false ;
-		Vector<CTerminal> arrTerms = new Vector<CTerminal>() ;  // array used to save read terminals before reading the 'delimited by' statement
+		boolean isdone = false ;
+		Vector<CTerminal> terms = new Vector<CTerminal>() ;  // array used to save read terminals before reading the 'delimited by' statement
 		// TXT-LIB-AA TXT-A DELIMITED BY '*'   <=> TXT-LIB-AA DELIMITED BY '*' TXT-A  DELIMITED BY '*' 	
-		while (!bDone)
+		while (!isdone)
 		{
 			tok = GetCurrentToken(); 
 			if (tok.GetType() == CTokenType.IDENTIFIER || tok.GetType() == CTokenType.STRING || tok.GetType() == CTokenType.CONSTANT)
@@ -140,7 +140,7 @@ public class CString extends CCobolElement
 					}
 					if (tok.GetKeyword() == CCobolKeywordList.SIZE)
 					{
-						for (CTerminal idsav : arrTerms)
+						for (CTerminal idsav : terms)
 						{
 							arrConcatItems.add(new CStringConcatItem(idsav, null));	
 						}
@@ -150,17 +150,17 @@ public class CString extends CCobolElement
 					else 
 					{
 						CTerminal term = ReadTerminal() ;
-						for (CTerminal idsav : arrTerms)
+						for (CTerminal idsav : terms)
 						{
 							arrConcatItems.add(new CStringConcatItem(idsav, term));	
 						}
 						arrConcatItems.add(new CStringConcatItem(id, term));	
 					}
-					arrTerms.clear() ;
+					terms.clear() ;
 				}
 				else
 				{
-					arrTerms.add(id) ;
+					terms.add(id) ;
 //					arrConcatItems.add(new CStringConcatItem(id, null));	
 				}
 				IgnoreComma();
@@ -179,7 +179,7 @@ public class CString extends CCobolElement
 					tok = GetNext();
 					destIndexStart = ReadTerminal() ;
 				}
-				bDone = true ;
+				isdone = true ;
 			}
 			else
 			{

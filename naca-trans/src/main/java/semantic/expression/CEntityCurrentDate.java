@@ -39,7 +39,7 @@ public abstract class CEntityCurrentDate extends CBaseEntityFunction
 	}
 	public void RegisterValueAccess(CBaseEntityCondExpr cond)
 	{
-		arrAccessAsValue.add(cond) ;
+		accessAsValue.add(cond) ;
 	}
 	public void RegisterVarTesting(CBaseEntityCondition cond)
 	{

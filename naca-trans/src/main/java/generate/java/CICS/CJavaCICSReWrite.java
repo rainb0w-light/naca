@@ -38,11 +38,11 @@ public class CJavaCICSReWrite extends CEntityCICSReWrite
 	protected void DoExport()
 	{
 		String cs = "CESM.reWrite";
-		if (bWritetoDataSet)
+		if (iswritetoDataSet)
 		{
 			cs += "DataSet(";
 		}
-		else if (bWriteToFile)
+		else if (iswriteToFile)
 		{
 			cs += "File(";
 		}

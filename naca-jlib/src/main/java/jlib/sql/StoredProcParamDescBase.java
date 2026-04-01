@@ -13,7 +13,6 @@ import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import jlib.misc.CoupleNameValueItem;
 import jlib.misc.ListCoupleRender;
 
 
@@ -29,9 +28,9 @@ public abstract class StoredProcParamDescBase
 	protected String csProcedureName = null;
 	protected short sColType = 0;
 	protected int nLength = 0;
-	protected short sScale = 0;
-	protected short sRadix = 0;
-	protected short sNullable = 0;
+	protected short scale = 0;
+	protected short radix = 0;
+	protected short nullable = 0;
 	protected String csRemarks = null;	
 	protected ColDescriptionInfo colDescriptionInfo = null;
 		
@@ -79,9 +78,9 @@ public abstract class StoredProcParamDescBase
 			colDescriptionInfo.nPrecision = rsParam.getInt("PRECISION");
 			nLength = rsParam.getInt("LENGTH");
 			
-			sScale = rsParam.getShort("SCALE");
-			sRadix = rsParam.getShort("RADIX");
-			sNullable = rsParam.getShort("NULLABLE");
+			scale = rsParam.getShort("SCALE");
+			radix = rsParam.getShort("RADIX");
+			nullable = rsParam.getShort("NULLABLE");
 			csRemarks = rsParam.getString("REMARKS");
 			
 			return true;
@@ -118,9 +117,9 @@ public abstract class StoredProcParamDescBase
 		lst.set("Type", colDescriptionInfo.nTypeId);
 		lst.set("Precision", colDescriptionInfo.nPrecision);
 		lst.set("Length", nLength);
-		lst.set("Scale", sScale);
-		lst.set("Radix", sRadix);
-		lst.set("Nullable", sNullable);
+		lst.set("Scale", scale);
+		lst.set("Radix", radix);
+		lst.set("Nullable", nullable);
 		lst.set("Remarks", csRemarks);
 		
 		return lst.toString();

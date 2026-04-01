@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 14 févr. 2005
+ * Created on 14 fï¿½vr. 2005
  *
  */
 package semantic.forms;
@@ -27,7 +27,7 @@ public abstract class CEntityIsFieldCursor extends CUnitaryEntityCondition
 	 */
 	public CBaseEntityCondition GetSpecialConditionReplacing(String val, CBaseEntityFactory fact, CDataEntity replace)
 	{
-		if (bHasCursor)
+		if (ishasCursor)
 		{
 			return reference.GetSpecialCondition(getLine(), val, EConditionType.IS_EQUAL, fact);
 		}
@@ -45,14 +45,14 @@ public abstract class CEntityIsFieldCursor extends CUnitaryEntityCondition
 		return reference.ignore();
 	}
 	
-	protected boolean bHasCursor = true ; 
+	protected boolean ishasCursor = true ;
 	/**
 	 * @param refField
 	 */
 	public void SetHasCursor(CDataEntity refField)
 	{
 		reference = refField ;
-		bHasCursor = true ;
+		ishasCursor = true ;
 	}
 
 	/**
@@ -61,7 +61,7 @@ public abstract class CEntityIsFieldCursor extends CUnitaryEntityCondition
 	public void SetHasNotCursor(CDataEntity refField)
 	{
 		reference = refField ;
-		bHasCursor = false ;
+		ishasCursor = false ;
 	}
 	public boolean isBinaryCondition()
 	{

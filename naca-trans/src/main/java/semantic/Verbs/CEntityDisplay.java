@@ -40,22 +40,22 @@ public abstract class CEntityDisplay extends CBaseActionEntity
 	}
 	public void AddItemToDisplay(CDataEntity e)
 	{
-		arrItemsToDisplay.add(e) ; 
+		itemsToDisplay.add(e) ;
 	}
 	
-	protected Vector<CDataEntity> arrItemsToDisplay = new Vector<CDataEntity>();
+	protected Vector<CDataEntity> itemsToDisplay = new Vector<CDataEntity>();
 	protected Upon upon = Upon.DEFAULT ;
 	public void Clear()
 	{
 		super.Clear() ;
-		arrItemsToDisplay.clear();
+		itemsToDisplay.clear();
 	}
 	public boolean ignore()
 	{
 		boolean ignore = true ;
-		for (int i=0; i<arrItemsToDisplay.size(); i++)
+		for (int i = 0; i< itemsToDisplay.size(); i++)
 		{
-			CDataEntity e = arrItemsToDisplay.get(i);
+			CDataEntity e = itemsToDisplay.get(i);
 			ignore &= e.ignore() ;
 		}
 		return ignore ;

@@ -33,7 +33,7 @@ public class CNameConflictSolver
 	protected class CNameConflictItem
 	{
 		String conflictName = "" ;
-		Vector<CDataEntity> arrEntities = new Vector<CDataEntity>() ;
+		Vector<CDataEntity> entities = new Vector<CDataEntity>() ;
 		//Vector arrHierachies = new Vector() ;
 	}
 	
@@ -47,7 +47,7 @@ public class CNameConflictSolver
 			item = new CNameConflictItem() ;
 			item.conflictName = name ;
 			tabConflicts.put(name, item);
-			item.arrEntities.add(eCont) ;
+			item.entities.add(eCont) ;
 			CEntityHierarchy newHier = eCont.GetHierarchy() ;
 			if (newHier == null)
 			{
@@ -57,12 +57,12 @@ public class CNameConflictSolver
 		}
 		else
 		{
-			if (item.arrEntities.contains(eCont))
+			if (item.entities.contains(eCont))
 			{
 				return ;
 			}
 					
-			item.arrEntities.add(eCont) ;
+			item.entities.add(eCont) ;
 			CEntityHierarchy newHier = eCont.GetHierarchy() ;
 			if (newHier == null)
 			{
@@ -71,16 +71,16 @@ public class CNameConflictSolver
 			//item.arrHierachies.add(newHier) ;
 			
 			ArrayList<String> arr = new ArrayList<String>() ;
-			boolean bToDo = false ;
-			for (int i=0; i<item.arrEntities.size(); i++)
+			boolean istoDo = false ;
+			for (int i = 0; i<item.entities.size(); i++)
 			{
-				CDataEntity e = item.arrEntities.get(i) ;
+				CDataEntity e = item.entities.get(i) ;
 				if (e.of == null)
 				{
 					String cs = e.GetName() ;
 					if (arr.contains(cs))
 					{
-						bToDo = true ;
+						istoDo = true ;
 					}
 					else
 					{
@@ -89,23 +89,23 @@ public class CNameConflictSolver
 				}
 			}
 			
-			if (bToDo)
+			if (istoDo)
 			{
 				//int counter = 0 ;
 				// rename entities, except the first one, which is not renamed 
-				for (int i=1; i<item.arrEntities.size(); i++)
+				for (int i = 1; i<item.entities.size(); i++)
 				{
-					CDataEntity currentEntity = item.arrEntities.get(i);
+					CDataEntity currentEntity = item.entities.get(i);
 					if (currentEntity.of == null)
 					{ // if this entity is part of an external structure (like COPY), this name is qualified this way
 						CEntityHierarchy hier = currentEntity.GetHierarchy() ;
-						CEntityHierarchy tab[] = new CEntityHierarchy[item.arrEntities.size()-1] ;
+						CEntityHierarchy tab[] = new CEntityHierarchy[item.entities.size()-1] ;
 						int k = 0 ; 
-						for (int j=0; j<item.arrEntities.size(); j++)
+						for (int j = 0; j<item.entities.size(); j++)
 						{
 							if (i != j)
 							{
-								CDataEntity d = item.arrEntities.get(j) ;
+								CDataEntity d = item.entities.get(j) ;
 								tab[k] = d.GetHierarchy();
 								k ++ ;
 							}
@@ -140,9 +140,9 @@ public class CNameConflictSolver
 		{
 			if (memberOf.equals(""))
 			{
-				for (int i=0; i<item.arrEntities.size(); i++)
+				for (int i = 0; i<item.entities.size(); i++)
 				{
-					CDataEntity d = item.arrEntities.get(i) ;
+					CDataEntity d = item.entities.get(i) ;
 					if (d.of == null)
 					{
 						return true ;
@@ -152,9 +152,9 @@ public class CNameConflictSolver
 			}
 			else
 			{
-				for (int i=0; i<item.arrEntities.size(); i++)
+				for (int i = 0; i<item.entities.size(); i++)
 				{
-					CDataEntity d = item.arrEntities.get(i) ;				
+					CDataEntity d = item.entities.get(i) ;
 					CEntityHierarchy hier = d.GetHierarchy() ;				
 					if (hier.CheckAscendant(memberOf))
 					{
@@ -178,9 +178,9 @@ public class CNameConflictSolver
 			if (of.equals(""))
 			{
 				CDataEntity eData = null ;
-				for (int i=0; i<item.arrEntities.size(); i++)
+				for (int i = 0; i<item.entities.size(); i++)
 				{
-					CDataEntity d = item.arrEntities.get(i) ;
+					CDataEntity d = item.entities.get(i) ;
 					if (d.of == null)
 					{
 						if (eData == null)
@@ -198,9 +198,9 @@ public class CNameConflictSolver
 			else
 			{
 				CDataEntity eData = null ;
-				for (int i=0; i<item.arrEntities.size(); i++)
+				for (int i = 0; i<item.entities.size(); i++)
 				{
-					CDataEntity d = item.arrEntities.get(i) ;				
+					CDataEntity d = item.entities.get(i) ;
 					CEntityHierarchy hier = d.GetHierarchy() ;				
 					if (hier.CheckAscendant(of))
 					{
@@ -234,9 +234,9 @@ public class CNameConflictSolver
 			if (of.equals(""))
 			{
 				CDataEntity eData = null ;
-				for (int i=0; i<item.arrEntities.size(); i++)
+				for (int i = 0; i<item.entities.size(); i++)
 				{
-					CDataEntity d = item.arrEntities.get(i) ;
+					CDataEntity d = item.entities.get(i) ;
 					if (d.of == null)
 					{
 						if (eData == null)
@@ -254,9 +254,9 @@ public class CNameConflictSolver
 			else
 			{
 				CDataEntity eData = null ;
-				for (int i=0; i<item.arrEntities.size(); i++)
+				for (int i = 0; i<item.entities.size(); i++)
 				{
-					CDataEntity d = item.arrEntities.get(i) ;				
+					CDataEntity d = item.entities.get(i) ;
 					CEntityHierarchy hier = d.GetHierarchy() ;				
 					if (hier.CheckAscendant(of))
 					{
@@ -291,12 +291,12 @@ public class CNameConflictSolver
 			CNameConflictItem item = (CNameConflictItem)enumere.nextElement() ;
 			while (item != null)
 			{
-				if (item.arrEntities.contains(e))
+				if (item.entities.contains(e))
 				{
-					item.arrEntities.remove(e) ;
-					if (item.arrEntities.size() == 1)
+					item.entities.remove(e) ;
+					if (item.entities.size() == 1)
 					{
-						CDataEntity alone = item.arrEntities.get(0);
+						CDataEntity alone = item.entities.get(0);
 						String itemName = item.conflictName ;
 
 						try

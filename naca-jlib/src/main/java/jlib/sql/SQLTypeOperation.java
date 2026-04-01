@@ -41,7 +41,7 @@ public class SQLTypeOperation
 	public static final SQLTypeOperation Lock = new SQLTypeOperation(true);
 	public static final SQLTypeOperation Declare = new SQLTypeOperation(false);
 	
-	private boolean bExecuteWithStatement;
+	private boolean isexecuteWithStatement;
 		
 	private SQLTypeOperation(boolean bExecuteWithStatement)
 	{
@@ -50,7 +50,7 @@ public class SQLTypeOperation
 	
 	public boolean executeWithStatement()
 	{
-		return bExecuteWithStatement;
+		return isexecuteWithStatement;
 	}
 		
 	public static SQLTypeOperation determineOperationType(String csQuery, boolean bCursor)
@@ -472,7 +472,7 @@ public class SQLTypeOperation
 		int nPosStart = csQuery.indexOf('#', 0);
 		while (nPosStart != -1)
 		{
-			String sLeft = csQuery.substring(0, nPosStart);
+			String left = csQuery.substring(0, nPosStart);
 			int n = nPosStart;
 			n++; // Skip the #
 			int nLength = csQuery.length();
@@ -486,12 +486,12 @@ public class SQLTypeOperation
 				}
 				c = csQuery.charAt(n);
 			}
-			String sItemId = csQuery.substring(nPosStart, n);
-			if (sItemId != null)
+			String itemId = csQuery.substring(nPosStart, n);
+			if (itemId != null)
 			{
-				nPosStart += sItemId.length();
-				String sRight = csQuery.substring(nPosStart);
-				csQuery = sLeft + "?" + sRight;
+				nPosStart += itemId.length();
+				String right = csQuery.substring(nPosStart);
+				csQuery = left + "?" + right;
 			}
 	
 			nPosStart = csQuery.indexOf('#', nPosStart);

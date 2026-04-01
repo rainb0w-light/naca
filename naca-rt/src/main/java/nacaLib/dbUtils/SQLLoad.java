@@ -57,11 +57,11 @@ public class SQLLoad extends BaseSQLUtils
 		String csTableFullName = loadInfo.getFullTableName(csDefaultTablePrefix);
 		
 		BaseDbColDefinitionFactory dbColDefinitionFactory = new BaseDbColDefinitionFactory();
-		ArrayList<BaseDbColDefinition> arrDbColDef = dbColDefinitionFactory.makeArrayDbColDefinitions(dbConnection, loadInfo.getTablePrefix(), loadInfo.getUnprefixedTableName());
-		if (arrDbColDef != null)
+		ArrayList<BaseDbColDefinition> dbColDef = dbColDefinitionFactory.makeArrayDbColDefinitions(dbConnection, loadInfo.getTablePrefix(), loadInfo.getUnprefixedTableName());
+		if (dbColDef != null)
 		{
 			String csFileDataIn = loadInfo.getInddnValue();
-			return insertData(rnNbRecord, csFileDataIn, csTableFullName, arrDbColDef, loadInfo.isReplace());
+			return insertData(rnNbRecord, csFileDataIn, csTableFullName, dbColDef, loadInfo.isReplace());
 		}
 		return SQLLoadStatus.loadFailure;
 	}
@@ -102,11 +102,11 @@ public class SQLLoad extends BaseSQLUtils
 		LogicalFileDescriptor logicalFileDescriptor = fileDescriptorIn.getLogicalFileDescriptor();
 		
 		DataFileLineReader dataFileIn = new DataFileLineReader(csPhysicalFileIn, 65536, 0);
-		boolean bInOpened = dataFileIn.open(logicalFileDescriptor);
-		if (!bInOpened)
+		boolean isinOpened = dataFileIn.open(logicalFileDescriptor);
+		if (!isinOpened)
 			return SQLLoadStatus.loadFailure;
 		
-		boolean bEbcdicInput = fileDescriptorIn.isEbcdic();
+		boolean isebcdicInput = fileDescriptorIn.isEbcdic();
 
 		fileDescriptorIn.tryAutoDetermineRecordLengthIfRequired(dataFileIn);
 		
@@ -134,27 +134,27 @@ public class SQLLoad extends BaseSQLUtils
 			
 		SQLLoadStatus globalStatus = SQLLoadStatus.loadSuccess;
 		
-		boolean bLockReplace = false;
+		boolean islockReplace = false;
 		int nNbRecordInserted = 0;
 		DbColDefErrorManager dbColDefErrorManager = new DbColDefErrorManager();
 		LineRead lineRead = fileDescriptorIn.readALine(dataFileIn, null);		
 		while (lineRead != null && globalStatus != SQLLoadStatus.loadFailure)
 		{
-			if (bLoadReplace && !bLockReplace)
+			if (bLoadReplace && !islockReplace)
 			{
 				lockTable(csTableFullName);
-				bLockReplace = true;
+				islockReplace = true;
 			}
 			dbColDefErrorManager.setLine(nNbRecordInserted);
 
-			byte arrByteValue[] = lineRead.getBuffer();
+			byte byteValue[] = lineRead.getBuffer();
 			int nSourceOffset = lineRead.getOffset();
 			nSourceOffset += nOffsetHeaderVariableLength;	// Skip variable length 4 bytes header
 			
 			for (int nCol = 0; nCol < nNbCols; nCol++)
 			{
 				BaseDbColDefinition dbColDef = arrDbColDef.get(nCol);				
-				int nColLengthInFile = dbColDef.setByteValueInStmtCol(dbColDefErrorManager, stmt, nCol, arrByteValue, nSourceOffset, bEbcdicInput);
+				int nColLengthInFile = dbColDef.setByteValueInStmtCol(dbColDefErrorManager, stmt, nCol, byteValue, nSourceOffset, isebcdicInput);
 				nSourceOffset += nColLengthInFile;
 			}
 
@@ -169,7 +169,7 @@ public class SQLLoad extends BaseSQLUtils
 					if (nBatchDone >= nBatchCommitSize)
 					{
 						dbConnection.commit();
-						bLockReplace = false;
+						islockReplace = false;
 						nBatchDone = 0;
 					}
 				}

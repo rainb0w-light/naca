@@ -35,7 +35,7 @@ public class CFPacJavaDisplay extends CEntityDisplay
 	@Override
 	protected void DoExport()
 	{
-		for (CDataEntity e : arrItemsToDisplay)
+		for (CDataEntity e : itemsToDisplay)
 		{
 			WriteLine("wto.display(" + e.ExportReference(getLine()) + ") ;") ;
 		}

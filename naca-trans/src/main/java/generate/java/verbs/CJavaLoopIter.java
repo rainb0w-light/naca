@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 6 août 2004
+ * Created on 6 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -44,9 +44,9 @@ public class CJavaLoopIter extends CEntityLoopIter
 	 */
 	protected void DoExport()
 	{
-		if (bTestBefore)
+		if (istestBefore)
 		{
-			_for(initialValue, variable, whileCondition, increment, bIncrementByOne);
+			_for(initialValue, variable, whileCondition, increment, isincrementByOne);
 			for (CEntityAfter a : afters)
 			{
 				_for(a.varFromValueAfter, a.variableAfter, a.condUntilAfter, a.varByValueAfter, true);
@@ -74,11 +74,11 @@ public class CJavaLoopIter extends CEntityLoopIter
 			}
 			else
 			{
-				if(bIncrementByOne)
+				if(isincrementByOne)
 				{
 					cs = "inc(" ;
 				}
-				else if(bDecrementByOne)
+				else if(isdecrementByOne)
 				{
 					cs = "dec(" ;
 				}

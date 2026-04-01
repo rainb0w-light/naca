@@ -22,13 +22,13 @@ public class UpdateThread extends Thread
 		String csTomcatStartCommand = BaseResourceManager.getTomcatStartCommand();
 		if (csTomcatStartCommand == null || csTomcatStartCommand.equals("")) return;
 		
-		Calendar cal = Calendar.getInstance();
-		cal.add(Calendar.MINUTE, 4);
-		BaseResourceManager.setUpdateTime(cal.getTime());
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.MINUTE, 4);
+		BaseResourceManager.setUpdateTime(calendar.getTime());
 		Time_ms.wait_ms(4 * 60 * 1000); // 4 minutes
 		BaseResourceManager.setUpdateMode(true);
-		cal.add(Calendar.MINUTE, 1);
-		BaseResourceManager.setUpdateTime(cal.getTime());
+		calendar.add(Calendar.MINUTE, 1);
+		BaseResourceManager.setUpdateTime(calendar.getTime());
 		Time_ms.wait_ms(1 * 30 * 1000); // 30 secondes
 		
 		// restart tomcat
@@ -45,7 +45,7 @@ public class UpdateThread extends Thread
 			boolean haserror = false ;
 			BufferedReader output = new BufferedReader(new InputStreamReader(proc.getInputStream())) ;
 			BufferedReader err = new BufferedReader(new InputStreamReader(proc.getErrorStream())) ;
-			boolean bProcessEnded = false ;
+			boolean isprocessEnded = false ;
 			do
 			{
 				while (output.ready())
@@ -58,8 +58,8 @@ public class UpdateThread extends Thread
 					haserror = true ;
 				}
 
-				bProcessEnded = isTerminated(proc) ;
-				if (!bProcessEnded)
+				isprocessEnded = isTerminated(proc) ;
+				if (!isprocessEnded)
 				{
 					try	{
 						Thread.sleep(1000) ;// 1s
@@ -68,7 +68,7 @@ public class UpdateThread extends Thread
 					}
 				}
 			}
-			while (!bProcessEnded || err.ready() || output.ready()) ;
+			while (!isprocessEnded || err.ready() || output.ready()) ;
 			output.close();
 			err.close();
 			if (haserror)

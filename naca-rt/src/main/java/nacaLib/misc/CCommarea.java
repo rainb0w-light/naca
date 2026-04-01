@@ -36,46 +36,46 @@ public class CCommarea extends CJMapObject
 		}
 		charBufferCopy = var.exportToCharBuffer(length);
 		var = null;
-		bByValue = true;
+		isbyValue = true;
 	}
 	public void setVarPassedByValue(InternalCharBuffer buff)
 	{
 		charBufferCopy = buff ;
 		var = null;
-		bByValue = true;
+		isbyValue = true;
 	}
 
 	public void setVarPassedByValue(Form form)
 	{
 		charBufferCopy = form.encodeToCharBuffer();
 		var = null;
-		bByValue = true;
+		isbyValue = true;
 	}
 
 	public void setVarPassedByRef(Var var)
 	{
 		charBufferCopy = null;
 		this.var = var;
-		bByValue = false;
+		isbyValue = false;
 	}
 
 	void setLength(int nLength)
 	{
 		this.nLength = nLength;
-		bLengthSpecified = true;
+		islengthSpecified = true;
 	}
 	
 	public int getLength()
 	{
 		if(var != null)
 		{
-			if(bLengthSpecified)
+			if(islengthSpecified)
 				return nLength;
 			return var.getLength(); 
 		}
 		if(charBufferCopy != null)
 		{
-			if(bLengthSpecified)
+			if(islengthSpecified)
 				return nLength;
 			return charBufferCopy.getBufferSize(); 
 		}
@@ -107,11 +107,11 @@ public class CCommarea extends CJMapObject
 		return null;
 	}
 		
-	private boolean bByValue = false;
+	private boolean isbyValue = false;
 	private Var var = null;
 	private InternalCharBuffer charBufferCopy = null;
 	private int nLength = 0;
-	private boolean bLengthSpecified = false;
+	private boolean islengthSpecified = false;
 	/**
 	 * @param varDest
 	 */

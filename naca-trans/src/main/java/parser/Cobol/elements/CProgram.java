@@ -74,27 +74,27 @@ public class CProgram extends CCommentContainer
 		beginParseProgram();
 
 		CBaseToken tok = GetCurrentToken() ;
-		boolean bRet = true ;
-		while (bRet && tok != null)
+		boolean isret = true ;
+		while (isret && tok != null)
 		{
 			if (tok.IsKeyword())
 			{
 				CReservedKeyword kw = tok.GetKeyword() ;
 				if (kw == CCobolKeywordList.IDENTIFICATION || kw == CCobolKeywordList.ID)
 				{
-					bRet = ParseIdentificationDivision();
+					isret = ParseIdentificationDivision();
 				}
 				else if (kw == CCobolKeywordList.ENVIRONMENT)
 				{
-					bRet = ParseEnvironmentDivision();
+					isret = ParseEnvironmentDivision();
 				}
 				else if (kw == CCobolKeywordList.DATA)
 				{
-					bRet = ParseDataDivision();
+					isret = ParseDataDivision();
 				}
 				else if (kw == CCobolKeywordList.PROCEDURE)
 				{
-					bRet = ParseProcedureDivision();
+					isret = ParseProcedureDivision();
 				}
 				else if (kw == CCobolKeywordList.DIVISION)
 				{
@@ -107,7 +107,7 @@ public class CProgram extends CCommentContainer
 				{
 					Transcoder.logError(tok.getLine(), "Unexpecting Token : " + tok.toString()) ;
 					CCobolElement e = new CUnparsedToken(tok.getLine()) ;
-					bRet = Parse(e);
+					isret = Parse(e);
 					AddChild(e) ;
 				}
 			}
@@ -125,10 +125,10 @@ public class CProgram extends CCommentContainer
 			{
 				Transcoder.logError(GetCurrentToken().getLine(), "Unparsed Token : " + GetCurrentToken().toString()) ;
 				CCobolElement e = new CUnparsedToken(GetCurrentToken().getLine()) ;
-				bRet = Parse(e);
+				isret = Parse(e);
 				AddChild(e) ;
 			}			
-			if (!bRet)
+			if (!isret)
 			{
 				CBaseToken tokRet = GetCurrentToken() ;
 				if (tokRet == null)
@@ -138,13 +138,13 @@ public class CProgram extends CCommentContainer
 				}
 				Transcoder.logError(tokRet.getLine(), "Unparsed Token : " + tokRet.toString()) ; 
 				CCobolElement e = new CUnparsedToken(tokRet.getLine()) ;
-				bRet = Parse(e);
+				isret = Parse(e);
 				AddChild(e) ;
 			}
 			tok = GetCurrentToken();
 		}
 		endParseProgram();
-		return bRet ;
+		return isret;
 	}
 
 	// ParseIdentificationDivision
@@ -170,13 +170,13 @@ public class CProgram extends CCommentContainer
 		}
 		GetNext();
 
-		boolean bDone = false ;
-		while (!bDone)
+		boolean isdone = false ;
+		while (!isdone)
 		{
 			CBaseToken tokVar = GetCurrentToken() ;
 			if (tokVar == null)
 			{
-				bDone = true;
+				isdone = true;
 				break;
 			}
 			if (tokVar.IsKeyword())
@@ -219,14 +219,14 @@ public class CProgram extends CCommentContainer
 				}
 				else if (kw == CCobolKeywordList.ENVIRONMENT || kw == CCobolKeywordList.DATA)
 				{
-					bDone = true ;
+					isdone = true ;
 				}
 				else
 				{
 					String cs =  "" ;
 					cs = tok.GetValue();
 					tok = GetNext();
-					while (tok != null && !tok.bIsNewLine)
+					while (tok != null && !tok.isisNewLine)
 					{
 						cs += " " + tok.GetValue() ;
 						tok = GetNext();
@@ -245,7 +245,7 @@ public class CProgram extends CCommentContainer
 				String cs =  "" ;
 				cs = tok.GetValue();
 				tok = GetNext();
-				while (!tok.bIsNewLine)
+				while (!tok.isisNewLine)
 				{
 					cs += " " + tok.GetValue() ;
 					tok = GetNext();
@@ -276,8 +276,8 @@ public class CProgram extends CCommentContainer
 		}
 		GetNext();
 
-		boolean bDone = false ;
-		while (!bDone)
+		boolean isdone = false ;
+		while (!isdone)
 		{
 			CBaseToken tokVar = GetCurrentToken() ;
 			if (tokVar.GetKeyword() == CCobolKeywordList.CONFIGURATION)
@@ -331,7 +331,7 @@ public class CProgram extends CCommentContainer
 			//else to do later
 			else
 			{
-				bDone = true ; // this token is not handled by this function, go back to caller
+				isdone = true ; // this token is not handled by this function, go back to caller
 			}
 		}
 		return true ;
@@ -474,8 +474,8 @@ public class CProgram extends CCommentContainer
 
 	protected boolean DoParseDataDivision()
 	{
-		boolean bDone = false ;
-		while (!bDone)
+		boolean isdone = false ;
+		while (!isdone)
 		{
 			CBaseToken tokVar = GetCurrentToken() ;
 			if (tokVar == null)
@@ -551,7 +551,7 @@ public class CProgram extends CCommentContainer
 			}
 			else
 			{
-				bDone = true ; // this token is not handled by this function, go back to caller
+				isdone = true ; // this token is not handled by this function, go back to caller
 			}
 		}
 		return true ;
@@ -580,10 +580,10 @@ public class CProgram extends CCommentContainer
 		levelKeywords.registerManagedKeyword(CCobolKeywordList.FILE);
 		levelKeywords.registerManagedKeyword(CCobolKeywordList.LINKAGE);
 
-		boolean bLoop = true;
-		while(bLoop)
+		boolean isloop = true;
+		while(isloop)
 		{		
-			bLoop = false;
+			isloop = false;
 			
 			b = internalDoParseProcedureDivision();
 			CBaseToken tokEntry = GetCurrentToken();
@@ -591,7 +591,7 @@ public class CProgram extends CCommentContainer
 			{
 				//m_Logger.error("ERROR Line " + tokEntry.getLine() + " : " + "Consuming token " + tokEntry.toString());
 				GetNext();
-				bLoop = true;
+				isloop = true;
 			}
 		}
 		
@@ -611,8 +611,8 @@ public class CProgram extends CCommentContainer
 		else if (tok.GetKeyword() == CCobolKeywordList.USING)
 		{
 			tok = GetNext() ;
-			boolean bDone = false ;
-			while (!bDone)
+			boolean isdone = false ;
+			while (!isdone)
 			{
 				if (tok.GetType() == CTokenType.IDENTIFIER)
 				{
@@ -622,7 +622,7 @@ public class CProgram extends CCommentContainer
 				}
 				else if (tok.GetType() == CTokenType.DOT)
 				{
-					bDone = true ;
+					isdone = true ;
 					GetNext() ;
 				}
 				else if (tok.GetType() == CTokenType.COMMA)

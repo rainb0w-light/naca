@@ -42,7 +42,7 @@ public class CPerformUntil extends CBlocElement
 		super(line) ;
 		reference = ref ;
 		refThru = refThru ;
-		bTestBefore = bBefore ;
+		istestBefore = bBefore ;
 	}
 	/* (non-Javadoc)
 	 * @see parser.CLanguageElement#Parse(lexer.CTokenList)
@@ -106,7 +106,7 @@ public class CPerformUntil extends CBlocElement
 	protected CExpression cond = null ; 
 	protected CIdentifier reference = null ;
 	protected CIdentifier refThru = null ;
-	boolean bTestBefore = true ;
+	boolean istestBefore = true ;
 	/* (non-Javadoc)
 	 * @see parser.CBaseElement#DoCustomSemanticAnalysis(semantic.CBaseSemanticEntity, semantic.CBaseSemanticEntityFactory)
 	 */
@@ -115,7 +115,7 @@ public class CPerformUntil extends CBlocElement
 		CEntityLoopWhile eLoop = factory.NewEntityLoopWhile(getLine()) ;
 		parent.AddChild(eLoop) ;
 		CBaseEntityCondition condNew = this.cond.AnalyseCondition(factory);
-		if (bTestBefore)
+		if (istestBefore)
 		{
 			eLoop.SetUntilCondition(condNew) ;
 		}

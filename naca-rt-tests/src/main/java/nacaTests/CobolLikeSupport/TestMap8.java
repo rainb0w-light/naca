@@ -8,8 +8,6 @@ package nacaTests.CobolLikeSupport;
  */
 import idea.onlinePrgEnv.OnlineProgram;
 import nacaLib.varEx.*;
-import nacaLib.mapSupport.MapFieldAttrFill;
-import nacaLib.mapSupport.MapFieldAttrJustify;
 import nacaLib.program.*;
 
 
@@ -27,7 +25,7 @@ public class TestMap8 extends OnlineProgram
 	
 	TestMap8Map testMap8Map = TestMap8Map.Copy(this) ;                                      // (255)      COPY RS31A01            SUPPRESS.
                                                                              // (256) 
- 	MapRedefine mapRedefine = declare.level(1).redefinesMap(testMap8Map.rs3101f) ;    // (257)  01  RRS3101IO               REDEFINES RS3101FI.
+ 	MapRedefine redefine = declare.level(1).redefinesMap(testMap8Map.rs3101f) ;    // (257)  01  RRS3101IO               REDEFINES RS3101FI.
  		Edit e = declare.level(03).edit() ;                       // (272)          05 RFACJR1L         PIC S9(4) COMP.
 
   		Edit editOcc = declare.level(03).editOccurs(4, "filler$31") ;         // (260)      03 FILLER     OCCURS 8.

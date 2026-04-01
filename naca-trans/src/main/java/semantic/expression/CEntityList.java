@@ -72,13 +72,13 @@ public abstract class CEntityList extends CDataEntity
 	
 	public void AddData(CDataEntity e)
 	{
-		arrData.add(e) ;
+		data.add(e) ;
 	}
 
 	
 	public boolean ignore()
 	{
-		return arrData.isEmpty() ;
+		return data.isEmpty() ;
 	}
-	protected Vector<CDataEntity> arrData = new Vector<CDataEntity>();
+	protected Vector<CDataEntity> data = new Vector<CDataEntity>();
 }

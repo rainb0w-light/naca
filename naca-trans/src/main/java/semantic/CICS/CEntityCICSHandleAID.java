@@ -41,21 +41,21 @@ public abstract class CEntityCICSHandleAID extends CBaseActionEntity
 	}
 	public void HandleAID(String cond, String label)
 	{
-		arrHandledAIDLabels.add(label);
-		arrHandledAIDs.add(cond);		
+		handledAIDLabels.add(label);
+		handledAIDs.add(cond);
 	}
 	public void UnhandleAID(String cond)
 	{
-		arrUnhandledAIDs.add(cond);		
+		unhandledAIDs.add(cond);
 	}
 	
-	protected ArrayList<String> arrHandledAIDs = new ArrayList<String>();
-	protected ArrayList<String> arrUnhandledAIDs = new ArrayList<String>();
-	protected ArrayList<String> arrHandledAIDLabels = new ArrayList<String>();
+	protected ArrayList<String> handledAIDs = new ArrayList<String>();
+	protected ArrayList<String> unhandledAIDs = new ArrayList<String>();
+	protected ArrayList<String> handledAIDLabels = new ArrayList<String>();
 
 	public boolean ignore()
 	{
-		if (arrHandledAIDs.size() == 0 && arrUnhandledAIDs.size() == 0)
+		if (handledAIDs.size() == 0 && unhandledAIDs.size() == 0)
 		{
 			return true;
 		}

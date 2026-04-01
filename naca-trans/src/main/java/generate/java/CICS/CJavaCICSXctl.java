@@ -39,7 +39,7 @@ public class CJavaCICSXctl extends CEntityCICSXctl
 	protected void DoExport()
 	{
 		String name = refProgram.ExportReference(getLine());
-		if (name.startsWith("\"") && bChecked)
+		if (name.startsWith("\"") && ischecked)
 		{
 			name = name.subSequence(1, name.length()-1) + ".class";	
 		}

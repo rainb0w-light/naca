@@ -28,8 +28,8 @@ public class CopyManager
 		ProgramCopyOwner programCopyOwner = ms_hashProgramsByCopy.get(csCopyName);
 		if(programCopyOwner != null)
 		{
-			boolean bRemove = programCopyOwner.removeProgramOwner(csProgramName);
-			if(bRemove)
+			boolean isremove = programCopyOwner.removeProgramOwner(csProgramName);
+			if(isremove)
 			{
 				ms_hashProgramsByCopy.remove(csCopyName);
 			}

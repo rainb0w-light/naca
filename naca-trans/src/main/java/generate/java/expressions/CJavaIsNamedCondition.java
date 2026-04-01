@@ -32,14 +32,14 @@ public class CJavaIsNamedCondition extends CEntityIsNamedCondition
 	public CBaseEntityCondition GetOppositeCondition()
 	{
 		CJavaIsNamedCondition not = new CJavaIsNamedCondition();
-		not.bOpposite = !bOpposite ;
+		not.isopposite = !isopposite;
 		not.reference = reference ;
 		return not ;
 	}
 	public String Export()
 	{
 		String cs ;
-		if (bOpposite)
+		if (isopposite)
 		{
 			cs = "isNot(" ;
 		}

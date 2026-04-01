@@ -24,7 +24,7 @@ public class MaskFileFilter implements FileFilter
 {
 	//FileFilter fileFilter = new WildcardFileFilter("*test*.java~*~");
 
-	private ArrayList<FileFilter> arrMaskFilters = null;	// Optional array of all masks; only files amtching these masks are polled
+	private ArrayList<FileFilter> maskFilters = null;	// Optional array of all masks; only files amtching these masks are polled
 	
 	public void setMasks(String csMasks)
 	{
@@ -40,23 +40,23 @@ public class MaskFileFilter implements FileFilter
 	{
 		if(csMask != null)
 		{
-			if(arrMaskFilters == null)
-				arrMaskFilters = new ArrayList<FileFilter>();
+			if(maskFilters == null)
+				maskFilters = new ArrayList<FileFilter>();
 			
 			csMask = csMask.trim();
 			FileFilter fileFilter = new WildcardFileFilter(csMask);
-			arrMaskFilters.add(fileFilter);
+			maskFilters.add(fileFilter);
 		}
 	}
 	
 	public boolean accept(File pathname)
 	{
-		if(arrMaskFilters == null)
+		if(maskFilters == null)
 			return true;
 		
-		for(int n=0; n<arrMaskFilters.size(); n++)
+		for(int n = 0; n< maskFilters.size(); n++)
 		{
-			FileFilter maskFilter = arrMaskFilters.get(n);
+			FileFilter maskFilter = maskFilters.get(n);
 			if(maskFilter.accept(pathname))
 				return true;
 		}

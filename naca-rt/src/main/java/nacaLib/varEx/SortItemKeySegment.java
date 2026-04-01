@@ -26,7 +26,7 @@ public class SortItemKeySegment
 	
 	int compare(SortItemKeySegment sortItemKeySegment2)
 	{
-		Asserter.assertIfFalse(bAscending == sortItemKeySegment2.bAscending);
+		Asserter.assertIfFalse(isascending == sortItemKeySegment2.isascending);
 		Asserter.assertIfFalse(tcKeyValue.length == sortItemKeySegment2.tcKeyValue.length);
 		
 		int nLength = tcKeyValue.length;
@@ -34,14 +34,14 @@ public class SortItemKeySegment
 		{
 			if(tcKeyValue[n] < sortItemKeySegment2.tcKeyValue[n])
 			{
-				if(bAscending)
+				if(isascending)
 					return -1;
 				else
 					return 1;
 			}
 			if(tcKeyValue[n] > sortItemKeySegment2.tcKeyValue[n])
 			{
-				if(bAscending)
+				if(isascending)
 					return 1;
 				else
 					return -1;
@@ -50,6 +50,6 @@ public class SortItemKeySegment
 		return 0;
 	}
 	
-	boolean bAscending = true;
+	boolean isascending = true;
 	char tcKeyValue[] = null;
 }

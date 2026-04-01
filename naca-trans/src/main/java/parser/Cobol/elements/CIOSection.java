@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 12 août 2004
+ * Created on 12 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -54,8 +54,8 @@ public class CIOSection extends CCommentContainer
 	 */
 	protected boolean DoParsing()
 	{
-		boolean bDone = false ;
-		while (!bDone)
+		boolean isdone = false ;
+		while (!isdone)
 		{
 			CBaseToken tok = GetCurrentToken();
 //			if (tok.GetType() == CTokenType.COMMENT)
@@ -71,8 +71,8 @@ public class CIOSection extends CCommentContainer
 					return false ;
 				}
 				tok = GetNext();
-				boolean bDone2 = false ;
-				while (!bDone2)
+				boolean isdone2 = false ;
+				while (!isdone2)
 				{
 //					while (tok.GetType() == CTokenType.COMMENT)
 //					{
@@ -90,14 +90,14 @@ public class CIOSection extends CCommentContainer
 					}
 					else
 					{
-						bDone2 = true ;
+						isdone2 = true ;
 					}
 					tok = GetCurrentToken() ;
 				}
 			}
 			else 
 			{
-				bDone = true ;
+				isdone = true ;
 			}
 			
 		}

@@ -5,14 +5,13 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 2 août 2004
+ * Created on 2 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 package generate.java;
 
-import parser.Cobol.elements.CWorkingEntry.CWorkingSignType;
 import generate.*;
 import semantic.*;
 import utils.*;
@@ -50,7 +49,7 @@ public class CJavaAttribute extends CEntityAttribute
 	
 	protected void DoExport()
 	{
-		if (bBlankWhenZero && type.equals("pic9"))
+		if (isblankWhenZero && type.equals("pic9"))
 		{
 			type = "pic";
 			format = "";
@@ -101,14 +100,14 @@ public class CJavaAttribute extends CEntityAttribute
 			}
 		}
 		WriteWord(line) ;
-		if (bSync)
+		if (issync)
 		{
 			WriteWord(".sync()");
 		}
 		if (value != null)
 		{
 			String cs = "" ;
-			if (bFillWithValue)
+			if (isfillWithValue)
 			{
 				cs = ".valueAll(" ;
 			}
@@ -119,27 +118,27 @@ public class CJavaAttribute extends CEntityAttribute
 			cs += value.ExportReference(getLine());
 			WriteWord(cs + ")") ;
 		}
-		else if (bInitialValueIsSpaces)
+		else if (isinitialValueIsSpaces)
 		{
 			WriteWord(".valueSpaces()") ;
 		}
-		else if (bInitialValueIsZeros)
+		else if (isinitialValueIsZeros)
 		{
 			WriteWord(".valueZero()") ;
 		}
-		else if (bInitialValueIsLowValue)
+		else if (isinitialValueIsLowValue)
 		{
 			WriteWord(".valueLowValue()") ;
 		}
-		else if (bInitialValueIsHighValue)
+		else if (isinitialValueIsHighValue)
 		{
 			WriteWord(".valueHighValue()") ;
 		}
-		if (bJustifiedRight)
+		if (isjustifiedRight)
 		{
 			WriteWord(".justifyRight()");
 		}
-		if (bBlankWhenZero)
+		if (isblankWhenZero)
 		{
 			WriteWord(".blankWhenZero()");
 		}

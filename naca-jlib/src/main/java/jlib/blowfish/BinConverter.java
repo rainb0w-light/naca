@@ -200,22 +200,22 @@ public class BinConverter {
     int nResult = 0; 
     for (int nI = 0; nI < nNumOfBytes; nI++) 
     {
-      byte bActByte = 0;  
+      byte isactByte = 0;
       boolean blConvertOK = true;
       for (int nJ = 0; nJ < 2; nJ++) 
       {
-        bActByte <<= 4;  
-        char cActChar = sBinHex.charAt(nSrcPos++);
+        isactByte <<= 4;
+        char actChar = sBinHex.charAt(nSrcPos++);
 
-        if ((cActChar >= 'a') && (cActChar <= 'f'))
+        if ((actChar >= 'a') && (actChar <= 'f'))
         { 
-          bActByte |= (byte)(cActChar - 'a') + 10;
+          isactByte |= (byte)(actChar - 'a') + 10;
         }
         else 
         {
-          if ((cActChar >= '0') && (cActChar <= '9'))
+          if ((actChar >= '0') && (actChar <= '9'))
           {
-            bActByte |= (byte)(cActChar - '0');
+            isactByte |= (byte)(actChar - '0');
           }
           else
           {
@@ -225,7 +225,7 @@ public class BinConverter {
       }     
       if (blConvertOK) 
       {
-        data[nDstPos++] = bActByte;
+        data[nDstPos++] = isactByte;
         nResult++;
       }
     }

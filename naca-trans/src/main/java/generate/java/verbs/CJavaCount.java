@@ -39,29 +39,29 @@ public class CJavaCount extends CEntityCount
 	protected void DoExport()
 	{
 		WriteWord("inspectTallying(" + variable.ExportReference(getLine()) + ")");
-		for (int i =0; i<arrCountAllToken.size();i++)
+		for (int i = 0; i< countAllToken.size(); i++)
 		{
-			CDataEntity eTok = arrCountAllToken.get(i);
+			CDataEntity eTok = countAllToken.get(i);
 			WriteWord(".countAll(" + eTok.ExportReference(getLine()) + ")");
 		}
-		for (int i =0; i<arrCountLeadingToken.size();i++)
+		for (int i = 0; i< countLeadingToken.size(); i++)
 		{
-			CDataEntity eTok = arrCountLeadingToken.get(i);
+			CDataEntity eTok = countLeadingToken.get(i);
 			WriteWord(".countLeading(" + eTok.ExportReference(getLine()) + ")");
 		}
-		if(arrCountAllToken.isEmpty() && arrCountLeadingToken.isEmpty() && 
-				(!arrCountBeforeToken.isEmpty() || !arrCountAfterToken.isEmpty()))
+		if(countAllToken.isEmpty() && countLeadingToken.isEmpty() &&
+				(!countBeforeToken.isEmpty() || !countAfterToken.isEmpty()))
 		{
 			WriteWord(".forChars()");
 		}
-		for (int i =0; i<arrCountAfterToken.size();i++)
+		for (int i = 0; i< countAfterToken.size(); i++)
 		{
-			CDataEntity eTok = arrCountAfterToken.get(i);
+			CDataEntity eTok = countAfterToken.get(i);
 			WriteWord(".after(" + eTok.ExportReference(getLine()) + ")");
 		}
-		for (int i =0; i<arrCountBeforeToken.size();i++)
+		for (int i = 0; i< countBeforeToken.size(); i++)
 		{
-			CDataEntity eTok = arrCountBeforeToken.get(i);
+			CDataEntity eTok = countBeforeToken.get(i);
 			WriteWord(".before(" + eTok.ExportReference(getLine()) + ")");
 		}
 		WriteWord(".to(" + toVariable.ExportReference(getLine()) + ")");

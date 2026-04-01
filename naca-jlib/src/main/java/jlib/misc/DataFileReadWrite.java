@@ -19,7 +19,7 @@ public class DataFileReadWrite extends BaseDataFileBuffered
 	private byte t1Byte[] = new byte[1];
 	private LineRead lineRead = null;
 	private final static int ms_nMaxRecordLength = 65536;
-	private long lSavedPosition = -1;
+	private long savedPosition = -1;
 	
 	public DataFileReadWrite()
 	{
@@ -54,12 +54,12 @@ public class DataFileReadWrite extends BaseDataFileBuffered
 	
 	public boolean open(LogicalFileDescriptor logicalFileDescriptor)
 	{
-		boolean bOpened = doOpen();
-		if(bOpened && logicalFileDescriptor != null)
+		boolean isopened = doOpen();
+		if(isopened && logicalFileDescriptor != null)
 		{
 			logicalFileDescriptor.readFileHeader(this);
 		}
-		return bOpened;
+		return isopened;
 	}
 	
 	private void initLineRead()
@@ -435,8 +435,8 @@ public class DataFileReadWrite extends BaseDataFileBuffered
 		if(rw == null)
 			return null;
 
-		long lLastPosition = getFileCurrentPosition();
-		setLastPosition(lLastPosition);
+		long lastPosition = getFileCurrentPosition();
+		setLastPosition(lastPosition);
 		
 		initLineRead();
 			
@@ -453,8 +453,8 @@ public class DataFileReadWrite extends BaseDataFileBuffered
 	{		
 		if(rw != null)
 		{
-			long lLastPosition = getFileCurrentPosition();
-			setLastPosition(lLastPosition);
+			long lastPosition = getFileCurrentPosition();
+			setLastPosition(lastPosition);
 			
 			int nFullLength = nLength;
 			if(bTryReadNextLF)
@@ -476,15 +476,15 @@ public class DataFileReadWrite extends BaseDataFileBuffered
 	
 	public void rewrite(byte[] tBytes, int nOffset, int nLength)
 	{
-		long lLastPosition = getLastPosition();
-		setFileCurrentPosition(lLastPosition);
+		long lastPosition = getLastPosition();
+		setFileCurrentPosition(lastPosition);
 		write(tBytes, nOffset, nLength);
 	}
 	
 	public void rewriteWithEOL(byte[] tbyDest, int nSize)
 	{
-		long lLastPosition = getLastPosition();
-		setFileCurrentPosition(lLastPosition);
+		long lastPosition = getLastPosition();
+		setFileCurrentPosition(lastPosition);
 		writeWithEOL(tbyDest, nSize);
 	}
 	
@@ -508,8 +508,8 @@ public class DataFileReadWrite extends BaseDataFileBuffered
 	{
 		try
 		{
-			long lPos = rw.getFilePointer();
-			return lPos; 
+			long pos = rw.getFilePointer();
+			return pos;
 		}
 		catch (IOException e)
 		{
@@ -532,16 +532,16 @@ public class DataFileReadWrite extends BaseDataFileBuffered
 	
 	public boolean savePosition(int nMaxReadAheadSize)
 	{
-		lSavedPosition = getFileCurrentPosition();
-		if(lSavedPosition >= 0)
+		savedPosition = getFileCurrentPosition();
+		if(savedPosition >= 0)
 			return true;
 		return false;
 	}
 	
 	public boolean returnAtSavedPosition()
 	{
-		if(lSavedPosition >= 0)
-			return setFileCurrentPosition(lSavedPosition);
+		if(savedPosition >= 0)
+			return setFileCurrentPosition(savedPosition);
 		return false;
 	}
 	
@@ -586,8 +586,8 @@ public class DataFileReadWrite extends BaseDataFileBuffered
 	{
 		try
 		{
-			long lPos = rw.getFilePointer();				
-			rw.setLength(lPos);
+			long pos = rw.getFilePointer();
+			rw.setLength(pos);
 			return true;
 		}
 		catch (IOException e)

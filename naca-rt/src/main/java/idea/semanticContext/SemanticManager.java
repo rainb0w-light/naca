@@ -67,8 +67,8 @@ public class SemanticManager extends CJMapObject
 	{
 		try
 		{
-			File fSS = new File(csFilePath);
-			Source file = new StreamSource(fSS) ;
+			File sS = new File(csFilePath);
+			Source file = new StreamSource(sS) ;
 			Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument() ;
 			Result res = new DOMResult(doc) ;
 			Transformer xformer = TransformerFactory.newInstance().newTransformer();
@@ -102,11 +102,11 @@ public class SemanticManager extends CJMapObject
 			Element elMenus = (Element)menus.item(nMenus);	// Enum all cases tags
 			if(elMenus != null)	// Only 1 elMenus tag
 			{
-				NodeList lstMenu = elMenus.getElementsByTagName("Menu") ;
-				if(lstMenu != null)
+				NodeList listmenu = elMenus.getElementsByTagName("Menu") ;
+				if(listmenu != null)
 				{
 					int nMenu = 0;
-					Element elMenu = (Element)lstMenu.item(nMenu);	// Enum all menu tags
+					Element elMenu = (Element) listmenu.item(nMenu);	// Enum all menu tags
 					while(elMenu != null)
 					{
 						String csMenuId = elMenu.getAttribute("Id");
@@ -115,18 +115,18 @@ public class SemanticManager extends CJMapObject
 						CMenuDef MenuDef = createAndRegisterNewMenu(csMenuId);
 						MenuDef.setTitle(csTitle);
 				
-						NodeList lstOptions = elMenu.getElementsByTagName("Options") ;
-						if(lstOptions != null)
+						NodeList listoptions = elMenu.getElementsByTagName("Options") ;
+						if(listoptions != null)
 						{
 							int nOptions = 0;
-							Element elOptions = (Element)lstOptions.item(nOptions);	// Enum all conditions
+							Element elOptions = (Element) listoptions.item(nOptions);	// Enum all conditions
 							if(elOptions != null)	// Only 1 tag conditions
 							{
-								NodeList lstOption = elOptions.getElementsByTagName("Option") ;
-								if(lstOption != null)
+								NodeList listoption = elOptions.getElementsByTagName("Option") ;
+								if(listoption != null)
 								{
 									int nOption = 0;
-									Element elOption = (Element)lstOption.item(nOption);	// Enum all conditions
+									Element elOption = (Element) listoption.item(nOption);	// Enum all conditions
 									while(elOption != null)
 									{
 										String csLabel = elOption.getAttribute("Label") ;
@@ -137,13 +137,13 @@ public class SemanticManager extends CJMapObject
 										MenuOptionDef.setLabel(csLabel);
 										
 										nOption++;
-										elOption = (Element)lstOption.item(nOption);	// Enum all conditions
+										elOption = (Element) listoption.item(nOption);	// Enum all conditions
 									}
 								}
 							}
 						}
 						nMenu++;
-						elMenu = (Element)lstMenu.item(nMenu);	// Enum all menu tags
+						elMenu = (Element) listmenu.item(nMenu);	// Enum all menu tags
 					}
 				}
 			}
@@ -160,11 +160,11 @@ public class SemanticManager extends CJMapObject
 			Element elCases = (Element)cases.item(nCases);	// Enum all cases tags
 			if(elCases != null)	// Only 1 cases tag
 			{
-				NodeList lstCase = elCases.getElementsByTagName("Case") ;
-				if(lstCase != null)
+				NodeList listcase = elCases.getElementsByTagName("Case") ;
+				if(listcase != null)
 				{
 					int nCase = 0;
-					Element elCase = (Element)lstCase.item(nCase);	// Enum all case tags
+					Element elCase = (Element) listcase.item(nCase);	// Enum all case tags
 					while(elCase != null)
 					{
 						String csMenuId = elCase.getAttribute("MenuId");
@@ -175,18 +175,18 @@ public class SemanticManager extends CJMapObject
 						}
 						else
 						{
-							NodeList lstConditions = elCase.getElementsByTagName("Conditions") ;
-							if(lstConditions != null)
+							NodeList listconditions = elCase.getElementsByTagName("Conditions") ;
+							if(listconditions != null)
 							{
 								int nConditions = 0;
-								Element elConditions = (Element)lstConditions.item(nConditions);	// Enum all conditions
+								Element elConditions = (Element) listconditions.item(nConditions);	// Enum all conditions
 								if(elConditions != null)	// Only 1 tag conditions
 								{
-									NodeList lstCondition = elConditions.getElementsByTagName("Condition") ;
-									if(lstCondition != null)
+									NodeList listcondition = elConditions.getElementsByTagName("Condition") ;
+									if(listcondition != null)
 									{
 										int nCondition = 0;
-										Element elCondition = (Element)lstCondition.item(nCondition);	// Enum all conditions
+										Element elCondition = (Element) listcondition.item(nCondition);	// Enum all conditions
 										while(elCondition != null)
 										{
 											String csScreenId = elCondition.getAttribute("ScreenId") ;
@@ -195,14 +195,14 @@ public class SemanticManager extends CJMapObject
 											addSemanticCase(csSemanticId, csScreenId, MenuDef);
 											
 											nCondition++;
-											elCondition = (Element)lstCondition.item(nCondition);	// Enum all conditions
+											elCondition = (Element) listcondition.item(nCondition);	// Enum all conditions
 										}
 									}
 								}
 							}
 						}
 						nCase++;							
-						elCase = (Element)lstCase.item(nCase);	// Enum all case tags
+						elCase = (Element) listcase.item(nCase);	// Enum all case tags
 					}
 				}
 			}

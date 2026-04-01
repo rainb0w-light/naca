@@ -21,28 +21,28 @@ public class FPacVarCacheManager
 	
 	Var get(int nBufferId, VarType varType, int nPosition1Based, int nBufferLength)
 	{
-		long lId = getId(nBufferId, varType, nPosition1Based, nBufferLength);
-		Var v = hashVar.get(lId); 
+		long id = getId(nBufferId, varType, nPosition1Based, nBufferLength);
+		Var v = hashVar.get(id);
 		return v;
 	}
 	
 	void set(Var v, int nBufferId, int nPosition1Based, int nBufferLength)
 	{
-		long lId = getId(nBufferId, v.getVarType(), nPosition1Based, nBufferLength);
-		hashVar.put(lId, v); 
+		long id = getId(nBufferId, v.getVarType(), nPosition1Based, nBufferLength);
+		hashVar.put(id, v);
 	}	
 	
 	Var get(int nBufferId, VarType varType, int nPosition1Based, String csMask)
 	{
-		long lId = getId(nBufferId, varType, nPosition1Based, csMask);
-		Var v = hashVar.get(lId); 
+		long id = getId(nBufferId, varType, nPosition1Based, csMask);
+		Var v = hashVar.get(id);
 		return v;
 	}
 	
 	void set(Var v, int nBufferId, int nPosition1Based, String csMask)
 	{
-		long lId = getId(nBufferId, v.getVarType(), nPosition1Based, csMask);
-		hashVar.put(lId, v); 
+		long id = getId(nBufferId, v.getVarType(), nPosition1Based, csMask);
+		hashVar.put(id, v);
 	}
 	
 		

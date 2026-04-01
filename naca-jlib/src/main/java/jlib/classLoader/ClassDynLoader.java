@@ -28,7 +28,7 @@ public class ClassDynLoader extends ClassLoader
 	private static int 	ms_nActive = 0;
 	protected ArrayList<String> arrPaths = null;
 	protected JarEntries jarEntries = null;
-	protected boolean bCanLoadJar = false;
+	protected boolean iscanLoadJar = false;
 	protected boolean bCanLoadClass = false;
     protected String csCurrentClassName = null;
     
@@ -81,7 +81,7 @@ public class ClassDynLoader extends ClassLoader
 	{
 		this.jarEntries = jarEntries;
 		this.bCanLoadClass = bCanLoadClass;
-		this.bCanLoadJar = bCanLoadJar;
+		this.iscanLoadJar = bCanLoadJar;
 	}
 	
 	protected byte[] getClassFileBytes(String className) 
@@ -108,7 +108,7 @@ public class ClassDynLoader extends ClassLoader
 	    	}
 		}
 
-		if(bCanLoadJar && jarEntries != null)
+		if(iscanLoadJar && jarEntries != null)
 		{
 			result = jarEntries.loadJarEntry(className);
 		}
@@ -341,16 +341,16 @@ public class ClassDynLoader extends ClassLoader
 				    }
 			
 			    	byte[] tb = new byte[nSize];
-			    	int rb = 0;
+			    	int radioButton = 0;
 			    	int nChunk = 0;
-			    	while ((nSize - rb) > 0)
+			    	while ((nSize - radioButton) > 0)
 			    	{
-						nChunk = zis.read(tb, rb, nSize - rb);
+						nChunk = zis.read(tb, radioButton, nSize - radioButton);
 			    		if (nChunk == -1)
 			    		{
 			    			break;
 			    		}
-			    		rb += nChunk;
+			    		radioButton += nChunk;
 			    	}
 		
 			    	// add to internal resource hashtable

@@ -21,13 +21,13 @@ class UnstringDelimiter
 	UnstringDelimiter(String cs, boolean bAll)
 	{
 		this.cs = cs;
-		this.bAll = bAll;
+		this.isall = bAll;
 	}
 	
 	String getRemaingStringAfterSeparator(String csSource)
 	{
 		int nStringLength = cs.length();
-		if(bAll)
+		if(isall)
 		{
 			while(csSource.startsWith(cs))
 			{
@@ -43,20 +43,20 @@ class UnstringDelimiter
 	
 	int removeDelimiterString(String csSource, int nPosStart)
 	{
-		if(bAll)
+		if(isall)
 		{
 			int nLength = cs.length();
-			boolean bContinue = true;
-			while(bContinue)
+			boolean iscontinue = true;
+			while(iscontinue)
 			{
-				bContinue = false;
+				iscontinue = false;
 				if(csSource.length() >= nPosStart + nLength)
 				{
 					String csChunk = csSource.substring(nPosStart, nPosStart + nLength);
 					if(csChunk.equals(cs))
 					{
 						nPosStart += nLength;
-						bContinue = true;
+						iscontinue = true;
 					}
 				}
 			}
@@ -70,14 +70,14 @@ class UnstringDelimiter
 	}
 	
 	String cs = null;
-	boolean bAll = false;
+	boolean isall = false;
 }
 
 class UnstringManager
 {
 	String csCurrentSource;
-	ArrayList<UnstringDelimiter> arrDelimiters = new ArrayList<UnstringDelimiter>(); 	// Array of UnstringDelimiter
-	boolean bFailed = false; 
+	ArrayList<UnstringDelimiter> delimiters = new ArrayList<UnstringDelimiter>(); 	// Array of UnstringDelimiter
+	boolean isfailed = false;
 	int nCount = 0;
 	Var varPointer = null;
 	Var varTallying = null;
@@ -103,9 +103,9 @@ class UnstringManager
 	private boolean checkIfRemainingUnfilledChunks()
 	{
 		int nPointer0Based = nPointer1Based - 1;	// Must be 0 based
-		for(int nDelimiter=0; nDelimiter<arrDelimiters.size(); nDelimiter++)	// Try all delimiters
+		for(int nDelimiter = 0; nDelimiter< delimiters.size(); nDelimiter++)	// Try all delimiters
 		{
-			UnstringDelimiter delimiter = arrDelimiters.get(nDelimiter);
+			UnstringDelimiter delimiter = delimiters.get(nDelimiter);
 			int nPositionEndChunk = csCurrentSource.indexOf(delimiter.cs, nPointer0Based);
 			if(nPositionEndChunk >= 0)
 			{
@@ -117,7 +117,7 @@ class UnstringManager
 	
 	void doInto(Var varDelimiterDest, Var varDelimiterIn, Var varCountDest)
 	{
-		if(!bFailed && csCurrentSource != null)
+		if(!isfailed && csCurrentSource != null)
 		{
 			if(varTallying != null)
 				nTallying = varTallying.getInt();
@@ -133,11 +133,11 @@ class UnstringManager
 			if(nPointer0Based < 0 || nPointer0Based >= csCurrentSource.length()) // Check position
 			{
 				if (nPointer0Based < 0)
-					bFailed = true;
+					isfailed = true;
 				return ;
 			}
 			
-			if(arrDelimiters.isEmpty())
+			if(delimiters.isEmpty())
 			{
 				if (csCurrentSource.length() == 0)
 					return;
@@ -148,9 +148,9 @@ class UnstringManager
 				return;
 			}
 			
-			for(int nDelimiter=0; nDelimiter<arrDelimiters.size(); nDelimiter++)	// Try all delimiters
+			for(int nDelimiter = 0; nDelimiter< delimiters.size(); nDelimiter++)	// Try all delimiters
 			{
-				UnstringDelimiter delimiter = arrDelimiters.get(nDelimiter);
+				UnstringDelimiter delimiter = delimiters.get(nDelimiter);
 				int nPositionEndChunk = csCurrentSource.indexOf(delimiter.cs, nPointer0Based);
 				if(nPositionEndChunk >= 0 && (nPositionEndChunk < nPositionEndSepartorUsed || nPositionEndSepartorUsed == -1))
 				{
@@ -230,8 +230,8 @@ class UnstringManager
 	
 	boolean failed()
 	{
-		if(bFailed)
-			return bFailed;
+		if(isfailed)
+			return isfailed;
 		return checkIfRemainingUnfilledChunks();	// If we have some chunks left that have not been conummed by into calls(), then we have an error 		
 	}
 }

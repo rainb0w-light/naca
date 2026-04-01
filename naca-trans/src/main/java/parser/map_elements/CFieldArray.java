@@ -27,7 +27,6 @@ import semantic.forms.CEntityResourceField;
 import semantic.forms.CEntityResourceFieldArray;
 import semantic.forms.CResourceStrings;
 import utils.NacaTransAssertException;
-import utils.Transcoder;
 
 /**
  * @author U930CV
@@ -62,7 +61,7 @@ public class CFieldArray extends CFieldElement
 		eArray.setAttribute("Col", ""+posCol);
 		eArray.setAttribute("NbCol", ""+nbCol);
 		eArray.setAttribute("NbITems", ""+nbItems);
-		eArray.setAttribute("VerticalFilling", ""+bVerticalFilling);
+		eArray.setAttribute("VerticalFilling", ""+ isverticalFilling);
 		return eArray;
 	}
 	/* (non-Javadoc)
@@ -85,10 +84,10 @@ public class CFieldArray extends CFieldElement
 	public void SetResourceStrings(CResourceStrings res)
 	{
 	}
-	protected boolean bRegisterMotif = false ;
-	protected boolean bValidateMotif = false ;
+	protected boolean isregisterMotif = false ;
+	protected boolean isvalidateMotif = false ;
 	protected int nbCol = 1 ;
-	protected boolean bVerticalFilling = false ; 
+	protected boolean isverticalFilling = false ;
 	protected int nLastColIndexStart = 0 ;
 	protected int nbItems = 0 ;
 
@@ -107,7 +106,7 @@ public class CFieldArray extends CFieldElement
 				n = Integer.parseInt(index) ;
 			}
 		}
-		if (!bRegisterMotif && !bValidateMotif)
+		if (!isregisterMotif && !isvalidateMotif)
 		{ // first step : initialisation
 			if (n != 1)
 			{
@@ -119,11 +118,11 @@ public class CFieldArray extends CFieldElement
 			nbCol = 1 ;
 			field.SetName(name);
 			children.add(field) ;
-			bRegisterMotif = true ;
+			isregisterMotif = true ;
 			nbItems = 1 ;
 			return true ;
 		}
-		else if (bRegisterMotif)
+		else if (isregisterMotif)
 		{
 			if (fullName.equals(""))
 			{ // label
@@ -142,11 +141,11 @@ public class CFieldArray extends CFieldElement
 			}
 			else
 			{
-				bRegisterMotif = false ;
-				bValidateMotif = true ;
+				isregisterMotif = false ;
+				isvalidateMotif = true ;
 			}
 		}
-		if (bValidateMotif)
+		if (isvalidateMotif)
 		{ // check if current field is in the motif
 			CFieldElement cur = GetNextFieldInMotif() ;
 			if (!cur.getName().equals(name) || cur.length != field.length)
@@ -163,13 +162,13 @@ public class CFieldArray extends CFieldElement
 				{
 					nbCol ++ ;
 					nLastColIndexStart = n ;
-					bVerticalFilling = false ;
+					isverticalFilling = false ;
 				}
 				else if (n>0 && nLastColIndexStart != n) 
 				{
 					nbCol ++ ;
 					nLastColIndexStart = n ;
-					bVerticalFilling = true ;
+					isverticalFilling = true ;
 				}
 			}
 			return true ;
@@ -201,14 +200,14 @@ public class CFieldArray extends CFieldElement
 	public CBaseLanguageEntity DoSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
 		CEntityResourceFieldArray eArray = factory.NewEntityFieldArray() ;
-		eArray.SetArray(nbItems, nbCol, bVerticalFilling) ; 
+		eArray.SetArray(nbItems, nbCol, isverticalFilling) ;
 		eArray.SetPosition(posLine, posCol) ;
 
-		CFieldElement[] arrFields = new CFieldElement[children.size()] ;
-		children.toArray(arrFields) ;
-		for (int i=0; i<arrFields.length; i++)
+		CFieldElement[] fields = new CFieldElement[children.size()] ;
+		children.toArray(fields) ;
+		for (int i = 0; i< fields.length; i++)
 		{
-			CFieldElement el = arrFields[i] ;
+			CFieldElement el = fields[i] ;
 			CEntityResourceField rf = (CEntityResourceField)el.DoSemanticAnalysis(eArray, factory) ;
 			if (rf != null)
 			{

@@ -10,7 +10,7 @@ public class CheckUpAndRunning implements CheckUpAndRunningMBean
 {
 	public boolean isUp()
 	{
-		if(bInc)	
+		if(isinc)
 			nbUp++;
 		else
 			nbUp--;
@@ -24,16 +24,16 @@ public class CheckUpAndRunning implements CheckUpAndRunningMBean
 
 	public boolean getInc()
 	{
-		return bInc;
+		return isinc;
 	}
 	
 	public void setInc(boolean b)
 	{
-		bInc = b;
+		isinc = b;
 	}
 
 	private int nbUp = 0;
-	private boolean bInc = true;
+	private boolean isinc = true;
 }
 
 

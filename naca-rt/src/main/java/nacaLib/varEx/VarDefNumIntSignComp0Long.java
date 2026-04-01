@@ -160,9 +160,9 @@ public class VarDefNumIntSignComp0Long extends VarDefNum
 	
 	public void inc(VarBufferPos buffer, int n)
 	{
-		long lVal = getAsDecodedLong(buffer);
-		lVal += n;
-		write(buffer, lVal);
+		long val = getAsDecodedLong(buffer);
+		val += n;
+		write(buffer, val);
 	}
 	
 	public void inc(VarBufferPos buffer, BigDecimal bdStep)
@@ -549,10 +549,10 @@ public class VarDefNumIntSignComp0Long extends VarDefNum
 	{
 		int nPos = RWNumIntComp0.internalWriteAbsoluteIntComp0AsLong(buffer, 0, lValue, buffer.nAbsolutePosition, nTotalSize);
 
-		boolean bPositive = true;
+		boolean ispositive = true;
 		if(lValue < 0)
-			bPositive = false;
-		internalWriteEmbeddedComp0Sign(buffer, 0, bPositive);
+			ispositive = false;
+		internalWriteEmbeddedComp0Sign(buffer, 0, ispositive);
 		
 		return nPos;
 	}
@@ -561,10 +561,10 @@ public class VarDefNumIntSignComp0Long extends VarDefNum
 	{
 		int nPos = RWNumIntComp0.internalWriteAbsoluteIntComp0AsLong(buffer, nOffset, lValue, buffer.nAbsolutePosition, nTotalSize);
 
-		boolean bPositive = true;
+		boolean ispositive = true;
 		if(lValue < 0)
-			bPositive = false;
-		internalWriteEmbeddedComp0Sign(buffer, nOffset, bPositive);
+			ispositive = false;
+		internalWriteEmbeddedComp0Sign(buffer, nOffset, ispositive);
 		
 		return nPos;
 	}

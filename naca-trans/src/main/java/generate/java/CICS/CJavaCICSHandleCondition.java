@@ -36,16 +36,16 @@ public class CJavaCICSHandleCondition extends CEntityCICSHandleCondition
 	protected void DoExport()
 	{
 		WriteWord("CESM");
-		for (int i=0;i<arrHandledConditions.size();i++)
+		for (int i = 0; i< handledConditions.size(); i++)
 		{
-			String cond = arrHandledConditions.get(i);
-			String label = arrHandledConditionLabels.get(i);
+			String cond = handledConditions.get(i);
+			String label = handledConditionLabels.get(i);
 			String cs = ".handleCondition(\"" + cond + "\", " + FormatIdentifier(label) + ")" ;
 			WriteWord(cs);
 		}
-		for (int i=0;i<arrUnhandledConditions.size();i++)
+		for (int i = 0; i< unhandledConditions.size(); i++)
 		{
-			String cond = arrUnhandledConditions.get(i);
+			String cond = unhandledConditions.get(i);
 			String cs = ".unhandleCondition(\"" + cond + "\")" ;
 			WriteWord(cs);
 		}

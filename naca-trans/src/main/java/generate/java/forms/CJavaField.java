@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 5 août 2004
+ * Created on 5 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -95,7 +95,7 @@ public class CJavaField extends CEntityResourceField
 			{
 				cs += ".justifyFill(MapFieldAttrFill."+ csFillValue+")" ;
 			}
-			if (bRightJustified)
+			if (isrightJustified)
 			{
 				cs += ".justifyRight()" ;
 			}
@@ -139,9 +139,9 @@ public class CJavaField extends CEntityResourceField
 			ef.setAttribute("linkedvalue", FormatIdentifier(GetDisplayName())) ;
 			ef.setAttribute("name", FormatIdentifier(GetDisplayName())) ;
 			ef.setAttribute("length", String.valueOf(nLength)) ;
-			for  (int i=0; i<arrSwitchCaseElement.size(); i++)
+			for  (int i = 0; i< switchCaseElement.size(); i++)
 			{
-				CSwitchCaseElement el = arrSwitchCaseElement.get(i) ;
+				CSwitchCaseElement el = switchCaseElement.get(i) ;
 				Element eCase ;
 				if (el.val != null)
 				{
@@ -195,14 +195,14 @@ public class CJavaField extends CEntityResourceField
 			ef.setAttribute("type", "activeChoice") ;
 			ef.setAttribute("activeChoiceValue", csActiveChoiceValue);
 			ef.setAttribute("activeChoiceTarget", csActiveChoiceTarget);
-			ef.setAttribute("activeChoiceSubmit", bActiveChoiceSubmit?"true":"false");
+			ef.setAttribute("activeChoiceSubmit", isactiveChoiceSubmit ?"true":"false");
 		}
 		else if (mode == FieldMode.LINKED_ACTIVE_CHOICE)
 		{
 			ef.setAttribute("type", "linkedActiveChoice") ;
 			ef.setAttribute("activeChoiceLink", FormatIdentifier(csActiveChoiceValue));
 			ef.setAttribute("activeChoiceTarget", csActiveChoiceTarget);
-			ef.setAttribute("activeChoiceSubmit", bActiveChoiceSubmit?"true":"false");
+			ef.setAttribute("activeChoiceSubmit", isactiveChoiceSubmit ?"true":"false");
 		}
 		if (mode == FieldMode.HIDDEN)
 		{
@@ -250,11 +250,11 @@ public class CJavaField extends CEntityResourceField
 		{
 			ef.setAttribute("modified", "true") ;
 		}
-		if (bReplayMutable)
+		if (isreplayMutable)
 		{
 			ef.setAttribute("replayMutable", "true") ;
 		}
-		if (bRightJustified)
+		if (isrightJustified)
 			ef.setAttribute("justify", "right") ;
 		else
 			ef.setAttribute("justify", "left") ;

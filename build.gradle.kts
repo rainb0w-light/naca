@@ -12,11 +12,38 @@ plugins {
     id("com.diffplug.spotless") version "6.25.0" apply false
 }
 
+// Dependency version management - centralized for all modules
+ext {
+    set("lombokVersion", "1.18.30")
+    set("guavaVersion", "33.4.8-jre")
+    set("commonsLangVersion", "3.12.0")
+    set("commonsTextVersion", "1.10.0")
+    set("commonsIoVersion", "2.16.1")
+    set("antlrVersion", "4.13.2")
+    set("jgraphtVersion", "1.5.2")
+    set("slf4jVersion", "2.0.9")
+    set("logbackVersion", "1.5.7")
+    set("junitVersion", "5.11.4")
+    set("mockitoVersion", "5.10.0")
+    set("guiceVersion", "4.2.2")
+    set("jooqVersion", "3.19.14")
+    set("sqliteVersion", "3.47.0.0")
+    set("neo4jDriverVersion", "5.23.0")
+    set("graphvizVersion", "0.18.1")
+    set("vavrVersion", "0.10.4")
+    set("picocliVersion", "4.7.6")
+    set("jlineVersion", "3.26.1")
+    set("lsp4jVersion", "0.14.0")
+}
+
 allprojects {
     group = "com.publicitas.naca"
     version = "2.0.0-SNAPSHOT"
-    
+
     repositories {
+        mavenLocal()  // For cobol-rekt modules
+        maven { url = uri("https://maven.aliyun.com/repository/central") }
+        maven { url = uri("https://maven.aliyun.com/repository/public") }
         mavenCentral()
     }
 }

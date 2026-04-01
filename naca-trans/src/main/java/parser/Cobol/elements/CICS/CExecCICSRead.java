@@ -87,7 +87,7 @@ public class CExecCICSRead extends CCobolElement
 		{
 			Read.SetKeyLength(keyLength.GetDataEntity(getLine(), factory));
 		}
-		if (bEqual)
+		if (isequal)
 		{
 			Read.SetEqual() ;
 		}
@@ -105,8 +105,8 @@ public class CExecCICSRead extends CCobolElement
 			tok = GetNext();
 		}
 		
-		boolean bDone = false ;
-		while (!bDone)
+		boolean isdone = false ;
+		while (!isdone)
 		{
 			tok = GetCurrentToken() ;
 			if (tok.GetKeyword() == CCobolKeywordList.FILE && readType == null)
@@ -197,17 +197,17 @@ public class CExecCICSRead extends CCobolElement
 			}
 			else if (tok.GetKeyword() == CCobolKeywordList.EQUAL)
 			{
-				bEqual = true ;
+				isequal = true ;
 				tok = GetNext() ;
 			}		
 			else if (tok.GetKeyword() == CCobolKeywordList.UPDATE)
 			{
-				bUpdate = true ;
+				isupdate = true ;
 				tok = GetNext() ;
 			}		
 			else 
 			{
-				bDone = true ;
+				isdone = true ;
 			}
 		}
 				
@@ -266,7 +266,7 @@ public class CExecCICSRead extends CCobolElement
 			keyLength.ExportTo(eFrom, root);
 			eWr.appendChild(eFrom);
 		}
-		if (bEqual)
+		if (isequal)
 		{
 			eWr.setAttribute("Equal", "true");
 		}
@@ -279,7 +279,7 @@ public class CExecCICSRead extends CCobolElement
 	protected CIdentifier recIDField = null ; 
 	protected CTerminal keyLength = null ;
 	protected CTerminal dataLength = null ;
-	protected boolean bEqual = false ;
-	protected boolean bUpdate = false ;
+	protected boolean isequal = false ;
+	protected boolean isupdate = false ;
 
 }

@@ -13,7 +13,6 @@
 package lexer;
 
 import utils.Transcoder;
-import jlib.misc.NumberParser;
 
 
 /**
@@ -27,7 +26,7 @@ public abstract class CBaseToken
 	public CBaseToken(int line, boolean newline)
 	{
 		setLine(line);
-		bIsNewLine = newline;
+		isisNewLine = newline;
 	}
 	
 	public String GetValue()
@@ -96,5 +95,5 @@ public abstract class CBaseToken
 		Transcoder.setLine(line);
 	}
 	
-	public boolean bIsNewLine = false ;
+	public boolean isisNewLine = false ;
 }

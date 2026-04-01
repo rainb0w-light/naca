@@ -42,13 +42,13 @@ public class CJavaList extends CEntityList
 	 */
 	public String ExportReference(int nLine)
 	{
-		if (arrData.isEmpty())
+		if (data.isEmpty())
 		{
 			return "null" ;
 		}
 		else
 		{
-			CDataEntity e = arrData.get(0) ;
+			CDataEntity e = data.get(0) ;
 			String type = "" ;
 			if (e.GetDataType() == CDataEntity.CDataEntityType.STRING)
 			{
@@ -67,9 +67,9 @@ public class CJavaList extends CEntityList
 				type = "Var" ;
 			}
 			String cs = "new "+type+"[] {" ;
-			for (int i=0; i<arrData.size(); i++)
+			for (int i = 0; i< data.size(); i++)
 			{
-				e = arrData.get(i) ;
+				e = data.get(i) ;
 				if (i>0)
 				{
 					cs += ", " ;

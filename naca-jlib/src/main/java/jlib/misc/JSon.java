@@ -26,11 +26,11 @@ public class JSon
 	private StringBuilder sbOut = null;
 	private int nNbItemSet = 0;
 	private int nTabDepth = 0;
-	private boolean bSetLines = true;
+	private boolean issetLines = true;
 	
 	public void setLines(boolean b)
 	{
-		bSetLines = b;
+		issetLines = b;
 	}
 	
 	public boolean exportAsJSon(Object oSource)
@@ -54,7 +54,7 @@ public class JSon
 	public static String exportAsJSon(Object oSource, String className)
 	{
 		JSon json = new JSon();
-		json.bSetLines = false;
+		json.issetLines = false;
 		json.nTabDepth = 0;
 		json.sbOut = new StringBuilder();
 		boolean b = json.export(oSource, className);
@@ -75,7 +75,7 @@ public class JSon
 		{
 			beginNewLine(sbOut);
 			sbOut.append("{");
-			if(bSetLines)
+			if(issetLines)
 				sbOut.append(EndOfLine.CR);
 			nTabDepth++;
 			
@@ -98,11 +98,11 @@ public class JSon
 				exportItem(oSource);
 			}
 			
-			if(bSetLines)
+			if(issetLines)
 				sbOut.append(EndOfLine.CR);
 			beginNewLine(sbOut);
 			sbOut.append("}");
-			if(bSetLines)
+			if(issetLines)
 				sbOut.append(EndOfLine.CR);
 		}
 		return true;
@@ -117,8 +117,8 @@ public class JSon
 			fld.setAccessible(true);
 			String csName = fld.getName();
 			Class type = fld.getType();
-			int iMod=fld.getModifiers();
-			if (Modifier.isStatic(iMod))
+			int mod =fld.getModifiers();
+			if (Modifier.isStatic(mod))
 				continue;
 			String csTypeName = type.getName();
 			try
@@ -137,8 +137,8 @@ public class JSon
 				Object oMember = fld.get(oSource);
 				if(oMember != null)
 				{
-					boolean bExported = exportItem(oMember);
-					if(!bExported)
+					boolean isexported = exportItem(oMember);
+					if(!isexported)
 					{
 						Log.logCritical("Unsupported JSon serialization format; JLib.JSon.exportItem must be completed");
 						return false;
@@ -270,10 +270,10 @@ public class JSon
             c = csValue.charAt(i);
             switch (c)
             {
-            case 'à':
+            case 'ï¿½':
             	sb.append('a');
             	break;
-            case 'ô':
+            case 'ï¿½':
             	sb.append('o');
             	break;
             case '\\':
@@ -324,7 +324,7 @@ public class JSon
 	private boolean exportArrayAsJSon(Object oArray, StringBuilder sbOut)
 	{
 		sbOut.append("[ ");
-		if(bSetLines)
+		if(issetLines)
 			sbOut.append(EndOfLine.CR);
 		nTabDepth++;
 		ArrayList<Object> arr = (ArrayList<Object>)oArray;
@@ -334,8 +334,8 @@ public class JSon
 				endCurrentLine(sbOut);
 			beginNewLine(sbOut);
 			Object oArrItem = arr.get(n);
-			boolean bArrayItemsExported = exportItem(oArrItem);
-			if(!bArrayItemsExported)
+			boolean isarrayItemsExported = exportItem(oArrItem);
+			if(!isarrayItemsExported)
 			{
 				return false;
 			}									
@@ -347,7 +347,7 @@ public class JSon
 	
 	private void beginNewLine(StringBuilder sbOut)
 	{
-		if(bSetLines)
+		if(issetLines)
 		{
 			for(int n=0; n<nTabDepth; n++)
 				sbOut.append(EndOfLine.TAB);
@@ -357,7 +357,7 @@ public class JSon
 	private void endCurrentLine(StringBuilder sbOut)
 	{		
 		sbOut.append(",");
-		if(bSetLines)
+		if(issetLines)
 			sbOut.append(EndOfLine.CR);
 	}
 

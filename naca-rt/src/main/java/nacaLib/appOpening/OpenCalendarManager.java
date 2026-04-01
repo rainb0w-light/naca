@@ -40,9 +40,9 @@ public class OpenCalendarManager
 		if(tCalendar == null)
 			tCalendar = new OpenCalendar[2]; 
 
-		OpenCalendar cal = new OpenCalendar();
-		cal.loadDefinition(csCalendarFilePath);
-		tCalendar[nCalendardId] = cal;
+		OpenCalendar calendar = new OpenCalendar();
+		calendar.loadDefinition(csCalendarFilePath);
+		tCalendar[nCalendardId] = calendar;
 	}
 	
 	public boolean isServiceOpen()
@@ -60,10 +60,10 @@ public class OpenCalendarManager
 		}
 		
 		// Check custom calendar
-		OpenCalendar cal = tCalendar[Custom];
-		if(cal != null)
+		OpenCalendar calendar = tCalendar[Custom];
+		if(calendar != null)
 		{
-			CalendarOpenState openState = cal.getOpenState(cacheManager, false);
+			CalendarOpenState openState = calendar.getOpenState(cacheManager, false);
 			if(openState.isKnown())
 				return openState;
 		}
@@ -79,10 +79,10 @@ public class OpenCalendarManager
 		}
 		
 		// No custom definition: See std def
-		OpenCalendar cal = tCalendar[Standard];
-		if(cal != null)
+		OpenCalendar calendar = tCalendar[Standard];
+		if(calendar != null)
 		{
-			CalendarOpenState openState = cal.getOpenState(cacheManager, false);
+			CalendarOpenState openState = calendar.getOpenState(cacheManager, false);
 			if(openState.isKnown())
 				return openState;
 			return CalendarOpenState.AppClosed;	// Missign standard def are same as closed 
@@ -103,10 +103,10 @@ public class OpenCalendarManager
 			return cacheManager.getCurrentState();
 		
 		// Check custom calendar
-		OpenCalendar cal = tCalendar[Custom];
-		if(cal != null)
+		OpenCalendar calendar = tCalendar[Custom];
+		if(calendar != null)
 		{
-			CalendarOpenState openState = cal.getOpenState(cacheManager, true);
+			CalendarOpenState openState = calendar.getOpenState(cacheManager, true);
 			if(openState.isKnown())
 			{
 				return openState;
@@ -114,10 +114,10 @@ public class OpenCalendarManager
 		}
 		
 		// No custom definition: See std def
-		cal = tCalendar[Standard];
-		if(cal != null)
+		calendar = tCalendar[Standard];
+		if(calendar != null)
 		{
-			CalendarOpenState openState = cal.getOpenState(cacheManager, true);
+			CalendarOpenState openState = calendar.getOpenState(cacheManager, true);
 			if(openState.isKnown())
 				return openState;
 			return CalendarOpenState.AppClosed;	// Missign standard def are same as closed 

@@ -74,13 +74,13 @@ public class CExecCICSInquire extends CCobolElement
 			tok = GetNext();
 		}
 		
-		boolean bDone = false ;
-		while (!bDone)
+		boolean isdone = false ;
+		while (!isdone)
 		{
 			tok = GetCurrentToken() ;
 			if (tok.GetKeyword() == CCobolKeywordList.END_EXEC)
 			{
-				bDone = true ;
+				isdone = true ;
 			}
 			else
 			{

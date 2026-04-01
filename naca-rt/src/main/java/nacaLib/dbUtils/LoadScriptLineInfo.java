@@ -18,7 +18,7 @@ import jlib.misc.StringUtil;
  */
 public class LoadScriptLineInfo
 {
-	private boolean bReplace = false;
+	private boolean isreplace = false;
 	private String csTablePrefix = null;
 	private String csUnprefixedTableName = null;
 	private String csInddnValue = null;
@@ -54,12 +54,12 @@ public class LoadScriptLineInfo
 
 	void setReplace(boolean b)
 	{
-		bReplace = b;
+		isreplace = b;
 	}
 	
 	boolean isReplace()
 	{
-		return bReplace;
+		return isreplace;
 	}
 	
 	void setInddnValue(String csInddnValue)

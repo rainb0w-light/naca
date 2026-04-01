@@ -23,12 +23,12 @@ import utils.NacaTransLauncher;
  */
 public class NacaTransTask extends Task
 {
-	protected String cfgFilePath = "" ;
+	protected String configfilePath = "" ;
 	private String groupToTranscode = "" ;
 	
 	public void setConfig(String filename)
 	{
-		cfgFilePath = filename ;
+		configfilePath = filename ;
 	}
 	
 	public void execute() throws BuildException
@@ -37,7 +37,7 @@ public class NacaTransTask extends Task
 		NacaTransLauncher obj = new NacaTransLauncher() ;
 		try
 		{
-			obj.Start(cfgFilePath, groupToTranscode) ;
+			obj.Start(configfilePath, groupToTranscode) ;
 		}
 		catch (Exception e)
 		{

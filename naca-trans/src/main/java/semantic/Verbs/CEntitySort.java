@@ -34,14 +34,14 @@ public abstract class CEntitySort extends CBaseActionEntity
 		public CDataEntity key = null;
 		public boolean bAscending = false ;
 	}
-	protected Vector<CEntitySortKey> arrSortKey = new Vector<CEntitySortKey>() ;
+	protected Vector<CEntitySortKey> sortKey = new Vector<CEntitySortKey>() ;
 	
 	public void AddKey(boolean ascending, CDataEntity key)
 	{
 		CEntitySortKey sk = new CEntitySortKey() ;
 		sk.bAscending = ascending ;
 		sk.key = key ;
-		arrSortKey.add(sk) ;
+		sortKey.add(sk) ;
 	}
 
 	protected CEntityFileDescriptor fdInputFile = null ;

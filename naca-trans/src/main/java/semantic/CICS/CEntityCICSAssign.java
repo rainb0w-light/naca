@@ -45,17 +45,17 @@ public abstract class CEntityCICSAssign extends CBaseActionEntity
 	
 	public void AddRequest(String param, CDataEntity var)
 	{
-		arrParameters.add(param);
+		parameters.add(param);
 		arrVariables.add(var) ;
 	}
 	
-	protected ArrayList<String> arrParameters = new ArrayList<String>() ;
+	protected ArrayList<String> parameters = new ArrayList<String>() ;
 	protected Vector<CDataEntity> arrVariables = new Vector<CDataEntity>() ;
 
 	public boolean ignore()
 	{
 		boolean ignore = true ;
-		for (int i=0; i<arrParameters.size(); i++)
+		for (int i = 0; i< parameters.size(); i++)
 		{
 			CDataEntity e = arrVariables.get(i);
 			ignore &= e.ignore() ;

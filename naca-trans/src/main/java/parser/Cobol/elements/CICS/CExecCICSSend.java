@@ -69,39 +69,39 @@ public class CExecCICSSend extends CCobolElement
 			parent.AddChild(send);
 			factory.programCatalog.RegisterMapSend(send) ;
 			
-			CDataEntity name = mapName.GetDataEntity(getLine(), factory);
+			CDataEntity name = this.name.GetDataEntity(getLine(), factory);
 			send.SetName(name);
 			name.RegisterReadingAction(send);
 			
-			if (mapSetName != null)
+			if (setName != null)
 			{
-				CDataEntity msname = mapSetName.GetDataEntity(getLine(), factory);
+				CDataEntity msname = setName.GetDataEntity(getLine(), factory);
 				send.SetMapSet(msname);
 				msname.RegisterReadingAction(send);
 			}
-			if (mapFrom != null)
+			if (from != null)
 			{
-				CDataEntity from = mapFrom.GetDataReference(getLine(), factory) ;
+				CDataEntity from = this.from.GetDataReference(getLine(), factory) ;
 				from.RegisterReadingAction(send);
 				CDataEntity len = null ;
-				if (mapLength != null)
+				if (length != null)
 				{
-					len = mapLength.GetDataEntity(getLine(), factory);
+					len = length.GetDataEntity(getLine(), factory);
 					len.RegisterReadingAction(send);
 				}
-				send.SetDataFrom(from, len, bMapDataOnly);
+				send.SetDataFrom(from, len, ismapDataOnly);
 			}
-			send.SetAccum(bMapAccum);
-			send.SetAlarm(bMapAlarm);
-			send.SetErase(bMapErase);
-			send.SetFreeKB(bMapFreeKB);
-			send.SetPaging(bMapPaging);
-			send.SetWait(bMapWait);
-			if (bMapCursor)
+			send.SetAccum(ismapAccum);
+			send.SetAlarm(ismapAlarm);
+			send.SetErase(ismapErase);
+			send.SetFreeKB(ismapFreeKB);
+			send.SetPaging(ismapPaging);
+			send.SetWait(ismapWait);
+			if (ismapCursor)
 			{
-				if (mapCursorValue != null)
+				if (cursorValue != null)
 				{
-					CDataEntity cur = mapCursorValue.GetDataEntity(getLine(), factory); 
+					CDataEntity cur = cursorValue.GetDataEntity(getLine(), factory);
 					send.SetCursor(cur) ;
 					cur.RegisterReadingAction(send) ;
 				}
@@ -131,26 +131,26 @@ public class CExecCICSSend extends CCobolElement
 			tok = GetNext();
 		}
 		
-		boolean bRet = true ;
+		boolean isret = true ;
 		if (tok.GetValue().equals("MAP")) // MAP can't be defiend as keyword....
 		{
 			CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("SEND", "MAP") ;
-			bRet = ParseSendMap();
+			isret = ParseSendMap();
 		}
 		else if (tok.GetKeyword() == CCobolKeywordList.CONTROL)
 		{
 			CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("SEND", "CONTROL") ;
-			bRet = ParseSendControl();
+			isret = ParseSendControl();
 		}
 		else if (tok.GetKeyword() == CCobolKeywordList.FROM)
 		{
 			CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("SEND", "SEND") ;
-			bRet = ParseSend();
+			isret = ParseSend();
 		}
 		else if (tok.GetKeyword() == CCobolKeywordList.PAGE)
 		{
 			CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("SEND", "PAGE") ;
-			bRet = ParseSendPage();
+			isret = ParseSendPage();
 		}
 		else
 		{
@@ -167,7 +167,7 @@ public class CExecCICSSend extends CCobolElement
 		}
 		
 		tok = GetCurrentToken() ;
-		if (!bRet || tok.GetKeyword() != CCobolKeywordList.END_EXEC)
+		if (!isret || tok.GetKeyword() != CCobolKeywordList.END_EXEC)
 		{
 			Transcoder.logError(getLine(), "Error while parsing EXEC CICS SEND");
 			return false ;
@@ -185,23 +185,23 @@ public class CExecCICSSend extends CCobolElement
 			tok = GetNext() ;
 		}
 		sendType = CCICSSendType.CONTROL ;
-		boolean bDone = false ;
-		while (!bDone)
+		boolean isdone = false ;
+		while (!isdone)
 		{
 			tok = GetCurrentToken() ;
 			if (tok.GetKeyword() == CCobolKeywordList.ERASE)
 			{
 				tok = GetNext()	;
-				bControlErase = true ;
+				iscontrolErase = true ;
 			}
 			else if (tok.GetKeyword() == CCobolKeywordList.FREEKB)
 			{
 				tok = GetNext();
-				bControlFreeKB = true ;
+				iscontrolFreeKB = true ;
 			}
 			else
 			{
-				bDone = true ;
+				isdone = true ;
 			}
 		}
 		return true ;
@@ -215,18 +215,18 @@ public class CExecCICSSend extends CCobolElement
 			tok = GetNext() ;
 		}
 		sendType = CCICSSendType.PAGE ;
-		boolean bDone = false ;
-		while (!bDone)
+		boolean isdone = false ;
+		while (!isdone)
 		{
 			tok = GetCurrentToken() ;
 			if (tok.GetValue().equals("RETAIN"))
 			{
 				tok = GetNext() ;
-				bPageRetain = true ;
+				ispageRetain = true ;
 			}
 			else
 			{
-				bDone = true ;
+				isdone = true ;
 			}
 		}
 		return true ;
@@ -236,8 +236,8 @@ public class CExecCICSSend extends CCobolElement
 	protected boolean ParseSend()
 	{
 		sendType = CCICSSendType.SEND ;
-		boolean bDone = false ;
-		while (!bDone)
+		boolean isdone = false ;
+		while (!isdone)
 		{
 			CBaseToken tok = GetCurrentToken() ;
 			if (tok.GetKeyword() == CCobolKeywordList.FROM)
@@ -285,16 +285,16 @@ public class CExecCICSSend extends CCobolElement
 			else if (tok.GetKeyword() == CCobolKeywordList.ERASE)
 			{
 				tok = GetNext() ;
-				bSendErase = true ; 
+				issendErase = true ;
 			}
 			else if (tok.GetKeyword() == CCobolKeywordList.WAIT)
 			{
 				tok = GetNext() ;
-				bSendWait = true ; 
+				issendWait = true ;
 			}
 			else 
 			{
-				bDone = true ;
+				isdone = true ;
 			}
 		
 		}
@@ -313,7 +313,7 @@ public class CExecCICSSend extends CCobolElement
 		if (tok.GetType() == CTokenType.LEFT_BRACKET)
 		{
 			tok = GetNext();
-			mapName = ReadTerminal() ;
+			name = ReadTerminal() ;
 			tok = GetCurrentToken() ;
 			if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 			{
@@ -321,8 +321,8 @@ public class CExecCICSSend extends CCobolElement
 			}
 		}
 		
-		boolean bDone = false ;
-		while (!bDone)
+		boolean isdone = false ;
+		while (!isdone)
 		{
 			tok  = GetCurrentToken() ;
 			if (tok.GetValue().equals("MAPSET"))
@@ -331,7 +331,7 @@ public class CExecCICSSend extends CCobolElement
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
 				{
 					tok = GetNext();
-					mapSetName = ReadTerminal() ;
+					setName = ReadTerminal() ;
 					tok = GetCurrentToken() ;
 					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 					{
@@ -345,7 +345,7 @@ public class CExecCICSSend extends CCobolElement
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
 				{
 					tok = GetNext();
-					mapFrom = ReadIdentifier() ;
+					from = ReadIdentifier() ;
 					tok = GetCurrentToken() ;
 					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 					{
@@ -359,7 +359,7 @@ public class CExecCICSSend extends CCobolElement
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
 				{
 					tok = GetNext();
-					mapLength = ReadTerminal() ;
+					length = ReadTerminal() ;
 					tok = GetCurrentToken() ;
 					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 					{
@@ -370,32 +370,32 @@ public class CExecCICSSend extends CCobolElement
 			else if (tok.GetKeyword() == CCobolKeywordList.FREEKB)
 			{
 				tok = GetNext() ;
-				bMapFreeKB = true ; 
+				ismapFreeKB = true ;
 			}
 			else if (tok.GetValue().equals("ACCUM"))
 			{
 				tok = GetNext() ;
-				bMapAccum = true ; 
+				ismapAccum = true ;
 			}
 			else if (tok.GetValue().equals("PAGING"))
 			{
 				tok = GetNext() ;
-				bMapPaging = true ; 
+				ismapPaging = true ;
 			}
 			else if (tok.GetKeyword() == CCobolKeywordList.ALARM)
 			{
 				tok = GetNext() ;
-				bMapAlarm = true ; 
+				ismapAlarm = true ;
 			}
 			else if (tok.GetKeyword() == CCobolKeywordList.WAIT)
 			{
 				tok = GetNext() ;
-				bMapWait = true ; 
+				ismapWait = true ;
 			}
 			else if (tok.GetKeyword() == CCobolKeywordList.ERASE)
 			{
 				tok = GetNext() ;
-				bMapErase = true ; 
+				ismapErase = true ;
 			}
 			else if (tok.GetKeyword() == CCobolKeywordList.CURSOR)
 			{
@@ -403,23 +403,23 @@ public class CExecCICSSend extends CCobolElement
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
 				{
 					tok = GetNext();
-					mapCursorValue = ReadTerminal();
+					cursorValue = ReadTerminal();
 					tok = GetCurrentToken() ;
 					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 					{
 						tok = GetNext() ;
 					}
 				}
-				bMapCursor = true ; 
+				ismapCursor = true ;
 			}
 			else if (tok.GetKeyword() == CCobolKeywordList.DATAONLY)
 			{
 				tok = GetNext() ;
-				bMapDataOnly = true ; 
+				ismapDataOnly = true ;
 			}
 			else
 			{
-				bDone = true ;
+				isdone = true ;
 			}
 		}
 		return true ;
@@ -435,61 +435,61 @@ public class CExecCICSSend extends CCobolElement
 			Element e = root.createElement("ExecCICSSendMap") ;
 			Element eName = root.createElement("MapName");
 			e.appendChild(eName);
-			mapName.ExportTo(eName, root) ;
+			name.ExportTo(eName, root) ;
 			
-			if (mapSetName != null)
+			if (setName != null)
 			{
 				Element eMS = root.createElement("MapSet");
 				e.appendChild(eMS);
-				mapSetName.ExportTo(eMS, root) ;
+				setName.ExportTo(eMS, root) ;
 			}
-			if (mapFrom != null)
+			if (from != null)
 			{
 				Element eMS = root.createElement("From");
 				e.appendChild(eMS);
-				mapFrom.ExportTo(eMS, root) ;
+				from.ExportTo(eMS, root) ;
 			}
-			if (mapLength != null)
+			if (length != null)
 			{
 				Element eMS = root.createElement("Length");
 				e.appendChild(eMS);
-				mapLength.ExportTo(eMS, root) ;
+				length.ExportTo(eMS, root) ;
 			}
-			if (bMapFreeKB)
+			if (ismapFreeKB)
 			{
 				e.setAttribute("FreeKB", "true") ;
 			}
-			if (bMapAccum)
+			if (ismapAccum)
 			{
 				e.setAttribute("Accum", "true") ;
 			}
-			if (bMapPaging)
+			if (ismapPaging)
 			{
 				e.setAttribute("Paging", "true") ;
 			}
-			if (bMapDataOnly)
+			if (ismapDataOnly)
 			{
 				e.setAttribute("DataOnly", "true") ;
 			}
-			if (bMapWait)
+			if (ismapWait)
 			{
 				e.setAttribute("Wait", "true") ;
 			}
-			if (bMapAlarm)
+			if (ismapAlarm)
 			{
 				e.setAttribute("Alarm", "true") ;
 			}
-			if (bMapErase)
+			if (ismapErase)
 			{
 				e.setAttribute("Erase", "true") ;
 			}
-			if (bMapCursor)
+			if (ismapCursor)
 			{
-				if (mapCursorValue != null)
+				if (cursorValue != null)
 				{
 					Element eCurs = root.createElement("Cursor");
 					e.appendChild(eCurs) ;
-					mapCursorValue.ExportTo(eCurs, root);
+					cursorValue.ExportTo(eCurs, root);
 				}
 				else
 				{
@@ -519,11 +519,11 @@ public class CExecCICSSend extends CCobolElement
 				e.appendChild(eConv) ;
 				sendLength.ExportTo(eConv, root);
 			}
-			if (bSendErase)
+			if (issendErase)
 			{
 				e.setAttribute("Erase", "true");
 			}
-			if (bSendWait)
+			if (issendWait)
 			{
 				e.setAttribute("Wait", "true");
 			}
@@ -532,7 +532,7 @@ public class CExecCICSSend extends CCobolElement
 		else if (sendType == CCICSSendType.PAGE)
 		{
 			Element e = root.createElement("ExecCICSSendPage") ;
-			if (bPageRetain)
+			if (ispageRetain)
 			{
 				e.setAttribute("Retain", "true");
 			}
@@ -541,11 +541,11 @@ public class CExecCICSSend extends CCobolElement
 		else if (sendType == CCICSSendType.CONTROL)
 		{
 			Element e = root.createElement("ExecCICSSendControl") ;
-			if (bControlErase)
+			if (iscontrolErase)
 			{
 				e.setAttribute("Erase", "true");
 			}
-			if (bControlFreeKB)
+			if (iscontrolFreeKB)
 			{
 				e.setAttribute("FreeKB", "true");
 			}
@@ -563,29 +563,29 @@ public class CExecCICSSend extends CCobolElement
 	// SEND
 	protected CIdentifier sendFrom = null ;
 	protected CTerminal sendConvID = null ;
-	protected boolean bSendErase = false ;
+	protected boolean issendErase = false ;
 	protected CTerminal sendLength = null ;
-	protected boolean bSendWait = false ;
+	protected boolean issendWait = false ;
 	
 	// SEND MAP
-	protected CTerminal mapName = null ;
-	protected CTerminal mapSetName = null ;
-	protected CIdentifier mapFrom = null ;
-	protected CTerminal mapCursorValue = null ;
-	protected boolean bMapFreeKB= false ;
-	protected boolean bMapDataOnly = false ;
-	protected boolean bMapCursor = false ;
-	protected boolean bMapErase = false ;
-	protected boolean bMapAlarm = false ; 
-	protected boolean bMapWait = false ; 
-	protected boolean bMapAccum = false ;
-	protected boolean bMapPaging = false ;
-	protected CTerminal mapLength = null ;
+	protected CTerminal name = null ;
+	protected CTerminal setName = null ;
+	protected CIdentifier from = null ;
+	protected CTerminal cursorValue = null ;
+	protected boolean ismapFreeKB = false ;
+	protected boolean ismapDataOnly = false ;
+	protected boolean ismapCursor = false ;
+	protected boolean ismapErase = false ;
+	protected boolean ismapAlarm = false ;
+	protected boolean ismapWait = false ;
+	protected boolean ismapAccum = false ;
+	protected boolean ismapPaging = false ;
+	protected CTerminal length = null ;
 	
 	// SEND PAGE
-	protected boolean bPageRetain  = false ;
+	protected boolean ispageRetain = false ;
 	
 	// SEND CONTROL
-	protected boolean bControlErase = false ;
-	protected boolean bControlFreeKB = false ;
+	protected boolean iscontrolErase = false ;
+	protected boolean iscontrolFreeKB = false ;
 }

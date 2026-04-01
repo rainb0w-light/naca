@@ -27,7 +27,7 @@ public class InitializeCache
 	
 	void setFilledAndcompress(int nBaseAbsolutePosition)
 	{
-		bFilled = true;
+		isfilled = true;
 		this.nBaseAbsolutePosition = nBaseAbsolutePosition;
 
 		if(arr != null)
@@ -39,25 +39,25 @@ public class InitializeCache
 				InitializeCachedItem targetArr[] = new InitializeCachedItem[nSize];
 				arr.transferInto(targetArr);
 
-				ArrayFix<InitializeCachedItem> arrInitializeCachedItemFix = new ArrayFix<InitializeCachedItem>(targetArr);
-				arr = arrInitializeCachedItemFix;	// replace by a fix one (uning less memory)
+				ArrayFix<InitializeCachedItem> initializeCachedItemFix = new ArrayFix<InitializeCachedItem>(targetArr);
+				arr = initializeCachedItemFix;	// replace by a fix one (uning less memory)
 			}
 		}
 	}
 	
 	void setNotManaged()
 	{
-		bManaged = false;
+		ismanaged = false;
 	}
 	
 	boolean isFilled()
 	{
-		return bFilled;
+		return isfilled;
 	}
 	
 	public boolean isManaged()
 	{
-		return bManaged;
+		return ismanaged;
 	}
 	
 	void addItem(char cPad, int nPosition, int nNbChars)
@@ -96,8 +96,8 @@ public class InitializeCache
 		}
 	}
 	
-	private boolean bFilled = false;
-	private boolean bManaged = true;
+	private boolean isfilled = false;
+	private boolean ismanaged = true;
 	private ArrayFixDyn<InitializeCachedItem> arr = null;
 	private int nBaseAbsolutePosition = 0;
 }

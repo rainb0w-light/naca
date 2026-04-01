@@ -14,7 +14,6 @@ package parser;
 
 import java.util.*;
 
-import org.apache.log4j.Logger;
 import org.w3c.dom.*;
 
 import semantic.CBaseEntityFactory;
@@ -128,7 +127,7 @@ public abstract class CBaseElement
 	
 
 	protected abstract Element ExportCustom(Document root);
-	private boolean bExportDoneForChildren = false ;
+	private boolean isexportDoneForChildren = false ;
 	public final Element Export(Document rootdoc)
 	{
 		Element e = ExportCustom(rootdoc) ;
@@ -142,7 +141,7 @@ public abstract class CBaseElement
 	}
 	protected void ExportChildren(Document root, Element parent)
 	{
-		if (!bExportDoneForChildren)
+		if (!isexportDoneForChildren)
 		{
 			ListIterator<CBaseElement> i = children.listIterator() ;
 			try
@@ -162,7 +161,7 @@ public abstract class CBaseElement
 			{
 				//System.out.println(e.toString());
 			}
-			bExportDoneForChildren = true;
+			isexportDoneForChildren = true;
 		}
 	}
 
@@ -173,21 +172,21 @@ public abstract class CBaseElement
 		}
 		public void Set()
 		{
-			bFlag = true ;
+			isflag = true ;
 		}
 		public void UnSet()
 		{
-			bFlag = false ;
+			isflag = false ;
 		}
 		public void Set(boolean b)
 		{
-			bFlag = b ;
+			isflag = b ;
 		}
 		public boolean ISSet()
 		{
-			return bFlag ;
+			return isflag;
 		}
-		protected boolean bFlag = false ;
+		protected boolean isflag = false ;
 	}
 	public void Clear()
 	{

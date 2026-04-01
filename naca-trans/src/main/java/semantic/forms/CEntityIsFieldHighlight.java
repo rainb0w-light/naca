@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 27 août 2004
+ * Created on 27 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -33,21 +33,21 @@ public abstract class CEntityIsFieldHighlight extends CUnitaryEntityCondition
 	
 	public void IsBlink()
 	{
-		bIsBlink = true ;
+		isisBlink = true ;
 	}
 	public void IsReverse()
 	{
-		bIsReverse = true ;
+		isisReverse = true ;
 	}
 	public void IsUnderlined()
 	{
-		bIsUnderlined = true ;
+		isisUnderlined = true ;
 	}
 	//protected CFieldHighligh m_highlight = null ;
-	protected boolean bIsBlink = false ;
-	protected boolean bIsReverse = false ;
-	protected boolean bIsUnderlined = false ;
-	protected boolean bOpposite = false ;
+	protected boolean isisBlink = false ;
+	protected boolean isisReverse = false ;
+	protected boolean isisUnderlined = false ;
+	protected boolean isopposite = false ;
 	
 	public boolean ignore()
 	{
@@ -74,9 +74,9 @@ public abstract class CEntityIsFieldHighlight extends CUnitaryEntityCondition
 	 */
 	public void IsNormal()
 	{
-		bIsBlink = false ;
-		bIsReverse = false ;
-		bIsUnderlined = false ;
+		isisBlink = false ;
+		isisReverse = false ;
+		isisUnderlined = false ;
 	}
 	public boolean isBinaryCondition()
 	{
@@ -85,6 +85,6 @@ public abstract class CEntityIsFieldHighlight extends CUnitaryEntityCondition
 	
 	public void setOpposite() 
 	{
-		bOpposite = !bOpposite ;
+		isopposite = !isopposite;
 	}
 }

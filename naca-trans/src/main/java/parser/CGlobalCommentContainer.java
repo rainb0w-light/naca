@@ -35,19 +35,19 @@ public class CGlobalCommentContainer
 	public void RegisterComment(int line, CComment comm)
 	{
 		Integer in = new Integer(line) ;
-		arrComments.add(comm) ;
+		comments.add(comm) ;
 	}	
 	public void DoSemanticAnalysis(CBaseEntityFactory factory)
 	{
-		for (int i=0; i<arrComments.size(); i++)
+		for (int i = 0; i< comments.size(); i++)
 		{
-			CComment c = arrComments.get(i);
+			CComment c = comments.get(i);
 			CEntityComment comm = (CEntityComment)c.DoSemanticAnalysis(null, factory) ;
-			arrCommentEntities.add(comm);
+			commentEntities.add(comm);
 		}
 	}
-	protected Vector<CEntityComment> arrCommentEntities = new Vector<CEntityComment>() ;
-	protected Vector<CComment> arrComments = new Vector<CComment>();
+	protected Vector<CEntityComment> commentEntities = new Vector<CEntityComment>() ;
+	protected Vector<CComment> comments = new Vector<CComment>();
 	protected int nCurrentComment = 0;
 	public boolean ParseComment(CTokenList lstTokens)
 	{
@@ -63,15 +63,15 @@ public class CGlobalCommentContainer
 	}
 	public CEntityComment GetCurrentComment()
 	{
-		CEntityComment comm = arrCommentEntities.get(nCurrentComment);
+		CEntityComment comm = commentEntities.get(nCurrentComment);
 		nCurrentComment ++ ;
 		return comm ;
 	}
 	public int GetCurrentCommentLine()
 	{ 
-		if (nCurrentComment < arrCommentEntities.size())
+		if (nCurrentComment < commentEntities.size())
 		{
-			CEntityComment comm = arrCommentEntities.get(nCurrentComment);
+			CEntityComment comm = commentEntities.get(nCurrentComment);
 			return comm.getLine() ;
 		}
 		else
@@ -81,13 +81,13 @@ public class CGlobalCommentContainer
 	}
 	public void Clear()
 	{
-		for (int i=0; i<arrCommentEntities.size(); i++)
+		for (int i = 0; i< commentEntities.size(); i++)
 		{
-			CEntityComment comm = arrCommentEntities.get(i);
+			CEntityComment comm = commentEntities.get(i);
 			comm.Clear() ;
 		}
-		arrCommentEntities.clear() ;
-		arrComments.clear() ;
+		commentEntities.clear() ;
+		comments.clear() ;
 		nCurrentComment = 0 ;
 	}
 

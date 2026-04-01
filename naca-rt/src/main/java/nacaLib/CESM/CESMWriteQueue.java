@@ -23,14 +23,14 @@ import nacaLib.varEx.*;
 
 public class CESMWriteQueue extends CJMapObject
 {
-	protected boolean bTransient = false ;
+	protected boolean istransient = false ;
 	protected String name = "" ;
 	protected CESMQueueManager manager = null;
 	protected int nItemPosition = 0 ;
 	
-	public CESMWriteQueue(boolean bTransient, String name, CESMQueueManager manager)
+	public CESMWriteQueue(boolean istransient, String name, CESMQueueManager manager)
 	{
-		bTransient = bTransient ;
+		istransient = istransient;
 		name = name ;
 		manager = manager ;
 	}
@@ -48,7 +48,7 @@ public class CESMWriteQueue extends CJMapObject
 		InternalCharBuffer charBufferCopy = varSource.exportToCharBuffer(tsLong);
 		if (manager != null)
 		{
-			if (bRewrite)
+			if (isrewrite)
 			{
 				manager.writeTempQueue(name, charBufferCopy, nItemPosition - 1) ;
 			}
@@ -65,7 +65,7 @@ public class CESMWriteQueue extends CJMapObject
 		InternalCharBuffer charBufferCopy = varSource.exportToCharBuffer();
 		if (manager != null)
 		{
-			if (bRewrite)
+			if (isrewrite)
 			{
 				manager.writeTempQueue(name, charBufferCopy, nItemPosition - 1) ;
 			}
@@ -91,11 +91,11 @@ public class CESMWriteQueue extends CJMapObject
 
 	public CESMWriteQueue rewrite(int item)
 	{
-		bRewrite = true ;
+		isrewrite = true ;
 		nItemPosition = item ;
 		return this ;
 	}
-	protected boolean bRewrite = false ;
+	protected boolean isrewrite = false ;
 	/**
 	 * 
 	 */

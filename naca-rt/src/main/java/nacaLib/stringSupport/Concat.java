@@ -167,7 +167,7 @@ public class Concat
 			
 			if (nOutLg > nVarLength)
 			{
-				bFailed = true;
+				isfailed = true;
 			}
 		}
 	
@@ -189,10 +189,10 @@ public class Concat
 	
 	boolean failed()
 	{
-		return bFailed;
+		return isfailed;
 	}
 	
 	Var varPointer = null;
 	ArrayList<String> arrChunks = new ArrayList<String>();
-	boolean bFailed = false;
+	boolean isfailed = false;
 }

@@ -34,7 +34,7 @@ import utils.FPacTranscoder.OperandDescription;
  */
 public class CFPacConvert extends CFPacElement
 {
-	private Vector<CExpression> arrTerms ;
+	private Vector<CExpression> terms;
 	private CReservedKeyword command ;
 	
 	/**
@@ -74,7 +74,7 @@ public class CFPacConvert extends CFPacElement
 	@Override
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		ListIterator<CExpression> iter = arrTerms.listIterator() ;
+		ListIterator<CExpression> iter = terms.listIterator() ;
 		OperandDescription desc1 = OperandDescription.FindFirstDataEntity(iter, factory) ;
 		if (desc1.expStart != null)
 		{

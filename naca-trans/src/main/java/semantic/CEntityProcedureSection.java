@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 3 août 2004
+ * Created on 3 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -88,9 +88,9 @@ public abstract class CEntityProcedureSection extends CEntityProcedure
 	 */
 	public void ReduceToProcedure()
 	{
-		bReducedToProcedure = true ;
+		isreducedToProcedure = true ;
 	}	
-	protected boolean bReducedToProcedure = false ;
+	protected boolean isreducedToProcedure = false ;
 	/**
 	 * @return
 	 */
@@ -100,11 +100,11 @@ public abstract class CEntityProcedureSection extends CEntityProcedure
 	}
 	public boolean ignore()
 	{
-		if (bIgnore)
+		if (isignore)
 		{
 			return true ;
 		}
-		if (bReducedToProcedure)
+		if (isreducedToProcedure)
 		{
 			if (sectionBloc == null)
 			{

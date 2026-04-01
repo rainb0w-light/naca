@@ -83,8 +83,8 @@ public class CExecCICSAssign extends CCobolElement
 			tok = GetNext();
 		}
 		
-		boolean bDone = false ;
-		while (!bDone)
+		boolean isdone = false ;
+		while (!isdone)
 		{
 			tok = GetCurrentToken() ;
 			String cs = tok.GetValue() ;
@@ -98,9 +98,9 @@ public class CExecCICSAssign extends CCobolElement
 			}
 			else
 			{
-				bDone = true ;
+				isdone = true ;
 			}
-			if (!bDone)
+			if (!isdone)
 			{
 				tok = GetNext();
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)

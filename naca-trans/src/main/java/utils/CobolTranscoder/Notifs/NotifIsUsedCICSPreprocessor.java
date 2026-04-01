@@ -11,6 +11,6 @@ import jlib.engine.BaseNotification;
 public class NotifIsUsedCICSPreprocessor extends BaseNotification
 {
 
-	public boolean bUsed = false ;
+	public boolean isused = false ;
 
 }

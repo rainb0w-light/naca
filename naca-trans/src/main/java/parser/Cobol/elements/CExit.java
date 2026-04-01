@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 13 août 2004
+ * Created on 13 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -46,7 +46,7 @@ public class CExit extends CCobolElement
 	 */
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		if (bExitProgram)
+		if (isexitProgram)
 		{
 			CEntityReturn e = factory.NewEntityReturn(getLine()) ;
 			parent.AddChild(e) ;
@@ -73,7 +73,7 @@ public class CExit extends CCobolElement
 		if (tok.GetKeyword() == CCobolKeywordList.PROGRAM)
 		{
 			GetNext();
-			bExitProgram = true ;
+			isexitProgram = true ;
 			return true ;
 		}
 		else
@@ -87,7 +87,7 @@ public class CExit extends CCobolElement
 	 */
 	protected Element ExportCustom(Document root)
 	{
-		if (bExitProgram)
+		if (isexitProgram)
 		{
 			Element e = root.createElement("ExitProgram") ;
 			return e ;
@@ -99,6 +99,6 @@ public class CExit extends CCobolElement
 		}
 	}
 	
-	protected boolean bExitProgram = false ;
+	protected boolean isexitProgram = false ;
 
 }

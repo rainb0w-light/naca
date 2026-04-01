@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 11 août 2004
+ * Created on 11 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -48,31 +48,31 @@ public class CJavaSetAttribute extends CEntitySetAttribute
 			return  ;
 		}
 		// else
-		if (bAutoSkip)
+		if (isautoSkip)
 		{
 			WriteLine("moveAttribute(MapFieldAttrProtection.AUTOSKIP, " + refField.ExportReference(getLine()) + ") ;") ;
 		}
-		else if (bNumeric)
+		else if (isnumeric)
 		{
 			WriteLine("moveAttribute(MapFieldAttrProtection.NUMERIC, " + refField.ExportReference(getLine()) + ") ;") ;
 		}
-		else if (bProtected)
+		else if (isprotected)
 		{
 			WriteLine("moveAttribute(MapFieldAttrProtection.PROTECTED, " + refField.ExportReference(getLine()) + ") ;") ;
 		}
-		else if (bUnProtected)
+		else if (isunProtected)
 		{
 			WriteLine("moveAttribute(MapFieldAttrProtection.UNPROTECTED, " + refField.ExportReference(getLine()) + ") ;") ;
 		}
-		if (bBright)
+		if (isbright)
 		{
 			WriteLine("moveAttribute(MapFieldAttrIntensity.BRIGHT, " + refField.ExportReference(getLine()) + ") ;") ;
 		}
-		else if (bDark)
+		else if (isdark)
 		{
 			WriteLine("moveAttribute(MapFieldAttrIntensity.DARK, " + refField.ExportReference(getLine()) + ") ;") ;
 		}
-		else if (bNormal)
+		else if (isnormal)
 		{
 			WriteLine("moveAttribute(MapFieldAttrIntensity.NORMAL, " + refField.ExportReference(getLine()) + ") ;") ;
 		}
@@ -80,7 +80,7 @@ public class CJavaSetAttribute extends CEntitySetAttribute
 		{
 			WriteLine("moveAttribute(MapFieldAttrModified.MODIFIED, " + refField.ExportReference(getLine()) + ") ;") ;
 		}
-		else if (bUnmodified)
+		else if (isunmodified)
 		{
 			WriteLine("moveAttribute(MapFieldAttrModified.UNMODIFIED, " + refField.ExportReference(getLine()) + ") ;") ;
 		}

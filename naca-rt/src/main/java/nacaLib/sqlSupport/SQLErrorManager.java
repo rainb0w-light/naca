@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /*
- * Created on 22 févr. 2005
+ * Created on 22 fï¿½vr. 2005
  *
  * TODO To change the template for this generated file go to
  * Window - Preferences - Java - Code Style - Code Templates
@@ -43,7 +43,7 @@ public class SQLErrorManager extends CJMapObject
 	{
 		sectionErrorGoto = null;
 		paragraphErrorGoto = null;
-		sQLErrorGotoContinueType = null;
+		qLErrorGotoContinueType = null;
 	}
 	
 	public void manageOnErrorGoto(Paragraph paragraphSQGErrorGoto, CSQLStatus sqlStatus)
@@ -71,31 +71,31 @@ public class SQLErrorManager extends CJMapObject
 	{
 		sectionErrorGoto = section;
 		paragraphErrorGoto = null;
-		sQLErrorGotoContinueType = SQLErrorGotoContinueType.OnErrorGoto;
+		qLErrorGotoContinueType = SQLErrorGotoContinueType.OnErrorGoto;
 	}
 
 	private void registerOnErrorGoto(Paragraph paragraph)
 	{
 		sectionErrorGoto = null;
 		paragraphErrorGoto = paragraph;
-		sQLErrorGotoContinueType = SQLErrorGotoContinueType.OnErrorGoto;
+		qLErrorGotoContinueType = SQLErrorGotoContinueType.OnErrorGoto;
 	}
 	
 	private void registerOnErrorContinue()
 	{
 		sectionErrorGoto = null;
 		paragraphErrorGoto = null;
-		sQLErrorGotoContinueType = SQLErrorGotoContinueType.OnErrorContinue;
+		qLErrorGotoContinueType = SQLErrorGotoContinueType.OnErrorContinue;
 	}
 	
 	public void manageSQLError(CSQLStatus sqlStatus)
 	{
 		if(sqlStatus != null)
 		{
-			boolean bSQLCodeError = sqlStatus.isLastSQLCodeAnError();
-			if(bSQLCodeError)
+			boolean issQLCodeError = sqlStatus.isLastSQLCodeAnError();
+			if(issQLCodeError)
 			{
-				if(sQLErrorGotoContinueType == SQLErrorGotoContinueType.OnErrorGoto)
+				if(qLErrorGotoContinueType == SQLErrorGotoContinueType.OnErrorGoto)
 				{
 					if(paragraphErrorGoto != null)
 					{
@@ -108,7 +108,7 @@ public class SQLErrorManager extends CJMapObject
 						throw e;
 					}
 				}
-				else if(sQLErrorGotoContinueType == SQLErrorGotoContinueType.OnErrorContinue)
+				else if(qLErrorGotoContinueType == SQLErrorGotoContinueType.OnErrorContinue)
 				{
 					; // Do nothing
 				}
@@ -123,5 +123,5 @@ public class SQLErrorManager extends CJMapObject
 	private Section sectionErrorGoto = null;
 	private Paragraph paragraphErrorGoto = null;
 	
-	private SQLErrorGotoContinueType sQLErrorGotoContinueType = null;
+	private SQLErrorGotoContinueType qLErrorGotoContinueType = null;
 }

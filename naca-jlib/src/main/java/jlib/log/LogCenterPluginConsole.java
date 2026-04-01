@@ -112,7 +112,7 @@ public class LogCenterPluginConsole extends LogCenter
 	
 	private BasePluginMarker pluginMarker = null;
 	private String csDecoratedFileNameSource = null;
-	boolean bInfo = false; 
-	boolean bWarning = false;
-	boolean bError = false;
+	boolean isinfo = false;
+	boolean iswarning = false;
+	boolean iserror = false;
 }

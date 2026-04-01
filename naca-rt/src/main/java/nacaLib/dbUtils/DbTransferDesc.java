@@ -15,16 +15,13 @@ import java.util.ArrayList;
 
 import nacaLib.basePrgEnv.BaseEnvironment;
 import nacaLib.basePrgEnv.BaseResourceManager;
-import nacaLib.bdb.BtreePooledThreadWriterFactory;
 import nacaLib.sqlSupport.SQLConnectionManager;
 import jlib.log.Log;
-import jlib.misc.StringUtil;
 import jlib.sql.DbConnectionBase;
 import jlib.sql.DbConnectionException;
 import jlib.sql.DbConnectionPool;
 import jlib.sql.DbPreparedStatement;
 import jlib.threads.PoolOfThreads;
-import jlib.threads.SimpleThreadPool;
 import jlib.xml.Tag;
 
 /**
@@ -39,9 +36,9 @@ public class DbTransferDesc
 	private int nThreadsQuantity = 0;
 	private String csDefinitionTable;
 	private SQLConnectionManager connectionManager = null;
-	private ArrayList<TableToTransfer> arrTableToTransfer = new ArrayList<TableToTransfer>();
+	private ArrayList<TableToTransfer> tableToTransfer = new ArrayList<TableToTransfer>();
 	private PoolOfThreads threadsPool = null;
-	private boolean bTransferGlobalStatus = true; 
+	private boolean istransferGlobalStatus = true;
 	
 	boolean load(Tag tagDbTransfer)
 	{
@@ -100,7 +97,7 @@ public class DbTransferDesc
 						cs = resultSet.getString(6);
 						
 						TableToTransfer tableToTransfer = new TableToTransfer(csTableName, csReplace, csUpdateClause);
-						arrTableToTransfer.add(tableToTransfer);
+						this.tableToTransfer.add(tableToTransfer);
 					}
 					st.close();
 					return true;
@@ -148,7 +145,7 @@ public class DbTransferDesc
 		
 	boolean doTransfers(BaseEnvironment env)
 	{		
-		int nNbTables = arrTableToTransfer.size();
+		int nNbTables = tableToTransfer.size();
 		
 		PooledThreadDbTransferFactory pooledThreadDbTransferFactory = new PooledThreadDbTransferFactory(this, env);
 		
@@ -156,17 +153,17 @@ public class DbTransferDesc
 		threadsPool.startAllThreads();
 		for(int n=0; n<nNbTables; n++)
 		{
-			TableToTransfer tableToTransfer = arrTableToTransfer.get(n);
+			TableToTransfer tableToTransfer = this.tableToTransfer.get(n);
 			threadsPool.enqueue(tableToTransfer);
 		}
 		
 		threadsPool.stop();
-		return bTransferGlobalStatus;
+		return istransferGlobalStatus;
 	}	
 	
 	synchronized void setTransferGlobalFailure()
 	{
-		bTransferGlobalStatus = false;;
+		istransferGlobalStatus = false;;
 	}
 	
 	int getCommitEveryBatch()

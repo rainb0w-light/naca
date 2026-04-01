@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 11 août 2004
+ * Created on 11 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -44,9 +44,9 @@ public abstract class CEntitySetAttribute extends CBaseActionEntity
 
 	public void SetBright()
 	{
-		bBright = true ;		
+		isbright = true ;
 	}
-	protected boolean bBright = false ;
+	protected boolean isbright = false ;
 
 	public void SetModified()
 	{
@@ -56,45 +56,45 @@ public abstract class CEntitySetAttribute extends CBaseActionEntity
 
 	public void SetNumeric()
 	{
-		bNumeric = true ; 		
+		isnumeric = true ;
 	}
-	protected boolean bNumeric = false ;
+	protected boolean isnumeric = false ;
 
 	public void SetProtected()
 	{
-		bProtected = true ;		
+		isprotected = true ;
 	}
-	protected boolean bProtected = false ;
+	protected boolean isprotected = false ;
 
 	public void SetUnprotected()
 	{
-		bUnProtected = true ;		
+		isunProtected = true ;
 	}
-	protected boolean bUnProtected = false ;
+	protected boolean isunProtected = false ;
 
 	public void SetAutoSkip()
 	{
-		bAutoSkip = true ;		
+		isautoSkip = true ;
 	}
-	protected boolean bAutoSkip = false ;
+	protected boolean isautoSkip = false ;
 
 	public void SetNormal()
 	{
-		bNormal = true ;		
+		isnormal = true ;
 	}
-	protected boolean bNormal = false ;
+	protected boolean isnormal = false ;
 
 	public void SetUnmodified()
 	{
-		bUnmodified = true;
+		isunmodified = true;
 	}
-	protected boolean bUnmodified = false ;
+	protected boolean isunmodified = false ;
 
 	public void SetDark()
 	{
-		bDark = true ;
+		isdark = true ;
 	}
-	protected boolean bDark = false ;
+	protected boolean isdark = false ;
 
 	public void SetAttribute(CDataEntity entity)
 	{

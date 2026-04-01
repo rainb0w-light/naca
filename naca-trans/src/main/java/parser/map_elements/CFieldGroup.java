@@ -27,7 +27,6 @@ import semantic.expression.CEntityString;
 import semantic.forms.CEntityResourceField;
 import semantic.forms.CResourceStrings;
 import utils.CEntityHierarchy;
-import utils.Transcoder;
 
 /**
  * @author U930CV
@@ -100,12 +99,12 @@ public class CFieldGroup extends CFieldElement
 		CEntityHierarchy hier = null ;
 		ef = factory.NewEntityEntryField(getLine(), getName()) ;
 		
-		CFieldElement[] arrFields = new CFieldElement[children.size()] ;
-		children.toArray(arrFields) ;
+		CFieldElement[] fields = new CFieldElement[children.size()] ;
+		children.toArray(fields) ;
 		ef.nLength = 0;
-		for (int i=0; i<arrFields.length; i++)
+		for (int i = 0; i< fields.length; i++)
 		{
-			CFieldElement el = arrFields[i] ;
+			CFieldElement el = fields[i] ;
 			ef.nLength += el.length ;
 			if (i==0)
 			{
@@ -121,9 +120,9 @@ public class CFieldGroup extends CFieldElement
 				{
 					ef.SetColor(el.color.name) ;
 				}
-				for (int j=0; j<el.arrATTRB.size(); j++)
+				for (int j = 0; j<el.aTTRB.size(); j++)
 				{
-					String cs = el.arrATTRB.get(j) ;
+					String cs = el.aTTRB.get(j) ;
 					if (cs.equals("ASKIP")){
 						ef.SetProtection("AUTOSKIP") ;	}
 					else if (cs.equals("UNPROT")){

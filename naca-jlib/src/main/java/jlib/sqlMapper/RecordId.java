@@ -11,10 +11,6 @@ package jlib.sqlMapper;
 
 import java.util.ArrayList;
 
-import jlib.misc.ArrayDyn;
-import jlib.misc.ArrayFix;
-import jlib.misc.ArrayFixDyn;
-import jlib.misc.StringRef;
 import jlib.sql.ColValue;
 import jlib.sql.ColValueCollection;
 import jlib.sql.SQLClause;
@@ -27,7 +23,7 @@ import jlib.sql.SQLClause;
 public class RecordId extends ColValueCollection
 {
 	private String csName = null;	// Unique name of a record within a table, within a SQLMapper instance
-	private ArrayList<OrderSegment> arrOrderBy = null;	// Array of the column for generating the order by statement
+	private ArrayList<OrderSegment> orderBy = null;	// Array of the column for generating the order by statement
 	private String csWhereExpression = null;				// Specific where expression 
 
 	public RecordId(int nName)
@@ -71,18 +67,18 @@ public class RecordId extends ColValueCollection
 	public RecordId orderByAscending(String csName)
 	{
 		OrderSegment orderBy = new OrderSegmentAscending(csName);
-		if(arrOrderBy == null)
-			arrOrderBy = new ArrayList<OrderSegment>();
-		arrOrderBy.add(orderBy);
+		if(this.orderBy == null)
+			this.orderBy = new ArrayList<OrderSegment>();
+		this.orderBy.add(orderBy);
 		return this;
 	}
 	
 	public RecordId orderByDescending(String csName)
 	{
 		OrderSegment orderBy = new OrderSegmentDescending(csName);  
-		if(arrOrderBy == null)
-			arrOrderBy = new ArrayList<OrderSegment>();
-		arrOrderBy.add(orderBy);
+		if(this.orderBy == null)
+			this.orderBy = new ArrayList<OrderSegment>();
+		this.orderBy.add(orderBy);
 		return this;
 	}
 	
@@ -98,16 +94,16 @@ public class RecordId extends ColValueCollection
 		int nPosStart = csQuery.indexOf('#', 0);
 		while (nPosStart != -1)
 		{
-			String sLeft = csQuery.substring(0, nPosStart);
+			String left = csQuery.substring(0, nPosStart);
 			int n = nPosStart;
 			n++; // Skip the #
-			String sItemId = extractItemId(n, csQuery);
-			if (sItemId != null)
+			String itemId = extractItemId(n, csQuery);
+			if (itemId != null)
 			{
-				n += sItemId.length();
-				arrItemNames.add(sItemId);
-				String sRight = csQuery.substring(n);
-				csQuery = sLeft + "?" + sRight;
+				n += itemId.length();
+				arrItemNames.add(itemId);
+				String right = csQuery.substring(n);
+				csQuery = left + "?" + right;
 			}
 
 			nPosStart = csQuery.indexOf('#', nPosStart);
@@ -144,14 +140,14 @@ public class RecordId extends ColValueCollection
 	{
 		if(csWhereExpression != null)	// We specified a custom where expression
 		{
-			ArrayList<String> arrItemNames = new ArrayList<String>(); 
-			String csQueryUpper = findAndUpdateMarkers(csWhereExpression, arrItemNames);
+			ArrayList<String> itemNames = new ArrayList<String>();
+			String csQueryUpper = findAndUpdateMarkers(csWhereExpression, itemNames);
 			sbClause.append(" where " + csQueryUpper);
 			
 			clause.set(sbClause.toString());
-			for(int n=0; n<arrItemNames.size(); n++)
+			for(int n = 0; n< itemNames.size(); n++)
 			{
-				String csColName = arrItemNames.get(n);
+				String csColName = itemNames.get(n);
 				ColValue colValue = getColValueByNameCaseInsensitive(csColName);
 				clause.param(colValue);	
 			}
@@ -169,15 +165,15 @@ public class RecordId extends ColValueCollection
 				sbClause.append(col.getName() + "=? ");
 			}
 			
-			if(arrOrderBy != null)
+			if(orderBy != null)
 			{
 				sbClause.append(" order by ");
-				for(int n=0; n<arrOrderBy.size(); n++)
+				for(int n = 0; n< orderBy.size(); n++)
 				{
 					if(n != 0)
 						sbClause.append(" and ");
 					
-					OrderSegment orderBy = arrOrderBy.get(n);
+					OrderSegment orderBy = this.orderBy.get(n);
 					String csOrderBy = orderBy.getAsString();
 					sbClause.append(csOrderBy);
 				}

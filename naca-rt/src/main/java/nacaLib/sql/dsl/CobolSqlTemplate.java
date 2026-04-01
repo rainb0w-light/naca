@@ -6,7 +6,6 @@
  */
 package nacaLib.sql.dsl;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -21,15 +20,12 @@ import javax.sql.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementCreator;
-import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
 import nacaLib.basePrgEnv.BaseProgramManager;
 import nacaLib.sqlSupport.CSQLStatus;
 import nacaLib.sqlSupport.SQLCode;
-import nacaLib.varEx.VarAndEdit;
 
 /**
  * SQL Template class for COBOL to Java translated programs.
@@ -153,8 +149,8 @@ public class CobolSqlTemplate {
             }
 
             // Map results to host variables
-            ResultContext ctx = new ResultContext(result);
-            resultMapper.mapResults(ctx);
+            ResultContext context = new ResultContext(result);
+            resultMapper.mapResults(context);
 
             sqlStatus.setSQLCode(SQLCode.SQL_OK);
 

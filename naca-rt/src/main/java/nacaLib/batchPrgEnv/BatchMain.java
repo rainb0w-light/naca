@@ -46,7 +46,7 @@ public class BatchMain
 		String csStat = null;
 		String csParameter = null;
 		String csExportKeyFileOut = null;
-		boolean bEnableInitialConnectDb = false;
+		boolean isenableInitialConnectDb = false;
 		String csCmdLine = "";
 		Object nt[]= null;
 			
@@ -58,60 +58,60 @@ public class BatchMain
 			
 			if (s.startsWith("-") || s.startsWith("/"))
 			{
-				String sArg = s.substring(1);
-				String sArgUpper = sArg.toUpperCase();
+				String arg = s.substring(1);
+				String argUpper = arg.toUpperCase();
 
-				if (sArgUpper.startsWith("PROGRAM="))
+				if (argUpper.startsWith("PROGRAM="))
 				{
-					csPrgClassName = sArg.substring(8); 
+					csPrgClassName = arg.substring(8);
 				}	
-				else if (sArgUpper.startsWith("CONFIGFILE="))
+				else if (argUpper.startsWith("CONFIGFILE="))
 				{
-					csConfigFile = sArg.substring(11);
+					csConfigFile = arg.substring(11);
 				}
-				else if (sArgUpper.startsWith("DB="))
+				else if (argUpper.startsWith("DB="))
 				{
-					csDB = sArg.substring(3);
+					csDB = arg.substring(3);
 				}
-				else if(sArgUpper.startsWith("STAT="))
+				else if(argUpper.startsWith("STAT="))
 				{
-					csStat = sArg.substring(5);
+					csStat = arg.substring(5);
 				}
-				else if(sArgUpper.startsWith("NACABATCH="))
+				else if(argUpper.startsWith("NACABATCH="))
 				{
 					EnvironmentVar.registerCmdLineArgs(s.split(" "));
 				}
-				else if(sArgUpper.startsWith("EXPORTKEYFILEOUT="))
+				else if(argUpper.startsWith("EXPORTKEYFILEOUT="))
 				{
-					csExportKeyFileOut = sArg.substring(17);
+					csExportKeyFileOut = arg.substring(17);
 				}
-				else if(sArgUpper.startsWith("HELP"))
+				else if(argUpper.startsWith("HELP"))
 				{
 					displayHelp();
 					return ;
 				}
-				else if(sArgUpper.equalsIgnoreCase("EnableInitialDbConnection"))
+				else if(argUpper.equalsIgnoreCase("EnableInitialDbConnection"))
 				{
-					bEnableInitialConnectDb = true;
+					isenableInitialConnectDb = true;
 				}
-				else if(sArgUpper.startsWith("FORCEDCOMPARISONMODE="))
+				else if(argUpper.startsWith("FORCEDCOMPARISONMODE="))
 				{
-					String cs = sArg.substring(21);
+					String cs = arg.substring(21);
 					if(cs.equalsIgnoreCase("ascii"))
 						BaseResourceManager.setForcedComparisonInEbcdic(false);
 					if(cs.equalsIgnoreCase("ebcdic"))
 						BaseResourceManager.setForcedComparisonInEbcdic(true);
 				}
-				else if(sArgUpper.startsWith("ALLOCMEMORY="))
+				else if(argUpper.startsWith("ALLOCMEMORY="))
 				{
-					String cs_ms = sArg.substring(12);
-					long lNbItems = NumberParser.getAsLong(cs_ms);
-					int nNb = (int)lNbItems;
+					String cs_ms = arg.substring(12);
+					long nbItems = NumberParser.getAsLong(cs_ms);
+					int nNb = (int) nbItems;
 					nt = new Object[nNb];
 				}
-				else if(sArgUpper.startsWith("WAIT_MS="))
+				else if(argUpper.startsWith("WAIT_MS="))
 				{
-					String cs_ms = sArg.substring(8);
+					String cs_ms = arg.substring(8);
 					long l = NumberParser.getAsLong(cs_ms);
 					Time_ms.wait_ms(l);
 					JVMReturnCodeManager.exitJVM(0);
@@ -154,7 +154,7 @@ public class BatchMain
 		else if(csPrgClassName.equalsIgnoreCase("DbTransfer"))	// Transfer Database
 			dbTransfer(csConfigFile, csDB);
 		else if (csPrgClassName != null && csConfigFile != null)
-			doRunBatchProgram(csConfigFile, csDB, bEnableInitialConnectDb, csParameter, csPrgClassName);
+			doRunBatchProgram(csConfigFile, csDB, isenableInitialConnectDb, csParameter, csPrgClassName);
 		else
 		{
 			displayHelp();
@@ -224,8 +224,8 @@ public class BatchMain
 				
 				sort.setExportKeyFileOut(csExportKeyFileOut);
 				int nFileLineReaderBufferSize = BaseResourceManager.getFileLineReaderBufferSize();
-				boolean bDone = sort.execute(nFileLineReaderBufferSize, fileSortIn, fileSortOut);
-				if(!bDone)
+				boolean isdone = sort.execute(nFileLineReaderBufferSize, fileSortIn, fileSortOut);
+				if(!isdone)
 				{
 					JVMReturnCodeManager.setExitCode(8);
 				}
@@ -318,9 +318,9 @@ public class BatchMain
 			
 			String csParameterUpperCase = csParameter.toUpperCase();
 			
-			boolean bHost = false;
+			boolean ishost = false;
 			if (csParameterUpperCase.indexOf("HOST") != -1)
-				bHost = true;
+				ishost = true;
 				
 			if(fileIn == null || fileOut == null)
 			{
@@ -337,7 +337,7 @@ public class BatchMain
 				int nPos = csParameterUpperCase.indexOf("COPYCLASS=") + 10;
 				String csCopyClass = csParameter.substring(nPos);
 				FileEncodingConverterWithClass conv = new FileEncodingConverterWithClass(fileIn, fileOut);
-				if (bHost)
+				if (ishost)
 					conv.setHost(csParameter);
 				conv.execute(csCopyClass);
 			}
@@ -346,7 +346,7 @@ public class BatchMain
 				int nPos = csParameterUpperCase.indexOf("DESC=") + 5;
 				String csDesc = csParameter.substring(nPos);
 				FileEncodingConverterWithDesc conv = new FileEncodingConverterWithDesc(fileIn, fileOut);
-				if (bHost)
+				if (ishost)
 					conv.setHost(csParameter);
 				conv.execute(csDesc);
 			}
@@ -504,8 +504,8 @@ public class BatchMain
 			BatchSession session = new BatchSession(batchResourceManager) ;
 			BaseProgramLoader loader = BatchProgramLoader.GetProgramLoaderInstance() ;
 			BaseEnvironment env = loader.GetEnvironment(session, "DSNTIAUL", null) ;
-			boolean bStarted = env.startRunTransaction();
-			if(!bStarted)
+			boolean isstarted = env.startRunTransaction();
+			if(!isstarted)
 			{
 				env.endRunTransaction(CriteriaEndRunMain.Abort);
 				JVMReturnCodeManager.setExitCode(8);
@@ -518,8 +518,8 @@ public class BatchMain
 			{
 				FileDescriptor fileScript = new FileDescriptor("SYSIN", session);
 				SQLUnload sqlUnloader = new SQLUnload(session, dbConnection, bExcel);
-				boolean bExecuted = sqlUnloader.execute(fileScript);
-				if(bExecuted)
+				boolean isexecuted = sqlUnloader.execute(fileScript);
+				if(isexecuted)
 				{
 					env.endRunTransaction(CriteriaEndRunMain.Normal);
 					dbConnection.commit();
@@ -552,8 +552,8 @@ public class BatchMain
 			BatchSession session = new BatchSession(batchResourceManager) ;
 			BaseProgramLoader loader = BatchProgramLoader.GetProgramLoaderInstance() ;
 			BaseEnvironment env = loader.GetEnvironment(session, "DSNTIAL", null) ;
-			boolean bStarted = env.startRunTransaction();
-			if(!bStarted)
+			boolean isstarted = env.startRunTransaction();
+			if(!isstarted)
 			{
 				env.endRunTransaction(CriteriaEndRunMain.Abort);
 				JVMReturnCodeManager.setExitCode(8);
@@ -608,8 +608,8 @@ public class BatchMain
 			BatchSession session = new BatchSession(batchResourceManager) ;
 			BaseProgramLoader loader = BatchProgramLoader.GetProgramLoaderInstance() ;
 			BaseEnvironment env = loader.GetEnvironment(session, "DSNTIAD", null) ;
-			boolean bStarted = env.startRunTransaction();
-			if(!bStarted)
+			boolean isstarted = env.startRunTransaction();
+			if(!isstarted)
 			{
 				env.endRunTransaction(CriteriaEndRunMain.Abort);
 				JVMReturnCodeManager.setExitCode(8);
@@ -623,8 +623,8 @@ public class BatchMain
 				FileDescriptor fileIn = new FileDescriptor("SYSIN", session);
 				
 				SQLFileExecutor sqlFileExecutor = new SQLFileExecutor(session, dbConnection);
-				boolean bExecuted = sqlFileExecutor.execute(fileIn);
-				if(bExecuted)
+				boolean isexecuted = sqlFileExecutor.execute(fileIn);
+				if(isexecuted)
 				{
 					dbConnection.commit();
 					env.endRunTransaction(CriteriaEndRunMain.Normal);
@@ -655,8 +655,8 @@ public class BatchMain
 		BatchSession session = new BatchSession(batchResourceManager) ;
 		BaseProgramLoader loader = BatchProgramLoader.GetProgramLoaderInstance() ;
 		BaseEnvironment env = loader.GetEnvironment(session, "DSNTIAL", null) ;
-		boolean bStarted = env.startRunTransaction();
-		if(!bStarted)
+		boolean isstarted = env.startRunTransaction();
+		if(!isstarted)
 		{
 			env.endRunTransaction(CriteriaEndRunMain.Abort);
 			JVMReturnCodeManager.setExitCode(8);
@@ -732,8 +732,8 @@ public class BatchMain
 			env.setExternalDbConnection(dbConnection);
 			env.fillEnvConnectionWithAllocatedConnection(dbConnection.getDbConnection(), "ExternalConnection", dbConnection.getEnvironmentPrefix(), true);	// bUseStatementCache							
 	
-			boolean bStarted = env.startRunTransaction();
-			if(!bStarted)
+			boolean isstarted = env.startRunTransaction();
+			if(!isstarted)
 			{
 				env.endRunTransaction(CriteriaEndRunMain.Abort);
 				return 8;
@@ -778,21 +778,21 @@ public class BatchMain
 			BaseProgramLoader loader = BatchProgramLoader.GetProgramLoaderInstance() ;
 			env = loader.GetEnvironment(session, csPrgClassName, null) ;
 			env.setInitialConnectDb(bEnableInitialConnectDb);
-			boolean bStarted = env.startRunTransaction();
-			if(!bStarted)
+			boolean isstarted = env.startRunTransaction();
+			if(!isstarted)
 			{
 				env.endRunTransaction(CriteriaEndRunMain.Abort);
 				JVMReturnCodeManager.setExitCode(8);
 				return ;
 			}
 
-			boolean bCanExecute = true;
+			boolean iscanExecute = true;
 			if (bEnableInitialConnectDb)	// Connection must be established
 			{
-				bCanExecute = env.abortTransWhenInvalidDbConnection();
+				iscanExecute = env.abortTransWhenInvalidDbConnection();
 			}
 						
-			if(bCanExecute)
+			if(iscanExecute)
 			{
 				if (csParameter != null)
 				{

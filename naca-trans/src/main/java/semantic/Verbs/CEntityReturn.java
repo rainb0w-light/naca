@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 5 août 2004
+ * Created on 5 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -36,7 +36,7 @@ public abstract class CEntityReturn extends CBaseActionEntity
 
 	public void SetStopProgram(int returning)
 	{
-		bStopAllStackCalls = returning;
+		isstopAllStackCalls = returning;
 	}
 	
 	public void SetOnlyReturnFromProcedure()
@@ -44,7 +44,7 @@ public abstract class CEntityReturn extends CBaseActionEntity
 		bonlyLeaveParagraph = true;
 	}
 	
-	protected int bStopAllStackCalls = -1 ;
+	protected int isstopAllStackCalls = -1 ;
 	protected boolean bonlyLeaveParagraph = false ;
 	public boolean ignore()
 	{

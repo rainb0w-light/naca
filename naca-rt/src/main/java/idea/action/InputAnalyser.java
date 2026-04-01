@@ -17,7 +17,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 /*
- * Created on 8 déc. 2004
+ * Created on 8 dï¿½c. 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -64,8 +64,8 @@ public class InputAnalyser
 				String ref = e.getAttribute("linkedvalue");
 				String field = e.getAttribute("name") ;
 				String val = reqLoader.getFieldValue(field) ;
-				boolean bUpdated = reqLoader.isFieldModified(field) ;
-				AddField(eRoot, ref, val, bUpdated) ; 
+				boolean isupdated = reqLoader.isFieldModified(field) ;
+				AddField(eRoot, ref, val, isupdated) ;
 			}
 
 			lst = eStruct.getElementsByTagName("switch") ;
@@ -76,8 +76,8 @@ public class InputAnalyser
 				String ref = e.getAttribute("linkedvalue");
 				String field = e.getAttribute("name") ;
 				String val = reqLoader.getFieldValue(field) ;
-				boolean bUpdated = reqLoader.isFieldModified(field) ;
-				AddField(eRoot, ref, val, bUpdated) ; 
+				boolean isupdated = reqLoader.isFieldModified(field) ;
+				AddField(eRoot, ref, val, isupdated) ;
 			}
 		}
 		appSession.setXMLData(eRoot) ;
@@ -100,8 +100,8 @@ public class InputAnalyser
 		{
 			Element e = (Element)lst.item(i) ;
 			String name = e.getAttribute("name") ;			
-			boolean bUpdated = reqLoader.isFieldModified(name) ;
-			if (bUpdated)
+			boolean isupdated = reqLoader.isFieldModified(name) ;
+			if (isupdated)
 			{
 				String val = reqLoader.getFieldValue(name) ;
 				e.setAttribute("value", val);

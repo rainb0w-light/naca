@@ -89,7 +89,7 @@ public abstract class BaseResourceManager extends CJMapObject
 		
 		if(tagRoot != null)
 		{
-			bSimulateRealEnvironment = tagRoot.getValAsBoolean("SimulateRealEnvironment", false) ;
+			issimulateRealEnvironment = tagRoot.getValAsBoolean("SimulateRealEnvironment", false) ;
 			
 			ms_bUseProgramPool = tagRoot.getValAsBoolean("UseProgramPool") ;
 			ms_bUseStatementCache = tagRoot.getValAsBoolean("UseSQLStatementCache") ;
@@ -108,7 +108,7 @@ public abstract class BaseResourceManager extends CJMapObject
 			csApplicationClassPath = tagRoot.getVal("ApplicationClassPath") ;
 			csApplicationClassPath = FileSystem.normalizePath(csApplicationClassPath);
 			csJarFile = tagRoot.getVal("JarFile") ;
-			bCanLoadJar = tagRoot.getValAsBoolean("CanLoadJar") ;
+			iscanLoadJar = tagRoot.getValAsBoolean("CanLoadJar") ;
 			bCanLoadClass = tagRoot.getValAsBoolean("CanLoadClass") ;
 			
 			//ms_bMustWriteFileHeader = tagRoot.getValAsBoolean("MustWriteFileHeader") ;
@@ -152,9 +152,9 @@ public abstract class BaseResourceManager extends CJMapObject
 			{
 				String csComparisonMode = tagRoot.getVal("ComparisonMode") ;
 				if(csComparisonMode.equalsIgnoreCase("EBCDIC"))
-					bComparisonInEbcdic = true;
+					iscomparisonInEbcdic = true;
 				else
-					bComparisonInEbcdic = false;
+					iscomparisonInEbcdic = false;
 			}
 			
 			ms_csTempDir = FileSystem.normalizePath(ms_csTempDir);
@@ -229,7 +229,7 @@ public abstract class BaseResourceManager extends CJMapObject
 	
 	private void doInitCopyConverterClassLoader()
 	{
-		CopyConverterClassLoader.init(csApplicationClassPath, bCanLoadClass, bCanLoadJar);
+		CopyConverterClassLoader.init(csApplicationClassPath, bCanLoadClass, iscanLoadJar);
 	}
 	
 	private AccountingRessourceDesc accountingRessourceDesc = null;
@@ -254,7 +254,7 @@ public abstract class BaseResourceManager extends CJMapObject
 			CodeManager.setPath(csApplicationClassPath);
 		}
 		
-		CodeManager.initLoadPossibilities(bCanLoadClass, bCanLoadJar);
+		CodeManager.initLoadPossibilities(bCanLoadClass, iscanLoadJar);
 		
 		CodeManager.preloadJar(CustomClassDynLoaderFactory.getInstance(), csJarFile);
 		
@@ -345,7 +345,7 @@ public abstract class BaseResourceManager extends CJMapObject
 	//protected static boolean ms_bMustWriteFileHeader = false;
 	protected String csApplicationClassPath = "" ;
 	protected String csJarFile = "";
-	protected boolean bCanLoadJar = true;
+	protected boolean iscanLoadJar = true;
 	protected boolean bCanLoadClass = true;
 	protected String csSequencerFactoryClass = ""; //"CESMProgramManagerFactory" ;
 	protected Tag tagSequencerConfig = null ;
@@ -354,7 +354,7 @@ public abstract class BaseResourceManager extends CJMapObject
 	private static long ms_lMaxSessionExecTime_ms = 0;
 	private static JMXDumperGui ms_JMXDumperGui = new JMXDumperGui("./JMXOutput.xml");
 	protected String csIniFilePath = "" ;
-	private static boolean bComparisonInEbcdic = false;
+	private static boolean iscomparisonInEbcdic = false;
 	private static boolean ms_bForcedComparisonInEbcdic = false;
 	
 	private static String csDynamicAllocationPath = "";	
@@ -536,8 +536,8 @@ public abstract class BaseResourceManager extends CJMapObject
 	public static String getUpdateTimeAutoRefresh()
 	{
 		if (ms_updateTime == null || !isInUpdateMode()) return "";
-		long lAutoRefresh = (ms_updateTime.getTime() - new Date().getTime()) / 1000;
-		return Long.valueOf(lAutoRefresh).toString();
+		long autoRefresh = (ms_updateTime.getTime() - new Date().getTime()) / 1000;
+		return Long.valueOf(autoRefresh).toString();
 	}
 
 	public static void setUpdateTime(Date updateTime)
@@ -651,7 +651,7 @@ public abstract class BaseResourceManager extends CJMapObject
 	
 	public static boolean getComparisonInEbcdic()
 	{
-		return bComparisonInEbcdic;
+		return iscomparisonInEbcdic;
 	}
 	
 	public static void setForcedComparisonInEbcdic(boolean bComparisonInEbcdic)
@@ -686,17 +686,17 @@ public abstract class BaseResourceManager extends CJMapObject
 			ms_hashMaxExecutionTimeByTrans.put(csTransactionId, ms_lMaxSessionExecTime_ms);
 		else
 		{
-			long lMaxExecutionTime_ms = NumberParser.getAsLong(csMaxExecutionTime_ms);
-			ms_hashMaxExecutionTimeByTrans.put(csTransactionId, lMaxExecutionTime_ms);
+			long maxExecutionTime_ms = NumberParser.getAsLong(csMaxExecutionTime_ms);
+			ms_hashMaxExecutionTimeByTrans.put(csTransactionId, maxExecutionTime_ms);
 		}		
 	}
 	
 	public boolean getSimulateRealEnvironment()
 	{
-		return bSimulateRealEnvironment;
+		return issimulateRealEnvironment;
 	}
 	
-	private boolean bSimulateRealEnvironment = true;
+	private boolean issimulateRealEnvironment = true;
 	private static OpenCalendarManager ms_calendarManager = null;
 
 	private static boolean ms_bAppManuallyClosed = false;

@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 2 août 2004
+ * Created on 2 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -41,7 +41,7 @@ public abstract class CEntityStructure extends CEntityAttribute
 		super(l, name, cat, out);
 		if (name.equals(""))
 		{
-			bFiller = true ;
+			isfiller = true ;
 			name = GetDefaultName() ;
 			if (!name.equals(""))
 			{
@@ -50,7 +50,7 @@ public abstract class CEntityStructure extends CEntityAttribute
 		}
 		csLevel = level ;
 	}
-	protected boolean bFiller = false ;
+	protected boolean isfiller = false ;
 	public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory) 
 	{
 		CEntityArrayReference e = factory.NewEntityArrayReference(getLine()) ;
@@ -71,7 +71,7 @@ public abstract class CEntityStructure extends CEntityAttribute
 	{
 		tableSize = term ;
 		tableSizeDepending = dep ;
-		bIsVariableLenght = true ;		
+		isisVariableLenght = true ;
 	}
 	public void SetRedefine(CDataEntity e)
 	{
@@ -80,7 +80,7 @@ public abstract class CEntityStructure extends CEntityAttribute
 	public String csLevel = "" ;
 	protected CDataEntity tableSize = null ;
 	protected CDataEntity tableSizeDepending = null ;
-	protected boolean bIsVariableLenght = false ;
+	protected boolean isisVariableLenght = false ;
 	protected CDataEntity refRedefine = null ;
 	public void AddChild(CBaseLanguageEntity e)
 	{
@@ -123,7 +123,7 @@ public abstract class CEntityStructure extends CEntityAttribute
 //			int n=0; 
 //		}
 //		return ignore ;
-		return bIgnore ;
+		return isignore;
 	}
 	public void Clear()
 	{

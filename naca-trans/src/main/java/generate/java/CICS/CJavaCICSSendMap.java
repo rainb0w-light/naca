@@ -36,15 +36,15 @@ public class CJavaCICSSendMap extends CEntityCICSSendMap
 
 	protected void DoExport()
 	{
-		WriteWord("CESM.sendMap(" + mapName.ExportReference(getLine()) + ")");
-		if (mapSetName != null)
+		WriteWord("CESM.sendMap(" + name.ExportReference(getLine()) + ")");
+		if (setName != null)
 		{
-			WriteWord(".mapSet(" + mapSetName.ExportReference(getLine()) + ")");
+			WriteWord(".mapSet(" + setName.ExportReference(getLine()) + ")");
 		}
 		if (dataFrom != null)
 		{
 			String cs = "";
-			if (bDataOnly)
+			if (isdataOnly)
 			{
 				cs = ".dataOnlyFrom(";
 			}
@@ -69,27 +69,27 @@ public class CJavaCICSSendMap extends CEntityCICSSendMap
 			}
 			WriteWord(cs+")");
 		}
-		if (bAccum)
+		if (isaccum)
 		{
 			WriteWord(".accum()");
 		}
-		if (bAlarm)
+		if (isalarm)
 		{
 			WriteWord(".alarm()");
 		}
-		if (bErase)
+		if (iserase)
 		{
 			WriteWord(".erase()");
 		}
-		if (bFreeKB)
+		if (isfreeKB)
 		{
 			WriteWord(".freeKB()");
 		}
-		if (bPaging)
+		if (ispaging)
 		{
 			WriteWord(".paging()");
 		}
-		if (bWait)
+		if (iswait)
 		{
 			WriteWord(".wait()");
 		}

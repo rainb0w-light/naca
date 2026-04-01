@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 27 août 2004
+ * Created on 27 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -35,29 +35,29 @@ public class CJavaIsFieldHighlight extends CEntityIsFieldHighlight
 	public CBaseEntityCondition GetOppositeCondition()
 	{
 		CJavaIsFieldHighlight not = new CJavaIsFieldHighlight(reference) ;
-		not.bIsBlink = bIsBlink ;
-		not.bIsReverse = bIsReverse ;
-		not.bIsUnderlined = bIsUnderlined ;
-		not.bOpposite = !bOpposite ;
+		not.isisBlink = isisBlink;
+		not.isisReverse = isisReverse;
+		not.isisUnderlined = isisUnderlined;
+		not.isopposite = !isopposite;
 		reference.RegisterVarTesting(not) ;
 		return not;
 	}
 	public String Export()
 	{
 		String cs = "is" ;
-		if (bOpposite)
+		if (isopposite)
 		{
 			cs += "Not" ;
 		}
-		if (bIsUnderlined)
+		if (isisUnderlined)
 		{
 			cs += "FieldUnderlined(";
 		}
-		else if (bIsBlink)
+		else if (isisBlink)
 		{
 			cs += "FieldBlink(";
 		}
-		else if (bIsReverse)
+		else if (isisReverse)
 		{
 			cs += "FieldReverse(";
 		}

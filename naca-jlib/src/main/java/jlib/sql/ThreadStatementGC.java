@@ -28,17 +28,17 @@ public class ThreadStatementGC extends Thread
 	private ArrayDbConnectionPool arrayDbConnectionPool = null;
 	private MemoryPoolMXBean tenuredPool = null;
 	private int nNbStatementForcedRemoved = 0;
-	private boolean bActive = false;
+	private boolean isactive = false;
 	private int nNbStatementsToRemoveBeforeGC = 0;
 	private int nNbSystemGCCall = 0;
 	private int nMaxPermanentHeap_Mo = 0;
-	private boolean bMaxPermanentHeap_MoSet = false;
+	private boolean ismaxPermanentHeap_MoSet = false;
 
 	public ThreadStatementGC(Tag tagGCThread, ArrayDbConnectionPool arrayDbConnectionPool)
 	{
 		this.arrayDbConnectionPool = arrayDbConnectionPool;
-		bActive = tagGCThread.getValAsBoolean("ActivateThreadGarbageCollectorStatement");
-		if(bActive)
+		isactive = tagGCThread.getValAsBoolean("ActivateThreadGarbageCollectorStatement");
+		if(isactive)
 		{
 			nPeriod_ms = tagGCThread.getValAsInt("GarbageCollectorStatement_ms");
 			if(nPeriod_ms <= 30000)
@@ -58,7 +58,7 @@ public class ThreadStatementGC extends Thread
 
 	private void setMemThreshold()
 	{
-		bMaxPermanentHeap_MoSet = false;
+		ismaxPermanentHeap_MoSet = false;
 
 		List<MemoryPoolMXBean> pools = ManagementFactory.getMemoryPoolMXBeans();
 		for (MemoryPoolMXBean p: pools)
@@ -79,7 +79,7 @@ public class ThreadStatementGC extends Thread
 	public synchronized void setCurrentMaxPermanentHeap_Mo(int nMaxPermanentHeap_Mo)
 	{
 		this.nMaxPermanentHeap_Mo = nMaxPermanentHeap_Mo;
-		bMaxPermanentHeap_MoSet = true;
+		ismaxPermanentHeap_MoSet = true;
 	}
 	
 	public synchronized int getCurrentMaxPermanentHeap_Mo()
@@ -96,10 +96,10 @@ public class ThreadStatementGC extends Thread
 	
 	public void run()
     {
-		while(bActive && waitPeriod())
+		while(isactive && waitPeriod())
 		{
 			BaseJmxGeneralStat.incCounter(BaseJmxGeneralStat.COUNTER_INDEX_NbRunThreadGC);
-			if(bMaxPermanentHeap_MoSet)	// Mem threshhold has changed
+			if(ismaxPermanentHeap_MoSet)	// Mem threshhold has changed
 			{
 				setMemThreshold();
 			}

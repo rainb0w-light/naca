@@ -21,7 +21,7 @@ public abstract class CEntitySQLCall extends CBaseActionEntity
 {
 
 	protected CDataEntity programReference = null ;
-	protected Vector<CDataEntity> arrParameters = new Vector<CDataEntity>() ;
+	protected Vector<CDataEntity> parameters = new Vector<CDataEntity>() ;
 	
 	/**
 	 * @param line
@@ -46,7 +46,7 @@ public abstract class CEntitySQLCall extends CBaseActionEntity
 	 */
 	public void addParameter(CDataEntity param)
 	{
-		arrParameters.add(param) ;
+		parameters.add(param) ;
 	}
 
 

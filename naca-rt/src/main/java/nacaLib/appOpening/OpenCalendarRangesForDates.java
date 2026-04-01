@@ -54,8 +54,8 @@ public class OpenCalendarRangesForDates
 	
 	CalendarOpenState getOpenState(CalendarCacheManager cacheManager, boolean bCacheState)
 	{
-		Integer iDate = cacheManager.getCurrentDateAsIntegerYYYYMMDD();
-		OpenCalendarRanges ranges = hashCalendarRangesByDate.get(iDate);
+		Integer date = cacheManager.getCurrentDateAsIntegerYYYYMMDD();
+		OpenCalendarRanges ranges = hashCalendarRangesByDate.get(date);
 		if(ranges != null)	// Ranges have been defined at this date
 			return ranges.getOpenState(cacheManager, bCacheState);
 		

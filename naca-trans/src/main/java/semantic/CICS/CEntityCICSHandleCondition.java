@@ -39,17 +39,17 @@ public abstract class CEntityCICSHandleCondition extends CBaseActionEntity
 	}
 	public void HandleCondition(String cond, String label)
 	{
-		arrHandledConditionLabels.add(label);
-		arrHandledConditions.add(cond);		
+		handledConditionLabels.add(label);
+		handledConditions.add(cond);
 	}
 	public void UnhandleCondition(String cond)
 	{
-		arrUnhandledConditions.add(cond);		
+		unhandledConditions.add(cond);
 	}
 	
-	protected ArrayList<String> arrHandledConditions = new ArrayList<String>();
-	protected ArrayList<String> arrUnhandledConditions = new ArrayList<String>();
-	protected ArrayList<String> arrHandledConditionLabels = new ArrayList<String>();
+	protected ArrayList<String> handledConditions = new ArrayList<String>();
+	protected ArrayList<String> unhandledConditions = new ArrayList<String>();
+	protected ArrayList<String> handledConditionLabels = new ArrayList<String>();
 	public boolean ignore()
 	{
 		return false; 

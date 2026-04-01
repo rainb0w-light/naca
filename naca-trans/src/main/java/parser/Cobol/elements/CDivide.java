@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 13 août 2004
+ * Created on 13 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -61,11 +61,11 @@ public class CDivide extends CCobolElement
 		{
 			CDataEntity eResult = result.GetDataReference(getLine(), factory) ;
 			eResult.RegisterWritingAction(eDivide) ;
-			eDivide.SetDivide(eWhat, eBy, eResult,bIsRounded);
+			eDivide.SetDivide(eWhat, eBy, eResult, isisRounded);
 		}
 		else
 		{
-			eDivide.SetDivide(eWhat, eBy, bIsRounded);
+			eDivide.SetDivide(eWhat, eBy, isisRounded);
 		}
 		
 		if (remainder != null)
@@ -113,7 +113,7 @@ public class CDivide extends CCobolElement
 		tok = GetCurrentToken();
 		if (tok.GetKeyword() == CCobolKeywordList.ROUNDED)
 		{
-			bIsRounded = true ;
+			isisRounded = true ;
 			tok = GetNext();
 		}
 		else if (tok.GetKeyword() == CCobolKeywordList.GIVING)
@@ -124,7 +124,7 @@ public class CDivide extends CCobolElement
 			tok = GetCurrentToken();
 			if (tok.GetKeyword() == CCobolKeywordList.ROUNDED)
 			{
-				bIsRounded = true ;
+				isisRounded = true ;
 				tok = GetNext();
 			}
 			if (tok.GetType() == CTokenType.COMMA)
@@ -152,7 +152,7 @@ public class CDivide extends CCobolElement
 	protected Element ExportCustom(Document root)
 	{
 		Element eDiv = root.createElement("Divide") ;
-		if (bIsRounded)
+		if (isisRounded)
 		{
 			eDiv.setAttribute("Rounded", "true");
 		}
@@ -181,5 +181,5 @@ public class CDivide extends CCobolElement
 	protected CTerminal divideBy = null ; 
 	protected CIdentifier result = null ;
 	protected CIdentifier remainder = null ;
-	protected boolean bIsRounded = false ;
+	protected boolean isisRounded = false ;
 }

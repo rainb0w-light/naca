@@ -30,7 +30,7 @@ public class LdapUtil
 
     //private static PropertyResourceBundle bundle = Bbundle.getBundle();
     //private static Log log = LogFactory.getLog(LdapUtil.class);  
-	private ArrayList<LdapThread> arrThread = null;
+	private ArrayList<LdapThread> thread = null;
 	//Semaphore m_sem = new Semaphore(); 
     private DirContext ctx = null ;
     private CountDownLatch lock = new CountDownLatch(1); 
@@ -49,19 +49,19 @@ public class LdapUtil
     {
     	LdapThread th = new LdapThread(nRequestId, csUserId, csPassword, csServer, nbThreadCreated);
     	
-    	if(arrThread == null)
-    		arrThread = new ArrayList<LdapThread>(); 
-    	arrThread.add(th);
+    	if(thread == null)
+    		thread = new ArrayList<LdapThread>();
+    	thread.add(th);
     }
     
     public void connectOnAnyServers()
     {
-    	if(arrThread != null)
+    	if(thread != null)
     	{
-    		int nNbThreads = arrThread.size();
+    		int nNbThreads = thread.size();
     		for(int n=0; n<nNbThreads; n++)
     		{
-    			LdapThread th = arrThread.get(n);
+    			LdapThread th = thread.get(n);
     			th.setLdapThreadOwner(this);
     			th.start();    			
     		}
@@ -82,8 +82,8 @@ public class LdapUtil
     {    	
     	try
     	{
-    		DirContext ctx = new InitialDirContext(env);
-    		return ctx;
+    		DirContext context = new InitialDirContext(env);
+    		return context;
     	}
 		catch (Exception e)
 		{

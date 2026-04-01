@@ -20,7 +20,7 @@ public class Comp3Support
 	{
 		long lInt = decValue.getUnsignedLong();
 		
-		String sAbsIntValue = String.valueOf(lInt);
+		String absIntValue = String.valueOf(lInt);
 		String sDecValue = decValue.getDecPart();
 		
 		String s = new String();
@@ -28,34 +28,34 @@ public class Comp3Support
 		int nNbTotalDigit = nNbDigitInteger + nNbDigitDecimal;
 		if((nNbTotalDigit % 2) == 0)
 			s = "0";	// Left most 0 to compensate empty leftmost nibble 
-		int nStringLength = sAbsIntValue.length();
+		int nStringLength = absIntValue.length();
 		while(nStringLength < nNbDigitInteger)
 		{
 			s = s + '0';
 			nStringLength++;
 		}
 		if(nStringLength > nNbDigitInteger)	// Keeping only rightmostchar form source string
-			sAbsIntValue = sAbsIntValue.substring(nStringLength - nNbDigitInteger);
-		s = s + sAbsIntValue;
+			absIntValue = absIntValue.substring(nStringLength - nNbDigitInteger);
+		s = s + absIntValue;
 		
-		String sDec = null;
+		String dec = null;
 		nStringLength = sDecValue.length();
 
 		if(nStringLength > nNbDigitDecimal)
-			sDec = sDecValue.substring(0, nNbDigitDecimal);
+			dec = sDecValue.substring(0, nNbDigitDecimal);
 		else if(nStringLength == nNbDigitDecimal)
-			sDec = sDecValue;
+			dec = sDecValue;
 		else
 		{
-			sDec = sDecValue;
+			dec = sDecValue;
 			while(nStringLength < nNbDigitDecimal)
 			{
-				sDec = sDec + '0';
+				dec = dec + '0';
 				nStringLength++;
 			}						
 		}
-		if(sDec != null && sDec.length() != 0)
-			s = s + sDec; 
+		if(dec != null && dec.length() != 0)
+			s = s + dec;
 		return s;
 	}	
 	
@@ -65,14 +65,14 @@ public class Comp3Support
 		int n = 0;
 		int nByteDest = 0;
 		
-		char cHigh = 0; 
+		char high = 0;
 		int nHigh = 0;
-		char cLow = 0;
+		char low = 0;
 		int nLow = 0;			
 		while(n < nStringLength)
 		{
-			cHigh = cs.charAt(n);
-			nHigh = cHigh - '0'; 
+			high = cs.charAt(n);
+			nHigh = high - '0';
 			n++;
 			
 			if(n == nStringLength)	// No more digit, but the sign
@@ -89,8 +89,8 @@ public class Comp3Support
 			}
 			else
 			{
-				cLow = cs.charAt(n);
-				nLow = cLow - '0';
+				low = cs.charAt(n);
+				nLow = low - '0';
 			}
 
 			int nChar = (nHigh * 16) + nLow;

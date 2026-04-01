@@ -56,7 +56,7 @@ public class CExecSQLSelect extends CBaseExecSQLAction
 	{
 		Element eSelect = null;
 		Element eReturned = null;
-		if(bCursor)
+		if(iscursor)
 		{
 			Element eCursor = root.createElement("SQLCursor") ;
 			eReturned = eCursor; 
@@ -80,7 +80,7 @@ public class CExecSQLSelect extends CBaseExecSQLAction
 	static String PrepareSelectStatement(CBaseLanguageEntity parent, String clause, Vector<String> arrColumns, CBaseEntityFactory factory, boolean bCursor)
 	{
 		String newClause = "SELECT " ;
-		boolean bFirst = true ;
+		boolean isfirst = true ;
 		int nbCol = 0;
 		int nFrom = clause.indexOf("FROM");
 		if (nFrom == -1)
@@ -207,8 +207,8 @@ public class CExecSQLSelect extends CBaseExecSQLAction
 		{
 			int  posselect = newClause.indexOf("SELECT", posUnion) ;
 			String secondClause = newClause.substring(posselect) ;
-			Vector<String> arrNewColumns = new Vector<String>() ;
-			String result = PrepareSelectStatement(parent, secondClause, arrNewColumns, factory, bCursor) ;
+			Vector<String> newColumns = new Vector<String>() ;
+			String result = PrepareSelectStatement(parent, secondClause, newColumns, factory, bCursor) ;
 			newClause = newClause.substring(0, posselect) ;
 			newClause += result ;
 		}
@@ -293,62 +293,62 @@ public class CExecSQLSelect extends CBaseExecSQLAction
 	
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		Vector<CDataEntity> arrIntoOutput = new Vector<CDataEntity>() ;
-		Vector<String> arrColumns = new Vector<String>() ;
-		String newClause = PrepareSelectStatement(parent, clause, arrColumns, factory, bCursor) ;
-		processInto(arrInto, arrIntoOutput, arrColumns.size(), factory) ;
-		int nbCol = arrColumns.size() ;
-		for (String col : arrColumns)
+		Vector<CDataEntity> intoOutput = new Vector<CDataEntity>() ;
+		Vector<String> columns = new Vector<String>() ;
+		String newClause = PrepareSelectStatement(parent, clause, columns, factory, iscursor) ;
+		processInto(into, intoOutput, columns.size(), factory) ;
+		int nbCol = columns.size() ;
+		for (String col : columns)
 		{
 			if (col.contains("*"))
 			{
 				nbCol = 0 ;
 			}
 		}
-		if (arrInto.size()>0 && nbCol>0 && arrInto.size() != nbCol)
+		if (into.size()>0 && nbCol>0 && into.size() != nbCol)
 		{
 			// number of columns returned and number of variables for into are differents
 			Transcoder.logError(getLine(), "Bad number of variables for INTO");
 			CGlobalEntityCounter.GetInstance().RegisterProgramToRewrite(parent.GetProgramName(), getLine(), "INTO:Nb Vars") ;
 		}
 		
-		Vector<CDataEntity> arrInd = new Vector<CDataEntity>(); 
-		for (int i=0; i<arrIndicators.size(); i++)
+		Vector<CDataEntity> ind = new Vector<CDataEntity>();
+		for (int i = 0; i< indicators.size(); i++)
 		{
-			CIdentifier id = arrIndicators.get(i) ;
+			CIdentifier id = indicators.get(i) ;
 			if (id != null)
 			{
 				CDataEntity e = id .GetDataReference(getLine(), factory) ;
-				arrInd.add(e) ;
+				ind.add(e) ;
 			}
 			else
 			{
-				arrInd.add(null) ;
+				ind.add(null) ;
 			}
 		}
-		Vector<CDataEntity> arrParam = new Vector<CDataEntity>() ;
-		clause = CheckConcat(getLine(), newClause, arrParameters, arrParam, factory) ;
-		if(!bCursor)
+		Vector<CDataEntity> param = new Vector<CDataEntity>() ;
+		clause = CheckConcat(getLine(), newClause, parameters, param, factory) ;
+		if(!iscursor)
 		{
-			CEntitySQLSelectStatement eSQL = factory.NewEntitySQLSelectStatement(getLine(), clause, arrParam, arrIntoOutput, arrInd) ;
+			CEntitySQLSelectStatement eSQL = factory.NewEntitySQLSelectStatement(getLine(), clause, param, intoOutput, ind) ;
 			Transcoder.checkSQL(getLine(), clause);
 			parent.AddChild(eSQL) ;
-			for (int i=0; i<arrParam.size(); i++)
+			for (int i = 0; i< param.size(); i++)
 			{
-				CDataEntity e = arrParam.get(i) ;
+				CDataEntity e = param.get(i) ;
 				if (e!=null)
 				{
 					e.RegisterReadingAction(eSQL) ;
 				}
 			}
-			for (int i=0; i<arrIntoOutput.size(); i++)
+			for (int i = 0; i< intoOutput.size(); i++)
 			{
-				CDataEntity e = arrIntoOutput.get(i) ;
+				CDataEntity e = intoOutput.get(i) ;
 				e.RegisterWritingAction(eSQL) ;
 			}
-			for (int i=0; i<arrInd.size(); i++)
+			for (int i = 0; i< ind.size(); i++)
 			{
-				CDataEntity e = arrInd.get(i) ;
+				CDataEntity e = ind.get(i) ;
 				if (e!= null)
 				{
 					e.RegisterWritingAction(eSQL) ;
@@ -367,13 +367,13 @@ public class CExecSQLSelect extends CBaseExecSQLAction
 			Transcoder.logError(getLine(), "Cursor already defined : " + csCursorName);
 		}
 		CEntitySQLCursorSelectStatement eSQL = factory.NewEntitySQLCursorSelectStatement(getLine()) ;
-		eSQL.SetSelect(clause, arrParam, cur, nbCol, bWithHold) ;
+		eSQL.SetSelect(clause, param, cur, nbCol, iswithHold) ;
 		Transcoder.checkSQL(getLine(), clause);
 		cur.SetSelect(eSQL);
 		parent.AddChild(eSQL) ;
-		for (int i=0; i<arrParam.size(); i++)
+		for (int i = 0; i< param.size(); i++)
 		{
-			CDataEntity e = arrParam.get(i) ;
+			CDataEntity e = param.get(i) ;
 			if (e != null)
 			{
 				e.RegisterReadingAction(eSQL) ;
@@ -495,19 +495,19 @@ public class CExecSQLSelect extends CBaseExecSQLAction
 	public void SetCursorName(String csCursorName, boolean bWithHold)
 	{
 		csCursorName = csCursorName;
-		bCursor = true;
+		iscursor = true;
 		bWithHold = bWithHold ;
 	}
 	
 	protected boolean DoParsing()
 	{
-		boolean bDone = false ;
-		while (!bDone)
+		boolean isdone = false ;
+		while (!isdone)
 		{
 			CBaseToken tok = GetCurrentToken() ;
 			if (tok.GetKeyword() == CCobolKeywordList.END_EXEC)
 			{
-				bDone = true ;
+				isdone = true ;
 				break;
 			}
 			else if (tok.GetKeyword() == CCobolKeywordList.INTO)
@@ -533,12 +533,12 @@ public class CExecSQLSelect extends CBaseExecSQLAction
 						{
 							id = new CIdentifier(cs) ;
 						}
-						arrInto.addElement(id);
+						into.addElement(id);
 						tok = GetCurrentToken() ;
 						if (tok.GetType() == CTokenType.COMMA)
 						{
 							tok = GetNext() ;
-							arrIndicators.addElement(null);
+							indicators.addElement(null);
 						}
 						else if (tok.GetType() == CTokenType.COLON)
 						{
@@ -556,7 +556,7 @@ public class CExecSQLSelect extends CBaseExecSQLAction
 							{
 								id = new CIdentifier(cs) ;
 							}
-							arrIndicators.addElement(id);
+							indicators.addElement(id);
 							tok = GetCurrentToken() ;
 							if (tok.GetType() == CTokenType.COMMA)
 							{
@@ -600,9 +600,9 @@ public class CExecSQLSelect extends CBaseExecSQLAction
 				{
 					id = new CIdentifier(cs) ;
 				}
-				arrParameters.add(id);
+				parameters.add(id);
 				AppendRequiredSpace();
-				clause += "#"+ arrParameters.size() ; 
+				clause += "#"+ parameters.size() ;
 			}
 			else if (tok.GetType() == CTokenType.EXCLAMATION)
 			{
@@ -731,10 +731,10 @@ public class CExecSQLSelect extends CBaseExecSQLAction
 	}
 	
 	public String clause = "" ;
-	protected Vector<CIdentifier> arrParameters = new Vector<CIdentifier>() ;
-	protected Vector<CIdentifier> arrInto = new Vector<CIdentifier>() ;
-	protected Vector<CIdentifier> arrIndicators = new Vector<CIdentifier>() ;
+	protected Vector<CIdentifier> parameters = new Vector<CIdentifier>() ;
+	protected Vector<CIdentifier> into = new Vector<CIdentifier>() ;
+	protected Vector<CIdentifier> indicators = new Vector<CIdentifier>() ;
 	private String csCursorName = null;
-	private boolean bCursor = false;
-	private boolean bWithHold = false ;
+	private boolean iscursor = false;
+	private boolean iswithHold = false ;
 }

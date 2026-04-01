@@ -61,7 +61,7 @@ public class LogCenterDb extends LogCenter
 	private String csDbPassword = null;
 	private String csDbUrl = null;
 	private String csDbProvider = null;
-	private boolean bUseSequence = false;
+	private boolean isuseSequence = false;
 	DbConnectionManager manager = null;
 	DbConnectionBase dbConnection = null;
 		
@@ -83,27 +83,27 @@ public class LogCenterDb extends LogCenter
 		if(csDbProvider.equalsIgnoreCase("MySql"))
 		{
 			b = manager.initMySql(csDbUrl, csDbUser, csDbPassword, null, 2, nTime_Ms, -1, 0);
-			bUseSequence = false;
+			isuseSequence = false;
 		}
 		else if(csDbProvider.equalsIgnoreCase("Oracle"))
 		{
 			b = manager.initOracle(csDbUrl, csDbUser, csDbPassword, null, 2, nTime_Ms, -1, 0);
-			bUseSequence = false;
+			isuseSequence = false;
 		}
 		else if(csDbProvider.equalsIgnoreCase("SqlServer"))
 		{
 			b = manager.initSqlServer(csDbUrl, csDbUser, csDbPassword, null, 2, nTime_Ms, -1, 0);
-			bUseSequence = false;
+			isuseSequence = false;
 		}
 		else if(csDbProvider.equalsIgnoreCase("DB2"))
 		{
 			b = manager.initDB2(csDbUrl, csDbUser, csDbPassword, null, 2, nTime_Ms, -1, 0);
-			bUseSequence = false;
+			isuseSequence = false;
 		}
 		else
 		{
 			b = manager.initDriverClass(csDbUrl, csDbUser, csDbPassword, null, csDbProvider, 2, nTime_Ms, -1, 0);
-			bUseSequence = false;
+			isuseSequence = false;
 		}
 			
 		return b;
@@ -134,7 +134,7 @@ public class LogCenterDb extends LogCenter
 		{
 			String cs;
 			
-			if(!bUseSequence)
+			if(!isuseSequence)
 				cs = "Insert into " + csMasterTable + " (" +
 					"Log_Type, File_Name, Line, Thread, Method, Start_Time, Event_Name, Message) Values (" +
 					"?,    ?,    ?,    ?,      ?,      ?,         ?,         ?)";
@@ -157,7 +157,7 @@ public class LogCenterDb extends LogCenter
 			
 			int n0 = stInsertHeader.executeInsert();
 			
-			long lLastId = 0;
+			long lastId = 0;
 			cs = "SELECT Id FROM " + csMasterTable + " order by Id desc";
 			DbPreparedStatement stSelectLastId = dbConnection.prepareStatement(cs, 0, false);
 			ResultSet resultSet = stSelectLastId.executeSelect();
@@ -166,7 +166,7 @@ public class LogCenterDb extends LogCenter
 				try
 				{
 					resultSet.next();
-					lLastId = resultSet.getLong(1);
+					lastId = resultSet.getLong(1);
 				} 
 				catch (SQLException e)
 				{
@@ -176,7 +176,7 @@ public class LogCenterDb extends LogCenter
 				//resultSet.close();	// TBD
 			}
 			
-			if(!bUseSequence)
+			if(!isuseSequence)
 				cs = "Insert into " + csDetailsTable + " (Id, Name, Value) Values (?,  ?,    ?)";
 			else
 				cs = "Insert into " + csDetailsTable + "(Id, Name, Value, Detail_Id) Values (?, ?, ?, SEQ_LOGDETAIL_ID.nextval)";
@@ -191,7 +191,7 @@ public class LogCenterDb extends LogCenter
 				{					 
 					nCol = 0;
 					
-					insDetails.setColParam(nCol++, lLastId);
+					insDetails.setColParam(nCol++, lastId);
 					insDetails.setColParam(nCol++, member.getName());
 					insDetails.setColParam(nCol++, member.getValue());
 						

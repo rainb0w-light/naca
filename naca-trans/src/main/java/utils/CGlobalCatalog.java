@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 3 août 2004
+ * Created on 3 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -309,23 +309,23 @@ public class CGlobalCatalog
 	{
 		if (bIgnore)
 		{
-			arrIgnoreSubProgram.addElement(name) ;
+			ignoreSubProgram.addElement(name) ;
 		}
 		else
 		{
-			arrCustomSubProgram.addElement(name) ;
+			customSubProgram.addElement(name) ;
 		}
 	}
 	public boolean isCustomSubProgram(String name)
 	{
-		return arrCustomSubProgram.contains(name) ;
+		return customSubProgram.contains(name) ;
 	}
 	public boolean isIgnoreSubProgram(String name)
 	{
-		return arrIgnoreSubProgram.contains(name) ;
+		return ignoreSubProgram.contains(name) ;
 	}
-	protected Vector<String> arrCustomSubProgram = new Vector<String>() ;
-	protected Vector<String> arrIgnoreSubProgram = new Vector<String>() ;
+	protected Vector<String> customSubProgram = new Vector<String>() ;
+	protected Vector<String> ignoreSubProgram = new Vector<String>() ;
 	public boolean CanExportResources(String name)
 	{
 		String cs = tabProgramNotExportingResource.get(name);
@@ -342,7 +342,7 @@ public class CGlobalCatalog
 	protected class CSubProgramCallDescription
 	{
 		public String subProgramName = "" ;
-		public boolean bCalledLikeCICS = false ; // <=> with implicit DFHCOMMAREA
+		public boolean iscalledLikeCICS = false ; // <=> with implicit DFHCOMMAREA
 		public int nNbParameters = 0 ;	// except DFHCOMMAREA
 	}
 	public boolean registerSubProgram(String cs, boolean bWithDFHCommarea, int nbParameters)
@@ -352,15 +352,15 @@ public class CGlobalCatalog
 		{
 			desc = new CSubProgramCallDescription() ;
 			desc.subProgramName = cs ; 
-			desc.bCalledLikeCICS = bWithDFHCommarea ;
+			desc.iscalledLikeCICS = bWithDFHCommarea ;
 			desc.nNbParameters = nbParameters ;
 			tabSubProgramCall.put(cs, desc) ;
-			arrSubProgramCalls.add(desc) ;
+			subProgramCalls.add(desc) ;
 			return true ;
 		}
 		else
 		{
-			if (desc.bCalledLikeCICS != bWithDFHCommarea)
+			if (desc.iscalledLikeCICS != bWithDFHCommarea)
 			{
 				// Transcoder.logError("Bad call to "+cs+" : expecting DFHCOMMAREA parameter");
 				return true ;
@@ -377,7 +377,7 @@ public class CGlobalCatalog
 		}
 	}
 	protected Hashtable<String, CSubProgramCallDescription> tabSubProgramCall = new Hashtable<String, CSubProgramCallDescription>() ;
-	protected Vector<CSubProgramCallDescription> arrSubProgramCalls = new Vector<CSubProgramCallDescription>() ;
+	protected Vector<CSubProgramCallDescription> subProgramCalls = new Vector<CSubProgramCallDescription>() ;
 
 
 	public void doRegisteredDependencies()
@@ -385,12 +385,12 @@ public class CGlobalCatalog
 		CTransApplicationGroup grpReferences = transcoder.getGroup(csReferenceGroupName) ;
 		if (grpReferences != null)
 		{
-			for (int i=0; i<arrSubProgramCalls.size(); i++)
+			for (int i = 0; i< subProgramCalls.size(); i++)
 			{
-				CSubProgramCallDescription desc = arrSubProgramCalls.get(i) ;
+				CSubProgramCallDescription desc = subProgramCalls.get(i) ;
 				String ssprg = desc.subProgramName ;
 				BaseEngine engine = grpReferences.getEngine() ;
-				if (!arrProgramDone.contains(ssprg))
+				if (!programDone.contains(ssprg))
 				{
 					engine.doFileTranscoding(ssprg, "", grpReferences, false) ;
 				} 
@@ -400,12 +400,12 @@ public class CGlobalCatalog
 
 	public void registerProgram(String cs)
 	{
-		if (!arrProgramDone.contains(cs))
+		if (!programDone.contains(cs))
 		{
-			arrProgramDone.addElement(cs) ;
+			programDone.addElement(cs) ;
 		}
 	}
-	protected Vector<String> arrProgramDone = new Vector<String>() ;
+	protected Vector<String> programDone = new Vector<String>() ;
 
 	private Hashtable<String, String> tabAlreadyCountedItems = new Hashtable<String, String>() ;
 

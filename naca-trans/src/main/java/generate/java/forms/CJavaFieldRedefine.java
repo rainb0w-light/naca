@@ -94,11 +94,11 @@ public class CJavaFieldRedefine extends CEntityFieldRedefine
 			}
 			cs += ")" ;
 		}
-		if (bRightJustified)
+		if (isrightJustified)
 		{
 			cs += ".justifyRight()" ;
 		}
-		if (bBlankWhenZero)
+		if (isblankWhenZero)
 		{
 			cs += ".blankWhenZero()" ;
 		}

@@ -18,16 +18,16 @@ import java.sql.SQLException;
  */
 public class SQLClauseSPParamInShort extends SQLClauseSPParamIn
 {
-	private short sVal = 0;
+	private short val = 0;
 	
-	public SQLClauseSPParamInShort(short sVal)
+	public SQLClauseSPParamInShort(short val)
 	{
-		sVal = sVal;
+		val = val;
 	}
 	
 	protected void setInValueWithException(int nParamId, DbPreparedCallableStatement stmt)
 		throws SQLException
 	{
-		stmt.setInValueWithException(nParamId, sVal);
+		stmt.setInValueWithException(nParamId, val);
 	}
 }

@@ -41,8 +41,8 @@ public class CBMSLexer extends CBaseLexer
 		Vector<Character> val = new Vector<Character>() ;
 		char delimit = cCurrent ;
 		nCurrentPositionInLine ++ ; // '\''
-		boolean bDone = false ;
-		while (!bDone && nCurrentPositionInLine < nCurrentLineLength)
+		boolean isdone = false ;
+		while (!isdone && nCurrentPositionInLine < nCurrentLineLength)
 		{
 			cCurrent = arrCurrentLine[nCurrentPositionInLine];
 			Character b = new Character(cCurrent) ;
@@ -61,7 +61,7 @@ public class CBMSLexer extends CBaseLexer
 			}
 			else if (cCurrent == delimit && nCurrentPositionInLine==nCurrentLineLength-1)
 			{
-				bDone = true ;
+				isdone = true ;
 			}
 			else if (cCurrent == delimit && nCurrentPositionInLine==nCurrentLineLength-2 
 					&& arrCurrentLine[nCurrentPositionInLine+1]=='*')
@@ -78,7 +78,7 @@ public class CBMSLexer extends CBaseLexer
 				}
 				else
 				{
-					bDone = true ;
+					isdone = true ;
 				}
 				continue ;  
 			}
@@ -89,7 +89,7 @@ public class CBMSLexer extends CBaseLexer
 			}
 			else if (cCurrent == delimit)
 			{
-				bDone = true ;
+				isdone = true ;
 			}
 			else
 			{
@@ -119,8 +119,8 @@ public class CBMSLexer extends CBaseLexer
 		try 
 		{
 			nCurrentPositionInLine ++ ;
-			boolean bDone = false;
-			while (!bDone)
+			boolean isdone = false;
+			while (!isdone)
 			{
 				while (nCurrentPositionInLine < nCurrentLineLength)
 				{
@@ -134,7 +134,7 @@ public class CBMSLexer extends CBaseLexer
 				}
 				else
 				{
-					bDone = true ;
+					isdone = true ;
 				}
 			}
 		}

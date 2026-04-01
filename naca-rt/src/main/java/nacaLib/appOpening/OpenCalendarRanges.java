@@ -34,46 +34,46 @@ public class OpenCalendarRanges
 	
 	void addRange(OpenCalendarRange range)
 	{
-		if(arrRanges == null)
-			arrRanges = new ArrayList<OpenCalendarRange>();
-		arrRanges.add(range);
+		if(ranges == null)
+			ranges = new ArrayList<OpenCalendarRange>();
+		ranges.add(range);
 	}
 	
 	void sortIntervals()
 	{
-		if(arrRanges == null)
+		if(ranges == null)
 		{
 			setCloseAllDay();
 		}
 		
-		ArrayList<CalendarInstant> arrInstant = new ArrayList<CalendarInstant>();
-		for(int n=0; n<arrRanges.size(); n++)
+		ArrayList<CalendarInstant> instant = new ArrayList<CalendarInstant>();
+		for(int n = 0; n< ranges.size(); n++)
 		{
-			OpenCalendarRange range = arrRanges.get(n);
+			OpenCalendarRange range = ranges.get(n);
 			
 			CalendarInstant begin = range.getInstant(0);
-			arrInstant.add(begin);
+			instant.add(begin);
 			
 			CalendarInstant end = range.getInstant(1);
-			arrInstant.add(end);			
+			instant.add(end);
 		}
-		arrRanges.clear();
+		ranges.clear();
 		
-		QuickSort<CalendarInstant> qs = new QuickSort<CalendarInstant>(arrInstant);
+		QuickSort<CalendarInstant> qs = new QuickSort<CalendarInstant>(instant);
 		qs.sort();
 		
 		int n=0;
-		while(n<arrInstant.size())
+		while(n< instant.size())
 		{
 			OpenCalendarRange range = new OpenCalendarRange();
-			CalendarInstant begin = arrInstant.get(n);
+			CalendarInstant begin = instant.get(n);
 			range.setBegin(begin);
 
 			n++;
-			CalendarInstant end = arrInstant.get(n);
+			CalendarInstant end = instant.get(n);
 			range.setEnd(end);
 			
-			arrRanges.add(range);
+			ranges.add(range);
 			
 			n++;
 		}
@@ -90,9 +90,9 @@ public class OpenCalendarRanges
 	CalendarOpenState getOpenState(CalendarCacheManager cacheManager, boolean bCacheState)
 	{
 		CurrentDateInfo currentDate = cacheManager.getCurrentDate();
-		for(int n=0; n<arrRanges.size(); n++)
+		for(int n = 0; n< ranges.size(); n++)
 		{
-			OpenCalendarRange range = arrRanges.get(n);
+			OpenCalendarRange range = ranges.get(n);
 			if(range.concernDate(currentDate))
 			{
 				CalendarOpenState state = range.getOpenState();
@@ -106,5 +106,5 @@ public class OpenCalendarRanges
 		return CalendarOpenState.Unknown;
 	}
 	
-	private ArrayList<OpenCalendarRange> arrRanges = null;
+	private ArrayList<OpenCalendarRange> ranges = null;
 }

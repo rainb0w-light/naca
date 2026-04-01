@@ -42,14 +42,14 @@ public abstract class CEntityProcedureDivision extends CBaseLanguageEntity
 		// nothing
 	}
 
-	protected Vector<CDataEntity> arrCallParameters = new Vector<CDataEntity>();
+	protected Vector<CDataEntity> callParameters = new Vector<CDataEntity>();
 	public void AddCallParameter(CDataEntity e)
 	{
-		arrCallParameters.add(e) ;
+		callParameters.add(e) ;
 	}
 	public Vector<CDataEntity> getCallParameters()
 	{
-		return arrCallParameters ;
+		return callParameters;
 	}
 	
 	protected CEntityBloc procedureBloc =null ;
@@ -72,7 +72,7 @@ public abstract class CEntityProcedureDivision extends CBaseLanguageEntity
 	public void Clear()
 	{
 		super.Clear();
-		arrCallParameters.clear() ;
+		callParameters.clear() ;
 		if (procedureBloc!=null)
 		{
 			procedureBloc.Clear() ;

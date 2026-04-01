@@ -20,7 +20,6 @@ import java.util.NoSuchElementException;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import jlib.misc.NumberParser;
 import jlib.xml.Tag;
 import jlib.xml.TagCursor;
 
@@ -77,30 +76,30 @@ public class CMapElement extends CBMSElement
 		eAttr.setAttribute("Data", data.name) ;
 		eAttr.setAttribute("TIOAPFX", tIOAPFX.name) ;
 		eAttr.setAttribute("OBFMT", oBFMT.name) ;
-		for (int i=0; i<arrCTRL.size(); i++)
+		for (int i = 0; i< cTRL.size(); i++)
 		{
-			String val = arrCTRL.get(i) ;
+			String val = cTRL.get(i) ;
 			Element e = root.createElement("CTRL") ;
 			e.setAttribute("Value", val);
 			eAttr.appendChild(e) ; 
 		}
-		for (int i=0; i<arrMAPATTS.size(); i++)
+		for (int i = 0; i< mAPATTS.size(); i++)
 		{
-			String val = arrMAPATTS.get(i) ;
+			String val = mAPATTS.get(i) ;
 			Element e = root.createElement("MAPATTS") ;
 			e.setAttribute("Value", val);
 			eAttr.appendChild(e) ; 
 		}
-		for (int i=0; i<arrJUSTIFY.size(); i++)
+		for (int i = 0; i< jUSTIFY.size(); i++)
 		{
-			String val = arrJUSTIFY.get(i) ;
+			String val = jUSTIFY.get(i) ;
 			Element e = root.createElement("JUSTIFY") ;
 			e.setAttribute("Value", val);
 			eAttr.appendChild(e) ; 
 		}
-		for (int i=0; i<arrDSATTS.size(); i++)
+		for (int i = 0; i< dSATTS.size(); i++)
 		{
-			String val = arrDSATTS.get(i) ;
+			String val = dSATTS.get(i) ;
 			Element e = root.createElement("DSATTS") ;
 			e.setAttribute("Value", val);
 			eAttr.appendChild(e) ; 
@@ -229,8 +228,8 @@ public class CMapElement extends CBMSElement
 				return false ;
 			}
 			tok = GetNext();
-			boolean bDone = false ;
-			while (!bDone)
+			boolean isdone = false ;
+			while (!isdone)
 			{
 				tok = GetCurrentToken();
 				if (tok.GetConstant() == CBMSConstantList.HONEOM ||
@@ -239,11 +238,11 @@ public class CMapElement extends CBMSElement
 					tok.GetConstant() == CBMSConstantList.FRSET || 
 					tok.GetConstant() == CBMSConstantList.L80)
 				{
-					arrCTRL.add(tok.GetValue()) ;
+					cTRL.add(tok.GetValue()) ;
 				}
 				else if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 				{
-					bDone = true ;
+					isdone = true ;
 				}
 				else if (tok.GetType() == CTokenType.COMMA)
 				{
@@ -265,8 +264,8 @@ public class CMapElement extends CBMSElement
 				return false ;
 			}
 			tok = GetNext();
-			boolean bDone = false ;
-			while (!bDone)
+			boolean isdone = false ;
+			while (!isdone)
 			{
 				tok = GetCurrentToken();
 				if (tok.GetKeyword() == CBMSKeywordList.COLOR ||
@@ -274,11 +273,11 @@ public class CMapElement extends CBMSElement
 					tok.GetKeyword() == CBMSKeywordList.HILIGHT ||
 					tok.GetConstant() == CBMSConstantList.VALIDN)
 				{
-					arrMAPATTS.add(tok.GetValue()) ;
+					mAPATTS.add(tok.GetValue()) ;
 				}
 				else if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 				{
-					bDone = true ;
+					isdone = true ;
 				}
 				else if (tok.GetType() == CTokenType.COMMA)
 				{
@@ -300,8 +299,8 @@ public class CMapElement extends CBMSElement
 				return false ;
 			}
 			tok = GetNext();
-			boolean bDone = false ;
-			while (!bDone)
+			boolean isdone = false ;
+			while (!isdone)
 			{
 				tok = GetCurrentToken();
 				if (tok.GetKeyword() == CBMSKeywordList.COLOR ||
@@ -309,11 +308,11 @@ public class CMapElement extends CBMSElement
 					tok.GetKeyword() == CBMSKeywordList.HILIGHT ||
 					tok.GetConstant() == CBMSConstantList.VALIDN)
 				{
-					arrDSATTS.add(tok.GetValue()) ;
+					dSATTS.add(tok.GetValue()) ;
 				}
 				else if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 				{
-					bDone = true ;
+					isdone = true ;
 				}
 				else if (tok.GetType() == CTokenType.COMMA)
 				{
@@ -335,8 +334,8 @@ public class CMapElement extends CBMSElement
 				return false ;
 			}
 			tok = GetNext();
-			boolean bDone = false ;
-			while (!bDone)
+			boolean isdone = false ;
+			while (!isdone)
 			{
 				tok = GetCurrentToken();
 				if (tok.GetConstant() == CBMSConstantList.LEFT ||
@@ -344,11 +343,11 @@ public class CMapElement extends CBMSElement
 //					tok.GetConstant() == CBMSConstantList. ||
 					tok.GetConstant() == CBMSConstantList.BLANK)
 				{
-					arrJUSTIFY.add(tok.GetValue()) ;
+					jUSTIFY.add(tok.GetValue()) ;
 				}
 				else if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 				{
-					bDone = true ;
+					isdone = true ;
 				}
 				else if (tok.GetType() == CTokenType.COMMA)
 				{
@@ -426,29 +425,29 @@ public class CMapElement extends CBMSElement
 		CEntityResourceFormContainer container = (CEntityResourceFormContainer)parent ;
 		String csLang = "";
 		csLang += getName().charAt(6) ;
-		boolean bStore = false ;
+		boolean isstore = false ;
 		if (csLang.equals("F"))
 		{
-			bStore = true ;
+			isstore = true ;
 		}
 		else if (!csLang.equals("D") && !csLang.equals("I") && !csLang.equals("G") && !csLang.equals("N"))
 		{
 			//Transcoder.warn("WARNING : unexpected lang ID : " + csLang) ;
-			bStore = true ;
+			isstore = true ;
 		}
 		else
 		{
-			bStore = false ;
+			isstore = false ;
 		}
 		
-		boolean bFirstForm = false ;
+		boolean isfirstForm = false ;
 		if (resStrings == null)
 		{
 			resStrings = factory.NewResourceString(size_Line, size_Col);
-			bFirstForm = true ;
+			isfirstForm = true ;
 		}
 		CEntityResourceForm ef= null ; 
-		if (bStore)
+		if (isstore)
 		{
 //			if (csLang.equals("F"))
 //			{
@@ -463,7 +462,7 @@ public class CMapElement extends CBMSElement
 			ef.of = container ;
 		}
 		
-		if (bFindArrays)
+		if (isfindArrays)
 		{
 			ManageArray() ;
 		}
@@ -488,7 +487,7 @@ public class CMapElement extends CBMSElement
 									field.GetName()+"("+field.nPosLine+","+field.nPosCol+") is too long : "								
 									+field.nLength) ;
 						}
-						if (!bFirstForm)
+						if (!isfirstForm)
 						{
 							if (!resStrings.isExistingField(field.nPosLine, field.nPosCol, field.nLength))
 							{
@@ -496,7 +495,7 @@ public class CMapElement extends CBMSElement
 										field.GetName()+"("+field.nPosCol+","+field.nPosLine+") does not match fields in other form") ;
 							}
 						}
-						if (bStore)
+						if (isstore)
 						{
 							ef.AddField(field) ;
 							factory.programCatalog.RegisterSymbolicField(field) ;
@@ -524,7 +523,7 @@ public class CMapElement extends CBMSElement
 				{
 					CEntityResourceField field = (CEntityResourceField)le.DoSemanticAnalysis(ef, factory) ;
 					field.SetOf(container) ;
-					if (bStore)
+					if (isstore)
 					{
 						ef.AddField(field) ;
 						factory.programCatalog.RegisterSymbolicField(field) ;
@@ -534,7 +533,7 @@ public class CMapElement extends CBMSElement
 				{
 					CEntityResourceField field = (CEntityResourceField)le.DoSemanticAnalysis(ef, factory) ;
 					field.SetOf(container) ;
-					if (bStore)
+					if (isstore)
 					{
 						ef.AddField(field) ;
 						factory.programCatalog.RegisterSymbolicField(field) ;
@@ -590,7 +589,7 @@ public class CMapElement extends CBMSElement
 	{
 		LinkedList<CBaseElement> newList = new LinkedList<CBaseElement>() ;
 		FieldComparator comp = new FieldComparator() ;
-		SortedSet<CFieldElement> setFields =  new TreeSet<CFieldElement>(comp) ;
+		SortedSet<CFieldElement> fields =  new TreeSet<CFieldElement>(comp) ;
 		ListIterator<CBaseElement> iter = children.listIterator() ;
 		try
 		{
@@ -598,7 +597,7 @@ public class CMapElement extends CBMSElement
 			CFieldElement le = (CFieldElement)o ;
 			while (le != null)
 			{
-				setFields.add(le) ;
+				fields.add(le) ;
 				le = (CFieldElement)iter.next() ;
 			}
 		}
@@ -607,8 +606,8 @@ public class CMapElement extends CBMSElement
 			//System.out.println(e.toString());
 		}
 		
-		CBMSElement[] arrFields = new CBMSElement[setFields.size()] ;
-		setFields.toArray(arrFields) ;
+		CBMSElement[] arrFields = new CBMSElement[fields.size()] ;
+		fields.toArray(arrFields) ;
 		CFieldArray array = null ;
 		for (int i=0; i<arrFields.length; i++)
 		{
@@ -670,10 +669,10 @@ public class CMapElement extends CBMSElement
 	protected CReservedConstant data = null ;
 	protected CReservedConstant oBFMT = null ;
 	protected CReservedConstant tIOAPFX = null ;
-	protected ArrayList<String> arrCTRL = new ArrayList<String>() ;
-	protected ArrayList<String> arrMAPATTS = new ArrayList<String>() ;
-	protected ArrayList<String> arrDSATTS = new ArrayList<String>() ;
-	protected ArrayList<String> arrJUSTIFY = new ArrayList<String>() ;
+	protected ArrayList<String> cTRL = new ArrayList<String>() ;
+	protected ArrayList<String> mAPATTS = new ArrayList<String>() ;
+	protected ArrayList<String> dSATTS = new ArrayList<String>() ;
+	protected ArrayList<String> jUSTIFY = new ArrayList<String>() ;
 	protected String trailer = "" ;
 	/* (non-Javadoc)
 	 * @see parser.CBMSElement#GetType()
@@ -696,9 +695,9 @@ public class CMapElement extends CBMSElement
 
 	public void setFindArrays()
 	{
-		bFindArrays = true ;
+		isfindArrays = true ;
 	}
-	protected boolean bFindArrays = false ;
+	protected boolean isfindArrays = false ;
 	
 	public CBMSElement loadTagParameters(Tag tagCurrent)
 	{
@@ -738,22 +737,22 @@ public class CMapElement extends CBMSElement
 				if(csChildName.equalsIgnoreCase("CTRL"))
 				{
 					String csVal = tagChild.getVal("Value");
-					arrCTRL.add(csVal);
+					cTRL.add(csVal);
 				}
 				else if(csChildName.equalsIgnoreCase("MAPATTS"))
 				{
 					String csVal = tagChild.getVal("Value");
-					arrMAPATTS.add(csVal);
+					mAPATTS.add(csVal);
 				}
 				else if(csChildName.equalsIgnoreCase("JUSTIFY"))
 				{
 					String csVal = tagChild.getVal("Value");
-					arrJUSTIFY.add(csVal);
+					jUSTIFY.add(csVal);
 				}
 				else if(csChildName.equalsIgnoreCase("DSATTS"))
 				{
 					String csVal = tagChild.getVal("Value");
-					arrDSATTS.add(csVal);
+					dSATTS.add(csVal);
 				}
 				tagChild = tag.getNextChild(curChild);
 			}
@@ -802,17 +801,17 @@ public class CMapElement extends CBMSElement
 		tIOAPFX = new CReservedConstant(null, "YES");		
 		oBFMT = new CReservedConstant(null, "NO");
 		
-		arrCTRL.add("HONEOM");
-		arrCTRL.add("FREEKB");
-		arrMAPATTS.add("COLOR");
-		arrMAPATTS.add("PS");
-		arrMAPATTS.add("HILIGHT");
-		arrMAPATTS.add("VALIDN");
-		arrJUSTIFY.add("LEFT");
-		arrDSATTS.add("COLOR");
-		arrDSATTS.add("PS");
-		arrDSATTS.add("HILIGHT");
-		arrDSATTS.add("VALIDN");
+		cTRL.add("HONEOM");
+		cTRL.add("FREEKB");
+		mAPATTS.add("COLOR");
+		mAPATTS.add("PS");
+		mAPATTS.add("HILIGHT");
+		mAPATTS.add("VALIDN");
+		jUSTIFY.add("LEFT");
+		dSATTS.add("COLOR");
+		dSATTS.add("PS");
+		dSATTS.add("HILIGHT");
+		dSATTS.add("VALIDN");
 	}
 
 }

@@ -21,8 +21,8 @@ public class EncodingConvertionRange
 	
 	private int nPosition = 0;
 	private int nLength = 0;
-	private boolean bConvertOnlyIfBlank = false;
-	private boolean bConvertPrint = false;
+	private boolean isconvertOnlyIfBlank = false;
+	private boolean isconvertPrint = false;
 	
 	public int set(int nPosition, int nLength)
 	{
@@ -33,12 +33,12 @@ public class EncodingConvertionRange
 	
 	public void setConvertOnlyIfBlank(boolean bConvertOnlyIfBlank)
 	{
-		this.bConvertOnlyIfBlank = bConvertOnlyIfBlank;
+		this.isconvertOnlyIfBlank = bConvertOnlyIfBlank;
 	}
 	
 	public void setConvertPrint(boolean bConvertPrint)
 	{
-		this.bConvertPrint = bConvertPrint;
+		this.isconvertPrint = bConvertPrint;
 	}
 	
 	boolean endsJustBefore(int nPosition)
@@ -93,19 +93,19 @@ public class EncodingConvertionRange
 	
 	public boolean isConvertOnlyIfBlank()
 	{
-		return bConvertOnlyIfBlank;
+		return isconvertOnlyIfBlank;
 	}
 	
 	public boolean isConvertPrint()
 	{
-		return bConvertPrint;
+		return isconvertPrint;
 	}
 	
 	private void swapByteEbcdicToAscii(byte tBytesData[], int nOffset, int nLength)
 	{
-		if (bConvertOnlyIfBlank)
+		if (isconvertOnlyIfBlank)
 			if (!isAll(tBytesData, nOffset, nLength, BLANK_EBCDIC)) return;
-		if (bConvertPrint)
+		if (isconvertPrint)
 			AsciiEbcdicConverter.swapByteEbcdicToAsciiPrintAFP(tBytesData, nOffset, nLength);
 		else
 			AsciiEbcdicConverter.swapByteEbcdicToAscii(tBytesData, nOffset, nLength);
@@ -113,9 +113,9 @@ public class EncodingConvertionRange
 
 	private void swapByteAsciiToEbcdic(byte tBytesData[], int nOffset, int nLength)
 	{
-		if (bConvertOnlyIfBlank)
+		if (isconvertOnlyIfBlank)
 			if (!isAll(tBytesData, nOffset, nLength, BLANK_ASCII)) return;
-		if (bConvertPrint)
+		if (isconvertPrint)
 			AsciiEbcdicConverter.swapByteAsciiToEbcdicPrintAFP(tBytesData, nOffset, nLength);
 		else
 			AsciiEbcdicConverter.swapByteAsciiToEbcdic(tBytesData, nOffset, nLength);

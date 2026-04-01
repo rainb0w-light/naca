@@ -27,22 +27,22 @@ import jlib.misc.BaseJmxGeneralStat;
  */
 public class ArrayDbConnectionPool
 {	
-	private ArrayList<DbConnectionPool> arrDbConnectionPool = new ArrayList<DbConnectionPool>();
+	private ArrayList<DbConnectionPool> dbConnectionPool = new ArrayList<DbConnectionPool>();
 	private int nNbTotalStatementRemoved = 0;
 	
 	public synchronized void addDbConnectionPool(DbConnectionPool dbConnectionPool)
 	{
-		arrDbConnectionPool.add(dbConnectionPool);
+		this.dbConnectionPool.add(dbConnectionPool);
 	}
 	
 	// Normally executed in the context of the GCThread
 	synchronized void handleCleanings(MemoryPoolMXBean tenuredPool, int nNbStatementsToRemoveBeforeGC, int nNbStatementForcedRemoved, int nNbSystemGCCall)
 	{
-		if(arrDbConnectionPool != null)
+		if(dbConnectionPool != null)
 		{				
-			for(int n=0; n<arrDbConnectionPool.size(); n++)
+			for(int n = 0; n< dbConnectionPool.size(); n++)
 			{
-				DbConnectionPool dbConnectionPool = arrDbConnectionPool.get(n);
+				DbConnectionPool dbConnectionPool = this.dbConnectionPool.get(n);
 				nNbTotalStatementRemoved += dbConnectionPool.garbageCollectorStatementsOfAllCollections();
 			}
 			int nNbStatementAggressiveRemoved = 0;
@@ -51,9 +51,9 @@ public class ArrayDbConnectionPool
 				// Aggressivelly remove statements is heap usage is to high 
 				// Collect all statements from all pools
 				SortedMap<Long, StatementPosInPool> mapStatements = new TreeMap<Long, StatementPosInPool>();
-				for(int n=0; n<arrDbConnectionPool.size(); n++)
+				for(int n = 0; n< dbConnectionPool.size(); n++)
 				{
-					DbConnectionPool dbConnectionPool = arrDbConnectionPool.get(n);
+					DbConnectionPool dbConnectionPool = this.dbConnectionPool.get(n);
 					dbConnectionPool.buildStatementOrderedList(mapStatements);
 				}
 				nNbStatementAggressiveRemoved = aggressiveRemoveObsoleteStatements(tenuredPool, mapStatements, nNbStatementForcedRemoved, nNbSystemGCCall);
@@ -72,31 +72,31 @@ public class ArrayDbConnectionPool
 		
 	private int aggressiveRemoveObsoleteStatements(MemoryPoolMXBean tenuredPool, SortedMap<Long, StatementPosInPool> mapStatements, int nNbStatementForcedRemoved, int nNbSystemGCCall)
 	{		
-		boolean bGCToDo = false;
+		boolean isgCToDo = false;
 		int nNbStatementRemoved = 0;
 		
 		Set<Map.Entry<Long, StatementPosInPool>> set = mapStatements.entrySet();
 		Iterator<Map.Entry<Long, StatementPosInPool>> iterMapEntry = set.iterator();
-		boolean bMemUsageTooMuch = true;
-		while(iterMapEntry.hasNext() && bMemUsageTooMuch)
+		boolean ismemUsageTooMuch = true;
+		while(iterMapEntry.hasNext() && ismemUsageTooMuch)
 		{
-			Map.Entry<Long, StatementPosInPool> mapEntry = iterMapEntry.next();
-			StatementPosInPool statementPosInPool = mapEntry.getValue();
+			Map.Entry<Long, StatementPosInPool> entry = iterMapEntry.next();
+			StatementPosInPool statementPosInPool = entry.getValue();
 			
-			boolean bRemoved = statementPosInPool.forceRemoveStatement();
-			if(bRemoved)
+			boolean isremoved = statementPosInPool.forceRemoveStatement();
+			if(isremoved)
 			{
-				bGCToDo = true;
+				isgCToDo = true;
 				nNbStatementRemoved++;
 				if((nNbStatementRemoved % nNbStatementForcedRemoved) == 0)
 				{
 					tryForceGC(nNbSystemGCCall);
-					bGCToDo = false;
-					bMemUsageTooMuch = tenuredPool.isUsageThresholdExceeded();
+					isgCToDo = false;
+					ismemUsageTooMuch = tenuredPool.isUsageThresholdExceeded();
 				}
 			}				
 		}
-		if(bGCToDo)
+		if(isgCToDo)
 		{
 			tryForceGC(nNbSystemGCCall);
 		}
@@ -116,11 +116,11 @@ public class ArrayDbConnectionPool
 	public synchronized void forceRemoveAllDBConnections()
 	{
 		ConnectionGenerationManager.incCurrentGenerationId();	// Change current generation of connection 
-		if(arrDbConnectionPool != null)
+		if(dbConnectionPool != null)
 		{
-			for(int n=0; n<arrDbConnectionPool.size(); n++)
+			for(int n = 0; n< dbConnectionPool.size(); n++)
 			{
-				DbConnectionPool dbConnectionPool = arrDbConnectionPool.get(n);
+				DbConnectionPool dbConnectionPool = this.dbConnectionPool.get(n);
 				dbConnectionPool.forceRemoveAllStatementsOfAllCollections();
 			}
 		}

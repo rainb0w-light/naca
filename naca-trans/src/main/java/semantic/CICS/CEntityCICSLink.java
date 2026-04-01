@@ -44,7 +44,7 @@ public abstract class CEntityCICSLink extends CBaseActionEntity
 		bChecked = bChecked ;
 	}
 	
-	protected boolean bChecked = false ;
+	protected boolean ischecked = false ;
 	protected CDataEntity refProgram = null ;
 	protected CDataEntity refCommArea = null ;
 	protected CDataEntity commAreaLength = null ;
@@ -90,6 +90,6 @@ public abstract class CEntityCICSLink extends CBaseActionEntity
 	 */
 	public boolean isReferenceChecked()
 	{
-		return bChecked ;
+		return ischecked;
 	}
 }

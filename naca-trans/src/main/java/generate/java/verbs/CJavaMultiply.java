@@ -42,7 +42,7 @@ public class CJavaMultiply extends CEntityMultiply
 		WriteWord(cs);
 		if (to != null)
 		{
-			if (bIsRounded)
+			if (isisRounded)
 			{
 				WriteWord(".toRounded");
 			}

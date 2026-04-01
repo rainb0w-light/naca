@@ -20,7 +20,6 @@
 package nacaLib.varEx;
 
 import jlib.misc.IntegerRef;
-import jlib.misc.LineRead;
 import nacaLib.tempCache.CStr;
 import nacaLib.tempCache.TempCacheLocator;
 
@@ -430,7 +429,7 @@ public class VarBufferPos extends VarBuffer
 		int nValue = 0;
 		int n = nAbsolutePosition;
 		int nMax = nAbsolutePosition + nTotalSize;
-		boolean bNegative = false;
+		boolean isnegative = false;
 		while(n < nMax)
 		{
 			char c = acBuffer[n++];
@@ -441,13 +440,13 @@ public class VarBufferPos extends VarBuffer
 			}
 			else if(c == '-')
 			{
-				bNegative = true;
+				isnegative = true;
 				continue;
 			}
 			else if(c == '.')
 				break;
 		}
-		if(bNegative)
+		if(isnegative)
 			return -nValue;
 		return nValue;	
 	}
@@ -505,7 +504,7 @@ public class VarBufferPos extends VarBuffer
 		long lValue = 0;
 		int n = nAbsolutePosition;
 		int nMax = nAbsolutePosition+nTotalSize;
-		boolean bNegative = false;
+		boolean isnegative = false;
 		while(n < nMax)
 		{
 			char c = acBuffer[n++];
@@ -516,13 +515,13 @@ public class VarBufferPos extends VarBuffer
 			}
 			else if(c == '-')
 			{
-				bNegative = true;
+				isnegative = true;
 				continue;
 			}			
 			else if(c == '.')
 				break;
 		}
-		if(bNegative)
+		if(isnegative)
 			return -lValue;
 		return lValue;	
 	}

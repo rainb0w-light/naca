@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 20 août 04
+ * Created on 20 aoï¿½t 04
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -46,13 +46,13 @@ public class CExecSQLDelete extends CBaseExecSQLAction
 	
 	protected boolean DoParsing()
 	{
-		boolean bDone = false ;
-		while (!bDone)
+		boolean isdone = false ;
+		while (!isdone)
 		{
 			CBaseToken tok = GetCurrentToken() ;
 			if (tok.GetKeyword() == CCobolKeywordList.END_EXEC)
 			{
-				bDone = true ;
+				isdone = true ;
 				break;
 			}
 			else if (tok.GetType() == CTokenType.STRING)
@@ -102,9 +102,9 @@ public class CExecSQLDelete extends CBaseExecSQLAction
 				{
 					id = new CIdentifier(cs) ;
 				}
-				arrParameters.add(id);
+				parameters.add(id);
 				AppendRequiredSpace();
-				clause += "#"+ arrParameters.size() ; 
+				clause += "#"+ parameters.size() ;
 			}
 			else if (tok.GetType() == CTokenType.CIRCUMFLEX)
 			{
@@ -172,13 +172,13 @@ public class CExecSQLDelete extends CBaseExecSQLAction
 			Element e = root.createElement("Parameters") ;
 			parent.appendChild(e);
 	
-			int nNbItems = arrParameters.size();
+			int nNbItems = parameters.size();
 			for(int n=0; n<nNbItems; n++)
 			{
 				Element eParam = root.createElement("Parameter") ;
 				e.appendChild(eParam);
 					
-				CIdentifier s = arrParameters.get(n);
+				CIdentifier s = parameters.get(n);
 				s.ExportTo(eParam, root) ;
 			}
 		}
@@ -192,9 +192,9 @@ public class CExecSQLDelete extends CBaseExecSQLAction
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
 		Vector<CDataEntity> v = new Vector<CDataEntity>();
-		for (int i=0; i<arrParameters.size(); i++)
+		for (int i = 0; i< parameters.size(); i++)
 		{
-			CIdentifier id = arrParameters.get(i);
+			CIdentifier id = parameters.get(i);
 			CDataEntity e = id.GetDataReference(getLine(), factory);
 			v.add(e);
 		}
@@ -274,6 +274,6 @@ public class CExecSQLDelete extends CBaseExecSQLAction
 	
 	public String clause = "" ;
 	public String csViewName = "" ;
-	public Vector<CIdentifier> arrParameters = new Vector<CIdentifier>() ;
+	public Vector<CIdentifier> parameters = new Vector<CIdentifier>() ;
 }
 

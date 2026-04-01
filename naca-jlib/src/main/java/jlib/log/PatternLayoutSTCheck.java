@@ -69,9 +69,9 @@ public class PatternLayoutSTCheck extends LogPatternLayout
 					String cs = p.getName();
 					MemoryUsage memoryUsage = p.getUsage();
 					long l = memoryUsage.getUsed();
-					long lOldMem = mem[nMem];
-					long lOffset = l - lOldMem;
-					csOut += cs+"="+l+"["+lOffset+"];";
+					long oldMem = mem[nMem];
+					long offset = l - oldMem;
+					csOut += cs+"="+l+"["+ offset +"];";
 					mem[nMem] = l;
 					nMem++;
 				}

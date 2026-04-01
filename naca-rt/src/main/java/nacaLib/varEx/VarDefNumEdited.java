@@ -40,14 +40,14 @@ public class VarDefNumEdited extends VarDefNum
 	{
 		super(varDefParent, declareTypeNumEdited.varLevel);
 		csFormat = declareTypeNumEdited.csFormat;
-		bBlankWhenZero = declareTypeNumEdited.bBlankWhenZero;
+		isblankWhenZero = declareTypeNumEdited.isblankWhenZero;
 	}
 	
 	public VarDefNumEdited(VarDefBase varDefParent, DeclareTypeFPacNumEdited declareTypeNumEdited)
 	{
 		super(varDefParent, declareTypeNumEdited.varLevel);
 		csFormat = declareTypeNumEdited.csMask;
-		bBlankWhenZero = true;
+		isblankWhenZero = true;
 	}
 	
 	protected VarDefNumEdited()
@@ -76,7 +76,7 @@ public class VarDefNumEdited extends VarDefNum
 	{
 		VarDefNumEdited v = new VarDefNumEdited();
 		v.csFormat = csFormat;
-		v.bBlankWhenZero = bBlankWhenZero;
+		v.isblankWhenZero = isblankWhenZero;
 		return v;
 	}
 	
@@ -781,13 +781,13 @@ public class VarDefNumEdited extends VarDefNum
 
 	private void internalFormatAndWrite(VarBufferPos buffer, Dec dec)
 	{
-		String cs = RWNumEdited.internalFormatAndWrite(dec, csFormat, bBlankWhenZero);
+		String cs = RWNumEdited.internalFormatAndWrite(dec, csFormat, isblankWhenZero);
 		internalWriteRightPadding(buffer, getBodyAbsolutePosition(buffer), getBodyLength(), cs, '\0');	// Padding with \0 on the right
 	}
 	
 	private void internalFormatAndWrite(VarBufferPos buffer, int nOffset, Dec dec)
 	{
-		String cs = RWNumEdited.internalFormatAndWrite(dec, csFormat, bBlankWhenZero);
+		String cs = RWNumEdited.internalFormatAndWrite(dec, csFormat, isblankWhenZero);
 		internalWriteRightPadding(buffer, getBodyAbsolutePosition(buffer)+nOffset, getBodyLength(), cs, '\0');	// Padding with \0 on the right
 	}
 	
@@ -820,14 +820,14 @@ public class VarDefNumEdited extends VarDefNum
 	{
 		VarDefNumEdited varDefCopy = (VarDefNumEdited)varDefBufferCopySingleItem;
 		varDefCopy.csFormat = csFormat;
-		varDefCopy.bBlankWhenZero = bBlankWhenZero;
+		varDefCopy.isblankWhenZero = isblankWhenZero;
 	}
 	
 	protected void adjustCustomPropertyForCharGetAt(VarDefBuffer varDefBufferCopySingleItem)
 	{
 		VarDefNumEdited varDefCopy = (VarDefNumEdited)varDefBufferCopySingleItem;
 		varDefCopy.csFormat = csFormat;
-		varDefCopy.bBlankWhenZero = bBlankWhenZero;
+		varDefCopy.isblankWhenZero = isblankWhenZero;
 	}
 	
 	boolean isNumeric(VarBufferPos buffer)
@@ -837,6 +837,6 @@ public class VarDefNumEdited extends VarDefNum
 
 	
 	private String csFormat = null;
-	private boolean bBlankWhenZero = false;
+	private boolean isblankWhenZero = false;
 }
 

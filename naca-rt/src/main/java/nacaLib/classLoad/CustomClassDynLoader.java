@@ -55,22 +55,22 @@ public class CustomClassDynLoader extends ClassDynLoader
 			if(csClassName.startsWith("sun"))
 				return tryLoadWithPrimordialClassLoader(csClassName);
 		}
-		if(!bCanLoadJar && !bCanLoadClass)
+		if(!iscanLoadJar && !bCanLoadClass)
 			return tryLoadWithPrimordialClassLoader(csClassName);
 		
-		boolean bProgram = false;
+		boolean isprogram = false;
 		boolean bCopyOrStdClass = false;
-		boolean bParagraph = false;
-		boolean bCallOrStdClass = false;
+		boolean isparagraph = false;
+		boolean iscallOrStdClass = false;
 		
     	Class classCode = null;
     	
     	if(csCurrentClassName != null)	// paragraph or copy
     	{
     		if(csClassName.equals(csCurrentClassName))	// Program
-    			bProgram = true;
+    			isprogram = true;
     		else if(csClassName.startsWith(csCurrentClassName) && csClassName.indexOf('$') == csCurrentClassName.length())	// Paragraph
-    			bParagraph = true;
+    			isparagraph = true;
     		else
     		{
     			bCopyOrStdClass = true;	// Copy
@@ -81,12 +81,12 @@ public class CustomClassDynLoader extends ClassDynLoader
     		if(csClassName.equals("Pub2000Routines"))	// Pub2000Routines must be moved into a package of nacaRT, like pub2000Utils 
     			bCopyOrStdClass = true;	// Copy
     		else
-    			bCallOrStdClass = true;	// Call
+    			iscallOrStdClass = true;	// Call
     	}
 		
-    	boolean bIntf = csClassName.endsWith("Intf");
+    	boolean isintf = csClassName.endsWith("Intf");
     	
-    	if(bCallOrStdClass || bProgram || bIntf)
+    	if(iscallOrStdClass || isprogram || isintf)
     	{
 	    	CoupleCodeLoader couple = ms_hashByName.get(csClassName);
 			if(couple != null)
@@ -96,16 +96,16 @@ public class CustomClassDynLoader extends ClassDynLoader
 			}
     	}
     	
-    	if(bCallOrStdClass || (bCopyOrStdClass && BaseResourceManager.isLoadCopyByPrimordialLoader()))
+    	if(iscallOrStdClass || (bCopyOrStdClass && BaseResourceManager.isLoadCopyByPrimordialLoader()))
     	{
     		classCode = tryLoadWithPrimordialClassLoader(csClassName);
     		if(classCode != null)
     			return classCode; 
     	}
         
-       	if(bCallOrStdClass)	// If we want to share a copy among all programs, do a if(bCall || bCopyOrStdClass)
+       	if(iscallOrStdClass)	// If we want to share a copy among all programs, do a if(bCall || bCopyOrStdClass)
     	{
-    		CustomClassDynLoader newCustomClassDynLoader = new CustomClassDynLoader(arrPaths, jarEntries, bCanLoadClass, bCanLoadJar);
+    		CustomClassDynLoader newCustomClassDynLoader = new CustomClassDynLoader(arrPaths, jarEntries, bCanLoadClass, iscanLoadJar);
     		Class cls = newCustomClassDynLoader.doLoadClass(csClassName);
     		return cls;
     	}
@@ -128,7 +128,7 @@ public class CustomClassDynLoader extends ClassDynLoader
 		
 		if(classCode != null)
 		{
-			if(bCallOrStdClass || bProgram || bIntf)
+			if(iscallOrStdClass || isprogram || isintf)
 			{
 				CoupleCodeLoader couple = new CoupleCodeLoader(classCode, this);
 				register(csClassName, couple);

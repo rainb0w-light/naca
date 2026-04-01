@@ -40,11 +40,11 @@ public class CJavaReplace extends CEntityReplace
 	{
 		String begin = "inspectReplacing("+ variable.ExportReference(getLine()) + ")";
 		//WriteWord(cs);
-		for (int i=0; i<arrItemsToReplace.size(); i++)
+		for (int i = 0; i< itemsToReplace.size(); i++)
 		{
 			WriteWord(begin) ;
 			String cs = "" ;
-			CReplaceItem item = arrItemsToReplace.get(i);
+			CReplaceItem item = itemsToReplace.get(i);
 			if (item.mode == CReplaceMode.ALL)
 			{
 				cs = ".all" ;
@@ -85,29 +85,29 @@ public class CJavaReplace extends CEntityReplace
 			WriteWord(cs + ")");
 			
 			cs = ".by" ;
-			if (item.byDataType == CReplaceType.SPACES)
+			if (item.dataType == CReplaceType.SPACES)
 			{
 				cs += "Spaces(" ;
 			}
-			else if (item.byDataType == CReplaceType.ZEROS)
+			else if (item.dataType == CReplaceType.ZEROS)
 			{
 				cs += "Zero(" ;
 			}
-			else if (item.byDataType == CReplaceType.LOW_VALUES)
+			else if (item.dataType == CReplaceType.LOW_VALUES)
 			{
 				cs += "LowValues(" ;
 			}
-			else if (item.byDataType == CReplaceType.HIGH_VALUES)
+			else if (item.dataType == CReplaceType.HIGH_VALUES)
 			{
 				cs += "HighValues(" ;
 			}
-			else if (item.byDataType == CReplaceType.CUSTOM)
+			else if (item.dataType == CReplaceType.CUSTOM)
 			{
 				cs += "(" ;
 			}
-			if (item.byData != null)
+			if (item.data != null)
 			{
-				cs += item.byData.ExportReference(getLine());
+				cs += item.data.ExportReference(getLine());
 			}
 			WriteWord(cs + ")");
 			WriteWord(" ;");

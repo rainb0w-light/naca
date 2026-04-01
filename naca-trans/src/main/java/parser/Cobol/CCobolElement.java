@@ -140,8 +140,8 @@ public abstract class CCobolElement extends CLanguageElement
 			else if (tok.GetType() == CTokenType.LEFT_BRACKET)
 			{
 				GetNext();
-				boolean bDone = false ;
-				while (!bDone)
+				boolean isdone = false ;
+				while (!isdone)
 				{
 					tok = GetCurrentToken() ;
 					CExpression exp =  ReadCalculExpression() ; 
@@ -156,7 +156,7 @@ public abstract class CCobolElement extends CLanguageElement
 					{
 						ident.AddArrayIndex(exp) ;
 						tok = GetNext() ;	 // consume RIGHT_BRACKET
-						bDone = true ;
+						isdone = true ;
 					}
 					else if (tok2.GetType() == CTokenType.COLON)
 					{
@@ -167,7 +167,7 @@ public abstract class CCobolElement extends CLanguageElement
 						{
 							GetNext() ; // consume ')'
 							ident.SetSubStringReference(exp, expr2) ;
-							bDone = true ;
+							isdone = true ;
 						}
 						else
 						{
@@ -282,8 +282,8 @@ public abstract class CCobolElement extends CLanguageElement
 		}
 		exprSum = expr1 ;
 		
-		boolean bDone = false ;
-		while (!bDone)
+		boolean isdone = false ;
+		while (!isdone)
 		{
 			CBaseToken tok = GetCurrentToken();
 			if (tok.GetType() == CTokenType.PLUS)
@@ -292,7 +292,7 @@ public abstract class CCobolElement extends CLanguageElement
 				CExpression expr2 = ReadProdExpr() ;
 				if (expr2 == null)
 				{
-					bDone = true ;
+					isdone = true ;
 				}
 				else
 				{
@@ -305,7 +305,7 @@ public abstract class CCobolElement extends CLanguageElement
 				CExpression expr2 = ReadProdExpr() ;
 				if (expr2 == null)
 				{
-					bDone = true ;
+					isdone = true ;
 				}
 				else
 				{
@@ -314,7 +314,7 @@ public abstract class CCobolElement extends CLanguageElement
 			}
 			else 
 			{
-				bDone = true ;
+				isdone = true ;
 			}
 		}
 		return exprSum ;
@@ -329,8 +329,8 @@ public abstract class CCobolElement extends CLanguageElement
 			return null ;
 		}
 		
-		boolean bDone = false ;
-		while (!bDone)
+		boolean isdone = false ;
+		while (!isdone)
 		{
 			CBaseToken tok = GetCurrentToken();
 			if (tok.GetType() == CTokenType.STAR || tok.GetType() == CTokenType.SLASH || tok.GetType() == CTokenType.STAR_STAR)
@@ -348,12 +348,12 @@ public abstract class CCobolElement extends CLanguageElement
 				}
 				else
 				{
-					bDone = true ;
+					isdone = true ;
 				}
 			}
 			else
 			{
-				bDone = true ;
+				isdone = true ;
 			}
 		}
 		return exprProd ;
@@ -678,7 +678,7 @@ public abstract class CCobolElement extends CLanguageElement
 		}
 		else if (tok.GetType() == CTokenType.GREATER_THAN || tok.GetKeyword() == CCobolKeywordList.GREATER) 
 		{
-			boolean bOrEquals = getNextThan() ;
+			boolean isorEquals = getNextThan() ;
 			CExpression term2 = ReadSimpleCondition(null);
 			if (bIsOpposite)
 			{
@@ -686,12 +686,12 @@ public abstract class CCobolElement extends CLanguageElement
 			}
 			else
 			{
-				return new CCondGreaterStatement(tok.getLine(), operand1, term2, bOrEquals) ;
+				return new CCondGreaterStatement(tok.getLine(), operand1, term2, isorEquals) ;
 			}
 		}
 		else if (tok.GetType() == CTokenType.LESS_THAN || tok.GetKeyword() == CCobolKeywordList.LESS) 
 		{
-			boolean bOrEquals = getNextThan() ;
+			boolean isorEquals = getNextThan() ;
 			CExpression term2 = ReadSimpleCondition(null);
 			if (bIsOpposite)
 			{
@@ -699,7 +699,7 @@ public abstract class CCobolElement extends CLanguageElement
 			}
 			else
 			{
-				return new CCondLessStatement(tok.getLine(), operand1, term2, bOrEquals) ;
+				return new CCondLessStatement(tok.getLine(), operand1, term2, isorEquals) ;
 			}
 		}
 		else if (tok.GetType() == CTokenType.GREATER_OR_EQUALS) 
@@ -870,7 +870,7 @@ public abstract class CCobolElement extends CLanguageElement
 	{
 		String data = "" ;
 		CBaseToken tok = GetCurrentToken() ;
-		if (tok.bIsNewLine)
+		if (tok.isisNewLine)
 		{
 			return data ;
 		}

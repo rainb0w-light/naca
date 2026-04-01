@@ -34,13 +34,13 @@ public abstract class CEntityCICSReceiveMap extends CBaseActionEntity
 	public CEntityCICSReceiveMap(int line, CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity name)
 	{
 		super(line, cat, out);
-		mapName = name ;
+		this.name = name ;
 		cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
 	}
 	
 	public void SetMapSet(CDataEntity name)
 	{
-		mapSetName = name ;
+		setName = name ;
 	}
 	public void SetDataInto(CDataEntity name)
 	{
@@ -48,14 +48,14 @@ public abstract class CEntityCICSReceiveMap extends CBaseActionEntity
 	}
 	
 	
-	protected CDataEntity mapName = null ;
-	protected CDataEntity mapSetName = null ;
+	protected CDataEntity name = null ;
+	protected CDataEntity setName = null ;
 	protected CDataEntity dataInto = null ;
 	public void Clear()
 	{
 		super.Clear();
-		mapName = null ;
-		mapSetName = null ;
+		name = null ;
+		setName = null ;
 		dataInto = null ;
 	}
 	public boolean ignore()

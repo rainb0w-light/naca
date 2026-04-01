@@ -53,9 +53,9 @@ public class CheckServiceServlet extends BaseCheckServiceServlet
 			//env.commitSQL();
 			//env.releaseSQLConnection();
 			
-			DbConnectionBase conn = env.getNewSQLConnection();		
+			DbConnectionBase connection = env.getNewSQLConnection();
 			env.resetSession();			
-			if (conn == null)
+			if (connection == null)
 			{
 				errCode.append("Problem access database");
 				return false;

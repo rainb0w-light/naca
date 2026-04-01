@@ -78,7 +78,7 @@ public class CJavaEnvironmentVariable extends CEntityEnvironmentVariable
 	 */
 	public CDataEntityType GetDataType()
 	{
-		if (bNumericVariable)
+		if (isnumericVariable)
 		{
 			return CDataEntityType.NUMERIC_VAR ;
 		}

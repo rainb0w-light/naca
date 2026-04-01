@@ -31,7 +31,7 @@ public class OperandDescription
 	public CDataEntity eObject = null ;
 	public CBaseEntityExpression expStart = null ; 
 	public CBaseEntityExpression expLength = null ;
-	public boolean bHexaNoPacked = false;
+	public boolean ishexaNoPacked = false;
 	
 	public static OperandDescription FindFirstDataEntity(ListIterator<CExpression> iter, CBaseEntityFactory factory)
 	{

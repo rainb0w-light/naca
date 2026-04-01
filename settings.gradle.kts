@@ -10,12 +10,14 @@ rootProject.name = "naca"
 // JLib has no dependencies -> build first
 // NacaRT, NacaTrans depend on JLib
 // NacaRTTests depends on JLib and NacaRT
+// NacaAnalyzer depends on JLib and cobol-rekt modules
 
 include("naca-jlib")
 include("naca-rt")
 include("naca-trans")
 include("naca-rt-tests")
 include("naca-cloud-native")
+include("naca-analyzer")
 
 // Project directory mapping
 project(":naca-jlib").projectDir = file("naca-jlib")
@@ -23,3 +25,4 @@ project(":naca-rt").projectDir = file("naca-rt")
 project(":naca-trans").projectDir = file("naca-trans")
 project(":naca-rt-tests").projectDir = file("naca-rt-tests")
 project(":naca-cloud-native").projectDir = file("naca-cloud-native")
+project(":naca-analyzer").projectDir = file("naca-analyzer")

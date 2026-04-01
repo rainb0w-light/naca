@@ -23,13 +23,13 @@ public class CESMReturnCode
 	private CESMReturnCode(int cond, String code)
 	{
 		nCondition = cond ;
-		sCode = code ;
+		this.code = code ;
 	}
 	private int nCondition = 0;
-	private String sCode = "" ;
+	private String code = "" ;
 	public String getCode()
 	{
-		return sCode ;
+		return code;
 	}
 	public int getCondition()
 	{

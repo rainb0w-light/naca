@@ -9,19 +9,14 @@
  */
 package jlib.sqlMapper;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 
 import jlib.exception.TechnicalException;
-import jlib.misc.ListCoupleRender;
-import jlib.misc.StringUtil;
 import jlib.sql.ColValue;
 import jlib.sql.ColValueCollection;
 import jlib.sql.DbAccessor;
@@ -102,17 +97,17 @@ public class SqlMapperManagedRecord extends ColValueCollection
 	
 	void handleColsType(SQLClause clause, ResultSet resultSet)
 	{
-		ResultSetMetaData rsMetaData;
+		ResultSetMetaData resultSetmetaData;
 		int nCol=0;
 		try
 		{
-			rsMetaData = resultSet.getMetaData();
+			resultSetmetaData = resultSet.getMetaData();
 			
-			int nNbCols = rsMetaData.getColumnCount();
+			int nNbCols = resultSetmetaData.getColumnCount();
 			for(nCol=1; nCol<=nNbCols; nCol++)
 			{
-				String csColName = rsMetaData.getColumnName(nCol);
-				String csColTypeName = rsMetaData.getColumnTypeName(nCol);
+				String csColName = resultSetmetaData.getColumnName(nCol);
+				String csColTypeName = resultSetmetaData.getColumnTypeName(nCol);
 				if(csColTypeName.equals("CHAR"))
 				{
 					add(csColName, (String)null);
@@ -123,8 +118,8 @@ public class SqlMapperManagedRecord extends ColValueCollection
 				}
 				else if(csColTypeName.equals("DECIMAL"))
 				{				
-					int nPrecision = rsMetaData.getPrecision(nCol);
-					int nScale = rsMetaData.getScale(nCol);
+					int nPrecision = resultSetmetaData.getPrecision(nCol);
+					int nScale = resultSetmetaData.getScale(nCol);
 					if(nScale == 0)	// No digits behind comma (integer value)
 					{
 						if(nPrecision <= 8)	// Fits within an int
@@ -143,7 +138,7 @@ public class SqlMapperManagedRecord extends ColValueCollection
 				}
 				else if(csColTypeName.equals("INTEGER"))
 				{
-					int nPrecision = rsMetaData.getPrecision(nCol);
+					int nPrecision = resultSetmetaData.getPrecision(nCol);
 					if(nPrecision <= 8)	// Fits within an int
 					{
 						add(csColName, (int)0);
@@ -194,11 +189,11 @@ public class SqlMapperManagedRecord extends ColValueCollection
 			int nNbCols = recordColsTypeMaster.getNbColValues();
 			for(nCol=0; nCol<nNbCols; nCol++)
 			{
-				ColValue colValueMaster = recordColsTypeMaster.getColValueAtIndex(nCol);
-				ColValue colValueTarget = colValueMaster.duplicate();
-				colValueTarget.fillWithResurltSetCol(resultSet, nCol+1);
+				ColValue collectionvalueMaster = recordColsTypeMaster.getColValueAtIndex(nCol);
+				ColValue collectionvalueTarget = collectionvalueMaster.duplicate();
+				collectionvalueTarget.fillWithResurltSetCol(resultSet, nCol+1);
 							
-				add(colValueTarget);
+				add(collectionvalueTarget);
 			}
 			return true;
 		}

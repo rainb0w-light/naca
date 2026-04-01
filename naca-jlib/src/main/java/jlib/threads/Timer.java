@@ -68,13 +68,13 @@ public abstract class Timer extends Thread
 	
 	public void run()
 	{
-		boolean bContinue = true;
-		while(bContinue)
+		boolean iscontinue = true;
+		while(iscontinue)
 		{
 			try
 			{
 				Thread.sleep(nPeriodWait_ms);
-				bContinue = pulse();
+				iscontinue = pulse();
 			} 
 			catch (InterruptedException e)
 			{

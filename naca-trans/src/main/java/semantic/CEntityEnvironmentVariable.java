@@ -40,12 +40,12 @@ public abstract class CEntityEnvironmentVariable extends CDataEntity
 		super(l, name, cat, out);
 		csAccessor = accessor ;
 		csWriteAccessor = writer ;
-		bNumericVariable = bNumericVar ;
+		isnumericVariable = bNumericVar ;
 	}
 	
 	protected String csAccessor = "" ;
 	protected String csWriteAccessor = "" ;
-	protected boolean bNumericVariable = false ;
+	protected boolean isnumericVariable = false ;
 	
 	public CBaseEntityCondition GetSpecialCondition(int nLine, String value, CBaseEntityCondition.EConditionType type, CBaseEntityFactory factory)
 	{
@@ -114,7 +114,7 @@ public abstract class CEntityEnvironmentVariable extends CDataEntity
 	@Override
 	public CDataEntityType GetDataType()
 	{
-		if (bNumericVariable)
+		if (isnumericVariable)
 			return CDataEntityType.NUMERIC_VAR ;
 		else
 			return CDataEntityType.VAR;

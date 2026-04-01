@@ -39,27 +39,27 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
 	private String csPrefId = null;
 	private String csEnvironment = "" ;
 	protected Connection dbConnection = null;
-	private boolean bUseRowId = false;	// true if must use RowId to support updates in cursors "select for update" (Oracle needs it)
+	private boolean isuseRowId = false;	// true if must use RowId to support updates in cursors "select for update" (Oracle needs it)
 	private Hashtable<String, DbPreparedStatement> hashStatement = new Hashtable<String, DbPreparedStatement>();	// Hsah collection of statement; Vey=int (hashed statement string), Value=Statement
-	private boolean bUseCachedStatements = true;	// true if a cache of all met statements is kept by the current connection, false if the statement is recreated
+	private boolean isuseCachedStatements = true;	// true if a cache of all met statements is kept by the current connection, false if the statement is recreated
 	private StopWatch stopWatchLastUsage = null;
 	private int nMaxStatementLiveTime_ms = -1;	// INFINITE by default
 	private int nGenerationId = -1;
 	public DbConnectionColl dbConnectionColl = null;
-	private boolean bUseExplain = false;
+	private boolean isuseExplain = false;
 	private DbDriverId dbDriverId = null;
 	private String csUUID = null;
 	
-	public DbConnectionBase(Connection conn, String csPrefId, String csEnv, boolean bUseCachedStatements, boolean bUseJmx, DbDriverId dbDriverId)
+	public DbConnectionBase(Connection conn, String csPrefId, String csEnv, boolean isuseCachedStatements, boolean bUseJmx, DbDriverId dbDriverId)
 	{
 		dbDriverId = dbDriverId;
 		//super("DbConnectionBase_"+csPrefId, "DbConnectionBase");
 		csPrefId = csPrefId;
-		bUseCachedStatements = bUseCachedStatements;
+		isuseCachedStatements = isuseCachedStatements;
 		dbConnection = conn ;
 		if(csEnv.equals("OracleTest"))	// Tests have no prefixe
 		{
-			bUseRowId = true;
+			isuseRowId = true;
 		}
 		else
 		{
@@ -195,8 +195,8 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
 		Iterator<Map.Entry<String, DbPreparedStatement>> iterMapEntry = set.iterator();
 		while(iterMapEntry.hasNext())
 		{
-			Map.Entry<String, DbPreparedStatement> mapEntry = iterMapEntry.next(); 
-			DbPreparedStatement dbPreparedStatement = mapEntry.getValue();
+			Map.Entry<String, DbPreparedStatement> entry = iterMapEntry.next();
+			DbPreparedStatement dbPreparedStatement = entry.getValue();
 			if(dbPreparedStatement.isTimeOut(nMaxStatementLiveTime_ms))
 			{
 				dbPreparedStatement.close();
@@ -226,8 +226,8 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
 		Iterator<Map.Entry<String, DbPreparedStatement>> iterMapEntry = set.iterator();
 		while(iterMapEntry.hasNext())
 		{
-			Map.Entry<String, DbPreparedStatement> mapEntry = iterMapEntry.next(); 
-			DbPreparedStatement dbPreparedStatement = mapEntry.getValue();
+			Map.Entry<String, DbPreparedStatement> entry = iterMapEntry.next();
+			DbPreparedStatement dbPreparedStatement = entry.getValue();
 			dbPreparedStatement.resetReserved();
 		}
 	}
@@ -241,9 +241,9 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
 		Iterator<Map.Entry<String, DbPreparedStatement>> iterMapEntry = set.iterator();
 		while(iterMapEntry.hasNext())
 		{			
-			Map.Entry<String, DbPreparedStatement> mapEntry = iterMapEntry.next();
-			String csStatementId = mapEntry.getKey();
-			DbPreparedStatement dbPreparedStatement = mapEntry.getValue(); 
+			Map.Entry<String, DbPreparedStatement> entry = iterMapEntry.next();
+			String csStatementId = entry.getKey();
+			DbPreparedStatement dbPreparedStatement = entry.getValue();
 			
 			if(!dbPreparedStatement.isReserved())
 			{
@@ -279,7 +279,7 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
 				Log.logCritical("Error during check DB connection with query " + csValidationQuery);
 			}
 	
-			if(!bUseCachedStatements)
+			if(!isuseCachedStatements)
 				sqlStatement.close();
 		}
 		return b;
@@ -431,7 +431,7 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
 	synchronized public DbPreparedStatement prepareStatement(String csQuery, int nSuffixeHash, boolean bHoldability)
 	{
 		String csQueryHash = csQuery + nSuffixeHash;
-		if(bUseCachedStatements)
+		if(isuseCachedStatements)
 		{
 			DbPreparedStatement SQLStatement = getCachedStatement(csQueryHash);
 			if(SQLStatement != null)
@@ -441,7 +441,7 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
 		DbPreparedStatement SQLStatement = createAndPrepare(csQuery, bHoldability);
 		if(SQLStatement != null && hashStatement != null)
 		{
-			if(bUseCachedStatements)
+			if(isuseCachedStatements)
 				hashStatement.put(csQueryHash, SQLStatement);
 		}
 		return SQLStatement;
@@ -451,7 +451,7 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
 		throws TechnicalException
 	{
 		String csQueryHash = csQuery + nSuffixeHash;
-		if(bUseCachedStatements)
+		if(isuseCachedStatements)
 		{
 			DbPreparedStatement SQLStatement = getCachedStatement(csQueryHash);
 			if(SQLStatement != null)
@@ -461,7 +461,7 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
 		DbPreparedStatement SQLStatement = createAndPrepareWithException(csQuery, bHoldability);
 		if(SQLStatement != null && hashStatement != null)
 		{
-			if(bUseCachedStatements)
+			if(isuseCachedStatements)
 				hashStatement.put(csQueryHash, SQLStatement);
 		}
 		return SQLStatement;
@@ -594,7 +594,7 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
 
 	public boolean supportCursorName()
 	{
-		if(bUseRowId)
+		if(isuseRowId)
 			return false;
 		return true;
 	}
@@ -639,7 +639,7 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
 	
 	public boolean getUseExplain()
 	{
-		return bUseExplain;
+		return isuseExplain;
 	}
 	
 	public Connection getDbConnection()
@@ -685,8 +685,8 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
 		{
 			String csStmt = eStsmt.nextElement();
 			DbPreparedStatement statement = hashStatement.get(csStmt);
-			long lLastUsageTimeValue = statement.getLastUsageTimeValue();
-			sbText.append("    " + lLastUsageTimeValue + ";  " + csStmt + "\n");
+			long lastUsageTimeValue = statement.getLastUsageTimeValue();
+			sbText.append("    " + lastUsageTimeValue + ";  " + csStmt + "\n");
 		}
 	}
 			
@@ -719,9 +719,9 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
 		{
 			String csStmt = eStsmt.nextElement();
 			DbPreparedStatement statement = hashStatement.get(csStmt);
-			long lLastUsageTimeValue = statement.getLastUsageTimeValue();
-			DbConnectionBaseStmtJMXBean dbConnectionBaseStmtJMXBean = new DbConnectionBaseStmtJMXBean(csStmt, lLastUsageTimeValue);
-			dbConnectionBaseStmtJMXBean.createMBean(csName + "_" + lLastUsageTimeValue, csDescription);
+			long lastUsageTimeValue = statement.getLastUsageTimeValue();
+			DbConnectionBaseStmtJMXBean dbConnectionBaseStmtJMXBean = new DbConnectionBaseStmtJMXBean(csStmt, lastUsageTimeValue);
+			dbConnectionBaseStmtJMXBean.createMBean(csName + "_" + lastUsageTimeValue, csDescription);
 			JMXBeanOwner.add(dbConnectionBaseStmtJMXBean);
 			n++;
 		}	

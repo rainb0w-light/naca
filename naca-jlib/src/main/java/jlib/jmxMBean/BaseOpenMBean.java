@@ -34,19 +34,19 @@ public abstract class BaseOpenMBean extends BaseDynamicMBean	//implements Dynami
 	
 	private void registerOpenInfos(String csName, String csDescription)
 	{
-		OpenMBeanAttributeInfo[] arrAttributes = null;
+		OpenMBeanAttributeInfo[] attributes = null;
 		if(arrOpenMBeanAttributeInfosWrapper != null)
 		{
 			int nNbItems = arrOpenMBeanAttributeInfosWrapper.size();
-			arrAttributes = new OpenMBeanAttributeInfo[nNbItems]; 
+			attributes = new OpenMBeanAttributeInfo[nNbItems];
 			for(int n=0; n<nNbItems; n++)
 			{
 				OpenMBeanAttributeInfoWrapper wrapper = arrOpenMBeanAttributeInfosWrapper.get(n);
-				arrAttributes[n] = wrapper.getAttribute();
+				attributes[n] = wrapper.getAttribute();
 			}
 		} 
 		
-		openMBeanInfo = new OpenMBeanInfoSupport(csName, csDescription, arrAttributes, null, null, null); 
+		openMBeanInfo = new OpenMBeanInfoSupport(csName, csDescription, attributes, null, null, null);
 	}
 	
 	public Object getAttribute(String csName) 
@@ -111,8 +111,8 @@ public abstract class BaseOpenMBean extends BaseDynamicMBean	//implements Dynami
 					Method method = attributeInfoWrapper.getMethodSetter();
 					if(method != null)
 					{
-						Class[] arrClassArgs = method.getParameterTypes();
-						if(arrClassArgs.length == 1)	// Check: only 1 arg
+						Class[] classArgs = method.getParameterTypes();
+						if(classArgs.length == 1)	// Check: only 1 arg
 						{
 							try
 							{
@@ -186,15 +186,15 @@ public abstract class BaseOpenMBean extends BaseDynamicMBean	//implements Dynami
 	protected void addOpenAttribute(String csDescription, Class cls, String csMethodName, CompositeType compositeType)
 	{
 		Method methodGet = MethodFinder.getMethod(cls, "get"+csMethodName);
-		boolean bCanGet = true;
+		boolean iscanGet = true;
 		if(methodGet == null)
-			bCanGet = false;
+			iscanGet = false;
 		Method methodSet = MethodFinder.getMethod(cls, "set"+csMethodName, CompositeData.class);
-		boolean bCanSet = true;
+		boolean iscanSet = true;
 		if(methodSet == null)
-			bCanSet = false;
+			iscanSet = false;
 
-		OpenMBeanAttributeInfoSupport attrOpen = new OpenMBeanAttributeInfoSupport(csMethodName, csDescription, compositeType, bCanGet, bCanSet, false); 
+		OpenMBeanAttributeInfoSupport attrOpen = new OpenMBeanAttributeInfoSupport(csMethodName, csDescription, compositeType, iscanGet, iscanSet, false);
 		OpenMBeanAttributeInfoWrapper attr = new OpenMBeanAttributeInfoWrapper(csMethodName, csDescription, attrOpen, methodGet, methodSet);
 		
 		if(arrOpenMBeanAttributeInfosWrapper == null)
@@ -205,15 +205,15 @@ public abstract class BaseOpenMBean extends BaseDynamicMBean	//implements Dynami
 	protected void addOpenAttribute(String csDescription, Class cls, String csMethodName, TabularType tabularType)
 	{
 		Method methodGet = MethodFinder.getMethod(cls, "get"+csMethodName);
-		boolean bCanGet = true;
+		boolean iscanGet = true;
 		if(methodGet == null)
-			bCanGet = false;
+			iscanGet = false;
 		Method methodSet = MethodFinder.getMethod(cls, "set"+csMethodName, CompositeData.class);
-		boolean bCanSet = true;
+		boolean iscanSet = true;
 		if(methodSet == null)
-			bCanSet = false;
+			iscanSet = false;
 
-		OpenMBeanAttributeInfoSupport attrOpen = new OpenMBeanAttributeInfoSupport(csMethodName, csDescription, tabularType, bCanGet, bCanSet, false); 
+		OpenMBeanAttributeInfoSupport attrOpen = new OpenMBeanAttributeInfoSupport(csMethodName, csDescription, tabularType, iscanGet, iscanSet, false);
 		OpenMBeanAttributeInfoWrapper attr = new OpenMBeanAttributeInfoWrapper(csMethodName, csDescription, attrOpen, methodGet, methodSet);
 		
 		if(arrOpenMBeanAttributeInfosWrapper == null)

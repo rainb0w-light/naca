@@ -62,7 +62,7 @@ public class CScenarioPlayer extends CJMapObject
 		docScenario = XMLUtil.LoadXML(filepath) ;
 		if (docScenario == null)
 		{
-			lstPages = null ;
+			listpages = null ;
 		}
 		else
 		{
@@ -82,7 +82,7 @@ public class CScenarioPlayer extends CJMapObject
 			{
 				throw new RuntimeException() ;
 			}
-			lstPages = docScenario.getElementsByTagName(csXMLItemName) ;
+			listpages = docScenario.getElementsByTagName(csXMLItemName) ;
 			nCurrentPage = 0 ;
 		}
 	}
@@ -93,7 +93,7 @@ public class CScenarioPlayer extends CJMapObject
 	 */
 
 	protected Document docScenario = null ;
-	protected NodeList lstPages = null ;
+	protected NodeList listpages = null ;
 	protected int nPlayerState = 0 ;
 	protected int nCurrentPage = 0 ;
 	protected ScenarioRecordDataMode modeRecord = null ; 
@@ -108,17 +108,17 @@ public class CScenarioPlayer extends CJMapObject
 	protected Document getCurrentPage()
 	{
 		Document docData = XMLUtil.CreateDocument() ;
-		if (nCurrentPage>=0 && nCurrentPage<lstPages.getLength())
+		if (nCurrentPage>=0 && nCurrentPage< listpages.getLength())
 		{
 			if (modeRecord == ScenarioRecordDataMode.MODE_WEB)
 			{
-				Element eForm = (Element)lstPages.item(nCurrentPage) ;
+				Element eForm = (Element) listpages.item(nCurrentPage) ;
 				Element e = (Element)docData.importNode(eForm, true) ;
 				docData.appendChild(e);
 			}
 			else if (modeRecord == ScenarioRecordDataMode.MODE_3270)
 			{
-				Element eCycle = (Element)lstPages.item(nCurrentPage) ;
+				Element eCycle = (Element) listpages.item(nCurrentPage) ;
 				Element eForm = docData.createElement("form") ;
 				docData.appendChild(eForm) ;
 				
@@ -190,7 +190,7 @@ public class CScenarioPlayer extends CJMapObject
 			tabFields.put(csKey, f) ;
 		}
 		
-		Vector<EditedField> arrFields = new Vector<EditedField>() ;
+		Vector<EditedField> fields = new Vector<EditedField>() ;
 		lst = eForm.getElementsByTagName("edit") ;
 		for (int i=0; i<lst.getLength(); i++)
 		{
@@ -209,13 +209,13 @@ public class CScenarioPlayer extends CJMapObject
 				f.value = ff.value ;
 				f.modified = "true" ;
 			}
-			arrFields.add(f) ;
+			fields.add(f) ;
 		}
 
 		Element eData = data.getDocumentElement() ;
-		for (int i=0; i<arrFields.size(); i++)
+		for (int i = 0; i< fields.size(); i++)
 		{
-			EditedField f = arrFields.get(i) ;
+			EditedField f = fields.get(i) ;
 			Element e = data.createElement("field") ;
 			eData.appendChild(e) ;
 			e.setAttribute("name", f.name) ;
@@ -262,7 +262,7 @@ public class CScenarioPlayer extends CJMapObject
 	 */
 	public boolean isPlayingScenario()
 	{
-		return docScenario != null && nCurrentPage < lstPages.getLength() ;
+		return docScenario != null && nCurrentPage < listpages.getLength() ;
 	}
 	/**
 	 * @return
@@ -304,7 +304,7 @@ public class CScenarioPlayer extends CJMapObject
 			else
 			{	// user hit some key : stop scenario
 				docScenario = null ;
-				lstPages = null ;
+				listpages = null ;
 				nCurrentPage = 0 ;
 				nPlayerState = 0 ;
 				return ;
@@ -316,9 +316,9 @@ public class CScenarioPlayer extends CJMapObject
 	}
 	public String getDisplay()
 	{
-		if (docScenario != null && lstPages != null)
+		if (docScenario != null && listpages != null)
 		{
-			if (nCurrentPage < lstPages.getLength())
+			if (nCurrentPage < listpages.getLength())
 			{
 				if (nPlayerState == ScenarioPlayerState.CALL_PROGRAM)
 				{	// program has been called, show the page with new fields
@@ -429,7 +429,7 @@ public class CScenarioPlayer extends CJMapObject
 				tabPageFields.put(csKey, f) ;
 			}
 			
-			Element eCycle = (Element)lstPages.item(nCurrentPage) ;
+			Element eCycle = (Element) listpages.item(nCurrentPage) ;
 			lst = eCycle.getElementsByTagName("Field") ;
 			if (lst.getLength() == 0)
 			{
@@ -476,7 +476,7 @@ public class CScenarioPlayer extends CJMapObject
 		{
 			String lang = xmlOutput.getDocumentElement().getAttribute("lang") ;
 			Hashtable<String, EditedField> tabPageFields = new Hashtable<String, EditedField>() ;
-			Element eCycle = (Element)lstPages.item(nCurrentPage) ;
+			Element eCycle = (Element) listpages.item(nCurrentPage) ;
 			NodeList lst = eCycle.getElementsByTagName("Field") ;
 			if (lst.getLength() == 0)
 			{
@@ -514,12 +514,12 @@ public class CScenarioPlayer extends CJMapObject
 				f.name = eEdit.getAttribute("linkedvalue");
 				f.modified = eEdit.getAttribute("modified");
 				String mutable = eEdit.getAttribute("replayMutable") ;
-				boolean bMutable = mutable!= null && mutable.equalsIgnoreCase("true") ; 
+				boolean ismutable = mutable!= null && mutable.equalsIgnoreCase("true") ;
 				String csKey = f.getKey() ;
 				EditedField ff = tabPageFields.get(csKey) ;
 				if (ff != null)
 				{
-					if ((!f.value.equals(ff.value) && !f.value.endsWith(ff.value)) && !bMutable && !ff.mutable)
+					if ((!f.value.equals(ff.value) && !f.value.endsWith(ff.value)) && !ismutable && !ff.mutable)
 					{
 						System.out.println("Unmatching value for field : "+f.name+" ; field : "+f.value + " ; original : "+ff.value) ;
 						Element eWarn = xmlOutput.createElement("warning") ; 

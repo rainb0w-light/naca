@@ -66,38 +66,38 @@ public abstract class CEntityCount extends CBaseActionEntity
 	
 	protected CDataEntity variable = null ;
 	protected CDataEntity toVariable = null ;
-	protected Vector<CDataEntity> arrCountLeadingToken = new Vector<CDataEntity>() ; 
-	protected Vector<CDataEntity> arrCountAllToken = new Vector<CDataEntity>() ; 
-	protected Vector<CDataEntity> arrCountAfterToken = new Vector<CDataEntity>() ; 
-	protected Vector<CDataEntity> arrCountBeforeToken = new Vector<CDataEntity>() ; 
+	protected Vector<CDataEntity> countLeadingToken = new Vector<CDataEntity>() ;
+	protected Vector<CDataEntity> countAllToken = new Vector<CDataEntity>() ;
+	protected Vector<CDataEntity> countAfterToken = new Vector<CDataEntity>() ;
+	protected Vector<CDataEntity> countBeforeToken = new Vector<CDataEntity>() ;
 	public void Clear()
 	{
 		super.Clear() ;
-		arrCountAfterToken.clear() ;
-		arrCountAllToken.clear() ;
-		arrCountBeforeToken.clear() ;
+		countAfterToken.clear() ;
+		countAllToken.clear() ;
+		countBeforeToken.clear() ;
 		variable = null ;
 		toVariable = null ;
 	}
 
 	public void CountBefore(CDataEntity entity)
 	{
-		arrCountBeforeToken.add(entity) ;
+		countBeforeToken.add(entity) ;
 	}
 
 	public void CountAll(CDataEntity entity)
 	{
-		arrCountAllToken.add(entity) ;
+		countAllToken.add(entity) ;
 	}
 	
 	public void CountLeading(CDataEntity entity)
 	{
-		arrCountLeadingToken.add(entity) ;
+		countLeadingToken.add(entity) ;
 	}
 
 	public void CountAfter(CDataEntity entity)
 	{
-		arrCountAfterToken.add(entity) ;
+		countAfterToken.add(entity) ;
 	}
 	public boolean ignore()
 	{

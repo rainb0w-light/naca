@@ -13,7 +13,6 @@ import jlib.log.Log;
 import jlib.misc.BaseDataFile;
 import jlib.misc.DataFileLineReader;
 import jlib.misc.LineRead;
-import jlib.misc.LogicalFileDescriptor;
 import jlib.misc.StringUtil;
 import nacaLib.basePrgEnv.BaseSession;
 import nacaLib.varEx.FileDescriptor;
@@ -42,8 +41,8 @@ public class FileSysinReader extends BaseFileScriptReader
 			return false;
 		
 		dataFileIn = new DataFileLineReader(csFileIn, 65536, 0);
-		boolean bInOpened = dataFileIn.open();
-		if(bInOpened)
+		boolean isinOpened = dataFileIn.open();
+		if(isinOpened)
 		{
 			String csSQLClause = readSQLLine();
 			while(csSQLClause != null)

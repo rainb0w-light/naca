@@ -82,13 +82,13 @@ public class CSpecialActionContainer
 	{
 		int n = cat.GetNbMap() ;
 		int m = cat.GetNbSaveMap() ;
-		boolean bSave = false ;
+		boolean issave = false ;
 		for (int i=0; i<n+m; i++)
 		{
 			CEntityResourceForm form = null ;
 			if (i>=n)
-				bSave = true ;
-			if (!bSave)
+				issave = true ;
+			if (!issave)
 			{
 				form = cat.GetMap(i) ;
 			}
@@ -530,21 +530,21 @@ public class CSpecialActionContainer
 		}
 		NotifIsUsedCICSPreprocessor notifIsUsed = new NotifIsUsedCICSPreprocessor() ;
 		cat.SendNotifRequest(notifIsUsed) ;
-		if (notifIsUsed.bUsed)
+		if (notifIsUsed.isused)
 		{
-			Vector<CBaseLanguageEntity> arrChildren = linkage.GetListOfChildren() ;
-			boolean bHasStructure = false ;
+			Vector<CBaseLanguageEntity> children = linkage.GetListOfChildren() ;
+			boolean ishasStructure = false ;
 			CDataEntity dfh = null ;
-			for (int i=0; i<arrChildren.size(); i++)
+			for (int i = 0; i< children.size(); i++)
 			{
-				CBaseLanguageEntity e = arrChildren.get(i);
+				CBaseLanguageEntity e = children.get(i);
 				if (e.GetName().equalsIgnoreCase("DFHCOMMAREA"))
 				{
-					bHasStructure = true ;
+					ishasStructure = true ;
 					dfh = (CDataEntity)e ;
 				}
 			}
-			if (!bHasStructure)
+			if (!ishasStructure)
 			{
 				CEntityStructure s = factory.NewEntityStructure(0, "DFHCOMMAREA", "01") ;
 				s.SetTypeString(1) ;
@@ -555,18 +555,18 @@ public class CSpecialActionContainer
 			CEntityProcedureDivision prodiv = cat.getProcedureDivision() ;
 			if (prodiv != null)
 			{
-				Vector<CDataEntity> arrParam = prodiv.getCallParameters() ;
-				if (arrParam.size() > 0)
+				Vector<CDataEntity> param = prodiv.getCallParameters() ;
+				if (param.size() > 0)
 				{
-					CDataEntity e = arrParam.get(0);
+					CDataEntity e = param.get(0);
 					if (e.GetName().equalsIgnoreCase("DFHCOMMAREA"))
 					{
-						arrParam.insertElementAt(dfh, 0);
+						param.insertElementAt(dfh, 0);
 					}
 				}
 				else
 				{
-					arrParam.add(dfh);
+					param.add(dfh);
 				}
 			}
 		}
@@ -579,11 +579,11 @@ public class CSpecialActionContainer
 			//throw new NacaTransAssertException("Missing LINKAGE SECTION") ;
 			return ;
 		}
-		Vector<CBaseLanguageEntity> arrChildren = linkage.GetListOfChildren() ;
+		Vector<CBaseLanguageEntity> children = linkage.GetListOfChildren() ;
 		CEntityStructure dfh = null ;
-		for (int i=0; i<arrChildren.size(); i++)
+		for (int i = 0; i< children.size(); i++)
 		{
-			CBaseLanguageEntity e = arrChildren.get(i);
+			CBaseLanguageEntity e = children.get(i);
 			if (e.GetName().equalsIgnoreCase("DFHCOMMAREA"))
 			{
 				dfh = (CEntityStructure)e ;
@@ -610,10 +610,10 @@ public class CSpecialActionContainer
 				}
 				return ;
 			}
-			Vector<CBaseLanguageEntity> arrChildren = eData.GetListOfChildren() ;
-			for (int i=0; i<arrChildren.size(); i++)
+			Vector<CBaseLanguageEntity> children = eData.GetListOfChildren() ;
+			for (int i = 0; i< children.size(); i++)
 			{
-				CBaseLanguageEntity e = arrChildren.get(i);
+				CBaseLanguageEntity e = children.get(i);
 				if (CEntityStructure.class.isInstance(e))
 				{
 					CEntityStructure struct = (CEntityStructure)e ;
@@ -825,9 +825,9 @@ public class CSpecialActionContainer
 	{
 		String varName = el.getVal("testVariable") ;
 		CCobolLexer lexer = new CCobolLexer(0, varName.length()) ;
-		boolean bOk = lexer.StartLexer(varName, null) ;
-		CTokenList lstTokens = lexer.GetTokenList() ;
-		CIdentifier id = CCobolElement.ReadIdentifier(lstTokens) ;
+		boolean isok = lexer.StartLexer(varName, null) ;
+		CTokenList listtokens = lexer.GetTokenList() ;
+		CIdentifier id = CCobolElement.ReadIdentifier(listtokens) ;
 		CDataEntity eVar = id.GetDataReference(0, factory) ;
 		if (eVar == null)
 		{
@@ -966,8 +966,8 @@ public class CSpecialActionContainer
 			CBaseLanguageEntity eParent = eStart.GetParent() ;
 			if (eEnd.GetParent() == eParent)
 			{	// if the 2 paragraphs are not in the same section, nothing can be done...
-				CBaseLanguageEntity[] arrChildren = eParent.GetChildrenList(eStart, eEnd) ;
-				if (arrChildren!= null && arrChildren.length == 2)
+				CBaseLanguageEntity[] children = eParent.GetChildrenList(eStart, eEnd) ;
+				if (children != null && children.length == 2)
 				{
 					CEntityCallFunction eCall1 = factory.NewEntityCallFunction(ePTh.getLine(), eStart.GetName(), "", null) ;
 					CEntityCallFunction eCall2 = factory.NewEntityCallFunction(ePTh.getLine(), eEnd.GetName(), "", null) ;
@@ -1037,7 +1037,7 @@ public class CSpecialActionContainer
 		depSection.AddChild(factory.NewEntityComment(0, "***********************************************************")) ;
 		depSection.AddChild(factory.NewEntityComment(0, "* FileDescriptor length-dependency Section")) ;
 		depSection.AddChild(factory.NewEntityComment(0, "***********************************************************")) ;
-		boolean bFound = false ;
+		boolean isfound = false ;
 		for (CEntityFileDescriptor desc : cat.getFileDescriptors())
 		{
 			CDataEntity var = desc.getRecordSizeDepending() ;
@@ -1049,7 +1049,7 @@ public class CSpecialActionContainer
 				CEntityFileDescriptorLengthDependency dep = factory.NewEntityFileDescriptorLengthDependency(desc.GetName()+ "_dependency") ;
 				dep.setDependency(desc, var) ;
 				depSection.AddChild(dep) ;
-				bFound = true ;
+				isfound = true ;
 			}
 			else
 			{
@@ -1057,7 +1057,7 @@ public class CSpecialActionContainer
 			}
 		}
 		
-		if (bFound) 
+		if (isfound)
 		{
 			CEntityDataSection linkage = cat.getLinkageSection() ;
 			if (linkage == null)

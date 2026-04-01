@@ -194,102 +194,102 @@ public class AsciiEbcdicConverter
 		addChar("9D", "14"); //   ?    157  
 		addChar("9E", "3E"); //   ?    158  
 		addChar("9F", "FF"); //   ?    159  
-		addChar("A0", "41"); //        160  
-		addChar("A1", "AA"); //   ¡    161  
-		addChar("A2", "B0"); //   ¢    162  
-		addChar("A3", "B1"); //   £    163  
-		addChar("A4", "9F"); //   ¤    164  
-		addChar("A5", "B2"); //   ¥    165  
-		addChar("A6", "6A"); //   ¦    166  
-		addChar("A7", "B5"); //   §    167  
-		addChar("A8", "BD"); //   ¨    168  
-		addChar("A9", "B4"); //   ©    169  
-		addChar("AA", "9A"); //   ª    170  
-		addChar("AB", "8A"); //   «    171  
-		addChar("AC", "BA"); //   ¬    172  
-		addChar("AD", "CA"); //   ­    173  
-		addChar("AE", "AF"); //   ®    174  
-		addChar("AF", "BC"); //   ¯    175  
-		addChar("B0", "90"); //   °    176  
-		addChar("B1", "8F"); //   ±    177  
-		addChar("B2", "EA"); //   ²    178  
-		addChar("B3", "FA"); //   ³    179  
-		addChar("B4", "BE"); //   ´    180  
-		addChar("B5", "A0"); //   µ    181  
-		addChar("B6", "B6"); //   ¶    182  
-		addChar("B7", "B3"); //   ·    183  
-		addChar("B8", "9D"); //   ¸    184  
-		addChar("B9", "DA"); //   ¹    185  
-		addChar("BA", "9B"); //   º    186  
-		addChar("BB", "8B"); //   »    187  
-		addChar("BC", "B7"); //   ¼    188  
-		addChar("BD", "B8"); //   ½    189  
-		addChar("BE", "B9"); //   ¾    190  
-		addChar("BF", "AB"); //   ¿    191  
-		addChar("C0", "64"); //   À    192  
-		addChar("C1", "65"); //   Á    193  
-		addChar("C2", "62"); //   Â    194  
-		addChar("C3", "66"); //   Ã    195  
-		addChar("C4", "63"); //   Ä    196  
-		addChar("C5", "67"); //   Å    197  
-		addChar("C6", "9E"); //   Æ    198  
-		addChar("C7", "68"); //   Ç    199  
-		addChar("C8", "74"); //   È    200  
-		addChar("C9", "71"); //   É    201  
-		addChar("CA", "72"); //   Ê    202  
-		addChar("CB", "73"); //   Ë    203  
-		addChar("CC", "78"); //   Ì    204  
-		addChar("CD", "75"); //   Í    205  
-		addChar("CE", "76"); //   Î    206  
-		addChar("CF", "77"); //   Ï    207  
-		addChar("D0", "AC"); //   Ð    208  
-		addChar("D1", "69"); //   Ñ    209  
-		addChar("D2", "ED"); //   Ò    210  
-		addChar("D3", "EE"); //   Ó    211  
-		addChar("D4", "EB"); //   Ô    212  
-		addChar("D5", "EF"); //   Õ    213  
-		addChar("D6", "EC"); //   Ö    214  
-		addChar("D7", "BF"); //   ×    215  
-		addChar("D8", "80"); //   Ø    216  
-		addChar("D9", "FD"); //   Ù    217  
-		addChar("DA", "FE"); //   Ú    218  
-		addChar("DB", "FB"); //   Û    219  
-		addChar("DC", "FC"); //   Ü    220  
-		addChar("DD", "AD"); //   Ý    221  
-		addChar("DE", "AE"); //   Þ    222  
-		addChar("DF", "59"); //   ß    223  
-		addChar("E0", "44"); //   à    224  
-		addChar("E1", "45"); //   á    225  
-		addChar("E2", "42"); //   â    226  
-		addChar("E3", "46"); //   ã    227  
-		addChar("E4", "43"); //   ä    228  
-		addChar("E5", "47"); //   å    229  
-		addChar("E6", "9C"); //   æ    230  
-		addChar("E7", "48"); //   ç    231  
-		addChar("E8", "54"); //   è    232  
-		addChar("E9", "51"); //   é    233  
-		addChar("EA", "52"); //   ê    234  
-		addChar("EB", "53"); //   ë    235  
-		addChar("EC", "58"); //   ì    236  
-		addChar("ED", "55"); //   í    237  
-		addChar("EE", "56"); //   î    238  
-		addChar("EF", "57"); //   ï    239  
-		addChar("F0", "8C"); //   ð    240  
-		addChar("F1", "49"); //   ñ    241  
-		addChar("F2", "CD"); //   ò    242  
-		addChar("F3", "CE"); //   ó    243  
-		addChar("F4", "CB"); //   ô    244  
-		addChar("F5", "CF"); //   õ    245  
-		addChar("F6", "CC"); //   ö    246  
-		addChar("F7", "E1"); //   ÷    247  
-		addChar("F8", "70"); //   ø    248  
-		addChar("F9", "DD"); //   ù    249  
-		addChar("FA", "DE"); //   ú    250  
-		addChar("FB", "DB"); //   û    251  
-		addChar("FC", "DC"); //   ü    252  
-		addChar("FD", "8D"); //   ý    253  
-		addChar("FE", "8E"); //   þ    254  
-		addChar("FF", "FF"); //   ÿ    255
+		addChar("A0", "41"); //   ï¿½    160  
+		addChar("A1", "AA"); //   ï¿½    161  
+		addChar("A2", "B0"); //   ï¿½    162  
+		addChar("A3", "B1"); //   ï¿½    163  
+		addChar("A4", "9F"); //   ï¿½    164  
+		addChar("A5", "B2"); //   ï¿½    165  
+		addChar("A6", "6A"); //   ï¿½    166  
+		addChar("A7", "B5"); //   ï¿½    167  
+		addChar("A8", "BD"); //   ï¿½    168  
+		addChar("A9", "B4"); //   ï¿½    169  
+		addChar("AA", "9A"); //   ï¿½    170  
+		addChar("AB", "8A"); //   ï¿½    171  
+		addChar("AC", "BA"); //   ï¿½    172  
+		addChar("AD", "CA"); //   ï¿½    173  
+		addChar("AE", "AF"); //   ï¿½    174  
+		addChar("AF", "BC"); //   ï¿½    175  
+		addChar("B0", "90"); //   ï¿½    176  
+		addChar("B1", "8F"); //   ï¿½    177  
+		addChar("B2", "EA"); //   ï¿½    178  
+		addChar("B3", "FA"); //   ï¿½    179  
+		addChar("B4", "BE"); //   ï¿½    180  
+		addChar("B5", "A0"); //   ï¿½    181  
+		addChar("B6", "B6"); //   ï¿½    182  
+		addChar("B7", "B3"); //   ï¿½    183  
+		addChar("B8", "9D"); //   ï¿½    184  
+		addChar("B9", "DA"); //   ï¿½    185  
+		addChar("BA", "9B"); //   ï¿½    186  
+		addChar("BB", "8B"); //   ï¿½    187  
+		addChar("BC", "B7"); //   ï¿½    188  
+		addChar("BD", "B8"); //   ï¿½    189  
+		addChar("BE", "B9"); //   ï¿½    190  
+		addChar("BF", "AB"); //   ï¿½    191  
+		addChar("C0", "64"); //   ï¿½    192  
+		addChar("C1", "65"); //   ï¿½    193  
+		addChar("C2", "62"); //   ï¿½    194  
+		addChar("C3", "66"); //   ï¿½    195  
+		addChar("C4", "63"); //   ï¿½    196  
+		addChar("C5", "67"); //   ï¿½    197  
+		addChar("C6", "9E"); //   ï¿½    198  
+		addChar("C7", "68"); //   ï¿½    199  
+		addChar("C8", "74"); //   ï¿½    200  
+		addChar("C9", "71"); //   ï¿½    201  
+		addChar("CA", "72"); //   ï¿½    202  
+		addChar("CB", "73"); //   ï¿½    203  
+		addChar("CC", "78"); //   ï¿½    204  
+		addChar("CD", "75"); //   ï¿½    205  
+		addChar("CE", "76"); //   ï¿½    206  
+		addChar("CF", "77"); //   ï¿½    207  
+		addChar("D0", "AC"); //   ï¿½    208  
+		addChar("D1", "69"); //   ï¿½    209  
+		addChar("D2", "ED"); //   ï¿½    210  
+		addChar("D3", "EE"); //   ï¿½    211  
+		addChar("D4", "EB"); //   ï¿½    212  
+		addChar("D5", "EF"); //   ï¿½    213  
+		addChar("D6", "EC"); //   ï¿½    214  
+		addChar("D7", "BF"); //   ï¿½    215  
+		addChar("D8", "80"); //   ï¿½    216  
+		addChar("D9", "FD"); //   ï¿½    217  
+		addChar("DA", "FE"); //   ï¿½    218  
+		addChar("DB", "FB"); //   ï¿½    219  
+		addChar("DC", "FC"); //   ï¿½    220  
+		addChar("DD", "AD"); //   ï¿½    221  
+		addChar("DE", "AE"); //   ï¿½    222  
+		addChar("DF", "59"); //   ï¿½    223  
+		addChar("E0", "44"); //   ï¿½    224  
+		addChar("E1", "45"); //   ï¿½    225  
+		addChar("E2", "42"); //   ï¿½    226  
+		addChar("E3", "46"); //   ï¿½    227  
+		addChar("E4", "43"); //   ï¿½    228  
+		addChar("E5", "47"); //   ï¿½    229  
+		addChar("E6", "9C"); //   ï¿½    230  
+		addChar("E7", "48"); //   ï¿½    231  
+		addChar("E8", "54"); //   ï¿½    232  
+		addChar("E9", "51"); //   ï¿½    233  
+		addChar("EA", "52"); //   ï¿½    234  
+		addChar("EB", "53"); //   ï¿½    235  
+		addChar("EC", "58"); //   ï¿½    236  
+		addChar("ED", "55"); //   ï¿½    237  
+		addChar("EE", "56"); //   ï¿½    238  
+		addChar("EF", "57"); //   ï¿½    239  
+		addChar("F0", "8C"); //   ï¿½    240  
+		addChar("F1", "49"); //   ï¿½    241  
+		addChar("F2", "CD"); //   ï¿½    242  
+		addChar("F3", "CE"); //   ï¿½    243  
+		addChar("F4", "CB"); //   ï¿½    244  
+		addChar("F5", "CF"); //   ï¿½    245  
+		addChar("F6", "CC"); //   ï¿½    246  
+		addChar("F7", "E1"); //   ï¿½    247  
+		addChar("F8", "70"); //   ï¿½    248  
+		addChar("F9", "DD"); //   ï¿½    249  
+		addChar("FA", "DE"); //   ï¿½    250  
+		addChar("FB", "DB"); //   ï¿½    251  
+		addChar("FC", "DC"); //   ï¿½    252  
+		addChar("FD", "8D"); //   ï¿½    253  
+		addChar("FE", "8E"); //   ï¿½    254  
+		addChar("FF", "FF"); //   ï¿½    255
 	}
 	
 	static private void addChar(String csAscii, String csEbcdic)
@@ -310,10 +310,10 @@ public class AsciiEbcdicConverter
 	
 	static private int getCode(String cs)
 	{
-		char cHigh = cs.charAt(0);
-		int nHigh = getHexValue(cHigh);
-		char cLow = cs.charAt(1);
-		int nLow = getHexValue(cLow);
+		char high = cs.charAt(0);
+		int nHigh = getHexValue(high);
+		char low = cs.charAt(1);
+		int nLow = getHexValue(low);
 		int n = (nHigh * 16) + nLow;
 		return n;
 	}
@@ -333,12 +333,12 @@ public class AsciiEbcdicConverter
 		if(nAscii >= 0 && nAscii <= 255)
 		{
 			int nHigh = nAscii / 16;
-			char cHigh = getHexChar(nHigh);
+			char high = getHexChar(nHigh);
 			int nLow = nAscii % 16;
-			char cLow = getHexChar(nLow);
+			char low = getHexChar(nLow);
 			String cs = new String();
-			cs += cHigh;
-			cs += cLow;
+			cs += high;
+			cs += low;
 			
 			return cs;
 		}
@@ -373,15 +373,15 @@ public class AsciiEbcdicConverter
 	public static char getEbcdicChar(char cAscii)
 	{
 		int nEbcdic = gs_tEbcdic[cAscii];
-		char cEbcdic = (char)nEbcdic;
-		return cEbcdic;	
+		char ebcdic = (char)nEbcdic;
+		return ebcdic;
 	}
 	
 	public static char getAsciiChar(char cEbcdic)
 	{
 		int nAscii = gs_tAscii[cEbcdic];
-		char cAscii = (char)nAscii;
-		return cAscii;	
+		char ascii = (char)nAscii;
+		return ascii;
 	}
 	
 	public static char getAsciiChar(byte byEbcdic)
@@ -390,8 +390,8 @@ public class AsciiEbcdicConverter
 		if(nEbcdic < 0)
 			nEbcdic += 256;
 		int nAscii = gs_tAscii[nEbcdic];
-		char cAscii = (char)nAscii;
-		return cAscii;	
+		char ascii = (char)nAscii;
+		return ascii;
 	}
 	
 	public static byte getAsciiByte(byte byEbcdic)
@@ -426,11 +426,11 @@ public class AsciiEbcdicConverter
 		int nLg = csIn.length();
 		for(int n=0; n<nLg; n++)
 		{
-			char cIn = csIn.charAt(n);
-			int nIn = cIn;
+			char in = csIn.charAt(n);
+			int nIn = in;
 			int nEbcdic = gs_tEbcdic[nIn];
-			char cEbcdic = (char)nEbcdic;
-			csOut += cEbcdic;
+			char ebcdic = (char)nEbcdic;
+			csOut += ebcdic;
 		}
 		return csOut;
 	}

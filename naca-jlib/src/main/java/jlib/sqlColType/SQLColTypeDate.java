@@ -21,7 +21,7 @@ import jlib.misc.NumberParser;
 public class SQLColTypeDate
 {
 	private Timestamp ts = null;
-	private boolean bValid = false;
+	private boolean isvalid = false;
 	
 	public SQLColTypeDate(String csYYYYMMDD)
 	{
@@ -30,7 +30,7 @@ public class SQLColTypeDate
 		int nDD = NumberParser.getAsInt(csYYYYMMDD.substring(6, 8));
 		
 		ts = new Timestamp(nYYYY, nMM, nDD, 0, 0, 0, 0);
-		bValid = true;
+		isvalid = true;
 	}
 	
 	public SQLColTypeDate(int nYYYYMMDD)
@@ -41,18 +41,18 @@ public class SQLColTypeDate
 		int nDD = NumberParser.getAsInt(csYYYYMMDD.substring(6, 8));
 		
 		ts = new Timestamp(nYYYY, nMM, nDD, 0, 0, 0, 0);
-		bValid = true;
+		isvalid = true;
 	}
 	
 	public void setInfinite()
 	{
 		ts = new Timestamp(2038, 12, 31, 0, 0, 0, 0);
-		bValid = true;
+		isvalid = true;
 	}
 	
 	public boolean isValid()
 	{
-		return bValid;
+		return isvalid;
 	}
 	
 	public Timestamp getTimeStamp()

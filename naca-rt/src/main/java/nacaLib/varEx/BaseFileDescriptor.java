@@ -145,36 +145,36 @@ public abstract class BaseFileDescriptor extends CJMapObject
 	
 	private BaseFileDescriptor doOpenOutput(boolean bCanAuthoriseFileHeaderWrite)
 	{
-		boolean bVariableLength = false;
+		boolean isvariableLength = false;
 		if(hasVarVariableLengthMarker())
-			bVariableLength = true;
+			isvariableLength = true;
 		
-		boolean bOpened = fileManagerEntry.doOpenOutput(csLogicalName, baseSession, bVariableLength, bCanAuthoriseFileHeaderWrite);
-		if(bOpened)
+		boolean isopened = fileManagerEntry.doOpenOutput(csLogicalName, baseSession, isvariableLength, bCanAuthoriseFileHeaderWrite);
+		if(isopened)
 			return this;
 		return null;
 	}	
 	
 	public BaseFileDescriptor openInputOutput()
 	{
-		boolean bVariableLength = false;
+		boolean isvariableLength = false;
 		if(hasVarVariableLengthMarker())
-			bVariableLength = true;
+			isvariableLength = true;
 
-		boolean bOpened = fileManagerEntry.doOpenInputOutput(csLogicalName, baseSession, bVariableLength);
-		if(bOpened)
+		boolean isopened = fileManagerEntry.doOpenInputOutput(csLogicalName, baseSession, isvariableLength);
+		if(isopened)
 			return this;
 		return null;
 	}
 	
 	public BaseFileDescriptor openInput()
 	{
-		boolean bVariableLength = false;
+		boolean isvariableLength = false;
 		if(hasVarVariableLengthMarker())
-			bVariableLength = true;
+			isvariableLength = true;
 		
-		boolean bOpened = fileManagerEntry.doOpenInput(csLogicalName, baseSession, bVariableLength);
-		if(bOpened)
+		boolean isopened = fileManagerEntry.doOpenInput(csLogicalName, baseSession, isvariableLength);
+		if(isopened)
 			return this;
 		return null;
 	}
@@ -190,12 +190,12 @@ public abstract class BaseFileDescriptor extends CJMapObject
 
 	public BaseFileDescriptor openExtend()
 	{
-		boolean bVariableLength = false;
+		boolean isvariableLength = false;
 		if(hasVarVariableLengthMarker())
-			bVariableLength = true;
+			isvariableLength = true;
 		
-		boolean bOpened = fileManagerEntry.doOpenExtend(csLogicalName, baseSession, bVariableLength);
-		if(bOpened)
+		boolean isopened = fileManagerEntry.doOpenExtend(csLogicalName, baseSession, isvariableLength);
+		if(isopened)
 			return this;
 		return null;
 	}

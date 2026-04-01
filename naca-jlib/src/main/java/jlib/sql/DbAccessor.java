@@ -133,18 +133,18 @@ public class DbAccessor extends BaseCloseMBean
 		return n;
 	}
 	
-	private boolean bShowRunningCon = false;
+	private boolean isshowRunningCon = false;
 	
 	// Operation
 	public void setShowRunningCon()
 	{
-		bShowRunningCon = !bShowRunningCon;
-		DbAccessorConnectionManager.showHideRunningConnections(this, bShowRunningCon);		
+		isshowRunningCon = !isshowRunningCon;
+		DbAccessorConnectionManager.showHideRunningConnections(this, isshowRunningCon);
 	}
 	
 	public boolean getAreConnectionsShown()
 	{
-		return bShowRunningCon;
+		return isshowRunningCon;
 	}
 	
 	public static String dumpConnectionsForAllAccessors()

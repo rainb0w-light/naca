@@ -41,7 +41,7 @@ public class VarDefNumIntComp0Long extends VarDefNum
 	{
 		super(varDefParent, declareType9.varLevel);
 		nNbDigitInteger = numericValue.nNbDigitInteger;
-		bBlankWhenZero = declareType9.bBlankWhenZero;
+		isblankWhenZero = declareType9.isblankWhenZero;
 	}
 	
 	protected VarDefNumIntComp0Long()
@@ -162,9 +162,9 @@ public class VarDefNumIntComp0Long extends VarDefNum
 	
 	public void inc(VarBufferPos buffer, int n)
 	{
-		long lVal = getAsDecodedLong(buffer);
-		lVal += n;
-		write(buffer, lVal);
+		long val = getAsDecodedLong(buffer);
+		val += n;
+		write(buffer, val);
 	}
 	
 	public void inc(VarBufferPos buffer, BigDecimal bdStep)
@@ -546,7 +546,7 @@ public class VarDefNumIntComp0Long extends VarDefNum
 	void writeIntComp0AsLong(VarBufferPos buffer, long lValue)
 	{
 		//RWNumIntComp0.internalWriteAbsoluteIntComp0AsLong(buffer, lValue, buffer.nAbsolutePosition, nTotalSize);
-		if(!bBlankWhenZero)
+		if(!isblankWhenZero)
 			RWNumIntComp0.setFromRightToLeft(buffer, 0, lValue, nTotalSize, nNbDigitInteger);
 		else
 		{
@@ -560,7 +560,7 @@ public class VarDefNumIntComp0Long extends VarDefNum
 	void writeIntComp0AsLong(VarBufferPos buffer, int nOffset, long lValue)
 	{
 		// RWNumIntComp0.internalWriteAbsoluteIntComp0AsLong(buffer, nOffset, lValue, buffer.nAbsolutePosition, nTotalSize);
-		if(!bBlankWhenZero)
+		if(!isblankWhenZero)
 			RWNumIntComp0.setFromRightToLeft(buffer, nOffset, lValue, nTotalSize, nNbDigitInteger);
 		else
 		{
@@ -863,5 +863,5 @@ public class VarDefNumIntComp0Long extends VarDefNum
 	}
 
 	private int nNbDigitInteger;
-	private boolean bBlankWhenZero = false;
+	private boolean isblankWhenZero = false;
 }

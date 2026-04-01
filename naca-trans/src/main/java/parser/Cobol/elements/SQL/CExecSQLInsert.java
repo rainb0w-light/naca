@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 20 août 04
+ * Created on 20 aoï¿½t 04
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -66,7 +66,7 @@ public class CExecSQLInsert extends CBaseExecSQLAction
 			{
 				tok = GetNext();
 				tok = GetNext();
-				bSessionTable = true;
+				issessionTable = true;
 				csTable = tok.GetValue() ;
 			}
 			tok = GetNext();
@@ -75,19 +75,19 @@ public class CExecSQLInsert extends CBaseExecSQLAction
 		if (tok.GetType() == CTokenType.LEFT_BRACKET)
 		{
 			tok = GetNext();
-			boolean bDone = false ;
-			while (!bDone)
+			boolean isdone = false ;
+			while (!isdone)
 			{
 				tok = GetCurrentToken();
 				if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 				{
 					tok = GetNext();
-					bDone = true ;
+					isdone = true ;
 				}
 				else if (tok.GetType() == CTokenType.IDENTIFIER)
 				{
 					String cs = tok.GetValue() ;
-					arrColumns.add(cs);
+					columns.add(cs);
 					tok = GetNext();
 					if (tok.GetType() == CTokenType.COMMA)
 					{
@@ -96,7 +96,7 @@ public class CExecSQLInsert extends CBaseExecSQLAction
 				}
 				else
 				{
-					bDone = true ;
+					isdone = true ;
 				}
 			}
 		}
@@ -108,14 +108,14 @@ public class CExecSQLInsert extends CBaseExecSQLAction
 			{
 				tok = GetNext();
 			}
-			boolean bDone = false ;
-			while (!bDone)
+			boolean isdone = false ;
+			while (!isdone)
 			{
 				tok = GetCurrentToken();
 				if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 				{
 					tok = GetNext();
-					bDone = true ;
+					isdone = true ;
 				}
 				else if (tok.GetType() == CTokenType.COLON)
 				{
@@ -135,7 +135,7 @@ public class CExecSQLInsert extends CBaseExecSQLAction
 						id = new CIdentifier(cs);
 					}
 					CTerminal term = new CIdentifierTerminal(id);
-					arrValues.add(term);
+					values.add(term);
 					tok = GetCurrentToken();
 					if (tok.GetType() == CTokenType.COMMA)
 					{
@@ -147,7 +147,7 @@ public class CExecSQLInsert extends CBaseExecSQLAction
 					String cs = tok.GetValue();
 					tok = GetNext();
 					CTerminal term = new CStringTerminal(cs);
-					arrValues.add(term);
+					values.add(term);
 					tok = GetCurrentToken();
 					if (tok.GetType() == CTokenType.COMMA)
 					{
@@ -159,7 +159,7 @@ public class CExecSQLInsert extends CBaseExecSQLAction
 					String cs = tok.GetValue();
 					tok = GetNext();
 					CTerminal term = new CNumberTerminal(cs);
-					arrValues.add(term);
+					values.add(term);
 					tok = GetCurrentToken();
 					if (tok.GetType() == CTokenType.COMMA)
 					{
@@ -172,7 +172,7 @@ public class CExecSQLInsert extends CBaseExecSQLAction
 					if (tok.GetValue().equals("TIMESTAMP"))
 					{
 						CTerminal term = new CConstantTerminal("CURRENT TIMESTAMP") ;
-						arrValues.add(term);
+						values.add(term);
 						tok = GetNext();
 						if (tok.GetType() == CTokenType.COMMA)
 						{
@@ -197,7 +197,7 @@ public class CExecSQLInsert extends CBaseExecSQLAction
 						id = new CIdentifier(cs);
 					}
 					CTerminal term = new CIdentifierTerminal(id);
-					arrValues.add(term);
+					values.add(term);
 					tok = GetCurrentToken();
 					if (tok.GetType() == CTokenType.COMMA)
 					{
@@ -206,19 +206,19 @@ public class CExecSQLInsert extends CBaseExecSQLAction
 				}
 				else
 				{
-					bDone = true ;
+					isdone = true ;
 				}
 			}
 		}
 		else if (tok.GetKeyword()  == CCobolKeywordList.SELECT)
 		{
-			boolean bDone = false ;
-			while (!bDone)
+			boolean isdone = false ;
+			while (!isdone)
 			{
 				tok = GetCurrentToken() ;
 				if (tok.GetKeyword() == CCobolKeywordList.END_EXEC)
 				{
-					bDone = true ;
+					isdone = true ;
 					break;
 				}
 				else if (tok.GetType() == CTokenType.STRING)
@@ -251,9 +251,9 @@ public class CExecSQLInsert extends CBaseExecSQLAction
 					{
 						id = new CIdentifier(cs) ;
 					}
-					arrParametersForSelect.add(id);
+					parametersForSelect.add(id);
 					AppendRequiredSpace();
-					selectClause += "#"+ arrParametersForSelect.size() ; 
+					selectClause += "#"+ parametersForSelect.size() ;
 				}
 				else if (tok.GetType() == CTokenType.EXCLAMATION)
 				{
@@ -378,7 +378,7 @@ public class CExecSQLInsert extends CBaseExecSQLAction
 	}
 	
 	protected String selectClause = "" ;
-	protected Vector<CIdentifier> arrParametersForSelect = new Vector<CIdentifier>() ;
+	protected Vector<CIdentifier> parametersForSelect = new Vector<CIdentifier>() ;
 
 	private void ExportValues(Document root, Element parent)
 	{
@@ -387,13 +387,13 @@ public class CExecSQLInsert extends CBaseExecSQLAction
 			Element e = root.createElement("Values") ;
 			parent.appendChild(e);
 
-			int nNbItems = arrValues.size();
+			int nNbItems = values.size();
 			for(int n=0; n<nNbItems; n++)
 			{
 				Element eParam = root.createElement("Parameter") ;
 				e.appendChild(eParam);
 				
-				CTerminal s = arrValues.get(n);
+				CTerminal s = values.get(n);
 				s.ExportTo(eParam, root) ;
 			}
 		}
@@ -430,34 +430,34 @@ public class CExecSQLInsert extends CBaseExecSQLAction
 
 		if (!selectClause.equals(""))
 		{
-			Vector<String> arrColumns = new Vector<String>() ;
-			String newClause = CExecSQLSelect.PrepareSelectStatement(parent, selectClause, arrColumns, factory, false) ;
+			Vector<String> columns = new Vector<String>() ;
+			String newClause = CExecSQLSelect.PrepareSelectStatement(parent, selectClause, columns, factory, false) ;
 			
-			Vector<CDataEntity> arrParam = new Vector<CDataEntity>() ;
-			String clause = CExecSQLSelect.CheckConcat(getLine(), newClause, arrParametersForSelect, arrParam, factory) ;
-			eSQL.SetInsert(tablename, clause, arrParam);
+			Vector<CDataEntity> param = new Vector<CDataEntity>() ;
+			String clause = CExecSQLSelect.CheckConcat(getLine(), newClause, parametersForSelect, param, factory) ;
+			eSQL.SetInsert(tablename, clause, param);
 			Transcoder.checkSQL(getLine(), clause);
 		}
 		else
 		{
 			Vector<CBaseLanguageEntity> v;
-			if (arrValues.size() == 1)
+			if (values.size() == 1)
 			{
-				CTerminal id = arrValues.get(0); 
+				CTerminal id = values.get(0);
 				CDataEntity e = id.GetDataEntity(getLine(), factory);
 				v = e.GetListOfChildren() ;
 			}
 			else
 			{
 				v = new Vector<CBaseLanguageEntity>();
-				for (int i=0; i<arrValues.size(); i++)
+				for (int i = 0; i< values.size(); i++)
 				{
-					CTerminal id = arrValues.get(i);
+					CTerminal id = values.get(i);
 					CDataEntity e = id.GetDataEntity(getLine(), factory);
 					v.add(e);
 				} 
 			}
-			if (arrColumns.size() == 0)
+			if (columns.size() == 0)
 			{
 				if (table == null)
 				{
@@ -469,9 +469,9 @@ public class CExecSQLInsert extends CBaseExecSQLAction
 						{
 							name = name.substring(0, name.indexOf("$"));
 						}
-						arrColumns.add(name);
+						columns.add(name);
 					}
-					eSQL.SetInsert(tablename, arrColumns, v);
+					eSQL.SetInsert(tablename, columns, v);
 				}
 				else
 				{	
@@ -480,17 +480,17 @@ public class CExecSQLInsert extends CBaseExecSQLAction
 			}
 			else
 			{
-				eSQL.SetInsert(tablename, arrColumns, v);
+				eSQL.SetInsert(tablename, columns, v);
 			}
 		}
-		eSQL.setSessionTable(bSessionTable);
+		eSQL.setSessionTable(issessionTable);
 		
 		return eSQL;
 	}
 	
-	protected ArrayList<String> arrColumns = new ArrayList<String>() ;
-	protected Vector<CTerminal> arrValues = new Vector<CTerminal>() ;
+	protected ArrayList<String> columns = new ArrayList<String>() ;
+	protected Vector<CTerminal> values = new Vector<CTerminal>() ;
 	protected String csTable = "" ;
-	protected boolean bSessionTable = false;
+	protected boolean issessionTable = false;
 }
 

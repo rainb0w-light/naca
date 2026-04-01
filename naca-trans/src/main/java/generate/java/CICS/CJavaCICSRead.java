@@ -37,7 +37,7 @@ public class CJavaCICSRead extends CEntityCICSRead
 
 	protected void DoExport()
 	{
-		if (bReadtoDataSet && dataInto.GetName().equals("PLAU-ZONE"))
+		if (isreadtoDataSet && dataInto.GetName().equals("PLAU-ZONE"))
 		{
 			if (dataInto.of != null)
 			{
@@ -50,7 +50,7 @@ public class CJavaCICSRead extends CEntityCICSRead
 				ASSERT(null);
 			}
 		}
-		else if (bReadtoDataSet && dataInto.GetName().equals("PLAU-ZONE-ASP"))
+		else if (isreadtoDataSet && dataInto.GetName().equals("PLAU-ZONE-ASP"))
 		{
 			if (dataInto.of != null)
 			{
@@ -63,7 +63,7 @@ public class CJavaCICSRead extends CEntityCICSRead
 				ASSERT(null);
 			}
 		}
-		else if (bReadtoDataSet && dataInto.GetName().equals("MSG-ZONE"))
+		else if (isreadtoDataSet && dataInto.GetName().equals("MSG-ZONE"))
 		{
 			if (dataInto.of != null)
 			{
@@ -99,7 +99,7 @@ public class CJavaCICSRead extends CEntityCICSRead
 				ASSERT(null);
 			}
 		}
-		else if (bReadtoDataSet && dataInto.GetName().equals("CURS-ZONE"))
+		else if (isreadtoDataSet && dataInto.GetName().equals("CURS-ZONE"))
 		{
 			if (dataInto.of != null && recIDField != null)
 			{
@@ -129,11 +129,11 @@ public class CJavaCICSRead extends CEntityCICSRead
 			{
 				title = "CESM.readNext" ;
 			}
-			if (bReadtoDataSet)
+			if (isreadtoDataSet)
 			{
 				title += "DataSet(" ;
 			}
-			else if (bReadToFile)
+			else if (isreadToFile)
 			{
 				title += "File(" ;
 			}
@@ -148,7 +148,7 @@ public class CJavaCICSRead extends CEntityCICSRead
 			{
 				WriteWord(".keyLength(" + keyLength.ExportReference(getLine()) + ")");
 			}
-			if (bEqual)
+			if (isequal)
 			{
 				WriteWord(".equal()") ;
 			}

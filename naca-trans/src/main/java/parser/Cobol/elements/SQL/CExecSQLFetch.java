@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 19 août 04
+ * Created on 19 aoï¿½t 04
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -60,13 +60,13 @@ public class CExecSQLFetch extends CBaseExecSQLAction
 			Element e = root.createElement("Into") ;
 			parent.appendChild(e);
 
-			int nNbItems = arrInto.size();
+			int nNbItems = into.size();
 			for(int n=0; n<nNbItems; n++)
 			{
 				Element eParam = root.createElement("Parameter") ;
 				e.appendChild(eParam);
 				
-				CIdentifier id = arrInto.get(n);
+				CIdentifier id = into.get(n);
 				id.ExportTo(eParam, root) ;
 			}
 		}
@@ -86,17 +86,17 @@ public class CExecSQLFetch extends CBaseExecSQLAction
 			return null ;
 		}
 		int nbCol = cur.GetNbColumns();
-		boolean bResolve = nbCol > arrInto.size() && arrInto.size()==1 ;
+		boolean isresolve = nbCol > into.size() && into.size()==1 ;
 		Vector<CBaseLanguageEntity> v = new Vector<CBaseLanguageEntity>();
-		for (int i=0; i<arrInto.size(); i++)
+		for (int i = 0; i< into.size(); i++)
 		{
-			CIdentifier id = arrInto.get(i);
+			CIdentifier id = into.get(i);
 			CDataEntity e = id.GetDataReference(getLine(), factory);
 			if (e == null)
 			{
 				Transcoder.logError(getLine(), "Variable can't be found : "+id.GetName());
 			}
-			if (bResolve)
+			if (isresolve)
 			{
 				v = e.GetListOfChildren() ;
 			}
@@ -115,9 +115,9 @@ public class CExecSQLFetch extends CBaseExecSQLAction
 
 		CEntitySQLFetchStatement eSQL = factory.NewEntitySQLFetchStatement(getLine(), cur) ;
 		Vector<CDataEntity> arrInd = new Vector<CDataEntity>(); 
-		for (int i=0; i<arrIndicators.size(); i++)
+		for (int i = 0; i< indicators.size(); i++)
 		{
-			CIdentifier id = arrIndicators.get(i) ;
+			CIdentifier id = indicators.get(i) ;
 			if (id != null)
 			{
 				CDataEntity e = id .GetDataReference(getLine(), factory) ;
@@ -146,15 +146,15 @@ public class CExecSQLFetch extends CBaseExecSQLAction
 	protected boolean DoParsing()
 	{
 		// Parse until reaching END-EXEC.
-		boolean bDone = false ;
-		boolean bInto = false;
+		boolean isdone = false ;
+		boolean isinto = false;
 		
-		while (!bDone)
+		while (!isdone)
 		{
 			CBaseToken tok = GetCurrentToken() ;
 			if (tok.GetType() == CTokenType.IDENTIFIER)
 			{
-				if (bInto)
+				if (isinto)
 				{
 					if (!ReadInto())
 					{
@@ -171,7 +171,7 @@ public class CExecSQLFetch extends CBaseExecSQLAction
 			
 			if (tok.GetKeyword() == CCobolKeywordList.INTO)
 			{
-				bInto = true;
+				isinto = true;
 				tok = GetNext() ;
 				continue;
 			}
@@ -179,7 +179,7 @@ public class CExecSQLFetch extends CBaseExecSQLAction
 			{
 				tok = GetNext();
 				
-				if(bInto)
+				if(isinto)
 				{
 					if (tok.GetType() == CTokenType.IDENTIFIER)
 					{
@@ -193,7 +193,7 @@ public class CExecSQLFetch extends CBaseExecSQLAction
 			}
 			if (tok.GetKeyword() == CCobolKeywordList.END_EXEC)
 			{
-				bDone = true ;
+				isdone = true ;
 				break;
 			}
 			GetNext();
@@ -225,7 +225,7 @@ public class CExecSQLFetch extends CBaseExecSQLAction
 		{
 			id = new CIdentifier(cs) ;
 		}
-		arrInto.addElement(id);	
+		into.addElement(id);
 		
 		tok = GetCurrentToken() ;
 		if (tok.GetType() == CTokenType.COLON)
@@ -248,8 +248,8 @@ public class CExecSQLFetch extends CBaseExecSQLAction
 			if (tok.GetType() == CTokenType.LEFT_BRACKET)
 			{
 				GetNext();
-				boolean bDone = false ;
-				while (!bDone)
+				boolean isdone = false ;
+				while (!isdone)
 				{
 					tok = GetCurrentToken() ;
 					CExpression exp =  ReadCalculExpression() ; 
@@ -264,7 +264,7 @@ public class CExecSQLFetch extends CBaseExecSQLAction
 					{
 						id.AddArrayIndex(exp) ;
 						tok = GetNext() ;	 // consume RIGHT_BRACKET
-						bDone = true ;
+						isdone = true ;
 					}
 					else if (tok2.GetType() == CTokenType.IDENTIFIER || tok2.GetType() == CTokenType.NUMBER)
 					{
@@ -272,16 +272,16 @@ public class CExecSQLFetch extends CBaseExecSQLAction
 					}
 				}
 			}
-			arrIndicators.addElement(id);
+			indicators.addElement(id);
 		}
 		else
 		{
-			arrIndicators.add(null) ;
+			indicators.add(null) ;
 		}
 		return true ;
 	}
 
 	private String csCursorName = null;
-	private Vector<CIdentifier> arrInto = new Vector<CIdentifier>() ;
-	private Vector<CIdentifier> arrIndicators = new Vector<CIdentifier>() ;
+	private Vector<CIdentifier> into = new Vector<CIdentifier>() ;
+	private Vector<CIdentifier> indicators = new Vector<CIdentifier>() ;
 }

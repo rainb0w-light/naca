@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 11 août 2004
+ * Created on 11 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -41,19 +41,19 @@ public class CJavaSetHighlight extends CEntitySetHighligh
 	 */
 	protected void DoExport()
 	{
-		if (bIsBlink)
+		if (isisBlink)
 		{
 			WriteLine("setFieldBlink(" + refField.ExportReference(getLine())  + ") ;") ;
 		}
-		if (bIsReverse)
+		if (isisReverse)
 		{
 			WriteLine("setFieldReverse("+ refField.ExportReference(getLine())  + ") ;") ;
 		}
-		if (bIsUnderlined)
+		if (isisUnderlined)
 		{
 			WriteLine("setFieldUnderline(" + refField.ExportReference(getLine())  + ") ;") ;
 		}
-		if (bIsNormal)
+		if (isisNormal)
 		{
 			WriteLine("setFieldUnhighlighted(" + refField.ExportReference(getLine())  + ") ;") ;
 		}
@@ -61,7 +61,7 @@ public class CJavaSetHighlight extends CEntitySetHighligh
 		{
 			WriteLine("moveHighLighting(" + highLightValue.ExportReference(getLine()) + ", " + refField.ExportReference(getLine())  + ") ;") ;
 		}
-		if (!bIsBlink && !bIsNormal && !bIsUnderlined && !bIsReverse && highLightValue==null)
+		if (!isisBlink && !isisNormal && !isisUnderlined && !isisReverse && highLightValue==null)
 		{
 			WriteLine("resetFieldHighlighting(" + refField.ExportReference(getLine())  + ") ;") ;
 		}

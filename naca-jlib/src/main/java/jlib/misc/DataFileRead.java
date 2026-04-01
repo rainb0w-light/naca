@@ -50,12 +50,12 @@ public class DataFileRead extends BaseDataFileBuffered
 	
 	public boolean open(LogicalFileDescriptor logicalFileDescriptor)
 	{
-		boolean bOpened = doOpen();
-		if(bOpened && logicalFileDescriptor != null)
+		boolean isopened = doOpen();
+		if(isopened && logicalFileDescriptor != null)
 		{
 			logicalFileDescriptor.readFileHeader(this);
 		}
-		return bOpened; 
+		return isopened;
 	}
 
 	public boolean  close()

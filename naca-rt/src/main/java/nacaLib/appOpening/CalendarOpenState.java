@@ -21,33 +21,33 @@ public class CalendarOpenState
 	public static final CalendarOpenState AppManuallyClosed = new CalendarOpenState(2, true, false, true);
 	public static final CalendarOpenState AppOpened = new CalendarOpenState(3, true, true, false);
 	
-	private CalendarOpenState(int nId, boolean bKnown, boolean bOpen, boolean bManual)
+	private CalendarOpenState(int nId, boolean isknown, boolean isopen, boolean ismanual)
 	{
 		this.nId = nId;
-		this.bKnown = bKnown;
-		this.bOpen = bOpen;
-		this.bManual = bManual;
+		this.isknown = isknown;
+		this.isopen = isopen;
+		this.ismanual = ismanual;
 	}
 	
 	public boolean isKnown()
 	{
-		return bKnown;
+		return isknown;
 	}
 	
 	public boolean isOpen()
 	{
-		return bOpen;
+		return isopen;
 	}
 	
 	public String getString()
 	{
-		if(bKnown)
+		if(isknown)
 		{
-			if(bOpen)
+			if(isopen)
 				return "Ouvert / ge�ffnet / aperto";
 			else
 			{
-				if(bManual)
+				if(ismanual)
 					return "Ferm� manuellement / Manuell geschlossen / Chiuso manualmente ";
 				return "Ferm� / geschlossen / chiuso";
 			}
@@ -61,7 +61,7 @@ public class CalendarOpenState
 	}
 
 	private int nId = 0;
-	private boolean bKnown = false;
-	private boolean bOpen = false;
-	private boolean bManual = false;
+	private boolean isknown = false;
+	private boolean isopen = false;
+	private boolean ismanual = false;
 }

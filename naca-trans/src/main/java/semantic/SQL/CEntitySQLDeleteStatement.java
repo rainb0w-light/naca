@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 20 août 04
+ * Created on 20 aoï¿½t 04
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -27,18 +27,18 @@ import utils.CObjectCatalog;
 
 public abstract class CEntitySQLDeleteStatement extends CBaseActionEntity
 {
-	public CEntitySQLDeleteStatement(int line, CObjectCatalog cat, CBaseLanguageExporter out, String csStatement, Vector<CDataEntity> arrParameters)
+	public CEntitySQLDeleteStatement(int line, CObjectCatalog cat, CBaseLanguageExporter out, String csStatement, Vector<CDataEntity> parameters)
 	{
 		super(line, cat, out);
 		csStatement = csStatement ;
-		arrParameters = arrParameters;
+		parameters = parameters;
 	}
 	protected String csStatement = "" ;
-	protected Vector<CDataEntity> arrParameters = null;
+	protected Vector<CDataEntity> parameters = null;
 	public void Clear()
 	{
 		super.Clear();
-		arrParameters.clear();
+		parameters.clear();
 	}
 	public boolean ignore()
 	{
@@ -46,11 +46,11 @@ public abstract class CEntitySQLDeleteStatement extends CBaseActionEntity
 	}
 	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
 	{
-		int n = arrParameters.indexOf(field);
+		int n = parameters.indexOf(field);
 		if (n>=0)
 		{
-			arrParameters.get(n).UnRegisterReadingAction(this) ;
-			arrParameters.set(n, var);
+			parameters.get(n).UnRegisterReadingAction(this) ;
+			parameters.set(n, var);
 			var.RegisterReadingAction(this) ;
 			return true ;
 		}

@@ -39,14 +39,14 @@ public abstract class CEntityCICSWrite extends CBaseActionEntity
 	public void WriteFile(CDataEntity name)
 	{
 		name = name ;
-		bWritetoDataSet = false ;
-		bWriteToFile = true ;
+		iswritetoDataSet = false ;
+		iswriteToFile = true ;
 	}
 	public void WriteDataSet(CDataEntity name)
 	{
 		name = name ;
-		bWritetoDataSet = true ;
-		bWriteToFile = false ;
+		iswritetoDataSet = true ;
+		iswriteToFile = false ;
 	}
 	public void SetDataFrom(CDataEntity from)
 	{
@@ -60,8 +60,8 @@ public abstract class CEntityCICSWrite extends CBaseActionEntity
 	protected CDataEntity recIDField = null ;
 	protected CDataEntity dataFrom = null ;
 	protected CDataEntity name ;
-	protected boolean bWriteToFile = false ;
-	protected boolean bWritetoDataSet = false ;
+	protected boolean iswriteToFile = false ;
+	protected boolean iswritetoDataSet = false ;
 	public void Clear()
 	{
 		super.Clear();

@@ -904,8 +904,8 @@ public class VarDefForm extends VarDefBuffer
 				VarDefBuffer arr[] = new VarDefBuffer[nSize];
 				arrFields.transferInto(arr);
 				
-				ArrayFix<VarDefBuffer> arrFix = new ArrayFix<VarDefBuffer>(arr);
-				arrFields = arrFix;	// replace by a fix one (uning less memory)
+				ArrayFix<VarDefBuffer> fix = new ArrayFix<VarDefBuffer>(arr);
+				arrFields = fix;	// replace by a fix one (uning less memory)
 			}
 		}
 		super.compress();

@@ -75,7 +75,7 @@ public class CGoto extends CCobolElement
 		while (tokRef.GetType() == CTokenType.IDENTIFIER || tokRef.GetType() == CTokenType.NUMBER)
 		{
 			csReference = tokRef.GetValue();
-			arrReference.add(csReference);
+			reference.add(csReference);
 			tokRef = GetNext() ;
 		}
 		
@@ -96,18 +96,18 @@ public class CGoto extends CCobolElement
 	 */
 	protected Element ExportCustom(Document root)
 	{
-		if (arrReference.size() == 1)
+		if (reference.size() == 1)
 		{
 			Element eGoto = root.createElement("Goto") ;
-			eGoto.setAttribute("Reference", arrReference.get(0)) ;
+			eGoto.setAttribute("Reference", reference.get(0)) ;
 			return eGoto;
 		}
 		else
 		{
 			Element eGoto = root.createElement("Goto") ;
-			for (int i=0; i<arrReference.size(); i++)
+			for (int i = 0; i< reference.size(); i++)
 			{
-				String cs = arrReference.get(i);
+				String cs = reference.get(i);
 				Element e = root.createElement("Ref"+i);
 				eGoto.appendChild(e);
 				e.setAttribute("Reference", cs); 
@@ -118,7 +118,7 @@ public class CGoto extends CCobolElement
 			return eGoto;
 		}
 	}
-	protected List<String> arrReference = new ArrayList<String>() ;
+	protected List<String> reference = new ArrayList<String>() ;
 	protected CIdentifier dependence = null ;
 	/* (non-Javadoc)
 	 * @see parser.CBaseElement#DoCustomSemanticAnalysis(semantic.CBaseSemanticEntity, semantic.CBaseSemanticEntityFactory)
@@ -128,12 +128,12 @@ public class CGoto extends CCobolElement
 		CBaseActionEntity e;
 		if (dependence == null)
 		{
-			e = factory.NewEntityGoto(getLine(), arrReference.get(0), parent.getSectionContainer()) ;
+			e = factory.NewEntityGoto(getLine(), reference.get(0), parent.getSectionContainer()) ;
 		}
 		else
 		{
 			CDataEntity dep = dependence.GetDataReference(getLine(), factory);
-			e = factory.NewEntityGotoDepending(getLine(), arrReference, dep, parent.getSectionContainer());
+			e = factory.NewEntityGotoDepending(getLine(), reference, dep, parent.getSectionContainer());
 		}
 		parent.AddChild(e) ;
 		return e;

@@ -16,7 +16,6 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import nacaLib.basePrgEnv.BaseEnvironment;
 import nacaLib.sqlSupport.RecordColTypeManagerBase;
 import nacaLib.sqlSupport.RecordColTypeManagerChar;
 import nacaLib.sqlSupport.RecordColTypeManagerDate;
@@ -29,8 +28,6 @@ import nacaLib.sqlSupport.RecordColTypeManagerVarchar;
 import jlib.log.Log;
 import jlib.misc.CurrentDateInfo;
 import jlib.misc.StopWatch;
-import jlib.sql.BaseDbColDefinition;
-import jlib.sql.BaseDbColDefinitionFactory;
 import jlib.sql.DbConnectionBase;
 import jlib.sql.DbPreparedStatement;
 import jlib.sql.SQLLoadStatus;
@@ -45,7 +42,7 @@ public class TableToTransfer extends ThreadPoolRequest
 {	
 	private String csTableName = null;
 	private String csUpdateClause = null;
-	private boolean bReplace = false;
+	private boolean isreplace = false;
 	
 	TableToTransfer(boolean bTerminaison)
 	{
@@ -59,9 +56,9 @@ public class TableToTransfer extends ThreadPoolRequest
 		this.csTableName = csTableName;
 		this.csUpdateClause = csUpdateClause + "'" + csTableName + "'";
 		if(csReplace.equalsIgnoreCase("y"))
-			this.bReplace = true;
+			this.isreplace = true;
 		else
-			this.bReplace = false;
+			this.isreplace = false;
 	}
 
 	public void execute()
@@ -71,7 +68,7 @@ public class TableToTransfer extends ThreadPoolRequest
 	
 	public void execute(DbConnectionBase dbConnectionSource, DbConnectionBase dbConnectionDestination, DbTransferDesc dbTransferDesc)
 	{
-		if(bReplace)
+		if(isreplace)
 		{
 			deleteRecordsOfDestinationTable(dbConnectionDestination);
 		}
@@ -109,8 +106,8 @@ public class TableToTransfer extends ThreadPoolRequest
 		int nNbRecordWritten = 0;
 		int nNbColumns = 0;
 		int nNbBatchWritten = 0;
-		ArrayList<RecordColTypeManagerBase> arrColTypes = null;
-		ArrayList<String> arrColNames = new ArrayList<String>();
+		ArrayList<RecordColTypeManagerBase> colTypes = null;
+		ArrayList<String> colNames = new ArrayList<String>();
 		StringBuilder sbSQLError = new StringBuilder(" ");
 		String csPrefixedTableName = dbConnectionSource.getEnvironmentPrefix() + "." + csTableName;
 		String csDestinationTableName = dbConnectionDestination.getEnvironmentPrefix() + "." + csTableName;
@@ -134,7 +131,7 @@ public class TableToTransfer extends ThreadPoolRequest
 						{
 							ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
 							nNbColumns = resultSetMetaData.getColumnCount();
-							dbInsertStatement = getInsertStatement(dbConnectionDestination, resultSet, nNbColumns, resultSetMetaData, arrColNames);
+							dbInsertStatement = getInsertStatement(dbConnectionDestination, resultSet, nNbColumns, resultSetMetaData, colNames);
 							if(dbInsertStatement == null)
 							{
 								String cs = "Could not prepare insert statement for destination table=" + csDestinationTableName;  
@@ -146,20 +143,20 @@ public class TableToTransfer extends ThreadPoolRequest
 							else
 								insertStatement = dbInsertStatement.getPreparedStatement(); 
 														
-							arrColTypes = getColumnsTypes(nNbColumns, resultSetMetaData);
+							colTypes = getColumnsTypes(nNbColumns, resultSetMetaData);
 						}						
 						
 						for(int nColumn=0; nColumn<nNbColumns; nColumn++)
 						{
-							RecordColTypeManagerBase recordColTypeManagerBase = arrColTypes.get(nColumn);
-							boolean bCol = recordColTypeManagerBase.transfer(nColumn+1, resultSet, insertStatement);
-							if(!bCol)
+							RecordColTypeManagerBase recordColTypeManagerBase = colTypes.get(nColumn);
+							boolean iscol = recordColTypeManagerBase.transfer(nColumn+1, resultSet, insertStatement);
+							if(!iscol)
 							{
-								String cs = "Problem during transfer of a column. Source table=" + csPrefixedTableName + "; Destination table=" + csDestinationTableName + "; Column name=" + arrColNames.get(nColumn) + "; Clause="+csClause + "; Record number=" + nNbRecordRead;  
+								String cs = "Problem during transfer of a column. Source table=" + csPrefixedTableName + "; Destination table=" + csDestinationTableName + "; Column name=" + colNames.get(nColumn) + "; Clause="+csClause + "; Record number=" + nNbRecordRead;
 								Log.logCritical(cs);
 								sbSQLError = appendIfPossible(sbSQLError, cs);
 							}
-							b |= bCol;
+							b |= iscol;
 						}
 			
 						nNbRecordRead++;

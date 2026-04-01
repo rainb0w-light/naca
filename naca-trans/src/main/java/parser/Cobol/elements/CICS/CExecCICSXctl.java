@@ -51,7 +51,7 @@ public class CExecCICSXctl extends CCobolElement
 	 */
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		boolean bChecked = false ;
+		boolean ischecked = false ;
 		if (!program.IsReference())
 		{ // reference is a constant string : 'PRGM'
 			String prg = program.GetValue() ; 
@@ -59,12 +59,12 @@ public class CExecCICSXctl extends CCobolElement
 			{
 				//m_Logger.error("ERROR line "+getLine()+" : Missing referenced program : "+prg) ;
 				CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("Missed EXEC CICS XCTL", prg) ;
-				bChecked = false ;
+				ischecked = false ;
 			}
 			else
 			{
 				//m_Logger.info("Referenced program found : "+prg) ;
-				bChecked = true ;
+				ischecked = true ;
 			}
 		}
 		else
@@ -74,7 +74,7 @@ public class CExecCICSXctl extends CCobolElement
 		CEntityCICSXctl eCICS = factory.NewEntityCICSXctl(getLine());
 		parent.AddChild(eCICS);
 		CDataEntity ePrgm = program.GetDataEntity(getLine(), factory) ; 
-		eCICS.SetProgramName(ePrgm, bChecked) ;
+		eCICS.SetProgramName(ePrgm, ischecked) ;
 		
 		if (commArea != null)
 		{

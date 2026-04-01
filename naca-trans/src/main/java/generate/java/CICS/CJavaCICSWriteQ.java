@@ -39,7 +39,7 @@ public class CJavaCICSWriteQ extends CEntityCICSWriteQ
 	protected void DoExport()
 	{
 		String cs = "CESM.write" ;
-		if (bPersistant)
+		if (ispersistant)
 		{
 			cs += "TransiantQueue(" ; 
 		}

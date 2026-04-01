@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 19 août 2004
+ * Created on 19 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -39,64 +39,64 @@ public abstract class CEntityIsFieldAttribute extends CUnitaryEntityCondition
 	}
 	public void IsAutoSkip()
 	{
-		bIsAutoSkip = true ;		
+		isisAutoSkip = true ;
 		nbConditions ++ ;		
 	}
-	protected boolean bIsAutoSkip = false ;
+	protected boolean isisAutoSkip = false ;
 
 	public void IsBright()
 	{
-		bIsBright = true ;		
+		isisBright = true ;
 		nbConditions ++ ;		
 	}
-	protected boolean bIsBright = false ;
+	protected boolean isisBright = false ;
 
 	public void IsNumeric()
 	{
-		bIsNumeric = true ;		
+		isisNumeric = true ;
 		nbConditions ++ ;		
 	}
-	protected boolean bIsNumeric = false ;
+	protected boolean isisNumeric = false ;
 
 	public void IsProtected()
 	{
-		bIsProtected = true;		
+		isisProtected = true;
 		nbConditions ++ ;		
 	}
-	protected boolean bIsProtected = false ;
+	protected boolean isisProtected = false ;
 
 	public void IsUnprotected()
 	{
-		bIsUnprotected = true ;		
+		isisUnprotected = true ;
 		nbConditions ++ ;		
 	}
-	protected boolean bIsUnprotected = false ;
+	protected boolean isisUnprotected = false ;
 
 	public void IsModified()
 	{
-		bIsModified = true ;		
+		isisModified = true ;
 		nbConditions ++ ;		
 	}
 	public void IsUnmodified()
 	{
-		bIsUnmodified = true ;		
+		isisUnmodified = true ;
 		nbConditions ++ ;		
 	}
 	public void IsCleared()
 	{
-		bIsCleared = true ;		
+		isisCleared = true ;
 		nbConditions ++ ;		
 	}
-	protected boolean bIsModified = false ;
-	protected boolean bIsUnmodified = false ;		
-	protected boolean bIsCleared = false ;
+	protected boolean isisModified = false ;
+	protected boolean isisUnmodified = false ;
+	protected boolean isisCleared = false ;
 	
 	public void IsDark()
 	{
-		bIsDark = true ;
+		isisDark = true ;
 		nbConditions ++ ;		
 	}
-	protected boolean bIsDark = false ;
+	protected boolean isisDark = false ;
 	protected int nbConditions = 0;
 
 	public void SetVariable(CDataEntity field)
@@ -114,7 +114,7 @@ public abstract class CEntityIsFieldAttribute extends CUnitaryEntityCondition
 	public CBaseEntityCondition GetSpecialConditionReplacing(String val, CBaseEntityFactory fact, CDataEntity replace)
 	{
 		CBaseEntityCondition cond = reference.GetSpecialCondition(getLine(), val, EConditionType.IS_FIELD_ATTRIBUTE, fact);
-		if (bOpposite && cond!=null)
+		if (isopposite && cond!=null)
 		{
 			return cond.GetOppositeCondition() ;
 		}
@@ -141,9 +141,9 @@ public abstract class CEntityIsFieldAttribute extends CUnitaryEntityCondition
 	
 	protected void SetOpposite()
 	{
-		bOpposite = !bOpposite ;
+		isopposite = !isopposite;
 	}
-	protected boolean bOpposite = false ;
+	protected boolean isopposite = false ;
 	public boolean isBinaryCondition()
 	{
 		return true;

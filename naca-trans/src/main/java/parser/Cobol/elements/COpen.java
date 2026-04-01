@@ -47,10 +47,10 @@ public class COpen extends CCobolElement
 	}
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis( CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		CreateOpenAction(arrForInput, parent, factory, CEntityOpenFile.OpenMode.INPUT) ;
-		CreateOpenAction(arrForIO, parent, factory, CEntityOpenFile.OpenMode.INPUT_OUTPUT) ;
-		CreateOpenAction(arrForOutput, parent, factory, CEntityOpenFile.OpenMode.OUTPUT) ;
-		CreateOpenAction(arrForAppend, parent, factory, CEntityOpenFile.OpenMode.APPEND) ;
+		CreateOpenAction(forInput, parent, factory, CEntityOpenFile.OpenMode.INPUT) ;
+		CreateOpenAction(forIO, parent, factory, CEntityOpenFile.OpenMode.INPUT_OUTPUT) ;
+		CreateOpenAction(forOutput, parent, factory, CEntityOpenFile.OpenMode.OUTPUT) ;
+		CreateOpenAction(forAppend, parent, factory, CEntityOpenFile.OpenMode.APPEND) ;
 		return parent;
 	}
 	private void CreateOpenAction(Vector<CIdentifier> arrIds, CBaseLanguageEntity parent, CBaseEntityFactory factory, CEntityOpenFile.OpenMode eMode)
@@ -85,16 +85,16 @@ public class COpen extends CCobolElement
 		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
 		
 		tok = GetNext() ;
-		boolean bDone = false ;
-		while (!bDone)
+		boolean isdone = false ;
+		while (!isdone)
 		{
 			if (tok.GetKeyword() == CCobolKeywordList.INPUT)
 			{
 				GetNext() ;
-				if (arrForInput == null)
-					arrForInput = new Vector<CIdentifier>() ;
+				if (forInput == null)
+					forInput = new Vector<CIdentifier>() ;
 				CIdentifier id = ReadIdentifier() ;
-				arrForInput.add(id);
+				forInput.add(id);
 				tok = GetCurrentToken() ;
 				while (tok.GetType() == CTokenType.COMMA || tok.GetType() == CTokenType.IDENTIFIER)
 				{
@@ -105,7 +105,7 @@ public class COpen extends CCobolElement
 					id = ReadIdentifier() ;
 					if (id != null)
 					{
-						arrForInput.add(id);
+						forInput.add(id);
 						tok = GetCurrentToken() ;
 					}
 				}
@@ -113,10 +113,10 @@ public class COpen extends CCobolElement
 			else if (tok.GetKeyword() == CCobolKeywordList.OUTPUT)
 			{
 				GetNext() ;
-				if (arrForOutput == null)
-					arrForOutput = new Vector<CIdentifier>() ;
+				if (forOutput == null)
+					forOutput = new Vector<CIdentifier>() ;
 				CIdentifier id = ReadIdentifier() ;
-				arrForOutput.add(id);
+				forOutput.add(id);
 				tok = GetCurrentToken() ;
 				while (tok.GetType() == CTokenType.COMMA || tok.GetType() == CTokenType.IDENTIFIER)
 				{
@@ -127,7 +127,7 @@ public class COpen extends CCobolElement
 					id = ReadIdentifier() ;
 					if (id != null)
 					{
-						arrForOutput.add(id);
+						forOutput.add(id);
 						tok = GetCurrentToken() ;
 					}
 				}
@@ -135,10 +135,10 @@ public class COpen extends CCobolElement
 			else if (tok.GetKeyword() == CCobolKeywordList.I_O)
 			{
 				GetNext() ;
-				if (arrForIO == null)
-					arrForIO = new Vector<CIdentifier>() ;
+				if (forIO == null)
+					forIO = new Vector<CIdentifier>() ;
 				CIdentifier id = ReadIdentifier() ;
-				arrForIO.add(id);
+				forIO.add(id);
 				tok = GetCurrentToken() ;
 				while (tok.GetType() == CTokenType.COMMA || tok.GetType() == CTokenType.IDENTIFIER)
 				{
@@ -149,7 +149,7 @@ public class COpen extends CCobolElement
 					id = ReadIdentifier() ;
 					if (id != null)
 					{
-						arrForIO.add(id);
+						forIO.add(id);
 						tok = GetCurrentToken() ;
 					}
 				}
@@ -157,10 +157,10 @@ public class COpen extends CCobolElement
 			else if (tok.GetKeyword() == CCobolKeywordList.EXTEND)
 			{
 				GetNext() ;
-				if (arrForAppend == null)
-					arrForAppend = new Vector<CIdentifier>() ;
+				if (forAppend == null)
+					forAppend = new Vector<CIdentifier>() ;
 				CIdentifier id = ReadIdentifier() ;
-				arrForAppend.add(id);
+				forAppend.add(id);
 				tok = GetCurrentToken() ;
 				while (tok.GetType() == CTokenType.COMMA || tok.GetType() == CTokenType.IDENTIFIER)
 				{
@@ -171,14 +171,14 @@ public class COpen extends CCobolElement
 					id = ReadIdentifier() ;
 					if (id != null)
 					{
-						arrForAppend.add(id);
+						forAppend.add(id);
 						tok = GetCurrentToken() ;
 					}
 				}
 			}
 			else
 			{
-				bDone = true ;
+				isdone = true ;
 			}
 		}
 		return true;
@@ -186,51 +186,51 @@ public class COpen extends CCobolElement
 	protected Element ExportCustom(Document root)
 	{
 		Element eOpen = root.createElement("Open");
-		if (arrForInput != null)
+		if (forInput != null)
 		{
-			for (int i=0; i<arrForInput.size(); i++)
+			for (int i = 0; i< forInput.size(); i++)
 			{
 				Element e = root.createElement("ForInput");
 				eOpen.appendChild(e);
-				CIdentifier id = arrForInput.get(i);
+				CIdentifier id = forInput.get(i);
 				id.ExportTo(e, root);
 			}
 		}
-		if (arrForIO != null)
+		if (forIO != null)
 		{
-			for (int i=0; i<arrForIO.size(); i++)
+			for (int i = 0; i< forIO.size(); i++)
 			{
 				Element e = root.createElement("ForIO");
 				eOpen.appendChild(e);
-				CIdentifier id = arrForIO.get(i);
+				CIdentifier id = forIO.get(i);
 				id.ExportTo(e, root);
 			}
 		}
-		if (arrForOutput != null)
+		if (forOutput != null)
 		{
-			for (int i=0; i<arrForOutput.size(); i++)
+			for (int i = 0; i< forOutput.size(); i++)
 			{
 				Element e = root.createElement("ForOutput");
 				eOpen.appendChild(e);
-				CIdentifier id = arrForOutput.get(i);
+				CIdentifier id = forOutput.get(i);
 				id.ExportTo(e, root);
 			}
 		}
-		if (arrForAppend != null)
+		if (forAppend != null)
 		{
-			for (int i=0; i<arrForAppend.size(); i++)
+			for (int i = 0; i< forAppend.size(); i++)
 			{
 				Element e = root.createElement("ForAppend");
 				eOpen.appendChild(e);
-				CIdentifier id = arrForAppend.get(i);
+				CIdentifier id = forAppend.get(i);
 				id.ExportTo(e, root);
 			}
 		}
 		return eOpen;
 	}
 	
-	protected Vector<CIdentifier> arrForInput = null ;
-	protected Vector<CIdentifier> arrForOutput = null ;
-	protected Vector<CIdentifier> arrForAppend = null ;
-	protected Vector<CIdentifier> arrForIO = null ;
+	protected Vector<CIdentifier> forInput = null ;
+	protected Vector<CIdentifier> forOutput = null ;
+	protected Vector<CIdentifier> forAppend = null ;
+	protected Vector<CIdentifier> forIO = null ;
 }

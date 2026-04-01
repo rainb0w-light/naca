@@ -219,8 +219,8 @@ public abstract class BaseDialog
 				MapMarker mark = map.getMarker(i) ;
 				Tag tagMark = tag.addTag("Marker") ;
 				tagMark.addVal("Label", mark.csLabel) ;
-				tagMark.addVal("Lng", mark.dLng) ;
-				tagMark.addVal("Lat", mark.dLat) ;
+				tagMark.addVal("Lng", mark.lng) ;
+				tagMark.addVal("Lat", mark.lat) ;
 			}
 		}
 		else

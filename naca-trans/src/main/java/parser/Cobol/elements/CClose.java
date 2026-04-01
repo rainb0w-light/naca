@@ -47,9 +47,9 @@ public class CClose extends CCobolElement
 	}
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		for (int i=0; i<arrFileDesc.size();i++)
+		for (int i = 0; i< fileDesc.size(); i++)
 		{
-			CIdentifier id = arrFileDesc.get(i) ;
+			CIdentifier id = fileDesc.get(i) ;
 			CEntityFileDescriptor fd = factory.programCatalog.getFileDescriptor(id.GetName()) ;
 			if (fd != null)
 			{
@@ -75,7 +75,7 @@ public class CClose extends CCobolElement
 		
 		tok = GetNext();
 		CIdentifier id = ReadIdentifier();
-		arrFileDesc.add(id) ;
+		fileDesc.add(id) ;
 		tok = GetCurrentToken() ;
 		while (tok.GetType() == CTokenType.COMMA || tok.GetType() == CTokenType.IDENTIFIER)
 		{
@@ -88,7 +88,7 @@ public class CClose extends CCobolElement
 				id = ReadIdentifier() ;
 				if (id != null)
 				{
-					arrFileDesc.add(id) ;
+					fileDesc.add(id) ;
 					tok = GetCurrentToken() ;
 				}
 			}
@@ -98,9 +98,9 @@ public class CClose extends CCobolElement
 	protected Element ExportCustom(Document root)
 	{
 		Element eClose = root.createElement("Close");
-		for (int i = 0; i<arrFileDesc.size();i++)
+		for (int i = 0; i< fileDesc.size(); i++)
 		{
-			CIdentifier id = arrFileDesc.get(i);
+			CIdentifier id = fileDesc.get(i);
 			Element eFile = root.createElement("File");
 			eClose.appendChild(eFile);
 			id.ExportTo(eFile, root) ;
@@ -108,5 +108,5 @@ public class CClose extends CCobolElement
 		return eClose;
 	}
 	
-	protected Vector<CIdentifier> arrFileDesc = new Vector<CIdentifier>() ;
+	protected Vector<CIdentifier> fileDesc = new Vector<CIdentifier>() ;
 }

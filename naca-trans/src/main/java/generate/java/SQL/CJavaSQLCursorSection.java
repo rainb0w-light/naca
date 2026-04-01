@@ -40,9 +40,9 @@ public class CJavaSQLCursorSection extends CEntitySQLCursorSection
 		WriteLine(line);
 		WriteLine("");
 		StartOutputBloc() ;
-		for (int i=0; i<arrCursors.size(); i++)
+		for (int i = 0; i< cursors.size(); i++)
 		{
-			CDataEntity cur = (CDataEntity)arrCursors.get(i);
+			CDataEntity cur = (CDataEntity) cursors.get(i);
 			String cs = "SQLCursor "+ cur.ExportReference(getLine()) + " = declare.cursor() ; " ;
 			WriteLine(cs);
 			WriteLine("");

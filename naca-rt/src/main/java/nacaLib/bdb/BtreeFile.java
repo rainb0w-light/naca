@@ -10,7 +10,6 @@ import jlib.misc.LineRead;
 import jlib.misc.LittleEndingUnsignBinaryBufferStorage;
 import jlib.threads.PoolOfThreads;
 import nacaLib.basePrgEnv.BaseResourceManager;
-import nacaLib.exceptions.AbortSessionException;
 
 import com.sleepycat.je.Cursor;
 import com.sleepycat.je.Database;
@@ -125,7 +124,7 @@ public class BtreeFile
 				
 		DatabaseEntry data = new DatabaseEntry();
 		data.setData(tbyData, 0, multiThreadedSortItem.nTotalLength);
-		byte tbyKey[] = keyDescription.fillNewKeyBuffer(tbyData, multiThreadedSortItem.nNbRecordRead, multiThreadedSortItem.bVariableLength);
+		byte tbyKey[] = keyDescription.fillNewKeyBuffer(tbyData, multiThreadedSortItem.nNbRecordRead, multiThreadedSortItem.isvariableLength);
 		
 		//Dumper.dump("Record read="+multiThreadedSortItem.nNbRecordRead);
 		//Dumper.dump(tbyKey);

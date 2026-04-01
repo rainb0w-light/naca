@@ -24,8 +24,8 @@ public class CFPacJavaCondCompare extends CEntityCondCompare
 	public CBaseEntityCondition GetOppositeCondition()
 	{
 		CFPacJavaCondCompare newCond = new CFPacJavaCondCompare();
-		newCond.bIsGreater = !bIsGreater ;
-		newCond.bIsOrEquals = !bIsOrEquals ;
+		newCond.isisGreater = !isisGreater;
+		newCond.isisOrEquals = !isisOrEquals;
 		newCond.op1 = op1 ;
 		newCond.op2 = op2 ;
 		return newCond;
@@ -45,19 +45,19 @@ public class CFPacJavaCondCompare extends CEntityCondCompare
 //		{
 //			ebcdic = "" ;
 //		}
-		if (bIsGreater && bIsOrEquals)
+		if (isisGreater && isisOrEquals)
 		{
 			cs = "isGreaterOrEqual"+ebcdic+"(" ;
 		}
-		else if (bIsGreater && !bIsOrEquals)
+		else if (isisGreater && !isisOrEquals)
 		{
 			cs = "isGreater"+ebcdic+"(" ;
 		}
-		else if (!bIsGreater && bIsOrEquals)
+		else if (!isisGreater && isisOrEquals)
 		{
 			cs = "isLessOrEqual"+ebcdic+"("; 
 		}
-		else if (!bIsGreater && !bIsOrEquals)
+		else if (!isisGreater && !isisOrEquals)
 		{
 			cs = "isLess"+ebcdic+"(" ;
 		}

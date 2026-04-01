@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import jlib.log.Log;
 import jlib.misc.AsciiEbcdicConverter;
 import jlib.misc.BaseDataFile;
-import jlib.misc.JVMReturnCodeManager;
 import jlib.misc.StringUtil;
 import jlib.sql.BaseDbColDefinition;
 import jlib.sql.BaseDbColDefinitionFactory;
@@ -35,26 +34,26 @@ import nacaLib.varEx.FileDescriptor;
 public class SQLUnload extends BaseSQLUtils
 {
 	private int nNbSelectProcessed = 0;
-	private boolean bConnectionValid = false;
-	private boolean bExcel = false;
+	private boolean isconnectionValid = false;
+	private boolean isexcel = false;
 	
-	public SQLUnload(BaseSession session, DbConnectionBase dbConnection, boolean bExcel)
+	public SQLUnload(BaseSession session, DbConnectionBase dbConnection, boolean isexcel)
 	{
 		super(session, dbConnection);
-		bExcel = bExcel;
+		isexcel = isexcel;
 	}
 	
 	public boolean execute(FileDescriptor fileIn)
 	{
 		FileSysinReader fileSysinReader = new FileSysinReader(getSession());
 
-		boolean bExecuted = fileSysinReader.parse(this, fileIn);
-		return bExecuted;
+		boolean isexecuted = fileSysinReader.parse(this, fileIn);
+		return isexecuted;
 	}
 		
 	int executeStatement(String csClause)
 	{
-		bConnectionValid = true;
+		isconnectionValid = true;
 		int nNbRecords = -1;
 		
 		SQLTypeOperation typeOperation = SQLTypeOperation.determineOperationType(csClause, false);	// cursor clause not supported
@@ -72,7 +71,7 @@ public class SQLUnload extends BaseSQLUtils
 			return -1;	// Do not manage this order
 		
 		String csSysrecName;
-		if (bExcel)
+		if (isexcel)
 			csSysrecName = "UNLOAD";
 		else
 			csSysrecName = getSysrecName(nNbSelectProcessed);
@@ -80,7 +79,7 @@ public class SQLUnload extends BaseSQLUtils
 		FileDescriptor fileDescOuput = new FileDescriptor(csSysrecName);
 		fileDescOuput.setSession(getSession());
 		fileDescOuput.openOutput();
-		boolean bEbcdicOutput = fileDescOuput.isEbcdic();
+		boolean isebcdicOutput = fileDescOuput.isEbcdic();
 		BaseDataFile fileOuput = fileDescOuput.getDataFile();
 
 		// Remove ending ';' as it is not supported by UDB
@@ -96,7 +95,7 @@ public class SQLUnload extends BaseSQLUtils
 				ResultSet rs = stmt.executeSelect();
 				if(rs != null)
 				{
-					nNbRecords = unloadRecords(rs, csClause, bEbcdicOutput, fileOuput);
+					nNbRecords = unloadRecords(rs, csClause, isebcdicOutput, fileOuput);
 				}
 			}
 		}
@@ -108,7 +107,7 @@ public class SQLUnload extends BaseSQLUtils
 		
 		nNbSelectProcessed++;
 		
-		if(bConnectionValid)
+		if(isconnectionValid)
 			return nNbRecords;
 		return -1;
 	}
@@ -116,7 +115,7 @@ public class SQLUnload extends BaseSQLUtils
 	private int unloadRecords(ResultSet resultSet, String csClause, boolean bEbcdicOutput, BaseDataFile fileOuput)
 	{
 		int nNbRecordRead = 0;
-		ArrayList<BaseDbColDefinition> arrDbColDef = null;
+		ArrayList<BaseDbColDefinition> dbColDef = null;
 		
 		byte aSeparatorComma[] = new String(",").getBytes();
 		if(bEbcdicOutput)	// Must outout in ebcdic
@@ -129,15 +128,15 @@ public class SQLUnload extends BaseSQLUtils
 				if(nNbRecordRead == 0)
 				{
 					BaseDbColDefinitionFactory dbColDefinitionItemFactory = new BaseDbColDefinitionFactory(); 
-					arrDbColDef = dbColDefinitionItemFactory.makeArrayDbColDefinitions(resultSet);
+					dbColDef = dbColDefinitionItemFactory.makeArrayDbColDefinitions(resultSet);
 				}
-				if(arrDbColDef != null)
+				if(dbColDef != null)
 				{
-					for(int nCol=0; nCol<arrDbColDef.size(); nCol++)
+					for(int nCol = 0; nCol< dbColDef.size(); nCol++)
 					{
-						BaseDbColDefinition dbColDefinition = arrDbColDef.get(nCol);
+						BaseDbColDefinition dbColDefinition = dbColDef.get(nCol);
 						byte aBytes[];
-						if (bExcel)
+						if (isexcel)
 						{
 							if (nCol > 0)
 								fileOuput.write(aSeparatorComma);
@@ -176,7 +175,7 @@ public class SQLUnload extends BaseSQLUtils
 			catch (SQLException e)
 			{
 				LogSQLException.log(e);
-				bConnectionValid = false;
+				isconnectionValid = false;
 				return false;
 			}
 		}

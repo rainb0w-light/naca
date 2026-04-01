@@ -46,30 +46,30 @@ public class OnlineProgramManager extends BaseProgramManager
 	
 	public void prepareRunMain(BaseProgram prg)
 	{
-		((OnlineProgram)prg).prepareRunMain(cESMEnv);
+		((OnlineProgram)prg).prepareRunMain(eSMEnv);
 	}
 	
 	public String getTerminalID()
 	{
-		return cESMEnv.getTerminalID();
+		return eSMEnv.getTerminalID();
 	}
 	
 	public void setEnv(BaseEnvironment env)
 	{
-		cESMEnv = (OnlineEnvironment)env;
+		eSMEnv = (OnlineEnvironment)env;
 	}
 	
 	public void detachFromEnv()
 	{
-		cESMEnv = null;
+		eSMEnv = null;
 	}
 	
 	public BaseEnvironment getEnv()
 	{
-		return cESMEnv;
+		return eSMEnv;
 	}
 	
-	private OnlineEnvironment cESMEnv = null; 
+	private OnlineEnvironment eSMEnv = null;
 }
 
 

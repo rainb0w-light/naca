@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 12 août 2004
+ * Created on 12 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -77,11 +77,11 @@ public class CInspect extends CCobolElement
 			eVar.RegisterWritingAction(eReplace) ;
 			parent.AddChild(eReplace) ;
 			
-			Vector<CInspectValueToReplace> arrItemToReplace = a.arrItemToReplace;
+			Vector<CInspectValueToReplace> itemToReplace = a.itemToReplace;
 			// variable into witch replacing, and methode
-			for (int i = 0; i<arrItemToReplace.size(); i++)
+			for (int i = 0; i< itemToReplace.size(); i++)
 			{
-				CInspectValueToReplace item = arrItemToReplace.get(i);
+				CInspectValueToReplace item = itemToReplace.get(i);
 				CTerminal term ;
 				if (item.valToReplaceAll != null)
 				{
@@ -175,7 +175,7 @@ public class CInspect extends CCobolElement
 			eVar.RegisterReadingAction(eCount) ;
 			eCount.SetCount(eVar);
 			parent.AddChild(eCount) ;
-			Vector<CInspectItemToCount> arrItemToCount = a.arrItemToCount;
+			Vector<CInspectItemToCount> arrItemToCount = a.itemToCount;
 			for (int i=0; i<arrItemToCount.size();i++)
 			{
 				CInspectItemToCount itemToCount = arrItemToCount.get(i);
@@ -186,15 +186,15 @@ public class CInspect extends CCobolElement
 					for (int j=0; j<item.tokenToCount.size(); j++)
 					{
 						CTerminal t = item.tokenToCount.get(j);
-						if (item.bAll)
+						if (item.isall)
 						{
 							eCount.CountAll(t.GetDataEntity(getLine(), factory));
 						}
-						else if (item.bCharactersAfter)
+						else if (item.ischaractersAfter)
 						{
 							eCount.CountAfter(t.GetDataEntity(getLine(), factory));
 						}
-						else if (item.bCharactersBefore)
+						else if (item.ischaractersBefore)
 						{
 							eCount.CountBefore(t.GetDataEntity(getLine(), factory));
 						}
@@ -255,8 +255,8 @@ public class CInspect extends CCobolElement
 		{
 			method = CInspectActionType.REPLACING ;
 			tok = GetNext();
-			boolean bDone = false ;
-			while (!bDone)
+			boolean isdone = false ;
+			while (!isdone)
 			{
 				tok = GetCurrentToken();
 				CInspectValueToReplace item = new CInspectValueToReplace() ;
@@ -295,16 +295,16 @@ public class CInspect extends CCobolElement
 				tok = GetCurrentToken() ;
 				if (tok.GetType() == CTokenType.COMMA)
 					tok = GetNext() ;
-				a.arrItemToReplace.add(item);
+				a.itemToReplace.add(item);
 			}
 		}
 		else if (tok.GetKeyword() == CCobolKeywordList.TALLYING)
 		{
-			Vector<CInspectItemToCount> arrItemToCount = a.arrItemToCount;
+			Vector<CInspectItemToCount> arrItemToCount = a.itemToCount;
 			method = CInspectActionType.TALLYING ;
 			tok = GetNext();
-			boolean bDone2 = false ;
-			while (!bDone2)
+			boolean isdone2 = false ;
+			while (!isdone2)
 			{
 				CIdentifier variableForCountResult = ReadIdentifier();
 				tok = GetCurrentToken();
@@ -319,11 +319,11 @@ public class CInspect extends CCobolElement
 						CInspectItem count = new CInspectItem();
 						if (tok.GetKeyword() == CCobolKeywordList.AFTER)
 						{
-							count.bCharactersAfter = true ;
+							count.ischaractersAfter = true ;
 						}
 						else if (tok.GetKeyword() == CCobolKeywordList.BEFORE)
 						{
-							count.bCharactersBefore = true ;
+							count.ischaractersBefore = true ;
 						}
 						else
 						{
@@ -343,26 +343,26 @@ public class CInspect extends CCobolElement
 					}
 					else
 					{
-						boolean bDone = false ;
-						while (!bDone)
+						boolean isdone = false ;
+						while (!isdone)
 						{
 							tok = GetCurrentToken();
-							boolean bAll = false  ;
+							boolean isall = false  ;
 							if (tok.GetKeyword() == CCobolKeywordList.ALL)
 							{
 								tok = GetNext();
-								bAll = true ;
+								isall = true ;
 							}
 							else if (tok.GetKeyword() == CCobolKeywordList.LEADING)
 							{
 								tok = GetNext();
-								bAll = false ;
+								isall = false ;
 							}
 							else
 							{
-								bDone =true  ;
+								isdone =true  ;
 							}
-							if (!bDone)
+							if (!isdone)
 							{
 								CTerminal t = ReadTerminal();
 								CInspectItemToCount itemToCount = new CInspectItemToCount() ;
@@ -370,7 +370,7 @@ public class CInspect extends CCobolElement
 								while (t != null)
 								{
 									CInspectItem item = new CInspectItem();
-									item.bAll = bAll ; 
+									item.isall = isall;
 									item.tokenToCount.add(t) ;
 									
 									tok = GetCurrentToken() ;
@@ -395,11 +395,11 @@ public class CInspect extends CCobolElement
 									CInspectItem item = new CInspectItem();
 									if (tok.GetKeyword() == CCobolKeywordList.AFTER)
 									{
-										item.bCharactersAfter = true ;
+										item.ischaractersAfter = true ;
 									}
 									else if (tok.GetKeyword() == CCobolKeywordList.BEFORE)
 									{
-										item.bCharactersBefore = true ;
+										item.ischaractersBefore = true ;
 									}
 									tok = GetNext();
 									if (tok.GetKeyword() == CCobolKeywordList.INITIAL)
@@ -415,7 +415,7 @@ public class CInspect extends CCobolElement
 					tok = GetCurrentToken() ;
 					if (tok.GetType() != CTokenType.IDENTIFIER)
 					{
-						bDone2 = true ;
+						isdone2 = true ;
 					}
 				}
 				else
@@ -454,11 +454,11 @@ public class CInspect extends CCobolElement
 		CInspectActionType method = a.method;
 		if (method == CInspectActionType.REPLACING)
 		{
-			Vector<CInspectValueToReplace> arrItemToReplace = a.arrItemToReplace;
+			Vector<CInspectValueToReplace> itemToReplace = a.itemToReplace;
 			eInsp = root.createElement("InspectRemplace") ;
-			for (int i =0; i<arrItemToReplace.size(); i++)
+			for (int i = 0; i< itemToReplace.size(); i++)
 			{
-				CInspectValueToReplace item = arrItemToReplace.get(i); 
+				CInspectValueToReplace item = itemToReplace.get(i);
 				Element e = null ;
 				if (item.valToReplaceAll != null)
 				{
@@ -489,7 +489,7 @@ public class CInspect extends CCobolElement
 		}
 		else if (method == CInspectActionType.TALLYING)
 		{
-			Vector<CInspectItemToCount> arrItemToCount = a.arrItemToCount;
+			Vector<CInspectItemToCount> arrItemToCount = a.itemToCount;
 			eInsp = root.createElement("InspectEnum") ;
 			Element eVar = root.createElement("Variable");
 			idStringVariable.ExportTo(eVar, root);
@@ -507,15 +507,15 @@ public class CInspect extends CCobolElement
 				
 				for (CInspectItem item : itemToCount.items)
 				{
-					if (item.bAll)
+					if (item.isall)
 					{
 						cs = "All";
 					}
-					else if (item.bCharactersAfter)
+					else if (item.ischaractersAfter)
 					{
 						cs = "CharsAfter" ;
 					}
-					else if (item.bCharactersBefore)
+					else if (item.ischaractersBefore)
 					{
 						cs = "CharsBefore" ;
 					}
@@ -558,9 +558,9 @@ public class CInspect extends CCobolElement
 	}
 	protected class CInspectItem
 	{
-		boolean bAll = false ;
-		boolean bCharactersBefore = false ;
-		boolean bCharactersAfter = false ;
+		boolean isall = false ;
+		boolean ischaractersBefore = false ;
+		boolean ischaractersAfter = false ;
 		Vector<CTerminal> tokenToCount = new Vector<CTerminal>() ;
 	}
 	protected class CInspectConverting
@@ -572,7 +572,7 @@ public class CInspect extends CCobolElement
 	{
 		protected CInspectActionType method = null ; 
 		protected CInspectConverting converting = null ;
-		protected Vector<CInspectItemToCount> arrItemToCount = new Vector<CInspectItemToCount>() ;
-		protected Vector<CInspectValueToReplace> arrItemToReplace = new Vector<CInspectValueToReplace>() ;
+		protected Vector<CInspectItemToCount> itemToCount = new Vector<CInspectItemToCount>() ;
+		protected Vector<CInspectValueToReplace> itemToReplace = new Vector<CInspectValueToReplace>() ;
 	}
 }

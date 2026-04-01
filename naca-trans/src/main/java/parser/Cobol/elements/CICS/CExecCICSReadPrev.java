@@ -93,8 +93,8 @@ public class CExecCICSReadPrev extends CCobolElement
 			tok = GetNext();
 		}
 		
-		boolean bDone = false ;
-		while (!bDone)
+		boolean isdone = false ;
+		while (!isdone)
 		{
 			tok = GetCurrentToken() ;
 			if (tok.GetKeyword() == CCobolKeywordList.FILE && readType == null)
@@ -185,7 +185,7 @@ public class CExecCICSReadPrev extends CCobolElement
 			}
 			else 
 			{
-				bDone = true ;
+				isdone = true ;
 			}
 		}
 				

@@ -71,12 +71,12 @@ public abstract class BaseRecord
 			}
 			
 			getFiller().allocOrResetBufferExt();
-			boolean bRead = file.read(getFiller().getBuffer());
-			if (bRead)
+			boolean isread = file.read(getFiller().getBuffer());
+			if (isread)
 				fillRW();
 			
 			getFiller().setMode(ModeReadWriteExt.Unknown);
-			return bRead;
+			return isread;
 		}
 		return false;
 	}

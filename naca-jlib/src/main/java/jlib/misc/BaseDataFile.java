@@ -18,7 +18,7 @@ package jlib.misc;
 public abstract class BaseDataFile
 {
 	protected String csName = null;
-	private boolean bEOF = false;
+	private boolean iseOF = false;
 	
 	public static boolean isNullFile(String csFilePhysicalName)
 	{
@@ -44,12 +44,12 @@ public abstract class BaseDataFile
 	
 	public boolean isEOF()
 	{
-		return bEOF;
+		return iseOF;
 	}
 	
 	public void setEOF(boolean b)
 	{
-		bEOF = b;
+		iseOF = b;
 	}
 	
 	//public abstract boolean open();
@@ -94,15 +94,15 @@ public abstract class BaseDataFile
 	
 	public long getLastPosition()
 	{
-		return lLastPosition;
+		return lastPosition;
 	}
 	
 	public void setLastPosition(long l)
 	{
-		lLastPosition = l;
+		lastPosition = l;
 	}
 	
-	private long lLastPosition = 0;
+	private long lastPosition = 0;
 	
 	
 	public String unbufferedReadAheadLine(int nMaxReadAheadSize)

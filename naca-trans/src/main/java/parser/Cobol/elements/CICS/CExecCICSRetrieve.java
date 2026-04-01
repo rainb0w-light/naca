@@ -49,7 +49,7 @@ public class CExecCICSRetrieve extends CCobolElement
 	 */
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		CEntityCICSRetrieve eRetr = factory.NewEntityCICSRetreive(getLine(), bPointer);
+		CEntityCICSRetrieve eRetr = factory.NewEntityCICSRetreive(getLine(), ispointer);
 		parent.AddChild(eRetr);
 		CDataEntity ref = dataReference.GetDataReference(getLine(), factory);
 		CDataEntity len = null;
@@ -75,11 +75,11 @@ public class CExecCICSRetrieve extends CCobolElement
 		
 		if (tok.GetKeyword() == CCobolKeywordList.INTO)
 		{
-			bPointer = false ;
+			ispointer = false ;
 		}
 		else if (tok.GetKeyword() == CCobolKeywordList.SET)
 		{
-			bPointer = true ;
+			ispointer = true ;
 		}
 		else
 		{
@@ -128,7 +128,7 @@ public class CExecCICSRetrieve extends CCobolElement
 	{
 		Element e = root.createElement("ExecCICSRetrieve") ;
 		Element eData ;
-		if (bPointer)
+		if (ispointer)
 		{
 			eData = root.createElement("SetPointer");
 		}
@@ -149,5 +149,5 @@ public class CExecCICSRetrieve extends CCobolElement
 	
 	protected CIdentifier dataReference = null ;
 	protected CIdentifier dataLength = null ;
-	protected boolean bPointer = false ;
+	protected boolean ispointer = false ;
 }

@@ -183,8 +183,8 @@ public class SharedProgramInstanceData extends CJMapObject
 			int nSize = arrVarName.size();
 			String arr[] = new String[nSize];
 			arrVarName.transferInto(arr);
-			ArrayFix<String> arrVarDefFix = new ArrayFix<String>(arr);
-			arrVarName = arrVarDefFix;	// replace by a fix one (uning less memory)
+			ArrayFix<String> varDefFix = new ArrayFix<String>(arr);
+			arrVarName = varDefFix;	// replace by a fix one (uning less memory)
 		}
 		
 		if(arrVarDef != null)
@@ -192,8 +192,8 @@ public class SharedProgramInstanceData extends CJMapObject
 			int nSize = arrVarDef.size();
 			VarDefBuffer arr[] = new VarDefBuffer[nSize];
 			arrVarDef.transferInto(arr);
-			ArrayFix<VarDefBuffer> arrVarDefFix = new ArrayFix<VarDefBuffer>(arr);
-			arrVarDef = arrVarDefFix;	// replace by a fix one (uning less memory)
+			ArrayFix<VarDefBuffer> varDefFix = new ArrayFix<VarDefBuffer>(arr);
+			arrVarDef = varDefFix;	// replace by a fix one (uning less memory)
 		}
 		
 		if(arrVarDefForm != null)
@@ -201,8 +201,8 @@ public class SharedProgramInstanceData extends CJMapObject
 			int nSize = arrVarDefForm.size();
 			VarDefForm arr[] = new VarDefForm[nSize];
 			arrVarDefForm.transferInto(arr);
-			ArrayFix<VarDefForm> arrVarDefFormFix = new ArrayFix<VarDefForm>(arr);
-			arrVarDefForm = arrVarDefFormFix;	// replace by a fix one (uning less memory)
+			ArrayFix<VarDefForm> varDefFormFix = new ArrayFix<VarDefForm>(arr);
+			arrVarDefForm = varDefFormFix;	// replace by a fix one (uning less memory)
 		}
 
 		if(arrCopyNames != null)
@@ -210,8 +210,8 @@ public class SharedProgramInstanceData extends CJMapObject
 			int nSize = arrCopyNames.size();
 			String arr[] = new String[nSize];
 			arrCopyNames.transferInto(arr);
-			ArrayFix<String> arrFix = new ArrayFix<String>(arr);
-			arrCopyNames = arrFix;	// replace by a fix one (uning less memory)
+			ArrayFix<String> fix = new ArrayFix<String>(arr);
+			arrCopyNames = fix;	// replace by a fix one (uning less memory)
 		}
 		
 		if(arrCursorName != null)
@@ -219,8 +219,8 @@ public class SharedProgramInstanceData extends CJMapObject
 			int nSize = arrCursorName.size();
 			String arr[] = new String[nSize];
 			arrCursorName.transferInto(arr);
-			ArrayFix<String> arrFix = new ArrayFix<String>(arr);
-			arrCursorName = arrFix;	// replace by a fix one (uning less memory)
+			ArrayFix<String> fix = new ArrayFix<String>(arr);
+			arrCursorName = fix;	// replace by a fix one (uning less memory)
 		}
 	}
 	

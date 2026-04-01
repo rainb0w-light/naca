@@ -45,15 +45,15 @@ public class CJavaParseString extends CEntityParseString
 		cs += "unstring(" + variable.ExportReference(getLine()) + ")";
 		WriteWord(cs);
 		cs = "" ;
-		for (int i=0; i<arrDelimitersSingle.size(); i++)
+		for (int i = 0; i< delimitersSingle.size(); i++)
 		{
-			CDataEntity e = arrDelimitersSingle.get(i);
+			CDataEntity e = delimitersSingle.get(i);
 			cs = ".delimitedBy(" + e.ExportReference(getLine()) + ")";
 			WriteWord(cs);
 		}
-		for (int i=0; i<arrDelimitersMulti.size(); i++)
+		for (int i = 0; i< delimitersMulti.size(); i++)
 		{
-			CDataEntity e = arrDelimitersMulti.get(i);
+			CDataEntity e = delimitersMulti.get(i);
 			cs = ".delimitedByAll(" + e.ExportReference(getLine())+")" ;
 			WriteWord(cs);
 		}
@@ -67,9 +67,9 @@ public class CJavaParseString extends CEntityParseString
 			cs = ".tallying(" + tallying.ExportReference(getLine())+")" ;
 			WriteWord(cs);
 		}
-		for (int i=0; i<arrDestinations.size(); i++)
+		for (int i = 0; i< destinations.size(); i++)
 		{
-			CDataEntity[] entities = arrDestinations.get(i);
+			CDataEntity[] entities = destinations.get(i);
 			CDataEntity eTo = entities[0];
 			CDataEntity eDelimiterIn = entities[1];
 			CDataEntity eCountIn = entities[2];

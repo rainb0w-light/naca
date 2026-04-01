@@ -20,7 +20,7 @@ public class AsyncThreadMBean extends BaseCloseMBean
 {
 	private String csThreadName = null;
 	private String csThreadId = null;
-	private boolean bWaiting = false;
+	private boolean iswaiting = false;
 	private String csLastWaitEvent = ""; 
 	private String csProgram = "";
 	private String csProgramParent = "";
@@ -61,9 +61,9 @@ public class AsyncThreadMBean extends BaseCloseMBean
 	
 	void setWait(boolean bWaiting)
 	{
-		if(bWaiting != this.bWaiting)	// Changing state
+		if(bWaiting != this.iswaiting)	// Changing state
 			sw.Reset();
-		this.bWaiting = bWaiting;
+		this.iswaiting = bWaiting;
 		csLastWaitEvent = DateUtil.getDisplayTimeStamp();
 	}
 	
@@ -120,12 +120,12 @@ public class AsyncThreadMBean extends BaseCloseMBean
 	public String getE_WaitStatus()
 	{
 		String cs;
-		if(bWaiting)
+		if(iswaiting)
 			cs = "Waiting since " + csLastWaitEvent;
 		else
 			cs = "Running since " + csLastWaitEvent;
-		long lElapsedTime_s = sw.getElapsedTime() / 1000;
-		cs = cs + " (" + lElapsedTime_s + " s)";
+		long elapsedTime_s = sw.getElapsedTime() / 1000;
+		cs = cs + " (" + elapsedTime_s + " s)";
 		return cs;
 	}
 	

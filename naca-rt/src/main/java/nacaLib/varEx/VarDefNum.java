@@ -13,7 +13,6 @@
 package nacaLib.varEx;
 
 
-import jlib.misc.Comp3Support;
 import nacaLib.sqlSupport.CSQLItemType;
 import nacaLib.tempCache.CStr;
 import nacaLib.tempCache.CStrNumber;
@@ -308,15 +307,15 @@ public abstract class VarDefNum extends VarDefVariable
 		if(cDigitSign >= 0xD0)
 		{
 			nDigit = cDigitSign - 0xD0 + '0';
-			char cDigit = (char)nDigit;
-			cs = "-" + cs + cDigit;
+			char digit = (char)nDigit;
+			cs = "-" + cs + digit;
 			return cs;
 		}
 		else if(cDigitSign >= 0xC0)
 		{
 			nDigit = cDigitSign - 0xC0 + '0';
-			char cDigit = (char)nDigit;
-			cs = cs + cDigit;
+			char digit = (char)nDigit;
+			cs = cs + digit;
 			return cs;
 		}
 		//nDigit = cDigitSign;

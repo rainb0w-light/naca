@@ -39,7 +39,7 @@ public class CJavaCICSRetrieve extends CEntityCICSRetrieve
 	protected void DoExport()
 	{
 		String cs = ("CESM") ;
-		if (bPointer)
+		if (ispointer)
 		{
 			cs += ".retrieveSet(" ;
 		}

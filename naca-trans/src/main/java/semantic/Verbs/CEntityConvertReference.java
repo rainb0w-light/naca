@@ -70,16 +70,16 @@ public abstract class CEntityConvertReference extends CBaseDataReference
 	 */
 	public void convertToPacked(CDataEntity buffer)
 	{
-		bConvertToPacked = true ;
-		bConvertToAlphaNum = false ;
+		isconvertToPacked = true ;
+		isconvertToAlphaNum = false ;
 		reference = buffer ;
 	}	
-	protected boolean bConvertToPacked = false ;
-	protected boolean bConvertToAlphaNum = false ;
+	protected boolean isconvertToPacked = false ;
+	protected boolean isconvertToAlphaNum = false ;
 	
 	public void convertToAlphaNum(CDataEntity working) {
-		bConvertToAlphaNum = true ;
-		bConvertToPacked = false ;
+		isconvertToAlphaNum = true ;
+		isconvertToPacked = false ;
 		reference = working ;
 	}
 }

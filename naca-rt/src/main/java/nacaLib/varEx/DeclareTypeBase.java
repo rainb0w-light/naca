@@ -26,7 +26,7 @@ import nacaLib.programPool.SharedProgramInstanceData;
 public abstract class DeclareTypeBase extends CJMapObject
 {
 	protected VarLevel varLevel = null;
-	private boolean bVariableLengthDeclaration = false;
+	private boolean isvariableLengthDeclaration = false;
 	
 	public DeclareTypeBase()
 	{
@@ -41,7 +41,7 @@ public abstract class DeclareTypeBase extends CJMapObject
 	void set(VarLevel varLevel)
 	{
 		this.varLevel = varLevel;
-		bVariableLengthDeclaration = false;
+		isvariableLengthDeclaration = false;
 	}
 	
 	public VarLevel getLevel()
@@ -106,12 +106,12 @@ public abstract class DeclareTypeBase extends CJMapObject
 	
 	void setVariableLengthDeclaration()
 	{
-		bVariableLengthDeclaration = true;
+		isvariableLengthDeclaration = true;
 	}
 	
 	boolean isVariableLengthDeclaration()
 	{
-		return bVariableLengthDeclaration;
+		return isvariableLengthDeclaration;
 	}
 	
 	public abstract VarDefBuffer createVarDef(VarDefBuffer varDefParent);

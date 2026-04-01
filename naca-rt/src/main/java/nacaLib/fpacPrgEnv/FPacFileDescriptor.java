@@ -7,7 +7,6 @@
 package nacaLib.fpacPrgEnv;
 
 import jlib.log.Log;
-import jlib.misc.FileEndOfLine;
 import jlib.misc.LineRead;
 import jlib.misc.RecordLengthDefinition;
 import nacaLib.varEx.BaseFileDescriptor;
@@ -18,8 +17,8 @@ import nacaLib.varEx.VarBuffer;
 
 public class FPacFileDescriptor extends BaseFileDescriptor
 {	
-	private FPacRecordFiller fPacRecordFillerInput = null;
-	private FPacRecordFiller fPacRecordFillerOutput = null;
+	private FPacRecordFiller pacRecordFillerInput = null;
+	private FPacRecordFiller pacRecordFillerOutput = null;
 	private final static int MAX_RECORD_LENGTH = 32768;
 	
 	private byte tBytes[] = null;
@@ -37,8 +36,8 @@ public class FPacFileDescriptor extends BaseFileDescriptor
 	
 	void setRecordFillers(FPacRecordFiller FPacRecordFillerInput, FPacRecordFiller FPacRecordFillerOutput)
 	{
-		fPacRecordFillerInput = FPacRecordFillerInput;
-		fPacRecordFillerOutput = FPacRecordFillerOutput;
+		pacRecordFillerInput = FPacRecordFillerInput;
+		pacRecordFillerOutput = FPacRecordFillerOutput;
 	}
 	
 	public FPacFileDescriptor openOutput()
@@ -79,14 +78,14 @@ public class FPacFileDescriptor extends BaseFileDescriptor
 	
 	private void fillInputBuffer()
 	{
-		if(fPacRecordFillerInput != null)
-			fPacRecordFillerInput.fillBuffer(acBuffer);
+		if(pacRecordFillerInput != null)
+			pacRecordFillerInput.fillBuffer(acBuffer);
 	}
 
 	private void fillOutputBuffer()
 	{
-		if(fPacRecordFillerOutput != null)
-			fPacRecordFillerOutput.fillBuffer(acBuffer);
+		if(pacRecordFillerOutput != null)
+			pacRecordFillerOutput.fillBuffer(acBuffer);
 	}
 
 	public RecordDescriptorAtEnd read()
@@ -96,14 +95,14 @@ public class FPacFileDescriptor extends BaseFileDescriptor
 		
 		if(fileManagerEntry.isVariableLength())	 // Variable size record
 		{
-			long lLastHeaderStartPosition = fileManagerEntry.dataFile.getFileCurrentPosition();	// Keep header start position
+			long lastHeaderStartPosition = fileManagerEntry.dataFile.getFileCurrentPosition();	// Keep header start position
 			LineRead header = fileManagerEntry.dataFile.readBuffer(4, false);		// Read header
 			if(header != null)
 			{
 				int nLengthExcludingHeader = header.getAsLittleEndingUnsignBinaryInt();	// Length in header doesn't count the header itself
 				int nHeaderLength = varBuffer.setFromLineRead(header, 0);			// write the record after the record length at the beginning; it includes the length itself
 				LineRead lineRead = fileManagerEntry.dataFile.readBuffer(nLengthExcludingHeader, true);		// Read including trailing LF
-				fileManagerEntry.dataFile.setLastPosition(lLastHeaderStartPosition);	// Save current position at the header start
+				fileManagerEntry.dataFile.setLastPosition(lastHeaderStartPosition);	// Save current position at the header start
 				if(lineRead != null)
 				{
 					nLastReadRecordLength = varBuffer.setFromLineRead(lineRead, 4) + nHeaderLength;

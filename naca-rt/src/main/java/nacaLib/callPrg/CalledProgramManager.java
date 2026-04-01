@@ -29,24 +29,24 @@ public class CalledProgramManager extends BaseProgramManager
 	
 	public void setEnv(BaseEnvironment env)
 	{
-		cESMEnv = env;
+		eSMEnv = env;
 	}
 	
 	public void detachFromEnv()
 	{
-		cESMEnv = null;
+		eSMEnv = null;
 	}
 	
 	public BaseEnvironment getEnv()
 	{
-		return cESMEnv;
+		return eSMEnv;
 	}
 	
 	public void prepareRunMain(BaseProgram prg)
 	{
-		((CalledProgram)prg).prepareRunMain(cESMEnv);
+		((CalledProgram)prg).prepareRunMain(eSMEnv);
 	}
 	
-	private BaseEnvironment cESMEnv = null; 
+	private BaseEnvironment eSMEnv = null;
 }
 

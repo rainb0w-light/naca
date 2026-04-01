@@ -41,7 +41,7 @@ public abstract class CEntityDivide extends CBaseActionEntity
 	protected CDataEntity by = null ;
 	protected CDataEntity result = null ;
 	protected CDataEntity remainder = null ;
-	protected boolean bIsRounded = false ;
+	protected boolean isisRounded = false ;
 	public void Clear()
 	{
 		super.Clear() ;
@@ -55,14 +55,14 @@ public abstract class CEntityDivide extends CBaseActionEntity
 	{
 		what = what ;
 		by = by ;
-		bIsRounded = isRounded ;
+		isisRounded = isRounded ;
 		result = result ;
 	}
 	public void SetDivide(CDataEntity what, CDataEntity by, boolean isRounded) 
 	{
 		what = what ;
 		by = by ;
-		bIsRounded = isRounded ;
+		isisRounded = isRounded ;
 		result = what ;
 	}
 	public void SetRemainder(CDataEntity rem)

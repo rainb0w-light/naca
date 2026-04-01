@@ -51,7 +51,7 @@ public class CExecCICSWriteQ extends CCobolElement
 	 */
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		CEntityCICSWriteQ eWQ = factory.NewEntityCICSWriteQ(getLine(), bPersistant);
+		CEntityCICSWriteQ eWQ = factory.NewEntityCICSWriteQ(getLine(), ispersistant);
 		parent.AddChild(eWQ);
 		
 		eWQ.SetName(queueName.GetDataEntity(getLine(), factory)) ;
@@ -109,22 +109,22 @@ public class CExecCICSWriteQ extends CCobolElement
 		{
 			CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("WRITEQ", "TD") ;
 			tok = GetNext(); 
-			bPersistant = true ;
+			ispersistant = true ;
 		}
 		else if (tok.GetValue().equals("TS"))
 		{
 			CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("WRITEQ", "TS") ;
 			tok = GetNext(); 
-			bPersistant = false ;
+			ispersistant = false ;
 		}
 		else
 		{
 			CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("WRITEQ", "Unknown") ;
-			bPersistant = false ;
+			ispersistant = false ;
 		}
 		
-		boolean bDone = false ;
-		while (!bDone)
+		boolean isdone = false ;
+		while (!isdone)
 		{
 			if (tok.GetValue().equals("QUEUE"))
 			{
@@ -227,7 +227,7 @@ public class CExecCICSWriteQ extends CCobolElement
 			}
 			else 
 			{
-				bDone = true ;
+				isdone = true ;
 			}
 		}
 		
@@ -246,7 +246,7 @@ public class CExecCICSWriteQ extends CCobolElement
 	protected Element ExportCustom(Document root)
 	{
 		Element eWrite = root.createElement("ExecCICSWriteQ") ;
-		if (bPersistant)
+		if (ispersistant)
 		{
 			eWrite.setAttribute("Persistant", "true") ;
 		}
@@ -305,7 +305,7 @@ public class CExecCICSWriteQ extends CCobolElement
 		return eWrite;
 	}
 
-	protected boolean bPersistant = false ;
+	protected boolean ispersistant = false ;
 	protected CTerminal queueName = null ;
 	protected CIdentifier dataRef = null ;
 	protected CTerminal length = null ;

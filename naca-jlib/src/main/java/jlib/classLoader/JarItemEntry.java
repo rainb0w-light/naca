@@ -53,16 +53,16 @@ public class JarItemEntry
 		    	if (nSize != -1)
 		    	{
 			    	byte[] tb = new byte[nSize];
-			    	int rb = 0;
+			    	int radioButton = 0;
 			    	int nChunk = 0;
-			    	while ((nSize - rb) > 0)
+			    	while ((nSize - radioButton) > 0)
 			    	{
-						nChunk = inputStream.read(tb, rb, nSize - rb);
+						nChunk = inputStream.read(tb, radioButton, nSize - radioButton);
 			    		if (nChunk == -1)
 			    		{
 			    			break;
 			    		}
-			    		rb += nChunk;
+			    		radioButton += nChunk;
 			    	}
 			    	return tb;
 		    	}

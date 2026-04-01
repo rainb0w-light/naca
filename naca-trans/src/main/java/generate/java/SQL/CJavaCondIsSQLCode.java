@@ -30,7 +30,7 @@ public class CJavaCondIsSQLCode extends CEntityCondIsSQLCode
 	public CBaseEntityCondition GetOppositeCondition()
 	{
 		CJavaCondIsSQLCode cond = new CJavaCondIsSQLCode() ;
-		cond.bIsEqual = ! bIsEqual ;
+		cond.isisEqual = !isisEqual;
 		cond.nValue = nValue ;
 		return cond ;
 	}
@@ -73,7 +73,7 @@ public class CJavaCondIsSQLCode extends CEntityCondIsSQLCode
 		{
 			value += nValue ;
 		}
-		if (bIsEqual)
+		if (isisEqual)
 		{
 			String cs = "isSQLCode(" + value + ")" ;
 			return cs ;

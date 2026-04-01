@@ -17,12 +17,12 @@ public class BaseCalledPrgPublicArgWay
 	public static BaseCalledPrgPublicArgWay OUT = new BaseCalledPrgPublicArgWay(false, true);
 	public static BaseCalledPrgPublicArgWay INOUT = new BaseCalledPrgPublicArgWay(true, true);
 	
-	private boolean bIn = false;
-	private boolean bOut = false;
+	private boolean isin = false;
+	private boolean isout = false;
 	
-	private BaseCalledPrgPublicArgWay(boolean bIn, boolean bOut)
+	private BaseCalledPrgPublicArgWay(boolean isin, boolean isout)
 	{
-		this.bIn = bIn;
-		this.bOut = bOut;
+		this.isin = isin;
+		this.isout = isout;
 	}
 }

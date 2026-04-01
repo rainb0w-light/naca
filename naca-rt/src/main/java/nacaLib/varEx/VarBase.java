@@ -97,9 +97,9 @@ public abstract class VarBase extends CJMapObject
 	
 	public boolean is(CobolConstantBase constant)
 	{
-		char cPattern = constant.getValue();
+		char pattern = constant.getValue();
 		String sValue = getString();
-		return BaseProgram.isAll(sValue, cPattern);
+		return BaseProgram.isAll(sValue, pattern);
 	}
 	
 	public SharedProgramInstanceData getSharedProgramInstanceData()
@@ -531,8 +531,8 @@ public abstract class VarBase extends CJMapObject
 		
 		for(int n=0; n<nLength; n++, nPositionDest++, nPositionSource++)
 		{
-			char cSource = bufferPos.acBuffer[nPositionSource];
-			arr[nPositionDest] = cSource;
+			char source = bufferPos.acBuffer[nPositionSource];
+			arr[nPositionDest] = source;
 		}
 		return arr;
 	}

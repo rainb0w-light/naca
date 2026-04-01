@@ -10,26 +10,26 @@ public class StopWatchNano
 {
 	public StopWatchNano()
 	{
-		lStart = System.nanoTime();
+		start = System.nanoTime();
 	}
 	
 	public long getElapsedTime()
 	{
-		long lStop = System.nanoTime();
-		return lStop - lStart;
+		long stop = System.nanoTime();
+		return stop - start;
 	}
 
 	public long getElapsedTimeReset()
 	{
-		long lStop = System.nanoTime();
-		long l = lStop - lStart;
-		lStart = lStop;
+		long stop = System.nanoTime();
+		long l = stop - start;
+		start = stop;
 		return l;		
 	}
 	
 	public void reset()
 	{
-		lStart = System.nanoTime();
+		start = System.nanoTime();
 	}
 	
 	public static long getMicroSecond(long l)
@@ -43,5 +43,5 @@ public class StopWatchNano
 	}
 	
 	
-	private long lStart = 0;
+	private long start = 0;
 }

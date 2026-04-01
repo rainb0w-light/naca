@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /*
- * Created on 27 août 04
+ * Created on 27 aoï¿½t 04
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -50,7 +50,7 @@ public class OnlineMain
 		int nNbThreads = 1;
 		int nWait = 0;
 
-		StringArray arrPath = new StringArray();
+		StringArray path = new StringArray();
 		
 		EnvironmentVar.registerCmdLineArgs(args);
 		 
@@ -61,56 +61,56 @@ public class OnlineMain
 				String s = args[nArg];
 				if(s.startsWith("-") || s.startsWith("/"))
 				{
-					String sArg = s.substring(1);
-					String sArgUpper = sArg.toUpperCase();
-					if(sArgUpper.startsWith("PATH="))
+					String arg = s.substring(1);
+					String argUpper = arg.toUpperCase();
+					if(argUpper.startsWith("PATH="))
 					{						
-						csPath = sArg.substring(5);
+						csPath = arg.substring(5);
 						if(!csPath.endsWith("/"))
 							csPath += "/";
-						arrPath.add(csPath);
+						path.add(csPath);
 					}
 						 
-					if(sArgUpper.startsWith("PROGRAM="))
-						csPrgClassName = sArg.substring(8); 
+					if(argUpper.startsWith("PROGRAM="))
+						csPrgClassName = arg.substring(8);
 
-					if(sArgUpper.startsWith("DB="))
-						csDB = sArg.substring(3); 
+					if(argUpper.startsWith("DB="))
+						csDB = arg.substring(3);
 					
-					if(sArgUpper.startsWith("HELP"))
+					if(argUpper.startsWith("HELP"))
 					{
 						displayHelp();
 						return ;
 					}
 					
-					if(sArgUpper.startsWith("LOG="))
-						csLogCfg = sArg.substring(4);
+					if(argUpper.startsWith("LOG="))
+						csLogCfg = arg.substring(4);
 					
-					if(sArgUpper.startsWith("NBLOOPS="))
+					if(argUpper.startsWith("NBLOOPS="))
 					{
-						String cs = sArg.substring(8);
+						String cs = arg.substring(8);
 						nNbLoops = Integer.parseInt(cs);
 					}
-					if(sArgUpper.startsWith("WAIT="))
+					if(argUpper.startsWith("WAIT="))
 					{
-						String cs = sArg.substring(5);
+						String cs = arg.substring(5);
 						nWait = Integer.parseInt(cs);
 					}
 					
-					if(sArgUpper.startsWith("NBTHREADS="))
+					if(argUpper.startsWith("NBTHREADS="))
 					{
-						String cs = sArg.substring(10);
+						String cs = arg.substring(10);
 						nNbThreads = Integer.parseInt(cs);
 					}
 					
-					if(sArgUpper.startsWith("CONFIGFILE="))
+					if(argUpper.startsWith("CONFIGFILE="))
 					{
-						csConfigFile = sArg.substring(11);
+						csConfigFile = arg.substring(11);
 					}
 				}
 			}
 			
-			if(!csPrgClassName.equals("") && arrPath.size() > 0)
+			if(!csPrgClassName.equals("") && path.size() > 0)
 			{
 				if(BaseResourceManager.isInUpdateMode())
 				{
@@ -127,13 +127,13 @@ public class OnlineMain
 					
 				if(nNbThreads > 1)
 				{
-					ArrayList<ThreadCJMap> arrThreads = new ArrayList<ThreadCJMap>();
+					ArrayList<ThreadCJMap> threads = new ArrayList<ThreadCJMap>();
 					ThreadSafeCounter counter = new ThreadSafeCounter(nNbThreads);
 					for(int n=0; n<nNbThreads; n++)
 					{
-						CJMapThreadedRun cjmapThreadedRun = new CJMapThreadedRun(resourceManager, nNbLoops, csPrgClassName, arrPath);  
+						CJMapThreadedRun cjmapThreadedRun = new CJMapThreadedRun(resourceManager, nNbLoops, csPrgClassName, path);
 						ThreadCJMap threadCJMap = new ThreadCJMap(counter, cjmapThreadedRun);
-						arrThreads.add(threadCJMap);
+						threads.add(threadCJMap);
 					}
 
 					
@@ -141,7 +141,7 @@ public class OnlineMain
 					// Starts threads
 					for(int n=0; n<nNbThreads; n++)
 					{
-						ThreadCJMap thread = arrThreads.get(n);
+						ThreadCJMap thread = threads.get(n);
 						thread.start();
 					}
 					
@@ -170,7 +170,7 @@ public class OnlineMain
 						env = loader.GetEnvironment(session, null, null) ;
 						env.startRunTransaction();
 						
-						loader.setPaths(arrPath);
+						loader.setPaths(path);
 						env.setNextProgramToLoad(csPrgClassName);
 						
 						//StopWatch sw = new StopWatch(); 

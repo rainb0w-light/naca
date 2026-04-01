@@ -166,10 +166,10 @@ public class OracleClause extends SQLClause {
  */
 	public OracleClause paramInsert(String csName,Date dVal) {
 		String s=String.format("%1$tY/%1$tm/%1$td %1$tH:%1$tM:%1$tS",dVal);
-		if(arrInsertParams == null)
-			arrInsertParams = new ArrayList<ColValue>();
-		ColValueString colVal = new ColValueString(csName, "to_date(?,'yyyy/mm/dd hh24:mi:ss')",s); 
-		arrInsertParams.add(colVal);
+		if(insertParams == null)
+			insertParams = new ArrayList<ColValue>();
+		ColValueString collectionval = new ColValueString(csName, "to_date(?,'yyyy/mm/dd hh24:mi:ss')",s);
+		insertParams.add(collectionval);
 		return this;
 	}
 }

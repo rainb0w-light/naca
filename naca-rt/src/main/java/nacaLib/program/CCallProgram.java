@@ -9,12 +9,10 @@ package nacaLib.program;
 import java.util.ArrayList;
 
 import jlib.log.AssertException;
-import jlib.log.Log;
 
 import nacaLib.base.*;
 import nacaLib.basePrgEnv.BaseEnvironment;
 import nacaLib.basePrgEnv.BaseProgramLoader;
-import nacaLib.exceptions.AbortSessionException;
 import nacaLib.varEx.CCallParam;
 import nacaLib.varEx.CallParamByLength;
 import nacaLib.varEx.CallParamByRef;
@@ -68,7 +66,7 @@ public class CCallProgram extends CJMapObject
 	 */
 	public void executeCall()
 	{
-		baseProgramLoader.runSubProgram(csProgramClassName, arrCallParam, environment);
+		baseProgramLoader.runSubProgram(csProgramClassName, callParam, environment);
 	}
 
 	public boolean executeCallSafe()
@@ -92,11 +90,11 @@ public class CCallProgram extends CJMapObject
 	 */
 	public CCallProgram usingValue(Var var)
 	{
-		if(arrCallParam == null)
-			arrCallParam = new ArrayList<CCallParam>();
+		if(callParam == null)
+			callParam = new ArrayList<CCallParam>();
 		CallParamByValue CallParam = new CallParamByValue(var);
 				  
-		arrCallParam.add(CallParam);
+		callParam.add(CallParam);
 		return this;
 	}
 
@@ -108,11 +106,11 @@ public class CCallProgram extends CJMapObject
 	 */
 	public CCallProgram usingContent(Var var)
 	{
-		if(arrCallParam == null)
-			arrCallParam = new ArrayList<CCallParam>();
+		if(callParam == null)
+			callParam = new ArrayList<CCallParam>();
 		CallParamByValue CallParam = new CallParamByValue(var);
 				  
-		arrCallParam.add(CallParam);
+		callParam.add(CallParam);
 		return this;
 	}
 
@@ -124,30 +122,30 @@ public class CCallProgram extends CJMapObject
 	 */
 	public CCallProgram using(Var var)
 	{
-		if(arrCallParam == null)
-			arrCallParam = new ArrayList<CCallParam>();
+		if(callParam == null)
+			callParam = new ArrayList<CCallParam>();
 		CallParamByRef CallParam = new CallParamByRef(var);
 		
-		arrCallParam.add(CallParam);
+		callParam.add(CallParam);
 		return this;
 	}
 	
 	public CCallProgram using(Edit edit)
 	{
-		if(arrCallParam == null)
-			arrCallParam = new ArrayList<CCallParam>();
+		if(callParam == null)
+			callParam = new ArrayList<CCallParam>();
 		CallParamByRef CallParam = new CallParamByRef(edit);
 		
-		arrCallParam.add(CallParam);
+		callParam.add(CallParam);
 		return this;
 	}
 
 	public CCallProgram using(String string)
 	{
-		if(arrCallParam == null)
-			arrCallParam = new ArrayList<CCallParam>();
+		if(callParam == null)
+			callParam = new ArrayList<CCallParam>();
 		CallParamByStringValue CallParam = new CallParamByStringValue(string);
-		arrCallParam.add(CallParam);
+		callParam.add(CallParam);
 		return this;
 	}
 
@@ -158,12 +156,12 @@ public class CCallProgram extends CJMapObject
 	 */
 	public CCallProgram usingLengthOf(VarAndEdit var)
 	{
-		if(arrCallParam == null)
-			arrCallParam = new ArrayList<CCallParam>();
+		if(callParam == null)
+			callParam = new ArrayList<CCallParam>();
 		
 		CallParamByLength callParam = new CallParamByLength(var);
 		  
-		arrCallParam.add(callParam);
+		this.callParam.add(callParam);
 		return this;
 	}
 	
@@ -174,7 +172,7 @@ public class CCallProgram extends CJMapObject
 
 	protected BaseEnvironment environment = null ;
 	protected String csProgramClassName = "" ;
-	private ArrayList<CCallParam> arrCallParam = null;	// Array of all call parameters
+	private ArrayList<CCallParam> callParam = null;	// Array of all call parameters
 	private BaseProgramLoader baseProgramLoader = null;
 	
 }

@@ -22,7 +22,7 @@ import jlib.misc.AsciiEbcdicConverter;
  */
 public class VarInternalBool extends Var
 {
-	private boolean bValue = false ;
+	private boolean isvalue = false ;
 	/**
 	 * @param declareTypeBase
 	 */
@@ -31,7 +31,7 @@ public class VarInternalBool extends Var
 		super(null);
 		varDef = new VarDefInternalBool(this);
 		varTypeId = varDef.getTypeId();
-		bValue = false;
+		isvalue = false;
 	}
 
 	/* (non-Javadoc)
@@ -48,7 +48,7 @@ public class VarInternalBool extends Var
 	 */
 	protected String getAsLoggableString()
 	{
-		if (bValue)
+		if (isvalue)
 		{
 			return "true" ;
 		}
@@ -69,73 +69,73 @@ public class VarInternalBool extends Var
 	public void set(int n)
 	{
 		if(n == 0)
-			bValue = false;
+			isvalue = false;
 		else
-			bValue = true;
+			isvalue = true;
 	}
 
 	public void set(long l)
 	{
 		if(l == 0)
-			bValue = false;
+			isvalue = false;
 		else
-			bValue = true;
+			isvalue = true;
 	}
 
 	public void set(String cs)
 	{
 		if(cs.equalsIgnoreCase("false") || cs.equalsIgnoreCase("0")) 
-			bValue = false;
+			isvalue = false;
 		else
-			bValue = true;
+			isvalue = true;
 	}
 
 	public void set(boolean b)
 	{
-		bValue = b ;
+		isvalue = b ;
 	}
 
 	public boolean compareTo(boolean b)
 	{
-		return (bValue && b) || (!bValue && !b);
+		return (isvalue && b) || (!isvalue && !b);
 	}
 	
 	public boolean getBool()
 	{
-		return bValue;
+		return isvalue;
 	}
 	
 	public int getInt()
 	{
-		if(bValue)
+		if(isvalue)
 			return 1;
 		return 0;
 	}
 		
 	public long getLong()
 	{
-		if(bValue)
+		if(isvalue)
 			return 1L;
 		return 0L;
 	}
 	
 	public double getDouble()
 	{
-		if(bValue)
+		if(isvalue)
 			return 1.0;
 		return 0.0;
 	}
 	
 	public String getString()
 	{
-		if(bValue)
+		if(isvalue)
 			return "1";
 		return "0";
 	}
 	
 	public String toString()
 	{
-		if(bValue)
+		if(isvalue)
 			return "true";
 		return "false";
 	}
@@ -149,8 +149,8 @@ public class VarInternalBool extends Var
 	
 	public int compareTo(double dValue)
 	{
-		double dVarValue = getDouble();
-		double d = dVarValue - dValue;
+		double varValue = getDouble();
+		double d = varValue - dValue;
 		if(d < -0.00001)	//Consider epsilon precision at 10 e-5 
 			return -1;
 		else if(d > 0.00001)	//Consider epsilon precision at 10 e-5

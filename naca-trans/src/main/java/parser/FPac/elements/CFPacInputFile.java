@@ -32,8 +32,8 @@ public class CFPacInputFile extends CFPacElement
 	}
 
 	protected int ulFileId = 0;
-	protected boolean bVariableFile = false;
-	private boolean bVSFile = false ;
+	protected boolean isvariableFile = false;
+	private boolean isvSFile = false ;
 	private int length = 0 ;
 	@Override
 	protected boolean DoParsing()
@@ -60,14 +60,14 @@ public class CFPacInputFile extends CFPacElement
 		tok = GetNext() ;
 		if (tok.GetKeyword() == CFPacKeywordList.SQ)
 		{
-			bVariableFile = false ;
+			isvariableFile = false ;
 			tok = GetNext() ;
 			if (tok.GetType() == CTokenType.MINUS)
 			{
 				tok = GetNext() ;
 				if (tok.GetKeyword() == CFPacKeywordList.VAR)
 				{
-					bVariableFile = true ;
+					isvariableFile = true ;
 					tok = GetNext() ;
 				}
 				else
@@ -78,7 +78,7 @@ public class CFPacInputFile extends CFPacElement
 		}
 		else if (tok.GetKeyword() == CFPacKeywordList.VS)
 		{
-			bVSFile  = true ;
+			isvSFile = true ;
 			tok = GetNext() ;
 		}
 		else
@@ -108,7 +108,7 @@ public class CFPacInputFile extends CFPacElement
 	@Override
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		if (bVSFile)
+		if (isvSFile)
 		{
 			Transcoder.logError(getLine(), "INPUT file type 'VS' not supported") ;
 		}
@@ -124,7 +124,7 @@ public class CFPacInputFile extends CFPacElement
 		factory.programCatalog.RegisterFileDescriptor(csDescName, att) ;
 		
 		att.setFileAccessType(CEntityOpenFile.OpenMode.INPUT) ;
-		att.setRecordSizeVariable(bVariableFile) ;
+		att.setRecordSizeVariable(isvariableFile) ;
 		
 		CEntityFileBuffer buff = factory.NewEntityFileBuffer(csDescAlias, att) ;
 		NotifRegisterInputFile notif = new NotifRegisterInputFile() ;
@@ -141,7 +141,7 @@ public class CFPacInputFile extends CFPacElement
 	{
 		Element eAdd = root.createElement("InputFile") ;
 		eAdd.setAttribute("FileId", String.valueOf(ulFileId)) ;
-		eAdd.setAttribute("Var", String.valueOf(bVariableFile)) ;
+		eAdd.setAttribute("Var", String.valueOf(isvariableFile)) ;
 		return eAdd ;
 	}
 

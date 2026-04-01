@@ -13,9 +13,6 @@ import lexer.Cobol.CCobolKeywordList;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import parser.Cobol.CCobolElement;
-import parser.Cobol.elements.CExecStatement;
-
 import semantic.CBaseEntityFactory;
 import semantic.CBaseLanguageEntity;
 import semantic.SQL.CEntitySQLSessionDrop;
@@ -44,8 +41,8 @@ public class CExecSQLSessionDrop extends CBaseExecSQLAction
 		CBaseToken tok;
 		
 		csSql = "DROP";
-		boolean bDone = false ;
-		while (!bDone)
+		boolean isdone = false ;
+		while (!isdone)
 		{
 			tok = GetNext() ;
 			if (tok.GetType()==CTokenType.DOT)
@@ -56,7 +53,7 @@ public class CExecSQLSessionDrop extends CBaseExecSQLAction
 			}
 			else if (tok.GetType()==CTokenType.KEYWORD && tok.GetKeyword()==CCobolKeywordList.END_EXEC)
 			{
-				bDone = true ;
+				isdone = true ;
 			}
 			else
 			{

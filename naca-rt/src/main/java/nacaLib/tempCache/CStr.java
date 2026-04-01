@@ -295,7 +295,7 @@ public class CStr
 		int nValue = 0;
 		int nSource = nStartPos;
 		int nMax = nLength + nStartPos;
-		boolean bNegative = false;
+		boolean isnegative = false;
 		while(nSource < nMax)
 		{
 			char c = acBuffer[nSource++];
@@ -306,7 +306,7 @@ public class CStr
 			}
 			else if(c == '-')
 			{
-				bNegative = true;
+				isnegative = true;
 				continue;
 			}
 			else if(c == '+');
@@ -316,7 +316,7 @@ public class CStr
 			else if (nSource == nStartPos) // first char is not a digit
 				return 0 ;
 		}
-		if(bNegative)
+		if(isnegative)
 			return -nValue;
 		return nValue;	
 	}
@@ -353,7 +353,7 @@ public class CStr
 			return 0;
 				
 		long lValue = 0;
-		boolean bNegative = false;
+		boolean isnegative = false;
 		int nSource = nStartPos;
 		int nMax = nLength+nSource;
 		while(nSource < nMax)
@@ -366,7 +366,7 @@ public class CStr
 			}
 			else if(c == '-')
 			{
-				bNegative = true;
+				isnegative = true;
 				continue;
 			}
 			else if(c == '+');
@@ -376,7 +376,7 @@ public class CStr
 			else if (nSource == nStartPos) // first char is not a digit
 				return 0 ;
 		}
-		if(bNegative)
+		if(isnegative)
 			return -lValue;
 		return lValue;	
 	}
@@ -402,9 +402,9 @@ public class CStr
 	{
 		for(int n=0; n<nLength; n++)
 		{
-			char cAscii = acBuffer[n + nStartPos];
-			char cEbcdic1 = AsciiEbcdicConverter.getEbcdicChar(cAscii);
-			acBuffer[nStartPos + n] = cEbcdic1;
+			char ascii = acBuffer[n + nStartPos];
+			char ebcdic1 = AsciiEbcdicConverter.getEbcdicChar(ascii);
+			acBuffer[nStartPos + n] = ebcdic1;
 		}
 	}
 

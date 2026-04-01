@@ -30,13 +30,13 @@ public class Map extends CJMapObject
 	public Map(BaseProgram program)
 	{
 		declare = new VarDeclarationInMap(program, this);
-		arrDefForms = new ArrayList<VarDefForm>();
+		defForms = new ArrayList<VarDefForm>();
 	}
 		
 	public void registerForm(VarDefForm varDefForm)
 	{
 		if(varDefForm != null)
-			arrDefForms.add(varDefForm);
+			defForms.add(varDefForm);
 	}
 		
 //	public void move(CobolConstant constant)
@@ -52,6 +52,6 @@ public class Map extends CJMapObject
 //		}
 //	}
 
-	private ArrayList<VarDefForm> arrDefForms = null;		// Array of VarDefForm
+	private ArrayList<VarDefForm> defForms = null;		// Array of VarDefForm
 	public VarDeclarationInMap declare = null;
 }

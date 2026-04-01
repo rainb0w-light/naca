@@ -38,13 +38,13 @@ import utils.FPacTranscoder.OperandDescription;
 
 public class CFPacArithmeticOperation extends CFPacElement
 {
-	private Vector<CExpression> arrExp ;
+	private Vector<CExpression> exp;
 	private CReservedKeyword command ;
 	
 	public CFPacArithmeticOperation(int line, Vector<CExpression> arrTerms, CReservedKeyword command)
 	{
 		super(line);
-		arrExp = arrTerms ;
+		exp = arrTerms ;
 		command = command ;
 	}
 
@@ -57,27 +57,27 @@ public class CFPacArithmeticOperation extends CFPacElement
 	@Override
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		boolean bFirstPacked = false, bSecondPacked = false ;
+		boolean isfirstPacked = false, issecondPacked = false ;
 		if (command == CFPacKeywordList.A || command == CFPacKeywordList.S || command == CFPacKeywordList.M || command == CFPacKeywordList.D)
 		{
-			bFirstPacked = true ;
-			bSecondPacked = true ;
+			isfirstPacked = true ;
+			issecondPacked = true ;
 		}
 		else if (command == CFPacKeywordList.U)
 		{
-			bFirstPacked = true ;
+			isfirstPacked = true ;
 		}
 
-		ListIterator<CExpression> iter = arrExp.listIterator() ;
+		ListIterator<CExpression> iter = exp.listIterator() ;
 
-		OperandDescription op1 = findFirstDataEntity(iter, factory, bFirstPacked) ;
+		OperandDescription op1 = findFirstDataEntity(iter, factory, isfirstPacked) ;
 		if (op1 == null || op1.eObject == null)
 		{
 			Transcoder.logError(getLine(), "Unexpecting entity") ;
 			return null ;
 		}
 		
-		OperandDescription op2 = findSecondDataEntity(iter, factory, bSecondPacked) ;
+		OperandDescription op2 = findSecondDataEntity(iter, factory, issecondPacked) ;
 		if (op2 == null || op2.eObject == null)
 		{
 			Transcoder.logError(getLine(), "Unexpecting entity.") ;
@@ -428,7 +428,7 @@ public class CFPacArithmeticOperation extends CFPacElement
 	protected Element ExportCustom(Document root)
 	{
 		Element eAdd = root.createElement("Add") ;
-		for (CExpression t : arrExp)
+		for (CExpression t : exp)
 		{
 			Element e = root.createElement("Exp") ;
 			e.appendChild(t.Export(root)) ;

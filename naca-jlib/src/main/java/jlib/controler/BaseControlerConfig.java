@@ -66,10 +66,10 @@ public abstract class BaseControlerConfig
 	
 	private File fConfigFile = null ;
 
-	private boolean bAutoStart = false ;
+	private boolean isautoStart = false ;
 	public boolean isAutoStart()
 	{
-		return bAutoStart ;
+		return isautoStart;
 	}
 	
 	
@@ -105,11 +105,11 @@ public abstract class BaseControlerConfig
 			{
 				String name = tagGroup.getVal("name") ;
 				BaseControlerTaskConfig grpConfig = tabTasks.get(name) ;
-				boolean bNewTask = false ;
+				boolean isnewTask = false ;
 				if (grpConfig == null)
 				{ // if task doesn't exist yet
 					grpConfig = NewTaskConfig(name) ;
-					bNewTask = true ;
+					isnewTask = true ;
 				}
 				// task own configuration
 				grpConfig.Setup(tagGroup) ;
@@ -125,21 +125,21 @@ public abstract class BaseControlerConfig
 				{
 					String stepName = tagSite.getVal("name") ;
 					BaseControlerStepConfig stepConf = tabSteps.get(stepName) ;
-					boolean bNewStep = false ;
+					boolean isnewStep = false ;
 					if (stepConf == null)
 					{ // step doesn't exist yet
-						bNewStep = true ;
+						isnewStep = true ;
 						stepConf = grpConfig.NewStepConfig(stepName, nStepIndex) ;
 					}
 					// step own configuration
 					stepConf.Setup(tagSite) ;
 					
 					
-					if (bNewStep && !bNewTask)
+					if (isnewStep && !isnewTask)
 					{ // the step is new, but not the task : tel the director
 						director.AddStepToTask(grpConfig/*, nStepIndex, stepConf*/) ;
 					}
-					else if (!bNewStep)
+					else if (!isnewStep)
 					{ // remove step of known steps
 						tabSteps.remove(stepName) ;
 					}
@@ -160,7 +160,7 @@ public abstract class BaseControlerConfig
 					}
 				}
 
-				if (bNewTask)
+				if (isnewTask)
 				{ // the task is new : create controler
 					director.AddNewTask(grpConfig) ;
 				}
@@ -178,10 +178,10 @@ public abstract class BaseControlerConfig
 			{
 				String name = tagSite.getVal("name") ;
 				BaseControlerTaskConfig grpConfig = tabTasks.get(name) ;
-				boolean bNewTask = false ;
+				boolean isnewTask = false ;
 				if (grpConfig == null)
 				{ // the task is new
-					bNewTask = true ;
+					isnewTask = true ;
 					grpConfig = NewTaskConfig(name) ;
 				}
 				else if(grpConfig.getNbSteps() > 1)
@@ -190,7 +190,7 @@ public abstract class BaseControlerConfig
 					director.RemoveTask(grpConfig) ;
 					RemoveTaskConfig(grpConfig) ;
 					grpConfig = NewTaskConfig(name) ;
-					bNewTask = true ;
+					isnewTask = true ;
 				}
 				// task own configuration
 				grpConfig.Setup(tagSite) ;
@@ -207,7 +207,7 @@ public abstract class BaseControlerConfig
 				// step own configuration
 				stepConf.Setup(tagSite) ;
 				
-				if (bNewTask)
+				if (isnewTask)
 				{ // task is new : create a controler
 					director.AddNewTask(grpConfig) ;
 				}
@@ -245,7 +245,7 @@ public abstract class BaseControlerConfig
 
 	private void Setup(Tag tagConf)
 	{
-		bAutoStart = tagConf.getValAsBoolean("AutoStart") ;		
+		isautoStart = tagConf.getValAsBoolean("AutoStart") ;
 		
 		intSetup(tagConf) ;
 	}

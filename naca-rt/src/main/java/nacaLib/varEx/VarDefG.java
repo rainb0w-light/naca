@@ -14,10 +14,7 @@ package nacaLib.varEx;
 
 import java.math.BigDecimal;
 
-import jlib.display.ResourceManager;
 import jlib.misc.*;
-import nacaLib.basePrgEnv.BaseProgramManager;
-import nacaLib.basePrgEnv.BaseResourceManager;
 import nacaLib.bdb.BtreeSegmentKeyTypeFactory;
 import nacaLib.misc.StringAsciiEbcdicUtil;
 import nacaLib.sqlSupport.CSQLItemType;

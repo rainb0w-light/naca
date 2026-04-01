@@ -60,8 +60,8 @@ public class CStrNumber extends CStr
 			nStartPos--;
 			int nDigit = nValue % 10; 
 			nValue /= 10; 
-			char cDigit = (char)('0' + nDigit);
-			acBuffer[nStartPos] = cDigit; 			
+			char digit = (char)('0' + nDigit);
+			acBuffer[nStartPos] = digit;
 			nLength++;
 		}
 		while(nValue != 0);
@@ -104,11 +104,11 @@ public class CStrNumber extends CStr
 	public void valueOf(int nValue)
 	{
 		int nOffset = 0;
-		boolean bNegative = false;
+		boolean isnegative = false;
 		if(nValue < 0)
 		{
 			nValue = -nValue;
-			bNegative = true;
+			isnegative = true;
 			nOffset = 1;
 		}
 		
@@ -120,13 +120,13 @@ public class CStrNumber extends CStr
 			nStartPos--;
 			int nDigit = nValue % 10;
 			nValue /= 10;
-			char cDigit = (char)('0' + nDigit);
-			acBuffer[nStartPos+nOffset] = cDigit; 
+			char digit = (char)('0' + nDigit);
+			acBuffer[nStartPos+nOffset] = digit;
 			nLength++;
 		}
 		while(nValue != 0);
 		
-		if(bNegative)
+		if(isnegative)
 		{
 			acBuffer[nStartPos] = '-';
 			nLength++;
@@ -136,11 +136,11 @@ public class CStrNumber extends CStr
 	public void valueOf(long lValue)
 	{
 		int nOffset = 0;
-		boolean bNegative = false;
+		boolean isnegative = false;
 		if(lValue < 0)
 		{
 			lValue = -lValue;
-			bNegative = true;
+			isnegative = true;
 			nOffset = 1;
 		}
 		
@@ -152,13 +152,13 @@ public class CStrNumber extends CStr
 			nStartPos--;
 			int nDigit = (int)(lValue % 10);
 			lValue /= 10;
-			char cDigit = (char)('0' + nDigit);
-			acBuffer[nStartPos+nOffset] = cDigit; 
+			char digit = (char)('0' + nDigit);
+			acBuffer[nStartPos+nOffset] = digit;
 			nLength++;
 		}
 		while(lValue != 0);
 		
-		if(bNegative)
+		if(isnegative)
 		{
 			acBuffer[nStartPos] = '-';
 			nLength++;
@@ -171,9 +171,9 @@ public class CStrNumber extends CStr
 		nLength = 0;
 		checkBuffer(40);
 		
-		boolean bEvenNumberOfDigits = false;
+		boolean isevenNumberOfDigits = false;
 		if((nNbDigitInteger % 2) == 0)
-			bEvenNumberOfDigits = true;
+			isevenNumberOfDigits = true;
 		
 		int nChar = 0;
 		int nBibble = 0;
@@ -197,7 +197,7 @@ public class CStrNumber extends CStr
 				append(c);  
 			}
 		}
-		if(bEvenNumberOfDigits)
+		if(isevenNumberOfDigits)
 		{
 			// Remove leading 0 that was there as a placeholder due to the even number of digits + sign -> implies an odd number of nibbles; the leading compensated that odd number
 			removeLeft(1);
@@ -210,9 +210,9 @@ public class CStrNumber extends CStr
 		nLength = 0;
 		checkBuffer(40);
 		
-		boolean bEvenNumberOfDigits = false;
+		boolean isevenNumberOfDigits = false;
 		if((nNbDigitInteger % 2) == 0)
-			bEvenNumberOfDigits = true;
+			isevenNumberOfDigits = true;
 		
 		int nChar = 0;
 		int nBibble = 0;
@@ -240,7 +240,7 @@ public class CStrNumber extends CStr
 				append(c);
 			}
 		}
-		if(bEvenNumberOfDigits)
+		if(isevenNumberOfDigits)
 		{
 			// Remove leading 0 that was there as a placeholder due to the even number of digits + sign -> implies an odd number of nibbles; the leading compensated that odd number
 			removeLeft(1);		
@@ -260,8 +260,8 @@ public class CStrNumber extends CStr
 			nStartPos--;
 			int nDigit = (nValue % 10);
 			nValue /= 10;
-			char cDigit = (char)('0' + nDigit);
-			acBuffer[nStartPos] = cDigit; 
+			char digit = (char)('0' + nDigit);
+			acBuffer[nStartPos] = digit;
 			nLength++;
 		}
 		while(nValue != 0 && nLength <= nNbDigitInteger);
@@ -287,8 +287,8 @@ public class CStrNumber extends CStr
 			nStartPos--;
 			int nDigit = (int)(lValue % 10);
 			lValue /= 10;
-			char cDigit = (char)('0' + nDigit);
-			acBuffer[nStartPos] = cDigit;			
+			char digit = (char)('0' + nDigit);
+			acBuffer[nStartPos] = digit;
 			nLength++;
 		}
 		while(lValue != 0 && nLength <= nNbDigitInteger);

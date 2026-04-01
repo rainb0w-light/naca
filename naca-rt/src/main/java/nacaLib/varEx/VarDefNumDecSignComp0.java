@@ -537,10 +537,10 @@ public class VarDefNumDecSignComp0 extends VarDefNum
 	private int writeSignDecComp0(VarBufferPos buffer, int nOffset, Dec decValue)
 	{
 		int nPos = internalWriteDecComp0(buffer, nOffset, decValue, nNbDigitInteger, nNbDigitDecimal);
-		boolean bPositive = true;
+		boolean ispositive = true;
 		if(decValue.isNegative())
-			bPositive = false;
-		internalWriteEmbeddedComp0Sign(buffer, nOffset, bPositive);
+			ispositive = false;
+		internalWriteEmbeddedComp0Sign(buffer, nOffset, ispositive);
 		return nPos;
 	}
 	

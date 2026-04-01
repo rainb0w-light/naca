@@ -57,7 +57,7 @@ public abstract class CEntityResourceFieldArray extends CEntityResourceField
 	
 	protected int nbItems = 0 ;
 	protected int nbColumns = 0 ;
-	protected boolean bVerticalFilling = false ;
+	protected boolean isverticalFilling = false ;
 
 	public void SetPosition(int Line, int Col)
 	{

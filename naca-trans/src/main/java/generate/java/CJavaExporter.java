@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 3 août 2004
+ * Created on 3 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -36,12 +36,12 @@ import utils.COriginalLisiting;
  */
 public class CJavaExporter extends CBaseLanguageExporter
 {
-	public CJavaExporter(COriginalLisiting cat, String file, CGlobalCommentContainer commCont, boolean bResources)
+	public CJavaExporter(COriginalLisiting cat, String file, CGlobalCommentContainer commCont, boolean isresources)
 	{
 		super(cat, commCont);
 		//output = new PrintStream(out) ;
 		fileName = file ;
-		bResources = bResources;
+		isresources = isresources;
 		InitReservedWords() ;
 	}
 	
@@ -86,7 +86,7 @@ public class CJavaExporter extends CBaseLanguageExporter
 		File f = new File(fileName);
 		if (f.exists() && f.isFile())
 		{
-			bFileExisting = true ;
+			isfileExisting = true ;
 			csTempFileName = GenereTempFileName(fileName) ;
 			f = new File(csTempFileName) ;
 
@@ -109,8 +109,8 @@ public class CJavaExporter extends CBaseLanguageExporter
 
 	protected PrintStream output ;
 	protected String fileName = "" ;
-	protected boolean bResources = false ;
-	protected boolean bFileExisting = false ;
+	protected boolean isresources = false ;
+	protected boolean isfileExisting = false ;
 	protected String csTempFileName = "" ;
 
 	public void GenereJavaCode(Element root)
@@ -131,20 +131,20 @@ public class CJavaExporter extends CBaseLanguageExporter
 		WriteLine("}");
 		WriteLine("");
 
-		NodeList lstString = root.getElementsByTagName("String") ;
-		int nbStrings = lstString.getLength() ;
+		NodeList liststring = root.getElementsByTagName("String") ;
+		int nbStrings = liststring.getLength() ;
 		for (int j=0;j<nbStrings; j++)
 		{
-			Element eString = (Element)lstString.item(j);
+			Element eString = (Element) liststring.item(j);
 			String strname = eString.getAttribute("Name") ;
 			String cs = "LocalizedString " + FormatIdentifier(strname) + " = localizedString()";
 			WriteWord(cs);
-			NodeList lstLang = eString.getElementsByTagName("LocalizedText") ;
-			int nbLang = lstLang.getLength() ;
+			NodeList listlang = eString.getElementsByTagName("LocalizedText") ;
+			int nbLang = listlang.getLength() ;
 			for (int k=0; k<nbLang; k++)
 			{
 				cs = "" ;
-				Element e = (Element)lstLang.item(k) ;
+				Element e = (Element) listlang.item(k) ;
 				String text = e.getAttribute("Text");
 				String lang = e.getAttribute("LangID");
 				cs += ".text(\""+lang+"\", \""+text+"\")" ;
@@ -165,19 +165,19 @@ public class CJavaExporter extends CBaseLanguageExporter
 			WriteLine("Form " + formname + " = form("+sizeLine+", "+sizeCol+") ;") ;
 			
 			StartBloc() ;
-			NodeList lstFields = eForm.getElementsByTagName("EntryField") ;
-			int nbFields = lstFields.getLength() ;
+			NodeList listfields = eForm.getElementsByTagName("EntryField") ;
+			int nbFields = listfields.getLength() ;
 			for (int j=0;j<nbFields; j++)
 			{
-				Element eField = (Element)lstFields.item(j);
+				Element eField = (Element) listfields.item(j);
 				String cs = GetLineForField(eField) ;
 				WriteLine(cs);
 			} 
-			NodeList lstLabels = eForm.getElementsByTagName("Label") ;
-			int nbLabels = lstLabels.getLength() ;
+			NodeList listlabels = eForm.getElementsByTagName("Label") ;
+			int nbLabels = listlabels.getLength() ;
 			for (int j=0;j<nbLabels; j++)
 			{
-				Element eField = (Element)lstLabels.item(j);
+				Element eField = (Element) listlabels.item(j);
 				String cs = GetLineForLabel(eField) ;
 				WriteLine(cs);
 			} 
@@ -277,11 +277,11 @@ public class CJavaExporter extends CBaseLanguageExporter
 		{
 			cs += ".highLighting(MapFieldAttrHighlighting."+highlight+")" ;
 		}
-		NodeList lstAtt = eField.getElementsByTagName("Attribute") ;
-		int nbAtt = lstAtt.getLength() ;
+		NodeList listatt = eField.getElementsByTagName("Attribute") ;
+		int nbAtt = listatt.getLength() ;
 		for (int k=0; k<nbAtt; k++)
 		{
-			Element e = (Element)lstAtt.item(k) ;
+			Element e = (Element) listatt.item(k) ;
 			String v = e.getAttribute("Value");
 			if (v.equals("ASKIP"))
 			{
@@ -324,11 +324,11 @@ public class CJavaExporter extends CBaseLanguageExporter
 				cs += ".attrib(\""+v+"\")" ;
 			}
 		}			
-		NodeList lstJst = eField.getElementsByTagName("Justify") ;
-		int nbJst = lstJst.getLength() ;
+		NodeList listjst = eField.getElementsByTagName("Justify") ;
+		int nbJst = listjst.getLength() ;
 		for (int k=0; k<nbJst; k++)
 		{
-			Element e = (Element)lstJst.item(k) ;
+			Element e = (Element) listjst.item(k) ;
 			String v = e.getAttribute("Value");
 			if (v.equals("BLANK") || v.equals("ZERO"))
 			{
@@ -436,7 +436,7 @@ public class CJavaExporter extends CBaseLanguageExporter
 	protected void doCloseOutput()
 	{
 		output.close() ;
-		if (bFileExisting)
+		if (isfileExisting)
 		{
 			File newF = new File(csTempFileName) ;
 			File file = new File(fileName) ;
@@ -455,7 +455,7 @@ public class CJavaExporter extends CBaseLanguageExporter
 	@Override
 	public boolean isResources()
 	{
-		return bResources;
+		return isresources;
 	}
 
 }

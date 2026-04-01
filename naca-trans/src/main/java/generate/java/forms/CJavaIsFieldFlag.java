@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 19 août 2004
+ * Created on 19 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -40,8 +40,8 @@ public class CJavaIsFieldFlag extends CEntityIsFieldFlag
 		CJavaIsFieldFlag not = new CJavaIsFieldFlag() ;
 		not.reference = reference ;
 		not.value = value ;
-		not.bOpposite = !bOpposite ;
-		not.bIsSet = bIsSet ;
+		not.isopposite = !isopposite;
+		not.isisSet = isisSet;
 		reference.RegisterVarTesting(not) ;
 		return not;  
 	}
@@ -52,11 +52,11 @@ public class CJavaIsFieldFlag extends CEntityIsFieldFlag
 	public String Export()
 	{
 		String cs = "is" ;
-		if (bOpposite)
+		if (isopposite)
 		{
 			cs += "Not" ;
 		}
-		if (bIsSet)
+		if (isisSet)
 		{
 			cs += "FieldFlagSet(" + reference.ExportReference(getLine()) + ")" ;
 		}

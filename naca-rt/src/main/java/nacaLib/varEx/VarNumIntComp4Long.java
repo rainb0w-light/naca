@@ -52,8 +52,8 @@ public class VarNumIntComp4Long extends VarNum
 	
 	public int compareTo(int nValue)
 	{
-		long lVarValue = getLong();
-		long l = lVarValue - nValue;
+		long varValue = getLong();
+		long l = varValue - nValue;
 		if(l < 0)
 			return -1;
 		if(l == 0)
@@ -63,8 +63,8 @@ public class VarNumIntComp4Long extends VarNum
 
 	public int compareTo(double dValue)
 	{
-		double dVarValue = getDouble();
-		double d = dVarValue - dValue;
+		double varValue = getDouble();
+		double d = varValue - dValue;
 		if(d < -0.00001)	//Consider epsilon precision at 10 e-5 
 			return -1;
 		else if(d > 0.00001)	//Consider epsilon precision at 10 e-5

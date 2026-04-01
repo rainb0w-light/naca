@@ -43,7 +43,7 @@ public class CCondLessStatement extends CExpression
 		term2 = term2 ;
 		bOrEquals = bOrEquals ;
 	}
-	protected boolean bOrEquals = false ; 
+	protected boolean isorEquals = false ;
 	protected CExpression term1 = null ;
 	protected CExpression term2 = null ;
 	
@@ -60,7 +60,7 @@ public class CCondLessStatement extends CExpression
 	public Element DoExport(Document root)
 	{
 		Element e ;
-		if (bOrEquals)
+		if (isorEquals)
 		{
 			e = root.createElement("LessThanOrEqual") ;
 		}
@@ -87,7 +87,7 @@ public class CCondLessStatement extends CExpression
 	 */
 	public boolean IsOrEquals()
 	{
-		return bOrEquals ;
+		return isorEquals;
 	}
 	/* (non-Javadoc)
 	 * @see parser.expression.CExpression#GetPriorityLEvel()
@@ -101,7 +101,7 @@ public class CCondLessStatement extends CExpression
 	 */
 	public CExpression GetOppositeCondition()
 	{
-		return new CCondGreaterStatement(getLine(), term1, term2, !bOrEquals) ;
+		return new CCondGreaterStatement(getLine(), term1, term2, !isorEquals) ;
 	}
 	/* (non-Javadoc)
 	 * @see parser.expression.CExpression#AnalyseExpression(semantic.CBaseEntityFactory)
@@ -125,7 +125,7 @@ public class CCondLessStatement extends CExpression
 				return null ;
 			}
 			CBaseEntityCondition.EConditionType type = CBaseEntityCondition.EConditionType.IS_LESS_THAN ;
-			if (bOrEquals)
+			if (isorEquals)
 			{
 				type = CBaseEntityCondition.EConditionType.IS_LESS_THAN_OR_EQUAL ;
 			}
@@ -141,7 +141,7 @@ public class CCondLessStatement extends CExpression
 		{
 			CDataEntity ref = term2.GetReference(factory);
 			CBaseEntityCondition.EConditionType type = CBaseEntityCondition.EConditionType.IS_GREATER_THAN_OR_EQUAL ;
-			if (bOrEquals)
+			if (isorEquals)
 			{
 				type = CBaseEntityCondition.EConditionType.IS_GREATER_THAN ;
 			}
@@ -166,7 +166,7 @@ public class CCondLessStatement extends CExpression
 			return eCond ;
 		}
 		CEntityCondCompare eCond = factory.NewEntityCondCompare() ;
-		if (bOrEquals)
+		if (isorEquals)
 		{
 			eCond.SetLessOrEqualThan(op1, op2) ;
 		}
@@ -190,7 +190,7 @@ public class CCondLessStatement extends CExpression
 	public CExpression GetSimilarExpression(CExpression operand)
 	{
 		CCondLessStatement lt = new CCondLessStatement(getLine(), term1, operand) ;
-		lt.bOrEquals = bOrEquals ;		
+		lt.isorEquals = isorEquals;
 		return lt;
 	}
 	/* (non-Javadoc)
@@ -216,7 +216,7 @@ public class CCondLessStatement extends CExpression
 	}
 	public String toString()
 	{
-		if (bOrEquals)
+		if (isorEquals)
 		{
 			return "LESS_OR_EQUAL(" + term1.toString() + ", " + term2.toString() + ")" ;
 		}

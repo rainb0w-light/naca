@@ -45,11 +45,11 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
 	protected String currentPage = "" ;
 	//protected String cmp = "" ;
 	protected CScenarioPlayer scenarioPlayer = null ;
-	protected boolean bCheckScenario = true;
+	protected boolean ischeckScenario = true;
 	private int nHttpSessionMaxInactiveInterval_s;
-	private boolean bZoom = false;
-	private boolean bBold = false;
-	private boolean bInternTest = false;
+	private boolean iszoom = false;
+	private boolean isbold = false;
+	private boolean isinternTest = false;
 
 	public OnlineSession(boolean bAsyncSession)
 	{
@@ -163,9 +163,9 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
 		xMLOutput = null ;
 		currentPage = "" ;
 		inputWrapper = null ;
-		bIsLoggedOnLDAP = false ;
+		isisLoggedOnLDAP = false ;
 		csLDAPUser  = "" ;
-		bIsLoggedOnLDAP = false ;
+		isisLoggedOnLDAP = false ;
 		currentPage = "MapLogin" ;
 		csApplicationCredentials = "" ;	
 	
@@ -261,27 +261,27 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
 	
 	public boolean isZoom()
 	{
-		return bZoom;
+		return iszoom;
 	}
 	public void setZoom(boolean bZoom) {
-		this.bZoom = bZoom;
+		this.iszoom = bZoom;
 	}
 
 	public boolean isBold()
 	{
-		return bBold;
+		return isbold;
 	}
 	public void setBold(boolean bBold) {
-		this.bBold = bBold;
+		this.isbold = bBold;
 	}
 
 	public boolean isInternTest()
 	{
-		return bInternTest;
+		return isinternTest;
 	}
 	public void setInternTest(boolean bInternTest)
 	{
-		this.bInternTest = bInternTest;
+		this.isinternTest = bInternTest;
 	}
 	
 	public void setXMLData(Document doc)
@@ -340,7 +340,7 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
 	
 	public boolean isCheckScenario()
 	{
-		return bCheckScenario;
+		return ischeckScenario;
 	}
 
 	/**
@@ -446,7 +446,7 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
 	
 	public void setCheckScenario(boolean bCheckScenario)
 	{
-		this.bCheckScenario = bCheckScenario;
+		this.ischeckScenario = bCheckScenario;
 	}
 
 	/**
@@ -454,9 +454,9 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
 	 */
 	public boolean isLogged()
 	{
-		return bIsLoggedOnLDAP ;
+		return isisLoggedOnLDAP;
 	}
-	protected boolean bIsLoggedOnLDAP = false ;
+	protected boolean isisLoggedOnLDAP = false ;
 	protected String csLDAPUser  = "" ;
 
 	/**
@@ -469,7 +469,7 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
 			csUserLdapId = csUserid;
 			csUserLdapName = csUserid;
 			csApplicationCredentials = "all";
-			bIsLoggedOnLDAP = true;
+			isisLoggedOnLDAP = true;
 			return true;
 		}
 		
@@ -499,8 +499,8 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
 				LdapRequester ldapReq = resourceManager.getLdapRequester() ;
 				String csUserDN = ldapReq.getUserLogin(csUserLdapId, csPassword, bLoginAuto) ;
 				
-				boolean bLogged = csUserDN != null && !csUserDN.equals("") ;
-				if (bLogged)
+				boolean islogged = csUserDN != null && !csUserDN.equals("") ;
+				if (islogged)
 				{
 					csApplicationCredentials = ldapReq.getAttribute(csUserDN, "extensionAttribute12") ;
 					if (csApplicationCredentials == null)
@@ -520,7 +520,7 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
 							csUserLdapName += " " + csGivenName;
 						}
 					}
-					bIsLoggedOnLDAP = true ;
+					isisLoggedOnLDAP = true ;
 					return true ;
 				}
 				else
@@ -536,7 +536,7 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
 				}	
 			}
 		}
-		bIsLoggedOnLDAP = false ;
+		isisLoggedOnLDAP = false ;
 		currentPage = "MapLogin" ;
 
 		Document data = XMLUtil.CreateDocument();
@@ -595,8 +595,8 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
 		//StopWatch sw = new StopWatch();
 		BaseEnvironment env = baseProgramLoader.GetEnvironment(this, null, null) ;
 		
-		boolean bStarted = env.startRunTransaction();
-		if(!bStarted)
+		boolean isstarted = env.startRunTransaction();
+		if(!isstarted)
 		{
 			AbortSessionException e = new AbortSessionException();
 			e.reason = new Error("Could not start Transaction (maybe no DB connection)");
@@ -635,10 +635,10 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
 	private void prepareRunSessionProgram(BaseEnvironment baseEnv, String defaultProgramName) throws AbortSessionException
 	{	
 		OnlineEnvironment env = (OnlineEnvironment)baseEnv;
-		CBaseMapFieldLoader mapField = getInputWrapper() ;
-		if (mapField != null)
+		CBaseMapFieldLoader field = getInputWrapper() ;
+		if (field != null)
 		{
-			String page = mapField.getFieldValue("page");
+			String page = field.getFieldValue("page");
 			if (page != null && !page.equals(""))
 			{
 				env.setCommarea(null);

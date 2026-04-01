@@ -110,16 +110,16 @@ public abstract class BaseProgram extends CJMapObject
 		
 		initNames();
 		
-		boolean bInheritedSharedProgramInstanceData = true;
+		boolean isinheritedSharedProgramInstanceData = true;
 		SharedProgramInstanceData sharedProgramInstanceData = SharedProgramInstanceDataCatalog.getSharedProgramInstanceData(csSimpleName);
 		if(sharedProgramInstanceData == null)
 		{
 			sharedProgramInstanceData = new SharedProgramInstanceData();
 			SharedProgramInstanceDataCatalog.putSharedProgramInstanceData(csSimpleName, sharedProgramInstanceData);
-			bInheritedSharedProgramInstanceData = false;
+			isinheritedSharedProgramInstanceData = false;
 		}
 		if(programManagerFactory != null)
-			baseProgramManager = programManagerFactory.createProgramManager(this, sharedProgramInstanceData, bInheritedSharedProgramInstanceData);
+			baseProgramManager = programManagerFactory.createProgramManager(this, sharedProgramInstanceData, isinheritedSharedProgramInstanceData);
 		
 		tools = new NacaToolBox(baseProgramManager) ;
 		if(BaseResourceManager.getUsingJmx())
@@ -238,7 +238,7 @@ public abstract class BaseProgram extends CJMapObject
 		}
 		
 		int n = var1.compareTo(ComparisonMode.Unicode, var2);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var1, var2);
 		if(n == 0)
 			return true;
@@ -299,7 +299,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isEqual_M_V" + a.getSTCheckValue() + "/" + b.getSTCheckValue());
 		int n = a.d.intValue() ;
 		int m = b.getInt() ;
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(b);
 
 		return n == m;
@@ -519,7 +519,7 @@ public abstract class BaseProgram extends CJMapObject
 		if (var.isNumeric())
 		{
 			double n = var.getDouble() ;
-			if(bUsedTempVarOrCStr)
+			if(isusedTempVarOrCStr)
 				tempCache.resetTempIndex(var);
 			return n == 0 ;
 		}
@@ -590,7 +590,7 @@ public abstract class BaseProgram extends CJMapObject
 
 		String sValue = var.getString();
 		boolean b = isAll(sValue, cPattern);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 		return b;
 	}
@@ -661,7 +661,7 @@ public abstract class BaseProgram extends CJMapObject
 				nNbLoop--;
 			}
 			String csEnd = csValue.substring(nStart, nValueLg);
-			if(bUsedTempVarOrCStr)
+			if(isusedTempVarOrCStr)
 				tempCache.resetTempIndex(var);
 			if(!csPattern.startsWith(csEnd))
 				return false;
@@ -763,7 +763,7 @@ public abstract class BaseProgram extends CJMapObject
 				nNbLoop--;
 			}
 			String csEnd = csValue.substring(nStart, nValueLg);
-			if(bUsedTempVarOrCStr)
+			if(isusedTempVarOrCStr)
 				tempCache.resetTempIndex(var);
 			if(!csPattern.startsWith(csEnd))
 				return false;
@@ -801,7 +801,7 @@ public abstract class BaseProgram extends CJMapObject
 		if(IsSTCheck)
 			Log.logFineDebug("isLess_V_V:" + var1.getSTCheckValue()+ "/" + var2.getSTCheckValue());
 		int n = var1.compareTo(ComparisonMode.UnicodeOrEbcdic, var2);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var1, var2);
 		if(n < 0)
 			return true;
@@ -820,7 +820,7 @@ public abstract class BaseProgram extends CJMapObject
 		if(IsSTCheck)
 			Log.logFineDebug("isLessInEbcdic_V_V:" + var1.getSTCheckValue()+ "/" + var2.getSTCheckValue());
 		int n = var1.compareTo(ComparisonMode.Ebcdic, var2);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var1, var2);
 		if(n < 0)
 			return true;
@@ -839,7 +839,7 @@ public abstract class BaseProgram extends CJMapObject
 
 		int n = var1.compareTo(ComparisonMode.UnicodeOrEbcdic, var2);
 		
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var1, var2);
 		if(n <= 0)
 			return true;
@@ -859,7 +859,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isLessOrEqualInEbcdic_V_V:" + var1.getSTCheckValue()+ "/" + var2.getSTCheckValue());
 
 		int n = var1.compareTo(ComparisonMode.Ebcdic, var2);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var1, var2);
 		if(n <= 0)
 			return true;
@@ -897,7 +897,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isGreater_V_V:" + var1.getSTCheckValue()+ "/" + var2.getSTCheckValue());
 
 		int n = var1.compareTo(ComparisonMode.UnicodeOrEbcdic, var2);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var1, var2);
 		if(n > 0)
 			return true;
@@ -917,7 +917,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isGreaterInEbcdic_V_V:" + var1.getSTCheckValue()+ "/" + var2.getSTCheckValue());
 
 		int n = var1.compareTo(ComparisonMode.Ebcdic, var2);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var1, var2);
 		if(n > 0)
 			return true;
@@ -983,7 +983,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isGreater_M_V:" + math1.getSTCheckValue() + "/" + var2.getSTCheckValue());
 
 		int n = math1.compareTo(var2);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var2);
 		if(n > 0)
 			return true;
@@ -1029,7 +1029,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isGreaterOrEqual_V_V:" + var1.getSTCheckValue() + "/" + var2.getSTCheckValue());
 
 		int n = var1.compareTo(ComparisonMode.UnicodeOrEbcdic, var2);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var1, var2);
 		if(n >= 0)
 			return true;
@@ -1049,7 +1049,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isGreaterOrEqualInEbcdic_V_V:" + var1.getSTCheckValue() + "/" + var2.getSTCheckValue());
 
 		int n = var1.compareTo(ComparisonMode.Ebcdic, var2);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var1, var2);
 		if(n >= 0)
 			return true;
@@ -1220,7 +1220,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isDifferent_V_M:" + var1.getSTCheckValue() + "/" + Math2.getSTCheckValue());
 
 		int n = var1.compareTo(Math2);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var1);
 
 		if(n != 0)
@@ -1234,7 +1234,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isEqual_V_M:" + var1.getSTCheckValue() + "/" + Math2.getSTCheckValue());
 
 		int n = var1.compareTo(Math2);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var1);
 
 		if(n == 0)
@@ -1248,7 +1248,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isLess_V_M:" + var1.getSTCheckValue() + "/" + Math2.getSTCheckValue());
 
 		int n = var1.compareTo(Math2);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var1);
 
 		if(n < 0)
@@ -1262,7 +1262,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isLessOrEqual_V_M:" + var1.getSTCheckValue() + "/" + Math2.getSTCheckValue());
 
 		int n = var1.compareTo(Math2);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var1);
 
 		if(n <= 0)
@@ -1276,7 +1276,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isGreater_V_M:" + var1.getSTCheckValue() + "/" + Math2.getSTCheckValue());
 
 		int n = var1.compareTo(Math2);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var1);
 
 		if(n > 0)
@@ -1290,7 +1290,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isGreaterOrEqual_V_M:" + var1.getSTCheckValue() + "/" + Math2.getSTCheckValue());
 
 		int n = var1.compareTo(Math2);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var1);
 
 		if(n >= 0)
@@ -1305,7 +1305,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isEqual_V_n:" + var.getSTCheckValue() + "/" + n);
 
 		int nResult = var.compareTo(n);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 		if(nResult == 0)
 			return true;
@@ -1318,7 +1318,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isEqual_n_V:" + n + "/" + var.getSTCheckValue());
 
 		int nResult = var.compareTo(n);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 		if(nResult == 0)
 			return true;
@@ -1347,7 +1347,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isLess_V_n:" + var.getSTCheckValue() + "/" + n);
 
 		int nResult = var.compareTo(n);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 		if(nResult < 0)
 			return true;
@@ -1360,7 +1360,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isLess_n_V:" + n + "/" + var.getSTCheckValue());
 
 		int nResult = var.compareTo(n);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 		if(nResult > 0)
 			return true;
@@ -1373,7 +1373,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isLessOrEqual_V_n:" + var.getSTCheckValue() + "/" + n);
 		
 		int nResult = var.compareTo(n);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 		if(nResult <= 0)
 			return true;
@@ -1386,7 +1386,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isLessOrEqual_n_V:" + n + "/" + var.getSTCheckValue());
 
 		int nResult = var.compareTo(n);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 		if(nResult >= 0)
 			return true;
@@ -1398,7 +1398,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isLessOrEqual_n_V:" + n + "/" + var.getSTCheckValue());
 
 		int nResult = var.compareTo(n);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 		if(nResult >= 0)
 			return true;
@@ -1411,7 +1411,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isGreater_V_n:" + var.getSTCheckValue() + "/" + n);		
 		
 		int nResult = var.compareTo(n);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 		if(nResult > 0)
 			return true;
@@ -1423,7 +1423,7 @@ public abstract class BaseProgram extends CJMapObject
 		if(IsSTCheck)
 			Log.logFineDebug("isGreater_n_V:" + n + "/" + var.getSTCheckValue());		
 		int nResult = var.compareTo(n);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 		if(nResult < 0)
 			return true;
@@ -1436,7 +1436,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isGreaterOrEqual_V_n:" + var.getSTCheckValue() + "/" + n);
 		
 		int nResult = var.compareTo(n);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 		if(nResult >= 0)
 			return true;
@@ -1449,7 +1449,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isGreaterOrEqual_n_V:" + n + "/" + var.getSTCheckValue());
 
 		int nResult = var.compareTo(n);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 		if(nResult <= 0)
 			return true;
@@ -1461,7 +1461,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isGreaterOrEqual_n_V:" + n + "/" + var.getSTCheckValue());
 
 		int nResult = var.compareTo(n);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 		if(nResult <= 0)
 			return true;
@@ -1475,7 +1475,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isEqual_V_d:" + var1.getSTCheckValue() + "/" + d);
 
 		int n = var1.compareTo(d);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var1);
 		if(n == 0)
 			return true;
@@ -1488,7 +1488,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isDifferent_V_d:" + var1.getSTCheckValue() + "/" + d);
 		
 		int n = var1.compareTo(d);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var1);
 		if(n != 0)
 			return true;
@@ -1501,7 +1501,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isLess_V_d:" + var1.getSTCheckValue() + "/" + d);
 
 		int n = var1.compareTo(d);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var1);
 		if(n < 0)
 			return true;
@@ -1514,7 +1514,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isLessOrEqual_V_d:" + var1.getSTCheckValue() + "/" + d);
 
 		int n = var1.compareTo(d);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var1);
 		if(n <= 0)
 			return true;
@@ -1527,7 +1527,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isGreater_V_d:" + var1.getSTCheckValue() + "/" + d);
 
 		int n = var1.compareTo(d);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var1);
 		if(n > 0)
 			return true;
@@ -1540,7 +1540,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isGreaterOrEqual_V_d:" + var1.getSTCheckValue() + "/" + d);
 
 		int n = var1.compareTo(d);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var1);
 		if(n >= 0)
 			return true;
@@ -1573,7 +1573,7 @@ public abstract class BaseProgram extends CJMapObject
 
 		double n = math.d.doubleValue() ;
 		double i = var2.getDouble() ; 
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var2);
 		if(n < i)
 			return true;
@@ -1588,7 +1588,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isEqual_V_cs:" + var.getSTCheckValue() + "/" + cs);
 
 		int nResult = var.compareTo(ComparisonMode.Unicode, cs);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 		if(nResult == 0)
 			return true;
@@ -1608,7 +1608,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("assertIfDifferent_cs_V:" + cs + "/" + var.getSTCheckValue());
 
 		int nResult = var.compareTo(ComparisonMode.Unicode, cs);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 		if(nResult == 0)
 			return true;
@@ -1635,7 +1635,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isEqual_cs_V:" + cs + "/" + var.getSTCheckValue());
 
 		int nResult = var.compareTo(ComparisonMode.Unicode, cs);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 		if(nResult == 0)
 			return true;
@@ -1670,7 +1670,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isLess_V_cs:" + var.getSTCheckValue() + "/" + cs);
 
 		int nResult = var.compareTo(ComparisonMode.UnicodeOrEbcdic, cs);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 		if(nResult < 0)
 			return true;
@@ -1683,7 +1683,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isLessInEbcdic_V_cs:" + var.getSTCheckValue() + "/" + cs);
 
 		int nResult = var.compareTo(ComparisonMode.Ebcdic, cs);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 		if(nResult < 0)
 			return true;
@@ -1707,7 +1707,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isLess_cs_V:" + cs + "/" + var.getSTCheckValue());
 
 		int nResult = var.compareTo(ComparisonMode.UnicodeOrEbcdic, cs);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 		if(nResult > 0)
 			return true;
@@ -1720,7 +1720,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isLessInEbcdic_cs_V:" + cs + "/" + var.getSTCheckValue());
 
 		int nResult = var.compareTo(ComparisonMode.Ebcdic, cs);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 		if(nResult > 0)
 			return true;
@@ -1733,7 +1733,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isLessOrEqual_V_cs:" + var.getSTCheckValue() + "/" + cs);
 
 		int nResult = var.compareTo(ComparisonMode.UnicodeOrEbcdic, cs);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 		if(nResult <= 0)
 			return true;
@@ -1746,7 +1746,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isLessOrEqualInEbcdic_V_cs:" + var.getSTCheckValue() + "/" + cs);
 
 		int nResult = var.compareTo(ComparisonMode.Ebcdic, cs);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 		if(nResult <= 0)
 			return true;
@@ -1759,7 +1759,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isLessOrEqualInEbcdic_cs_V:" + cs + "/" + var.getSTCheckValue());
 
 		int nResult = var.compareTo(ComparisonMode.Ebcdic, cs);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 		if(nResult >= 0)
 			return true;
@@ -1772,7 +1772,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isLessOrEqual_cs_V:" + cs + "/" + var.getSTCheckValue());
 
 		int nResult = var.compareTo(ComparisonMode.UnicodeOrEbcdic, cs);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 		if(nResult >= 0)
 			return true;
@@ -1823,7 +1823,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isGreater_V_cs:" + var.getSTCheckValue() + "/" + cs);
 
 		int nResult = var.compareTo(ComparisonMode.UnicodeOrEbcdic, cs);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 		if(nResult > 0)
 			return true;
@@ -1836,7 +1836,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isGreaterInEbcdicC_V_cs:" + var.getSTCheckValue() + "/" + cs);
 
 		int nResult = var.compareTo(ComparisonMode.Ebcdic, cs);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 		if(nResult > 0)
 			return true;
@@ -1849,7 +1849,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isGreater_cs_V:" + cs + "/" + var.getSTCheckValue());
 		
 		int nResult = var.compareTo(ComparisonMode.UnicodeOrEbcdic, cs);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 		if(nResult < 0)
 			return true;
@@ -1862,7 +1862,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isGreaterInEbcdic_cs_V:" + cs + "/" + var.getSTCheckValue());
 		
 		int nResult = var.compareTo(ComparisonMode.Ebcdic, cs);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 		if(nResult < 0)
 			return true;
@@ -1876,7 +1876,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isGreaterOrEqual_V_cs:" + var.getSTCheckValue() + "/" + cs);
 
 		int nResult = var.compareTo(ComparisonMode.UnicodeOrEbcdic, cs);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 		if(nResult >= 0)
 			return true;
@@ -1889,7 +1889,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isGreaterOrEqualInEbcdic_V_cs:" + var.getSTCheckValue() + "/" + cs);
 
 		int nResult = var.compareTo(ComparisonMode.Ebcdic, cs);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 		if(nResult >= 0)
 			return true;
@@ -1921,7 +1921,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isGreaterOrEqualInEbcdic_cs_V:" + cs + "/" + var.getSTCheckValue());
 		
 		int nResult = var.compareTo(ComparisonMode.Ebcdic, cs);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 		if(nResult <= 0)
 			return true;
@@ -1934,7 +1934,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isGreaterOrEqualInEbcdic_cs_V:" + cs + "/" + var.getSTCheckValue());
 		
 		int nResult = var.compareTo(ComparisonMode.UnicodeOrEbcdic, cs);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 		if(nResult <= 0)
 			return true;
@@ -1953,7 +1953,7 @@ public abstract class BaseProgram extends CJMapObject
 		if(IsSTCheck)
 			Log.logFineDebug("add_V_V:" + var1.getSTCheckValue() + "/" + var2.getSTCheckValue());
 		MathAdd math = new MathAdd(var1, var2);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var1, var2);
 		return math;
 	}
@@ -1972,7 +1972,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("opposite_V:" + val.getSTCheckValue());
 
 		MathSubtract math = new MathSubtract(0, val);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(val);
 		return math;
 	}
@@ -2002,7 +2002,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("add_V_n:" + var.getSTCheckValue() + ":" + n);
 
 		MathAdd math = new MathAdd(var, n);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 		return math;
 	}
@@ -2012,7 +2012,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("add_V_n:" + var.getSTCheckValue() + ":" + n);
 
 		MathAdd math = new MathAdd(var, n);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 		return math;
 	}
@@ -2044,7 +2044,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("add_V_d:" + var1.getSTCheckValue() + ":" + d);
 
 		MathAdd math = new MathAdd(var1, d);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var1);
 		return math;
 	}
@@ -2061,7 +2061,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("add_V_cs:" + var.getSTCheckValue() + ":" + s);
 
 		MathAdd math= new MathAdd(var, s);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 		return math;
 	}
@@ -2078,7 +2078,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("add_V_M:" + var.getSTCheckValue() + ":" + mathBase.getSTCheckValue());
 
 		MathAdd math= new MathAdd(var, mathBase);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 		return math;
 	}
@@ -2095,7 +2095,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("add_M_V:" + mathBase.getSTCheckValue() + ":" + var.getSTCheckValue());
 
 		MathAdd math= new MathAdd(var, mathBase);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 		return math;
 	}
@@ -2171,7 +2171,7 @@ public abstract class BaseProgram extends CJMapObject
 		{
 			math = new MathSubtract(math, var);
 		}
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var1, var2);
 		if(vars.length > 0)
 			tempCache.resetTempIndex(vars);
@@ -2209,7 +2209,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("subtract_V_n:" + var1.getSTCheckValue() + ":" + n);
 		
 		MathSubtract math = new MathSubtract(var1, n);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var1);
 		return math;
 	}
@@ -2254,7 +2254,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("subtract_n_V:" + n + ":" + var1.getSTCheckValue());
 
 		MathSubtract math = new MathSubtract(n, var1);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var1);
 		
 		return math;
@@ -2272,7 +2272,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("subtract_V_d:" + var1.getSTCheckValue() + ":" + d);
 
 		MathSubtract math = new MathSubtract(var1, d);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var1);
 		return math;
 	}
@@ -2289,7 +2289,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("subtract_d_V:" + d + ":" + var.getSTCheckValue());
 
 		MathSubtract math = new MathSubtract(d, var);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 		return math;
 	}
@@ -2306,7 +2306,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("subtract_V_cs:" + var1.getSTCheckValue() + ":" + s);
 
 		MathSubtract math = new MathSubtract(var1, s);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var1);
 		return math;
 	}
@@ -2324,7 +2324,7 @@ public abstract class BaseProgram extends CJMapObject
 
 		MathSubtract math = new MathSubtract(s, var1);
 		
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var1);
 		return math;
 	}
@@ -2341,7 +2341,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("subtract_V_M:" + var1.getSTCheckValue() + ":" + mathBase.getSTCheckValue());
 
 		MathSubtract math = new MathSubtract(var1, mathBase);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var1);
 		return math;
 	}
@@ -2358,7 +2358,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("subtract_M_V:" + mathBase.getSTCheckValue() + ":" + var2.getSTCheckValue());
 
 		MathSubtract math = new MathSubtract(mathBase, var2);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var2);
 		return math;
 	}
@@ -2442,7 +2442,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("divide_V_V:" + var1.getSTCheckValue() + ":" + var2.getSTCheckValue());
 
 		MathDivide math = new MathDivide(var1, var2);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var1, var2);
 		return math;
 	}
@@ -2458,7 +2458,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("divide_V_n:" + var1.getSTCheckValue() + ":" + n);
 
 		MathDivide math = new MathDivide(var1, n);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var1);
 		return math;
 	}
@@ -2468,7 +2468,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("divide_n_V:" + n + ":" + var1.getSTCheckValue());
 
 		MathDivide math = new MathDivide(n, var1);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var1);
 		return math;
 	}
@@ -2511,7 +2511,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("divide_V_cs:" + var1.getSTCheckValue() + ":" + s);
 
 		MathDivide math = new MathDivide(var1, s);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var1);
 		return math;
 	}
@@ -2527,7 +2527,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("divide_V_M:" + var1.getSTCheckValue() + ":" + mathBase.getSTCheckValue());
 
 		MathDivide math = new MathDivide(var1, mathBase);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var1);
 		return math;
 	}
@@ -2543,7 +2543,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("divide_M_V:" + mathBase.getSTCheckValue() + ":" + var2.getSTCheckValue());
 
 		MathDivide math = new MathDivide(mathBase, var2);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var2);
 		return math;
 	}
@@ -2615,7 +2615,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("multiply_V_V:" + var1.getSTCheckValue() + ":" + var2.getSTCheckValue());
 
 		MathMultiply math = new MathMultiply(var1, var2);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var1, var2);
 		return math;
 	}
@@ -2631,7 +2631,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("multiply_V_n:" + var1.getSTCheckValue() + ":" + n);
 
 		MathMultiply math = new MathMultiply(var1, n);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var1);
 		return math;
 	}
@@ -2661,7 +2661,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("multiply_n_n:" + n + ":" + var1.getSTCheckValue());
 
 		MathMultiply math = new MathMultiply(var1, n);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var1);
 		return math;
 	}
@@ -2677,7 +2677,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("multiply_V_d:" + var1.getSTCheckValue() + ":" + d);
 
 		MathMultiply math = new MathMultiply(var1, d);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var1);
 		return math;
 	}
@@ -2693,7 +2693,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("multiply_d_V:" + d + ":" + var1.getSTCheckValue());
 
 		MathMultiply math = new MathMultiply(var1, d);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var1);
 		return math;
 	}
@@ -2713,7 +2713,7 @@ public abstract class BaseProgram extends CJMapObject
 		if(IsSTCheck)
 			Log.logFineDebug("multiply_V_cs:" + var1.getSTCheckValue() + ":" + s);
 		MathMultiply math= new MathMultiply(var1, s);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var1);
 		return math;
 	}
@@ -2729,7 +2729,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("multiply_cs_V:" + s + ":" + var1.getSTCheckValue());
 
 		MathMultiply math= new MathMultiply(var1, s);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var1);
 		return math;
 	}
@@ -2759,7 +2759,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("multiply_V_M:" + var1.getSTCheckValue() + ":" + mathBase.getSTCheckValue());
 
 		MathMultiply math= new MathMultiply(var1, mathBase);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var1);
 		return math;
 	}
@@ -2775,7 +2775,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("multiply_M_V:" + mathBase.getSTCheckValue() + ":" + var1.getSTCheckValue());
 
 		MathMultiply math= new MathMultiply(var1, mathBase);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var1);
 		return math;
 	}
@@ -2903,7 +2903,7 @@ public abstract class BaseProgram extends CJMapObject
 		}
 
 		varDest.set(n);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varDest);
 	}
 
@@ -2913,7 +2913,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("move_b_V:" + b + ":" + varDest.getSTCheckValue());
 
 		varDest.set(b);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varDest);
 	}
 
@@ -2924,7 +2924,7 @@ public abstract class BaseProgram extends CJMapObject
 		if(isLogCESM)
 			Log.logDebug("moveEdit n="+n+" to Edit="+varDest.getLoggableValue());
 		varDest.set(n);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varDest);
 	}
 	
@@ -2934,7 +2934,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("move_V_E:" + varSource.getSTCheckValue() + ":" + varDest.getSTCheckValue());
 		
 		varDest.set(varSource);	// PJD Var TO Edit
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varSource, varDest);
 	}
 	
@@ -2943,7 +2943,7 @@ public abstract class BaseProgram extends CJMapObject
 		if(IsSTCheck)
 			Log.logFineDebug("move_E_V:" + varSource.getSTCheckValue() + ":" + varDest.getSTCheckValue());
 		varSource.transferTo(varDest); 	// PJD Edit TO Var
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varSource, varDest);
 	}
 	
@@ -2953,7 +2953,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("move_E_E:" + varSource.getSTCheckValue() + ":" + varDest.getSTCheckValue());
 
 		varSource.transferTo(varDest); 	// PJD EditInMap TO EditInMap or EditInMap TO EditInMapRedefine
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varSource, varDest);
 	}
 
@@ -2978,7 +2978,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("move_cst_V:" + constant.getSTCheckValue() + ":" + varDest.getSTCheckValue());
 	
 		varDest.set(constant);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varDest);
 	}
 
@@ -2988,7 +2988,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("move_cst_V:" + constant.getSTCheckValue() + ":" + varDest.getSTCheckValue());
 		
 		varDest.set(constant);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varDest);
 	}
 	
@@ -2998,7 +2998,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("move_cst_V:" + constant.getSTCheckValue() + ":" + varDest.getSTCheckValue());
 
 		varDest.set(constant);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varDest);
 	}
 	
@@ -3014,7 +3014,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("move_d_V:" + d + ":" + varDest.getSTCheckValue());
 
 		varDest.set(d);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varDest);
 	}
 	
@@ -3025,7 +3025,7 @@ public abstract class BaseProgram extends CJMapObject
 		if(isLogCESM)
 			Log.logDebug("moveEdit: d="+d+" to Edit="+editDest.getLoggableValue());
 		editDest.set(d);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(editDest);
 	}
 	
@@ -3035,7 +3035,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("move_l_V:" + l + ":" + varDest.getSTCheckValue());
 
 		varDest.set(l);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varDest);
 	}
 	
@@ -3046,7 +3046,7 @@ public abstract class BaseProgram extends CJMapObject
 		if(isLogCESM)
 			Log.logDebug("moveEdit: l="+l+" to Edit="+editDest.getLoggableValue());
 		editDest.set(l);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(editDest);
 	}
 	
@@ -3064,7 +3064,7 @@ public abstract class BaseProgram extends CJMapObject
 		}
 		//varDest.set(cs);
 		varDest.varDef.write(varDest.bufferPos, cs);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varDest);
 	}
 	
@@ -3077,7 +3077,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logDebug("moveEdit: cs="+cs+" to Edit="+varDest.getLoggableValue());
 		varDest.varDef.write(varDest.bufferPos, cs);
 		//varDest.set(cs);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varDest);
 	}
 
@@ -3093,7 +3093,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("moveAll_cs_V:" + cs + ":" + varDest.getSTCheckValue());
 
 		varDest.setAndFill(cs);	
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varDest);
 		return this;
 	}
@@ -3114,12 +3114,12 @@ public abstract class BaseProgram extends CJMapObject
 		if(varSource.varTypeId == varDest.varTypeId)
 		{
 			varDest.varDef.moveIntoSameType(varDest.bufferPos, varSource.varDef, varSource.bufferPos);
-			if(bUsedTempVarOrCStr)
+			if(isusedTempVarOrCStr)
 				tempCache.resetTempIndex(varSource, varDest);
 			return ;
 		}
 		varSource.transferTo(varDest);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varSource, varDest);
 	}
 
@@ -3130,7 +3130,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("move_V_F:" + varSource.getSTCheckValue() + ":" + formDest.getSTCheckValue());
 
 		formDest.decodeFromVar(varSource);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varSource);
 		return this;
 	}
@@ -3157,7 +3157,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("move_F_V:" + formSource.getSTCheckValue() + ":" + varDest.getSTCheckValue());
 
 		formSource.encodeToVar(varDest);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varDest);
 		return this;
 	}
@@ -3168,7 +3168,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("move_MR_V:" + mapRedefineSource.getSTCheckValue() + ":" + varDest.getSTCheckValue());
 
 		mapRedefineSource.encodeToVar(varDest);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varDest);
 		return this;
 	}
@@ -3258,7 +3258,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("moveAll_V_V:" + varSource.getSTCheckValue() + ":" + varDest.getSTCheckValue());
 
 		varDest.setAndFill(varSource.getString());	
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varSource, varDest);
 		return this;
 	}
@@ -3270,7 +3270,7 @@ public abstract class BaseProgram extends CJMapObject
 		if(isLogCESM)
 			Log.logDebug("moveAllEdit: varSource="+varSource.getLoggableValue()+" to Edit="+varDest.getLoggableValue());
 		varDest.setAndFill(varSource.getString());	
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varSource, varDest);
 
 		return this;
@@ -3295,7 +3295,7 @@ public abstract class BaseProgram extends CJMapObject
 			varSource.moveCorresponding(manager, varDestGroup);
 //			varSource.moveCorresponding(null, varDestGroup);
 		}
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varSource, varDestGroup);
 
 		return this;
@@ -3505,7 +3505,7 @@ public abstract class BaseProgram extends CJMapObject
 
 		//var.inc();
 		var.varDef.inc(var.bufferPos, 1); 
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 	}
 
@@ -3519,7 +3519,7 @@ public abstract class BaseProgram extends CJMapObject
 
 //		var.dec();
 		var.varDef.inc(var.bufferPos, -1);		
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 	}
 	protected MathBase dec(Var varStep, Var var)
@@ -3545,7 +3545,7 @@ public abstract class BaseProgram extends CJMapObject
 
 		var.varDef.inc(var.bufferPos, nStep);
 		//var.inc(nStep);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 	}
 	protected void inc(double dStep, Var var)
@@ -3554,7 +3554,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("inc_d_V:" + dStep + ":" + var.getSTCheckValue());
 
 		var.inc(dStep);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 	}
 	
@@ -3564,7 +3564,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("inc_cs_V:" + csStep + ":" + var.getSTCheckValue());
 
 		var.inc(csStep);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 	}
 
@@ -3579,7 +3579,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("inc_V_V:" + varStep.getSTCheckValue() + ":" + var.getSTCheckValue());
 
 		var.inc(varStep);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varStep, var);
 	}
 
@@ -3593,7 +3593,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("dec_n_V:" + nStep + ":" + var.getSTCheckValue());
 
 		var.dec(nStep);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 	}
 	
@@ -3603,7 +3603,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("dec_d_V:" + csStep + ":" + var.getSTCheckValue());
 
 		var.dec(csStep);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 	}
 	
@@ -3618,7 +3618,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("compute_M_V:" + mathBase.getSTCheckValue() + ":" + var.getSTCheckValue());
 
 		mathBase.to(var) ;
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 		return mathBase;
 	}
@@ -3634,7 +3634,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("computeRounded_M_V:" + value.getSTCheckValue() + ":" + var.getSTCheckValue());
 
 		value.toRounded(var) ;
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 		return value ;
 	}
@@ -3650,7 +3650,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("computeRounded_n_V:" + nValue + ":" + varDest.getSTCheckValue());
 
 		move(nValue, varDest);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varDest);
 		return this;
 	}
@@ -3782,7 +3782,7 @@ public abstract class BaseProgram extends CJMapObject
 		}	
 		sqlCursor.open();
 		
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(vQuery);
 
 		return sqlCursor; 
@@ -3865,7 +3865,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("moveSpace_cs:" + var.getSTCheckValue());
 
 		var.set(CobolConstant.Space);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 	}
 	
@@ -3878,7 +3878,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("moveLowValue_V:" + var.getSTCheckValue());
 
 		var.set(CobolConstant.LowValue);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 	}
 	
@@ -3891,7 +3891,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("moveHighValue_V:" + var.getSTCheckValue());
 
 		var.set(CobolConstant.HighValue);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 	}
 	
@@ -3904,7 +3904,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("moveZero_V:" + var.getSTCheckValue());
 
 		var.set(CobolConstant.Zero);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 	}
 	
@@ -3929,7 +3929,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isNotNumeric_V:" + var.getSTCheckValue());
 		
 		boolean b = !var.isNumeric() ;
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 		return b;
 	}
@@ -3944,7 +3944,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isNumeric_V:" + var.getSTCheckValue());
 
 		boolean b = var.isNumeric();
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 		return b;
 	}
@@ -3959,7 +3959,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isAlphabetic_V:" + var.getSTCheckValue());
 
 		boolean b = var.isAlphabetic();
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 		return b;
 	}
@@ -4061,7 +4061,7 @@ public abstract class BaseProgram extends CJMapObject
 		else
 			vSource.initialize(null);
 
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(vSource);
 	}
 
@@ -4089,7 +4089,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("initializeReplacingNum_V_n:" + vSource.getSTCheckValue() + ":" + n);
 
 		vSource.initializeReplacingNum(n);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(vSource);
 	}
 	
@@ -4112,7 +4112,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("initializeReplacingNumEdited_V_n:" + vSource.getSTCheckValue() + ":" + n);
 
 		vSource.initializeReplacingNumEdited(n);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(vSource);
 	}
 	
@@ -4128,7 +4128,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("initializeReplacingNum_V_n:" + vSource.getSTCheckValue() + ":" + d);
 		// vSource.initializeReplacingNum(d);
 		assertIfFalse(false);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(vSource);
 	}
 	
@@ -4143,7 +4143,7 @@ public abstract class BaseProgram extends CJMapObject
 		if(IsSTCheck)
 			Log.logFineDebug("initializeReplacingNum_V_S:" + vSource.getSTCheckValue() + ":" + s);
 		vSource.initializeReplacingNum(s);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(vSource);
 	}
 
@@ -4159,7 +4159,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("initializeReplacingNumEdited_V_d:" + vSource.getSTCheckValue() + ":" + d);
 
 		vSource.initializeReplacingNumEdited(d);	
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(vSource);
 	}
 	
@@ -4175,7 +4175,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("initializeReplacingAlphaNum_V_cs:" + vSource.getSTCheckValue() + ":" + cs);
 
 		vSource.initializeReplacingAlphaNum(cs);	
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(vSource);
 	}
 
@@ -4191,7 +4191,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("initializeReplacingAlphaNumEdited_V_cs:" + vSource.getSTCheckValue() + ":" + cs);
 
 		vSource.initializeReplacingAlphaNumEdited(cs);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(vSource);
 	}
 
@@ -4220,7 +4220,7 @@ public abstract class BaseProgram extends CJMapObject
 
 		Concat conc = new Concat();
 		conc.concat(var.getString());
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 		return conc;
 	}
@@ -4232,7 +4232,7 @@ public abstract class BaseProgram extends CJMapObject
 
 		String cs1 = var1.getString() ;
 		String cs2 = var2.getString() ;
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var1, var2);
 		return cs1+cs2;
 	}
@@ -4242,7 +4242,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("concat_V_cs:" + var1.getSTCheckValue() + ":"+ cs2);
 
 		String cs1 = var1.getString() ;
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var1);
 		return cs1+cs2;
 	}
@@ -4252,7 +4252,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("concat_cs_V:" + cs1 + ":" + var2.getSTCheckValue());
 
 		String cs2 = var2.getString() ;
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var2);
 		return cs1+cs2;
 	}
@@ -4268,7 +4268,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("digits_V:" + var2.getSTCheckValue());
 
 		String cs2 = var2.digits();
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var2);
 		return cs2;
 	}
@@ -4285,7 +4285,7 @@ public abstract class BaseProgram extends CJMapObject
 
 		Concat conc = new Concat();
 		conc.concatDelimitedBy(var.getString(), csDelimiter);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 		return conc;
 	}
@@ -4302,7 +4302,7 @@ public abstract class BaseProgram extends CJMapObject
 
 		Concat conc = new Concat();
 		conc.concatDelimitedBy(var.getString(), varDelimiter.getString());
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var, varDelimiter);
 		return conc;
 	}
@@ -4333,7 +4333,7 @@ public abstract class BaseProgram extends CJMapObject
 
 		Concat conc = new Concat();
 		conc.concatDelimitedBySpaces(var.getString());
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 		return conc;
 	}
@@ -4363,7 +4363,7 @@ public abstract class BaseProgram extends CJMapObject
 
 		Concat conc = new Concat();
 		conc.concatDelimitedBySize(var.getString());
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 		return conc;
 	}
@@ -4426,7 +4426,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("unstring_V:"+var.getSTCheckValue());
 
 		Unstring u = new Unstring(var);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 		return u;
 	}
@@ -4444,7 +4444,7 @@ public abstract class BaseProgram extends CJMapObject
 
 		// Fill nNbCharToSet 0 at based 1 position nPosition
 		v.setRepeatingCharAtOffsetFromStart(CobolConstant.Zero, nOffsetPosition-1, nNbChar);	// Fill with a 0 base index
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(v);
 	}
 	
@@ -4460,7 +4460,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("moveSubStringSpace_V_n_n:"+v.getSTCheckValue() + ":" + nOffsetPosition + ":" + nNbChar);
 
 		v.setRepeatingCharAtOffsetFromStart(CobolConstant.Space, nOffsetPosition-1, nNbChar);	// Fill with a 0 base index
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(v);
 	}
 
@@ -4476,7 +4476,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("moveSubStringLowValue_V_n_n:"+v.getSTCheckValue() + ":" + nOffsetPosition + ":" + nNbChar);
 
 		v.setRepeatingCharAtOffsetFromStart(CobolConstant.LowValue, nOffsetPosition-1, nNbChar);	// Fill with a 0 base index
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(v);
 	}
 	
@@ -4487,7 +4487,7 @@ public abstract class BaseProgram extends CJMapObject
 
 		int nOffsetPosition = vOffsetPosition.getInt() ;
 		v.setRepeatingCharAtOffsetFromStart(CobolConstant.LowValue, nOffsetPosition-1, nNbChar);	// Fill with a 0 base index
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(v, vOffsetPosition);
 	}
 
@@ -4504,7 +4504,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("moveSubStringHighValue_V_n_n:"+v.getSTCheckValue() + ":" + nOffsetPosition + ":" + nNbChar);
 
 		v.setRepeatingCharAtOffsetFromStart(CobolConstant.HighValue, nOffsetPosition-1, nNbChar);	// Fill with a 0 base index
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(v);
 	}
 	
@@ -4520,7 +4520,7 @@ public abstract class BaseProgram extends CJMapObject
 
 		int nOffsetPosition = vOffsetPosition.getInt() ;
 		v.setRepeatingCharAtOffsetFromStart(CobolConstant.HighValue, nOffsetPosition-1, nNbChar);	// Fill with a 0 base index
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(v, vOffsetPosition);
 	}
 
@@ -4538,7 +4538,7 @@ public abstract class BaseProgram extends CJMapObject
 
 		int nOffsetPosition = varOffsetPosition.getInt();
 		v.setRepeatingCharAtOffsetFromStart(CobolConstant.Space, nOffsetPosition-1, nNbChar);	// Fill with a 0 base index
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(v, varOffsetPosition);
 	}
 	
@@ -4555,7 +4555,7 @@ public abstract class BaseProgram extends CJMapObject
 
 		int nOffsetPosition = varOffsetPosition.getInt();
 		v.setRepeatingCharAtOffsetFromStart(CobolConstant.Space, nOffsetPosition-1, nNbChar.getInt());	// Fill with a 0 base index
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(v, varOffsetPosition);
 	}
 
@@ -4574,7 +4574,7 @@ public abstract class BaseProgram extends CJMapObject
 
 		String csValue = varValue.getString();
 		varDest.setStringAtPosition(csValue, nOffsetPosition-1, nNbChar);	// Fill with a 0 base index
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varDest, varValue);
 	}
 
@@ -4597,7 +4597,7 @@ public abstract class BaseProgram extends CJMapObject
 		while(csValue.length() < nNbChar)
 			csValue = "0" + csValue;	// Prefixe by leading 0's
 		varDest.setStringAtPosition(csValue, nOffsetPosition-1, nNbChar);	// Fill with a 0 base index
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varDest);
 	}
 
@@ -4617,7 +4617,7 @@ public abstract class BaseProgram extends CJMapObject
 		String csValue = varValue.getString();
 		int nNbChar = varNbChar.getInt();
 		varDest.setStringAtPosition(csValue, nOffsetPosition-1, nNbChar);	// Fill with a 0 base index
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varDest, varNbChar);
 	}	
 	
@@ -4630,7 +4630,7 @@ public abstract class BaseProgram extends CJMapObject
 		int nNbChar = varNbChar.getInt();
 		int nOffsetPosition = vOffsetPosition.getInt() ; 
 		varDest.setStringAtPosition(csValue, nOffsetPosition-1, nNbChar);	// Fill with a 0 base index
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varDest, vOffsetPosition, varNbChar, varValue);
 	}
 	
@@ -4642,7 +4642,7 @@ public abstract class BaseProgram extends CJMapObject
 		String csValue = varValue.getString();
 		varDest.setStringAtPosition(csValue, vOffsetPosition.getInt()-1, nNbChar.d.intValue());	// Fill with a 0 base index
 		
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varDest, vOffsetPosition, varValue);
 	}
 	
@@ -4659,7 +4659,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("setSubString_V_V_V_cs:"+varDest.getSTCheckValue() + ":" + nOffsetPosition.getSTCheckValue() + ":" + nNbChar.getSTCheckValue() + ":" + csValue);
 
 		varDest.setStringAtPosition(csValue, nOffsetPosition.getInt()-1, nNbChar.getInt());	// Fill with a 0 base index
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varDest, nOffsetPosition, nNbChar);
 	}	
 
@@ -4676,7 +4676,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("setSubString_V_M_V_cs:"+varDest.getSTCheckValue() + ":" + nOffsetPosition.getSTCheckValue() + ":" + nNbChar.getSTCheckValue() + ":" + csValue);
 
 		varDest.setStringAtPosition(csValue, nOffsetPosition.d.intValue()-1, nNbChar.getInt());	// Fill with a 0 base index
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varDest, nNbChar);
 	}
 	
@@ -4708,7 +4708,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("setSubString_V_n_n_cs:"+varDest.getSTCheckValue() + ":" + nOffsetPosition + ":" + nNbChar + ":" + csValue);
 
 		varDest.setStringAtPosition(csValue, nOffsetPosition-1, nNbChar);	// Fill with a 0 base index
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varDest);
 	}	
 	
@@ -4731,7 +4731,7 @@ public abstract class BaseProgram extends CJMapObject
 		if(csValue.length() > nNbChar)
 			csValue = csValue.substring(0, nNbChar);
 		varDest.setStringAtPosition(csValue, nOffsetPosition-1, nNbChar);	// Fill with a 0 base index
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varDest);
 	}
 	
@@ -4754,7 +4754,7 @@ public abstract class BaseProgram extends CJMapObject
 		if(csValue.length() > nNbChar)
 			csValue = csValue.substring(0, nNbChar);
 		varDest.setStringAtPosition(csValue, varOffsetPosition.getInt()-1, nNbChar);	// Fill with a 0 base index
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varDest, varOffsetPosition);
 	}
 	
@@ -4777,7 +4777,7 @@ public abstract class BaseProgram extends CJMapObject
 		if(csValue.length() > varNbChar.getInt())
 			csValue = csValue.substring(0, varNbChar.getInt());
 		varDest.setStringAtPosition(csValue, nOffsetPosition-1, varNbChar.getInt());	// Fill with a 0 base index
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varDest, varNbChar);
 	}
 	
@@ -4800,7 +4800,7 @@ public abstract class BaseProgram extends CJMapObject
 		if(csValue.length() > varNbChar.getInt())
 			csValue = csValue.substring(0, varNbChar.getInt());
 		varDest.setStringAtPosition(csValue, varOffsetPosition.getInt()-1, varNbChar.getInt());	// Fill with a 0 base index
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varDest, varOffsetPosition, varNbChar);
 	}
 	
@@ -4817,7 +4817,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("setSubString_V_n_V_cs:"+varDest.getSTCheckValue() + ":" + nOffsetPosition + ":" + nNbChar.getSTCheckValue() + ":" + csValue);
 
 		varDest.setStringAtPosition(csValue, nOffsetPosition-1, nNbChar.getInt());	// Fill with a 0 base index
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varDest, nNbChar);
 	}	
 	
@@ -4835,7 +4835,7 @@ public abstract class BaseProgram extends CJMapObject
 
 		int nOffsetPosition = varOffsetPosition.getInt();
 		varDest.setStringAtPosition(csValue, nOffsetPosition-1, nNbChar);	// Fill with a 0 base index
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varDest, varOffsetPosition);
 	}	
 	
@@ -4854,7 +4854,7 @@ public abstract class BaseProgram extends CJMapObject
 		String csValue = varValue.getString();
 		int nOffsetPosition = varOffsetPosition.getInt();
 		varDest.setStringAtPosition(csValue, nOffsetPosition-1, nNbChar);	// Fill with a 0 base index
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varDest, varOffsetPosition, varValue);
 	}	
 	
@@ -4949,7 +4949,7 @@ public abstract class BaseProgram extends CJMapObject
 
 		
 		String cs = subString(varSource.getString(), nStart.d.intValue(), nNbChars.d.intValue());
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varSource);
 		return cs;
 	}
@@ -4966,7 +4966,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("subString_V_M_n:" + varSource.getSTCheckValue() + ":" + nStart.getSTCheckValue() + ":" + nNbChars);
 
 		String cs = subString(varSource.getString(), nStart.d.intValue(), nNbChars);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varSource);
 		return cs;
 	}
@@ -4983,7 +4983,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("subString_V_V_M:" + varSource.getSTCheckValue() + ":" + varStart.getSTCheckValue() + ":" + nNbChars.getSTCheckValue());
 
 		String cs = subString(varSource.getString(), varStart.getInt(), nNbChars.d.intValue());
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varSource, varStart);
 		return cs;
 	}
@@ -5000,7 +5000,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("subString_V_V_V:" + varSource.getSTCheckValue() + ":" + varStart.getSTCheckValue() + ":" + nNbChars.getSTCheckValue());
 
 		String cs = subString(varSource.getString(), varStart.getInt(), nNbChars.getInt());
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varSource, varStart, nNbChars);
 		return cs;
 	}
@@ -5062,7 +5062,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("subString_V_n_n:" + varSource.getSTCheckValue() + ":" + nStart + ":" + nNbchars);
 
 		String cs = subString(varSource.getString(), nStart, nNbchars);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varSource);
 		return cs;
 	}	
@@ -5079,7 +5079,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("subString_V_V_n:" + varSource.getSTCheckValue() + ":" + varStart.getSTCheckValue() + ":" + nNbchars);
 
 		String cs = subString(varSource.getString(), varStart.getInt(), nNbchars);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varSource, varStart);
 		return cs;
 	}
@@ -5096,7 +5096,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("subString_V_n_V:" + varSource.getSTCheckValue() + ":" + nStart + ":" + varNbchars.getSTCheckValue());
 		
 		String cs = subString(varSource.getString(), nStart, varNbchars.getInt());
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varSource, varNbchars);
 		return cs;
 	}	
@@ -5124,7 +5124,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("getSQLDiagnosticCode_V" + v.getSTCheckValue());
 
 		int n = baseProgramManager.getSQLStatus().getSQLDiagnosticCode(v.getInt()) ;
-		if(bUsedTempVarOrCStr) 
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(v);
 		return n;
 	}	
@@ -5180,7 +5180,7 @@ public abstract class BaseProgram extends CJMapObject
 
 		int n = v.getInt() ;
 		baseProgramManager.getSQLStatus().setSQLCode(n) ;
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(v);
 	}
 
@@ -5195,7 +5195,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("lengthOf_V" + v.getSTCheckValue());
 
 		int n = v.getBodySize();
-		if(bUsedTempVarOrCStr) 
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(v);
 		return n;
 	}
@@ -5219,7 +5219,7 @@ public abstract class BaseProgram extends CJMapObject
 		if(IsSTCheck)
 			Log.logFineDebug("setSemanticContextValue_V_cs" + varDest.getSTCheckValue() + ":" + csValue);
 		varDest.setSemanticContextValue(csValue);
-		if(bUsedTempVarOrCStr) 
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varDest);
 	}
 	
@@ -5228,7 +5228,7 @@ public abstract class BaseProgram extends CJMapObject
 		if(IsSTCheck)
 			Log.logFineDebug("setSemanticContextValue_E_cs" + editDest.getSTCheckValue() + ":" + csValue);
 		editDest.setSemanticContextValue(csValue);
-		if(bUsedTempVarOrCStr) 
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(editDest);
 	}
 	
@@ -5242,7 +5242,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("getSemanticContextValue_V" + varSource.getSTCheckValue());
 
 		String cs = varSource.getSemanticContextValue();
-		if(bUsedTempVarOrCStr) 
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varSource);
 		return cs;
 	}
@@ -5291,7 +5291,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("getNbOccurs_V" + v.getSTCheckValue());
 		
 		int n = v.getNbOccurs() ;
-		if(bUsedTempVarOrCStr) 
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(v);
 		return n;
 	}
@@ -5426,7 +5426,7 @@ public abstract class BaseProgram extends CJMapObject
 		{
 			sortParagHandler.release(varRecord);
 		}
-		if(bUsedTempVarOrCStr) 
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varRecord);
 	}
 	
@@ -5439,7 +5439,7 @@ public abstract class BaseProgram extends CJMapObject
 		{
 			sortParagHandler.release(varFrom);
 		}
-		if(bUsedTempVarOrCStr)  
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varRecord, varFrom);
 	}
 	
@@ -5467,11 +5467,11 @@ public abstract class BaseProgram extends CJMapObject
 			RecordDescriptorAtEnd end = sortParagHandler.returnSort(sortDescriptor);
 			if(!end.atEnd())
 				sortDescriptor.moveInto(varInto); 
-			if(bUsedTempVarOrCStr)
+			if(isusedTempVarOrCStr)
 				tempCache.resetTempIndex(varInto);
 			return end;
 		}
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varInto);
 		return RecordDescriptorAtEnd.End;
 	}
@@ -5583,7 +5583,7 @@ public abstract class BaseProgram extends CJMapObject
 	{
 		//String cs = var.getDottedSignedString()
 		String cs = var.getAsAlphaNumString();
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 		return cs;
 	}
@@ -5627,7 +5627,7 @@ public abstract class BaseProgram extends CJMapObject
 	{
 		String csMessage = var.getDottedSignedString();
 		LogDisplay.log(csMessage);
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 	}
 	
@@ -5666,7 +5666,7 @@ public abstract class BaseProgram extends CJMapObject
 		if(IsSTCheck)
 			Log.logFineDebug("setTime_V:" + v.getSTCheckValue());
 		
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(v);
 
 		// TODO fake method
@@ -5802,7 +5802,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("setKeyPressed_V:" + v.getSTCheckValue());
 
 		getProgramManager().setKeyPressed(v) ;
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(v);
 	}
 	
@@ -5896,38 +5896,38 @@ public abstract class BaseProgram extends CJMapObject
 	}
 
 	private TempCache tempCache = null;
-	private boolean bUsedTempVarOrCStr = false;
-	private boolean bUsedTempVar = false;
-	private boolean bUsedCStr = false;
+	private boolean isusedTempVarOrCStr = false;
+	private boolean isusedTempVar = false;
+	private boolean isusedCStr = false;
 	
 	public void resetTempIndex(VarBase... vars)
 	{
-		if(bUsedTempVarOrCStr)
+		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(vars);
 	}
 	
 	public void setUseTempVar()
 	{
-		bUsedTempVar = true;
-		bUsedTempVarOrCStr = true;		
+		isusedTempVar = true;
+		isusedTempVarOrCStr = true;
 	}
 	
 	public void setUseCStr()
 	{
-		bUsedCStr = true;
-		bUsedTempVarOrCStr = true;		
+		isusedCStr = true;
+		isusedTempVarOrCStr = true;
 	}
 	
 	public void resetUseTempVar()
 	{
-		bUsedTempVar = false;
-		bUsedTempVarOrCStr = bUsedCStr;		
+		isusedTempVar = false;
+		isusedTempVarOrCStr = isusedCStr;
 	}
 	
 	public void resetUseCStr()
 	{
-		bUsedCStr = false;
-		bUsedTempVarOrCStr = bUsedTempVar;		
+		isusedCStr = false;
+		isusedTempVarOrCStr = isusedTempVar;
 	}
 	
 	public void accept(Var varDest)

@@ -10,7 +10,6 @@
 package nacaLib.dbUtils;
 
 import jlib.log.Log;
-import jlib.misc.BaseDataFile;
 import jlib.misc.DataFileLineReader;
 import jlib.misc.LineRead;
 import jlib.misc.LogicalFileDescriptor;
@@ -36,20 +35,20 @@ public class FileExporter
 		String csFileIn = exportFileIn.getPhysicalName();
 		LogicalFileDescriptor logicalFileDescriptor = exportFileIn.getLogicalFileDescriptor();
 		DataFileLineReader dataFileIn = new DataFileLineReader(csFileIn, 65536, 0);
-		boolean bInOpened = dataFileIn.open(logicalFileDescriptor);
-		if(bInOpened)
+		boolean isinOpened = dataFileIn.open(logicalFileDescriptor);
+		if(isinOpened)
 		{
 			exportFileOut.setSession(session);
 			String csFileOut = exportFileOut.getPhysicalName();
 			
 			exportFileOut.openOutputNoFileHeaderWrite();
-			boolean bVariableLength = exportFileIn.isVariableLength();
+			boolean isvariableLength = exportFileIn.isVariableLength();
 			
 			int nNbLines = 0;
 			LineRead lineRead = exportFileIn.readALine(dataFileIn, null);
 			while(lineRead != null)
 			{
-				if(bVariableLength)
+				if(isvariableLength)
 					lineRead.shiftOffset(4);	// Skip record header
 				exportFileOut.writeFrom(lineRead);
 				lineRead = exportFileIn.readALine(dataFileIn, lineRead);

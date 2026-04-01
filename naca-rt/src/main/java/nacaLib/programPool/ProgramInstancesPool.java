@@ -119,47 +119,47 @@ public class ProgramInstancesPool extends BaseCloseMBean
 	
 	synchronized public String getTime_ExecRunTime()
 	{
-		long lMin = Long.MAX_VALUE;
-		long lMax = 0;
-		long lSum = 0;
-		long lAvg = 0;
+		long min = Long.MAX_VALUE;
+		long max = 0;
+		long sum = 0;
+		long avg = 0;
 		int nNbInstances = stack.size();
 		for(int n=0; n<nNbInstances; n++)
 		{
 			BaseProgram program = stack.elementAt(n);
 			long l = program.getProgramManager().getTimeRun();
-			if(l < lMin)
-				lMin = l;
-			if(l > lMax)
-				lMax = l;
-			lSum += l;
+			if(l < min)
+				min = l;
+			if(l > max)
+				max = l;
+			sum += l;
 		}
 		if(nNbInstances!= 0)
-			lAvg = lSum / nNbInstances;  	
+			avg = sum / nNbInstances;
 		
-		String csAvg = Time_ms.formatHHMMSS_ms(lAvg);
-		String csMin = Time_ms.formatHHMMSS_ms(lMin);
-		String csMax = Time_ms.formatHHMMSS_ms(lMax);
+		String csAvg = Time_ms.formatHHMMSS_ms(avg);
+		String csMin = Time_ms.formatHHMMSS_ms(min);
+		String csMax = Time_ms.formatHHMMSS_ms(max);
 		return "Min:"+csMin+"   Average:"+csAvg+"   Max:"+csMax;
 	}
 	
 	synchronized public String getTime_ExecHour()
 	{
-		long lOldRun = Long.MAX_VALUE;
-		long lRecentRun = 0;
+		long oldRun = Long.MAX_VALUE;
+		long recentRun = 0;
 		int nNbInstances = stack.size();
 		for(int n=0; n<nNbInstances; n++)
 		{
 			BaseProgram program = stack.elementAt(n);
 			long l = program.getProgramManager().getTimeLastRunBegin_ms();
-			if(l < lOldRun)
-				lOldRun = l;
-			if(l > lRecentRun)
-				lRecentRun = l;
+			if(l < oldRun)
+				oldRun = l;
+			if(l > recentRun)
+				recentRun = l;
 		}
 
-		String csOldest = Time_ms.formatDMY_HHMMSS_ms(lOldRun);
-		String csRecent = Time_ms.formatDMY_HHMMSS_ms(lRecentRun);
+		String csOldest = Time_ms.formatDMY_HHMMSS_ms(oldRun);
+		String csRecent = Time_ms.formatDMY_HHMMSS_ms(recentRun);
 		return csOldest + "   TO   "+csRecent;
 	}
 	

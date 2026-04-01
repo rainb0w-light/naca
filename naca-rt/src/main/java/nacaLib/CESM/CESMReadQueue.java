@@ -24,7 +24,7 @@ import nacaLib.varEx.Var;
 
 public class CESMReadQueue extends CJMapObject
 {
-	protected boolean bTransient = false ;
+	protected boolean istransient = false ;
 	protected String name = "" ;
 	protected CESMQueueManager manager = null;
 	protected int nRecordPosition = 0;

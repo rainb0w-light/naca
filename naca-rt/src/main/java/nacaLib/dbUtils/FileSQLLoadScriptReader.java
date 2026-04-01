@@ -16,7 +16,6 @@ import jlib.misc.BaseDataFile;
 import jlib.misc.DataFileLineReader;
 import jlib.misc.IntegerRef;
 import jlib.misc.LineRead;
-import jlib.misc.LogicalFileDescriptor;
 import jlib.misc.StringUtil;
 import jlib.sql.SQLLoadStatus;
 import nacaLib.basePrgEnv.BaseSession;
@@ -49,8 +48,8 @@ public class FileSQLLoadScriptReader extends BaseFileScriptReader
 		}			
 
 		dataFileIn = new DataFileLineReader(csFileIn, 65536, 0);
-		boolean bInOpened = dataFileIn.open();
-		if(!bInOpened)
+		boolean isinOpened = dataFileIn.open();
+		if(!isinOpened)
 			return SQLLoadStatus.loadFailure;
 		int nLineIndex = 0;
 		
@@ -121,24 +120,24 @@ public class FileSQLLoadScriptReader extends BaseFileScriptReader
 //			csLastPhysicalLine = null;
 //		return csLine;
 //	}
-	private ArrayList<String> arrLines = null;
+	private ArrayList<String> lines = null;
 	
 	private String readLogicalLine(int nLine)
 	{
-		if(arrLines == null)
+		if(lines == null)
 			readAllLines();
-		if(nLine >= arrLines.size())
+		if(nLine >= lines.size())
 			return null;
 		if(nLine < 0)
 			return null;
-		return arrLines.get(nLine);
+		return lines.get(nLine);
 	}
 	
 	private void readAllLines()
 	{
-		if(arrLines != null)
+		if(lines != null)
 			return ;
-		arrLines = new ArrayList<String>();
+		lines = new ArrayList<String>();
 		
 		String csCurrentLine = new String();
 		LineRead lineRead = dataFileIn.readNextUnixLine();
@@ -154,7 +153,7 @@ public class FileSQLLoadScriptReader extends BaseFileScriptReader
 				else
 				{
 					if(!StringUtil.isEmpty(csCurrentLine))
-						arrLines.add(csCurrentLine);
+						lines.add(csCurrentLine);
 					csCurrentLine = csPhysicalLine;
 				}
 			}
@@ -162,7 +161,7 @@ public class FileSQLLoadScriptReader extends BaseFileScriptReader
 			lineRead = dataFileIn.readNextUnixLine();
 		}
 		if(!StringUtil.isEmpty(csCurrentLine))
-			arrLines.add(csCurrentLine);
+			lines.add(csCurrentLine);
 	}
 	
 	private boolean isContinuationLine(String csPhysicalLine)

@@ -77,8 +77,8 @@ public class TestCalledProgram extends CalledProgram
 
 		
 		// Check implicitly used commarea
-		long lId = Thread.currentThread().getId();
-		if((lId % 2) == 0)
+		long id = Thread.currentThread().getId();
+		if((id % 2) == 0)
 		{
 			assertIfFalse(isEqual(LSCommand, 40));
 			assertIfFalse(isEqual(LSOutputDateJJMMAAAA, "11/11/1963"));

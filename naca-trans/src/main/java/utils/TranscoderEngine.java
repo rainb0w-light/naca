@@ -180,7 +180,7 @@ public abstract class TranscoderEngine<T_Elem extends CBaseElement, T_Entity ext
 				while (tok != null)
 				{
 					//if (tokEntry.getLine() > nCurLine)
-					if (tok.bIsNewLine)
+					if (tok.isisNewLine)
 					{
 						output.println("") ;
 						nCurLine = tok.getLine() ;

@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 5 août 2004
+ * Created on 5 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -44,33 +44,33 @@ public abstract class CEntityCallProgram extends CBaseActionEntity
 	public void SetParameterByRef(CDataEntity e)
 	{
 		CCallParameter p = new CCallParameter(e, CCallParameterMethode.BY_REFERENCE);
-		arrParameters.add(p);		
+		parameters.add(p);
 	}
 	public void SetParameterByContent(CDataEntity e)
 	{
 		CCallParameter p = new CCallParameter(e, CCallParameterMethode.BY_CONTENT);
-		arrParameters.add(p);		
+		parameters.add(p);
 	}
 	public void SetParameterByValue(CDataEntity e)
 	{
 		CCallParameter p = new CCallParameter(e, CCallParameterMethode.BY_VALUE);
-		arrParameters.add(p);		
+		parameters.add(p);
 	}
 	public void SetParameterLengthOf(CDataEntity e)
 	{
 		CCallParameter p = new CCallParameter(e, CCallParameterMethode.LENGTH_OF);
-		arrParameters.add(p);		
+		parameters.add(p);
 	}
 	
-	protected boolean bChecked = false ;
+	protected boolean ischecked = false ;
 	protected CDataEntity reference = null ;
 	protected CBaseLanguageEntity onErrorBloc ;
-	protected Vector<CCallParameter> arrParameters = new Vector<CCallParameter>() ;
+	protected Vector<CCallParameter> parameters = new Vector<CCallParameter>() ;
 	public void Clear()
 	{
 		super.Clear() ;
 		reference = null ;
-		arrParameters.clear();
+		parameters.clear();
 	}
 	protected static class CCallParameterMethode
 	{
@@ -101,9 +101,9 @@ public abstract class CEntityCallProgram extends CBaseActionEntity
 			reference = null ;
 			return true ;
 		}
-		for (int i=0; i<arrParameters.size(); i++)
+		for (int i = 0; i< parameters.size(); i++)
 		{
-			CCallParameter param = arrParameters.get(i) ;
+			CCallParameter param = parameters.get(i) ;
 			if (param.reference == data)
 			{
 				data.UnRegisterReadingAction(this) ;
@@ -122,9 +122,9 @@ public abstract class CEntityCallProgram extends CBaseActionEntity
 			var.RegisterReadingAction(this) ;
 			return true ;
 		}
-		for (int i=0; i<arrParameters.size(); i++)
+		for (int i = 0; i< parameters.size(); i++)
 		{
-			CCallParameter param = arrParameters.get(i) ;
+			CCallParameter param = parameters.get(i) ;
 			if (param.reference == field)
 			{
 				param.reference = var ;

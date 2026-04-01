@@ -17,17 +17,17 @@ package jlib.sqlMapper;
 public class OrderSegment
 {
 	private String csColName = null;
-	boolean bAscending = true;
+	boolean isascending = true;
 	
-	protected OrderSegment(String csColName, boolean bAscending)
+	protected OrderSegment(String csColName, boolean isascending)
 	{
 		csColName = csColName;
-		bAscending = bAscending;
+		isascending = isascending;
 	}
 	
 	String getAsString()
 	{
-		if(bAscending)
+		if(isascending)
 			return csColName;
 		return csColName + " desc"; 
 	}

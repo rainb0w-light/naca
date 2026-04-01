@@ -42,20 +42,20 @@ import org.w3c.dom.Document;
 
 public abstract class BaseEnvironment extends CJMapObject implements SessionEnvironmentRequester
 {
-	private DbConnectionBase sQLConnection = null;
+	private DbConnectionBase qLConnection = null;
 	private DbConnectionManagerBase connectionManager = null;
 	protected String csCurrentTransaction = "" ;
 	private String csTransaction1stProgram = "";
 	private BaseSession baseSession = null; 
-	private Integer iEnvId = null; 
+	private Integer envId = null;
 	private static ThreadSafeCounter ms_id = new ThreadSafeCounter();
 	private CurrentDateInfo creationDateInfo = null;
 	private int nSumTransactionsExecTime_ms = 0;
 	private int nNbTransactionsExecuted = 0;
-	private boolean bInitialConnectDb = true;	// true if db conection is established before lauchin 1st program
+	private boolean isinitialConnectDb = true;	// true if db conection is established before lauchin 1st program
 	private FileManager fileManager = null;
-	private boolean bExternalConnection = false;
-	private boolean bSimulateRealEnvironment = false;
+	private boolean isexternalConnection = false;
+	private boolean issimulateRealEnvironment = false;
 	
 	public BaseEnvironment(BaseSession baseSession, DbConnectionManagerBase connectionManager, BaseResourceManager baseResourceManager)
 	{
@@ -64,9 +64,9 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 		queueManager = new CESMQueueManager(this);
 
 		accountingRecordManager = new AccountingRecordTrans(baseResourceManager);
-		iEnvId = ms_id.inc();
+		envId = ms_id.inc();
 		creationDateInfo = new CurrentDateInfo();
-		bSimulateRealEnvironment = baseResourceManager.getSimulateRealEnvironment();
+		issimulateRealEnvironment = baseResourceManager.getSimulateRealEnvironment();
 	}
 	
 	public DbConnectionManagerBase getDbConnectionManager()
@@ -81,7 +81,7 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 	
 	public Integer getEnvId()
 	{
-		return iEnvId;
+		return envId;
 	}
 	
 	public BaseSession getBaseSession()
@@ -114,12 +114,12 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 	
 	public void DEBUGremoveDBConnection()
 	{
-		sQLConnection = null; 
+		qLConnection = null;
 	}
 	
 	public void fillEnvConnectionWithAllocatedConnection(Connection spConnection, String csPrefId, String csEnv, boolean bUseCachedStatements)
 	{
-		sQLConnection = new SQLConnection(spConnection, csPrefId, csEnv, bUseCachedStatements, false, null);
+		qLConnection = new SQLConnection(spConnection, csPrefId, csEnv, bUseCachedStatements, false, null);
 	}
 	
 	public DbConnectionBase getNewSQLConnection()
@@ -141,11 +141,11 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 	
 	public DbConnectionBase getSQLConnection()
 	{
-		if(sQLConnection == null && connectionManager != null)
+		if(qLConnection == null && connectionManager != null)
 		{
 			try
 			{
-				sQLConnection = connectionManager.getConnection(csTransaction1stProgram, csProgramParent, BaseResourceManager.getUseStatementCache()) ;
+				qLConnection = connectionManager.getConnection(csTransaction1stProgram, csProgramParent, BaseResourceManager.getUseStatementCache()) ;
 			}
 			catch (DbConnectionException e)
 			{
@@ -154,7 +154,7 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 				//JVMReturnCodeManager.exitJVM(8);	// No connection provided: Do not exit as it kills tomcat !
 			}
 		}		
-		return sQLConnection ;
+		return qLConnection;
 	}	
 
 	public boolean abortTransWhenInvalidDbConnection()
@@ -170,26 +170,26 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 	
 	public boolean hasSQLConnection()
 	{
-		if(sQLConnection == null)
+		if(qLConnection == null)
 			return false;
 		return true;
 	}
 	
 	public void releaseSQLConnection()
 	{
-		if(!bExternalConnection)	// Release only internal connection
+		if(!isexternalConnection)	// Release only internal connection
 		{
-			if (sQLConnection != null)
+			if (qLConnection != null)
 			{
 				if(connectionManager != null)
-					connectionManager.returnConnection(sQLConnection);
+					connectionManager.returnConnection(qLConnection);
 			}
 		}
 		else
-			bExternalConnection = false;	// Not an external connection (reset status for next reuse of the environment)
+			isexternalConnection = false;	// Not an external connection (reset status for next reuse of the environment)
 
 		// The environment has no knowledge anymore of the connection 
-		sQLConnection = null;
+		qLConnection = null;
 	}
 	
 	private void getTempCacheFromStack()
@@ -213,11 +213,11 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 	 */
 	public SQLException commitSQL()
 	{
-		if(!bExternalConnection)
+		if(!isexternalConnection)
 		{
-			if (sQLConnection != null)
+			if (qLConnection != null)
 			{
-				return sQLConnection.commitWithException() ;
+				return qLConnection.commitWithException() ;
 			}
 		}
 		return null;
@@ -228,11 +228,11 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 	 */
 	public SQLException rollbackSQL()
 	{
-		if(!bExternalConnection)
+		if(!isexternalConnection)
 		{
-			if (sQLConnection != null)
+			if (qLConnection != null)
 			{
-				return sQLConnection.rollBackWithException() ;
+				return qLConnection.rollBackWithException() ;
 			}
 		}
 		return null;
@@ -541,19 +541,19 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 	{
 		if(dbConnection != null)	// Provide an external db connection by caller
 		{
-			bInitialConnectDb = false;
-			sQLConnection = dbConnection;
-			bExternalConnection = true;
+			isinitialConnectDb = false;
+			qLConnection = dbConnection;
+			isexternalConnection = true;
 		}
 		else	// No db connection provided: It means that nacaRT must estblish itslef the connection
 		{
-			bInitialConnectDb = true;
+			isinitialConnectDb = true;
 		}
 	}
 	
 	public boolean startRunTransaction()
 	{
-		if(bSimulateRealEnvironment)
+		if(issimulateRealEnvironment)
 		{
 			abStopProcessing.set(false);
 			getTempCacheFromStack();
@@ -564,27 +564,27 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 			return true;
 		}
 		
-		boolean bStarted = true;
+		boolean isstarted = true;
 		abStopProcessing.set(false);
 				
 		getTempCacheFromStack();
 		
-		if(bInitialConnectDb)
+		if(isinitialConnectDb)
 		{
-			sQLConnection = null;
+			qLConnection = null;
 			DbConnectionBase con = getSQLConnection();	// Establish a sql connection before lauching 1st program
 			if(con == null)
-				bStarted = false;
+				isstarted = false;
 		}
 		
-		if(bStarted)
+		if(isstarted)
 		{
 			accountingRecordManager.startRunTransaction(csCurrentTransaction);
 			startSessionRequest(csCurrentTransaction);
 			
 			TransThreadManager.startTransaction(this);
 		}
-		return bStarted;
+		return isstarted;
 	}
 	
 	public void endRunTransaction(CriteriaEndRunMain criteria)
@@ -623,20 +623,20 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 	private void startSessionRequest(String csCurrentTransaction)
 	{
 		dateStart.setNow();
-		lSessionRequestEndBefore_ms = BaseResourceManager.getSessionRequestEndTimeLimit(csCurrentTransaction);
+		sessionRequestEndBefore_ms = BaseResourceManager.getSessionRequestEndTimeLimit(csCurrentTransaction);
 		envStatus = EnvironmentStatus.RUNNING;
 	}
 	
 	void offsetMaxTimeLimit(long lOffset_ms)
 	{
-		lSessionRequestEndBefore_ms += lOffset_ms; 
+		sessionRequestEndBefore_ms += lOffset_ms;
 	}
 
 	private void endSessionRequest()
 	{
 		nNbTransactionsExecuted++;
 		dateEnd.setNow();
-		lSessionRequestEndBefore_ms = 0;	// No running 
+		sessionRequestEndBefore_ms = 0;	// No running
 		envStatus = EnvironmentStatus.STOPPED;
 		nSumTransactionsExecTime_ms += (int)getStartRunTime().getTimeOffset_ms(getEndRunTime());
 	}
@@ -703,10 +703,10 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 			throw exp ;
 		}
 		
-		if(lSessionRequestEndBefore_ms != 0)
+		if(sessionRequestEndBefore_ms != 0)
 		{
-			long lAlmostCurrentTime_ms = Time_ms.getCurrentTime_ms();
-			if(lAlmostCurrentTime_ms > lSessionRequestEndBefore_ms)
+			long almostCurrentTime_ms = Time_ms.getCurrentTime_ms();
+			if(almostCurrentTime_ms > sessionRequestEndBefore_ms)
 			{
 				AbortSessionException exp = new AbortSessionException() ;
 				exp.reason = new Error("SessionTimeoutInternal");
@@ -770,7 +770,7 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 	}
 				
 	private AtomicBoolean abStopProcessing = new AtomicBoolean(false);
-	private long lSessionRequestEndBefore_ms = 0;
+	private long sessionRequestEndBefore_ms = 0;
 	private CurrentDateInfo dateStart = new CurrentDateInfo();
 	private CurrentDateInfo dateEnd  = new CurrentDateInfo();
 	private EnvironmentStatus envStatus = EnvironmentStatus.UNKNOWN;

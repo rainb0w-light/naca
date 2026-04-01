@@ -38,8 +38,8 @@ public class CalledMain
 			env.setExternalDbConnection(dbConnection);
 			env.fillEnvConnectionWithAllocatedConnection(dbConnection.getDbConnection(), "ExternalConnection", dbConnection.getEnvironmentPrefix(), true);	// bUseStatementCache							
 	
-			boolean bStarted = env.startRunTransaction();
-			if(!bStarted)
+			boolean isstarted = env.startRunTransaction();
+			if(!isstarted)
 			{
 				env.endRunTransaction(CriteriaEndRunMain.Abort);
 				return 8;

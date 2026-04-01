@@ -30,24 +30,24 @@ public class CallStackExclusion
 	
 	void fillExcluded(Tag tagSettings)
 	{
-		arrExclude = new ArrayList<String>();
+		exclude = new ArrayList<String>();
 		Tag tagCallLocation = tagSettings.getEnumChild("CallLocation");
 		while(tagCallLocation != null)
 		{
 			String csExcludeName = tagCallLocation.getVal("Exclude");
-			arrExclude.add(csExcludeName);
+			exclude.add(csExcludeName);
 			tagCallLocation = tagSettings.getEnumChild("CallLocation");
 		}				
 	}
 	
 	boolean doNotContains(String csClassName)
 	{
-		if(arrExclude != null)
+		if(exclude != null)
 		{
-			int nNbExclusion = arrExclude.size();
+			int nNbExclusion = exclude.size();
 			for(int n=0; n<nNbExclusion; n++)
 			{
-				String csExclude = arrExclude.get(n);
+				String csExclude = exclude.get(n);
 				if(csClassName.startsWith(csExclude))
 					return false;
 			}
@@ -55,5 +55,5 @@ public class CallStackExclusion
 		return true;
 	}
 	
-	private ArrayList<String> arrExclude = null;
+	private ArrayList<String> exclude = null;
 }

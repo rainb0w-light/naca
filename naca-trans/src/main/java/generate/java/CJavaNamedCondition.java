@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 9 août 2004
+ * Created on 9 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -57,9 +57,9 @@ public class CJavaNamedCondition extends CEntityNamedCondition
 	protected void DoExport()
 	{
 		WriteWord("Cond "+ FormatIdentifier(GetName()) + " = declare.condition()")  ;
-		for (int i=0; i<arrValues.size();i++)
+		for (int i = 0; i< values.size(); i++)
 		{
-			CDataEntity e = arrValues.get(i);
+			CDataEntity e = values.get(i);
 			if (e == null)
 			{
 				WriteWord(".value([undefined])");
@@ -69,10 +69,10 @@ public class CJavaNamedCondition extends CEntityNamedCondition
 				WriteWord(".value(" + e.ExportReference(getLine()) + ")");
 			}
 		}
-		for (int i=0; i<arrStartIntervals.size() && i<arrEndIntervals.size();i++)
+		for (int i = 0; i< startIntervals.size() && i< endIntervals.size(); i++)
 		{
-			CDataEntity e1 = arrStartIntervals.get(i);
-			CDataEntity e2 = arrEndIntervals.get(i);
+			CDataEntity e1 = startIntervals.get(i);
+			CDataEntity e2 = endIntervals.get(i);
 			WriteWord(".value(" + e1.ExportReference(getLine())+ ", "+ e2.ExportReference(getLine()) + ")");
 		}
 		WriteWord(".var() ;");

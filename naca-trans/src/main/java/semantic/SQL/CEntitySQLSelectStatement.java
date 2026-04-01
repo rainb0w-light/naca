@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 18 août 04
+ * Created on 18 aoï¿½t 04
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -26,23 +26,23 @@ import utils.CObjectCatalog;
  */
 public abstract class CEntitySQLSelectStatement extends CBaseActionEntity
 {
-	public CEntitySQLSelectStatement(int line, CObjectCatalog cat, CBaseLanguageExporter out, String csStatement, Vector<CDataEntity> arrParameters, Vector<CDataEntity> arrInto, Vector<CDataEntity> arrInd)
+	public CEntitySQLSelectStatement(int line, CObjectCatalog cat, CBaseLanguageExporter out, String csStatement, Vector<CDataEntity> parameters, Vector<CDataEntity> into, Vector<CDataEntity> ind)
 	{
 		super(line, cat, out);
 		csStatement = csStatement ;
-		arrParameters = arrParameters;
-		arrInto = arrInto;
-		arrInd = arrInd ;
+		parameters = parameters;
+		into = into;
+		ind = ind;
 	}
 	protected String csStatement = "" ;
-	protected Vector<CDataEntity> arrParameters = null;
-	protected Vector<CDataEntity> arrInto = null;
-	protected Vector<CDataEntity> arrInd = null;
+	protected Vector<CDataEntity> parameters = null;
+	protected Vector<CDataEntity> into = null;
+	protected Vector<CDataEntity> ind = null;
 	public void Clear()
 	{
 		super.Clear();
-		arrParameters = null ;
-		arrInto = null ;
+		parameters = null ;
+		into = null ;
 	}
 	public boolean ignore()
 	{
@@ -50,7 +50,7 @@ public abstract class CEntitySQLSelectStatement extends CBaseActionEntity
 	}
 	public boolean IgnoreVariable(CDataEntity data)
 	{
-		if (arrParameters.contains(data) || arrInto.contains(data))
+		if (parameters.contains(data) || into.contains(data))
 		{
 			data.UnRegisterReadingAction(this) ;
 			data.UnRegisterWritingAction(this) ;
@@ -65,19 +65,19 @@ public abstract class CEntitySQLSelectStatement extends CBaseActionEntity
 	 */
 	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
 	{
-		int n = arrParameters.indexOf(field) ;
+		int n = parameters.indexOf(field) ;
 		if (n>=0)
 		{
-			arrParameters.get(n).UnRegisterReadingAction(this) ;
-			arrParameters.set(n, var);
+			parameters.get(n).UnRegisterReadingAction(this) ;
+			parameters.set(n, var);
 			var.RegisterReadingAction(this) ;
 			return true ;
 		}
-		n = arrInto.indexOf(field) ;
+		n = into.indexOf(field) ;
 		if (n>=0)
 		{
-			arrInto.get(n).UnRegisterWritingAction(this) ;
-			arrInto.set(n, var);
+			into.get(n).UnRegisterWritingAction(this) ;
+			into.set(n, var);
 			var.RegisterWritingAction(this) ;
 			return true ;
 		}

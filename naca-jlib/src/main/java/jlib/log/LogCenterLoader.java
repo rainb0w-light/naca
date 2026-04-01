@@ -36,10 +36,10 @@ public class LogCenterLoader
 	boolean loadDefinition(Tag tagLogCenter)
 	{
 		csChannel = tagLogCenter.getVal("Channel");
-		bEnable = tagLogCenter.getValAsBoolean("Enable");
+		isenable = tagLogCenter.getValAsBoolean("Enable");
 		
 		nNbRequestBufferSize = tagLogCenter.getValAsInt("NbRequestBufferSize");
-		bAsynchronous = tagLogCenter.getValAsBoolean("Asynchronous");
+		isasynchronous = tagLogCenter.getValAsBoolean("Asynchronous");
 		
 		String csLevel = tagLogCenter.getVal("Level");
 		String csFlow = tagLogCenter.getVal("Flow");		
@@ -60,8 +60,8 @@ public class LogCenterLoader
 	{
 		tagLogCenter.addVal("Name", csName);
 		tagLogCenter.addVal("NbRequestBufferSize", nNbRequestBufferSize);
-		tagLogCenter.addVal("Asynchronous", bAsynchronous);
-		tagLogCenter.addVal("Enable", bEnable);
+		tagLogCenter.addVal("Asynchronous", isasynchronous);
+		tagLogCenter.addVal("Enable", isenable);
 		tagLogCenter.addVal("Mode", csMode);
 		tagLogCenter.addVal("Channel", csChannel);
 		tagLogCenter.addVal("Level", logLevel.getAsString());
@@ -144,7 +144,7 @@ public class LogCenterLoader
 	
 	public boolean isEnable()
 	{
-		return bEnable;
+		return isenable;
 	}
 
 	public String getChannel()
@@ -173,12 +173,12 @@ public class LogCenterLoader
 
 	public boolean getAsynchronous()
 	{
-		return bAsynchronous;
+		return isasynchronous;
 	}
 	
-	protected boolean bEnable = true;
+	protected boolean isenable = true;
 	protected int nNbRequestBufferSize = 0;
-	protected boolean bAsynchronous = false;
+	protected boolean isasynchronous = false;
 	protected String csChannel = null;			
 	protected LogLevel logLevel = null;
 	protected String csName = "";

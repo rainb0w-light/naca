@@ -7,9 +7,7 @@
 package nacaLib.fpacPrgEnv;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 import jlib.misc.AsciiEbcdicConverter;
 import jlib.misc.StringUtil;
@@ -26,7 +24,7 @@ public abstract class FPacProgram extends BaseProgram
 	protected Console wto = null;
 	private FPacVarCacheManager fpacVarCacheManager = null;
 	protected FPacVarSectionDeclaration declare = null;
-	private boolean bLastDone = false;
+	private boolean islastDone = false;
 	
 	FPacVarCacheManager getFPacVarCacheManager()
 	{
@@ -65,7 +63,7 @@ public abstract class FPacProgram extends BaseProgram
 	
 	private void run()
 	{	
-		bLastDone = false;
+		islastDone = false;
 		int nCurrent = FIRST;
 		int nNext = 0;
 		while(nCurrent != END)
@@ -90,9 +88,9 @@ public abstract class FPacProgram extends BaseProgram
 	
 	private int doOnceLast()
 	{
-		if(bLastDone == false)
+		if(islastDone == false)
 		{
-			bLastDone = true;
+			islastDone = true;
 			last();
 		}
 		return END;
@@ -375,8 +373,8 @@ public abstract class FPacProgram extends BaseProgram
 				int nLow = StringUtil.convertHexDigitAsInt(cs.charAt(n+1));
 				int nByteEbcdic = (nHigh * 16) + nLow;
 				int nAscii = AsciiEbcdicConverter.getAsAscii(nByteEbcdic);
-				char cAscii = (char)nAscii;
-				csOut.append(cAscii);
+				char ascii = (char)nAscii;
+				csOut.append(ascii);
 			}
 			return csOut.toString();
 		}

@@ -106,13 +106,13 @@ public class CEntityRenamer
 			rule = new CRenameRule(mask) ;
 		}
 		rule.init(param) ;
-		arrRules.add(rule) ;
+		rules.add(rule) ;
 	}
 	public String FindAndApplyRule(String name)
 	{
-		for (int i=0; i<arrRules.size(); i++)
+		for (int i = 0; i< rules.size(); i++)
 		{
-			CBaseRenameRule rule = arrRules.get(i) ;
+			CBaseRenameRule rule = rules.get(i) ;
 			String m = rule.getMask() ;
 			if (name.matches(m))
 			{
@@ -122,5 +122,5 @@ public class CEntityRenamer
 		}
 		return null ;
 	}
-	protected Vector<CBaseRenameRule> arrRules = new Vector<CBaseRenameRule>();
+	protected Vector<CBaseRenameRule> rules = new Vector<CBaseRenameRule>();
 }

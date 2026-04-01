@@ -22,9 +22,9 @@ public class MonoThreadedSortAddItem extends ThreadPoolRequest
 	private byte tbyData[] = null;
 	private int nTotalLength;
 	private int nNbRecordRead;
-	private boolean bVariableLength;
+	private boolean isvariableLength;
 	
-	MonoThreadedSortAddItem(BtreeFile btreeFile, byte tbyData[], int nTotalLength, int nNbRecordRead, boolean bVariableLength)
+	MonoThreadedSortAddItem(BtreeFile btreeFile, byte tbyData[], int nTotalLength, int nNbRecordRead, boolean isvariableLength)
 	{
 		super(false);
 		
@@ -36,11 +36,11 @@ public class MonoThreadedSortAddItem extends ThreadPoolRequest
 		}
 		nTotalLength = nTotalLength;
 		nNbRecordRead = nNbRecordRead;
-		bVariableLength = bVariableLength;
+		isvariableLength = isvariableLength;
 	}
 	
 	public void execute()
 	{
-		btreeFile.asyncAddItemToSort(tbyData, nTotalLength, nNbRecordRead, bVariableLength);
+		btreeFile.asyncAddItemToSort(tbyData, nTotalLength, nNbRecordRead, isvariableLength);
 	}
 }

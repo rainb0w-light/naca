@@ -18,8 +18,8 @@ public class CFPacParser extends CParser<CFPacScript>
 	{
 		CFPacScript p = new CFPacScript(0) ;
 		eRoot = p ;
-		boolean bParsed = p.Parse(lstTokens, commentContainer) ; 
-		return bParsed ;
+		boolean isparsed = p.Parse(lstTokens, commentContainer) ;
+		return isparsed;
 	}
 
 }

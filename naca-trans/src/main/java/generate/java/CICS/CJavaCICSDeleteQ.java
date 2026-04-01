@@ -42,7 +42,7 @@ public class CJavaCICSDeleteQ extends CEntityCICSDeleteQ
 	protected void DoExport()
 	{
 		String title = "CESM.delete" ; 
-		if (bPersistent)
+		if (ispersistent)
 		{
 			title += "TransiantQueue(" ;
 		}

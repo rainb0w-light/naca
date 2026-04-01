@@ -29,8 +29,8 @@ public class FileKeyExporter
 		if(csExportKeyFileOut != null)
 		{
 			dataFileKeyOut = new DataFileWrite(csExportKeyFileOut, false);
-			boolean bOutKeyOpened = dataFileKeyOut.open();
-			if(!bOutKeyOpened)
+			boolean isoutKeyOpened = dataFileKeyOut.open();
+			if(!isoutKeyOpened)
 			{
 				dataFileKeyOut = null;
 				Log.logImportant("Cannot create output key file " + csExportKeyFileOut);
@@ -52,8 +52,8 @@ public class FileKeyExporter
 	{		
 		int nNbRecordRead = 0;
 		DataFileLineReader dataFileIn = new DataFileLineReader(csFileIn, nBufferChunkReadAHead, 0);
-		boolean bInOpened = dataFileIn.open();
-		if(bInOpened)
+		boolean isinOpened = dataFileIn.open();
+		if(isinOpened)
 		{
 			// doesn't manage variable length files 
 			boolean b = true;

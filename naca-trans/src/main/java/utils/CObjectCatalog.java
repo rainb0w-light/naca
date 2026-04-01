@@ -65,7 +65,7 @@ public class CObjectCatalog
 	protected CGlobalCatalog global = null ;
 	public COriginalLisiting listing = null ;
 	protected CEntityResourceFormContainer formContainer = null ;
-	protected boolean bUseCICSPreprocessor = false ;
+	protected boolean isuseCICSPreprocessor = false ;
 	private NotificationEngine engine;
 	
 	public CObjectCatalog(
@@ -98,16 +98,16 @@ public class CObjectCatalog
 		Transcoder.clearCurrentObjectCatalog();
 		if (mapset != null)
 		{
-			if (arrMaps.isEmpty())
+			if (maps.isEmpty())
 			{
-				arrMaps.addAll(mapset.programCatalog.arrMaps) ;
-				arrSymbolicFields.addAll(mapset.programCatalog.arrSymbolicFields) ;
+				maps.addAll(mapset.programCatalog.maps) ;
+				symbolicFields.addAll(mapset.programCatalog.symbolicFields) ;
 				tabFields.putAll(mapset.programCatalog.tabFields) ;
 			}
-			if (arrSaveMaps.isEmpty())
+			if (saveMaps.isEmpty())
 			{
-				arrSaveMaps.addAll(mapset.programCatalog.arrSaveMaps) ;
-				arrSaveFields.addAll(mapset.programCatalog.arrSaveFields) ;
+				saveMaps.addAll(mapset.programCatalog.saveMaps) ;
+				saveFields.addAll(mapset.programCatalog.saveFields) ;
 				tabSaveFields.putAll(mapset.programCatalog.tabSaveFields) ;
 				tabSaveMaps.putAll(mapset.programCatalog.tabSaveMaps) ;
 			}
@@ -121,7 +121,7 @@ public class CObjectCatalog
 		CEntityExternalDataStructure ext = global.GetExternalDataStructure(id) ;
 		if (ext == null)
 		{
-			bMissingIncludeStructure = true ;
+			ismissingIncludeStructure = true ;
 			return null ;
 		}
 		String csName = ext.GetName() ;
@@ -157,8 +157,8 @@ public class CObjectCatalog
 	// PJD: Management of save maps
 	public void clearSaveMaps()
 	{
-		arrSaveMaps.clear();
-		arrSaveFields.clear();
+		saveMaps.clear();
+		saveFields.clear();
 		tabSaveMaps.clear();
 		tabSaveFields.clear();
 	}
@@ -173,8 +173,8 @@ public class CObjectCatalog
 			Tag t = CRulesManager.getInstance().getRule("ReduceMaps") ;
 			if (t != null)
 			{
-				boolean bReduce = t.getValAsBoolean("active") ;
-				if (bReduce)
+				boolean isreduce = t.getValAsBoolean("active") ;
+				if (isreduce)
 				{ // no export of sav copy
 					return ;
 				}
@@ -222,9 +222,9 @@ public class CObjectCatalog
 			item = cat.conflictSolver.tabConflicts.get(name) ;
 			while (item != null)
 			{
-				for (int i=0; i<item.arrEntities.size(); i++)
+				for (int i = 0; i<item.entities.size(); i++)
 				{
-					de = item.arrEntities.get(i) ;
+					de = item.entities.get(i) ;
 					de.of = dep ;
 					conflictSolver.AddConflictedEntity(name, de) ;
 				}
@@ -385,9 +385,9 @@ public class CObjectCatalog
 		{
 			tabProcedures.put(name, eCont) ;
 		}
-		if (!arrProcedures.contains(eCont))
+		if (!procedures.contains(eCont))
 		{
-			arrProcedures.add(eCont) ;
+			procedures.add(eCont) ;
 		}
 	}
 	public CEntityProcedure GetProcedure(String name, String section)
@@ -402,23 +402,23 @@ public class CObjectCatalog
 	}
 	public void GetProcedureFromThru(String from, String to, Vector<String> arr)
 	{
-		boolean bOk = false ;
-		for (int i=0; i<arrProcedures.size();i++)
+		boolean isok = false ;
+		for (int i = 0; i< procedures.size(); i++)
 		{
-			CEntityProcedure proc = arrProcedures.get(i);
+			CEntityProcedure proc = procedures.get(i);
 			String cs = proc.GetName() ; 
-			if (bOk)
+			if (isok)
 			{
 				arr.addElement(cs) ;
 				if (cs.equals(to))
 				{
-					bOk = false ;
+					isok = false ;
 					return ;
 				}
 			}
 			else if (cs.equals(from))
 			{
-				bOk = true ;
+				isok = true ;
 				arr.addElement(cs);
 			}
 		}
@@ -467,18 +467,18 @@ public class CObjectCatalog
 	}
 	protected Hashtable<String, CEntityClass> tabContainers = new Hashtable<String, CEntityClass>() ; 
 	protected Hashtable<String, CEntityProcedure> tabProcedures = new Hashtable<String, CEntityProcedure>() ; 
-	protected Vector<CEntityProcedure> arrProcedures = new Vector<CEntityProcedure>() ; 
+	protected Vector<CEntityProcedure> procedures = new Vector<CEntityProcedure>() ;
 	protected Hashtable<String, CDataEntity> tabDataEntities = new Hashtable<String, CDataEntity>() ; 
 	protected Hashtable<String, CEntitySQLCursor> tabSQLCursors = new Hashtable<String, CEntitySQLCursor>() ; 
 	protected Hashtable<String, CEntitySQLDeclareTable> tabSQLTables = new Hashtable<String, CEntitySQLDeclareTable>() ; 
-	protected Vector<CEntitySQLCursor> arrSQLCursors = new Vector<CEntitySQLCursor>() ; 
+	protected Vector<CEntitySQLCursor> sQLCursors = new Vector<CEntitySQLCursor>() ;
 	protected CNameConflictSolver conflictSolver = new CNameConflictSolver() ;
 
 	public void RegisterSQLCursor(CEntitySQLCursor cur)
 	{
 		addImportDeclaration("SQL") ;
 		tabSQLCursors.put(cur.GetName(), cur) ;
-		arrSQLCursors.add(cur) ;
+		sQLCursors.add(cur) ;
 	}
 	public void RegisterSQLCursor(String alias, CEntitySQLCursor cur)
 	{
@@ -486,7 +486,7 @@ public class CObjectCatalog
 	}
 	public Vector GetSQLCursorList()
 	{
-		return arrSQLCursors ;
+		return sQLCursors;
 	}
 	public CEntitySQLCursor GetSQLCursor(String csCursorName)
 	{
@@ -539,16 +539,16 @@ public class CObjectCatalog
 
 
 	// algorythmic analysis : attributes
-	protected Vector<CEntityAttribute> arrAttributes = new Vector<CEntityAttribute>() ;
+	protected Vector<CEntityAttribute> attributes = new Vector<CEntityAttribute>() ;
 	public void RegisterAttribute(CEntityAttribute att)
 	{
-		arrAttributes.add(att) ;
+		attributes.add(att) ;
 	}
 	public CEntityAttribute GetAttribute(int i)
 	{
-		if (i<arrAttributes.size())
+		if (i< attributes.size())
 		{
-			return arrAttributes.get(i);
+			return attributes.get(i);
 		}
 		else
 		{
@@ -557,19 +557,19 @@ public class CObjectCatalog
 	}
 	public int GetNbAttributes()
 	{
-		return arrAttributes.size();
+		return attributes.size();
 	}
 	
 	// algorythmic analysis : maps
 	protected Hashtable<String, CEntityResourceField> tabFields = new Hashtable<String, CEntityResourceField>() ;
-	protected Vector<CEntityResourceField> arrSymbolicFields = new Vector<CEntityResourceField>() ;
-	protected Vector<CEntityResourceField> arrSaveFields = new Vector<CEntityResourceField>() ;
+	protected Vector<CEntityResourceField> symbolicFields = new Vector<CEntityResourceField>() ;
+	protected Vector<CEntityResourceField> saveFields = new Vector<CEntityResourceField>() ;
 	protected Hashtable<CEntityResourceField, CEntityResourceField> tabSaveFields = new Hashtable<CEntityResourceField, CEntityResourceField>() ;
 	private Hashtable<CEntityResourceForm, CEntityResourceForm> tabSaveMaps = new Hashtable<CEntityResourceForm, CEntityResourceForm>() ;
-	protected Vector<CEntityResourceForm> arrMaps = new Vector<CEntityResourceForm>() ;
-	protected Vector<CEntityResourceForm> arrSaveMaps = new Vector<CEntityResourceForm>() ;
-	protected Vector<CBaseActionEntity> arrMapCopy = new Vector<CBaseActionEntity>() ;
-	protected Vector<CBaseActionEntity> arrMapSend = new Vector<CBaseActionEntity>() ;
+	protected Vector<CEntityResourceForm> maps = new Vector<CEntityResourceForm>() ;
+	protected Vector<CEntityResourceForm> saveMaps = new Vector<CEntityResourceForm>() ;
+	protected Vector<CBaseActionEntity> mapCopy = new Vector<CBaseActionEntity>() ;
+	protected Vector<CBaseActionEntity> mapSend = new Vector<CBaseActionEntity>() ;
 	protected Hashtable<String, CEntityFieldRedefine> tabFieldRedefine = new Hashtable<String, CEntityFieldRedefine>() ;
 	public void RegisterFieldRedefine(CEntityFieldRedefine f)
 	{
@@ -579,7 +579,7 @@ public class CObjectCatalog
 	{
 		if (f != null)
 		{
-			arrSymbolicFields.add(f) ;
+			symbolicFields.add(f) ;
 			tabFields.put(f.GetName(), f) ;
 		}
 	}
@@ -589,7 +589,7 @@ public class CObjectCatalog
 	}
 	public void RegisterSaveField(CEntityResourceField sav, CEntityResourceField f)
 	{
-		arrSaveFields.add(sav) ;
+		saveFields.add(sav) ;
 		tabFields.put(sav.GetName(), sav) ;
 		if (f != null)
 		{
@@ -598,54 +598,54 @@ public class CObjectCatalog
 	}
 	public void RegisterMap(CEntityResourceForm f)
 	{
-		arrMaps.add(f) ;
+		maps.add(f) ;
 	}
 	
 	public void ClearSavCopy()
 	{
-		arrSaveMaps.clear();
+		saveMaps.clear();
 		tabSaveMaps.clear();
 	}	
 	
 	public void RegisterSaveMap(CEntityResourceForm f, CEntityResourceForm associated)
 	{
-		arrSaveMaps.add(f) ;
+		saveMaps.add(f) ;
 		tabSaveMaps.put(f, associated);
 	}
 	public void RegisterMapCopy(CBaseActionEntity act)
 	{
-		arrMapCopy.add(act);		
+		mapCopy.add(act);
 	}
 	public void RegisterMapSend(CBaseActionEntity act)
 	{
-		arrMapSend.add(act);		
+		mapSend.add(act);
 	}
 
 	public int GetNbMapCopy()
 	{
-		return arrMapCopy.size() ;
+		return mapCopy.size() ;
 	}
 	public CBaseActionEntity getMapCopy(int i)
 	{
-		return arrMapCopy.get(i) ;
+		return mapCopy.get(i) ;
 	}
 	public int GetNbMapSend()
 	{
-		return arrMapSend.size() ;
+		return mapSend.size() ;
 	}
 	public CBaseActionEntity getMapSend(int i)
 	{
-		return arrMapSend.get(i) ;
+		return mapSend.get(i) ;
 	}
 	public int GetNbSymbolicFields()
 	{
-		return arrSymbolicFields.size();
+		return symbolicFields.size();
 	}
 	public CEntityResourceField GetSymbolicField(int i)
 	{
-		if (i<arrSymbolicFields.size())
+		if (i< symbolicFields.size())
 		{
-			return arrSymbolicFields.get(i);
+			return symbolicFields.get(i);
 		}
 		else
 		{
@@ -654,13 +654,13 @@ public class CObjectCatalog
 	}
 	public int GetNbSaveFields()
 	{
-		return arrSaveFields.size();
+		return saveFields.size();
 	}
 	public CEntityResourceField GetSaveField(int i)
 	{
-		if (i<arrSaveFields.size())
+		if (i< saveFields.size())
 		{
-			return arrSaveFields.get(i);
+			return saveFields.get(i);
 		}
 		else
 		{
@@ -674,17 +674,17 @@ public class CObjectCatalog
 
 	public int GetNbSaveMap()
 	{
-		return arrSaveMaps.size();
+		return saveMaps.size();
 	}
 	public int GetNbMap()
 	{
-		return arrMaps.size();
+		return maps.size();
 	}
 	public CEntityResourceForm GetSaveMap(int i)
 	{
-		if (i<arrSaveMaps.size())
+		if (i< saveMaps.size())
 		{
-			return arrSaveMaps.get(i);
+			return saveMaps.get(i);
 		}
 		else
 		{
@@ -693,9 +693,9 @@ public class CObjectCatalog
 	}
 	public CEntityResourceForm GetMap(int i)
 	{
-		if (i<arrMaps.size())
+		if (i< maps.size())
 		{
-			return arrMaps.get(i);
+			return maps.get(i);
 		}
 		else
 		{
@@ -709,22 +709,22 @@ public class CObjectCatalog
 
 	public void Clear()
 	{
-		arrAttributes.clear() ;
-		arrCICSLink.clear() ;
-		arrCallProgram.clear() ;
-		arrImportDeclarations = new Vector<String>() ;
-		arrInitializedStructure.clear();
-		arrMapCopy.clear();
-		arrMaps.clear() ;
-		arrMapSend.clear() ;
-		arrProcedures.clear() ;
-		arrPerformThrough.clear() ;
-		arrSaveFields.clear();
-		arrSaveMaps.clear() ;
-		arrSections.clear() ;
-		arrSQLCursors.clear() ;
-		arrSymbolicFields.clear() ;
-		arrTransID.clear() ;
+		attributes.clear() ;
+		cICSLink.clear() ;
+		callProgram.clear() ;
+		importDeclarations = new Vector<String>() ;
+		initializedStructure.clear();
+		mapCopy.clear();
+		maps.clear() ;
+		mapSend.clear() ;
+		procedures.clear() ;
+		performThrough.clear() ;
+		saveFields.clear();
+		saveMaps.clear() ;
+		sections.clear() ;
+		sQLCursors.clear() ;
+		symbolicFields.clear() ;
+		transID.clear() ;
 		listing.Clear() ;
 		tabContainers.clear() ;
 		tabDataEntities.clear() ;
@@ -746,20 +746,20 @@ public class CObjectCatalog
 		return global.GetProgramForTransaction(transID);
 	}
 
-	protected Vector<CDataEntity> arrTransID = new Vector<CDataEntity>();
+	protected Vector<CDataEntity> transID = new Vector<CDataEntity>();
 	public void RegisterVariableTransID(CDataEntity TID)
 	{
-		arrTransID.add(TID) ;
+		transID.add(TID) ;
 	}
 	public int GetNbVariableTransID()
 	{
-		return arrTransID.size() ;
+		return transID.size() ;
 	}
 	public CDataEntity GetVariableTransID(int i)
 	{
-		if (i < arrTransID.size())
+		if (i < transID.size())
 		{
-			return arrTransID.get(i) ;
+			return transID.get(i) ;
 		}
 		else
 		{
@@ -782,71 +782,71 @@ public class CObjectCatalog
 	}
 	protected Hashtable<String, CEntityRoutineEmulation> tabRoutineEmulation = new Hashtable<String, CEntityRoutineEmulation>() ;
 
-	protected Vector<String> arrImportDeclarations = new Vector<String>() ;
+	protected Vector<String> importDeclarations = new Vector<String>() ;
 	public void addImportDeclaration(String cs)
 	{
-		if (!arrImportDeclarations.contains(cs))
+		if (!importDeclarations.contains(cs))
 		{
-			arrImportDeclarations.addElement(cs);
+			importDeclarations.addElement(cs);
 		}
 	}
 	public int getNbImportDeclaration()
 	{
-		return arrImportDeclarations.size() ;
+		return importDeclarations.size() ;
 	}
 	public String getImportDeclaration(int i)
 	{
-		return arrImportDeclarations.get(i) ;
+		return importDeclarations.get(i) ;
 	}
 	
 	public void setMissingIncludeStructure()
 	{
-		bMissingIncludeStructure = true ;
+		ismissingIncludeStructure = true ;
 	}
-	protected boolean bMissingIncludeStructure = false ;
+	protected boolean ismissingIncludeStructure = false ;
 	public boolean isMissingIncludeStructure()
 	{
-		return bMissingIncludeStructure ;
+		return ismissingIncludeStructure;
 	}
 	
 	public void registerSQLWarningContinue(String csArg)
 	{
-		sQLWarning = SQLWarningErrorType.WarningContinue;
+		qLWarning = SQLWarningErrorType.WarningContinue;
 		csSQLWarningArg = csArg;		
 	}
 
 	public void registerSQLWarningGoto(String csArg)
 	{
-		sQLWarning = SQLWarningErrorType.WarningGoto;
+		qLWarning = SQLWarningErrorType.WarningGoto;
 		csSQLWarningArg = csArg;		
 	}
 	
 	public void RegisterSQLErrorContinue(String csArg)
 	{
-		sQLError = SQLWarningErrorType.ErrorContinue;
+		qLError = SQLWarningErrorType.ErrorContinue;
 		csSQLErrorArg = csArg;		
 	}
 
 	public void registerSQLErrorGoto(String csArg)
 	{
-		sQLError = SQLWarningErrorType.ErrorGoto;
+		qLError = SQLWarningErrorType.ErrorGoto;
 		csSQLErrorArg = csArg;		
 	}
 	
 	public String getSQLWarningErrorStatement()
 	{
 		String cs = "" ;
-		if(sQLWarning != null)
-			cs += SQLWarningErrorType.getSQLWarningErrorStatement(sQLWarning, csSQLWarningArg);
-		if (sQLError != null)
-			cs += SQLWarningErrorType.getSQLWarningErrorStatement(sQLError, csSQLErrorArg);
+		if(qLWarning != null)
+			cs += SQLWarningErrorType.getSQLWarningErrorStatement(qLWarning, csSQLWarningArg);
+		if (qLError != null)
+			cs += SQLWarningErrorType.getSQLWarningErrorStatement(qLError, csSQLErrorArg);
 		if (cs.equals(""))
 			return null ;
 		return cs;
 	}
 	
-	protected SQLWarningErrorType sQLError = null;
-	protected SQLWarningErrorType sQLWarning = null;
+	protected SQLWarningErrorType qLError = null;
+	protected SQLWarningErrorType qLWarning = null;
 	protected String csSQLErrorArg = null;
 	protected String csSQLWarningArg = null;
 	/**
@@ -890,37 +890,37 @@ public class CObjectCatalog
 	 */
 	public int getNbCICSLink()
 	{
-		return arrCICSLink.size() ;
+		return cICSLink.size() ;
 	}
 	public int getNbCallProgram()
 	{
-		return arrCallProgram.size() ;
+		return callProgram.size() ;
 	}
-	protected Vector<CEntityCICSLink> arrCICSLink = new Vector<CEntityCICSLink>() ;
-	protected Vector<CEntityCallProgram> arrCallProgram = new Vector<CEntityCallProgram>() ;
+	protected Vector<CEntityCICSLink> cICSLink = new Vector<CEntityCICSLink>() ;
+	protected Vector<CEntityCallProgram> callProgram = new Vector<CEntityCallProgram>() ;
 	public CEntityCICSLink getCICSLink(int n)
 	{
-		if (n<arrCICSLink.size())
+		if (n< cICSLink.size())
 		{
-			return arrCICSLink.get(n);
+			return cICSLink.get(n);
 		}
 		return null ;
 	}
 	public CEntityCallProgram getCallProgram(int n)
 	{
-		if (n<arrCallProgram.size())
+		if (n< callProgram.size())
 		{
-			return arrCallProgram.get(n);
+			return callProgram.get(n);
 		}
 		return null ;
 	}
 	public void RegisterCICSLink(CEntityCICSLink l)
 	{
-		arrCICSLink.add(l);
+		cICSLink.add(l);
 	}
 	public void RegisterCallProgram(CEntityCallProgram l)
 	{
-		arrCallProgram.add(l);
+		callProgram.add(l);
 	}
 
 	/**
@@ -991,18 +991,18 @@ public class CObjectCatalog
 	 */
 	public void RegisterPerformThrough(CEntityCallFunction e)
 	{
-		arrPerformThrough.add(e) ;	
+		performThrough.add(e) ;
 	}
-	protected Vector<CEntityCallFunction> arrPerformThrough = new Vector<CEntityCallFunction>();
+	protected Vector<CEntityCallFunction> performThrough = new Vector<CEntityCallFunction>();
 	public int getNbPerformThrough()
 	{
-		return arrPerformThrough.size() ;
+		return performThrough.size() ;
 	}
 	public CEntityCallFunction getPerformThrough(int i)
 	{
-		if (i<arrPerformThrough.size())
+		if (i< performThrough.size())
 		{
-			return arrPerformThrough.get(i) ;
+			return performThrough.get(i) ;
 		}
 		else
 		{
@@ -1015,16 +1015,16 @@ public class CObjectCatalog
 	 */
 	public void RegisterInitializedStructure(CEntityAttribute e)
 	{
-		arrInitializedStructure.add(e) ;
+		initializedStructure.add(e) ;
 	}
-	protected Vector<CEntityAttribute> arrInitializedStructure = new Vector<CEntityAttribute>() ;
+	protected Vector<CEntityAttribute> initializedStructure = new Vector<CEntityAttribute>() ;
 	public int getNbInitializedStructure()
 	{
-		return arrInitializedStructure.size() ;
+		return initializedStructure.size() ;
 	}
 	public CEntityAttribute getInitializedStructure(int i)
 	{
-		return arrInitializedStructure.get(i) ;
+		return initializedStructure.get(i) ;
 	}
 
 	/**
@@ -1032,18 +1032,18 @@ public class CObjectCatalog
 	 */
 	public int getNbSections()
 	{
-		return arrSections.size() ;
+		return sections.size() ;
 	}
-	protected Vector<CEntityProcedureSection> arrSections = new Vector<CEntityProcedureSection>() ;
+	protected Vector<CEntityProcedureSection> sections = new Vector<CEntityProcedureSection>() ;
 	public void RegisterProcedureSection(CEntityProcedureSection sec)
 	{
-		arrSections.add(sec) ;
+		sections.add(sec) ;
 	}
 	public CEntityProcedureSection getProcedureSection(int n)
 	{
-		if (n>=0 && n<arrSections.size())
+		if (n>=0 && n< sections.size())
 		{
-			return arrSections.get(n) ;
+			return sections.get(n) ;
 		}
 		return null ;
 	}

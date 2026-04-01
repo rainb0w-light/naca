@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 18 août 2004
+ * Created on 18 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -31,7 +31,7 @@ public class CJavaString extends CEntityString
 	public String ExportReference(int nLine)
 	{
 		String cs = "" ;
-		boolean bSpecialCharacters = false ;
+		boolean isspecialCharacters = false ;
 		for (int i=0; i<carrValue.length;i++)
 		{
 			char b = carrValue[i] ;
@@ -45,14 +45,14 @@ public class CJavaString extends CEntityString
 			}
 			else if (b>255)
 			{
-				bSpecialCharacters = true ;
+				isspecialCharacters = true ;
 				int n = (256 + b);
 				String t = Integer.toHexString(n) ;
 				cs += "\\u"+t ;
 			}
 			else if (b>127)
 			{
-				bSpecialCharacters = true ;
+				isspecialCharacters = true ;
 				int n = b;
 				String t = Integer.toHexString(n) ;
 				cs += "\\u00"+t ;
@@ -76,20 +76,20 @@ public class CJavaString extends CEntityString
 			}
 			else if (b>=16)
 			{
-				bSpecialCharacters = true ;
+				isspecialCharacters = true ;
 				int n = b;
 				String t = Integer.toHexString(n) ;
 				cs += "\\u00"+t ;
 			}
 			else if (b>=0)
 			{
-				bSpecialCharacters = true ;
+				isspecialCharacters = true ;
 				int n = b;
 				String t = Integer.toHexString(n) ;
 				cs += "\\u000"+t ;
 			}
 		}
-		if (bSpecialCharacters)
+		if (isspecialCharacters)
 		{
 //			CGlobalEntityCounter.GetInstance().Count
 		}

@@ -29,7 +29,7 @@ public class DbConnectionManagerContext
 	private int nNbMaxConnections = 0;
 	private int nTimeBeforeRemoveConnection_ms = 0;
 	private int nMaxStatementLiveTime_ms = 0;
-	private boolean bCreated = false;	
+	private boolean iscreated = false;
 	
 	private DbConnectionManagerBase dbConnectionManager = null;
 	
@@ -59,9 +59,9 @@ public class DbConnectionManagerContext
 		cs = pl.getProperty(csPropertyPrefix + "MaxStatementLiveTime_ms", "600000");	// 10 minutes by defaut
 		nMaxStatementLiveTime_ms = NumberParser.getAsInt(cs);
 		
-		bCreated = doCreateConnection(csPropertyPrefix);
+		iscreated = doCreateConnection(csPropertyPrefix);
 
-		return bCreated;
+		return iscreated;
 	}
 	
 	public boolean create(String csDBProvider, String csUrl, String csUser, String csPassword, String csEnvironment)
@@ -77,8 +77,8 @@ public class DbConnectionManagerContext
 		nTimeBeforeRemoveConnection_ms = 10 * 60 * 1000; // 10 minutes
 		nMaxStatementLiveTime_ms = 10 * 60 * 1000; 	// 10 minutes too
 		
-		bCreated = doCreateConnection("");
-		return bCreated;
+		iscreated = doCreateConnection("");
+		return iscreated;
 	}
 
 	private boolean doCreateConnection(String csPropertyPrefix)
@@ -88,20 +88,20 @@ public class DbConnectionManagerContext
 		dbConnectionManager.setPropertyPrefix(csPropertyPrefix);
 		try
 		{
-			bCreated = dbConnectionManager.create(csDBUser, csDBPassword, csDBUrl, csDBProvider, nNbMaxConnections, nTimeBeforeRemoveConnection_ms, nMaxStatementLiveTime_ms);
-			if(bCreated)
+			iscreated = dbConnectionManager.create(csDBUser, csDBPassword, csDBUrl, csDBProvider, nNbMaxConnections, nTimeBeforeRemoveConnection_ms, nMaxStatementLiveTime_ms);
+			if(iscreated)
 				dbConnectionManager.setEnvironment(csEnvironment);
-			return bCreated;
+			return iscreated;
 		}
 		catch (TechnicalException e) {
 			throw e;
 		}
 		catch (RuntimeException e)
 		{
-			bCreated = false;
+			iscreated = false;
 			TechnicalException.throwException(TechnicalException.DB_ERROR_CONNECTION_CREATION, "Could not create DB connection", e);
 		}
-		return bCreated;
+		return iscreated;
 	}
 	
 	public boolean isOracle()
@@ -130,7 +130,7 @@ public class DbConnectionManagerContext
 	
 	public boolean isCreated()
 	{
-		return bCreated;
+		return iscreated;
 	}
 	
 	/**

@@ -13,17 +13,17 @@ import java.util.Vector;
 public class HostFileOuputStream extends OutputStream
 {
 	protected OutputStream stream = null ;
-	protected boolean bHeaderVariable = false;
+	protected boolean isheaderVariable = false;
 	protected int nCurrentRecordLength = 0;
 	protected int nCurrentRecordWritten = 0;
-	protected Vector<Integer> arrRecordHeader = new Vector<Integer>();
+	protected Vector<Integer> recordHeader = new Vector<Integer>();
 	private byte[] tbyHeader = new byte[4];
 	
 	public HostFileOuputStream(OutputStream stream, String csFormat, boolean bHeaderEbcdic)
 	{
 		stream = stream ;
 		if (csFormat != null && csFormat.equals("VB")) {
-			bHeaderVariable = true;
+			isheaderVariable = true;
 		}
 		if (bHeaderEbcdic) {
 			try
@@ -42,17 +42,17 @@ public class HostFileOuputStream extends OutputStream
 	{
 		if  (nCurrentRecordLength == 0)
 		{
-			arrRecordHeader.add(arg0 >= 0 ? arg0 : 256 + arg0);
+			recordHeader.add(arg0 >= 0 ? arg0 : 256 + arg0);
 			
-			if (arrRecordHeader.size() >= 3)
+			if (recordHeader.size() >= 3)
 			{
-				int i1 = arrRecordHeader.get(1); 
-				int i2 = arrRecordHeader.get(2); 
+				int i1 = recordHeader.get(1);
+				int i2 = recordHeader.get(2);
 				nCurrentRecordLength = i1 * 256 + i2;
 				nCurrentRecordWritten = 0;
-				arrRecordHeader.clear();
+				recordHeader.clear();
 				
-				if (bHeaderVariable)
+				if (isheaderVariable)
 				{
 					LittleEndingSignBinaryBufferStorage.writeInt(tbyHeader, nCurrentRecordLength, 0);
 					stream.write(tbyHeader);

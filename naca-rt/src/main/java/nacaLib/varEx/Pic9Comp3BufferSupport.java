@@ -9,7 +9,6 @@ package nacaLib.varEx;
 import jlib.log.StackStraceSupport;
 import jlib.misc.BasePic9Comp3BufferSupport;
 import nacaLib.basePrgEnv.BaseProgramLoader;
-import nacaLib.batchOOApi.WriteBufferExt;
 import nacaLib.tempCache.TempCacheLocator;
 
 public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport 
@@ -321,23 +320,23 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
 	
 	static long keepRightMostDigits(VarDefBase varDef, long lOriginalValue, int nNbDigitsToKeep)
 	{
-		long lPower10 = ms_tModulo[nNbDigitsToKeep];
+		long power10 = ms_tModulo[nNbDigitsToKeep];
 		if(lOriginalValue < 0)
 		{
 			long lValue = -lOriginalValue;			
-			if(lValue > lPower10)	// 1234 > 1000, when we want to keep only 3 digits for n, then returning only 234
+			if(lValue > power10)	// 1234 > 1000, when we want to keep only 3 digits for n, then returning only 234
 			{				
-				long lLeftDigits = (lValue / lPower10) * lPower10;
-				lValue = lValue - lLeftDigits;
+				long leftDigits = (lValue / power10) * power10;
+				lValue = lValue - leftDigits;
 				mailLogNumberTruncationError(varDef, lOriginalValue, lValue);
 				return -lValue;
 			}
 			return lOriginalValue;
 		}
-		if(lOriginalValue >= lPower10)	// 1234 >= 1000, when we want to keep only 3 digits for n, then returning only 234
+		if(lOriginalValue >= power10)	// 1234 >= 1000, when we want to keep only 3 digits for n, then returning only 234
 		{
-			long lLeftDigits = (lOriginalValue / lPower10) * lPower10;
-			long lValue = lOriginalValue - lLeftDigits;
+			long leftDigits = (lOriginalValue / power10) * power10;
+			long lValue = lOriginalValue - leftDigits;
 			mailLogNumberTruncationError(varDef, lOriginalValue, lValue);
 			return lValue;
 		}
@@ -396,8 +395,8 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
 		nValue *= 10;
 		nValue += ms_tDecodeLastByteDigitComp3[nEncodedByte];
 
-		boolean bNegative = ms_tDecodeLastByteNegativeComp3[nEncodedByte];
-		if(bNegative)
+		boolean isnegative = ms_tDecodeLastByteNegativeComp3[nEncodedByte];
+		if(isnegative)
 			nValue = -nValue;
 		return nValue;
 	}
@@ -464,8 +463,8 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
 		lValue *= 10;
 		lValue += ms_tDecodeLastByteDigitComp3[nEncodedByte];
 
-		boolean bNegative = ms_tDecodeLastByteNegativeComp3[nEncodedByte];
-		if(bNegative)
+		boolean isnegative = ms_tDecodeLastByteNegativeComp3[nEncodedByte];
+		if(isnegative)
 			lValue = -lValue;
 		return lValue;
 	}
@@ -498,9 +497,9 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
 	// PJD: Not opptimized
 	public static String getAsSignedString(VarBufferPos buffer, int nNbDigitInteger, int nTotalSize)
 	{
-		boolean bEvenNumberOfDigits = false;
+		boolean isevenNumberOfDigits = false;
 		if((nNbDigitInteger % 2) == 0)
-			bEvenNumberOfDigits = true;
+			isevenNumberOfDigits = true;
 		
 		String csOut = new String();
 		char c;
@@ -528,7 +527,7 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
 					csOut += "+";
 			}
 		}
-		if(bEvenNumberOfDigits)
+		if(isevenNumberOfDigits)
 		{
 			// Remove leading 0 that was there as a placeholder due to the even number of digits + sign -> implies an odd number of nibbles; the leading compensated that odd number
 			csOut = csOut.substring(1);	//sOut = sOut.substring(1, nNbDigitInteger+1);			
@@ -542,36 +541,36 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
 		{
 			// Build a number form int and dec part, with correct alignment
 
-			long lUnsignedIntValue = decValue.getUnsignedLong();
-			lUnsignedIntValue = lUnsignedIntValue % ms_tModulo[nNbDigitInteger];	// Keep only rightmost digits of the int part
+			long unsignedIntValue = decValue.getUnsignedLong();
+			unsignedIntValue = unsignedIntValue % ms_tModulo[nNbDigitInteger];	// Keep only rightmost digits of the int part
 			
 			int nUnsignedDecValue = decValue.getLeftMostDigitOfDecPartAsInt(nNbDigitDecimal);
-			long lSignedValue = (lUnsignedIntValue * ms_tModulo[nNbDigitDecimal]) + nUnsignedDecValue; 
+			long signedValue = (unsignedIntValue * ms_tModulo[nNbDigitDecimal]) + nUnsignedDecValue;
 			
 			if(decValue.isNegative())
-				lSignedValue = -lSignedValue;
-			setFromRightToLeft(buffer, nNbDigitInteger+nNbDigitDecimal, nTotalSize, nOffset, bSigned, lSignedValue);
+				signedValue = -signedValue;
+			setFromRightToLeft(buffer, nNbDigitInteger+nNbDigitDecimal, nTotalSize, nOffset, bSigned, signedValue);
 		}
 		else
 		{
-			long lSignedIntValue = decValue.getSignedLong();
-			setFromRightToLeft(buffer, nNbDigitInteger, nTotalSize, nOffset, bSigned, lSignedIntValue);
+			long signedIntValue = decValue.getSignedLong();
+			setFromRightToLeft(buffer, nNbDigitInteger, nTotalSize, nOffset, bSigned, signedIntValue);
 		}
 	}
 	
 	static public Dec getAsDecSigned(VarBufferPos buffer, int nNbDigitInteger, int nNbDigitDecimal, int nTotalSize)
 	{
-		long lIntDec = getAsLong(buffer, nNbDigitInteger+nNbDigitDecimal, nTotalSize);
-		boolean bNegative = false; 
-		if(lIntDec < 0)
+		long intDec = getAsLong(buffer, nNbDigitInteger+nNbDigitDecimal, nTotalSize);
+		boolean isnegative = false;
+		if(intDec < 0)
 		{
-			bNegative = true;
-			lIntDec = -lIntDec;
+			isnegative = true;
+			intDec = -intDec;
 		}		
-		long lInt = lIntDec / ms_tModulo[nNbDigitDecimal];
+		long lInt = intDec / ms_tModulo[nNbDigitDecimal];
 		if(nNbDigitDecimal > 0)
 		{
-			long lDec = ms_tModulo[nNbDigitDecimal] + (lIntDec % ms_tModulo[nNbDigitDecimal]);
+			long lDec = ms_tModulo[nNbDigitDecimal] + (intDec % ms_tModulo[nNbDigitDecimal]);
 //			if(lDec != 0)
 //			{
 //				long lDecMaxValue = ms_tModulo[nNbDigitDecimal-1];
@@ -581,26 +580,26 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
 			String cs = String.valueOf(lDec);
 			String csRight = cs.substring(1); 
 			Dec dec = new Dec(lInt, csRight);
-			if(bNegative)
+			if(isnegative)
 				dec.setNegativeForced();
 			return dec;
 		}
 
 		Dec dec = new Dec(lInt, "0");
-		if(bNegative)
+		if(isnegative)
 			dec.setNegativeForced();
 		return dec;
 	}
 	
 	static public Dec getAsDecUnsigned(VarBufferPos buffer, int nNbDigitInteger, int nNbDigitDecimal, int nTotalSize)
 	{
-		long lIntDec = getAsLong(buffer, nNbDigitInteger+nNbDigitDecimal, nTotalSize);
-		if(lIntDec < 0)
-			lIntDec = -lIntDec;
-		long lInt = lIntDec / ms_tModulo[nNbDigitDecimal];
+		long intDec = getAsLong(buffer, nNbDigitInteger+nNbDigitDecimal, nTotalSize);
+		if(intDec < 0)
+			intDec = -intDec;
+		long lInt = intDec / ms_tModulo[nNbDigitDecimal];
 		if(nNbDigitDecimal > 0)
 		{
-			long lDec = ms_tModulo[nNbDigitDecimal] + (lIntDec % ms_tModulo[nNbDigitDecimal]);
+			long lDec = ms_tModulo[nNbDigitDecimal] + (intDec % ms_tModulo[nNbDigitDecimal]);
 			String cs = String.valueOf(lDec);
 			String csRight = cs.substring(1); 
 			Dec dec = new Dec(lInt, csRight);

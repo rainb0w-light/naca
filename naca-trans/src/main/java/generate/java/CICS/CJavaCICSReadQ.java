@@ -43,7 +43,7 @@ public class CJavaCICSReadQ extends CEntityCICSReadQ
 //		{
 //			title += "Next" ;
 //		}
-		if (bPesistant)
+		if (ispesistant)
 		{
 			title += "TransiantQueue(" ; 
 		}

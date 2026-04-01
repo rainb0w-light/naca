@@ -14,7 +14,6 @@ package nacaLib.varEx;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import jlib.log.Log;
 import jlib.misc.BaseDataFile;
@@ -978,8 +977,8 @@ public abstract class VarDefBuffer extends VarDefBase
 	
 	void shiftAbsolutePosition(VarBase var, int nShift, ArrayList<VarDefBase> arrVarShifted)
 	{		
-		boolean bThisInArray = isThisInArray(arrVarShifted);
-		if(!bThisInArray)
+		boolean isthisInArray = isThisInArray(arrVarShifted);
+		if(!isthisInArray)
 		{
 			arrVarShifted.add(this);
 			var.bufferPos.nAbsolutePosition += nShift;

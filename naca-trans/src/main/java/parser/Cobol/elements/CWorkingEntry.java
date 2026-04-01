@@ -112,15 +112,15 @@ public class CWorkingEntry extends CCobolElement
 	protected String format = ""  ;
 	protected final List<CIdentifier> occursIndexedBy = new ArrayList<CIdentifier>() ;
 	protected CTerminal blankWhenValue = null ;
-	protected boolean bFillAll = false ;
-	protected boolean bIsPointer = false ;
-	protected boolean bIsIndex = false;
-	protected boolean bJustifiedRight = false ;
-	protected boolean bBlankWhenZero = false ;
-	protected CWorkingSignType bSignSeparateType ;
-	protected Vector<CIdentifier> arrTableSortKey = null ;
-	protected boolean bTableSortedAscending = false ;
-	protected boolean bBinary = true ;
+	protected boolean isfillAll = false ;
+	protected boolean isisPointer = false ;
+	protected boolean isisIndex = false;
+	protected boolean isjustifiedRight = false ;
+	protected boolean isblankWhenZero = false ;
+	protected CWorkingSignType issignSeparateType;
+	protected Vector<CIdentifier> tableSortKey = null ;
+	protected boolean istableSortedAscending = false ;
+	protected boolean isbinary = true ;
 	
 
 	/* (non-Javadoc)
@@ -169,8 +169,8 @@ public class CWorkingEntry extends CCobolElement
 	
 	protected boolean ParsePicOptions()
 	{
-		boolean bDone = false ;
-		while (!bDone)
+		boolean isdone = false ;
+		while (!isdone)
 		{
 			CBaseToken tokPic = GetCurrentToken();
 			if (tokPic == null)
@@ -182,14 +182,14 @@ public class CWorkingEntry extends CCobolElement
 				GetNext() ; // consume DOT
 				return true ;
 			}
-			boolean bNext = false ;
+			boolean isnext = false ;
 			if (tokPic.GetKeyword()==CCobolKeywordList.REDEFINES)
 			{	// in case of redefine...
 				CBaseToken tokRedefine = GetNext() ; // consume REDEFINES, expecting an identifier
 				if (tokRedefine.GetType() == CTokenType.IDENTIFIER)
 				{
 					redefines = ReadIdentifier() ;
-					bNext = true ;
+					isnext = true ;
 				}
 				else
 				{
@@ -202,37 +202,37 @@ public class CWorkingEntry extends CCobolElement
 				boolean b = ParsePicItSelf() ;
 				if (b)
 				{
-					bNext = true ;
+					isnext = true ;
 				}
 			}
 			else if (tokPic.IsKeyword() && tokPic.GetKeyword()==CCobolKeywordList.COMP_4)
 			{
 				comp = "COMP4" ;
-				bNext = true ;
+				isnext = true ;
 				GetNext();
 			}
 			else if (tokPic.IsKeyword() && tokPic.GetKeyword()==CCobolKeywordList.COMP_3)
 			{
 				comp = "COMP3" ;
-				bNext = true ;
+				isnext = true ;
 				GetNext();
 			}
 			else if (tokPic.IsKeyword() && tokPic.GetKeyword()==CCobolKeywordList.COMP_2)
 			{
 				comp = "COMP2" ;
-				bNext = true ;
+				isnext = true ;
 				GetNext();
 			}
 			else if (tokPic.GetKeyword()==CCobolKeywordList.COMP || tokPic.GetKeyword()==CCobolKeywordList.COMP_5 || tokPic.GetKeyword()==CCobolKeywordList.COMPUTATIONAL)
 			{
 				comp = "COMP" ;
-				bNext = true ;
+				isnext = true ;
 				GetNext();
 			}
 			else if (tokPic.IsKeyword() && tokPic.GetKeyword()==CCobolKeywordList.SYNC)
 			{
 				sync = true ;
-				bNext = true ;
+				isnext = true ;
 				GetNext();
 			}
 			else if (tokPic.IsKeyword() && tokPic.GetKeyword()==CCobolKeywordList.SIGN)
@@ -243,8 +243,8 @@ public class CWorkingEntry extends CCobolElement
 					tok = GetNext();
 					if (tok.GetKeyword() == CCobolKeywordList.SEPARATE)
 					{
-						bSignSeparateType = CWorkingSignType.TRAILING ;
-						bNext = true ;
+						issignSeparateType = CWorkingSignType.TRAILING ;
+						isnext = true ;
 						GetNext();
 					}
 					else
@@ -257,8 +257,8 @@ public class CWorkingEntry extends CCobolElement
 					tok = GetNext();
 					if (tok.GetKeyword() == CCobolKeywordList.SEPARATE)
 					{
-						bSignSeparateType = CWorkingSignType.LEADING ;
-						bNext = true ;
+						issignSeparateType = CWorkingSignType.LEADING ;
+						isnext = true ;
 						GetNext();
 					}
 					else
@@ -281,8 +281,8 @@ public class CWorkingEntry extends CCobolElement
 				if (tok.GetConstant() == CCobolConstantList.ZERO || tok.GetConstant() == CCobolConstantList.ZEROS || tok.GetConstant() == CCobolConstantList.ZEROES)
 				{
 					tok = GetNext();
-					bBlankWhenZero = true ;
-					bNext = true ;
+					isblankWhenZero = true ;
+					isnext = true ;
 				}
 				else
 				{
@@ -291,9 +291,9 @@ public class CWorkingEntry extends CCobolElement
 			}
 			else if (tokPic.GetKeyword()==CCobolKeywordList.JUST || tokPic.GetKeyword()==CCobolKeywordList.JUSTIFIED)
 			{
-				bJustifiedRight = true ;
+				isjustifiedRight = true ;
 
-				bNext = true ;
+				isnext = true ;
 				CBaseToken tok = GetNext();
 				if (tok.GetKeyword() == CCobolKeywordList.RIGHT)
 				{
@@ -302,7 +302,7 @@ public class CWorkingEntry extends CCobolElement
 			}
 			else if (tokPic.IsKeyword() && tokPic.GetKeyword()==CCobolKeywordList.USAGE)
 			{
-				bNext = true ;
+				isnext = true ;
 				CBaseToken tok = GetNext();
 				if (tok.GetKeyword() == CCobolKeywordList.IS)
 				{
@@ -310,20 +310,20 @@ public class CWorkingEntry extends CCobolElement
 				}
 				if (tok.GetKeyword() == CCobolKeywordList.POINTER)
 				{
-					bIsPointer = true ;
+					isisPointer = true ;
 					tok = GetNext();
 				}
 				else if (tok.GetKeyword() == CCobolKeywordList.INDEX)
 				{
-					bIsIndex = true ;
+					isisIndex = true ;
 					tok = GetNext();
 				}
 			}
 			else if (tokPic.IsKeyword() && tokPic.GetKeyword()==CCobolKeywordList.BINARY)
 			{
 				GetNext() ;
-				bNext = true ;
-				bBinary = true ;
+				isnext = true ;
+				isbinary = true ;
 			}
 			else if (tokPic.IsKeyword() && tokPic.GetKeyword()==CCobolKeywordList.VALUE)
 			{
@@ -353,13 +353,13 @@ public class CWorkingEntry extends CCobolElement
 				{
 					GetNext();
 					value = ReadTerminal() ;
-					bFillAll = true ;
+					isfillAll = true ;
 				}
-				bNext = true ;
+				isnext = true ;
 			}
 			else if (tokPic.GetKeyword() == CCobolKeywordList.BLANK)
 			{
-				bNext = true ;
+				isnext = true ;
 				tokPic = GetNext();
 				if (tokPic.GetKeyword() == CCobolKeywordList.WHEN)
 				{
@@ -369,7 +369,7 @@ public class CWorkingEntry extends CCobolElement
 			}
 			else if (tokPic.GetKeyword() == CCobolKeywordList.IS)
 			{
-				bNext = false ;
+				isnext = false ;
 				if(GetNext().GetKeyword() == CCobolKeywordList.EXTERNAL)
 				{
 					Transcoder.logWarn(getLine(), "External variable not supported");
@@ -378,7 +378,7 @@ public class CWorkingEntry extends CCobolElement
 			}
 			else if (tokPic.IsKeyword() && tokPic.GetKeyword()==CCobolKeywordList.OCCURS)
 			{
-				bNext = true ;
+				isnext = true ;
 				CBaseToken tokOccurs = GetNext() ;
 				if (tokOccurs.GetType() == CTokenType.NUMBER)
 				{
@@ -405,8 +405,8 @@ public class CWorkingEntry extends CCobolElement
 							return false ;
 						}
 					}
-					boolean bDone2 = false ;
-					while (!bDone2)
+					boolean isdone2 = false ;
+					while (!isdone2)
 					{
 						CBaseToken tokOpt = GetCurrentToken() ;
 						if (tokOpt.GetType() == CTokenType.COMMA)
@@ -443,11 +443,11 @@ public class CWorkingEntry extends CCobolElement
 						{
 							if (tokOpt.GetKeyword() == CCobolKeywordList.ASCENDING)
 							{
-								bTableSortedAscending = true ;
+								istableSortedAscending = true ;
 							}
 							else
 							{
-								bTableSortedAscending = false ;
+								istableSortedAscending = false ;
 							}
 							tokOpt = GetNext() ;
 							if (tokOpt.GetKeyword() == CCobolKeywordList.KEY)
@@ -458,18 +458,18 @@ public class CWorkingEntry extends CCobolElement
 							{
 								tokOpt = GetNext();
 							}
-							arrTableSortKey = new Vector<CIdentifier>() ;							
+							tableSortKey = new Vector<CIdentifier>() ;
 							CIdentifier tableSortKey ;
 							tableSortKey = ReadIdentifier() ;
 							while (tableSortKey != null)
 							{
-								arrTableSortKey.add(tableSortKey) ;
+								this.tableSortKey.add(tableSortKey) ;
 								tableSortKey = ReadIdentifier() ;
 							}
 						}
 						else
 						{
-							bDone2 = true ;
+							isdone2 = true ;
 						}
 					}
 				}
@@ -479,9 +479,9 @@ public class CWorkingEntry extends CCobolElement
 					return false ;
 				}
 			}
-			if (!bNext)
+			if (!isnext)
 			{
-				bDone = true ;
+				isdone = true ;
 			}
 		}
 		return true ;
@@ -490,8 +490,8 @@ public class CWorkingEntry extends CCobolElement
 	protected String ReadPicType()
 	{
 		String cs = "" ;
-		boolean bDone = false ;
-		while (!bDone)
+		boolean isdone = false ;
+		while (!isdone)
 		{
 			CBaseToken tok = GetCurrentToken();
 			if (tok.GetType() == CTokenType.NUMBER || tok.GetType() == CTokenType.IDENTIFIER)
@@ -525,7 +525,7 @@ public class CWorkingEntry extends CCobolElement
 			else if (tok.GetType() == CTokenType.DOT)
 			{ // depending on following token
 				CBaseToken tokNext = GetNext() ;
-				if (tokNext == null || tokNext.bIsNewLine)
+				if (tokNext == null || tokNext.isisNewLine)
 				{
 					return cs ;
 				}
@@ -537,28 +537,28 @@ public class CWorkingEntry extends CCobolElement
 			}
 			else if (tok.GetType() == CTokenType.KEYWORD)
 			{
-				bDone = true ;
+				isdone = true ;
 			}
 			else
 			{
 				Transcoder.logError(getLine(), "Unexpecting token in PIC type : " + tok.GetValue());
 				return "" ; 
 			}
-			if (!bDone)
+			if (!isdone)
 			{
 				GetNext() ;
 			}		
 		}
 		return cs ;
 	}
-	protected boolean bEdited = false ;
+	protected boolean isedited = false ;
 	protected boolean ParsePicItSelf()
 	{
 		CBaseToken tokType = GetNext() ; // consume PIC token, expecting S9 / 9 / X / XX ...
 		String csPicType = ReadPicType() ;
 		byte[] tab = csPicType.getBytes() ;
 		int nCurrentChar = 0 ;
-		char cRepeatPattern = 0 ;
+		char repeatPattern = 0 ;
 		
 		while (nCurrentChar<tab.length)
 		{
@@ -583,35 +583,35 @@ public class CWorkingEntry extends CCobolElement
 				{
 					type = CWorkingPicType.NUMBER;
 					length = 1 ;
-					cRepeatPattern = '9' ;
+					repeatPattern = '9' ;
 				}
 				else if (c == 'Z')
 				{
 					type = CWorkingPicType.NUMBER ;
 					length = 1 ;
-					bEdited = true ;
-					cRepeatPattern = 'Z' ;
+					isedited = true ;
+					repeatPattern = 'Z' ;
 				}
 				else if (c == 'B')
 				{
 					type = CWorkingPicType.NUMBER ;
 					length = 1 ;
-					bEdited = true ;
-					cRepeatPattern = 'B' ;
+					isedited = true ;
+					repeatPattern = 'B' ;
 				}
 				else if (c == '+')
 				{
 					type = CWorkingPicType.NUMBER ;
 					length = 0 ;
-					bEdited = true ;
-					cRepeatPattern = '+' ;
+					isedited = true ;
+					repeatPattern = '+' ;
 				}
 				else if (c == '-')
 				{
 					type = CWorkingPicType.NUMBER ;
 					length = 1 ;
-					bEdited = true ;
-					cRepeatPattern = '-' ;
+					isedited = true ;
+					repeatPattern = '-' ;
 				}
 				else if (c == '$')
 				{
@@ -635,40 +635,40 @@ public class CWorkingEntry extends CCobolElement
 				{
 					length ++ ;
 					format += c ;
-					cRepeatPattern = '9' ;
+					repeatPattern = '9' ;
 				}
 				else if (c == 'B') // ????
 				{
 					length ++ ;
 					format += c ;
-					bEdited = true ;
-					cRepeatPattern = 'B' ;
+					isedited = true ;
+					repeatPattern = 'B' ;
 				}
 				else if (c == 'Z' && type == CWorkingPicType.EDITED)
 				{
 					length ++ ;
 					format += c ;
-					bEdited = true ;
-					cRepeatPattern = 'Z' ;
+					isedited = true ;
+					repeatPattern = 'Z' ;
 				}
 				else if (c == 'Z' && type == CWorkingPicType.NUMBER)
 				{
 					length ++ ;
 					format += c ;
-					bEdited = true ;
-					cRepeatPattern = 'Z' ;
+					isedited = true ;
+					repeatPattern = 'Z' ;
 				}
 				else if (c == '-' && (type == CWorkingPicType.NUMBER || type == CWorkingPicType.DECIMAL))
 				{
 					length ++ ;
 					format += c ;
-					bEdited = true ;
+					isedited = true ;
 				}
 				else if (c == '+' && type == CWorkingPicType.NUMBER)
 				{
 					length ++ ;
 					format += c ;
-					bEdited = true ;
+					isedited = true ;
 				}
 				else if (c == 'V' && type == CWorkingPicType.NUMBER)
 				{
@@ -684,11 +684,11 @@ public class CWorkingEntry extends CCobolElement
 				{
 					decimal ++ ;
 					format += c ;
-					cRepeatPattern = '9' ;
+					repeatPattern = '9' ;
 				}
 				else if (c == '.' || c == ',' || c == '$')
 				{
-					bEdited = true ;
+					isedited = true ;
 					format += c ;
 				}
 				else if (c == '(')
@@ -719,10 +719,10 @@ public class CWorkingEntry extends CCobolElement
 						length *= n ;
 						completc = 'X' ;
 					}
-					else if (type == CWorkingPicType.NUMBER  && bEdited)
+					else if (type == CWorkingPicType.NUMBER  && isedited)
 					{
 						length *= n ;
-						completc = cRepeatPattern ;
+						completc = repeatPattern;
 					}
 					else if (type == CWorkingPicType.NUMBER || type == CWorkingPicType.SIGNED)
 					{
@@ -789,8 +789,8 @@ public class CWorkingEntry extends CCobolElement
 	
 	protected boolean ParseContent()
 	{
-		boolean bDone = false ;
-		while (!bDone)
+		boolean isdone = false ;
+		while (!isdone)
 		{
 			CBaseToken tokEntry = GetCurrentToken();
 			if (tokEntry == null)
@@ -820,12 +820,12 @@ public class CWorkingEntry extends CCobolElement
 				}
 				else
 				{
-					bDone = true ; // this entry is a sub-entry of one of our parents
+					isdone = true ; // this entry is a sub-entry of one of our parents
 				}
 			}
 			else
 			{
-				bDone = true ;	// this token is not parsed by this function, go back to caller
+				isdone = true ;	// this token is not parsed by this function, go back to caller
 			}
 		}
 		return true ;
@@ -976,9 +976,9 @@ public class CWorkingEntry extends CCobolElement
 			factory.programCatalog.RegisterAttribute(eAtt) ;
 		}
 		
-		eAtt.SetSignSeparateType(bSignSeparateType) ;
-		eAtt.SetJustifiedRight(bJustifiedRight) ;
-		eAtt.SetBlankWhenZero(bBlankWhenZero) ;
+		eAtt.SetSignSeparateType(issignSeparateType) ;
+		eAtt.SetJustifiedRight(isjustifiedRight) ;
+		eAtt.SetBlankWhenZero(isblankWhenZero) ;
 		SetType(eAtt) ;
 		eAtt.SetSync(sync) ;
 		if (parent!=null)
@@ -1016,7 +1016,7 @@ public class CWorkingEntry extends CCobolElement
 				CDataEntity eInitial = value.GetDataEntity(getLine(), factory);
 				if (eInitial != null)
 				{
-					if (bFillAll)
+					if (isfillAll)
 					{
 						eAtt.SetInitialValueAll(eInitial) ;
 					}
@@ -1043,7 +1043,7 @@ public class CWorkingEntry extends CCobolElement
 	 */
 	private void SetType(ITypableEntity eAtt)
 	{
-		if (bEdited)
+		if (isedited)
 		{
 			eAtt.SetTypeEdited(format) ;
 		}
@@ -1067,23 +1067,23 @@ public class CWorkingEntry extends CCobolElement
 
 	protected CBaseLanguageEntity DoSemanticAnalysisForMapRedefine(CEntityResourceForm eForm, CBaseEntityFactory factory)
 	{
-		boolean bSaveMap = eForm.IsSaveCopy() ;
-		CEntityResourceForm.CFieldRedefineStructure lstFields  ;
+		boolean issaveMap = eForm.IsSaveCopy() ;
+		CEntityResourceForm.CFieldRedefineStructure listfields;
 		CEntityResourceForm map = factory.programCatalog.GetAssociatedMap(eForm) ;
-		if (bSaveMap)
+		if (issaveMap)
 		{
-			lstFields = map.GetRedefineStructure() ;
+			listfields = map.GetRedefineStructure() ;
 		}
 		else
 		{
-			lstFields = eForm.GetRedefineStructure() ;
+			listfields = eForm.GetRedefineStructure() ;
 		}
 		CEntityValueReference ref = factory.NewEntityValueReference(eForm) ;
 		eForm.RegisterReadReference(ref) ;
-		CEntityFormRedefine eRedef = factory.NewEntityFormRedefine(getLine(), name, ref, bSaveMap);
+		CEntityFormRedefine eRedef = factory.NewEntityFormRedefine(getLine(), name, ref, issaveMap);
 		eForm.StartFieldAnalyse();
-		DoSemanticAnalysisForMapRedefineForChildren(eForm, factory, eRedef, bSaveMap, lstFields);
-		if (bSaveMap)
+		DoSemanticAnalysisForMapRedefineForChildren(eForm, factory, eRedef, issaveMap, listfields);
+		if (issaveMap)
 		{
 			factory.programCatalog.RegisterSaveMap(eRedef, map) ;
 		}
@@ -1544,8 +1544,8 @@ public class CWorkingEntry extends CCobolElement
 //				CBaseTranscoder.ms_logger.info("INFO : Data field typed as "+le.type.text+":"+le.format+", line" + le.getLine()) ;
 			}
 			le.SetType(eField) ;
-			eField.SetRightJustified(le.bJustifiedRight) ;
-			eField.SetBlankWhenZero(le.bBlankWhenZero) ;
+			eField.SetRightJustified(le.isjustifiedRight) ;
+			eField.SetBlankWhenZero(le.isblankWhenZero) ;
 //			return eForm.ConsumeFieldsAsBytes(length);
 		}
 		return true ;
@@ -1603,7 +1603,7 @@ public class CWorkingEntry extends CCobolElement
 			{
 				n = length ;
 			}
-			else if (type == CWorkingPicType.EDITED || bEdited)
+			else if (type == CWorkingPicType.EDITED || isedited)
 			{
 				n = format.length() ;
 			}

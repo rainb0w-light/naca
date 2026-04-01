@@ -59,8 +59,8 @@ public class SQLRecordSetVarFiller
 			SQLRecordSetVarFillerItem arr[] = new SQLRecordSetVarFillerItem[nSize];
 			arrItem.transferInto(arr);
 			
-			ArrayFix<SQLRecordSetVarFillerItem> arrFix = new ArrayFix<SQLRecordSetVarFillerItem>(arr);
-			arrItem = arrFix;	// replace by a fix one (uning less memory)
+			ArrayFix<SQLRecordSetVarFillerItem> fix = new ArrayFix<SQLRecordSetVarFillerItem>(arr);
+			arrItem = fix;	// replace by a fix one (uning less memory)
 		}
 	}
 	

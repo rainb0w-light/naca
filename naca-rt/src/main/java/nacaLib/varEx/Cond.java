@@ -26,7 +26,7 @@ public class Cond extends CJMapObject
 	public Cond(Var varParent, DeclareTypeCond declareTypeCond)
 	{
 		this.var = varParent;
-		arrValues = declareTypeCond.arrValues;
+		values = declareTypeCond.values;
 	}
 	
 	public String getSTCheckValue()
@@ -37,15 +37,15 @@ public class Cond extends CJMapObject
 	private Cond(Var varParent, Cond condValue)
 	{
 		this.var = varParent;
-		arrValues = condValue.arrValues;
+		values = condValue.values;
 	}
 
 	public void setTrue()
 	{
-		int nNbValues = arrValues.size();
+		int nNbValues = values.size();
 		if(nNbValues > 0)
 		{
-			CondValue condValue = (CondValue)arrValues.get(0);
+			CondValue condValue = (CondValue) values.get(0);
 			String s = condValue.getMin();
 			if(s != null)
 				var.set(s);
@@ -53,10 +53,10 @@ public class Cond extends CJMapObject
 	}
 	public boolean is()
 	{
-		int nNbValues = arrValues.size();
+		int nNbValues = values.size();
 		for(int n=0; n<nNbValues; n++)
 		{			
-			CondValue condValue = (CondValue)arrValues.get(n);
+			CondValue condValue = (CondValue) values.get(n);
 			if(condValue.is(var))
 				return true;
 		}
@@ -102,11 +102,11 @@ public class Cond extends CJMapObject
 	public String toString()
 	{
 		String cs = "Cond {";
-		for(int n=0; n<arrValues.size(); n++)
+		for(int n = 0; n< values.size(); n++)
 		{
 			if(n != 0)
 				cs += "; ";
-			CondValue condValue = (CondValue)arrValues.get(n);
+			CondValue condValue = (CondValue) values.get(n);
 			cs += condValue.toString();
 		}
 		cs += "}";
@@ -116,5 +116,5 @@ public class Cond extends CJMapObject
 	@SuppressWarnings("unused")
 	private String csName = null;
 	private Var var = null;
-	private ArrayList<CondValue> arrValues = null;	// Array of CondValue
+	private ArrayList<CondValue> values = null;	// Array of CondValue
 }

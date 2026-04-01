@@ -26,7 +26,7 @@ public abstract class CEntityIsNamedCondition extends CUnitaryEntityCondition
 	{
 		reference = cond ;
 	} 
-	protected boolean bOpposite = false ;
+	protected boolean isopposite = false ;
 	public boolean ignore()
 	{
 		return reference.ignore();

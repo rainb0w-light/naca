@@ -133,8 +133,8 @@ public abstract class CFPacElement extends CLanguageElement
 	{
 		CBaseToken tok = GetCurrentToken() ;
 		CFPacGenericExpression exp = new CFPacGenericExpression(tok.getLine()) ;
-		boolean bOk = true ;
-		while (bOk)
+		boolean isok = true ;
+		while (isok)
 		{
 			tok = GetCurrentToken() ;
 			if  (tok.GetKeyword() == CFPacKeywordList.P)
@@ -311,7 +311,7 @@ public abstract class CFPacElement extends CLanguageElement
 			}
 			else
 			{
-				bOk = false ;
+				isok = false ;
 			}
 		}
 		

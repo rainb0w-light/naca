@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /*
- * Created on 16 déc. 04
+ * Created on 16 dï¿½c. 04
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -37,7 +37,7 @@ public class Unstring
 	public Unstring delimitedBy(String csDelimiter)
 	{
 		UnstringDelimiter Delimiter = new UnstringDelimiter(csDelimiter, false);
-		unstringManager.arrDelimiters.add(Delimiter);
+		unstringManager.delimiters.add(Delimiter);
 		return this;		
 	}
 	
@@ -49,7 +49,7 @@ public class Unstring
 	public Unstring delimitedByAll(String csDelimiter)
 	{
 		UnstringDelimiter Delimiter = new UnstringDelimiter(csDelimiter, true);
-		unstringManager.arrDelimiters.add(Delimiter);
+		unstringManager.delimiters.add(Delimiter);
 		return this;		
 	}
 	

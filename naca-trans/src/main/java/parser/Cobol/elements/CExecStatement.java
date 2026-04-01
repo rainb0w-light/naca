@@ -51,8 +51,8 @@ public class CExecStatement extends CCobolElement
 			tokNext = GetNext();
 		}
 		CGlobalEntityCounter.GetInstance().CountCobolVerb(tokNext.GetKeyword().name) ;
-		boolean bDone = false ;
-		while (!bDone)
+		boolean isdone = false ;
+		while (!isdone)
 		{
 			tokNext = GetCurrentToken() ;
 			if (tokNext.GetType()==CTokenType.KEYWORD && tokNext.GetKeyword()==CCobolKeywordList.EXEC)
@@ -68,7 +68,7 @@ public class CExecStatement extends CCobolElement
 			else if (tokNext.GetType()==CTokenType.KEYWORD && tokNext.GetKeyword()==CCobolKeywordList.END_EXEC)
 			{
 				GetNext();
-				bDone = true ;
+				isdone = true ;
 			}
 			else
 			{

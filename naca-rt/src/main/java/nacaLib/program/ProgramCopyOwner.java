@@ -84,12 +84,12 @@ public class ProgramCopyOwner extends BaseCloseMBean
 		Log.logNormal("unloadCopy; Begin to unload all programs using copy "+csCopyName);
 		if(hashPrograms != null)
 		{
-			Collection<String> colProgramNames = hashPrograms.values();
-			Object arrPrograms[] = colProgramNames.toArray();
-			int nNbPrograms = arrPrograms.length;
+			Collection<String> collectionprogramNames = hashPrograms.values();
+			Object programs[] = collectionprogramNames.toArray();
+			int nNbPrograms = programs.length;
 			for(int n=nNbPrograms-1; n>=0; n--)
 			{
-				String csProgramName = (String)arrPrograms[n]; 
+				String csProgramName = (String) programs[n];
 				BaseResourceManager.unloadProgram(csProgramName);
 			}
 //			if(m_hashPrograms.size() == 0)

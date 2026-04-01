@@ -67,9 +67,9 @@ public class CSort extends CCobolElement
 			Transcoder.logError(getLine(), "File descriptor not found : " + tempSortFile.GetName());
 		}
 		
-		for (int i=0; i<arrKeys.size(); i++)
+		for (int i = 0; i< keys.size(); i++)
 		{
-			CSortKey key = arrKeys.get(i) ;
+			CSortKey key = keys.get(i) ;
 			CDataEntity eKey = key.id.GetDataReference(getLine(), factory) ;
 			eSort.AddKey(key.bAscending, eKey) ;
 		}
@@ -110,9 +110,9 @@ public class CSort extends CCobolElement
 		tempSortFile = ReadIdentifier() ;
 		
 		tok = GetCurrentToken() ;
-		boolean bAscending = true ;
-		boolean bDone = false ;
-		while (!bDone)
+		boolean isascending = true ;
+		boolean isdone = false ;
+		while (!isdone)
 		{
 			if (tok.GetKeyword() == CCobolKeywordList.ON)
 			{
@@ -120,11 +120,11 @@ public class CSort extends CCobolElement
 			}
 			if (tok.GetKeyword() == CCobolKeywordList.ASCENDING)
 			{
-				bAscending = true ;
+				isascending = true ;
 			}
 			else if (tok.GetKeyword() == CCobolKeywordList.DESCENDING)
 			{
-				bAscending = false ;
+				isascending = false ;
 			} 
 			else
 			{
@@ -142,8 +142,8 @@ public class CSort extends CCobolElement
 				CIdentifier id = ReadIdentifier();
 				CSortKey k = new CSortKey() ;
 				k.id = id ;
-				k.bAscending = bAscending ;
-				arrKeys.add(k);
+				k.bAscending = isascending;
+				keys.add(k);
 				
 				tok = GetCurrentToken() ;
 				if (tok.GetType() == CTokenType.COMMA)
@@ -154,7 +154,7 @@ public class CSort extends CCobolElement
 			
 			if (tok.GetKeyword() != CCobolKeywordList.ON && tok.GetKeyword() != CCobolKeywordList.ASCENDING && tok.GetKeyword() != CCobolKeywordList.DESCENDING)
 			{
-				bDone = true ;
+				isdone = true ;
 			} 
 		}
 		
@@ -221,9 +221,9 @@ public class CSort extends CCobolElement
 		tempSortFile.ExportTo(eFile, root);
 		eSort.appendChild(eFile);
 		
-		for (int i =0; i<arrKeys.size(); i++)
+		for (int i = 0; i< keys.size(); i++)
 		{
-			CSortKey k = arrKeys.get(i);
+			CSortKey k = keys.get(i);
 			Element eK = root.createElement("Key");
 			if (k.bAscending)
 			{
@@ -267,7 +267,7 @@ public class CSort extends CCobolElement
 
 	protected CIdentifier tempSortFile = null ;
 //	protected boolean bAscending = false ;
-	protected Vector<CSortKey> arrKeys = new Vector<CSortKey>() ; 
+	protected Vector<CSortKey> keys = new Vector<CSortKey>() ;
 	protected CIdentifier inputFile = null ;
 	protected CIdentifier outputFile = null ;
 	protected CIdentifier inputProcedure = null ;

@@ -42,12 +42,12 @@ public abstract class CEntityStringConcat extends CBaseActionEntity
 			var.RegisterWritingAction(this) ;
 			return true ;
 		}
-		if (arrItems.contains(field))
+		if (items.contains(field))
 		{
 			int pos;
-			while ((pos = arrItems.indexOf(field)) != -1)
+			while ((pos = items.indexOf(field)) != -1)
 			{
-				arrItems.set(pos, var) ;
+				items.set(pos, var) ;
 				field.UnRegisterReadingAction(this) ;
 				var.RegisterReadingAction(this) ;
 			}	
@@ -65,15 +65,15 @@ public abstract class CEntityStringConcat extends CBaseActionEntity
 		super(line, cat, out);
 	}
 	
-	protected Vector<CDataEntity> arrItems = new Vector<CDataEntity>() ; 
-	protected Vector<CDataEntity> arrItemsDelimiters = new Vector<CDataEntity>() ; 
+	protected Vector<CDataEntity> items = new Vector<CDataEntity>() ;
+	protected Vector<CDataEntity> itemsDelimiters = new Vector<CDataEntity>() ;
 	protected CDataEntity eVariable = null ;
 	protected CDataEntity eStartIndex = null ;
 	public void Clear()
 	{
 		super.Clear() ;
-		arrItems.clear();
-		arrItemsDelimiters.clear() ;
+		items.clear();
+		itemsDelimiters.clear() ;
 		eStartIndex = null ;
 		eVariable = null;
 	}
@@ -88,13 +88,13 @@ public abstract class CEntityStringConcat extends CBaseActionEntity
 	}
 	public void AddItem(CDataEntity eItem, CDataEntity eUntil)
 	{
-		arrItems.add(eItem);
-		arrItemsDelimiters.add(eUntil);
+		items.add(eItem);
+		itemsDelimiters.add(eUntil);
 	}
 	public void AddItem(CDataEntity eItem)
 	{
-		arrItems.add(eItem);
-		arrItemsDelimiters.add(null);
+		items.add(eItem);
+		itemsDelimiters.add(null);
 	}
 	public boolean ignore()
 	{

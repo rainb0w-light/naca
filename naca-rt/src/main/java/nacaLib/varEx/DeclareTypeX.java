@@ -23,7 +23,7 @@ package nacaLib.varEx;
 public class DeclareTypeX extends DeclareTypeBase
 {		
 	private int nLength = 0;
-	private boolean bJustifyRight = false;
+	private boolean isjustifyRight = false;
 	private CInitialValue initialValue = null;
 	
 	public DeclareTypeX()
@@ -34,7 +34,7 @@ public class DeclareTypeX extends DeclareTypeBase
 	{
 		super.set(varLevel);
 		this.nLength = nLength;
-		this.bJustifyRight = false;
+		this.isjustifyRight = false;
 		this.initialValue = null;
 	}
 	
@@ -45,7 +45,7 @@ public class DeclareTypeX extends DeclareTypeBase
 	
 	boolean getJustifyRight()
 	{
-		return bJustifyRight;
+		return isjustifyRight;
 	}
 	
 	public VarAlphaNum var()
@@ -132,7 +132,7 @@ public class DeclareTypeX extends DeclareTypeBase
 	
 	public DeclareTypeX justifyRight()
 	{
-		bJustifyRight = true;
+		isjustifyRight = true;
 		return this ;
 	}
 }

@@ -86,7 +86,7 @@ public class CJavaFieldArray extends CEntityResourceFieldArray
 		Element eArray = doc.createElement("array");
 		eArray.setAttribute("nbCol", String.valueOf(nbColumns)) ;
 		eArray.setAttribute("nbItems", String.valueOf(nbItems)) ;
-		eArray.setAttribute("vert", String.valueOf(bVerticalFilling)) ;
+		eArray.setAttribute("vert", String.valueOf(isverticalFilling)) ;
 		eArray.setAttribute("line", String.valueOf(nPosLine)) ;
 		eArray.setAttribute("col", String.valueOf(nPosCol)) ;
 		

@@ -108,15 +108,15 @@ public class TranspilerService {
                               System.getProperty("java.home") + "/lib/jrt-fs.jar";
 
             // Run javac directly
-            ProcessBuilder pb = new ProcessBuilder(
+            ProcessBuilder progressBar = new ProcessBuilder(
                 "javac",
                 "-d", compileOutputPath,
                 "-classpath", classpath,
                 "-proc:none",
                 sourceFile.getAbsolutePath()
             );
-            pb.redirectErrorStream(true);
-            Process process = pb.start();
+            progressBar.redirectErrorStream(true);
+            Process process = progressBar.start();
 
             // Read output
             String output = new String(process.getInputStream().readAllBytes());

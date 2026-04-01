@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 3 août 2004
+ * Created on 3 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -49,7 +49,7 @@ public class CJavaExternalDataStructure extends CEntityExternalDataStructure
 	 */
 	protected void DoExport()
 	{
-		if (!bInline)
+		if (!isinline)
 		{
 			String name = csClassName.replace('-', '_') ;
 			name = CobolNameUtil.fixJavaName(name);

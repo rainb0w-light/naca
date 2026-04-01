@@ -56,16 +56,16 @@ public abstract class CEntityFileDescriptor extends CBaseLanguageEntity
 		return eAccessMode;
 	}
 
-	protected boolean bVariableFile = false ;
+	protected boolean isvariableFile = false ;
 	protected CDataEntity recSizeDependingOn = null ;
 	protected CDataEntity eOutputBufferInitialValue = null ;
 	public void setRecordSizeVariable(boolean variableFile)
 	{
-		bVariableFile = variableFile ; 
+		isvariableFile = variableFile ;
 	}
 	public void setRecordSizeVariable(CDataEntity depOn)
 	{
-		bVariableFile = true ; 
+		isvariableFile = true ;
 		recSizeDependingOn = depOn ;
 	}
 	public CDataEntity getRecordSizeDepending()
@@ -74,7 +74,7 @@ public abstract class CEntityFileDescriptor extends CBaseLanguageEntity
 	}
 	public boolean isRecordSizeVariable()
 	{
-		return bVariableFile ;
+		return isvariableFile;
 	}
 
 	/**

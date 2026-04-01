@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 5 août 2004
+ * Created on 5 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -86,9 +86,9 @@ public abstract class CEntityResourceForm extends CBaseResourceEntity
 			f.SetParent(this) ;
 			f.InitDependences(factory) ; 
 		}
-		for (int i=0; i<arrFormReferences.size();i++)
+		for (int i = 0; i< formReferences.size(); i++)
 		{
-			String cs = arrFormReferences.get(i);
+			String cs = formReferences.get(i);
 //			CEntityFormAccessor fa1 = factory.NewEntityFormAccessor(getLine(), cs+"I", this) ; 
 //			CEntityFormAccessor fa2 = factory.NewEntityFormAccessor(getLine(), cs+"O", this) ; 
 //			CEntityFormAccessor fa3 = factory.NewEntityFormAccessor(getLine(), cs, this) ; 
@@ -111,10 +111,10 @@ public abstract class CEntityResourceForm extends CBaseResourceEntity
 	}
 
 	protected Vector<CBaseResourceEntity> arrFields = new Vector<CBaseResourceEntity>() ;
-	protected ArrayList<String> arrFormReferences = new ArrayList<String>() ;
+	protected ArrayList<String> formReferences = new ArrayList<String>() ;
 	public void SetReferences(ArrayList<String> v)
 	{
-		arrFormReferences = v ;
+		formReferences = v ;
 	}	
 	public void SetSize(int col, int line)
 	{
@@ -162,8 +162,8 @@ public abstract class CEntityResourceForm extends CBaseResourceEntity
 		Tag t = CRulesManager.getInstance().getRule("ReduceMaps") ;
 		if (t != null)
 		{
-			boolean bReduce = t.getValAsBoolean("active") ;
-			if (bReduce)
+			boolean isreduce = t.getValAsBoolean("active") ;
+			if (isreduce)
 			{
 				if (term.GetDataType() == CDataEntityType.FORM && !IsSaveCopy())
 				{
@@ -212,7 +212,7 @@ public abstract class CEntityResourceForm extends CBaseResourceEntity
 			fs.csBrightness = f.csBrightness ;
 			fs.csFillValue = f.csFillValue ;
 			fs.csProtection = f.csProtection ;
-			fs.bRightJustified = f.bRightJustified ;
+			fs.isrightJustified = f.isrightJustified;
 			fs.resourceStrings = f.resourceStrings ;
 			if(bFromRes)
 				fs.setDevelopable(f.csDevelopableFlagMark);
@@ -401,7 +401,7 @@ public abstract class CEntityResourceForm extends CBaseResourceEntity
 				exp.col = field.nPosCol ;
 				exp.setLine(field.nPosLine);
 				exp.length = field.nLength ;
-				exp.bRightJustified = field.bRightJustified;
+				exp.isrightJustified = field.isrightJustified;
 				exp.csFillValue = field.csFillValue;
 				
 				exp.tag = e ;
@@ -421,20 +421,20 @@ public abstract class CEntityResourceForm extends CBaseResourceEntity
 			}
 		}
 		
-		if (arrAddedItems != null)
+		if (addedItems != null)
 		{
-			for (int i=0; i<arrAddedItems.size(); i++)
+			for (int i = 0; i< addedItems.size(); i++)
 			{
-				CEntityResourceFormContainer.FieldExportDescription exp = arrAddedItems.get(i) ;
+				CEntityResourceFormContainer.FieldExportDescription exp = addedItems.get(i) ;
 				exp.tag = (Element)doc.importNode(exp.tag, true) ;
 				setFields.add(exp) ;
 			}
 		}
-		if (arrLines != null)
+		if (lines != null)
 		{
-			for (int i=0; i<arrLines.size(); i++)
+			for (int i = 0; i< lines.size(); i++)
 			{
-				CEntityResourceFormContainer.FieldExportDescription exp = arrLines.get(i) ;
+				CEntityResourceFormContainer.FieldExportDescription exp = lines.get(i) ;
 				exp.tag = doc.createElement("line") ;
 				exp.tag.setAttribute("line", String.valueOf(exp.getLine())) ;
 				exp.tag.setAttribute("start", String.valueOf(exp.col)) ;
@@ -706,9 +706,9 @@ public abstract class CEntityResourceForm extends CBaseResourceEntity
 		{
 			return true ;
 		}
-		for (int i=0; i<arrFormReferences.size(); i++)
+		for (int i = 0; i< formReferences.size(); i++)
 		{
-			if (arrFormReferences.get(i).equals(id))
+			if (formReferences.get(i).equals(id))
 			{
 				return true ;
 			}
@@ -792,9 +792,9 @@ public abstract class CEntityResourceForm extends CBaseResourceEntity
 
 	public void AddItem(int c, int l, int s, Element tag)
 	{
-		if (arrAddedItems == null)
+		if (addedItems == null)
 		{
-			arrAddedItems = new Vector<CEntityResourceFormContainer.FieldExportDescription>() ;
+			addedItems = new Vector<CEntityResourceFormContainer.FieldExportDescription>() ;
 		}
 		CEntityResourceFormContainer.FieldExportDescription exp = new CEntityResourceFormContainer.FieldExportDescription() ;
 		exp.col = c ;
@@ -802,16 +802,16 @@ public abstract class CEntityResourceForm extends CBaseResourceEntity
 		exp.length = s ;
 		exp.tag = tag ;
 		exp.type = FieldExportType.TYPE_CUSTOM ;
-		arrAddedItems.add(exp) ;
+		addedItems.add(exp) ;
 	} 
-	protected Vector<CEntityResourceFormContainer.FieldExportDescription> arrAddedItems = null ;
-	protected Vector<CEntityResourceFormContainer.FieldExportDescription> arrLines = null ;
+	protected Vector<CEntityResourceFormContainer.FieldExportDescription> addedItems = null ;
+	protected Vector<CEntityResourceFormContainer.FieldExportDescription> lines = null ;
 
 	public void AddLine(int c, int l, int s)
 	{
-		if (arrLines == null)
+		if (lines == null)
 		{
-			arrLines = new Vector<CEntityResourceFormContainer.FieldExportDescription>() ;
+			lines = new Vector<CEntityResourceFormContainer.FieldExportDescription>() ;
 		}
 		CEntityResourceFormContainer.FieldExportDescription exp = new CEntityResourceFormContainer.FieldExportDescription() ;
 		exp.col = c ;
@@ -819,7 +819,7 @@ public abstract class CEntityResourceForm extends CBaseResourceEntity
 		exp.length = s ;
 		exp.tag = null ;
 		exp.type = FieldExportType.TYPE_LINE;
-		arrLines.add(exp) ;
+		lines.add(exp) ;
 	}
 
 	public void MoveField(String name, int nc, int nl)

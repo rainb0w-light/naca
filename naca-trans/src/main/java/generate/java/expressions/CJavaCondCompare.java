@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 18 août 2004
+ * Created on 18 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -13,7 +13,6 @@
 package generate.java.expressions;
 
 import semantic.expression.CBaseEntityCondition;
-import semantic.expression.CBaseEntityExpression;
 import semantic.expression.CEntityCondCompare;
 
 /**
@@ -31,8 +30,8 @@ public class CJavaCondCompare extends CEntityCondCompare
 	public CBaseEntityCondition GetOppositeCondition()
 	{
 		CJavaCondCompare newCond = new CJavaCondCompare();
-		newCond.bIsGreater = !bIsGreater ;
-		newCond.bIsOrEquals = !bIsOrEquals ;
+		newCond.isisGreater = !isisGreater;
+		newCond.isisOrEquals = !isisOrEquals;
 		newCond.op1 = op1 ;
 		newCond.op2 = op2 ;
 		return newCond;
@@ -52,19 +51,19 @@ public class CJavaCondCompare extends CEntityCondCompare
 //		{
 //			ebcdic = "" ;
 //		}
-		if (bIsGreater && bIsOrEquals)
+		if (isisGreater && isisOrEquals)
 		{
 			cs = "isGreaterOrEqual"+ebcdic+"(" ;
 		}
-		else if (bIsGreater && !bIsOrEquals)
+		else if (isisGreater && !isisOrEquals)
 		{
 			cs = "isGreater"+ebcdic+"(" ;
 		}
-		else if (!bIsGreater && bIsOrEquals)
+		else if (!isisGreater && isisOrEquals)
 		{
 			cs = "isLessOrEqual"+ebcdic+"("; 
 		}
-		else if (!bIsGreater && !bIsOrEquals)
+		else if (!isisGreater && !isisOrEquals)
 		{
 			cs = "isLess"+ebcdic+"(" ;
 		}

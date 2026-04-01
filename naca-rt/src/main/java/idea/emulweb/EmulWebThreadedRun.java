@@ -13,23 +13,23 @@ import idea.onlinePrgEnv.OnlineSession;
 
 public class EmulWebThreadedRun
 {
-	EmulWebThreadedRun(EmulWebRunner emulWebRunner, OnlineResourceManager resourceManager, int nbLoops, boolean bCheckScenario, boolean bOutputExport)
+	EmulWebThreadedRun(EmulWebRunner emulWebRunner, OnlineResourceManager resourceManager, int nbLoops, boolean ischeckScenario, boolean isoutputExport)
 	{
 		this.emulWebRunner = emulWebRunner;
 		this.resourceManager = resourceManager;
 		this.nbLoops = nbLoops;
-		this.bCheckScenario = bCheckScenario;
-		this.bOutputExport = bOutputExport;
+		this.ischeckScenario = ischeckScenario;
+		this.isoutputExport = isoutputExport;
 	}
 	
 	void run()
 	{	
 		OnlineSession session = new OnlineSession(false) ;
-		session.setCheckScenario(bCheckScenario);
+		session.setCheckScenario(ischeckScenario);
 		for (int i=0; i<nbLoops; i++)
 		{
 			StopWatch sw = new StopWatch();
-			EmulWebRunner.PlayScenario(session, resourceManager, bOutputExport) ;
+			EmulWebRunner.PlayScenario(session, resourceManager, isoutputExport) ;
 			Log.logCritical("Scneario loop executed in " + sw.getElapsedTimeReset() + " ms");
 			waitUntilNextLoopEnabled(i);
 			session.reset();
@@ -59,8 +59,8 @@ public class EmulWebThreadedRun
 	}
 	
 	int nbLoops = 0;
-	boolean bCheckScenario = false;
-	boolean bOutputExport = false;
+	boolean ischeckScenario = false;
+	boolean isoutputExport = false;
 	OnlineResourceManager resourceManager = null;
 	EmulWebRunner emulWebRunner = null;
 }

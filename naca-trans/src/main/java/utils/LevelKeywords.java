@@ -23,12 +23,12 @@ public class LevelKeywords
 {	
 	protected void resetManagedKeyword()
 	{
-		arrManagedKeywords = new ArrayList<CReservedKeyword>();
+		managedKeywords = new ArrayList<CReservedKeyword>();
 	}
 	
 	public void registerManagedKeyword(CReservedKeyword keyword)
 	{
-		arrManagedKeywords.add(keyword);
+		managedKeywords.add(keyword);
 	}
 	
 	public boolean isManaging(CBaseToken tok)
@@ -39,14 +39,14 @@ public class LevelKeywords
 		if(keyTok != null)
 		{
 			String csTokName = keyTok.name;
-			for(int n=0; n<arrManagedKeywords.size(); n++)
+			for(int n = 0; n< managedKeywords.size(); n++)
 			{
-				if(arrManagedKeywords.get(n).name.equalsIgnoreCase(csTokName))
+				if(managedKeywords.get(n).name.equalsIgnoreCase(csTokName))
 					return true;
 			}
 		}
 		return false;
 	}
 	
-	private ArrayList<CReservedKeyword> arrManagedKeywords = new ArrayList<CReservedKeyword>();
+	private ArrayList<CReservedKeyword> managedKeywords = new ArrayList<CReservedKeyword>();
 }

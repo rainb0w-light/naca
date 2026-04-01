@@ -140,7 +140,7 @@ public class DefaultFileManager extends BaseNotificationHandler
 		{
 			if (!entry.getValue())
 			{
-				notif.arrFiles.add(entry.getKey()) ;
+				notif.files.add(entry.getKey()) ;
 			}
 		}
 		return true ;
@@ -152,7 +152,7 @@ public class DefaultFileManager extends BaseNotificationHandler
 		{
 			if (!entry.getValue())
 			{
-				notif.arrFiles.add(entry.getKey()) ;
+				notif.files.add(entry.getKey()) ;
 			}
 		}
 		return true ;

@@ -16,8 +16,6 @@ import generate.*;
 
 import java.util.*;
 
-import org.apache.log4j.Logger;
-
 import semantic.expression.CBaseEntityCondition;
 import utils.*;
 
@@ -95,9 +93,9 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 		{
 			hier.AddLevel(name);
 		}
-		if (arrAliases != null)
+		if (aliases != null)
 		{
-			for (String alias : arrAliases)
+			for (String alias : aliases)
 			{
 				hier.AddLevel(alias) ;
 			}
@@ -107,13 +105,13 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 	
 	private void AddAlias(String alias)
 	{
-		if (arrAliases == null)
+		if (aliases == null)
 		{
-			arrAliases = new Vector<String>() ;
+			aliases = new Vector<String>() ;
 		}
-		arrAliases.add(alias) ;
+		aliases.add(alias) ;
 	}
-	protected Vector<String> arrAliases = null ;
+	protected Vector<String> aliases = null ;
 	protected void ApplyAliasPatternToChildren(String csPattern)
 	{
 		for (CBaseLanguageEntity le : lstChildren)
@@ -390,7 +388,7 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 	
 	public boolean ignore() 
 	{
-		return bIgnore ;
+		return isignore;
 	}
 	protected boolean isChildrenIgnored()
 	{
@@ -461,7 +459,7 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 //	}
 	public void SetIgnoreStructure()
 	{
-		bIgnore = true ;
+		isignore = true ;
 		ListIterator i = lstChildren.listIterator() ;
 		try
 		{
@@ -477,7 +475,7 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 			//System.out.println(e.toString());
 		}
 	}
-	protected boolean bIgnore = false ;
+	protected boolean isignore = false ;
 	/**
 	 * @param start
 	 * @param end

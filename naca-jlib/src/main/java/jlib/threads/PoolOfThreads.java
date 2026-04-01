@@ -13,19 +13,19 @@ public class PoolOfThreads
 {
 	public PoolOfThreads(BasePooledThreadFactory pooledThreadFactory, int nNbThreads, int nNbMaxRequestAsyncSortPending)
 	{
-		bTerminationRequested = false;
+		isterminationRequested = false;
 		
 		queueRequests = new FixedSizeBlockingQueue<ThreadPoolRequest>(nNbMaxRequestAsyncSortPending);
-		arrPooledThreads = new ArrayList<PooledThread>();
+		pooledThreads = new ArrayList<PooledThread>();
 		addThreadSize(nNbThreads, pooledThreadFactory);
 	}
 	
 	public void startAllThreads()
 	{
-		int nNbThreads = arrPooledThreads.size();
+		int nNbThreads = pooledThreads.size();
 		for(int n=0; n<nNbThreads; n++)
 		{
-			PooledThread thread = arrPooledThreads.get(n);
+			PooledThread thread = pooledThreads.get(n);
 			thread.start();
 		}
 	}
@@ -43,7 +43,7 @@ public class PoolOfThreads
 		for(int nThread=0; nThread<nNbThreadsToAdd; nThread++)	// Create all required CPooledThread *
 		{
 			PooledThread pooledThread = pooledThreadFactory.make(this);
-			arrPooledThreads.add(pooledThread);	// Add the pool in the vector
+			pooledThreads.add(pooledThread);	// Add the pool in the vector
 		}
 	}
 	
@@ -93,12 +93,12 @@ public class PoolOfThreads
 	
 	private void terminate()
 	{
-		if (!bTerminationRequested)
+		if (!isterminationRequested)
 		{
 			// Enqueue as much TerminaisonRequest requests as there are threads in the pool
-			bTerminationRequested = true ;
+			isterminationRequested = true ;
 	
-			int nNbThreads = arrPooledThreads.size();
+			int nNbThreads = pooledThreads.size();
 			for(int nThread=0; nThread<nNbThreads; nThread++)
 			{
 				ThreadPoolRequest request = new ThreadPoolRequestTerminaison();
@@ -135,8 +135,8 @@ public class PoolOfThreads
 		this.expThrownByPooledThread = expThrownByPooledThread;
 	}
 	
-	private boolean bTerminationRequested = false;
-	private ArrayList<PooledThread> arrPooledThreads = null;
+	private boolean isterminationRequested = false;
+	private ArrayList<PooledThread> pooledThreads = null;
 	private FixedSizeBlockingQueue<ThreadPoolRequest> queueRequests = null;
 	private CountDownLatch signalThreadsTerminated = null;
 	private Exception expThrownByPooledThread = null; // Exception thrown by a thread belonging to the pool

@@ -23,14 +23,14 @@ import java.util.ListIterator;
  */
 public class CTokenList
 {
-	LinkedList<CBaseToken> lstTokens = new LinkedList<CBaseToken>() ;
+	LinkedList<CBaseToken> listtokens = new LinkedList<CBaseToken>() ;
 	ListIterator iter = null ;
 	CBaseToken curToken = null ;
 
 	
 	public void Add(CBaseToken tok)
 	{
-		lstTokens.add(tok) ;
+		listtokens.add(tok) ;
 	}
 	
 	public CBaseToken GetCurrentToken()
@@ -42,7 +42,7 @@ public class CTokenList
 	{
 		try
 		{
-			iter = lstTokens.listIterator() ;
+			iter = listtokens.listIterator() ;
 			curToken = (CBaseToken)iter.next() ;
 		}
 		catch (Exception e)
@@ -57,7 +57,7 @@ public class CTokenList
 		{
 			if (iter == null)
 			{
-				iter = lstTokens.listIterator() ;
+				iter = listtokens.listIterator() ;
 			}
 			curToken = (CBaseToken)iter.next();
 			return curToken;
@@ -70,13 +70,13 @@ public class CTokenList
 	} 
 	public int GetNbTokens()
 	{
-		return lstTokens.size();
+		return listtokens.size();
 	}
 
 	public void Clear()
 	{
 		curToken = null ;
 		iter = null ;
-		lstTokens.clear() ;
+		listtokens.clear() ;
 	}
 }

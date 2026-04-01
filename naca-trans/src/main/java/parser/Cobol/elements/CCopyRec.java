@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 13 août 2004
+ * Created on 13 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -56,11 +56,11 @@ public class CCopyRec extends CCobolElement
 
 		String csRenamePattern = "" ;
 		int nReplaceLevel = 0 ;
-		if (arrOption.size()>0)
+		if (option.size()>0)
 		{
-			for (int i=0; i<arrOption.size(); i++)
+			for (int i = 0; i< option.size(); i++)
 			{
-				String cs1 = arrOption.get(i);
+				String cs1 = option.get(i);
 				int n1 = NumberParser.getAsInt(cs1) ;
 				if (n1 > 0)
 				{
@@ -144,7 +144,7 @@ public class CCopyRec extends CCobolElement
 			}
 			else if ((tok.GetType() == CTokenType.NUMBER || tok.GetType() == CTokenType.IDENTIFIER) && tok.getLine() == line)
 			{
-				arrOption.add(tok.GetValue());
+				option.add(tok.GetValue());
 				tok = GetNext() ;
 			}
 //			else if (tok.GetType() == CTokenType.COMMENT)
@@ -167,8 +167,8 @@ public class CCopyRec extends CCobolElement
 	
 	protected boolean ParseContent()
 	{
-		boolean bDone = false ;
-		while (!bDone)
+		boolean isdone = false ;
+		while (!isdone)
 		{
 			CBaseToken tokEntry = GetCurrentToken();
 			if (tokEntry.GetType()==CTokenType.NUMBER)
@@ -186,12 +186,12 @@ public class CCopyRec extends CCobolElement
 				}
 				else
 				{
-					bDone = true ; // this entry is a top-level entry
+					isdone = true ; // this entry is a top-level entry
 				}
 			}
 			else
 			{
-				bDone = true ;	// this token is not parsed by this function, go back to caller
+				isdone = true ;	// this token is not parsed by this function, go back to caller
 			}
 		}
 		return true ;
@@ -204,16 +204,16 @@ public class CCopyRec extends CCobolElement
 	{
 		Element eCopy = root.createElement("CopyRec");
 		eCopy.setAttribute("Reference", identifier) ;
-		for (int i=0; i<arrOption.size(); i++)
+		for (int i = 0; i< option.size(); i++)
 		{
 			String cs = "Option"+i ;
-			String val = arrOption.get(i);
+			String val = option.get(i);
 			eCopy.setAttribute(cs, val);		
 		}
 		return eCopy;
 	}
 	
 	protected String identifier = ""  ;
-	protected ArrayList<String> arrOption = new ArrayList<String>() ; 
+	protected ArrayList<String> option = new ArrayList<String>() ;
 
 }

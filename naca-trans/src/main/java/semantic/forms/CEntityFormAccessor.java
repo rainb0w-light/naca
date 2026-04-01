@@ -87,17 +87,17 @@ public abstract class CEntityFormAccessor extends CBaseDataReference
 		return false ;
 	}
 	
-	protected boolean bVirtual = false ;
+	protected boolean isvirtual = false ;
 	public void setVirtual()
 	{
-		bVirtual = true ;		
+		isvirtual = true ;
 	}
 	/* (non-Javadoc)
 	 * @see semantic.CBaseDataEntity#GetDataType()
 	 */
 	public CDataEntityType GetDataType()
 	{
-		if (bVirtual)
+		if (isvirtual)
 		{
 			return CDataEntityType.VIRTUAL_FORM ;
 		}

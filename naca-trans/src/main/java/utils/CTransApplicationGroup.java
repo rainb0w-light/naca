@@ -32,7 +32,7 @@ public class CTransApplicationGroup
 	
 	public String csName ;
 	public Hashtable<String, Tag> tabApplication = new Hashtable<String, Tag>() ;
-	public Vector<String> arrApplications = new Vector<String>() ;
+	public Vector<String> applications = new Vector<String>() ;
 	public EProgramType eType ;
 	public String csInputPath = "" ;
 	public String csOutputPath = "" ;

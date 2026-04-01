@@ -36,7 +36,7 @@ public class CAsynchronousTask extends CJMapObject implements Runnable
 	private String csProgramToRun = null ;
 	private int nDelaySeconds = 0 ;
 	private Thread thread = null ;
-	private boolean bInvalidate = false ;
+	private boolean isinvalidate = false ;
 	private CESMStartData startData = null ;
 
 	public CAsynchronousTask(String csProgramToRun, String csProgramParent, CESMStartData startData, int nDelaySeconds)
@@ -55,8 +55,8 @@ public class CAsynchronousTask extends CJMapObject implements Runnable
 	{
 		boolean bUseJmx = BaseResourceManager.getUsingJmx();
 		
-		long lThreadId = thread.getId();
-		String csThreadId = String.valueOf(lThreadId);
+		long threadId = thread.getId();
+		String csThreadId = String.valueOf(threadId);
 		String csThreadName = thread.getName();
 		
 		if(bUseJmx)
@@ -78,7 +78,7 @@ public class CAsynchronousTask extends CJMapObject implements Runnable
 			openState = BaseResourceManager.getAppOpenState();
 		}
 		
-		if (bInvalidate)
+		if (isinvalidate)
 		{
 			return ;
 		}
@@ -116,7 +116,7 @@ public class CAsynchronousTask extends CJMapObject implements Runnable
 	
 	public void Start()
 	{
-		if (!bInvalidate)
+		if (!isinvalidate)
 		{
 			thread.start();
 		}
@@ -142,7 +142,7 @@ public class CAsynchronousTask extends CJMapObject implements Runnable
 
 	public void Invalidate()
 	{
-		bInvalidate = true ;
+		isinvalidate = true ;
 		thread.interrupt() ;
 	}
 }

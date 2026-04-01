@@ -73,20 +73,20 @@ public class ProgramPoolManager //extends BaseOpenMBean
 	
 	public void unloadAllPrograms(boolean bDoGCAfterEachProgramUnload)
 	{
-		Collection<ProgramInstancesPool> colProgramInstancesPool = hashProgramInstancesPool.values();
-		if(colProgramInstancesPool != null)
+		Collection<ProgramInstancesPool> collectionprogramInstancesPool = hashProgramInstancesPool.values();
+		if(collectionprogramInstancesPool != null)
 		{
 			// Create another ProgramInstancesPool container, as m_hashProgramInstancesPool will be structurally modified in ProgramInstancesPool::unloadProgram() call
 			int nNbEntries = 0;
 			ArrayList<ProgramInstancesPool> arrProgramInstancesPool = new ArrayList<ProgramInstancesPool>();
-			Iterator<ProgramInstancesPool> iter = colProgramInstancesPool.iterator();
+			Iterator<ProgramInstancesPool> iter = collectionprogramInstancesPool.iterator();
 			while(iter.hasNext())
 			{
 				ProgramInstancesPool programInstancesPool = iter.next();
 				arrProgramInstancesPool.add(programInstancesPool);
 				nNbEntries++;
 			}
-			colProgramInstancesPool = null; 
+			collectionprogramInstancesPool = null;
 			
 			
 			StopWatch sw = new StopWatch(); 

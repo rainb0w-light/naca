@@ -64,7 +64,7 @@ public class CFPacCall extends CFPacElement
 					tok = GetNext() ;
 					if (tok.GetType() == CTokenType.NUMBER)
 					{
-						arrTermParam.add(new CAddressTerminal(tok.GetValue())) ;
+						termParam.add(new CAddressTerminal(tok.GetValue())) ;
 						tok = GetNext() ;
 					}
 					else
@@ -89,19 +89,19 @@ public class CFPacCall extends CFPacElement
 	}
 	
 	protected CTerminal idCalled = null ;
-	protected Vector<CTerminal> arrTermParam = new Vector<CTerminal>() ;
+	protected Vector<CTerminal> termParam = new Vector<CTerminal>() ;
 
 	@Override
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
 		String prg = idCalled.GetValue() ;
 		
-		boolean bCheck = true ;
+		boolean ischeck = true ;
 		CEntityRoutineEmulation emul = factory.programCatalog.getRoutineEmulation(prg) ;
 		if (emul != null)
 		{
 			CEntityRoutineEmulationCall call = emul.NewCall(getLine(), factory) ;
-			for (CTerminal term : arrTermParam) 
+			for (CTerminal term : termParam)
 			{
 				CDataEntity param = term.GetDataEntity(getLine(), factory) ;
 				if (param.GetDataType() == CDataEntityType.ADDRESS)
@@ -134,23 +134,23 @@ public class CFPacCall extends CFPacElement
 		}
 		else
 		{
-			if (!factory.programCatalog.CheckProgramReference(prg, false, arrTermParam.size(), true))
+			if (!factory.programCatalog.CheckProgramReference(prg, false, termParam.size(), true))
 			{
 				Transcoder.logError(getLine(), "Missing sub program : "+prg) ;
 				CGlobalEntityCounter.GetInstance().RegisterMissingSubProgram(parent.GetProgramName(), prg) ;
-				bCheck = false ;
+				ischeck = false ;
 			}
 			else
 			{
 				//Transcoder.info("Referenced program found : "+prg) ;
-				bCheck = true ;
+				ischeck = true ;
 			}
 		}
 
 		CDataEntity ref = idCalled.GetDataEntity(getLine(), factory) ;
 		CEntityCallProgram call = factory.NewEntityCallProgram(getLine(), ref) ;
-		call.setChecked(bCheck) ;
-		for (CTerminal term : arrTermParam) 
+		call.setChecked(ischeck) ;
+		for (CTerminal term : termParam)
 		{
 			CDataEntity param = term.GetDataEntity(getLine(), factory) ;
 			if (param.GetDataType() == CDataEntityType.ADDRESS)
@@ -187,7 +187,7 @@ public class CFPacCall extends CFPacElement
 		Element eId = root.createElement("Id") ;
 		e.appendChild(eId) ;
 		idCalled.ExportTo(eId, root) ;
-		for (CTerminal term : arrTermParam)
+		for (CTerminal term : termParam)
 		{
 			Element eP = root.createElement("Param") ;
 			e.appendChild(eP) ;

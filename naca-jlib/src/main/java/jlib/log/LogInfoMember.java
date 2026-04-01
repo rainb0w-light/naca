@@ -29,15 +29,15 @@ public class LogInfoMember
 	LogInfoMember(String csName, int nValue)
 	{
 		csName = csName;
-		iValue = Integer.valueOf(nValue);
+		value = Integer.valueOf(nValue);
 	}
 	
 	String getAsString()
 	{
 		if(csValue != null)
 			return csName + "=" + csValue;
-		if(iValue != null)
-			return csName + "=" + iValue.toString();
+		if(value != null)
+			return csName + "=" + value.toString();
 		return csName + "=?";
 	}
 	
@@ -50,13 +50,13 @@ public class LogInfoMember
 	{
 		if(csValue != null)
 			return csValue;
-		else if(iValue != null)
-			return iValue.toString();
+		else if(value != null)
+			return value.toString();
 		return "";
 	}
 
 	
 	String csName = null;
 	String csValue = null;
-	Integer iValue = null;	
+	Integer value = null;
 }

@@ -22,7 +22,7 @@ public abstract class CEntityFunctionCall extends CBaseEntityFunction
 		super(cat, out, data);
 	}
 	protected String csFunction = "" ;
-	protected Vector<CDataEntity> arrParameters = new Vector<CDataEntity>() ;
+	protected Vector<CDataEntity> parameters = new Vector<CDataEntity>() ;
 
 	public void CallFunction(String function)
 	{
@@ -30,7 +30,7 @@ public abstract class CEntityFunctionCall extends CBaseEntityFunction
 	}
 	public void AddParameter(CDataEntity e)
 	{
-		arrParameters.add(e) ;
+		parameters.add(e) ;
 	}
 
 	public boolean ignore()

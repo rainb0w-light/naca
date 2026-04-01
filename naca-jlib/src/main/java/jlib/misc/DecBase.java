@@ -127,10 +127,10 @@ public class DecBase
 	
 	public static DecBase toDec(BigDecimal bd)
 	{
-		boolean bPositive = true;
+		boolean ispositive = true;
 
 		if(bd.signum() < 0)
-			bPositive = false;
+			ispositive = false;
 			
 		String sValue = bd.abs().unscaledValue().toString();
 		int nScale = bd.scale();
@@ -139,7 +139,7 @@ public class DecBase
 			String sInt = sValue.substring(0, sValue.length()-nScale);
 			String sDec = sValue.substring(sValue.length()-nScale);
 			DecBase dec = new DecBase(sInt, sDec);
-			dec.setPositive(bPositive);
+			dec.setPositive(ispositive);
 			return dec;
 		}
 		else
@@ -153,7 +153,7 @@ public class DecBase
 			sDec = sDec + sValue;
 			
 			DecBase dec = new DecBase(0, sDec); 
-			dec.setPositive(bPositive);
+			dec.setPositive(ispositive);
 			return dec;
 		}
 	}

@@ -11,15 +11,15 @@ public class RecordDescriptorAtEnd
 	public static RecordDescriptorAtEnd End = new RecordDescriptorAtEnd(true);
 	public static RecordDescriptorAtEnd NotEnd = new RecordDescriptorAtEnd(false);
 	
-	private RecordDescriptorAtEnd(boolean bEnd)
+	private RecordDescriptorAtEnd(boolean isend)
 	{
-		this.bEnd = bEnd;
+		this.isend = isend;
 	}
 	
 	public boolean atEnd()
 	{
-		return bEnd;
+		return isend;
 	}
 	
-	private boolean bEnd = false;
+	private boolean isend = false;
 }

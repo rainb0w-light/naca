@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 5 août 2004
+ * Created on 5 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -42,12 +42,12 @@ public abstract class CEntitySwitchCase extends CBaseActionEntity
 	public boolean hasExplicitGetOut()
 	{
 		Iterator iter = lstChildren.iterator() ;
-		boolean bExplicit = true ;
+		boolean isexplicit = true ;
 		while (iter.hasNext())
 		{
 			CBaseActionEntity act = (CBaseActionEntity)iter.next() ;
-			bExplicit &= act.hasExplicitGetOut() ;
+			isexplicit &= act.hasExplicitGetOut() ;
 		}
-		return bExplicit ;
+		return isexplicit;
 	}
 }

@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 18 août 2004
+ * Created on 18 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -30,35 +30,35 @@ public abstract class CEntityCondCompare extends CBinaryEntityCondition
 	{
 		op1 = op1 ; 
 		op2 = op2 ;
-		bIsOrEquals = false ;
-		bIsGreater = false ;
+		isisOrEquals = false ;
+		isisGreater = false ;
 	}
 	public void SetLessOrEqualThan(CBaseEntityExpression op1, CBaseEntityExpression op2)
 	{
 		op1 = op1 ; 
 		op2 = op2 ;
-		bIsOrEquals = true ;
-		bIsGreater = false ;
+		isisOrEquals = true ;
+		isisGreater = false ;
 	}
 	public void SetGreaterThan(CBaseEntityExpression op1, CBaseEntityExpression op2)
 	{
 		op1 = op1 ; 
 		op2 = op2 ;
-		bIsOrEquals = false ;
-		bIsGreater = true ;
+		isisOrEquals = false ;
+		isisGreater = true ;
 	}
 	public void SetGreaterOrEqualsThan(CBaseEntityExpression op1, CBaseEntityExpression op2)
 	{
 		op1 = op1 ; 
 		op2 = op2 ;
-		bIsOrEquals = true ;
-		bIsGreater = true ;
+		isisOrEquals = true ;
+		isisGreater = true ;
 	}
 	
 	protected CBaseEntityExpression op1 ;
 	protected CBaseEntityExpression op2 ;
-	protected boolean bIsGreater = false ; // true : >/>=, false : </<=
-	protected boolean bIsOrEquals = false ;// true : <=/>=, false : </>
+	protected boolean isisGreater = false ; // true : >/>=, false : </<=
+	protected boolean isisOrEquals = false ;// true : <=/>=, false : </>
 	public void Clear()
 	{
 		super.Clear() ;
@@ -90,19 +90,19 @@ public abstract class CEntityCondCompare extends CBinaryEntityCondition
 	public CBaseEntityCondition.EConditionType GetType()
 	{
 		EConditionType type = null ;
-		if (bIsGreater && bIsOrEquals)
+		if (isisGreater && isisOrEquals)
 		{
 			type = EConditionType.IS_GREATER_THAN_OR_EQUAL ; 
 		}
-		else if (bIsGreater && !bIsOrEquals)
+		else if (isisGreater && !isisOrEquals)
 		{
 			type = EConditionType.IS_GREATER_THAN ; 
 		}
-		else if (!bIsGreater && bIsOrEquals)
+		else if (!isisGreater && isisOrEquals)
 		{
 			type = EConditionType.IS_LESS_THAN_OR_EQUAL ; 
 		}
-		else if (!bIsGreater && !bIsOrEquals)
+		else if (!isisGreater && !isisOrEquals)
 		{
 			type = EConditionType.IS_LESS_THAN ; 
 		}

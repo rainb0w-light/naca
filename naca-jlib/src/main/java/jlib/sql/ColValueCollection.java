@@ -15,8 +15,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
-import jlib.sqlMapper.RecordId;
-
 /**
  *
  * @author Pierre-Jean Ditscheid, Consultas SA
@@ -24,13 +22,13 @@ import jlib.sqlMapper.RecordId;
  */
 public class ColValueCollection
 {
-	private ArrayList<ColValue> arrCols = null;
+	private ArrayList<ColValue> cols = null;
 	private Hashtable<String, ColValue> hashColsByName = null;
 	
 	public ColValueCollection()
 	{
-		if(arrCols == null)
-			arrCols = new ArrayList<ColValue>();
+		if(cols == null)
+			cols = new ArrayList<ColValue>();
 		if(hashColsByName == null)
 			hashColsByName = new Hashtable<String, ColValue>(); 
 	}
@@ -76,25 +74,25 @@ public class ColValueCollection
 		
 	synchronized public ColValue getColValueAtIndex(int n)
 	{
-		return arrCols.get(n);
+		return cols.get(n);
 	}	
 	
 	synchronized protected void replaceInternalContainer(ColValueCollection colValueCollectionSource)
 	{
-		arrCols = colValueCollectionSource.arrCols;
+		cols = colValueCollectionSource.cols;
 		hashColsByName = colValueCollectionSource.hashColsByName;
 	}
 	
 	synchronized public void clearValues()
 	{
-		arrCols.clear();
+		cols.clear();
 		hashColsByName.clear();
 	}
 	
 	
 	synchronized public void add(ColValue colValue)
 	{
-		arrCols.add(colValue);
+		cols.add(colValue);
 		hashColsByName.put(colValue.getNameUppercase(), colValue);
 	}
 	
@@ -148,7 +146,7 @@ public class ColValueCollection
 	
 	public int getNbColValues()
 	{
-		return arrCols.size();
+		return cols.size();
 	}
 
 	synchronized public String toString()

@@ -9,8 +9,6 @@
  */
 package nacaLib.bdb;
 
-import java.util.ArrayList;
-
 import nacaLib.varEx.SortKeySegmentDefinition;
 
 import jlib.misc.ArrayDyn;
@@ -29,7 +27,7 @@ import jlib.misc.StringUtil;
 public class BtreeKeyDescription
 {	
 	private String csKeys = null;
-	private ArrayFixDyn<BtreeKeySegment> arrKeySegment = new ArrayDyn<BtreeKeySegment>();
+	private ArrayFixDyn<BtreeKeySegment> keySegment = new ArrayDyn<BtreeKeySegment>();
 	private byte[] tbyKey = null;
 	int nKeyLength = 0;
 	private int nKeyPositionInKey = 0;
@@ -55,25 +53,25 @@ public class BtreeKeyDescription
 			int nKeyLength = getChunkAsInt();
 			String csType = getChunk();
 			String csOrder = getChunk();
-			boolean bAscending = true;
+			boolean isascending = true;
 			if(!csOrder.equalsIgnoreCase("A"))
-				bAscending = false;
+				isascending = false;
 			
 			BtreeKeySegment seg = null;
 			if(csType.equalsIgnoreCase("CH"))
-				seg = new BtreeKeySegmentAlphaNum(nKeyPositionInData, nKeyPositionInKey, nKeyLength, bAscending);
+				seg = new BtreeKeySegmentAlphaNum(nKeyPositionInData, nKeyPositionInKey, nKeyLength, isascending);
 			else if(csType.equalsIgnoreCase("PD"))	// packed
-				seg = new BtreeKeySegmentComp3(nKeyPositionInData, nKeyPositionInKey, nKeyLength, bAscending);
+				seg = new BtreeKeySegmentComp3(nKeyPositionInData, nKeyPositionInKey, nKeyLength, isascending);
 			else if(csType.equalsIgnoreCase("C4"))	// Binary
-				seg = new BtreeKeySegmentBinary(nKeyPositionInData, nKeyPositionInKey, nKeyLength, bAscending);
+				seg = new BtreeKeySegmentBinary(nKeyPositionInData, nKeyPositionInKey, nKeyLength, isascending);
 			else if(csType.equalsIgnoreCase("BI"))	// Binary or packed
-				seg = new BtreeKeySegmentUnsignedBinaryOrPacked(nKeyPositionInData, nKeyPositionInKey, nKeyLength, bAscending);
+				seg = new BtreeKeySegmentUnsignedBinaryOrPacked(nKeyPositionInData, nKeyPositionInKey, nKeyLength, isascending);
 			else if(csType.equalsIgnoreCase("FI"))
-				seg = new BtreeKeySegmentSignBinary(nKeyPositionInData, nKeyPositionInKey, nKeyLength, bAscending);
+				seg = new BtreeKeySegmentSignBinary(nKeyPositionInData, nKeyPositionInKey, nKeyLength, isascending);
 
 			nKeyPositionInKey += nKeyLength;
 			if(seg != null)
-				arrKeySegment.add(seg);
+				keySegment.add(seg);
 		}
 		
 		if(bAddSegmentRecordId)
@@ -84,15 +82,15 @@ public class BtreeKeyDescription
 	public void addRecordIdKeySegment()
 	{		
 		BtreeKeySegment segRecordId = new BtreeKeySegmentBinary(0, nKeyPositionInKey, 4, true);	// Binary ascending
-		arrKeySegment.add(segRecordId);		
+		keySegment.add(segRecordId);
 		nKeyPositionInKey += 4;
 		
 		// Compress
-		int nSize = arrKeySegment.size();
+		int nSize = keySegment.size();
 		BtreeKeySegment arr[] = new BtreeKeySegment[nSize];
-		arrKeySegment.transferInto(arr);
-		ArrayFix<BtreeKeySegment> arrFix = new ArrayFix<BtreeKeySegment>(arr);
-		arrKeySegment = arrFix;	// replace by a fix one (uning less memory)
+		keySegment.transferInto(arr);
+		ArrayFix<BtreeKeySegment> fix = new ArrayFix<BtreeKeySegment>(arr);
+		keySegment = fix;	// replace by a fix one (uning less memory)
 	}
 	
 	public void addSegmentDefinition(SortKeySegmentDefinition keySegmentDefinition)
@@ -102,7 +100,7 @@ public class BtreeKeyDescription
 		BtreeSegmentKeyTypeFactory btreeSegmentKeyTypeFactory = keySegmentDefinition.getSegmentKeyType();
 		BtreeKeySegment btreeKeySegment = btreeSegmentKeyTypeFactory.make(nKeyPositionInData, nKeyPositionInKey, nBufferLength, keySegmentDefinition.bAscending);
 
-		arrKeySegment.add(btreeKeySegment);
+		keySegment.add(btreeKeySegment);
 		nKeyPositionInKey += nBufferLength;
 	}	
 	
@@ -134,10 +132,10 @@ public class BtreeKeyDescription
 	void prepare()
 	{
 		nKeyLength = 0;
-		int nNbSegments = arrKeySegment.size();
+		int nNbSegments = keySegment.size();
 		for(int n=0; n<nNbSegments; n++)
 		{
-			nKeyLength += arrKeySegment.get(n).getLength();
+			nKeyLength += keySegment.get(n).getLength();
 		}
 		tbyKey = new byte[nKeyLength];
 	}
@@ -159,10 +157,10 @@ public class BtreeKeyDescription
 //			nOffset += 4;	// Skip record header
 		byte tbyData[] = lineRead.getBuffer();
 
-		int nNbSegments = arrKeySegment.size();
+		int nNbSegments = keySegment.size();
 		for(int n=0; n<nNbSegments-nNbSegmentToExclude; n++)
 		{
-			BtreeKeySegment btreeKeySegment = arrKeySegment.get(n);
+			BtreeKeySegment btreeKeySegment = keySegment.get(n);
 			btreeKeySegment.appendKeySegmentData(tbyData, nOffset, tbyKey);	//, bConvertKeyToAscii);
 		}
 		return tbyKey;
@@ -175,10 +173,10 @@ public class BtreeKeyDescription
 		if(bFileInVariableLength)	// exclude record header from the key
 			nOffset += 4;	// Skip record header
 		
-		int nNbSegments = arrKeySegment.size();
+		int nNbSegments = keySegment.size();
 		for(int n=0; n<nNbSegments-1; n++)	// Do not append last segment = record id
 		{
-			BtreeKeySegment btreeKeySegment = arrKeySegment.get(n);
+			BtreeKeySegment btreeKeySegment = keySegment.get(n);
 			nPos = btreeKeySegment.appendKeySegmentData(tbyData, nOffset, tbyKey);	//, false);
 		}
 
@@ -196,10 +194,10 @@ public class BtreeKeyDescription
 		if(bFileInVariableLength)	// exclude record header from the key
 			nOffset += 4;	// Skip record header
 		
-		int nNbSegments = arrKeySegment.size();
+		int nNbSegments = keySegment.size();
 		for(int n=0; n<nNbSegments-1; n++)	// Do not append last segment = record id
 		{
-			BtreeKeySegment btreeKeySegment = arrKeySegment.get(n);
+			BtreeKeySegment btreeKeySegment = keySegment.get(n);
 			nPos = btreeKeySegment.appendKeySegmentData(tbyData, nOffset, tbyKey);	//, false);
 		}
 
@@ -213,10 +211,10 @@ public class BtreeKeyDescription
 	{
         byte[] tby1 = (byte[])d1;
         byte[] tby2 = (byte[])d2;
-        int nNbSegments = arrKeySegment.size();
+        int nNbSegments = keySegment.size();
 		for(int n=0; n<nNbSegments; n++)
 		{			
-			BtreeKeySegment btreeKeySegment = arrKeySegment.get(n);
+			BtreeKeySegment btreeKeySegment = keySegment.get(n);
 			int nCompare = btreeKeySegment.compare(tby1, tby2);
 			if(nCompare != 0)
 				return nCompare; 
@@ -226,9 +224,9 @@ public class BtreeKeyDescription
 	
 	public void setFileInEncoding(boolean bFileInEbcdic)
 	{
-		for(int n=0; n<arrKeySegment.size(); n++)
+		for(int n = 0; n< keySegment.size(); n++)
 		{			
-			BtreeKeySegment btreeKeySegment = arrKeySegment.get(n);
+			BtreeKeySegment btreeKeySegment = keySegment.get(n);
 			btreeKeySegment.setFileInEncoding(bFileInEbcdic);
 		}
 	}

@@ -38,25 +38,25 @@ public abstract class CEntityLoopWhile extends CBaseActionEntity
 	public void SetWhileCondition(CBaseEntityCondition exp)
 	{
 		whileCondition = exp ;
-		bDoBefore = false ;
+		isdoBefore = false ;
 	}
 	public void SetDoWhileCondition(CBaseEntityCondition exp)
 	{
 		whileCondition = exp ;
-		bDoBefore = true ;
+		isdoBefore = true ;
 	}
 	public void SetDoUntilCondition(CBaseEntityCondition exp)
 	{
 		whileCondition = exp.GetOppositeCondition() ;
-		bDoBefore = true;
+		isdoBefore = true;
 	}
 	public void SetUntilCondition(CBaseEntityCondition exp)
 	{
 		whileCondition = exp.GetOppositeCondition() ;
-		bDoBefore = false ;
+		isdoBefore = false ;
 	}
 	protected CBaseEntityCondition whileCondition = null ;
-	protected boolean bDoBefore = false ; // false = WHILE DO / true = DO WHILE  
+	protected boolean isdoBefore = false ; // false = WHILE DO / true = DO WHILE
 	public void Clear()
 	{
 		super.Clear() ;
@@ -92,7 +92,7 @@ public abstract class CEntityLoopWhile extends CBaseActionEntity
 
 	public boolean isDoBefore()
 	{
-		return bDoBefore;
+		return isdoBefore;
 	}
 
 }

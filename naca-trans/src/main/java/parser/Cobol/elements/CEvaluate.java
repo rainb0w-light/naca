@@ -65,8 +65,8 @@ public class CEvaluate extends CCobolElement
 		}
 		CGlobalEntityCounter.GetInstance().CountCobolVerb(tokEval.GetKeyword().name) ;
 		// read evaluate expression
-		boolean bDone = false ;
-		while (!bDone)
+		boolean isdone = false ;
+		while (!isdone)
 		{
 			CBaseToken tokId = GetNext() ;
 			CExpression term = ReadExpression() ;
@@ -77,12 +77,12 @@ public class CEvaluate extends CCobolElement
 			}
 			else
 			{
-				arrIdToEval.add(term) ;
+				idToEval.add(term) ;
 			}
 			CBaseToken tokAlso = GetCurrentToken() ;
 			if (tokAlso.GetKeyword() != CCobolKeywordList.ALSO)
 			{
-				bDone = true ;
+				isdone = true ;
 			}
 			else
 			{
@@ -91,8 +91,8 @@ public class CEvaluate extends CCobolElement
 		}
 					
 		// read WHEN statements
-		bDone = false ;
-		while (!bDone)
+		isdone = false ;
+		while (!isdone)
 		{
 			CBaseToken tokWhen = GetCurrentToken();
 			if (tokWhen.GetType()==CTokenType.KEYWORD && tokWhen.GetKeyword()==CCobolKeywordList.WHEN)
@@ -121,12 +121,12 @@ public class CEvaluate extends CCobolElement
 			else if (tokWhen.GetType() == CTokenType.KEYWORD && tokWhen.GetKeyword()==CCobolKeywordList.END_EVALUATE)
 			{
 				GetNext() ;
-				bDone = true ;
+				isdone = true ;
 			}
 			else
 			{
 				//m_Logger.error("ERROR Line " +getLine()+ " : " + "Unexpected token : " + tokWhen.GetValue()) ;
-				bDone = true ; 
+				isdone = true ;
 			}
 		}
 		return true ;
@@ -135,8 +135,8 @@ public class CEvaluate extends CCobolElement
 	protected CExpression ReadWhenCondition()
 	{
 		CExpression condGlobal = null ;
-		boolean bDone = false ;
-		while (!bDone)
+		boolean isdone = false ;
+		while (!isdone)
 		{ // there are maybe several 'when' clauses
 			int i = 0;
 			CBaseToken tokWhen = GetCurrentToken();
@@ -153,7 +153,7 @@ public class CEvaluate extends CCobolElement
 				{
 					cond = ReadSingleCondition(i) ;
 					i++ ;
-					while (arrIdToEval.size() > i)
+					while (idToEval.size() > i)
 					{	// there must be some 'also' statements
 						CBaseToken tok = GetCurrentToken();
 						if (tok.GetKeyword() == CCobolKeywordList.ALSO)
@@ -183,7 +183,7 @@ public class CEvaluate extends CCobolElement
 			}
 			else
 			{
-				bDone = true ;
+				isdone = true ;
 			}
 			if (cond != null)
 			{
@@ -215,7 +215,7 @@ public class CEvaluate extends CCobolElement
 			CExpression term = ReadExpression() ;
 			if (term != null)
 			{
-				cond = new CCondEqualsStatement(tok.getLine(), arrIdToEval.get(i), term) ;
+				cond = new CCondEqualsStatement(tok.getLine(), idToEval.get(i), term) ;
 				cond = new CCondNotStatement(tok.getLine(), cond) ;
 			}
 			else
@@ -229,7 +229,7 @@ public class CEvaluate extends CCobolElement
 			CExpression term = ReadExpression() ;
 			if (term != null)
 			{
-				CExpression expr = arrIdToEval.get(i) ;
+				CExpression expr = idToEval.get(i) ;
 				CBaseToken tokThru = GetCurrentToken() ;
 				if (tokThru.GetKeyword() == CCobolKeywordList.THRU || tokThru.GetKeyword() == CCobolKeywordList.THROUGH)
 				{
@@ -269,7 +269,7 @@ public class CEvaluate extends CCobolElement
 		return e ;
 	}
 	
-	protected Vector<CExpression> arrIdToEval = new Vector<CExpression>() ;
+	protected Vector<CExpression> idToEval = new Vector<CExpression>() ;
 
 	/* (non-Javadoc)
 	 * @see parser.CBaseElement#DoCustomSemanticAnalysis(semantic.CBaseSemanticEntity, semantic.CBaseSemanticEntityFactory)

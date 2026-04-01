@@ -22,17 +22,17 @@ public abstract class PersistentDequeueTagThread extends BaseThread
 
 	public void run()
 	{
-		boolean bContinue = true;
-		while(bContinue)
+		boolean iscontinue = true;
+		while(iscontinue)
 		{   
 			Tag tagItem = persistantQueue.getFirstAsTag();
 			if(tagItem == null)
 			{
-				bContinue = Threadutil.wait(nLoopWait_ms);   
+				iscontinue = Threadutil.wait(nLoopWait_ms);
 			}
 			else
 			{
-				bContinue = handleObject(tagItem);
+				iscontinue = handleObject(tagItem);
 			}
 		}
 	}

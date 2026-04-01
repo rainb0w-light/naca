@@ -50,8 +50,8 @@ public class CProcedureDivision extends CCommentContainer
 	protected boolean DoParsing()
 	{
 		CProcedureSection curSection = null ;
-		boolean bDone = false ;
-		while (!bDone)
+		boolean isdone = false ;
+		while (!isdone)
 		{
 			CBaseToken tok = GetCurrentToken() ;
 			if (tok == null)
@@ -142,9 +142,9 @@ public class CProcedureDivision extends CCommentContainer
 	protected Element ExportCustom(Document root)
 	{
 		Element eProc = root.createElement("ProcedureDivision") ;
-		for (int i=0; i<arrUsingRef.size();i++)
+		for (int i = 0; i< usingRef.size(); i++)
 		{
-			CIdentifier id = arrUsingRef.get(i);
+			CIdentifier id = usingRef.get(i);
 			Element euse = root.createElement("Using");
 			eProc.appendChild(euse);
 			id.ExportTo(euse, root);
@@ -167,9 +167,9 @@ public class CProcedureDivision extends CCommentContainer
 		}
 		CEntityProcedureDivision pro = factory.NewEntityProcedureDivision(getLine()) ;
 		parent.AddChild(pro) ;
-		for (int i=0; i<arrUsingRef.size();i++)
+		for (int i = 0; i< usingRef.size(); i++)
 		{
-			CIdentifier id = arrUsingRef.get(i);
+			CIdentifier id = usingRef.get(i);
 			CDataEntity e = id.GetDataReference(getLine(), factory); 
 			pro.AddCallParameter(e) ;
 		}
@@ -182,10 +182,10 @@ public class CProcedureDivision extends CCommentContainer
 		return parent ;
 	}
 	
-	protected Vector<CIdentifier> arrUsingRef = new Vector<CIdentifier>() ;
+	protected Vector<CIdentifier> usingRef = new Vector<CIdentifier>() ;
 	public void AddUsingRef(CIdentifier id)
 	{
-		arrUsingRef.add(id);		
+		usingRef.add(id);
 	} 
 	
 	protected CBaseProcedure procedureDivisionBloc = null ;

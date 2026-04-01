@@ -202,11 +202,11 @@ public class VarDefFPacRaw extends VarDefVariable
 		int nPositionSource = 0;
 		for(int nNbCharCopied=0; nNbCharCopied<nNbCharDest; nNbCharCopied++, nPositionDest++)
 		{
-			char cSource = csSource.charAt(nPositionSource);
+			char source = csSource.charAt(nPositionSource);
 			nPositionSource++;
 			if(nPositionSource == nNbCharSource)
 				nPositionSource = 0;
-			buffer.acBuffer[nPositionDest] = cSource;
+			buffer.acBuffer[nPositionDest] = source;
 		}
 	}
 	
@@ -220,11 +220,11 @@ public class VarDefFPacRaw extends VarDefVariable
 		int nPositionSource = 0;
 		for(int nNbCharCopied=0; nNbCharCopied<nNbCharDest; nNbCharCopied++, nPositionDest++)
 		{
-			char cSource = csSource.charAt(nPositionSource);
+			char source = csSource.charAt(nPositionSource);
 			nPositionSource++;
 			if(nPositionSource == nNbCharSource)
 				nPositionSource = 0;
-			buffer.acBuffer[nPositionDest] = cSource;
+			buffer.acBuffer[nPositionDest] = source;
 		}
 	}
 	
@@ -238,11 +238,11 @@ public class VarDefFPacRaw extends VarDefVariable
 		int nPositionSource = 0;
 		for(int nNbCharCopied=0; nNbCharCopied<nNbCharDest; nNbCharCopied++, nPositionDest++)
 		{
-			char cSource = csSource.charAt(nPositionSource);
+			char source = csSource.charAt(nPositionSource);
 			nPositionSource++;
 			if(nPositionSource == nNbCharSource)
 				nPositionSource = 0;
-			buffer.acBuffer[nPositionDest] = cSource;
+			buffer.acBuffer[nPositionDest] = source;
 		}
 	}
 	

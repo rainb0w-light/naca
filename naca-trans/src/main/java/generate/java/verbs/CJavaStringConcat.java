@@ -38,15 +38,15 @@ public class CJavaStringConcat extends CEntityStringConcat
 	protected void DoExport()
 	{
 		String cs = "" ;
-		boolean bOnError = lstChildren.size() > 0 ; 
-		if (bOnError)
+		boolean isonError = lstChildren.size() > 0 ;
+		if (isonError)
 		{
 			cs = "if (";
 		}
-		for (int i=0; i<arrItems.size(); i++)
+		for (int i = 0; i< items.size(); i++)
 		{
-			CDataEntity eItem = arrItems.get(i);
-			CDataEntity eUntil = arrItemsDelimiters.get(i);
+			CDataEntity eItem = items.get(i);
+			CDataEntity eUntil = itemsDelimiters.get(i);
 			if (eUntil != null)
 			{
 				cs += "concatDelimitedBy(" + eItem.ExportReference(getLine()) + ", " + eUntil.ExportReference(getLine()) + ").";
@@ -66,7 +66,7 @@ public class CJavaStringConcat extends CEntityStringConcat
 		cs += "into(" + eVariable.ExportReference(getLine()) + ")";
 		WriteWord(cs);
 
-		if (bOnError)
+		if (isonError)
 		{
 			WriteWord(".failed()) {");
 			WriteEOL() ;

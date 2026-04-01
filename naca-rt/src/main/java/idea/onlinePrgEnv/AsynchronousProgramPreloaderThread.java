@@ -14,10 +14,6 @@ import idea.manager.ProgramPreloader;
 
 import java.util.ArrayList;
 
-import nacaLib.basePrgEnv.ProgramSequencer;
-
-import jlib.xml.Tag;
-
 /**
  *
  * @author Pierre-Jean Ditscheid, Consultas SA
@@ -27,19 +23,19 @@ public class AsynchronousProgramPreloaderThread extends Thread
 {
 	private OnlineResourceManager onlineResourceManager = null;
 	private ProgramPreloader programPreloader = null;
-	private ArrayList<PreloadProgramSettings> arrProgramToPreload = null;	
+	private ArrayList<PreloadProgramSettings> programToPreload = null;
 	private String csProgramListToKeep = null;
 	
 	public AsynchronousProgramPreloaderThread(OnlineResourceManager onlineResourceManager, ProgramPreloader programPreloader, ArrayList<PreloadProgramSettings> arrProgramToPreload, String csProgramListToKeep)
 	{
 		this.onlineResourceManager = onlineResourceManager;
 		this.programPreloader = programPreloader;
-		this.arrProgramToPreload = arrProgramToPreload;
+		this.programToPreload = arrProgramToPreload;
 		this.csProgramListToKeep = csProgramListToKeep;
 	}
 	
 	public void run()
 	{
-		onlineResourceManager.AsynchronouslyPreloadPrograms(arrProgramToPreload, programPreloader, csProgramListToKeep);
+		onlineResourceManager.AsynchronouslyPreloadPrograms(programToPreload, programPreloader, csProgramListToKeep);
 	}
 }

@@ -31,10 +31,10 @@ public class CESMQueueManager extends CJMapObject
 {
 	public CESMQueueManager(BaseEnvironment env)
 	{
-		cESMEnv = env;
+		eSMEnv = env;
 	}
 	
-	private BaseEnvironment cESMEnv = null;
+	private BaseEnvironment eSMEnv = null;
 	protected Hashtable<String, CESMTempStorageColl> tabTempQueues = new Hashtable<String, CESMTempStorageColl>() ;
 	protected Hashtable tabTransientQueues = new Hashtable() ;
 	
@@ -48,7 +48,7 @@ public class CESMQueueManager extends CJMapObject
 	{
 		CESMTempStorageColl tempStorageColl = getOrCreateTempStorageColl(csQueueName);
 		if (!tempStorageColl.set(nRewriteItem, varData)) {
-			cESMEnv.setCommandReturnCode(CESMReturnCode.ITEMERR) ;
+			eSMEnv.setCommandReturnCode(CESMReturnCode.ITEMERR) ;
 		}
 	}
 
@@ -57,18 +57,18 @@ public class CESMQueueManager extends CJMapObject
 		CESMTempStorageColl tempStorageColl = getExistingTempStorageColl(csQueueName);
 		if(tempStorageColl == null)
 		{
-			cESMEnv.setCommandReturnCode(CESMReturnCode.QIDERR) ;
+			eSMEnv.setCommandReturnCode(CESMReturnCode.QIDERR) ;
 			return ;
 		}
 		InternalCharBuffer item = tempStorageColl.getNextItem();
 		if(item == null)
 		{
-			cESMEnv.setCommandReturnCode(CESMReturnCode.ITEMERR) ;
+			eSMEnv.setCommandReturnCode(CESMReturnCode.ITEMERR) ;
 			return;
 		}	
 		if (item.getBufferSize() > varDest.getTotalSize())
 		{
-			cESMEnv.setCommandReturnCode(CESMReturnCode.LENGERR) ;
+			eSMEnv.setCommandReturnCode(CESMReturnCode.LENGERR) ;
 			return;
 		}
 		varDest.copyBytesFromSourceIntoBody(item);
@@ -79,18 +79,18 @@ public class CESMQueueManager extends CJMapObject
 		CESMTempStorageColl tempStorageColl = getExistingTempStorageColl(csQueueName);
 		if(tempStorageColl == null)
 		{
-			cESMEnv.setCommandReturnCode(CESMReturnCode.QIDERR) ;
+			eSMEnv.setCommandReturnCode(CESMReturnCode.QIDERR) ;
 			return ;
 		}
 		InternalCharBuffer item = tempStorageColl.getIndexedTempQueue(nIndex);
 		if(item == null)
 		{
-			cESMEnv.setCommandReturnCode(CESMReturnCode.ITEMERR) ;
+			eSMEnv.setCommandReturnCode(CESMReturnCode.ITEMERR) ;
 			return;
 		}	
 		if (item.getBufferSize() > varDest.getTotalSize())
 		{
-			cESMEnv.setCommandReturnCode(CESMReturnCode.LENGERR) ;
+			eSMEnv.setCommandReturnCode(CESMReturnCode.LENGERR) ;
 			return;
 		}
 		varDest.copyBytesFromSourceIntoBody(item);
@@ -106,7 +106,7 @@ public class CESMQueueManager extends CJMapObject
 		CESMTempStorageColl tempStorageColl = getExistingTempStorageColl(csQueueName);
 		if(tempStorageColl == null)
 		{
-			cESMEnv.setCommandReturnCode(CESMReturnCode.QIDERR) ;
+			eSMEnv.setCommandReturnCode(CESMReturnCode.QIDERR) ;
 			return ;
 		}
 		int n = tempStorageColl.getNbItems();
@@ -119,7 +119,7 @@ public class CESMQueueManager extends CJMapObject
 		CESMTempStorageColl tempStorageColl = getExistingTempStorageColl(csQueueName);
 		if(tempStorageColl == null)
 		{
-			cESMEnv.setCommandReturnCode(CESMReturnCode.QIDERR) ;
+			eSMEnv.setCommandReturnCode(CESMReturnCode.QIDERR) ;
 			return ;
 		}
 		tabTempQueues.remove(csQueueName);

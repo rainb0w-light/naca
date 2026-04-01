@@ -97,9 +97,9 @@ public class StringUtil
 	
 	public static String decodeSignComp3String(String s, int nNbDigitInteger)
 	{
-		boolean bEvenNumberOfDigits = false;
+		boolean isevenNumberOfDigits = false;
 		if((nNbDigitInteger % 2) == 0)
-			bEvenNumberOfDigits = true;
+			isevenNumberOfDigits = true;
 		
 		String sOut = new String();
 		int nChar = 0;
@@ -128,7 +128,7 @@ public class StringUtil
 				sOut += c;  
 			}
 		}
-		if(bEvenNumberOfDigits)
+		if(isevenNumberOfDigits)
 		{
 			// Remove leading 0 that was there as a placeholder due to the even number of digits + sign -> implies an odd number of nibbles; the leading compensated that odd number
 			sOut = sOut.substring(1);	//sOut = sOut.substring(1, nNbDigitInteger+1);			
@@ -138,9 +138,9 @@ public class StringUtil
 	
 	public static String decodeComp3String(String s, int nNbDigitInteger)
 	{
-		boolean bEvenNumberOfDigits = false;
+		boolean isevenNumberOfDigits = false;
 		if((nNbDigitInteger % 2) == 0)
-			bEvenNumberOfDigits = true;
+			isevenNumberOfDigits = true;
 		
 		String sOut = new String();
 		int nChar = 0;
@@ -165,7 +165,7 @@ public class StringUtil
 				sOut += c;  
 			}
 		}
-		if(bEvenNumberOfDigits)
+		if(isevenNumberOfDigits)
 		{
 			// Remove leading 0 that was there as a placeholder due to the even number of digits + sign -> implies an odd number of nibbles; the leading compensated that odd number
 			sOut = sOut.substring(1);	//sOut = sOut.substring(1, nNbDigitInteger+1);			
@@ -706,9 +706,9 @@ public class StringUtil
 //	 Par exemple: 12/4/2002 12h25:45
 //	 Le premier groupe de chiffres c'est le jour.
 //	 Le deuxieme c'est le mois.
-//	 Le troisieme c'est l'année.
+//	 Le troisieme c'est l'annï¿½e.
 //	 Les heures, les minutes et les secondes.
-//	 Les groupes de chiffres peuvent être séparés par n'importe quoi.
+//	 Les groupes de chiffres peuvent ï¿½tre sï¿½parï¿½s par n'importe quoi.
 	public static Calendar StringToCalendar(String s)
 	{
 		return StringToCalendar(s, "DMYhms");
@@ -717,22 +717,22 @@ public class StringUtil
 //	Format_ represente l'ordre des groupes de chiffres.
 	public static Calendar StringToCalendar(String s, String format)
 	{
-		int day=1, month=1, year=0;       // Jour, mois, année...
-		int hour=0, minutes=0, seconds=0; // heure, minutes, secondes pour la date representée par s.
+		int day=1, month=1, year=0;       // Jour, mois, annï¿½e...
+		int hour=0, minutes=0, seconds=0; // heure, minutes, secondes pour la date representï¿½e par s.
 
-//	***************************** Sépare la chaîne en groupes de chiffres *******************************
+//	***************************** Sï¿½pare la chaï¿½ne en groupes de chiffres *******************************
 		if (s == null)
 			s = "";
-		String[] numbers = s.split("[^0-9]+");	// Liste des groupes de chiffres dans la chaîne fournie.
+		String[] numbers = s.split("[^0-9]+");	// Liste des groupes de chiffres dans la chaï¿½ne fournie.
 		int nn = numbers.length;
 		if (format.length() < nn)
 			nn=format.length();
 
 //	******************* Copie chaque groupe de chiffre dans le bon compteur *****************************
-		boolean bThereIsDate = false;      // Indique qu'il y à effectivement quelque chose d'assimilable a une date
+		boolean isthereIsDate = false;      // Indique qu'il y ï¿½ effectivement quelque chose d'assimilable a une date
 		for(int n=0; n < nn; n++) 
 		{
-			bThereIsDate = true;
+			isthereIsDate = true;
 			char f = format.charAt(n);	// Un caractere de format.
 			switch(f) 
 			{
@@ -760,9 +760,9 @@ public class StringUtil
 		}
 
 //	****************************** Construit la date ***************************************
-		if (bThereIsDate)
+		if (isthereIsDate)
 		{
-			Calendar d = new GregorianCalendar();	// Date representée par s.
+			Calendar d = new GregorianCalendar();	// Date representï¿½e par s.
 			d.set(year, month-1+ Calendar.JANUARY, day, hour, minutes, seconds);
 			d.set(Calendar.MILLISECOND, 0);
 			return d;
@@ -881,7 +881,7 @@ public class StringUtil
 	
 	public static ArrayList<String> extractPrefixedKeywords(String csValues, String csOptionalPrefixed)
 	{
-		boolean bUsePrefix = !StringUtil.isEmpty(csOptionalPrefixed);
+		boolean isusePrefix = !StringUtil.isEmpty(csOptionalPrefixed);
 		
 		ArrayList<String> arr = null;
 		csValues = csValues.trim();
@@ -893,7 +893,7 @@ public class StringUtil
 			{
 				String csWord = csValues.substring(0, n);
 
-				if(bUsePrefix)
+				if(isusePrefix)
 				{
 					if(csWord.startsWith(csOptionalPrefixed))
 						arr = add(arr, csWord);
@@ -949,7 +949,7 @@ public class StringUtil
 
 	public static ArrayList<String> extractPrefixedKeywordsBracketed(String csValues, String csOptionalPrefixed)
 	{
-		boolean bUsePrefix = !StringUtil.isEmpty(csOptionalPrefixed);
+		boolean isusePrefix = !StringUtil.isEmpty(csOptionalPrefixed);
 		
 		ArrayList<String> arr = null;
 		csValues = csValues.trim();
@@ -974,7 +974,7 @@ public class StringUtil
 			{
 				String csWord = csValues.substring(0, n);
 
-				if(bUsePrefix)
+				if(isusePrefix)
 				{
 					if(csWord.startsWith(csOptionalPrefixed))
 						arr = add(arr, csWord);

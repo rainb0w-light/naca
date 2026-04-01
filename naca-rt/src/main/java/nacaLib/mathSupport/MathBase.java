@@ -53,10 +53,10 @@ public class MathBase extends CJMapObject
 	 */
 	public static Dec toDec(BigDecimal bd)
 	{
-		boolean bPositive = true;
+		boolean ispositive = true;
 
 		if(bd.signum() < 0)
-			bPositive = false;
+			ispositive = false;
 			
 		String sValue = bd.abs().unscaledValue().toString();
 		int nScale = bd.scale();
@@ -65,7 +65,7 @@ public class MathBase extends CJMapObject
 			String sInt = sValue.substring(0, sValue.length()-nScale);
 			String sDec = sValue.substring(sValue.length()-nScale);
 			Dec dec = new Dec(sInt, sDec);
-			dec.setPositive(bPositive);
+			dec.setPositive(ispositive);
 			return dec;
 		}
 		else
@@ -79,7 +79,7 @@ public class MathBase extends CJMapObject
 			sDec = sDec + sValue;
 			
 			Dec dec = new Dec(0, sDec); 
-			dec.setPositive(bPositive);
+			dec.setPositive(ispositive);
 			return dec;
 		}
 	}
@@ -90,7 +90,7 @@ public class MathBase extends CJMapObject
 		varDest.set(dec);
 		if(varDest.getVarDef().getLength() < dec.toString().length())
 		{
-			bError = true;
+			iserror = true;
 		}
 		return this;
 	}
@@ -169,7 +169,7 @@ public class MathBase extends CJMapObject
 	 */
 	public boolean isError()
 	{
-		return bError;
+		return iserror;
 	} 
 	
 	/**
@@ -178,12 +178,12 @@ public class MathBase extends CJMapObject
 	 */
 	public void setError(boolean b)
 	{
-		bError = b;
+		iserror = b;
 	}
 	
 	public String toString()
 	{
-		if(bError)
+		if(iserror)
 			return "Math Error";
 		if(d != null)
 			return d.toString();
@@ -198,5 +198,5 @@ public class MathBase extends CJMapObject
 	}
 
 	public BigDecimal d = null;
-	private boolean bError = false;
+	private boolean iserror = false;
 }

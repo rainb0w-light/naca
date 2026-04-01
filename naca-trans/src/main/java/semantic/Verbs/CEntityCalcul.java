@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 3 août 2004
+ * Created on 3 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -47,15 +47,15 @@ public abstract class CEntityCalcul extends CBaseActionEntity
 	
 	public void AddDestination(CDataEntity e)
 	{
-		arrDestinations.add(e) ;
+		destinations.add(e) ;
 	}
 	public void AddRoundedDestination(CDataEntity e)
 	{
-		arrRoundedDestinations.add(e) ;
+		roundedDestinations.add(e) ;
 	}
 	protected CBaseEntityExpression expression = null ;
-	protected Vector<CDataEntity> arrDestinations = new Vector<CDataEntity>();
-	protected Vector<CDataEntity> arrRoundedDestinations = new Vector<CDataEntity>();
+	protected Vector<CDataEntity> destinations = new Vector<CDataEntity>();
+	protected Vector<CDataEntity> roundedDestinations = new Vector<CDataEntity>();
 	protected CBaseLanguageEntity onErrorBloc = null ;
 	public void Clear()
 	{
@@ -65,8 +65,8 @@ public abstract class CEntityCalcul extends CBaseActionEntity
 			expression.Clear() ;
 		}
 		expression = null ;
-		arrDestinations.clear();
-		arrRoundedDestinations.clear() ;
+		destinations.clear();
+		roundedDestinations.clear() ;
 		if (onErrorBloc!=null)
 		{
 			onErrorBloc.Clear() ;
@@ -82,14 +82,14 @@ public abstract class CEntityCalcul extends CBaseActionEntity
 	{
 		boolean ignore = expression.ignore() ;
 		boolean b = true ;
-		for (int i=0; i<arrDestinations.size(); i++)
+		for (int i = 0; i< destinations.size(); i++)
 		{
-			CDataEntity e = arrDestinations.get(i);
+			CDataEntity e = destinations.get(i);
 			b &= e.ignore();
 		}
-		for (int i=0; i<arrRoundedDestinations.size(); i++)
+		for (int i = 0; i< roundedDestinations.size(); i++)
 		{
-			CDataEntity e = arrRoundedDestinations.get(i);
+			CDataEntity e = roundedDestinations.get(i);
 			b &= e.ignore();
 		}
 		ignore |= b ;
@@ -97,10 +97,10 @@ public abstract class CEntityCalcul extends CBaseActionEntity
 	}
 	public boolean IgnoreVariable(CDataEntity data)
 	{
-		if  (arrDestinations.contains(data) ||  arrRoundedDestinations.contains(data))
+		if  (destinations.contains(data) ||  roundedDestinations.contains(data))
 		{
-			arrDestinations.remove(data);
-			arrRoundedDestinations.remove(data) ;
+			destinations.remove(data);
+			roundedDestinations.remove(data) ;
 			data.UnRegisterWritingAction(this) ;
 			return true ;
 		}

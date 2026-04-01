@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 6 août 2004
+ * Created on 6 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -28,13 +28,13 @@ public class COriginalLisiting
 	
 	public void RegisterNewOriginalLine(String line)
 	{
-		arrLines.add(line) ;
+		lines.add(line) ;
 	}
 	public String GetOriginalLine(int n)
 	{
-		if (n>0 && n<=arrLines.size())
+		if (n>0 && n<= lines.size())
 		{
-			String cs = arrLines.get(n-1) ;
+			String cs = lines.get(n-1) ;
 			cs = nP.matcher(cs).replaceAll("\n");
 			cs = rP.matcher(cs).replaceAll("\r");
 			return cs ;
@@ -44,18 +44,18 @@ public class COriginalLisiting
 			return null ;
 		}
 	}
-	protected Vector<String> arrLines  = new Vector<String>();
+	protected Vector<String> lines = new Vector<String>();
 
 	public void Clear()
 	{
-		arrLines.clear() ;
+		lines.clear() ;
 	}
 	/**
 	 * @param csCurrentLine
 	 */
 	public void ReplaceCurrentOriginalLine(String csCurrentLine)
 	{
-		arrLines.set(arrLines.size()-1, csCurrentLine) ;
+		lines.set(lines.size()-1, csCurrentLine) ;
 	}
 
 }

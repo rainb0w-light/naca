@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 19 août 04
+ * Created on 19 aoï¿½t 04
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -41,13 +41,13 @@ public abstract class CEntitySQLCursorSelectStatement extends CBaseActionEntity
 	}
 	protected int nbCol = 0 ;
 	protected String csStatement = "" ;
-	protected Vector<CDataEntity> arrParameters = null;
+	protected Vector<CDataEntity> parameters = null;
 	protected CEntitySQLCursor cursor = null;
-	protected boolean bWithHold = false ;
+	protected boolean iswithHold = false ;
 	public void Clear()
 	{
 		super.Clear();
-		arrParameters.clear() ;
+		parameters.clear() ;
 		cursor = null ;
 	}
 
@@ -62,11 +62,11 @@ public abstract class CEntitySQLCursorSelectStatement extends CBaseActionEntity
 
 	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
 	{
-		int i = arrParameters.indexOf(field) ;
-		if (i>=0 && i<arrParameters.size())
+		int i = parameters.indexOf(field) ;
+		if (i>=0 && i< parameters.size())
 		{
-			arrParameters.get(i).UnRegisterReadingAction(this) ;
-			arrParameters.set(i, var) ;
+			parameters.get(i).UnRegisterReadingAction(this) ;
+			parameters.set(i, var) ;
 			var.RegisterReadingAction(this) ;
 			return true ;
 		} 

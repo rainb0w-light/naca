@@ -30,11 +30,11 @@ public abstract class CEntityCICSReadQ extends CBaseActionEntity
 	public CEntityCICSReadQ(int line, CObjectCatalog cat, CBaseLanguageExporter out, boolean bPersistant)
 	{
 		super(line, cat, out);
-		bPesistant = bPersistant ;
+		ispesistant = bPersistant ;
 		cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
 	}
 
-	protected boolean bPesistant = false ;
+	protected boolean ispesistant = false ;
 	protected CDataEntity queueName = null ;
 	protected CDataEntity dataRef = null ;
 	protected CDataEntity dataLength = null ;

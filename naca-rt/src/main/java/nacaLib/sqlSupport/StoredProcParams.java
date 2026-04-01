@@ -23,28 +23,28 @@ import jlib.sql.StoredProcParamDescBase;
  */
 public class StoredProcParams
 {
-	private ArrayList<StoredProcParamDesc> arrParamDesc = null;
+	private ArrayList<StoredProcParamDesc> paramDesc = null;
 	
 	public StoredProcParams()
 	{
-		arrParamDesc = new ArrayList<StoredProcParamDesc>();
+		paramDesc = new ArrayList<StoredProcParamDesc>();
 	}
 	
 	public void addAParam(ResultSet rsParams)
 	{
 		StoredProcParamDesc param = new StoredProcParamDesc();
 		if(param.fill(rsParams))
-			arrParamDesc.add(param);
+			paramDesc.add(param);
 	}
 	
 	public int getNbParamToProvide()
 	{
-		return arrParamDesc.size();
+		return paramDesc.size();
 	}
 	
 	public StoredProcParamDesc get(int nParamId)
 	{
-		return arrParamDesc.get(nParamId);
+		return paramDesc.get(nParamId);
 	}
 	
 	public boolean registerInOutParameters(DbPreparedCallableStatement callableStatement)
@@ -65,9 +65,9 @@ public class StoredProcParams
 	{
 		if(preparedCallableStatement != null)
 		{
-			for(int n=0; n<arrParamDesc.size(); n++)
+			for(int n = 0; n< paramDesc.size(); n++)
 			{
-				StoredProcParamDesc paramDesc = arrParamDesc.get(n);
+				StoredProcParamDesc paramDesc = this.paramDesc.get(n);
 				paramDesc.retrieveOutValues(n, preparedCallableStatement, sqlStatus);
 			}
 		}

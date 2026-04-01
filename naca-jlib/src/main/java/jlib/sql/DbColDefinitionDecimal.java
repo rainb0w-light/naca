@@ -32,24 +32,24 @@ public class DbColDefinitionDecimal extends BaseDbColDefinition
 {
 	private int nNbDigits = 0;
 	private int nNbDecimals = 0;
-	private boolean rbNegative[] = null;
+	private boolean radioButtonnegative[] = null;
 	
 	DbColDefinitionDecimal(ColDescriptionInfo colDescription)
 	{
 		super(colDescription);
 		nNbDigits = colDescription.getPrecision();
 		nNbDecimals = colDescription.getScale();
-		rbNegative = new boolean[1];
+		radioButtonnegative = new boolean[1];
 	}
 	
 	public byte[] getByteValue(ResultSet resultSet, int nCol1Based, boolean bEbcdicOutput)
 	{
 		try
 		{
-			ResultSetMetaData rsMetaData = resultSet.getMetaData();
+			ResultSetMetaData resultSetmetaData = resultSet.getMetaData();
 
-			int nNbDigits = rsMetaData.getPrecision(nCol1Based);
-			int nNbDecimals = rsMetaData.getScale(nCol1Based);
+			int nNbDigits = resultSetmetaData.getPrecision(nCol1Based);
+			int nNbDecimals = resultSetmetaData.getScale(nCol1Based);
 			Asserter.assertIfFalse(nNbDigits == nNbDigits);
 			Asserter.assertIfFalse(nNbDecimals == nNbDecimals);
 	
@@ -62,9 +62,9 @@ public class DbColDefinitionDecimal extends BaseDbColDefinition
 			
 			byte [] aBytes = new byte[nNbCharsInComp3];
 			
-			boolean bPositive = !decValue.isNegative();
+			boolean ispositive = !decValue.isNegative();
 			String cs = Comp3Support.encodeDecComp3(decValue, nNbDigits-nNbDecimals, nNbDecimals);
-			Comp3Support.internalWriteEncodeComp3(aBytes, cs, bPositive, true);
+			Comp3Support.internalWriteEncodeComp3(aBytes, cs, ispositive, true);
 						
 			//nPhysicalPosInRecordSet += nNbCharsInComp3;
 			return aBytes;					
@@ -93,18 +93,18 @@ public class DbColDefinitionDecimal extends BaseDbColDefinition
 		{
 			if(nNbDecimals == 0)					
 			{
-				long lOriginalValue = BasePic9Comp3BufferSupport.getAsLong(arrByteValue, nSourceOffset, nNbDigits, nSize);
-				long lValue = BasePic9Comp3BufferSupport.keepRightMostDigits(lOriginalValue, nNbDigits);
-				if(lOriginalValue != lValue)
-					dbColDefErrorManager.reportTruncationError(lOriginalValue, lValue, getColumnName());
+				long originalValue = BasePic9Comp3BufferSupport.getAsLong(arrByteValue, nSourceOffset, nNbDigits, nSize);
+				long lValue = BasePic9Comp3BufferSupport.keepRightMostDigits(originalValue, nNbDigits);
+				if(originalValue != lValue)
+					dbColDefErrorManager.reportTruncationError(originalValue, lValue, getColumnName());
 				stmt.setColParam(nCol, lValue);
 			}
 			else
 			{
-				long lOriginalValue = BasePic9Comp3BufferSupport.getAsLong(arrByteValue, nSourceOffset, nNbDigits, nSize);
-				long lValue = BasePic9Comp3BufferSupport.keepRightMostDigits(lOriginalValue, nNbDigits);
-				if(lOriginalValue != lValue)
-					dbColDefErrorManager.reportTruncationError(lOriginalValue, lValue, getColumnName());
+				long originalValue = BasePic9Comp3BufferSupport.getAsLong(arrByteValue, nSourceOffset, nNbDigits, nSize);
+				long lValue = BasePic9Comp3BufferSupport.keepRightMostDigits(originalValue, nNbDigits);
+				if(originalValue != lValue)
+					dbColDefErrorManager.reportTruncationError(originalValue, lValue, getColumnName());
 				String csValue = BasePic9Comp3BufferSupport.makeDottedString(lValue, nNbDecimals);
 //				if(csValue.startsWith("815"))
 //				{
@@ -115,14 +115,14 @@ public class DbColDefinitionDecimal extends BaseDbColDefinition
 		}
 		else	// Cannot use a long (64 bits is not enough ...)
 		{			
-			String csOriginalValue = getAsString(arrByteValue, nSourceOffset, nNbDigits, nNbDecimals, nSize, rbNegative);
+			String csOriginalValue = getAsString(arrByteValue, nSourceOffset, nNbDigits, nNbDecimals, nSize, radioButtonnegative);
 			int nPosDot = csOriginalValue.indexOf(".");
 			String csDec = "";
 			String csInt;
 			if(nPosDot >= 0)
 			{
 				csDec = csOriginalValue.substring(nPosDot);
-				if(rbNegative[0])	// A leading sign has been added
+				if(radioButtonnegative[0])	// A leading sign has been added
 					csInt = csOriginalValue.substring(1, nPosDot);
 				else
 					csInt = csOriginalValue.substring(0, nPosDot);
@@ -134,15 +134,15 @@ public class DbColDefinitionDecimal extends BaseDbColDefinition
 			{
 				int nNbDigitsToRemoveOnLeft = csInt.length() - nNbDigitsInt;
 				String csLeft = csInt.substring(0, nNbDigitsToRemoveOnLeft);
-				boolean bSignificantTruncation = false;
+				boolean issignificantTruncation = false;
 				if(NumberParser.getAsLong(csLeft) != 0)	// We truncates significant digits on left	
-					bSignificantTruncation = true;
+					issignificantTruncation = true;
 					
 				csInt = csInt.substring(nNbDigitsToRemoveOnLeft);
-				if(rbNegative[0])
+				if(radioButtonnegative[0])
 					csInt = "-" + csInt;
 				String csValue = csInt + csDec;
-				if(bSignificantTruncation)
+				if(issignificantTruncation)
 					dbColDefErrorManager.reportTruncationError(csOriginalValue, csValue, getColumnName());
 				stmt.setColParam(nCol, csValue);
 			}

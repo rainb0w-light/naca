@@ -84,5 +84,23 @@
                 text="Refactor Entire Project"
                 description="重构整个项目中的匈牙利命名法变量"/>
         </group>
+
+        <!-- 代码修复功能 -->
+        <group id="com.example.hungarian.actions.CodeFixGroup"
+               text="Code Fixes"
+               description="代码规范修复工具"
+               popup="true">
+            <add-to-group group-id="CodeMenu" anchor="last"/>
+            <action
+                id="com.example.hungarian.actions.FixSelfAssignmentAction"
+                class="com.example.hungarian.actions.FixSelfAssignmentAction"
+                text="Fix Self Assignment"
+                description="修复构造函数中的 xxx = xxx 自赋值问题"/>
+            <action
+                id="com.example.hungarian.actions.FixMethodNamingAction"
+                class="com.example.hungarian.actions.FixMethodNamingAction"
+                text="Fix Method Naming"
+                description="将首字母大写的方法名改为小写开头"/>
+        </group>
     </actions>
 </idea-plugin>

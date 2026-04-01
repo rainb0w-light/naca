@@ -49,7 +49,7 @@ public class CPerformVarying extends CBlocElement
 	protected CTerminal varFromValue = null ;
 	protected CTerminal varByValue = null ;
 	protected CExpression condUntil = null ;
-	protected boolean bTestBefore = true ;
+	protected boolean istestBefore = true ;
 	private List<After> afters = new ArrayList<After>();
 	
 	private class After 
@@ -65,7 +65,7 @@ public class CPerformVarying extends CBlocElement
 		super(line);
 		reference = Ref ;
 		refThru = refThru ;
-		bTestBefore = bBefore ;
+		istestBefore = bBefore ;
 	}
 	
 	/* (non-Javadoc)
@@ -237,7 +237,7 @@ public class CPerformVarying extends CBlocElement
 			eLoop.SetLoopIter(eVar, eFrom, eBy);
 		}
 		CBaseEntityCondition condUntilNew = this.condUntil.AnalyseCondition(factory);
-		eLoop.SetUntilCondition(condUntilNew, bTestBefore) ;
+		eLoop.SetUntilCondition(condUntilNew, istestBefore) ;
 		parent.AddChild(eLoop) ;
 		
 		for (After after : afters)

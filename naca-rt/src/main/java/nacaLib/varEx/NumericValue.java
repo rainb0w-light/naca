@@ -29,7 +29,7 @@ public class NumericValue
 		this.bSigned = bSigned;
 		this.nNbDigitInteger = nNbDigitInteger;
 		this.nNbDigitDecimal = nNbDigitDecimal;
-		this.bSignSeparated = false;
+		this.issignSeparated = false;
 		this.bSignLeading = false;
 		this.nComp = 0;
 	}
@@ -40,7 +40,7 @@ public class NumericValue
 		nNbDigitInteger = master.nNbDigitInteger;
 		nNbDigitDecimal = master.nNbDigitDecimal;
 		nComp = master.nComp;
-		bSignSeparated = master.bSignSeparated;
+		issignSeparated = master.issignSeparated;
 		bSignLeading = master.bSignLeading;
 	}
 	
@@ -67,7 +67,7 @@ public class NumericValue
 		{
 			if(nNbDigitDecimal == 0)
 			{
-				if(bSigned && bSignSeparated)
+				if(bSigned && issignSeparated)
 				{
 					if(bSignLeading)
 					{
@@ -101,7 +101,7 @@ public class NumericValue
 			}
 			else
 			{
-				if(bSigned && bSignSeparated)
+				if(bSigned && issignSeparated)
 				{
 					if(bSignLeading)
 						return new VarDefNumDecSignLeadingComp0(varDefParent, declareType9, this);
@@ -201,7 +201,7 @@ public class NumericValue
 			{
 				if(nNbDigitDecimal == 0)
 				{
-					if(bSignSeparated)
+					if(issignSeparated)
 					{
 						if(bSignLeading)
 							return new VarNumIntSignLeadingComp0(declareType9);
@@ -213,7 +213,7 @@ public class NumericValue
 				}
 				else
 				{
-					if(bSignSeparated)
+					if(issignSeparated)
 					{
 						if(bSignLeading)
 							return new VarNumDecSignLeadingComp0(declareType9);
@@ -275,12 +275,12 @@ public class NumericValue
 	void setSignLeadingSeparated(boolean bLeading)
 	{
 		bSigned = true;
-		bSignSeparated = true;
+		issignSeparated = true;
 		bSignLeading = bLeading;
 	}
 	
 	boolean bSigned = false;
-	boolean bSignSeparated = false;
+	boolean issignSeparated = false;
 	boolean bSignLeading = false;
 	int nComp = 0;
 	int nNbDigitInteger = 0; 

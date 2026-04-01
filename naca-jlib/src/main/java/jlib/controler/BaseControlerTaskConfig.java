@@ -44,21 +44,21 @@ public abstract class BaseControlerTaskConfig
 		if (cs.equals("group"))
 		{
 			eMode = EGroupMode.MODE_GROUP ;
-			bActive = false ; // default value
+			isactive = false ; // default value
 		}
 		else if (cs.equals("site"))
 		{
 			eMode = EGroupMode.MODE_SITE ;
-			bActive = true ; // default value
+			isactive = true ; // default value
 		}
 		cs = tagTask.getVal("status") ;
 		if (cs.equalsIgnoreCase("active"))
 		{
-			bActive = true ;
+			isactive = true ;
 		}
 		else if (cs.equalsIgnoreCase("inactive"))
 		{
-			bActive = false ;
+			isactive = false ;
 		}
 		
 		
@@ -68,7 +68,7 @@ public abstract class BaseControlerTaskConfig
 
 	private int nDelayBeforeStart = 0 ;
 	private int nDelayBeforeRestart = 0 ;
-	private boolean bActive = false ;
+	private boolean isactive = false ;
 
 	public String getName()
 	{

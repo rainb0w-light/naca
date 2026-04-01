@@ -32,7 +32,7 @@ public class StoredProcedure extends CalledProgramParamSupportByPosition
 	
 	private String csProgramName = null;
 	private Class clsProgram = null;
-	private boolean bConnectionPackage = false;
+	private boolean isconnectionPackage = false;
 	
 	public StoredProcedure(String csProgramName)
 	{		
@@ -112,16 +112,16 @@ public class StoredProcedure extends CalledProgramParamSupportByPosition
 				throw sqlException;
 			}
 		
-			SpServerResourceManager spServerResourceManager = SpServerResourceManagerFactory.GetInstance(csPathFileNameConfig);			
-			String csSpDbEnvironment = spServerResourceManager.getSpDbEnvironment();
-			SpServerSession session = new SpServerSession(connection, spServerResourceManager);
+			SpServerResourceManager spinnerserverResourceManager = SpServerResourceManagerFactory.GetInstance(csPathFileNameConfig);
+			String csSpDbEnvironment = spinnerserverResourceManager.getSpDbEnvironment();
+			SpServerSession session = new SpServerSession(connection, spinnerserverResourceManager);
 			SpServerProgramLoader loader = SpServerProgramLoader.GetProgramLoaderInstance();
 			env = loader.GetEnvironment(session, csProgramName, null);
 			
 			boolean bUseStatementCache = BaseResourceManager.getUseStatementCache();
 			env.fillEnvConnectionWithAllocatedConnection(connection, "SPConnection", csSpDbEnvironment, bUseStatementCache);
 			
-			String csSpDbPackage = spServerResourceManager.getSpDbPackage();
+			String csSpDbPackage = spinnerserverResourceManager.getSpDbPackage();
 			setConnectionPackage(connection, csSpDbPackage);
 			
 			Log.logNormal("Start stored procedure:"+csProgramName + " for clsid:" + csCurrentSqlid);
@@ -155,12 +155,12 @@ public class StoredProcedure extends CalledProgramParamSupportByPosition
 	{
 		if (csSpDbPackage.equals("")) return;
 		if (executeConnectionPackage(spConnection, csSpDbPackage))
-			bConnectionPackage = true;
+			isconnectionPackage = true;
 	}
 	
 	private void resetConnectionPackage(Connection spConnection)
 	{
-		if (!bConnectionPackage) return;		
+		if (!isconnectionPackage) return;
 		executeConnectionPackage(spConnection, "NULLID");
 	}
 	

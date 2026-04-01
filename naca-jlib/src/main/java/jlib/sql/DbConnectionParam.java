@@ -22,8 +22,8 @@ public class DbConnectionParam
 	String csPackage = "" ;
 	Properties propertiesUserPassword = null;
 	String csConnectionUrlOptionalParams = null;
-	boolean bAutoCommit = false;
-	boolean bCloseCursorOnCommit = false;
+	boolean isautoCommit = false;
+	boolean iscloseCursorOnCommit = false;
 	
 	public DbDriverId getDbDriverId()
 	{

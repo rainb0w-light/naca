@@ -22,24 +22,24 @@ public class CTokenType
 {
 	protected CTokenType()
 	{
-		bSourceValueDefined = false;
+		issourceValueDefined = false;
 	}
 	protected CTokenType(String val)
 	{
 		value = val ;
-		bSourceValueDefined = false;
+		issourceValueDefined = false;
 	}
 	
 	protected CTokenType(String val, String csSourceValue)
 	{
 		value = val ;
 		csSourceValue = csSourceValue;
-		bSourceValueDefined = true;
+		issourceValueDefined = true;
 	}
 	
 	public String GetSourceValue()
 	{
-		if(bSourceValueDefined)
+		if(issourceValueDefined)
 			return csSourceValue;
 		
 		// Should assert
@@ -48,7 +48,7 @@ public class CTokenType
 
 	public boolean HasSourceValue()
 	{
-		return bSourceValueDefined;
+		return issourceValueDefined;
 	}
 	
 	public static CTokenType IDENTIFIER = new CTokenType() ; 
@@ -91,5 +91,5 @@ public class CTokenType
 		
 	public String value = "" ; 
 	protected String csSourceValue = "" ;
-	protected boolean bSourceValueDefined = false;	
+	protected boolean issourceValueDefined = false;
 }

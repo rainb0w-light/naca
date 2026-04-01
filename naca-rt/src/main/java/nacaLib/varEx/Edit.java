@@ -18,14 +18,10 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import jlib.log.*;
-import jlib.misc.StringUtil;
-import nacaLib.basePrgEnv.BaseProgramManager;
 import nacaLib.mapSupport.*;
 import nacaLib.mathSupport.MathBase;
 import nacaLib.misc.StringAsciiEbcdicUtil;
 import nacaLib.tempCache.CStr;
-import nacaLib.tempCache.TempCache;
-import nacaLib.tempCache.TempCacheLocator;
 
 /**
  * @author U930DI
@@ -607,8 +603,8 @@ public abstract class Edit extends VarAndEdit
 		nPos = charBuffer.writeInt(nAttrEncoded, nPos);
 		if(nPos != -1)
 		{
-			char cProgrammedSymbolSet = attrManager.getEncodedFlag();	// Will use 1 char
-			nPos = charBuffer.writeChar(cProgrammedSymbolSet, nPos);
+			char programmedSymbolSet = attrManager.getEncodedFlag();	// Will use 1 char
+			nPos = charBuffer.writeChar(programmedSymbolSet, nPos);
 			if(nPos != -1)
 			{
 				nPos = charBuffer.writeShort((short)nTextLength, nPos);		// Write string length on a shor
@@ -635,8 +631,8 @@ public abstract class Edit extends VarAndEdit
 		int nAttrEncoded = VarDefBuffer.getDecodedEditAttributes(varSource.bufferPos, nPositionSource);
 		attrManager.setAttributeEncodedValue(nAttrEncoded);	// Will use 4 char position
 		
-		char cProgrammedSymbolSet = VarDefBuffer.getDecodedEditFlag(varSource.bufferPos, nPositionSource);
-		attrManager.setEncodedFlag(cProgrammedSymbolSet);	// Will use 4 char position
+		char programmedSymbolSet = VarDefBuffer.getDecodedEditFlag(varSource.bufferPos, nPositionSource);
+		attrManager.setEncodedFlag(programmedSymbolSet);	// Will use 4 char position
 		 
 		int nPositionDest = getBodyAbsolutePosition();
 		nPositionSource += 7;
@@ -654,8 +650,8 @@ public abstract class Edit extends VarAndEdit
 		int nAttrEncoded = VarDefBuffer.getDecodedEditAttributes(charBuffer, nPositionSource);
 		attrManager.setAttributeEncodedValue(nAttrEncoded);	// Will use 4 char position
 		
-		char cProgrammedSymbolSet = VarDefBuffer.getDecodedEditFlag(charBuffer, nPositionSource);
-		attrManager.setEncodedFlag(cProgrammedSymbolSet);	// Will use 4 char position
+		char programmedSymbolSet = VarDefBuffer.getDecodedEditFlag(charBuffer, nPositionSource);
+		attrManager.setEncodedFlag(programmedSymbolSet);	// Will use 4 char position
 		 
 		int nPositionDest = getBodyAbsolutePosition();
 		nPositionSource += 7;
@@ -719,8 +715,8 @@ public abstract class Edit extends VarAndEdit
 	
 	public int compareTo(double dValue)	
 	{
-		double dVarValue = getDouble();
-		double d = dVarValue - dValue;
+		double varValue = getDouble();
+		double d = varValue - dValue;
 		if(d < -0.00001)	//Consider epsilon precision at 10 e-5 
 			return -1;
 		else if(d > 0.00001)	//Consider epsilon precision at 10 e-5

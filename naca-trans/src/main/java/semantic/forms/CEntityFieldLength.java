@@ -79,19 +79,19 @@ public abstract class CEntityFieldLength extends CBaseEntityFieldAttribute
 	}
 	public CBaseEntityCondition GetSpecialCondition(int nLine, String value, CBaseEntityCondition.EConditionType type, CBaseEntityFactory factory)
 	{
-		boolean bZero = false ;
+		boolean iszero = false ;
 		if (value.equals("0") || value.equalsIgnoreCase("ZERO") || value.equalsIgnoreCase("ZEROS") || value.equalsIgnoreCase("ZEROES"))
 		{
-			bZero = true ;
+			iszero = true ;
 		}		
-		if (type == CBaseEntityCondition.EConditionType.IS_GREATER_THAN && bZero)
+		if (type == CBaseEntityCondition.EConditionType.IS_GREATER_THAN && iszero)
 		{
 			CEntityIsFieldModified e = factory.NewEntityIsFieldModified();
 			e.SetIsModified(reference);
 			reference.RegisterVarTesting(e) ;
 			return e ;
 		}
-		if (!bZero && Integer.parseInt(value)==-1)
+		if (!iszero && Integer.parseInt(value)==-1)
 		{
 			CEntityIsFieldCursor e = factory.NewEntityIsFieldCursor() ;
 			if (type == CBaseEntityCondition.EConditionType.IS_EQUAL)

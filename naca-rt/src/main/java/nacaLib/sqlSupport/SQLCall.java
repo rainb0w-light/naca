@@ -9,16 +9,10 @@
  */
 package nacaLib.sqlSupport;
 
-import java.sql.CallableStatement;
 import java.sql.SQLException;
-import java.sql.Types;
-import java.util.ArrayList;
 
 import jlib.log.Log;
 import jlib.sql.DbConnectionBase;
-import jlib.sql.DbPreparedCallableStatement;
-import jlib.sql.SQLTypeOperation;
-import jlib.sql.StoredProcParamDescBase;
 import nacaLib.basePrgEnv.BaseEnvironment;
 import nacaLib.basePrgEnv.BaseProgramManager;
 import nacaLib.program.Paragraph;
@@ -34,8 +28,8 @@ public class SQLCall
 {
 	private String csStoredProcName = null;
 	private BaseProgramManager programManager = null;
-	private StoredProcParams arrStoredProcParams = null;
-	private DbConnectionBase sQLConnection = null;
+	private StoredProcParams storedProcParams = null;
+	private DbConnectionBase qLConnection = null;
 	private int nNbParamToProvide = -1; 	// Number of para to provide to the stored proc
 	private int nNbParamProvided = 0;	// Number of parameters provided by application
 	//private ArrayList<Var> arrInOutParam = null;
@@ -56,16 +50,16 @@ public class SQLCall
 		sqlStatus = new CSQLStatus();
 		
 		// Determine number and way of proc params
-		StoredProcSupport sp = new StoredProcSupport();
+		StoredProcSupport spinner = new StoredProcSupport();
 		
 		BaseEnvironment env = programManager.getEnv();
-		sQLConnection = env.getSQLConnection();
+		qLConnection = env.getSQLConnection();
 		
-		if(sQLConnection != null)
+		if(qLConnection != null)
 		{
-			arrStoredProcParams = sp.getStoredProcedureParamsList(sQLConnection, csStoredProcName);
-			if(arrStoredProcParams != null)
-				nNbParamToProvide = arrStoredProcParams.getNbParamToProvide();
+			storedProcParams = spinner.getStoredProcedureParamsList(qLConnection, csStoredProcName);
+			if(storedProcParams != null)
+				nNbParamToProvide = storedProcParams.getNbParamToProvide();
 			manageOperationEnding();
 		}
 	}
@@ -73,9 +67,9 @@ public class SQLCall
 	public SQLCall param(int nParamId, Var var)
 	{
 		nParamId--;	// 0 based
-		if(arrStoredProcParams != null && nParamId < arrStoredProcParams.getNbParamToProvide())
+		if(storedProcParams != null && nParamId < storedProcParams.getNbParamToProvide())
 		{
-			StoredProcParamDesc storedProcParamDesc = arrStoredProcParams.get(nParamId);
+			StoredProcParamDesc storedProcParamDesc = storedProcParams.get(nParamId);
 			storedProcParamDesc.setVar(var);
 		}
 		nNbParamProvided++;
@@ -124,7 +118,7 @@ public class SQLCall
 
 	private void manageOperationEnding()
 	{
-		if (sQLConnection != null)
+		if (qLConnection != null)
 		{
 			if (nNbParamToProvide == nNbParamProvided) // All paraqm have been provided
 			{
@@ -142,10 +136,10 @@ public class SQLCall
 	private boolean prepareCallableStatement()
 	{
 		preparedCallableStatement = new PreparedCallableStatement(null);
-		boolean bPrepared = sQLConnection.prepareCallableStatement(preparedCallableStatement, csStoredProcName, nNbParamToProvide);
-		if(bPrepared)
+		boolean isprepared = qLConnection.prepareCallableStatement(preparedCallableStatement, csStoredProcName, nNbParamToProvide);
+		if(isprepared)
 		{
-			return arrStoredProcParams.registerInOutParameters(preparedCallableStatement);
+			return storedProcParams.registerInOutParameters(preparedCallableStatement);
 		}
 		return false;
 	}
@@ -154,7 +148,7 @@ public class SQLCall
 	{
 		if(preparedCallableStatement != null)
 		{
-			arrStoredProcParams.retrieveOutValues(preparedCallableStatement, sqlStatus);
+			storedProcParams.retrieveOutValues(preparedCallableStatement, sqlStatus);
 		}
 	}
 	

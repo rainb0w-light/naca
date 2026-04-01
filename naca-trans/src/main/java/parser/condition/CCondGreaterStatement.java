@@ -51,7 +51,7 @@ public class CCondGreaterStatement extends CExpression
 		return b;
 	}
 	
-	protected boolean bOrEquals = false ; 
+	protected boolean isorEquals = false ;
 	protected CExpression term1 = null ;
 	protected CExpression term2 = null ;
 	/* (non-Javadoc)
@@ -60,7 +60,7 @@ public class CCondGreaterStatement extends CExpression
 	public Element DoExport(Document root)
 	{
 		Element e ;
-		if (bOrEquals)
+		if (isorEquals)
 		{
 			e = root.createElement("GreaterThanOrEqual") ;
 		}
@@ -90,7 +90,7 @@ public class CCondGreaterStatement extends CExpression
 	 */
 	public boolean IsOrEquals()
 	{
-		return bOrEquals ;
+		return isorEquals;
 	}
 	/* (non-Javadoc)
 	 * @see parser.expression.CExpression#GetPriorityLEvel()
@@ -104,7 +104,7 @@ public class CCondGreaterStatement extends CExpression
 	 */
 	public CExpression GetOppositeCondition()
 	{
-		return new CCondLessStatement(getLine(), term1, term2, !bOrEquals);
+		return new CCondLessStatement(getLine(), term1, term2, !isorEquals);
 	}
 	/* (non-Javadoc)
 	 * @see parser.expression.CExpression#AnalyseExpression(semantic.CBaseEntityFactory)
@@ -128,7 +128,7 @@ public class CCondGreaterStatement extends CExpression
 				return null ;
 			}
 			CBaseEntityCondition.EConditionType type = CBaseEntityCondition.EConditionType.IS_GREATER_THAN ;
-			if (bOrEquals)
+			if (isorEquals)
 			{
 				type = CBaseEntityCondition.EConditionType.IS_GREATER_THAN_OR_EQUAL ;
 			}
@@ -144,7 +144,7 @@ public class CCondGreaterStatement extends CExpression
 		{
 			CDataEntity ref = term2.GetReference(factory);
 			CBaseEntityCondition.EConditionType type = CBaseEntityCondition.EConditionType.IS_LESS_THAN_OR_EQUAL ;
-			if (bOrEquals)
+			if (isorEquals)
 			{
 				type = CBaseEntityCondition.EConditionType.IS_LESS_THAN ;
 			}
@@ -169,7 +169,7 @@ public class CCondGreaterStatement extends CExpression
 			return eCond ;
 		}
 		CEntityCondCompare eCond = factory.NewEntityCondCompare() ;
-		if (bOrEquals)
+		if (isorEquals)
 		{
 			eCond.SetGreaterOrEqualsThan(op1, op2) ;
 		}
@@ -204,7 +204,7 @@ public class CCondGreaterStatement extends CExpression
 	public CExpression GetSimilarExpression(CExpression operand)
 	{
 		CCondGreaterStatement gt = new CCondGreaterStatement(getLine(), term1, operand);
-		gt.bOrEquals = bOrEquals ;
+		gt.isorEquals = isorEquals;
 		return gt ;
 	}
 	/* (non-Javadoc)
@@ -216,7 +216,7 @@ public class CCondGreaterStatement extends CExpression
 	}
 	public String toString()
 	{
-		if (bOrEquals)
+		if (isorEquals)
 		{
 			return "GREATER_OR_EQUAL(" + term1.toString() + ", " + term2.toString() + ")" ;
 		}

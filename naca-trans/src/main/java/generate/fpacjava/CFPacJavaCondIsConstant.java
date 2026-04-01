@@ -31,11 +31,11 @@ public class CFPacJavaCondIsConstant extends CEntityCondIsConstant
 	public CBaseEntityCondition GetOppositeCondition()
 	{
 		CFPacJavaCondIsConstant not = new CFPacJavaCondIsConstant() ;
-		not.bIsLowValue = bIsLowValue ;
-		not.bIsHighValue = bIsHighValue ;
+		not.isisLowValue = isisLowValue;
+		not.isisHighValue = isisHighValue;
 		not.bIsOpposite = ! bIsOpposite ;
-		not.bIsSpace = bIsSpace ;
-		not.bIsZero = bIsZero ;
+		not.isisSpace = isisSpace;
+		not.isisZero = isisZero;
 		not.reference = reference ;
 		reference.RegisterVarTesting(not);
 		return not;
@@ -51,19 +51,19 @@ public class CFPacJavaCondIsConstant extends CEntityCondIsConstant
 		{
 			cs += "Not" ;
 		}
-		if (bIsZero)
+		if (isisZero)
 		{
 			cs += "Zero(";
 		}
-		else if (bIsSpace)
+		else if (isisSpace)
 		{
 			cs += "Space(";
 		}
-		else if (bIsLowValue)
+		else if (isisLowValue)
 		{
 			cs += "LowValue(";
 		}
-		else if (bIsHighValue)
+		else if (isisHighValue)
 		{
 			cs += "HighValue(";
 		}

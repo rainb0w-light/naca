@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 6 août 2004
+ * Created on 6 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -36,8 +36,8 @@ public abstract class CEntityLoopIter extends CBaseActionEntity
 	 * @param out
 	 */
 	
-	protected boolean bIncrementByOne = false ;
-	protected boolean bDecrementByOne = false ;
+	protected boolean isincrementByOne = false ;
+	protected boolean isdecrementByOne = false ;
 	
 	public CEntityLoopIter(int line, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
@@ -47,38 +47,38 @@ public abstract class CEntityLoopIter extends CBaseActionEntity
 	{
 		variable = v ;
 		increment = null ;
-		bIncrementByOne = true ;
-		bDecrementByOne = false ;
+		isincrementByOne = true ;
+		isdecrementByOne = false ;
 		initialValue = init ;
 	}
 	public void SetLoopIterDec(CDataEntity v, CDataEntity init)
 	{
 		variable = v ;
 		increment = null ;
-		bIncrementByOne = false ;
-		bDecrementByOne = true ;
+		isincrementByOne = false ;
+		isdecrementByOne = true ;
 		initialValue = init ;
 	}
 	public void SetLoopIter(CDataEntity v, CDataEntity init, CDataEntity inc)
 	{
 		variable = v ;
 		increment = inc ;
-		bIncrementByOne = false ;
-		bDecrementByOne = false ;
+		isincrementByOne = false ;
+		isdecrementByOne = false ;
 		initialValue = init ;
 	}
 	public void SetWhileCondition(CBaseEntityCondition cond, boolean testBefore)
 	{
 		whileCondition = cond  ;
-		bTestBefore = testBefore;
+		istestBefore = testBefore;
 	}
 	public void SetUntilCondition(CBaseEntityCondition cond, boolean testBefore)
 	{
 		whileCondition = cond.GetOppositeCondition() ;
-		bTestBefore = testBefore;
+		istestBefore = testBefore;
 	}
 
-	protected boolean bTestBefore = true ;
+	protected boolean istestBefore = true ;
 	protected CDataEntity variable = null ;
 	protected CBaseEntityCondition whileCondition = null ;
 	protected CDataEntity initialValue = null ;

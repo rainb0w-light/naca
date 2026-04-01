@@ -14,7 +14,6 @@ package nacaLib.varEx;
 
 import jlib.misc.AsciiEbcdicConverter;
 import nacaLib.basePrgEnv.BaseProgram;
-import nacaLib.basePrgEnv.BaseProgramManager;
 import nacaLib.mapSupport.LocalizedString;
 import nacaLib.misc.NumberParserDec;
 
@@ -151,8 +150,8 @@ public class EditInMap extends Edit
 			String csFieldValue = getString();
 			if (attrManager.localizedString != null)
 			{
-				boolean bDefaultValue = BaseProgram.isAll(csFieldValue, CobolConstant.LowValue.getValue()) ;
-				if (bDefaultValue)	// edit not edited yet with no default value
+				boolean isdefaultValue = BaseProgram.isAll(csFieldValue, CobolConstant.LowValue.getValue()) ;
+				if (isdefaultValue)	// edit not edited yet with no default value
 				{
 					csFieldValue = attrManager.localizedString.getTextForLanguage(csLangId);
 				}
@@ -178,7 +177,7 @@ public class EditInMap extends Edit
 			}
 			eEdit.setAttribute("value", csFieldValue);
 			
-			if (attrManager.bHasCursor)
+			if (attrManager.ishasCursor)
 			{
 				eEdit.setAttribute("cursor", "true");
 			}

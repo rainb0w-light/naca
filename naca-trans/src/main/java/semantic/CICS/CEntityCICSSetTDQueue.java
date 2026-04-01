@@ -47,18 +47,18 @@ public abstract class CEntityCICSSetTDQueue extends CBaseActionEntity
 		if (bOpen)
 		{
 			bOpen = true ;
-			bClosed = false ;
+			isclosed = false ;
 		}
 		else
 		{
-			bClosed =true ;
+			isclosed =true ;
 			bOpen = false ;
 		}
 	}
 		
 	protected CDataEntity queueName = null ;
-	protected boolean bOpen = false ;
-	protected boolean bClosed = false ;  
+	protected boolean isopen = false ;
+	protected boolean isclosed = false ;
 	public void Clear()
 	{
 		super.Clear();

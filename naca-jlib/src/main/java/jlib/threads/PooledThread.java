@@ -28,16 +28,16 @@ public class PooledThread extends BaseThread
 	{
 		try
 		{
-			boolean bHandleRequest = canHandleRequest();
-			boolean bCanRun = preRun();
-			while(bCanRun)
+			boolean ishandleRequest = canHandleRequest();
+			boolean iscanRun = preRun();
+			while(iscanRun)
 			{
 				ThreadPoolRequest request = owningPool.dequeue();
 				if(request != null)
 				{
 					if(!request.getTerminaisonRequest())		// Treat the request; the parameter pRequest describes the request to do
 					{
-						if(bHandleRequest)
+						if(ishandleRequest)
 							handleRequest(request);
 						else
 							request.execute();

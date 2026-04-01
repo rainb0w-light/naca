@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 12 août 2004
+ * Created on 12 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -72,7 +72,7 @@ public class CSet extends CCobolElement
 			parent.AddChild(eMove);
 			return eMove;
 		}
-		else if (arrIdTo.size()>0)
+		else if (idTo.size()>0)
 		{
 			//CBaseDataEntity eTo = idTo.GetDataReference(factory);
 			if (valFrom != null)
@@ -82,9 +82,9 @@ public class CSet extends CCobolElement
 					CDataEntity eFrom = valFrom.GetDataEntity(getLine(), factory) ;
 					CEntityAssign eAssign = factory.NewEntityAssign(getLine());
 					eAssign.SetValue(eFrom);
-					for (int i=0; i<arrIdTo.size(); i++)
+					for (int i = 0; i< idTo.size(); i++)
 					{
-						CIdentifier idTo = arrIdTo.get(i);
+						CIdentifier idTo = this.idTo.get(i);
 						CDataEntity eTo = idTo.GetDataReference(getLine(), factory);
 						eAssign.AddRefTo(eTo);
 					}
@@ -93,9 +93,9 @@ public class CSet extends CCobolElement
 				}
 				else
 				{
-					for (int i=0; i<arrIdTo.size(); i++)
+					for (int i = 0; i< idTo.size(); i++)
 					{
-						CIdentifier idTo = arrIdTo.get(i);
+						CIdentifier idTo = this.idTo.get(i);
 						CDataEntity eTo = idTo.GetDataReference(getLine(), factory);
 						CBaseActionEntity eAssign = eTo.GetSpecialAssignment(valFrom, factory, i) ;
 						if (eAssign == null)
@@ -116,9 +116,9 @@ public class CSet extends CCobolElement
 			}
 			else if (downByValue != null)
 			{
-				for (int i=0; i<arrIdTo.size(); i++)
+				for (int i = 0; i< idTo.size(); i++)
 				{
-					CIdentifier idTo = arrIdTo.get(i);
+					CIdentifier idTo = this.idTo.get(i);
 					CDataEntity eTo = idTo.GetDataReference(getLine(), factory);
 					CEntitySubtractTo eSub = factory.NewEntitySubtractTo(getLine());
 					CDataEntity val = downByValue.GetDataEntity(getLine(), factory);
@@ -130,9 +130,9 @@ public class CSet extends CCobolElement
 			}
 			else if (upByValue != null)
 			{
-				for (int i=0; i<arrIdTo.size(); i++)
+				for (int i = 0; i< idTo.size(); i++)
 				{
-					CIdentifier idTo = arrIdTo.get(i);
+					CIdentifier idTo = this.idTo.get(i);
 					CDataEntity eTo = idTo.GetDataReference(getLine(), factory);
 					CEntityAddTo eAdd = factory.NewEntityAddTo(getLine());
 					CDataEntity val = upByValue.GetDataEntity(getLine(), factory);
@@ -177,7 +177,7 @@ public class CSet extends CCobolElement
 				CIdentifier idTo = ReadIdentifier() ;
 				if (idTo != null)
 				{
-					arrIdTo.add(idTo);
+					this.idTo.add(idTo);
 				}
 				else
 				{
@@ -238,13 +238,13 @@ public class CSet extends CCobolElement
 	protected Element ExportCustom(Document root)
 	{
 		Element eSet = root.createElement("Set") ;
-		if (arrIdTo.size()>0)
+		if (idTo.size()>0)
 		{
-			for (int i=0; i<arrIdTo.size();i++)
+			for (int i = 0; i< idTo.size(); i++)
 			{
 				Element eTo = root.createElement("Variable")  ;
 				eSet.appendChild(eTo);
-				CIdentifier idTo = arrIdTo.get(i); 
+				CIdentifier idTo = this.idTo.get(i);
 				idTo.ExportTo(eTo, root) ;
 			}
 		}
@@ -289,7 +289,7 @@ public class CSet extends CCobolElement
 	protected CIdentifier addressOfFrom = null ;
 	protected CIdentifier addressOfTo = null ;
 	protected CTerminal valFrom = null ;
-	protected Vector<CIdentifier> arrIdTo = new Vector<CIdentifier>() ;
+	protected Vector<CIdentifier> idTo = new Vector<CIdentifier>() ;
 	protected CTerminal downByValue = null ;
 	protected CTerminal upByValue = null ;
 }

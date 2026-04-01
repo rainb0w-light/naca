@@ -34,11 +34,11 @@ public class CFPacJavaConvertReference extends CEntityConvertReference
 	public String ExportReference(int nLine)
 	{
 		String csF = "" ;
-		if (bConvertToPacked)
+		if (isconvertToPacked)
 		{
 			csF = "P" ;
 		}
-		else if (bConvertToAlphaNum)
+		else if (isconvertToAlphaNum)
 		{
 			csF = "X" ;
 		}

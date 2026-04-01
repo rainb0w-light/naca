@@ -172,8 +172,8 @@ public class TestCallAndLink extends OnlineProgram
 			// Inc WV1
 			// Inc WV2
 			
-			long lId = Thread.currentThread().getId();
-			if((lId % 2) == 0)
+			long id = Thread.currentThread().getId();
+			if((id % 2) == 0)
 			{
 				move(40, Command);		
 				move("11/11/1963", OutputDateJJMMAAAA);	// Fill the commarea

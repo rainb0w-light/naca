@@ -80,12 +80,12 @@ public class DisplayConfig
 			resourceManager = new ResourceManager() ;
 			
 			String csXSLFilePath = tagConfig.getVal("XSLFilePath") ;
-			File fXSLFilePath = new File(csRootPath + csXSLFilePath) ;
-			if (!fXSLFilePath.isFile())
+			File xSLFilePath = new File(csRootPath + csXSLFilePath) ;
+			if (!xSLFilePath.isFile())
 			{
-				fXSLFilePath = null ;
+				xSLFilePath = null ;
 			}
-			resourceManager.setXSLFilePath("MAIN", fXSLFilePath) ;
+			resourceManager.setXSLFilePath("MAIN", xSLFilePath) ;
 
 			String csLogINIFilePath = tagConfig.getVal("LogINIFilePath") ;
 			if (csLogINIFilePath!=null && !csLogINIFilePath.equals(""))

@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 3 août 2004
+ * Created on 3 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -32,7 +32,7 @@ public abstract class CEntityExternalDataStructure extends CBaseExternalEntity
 	 */
 	public boolean IsNeedDeclarationInClass()
 	{
-		return !bInline ;
+		return !isinline;
 	}
 /**
 	 * @param name
@@ -112,7 +112,7 @@ public abstract class CEntityExternalDataStructure extends CBaseExternalEntity
 		// nothing
 	}
 	
-	protected boolean bInline = false ;
+	protected boolean isinline = false ;
 	public void SetInline(boolean bInline)
 	{
 		bInline = bInline;
@@ -122,7 +122,7 @@ public abstract class CEntityExternalDataStructure extends CBaseExternalEntity
 	 */
 	public boolean isInlined()
 	{
-		return bInline ;
+		return isinline;
 	}
 	/**
 	 * @return

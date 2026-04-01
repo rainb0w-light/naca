@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 13 août 2004
+ * Created on 13 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -57,11 +57,11 @@ public class CMultiply extends CCobolElement
 		if (result != null)
 		{
 			CDataEntity eTo = result.GetDataReference(getLine(), factory);
-			eMult.SetMultiply(eWhat, eBy, eTo, bIsRounded) ;
+			eMult.SetMultiply(eWhat, eBy, eTo, isisRounded) ;
 		}
 		else
 		{
-			eMult.SetMultiply(eWhat, eBy, bIsRounded) ;
+			eMult.SetMultiply(eWhat, eBy, isisRounded) ;
 		}
 		return eMult;
 	}
@@ -92,7 +92,7 @@ public class CMultiply extends CCobolElement
 		tok = GetCurrentToken();
 		if (tok.GetKeyword() == CCobolKeywordList.ROUNDED)
 		{
-			bIsRounded = true ;
+			isisRounded = true ;
 			GetNext() ;
 		} 
 		else if (tok.GetKeyword() == CCobolKeywordList.GIVING)
@@ -102,7 +102,7 @@ public class CMultiply extends CCobolElement
 			tok = GetCurrentToken();
 			if (tok.GetKeyword() == CCobolKeywordList.ROUNDED)
 			{
-				bIsRounded = true ;
+				isisRounded = true ;
 				GetNext() ;
 			} 
 		}
@@ -133,5 +133,5 @@ public class CMultiply extends CCobolElement
 	protected CTerminal multiplyWhat = null ;
 	protected CTerminal multiplyBy = null ;
 	protected CIdentifier result = null ;
-	protected boolean bIsRounded = false ;
+	protected boolean isisRounded = false ;
 }

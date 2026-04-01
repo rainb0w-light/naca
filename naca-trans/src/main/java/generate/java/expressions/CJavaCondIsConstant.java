@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 19 août 2004
+ * Created on 19 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -41,11 +41,11 @@ public class CJavaCondIsConstant extends CEntityCondIsConstant
 	public CBaseEntityCondition GetOppositeCondition()
 	{
 		CJavaCondIsConstant not = new CJavaCondIsConstant() ;
-		not.bIsLowValue = bIsLowValue ;
-		not.bIsHighValue = bIsHighValue ;
+		not.isisLowValue = isisLowValue;
+		not.isisHighValue = isisHighValue;
 		not.bIsOpposite = ! bIsOpposite ;
-		not.bIsSpace = bIsSpace ;
-		not.bIsZero = bIsZero ;
+		not.isisSpace = isisSpace;
+		not.isisZero = isisZero;
 		not.reference = reference ;
 		reference.RegisterVarTesting(not);
 		return not;
@@ -61,19 +61,19 @@ public class CJavaCondIsConstant extends CEntityCondIsConstant
 		{
 			cs += "Not" ;
 		}
-		if (bIsZero)
+		if (isisZero)
 		{
 			cs += "Zero(";
 		}
-		else if (bIsSpace)
+		else if (isisSpace)
 		{
 			cs += "Space(";
 		}
-		else if (bIsLowValue)
+		else if (isisLowValue)
 		{
 			cs += "LowValue(";
 		}
-		else if (bIsHighValue)
+		else if (isisHighValue)
 		{
 			cs += "HighValue(";
 		}

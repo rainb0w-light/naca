@@ -36,8 +36,8 @@ public class OccursItemSettings
 				VarDefBase arr[] = new VarDefBase [nSize];
 				arrVarDefOccursOwner.transferInto(arr);
 				
-				ArrayFix<VarDefBase> arrVarDefOccursOwnerFix = new ArrayFix<VarDefBase>(arr);
-				arrVarDefOccursOwner = arrVarDefOccursOwnerFix;	// replace by a fix one (uning less memory)
+				ArrayFix<VarDefBase> varDefOccursOwnerFix = new ArrayFix<VarDefBase>(arr);
+				arrVarDefOccursOwner = varDefOccursOwnerFix;	// replace by a fix one (uning less memory)
 			}
 		}
 	}

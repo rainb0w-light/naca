@@ -18,7 +18,7 @@ import java.sql.SQLException;
  */
 public class SQLClauseSPParamInDouble extends SQLClauseSPParamIn
 {
-	private double dVal = 0;
+	private double val = 0;
 	
 	public SQLClauseSPParamInDouble(double dVal)
 	{
@@ -28,6 +28,6 @@ public class SQLClauseSPParamInDouble extends SQLClauseSPParamIn
 	protected void setInValueWithException(int nParamId, DbPreparedCallableStatement stmt)
 		throws SQLException
 	{
-		stmt.setInValueWithException(nParamId, dVal);
+		stmt.setInValueWithException(nParamId, val);
 	}
 }

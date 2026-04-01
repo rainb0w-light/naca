@@ -32,16 +32,13 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.FactoryConfigurationError;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.stream.StreamSource;
 
 import jlib.misc.NumberParser;
 import jlib.misc.StringUtil;
@@ -321,8 +318,8 @@ public class Tag
 		if(elem != null)
 		{
 			String cs = elem.getAttribute(csArgName);
-			long lTime = NumberParser.getAsLong(cs);
-			Date date = new Date(lTime);
+			long time = NumberParser.getAsLong(cs);
+			Date date = new Date(time);
 			return date;
 		}
 		return null;
@@ -673,21 +670,21 @@ public class Tag
 				if(node.getNodeType() == Node.ELEMENT_NODE)
 				{
 					Tag tagChild = new Tag(doc, (Element)node);
-					boolean bMatchesCondition = false;
+					boolean ismatchesCondition = false;
 					
 					if (csTagValName == null || csTagValName.equals(""))
 					{
-						bMatchesCondition = true;
+						ismatchesCondition = true;
 					}
 					else if (tagChild.getVal(csTagValName) != null)
 					{
 						if (tagChild.getVal(csTagValName).equals(csTagValValue))
 						{
-							bMatchesCondition = true;
+							ismatchesCondition = true;
 						}
 					}
 					
-					if (bMatchesCondition)
+					if (ismatchesCondition)
 					{
 						// Clean CR placed after node if any
 						if (node.getNextSibling() != null && node.getNextSibling().getNodeType() == Node.TEXT_NODE && node.getNextSibling().getNodeValue().contains("\n"))

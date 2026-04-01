@@ -39,10 +39,10 @@ public abstract class CEntityCICSIgnoreCondition extends CBaseActionEntity
 	}
 	public void IgnoreCondition(String cond)
 	{
-		arrConditions.add(cond);
+		conditions.add(cond);
 	}
 	
-	protected ArrayList<String> arrConditions = new ArrayList<String>();
+	protected ArrayList<String> conditions = new ArrayList<String>();
 	public boolean ignore()
 	{
 		return false; 

@@ -34,14 +34,11 @@ public class HungarianRefactorerConfigPanel {
 
         JPanel settingsPanel = FormBuilder.createFormBuilder()
             .addComponent(enabledCheckBox)
-            .addComponentGap(JBUI.scale(10))
             .addComponent(processLocalVarsCheckBox)
             .addComponent(processFieldsCheckBox)
             .addComponent(processParametersCheckBox)
-            .addComponentGap(JBUI.scale(10))
             .addComponent(updateAccessorsCheckBox)
             .addComponent(updateCommentsCheckBox)
-            .addComponentGap(JBUI.scale(10))
             .addComponent(previewChangesCheckBox)
             .getPanel();
 

@@ -23,7 +23,7 @@ import javax.management.ReflectionException;
 
 public abstract class BaseCloseMBean extends BaseDynamicMBean
 {
-	private boolean bCreated = false;
+	private boolean iscreated = false;
 	
 	public BaseCloseMBean()
 	{		
@@ -37,13 +37,13 @@ public abstract class BaseCloseMBean extends BaseDynamicMBean
 	public void createMBean(String csName, String csDescription)
 	{
 		csMBeanName = csName;
-		if(!bCreated)
+		if(!iscreated)
 		{
 			buildDynamicMBeanInfo();
 			registerInfos(csName, csDescription);
 		}
 		JmxRegistration.registerMBean(csName, this);
-		bCreated = true;
+		iscreated = true;
 	}
 	
 	public void unregisterMBean()
@@ -122,8 +122,8 @@ public abstract class BaseCloseMBean extends BaseDynamicMBean
 					Method method = attributeInfoWrapper.getMethodSetter();
 					if(method != null)
 					{
-						Class[] arrClassArgs = method.getParameterTypes();
-						if(arrClassArgs.length == 1)	// Check: only 1 arg
+						Class[] classArgs = method.getParameterTypes();
+						if(classArgs.length == 1)	// Check: only 1 arg
 						{
 							try
 							{
@@ -221,9 +221,9 @@ public abstract class BaseCloseMBean extends BaseDynamicMBean
 	{
         if (csOperationName != null) 
         {
-        	for(int n=0; n<arrMBeanOperationInfosWrapper.size(); n++)
+        	for(int n = 0; n< mBeanOperationInfosWrapper.size(); n++)
 			{
-				MBeanOperationInfoWrapper operationInfoWrapper = arrMBeanOperationInfosWrapper.get(n);
+				MBeanOperationInfoWrapper operationInfoWrapper = mBeanOperationInfosWrapper.get(n);
 				MBeanOperationInfo operationInfo = operationInfoWrapper.getOperation();
 				if(operationInfo.getName().equalsIgnoreCase(csOperationName))	// Found attribut
 				{
@@ -296,9 +296,9 @@ public abstract class BaseCloseMBean extends BaseDynamicMBean
 	private void addOperation(String csDescription, Method method)
 	{
 		MBeanOperationInfoWrapper operation = new MBeanOperationInfoWrapper(csDescription, method);
-		if(arrMBeanOperationInfosWrapper == null)
-			arrMBeanOperationInfosWrapper = new ArrayList<MBeanOperationInfoWrapper>();
-		arrMBeanOperationInfosWrapper.add(operation);
+		if(mBeanOperationInfosWrapper == null)
+			mBeanOperationInfosWrapper = new ArrayList<MBeanOperationInfoWrapper>();
+		mBeanOperationInfosWrapper.add(operation);
 	}
 	
 	protected void addOperation(String csDescription, Class cls, String csMethodName)
@@ -348,41 +348,41 @@ public abstract class BaseCloseMBean extends BaseDynamicMBean
 
 	private void registerInfos(String csName, String csDescription)
 	{
-		MBeanAttributeInfo[] arrAttributes = null;
+		MBeanAttributeInfo[] attributes = null;
 		if(arrMBeanAttributeInfosWrapper != null)
 		{
 			int nNbItems = arrMBeanAttributeInfosWrapper.size();
-			arrAttributes = new MBeanAttributeInfo[nNbItems]; 
+			attributes = new MBeanAttributeInfo[nNbItems];
 			for(int n=0; n<nNbItems; n++)
 			{
 				MBeanAttributeInfoWrapper wrapper = arrMBeanAttributeInfosWrapper.get(n);
-				arrAttributes[n] = wrapper.getAttribute();
+				attributes[n] = wrapper.getAttribute();
 			}
 		} 
 		
-		MBeanOperationInfo[] arrOperations = null;
-		if(arrMBeanOperationInfosWrapper != null)
+		MBeanOperationInfo[] operations = null;
+		if(mBeanOperationInfosWrapper != null)
 		{
-			int nNbItems = arrMBeanOperationInfosWrapper.size();
-			arrOperations = new MBeanOperationInfo[nNbItems]; 
+			int nNbItems = mBeanOperationInfosWrapper.size();
+			operations = new MBeanOperationInfo[nNbItems];
 			for(int n=0; n<nNbItems; n++)
 			{
-				MBeanOperationInfoWrapper wrapper = arrMBeanOperationInfosWrapper.get(n);
-				arrOperations[n] = wrapper.getOperation();
+				MBeanOperationInfoWrapper wrapper = mBeanOperationInfosWrapper.get(n);
+				operations[n] = wrapper.getOperation();
 			}
 		} 
 		
         mBeanInfo = new MBeanInfo(csName,
                                    csDescription,
-                                   arrAttributes,
+                attributes,
                                    null,	//dConstructors,
-                                   arrOperations,
+                operations,
                                    null);	//dNotifications);
 	}
 	
 	protected void removeAllOperations()
 	{
-		arrMBeanOperationInfosWrapper.clear();
+		mBeanOperationInfosWrapper.clear();
 	}
 
 	protected void removeAllAttributes()
@@ -398,7 +398,7 @@ public abstract class BaseCloseMBean extends BaseDynamicMBean
 	}
 	
 	private ArrayList<MBeanAttributeInfoWrapper> arrMBeanAttributeInfosWrapper = null;
-	private ArrayList<MBeanOperationInfoWrapper> arrMBeanOperationInfosWrapper = null;
+	private ArrayList<MBeanOperationInfoWrapper> mBeanOperationInfosWrapper = null;
 	private MBeanInfo mBeanInfo = null;
 	private String csMBeanName = null;
 }

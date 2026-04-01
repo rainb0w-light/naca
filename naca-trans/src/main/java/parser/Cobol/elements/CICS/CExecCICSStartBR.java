@@ -63,7 +63,7 @@ public class CExecCICSStartBR extends CCobolElement
 		{
 			eSt.SetRecIDField(recIDField.GetDataReference(getLine(), factory)); 
 		}
-		if (bGTEQ)
+		if (isgTEQ)
 		{
 			eSt.SetGTEQ() ;
 		}
@@ -81,8 +81,8 @@ public class CExecCICSStartBR extends CCobolElement
 			tok = GetNext();
 		}
 		
-		boolean bDone = false ;
-		while (!bDone)
+		boolean isdone = false ;
+		while (!isdone)
 		{
 			tok = GetCurrentToken() ;
 			if (tok.GetKeyword() == CCobolKeywordList.DATASET)
@@ -129,12 +129,12 @@ public class CExecCICSStartBR extends CCobolElement
 			}
 			else if (tok.GetValue().equals("GTEQ"))
 			{
-				bGTEQ = true ;
+				isgTEQ = true ;
 				tok = GetNext() ;
 			}
 			else 
 			{
-				bDone = true ;
+				isdone = true ;
 			}
 		}
 		
@@ -165,7 +165,7 @@ public class CExecCICSStartBR extends CCobolElement
 			eCICS.appendChild(e) ;
 			recIDField.ExportTo(e, root); 
 		}
-		if (bGTEQ)
+		if (isgTEQ)
 		{
 			eCICS.setAttribute("GTEQ", "true") ;
 		}
@@ -176,5 +176,5 @@ public class CExecCICSStartBR extends CCobolElement
 	protected CTerminal dataSet = null ;
 	protected CTerminal keyLength = null ;
 	protected CIdentifier recIDField = null ;
-	protected boolean bGTEQ = false ;
+	protected boolean isgTEQ = false ;
 }

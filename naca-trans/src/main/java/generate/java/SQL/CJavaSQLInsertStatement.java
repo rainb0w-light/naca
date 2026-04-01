@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*/*
- * Created on 20 août 04
+ * Created on 20 aoï¿½t 04
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -32,7 +32,7 @@ public class CJavaSQLInsertStatement extends CEntitySQLInsertStatement
 	protected void DoExport()
 	{
 		String statement = "INSERT INTO " ;
-		if (bSessionTable)
+		if (issessionTable)
 		{
 			statement += "SESSION.";
 		}
@@ -43,16 +43,16 @@ public class CJavaSQLInsertStatement extends CEntitySQLInsertStatement
 		else
 		{
 			statement += csTable;
-			if (arrCollumns != null)
+			if (collumns != null)
 			{
 				statement += " (" ; 
-				for (int i=0; i<arrCollumns.size(); i++)
+				for (int i = 0; i< collumns.size(); i++)
 				{
 					if (i>0)
 					{
 						statement += ", " ;
 					}
-					statement += arrCollumns.get(i) ;
+					statement += collumns.get(i) ;
 				}
 				statement += ")" ;
 			}
@@ -60,9 +60,9 @@ public class CJavaSQLInsertStatement extends CEntitySQLInsertStatement
 		if (selectClause.equals(""))
 		{
 			statement += " VALUES (" ;
-			for (int i=0; i<arrValues.size(); i++)
+			for (int i = 0; i< values.size(); i++)
 			{
-				CDataEntity e = (CDataEntity)arrValues.get(i);
+				CDataEntity e = (CDataEntity) values.get(i);
 				if (i>0)
 				{
 					statement += ", " ;
@@ -85,11 +85,11 @@ public class CJavaSQLInsertStatement extends CEntitySQLInsertStatement
 		WriteWord("sql(");
 		WriteLongString(statement);
 		WriteWord(")");
-		if (arrValues != null)
+		if (values != null)
 		{
-			for (int i=0; i<arrValues.size(); i++)
+			for (int i = 0; i< values.size(); i++)
 			{
-				CDataEntity e = (CDataEntity)arrValues.get(i);
+				CDataEntity e = (CDataEntity) values.get(i);
 				if (e.GetDataType() == CDataEntity.CDataEntityType.NUMBER || e.GetDataType() == CDataEntity.CDataEntityType.STRING)
 				{
 				}
@@ -100,11 +100,11 @@ public class CJavaSQLInsertStatement extends CEntitySQLInsertStatement
 				}
 			}
 		}
-		if (arrSelectParameters != null)
+		if (selectParameters != null)
 		{
-			for(int i=0; i<arrSelectParameters.size(); i++)
+			for(int i = 0; i< selectParameters.size(); i++)
 			{
-				CDataEntity cs = (CDataEntity)arrSelectParameters.get(i);
+				CDataEntity cs = (CDataEntity) selectParameters.get(i);
 				if (cs != null)
 				{
 					WriteEOL();

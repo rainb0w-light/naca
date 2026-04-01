@@ -47,8 +47,8 @@ public abstract class CEntityReplace extends CBaseActionEntity
 		public CReplaceMode mode = null ;
 		public CReplaceType replaceDataType = null ;
 		public CDataEntity replaceData = null ;
-		public CReplaceType byDataType = null ;
-		public CDataEntity byData = null ;
+		public CReplaceType dataType = null ;
+		public CDataEntity data = null ;
 	} 
 	/**
 	 * @param line
@@ -61,17 +61,17 @@ public abstract class CEntityReplace extends CBaseActionEntity
 	}
 	
 	protected CDataEntity variable = null ; 
-	protected Vector<CReplaceItem> arrItemsToReplace = new Vector<CReplaceItem>() ;
+	protected Vector<CReplaceItem> itemsToReplace = new Vector<CReplaceItem>() ;
 	private CReplaceItem curItem = null ;
 	public void Clear()
 	{
 		super.Clear() ;
 		variable = null ;
-		arrItemsToReplace.clear() ;
+		itemsToReplace.clear() ;
 		if (curItem != null)
 		{
-			curItem.byData = null ;
-			curItem.byDataType = null ;
+			curItem.data = null ;
+			curItem.dataType = null ;
 			curItem.replaceData = null ;
 			curItem = null ;
 		}
@@ -118,30 +118,30 @@ public abstract class CEntityReplace extends CBaseActionEntity
 	}
 	public void BySpaces()
 	{
-		curItem.byDataType = CReplaceType.SPACES ;
-		curItem.byData = null ;
-		arrItemsToReplace.add(curItem) ;
+		curItem.dataType = CReplaceType.SPACES ;
+		curItem.data = null ;
+		itemsToReplace.add(curItem) ;
 		curItem = null ;
 	}
 	public void ByZeros()
 	{
-		curItem.byDataType = CReplaceType.ZEROS ;
-		curItem.byData = null ;
-		arrItemsToReplace.add(curItem) ;
+		curItem.dataType = CReplaceType.ZEROS ;
+		curItem.data = null ;
+		itemsToReplace.add(curItem) ;
 		curItem = null ;
 	}
 	public void ByLowValues()
 	{
-		curItem.byDataType = CReplaceType.LOW_VALUES ;
-		curItem.byData = null ;
-		arrItemsToReplace.add(curItem) ;
+		curItem.dataType = CReplaceType.LOW_VALUES ;
+		curItem.data = null ;
+		itemsToReplace.add(curItem) ;
 		curItem = null ;
 	}
 	public void ByHighValues()
 	{
-		curItem.byDataType = CReplaceType.HIGH_VALUES ;
-		curItem.byData = null ;
-		arrItemsToReplace.add(curItem) ;
+		curItem.dataType = CReplaceType.HIGH_VALUES ;
+		curItem.data = null ;
+		itemsToReplace.add(curItem) ;
 		curItem = null ;
 	}
 	public void ReplaceData(CDataEntity e)
@@ -151,9 +151,9 @@ public abstract class CEntityReplace extends CBaseActionEntity
 	}
 	public void ByData(CDataEntity e)
 	{
-		curItem.byDataType = CReplaceType.CUSTOM ;
-		curItem.byData = e ;
-		arrItemsToReplace.add(curItem) ;
+		curItem.dataType = CReplaceType.CUSTOM ;
+		curItem.data = e ;
+		itemsToReplace.add(curItem) ;
 		curItem = null ;
 	}
 	public boolean ignore()

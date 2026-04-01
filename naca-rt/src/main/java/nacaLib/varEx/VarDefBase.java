@@ -17,7 +17,6 @@ import jlib.misc.ArrayFix;
 import jlib.misc.ArrayFixDyn;
 import jlib.misc.IntegerRef;
 import nacaLib.base.CJMapObject;
-import nacaLib.base.JmxGeneralStat;
 import nacaLib.basePrgEnv.BaseProgramManager;
 import nacaLib.bdb.BtreeSegmentKeyTypeFactory;
 import nacaLib.exceptions.OccursOverflowException;
@@ -33,8 +32,8 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
 {
 	public VarDefBase(VarDefBase varDefParent, VarLevel varLevel)
 	{
-		boolean bWSVar = !varLevel.getProgramManager().isLinkageSectionCurrent();
-		setWSVar(bWSVar);
+		boolean iswSVar = !varLevel.getProgramManager().isLinkageSectionCurrent();
+		setWSVar(iswSVar);
 
 		this.varDefParent = varDefParent;
 		setLevel(varLevel.getLevel());
@@ -1209,8 +1208,8 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
 				VarDefBase arr[] = new VarDefBase [nSize];
 				arrChildren.transferInto(arr);
 				
-				ArrayFix<VarDefBase> arrChildrenFix = new ArrayFix<VarDefBase>(arr);
-				arrChildren = arrChildrenFix;	// replace by a fix one (uning less memory)
+				ArrayFix<VarDefBase> childrenFix = new ArrayFix<VarDefBase>(arr);
+				arrChildren = childrenFix;	// replace by a fix one (uning less memory)
 			}
 		}
 		if(occursItemSettings != null)
@@ -1225,8 +1224,8 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
 				VarDefBase arr[] = new VarDefBase [nSize];
 				arrRedefinition.transferInto(arr);
 				
-				ArrayFix<VarDefBase> arrRedefinitionFix = new ArrayFix<VarDefBase>(arr);
-				arrRedefinition = arrRedefinitionFix;	// replace by a fix one (uning less memory)
+				ArrayFix<VarDefBase> redefinitionFix = new ArrayFix<VarDefBase>(arr);
+				arrRedefinition = redefinitionFix;	// replace by a fix one (uning less memory)
 			}
 		}
 	}

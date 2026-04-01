@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static com.example.hungarian.HungarianPrefixRegistry.PrefixRule;
+
 /**
  * 匈牙利命名法前缀注册表实现
  * 使用 PersistentStateComponent 实现配置持久化
@@ -143,7 +145,7 @@ public class HungarianPrefixRegistryImpl implements HungarianPrefixRegistry, Per
 
     private void rebuildCache() {
         ruleCache = rules.stream()
-            .filter(PrefixRuleData::isEnabled)
+            .filter(r -> r.enabled)
             .map(PrefixRuleData::toRule)
             .collect(Collectors.toMap(PrefixRule::prefix, r -> r, (a, b) -> a));
     }

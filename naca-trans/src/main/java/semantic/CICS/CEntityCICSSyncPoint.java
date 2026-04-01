@@ -37,7 +37,7 @@ public abstract class CEntityCICSSyncPoint extends CBaseActionEntity
 		cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
 	}
 	
-	protected boolean bRollback = false ;
+	protected boolean isrollback = false ;
 	public boolean ignore()
 	{
 		return false; 

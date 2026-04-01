@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 18 août 2004
+ * Created on 18 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -27,41 +27,41 @@ public abstract class CEntityCondIsKindOf extends CUnitaryEntityCondition
 	public void SetIsNumeric(CDataEntity data)
 	{
 		SetConditonReference(data) ;
-		bIsNumeric = true ;
-		bIsAlphabetic = false ;
-		bIsLower = false ;
-		bIsUpper = false ;
+		isisNumeric = true ;
+		isisAlphabetic = false ;
+		isisLower = false ;
+		isisUpper = false ;
 	}
 	public void SetIsAlphabetic(CDataEntity data)
 	{
 		SetConditonReference(data) ;
-		bIsNumeric = false ;
-		bIsAlphabetic = true ;
-		bIsLower = false ;
-		bIsUpper = false ;
+		isisNumeric = false ;
+		isisAlphabetic = true ;
+		isisLower = false ;
+		isisUpper = false ;
 	}
 	public void SetIsLower(CDataEntity data)
 	{
 		SetConditonReference(data) ;
-		bIsNumeric = false ;
-		bIsAlphabetic = false ;
-		bIsLower = true ;
-		bIsUpper = false ;
+		isisNumeric = false ;
+		isisAlphabetic = false ;
+		isisLower = true ;
+		isisUpper = false ;
 	}
 	public void SetIsUpper(CDataEntity data)
 	{
 		SetConditonReference(data) ;
-		bIsNumeric = false ;
-		bIsAlphabetic = false ;
-		bIsLower = false ;
-		bIsUpper = true ;
+		isisNumeric = false ;
+		isisAlphabetic = false ;
+		isisLower = false ;
+		isisUpper = true ;
 	}
 
-	protected boolean bIsNumeric = false ;
-	protected boolean bIsLower = false ;
-	protected boolean bIsUpper = false ;
-	protected boolean bIsAlphabetic = false ;
-	protected boolean bOpposite = false ;
+	protected boolean isisNumeric = false ;
+	protected boolean isisLower = false ;
+	protected boolean isisUpper = false ;
+	protected boolean isisAlphabetic = false ;
+	protected boolean isopposite = false ;
 	public boolean ignore()
 	{
 		return reference.ignore();
@@ -83,7 +83,7 @@ public abstract class CEntityCondIsKindOf extends CUnitaryEntityCondition
 	}
 	public void setOpposite()
 	{
-		bOpposite = !bOpposite ;
+		isopposite = !isopposite;
 	}
 	public boolean isBinaryCondition()
 	{

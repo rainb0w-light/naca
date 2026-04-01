@@ -44,9 +44,9 @@ public class StringAsciiEbcdicUtil
             int nMin;
             int nMax;
             int nRet;
-            char cSpace = ' ';
+            char space = ' ';
         	if(mode == ComparisonMode.Ebcdic)
-        		cSpace = AsciiEbcdicConverter.getEbcdicChar(cSpace);
+        		space = AsciiEbcdicConverter.getEbcdicChar(space);
 
         	if(n1 > n2)
             {
@@ -67,9 +67,9 @@ public class StringAsciiEbcdicUtil
             	char c = csLargest.charAt(n);
             	if(mode == ComparisonMode.Ebcdic)
             		c = AsciiEbcdicConverter.getEbcdicChar(c);
-            	if(c > cSpace)
+            	if(c > space)
             		return nRet;
-            	if(c < cSpace)
+            	if(c < space)
             		return -nRet;
             }
         }
@@ -107,9 +107,9 @@ public class StringAsciiEbcdicUtil
             int nMin;
             int nMax;
             int nRet;
-            char cSpace = ' ';
+            char space = ' ';
         	if(mode == ComparisonMode.Ebcdic)
-        		cSpace = AsciiEbcdicConverter.getEbcdicChar(cSpace);
+        		space = AsciiEbcdicConverter.getEbcdicChar(space);
 
         	if(n1 > n2)
             {
@@ -121,9 +121,9 @@ public class StringAsciiEbcdicUtil
                 	char c = cs1.charAt(n);
                 	if(mode == ComparisonMode.Ebcdic)
                 		c = AsciiEbcdicConverter.getEbcdicChar(c);
-                	if(c > cSpace)
+                	if(c > space)
                 		return nRet;
-                	if(c < cSpace)
+                	if(c < space)
                 		return -nRet;
                 }
             }
@@ -137,9 +137,9 @@ public class StringAsciiEbcdicUtil
                 	char c = cs2.charAt(n);
                 	if(mode == ComparisonMode.Ebcdic)
                 		c = AsciiEbcdicConverter.getEbcdicChar(c);
-                	if(c > cSpace)
+                	if(c > space)
                 		return nRet;
-                	if(c < cSpace)
+                	if(c < space)
                 		return -nRet;
                 }
             }
@@ -179,9 +179,9 @@ public class StringAsciiEbcdicUtil
             int nMin;
             int nMax;
             int nRet;
-            char cSpace = ' ';
+            char space = ' ';
         	if(mode == ComparisonMode.Ebcdic)
-        		cSpace = AsciiEbcdicConverter.getEbcdicChar(cSpace);
+        		space = AsciiEbcdicConverter.getEbcdicChar(space);
 
         	if(n1 > n2)
             {
@@ -202,9 +202,9 @@ public class StringAsciiEbcdicUtil
             	char c = csLargest.charAt(n);
             	if(mode == ComparisonMode.Ebcdic)
             		c = AsciiEbcdicConverter.getEbcdicChar(c);
-            	if(c > cSpace)
+            	if(c > space)
             		return nRet;
-            	if(c < cSpace)
+            	if(c < space)
             		return -nRet;
             }
         }

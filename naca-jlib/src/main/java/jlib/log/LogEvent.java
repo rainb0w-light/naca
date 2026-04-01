@@ -129,18 +129,18 @@ public class LogEvent
 
 	public void fillMember(String csName, String csValue)
 	{
-		if(arrLogInfoMembers == null)
-			arrLogInfoMembers = new ArrayList<LogInfoMember>();
+		if(logInfoMembers == null)
+			logInfoMembers = new ArrayList<LogInfoMember>();
 		LogInfoMember logInfomember = new LogInfoMember(csName, csValue);
-		arrLogInfoMembers.add(logInfomember);
+		logInfoMembers.add(logInfomember);
 	}
 	
 	public void fillMember(String csName, int nValue)
 	{
-		if(arrLogInfoMembers == null)
-			arrLogInfoMembers = new ArrayList<LogInfoMember>();
+		if(logInfoMembers == null)
+			logInfoMembers = new ArrayList<LogInfoMember>();
 		LogInfoMember logInfomember = new LogInfoMember(csName, nValue);
-		arrLogInfoMembers.add(logInfomember);
+		logInfoMembers.add(logInfomember);
 	}
 
 	public String getAsString()
@@ -150,12 +150,12 @@ public class LogEvent
 		{
 			cs = "Product="+csProduct+" ; " ;
 		}
-		if(arrLogInfoMembers != null)
+		if(logInfoMembers != null)
 		{
-			int nNbMembers = arrLogInfoMembers.size();
+			int nNbMembers = logInfoMembers.size();
 			for(int n=0; n<nNbMembers; n++)
 			{				
-				LogInfoMember logInfoMember = arrLogInfoMembers.get(n);
+				LogInfoMember logInfoMember = logInfoMembers.get(n);
 				cs += "; "+ logInfoMember.getAsString();
 			}
 			return cs;
@@ -165,12 +165,12 @@ public class LogEvent
 	
 	String getTextAsString(int n)
 	{
-		if(arrLogInfoMembers != null)
+		if(logInfoMembers != null)
 		{
-			int nNbMembers = arrLogInfoMembers.size();
+			int nNbMembers = logInfoMembers.size();
 			if(n < nNbMembers)
 			{
-				LogInfoMember logInfoMember = arrLogInfoMembers.get(n);
+				LogInfoMember logInfoMember = logInfoMembers.get(n);
 				String cs = logInfoMember.getAsString();
 				return cs;
 			}
@@ -180,12 +180,12 @@ public class LogEvent
 	
 	String getItemValue(int n)
 	{
-		if(arrLogInfoMembers != null)
+		if(logInfoMembers != null)
 		{
-			int nNbMembers = arrLogInfoMembers.size();
+			int nNbMembers = logInfoMembers.size();
 			if(n < nNbMembers)
 			{
-				LogInfoMember logInfoMember = arrLogInfoMembers.get(n);
+				LogInfoMember logInfoMember = logInfoMembers.get(n);
 				String cs = logInfoMember.getValue();
 				return cs;
 			}
@@ -195,12 +195,12 @@ public class LogEvent
 	
 	LogInfoMember getParamInfoMember(int n)
 	{
-		if(arrLogInfoMembers != null)
+		if(logInfoMembers != null)
 		{
-			int nNbMembers = arrLogInfoMembers.size();
+			int nNbMembers = logInfoMembers.size();
 			if(n < nNbMembers)
 			{
-				LogInfoMember logInfoMember = arrLogInfoMembers.get(n);
+				LogInfoMember logInfoMember = logInfoMembers.get(n);
 				return logInfoMember;
 			}
 		}
@@ -209,9 +209,9 @@ public class LogEvent
 	
 	int getNbParamInfoMember()
 	{
-		if(arrLogInfoMembers != null)
+		if(logInfoMembers != null)
 		{
-			int nNbMembers = arrLogInfoMembers.size();
+			int nNbMembers = logInfoMembers.size();
 			return nNbMembers;
 		}
 		return 0;
@@ -233,5 +233,5 @@ public class LogEvent
 	private LogFlow logFlow = null;
 	private String csProduct = null;
 	private String csProcess = null;
-	private ArrayList<LogInfoMember> arrLogInfoMembers = null;
+	private ArrayList<LogInfoMember> logInfoMembers = null;
 }

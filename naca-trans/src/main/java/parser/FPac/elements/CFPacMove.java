@@ -30,11 +30,11 @@ import utils.FPacTranscoder.OperandDescription;
 
 public class CFPacMove extends CFPacElement
 {
-	private Vector<CExpression> arrTerms ;
-	private boolean bMoveToInput = false ;
-	private boolean bMovefromOutput = false ;
+	private Vector<CExpression> terms;
+	private boolean ismoveToInput = false ;
+	private boolean ismovefromOutput = false ;
 	private boolean bMovePacked = false ;
-	private boolean bUnpack = false ;
+	private boolean isunpack = false ;
 	
 	public CFPacMove(int line, Vector<CExpression> arrTerms)
 	{
@@ -51,9 +51,9 @@ public class CFPacMove extends CFPacElement
 	@Override
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		if (arrTerms.size() == 1)
+		if (terms.size() == 1)
 		{
-			CExpression e = arrTerms.get(0) ;
+			CExpression e = terms.get(0) ;
 			CBaseEntityExpression exp = e.AnalyseExpression(factory) ;
 			CExpression op = e.GetFirstCalculOperand();
 			if (op.IsReference())
@@ -76,23 +76,23 @@ public class CFPacMove extends CFPacElement
 			return null ;
 		}
 		
-		ListIterator<CExpression> iter = arrTerms.listIterator() ;
+		ListIterator<CExpression> iter = terms.listIterator() ;
 
-		OperandDescription op1 = OperandDescription.FindFirstDataEntity(iter, factory, bMovefromOutput) ;
+		OperandDescription op1 = OperandDescription.FindFirstDataEntity(iter, factory, ismovefromOutput) ;
 		if (op1 == null || op1.eObject == null)
 		{
 			Transcoder.logError(getLine(), "Unexpecting entity") ;
 			return null ;
 		}
 		
-		OperandDescription op2 = OperandDescription.FindSecondDataEntity(iter, factory, bMoveToInput) ;
+		OperandDescription op2 = OperandDescription.FindSecondDataEntity(iter, factory, ismoveToInput) ;
 		if (op2 == null || op2.eObject == null)
 		{
 			Transcoder.logError(getLine(), "Unexpecting entity") ;
 			return null ;
 		}
 		
-		boolean bSpecialPacked = false;
+		boolean isspecialPacked = false;
 		if (op1.expStart != null && op1.expLength == null && op2.expLength != null)
 		{
 			if (op2.expLength.GetDataType() == CDataEntityType.ADDRESS || op2.expLength.GetDataType() == CDataEntityType.NUMBER)
@@ -110,7 +110,7 @@ public class CFPacMove extends CFPacElement
 												|| NumberParser.getAsInt(op2.expStart.GetConstantValue()) >= 7000))
 					{ // in packed fields, number are stored 2 per byte 
 						op1.expLength = factory.NewEntityExprTerminal(factory.NewEntityNumber(cs.length() / 2)) ;
-						bSpecialPacked = true;
+						isspecialPacked = true;
 					}
 					else
 					{
@@ -143,7 +143,7 @@ public class CFPacMove extends CFPacElement
 		if (op1.expStart != null)
 		{
 			CEntityConvertReference conv = factory.NewEntityConvert(getLine()) ;
-			if (bMovePacked || bSpecialPacked)
+			if (bMovePacked || isspecialPacked)
 				conv.convertToPacked(op1.eObject) ;
 			else
 				conv.convertToAlphaNum(op1.eObject) ;
@@ -222,7 +222,7 @@ public class CFPacMove extends CFPacElement
 	protected Element ExportCustom(Document root)
 	{
 		Element eAdd = root.createElement("Move") ;
-		for (CExpression t : arrTerms)
+		for (CExpression t : terms)
 		{
 			Element e = root.createElement("Term") ;
 			e.appendChild(t.Export(root)) ;
@@ -236,7 +236,7 @@ public class CFPacMove extends CFPacElement
 	 */
 	public void moveToInput()
 	{
-		bMoveToInput  = true ;
+		ismoveToInput = true ;
 	}
 
 	/**
@@ -244,7 +244,7 @@ public class CFPacMove extends CFPacElement
 	 */
 	public void moveFromOutput()
 	{
-		bMovefromOutput  = true ;
+		ismovefromOutput = true ;
 	}
 
 	/**
@@ -260,7 +260,7 @@ public class CFPacMove extends CFPacElement
 	 */
 	public void unpack()
 	{
-		this.bUnpack  = true ; 
+		this.isunpack = true ;
 	}
 
 }

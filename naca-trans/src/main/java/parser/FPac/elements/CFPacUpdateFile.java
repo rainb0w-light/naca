@@ -43,8 +43,8 @@ public class CFPacUpdateFile extends CFPacElement
 	}
 
 	protected int ulFileId = 0;
-	protected boolean bVariableFile = false; 
-	private CTerminal cLR; 
+	protected boolean isvariableFile = false;
+	private CTerminal lR;
 
 	@Override
 	protected boolean DoParsing()
@@ -71,7 +71,7 @@ public class CFPacUpdateFile extends CFPacElement
 		tok = GetNext() ;
 		if (tok.GetKeyword() == CFPacKeywordList.SQ)
 		{
-			bVariableFile = false ;
+			isvariableFile = false ;
 			tok = GetNext() ;
 			if (tok.GetType() == CTokenType.MINUS)
 			{
@@ -79,7 +79,7 @@ public class CFPacUpdateFile extends CFPacElement
 				if (tok.GetKeyword() == CFPacKeywordList.VAR)
 				{
 					tok =GetNext() ;
-					bVariableFile = true ;
+					isvariableFile = true ;
 				}
 				else
 				{
@@ -102,7 +102,7 @@ public class CFPacUpdateFile extends CFPacElement
 				if (tok.GetType() == CTokenType.EQUALS) 
 				{
 					tok = GetNext() ;
-					cLR = ReadTerminal() ;
+					lR = ReadTerminal() ;
 				}
 				else
 				{
@@ -112,7 +112,7 @@ public class CFPacUpdateFile extends CFPacElement
 			}
 			else if (tok.GetType() == CTokenType.NUMBER)
 			{
-				arrNumbers.add(tok.GetValue()) ;
+				numbers.add(tok.GetValue()) ;
 				tok = GetNext();
 			}
 			else
@@ -125,7 +125,7 @@ public class CFPacUpdateFile extends CFPacElement
 		
 	}
 	
-	protected Vector<String> arrNumbers = new Vector<String>() ;
+	protected Vector<String> numbers = new Vector<String>() ;
 
 	@Override
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
@@ -141,7 +141,7 @@ public class CFPacUpdateFile extends CFPacElement
 		factory.programCatalog.RegisterFileDescriptor(csDescAlias, att) ;
 
 		att.setFileAccessType(CEntityOpenFile.OpenMode.INPUT_OUTPUT) ;
-		att.setRecordSizeVariable(bVariableFile) ;
+		att.setRecordSizeVariable(isvariableFile) ;
 		
 		CEntityFileBuffer buff = factory.NewEntityFileBuffer(csDescAlias, att) ;
 		NotifRegisterUpdateFile notif = new NotifRegisterUpdateFile() ;
@@ -158,14 +158,14 @@ public class CFPacUpdateFile extends CFPacElement
 	{
 		Element eAdd = root.createElement("UpdateFile") ;
 		eAdd.setAttribute("FileId", String.valueOf(ulFileId)) ;
-		eAdd.setAttribute("Var", String.valueOf(bVariableFile)) ;
-		if (cLR != null)
+		eAdd.setAttribute("Var", String.valueOf(isvariableFile)) ;
+		if (lR != null)
 		{
 			Element eCLR = root.createElement("CLR") ;
-			cLR.ExportTo(eCLR, root) ;
+			lR.ExportTo(eCLR, root) ;
 			eAdd.appendChild(eCLR) ;
 		}
-		for (String cs: arrNumbers)
+		for (String cs: numbers)
 		{
 			Element e = root.createElement("Number") ;
 			eAdd.appendChild(e) ;

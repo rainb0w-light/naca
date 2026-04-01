@@ -41,7 +41,7 @@ public class CJavaDivide extends CEntityDivide
 		cs += what.ExportReference(getLine()) + ", ";
 		cs += by.ExportReference(getLine()) + ")" ;
 		WriteWord(cs);
-		if (bIsRounded)
+		if (isisRounded)
 		{
 			cs = ".toRounded(" + result.ExportReference(getLine()) ;
 		}

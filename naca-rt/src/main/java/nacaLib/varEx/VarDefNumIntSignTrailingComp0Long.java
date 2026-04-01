@@ -103,9 +103,9 @@ public class VarDefNumIntSignTrailingComp0Long extends VarDefNum
 	
 	public void inc(VarBufferPos buffer, int n)
 	{
-		long lVal = getAsDecodedLong(buffer);
-		lVal += n;
-		write(buffer, lVal);
+		long val = getAsDecodedLong(buffer);
+		val += n;
+		write(buffer, val);
 	}
 
 	public void inc(VarBufferPos buffer, BigDecimal bdStep)

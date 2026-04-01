@@ -20,9 +20,9 @@ public  class CStrManager
 {
 	public CStr getMapped()
 	{
-		if(nIndexCStrMapped < arrCStrMapped.size())
+		if(nIndexCStrMapped < cStrMapped.size())
 		{
-			CStr cs = arrCStrMapped.get(nIndexCStrMapped);
+			CStr cs = cStrMapped.get(nIndexCStrMapped);
 			//cs.set(null, 0, 0);	// Erase previous buffer, as we are mapped
 			nIndexCStrMapped++;
 			return cs;			
@@ -30,67 +30,67 @@ public  class CStrManager
 		else
 		{
 			CStr cs = new CStr();
-			arrCStrMapped.add(cs);
-			nIndexCStrMapped = arrCStrMapped.size();
+			cStrMapped.add(cs);
+			nIndexCStrMapped = cStrMapped.size();
 			return cs;
 		}		
 	}
 	
 	public CStr getReusable()
 	{
-		if(nIndexCStrReusable < arrCStrReusable.size())
+		if(nIndexCStrReusable < cStrReusable.size())
 		{
-			CStr cs = arrCStrReusable.get(nIndexCStrReusable);
+			CStr cs = cStrReusable.get(nIndexCStrReusable);
 			nIndexCStrReusable++;
 			return cs;			
 		}
 		else
 		{
 			CStr cs = new CStr();
-			arrCStrReusable.add(cs);
-			nIndexCStrReusable = arrCStrReusable.size();
+			cStrReusable.add(cs);
+			nIndexCStrReusable = cStrReusable.size();
 			return cs;
 		}		
 	}
 	
 	public CStrNumber getNumber()
 	{
-		if(nIndexCStrNumber < arrCStrNumber.size())
+		if(nIndexCStrNumber < cStrNumber.size())
 		{
-			CStrNumber csNum = arrCStrNumber.get(nIndexCStrNumber);
+			CStrNumber csNum = cStrNumber.get(nIndexCStrNumber);
 			nIndexCStrNumber++;
 			return csNum;			
 		}
 		else
 		{
 			CStrNumber csNum = new CStrNumber();
-			arrCStrNumber.add(csNum);
-			nIndexCStrNumber = arrCStrNumber.size();
+			cStrNumber.add(csNum);
+			nIndexCStrNumber = cStrNumber.size();
 			return csNum;
 		}			
 	}
 	
 	public CStrString getString()
 	{
-		if(nIndexCStrString < arrCStrString.size())
+		if(nIndexCStrString < cStrString.size())
 		{
-			CStrString cs = arrCStrString.get(nIndexCStrString);
+			CStrString cs = cStrString.get(nIndexCStrString);
 			nIndexCStrString++;
 			return cs;			
 		}
 		else
 		{
 			CStrString cs = new CStrString();
-			arrCStrString.add(cs);
-			nIndexCStrString = arrCStrString.size();
+			cStrString.add(cs);
+			nIndexCStrString = cStrString.size();
 			return cs;
 		}
 	}
 	
-	private ArrayList<CStr> arrCStrMapped = new ArrayList<CStr>();
-	private ArrayList<CStr> arrCStrReusable = new ArrayList<CStr>();
-	private ArrayList<CStrNumber> arrCStrNumber = new ArrayList<CStrNumber>();	
-	private ArrayList<CStrString> arrCStrString = new ArrayList<CStrString>();
+	private ArrayList<CStr> cStrMapped = new ArrayList<CStr>();
+	private ArrayList<CStr> cStrReusable = new ArrayList<CStr>();
+	private ArrayList<CStrNumber> cStrNumber = new ArrayList<CStrNumber>();
+	private ArrayList<CStrString> cStrString = new ArrayList<CStrString>();
 	
 
 	private int nIndexCStrMapped = 0;

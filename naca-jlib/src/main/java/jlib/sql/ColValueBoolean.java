@@ -12,48 +12,48 @@ import java.sql.Types;
 
 public class ColValueBoolean extends ColValue
 {
-	public ColValueBoolean(String csName, boolean bValue)
+	public ColValueBoolean(String csName, boolean isvalue)
 	{
 		super(csName);
-		bValue = bValue;
+		isvalue = isvalue;
 	}
 	
 	public ColValue duplicate()
 	{
-		return new ColValueBoolean(csName, bValue);
+		return new ColValueBoolean(csName, isvalue);
 	}
 	
 	public void setParamSQLClause(SQLClause clause)
 	{
-		clause.param(bValue);
+		clause.param(isvalue);
 	}	
 	
 	public void doFillWithResurltSetCol(ResultSet resultSet, int nCol)
 		throws SQLException
 	{
-		bValue = resultSet.getBoolean(nCol);
+		isvalue = resultSet.getBoolean(nCol);
 	}
 
 	public String getValueAsString()
 	{
-		return String.valueOf(bValue);
+		return String.valueOf(isvalue);
 	}
 	
 	String getDumpValueAsString()
 	{
-		return "(Boolean):'"+String.valueOf(bValue)+"'";
+		return "(Boolean):'"+String.valueOf(isvalue)+"'";
 	}
 	
 	public int getValueAsInt()
 	{
-		if(bValue)
+		if(isvalue)
 			return 1;
 		return 0;
 	}
 	
 	double getValueAsDouble()
 	{
-		if(bValue)
+		if(isvalue)
 			return 1.0;
 		return 0.0;
 	}
@@ -70,8 +70,8 @@ public class ColValueBoolean extends ColValue
 	
 	Object getValue()
 	{
-		return String.valueOf(Boolean.valueOf(bValue));
+		return String.valueOf(Boolean.valueOf(isvalue));
 	}
 	
-	boolean bValue = false;
+	boolean isvalue = false;
 }

@@ -34,30 +34,30 @@ public class DeclareTypeCond extends CJMapObject
 	public void set(BaseProgram program)
 	{
 		programManager = program.getProgramManager();
-		arrValues = new ArrayList<CondValue>();
+		values = new ArrayList<CondValue>();
 	}
 	
 	public DeclareTypeCond value(String s)
 	{
 		CondValue condValue = new CondValue(s);
-		arrValues.add(condValue);
+		values.add(condValue);
 		return this;
 	}
 
 	public DeclareTypeCond value(String sMin, String sMax)
 	{
 		CondValue condValue = new CondValue(sMin, sMax);
-		arrValues.add(condValue);
+		values.add(condValue);
 		return this;
 	}
 	
 	public DeclareTypeCond value(int nMin, int nMax)
 	{
-		String sMin = String.valueOf(nMin);
-		String sMax = String.valueOf(nMax);
+		String min = String.valueOf(nMin);
+		String max = String.valueOf(nMax);
 
-		CondValue condValue = new CondValue(sMin, sMax);
-		arrValues.add(condValue);
+		CondValue condValue = new CondValue(min, max);
+		values.add(condValue);
 		return this;
 	}
 	
@@ -66,14 +66,14 @@ public class DeclareTypeCond extends CJMapObject
 		String s = String.valueOf(n);
 
 		CondValue condValue = new CondValue(s);
-		arrValues.add(condValue);
+		values.add(condValue);
 		return this;
 	}
 
 	public DeclareTypeCond value(CobolConstantBase constant)
 	{
 		CondValue condValue = new CondValue(constant);
-		arrValues.add(condValue);
+		values.add(condValue);
 		return this;
 	}
 	
@@ -85,6 +85,6 @@ public class DeclareTypeCond extends CJMapObject
 		return cond;
 	}
 	
-	ArrayList<CondValue> arrValues = null;
+	ArrayList<CondValue> values = null;
 	BaseProgramManager programManager = null;
 }

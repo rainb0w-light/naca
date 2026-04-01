@@ -7,7 +7,7 @@
 package jlib.misc;
 
 /*
- * Created on 17 déc. 2004
+ * Created on 17 dï¿½c. 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -24,41 +24,41 @@ public class StopWatch
 {
 	public StopWatch()
 	{
-		lStart = System.currentTimeMillis();
+		start = System.currentTimeMillis();
 	}
 	
 	public long getElapsedTime()
 	{
-		long lStop = System.currentTimeMillis();
-		return lStop - lStart;
+		long stop = System.currentTimeMillis();
+		return stop - start;
 	}
 
 	public long getElapsedTimeReset()
 	{
-		long lStop = System.currentTimeMillis();
-		long l = lStop - lStart;
-		lStart = lStop;
+		long stop = System.currentTimeMillis();
+		long l = stop - start;
+		start = stop;
 		return l;		
 	}
 	
 	public void Reset()
 	{
-		lStart = System.currentTimeMillis();
+		start = System.currentTimeMillis();
 	}
 	
 	public boolean isTimeElapsed(long lTimeOut)
 	{
-		long lNow = System.currentTimeMillis();
-		long lElapsed = lNow - lStart;
-		if(lElapsed >= lTimeOut)
+		long now = System.currentTimeMillis();
+		long elapsed = now - start;
+		if(elapsed >= lTimeOut)
 			return true;
 		return false;
 	}
 	
 	public long getStartValue()
 	{
-		return lStart;
+		return start;
 	}
 	
-	private long lStart = 0;
+	private long start = 0;
 }

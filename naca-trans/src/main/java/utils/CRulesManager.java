@@ -15,7 +15,6 @@ package utils;
 import java.util.Hashtable;
 import java.util.Vector;
 
-import jlib.misc.StringUtil;
 import jlib.xml.*;
 
 /**
@@ -64,10 +63,10 @@ public class CRulesManager
 				String id = tagCat.getVal("id");
 				if (id != null && !id.equals(""))
 				{
-					Vector<Tag> lstRules = tagCat.getChilds("rule") ;
-					if (lstRules.size()>0)
+					Vector<Tag> listrules = tagCat.getChilds("rule") ;
+					if (listrules.size()>0)
 					{
-						tabCategories.put(id, lstRules);
+						tabCategories.put(id, listrules);
 					}
 				}
 				tagCat = tagRules.getNextChild(cur) ;
@@ -80,9 +79,9 @@ public class CRulesManager
 				String id = tagRule.getVal("id");
 				if (id != null && !id.equals(""))
 				{
-					Vector<Tag> lstRules = new Vector<Tag>() ;
-					lstRules.add(tagRule) ;
-					tabCategories.put(id, lstRules);
+					Vector<Tag> listrules = new Vector<Tag>() ;
+					listrules.add(tagRule) ;
+					tabCategories.put(id, listrules);
 				}
 				tagRule = tagRules.getNextChild(cur) ;
 			}

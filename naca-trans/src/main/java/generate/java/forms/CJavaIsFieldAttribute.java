@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 19 août 2004
+ * Created on 19 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -45,16 +45,16 @@ public class CJavaIsFieldAttribute extends CEntityIsFieldAttribute
 	public CBaseEntityCondition GetOppositeCondition()
 	{
 		CJavaIsFieldAttribute cond = new CJavaIsFieldAttribute() ;
-		cond.bIsAutoSkip = bIsAutoSkip ;
-		cond.bIsBright = bIsBright ;
-		cond.bIsCleared = bIsCleared ;
-		cond.bIsDark = bIsDark ;
-		cond.bIsModified = bIsModified ;
-		cond.bIsProtected = bIsProtected ;
-		cond.bIsNumeric = bIsNumeric ;
-		cond.bIsUnmodified = bIsUnmodified ;
-		cond.bIsUnprotected = bIsUnprotected ;
-		cond.bOpposite = ! bOpposite ;
+		cond.isisAutoSkip = isisAutoSkip;
+		cond.isisBright = isisBright;
+		cond.isisCleared = isisCleared;
+		cond.isisDark = isisDark;
+		cond.isisModified = isisModified;
+		cond.isisProtected = isisProtected;
+		cond.isisNumeric = isisNumeric;
+		cond.isisUnmodified = isisUnmodified;
+		cond.isisUnprotected = isisUnprotected;
+		cond.isopposite = !isopposite;
 		cond.nbConditions = nbConditions ;
 		cond.reference = reference ;
 		cond.varValue = varValue ;
@@ -68,61 +68,61 @@ public class CJavaIsFieldAttribute extends CEntityIsFieldAttribute
 	public String Export()
 	{
 		String start = "is" ;
-		if (bOpposite)
+		if (isopposite)
 		{
 			start += "Not" ;
 		}
 		String cs = "" ;
-		boolean bAddBracket = false;
+		boolean isaddBracket = false;
 		if (varValue != null)
 		{
 			cs += start + "FieldAttribute("+ reference.ExportReference(getLine())+", " + varValue.ExportReference(getLine())+ ")";
 		}		
 		else
 		{
-			if (bIsAutoSkip)
+			if (isisAutoSkip)
 			{
 				cs += BuildString(cs, start+"FieldAutoSkip");
 			}
-			else if (bIsProtected)
+			else if (isisProtected)
 			{
 				cs += BuildString(cs, start+"FieldProtected");
 			}
-			else if (bIsNumeric)
+			else if (isisNumeric)
 			{
 				cs += BuildString(cs, start+"FieldNumeric");
 			}
-			else if (bIsUnprotected)
+			else if (isisUnprotected)
 			{
 				cs += BuildString(cs, start+"FieldUnprotected");
 			}
-			if (bIsBright)
+			if (isisBright)
 			{
-				if (cs.length() > 0) bAddBracket = true; 
+				if (cs.length() > 0) isaddBracket = true;
 				cs += BuildString(cs, start+"FieldBright");
 			}
-			else if (bIsDark)
+			else if (isisDark)
 			{
-				if (cs.length() > 0) bAddBracket = true;
+				if (cs.length() > 0) isaddBracket = true;
 				cs += BuildString(cs, start+"FieldDark");
 			}
-			if (bIsModified)
+			if (isisModified)
 			{
-				if (cs.length() > 0) bAddBracket = true;
+				if (cs.length() > 0) isaddBracket = true;
 				cs += BuildString(cs, start+"FieldModified");
 			}
-			else if (bIsUnmodified)
+			else if (isisUnmodified)
 			{
-				if (cs.length() > 0) bAddBracket = true;
+				if (cs.length() > 0) isaddBracket = true;
 				cs += BuildString(cs, start+"FieldUnmodified");
 			}
-			else if (bIsCleared)
+			else if (isisCleared)
 			{
-				if (cs.length() > 0) bAddBracket = true;
+				if (cs.length() > 0) isaddBracket = true;
 				cs += BuildString(cs, start+"FieldCleared");
 			}
 		}
-		if (bAddBracket)
+		if (isaddBracket)
 			return "(" + cs + ")";
 		else
 			return cs ;
@@ -132,7 +132,7 @@ public class CJavaIsFieldAttribute extends CEntityIsFieldAttribute
 		String toto = "" ;
 		if (line.length() > 0)
 		{
-			if (bOpposite)
+			if (isopposite)
 			{
 				toto += " || " ;
 			}

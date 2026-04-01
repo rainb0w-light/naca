@@ -52,14 +52,14 @@ public class CJavaDisplay extends CEntityDisplay
 			cs = "display(";
 		}
 		boolean bValNeeded = false;
-		for (int i=0; i<arrItemsToDisplay.size(); i++)
+		for (int i = 0; i< itemsToDisplay.size(); i++)
 		{
-			CDataEntity e = arrItemsToDisplay.get(i);
+			CDataEntity e = itemsToDisplay.get(i);
 			if(i != 0)
 				cs += " + "; 	
 			
 			String cs2 = ".display(" + e.ExportReference(getLine()) + ")" ;
-			if(arrItemsToDisplay.size() > 1 && e.isValNeeded())
+			if(itemsToDisplay.size() > 1 && e.isValNeeded())
 				cs += "val(" + e.ExportReference(getLine()) + ")";
 			else
 				cs += e.ExportReference(getLine());

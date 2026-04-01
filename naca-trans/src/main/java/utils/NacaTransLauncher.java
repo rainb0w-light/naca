@@ -19,7 +19,7 @@ public class NacaTransLauncher extends Transcoder
 	public static void launchMain(String[] args)
 	{
 		String csCfg = "NacaTrans.cfg" ;
-		boolean bCfgSet = false;
+		boolean iscfgSet = false;
 		String csGroupToTranscode = "" ;
 		String csApplication = null;
 		TranscoderAction transcoderAction = TranscoderAction.All;
@@ -29,35 +29,35 @@ public class NacaTransLauncher extends Transcoder
 			if ((s.startsWith("-") || s.startsWith("/")) && s.contains("="))
 			{
 				int eqPos = s.indexOf('=');
-				String sArg = s.substring(1, eqPos);
-				String sArgUpper = sArg.toUpperCase();
-				String sArgValue = s.substring(eqPos + 1);
+				String arg = s.substring(1, eqPos);
+				String argUpper = arg.toUpperCase();
+				String argValue = s.substring(eqPos + 1);
 
-				if (sArgUpper.equals("APPLICATION"))
+				if (argUpper.equals("APPLICATION"))
 				{
-					csApplication = sArgValue;
+					csApplication = argValue;
 				}
-				else if (sArgUpper.equals("GROUP"))
+				else if (argUpper.equals("GROUP"))
 				{
-					csGroupToTranscode = sArgValue;
+					csGroupToTranscode = argValue;
 				}
-				else if (sArgUpper.equals("ACTION"))
+				else if (argUpper.equals("ACTION"))
 				{
-					String csAction = sArgValue;
+					String csAction = argValue;
 					transcoderAction = getTranscoderAction(csAction);
 				}
-				else if (sArgUpper.equals("CONFIGFILE"))
+				else if (argUpper.equals("CONFIGFILE"))
 				{
-					csCfg = sArgValue;
-					bCfgSet = true;
+					csCfg = argValue;
+					iscfgSet = true;
 				}
 			}
 			else
 			{
-				if(!bCfgSet)
+				if(!iscfgSet)
 				{
 					csCfg = s;
-					bCfgSet = true;
+					iscfgSet = true;
 				}
 				else
 					csGroupToTranscode = s;

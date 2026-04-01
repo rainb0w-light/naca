@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 20 août 04
+ * Created on 20 aoï¿½t 04
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -46,9 +46,9 @@ public class CJavaSQLDeleteStatement extends CEntitySQLDeleteStatement
 			WriteLongString(csStatement.trim());
 			WriteWord(")");
 		}
-		for(int i=0; i<arrParameters.size(); i++)
+		for(int i = 0; i< parameters.size(); i++)
 		{
-			CDataEntity e = arrParameters.get(i);
+			CDataEntity e = parameters.get(i);
 			if (e != null)
 			{
 				WriteEOL();

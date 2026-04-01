@@ -22,7 +22,6 @@ import semantic.CBaseEntityFactory;
 import semantic.CBaseLanguageEntity;
 import semantic.forms.CEntityResourceField;
 import semantic.forms.CResourceStrings;
-import utils.CEntityHierarchy;
 import utils.PosLineCol;
 import utils.Transcoder;
 
@@ -62,9 +61,9 @@ public class CFieldElement extends CBMSElement
 			eF.setAttribute("HighLight", highLight.name);
 		}
 		eF.setAttribute("Value", value);
-		for (int i=0; i<arrATTRB.size(); i++)
+		for (int i = 0; i< aTTRB.size(); i++)
 		{
-			String val = arrATTRB.get(i) ;
+			String val = aTTRB.get(i) ;
 			Element e = root.createElement("ATTRB") ;
 			e.setAttribute("Value", val);
 			eF.appendChild(e) ; 
@@ -179,8 +178,8 @@ public class CFieldElement extends CBMSElement
 				return false ;
 			}
 			tok = GetNext();
-			boolean bDone = false ;
-			while (!bDone)
+			boolean isdone = false ;
+			while (!isdone)
 			{
 				tok = GetCurrentToken();
 				if (tok.GetConstant() == CBMSConstantList.ASKIP ||
@@ -193,11 +192,11 @@ public class CFieldElement extends CBMSElement
 					tok.GetConstant() == CBMSConstantList.FSET ||
 					tok.GetConstant() == CBMSConstantList.NORM)
 				{
-					arrATTRB.add(tok.GetValue()) ;
+					aTTRB.add(tok.GetValue()) ;
 				}
 				else if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 				{
-					bDone = true ;
+					isdone = true ;
 				}
 				else if (tok.GetType() == CTokenType.COMMA)
 				{
@@ -219,8 +218,8 @@ public class CFieldElement extends CBMSElement
 				return false ;
 			}
 			tok = GetNext();
-			boolean bDone = false ;
-			while (!bDone)
+			boolean isdone = false ;
+			while (!isdone)
 			{
 				tok = GetCurrentToken();
 				if (tok.GetConstant() == CBMSConstantList.LEFT ||
@@ -232,7 +231,7 @@ public class CFieldElement extends CBMSElement
 				}
 				else if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 				{
-					bDone = true ;
+					isdone = true ;
 				}
 				else if (tok.GetType() == CTokenType.COMMA)
 				{
@@ -290,7 +289,7 @@ public class CFieldElement extends CBMSElement
 	protected int length = 0 ;
 	protected CReservedConstant color = null ;
 	protected CReservedConstant highLight = null ;
-	protected ArrayList<String> arrATTRB = new ArrayList<String>() ;
+	protected ArrayList<String> aTTRB = new ArrayList<String>() ;
 	protected ArrayList<String> arrJustify = new ArrayList<String>() ;
 	protected String value = "" ;
 	protected String grpName = "" ;
@@ -338,9 +337,9 @@ public class CFieldElement extends CBMSElement
 		{
 			ef.SetColor(color.name) ;
 		}
-		for (int i=0; i<arrATTRB.size(); i++)
+		for (int i = 0; i< aTTRB.size(); i++)
 		{
-			String cs = arrATTRB.get(i) ;
+			String cs = aTTRB.get(i) ;
 			if (cs.equals("ASKIP"))
 			{
 				ef.SetProtection("AUTOSKIP") ;
@@ -446,7 +445,7 @@ public class CFieldElement extends CBMSElement
 			if(csChildName.equalsIgnoreCase("ATTRB"))
 			{
 				String csVal = tagChild.getVal("Value");
-				arrATTRB.add(csVal);
+				aTTRB.add(csVal);
 			}
 			else if(csChildName.equalsIgnoreCase("JUSTIFY"))
 			{
@@ -487,8 +486,8 @@ public class CFieldElement extends CBMSElement
 		
 		value = "";
 		
-		arrATTRB.add("ASKIP");
-		arrATTRB.add("NORM");
+		aTTRB.add("ASKIP");
+		aTTRB.add("NORM");
 		return true;
 	}
 	
@@ -506,8 +505,8 @@ public class CFieldElement extends CBMSElement
 		
 		value = "";
 		
-		arrATTRB.add("ASKIP");
-		arrATTRB.add("NORM");
+		aTTRB.add("ASKIP");
+		aTTRB.add("NORM");
 		
 		return true;
 	}
@@ -522,8 +521,8 @@ public class CFieldElement extends CBMSElement
 		else if(csTagName.equalsIgnoreCase("label"))
 		{
 			boolean b = fillFromEdit(posLineCol, tag, csCurrentLanguage, "");// "_LABEL");
-			arrATTRB.add("ASKIP");
-			arrATTRB.add("NORM");
+			aTTRB.add("ASKIP");
+			aTTRB.add("NORM");
 			setName("");
 			return b;
 		}
@@ -532,8 +531,8 @@ public class CFieldElement extends CBMSElement
 			boolean b = fillFromEdit(posLineCol, tag, csCurrentLanguage, "");
 			while(value.length() < length)
 				value = value + " ";							
-			arrATTRB.add("ASKIP");
-			arrATTRB.add("NORM");
+			aTTRB.add("ASKIP");
+			aTTRB.add("NORM");
 			return b;
 		}
 		else if(csTagName.equalsIgnoreCase("blank"))
@@ -613,13 +612,13 @@ public class CFieldElement extends CBMSElement
 		String csIntensity = tag.getVal("intensity");
 		manageAttrib(csIntensity);
 
-		boolean bModified = tag.getValAsBoolean("modified");
-		if(bModified)
-			arrATTRB.add("FSET");
+		boolean ismodified = tag.getValAsBoolean("modified");
+		if(ismodified)
+			aTTRB.add("FSET");
 		
-		boolean bCursor = tag.getValAsBoolean("cursor");
-		if(bCursor)
-			arrATTRB.add("IC");
+		boolean iscursor = tag.getValAsBoolean("cursor");
+		if(iscursor)
+			aTTRB.add("IC");
 		return true;
 	}
 	
@@ -661,8 +660,8 @@ public class CFieldElement extends CBMSElement
 		
 		arrJustify.add(CBMSConstantList.BLANK.name) ;
 		
-		arrATTRB.add("ASKIP");
-		arrATTRB.add("NORM");
+		aTTRB.add("ASKIP");
+		aTTRB.add("NORM");
 		
 		return true;
 	}
@@ -671,19 +670,19 @@ public class CFieldElement extends CBMSElement
 	private void manageAttrib(String cs)
 	{
 		if(cs.equalsIgnoreCase("autoskip"))
-			arrATTRB.add("ASKIP");
+			aTTRB.add("ASKIP");
 		else if(cs.equalsIgnoreCase("UNPROTECTED"))
-			arrATTRB.add("UNPROT");
+			aTTRB.add("UNPROT");
 		else if(cs.equalsIgnoreCase("NUMERIC"))
 		{
-			arrATTRB.add("UNPROT");	// correct ?
-			arrATTRB.add("NUM");
+			aTTRB.add("UNPROT");	// correct ?
+			aTTRB.add("NUM");
 		}
 		else if(cs.equalsIgnoreCase("NORMAL"))
-			arrATTRB.add("NORM");
+			aTTRB.add("NORM");
 		else if(cs.equalsIgnoreCase("DARK"))
-			arrATTRB.add("DRK");
+			aTTRB.add("DRK");
 		else if(cs.equalsIgnoreCase("BRIGHT"))
-			arrATTRB.add("BRT");
+			aTTRB.add("BRT");
 	}
 }

@@ -45,10 +45,10 @@ public class CSQLPreparedStatement extends DbPreparedStatement
 		{
 			try
 			{
-				String sTrimmed = param.getValue();
+				String trimmed = param.getValue();
 				if(BaseResourceManager.isUpdateCodeJavaToDb())
-					sTrimmed = BaseResourceManager.updateCodeJavaToDb(sTrimmed);
-				preparedStatement.setObject(nParamIndex+1, sTrimmed);
+					trimmed = BaseResourceManager.updateCodeJavaToDb(trimmed);
+				preparedStatement.setObject(nParamIndex+1, trimmed);
 			}
 			catch(IllegalArgumentException e)
 			{

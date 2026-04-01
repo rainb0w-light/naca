@@ -58,10 +58,10 @@ public class DbColDefinitionInteger extends BaseDbColDefinition
 	
 	public int setByteValueInStmtCol(DbColDefErrorManager dbColDefErrorManager, DbPreparedStatement stmt, int nCol, byte arrByteValue[], int nSourceOffset, boolean bEbcdicInput)
 	{	
-		long lOriginalValue = LittleEndingUnsignBinaryBufferStorage.readInt(arrByteValue, nSourceOffset);
-		long lValue = BasePic9Comp3BufferSupport.keepRightMostDigits(lOriginalValue, nNbDigits);
-		if(lOriginalValue != lValue)
-			dbColDefErrorManager.reportTruncationError(lOriginalValue, lValue, getColumnName());
+		long originalValue = LittleEndingUnsignBinaryBufferStorage.readInt(arrByteValue, nSourceOffset);
+		long lValue = BasePic9Comp3BufferSupport.keepRightMostDigits(originalValue, nNbDigits);
+		if(originalValue != lValue)
+			dbColDefErrorManager.reportTruncationError(originalValue, lValue, getColumnName());
 		
 		stmt.setColParam(nCol, (int)lValue);
 		return 4;

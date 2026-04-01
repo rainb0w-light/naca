@@ -60,7 +60,7 @@ public class CJavaLabelField extends CEntityResourceField
 			ef.setAttribute("type", "activeChoice") ;
 			ef.setAttribute("activeChoiceValue", csActiveChoiceValue);
 			ef.setAttribute("activeChoiceTarget", csActiveChoiceTarget);
-			ef.setAttribute("activeChoiceSubmit", bActiveChoiceSubmit?"true":"false");
+			ef.setAttribute("activeChoiceSubmit", isactiveChoiceSubmit ?"true":"false");
 		}
 		else if (mode == FieldMode.LINKED_ACTIVE_CHOICE)
 		{
@@ -68,7 +68,7 @@ public class CJavaLabelField extends CEntityResourceField
 			ef.setAttribute("type", "linkedActiveChoice") ;
 			ef.setAttribute("activeChoiceLink", FormatIdentifier(csActiveChoiceValue));
 			ef.setAttribute("activeChoiceTarget", csActiveChoiceTarget);
-			ef.setAttribute("activeChoiceSubmit", bActiveChoiceSubmit?"true":"false");
+			ef.setAttribute("activeChoiceSubmit", isactiveChoiceSubmit ?"true":"false");
 		}
 		else
 		{

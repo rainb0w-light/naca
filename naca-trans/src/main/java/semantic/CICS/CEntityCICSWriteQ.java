@@ -34,7 +34,7 @@ public abstract class CEntityCICSWriteQ extends CBaseActionEntity
 		cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
 	}
 
-	protected boolean bPersistant = false ;
+	protected boolean ispersistant = false ;
 	protected CDataEntity queueName = null ;
 	protected CDataEntity dataRef = null ;
 	protected CDataEntity dataLength = null ;

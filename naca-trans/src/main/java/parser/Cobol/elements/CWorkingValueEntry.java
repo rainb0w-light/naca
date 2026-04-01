@@ -81,8 +81,8 @@ public class CWorkingValueEntry extends CCobolElement
 		{
 			tok = GetNext();
 		}
-		boolean bDone = false ;
-		while (!bDone)
+		boolean isdone = false ;
+		while (!isdone)
 		{
 			CBaseToken tokVal = GetCurrentToken();
 			CTerminal val ; 
@@ -93,17 +93,17 @@ public class CWorkingValueEntry extends CCobolElement
 			if (tokVal.GetType() == CTokenType.STRING || tokVal.GetType() == CTokenType.NUMBER || tokVal.GetType() == CTokenType.CONSTANT || tokVal.GetType() == CTokenType.MINUS)
 			{
 				val = ReadTerminal();
-				arrValues.addElement(val) ;
+				values.addElement(val) ;
 				
 				CBaseToken tokNext = GetCurrentToken();
 				if (tokNext.GetType() == CTokenType.COMMA)
 				{
-					arrValues.addElement(val) ; // values are intervals, so for a single value, it is added twice, as an interval of one single value
+					values.addElement(val) ; // values are intervals, so for a single value, it is added twice, as an interval of one single value
 					GetNext(); // consume ","
 				} 
 				else if (tokNext.GetType() == CTokenType.STRING || tokNext.GetType() == CTokenType.NUMBER || tokNext.GetType() == CTokenType.CONSTANT)
 				{
-					arrValues.addElement(val) ; // values are intervals, so for a single value, it is added twice, as an interval of one single value
+					values.addElement(val) ; // values are intervals, so for a single value, it is added twice, as an interval of one single value
 				}
 				else if (tokNext.GetKeyword() == CCobolKeywordList.THROUGH || tokNext.GetKeyword() == CCobolKeywordList.THRU)
 				{
@@ -111,7 +111,7 @@ public class CWorkingValueEntry extends CCobolElement
 					if (tokNext.GetType() == CTokenType.STRING || tokNext.GetType() == CTokenType.NUMBER || tokNext.GetType() == CTokenType.CONSTANT)
 					{
 						val = ReadTerminal();
-						arrValues.addElement(val) ;
+						values.addElement(val) ;
 					}
 					else
 					{
@@ -121,13 +121,13 @@ public class CWorkingValueEntry extends CCobolElement
 				}
 				else
 				{
-					arrValues.addElement(val) ; // values are intervals, so for a single value, it is added twice, as an interval of one single value
-					bDone = true ;
+					values.addElement(val) ; // values are intervals, so for a single value, it is added twice, as an interval of one single value
+					isdone = true ;
 				} 
 			}
 			else
 			{
-				bDone = true  ;
+				isdone = true  ;
 			}
 		} 
 		tok = GetCurrentToken() ;
@@ -135,7 +135,7 @@ public class CWorkingValueEntry extends CCobolElement
 		{
 			GetNext(); // consume DOT at the end of the statement
 		}
-		if (arrValues.size()>0)
+		if (values.size()>0)
 		{
 			return true ;
 		}
@@ -150,10 +150,10 @@ public class CWorkingValueEntry extends CCobolElement
 	protected Element ExportCustom(Document root)
 	{
 		Element e = root.createElement("ConditionName") ;
-		for (int i=0; i<arrValues.size(); i+=2)
+		for (int i = 0; i< values.size(); i+=2)
 		{
-			CTerminal term1 = arrValues.get(i) ;
-			CTerminal term2 = arrValues.get(i+1) ;
+			CTerminal term1 = values.get(i) ;
+			CTerminal term2 = values.get(i+1) ;
 			if (term1.GetValue().equals(term2.GetValue()))
 			{
 				Element eval = root.createElement("Value") ;
@@ -174,7 +174,7 @@ public class CWorkingValueEntry extends CCobolElement
 	}
 	
 	protected String csIdentifier = "" ;
-	protected Vector<CTerminal> arrValues = new Vector<CTerminal>() ; // maybe several values
+	protected Vector<CTerminal> values = new Vector<CTerminal>() ; // maybe several values
 	/* (non-Javadoc)
 	 * @see parser.CBaseElement#DoCustomSemanticAnalysis(semantic.CBaseSemanticEntity, semantic.CBaseSemanticEntityFactory)
 	 */
@@ -183,10 +183,10 @@ public class CWorkingValueEntry extends CCobolElement
 		CEntityNamedCondition eCond = factory.NewEntityNamedCondition(getLine(), csIdentifier) ;
 		parent.AddChild(eCond);
 
-		for (int i=0; i<arrValues.size(); i+=2)
+		for (int i = 0; i< values.size(); i+=2)
 		{
-			CTerminal term1 = arrValues.get(i) ;
-			CTerminal term2 = arrValues.get(i+1) ;
+			CTerminal term1 = values.get(i) ;
+			CTerminal term2 = values.get(i+1) ;
 			if (term1.GetValue().equals(term2.GetValue()))
 			{
 				CDataEntity eVal = term1.GetDataEntity(getLine(), factory);

@@ -39,11 +39,11 @@ public abstract class CEntityCICSSendMap extends CBaseActionEntity
 	}
 	public void SetName(CDataEntity name)
 	{
-		mapName = name ;
+		this.name = name ;
 	}
 	public void SetMapSet(CDataEntity name)
 	{
-		mapSetName = name ;
+		setName = name ;
 	}
 	
 	public void SetDataFrom(CDataEntity from, CDataEntity len, boolean b)
@@ -67,37 +67,37 @@ public abstract class CEntityCICSSendMap extends CBaseActionEntity
 			dataFrom = from ;
 		}
 		dataLength = len ;
-		bDataOnly = b ;
+		isdataOnly = b ;
 	}
 	
 	public void SetAccum(boolean b)
 	{
-		bAccum = b ;
+		isaccum = b ;
 	}
 	
 	public void SetAlarm(boolean b)
 	{
-		bAlarm = b ;
+		isalarm = b ;
 	}
 	
 	public void SetErase(boolean b)
 	{
-		bErase = b ;
+		iserase = b ;
 	}
 	
 	public void SetFreeKB(boolean b)
 	{
-		bFreeKB = b ;
+		isfreeKB = b ;
 	}
 	
 	public void SetPaging(boolean b)
 	{
-		bPaging = b ;
+		ispaging = b ;
 	}
 	
 	public void SetWait(boolean b)
 	{
-		bWait = b ;
+		iswait = b ;
 	}
 	
 	public void SetCursor(CDataEntity e)
@@ -106,24 +106,24 @@ public abstract class CEntityCICSSendMap extends CBaseActionEntity
 		cursorValue = e ;
 	}
 	
-	protected CDataEntity mapName = null ;
-	protected CDataEntity mapSetName = null ;
+	protected CDataEntity name = null ;
+	protected CDataEntity setName = null ;
 	protected CDataEntity dataFrom = null ;
 	protected CDataEntity dataLength = null ;
 	protected CDataEntity cursorValue = null ;
-	protected boolean bFreeKB= false ;
-	protected boolean bDataOnly = false ;
+	protected boolean isfreeKB = false ;
+	protected boolean isdataOnly = false ;
 	protected boolean bCursor = false ;
-	protected boolean bErase = false ;
-	protected boolean bAlarm = false ; 
-	protected boolean bWait = false ; 
-	protected boolean bAccum = false ;
-	protected boolean bPaging = false ;
+	protected boolean iserase = false ;
+	protected boolean isalarm = false ;
+	protected boolean iswait = false ;
+	protected boolean isaccum = false ;
+	protected boolean ispaging = false ;
 	public void Clear()
 	{
 		super.Clear();
-		mapName = null ;
-		mapSetName = null ;
+		name = null ;
+		setName = null ;
 		dataFrom = null ;
 		dataLength = null ;
 		cursorValue = null ;

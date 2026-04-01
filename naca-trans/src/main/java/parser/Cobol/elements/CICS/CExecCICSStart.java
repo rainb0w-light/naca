@@ -50,7 +50,7 @@ public class CExecCICSStart extends CCobolElement
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
 		CDataEntity TID ;
-		boolean bChecked = false ;
+		boolean ischecked = false ;
 		if (transID.IsReference())
 		{
 			TID = transID.GetDataEntity(getLine(), factory);
@@ -70,7 +70,7 @@ public class CExecCICSStart extends CCobolElement
 				TID = factory.NewEntityString(programID) ;
 				if (factory.programCatalog.CheckProgramReference(programID, true, 0, false))
 				{
-					bChecked = true ;
+					ischecked = true ;
 				}
 			}
 		}
@@ -78,7 +78,7 @@ public class CExecCICSStart extends CCobolElement
 		TID.RegisterReadingAction(start) ;
 		parent.AddChild(start);
 				
-		start.setVerified(bChecked) ;
+		start.setVerified(ischecked) ;
 		if (interval != null)
 		{
 			CDataEntity inter = interval.GetDataEntity(getLine(), factory); 
@@ -126,8 +126,8 @@ public class CExecCICSStart extends CCobolElement
 			tok = GetNext();
 		}
 		
-		boolean bDone = false ;
-		while (!bDone)
+		boolean isdone = false ;
+		while (!isdone)
 		{
 			tok = GetCurrentToken() ;
 			if (tok.GetKeyword() == CCobolKeywordList.TRANSID)
@@ -230,7 +230,7 @@ public class CExecCICSStart extends CCobolElement
 			}
 			else
 			{
-				bDone = true ;
+				isdone = true ;
 			}
 		}
 		

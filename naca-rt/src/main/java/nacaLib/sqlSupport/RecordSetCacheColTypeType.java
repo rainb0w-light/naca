@@ -49,8 +49,8 @@ public class RecordSetCacheColTypeType
 			RecordColTypeManagerBase arr[] = new RecordColTypeManagerBase[nSize];
 			arrColsType.transferInto(arr);
 			
-			ArrayFix<RecordColTypeManagerBase> arrFix = new ArrayFix<RecordColTypeManagerBase>(arr);
-			arrColsType = arrFix;	// replace by a fix one (uning less memory)
+			ArrayFix<RecordColTypeManagerBase> fix = new ArrayFix<RecordColTypeManagerBase>(arr);
+			arrColsType = fix;	// replace by a fix one (uning less memory)
 		}
 	}
 	

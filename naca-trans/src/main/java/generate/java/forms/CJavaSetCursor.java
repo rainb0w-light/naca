@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 11 août 2004
+ * Created on 11 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -46,7 +46,7 @@ public class CJavaSetCursor extends CEntitySetCursor
 		{
 			WriteLine("moveCursor(" +referenceValue.ExportReference(getLine()) +", "+ refField.ExportReference(getLine()) + ") ;") ;
 		}
-		else if (bRemoveCursor)
+		else if (isremoveCursor)
 		{
 			WriteLine("removeCursor(" + refField.ExportReference(getLine()) + ") ;") ;
 		}

@@ -70,12 +70,12 @@ public class TransThreadManager
 	{
 		if(env != null && env.canManageThreadMBean())
 		{
-			Integer iEnvId = env.getEnvId();
-			TransThreadMBean transThreadMBean = hashTrans.get(iEnvId);
+			Integer envId = env.getEnvId();
+			TransThreadMBean transThreadMBean = hashTrans.get(envId);
 			if(transThreadMBean == null)
 			{
 				transThreadMBean = new TransThreadMBean(env);
-				hashTrans.put(iEnvId, transThreadMBean);
+				hashTrans.put(envId, transThreadMBean);
 			}
 		}
 	}
@@ -84,15 +84,15 @@ public class TransThreadManager
 	{
 		if(env != null && env.canManageThreadMBean())
 		{
-			Integer iEnvId = env.getEnvId();
-			TransThreadMBean transThreadMBean = hashTrans.get(iEnvId);
+			Integer envId = env.getEnvId();
+			TransThreadMBean transThreadMBean = hashTrans.get(envId);
 			if(transThreadMBean != null)
 			{
 				if(BaseResourceManager.getUsingJmx())
 				{
 					transThreadMBean.setEnvClosed();
 				}
-				hashTrans.remove(iEnvId);
+				hashTrans.remove(envId);
 			}
 		}
 	}

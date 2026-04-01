@@ -26,7 +26,7 @@ import utils.CobolTranscoder.Notifs.NotifDeclareUseCICSPreprocessor;
  */
 public abstract class CEntityCICSStartBrowse extends CBaseActionEntity
 {
-	protected boolean bGTEQ = false ;
+	protected boolean isgTEQ = false ;
 	protected CDataEntity dataSet = null ;
 	protected CDataEntity recIDField = null ;
 	protected CDataEntity keyLength = null ;
@@ -50,7 +50,7 @@ public abstract class CEntityCICSStartBrowse extends CBaseActionEntity
 	}
 	public void SetGTEQ()
 	{
-		bGTEQ = true ;		
+		isgTEQ = true ;
 	}
 	public void BrowseDataSet(CDataEntity entity)
 	{

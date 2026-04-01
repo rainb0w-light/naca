@@ -20,12 +20,12 @@ public class Blowfish
 			if(bMixWithIpAdress)
 			{
 				InetAddress adr = InetAddress.getLocalHost();
-				byte ipAdress[] = adr.getAddress();
+				byte internalFrameadress[] = adr.getAddress();
 				int nVal = 0;
-				for(int n=0; n<ipAdress.length; n++)
+				for(int n = 0; n< internalFrameadress.length; n++)
 				{
 					nVal *= 256;
-					nVal += ipAdress[n];
+					nVal += internalFrameadress[n];
 				}
 				csKey += nVal;
 			}

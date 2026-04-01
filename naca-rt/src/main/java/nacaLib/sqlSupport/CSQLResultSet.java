@@ -39,7 +39,7 @@ public class CSQLResultSet extends CJMapObject
 		csQuery = sql.csQuery;
 		csProgramName = sql.getProgram();
 		this.r = r;
-		arrColSelectType = sql.arrColSelectType;
+		colSelectType = sql.arrColSelectType;
 		sqlStatus = sql.sqlStatus;
 	}
 	
@@ -83,8 +83,8 @@ public class CSQLResultSet extends CJMapObject
 	{
 		try
 		{
-			boolean bHasNext = r.next();
-			if(bHasNext == false)
+			boolean ishasNext = r.next();
+			if(ishasNext == false)
 			{
 				return true;
 			}
@@ -102,8 +102,8 @@ public class CSQLResultSet extends CJMapObject
 	{
 		try
 		{
-			ResultSetMetaData rsMetaData = r.getMetaData();
-			String csColName = rsMetaData.getColumnName(nColSourceIndex);
+			ResultSetMetaData resultSetmetaData = r.getMetaData();
+			String csColName = resultSetmetaData.getColumnName(nColSourceIndex);
 			return csColName;
 		}
 		catch (SQLException e)
@@ -118,9 +118,9 @@ public class CSQLResultSet extends CJMapObject
 		// DB2 JDBC Driver supports rsMetaData.getTableName(nColSourceIndex); See http://publib.boulder.ibm.com/infocenter/db2help/index.jsp?topic=/com.ibm.db2.udb.doc/ad/rjvjdapi.htm
 		try
 		{
-			ResultSetMetaData rsMetaData = r.getMetaData();
-			String csTableName = rsMetaData.getTableName(nColSourceIndex);
-			String csColName = rsMetaData.getColumnName(nColSourceIndex);
+			ResultSetMetaData resultSetmetaData = r.getMetaData();
+			String csTableName = resultSetmetaData.getTableName(nColSourceIndex);
+			String csColName = resultSetmetaData.getColumnName(nColSourceIndex);
 			String csTableColName = SemanticContextDef.getTableColName(csTableName, csColName);
 			return csTableColName;
 		}
@@ -136,9 +136,9 @@ public class CSQLResultSet extends CJMapObject
 		if(sqlRecordSetVarFiller != null)
 			sqlRecordSetVarFiller.addLinkColDestination(nColSource, sqlIntoItem.getVarInto(), sqlIntoItem.getVarIndicator());
 		
-		boolean bNull = fillColValue(nColSource, sqlIntoItem.getVarInto(), sqlRecordSetVarFiller.getRecordSetCacheColTypeType());
-		sqlIntoItem.setColValueNull(bNull);
-		if (bNull && sqlIntoItem.getVarIndicator() == null)
+		boolean isnull = fillColValue(nColSource, sqlIntoItem.getVarInto(), sqlRecordSetVarFiller.getRecordSetCacheColTypeType());
+		sqlIntoItem.setColValueNull(isnull);
+		if (isnull && sqlIntoItem.getVarIndicator() == null)
 		{
 			bNullError = true;
 		}
@@ -158,8 +158,8 @@ public class CSQLResultSet extends CJMapObject
 		{			
 			try
 			{
-				ResultSetMetaData rsMetaData = r.getMetaData();
-				String csColTypeName = rsMetaData.getColumnTypeName(nColSourceIndex);
+				ResultSetMetaData resultSetmetaData = r.getMetaData();
+				String csColTypeName = resultSetmetaData.getColumnTypeName(nColSourceIndex);
 				if(csColTypeName.equals("CHAR"))
 				{
 					baseRecordColTypeManager = new RecordColTypeManagerChar(nColSourceIndex);
@@ -168,8 +168,8 @@ public class CSQLResultSet extends CJMapObject
 				else if(csColTypeName.equals("DECIMAL"))
 				{
 					
-					int nPrecision = rsMetaData.getPrecision(nColSourceIndex);
-					int nScale = rsMetaData.getScale(nColSourceIndex);
+					int nPrecision = resultSetmetaData.getPrecision(nColSourceIndex);
+					int nScale = resultSetmetaData.getScale(nColSourceIndex);
 					if(nScale == 0)	// No digits behind comma (integer value)
 					{
 						if(nPrecision <= 8)	// Fits within an int
@@ -191,7 +191,7 @@ public class CSQLResultSet extends CJMapObject
 				}
 				else if(csColTypeName.equals("INTEGER"))
 				{
-					int nPrecision = rsMetaData.getPrecision(nColSourceIndex);
+					int nPrecision = resultSetmetaData.getPrecision(nColSourceIndex);
 					if(nPrecision <= 8)	// Fits within an int
 					{
 						baseRecordColTypeManager = new RecordColTypeManagerDecimalInt(nColSourceIndex);
@@ -252,19 +252,19 @@ public class CSQLResultSet extends CJMapObject
 	
 	private boolean isSelectStar(int nColDest)	// Select * From ...
 	{
-		if(arrColSelectType != null)
+		if(colSelectType != null)
 		{
-			for(int n=0; n<arrColSelectType.size(); n++)
+			for(int n = 0; n< colSelectType.size(); n++)
 			{
-				Integer iColId = arrColSelectType.get(n);
-				if(iColId.intValue() == nColDest)
+				Integer colId = colSelectType.get(n);
+				if(colId.intValue() == nColDest)
 					return true;
 			}
 		}
 		return false;
 	}
 	
-	private ArrayFixDyn<Integer> arrColSelectType = null;	// hash table of boolean, indexed by col id, indexed based 0
+	private ArrayFixDyn<Integer> colSelectType = null;	// hash table of boolean, indexed by col id, indexed based 0
 	//private SemanticContextDef semanticContextDef = null;
 	
 	private int getRecordSetColumnCount()
@@ -284,10 +284,10 @@ public class CSQLResultSet extends CJMapObject
 	{		
 		if(BaseResourceManager.ms_bUseVarFillCache)
 		{
-			long lIntoHash = sql.getIntoAllVarsUniqueHashedId();
+			long intoHash = sql.getIntoAllVarsUniqueHashedId();
 			
 			boolean b = false;
-			SQLRecordSetVarFiller sqlRecordSetVarFiller = sql.getCachedRecordSetVarFiller(lIntoHash);
+			SQLRecordSetVarFiller sqlRecordSetVarFiller = sql.getCachedRecordSetVarFiller(intoHash);
 			if(sqlRecordSetVarFiller != null)
 			{
 				if(nNbFetch == 0)	// Check number of columns only at 1st fetch execution
@@ -310,7 +310,7 @@ public class CSQLResultSet extends CJMapObject
 				sqlRecordSetVarFiller = null;
 				sqlRecordSetVarFiller = new SQLRecordSetVarFiller();
 				doFillIntoValues(sql, bCursor, bRowIdGenerated, sqlRecordSetVarFiller);
-				sql.saveCachedRecordSetVarFiller(lIntoHash, sqlRecordSetVarFiller);
+				sql.saveCachedRecordSetVarFiller(intoHash, sqlRecordSetVarFiller);
 			}
 		}
 		else
@@ -347,7 +347,7 @@ public class CSQLResultSet extends CJMapObject
 		// Consume leading and ending unitary columns; a select with * must follow the syntax: Select [col]*, [*]*, [col]* from ...
 		// There cannot be unique cols between stars: that is select toto, *, titi, *, tutu is illegal.
 		// There can be select toto, A.*, B.*, c from ...
-		boolean bSkippedStar = false;
+		boolean isskippedStar = false;
 		int nNbcolUnitaryLeft = 0;
 		int nNbcolUnitaryRight = 0;
 		
@@ -356,15 +356,15 @@ public class CSQLResultSet extends CJMapObject
 		
 		if(!sql.getOneStarOnlyMode())	// we do not a select * from ...
 		{
-			if(arrColSelectType != null && arrColSelectType.size() > 0)	// We have at least a star
+			if(colSelectType != null && colSelectType.size() > 0)	// We have at least a star
 			{
 				for(int nColDest = 0; nColDest<nNbColDest; nColDest++)
 				{
 					if(isSelectStar(nColDest))	// The nth col is a star (Select * From ...)
-						bSkippedStar = true;
+						isskippedStar = true;
 					else
 					{	
-						if(bSkippedStar)
+						if(isskippedStar)
 							nNbcolUnitaryRight++;
 						else
 							nNbcolUnitaryLeft++;
@@ -378,7 +378,7 @@ public class CSQLResultSet extends CJMapObject
 		}			
 		else
 		{
-			bSkippedStar = true;
+			isskippedStar = true;
 		}
 
 		// Unitary cols on the left
@@ -403,9 +403,9 @@ public class CSQLResultSet extends CJMapObject
 		if(sqlRecordSetVarFiller != null)
 			recordSetCacheColTypeType = sqlRecordSetVarFiller.getRecordSetCacheColTypeType();
 		
-		if(bSkippedStar)
+		if(isskippedStar)
 		{
-			ArrayList<VarBase> arrChildrenFilled = new ArrayList<VarBase>();
+			ArrayList<VarBase> childrenFilled = new ArrayList<VarBase>();
 			//int nDestinationNumber = 1;
 			IntegerRef rnChildIndex = new IntegerRef();
 			for(int nColRecordSet=nNbcolUnitaryLeft; nColRecordSet<nNbColInRecordSet-nNbcolUnitaryRight; nColRecordSet++)	// enum all varing length col form the record set
@@ -426,8 +426,8 @@ public class CSQLResultSet extends CJMapObject
 					}
 					if(varChild != null)
 					{
-						boolean bChildAlreadyFilled = isChilddAlreadyFilled(varChild, arrChildrenFilled);	// Fill a child only once
-						if(!bChildAlreadyFilled)
+						boolean ischildAlreadyFilled = isChilddAlreadyFilled(varChild, childrenFilled);	// Fill a child only once
+						if(!ischildAlreadyFilled)
 						{
 							Var varIndicator = null;
 							if(varDestIndicatorParent != null)
@@ -449,7 +449,7 @@ public class CSQLResultSet extends CJMapObject
 //								varChild.setSemanticContextValue(csSemanticContext);
 //							}
 							
-							arrChildrenFilled.add(varChild);
+							childrenFilled.add(varChild);
 							
 							if(sqlRecordSetVarFiller != null)
 								sqlRecordSetVarFiller.addLinkColDestination(nColRecordSet, varChild, varIndicator);

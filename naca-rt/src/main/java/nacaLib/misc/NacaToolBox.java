@@ -67,26 +67,26 @@ public class NacaToolBox extends CJMapObject
 	public void toUpper(VarAndEdit data)
 	{
 		String cs = data.getString() ;
-		cs = cs.replaceAll("á", "a");
-		cs = cs.replaceAll("à", "a");
-		cs = cs.replaceAll("ä", "a");
-		cs = cs.replaceAll("â", "a");
-		cs = cs.replaceAll("é", "e");
-		cs = cs.replaceAll("è", "e");
-		cs = cs.replaceAll("ë", "e");
-		cs = cs.replaceAll("ê", "e");
-		cs = cs.replaceAll("í", "i");
-		cs = cs.replaceAll("ì", "i");
-		cs = cs.replaceAll("ï", "i");
-		cs = cs.replaceAll("î", "i");
-		cs = cs.replaceAll("ó", "o");
-		cs = cs.replaceAll("ò", "o");
-		cs = cs.replaceAll("ö", "o");
-		cs = cs.replaceAll("ô", "o");
-		cs = cs.replaceAll("ú", "u");
-		cs = cs.replaceAll("ù", "u");
-		cs = cs.replaceAll("ü", "u");
-		cs = cs.replaceAll("û", "u");		
+		cs = cs.replaceAll("ï¿½", "a");
+		cs = cs.replaceAll("ï¿½", "a");
+		cs = cs.replaceAll("ï¿½", "a");
+		cs = cs.replaceAll("ï¿½", "a");
+		cs = cs.replaceAll("ï¿½", "e");
+		cs = cs.replaceAll("ï¿½", "e");
+		cs = cs.replaceAll("ï¿½", "e");
+		cs = cs.replaceAll("ï¿½", "e");
+		cs = cs.replaceAll("ï¿½", "i");
+		cs = cs.replaceAll("ï¿½", "i");
+		cs = cs.replaceAll("ï¿½", "i");
+		cs = cs.replaceAll("ï¿½", "i");
+		cs = cs.replaceAll("ï¿½", "o");
+		cs = cs.replaceAll("ï¿½", "o");
+		cs = cs.replaceAll("ï¿½", "o");
+		cs = cs.replaceAll("ï¿½", "o");
+		cs = cs.replaceAll("ï¿½", "u");
+		cs = cs.replaceAll("ï¿½", "u");
+		cs = cs.replaceAll("ï¿½", "u");
+		cs = cs.replaceAll("ï¿½", "u");		
 		cs = cs.toUpperCase() ; 
 		data.set(cs) ;
 	}
@@ -108,9 +108,9 @@ public class NacaToolBox extends CJMapObject
 		String cs = data.getString() ;
 		if (csType.equals("1"))
 		{
-			cs = cs.replaceAll("ä", "AE");
-			cs = cs.replaceAll("ö", "OE");
-			cs = cs.replaceAll("ü", "UE");
+			cs = cs.replaceAll("ï¿½", "AE");
+			cs = cs.replaceAll("ï¿½", "OE");
+			cs = cs.replaceAll("ï¿½", "UE");
 		}
 		data.set(cs) ;
 		toUpper(data);
@@ -634,9 +634,9 @@ public class NacaToolBox extends CJMapObject
 			csDate.substring(4).equals("1225") ||
 			csDate.substring(4).equals("1226") ||
 			csDayEaster.equals(csDayOfYear) ||
-			diffEasterDays == 1 ||   // lundi de Pâques
+			diffEasterDays == 1 ||   // lundi de Pï¿½ques
 			diffEasterDays == 39 ||  // Ascension
-			diffEasterDays == 50)    // Pentecôte
+			diffEasterDays == 50)    // Pentecï¿½te
 		{
 			csFlagHoliday = "F";
 		}
@@ -1502,11 +1502,11 @@ public class NacaToolBox extends CJMapObject
 			}
 			else
 			{
-				boolean bSearchGeneration = false;
+				boolean issearchGeneration = false;
 				int nGeneration = 0;
 				if (dsn.length() > 44)
 				{
-					bSearchGeneration = true;
+					issearchGeneration = true;
 					nGeneration = new Integer(dsn.substring(44)).intValue();					
 					dsn = dsn.substring(0, 44);
 				}
@@ -1520,7 +1520,7 @@ public class NacaToolBox extends CJMapObject
 				{
 					dsn = dynamicAllocationPath + dsn.substring(0, pos) + "/" + dsn.substring(pos + 1);
 				}
-				if (bSearchGeneration)
+				if (issearchGeneration)
 				{
 					String dsnBefore = dsn;
 					FileSearchGeneration fileSearch = new FileSearchGeneration();
@@ -1793,26 +1793,26 @@ public class NacaToolBox extends CJMapObject
 		if(logicalFileDescriptor != null)
 		{
 			dataFileIn.setName(csPhysicalFileName);
-			boolean bInOpened = dataFileIn.open(logicalFileDescriptor);
-			if(bInOpened)
+			boolean isinOpened = dataFileIn.open(logicalFileDescriptor);
+			if(isinOpened)
 			{
 				if(!logicalFileDescriptor.isLengthInfoDefined())
 				{
 					logicalFileDescriptor.tryAutoDetermineRecordLength(dataFileIn);
 				}
-				long lNbBytesRead = logicalFileDescriptor.getFileHeaderLength();
+				long nbBytesRead = logicalFileDescriptor.getFileHeaderLength();
 				LineRead lineRead = file.readALine(dataFileIn, null);
 				while(lineRead != null && nNbRecordRead < nNbRecordsToKeep)
 				{
 					nNbRecordRead++;
 					if (logicalFileDescriptor.isVariableLength())
-						lNbBytesRead += 4;
-					lNbBytesRead += lineRead.getBodyLength() + 1;
+						nbBytesRead += 4;
+					nbBytesRead += lineRead.getBodyLength() + 1;
 					lineRead = file.readALine(dataFileIn, lineRead);
 				}
 				if(nNbRecordRead == nNbRecordsToKeep)	// Read all records to keep
 				{
-					dataFileIn.setFileLength(lNbBytesRead);
+					dataFileIn.setFileLength(nbBytesRead);
 				}
 				dataFileIn.close();
 				return nNbRecordRead;
