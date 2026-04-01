@@ -10,6 +10,7 @@ import com.intellij.psi.search.FilenameIndex;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.psi.util.PsiTreeUtil;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -80,8 +81,9 @@ public class HungarianVariableFinder {
     public Collection<List<HungarianVariableInfo>> findAllHungarianVariablesInProject(@NotNull Project project) {
         Collection<List<HungarianVariableInfo>> allResults = new ArrayList<>();
 
-        // 获取所有 Java 文件
-        Collection<VirtualFile> javaFiles = FilenameIndex.getAllFilesByExt(project, "java", null);
+        // 获取所有 Java 文件 - 使用全局搜索范围
+        GlobalSearchScope scope = GlobalSearchScope.allScope(project);
+        Collection<VirtualFile> javaFiles = FilenameIndex.getAllFilesByExt(project, "java", scope);
 
         for (VirtualFile file : javaFiles) {
             PsiFile psiFile = PsiManager.getInstance(project).findFile(file);
@@ -168,7 +170,7 @@ public class HungarianVariableFinder {
         String[] getterPrefixes = {"get", "is"};
         for (String prefix : getterPrefixes) {
             String getterName = prefix + capitalized;
-            PsiMethod getter = containingClass.findMethodBySignature(getterName + "()", true);
+            PsiMethod getter = findMethodByName(containingClass, getterName);
             if (getter != null) {
                 // TODO: 添加 getter 方法到结果
                 LOG.debug("Found getter: " + getterName);
@@ -177,13 +179,26 @@ public class HungarianVariableFinder {
 
         // 查找 setter 方法
         String setterName = "set" + capitalized;
-        PsiMethod setter = containingClass.findMethodBySignature(setterName + "(...)", true);
+        PsiMethod setter = findMethodByName(containingClass, setterName);
         if (setter != null) {
             // TODO: 添加 setter 方法到结果
             LOG.debug("Found setter: " + setterName);
         }
 
         return result;
+    }
+
+    /**
+     * 按名称查找方法
+     */
+    @Nullable
+    private PsiMethod findMethodByName(@NotNull PsiClass psiClass, @NotNull String methodName) {
+        for (PsiMethod method : psiClass.getMethods()) {
+            if (methodName.equals(method.getName())) {
+                return method;
+            }
+        }
+        return null;
     }
 
     /**
