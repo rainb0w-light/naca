@@ -106,7 +106,8 @@ public class HungarianVariableFinder {
                 }
                 // 请求 GC
                 System.gc();
-                LOG.info("Processed " + (i + 1) + "/" + virtualFiles.length + " files");
+                int currentTotal = allResults.stream().mapToInt(List::size).sum();
+                LOG.info("Processed " + (i + 1) + "/" + virtualFiles.length + " files, found " + currentTotal + " variables");
             }
         }
 
@@ -115,7 +116,8 @@ public class HungarianVariableFinder {
             allResults.add(batchResult);
         }
 
-        LOG.info("Analysis complete. Found " + allResults.stream().mapToInt(List::size).sum() + " variables");
+        int total = allResults.stream().mapToInt(List::size).sum();
+        LOG.info("Analysis complete. Found " + total + " variables");
         return allResults;
     }
 

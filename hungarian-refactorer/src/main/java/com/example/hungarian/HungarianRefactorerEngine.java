@@ -12,7 +12,12 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -23,6 +28,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class HungarianRefactorerEngine {
 
     private static final Logger LOG = Logger.getInstance(HungarianRefactorerEngine.class);
+    private static final String LOG_FILE = "hungarian-refactorer.log";
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     private final Project project;
     private final HungarianPrefixRegistry prefixRegistry;
@@ -32,10 +39,42 @@ public class HungarianRefactorerEngine {
 
     public HungarianRefactorerEngine(Project project) {
         this.project = project;
-        this.prefixRegistry = HungarianPrefixRegistry.getInstance();
+        this.prefixRegistry = ApplicationManager.getApplication().getService(HungarianPrefixRegistry.class);
         this.settings = HungarianRefactorerSettings.getInstance(project);
         this.variableFinder = new HungarianVariableFinder(prefixRegistry, settings);
         this.refactorer = new HungarianVariableRefactorer(prefixRegistry, settings);
+
+        // 初始化日志文件
+        initLogFile(project);
+    }
+
+    /**
+     * 初始化日志文件
+     */
+    private void initLogFile(Project project) {
+        String logPath = Paths.get(project.getBasePath(), LOG_FILE).toString();
+        try (FileWriter writer = new FileWriter(logPath, false)) {
+            writer.write("=== Hungarian Refactorer Log Started ===\n");
+            writer.write("Time: " + DATE_FORMAT.format(new Date()) + "\n");
+            writer.write("Project: " + project.getName() + "\n\n");
+        } catch (IOException e) {
+            LOG.warn("Failed to initialize log file: " + logPath);
+        }
+    }
+
+    /**
+     * 写入日志到文件
+     */
+    private void writeLog(String message) {
+        String logPath = Paths.get(project.getBasePath(), LOG_FILE).toString();
+        String timestamp = DATE_FORMAT.format(new Date());
+        try (FileWriter writer = new FileWriter(logPath, true)) {
+            writer.write("[" + timestamp + "] " + message + "\n");
+        } catch (IOException e) {
+            LOG.warn("Failed to write to log file");
+        }
+        // 同时输出到 IDEA 日志
+        LOG.info(message);
     }
 
     /**
@@ -88,16 +127,32 @@ public class HungarianRefactorerEngine {
      * @return 重构结果
      */
     public RefactorResult refactorProject(boolean dryRun) {
-        LOG.info("Refactoring entire project (dryRun=" + dryRun + ")");
+        String mode = dryRun ? "DRY RUN" : "ACTUAL REFACTOR";
+        writeLog("=== Starting Project Refactor (" + mode + ") ===");
 
-        return ApplicationManager.getApplication().runReadAction(() -> {
-            List<HungarianVariableInfo> allVariables = new ArrayList<>();
+        try {
+            return ApplicationManager.getApplication().runReadAction(
+                (com.intellij.openapi.util.Computable<RefactorResult>) () -> {
+                    writeLog("Analyzing project...");
+                    List<HungarianVariableInfo> allVariables = new ArrayList<>();
 
-            // 遍历项目中的所有 Java 文件
-            variableFinder.findAllHungarianVariablesInProject(project).forEach(allVariables::addAll);
+                    // 遍历项目中的所有 Java 文件
+                    variableFinder.findAllHungarianVariablesInProject(project).forEach(allVariables::addAll);
 
-            return performRefactoring(allVariables, dryRun);
-        });
+                    writeLog("Found " + allVariables.size() + " Hungarian variables to refactor");
+                    RefactorResult result = performRefactoring(allVariables, dryRun);
+
+                    writeLog("Refactor complete: " + result.getSummary());
+                    return result;
+                }
+            );
+        } catch (Exception e) {
+            LOG.error("Failed to refactor project", e);
+            writeLog("ERROR: " + e.getMessage());
+            RefactorResult result = new RefactorResult();
+            result.errors.add(e.getMessage());
+            return result;
+        }
     }
 
     /**
