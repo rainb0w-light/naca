@@ -8,6 +8,8 @@ group = "com.example"
 version = "1.0.0"
 
 repositories {
+    maven { url = uri("https://maven.aliyun.com/repository/public") }
+    maven { url = uri("https://www.jetbrains.com/intellij-repository/releases") }
     mavenCentral()
 }
 
@@ -59,6 +61,6 @@ tasks {
 
     patchPluginXml {
         sinceBuild.set("233")  // 2023.3+
-        untilBuild.set("251.*")
+        untilBuild.set("252.*")  // Support up to 2025.2.x
     }
 }
