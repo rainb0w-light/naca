@@ -76,22 +76,46 @@ public class HungarianVariableFinder {
 
     /**
      * 查找项目中所有文件的匈牙利命名法变量
+     * 使用分批处理避免内存溢出
      */
     @NotNull
     public Collection<List<HungarianVariableInfo>> findAllHungarianVariablesInProject(@NotNull Project project) {
         Collection<List<HungarianVariableInfo>> allResults = new ArrayList<>();
 
-        // 获取所有 Java 文件 - 使用全局搜索范围
-        GlobalSearchScope scope = GlobalSearchScope.allScope(project);
-        Collection<VirtualFile> javaFiles = FilenameIndex.getAllFilesByExt(project, "java", scope);
+        // 获取所有 Java 文件 - 使用项目范围
+        GlobalSearchScope scope = GlobalSearchScope.projectScope(project);
+        VirtualFile[] virtualFiles = FilenameIndex.getAllFilesByExt(project, "java", scope).toArray(new VirtualFile[0]);
 
-        for (VirtualFile file : javaFiles) {
-            PsiFile psiFile = PsiManager.getInstance(project).findFile(file);
-            if (psiFile != null) {
-                allResults.add(findHungarianVariables(psiFile));
+        LOG.info("Found " + virtualFiles.length + " Java files to analyze");
+
+        // 分批处理，每批 100 个文件
+        int batchSize = 100;
+        List<HungarianVariableInfo> batchResult = new ArrayList<>();
+
+        for (int i = 0; i < virtualFiles.length; i++) {
+            PsiFile psiFile = PsiManager.getInstance(project).findFile(virtualFiles[i]);
+            if (psiFile != null && psiFile.isValid()) {
+                batchResult.addAll(findHungarianVariables(psiFile));
+            }
+
+            // 每处理 100 个文件，保存结果并清理
+            if ((i + 1) % batchSize == 0) {
+                if (!batchResult.isEmpty()) {
+                    allResults.add(new ArrayList<>(batchResult));
+                    batchResult.clear();
+                }
+                // 请求 GC
+                System.gc();
+                LOG.info("Processed " + (i + 1) + "/" + virtualFiles.length + " files");
             }
         }
 
+        // 添加最后一批结果
+        if (!batchResult.isEmpty()) {
+            allResults.add(batchResult);
+        }
+
+        LOG.info("Analysis complete. Found " + allResults.stream().mapToInt(List::size).sum() + " variables");
         return allResults;
     }
 

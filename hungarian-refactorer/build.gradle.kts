@@ -43,7 +43,8 @@ tasks {
     runIde {
         // 调试模式配置
         systemProperty("idea.debug.mode", "true")
-        jvmArgs("-Xmx2g")
+        // 增加堆内存
+        jvmArgs("-Xmx4g", "-Xms512m", "-XX:+UseG1GC")
     }
 
     // 无头模式运行配置
@@ -57,6 +58,8 @@ tasks {
             "--plugin=${buildDir}/distributions/hungarian-refactorer-$version.zip"
         )
         systemProperty("idea.headless", "true")
+        // 增加堆内存
+        jvmArgs("-Xmx4g", "-Xms512m", "-XX:+UseG1GC")
     }
 
     patchPluginXml {
