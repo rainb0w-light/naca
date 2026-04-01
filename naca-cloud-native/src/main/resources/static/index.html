@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Naca Cloud Native - COBOL to Java</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        header {
+            background: #1a73e8;
+            color: white;
+            padding: 20px;
+            border-radius: 8px 8px 0 0;
+            margin-bottom: 20px;
+        }
+        header h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .panel {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .panel h2 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #333;
+            border-bottom: 2px solid #1a73e8;
+            padding-bottom: 10px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #555;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        textarea {
+            width: 100%;
+            height: 300px;
+            font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+            font-size: 13px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            resize: vertical;
+        }
+        .btn {
+            background: #1a73e8;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+        .btn:hover {
+            background: #1557b0;
+        }
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .btn-secondary {
+            background: #6c757d;
+        }
+        .btn-secondary:hover {
+            background: #545b62;
+        }
+        .output-area {
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            min-height: 300px;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        .output-area pre {
+            font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+            font-size: 13px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .success {
+            color: #28a745;
+        }
+        .error {
+            color: #dc3545;
+        }
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        .loading::after {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #1a73e8;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 15px;
+        }
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-size: 14px;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -1px;
+        }
+        .tab.active {
+            border-bottom-color: #1a73e8;
+            color: #1a73e8;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .file-upload {
+            border: 2px dashed #ddd;
+            border-radius: 4px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+        .file-upload:hover {
+            border-color: #1a73e8;
+        }
+        .file-upload input[type="file"] {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Naca Cloud Native</h1>
+            <p>COBOL to Java Transpiler and Runtime</p>
+        </header>
+
+        <div class="main-content">
+            <!-- Input Panel -->
+            <div class="panel">
+                <h2>COBOL Source</h2>
+
+                <div class="tabs">
+                    <button class="tab active" data-tab="paste">Paste Code</button>
+                    <button class="tab" data-tab="upload">Upload File</button>
+                    <button class="tab" data-tab="samples">Load Sample</button>
+                </div>
+
+                <!-- Paste Tab -->
+                <div class="tab-content active" id="paste-tab">
+                    <div class="form-group">
+                        <label for="programName">Program Name</label>
+                        <input type="text" id="programName" placeholder="e.g., BATCH1" value="BATCH1">
+                    </div>
+                    <div class="form-group">
+                        <label for="cobolSource">COBOL Code</label>
+                        <textarea id="cobolSource" placeholder="Paste your COBOL code here..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Upload Tab -->
+                <div class="tab-content" id="upload-tab">
+                    <div class="file-upload" onclick="document.getElementById('fileInput').click()">
+                        <p>Click to upload a COBOL file (.cbl, .cob)</p>
+                        <input type="file" id="fileInput" accept=".cbl,.cob">
+                    </div>
+                    <p id="fileName" style="margin-top: 10px; color: #666;"></p>
+                </div>
+
+                <!-- Samples Tab -->
+                <div class="tab-content" id="samples-tab">
+                    <div class="form-group">
+                        <label for="sampleSelect">Select a sample program</label>
+                        <select id="sampleSelect">
+                            <option value="">Loading samples...</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-secondary" onclick="loadSample()">Load Selected Sample</button>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn" id="transpileBtn" onclick="transpile()">Transpile to Java</button>
+                    <button class="btn btn-secondary" id="runBtn" onclick="runProgram()" disabled>Run Program</button>
+                </div>
+            </div>
+
+            <!-- Output Panel -->
+            <div class="panel">
+                <h2>Output</h2>
+                <div class="tabs">
+                    <button class="tab active" data-tab="result">Result</button>
+                    <button class="tab" data-tab="execution">Execution</button>
+                </div>
+
+                <!-- Result Tab -->
+                <div class="tab-content active" id="result-tab">
+                    <div class="output-area" id="outputArea">
+                        <p style="color: #999; text-align: center;">Transpiled Java code will appear here</p>
+                    </div>
+                </div>
+
+                <!-- Execution Tab -->
+                <div class="tab-content" id="execution-tab">
+                    <div class="output-area" id="executionOutput">
+                        <p style="color: #999; text-align: center;">Program output will appear here</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

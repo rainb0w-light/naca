@@ -1,0 +1,56 @@
+# NacaTrans YAML Configuration
+# COBOL to Java Transpiler Configuration
+
+NacaTrans:
+  # Log4j configuration file path
+  Log4jConf: "/Volumes/AppData/codebase/naca/NacaSamples/trans/Log4JConfiguration.txt"
+
+  # Single files to transpile
+  SingleFile:
+    - Name: "BATCH1"
+      Application: "batch"
+      Group: "Batch"
+    - Name: "CALLMSG"
+      Application: "commons"
+      Group: "Commons"
+    - Name: "MSGZONE"
+      Application: "commons"
+      Group: "Includes"
+
+  # Engine definitions
+  Engines:
+    Transcoder:
+      - Name: "CobolTranscoder"
+        Class: "utils.CobolTranscoder.CobolTranscoderEngine"
+        ReferenceGroupName: "Commons"
+        IncludeGroupName: "Includes"
+      - Name: "IncludeTranscoder"
+        Class: "utils.CobolTranscoder.CobolIncludeTranscoderEngine"
+        ReferenceGroupName: "Commons"
+
+  # Group definitions
+  Groups:
+    Group:
+      - Name: "Batch"
+        InputPath: "/Volumes/AppData/codebase/naca/NacaSamples/cobol/"
+        OutputPath: "/Volumes/AppData/codebase/naca/NacaSamples/src/"
+        InterPath: "/Volumes/AppData/codebase/naca/NacaSamples/trans/stat/"
+        Type: "Batch"
+        Engine: "CobolTranscoder"
+      - Name: "Commons"
+        InputPath: "/Volumes/AppData/codebase/naca/NacaSamples/cobol/"
+        OutputPath: "/Volumes/AppData/codebase/naca/NacaSamples/src/"
+        InterPath: "/Volumes/AppData/codebase/naca/NacaSamples/trans/stat/"
+        Type: "Called"
+        Engine: "CobolTranscoder"
+      - Name: "Includes"
+        InputPath: "/Volumes/AppData/codebase/naca/NacaSamples/cobol/include/"
+        OutputPath: "/Volumes/AppData/codebase/naca/NacaSamples/src/commons/include/"
+        InterPath: "/Volumes/AppData/codebase/naca/NacaSamples/trans/stat/"
+        Type: "Included"
+        Engine: "IncludeTranscoder"
+
+  # Global paths
+  GlobalPaths:
+    RuleFilePath: "/Volumes/AppData/codebase/naca/NacaSamples/trans/NacaTransRules.xml"
+    InfoPath: "/Volumes/AppData/codebase/naca/NacaSamples/trans/info/"

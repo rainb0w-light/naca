@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: naca-cloud-native
+
+server:
+  port: 8000
+
+logging:
+  level:
+    root: INFO
+    com.publicitas.naca.cloudnative: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

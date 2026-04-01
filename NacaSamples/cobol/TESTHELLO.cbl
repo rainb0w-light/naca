@@ -1,0 +1,14 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. TESTHELLO.
+
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01 WS-MESSAGE.
+          05 WS-GREETING    PIC X(20) VALUE 'Hello from COBOL!'.
+          05 WS-STATUS      PIC X(10) VALUE 'SUCCESS'.
+
+       PROCEDURE DIVISION.
+       MAIN-PROCEDURE.
+           DISPLAY WS-GREETING.
+           DISPLAY 'Status: ' WS-STATUS.
+           STOP RUN.
