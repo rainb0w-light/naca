@@ -42,7 +42,31 @@ public class CJMapObject //extends BaseObject
     protected void assertIfFalse(boolean b)
 	{
         if (nacaLib.testSupport.TestAssertionCollector.isCollecting()) {
-            nacaLib.testSupport.TestAssertionCollector.assertTrue(b, "Assertion failed");
+            // Capture stack trace to find the calling line
+            StackTraceElement[] stack = Thread.currentThread().getStackTrace();
+            String callingLocation = "unknown";
+            String expectedValue = "true";
+            String actualValue = String.valueOf(b);
+
+            // Look for the calling method in the stack
+            for (int i = 2; i < stack.length; i++) {
+                StackTraceElement elem = stack[i];
+                String className = elem.getClassName();
+                // Find first non-library caller
+                if (!className.startsWith("nacaLib.base.CJMapObject") &&
+                    !className.startsWith("nacaLib.testSupport")) {
+                    callingLocation = className + "." + elem.getMethodName()
+                        + "(" + elem.getFileName() + ":" + elem.getLineNumber() + ")";
+                    break;
+                }
+            }
+
+            nacaLib.testSupport.TestAssertionCollector.addResult(
+                b,
+                "Assertion failed at " + callingLocation,
+                expectedValue,
+                actualValue
+            );
         } else {
             Asserter.assertIfFalse(b);
         }

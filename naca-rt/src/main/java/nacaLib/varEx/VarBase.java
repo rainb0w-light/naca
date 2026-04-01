@@ -197,20 +197,23 @@ public abstract class VarBase extends CJMapObject
 
 	public void setAtAdress(VarAndEdit varSource)
 	{
+		if(varSource == null)
+			return;
+
 		// Old Code
 //		assignBuffer(bufferPos.getProgramManager(), varSource.bufferPos);
 //		int nShift = varSource.getBodyAbsolutePosition() - getBodyAbsolutePosition();
-//		
-//		ArrayList<VarDefBase> arrVarShifted = new ArrayList<VarDefBase>(); 
+//
+//		ArrayList<VarDefBase> arrVarShifted = new ArrayList<VarDefBase>();
 //		dupVarDefShiftingAbsoluteStartPosition(nShift, arrVarShifted);
-		
+
 		// New Code
 		int nStartPos = getBodyAbsolutePosition();
 		char oldBuffer[] = bufferPos.acBuffer;
 		int nLength = getTotalSize();
-		
+
 		int nShift = varSource.getBodyAbsolutePosition() - getBodyAbsolutePosition();
-		
+
 		BaseProgramManager pm = TempCacheLocator.getTLSTempCache().getProgramManager();
 		pm.changeBufferAndShiftPosition(oldBuffer, nStartPos, nLength, varSource.getBuffer(), -nShift);
 	}

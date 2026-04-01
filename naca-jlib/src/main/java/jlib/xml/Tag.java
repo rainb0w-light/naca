@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Vector;
 
+import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.FactoryConfigurationError;
 import javax.xml.parsers.ParserConfigurationException;
@@ -94,19 +95,19 @@ public class Tag
 	
 	public void setDoc(Document doc)
 	{
-		doc = doc;
+		this.doc = doc;
 		elem = doc.getDocumentElement();
 	}
-	
+
 	public Document getDoc()
 	{
 		return doc;
 	}
-			
+
 	private Tag(Document doc, Element elem)
 	{
-		doc = doc;
-		elem = elem;
+		this.doc = doc;
+		this.elem = elem;
 	}
 	
 	private Tag(Tag tag)
@@ -978,21 +979,17 @@ public class Tag
 	{
 		try
 		{
-			Source file = new StreamSource(s) ;
-			Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument() ;
-			Result res = new DOMResult(doc) ;
-			TransformerFactory tr = TransformerFactory.newInstance();
-			Transformer xformer = tr.newTransformer();
-			xformer.transform(file, res);
-			doc = doc;
-			elem = doc.getDocumentElement();			
+			DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+			doc = builder.parse(s);
+			doc.getDocumentElement();
+			elem = doc.getDocumentElement();
 			return true;
 		}
 		catch (Exception e)
 		{
 			LogTagError.log(e);
 			return false;
-		}		
+		}
 	}
 	
 	public boolean loadFromString(String cs)

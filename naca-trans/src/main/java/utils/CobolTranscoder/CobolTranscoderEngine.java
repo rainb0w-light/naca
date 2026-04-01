@@ -72,7 +72,8 @@ public class CobolTranscoderEngine extends TranscoderEngine<CProgram, CEntityCla
 		DoCSDRegistering(eConf) ;
 
 		Transcoder.logDebug("Init Global Entities...");
-		CJavaEntityFactory factory = new CJavaEntityFactory(null, null) ;
+		CObjectCatalog ocat = new CObjectCatalog(cat, null, null, null);
+		CJavaEntityFactory factory = new CJavaEntityFactory(ocat, null) ;
 		InitGlobalEntitiesFromRules(factory) ;
 		factory.InitCustomGlobalEntities(cat) ;
 

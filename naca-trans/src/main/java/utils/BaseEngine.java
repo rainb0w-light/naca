@@ -62,7 +62,7 @@ public abstract class BaseEngine<T_Entity extends CBaseLanguageEntity>
 	 */
 	public void setTranscoder(Transcoder transcoder)
 	{
-		transcoder = transcoder;
+		this.transcoder = transcoder;
 	}
 
 	/**

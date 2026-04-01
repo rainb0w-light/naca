@@ -28,10 +28,10 @@ subprojects {
     
     java {
         toolchain {
-            languageVersion.set(JavaLanguageVersion.of(23))
+            languageVersion.set(JavaLanguageVersion.of(21))
         }
-        sourceCompatibility = JavaVersion.VERSION_23
-        targetCompatibility = JavaVersion.VERSION_23
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
     
     tasks.withType<JavaCompile>().configureEach {

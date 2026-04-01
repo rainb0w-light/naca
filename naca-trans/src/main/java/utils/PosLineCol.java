@@ -40,9 +40,9 @@ public class PosLineCol
 	
 	public void setLineColLength(int nLine, int nCol, int nLength)
 	{
-		nLine = nLine;
-		nCol = nCol;
-		nLength = nLength;
+		this.nLine = nLine;
+		this.nCol = nCol;
+		this.nLength = nLength;
 	}
 	
 	public int getLine()

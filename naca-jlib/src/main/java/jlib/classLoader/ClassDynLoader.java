@@ -79,9 +79,9 @@ public class ClassDynLoader extends ClassLoader
 	
 	public void addJarEntry(JarEntries jarEntries, boolean bCanLoadClass, boolean bCanLoadJar)
 	{
-		jarEntries = jarEntries;
-		bCanLoadClass = bCanLoadClass;
-		bCanLoadJar = bCanLoadJar;
+		this.jarEntries = jarEntries;
+		this.bCanLoadClass = bCanLoadClass;
+		this.bCanLoadJar = bCanLoadJar;
 	}
 	
 	protected byte[] getClassFileBytes(String className) 
@@ -161,28 +161,38 @@ public class ClassDynLoader extends ClassLoader
 	public Class loadClass(String csClassName)
     {
 		Class classCode = null;
-		
+
+		if(csClassName == null)
+			return null;
+
+		Log.logDebug("ClassDynLoader.loadClass: " + csClassName + " bCanLoadClass=" + bCanLoadClass + " arrPaths=" + (arrPaths != null ? arrPaths.size() : "null"));
+
 		// Try to get code from cache
     	CoupleCodeLoader couple = ms_hashByName.get(csClassName);
 		if(couple != null)
 		{
 			classCode = couple.getClassCode();
+			Log.logDebug("ClassDynLoader.loadClass: found in cache");
 			return classCode;
 		}
 
 		// Try to load with priomordial loader
 		classCode = tryLoadWithPrimordialClassLoader(csClassName);
    		if(classCode != null)
-   			return classCode; 
-        
-        // Try to load it from our paths 
+   		{
+   			Log.logDebug("ClassDynLoader.loadClass: loaded by primordial loader");
+   			return classCode;
+   		}
+
+        // Try to load it from our paths
         byte  arrbyteClassData[] = getClassFileBytes(csClassName);
         if (arrbyteClassData == null)
         {
+        	Log.logDebug("ClassDynLoader.loadClass: class file not found for " + csClassName);
             return null;	// Class not found
         }
 
-        // Define it (parse the class file) 
+        // Define it (parse the class file)
         classCode = defineClass(csClassName, arrbyteClassData, 0, arrbyteClassData.length);
         if (classCode == null)
         {
@@ -190,13 +200,14 @@ public class ClassDynLoader extends ClassLoader
         }
 
 		resolveClass(classCode);
-		
+
 		if(classCode != null)
 		{
 			couple = new CoupleCodeLoader(classCode, this);
 			register(csClassName, couple);
 		}
-		
+
+		Log.logDebug("ClassDynLoader.loadClass: successfully loaded " + csClassName);
 		return classCode;
     }
         

@@ -24,8 +24,8 @@ public class TranscoderAction
 	
 	private TranscoderAction(boolean bSyntax, boolean bGeneration)
 	{
-		bSyntaxCheck = bSyntax;
-		bGeneration = bGeneration;
+		this.bSyntaxCheck = bSyntax;
+		this.bGeneration = bGeneration;
 	}
 	
 	public boolean isSyntaxCheck()

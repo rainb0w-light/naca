@@ -146,9 +146,57 @@ public class VarDefNumDecComp3 extends VarDefNum
 	
 	CStr getDottedSignedString(VarBufferPos buffer)
 	{
-		Dec dec = getAsDecodedDec(buffer);
-		CStr cs = dec.getAsCStr();
-		return cs;
+		CStr s = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);
+
+		// Calculate actual COMP-3 storage capacity
+		// COMP-3 stores digits in nibbles, with sign in the last nibble
+		// nTotalSize bytes = nTotalSize * 2 nibbles
+		// Usable digit nibbles = nTotalSize * 2 - 1 (minus sign nibble)
+		int comp3DigitCapacity = nTotalSize * 2 - 1;
+
+		CStrNumber csNum = TempCacheLocator.getTLSTempCache().getCStrNumber();
+		csNum.decodeSignComp3String(s, comp3DigitCapacity);
+
+		// Extract sign from end
+		int len = csNum.length();
+		char sign = '+';
+		char lastChar = csNum.charAt(len - 1);
+		if(lastChar == '+' || lastChar == '-')
+		{
+			sign = lastChar;
+			csNum.setLength(len - 1);
+		}
+
+		// csNum now contains the digits (possibly with leading zeros already handled by decodeSignComp3String)
+		// For even digit counts, decodeSignComp3String removes one leading zero
+		// We need to pad back to the expected display width: sign + max(nNbDigitInteger, actual digits) + optional decimal
+
+		// Pad with leading zeros to reach the COMP-3 storage capacity
+		int currentDigits = csNum.length();
+		while(currentDigits < comp3DigitCapacity)
+		{
+			csNum.insert(0, '0');
+			currentDigits++;
+		}
+
+		// Insert decimal point at the correct position from the right
+		if(nNbDigitDecimal > 0)
+		{
+			// Count from right: insert decimal point before nNbDigitDecimal digits
+			int intDigits = comp3DigitCapacity - nNbDigitDecimal;
+			if(intDigits > 0 && intDigits < csNum.length())
+			{
+				csNum.insert(intDigits, '.');
+			}
+		}
+
+		// Add sign at beginning
+		if(sign == '-')
+			csNum.insert(0, '-');
+		else
+			csNum.insert(0, '+');
+
+		return csNum;
 	}
 	
 	CStr getDottedSignedStringAsSQLCol(VarBufferPos buffer)

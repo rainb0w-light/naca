@@ -22,7 +22,7 @@ public class UnboundRefId
 	{
 		arrLines = new ArrayList<Integer>();
 		arrLines.add(nLine);
-		csFile = csFile;
+		this.csFile = csFile;
 	}
 	
 	void addLineOnce(int nLine)

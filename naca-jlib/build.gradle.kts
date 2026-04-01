@@ -35,6 +35,9 @@ dependencies {
     // Log4j 2.x SLF4J binding
     implementation("org.apache.logging.log4j:log4j-slf4j2-impl:2.24.3")
 
+    // SnakeYAML for YAML configuration parsing
+    implementation("org.yaml:snakeyaml:2.3")
+
     // Testing
     testImplementation("org.junit.jupiter:junit-jupiter:5.11.4")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")

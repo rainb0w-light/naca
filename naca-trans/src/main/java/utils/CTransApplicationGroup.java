@@ -18,7 +18,7 @@ public class CTransApplicationGroup
 {
 	public CTransApplicationGroup(BaseEngine engine)
 	{
-		engine = engine;
+		this.engine = engine;
 	}
 	
 	public enum EProgramType

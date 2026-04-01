@@ -538,8 +538,26 @@ public class VarDefNumDecSignTrailingComp0 extends VarDefNum
 	
 	CStr getDottedSignedString(VarBufferPos buffer)
 	{
-		Dec dec = getAsDecodedDec(buffer);
-		CStr cs = dec.getAsCStr();
+		// Read integer digits (sign is at position 0, digits start at position 1)
+		CStr cs1 = buffer.getStringAt(buffer.nAbsolutePosition, nNbDigitInteger);
+
+		// Build result with digits first
+		CStr cs = TempCacheLocator.getTLSTempCache().getReusableCStr();
+		cs.resetMinimalSize(cs1.length() + (nNbDigitDecimal > 0 ? 1 + nNbDigitDecimal : 0) + 1);
+		cs.append(cs1);
+
+		// Add decimal part if present
+		if(nNbDigitDecimal > 0)
+		{
+			cs.append('.');
+			CStr cs2 = buffer.getStringAt(buffer.nAbsolutePosition+nNbDigitInteger, nNbDigitDecimal);
+			cs.append(cs2);
+		}
+
+		// Append sign at end (trailing sign format)
+		char cSign = buffer.acBuffer[buffer.nAbsolutePosition+nTotalSize-1];
+		cs.append(cSign);
+
 		return cs;
 	}
 	

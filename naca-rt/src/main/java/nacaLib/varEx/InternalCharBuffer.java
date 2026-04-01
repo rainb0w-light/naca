@@ -83,6 +83,9 @@ public class InternalCharBuffer extends CJMapObject
 	
 	public void copyFrom(InternalCharBufferCompressedBackup internalCharBufferCompressedBackup)
 	{
+		if(internalCharBufferCompressedBackup == null)
+			return;
+
 		if(!isLargeEnough(internalCharBufferCompressedBackup.getBufferSize()))
 		{
 			alloc(internalCharBufferCompressedBackup.getBufferSize());
@@ -91,9 +94,9 @@ public class InternalCharBuffer extends CJMapObject
 		{
 			byte b = internalCharBufferCompressedBackup.abBuffer[n];
 			if(b < 0)
-				acBuffer[n] = (char)(b + 256);	
+				acBuffer[n] = (char)(b + 256);
 			else
-				acBuffer[n] = (char)b; 
+				acBuffer[n] = (char)b;
 		}
 	}
 	

@@ -63,10 +63,10 @@ public abstract class CBaseLexer
 
 	public CBaseLexer(int ignored, int utils, CKeywordList lstKW, CConstantList lstCste)
 	{
-		nbCharsIgnoredAtBegining = ignored ;
-		nbCharsUtils = utils ;
-		lstKW = lstKW ;
-		lstCste = lstCste ;
+		nbCharsIgnoredAtBegining = ignored;
+		nbCharsUtils = utils;
+		this.lstKW = lstKW;
+		this.lstCste = lstCste;
 	}
 	
 	protected boolean ReadLineEnd(InputStream buffer)
@@ -509,7 +509,7 @@ public abstract class CBaseLexer
 						{
 							nbCodeLines ++ ;
 						}
-					} 
+					}
 					lstTokens.Add(tok);
 					bIsNewLine = false ;
 				}

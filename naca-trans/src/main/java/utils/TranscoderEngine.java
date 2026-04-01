@@ -79,19 +79,22 @@ public abstract class TranscoderEngine<T_Elem extends CBaseElement, T_Entity ext
 	@Override
 	public void doFileTranscoding(String filename, String csApplication, CTransApplicationGroup grp, boolean bResources)
 	{
+		Transcoder.logDebug("doFileTranscoding: " + filename);
 		T_Entity eSem = doAllAnalysis(filename, csApplication,  grp, bResources) ;
 		if (eSem == null)
 		{
+			Transcoder.logError("doAllAnalysis returned null for: " + filename);
 			return ;
 		}
-		
+
+		Transcoder.logDebug("Starting export for: " + filename);
 		eSem.StartExport() ;
 		if (cat.CanExportResources(eSem.GetProgramName()))
 		{
 			eSem.programCatalog.ExportRegisteredFormContainer(bResources) ;
 		}
 		eSem.Clear();
-		
+
 		cat.registerProgram(filename);
 		Transcoder.dumpUnboundReferences();
 	}
@@ -112,16 +115,19 @@ public abstract class TranscoderEngine<T_Elem extends CBaseElement, T_Entity ext
 				}
 			}
 		}
-		
+
 		doLogs(grp.csInputPath + filename, csOutputDir + outname) ;
 		COriginalLisiting listing = new COriginalLisiting() ;
 		CTokenList lst = doLexing(grp.csInputPath + filename, listing);
+		Transcoder.logDebug("doAllAnalysis: " + filename + " - lexer returned: " + (lst == null ? "null" : lst.GetNbTokens() + " tokens"));
 		if (lst != null)
-		{			
+		{
 			Transcoder.logDebug("Transcoding " + filename);
 			CParser<T_Elem> p = doParsing(lst) ;
+			Transcoder.logDebug("doAllAnalysis: " + filename + " - parser returned: " + (p == null ? "null" : "OK"));
 			if (p!= null)
 			{
+				Transcoder.logDebug("doAllAnalysis: " + filename + " - mustGenerate: " + transcoder.mustGenerate());
 				if(transcoder.mustGenerate())
 				{
 					NotificationEngine engine = new NotificationEngine() ;
@@ -129,12 +135,19 @@ public abstract class TranscoderEngine<T_Elem extends CBaseElement, T_Entity ext
 					CObjectCatalog newCat = new CObjectCatalog(cat, listing, grp.eType, engine) ;
 					try
 					{
+						Transcoder.logDebug("doAllAnalysis: " + filename + " - calling doSemanticAnalysis");
 						T_Entity eSem = doSemanticAnalysis(p, csOutputDir + outname, newCat, grp, bResources) ;
+						Transcoder.logDebug("doAllAnalysis: " + filename + " - doSemanticAnalysis returned: " + (eSem == null ? "null" : "OK"));
 						return eSem ;
 					}
 					catch (NacaTransAssertException e)
 					{
 						Transcoder.logError("Failure while transcoding "+filename+" : "+e.csMessage) ;
+					}
+					catch (Exception e)
+					{
+						Transcoder.logError("Exception while transcoding "+filename+" : "+e.getMessage());
+						e.printStackTrace();
 					}
 					p.Clear() ;
 					lst.Clear();

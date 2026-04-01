@@ -29,3 +29,6 @@ Thumbs.db
 *.so
 *.dylib
 *.dll
+
+# Generated test files
+NacaSamples/src/commons/include/commons/Msgzone.java

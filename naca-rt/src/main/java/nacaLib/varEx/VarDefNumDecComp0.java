@@ -140,9 +140,18 @@ public class VarDefNumDecComp0 extends VarDefNum
 	
 	CStr getDottedSignedString(VarBufferPos buffer)
 	{
-		Dec dec = getAsDecodedDec(buffer);
-		CStr cs = dec.getAsCStr();
-		return cs;
+		// For unsigned types, just return the digits with decimal point (no sign)
+		CStr csInt = buffer.getBufChunkAt(nNbDigitInteger);
+		CStr csDec = buffer.getBufChunkAt(buffer.nAbsolutePosition+nNbDigitInteger, nNbDigitDecimal);
+		CStr cstr = TempCacheLocator.getTLSTempCache().getReusableCStr();
+		cstr.resetMinimalSize(csInt.length() + csDec.length() + (nNbDigitDecimal > 0 ? 1 : 0));
+		cstr.append(csInt);
+		if(nNbDigitDecimal > 0)
+		{
+			cstr.append('.');
+			cstr.append(csDec);
+		}
+		return cstr;
 	}
 	
 	CStr getDottedSignedStringAsSQLCol(VarBufferPos buffer)

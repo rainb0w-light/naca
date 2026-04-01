@@ -1,7 +1,7 @@
 # Log4JConfiguration.txt
 
-# Set root logger level to DEBUG and its appenders to stdout and LogFile file
-log4j.rootLogger=ERROR, LogFile, stdout
+# Set root logger level to INFO and its appenders to stdout and LogFile file
+log4j.rootLogger=INFO, LogFile, stdout
 
 # stdout is set to be a ConsoleAppender.
 log4j.appender.stdout=org.apache.log4j.ConsoleAppender
@@ -12,5 +12,5 @@ log4j.appender.stdout.layout.ConversionPattern=NacaTrans:%d - %m %n
 log4j.appender.LogFile=org.apache.log4j.FileAppender
 log4j.appender.LogFile.append=false
 log4j.appender.LogFile.layout=org.apache.log4j.PatternLayout
-log4j.appender.LogFile.File=d:/dev/naca/NacaSamples/trans/log/LogJava.Log
-log4j.appender.LogFile.layout.ConversionPattern=4,0,þ%tþ,%r,þ%d{yyyy/MMM/dd HH:mm:ss}þ,þ%Fþ,%L,þ%Mþ,þþ,þ%mþ,þ%mþ%n 
+log4j.appender.LogFile.File=/Volumes/AppData/codebase/naca/NacaSamples/trans/log/LogJava.Log
+log4j.appender.LogFile.layout.ConversionPattern=4,0,ï¿½%tï¿½,%r,ï¿½%d{yyyy/MMM/dd HH:mm:ss}ï¿½,ï¿½%Fï¿½,%L,ï¿½%Mï¿½,ï¿½ï¿½,ï¿½%mï¿½,ï¿½%mï¿½%n 

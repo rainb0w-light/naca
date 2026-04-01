@@ -23,7 +23,7 @@ public class CTokenGeneric extends CBaseToken
 	public CTokenGeneric(CTokenType type, int line, boolean newline)
 	{
 		super(line, newline);
-		type = type ;
+		this.type = type ;
 		value = type.value ;
 	}
 	public CTokenType GetType()

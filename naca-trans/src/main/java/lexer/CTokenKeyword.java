@@ -23,7 +23,7 @@ public class CTokenKeyword extends CBaseToken
 	public CTokenKeyword(CReservedKeyword kw, int line, boolean newline)
 	{
 		super(line, newline);
-		kw = kw ;
+		this.kw = kw ;
 		value = kw.name ;
 	}
 	

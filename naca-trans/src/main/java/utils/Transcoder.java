@@ -56,7 +56,7 @@ public class Transcoder
 
 	public boolean Init(Tag eConf)
 	{
-		eConf = eConf ;
+		this.eConf = eConf ;
 		String log4jConf = eConf.getVal("Log4jConf");
 		File f = new File(log4jConf) ;
 		if (f.isFile())
@@ -159,10 +159,9 @@ public class Transcoder
 				String csOutputDir = eGroup.getVal("OutputPath") ;
 				String csName = eGroup.getVal("Name") ;
 				String engineName = eGroup.getVal("Engine") ;
-				
-				
+
 				// Special case for Pub2000GenResJava groups (Transcoder of .res and .java from a .xml file)
-				String csOutputDir2 = null; 
+				String csOutputDir2 = null;
 				if(eGroup.isValExisting("OutputPath2"))
 					csOutputDir2 = eGroup.getVal("OutputPath2") ;
 				BaseEngine engine = tabEngines.get(engineName) ;
@@ -319,7 +318,7 @@ public class Transcoder
 
 	public void setTranscoderAction(TranscoderAction transcoderAction)
 	{
-		transcoderAction = transcoderAction;
+		this.transcoderAction = transcoderAction;
 	}
 	
 	public boolean mustGenerate()
@@ -334,7 +333,7 @@ public class Transcoder
 		try
 		{
 			AsciiEbcdicConverter.create();
-			Tag eConf = Tag.createFromFile(configFilePath) ;
+			Tag eConf = loadConfiguration(configFilePath) ;
 			if (eConf == null)
 			{
 				System.out.println("Failure while loading configuration file : "+configFilePath) ;
@@ -397,13 +396,37 @@ public class Transcoder
 	
 	public void Start(String configFilePath, String groupToTranscode)
 	{
-		Tag eConf = Tag.createFromFile(configFilePath) ;
+		Tag eConf = loadConfiguration(configFilePath) ;
 		if (eConf == null)
 		{
 			System.out.println("Failure while loading configuration file : "+configFilePath) ;
 			return ;
 		}
 		Start(eConf, groupToTranscode);
+	}
+
+	/**
+	 * Load configuration from file, supporting both XML and YAML formats.
+	 * @param configFilePath Path to the configuration file
+	 * @return Tag object containing the configuration, or null if loading failed
+	 */
+	private Tag loadConfiguration(String configFilePath)
+	{
+		if (configFilePath == null)
+			return null;
+
+		// Detect file type by extension
+		if (configFilePath.toLowerCase().endsWith(".yaml") ||
+		    configFilePath.toLowerCase().endsWith(".yml"))
+		{
+			// Load YAML configuration
+			return jlib.yaml.YamlConfigLoader.createFromFile(configFilePath);
+		}
+		else
+		{
+			// Load XML configuration (default)
+			return Tag.createFromFile(configFilePath);
+		}
 	}
 	
 	public void Start(Tag eConf, String groupToTranscode)

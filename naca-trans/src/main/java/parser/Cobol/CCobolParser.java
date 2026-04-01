@@ -20,7 +20,7 @@ public class CCobolParser extends CParser<CProgram>
 		CProgram p = new CProgram(lstTokens.GetCurrentToken().getLine()) ;
 		eRoot = p ;
 		ms_bCommaIsDecimalPoint = false ;
-		boolean bParsed = p.Parse(lstTokens, commentContainer) ; 
+		boolean bParsed = p.Parse(lstTokens, commentContainer) ;
 		return bParsed ;
 	}
 

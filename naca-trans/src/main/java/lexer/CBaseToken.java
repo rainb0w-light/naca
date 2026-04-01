@@ -92,7 +92,7 @@ public abstract class CBaseToken
 	
 	public void setLine(int line)
 	{
-		line = line;
+		this.line = line;
 		Transcoder.setLine(line);
 	}
 	

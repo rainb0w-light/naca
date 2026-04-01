@@ -535,8 +535,26 @@ public class VarDefNumDecSignLeadingComp0 extends VarDefNum
 	
 	CStr getDottedSignedString(VarBufferPos buffer)
 	{
-		Dec dec = getAsDecodedDec(buffer);
-		CStr cs = dec.getAsCStr();
+		// Read sign from first position
+		char cSign = buffer.acBuffer[buffer.nAbsolutePosition];
+
+		// Read integer digits
+		CStr cs1 = buffer.getStringAt(buffer.nAbsolutePosition+1, nNbDigitInteger);
+
+		// Build result with sign prefix
+		CStr cs = TempCacheLocator.getTLSTempCache().getReusableCStr();
+		cs.resetMinimalSize(1 + cs1.length() + (nNbDigitDecimal > 0 ? 1 + nNbDigitDecimal : 0));
+		cs.append(cSign);
+		cs.append(cs1);
+
+		// Add decimal part if present
+		if(nNbDigitDecimal > 0)
+		{
+			cs.append('.');
+			CStr cs2 = buffer.getStringAt(buffer.nAbsolutePosition+1+nNbDigitInteger, nNbDigitDecimal);
+			cs.append(cs2);
+		}
+
 		return cs;
 	}
 	

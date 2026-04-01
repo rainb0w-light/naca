@@ -23,6 +23,9 @@ dependencies {
     implementation("org.apache.logging.log4j:log4j-core:2.24.3")
     implementation("org.apache.logging.log4j:log4j-1.2-api:2.24.3")
 
+    // SnakeYAML for YAML configuration parsing
+    implementation("org.yaml:snakeyaml:2.3")
+
     // StringTemplate 4 - Code generation template engine
     implementation("org.antlr:ST4:4.3.4")
 

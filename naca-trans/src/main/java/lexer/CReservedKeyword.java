@@ -22,7 +22,7 @@ public class CReservedKeyword
 {
 	public CReservedKeyword(CKeywordList list, String name)
 	{
-		name = name ;
+		this.name = name;
 		list.Register(this) ;
 	}
 	public String name ;

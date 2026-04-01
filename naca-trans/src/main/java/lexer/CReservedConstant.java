@@ -22,7 +22,7 @@ public class CReservedConstant
 {
 	public CReservedConstant(CConstantList list, String name)
 	{
-		name = name ;
+		this.name = name ;
 		if(list != null)
 			list.Register(this) ;
 	}

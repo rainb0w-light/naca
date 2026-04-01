@@ -22,37 +22,45 @@ public class NacaTransLauncher extends Transcoder
 		boolean bCfgSet = false;
 		String csGroupToTranscode = "" ;
 		String csApplication = null;
-		TranscoderAction transcoderAction = TranscoderAction.All; 
+		TranscoderAction transcoderAction = TranscoderAction.All;
 		for (int nArg=0; nArg<args.length; nArg++)
 		{
-			String s = args[nArg];				
-			if (s.startsWith("-") || s.startsWith("/"))
+			String s = args[nArg];
+			if ((s.startsWith("-") || s.startsWith("/")) && s.contains("="))
 			{
-				String sArg = s.substring(1);
+				int eqPos = s.indexOf('=');
+				String sArg = s.substring(1, eqPos);
 				String sArgUpper = sArg.toUpperCase();
-				if (sArgUpper.startsWith("APPLICATION="))
+				String sArgValue = s.substring(eqPos + 1);
+
+				if (sArgUpper.equals("APPLICATION"))
 				{
-					csApplication = sArg.substring(12); 
+					csApplication = sArgValue;
 				}
-				else if (sArgUpper.startsWith("GROUP="))
+				else if (sArgUpper.equals("GROUP"))
 				{
-					csGroupToTranscode = sArg.substring(6); 
+					csGroupToTranscode = sArgValue;
 				}
-				else if (sArgUpper.startsWith("ACTION="))
+				else if (sArgUpper.equals("ACTION"))
 				{
-					String csAction = sArgUpper.substring(7); 
+					String csAction = sArgValue;
 					transcoderAction = getTranscoderAction(csAction);
+				}
+				else if (sArgUpper.equals("CONFIGFILE"))
+				{
+					csCfg = sArgValue;
+					bCfgSet = true;
 				}
 			}
 			else
 			{
 				if(!bCfgSet)
 				{
-					csCfg = args[nArg] ;
+					csCfg = s;
 					bCfgSet = true;
 				}
 				else
-					csGroupToTranscode = args[nArg] ;
+					csGroupToTranscode = s;
 			}
 		}
 		doStart(csApplication, transcoderAction, csCfg, csGroupToTranscode);

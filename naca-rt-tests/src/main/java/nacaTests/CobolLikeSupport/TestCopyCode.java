@@ -13,11 +13,14 @@ import idea.onlinePrgEnv.OnlineProgram;
  */
 public class TestCopyCode extends OnlineProgram
 {
-	private TestCopyCodeContainerIntf container = null;
+
+    nacaLib.varEx.DataSection WorkingStorage = declare.workingStorageSection();
+
+    private TestCopyCodeContainerIntf container = null;
 	
 	public void run(TestCopyCodeContainerIntf container)
 	{
-		container = container;
+		this.container = container;
 		doRun();
 	}
 	

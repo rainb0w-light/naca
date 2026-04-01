@@ -56,10 +56,13 @@ public abstract class CBaseElement
 	protected CBaseToken GetNext()
 	{
 		CBaseToken tok = lstTokens.GetNext() ;
-		while (tok != null && tok.GetType() == CTokenType.COMMENTS)
+		while (tok != null && (tok.GetType() == CTokenType.COMMENTS || tok.GetType() == CTokenType.WHITESPACE))
 		{
-			ParseComment() ;
-			tok = lstTokens.GetCurrentToken() ;
+			if (tok.GetType() == CTokenType.COMMENTS)
+			{
+				ParseComment() ;
+			}
+			tok = lstTokens.GetNext() ;
 		}
 		return tok ;
 	}
@@ -70,23 +73,27 @@ public abstract class CBaseElement
 	protected CBaseToken GetCurrentToken()
 	{
 		CBaseToken tok = lstTokens.GetCurrentToken() ;
-		while (tok != null && tok.GetType() == CTokenType.COMMENTS)
+		while (tok != null && (tok.GetType() == CTokenType.COMMENTS || tok.GetType() == CTokenType.WHITESPACE))
 		{
-			ParseComment() ;
+			if (tok.GetType() == CTokenType.COMMENTS)
+			{
+				ParseComment() ;
+			}
+			lstTokens.GetNext() ;
 			tok = lstTokens.GetCurrentToken() ;
 		}
 		return tok ;
 	}		
 	public boolean Parse(CTokenList lst, CGlobalCommentContainer container)
 	{
-		lstTokens = lst ;
-		container = container ;
+		lstTokens = lst;
+		this.container = container;
 		return DoParsing();
 	}
 	public boolean Parse(CTokenList lst, CGlobalCommentContainer container, CFlag f)
 	{
-		lstTokens = lst ;
-		container = container ;
+		lstTokens = lst;
+		this.container = container;
 		return DoParsing(f);
 	}
 	protected boolean Parse(CBaseElement e, CFlag f)

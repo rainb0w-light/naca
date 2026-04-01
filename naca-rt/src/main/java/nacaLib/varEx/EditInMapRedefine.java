@@ -305,21 +305,21 @@ public class EditInMapRedefine extends Edit
 
 	EditAttributManager getEditAttributManager()
 	{
-		BaseProgramManager programManager = TempCacheLocator.getTLSTempCache().getProgramManager(); 
-		
+		BaseProgramManager programManager = TempCacheLocator.getTLSTempCache().getProgramManager();
+
 		VarDefBuffer varDefEditInMapOrigin = varDef.getVarDefEditInMapOrigin();
 		//if(varDefEditInMapOrigin != null)
 		{
 			VarBase varEditInMap = programManager.getVarFullName(varDefEditInMapOrigin);
-			EditAttributManager editAttrManager = varEditInMap.getEditAttributManager();
-			attrManager = editAttrManager;
-			return attrManager;
+			if(varEditInMap != null)
+			{
+				EditAttributManager editAttrManager = varEditInMap.getEditAttributManager();
+				attrManager = editAttrManager;
+				return attrManager;
+			}
 		}
-//		else
-//		{
-//			logSevereErrorGetEditAttributManager("getEditAttributManager: SEVERE ERROR");
-//		}
-//		return null;
+		// If varEditInMap is null, return null or a default manager
+		return null;
 	}
 	
 //	private void logSevereErrorGetEditAttributManager(String csTitle)

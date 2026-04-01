@@ -72,7 +72,7 @@ public class CProgram extends CCommentContainer
 	protected boolean DoParsing()
 	{
 		beginParseProgram();
-		
+
 		CBaseToken tok = GetCurrentToken() ;
 		boolean bRet = true ;
 		while (bRet && tok != null)
@@ -80,7 +80,7 @@ public class CProgram extends CCommentContainer
 			if (tok.IsKeyword())
 			{
 				CReservedKeyword kw = tok.GetKeyword() ;
-				if (kw == CCobolKeywordList.IDENTIFICATION || kw == CCobolKeywordList.ID) 
+				if (kw == CCobolKeywordList.IDENTIFICATION || kw == CCobolKeywordList.ID)
 				{
 					bRet = ParseIdentificationDivision();
 				}
@@ -96,9 +96,16 @@ public class CProgram extends CCommentContainer
 				{
 					bRet = ParseProcedureDivision();
 				}
+				else if (kw == CCobolKeywordList.DIVISION)
+				{
+					// Division without preceding division name - this indicates a parsing error
+					// where the division name was skipped. Try to recover by looking at context.
+					// For now, just skip this token and continue.
+					GetNext();
+				}
 				else
 				{
-					Transcoder.logError(tok.getLine(), "Unexpecting Token : " + tok.toString()) ; 
+					Transcoder.logError(tok.getLine(), "Unexpecting Token : " + tok.toString()) ;
 					CCobolElement e = new CUnparsedToken(tok.getLine()) ;
 					bRet = Parse(e);
 					AddChild(e) ;
@@ -116,7 +123,7 @@ public class CProgram extends CCommentContainer
 			}
 			else
 			{
-				Transcoder.logError(GetCurrentToken().getLine(), "Unparsed Token : " + GetCurrentToken().toString()) ; 
+				Transcoder.logError(GetCurrentToken().getLine(), "Unparsed Token : " + GetCurrentToken().toString()) ;
 				CCobolElement e = new CUnparsedToken(GetCurrentToken().getLine()) ;
 				bRet = Parse(e);
 				AddChild(e) ;
@@ -154,24 +161,29 @@ public class CProgram extends CCommentContainer
 		tok = GetNext();
 		if (tok.GetKeyword() != CCobolKeywordList.DIVISION)
 		{
-			return false ; 
+			return false ;
 		}
 		tok = GetNext();
 		if (tok.GetType() != CTokenType.DOT)
 		{
-			return false ; 
+			return false ;
 		}
 		GetNext();
-		
+
 		boolean bDone = false ;
 		while (!bDone)
 		{
 			CBaseToken tokVar = GetCurrentToken() ;
+			if (tokVar == null)
+			{
+				bDone = true;
+				break;
+			}
 			if (tokVar.IsKeyword())
 			{
-				CReservedKeyword kw = tokVar.GetKeyword() ; 
-				if (kw == CCobolKeywordList.PROGRAM_ID || 
-					kw == CCobolKeywordList.AUTHOR || 
+				CReservedKeyword kw = tokVar.GetKeyword() ;
+				if (kw == CCobolKeywordList.PROGRAM_ID ||
+					kw == CCobolKeywordList.AUTHOR ||
 					kw == CCobolKeywordList.DATE_WRITTEN ||
 					kw == CCobolKeywordList.DATE_COMPILED ||
 					kw == CCobolKeywordList.REMARKS)
@@ -179,14 +191,14 @@ public class CProgram extends CCommentContainer
 					String cs = "" ;
 					CBaseToken tokDot = GetNext() ; // consume keyword, expecting a DOT
 					if (tokDot.GetType() == CTokenType.DOT)
-					{ 
+					{
 						GetNext();	// consume DOT
 						cs = ReadStringUntilEOL() ;
 					}
 					else
 					{
 						Transcoder.logError(getLine(), "Unexpecting sequence : " + tokVar.toString() + tokDot.toString()) ;
-						return false ;					
+						return false ;
 					}
 					if (kw == CCobolKeywordList.PROGRAM_ID)
 					{
@@ -222,7 +234,7 @@ public class CProgram extends CCommentContainer
 					if (tok == null)
 					{
 						return false ;
-					} 
+					}
 					CComment c = new CComment(tok.getLine(), cs) ;
 					AddChild(c) ;
 				}
@@ -243,7 +255,7 @@ public class CProgram extends CCommentContainer
 			}
 		}
 		return true ;
-	}	
+	}
 
 	protected boolean ParseEnvironmentDivision()
 	{
@@ -255,12 +267,12 @@ public class CProgram extends CCommentContainer
 		tok = GetNext();
 		if (tok.GetKeyword() != CCobolKeywordList.DIVISION)
 		{
-			return false ; 
+			return false ;
 		}
 		tok = GetNext();
 		if (tok.GetType() != CTokenType.DOT)
 		{
-			return false ; 
+			return false ;
 		}
 		GetNext();
 
@@ -439,27 +451,27 @@ public class CProgram extends CCommentContainer
 	}
 
 	protected boolean ParseDataDivision()
-	{	
+	{
 		beginParseDataDivision();
 		CBaseToken tok = GetNext();
 		if (tok.GetKeyword() != CCobolKeywordList.DIVISION)
 		{
 			endParseDataDivision();
-			return false ; 
+			return false ;
 		}
 		tok = GetNext();
 		if (tok.GetType() != CTokenType.DOT)
 		{
 			endParseDataDivision();
-			return false ; 
+			return false ;
 		}
 		GetNext();
-		
+
 		boolean b = DoParseDataDivision();
 		endParseDataDivision();
 		return b;
 	}
-		
+
 	protected boolean DoParseDataDivision()
 	{
 		boolean bDone = false ;
@@ -470,7 +482,7 @@ public class CProgram extends CCommentContainer
 			{
 				break ;
 			}
-			if (tokVar.GetKeyword() == CCobolKeywordList.EJECT || 
+			if (tokVar.GetKeyword() == CCobolKeywordList.EJECT ||
 				tokVar.GetKeyword() == CCobolKeywordList.SKIP3 ||
 				tokVar.GetKeyword() == CCobolKeywordList.SKIP2)
 			{
@@ -483,7 +495,7 @@ public class CProgram extends CCommentContainer
 			else if (tokVar.IsKeyword())
 			{	// only two sections expected : WORKING-STORAGE SECTION and LINKAGE SECTION
 				if (tokVar.GetKeyword() != CCobolKeywordList.WORKING_STORAGE
-					&& tokVar.GetKeyword() != CCobolKeywordList.LINKAGE 
+					&& tokVar.GetKeyword() != CCobolKeywordList.LINKAGE
 					&& tokVar.GetKeyword() != CCobolKeywordList.FILE)
 				{
 					return true ; // not for that function
@@ -499,8 +511,8 @@ public class CProgram extends CCommentContainer
 				{
 					Transcoder.logError(getLine(), "Unexpecting sequence : " + tokVar.toString() + tokSection.toString() + tokDot.toString());
 					return false ;
-				} 
-				tokDot = GetNext() ; // consume DOT 
+				}
+				tokDot = GetNext() ; // consume DOT
 				if (tokVar.GetKeyword() == CCobolKeywordList.WORKING_STORAGE)
 				{
 					eWorking = new CWorking(tokVar.getLine()) ;
@@ -535,7 +547,7 @@ public class CProgram extends CCommentContainer
 					Transcoder.logError(getLine(), "Unexpecting sequence : " + tokVar.toString() + tokSection.toString() + tokDot.toString());
 					return false ;
 				}
-				
+
 			}
 			else
 			{

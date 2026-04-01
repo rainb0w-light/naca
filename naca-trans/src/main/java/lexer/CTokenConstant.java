@@ -23,7 +23,7 @@ public class CTokenConstant extends CBaseToken
 	public CTokenConstant(CReservedConstant cste, int line, boolean newline)
 	{
 		super(line, newline) ;
-		cste = cste ;
+		this.cste = cste ;
 		value = cste.name ;
 	}
 	/* (non-Javadoc)

@@ -20,8 +20,8 @@ class UnstringDelimiter
 {
 	UnstringDelimiter(String cs, boolean bAll)
 	{
-		cs = cs;
-		bAll = bAll;
+		this.cs = cs;
+		this.bAll = bAll;
 	}
 	
 	String getRemaingStringAfterSeparator(String csSource)
@@ -117,18 +117,18 @@ class UnstringManager
 	
 	void doInto(Var varDelimiterDest, Var varDelimiterIn, Var varCountDest)
 	{
-		if(!bFailed)
+		if(!bFailed && csCurrentSource != null)
 		{
 			if(varTallying != null)
-				nTallying = varTallying.getInt(); 
-			
+				nTallying = varTallying.getInt();
+
 			UnstringDelimiter delimiterUsed = null;
-			
+
 			// find separator to use
 			int nPositionEndSepartorUsed = -1;
 			if(varPointer != null)
 				nPointer1Based = varPointer.getInt();
-			
+
 			int nPointer0Based = nPointer1Based - 1;	// Must be 0 based
 			if(nPointer0Based < 0 || nPointer0Based >= csCurrentSource.length()) // Check position
 			{
