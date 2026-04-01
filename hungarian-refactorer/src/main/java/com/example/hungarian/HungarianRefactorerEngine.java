@@ -131,21 +131,23 @@ public class HungarianRefactorerEngine {
         writeLog("=== Starting Project Refactor (" + mode + ") ===");
 
         try {
-            return ApplicationManager.getApplication().runReadAction(
-                (com.intellij.openapi.util.Computable<RefactorResult>) () -> {
-                    writeLog("Analyzing project...");
-                    List<HungarianVariableInfo> allVariables = new ArrayList<>();
-
-                    // 遍历项目中的所有 Java 文件
-                    variableFinder.findAllHungarianVariablesInProject(project).forEach(allVariables::addAll);
-
-                    writeLog("Found " + allVariables.size() + " Hungarian variables to refactor");
-                    RefactorResult result = performRefactoring(allVariables, dryRun);
-
-                    writeLog("Refactor complete: " + result.getSummary());
-                    return result;
+            // 第一步：在 read action 中分析文件（只读操作）
+            writeLog("Analyzing project...");
+            List<HungarianVariableInfo> allVariables = ApplicationManager.getApplication().runReadAction(
+                (com.intellij.openapi.util.Computable<List<HungarianVariableInfo>>) () -> {
+                    List<HungarianVariableInfo> variables = new ArrayList<>();
+                    variableFinder.findAllHungarianVariablesInProject(project).forEach(variables::addAll);
+                    return variables;
                 }
             );
+
+            writeLog("Found " + allVariables.size() + " Hungarian variables to refactor");
+
+            // 第二步：执行重构（写操作，不在 read action 内部）
+            RefactorResult result = performRefactoring(allVariables, dryRun);
+
+            writeLog("Refactor complete: " + result.getSummary());
+            return result;
         } catch (Exception e) {
             LOG.error("Failed to refactor project", e);
             writeLog("ERROR: " + e.getMessage());
@@ -168,29 +170,34 @@ public class HungarianRefactorerEngine {
             return result;
         }
 
-        // 实际执行重构
+        // 实际执行重构 - 在 EDT 线程中执行写操作
         AtomicInteger successCount = new AtomicInteger(0);
         AtomicInteger failCount = new AtomicInteger(0);
 
-        WriteCommandAction.runWriteCommandAction(project, () -> {
-            for (HungarianVariableInfo variable : variables) {
-                try {
-                    boolean success = refactorer.renameVariable(variable);
-                    if (success) {
-                        successCount.incrementAndGet();
-                        result.renamedVariables.add(variable);
-                    } else {
+        try {
+            WriteCommandAction.runWriteCommandAction(project, "Hungarian Notation Refactoring", null, () -> {
+                for (HungarianVariableInfo variable : variables) {
+                    try {
+                        boolean success = refactorer.renameVariable(variable);
+                        if (success) {
+                            successCount.incrementAndGet();
+                            result.renamedVariables.add(variable);
+                        } else {
+                            failCount.incrementAndGet();
+                            result.failedVariables.add(variable);
+                        }
+                    } catch (Exception e) {
+                        LOG.warn("Failed to rename variable: " + variable.getVariableName(), e);
                         failCount.incrementAndGet();
                         result.failedVariables.add(variable);
+                        result.errors.add("Failed to rename " + variable.getVariableName() + ": " + e.getMessage());
                     }
-                } catch (Exception e) {
-                    LOG.warn("Failed to rename variable: " + variable.getVariableName(), e);
-                    failCount.incrementAndGet();
-                    result.failedVariables.add(variable);
-                    result.errors.add("Failed to rename " + variable.getVariableName() + ": " + e.getMessage());
                 }
-            }
-        });
+            });
+        } catch (Exception e) {
+            LOG.error("Error during refactoring", e);
+            result.errors.add("Refactoring error: " + e.getMessage());
+        }
 
         result.successCount = successCount.get();
         result.failedCount = failCount.get();
