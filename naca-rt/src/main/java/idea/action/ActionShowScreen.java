@@ -52,58 +52,58 @@ public class ActionShowScreen extends Action
 		OnlineResourceManager resMan = OnlineResourceManagerFactory.GetInstance() ;
 		CHTTPMapFieldLoader reqLoader = new CHTTPMapFieldLoader(request);
 		
-		String csPage = reqLoader.getFieldValue("showPage").toUpperCase();
+		String htmlPage = reqLoader.getFieldValue("showPage").toUpperCase();
 		Document page;
 		try
 		{
-			page = resMan.GetXMLPage(csPage);
+			page = resMan.GetXMLPage(htmlPage);
 		}
-		catch (AssertException e)
+		catch (AssertException elem)
 		{
 			page = resMan.GetXMLPage("RS01A11");
 		}
 		
-		String csLang = reqLoader.getFieldValue("showLanguage");
-		if (csLang.equals(""))
+		String lang = reqLoader.getFieldValue("showLanguage");
+		if (lang.equals(""))
 		{
-			csLang = "FR";
+			lang = "FR";
 		}		
 		
 		XMLMerger merger = XMLMergerManager.get(null);
-		Element eForm = page.getDocumentElement() ;
-		Document docOutput = merger.BuildXLMStructure(resMan.getXmlFrame(), eForm) ;
+		Element formElement = page.getDocumentElement() ;
+		Document doc = merger.BuildXLMStructure(resMan.getXmlFrame(), formElement) ;
 		XMLMergerManager.release(merger);
 			
-		docOutput.getDocumentElement().setAttribute("lang", csLang) ;
-		setEditTagsForName(docOutput, "title");
-		setEditTagsForName(docOutput, "edit");
-		setPFKeys(docOutput);
-		SetFormProperties(docOutput);
+		doc.getDocumentElement().setAttribute("lang", lang) ;
+		setEditTagsForName(doc, "title");
+		setEditTagsForName(doc, "edit");
+		setPFKeys(doc);
+		SetFormProperties(doc);
 		
-		renderOutput(docOutput, response, resMan);
+		renderOutput(doc, response, resMan);
 		return null ;
 	}
 	
 	private void SetFormProperties(Document eOutput)
 	{
-		NodeList lstForms = eOutput.getElementsByTagName("form");
-		int nb = lstForms.getLength();
-		for (int i=0; i<nb; i++)
+		NodeList forms = eOutput.getElementsByTagName("form");
+		int count = forms.getLength();
+		for (int i=0; i<count; i++)
 		{
-			Element eForm = (Element)lstForms.item(i);
-			eForm.setAttribute("zoom", "false");
-			eForm.setAttribute("bold", "false");
-			eForm.setAttribute("printScreen", "showScreen");
+			Element formElement = (Element)forms.item(i);
+			formElement.setAttribute("zoom", "false");
+			formElement.setAttribute("bold", "false");
+			formElement.setAttribute("printScreen", "showScreen");
 		}
 	}
 
-	private void setPFKeys(Document docOutput)
+	private void setPFKeys(Document doc)
 	{
-		NodeList temp = docOutput.getElementsByTagName("pfkeydefine") ;
+		NodeList temp = doc.getElementsByTagName("pfkeydefine") ;
 		if (temp.getLength() != 0)
 		{	
 			Element eDefine = (Element)temp.item(0);
-			NodeList lstPFOutput = docOutput.getElementsByTagName("pfkey") ;
+			NodeList lstPFOutput = doc.getElementsByTagName("pfkey") ;
 			for (int i=0; i<lstPFOutput.getLength(); i++)
 			{
 				Element ePF = (Element)lstPFOutput.item(i);
@@ -119,27 +119,27 @@ public class ActionShowScreen extends Action
 		}
 	}
 	
-	private void setEditTagsForName(Document docOutput, String csName) 
+	private void setEditTagsForName(Document doc, String tagName) 
 	{
-		NodeList lst = docOutput.getElementsByTagName(csName) ;
-		int nb = lst.getLength() ;
-		for (int i=0; i<nb; i++)
+		NodeList list = doc.getElementsByTagName(tagName) ;
+		int count = list.getLength() ;
+		for (int i=0; i<count; i++)
 		{
-			Element e = (Element)lst.item(i) ;
-			if (e.hasAttribute("linkedvalue"))
+			Element elem = (Element)list.item(i) ;
+			if (elem.hasAttribute("linkedvalue"))
 			{
-				String value = e.getAttribute("value");
+				String value = elem.getAttribute("value");
 				if (value != null && value.equals(""))
 				{
-					String protection = e.getAttribute("protection");
+					String protection = elem.getAttribute("protection");
 					if (protection == null || protection.equals("") || protection.equals("autoskip"))
 					{
-						String length = e.getAttribute("length");
-						int nLength = 1;
+						String length = elem.getAttribute("length");
+						int len = 1;
 						if (length != null && !length.equals("")) {
-							nLength = Integer.valueOf(length).intValue();
+							len = Integer.valueOf(length).intValue();
 						}
-						e.setAttribute("value", StringUtil.rightPad("", nLength, '*'));
+						elem.setAttribute("value", StringUtil.rightPad("", len, '*'));
 					}				
 				}
 			}
@@ -172,7 +172,7 @@ public class ActionShowScreen extends Action
 				}
 			}
 		}
-		catch (IOException e)
+		catch (IOException elem)
 		{
 			res.setStatus(500);
 		}		
