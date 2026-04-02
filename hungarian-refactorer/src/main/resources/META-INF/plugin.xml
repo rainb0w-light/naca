@@ -62,12 +62,12 @@
             <keyboard-shortcut keymap="$default" first-keystroke="ctrl shift H"/>
         </action>
 
-        <!-- 子菜单 -->
-        <group id="com.example.hungarian.actions.MenuGroup"
+        <!-- 匈牙利命名法菜单 -->
+        <group id="com.example.hungarian.actions.HungarianNotationGroup"
                text="Hungarian Notation"
                description="匈牙利命名法重构工具"
                popup="true">
-            <add-to-group group-id="CodeMenu" anchor="last"/>
+            <add-to-group group-id="CodeMenu" anchor="first"/>
             <action
                 id="com.example.hungarian.actions.AnalyzeAction"
                 class="com.example.hungarian.actions.AnalyzeAction"
@@ -78,6 +78,7 @@
                 class="com.example.hungarian.actions.RefactorAction"
                 text="Refactor Hungarian Variables"
                 description="重构当前文件中的匈牙利命名法变量"/>
+            <separator/>
             <action
                 id="com.example.hungarian.actions.RefactorProjectAction"
                 class="com.example.hungarian.actions.RefactorProjectAction"
@@ -85,21 +86,22 @@
                 description="重构整个项目中的匈牙利命名法变量"/>
         </group>
 
-        <!-- 代码修复功能 -->
-        <group id="com.example.hungarian.actions.CodeFixGroup"
+        <!-- 代码修复菜单 - 独立菜单 -->
+        <group id="com.example.hungarian.actions.CodeFixesGroup"
                text="Code Fixes"
                description="代码规范修复工具"
                popup="true">
-            <add-to-group group-id="CodeMenu" anchor="last"/>
+            <add-to-group group-id="CodeMenu" anchor="after" relative-to-action="com.example.hungarian.actions.HungarianNotationGroup"/>
             <action
                 id="com.example.hungarian.actions.FixSelfAssignmentAction"
                 class="com.example.hungarian.actions.FixSelfAssignmentAction"
-                text="Fix Self Assignment"
+                text="Fix Self Assignment..."
                 description="修复构造函数中的 xxx = xxx 自赋值问题"/>
+            <separator/>
             <action
                 id="com.example.hungarian.actions.FixMethodNamingAction"
                 class="com.example.hungarian.actions.FixMethodNamingAction"
-                text="Fix Method Naming"
+                text="Fix Method Naming..."
                 description="将首字母大写的方法名改为小写开头"/>
         </group>
     </actions>

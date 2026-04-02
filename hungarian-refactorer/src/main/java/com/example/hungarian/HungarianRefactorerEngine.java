@@ -159,6 +159,7 @@ public class HungarianRefactorerEngine {
 
     /**
      * 执行实际重构
+     * 注意：Refactoring.run() 会自己管理 write action，所以这里不需要包裹在 WriteCommandAction 中
      */
     private RefactorResult performRefactoring(List<HungarianVariableInfo> variables, boolean dryRun) {
         RefactorResult result = new RefactorResult();
@@ -170,30 +171,29 @@ public class HungarianRefactorerEngine {
             return result;
         }
 
-        // 实际执行重构 - 在 EDT 线程中执行写操作
+        // 实际执行重构 - 直接在 EDT 上执行，不在 write action 内部
+        // 因为 Refactoring.run() 会自己管理 write action
         AtomicInteger successCount = new AtomicInteger(0);
         AtomicInteger failCount = new AtomicInteger(0);
 
         try {
-            WriteCommandAction.runWriteCommandAction(project, "Hungarian Notation Refactoring", null, () -> {
-                for (HungarianVariableInfo variable : variables) {
-                    try {
-                        boolean success = refactorer.renameVariable(variable);
-                        if (success) {
-                            successCount.incrementAndGet();
-                            result.renamedVariables.add(variable);
-                        } else {
-                            failCount.incrementAndGet();
-                            result.failedVariables.add(variable);
-                        }
-                    } catch (Exception e) {
-                        LOG.warn("Failed to rename variable: " + variable.getVariableName(), e);
+            for (HungarianVariableInfo variable : variables) {
+                try {
+                    boolean success = refactorer.renameVariable(variable);
+                    if (success) {
+                        successCount.incrementAndGet();
+                        result.renamedVariables.add(variable);
+                    } else {
                         failCount.incrementAndGet();
                         result.failedVariables.add(variable);
-                        result.errors.add("Failed to rename " + variable.getVariableName() + ": " + e.getMessage());
                     }
+                } catch (Exception e) {
+                    LOG.warn("Failed to rename variable: " + variable.getVariableName(), e);
+                    failCount.incrementAndGet();
+                    result.failedVariables.add(variable);
+                    result.errors.add("Failed to rename " + variable.getVariableName() + ": " + e.getMessage());
                 }
-            });
+            }
         } catch (Exception e) {
             LOG.error("Error during refactoring", e);
             result.errors.add("Refactoring error: " + e.getMessage());

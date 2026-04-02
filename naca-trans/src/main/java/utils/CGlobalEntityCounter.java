@@ -111,10 +111,10 @@ public class CGlobalEntityCounter
 			xformer.setOutputProperty(OutputKeys.INDENT, "yes");
 			xformer.transform(source, res);
 			
-			File sS = new File(path+".xsl");
-			if(!sS.exists())
+			File s = new File(path+".xsl");
+			if(!s.exists())
 				return;
-			Source stylesheet = new StreamSource(sS) ;
+			Source stylesheet = new StreamSource(s) ;
 			Templates templ = TransformerFactory.newInstance().newTemplates(stylesheet) ;
 			Transformer xformer2 = templ.newTransformer() ;			
 

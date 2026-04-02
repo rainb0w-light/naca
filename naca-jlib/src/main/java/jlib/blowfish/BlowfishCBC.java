@@ -16,7 +16,7 @@ public class BlowfishCBC extends BlowfishECB {
 
 
   // here we hold the CBC IV
-  long cBCIV;
+  long bCIV;
 
 
   /**
@@ -25,7 +25,7 @@ public class BlowfishCBC extends BlowfishECB {
     */
   public long getCBCIV() 
   {
-    return cBCIV;
+    return bCIV;
   }
 
   /**
@@ -34,7 +34,7 @@ public class BlowfishCBC extends BlowfishECB {
     */
   public void getCBCIV(byte[] dest) 
   {
-    BinConverter.longToByteArray(cBCIV, dest, 0);
+    BinConverter.longToByteArray(bCIV, dest, 0);
   }
 
   /**
@@ -43,7 +43,7 @@ public class BlowfishCBC extends BlowfishECB {
     */
   public void setCBCIV(long lNewCBCIV) 
   {
-    cBCIV = lNewCBCIV;
+    bCIV = lNewCBCIV;
   }
 
   /**
@@ -52,7 +52,7 @@ public class BlowfishCBC extends BlowfishECB {
     */
   public void setCBCIV(byte[] newCBCIV) 
   {
-    cBCIV = BinConverter.byteArrayToLong(newCBCIV, 0);
+    bCIV = BinConverter.byteArrayToLong(newCBCIV, 0);
   }
 
 
@@ -105,7 +105,7 @@ public class BlowfishCBC extends BlowfishECB {
     */ 
   public void cleanUp() 
   {
-    cBCIV = 0;
+    bCIV = 0;
     super.cleanUp();
   }
 
@@ -114,13 +114,13 @@ public class BlowfishCBC extends BlowfishECB {
   private long encryptBlockCBC(long lPlainblock) 
   {
     // chain with the CBC IV
-    lPlainblock ^= cBCIV;
+    lPlainblock ^= bCIV;
 
     // encrypt the block
     lPlainblock = super.encryptBlock(lPlainblock);
 
     // the encrypted block is the new CBC IV
-    return (cBCIV = lPlainblock);
+    return (bCIV = lPlainblock);
   }
 
 
@@ -134,10 +134,10 @@ public class BlowfishCBC extends BlowfishECB {
     lCipherblock = super.decryptBlock(lCipherblock);
 
     // dechain the block
-    lCipherblock ^= cBCIV;
+    lCipherblock ^= bCIV;
 
     // set the new CBC IV
-    cBCIV = temp;
+    bCIV = temp;
 
     // return the decrypted block
     return lCipherblock;

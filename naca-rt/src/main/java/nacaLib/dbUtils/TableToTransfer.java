@@ -106,8 +106,8 @@ public class TableToTransfer extends ThreadPoolRequest
 		int nNbRecordWritten = 0;
 		int nNbColumns = 0;
 		int nNbBatchWritten = 0;
-		ArrayList<RecordColTypeManagerBase> colTypes = null;
-		ArrayList<String> colNames = new ArrayList<String>();
+		ArrayList<RecordColTypeManagerBase> collectiontypes = null;
+		ArrayList<String> collectionnames = new ArrayList<String>();
 		StringBuilder sbSQLError = new StringBuilder(" ");
 		String csPrefixedTableName = dbConnectionSource.getEnvironmentPrefix() + "." + csTableName;
 		String csDestinationTableName = dbConnectionDestination.getEnvironmentPrefix() + "." + csTableName;
@@ -131,7 +131,7 @@ public class TableToTransfer extends ThreadPoolRequest
 						{
 							ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
 							nNbColumns = resultSetMetaData.getColumnCount();
-							dbInsertStatement = getInsertStatement(dbConnectionDestination, resultSet, nNbColumns, resultSetMetaData, colNames);
+							dbInsertStatement = getInsertStatement(dbConnectionDestination, resultSet, nNbColumns, resultSetMetaData, collectionnames);
 							if(dbInsertStatement == null)
 							{
 								String cs = "Could not prepare insert statement for destination table=" + csDestinationTableName;  
@@ -143,16 +143,16 @@ public class TableToTransfer extends ThreadPoolRequest
 							else
 								insertStatement = dbInsertStatement.getPreparedStatement(); 
 														
-							colTypes = getColumnsTypes(nNbColumns, resultSetMetaData);
+							collectiontypes = getColumnsTypes(nNbColumns, resultSetMetaData);
 						}						
 						
 						for(int nColumn=0; nColumn<nNbColumns; nColumn++)
 						{
-							RecordColTypeManagerBase recordColTypeManagerBase = colTypes.get(nColumn);
+							RecordColTypeManagerBase recordColTypeManagerBase = collectiontypes.get(nColumn);
 							boolean iscol = recordColTypeManagerBase.transfer(nColumn+1, resultSet, insertStatement);
 							if(!iscol)
 							{
-								String cs = "Problem during transfer of a column. Source table=" + csPrefixedTableName + "; Destination table=" + csDestinationTableName + "; Column name=" + colNames.get(nColumn) + "; Clause="+csClause + "; Record number=" + nNbRecordRead;
+								String cs = "Problem during transfer of a column. Source table=" + csPrefixedTableName + "; Destination table=" + csDestinationTableName + "; Column name=" + collectionnames.get(nColumn) + "; Clause="+csClause + "; Record number=" + nNbRecordRead;
 								Log.logCritical(cs);
 								sbSQLError = appendIfPossible(sbSQLError, cs);
 							}

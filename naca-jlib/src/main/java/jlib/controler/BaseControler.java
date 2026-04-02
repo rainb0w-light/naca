@@ -14,18 +14,18 @@ public abstract class BaseControler
 	public BaseControler(int nbSteps)
 	{
 		status = new Vector<String>(nbSteps) ;
-		dtStarts = new Vector<Date>(nbSteps)  ;
-		dtEnds = new Vector<Date>(nbSteps)  ;
+		datestarts = new Vector<Date>(nbSteps)  ;
+		dateends = new Vector<Date>(nbSteps)  ;
 		for (int i=0; i<nbSteps; i++)
 		{
 			status.add("NONE") ;
-			dtEnds.add(null) ;
-			dtStarts.add(null) ;
+			dateends.add(null) ;
+			datestarts.add(null) ;
 		}
 	}
 	private Vector<String> status;
-	private Vector<Date> dtStarts;
-	private Vector<Date> dtEnds;
+	private Vector<Date> datestarts;
+	private Vector<Date> dateends;
 	
 	private boolean isisRunning = false ;
 	private int nCurrentStep = 0 ;
@@ -64,7 +64,7 @@ public abstract class BaseControler
 	}
 	public void setStartDate(int currentSite, Date dt)
 	{
-		dtStarts.set(currentSite, dt) ;
+		datestarts.set(currentSite, dt) ;
 	}
 
 	public boolean RunStep(int currentSite)
@@ -98,7 +98,7 @@ public abstract class BaseControler
 
 	public Date getDateStepEnds(int currentSite)
 	{
-		return dtEnds.get(currentSite) ;
+		return dateends.get(currentSite) ;
 	}
 
 	public String getStepName(int stepId)

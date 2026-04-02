@@ -264,8 +264,8 @@ public class SQL
 	{
 		if (arrColSelectType == null)
 			arrColSelectType = new ArrayDyn<Integer>();
-		Integer colId = Integer.valueOf(nColId);
-		arrColSelectType.add(colId); // The nColId is a *
+		Integer collectionid = Integer.valueOf(nColId);
+		arrColSelectType.add(collectionid); // The nColId is a *
 	}
 
 	private void manageOperationDeclaration(boolean bMustAddRowId)

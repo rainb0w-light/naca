@@ -36,7 +36,7 @@ public class CFPacOutputFile extends CFPacElement
 
 	protected String csFileId = "";
 	protected boolean isvariableFile = false;
-	private CTerminal lR;
+	private CTerminal r;
 	private boolean ispFFile = false ;
 	private boolean iscDFile = false ;
 
@@ -106,7 +106,7 @@ public class CFPacOutputFile extends CFPacElement
 				if (tok.GetType() == CTokenType.EQUALS) 
 				{
 					tok = GetNext() ;
-					lR = ReadTerminal() ;
+					r = ReadTerminal() ;
 				}
 				else
 				{
@@ -156,9 +156,9 @@ public class CFPacOutputFile extends CFPacElement
 		att.setFileAccessType(CEntityOpenFile.OpenMode.OUTPUT) ;
 		att.setRecordSizeVariable(isvariableFile) ;
 		
-		if (lR != null)
+		if (r != null)
 		{
-			CDataEntity e = lR.GetDataEntity(getLine(), factory) ;
+			CDataEntity e = r.GetDataEntity(getLine(), factory) ;
 			if (e != null)
 			{
 				att.setOutputBufferInitialValue(e) ;
@@ -181,10 +181,10 @@ public class CFPacOutputFile extends CFPacElement
 		Element eAdd = root.createElement("OutputFile") ;
 		eAdd.setAttribute("FileId", csFileId) ;
 		eAdd.setAttribute("Var", String.valueOf(isvariableFile)) ;
-		if (lR != null)
+		if (r != null)
 		{
 			Element eCLR = root.createElement("CLR") ;
-			lR.ExportTo(eCLR, root) ;
+			r.ExportTo(eCLR, root) ;
 			eAdd.appendChild(eCLR) ;
 		}
 		for (String cs: numbers)

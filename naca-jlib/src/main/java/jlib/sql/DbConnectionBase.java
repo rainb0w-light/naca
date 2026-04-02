@@ -35,7 +35,7 @@ import jlib.threads.Threadutil;
 
 public abstract class DbConnectionBase //extends BaseOpenMBean
 {
-	private boolean bUseJmx = true;
+	private boolean isuseJmx = true;
 	private String csPrefId = null;
 	private String csEnvironment = "" ;
 	protected Connection dbConnection = null;
@@ -84,13 +84,13 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
 		
 	public void finalize()
 	{
-		if(bUseJmx)
+		if(isuseJmx)
 			BaseJmxGeneralStat.decCounter(BaseJmxGeneralStat.COUNTER_INDEX_NbNonFinalizedConnection);
 	}
 	
 	public void close()
 	{
-		if(bUseJmx)
+		if(isuseJmx)
 			BaseJmxGeneralStat.decCounter(BaseJmxGeneralStat.COUNTER_INDEX_NbActiveConnection);
 		doClose();
 	}	
@@ -657,7 +657,7 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
 	
 	synchronized void doShowHideJMXBean(boolean bToShow)
 	{
-		if(bUseJmx)
+		if(isuseJmx)
 		{
 			if(bToShow && !isBeanCreated())
 			{

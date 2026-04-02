@@ -53,8 +53,8 @@ public class XMLUtil
 		{
 			return null ;
 		}
-		File sS = new File(csFilePath);
-		return LoadXML(sS) ;
+		File s = new File(csFilePath);
+		return LoadXML(s) ;
 	}
 	
 	public static Document LoadXML(File f)

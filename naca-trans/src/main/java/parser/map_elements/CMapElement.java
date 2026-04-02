@@ -76,9 +76,9 @@ public class CMapElement extends CBMSElement
 		eAttr.setAttribute("Data", data.name) ;
 		eAttr.setAttribute("TIOAPFX", tIOAPFX.name) ;
 		eAttr.setAttribute("OBFMT", oBFMT.name) ;
-		for (int i = 0; i< cTRL.size(); i++)
+		for (int i = 0; i< tRL.size(); i++)
 		{
-			String val = cTRL.get(i) ;
+			String val = tRL.get(i) ;
 			Element e = root.createElement("CTRL") ;
 			e.setAttribute("Value", val);
 			eAttr.appendChild(e) ; 
@@ -97,9 +97,9 @@ public class CMapElement extends CBMSElement
 			e.setAttribute("Value", val);
 			eAttr.appendChild(e) ; 
 		}
-		for (int i = 0; i< dSATTS.size(); i++)
+		for (int i = 0; i< sATTS.size(); i++)
 		{
-			String val = dSATTS.get(i) ;
+			String val = sATTS.get(i) ;
 			Element e = root.createElement("DSATTS") ;
 			e.setAttribute("Value", val);
 			eAttr.appendChild(e) ; 
@@ -238,7 +238,7 @@ public class CMapElement extends CBMSElement
 					tok.GetConstant() == CBMSConstantList.FRSET || 
 					tok.GetConstant() == CBMSConstantList.L80)
 				{
-					cTRL.add(tok.GetValue()) ;
+					tRL.add(tok.GetValue()) ;
 				}
 				else if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 				{
@@ -308,7 +308,7 @@ public class CMapElement extends CBMSElement
 					tok.GetKeyword() == CBMSKeywordList.HILIGHT ||
 					tok.GetConstant() == CBMSConstantList.VALIDN)
 				{
-					dSATTS.add(tok.GetValue()) ;
+					sATTS.add(tok.GetValue()) ;
 				}
 				else if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 				{
@@ -669,9 +669,9 @@ public class CMapElement extends CBMSElement
 	protected CReservedConstant data = null ;
 	protected CReservedConstant oBFMT = null ;
 	protected CReservedConstant tIOAPFX = null ;
-	protected ArrayList<String> cTRL = new ArrayList<String>() ;
+	protected ArrayList<String> tRL = new ArrayList<String>() ;
 	protected ArrayList<String> mAPATTS = new ArrayList<String>() ;
-	protected ArrayList<String> dSATTS = new ArrayList<String>() ;
+	protected ArrayList<String> sATTS = new ArrayList<String>() ;
 	protected ArrayList<String> jUSTIFY = new ArrayList<String>() ;
 	protected String trailer = "" ;
 	/* (non-Javadoc)
@@ -737,7 +737,7 @@ public class CMapElement extends CBMSElement
 				if(csChildName.equalsIgnoreCase("CTRL"))
 				{
 					String csVal = tagChild.getVal("Value");
-					cTRL.add(csVal);
+					tRL.add(csVal);
 				}
 				else if(csChildName.equalsIgnoreCase("MAPATTS"))
 				{
@@ -752,7 +752,7 @@ public class CMapElement extends CBMSElement
 				else if(csChildName.equalsIgnoreCase("DSATTS"))
 				{
 					String csVal = tagChild.getVal("Value");
-					dSATTS.add(csVal);
+					sATTS.add(csVal);
 				}
 				tagChild = tag.getNextChild(curChild);
 			}
@@ -801,17 +801,17 @@ public class CMapElement extends CBMSElement
 		tIOAPFX = new CReservedConstant(null, "YES");		
 		oBFMT = new CReservedConstant(null, "NO");
 		
-		cTRL.add("HONEOM");
-		cTRL.add("FREEKB");
+		tRL.add("HONEOM");
+		tRL.add("FREEKB");
 		mAPATTS.add("COLOR");
 		mAPATTS.add("PS");
 		mAPATTS.add("HILIGHT");
 		mAPATTS.add("VALIDN");
 		jUSTIFY.add("LEFT");
-		dSATTS.add("COLOR");
-		dSATTS.add("PS");
-		dSATTS.add("HILIGHT");
-		dSATTS.add("VALIDN");
+		sATTS.add("COLOR");
+		sATTS.add("PS");
+		sATTS.add("HILIGHT");
+		sATTS.add("VALIDN");
 	}
 
 }

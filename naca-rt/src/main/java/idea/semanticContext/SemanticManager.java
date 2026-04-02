@@ -67,8 +67,8 @@ public class SemanticManager extends CJMapObject
 	{
 		try
 		{
-			File sS = new File(csFilePath);
-			Source file = new StreamSource(sS) ;
+			File s = new File(csFilePath);
+			Source file = new StreamSource(s) ;
 			Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument() ;
 			Result res = new DOMResult(doc) ;
 			Transformer xformer = TransformerFactory.newInstance().newTransformer();

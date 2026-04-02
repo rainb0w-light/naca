@@ -39,7 +39,7 @@ public class CSQLResultSet extends CJMapObject
 		csQuery = sql.csQuery;
 		csProgramName = sql.getProgram();
 		this.r = r;
-		colSelectType = sql.arrColSelectType;
+		collectionselectType = sql.arrColSelectType;
 		sqlStatus = sql.sqlStatus;
 	}
 	
@@ -252,19 +252,19 @@ public class CSQLResultSet extends CJMapObject
 	
 	private boolean isSelectStar(int nColDest)	// Select * From ...
 	{
-		if(colSelectType != null)
+		if(collectionselectType != null)
 		{
-			for(int n = 0; n< colSelectType.size(); n++)
+			for(int n = 0; n< collectionselectType.size(); n++)
 			{
-				Integer colId = colSelectType.get(n);
-				if(colId.intValue() == nColDest)
+				Integer collectionid = collectionselectType.get(n);
+				if(collectionid.intValue() == nColDest)
 					return true;
 			}
 		}
 		return false;
 	}
 	
-	private ArrayFixDyn<Integer> colSelectType = null;	// hash table of boolean, indexed by col id, indexed based 0
+	private ArrayFixDyn<Integer> collectionselectType = null;	// hash table of boolean, indexed by col id, indexed based 0
 	//private SemanticContextDef semanticContextDef = null;
 	
 	private int getRecordSetColumnCount()
@@ -356,7 +356,7 @@ public class CSQLResultSet extends CJMapObject
 		
 		if(!sql.getOneStarOnlyMode())	// we do not a select * from ...
 		{
-			if(colSelectType != null && colSelectType.size() > 0)	// We have at least a star
+			if(collectionselectType != null && collectionselectType.size() > 0)	// We have at least a star
 			{
 				for(int nColDest = 0; nColDest<nNbColDest; nColDest++)
 				{

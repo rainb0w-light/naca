@@ -44,7 +44,7 @@ public class CFPacUpdateFile extends CFPacElement
 
 	protected int ulFileId = 0;
 	protected boolean isvariableFile = false;
-	private CTerminal lR;
+	private CTerminal r;
 
 	@Override
 	protected boolean DoParsing()
@@ -102,7 +102,7 @@ public class CFPacUpdateFile extends CFPacElement
 				if (tok.GetType() == CTokenType.EQUALS) 
 				{
 					tok = GetNext() ;
-					lR = ReadTerminal() ;
+					r = ReadTerminal() ;
 				}
 				else
 				{
@@ -159,10 +159,10 @@ public class CFPacUpdateFile extends CFPacElement
 		Element eAdd = root.createElement("UpdateFile") ;
 		eAdd.setAttribute("FileId", String.valueOf(ulFileId)) ;
 		eAdd.setAttribute("Var", String.valueOf(isvariableFile)) ;
-		if (lR != null)
+		if (r != null)
 		{
 			Element eCLR = root.createElement("CLR") ;
-			lR.ExportTo(eCLR, root) ;
+			r.ExportTo(eCLR, root) ;
 			eAdd.appendChild(eCLR) ;
 		}
 		for (String cs: numbers)

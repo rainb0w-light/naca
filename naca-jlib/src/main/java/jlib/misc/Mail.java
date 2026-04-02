@@ -24,8 +24,8 @@ public class Mail
 
 	private String csFrom = "";
 	private Vector<String> toList = new Vector<String>(0);
-	private Vector<String> cCList = new Vector<String>(0);
-	private Vector<String> bCCList = new Vector<String>(0);
+	private Vector<String> cList = new Vector<String>(0);
+	private Vector<String> iscCList = new Vector<String>(0);
 	
 	/**
 	 * Contructeur du message � envoyer
@@ -98,7 +98,7 @@ public class Mail
    */
 	public void addCc(String cc) 
 	{
-		add(cCList, cc);
+		add(cList, cc);
 	}
 
   /**
@@ -106,7 +106,7 @@ public class Mail
    */
 	public void addBcc(String bcc) 
 	{
-    	add(bCCList, bcc);
+    	add(iscCList, bcc);
 	}
 
 	private void add(Vector<String> from, String mail) 
@@ -133,7 +133,7 @@ public class Mail
 	 */
 	public void clearCc() 
 	{
-    	cCList.clear();
+    	cList.clear();
   	}
 
   	/**
@@ -141,7 +141,7 @@ public class Mail
   	 */
   	public void clearBcc() 
   	{
-    	bCCList.clear();
+    	iscCList.clear();
   	}
 
   	/**
@@ -160,14 +160,14 @@ public class Mail
 		                                 new InternetAddress((String)entriesMail.nextElement()));
 		    }
 	
-		    entriesMail = cCList.elements();
+		    entriesMail = cList.elements();
 		    while (entriesMail.hasMoreElements()) 
 		    {
 		        mimeMessage.addRecipient(Message.RecipientType.CC,
 		                                 new InternetAddress((String)entriesMail.nextElement()));
 		    }
 	
-			entriesMail = bCCList.elements();
+			entriesMail = iscCList.elements();
 			while (entriesMail.hasMoreElements()) 
 			{
 				mimeMessage.addRecipient(Message.RecipientType.BCC,

@@ -471,14 +471,14 @@ public class CObjectCatalog
 	protected Hashtable<String, CDataEntity> tabDataEntities = new Hashtable<String, CDataEntity>() ; 
 	protected Hashtable<String, CEntitySQLCursor> tabSQLCursors = new Hashtable<String, CEntitySQLCursor>() ; 
 	protected Hashtable<String, CEntitySQLDeclareTable> tabSQLTables = new Hashtable<String, CEntitySQLDeclareTable>() ; 
-	protected Vector<CEntitySQLCursor> sQLCursors = new Vector<CEntitySQLCursor>() ;
+	protected Vector<CEntitySQLCursor> qLCursors = new Vector<CEntitySQLCursor>() ;
 	protected CNameConflictSolver conflictSolver = new CNameConflictSolver() ;
 
 	public void RegisterSQLCursor(CEntitySQLCursor cur)
 	{
 		addImportDeclaration("SQL") ;
 		tabSQLCursors.put(cur.GetName(), cur) ;
-		sQLCursors.add(cur) ;
+		qLCursors.add(cur) ;
 	}
 	public void RegisterSQLCursor(String alias, CEntitySQLCursor cur)
 	{
@@ -486,7 +486,7 @@ public class CObjectCatalog
 	}
 	public Vector GetSQLCursorList()
 	{
-		return sQLCursors;
+		return qLCursors;
 	}
 	public CEntitySQLCursor GetSQLCursor(String csCursorName)
 	{
@@ -568,8 +568,8 @@ public class CObjectCatalog
 	private Hashtable<CEntityResourceForm, CEntityResourceForm> tabSaveMaps = new Hashtable<CEntityResourceForm, CEntityResourceForm>() ;
 	protected Vector<CEntityResourceForm> maps = new Vector<CEntityResourceForm>() ;
 	protected Vector<CEntityResourceForm> saveMaps = new Vector<CEntityResourceForm>() ;
-	protected Vector<CBaseActionEntity> mapCopy = new Vector<CBaseActionEntity>() ;
-	protected Vector<CBaseActionEntity> mapSend = new Vector<CBaseActionEntity>() ;
+	protected Vector<CBaseActionEntity> copy = new Vector<CBaseActionEntity>() ;
+	protected Vector<CBaseActionEntity> send = new Vector<CBaseActionEntity>() ;
 	protected Hashtable<String, CEntityFieldRedefine> tabFieldRedefine = new Hashtable<String, CEntityFieldRedefine>() ;
 	public void RegisterFieldRedefine(CEntityFieldRedefine f)
 	{
@@ -614,28 +614,28 @@ public class CObjectCatalog
 	}
 	public void RegisterMapCopy(CBaseActionEntity act)
 	{
-		mapCopy.add(act);
+		copy.add(act);
 	}
 	public void RegisterMapSend(CBaseActionEntity act)
 	{
-		mapSend.add(act);
+		send.add(act);
 	}
 
 	public int GetNbMapCopy()
 	{
-		return mapCopy.size() ;
+		return copy.size() ;
 	}
 	public CBaseActionEntity getMapCopy(int i)
 	{
-		return mapCopy.get(i) ;
+		return copy.get(i) ;
 	}
 	public int GetNbMapSend()
 	{
-		return mapSend.size() ;
+		return send.size() ;
 	}
 	public CBaseActionEntity getMapSend(int i)
 	{
-		return mapSend.get(i) ;
+		return send.get(i) ;
 	}
 	public int GetNbSymbolicFields()
 	{
@@ -710,19 +710,19 @@ public class CObjectCatalog
 	public void Clear()
 	{
 		attributes.clear() ;
-		cICSLink.clear() ;
+		iCSLink.clear() ;
 		callProgram.clear() ;
 		importDeclarations = new Vector<String>() ;
 		initializedStructure.clear();
-		mapCopy.clear();
+		copy.clear();
 		maps.clear() ;
-		mapSend.clear() ;
+		send.clear() ;
 		procedures.clear() ;
 		performThrough.clear() ;
 		saveFields.clear();
 		saveMaps.clear() ;
 		sections.clear() ;
-		sQLCursors.clear() ;
+		qLCursors.clear() ;
 		symbolicFields.clear() ;
 		transID.clear() ;
 		listing.Clear() ;
@@ -890,19 +890,19 @@ public class CObjectCatalog
 	 */
 	public int getNbCICSLink()
 	{
-		return cICSLink.size() ;
+		return iCSLink.size() ;
 	}
 	public int getNbCallProgram()
 	{
 		return callProgram.size() ;
 	}
-	protected Vector<CEntityCICSLink> cICSLink = new Vector<CEntityCICSLink>() ;
+	protected Vector<CEntityCICSLink> iCSLink = new Vector<CEntityCICSLink>() ;
 	protected Vector<CEntityCallProgram> callProgram = new Vector<CEntityCallProgram>() ;
 	public CEntityCICSLink getCICSLink(int n)
 	{
-		if (n< cICSLink.size())
+		if (n< iCSLink.size())
 		{
-			return cICSLink.get(n);
+			return iCSLink.get(n);
 		}
 		return null ;
 	}
@@ -916,7 +916,7 @@ public class CObjectCatalog
 	}
 	public void RegisterCICSLink(CEntityCICSLink l)
 	{
-		cICSLink.add(l);
+		iCSLink.add(l);
 	}
 	public void RegisterCallProgram(CEntityCallProgram l)
 	{

@@ -66,19 +66,25 @@ public class HungarianVariableRefactorer {
 
     /**
      * 安全重命名（使用 RefactoringFactory）
+     * 注意：此方法必须在 write action 外部调用，因为 Refactoring.run() 会自己管理 write action
      */
     private boolean safeRename(@NotNull PsiElement element, @NotNull String newName) {
-        Project project = element.getProject();
-        RefactoringFactory factory = RefactoringFactory.getInstance(project);
+        try {
+            Project project = element.getProject();
+            RefactoringFactory factory = RefactoringFactory.getInstance(project);
 
-        // 创建重命名重构
-        var refactoring = factory.createRename(element, newName);
+            // 创建重命名重构
+            var refactoring = factory.createRename(element, newName);
 
-        // 执行重命名
-        refactoring.run();
+            // 执行重命名 - Refactoring.run() 会自己管理 write action 和 progress
+            refactoring.run();
 
-        LOG.debug("Successfully renamed to: " + newName);
-        return true;
+            LOG.debug("Successfully renamed to: " + newName);
+            return true;
+        } catch (Exception e) {
+            LOG.error("Failed to rename: " + element.getText(), e);
+            return false;
+        }
     }
 
     /**

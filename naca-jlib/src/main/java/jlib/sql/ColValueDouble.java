@@ -20,38 +20,38 @@ public class ColValueDouble extends ColValue
 	
 	public ColValue duplicate()
 	{
-		return new ColValueDouble(csName, dValue);
+		return new ColValueDouble(csName, value);
 	}
 	
 	public void setParamSQLClause(SQLClause clause)
 	{
-		clause.param(dValue);
+		clause.param(value);
 	}
 	
 	public void doFillWithResurltSetCol(ResultSet resultSet, int nCol)
 		throws SQLException
 	{
-		dValue = resultSet.getDouble(nCol);
+		value = resultSet.getDouble(nCol);
 	}
 
 	public String getValueAsString()
 	{
-		return String.valueOf(dValue);
+		return String.valueOf(value);
 	}
 	
 	String getDumpValueAsString()
 	{
-		return "(Double):'"+String.valueOf(dValue)+"'";
+		return "(Double):'"+String.valueOf(value)+"'";
 	}
 	
 	public int getValueAsInt()
 	{
-		return (int)dValue;
+		return (int) value;
 	}
 	
 	double getValueAsDouble()
 	{
-		return dValue;
+		return value;
 	}
 	
 	String getType()
@@ -66,9 +66,9 @@ public class ColValueDouble extends ColValue
 	
 	Object getValue()
 	{
-		return String.valueOf(Double.valueOf(dValue));
+		return String.valueOf(Double.valueOf(value));
 	}
 
 	
-	double dValue = 0.0;
+	double value = 0.0;
 }

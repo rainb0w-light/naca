@@ -28,7 +28,7 @@ import nacaLib.varEx.*;
 public class TempCache
 {
 	private TempVarManager tempVarManager = null;
-	private CStrManager strManager = null;
+	private CStrManager manager = null;
 	private VarLevel varLevel = null;
 	private DeclareTypeX declareTypeX = null;
 	private DeclareType9 declareType9 = null;
@@ -66,7 +66,7 @@ public class TempCache
 	TempCache()
 	{
 		tempVarManager = new TempVarManager(VarTypeId.NbTotalVarEditTypes);
-		strManager = new CStrManager();
+		manager = new CStrManager();
 		varLevel = new VarLevel();
 		declareTypeX = new DeclareTypeX();
 	}
@@ -84,12 +84,12 @@ public class TempCache
 	
 	public void resetCStr()
 	{
-		strManager.reset();
+		manager.reset();
 	}
 
 	public void rewindCStrMapped(int n)
 	{
-		strManager.rewindCStrMapped(n);
+		manager.rewindCStrMapped(n);
 	}
 
 	public void resetTempVarIndex(int nVarTypeId)
@@ -97,7 +97,7 @@ public class TempCache
 		if(getAndResetUseTempVar())
 			tempVarManager.resetTempIndex(nVarTypeId);
 		if(getAndResetUseCStr())
-			strManager.reset();
+			manager.reset();
 		if(nCurrentTimeTryCounter-- <= 0)
 			breakCurrentSessionIfTimeout();
 	}
@@ -107,7 +107,7 @@ public class TempCache
 		if(getAndResetUseTempVar())
 			tempVarManager.resetTempIndexAndForbidReuse(varA.varTypeId);
 		if(getAndResetUseCStr())
-			strManager.reset();
+			manager.reset();
 		if(nCurrentTimeTryCounter-- <= 0)
 			breakCurrentSessionIfTimeout();
 	}
@@ -122,7 +122,7 @@ public class TempCache
 			}
 		}
 		if(getAndResetUseCStr())
-			strManager.reset();
+			manager.reset();
 		if(nCurrentTimeTryCounter-- <= 0)
 			breakCurrentSessionIfTimeout();
 	}
@@ -371,25 +371,25 @@ public class TempCache
 	public CStr getReusableCStr()
 	{
 		setUseCStr();
-		return strManager.getReusable();
+		return manager.getReusable();
 	}
 
 	public CStr getMappedCStr()
 	{
 		setUseCStr();
-		return strManager.getMapped();
+		return manager.getMapped();
 	}
 
 	public CStrNumber getCStrNumber()
 	{
 		setUseCStr();
-		return strManager.getNumber();
+		return manager.getNumber();
 	}
 
 	public CStrString getCStrString()
 	{
 		setUseCStr();
-		return strManager.getString();
+		return manager.getString();
 	}
 	
 	public BtreeKeyDescription getBtreeKeyDescription()

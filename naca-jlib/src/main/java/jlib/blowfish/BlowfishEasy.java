@@ -64,14 +64,14 @@ public class BlowfishEasy {
   public String encryptString(String sPlainText) 
   {
     // get the IV
-    long cBCIV;
+    long bCIV;
     synchronized (rndGen) 
     {
-      cBCIV = rndGen.nextLong();
+      bCIV = rndGen.nextLong();
     }
 
     // map the call;
-    return encStr(sPlainText, cBCIV);
+    return encStr(sPlainText, bCIV);
   }
 
 
@@ -86,10 +86,10 @@ public class BlowfishEasy {
                               Random rndGen) 
   {
     // get the IV
-    long cBCIV = rndGen.nextLong();
+    long bCIV = rndGen.nextLong();
 
     // map the call;
-    return encStr(sPlainText, cBCIV);
+    return encStr(sPlainText, bCIV);
   }
 
 

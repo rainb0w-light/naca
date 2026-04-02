@@ -278,7 +278,7 @@ public class MathDivide extends MathBase
 	private void decimalDivide(BigDecimal val)
 	{
 		a = d;
-		b = val;
+		is = val;
 		d = d.divide(val, PRECISION, BigDecimal.ROUND_HALF_UP);
 	}
 
@@ -295,11 +295,11 @@ public class MathDivide extends MathBase
 	 */
 	public MathDivide to(VarAndEdit varQuotient, VarAndEdit varRest)
 	{
-		if(a != null && b != null)
+		if(a != null && is != null)
 		{
 			// Do the integer division
 			BigInteger nA = a.toBigInteger();
-			BigInteger nB = b.toBigInteger();
+			BigInteger nB = is.toBigInteger();
 			BigInteger[] t = nA.divideAndRemainder(nB);
 			
 			int n = t[0].intValue();
@@ -315,5 +315,5 @@ public class MathDivide extends MathBase
 	}
 		
 	private BigDecimal a = null;
-	private BigDecimal b = null;
+	private BigDecimal is = null;
 }

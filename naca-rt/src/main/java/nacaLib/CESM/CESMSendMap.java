@@ -41,12 +41,12 @@ public class CESMSendMap extends CJMapObject
 	
 	public CESMSendMap mapSet(String csMapName)
 	{
-		setName = csMapName ;
+		name = csMapName ;
 		return this;
 	}
 	public CESMSendMap mapSet(Var MapName)
 	{
-		setName = MapName.getString() ;
+		name = MapName.getString() ;
 		return this;
 	}
 
@@ -121,5 +121,5 @@ public class CESMSendMap extends CJMapObject
 	//protected CBaseMap m_BaseMap = null;
 	protected Form varFrom = null;
 	protected String mapName = "" ;
-	protected String setName = "" ;
+	protected String name = "" ;
 }
