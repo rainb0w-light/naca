@@ -91,7 +91,7 @@
                text="Code Fixes"
                description="代码规范修复工具"
                popup="true">
-            <add-to-group group-id="CodeMenu" anchor="after" relative-to-action="com.example.hungarian.actions.HungarianNotationGroup"/>
+            <add-to-group group-id="CodeMenu" anchor="last"/>
             <action
                 id="com.example.hungarian.actions.FixSelfAssignmentAction"
                 class="com.example.hungarian.actions.FixSelfAssignmentAction"
