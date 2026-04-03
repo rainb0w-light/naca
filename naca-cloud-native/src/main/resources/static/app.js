@@ -187,6 +187,164 @@ function escapeHtml(text) {
     return div.innerHTML;
 }
 
+// SMOJOL Analysis Functions
+async function analyzeProgram() {
+    const cobolSource = document.getElementById('cobolSource').value;
+
+    if (!cobolSource.trim()) {
+        alert('Please enter COBOL source code');
+        return;
+    }
+
+    const analysisOutput = document.getElementById('analysisOutput');
+    analysisOutput.innerHTML = '<div class="loading">Analyzing program structure</div>';
+
+    // Switch to analysis tab
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelector('[data-tab="analysis"]').classList.add('active');
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    document.getElementById('analysis-tab').classList.add('active');
+
+    try {
+        const response = await fetch('/api/smojol/analyze', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                cobolSource: cobolSource
+            })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            const a = result.analysis;
+            analysisOutput.innerHTML = `
+                <div style="font-family: monospace; font-size: 13px;">
+                    <div style="color: #1a73e8; font-weight: bold; margin-bottom: 10px;">Program Analysis Results</div>
+                    <div style="margin: 10px 0;"><strong>Program ID:</strong> ${escapeHtml(a.programId || 'UNKNOWN')}</div>
+                    <div style="margin: 10px 0;"><strong>Divisions:</strong> ${a.divisionCount}</div>
+                    <div style="margin: 10px 0;"><strong>Paragraphs:</strong> ${a.paragraphCount}</div>
+                    <div style="margin: 10px 0;"><strong>Variables:</strong> ${a.variableCount}</div>
+                    <div style="margin: 10px 0;"><strong>Statements:</strong> ${a.statementCount}</div>
+                    <div style="margin: 10px 0;"><strong>Source Lines:</strong> ${a.sourceLines}</div>
+                </div>
+            `;
+        } else {
+            analysisOutput.innerHTML = `<div class="error">Analysis failed: ${escapeHtml(result.error)}</div>`;
+        }
+    } catch (error) {
+        analysisOutput.innerHTML = `<div class="error">Analysis failed: ${escapeHtml(error.message)}</div>`;
+    }
+}
+
+async function generateCFG() {
+    const cobolSource = document.getElementById('cobolSource').value;
+
+    if (!cobolSource.trim()) {
+        alert('Please enter COBOL source code');
+        return;
+    }
+
+    const analysisOutput = document.getElementById('analysisOutput');
+    analysisOutput.innerHTML = '<div class="loading">Generating control flow graph</div>';
+
+    // Switch to analysis tab
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelector('[data-tab="analysis"]').classList.add('active');
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    document.getElementById('analysis-tab').classList.add('active');
+
+    try {
+        const response = await fetch('/api/smojol/cfg', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                cobolSource: cobolSource
+            })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            const nodes = result.nodes.map(n => `<li>${escapeHtml(n)}</li>`).join('');
+            const edges = result.edges && result.edges.length > 0
+                ? result.edges.map(e => `<li>${escapeHtml(e.from)} → ${escapeHtml(e.to)}</li>`).join('')
+                : '<li style="color: #999;">No edges (sequential flow)</li>';
+
+            analysisOutput.innerHTML = `
+                <div style="font-family: monospace; font-size: 13px;">
+                    <div style="color: #1a73e8; font-weight: bold; margin-bottom: 10px;">Control Flow Graph</div>
+                    <div style="margin: 15px 0;">
+                        <strong>Nodes (Paragraphs):</strong>
+                        <ul style="margin: 5px 0; padding-left: 20px;">${nodes}</ul>
+                    </div>
+                    <div style="margin: 15px 0;">
+                        <strong>Edges (Control Flow):</strong>
+                        <ul style="margin: 5px 0; padding-left: 20px;">${edges}</ul>
+                    </div>
+                    <div style="margin: 15px 0;">
+                        <strong>DOT Format:</strong>
+                        <pre style="background: #f5f5f5; padding: 10px; border-radius: 4px; overflow-x: auto; margin-top: 5px;">${escapeHtml(result.dotFormat)}</pre>
+                    </div>
+                </div>
+            `;
+        } else {
+            analysisOutput.innerHTML = `<div class="error">CFG generation failed: ${escapeHtml(result.error)}</div>`;
+        }
+    } catch (error) {
+        analysisOutput.innerHTML = `<div class="error">CFG generation failed: ${escapeHtml(error.message)}</div>`;
+    }
+}
+
+async function interpretCOBOL() {
+    const cobolSource = document.getElementById('cobolSource').value;
+
+    if (!cobolSource.trim()) {
+        alert('Please enter COBOL source code');
+        return;
+    }
+
+    const analysisOutput = document.getElementById('analysisOutput');
+    analysisOutput.innerHTML = '<div class="loading">Interpreting COBOL program</div>';
+
+    // Switch to analysis tab
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelector('[data-tab="analysis"]').classList.add('active');
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    document.getElementById('analysis-tab').classList.add('active');
+
+    try {
+        const response = await fetch('/api/smojol/interpret', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                cobolSource: cobolSource
+            })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            analysisOutput.innerHTML = `
+                <div style="font-family: monospace; font-size: 13px;">
+                    <div style="color: #28a745; font-weight: bold; margin-bottom: 10px;">Interpretation Successful</div>
+                    <pre style="background: #f5f5f5; padding: 10px; border-radius: 4px; overflow-x: auto; white-space: pre-wrap;">${escapeHtml(result.output || 'Program executed successfully (no output)')}</pre>
+                </div>
+            `;
+        } else {
+            analysisOutput.innerHTML = `<div class="error">Interpretation failed: ${escapeHtml(result.error)}</div>`;
+        }
+    } catch (error) {
+        analysisOutput.innerHTML = `<div class="error">Interpretation failed: ${escapeHtml(error.message)}</div>`;
+    }
+}
+
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', function() {
     loadSamples();

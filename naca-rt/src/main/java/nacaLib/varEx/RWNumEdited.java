@@ -75,7 +75,7 @@ public class RWNumEdited
 		
 		int nPos$ = csFormat.indexOf('$');
 		if(nPos$ == -1)
-			nPos$ = csFormat.indexOf('�');
+			nPos$ = csFormat.indexOf('\u00A3');
 		
 		// Integer part
 		boolean issuppressLeading0 = false;
@@ -99,7 +99,7 @@ public class RWNumEdited
 				else
 					sDest.setCharAt(nFormatIndex, format);
 			}
-			else if(format == '$' || format == '�')
+			else if(format == '$' || format == '\u00A3')
 			{
 				issuppressLeading0 = true;
 				sDest.setCharAt(nFormatIndex, source);
@@ -153,7 +153,7 @@ public class RWNumEdited
 			format = csFormat.charAt(nChar);
 			if(source == '0')
 			{
-				if(format == 'Z' || format == '$' || format == '�' || format == '-' || format == '+')
+				if(format == 'Z' || format == '$' || format == '\u00A3' || format == '-' || format == '+')
 				{
 					sDest.setCharAt(nChar, ' ');
 					nPosLastSuppress = nChar;
@@ -161,7 +161,7 @@ public class RWNumEdited
 				else if(format == '*')
 					sDest.setCharAt(nChar, '*');
 			}
-			else if(source == ' ' || source == '$' || source == '�')
+			else if(source == ' ' || source == '$' || source == '\u00A3')
 			{
 			}
 			else if(source == '.' || source == ',')	// Only leading 0; replace the , or . by the suppressing char

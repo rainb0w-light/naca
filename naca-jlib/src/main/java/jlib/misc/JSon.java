@@ -270,10 +270,10 @@ public class JSon
             c = csValue.charAt(i);
             switch (c)
             {
-            case '�':
+            case '\u00E0':  // à
             	sb.append('a');
             	break;
-            case '�':
+            case '\u00F2':  // ò
             	sb.append('o');
             	break;
             case '\\':

@@ -242,6 +242,15 @@
                     <button class="btn" id="transpileBtn" onclick="transpile()">Transpile to Java</button>
                     <button class="btn btn-secondary" id="runBtn" onclick="runProgram()" disabled>Run Program</button>
                 </div>
+
+                <div class="form-group" style="margin-top: 15px; border-top: 1px solid #ddd; padding-top: 15px;">
+                    <label style="color: #1a73e8;">SMOJOL Analysis</label>
+                    <div class="button-group" style="margin-top: 10px;">
+                        <button class="btn btn-secondary" id="analyzeBtn" onclick="analyzeProgram()">Analyze Structure</button>
+                        <button class="btn btn-secondary" id="cfgBtn" onclick="generateCFG()">Control Flow Graph</button>
+                        <button class="btn btn-secondary" id="interpretBtn" onclick="interpretCOBOL()">Interpret</button>
+                    </div>
+                </div>
             </div>
 
             <!-- Output Panel -->
@@ -249,6 +258,7 @@
                 <h2>Output</h2>
                 <div class="tabs">
                     <button class="tab active" data-tab="result">Result</button>
+                    <button class="tab" data-tab="analysis">Analysis</button>
                     <button class="tab" data-tab="execution">Execution</button>
                 </div>
 
@@ -256,6 +266,13 @@
                 <div class="tab-content active" id="result-tab">
                     <div class="output-area" id="outputArea">
                         <p style="color: #999; text-align: center;">Transpiled Java code will appear here</p>
+                    </div>
+                </div>
+
+                <!-- Analysis Tab -->
+                <div class="tab-content" id="analysis-tab">
+                    <div class="output-area" id="analysisOutput">
+                        <p style="color: #999; text-align: center;">SMOJOL analysis results will appear here</p>
                     </div>
                 </div>
 
@@ -269,6 +286,6 @@
         </div>
     </div>
 
-    <script src="app.js"></script>
+    <script src="app.js?v=4"></script>
 </body>
 </html>
