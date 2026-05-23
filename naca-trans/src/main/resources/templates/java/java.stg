@@ -1,5 +1,4 @@
 group java;
-import "../base.stg"
 
 // ============================================================================
 //                           CONTROL FLOW TEMPLATES
@@ -187,3 +186,20 @@ condCompare(entity) ::= <<
 condEquals(entity) ::= <<
 <entity.left.export()>.equals(<entity.right.export()>)
 >>
+
+// ==================== Utility Templates (merged from base.stg) ====================
+
+nullCheck(value, defaultValue) ::= <<
+<if(value)><value><else><defaultValue><endif>
+>>
+
+formatName(name) ::= <<
+<name>
+>>
+
+dataRef(entity) ::= <<
+<if(entity.ofQualifier)><entity.ofQualifier.formattedName>.<endif><entity.formattedName>
+>>
+
+continueStatement(entity) ::= "continue;"
+breakStatement(entity) ::= "break;"

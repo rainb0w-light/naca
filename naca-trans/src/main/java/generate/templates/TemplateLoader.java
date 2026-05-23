@@ -9,20 +9,15 @@ import java.net.URL;
 
 /**
  * StringTemplate4 Template Loader
- * 
+ *
  * Provides centralized access to ST4 templates for code generation.
- * Templates are organized in a hierarchy:
- * 
- * templates/
- * ├── base.stg           - Base templates (shared utilities)
- * └── java/
- *     └── java.stg       - Java code generation templates
- * 
+ * All templates are in java.stg (base.stg utilities merged in for jar compatibility).
+ *
  * Design Principle (PUSH Model):
  * - Controllers push entity objects to templates
  * - Templates handle all formatting, conditionals, and nested rendering
  * - No logic in Controller, only: template.add("entity", this)
- * 
+ *
  * @see generate.templates
  */
 public class TemplateLoader {
@@ -43,7 +38,7 @@ public class TemplateLoader {
         }
 
         try {
-            // Load java.stg which imports base.stg
+            // Load java.stg (self-contained, base.stg merged in)
             URL templateResource = TemplateLoader.class.getResource("/templates/java/java.stg");
             if (templateResource == null) {
                 throw new RuntimeException("Cannot find template file: /templates/java/java.stg");
