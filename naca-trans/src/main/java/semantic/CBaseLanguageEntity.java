@@ -48,7 +48,7 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 	private String name = "" ;
 	public void SetName(String name)
 	{
-		name = name ;
+		this.name = name ;
 		RegisterMySelfToCatalog() ;		
 	}
 	public void Rename(String name)
@@ -57,7 +57,7 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 		{
 			programCatalog.RemoveObject(this) ;
 		}
-		name = name ;
+		this.name = name ;
 		RegisterMySelfToCatalog() ;		
 	}
 	protected abstract void RegisterMySelfToCatalog() ;
@@ -131,7 +131,7 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
  	
  	public void SetLine(int line)
  	{
- 		line = line ;
+ 		this.line = line ;
  		Transcoder.setLine(line);
  	}
  	public int getLine()
@@ -147,7 +147,7 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 		{
 			int n=0 ;
 		}
-		name = name ;
+		this.name = name ;
 		if (!name.equals(""))
 		{
 			RegisterMySelfToCatalog() ;
@@ -285,10 +285,42 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 		{
 			return output.FormatIdentifier(cs);
 		}
-		else
+		String out = formatIdentifier(cs);
+		return out;
+	}
+	
+	private String formatIdentifier(String cs)
+	{
+		String result = cs.toLowerCase();
+		result = result.replace('_', '$');
+		StringBuilder sb = new StringBuilder();
+		int pos = result.indexOf('-');
+		int start = 0;
+		while (pos != -1)
 		{
-			return cs ;
+			sb.append(result, start, pos).append('_');
+			if (pos + 1 < result.length())
+			{
+				sb.append(Character.toUpperCase(result.charAt(pos + 1)));
+			}
+			start = pos + 2;
+			if (start >= result.length() || result.charAt(start) == '-')
+			{
+				sb.append(result.substring(start).replace("-", ""));
+				break;
+			}
+			pos = result.indexOf('-', start);
 		}
+		if (start <= result.length() - 1)
+		{
+			sb.append(result.substring(start));
+		}
+		String name = sb.toString();
+		if (name.length() > 0 && Character.isDigit(name.charAt(0)))
+		{
+			name = "$" + name;
+		}
+		return name.replace('#', '$');
 	}
 	protected abstract void DoExport() ;
 	protected void DoExport(CBaseLanguageEntity le)
@@ -583,7 +615,41 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 		{
 			return output.FormatIdentifier(GetDisplayName());
 		}
-		return GetDisplayName();
+		String cs = GetDisplayName();
+		cs = cs.replace('-', '_');
+		cs = cs.replace('#', '$');
+		return cs;
+	}
+
+	private String cachedCodeString = null;
+	private boolean computingCodeString = false;
+
+	public String getCodeString()
+	{
+		if (cachedCodeString != null) return cachedCodeString;
+		if (computingCodeString) return "/* recursive */";
+		computingCodeString = true;
+		CBaseLanguageExporter saved = output;
+		CStringExporter temp = new CStringExporter();
+		output = temp;
+		DoExport();
+		cachedCodeString = temp.getCapturedString().trim();
+		output = saved;
+		computingCodeString = false;
+		return cachedCodeString;
+	}
+
+	public String getChildrenCode()
+	{
+		StringBuilder sb = new StringBuilder();
+		for (CBaseLanguageEntity child : lstChildren)
+		{
+			if (!child.ignore())
+			{
+				sb.append(child.getCodeString()).append("\n");
+			}
+		}
+		return sb.toString();
 	}
 
 	

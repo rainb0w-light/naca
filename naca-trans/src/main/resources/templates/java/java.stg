@@ -7,52 +7,52 @@ group java;
 condition(entity) ::= <<
 <if(entity.conditionIgnored)><if(entity.shouldRenderElseBlock)>
 {
-<entity.elseBloc.exportChildren()>
+<entity.elseBloc.childrenCode>
 }
 <endif><else>
-if (<entity.condition.export()>)
+if (<entity.condition.codeString>)
 {
-<entity.thenBloc.exportChildren()>
+<entity.thenBloc.childrenCode>
 }<if(entity.elseBloc)>
 else
 {
-<entity.elseBloc.exportChildren()>
+<entity.elseBloc.childrenCode>
 }<endif><endif>
 >>
 
 loop(entity) ::= <<
 <if(entity.doBefore)>do
 {
-<entity.exportChildren()>
-} while (<entity.whileCondition.export()>);<else>
-while (<entity.whileCondition.export()>)
+<entity.childrenCode>
+} while (<entity.whileCondition.codeString>);<else>
+while (<entity.whileCondition.codeString>)
 {
-<entity.exportChildren()>
+<entity.childrenCode>
 }<endif>
 >>
 
 loopIter(entity) ::= <<
-for (<entity.loopVariable.export()> = <entity.fromValue.export()>; <entity.loopVariable.export()> \<= <entity.toValue.export()>; <entity.loopVariable.export()> += <entity.stepValue.export()>)
+for (<entity.loopVariable.codeString> = <entity.fromValue.codeString>; <entity.loopVariable.codeString> \<= <entity.toValue.codeString>; <entity.loopVariable.codeString> += <entity.stepValue.codeString>)
 {
-<entity.exportChildren()>
+<entity.childrenCode>
 }
 >>
 
 case(entity) ::= <<
-switch (<entity.caseValue.export()>)
+switch (<entity.caseValue.codeString>)
 {
 <entity.caseWhens:caseWhen()>
 <if(entity.caseOtherwise)>default:
 {
-<entity.caseOtherwise.exportChildren()>
+<entity.caseOtherwise.childrenCode>
 }<endif>
 }
 >>
 
 caseWhen(whenEntity) ::= <<
-case <whenEntity.value.export()>:
+case <whenEntity.value.codeString>:
 {
-<whenEntity.block.exportChildren()>
+<whenEntity.block.childrenCode>
 break;
 }
 >>
@@ -62,31 +62,31 @@ break;
 // ============================================================================
 
 assign(entity) ::= <<
-<if(entity.moveCorresponding)>moveCorresponding(<else><if(entity.fillAll)>moveAll(<else>move(<endif><endif><entity.value.export()>, <entity.destinations:{d | <d.export()>}; separator=", ">);
+<if(entity.moveCorresponding)>moveCorresponding(<else><if(entity.fillAll)>moveAll(<else>move(<endif><endif><entity.value.codeString>, <entity.destinations:{d | <d.codeString>}; separator=", ">);
 >>
 
 addTo(entity) ::= <<
-<if(entity.singleValue)><if(entity.isIncrement)>inc(<entity.singleDestination.export()>);<else><if(entity.isDecrement)>dec(<entity.singleDestination.export()>);<else>inc(<entity.singleValue.export()>, <entity.singleDestination.export()>);<endif><endif><else>add(<entity.values:{v | <v.export()>}; separator=", ">).<if(entity.rounded)>toRounded<else>to<endif>(<entity.destinations:{d | <d.export()>}; separator=", ">);<endif>
+<if(entity.singleValue)><if(entity.isIncrement)>inc(<entity.singleDestination.codeString>);<else><if(entity.isDecrement)>dec(<entity.singleDestination.codeString>);<else>inc(<entity.singleValue.codeString>, <entity.singleDestination.codeString>);<endif><endif><else>add(<entity.values:{v | <v.codeString>}; separator=", ">).<if(entity.rounded)>toRounded<else>to<endif>(<entity.destinations:{d | <d.codeString>}; separator=", ">);<endif>
 >>
 
 subtractTo(entity) ::= <<
-subtract(<entity.values:{v | <v.export()>}; separator=", ">).<if(entity.rounded)>toRounded<else>to<endif>(<entity.destinations:{d | <d.export()>}; separator=", ">);
+subtract(<entity.values:{v | <v.codeString>}; separator=", ">).<if(entity.rounded)>toRounded<else>to<endif>(<entity.destinations:{d | <d.codeString>}; separator=", ">);
 >>
 
 multiply(entity) ::= <<
-multiply(<entity.value.export()>, <entity.destination.export()>).<if(entity.rounded)>toRounded<else>to<endif>(<entity.result.export()>);
+multiply(<entity.value.codeString>, <entity.destination.codeString>).<if(entity.rounded)>toRounded<else>to<endif>(<entity.result.codeString>);
 >>
 
 divide(entity) ::= <<
-divide(<entity.value.export()>, <entity.divisor.export()>).<if(entity.rounded)>toRounded<else>to<endif>(<entity.result.export()>);
+divide(<entity.value.codeString>, <entity.divisor.codeString>).<if(entity.rounded)>toRounded<else>to<endif>(<entity.result.codeString>);
 >>
 
 compute(entity) ::= <<
-<entity.result.export()> = <entity.expression.export()>;
+<entity.result.codeString> = <entity.expression.codeString>;
 >>
 
 assignWithAccessor(entity) ::= <<
-<entity.destination.exportWriteAccessor(<entity.value.export()>)>;
+<entity.accessorInvocation>;
 >>
 
 // ============================================================================
@@ -94,23 +94,23 @@ assignWithAccessor(entity) ::= <<
 // ============================================================================
 
 readFile(entity) ::= <<
-read(<entity.fileDescriptor.export()>, <entity.dataInto.export()>)<if(entity.atEndBloc)>.atEnd(() -\> {
-<entity.atEndBloc.exportChildren()>
+read(<entity.fileDescriptor.codeString>, <entity.dataInto.codeString>)<if(entity.atEndBloc)>.atEnd(() -\> {
+<entity.atEndBloc.childrenCode>
 })<endif><if(entity.notAtEndBloc)>.notAtEnd(() -\> {
-<entity.notAtEndBloc.exportChildren()>
+<entity.notAtEndBloc.childrenCode>
 })<endif>;
 >>
 
 writeFile(entity) ::= <<
-write(<entity.fileDescriptor.export()>, <entity.dataFrom.export()>);
+write(<entity.fileDescriptor.codeString>, <entity.dataFrom.codeString>);
 >>
 
 openFile(entity) ::= <<
-open(<entity.fileDescriptor.export()>, "<entity.openMode>");
+open(<entity.fileDescriptor.codeString>, "<entity.openMode>");
 >>
 
 closeFile(entity) ::= <<
-close(<entity.fileDescriptor.export()>);
+close(<entity.fileDescriptor.codeString>);
 >>
 
 // ============================================================================
@@ -122,19 +122,19 @@ goto <entity.reference>;
 >>
 
 callFunction(entity) ::= <<
-<entity.reference>.execute(<entity.parameters:{p | <p.export()>}; separator=", ">);
+<entity.reference>.execute(<entity.parameters:{p | <p.codeString>}; separator=", ">);
 >>
 
 callProgram(entity) ::= <<
-call("<entity.reference.export()>");
+call("<entity.reference.codeString>");
 >>
 
 display(entity) ::= <<
-display(<entity.values:{v | <v.export()>}; separator=", ">);
+display(<entity.values:{v | <v.codeString>}; separator=", ">);
 >>
 
 initialize(entity) ::= <<
-initialize(<entity.data.export()>);
+initialize(<entity.data.codeString>);
 >>
 
 returnStatement(entity) ::= <<
@@ -146,7 +146,7 @@ return;
 // ============================================================================
 
 structure(entity) ::= <<
-Var <entity.formattedName> = declare.level(<entity.level>)<if(entity.redefines)>.redefines(<entity.redefines.export()>)<endif><if(entity.occurs)>.occurs(<entity.occurs.export()>)<endif>.<entity.type>(<entity.length><if(entity.decimals)>, <entity.decimals><endif>)<if(entity.comp3)>.comp3()<endif><if(entity.comp)>.comp()<endif><if(entity.value)>.value(<entity.value.export()>)<endif><if(entity.filler)>.filler()<else>.var()<endif>;
+Var <entity.formattedName> = declare.level(<entity.level>)<if(entity.redefines)>.redefines(<entity.redefines.codeString>)<endif><if(entity.occurs)>.occurs(<entity.occurs.codeString>)<endif>.<entity.type>(<entity.length><if(entity.decimals)>, <entity.decimals><endif>)<if(entity.comp3)>.comp3()<endif><if(entity.comp)>.comp()<endif><if(entity.value)>.value(<entity.value.codeString>)<endif><if(entity.filler)>.filler()<else>.var()<endif>;
 >>
 
 dataSection(entity) ::= <<
@@ -160,31 +160,31 @@ dataSection(entity) ::= <<
 // ============================================================================
 
 exprSum(entity) ::= <<
-<if(entity.isAdd)>add(<entity.left.export()>, <entity.right.export()>)<else>subtract(<entity.left.export()>, <entity.right.export()>)<endif>
+<if(entity.isAdd)>add(<entity.left.codeString>, <entity.right.codeString>)<else>subtract(<entity.left.codeString>, <entity.right.codeString>)<endif>
 >>
 
 exprProd(entity) ::= <<
-<if(entity.isMultiply)>multiply(<entity.left.export()>, <entity.right.export()>)<else>divide(<entity.left.export()>, <entity.right.export()>)<endif>
+<if(entity.isMultiply)>multiply(<entity.left.codeString>, <entity.right.codeString>)<else>divide(<entity.left.codeString>, <entity.right.codeString>)<endif>
 >>
 
 condOr(entity) ::= <<
-(<entity.left.export()> || <entity.right.export()>)
+(<entity.left.codeString> || <entity.right.codeString>)
 >>
 
 condAnd(entity) ::= <<
-(<entity.left.export()> && <entity.right.export()>)
+(<entity.left.codeString> && <entity.right.codeString>)
 >>
 
 condNot(entity) ::= <<
-!<entity.operand.export()>
+!<entity.operand.codeString>
 >>
 
 condCompare(entity) ::= <<
-(<entity.left.export()> <entity.operator> <entity.right.export()>)
+(<entity.left.codeString> <entity.operator> <entity.right.codeString>)
 >>
 
 condEquals(entity) ::= <<
-<entity.left.export()>.equals(<entity.right.export()>)
+<entity.left.codeString>.equals(<entity.right.codeString>)
 >>
 
 // ==================== Utility Templates (merged from base.stg) ====================

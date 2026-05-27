@@ -33,15 +33,15 @@ public class CCondLessStatement extends CExpression
 	public CCondLessStatement(int line, CExpression term1,CExpression term2)
 	{
 		super(line) ;
-		term1 = term1 ;
-		term2 = term2 ;
+		this.term1 = term1 ;
+		this.term2 = term2 ;
 	}
 	public CCondLessStatement(int line, CExpression term1,CExpression term2, boolean bOrEquals)
 	{
 		super(line) ;
-		term1 = term1 ;
-		term2 = term2 ;
-		bOrEquals = bOrEquals ;
+		this.term1 = term1 ;
+		this.term2 = term2 ;
+		this.isorEquals = bOrEquals ;
 	}
 	protected boolean isorEquals = false ;
 	protected CExpression term1 = null ;

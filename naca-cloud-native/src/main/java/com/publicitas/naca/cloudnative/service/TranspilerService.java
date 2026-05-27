@@ -286,9 +286,11 @@ public class TranspilerService {
         sb.append("    public void procedureDivision() {\n");
         if (!procedureStatements.isEmpty()) {
             for (String stmt : procedureStatements) {
-                String translated = translateCobolStatement(stmt);
-                if (translated != null && !translated.isEmpty()) {
-                    sb.append("        ").append(translated).append("\n");
+                List<String> translated = translateCobolStatement(stmt);
+                for (String line : translated) {
+                    if (!line.isEmpty()) {
+                        sb.append("        ").append(line).append("\n");
+                    }
                 }
             }
         } else {
@@ -514,7 +516,7 @@ public class TranspilerService {
         // PIC 9 - single digit
         if (upperLine.contains("PIC 9")) {
             StringBuilder sb = new StringBuilder();
-            sb.append("Var " + varName + " = declare.level(" + level + ").pic9(1)");
+            sb.append("Var " + javaVarName + " = declare.level(" + level + ").pic9(1)");
             if (upperLine.contains("VALUE")) {
                 sb.append(".valueZero()");
             }
@@ -523,7 +525,7 @@ public class TranspilerService {
         }
 
         // Generic PIC
-        return "Var " + varName + " = declare.level(" + level + ").var() ;";
+        return "Var " + javaVarName + " = declare.level(" + level + ").var() ;";
     }
 
     private String generateCopyDeclaration(String level, String varName, String line) {
@@ -585,6 +587,7 @@ public class TranspilerService {
 
     /**
      * Extract procedure statements from COBOL source.
+     * COBOL statements are terminated by periods, and multiple statements can appear on the same line.
      */
     private List<String> extractProcedureStatements(String cobolSource) {
         List<String> statements = new ArrayList<>();
@@ -610,15 +613,18 @@ public class TranspilerService {
             }
 
             if (inProcedure && !trimmed.isEmpty() && !trimmed.startsWith("*") && !trimmed.startsWith("/")) {
-                // Skip paragraph/section labels (e.g., "MAIN-PROCEDURE." with no other content)
-                if (trimmed.endsWith(".")) {
-                    String withoutPeriod = trimmed.substring(0, trimmed.length() - 1);
-                    // If it's just a single identifier (paragraph name), skip it
-                    if (!withoutPeriod.contains(" ")) {
+                // Split COBOL line by periods (statements are period-terminated)
+                // Be careful with periods inside string literals
+                List<String> parts = splitByPeriod(trimmed);
+                for (String part : parts) {
+                    String stmt = part.trim();
+                    if (stmt.isEmpty()) continue;
+                    // Skip paragraph/section labels (single identifier like "MAIN-PROCEDURE.")
+                    if (!stmt.contains(" ") && !stmt.contains("\t")) {
                         continue;
                     }
+                    statements.add(stmt);
                 }
-                statements.add(trimmed);
             }
         }
 
@@ -626,9 +632,108 @@ public class TranspilerService {
     }
 
     /**
-     * Translate a single COBOL statement to Java.
+     * Split a COBOL line by statement-terminating periods, respecting string literals.
      */
-    private String translateCobolStatement(String cobolStatement) {
+    private List<String> splitByPeriod(String line) {
+        List<String> parts = new ArrayList<>();
+        StringBuilder current = new StringBuilder();
+        boolean inLiteral = false;
+        char literalQuote = 0;
+
+        for (int i = 0; i < line.length(); i++) {
+            char c = line.charAt(i);
+            if (c == '\'' || c == '"') {
+                if (inLiteral && c == literalQuote) {
+                    inLiteral = false;
+                } else if (!inLiteral) {
+                    inLiteral = true;
+                    literalQuote = c;
+                }
+            } else if (c == '.' && !inLiteral) {
+                if (current.length() > 0) {
+                    parts.add(current.toString());
+                    current = new StringBuilder();
+                }
+                continue;
+            }
+            current.append(c);
+        }
+        if (current.length() > 0) {
+            parts.add(current.toString());
+        }
+        return parts;
+    }
+
+    /**
+     * Translate a COBOL statement to Java. Handles consecutive statements
+     * on the same line (e.g., "MOVE x TO y MOVE a TO b") by splitting them.
+     */
+    private List<String> translateCobolStatement(String cobolStatement) {
+        List<String> results = new ArrayList<>();
+        String trimmed = cobolStatement.trim();
+
+        // Split by COBOL verbs to handle consecutive statements without periods
+        List<String> subStatements = splitConsecutiveStatements(trimmed);
+        for (String stmt : subStatements) {
+            if (stmt.trim().isEmpty()) continue;
+            results.add(translateSingleStatement(stmt.trim()));
+        }
+        return results;
+    }
+
+    /**
+     * Split consecutive COBOL statements that share a line without period separators.
+     * E.g., "MOVE x TO y MOVE a TO b" -> ["MOVE x TO y", "MOVE a TO b"]
+     */
+    private List<String> splitConsecutiveStatements(String line) {
+        List<String> parts = new ArrayList<>();
+        // COBOL verbs that can start a new statement
+        String[] verbs = {"MOVE ", "PERFORM ", "DISPLAY ", "COMPUTE ", "SET ", "IF ",
+                         "INITIALIZE ", "CALL ", "READ ", "WRITE ", "STRING ", "UNSTRING ",
+                         "EVALUATE ", "SEARCH ", "ADD ", "SUBTRACT ", "MULTIPLY ", "DIVIDE ",
+                         "ACCEPT ", "CONTINUE ", "EXIT ", "GO TO ", "GOTO "};
+
+        String upper = line.toUpperCase();
+        List<Integer> splitPositions = new ArrayList<>();
+        splitPositions.add(0);
+
+        for (String verb : verbs) {
+            int pos = upper.indexOf(verb, 1); // skip position 0 (first statement)
+            while (pos >= 0) {
+                // Make sure this isn't inside a string literal
+                boolean inLiteral = false;
+                for (int i = 0; i < pos; i++) {
+                    char c = line.charAt(i);
+                    if (c == '\'' || c == '"') {
+                        inLiteral = !inLiteral;
+                    }
+                }
+                if (!inLiteral) {
+                    splitPositions.add(pos);
+                }
+                pos = upper.indexOf(verb, pos + verb.length());
+            }
+        }
+        splitPositions.sort(Integer::compareTo);
+
+        // Remove duplicates and build parts
+        int lastPos = 0;
+        for (int pos : splitPositions) {
+            if (pos > lastPos) {
+                parts.add(line.substring(lastPos, pos).trim());
+            }
+            lastPos = pos;
+        }
+        if (lastPos < line.length()) {
+            parts.add(line.substring(lastPos).trim());
+        }
+        return parts;
+    }
+
+    /**
+     * Translate a single, indivisible COBOL statement to one Java line.
+     */
+    private String translateSingleStatement(String cobolStatement) {
         String upper = cobolStatement.toUpperCase();
 
         // DISPLAY statement
@@ -656,11 +761,6 @@ public class TranspilerService {
             return translateIfStatement(cobolStatement);
         }
 
-        // PERFORM statement
-        if (upper.startsWith("PERFORM ")) {
-            return translatePerformStatement(cobolStatement);
-        }
-
         // SET statement
         if (upper.startsWith("SET ")) {
             return translateSetStatement(cobolStatement);
@@ -674,6 +774,28 @@ public class TranspilerService {
         // CALL statement
         if (upper.startsWith("CALL ")) {
             return translateCallStatement(cobolStatement);
+        }
+
+        // PERFORM VARYING - complex multi-line loop, generate placeholder
+        if (upper.contains("VARYING")) {
+            return translatePerformVaryingStatement(cobolStatement);
+        }
+
+        // PERFORM paragraph - generate as label + fall-through (paragraphs are inlined)
+        // Since paragraphs execute sequentially, PERFORM is a no-op in the inlined model
+        if (upper.startsWith("PERFORM ")) {
+            return "// PERFORM " + cobolStatement.substring(8).trim();
+        }
+
+        // Skip known COBOL clause keywords that appear in multi-line structures
+        String[] skipKeywords = {"UNTIL", "END-STRING", "END-EVALUATE", "END-PERFORM", "END-IF",
+            "WHEN", "GIVING", "REMAINDER", "INTO", "BY", "FROM", "THEN", "ELSE",
+            "END-COMPUTE", "END-ADD", "END-SUBTRACT", "END-MULTIPLY", "END-DIVIDE",
+            "AT END", "NOT AT END", "ON SIZE ERROR", "NOT ON SIZE ERROR"};
+        for (String keyword : skipKeywords) {
+            if (upper.equals(keyword) || upper.startsWith(keyword + " ")) {
+                return "// " + cobolStatement.trim();
+            }
         }
 
         // Unknown statement - return as comment
@@ -757,7 +879,7 @@ public class TranspilerService {
     }
 
     private String translateMoveStatement(String stmt) {
-        // MOVE source TO target. -> target.setValue(source);
+        // MOVE source TO target. -> target.setAndFill(source) or target.set(source)
         String upper = stmt.toUpperCase();
         int toPos = upper.indexOf(" TO ");
         if (toPos > 0) {
@@ -766,7 +888,9 @@ public class TranspilerService {
             if (target.endsWith(".")) {
                 target = target.substring(0, target.length() - 1);
             }
-            return fixVariableName(target) + ".setValue(" + fixVariableNameOrLiteral(source) + ");";
+            String javaTarget = fixVariableName(target);
+            String javaSource = fixVariableNameOrLiteral(source);
+            return javaTarget + "." + chooseSetMethod(javaSource) + javaSource + ");";
         }
         return "// TODO: " + stmt;
     }
@@ -783,7 +907,7 @@ public class TranspilerService {
         if (eqPos > 0) {
             String target = content.substring(0, eqPos).trim();
             String expression = content.substring(eqPos + 1).trim();
-            return fixVariableName(target) + ".setValue(" + translateExpression(expression) + ");";
+            return fixVariableName(target) + ".setAndFill(" + translateExpression(expression) + ");";
         }
         return "// TODO: " + stmt;
     }
@@ -791,6 +915,26 @@ public class TranspilerService {
     private String translateIfStatement(String stmt) {
         // Basic IF translation - full implementation would need multi-line support
         return "// TODO: IF statement - " + stmt;
+    }
+
+    private String translatePerformVaryingStatement(String stmt) {
+        // PERFORM VARYING WS-DUMP-IDX FROM 1 BY 1 UNTIL ... -> for-loop placeholder
+        String upper = stmt.toUpperCase();
+        int varyingPos = upper.indexOf("VARYING");
+        int fromPos = upper.indexOf("FROM");
+        int byPos = upper.indexOf("BY");
+        int untilPos = upper.indexOf("UNTIL");
+
+        if (varyingPos >= 0 && fromPos >= 0) {
+            String varName = stmt.substring(varyingPos + 8, fromPos).trim();
+            String javaVar = fixVariableName(varName);
+
+            String fromVal = fromPos >= 0 ? stmt.substring(fromPos + 5, byPos > fromPos ? byPos : (untilPos > fromPos ? untilPos : stmt.length())).trim() : "1";
+            String byVal = byPos > fromPos ? stmt.substring(byPos + 3, untilPos > byPos ? untilPos : stmt.length()).trim() : "1";
+
+            return "for (" + javaVar + ".setAndFill(" + fromVal + "); /* loop body */; " + javaVar + ".set(" + javaVar + ".getValue() + " + byVal + ")) { /* TODO: PERFORM VARYING body */ }";
+        }
+        return "// TODO: " + stmt;
     }
 
     private String translatePerformStatement(String stmt) {
@@ -813,7 +957,7 @@ public class TranspilerService {
             if (value.endsWith(".")) {
                 value = value.substring(0, value.length() - 1);
             }
-            return fixVariableName(target) + ".setValue(" + fixVariableNameOrLiteral(value) + ");";
+            return fixVariableName(target) + ".setAndFill(" + fixVariableNameOrLiteral(value) + ");";
         }
         return "// TODO: " + stmt;
     }
@@ -892,6 +1036,20 @@ public class TranspilerService {
     private String fixParagraphName(String name) {
         // Convert MAIN-PROCEDURE to mainProcedure
         return fixVariableName(name);
+    }
+
+    /**
+     * Choose the right Var.set method based on source type.
+     * String literals → setAndFill, numbers → set(int), variables → set(VarBase)
+     */
+    private String chooseSetMethod(String javaSource) {
+        if (javaSource.startsWith("\"")) {
+            return "setAndFill(";
+        }
+        if (javaSource.matches("\\d+")) {
+            return "set(";
+        }
+        return "set(";
     }
 
     private String escapeJavaString(String s) {

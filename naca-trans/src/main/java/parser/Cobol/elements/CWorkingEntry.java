@@ -976,6 +976,18 @@ public class CWorkingEntry extends CCobolElement
 			factory.programCatalog.RegisterAttribute(eAtt) ;
 		}
 		
+		if (eAtt == null)
+		{
+			Transcoder.logError(getLine(), "Cannot create semantic entity for entry: " + name);
+			return null ;
+		}
+		
+		if (eAtt == null)
+		{
+			Transcoder.logError(getLine(), "Cannot create semantic entity for entry: " + name);
+			return null ;
+		}
+		
 		eAtt.SetSignSeparateType(issignSeparateType) ;
 		eAtt.SetJustifiedRight(isjustifiedRight) ;
 		eAtt.SetBlankWhenZero(isblankWhenZero) ;

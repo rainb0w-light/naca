@@ -84,7 +84,7 @@ public abstract class CEntityAssign extends CBaseActionEntity
 
 	public void SetFillAll(boolean bFillAll)
 	{
-		bFillAll = bFillAll ;
+		isfillAll = bFillAll ;
 	}
 
 	public void SetAssignCorresponding(boolean bCorr)

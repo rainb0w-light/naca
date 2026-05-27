@@ -200,4 +200,28 @@ public abstract class CEntityStructure extends CEntityAttribute
 	{
 		return tableSizeDepending;
 	}
+
+	public String getLevel()
+	{
+		return csLevel;
+	}
+
+	@Override
+	public CDataEntity getRedefines()
+	{
+		return refRedefine;
+	}
+
+	@Override
+	public CDataEntity getOccurs()
+	{
+		return tableSize;
+	}
+
+	@Override
+	public boolean isFiller()
+	{
+		return isfiller;
+	}
+
 }

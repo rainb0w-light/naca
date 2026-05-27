@@ -37,7 +37,7 @@ public class CCondNotStatement extends CExpression
 		{
 			int n=0; // breakpoint 
 		}
-		cond = cond ;
+	this.cond = cond ;
 	} 
 //	public CExpression NewCopy(CExpression term1, CExpression term2)
 //	{

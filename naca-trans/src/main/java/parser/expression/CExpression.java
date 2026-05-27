@@ -34,7 +34,7 @@ public abstract class CExpression
 	//public abstract int GetPriorityLevel() ;
 	public CExpression(int line)
 	{
-		line = line ;
+		this.line = line ;
 	}
 	private int line = 0 ;
 	

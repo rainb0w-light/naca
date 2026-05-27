@@ -402,4 +402,14 @@ public abstract class CDataEntity extends CBaseLanguageEntity
 		return of;
 	}
 
+	private String cachedCodeString = null;
+
+	@Override
+	public String getCodeString()
+	{
+		if (cachedCodeString != null) return cachedCodeString;
+		cachedCodeString = ExportReference(getLine());
+		return cachedCodeString;
+	}
+
 }

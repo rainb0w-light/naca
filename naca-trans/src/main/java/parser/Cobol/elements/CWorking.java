@@ -103,16 +103,7 @@ public class CWorking extends CCommentContainer
 			if (tokEntry.GetType() == CTokenType.NUMBER)
 			{
 				int n = tokEntry.GetIntValue();
-				if (n >= 1 && n <= 49)
-				{
-					CCobolElement eEntry = new CWorkingEntry(tokEntry.getLine()) ;
-					AddChild(eEntry) ;
-					if (!Parse(eEntry))
-					{
-						return false ;
-					}
-				}
-				else if (n == 77)
+				if (n == 77)
 				{
 					CCobolElement eEntry = new CWorkingEntry(tokEntry.getLine()) ;
 //					arrVariables.add(eEntry) ;
@@ -127,6 +118,24 @@ public class CWorking extends CCommentContainer
 					CCobolElement eEntry = new CWorkingValueEntry(tokEntry.getLine()) ;
 					AddChild(eEntry) ;
 					if (!Parse(eEntry))
+					{
+						return false ;
+					}
+				}
+				else if (n >= 1 && n <= 49)
+				{
+					CBaseToken nextTok = GetNext() ;
+					if (nextTok != null && (nextTok.GetType() == CTokenType.IDENTIFIER ||
+						(nextTok.IsKeyword() && nextTok.GetKeyword() == CCobolKeywordList.FILLER)))
+					{
+						CCobolElement eEntry = new CWorkingEntry(tokEntry.getLine()) ;
+						AddChild(eEntry) ;
+						if (!Parse(eEntry))
+						{
+							return false ;
+						}
+					}
+					else
 					{
 						return false ;
 					}
@@ -267,7 +276,8 @@ public class CWorking extends CCommentContainer
 				}
 				else
 				{
-					CBaseLanguageEntity eNew = eLast.FindLastEntityAvailableForLevel(level);
+					CBaseLanguageEntity eNew = null;
+					if (eLast != null) { eNew = eLast.FindLastEntityAvailableForLevel(level); }
 //					if (eNew != null)
 //					{
 //						eNew.AddChild(e);

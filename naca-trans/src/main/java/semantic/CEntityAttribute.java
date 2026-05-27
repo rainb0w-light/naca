@@ -362,4 +362,49 @@ public abstract class CEntityAttribute extends CGenericDataEntityReference imple
 		return comp;
 	}
 
+	public String getType()
+	{
+		return type;
+	}
+
+	public int getLength()
+	{
+		return length;
+	}
+
+	public int getDecimals()
+	{
+		return decimals;
+	}
+
+	public CDataEntity getValue()
+	{
+		return value;
+	}
+
+	public boolean isComp3()
+	{
+		return "Comp3".equalsIgnoreCase(comp);
+	}
+
+	public boolean isComp()
+	{
+		return "Comp".equalsIgnoreCase(comp) || "Comp4".equalsIgnoreCase(comp);
+	}
+
+	public boolean isFiller()
+	{
+		return false;
+	}
+
+	public CDataEntity getRedefines()
+	{
+		return null;
+	}
+
+	public CDataEntity getOccurs()
+	{
+		return null;
+	}
+
 }

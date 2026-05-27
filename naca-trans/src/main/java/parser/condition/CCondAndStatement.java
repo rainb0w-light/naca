@@ -34,8 +34,8 @@ public class CCondAndStatement extends CExpression
 	public CCondAndStatement(int line, CExpression st1, CExpression st2)
 	{
 		super(line);
-		st1 = st1 ;
-		st2 = st2 ;
+		this.st1 = st1 ;
+		this.st2 = st2 ;
 	}
 	protected CExpression st1 = null ;
 	protected CExpression st2 = null ;

@@ -74,7 +74,8 @@ public class CObjectCatalog
 		CTransApplicationGroup.EProgramType eType,
 		NotificationEngine engine)
 	{
-		engine = engine ;
+		NotificationEngine eng = engine;
+		engine = eng ;
 		global = cat ;
 		listing = listing ;
 		callTree = new ProcedureCallTree() ;
