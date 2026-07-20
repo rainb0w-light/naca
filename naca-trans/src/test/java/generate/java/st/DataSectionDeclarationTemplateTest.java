@@ -115,4 +115,78 @@ class DataSectionDeclarationTemplateTest
         // Effective length (3 * 5) is a derived value; the semantic length is unchanged.
         assertEquals(3, structure.getLength());
     }
+
+    @Test
+    void rendersARedefinesStructureLikeTheDirectGenerator()
+    {
+        MockJavaExporter exporter = new MockJavaExporter();
+        CObjectCatalog catalog = catalog();
+        CJavaStructure structure =
+            new CJavaStructure(2, "WS-REDEF", catalog, exporter, "05");
+        structure.SetTypeString(4);
+        structure.SetRedefine(new MockDataEntity(2, catalog, exporter, "WS_ORIG"));
+
+        String rendered = TemplateLoader.getRecursiveAssembler()
+            .renderRoot(structure, JavaTemplateRole.DECLARATION);
+        structure.StartExport();
+
+        assertEquals(normalize(exporter.getCapturedOutput()), normalize(rendered));
+        assertTrue(rendered.contains("Var WS_REDEF = declare.level(5).redefines(WS_ORIG).picX(4)"), rendered);
+    }
+
+    @Test
+    void rendersAnOccursStructureLikeTheDirectGenerator()
+    {
+        MockJavaExporter exporter = new MockJavaExporter();
+        CObjectCatalog catalog = catalog();
+        CJavaStructure structure =
+            new CJavaStructure(2, "WS-TAB", catalog, exporter, "05");
+        structure.SetTypeString(3);
+        structure.SetTableSize(new MockDataEntity(2, catalog, exporter, "10"));
+
+        String rendered = TemplateLoader.getRecursiveAssembler()
+            .renderRoot(structure, JavaTemplateRole.DECLARATION);
+        structure.StartExport();
+
+        assertEquals(normalize(exporter.getCapturedOutput()), normalize(rendered));
+        assertTrue(rendered.contains("Var WS_TAB = declare.level(5).occurs(10).picX(3)"), rendered);
+    }
+
+    @Test
+    void rendersAnOccursDependingStructureLikeTheDirectGenerator()
+    {
+        MockJavaExporter exporter = new MockJavaExporter();
+        CObjectCatalog catalog = catalog();
+        CJavaStructure structure =
+            new CJavaStructure(2, "WS-DEP", catalog, exporter, "05");
+        structure.SetTypeString(3);
+        structure.SetTableSizeDepending(
+            new MockDataEntity(2, catalog, exporter, "20"),
+            new MockDataEntity(2, catalog, exporter, "WS_COUNT"));
+
+        String rendered = TemplateLoader.getRecursiveAssembler()
+            .renderRoot(structure, JavaTemplateRole.DECLARATION);
+        structure.StartExport();
+
+        assertEquals(normalize(exporter.getCapturedOutput()), normalize(rendered));
+        assertTrue(rendered.contains("Var WS_DEP = declare.level(5).occursDepending(20, WS_COUNT).picX(3)"), rendered);
+    }
+
+    @Test
+    void rendersAComp3StructureLikeTheDirectGenerator()
+    {
+        MockJavaExporter exporter = new MockJavaExporter();
+        CObjectCatalog catalog = catalog();
+        CJavaStructure structure =
+            new CJavaStructure(2, "WS-PACKED", catalog, exporter, "05");
+        structure.SetTypeNum(5, 0);
+        structure.SetComp("Comp3");
+
+        String rendered = TemplateLoader.getRecursiveAssembler()
+            .renderRoot(structure, JavaTemplateRole.DECLARATION);
+        structure.StartExport();
+
+        assertEquals(normalize(exporter.getCapturedOutput()), normalize(rendered));
+        assertTrue(rendered.contains("Var WS_PACKED = declare.level(5).pic9(5).comp3()"), rendered);
+    }
 }
