@@ -20,8 +20,8 @@
 - `CEntityAttribute` 的声明模板只有 3 个隔离测试，尚未由 data section 或 class root 调用。
 - `CEntityDataSection` 仍是 abstract semantic 节点，生产输出仍经过 `CJavaDataSection.DoExport()`。
 - `CEntityAttribute` 的运行时绑定仍是 `dataReferenceEntity`，只适合引用语境。
-- `getDeclareArgs()` 和 `getCompClause()` 含 Java 预渲染片段，必须先拆除。
-- 当前严格架构契约为 400 项、222 项失败；普通功能测试除最终架构契约外全绿。
+- 原型中的 `getDeclareArgs()` 和 `getCompClause()` 已拆除；声明模板现只消费目标无关属性。
+- 当前严格架构契约为 401 项、222 项失败；普通功能测试除最终架构契约外全绿。
 
 ## 3. 设计决定：声明与引用采用显式渲染角色
 
@@ -97,4 +97,6 @@ role 只决定查询哪一份声明式 binding；具体 Java 语法仍由 STG �
 
 ## 6. 首个开发切片
 
-首个切片只做 DS-1 与 DS-2 的最小闭环：清除 `CEntityAttribute` 的预渲染 Java 字符串，引入 declaration role binding，并让 assembler 在不调用 root `render()` 的情况下构造一个 attribute declaration ST。随后把现有三个声明模板测试改为通过 assembler，而不是直接 `TemplateLoader.getTemplate(...)`。这个切片通过后再接 `CEntityDataSection`，避免把错误的数据模型扩散到整棵 class tree。
+首个切片只做 DS-1 与 DS-2 的最小闭环：清除 `CEntityAttribute` 的预渲染 Java 字符串，引入 declaration role binding，并让 assembler 构造 attribute declaration ST。现已完成：5 个声明测试通过 assembler 运行，3 个基础变体与 direct generator 等价，edited picture 转义和同实体双角色分发也已覆盖。
+
+下一个切片进入 DS-4/DS-5 的最小纵向闭环：先为 `CEntityStructure` 建立 declaration binding 和子声明 role 传播，再由 `CEntityDataSection` 遍历顶层数据实体。暂不删除 direct generator；先以 T01/VERBS 的 working-storage 输出做 golden，对齐后再接 class root。

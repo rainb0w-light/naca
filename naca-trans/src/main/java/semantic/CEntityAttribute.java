@@ -404,6 +404,10 @@ public abstract class CEntityAttribute extends CGenericDataEntityReference imple
 	{
 		return "Comp".equalsIgnoreCase(comp) || "Comp4".equalsIgnoreCase(comp);
 	}
+	public boolean isBinaryComp()
+	{
+		return isComp();
+	}
 
 	public boolean isFiller()
 	{
@@ -448,30 +452,13 @@ public abstract class CEntityAttribute extends CGenericDataEntityReference imple
 	public String getFormat() {
 		return format;
 	}
-
-	public String getDeclareArgs() {
-		if (!format.equals("")) {
-			return "\"" + format + "\"";
-		}
-		if (length > 0 || decimals > 0) {
-			if (decimals > 0) {
-				return length + "," + decimals;
-			}
-			return String.valueOf(length);
-		}
-		return "";
+	public boolean isEditedPicture() {
+		return !format.isEmpty();
 	}
-
-	public String getCompClause() {
-		if (isComp3()) {
-			return ".comp3()";
-		}
-		if (isComp2()) {
-			return ".comp2()";
-		}
-		if (isComp()) {
-			return ".comp()";
-		}
-		return "";
+	public boolean isPictureSizeSpecified() {
+		return length > 0 || decimals > 0;
+	}
+	public boolean isScaled() {
+		return decimals > 0;
 	}
 }

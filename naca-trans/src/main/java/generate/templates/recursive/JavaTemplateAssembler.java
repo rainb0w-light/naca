@@ -16,12 +16,14 @@ import org.stringtemplate.v4.STGroup;
 public final class JavaTemplateAssembler
 {
     private final STGroup templateGroup;
-    private final JavaSemanticTemplateBindings bindings;
+    private final JavaSemanticTemplateBindings defaultBindings;
+    private final JavaSemanticTemplateBindings declarationBindings;
 
     public JavaTemplateAssembler(STGroup templateGroup)
     {
         this.templateGroup = Objects.requireNonNull(templateGroup, "templateGroup");
-        this.bindings = JavaSemanticTemplateBindings.loadDefault();
+        this.defaultBindings = JavaSemanticTemplateBindings.loadDefault();
+        this.declarationBindings = JavaSemanticTemplateBindings.loadDeclarations();
         this.templateGroup.registerModelAdaptor(
             Object.class, new RecursiveSemanticModelAdaptor(this));
         // Fail closed: a missing binding or property must abort generation
@@ -31,8 +33,14 @@ public final class JavaTemplateAssembler
 
     public ST renderNode(Object model)
     {
+        return renderNode(model, JavaTemplateRole.REFERENCE);
+    }
+
+    public ST renderNode(Object model, JavaTemplateRole role)
+    {
         Objects.requireNonNull(model, "model");
-        String templateName = bindings.findTemplateName(model.getClass());
+        Objects.requireNonNull(role, "role");
+        String templateName = bindingsFor(role).findTemplateName(model.getClass());
         if (templateName != null)
         {
             return template(templateName).add("entity", model);
@@ -68,6 +76,18 @@ public final class JavaTemplateAssembler
 
     public String renderRoot(Object rootModel)
     {
-        return renderNode(rootModel).render();
+        return renderRoot(rootModel, JavaTemplateRole.ROOT);
+    }
+
+    public String renderRoot(Object rootModel, JavaTemplateRole role)
+    {
+        return renderNode(rootModel, role).render();
+    }
+
+    private JavaSemanticTemplateBindings bindingsFor(JavaTemplateRole role)
+    {
+        return role == JavaTemplateRole.DECLARATION
+            ? declarationBindings
+            : defaultBindings;
     }
 }

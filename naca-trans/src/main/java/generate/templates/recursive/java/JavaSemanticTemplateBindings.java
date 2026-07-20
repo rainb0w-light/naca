@@ -15,6 +15,8 @@ public final class JavaSemanticTemplateBindings
         "/templates/java/semantic-bindings.properties";
     private static final String RUNTIME_RESOURCE =
         "/templates/java/semantic-runtime-bindings.properties";
+    private static final String DECLARATION_RESOURCE =
+        "/templates/java/semantic-declaration-bindings.properties";
 
     private final Map<String, String> templateNames;
 
@@ -26,9 +28,21 @@ public final class JavaSemanticTemplateBindings
 
     public static JavaSemanticTemplateBindings loadDefault()
     {
+        return load(CONCRETE_RESOURCE, RUNTIME_RESOURCE);
+    }
+
+    public static JavaSemanticTemplateBindings loadDeclarations()
+    {
+        return load(DECLARATION_RESOURCE);
+    }
+
+    private static JavaSemanticTemplateBindings load(String... resources)
+    {
         Map<String, String> bindings = new LinkedHashMap<>();
-        loadResource(bindings, CONCRETE_RESOURCE);
-        loadResource(bindings, RUNTIME_RESOURCE);
+        for (String resource : resources)
+        {
+            loadResource(bindings, resource);
+        }
         return new JavaSemanticTemplateBindings(bindings);
     }
 

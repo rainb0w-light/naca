@@ -853,7 +853,7 @@ inspectConverting(<entity.variable>).to(<entity.from>, <entity.to>) ;
 mockDataEntityReference(entity) ::= "<entity.mockReferenceValue>"
 
 dataAttributeDeclaration(entity) ::= <<
-Var <entity.formattedName> = declare.level(<entity.level>).<entity.type>(<entity.declareArgs>)<entity.compClause><if(entity.sync)>.sync()<endif><if(entity.value)>.<if(entity.fillWithValue)>valueAll<else>value<endif>(<entity.value>)<else><if(entity.initialValueIsSpaces)>.valueSpaces()<elseif(entity.initialValueIsZeros)>.valueZero()<elseif(entity.initialValueIsLowValue)>.valueLowValue()<elseif(entity.initialValueIsHighValue)>.valueHighValue()<endif><endif><if(entity.justifiedRight)>.justifyRight()<endif><if(entity.blankWhenZero)>.blankWhenZero()<endif><if(entity.filler)>.filler()<else>.var()<endif> ;
+Var <entity.formattedName> = declare.level(<entity.level>).<entity.type>(<if(entity.editedPicture)><entity.format; format="javaString"><elseif(entity.pictureSizeSpecified)><entity.length><if(entity.scaled)>,<entity.decimals><endif><endif>)<if(entity.comp3)>.comp3()<elseif(entity.comp2)>.comp2()<elseif(entity.binaryComp)>.comp()<endif><if(entity.sync)>.sync()<endif><if(entity.value)>.<if(entity.fillWithValue)>valueAll<else>value<endif>(<entity.value>)<else><if(entity.initialValueIsSpaces)>.valueSpaces()<elseif(entity.initialValueIsZeros)>.valueZero()<elseif(entity.initialValueIsLowValue)>.valueLowValue()<elseif(entity.initialValueIsHighValue)>.valueHighValue()<endif><endif><if(entity.justifiedRight)>.justifyRight()<endif><if(entity.blankWhenZero)>.blankWhenZero()<endif><if(entity.filler)>.filler()<else>.var()<endif> ;
 >>
 
 recursiveRewriteFileEntity(entity) ::= <<

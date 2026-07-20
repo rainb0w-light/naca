@@ -15,7 +15,7 @@ public class MockJavaExporter extends CBaseLanguageExporter {
     private final StringWriter outputWriter = new StringWriter();
 
     public MockJavaExporter() {
-        super(null, null);
+        super(new COriginalLisiting(), new CGlobalCommentContainer());
     }
 
     public MockJavaExporter(COriginalLisiting cat, CGlobalCommentContainer commCont) {

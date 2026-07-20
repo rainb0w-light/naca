@@ -1,11 +1,12 @@
 package generate.java.st;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import generate.java.CJavaAttribute;
 import generate.templates.TemplateLoader;
+import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.Test;
-import org.stringtemplate.v4.ST;
 import utils.CGlobalCatalog;
 import utils.CObjectCatalog;
 import utils.COriginalLisiting;
@@ -26,9 +27,13 @@ class DataAttributeDeclarationTemplateTest
     }
 
     private String render(CJavaAttribute attr) {
-        ST t = TemplateLoader.getTemplate("dataAttributeDeclaration");
-        t.add("entity", attr);
-        return t.render();
+        return TemplateLoader.getRecursiveAssembler()
+            .renderRoot(attr, JavaTemplateRole.DECLARATION);
+    }
+
+    private String renderDirect(CJavaAttribute attr, MockJavaExporter exporter) {
+        attr.StartExport();
+        return exporter.getCapturedOutput().strip();
     }
 
     @Test
@@ -41,6 +46,7 @@ class DataAttributeDeclarationTemplateTest
         attr.SetInitialValueSpaces();
         String out = render(attr);
         assertTrue(out.contains("Var WS_CHAR = declare.level(05).picX(10).valueSpaces().var() ;"), out);
+        assertEquals(renderDirect(attr, exporter), out.strip());
     }
 
     @Test
@@ -53,6 +59,7 @@ class DataAttributeDeclarationTemplateTest
         attr.SetInitialValueZeros();
         String out = render(attr);
         assertTrue(out.contains("Var WS_NUM = declare.level(05).pic9(5).valueZero().var() ;"), out);
+        assertEquals(renderDirect(attr, exporter), out.strip());
     }
 
     @Test
@@ -65,5 +72,29 @@ class DataAttributeDeclarationTemplateTest
         attr.SetComp("Comp3");
         String out = render(attr);
         assertTrue(out.contains("declare.level(05).picS9(3,2).comp3()"), out);
+        assertEquals(renderDirect(attr, exporter), out.strip());
+    }
+
+    @Test
+    void editedPictureIsEscapedByTheTemplateRenderer()
+    {
+        MockJavaExporter exporter = new MockJavaExporter();
+        CJavaAttribute attr = new CJavaAttribute(1, "WS-EDITED", catalog(), exporter);
+        attr.SetLevel("05");
+        attr.SetTypeEdited("ZZ\\\"9");
+        String out = render(attr);
+        assertTrue(out.contains("declare.level(05).pic(\"ZZ\\\\\\\"9\")"), out);
+    }
+
+    @Test
+    void theSameAttributeUsesReferenceAndDeclarationRoles()
+    {
+        MockJavaExporter exporter = new MockJavaExporter();
+        CJavaAttribute attr = new CJavaAttribute(1, "WS-ROLE", catalog(), exporter);
+        attr.SetLevel("05");
+        attr.SetTypeString(4);
+
+        assertEquals("WS_ROLE", TemplateLoader.getRecursiveAssembler().renderRoot(attr));
+        assertTrue(render(attr).contains("Var WS_ROLE = declare.level(05).picX(4)"));
     }
 }

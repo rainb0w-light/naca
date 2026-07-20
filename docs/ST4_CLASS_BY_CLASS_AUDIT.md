@@ -34,7 +34,7 @@
 | Java semantic-template manifest | concrete 主 manifest 已拆为 9 项；运行时继承别名独立放在 `semantic-runtime-bindings.properties` | 主 manifest 完整且与所有 concrete semantic entity 精确对应 |
 | ST tree 扁平化 | root assembler 中 1 处 | 恰好 1 处 |
 
-当前工作树实测严格契约共执行 **400 项检查，222 项失败、178 项通过**。222 项失败由 47 个 semantic 类、171 个 direct backend 类、3 个 factory 和 1 个 STG 文件组成。此前文档中的 424 是删除 23 个旧 backend 文件及清理 1 个未使用 backend helper 之前的总数，已经失效。测试项数量会随被审计文件数自动变化。当前失败是重构债务的证据，不能通过调低阈值或增加白名单消除。
+当前工作树实测严格契约共执行 **401 项检查，222 项失败、179 项通过**。新增的通过项来自 role enum 纳入逐文件审计；失败构成仍是 47 个 semantic 类、171 个 direct backend 类、3 个 factory 和 1 个 STG 文件，债务没有增加。此前文档中的 424 是删除 23 个旧 backend 文件及清理 1 个未使用 backend helper 之前的总数，已经失效。测试项数量会随被审计文件数自动变化。当前失败是重构债务的证据，不能通过调低阈值或增加白名单消除。
 
 日常功能门禁与最终架构门禁必须分开：普通 `:naca-trans:test` 排除
 `final-architecture` tag 并保持全绿；独立的 `finalArchitectureCheck` 只运行该 tag，
@@ -213,21 +213,23 @@ Goto、Accept、Divide、Multiply、SubtractTo、Calcul、CallFunction、Return�
 
 数据段当前**纯直接生成**：`CJavaDataSection.DoExport → ExportChildren → CJavaAttribute.DoExport`，逐段拼 fluent builder 字符串（`Var X = declare.level(N).picX(M).comp3().value(V).var() ;`）。`CEntityAttribute=dataReferenceEntity` 绑定只服务**引用**，声明无模板。
 
-### 已落地（隔离验证通过）
-- `CEntityAttribute` 补齐目标无关 getter：`getDeclareArgs()`（封装 `format` vs `length[,decimals]`）、`getCompClause()`（`comp3/comp2/comp` → `.comp3()/.comp2()/.comp()`/""）、`isComp2/isInitialValueIsSpaces/Zeros/LowValue/HighValue/isSync/isFillWithValue/isJustifiedRight/isBlankWhenZero/getFormat`。
-- 新模板 `dataAttributeDeclaration(entity)`：`Var <formattedName> = declare.level(<level>).<type>(<declareArgs>)<compClause>[.sync()][.value/.valueAll/.valueSpaces/.valueZero/.valueLowValue/.valueHighValue][.justifyRight][.blankWhenZero]<.filler/.var> ;`。
-- **踩坑**：ST4 把空字符串 `""` 判为真（非 null），故 `<if(entity.comp)>`（getComp 返回 ""）会误渲染 `.comp()`——必须用布尔 getter 或预计算子句（`getCompClause`）。
-- `DataAttributeDeclarationTemplateTest`（3/3 绿）：picX+valueSpaces、pic9+valueZero、picS9(3,2)+comp3 均产出与直接生成器一致的声明。
+### 原型阶段（已被首个正式切片替代）
 
-### 架构复核结论
+最初原型曾在 `CEntityAttribute` 中加入 `getDeclareArgs()` 与 `getCompClause()`，并用直接 `getTemplate(...)` 的 3 个测试验证声明格式。复核后确认它们预拼了 Java 引号、逗号和 fluent builder 调用，违反 semantic 层的最终契约，因此没有接入生产流，现已删除。
 
-该实现只能视为行为原型，不能作为最终数据段模型：`getDeclareArgs()` 预拼了引号和逗号，`getCompClause()` 返回 `.comp3()`/`.comp2()`/`.comp()` Java 调用片段，违反 semantic 层不得包含目标语言标点和 runtime 调用字符串的最终契约。正式接入生产流之前，必须把它们替换为原始长度、小数位、edited picture 和 comp kind 等目标无关属性，由 STG 负责全部拼接。
+### DS-1/DS-2 首个正式切片（已完成）
+
+- 新增 `JavaTemplateRole`（`REFERENCE`/`DECLARATION`/`ROOT`）和独立 `semantic-declaration-bindings.properties`；`CEntityAttribute` 默认仍绑定 `dataReferenceEntity`，只有显式声明角色才绑定 `dataAttributeDeclaration`，missing role binding 继续 fail closed。
+- `getDeclareArgs()`、`getCompClause()` 已删除。模板改为读取 `length`、`decimals`、`format`、`editedPicture`、`pictureSizeSpecified`、`scaled`、`comp3`、`comp2`、`binaryComp` 等目标无关属性，自行生成全部 Java 标点与 builder 调用。
+- ST4 的空字符串与整数 `0` 都不能安全充当布尔条件，且 `getComp()` 会遮蔽 `isComp()` 的 bean property；因此声明模板使用无歧义的布尔属性，禁止再次依赖值的 truthiness 猜测语义。
+- `DataAttributeDeclarationTemplateTest` 现通过 assembler 运行（5/5）：3 个原声明与 direct generator 做 golden 等价，edited picture 验证 Java 字符串转义，另验证同一 attribute 的引用/声明双角色分发。
+- `:naca-trans:build` 成功；严格契约为 401 项/222 失败，失败数保持不变。
 
 ### 数据段 ST4 化的真正难点（后续）
-- **声明 vs 引用的一体两面**：`CEntityAttribute` 既在数据段声明、又在语句中被引用，而 assembler 每类型仅一个绑定（`dataReferenceEntity` 引用）。故数据段渲染须**显式**调用声明模板（混合渲染：数据段遍历实体逐个用 `dataAttributeDeclaration`，其余走 assembler 引用绑定），不能靠类型绑定自动分发。
+- **声明角色向复合结构传播**：attribute 叶子的显式声明分发已经完成；下一步须让 `CEntityStructure`/`CEntityDataSection` 遍历子项时把 `DECLARATION` 角色传给声明子树，而 VALUE 引用仍回到 `REFERENCE`，不能靠单一类型绑定自动分发。
 - 还需：`CEntityStructure`（组声明）、`CEntityDataSection`（段头 `workingStorageSection`）、`CEntityNamedCondition`、REDEFINES/OCCURS/edited 变体的模板；以及把类骨架（`CJavaClass`）渲染改为经 assembler 输出数据段。
 - value 子句的 `<entity.value>` 须经 assembler 渲染值实体（字面量/引用），隔离测试用 `getTemplate` 直渲不含此路径，端到端需走 assembler。
 
 ### 下一专项
 
-下一步不再扩展动词面，而是按 `ST4_DATA_SECTION_MIGRATION_PLAN.md` 完成数据段模板化：先建立声明/引用双角色的声明式 binding，再覆盖 attribute、structure、named condition、REDEFINES、OCCURS 和 edited picture，最后把 data section 与 class root 接入唯一 assembler。只有生产转译、javac、运行回归和架构契约同时满足，才能删除相应 direct generator。
+下一步不再扩展动词面，而是按 `ST4_DATA_SECTION_MIGRATION_PLAN.md` 继续数据段模板化：以已经建立的声明/引用双角色为基础，接入 `CEntityStructure` 与 `CEntityDataSection`，再覆盖 named condition、REDEFINES、OCCURS，最后把 class root 接入唯一 assembler。只有生产转译、javac、运行回归和架构契约同时满足，才能删除相应 direct generator。
