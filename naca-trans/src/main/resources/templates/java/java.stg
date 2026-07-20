@@ -869,6 +869,10 @@ dataSectionDeclaration(entity) ::= <<
 <endif><if(entity.fileSection)><entity.children><else><entity.activeChildren><endif>
 >>
 
+dataNamedConditionDeclaration(entity) ::= <<
+Cond <entity.formattedName> = declare.condition()<entity.values:{val | .value(<val>)}><entity.intervals:{interval | .value(<interval.start>, <interval.end>)}>.var() ;
+>>
+
 recursiveRewriteFileEntity(entity) ::= <<
 <if(entity.dataFrom)>rewriteFrom(<entity.fileDescriptor>, <entity.dataFrom>) ;<else>rewrite(<entity.fileDescriptor>) ;<endif>
 >>

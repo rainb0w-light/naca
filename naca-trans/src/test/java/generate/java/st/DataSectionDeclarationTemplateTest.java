@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import generate.java.CJavaAttribute;
 import generate.java.CJavaDataSection;
+import generate.java.CJavaNamedCondition;
 import generate.java.CJavaStructure;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
@@ -67,5 +68,30 @@ class DataSectionDeclarationTemplateTest
         assertTrue(rendered.contains("DataSection FileSection = declare.fileSection()"), rendered);
         assertTrue(rendered.contains("Var FILE_RECORD = declare.level(1)"), rendered);
         assertTrue(rendered.contains("Var FILE_CHAR = declare.level(05).picX(8)"), rendered);
+    }
+
+    @Test
+    void rendersALevel88ConditionLikeTheDirectGenerator()
+    {
+        MockJavaExporter exporter = new MockJavaExporter();
+        CObjectCatalog catalog = catalog();
+        CJavaNamedCondition condition =
+            new CJavaNamedCondition(4, "WS-COND", catalog, exporter);
+        condition.AddValue(new MockDataEntity(4, catalog, exporter, "1"));
+        condition.AddValue(new MockDataEntity(4, catalog, exporter, "2"));
+        condition.AddInterval(
+            new MockDataEntity(4, catalog, exporter, "3"),
+            new MockDataEntity(4, catalog, exporter, "9"));
+
+        String rendered = TemplateLoader.getRecursiveAssembler()
+            .renderRoot(condition, JavaTemplateRole.DECLARATION);
+        condition.StartExport();
+
+        assertEquals(normalize(exporter.getCapturedOutput()), normalize(rendered));
+        assertTrue(rendered.contains("Cond WS_COND = declare.condition()"), rendered);
+        assertTrue(rendered.contains(".value(1)"), rendered);
+        assertTrue(rendered.contains(".value(2)"), rendered);
+        assertTrue(rendered.contains(".value(3, 9)"), rendered);
+        assertTrue(rendered.contains(".var() ;"), rendered);
     }
 }
