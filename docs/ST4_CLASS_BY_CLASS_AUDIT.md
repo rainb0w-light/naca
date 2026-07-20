@@ -260,3 +260,18 @@ Goto、Accept、Divide、Multiply、SubtractTo、Calcul、CallFunction、Return�
 门禁：`:naca-trans:build` 成功；`finalArchitectureCheck` **401 项/222 失败**（持平）；`:naca-cloud-native:test` 23 项/1 预存失败。
 
 下一切片：structure 变体逐一补模板 + direct parity，并修复 `SetJustifiedRight` 自赋值与 direct generator 修改 semantic tree。
+
+## 2026-07-20 进展：数据段第四切片——旧副作用修复 + structure 变体 golden（已提交 e455d8f / 7215620）
+
+### 旧副作用修复（e455d8f）
+- `SetJustifiedRight` 自赋值修复（原恒不写字段，`isJustifiedRight()` 恒 false）。无样例使用 JUSTIFIED RIGHT，零回归。
+- 消除 direct generator 在 export 阶段对 semantic tree 的两处就地修改（BLANK WHEN ZERO 改 `type`/`format`、variable-length OCCURS 改 `length`），改为 `CEntityAttribute`/`CEntityStructure` 的目标无关派生只读 getter（`getDeclaredType`/`getDeclaredFormat`/`getDeclaredLength` 等）。direct 与 ST4 模板同消费派生值，export 幂等、对象图前后不变；golden 测试断言 export 后 `getType()=="pic9"`、`getLength()==3` 不变。
+- 模板类型子句改用 `declaredType`/`declaredFormat`/`declaredLength`。
+
+### structure 变体 golden（7215620）
+新增 direct-parity golden：REDEFINES、OCCURS、OCCURS DEPENDING ON、COMP-3（连同此前的 group、FileSection 传播、level-88、BLANK WHEN ZERO、variable-length）。
+
+### 仍待补
+FILLER 的 export 期改名副作用（`SetName(GetDefaultName())`）需派生填充名 getter；SYNC/JUSTIFIED/VALUE/sign/COMP-2 分支待补 golden；步骤 4（fail-closed 审计真实 DATA SECTION 子类型）与步骤 5（class root 接入 + 删 direct generator）未开始。
+
+门禁：`:naca-trans:build` 成功；`finalArchitectureCheck` **401 项/222 失败**（持平）；`:naca-cloud-native:test` 23 项/1 预存失败。

@@ -122,3 +122,23 @@ role 只决定查询哪一份声明式 binding；具体 Java 语法仍由 STG �
 门禁：`:naca-trans:build` 成功；`finalArchitectureCheck` 401 项/222 失败（持平，未增）；`:naca-cloud-native:test` 23 项/1 预存失败（未隐藏）。
 
 下一切片：structure 变体（REDEFINES/OCCURS/OCCURS DEPENDING ON/variable length/typed group/COMP/sign/VALUE/FILLER/SYNC/JUSTIFIED RIGHT/BLANK WHEN ZERO）逐一补模板测试与 direct parity，并修复 `SetJustifiedRight` 自赋值、direct generator 修改 semantic tree 两处旧副作用。
+
+## 7. 后续切片进展（2026-07-20，已提交）
+
+### 旧副作用修复（提交 `e455d8f`）
+
+- `SetJustifiedRight` 自赋值 bug 修复：原 `bJustifiedRight = bJustifiedRight` 从不写入字段，`isJustifiedRight()` 恒 false；改为写入 `isjustifiedRight`。无样例/测试使用 JUSTIFIED RIGHT，零回归。
+- direct generator 在 export 阶段修改 semantic tree 的两处副作用已消除：BLANK WHEN ZERO 原就地把 `type`/`format`（`pic9`→`pic`+`999.99`）改写；variable-length OCCURS 原就地把 `length` 上乘 tableSize。现改为 `CEntityAttribute` 目标无关派生只读 getter（`getDeclaredType`/`getDeclaredFormat`/`isBlankWhenZeroEditedNumeric`/`isDeclaredEditedPicture`/`isDeclaredPictureSizeSpecified`/`getDeclaredLength`），`CEntityStructure` 覆写 `getDeclaredLength`。direct generator 与 ST4 模板同消费派生值，export 幂等、生成前后对象图不变；golden 测试断言 `getType()=="pic9"`、`getLength()==3` 在 export 后不变。
+- 模板类型子句改用 `declaredType`/`declaredFormat`/`declaredLength`。
+
+### structure 变体 golden 覆盖（提交 `7215620`）
+
+已有 direct-parity golden 测试：group、FileSection 三层角色传播、level-88 named condition（values + interval）、BLANK WHEN ZERO（pic9→edited）、variable-length OCCURS、REDEFINES、OCCURS、OCCURS DEPENDING ON、COMP-3。
+
+### 仍待补
+
+- FILLER：direct generator 在 `DoExport` 对空名 filler 调 `SetName(GetDefaultName())` 就地改名，模板 `formattedName` 无法复现 → 需目标无关「派生填充名」getter 并去除 export 期改名副作用后才能 golden。
+- SYNC、JUSTIFIED RIGHT、VALUE/VALUE ALL、SPACE/ZERO/LOW/HIGH、sign leading/trailing、COMP/COMP-2 模板分支已存在，需逐一补 golden。
+- 步骤 4（fail-closed 审计真实 DATA SECTION 子类型：`CEntityFileDescriptor`/`CEntityExternalDataStructure`/COPY-include）与步骤 5（class root 接入唯一 assembler、删除 direct generator）尚未开始。
+
+门禁（每次提交均满足）：`:naca-trans:build` 成功；`finalArchitectureCheck` 401/222（持平）；`:naca-cloud-native:test` 23/1 预存失败（未隐藏）。
