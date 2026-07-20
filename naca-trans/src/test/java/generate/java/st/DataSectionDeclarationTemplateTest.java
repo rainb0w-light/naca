@@ -1,6 +1,7 @@
 package generate.java.st;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import generate.java.CJavaAttribute;
@@ -225,5 +226,26 @@ class DataSectionDeclarationTemplateTest
 
         assertEquals(normalize(exporter.getCapturedOutput()), normalize(rendered));
         assertTrue(rendered.contains("Var WS_SGNT = declare.level(5).pic9(3).signTrailingSeparated()"), rendered);
+    }
+
+    @Test
+    void rendersAGroupFillerLikeTheDirectGenerator()
+    {
+        MockJavaExporter exporter = new MockJavaExporter();
+        CObjectCatalog catalog = catalog();
+        // Empty name => group FILLER; the default name is assigned at construction
+        // (semantic phase), so neither the direct generator nor the template
+        // mutates the tree during export.
+        CJavaStructure filler =
+            new CJavaStructure(1, "", catalog, exporter, "01");
+
+        String rendered = TemplateLoader.getRecursiveAssembler()
+            .renderRoot(filler, JavaTemplateRole.DECLARATION);
+        filler.StartExport();
+
+        assertEquals(normalize(exporter.getCapturedOutput()), normalize(rendered));
+        assertTrue(rendered.contains("declare.level(1).filler() ;"), rendered);
+        assertTrue(filler.isFiller(), "empty-name structure must be a filler");
+        assertFalse(filler.GetName().isEmpty(), "filler name assigned at construction");
     }
 }

@@ -137,7 +137,11 @@ role 只决定查询哪一份声明式 binding；具体 Java 语法仍由 STG �
 
 ### 仍待补
 
-- FILLER：direct generator 在 `DoExport` 对空名 filler 调 `SetName(GetDefaultName())` 就地改名，模板 `formattedName` 无法复现 → 需目标无关「派生填充名」getter 并去除 export 期改名副作用后才能 golden。
+- FILLER（需设计决策，尚未改）：
+  - 根因查清：`GetDefaultName()` 经 `CObjectCatalog.GetLastFillerIndex()` **自增全局 filler 计数器**，是有副作用的，因此命名必须在语义分析期一次性完成，不能在生成期反复调用。
+  - **group filler（`CEntityStructure`）已合规**：构造器在 `name==""` 时即 `SetName(GetDefaultName())`，export 期的改名是死代码；模板 `formattedName` 与 direct 已一致。已补 golden 测试 `rendersAGroupFillerLikeTheDirectGenerator`（`declare.level(1).filler() ;`，且断言名字在构造期已赋值、export 后不变）。
+  - **pic filler（`CEntityAttribute`）仍不合规**：构造器不命名 filler，命名发生在 `CJavaAttribute.DoExport` 的 `SetName(GetDefaultName())`（export 期 semantic 改名）。正确修法是把命名移到 `CEntityAttribute` 构造期（与 structure 一致）。
+  - **副作用/风险**：当前 BATCH1 因「structure-filler 构造期命名 + attribute-filler export 期命名」的混合时序，源码在前的 `05 FILLER PIC X(68)`（行35）被命名为 `filler$2`、源码在后的 `01 FILLER REDEFINES`（行52）反而是 `filler$1`（见 `NacaSamples/src/batch/BATCH1.java`）。把 attribute-filler 命名移到构造期会使二者按源码顺序改为 `filler$1`/`filler$2`（互换）。FILLER 不被按名引用，互换语义无害且更正确，但**会改变 BATCH1 生成输出**；现有测试（`CopyTranspileTest` 只要求编译通过、`RunnerServiceTest` 宽松）不会捕获，也没有 BATCH1 全量 golden 基线。按「BATCH1 不回归」原则，此改动需先建立 BATCH1 golden 基线或经明确确认后再做，故本轮不擅改。
 - SYNC、JUSTIFIED RIGHT、VALUE/VALUE ALL、SPACE/ZERO/LOW/HIGH、sign leading/trailing、COMP/COMP-2 模板分支已存在，需逐一补 golden。
 - 步骤 4（fail-closed 审计真实 DATA SECTION 子类型：`CEntityFileDescriptor`/`CEntityExternalDataStructure`/COPY-include）与步骤 5（class root 接入唯一 assembler、删除 direct generator）尚未开始。
 
