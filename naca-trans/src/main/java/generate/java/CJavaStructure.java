@@ -190,33 +190,6 @@ public class CJavaStructure extends CEntityStructure
 		EndOutputBloc() ;
 	}
 
-	private boolean isInsideExternalDataStructure()
-	{
-		CBaseLanguageEntity entity = GetParent();
-		while (entity != null)
-		{
-			if (entity instanceof CBaseExternalEntity)
-			{
-				return true;
-			}
-			entity = entity.GetParent();
-		}
-		return false;
-	}
-
-	private boolean isInsideFileSection()
-	{
-		CBaseLanguageEntity entity = GetParent();
-		while (entity != null)
-		{
-			if (entity instanceof CEntityDataSection && "FileSection".equals(entity.GetName()))
-			{
-				return true;
-			}
-			entity = entity.GetParent();
-		}
-		return false;
-	}
 	/* (non-Javadoc)
 	 * @see semantic.CBaseDataEntity#ExportReference(semantic.CBaseExporter)
 	 */

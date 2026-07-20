@@ -228,4 +228,60 @@ public abstract class CEntityStructure extends CEntityAttribute
 		return isfiller;
 	}
 
+	public int getNumericLevel()
+	{
+		return NumberParser.getAsInt(csLevel);
+	}
+
+	public boolean isTyped()
+	{
+		return !type.isEmpty();
+	}
+
+	public boolean isVariableLength()
+	{
+		return isisVariableLenght;
+	}
+
+	public boolean isSignLeadingSeparated()
+	{
+		return issignSeparateType ==
+			parser.Cobol.elements.CWorkingEntry.CWorkingSignType.LEADING;
+	}
+
+	public boolean isSignTrailingSeparated()
+	{
+		return issignSeparateType ==
+			parser.Cobol.elements.CWorkingEntry.CWorkingSignType.TRAILING;
+	}
+
+	public boolean isInsideExternalDataStructure()
+	{
+		CBaseLanguageEntity entity = GetParent();
+		while (entity != null)
+		{
+			if (entity instanceof CBaseExternalEntity)
+			{
+				return true;
+			}
+			entity = entity.GetParent();
+		}
+		return false;
+	}
+
+	public boolean isInsideFileSection()
+	{
+		CBaseLanguageEntity entity = GetParent();
+		while (entity != null)
+		{
+			if (entity instanceof CEntityDataSection
+				&& "FileSection".equals(entity.GetName()))
+			{
+				return true;
+			}
+			entity = entity.GetParent();
+		}
+		return false;
+	}
+
 }

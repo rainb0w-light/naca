@@ -58,4 +58,24 @@ public abstract class CEntityDataSection extends CBaseLanguageEntity
 		return lstChildren.isEmpty() ;
 	}
 
+	public boolean isWorkingStorageSection()
+	{
+		return "WorkingStorageSection".equals(GetName());
+	}
+
+	public boolean isLinkageSection()
+	{
+		return "LinkageSection".equals(GetName());
+	}
+
+	public boolean isFileSection()
+	{
+		return "FileSection".equals(GetName());
+	}
+
+	public boolean isVariableSection()
+	{
+		return "VariableSection".equals(GetName());
+	}
+
 }

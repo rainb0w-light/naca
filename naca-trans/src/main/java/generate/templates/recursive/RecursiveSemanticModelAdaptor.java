@@ -29,25 +29,26 @@ final class RecursiveSemanticModelAdaptor extends ObjectModelAdaptor<Object>
         Object property,
         String propertyName) throws STNoSuchPropertyException
     {
-        return adapt(super.getProperty(interpreter, self, model, property, propertyName));
+        Object value = super.getProperty(interpreter, self, model, property, propertyName);
+        return adapt(value, assembler.childRole(self, propertyName));
     }
 
-    private Object adapt(Object value)
+    private Object adapt(Object value, JavaTemplateRole role)
     {
         if (value instanceof CEntityAddValueTree)
         {
-            return assembler.renderNode(value);
+            return assembler.renderNode(value, role);
         }
         if (value instanceof CBaseLanguageEntity)
         {
-            return assembler.renderNode(value);
+            return assembler.renderNode(value, role);
         }
         if (value instanceof Collection<?> values)
         {
             List<Object> adapted = new ArrayList<>(values.size());
             for (Object item : values)
             {
-                adapted.add(adapt(item));
+                adapted.add(adapt(item, role));
             }
             return Collections.unmodifiableList(adapted);
         }

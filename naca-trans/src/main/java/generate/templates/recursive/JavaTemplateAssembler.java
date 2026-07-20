@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.WeakHashMap;
 import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroup;
 
@@ -18,6 +20,8 @@ public final class JavaTemplateAssembler
     private final STGroup templateGroup;
     private final JavaSemanticTemplateBindings defaultBindings;
     private final JavaSemanticTemplateBindings declarationBindings;
+    private final Map<ST, JavaTemplateRole> templateRoles =
+        Collections.synchronizedMap(new WeakHashMap<>());
 
     public JavaTemplateAssembler(STGroup templateGroup)
     {
@@ -43,7 +47,9 @@ public final class JavaTemplateAssembler
         String templateName = bindingsFor(role).findTemplateName(model.getClass());
         if (templateName != null)
         {
-            return template(templateName).add("entity", model);
+            ST renderedNode = template(templateName).add("entity", model);
+            templateRoles.put(renderedNode, role);
+            return renderedNode;
         }
         throw new MissingTemplateRendererException(model.getClass());
     }
@@ -89,5 +95,17 @@ public final class JavaTemplateAssembler
         return role == JavaTemplateRole.DECLARATION
             ? declarationBindings
             : defaultBindings;
+    }
+
+    JavaTemplateRole childRole(ST parentTemplate, String propertyName)
+    {
+        JavaTemplateRole parentRole = templateRoles.get(parentTemplate);
+        if (parentRole == JavaTemplateRole.DECLARATION
+            && ("children".equals(propertyName)
+                || "activeChildren".equals(propertyName)))
+        {
+            return JavaTemplateRole.DECLARATION;
+        }
+        return JavaTemplateRole.REFERENCE;
     }
 }
