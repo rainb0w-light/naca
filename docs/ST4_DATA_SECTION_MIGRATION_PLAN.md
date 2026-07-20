@@ -97,6 +97,28 @@ role 只决定查询哪一份声明式 binding；具体 Java 语法仍由 STG �
 
 ## 6. 首个开发切片
 
-首个切片只做 DS-1 与 DS-2 的最小闭环：清除 `CEntityAttribute` 的预渲染 Java 字符串，引入 declaration role binding，并让 assembler 构造 attribute declaration ST。现已完成：5 个声明测试通过 assembler 运行，3 个基础变体与 direct generator 等价，edited picture 转义和同实体双角色分发也已覆盖。
+首个切片只做 DS-1 与 DS-2 的最小闭环：清除 `CEntityAttribute` 的预渲染 Java 字符串，引入 declaration role binding，并让 assembler 构造 attribute declaration ST。现已完成（提交 `c624b86`）：5 个声明测试通过 assembler 运行，3 个基础变体与 direct generator 等价，edited picture 转义和同实体双角色分发也已覆盖。
 
-下一个切片进入 DS-4/DS-5 的最小纵向闭环：先为 `CEntityStructure` 建立 declaration binding 和子声明 role 传播，再由 `CEntityDataSection` 遍历顶层数据实体。暂不删除 direct generator；先以 T01/VERBS 的 working-storage 输出做 golden，对齐后再接 class root。
+第二个切片（提交 `b7597bd`，`feat: template data sections and structure declarations`）完成 DS-4/DS-5 的最小纵向闭环，但尚未接入生产 root：
+
+- assembler 为每个 ST 节点记录 render role（`Collections.synchronizedMap(new WeakHashMap<>())`，key 为每次渲染独有的 ST 实例，共享 assembler 下线程安全且不跨渲染污染）。
+- DECLARATION role 只沿 `children`/`activeChildren` 传播；`value`、`redefines`、`occurs`、`depending-on` 等普通实体属性一律回到 REFERENCE（`childRole` 对其它属性名返回 REFERENCE）。整棵递归树仍只有 `JavaTemplateAssembler.renderRoot` 一个 `.render()` 扁平化点。
+- `CEntityStructure` 新增目标无关属性：`numericLevel`、`typed`、`variableLength`、`signLeadingSeparated`/`signTrailingSeparated`、`insideExternalDataStructure`/`insideFileSection`（后两者由 `CJavaStructure` 上移，均为父链语义判定，无 Java 标点）。
+- `CEntityDataSection` 新增 section-kind 布尔属性：`workingStorageSection`/`linkageSection`/`fileSection`/`variableSection`。
+- 声明 binding 新增 `CEntityStructure → dataStructureDeclaration`、`CEntityDataSection → dataSectionDeclaration`；`java.stg` 增加对应模板（FileSection/external 走 `children`，其余走 `activeChildren`）。
+- `DataSectionDeclarationTemplateTest` 2/2 与 direct generator golden 等价：group 声明、以及 FileSection → structure → attribute 三层声明角色传播。
+
+门禁：`:naca-trans:build` 成功；`finalArchitectureCheck` 401 项/222 失败（与基线持平，未增）；`:naca-cloud-native:test` 23 项/1 个预存失败（`TranspileControllerTest.testTranspileValidCobolWithWorkingStorage`，数据段命名/子字段债务，未隐藏）。
+
+下一个切片按 `ST4_CLASS_BY_CLASS_AUDIT.md` 的明确顺序推进：先补声明树叶子的 `CEntityNamedCondition`（level 88），暴露 values/intervals 的目标无关只读模型 + declaration binding + STG 模板，value/interval 端点按 REFERENCE 渲染，并与 `CJavaNamedCondition` direct 输出做 golden 等价。随后覆盖 structure 变体（REDEFINES/OCCURS/COMP/sign/VALUE/FILLER/SYNC/JUSTIFIED/BLANK WHEN ZERO），再修复 `SetJustifiedRight` 自赋值与 direct generator 修改 semantic tree 的旧副作用。生产 root 接入与 direct generator 删除仍须在 golden、javac、运行、架构门禁全过后进行。
+
+第三个切片（提交 `b48c69b`，`feat: template level-88 named condition declarations`）完成 DS-4 叶子类型 `CEntityNamedCondition`：
+
+- `CEntityNamedCondition` 新增目标无关只读模型：`getValues()` 返回 `List<CDataEntity>`，内部 `IntervalModel`（`getStart()`/`getEnd()`）成对暴露 start/end 端点，`getIntervals()` 返回 `List<IntervalModel>`。全部为 COBOL 语义，无 Java 标点、无 `Export*` 调用。
+- 声明 binding 新增 `CEntityNamedCondition → dataNamedConditionDeclaration`；`java.stg` 增加模板 `Cond <name> = declare.condition().value(...).value(start, end).var() ;`，value 与 interval 端点均按 REFERENCE 角色渲染（属性名非 `children`/`activeChildren`，`childRole` 回落 REFERENCE）。
+- `DataSectionDeclarationTemplateTest` 新增 level-88 golden 等价测试（2 个单值 + 1 个区间），与 `CJavaNamedCondition` direct 输出归一化等价。
+- ST4 踩坑：匿名子模板迭代变量不能用单字母 `i`（`Formal argument i already exists` 解析失败，导致该模板及其后模板整体不加载、`getInstanceOf` 返回 null）；改用 `val`/`interval` 命名。
+
+门禁：`:naca-trans:build` 成功；`finalArchitectureCheck` 401 项/222 失败（持平，未增）；`:naca-cloud-native:test` 23 项/1 预存失败（未隐藏）。
+
+下一切片：structure 变体（REDEFINES/OCCURS/OCCURS DEPENDING ON/variable length/typed group/COMP/sign/VALUE/FILLER/SYNC/JUSTIFIED RIGHT/BLANK WHEN ZERO）逐一补模板测试与 direct parity，并修复 `SetJustifiedRight` 自赋值、direct generator 修改 semantic tree 两处旧副作用。

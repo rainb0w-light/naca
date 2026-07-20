@@ -233,3 +233,30 @@ Goto、Accept、Divide、Multiply、SubtractTo、Calcul、CallFunction、Return�
 ### 下一专项
 
 下一步不再扩展动词面，而是按 `ST4_DATA_SECTION_MIGRATION_PLAN.md` 继续数据段模板化：以已经建立的声明/引用双角色为基础，接入 `CEntityStructure` 与 `CEntityDataSection`，再覆盖 named condition、REDEFINES、OCCURS，最后把 class root 接入唯一 assembler。只有生产转译、javac、运行回归和架构契约同时满足，才能删除相应 direct generator。
+
+## 2026-07-20 进展：数据段第二切片——structure/data-section 声明模板（已提交 b7597bd）
+
+`feat: template data sections and structure declarations` 完成 DS-4/DS-5 的最小纵向闭环（仍未接入生产 root，direct generator 保留）：
+
+- assembler 为每个 ST 节点记录 render role（`synchronizedMap(WeakHashMap)`，key 为每次渲染独有的 ST 实例，共享 assembler 下线程安全、不跨渲染污染）。
+- DECLARATION role 只沿 `children`/`activeChildren` 传播；`value`/`redefines`/`occurs`/`depending-on` 回到 REFERENCE。整棵递归树仍只有 `JavaTemplateAssembler.renderRoot` 一处 `.render()` 扁平化。
+- `CEntityStructure` 新增目标无关属性（`numericLevel`/`typed`/`variableLength`/`signLeadingSeparated`/`signTrailingSeparated`/`insideExternalDataStructure`/`insideFileSection`），后两者自 `CJavaStructure` 上移为父链语义判定。
+- `CEntityDataSection` 新增 section-kind 布尔属性；声明 binding 新增 `CEntityStructure→dataStructureDeclaration`、`CEntityDataSection→dataSectionDeclaration`，`java.stg` 增加对应模板。
+- `DataSectionDeclarationTemplateTest` 2/2 与 direct generator golden 等价（group 声明、FileSection→structure→attribute 三层角色传播）。
+
+门禁：`:naca-trans:build` 成功；`finalArchitectureCheck` **401 项/222 失败**（与基线持平，未增）；`:naca-cloud-native:test` 23 项/1 预存失败（`TranspileControllerTest.testTranspileValidCobolWithWorkingStorage`，未隐藏）。失败构成不变（47 semantic + 171 direct backend + 3 factory + 1 STG）。
+
+下一切片：`CEntityNamedCondition`（level 88）声明模板 + golden 等价，随后 structure 变体与两处旧副作用修复（`SetJustifiedRight` 自赋值、direct generator 修改 semantic tree）。
+
+## 2026-07-20 进展：数据段第三切片——level-88 named condition 声明（已提交 b48c69b）
+
+`feat: template level-88 named condition declarations` 完成 DS-4 叶子类型：
+
+- `CEntityNamedCondition` 新增目标无关只读模型 `getValues()`（`List<CDataEntity>`）与 `getIntervals()`（`List<IntervalModel>`，`IntervalModel.getStart/getEnd` 成对端点），无 Java 标点、无 `Export*`。
+- 声明 binding `CEntityNamedCondition→dataNamedConditionDeclaration`；模板 `Cond <name> = declare.condition().value(...).value(start, end).var() ;`，value/interval 端点按 REFERENCE 渲染。
+- golden 等价测试覆盖 2 单值 + 1 区间，与 `CJavaNamedCondition` direct 输出归一化等价。
+- ST4 踩坑：匿名子模板迭代变量禁用单字母 `i`（`Formal argument i already exists` 致该模板及之后模板整体不加载）。
+
+门禁：`:naca-trans:build` 成功；`finalArchitectureCheck` **401 项/222 失败**（持平）；`:naca-cloud-native:test` 23 项/1 预存失败。
+
+下一切片：structure 变体逐一补模板 + direct parity，并修复 `SetJustifiedRight` 自赋值与 direct generator 修改 semantic tree。
