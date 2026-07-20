@@ -44,7 +44,8 @@ public class CJavaAttribute extends CEntityAttribute
 	 */
 	public CJavaAttribute(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
-		super(l, name, cat, out);
+		super(l, name, cat);
+		setLanguageExporter(out);
 	}
 	
 	protected void DoExport()
@@ -62,7 +63,14 @@ public class CJavaAttribute extends CEntityAttribute
 					format += "9";
 			}
 		}
-		String line = "Var " + FormatIdentifier(GetName()) + " = declare.level(77)" ;
+		String identifier = GetName();
+		boolean isFiller = identifier.equals("");
+		if (isFiller)
+		{
+			identifier = GetDefaultName();
+			SetName(identifier);
+		}
+		String line = "Var " + FormatIdentifier(identifier) + " = declare.level(" + getLevel() + ")" ;
 		line += "." + type + "(" ;
 		if (format.equals(""))
 		{
@@ -142,7 +150,10 @@ public class CJavaAttribute extends CEntityAttribute
 		{
 			WriteWord(".blankWhenZero()");
 		}
-		WriteWord(".var() ;") ;
+		if (isFiller)
+			WriteWord(".filler() ;") ;
+		else
+			WriteWord(".var() ;") ;
 		WriteEOL() ;
 		StartOutputBloc() ;
 		ExportChildren();

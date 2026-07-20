@@ -39,11 +39,10 @@ public abstract class CEntityNamedCondition extends CDataEntity
 	 * @param l
 	 * @param name
 	 * @param cat
-	 * @param out
 	 */
-	public CEntityNamedCondition(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntityNamedCondition(int l, String name, CObjectCatalog cat)
 	{
-		super(l, name, cat, out);
+		super(l, name, cat);
 	}
 
 //	public void SetCondition(CBaseEntityCondition cond)

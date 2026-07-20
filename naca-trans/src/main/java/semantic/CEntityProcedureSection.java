@@ -29,11 +29,10 @@ public abstract class CEntityProcedureSection extends CEntityProcedure
 	/**
 	 * @param name
 	 * @param cat
-	 * @param out
 	 */
-	public CEntityProcedureSection(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntityProcedureSection(int l, String name, CObjectCatalog cat)
 	{
-		super(l, name, cat, out, null);
+		super(l, name, cat, null);
 	}
 
 	protected CEntityBloc sectionBloc =null ;
@@ -91,6 +90,8 @@ public abstract class CEntityProcedureSection extends CEntityProcedure
 		isreducedToProcedure = true ;
 	}	
 	protected boolean isreducedToProcedure = false ;
+	/** Target-neutral semantic flag: optimizer demoted this SECTION to a plain Paragraph. */
+	public boolean isReducedToProcedure() { return isreducedToProcedure; }
 	/**
 	 * @return
 	 */

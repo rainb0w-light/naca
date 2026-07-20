@@ -12,10 +12,14 @@
  */
 package parser;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import parser.Cobol.CCobolElement;
+import parser.expression.CExpression;
 
 import semantic.CDataEntity;
 import semantic.CBaseEntityFactory;
@@ -26,6 +30,7 @@ import utils.Transcoder;
 import lexer.CBaseToken;
 import lexer.CReservedKeyword;
 import lexer.CTokenList;
+import lexer.CTokenType;
 import lexer.Cobol.CCobolKeywordList;
 
 /**
@@ -87,6 +92,51 @@ public class CFunctionIdentifier extends CIdentifier
 				Transcoder.logError(tok.getLine(), "Unexpecting situation");
 			}
 		}
+		else if (tok.GetType() == CTokenType.IDENTIFIER)
+		{
+			intrinsicFunctionName = tok.GetValue().toUpperCase();
+			tok = lstTokens.GetNext();
+			if (tok.GetType() != CTokenType.LEFT_BRACKET)
+			{
+				Transcoder.logError(tok.getLine(), "Expecting '(' after intrinsic function " + intrinsicFunctionName);
+				return;
+			}
+
+			tok = lstTokens.GetNext();
+			if (tok.GetType() == CTokenType.RIGHT_BRACKET)
+			{
+				lstTokens.GetNext();
+				return;
+			}
+
+			boolean done = false;
+			while (!done)
+			{
+				CExpression argument = owner.ReadCalculExpression();
+				if (argument == null)
+				{
+					Transcoder.logError(tok.getLine(), "Cannot read argument of intrinsic function " + intrinsicFunctionName);
+					return;
+				}
+				intrinsicArguments.add(argument);
+
+				tok = lstTokens.GetCurrentToken();
+				if (tok.GetType() == CTokenType.COMMA)
+				{
+					tok = lstTokens.GetNext();
+				}
+				else if (tok.GetType() == CTokenType.RIGHT_BRACKET)
+				{
+					lstTokens.GetNext();
+					done = true;
+				}
+				else
+				{
+					Transcoder.logError(tok.getLine(), "Expecting ',' or ')' in intrinsic function " + intrinsicFunctionName);
+					return;
+				}
+			}
+		}
 		else
 		{
 			Transcoder.logError(tok.getLine(), "Unexpecting token : "+tok.GetValue());
@@ -118,6 +168,21 @@ public class CFunctionIdentifier extends CIdentifier
 				return ref ;
 			}
 		}
+		else if (intrinsicFunctionName != null)
+		{
+			List<CBaseEntityExpression> arguments = new ArrayList<>();
+			for (CExpression argument : intrinsicArguments)
+			{
+				CBaseEntityExpression semanticArgument = argument.AnalyseExpression(fact);
+				if (semanticArgument == null)
+				{
+					Transcoder.logError(nLine, "Missing semantic argument for intrinsic function " + intrinsicFunctionName);
+					return null;
+				}
+				arguments.add(semanticArgument);
+			}
+			f = fact.NewEntityIntrinsicFunction(intrinsicFunctionName, arguments);
+		}
 		else 
 		{
 			Transcoder.logError(nLine, "Missing semantic analysis for FUNCTIONS");
@@ -144,6 +209,16 @@ public class CFunctionIdentifier extends CIdentifier
 		{
 			e.setAttribute("Function", "Current-Date") ;
 		}
+		else if (intrinsicFunctionName != null)
+		{
+			Element intrinsic = root.createElement("IntrinsicFunction");
+			intrinsic.setAttribute("Name", intrinsicFunctionName);
+			e.appendChild(intrinsic);
+			for (CExpression argument : intrinsicArguments)
+			{
+				intrinsic.appendChild(argument.Export(root));
+			}
+		}
 		else 
 		{
 			Element eLen = root.createElement("Undefined");
@@ -153,4 +228,6 @@ public class CFunctionIdentifier extends CIdentifier
 	
 	protected CReservedKeyword function = null ;
 	protected CIdentifier parameter = null ; 
+	private String intrinsicFunctionName = null;
+	private final List<CExpression> intrinsicArguments = new ArrayList<>();
 }

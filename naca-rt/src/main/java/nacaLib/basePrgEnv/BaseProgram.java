@@ -4970,6 +4970,21 @@ public abstract class BaseProgram extends CJMapObject
 			tempCache.resetTempIndex(varSource);
 		return cs;
 	}
+
+	/**
+	 * Extract a substring when the COBOL start is a literal and its length is
+	 * a calculated expression.
+	 */
+	protected String subString(VarAndEdit varSource, int nStart, MathBase nNbChars)
+	{
+		if(IsSTCheck)
+			Log.logFineDebug("subString_V_n_M:" + varSource.getSTCheckValue() + ":" + nStart + ":" + nNbChars.getSTCheckValue());
+
+		String cs = subString(varSource.getString(), nStart, nNbChars.d.intValue());
+		if(isusedTempVarOrCStr)
+			tempCache.resetTempIndex(varSource);
+		return cs;
+	}
 	
 	/**
 	 * @param String csSource: Source string
@@ -5941,5 +5956,4 @@ public abstract class BaseProgram extends CJMapObject
 		varDest.set(baseProgramManager.getEnv().getDisplayValue());
 	}
 }
-
 

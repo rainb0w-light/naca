@@ -37,11 +37,10 @@ public abstract class CEntityInline extends CBaseActionEntity
 	/**
 	 * @param name
 	 * @param cat
-	 * @param out
 	 */
-	public CEntityInline(int l, CObjectCatalog cat, CBaseLanguageExporter out, CBaseExternalEntity e)
+	public CEntityInline(int l, CObjectCatalog cat, CBaseExternalEntity e)
 	{
-		super(l, cat, out);
+		super(l, cat);
 		externalData = e ;
 		externalData.RegisterInlineAction(this) ;
 		e.SetParent(this);
@@ -99,6 +98,10 @@ public abstract class CEntityInline extends CBaseActionEntity
 		}
 		ReplaceParentForChild(e, externalData) ;  // child of INLINE entity must have the external data as parent for name
 													// confict resolution, but must be child of INLINE to be exported
+		if (!externalData.GetListOfChildren().contains(e))
+		{
+			externalData.AddChildSpecial(e);
+		}
 	}
 	public CBaseLanguageEntity FindLastEntityAvailableForLevel(int level)
 	{

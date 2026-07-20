@@ -37,7 +37,8 @@ public class CJavaField extends CEntityResourceField
 	 */
 	public CJavaField(int l, String name, CObjectCatalog cat, CBaseLanguageExporter lexp)
 	{
-		super(l, name, cat, lexp);
+		super(l, name, cat);
+		setLanguageExporter(lexp);
 	}
 	public String ExportReference(int nLine)
 	{

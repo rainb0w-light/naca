@@ -32,7 +32,8 @@ public class CJavaInternalBool extends CEntityInternalBool
 	 */
 	public CJavaInternalBool(String name, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
-		super(name, cat, out);
+		super(name, cat);
+		setLanguageExporter(out);
 	}
 
 	/* (non-Javadoc)

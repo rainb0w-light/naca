@@ -12,41 +12,60 @@ condition(entity) ::= <<
 <endif><else>
 if (<entity.condition.codeString>)
 {
-<entity.thenBloc.childrenCode>
-}<if(entity.elseBloc)>
+<entity.thenBloc.childrenCode>}<if(entity.elseBloc)>
 else
 {
-<entity.elseBloc.childrenCode>
-}<endif><endif>
+<entity.elseBloc.childrenCode>}<endif><endif>
 >>
 
 loop(entity) ::= <<
 <if(entity.doBefore)>do
 {
-<entity.childrenCode>
-} while (<entity.whileCondition.codeString>);<else>
+<entity.childrenCode>} while (<entity.whileCondition.codeString>);<else>
 while (<entity.whileCondition.codeString>)
 {
-<entity.childrenCode>
-}<endif>
+<entity.childrenCode>}<endif>
 >>
 
 loopIter(entity) ::= <<
-for (<entity.loopVariable.codeString> = <entity.fromValue.codeString>; <entity.loopVariable.codeString> \<= <entity.toValue.codeString>; <entity.loopVariable.codeString> += <entity.stepValue.codeString>)
+<if(entity.testBefore)><entity.iterations:{iteration | <iterationOpen(iteration)>}; separator="\n"><entity.childrenCode><entity.closingIterations:{iteration | <iterationClose(iteration)>}; separator="\n"><else><iterationInitialize(entity.iterations.first)>
+while (true)
 {
-<entity.childrenCode>
+<entity.childrenCode>if (<entity.iterations.first.condition.codeString>)
+{
+<iterationUpdate(entity.iterations.first)>}
+else
+{
+break;
 }
+}<endif>
+>>
+
+iterationInitialize(iteration) ::= <<
+move(<iteration.initialValue.referenceString>, <iteration.variable.referenceString>);
+>>
+
+iterationOpen(iteration) ::= <<
+<iterationInitialize(iteration)>
+while (<iteration.condition.codeString>)
+{
+>>
+
+iterationUpdate(iteration) ::= <<
+<if(iteration.incrementByOne)>inc(<iteration.variable.referenceString>);
+<else><if(iteration.decrementByOne)>dec(<iteration.variable.referenceString>);
+<else><if(iteration.step)>inc(<iteration.step.referenceString>, <iteration.variable.referenceString>);
+<endif><endif><endif>
+>>
+
+iterationClose(iteration) ::= <<
+<iterationUpdate(iteration)>}
 >>
 
 case(entity) ::= <<
-switch (<entity.caseValue.codeString>)
+<if(entity.otherwise)><else>if (<entity.condition.codeString>)<endif>
 {
-<entity.caseWhens:caseWhen()>
-<if(entity.caseOtherwise)>default:
-{
-<entity.caseOtherwise.childrenCode>
-}<endif>
-}
+<entity.childrenCode>}
 >>
 
 caseWhen(whenEntity) ::= <<
@@ -62,11 +81,11 @@ break;
 // ============================================================================
 
 assign(entity) ::= <<
-<if(entity.moveCorresponding)>moveCorresponding(<else><if(entity.fillAll)>moveAll(<else>move(<endif><endif><entity.value.codeString>, <entity.destinations:{d | <d.codeString>}; separator=", ">);
+<if(entity.moveCorresponding)>moveCorresponding(<else><if(entity.fillAll)>moveAll(<else>move(<endif><endif><entity.value.referenceString>, <entity.destinations:{d | <d.referenceString>}; separator=", ">);
 >>
 
 addTo(entity) ::= <<
-<if(entity.singleValue)><if(entity.isIncrement)>inc(<entity.singleDestination.codeString>);<else><if(entity.isDecrement)>dec(<entity.singleDestination.codeString>);<else>inc(<entity.singleValue.codeString>, <entity.singleDestination.codeString>);<endif><endif><else>add(<entity.values:{v | <v.codeString>}; separator=", ">).<if(entity.rounded)>toRounded<else>to<endif>(<entity.destinations:{d | <d.codeString>}; separator=", ">);<endif>
+<if(entity.singleValue)><if(entity.increment)>inc(<entity.singleDestination.referenceString>);<else><if(entity.decrement)>dec(<entity.singleDestination.referenceString>);<else>inc(<entity.singleValue.referenceString>, <entity.singleDestination.referenceString>);<endif><endif><else>add(<entity.values:{v | <v.referenceString>}; separator=", ">).<if(entity.rounded)>toRounded<else>to<endif>(<entity.destinations:{d | <d.referenceString>}; separator=", ">);<endif>
 >>
 
 subtractTo(entity) ::= <<
@@ -78,11 +97,21 @@ multiply(<entity.value.codeString>, <entity.destination.codeString>).<if(entity.
 >>
 
 divide(entity) ::= <<
-divide(<entity.value.codeString>, <entity.divisor.codeString>).<if(entity.rounded)>toRounded<else>to<endif>(<entity.result.codeString>);
+divide(<entity.dividend.referenceString>, <entity.divisor.referenceString>).<if(entity.rounded)>toRounded<else>to<endif>(<entity.result.referenceString><if(entity.remainder)>, <entity.remainder.referenceString><endif>);
 >>
 
 compute(entity) ::= <<
-<entity.result.codeString> = <entity.expression.codeString>;
+<if(entity.onErrorBloc)>if (<entity.calculationDestinations:{d | <computeCheck(entity.expression, d)>}; separator=" || ">)
+{
+<entity.onErrorBloc.childrenCode>}<else><entity.calculationDestinations:{d | <computeStatement(entity.expression, d)>}; separator="\n"><endif>
+>>
+
+computeStatement(expression, destination) ::= <<
+compute<if(destination.rounded)>Rounded<endif>(<expression.codeString>, <destination.destination.referenceString>);
+>>
+
+computeCheck(expression, destination) ::= <<
+compute<if(destination.rounded)>Rounded<endif>(<expression.codeString>, <destination.destination.referenceString>).isError()
 >>
 
 assignWithAccessor(entity) ::= <<
@@ -94,23 +123,26 @@ assignWithAccessor(entity) ::= <<
 // ============================================================================
 
 readFile(entity) ::= <<
-read(<entity.fileDescriptor.codeString>, <entity.dataInto.codeString>)<if(entity.atEndBloc)>.atEnd(() -\> {
-<entity.atEndBloc.childrenCode>
-})<endif><if(entity.notAtEndBloc)>.notAtEnd(() -\> {
-<entity.notAtEndBloc.childrenCode>
-})<endif>;
+<if(entity.atEndBloc)>if (<readInvocation(entity)>.atEnd()) {
+<entity.atEndBloc.childrenCode>}<if(entity.notAtEndBloc)> else {
+<entity.notAtEndBloc.childrenCode>}<endif><else><if(entity.notAtEndBloc)>if (!<readInvocation(entity)>.atEnd()) {
+<entity.notAtEndBloc.childrenCode>}<else><readInvocation(entity)> ;<endif><endif>
+>>
+
+readInvocation(entity) ::= <<
+<if(entity.dataInto)>readInto(<entity.fileDescriptor.referenceString>, <entity.dataInto.referenceString>)<else>read(<entity.fileDescriptor.referenceString>)<endif>
 >>
 
 writeFile(entity) ::= <<
-write(<entity.fileDescriptor.codeString>, <entity.dataFrom.codeString>);
+<if(entity.dataFrom)>writeFrom(<entity.fileDescriptor.referenceString>, <entity.dataFrom.referenceString>)<else><if(entity.after)>writeAfter(<entity.fileDescriptor.referenceString>, <entity.after.referenceString>)<else>write(<entity.fileDescriptor.referenceString>)<endif><endif>;
 >>
 
 openFile(entity) ::= <<
-open(<entity.fileDescriptor.codeString>, "<entity.openMode>");
+<entity.fileDescriptor.referenceString>.<if(entity.inputMode)>openInput<else><if(entity.outputMode)>openOutput<else><if(entity.inputOutputMode)>openInputOutput<else><if(entity.appendMode)>openExtend<else>open<endif><endif><endif><endif>();
 >>
 
 closeFile(entity) ::= <<
-close(<entity.fileDescriptor.codeString>);
+<entity.fileDescriptor.referenceString>.close();
 >>
 
 // ============================================================================
@@ -126,11 +158,12 @@ callFunction(entity) ::= <<
 >>
 
 callProgram(entity) ::= <<
-call("<entity.reference.codeString>");
+<if(entity.hasOnErrorBloc)>if (<endif>call(<entity.callableReference>)<entity.callParameters:{p | .<p.method>(<p.reference.referenceString>)}>.<if(entity.hasOnErrorBloc)>executeCallSafe()) {
+<entity.onErrorBloc.childrenCode>}<else>executeCall();<endif>
 >>
 
 display(entity) ::= <<
-display(<entity.values:{v | <v.codeString>}; separator=", ">);
+<entity.displayFunction>(<entity.displayItems:{v | <v.expression>}; separator=" + ">);
 >>
 
 initialize(entity) ::= <<
@@ -141,12 +174,101 @@ returnStatement(entity) ::= <<
 return;
 >>
 
+stopRun(entity) ::= <<
+stopRun(<entity.stopAllStackCalls>);
+>>
+
+exitProgram(entity) ::= <<
+exitProgram();
+>>
+
+// ============================================================================
+//                           ADDITIONAL VERB TEMPLATES
+// ============================================================================
+
+accept(entity) ::= <<
+<if(entity.fromEnvironmentValue)>acceptEnv(<entity.variable.referenceString>);<else>move(<if(entity.fromDate)>getDateBatch()<else><if(entity.fromDay)>getDayBatch()<else><if(entity.fromDayOfWeek)>getDayOfWeekBatch()<else><if(entity.fromInput)>getInputBatch()<else><if(entity.fromTime)>getTimeBatch()<else><entity.source.referenceString><endif><endif><endif><endif><endif>, <entity.variable.referenceString>);<endif>
+>>
+
+count(entity) ::= <<
+count(<entity.values:{v | <v.codeString>}; separator=", ">);
+>>
+
+exec(entity) ::= <<
+<entity.code>;
+>>
+
+inspectConverting(entity) ::= <<
+inspect(<entity.variable.codeString>).converting(<entity.converting.codeString>);
+>>
+
+nextSentence(entity) ::= <<
+nextSentence();
+>>
+
+parseString(entity) ::= <<
+parse(<entity.source.codeString>, <entity.delimiter.codeString>);
+>>
+
+replace(entity) ::= <<
+replace(<entity.values:{v | <v.codeString>}; separator=", ">);
+>>
+
+rewriteFile(entity) ::= <<
+rewrite(<entity.file.codeString>);
+>>
+
+routineEmulationCall(entity) ::= <<
+routineEmulation("<entity.name>");
+>>
+
+search(entity) ::= <<
+search(<entity.table.codeString>, <entity.condition.codeString>);
+>>
+
+setConstant(entity) ::= <<
+setConstant(<entity.value.codeString>, <entity.target.codeString>);
+>>
+
+sort(entity) ::= <<
+sort(<entity.file.codeString>);
+>>
+
+sortRelease(entity) ::= <<
+sortRelease(<entity.file.codeString>);
+>>
+
+sortReturn(entity) ::= <<
+sortReturn();
+>>
+
+stringConcat(entity) ::= <<
+<if(entity.hasOverflowHandler)>if (<endif><entity.concatItems:{item | <stringConcatItem(item)>}; separator=""><if(entity.startIndex)>withPointer(<entity.startIndex.referenceString>).<endif>into(<entity.destination.referenceString>)<if(entity.hasOverflowHandler)>.failed())
+{
+<entity.childrenCode>}<else>;<endif>
+>>
+
+stringConcatItem(item) ::= <<
+<if(item.delimiter)>concatDelimitedBy(<item.value.referenceString>, <item.delimiter.referenceString>).<else>concat(<item.value.referenceString>).<endif>
+>>
+
+switchCase(entity) ::= <<
+<entity.branches:{branch | <switchBranch(branch)>}; separator="\n">
+>>
+
+switchBranch(branch) ::= <<
+<if(branch.otherwise)><if(branch.continuation)>else
+<endif><else><if(branch.continuation)>else <endif>if (<branch.condition.codeString>)
+<endif>{
+<branch.bodyCode>}
+>>
+
 // ============================================================================
 //                           DATA STRUCTURE TEMPLATES
 // ============================================================================
 
 structure(entity) ::= <<
-Var <entity.formattedName> = declare.level(<entity.level>)<if(entity.redefines)>.redefines(<entity.redefines.codeString>)<endif><if(entity.occurs)>.occurs(<entity.occurs.codeString>)<endif>.<entity.type>(<entity.length><if(entity.decimals)>, <entity.decimals><endif>)<if(entity.comp3)>.comp3()<endif><if(entity.comp)>.comp()<endif><if(entity.value)>.value(<entity.value.codeString>)<endif><if(entity.filler)>.filler()<else>.var()<endif>;
+Var <entity.formattedName> = declare.level(<entity.level>)<if(entity.redefines)>.redefines(<entity.redefines.codeString>)<endif><if(entity.occurs)>.occurs(<entity.occurs.codeString>)<endif><if(entity.type)>.<entity.type>(<entity.length><if(entity.decimals)>, <entity.decimals><endif>)<endif><if(entity.comp3)>.comp3()<endif><if(entity.comp)>.comp()<endif><if(entity.value)>.value(<entity.value.codeString>)<endif><if(entity.filler)>.filler()<else>.var()<endif>;
 >>
 
 dataSection(entity) ::= <<
@@ -165,6 +287,10 @@ exprSum(entity) ::= <<
 
 exprProd(entity) ::= <<
 <if(entity.isMultiply)>multiply(<entity.left.codeString>, <entity.right.codeString>)<else>divide(<entity.left.codeString>, <entity.right.codeString>)<endif>
+>>
+
+intrinsicFunction(entity) ::= <<
+CobolIntrinsicFunctions.<entity.runtimeName>(<entity.arguments:{argument | <argument.codeString>}; separator=", ">)
 >>
 
 condOr(entity) ::= <<
@@ -203,3 +329,585 @@ dataRef(entity) ::= <<
 
 continueStatement(entity) ::= "continue;"
 breakStatement(entity) ::= "break;"
+
+// ============================================================================
+//                     RECURSIVE ST MIGRATION TEMPLATES
+// ============================================================================
+
+numberLiteral(value, decimalLiteral, longLiteral) ::= <<
+<if(decimalLiteral)>"<value>"<else><value><if(longLiteral)>L<endif><endif>
+>>
+
+numberLiteralEntity(entity) ::= <<
+<if(entity.decimalLiteral)><entity.literalValue; format="javaNumber"><else><entity.normalizedLiteralValue><if(entity.longLiteral)>L<endif><endif>
+>>
+
+stringLiteral(value) ::= "\"<value>\""
+
+stringLiteralEntity(entity) ::= "<entity.literalValue; format=\"javaString\">"
+
+
+cobolConstant(highValue, spaces) ::= <<
+<if(highValue)>CobolConstant.HighValue<elseif(spaces)>CobolConstant.Spaces<else>[Undefined]<endif>
+>>
+
+cobolConstantEntity(entity) ::= <<
+<if(entity.highValue)>CobolConstant.HighValue<elseif(entity.spaces)>CobolConstant.Spaces<else>[Undefined]<endif>
+>>
+
+dataReference(identifier, qualifier) ::= <<
+<if(qualifier)><qualifier>.<endif><identifier>
+>>
+
+dataReferenceEntity(entity) ::= <<
+<if(entity.qualifierFormattedName)><entity.qualifierFormattedName>.<endif><entity.formattedName>
+>>
+
+environmentVariableReference(readAccessor) ::= "<readAccessor>"
+
+environmentVariableEntity(entity) ::= "<entity.readAccessor>"
+
+addressReference(reference) ::= <<
+addressOf(<if(reference)><reference><else>[UNDEFINED]<endif>)
+>>
+
+addressReferenceEntity(entity) ::= "addressOf(<if(entity.reference)><entity.reference><else>[UNDEFINED]<endif>)"
+
+internalBooleanReference(identifier) ::= "<identifier>"
+
+lengthOfReference(reference) ::= "lengthOf(<reference>)"
+
+lengthOfEntity(entity) ::= "lengthOf(<entity.reference>)"
+
+currentDateReference() ::= "currentDate()"
+
+currentDateEntity(entity) ::= "currentDate()"
+
+addressOfExpression(reference) ::= "addressOf(<reference>)"
+
+addressOfExpressionEntity(entity) ::= "addressOf(<entity.reference>)"
+
+digitsExpression(reference) ::= "digits(<reference>)"
+
+digitsExpressionEntity(entity) ::= "digits(<entity.reference>)"
+
+concatExpression(left, right) ::= "concat(<left>, <right>)"
+
+concatExpressionEntity(entity) ::= "concat(<entity.reference>, <entity.secondReference>)"
+
+listExpression(empty, stringElements, fieldElements, numberElements, elements) ::= <<
+<if(empty)>null<else>new <if(stringElements)>String<elseif(fieldElements)>Edit<elseif(numberElements)>int<else>Var<endif>[] {<elements; separator=", ">}<endif>
+>>
+
+listExpressionEntity(entity) ::= <<
+<if(entity.empty)>null<else>new <if(entity.stringElements)>String<elseif(entity.fieldElements)>Edit<elseif(entity.numberElements)>int<else>Var<endif>[] {<entity.data; separator=", ">}<endif>
+>>
+
+recursiveIntrinsicFunction(functionName, arguments) ::= <<
+CobolIntrinsicFunctions.<functionName>(<arguments; separator=", ">)
+>>
+
+recursiveIntrinsicFunctionEntity(entity) ::= <<
+CobolIntrinsicFunctions.<entity.normalizedFunctionName>(<entity.arguments; separator=", ">)
+>>
+
+arrayReference(reference, indexes) ::= <<
+<reference>.getAt(<indexes; separator=", ">)
+>>
+
+arrayReferenceEntity(entity) ::= <<
+<entity.reference>.getAt(<entity.indexes; separator=", ">)
+>>
+
+subStringReference(reference, start, length) ::= <<
+subString(<reference>, <start><if(length)>, <length><endif>)
+>>
+
+subStringReferenceEntity(entity) ::= <<
+subString(<entity.reference>, <entity.start><if(entity.length)>, <entity.length><endif>)
+>>
+
+valueReferenceEntity(entity) ::= "<entity.semanticReferenceName; format=\"raw\">"
+
+fileBufferEntity(entity) ::= "<entity.fileDescriptor>"
+
+emptyEntity(entity) ::= ""
+
+expressionTerminal(value) ::= "<value>"
+
+expressionTerminalEntity(entity) ::= "<entity.term>"
+
+recursiveExprOpposite(operand) ::= "opposite(<operand>)"
+
+recursiveExprOppositeEntity(entity) ::= "opposite(<entity.operand>)"
+
+recursiveExprSum(add, left, right) ::= <<
+<if(add)>add<else>subtract<endif>(<left>,<space()>
+<right>)
+>>
+
+recursiveExprSumEntity(entity) ::= <<
+<if(entity.add)>add<else>subtract<endif>(<entity.left>,<space()>
+<entity.right>)
+>>
+
+recursiveExprProduct(multiply, divide, left, right) ::= <<
+<if(multiply)>multiply<elseif(divide)>divide<else>pow<endif>(<left>,<space()>
+<right>)
+>>
+
+recursiveExprProductEntity(entity) ::= <<
+<if(entity.multiply)>multiply<elseif(entity.divide)>divide<else>pow<endif>(<entity.left>,<space()>
+<entity.right>)
+>>
+
+recursiveConditionChild(condition, parentheses) ::= <<
+<if(parentheses)>(<condition>)<else><condition><endif>
+>>
+
+recursiveCondAnd(left, right) ::= <<
+<left><space()>
+&& <right>
+>>
+
+recursiveCondOr(left, right) ::= <<
+<left><space()>
+|| <right>
+>>
+
+recursiveCondAndEntity(entity) ::= <<
+<recursiveConditionChild(entity.effectiveLeft, entity.leftGrouped)><space()>
+&& <recursiveConditionChild(entity.effectiveRight, entity.rightGrouped)>
+>>
+
+recursiveCondOrEntity(entity) ::= <<
+<recursiveConditionChild(entity.effectiveLeft, entity.leftGrouped)><space()>
+|| <recursiveConditionChild(entity.effectiveRight, entity.rightGrouped)>
+>>
+
+recursiveCondNot(operand) ::= "!<operand>"
+
+recursiveCondNotEntity(entity) ::= "!(<entity.operand>)"
+
+recursiveCondCompare(greater, orEqual, left, right) ::= <<
+<if(greater)>isGreater<if(orEqual)>OrEqual<endif><else>isLess<if(orEqual)>OrEqual<endif><endif>(<if(left)><left><else>[MissingExpr1]<endif>, <if(right)><right><else>[MissingExpr2]<endif>)
+>>
+
+recursiveCondCompareEntity(entity) ::= <<
+<if(entity.greater)>isGreater<if(entity.orEqual)>OrEqual<endif><else>isLess<if(entity.orEqual)>OrEqual<endif><endif>(<if(entity.left)><entity.left><else>[MissingExpr1]<endif>, <if(entity.right)><entity.right><else>[MissingExpr2]<endif>)
+>>
+
+recursiveCondEquals(different, left, right) ::= <<
+<if(different)>isDifferent<else>isEqual<endif>(<left>, <if(right)><right><else>[UNDEFINED]<endif>)
+>>
+
+recursiveCondEqualsEntity(entity) ::= <<
+<if(entity.different)>isDifferent<else>isEqual<endif>(<entity.left>, <if(entity.right)><entity.right><else>[UNDEFINED]<endif>)
+>>
+
+recursiveNamedCondition(opposite, reference) ::= <<
+<if(opposite)>isNot<else>is<endif>(<reference>)
+>>
+
+recursiveNamedConditionEntity(entity) ::= <<
+<if(entity.opposite)>isNot<else>is<endif>(<entity.conditionReference>)
+>>
+
+recursiveCondIsConstant(opposite, zero, space, lowValue, highValue, reference) ::= <<
+is<if(opposite)>Not<endif><if(zero)>Zero<elseif(space)>Space<elseif(lowValue)>LowValue<elseif(highValue)>HighValue<endif>(<reference>)
+>>
+
+recursiveCondIsConstantEntity(entity) ::= <<
+is<if(entity.opposite)>Not<endif><if(entity.zero)>Zero<elseif(entity.space)>Space<elseif(entity.lowValue)>LowValue<elseif(entity.highValue)>HighValue<endif>(<entity.conditionReference>)
+>>
+
+recursiveCondIsBoolean(trueValue, reference) ::= <<
+<if(trueValue)><reference><else>!<reference><endif>
+>>
+
+recursiveCondIsBooleanEntity(entity) ::= <<
+<if(entity.trueValue)><entity.conditionReference><else>!<entity.conditionReference><endif>
+>>
+
+recursiveContinue(entity) ::= "// CONTINUE "
+
+recursiveBreak(entity) ::= "break;"
+
+recursiveBlock(statements) ::= <<
+<statements; separator="\n">
+>>
+
+recursiveBlockEntity(entity) ::= <<
+<entity.activeActions; separator="\n">
+>>
+
+recursiveIf(conditionMissing, conditionIgnored, renderElseOnly, condition, thenBlock, elseBlock) ::= <<
+<if(conditionMissing)><else><if(conditionIgnored)><if(renderElseOnly)>{
+<elseBlock>
+}<endif><else>if (<condition>) {
+<thenBlock>
+}<if(elseBlock)>
+else {
+<elseBlock>
+}<endif><endif><endif>
+>>
+
+recursiveIfEntity(entity) ::= <<
+<if(entity.conditionMissing)><else><if(entity.conditionIgnored)><if(entity.elseOnly)>{
+<entity.elseBloc>
+}<endif><else>if (<entity.condition>) {
+<entity.thenBloc>
+}<if(entity.elseBloc)>
+else {
+<entity.elseBloc>
+}<endif><endif><endif>
+>>
+
+recursiveLoopWhile(doBefore, condition, body) ::= <<
+<if(doBefore)>do {
+<body; separator="\n">
+}
+while (<condition>) ;<else>while (<condition>) {
+<body; separator="\n">
+}<endif>
+>>
+
+recursiveLoopWhileEntity(entity) ::= <<
+<if(entity.doBefore)>do {
+<entity.activeChildren; separator="\n">
+}
+while (<entity.whileCondition>) ;<else>while (<entity.whileCondition>) {
+<entity.activeChildren; separator="\n">
+}<endif>
+>>
+
+recursiveIterationOpen(initialValue, variable, condition, step, incrementByOne) ::= <<
+for (move(<initialValue>, <variable>); <condition>; <if(step)>inc(<step>, <variable>)<elseif(incrementByOne)>inc(<variable>)<else>dec(<variable>)<endif>) {
+>>
+
+recursiveIterationClose() ::= "}"
+
+recursiveIterationAfterUpdate(variable, step, incrementByOne, decrementByOne) ::= <<
+<if(step)>add(<step>).to(<variable>) ;<elseif(incrementByOne)>inc(<variable>) ;<elseif(decrementByOne)>dec(<variable>) ;<else><variable>) ;<endif>
+>>
+
+recursiveLoopIterBefore(openings, body, closings) ::= <<
+<openings; separator="\n">
+<body; separator="\n">
+<closings; separator="\n">
+>>
+
+recursiveLoopIterAfter(initialValue, variable, condition, body, update) ::= <<
+move(<initialValue>, <variable>);
+while (true) {
+<body; separator="\n">
+if (<condition>) {
+<update>
+}
+else {
+break ;
+}
+}
+>>
+
+recursiveIterationModelOpen(iteration) ::= <<
+for (move(<iteration.initialValue>, <iteration.variable>); <iteration.condition>; <if(iteration.step)>inc(<iteration.step>, <iteration.variable>)<elseif(iteration.incrementByOne)>inc(<iteration.variable>)<else>dec(<iteration.variable>)<endif>) {
+>>
+
+recursiveIterationModelAfterUpdate(iteration) ::= <<
+<if(iteration.step)>add(<iteration.step>).to(<iteration.variable>) ;<elseif(iteration.incrementByOne)>inc(<iteration.variable>) ;<elseif(iteration.decrementByOne)>dec(<iteration.variable>) ;<else><iteration.variable>) ;<endif>
+>>
+
+recursiveLoopIterationAfter(iteration, body) ::= <<
+move(<iteration.initialValue>, <iteration.variable>);
+while (true) {
+<body; separator="\n">
+if (<iteration.condition>) {
+<recursiveIterationModelAfterUpdate(iteration)>
+}
+else {
+break ;
+}
+}
+>>
+
+recursiveLoopIteration(entity) ::= <<
+<if(entity.testBefore)><entity.iterations:{iteration | <recursiveIterationModelOpen(iteration)>}; separator="\n">
+<entity.activeChildren; separator="\n">
+<entity.iterations:{iteration | <recursiveIterationClose()>}; separator="\n"><else><recursiveLoopIterationAfter(entity.iterations.first, entity.activeChildren)><endif>
+>>
+
+recursiveSwitchBranch(continuation, otherwise, condition, body) ::= <<
+<if(otherwise)><if(continuation)>else<space()>
+<endif><else><if(continuation)>else <endif>if (<condition>)
+<endif>{
+<body; separator="\n">
+}
+>>
+
+recursiveSwitchCase(branches) ::= <<
+<branches; separator="\n">
+>>
+
+recursiveSwitchBranchEntity(branch) ::= <<
+<if(branch.otherwise)><if(branch.continuation)>else<space()>
+<endif><else><if(branch.continuation)>else <endif>if (<branch.condition>)
+<endif>{
+<branch.body; separator="\n">
+}
+>>
+
+recursiveSwitchCaseEntity(entity) ::= <<
+<entity.branches:{branch | <recursiveSwitchBranchEntity(branch)>}; separator="\n">
+>>
+
+recursiveCaseEntity(entity) ::= <<
+<if(entity.otherwise)><else>if (<entity.condition>)<endif>
+{
+<entity.activeChildren; separator="\n">
+}
+>>
+
+recursiveMoveStatement(fillAll, corresponding, value, destination) ::= <<
+<if(fillAll)>moveAll<elseif(corresponding)>moveCorresponding<else>move<endif>(<if(value)><value><else>[UNDEFINED]<endif>, <destination>);
+>>
+
+recursiveMove(statements) ::= <<
+<statements; separator="\n">
+>>
+
+recursiveMoveEntity(entity) ::= <<
+<entity.destinations:{destination | <recursiveMoveStatementEntity(entity, destination)>}; separator="\n">
+>>
+
+recursiveMoveStatementEntity(entity, destination) ::= <<
+<if(entity.fillAll)>moveAll<elseif(entity.moveCorresponding)>moveCorresponding<else>move<endif>(<if(entity.value)><entity.value><else>[UNDEFINED]<endif>, <destination>);
+>>
+
+recursiveUndefinedValue() ::= "[Undefined]"
+
+recursiveBinaryAdd(left, right) ::= "add(<left>, <right>)"
+
+recursiveAddSingle(increment, decrement, value, destination) ::= <<
+<if(increment)>inc(<destination>) ;<elseif(decrement)>dec(<destination>) ;<else>inc(<value>, <destination>) ;<endif>
+>>
+
+recursiveAddToDestination(value, rounded, destination) ::= <<
+<value>.<if(rounded)>toRounded<else>to<endif>(<destination>) ;
+>>
+
+recursiveSetSubstring(reference, start, length, value) ::= <<
+setSubString(<reference>, <start><if(length)>, <length><endif>, <value>) ;
+>>
+
+recursiveEnvironmentWrite(writeAccessor, value) ::= "<writeAccessor><value>);"
+
+recursiveAdd(statements) ::= <<
+<statements; separator="\n">
+>>
+
+recursiveAddEntity(entity) ::= <<
+<if(entity.noValues)><else><if(entity.singleValue)><if(entity.singleDestinationHasAccessors)><recursiveAddAccessorEntity(entity)><else><entity.destinations:{destination | <recursiveAddSingleEntity(entity, destination)>}; separator="\n"><endif><else><entity.destinations:{destination | <recursiveAddMultiEntity(entity, destination)>}; separator="\n"><endif><endif>
+>>
+
+recursiveIncEntity(entity) ::= "<entity.addDest> += <entity.addValue> ;"
+
+recursiveAddSingleEntity(entity, destination) ::= <<
+<if(entity.increment)>inc(<destination>) ;<elseif(entity.decrement)>dec(<destination>) ;<else>inc(<entity.singleValue>, <destination>) ;<endif>
+>>
+
+recursiveAddMultiEntity(entity, destination) ::= <<
+<entity.combinedValueTree>.<if(entity.rounded)>toRounded<else>to<endif>(<destination>) ;
+>>
+
+recursiveAddValueTreeEntity(entity) ::= "add(<entity.left>, <entity.right>)"
+
+recursiveAddAccessorEntity(entity) ::= <<
+<if(entity.singleDestinationSubstring)>setSubString(<entity.singleDestinationReference>, <entity.singleDestinationStart><if(entity.singleDestinationLength)>, <entity.singleDestinationLength><endif>, <recursiveBinaryAdd(entity.singleDestination, entity.singleValue)>) ;<elseif(entity.singleDestinationEnvironmentVariable)><entity.singleDestinationWriteAccessor><recursiveBinaryAdd(entity.singleDestination, entity.singleValue)>);<else><recursiveBinaryAdd(entity.singleDestination, entity.singleValue)><endif>
+>>
+
+space() ::= " "
+
+recursiveProcedureDivisionEntity(entity) ::= <<
+<if(entity.callParameters)>ParamDeclaration callParameters = declare<entity.callParameters:{p | .using(<p>)}>;<endif>
+<if(entity.procedureBloc)>public void procedureDivision() {
+<entity.procedureBloc>
+}<endif>
+>>
+
+recursiveProcedureSectionEntity(entity) ::= <<
+<if(entity.reducedToProcedure)><if(entity.sectionBloc)>Paragraph <entity.formattedName> = new Paragraph(this);
+public void <entity.formattedName>() {
+<entity.sectionBloc>
+}<endif><else><if(entity.sectionBloc)>Section <entity.formattedName> = new Section(this);
+public void <entity.formattedName>() {
+<entity.sectionBloc>
+}<else>Section <entity.formattedName> = new Section(this, false);
+<endif><endif>
+<entity.activeChildren; separator="\n">
+>>
+
+recursiveProcedureEntity(entity) ::= <<
+Paragraph <entity.formattedName> = new Paragraph(this);
+public void <entity.formattedName>() {
+<entity.activeChildren; separator="\n">
+}
+>>
+
+recursiveReturnEntity(entity) ::= <<
+<if(entity.stopProgram)>stopRun(<entity.stopAllStackCalls>);<elseif(entity.bonlyLeaveParagraph)>return;<else>exitProgram();<endif>
+>>
+
+recursiveCallFunctionEntity(entity) ::= <<
+<if(entity.repetitions)>for (int <entity.repetitionIndex>=0; isLess(<entity.repetitionIndex>, <entity.repetitions>); <entity.repetitionIndex>++) {
+<endif><if(entity.performThrough)>performThrough(<entity.performedProcedureName>, <entity.performedThroughName>) ;<elseif(entity.performedProcedureName)>perform(<entity.performedProcedureName>) ;<else><entity.activeChildren; separator="\n"><endif>
+<if(entity.repetitions)>}<endif>
+>>
+
+recursiveSetConstantEntity(entity) ::= <<
+<if(entity.valueAssigned)>moveAll(<entity.valueAssigned>, <entity.variable>) ;<else>move<if(entity.subString)>SubString<endif><if(entity.setToLowValue)>LowValue<elseif(entity.setToHighValue)>HighValue<elseif(entity.setToSpace)>Space<elseif(entity.setToZero)>Zero<endif>(<entity.variable>) ;<endif>
+>>
+
+recursiveComputeEntity(entity) ::= <<
+<if(entity.onErrorBloc)>if (<entity.calculationDestinations:{d | <recursiveComputeCheck(entity.expression, d)>}; separator=" || ">)
+{
+<entity.onErrorBloc>}<else><entity.calculationDestinations:{d | <recursiveComputeStatement(entity.expression, d)>}; separator="\n"><endif>
+>>
+
+recursiveComputeStatement(expression, destination) ::= "compute<if(destination.rounded)>Rounded<endif>(<expression>, <destination.destination>) ;"
+
+recursiveComputeCheck(expression, destination) ::= "compute<if(destination.rounded)>Rounded<endif>(<expression>, <destination.destination>).isError()"
+
+recursiveDivideEntity(entity) ::= <<
+divide(<entity.dividend>, <entity.divisor>).<if(entity.rounded)>toRounded<else>to<endif>(<entity.result><if(entity.remainder)>, <entity.remainder><endif>) ;
+>>
+
+recursiveMultiplyEntity(entity) ::= <<
+multiply(<entity.value>, <entity.by>)<if(entity.to)>.<if(entity.rounded)>toRounded<else>to<endif>(<entity.to>)<endif> ;
+>>
+
+recursiveSubtractToEntity(entity) ::= <<
+<if(entity.onErrorBloc)>if (<endif><if(entity.destinations)>subtract(<entity.variable><entity.values:{v | , <v>}>)<entity.destinations:{d | .to(<d>)}><elseif(entity.decrementByOne)>dec(<entity.variable>)<elseif(entity.incrementByOne)>inc(<entity.variable>)<else>dec(<entity.values; separator=", ">, <entity.variable>)<endif><if(entity.onErrorBloc)>.isError())
+{
+<entity.onErrorBloc>}<else> ;<endif>
+>>
+
+recursiveFileDescriptorEntity(entity) ::= "<entity.formattedName>"
+
+recursiveOpenFileEntity(entity) ::= <<
+<entity.fileDescriptor>.<if(entity.inputMode)>openInput<else><if(entity.outputMode)>openOutput<else><if(entity.inputOutputMode)>openInputOutput<else><if(entity.appendMode)>openExtend<else>open<endif><endif><endif><endif>();
+>>
+
+recursiveCloseFileEntity(entity) ::= "<entity.fileDescriptor>.close();"
+
+recursiveWriteFileEntity(entity) ::= <<
+<if(entity.dataFrom)>writeFrom(<entity.fileDescriptor>, <entity.dataFrom>)<else><if(entity.after)>writeAfter(<entity.fileDescriptor>, <entity.after>)<else>write(<entity.fileDescriptor>)<endif><endif>;
+>>
+
+recursiveReadFileEntity(entity) ::= <<
+<if(entity.atEndBloc)>if (<recursiveReadInvocation(entity)>.atEnd()) {
+<entity.atEndBloc>}<if(entity.notAtEndBloc)> else {
+<entity.notAtEndBloc>}<endif><else><if(entity.notAtEndBloc)>if (!<recursiveReadInvocation(entity)>.atEnd()) {
+<entity.notAtEndBloc>}<else><recursiveReadInvocation(entity)> ;<endif><endif>
+>>
+
+recursiveReadInvocation(entity) ::= <<
+<if(entity.dataInto)>readInto(<entity.fileDescriptor>, <entity.dataInto>)<else>read(<entity.fileDescriptor>)<endif>
+>>
+
+recursiveAcceptEntity(entity) ::= <<
+<if(entity.fromEnvironmentValue)>acceptEnv(<entity.variable>);<else>move(<if(entity.fromDate)>getDateBatch()<else><if(entity.fromDay)>getDayBatch()<else><if(entity.fromDayOfWeek)>getDayOfWeekBatch()<else><if(entity.fromInput)>getInputBatch()<else><if(entity.fromTime)>getTimeBatch()<else><entity.source><endif><endif><endif><endif><endif>, <entity.variable>);<endif>
+>>
+
+recursiveCallProgramEntity(entity) ::= <<
+<if(entity.onErrorBloc)>if (<endif>call(<entity.callableReference>)<entity.callParameters:{p | .<p.method>(<p.reference>)}>.<if(entity.onErrorBloc)>executeCallSafe()) {
+<entity.onErrorBloc>}<else>executeCall();<endif>
+>>
+
+recursiveStringConcatEntity(entity) ::= <<
+<if(entity.hasOverflowHandler)>if (<endif><entity.concatItems:{item | <recursiveStringConcatItem(item)>}; separator=""><if(entity.startIndex)>withPointer(<entity.startIndex>).<endif>into(<entity.destination>)<if(entity.hasOverflowHandler)>.failed())
+{
+<entity.activeChildren>}<else>;<endif>
+>>
+
+recursiveStringConcatItem(item) ::= <<
+<if(item.delimiter)>concatDelimitedBy(<item.value>, <item.delimiter>).<else>concat(<item.value>).<endif>
+>>
+
+recursiveGotoEntity(entity) ::= <<
+goTo(<entity.goToTarget>) ;
+>>
+
+recursiveInitializeEntity(entity) ::= <<
+<if(entity.fillAlphaWith)>initializeReplacingAlphaNum(<entity.data>, <entity.fillAlphaWith>) ;<elseif(entity.repAlphaWith)>initializeReplacingAlphaNum(<entity.data>, <entity.repAlphaWith>) ;<elseif(entity.repNumWith)>initializeReplacingNum(<entity.data>, <entity.repNumWith>) ;<elseif(entity.repNumEditedWith)>initializeReplacingNumEdited(<entity.data>, <entity.repNumEditedWith>) ;<elseif(entity.sqlCodeReset)>resetSQLCode(0);<else>initialize(<entity.data>) ;<endif>
+>>
+
+recursiveNextSentenceEntity(entity) ::= <<
+// NEXT SEQUENCE
+>>
+
+recursiveInspectConvertingEntity(entity) ::= <<
+inspectConverting(<entity.variable>).to(<entity.from>, <entity.to>) ;
+>>
+
+mockDataEntityReference(entity) ::= "<entity.mockReferenceValue>"
+
+dataAttributeDeclaration(entity) ::= <<
+Var <entity.formattedName> = declare.level(<entity.level>).<entity.type>(<entity.declareArgs>)<entity.compClause><if(entity.sync)>.sync()<endif><if(entity.value)>.<if(entity.fillWithValue)>valueAll<else>value<endif>(<entity.value>)<else><if(entity.initialValueIsSpaces)>.valueSpaces()<elseif(entity.initialValueIsZeros)>.valueZero()<elseif(entity.initialValueIsLowValue)>.valueLowValue()<elseif(entity.initialValueIsHighValue)>.valueHighValue()<endif><endif><if(entity.justifiedRight)>.justifyRight()<endif><if(entity.blankWhenZero)>.blankWhenZero()<endif><if(entity.filler)>.filler()<else>.var()<endif> ;
+>>
+
+recursiveRewriteFileEntity(entity) ::= <<
+<if(entity.dataFrom)>rewriteFrom(<entity.fileDescriptor>, <entity.dataFrom>) ;<else>rewrite(<entity.fileDescriptor>) ;<endif>
+>>
+
+recursiveSortReleaseEntity(entity) ::= <<
+release(<if(entity.sortField)><entity.sortField><else>[Undefined]<endif><if(entity.datReference)>, <entity.datReference><endif>) ;
+>>
+
+recursiveSortReturnEntity(entity) ::= <<
+<if(entity.atEndBloc)>if (<recursiveSortReturnInvocation(entity)>.atEnd()) {
+<entity.atEndBloc>}<if(entity.notAtEndBloc)> else {
+<entity.notAtEndBloc>}<endif><else><if(entity.notAtEndBloc)>if (!<recursiveSortReturnInvocation(entity)>.atEnd()) {
+<entity.notAtEndBloc>}<else><recursiveSortReturnInvocation(entity)> ;<endif><endif>
+>>
+
+recursiveSortReturnInvocation(entity) ::= <<
+returnSort(<if(entity.fileDesc)><entity.fileDesc><else>[Undefined]<endif><if(entity.dataInto)>, <entity.dataInto><endif>)
+>>
+
+recursiveCountEntity(entity) ::= <<
+inspectTallying(<entity.variable>)<entity.countAllToken:{t | .countAll(<t>)}><entity.countLeadingToken:{t | .countLeading(<t>)}><if(entity.forChars)>.forChars()<endif><entity.countAfterToken:{t | .after(<t>)}><entity.countBeforeToken:{t | .before(<t>)}>.to(<entity.toVariable>) ;
+>>
+
+recursiveSearchEntity(entity) ::= <<
+for (move(false, <entity.searchFoundFlag>); isNot(<entity.searchFoundFlag>) && isLessOrEqual(<entity.index>, getNbOccurs(<entity.variable>)); inc(1, <entity.index>)) {
+<entity.activeChildren>}<if(entity.elseBloc)>
+if (isNot(<entity.searchFoundFlag>)) {
+<entity.elseBloc>}<endif>
+>>
+
+recursiveExecEntity(entity) ::= <<
+execStatement("<entity.statement>") ;
+>>
+
+recursiveRoutineEmulationCallEntity(entity) ::= <<
+<entity.routineName>(<if(entity.dynamicAllocation)>new Var[] {<endif><entity.emulationParameters; separator=", "><if(entity.dynamicAllocation)>}<endif>) ;
+>>
+
+recursiveAssignWithAccessorEntity(entity) ::= <<
+<entity.accessorInvocation>
+>>
+
+recursiveParseStringEntity(entity) ::= <<
+<if(entity.hasOverflowHandler)>if (<endif>unstring(<entity.variable>)<entity.delimitersSingle:{d | .delimitedBy(<d>)}><entity.delimitersMulti:{d | .delimitedByAll(<d>)}><if(entity.withPointer)>.withPointer(<entity.withPointer>)<endif><if(entity.tallying)>.tallying(<entity.tallying>)<endif><entity.unstringDestinations:{item | .to(<item.to><if(item.hasDelimiterOrCount)>, <if(item.delimiterIn)><item.delimiterIn><else>null<endif>, <if(item.countIn)><item.countIn><else>null<endif><endif>)}><if(entity.hasOverflowHandler)>.failed())
+{
+<entity.activeChildren>}<else> ;<endif>
+>>
+
+recursiveReplaceEntity(entity) ::= <<
+<entity.replaceItems:{item | inspectReplacing(<entity.variable>).<item.modeName><item.replaceMethodName>(<if(item.replaceData)><item.replaceData><endif>).by<item.byMethodName>(<if(item.data)><item.data><endif>) ;}; separator="\n">
+>>
+
+recursiveSortEntity(entity) ::= <<
+sort(<entity.fileDescriptor>)<entity.sortKeys:{k | <if(k.ascending)>.ascKey(<else>.descKey(<endif><if(k.key)><k.key><else>[Undefined]<endif>)}><if(entity.inputFile)>.using(<entity.inputFile>)<elseif(entity.inputProcedureRef)>.usingInput(<entity.inputProcedureRef>)<endif><if(entity.outputFile)>.giving(<entity.outputFile>)<elseif(entity.outputProcedureRef)>.usingOutput(<entity.outputProcedureRef>)<endif>.exec() ;
+>>

@@ -17,7 +17,8 @@ public class CFPacJavaEnvironmentVariable extends CEntityEnvironmentVariable
 					CBaseLanguageExporter out, String accessor, String writer,
 					boolean bNumericVar)
 	{
-		super(l, name, cat, out, accessor, writer, bNumericVar);
+		super(l, name, cat, accessor, writer, bNumericVar);
+		setLanguageExporter(out);
 	}
 
 	@Override

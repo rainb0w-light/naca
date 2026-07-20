@@ -24,7 +24,8 @@ public class CFPacJavaAssignSpecial extends CEntityAssignSpecial
 	 */
 	public CFPacJavaAssignSpecial(int line, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
-		super(line, cat, out);
+		super(line, cat);
+		setLanguageExporter(out);
 	}
 
 	/**

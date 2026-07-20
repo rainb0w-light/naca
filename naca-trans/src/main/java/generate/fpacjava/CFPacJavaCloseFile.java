@@ -24,7 +24,8 @@ public class CFPacJavaCloseFile extends CEntityCloseFile
 	 */
 	public CFPacJavaCloseFile(int line, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
-		super(line, cat, out);
+		super(line, cat);
+		setLanguageExporter(out);
 	}
 
 	/**

@@ -13,7 +13,6 @@
 package generate.java.verbs;
 
 import generate.CBaseLanguageExporter;
-import semantic.CDataEntity;
 import semantic.Verbs.CEntityStringConcat;
 import utils.CObjectCatalog;
 
@@ -33,7 +32,8 @@ public class CJavaStringConcat extends CEntityStringConcat
 	 */
 	public CJavaStringConcat(int line, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
-		super(line, cat, out);
+		super(line, cat);
+		setLanguageExporter(out);
 	}
 	protected void DoExport()
 	{
@@ -43,10 +43,10 @@ public class CJavaStringConcat extends CEntityStringConcat
 		{
 			cs = "if (";
 		}
-		for (int i = 0; i< items.size(); i++)
+		for (ConcatItem item : getConcatItems())
 		{
-			CDataEntity eItem = items.get(i);
-			CDataEntity eUntil = itemsDelimiters.get(i);
+			var eItem = item.getValue();
+			var eUntil = item.getDelimiter();
 			if (eUntil != null)
 			{
 				cs += "concatDelimitedBy(" + eItem.ExportReference(getLine()) + ", " + eUntil.ExportReference(getLine()) + ").";

@@ -12,7 +12,6 @@
  */
 package semantic.CICS;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import semantic.CDataEntity;
 import utils.CObjectCatalog;
@@ -32,9 +31,9 @@ public abstract class CEntityCICSRead extends CBaseActionEntity
 		public static CEntityCICSReadMode PREVIOUS = new CEntityCICSReadMode() ;
 		public static CEntityCICSReadMode NEXT = new CEntityCICSReadMode() ;
 	}
-	public CEntityCICSRead(int line, CObjectCatalog cat, CBaseLanguageExporter out, CEntityCICSReadMode mode)
+	public CEntityCICSRead(int line, CObjectCatalog cat, CEntityCICSReadMode mode)
 	{
-		super(line, cat, out);
+		super(line, cat);
 		mode = mode ;
 		cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
 	}

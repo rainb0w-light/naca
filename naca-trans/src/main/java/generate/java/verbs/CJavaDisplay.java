@@ -34,7 +34,8 @@ public class CJavaDisplay extends CEntityDisplay
 	 */
 	public CJavaDisplay(int line, CObjectCatalog cat, CBaseLanguageExporter out, Upon t)
 	{
-		super(line, cat, out, t);
+		super(line, cat, t);
+		setLanguageExporter(out);
 	}
 	protected void DoExport()
 	{

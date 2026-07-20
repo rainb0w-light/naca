@@ -19,16 +19,15 @@ package semantic.SQL;
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import semantic.CDataEntity;
 import utils.CObjectCatalog;
 
 public abstract class CEntitySQLOpenStatement extends CBaseActionEntity
 {
-	public CEntitySQLOpenStatement(int line, CObjectCatalog cat, CBaseLanguageExporter out, CEntitySQLCursor cur)
+	public CEntitySQLOpenStatement(int line, CObjectCatalog cat, CEntitySQLCursor cur)
 	{
-		super(line, cat, out);
+		super(line, cat);
 		cursor = cur ;
 	}
 	protected CEntitySQLCursor cursor = null ;

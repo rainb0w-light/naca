@@ -16,7 +16,8 @@ public class CFPacJavaGoto extends CEntityGoto
 
 	public CFPacJavaGoto(int line, CObjectCatalog cat, CBaseLanguageExporter out, String ref, CEntityProcedureSection sectionContainer)
 	{
-		super(line, cat, out, ref, sectionContainer);
+		super(line, cat, ref, sectionContainer);
+		setLanguageExporter(out);
 	}
 
 	@Override

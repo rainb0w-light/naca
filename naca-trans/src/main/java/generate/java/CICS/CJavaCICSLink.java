@@ -31,7 +31,8 @@ public class CJavaCICSLink extends CEntityCICSLink
 	 */
 	public CJavaCICSLink(int line, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
-		super(line, cat, out);
+		super(line, cat);
+		setLanguageExporter(out);
 	}
 	/* (non-Javadoc)
 	 * @see semantic.CBaseLanguageEntity#DoExport()

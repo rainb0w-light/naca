@@ -12,7 +12,6 @@
  */
 package semantic.expression;
 
-import generate.CBaseLanguageExporter;
 import semantic.CDataEntity;
 import utils.CObjectCatalog;
 
@@ -27,11 +26,10 @@ public abstract class CEntityDigits extends CBaseEntityFunction
 
 	/**
 	 * @param cat
-	 * @param out
 	 * @param data
 	 */
-	public CEntityDigits(CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity data1)
+	public CEntityDigits(CObjectCatalog cat, CDataEntity data1)
 	{
-		super(cat, out, data1);
+		super(cat, data1);
 	}
 }

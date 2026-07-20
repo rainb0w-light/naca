@@ -12,9 +12,10 @@
  */
 package semantic.Verbs;
 
-import generate.CBaseLanguageExporter;
 
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import semantic.CBaseActionEntity;
 import semantic.CDataEntity;
@@ -26,8 +27,29 @@ import utils.CObjectCatalog;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityStringConcat extends CBaseActionEntity
+public class CEntityStringConcat extends CBaseActionEntity
 {
+	public static final class ConcatItem
+	{
+		private CDataEntity value;
+		private CDataEntity delimiter;
+
+		private ConcatItem(CDataEntity value, CDataEntity delimiter)
+		{
+			this.value = value;
+			this.delimiter = delimiter;
+		}
+
+		public CDataEntity getValue()
+		{
+			return value;
+		}
+
+		public CDataEntity getDelimiter()
+		{
+			return delimiter;
+		}
+	}
 
 	/* (non-Javadoc)
 	 * @see semantic.CBaseActionEntity#ReplaceVariable(semantic.CDataEntity, semantic.CDataEntity)
@@ -42,38 +64,49 @@ public abstract class CEntityStringConcat extends CBaseActionEntity
 			var.RegisterWritingAction(this) ;
 			return true ;
 		}
-		if (items.contains(field))
+		boolean replaced = false;
+		for (ConcatItem item : items)
 		{
-			int pos;
-			while ((pos = items.indexOf(field)) != -1)
+			if (item.value == field)
 			{
-				items.set(pos, var) ;
-				field.UnRegisterReadingAction(this) ;
-				var.RegisterReadingAction(this) ;
-			}	
-			return true ;
+				item.value = var;
+				replaced = true;
+			}
+			if (item.delimiter == field)
+			{
+				item.delimiter = var;
+				replaced = true;
+			}
+		}
+		if (eStartIndex == field)
+		{
+			eStartIndex = var;
+			replaced = true;
+		}
+		if (replaced)
+		{
+			field.UnRegisterReadingAction(this);
+			var.RegisterReadingAction(this);
+			return true;
 		}
 		return false ;
 	}
 	/**
 	 * @param line
 	 * @param cat
-	 * @param out
 	 */
-	public CEntityStringConcat(int line, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntityStringConcat(int line, CObjectCatalog cat)
 	{
-		super(line, cat, out);
+		super(line, cat);
 	}
 	
-	protected Vector<CDataEntity> items = new Vector<CDataEntity>() ;
-	protected Vector<CDataEntity> itemsDelimiters = new Vector<CDataEntity>() ;
+	protected List<ConcatItem> items = new ArrayList<ConcatItem>() ;
 	protected CDataEntity eVariable = null ;
 	protected CDataEntity eStartIndex = null ;
 	public void Clear()
 	{
 		super.Clear() ;
 		items.clear();
-		itemsDelimiters.clear() ;
 		eStartIndex = null ;
 		eVariable = null;
 	}
@@ -88,13 +121,27 @@ public abstract class CEntityStringConcat extends CBaseActionEntity
 	}
 	public void AddItem(CDataEntity eItem, CDataEntity eUntil)
 	{
-		items.add(eItem);
-		itemsDelimiters.add(eUntil);
+		items.add(new ConcatItem(eItem, eUntil));
 	}
 	public void AddItem(CDataEntity eItem)
 	{
-		items.add(eItem);
-		itemsDelimiters.add(null);
+		items.add(new ConcatItem(eItem, null));
+	}
+	public List<ConcatItem> getConcatItems()
+	{
+		return Collections.unmodifiableList(items);
+	}
+	public CDataEntity getDestination()
+	{
+		return eVariable;
+	}
+	public CDataEntity getStartIndex()
+	{
+		return eStartIndex;
+	}
+	public boolean getHasOverflowHandler()
+	{
+		return !lstChildren.isEmpty();
 	}
 	public boolean ignore()
 	{

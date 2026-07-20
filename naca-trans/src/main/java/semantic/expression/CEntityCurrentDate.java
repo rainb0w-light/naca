@@ -12,7 +12,6 @@
  */
 package semantic.expression;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import utils.CObjectCatalog;
 
@@ -26,12 +25,11 @@ public abstract class CEntityCurrentDate extends CBaseEntityFunction
 {
 	/**
 	 * @param cat
-	 * @param out
 	 * @param data
 	 */
-	public CEntityCurrentDate(CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntityCurrentDate(CObjectCatalog cat)
 	{
-		super(cat, out, null);
+		super(cat, null);
 	}
 	public void RegisterReadingAction(CBaseActionEntity act)
 	{

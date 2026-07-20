@@ -1,6 +1,8 @@
 # StringTemplate4 (ST4) 代码重构设计原则
 
-> **重要**: 每次涉及代码重写时，都必须返回检查是否符合本设计原则。
+> 已被取代：本文档包含模板调用 `export()` 以及逐节点 `render()` 等过渡设计，不再作为实施依据。2026-07-19 起以 `ST4_RECURSIVE_TEMPLATE_REFACTOR_MASTER_PLAN.md` 为准。
+
+> 仅供历史背景参考；不得使用下文的 `export()`、`exportChildren()` 或逐节点 `render()` 方案指导新实现。
 
 ---
 

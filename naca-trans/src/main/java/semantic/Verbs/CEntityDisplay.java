@@ -12,9 +12,10 @@
  */
 package semantic.Verbs;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import semantic.CDataEntity;
 import utils.CObjectCatalog;
@@ -31,11 +32,10 @@ public abstract class CEntityDisplay extends CBaseActionEntity
 	/**
 	 * @param line
 	 * @param cat
-	 * @param out
 	 */
-	public CEntityDisplay(int line, CObjectCatalog cat, CBaseLanguageExporter out, Upon t)
+	public CEntityDisplay(int line, CObjectCatalog cat, Upon t)
 	{
-		super(line, cat, out);
+		super(line, cat);
 		upon = t ;
 	}
 	public void AddItemToDisplay(CDataEntity e)
@@ -64,5 +64,44 @@ public abstract class CEntityDisplay extends CBaseActionEntity
 	public static enum Upon
 	{
 		DEFAULT, CONSOLE, ENVINONMENT,
+	}
+
+	public String getDisplayFunction()
+	{
+		if (upon == Upon.CONSOLE)
+			return "console().display";
+		if (upon == Upon.ENVINONMENT)
+			return "displayEnv";
+		return "display";
+	}
+
+	public List<CDisplayItemView> getDisplayItems()
+	{
+		List<CDisplayItemView> values = new ArrayList<CDisplayItemView>();
+		boolean hasMultipleItems = itemsToDisplay.size() > 1;
+		for (int i = 0; i < itemsToDisplay.size(); i++)
+		{
+			CDataEntity item = itemsToDisplay.get(i);
+			String reference = item.ExportReference(getLine());
+			if (hasMultipleItems && item.isValNeeded())
+				reference = "val(" + reference + ")";
+			values.add(new CDisplayItemView(reference));
+		}
+		return values;
+	}
+
+	public static class CDisplayItemView
+	{
+		private final String expression;
+
+		public CDisplayItemView(String expression)
+		{
+			this.expression = expression;
+		}
+
+		public String getExpression()
+		{
+			return expression;
+		}
 	}
 }

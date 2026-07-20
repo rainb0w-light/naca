@@ -28,9 +28,9 @@ public abstract class CEntityComment extends CBaseLanguageEntity
 	 * @param name
 	 * @param cat
 	 */
-	public CEntityComment(int l, CObjectCatalog cat, CBaseLanguageExporter out, String comment)
+	public CEntityComment(int l, CObjectCatalog cat, String comment)
 	{
-		super(l, "", cat, out);
+		super(l, "", cat);
 		csComment = comment;
 	}
 

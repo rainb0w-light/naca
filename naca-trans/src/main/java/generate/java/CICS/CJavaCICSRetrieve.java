@@ -31,7 +31,8 @@ public class CJavaCICSRetrieve extends CEntityCICSRetrieve
 	 */
 	public CJavaCICSRetrieve(int line, CObjectCatalog cat, CBaseLanguageExporter out, boolean bPointer)
 	{
-		super(line, cat, out, bPointer);
+		super(line, cat, bPointer);
+		setLanguageExporter(out);
 	}
 	/* (non-Javadoc)
 	 * @see semantic.CBaseLanguageEntity#DoExport()

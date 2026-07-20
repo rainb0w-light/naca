@@ -12,6 +12,21 @@ import semantic.CDataEntity;
 public abstract class CEntityCondIsBoolean extends CUnitaryEntityCondition
 {
 	protected boolean isisTrue = false ;
+
+	public boolean isTrue()
+	{
+		return isisTrue;
+	}
+
+	/**
+	 * ST4 property form of {@link #isTrue()}.  The semantic model exposes the
+	 * predicate as a boolean value; the template should only read that value,
+	 * never invoke semantic or rendering code.
+	 */
+	public boolean isTrueValue()
+	{
+		return isTrue();
+	}
 	
 	public void setIsTrue(CDataEntity e)
 	{

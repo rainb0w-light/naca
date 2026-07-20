@@ -6,18 +6,17 @@
  */
 package semantic.Verbs;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import semantic.CDataEntity;
 import semantic.CEntityFileDescriptor;
 import utils.CObjectCatalog;
 
-public abstract class CEntityRewriteFile extends CBaseActionEntity
+public class CEntityRewriteFile extends CBaseActionEntity
 {
 
-	public CEntityRewriteFile(int line, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntityRewriteFile(int line, CObjectCatalog cat)
 	{
-		super(line, cat, out);
+		super(line, cat);
 	}
 
 	public void setFileDescriptor(CEntityFileDescriptor efd, CDataEntity data)
@@ -28,4 +27,10 @@ public abstract class CEntityRewriteFile extends CBaseActionEntity
 	protected CEntityFileDescriptor eFileDescriptor = null  ;
 	protected CDataEntity eDataFrom = null ;
 
+	public CEntityFileDescriptor getFileDescriptor() {
+		return eFileDescriptor;
+	}
+	public CDataEntity getDataFrom() {
+		return eDataFrom;
+	}
 }

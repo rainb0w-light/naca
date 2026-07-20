@@ -12,7 +12,6 @@
  */
 package semantic.CICS;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import semantic.CDataEntity;
 import utils.CObjectCatalog;
@@ -30,11 +29,10 @@ public abstract class CEntityCICSDeleteQ extends CBaseActionEntity
 	/**
 	 * @param line
 	 * @param cat
-	 * @param out
 	 */
-	public CEntityCICSDeleteQ(int line, CObjectCatalog cat, CBaseLanguageExporter out, boolean ispersistent)
+	public CEntityCICSDeleteQ(int line, CObjectCatalog cat, boolean ispersistent)
 	{
-		super(line, cat, out);
+		super(line, cat);
 		ispersistent = ispersistent;
 		cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
 	}

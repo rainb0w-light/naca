@@ -6,7 +6,6 @@
  */
 package semantic;
 
-import generate.CBaseLanguageExporter;
 import semantic.expression.CBaseEntityExpression;
 import utils.CObjectCatalog;
 
@@ -14,9 +13,9 @@ public class CEntityFileBuffer extends CDataEntity
 {
 	protected CEntityFileDescriptor fileDescriptor = null ;
 	
-	protected CEntityFileBuffer(String name, CEntityFileDescriptor filedesc, CObjectCatalog cat, CBaseLanguageExporter out)
+	protected CEntityFileBuffer(String name, CEntityFileDescriptor filedesc, CObjectCatalog cat)
 	{
-		super(0, name, cat, out);
+		super(0, name, cat);
 		fileDescriptor = filedesc ;
 	}
 
@@ -27,26 +26,24 @@ public class CEntityFileBuffer extends CDataEntity
 	}
 
 	@Override
-	public String ExportReference(int nLine)
+	protected String getSemanticReference()
 	{
-		return fileDescriptor.ExportReference(getLine()) ;
+		return fileDescriptor == null ? GetName() : fileDescriptor.GetName();
 	}
 	
 	public CEntityFileDescriptor GetFileDescriptor()
 	{
 		return fileDescriptor ;
 	}
+	public CEntityFileDescriptor getFileDescriptor()
+	{
+		return fileDescriptor;
+	}
 	
 	@Override
 	public boolean HasAccessors()
 	{
 		return false;
-	}
-
-	@Override
-	public String ExportWriteAccessorTo(String value)
-	{
-		return null;
 	}
 
 	@Override
@@ -59,13 +56,6 @@ public class CEntityFileBuffer extends CDataEntity
 	public String GetConstantValue()
 	{
 		return null;
-	}
-
-	@Override
-	protected void DoExport()
-	{
-		// nothing
-
 	}
 
 	/* (non-Javadoc)

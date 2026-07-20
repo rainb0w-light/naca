@@ -6,12 +6,11 @@
  */
 package semantic.Verbs;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import semantic.CDataEntity;
 import utils.CObjectCatalog;
 
-public abstract class CEntityAccept extends CBaseActionEntity
+public class CEntityAccept extends CBaseActionEntity
 {
 	public enum AcceptMode
 	{
@@ -24,9 +23,9 @@ public abstract class CEntityAccept extends CBaseActionEntity
 		FROM_ENVIRONMENT_VALUE,
 	}
 	
-	public CEntityAccept(int line, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntityAccept(int line, CObjectCatalog cat)
 	{
-		super(line, cat, out);
+		super(line, cat);
 	}
 	
 	protected CDataEntity eVariable = null  ;
@@ -45,7 +44,51 @@ public abstract class CEntityAccept extends CBaseActionEntity
 		eVariable = var ;		
 		eSource = source ;
 	}
-	
+
+	public CDataEntity getVariable()
+	{
+		return eVariable;
+	}
+
+	public CDataEntity getSource()
+	{
+		return eSource;
+	}
+
+	public boolean isFromDate()
+	{
+		return eMode == AcceptMode.FROM_DATE;
+	}
+
+	public boolean isFromDay()
+	{
+		return eMode == AcceptMode.FROM_DAY;
+	}
+
+	public boolean isFromDayOfWeek()
+	{
+		return eMode == AcceptMode.FROM_DAYOFWEEK;
+	}
+
+	public boolean isFromInput()
+	{
+		return eMode == AcceptMode.FROM_INPUT;
+	}
+
+	public boolean isFromTime()
+	{
+		return eMode == AcceptMode.FROM_TIME;
+	}
+
+	public boolean isFromEnvironmentValue()
+	{
+		return eMode == AcceptMode.FROM_ENVIRONMENT_VALUE;
+	}
+
+	public boolean isFromVariable()
+	{
+		return eMode == AcceptMode.FROM_VARIABLE;
+	}
 	
 
 }

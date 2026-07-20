@@ -47,9 +47,17 @@ public abstract class CEntityAttribute extends CGenericDataEntityReference imple
 	 * @param name
 	 * @param cat
 	 */
-	public CEntityAttribute(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntityAttribute(int l, String name, CObjectCatalog cat)
 	{
-		super(l, name, cat, out);
+		super(l, name, cat);
+	}
+	public void SetLevel(String level)
+	{
+		csLevel = level;
+	}
+	public String getLevel()
+	{
+		return csLevel;
 	}
 	public void SetComp(String s)
 	{
@@ -58,18 +66,18 @@ public abstract class CEntityAttribute extends CGenericDataEntityReference imple
 	public void SetTypeString(int length) 
 	{
 		type = "picX" ;
-		length = length ;
+		this.length = length ;
 	};
 	public void SetTypeNum(int length, int dec)
 	{
 		type = "pic9" ;
-		length = length ;
+		this.length = length ;
 		decimals = dec ;
 	};
 	public void SetTypeSigned(int length, int dec)
 	{
 		type = "picS9" ;
-		length = length ;
+		this.length = length ;
 		decimals = dec ;
 	};
 	public void SetInitialValueSpaces()
@@ -148,6 +156,7 @@ public abstract class CEntityAttribute extends CGenericDataEntityReference imple
 	protected String format = "" ;
 	protected boolean issync = false ;
 	protected boolean isfillWithValue = false ;
+	protected String csLevel = "77";
 	public void SetSync(boolean b)
 	{
 		issync = b ;
@@ -291,7 +300,7 @@ public abstract class CEntityAttribute extends CGenericDataEntityReference imple
 	}
 	public int GetInternalLevel()
 	{
-		return 1 ;
+		return jlib.misc.NumberParser.getAsInt(csLevel) ;
 	} 
 	public String GetInitialValue()
 	{
@@ -386,6 +395,10 @@ public abstract class CEntityAttribute extends CGenericDataEntityReference imple
 	{
 		return "Comp3".equalsIgnoreCase(comp);
 	}
+	public boolean isComp2()
+	{
+		return "Comp2".equalsIgnoreCase(comp);
+	}
 
 	public boolean isComp()
 	{
@@ -407,4 +420,58 @@ public abstract class CEntityAttribute extends CGenericDataEntityReference imple
 		return null;
 	}
 
+
+	public boolean isInitialValueIsSpaces() {
+		return isinitialValueIsSpaces;
+	}
+	public boolean isInitialValueIsZeros() {
+		return isinitialValueIsZeros;
+	}
+	public boolean isInitialValueIsLowValue() {
+		return isinitialValueIsLowValue;
+	}
+	public boolean isInitialValueIsHighValue() {
+		return isinitialValueIsHighValue;
+	}
+	public boolean isSync() {
+		return issync;
+	}
+	public boolean isFillWithValue() {
+		return isfillWithValue;
+	}
+	public boolean isJustifiedRight() {
+		return isjustifiedRight;
+	}
+	public boolean isBlankWhenZero() {
+		return isblankWhenZero;
+	}
+	public String getFormat() {
+		return format;
+	}
+
+	public String getDeclareArgs() {
+		if (!format.equals("")) {
+			return "\"" + format + "\"";
+		}
+		if (length > 0 || decimals > 0) {
+			if (decimals > 0) {
+				return length + "," + decimals;
+			}
+			return String.valueOf(length);
+		}
+		return "";
+	}
+
+	public String getCompClause() {
+		if (isComp3()) {
+			return ".comp3()";
+		}
+		if (isComp2()) {
+			return ".comp2()";
+		}
+		if (isComp()) {
+			return ".comp()";
+		}
+		return "";
+	}
 }

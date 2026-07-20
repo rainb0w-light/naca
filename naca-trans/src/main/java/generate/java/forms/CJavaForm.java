@@ -37,7 +37,8 @@ public class CJavaForm extends CEntityResourceForm
 	 */
 	public CJavaForm(int l, String name, CObjectCatalog cat, CBaseLanguageExporter lexp, boolean bSave)
 	{
-		super(l, name, cat, lexp, bSave);
+		super(l, name, cat, bSave);
+		setLanguageExporter(lexp);
 	}
 
 	/* (non-Javadoc)

@@ -35,7 +35,8 @@ public class CJavaFieldColor extends CEntityFieldColor
 	 */
 	public CJavaFieldColor(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity owner)
 	{
-		super(l, name, cat, out, owner);
+		super(l, name, cat, owner);
+		setLanguageExporter(out);
 	}
 	public String ExportReference(int nLine)
 	{

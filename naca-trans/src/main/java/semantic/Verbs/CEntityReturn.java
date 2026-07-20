@@ -12,7 +12,6 @@
  */
 package semantic.Verbs;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import utils.*;
 
@@ -22,23 +21,22 @@ import utils.*;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityReturn extends CBaseActionEntity
+public class CEntityReturn extends CBaseActionEntity
 {
 
 	/**
 	 * @param cat
-	 * @param out
 	 */
-	public CEntityReturn(int l, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntityReturn(int l, CObjectCatalog cat)
 	{
-		super(l, cat, out);
+		super(l, cat);
 	}
 
 	public void SetStopProgram(int returning)
 	{
 		isstopAllStackCalls = returning;
 	}
-	
+
 	public void SetOnlyReturnFromProcedure()
 	{
 		bonlyLeaveParagraph = true;
@@ -46,6 +44,11 @@ public abstract class CEntityReturn extends CBaseActionEntity
 	
 	protected int isstopAllStackCalls = -1 ;
 	protected boolean bonlyLeaveParagraph = false ;
+
+	public int getStopAllStackCalls() { return isstopAllStackCalls; }
+	public boolean getBonlyLeaveParagraph() { return bonlyLeaveParagraph; }
+	/** Target-neutral semantic flag: true when this is a STOP RUN (return-code >= 0). */
+	public boolean isStopProgram() { return isstopAllStackCalls >= 0; }
 	public boolean ignore()
 	{
 		return false ;

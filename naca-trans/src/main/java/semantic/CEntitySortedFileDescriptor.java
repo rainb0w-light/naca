@@ -6,16 +6,15 @@
  */
 package semantic;
 
-import generate.CBaseLanguageExporter;
 import utils.CObjectCatalog;
 
 public abstract class CEntitySortedFileDescriptor extends CEntityFileDescriptor
 {
 
 	public CEntitySortedFileDescriptor(int line, String name,
-					CObjectCatalog cat, CBaseLanguageExporter out)
+					CObjectCatalog cat)
 	{
-		super(line, name, cat, out);
+		super(line, name, cat);
 	}
 
 

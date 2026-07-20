@@ -6,17 +6,16 @@
  */
 package semantic.Verbs;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import semantic.CEntityFileDescriptor;
 import utils.CObjectCatalog;
 
-public abstract class CEntityCloseFile extends CBaseActionEntity
+public class CEntityCloseFile extends CBaseActionEntity
 {
 
-	public CEntityCloseFile(int line, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntityCloseFile(int line, CObjectCatalog cat)
 	{
-		super(line, cat, out);
+		super(line, cat);
 	}
 
 	public void setFileDescriptor(CEntityFileDescriptor fd)
@@ -24,4 +23,9 @@ public abstract class CEntityCloseFile extends CBaseActionEntity
 		eFileDescriptor = fd ;
 	}
 	protected CEntityFileDescriptor eFileDescriptor = null ;
+
+	public CEntityFileDescriptor getFileDescriptor()
+	{
+		return eFileDescriptor;
+	}
 }

@@ -6,7 +6,6 @@
  */
 package semantic;
 
-import generate.CBaseLanguageExporter;
 import utils.CObjectCatalog;
 
 /**
@@ -24,11 +23,10 @@ public abstract class CEntityFileDescriptorLengthDependency extends
 	 * @param line
 	 * @param name
 	 * @param cat
-	 * @param out
 	 */
-	public CEntityFileDescriptorLengthDependency(String name, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntityFileDescriptorLengthDependency(String name, CObjectCatalog cat)
 	{
-		super(0, name, cat, out);
+		super(0, name, cat);
 	}
 
 	public void setDependency(CEntityFileDescriptor desc, CDataEntity var)

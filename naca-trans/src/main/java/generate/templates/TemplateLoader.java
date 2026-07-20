@@ -1,5 +1,12 @@
 package generate.templates;
 
+import generate.templates.recursive.JavaTemplateAssembler;
+import generate.templates.recursive.java.JavaIdentifierAttributeRenderer;
+import generate.templates.recursive.java.JavaIdentifierValue;
+import generate.templates.recursive.java.JavaIntrinsicFunctionNameAttributeRenderer;
+import generate.templates.recursive.java.JavaIntrinsicFunctionNameValue;
+import generate.templates.recursive.java.JavaStringLiteralAttributeRenderer;
+import generate.templates.recursive.java.JavaStringLiteralValue;
 import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroup;
 import org.stringtemplate.v4.STGroupFile;
@@ -44,13 +51,29 @@ public class TemplateLoader {
                 throw new RuntimeException("Cannot find template file: /templates/java/java.stg");
             }
             
-            javaGroup = new STGroupFile(templateResource, "UTF-8", '<', '>');
-            javaGroup.load();  // Pre-load templates
-            
+            javaGroup = createJavaGroup(templateResource);
             initialized = true;
         } catch (Exception e) {
             throw new RuntimeException("Failed to initialize ST4 templates", e);
         }
+    }
+
+    private static STGroup createJavaGroup(URL templateResource) {
+            STGroup group = new STGroupFile(templateResource, "UTF-8", '<', '>');
+            group.registerRenderer(
+                JavaStringLiteralValue.class,
+                new JavaStringLiteralAttributeRenderer());
+            group.registerRenderer(
+                String.class,
+                new JavaStringLiteralAttributeRenderer());
+            group.registerRenderer(
+                JavaIdentifierValue.class,
+                new JavaIdentifierAttributeRenderer());
+            group.registerRenderer(
+                JavaIntrinsicFunctionNameValue.class,
+                new JavaIntrinsicFunctionNameAttributeRenderer());
+            group.load();  // Pre-load templates
+            return group;
     }
 
     /**
@@ -125,5 +148,38 @@ public class TemplateLoader {
     public static STGroup getJavaGroup() {
         initialize();
         return javaGroup;
+    }
+
+    /** Creates a strict recursive assembler with all migrated Java renderers. */
+    public static JavaTemplateAssembler newRecursiveAssembler() {
+        initialize();
+        URL templateResource = TemplateLoader.class
+            .getResource("/templates/java/java.stg");
+        if (templateResource == null) {
+            throw new IllegalStateException("Cannot find template file: /templates/java/java.stg");
+        }
+        return new JavaTemplateAssembler(createJavaGroup(templateResource));
+    }
+
+    private static volatile JavaTemplateAssembler sharedRecursiveAssembler;
+
+    /**
+     * Shared recursive assembler used by the production export driver. The
+     * underlying STGroup is reusable and thread-safe for {@code getInstanceOf};
+     * each {@code renderNode} builds fresh ST instances, so a single assembler
+     * can serve concurrent transpilations without re-parsing java.stg.
+     */
+    public static JavaTemplateAssembler getRecursiveAssembler() {
+        JavaTemplateAssembler local = sharedRecursiveAssembler;
+        if (local == null) {
+            synchronized (TemplateLoader.class) {
+                local = sharedRecursiveAssembler;
+                if (local == null) {
+                    local = newRecursiveAssembler();
+                    sharedRecursiveAssembler = local;
+                }
+            }
+        }
+        return local;
     }
 }

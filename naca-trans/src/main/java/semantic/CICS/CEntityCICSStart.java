@@ -12,7 +12,6 @@
  */
 package semantic.CICS;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import semantic.CDataEntity;
 import utils.CObjectCatalog;
@@ -29,11 +28,10 @@ public abstract class CEntityCICSStart extends CBaseActionEntity
 	/**
 	 * @param line
 	 * @param cat
-	 * @param out
 	 */
-	public CEntityCICSStart(int line, CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity TID)
+	public CEntityCICSStart(int line, CObjectCatalog cat, CDataEntity TID)
 	{
-		super(line, cat, out);
+		super(line, cat);
 		transID = TID ;
 		cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
 	}

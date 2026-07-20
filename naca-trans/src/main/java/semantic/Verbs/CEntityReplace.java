@@ -12,8 +12,9 @@
  */
 package semantic.Verbs;
 
-import generate.CBaseLanguageExporter;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import semantic.CBaseActionEntity;
@@ -26,7 +27,7 @@ import utils.CObjectCatalog;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityReplace extends CBaseActionEntity
+public class CEntityReplace extends CBaseActionEntity
 {
 	protected static class CReplaceMode
 	{
@@ -53,11 +54,10 @@ public abstract class CEntityReplace extends CBaseActionEntity
 	/**
 	 * @param line
 	 * @param cat
-	 * @param out
 	 */
-	public CEntityReplace(int line, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntityReplace(int line, CObjectCatalog cat)
 	{
-		super(line, cat, out);
+		super(line, cat);
 	}
 	
 	protected CDataEntity variable = null ; 
@@ -175,5 +175,71 @@ public abstract class CEntityReplace extends CBaseActionEntity
 			return true ;
 		}
 		return false ;
+	}
+
+	public CDataEntity getVariable() {
+		return variable;
+	}
+	public static class ReplaceItemModel {
+		private final CReplaceMode mode;
+		private final CReplaceType replaceDataType;
+		private final CDataEntity replaceData;
+		private final CReplaceType dataType;
+		private final CDataEntity data;
+		public ReplaceItemModel(CReplaceMode mode, CReplaceType replaceDataType,
+			CDataEntity replaceData, CReplaceType dataType, CDataEntity data) {
+			this.mode = mode;
+			this.replaceDataType = replaceDataType;
+			this.replaceData = replaceData;
+			this.dataType = dataType;
+			this.data = data;
+		}
+		public String getModeName() {
+			if (mode == CReplaceMode.ALL) {
+				return "all";
+			}
+			if (mode == CReplaceMode.FIRST) {
+				return "first";
+			}
+			if (mode == CReplaceMode.LEADING) {
+				return "leading";
+			}
+			return "";
+		}
+		public String getReplaceMethodName() {
+			return typeName(replaceDataType, false);
+		}
+		public String getByMethodName() {
+			return typeName(dataType, true);
+		}
+		private static String typeName(CReplaceType t, boolean by) {
+			if (t == CReplaceType.SPACES) {
+				return "Spaces";
+			}
+			if (t == CReplaceType.ZEROS) {
+				return by ? "Zero" : "Zeros";
+			}
+			if (t == CReplaceType.LOW_VALUES) {
+				return "LowValues";
+			}
+			if (t == CReplaceType.HIGH_VALUES) {
+				return "HighValues";
+			}
+			return "";
+		}
+		public CDataEntity getReplaceData() {
+			return replaceData;
+		}
+		public CDataEntity getData() {
+			return data;
+		}
+	}
+	public List<ReplaceItemModel> getReplaceItems() {
+		List<ReplaceItemModel> result = new ArrayList<>();
+		for (CReplaceItem item : itemsToReplace) {
+			result.add(new ReplaceItemModel(
+				item.mode, item.replaceDataType, item.replaceData, item.dataType, item.data));
+		}
+		return result;
 	}
 }

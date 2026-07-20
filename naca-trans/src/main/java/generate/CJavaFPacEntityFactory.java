@@ -8,8 +8,8 @@ package generate;
 
 import generate.fpacjava.*;
 import generate.java.expressions.CJavaCondEquals;
+import generate.java.expressions.CJavaIntrinsicFunction;
 import generate.java.expressions.CJavaString;
-import generate.java.verbs.CJavaBreak;
 import generate.java.verbs.CJavaRoutineEmulationCall;
 
 import java.util.ArrayList;
@@ -323,6 +323,12 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	}
 
 	@Override
+	public CEntityIntrinsicFunction NewEntityIntrinsicFunction(String functionName, List<CBaseEntityExpression> arguments)
+	{
+		return new CJavaIntrinsicFunction(programCatalog, langOutput, functionName, arguments);
+	}
+
+	@Override
 	public CEntityAddressOf NewEntityAddressOf(CDataEntity data)
 	{
 		// TODO Auto-generated method stub
@@ -628,13 +634,13 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityCondition NewEntityCondition(int l)
 	{
-		return new CFPacJavaCondition(l, programCatalog,langOutput) ;
+		return new CEntityCondition(l, programCatalog) ;
 	}
 
 	@Override
 	public CEntityBloc NewEntityBloc(int l)
 	{
-		return new CFPacJavaBloc(l, programCatalog, langOutput) ;
+		return new CEntityBloc(l, programCatalog) ;
 	}
 
 	@Override
@@ -731,8 +737,7 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityCase NewEntityCase(int l, int endline)
 	{
-		// TODO Auto-generated method stub
-		throw new NacaTransAssertException("Method not implemented") ;
+		return new CEntityCase(l, programCatalog, endline) ;
 	}
 
 	@Override
@@ -763,25 +768,25 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityLoopWhile NewEntityLoopWhile(int l)
 	{
-		return new CFPacJavaLoopWhile(l, programCatalog, langOutput) ;
+		return new CEntityLoopWhile(l, programCatalog) ;
 	}
 
 	@Override
 	public CEntityLoopIter NewEntityLoopIter(int l)
 	{
-		return new CFPacJavaLoopIter(l, programCatalog, langOutput) ;
+		return new CEntityLoopIter(l, programCatalog) ;
 	}
 
 	@Override
 	public CEntityAddTo NewEntityAddTo(int l)
 	{
-		return new CFPacJavaAddTo(l, programCatalog, langOutput);
+		return new CEntityAddTo(l, programCatalog);
 	}
 
 	@Override
 	public CEntityContinue NewEntityContinue(int l)
 	{
-		return new CFPacJavaContinue(l, programCatalog, langOutput) ;
+		return new CEntityContinue(l, programCatalog) ;
 	}
 
 	@Override
@@ -1101,7 +1106,7 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityBreak NewEntityBreak(int line)
 	{
-		return new CJavaBreak(line, programCatalog, langOutput) ;
+		return new CEntityBreak(line, programCatalog) ;
 	}
 
 	@Override
@@ -1253,7 +1258,7 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityInc NewEntityInc(int line)
 	{
-		return new CFPacJavaInc(line,  programCatalog, langOutput);
+		return new CEntityInc(line, programCatalog);
 	}
 
 	/**

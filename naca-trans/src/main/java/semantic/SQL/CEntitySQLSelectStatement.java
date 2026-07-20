@@ -13,7 +13,6 @@
 package semantic.SQL;
 import java.util.Vector;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import semantic.CDataEntity;
 import utils.CObjectCatalog;
@@ -26,9 +25,9 @@ import utils.CObjectCatalog;
  */
 public abstract class CEntitySQLSelectStatement extends CBaseActionEntity
 {
-	public CEntitySQLSelectStatement(int line, CObjectCatalog cat, CBaseLanguageExporter out, String csStatement, Vector<CDataEntity> parameters, Vector<CDataEntity> into, Vector<CDataEntity> ind)
+	public CEntitySQLSelectStatement(int line, CObjectCatalog cat, String csStatement, Vector<CDataEntity> parameters, Vector<CDataEntity> into, Vector<CDataEntity> ind)
 	{
-		super(line, cat, out);
+		super(line, cat);
 		csStatement = csStatement ;
 		parameters = parameters;
 		into = into;

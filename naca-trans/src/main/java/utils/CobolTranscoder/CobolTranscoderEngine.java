@@ -12,6 +12,7 @@
 package utils.CobolTranscoder;
 
 import generate.CJavaEntityFactory;
+import generate.CJavaEntityFactoryST;
 import generate.java.CJavaExporter;
 
 import java.io.BufferedReader;
@@ -253,7 +254,7 @@ public class CobolTranscoderEngine extends TranscoderEngine<CProgram, CEntityCla
 	{
 		CJavaExporter out = new CJavaExporter(cat.listing, fileName, parser.commentContainer, bResources) ;
 		cat.setExporter(out) ;
-		CJavaEntityFactory factory = new CJavaEntityFactory(cat, out) ;
+		CJavaEntityFactory factory = newJavaEntityFactory(cat, out) ;
 		InitCustomCICSEntriesFromRules(factory) ;
 		factory.InitCustomCICSEntities();
 		CProgram prg = parser.GetRootElement() ;
@@ -262,6 +263,15 @@ public class CobolTranscoderEngine extends TranscoderEngine<CProgram, CEntityCla
 		DoAlgorythmicAnalysis(cat, factory);
 		
 		return eSem ;
+	}
+
+	private CJavaEntityFactory newJavaEntityFactory(CObjectCatalog cat, CJavaExporter out)
+	{
+		if ("st4".equalsIgnoreCase(System.getProperty("naca.transpiler.factory")))
+		{
+			return new CJavaEntityFactoryST(cat, out);
+		}
+		return new CJavaEntityFactory(cat, out);
 	}
 	
 	private void InitGlobalEntitiesFromRules(CBaseEntityFactory factory)

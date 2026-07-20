@@ -15,7 +15,6 @@ package semantic.CICS;
 
 import java.util.ArrayList;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import utils.CObjectCatalog;
 import utils.CobolTranscoder.Notifs.NotifDeclareUseCICSPreprocessor;
@@ -32,11 +31,10 @@ public abstract class CEntityCICSHandleAID extends CBaseActionEntity
 	/**
 	 * @param line
 	 * @param cat
-	 * @param out
 	 */
-	public CEntityCICSHandleAID(int line, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntityCICSHandleAID(int line, CObjectCatalog cat)
 	{
-		super(line, cat, out);
+		super(line, cat);
 		cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
 	}
 	public void HandleAID(String cond, String label)

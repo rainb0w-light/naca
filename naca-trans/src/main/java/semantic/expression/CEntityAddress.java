@@ -7,16 +7,15 @@
 package semantic.expression;
 
 
-import generate.CBaseLanguageExporter;
 import semantic.CDataEntity;
 import utils.CObjectCatalog;
 
 public abstract class CEntityAddress extends CDataEntity
 {
 
-	public CEntityAddress(CObjectCatalog cat, CBaseLanguageExporter out, String address)
+	public CEntityAddress(CObjectCatalog cat, String address)
 	{
-		super(0, "", cat, out);
+		super(0, "", cat);
 		csAddress = address ;
 	}
 

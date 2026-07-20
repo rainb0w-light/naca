@@ -30,9 +30,9 @@ public abstract class CEntityClass extends CBaseLanguageEntity
 	 * @param name
 	 * @param cat
 	 */
-	public CEntityClass(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntityClass(int l, String name, CObjectCatalog cat)
 	{
-		super(l, name, cat, out);
+		super(l, name, cat);
 	}
 
 	/* (non-Javadoc)

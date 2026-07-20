@@ -59,9 +59,13 @@ public abstract class CBaseElement
 		{
 			if (tok.GetType() == CTokenType.COMMENTS)
 			{
-				ParseComment() ;
+				ParseComment() ; // ParseComment already calls GetNext()
+				tok = lstTokens.GetCurrentToken() ;
 			}
-			tok = lstTokens.GetNext() ;
+			else
+			{
+				tok = lstTokens.GetNext() ;
+			}
 		}
 		return tok ;
 	}
@@ -76,9 +80,12 @@ public abstract class CBaseElement
 		{
 			if (tok.GetType() == CTokenType.COMMENTS)
 			{
-				ParseComment() ;
+				ParseComment() ; // ParseComment already calls GetNext()
 			}
-			lstTokens.GetNext() ;
+			else
+			{
+				lstTokens.GetNext() ;
+			}
 			tok = lstTokens.GetCurrentToken() ;
 		}
 		return tok ;

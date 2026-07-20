@@ -32,7 +32,8 @@ public class CJavaCalcul extends CEntityCalcul
 	 */
 	public CJavaCalcul(int l, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
-		super(l, cat, out);
+		super(l, cat);
+		setLanguageExporter(out);
 	}
 
 	/* (non-Javadoc)

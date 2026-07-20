@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 18 août 2004
+ * Created on 18 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -50,5 +50,19 @@ public abstract class CEntityExprSum extends CBaseEntityExpression
 		return CEntityExpressionType.MATH;
 	}
 
+	public CBaseEntityExpression getLeft()
+	{
+		return op1;
+	}
+
+	public CBaseEntityExpression getRight()
+	{
+		return op2;
+	}
+
+	public boolean isAdd()
+	{
+		return type != null && "ADD".equals(type.Text);
+	}
 
 }

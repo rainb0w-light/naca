@@ -12,7 +12,6 @@
  */
 package semantic.CICS;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import utils.CObjectCatalog;
 import utils.CobolTranscoder.Notifs.NotifDeclareUseCICSPreprocessor;
@@ -28,11 +27,10 @@ public abstract class CEntityCICSSyncPoint extends CBaseActionEntity
 	/**
 	 * @param line
 	 * @param cat
-	 * @param out
 	 */
-	public CEntityCICSSyncPoint(int line, CObjectCatalog cat, CBaseLanguageExporter out, boolean bRollback)
+	public CEntityCICSSyncPoint(int line, CObjectCatalog cat, boolean bRollback)
 	{
-		super(line, cat, out);
+		super(line, cat);
 		bRollback = bRollback ;
 		cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
 	}

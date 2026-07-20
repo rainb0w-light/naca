@@ -85,9 +85,9 @@ public abstract class CEntityFieldColor extends CBaseEntityFieldAttribute
 		}
 	}
 	
-	public CEntityFieldColor(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity owner)
+	public CEntityFieldColor(int l, String name, CObjectCatalog cat, CDataEntity owner)
 	{
-		super(l, name, cat, out, CEntityFieldAttributeType.COLOR, owner) ;
+		super(l, name, cat, CEntityFieldAttributeType.COLOR, owner) ;
 	}
 	public CBaseActionEntity GetSpecialAssignment(CTerminal term, CBaseEntityFactory factory, int l)
 	{

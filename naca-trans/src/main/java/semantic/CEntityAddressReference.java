@@ -27,11 +27,10 @@ public abstract class CEntityAddressReference extends CBaseDataReference
 	 * @param l
 	 * @param name
 	 * @param cat
-	 * @param out
 	 */
-	public CEntityAddressReference(CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity ref)
+	public CEntityAddressReference(CObjectCatalog cat, CDataEntity ref)
 	{
-		super(0, "", cat, out);
+		super(0, "", cat);
 		reference = ref ;
 	}
 	public CDataEntityType GetDataType()

@@ -32,7 +32,8 @@ public class CJavaDivide extends CEntityDivide
 	 */
 	public CJavaDivide(int line, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
-		super(line, cat, out);
+		super(line, cat);
+		setLanguageExporter(out);
 	}
 	protected void DoExport()
 	{

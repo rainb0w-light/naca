@@ -534,7 +534,7 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 	// Accounting
 	public void setInitialConnectDb(boolean bInitialConnectDb)
 	{
-		bInitialConnectDb = bInitialConnectDb;
+		this.isinitialConnectDb = bInitialConnectDb;
 	}
 	
 	public void setExternalDbConnection(DbConnectionBase dbConnection)

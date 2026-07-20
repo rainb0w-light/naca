@@ -14,7 +14,8 @@ public class CJavaSQLSessionDrop extends CEntitySQLSessionDrop
 {
 	public CJavaSQLSessionDrop(int line, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
-		super(line, cat, out);
+		super(line, cat);
+		setLanguageExporter(out);
 	}
 
 	protected void DoExport()

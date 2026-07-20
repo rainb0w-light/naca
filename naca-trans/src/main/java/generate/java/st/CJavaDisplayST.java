@@ -7,48 +7,30 @@
 package generate.java.st;
 
 import generate.CBaseLanguageExporter;
+import generate.templates.TemplateLoader;
 import semantic.Verbs.CEntityDisplay;
-import semantic.CDataEntity;
 import utils.CObjectCatalog;
 
 /**
- * ST4-based implementation of CEntityDisplay.
- * Migration from: generate.java.CJavaDisplay
- * 
- * Handles CONSOLE/ENVINONMENT/DEFAULT upon cases manually,
- * since the template would need conditional logic (against ST4 philosophy).
- * 
- * Could be fully templated if we add uponType accessor and conditional templates.
+ * ST4-based implementation of CEntityDisplay (DISPLAY).
+ * Renders through the recursive assembler (CEntityDisplay=display).
  */
 public class CJavaDisplayST extends CEntityDisplay
 {
     public CJavaDisplayST(int l, CObjectCatalog cat, CBaseLanguageExporter out, Upon t)
     {
-        super(l, cat, out, t);
+        super(l, cat, t);
+        setLanguageExporter(out);
     }
 
     @Override
     protected void DoExport()
     {
-        StringBuilder sb = new StringBuilder();
-        
-        if (upon == Upon.CONSOLE) {
-            sb.append("console().display(");
-        } else if (upon == Upon.ENVINONMENT) {
-            sb.append("displayEnv(");
-        } else {
-            sb.append("display(");
-        }
-        
-        for (int i = 0; i < itemsToDisplay.size(); i++) {
-            CDataEntity e = itemsToDisplay.get(i);
-            if (i != 0) {
-                sb.append(" + ");
+        String rendered = TemplateLoader.getRecursiveAssembler().renderRoot(this);
+        for (String line : rendered.split("\n", -1)) {
+            if (!line.isEmpty()) {
+                WriteLine(line);
             }
-            sb.append(e.ExportReference(getLine()));
         }
-        
-        sb.append(");");
-        WriteLine(sb.toString());
     }
 }

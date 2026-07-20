@@ -12,7 +12,6 @@
  */
 package semantic.SQL;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import utils.CObjectCatalog;
 
@@ -27,11 +26,10 @@ public abstract class CEntitySQLRollBack extends CBaseActionEntity
 	/**
 	 * @param line
 	 * @param cat
-	 * @param out
 	 */
-	public CEntitySQLRollBack(int line, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntitySQLRollBack(int line, CObjectCatalog cat)
 	{
-		super(line, cat, out);
+		super(line, cat);
 	}
 	public boolean ignore()
 	{

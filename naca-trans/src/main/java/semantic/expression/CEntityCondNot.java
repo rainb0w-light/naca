@@ -26,6 +26,12 @@ public abstract class CEntityCondNot extends CBaseEntityCondition
 {
 	
 	protected CBaseEntityCondition cond ;
+
+	public CBaseEntityCondition getOperand()
+	{
+		return cond;
+	}
+
 	public void Clear()
 	{
 		super.Clear() ;
@@ -36,7 +42,7 @@ public abstract class CEntityCondNot extends CBaseEntityCondition
 	public void SetCondition(CBaseEntityCondition cond)
 	{
 		ASSERT(cond);
-		cond = cond ;
+		this.cond = cond ;
 		cond.SetParent(this);
 	}
 	public boolean ignore()

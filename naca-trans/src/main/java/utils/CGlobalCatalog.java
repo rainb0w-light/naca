@@ -84,19 +84,29 @@ public class CGlobalCatalog
 			return false ;
 		}
 	}
-	public CGlobalCatalog(Transcoder trans, String grpReferences, String grpResources, String grpIncludes) 
+	public CGlobalCatalog(Transcoder trans, String grpReferences, String grpResources, String grpIncludes)
 	{
 		transcoder = trans ;
 		csIncludeGroupName = grpIncludes ;
 		csReferenceGroupName = grpReferences ;
 		csResourceGroupName = grpResources ;
 	}
+
+	/** Group lookup that tolerates a missing transcoder (e.g. the simplified pipeline). */
+	private CTransApplicationGroup getGroupSafe(String name)
+	{
+		return transcoder == null ? null : transcoder.getGroup(name) ;
+	}
 	
 	
 	@SuppressWarnings("unchecked")
 	public CEntityResourceFormContainer GetFormContainer(String contName, CBaseEntityFactory factory)
 	{
-		CTransApplicationGroup grpResources = transcoder.getGroup(csResourceGroupName) ;
+		if (transcoder == null)
+		{
+			return null ;
+		}
+		CTransApplicationGroup grpResources = getGroupSafe(csResourceGroupName) ;
 		if (grpResources != null)
 		{
 			BaseEngine<CEntityResourceFormContainer> engine = grpResources.getEngine() ;
@@ -125,7 +135,7 @@ public class CGlobalCatalog
 			
 			if (ext != null)
 			{
-				CTransApplicationGroup grpResources = transcoder.getGroup(csResourceGroupName) ;
+				CTransApplicationGroup grpResources = getGroupSafe(csResourceGroupName) ;
 				if(grpResources != null)
 				{
 					String csFilePathXML = grpResources.csOutputPath + contName + ".res" ;
@@ -138,7 +148,7 @@ public class CGlobalCatalog
 	
 	public CTransApplicationGroup getGroupResources()
 	{
-		return  transcoder.getGroup(csResourceGroupName) ;
+		return  getGroupSafe(csResourceGroupName) ;
 	}
 	
 	protected Hashtable<String, CEntityResourceFormContainer> tabFormContainers = new Hashtable<String, CEntityResourceFormContainer>() ; 
@@ -202,7 +212,7 @@ public class CGlobalCatalog
 	} 
 	public boolean isProgramReference(String cs)
 	{
-		CTransApplicationGroup grpReferences = transcoder.getGroup(csReferenceGroupName) ;
+		CTransApplicationGroup grpReferences = getGroupSafe(csReferenceGroupName) ;
 		if (grpReferences != null)
 		{
 			File dir = new File(grpReferences.csInputPath) ;
@@ -237,7 +247,7 @@ public class CGlobalCatalog
 		// else do transcoding ;
 		for (String includeGroupName : csIncludeGroupName.split(":"))
 		{
-			CTransApplicationGroup grpIncludes = transcoder.getGroup(includeGroupName) ;
+			CTransApplicationGroup grpIncludes = getGroupSafe(includeGroupName) ;
 			if (grpIncludes == null)
 				continue;
 			BaseEngine<CEntityExternalDataStructure> engine = grpIncludes.getEngine() ;
@@ -382,7 +392,7 @@ public class CGlobalCatalog
 
 	public void doRegisteredDependencies()
 	{
-		CTransApplicationGroup grpReferences = transcoder.getGroup(csReferenceGroupName) ;
+		CTransApplicationGroup grpReferences = getGroupSafe(csReferenceGroupName) ;
 		if (grpReferences != null)
 		{
 			for (int i = 0; i< subProgramCalls.size(); i++)

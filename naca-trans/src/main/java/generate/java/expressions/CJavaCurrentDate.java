@@ -30,7 +30,8 @@ public class CJavaCurrentDate extends CEntityCurrentDate
 	 */
 	public CJavaCurrentDate(CObjectCatalog cat, CBaseLanguageExporter out)
 	{
-		super(cat, out);
+		super(cat);
+		setLanguageExporter(out);
 	}
 	public String ExportReference(int nLine)
 	{

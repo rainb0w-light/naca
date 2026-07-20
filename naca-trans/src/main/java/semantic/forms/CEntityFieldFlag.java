@@ -35,13 +35,12 @@ public abstract class CEntityFieldFlag extends CBaseEntityFieldAttribute
 	 * @param l
 	 * @param name
 	 * @param cat
-	 * @param out
 	 * @param type
 	 * @param owner
 	 */
-	public CEntityFieldFlag(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity owner)
+	public CEntityFieldFlag(int l, String name, CObjectCatalog cat, CDataEntity owner)
 	{
-		super(l, name, cat, out, CEntityFieldAttributeType.FLAG, owner);
+		super(l, name, cat, CEntityFieldAttributeType.FLAG, owner);
 	}
 	public CBaseActionEntity GetSpecialAssignment(CTerminal term, CBaseEntityFactory factory, int l)
 	{

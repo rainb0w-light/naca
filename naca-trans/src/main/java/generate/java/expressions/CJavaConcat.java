@@ -34,7 +34,8 @@ public class CJavaConcat extends CEntityConcat
 	 */
 	public CJavaConcat(CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity data1, CDataEntity data2)
 	{
-		super(cat, out, data1, data2);
+		super(cat, data1, data2);
+		setLanguageExporter(out);
 	}
 
 	/* (non-Javadoc)

@@ -33,7 +33,8 @@ public class CJavaDigits extends CEntityDigits
 	 */
 	public CJavaDigits(CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity data1)
 	{
-		super(cat, out, data1);
+		super(cat, data1);
+		setLanguageExporter(out);
 	}
 
 	/* (non-Javadoc)

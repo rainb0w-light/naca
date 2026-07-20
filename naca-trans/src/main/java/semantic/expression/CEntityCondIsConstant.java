@@ -72,6 +72,32 @@ public abstract class CEntityCondIsConstant extends CUnitaryEntityCondition
 	protected boolean isisSpace = false ;
 	protected boolean isisLowValue = false ;
 	protected boolean isisHighValue = false ;
+
+	public boolean isOpposite()
+	{
+		return bIsOpposite;
+	}
+
+	public boolean isZero()
+	{
+		return isisZero;
+	}
+
+	public boolean isSpace()
+	{
+		return isisSpace;
+	}
+
+	public boolean isLowValue()
+	{
+		return isisLowValue;
+	}
+
+	public boolean isHighValue()
+	{
+		return isisHighValue;
+	}
+
 	public boolean ignore()
 	{
 		return reference.ignore() ; 

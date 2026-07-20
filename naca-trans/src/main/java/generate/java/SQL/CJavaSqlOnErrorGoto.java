@@ -32,7 +32,8 @@ public class CJavaSqlOnErrorGoto extends CEntitySqlOnErrorGoto
 	 */
 	public CJavaSqlOnErrorGoto(int l, CObjectCatalog cat, CBaseLanguageExporter out, String Reference, boolean OnWarning)
 	{
-		super(l, cat, out, Reference, OnWarning);
+		super(l, cat, Reference, OnWarning);
+		setLanguageExporter(out);
 	}
 
 	/* (non-Javadoc)

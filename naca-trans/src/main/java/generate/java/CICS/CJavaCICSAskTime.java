@@ -31,7 +31,8 @@ public class CJavaCICSAskTime extends CEntityCICSAskTime
 	 */
 	public CJavaCICSAskTime(int line, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
-		super(line, cat, out);
+		super(line, cat);
+		setLanguageExporter(out);
 	}
 	/* (non-Javadoc)
 	 * @see semantic.CBaseLanguageEntity#DoExport()

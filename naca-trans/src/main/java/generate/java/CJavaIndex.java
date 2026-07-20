@@ -31,7 +31,8 @@ public class CJavaIndex extends CEntityIndex
 	 */
 	public CJavaIndex(String name, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
-		super(name, cat, out);
+		super(name, cat);
+		setLanguageExporter(out);
 	}
 
 	public String ExportReference(int nLine)

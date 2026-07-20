@@ -12,7 +12,6 @@
  */
 package semantic.Verbs;
 
-import generate.CBaseLanguageExporter;
 
 import java.util.Vector;
 
@@ -32,11 +31,10 @@ public abstract class CEntityCallProgram extends CBaseActionEntity
 {
 	/**
 	 * @param cat
-	 * @param out
 	 */
-	public CEntityCallProgram(int l, CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity Reference)
+	public CEntityCallProgram(int l, CObjectCatalog cat, CDataEntity Reference)
 	{
-		super(l, cat, out);
+		super(l, cat);
 		reference = Reference ;
 		cat.RegisterCallProgram(this) ;
 	}
@@ -139,6 +137,96 @@ public abstract class CEntityCallProgram extends CBaseActionEntity
 	public CDataEntity getProgramReference()
 	{
 		return reference ;
+	}
+
+	public String getCallableReference()
+	{
+		if (reference == null)
+		{
+			return "[UNDEFINED]";
+		}
+		String name = reference.ExportReference(getLine());
+		if (name.startsWith("\""))
+		{
+			name = name.substring(1, name.length()-1);
+			name = CobolNameUtil.fixJavaName(name);
+			if (ischecked)
+			{
+				name += ".class";
+			}
+			else
+			{
+				name = "\"" + name + "\"";
+			}
+		}
+		return name;
+	}
+
+	public Vector<CCallParameterView> getCallParameters()
+	{
+		Vector<CCallParameterView> views = new Vector<CCallParameterView>();
+		for (int i = 0; i < parameters.size(); i++)
+		{
+			CCallParameter p = parameters.get(i);
+			if (!p.reference.ignore())
+			{
+				views.add(new CCallParameterView(getCallParameterMethod(p), p.reference));
+			}
+		}
+		return views;
+	}
+
+	public boolean hasOnErrorBloc()
+	{
+		return onErrorBloc != null;
+	}
+
+	public CBaseLanguageEntity getOnErrorBloc()
+	{
+		return onErrorBloc;
+	}
+
+	private String getCallParameterMethod(CCallParameter p)
+	{
+		if (p.methode == CCallParameterMethode.BY_REFERENCE)
+		{
+			return "using";
+		}
+		else if (p.methode == CCallParameterMethode.LENGTH_OF)
+		{
+			return "usingLengthOf";
+		}
+		else if (p.methode == CCallParameterMethode.BY_VALUE)
+		{
+			return "usingValue";
+		}
+		else if (p.methode == CCallParameterMethode.BY_CONTENT)
+		{
+			return "usingContent";
+		}
+		return "using";
+	}
+
+	public static class CCallParameterView
+	{
+		private final String method;
+		private final CDataEntity reference;
+
+		public CCallParameterView(String method, CDataEntity reference)
+		{
+			this.method = method;
+			this.reference = reference;
+		}
+
+		public String getMethod()
+		{
+			return method;
+		}
+
+		public CDataEntity getReference()
+		{
+			return reference;
+		}
 	}
 
 	public void setChecked(boolean bChecked)

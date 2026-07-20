@@ -12,7 +12,6 @@
  */
 package semantic.expression;
 
-import generate.CBaseLanguageExporter;
 import semantic.CDataEntity;
 import utils.CObjectCatalog;
 
@@ -29,11 +28,10 @@ public abstract class CEntityInternalBool extends CDataEntity
 	 * @param l
 	 * @param name
 	 * @param cat
-	 * @param out
 	 */
-	public CEntityInternalBool(String name, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntityInternalBool(String name, CObjectCatalog cat)
 	{
-		super(0, name, cat, out);
+		super(0, name, cat);
 	}
 
 	/* (non-Javadoc)

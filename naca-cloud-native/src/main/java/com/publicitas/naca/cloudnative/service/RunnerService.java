@@ -173,8 +173,9 @@ public class RunnerService {
             return "Program";
         }
 
-        // Capitalize first letter for class name convention
-        String className = simpleName.toUpperCase();
+        // The transpiler already applies the Java class-name convention.
+        // Preserve that exact case: Java class loading is case-sensitive.
+        String className = simpleName;
 
         // Try common packages used by NacaTrans
         String[] packages = {
@@ -195,7 +196,7 @@ public class RunnerService {
             }
         }
 
-        // Return the simple name uppercase as default
+        // Return the transpiler-produced class name as the default.
         return className;
     }
 

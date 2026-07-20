@@ -15,7 +15,6 @@ package semantic.forms;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseEntityFactory;
 import utils.CObjectCatalog;
 
@@ -32,11 +31,10 @@ public abstract class CEntityResourceFieldArray extends CEntityResourceField
 	 * @param l
 	 * @param name
 	 * @param cat
-	 * @param lexp
 	 */
-	public CEntityResourceFieldArray(int l, String name, CObjectCatalog cat, CBaseLanguageExporter lexp)
+	public CEntityResourceFieldArray(int l, String name, CObjectCatalog cat)
 	{
-		super(l, name, cat, lexp);
+		super(l, name, cat);
 	}
 
 	public CDataEntityType GetDataType()

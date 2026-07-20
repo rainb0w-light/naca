@@ -6,16 +6,15 @@
  */
 package semantic.Verbs;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import semantic.CDataEntity;
 import utils.CObjectCatalog;
 
-public abstract class CEntityInspectConverting extends CBaseActionEntity
+public class CEntityInspectConverting extends CBaseActionEntity
 {
-	public CEntityInspectConverting(int line, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntityInspectConverting(int line, CObjectCatalog cat)
 	{
-		super(line, cat, out);
+		super(line, cat);
 	}
 	
 	public void Clear()
@@ -47,4 +46,13 @@ public abstract class CEntityInspectConverting extends CBaseActionEntity
 	protected CDataEntity variable = null ;
 	protected CDataEntity from = null ;
 	protected CDataEntity to = null ;
+	public CDataEntity getVariable() {
+		return variable;
+	}
+	public CDataEntity getFrom() {
+		return from;
+	}
+	public CDataEntity getTo() {
+		return to;
+	}
 }

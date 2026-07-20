@@ -15,7 +15,8 @@ public class CFPacJavaReadFile extends CEntityReadFile
 
 	public CFPacJavaReadFile(int line, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
-		super(line, cat, out);
+		super(line, cat);
+		setLanguageExporter(out);
 	}
 
 	@Override

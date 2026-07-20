@@ -12,7 +12,6 @@
  */
 package semantic.SQL;
 
-import generate.CBaseLanguageExporter;
 import semantic.CDataEntity;
 import utils.CObjectCatalog;
 
@@ -28,11 +27,10 @@ public abstract class CEntitySQLCursor extends CDataEntity
 	 * @param l
 	 * @param name
 	 * @param cat
-	 * @param out
 	 */
-	public CEntitySQLCursor(String name, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntitySQLCursor(String name, CObjectCatalog cat)
 	{
-		super(0, name, cat, out);
+		super(0, name, cat);
 		programCatalog.RegisterSQLCursor(this);
 		if (!name.equals(this.GetName()))
 		{

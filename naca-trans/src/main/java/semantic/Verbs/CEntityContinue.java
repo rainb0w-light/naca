@@ -5,14 +5,13 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 9 août 2004
+ * Created on 9 aoÃ»t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 package semantic.Verbs;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import utils.CObjectCatalog;
 
@@ -22,7 +21,7 @@ import utils.CObjectCatalog;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityContinue extends CBaseActionEntity
+public class CEntityContinue extends CBaseActionEntity
 {
 
 	/**
@@ -30,9 +29,9 @@ public abstract class CEntityContinue extends CBaseActionEntity
 	 * @param cat
 	 * @param out
 	 */
-	public CEntityContinue(int line, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntityContinue(int line, CObjectCatalog cat)
 	{
-		super(line, cat, out);
+		super(line, cat);
 	}
 	public boolean ignore()
 	{

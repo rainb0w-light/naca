@@ -33,7 +33,8 @@ public class CJavaCICSReceiveMap extends CEntityCICSReceiveMap
 	 */
 	public CJavaCICSReceiveMap(int line, CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity name)
 	{
-		super(line, cat, out, name);
+		super(line, cat, name);
+		setLanguageExporter(out);
 	}
 
 	protected void DoExport()

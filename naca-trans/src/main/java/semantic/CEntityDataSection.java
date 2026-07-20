@@ -27,11 +27,10 @@ public abstract class CEntityDataSection extends CBaseLanguageEntity
 	 * @param line
 	 * @param name
 	 * @param cat
-	 * @param out
 	 */
-	public CEntityDataSection(int line, String name, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntityDataSection(int line, String name, CObjectCatalog cat)
 	{
-		super(line, name, cat, out);
+		super(line, name, cat);
 		if (name.equals("LinkageSection"))
 		{
 			cat.RegisterLinkageSection(this) ;

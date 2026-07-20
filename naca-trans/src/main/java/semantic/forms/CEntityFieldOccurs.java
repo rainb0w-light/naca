@@ -12,7 +12,6 @@
  */
 package semantic.forms;
 
-import generate.CBaseLanguageExporter;
 
 
 import semantic.CDataEntity;
@@ -34,9 +33,9 @@ public abstract class CEntityFieldOccurs extends CEntityResourceField
 		occurs = null ;
 	}
 	
-	public CEntityFieldOccurs(int l, String name, CObjectCatalog cat, CBaseLanguageExporter lexp)
+	public CEntityFieldOccurs(int l, String name, CObjectCatalog cat)
 	{
-		super(l, name, cat, lexp);
+		super(l, name, cat);
 		if (name.equals(""))
 		{
 			name = GetDefaultName() ;

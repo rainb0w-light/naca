@@ -20,16 +20,15 @@ package semantic.SQL;
  */
 import java.util.Vector;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import semantic.CDataEntity;
 import utils.CObjectCatalog;
 
 public abstract class CEntitySQLDeleteStatement extends CBaseActionEntity
 {
-	public CEntitySQLDeleteStatement(int line, CObjectCatalog cat, CBaseLanguageExporter out, String csStatement, Vector<CDataEntity> parameters)
+	public CEntitySQLDeleteStatement(int line, CObjectCatalog cat, String csStatement, Vector<CDataEntity> parameters)
 	{
-		super(line, cat, out);
+		super(line, cat);
 		csStatement = csStatement ;
 		parameters = parameters;
 	}

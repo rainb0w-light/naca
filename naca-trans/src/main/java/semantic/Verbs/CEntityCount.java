@@ -12,9 +12,9 @@
  */
 package semantic.Verbs;
 
+import java.util.List;
 import java.util.Vector;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import semantic.CDataEntity;
 import utils.CObjectCatalog;
@@ -25,7 +25,7 @@ import utils.CObjectCatalog;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityCount extends CBaseActionEntity
+public class CEntityCount extends CBaseActionEntity
 {
 
 	/* (non-Javadoc)
@@ -47,11 +47,10 @@ public abstract class CEntityCount extends CBaseActionEntity
 	/**
 	 * @param line
 	 * @param cat
-	 * @param out
 	 */
-	public CEntityCount(int line, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntityCount(int line, CObjectCatalog cat)
 	{
-		super(line, cat, out);
+		super(line, cat);
 	}
 
 	public void SetCount(CDataEntity var)
@@ -102,5 +101,27 @@ public abstract class CEntityCount extends CBaseActionEntity
 	public boolean ignore()
 	{
 		return variable.ignore();
+	}
+	public CDataEntity getVariable() {
+		return variable;
+	}
+	public CDataEntity getToVariable() {
+		return toVariable;
+	}
+	public List<CDataEntity> getCountAllToken() {
+		return countAllToken;
+	}
+	public List<CDataEntity> getCountLeadingToken() {
+		return countLeadingToken;
+	}
+	public List<CDataEntity> getCountAfterToken() {
+		return countAfterToken;
+	}
+	public List<CDataEntity> getCountBeforeToken() {
+		return countBeforeToken;
+	}
+	public boolean isForChars() {
+		return countAllToken.isEmpty() && countLeadingToken.isEmpty()
+			&& (!countAfterToken.isEmpty() || !countBeforeToken.isEmpty());
 	}
 }

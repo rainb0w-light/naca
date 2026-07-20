@@ -31,7 +31,8 @@ public class CJavaCICSHandleCondition extends CEntityCICSHandleCondition
 	 */
 	public CJavaCICSHandleCondition(int line, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
-		super(line, cat, out);
+		super(line, cat);
+		setLanguageExporter(out);
 	}
 	protected void DoExport()
 	{

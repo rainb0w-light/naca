@@ -12,7 +12,6 @@
  */
 package semantic.CICS;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import semantic.CDataEntity;
 import utils.CObjectCatalog;
@@ -29,11 +28,10 @@ public abstract class CEntityCICSLink extends CBaseActionEntity
 	/**
 	 * @param line
 	 * @param cat
-	 * @param out
 	 */
-	public CEntityCICSLink(int line, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntityCICSLink(int line, CObjectCatalog cat)
 	{
-		super(line, cat, out);
+		super(line, cat);
 		cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
 		cat.RegisterCICSLink(this);
 	}

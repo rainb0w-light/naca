@@ -31,9 +31,9 @@ public abstract class CBaseResourceEntity extends CBaseExternalEntity
 	 * @param name
 	 * @param cat
 	 */
-	public CBaseResourceEntity(int l, String name, CObjectCatalog cat, CBaseLanguageExporter lexp)
+	public CBaseResourceEntity(int l, String name, CObjectCatalog cat)
 	{
-		super(l, name, cat, lexp);
+		super(l, name, cat);
 	}
 	
 //	public abstract Element DoXMLExport() ;

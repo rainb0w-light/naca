@@ -202,8 +202,7 @@ public class CProgram extends CCommentContainer
 					}
 					if (kw == CCobolKeywordList.PROGRAM_ID)
 					{
-						programID = cs ;
-					}
+						programID = cs ;}
 					else if (kw == CCobolKeywordList.AUTHOR)
 					{
 						author = cs ;
@@ -389,7 +388,7 @@ public class CProgram extends CCommentContainer
 //					m_Logger.error("ERROR Line " +getLine()+ " : " + "Unexpected sequence : " + tokVar.toString() + tokSection.toString() + tokDot.toString());
 //					return false ;
 //				} 
-//				tokDot = GetNext() ; // consume DOT 
+//				tokDot = GetNext() ; // consume DOT
 //				if (tokVar.GetKeyword() == CCobolKeywordList.WORKING_STORAGE)
 //				{
 //					eWorking = new CWorking(tokVar.line) ;
@@ -612,7 +611,7 @@ public class CProgram extends CCommentContainer
 		{
 			tok = GetNext() ;
 			boolean isdone = false ;
-			while (!isdone)
+				while (!isdone)
 			{
 				if (tok.GetType() == CTokenType.IDENTIFIER)
 				{
@@ -762,7 +761,10 @@ public class CProgram extends CCommentContainer
 		}
 
 		CBaseLanguageEntity eVariableSection = eWorking.DoSemanticAnalysis(parent, factory) ;
-		CBaseLanguageEntity eLinkageNew = this.eLinkage.DoSemanticAnalysis(parent, factory) ;
+		CBaseLanguageEntity eLinkageNew = null;
+		if (this.eLinkage != null) {
+			eLinkageNew = this.eLinkage.DoSemanticAnalysis(parent, factory) ;
+		}
 		while (le != null)
 		{
 			if (le == eFile)
@@ -772,12 +774,12 @@ public class CProgram extends CCommentContainer
 			else if (le == eWorking)
 			{
 				parent.AddChild(eVariableSection) ;
+				if(eFile != null)
+					parent.AddChild(eFile.DoSemanticAnalysis(parent, factory)) ;
 			}
 			else if (le == eLinkage)
 			{
 				parent.AddChild(eLinkageNew) ;
-				if(eFile != null)
-					parent.AddChild(eFile.DoSemanticAnalysis(parent, factory)) ;
 			}
 			else
 			{

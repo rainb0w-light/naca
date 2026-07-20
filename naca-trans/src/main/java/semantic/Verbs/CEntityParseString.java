@@ -12,15 +12,16 @@
  */
 package semantic.Verbs;
 
-import generate.CBaseLanguageExporter;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import semantic.CBaseActionEntity;
 import semantic.CDataEntity;
 import utils.CObjectCatalog;
 
-public abstract class CEntityParseString extends CBaseActionEntity
+public class CEntityParseString extends CBaseActionEntity
 {
 	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
 	{
@@ -83,11 +84,10 @@ public abstract class CEntityParseString extends CBaseActionEntity
 	/**
 	 * @param line
 	 * @param cat
-	 * @param out
 	 */
-	public CEntityParseString(int line,	CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntityParseString(int line,	CObjectCatalog cat)
 	{
-		super(line, cat, out);
+		super(line, cat);
 	}
 
 	public void ParseString(CDataEntity e)
@@ -132,5 +132,53 @@ public abstract class CEntityParseString extends CBaseActionEntity
 	public boolean ignore()
 	{
 		return variable.ignore();
+	}
+
+	public CDataEntity getVariable() {
+		return variable;
+	}
+	public List<CDataEntity> getDelimitersSingle() {
+		return delimitersSingle;
+	}
+	public List<CDataEntity> getDelimitersMulti() {
+		return delimitersMulti;
+	}
+	public CDataEntity getWithPointer() {
+		return withPointer;
+	}
+	public CDataEntity getTallying() {
+		return tallying;
+	}
+	public boolean isHasOverflowHandler() {
+		return !getActiveChildren().isEmpty();
+	}
+	public static class UnstringDestination {
+		private final CDataEntity to;
+		private final CDataEntity delimiterIn;
+		private final CDataEntity countIn;
+		public UnstringDestination(CDataEntity to, CDataEntity delimiterIn, CDataEntity countIn) {
+			this.to = to;
+			this.delimiterIn = delimiterIn;
+			this.countIn = countIn;
+		}
+		public CDataEntity getTo() {
+			return to;
+		}
+		public CDataEntity getDelimiterIn() {
+			return delimiterIn;
+		}
+		public CDataEntity getCountIn() {
+			return countIn;
+		}
+		public boolean isHasDelimiterOrCount() {
+			return delimiterIn != null || countIn != null;
+		}
+	}
+	public List<UnstringDestination> getUnstringDestinations() {
+		List<UnstringDestination> result = new ArrayList<>();
+		for (CDataEntity[] arr : destinations) {
+			result.add(new UnstringDestination(arr[0], arr[1], arr[2]));
+		}
+		return result;
 	}
 }

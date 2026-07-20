@@ -12,7 +12,6 @@
  */
 package semantic.forms;
 
-import generate.CBaseLanguageExporter;
 
 import java.util.Comparator;
 import java.util.SortedSet;
@@ -51,9 +50,9 @@ public abstract class CEntityResourceFormContainer extends CBaseResourceEntity
 	 * @param cat
 	 * @param exp
 	 */
-	public CEntityResourceFormContainer(int l, String name, CObjectCatalog cat, CBaseLanguageExporter lexp, boolean bSaveCopy)
+	public CEntityResourceFormContainer(int l, String name, CObjectCatalog cat, boolean bSaveCopy)
 	{
-		super(l, name, cat, lexp);
+		super(l, name, cat);
 		bSaveCopy = bSaveCopy ;
 	}
 

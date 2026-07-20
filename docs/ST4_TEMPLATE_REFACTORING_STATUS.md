@@ -1,5 +1,7 @@
 # ST4模板重构进度报告
 
+> 历史状态文档：其中提出的 `export()` / `exportChildren()` 方案已废止。当前计划与状态判定见 `ST4_RECURSIVE_TEMPLATE_REFACTOR_MASTER_PLAN.md`。
+
 > **状态**: 暂挂
 > **日期**: 2026-03-14
 > **原因**: 需要先处理遗留代码命名规范问题

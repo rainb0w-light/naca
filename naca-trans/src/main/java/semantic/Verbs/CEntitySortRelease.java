@@ -6,17 +6,16 @@
  */
 package semantic.Verbs;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import semantic.CDataEntity;
 import utils.CObjectCatalog;
 
-public abstract class CEntitySortRelease extends CBaseActionEntity
+public class CEntitySortRelease extends CBaseActionEntity
 {
 
-	public CEntitySortRelease(int line, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntitySortRelease(int line, CObjectCatalog cat)
 	{
-		super(line, cat, out);
+		super(line, cat);
 	}
 
 	protected CDataEntity eSortField = null ;
@@ -33,4 +32,10 @@ public abstract class CEntitySortRelease extends CBaseActionEntity
 		eSortField = e ;
 	}
 
+	public CDataEntity getSortField() {
+		return eSortField;
+	}
+	public CDataEntity getDatReference() {
+		return eDatReference;
+	}
 }

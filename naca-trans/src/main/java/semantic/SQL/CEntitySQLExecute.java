@@ -6,7 +6,6 @@
  */
 package semantic.SQL;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import semantic.CDataEntity;
 import utils.CObjectCatalog;
@@ -22,11 +21,10 @@ public abstract class CEntitySQLExecute extends CBaseActionEntity
 	/**
 	 * @param line
 	 * @param cat
-	 * @param out
 	 */
-	public CEntitySQLExecute(int line, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntitySQLExecute(int line, CObjectCatalog cat)
 	{
-		super(line, cat, out);
+		super(line, cat);
 	}
 
 	/**

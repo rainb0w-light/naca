@@ -12,7 +12,6 @@
  */
 package semantic.Verbs;
 
-import generate.CBaseLanguageExporter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,7 +28,7 @@ import utils.CObjectCatalog;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntitySubtractTo extends CBaseActionEntity
+public class CEntitySubtractTo extends CBaseActionEntity
 {
 	/* (non-Javadoc)
 	 * @see semantic.CBaseActionEntity#ReplaceVariable(semantic.CDataEntity, semantic.CDataEntity)
@@ -75,11 +74,10 @@ public abstract class CEntitySubtractTo extends CBaseActionEntity
 	/**
 	 * @param line
 	 * @param cat
-	 * @param out
 	 */
-	public CEntitySubtractTo(int line, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntitySubtractTo(int line, CObjectCatalog cat)
 	{
-		super(line, cat, out);
+		super(line, cat);
 	}
 	
 	public void SetSubstract(CDataEntity var, CDataEntity val, CDataEntity dest)
@@ -120,6 +118,45 @@ public abstract class CEntitySubtractTo extends CBaseActionEntity
 			ignore |= value.ignore();
 		}
 		return ignore;
+	}
+
+	// ==================== ST4 recursive accessors ====================
+
+	public CDataEntity getVariable()
+	{
+		return variable ;
+	}
+
+	public java.util.List<CDataEntity> getValues()
+	{
+		return values ;
+	}
+
+	public java.util.List<CDataEntity> getDestinations()
+	{
+		return destination ;
+	}
+
+	public boolean hasDestinations()
+	{
+		return !destination.isEmpty() ;
+	}
+
+	public boolean isDecrementByOne()
+	{
+		return destination.isEmpty() && values.size() == 1
+			&& "1".equals(values.get(0).GetConstantValue()) ;
+	}
+
+	public boolean isIncrementByOne()
+	{
+		return destination.isEmpty() && values.size() == 1
+			&& "-1".equals(values.get(0).GetConstantValue()) ;
+	}
+
+	public semantic.CBaseLanguageEntity getOnErrorBloc()
+	{
+		return onErrorBloc ;
 	}
 }
 

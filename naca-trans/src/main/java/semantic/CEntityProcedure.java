@@ -28,9 +28,9 @@ public abstract class CEntityProcedure extends CBaseLanguageEntity
 	 * @param name
 	 * @param cat
 	 */
-	protected CEntityProcedure(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out, CEntityProcedureSection section)
+	protected CEntityProcedure(int l, String name, CObjectCatalog cat, CEntityProcedureSection section)
 	{
-		super(l, "", cat, out);
+		super(l, "", cat);
 		sectionContainer = section ;
 		SetName(name);
 	}

@@ -26,7 +26,8 @@ public class CJavaString extends CEntityString
 {
 	public CJavaString(CObjectCatalog cat, CBaseLanguageExporter out, char[] val)
 	{
-		super(cat, out, val);
+		super(cat, val);
+		setLanguageExporter(out);
 	}
 	public String ExportReference(int nLine)
 	{

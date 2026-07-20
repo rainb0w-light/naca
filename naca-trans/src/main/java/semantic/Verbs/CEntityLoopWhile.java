@@ -5,14 +5,13 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 6 ao�t 2004
+ * Created on 6 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 package semantic.Verbs;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import semantic.expression.CBaseEntityCondition;
 import utils.CObjectCatalog;
@@ -23,7 +22,7 @@ import utils.CObjectCatalog;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityLoopWhile extends CBaseActionEntity
+public class CEntityLoopWhile extends CBaseActionEntity
 {
 
 	/**
@@ -31,9 +30,9 @@ public abstract class CEntityLoopWhile extends CBaseActionEntity
 	 * @param cat
 	 * @param out
 	 */
-	public CEntityLoopWhile(int line, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntityLoopWhile(int line, CObjectCatalog cat)
 	{
-		super(line, cat, out);
+		super(line, cat);
 	}
 	public void SetWhileCondition(CBaseEntityCondition exp)
 	{

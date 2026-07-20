@@ -55,7 +55,7 @@ public class FileManagerEntry extends CJMapObject
 		logicalFileDescriptor = null;
 		if(baseSession != null && csLogicalName != null)
 		{
-			LogicalFileDescriptor logicalFileDescriptor = baseSession.getLogicalFileDescriptor(csLogicalName);
+			logicalFileDescriptor = baseSession.getLogicalFileDescriptor(csLogicalName);
 			if(logicalFileDescriptor != null)
 			{
 				logicalFileDescriptor = logicalFileDescriptor;	// Inherit logical file descriptor

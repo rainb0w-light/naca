@@ -16,7 +16,8 @@ public class CFPacJavaArrayReference extends CEntityArrayReference
 
 	public CFPacJavaArrayReference(int l, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
-		super(l, cat, out);
+		super(l, cat);
+		setLanguageExporter(out);
 	}
 
 	@Override

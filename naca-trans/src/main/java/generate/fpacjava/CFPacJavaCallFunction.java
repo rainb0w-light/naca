@@ -27,7 +27,8 @@ public class CFPacJavaCallFunction extends CEntityCallFunction
 	 */
 	public CFPacJavaCallFunction(int l, CObjectCatalog cat, CBaseLanguageExporter out, String ref)
 	{
-		super(l, cat, out, ref, "", null);
+		super(l, cat, ref, "", null);
+		setLanguageExporter(out);
 	}
 
 	/**

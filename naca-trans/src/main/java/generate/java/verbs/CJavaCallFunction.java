@@ -37,7 +37,8 @@ public class CJavaCallFunction extends CEntityCallFunction
 	 */
 	public CJavaCallFunction(int l, CObjectCatalog cat, CBaseLanguageExporter out, String ref, String csRefThru, CEntityProcedureSection section)
 	{
-		super(l, cat, out, ref, csRefThru, section);
+		super(l, cat, ref, csRefThru, section);
+		setLanguageExporter(out);
 	}
 
 	/* (non-Javadoc)

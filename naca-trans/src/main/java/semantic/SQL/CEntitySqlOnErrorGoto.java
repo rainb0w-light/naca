@@ -12,7 +12,6 @@
  */
 package semantic.SQL;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import utils.*;
 
@@ -27,11 +26,10 @@ public abstract class CEntitySqlOnErrorGoto extends CBaseActionEntity
 
 	/**
 	 * @param cat
-	 * @param out
 	 */
-	public CEntitySqlOnErrorGoto(int l, CObjectCatalog cat, CBaseLanguageExporter out, String Reference, boolean OnWarning)
+	public CEntitySqlOnErrorGoto(int l, CObjectCatalog cat, String Reference, boolean OnWarning)
 	{
-		super(l, cat, out);
+		super(l, cat);
 		csRef = Reference ; 
 		isonWarning = OnWarning ;
 	}

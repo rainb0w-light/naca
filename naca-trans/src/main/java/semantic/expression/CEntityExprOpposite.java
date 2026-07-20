@@ -29,6 +29,12 @@ public abstract class CEntityExprOpposite extends CBaseEntityExpression
 		data = e ;
 	}
 	protected CBaseEntityExpression data = null ;
+
+	public CBaseEntityExpression getOperand()
+	{
+		return data;
+	}
+
 	public void Clear()
 	{
 		super.Clear() ;

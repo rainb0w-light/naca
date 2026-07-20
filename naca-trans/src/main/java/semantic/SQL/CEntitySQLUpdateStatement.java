@@ -13,16 +13,15 @@
 package semantic.SQL;
 import java.util.Vector;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import semantic.CDataEntity;
 import utils.CObjectCatalog;
 
 public abstract class CEntitySQLUpdateStatement extends CBaseActionEntity
 {
-	public CEntitySQLUpdateStatement(int line, CObjectCatalog cat, CBaseLanguageExporter out, String csStatement, Vector<CDataEntity> arrSets, Vector<CDataEntity> arrParameters)
+	public CEntitySQLUpdateStatement(int line, CObjectCatalog cat, String csStatement, Vector<CDataEntity> arrSets, Vector<CDataEntity> arrParameters)
 	{
-		super(line, cat, out);
+		super(line, cat);
 		csStatement = csStatement ;
 		arrSets = arrSets;
 		arrParameters = arrParameters;		

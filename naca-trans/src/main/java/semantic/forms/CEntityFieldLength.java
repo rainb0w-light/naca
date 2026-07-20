@@ -8,7 +8,6 @@
 
 package semantic.forms;
 
-import generate.CBaseLanguageExporter;
 
 import java.util.Vector;
 
@@ -36,9 +35,9 @@ public abstract class CEntityFieldLength extends CBaseEntityFieldAttribute
 		ref.RegisterWritingAction(eSet) ;
 		return eSet ;
 	}
-	public CEntityFieldLength(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity owner)
+	public CEntityFieldLength(int l, String name, CObjectCatalog cat, CDataEntity owner)
 	{
-		super(l, name, cat, out, CEntityFieldAttributeType.LENGTH, owner) ;
+		super(l, name, cat, CEntityFieldAttributeType.LENGTH, owner) ;
 	}
 	/* (non-Javadoc)
 	 * @see semantic.CBaseDataEntity#GetSpecialAssignment(parser.expression.CTerminal)

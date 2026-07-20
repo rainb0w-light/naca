@@ -74,6 +74,19 @@ public abstract class CEntityConstant extends CDataEntity
 
 
 	protected Value eValue ;
+
+	public Value getValue()
+	{
+		return eValue;
+	}
+	public boolean isHighValue()
+	{
+		return eValue == Value.HIGH_VALUE;
+	}
+	public boolean isSpaces()
+	{
+		return eValue == Value.SPACES;
+	}
 	
 	public enum Value 
 	{

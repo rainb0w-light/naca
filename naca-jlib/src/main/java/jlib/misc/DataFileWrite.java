@@ -17,8 +17,8 @@ public class DataFileWrite extends BaseDataFileBuffered
 	
 	public DataFileWrite(String csName, boolean bMustWriteFileHeader)
 	{
-		csName = csName;
-		bMustWriteFileHeader = bMustWriteFileHeader;
+		setName(csName);
+		this.ismustWriteFileHeader = bMustWriteFileHeader;
 	}
 		
 	public boolean open(String csName)

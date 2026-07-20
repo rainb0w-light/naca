@@ -12,7 +12,6 @@
  */
 package semantic.expression;
 
-import generate.CBaseLanguageExporter;
 import semantic.CDataEntity;
 import utils.CObjectCatalog;
 
@@ -43,17 +42,22 @@ public abstract class CEntityConcat extends CBaseEntityFunction
 	}
 	/**
 	 * @param cat
-	 * @param out
 	 * @param data
 	 */
-	public CEntityConcat(CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity data1, CDataEntity data2)
+	public CEntityConcat(CObjectCatalog cat, CDataEntity data1, CDataEntity data2)
 	{
-		super(cat, out, data1);
+		super(cat, data1);
 		dataRef2 = data2 ;
 		dataRef2.RegisterReadReference(this) ;
 	}
 	
 	protected CDataEntity dataRef2 = null ;
+
+	public CDataEntity getSecondReference()
+	{
+		return dataRef2;
+	}
+
 	public void Clear()
 	{
 		super.Clear() ;

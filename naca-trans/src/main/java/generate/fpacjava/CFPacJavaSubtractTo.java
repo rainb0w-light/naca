@@ -16,7 +16,8 @@ public class CFPacJavaSubtractTo extends CEntitySubtractTo
 
 	public CFPacJavaSubtractTo(int line, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
-		super(line, cat, out);
+		super(line, cat);
+		setLanguageExporter(out);
 	}
 
 	@Override

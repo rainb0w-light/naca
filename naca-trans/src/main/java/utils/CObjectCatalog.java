@@ -74,10 +74,9 @@ public class CObjectCatalog
 		CTransApplicationGroup.EProgramType eType,
 		NotificationEngine engine)
 	{
-		NotificationEngine eng = engine;
-		engine = eng ;
+		this.engine = engine ;
 		global = cat ;
-		listing = listing ;
+		this.listing = listing ;
 		callTree = new ProcedureCallTree() ;
 		eProgType = eType ;
 	}
@@ -896,6 +895,17 @@ public class CObjectCatalog
 	public int getNbCallProgram()
 	{
 		return callProgram.size() ;
+	}
+	private int lastFillerIndex = 0 ;
+	/**
+	 * Target-neutral filler counter. Filler naming is a semantic concern, so the
+	 * counter lives on the catalog (available during entity construction) rather
+	 * than on the backend exporter, which is injected only after construction.
+	 */
+	public int GetLastFillerIndex()
+	{
+		lastFillerIndex++ ;
+		return lastFillerIndex ;
 	}
 	protected Vector<CEntityCICSLink> iCSLink = new Vector<CEntityCICSLink>() ;
 	protected Vector<CEntityCallProgram> callProgram = new Vector<CEntityCallProgram>() ;

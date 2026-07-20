@@ -12,9 +12,10 @@
  */
 package semantic.expression;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Vector;
 
-import generate.CBaseLanguageExporter;
 import semantic.CDataEntity;
 import utils.CObjectCatalog;
 
@@ -31,11 +32,10 @@ public abstract class CEntityList extends CDataEntity
 	 * @param l
 	 * @param name
 	 * @param cat
-	 * @param out
 	 */
-	public CEntityList(String name, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntityList(String name, CObjectCatalog cat)
 	{
-		super(0, name, cat, out);
+		super(0, name, cat);
 	}
 
 	/* (non-Javadoc)
@@ -73,6 +73,31 @@ public abstract class CEntityList extends CDataEntity
 	public void AddData(CDataEntity e)
 	{
 		data.add(e) ;
+	}
+
+	public List<CDataEntity> getData()
+	{
+		return Collections.unmodifiableList(data);
+	}
+	public boolean isEmpty()
+	{
+		return data.isEmpty();
+	}
+	private CDataEntityType firstType()
+	{
+		return data.isEmpty() ? null : data.get(0).GetDataType();
+	}
+	public boolean isStringElements()
+	{
+		return firstType() == CDataEntityType.STRING;
+	}
+	public boolean isFieldElements()
+	{
+		return firstType() == CDataEntityType.FIELD;
+	}
+	public boolean isNumberElements()
+	{
+		return firstType() == CDataEntityType.NUMBER;
 	}
 
 	

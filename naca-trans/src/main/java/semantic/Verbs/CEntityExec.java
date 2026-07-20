@@ -12,7 +12,6 @@
  */
 package semantic.Verbs;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import utils.*;
 
@@ -22,16 +21,15 @@ import utils.*;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityExec extends CBaseActionEntity
+public class CEntityExec extends CBaseActionEntity
 {
 
 	/**
 	 * @param cat
-	 * @param out
 	 */
-	public CEntityExec(int l, CObjectCatalog cat, CBaseLanguageExporter out, String statement)
+	public CEntityExec(int l, CObjectCatalog cat, String statement)
 	{
-		super(l, cat, out);
+		super(l, cat);
 		csStatement = statement ;
 	}
 
@@ -41,4 +39,7 @@ public abstract class CEntityExec extends CBaseActionEntity
 		return false ;
 	}
 
+	public String getStatement() {
+		return csStatement;
+	}
 }

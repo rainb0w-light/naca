@@ -24,7 +24,8 @@ public class CJavaFileDescriptorLengthDependency extends CEntityFileDescriptorLe
 	 */
 	public CJavaFileDescriptorLengthDependency(String name, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
-		super(name, cat, out);
+		super(name, cat);
+		setLanguageExporter(out);
 	}
 
 	/**

@@ -34,7 +34,8 @@ public class CJavaArrayReference extends CEntityArrayReference
 	 */
 	public CJavaArrayReference(int l, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
-		super(l, cat, out);
+		super(l, cat);
+		setLanguageExporter(out);
 	}
 
 	/* (non-Javadoc)

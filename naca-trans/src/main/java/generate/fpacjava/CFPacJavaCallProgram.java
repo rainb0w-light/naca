@@ -26,7 +26,8 @@ public class CFPacJavaCallProgram extends CEntityCallProgram
 	 */
 	public CFPacJavaCallProgram(int l, CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity Reference)
 	{
-		super(l, cat, out, Reference);
+		super(l, cat, Reference);
+		setLanguageExporter(out);
 	}
 
 	/**

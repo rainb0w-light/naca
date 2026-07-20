@@ -6,19 +6,18 @@
  */
 package semantic.Verbs;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import semantic.CBaseLanguageEntity;
 import semantic.CDataEntity;
 import semantic.CEntityFileDescriptor;
 import utils.CObjectCatalog;
 
-public abstract class CEntitySortReturn extends CBaseActionEntity
+public class CEntitySortReturn extends CBaseActionEntity
 {
 
-	public CEntitySortReturn(int line, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntitySortReturn(int line, CObjectCatalog cat)
 	{
-		super(line, cat, out);
+		super(line, cat);
 	}
 
 	protected CEntityFileDescriptor eFileDesc = null ;
@@ -46,4 +45,16 @@ public abstract class CEntitySortReturn extends CBaseActionEntity
 		blocNotAtEnd = le ;
 	}
 
+	public CEntityFileDescriptor getFileDesc() {
+		return eFileDesc;
+	}
+	public CDataEntity getDataInto() {
+		return eDataInto;
+	}
+	public CBaseLanguageEntity getAtEndBloc() {
+		return blocAtEnd;
+	}
+	public CBaseLanguageEntity getNotAtEndBloc() {
+		return blocNotAtEnd;
+	}
 }

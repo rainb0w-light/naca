@@ -24,7 +24,8 @@ public class CFPacJavaReturn extends CEntityReturn
 	 */
 	public CFPacJavaReturn(int l, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
-		super(l, cat, out);
+		super(l, cat);
+		setLanguageExporter(out);
 	}
 
 	/**

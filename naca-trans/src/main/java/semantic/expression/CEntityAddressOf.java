@@ -12,7 +12,6 @@
  */
 package semantic.expression;
 
-import generate.CBaseLanguageExporter;
 import semantic.CDataEntity;
 import utils.CObjectCatalog;
 
@@ -26,10 +25,9 @@ public abstract class CEntityAddressOf extends CBaseEntityFunction
 {
 	/**
 	 * @param cat
-	 * @param out
 	 */
-	public CEntityAddressOf(CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity data)
+	public CEntityAddressOf(CObjectCatalog cat, CDataEntity data)
 	{
-		super(cat, out, data);
+		super(cat, data);
 	}
 }

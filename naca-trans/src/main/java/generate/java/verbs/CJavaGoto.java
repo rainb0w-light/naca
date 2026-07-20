@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 6 août 2004
+ * Created on 6 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -35,7 +35,8 @@ public class CJavaGoto extends CEntityGoto
 	 */
 	public CJavaGoto(int line, CObjectCatalog cat, CBaseLanguageExporter out, String ref, CEntityProcedureSection section)
 	{
-		super(line, cat, out, ref, section);
+		super(line, cat, ref, section);
+		setLanguageExporter(out);
 	}
 
 	/* (non-Javadoc)

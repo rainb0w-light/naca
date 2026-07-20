@@ -35,7 +35,8 @@ public class CJavaSQLSelectStatement extends CEntitySQLSelectStatement
 	 */
 	public CJavaSQLSelectStatement(int line, CObjectCatalog cat, CBaseLanguageExporter out, String csStatement, Vector<CDataEntity> arrParameters, Vector<CDataEntity> arrInto, Vector<CDataEntity> arrInd)
 	{
-		super(line, cat, out, csStatement, arrParameters, arrInto, arrInd);
+		super(line, cat, csStatement, arrParameters, arrInto, arrInd);
+		setLanguageExporter(out);
 	}
 	/* (non-Javadoc)
 	 * @see semantic.CBaseLanguageEntity#DoExport()

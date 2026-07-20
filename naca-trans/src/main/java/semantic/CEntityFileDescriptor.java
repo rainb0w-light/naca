@@ -6,15 +6,14 @@
  */
 package semantic;
 
-import generate.CBaseLanguageExporter;
 import semantic.Verbs.CEntityOpenFile;
 import utils.CObjectCatalog;
 
 public abstract class CEntityFileDescriptor extends CBaseLanguageEntity
 {
-	public CEntityFileDescriptor(int line, String name, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntityFileDescriptor(int line, String name, CObjectCatalog cat)
 	{
-		super(line, name, cat, out);
+		super(line, name, cat);
 	}
 
 	@Override
@@ -31,6 +30,11 @@ public abstract class CEntityFileDescriptor extends CBaseLanguageEntity
 	public String ExportReference(int nLine)
 	{
 		return FormatIdentifier(GetDisplayName());
+	}
+
+	public String getReferenceString()
+	{
+		return ExportReference(getLine());
 	}
 
 	public CDataEntity GetRecord()

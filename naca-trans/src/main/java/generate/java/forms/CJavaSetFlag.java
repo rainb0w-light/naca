@@ -33,7 +33,8 @@ public class CJavaSetFlag extends CEntitySetFlag
 	 */
 	public CJavaSetFlag(int line, CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity field)
 	{
-		super(line, cat, out, field);
+		super(line, cat, field);
+		setLanguageExporter(out);
 	}
 
 	/* (non-Javadoc)

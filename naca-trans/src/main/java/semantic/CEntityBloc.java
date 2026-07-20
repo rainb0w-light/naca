@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 3 août 2004
+ * Created on 3 aoÃ»t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -13,7 +13,9 @@
 package semantic;
 
 
-import generate.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import utils.*;
 
 /**
@@ -22,16 +24,16 @@ import utils.*;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityBloc extends CBaseLanguageEntity
+public class CEntityBloc extends CBaseLanguageEntity
 {
 	/**
 	 * @param name
 	 * @param cat
 	 * @param out
 	 */
-	public CEntityBloc(int l, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntityBloc(int l, CObjectCatalog cat)
 	{
-		super(l, "", cat, out);
+		super(l, "", cat);
 	}
 
 	/* (non-Javadoc)
@@ -51,6 +53,32 @@ public abstract class CEntityBloc extends CBaseLanguageEntity
 		nEndLine = n ;
 	}
 	protected int nEndLine = 0 ;
+
+	public List<CBaseActionEntity> getActions()
+	{
+		List<CBaseActionEntity> actions = new ArrayList<CBaseActionEntity>();
+		for (CBaseLanguageEntity child : lstChildren)
+		{
+			if (child instanceof CBaseActionEntity)
+			{
+				actions.add((CBaseActionEntity)child);
+			}
+		}
+		return Collections.unmodifiableList(actions);
+	}
+
+	public List<CBaseActionEntity> getActiveActions()
+	{
+		List<CBaseActionEntity> actions = new ArrayList<CBaseActionEntity>();
+		for (CBaseLanguageEntity child : lstChildren)
+		{
+			if (child instanceof CBaseActionEntity && !child.ignore())
+			{
+				actions.add((CBaseActionEntity)child);
+			}
+		}
+		return Collections.unmodifiableList(actions);
+	}
 
 	public int GetEndLine()
 	{

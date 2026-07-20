@@ -24,7 +24,8 @@ public class CFPacJavaFileDescriptor extends CEntityFileDescriptor
 
 	public CFPacJavaFileDescriptor(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
-		super(l, name, cat, out);
+		super(l, name, cat);
+		setLanguageExporter(out);
 	}
 
 	@Override

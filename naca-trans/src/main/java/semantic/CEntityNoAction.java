@@ -12,7 +12,6 @@
  */
 package semantic;
 
-import generate.CBaseLanguageExporter;
 import utils.CObjectCatalog;
 
 /**
@@ -27,15 +26,10 @@ public class CEntityNoAction extends CBaseActionEntity
 	/**
 	 * @param line
 	 * @param cat
-	 * @param out
 	 */
-	public CEntityNoAction(int line, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntityNoAction(int line, CObjectCatalog cat)
 	{
-		super(line, cat, out);
-	}
-
-	protected void DoExport()
-	{
+		super(line, cat);
 	}
 
 	public boolean ignore()

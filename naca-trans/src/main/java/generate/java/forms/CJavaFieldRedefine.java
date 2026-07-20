@@ -39,7 +39,8 @@ public class CJavaFieldRedefine extends CEntityFieldRedefine
 	
 	public CJavaFieldRedefine(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out, String level)
 	{
-		super(l, name, cat, out, level);
+		super(l, name, cat, level);
+		setLanguageExporter(out);
 	}
 	public boolean IsEntryField()
 	{

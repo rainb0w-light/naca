@@ -32,7 +32,8 @@ public class CJavaCICSSyncPoint extends CEntityCICSSyncPoint
 	 */
 	public CJavaCICSSyncPoint(int line, CObjectCatalog cat, CBaseLanguageExporter out, boolean bRollback)
 	{
-		super(line, cat, out, bRollback);
+		super(line, cat, bRollback);
+		setLanguageExporter(out);
 	}
 
 	protected void DoExport()

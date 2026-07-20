@@ -17,7 +17,8 @@ public class CFPacJavaAssignWithAccessor extends CEntityAssignWithAccessor
 	public CFPacJavaAssignWithAccessor(int line, CObjectCatalog cat,
 					CBaseLanguageExporter out)
 	{
-		super(line, cat, out);
+		super(line, cat);
+		setLanguageExporter(out);
 	}
 
 	@Override

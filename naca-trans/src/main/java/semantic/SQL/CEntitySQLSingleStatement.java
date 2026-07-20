@@ -12,7 +12,6 @@
  */
 package semantic.SQL;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import utils.CObjectCatalog;
 
@@ -27,11 +26,10 @@ public abstract class CEntitySQLSingleStatement extends CBaseActionEntity
 	/**
 	 * @param line
 	 * @param cat
-	 * @param out
 	 */
-	public CEntitySQLSingleStatement(int line, CObjectCatalog cat, CBaseLanguageExporter out, String st)
+	public CEntitySQLSingleStatement(int line, CObjectCatalog cat, String st)
 	{
-		super(line, cat, out);
+		super(line, cat);
 		csStatement = st ;
 	}
 	protected String csStatement = "" ;

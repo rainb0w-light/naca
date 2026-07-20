@@ -12,7 +12,6 @@
  */
 package semantic.Verbs;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import semantic.CDataEntity;
 import semantic.CEntityBloc;
@@ -30,11 +29,10 @@ public abstract class CEntitySearch extends CBaseActionEntity
 	/**
 	 * @param line
 	 * @param cat
-	 * @param out
 	 */
-	public CEntitySearch(int line, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntitySearch(int line, CObjectCatalog cat)
 	{
-		super(line, cat, out);
+		super(line, cat);
 	}
 
 	/**

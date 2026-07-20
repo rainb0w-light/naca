@@ -32,7 +32,8 @@ public class CJavaAddressOf extends CEntityAddressOf
 	 */
 	public CJavaAddressOf(CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity data)
 	{
-		super(cat, out, data);
+		super(cat, data);
+		setLanguageExporter(out);
 	}
 	public String ExportReference(int nLine)
 	{

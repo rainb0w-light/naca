@@ -24,7 +24,8 @@ public class CJavaSQLExecute extends CEntitySQLExecute
 	 */
 	public CJavaSQLExecute(int line, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
-		super(line, cat, out);
+		super(line, cat);
+		setLanguageExporter(out);
 	}
 
 	/**

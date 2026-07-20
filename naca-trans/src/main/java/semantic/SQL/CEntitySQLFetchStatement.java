@@ -21,7 +21,6 @@ package semantic.SQL;
 
 import java.util.Vector;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import semantic.CDataEntity;
 import utils.CObjectCatalog;
@@ -44,9 +43,9 @@ public abstract class CEntitySQLFetchStatement extends CBaseActionEntity
 		}
 		return false ;
 	}
-	public CEntitySQLFetchStatement(int line, CObjectCatalog cat, CBaseLanguageExporter out, CEntitySQLCursor cur)
+	public CEntitySQLFetchStatement(int line, CObjectCatalog cat, CEntitySQLCursor cur)
 	{
-		super(line, cat, out);
+		super(line, cat);
 		cursor = cur;
 		into = new Vector<CDataEntity>() ;
 		indicators = new Vector<CDataEntity>() ;

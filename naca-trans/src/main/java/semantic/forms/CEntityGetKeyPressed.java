@@ -14,7 +14,6 @@ package semantic.forms;
 
 import lexer.Cobol.CCobolConstantList;
 import parser.expression.CTerminal;
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import semantic.CBaseEntityFactory;
 import semantic.CDataEntity;
@@ -35,11 +34,10 @@ public abstract class CEntityGetKeyPressed extends CDataEntity
 	 * @param l
 	 * @param name
 	 * @param cat
-	 * @param out
 	 */
-	public CEntityGetKeyPressed(String name, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntityGetKeyPressed(String name, CObjectCatalog cat)
 	{
-		super(0, name, cat, out);
+		super(0, name, cat);
 	}
 
 	public CDataEntityType GetDataType()

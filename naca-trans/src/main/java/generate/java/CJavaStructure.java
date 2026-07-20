@@ -34,7 +34,8 @@ public class CJavaStructure extends CEntityStructure
 	 */
 	public CJavaStructure(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out, String level)
 	{
-		super(l, name, cat, out, level);
+		super(l, name, cat, level);
+		setLanguageExporter(out);
 	}
 	protected void DoExport()
 	{
@@ -51,7 +52,15 @@ public class CJavaStructure extends CEntityStructure
 					format += "9";
 			}
 		}
-		String line = "Var " + FormatIdentifier(GetDisplayName()) + " = declare.level(" + Integer.parseInt(csLevel) + ")" ;
+		String identifier = GetDisplayName();
+		if (identifier.equals(""))
+			identifier = GetName();
+		if (identifier.equals("") && isfiller)
+		{
+			identifier = GetDefaultName();
+			SetName(identifier);
+		}
+		String line = "Var " + FormatIdentifier(identifier) + " = declare.level(" + Integer.parseInt(csLevel) + ")" ;
 		if (refRedefine != null)
 		{
 			line += ".redefines(" + refRedefine.ExportReference(getLine()) + ")" ;
@@ -170,8 +179,43 @@ public class CJavaStructure extends CEntityStructure
 		}
 		WriteEOL() ;
 		StartOutputBloc() ;
-		ExportChildren();
+		if (isInsideExternalDataStructure() || isInsideFileSection())
+		{
+			ExportAllChildren();
+		}
+		else
+		{
+			ExportChildren();
+		}
 		EndOutputBloc() ;
+	}
+
+	private boolean isInsideExternalDataStructure()
+	{
+		CBaseLanguageEntity entity = GetParent();
+		while (entity != null)
+		{
+			if (entity instanceof CBaseExternalEntity)
+			{
+				return true;
+			}
+			entity = entity.GetParent();
+		}
+		return false;
+	}
+
+	private boolean isInsideFileSection()
+	{
+		CBaseLanguageEntity entity = GetParent();
+		while (entity != null)
+		{
+			if (entity instanceof CEntityDataSection && "FileSection".equals(entity.GetName()))
+			{
+				return true;
+			}
+			entity = entity.GetParent();
+		}
+		return false;
 	}
 	/* (non-Javadoc)
 	 * @see semantic.CBaseDataEntity#ExportReference(semantic.CBaseExporter)

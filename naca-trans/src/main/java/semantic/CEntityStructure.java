@@ -36,9 +36,9 @@ public abstract class CEntityStructure extends CEntityAttribute
 	 * @param name
 	 * @param cat
 	 */
-	public CEntityStructure(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out, String level)
+	public CEntityStructure(int l, String name, CObjectCatalog cat, String level)
 	{
-		super(l, name, cat, out);
+		super(l, name, cat);
 		if (name.equals(""))
 		{
 			isfiller = true ;
@@ -76,6 +76,10 @@ public abstract class CEntityStructure extends CEntityAttribute
 	public void SetRedefine(CDataEntity e)
 	{
 		refRedefine = e ;
+		if (refRedefine != null)
+		{
+			refRedefine.RegisterReadReference(this);
+		}
 	}
 	public String csLevel = "" ;
 	protected CDataEntity tableSize = null ;

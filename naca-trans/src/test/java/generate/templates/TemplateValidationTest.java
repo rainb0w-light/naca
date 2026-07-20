@@ -37,7 +37,25 @@ public class TemplateValidationTest {
             "gotoStatement", "callFunction", "callProgram", "display", "initialize",
             "returnStatement", "structure", "dataSection",
             "exprSum", "exprProd", "condOr", "condAnd", "condNot", "condCompare", "condEquals",
-            "assignWithAccessor"
+            "assignWithAccessor", "numberLiteral", "stringLiteral", "cobolConstant",
+            "dataReference", "environmentVariableReference", "addressReference",
+            "internalBooleanReference", "lengthOfReference", "currentDateReference",
+            "addressOfExpression", "digitsExpression", "concatExpression",
+            "listExpression", "recursiveIntrinsicFunction",
+            "arrayReference", "subStringReference", "expressionTerminal",
+            "recursiveExprOpposite", "recursiveExprSum", "recursiveExprProduct",
+            "recursiveConditionChild", "recursiveCondAnd", "recursiveCondOr",
+            "recursiveCondNot", "recursiveCondCompare", "recursiveCondEquals",
+            "recursiveNamedCondition", "recursiveCondIsConstant",
+            "recursiveCondIsBoolean", "recursiveContinue", "recursiveBreak",
+            "recursiveBlock", "recursiveIf", "recursiveLoopWhile",
+            "recursiveIterationOpen", "recursiveIterationClose",
+            "recursiveIterationAfterUpdate", "recursiveLoopIterBefore",
+            "recursiveLoopIterAfter", "recursiveSwitchBranch",
+            "recursiveSwitchCase", "recursiveMoveStatement", "recursiveMove",
+            "recursiveUndefinedValue", "recursiveBinaryAdd", "recursiveAddSingle",
+            "recursiveAddToDestination", "recursiveSetSubstring",
+            "recursiveEnvironmentWrite", "recursiveAdd", "space"
         );
         
         System.out.println("\n=== Template Compilation Check ===");

@@ -8,28 +8,33 @@ package generate.java.st;
 
 import generate.CBaseLanguageExporter;
 import generate.templates.TemplateLoader;
-import org.stringtemplate.v4.ST;
 import semantic.Verbs.CEntityAssign;
 import utils.CObjectCatalog;
 
 /**
  * ST4-based implementation of CEntityAssign.
  * Migration from: generate.java.CJavaAssign
+ *
+ * Renders through the recursive assembler: the entity binding
+ * (CEntityAssign=recursiveMoveEntity) drives a clean template and child
+ * references are unfolded by the recursive model adaptor.
  */
 public class CJavaAssignST extends CEntityAssign
 {
     public CJavaAssignST(int l, CObjectCatalog cat, CBaseLanguageExporter out)
     {
-        super(l, cat, out);
+        super(l, cat);
+        setLanguageExporter(out);
     }
 
     @Override
     protected void DoExport()
     {
-        ST template = TemplateLoader.getVerbsTemplate("assign");
-        template.add("entity", this);
-        
-        String output = template.render();
-        WriteLine(output);
+        String rendered = TemplateLoader.getRecursiveAssembler().renderRoot(this);
+        for (String line : rendered.split("\n", -1)) {
+            if (!line.isEmpty()) {
+                WriteLine(line);
+            }
+        }
     }
 }

@@ -6,7 +6,6 @@
  */
 package semantic.Verbs;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import semantic.CBaseLanguageEntity;
 import semantic.CDataEntity;
@@ -16,9 +15,9 @@ import utils.CObjectCatalog;
 public abstract class CEntityReadFile extends CBaseActionEntity
 {
 
-	public CEntityReadFile(int line, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntityReadFile(int line, CObjectCatalog cat)
 	{
-		super(line, cat, out);
+		super(line, cat);
 	}
 
 	public void setFileDescriptor(CEntityFileDescriptor efd, CDataEntity data)

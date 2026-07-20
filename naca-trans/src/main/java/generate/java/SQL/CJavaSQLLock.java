@@ -24,7 +24,8 @@ public class CJavaSQLLock extends CEntitySQLLock
 	 */
 	public CJavaSQLLock(int line, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
-		super(line, cat, out);
+		super(line, cat);
+		setLanguageExporter(out);
 	}
 
 	/**

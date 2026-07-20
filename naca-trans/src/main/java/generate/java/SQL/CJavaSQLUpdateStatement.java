@@ -29,7 +29,8 @@ public class CJavaSQLUpdateStatement extends CEntitySQLUpdateStatement
 {
 	public CJavaSQLUpdateStatement(int line, CObjectCatalog cat, CBaseLanguageExporter out, String csStatement, Vector<CDataEntity> arrSets, Vector<CDataEntity> arrParameters)
 	{
-		super(line, cat, out, csStatement, arrSets, arrParameters);
+		super(line, cat, csStatement, arrSets, arrParameters);
+		setLanguageExporter(out);
 	}
 	
 	protected void DoExport()

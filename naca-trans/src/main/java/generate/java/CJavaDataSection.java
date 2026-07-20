@@ -32,12 +32,14 @@ public class CJavaDataSection extends CEntityDataSection
 	 */
 	public CJavaDataSection(int line, String name, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
-		super(line, name, cat, out);
+		super(line, name, cat);
+		setLanguageExporter(out);
 	}
 	protected void DoExport()
 	{
 		String name = GetName() ;
 		String type = "" ;
+		boolean exportAllChildren = false;
 		if (name.equals("WorkingStorageSection"))
 		{
 			type = "workingStorageSection" ;
@@ -49,6 +51,7 @@ public class CJavaDataSection extends CEntityDataSection
 		else if (name.equals("FileSection"))
 		{
 			type = "fileSection";
+			exportAllChildren = true;
 		}
 		else if (name.equals("VariableSection"))
 		{
@@ -59,10 +62,12 @@ public class CJavaDataSection extends CEntityDataSection
 			ExportChildren() ;
 			return ;
 		}
-		String line = "DataSection " + FormatIdentifier(GetName()) + " = declare." + type + "() ;" ;
-		WriteLine(line);
+		WriteLine("DataSection " + FormatIdentifier(name) + " = declare." + type + "() ;");
 //		StartOutputBloc() ;
-		ExportChildren() ;
+		if (exportAllChildren)
+			ExportAllChildren() ;
+		else
+			ExportChildren() ;
 //		EndOutputBloc();
 	}
 }

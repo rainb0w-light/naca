@@ -26,10 +26,43 @@ import semantic.CDataEntity;
 public abstract class CEntityCondOr extends CBaseEntityCondition
 {
 	public void SetCondition(CBaseEntityCondition op1, CBaseEntityCondition op2)	{
-		op1 = op1 ;
+		this.op1 = op1 ;
 		op1.SetParent(this) ; 
-		op2 = op2 ; 
+		this.op2 = op2 ;
 		op2.SetParent(this);
+	}
+	public CBaseEntityCondition getLeft()
+	{
+		return op1;
+	}
+	public CBaseEntityCondition getRight()
+	{
+		return op2;
+	}
+	public CBaseEntityCondition getEffectiveLeft()
+	{
+		return op1 != null && op1.ignore() ? op2 : op1;
+	}
+	public CBaseEntityCondition getEffectiveRight()
+	{
+		return op2 != null && op2.ignore() ? op1 : op2;
+	}
+	public boolean isLeftGrouped()
+	{
+		return needsGrouping(op1);
+	}
+	public boolean isRightGrouped()
+	{
+		return needsGrouping(op2);
+	}
+	private boolean needsGrouping(CBaseEntityCondition child)
+	{
+		if (child == null) return false;
+		int parent = GetPriorityLevel();
+		int childPriority = child.GetPriorityLevel();
+		return (parent == 2 && childPriority == 1)
+			|| (parent == 1 && childPriority == 2)
+			|| parent > childPriority;
 	}
 	protected CBaseEntityCondition op1 = null ;
 	protected CBaseEntityCondition op2 = null ;

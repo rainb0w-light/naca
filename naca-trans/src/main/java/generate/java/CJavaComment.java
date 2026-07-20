@@ -32,7 +32,8 @@ public class CJavaComment extends CEntityComment
 	 */
 	public CJavaComment(int l, CObjectCatalog cat, CBaseLanguageExporter out, String comment)
 	{
-		super(l, cat, out, comment);
+		super(l, cat, comment);
+		setLanguageExporter(out);
 	}
 
 	/* (non-Javadoc)

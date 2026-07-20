@@ -16,7 +16,8 @@ public class CFPacJavaAssign extends CEntityAssign
 
 	public CFPacJavaAssign(int l, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
-		super(l, cat, out);
+		super(l, cat);
+		setLanguageExporter(out);
 	}
 
 	@Override

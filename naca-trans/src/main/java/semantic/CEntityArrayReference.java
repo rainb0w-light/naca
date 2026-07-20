@@ -14,6 +14,8 @@ package semantic;
 
 import generate.*;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Vector;
 
 import parser.expression.CTerminal;
@@ -37,11 +39,10 @@ public abstract class CEntityArrayReference extends CBaseDataReference
 	 * @param l
 	 * @param name
 	 * @param cat
-	 * @param out
 	 */
-	public CEntityArrayReference(int l, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntityArrayReference(int l, CObjectCatalog cat)
 	{
-		super(l, "", cat, out);
+		super(l, "", cat);
 	}
 	
 	public void SetReference(CDataEntity e)
@@ -53,6 +54,10 @@ public abstract class CEntityArrayReference extends CBaseDataReference
 		arrIndexes.add(e);
 	}
 	protected Vector<CBaseEntityExpression> arrIndexes = new Vector<CBaseEntityExpression>() ;
+	public List<CBaseEntityExpression> getIndexes()
+	{
+		return Collections.unmodifiableList(arrIndexes);
+	}
 //	protected CDataEntity reference = null ;
 	public CBaseEntityCondition GetSpecialCondition(int nLine, String value, CBaseEntityCondition.EConditionType type, CBaseEntityFactory factory)
 	{

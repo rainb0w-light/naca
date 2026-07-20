@@ -6,7 +6,6 @@
  */
 package semantic;
 
-import generate.CBaseLanguageExporter;
 import utils.CObjectCatalog;
 
 /**
@@ -22,11 +21,10 @@ public abstract class CEntityFormatedVarReference extends CBaseDataReference
 	 * @param l
 	 * @param name
 	 * @param cat
-	 * @param out
 	 */
-	public CEntityFormatedVarReference(CDataEntity object, CObjectCatalog cat, CBaseLanguageExporter out, String format)
+	public CEntityFormatedVarReference(CDataEntity object, CObjectCatalog cat, String format)
 	{
-		super(0, "", cat, out);
+		super(0, "", cat);
 		csFormat = format ;
 		reference = object ;
 	}

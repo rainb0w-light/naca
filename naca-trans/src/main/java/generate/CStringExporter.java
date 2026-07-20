@@ -77,6 +77,13 @@ public class CStringExporter extends CBaseLanguageExporter
 	}
 
 	@Override
+	public void closeOutput()
+	{
+		// Skip comment container processing (commentContainer is null in string mode)
+		doCloseOutput();
+	}
+
+	@Override
 	public String getOutputDir()
 	{
 		return "";

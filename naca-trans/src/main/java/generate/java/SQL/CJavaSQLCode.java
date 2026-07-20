@@ -32,11 +32,13 @@ public class CJavaSQLCode extends CEntitySQLCode
 	 */
 	public CJavaSQLCode(String name, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
-		super(name, cat, out);
+		super(name, cat);
+		setLanguageExporter(out);
 	}
 	public CJavaSQLCode(String name, CObjectCatalog cat, CBaseLanguageExporter out, CBaseEntityExpression eHistoryItem)
 	{
-		super(name, cat, out, eHistoryItem);
+		super(name, cat, eHistoryItem);
+		setLanguageExporter(out);
 	}
 	/* (non-Javadoc)
 	 * @see semantic.CDataEntity#ExportReference(getLine())
