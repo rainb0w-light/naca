@@ -10,6 +10,7 @@ import generate.java.CJavaStructure;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.Test;
+import parser.Cobol.elements.CWorkingEntry.CWorkingSignType;
 import utils.CGlobalCatalog;
 import utils.CObjectCatalog;
 import utils.COriginalLisiting;
@@ -188,5 +189,41 @@ class DataSectionDeclarationTemplateTest
 
         assertEquals(normalize(exporter.getCapturedOutput()), normalize(rendered));
         assertTrue(rendered.contains("Var WS_PACKED = declare.level(5).pic9(5).comp3()"), rendered);
+    }
+
+    @Test
+    void rendersASignLeadingSeparatedStructureLikeTheDirectGenerator()
+    {
+        MockJavaExporter exporter = new MockJavaExporter();
+        CObjectCatalog catalog = catalog();
+        CJavaStructure structure =
+            new CJavaStructure(2, "WS-SGNL", catalog, exporter, "05");
+        structure.SetTypeNum(3, 0);
+        structure.SetSignSeparateType(CWorkingSignType.LEADING);
+
+        String rendered = TemplateLoader.getRecursiveAssembler()
+            .renderRoot(structure, JavaTemplateRole.DECLARATION);
+        structure.StartExport();
+
+        assertEquals(normalize(exporter.getCapturedOutput()), normalize(rendered));
+        assertTrue(rendered.contains("Var WS_SGNL = declare.level(5).pic9(3).signLeadingSeparated()"), rendered);
+    }
+
+    @Test
+    void rendersASignTrailingSeparatedStructureLikeTheDirectGenerator()
+    {
+        MockJavaExporter exporter = new MockJavaExporter();
+        CObjectCatalog catalog = catalog();
+        CJavaStructure structure =
+            new CJavaStructure(2, "WS-SGNT", catalog, exporter, "05");
+        structure.SetTypeNum(3, 0);
+        structure.SetSignSeparateType(CWorkingSignType.TRAILING);
+
+        String rendered = TemplateLoader.getRecursiveAssembler()
+            .renderRoot(structure, JavaTemplateRole.DECLARATION);
+        structure.StartExport();
+
+        assertEquals(normalize(exporter.getCapturedOutput()), normalize(rendered));
+        assertTrue(rendered.contains("Var WS_SGNT = declare.level(5).pic9(3).signTrailingSeparated()"), rendered);
     }
 }

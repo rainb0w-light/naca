@@ -118,4 +118,70 @@ class DataAttributeDeclarationTemplateTest
         assertEquals(renderDirect(attr, exporter), out.strip());
         assertEquals("pic9", attr.getType());
     }
+
+    @Test
+    void syncClause()
+    {
+        MockJavaExporter exporter = new MockJavaExporter();
+        CJavaAttribute attr = new CJavaAttribute(1, "WS-SYNC", catalog(), exporter);
+        attr.SetLevel("05");
+        attr.SetTypeString(4);
+        attr.SetSync(true);
+        String out = render(attr);
+        assertTrue(out.contains("Var WS_SYNC = declare.level(05).picX(4).sync().var() ;"), out);
+        assertEquals(renderDirect(attr, exporter), out.strip());
+    }
+
+    @Test
+    void justifiedRightClause()
+    {
+        MockJavaExporter exporter = new MockJavaExporter();
+        CJavaAttribute attr = new CJavaAttribute(1, "WS-JUST", catalog(), exporter);
+        attr.SetLevel("05");
+        attr.SetTypeString(4);
+        attr.SetJustifiedRight(true);
+        String out = render(attr);
+        assertTrue(out.contains("Var WS_JUST = declare.level(05).picX(4).justifyRight().var() ;"), out);
+        assertEquals(renderDirect(attr, exporter), out.strip());
+    }
+
+    @Test
+    void valueLiteralClause()
+    {
+        MockJavaExporter exporter = new MockJavaExporter();
+        CObjectCatalog catalog = catalog();
+        CJavaAttribute attr = new CJavaAttribute(1, "WS-VAL", catalog, exporter);
+        attr.SetLevel("05");
+        attr.SetTypeString(4);
+        attr.SetInitialValue(new MockDataEntity(1, catalog, exporter, "123"));
+        String out = render(attr);
+        assertTrue(out.contains("Var WS_VAL = declare.level(05).picX(4).value(123).var() ;"), out);
+        assertEquals(renderDirect(attr, exporter), out.strip());
+    }
+
+    @Test
+    void compClause()
+    {
+        MockJavaExporter exporter = new MockJavaExporter();
+        CJavaAttribute attr = new CJavaAttribute(1, "WS-BIN", catalog(), exporter);
+        attr.SetLevel("05");
+        attr.SetTypeNum(4, 0);
+        attr.SetComp("Comp");
+        String out = render(attr);
+        assertTrue(out.contains("Var WS_BIN = declare.level(05).pic9(4).comp().var() ;"), out);
+        assertEquals(renderDirect(attr, exporter), out.strip());
+    }
+
+    @Test
+    void comp2Clause()
+    {
+        MockJavaExporter exporter = new MockJavaExporter();
+        CJavaAttribute attr = new CJavaAttribute(1, "WS-FLT", catalog(), exporter);
+        attr.SetLevel("05");
+        attr.SetTypeNum(4, 0);
+        attr.SetComp("Comp2");
+        String out = render(attr);
+        assertTrue(out.contains("Var WS_FLT = declare.level(05).pic9(4).comp2().var() ;"), out);
+        assertEquals(renderDirect(attr, exporter), out.strip());
+    }
 }
