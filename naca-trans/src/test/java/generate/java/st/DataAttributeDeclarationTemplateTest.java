@@ -97,4 +97,25 @@ class DataAttributeDeclarationTemplateTest
         assertEquals("WS_ROLE", TemplateLoader.getRecursiveAssembler().renderRoot(attr));
         assertTrue(render(attr).contains("Var WS_ROLE = declare.level(05).picX(4)"));
     }
+
+    @Test
+    void blankWhenZeroNumericIsDeclaredAsEditedPictureWithoutMutatingTheTree()
+    {
+        MockJavaExporter exporter = new MockJavaExporter();
+        CJavaAttribute attr = new CJavaAttribute(1, "WS-BWZ", catalog(), exporter);
+        attr.SetLevel("05");
+        attr.SetTypeNum(4, 2);
+        attr.SetBlankWhenZero(true);
+
+        String out = render(attr);
+        assertTrue(out.contains("declare.level(05).pic(\"9999.99\").blankWhenZero().var() ;"), out);
+        assertEquals(renderDirect(attr, exporter), out.strip());
+
+        // The declaration is derived read-only: the raw type/format are untouched,
+        // so a second direct export is identical (idempotent, no tree mutation).
+        assertEquals("pic9", attr.getType());
+        exporter.clearOutput();
+        assertEquals(renderDirect(attr, exporter), out.strip());
+        assertEquals("pic9", attr.getType());
+    }
 }

@@ -94,4 +94,25 @@ class DataSectionDeclarationTemplateTest
         assertTrue(rendered.contains(".value(3, 9)"), rendered);
         assertTrue(rendered.contains(".var() ;"), rendered);
     }
+
+    @Test
+    void rendersAVariableLengthTableLikeTheDirectGeneratorWithoutMutatingLength()
+    {
+        MockJavaExporter exporter = new MockJavaExporter();
+        CObjectCatalog catalog = catalog();
+        CJavaStructure structure =
+            new CJavaStructure(2, "WS-TBL", catalog, exporter, "05");
+        structure.SetTypeString(3);
+        structure.SetTableSizeDepending(
+            new MockDataEntity(2, catalog, exporter, "5"), null);
+
+        String rendered = TemplateLoader.getRecursiveAssembler()
+            .renderRoot(structure, JavaTemplateRole.DECLARATION);
+        structure.StartExport();
+
+        assertEquals(normalize(exporter.getCapturedOutput()), normalize(rendered));
+        assertTrue(rendered.contains("Var WS_TBL = declare.level(5).variableLength().picX(15)"), rendered);
+        // Effective length (3 * 5) is a derived value; the semantic length is unchanged.
+        assertEquals(3, structure.getLength());
+    }
 }

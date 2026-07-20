@@ -39,19 +39,9 @@ public class CJavaStructure extends CEntityStructure
 	}
 	protected void DoExport()
 	{
-		if (isblankWhenZero && type.equals("pic9"))
-		{
-			type = "pic";
-			format = "";
-			for (int i=0; i < length; i++)
-				format += "9";
-			if (decimals>0)
-			{
-				format += ".";
-				for (int i=0; i < decimals; i++)
-					format += "9";
-			}
-		}
+		String declaredType = getDeclaredType();
+		String declaredFormat = getDeclaredFormat();
+		int declaredLength = getDeclaredLength();
 		String identifier = GetDisplayName();
 		if (identifier.equals(""))
 			identifier = GetName();
@@ -74,20 +64,19 @@ public class CJavaStructure extends CEntityStructure
 			}
 			else if (isisVariableLenght)
 			{
-				line += ".variableLength()" ; 
-				length = length * getTableSizeAsInt() ;
+				line += ".variableLength()" ;
 			}
 			else
 			{
 				line += ".occurs(" + tableSize.ExportReference(getLine()) + ")" ;
 			}
 		}
-		if (!type.equals(""))
+		if (!declaredType.equals(""))
 		{
-			line += "." + type + "(" ;
-			if (format.equals(""))
+			line += "." + declaredType + "(" ;
+			if (declaredFormat.equals(""))
 			{
-				line += length ;
+				line += declaredLength ;
 				if (decimals > 0)
 				{
 					line += "," + decimals ;
@@ -95,7 +84,7 @@ public class CJavaStructure extends CEntityStructure
 			}
 			else
 			{
-				line += "\"" + format + "\"" ;
+				line += "\"" + declaredFormat + "\"" ;
 			}
 			line += ")" ;
 		}

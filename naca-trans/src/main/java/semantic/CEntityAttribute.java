@@ -334,7 +334,7 @@ public abstract class CEntityAttribute extends CGenericDataEntityReference imple
 	}
 	public void SetJustifiedRight(boolean bJustifiedRight)
 	{
-		bJustifiedRight = bJustifiedRight ;
+		isjustifiedRight = bJustifiedRight ;
 	}
 	protected boolean isjustifiedRight = false ;
 	
@@ -460,5 +460,65 @@ public abstract class CEntityAttribute extends CGenericDataEntityReference imple
 	}
 	public boolean isScaled() {
 		return decimals > 0;
+	}
+
+	/**
+	 * A BLANK WHEN ZERO numeric item (PIC 9) is declared as an edited numeric
+	 * picture. Target-agnostic semantic fact used to pick the declared type.
+	 */
+	public boolean isBlankWhenZeroEditedNumeric() {
+		return isblankWhenZero && "pic9".equals(type);
+	}
+
+	/**
+	 * Effective declared type. A BLANK WHEN ZERO PIC 9 item is emitted as an
+	 * edited numeric picture ("pic") instead of "pic9". Read-only: computes a
+	 * value without mutating the semantic tree, so generating any backend
+	 * leaves the tree unchanged and is idempotent.
+	 */
+	public String getDeclaredType() {
+		return isBlankWhenZeroEditedNumeric() ? "pic" : type;
+	}
+
+	/**
+	 * Effective picture format. For a BLANK WHEN ZERO PIC 9 item this is the
+	 * edited numeric picture built from length/decimals (e.g. "999.99");
+	 * otherwise the original format. Read-only.
+	 */
+	public String getDeclaredFormat() {
+		if (!isBlankWhenZeroEditedNumeric())
+		{
+			return format;
+		}
+		StringBuilder picture = new StringBuilder();
+		for (int i = 0; i < length; i++)
+		{
+			picture.append('9');
+		}
+		if (decimals > 0)
+		{
+			picture.append('.');
+			for (int i = 0; i < decimals; i++)
+			{
+				picture.append('9');
+			}
+		}
+		return picture.toString();
+	}
+
+	public boolean isDeclaredEditedPicture() {
+		return !getDeclaredFormat().isEmpty();
+	}
+
+	public boolean isDeclaredPictureSizeSpecified() {
+		return getDeclaredLength() > 0 || decimals > 0;
+	}
+
+	/**
+	 * Effective declared length. Overridden by structures for variable-length
+	 * (OCCURS DEPENDING) tables; read-only, never mutates the tree.
+	 */
+	public int getDeclaredLength() {
+		return length;
 	}
 }

@@ -50,19 +50,8 @@ public class CJavaAttribute extends CEntityAttribute
 	
 	protected void DoExport()
 	{
-		if (isblankWhenZero && type.equals("pic9"))
-		{
-			type = "pic";
-			format = "";
-			for (int i=0; i < length; i++)
-				format += "9";
-			if (decimals>0)
-			{
-				format += ".";
-				for (int i=0; i < decimals; i++)
-					format += "9";
-			}
-		}
+		String declaredType = getDeclaredType();
+		String declaredFormat = getDeclaredFormat();
 		String identifier = GetName();
 		boolean isFiller = identifier.equals("");
 		if (isFiller)
@@ -71,8 +60,8 @@ public class CJavaAttribute extends CEntityAttribute
 			SetName(identifier);
 		}
 		String line = "Var " + FormatIdentifier(identifier) + " = declare.level(" + getLevel() + ")" ;
-		line += "." + type + "(" ;
-		if (format.equals(""))
+		line += "." + declaredType + "(" ;
+		if (declaredFormat.equals(""))
 		{
 			if (length > 0 || decimals > 0)
 			{
@@ -85,7 +74,7 @@ public class CJavaAttribute extends CEntityAttribute
 		}
 		else
 		{
-			line += "\"" + format + "\"" ;
+			line += "\"" + declaredFormat + "\"" ;
 		}
 		line += ")" ;
 		if (!comp.equals(""))

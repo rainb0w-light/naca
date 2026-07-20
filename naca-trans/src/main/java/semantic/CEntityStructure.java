@@ -243,6 +243,22 @@ public abstract class CEntityStructure extends CEntityAttribute
 		return isisVariableLenght;
 	}
 
+	/**
+	 * Effective declared length for a variable-length (OCCURS DEPENDING) table:
+	 * the element length scaled by the maximum table size. Read-only; never
+	 * mutates the semantic tree (the old direct generator multiplied
+	 * {@code length} in place during export).
+	 */
+	@Override
+	public int getDeclaredLength()
+	{
+		if (tableSize != null && tableSizeDepending == null && isisVariableLenght)
+		{
+			return length * getTableSizeAsInt();
+		}
+		return length;
+	}
+
 	public boolean isSignLeadingSeparated()
 	{
 		return issignSeparateType ==
