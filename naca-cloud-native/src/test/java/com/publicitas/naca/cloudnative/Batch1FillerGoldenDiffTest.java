@@ -17,19 +17,22 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
- * Step-1 guard: assigning attribute FILLER names during semantic construction
- * leaves the BATCH1 output byte-identical (zero change is the expected result).
- * Filler numbering follows the canonical section construction order — the
- * working-storage group filler is constructed first ({@code Filler$1}) and the
- * file-section attribute filler second ({@code Filler$2}) — which is the same
- * numbering the old export-time naming produced, so nothing changes. Any token
- * difference fails the test (stop condition). Also re-verifies BATCH1 + Msgzone
- * still compile.
+ * Guard: the production pipeline (now the recursive assembler root path) renders
+ * BATCH1 token-identically to the frozen direct-generator golden, and the FILLER
+ * naming stays canonical (working-storage group filler {@code Filler$1},
+ * file-section attribute filler {@code Filler$2}). Comparison is
+ * whitespace-insensitive (javac ignores whitespace): the assembler formats
+ * differently from the legacy WriteWord/WriteLine protocol but emits the same
+ * token stream. Also re-verifies BATCH1 + Msgzone still compile.
  */
 public class Batch1FillerGoldenDiffTest {
 
     private static String batch1Source;
     private static Path copybookDir;
+
+    private static String tokens(String s) {
+        return s.replaceAll("\\s+", "");
+    }
 
     @BeforeAll
     static void setup() throws IOException {
@@ -77,17 +80,17 @@ public class Batch1FillerGoldenDiffTest {
         String golden = golden();
         String actual = transpileBatch1();
 
-        // Construction-time filler naming follows the canonical section order
-        // (working-storage is built/output before the file section), which yields
-        // the SAME filler numbering as the old export-time naming. The group
-        // filler (REDEFINES SYS-TIME, working-storage) is Filler$1 and the
-        // attribute filler (PIC X(68), file section) is Filler$2 — both before
-        // and after the fix. So BATCH1 must be byte-identical: no token changes
-        // at all, which is the strongest form of the BATCH1-no-regression rule.
-        assertEquals(golden, actual, "BATCH1 output must be unchanged by the filler fix");
-        assertTrue(actual.contains("Var Filler$1 = declare.level(1).redefines(SYS_TIME).filler()"),
+        // The production exit now renders BATCH1 through the recursive assembler
+        // root path. Its token stream must equal the frozen direct-generator
+        // golden (whitespace differs — javac ignores it). Filler numbering follows
+        // the canonical section construction order: the working-storage group
+        // filler (REDEFINES SYS-TIME) is Filler$1 and the file-section attribute
+        // filler (PIC X(68)) is Filler$2.
+        assertEquals(tokens(golden), tokens(actual),
+            "BATCH1 production output must be token-identical to the direct golden");
+        assertTrue(tokens(actual).contains("VarFiller$1=declare.level(1).redefines(SYS_TIME).filler()"),
             "group filler stays Filler$1");
-        assertTrue(actual.contains("Var Filler$2 = declare.level(05).picX(68).filler()"),
+        assertTrue(tokens(actual).contains("VarFiller$2=declare.level(05).picX(68).filler()"),
             "attribute filler stays Filler$2");
     }
 

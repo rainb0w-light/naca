@@ -256,8 +256,8 @@ public class TranspilerService {
             if (rootEntity.GetName() == null || rootEntity.GetName().isEmpty()) {
                 rootEntity.SetName(programName);
             }
-			rootEntity.StartExport();
-			return exporter.getCapturedString();
+			return generate.templates.TemplateLoader.getRecursiveAssembler()
+				.renderRoot(rootEntity, generate.templates.recursive.JavaTemplateRole.ROOT);
 		} catch (Exception e) {
 			return null;
 		}
