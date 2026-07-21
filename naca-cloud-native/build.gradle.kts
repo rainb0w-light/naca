@@ -60,3 +60,21 @@ dependencies {
 tasks.withType<Test> {
     useJUnitPlatform()
 }
+
+// The default test task must never regenerate the committed BATCH1 golden
+// baseline; the one-off capture runs only via the dedicated task below.
+tasks.test {
+    useJUnitPlatform {
+        excludeTags("baseline-capture")
+    }
+}
+
+tasks.register<Test>("batch1BaselineCapture") {
+    group = "verification"
+    description = "Regenerates the BATCH1 transpile golden baseline (one-off)"
+    testClassesDirs = sourceSets["test"].output.classesDirs
+    classpath = sourceSets["test"].runtimeClasspath
+    useJUnitPlatform {
+        includeTags("baseline-capture")
+    }
+}
