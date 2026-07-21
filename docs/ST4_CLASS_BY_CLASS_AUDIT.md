@@ -318,3 +318,18 @@ FILLER 的 export 期改名副作用（`SetName(GetDefaultName())`）需派生�
 门禁：`:naca-trans:build`/`test`/`dataSectionAudit` 成功；`finalArchitectureCheck` **403 项/222 失败**（失败持平；总数 +2 因新增 `ProgramKind`/`ProgramCapability` 两个 semantic 枚举均**通过**契约，179→181 passing）；`:naca-cloud-native:test` 25 项/1 预存失败。
 
 下一切片（Step 4）：实现 `javaProgramRoot`/`programImports`/`programBaseType` 模板（消费 ProgramKind/ProgramCapability + declaration/executable children），废弃 `CJavaClassST` 预渲染方案，新增 `ProgramRootRenderParityTest`（两棵独立 tree 分别走 direct/assembler，TESTHELLO/T01 全文件 token 等价 + javac + 运行 + 渲染前后快照一致），仍不改 `TranscoderEngine` 生产出口。
+
+## 2026-07-21 进展：Step 4 完成——comment 绑定 + commentChildren + 完整 root 模板 + root render parity + no-arg 退场
+
+按用户 Step 4 指引（先 commentChildren + comment binding + root render parity，不碰生产出口）逐项完成：
+
+1. **comment REFERENCE 绑定**（`afc1799`）：`CEntityComment.getComment()` 暴露目标无关原文；`javaComment` 模板 = `// <entity.comment; format="javaCommentText">`；`javaCommentText` 原子渲染器**逐字复刻** `CJavaComment.ExportReference`（`indexOf > 0` 门控、`\n→0x000A`、`\r→Ox000D` 大写 O 怪癖、`StringUtil.trimRight`），`//` 留在模板侧。`semantic.CEntityComment=javaComment` 运行时绑定。`JavaCommentRenderTest` 4 例 golden 等价（含两个怪癖断言）。
+2. **`CEntityClass.getCommentChildren()`**：与 `declarationChildren`/`executableChildren` 同级，按 semantic 类型（`CEntityComment`）+ `getActiveChildren()` 顺序分类，root 模板不遍历裸 `activeChildren`。
+3. **assembler 显式 child role**：`commentChildren → REFERENCE`（与 `declarationChildren → DECLARATION`、`executableChildren → REFERENCE` 并列）；ROOT 仍不隐式继承。
+4. **完整 `javaProgramRoot`**（`93757c5`）：消费 `programName`/`programKind`/`capabilities`/`commentChildren`/`declarationChildren`/`executableChildren`；拆出 `programImports`/`programBaseImport`/`programBaseType`，Java import 与 base-class 映射全在模板侧；`javaClassName` 原子渲染器用 `CobolNameUtil.fixJavaName` 从源程序名形成 Java 类名；`CEntityClass` 增 bean getter + 目标无关 kind/capability 布尔。替换了占位模板。
+5. **`ProgramRootRenderParityTest`**（`93757c5`）：TESTHELLO/T01 解析为 semantic tree，先 direct `CJavaClass.DoExport`（顺带按生产方式赋 FILLER 名）再 assembler `renderRoot(root, ROOT)`，全文件 **token 等价**（空白不敏感）。**仅测试出口，未接 `TranscoderEngine`**。
+6. **no-arg `renderRoot` 退场**（`23ea869`）：11 个动词/procedure ST 控制器及全部测试调用点改为显式 `renderRoot(x, REFERENCE)`；删除无参 overload（忘传 role 现在是编译期错误，root 不会被静默渲成引用；fail-closed 守卫以显式 REFERENCE 保留）。行为不变（无参原本默认 REFERENCE）。完成 external/COPY root binding 的前置。
+
+门禁：`:naca-trans:build`/`test` 成功；`finalArchitectureCheck` **403 项/222 失败**（失败持平）；`:naca-cloud-native:test` 25 项/1 预存失败（`testTranspileValidCobolWithWorkingStorage`，未隐藏）。
+
+仍不接生产出口、不新增 `CJavaDataSectionST`、不删 direct generator。下一切片：external/COPY root binding（`CEntityExternalDataStructure`/`CEntityFileDescriptor`/include 结构），以及把 class root 接入唯一 assembler 的生产出口（Step 5）。
