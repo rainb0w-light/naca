@@ -160,4 +160,10 @@ role 只决定查询哪一份声明式 binding；具体 Java 语法仍由 STG �
 
 **4 类，0 缺失**。即独立（非文件/非 COPY）样例的数据段所需绑定已齐备，步骤 5 对这些样例可行。BATCH1 含文件与 COPY，会引入 `CEntityFileDescriptor`/`CEntityExternalDataStructure`（当前无声明绑定），接入生产前须先补这两类的 declaration binding + 模板（fail-closed 会明确报缺失）。level-88 `CEntityNamedCondition` 绑定已就绪，但上述独立样例未含 level 88，故未出现在清单中。
 
+### 全段渲染 golden（步骤 5 去风险）
+
+`DataSectionRenderParityTest`（同 `data-section-audit` tag）更进一步：用真实管线解析 TESTHELLO/T01，对每个已知类型数据段把整棵子树指向独立 mock，先跑 direct `CJavaDataSection.DoExport`（按生产顺序赋 filler 名）再跑 assembler `renderRoot(DECLARATION)`，断言**逐 token 等价**。结果：TESTHELLO/T01 的 WorkingStorageSection（含 group + 多个 level-05 子项、VALUE 字面量）经递归 assembler 渲染与 direct 输出 token 完全一致。
+
+唯一差异是空白：递归 ST4 输出紧凑（`<<...>>` 去掉尾换行，兄弟声明间无分隔），legacy direct 经 WriteWord 输出协议带换行/空格。二者 token 流相同，javac 不关心空白；逐声明的精确格式已由 `DataAttribute/DataSectionDeclarationTemplateTest` 锁定，故全段测试用「去空白后比较」验证组合正确性。接入生产 root 时若需可读排版，可给 children 列表加 `separator="\n"`，属可选美化，不影响正确性。
+
 门禁（每次提交均满足）：`:naca-trans:build` 成功；`finalArchitectureCheck` 401/222（持平）；`:naca-cloud-native:test` 23/1 预存失败（未隐藏）。
