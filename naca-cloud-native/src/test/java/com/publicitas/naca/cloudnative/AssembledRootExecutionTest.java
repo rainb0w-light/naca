@@ -8,29 +8,13 @@ import generate.CJavaEntityFactoryST;
 import generate.CStringExporter;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
-import idea.onlinePrgEnv.OnlineEnvironment;
-import idea.onlinePrgEnv.OnlineSession;
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import jlib.classLoader.CodeManager;
-import jlib.log.Log;
-import jlib.log.LogCenterConsole;
-import jlib.log.LogCenterLoader;
-import jlib.log.LogFlowStd;
-import jlib.log.LogLevel;
-import jlib.log.LogParams;
-import jlib.log.PatternLayoutConsole;
 import jlib.misc.AsciiEbcdicConverter;
-import jlib.misc.BasePic9Comp3BufferSupport;
 import lexer.CTokenList;
 import lexer.Cobol.CCobolLexer;
-import nacaLib.basePrgEnv.BaseProgramLoader;
-import nacaLib.batchPrgEnv.BatchProgramLoader;
-import nacaLib.calledPrgSupport.BaseCalledPrgPublicArgPositioned;
-import nacaLib.tempCache.TempCacheLocator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -46,11 +30,11 @@ import utils.CTransApplicationGroup;
  * Step 4.5 execution gate (TEST EXIT ONLY — production TranscoderEngine is NOT
  * wired). For each sample the program root is rendered through the recursive
  * assembler with the explicit ROOT role, then the resulting Java is compiled
- * with javac (hard assert) and actually run on the NacaRT runtime, asserting the
- * displayed output. Because {@code ProgramRootRenderParityTest} already proves
- * the assembled root is token-identical to the direct generator from two
- * independent trees, this proves the assembled artifact is not just equal but
- * genuinely compilable and runnable.
+ * with javac (hard assert) and actually run on the NacaRT runtime in an isolated
+ * JVM ({@link AssembledProgramRunner}), asserting the displayed output. Because
+ * {@code ProgramRootRenderParityTest} already proves the assembled root is
+ * token-identical to the direct generator from two independent trees, this proves
+ * the assembled artifact is not just equal but genuinely compilable and runnable.
  *
  * <p>Tagged {@code program-root-parity}.
  */
@@ -119,7 +103,7 @@ class AssembledRootExecutionTest
             + root + "/naca-jlib/build/classes/java/main";
     }
 
-    /** javac-compiles one assembled source into {@code classesDir}; returns javac output. */
+    /** javac-compiles one assembled source into {@code classesDir}; returns javac exit code. */
     private static int javac(String className, String source, Path classesDir) throws Exception
     {
         Path srcDir = classesDir.resolve("src");
@@ -140,39 +124,27 @@ class AssembledRootExecutionTest
         return exit;
     }
 
-    /** Runs an assembled+compiled batch program on NacaRT and captures its display output. */
-    private static String runBatch(String className, Path classesDir)
+    /**
+     * Runs an assembled+compiled batch program in an isolated JVM (clean
+     * CodeManager, no shared static state) and returns its captured stdout.
+     */
+    private static String runBatch(String className, Path classesDir) throws Exception
     {
-        StringBuilder captured = new StringBuilder();
-        LogCenterConsole center = new LogCenterConsole(new LogCenterLoader()
+        String classpath = System.getProperty("java.class.path")
+            + java.io.File.pathSeparator + classesDir;
+        ProcessBuilder pb = new ProcessBuilder(
+            "java", "-cp", classpath,
+            "com.publicitas.naca.cloudnative.AssembledProgramRunner",
+            className, classesDir.toString());
+        pb.redirectErrorStream(true);
+        Process p = pb.start();
+        String output = new String(p.getInputStream().readAllBytes());
+        int exit = p.waitFor();
+        if (exit != 0)
         {
-            {
-                logLevel = LogLevel.Normal;
-                logFlow = LogFlowStd.Any;
-                csChannel = "NacaRT";
-            }
-        })
-        {
-            @Override
-            protected void sendOutput(LogParams logParam)
-            {
-                captured.append(logParam.toString()).append("\n");
-            }
-        };
-        center.setPatternLayout(new PatternLayoutConsole("%Message"));
-        Log.registerLogCenter(center);
-
-        CodeManager.setPath(classesDir.toString());
-        CodeManager.initLoadPossibilities(true, false);
-        BasePic9Comp3BufferSupport.init();
-        TempCacheLocator.setTempCache();
-
-        BaseProgramLoader loader = new BatchProgramLoader(null, null);
-        OnlineSession session = new OnlineSession(false);
-        OnlineEnvironment env = (OnlineEnvironment) loader.GetEnvironment(session, null, null);
-        env.setNextProgramToLoad(className);
-        loader.runTopProgram(env, new ArrayList<BaseCalledPrgPublicArgPositioned>());
-        return captured.toString();
+            System.out.println("run failed for " + className + " (exit " + exit + "):\n" + output);
+        }
+        return output;
     }
 
     @Test
