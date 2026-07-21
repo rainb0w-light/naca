@@ -874,6 +874,35 @@ FileDescriptor <entity.formattedName> = declare.file(<if(entity.fileName)><entit
 <entity.activeChildren>
 >>
 
+// A COPY copybook declared as an instance in the program class (the non-inline
+// form): <Type> <ref> = <Type>.Copy(this[, replacing(level, value)]) ;
+dataInlineDeclaration(entity) ::= <<
+<entity.copyType> <entity.externalEntity> = <entity.copyType>.Copy(this<if(entity.replacing)>, replacing(<entity.replaceItem>, <entity.replaceValue>)<endif>) ;
+>>
+
+// ROOT artifact: a copybook as its own Java class extending the runtime Copy
+// base (generated as a separate compilation unit). Mirrors
+// CJavaExternalDataStructure.DoExport for the non-inline form.
+javaCopyClass(entity) ::= <<
+
+import nacaLib.program.* ;
+import nacaLib.varEx.* ;
+import nacaLib.basePrgEnv.* ;
+
+public class <entity.typeDecl; format="javaClassName"> extends Copy {
+public static <entity.typeDecl; format="javaClassName"> Copy(BaseProgram program) {
+return new <entity.typeDecl; format="javaClassName">(program, null);
+}
+public static <entity.typeDecl; format="javaClassName"> Copy(BaseProgram program, CopyReplacing copyReplacing) {
+return new <entity.typeDecl; format="javaClassName">(program, copyReplacing);
+}
+public <entity.typeDecl; format="javaClassName">(BaseProgram program, CopyReplacing copyReplacing) {
+super(program, copyReplacing);
+}
+<entity.activeChildren>
+}
+>>
+
 dataNamedConditionDeclaration(entity) ::= <<
 Cond <entity.formattedName> = declare.condition()<entity.values:{val | .value(<val>)}><entity.intervals:{interval | .value(<interval.start>, <interval.end>)}>.var() ;
 >>

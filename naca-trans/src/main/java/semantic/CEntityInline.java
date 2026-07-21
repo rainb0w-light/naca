@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 3 août 2004
+ * Created on 3 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -159,5 +159,41 @@ public abstract class CEntityInline extends CBaseActionEntity
 	public CBaseExternalEntity getExternalEntity()
 	{
 		return externalData ;
+	}
+
+	/**
+	 * The copybook Java type name used for the in-class instance declaration
+	 * ({@code <Type> ref = <Type>.Copy(this)}); target-neutral copybook class
+	 * name as resolved during semantic analysis.
+	 */
+	public String getCopyType()
+	{
+		return externalData.GetTypeDecl();
+	}
+
+	/** Whether the COPY carries a REPLACING clause (replace level present). */
+	public boolean isReplacing()
+	{
+		return externalData.GetReplaceItem() != 0;
+	}
+
+	public int getReplaceItem()
+	{
+		return externalData.GetReplaceItem();
+	}
+
+	public int getReplaceValue()
+	{
+		return externalData.GetReplaceValue();
+	}
+
+	/**
+	 * Whether the copybook must be declared as an instance in the program class
+	 * (the non-inline form). When inlined, the copybook fields are expanded
+	 * directly instead.
+	 */
+	public boolean isNeedDeclarationInClass()
+	{
+		return externalData.IsNeedDeclarationInClass();
 	}
 }

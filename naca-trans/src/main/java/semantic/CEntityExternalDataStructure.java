@@ -44,6 +44,16 @@ public abstract class CEntityExternalDataStructure extends CBaseExternalEntity
 		super(l, name, cat);
 		csClassName = name ;
 	}
+
+	/**
+	 * Bean accessor for the copybook class name (dashes normalized), used by the
+	 * ROOT template; the Java class-name convention (capitalization) is applied
+	 * template-side by the {@code javaClassName} renderer.
+	 */
+	public String getTypeDecl()
+	{
+		return csClassName.replace('-', '_');
+	}
 	/* (non-Javadoc)
 	 * @see semantic.CBaseDataEntity#GetSpecialAssignment(parser.expression.CTerminal)
 	 */
@@ -114,7 +124,7 @@ public abstract class CEntityExternalDataStructure extends CBaseExternalEntity
 	protected boolean isinline = false ;
 	public void SetInline(boolean bInline)
 	{
-		bInline = bInline;
+		this.isinline = bInline;
 	}
 	/**
 	 * @return

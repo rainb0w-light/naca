@@ -6,7 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import generate.java.CJavaAttribute;
 import generate.java.CJavaDataSection;
+import generate.java.CJavaExternalDataStructure;
 import generate.java.CJavaFileDescriptor;
+import generate.java.CJavaInline;
 import generate.java.CJavaNamedCondition;
 import generate.java.CJavaStructure;
 import generate.templates.TemplateLoader;
@@ -300,5 +302,57 @@ class DataSectionDeclarationTemplateTest
 
         assertEquals(normalize(exporter.getCapturedOutput()), normalize(rendered));
         assertTrue(rendered.contains("FileDescriptor FILEOUT = declare.file(\"FILEOUT\").status(WS_STATUS) ;"), rendered);
+    }
+
+    @Test
+    void rendersACopybookInstanceDeclarationLikeTheDirectGenerator()
+    {
+        MockJavaExporter exporter = new MockJavaExporter();
+        CObjectCatalog catalog = catalog();
+        // COPY MSGZONE: a non-inline copybook declared as an instance in the
+        // program class (Type ref = Type.Copy(this)), as in BATCH1.
+        CJavaExternalDataStructure copybook =
+            new CJavaExternalDataStructure(1, "Msgzone", catalog, exporter);
+        CJavaInline inline = new CJavaInline(2, catalog, exporter, copybook);
+
+        String rendered = TemplateLoader.getRecursiveAssembler()
+            .renderRoot(inline, JavaTemplateRole.DECLARATION);
+        inline.StartExport();
+
+        assertEquals(normalize(exporter.getCapturedOutput()), normalize(rendered));
+        assertTrue(rendered.contains("= Msgzone.Copy(this) ;"), rendered);
+    }
+
+    @Test
+    void setInlineActuallyStoresTheFlag()
+    {
+        MockJavaExporter exporter = new MockJavaExporter();
+        CObjectCatalog catalog = catalog();
+        CJavaExternalDataStructure copybook =
+            new CJavaExternalDataStructure(1, "Msgzone", catalog, exporter);
+        assertFalse(copybook.isInlined());
+        assertTrue(copybook.IsNeedDeclarationInClass());
+        copybook.SetInline(true);
+        assertTrue(copybook.isInlined(), "SetInline must store the flag (was self-assignment)");
+        assertFalse(copybook.IsNeedDeclarationInClass());
+    }
+
+    @Test
+    void rendersACopybookClassArtifactLikeTheDirectGenerator()
+    {
+        MockJavaExporter exporter = new MockJavaExporter();
+        CObjectCatalog catalog = catalog();
+        // ROOT role: the copybook as its own Java class extending Copy.
+        CJavaExternalDataStructure copybook =
+            new CJavaExternalDataStructure(1, "Msgzone", catalog, exporter);
+
+        String rendered = TemplateLoader.getRecursiveAssembler()
+            .renderRoot(copybook, JavaTemplateRole.ROOT);
+        copybook.StartExport();
+
+        assertEquals(normalize(exporter.getCapturedOutput()), normalize(rendered));
+        assertTrue(rendered.contains("public class Msgzone extends Copy {"), rendered);
+        assertTrue(rendered.contains("return new Msgzone(program, null);"), rendered);
+        assertTrue(rendered.contains("import nacaLib.basePrgEnv.* ;"), rendered);
     }
 }
