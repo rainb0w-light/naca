@@ -20,6 +20,7 @@ public final class JavaTemplateAssembler
     private final STGroup templateGroup;
     private final JavaSemanticTemplateBindings defaultBindings;
     private final JavaSemanticTemplateBindings declarationBindings;
+    private final JavaSemanticTemplateBindings rootBindings;
     private final Map<ST, JavaTemplateRole> templateRoles =
         Collections.synchronizedMap(new WeakHashMap<>());
 
@@ -28,6 +29,7 @@ public final class JavaTemplateAssembler
         this.templateGroup = Objects.requireNonNull(templateGroup, "templateGroup");
         this.defaultBindings = JavaSemanticTemplateBindings.loadDefault();
         this.declarationBindings = JavaSemanticTemplateBindings.loadDeclarations();
+        this.rootBindings = JavaSemanticTemplateBindings.loadRoots();
         this.templateGroup.registerModelAdaptor(
             Object.class, new RecursiveSemanticModelAdaptor(this));
         // Fail closed: a missing binding or property must abort generation
@@ -80,9 +82,16 @@ public final class JavaTemplateAssembler
         return template;
     }
 
+    /**
+     * Flattens a subtree whose top node binds through the default (reference)
+     * manifest. Used by the transitional verb/procedure ST controllers, whose
+     * bindings live in the reference manifest. Program / artifact roots must
+     * call {@link #renderRoot(Object, JavaTemplateRole)} with
+     * {@link JavaTemplateRole#ROOT} explicitly.
+     */
     public String renderRoot(Object rootModel)
     {
-        return renderRoot(rootModel, JavaTemplateRole.ROOT);
+        return renderRoot(rootModel, JavaTemplateRole.REFERENCE);
     }
 
     public String renderRoot(Object rootModel, JavaTemplateRole role)
@@ -92,9 +101,19 @@ public final class JavaTemplateAssembler
 
     private JavaSemanticTemplateBindings bindingsFor(JavaTemplateRole role)
     {
-        return role == JavaTemplateRole.DECLARATION
-            ? declarationBindings
-            : defaultBindings;
+        switch (role)
+        {
+            case DECLARATION:
+                return declarationBindings;
+            case ROOT:
+                // Root roles consult ONLY the root manifest; there is deliberately
+                // no fallback to the default manifest, so a root type without an
+                // explicit binding fails closed in renderNode.
+                return rootBindings;
+            case REFERENCE:
+            default:
+                return defaultBindings;
+        }
     }
 
     JavaTemplateRole childRole(ST parentTemplate, String propertyName)

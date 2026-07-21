@@ -275,3 +275,27 @@ Goto、Accept、Divide、Multiply、SubtractTo、Calcul、CallFunction、Return�
 FILLER 的 export 期改名副作用（`SetName(GetDefaultName())`）需派生填充名 getter；SYNC/JUSTIFIED/VALUE/sign/COMP-2 分支待补 golden；步骤 4（fail-closed 审计真实 DATA SECTION 子类型）与步骤 5（class root 接入 + 删 direct generator）未开始。
 
 门禁：`:naca-trans:build` 成功；`finalArchitectureCheck` **401 项/222 失败**（持平）；`:naca-cloud-native:test` 23 项/1 预存失败。
+
+## 2026-07-21 进展：root 契约推进 Step 0–2（已提交）
+
+按「每步独立提交、独立可回滚；root 契约完成前不改生产出口」推进。
+
+### Step 0：冻结基线
+- 门禁基线：`finalArchitectureCheck` 401/222；`:naca-cloud-native:test` 23/1 预存失败。
+- 用真实管线（lex→parse→`DoSemanticAnalysis`）转译 BATCH1，冻结 golden `naca-cloud-native/src/test/resources/golden/BATCH1_baseline.java`。当时 group filler（`01 FILLER REDEFINES SYS-TIME`，working-storage）=`Filler$1`，attribute filler（`05 FILLER PIC X(68)`，file section）=`Filler$2`。
+- 一次性 capture 测试打 tag `baseline-capture`，从默认 `:naca-cloud-native:test` 排除，按需经 `:naca-cloud-native:batch1BaselineCapture` 重生成。
+
+### Step 1：attribute FILLER 构造期命名（`fix: assign attribute FILLER names during semantic construction`）
+- filler 检测/命名统一上移到 `CEntityAttribute` 构造器；`CEntityStructure` 删除自己的 `isfiller` 字段/`isFiller()` 覆写/构造器命名块（继承父类）；`CJavaAttribute.DoExport` 删除 `SetName(GetDefaultName())` 副作用，改读 `isFiller()`（由恒 false 改为返回字段）。生成期不再改 semantic tree，渲染幂等。
+- **BATCH1 实测逐字节不变**：filler 编号跟随规范段序（working-storage 先于 file section 构造）而非源码行序，修复前后都是 group=`Filler$1`、attribute=`Filler$2`。`Batch1FillerGoldenDiffTest` 断言 `actual == golden` 且 BATCH1+Msgzone 仍 javac 通过。
+- 单测：`attributeFillerIsNamedDuringConstruction`、`attributeFillerNamingIsIdempotentAndDoesNotMutateTheTree`。
+
+### Step 2：显式 ROOT role 绑定（`refactor: add explicit root-role template bindings`）
+- 新增 `semantic-root-bindings.properties`（仅 `semantic.CEntityClass=javaProgramRoot`）+ `JavaSemanticTemplateBindings.loadRoots()`；assembler 持有 default/declaration/root 三份 manifest，`bindingsFor(ROOT)` 只用 root manifest（不回落 default），missing root binding 抛 `MissingTemplateRendererException`。`.render()` 仍只在 `renderRoot()`。
+- `java.stg` 增 `javaProgramRoot` 最小占位模板（真正 program-root 模板在后续 step 4）。
+- **关键兼容处理**：11 个过渡 ST 控制器（procedure/verb）原经 `renderRoot(this)`（默认 ROOT role）走 default manifest。ROOT 改为只查 root manifest 后会全部失败，故把无参 `renderRoot(model)` 的默认 role 由 ROOT 改为 REFERENCE（这些控制器绑定本就在 reference/default manifest，旧 ROOT 与新 REFERENCE 都解析到 default manifest，行为不变）；程序/artifact root 须显式 `renderRoot(root, ROOT)`。
+- `JavaTemplateRoleBindingTest` 证明 ROOT→root manifest、DECLARATION→declaration manifest、REFERENCE→default manifest，且 ROOT 不回落 default（attribute 以 ROOT 渲染 fail-closed）。
+
+门禁（Step 0–2 每次提交均满足）：`:naca-trans:build` 成功；`finalArchitectureCheck` **401/222**（持平）；`:naca-cloud-native:test` 25 项/1 预存失败（新增 `Batch1FillerGoldenDiffTest` 2 项；`JavaTemplateRoleBindingTest` 在 naca-trans）。
+
+下一切片（Step 3 起）：补目标无关 class root 语义（ProgramKind/ProgramCapability、declaration/executable children、显式 child role 传播），再实现 `javaProgramRoot` 模板（仍不接生产出口）。

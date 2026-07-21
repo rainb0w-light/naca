@@ -17,6 +17,8 @@ public final class JavaSemanticTemplateBindings
         "/templates/java/semantic-runtime-bindings.properties";
     private static final String DECLARATION_RESOURCE =
         "/templates/java/semantic-declaration-bindings.properties";
+    private static final String ROOT_RESOURCE =
+        "/templates/java/semantic-root-bindings.properties";
 
     private final Map<String, String> templateNames;
 
@@ -34,6 +36,11 @@ public final class JavaSemanticTemplateBindings
     public static JavaSemanticTemplateBindings loadDeclarations()
     {
         return load(DECLARATION_RESOURCE);
+    }
+
+    public static JavaSemanticTemplateBindings loadRoots()
+    {
+        return load(ROOT_RESOURCE);
     }
 
     private static JavaSemanticTemplateBindings load(String... resources)

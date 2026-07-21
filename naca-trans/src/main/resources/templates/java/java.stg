@@ -873,6 +873,14 @@ dataNamedConditionDeclaration(entity) ::= <<
 Cond <entity.formattedName> = declare.condition()<entity.values:{val | .value(<val>)}><entity.intervals:{interval | .value(<interval.start>, <interval.end>)}>.var() ;
 >>
 
+// Minimal ROOT-role placeholder so bindingsFor(ROOT) resolves CEntityClass.
+// The full program-root template (imports, base type, class declaration,
+// declaration + executable children) lands in step 4; this exists only to make
+// the root manifest non-empty and fail-closed for any other root type.
+javaProgramRoot(entity) ::= <<
+// javaProgramRoot placeholder for <entity.formattedName>
+>>
+
 recursiveRewriteFileEntity(entity) ::= <<
 <if(entity.dataFrom)>rewriteFrom(<entity.fileDescriptor>, <entity.dataFrom>) ;<else>rewrite(<entity.fileDescriptor>) ;<endif>
 >>
