@@ -6,12 +6,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import generate.java.CJavaAttribute;
 import generate.java.CJavaDataSection;
+import generate.java.CJavaFileDescriptor;
 import generate.java.CJavaNamedCondition;
 import generate.java.CJavaStructure;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.Test;
 import parser.Cobol.elements.CWorkingEntry.CWorkingSignType;
+import semantic.CEntityFileSelect;
 import utils.CGlobalCatalog;
 import utils.CObjectCatalog;
 import utils.COriginalLisiting;
@@ -247,5 +249,56 @@ class DataSectionDeclarationTemplateTest
         assertTrue(rendered.contains("declare.level(1).filler() ;"), rendered);
         assertTrue(filler.isFiller(), "empty-name structure must be a filler");
         assertFalse(filler.GetName().isEmpty(), "filler name assigned at construction");
+    }
+
+    @Test
+    void rendersAFileDescriptorLikeTheDirectGenerator()
+    {
+        MockJavaExporter exporter = new MockJavaExporter();
+        CObjectCatalog catalog = catalog();
+        // SELECT ... ASSIGN TO with no FILE STATUS: the file select carries no
+        // explicit name/status entity, so the declaration falls back to the
+        // quoted display name (exactly like BATCH1's FILEIN/FILEOUT).
+        CEntityFileSelect select = new CEntityFileSelect("FILEIN", catalog);
+        catalog.RegisterFileSelect(select);
+        // File section -> FD -> record group -> field. The FD is parented under
+        // the file section so the record group is "inside a file section" and
+        // exports all its children, matching the direct generator.
+        CJavaDataSection section = new CJavaDataSection(1, "FileSection", catalog, exporter);
+        CJavaFileDescriptor fd = new CJavaFileDescriptor(2, "FILEIN", catalog, exporter);
+        CJavaStructure record = new CJavaStructure(3, "FILEIN-Z", catalog, exporter, "01");
+        CJavaAttribute field = new CJavaAttribute(4, "FILEIN-CODE", catalog, exporter);
+        field.SetLevel("05");
+        field.SetTypeString(1);
+        section.AddChild(fd);
+        fd.AddChild(record);
+        record.AddChild(field);
+
+        String rendered = TemplateLoader.getRecursiveAssembler()
+            .renderRoot(fd, JavaTemplateRole.DECLARATION);
+        fd.StartExport();
+
+        assertEquals(normalize(exporter.getCapturedOutput()), normalize(rendered));
+        assertTrue(rendered.contains("FileDescriptor FILEIN = declare.file(\"FILEIN\") ;"), rendered);
+        assertTrue(rendered.contains("Var FILEIN_Z = declare.level(1)"), rendered);
+        assertTrue(rendered.contains("Var FILEIN_CODE = declare.level(05).picX(1)"), rendered);
+    }
+
+    @Test
+    void rendersAFileDescriptorWithFileStatusLikeTheDirectGenerator()
+    {
+        MockJavaExporter exporter = new MockJavaExporter();
+        CObjectCatalog catalog = catalog();
+        CEntityFileSelect select = new CEntityFileSelect("FILEOUT", catalog);
+        select.setFileStatus(new MockDataEntity(1, catalog, exporter, "WS_STATUS"));
+        catalog.RegisterFileSelect(select);
+        CJavaFileDescriptor fd = new CJavaFileDescriptor(2, "FILEOUT", catalog, exporter);
+
+        String rendered = TemplateLoader.getRecursiveAssembler()
+            .renderRoot(fd, JavaTemplateRole.DECLARATION);
+        fd.StartExport();
+
+        assertEquals(normalize(exporter.getCapturedOutput()), normalize(rendered));
+        assertTrue(rendered.contains("FileDescriptor FILEOUT = declare.file(\"FILEOUT\").status(WS_STATUS) ;"), rendered);
     }
 }

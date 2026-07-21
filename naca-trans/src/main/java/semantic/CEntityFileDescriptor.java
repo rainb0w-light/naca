@@ -88,4 +88,32 @@ public abstract class CEntityFileDescriptor extends CBaseLanguageEntity
 	{
 		eOutputBufferInitialValue  = e ;
 	}
+
+	/**
+	 * The SELECT file-name data entity (rendered in the REFERENCE role), or null
+	 * when the file select has no explicit name — the backend then falls back to
+	 * the quoted display name, exactly as the direct generator does.
+	 */
+	public CDataEntity getFileName()
+	{
+		return fileSelect == null ? null : fileSelect.GetFileName();
+	}
+
+	/**
+	 * The SELECT FILE STATUS data entity (rendered in the REFERENCE role), or
+	 * null when no FILE STATUS clause was declared.
+	 */
+	public CDataEntity getFileStatus()
+	{
+		return fileSelect == null ? null : fileSelect.getFileStatus();
+	}
+
+	/**
+	 * Bean accessor for the raw display name; the Java backend supplies the
+	 * quoting when it is used as the {@code declare.file("...")} fallback literal.
+	 */
+	public String getDisplayName()
+	{
+		return GetDisplayName();
+	}
 }

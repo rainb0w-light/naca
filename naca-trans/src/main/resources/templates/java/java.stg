@@ -869,6 +869,11 @@ dataSectionDeclaration(entity) ::= <<
 <endif><if(entity.fileSection)><entity.children><else><entity.activeChildren><endif>
 >>
 
+dataFileDescriptorDeclaration(entity) ::= <<
+FileDescriptor <entity.formattedName> = declare.file(<if(entity.fileName)><entity.fileName><else>"<entity.displayName>"<endif>)<if(entity.fileStatus)>.status(<entity.fileStatus>)<endif> ;
+<entity.activeChildren>
+>>
+
 dataNamedConditionDeclaration(entity) ::= <<
 Cond <entity.formattedName> = declare.condition()<entity.values:{val | .value(<val>)}><entity.intervals:{interval | .value(<interval.start>, <interval.end>)}>.var() ;
 >>

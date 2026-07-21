@@ -56,7 +56,7 @@ public class CEntityFileSelect extends CBaseLanguageEntity
 	protected CDataEntity fileStatus;
 	public void setFileStatus(CDataEntity fileStatus)
 	{
-		fileStatus = fileStatus;
+		this.fileStatus = fileStatus;
 	}
 	public CDataEntity getFileStatus()
 	{
