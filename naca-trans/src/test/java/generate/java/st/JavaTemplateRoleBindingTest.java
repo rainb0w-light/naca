@@ -76,4 +76,19 @@ class JavaTemplateRoleBindingTest
         assertThrows(MissingTemplateRendererException.class, () ->
             TemplateLoader.getRecursiveAssembler().renderRoot(attr, JavaTemplateRole.ROOT));
     }
+
+    @Test
+    void programArtifactCannotBeGeneratedWithoutExplicitRootRole()
+    {
+        MockJavaExporter exporter = new MockJavaExporter();
+        CJavaClass program = new CJavaClass(1, "MYPROG", catalog(), exporter);
+        // The no-arg renderRoot defaults to REFERENCE (default manifest). A
+        // program root (CEntityClass) is not in the default manifest, so an
+        // artifact writer that forgets to pass ROOT explicitly fails closed
+        // instead of silently emitting a reference. This is the guard that lets
+        // us delete the no-arg overload (or restore its ROOT default) once the
+        // transitional callers pass REFERENCE explicitly.
+        assertThrows(MissingTemplateRendererException.class, () ->
+            TemplateLoader.getRecursiveAssembler().renderRoot(program));
+    }
 }

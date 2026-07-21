@@ -18,10 +18,13 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Step-1 guard: assigning attribute FILLER names during semantic construction
- * must change the BATCH1 output in exactly one way — the two filler identifiers
- * swap so the source-first attribute filler becomes {@code Filler$1} and the
- * later group filler becomes {@code Filler$2}. Any other token difference fails
- * the test (stop condition). Also re-verifies BATCH1 + Msgzone still compile.
+ * leaves the BATCH1 output byte-identical (zero change is the expected result).
+ * Filler numbering follows the canonical section construction order — the
+ * working-storage group filler is constructed first ({@code Filler$1}) and the
+ * file-section attribute filler second ({@code Filler$2}) — which is the same
+ * numbering the old export-time naming produced, so nothing changes. Any token
+ * difference fails the test (stop condition). Also re-verifies BATCH1 + Msgzone
+ * still compile.
  */
 public class Batch1FillerGoldenDiffTest {
 
