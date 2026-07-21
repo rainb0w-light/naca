@@ -37,7 +37,10 @@ class JavaTemplateRoleBindingTest
         CJavaClass program = new CJavaClass(1, "MYPROG", catalog(), exporter);
         String rendered = TemplateLoader.getRecursiveAssembler()
             .renderRoot(program, JavaTemplateRole.ROOT);
-        assertTrue(rendered.contains("javaProgramRoot placeholder for MYPROG"), rendered);
+        // ROOT resolves CEntityClass to the real javaProgramRoot template, which
+        // assembles the compilation unit (imports + class declaration).
+        assertTrue(rendered.contains("public class Myprog extends BatchProgram"), rendered);
+        assertTrue(rendered.contains("import nacaLib.program.* ;"), rendered);
     }
 
     @Test

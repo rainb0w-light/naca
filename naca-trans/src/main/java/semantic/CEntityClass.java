@@ -56,6 +56,16 @@ public abstract class CEntityClass extends CBaseLanguageEntity
 	}
 
 	/**
+	 * Bean-convention accessor for the raw source program name, used by ST4
+	 * ({@code <entity.programName>}); the Java class-name formation is applied
+	 * template-side by the {@code javaClassName} renderer.
+	 */
+	public String getProgramName()
+	{
+		return GetName();
+	}
+
+	/**
 	 * Target-neutral program kind, derived from the program type resolved during
 	 * semantic analysis. Backends map this to a runtime base type; the semantic
 	 * layer carries no target class name.
@@ -106,6 +116,46 @@ public abstract class CEntityClass extends CBaseLanguageEntity
 			}
 		}
 		return Collections.unmodifiableSet(capabilities);
+	}
+
+	public boolean isSql()
+	{
+		return getCapabilities().contains(ProgramCapability.SQL);
+	}
+
+	public boolean isMapSupport()
+	{
+		return getCapabilities().contains(ProgramCapability.MAP_SUPPORT);
+	}
+
+	public boolean isKeyPressed()
+	{
+		return getCapabilities().contains(ProgramCapability.KEY_PRESSED);
+	}
+
+	public boolean isBatchProgram()
+	{
+		return getProgramKind() == ProgramKind.BATCH;
+	}
+
+	public boolean isCalledProgram()
+	{
+		return getProgramKind() == ProgramKind.CALLED;
+	}
+
+	public boolean isIncludedProgram()
+	{
+		return getProgramKind() == ProgramKind.INCLUDED;
+	}
+
+	public boolean isMapProgram()
+	{
+		return getProgramKind() == ProgramKind.MAP;
+	}
+
+	public boolean isOnlineProgram()
+	{
+		return getProgramKind() == ProgramKind.ONLINE;
 	}
 
 	/**

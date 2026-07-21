@@ -881,12 +881,38 @@ javaComment(entity) ::= <<
 // <entity.comment; format="javaCommentText">
 >>
 
-// Minimal ROOT-role placeholder so bindingsFor(ROOT) resolves CEntityClass.
-// The full program-root template (imports, base type, class declaration,
-// declaration + executable children) lands in step 4; this exists only to make
-// the root manifest non-empty and fail-closed for any other root type.
+// Program ROOT template: assembles the whole Java compilation unit from the
+// target-neutral semantic model. The semantic layer exposes only enums/booleans
+// (programKind, capabilities, child classifications); every Java lexical detail
+// (import text, base-class name, class-name formation) lives here in the STG.
 javaProgramRoot(entity) ::= <<
-// javaProgramRoot placeholder for <entity.formattedName>
+<programImports(entity)>
+public class <entity.programName; format="javaClassName"> extends <programBaseType(entity)>
+{
+<entity.commentChildren>
+<entity.declarationChildren>
+<entity.executableChildren>
+}
+>>
+
+programImports(entity) ::= <<
+<if(entity.mapSupport)>import nacaLib.mapSupport.* ;
+<endif><if(entity.sql)>import nacaLib.sqlSupport.* ;
+<endif><if(entity.keyPressed)>import nacaLib.misc.KeyPressed;
+<endif>import nacaLib.program.* ;
+import nacaLib.varEx.* ;
+<programBaseImport(entity)>
+>>
+
+programBaseImport(entity) ::= <<
+<if(entity.batchProgram)>import nacaLib.batchPrgEnv.BatchProgram;
+<elseif(entity.calledProgram)>import nacaLib.callPrg.CalledProgram;
+<elseif(entity.onlineProgram)>import idea.onlinePrgEnv.OnlineProgram;
+<endif>
+>>
+
+programBaseType(entity) ::= <<
+<if(entity.batchProgram)>BatchProgram<elseif(entity.calledProgram)>CalledProgram<elseif(entity.includedProgram)>Copy<elseif(entity.mapProgram)>Map<elseif(entity.onlineProgram)>OnlineProgram<endif>
 >>
 
 recursiveRewriteFileEntity(entity) ::= <<

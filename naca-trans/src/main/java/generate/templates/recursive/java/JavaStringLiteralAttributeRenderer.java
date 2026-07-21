@@ -3,6 +3,7 @@ package generate.templates.recursive.java;
 import java.util.Locale;
 import jlib.misc.StringUtil;
 import org.stringtemplate.v4.AttributeRenderer;
+import utils.CobolNameUtil;
 
 /** Escapes the contents of one Java string literal as an atomic ST4 value. */
 public final class JavaStringLiteralAttributeRenderer
@@ -20,6 +21,10 @@ public final class JavaStringLiteralAttributeRenderer
         if ("javaCommentText".equals(formatString))
         {
             return escapeCommentText(raw);
+        }
+        if ("javaClassName".equals(formatString))
+        {
+            return CobolNameUtil.fixJavaName(raw.replace('-', '_'));
         }
         if (!(value instanceof JavaStringLiteralValue)
             && !"javaString".equals(formatString)
