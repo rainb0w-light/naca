@@ -299,3 +299,22 @@ FILLER 的 export 期改名副作用（`SetName(GetDefaultName())`）需派生�
 门禁（Step 0–2 每次提交均满足）：`:naca-trans:build` 成功；`finalArchitectureCheck` **401/222**（持平）；`:naca-cloud-native:test` 25 项/1 预存失败（新增 `Batch1FillerGoldenDiffTest` 2 项；`JavaTemplateRoleBindingTest` 在 naca-trans）。
 
 下一切片（Step 3 起）：补目标无关 class root 语义（ProgramKind/ProgramCapability、declaration/executable children、显式 child role 传播），再实现 `javaProgramRoot` 模板（仍不接生产出口）。
+
+## 2026-07-21 进展：Step 3——目标无关 program-root 语义（已提交）
+
+### Step 3a（`test: guard no-arg renderRoot fail-closed; clarify BATCH1 filler golden`）
+- 新增 `programArtifactCannotBeGeneratedWithoutExplicitRootRole`：`CEntityClass` 不在 default manifest，无参 `renderRoot`（REFERENCE 默认）对程序 root fail-closed，证明 artifact writer 忘记显式传 ROOT 不会静默生成引用。这是后续删除无参 overload（或恢复 ROOT 默认）的守卫。
+- 修正 `Batch1FillerGoldenDiffTest` 类注释：预期是零变化（规范段构造序），非 filler 互换。
+- 在 `JavaTemplateAssembler` 无参 `renderRoot` javadoc 标注**删除点**：最迟于 class-root 模板步、且必须在添加 external/COPY root binding 之前删除（或恢复 ROOT 默认）；删除前先把 11 个生产控制器改为显式 `REFERENCE`。
+
+### Step 3b（`refactor: expose target-neutral program-root semantics`）
+- 新增 semantic 枚举 `ProgramKind`（BATCH/CALLED/INCLUDED/MAP/ONLINE）与 `ProgramCapability`（SQL/MAP_SUPPORT/KEY_PRESSED）。Java 类名（BatchProgram 等）与 import 文本仍只在模板，semantic 不带目标字符串。
+- `CEntityClass` 暴露 `getProgramKind()`（映射 `programCatalog.getProgramType()`）、`getCapabilities()`（映射 catalog 的 import declaration marker，只读、幂等）、`getDeclarationChildren()`（`CEntityDataSection`，含 SQL cursor section）、`getExecutableChildren()`（`CEntityProcedureDivision`/`CEntityProcedure`，含 section/paragraph）。两类 children 均按 `!ignore()` 过滤（与 direct `ExportChildren()` 一致），按 **semantic 类型**分类（`instanceof CEntity*`），不按 `CJava*` 运行类型。
+- assembler `childRole` 显式传播：`declarationChildren → DECLARATION`、`executableChildren → REFERENCE`，按属性名固定，不随父 role；其余属性默认 REFERENCE，**ROOT 不被隐式继承**。
+- `ProgramRootSemanticsSnapshotTest`（解析 TESTHELLO/T01）验证：读取 programKind/capabilities/declarationChildren/executableChildren 前后对象图不变、重复读取顺序稳定、不触发 export/render（exporter 始终为空）、capability 查询不改 catalog。
+- **root child 分类实况**：TESTHELLO 类 children = [DataSection, ProcedureDivision, Procedure]；T01 = [Comment, DataSection, ProcedureDivision, Procedure]。即除 declaration/executable 外还有 `CEntityComment`（direct `ExportChildren` 会输出），是独立的第三类，需在 Step 4/5 绑定（`ProgramRootSubtypeAuditTest` 将 fail-closed 枚举）。本步快照测试把它作为已知类记录，不强制 declaration+executable 覆盖 comment。
+- 本步仍不接生产出口、不实现完整 class Java 文本、不新增 `CJavaDataSectionST`、不删 direct generator。
+
+门禁：`:naca-trans:build`/`test`/`dataSectionAudit` 成功；`finalArchitectureCheck` **403 项/222 失败**（失败持平；总数 +2 因新增 `ProgramKind`/`ProgramCapability` 两个 semantic 枚举均**通过**契约，179→181 passing）；`:naca-cloud-native:test` 25 项/1 预存失败。
+
+下一切片（Step 4）：实现 `javaProgramRoot`/`programImports`/`programBaseType` 模板（消费 ProgramKind/ProgramCapability + declaration/executable children），废弃 `CJavaClassST` 预渲染方案，新增 `ProgramRootRenderParityTest`（两棵独立 tree 分别走 direct/assembler，TESTHELLO/T01 全文件 token 等价 + javac + 运行 + 渲染前后快照一致），仍不改 `TranscoderEngine` 生产出口。

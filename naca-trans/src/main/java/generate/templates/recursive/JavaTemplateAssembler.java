@@ -84,10 +84,18 @@ public final class JavaTemplateAssembler
 
     /**
      * Flattens a subtree whose top node binds through the default (reference)
-     * manifest. Used by the transitional verb/procedure ST controllers, whose
-     * bindings live in the reference manifest. Program / artifact roots must
+     * manifest. Transitional compatibility for the verb/procedure ST controllers,
+     * whose bindings live in the reference manifest.
+     *
+     * <p><b>Removal point:</b> this no-arg overload is a transitional shim and
+     * must be deleted (or its default restored to {@link JavaTemplateRole#ROOT})
+     * no later than the class-root template step, and strictly before any
+     * external/COPY root binding is added — otherwise an artifact writer that
+     * forgets to pass {@code ROOT} could silently render a reference instead of
+     * failing closed. Before removing it, switch the production controllers to
      * call {@link #renderRoot(Object, JavaTemplateRole)} with
-     * {@link JavaTemplateRole#ROOT} explicitly.
+     * {@link JavaTemplateRole#REFERENCE} explicitly. Program / artifact roots
+     * must already call the two-arg form with {@link JavaTemplateRole#ROOT}.
      */
     public String renderRoot(Object rootModel)
     {
@@ -118,6 +126,17 @@ public final class JavaTemplateAssembler
 
     JavaTemplateRole childRole(ST parentTemplate, String propertyName)
     {
+        // Explicit root-child role propagation: the program root names its two
+        // child collections, and each carries a fixed role regardless of the
+        // parent's own role.
+        if ("declarationChildren".equals(propertyName))
+        {
+            return JavaTemplateRole.DECLARATION;
+        }
+        if ("executableChildren".equals(propertyName))
+        {
+            return JavaTemplateRole.REFERENCE;
+        }
         JavaTemplateRole parentRole = templateRoles.get(parentTemplate);
         if (parentRole == JavaTemplateRole.DECLARATION
             && ("children".equals(propertyName)
@@ -125,6 +144,8 @@ public final class JavaTemplateAssembler
         {
             return JavaTemplateRole.DECLARATION;
         }
+        // Any other property defaults to REFERENCE; root role is never inherited
+        // implicitly.
         return JavaTemplateRole.REFERENCE;
     }
 }

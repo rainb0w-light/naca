@@ -167,3 +167,9 @@ role 只决定查询哪一份声明式 binding；具体 Java 语法仍由 STG �
 唯一差异是空白：递归 ST4 输出紧凑（`<<...>>` 去掉尾换行，兄弟声明间无分隔），legacy direct 经 WriteWord 输出协议带换行/空格。二者 token 流相同，javac 不关心空白；逐声明的精确格式已由 `DataAttribute/DataSectionDeclarationTemplateTest` 锁定，故全段测试用「去空白后比较」验证组合正确性。接入生产 root 时若需可读排版，可给 children 列表加 `separator="\n"`，属可选美化，不影响正确性。
 
 门禁（每次提交均满足）：`:naca-trans:build` 成功；`finalArchitectureCheck` 401/222（持平）；`:naca-cloud-native:test` 23/1 预存失败（未隐藏）。
+
+## 9. 与 root 契约推进的衔接（Step 0–3，详见 `ST4_CLASS_BY_CLASS_AUDIT.md`）
+
+数据段专项与「root 契约」推进合流：Step 0 冻结 BATCH1 golden，Step 1 修 attribute FILLER 构造期命名（BATCH1 零变化），Step 2 建立显式 ROOT role 绑定（`semantic-root-bindings.properties` + `bindingsFor(ROOT)` 不回落 default + `javaProgramRoot` 占位），Step 3 暴露目标无关 program-root 语义（`ProgramKind`/`ProgramCapability`/`declarationChildren`/`executableChildren` + 显式 child role 传播 + 快照测试）。
+
+**无参 `renderRoot(model)` 删除点（硬约束）**：当前无参 `renderRoot` 默认 `REFERENCE` 是过渡兼容（保 11 个 procedure/verb 控制器不变）。**最迟于 Step 4（class-root 模板）完成前、且严格在添加 external/COPY root binding 之前**，必须：先把 11 个生产控制器改为显式 `renderRoot(this, REFERENCE)`，再删除无参 overload（或把无参默认恢复为 `ROOT`）。否则 `CEntityExternalDataStructure` 同时拥有 REFERENCE（copybook 标识符）与 ROOT（完整 Copy 类）两个 binding 后，artifact writer 忘记显式传 ROOT 会静默生成标识符而非 fail-closed。守卫测试 `programArtifactCannotBeGeneratedWithoutExplicitRootRole` 已锁定该 fail-closed 行为。
