@@ -142,7 +142,22 @@ role 只决定查询哪一份声明式 binding；具体 Java 语法仍由 STG �
   - **group filler（`CEntityStructure`）已合规**：构造器在 `name==""` 时即 `SetName(GetDefaultName())`，export 期的改名是死代码；模板 `formattedName` 与 direct 已一致。已补 golden 测试 `rendersAGroupFillerLikeTheDirectGenerator`（`declare.level(1).filler() ;`，且断言名字在构造期已赋值、export 后不变）。
   - **pic filler（`CEntityAttribute`）仍不合规**：构造器不命名 filler，命名发生在 `CJavaAttribute.DoExport` 的 `SetName(GetDefaultName())`（export 期 semantic 改名）。正确修法是把命名移到 `CEntityAttribute` 构造期（与 structure 一致）。
   - **副作用/风险**：当前 BATCH1 因「structure-filler 构造期命名 + attribute-filler export 期命名」的混合时序，源码在前的 `05 FILLER PIC X(68)`（行35）被命名为 `filler$2`、源码在后的 `01 FILLER REDEFINES`（行52）反而是 `filler$1`（见 `NacaSamples/src/batch/BATCH1.java`）。把 attribute-filler 命名移到构造期会使二者按源码顺序改为 `filler$1`/`filler$2`（互换）。FILLER 不被按名引用，互换语义无害且更正确，但**会改变 BATCH1 生成输出**；现有测试（`CopyTranspileTest` 只要求编译通过、`RunnerServiceTest` 宽松）不会捕获，也没有 BATCH1 全量 golden 基线。按「BATCH1 不回归」原则，此改动需先建立 BATCH1 golden 基线或经明确确认后再做，故本轮不擅改。
-- SYNC、JUSTIFIED RIGHT、VALUE/VALUE ALL、SPACE/ZERO/LOW/HIGH、sign leading/trailing、COMP/COMP-2 模板分支已存在，需逐一补 golden。
-- 步骤 4（fail-closed 审计真实 DATA SECTION 子类型：`CEntityFileDescriptor`/`CEntityExternalDataStructure`/COPY-include）与步骤 5（class root 接入唯一 assembler、删除 direct generator）尚未开始。
+- SYNC、JUSTIFIED RIGHT、VALUE/VALUE ALL、SPACE/ZERO/LOW/HIGH、sign leading/trailing、COMP/COMP-2 模板分支已存在，golden 已补齐（提交 `252fac7`）。
+- 步骤 5（class root 接入唯一 assembler、删除 direct generator）尚未开始。
+
+## 8. 步骤 4 完成：真实 DATA SECTION 子类型 fail-closed 审计
+
+新增按需专项任务 `./gradlew :naca-trans:dataSectionAudit`（tag `data-section-audit`，已从默认 `:naca-trans:test` 排除，沿用 `finalArchitectureCheck` 的门禁分离模式）。`DataSectionSubtypeAuditTest` 用真实管线（lex→parse→`DoSemanticAnalysis`）解析 T01/TESTHELLO/VERBS/INSPECT1/TEST-A-STANDALONE，递归遍历 DATA DIVISION，对每个 concrete 实体以 DECLARATION role 探测 assembler（缺绑定即 `MissingTemplateRendererException` fail-closed，无静默回退）。
+
+实测结果（独立样例）：
+
+| 实际子类型 | 声明绑定 |
+| --- | --- |
+| `generate.java.CJavaAttribute` | COVERED（`dataAttributeDeclaration`） |
+| `generate.java.CJavaStructure` | COVERED（`dataStructureDeclaration`） |
+| `generate.java.CJavaDataSection` | COVERED（`dataSectionDeclaration`） |
+| `generate.java.SQL.CJavaSQLCursorSection` | COVERED（父链解析到 `dataSectionDeclaration`；SQL 出本专项范围） |
+
+**4 类，0 缺失**。即独立（非文件/非 COPY）样例的数据段所需绑定已齐备，步骤 5 对这些样例可行。BATCH1 含文件与 COPY，会引入 `CEntityFileDescriptor`/`CEntityExternalDataStructure`（当前无声明绑定），接入生产前须先补这两类的 declaration binding + 模板（fail-closed 会明确报缺失）。level-88 `CEntityNamedCondition` 绑定已就绪，但上述独立样例未含 level 88，故未出现在清单中。
 
 门禁（每次提交均满足）：`:naca-trans:build` 成功；`finalArchitectureCheck` 401/222（持平）；`:naca-cloud-native:test` 23/1 预存失败（未隐藏）。

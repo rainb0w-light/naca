@@ -62,7 +62,7 @@ tasks.processResources {
 // contract is intentionally being paid down in a separate, visible task.
 tasks.test {
     useJUnitPlatform {
-        excludeTags("final-architecture")
+        excludeTags("final-architecture", "data-section-audit")
     }
 }
 
@@ -75,6 +75,17 @@ tasks.register<Test>("finalArchitectureCheck") {
         includeTags("final-architecture")
     }
     jvmArgs("--add-opens=java.base/java.lang=ALL-UNNAMED")
+    shouldRunAfter(tasks.test)
+}
+
+tasks.register<Test>("dataSectionAudit") {
+    group = "verification"
+    description = "Inventories real DATA SECTION entity types and their ST4 declaration-binding coverage"
+    testClassesDirs = sourceSets["test"].output.classesDirs
+    classpath = sourceSets["test"].runtimeClasspath
+    useJUnitPlatform {
+        includeTags("data-section-audit")
+    }
     shouldRunAfter(tasks.test)
 }
 
