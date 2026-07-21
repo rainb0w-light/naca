@@ -1,6 +1,7 @@
 package generate.java.st;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import generate.java.CJavaAttribute;
@@ -183,5 +184,41 @@ class DataAttributeDeclarationTemplateTest
         String out = render(attr);
         assertTrue(out.contains("Var WS_FLT = declare.level(05).pic9(4).comp2().var() ;"), out);
         assertEquals(renderDirect(attr, exporter), out.strip());
+    }
+
+    @Test
+    void attributeFillerIsNamedDuringConstruction()
+    {
+        MockJavaExporter exporter = new MockJavaExporter();
+        CJavaAttribute attr = new CJavaAttribute(1, "", catalog(), exporter);
+        attr.SetLevel("05");
+        attr.SetTypeString(10);
+
+        // FILLER detection and default naming happen at construction; generation
+        // only reads the flag and never renames the entity.
+        assertTrue(attr.isFiller(), "empty-name attribute must be a filler");
+        assertFalse(attr.GetName().isEmpty(), "filler name assigned during construction");
+
+        String out = render(attr);
+        assertTrue(out.contains("declare.level(05).picX(10).filler() ;"), out);
+        assertEquals(renderDirect(attr, exporter), out.strip());
+    }
+
+    @Test
+    void attributeFillerNamingIsIdempotentAndDoesNotMutateTheTree()
+    {
+        MockJavaExporter exporter = new MockJavaExporter();
+        CJavaAttribute attr = new CJavaAttribute(1, "", catalog(), exporter);
+        attr.SetLevel("05");
+        attr.SetTypeString(10);
+
+        String nameBefore = attr.GetName();
+        String first = render(attr);
+        String second = render(attr);
+        assertEquals(first, second, "rendering the same tree twice must be identical");
+        assertEquals(nameBefore, attr.GetName(), "rendering must not rename the filler");
+
+        renderDirect(attr, exporter);
+        assertEquals(nameBefore, attr.GetName(), "direct export must not rename the filler");
     }
 }

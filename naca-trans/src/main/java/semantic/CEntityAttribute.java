@@ -50,7 +50,20 @@ public abstract class CEntityAttribute extends CGenericDataEntityReference imple
 	public CEntityAttribute(int l, String name, CObjectCatalog cat)
 	{
 		super(l, name, cat);
+		if (name.equals(""))
+		{
+			// FILLER: assign the default name during semantic construction so
+			// no backend mutates the tree during generation (mirrors the
+			// existing group-filler behavior, now shared by all attributes).
+			isfiller = true;
+			String defaultName = GetDefaultName();
+			if (!defaultName.equals(""))
+			{
+				SetName(defaultName);
+			}
+		}
 	}
+	protected boolean isfiller = false;
 	public void SetLevel(String level)
 	{
 		csLevel = level;
@@ -411,7 +424,7 @@ public abstract class CEntityAttribute extends CGenericDataEntityReference imple
 
 	public boolean isFiller()
 	{
-		return false;
+		return isfiller;
 	}
 
 	public CDataEntity getRedefines()

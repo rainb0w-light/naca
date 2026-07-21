@@ -52,13 +52,11 @@ public class CJavaAttribute extends CEntityAttribute
 	{
 		String declaredType = getDeclaredType();
 		String declaredFormat = getDeclaredFormat();
+		// FILLER default names are assigned during semantic construction
+		// (CEntityAttribute constructor); generation only reads the flag and
+		// must not mutate the tree.
 		String identifier = GetName();
-		boolean isFiller = identifier.equals("");
-		if (isFiller)
-		{
-			identifier = GetDefaultName();
-			SetName(identifier);
-		}
+		boolean isFiller = isFiller();
 		String line = "Var " + FormatIdentifier(identifier) + " = declare.level(" + getLevel() + ")" ;
 		line += "." + declaredType + "(" ;
 		if (declaredFormat.equals(""))

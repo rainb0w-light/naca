@@ -137,11 +137,11 @@ role 只决定查询哪一份声明式 binding；具体 Java 语法仍由 STG �
 
 ### 仍待补
 
-- FILLER（需设计决策，尚未改）：
-  - 根因查清：`GetDefaultName()` 经 `CObjectCatalog.GetLastFillerIndex()` **自增全局 filler 计数器**，是有副作用的，因此命名必须在语义分析期一次性完成，不能在生成期反复调用。
-  - **group filler（`CEntityStructure`）已合规**：构造器在 `name==""` 时即 `SetName(GetDefaultName())`，export 期的改名是死代码；模板 `formattedName` 与 direct 已一致。已补 golden 测试 `rendersAGroupFillerLikeTheDirectGenerator`（`declare.level(1).filler() ;`，且断言名字在构造期已赋值、export 后不变）。
-  - **pic filler（`CEntityAttribute`）仍不合规**：构造器不命名 filler，命名发生在 `CJavaAttribute.DoExport` 的 `SetName(GetDefaultName())`（export 期 semantic 改名）。正确修法是把命名移到 `CEntityAttribute` 构造期（与 structure 一致）。
-  - **副作用/风险**：当前 BATCH1 因「structure-filler 构造期命名 + attribute-filler export 期命名」的混合时序，源码在前的 `05 FILLER PIC X(68)`（行35）被命名为 `filler$2`、源码在后的 `01 FILLER REDEFINES`（行52）反而是 `filler$1`（见 `NacaSamples/src/batch/BATCH1.java`）。把 attribute-filler 命名移到构造期会使二者按源码顺序改为 `filler$1`/`filler$2`（互换）。FILLER 不被按名引用，互换语义无害且更正确，但**会改变 BATCH1 生成输出**；现有测试（`CopyTranspileTest` 只要求编译通过、`RunnerServiceTest` 宽松）不会捕获，也没有 BATCH1 全量 golden 基线。按「BATCH1 不回归」原则，此改动需先建立 BATCH1 golden 基线或经明确确认后再做，故本轮不擅改。
+- FILLER（**已完成**，Step 1，提交 `fix: assign attribute FILLER names during semantic construction`）：
+  - 根因：`GetDefaultName()` 经 `CObjectCatalog.GetLastFillerIndex()` **自增全局 filler 计数器**，有副作用，命名必须在语义分析期一次性完成。
+  - 修复：filler 检测与默认命名统一上移到 `CEntityAttribute` 构造器（`name==""` → `isfiller=true` + `SetName(GetDefaultName())`），`CEntityStructure` 删除自己的 `isfiller` 字段/`isFiller()` 覆写/构造器命名块（继承父类），`CJavaAttribute.DoExport` 删除 `SetName(GetDefaultName())` 改名副作用、改读 `isFiller()`。`isFiller()` 由恒 false 改为返回字段。生成期不再改 semantic tree，渲染幂等。
+  - **BATCH1 实测零变化**（比预期更好）：原预期「源码靠前的 attribute filler→`Filler$1`、group filler→`Filler$2`」互换**没有发生**。原因是 filler 编号跟随**构造/输出的规范段序**（Working-Storage 先于 File Section 构造），而非源码行序——BATCH1 中 group filler（`01 FILLER REDEFINES SYS-TIME`，working-storage，源码行52）先构造得 `Filler$1`，attribute filler（`05 FILLER PIC X(68)`，file section，源码行35）后构造得 `Filler$2`。修复前后编号一致，故 BATCH1 **逐字节不变**（`Batch1FillerGoldenDiffTest` 断言 `actual == golden`，且 BATCH1+Msgzone 仍 javac 通过）。这是「BATCH1 不回归」的最强形式。
+  - 测试：`attributeFillerIsNamedDuringConstruction`（构造期命名 + `.filler()` + direct parity）、`attributeFillerNamingIsIdempotentAndDoesNotMutateTheTree`（两次渲染相同、export 后名字不变）、`Batch1FillerGoldenDiffTest`（BATCH1 零变化 + javac）。
 - SYNC、JUSTIFIED RIGHT、VALUE/VALUE ALL、SPACE/ZERO/LOW/HIGH、sign leading/trailing、COMP/COMP-2 模板分支已存在，golden 已补齐（提交 `252fac7`）。
 - 步骤 5（class root 接入唯一 assembler、删除 direct generator）尚未开始。
 

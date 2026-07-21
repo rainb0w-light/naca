@@ -38,19 +38,12 @@ public abstract class CEntityStructure extends CEntityAttribute
 	 */
 	public CEntityStructure(int l, String name, CObjectCatalog cat, String level)
 	{
+		// FILLER detection and default naming happen in the CEntityAttribute
+		// constructor (semantic construction phase), so no backend mutates the
+		// tree during generation.
 		super(l, name, cat);
-		if (name.equals(""))
-		{
-			isfiller = true ;
-			name = GetDefaultName() ;
-			if (!name.equals(""))
-			{
-				SetName(name) ;
-			}
-		}
 		csLevel = level ;
 	}
-	protected boolean isfiller = false ;
 	public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory) 
 	{
 		CEntityArrayReference e = factory.NewEntityArrayReference(getLine()) ;
@@ -220,12 +213,6 @@ public abstract class CEntityStructure extends CEntityAttribute
 	public CDataEntity getOccurs()
 	{
 		return tableSize;
-	}
-
-	@Override
-	public boolean isFiller()
-	{
-		return isfiller;
 	}
 
 	public int getNumericLevel()
