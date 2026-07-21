@@ -148,6 +148,27 @@ public abstract class CEntityClass extends CBaseLanguageEntity
 		return Collections.unmodifiableList(executables);
 	}
 
+	/**
+	 * Comment-role root children: the reserved header comments emitted at the
+	 * top of the class body, before the data section. Filtered exactly like the
+	 * direct exporter (ignores {@code ignore()}d nodes via
+	 * {@link #getActiveChildren()}) and classified by semantic type
+	 * ({@link CEntityComment}), never by backend runtime type. Order follows
+	 * {@code getActiveChildren()}.
+	 */
+	public List<CBaseLanguageEntity> getCommentChildren()
+	{
+		List<CBaseLanguageEntity> comments = new ArrayList<>();
+		for (CBaseLanguageEntity child : getActiveChildren())
+		{
+			if (child instanceof CEntityComment && !child.ignore())
+			{
+				comments.add(child);
+			}
+		}
+		return Collections.unmodifiableList(comments);
+	}
+
 	public boolean ignore()
 	{
 		return false;

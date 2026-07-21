@@ -126,14 +126,18 @@ public final class JavaTemplateAssembler
 
     JavaTemplateRole childRole(ST parentTemplate, String propertyName)
     {
-        // Explicit root-child role propagation: the program root names its two
-        // child collections, and each carries a fixed role regardless of the
-        // parent's own role.
+        // Explicit root-child role propagation: the program root names its child
+        // collections, and each carries a fixed role regardless of the parent's
+        // own role.
         if ("declarationChildren".equals(propertyName))
         {
             return JavaTemplateRole.DECLARATION;
         }
         if ("executableChildren".equals(propertyName))
+        {
+            return JavaTemplateRole.REFERENCE;
+        }
+        if ("commentChildren".equals(propertyName))
         {
             return JavaTemplateRole.REFERENCE;
         }

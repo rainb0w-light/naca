@@ -873,6 +873,14 @@ dataNamedConditionDeclaration(entity) ::= <<
 Cond <entity.formattedName> = declare.condition()<entity.values:{val | .value(<val>)}><entity.intervals:{interval | .value(<interval.start>, <interval.end>)}>.var() ;
 >>
 
+// A program comment, rendered in the REFERENCE role as a root child. The "// "
+// marker is Java lexical (STG); the newline escaping and right trim are done by
+// the javaCommentText atomic renderer, faithfully reproducing the historical
+// CJavaComment.ExportReference behavior (including the "Ox000D" quirk).
+javaComment(entity) ::= <<
+// <entity.comment; format="javaCommentText">
+>>
+
 // Minimal ROOT-role placeholder so bindingsFor(ROOT) resolves CEntityClass.
 // The full program-root template (imports, base type, class declaration,
 // declaration + executable children) lands in step 4; this exists only to make
