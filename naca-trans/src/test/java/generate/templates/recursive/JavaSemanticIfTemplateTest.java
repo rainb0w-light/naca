@@ -28,7 +28,7 @@ class JavaSemanticIfTemplateTest
         condition.SetCondition(equals("1", "1"), thenBlock, elseBlock);
 
         assertEquals("if (isEqual(1, 1)) {\n// CONTINUE \n}\nelse {\nbreak;\n}",
-            assembler.renderRoot(condition).stripTrailing());
+            assembler.renderRoot(condition, JavaTemplateRole.REFERENCE).stripTrailing());
     }
 
     @Test
@@ -45,7 +45,7 @@ class JavaSemanticIfTemplateTest
         outer.SetCondition(equals("1", "1"), block(output, inner), null);
 
         assertEquals("if (isEqual(1, 1)) {\nif (isEqual(2, 2)) {\nbreak;\n}\n}",
-            assembler.renderRoot(outer).stripTrailing());
+            assembler.renderRoot(outer, JavaTemplateRole.REFERENCE).stripTrailing());
     }
 
     @Test
@@ -55,7 +55,7 @@ class JavaSemanticIfTemplateTest
         TestJavaCondition condition = new TestJavaCondition(output);
         condition.SetCondition(null, block(output, new CEntityBreak(0, null)), null);
 
-        assertEquals("", assembler.renderRoot(condition).stripTrailing());
+        assertEquals("", assembler.renderRoot(condition, JavaTemplateRole.REFERENCE).stripTrailing());
     }
 
     @Test
@@ -72,7 +72,7 @@ class JavaSemanticIfTemplateTest
             block(output, new CEntityContinue(0, null)),
             block(output, new CEntityBreak(0, null)));
 
-        assertEquals("{\nbreak;\n}", assembler.renderRoot(condition).stripTrailing());
+        assertEquals("{\nbreak;\n}", assembler.renderRoot(condition, JavaTemplateRole.REFERENCE).stripTrailing());
     }
 
     private CJavaCondEquals equals(String left, String right)

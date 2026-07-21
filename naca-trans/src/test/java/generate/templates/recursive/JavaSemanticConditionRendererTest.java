@@ -78,7 +78,7 @@ class JavaSemanticConditionRendererTest
             1, "VALID-STATUS", catalog, output);
         named.AddValue(new CJavaEntityNumber(catalog, output, "1"));
 
-        assertEquals(named.ExportReference(1), assembler.renderRoot(named));
+        assertEquals(named.ExportReference(1), assembler.renderRoot(named, JavaTemplateRole.REFERENCE));
 
         CBaseEntityCondition condition = named.GetAssociatedCondition(
             new generate.CJavaEntityFactory(catalog, output));
@@ -144,7 +144,7 @@ class JavaSemanticConditionRendererTest
 
     private void assertMatchesDirect(CBaseEntityCondition condition)
     {
-        assertEquals(condition.Export(), assembler.renderRoot(condition),
+        assertEquals(condition.Export(), assembler.renderRoot(condition, JavaTemplateRole.REFERENCE),
             condition.getClass().getName());
     }
 

@@ -67,7 +67,7 @@ class JavaSemanticMoveRendererTest
     {
         fixture.move.exportDirect();
         assertEquals(fixture.output.getCapturedOutput().stripTrailing(),
-            assembler.renderRoot(fixture.move).stripTrailing());
+            assembler.renderRoot(fixture.move, JavaTemplateRole.REFERENCE).stripTrailing());
     }
 
     private record MoveFixture(TestJavaAssign move, MockJavaExporter output) {}

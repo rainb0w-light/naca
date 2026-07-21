@@ -2,6 +2,7 @@ package generate.java.st;
 
 import generate.CBaseLanguageExporter;
 import generate.templates.TemplateLoader;
+import generate.templates.recursive.JavaTemplateRole;
 import java.util.ArrayList;
 import java.util.List;
 import semantic.CDataEntity;
@@ -87,7 +88,7 @@ public class CJavaSortST extends CEntitySort {
 
     @Override
     protected void DoExport() {
-        String rendered = TemplateLoader.getRecursiveAssembler().renderRoot(this);
+        String rendered = TemplateLoader.getRecursiveAssembler().renderRoot(this, JavaTemplateRole.REFERENCE);
         for (String line : rendered.split("\n", -1)) {
             if (!line.isEmpty()) {
                 WriteLine(line);

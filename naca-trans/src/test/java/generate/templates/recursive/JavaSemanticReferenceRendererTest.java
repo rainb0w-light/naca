@@ -123,6 +123,6 @@ class JavaSemanticReferenceRendererTest
 
     private void assertMatchesDirect(CDataEntity value)
     {
-        assertEquals(value.ExportReference(1), assembler.renderRoot(value), value.getClass().getName());
+        assertEquals(value.ExportReference(1), assembler.renderRoot(value, JavaTemplateRole.REFERENCE), value.getClass().getName());
     }
 }

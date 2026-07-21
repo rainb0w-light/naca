@@ -15,9 +15,9 @@ class JavaSemanticLiteralRendererTest
     {
         JavaTemplateAssembler assembler = TemplateLoader.newRecursiveAssembler();
 
-        assertEquals("42", assembler.renderRoot(number("00042")));
-        assertEquals("2147483648L", assembler.renderRoot(number("2147483648")));
-        assertEquals("\"12.50\"", assembler.renderRoot(number("12.50")));
+        assertEquals("42", assembler.renderRoot(number("00042"), JavaTemplateRole.REFERENCE));
+        assertEquals("2147483648L", assembler.renderRoot(number("2147483648"), JavaTemplateRole.REFERENCE));
+        assertEquals("\"12.50\"", assembler.renderRoot(number("12.50"), JavaTemplateRole.REFERENCE));
     }
 
     @Test
@@ -31,7 +31,7 @@ class JavaSemanticLiteralRendererTest
 
         assertEquals(
             "\"quote=\\\" slash=\\\\ line=\\n\"",
-            assembler.renderRoot(value));
+            assembler.renderRoot(value, JavaTemplateRole.REFERENCE));
     }
 
     @Test
@@ -43,7 +43,7 @@ class JavaSemanticLiteralRendererTest
             "999999999999999999999999"))
         {
             CJavaEntityNumber value = number(raw);
-            assertEquals(value.ExportReference(1), assembler.renderRoot(value), raw);
+            assertEquals(value.ExportReference(1), assembler.renderRoot(value, JavaTemplateRole.REFERENCE), raw);
         }
 
         for (char[] raw : List.of(
@@ -53,7 +53,7 @@ class JavaSemanticLiteralRendererTest
             new char[] {(char) 0x4f60}))
         {
             CJavaString value = new CJavaString(null, null, raw);
-            assertEquals(value.ExportReference(1), assembler.renderRoot(value));
+            assertEquals(value.ExportReference(1), assembler.renderRoot(value, JavaTemplateRole.REFERENCE));
         }
     }
 

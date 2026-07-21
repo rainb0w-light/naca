@@ -28,7 +28,7 @@ class JavaSemanticSwitchCaseTemplateTest
         evaluate.AddChild(branch(output, null, new CEntityContinue(0, null)));
 
         assertEquals("if (isEqual(1, 1))\n{\n// CONTINUE \n}\nelse if (isEqual(2, 2))\n{\nbreak;\n}\nelse \n{\n// CONTINUE \n}",
-            assembler.renderRoot(evaluate).stripTrailing());
+            assembler.renderRoot(evaluate, JavaTemplateRole.REFERENCE).stripTrailing());
     }
 
     @Test
@@ -45,7 +45,7 @@ class JavaSemanticSwitchCaseTemplateTest
         evaluate.AddChild(branch(output, null, new CEntityBreak(0, null)));
 
         assertEquals("if (isEqual(1, 1))\n{\n// CONTINUE \n}\nelse \n{\nbreak;\n}",
-            assembler.renderRoot(evaluate).stripTrailing());
+            assembler.renderRoot(evaluate, JavaTemplateRole.REFERENCE).stripTrailing());
     }
 
     private CEntityCase branch(

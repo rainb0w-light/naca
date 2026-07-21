@@ -2,6 +2,7 @@ package generate.java.st;
 
 import generate.CBaseLanguageExporter;
 import generate.templates.TemplateLoader;
+import generate.templates.recursive.JavaTemplateRole;
 import semantic.CDataEntity;
 import semantic.Verbs.CEntityInitialize;
 import utils.CObjectCatalog;
@@ -46,7 +47,7 @@ public class CJavaInitializeST extends CEntityInitialize {
 
     @Override
     protected void DoExport() {
-        String rendered = TemplateLoader.getRecursiveAssembler().renderRoot(this);
+        String rendered = TemplateLoader.getRecursiveAssembler().renderRoot(this, JavaTemplateRole.REFERENCE);
         for (String line : rendered.split("\n", -1)) {
             if (!line.isEmpty()) {
                 WriteLine(line);

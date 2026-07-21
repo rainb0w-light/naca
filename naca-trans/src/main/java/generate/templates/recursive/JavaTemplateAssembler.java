@@ -83,25 +83,14 @@ public final class JavaTemplateAssembler
     }
 
     /**
-     * Flattens a subtree whose top node binds through the default (reference)
-     * manifest. Transitional compatibility for the verb/procedure ST controllers,
-     * whose bindings live in the reference manifest.
-     *
-     * <p><b>Removal point:</b> this no-arg overload is a transitional shim and
-     * must be deleted (or its default restored to {@link JavaTemplateRole#ROOT})
-     * no later than the class-root template step, and strictly before any
-     * external/COPY root binding is added — otherwise an artifact writer that
-     * forgets to pass {@code ROOT} could silently render a reference instead of
-     * failing closed. Before removing it, switch the production controllers to
-     * call {@link #renderRoot(Object, JavaTemplateRole)} with
-     * {@link JavaTemplateRole#REFERENCE} explicitly. Program / artifact roots
-     * must already call the two-arg form with {@link JavaTemplateRole#ROOT}.
+     * Flattens a subtree to source text with an explicit render role. This is the
+     * only flattening point in the recursive assembler. Callers must pass the
+     * role explicitly: verb/procedure subtrees use {@link JavaTemplateRole#REFERENCE},
+     * data declarations use {@link JavaTemplateRole#DECLARATION}, and program /
+     * artifact roots use {@link JavaTemplateRole#ROOT}. There is deliberately no
+     * no-arg overload, so forgetting the role is a compile-time error and a root
+     * can never be silently rendered as a reference.
      */
-    public String renderRoot(Object rootModel)
-    {
-        return renderRoot(rootModel, JavaTemplateRole.REFERENCE);
-    }
-
     public String renderRoot(Object rootModel, JavaTemplateRole role)
     {
         return renderNode(rootModel, role).render();

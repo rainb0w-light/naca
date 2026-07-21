@@ -8,6 +8,7 @@ package generate.java.st;
 
 import generate.CBaseLanguageExporter;
 import generate.templates.TemplateLoader;
+import generate.templates.recursive.JavaTemplateRole;
 import semantic.Verbs.CEntityDisplay;
 import utils.CObjectCatalog;
 
@@ -26,7 +27,7 @@ public class CJavaDisplayST extends CEntityDisplay
     @Override
     protected void DoExport()
     {
-        String rendered = TemplateLoader.getRecursiveAssembler().renderRoot(this);
+        String rendered = TemplateLoader.getRecursiveAssembler().renderRoot(this, JavaTemplateRole.REFERENCE);
         for (String line : rendered.split("\n", -1)) {
             if (!line.isEmpty()) {
                 WriteLine(line);

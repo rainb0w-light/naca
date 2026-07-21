@@ -20,7 +20,7 @@ class JavaSemanticBlockTemplateTest
         MockJavaExporter output = new MockJavaExporter();
         TestJavaBloc block = new TestJavaBloc(0, output);
 
-        assertEquals("", assembler.renderRoot(block).stripTrailing());
+        assertEquals("", assembler.renderRoot(block, JavaTemplateRole.REFERENCE).stripTrailing());
     }
 
     @Test
@@ -32,7 +32,7 @@ class JavaSemanticBlockTemplateTest
         block.AddChild(new CEntityNoAction(0, null));
         block.AddChild(new CEntityBreak(0, null));
 
-        assertEquals("// CONTINUE \nbreak;", assembler.renderRoot(block).stripTrailing());
+        assertEquals("// CONTINUE \nbreak;", assembler.renderRoot(block, JavaTemplateRole.REFERENCE).stripTrailing());
     }
 
     private static final class TestJavaBloc extends CEntityBloc

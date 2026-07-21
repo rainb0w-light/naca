@@ -17,7 +17,7 @@ class JavaTemplateAssemblerTest
         CJavaEntityNumber number = new CJavaEntityNumber(
             new CObjectCatalog(null, null, null, null), null, "00042");
 
-        assertEquals("42", assembler.renderRoot(number));
+        assertEquals("42", assembler.renderRoot(number, JavaTemplateRole.REFERENCE));
     }
 
     @Test

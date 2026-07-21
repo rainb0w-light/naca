@@ -9,6 +9,7 @@ package generate.java.st;
 import generate.CBaseLanguageExporter;
 import generate.java.expressions.CJavaIntrinsicFunction;
 import generate.templates.TemplateLoader;
+import generate.templates.recursive.JavaTemplateRole;
 import java.util.List;
 import semantic.expression.CBaseEntityExpression;
 import utils.CObjectCatalog;
@@ -33,6 +34,6 @@ public class CJavaIntrinsicFunctionST extends CJavaIntrinsicFunction
     @Override
     public String ExportReference(int line)
     {
-        return TemplateLoader.getRecursiveAssembler().renderRoot(this).trim();
+        return TemplateLoader.getRecursiveAssembler().renderRoot(this, JavaTemplateRole.REFERENCE).trim();
     }
 }

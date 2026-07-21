@@ -2,6 +2,7 @@ package generate.java.st;
 
 import generate.CBaseLanguageExporter;
 import generate.templates.TemplateLoader;
+import generate.templates.recursive.JavaTemplateRole;
 import semantic.CEntityProcedureSection;
 import utils.CObjectCatalog;
 
@@ -18,7 +19,7 @@ public class CJavaProcedureSectionST extends CEntityProcedureSection {
 
     @Override
     protected void DoExport() {
-        String rendered = TemplateLoader.getRecursiveAssembler().renderRoot(this);
+        String rendered = TemplateLoader.getRecursiveAssembler().renderRoot(this, JavaTemplateRole.REFERENCE);
         for (String line : rendered.split("\n", -1)) {
             if (!line.isEmpty()) {
                 WriteLine(line);

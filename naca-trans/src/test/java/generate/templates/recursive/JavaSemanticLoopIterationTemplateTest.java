@@ -118,7 +118,7 @@ class JavaSemanticLoopIterationTemplateTest
 
     private void assertRendered(LoopFixture fixture, String expected)
     {
-        assertEquals(normalize(expected), normalize(assembler.renderRoot(fixture.loop).stripTrailing()));
+        assertEquals(normalize(expected), normalize(assembler.renderRoot(fixture.loop, JavaTemplateRole.REFERENCE).stripTrailing()));
     }
 
     private String normalize(String source)

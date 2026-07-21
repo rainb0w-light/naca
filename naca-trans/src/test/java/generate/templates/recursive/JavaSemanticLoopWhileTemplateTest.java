@@ -23,13 +23,13 @@ class JavaSemanticLoopWhileTemplateTest
         TestJavaLoopWhile whileLoop = loop(whileOutput);
         whileLoop.SetWhileCondition(equals("1", "1"));
         assertEquals("while (isEqual(1, 1)) {\n// CONTINUE \nbreak;\n}",
-            assembler.renderRoot(whileLoop).stripTrailing());
+            assembler.renderRoot(whileLoop, JavaTemplateRole.REFERENCE).stripTrailing());
 
         MockJavaExporter doOutput = new MockJavaExporter();
         TestJavaLoopWhile doLoop = loop(doOutput);
         doLoop.SetDoWhileCondition(equals("2", "2"));
         assertEquals("do {\n// CONTINUE \nbreak;\n}\nwhile (isEqual(2, 2)) ;",
-            assembler.renderRoot(doLoop).stripTrailing());
+            assembler.renderRoot(doLoop, JavaTemplateRole.REFERENCE).stripTrailing());
     }
 
     @Test
@@ -44,7 +44,7 @@ class JavaSemanticLoopWhileTemplateTest
         outer.AddChild(inner);
 
         assertEquals("do {\nwhile (isEqual(2, 2)) {\n// CONTINUE \nbreak;\n}\n}\nwhile (isEqual(1, 1)) ;",
-            assembler.renderRoot(outer).stripTrailing());
+            assembler.renderRoot(outer, JavaTemplateRole.REFERENCE).stripTrailing());
     }
 
     @Test
@@ -55,7 +55,7 @@ class JavaSemanticLoopWhileTemplateTest
         loop.SetUntilCondition(equals("1", "2"));
 
         assertEquals("while (isDifferent(1, 2)) {\n// CONTINUE \nbreak;\n}",
-            assembler.renderRoot(loop).stripTrailing());
+            assembler.renderRoot(loop, JavaTemplateRole.REFERENCE).stripTrailing());
     }
 
     private TestJavaLoopWhile loop(MockJavaExporter output)

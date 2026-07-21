@@ -95,7 +95,7 @@ class DataAttributeDeclarationTemplateTest
         attr.SetLevel("05");
         attr.SetTypeString(4);
 
-        assertEquals("WS_ROLE", TemplateLoader.getRecursiveAssembler().renderRoot(attr));
+        assertEquals("WS_ROLE", TemplateLoader.getRecursiveAssembler().renderRoot(attr, JavaTemplateRole.REFERENCE));
         assertTrue(render(attr).contains("Var WS_ROLE = declare.level(05).picX(4)"));
     }
 

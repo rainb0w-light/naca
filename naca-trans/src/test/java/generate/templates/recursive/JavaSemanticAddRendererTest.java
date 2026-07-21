@@ -26,6 +26,6 @@ class JavaSemanticAddRendererTest {
         CEntityAddTo add = new CEntityAddTo(0, catalog);
         add.SetAddValue(new CJavaEntityNumber(catalog, refs, value));
         add.SetAddDest(new CJavaAttribute(0, "TOTAL", catalog, refs));
-        return assembler.renderRoot(add).replaceAll("\\$\\d+", "").stripTrailing();
+        return assembler.renderRoot(add, JavaTemplateRole.REFERENCE).replaceAll("\\$\\d+", "").stripTrailing();
     }
 }

@@ -3,6 +3,7 @@ package generate.java.st;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import generate.templates.TemplateLoader;
+import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.Test;
 import semantic.Verbs.CEntityStringConcat;
 
@@ -20,7 +21,7 @@ class CJavaStringConcatSTTest
             new MockDataEntity(1, "delimiter"));
         concat.SetVariable(new MockDataEntity(1, "destination"));
 
-        String output = TemplateLoader.getRecursiveAssembler().renderRoot(concat);
+        String output = TemplateLoader.getRecursiveAssembler().renderRoot(concat, JavaTemplateRole.REFERENCE);
 
         assertTrue(
             output.contains("concat(prefix).concatDelimitedBy(text, delimiter).into(destination);"),
@@ -40,7 +41,7 @@ class CJavaStringConcatSTTest
         concat.SetVariable(new MockDataEntity(1, "destination"), source);
 
         assertTrue(concat.ReplaceVariable(source, replacement));
-        String output = TemplateLoader.getRecursiveAssembler().renderRoot(concat);
+        String output = TemplateLoader.getRecursiveAssembler().renderRoot(concat, JavaTemplateRole.REFERENCE);
 
         assertTrue(
             output.contains("concat(replacement).concatDelimitedBy(replacement, replacement)"

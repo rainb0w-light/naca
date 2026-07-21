@@ -92,6 +92,6 @@ class JavaTemplateRoleBindingTest
         // us delete the no-arg overload (or restore its ROOT default) once the
         // transitional callers pass REFERENCE explicitly.
         assertThrows(MissingTemplateRendererException.class, () ->
-            TemplateLoader.getRecursiveAssembler().renderRoot(program));
+            TemplateLoader.getRecursiveAssembler().renderRoot(program, JavaTemplateRole.REFERENCE));
     }
 }

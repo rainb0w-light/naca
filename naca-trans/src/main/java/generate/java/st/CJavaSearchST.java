@@ -2,6 +2,7 @@ package generate.java.st;
 
 import generate.CBaseLanguageExporter;
 import generate.templates.TemplateLoader;
+import generate.templates.recursive.JavaTemplateRole;
 import semantic.CDataEntity;
 import semantic.Verbs.CEntitySearch;
 import utils.CObjectCatalog;
@@ -37,7 +38,7 @@ public class CJavaSearchST extends CEntitySearch {
 
     @Override
     protected void DoExport() {
-        String rendered = TemplateLoader.getRecursiveAssembler().renderRoot(this);
+        String rendered = TemplateLoader.getRecursiveAssembler().renderRoot(this, JavaTemplateRole.REFERENCE);
         for (String line : rendered.split("\n", -1)) {
             if (!line.isEmpty()) {
                 WriteLine(line);
