@@ -34,7 +34,7 @@
 | Java semantic-template manifest | concrete 主 manifest 已拆为 9 项；运行时继承别名独立放在 `semantic-runtime-bindings.properties` | 主 manifest 完整且与所有 concrete semantic entity 精确对应 |
 | ST tree 扁平化 | root assembler 中 1 处 | 恰好 1 处 |
 
-当前工作树实测严格契约共执行 **401 项检查，222 项失败、179 项通过**。新增的通过项来自 role enum 纳入逐文件审计；失败构成仍是 47 个 semantic 类、171 个 direct backend 类、3 个 factory 和 1 个 STG 文件，债务没有增加。此前文档中的 424 是删除 23 个旧 backend 文件及清理 1 个未使用 backend helper 之前的总数，已经失效。测试项数量会随被审计文件数自动变化。当前失败是重构债务的证据，不能通过调低阈值或增加白名单消除。
+当前工作树实测严格契约共执行 **402 项检查，222 项失败、180 项通过**（最新口径见文末「2026-07-21/22 进展」条目；下表为 2026-07-19/20 快照，逐类明细随迁移推进）。失败构成仍约为 47 个 semantic 类、171 个 direct backend 类、3 个 factory 和 1 个 STG 文件，债务没有增加。此前文档中的 424/401 均为更早快照，已经失效。测试项数量会随被审计文件数自动变化（本轮删除死代码 `CJavaClassST` 使总数 403→402）。当前失败是重构债务的证据，不能通过调低阈值或增加白名单消除。
 
 日常功能门禁与最终架构门禁必须分开：普通 `:naca-trans:test` 排除
 `final-architecture` tag 并保持全绿；独立的 `finalArchitectureCheck` 只运行该 tag，
@@ -333,3 +333,28 @@ FILLER 的 export 期改名副作用（`SetName(GetDefaultName())`）需派生�
 门禁：`:naca-trans:build`/`test` 成功；`finalArchitectureCheck` **403 项/222 失败**（失败持平）；`:naca-cloud-native:test` 25 项/1 预存失败（`testTranspileValidCobolWithWorkingStorage`，未隐藏）。
 
 仍不接生产出口、不新增 `CJavaDataSectionST`、不删 direct generator。下一切片：external/COPY root binding（`CEntityExternalDataStructure`/`CEntityFileDescriptor`/include 结构），以及把 class root 接入唯一 assembler 的生产出口（Step 5）。
+
+## 2026-07-21/22 进展：Step 5a/5b/5c + Step 6 生产出口接入（均已提交）
+
+### Step 5a — FileDescriptor declaration binding（`d7a5b56`）
+- `CEntityFileDescriptor` 增目标无关 getter（`getFileName`/`getFileStatus`/`getDisplayName`）；`dataFileDescriptorDeclaration` 对齐 `CJavaFileDescriptor.DoExport`：`declare.file(<fileRef> | "<displayName>" 回退)`、可选 `.status(<statusRef>)`、`activeChildren`（记录结构，file section 内导出全部子项）。
+- 修 `CEntityFileSelect.setFileStatus` 自赋值（`fileStatus = fileStatus`）。无样例用 FILE STATUS，零回归。
+
+### Step 5b — ExternalDataStructure 三角色 + SetInline（`04d1f02`）
+- REFERENCE：copybook 标识符引用（既有 `dataReferenceEntity`）。
+- DECLARATION：`CEntityInline` 的 `dataInlineDeclaration` 渲染类内实例 `Type ref = Type.Copy(this[, replacing(level,value)]) ;`。
+- ROOT：`javaCopyClass`（`semantic-root-bindings`）渲染 copybook 为独立 `extends Copy` 编译单元，对齐 `CJavaExternalDataStructure.DoExport`。
+- 修 `CEntityExternalDataStructure.SetInline` 自赋值（唯一调用点是内置 HEXZONE）；T01/TEST-A/BATCH1 门禁零回归，单独测试覆盖。
+
+### Step 5c — BATCH1 整文件 root 等价（测试出口，`a496c0c`）
+- `Batch1AssembledRootParityTest`：带 COPY MSGZONE include group 解析 BATCH1，assembler `renderRoot(root, ROOT)` 渲染全程序（working storage + file section/FD + COPY 实例声明 + procedure division），与 frozen golden **逐 token 等价**。
+- fail-closed 守卫暴露并 closure 两个缺口：`unknownReferenceEntity`（未解析引用渲染为空，对齐 direct 的 `DoExport` 空/`ExportReference` null）；`getFileName()` 对未解析（unknown）文件名返回 null，使 `declare.file(...)` 回退到带引号显示名（对齐 direct，`declare.file("FILEIN")`）。
+
+### Step 6 — 生产出口接入唯一 assembler（`e5eccc8`）
+- `TranspilerService` 生产出口由 `CEntityClass.StartExport()`（direct）改为 `renderRoot(root, ROOT)`（assembler）。前置已满足：TESTHELLO/T01（含 javac+运行）与 BATCH1 均证明整文件 token 等价。
+- assembler 空白格式与 legacy WriteWord/WriteLine 协议不同但 token 流相同（javac 不敏感）；`Batch1FillerGoldenDiffTest` 由逐字节改为逐 token 对比 frozen direct golden，仍锁定 `Filler$1`/`Filler$2` 规范命名。
+- **范围说明（非验收集回归）**：使用未迁移构造（CICS/SQL/BMS/FPac，即剩余 direct backend 类）的程序现按设计 fail-closed，需先迁移其构造；copybook 类生成（`generateCopybookClass`）仍走 direct 重导出，是独立的后续迁移；direct `CJava*` 生成器作为 parity 测试参照与 copybook 生成保留，删除它们是最后的清理阶段。
+
+门禁：`:naca-trans:build`/`test` 成功；`finalArchitectureCheck` **402 项/222 失败**（失败持平；总数较 403 −1 因删除死代码 `CJavaClassST`）；`:naca-cloud-native:test` **28 项/1 预存失败**（`testTranspileValidCobolWithWorkingStorage`，未隐藏；+测试为本轮新增 parity 测试）。
+
+剩余（最终完成前）：copybook 生成迁到 assembler ROOT；CICS/SQL/BMS/FPac 等构造迁入 assembler（消除生产 fail-closed）； retiring parity 测试对 direct 的依赖后删除 direct `CJava*` 生成器大头。

@@ -173,3 +173,20 @@ role 只决定查询哪一份声明式 binding；具体 Java 语法仍由 STG �
 数据段专项与「root 契约」推进合流：Step 0 冻结 BATCH1 golden，Step 1 修 attribute FILLER 构造期命名（BATCH1 零变化），Step 2 建立显式 ROOT role 绑定（`semantic-root-bindings.properties` + `bindingsFor(ROOT)` 不回落 default + `javaProgramRoot` 占位），Step 3 暴露目标无关 program-root 语义（`ProgramKind`/`ProgramCapability`/`declarationChildren`/`executableChildren` + 显式 child role 传播 + 快照测试）。
 
 **无参 `renderRoot(model)` 删除点（硬约束）**：当前无参 `renderRoot` 默认 `REFERENCE` 是过渡兼容（保 11 个 procedure/verb 控制器不变）。**最迟于 Step 4（class-root 模板）完成前、且严格在添加 external/COPY root binding 之前**，必须：先把 11 个生产控制器改为显式 `renderRoot(this, REFERENCE)`，再删除无参 overload（或把无参默认恢复为 `ROOT`）。否则 `CEntityExternalDataStructure` 同时拥有 REFERENCE（copybook 标识符）与 ROOT（完整 Copy 类）两个 binding 后，artifact writer 忘记显式传 ROOT 会静默生成标识符而非 fail-closed。守卫测试 `programArtifactCannotBeGeneratedWithoutExplicitRootRole` 已锁定该 fail-closed 行为。
+
+## 10. Step 5a/5b/5c + Step 6 完成（2026-07-21/22，详见 `ST4_CLASS_BY_CLASS_AUDIT.md`）
+
+上文第 8/9 节列出的接入前置已全部完成：
+
+- **5a**：`CEntityFileDescriptor` declaration binding + `dataFileDescriptorDeclaration` 模板（`declare.file(<fileRef> | "<displayName>" 回退)` + 可选 `.status(...)` + `activeChildren`）；修 `setFileStatus` 自赋值。
+- **5b**：`CEntityExternalDataStructure`/`CEntityInline` 三角色（REFERENCE=标识符引用 / DECLARATION=`Type ref = Type.Copy(this)` 实例声明 / ROOT=`javaCopyClass` 独立 Copy 类）；修 `SetInline` 自赋值（仅内置 HEXZONE，门禁零回归）。
+- **5c**：`Batch1AssembledRootParityTest` 证明 BATCH1 整文件 root（含 file section/FD + COPY MSGZONE 实例声明 + procedure）经 assembler `renderRoot(ROOT)` 与 frozen golden 逐 token 等价。fail-closed 暴露并 closure 两缺口：`unknownReferenceEntity`（未解析引用渲染为空）、`getFileName()` 对 unknown 文件名回退到带引号显示名。
+- **Step 4.6**：删除死代码 `CJavaClassST`，无参 `renderRoot` overload 已删（11 控制器 + 全部测试调用点显式传 role）。
+- **Step 6**：`TranspilerService` 生产出口由 direct `StartExport()` 改为 `renderRoot(root, ROOT)`；`Batch1FillerGoldenDiffTest` 由逐字节改为逐 token 对比 frozen golden，仍锁定 `Filler$1`/`Filler$2`。
+
+门禁：`:naca-trans:build`/`test` 成功；`finalArchitectureCheck` **402/222**（失败持平）；`:naca-cloud-native:test` **28/1** 预存失败（未隐藏）。
+
+**最终完成前的剩余债务**（生产出口已接 assembler，但下列未竟）：
+1. copybook 类生成（`IncludeGroupSupport.generateCopybookClass`）仍走 direct 重导出，应迁到 assembler ROOT（`javaCopyClass`）。
+2. CICS/SQL/BMS/FPac 等构造尚未迁入 assembler：使用这些构造的程序经生产出口会 fail-closed（按设计，优于静默错误），需逐一迁移后才能消除。
+3. direct `CJava*` 生成器（约 171 个 direct backend 类）仍作为 parity 测试参照与 copybook 生成保留；retiring 这些 parity 测试对 direct 的依赖后删除生成器大头，是 `finalArchitectureCheck` 全绿前的最后清理。

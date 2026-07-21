@@ -186,14 +186,4 @@ public abstract class CEntityInline extends CBaseActionEntity
 	{
 		return externalData.GetReplaceValue();
 	}
-
-	/**
-	 * Whether the copybook must be declared as an instance in the program class
-	 * (the non-inline form). When inlined, the copybook fields are expanded
-	 * directly instead.
-	 */
-	public boolean isNeedDeclarationInClass()
-	{
-		return externalData.IsNeedDeclarationInClass();
-	}
 }
