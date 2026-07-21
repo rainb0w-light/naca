@@ -91,12 +91,18 @@ public abstract class CEntityFileDescriptor extends CBaseLanguageEntity
 
 	/**
 	 * The SELECT file-name data entity (rendered in the REFERENCE role), or null
-	 * when the file select has no explicit name — the backend then falls back to
-	 * the quoted display name, exactly as the direct generator does.
+	 * when there is no resolvable file name — the backend then falls back to the
+	 * quoted display name, exactly as the direct generator does (which discards a
+	 * file name whose reference does not resolve, i.e. an unknown reference).
 	 */
 	public CDataEntity getFileName()
 	{
-		return fileSelect == null ? null : fileSelect.GetFileName();
+		if (fileSelect == null)
+		{
+			return null;
+		}
+		CDataEntity fileName = fileSelect.GetFileName();
+		return fileName instanceof CEntityUnknownReference ? null : fileName;
 	}
 
 	/**

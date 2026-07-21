@@ -907,6 +907,11 @@ dataNamedConditionDeclaration(entity) ::= <<
 Cond <entity.formattedName> = declare.condition()<entity.values:{val | .value(<val>)}><entity.intervals:{interval | .value(<interval.start>, <interval.end>)}>.var() ;
 >>
 
+// An unresolved reference: the direct generator emits nothing for it
+// (CJavaUnknownReference.DoExport is empty and ExportReference returns null),
+// so it renders as empty here too.
+unknownReferenceEntity(entity) ::= ""
+
 // A program comment, rendered in the REFERENCE role as a root child. The "// "
 // marker is Java lexical (STG); the newline escaping and right trim are done by
 // the javaCommentText atomic renderer, faithfully reproducing the historical
