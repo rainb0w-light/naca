@@ -12,7 +12,7 @@ import semantic.CDataEntity;
 import semantic.CEntityFileDescriptor;
 import utils.CObjectCatalog;
 
-public abstract class CEntityReadFile extends CBaseActionEntity
+public class CEntityReadFile extends CBaseActionEntity
 {
 
 	public CEntityReadFile(int line, CObjectCatalog cat)

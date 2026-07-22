@@ -21,7 +21,7 @@ class LegacyGenerationArchitectureTest
     private static final int ST_FACTORY_ENTRY_BASELINE = 41;
     private static final int DIRECT_GENERATOR_FILE_BASELINE = 201;
     private static final int SEMANTIC_EXPORTER_IMPORT_BASELINE = 0;
-    private static final int ST_CONTROLLER_RENDER_FILE_BASELINE = 1;
+    private static final int ST_CONTROLLER_RENDER_FILE_BASELINE = 0;
     private static final int TEMPLATE_CODE_STRING_BASELINE = 51;
     private static final int TEMPLATE_CHILDREN_CODE_BASELINE = 15;
     private static final int TEMPLATE_REFERENCE_STRING_BASELINE = 39;
