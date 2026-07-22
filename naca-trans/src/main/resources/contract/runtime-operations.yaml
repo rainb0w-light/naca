@@ -48,3 +48,86 @@ operations:
     runtimeMethod: atEnd
     paramTypes: []
     returns: boolean
+
+  # --- OPEN / CLOSE ---
+  - id: file.open.input
+    since: 1
+    capability: FILE_IO
+    runtimeClass: nacaLib.varEx.BaseFileDescriptor
+    runtimeMethod: openInput
+    paramTypes: []
+    returns: nacaLib.varEx.BaseFileDescriptor
+
+  - id: file.open.output
+    since: 1
+    capability: FILE_IO
+    runtimeClass: nacaLib.varEx.BaseFileDescriptor
+    runtimeMethod: openOutput
+    paramTypes: []
+    returns: nacaLib.varEx.BaseFileDescriptor
+
+  - id: file.open.inputOutput
+    since: 1
+    capability: FILE_IO
+    runtimeClass: nacaLib.varEx.BaseFileDescriptor
+    runtimeMethod: openInputOutput
+    paramTypes: []
+    returns: nacaLib.varEx.BaseFileDescriptor
+
+  - id: file.open.extend
+    since: 1
+    capability: FILE_IO
+    runtimeClass: nacaLib.varEx.BaseFileDescriptor
+    runtimeMethod: openExtend
+    paramTypes: []
+    returns: nacaLib.varEx.BaseFileDescriptor
+
+  - id: file.close
+    since: 1
+    capability: FILE_IO
+    runtimeClass: nacaLib.varEx.BaseFileDescriptor
+    runtimeMethod: close
+    paramTypes: []
+    returns: void
+
+  # --- WRITE ---
+  - id: file.write
+    since: 1
+    capability: FILE_IO
+    runtimeClass: nacaLib.varEx.FileDescriptor
+    runtimeMethod: write
+    paramTypes: []
+    returns: void
+
+  - id: file.writeFrom
+    since: 1
+    capability: FILE_IO
+    runtimeClass: nacaLib.varEx.FileDescriptor
+    runtimeMethod: writeFrom
+    paramTypes: [nacaLib.varEx.VarBase]
+    returns: void
+
+  - id: file.writeAfter
+    since: 1
+    capability: FILE_IO
+    runtimeClass: nacaLib.varEx.FileDescriptor
+    runtimeMethod: writeAfter
+    paramTypes: [int]
+    returns: void
+
+  # --- REWRITE ---
+  - id: file.rewrite
+    since: 1
+    capability: FILE_IO
+    runtimeClass: nacaLib.varEx.FileDescriptor
+    runtimeMethod: rewrite
+    paramTypes: []
+    returns: void
+
+  - id: file.rewriteFrom
+    since: 1
+    capability: FILE_IO
+    runtimeClass: nacaLib.varEx.FileDescriptor
+    runtimeMethod: rewriteFrom
+    paramTypes: [nacaLib.varEx.VarBase]
+    returns: void

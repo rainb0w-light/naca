@@ -21,3 +21,29 @@ templates:
       - file.read
       - file.readInto
       - ioResult.atEnd
+
+  recursiveOpenFileEntity:
+    capability: FILE_IO
+    requires:
+      - file.open.input
+      - file.open.output
+      - file.open.inputOutput
+      - file.open.extend
+
+  recursiveCloseFileEntity:
+    capability: FILE_IO
+    requires:
+      - file.close
+
+  recursiveWriteFileEntity:
+    capability: FILE_IO
+    requires:
+      - file.write
+      - file.writeFrom
+      - file.writeAfter
+
+  recursiveRewriteFileEntity:
+    capability: FILE_IO
+    requires:
+      - file.rewrite
+      - file.rewriteFrom
