@@ -358,3 +358,21 @@ FILLER 的 export 期改名副作用（`SetName(GetDefaultName())`）需派生�
 门禁：`:naca-trans:build`/`test` 成功；`finalArchitectureCheck` **402 项/222 失败**（失败持平；总数较 403 −1 因删除死代码 `CJavaClassST`）；`:naca-cloud-native:test` **28 项/1 预存失败**（`testTranspileValidCobolWithWorkingStorage`，未隐藏；+测试为本轮新增 parity 测试）。
 
 剩余（最终完成前）：copybook 生成迁到 assembler ROOT；CICS/SQL/BMS/FPac 等构造迁入 assembler（消除生产 fail-closed）； retiring parity 测试对 direct 的依赖后删除 direct `CJava*` 生成器大头。
+
+## 2026-07-22 进展：Step 7 — copybook direct root 清理 + fail-closed 可观测性（均已提交）
+
+### Step 7a/7b — fail-closed 可观测性（`9a2e5f5`）
+- `MissingTemplateRendererException` 现给出最特异的 `semantic.*` 超类名：`missing ST binding for semantic.X (concrete generate.java.CJavaX)`，错误直接指向需要补 binding 的语义类型，而非黑盒。
+- `TranspilerService` 不再把 `MissingTemplateRendererException` 吞成黑盒 "empty result"：经 `transpileWithFullPipeline`/`doSemanticAnalysisAndExport` 透传，`transpile()` 报 `Transpilation failed closed (no direct fallback): ...`。
+- `FailClosedBehaviorTest` 锁定：请求角色无 binding 的节点必 fail-closed 且具名。
+- **边界说明**：CICS/SQL 构造当前在**解析期**被丢弃/拒绝（未进入 semantic tree 渲染），故 CICS/SQL 样例本身不触发 assembler 的 fail-closed——迁移它们是独立的「解析 + binding」工作。assembler 级 fail-closed 保证（生产出口所依赖）由此测试锁定。
+
+### Step 7c — copybook 类生成迁到 assembler ROOT（`422e020`）
+- `IncludeGroupSupport.generateCopybookClass` 由 direct `CopybookStringExporter` 重导出改为 `renderRoot(structure, ROOT)`（`javaCopyClass`），与程序 root 同一扁平化路径。字段标识符来自 copybook 实体自身 exporter（小写驼峰），仍与转译程序引用一致。
+- `CEntityExternalDataStructure.getDeclarationChildren()`：以 `childRole` 映射为 DECLARATION 的名字暴露 copybook 字段（copybook root 以 ROOT 渲染，`activeChildren` 否则回落 REFERENCE 而渲成裸引用）。
+- `generateCopybookClassDirect` 仅作为 `CopybookClassParityTest` 的 parity 参照保留（assembler 输出与之逐 token 等价），稳定后可删。
+- 验证：copybook direct-vs-assembler 逐 token 等价、BATCH1 + MSGZONE javac、BATCH1 cloud-native 回归均通过。
+
+门禁：`:naca-trans:build`/`test` 成功；`finalArchitectureCheck` **402 项/222 失败**（持平）；`:naca-cloud-native:test` **30 项/1 预存失败**（`testTranspileValidCobolWithWorkingStorage`，未隐藏；+为本轮新增 parity/fail-closed 测试）。
+
+**下一步（Step 7 之后，另起阶段）**：① 决定是否切通用 CLI 出口（`TranscoderEngine`/`CGlobalCatalog` 仍在 `StartExport()`），勿与 CICS/SQL 迁移混在一个提交；② 按业务覆盖度分批 retiring 剩余 direct backend 类（优先普通 COBOL 仍触发的 `CJavaReadFileST`/文件 open-read-write-close-rewrite，再 SQL 最小闭环、CICS 最小闭环，BMS/FPac 最后）。

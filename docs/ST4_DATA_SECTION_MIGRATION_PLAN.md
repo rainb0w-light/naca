@@ -190,3 +190,12 @@ role 只决定查询哪一份声明式 binding；具体 Java 语法仍由 STG �
 1. copybook 类生成（`IncludeGroupSupport.generateCopybookClass`）仍走 direct 重导出，应迁到 assembler ROOT（`javaCopyClass`）。
 2. CICS/SQL/BMS/FPac 等构造尚未迁入 assembler：使用这些构造的程序经生产出口会 fail-closed（按设计，优于静默错误），需逐一迁移后才能消除。
 3. direct `CJava*` 生成器（约 171 个 direct backend 类）仍作为 parity 测试参照与 copybook 生成保留；retiring 这些 parity 测试对 direct 的依赖后删除生成器大头，是 `finalArchitectureCheck` 全绿前的最后清理。
+
+## 11. Step 7 完成（2026-07-22，详见 `ST4_CLASS_BY_CLASS_AUDIT.md`）
+
+- **7a/7b fail-closed 可观测性**（`9a2e5f5`）：`MissingTemplateRendererException` 具名最特异 `semantic.*` 超类；`TranspilerService` 透传该异常并报 `Transpilation failed closed (no direct fallback): ...`，不再黑盒 "empty result"。`FailClosedBehaviorTest` 锁定 fail-closed + 具名。边界：CICS/SQL 当前在解析期被丢弃/拒绝，不触发 assembler fail-closed（独立迁移）。
+- **7c copybook 类生成迁到 assembler ROOT**（`422e020`）：`generateCopybookClass` 由 direct 重导出改为 `renderRoot(structure, ROOT)`（`javaCopyClass`）；`CEntityExternalDataStructure.getDeclarationChildren()` 使 copybook 字段以 DECLARATION 渲染；`generateCopybookClassDirect` 仅作 parity 参照保留。验证：copybook direct-vs-assembler 逐 token 等价 + BATCH1+MSGZONE javac + BATCH1 回归。
+
+门禁：`:naca-trans:build`/`test` 成功；`finalArchitectureCheck` **402/222**（持平）；`:naca-cloud-native:test` **30/1** 预存失败（未隐藏）。
+
+**下一大阶段（Step 7 之后）**：决定是否切通用 CLI 出口（`TranscoderEngine`/`CGlobalCatalog` 仍 `StartExport()`，勿与 CICS/SQL 混提交）；按业务覆盖度分批 retiring 剩余 direct backend 类（普通 COBOL 文件动词 → SQL 最小闭环 → CICS 最小闭环 → BMS/FPac）。
