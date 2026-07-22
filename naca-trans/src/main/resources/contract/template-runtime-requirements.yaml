@@ -55,3 +55,12 @@ templates:
       - program.call.using
       - program.call.executeCall
       - program.call.executeCallSafe
+
+  recursiveMoveEntity:
+    capability: DATA
+    requires:
+      - data.move.varEdit
+      - data.move.editVar
+      - data.move.editEdit
+      - data.moveAll
+      - data.moveCorresponding

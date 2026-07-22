@@ -166,3 +166,48 @@ operations:
     runtimeMethod: executeCallSafe
     paramTypes: []
     returns: boolean
+
+  # --- MOVE (data) ---
+  # BaseProgram.move is heavily overloaded over source/destination type
+  # combinations (Var/Edit/int/figurative constants). The contract declares the
+  # representative reference overloads the recursive MOVE template emits; the
+  # constant/int overloads are added as features that exercise them migrate.
+  - id: data.move.varEdit
+    since: 1
+    capability: DATA
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: move
+    paramTypes: [nacaLib.varEx.Var, nacaLib.varEx.Edit]
+    returns: void
+
+  - id: data.move.editVar
+    since: 1
+    capability: DATA
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: move
+    paramTypes: [nacaLib.varEx.Edit, nacaLib.varEx.Var]
+    returns: void
+
+  - id: data.move.editEdit
+    since: 1
+    capability: DATA
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: move
+    paramTypes: [nacaLib.varEx.Edit, nacaLib.varEx.Edit]
+    returns: void
+
+  - id: data.moveAll
+    since: 1
+    capability: DATA
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: moveAll
+    paramTypes: [nacaLib.varEx.Var, nacaLib.varEx.Var]
+    returns: nacaLib.basePrgEnv.BaseProgram
+
+  - id: data.moveCorresponding
+    since: 1
+    capability: DATA
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: moveCorresponding
+    paramTypes: [nacaLib.varEx.VarBase, nacaLib.varEx.VarBase]
+    returns: nacaLib.basePrgEnv.BaseProgram

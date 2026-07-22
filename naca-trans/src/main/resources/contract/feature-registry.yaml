@@ -81,3 +81,13 @@ features:
     runtimeOperations: [program.call, program.call.using, program.call.executeCall, program.call.executeCallSafe]
     fixtures: []
     status: production
+
+  - id: cobol.data.move
+    dialects: [cobol-core]
+    semanticType: semantic.Verbs.CEntityAssign
+    javaBackend:
+      role: REFERENCE
+      template: recursiveMoveEntity
+    runtimeOperations: [data.move.varEdit, data.move.editVar, data.move.editEdit, data.moveAll, data.moveCorresponding]
+    fixtures: []
+    status: production
