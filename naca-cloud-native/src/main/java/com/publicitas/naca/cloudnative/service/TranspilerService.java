@@ -82,6 +82,12 @@ public class TranspilerService {
 
             return TranspileResult.success(javaSource);
 
+        } catch (generate.templates.recursive.MissingTemplateRendererException e) {
+            // Fail-closed by design: a construct without an ST binding aborts
+            // transpilation with an actionable error rather than silently
+            // falling back to the direct generator.
+            return TranspileResult.failure("Transpilation failed closed (no direct fallback): "
+                + e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
             return TranspileResult.failure("Transpilation error: " + e.getMessage());
@@ -186,6 +192,10 @@ public class TranspilerService {
             String javaSource = doSemanticAnalysisAndExport(program, programName, listing);
             return javaSource;
 
+        } catch (generate.templates.recursive.MissingTemplateRendererException e) {
+            // Fail-closed: propagate so transpile() surfaces the missing binding
+            // instead of collapsing to a black-box "empty result".
+            throw e;
         } catch (Exception e) {
             return null;
         }
@@ -258,6 +268,9 @@ public class TranspilerService {
             }
 			return generate.templates.TemplateLoader.getRecursiveAssembler()
 				.renderRoot(rootEntity, generate.templates.recursive.JavaTemplateRole.ROOT);
+		} catch (generate.templates.recursive.MissingTemplateRendererException e) {
+			// Fail-closed: propagate so the missing ST binding is reported, not hidden.
+			throw e;
 		} catch (Exception e) {
 			return null;
 		}
