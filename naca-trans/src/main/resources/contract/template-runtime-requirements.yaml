@@ -47,3 +47,11 @@ templates:
     requires:
       - file.rewrite
       - file.rewriteFrom
+
+  recursiveCallProgramEntity:
+    capability: CALL
+    requires:
+      - program.call
+      - program.call.using
+      - program.call.executeCall
+      - program.call.executeCallSafe

@@ -71,3 +71,13 @@ features:
     runtimeOperations: [file.rewrite, file.rewriteFrom]
     fixtures: []
     status: production
+
+  - id: cobol.program.call
+    dialects: [cobol-core]
+    semanticType: semantic.Verbs.CEntityCallProgram
+    javaBackend:
+      role: REFERENCE
+      template: recursiveCallProgramEntity
+    runtimeOperations: [program.call, program.call.using, program.call.executeCall, program.call.executeCallSafe]
+    fixtures: []
+    status: production

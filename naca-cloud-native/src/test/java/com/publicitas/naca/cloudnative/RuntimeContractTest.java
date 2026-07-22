@@ -35,13 +35,36 @@ class RuntimeContractTest
         {
             Class<?> runtimeClass = Class.forName(op.runtimeClass());
             Class<?>[] paramTypes = resolveTypes(op.paramTypes());
-            Method method = runtimeClass.getMethod(op.runtimeMethod(), paramTypes);
+            Method method = resolveMethod(runtimeClass, op.runtimeMethod(), paramTypes);
             assertNotNull(method, "operation " + op.id() + " has no runtime method");
             assertEquals(resolveType(op.returns()), method.getReturnType(),
                 "operation " + op.id() + " return type mismatch: contract declares "
                     + op.returns() + " but " + op.runtimeClass() + "." + op.runtimeMethod()
                     + " returns " + method.getReturnType().getName());
         }
+    }
+
+    /**
+     * Resolves a method walking up the class hierarchy and including declared
+     * (public and protected) methods — runtime operations such as
+     * {@code BaseProgram.call(String)} are protected and inherited by generated
+     * program subclasses, so {@code getMethod} (public only) would miss them.
+     */
+    private static Method resolveMethod(Class<?> clazz, String name, Class<?>[] paramTypes)
+        throws NoSuchMethodException
+    {
+        for (Class<?> c = clazz; c != null; c = c.getSuperclass())
+        {
+            try
+            {
+                return c.getDeclaredMethod(name, paramTypes);
+            }
+            catch (NoSuchMethodException e)
+            {
+                // keep walking up the hierarchy
+            }
+        }
+        throw new NoSuchMethodException(clazz.getName() + "." + name);
     }
 
     private static Class<?>[] resolveTypes(List<String> names) throws ClassNotFoundException

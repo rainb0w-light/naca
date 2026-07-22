@@ -131,3 +131,38 @@ operations:
     runtimeMethod: rewriteFrom
     paramTypes: [nacaLib.varEx.VarBase]
     returns: void
+
+  # --- CALL PROGRAM ---
+  # call(String) is protected on BaseProgram and inherited by generated program
+  # subclasses; runtimeContractCheck resolves it across the class hierarchy.
+  - id: program.call
+    since: 1
+    capability: CALL
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: call
+    paramTypes: [java.lang.String]
+    returns: nacaLib.program.CCallProgram
+
+  - id: program.call.using
+    since: 1
+    capability: CALL
+    runtimeClass: nacaLib.program.CCallProgram
+    runtimeMethod: using
+    paramTypes: [nacaLib.varEx.Var]
+    returns: nacaLib.program.CCallProgram
+
+  - id: program.call.executeCall
+    since: 1
+    capability: CALL
+    runtimeClass: nacaLib.program.CCallProgram
+    runtimeMethod: executeCall
+    paramTypes: []
+    returns: void
+
+  - id: program.call.executeCallSafe
+    since: 1
+    capability: CALL
+    runtimeClass: nacaLib.program.CCallProgram
+    runtimeMethod: executeCallSafe
+    paramTypes: []
+    returns: boolean
