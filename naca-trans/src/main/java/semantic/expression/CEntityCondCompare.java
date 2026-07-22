@@ -28,29 +28,29 @@ public abstract class CEntityCondCompare extends CBinaryEntityCondition
 	
 	public void SetLessThan(CBaseEntityExpression op1, CBaseEntityExpression op2)
 	{
-		op1 = op1 ; 
-		op2 = op2 ;
+		this.op1 = op1 ;
+		this.op2 = op2 ;
 		isisOrEquals = false ;
 		isisGreater = false ;
 	}
 	public void SetLessOrEqualThan(CBaseEntityExpression op1, CBaseEntityExpression op2)
 	{
-		op1 = op1 ; 
-		op2 = op2 ;
+		this.op1 = op1 ;
+		this.op2 = op2 ;
 		isisOrEquals = true ;
 		isisGreater = false ;
 	}
 	public void SetGreaterThan(CBaseEntityExpression op1, CBaseEntityExpression op2)
 	{
-		op1 = op1 ; 
-		op2 = op2 ;
+		this.op1 = op1 ;
+		this.op2 = op2 ;
 		isisOrEquals = false ;
 		isisGreater = true ;
 	}
 	public void SetGreaterOrEqualsThan(CBaseEntityExpression op1, CBaseEntityExpression op2)
 	{
-		op1 = op1 ; 
-		op2 = op2 ;
+		this.op1 = op1 ;
+		this.op2 = op2 ;
 		isisOrEquals = true ;
 		isisGreater = true ;
 	}
@@ -59,6 +59,27 @@ public abstract class CEntityCondCompare extends CBinaryEntityCondition
 	protected CBaseEntityExpression op2 ;
 	protected boolean isisGreater = false ; // true : >/>=, false : </<=
 	protected boolean isisOrEquals = false ;// true : <=/>=, false : </>
+
+	public CBaseEntityExpression getLeft()
+	{
+		return op1;
+	}
+
+	public CBaseEntityExpression getRight()
+	{
+		return op2;
+	}
+
+	public boolean isGreater()
+	{
+		return isisGreater;
+	}
+
+	public boolean isOrEqual()
+	{
+		return isisOrEquals;
+	}
+
 	public void Clear()
 	{
 		super.Clear() ;
@@ -70,7 +91,7 @@ public abstract class CEntityCondCompare extends CBinaryEntityCondition
 
 	public boolean ignore()
 	{
-		return op1.ignore() || op2.ignore();  
+		return (op1 != null && op1.ignore()) || (op2 != null && op2.ignore());
 	}
 	public CBaseEntityCondition GetSpecialConditionReplacing(String val, CBaseEntityFactory fact, CDataEntity replace)
 	{
@@ -114,4 +135,25 @@ public abstract class CEntityCondCompare extends CBinaryEntityCondition
 		boolean b2 = op2.ReplaceVariable(field, var) ;
 		return b1 || b2 ;
 	}
+
+	public String getOperator()
+	{
+		if (isisGreater && isisOrEquals)
+		{
+			return ">=";
+		}
+		else if (isisGreater && !isisOrEquals)
+		{
+			return ">";
+		}
+		else if (!isisGreater && isisOrEquals)
+		{
+			return "<=";
+		}
+		else
+		{
+			return "<";
+		}
+	}
+
 }

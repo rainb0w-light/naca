@@ -34,9 +34,9 @@ public class DataFileLineReader extends BaseDataFileBuffered
 		
 	public DataFileLineReader(String csName, int nBufferChunkReadAHead, int nReservedHeaderSpace)
 	{
-		csName = csName;
-		nNbByteReadAHead = nBufferChunkReadAHead;
-		nReservedHeaderSpace = nReservedHeaderSpace;
+		setName(csName);
+		this.nNbByteReadAHead = nBufferChunkReadAHead;
+		this.nReservedHeaderSpace = nReservedHeaderSpace;
 		tReadBytesAHead = new byte[(nNbByteReadAHead+nReservedHeaderSpace) * 2];		
 	}
 	

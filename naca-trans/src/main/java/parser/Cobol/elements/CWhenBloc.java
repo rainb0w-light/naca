@@ -33,7 +33,7 @@ public class CWhenBloc extends CBlocElement
 	public CWhenBloc(CExpression cond, int line)
 	{
 		super(line);
-		cond = cond ;
+		this.cond = cond ;
 	}
 	
 	/* (non-Javadoc)

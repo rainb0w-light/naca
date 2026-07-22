@@ -26,17 +26,16 @@ public abstract class CEntityMoveReference extends CBaseActionEntity
 	/**
 	 * @param line
 	 * @param cat
-	 * @param out
 	 */
-	public CEntityMoveReference(int line, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntityMoveReference(int line, CObjectCatalog cat)
 	{
-		super(line, cat, out);
+		super(line, cat);
 	}
 	
 	public void SetMoveReference(CEntityAddressReference from, CEntityAddressReference to)
 	{
-		from = from ;
-		to = to;
+		this.from = from ;
+		this.to = to;
 	}
 	protected CEntityAddressReference from = null ;
 	protected CEntityAddressReference to = null ;

@@ -39,8 +39,8 @@ public class CCondEqualsStatement extends CExpression
 		{
 			int n =0; // breakpoint
 		}
-		term1 = term1 ;
-		term2 = term2 ;
+		this.term1 = term1 ;
+		this.term2 = term2 ;
 	}
 	public CExpression NewCopy(int line, CExpression term1, CExpression term2)
 	{

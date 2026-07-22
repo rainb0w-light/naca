@@ -18,15 +18,14 @@ package semantic.SQL;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import utils.CObjectCatalog;
 
 public abstract class CEntitySQLCloseStatement extends CBaseActionEntity
 {
-	public CEntitySQLCloseStatement(int line, CObjectCatalog cat, CBaseLanguageExporter out, CEntitySQLCursor cursor)
+	public CEntitySQLCloseStatement(int line, CObjectCatalog cat, CEntitySQLCursor cursor)
 	{
-		super(line, cat, out);
+		super(line, cat);
 		cursor = cursor ;
 	}
 	protected CEntitySQLCursor cursor = null ;

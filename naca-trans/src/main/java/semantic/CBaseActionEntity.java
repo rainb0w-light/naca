@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 2 août 2004
+ * Created on 2 aoÃ»t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -25,7 +25,6 @@ import utils.*;
  */
 public abstract class CBaseActionEntity extends CBaseLanguageEntity
 {
-
 	/**
 	 * @param name
 	 * @param cat
@@ -33,6 +32,12 @@ public abstract class CBaseActionEntity extends CBaseLanguageEntity
 	public CBaseActionEntity(int line, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
 		super(line, "", cat, out);
+	}
+
+	/** Constructor for target-neutral semantic actions. */
+	public CBaseActionEntity(int line, CObjectCatalog cat)
+	{
+		super(line, "", cat);
 	}
 
 	/* (non-Javadoc)

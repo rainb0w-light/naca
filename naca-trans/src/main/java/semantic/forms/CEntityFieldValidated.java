@@ -31,9 +31,9 @@ import utils.Transcoder;
  */
 public abstract class CEntityFieldValidated extends CBaseEntityFieldAttribute
 {
-	public CEntityFieldValidated(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity owner)
+	public CEntityFieldValidated(int l, String name, CObjectCatalog cat, CDataEntity owner)
 	{
-		super(l, name, cat, out, CEntityFieldAttributeType.VALIDATION, owner) ;
+		super(l, name, cat, CEntityFieldAttributeType.VALIDATION, owner) ;
 	}
 	public CBaseActionEntity GetSpecialAssignment(CTerminal term, CBaseEntityFactory factory, int l)
 	{

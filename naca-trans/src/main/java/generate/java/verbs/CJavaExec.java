@@ -32,7 +32,8 @@ public class CJavaExec extends CEntityExec
 	 */
 	public CJavaExec(int l, CObjectCatalog cat, CBaseLanguageExporter out, String statement)
 	{
-		super(l, cat, out, statement);
+		super(l, cat, statement);
+		setLanguageExporter(out);
 	}
 
 	/* (non-Javadoc)

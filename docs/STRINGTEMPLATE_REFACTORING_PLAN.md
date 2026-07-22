@@ -1,5 +1,7 @@
 # StringTemplate4 详细重构计划
 
+> 历史计划：其中的 `export()` 和逐节点 controller 方案已被后续审查否定。2026-07-19 起，完整实施以 `ST4_RECURSIVE_TEMPLATE_REFACTOR_MASTER_PLAN.md` 为准。
+
 > **前置条件**: ST4 已在 `naca-trans/build.gradle.kts` 中配置为依赖 (`org.antlr:ST4:4.3.4`)
 
 > **状态更新**: Phase 1-3 已完成 (2026-03-13)

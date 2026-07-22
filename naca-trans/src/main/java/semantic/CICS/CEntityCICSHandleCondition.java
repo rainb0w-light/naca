@@ -12,7 +12,6 @@
  */
 package semantic.CICS;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import utils.CObjectCatalog;
 import utils.CobolTranscoder.Notifs.NotifDeclareUseCICSPreprocessor;
@@ -30,11 +29,10 @@ public abstract class CEntityCICSHandleCondition extends CBaseActionEntity
 	/**
 	 * @param line
 	 * @param cat
-	 * @param out
 	 */
-	public CEntityCICSHandleCondition(int line, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntityCICSHandleCondition(int line, CObjectCatalog cat)
 	{
-		super(line, cat, out);
+		super(line, cat);
 		cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
 	}
 	public void HandleCondition(String cond, String label)

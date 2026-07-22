@@ -95,7 +95,6 @@ public class CWorking extends CCommentContainer
 		while (!isdone)
 		{
 			CBaseToken tokEntry = GetCurrentToken();
-			
 			if (tokEntry == null)
 			{
 				return true ;
@@ -103,16 +102,7 @@ public class CWorking extends CCommentContainer
 			if (tokEntry.GetType() == CTokenType.NUMBER)
 			{
 				int n = tokEntry.GetIntValue();
-				if (n >= 1 && n <= 49)
-				{
-					CCobolElement eEntry = new CWorkingEntry(tokEntry.getLine()) ;
-					AddChild(eEntry) ;
-					if (!Parse(eEntry))
-					{
-						return false ;
-					}
-				}
-				else if (n == 77)
+				if (n == 77)
 				{
 					CCobolElement eEntry = new CWorkingEntry(tokEntry.getLine()) ;
 //					arrVariables.add(eEntry) ;
@@ -125,6 +115,16 @@ public class CWorking extends CCommentContainer
 				else if (n == 88)
 				{
 					CCobolElement eEntry = new CWorkingValueEntry(tokEntry.getLine()) ;
+					AddChild(eEntry) ;
+					if (!Parse(eEntry))
+					{
+						return false ;
+					}
+				}
+				else if (n >= 1 && n <= 49)
+				{
+					// Do not advance here - let CWorkingEntry.DoParsing handle it
+					CCobolElement eEntry = new CWorkingEntry(tokEntry.getLine()) ;
 					AddChild(eEntry) ;
 					if (!Parse(eEntry))
 					{
@@ -185,6 +185,10 @@ public class CWorking extends CCommentContainer
 			{
 				StepNext() ;//ConsumeEndLineWithDot();
 			}
+			else if (tokEntry.GetType()==CTokenType.COMMENTS || tokEntry.GetType()==CTokenType.STRING)
+			{
+				StepNext() ; // skip comments and strings in working storage
+			}
 			else if (tokEntry.GetType()==CTokenType.KEYWORD && tokEntry.GetKeyword()==CCobolKeywordList.EXTERNAL)
 			{
 				StepNext() ;
@@ -230,7 +234,7 @@ public class CWorking extends CCommentContainer
 	{
 		CEntityDataSection eSection = factory.NewEntityDataSection(getLine(), GetType());
 		parent.AddChild(eSection);
-	
+
 //		if (eVariableSection == null)
 //		{
 //			for (int i=0; i<arrVariables.size();i++)
@@ -256,6 +260,7 @@ public class CWorking extends CCommentContainer
 			CBaseLanguageEntity e = le.DoSemanticAnalysis(eSection, factory) ;
 			if (e != null)
 			{
+				eSection.AddChild(e); // Ensure entity is added to the data section
 				int level = e.GetInternalLevel() ;
 				if (level == 1)
 				{
@@ -267,11 +272,14 @@ public class CWorking extends CCommentContainer
 				}
 				else
 				{
-					CBaseLanguageEntity eNew = eLast.FindLastEntityAvailableForLevel(level);
-//					if (eNew != null)
-//					{
-//						eNew.AddChild(e);
-//					}
+					if (eLast != null)
+					{
+						CBaseLanguageEntity eNew = eLast.FindLastEntityAvailableForLevel(level);
+						if (eNew != null && eNew.canOwnTableSize())
+						{
+							eNew.AddChild(e);
+						}
+					}
 				}
 			}
 			try

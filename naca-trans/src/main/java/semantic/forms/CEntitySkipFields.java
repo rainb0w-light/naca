@@ -15,7 +15,6 @@ package semantic.forms;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import generate.CBaseLanguageExporter;
 import utils.CObjectCatalog;
 
 /**
@@ -32,11 +31,10 @@ public abstract class CEntitySkipFields extends CEntityResourceField
 	 * @param l
 	 * @param name
 	 * @param cat
-	 * @param out
 	 */
-	public CEntitySkipFields(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out, int nbFields, String level)
+	public CEntitySkipFields(int l, String name, CObjectCatalog cat, int nbFields, String level)
 	{
-		super(l, name, cat, out);
+		super(l, name, cat);
 		if (name.equals(""))
 		{
 			name = GetDefaultName() ;

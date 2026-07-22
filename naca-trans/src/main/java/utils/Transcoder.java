@@ -31,7 +31,7 @@ import org.apache.log4j.PropertyConfigurator;
  */
 public class Transcoder
 {
-	private static Logger ms_logger;
+	protected static Logger ms_logger;
 
 	private CRulesManager rulesManager = CRulesManager.getInstance() ;
 	
@@ -721,16 +721,19 @@ public class Transcoder
 	
 	public static void logError(String csFile, int nLine, String csText)
 	{
+		if (ms_logger == null) return;
 		ms_logger.error(log(csFile, nLine, csText, "Error"));
 	}
 	
 	public static void logWarn(int nLine, String csText)
 	{
+		if (ms_logger == null) return;
 		ms_logger.warn(log(null, nLine, csText, "Warning"));
 	}
 	
 	public static void logInfo(String csText)
 	{
+		if (ms_logger == null) return;
 		ms_logger.info(log(null, 0, csText, "Info"));
 	}
 	
@@ -741,6 +744,7 @@ public class Transcoder
 	
 	public static void logDebug(int nLine, String csText)
 	{
+		if (ms_logger == null) return;
 		ms_logger.debug(log(null, nLine, csText, "Debug"));
 	}	
 	

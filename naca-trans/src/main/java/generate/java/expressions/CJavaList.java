@@ -34,7 +34,8 @@ public class CJavaList extends CEntityList
 	 */
 	public CJavaList(String name, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
-		super(name, cat, out);
+		super(name, cat);
+		setLanguageExporter(out);
 	}
 
 	/* (non-Javadoc)

@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 6 ao�t 2004
+ * Created on 6 août 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -13,9 +13,9 @@
 package semantic.Verbs;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import semantic.CDataEntity;
 import semantic.expression.CBaseEntityCondition;
@@ -27,8 +27,36 @@ import utils.CObjectCatalog;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityLoopIter extends CBaseActionEntity
+public class CEntityLoopIter extends CBaseActionEntity
 {
+	public static final class Iteration
+	{
+		private final CDataEntity variable;
+		private final CDataEntity initialValue;
+		private final CBaseEntityCondition condition;
+		private final CDataEntity step;
+		private final boolean incrementByOne;
+		private final boolean decrementByOne;
+
+		private Iteration(CDataEntity variable, CDataEntity initialValue,
+			CBaseEntityCondition condition, CDataEntity step,
+			boolean incrementByOne, boolean decrementByOne)
+		{
+			this.variable = variable;
+			this.initialValue = initialValue;
+			this.condition = condition;
+			this.step = step;
+			this.incrementByOne = incrementByOne;
+			this.decrementByOne = decrementByOne;
+		}
+
+		public CDataEntity getVariable() { return variable; }
+		public CDataEntity getInitialValue() { return initialValue; }
+		public CBaseEntityCondition getCondition() { return condition; }
+		public CDataEntity getStep() { return step; }
+		public boolean getIncrementByOne() { return incrementByOne; }
+		public boolean getDecrementByOne() { return decrementByOne; }
+	}
 
 	/**
 	 * @param line
@@ -39,9 +67,9 @@ public abstract class CEntityLoopIter extends CBaseActionEntity
 	protected boolean isincrementByOne = false ;
 	protected boolean isdecrementByOne = false ;
 	
-	public CEntityLoopIter(int line, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntityLoopIter(int line, CObjectCatalog cat)
 	{
-		super(line, cat, out);
+		super(line, cat);
 	}
 	public void SetLoopIterInc(CDataEntity v, CDataEntity init)
 	{
@@ -84,6 +112,32 @@ public abstract class CEntityLoopIter extends CBaseActionEntity
 	protected CDataEntity initialValue = null ;
 	protected CDataEntity increment = null ;
 	protected List<CEntityAfter> afters = new ArrayList<CEntityAfter>();
+
+	public boolean getTestBefore()
+	{
+		return istestBefore;
+	}
+
+	public List<Iteration> getIterations()
+	{
+		List<Iteration> iterations = new ArrayList<Iteration>();
+		iterations.add(new Iteration(variable, initialValue, whileCondition,
+			increment, isincrementByOne, isdecrementByOne));
+		for (CEntityAfter after : afters)
+		{
+			iterations.add(new Iteration(after.variableAfter,
+				after.varFromValueAfter, after.condUntilAfter,
+				after.varByValueAfter, after.varByValueAfter == null, false));
+		}
+		return Collections.unmodifiableList(iterations);
+	}
+
+	public List<Iteration> getClosingIterations()
+	{
+		List<Iteration> iterations = new ArrayList<Iteration>(getIterations());
+		Collections.reverse(iterations);
+		return Collections.unmodifiableList(iterations);
+	}
 	public void Clear()
 	{
 		super.Clear() ;

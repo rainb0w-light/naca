@@ -35,7 +35,8 @@ public class CJavaSkipField extends CEntitySkipFields
 	 */
 	public CJavaSkipField(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out, int nbFields, String level)
 	{
-		super(l, name, cat, out, nbFields, level);
+		super(l, name, cat, nbFields, level);
+		setLanguageExporter(out);
 	}
 
 	public String ExportReference(int nLine)

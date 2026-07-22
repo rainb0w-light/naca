@@ -15,7 +15,8 @@ public class CJavaWriteFile extends CEntityWriteFile
 
 	public CJavaWriteFile(int line, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
-		super(line, cat, out);
+		super(line, cat);
+		setLanguageExporter(out);
 	}
 
 	@Override

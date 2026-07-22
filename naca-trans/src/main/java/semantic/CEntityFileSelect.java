@@ -6,7 +6,6 @@
  */
 package semantic;
 
-import generate.CBaseLanguageExporter;
 import utils.CObjectCatalog;
 
 public class CEntityFileSelect extends CBaseLanguageEntity
@@ -24,21 +23,15 @@ public class CEntityFileSelect extends CBaseLanguageEntity
 		SEQUENTIAL
 	}
 
-	public CEntityFileSelect(String name, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntityFileSelect(String name, CObjectCatalog cat)
 	{
-		super(0, name, cat, out);
+		super(0, name, cat);
 	}
 
 	@Override
 	protected void RegisterMySelfToCatalog()
 	{
 		programCatalog.RegisterFileSelect(this) ;
-	}
-
-	@Override
-	protected void DoExport()
-	{
-		// nothing
 	}
 
 	public void setOrganizationMode(OrganizationMode eMode)
@@ -63,7 +56,7 @@ public class CEntityFileSelect extends CBaseLanguageEntity
 	protected CDataEntity fileStatus;
 	public void setFileStatus(CDataEntity fileStatus)
 	{
-		fileStatus = fileStatus;
+		this.fileStatus = fileStatus;
 	}
 	public CDataEntity getFileStatus()
 	{

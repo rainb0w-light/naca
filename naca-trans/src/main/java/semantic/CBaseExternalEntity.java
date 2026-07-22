@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 5 août 2004
+ * Created on 5 aoÃ»t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -34,6 +34,11 @@ public abstract class CBaseExternalEntity extends CDataEntity
 	public CBaseExternalEntity(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
 		super(l, name, cat, out);
+	}
+
+	public CBaseExternalEntity(int l, String name, CObjectCatalog cat)
+	{
+		super(l, name, cat);
 	}
 
 	/* (non-Javadoc)

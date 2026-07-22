@@ -12,7 +12,6 @@
  */
 package semantic.forms;
 
-import generate.CBaseLanguageExporter;
 
 import java.util.Vector;
 
@@ -42,13 +41,12 @@ public abstract class CEntityFieldData extends CBaseEntityFieldAttribute
 	 * @param l
 	 * @param name
 	 * @param cat
-	 * @param out
 	 * @param type
 	 * @param owner
 	 */
-	public CEntityFieldData(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity owner)
+	public CEntityFieldData(int l, String name, CObjectCatalog cat, CDataEntity owner)
 	{
-		super(l, name, cat, out, CEntityFieldAttributeType.DATA, owner);
+		super(l, name, cat, CEntityFieldAttributeType.DATA, owner);
 	}
 	public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory) 
 	{

@@ -12,7 +12,6 @@
  */
 package semantic.CICS;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import semantic.CDataEntity;
 import utils.CObjectCatalog;
@@ -27,9 +26,9 @@ import utils.CobolTranscoder.Notifs.NotifDeclareUseCICSPreprocessor;
 public abstract class CEntityCICSReadQ extends CBaseActionEntity
 {
 
-	public CEntityCICSReadQ(int line, CObjectCatalog cat, CBaseLanguageExporter out, boolean bPersistant)
+	public CEntityCICSReadQ(int line, CObjectCatalog cat, boolean bPersistant)
 	{
-		super(line, cat, out);
+		super(line, cat);
 		ispesistant = bPersistant ;
 		cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
 	}

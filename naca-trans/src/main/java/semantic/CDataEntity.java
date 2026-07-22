@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 2 ao�t 2004
+ * Created on 2 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -69,6 +69,11 @@ public abstract class CDataEntity extends CBaseLanguageEntity
 		super(l, name, cat, out);
 	}
 
+	protected CDataEntity(int l, String name, CObjectCatalog cat)
+	{
+		super(l, name, cat);
+	}
+
 	/* (non-Javadoc)
 	 * @see semantic.CBaseSemanticEntity#RegisterMySelfToCatalog()
 	 */
@@ -78,9 +83,23 @@ public abstract class CDataEntity extends CBaseLanguageEntity
 		programCatalog.RegisterDataEntity(GetName(), this) ;
 	}
 
-	public abstract String ExportReference(int nLine) ;
+	/** Legacy compatibility value; templates use semantic properties directly. */
+	public String ExportReference(int nLine)
+	{
+		return getSemanticReference();
+	}
+
+	protected String getSemanticReference()
+	{
+		return GetName();
+	}
 	
 	public String export()
+	{
+		return ExportReference(getLine());
+	}
+
+	public String getReferenceString()
 	{
 		return ExportReference(getLine());
 	}
@@ -111,7 +130,10 @@ public abstract class CDataEntity extends CBaseLanguageEntity
 	public CBaseExternalEntity of = null ;
 	
 	public abstract boolean HasAccessors() ;
-	public abstract String ExportWriteAccessorTo(String value) ;
+	public String ExportWriteAccessorTo(String value)
+	{
+		return null;
+	}
 	
 	public abstract boolean isValNeeded();
 	public CDataEntity GetSubStringReference(CBaseEntityExpression start, CBaseEntityExpression length, CBaseEntityFactory factory) 
@@ -400,6 +422,22 @@ public abstract class CDataEntity extends CBaseLanguageEntity
 	public CBaseExternalEntity getOfQualifier()
 	{
 		return of;
+	}
+
+	/** Preformatted qualifier value exposed for recursive ST templates. */
+	public String getQualifierFormattedName()
+	{
+		return of == null ? null : of.getFormattedName();
+	}
+
+	private String cachedCodeString = null;
+
+	@Override
+	public String getCodeString()
+	{
+		if (cachedCodeString != null) return cachedCodeString;
+		cachedCodeString = ExportReference(getLine());
+		return cachedCodeString;
 	}
 
 }

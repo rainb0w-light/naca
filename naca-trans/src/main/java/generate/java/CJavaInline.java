@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 3 août 2004
+ * Created on 3 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -33,7 +33,8 @@ public class CJavaInline extends CEntityInline
 	 */
 	public CJavaInline(int l, CObjectCatalog cat, CBaseLanguageExporter out, CBaseExternalEntity e)
 	{
-		super(l, cat, out, e);
+		super(l, cat, e);
+		setLanguageExporter(out);
 		cat.RegisterExternalDataStructure(e) ;
 	}
 

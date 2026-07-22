@@ -12,7 +12,6 @@
  */
 package semantic.CICS;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import semantic.CDataEntity;
 import utils.CObjectCatalog;
@@ -30,11 +29,10 @@ public abstract class CEntityCICSDeQ extends CBaseActionEntity
 	/**
 	 * @param line
 	 * @param cat
-	 * @param out
 	 */
-	public CEntityCICSDeQ(int line, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntityCICSDeQ(int line, CObjectCatalog cat)
 	{
-		super(line, cat, out);
+		super(line, cat);
 		cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
 	}
 	public void SetResource(CDataEntity eRes, CDataEntity eLen)

@@ -6,7 +6,6 @@
  */
 package semantic.forms;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseDataReference;
 import semantic.CDataEntity;
 import utils.CObjectCatalog;
@@ -14,9 +13,9 @@ import utils.CObjectCatalog;
 public class CEntityFieldAttributeReference extends CBaseDataReference
 {
 
-	public CEntityFieldAttributeReference(CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity ref)
+	public CEntityFieldAttributeReference(CObjectCatalog cat, CDataEntity ref)
 	{
-		super(0, "", cat, out);
+		super(0, "", cat);
 		reference = ref ;
 	}
 
@@ -27,21 +26,9 @@ public class CEntityFieldAttributeReference extends CBaseDataReference
 	}
 
 	@Override
-	public String ExportReference(int nLine)
-	{
-		return reference.ExportReference(getLine());
-	}
-
-	@Override
 	public boolean HasAccessors()
 	{
 		return reference.HasAccessors() ;
-	}
-
-	@Override
-	public String ExportWriteAccessorTo(String value)
-	{
-		return reference.ExportWriteAccessorTo(value) ;
 	}
 
 	@Override
@@ -61,10 +48,8 @@ public class CEntityFieldAttributeReference extends CBaseDataReference
 		return reference.GetName() ;
 	}
 
-	@Override
-	protected void DoExport()
+	public String getSemanticReferenceName()
 	{
-		// nothing
+		return reference.GetName();
 	}
-
 }

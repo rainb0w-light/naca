@@ -14,6 +14,9 @@ package semantic;
 
 import generate.*;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Vector;
 
 
@@ -39,11 +42,10 @@ public abstract class CEntityNamedCondition extends CDataEntity
 	 * @param l
 	 * @param name
 	 * @param cat
-	 * @param out
 	 */
-	public CEntityNamedCondition(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntityNamedCondition(int l, String name, CObjectCatalog cat)
 	{
-		super(l, name, cat, out);
+		super(l, name, cat);
 	}
 
 //	public void SetCondition(CBaseEntityCondition cond)
@@ -128,5 +130,56 @@ public abstract class CEntityNamedCondition extends CDataEntity
 		endIntervals.clear() ;
 		values.clear() ;
 	}
-	
+
+	/**
+	 * Target-agnostic read-only view of the level-88 single values. Each element
+	 * is a semantic data entity (literal, constant or reference); the backend
+	 * renders it in the REFERENCE role.
+	 */
+	public List<CDataEntity> getValues()
+	{
+		return Collections.unmodifiableList(values);
+	}
+
+	/**
+	 * A single level-88 interval endpoint pair (start THROUGH end). Both
+	 * endpoints are semantic data entities rendered in the REFERENCE role.
+	 */
+	public static final class IntervalModel
+	{
+		private final CDataEntity start;
+		private final CDataEntity end;
+
+		public IntervalModel(CDataEntity start, CDataEntity end)
+		{
+			this.start = start;
+			this.end = end;
+		}
+
+		public CDataEntity getStart()
+		{
+			return start;
+		}
+
+		public CDataEntity getEnd()
+		{
+			return end;
+		}
+	}
+
+	/**
+	 * Target-agnostic read-only view of the level-88 intervals, pairing each
+	 * start endpoint with its matching end endpoint.
+	 */
+	public List<IntervalModel> getIntervals()
+	{
+		int count = Math.min(startIntervals.size(), endIntervals.size());
+		List<IntervalModel> intervals = new ArrayList<>(count);
+		for (int i = 0; i < count; i++)
+		{
+			intervals.add(new IntervalModel(startIntervals.get(i), endIntervals.get(i)));
+		}
+		return Collections.unmodifiableList(intervals);
+	}
+
 }

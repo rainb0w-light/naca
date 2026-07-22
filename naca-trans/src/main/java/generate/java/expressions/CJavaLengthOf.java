@@ -32,7 +32,8 @@ public class CJavaLengthOf extends CEntityLengthOf
 	 */
 	public CJavaLengthOf(CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity data)
 	{
-		super(cat, out, data);
+		super(cat, data);
+		setLanguageExporter(out);
 	}
 	/* (non-Javadoc)
 	 * @see semantic.CBaseDataEntity#ExportReference(generate.CBaseLanguageExporter)

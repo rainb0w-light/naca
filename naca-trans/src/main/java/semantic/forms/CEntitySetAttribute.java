@@ -14,7 +14,6 @@ package semantic.forms;
 
 import parser.expression.CStringTerminal;
 import parser.expression.CTerminal;
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import semantic.CBaseEntityFactory;
 import semantic.CDataEntity;
@@ -32,11 +31,10 @@ public abstract class CEntitySetAttribute extends CBaseActionEntity
 	/**
 	 * @param line
 	 * @param cat
-	 * @param out
 	 */
-	public CEntitySetAttribute(int line, CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity field)
+	public CEntitySetAttribute(int line, CObjectCatalog cat, CDataEntity field)
 	{
-		super(line, cat, out);
+		super(line, cat);
 		refField = field ;
 	}
 

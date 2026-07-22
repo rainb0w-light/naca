@@ -34,7 +34,8 @@ public class CJavaNamedCondition extends CEntityNamedCondition
 	 */
 	public CJavaNamedCondition(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
-		super(l, name, cat, out);
+		super(l, name, cat);
+		setLanguageExporter(out);
 	}
 
 	/* (non-Javadoc)

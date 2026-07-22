@@ -44,27 +44,22 @@ public class CJavaAttribute extends CEntityAttribute
 	 */
 	public CJavaAttribute(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
-		super(l, name, cat, out);
+		super(l, name, cat);
+		setLanguageExporter(out);
 	}
 	
 	protected void DoExport()
 	{
-		if (isblankWhenZero && type.equals("pic9"))
-		{
-			type = "pic";
-			format = "";
-			for (int i=0; i < length; i++)
-				format += "9";
-			if (decimals>0)
-			{
-				format += ".";
-				for (int i=0; i < decimals; i++)
-					format += "9";
-			}
-		}
-		String line = "Var " + FormatIdentifier(GetName()) + " = declare.level(77)" ;
-		line += "." + type + "(" ;
-		if (format.equals(""))
+		String declaredType = getDeclaredType();
+		String declaredFormat = getDeclaredFormat();
+		// FILLER default names are assigned during semantic construction
+		// (CEntityAttribute constructor); generation only reads the flag and
+		// must not mutate the tree.
+		String identifier = GetName();
+		boolean isFiller = isFiller();
+		String line = "Var " + FormatIdentifier(identifier) + " = declare.level(" + getLevel() + ")" ;
+		line += "." + declaredType + "(" ;
+		if (declaredFormat.equals(""))
 		{
 			if (length > 0 || decimals > 0)
 			{
@@ -77,7 +72,7 @@ public class CJavaAttribute extends CEntityAttribute
 		}
 		else
 		{
-			line += "\"" + format + "\"" ;
+			line += "\"" + declaredFormat + "\"" ;
 		}
 		line += ")" ;
 		if (!comp.equals(""))
@@ -142,7 +137,10 @@ public class CJavaAttribute extends CEntityAttribute
 		{
 			WriteWord(".blankWhenZero()");
 		}
-		WriteWord(".var() ;") ;
+		if (isFiller)
+			WriteWord(".filler() ;") ;
+		else
+			WriteWord(".var() ;") ;
 		WriteEOL() ;
 		StartOutputBloc() ;
 		ExportChildren();

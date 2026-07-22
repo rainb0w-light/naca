@@ -5,14 +5,13 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 5 août 2004
+ * Created on 5 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 package semantic.Verbs;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import semantic.CDataEntity;
 import utils.*;
@@ -28,12 +27,11 @@ public abstract class CEntityInitialize extends CBaseActionEntity
 
 	/**
 	 * @param cat
-	 * @param out
 	 */
-	public CEntityInitialize(int l, CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity data)
+	public CEntityInitialize(int l, CObjectCatalog cat, CDataEntity data)
 	{
-		super(l, cat, out);
-		data = data ;
+		super(l, cat);
+		this.data = data ;
 	}
 
 	protected CDataEntity data = null ;

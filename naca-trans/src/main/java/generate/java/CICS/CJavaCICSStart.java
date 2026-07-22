@@ -33,7 +33,8 @@ public class CJavaCICSStart extends CEntityCICSStart
 	 */
 	public CJavaCICSStart(int line, CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity TID)
 	{
-		super(line, cat, out, TID);
+		super(line, cat, TID);
+		setLanguageExporter(out);
 	}
 	protected void DoExport()
 	{

@@ -6,7 +6,6 @@
  */
 package semantic.Verbs;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseDataReference;
 import semantic.CDataEntity;
 import utils.CObjectCatalog;
@@ -21,11 +20,10 @@ public abstract class CEntityConvertReference extends CBaseDataReference
 	/**
 	 * @param line
 	 * @param cat
-	 * @param out
 	 */
-	public CEntityConvertReference(CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntityConvertReference(CObjectCatalog cat)
 	{
-		super(0, "", cat, out);
+		super(0, "", cat);
 	}
 
 	/**

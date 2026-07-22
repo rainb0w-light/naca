@@ -13,7 +13,8 @@ import utils.CObjectCatalog;
 public class CFPacJavaMultiply extends CEntityMultiply {
 
 	public CFPacJavaMultiply(int line, CObjectCatalog cat, CBaseLanguageExporter out) {
-		super(line, cat, out);
+		super(line, cat);
+		setLanguageExporter(out);
 	}
 
 	@Override

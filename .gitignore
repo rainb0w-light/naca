@@ -8,6 +8,7 @@ build/
 
 # IDE
 .idea/
+.jdtls-workspace/
 *.iml
 .vscode/
 
@@ -20,10 +21,21 @@ build/
 lib/
 
 # OS
+.DS_Store
 Thumbs.db
 
 # Logs
 *.log
+
+# Compiled/generated artifacts
+*.class
+*.tmp
+*.bak
+*.bak.*
+*.original
+ItemCount.xml
+/test-output/st4/
+/NacaSamples/cobol/TEST-A-STANDALONE
 
 # COBOL compiled executables
 *.so

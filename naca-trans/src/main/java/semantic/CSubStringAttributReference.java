@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 6 août 2004
+ * Created on 6 aoÃ»t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -33,17 +33,31 @@ public abstract class CSubStringAttributReference extends CBaseDataReference
 	 * @param l
 	 * @param name
 	 * @param cat
-	 * @param out
 	 */
-	public CSubStringAttributReference(int l, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CSubStringAttributReference(int l, CObjectCatalog cat)
 	{
-		super(l, "", cat, out);
+		super(l, "", cat);
 	}
 	public void SetReference(CDataEntity ref, CBaseEntityExpression start, CBaseEntityExpression length)
 	{
 		reference = ref ;
-		start = start ;
-		length = length;
+		this.start = start ;
+		this.length = length;
+	}
+
+	public CDataEntity getReference()
+	{
+		return reference;
+	}
+
+	public CBaseEntityExpression getStart()
+	{
+		return start;
+	}
+
+	public CBaseEntityExpression getLength()
+	{
+		return length;
 	}
 	
 	protected CBaseEntityExpression start = null ;

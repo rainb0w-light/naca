@@ -33,7 +33,8 @@ public class CJavaCount extends CEntityCount
 	 */
 	public CJavaCount(int line, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
-		super(line, cat, out);
+		super(line, cat);
+		setLanguageExporter(out);
 	}
 
 	protected void DoExport()

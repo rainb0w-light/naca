@@ -26,7 +26,8 @@ public class CFPacJavaDisplay extends CEntityDisplay
 	 */
 	public CFPacJavaDisplay(int line, CObjectCatalog cat, CBaseLanguageExporter out, Upon t)
 	{
-		super(line, cat, out, t);
+		super(line, cat, t);
+		setLanguageExporter(out);
 	}
 
 	/**

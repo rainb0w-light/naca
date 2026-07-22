@@ -30,9 +30,9 @@ import utils.CObjectCatalog;
  */
 public abstract class CEntityFieldHighlight extends CBaseEntityFieldAttribute
 {
-	public CEntityFieldHighlight(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity owner)
+	public CEntityFieldHighlight(int l, String name, CObjectCatalog cat, CDataEntity owner)
 	{
-		super(l, name, cat, out, CEntityFieldAttributeType.HIGHLIGHT, owner) ;
+		super(l, name, cat, CEntityFieldAttributeType.HIGHLIGHT, owner) ;
 	}
 	public CBaseActionEntity GetSpecialAssignment(CTerminal term, CBaseEntityFactory factory, int l)
 	{

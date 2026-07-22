@@ -12,7 +12,6 @@
  */
 package semantic;
 
-import generate.CBaseLanguageExporter;
 import utils.CObjectCatalog;
 
 /**
@@ -31,9 +30,9 @@ public abstract class CEntityUnknownReference extends CDataEntity
 	{
 		return CDataEntityType.UNKNWON ;
 	}
-	protected CEntityUnknownReference(int nLine, String csName, CObjectCatalog cat, CBaseLanguageExporter out)
+	protected CEntityUnknownReference(int nLine, String csName, CObjectCatalog cat)
 	{
-		super(nLine, csName, cat, out);
+		super(nLine, csName, cat);
 	}
 	public boolean ignore()
 	{

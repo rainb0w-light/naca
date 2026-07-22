@@ -6,7 +6,6 @@
  */
 package semantic.Verbs;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import semantic.CDataEntity;
 import utils.CObjectCatalog;
@@ -15,7 +14,7 @@ import utils.CObjectCatalog;
  * @author S. Charton
  * @version $Id: CEntityInc.java,v 1.1 2006/03/07 15:31:58 U930CV Exp $
  */
-public abstract class CEntityInc extends CBaseActionEntity
+public class CEntityInc extends CBaseActionEntity
 {
 
 	protected CDataEntity addDest;
@@ -26,10 +25,13 @@ public abstract class CEntityInc extends CBaseActionEntity
 	 * @param cat
 	 * @param out
 	 */
-	public CEntityInc(int line, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntityInc(int line, CObjectCatalog cat)
 	{
-		super(line, cat, out);
+		super(line, cat);
 	}
+
+	public CDataEntity getAddDest() { return addDest; }
+	public CDataEntity getAddValue() { return addValue; }
 
 	/**
 	 * @param dest

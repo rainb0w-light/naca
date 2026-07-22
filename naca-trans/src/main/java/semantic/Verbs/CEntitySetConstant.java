@@ -12,7 +12,6 @@
  */
 package semantic.Verbs;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import semantic.CDataEntity;
 import semantic.expression.CBaseEntityExpression;
@@ -24,7 +23,7 @@ import utils.CObjectCatalog;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntitySetConstant extends CBaseActionEntity
+public class CEntitySetConstant extends CBaseActionEntity
 {
 
 	/* (non-Javadoc)
@@ -36,14 +35,45 @@ public abstract class CEntitySetConstant extends CBaseActionEntity
 		return csteValue ;
 	}
 
+	// ==================== ST4 recursive accessors ====================
+
+	public CDataEntity getVariable()
+	{
+		return variable ;
+	}
+
+	public boolean isSetToZero()
+	{
+		return issetToZero ;
+	}
+
+	public boolean isSetToSpace()
+	{
+		return issetToSpace ;
+	}
+
+	public boolean isSetToLowValue()
+	{
+		return issetToLowValue ;
+	}
+
+	public boolean isSetToHighValue()
+	{
+		return issetToHighValue ;
+	}
+
+	public boolean isSubString()
+	{
+		return subStringRefStart != null && subStringRefLength != null ;
+	}
+
 	/**
 	 * @param line
 	 * @param cat
-	 * @param out
 	 */
-	public CEntitySetConstant(int line, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntitySetConstant(int line, CObjectCatalog cat)
 	{
-		super(line, cat, out);
+		super(line, cat);
 	}
 
 	public void SetToZero(CDataEntity var)

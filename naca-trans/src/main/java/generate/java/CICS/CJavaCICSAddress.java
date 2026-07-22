@@ -32,7 +32,8 @@ public class CJavaCICSAddress extends CEntityCICSAddress
 	 */
 	public CJavaCICSAddress(int line, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
-		super(line, cat, out);
+		super(line, cat);
+		setLanguageExporter(out);
 	}
 
 	/* (non-Javadoc)

@@ -33,7 +33,8 @@ public class CJavaCICSReadQ extends CEntityCICSReadQ
 	 */
 	public CJavaCICSReadQ(int line, CObjectCatalog cat, CBaseLanguageExporter out, boolean bPersistant)
 	{
-		super(line, cat, out, bPersistant);
+		super(line, cat, bPersistant);
+		setLanguageExporter(out);
 	}
 
 	protected void DoExport()

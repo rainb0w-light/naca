@@ -26,7 +26,8 @@ public class CFPacJavaFormatedVarReference extends CEntityFormatedVarReference
 	 */
 	public CFPacJavaFormatedVarReference(CDataEntity object, CObjectCatalog cat, CBaseLanguageExporter out, String format)
 	{
-		super(object, cat, out, format);
+		super(object, cat, format);
+		setLanguageExporter(out);
 	}
 
 	/**

@@ -12,7 +12,6 @@
  */
 package semantic.forms;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import semantic.CBaseEntityFactory;
 import semantic.CDataEntity;
@@ -30,7 +29,6 @@ public abstract class CEntityFormRedefine extends CEntityResourceForm //CEntityA
 	 * @param l
 	 * @param name
 	 * @param cat
-	 * @param out
 	 */
 	protected CDataEntity eForm = null ;
 	//protected CEntityResourceForm eForm = null ;
@@ -40,9 +38,9 @@ public abstract class CEntityFormRedefine extends CEntityResourceForm //CEntityA
 		eForm = null ;
 	}
 	
-	public CEntityFormRedefine(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity eForm, boolean bSaveMap)
+	public CEntityFormRedefine(int l, String name, CObjectCatalog cat, CDataEntity eForm, boolean bSaveMap)
 	{
-		super(l, name, cat, out, bSaveMap);
+		super(l, name, cat, bSaveMap);
 		if (name.equals(""))
 		{
 			name = GetDefaultName() ;

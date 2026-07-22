@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 3 ao�t 2004
+ * Created on 3 août 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -14,7 +14,6 @@ package semantic;
 
 import java.util.Vector;
 
-import generate.*;
 import semantic.expression.CBaseEntityCondition;
 import utils.*;
 
@@ -24,16 +23,16 @@ import utils.*;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityCondition extends CBaseActionEntity
+public class CEntityCondition extends CBaseActionEntity
 {
 
 	/**
 	 * @param cat
 	 * @param out
 	 */
-	public CEntityCondition(int l, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntityCondition(int l, CObjectCatalog cat)
 	{
-		super(l, cat, out);
+		super(l, cat);
 	}
 	
 	public void SetCondition(CBaseEntityCondition exp, CEntityBloc ifyes, CEntityBloc ifnot)
@@ -141,7 +140,12 @@ public abstract class CEntityCondition extends CBaseActionEntity
 		return condition == null || condition.ignore();
 	}
 
-	public boolean shouldRenderElseBlock()
+	public boolean isConditionMissing()
+	{
+		return condition == null;
+	}
+
+	public boolean isElseOnly()
 	{
 		return elseBloc != null && !elseBloc.ignore() && isConditionIgnored();
 	}

@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 2 ao�t 2004
+ * Created on 2 août 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -38,7 +38,7 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 	protected String GetDefaultName()
 	{
 		
-		String name = "Filler$" + output.GetLastFillerIndex() ;
+		String name = "Filler$" + (programCatalog != null ? programCatalog.GetLastFillerIndex() : 0) ;
 		return name ;
 	}
 	public String GetName()
@@ -48,7 +48,7 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 	private String name = "" ;
 	public void SetName(String name)
 	{
-		name = name ;
+		this.name = name ;
 		RegisterMySelfToCatalog() ;		
 	}
 	public void Rename(String name)
@@ -57,7 +57,7 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 		{
 			programCatalog.RemoveObject(this) ;
 		}
-		name = name ;
+		this.name = name ;
 		RegisterMySelfToCatalog() ;		
 	}
 	protected abstract void RegisterMySelfToCatalog() ;
@@ -131,7 +131,7 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
  	
  	public void SetLine(int line)
  	{
- 		line = line ;
+ 		this.line = line ;
  		Transcoder.setLine(line);
  	}
  	public int getLine()
@@ -147,12 +147,16 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 		{
 			int n=0 ;
 		}
-		name = name ;
+		this.name = name ;
 		if (!name.equals(""))
 		{
 			RegisterMySelfToCatalog() ;
 		}
 		output = out ;
+	}
+	protected CBaseLanguageEntity(int line, String name, CObjectCatalog cat)
+	{
+		this(line, name, cat, null);
 	}
 	public void AddChild(CBaseLanguageEntity e)
 	{
@@ -186,6 +190,24 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 				{
 					int n=0 ; // debug
 				}
+				le = (CBaseLanguageEntity)i.next() ;
+			}
+		}
+		catch (NoSuchElementException e)
+		{
+			//System.out.println(e.toString());
+		}
+	}
+
+	protected void ExportAllChildren()
+	{
+		ListIterator i = lstChildren.listIterator() ;
+		try
+		{
+			CBaseLanguageEntity le = (CBaseLanguageEntity)i.next() ;
+			while (le != null)
+			{
+				le.DoExport();
 				le = (CBaseLanguageEntity)i.next() ;
 			}
 		}
@@ -285,12 +307,45 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 		{
 			return output.FormatIdentifier(cs);
 		}
-		else
-		{
-			return cs ;
-		}
+		String out = formatIdentifier(cs);
+		return out;
 	}
-	protected abstract void DoExport() ;
+	
+	private String formatIdentifier(String cs)
+	{
+		String result = cs.toLowerCase();
+		result = result.replace('_', '$');
+		StringBuilder sb = new StringBuilder();
+		int pos = result.indexOf('-');
+		int start = 0;
+		while (pos != -1)
+		{
+			sb.append(result, start, pos).append('_');
+			if (pos + 1 < result.length())
+			{
+				sb.append(Character.toUpperCase(result.charAt(pos + 1)));
+			}
+			start = pos + 2;
+			if (start >= result.length() || result.charAt(start) == '-')
+			{
+				sb.append(result.substring(start).replace("-", ""));
+				break;
+			}
+			pos = result.indexOf('-', start);
+		}
+		if (start <= result.length() - 1)
+		{
+			sb.append(result.substring(start));
+		}
+		String name = sb.toString();
+		if (name.length() > 0 && Character.isDigit(name.charAt(0)))
+		{
+			name = "$" + name;
+		}
+		return name.replace('#', '$');
+	}
+	/** Legacy compatibility hook; target-neutral semantic nodes leave emission to ST4. */
+	protected void DoExport() { }
 	protected void DoExport(CBaseLanguageEntity le)
 	{
 		le.DoExport() ;
@@ -562,6 +617,19 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 	{
 		return lstChildren;
 	}
+
+	public List<CBaseLanguageEntity> getActiveChildren()
+	{
+		List<CBaseLanguageEntity> children = new ArrayList<CBaseLanguageEntity>();
+		for (CBaseLanguageEntity child : lstChildren)
+		{
+			if (!child.ignore())
+			{
+				children.add(child);
+			}
+		}
+		return Collections.unmodifiableList(children);
+	}
 	
 	/**
 	 * Get entity type name for template dispatch.
@@ -579,11 +647,50 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 	 */
 	public String getFormattedName()
 	{
+		String displayName = GetDisplayName();
+		if (displayName.equals(""))
+		{
+			displayName = GetName();
+		}
 		if (output != null)
 		{
-			return output.FormatIdentifier(GetDisplayName());
+			return output.FormatIdentifier(displayName);
 		}
-		return GetDisplayName();
+		String cs = displayName;
+		cs = cs.replace('-', '_');
+		cs = cs.replace('#', '$');
+		return cs;
+	}
+
+	private String cachedCodeString = null;
+	private boolean computingCodeString = false;
+
+	public String getCodeString()
+	{
+		if (cachedCodeString != null) return cachedCodeString;
+		if (computingCodeString) return "/* recursive */";
+		computingCodeString = true;
+		CBaseLanguageExporter saved = output;
+		CStringExporter temp = new CStringExporter();
+		output = temp;
+		DoExport();
+		cachedCodeString = temp.getCapturedString().trim();
+		output = saved;
+		computingCodeString = false;
+		return cachedCodeString;
+	}
+
+	public String getChildrenCode()
+	{
+		StringBuilder sb = new StringBuilder();
+		for (CBaseLanguageEntity child : lstChildren)
+		{
+			if (!child.ignore())
+			{
+				sb.append(child.getCodeString()).append("\n");
+			}
+		}
+		return sb.toString();
 	}
 
 	

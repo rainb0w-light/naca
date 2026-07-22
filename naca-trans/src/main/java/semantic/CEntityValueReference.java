@@ -6,7 +6,6 @@
  */
 package semantic;
 
-import generate.CBaseLanguageExporter;
 import utils.CEntityHierarchy;
 import utils.CObjectCatalog;
 
@@ -14,9 +13,9 @@ public class CEntityValueReference extends CBaseDataReference
 {
 
 
-	public CEntityValueReference(CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity ref)
+	public CEntityValueReference(CObjectCatalog cat, CDataEntity ref)
 	{
-		super(0, "", cat, out);
+		super(0, "", cat);
 		reference = ref ;
 	}
 
@@ -27,21 +26,9 @@ public class CEntityValueReference extends CBaseDataReference
 	}
 
 	@Override
-	public String ExportReference(int nLine)
-	{
-		return reference.ExportReference(getLine()) ;
-	}
-
-	@Override
 	public boolean HasAccessors()
 	{
 		return reference.HasAccessors();
-	}
-
-	@Override
-	public String ExportWriteAccessorTo(String value)
-	{
-		return reference.ExportWriteAccessorTo(value);
 	}
 
 	@Override
@@ -56,14 +43,14 @@ public class CEntityValueReference extends CBaseDataReference
 		return reference.GetConstantValue() ;
 	}
 
-	@Override
-	protected void DoExport()
-	{
-		reference.DoExport() ;
-	}
 	public String GetName()
 	{
 		return reference.GetName() ;
+	}
+
+	public String getSemanticReferenceName()
+	{
+		return reference.GetName();
 	}
 	
 	@Override

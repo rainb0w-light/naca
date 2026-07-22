@@ -34,7 +34,7 @@ public abstract class BaseDataFile
 	
 	public void setName(String csName)
 	{
-		csName = csName;
+		this.csName = csName;
 	}
 	
 	public String getName()

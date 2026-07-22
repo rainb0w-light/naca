@@ -16,7 +16,6 @@ import java.util.Vector;
 
 import parser.expression.CExpression;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseEntityFactory;
 import semantic.CDataEntity;
 import semantic.expression.CBaseEntityCondition;
@@ -37,15 +36,14 @@ public abstract class CEntitySQLCode extends CDataEntity
 	 * @param l
 	 * @param name
 	 * @param cat
-	 * @param out
 	 */
-	public CEntitySQLCode(String name, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntitySQLCode(String name, CObjectCatalog cat)
 	{
-		super(0, name, cat, out);
+		super(0, name, cat);
 	}
-	public CEntitySQLCode(String name, CObjectCatalog cat, CBaseLanguageExporter out, CBaseEntityExpression eHistoryItem)
+	public CEntitySQLCode(String name, CObjectCatalog cat, CBaseEntityExpression eHistoryItem)
 	{
-		super(0, name, cat, out);
+		super(0, name, cat);
 		eHistoryItem = eHistoryItem ;
 	}
 	/* (non-Javadoc)

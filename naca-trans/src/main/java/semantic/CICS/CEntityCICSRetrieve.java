@@ -12,7 +12,6 @@
  */
 package semantic.CICS;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import semantic.CDataEntity;
 import utils.CObjectCatalog;
@@ -29,11 +28,10 @@ public abstract class CEntityCICSRetrieve extends CBaseActionEntity
 	/**
 	 * @param line
 	 * @param cat
-	 * @param out
 	 */
-	public CEntityCICSRetrieve(int line,CObjectCatalog cat, CBaseLanguageExporter out, boolean ispointer)
+	public CEntityCICSRetrieve(int line,CObjectCatalog cat, boolean ispointer)
 	{
-		super(line, cat, out);
+		super(line, cat);
 		ispointer = ispointer;
 		cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
 	}

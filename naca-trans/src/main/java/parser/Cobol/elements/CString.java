@@ -92,6 +92,10 @@ public class CString extends CCobolElement
 					eUntil = factory.NewEntityString(arr);
 				}
 				eConcat.AddItem(eItem, eUntil) ;
+				if (eUntil != null)
+				{
+					eUntil.RegisterReadingAction(eConcat);
+				}
 			}
 			else
 			{
@@ -167,6 +171,11 @@ public class CString extends CCobolElement
 			}
 			else if (tok.GetKeyword() == CCobolKeywordList.INTO)
 			{
+				for (CTerminal pendingTerm : terms)
+				{
+					arrConcatItems.add(new CStringConcatItem(pendingTerm, null));
+				}
+				terms.clear();
 				GetNext();
 				variable = ReadIdentifier();
 				tok = GetCurrentToken();

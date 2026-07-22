@@ -32,7 +32,8 @@ public class CJavaKeyPressed extends CEntityKeyPressed
 	 */
 	public CJavaKeyPressed(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out, String publicName)
 	{
-		super(l, name, cat, out);
+		super(l, name, cat);
+		setLanguageExporter(out);
 		csPublicName = publicName ;
 	}
 	protected String csPublicName = "" ;

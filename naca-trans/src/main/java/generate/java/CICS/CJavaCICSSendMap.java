@@ -31,7 +31,8 @@ public class CJavaCICSSendMap extends CEntityCICSSendMap
 	 */
 	public CJavaCICSSendMap(int line, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
-		super(line, cat, out);
+		super(line, cat);
+		setLanguageExporter(out);
 	}
 
 	protected void DoExport()

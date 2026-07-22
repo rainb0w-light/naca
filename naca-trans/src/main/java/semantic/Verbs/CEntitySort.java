@@ -8,7 +8,6 @@ package semantic.Verbs;
 
 import java.util.Vector;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import semantic.CDataEntity;
 import semantic.CEntityFileDescriptor;
@@ -18,9 +17,9 @@ import utils.CObjectCatalog;
 public abstract class CEntitySort extends CBaseActionEntity
 {
 
-	public CEntitySort(int line, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntitySort(int line, CObjectCatalog cat)
 	{
-		super(line, cat, out);
+		super(line, cat);
 	}
 
 	public void setFileDesriptor(CEntityFileDescriptor fileDesc)

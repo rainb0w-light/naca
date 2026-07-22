@@ -16,7 +16,8 @@ public class CFPacJavaDataSection extends CEntityDataSection
 	public CFPacJavaDataSection(int line, String name, CObjectCatalog cat,
 					CBaseLanguageExporter out)
 	{
-		super(line, name, cat, out);
+		super(line, name, cat);
+		setLanguageExporter(out);
 	}
 
 	@Override

@@ -33,7 +33,8 @@ public class CJavaProcedure extends CEntityProcedure
 	 */
 	public CJavaProcedure(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out, CEntityProcedureSection section)
 	{
-		super(l, name, cat, out, section);
+		super(l, name, cat, section);
+		setLanguageExporter(out);
 	}
 
 	protected void DoExport()

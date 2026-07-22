@@ -30,21 +30,37 @@ public abstract class CEntityCondEquals extends CBinaryEntityCondition
 	{
 		ASSERT(op1);
 		ASSERT(op2);
-		op1 = op1; 
-		op2 = op2 ;
+		this.op1 = op1;
+		this.op2 = op2 ;
 		bIsDifferent = false ;
 	}
-	public void SetDifferentCondition(CBaseEntityExpression op1, CBaseEntityExpression op2) 
+	public void SetDifferentCondition(CBaseEntityExpression op1, CBaseEntityExpression op2)
 	{
 		ASSERT(op1);
 		ASSERT(op2);
-		op1 = op1;
-		op2 = op2 ;
+		this.op1 = op1;
+		this.op2 = op2 ;
 		bIsDifferent = true ;
 	}
 	protected boolean bIsDifferent = false ;
 	protected CBaseEntityExpression op1 = null ;
 	protected CBaseEntityExpression op2 = null;
+
+	public CBaseEntityExpression getLeft()
+	{
+		return op1;
+	}
+
+	public CBaseEntityExpression getRight()
+	{
+		return op2;
+	}
+
+	public boolean isDifferent()
+	{
+		return bIsDifferent;
+	}
+
 	public void Clear()
 	{
 		super.Clear() ;

@@ -12,7 +12,6 @@
  */
 package semantic.Verbs;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import semantic.CDataEntity;
 import utils.CObjectCatalog;
@@ -23,17 +22,16 @@ import utils.CObjectCatalog;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityMultiply extends CBaseActionEntity
+public class CEntityMultiply extends CBaseActionEntity
 {
 
 	/**
 	 * @param line
 	 * @param cat
-	 * @param out
 	 */
-	public CEntityMultiply(int line, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntityMultiply(int line, CObjectCatalog cat)
 	{
-		super(line, cat, out);
+		super(line, cat);
 	}
 
 	protected CDataEntity what = null ;
@@ -50,16 +48,16 @@ public abstract class CEntityMultiply extends CBaseActionEntity
 	
 	public void SetMultiply(CDataEntity what, CDataEntity by, CDataEntity to, boolean isRounded)
 	{
-		what = what ;
-		by = by ;
-		to = to ; 
+		this.what = what ;
+		this.by = by ;
+		this.to = to ;
 		isisRounded = isRounded ;
 	}
 	public void SetMultiply(CDataEntity what, CDataEntity by, boolean isRounded)
 	{
-		what = what ;
-		by = by ;
-		to = by ; 
+		this.what = what ;
+		this.by = by ;
+		this.to = by ;
 		isisRounded = isRounded ;
 	}
 	public boolean ignore()
@@ -67,6 +65,28 @@ public abstract class CEntityMultiply extends CBaseActionEntity
 		boolean ignore = what.ignore();
 		ignore |= by.ignore();
 		ignore |= to.ignore() ;
-		return ignore ; 
+		return ignore ;
+	}
+
+	// ==================== ST4 recursive accessors ====================
+
+	public CDataEntity getValue()
+	{
+		return what ;
+	}
+
+	public CDataEntity getBy()
+	{
+		return by ;
+	}
+
+	public CDataEntity getTo()
+	{
+		return to ;
+	}
+
+	public boolean isRounded()
+	{
+		return isisRounded ;
 	}
 }

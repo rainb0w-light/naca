@@ -11,7 +11,7 @@ formatName(name) ::= <<
 >>
 
 // ==================== Block Rendering ====================
-// Note: Block rendering is handled by entity.exportChildren() method
+// Note: Block rendering is handled by the recursive semantic child collection.
 // This follows PUSH model - entity knows how to render its children
 
 // ==================== Data Reference ====================

@@ -32,7 +32,8 @@ public class CJavaAssignWithAccessor extends CEntityAssignWithAccessor
 	 */
 	public CJavaAssignWithAccessor(int line, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
-		super(line, cat, out);
+		super(line, cat);
+		setLanguageExporter(out);
 	}
 	protected void DoExport()
 	{

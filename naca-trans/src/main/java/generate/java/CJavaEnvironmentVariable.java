@@ -32,11 +32,12 @@ public class CJavaEnvironmentVariable extends CEntityEnvironmentVariable
 	 */
 	public CJavaEnvironmentVariable(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out, String acc, String write, boolean bNumericVariable)
 	{
-		super(l, name, cat, out, acc, write, bNumericVariable);
+		super(l, name, cat, acc, write, bNumericVariable);
+		setLanguageExporter(out);
 	}
 	public CJavaEnvironmentVariable(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out, String acc, boolean bNumericVariable)
 	{
-		super(l, name, cat, out, acc, "", bNumericVariable);
+		super(l, name, cat, acc, "", bNumericVariable);
 	}
 	/* (non-Javadoc)
 	 * @see semantic.CBaseDataEntity#ExportReference(semantic.CBaseLanguageExporter)

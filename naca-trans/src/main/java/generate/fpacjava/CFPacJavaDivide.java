@@ -13,7 +13,8 @@ import utils.CObjectCatalog;
 public class CFPacJavaDivide extends CEntityDivide {
 
 	public CFPacJavaDivide(int line, CObjectCatalog cat, CBaseLanguageExporter out) {
-		super(line, cat, out);
+		super(line, cat);
+		setLanguageExporter(out);
 	}
 
 	@Override

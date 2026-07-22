@@ -14,7 +14,6 @@ package semantic;
 
 import java.util.Vector;
 
-import generate.CBaseLanguageExporter;
 import utils.CObjectCatalog;
 
 /**
@@ -29,11 +28,10 @@ public abstract class CEntityProcedureDivision extends CBaseLanguageEntity
 	 * @param line
 	 * @param name
 	 * @param cat
-	 * @param out
 	 */
-	public CEntityProcedureDivision(int line, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntityProcedureDivision(int line, CObjectCatalog cat)
 	{
-		super(line, "", cat, out);
+		super(line, "", cat);
 		cat.RegisterProcedureDivision(this) ;
 	}
 

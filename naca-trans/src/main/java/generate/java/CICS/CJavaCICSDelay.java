@@ -32,7 +32,8 @@ public class CJavaCICSDelay extends CEntityCICSDelay
 	 */
 	public CJavaCICSDelay(int line, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
-		super(line, cat, out);
+		super(line, cat);
+		setLanguageExporter(out);
 	}
 
 	protected void DoExport()

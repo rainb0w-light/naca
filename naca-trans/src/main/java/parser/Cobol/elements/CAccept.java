@@ -48,9 +48,17 @@ public class CAccept extends CCobolElement
 		CEntityAccept eAcc = factory.NewEntityAccept(getLine()) ;
 		parent.AddChild(eAcc) ;
 		CDataEntity eVar = variable.GetDataReference(getLine(), factory) ;
-		if (from == AcceptMode.FROM_VARIABLE) 
+		if (eVar != null)
+		{
+			eVar.RegisterWritingAction(eAcc) ;
+		}
+		if (from == AcceptMode.FROM_VARIABLE)
 		{
 			CDataEntity eSource = source.GetDataReference(getLine(), factory) ;
+			if (eSource != null)
+			{
+				eSource.RegisterReadingAction(eAcc) ;
+			}
 			eAcc.AcceptFromVariable(eVar, eSource) ;
 		}
 		else if (from != null)

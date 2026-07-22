@@ -12,7 +12,6 @@
  */
 package semantic.forms;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import semantic.CBaseEntityFactory;
 import semantic.CDataEntity;
@@ -39,11 +38,10 @@ public abstract class CEntitySetHighligh extends CBaseActionEntity
 	/**
 	 * @param line
 	 * @param cat
-	 * @param out
 	 */
-	public CEntitySetHighligh(int line, CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity field)
+	public CEntitySetHighligh(int line, CObjectCatalog cat, CDataEntity field)
 	{
-		super(line, cat, out);
+		super(line, cat);
 		refField = field ;
 	}
 	

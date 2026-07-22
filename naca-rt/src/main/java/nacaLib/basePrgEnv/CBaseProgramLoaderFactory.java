@@ -30,7 +30,7 @@ public abstract class CBaseProgramLoaderFactory // extends SequencerFactory
 	{
 		if (tagSequencerConfig != null)
 		{
-			tagSequencerConfig = tagSequencerConfig;
+			this.tagSequencerConfig = tagSequencerConfig;
 			
 			Tag tagSQLConfig = tagSequencerConfig.getChild("SQLConfig");
 			if(tagSQLConfig != null)

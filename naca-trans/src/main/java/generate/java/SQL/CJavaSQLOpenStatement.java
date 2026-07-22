@@ -34,7 +34,8 @@ public class CJavaSQLOpenStatement extends CEntitySQLOpenStatement
 {
 	public CJavaSQLOpenStatement(int line, CObjectCatalog cat, CBaseLanguageExporter out, CEntitySQLCursor csCursorName)
 	{
-		super(line, cat, out, csCursorName);
+		super(line, cat, csCursorName);
+		setLanguageExporter(out);
 	}
    
 	protected void DoExport()

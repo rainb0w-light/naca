@@ -12,7 +12,6 @@
  */
 package semantic.forms;
 
-import generate.CBaseLanguageExporter;
 
 import java.util.Vector;
 
@@ -35,12 +34,11 @@ public abstract class CEntityFieldRedefine extends CEntityResourceField
 	 * @param l
 	 * @param name
 	 * @param cat
-	 * @param out
 	 */
 	public String csLevel = "" ;
-	public CEntityFieldRedefine(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out, String level)
+	public CEntityFieldRedefine(int l, String name, CObjectCatalog cat, String level)
 	{
-		super(l, name, cat, out);
+		super(l, name, cat);
 		csLevel = level;
 	}
 	public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory) 

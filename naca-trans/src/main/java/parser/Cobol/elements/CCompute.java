@@ -177,14 +177,19 @@ public class CCompute extends CCobolElement
 	{
 		if (expr.IsReference())
 		{
-			CEntityAssign assgn = factory.NewEntityAssign(getLine()) ;
 			CDataEntity val = expr.GetReference(factory) ;
+			if (val == null)
+			{
+				return DoComplexAnalysis(parent, factory);
+			}
+			CEntityAssign assgn = factory.NewEntityAssign(getLine()) ;
 			val.RegisterReadingAction(assgn) ;
 			assgn.SetValue(val) ;
 			for (int i = 0; i< destinations.size(); i++)
 			{
 				CIdentifier idDestination = destinations.get(i) ;
 				CDataEntity dest = idDestination.GetDataReference(getLine(), factory) ;
+				if (dest == null) continue;
 				dest.RegisterWritingAction(assgn);
 				assgn.AddRefTo(dest);
 			}
@@ -193,32 +198,39 @@ public class CCompute extends CCobolElement
 		}
 		else
 		{
-			CEntityCalcul eCalc = factory.NewEntityCalcul(getLine()) ;
-			parent.AddChild(eCalc) ;
-			for (int i = 0; i< destinations.size(); i++)
-			{
-				CIdentifier idDestination = destinations.get(i) ;
-				CDataEntity dest = idDestination.GetDataReference(getLine(), factory) ;
-				dest.RegisterWritingAction(eCalc);
-				eCalc.AddDestination(dest);
-			}
-			for (int i = 0; i< roundedDestinations.size(); i++)
-			{
-				CIdentifier idDestination = roundedDestinations.get(i) ;
-				CDataEntity dest = idDestination.GetDataReference(getLine(), factory) ;
-				dest.RegisterWritingAction(eCalc);
-				eCalc.AddRoundedDestination(dest);
-			}
-			
-			CBaseEntityExpression eExpr = expr.AnalyseExpression(factory);
-			eCalc.SetCalcul(eExpr) ;
-			
-			if (onErrorBloc != null)
-			{
-				CBaseLanguageEntity eBloc = onErrorBloc.DoSemanticAnalysis(eCalc, factory) ;
-				eCalc.SetOnErrorBloc(eBloc);
-			}
-			return eCalc;
+			return DoComplexAnalysis(parent, factory);
 		}
+	}
+
+	protected CBaseLanguageEntity DoComplexAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+	{
+		CEntityCalcul eCalc = factory.NewEntityCalcul(getLine()) ;
+		parent.AddChild(eCalc) ;
+		for (int i = 0; i< destinations.size(); i++)
+		{
+			CIdentifier idDestination = destinations.get(i) ;
+			CDataEntity dest = idDestination.GetDataReference(getLine(), factory) ;
+			if (dest == null) continue;
+			dest.RegisterWritingAction(eCalc);
+			eCalc.AddDestination(dest);
+		}
+		for (int i = 0; i< roundedDestinations.size(); i++)
+		{
+			CIdentifier idDestination = roundedDestinations.get(i) ;
+			CDataEntity dest = idDestination.GetDataReference(getLine(), factory) ;
+			if (dest == null) continue;
+			dest.RegisterWritingAction(eCalc);
+			eCalc.AddRoundedDestination(dest);
+		}
+		
+		CBaseEntityExpression eExpr = expr.AnalyseExpression(factory);
+		eCalc.SetCalcul(eExpr) ;
+		
+		if (onErrorBloc != null)
+		{
+			CBaseLanguageEntity eBloc = onErrorBloc.DoSemanticAnalysis(eCalc, factory) ;
+			eCalc.SetOnErrorBloc(eBloc);
+		}
+		return eCalc;
 	} 
 }

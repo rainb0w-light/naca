@@ -12,7 +12,6 @@
  */
 package semantic.forms;
 
-import generate.CBaseLanguageExporter;
 
 import java.util.Vector;
 
@@ -94,9 +93,9 @@ public abstract class CEntityResourceField extends CBaseResourceEntity  implemen
 	 * @param cat
 	 * @param exp
 	 */
-	public CEntityResourceField(int l, String name, CObjectCatalog cat, CBaseLanguageExporter lexp)
+	public CEntityResourceField(int l, String name, CObjectCatalog cat)
 	{
-		super(l, name, cat, lexp);
+		super(l, name, cat);
 	}
 
 //	protected String GetDefaultName()

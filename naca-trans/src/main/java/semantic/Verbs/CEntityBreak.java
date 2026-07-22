@@ -6,16 +6,15 @@
  */
 package semantic.Verbs;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import utils.CObjectCatalog;
 
-public abstract class CEntityBreak extends CBaseActionEntity
+public class CEntityBreak extends CBaseActionEntity
 {
 
-	public CEntityBreak(int line, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntityBreak(int line, CObjectCatalog cat)
 	{
-		super(line, cat, out);
+		super(line, cat);
 	}
 
 

@@ -31,7 +31,8 @@ public class CJavaSQLCursor extends CEntitySQLCursor
 	 */
 	public CJavaSQLCursor(String name, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
-		super(name, cat, out);
+		super(name, cat);
+		setLanguageExporter(out);
 	}
 
 	public CDataEntityType GetDataType()

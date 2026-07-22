@@ -57,6 +57,10 @@ public class CWrite extends CCobolElement
 			if (dataFrom != null)
 			{
 				eData = dataFrom.GetDataReference(getLine(), factory) ;
+				if (eData != null)
+				{
+					eData.RegisterReadingAction(eWrite) ;
+				}
 			}
 			eWrite.setFileDescriptor(eFD, eData) ;
 		}

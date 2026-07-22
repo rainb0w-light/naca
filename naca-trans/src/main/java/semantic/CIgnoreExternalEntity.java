@@ -12,7 +12,6 @@
  */
 package semantic;
 
-import generate.CBaseLanguageExporter;
 import utils.CObjectCatalog;
 
 /**
@@ -30,9 +29,9 @@ public class CIgnoreExternalEntity extends CEntityExternalDataStructure
 	 * @param cat
 	 * @param out
 	 */
-	public CIgnoreExternalEntity(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CIgnoreExternalEntity(int l, String name, CObjectCatalog cat)
 	{
-		super(l, name, cat, out);
+		super(l, name, cat);
 	}
 
 	/* (non-Javadoc)
@@ -52,14 +51,6 @@ public class CIgnoreExternalEntity extends CEntityExternalDataStructure
 	}
 
 	/* (non-Javadoc)
-	 * @see semantic.CDataEntity#ExportReference(getLine())
-	 */
-	public String ExportReference(int nLine)
-	{
-		return "";
-	}
-
-	/* (non-Javadoc)
 	 * @see semantic.CDataEntity#HasAccessors()
 	 */
 	public boolean HasAccessors()
@@ -67,26 +58,11 @@ public class CIgnoreExternalEntity extends CEntityExternalDataStructure
 		return false;
 	}
 
-	/* (non-Javadoc)
-	 * @see semantic.CDataEntity#ExportWriteAccessorTo()
-	 */
-	public String ExportWriteAccessorTo(String value)
-	{
-		return "";
-	}
 	public boolean isValNeeded()
 	{
 		return true;
 	}
 
-
-	/* (non-Javadoc)
-	 * @see semantic.CBaseLanguageEntity#DoExport()
-	 */
-	protected void DoExport()
-	{
-
-	}
 
 	/* (non-Javadoc)
 	 * @see semantic.CBaseLanguageEntity#ignore()

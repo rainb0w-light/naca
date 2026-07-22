@@ -12,7 +12,6 @@
  */
 package semantic.Verbs;
 
-import generate.CBaseLanguageExporter;
 
 import java.util.Vector;
 
@@ -36,11 +35,10 @@ public abstract class CEntityAssign extends CBaseActionEntity
 	/**
 	 * @param name
 	 * @param cat
-	 * @param out
 	 */
-	public CEntityAssign(int l, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntityAssign(int l, CObjectCatalog cat)
 	{
-		super(l, cat, out);
+		super(l, cat);
 	}
 
 	/* (non-Javadoc)
@@ -84,7 +82,7 @@ public abstract class CEntityAssign extends CBaseActionEntity
 
 	public void SetFillAll(boolean bFillAll)
 	{
-		bFillAll = bFillAll ;
+		isfillAll = bFillAll ;
 	}
 
 	public void SetAssignCorresponding(boolean bCorr)

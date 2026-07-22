@@ -15,7 +15,6 @@ package semantic;
 import java.util.Vector;
 
 
-import generate.CBaseLanguageExporter;
 import semantic.SQL.CEntitySQLCursor;
 import utils.CObjectCatalog;
 
@@ -31,11 +30,10 @@ public abstract class CEntitySQLCursorSection extends CEntityDataSection
 	 * @param line
 	 * @param name
 	 * @param cat
-	 * @param out
 	 */
-	public CEntitySQLCursorSection(CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntitySQLCursorSection(CObjectCatalog cat)
 	{
-		super(0, "SQLCursorSection", cat, out);
+		super(0, "SQLCursorSection", cat);
 	}
 	
 	protected Vector cursors = null ;

@@ -12,7 +12,6 @@
  */
 package semantic.forms;
 
-import generate.CBaseLanguageExporter;
 import parser.expression.CTerminal;
 import semantic.CBaseActionEntity;
 import semantic.CBaseDataReference;
@@ -43,11 +42,10 @@ public abstract class CBaseEntityFieldAttribute extends CBaseDataReference
 	/**
 	 * @param name
 	 * @param cat
-	 * @param out
 	 */
-	protected CBaseEntityFieldAttribute(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out, CEntityFieldAttributeType type, CDataEntity owner)
+	protected CBaseEntityFieldAttribute(int l, String name, CObjectCatalog cat, CEntityFieldAttributeType type, CDataEntity owner)
 	{
-		super(l, name, cat, out);
+		super(l, name, cat);
 		type = type ;
 		reference = owner ;
 		parent = owner ; 

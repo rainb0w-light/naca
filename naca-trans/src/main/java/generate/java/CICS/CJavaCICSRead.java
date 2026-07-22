@@ -32,7 +32,8 @@ public class CJavaCICSRead extends CEntityCICSRead
 	 */
 	public CJavaCICSRead(int line, CObjectCatalog cat, CBaseLanguageExporter out, CEntityCICSReadMode mode)
 	{
-		super(line, cat, out, mode);
+		super(line, cat, mode);
+		setLanguageExporter(out);
 	}
 
 	protected void DoExport()

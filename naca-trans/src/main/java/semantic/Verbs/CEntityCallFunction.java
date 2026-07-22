@@ -5,14 +5,13 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 5 août 2004
+ * Created on 5 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 package semantic.Verbs;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import semantic.CDataEntity;
 import semantic.CEntityProcedure;
@@ -27,15 +26,14 @@ import utils.*;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityCallFunction extends CBaseActionEntity
+public class CEntityCallFunction extends CBaseActionEntity
 {
 	/**
 	 * @param cat
-	 * @param out
 	 */
-	public CEntityCallFunction(int l, CObjectCatalog cat, CBaseLanguageExporter out, String ref, String refThru, CEntityProcedureSection sectionContainer)
+	public CEntityCallFunction(int l, CObjectCatalog cat, String ref, String refThru, CEntityProcedureSection sectionContainer)
 	{
-		super(l, cat, out);
+		super(l, cat);
 		String sec= "";
 		if (sectionContainer != null)
 		{
@@ -116,4 +114,62 @@ public abstract class CEntityCallFunction extends CBaseActionEntity
 	}
 	protected CDataEntity refRepetitions = null;
 
+	// ==================== ST4 recursive accessors ====================
+
+	/** PERFORM A THRU B form. */
+	public boolean isPerformThrough()
+	{
+		return referenceThru != null ;
+	}
+
+	/** PERFORM N TIMES repetition operand (a data reference), or null. */
+	public CDataEntity getRepetitions()
+	{
+		return refRepetitions ;
+	}
+
+	private String repetitionIndex = null ;
+
+	/** Unique loop index identifier for the PERFORM N TIMES form. */
+	public String getRepetitionIndex()
+	{
+		if (repetitionIndex == null)
+		{
+			String index = "loop_index" ;
+			while (programCatalog != null && programCatalog.IsExistingDataEntity(index, ""))
+			{
+				index += "$" ;
+			}
+			repetitionIndex = index ;
+		}
+		return repetitionIndex ;
+	}
+
+	/** Target paragraph/section name of a simple PERFORM, or null when absent. */
+	public String getPerformedProcedureName()
+	{
+		if (reference != null)
+		{
+			CEntityProcedure procedure = reference.getProcedure() ;
+			if (procedure != null)
+			{
+				return procedure.getFormattedName() ;
+			}
+		}
+		return null ;
+	}
+
+	/** THRU target paragraph/section name, or null when absent. */
+	public String getPerformedThroughName()
+	{
+		if (referenceThru != null)
+		{
+			CEntityProcedure procedure = referenceThru.getProcedure() ;
+			if (procedure != null)
+			{
+				return procedure.getFormattedName() ;
+			}
+		}
+		return null ;
+	}
 }

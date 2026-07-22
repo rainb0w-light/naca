@@ -12,7 +12,6 @@
  */
 package semantic.expression;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseEntityFactory;
 import semantic.CDataEntity;
 import utils.CObjectCatalog;
@@ -26,14 +25,18 @@ import utils.CObjectCatalog;
 public abstract class CEntityString extends CDataEntity
 {
 	protected char[] carrValue = {} ;
-	public CEntityString(CObjectCatalog cat, CBaseLanguageExporter out, char[] val)
+	public CEntityString(CObjectCatalog cat, char[] val)
 	{
-		super(0, "", cat, out);
+		super(0, "", cat);
 		carrValue= val ;
 	}
 	public CDataEntityType GetDataType()
 	{
 		return CDataEntityType.STRING;
+	}
+	public String getLiteralValue()
+	{
+		return new String(carrValue);
 	}
 	public boolean HasAccessors()
 	{

@@ -16,7 +16,8 @@ public class CFPacJavaProcedure extends CEntityProcedure
 
 	public CFPacJavaProcedure(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out, CEntityProcedureSection section)
 	{
-		super(l, name, cat, out, section);
+		super(l, name, cat, section);
+		setLanguageExporter(out);
 	}
 
 	@Override

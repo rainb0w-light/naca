@@ -6,12 +6,11 @@
  */
 package semantic.Verbs;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import semantic.CEntityFileDescriptor;
 import utils.CObjectCatalog;
 
-public abstract class CEntityOpenFile extends CBaseActionEntity
+public class CEntityOpenFile extends CBaseActionEntity
 {
 	public enum OpenMode
 	{
@@ -20,9 +19,9 @@ public abstract class CEntityOpenFile extends CBaseActionEntity
 		INPUT_OUTPUT,
 		APPEND
 	}
-	public CEntityOpenFile(int line, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntityOpenFile(int line, CObjectCatalog cat)
 	{
-		super(line, cat, out);
+		super(line, cat);
 	}
 
 	public void setFileDescriptor(CEntityFileDescriptor fd, OpenMode mode)
@@ -32,5 +31,35 @@ public abstract class CEntityOpenFile extends CBaseActionEntity
 	}
 	protected CEntityFileDescriptor eFileDescriptor = null ;
 	protected OpenMode eMode = null ; 
+
+	public CEntityFileDescriptor getFileDescriptor()
+	{
+		return eFileDescriptor;
+	}
+
+	public OpenMode getMode()
+	{
+		return eMode;
+	}
+
+	public boolean isInputMode()
+	{
+		return eMode == OpenMode.INPUT;
+	}
+
+	public boolean isOutputMode()
+	{
+		return eMode == OpenMode.OUTPUT;
+	}
+
+	public boolean isInputOutputMode()
+	{
+		return eMode == OpenMode.INPUT_OUTPUT;
+	}
+
+	public boolean isAppendMode()
+	{
+		return eMode == OpenMode.APPEND;
+	}
 
 }

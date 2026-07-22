@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 3 ao�t 2004
+ * Created on 3 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -37,13 +37,22 @@ public abstract class CEntityExternalDataStructure extends CBaseExternalEntity
 /**
 	 * @param name
 	 * @param cat
-	 * @param out
 	 */
 	protected String csClassName = "" ;
-	public CEntityExternalDataStructure(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntityExternalDataStructure(int l, String name, CObjectCatalog cat)
 	{
-		super(l, name, cat, out);
+		super(l, name, cat);
 		csClassName = name ;
+	}
+
+	/**
+	 * Bean accessor for the copybook class name (dashes normalized), used by the
+	 * ROOT template; the Java class-name convention (capitalization) is applied
+	 * template-side by the {@code javaClassName} renderer.
+	 */
+	public String getTypeDecl()
+	{
+		return csClassName.replace('-', '_');
 	}
 	/* (non-Javadoc)
 	 * @see semantic.CBaseDataEntity#GetSpecialAssignment(parser.expression.CTerminal)
@@ -115,7 +124,7 @@ public abstract class CEntityExternalDataStructure extends CBaseExternalEntity
 	protected boolean isinline = false ;
 	public void SetInline(boolean bInline)
 	{
-		bInline = bInline;
+		this.isinline = bInline;
 	}
 	/**
 	 * @return

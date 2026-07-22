@@ -38,7 +38,8 @@ public class CJavaFormRedefine extends CEntityFormRedefine
 	 */
 	public CJavaFormRedefine(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity form, boolean bSaveMap)
 	{
-		super(l, name, cat, out, form, bSaveMap);
+		super(l, name, cat, form, bSaveMap);
+		setLanguageExporter(out);
 	}
 	public String ExportReference(int nLine)
 	{

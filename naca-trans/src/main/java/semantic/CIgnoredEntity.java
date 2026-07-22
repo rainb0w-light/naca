@@ -16,7 +16,6 @@ import java.util.Vector;
 
 import parser.expression.CExpression;
 import parser.expression.CTerminal;
-import generate.CBaseLanguageExporter;
 import semantic.expression.CBaseEntityExpression;
 import utils.CObjectCatalog;
 
@@ -35,9 +34,9 @@ public class CIgnoredEntity extends CDataEntity
 	 * @param cat
 	 * @param out
 	 */
-	public CIgnoredEntity(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CIgnoredEntity(int l, String name, CObjectCatalog cat)
 	{
-		super(l, name, cat, out);
+		super(l, name, cat);
 	}
 
 	/* (non-Javadoc)
@@ -49,36 +48,11 @@ public class CIgnoredEntity extends CDataEntity
 	}
 
 	/* (non-Javadoc)
-	 * @see semantic.CDataEntity#ExportReference(getLine())
-	 */
-	public String ExportReference(int nLine)
-	{
-		return "";
-	}
-
-	/* (non-Javadoc)
 	 * @see semantic.CDataEntity#HasAccessors()
 	 */
 	public boolean HasAccessors()
 	{
 		return false;
-	}
-
-	/* (non-Javadoc)
-	 * @see semantic.CDataEntity#ExportWriteAccessorTo()
-	 */
-	public String ExportWriteAccessorTo(String value)
-	{
-		return"";
-	}
-
-	/* (non-Javadoc)
-	 * @see semantic.CBaseLanguageEntity#DoExport()
-	 */
-	protected void DoExport()
-	{
-		// ignored
-
 	}
 
 	/* (non-Javadoc)

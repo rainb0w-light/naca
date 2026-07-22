@@ -28,7 +28,8 @@ public class CJavaSQLDeclareTable extends CEntitySQLDeclareTable
 {
 	public CJavaSQLDeclareTable(int nLine, CObjectCatalog cat, CBaseLanguageExporter out, String csTableName, String csViewName, ArrayList arrTableColDescription)
 	{
-		super(nLine, cat, out, csTableName, csViewName, arrTableColDescription);
+		super(nLine, cat, csTableName, csViewName, arrTableColDescription);
+		setLanguageExporter(out);
 	}
 	
 	protected void DoExport()

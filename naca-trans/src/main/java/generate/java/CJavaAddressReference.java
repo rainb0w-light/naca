@@ -33,7 +33,8 @@ public class CJavaAddressReference extends CEntityAddressReference
 	 */
 	public CJavaAddressReference(CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity ref)
 	{
-		super(cat, out, ref);
+		super(cat, ref);
+		setLanguageExporter(out);
 	}
 	public String ExportReference(int nLine)
 	{

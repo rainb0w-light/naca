@@ -33,7 +33,8 @@ public class CJavaCICSDeleteQ extends CEntityCICSDeleteQ
 	 */
 	public CJavaCICSDeleteQ(int line, CObjectCatalog cat, CBaseLanguageExporter out, boolean bPersistent)
 	{
-		super(line, cat, out, bPersistent);
+		super(line, cat, bPersistent);
+		setLanguageExporter(out);
 	}
 
 	/* (non-Javadoc)

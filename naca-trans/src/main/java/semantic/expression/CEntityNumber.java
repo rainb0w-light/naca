@@ -12,7 +12,6 @@
  */
 package semantic.expression;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseEntityFactory;
 import semantic.CDataEntity;
 import utils.CObjectCatalog;
@@ -28,14 +27,62 @@ public abstract class CEntityNumber extends CDataEntity
 
 	protected String csValue = "" ;
 	
-	public CEntityNumber(CObjectCatalog cat, CBaseLanguageExporter out, String number)
+	public CEntityNumber(CObjectCatalog cat, String number)
 	{
-		super(0, "", cat, out);
+		super(0, "", cat);
 		csValue = number;
 	}
 	public CDataEntityType GetDataType()
 	{
 		return CDataEntityType.NUMBER;
+	}
+	public String getLiteralValue()
+	{
+		return csValue;
+	}
+	public boolean isDecimalLiteral()
+	{
+		return csValue.indexOf('.') >= 0;
+	}
+	public String getNormalizedLiteralValue()
+	{
+		if (isDecimalLiteral()) return csValue;
+		try
+		{
+			return String.valueOf(Integer.parseInt(csValue));
+		}
+		catch (NumberFormatException integerError)
+		{
+			try
+			{
+				return String.valueOf(Long.parseLong(csValue));
+			}
+			catch (NumberFormatException longError)
+			{
+				return csValue;
+			}
+		}
+	}
+	public boolean isLongLiteral()
+	{
+		if (isDecimalLiteral()) return false;
+		try
+		{
+			Integer.parseInt(csValue);
+			return false;
+		}
+		catch (NumberFormatException integerError)
+		{
+			try
+			{
+				Long.parseLong(csValue);
+				return true;
+			}
+			catch (NumberFormatException longError)
+			{
+				return false;
+			}
+		}
 	}
 	public boolean HasAccessors()
 	{

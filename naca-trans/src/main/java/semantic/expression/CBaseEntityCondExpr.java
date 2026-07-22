@@ -55,6 +55,17 @@ public abstract class CBaseEntityCondExpr extends CDataEntity
 		return false ;
 	}
 	public abstract String Export() ;
+
+	private String cachedCodeString = null;
+
+	@Override
+	public String getCodeString()
+	{
+		if (cachedCodeString != null) return cachedCodeString;
+		cachedCodeString = Export();
+		return cachedCodeString;
+	}
+
 	protected void DoExport()
 	{
 		String cs = Export() ;

@@ -12,7 +12,6 @@
  */
 package semantic;
 
-import generate.CBaseLanguageExporter;
 import semantic.expression.CBaseEntityCondition;
 import utils.CObjectCatalog;
 
@@ -28,11 +27,10 @@ public abstract class CEntityIndex extends CDataEntity
 	 * @param l
 	 * @param name
 	 * @param cat
-	 * @param out
 	 */
-	public CEntityIndex(String name, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntityIndex(String name, CObjectCatalog cat)
 	{
-		super(0, name, cat, out);
+		super(0, name, cat);
 	}
 
 	public CDataEntityType GetDataType()

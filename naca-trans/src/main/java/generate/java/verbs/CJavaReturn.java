@@ -31,7 +31,8 @@ public class CJavaReturn extends CEntityReturn
 	 */
 	public CJavaReturn(int l, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
-		super(l, cat, out);
+		super(l, cat);
+		setLanguageExporter(out);
 	}
 
 	/* (non-Javadoc)

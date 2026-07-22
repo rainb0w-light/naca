@@ -40,7 +40,8 @@ public class CJavaFieldArray extends CEntityResourceFieldArray
 	 */
 	public CJavaFieldArray(int l, String name, CObjectCatalog cat, CBaseLanguageExporter lexp)
 	{
-		super(l, name, cat, lexp);
+		super(l, name, cat);
+		setLanguageExporter(lexp);
 	}
 
 	public String GetTypeDecl()

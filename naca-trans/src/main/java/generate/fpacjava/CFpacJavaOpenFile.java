@@ -15,7 +15,8 @@ public class CFpacJavaOpenFile extends CEntityOpenFile
 
 	public CFpacJavaOpenFile(int line, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
-		super(line, cat, out);
+		super(line, cat);
+		setLanguageExporter(out);
 	}
 
 	@Override

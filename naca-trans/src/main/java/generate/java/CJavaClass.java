@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 2 août 2004
+ * Created on 2 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -31,7 +31,8 @@ public class CJavaClass extends CEntityClass
 	 */
 	public CJavaClass(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
-		super(l, name, cat, out);
+		super(l, name, cat);
+		setLanguageExporter(out);
 	}
 
 	/* (non-Javadoc)
@@ -90,12 +91,6 @@ public class CJavaClass extends CEntityClass
 		WriteLine(line);
 		WriteLine("{") ;
 		StartOutputBloc();
-//		WriteLine("public " + name + "(ProgramArgument programArgument)") ;
-//		WriteLine("{") ;
-//		StartOutputBloc();
-//		WriteLine("super(programArgument);") ;
-//		EndOutputBloc();
-//		WriteLine("}") ;
 
 		// children
 		ExportChildren() ;

@@ -13,7 +13,6 @@
 package semantic.Verbs;
 
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import semantic.CDataEntity;
 import utils.CObjectCatalog;
@@ -24,17 +23,16 @@ import utils.CObjectCatalog;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityDivide extends CBaseActionEntity
+public class CEntityDivide extends CBaseActionEntity
 {
 
 	/**
 	 * @param line
 	 * @param cat
-	 * @param out
 	 */
-	public CEntityDivide(int line, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntityDivide(int line, CObjectCatalog cat)
 	{
-		super(line, cat, out);
+		super(line, cat);
 	}
 	
 	protected CDataEntity what = null ;
@@ -51,24 +49,50 @@ public abstract class CEntityDivide extends CBaseActionEntity
 		remainder = null ;
 	}
 	
-	public void SetDivide(CDataEntity what, CDataEntity by, CDataEntity result, boolean isRounded) 
+	public void SetDivide(CDataEntity what, CDataEntity by, CDataEntity result, boolean isRounded)
 	{
-		what = what ;
-		by = by ;
+		this.what = what ;
+		this.by = by ;
 		isisRounded = isRounded ;
-		result = result ;
+		this.result = result ;
 	}
-	public void SetDivide(CDataEntity what, CDataEntity by, boolean isRounded) 
+	public void SetDivide(CDataEntity what, CDataEntity by, boolean isRounded)
 	{
-		what = what ;
-		by = by ;
+		this.what = what ;
+		this.by = by ;
 		isisRounded = isRounded ;
-		result = what ;
+		this.result = what ;
 	}
 	public void SetRemainder(CDataEntity rem)
 	{
 		remainder = rem ;
 	}
+
+	public CDataEntity getDividend()
+	{
+		return what;
+	}
+
+	public CDataEntity getDivisor()
+	{
+		return by;
+	}
+
+	public CDataEntity getResult()
+	{
+		return result;
+	}
+
+	public CDataEntity getRemainder()
+	{
+		return remainder;
+	}
+
+	public boolean getRounded()
+	{
+		return isisRounded;
+	}
+
 	public boolean ignore()
 	{
 		boolean ignore = what.ignore() ;

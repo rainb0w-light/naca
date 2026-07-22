@@ -14,7 +14,8 @@ public class CFPacJavaUnknownReference extends CEntityUnknownReference
 {
 	public CFPacJavaUnknownReference(int nLine, String csName, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
-		super(nLine, csName, cat, out);
+		super(nLine, csName, cat);
+		setLanguageExporter(out);
 	}
 
 	@Override

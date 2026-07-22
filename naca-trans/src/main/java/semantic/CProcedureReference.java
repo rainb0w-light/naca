@@ -25,9 +25,9 @@ public class CProcedureReference
 
 	public CProcedureReference(String csProcedureName, String csSectionName, CObjectCatalog programCatalog)
 	{
-		csProcedureName = csProcedureName ;	
-		csSectionName = csSectionName ;
-		programCatalog = programCatalog ;		
+		this.csProcedureName = csProcedureName ;	
+		this.csSectionName = csSectionName ;
+		this.programCatalog = programCatalog ;		
 	}
 	public CEntityProcedure getProcedure()
 	{

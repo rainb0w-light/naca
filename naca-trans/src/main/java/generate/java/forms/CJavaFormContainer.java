@@ -39,7 +39,8 @@ public class CJavaFormContainer extends CEntityResourceFormContainer
 	 */
 	public CJavaFormContainer(int l, String name, CObjectCatalog cat, CBaseLanguageExporter lexp, boolean bSave)
 	{
-		super(l, name, cat, lexp, bSave);
+		super(l, name, cat, bSave);
+		setLanguageExporter(lexp);
 	}
 
 	/* (non-Javadoc)

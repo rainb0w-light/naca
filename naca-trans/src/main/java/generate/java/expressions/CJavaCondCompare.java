@@ -67,7 +67,9 @@ public class CJavaCondCompare extends CEntityCondCompare
 		{
 			cs = "isLess"+ebcdic+"(" ;
 		}
-		cs += op1.Export() + ", " + op2.Export() + ")";
+		String val1 = (op1 != null) ? op1.Export() : "[MissingExpr1]";
+		String val2 = (op2 != null) ? op2.Export() : "[MissingExpr2]";
+		cs += val1 + ", " + val2 + ")";
 		return cs ;
 	}
 

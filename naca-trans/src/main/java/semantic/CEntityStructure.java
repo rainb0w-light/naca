@@ -36,21 +36,14 @@ public abstract class CEntityStructure extends CEntityAttribute
 	 * @param name
 	 * @param cat
 	 */
-	public CEntityStructure(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out, String level)
+	public CEntityStructure(int l, String name, CObjectCatalog cat, String level)
 	{
-		super(l, name, cat, out);
-		if (name.equals(""))
-		{
-			isfiller = true ;
-			name = GetDefaultName() ;
-			if (!name.equals(""))
-			{
-				SetName(name) ;
-			}
-		}
+		// FILLER detection and default naming happen in the CEntityAttribute
+		// constructor (semantic construction phase), so no backend mutates the
+		// tree during generation.
+		super(l, name, cat);
 		csLevel = level ;
 	}
-	protected boolean isfiller = false ;
 	public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory) 
 	{
 		CEntityArrayReference e = factory.NewEntityArrayReference(getLine()) ;
@@ -76,6 +69,10 @@ public abstract class CEntityStructure extends CEntityAttribute
 	public void SetRedefine(CDataEntity e)
 	{
 		refRedefine = e ;
+		if (refRedefine != null)
+		{
+			refRedefine.RegisterReadReference(this);
+		}
 	}
 	public String csLevel = "" ;
 	protected CDataEntity tableSize = null ;
@@ -200,4 +197,94 @@ public abstract class CEntityStructure extends CEntityAttribute
 	{
 		return tableSizeDepending;
 	}
+
+	public String getLevel()
+	{
+		return csLevel;
+	}
+
+	@Override
+	public CDataEntity getRedefines()
+	{
+		return refRedefine;
+	}
+
+	@Override
+	public CDataEntity getOccurs()
+	{
+		return tableSize;
+	}
+
+	public int getNumericLevel()
+	{
+		return NumberParser.getAsInt(csLevel);
+	}
+
+	public boolean isTyped()
+	{
+		return !type.isEmpty();
+	}
+
+	public boolean isVariableLength()
+	{
+		return isisVariableLenght;
+	}
+
+	/**
+	 * Effective declared length for a variable-length (OCCURS DEPENDING) table:
+	 * the element length scaled by the maximum table size. Read-only; never
+	 * mutates the semantic tree (the old direct generator multiplied
+	 * {@code length} in place during export).
+	 */
+	@Override
+	public int getDeclaredLength()
+	{
+		if (tableSize != null && tableSizeDepending == null && isisVariableLenght)
+		{
+			return length * getTableSizeAsInt();
+		}
+		return length;
+	}
+
+	public boolean isSignLeadingSeparated()
+	{
+		return issignSeparateType ==
+			parser.Cobol.elements.CWorkingEntry.CWorkingSignType.LEADING;
+	}
+
+	public boolean isSignTrailingSeparated()
+	{
+		return issignSeparateType ==
+			parser.Cobol.elements.CWorkingEntry.CWorkingSignType.TRAILING;
+	}
+
+	public boolean isInsideExternalDataStructure()
+	{
+		CBaseLanguageEntity entity = GetParent();
+		while (entity != null)
+		{
+			if (entity instanceof CBaseExternalEntity)
+			{
+				return true;
+			}
+			entity = entity.GetParent();
+		}
+		return false;
+	}
+
+	public boolean isInsideFileSection()
+	{
+		CBaseLanguageEntity entity = GetParent();
+		while (entity != null)
+		{
+			if (entity instanceof CEntityDataSection
+				&& "FileSection".equals(entity.GetName()))
+			{
+				return true;
+			}
+			entity = entity.GetParent();
+		}
+		return false;
+	}
+
 }

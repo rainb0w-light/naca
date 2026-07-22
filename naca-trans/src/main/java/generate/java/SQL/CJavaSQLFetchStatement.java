@@ -28,7 +28,8 @@ public class CJavaSQLFetchStatement extends CEntitySQLFetchStatement
 {
 	public CJavaSQLFetchStatement(int line, CObjectCatalog cat, CBaseLanguageExporter out, CEntitySQLCursor cur)
 	{
-		super(line, cat, out, cur);
+		super(line, cat, cur);
+		setLanguageExporter(out);
 	}
    
 	protected void DoExport()

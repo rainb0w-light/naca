@@ -12,9 +12,12 @@
  */
 package semantic.Verbs;
 
+import java.util.ArrayList;
+import java.util.List;
+import semantic.CDataEntity;
+
 import java.util.Vector;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import semantic.CDataEntity;
 import utils.CObjectCatalog;
@@ -25,7 +28,7 @@ import utils.CObjectCatalog;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityRoutineEmulationCall extends CBaseActionEntity
+public class CEntityRoutineEmulationCall extends CBaseActionEntity
 {
 
 	/* (non-Javadoc)
@@ -47,11 +50,10 @@ public abstract class CEntityRoutineEmulationCall extends CBaseActionEntity
 	/**
 	 * @param line
 	 * @param cat
-	 * @param out
 	 */
-	public CEntityRoutineEmulationCall(int line, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntityRoutineEmulationCall(int line, CObjectCatalog cat)
 	{
-		super(line, cat, out);
+		super(line, cat);
 	}
 
 	protected String csDisplay = "" ;
@@ -68,5 +70,20 @@ public abstract class CEntityRoutineEmulationCall extends CBaseActionEntity
 	public void AddParameter(CDataEntity e)
 	{
 		parameters.add(e) ;
+	}
+	public String getRoutineName() {
+		return csDisplay;
+	}
+	public boolean isDynamicAllocation() {
+		return "tools.dynamicAllocation".equals(csDisplay);
+	}
+	public List<CDataEntity> getEmulationParameters() {
+		List<CDataEntity> result = new ArrayList<>();
+		for (CDataEntity e : parameters) {
+			if (e != null && !e.ignore()) {
+				result.add(e);
+			}
+		}
+		return result;
 	}
 }

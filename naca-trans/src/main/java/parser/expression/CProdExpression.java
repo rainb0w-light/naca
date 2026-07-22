@@ -43,8 +43,8 @@ public class CProdExpression extends CExpression
 	public CProdExpression(int line, CExpression op1, CExpression op2, CProdType t)
 	{
 		super(line) ;
-		op1 = op1 ;
-		op2 = op2 ;
+		this.op1 = op1 ;
+		this.op2 = op2 ;
 		type = t ;
 	}
 	protected CExpression op1 = null ;

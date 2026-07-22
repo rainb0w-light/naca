@@ -12,7 +12,6 @@
  */
 package semantic.expression;
 
-import generate.CBaseLanguageExporter;
 import semantic.CDataEntity;
 import utils.CObjectCatalog;
 
@@ -24,8 +23,8 @@ import utils.CObjectCatalog;
  */
 public abstract class CEntityLengthOf extends CBaseEntityFunction
 {
-	public CEntityLengthOf(CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity data)
+	public CEntityLengthOf(CObjectCatalog cat, CDataEntity data)
 	{
-		super(cat, out, data);
+		super(cat, data);
 	}
 }

@@ -28,7 +28,8 @@ public class CJavaSQLDeleteStatement extends CEntitySQLDeleteStatement
 {
 	public CJavaSQLDeleteStatement(int line, CObjectCatalog cat, CBaseLanguageExporter out, String csStatement, Vector<CDataEntity> arrParameters)
 	{
-		super(line, cat, out, csStatement, arrParameters);
+		super(line, cat, csStatement, arrParameters);
+		setLanguageExporter(out);
 	}
 	
 	protected void DoExport()

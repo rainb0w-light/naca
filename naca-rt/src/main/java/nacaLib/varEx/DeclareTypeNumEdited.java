@@ -74,7 +74,13 @@ public class DeclareTypeNumEdited extends DeclareTypeBase
 		initialValue = new CInitialValue(n, false);
 		return this;
 	}
-	
+
+	public DeclareTypeNumEdited value(String cs)
+	{
+		initialValue = new CInitialValue(cs, false);
+		return this;
+	}
+
 	public CInitialValue getInitialValue()
 	{
 		return initialValue;

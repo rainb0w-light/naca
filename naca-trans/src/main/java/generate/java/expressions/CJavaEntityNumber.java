@@ -33,7 +33,8 @@ public class CJavaEntityNumber extends CEntityNumber
 	 */
 	public CJavaEntityNumber(CObjectCatalog cat, CBaseLanguageExporter out, String number)
 	{
-		super(cat, out, number);
+		super(cat, number);
+		setLanguageExporter(out);
 	}
 	public String ExportReference(int nLine)
 	{

@@ -15,7 +15,8 @@ public class CJavaAccept extends CEntityAccept
 
 	public CJavaAccept(int line, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
-		super(line, cat, out);
+		super(line, cat);
+		setLanguageExporter(out);
 	}
 
 	@Override

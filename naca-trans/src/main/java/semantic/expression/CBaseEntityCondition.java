@@ -73,6 +73,10 @@ public abstract class CBaseEntityCondition extends CBaseEntityCondExpr
 
 	public abstract CBaseEntityCondition GetSpecialConditionReplacing(String val, CBaseEntityFactory fact, CDataEntity replace) ;
 	public abstract CDataEntity GetConditionReference() ;
+	public CDataEntity getConditionReference()
+	{
+		return GetConditionReference();
+	}
 	public abstract void SetConditonReference(CDataEntity e) ;
 
 }

@@ -33,7 +33,8 @@ public class CJavaRoutineEmulationCall extends CEntityRoutineEmulationCall
 	 */
 	public CJavaRoutineEmulationCall(int line, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
-		super(line, cat, out);
+		super(line, cat);
+		setLanguageExporter(out);
 	}
 
 	/* (non-Javadoc)

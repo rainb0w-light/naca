@@ -12,7 +12,6 @@
  */
 package semantic.SQL;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import utils.CObjectCatalog;
 
@@ -28,11 +27,10 @@ public abstract class CEntitySQLCommit extends CBaseActionEntity
 	/**
 	 * @param line
 	 * @param cat
-	 * @param out
 	 */
-	public CEntitySQLCommit(int line, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntitySQLCommit(int line, CObjectCatalog cat)
 	{
-		super(line, cat, out);
+		super(line, cat);
 	}
 	public boolean ignore()
 	{

@@ -12,7 +12,6 @@
  */
 package semantic.expression;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseDataReference;
 import semantic.CDataEntity;
 import utils.CObjectCatalog;
@@ -32,9 +31,9 @@ public abstract class CBaseEntityFunction extends CBaseDataReference
 		reference = null ;
 	}
 	
-	public CBaseEntityFunction(CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity data)
+	public CBaseEntityFunction(CObjectCatalog cat, CDataEntity data)
 	{
-		super(0, "", cat, out);
+		super(0, "", cat);
 		reference = data ;
 	}
 	public CDataEntityType GetDataType()

@@ -25,7 +25,8 @@ public class CFPacJavaComment extends CEntityComment
 	 */
 	public CFPacJavaComment(int l, CObjectCatalog cat, CBaseLanguageExporter out, String comment)
 	{
-		super(l, cat, out, comment);
+		super(l, cat, comment);
+		setLanguageExporter(out);
 	}
 
 	/**

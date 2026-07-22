@@ -12,7 +12,6 @@
  */
 package semantic.forms;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import semantic.CDataEntity;
 import utils.CObjectCatalog;
@@ -29,11 +28,10 @@ public abstract class CEntitySetFlag extends CBaseActionEntity
 	/**
 	 * @param line
 	 * @param cat
-	 * @param out
 	 */
-	public CEntitySetFlag(int line, CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity field)
+	public CEntitySetFlag(int line, CObjectCatalog cat, CDataEntity field)
 	{
-		super(line, cat, out);
+		super(line, cat);
 		refField = field ;
 	}
 	

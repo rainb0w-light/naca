@@ -32,7 +32,8 @@ public class CJavaSubtractTo extends CEntitySubtractTo
 	 */
 	public CJavaSubtractTo(int line, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
-		super(line, cat, out);
+		super(line, cat);
+		setLanguageExporter(out);
 	}
 	protected void DoExport()
 	{

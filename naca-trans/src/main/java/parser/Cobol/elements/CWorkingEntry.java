@@ -143,7 +143,7 @@ public class CWorkingEntry extends CCobolElement
 				CGlobalEntityCounter.GetInstance().CountCobolVerb("WORKING_ENTRY") ;
 			} 
 			formalLevel = tokEntry.GetValue() ;
-			CBaseToken tokName = GetNext(); // consume PIC LEVEL
+			CBaseToken tokName = GetNext(); // consume NAME
 			if (tokName.IsKeyword() && tokName.GetKeyword()==CCobolKeywordList.FILLER)
 			{
 				name = "" ;
@@ -537,17 +537,26 @@ public class CWorkingEntry extends CCobolElement
 			}
 			else if (tok.GetType() == CTokenType.KEYWORD)
 			{
-				isdone = true ;
+				// PIC type characters like X, 9, S, V, Z, B are keywords but valid in PIC type
+				String val = tok.GetValue();
+				if (val != null && val.length() == 1 && "X9SVZBAPN*/".indexOf(val.charAt(0)) >= 0)
+				{
+					cs += val ;
+				}
+				else
+				{
+					isdone = true ;
+				}
 			}
 			else
 			{
 				Transcoder.logError(getLine(), "Unexpecting token in PIC type : " + tok.GetValue());
-				return "" ; 
+				return "" ;
 			}
 			if (!isdone)
 			{
 				GetNext() ;
-			}		
+			}
 		}
 		return cs ;
 	}
@@ -901,9 +910,10 @@ public class CWorkingEntry extends CCobolElement
 	 * @see parser.CBaseElement#DoCustomSemanticAnalysis(semantic.CBaseSemanticEntity, semantic.CBaseSemanticEntityFactory)
 	 */
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		CEntityAttribute eAtt = null ;
-		if (entryType == CWorkingEntryType.STRUCTURE)
+	{CEntityAttribute eAtt = null ;
+		// A PIC entry is normally a leaf attribute. A PIC entry with REDEFINES must
+		// retain structure semantics so its declaration shares the target buffer.
+		if (entryType == CWorkingEntryType.STRUCTURE && (type == null || redefines != null))
 		{
 			CEntityStructure eStruct = null ;
 			if (occurs != null)
@@ -975,16 +985,33 @@ public class CWorkingEntry extends CCobolElement
 			eAtt = factory.NewEntityAttribute(getLine(), name) ;
 			factory.programCatalog.RegisterAttribute(eAtt) ;
 		}
+		else if (entryType == CWorkingEntryType.STRUCTURE && type != null)
+		{
+			eAtt = factory.NewEntityAttribute(getLine(), name) ;
+			factory.programCatalog.RegisterAttribute(eAtt) ;
+		}
 		
+		if (eAtt == null)
+		{
+			Transcoder.logError(getLine(), "Cannot create semantic entity for entry: " + name);
+			return null ;
+		}
+		
+		eAtt.SetLevel(formalLevel) ;
+
 		eAtt.SetSignSeparateType(issignSeparateType) ;
 		eAtt.SetJustifiedRight(isjustifiedRight) ;
 		eAtt.SetBlankWhenZero(isblankWhenZero) ;
-		SetType(eAtt) ;
+		if (type != null)
+		{
+			SetType(eAtt) ;
+		}
 		eAtt.SetSync(sync) ;
 		if (parent!=null)
 		{
 			CBaseLanguageEntity par = parent.FindLastEntityAvailableForLevel(eAtt.GetInternalLevel()) ;
-			if (par != null && par != parent)
+			// Only structures can receive nested entries; variables cannot own children.
+			if (par != null && par != parent && par.canOwnTableSize())
 			{
 				par.AddChild(eAtt) ;
 			}
@@ -1034,6 +1061,12 @@ public class CWorkingEntry extends CCobolElement
 			}
 		}
 		eAtt.SetComp(comp) ;
+
+		if (eAtt != null && name != null && !name.isEmpty())
+		{
+			factory.programCatalog.RegisterDataEntity(name, eAtt);
+		}
+
 		return eAtt;
 		
 	}

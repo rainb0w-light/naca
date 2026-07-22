@@ -31,7 +31,8 @@ public class CJavaSQLCursorSection extends CEntitySQLCursorSection
 	 */
 	public CJavaSQLCursorSection(CObjectCatalog cat, CBaseLanguageExporter out)
 	{
-		super(cat, out);
+		super(cat);
+		setLanguageExporter(out);
 	}
 
 	protected void DoExport()

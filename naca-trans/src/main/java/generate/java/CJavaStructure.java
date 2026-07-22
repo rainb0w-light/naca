@@ -34,24 +34,23 @@ public class CJavaStructure extends CEntityStructure
 	 */
 	public CJavaStructure(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out, String level)
 	{
-		super(l, name, cat, out, level);
+		super(l, name, cat, level);
+		setLanguageExporter(out);
 	}
 	protected void DoExport()
 	{
-		if (isblankWhenZero && type.equals("pic9"))
+		String declaredType = getDeclaredType();
+		String declaredFormat = getDeclaredFormat();
+		int declaredLength = getDeclaredLength();
+		String identifier = GetDisplayName();
+		if (identifier.equals(""))
+			identifier = GetName();
+		if (identifier.equals("") && isfiller)
 		{
-			type = "pic";
-			format = "";
-			for (int i=0; i < length; i++)
-				format += "9";
-			if (decimals>0)
-			{
-				format += ".";
-				for (int i=0; i < decimals; i++)
-					format += "9";
-			}
+			identifier = GetDefaultName();
+			SetName(identifier);
 		}
-		String line = "Var " + FormatIdentifier(GetDisplayName()) + " = declare.level(" + Integer.parseInt(csLevel) + ")" ;
+		String line = "Var " + FormatIdentifier(identifier) + " = declare.level(" + Integer.parseInt(csLevel) + ")" ;
 		if (refRedefine != null)
 		{
 			line += ".redefines(" + refRedefine.ExportReference(getLine()) + ")" ;
@@ -65,20 +64,19 @@ public class CJavaStructure extends CEntityStructure
 			}
 			else if (isisVariableLenght)
 			{
-				line += ".variableLength()" ; 
-				length = length * getTableSizeAsInt() ;
+				line += ".variableLength()" ;
 			}
 			else
 			{
 				line += ".occurs(" + tableSize.ExportReference(getLine()) + ")" ;
 			}
 		}
-		if (!type.equals(""))
+		if (!declaredType.equals(""))
 		{
-			line += "." + type + "(" ;
-			if (format.equals(""))
+			line += "." + declaredType + "(" ;
+			if (declaredFormat.equals(""))
 			{
-				line += length ;
+				line += declaredLength ;
 				if (decimals > 0)
 				{
 					line += "," + decimals ;
@@ -86,7 +84,7 @@ public class CJavaStructure extends CEntityStructure
 			}
 			else
 			{
-				line += "\"" + format + "\"" ;
+				line += "\"" + declaredFormat + "\"" ;
 			}
 			line += ")" ;
 		}
@@ -170,9 +168,17 @@ public class CJavaStructure extends CEntityStructure
 		}
 		WriteEOL() ;
 		StartOutputBloc() ;
-		ExportChildren();
+		if (isInsideExternalDataStructure() || isInsideFileSection())
+		{
+			ExportAllChildren();
+		}
+		else
+		{
+			ExportChildren();
+		}
 		EndOutputBloc() ;
 	}
+
 	/* (non-Javadoc)
 	 * @see semantic.CBaseDataEntity#ExportReference(semantic.CBaseExporter)
 	 */

@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 3 août 2004
+ * Created on 3 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -37,11 +37,10 @@ public abstract class CEntityInline extends CBaseActionEntity
 	/**
 	 * @param name
 	 * @param cat
-	 * @param out
 	 */
-	public CEntityInline(int l, CObjectCatalog cat, CBaseLanguageExporter out, CBaseExternalEntity e)
+	public CEntityInline(int l, CObjectCatalog cat, CBaseExternalEntity e)
 	{
-		super(l, cat, out);
+		super(l, cat);
 		externalData = e ;
 		externalData.RegisterInlineAction(this) ;
 		e.SetParent(this);
@@ -99,6 +98,10 @@ public abstract class CEntityInline extends CBaseActionEntity
 		}
 		ReplaceParentForChild(e, externalData) ;  // child of INLINE entity must have the external data as parent for name
 													// confict resolution, but must be child of INLINE to be exported
+		if (!externalData.GetListOfChildren().contains(e))
+		{
+			externalData.AddChildSpecial(e);
+		}
 	}
 	public CBaseLanguageEntity FindLastEntityAvailableForLevel(int level)
 	{
@@ -156,5 +159,31 @@ public abstract class CEntityInline extends CBaseActionEntity
 	public CBaseExternalEntity getExternalEntity()
 	{
 		return externalData ;
+	}
+
+	/**
+	 * The copybook Java type name used for the in-class instance declaration
+	 * ({@code <Type> ref = <Type>.Copy(this)}); target-neutral copybook class
+	 * name as resolved during semantic analysis.
+	 */
+	public String getCopyType()
+	{
+		return externalData.GetTypeDecl();
+	}
+
+	/** Whether the COPY carries a REPLACING clause (replace level present). */
+	public boolean isReplacing()
+	{
+		return externalData.GetReplaceItem() != 0;
+	}
+
+	public int getReplaceItem()
+	{
+		return externalData.GetReplaceItem();
+	}
+
+	public int getReplaceValue()
+	{
+		return externalData.GetReplaceValue();
 	}
 }

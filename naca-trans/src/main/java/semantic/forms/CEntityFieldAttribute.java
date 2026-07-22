@@ -37,13 +37,12 @@ public abstract class CEntityFieldAttribute extends CBaseEntityFieldAttribute
 	 * @param l
 	 * @param name
 	 * @param cat
-	 * @param out
 	 * @param type
 	 * @param owner
 	 */
-	public CEntityFieldAttribute(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity owner)
+	public CEntityFieldAttribute(int l, String name, CObjectCatalog cat, CDataEntity owner)
 	{
-		super(l, name, cat, out, CEntityFieldAttributeType.ATTRIBUTE, owner);
+		super(l, name, cat, CEntityFieldAttributeType.ATTRIBUTE, owner);
 	}
 	/* (non-Javadoc)
 	 * @see semantic.CBaseDataEntity#GetSpecialAssignment(parser.expression.CTerminal)

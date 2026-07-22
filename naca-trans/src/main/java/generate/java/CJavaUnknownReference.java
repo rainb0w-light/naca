@@ -26,12 +26,13 @@ public class CJavaUnknownReference extends CEntityUnknownReference
 {
 	public CJavaUnknownReference(int nLine, String csName, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
-		super(nLine, csName, cat, out);
+		super(nLine, csName, cat);
+		setLanguageExporter(out);
 	}
 
 	public String ExportReference(int nLine)
 	{
-		return "[UnknownObject]";
+		return null;
 	}
 	public boolean HasAccessors()
 	{

@@ -6,7 +6,6 @@
  */
 package semantic.SQL;
 
-import generate.CBaseLanguageExporter;
 
 import java.util.Vector;
 
@@ -17,9 +16,9 @@ import java.util.ArrayList;
 
 public abstract class CEntitySQLInsertStatement extends CBaseActionEntity
 {
-	public CEntitySQLInsertStatement(int line, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntitySQLInsertStatement(int line, CObjectCatalog cat)
 	{
-		super(line, cat, out);
+		super(line, cat);
 	}
 	
 	public void SetInsert(CEntitySQLDeclareTable table, Vector arrVal)

@@ -33,7 +33,8 @@ public class CJavaCallProgram extends CEntityCallProgram
 	 */
 	public CJavaCallProgram(int l, CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity ref)
 	{
-		super(l, cat, out, ref);
+		super(l, cat, ref);
+		setLanguageExporter(out);
 	}
 
 	/* (non-Javadoc)

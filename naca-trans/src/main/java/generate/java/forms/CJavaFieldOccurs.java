@@ -31,7 +31,8 @@ public class CJavaFieldOccurs extends CEntityFieldOccurs
 {
 	public CJavaFieldOccurs(int l, String name, CObjectCatalog cat, CBaseLanguageExporter lexp)
 	{
-		super(l, name, cat, lexp);
+		super(l, name, cat);
+		setLanguageExporter(lexp);
 	}
 
 	public Element DoXMLExport(Document doc, CResourceStrings res)

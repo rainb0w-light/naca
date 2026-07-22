@@ -15,10 +15,8 @@ package generate;
 import generate.java.CJavaAddressReference;
 import generate.java.CJavaArrayReference;
 import generate.java.CJavaAttribute;
-import generate.java.CJavaBloc;
 import generate.java.CJavaClass;
 import generate.java.CJavaComment;
-import generate.java.CJavaCondition;
 import generate.java.CJavaDataSection;
 import generate.java.CJavaEnvironmentVariable;
 import generate.java.CJavaExternalDataStructure;
@@ -105,6 +103,7 @@ import generate.java.expressions.CJavaExprProd;
 import generate.java.expressions.CJavaExprSum;
 import generate.java.expressions.CJavaExprTerminal;
 import generate.java.expressions.CJavaInternalBool;
+import generate.java.expressions.CJavaIntrinsicFunction;
 import generate.java.expressions.CJavaIsNamedCondition;
 import generate.java.expressions.CJavaLengthOf;
 import generate.java.expressions.CJavaList;
@@ -143,16 +142,12 @@ import generate.java.forms.CJavaSetFlag;
 import generate.java.forms.CJavaSetHighlight;
 import generate.java.forms.CJavaSkipField;
 import generate.java.verbs.CJavaAccept;
-import generate.java.verbs.CJavaAddTo;
 import generate.java.verbs.CJavaAssign;
 import generate.java.verbs.CJavaAssignWithAccessor;
-import generate.java.verbs.CJavaBreak;
 import generate.java.verbs.CJavaCalcul;
 import generate.java.verbs.CJavaCallFunction;
 import generate.java.verbs.CJavaCallProgram;
-import generate.java.verbs.CJavaCase;
 import generate.java.verbs.CJavaCloseFile;
-import generate.java.verbs.CJavaContinue;
 import generate.java.verbs.CJavaCount;
 import generate.java.verbs.CJavaDisplay;
 import generate.java.verbs.CJavaDivide;
@@ -161,8 +156,6 @@ import generate.java.verbs.CJavaGoto;
 import generate.java.verbs.CJavaGotoDepending;
 import generate.java.verbs.CJavaInitialize;
 import generate.java.verbs.CJavaInspectConverting;
-import generate.java.verbs.CJavaLoopIter;
-import generate.java.verbs.CJavaLoopWhile;
 import generate.java.verbs.CJavaMultiply;
 import generate.java.verbs.CJavaNextSentence;
 import generate.java.verbs.CJavaOpenFile;
@@ -179,7 +172,6 @@ import generate.java.verbs.CJavaSortRelease;
 import generate.java.verbs.CJavaSortReturn;
 import generate.java.verbs.CJavaStringConcat;
 import generate.java.verbs.CJavaSubtractTo;
-import generate.java.verbs.CJavaSwitchCase;
 import generate.java.verbs.CJavaWriteFile;
 
 import java.util.ArrayList;
@@ -329,6 +321,7 @@ import semantic.expression.CEntityExprSum;
 import semantic.expression.CEntityExprTerminal;
 import semantic.expression.CEntityFunctionCall;
 import semantic.expression.CEntityInternalBool;
+import semantic.expression.CEntityIntrinsicFunction;
 import semantic.expression.CEntityIsFileEOF;
 import semantic.expression.CEntityIsNamedCondition;
 import semantic.expression.CEntityLengthOf;
@@ -478,10 +471,10 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CJavaInline(l, programCatalog, langOutput, ext);
 	}
 	public CEntityCondition NewEntityCondition(int l)	{
-		return new CJavaCondition(l, programCatalog, langOutput);
+		return new CEntityCondition(l, programCatalog);
 	}
 	public CEntityBloc NewEntityBloc(int l)	{
-		return new CJavaBloc(l, programCatalog, langOutput);
+		return new CEntityBloc(l, programCatalog);
 	}
 	public CEntityCalcul NewEntityCalcul(int l)	{
 		return new CJavaCalcul(l, programCatalog, langOutput);
@@ -517,10 +510,10 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CJavaCallProgram(l, programCatalog, langOutput, reference);
 	}
 	public CEntitySwitchCase NewEntitySwitchCase(int l)	{
-		return new CJavaSwitchCase(l, programCatalog, langOutput) ;
+		return new CEntitySwitchCase(l, programCatalog) ;
 	}
 	public CEntityCase NewEntityCase(int l, int endline)	{
-		return new CJavaCase(l, programCatalog, langOutput, endline);
+		return new CEntityCase(l, programCatalog, endline);
 	}
 	public CSubStringAttributReference NewEntitySubString(int l)	{
 		return new CJavaSubStringReference(l, programCatalog, langOutput);
@@ -535,16 +528,16 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CJavaGotoDepending(l, programCatalog, langOutput, refs, dep, section) ;
 	}
 	public CEntityLoopWhile NewEntityLoopWhile(int l)	{
-		return new CJavaLoopWhile(l, programCatalog, langOutput);
+		return new CEntityLoopWhile(l, programCatalog);
 	}
 	public CEntityLoopIter NewEntityLoopIter(int l)	{
-		return new CJavaLoopIter(l, programCatalog, langOutput);
+		return new CEntityLoopIter(l, programCatalog);
 	}
 	public CEntityAddTo NewEntityAddTo(int l)	{
-		return new CJavaAddTo(l, programCatalog, langOutput);
+		return new CEntityAddTo(l, programCatalog);
 	}
 	public CEntityContinue NewEntityContinue(int l)	{
-		return new CJavaContinue(l, programCatalog, langOutput);
+		return new CEntityContinue(l, programCatalog);
 	}
 	public CEntityNextSentence NewEntityNextSentence(int l)	{
 		return new CJavaNextSentence(l, programCatalog, langOutput);
@@ -737,6 +730,9 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 	}
 	public CEntityCurrentDate NewEntityCurrentDate()	{
 		return new CJavaCurrentDate(programCatalog, langOutput);
+	}
+	public CEntityIntrinsicFunction NewEntityIntrinsicFunction(String functionName, List<CBaseEntityExpression> arguments)	{
+		return new CJavaIntrinsicFunction(programCatalog, langOutput, functionName, arguments);
 	}
 	public CEntityAddressOf NewEntityAddressOf(CDataEntity data)	{
 		return new CJavaAddressOf(programCatalog, langOutput, data);
@@ -937,7 +933,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CJavaInternalBool(name, programCatalog, langOutput) ;
 	}
 	public CEntityBreak NewEntityBreak(int line)	{
-		return new CJavaBreak(line, programCatalog, langOutput) ;
+		return new CEntityBreak(line, programCatalog) ;
 	}
 	public CEntityFileDescriptor NewEntityFileDescriptor(int line, String name) {
 		return new CJavaFileDescriptor(line, name, programCatalog, langOutput) ;
@@ -997,7 +993,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 	public CEntityInc NewEntityInc(int line)	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		return new CEntityInc(line, programCatalog) ;
 	}
 	public CEntityConvertReference NewEntityConvert(int line)	{
 		throw new NacaTransAssertException("Method not implemented") ;

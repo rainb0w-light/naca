@@ -11,7 +11,6 @@
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 package semantic.SQL;
-import generate.CBaseLanguageExporter;
 
 import java.util.ArrayList;
 
@@ -29,9 +28,9 @@ import utils.CObjectCatalog;
 
 public abstract class CEntitySQLDeclareTable extends CBaseActionEntity
 {
-	public CEntitySQLDeclareTable(int line, CObjectCatalog cat, CBaseLanguageExporter out, String csTableName, String csViewName, ArrayList arrTableColDescription)
+	public CEntitySQLDeclareTable(int line, CObjectCatalog cat, String csTableName, String csViewName, ArrayList arrTableColDescription)
 	{
-		super(line, cat, out);
+		super(line, cat);
 		csViewName = csViewName ;
 		csTableName = csTableName;
 		if (csTableName == null)

@@ -15,7 +15,8 @@ public class CJavaCloseFile extends CEntityCloseFile
 
 	public CJavaCloseFile(int line, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
-		super(line, cat, out);
+		super(line, cat);
+		setLanguageExporter(out);
 	}
 
 	@Override

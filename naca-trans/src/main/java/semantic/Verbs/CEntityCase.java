@@ -5,14 +5,13 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 5 août 2004
+ * Created on 5 aoÃ»t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 package semantic.Verbs;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import semantic.CDataEntity;
 import semantic.expression.CBaseEntityCondition;
@@ -24,16 +23,16 @@ import utils.*;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityCase extends CBaseActionEntity
+public class CEntityCase extends CBaseActionEntity
 {
 
 	/**
 	 * @param cat
 	 * @param out
 	 */
-	public CEntityCase(int l, CObjectCatalog cat, CBaseLanguageExporter out, int nEndLine)
+	public CEntityCase(int l, CObjectCatalog cat, int nEndLine)
 	{
-		super(l, cat, out);
+		super(l, cat);
 		nEndBlocLine = nEndLine ;
 	}
 	public void SetCondition(CBaseEntityCondition exp)
@@ -44,6 +43,16 @@ public abstract class CEntityCase extends CBaseActionEntity
 	
 	protected CBaseEntityCondition condition = null  ; 
 	protected int nEndBlocLine = 0 ;
+
+	public CBaseEntityCondition getCondition()
+	{
+		return condition;
+	}
+
+	public boolean isOtherwise()
+	{
+		return condition == null;
+	}
 	public void Clear()
 	{
 		super.Clear() ;

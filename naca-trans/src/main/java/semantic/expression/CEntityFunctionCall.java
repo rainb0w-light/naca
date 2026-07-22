@@ -6,7 +6,6 @@
  */
 package semantic.expression;
 
-import generate.CBaseLanguageExporter;
 
 import java.util.Vector;
 
@@ -17,9 +16,9 @@ import utils.CObjectCatalog;
 
 public abstract class CEntityFunctionCall extends CBaseEntityFunction
 {
-	public CEntityFunctionCall(CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity data)
+	public CEntityFunctionCall(CObjectCatalog cat, CDataEntity data)
 	{
-		super(cat, out, data);
+		super(cat, data);
 	}
 	protected String csFunction = "" ;
 	protected Vector<CDataEntity> parameters = new Vector<CDataEntity>() ;

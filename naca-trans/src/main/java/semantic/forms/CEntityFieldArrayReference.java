@@ -12,7 +12,6 @@
  */
 package semantic.forms;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseEntityFactory;
 import semantic.CDataEntity;
 import semantic.CEntityArrayReference;
@@ -32,11 +31,10 @@ public abstract class CEntityFieldArrayReference extends CEntityArrayReference
 	/**
 	 * @param l
 	 * @param cat
-	 * @param out
 	 */
-	public CEntityFieldArrayReference(int l, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntityFieldArrayReference(int l, CObjectCatalog cat)
 	{
-		super(l, cat, out);
+		super(l, cat);
 	}
 	public CBaseEntityCondition GetSpecialCondition(int nLine, String value, CBaseEntityCondition.EConditionType type, CBaseEntityFactory factory)
 	{

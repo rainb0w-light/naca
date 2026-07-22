@@ -32,7 +32,8 @@ public class CJavaSQLSingleStatement extends CEntitySQLSingleStatement
 	 */
 	public CJavaSQLSingleStatement(int line, CObjectCatalog cat, CBaseLanguageExporter out, String st)
 	{
-		super(line, cat, out, st);
+		super(line, cat, st);
+		setLanguageExporter(out);
 	}
 	/* (non-Javadoc)
 	 * @see semantic.CBaseLanguageEntity#DoExport()

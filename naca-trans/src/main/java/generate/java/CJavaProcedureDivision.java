@@ -32,7 +32,8 @@ public class CJavaProcedureDivision extends CEntityProcedureDivision
 	 */
 	public CJavaProcedureDivision(int line, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
-		super(line, cat, out);
+		super(line, cat);
+		setLanguageExporter(out);
 	}
 
 	protected void DoExport()

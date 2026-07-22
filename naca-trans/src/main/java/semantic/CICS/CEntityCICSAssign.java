@@ -17,7 +17,6 @@ import java.util.Vector;
 import java.util.ArrayList;
 
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import semantic.CDataEntity;
 import utils.CObjectCatalog;
@@ -35,11 +34,10 @@ public abstract class CEntityCICSAssign extends CBaseActionEntity
 	/**
 	 * @param line
 	 * @param cat
-	 * @param out
 	 */
-	public CEntityCICSAssign(int line, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntityCICSAssign(int line, CObjectCatalog cat)
 	{
-		super(line, cat, out);
+		super(line, cat);
 		cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
 	}
 	

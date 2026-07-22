@@ -6,7 +6,6 @@
  */
 package semantic.Verbs;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import semantic.CDataEntity;
 import utils.CObjectCatalog;
@@ -23,11 +22,10 @@ public abstract class CEntityAssignSpecial extends CBaseActionEntity
 	/**
 	 * @param line
 	 * @param cat
-	 * @param out
 	 */
-	public CEntityAssignSpecial(int line, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntityAssignSpecial(int line, CObjectCatalog cat)
 	{
-		super(line, cat, out);
+		super(line, cat);
 	}
 	/**
 	 * @param source The source to set.

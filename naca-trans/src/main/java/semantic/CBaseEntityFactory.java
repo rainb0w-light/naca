@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 2 août 2004
+ * Created on 2 aoÃ»t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -52,19 +52,19 @@ public abstract class CBaseEntityFactory
 	public abstract CEntityIsFieldCursor NewEntityIsFieldCursor() ;
 	public CEntityNoAction NewEntityNoAction(int l)
 	{
-		return new CEntityNoAction(l, programCatalog, langOutput); 
+		return new CEntityNoAction(l, programCatalog);
 	}
 	public CIgnoreExternalEntity NewIgnoreExternalEntity(String name)
 	{
-		return new CIgnoreExternalEntity(0, name, programCatalog, langOutput); 
+		return new CIgnoreExternalEntity(0, name, programCatalog);
 	}
 	public CIgnoredEntity NewIgnoreEntity(String name) 
 	{
-		return new CIgnoredEntity(0, name, programCatalog, langOutput); 
+		return new CIgnoredEntity(0, name, programCatalog);
 	};
 	public CIgnoredEntity NewIgnoreEntity(int l, String name) 
 	{
-		return new CIgnoredEntity(l, name, programCatalog, langOutput); 
+		return new CIgnoredEntity(l, name, programCatalog);
 	};
 	public abstract CEntityResetKeyPressed NewEntityResetKeyPressed(int l) ;
 	public abstract CEntityCICSGetMain NewEntityCICSGetMain(int l) ;
@@ -106,6 +106,7 @@ public abstract class CBaseEntityFactory
 	public abstract CEntityCICSHandleCondition NewEntityCICSHandleCondition(int line) ;
 	public abstract CEntityCICSHandleAID NewEntityCICSHandleAID(int line) ;
 	public abstract CEntityCurrentDate NewEntityCurrentDate() ;
+	public abstract CEntityIntrinsicFunction NewEntityIntrinsicFunction(String functionName, List<CBaseEntityExpression> arguments) ;
 	public abstract CEntityAddressOf NewEntityAddressOf(CDataEntity data) ;
 	public abstract CEntityLengthOf NewEntityLengthOf(CDataEntity data) ;
 	public abstract CEntityCICSXctl NewEntityCICSXctl(int l) ;
@@ -243,7 +244,7 @@ public abstract class CBaseEntityFactory
 	public abstract CEntityFileDescriptor NewEntityFileDescriptor(int line, String name) ;
 	public abstract CEntitySortedFileDescriptor NewEntitySortedFileDescriptor(int line, String name) ;
 	public CEntityFileSelect NewEntityFileSelect(String ref) {
-		return new CEntityFileSelect(ref, programCatalog, langOutput);
+		return new CEntityFileSelect(ref, programCatalog);
 	}
 	public abstract CEntityOpenFile NewEntityOpenFile(int line) ;
 	public abstract CEntityCloseFile NewEntityCloseFile(int line) ;
@@ -254,17 +255,17 @@ public abstract class CBaseEntityFactory
 	public abstract CEntitySortRelease NewEntitySortRelease(int line);
 	public abstract CEntitySortReturn NewEntitySortReturn(int line) ;
 	public CEntityValueReference NewEntityValueReference(CDataEntity dep)	{
-		return new CEntityValueReference(programCatalog, langOutput, dep);
+		return new CEntityValueReference(programCatalog, dep);
 	}
 	public abstract CEntityRewriteFile NewEntityRewriteFile(int line) ;
 
 	public CEntityFieldAttributeReference NewEntityFieldAttributeReference(CDataEntity field)
 	{
-		return new CEntityFieldAttributeReference(programCatalog, langOutput, field);
+		return new CEntityFieldAttributeReference(programCatalog, field);
 	}
 
 	public CEntityFileBuffer NewEntityFileBuffer(String name, CEntityFileDescriptor att)	{
-		return new CEntityFileBuffer(name, att, programCatalog,langOutput) ;
+		return new CEntityFileBuffer(name, att, programCatalog) ;
 	}
 
 	public abstract CEntityAddress NewEntityAddress(String csAddresse) ;

@@ -33,7 +33,8 @@ public class CJavaAssign extends CEntityAssign
 	 */
 	public CJavaAssign(int l, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
-		super(l, cat, out);
+		super(l, cat);
+		setLanguageExporter(out);
 	}
 	
 	protected void DoExport()

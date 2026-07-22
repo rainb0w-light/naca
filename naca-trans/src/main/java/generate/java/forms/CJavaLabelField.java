@@ -37,7 +37,8 @@ public class CJavaLabelField extends CEntityResourceField
 	 */
 	public CJavaLabelField(int l, CObjectCatalog cat, CBaseLanguageExporter lexp)
 	{
-		super(l, "", cat, lexp);
+		super(l, "", cat);
+		setLanguageExporter(lexp);
 	}
 	public boolean IsEntryField()
 	{

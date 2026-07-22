@@ -13,7 +13,6 @@
 package semantic.SQL;
 import java.util.Vector;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import semantic.CDataEntity;
 import utils.CObjectCatalog;
@@ -26,9 +25,9 @@ import utils.CObjectCatalog;
  */
 public abstract class CEntitySQLCursorSelectStatement extends CBaseActionEntity
 {
-	public CEntitySQLCursorSelectStatement(int line, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntitySQLCursorSelectStatement(int line, CObjectCatalog cat)
 	{
-		super(line, cat, out);
+		super(line, cat);
 		
 	}
 	public void SetSelect(String csStatement, Vector<CDataEntity> arrParameters, CEntitySQLCursor cur, int nbCol, boolean bWithHold)

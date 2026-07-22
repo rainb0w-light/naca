@@ -33,7 +33,8 @@ public class CJavaExternalDataStructure extends CEntityExternalDataStructure
 	 */
 	public CJavaExternalDataStructure(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
-		super(l, name, cat, out);
+		super(l, name, cat);
+		setLanguageExporter(out);
 	}
 	/* (non-Javadoc)
 	 * @see semantic.CBaseDataEntity#ExportReference(semantic.CBaseExporter)

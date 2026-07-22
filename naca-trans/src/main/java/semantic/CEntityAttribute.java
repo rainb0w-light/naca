@@ -47,9 +47,30 @@ public abstract class CEntityAttribute extends CGenericDataEntityReference imple
 	 * @param name
 	 * @param cat
 	 */
-	public CEntityAttribute(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntityAttribute(int l, String name, CObjectCatalog cat)
 	{
-		super(l, name, cat, out);
+		super(l, name, cat);
+		if (name.equals(""))
+		{
+			// FILLER: assign the default name during semantic construction so
+			// no backend mutates the tree during generation (mirrors the
+			// existing group-filler behavior, now shared by all attributes).
+			isfiller = true;
+			String defaultName = GetDefaultName();
+			if (!defaultName.equals(""))
+			{
+				SetName(defaultName);
+			}
+		}
+	}
+	protected boolean isfiller = false;
+	public void SetLevel(String level)
+	{
+		csLevel = level;
+	}
+	public String getLevel()
+	{
+		return csLevel;
 	}
 	public void SetComp(String s)
 	{
@@ -58,18 +79,18 @@ public abstract class CEntityAttribute extends CGenericDataEntityReference imple
 	public void SetTypeString(int length) 
 	{
 		type = "picX" ;
-		length = length ;
+		this.length = length ;
 	};
 	public void SetTypeNum(int length, int dec)
 	{
 		type = "pic9" ;
-		length = length ;
+		this.length = length ;
 		decimals = dec ;
 	};
 	public void SetTypeSigned(int length, int dec)
 	{
 		type = "picS9" ;
-		length = length ;
+		this.length = length ;
 		decimals = dec ;
 	};
 	public void SetInitialValueSpaces()
@@ -148,6 +169,7 @@ public abstract class CEntityAttribute extends CGenericDataEntityReference imple
 	protected String format = "" ;
 	protected boolean issync = false ;
 	protected boolean isfillWithValue = false ;
+	protected String csLevel = "77";
 	public void SetSync(boolean b)
 	{
 		issync = b ;
@@ -291,7 +313,7 @@ public abstract class CEntityAttribute extends CGenericDataEntityReference imple
 	}
 	public int GetInternalLevel()
 	{
-		return 1 ;
+		return jlib.misc.NumberParser.getAsInt(csLevel) ;
 	} 
 	public String GetInitialValue()
 	{
@@ -325,7 +347,7 @@ public abstract class CEntityAttribute extends CGenericDataEntityReference imple
 	}
 	public void SetJustifiedRight(boolean bJustifiedRight)
 	{
-		bJustifiedRight = bJustifiedRight ;
+		isjustifiedRight = bJustifiedRight ;
 	}
 	protected boolean isjustifiedRight = false ;
 	
@@ -362,4 +384,154 @@ public abstract class CEntityAttribute extends CGenericDataEntityReference imple
 		return comp;
 	}
 
+	public String getType()
+	{
+		return type;
+	}
+
+	public int getLength()
+	{
+		return length;
+	}
+
+	public int getDecimals()
+	{
+		return decimals;
+	}
+
+	public CDataEntity getValue()
+	{
+		return value;
+	}
+
+	public boolean isComp3()
+	{
+		return "Comp3".equalsIgnoreCase(comp);
+	}
+	public boolean isComp2()
+	{
+		return "Comp2".equalsIgnoreCase(comp);
+	}
+
+	public boolean isComp()
+	{
+		return "Comp".equalsIgnoreCase(comp) || "Comp4".equalsIgnoreCase(comp);
+	}
+	public boolean isBinaryComp()
+	{
+		return isComp();
+	}
+
+	public boolean isFiller()
+	{
+		return isfiller;
+	}
+
+	public CDataEntity getRedefines()
+	{
+		return null;
+	}
+
+	public CDataEntity getOccurs()
+	{
+		return null;
+	}
+
+
+	public boolean isInitialValueIsSpaces() {
+		return isinitialValueIsSpaces;
+	}
+	public boolean isInitialValueIsZeros() {
+		return isinitialValueIsZeros;
+	}
+	public boolean isInitialValueIsLowValue() {
+		return isinitialValueIsLowValue;
+	}
+	public boolean isInitialValueIsHighValue() {
+		return isinitialValueIsHighValue;
+	}
+	public boolean isSync() {
+		return issync;
+	}
+	public boolean isFillWithValue() {
+		return isfillWithValue;
+	}
+	public boolean isJustifiedRight() {
+		return isjustifiedRight;
+	}
+	public boolean isBlankWhenZero() {
+		return isblankWhenZero;
+	}
+	public String getFormat() {
+		return format;
+	}
+	public boolean isEditedPicture() {
+		return !format.isEmpty();
+	}
+	public boolean isPictureSizeSpecified() {
+		return length > 0 || decimals > 0;
+	}
+	public boolean isScaled() {
+		return decimals > 0;
+	}
+
+	/**
+	 * A BLANK WHEN ZERO numeric item (PIC 9) is declared as an edited numeric
+	 * picture. Target-agnostic semantic fact used to pick the declared type.
+	 */
+	public boolean isBlankWhenZeroEditedNumeric() {
+		return isblankWhenZero && "pic9".equals(type);
+	}
+
+	/**
+	 * Effective declared type. A BLANK WHEN ZERO PIC 9 item is emitted as an
+	 * edited numeric picture ("pic") instead of "pic9". Read-only: computes a
+	 * value without mutating the semantic tree, so generating any backend
+	 * leaves the tree unchanged and is idempotent.
+	 */
+	public String getDeclaredType() {
+		return isBlankWhenZeroEditedNumeric() ? "pic" : type;
+	}
+
+	/**
+	 * Effective picture format. For a BLANK WHEN ZERO PIC 9 item this is the
+	 * edited numeric picture built from length/decimals (e.g. "999.99");
+	 * otherwise the original format. Read-only.
+	 */
+	public String getDeclaredFormat() {
+		if (!isBlankWhenZeroEditedNumeric())
+		{
+			return format;
+		}
+		StringBuilder picture = new StringBuilder();
+		for (int i = 0; i < length; i++)
+		{
+			picture.append('9');
+		}
+		if (decimals > 0)
+		{
+			picture.append('.');
+			for (int i = 0; i < decimals; i++)
+			{
+				picture.append('9');
+			}
+		}
+		return picture.toString();
+	}
+
+	public boolean isDeclaredEditedPicture() {
+		return !getDeclaredFormat().isEmpty();
+	}
+
+	public boolean isDeclaredPictureSizeSpecified() {
+		return getDeclaredLength() > 0 || decimals > 0;
+	}
+
+	/**
+	 * Effective declared length. Overridden by structures for variable-length
+	 * (OCCURS DEPENDING) tables; read-only, never mutates the tree.
+	 */
+	public int getDeclaredLength() {
+		return length;
+	}
 }

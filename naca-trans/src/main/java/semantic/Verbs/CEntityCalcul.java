@@ -12,8 +12,9 @@
  */
 package semantic.Verbs;
 
-import generate.CBaseLanguageExporter;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import semantic.CBaseActionEntity;
@@ -28,16 +29,15 @@ import utils.*;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityCalcul extends CBaseActionEntity
+public class CEntityCalcul extends CBaseActionEntity
 {
 
 	/**
 	 * @param cat
-	 * @param out
 	 */
-	public CEntityCalcul(int l, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntityCalcul(int l, CObjectCatalog cat)
 	{
-		super(l, cat, out);
+		super(l, cat);
 	}
 
 	public void SetCalcul(CBaseEntityExpression exp)
@@ -80,6 +80,7 @@ public abstract class CEntityCalcul extends CBaseActionEntity
 	}
 	public boolean ignore()
 	{
+		if (expression == null) return true;
 		boolean ignore = expression.ignore() ;
 		boolean b = true ;
 		for (int i = 0; i< destinations.size(); i++)
@@ -105,5 +106,51 @@ public abstract class CEntityCalcul extends CBaseActionEntity
 			return true ;
 		}
 		return false ;
+	}
+
+	public CBaseEntityExpression getExpression()
+	{
+		return expression;
+	}
+
+	public CBaseLanguageEntity getOnErrorBloc()
+	{
+		return onErrorBloc;
+	}
+
+	public List<CalculationDestination> getCalculationDestinations()
+	{
+		List<CalculationDestination> result = new ArrayList<>();
+		for (CDataEntity destination : destinations)
+		{
+			result.add(new CalculationDestination(destination, false));
+		}
+		for (CDataEntity destination : roundedDestinations)
+		{
+			result.add(new CalculationDestination(destination, true));
+		}
+		return result;
+	}
+
+	public static final class CalculationDestination
+	{
+		private final CDataEntity destination;
+		private final boolean rounded;
+
+		private CalculationDestination(CDataEntity destination, boolean rounded)
+		{
+			this.destination = destination;
+			this.rounded = rounded;
+		}
+
+		public CDataEntity getDestination()
+		{
+			return destination;
+		}
+
+		public boolean isRounded()
+		{
+			return rounded;
+		}
 	}
 }

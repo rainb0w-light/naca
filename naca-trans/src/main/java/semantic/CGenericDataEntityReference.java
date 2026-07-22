@@ -6,7 +6,6 @@
  */
 package semantic;
 
-import generate.CBaseLanguageExporter;
 import utils.CObjectCatalog;
 
 /**
@@ -20,11 +19,10 @@ public abstract class CGenericDataEntityReference extends CDataEntity
 	 * @param l
 	 * @param name
 	 * @param cat
-	 * @param out
 	 */
-	public CGenericDataEntityReference(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CGenericDataEntityReference(int l, String name, CObjectCatalog cat)
 	{
-		super(l, name, cat, out) ;
+		super(l, name, cat) ;
 	}
 
 	public abstract boolean ReplaceVariable(CDataEntity field, CDataEntity var, boolean bRead) ;

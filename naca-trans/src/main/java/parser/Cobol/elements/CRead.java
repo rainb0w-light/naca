@@ -55,6 +55,10 @@ public class CRead extends CCobolElement
 			if (dataInto != null)
 			{
 				eData = dataInto.GetDataReference(getLine(), factory) ;
+				if (eData != null)
+				{
+					eData.RegisterWritingAction(eRead) ;
+				}
 			}
 			eRead.setFileDescriptor(eFD, eData) ;
 			if (atEndBloc != null) 

@@ -5,14 +5,13 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 6 août 2004
+ * Created on 6 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 package semantic.Verbs;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import semantic.CEntityProcedureSection;
 import semantic.CProcedureReference;
@@ -24,26 +23,35 @@ import utils.CObjectCatalog;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityGoto extends CBaseActionEntity
+public class CEntityGoto extends CBaseActionEntity
 {
 
 	/**
 	 * @param line
 	 * @param cat
-	 * @param out
 	 */
-	public CEntityGoto(int line, CObjectCatalog cat, CBaseLanguageExporter out, String ref, CEntityProcedureSection sectionContainer)
+	public CEntityGoto(int line, CObjectCatalog cat, String ref, CEntityProcedureSection sectionContainer)
 	{
-		super(line, cat, out);
+		super(line, cat);
 		String sec= "";
 		if (sectionContainer != null)
 		{
 			sec = sectionContainer.GetName();
-		} 
+		}
 		reference = new CProcedureReference(ref, sec, cat) ;
 		cat.getCallTree().RegisterGoto(this) ;
 	}
-	
+
+	/**
+	 * Target-neutral GO TO target: the referenced procedure's formatted name,
+	 * matching the procedure method declaration rendered by the ST4 templates.
+	 */
+	public String getGoToTarget()
+	{
+		semantic.CEntityProcedure e = reference.getProcedure();
+		return e != null ? e.getFormattedName() : "[UNDEFINED]";
+	}
+
 	protected CProcedureReference reference = null;
 	public void Clear()
 	{

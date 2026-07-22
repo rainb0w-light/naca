@@ -32,7 +32,8 @@ public class CJavaInitialize extends CEntityInitialize
 	 */
 	public CJavaInitialize(int l, CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity data)
 	{
-		super(l, cat, out, data);
+		super(l, cat, data);
+		setLanguageExporter(out);
 	}
 
 	/* (non-Javadoc)

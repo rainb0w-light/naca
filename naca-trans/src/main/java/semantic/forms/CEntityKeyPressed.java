@@ -12,7 +12,6 @@
  */
 package semantic.forms;
 
-import generate.CBaseLanguageExporter;
 import semantic.CBaseActionEntity;
 import semantic.CBaseDataReference;
 import semantic.CDataEntity;
@@ -46,11 +45,10 @@ public abstract class CEntityKeyPressed extends CDataEntity
 	 * @param l
 	 * @param name
 	 * @param cat
-	 * @param out
 	 */
-	public CEntityKeyPressed(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntityKeyPressed(int l, String name, CObjectCatalog cat)
 	{
-		super(l, name, cat, out);
+		super(l, name, cat);
 	}
 
 	public CDataEntityType GetDataType()

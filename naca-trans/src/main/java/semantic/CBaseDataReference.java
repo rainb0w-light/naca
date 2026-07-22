@@ -12,7 +12,6 @@
  */
 package semantic;
 
-import generate.CBaseLanguageExporter;
 import semantic.expression.CBaseEntityCondExpr;
 import semantic.expression.CBaseEntityCondition;
 import semantic.forms.CEntityResourceForm;
@@ -26,11 +25,16 @@ import utils.CObjectCatalog;
  */
 public abstract class CBaseDataReference extends CGenericDataEntityReference
 {
-	public CBaseDataReference(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CBaseDataReference(int l, String name, CObjectCatalog cat)
 	{
-		super(l, name, cat, out);
+		super(l, name, cat);
 	}
 	protected CDataEntity reference = null ;
+
+	public CDataEntity getReference()
+	{
+		return reference;
+	}
 	
 	public int getNbDimOccurs()
 	{

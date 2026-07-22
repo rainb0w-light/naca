@@ -6,15 +6,14 @@
  */
 package semantic;
 
-import generate.CBaseLanguageExporter;
 import semantic.Verbs.CEntityOpenFile;
 import utils.CObjectCatalog;
 
 public abstract class CEntityFileDescriptor extends CBaseLanguageEntity
 {
-	public CEntityFileDescriptor(int line, String name, CObjectCatalog cat, CBaseLanguageExporter out)
+	public CEntityFileDescriptor(int line, String name, CObjectCatalog cat)
 	{
-		super(line, name, cat, out);
+		super(line, name, cat);
 	}
 
 	@Override
@@ -31,6 +30,11 @@ public abstract class CEntityFileDescriptor extends CBaseLanguageEntity
 	public String ExportReference(int nLine)
 	{
 		return FormatIdentifier(GetDisplayName());
+	}
+
+	public String getReferenceString()
+	{
+		return ExportReference(getLine());
 	}
 
 	public CDataEntity GetRecord()
@@ -83,5 +87,39 @@ public abstract class CEntityFileDescriptor extends CBaseLanguageEntity
 	public void setOutputBufferInitialValue(CDataEntity e)
 	{
 		eOutputBufferInitialValue  = e ;
+	}
+
+	/**
+	 * The SELECT file-name data entity (rendered in the REFERENCE role), or null
+	 * when there is no resolvable file name — the backend then falls back to the
+	 * quoted display name, exactly as the direct generator does (which discards a
+	 * file name whose reference does not resolve, i.e. an unknown reference).
+	 */
+	public CDataEntity getFileName()
+	{
+		if (fileSelect == null)
+		{
+			return null;
+		}
+		CDataEntity fileName = fileSelect.GetFileName();
+		return fileName instanceof CEntityUnknownReference ? null : fileName;
+	}
+
+	/**
+	 * The SELECT FILE STATUS data entity (rendered in the REFERENCE role), or
+	 * null when no FILE STATUS clause was declared.
+	 */
+	public CDataEntity getFileStatus()
+	{
+		return fileSelect == null ? null : fileSelect.getFileStatus();
+	}
+
+	/**
+	 * Bean accessor for the raw display name; the Java backend supplies the
+	 * quoting when it is used as the {@code declare.file("...")} fallback literal.
+	 */
+	public String getDisplayName()
+	{
+		return GetDisplayName();
 	}
 }

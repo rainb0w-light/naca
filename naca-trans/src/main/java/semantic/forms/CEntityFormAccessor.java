@@ -12,7 +12,6 @@
  */
 package semantic.forms;
 
-import generate.CBaseLanguageExporter;
 import parser.expression.CTerminal;
 import semantic.CBaseActionEntity;
 import semantic.CBaseDataReference;
@@ -35,13 +34,12 @@ public abstract class CEntityFormAccessor extends CBaseDataReference
 	 * @param l
 	 * @param name
 	 * @param cat
-	 * @param out
 	 * @param type
 	 * @param owner
 	 */
-	public CEntityFormAccessor(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out, CEntityResourceForm owner)
+	public CEntityFormAccessor(int l, String name, CObjectCatalog cat, CEntityResourceForm owner)
 	{
-		super(l, name, cat, out);
+		super(l, name, cat);
 		owner = owner ;
 		reference = owner ;
 		parent = owner ;

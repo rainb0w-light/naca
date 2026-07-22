@@ -15,13 +15,22 @@ public class CJavaFileDescriptor extends CEntityFileDescriptor
 
 	public CJavaFileDescriptor(int line, String name, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
-		super(line, name, cat, out);
+		super(line, name, cat);
+		setLanguageExporter(out);
 	}
 
 	@Override
 	protected void DoExport()
 	{
-		String file = fileSelect.GetFileName().ExportReference(getLine()) ;
+		String file = null;
+		if (fileSelect != null && fileSelect.GetFileName() != null)
+		{
+			file = fileSelect.GetFileName().ExportReference(getLine());
+		}
+		if (file == null || file.trim().isEmpty() || file.equals("null"))
+		{
+			file = "\"" + GetDisplayName() + "\"";
+		}
 		String cs = "FileDescriptor " + FormatIdentifier(GetDisplayName()) + " = declare.file("+file+")";
 		WriteWord(cs) ;
 		if (fileSelect.getFileStatus() != null)
