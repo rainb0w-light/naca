@@ -54,6 +54,17 @@ public abstract class CEntityExternalDataStructure extends CBaseExternalEntity
 	{
 		return csClassName.replace('-', '_');
 	}
+
+	/**
+	 * The copybook's field declarations (its active children), rendered in the
+	 * DECLARATION role inside the copybook's {@code Copy} class body. Exposed
+	 * under this name so the assembler's child-role propagation treats them as
+	 * declarations even though the copybook root itself is rendered as ROOT.
+	 */
+	public java.util.List<CBaseLanguageEntity> getDeclarationChildren()
+	{
+		return getActiveChildren();
+	}
 	/* (non-Javadoc)
 	 * @see semantic.CBaseDataEntity#GetSpecialAssignment(parser.expression.CTerminal)
 	 */

@@ -899,7 +899,7 @@ return new <entity.typeDecl; format="javaClassName">(program, copyReplacing);
 public <entity.typeDecl; format="javaClassName">(BaseProgram program, CopyReplacing copyReplacing) {
 super(program, copyReplacing);
 }
-<entity.activeChildren>
+<entity.declarationChildren>
 }
 >>
 
