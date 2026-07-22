@@ -1,6 +1,5 @@
 package com.publicitas.naca.cloudnative.service;
 
-import generate.CStringExporter;
 import jlib.xml.Tag;
 import semantic.CEntityExternalDataStructure;
 import utils.BaseEngine;
@@ -80,8 +79,8 @@ public final class IncludeGroupSupport {
      * structure into an in-memory string exporter. Returns {@code null} when the
      * copybook cannot be resolved.
      */
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    public static String generateCopybookClass(String copybookName) {
+    @SuppressWarnings("rawtypes")
+    private static CEntityExternalDataStructure resolveCopybook(String copybookName) {
         Transcoder transcoder = getIncludeTranscoder();
         if (transcoder == null) {
             return null;
@@ -95,10 +94,38 @@ public final class IncludeGroupSupport {
         if (!(resolved instanceof CEntityExternalDataStructure)) {
             return null;
         }
-        CEntityExternalDataStructure structure = (CEntityExternalDataStructure) resolved;
-        // Use an exporter that formats identifiers like the real file exporter
-        // (lower-case camelCase) so the copybook class fields match the
-        // identifiers the ST4-transpiled programs reference.
+        return (CEntityExternalDataStructure) resolved;
+    }
+
+    /**
+     * Generates the copybook as its own Java {@code Copy} class through the
+     * recursive assembler with the ROOT role ({@code javaCopyClass}) — the same
+     * single-flattening path the program root uses. The field identifiers come
+     * from the copybook entities' own exporters (lower-case camelCase), so they
+     * match the identifiers the ST4-transpiled programs reference. Returns
+     * {@code null} when the copybook cannot be resolved.
+     */
+    public static String generateCopybookClass(String copybookName) {
+        CEntityExternalDataStructure structure = resolveCopybook(copybookName);
+        if (structure == null) {
+            return null;
+        }
+        return generate.templates.TemplateLoader.getRecursiveAssembler()
+            .renderRoot(structure, generate.templates.recursive.JavaTemplateRole.ROOT);
+    }
+
+    /**
+     * Legacy direct re-export of the copybook class, retained ONLY as the parity
+     * reference for {@code CopybookClassParityTest} (which asserts the assembler
+     * output is token-identical). Uses {@link CopybookStringExporter} so the
+     * identifiers follow the {@code CJavaExporter} lower-case convention. Once the
+     * assembler path is proven stable this can be deleted.
+     */
+    public static String generateCopybookClassDirect(String copybookName) {
+        CEntityExternalDataStructure structure = resolveCopybook(copybookName);
+        if (structure == null) {
+            return null;
+        }
         CopybookStringExporter stringExporter = new CopybookStringExporter();
         if (structure.programCatalog != null) {
             structure.programCatalog.setExporter(stringExporter);
