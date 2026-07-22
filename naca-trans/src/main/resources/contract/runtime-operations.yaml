@@ -1,0 +1,50 @@
+# ============================================================================
+# Codegen-Runtime Contract — version 1
+# ============================================================================
+# The stable boundary between the ST4 Java backend (naca-trans) and the Naca
+# runtime (naca-rt). Every runtime call a backend template may emit is a named
+# operation with:
+#   id           stable operation id (the contract key)
+#   since        contract version the operation was introduced in
+#   capability   the runtime capability domain it belongs to
+#   runtimeClass / runtimeMethod / paramTypes / returns
+#                the naca-rt implementation a build gate verifies against
+#
+# Templates declare the operations they require in
+# template-runtime-requirements.yaml. Two build gates keep the boundary honest:
+#   templateRuntimeContractCheck — every template requirement resolves to an
+#                                  operation declared here (naca-trans).
+#   runtimeContractCheck         — every operation declared here has a real,
+#                                  signature-matching naca-rt implementation
+#                                  (naca-cloud-native, which sees naca-rt).
+# A runtime API change therefore breaks the build, not generated code at the
+# user's site. Removing/renaming an operation requires bumping `since` (or a
+# compatibility adapter), never a silent edit.
+# ============================================================================
+contractVersion: 1
+
+operations:
+  # --- READ (first contract proof: parser/semantic/template/runtime exist) ---
+  - id: file.read
+    since: 1
+    capability: FILE_IO
+    runtimeClass: nacaLib.varEx.FileDescriptor
+    runtimeMethod: read
+    paramTypes: []
+    returns: nacaLib.varEx.RecordDescriptorAtEnd
+
+  - id: file.readInto
+    since: 1
+    capability: FILE_IO
+    runtimeClass: nacaLib.varEx.FileDescriptor
+    runtimeMethod: readInto
+    paramTypes: [nacaLib.varEx.Var]
+    returns: nacaLib.varEx.RecordDescriptorAtEnd
+
+  - id: ioResult.atEnd
+    since: 1
+    capability: FILE_IO
+    runtimeClass: nacaLib.varEx.RecordDescriptorAtEnd
+    runtimeMethod: atEnd
+    paramTypes: []
+    returns: boolean
