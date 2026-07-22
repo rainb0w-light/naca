@@ -1,0 +1,73 @@
+# ============================================================================
+# Feature Contract Registry — version 1
+# ============================================================================
+# The unified extension path for every supported language feature, across all
+# layers:
+#
+#   source syntax -> dialect-aware syntax node -> target-neutral semantic node
+#                 -> backend binding/template -> runtime operations
+#                 -> conformance fixtures
+#
+# Each feature names the layer artifacts it spans. A feature whose layers are
+# incomplete (e.g. parser supports it but semantic/template/runtime don't) is a
+# half-built feature the registry makes visible via `status`, so it can't hide.
+# Adding a new dialect feature (SQL/CICS/BMS/FPac or a new COBOL standard) means
+# adding one entry here and filling in each layer — the same flow every time.
+#
+# `runtimeOperations` must be a subset of the operations declared in
+# runtime-operations.yaml (FeatureRegistryTest verifies the link to the
+# Codegen-Runtime Contract). `semanticType` and `javaBackend.template` must
+# actually exist. This is the machine-checkable capability matrix.
+# ============================================================================
+registryVersion: 1
+
+features:
+  - id: cobol.file.read
+    dialects: [cobol-core]
+    semanticType: semantic.Verbs.CEntityReadFile
+    javaBackend:
+      role: REFERENCE
+      template: recursiveReadFileEntity
+    runtimeOperations: [file.read, file.readInto, ioResult.atEnd]
+    fixtures: []
+    status: production
+
+  - id: cobol.file.open
+    dialects: [cobol-core]
+    semanticType: semantic.Verbs.CEntityOpenFile
+    javaBackend:
+      role: REFERENCE
+      template: recursiveOpenFileEntity
+    runtimeOperations: [file.open.input, file.open.output, file.open.inputOutput, file.open.extend]
+    fixtures: []
+    status: production
+
+  - id: cobol.file.close
+    dialects: [cobol-core]
+    semanticType: semantic.Verbs.CEntityCloseFile
+    javaBackend:
+      role: REFERENCE
+      template: recursiveCloseFileEntity
+    runtimeOperations: [file.close]
+    fixtures: []
+    status: production
+
+  - id: cobol.file.write
+    dialects: [cobol-core]
+    semanticType: semantic.Verbs.CEntityWriteFile
+    javaBackend:
+      role: REFERENCE
+      template: recursiveWriteFileEntity
+    runtimeOperations: [file.write, file.writeFrom, file.writeAfter]
+    fixtures: []
+    status: production
+
+  - id: cobol.file.rewrite
+    dialects: [cobol-core]
+    semanticType: semantic.Verbs.CEntityRewriteFile
+    javaBackend:
+      role: REFERENCE
+      template: recursiveRewriteFileEntity
+    runtimeOperations: [file.rewrite, file.rewriteFrom]
+    fixtures: []
+    status: production
