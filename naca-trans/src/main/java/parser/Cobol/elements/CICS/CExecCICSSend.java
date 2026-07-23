@@ -115,8 +115,14 @@ public class CExecCICSSend extends CCobolElement
 		}
 		else
 		{
-			Transcoder.logError(getLine(), "No Semantic Analysis for EXEC CICS SEND") ;
-			return null;
+			// Recognized but not lowered: fail closed with a structured diagnostic
+			// instead of silently dropping the statement (Decision Log D-001).
+			String featureId = (sendType == null || sendType == CCICSSendType.SEND)
+				? "cics.send"
+				: "cics.send." + sendType.name.toLowerCase();
+			throw new diagnostic.UnsupportedFeatureException(
+				featureId, "CICS", getLine(), 0,
+				"syntax recognized but semantic lowering is not implemented");
 		}
 	}
 

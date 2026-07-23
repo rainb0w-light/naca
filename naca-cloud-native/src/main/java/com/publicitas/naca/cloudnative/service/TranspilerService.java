@@ -82,6 +82,11 @@ public class TranspilerService {
 
             return TranspileResult.success(javaSource);
 
+        } catch (diagnostic.UnsupportedFeatureException e) {
+            // Recognized-but-unlowered syntax (e.g. an unsupported EXEC CICS/SQL
+            // form): a structured, named error; compilation fails, never success
+            // or silently-dropped code (Decision Log D-001).
+            return TranspileResult.failure(e.getMessage());
         } catch (generate.templates.recursive.MissingTemplateRendererException e) {
             // Fail-closed by design: a construct without an ST binding aborts
             // transpilation with an actionable error rather than silently
@@ -192,6 +197,10 @@ public class TranspilerService {
             String javaSource = doSemanticAnalysisAndExport(program, programName, listing);
             return javaSource;
 
+        } catch (diagnostic.UnsupportedFeatureException e) {
+            // Recognized-but-unlowered syntax: propagate so transpile() fails with
+            // the structured diagnostic instead of a black-box "empty result".
+            throw e;
         } catch (generate.templates.recursive.MissingTemplateRendererException e) {
             // Fail-closed: propagate so transpile() surfaces the missing binding
             // instead of collapsing to a black-box "empty result".
@@ -268,6 +277,10 @@ public class TranspilerService {
             }
 			return generate.templates.TemplateLoader.getRecursiveAssembler()
 				.renderRoot(rootEntity, generate.templates.recursive.JavaTemplateRole.ROOT);
+		} catch (diagnostic.UnsupportedFeatureException e) {
+			// Recognized-but-unlowered syntax: propagate so transpile() fails with
+			// the structured diagnostic, not a black-box "empty result".
+			throw e;
 		} catch (generate.templates.recursive.MissingTemplateRendererException e) {
 			// Fail-closed: propagate so the missing ST binding is reported, not hidden.
 			throw e;
