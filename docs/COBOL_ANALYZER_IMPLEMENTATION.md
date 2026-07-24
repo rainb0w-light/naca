@@ -256,6 +256,6 @@ naca-cloud-native
 
 ## 参考资料
 
-- [SMOJOL API 文档](./naca-cloud-native/SMOJOL_API.md)
-- [集成总结](./SMOJOL_INTEGRATION_SUMMARY.md)
+- [SMOJOL API 文档](../naca-cloud-native/SMOJOL_API.md)
+- [集成总结](SMOJOL_INTEGRATION_SUMMARY.md)
 - [cobol-rekt GitHub](https://github.com/avishek-sen-gupta/cobol-rekt)

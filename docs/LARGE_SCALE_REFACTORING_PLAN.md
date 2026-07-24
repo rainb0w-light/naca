@@ -24,15 +24,15 @@
 按模块优先级分批处理，避免一次性修改过多文件：
 
 **第一批：高优先级模块**
-- `naca-jlib/src/main/java/jlib/sql/` (~50 files)
-- `naca-jlib/src/main/java/jlib/controler/` (~10 files)  
-- `naca-jlib/src/main/java/jlib/misc/` (~30 files)
+- `../naca-jlib/src/main/java/jlib/sql` (~50 files)
+- `../naca-jlib/src/main/java/jlib/controler` (~10 files)
+- `../naca-jlib/src/main/java/jlib/misc` (~30 files)
 
 **第二批：Generate 模块**
-- `naca-trans/src/main/java/generate/` (~200 files)
+- `../naca-trans/src/main/java/generate` (~200 files)
 
-**第三批：Semantic 模块**  
-- `naca-trans/src/main/java/semantic/` (~300 files)
+**第三批：Semantic 模块**
+- `../naca-trans/src/main/java/semantic` (~300 files)
 
 **第四批：剩余文件**
 - 所有其他文件 (~500 files)
@@ -109,24 +109,24 @@ git restore <unrelated-files>
 def refactor_m_prefixes_in_file(file_path):
     # 1. 获取符号
     symbols = lsp_symbols(file_path, scope="document")
-    
+
     # 2. 找到所有 m_ 字段
     m_fields = [s for s in symbols if s.name.startswith('m_') and s.type == 'Field']
-    
+
     # 3. 逐个处理
     for field in m_fields:
         new_name = convert_m_name(field.name)
-        
+
         # 3.1 检查是否可重命名
         if not lsp_prepare_rename(file_path, field.line, field.column):
             # 3.2 处理冲突
             new_name = handle_conflict(new_name, field.name)
             if not new_name:
                 continue  # 跳过无法重命名的字段
-        
+
         # 3.3 执行重命名
         lsp_rename(file_path, field.line, field.column, new_name)
-    
+
     # 4. 验证
     diagnostics = lsp_diagnostics(file_path)
     if diagnostics.has_errors():
@@ -136,11 +136,11 @@ def refactor_m_prefixes_in_file(file_path):
 
 ## 成功标准
 
-✅ 所有 `m_` 和 `_` 前缀从变量名中移除  
-✅ 所有代码编译无错误  
-✅ 所有现有测试通过  
-✅ 方法名保持驼峰命名（已符合）  
-✅ 代码功能未发生改变  
+✅ 所有 `m_` 和 `_` 前缀从变量名中移除
+✅ 所有代码编译无错误
+✅ 所有现有测试通过
+✅ 方法名保持驼峰命名（已符合）
+✅ 代码功能未发生改变
 
 ## 预计时间线
 

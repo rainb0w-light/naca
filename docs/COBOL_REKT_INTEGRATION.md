@@ -29,10 +29,10 @@
 - 添加 `mavenLocal()` 仓库支持
 
 **新增模块:**
-- `naca-analyzer/` - COBOL 代码分析模块
-  - `build.gradle.kts` - 依赖配置
+- `../naca-analyzer` - COBOL 代码分析模块
+  - `../build.gradle.kts` - 依赖配置
   - `src/main/java/com/publicitas/naca/analyzer/CobolAnalyzer.java` - 分析器类
-  - `README.md` - 使用文档
+  - `../README.md` - 使用文档
 
 ### 依赖关系
 
@@ -98,4 +98,4 @@ export JAVA_HOME=/opt/homebrew/opt/openjdk@21
 
 - [cobol-rekt GitHub](https://github.com/avishek-sen-gupta/cobol-rekt)
 - [LSP4COBOL Documentation](https://github.com/eclipse-che4z/che-che4z-lsp-for-cobol)
-- [Naca Analyzer README](./naca-analyzer/README.md)
+- [Naca Analyzer README](../naca-analyzer/README.md)
