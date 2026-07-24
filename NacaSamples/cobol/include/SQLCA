@@ -1,0 +1,26 @@
+      *================================================================*
+      * SQLCA — DB2 SQL Communication Area.
+      *
+      * Canonical source: IBM DB2 standard SQLCA copybook (the structure
+      * DB2 populates after each SQL statement). Field layout follows the
+      * IBM DB2 SQLCA definition; naca-rt models SQLCODE in
+      * nacaLib.sqlSupport.SQLCode. Provided as a real, non-empty copybook
+      * so `EXEC SQL INCLUDE SQLCA` lowers faithfully (no empty stub).
+      *================================================================*
+       01  SQLCA.
+           10  SQLCAID        PIC X(8).
+           10  SQLCABC        PIC S9(9) COMP.
+           10  SQLCODE        PIC S9(9) COMP.
+           10  SQLERRMC       PIC X(70).
+           10  SQLERRP        PIC X(8).
+           10  SQLERRD        PIC S9(9) COMP OCCURS 6.
+           10  SQLWARN.
+               15  SQLWARN0   PIC X.
+               15  SQLWARN1   PIC X.
+               15  SQLWARN2   PIC X.
+               15  SQLWARN3   PIC X.
+               15  SQLWARN4   PIC X.
+               15  SQLWARN5   PIC X.
+               15  SQLWARN6   PIC X.
+               15  SQLWARN7   PIC X.
+           10  SQLSTATE       PIC X(5).

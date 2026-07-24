@@ -38,7 +38,7 @@ public final class OnlineCorpusSupport {
      * @param outputDir  directory for generated output / intermediate files
      */
     public static Transcoder build(String cobolDir, String includeDir, String csdFile,
-        String outputDir) {
+        String ruleFile, String outputDir) {
         // Normalize to absolute paths: TranscoderEngine.ReplaceExtensionFileName uses
         // lastIndexOf('.'), so a relative path containing ".." (e.g. ../NacaSamples)
         // would be mis-split into a bogus "..cbl" input name and lexing would fail.
@@ -49,6 +49,12 @@ public final class OnlineCorpusSupport {
         String csd = (csdFile == null || csdFile.isEmpty())
             ? null
             : java.nio.file.Path.of(csdFile).toAbsolutePath().normalize().toString();
+        // The rules file carries the ignoredCopy rules (SQLCA/DFHAID/DFHCWADS are
+        // runtime-provided, so COPY/INCLUDE of them must be ignored, not resolved
+        // as missing includes).
+        String rules = (ruleFile == null || ruleFile.isEmpty())
+            ? ""
+            : java.nio.file.Path.of(ruleFile).toAbsolutePath().normalize().toString();
 
         String csdElement = (csd == null)
             ? ""
@@ -79,7 +85,7 @@ public final class OnlineCorpusSupport {
             + " InterPath=\"" + interDir + "/\""
             + " Type=\"Included\" Engine=\"IncludeTranscoder\"/>\n"
             + "  </Groups>\n"
-            + "  <GlobalPaths RuleFilePath=\"\"/>\n"
+            + "  <GlobalPaths RuleFilePath=\"" + rules + "\"/>\n"
             + "</NacaTrans>\n";
 
         Transcoder transcoder = new Transcoder();

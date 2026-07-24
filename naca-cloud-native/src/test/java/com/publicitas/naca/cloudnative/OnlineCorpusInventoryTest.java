@@ -49,10 +49,16 @@ class OnlineCorpusInventoryTest
     private static Path cobolDir;
     private static Path includeDir;
     private static Path csdFile;
+    private static Path ruleFile;
 
-    /** Required includes/copybooks ONLINE1 references; missing => failure. */
+    /**
+     * Required includes/copybooks ONLINE1 references that must resolve to real
+     * content. SQLCA/DFHAID are runtime-provided (ignoredCopy in NacaTransRules)
+     * so they are NOT required to resolve as includes; ONLINM1/ONLINM1S come from
+     * the BMS pipeline and VTBMSGA/TUAZONE are real copybooks.
+     */
     private static final List<String> REQUIRED_INCLUDES =
-        List.of("VTBMSGA", "TUAZONE", "SQLCA", "DFHAID", "ONLINM1", "ONLINM1S");
+        List.of("VTBMSGA", "TUAZONE", "ONLINM1", "ONLINM1S");
 
     private static final Pattern EXEC =
         Pattern.compile("EXEC\\s+(SQL|CICS)\\s+([A-Z]+)");
@@ -68,6 +74,7 @@ class OnlineCorpusInventoryTest
                 cobolDir = candidate.toAbsolutePath().normalize();
                 includeDir = candidate.resolve("include").toAbsolutePath().normalize();
                 csdFile = candidate.resolve("CICSCSD.txt").toAbsolutePath().normalize();
+                ruleFile = base.resolve("trans/NacaTransRules.xml").toAbsolutePath().normalize();
                 break;
             }
         }
@@ -128,7 +135,8 @@ class OnlineCorpusInventoryTest
             + System.nanoTime();
         Transcoder transcoder = OnlineCorpusSupport.build(
             cobolDir.toString(), includeDir.toString(),
-            Files.exists(csdFile) ? csdFile.toString() : null, outputDir);
+            Files.exists(csdFile) ? csdFile.toString() : null,
+            Files.exists(ruleFile) ? ruleFile.toString() : null, outputDir);
 
         List<String> sourceStatements = sourceExecStatements(online1);
         CEntityClass root = OnlineCorpusSupport.analyze(transcoder, "ONLINE1");
