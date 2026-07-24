@@ -62,10 +62,13 @@ tasks.withType<Test> {
 }
 
 // The default test task must never regenerate the committed BATCH1 golden
-// baseline; the one-off capture runs only via the dedicated task below.
+// baseline; the one-off capture runs only via the dedicated task below. The
+// online-corpus fail-closed baseline is a debt baseline (like
+// finalArchitectureCheck): it is RED while EXEC statements are still silently
+// dropped, so it runs only via its dedicated task, not the default gate.
 tasks.test {
     useJUnitPlatform {
-        excludeTags("baseline-capture")
+        excludeTags("baseline-capture", "online-corpus-baseline")
     }
 }
 
@@ -76,5 +79,15 @@ tasks.register<Test>("batch1BaselineCapture") {
     classpath = sourceSets["test"].runtimeClasspath
     useJUnitPlatform {
         includeTags("baseline-capture")
+    }
+}
+
+tasks.register<Test>("onlineCorpusBaseline") {
+    group = "verification"
+    description = "ONLINE1 fail-closed inventory: fails on silently-dropped EXEC statements / missing includes"
+    testClassesDirs = sourceSets["test"].output.classesDirs
+    classpath = sourceSets["test"].runtimeClasspath
+    useJUnitPlatform {
+        includeTags("online-corpus-baseline")
     }
 }
