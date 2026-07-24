@@ -1,0 +1,213 @@
+# ============================================================================
+# Codegen-Runtime Contract — version 1
+# ============================================================================
+# The stable boundary between the ST4 Java backend (naca-trans) and the Naca
+# runtime (naca-rt). Every runtime call a backend template may emit is a named
+# operation with:
+#   id           stable operation id (the contract key)
+#   since        contract version the operation was introduced in
+#   capability   the runtime capability domain it belongs to
+#   runtimeClass / runtimeMethod / paramTypes / returns
+#                the naca-rt implementation a build gate verifies against
+#
+# Templates declare the operations they require in
+# template-runtime-requirements.yaml. Two build gates keep the boundary honest:
+#   templateRuntimeContractCheck — every template requirement resolves to an
+#                                  operation declared here (naca-trans).
+#   runtimeContractCheck         — every operation declared here has a real,
+#                                  signature-matching naca-rt implementation
+#                                  (naca-cloud-native, which sees naca-rt).
+# A runtime API change therefore breaks the build, not generated code at the
+# user's site. Removing/renaming an operation requires bumping `since` (or a
+# compatibility adapter), never a silent edit.
+# ============================================================================
+contractVersion: 1
+
+operations:
+  # --- READ (first contract proof: parser/semantic/template/runtime exist) ---
+  - id: file.read
+    since: 1
+    capability: FILE_IO
+    runtimeClass: nacaLib.varEx.FileDescriptor
+    runtimeMethod: read
+    paramTypes: []
+    returns: nacaLib.varEx.RecordDescriptorAtEnd
+
+  - id: file.readInto
+    since: 1
+    capability: FILE_IO
+    runtimeClass: nacaLib.varEx.FileDescriptor
+    runtimeMethod: readInto
+    paramTypes: [nacaLib.varEx.Var]
+    returns: nacaLib.varEx.RecordDescriptorAtEnd
+
+  - id: ioResult.atEnd
+    since: 1
+    capability: FILE_IO
+    runtimeClass: nacaLib.varEx.RecordDescriptorAtEnd
+    runtimeMethod: atEnd
+    paramTypes: []
+    returns: boolean
+
+  # --- OPEN / CLOSE ---
+  - id: file.open.input
+    since: 1
+    capability: FILE_IO
+    runtimeClass: nacaLib.varEx.BaseFileDescriptor
+    runtimeMethod: openInput
+    paramTypes: []
+    returns: nacaLib.varEx.BaseFileDescriptor
+
+  - id: file.open.output
+    since: 1
+    capability: FILE_IO
+    runtimeClass: nacaLib.varEx.BaseFileDescriptor
+    runtimeMethod: openOutput
+    paramTypes: []
+    returns: nacaLib.varEx.BaseFileDescriptor
+
+  - id: file.open.inputOutput
+    since: 1
+    capability: FILE_IO
+    runtimeClass: nacaLib.varEx.BaseFileDescriptor
+    runtimeMethod: openInputOutput
+    paramTypes: []
+    returns: nacaLib.varEx.BaseFileDescriptor
+
+  - id: file.open.extend
+    since: 1
+    capability: FILE_IO
+    runtimeClass: nacaLib.varEx.BaseFileDescriptor
+    runtimeMethod: openExtend
+    paramTypes: []
+    returns: nacaLib.varEx.BaseFileDescriptor
+
+  - id: file.close
+    since: 1
+    capability: FILE_IO
+    runtimeClass: nacaLib.varEx.BaseFileDescriptor
+    runtimeMethod: close
+    paramTypes: []
+    returns: void
+
+  # --- WRITE ---
+  - id: file.write
+    since: 1
+    capability: FILE_IO
+    runtimeClass: nacaLib.varEx.FileDescriptor
+    runtimeMethod: write
+    paramTypes: []
+    returns: void
+
+  - id: file.writeFrom
+    since: 1
+    capability: FILE_IO
+    runtimeClass: nacaLib.varEx.FileDescriptor
+    runtimeMethod: writeFrom
+    paramTypes: [nacaLib.varEx.VarBase]
+    returns: void
+
+  - id: file.writeAfter
+    since: 1
+    capability: FILE_IO
+    runtimeClass: nacaLib.varEx.FileDescriptor
+    runtimeMethod: writeAfter
+    paramTypes: [int]
+    returns: void
+
+  # --- REWRITE ---
+  - id: file.rewrite
+    since: 1
+    capability: FILE_IO
+    runtimeClass: nacaLib.varEx.FileDescriptor
+    runtimeMethod: rewrite
+    paramTypes: []
+    returns: void
+
+  - id: file.rewriteFrom
+    since: 1
+    capability: FILE_IO
+    runtimeClass: nacaLib.varEx.FileDescriptor
+    runtimeMethod: rewriteFrom
+    paramTypes: [nacaLib.varEx.VarBase]
+    returns: void
+
+  # --- CALL PROGRAM ---
+  # call(String) is protected on BaseProgram and inherited by generated program
+  # subclasses; runtimeContractCheck resolves it across the class hierarchy.
+  - id: program.call
+    since: 1
+    capability: CALL
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: call
+    paramTypes: [java.lang.String]
+    returns: nacaLib.program.CCallProgram
+
+  - id: program.call.using
+    since: 1
+    capability: CALL
+    runtimeClass: nacaLib.program.CCallProgram
+    runtimeMethod: using
+    paramTypes: [nacaLib.varEx.Var]
+    returns: nacaLib.program.CCallProgram
+
+  - id: program.call.executeCall
+    since: 1
+    capability: CALL
+    runtimeClass: nacaLib.program.CCallProgram
+    runtimeMethod: executeCall
+    paramTypes: []
+    returns: void
+
+  - id: program.call.executeCallSafe
+    since: 1
+    capability: CALL
+    runtimeClass: nacaLib.program.CCallProgram
+    runtimeMethod: executeCallSafe
+    paramTypes: []
+    returns: boolean
+
+  # --- MOVE (data) ---
+  # BaseProgram.move is heavily overloaded over source/destination type
+  # combinations (Var/Edit/int/figurative constants). The contract declares the
+  # representative reference overloads the recursive MOVE template emits; the
+  # constant/int overloads are added as features that exercise them migrate.
+  - id: data.move.varEdit
+    since: 1
+    capability: DATA
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: move
+    paramTypes: [nacaLib.varEx.Var, nacaLib.varEx.Edit]
+    returns: void
+
+  - id: data.move.editVar
+    since: 1
+    capability: DATA
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: move
+    paramTypes: [nacaLib.varEx.Edit, nacaLib.varEx.Var]
+    returns: void
+
+  - id: data.move.editEdit
+    since: 1
+    capability: DATA
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: move
+    paramTypes: [nacaLib.varEx.Edit, nacaLib.varEx.Edit]
+    returns: void
+
+  - id: data.moveAll
+    since: 1
+    capability: DATA
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: moveAll
+    paramTypes: [nacaLib.varEx.Var, nacaLib.varEx.Var]
+    returns: nacaLib.basePrgEnv.BaseProgram
+
+  - id: data.moveCorresponding
+    since: 1
+    capability: DATA
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: moveCorresponding
+    paramTypes: [nacaLib.varEx.VarBase, nacaLib.varEx.VarBase]
+    returns: nacaLib.basePrgEnv.BaseProgram

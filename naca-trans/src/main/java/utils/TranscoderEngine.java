@@ -88,7 +88,31 @@ public abstract class TranscoderEngine<T_Elem extends CBaseElement, T_Entity ext
 		}
 
 		Transcoder.logDebug("Starting export for: " + filename);
-		eSem.StartExport() ;
+		if (useSt4ArtifactWriter())
+		{
+			// ST4 artifact writer: render the whole program through the single
+			// recursive assembler with the explicit ROOT role and write it to the
+			// same output path the legacy exporter targets. No fallback to the
+			// direct generator: a missing binding fails closed (propagates).
+			String rendered = generate.templates.TemplateLoader.getRecursiveAssembler()
+				.renderRoot(eSem, generate.templates.recursive.JavaTemplateRole.ROOT);
+			String outPath = grp.csOutputPath
+				+ (csApplication.equals("") ? "" : csApplication + "/")
+				+ generateOutputFileName(filename);
+			try
+			{
+				java.nio.file.Files.writeString(java.nio.file.Path.of(outPath), rendered,
+					java.nio.charset.StandardCharsets.ISO_8859_1);
+			}
+			catch (java.io.IOException e)
+			{
+				throw new NacaTransAssertException("Cannot write ST4 artifact " + outPath + ": " + e.getMessage());
+			}
+		}
+		else
+		{
+			eSem.StartExport() ;
+		}
 		if (cat.CanExportResources(eSem.GetProgramName()))
 		{
 			eSem.programCatalog.ExportRegisteredFormContainer(bResources) ;
@@ -97,6 +121,20 @@ public abstract class TranscoderEngine<T_Elem extends CBaseElement, T_Entity ext
 
 		cat.registerProgram(filename);
 		Transcoder.dumpUnboundReferences();
+	}
+
+	/**
+	 * Whether the CLI/batch export uses the ST4 artifact writer (the single
+	 * recursive assembler with the explicit ROOT role) instead of the legacy
+	 * direct {@code StartExport()} path. Opt-in via
+	 * {@code -Dnaca.transpiler.artifactWriter=st4}; the default ({@code legacy})
+	 * preserves the existing behavior. There is deliberately no runtime fallback
+	 * from the ST4 writer to the direct generator on a missing binding — that
+	 * fails closed.
+	 */
+	protected boolean useSt4ArtifactWriter()
+	{
+		return "st4".equalsIgnoreCase(System.getProperty("naca.transpiler.artifactWriter", "legacy"));
 	}
 	
 	public T_Entity doAllAnalysis(String filename, String csApplication, CTransApplicationGroup grp, boolean bResources)

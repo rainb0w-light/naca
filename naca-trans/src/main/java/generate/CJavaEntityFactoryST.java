@@ -101,7 +101,9 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
 
     @Override
     public CEntityReadFile NewEntityReadFile(int line) {
-        return new CJavaReadFileST(line, programCatalog, langOutput);
+        CEntityReadFile e = new CEntityReadFile(line, programCatalog);
+        e.setLanguageExporter(langOutput);
+        return e;
     }
 
     @Override

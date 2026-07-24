@@ -1,0 +1,66 @@
+# ============================================================================
+# Template runtime-operation requirements — version 1
+# ============================================================================
+# Each production template declares the runtime operations it emits. The
+# templateRuntimeContractCheck gate verifies every requirement resolves to an
+# operation declared in runtime-operations.yaml, so a template can never
+# silently emit a runtime call the contract doesn't define (and, transitively,
+# that the runtime doesn't implement).
+#
+# Adding a template that emits runtime calls => add its requirements here.
+# Migrating a new dialect feature (SQL/CICS/BMS/FPac) => declare the feature's
+# operations in runtime-operations.yaml and the template's requirements here, in
+# the same change that adds the template.
+# ============================================================================
+contractVersion: 1
+
+templates:
+  recursiveReadFileEntity:
+    capability: FILE_IO
+    requires:
+      - file.read
+      - file.readInto
+      - ioResult.atEnd
+
+  recursiveOpenFileEntity:
+    capability: FILE_IO
+    requires:
+      - file.open.input
+      - file.open.output
+      - file.open.inputOutput
+      - file.open.extend
+
+  recursiveCloseFileEntity:
+    capability: FILE_IO
+    requires:
+      - file.close
+
+  recursiveWriteFileEntity:
+    capability: FILE_IO
+    requires:
+      - file.write
+      - file.writeFrom
+      - file.writeAfter
+
+  recursiveRewriteFileEntity:
+    capability: FILE_IO
+    requires:
+      - file.rewrite
+      - file.rewriteFrom
+
+  recursiveCallProgramEntity:
+    capability: CALL
+    requires:
+      - program.call
+      - program.call.using
+      - program.call.executeCall
+      - program.call.executeCallSafe
+
+  recursiveMoveEntity:
+    capability: DATA
+    requires:
+      - data.move.varEdit
+      - data.move.editVar
+      - data.move.editEdit
+      - data.moveAll
+      - data.moveCorresponding
