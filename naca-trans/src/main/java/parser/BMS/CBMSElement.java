@@ -50,7 +50,7 @@ public abstract class CBMSElement extends CBaseElement
 	protected CBMSElement(String name, int line)
 	{
 		super(line) ;
-		name = name ;
+		this.name = name ;
 	}
 
 	public String getName()
@@ -66,6 +66,22 @@ public abstract class CBMSElement extends CBaseElement
 	public void AddElement(CBMSElement e)
 	{
 		AddChild(e) ;
+	}
+
+	/**
+	 * Read-only view of this element's parsed child elements. Exposes the parser
+	 * tree structure (mapset → maps → fields/groups) for inspection, e.g. by tests
+	 * that verify a whole BMS source parsed into a non-empty tree. Does not perform
+	 * any semantic analysis or code generation.
+	 */
+	public java.util.List<CBaseElement> getChildElements()
+	{
+		return java.util.Collections.unmodifiableList(children) ;
+	}
+
+	public int getNbChildren()
+	{
+		return children.size() ;
 	}
 
 	protected abstract Element DoExportCustom(Document root) ;

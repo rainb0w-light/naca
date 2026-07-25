@@ -299,7 +299,7 @@ public abstract class CBaseLexer
 		{
 			return false ;
 		}
-		try 
+		try
 		{
 			while (ReadLine(buffer))
 			{
@@ -414,7 +414,12 @@ public abstract class CBaseLexer
 						case '*':
 							tok = new CTokenGeneric(CTokenType.STAR, getLine(), isisNewLine);
 							nCurrentPositionInLine ++ ;
-							if(arrCurrentLine[nCurrentPositionInLine] == '*')
+							// Guard the '**' lookahead: when '*' is the last column of the
+							// line (e.g. the BMS/COBOL column-72 continuation marker, where
+							// nbCharsUtils truncates the line right after '*'), reading
+							// arrCurrentLine[nCurrentPositionInLine] without a bounds check
+							// throws ArrayIndexOutOfBoundsException and aborts the whole line.
+							if(nCurrentPositionInLine < nCurrentLineLength && arrCurrentLine[nCurrentPositionInLine] == '*')
 							{
 								tok = new CTokenGeneric(CTokenType.STAR_STAR, getLine(), isisNewLine);
 								nCurrentPositionInLine ++ ;
