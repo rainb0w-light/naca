@@ -308,8 +308,13 @@ public abstract class CBaseLexer
 		}
 		catch (Exception e)
 		{
-			System.out.println(e.getMessage()) ;
-			System.out.println(e.getStackTrace()) ;
+			// Fail closed. An unexpected exception mid-lexing means the token stream
+			// is truncated/corrupt. Swallowing it and returning true used to hand a
+			// partial stream to the parser, masking the real lexer bug as a downstream
+			// NPE (e.g. a null root element). Surface the failure so the caller
+			// (TranscoderEngine) reports "Lexing failed" and does not parse garbage.
+			System.err.println("Lexing aborted on unexpected error: " + e) ;
+			return false ;
 		}
 		if (isIgnoreOriginalListing())
 		{
