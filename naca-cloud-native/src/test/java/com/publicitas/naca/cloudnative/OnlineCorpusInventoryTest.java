@@ -52,13 +52,22 @@ class OnlineCorpusInventoryTest
     private static Path ruleFile;
 
     /**
-     * Required includes/copybooks ONLINE1 references that must resolve to real
-     * content. SQLCA/DFHAID are runtime-provided (ignoredCopy in NacaTransRules)
-     * so they are NOT required to resolve as includes; ONLINM1/ONLINM1S come from
-     * the BMS pipeline and VTBMSGA/TUAZONE are real copybooks.
+     * Required copybooks ONLINE1 references that must resolve to real file content
+     * in the Includes group. SQLCA/DFHAID are runtime-provided (ignoredCopy in
+     * NacaTransRules) so they are NOT required to resolve as includes.
      */
-    private static final List<String> REQUIRED_INCLUDES =
-        List.of("VTBMSGA", "TUAZONE", "ONLINM1", "ONLINM1S");
+    private static final List<String> COPYBOOK_INCLUDES = List.of("VTBMSGA", "TUAZONE");
+
+    /**
+     * BMS mapset artifacts ONLINE1 references ({@code COPY ONLINM1} and
+     * {@code EXEC SQL INCLUDE ONLINM1S}). These are NOT copybook files: they resolve
+     * on demand through the BMS {@code Resources}/{@code Map} group
+     * (CObjectCatalog.GetExternalDataReference -> CGlobalCatalog.GetFormContainer ->
+     * BMSTranscoderEngine), generated from the real {@code ONLINM1.bms} source. Their
+     * contract is asserted by resolving the form container, not by file existence, and
+     * is pinned in detail by {@code BmsArtifactContractTest}.
+     */
+    private static final List<String> BMS_ARTIFACTS = List.of("ONLINM1", "ONLINM1S");
 
     private static final Pattern EXEC =
         Pattern.compile("EXEC\\s+(SQL|CICS)\\s+([A-Z]+)");
@@ -157,11 +166,21 @@ class OnlineCorpusInventoryTest
         // Missing required includes are a hard failure (the parse cannot be
         // faithful without them; empty copybooks are NOT an acceptable substitute).
         List<String> missingIncludes = new ArrayList<>();
-        for (String inc : REQUIRED_INCLUDES)
+        for (String inc : COPYBOOK_INCLUDES)
         {
             if (!Files.exists(includeDir.resolve(inc)))
             {
                 missingIncludes.add(inc);
+            }
+        }
+        // BMS mapset artifacts must resolve through the BMS Resources group from the
+        // real ONLINM1.bms source (not as copybook files). A null form container means
+        // the artifact contract is broken (the historical "Missing include file" fault).
+        for (String mapset : BMS_ARTIFACTS)
+        {
+            if (OnlineCorpusSupport.analyzeMapset(transcoder, mapset) == null)
+            {
+                missingIncludes.add(mapset + " (BMS artifact did not resolve from ONLINM1.bms)");
             }
         }
 

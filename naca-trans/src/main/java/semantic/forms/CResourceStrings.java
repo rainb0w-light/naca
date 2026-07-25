@@ -68,8 +68,8 @@ public abstract class CResourceStrings
 	}
 	public CResourceStrings(int nbLines, int nbCols)
 	{
-		nbCols = nbCols ;
-		nbLines = nbLines ;
+		this.nbCols = nbCols ;
+		this.nbLines = nbLines ;
 		lines = new CLocalizedText[nbLines+1][];
 		tabTexts = new Hashtable<String, CLocalizedText>() ;
 	}

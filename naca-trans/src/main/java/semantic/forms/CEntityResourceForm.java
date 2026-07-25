@@ -109,6 +109,32 @@ public abstract class CEntityResourceForm extends CBaseResourceEntity
 		arrFields.add(e) ;
 	}
 
+	/**
+	 * Read-only count of this form's fields. Exposes the parsed BMS form structure
+	 * for inspection (e.g. artifact-contract tests that verify a mapset generated
+	 * from real {@code .bms} source has a non-empty field layout). Performs no
+	 * semantic analysis or code generation.
+	 */
+	public int getNbFields()
+	{
+		return arrFields.size() ;
+	}
+
+	/**
+	 * Read-only names of this form's fields, in layout order. Lets artifact-contract
+	 * tests verify a mapset was generated from real {@code .bms} source (real field
+	 * names such as {@code NMMASQ}), not an empty or handwritten placeholder.
+	 */
+	public java.util.List<String> getFieldNames()
+	{
+		java.util.List<String> names = new java.util.ArrayList<>() ;
+		for (CBaseResourceEntity f : arrFields)
+		{
+			names.add(f.GetName()) ;
+		}
+		return names ;
+	}
+
 	protected Vector<CBaseResourceEntity> arrFields = new Vector<CBaseResourceEntity>() ;
 	protected ArrayList<String> formReferences = new ArrayList<String>() ;
 	public void SetReferences(ArrayList<String> v)

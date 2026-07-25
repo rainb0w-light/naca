@@ -135,7 +135,8 @@ public class BMSTranscoderEngine extends TranscoderEngine<CMapSetElement, CEntit
 				CJavaEntityFactory factoryS = new CJavaEntityFactory(cont.programCatalog, outjavaS) ;
 				CEntityResourceFormContainer eSav = cont.MakeSavCopy(factoryS, false) ;
 				cat.RegisterFormContainer(eSav.GetName(), eSav) ;
-				formEnhancer.ProcessFormContainer(eSav, bResources) ;
+				if(formEnhancer != null)
+					formEnhancer.ProcessFormContainer(eSav, bResources) ;
 				return eSav;
 			}
 		}

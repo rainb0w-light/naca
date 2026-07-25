@@ -6,8 +6,9 @@
     "statusOrder": ["not-started", "parser-preserved", "semantic-built", "binding-added", "template-added", "production-wired", "direct-retired", "done"],
     "scopeOrder": ["COBOL_CORE", "EMBEDDED_SQL", "EMBEDDED_CICS", "BMS_ARTIFACT"],
     "ratchet": {
-      "note": "Debt counts may only move down for the COBOL scope. Baseline captured from finalArchitectureCheck before the migration loop; refresh per phase.",
+      "note": "Debt counts may only move down for the COBOL scope. Refresh per phase.",
       "baselineCapturedAtCommit": "9402b0c",
+      "lastVerifiedAtCommit": "98b9373",
       "finalArchitectureCheck": { "tests": 401, "failures": 222, "directBackends": 170, "semanticClasses": 47, "factories": 3, "templates": 1, "manifests": 1 },
       "rules": [
         "status may only advance forward along statusOrder",
@@ -15,7 +16,26 @@
         "no unexplained allowlist may hide COBOL/SQL/CICS debt",
         "BMS entries must use scope BMS_ARTIFACT, never a COBOL dialect scope"
       ]
-    }
+    },
+    "targetArchitecture": {
+      "entry": "generate.templates.recursive.JavaTemplateAssembler.renderRoot(entity, JavaTemplateRole.ROOT)",
+      "roles": ["REFERENCE", "DECLARATION", "ROOT"],
+      "manifests": [
+        "naca-trans/src/main/resources/templates/java/semantic-bindings.properties",
+        "naca-trans/src/main/resources/templates/java/semantic-declaration-bindings.properties",
+        "naca-trans/src/main/resources/templates/java/semantic-root-bindings.properties",
+        "naca-trans/src/main/resources/templates/java/semantic-runtime-bindings.properties"
+      ],
+      "featureRegistry": "naca-trans/src/main/resources/contract/feature-registry.yaml",
+      "codegenRuntimeContract": "naca-trans/src/main/java/contract/CodegenRuntimeContract.java",
+      "failClosed": "generate.templates.recursive.MissingTemplateRendererException (names semantic type + concrete class; NOTE: carries no source line / feature id yet — Phase 3 must add source location + feature id to structured diagnostics)",
+      "migrationPlaybook": "6 steps: (1) semantic entity read-only getters + de-abstract; (2) one semantic-*-bindings.properties line; (3) one java.stg template reading only entity.* properties; (4) feature-registry.yaml entry (+ runtime-operations.yaml/template-runtime-requirements.yaml if new runtime ops); (5) CJavaEntityFactoryST.NewEntity* override; (6) delete legacy direct backend + render test + ratchet bumps. READ domain (semantic.Verbs.CEntityReadFile -> recursiveReadFileEntity) is the exemplar."
+    },
+    "discoveredDebt": [
+      { "id": "LATENT-SELF-ASSIGN", "note": "Repeated 'x = x' constructor self-assignment bugs (param shadows field). Fixed during BMS unblock: CBMSElement.name, CResourceStrings.nbLines/nbCols, CEntityResourceFormContainer.bSaveCopy. STILL PRESENT (not yet exercised by the corpus): CWorkingEntry.java:78 (text), CEntityFormAccessor.java:43 (owner), CEntityFormRedefine.java:52 (eForm). Fix when their path is migrated/tested." },
+      { "id": "PREEXISTING-WSMESSAGE", "scope": "COBOL_CORE", "note": "TranspileControllerTest.testTranspileValidCobolWithWorkingStorage fails ('Should contain wsMessage variable') at baseline 9402b0c — pre-existing, unrelated to BMS. COBOL working-storage codegen debt; address during the COBOL data/class migration (Phase 5 step 1)." },
+      { "id": "CALLMSG-SUBPROGRAM", "scope": "COBOL_CORE", "note": "ONLINE1 logs 'Missing sub-program : CALLMSG' (a CALL to a sub-program not in the corpus). Separate debt; not a driver of the online-corpus baseline." }
+    ]
   },
   "entries": [
     {
@@ -29,35 +49,35 @@
       "template": null,
       "runtimeOperation": "nacaLib.mapSupport physical map / resource",
       "fixture": "NacaSamples/cobol/ONLINM1.bms",
-      "directBackend": "generate.CJavaExporter BMS form path (non-COBOL; out of migration scope)",
+      "directBackend": "generate.CJavaExporter BMS form path (non-COBOL; out of ST4 migration scope)",
       "productionReachable": true,
-      "status": "parser-preserved",
-      "blocker": "Phase 2: expose ONLINM1 as a real BMS-generated physical map/resource artifact through OnlineCorpusSupport",
-      "evidence": ["parser.BMS.ONLINM1BmsFullParseTest"]
+      "status": "production-wired",
+      "blocker": "Artifact contract satisfied: real ONLINM1.bms -> CEntityResourceFormContainer via the Resources/Map group (CObjectCatalog.GetExternalDataReference -> CGlobalCatalog.GetFormContainer -> BMSTranscoderEngine). COPY ONLINM1 resolves. Full BMS generator ST4 migration is OUT of this Goal's scope (non-COBOL DSL).",
+      "evidence": ["parser.BMS.ONLINM1BmsFullParseTest", "BmsArtifactContractTest.baseMapsetFromRealSource"]
     },
     {
       "id": "BMS-ONLINM1S",
       "scope": "BMS_ARTIFACT",
-      "sourceSyntax": "ONLINM1 symbolic map (derived from ONLINM1.bms)",
+      "sourceSyntax": "ONLINM1 symbolic save-map (derived from ONLINM1.bms via MakeSavCopy)",
       "parserNode": "parser.map_elements.CMapSetElement",
       "semanticNode": "semantic.forms.CEntityResourceFormContainer",
       "assemblerRole": null,
       "manifestBinding": null,
       "template": null,
-      "runtimeOperation": "nacaLib.mapSupport symbolic map (Map subclass)",
+      "runtimeOperation": "nacaLib.mapSupport symbolic/save map (Map subclass)",
       "fixture": "NacaSamples/cobol/ONLINM1.bms",
-      "directBackend": "generate.CJavaExporter BMS symbolic path (non-COBOL; out of migration scope)",
+      "directBackend": "generate.CJavaExporter BMS symbolic path (non-COBOL; out of ST4 migration scope)",
       "productionReachable": true,
-      "status": "parser-preserved",
-      "blocker": "Phase 2: generate ONLINM1S symbolic copybook from real BMS source so EXEC SQL INCLUDE ONLINM1S resolves (no empty/handwritten copybook)",
-      "evidence": ["parser.BMS.ONLINM1BmsFullParseTest"]
+      "status": "production-wired",
+      "blocker": "Artifact contract satisfied: S-suffix -> MakeSavCopy of base ONLINM1 (isSavCopy()==true after bSaveCopy fix). EXEC SQL INCLUDE ONLINM1S resolves from real source (no empty/handwritten copybook). Full BMS generator ST4 migration out of scope.",
+      "evidence": ["parser.BMS.ONLINM1BmsFullParseTest", "BmsArtifactContractTest.symbolicSaveMapFromRealSource"]
     },
     {
       "id": "SQL-INCLUDE",
       "scope": "EMBEDDED_SQL",
       "sourceSyntax": "EXEC SQL INCLUDE <copybook> END-EXEC",
-      "parserNode": "parser.Cobol.elements.SQL.*",
-      "semanticNode": null,
+      "parserNode": "parser.Cobol.elements.SQL.CExecSQLInclude",
+      "semanticNode": "CEntityExternalDataStructure / CEntityResourceFormContainer (inlined via CEntityInline)",
       "assemblerRole": null,
       "manifestBinding": null,
       "template": null,
@@ -65,9 +85,9 @@
       "fixture": "NacaSamples/cobol/ONLINE1.cbl:82,88,91,100",
       "directBackend": null,
       "productionReachable": true,
-      "status": "not-started",
-      "blocker": "Phase 2/3: ONLINM1S include unresolved (missing BMS symbolic copybook); make every INCLUDE preserved or structured-rejected with source location",
-      "evidence": ["OnlineCorpusInventoryTest"]
+      "status": "parser-preserved",
+      "blocker": "All 4 ONLINE1 INCLUDEs now resolve (ONLINM1S via BMS group; SQLCA ignoredCopy; VTBMSGA/TUAZONE copybooks). The inventory still counts them as dropped only because it aggregates by .SQL package (Phase 3 makes it statement-accurate: classify each INCLUDE as PRESERVED-via-resolution).",
+      "evidence": ["OnlineCorpusInventoryTest", "BmsArtifactContractTest.consumersResolveOnDemand"]
     },
     {
       "id": "SQL-WHENEVER",
@@ -83,7 +103,7 @@
       "directBackend": null,
       "productionReachable": true,
       "status": "not-started",
-      "blocker": "Phase 3/5: currently silently dropped; needs semantic node + manifest binding or structured-reject",
+      "blocker": "Silently dropped; needs semantic node + manifest binding, or a structured-reject with source location + feature id (Phase 3/5).",
       "evidence": ["OnlineCorpusInventoryTest"]
     },
     {
@@ -91,44 +111,37 @@
       "scope": "EMBEDDED_SQL",
       "sourceSyntax": "DECLARE CURSOR / OPEN / FETCH / CLOSE / SELECT / INSERT / UPDATE / DELETE / COMMIT / ROLLBACK",
       "parserNode": "parser.Cobol.elements.SQL.*",
-      "semanticNode": "semantic.SQL.* (CJavaSQLCursorSection observed)",
+      "semanticNode": "semantic.SQL.* (CJavaSQLCursorSection observed = 1 node)",
       "assemblerRole": null,
       "manifestBinding": null,
       "template": null,
       "runtimeOperation": null,
       "fixture": "NacaSamples/cobol/ONLINE1.cbl",
-      "directBackend": "direct SQL backend (to inventory in Phase 5)",
+      "directBackend": "direct SQL backend (CJavaSQL* — to inventory in Phase 5)",
       "productionReachable": true,
-      "status": "not-started",
-      "blocker": "Phase 5 (embedded SQL): drive by ONLINE1 statements; each must reach the assembler",
+      "status": "semantic-built",
+      "blocker": "Phase 5 (embedded SQL): drive by ONLINE1 statements; each must reach the assembler. Currently on direct CJavaSQL* backends.",
       "evidence": ["OnlineCorpusInventoryTest"]
     },
     {
       "id": "CICS-ADDRESS",
       "scope": "EMBEDDED_CICS",
       "sourceSyntax": "EXEC CICS ADDRESS TCTUA(...) END-EXEC",
-      "parserNode": null,
-      "semanticNode": null,
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
+      "parserNode": null, "semanticNode": null, "assemblerRole": null, "manifestBinding": null,
+      "template": null, "runtimeOperation": null,
       "fixture": "NacaSamples/cobol/ONLINE1.cbl:110",
-      "directBackend": null,
-      "productionReachable": true,
-      "status": "not-started",
-      "blocker": "Phase 5 (embedded CICS): silently dropped; needs semantic node + binding",
-      "evidence": ["OnlineCorpusInventoryTest"]
+      "directBackend": null, "productionReachable": true, "status": "not-started",
+      "blocker": "Silently dropped (no semantic node). Phase 5 (embedded CICS).", "evidence": ["OnlineCorpusInventoryTest"]
     },
     {
       "id": "CICS-RETURN",
       "scope": "EMBEDDED_CICS",
       "sourceSyntax": "EXEC CICS RETURN END-EXEC",
-      "parserNode": null, "semanticNode": null, "assemblerRole": null, "manifestBinding": null,
-      "template": null, "runtimeOperation": null,
+      "parserNode": "parser.Cobol.elements.CICS.*", "semanticNode": "CJavaCICSReturn (direct backend)",
+      "assemblerRole": null, "manifestBinding": null, "template": null, "runtimeOperation": null,
       "fixture": "NacaSamples/cobol/ONLINE1.cbl:127,247",
-      "directBackend": null, "productionReachable": true, "status": "not-started",
-      "blocker": "Phase 5 (embedded CICS)", "evidence": ["OnlineCorpusInventoryTest"]
+      "directBackend": "generate.java.CICS.CJavaCICSReturn", "productionReachable": true, "status": "semantic-built",
+      "blocker": "Semantic node exists on a direct CJava* backend; needs ST4 binding + direct retirement. Note: 2 RETURN statements but inventory counts 1 node — verify per-statement in Phase 3.", "evidence": ["OnlineCorpusInventoryTest"]
     },
     {
       "id": "CICS-RECEIVE",
@@ -138,7 +151,7 @@
       "template": null, "runtimeOperation": null,
       "fixture": "NacaSamples/cobol/ONLINE1.cbl:163",
       "directBackend": null, "productionReachable": true, "status": "not-started",
-      "blocker": "Phase 5 (embedded CICS); depends on BMS symbolic map (Phase 2)", "evidence": ["OnlineCorpusInventoryTest"]
+      "blocker": "Silently dropped (no semantic node) even though the BMS map now resolves. Phase 5 (embedded CICS).", "evidence": ["OnlineCorpusInventoryTest"]
     },
     {
       "id": "CICS-SEND",
@@ -148,47 +161,47 @@
       "template": null, "runtimeOperation": null,
       "fixture": "NacaSamples/cobol/ONLINE1.cbl:228,237",
       "directBackend": null, "productionReachable": true, "status": "not-started",
-      "blocker": "Phase 5 (embedded CICS); depends on BMS symbolic map (Phase 2)", "evidence": ["OnlineCorpusInventoryTest"]
+      "blocker": "Silently dropped (no semantic node). SEND TEXT fails closed with a structured diagnostic (CicsUnsupportedFeatureTest), but SEND MAP is dropped silently. Phase 5 (embedded CICS).", "evidence": ["OnlineCorpusInventoryTest"]
     },
     {
       "id": "CICS-SYNCPOINT",
       "scope": "EMBEDDED_CICS",
       "sourceSyntax": "EXEC CICS SYNCPOINT END-EXEC",
-      "parserNode": null, "semanticNode": null, "assemblerRole": null, "manifestBinding": null,
-      "template": null, "runtimeOperation": null,
+      "parserNode": "parser.Cobol.elements.CICS.*", "semanticNode": "CJavaCICSSyncPoint (direct backend)",
+      "assemblerRole": null, "manifestBinding": null, "template": null, "runtimeOperation": null,
       "fixture": "NacaSamples/cobol/ONLINE1.cbl:269",
-      "directBackend": null, "productionReachable": true, "status": "not-started",
-      "blocker": "Phase 5 (embedded CICS)", "evidence": ["OnlineCorpusInventoryTest"]
+      "directBackend": "generate.java.CICS.CJavaCICSSyncPoint", "productionReachable": true, "status": "semantic-built",
+      "blocker": "Semantic node exists on a direct CJava* backend; needs ST4 binding + direct retirement.", "evidence": ["OnlineCorpusInventoryTest"]
     },
     {
       "id": "CICS-XCTL",
       "scope": "EMBEDDED_CICS",
       "sourceSyntax": "EXEC CICS XCTL PROGRAM(...) END-EXEC",
-      "parserNode": null, "semanticNode": null, "assemblerRole": null, "manifestBinding": null,
-      "template": null, "runtimeOperation": null,
+      "parserNode": "parser.Cobol.elements.CICS.*", "semanticNode": "CJavaCICSXctl (direct backend)",
+      "assemblerRole": null, "manifestBinding": null, "template": null, "runtimeOperation": null,
       "fixture": "NacaSamples/cobol/ONLINE1.cbl:270",
-      "directBackend": null, "productionReachable": true, "status": "not-started",
-      "blocker": "Phase 5 (embedded CICS)", "evidence": ["OnlineCorpusInventoryTest"]
+      "directBackend": "generate.java.CICS.CJavaCICSXctl", "productionReachable": true, "status": "semantic-built",
+      "blocker": "Semantic node exists on a direct CJava* backend; needs ST4 binding + direct retirement.", "evidence": ["OnlineCorpusInventoryTest"]
     },
     {
       "id": "CICS-LINK",
       "scope": "EMBEDDED_CICS",
       "sourceSyntax": "EXEC CICS LINK PROGRAM(...) END-EXEC",
-      "parserNode": null, "semanticNode": null, "assemblerRole": null, "manifestBinding": null,
-      "template": null, "runtimeOperation": null,
+      "parserNode": "parser.Cobol.elements.CICS.*", "semanticNode": "CJavaCICSLink (direct backend)",
+      "assemblerRole": null, "manifestBinding": null, "template": null, "runtimeOperation": null,
       "fixture": "NacaSamples/cobol/ONLINE1.cbl:283",
-      "directBackend": null, "productionReachable": true, "status": "not-started",
-      "blocker": "Phase 5 (embedded CICS)", "evidence": ["OnlineCorpusInventoryTest"]
+      "directBackend": "generate.java.CICS.CJavaCICSLink", "productionReachable": true, "status": "semantic-built",
+      "blocker": "Semantic node exists on a direct CJava* backend; needs ST4 binding + direct retirement.", "evidence": ["OnlineCorpusInventoryTest"]
     },
     {
       "id": "CICS-ABEND",
       "scope": "EMBEDDED_CICS",
       "sourceSyntax": "EXEC CICS ABEND END-EXEC",
-      "parserNode": null, "semanticNode": null, "assemblerRole": null, "manifestBinding": null,
-      "template": null, "runtimeOperation": null,
+      "parserNode": "parser.Cobol.elements.CICS.*", "semanticNode": "CJavaCICSAbend (direct backend)",
+      "assemblerRole": null, "manifestBinding": null, "template": null, "runtimeOperation": null,
       "fixture": "NacaSamples/cobol/ONLINE1.cbl:293",
-      "directBackend": null, "productionReachable": true, "status": "not-started",
-      "blocker": "Phase 5 (embedded CICS)", "evidence": ["OnlineCorpusInventoryTest"]
+      "directBackend": "generate.java.CICS.CJavaCICSAbend", "productionReachable": true, "status": "semantic-built",
+      "blocker": "Semantic node exists on a direct CJava* backend; needs ST4 binding + direct retirement.", "evidence": ["OnlineCorpusInventoryTest"]
     }
   ]
 }

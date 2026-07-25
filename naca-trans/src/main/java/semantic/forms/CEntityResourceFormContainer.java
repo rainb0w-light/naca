@@ -53,7 +53,7 @@ public abstract class CEntityResourceFormContainer extends CBaseResourceEntity
 	public CEntityResourceFormContainer(int l, String name, CObjectCatalog cat, boolean bSaveCopy)
 	{
 		super(l, name, cat);
-		bSaveCopy = bSaveCopy ;
+		this.bSaveCopy = bSaveCopy ;
 	}
 
 	/* (non-Javadoc)
@@ -117,7 +117,14 @@ public abstract class CEntityResourceFormContainer extends CBaseResourceEntity
 		savCopy = newContainer ;
 		
 		CObjectCatalog o = Transcoder.getCurrentObjectCatalog();
-		o.clearSaveMaps();
+		// The current object catalog is only set when the sav copy is built on demand
+		// from a consuming COBOL program (CObjectCatalog.GetExternalDataReference). When
+		// the mapset is generated standalone (direct BMS group drive / artifact contract
+		// test) there is no surrounding program catalog, so there is nothing to clear.
+		if (o != null)
+		{
+			o.clearSaveMaps();
+		}
 		
 		for (int i=0; i<arrForm.size(); i++)
 		{ 
