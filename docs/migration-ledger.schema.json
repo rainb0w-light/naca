@@ -1,0 +1,68 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://naca/publicitas/migration-ledger.schema.json",
+  "title": "Naca COBOL/SQL/CICS -> ST4 migration ledger",
+  "description": "Machine-readable ledger tracking the migration of every production-reachable COBOL / embedded-SQL / embedded-CICS semantic type onto the unified declarative-manifest + recursive-ST4 assembler. Enforced by LedgerConsistencyTest.",
+  "type": "object",
+  "required": ["meta", "entries"],
+  "additionalProperties": true,
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": ["schemaVersion", "statusOrder", "scopeOrder", "ratchet"],
+      "properties": {
+        "schemaVersion": { "type": "integer", "const": 1 },
+        "statusOrder": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1
+        },
+        "scopeOrder": {
+          "type": "array",
+          "items": { "enum": ["COBOL_CORE", "EMBEDDED_SQL", "EMBEDDED_CICS", "BMS_ARTIFACT"] }
+        },
+        "ratchet": {
+          "type": "object",
+          "required": ["finalArchitectureCheck", "rules"],
+          "properties": {
+            "finalArchitectureCheck": {
+              "type": "object",
+              "required": ["tests", "failures"],
+              "properties": {
+                "tests": { "type": "integer", "minimum": 0 },
+                "failures": { "type": "integer", "minimum": 0 },
+                "directBackends": { "type": "integer", "minimum": 0 }
+              }
+            },
+            "rules": { "type": "array", "items": { "type": "string" }, "minItems": 1 }
+          }
+        }
+      }
+    },
+    "entries": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "scope", "status", "productionReachable", "blocker"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[A-Z0-9][A-Z0-9_-]*$" },
+          "scope": { "enum": ["COBOL_CORE", "EMBEDDED_SQL", "EMBEDDED_CICS", "BMS_ARTIFACT"] },
+          "sourceSyntax": { "type": ["string", "null"] },
+          "parserNode": { "type": ["string", "null"] },
+          "semanticNode": { "type": ["string", "null"] },
+          "assemblerRole": { "type": ["string", "null"] },
+          "manifestBinding": { "type": ["string", "null"] },
+          "template": { "type": ["string", "null"] },
+          "runtimeOperation": { "type": ["string", "null"] },
+          "fixture": { "type": ["string", "null"] },
+          "directBackend": { "type": ["string", "null"] },
+          "productionReachable": { "type": "boolean" },
+          "status": { "type": "string" },
+          "blocker": { "type": ["string", "null"] },
+          "evidence": { "type": ["array", "null"], "items": { "type": "string" } }
+        }
+      }
+    }
+  }
+}
