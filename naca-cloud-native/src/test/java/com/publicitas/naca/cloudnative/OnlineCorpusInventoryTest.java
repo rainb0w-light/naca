@@ -4,10 +4,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import com.publicitas.naca.cloudnative.service.OnlineCorpusSupport;
+import diagnostic.DiagnosticSink;
+import diagnostic.UnsupportedFeatureException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -22,26 +25,29 @@ import semantic.CEntityClass;
 import utils.Transcoder;
 
 /**
- * T0 fail-closed acceptance baseline for the ONLINE canonical corpus (ONLINE1).
+ * T0 fail-closed, <b>statement-accurate</b> acceptance baseline for the ONLINE
+ * canonical corpus (ONLINE1).
  *
- * <p>This is an honest, fail-closed inventory — NOT a green-wash. It enumerates
- * every {@code EXEC SQL}/{@code EXEC CICS} source statement (by line + command)
- * and every required {@code INCLUDE}/copybook, then classifies each as:
+ * <p>Phase 3 rework: instead of comparing aggregate SQL/CICS semantic-node totals
+ * by package (which could go green while individual statements silently vanish —
+ * a false-green risk), this enumerates <em>every</em> {@code EXEC SQL}/{@code EXEC
+ * CICS} source statement by {@code (source line, dialect, command)} and classifies
+ * each <em>exactly once</em> as:
  * <ul>
- *   <li><b>preserved</b> — a corresponding semantic node reached the tree;</li>
- *   <li><b>rejected/unsupported</b> — a structured diagnostic was produced
- *       (acceptable: fail-closed with a named reason);</li>
- *   <li><b>silent-drop</b> — the statement vanished with no node and no
- *       diagnostic: this is a FAILURE.</li>
+ *   <li><b>PRESERVED</b> — a SQL/CICS semantic node exists at that source line;</li>
+ *   <li><b>REJECTED</b> — a structured {@link UnsupportedFeatureException} diagnostic
+ *       (feature id + dialect + source line) was recorded for that line during the
+ *       analysis pass (acceptable interim state: fail-closed with a named reason);</li>
+ *   <li><b>SILENT_DROP</b> — neither a node nor a diagnostic: this is a FAILURE.</li>
  * </ul>
- * A missing required include is also a failure. The test is therefore RED while
- * statements are still silently dropped, tracking the debt that T3-T5 must close
- * (each fixed statement turns its line green). It is tagged
- * {@code online-corpus-baseline} and excluded from the default gate, exactly like
- * {@code finalArchitectureCheck}: a debt baseline, not a green-wash.
  *
- * <p>BMS (ONLINM1.bms) is a separate artifact inventoried by the BMS parser, not
- * proven here by a class name containing "Map".
+ * <p>Diagnostics are gathered non-aborting via a {@link DiagnosticSink} opened around
+ * the whole-program analysis, so one unsupported statement does not stop the rest of
+ * the program being inventoried. A missing required include/artifact is also a failure.
+ * The test stays RED while any statement is a SILENT_DROP, pinning the exact debt that
+ * the embedded SQL/CICS migration (Phase 5) must turn into PRESERVED — diagnostics are
+ * an interim bridge, never a permanent substitute for migration. Tagged
+ * {@code online-corpus-baseline} and excluded from the default gate (a debt baseline).
  */
 @Tag("online-corpus-baseline")
 class OnlineCorpusInventoryTest
@@ -51,26 +57,28 @@ class OnlineCorpusInventoryTest
     private static Path csdFile;
     private static Path ruleFile;
 
-    /**
-     * Required copybooks ONLINE1 references that must resolve to real file content
-     * in the Includes group. SQLCA/DFHAID are runtime-provided (ignoredCopy in
-     * NacaTransRules) so they are NOT required to resolve as includes.
-     */
+    /** Real copybook files in the Includes group that must exist on disk. */
     private static final List<String> COPYBOOK_INCLUDES = List.of("VTBMSGA", "TUAZONE");
 
     /**
-     * BMS mapset artifacts ONLINE1 references ({@code COPY ONLINM1} and
-     * {@code EXEC SQL INCLUDE ONLINM1S}). These are NOT copybook files: they resolve
-     * on demand through the BMS {@code Resources}/{@code Map} group
-     * (CObjectCatalog.GetExternalDataReference -> CGlobalCatalog.GetFormContainer ->
-     * BMSTranscoderEngine), generated from the real {@code ONLINM1.bms} source. Their
-     * contract is asserted by resolving the form container, not by file existence, and
-     * is pinned in detail by {@code BmsArtifactContractTest}.
+     * BMS mapset artifacts that resolve on demand through the BMS Resources group
+     * (generated from the real ONLINM1.bms source), asserted in BmsArtifactContractTest
+     * and re-checked here so a broken artifact contract fails the inventory.
      */
     private static final List<String> BMS_ARTIFACTS = List.of("ONLINM1", "ONLINM1S");
 
     private static final Pattern EXEC =
         Pattern.compile("EXEC\\s+(SQL|CICS)\\s+([A-Z]+)");
+
+    /** One EXEC statement occurrence in the source. */
+    private record Stmt(int line, String dialect, String command)
+    {
+        @Override
+        public String toString()
+        {
+            return line + ": EXEC " + dialect + " " + command;
+        }
+    }
 
     @BeforeAll
     static void locate()
@@ -89,52 +97,67 @@ class OnlineCorpusInventoryTest
         }
     }
 
-    /** Extracts "line: EXEC <dialect> <command>" from the source. */
-    private static List<String> sourceExecStatements(Path source) throws Exception
+    /** Extracts every "EXEC <dialect> <command>" with its 1-based source line. */
+    private static List<Stmt> sourceExecStatements(Path source) throws Exception
     {
         List<String> lines = Files.readAllLines(source, StandardCharsets.ISO_8859_1);
-        List<String> statements = new ArrayList<>();
+        List<Stmt> statements = new ArrayList<>();
         for (int i = 0; i < lines.size(); i++)
         {
             Matcher m = EXEC.matcher(lines.get(i).toUpperCase());
             if (m.find())
             {
-                statements.add((i + 1) + ": EXEC " + m.group(1) + " " + m.group(2));
+                statements.add(new Stmt(i + 1, m.group(1), m.group(2)));
             }
         }
         return statements;
     }
 
-    /** Counts semantic nodes by SQL/CICS family (by package), recursively. */
-    private static void inventory(CBaseLanguageEntity node, Map<String, Integer> counts)
+    /**
+     * Records, per source line, the simple class names of ALL semantic nodes reached
+     * in the tree, and separately flags lines that carry a SQL/CICS dialect node. A
+     * statement line with a dialect node is PRESERVED by lowering; the full per-line
+     * class list is reported so INCLUDE (which inlines an external/form entity, not a
+     * dialect node) and any line-attribution nuance are visible for diagnosis.
+     */
+    private static void collectNodesByLine(CBaseLanguageEntity node,
+        Map<Integer, List<String>> nodesByLine)
     {
         if (node == null)
         {
             return;
         }
-        String pkg = node.getClass().getPackage() == null
-            ? "" : node.getClass().getPackage().getName();
-        if (pkg.contains(".SQL"))
-        {
-            counts.merge("SQL:" + node.getClass().getSimpleName(), 1, Integer::sum);
-        }
-        else if (pkg.contains(".CICS"))
-        {
-            counts.merge("CICS:" + node.getClass().getSimpleName(), 1, Integer::sum);
-        }
+        nodesByLine.computeIfAbsent(node.getLine(), k -> new ArrayList<>())
+            .add(node.getClass().getSimpleName());
         List<CBaseLanguageEntity> children = node.getChildren();
         if (children != null)
         {
             for (CBaseLanguageEntity child : children)
             {
-                inventory(child, counts);
+                collectNodesByLine(child, nodesByLine);
             }
         }
     }
 
+    private static boolean isDialectNode(String simpleClassName)
+    {
+        // Dialect lowering produces semantic.* / generate.java.{SQL,CICS} entities.
+        // INCLUDE inlines an external/form entity instead, which the per-line report
+        // surfaces separately.
+        return simpleClassName.contains("CICS") || simpleClassName.contains("SQL");
+    }
+
+    /** Parses the leading source line number out of a diagnostic's source span. */
+    private static int diagnosticLine(UnsupportedFeatureException d)
+    {
+        String src = d.source();
+        Matcher m = Pattern.compile("(\\d+)").matcher(src == null ? "" : src);
+        return m.find() ? Integer.parseInt(m.group(1)) : -1;
+    }
+
     @Test
-    @DisplayName("ONLINE1: every EXEC statement is preserved or rejected-with-diagnostic; silent-drop fails")
-    void online1FailClosedInventory() throws Exception
+    @DisplayName("ONLINE1: every EXEC statement is PRESERVED or REJECTED with a structured diagnostic; SILENT_DROP fails")
+    void online1StatementAccurateInventory() throws Exception
     {
         assertTrue(cobolDir != null, "NacaSamples/cobol must exist");
         Path online1 = cobolDir.resolve("ONLINE1.cbl");
@@ -147,24 +170,35 @@ class OnlineCorpusInventoryTest
             Files.exists(csdFile) ? csdFile.toString() : null,
             Files.exists(ruleFile) ? ruleFile.toString() : null, outputDir);
 
-        List<String> sourceStatements = sourceExecStatements(online1);
-        CEntityClass root = OnlineCorpusSupport.analyze(transcoder, "ONLINE1");
+        List<Stmt> sourceStatements = sourceExecStatements(online1);
 
-        Map<String, Integer> semanticCounts = new TreeMap<>();
+        // Analyze the whole program with a diagnostic sink open so recognized-but-
+        // unlowered statements are recorded (REJECTED) rather than aborting the pass.
+        DiagnosticSink sink = DiagnosticSink.open();
+        CEntityClass root;
+        List<UnsupportedFeatureException> diagnostics;
+        try
+        {
+            root = OnlineCorpusSupport.analyze(transcoder, "ONLINE1");
+        }
+        finally
+        {
+            diagnostics = sink.drain();
+        }
+
+        Map<Integer, List<String>> nodesByLine = new TreeMap<>();
         if (root != null)
         {
-            inventory(root, semanticCounts);
+            collectNodesByLine(root, nodesByLine);
         }
-        int sqlNodes = semanticCounts.entrySet().stream()
-            .filter(e -> e.getKey().startsWith("SQL:")).mapToInt(Map.Entry::getValue).sum();
-        int cicsNodes = semanticCounts.entrySet().stream()
-            .filter(e -> e.getKey().startsWith("CICS:")).mapToInt(Map.Entry::getValue).sum();
+        Map<Integer, List<String>> diagnosticsByLine = new LinkedHashMap<>();
+        for (UnsupportedFeatureException d : diagnostics)
+        {
+            int line = diagnosticLine(d);
+            diagnosticsByLine.computeIfAbsent(line, k -> new ArrayList<>()).add(d.featureId());
+        }
 
-        long sourceSql = sourceStatements.stream().filter(s -> s.contains("EXEC SQL")).count();
-        long sourceCics = sourceStatements.stream().filter(s -> s.contains("EXEC CICS")).count();
-
-        // Missing required includes are a hard failure (the parse cannot be
-        // faithful without them; empty copybooks are NOT an acceptable substitute).
+        // --- Includes / BMS artifact contract (unchanged hard requirement). ---
         List<String> missingIncludes = new ArrayList<>();
         for (String inc : COPYBOOK_INCLUDES)
         {
@@ -173,9 +207,6 @@ class OnlineCorpusInventoryTest
                 missingIncludes.add(inc);
             }
         }
-        // BMS mapset artifacts must resolve through the BMS Resources group from the
-        // real ONLINM1.bms source (not as copybook files). A null form container means
-        // the artifact contract is broken (the historical "Missing include file" fault).
         for (String mapset : BMS_ARTIFACTS)
         {
             if (OnlineCorpusSupport.analyzeMapset(transcoder, mapset) == null)
@@ -184,50 +215,84 @@ class OnlineCorpusInventoryTest
             }
         }
 
-        StringBuilder report = new StringBuilder("\n=== ONLINE1 fail-closed inventory ===\n");
-        report.append("source EXEC SQL  : ").append(sourceSql)
-            .append("   semantic SQL nodes: ").append(sqlNodes).append('\n');
-        report.append("source EXEC CICS : ").append(sourceCics)
-            .append("   semantic CICS nodes: ").append(cicsNodes).append('\n');
-        for (Map.Entry<String, Integer> e : semanticCounts.entrySet())
+        // --- Per-statement classification (each statement classified exactly once). ---
+        int preserved = 0;
+        int rejected = 0;
+        List<String> silentDrops = new ArrayList<>();
+        StringBuilder report = new StringBuilder("\n=== ONLINE1 statement-accurate inventory ===\n");
+        for (Stmt s : sourceStatements)
         {
-            report.append(String.format("  %-40s %d%n", e.getKey(), e.getValue()));
+            List<String> nodes = nodesByLine.get(s.line());
+            List<String> diags = diagnosticsByLine.get(s.line());
+            List<String> dialectNodes = new ArrayList<>();
+            boolean includeResolved = false;
+            if (nodes != null)
+            {
+                for (String cn : nodes)
+                {
+                    if (isDialectNode(cn))
+                    {
+                        dialectNodes.add(cn);
+                    }
+                    // EXEC SQL INCLUDE / COPY that resolved inlines an external/form
+                    // entity (CJavaInline) at the statement line — preserved by
+                    // resolution, not by a dialect node.
+                    if ("INCLUDE".equals(s.command()) && cn.endsWith("Inline"))
+                    {
+                        includeResolved = true;
+                    }
+                }
+            }
+            String verdict;
+            if (!dialectNodes.isEmpty())
+            {
+                verdict = "PRESERVED (" + String.join(",", dialectNodes) + ")";
+                preserved++;
+            }
+            else if (includeResolved)
+            {
+                verdict = "PRESERVED (include resolved/inlined)";
+                preserved++;
+            }
+            else if (diags != null && !diags.isEmpty())
+            {
+                verdict = "REJECTED (" + String.join(",", diags) + ")";
+                rejected++;
+            }
+            else
+            {
+                verdict = "SILENT_DROP"
+                    + (nodes != null ? "  [nodes@line: " + String.join(",", nodes) + "]" : "  [no node @line]");
+                silentDrops.add(s.toString());
+            }
+            report.append(String.format("  %-28s %s%n", s, verdict));
         }
-        report.append("source statements:\n");
-        for (String s : sourceStatements)
-        {
-            report.append("  ").append(s).append('\n');
-        }
+        report.append("totals: PRESERVED=").append(preserved)
+            .append("  REJECTED=").append(rejected)
+            .append("  SILENT_DROP=").append(silentDrops.size()).append('\n');
         if (!missingIncludes.isEmpty())
         {
-            report.append("MISSING required includes: ").append(missingIncludes).append('\n');
+            report.append("MISSING required includes/artifacts: ").append(missingIncludes).append('\n');
         }
         System.out.println(report);
 
-        // Fail-closed: a silent drop is a source statement with no corresponding
-        // semantic node and no structured diagnostic. Until each dialect feature is
-        // migrated (T3-T5) with a structured diagnostic, any source statement that
-        // does not reach a semantic node is a silent drop => failure.
         List<String> failures = new ArrayList<>();
         if (!missingIncludes.isEmpty())
         {
-            failures.add("missing required includes (no faithful parse possible): " + missingIncludes);
+            failures.add("missing required includes/artifacts (no faithful parse possible): "
+                + missingIncludes);
         }
-        if (sqlNodes < sourceSql)
+        if (!silentDrops.isEmpty())
         {
-            failures.add((sourceSql - sqlNodes)
-                + " EXEC SQL statement(s) silently dropped (no semantic node, no diagnostic)");
+            failures.add(silentDrops.size()
+                + " statement(s) SILENTLY DROPPED (no semantic node, no structured diagnostic): "
+                + silentDrops);
         }
-        if (cicsNodes < sourceCics)
-        {
-            failures.add((sourceCics - cicsNodes)
-                + " EXEC CICS statement(s) silently dropped (no semantic node, no diagnostic)");
-        }
-
         if (!failures.isEmpty())
         {
-            fail("ONLINE1 fail-closed inventory found silent drops / missing includes "
-                + "(debt to close in T3-T5):\n  " + String.join("\n  ", failures) + report);
+            fail("ONLINE1 statement-accurate inventory found silent drops / missing includes "
+                + "(debt to close in the embedded SQL/CICS migration):\n  "
+                + String.join("\n  ", failures) + report);
         }
     }
 }

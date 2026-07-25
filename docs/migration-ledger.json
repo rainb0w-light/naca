@@ -8,8 +8,14 @@
     "ratchet": {
       "note": "Debt counts may only move down for the COBOL scope. Refresh per phase.",
       "baselineCapturedAtCommit": "9402b0c",
-      "lastVerifiedAtCommit": "98b9373",
+      "lastVerifiedAtCommit": "e3c4146",
       "finalArchitectureCheck": { "tests": 401, "failures": 222, "directBackends": 170, "semanticClasses": 47, "factories": 3, "templates": 1, "manifests": 1 },
+      "onlineCorpusInventory": {
+        "note": "Phase 3: inventory is now STATEMENT-ACCURATE (per source line+dialect+command, classified exactly once as PRESERVED / REJECTED / SILENT_DROP), no package-aggregate counting. DiagnosticSink (diagnostic.DiagnosticSink) collects structured diagnostics non-aborting so a whole program is inventoried per statement; throws when no sink is open (fail-closed gate). EXEC SQL INCLUDE counts as PRESERVED when it resolves/inlines (CJavaInline at the statement line).",
+        "ONLINE1": { "preserved": 9, "rejected": 0, "silentDrop": 6,
+          "preservedStatements": ["82 INCLUDE", "88 INCLUDE", "91 INCLUDE", "100 INCLUDE", "127 RETURN", "269 SYNCPOINT", "270 XCTL", "283 LINK", "293 ABEND"],
+          "silentDropStatements": ["108 WHENEVER", "110 ADDRESS", "163 RECEIVE", "228 SEND", "237 SEND", "247 RETURN"] }
+      },
       "rules": [
         "status may only advance forward along statusOrder",
         "COBOL-scope direct backend count may only decrease",
@@ -34,7 +40,8 @@
     "discoveredDebt": [
       { "id": "LATENT-SELF-ASSIGN", "note": "Repeated 'x = x' constructor self-assignment bugs (param shadows field). Fixed during BMS unblock: CBMSElement.name, CResourceStrings.nbLines/nbCols, CEntityResourceFormContainer.bSaveCopy. STILL PRESENT (not yet exercised by the corpus): CWorkingEntry.java:78 (text), CEntityFormAccessor.java:43 (owner), CEntityFormRedefine.java:52 (eForm). Fix when their path is migrated/tested." },
       { "id": "PREEXISTING-WSMESSAGE", "scope": "COBOL_CORE", "note": "TranspileControllerTest.testTranspileValidCobolWithWorkingStorage fails ('Should contain wsMessage variable') at baseline 9402b0c — pre-existing, unrelated to BMS. COBOL working-storage codegen debt; address during the COBOL data/class migration (Phase 5 step 1)." },
-      { "id": "CALLMSG-SUBPROGRAM", "scope": "COBOL_CORE", "note": "ONLINE1 logs 'Missing sub-program : CALLMSG' (a CALL to a sub-program not in the corpus). Separate debt; not a driver of the online-corpus baseline." }
+      { "id": "CALLMSG-SUBPROGRAM", "scope": "COBOL_CORE", "note": "ONLINE1 logs 'Missing sub-program : CALLMSG' (a CALL to a sub-program not in the corpus). Separate debt; not a driver of the online-corpus baseline." },
+      { "id": "ONLINE1-SILENT-DROPS", "scope": "EMBEDDED_SQL/EMBEDDED_CICS", "note": "Phase 3 measured 6 SILENT_DROPs in ONLINE1: WHENEVER(108), ADDRESS(110), RECEIVE(163), SEND(228), SEND(237), RETURN(247). NOTE: ADDRESS/RECEIVE/RETURN have parser classes AND factory NewEntity* methods (CJavaCICSAddress/ReceiveMap/Return), so their drop is likely a lowering/line-attribution BUG to fix (make PRESERVED), NOT an unsupported feature to reject. WHENEVER and SEND MAP appear genuinely unlowered -> structured-reject (DiagnosticSink) interim, then migrate. RETURN@127 is PRESERVED but RETURN@247 drops — investigate the per-statement difference. Phase 5 resolves each." }
     ]
   },
   "entries": [
