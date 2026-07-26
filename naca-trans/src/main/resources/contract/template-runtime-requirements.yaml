@@ -64,3 +64,8 @@ templates:
       - data.move.editEdit
       - data.moveAll
       - data.moveCorresponding
+
+  recursiveCICSReturnEntity:
+    capability: CICS
+    requires:
+      - cics.returnTrans

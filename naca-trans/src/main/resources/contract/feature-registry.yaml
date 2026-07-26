@@ -91,3 +91,13 @@ features:
     runtimeOperations: [data.move.varEdit, data.move.editVar, data.move.editEdit, data.moveAll, data.moveCorresponding]
     fixtures: []
     status: production
+
+  - id: cics.return
+    dialects: [embedded-cics]
+    semanticType: semantic.CICS.CEntityCICSReturn
+    javaBackend:
+      role: REFERENCE
+      template: recursiveCICSReturnEntity
+    runtimeOperations: [cics.returnTrans]
+    fixtures: []
+    status: production

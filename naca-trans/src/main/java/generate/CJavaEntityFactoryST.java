@@ -50,6 +50,7 @@ import semantic.Verbs.CEntityStringConcat;
 import semantic.Verbs.CEntitySwitchCase;
 import semantic.Verbs.CEntityNextSentence;
 import semantic.Verbs.CEntityExec;
+import semantic.CICS.CEntityCICSReturn;
 import utils.CObjectCatalog;
 import generate.CBaseLanguageExporter;
 
@@ -102,6 +103,16 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntityReadFile NewEntityReadFile(int line) {
         CEntityReadFile e = new CEntityReadFile(line, programCatalog);
+        e.setLanguageExporter(langOutput);
+        return e;
+    }
+
+    // Embedded CICS RETURN: the ST4 factory builds the pure semantic entity, which
+    // the recursive assembler renders via the recursiveCICSReturnEntity binding
+    // (no CJava* controller). Mirrors the READ exemplar above.
+    @Override
+    public CEntityCICSReturn NewEntityCICSReturn(int l) {
+        CEntityCICSReturn e = new CEntityCICSReturn(l, programCatalog);
         e.setLanguageExporter(langOutput);
         return e;
     }

@@ -23,7 +23,7 @@ import utils.CobolTranscoder.Notifs.NotifDeclareUseCICSPreprocessor;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityCICSReturn extends CBaseActionEntity
+public class CEntityCICSReturn extends CBaseActionEntity
 {
 	/**
 	 * @param line
@@ -32,7 +32,13 @@ public abstract class CEntityCICSReturn extends CBaseActionEntity
 	public CEntityCICSReturn(int line, CObjectCatalog cat)
 	{
 		super(line, cat);
-		cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
+		// The catalog notification is a production-only side effect; the ST4 render
+		// tests instantiate this entity directly with a null catalog (like the READ
+		// exemplar), so guard it instead of dereferencing unconditionally.
+		if (cat != null)
+		{
+			cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
+		}
 	}
 	public void SetTransID(CDataEntity TID, CDataEntity comma, CDataEntity comlen, boolean bChecked)
 	{
@@ -78,5 +84,35 @@ public abstract class CEntityCICSReturn extends CBaseActionEntity
 	public boolean hasExplicitGetOut()
 	{
 		return true ;
+	}
+
+	// ==================== ST4 Template Accessors ====================
+	// Read-only getters for the recursive ST4 assembler (template
+	// recursiveCICSReturnEntity). They expose the already-resolved semantic
+	// sub-entities; rendering is done by the template, never here.
+
+	public CDataEntity getTransID()
+	{
+		return transID;
+	}
+
+	public CDataEntity getCommArea()
+	{
+		return commArea;
+	}
+
+	public CDataEntity getCommLength()
+	{
+		return commLenght;
+	}
+
+	public boolean isChecked()
+	{
+		return ischecked;
+	}
+
+	public String getTransIDConstantValue()
+	{
+		return transID == null ? null : transID.GetConstantValue();
 	}
 }

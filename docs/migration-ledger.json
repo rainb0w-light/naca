@@ -26,7 +26,7 @@
       "finalArchitectureCheck": {
         "tests": 401,
         "failures": 222,
-        "directBackends": 170,
+        "directBackends": 169,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -286,7 +286,7 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "EMBEDDED_CICS",
       "sourceSyntax": "EXEC CICS RETURN END-EXEC",
@@ -299,11 +299,12 @@
       "fixture": "NacaSamples/cobol/ONLINE1.cbl:127,247",
       "directBackend": "generate.java.CICS.CJavaCICSReturn",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Semantic node exists on a direct CJava* backend; needs ST4 binding + direct retirement. Note: 2 RETURN statements but inventory counts 1 node — verify per-statement in Phase 3.",
       "evidence": [
         "OnlineCorpusInventoryTest"
-      ]
+      ],
+      "lastAttemptCommit": "f09f80759b0efbd95ba659e4b8d30b92a2987f46"
     },
     {
       "id": "CICS-RECEIVE",

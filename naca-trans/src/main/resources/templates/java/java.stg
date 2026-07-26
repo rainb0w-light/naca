@@ -815,6 +815,14 @@ recursiveReadInvocation(entity) ::= <<
 <if(entity.dataInto)>readInto(<entity.fileDescriptor>, <entity.dataInto>)<else>read(<entity.fileDescriptor>)<endif>
 >>
 
+// Embedded CICS RETURN (EXEC CICS RETURN END-EXEC). Emits the CESM.returnTrans(...)
+// runtime call. Mirrors CJavaCICSReturn.DoExport exactly: bare RETURN -> no args;
+// a checked TRANSID renders as a program class literal (<const>.class), an unchecked
+// TRANSID as a data reference; COMMAREA/LENGTH append further reference arguments.
+recursiveCICSReturnEntity(entity) ::= <<
+CESM.returnTrans(<if(entity.transID)><if(entity.checked)><entity.transIDConstantValue>.class<else><entity.transID><endif><if(entity.commArea)>, <entity.commArea><if(entity.commLength)>, <entity.commLength><endif><endif><endif>) ;
+>>
+
 recursiveAcceptEntity(entity) ::= <<
 <if(entity.fromEnvironmentValue)>acceptEnv(<entity.variable>);<else>move(<if(entity.fromDate)>getDateBatch()<else><if(entity.fromDay)>getDayBatch()<else><if(entity.fromDayOfWeek)>getDayOfWeekBatch()<else><if(entity.fromInput)>getInputBatch()<else><if(entity.fromTime)>getTimeBatch()<else><entity.source><endif><endif><endif><endif><endif>, <entity.variable>);<endif>
 >>

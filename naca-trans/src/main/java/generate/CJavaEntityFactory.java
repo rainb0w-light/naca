@@ -52,7 +52,6 @@ import generate.java.CICS.CJavaCICSRead;
 import generate.java.CICS.CJavaCICSReadQ;
 import generate.java.CICS.CJavaCICSReceiveMap;
 import generate.java.CICS.CJavaCICSRetrieve;
-import generate.java.CICS.CJavaCICSReturn;
 import generate.java.CICS.CJavaCICSSendMap;
 import generate.java.CICS.CJavaCICSSetTDQueue;
 import generate.java.CICS.CJavaCICSStart;
@@ -756,7 +755,11 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CJavaCICSStart(l, programCatalog, langOutput, TID);
 	}
 	public CEntityCICSReturn NewEntityCICSReturn(int l)	{
-		return new CJavaCICSReturn(l, programCatalog, langOutput);
+		// Direct backend CJavaCICSReturn retired: the pure semantic entity is rendered
+		// by the recursive ST4 assembler (recursiveCICSReturnEntity binding).
+		CEntityCICSReturn e = new CEntityCICSReturn(l, programCatalog);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntityCICSSendMap NewEntityCICSSendMap(int l)	{
 		return new CJavaCICSSendMap(l, programCatalog, langOutput);

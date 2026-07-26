@@ -211,3 +211,19 @@ operations:
     runtimeMethod: moveCorresponding
     paramTypes: [nacaLib.varEx.VarBase, nacaLib.varEx.VarBase]
     returns: nacaLib.basePrgEnv.BaseProgram
+
+  # --- CICS RETURN ---
+  # EXEC CICS RETURN END-EXEC emits CESM.returnTrans(...). The contract declares the
+  # representative no-argument overload — the production-reachable bare RETURN (e.g.
+  # ONLINE1.cbl:127). The TRANSID/COMMAREA/LENGTH overloads the template can also emit
+  # are declared when the RETURN@247 form (currently a semantic-analysis silent-drop;
+  # see ledger debt ONLINE1-SILENT-DROPS) is lowered, mirroring how data.move declares
+  # representative overloads. returnTrans is declared on BaseCESMManager and resolves
+  # hierarchically like program.call.
+  - id: cics.returnTrans
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
+    runtimeMethod: returnTrans
+    paramTypes: []
+    returns: void
