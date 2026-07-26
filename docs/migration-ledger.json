@@ -177,8 +177,8 @@
         "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
       ],
       "expectedDebtDelta": {},
-      "attempts": 0,
-      "blocked": false,
+      "attempts": 3,
+      "blocked": true,
       "scope": "EMBEDDED_SQL",
       "sourceSyntax": "EXEC SQL INCLUDE <copybook> END-EXEC",
       "parserNode": "parser.Cobol.elements.SQL.CExecSQLInclude",
@@ -195,7 +195,9 @@
       "evidence": [
         "OnlineCorpusInventoryTest",
         "BmsArtifactContractTest.consumersResolveOnDemand"
-      ]
+      ],
+      "blockedReason": "exhausted 3 attempts without independent verification; last outcome=failed",
+      "lastAttemptCommit": "b13a9c8ed971653f9a552251b6def589070e48a7"
     },
     {
       "id": "SQL-WHENEVER",
