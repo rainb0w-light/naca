@@ -851,6 +851,13 @@ recursiveCICSLinkEntity(entity) ::= <<
 CESM.link(<if(entity.program)><if(entity.checked)><entity.programConstantValue>.class<else><entity.program><endif><endif>)<if(entity.commArea)>.commarea(<entity.commArea>, <if(entity.commLength)><entity.commLength><else>-1<endif>, <if(entity.commDataLength)><entity.commDataLength><else>-1<endif>)<else>.go()<endif> ;
 >>
 
+// Embedded CICS ABEND (EXEC CICS ABEND [ABCODE(...)] END-EXEC). Emits the
+// CESM.abend(...) runtime call. Mirrors CJavaCICSAbend.DoExport exactly: a bare
+// ABEND renders CESM.abend() ;, an ABCODE(...) argument renders CESM.abend(<ref>) ;.
+recursiveCICSAbendEntity(entity) ::= <<
+CESM.abend(<if(entity.aBCode)><entity.aBCode><endif>) ;
+>>
+
 recursiveAcceptEntity(entity) ::= <<
 <if(entity.fromEnvironmentValue)>acceptEnv(<entity.variable>);<else>move(<if(entity.fromDate)>getDateBatch()<else><if(entity.fromDay)>getDayBatch()<else><if(entity.fromDayOfWeek)>getDayOfWeekBatch()<else><if(entity.fromInput)>getInputBatch()<else><if(entity.fromTime)>getTimeBatch()<else><entity.source><endif><endif><endif><endif><endif>, <entity.variable>);<endif>
 >>

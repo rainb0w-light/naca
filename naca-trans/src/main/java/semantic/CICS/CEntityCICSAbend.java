@@ -23,7 +23,7 @@ import utils.CobolTranscoder.Notifs.NotifDeclareUseCICSPreprocessor;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityCICSAbend extends CBaseActionEntity
+public class CEntityCICSAbend extends CBaseActionEntity
 {
 	/**
 	 * @param line
@@ -32,7 +32,14 @@ public abstract class CEntityCICSAbend extends CBaseActionEntity
 	public CEntityCICSAbend(int line, CObjectCatalog cat)
 	{
 		super(line, cat);
-		cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
+		// The catalog notification is a production-only side effect; the ST4 render
+		// tests instantiate this entity directly with a null catalog (like the READ
+		// and CICS XCTL/LINK exemplars), so guard it instead of dereferencing
+		// unconditionally.
+		if (cat != null)
+		{
+			cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
+		}
 	}
 	
 	public void SetABCode(CDataEntity ab)
@@ -54,5 +61,15 @@ public abstract class CEntityCICSAbend extends CBaseActionEntity
 	public boolean hasExplicitGetOut()
 	{
 		return true ;
+	}
+
+	// ==================== ST4 Template Accessors ====================
+	// Read-only getters for the recursive ST4 assembler (template
+	// recursiveCICSAbendEntity). They expose the already-resolved semantic
+	// sub-entities; rendering is done by the template, never here.
+
+	public CDataEntity getABCode()
+	{
+		return aBCode;
 	}
 }

@@ -85,3 +85,9 @@ templates:
     capability: CICS
     requires:
       - cics.link
+
+  recursiveCICSAbendEntity:
+    capability: CICS
+    requires:
+      - cics.abend
+      - cics.abendWithCode

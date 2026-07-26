@@ -131,3 +131,13 @@ features:
     runtimeOperations: [cics.link]
     fixtures: []
     status: production
+
+  - id: cics.abend
+    dialects: [embedded-cics]
+    semanticType: semantic.CICS.CEntityCICSAbend
+    javaBackend:
+      role: REFERENCE
+      template: recursiveCICSAbendEntity
+    runtimeOperations: [cics.abend, cics.abendWithCode]
+    fixtures: []
+    status: production

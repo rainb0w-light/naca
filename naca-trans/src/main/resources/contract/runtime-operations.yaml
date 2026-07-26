@@ -280,3 +280,26 @@ operations:
     runtimeMethod: link
     paramTypes: [java.lang.String]
     returns: nacaLib.CESM.CESMLink
+
+  # --- CICS ABEND ---
+  # EXEC CICS ABEND [ABCODE(...)] END-EXEC emits CESM.abend() (bare form) or
+  # CESM.abend(<ref>) (ABCODE form). Both are void calls on BaseCESMManager,
+  # declared hierarchically like cics.syncPointCommit. The production-reachable
+  # fixture ONLINE1.cbl:293 is ABCODE(W-ABEND-DB2), a variable reference that
+  # resolves to the abend(VarAndEdit) overload; the no-argument abend() covers
+  # the bare ABEND form the template can also emit.
+  - id: cics.abend
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
+    runtimeMethod: abend
+    paramTypes: []
+    returns: void
+
+  - id: cics.abendWithCode
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
+    runtimeMethod: abend
+    paramTypes: [nacaLib.varEx.VarAndEdit]
+    returns: void
