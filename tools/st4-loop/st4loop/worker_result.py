@@ -48,6 +48,7 @@ class WorkerOutcome:
         is_error=False,
         session_id=None,
         cost_usd=None,
+        api_error_status=None,
         raw=None,
     ):
         self.ok = ok
@@ -63,6 +64,7 @@ class WorkerOutcome:
         self.is_error = is_error
         self.session_id = session_id
         self.cost_usd = cost_usd
+        self.api_error_status = api_error_status
         self.raw = raw
 
     def __repr__(self):  # pragma: no cover - debug aid
@@ -206,16 +208,24 @@ def interpret(raw_text, expected_item_id=None):
         )
 
     is_error = bool(envelope.get("is_error"))
+    api_error_status = envelope.get("api_error_status")
     session_id = envelope.get("session_id")
     cost_usd = envelope.get("total_cost_usd")
     so = extract_structured(envelope)
 
     if so is None:
-        msg = "no structured_output in worker envelope"
+        if api_error_status is not None:
+            msg = (
+                f"Claude API error {api_error_status}: "
+                f"{str(envelope.get('result') or 'request failed')}"
+            )
+        else:
+            msg = "no structured_output in worker envelope"
         return WorkerOutcome(
             ok=False, outcome="failed", summary=str(envelope.get("result") or msg),
             problems=[msg], is_error=is_error, session_id=session_id,
-            cost_usd=cost_usd, evidence=[f"envelope: {msg}"], raw=raw_text,
+            cost_usd=cost_usd, api_error_status=api_error_status,
+            evidence=[f"envelope: {msg}"], raw=raw_text,
         )
 
     problems = validate_structured(so, expected_item_id)
@@ -235,5 +245,6 @@ def interpret(raw_text, expected_item_id=None):
         is_error=is_error,
         session_id=session_id,
         cost_usd=cost_usd,
+        api_error_status=api_error_status,
         raw=raw_text,
     )

@@ -98,7 +98,7 @@
       "workerPrompt": ".claude/st4-loop/worker.md",
       "resultSchema": ".claude/st4-loop/result.schema.json",
       "reviewSchema": ".claude/st4-loop/review.schema.json",
-      "workerDefaults": "permission-mode=acceptEdits (configurable via --permission-mode among acceptEdits/auto/plan/manual; bypassPermissions/dontAsk/dangerously-skip are refused), worker-timeout=1800s (configurable via --worker-timeout), prompt piped via stdin, git-mutation deny rules always applied."
+      "workerDefaults": "permission-mode=acceptEdits (configurable via --permission-mode among acceptEdits/auto/plan/manual; bypassPermissions/dontAsk/dangerously-skip are refused), worker-timeout=1800s (configurable via --worker-timeout), prompt piped via stdin, git-mutation deny rules always applied. Claude API/quota errors pause the run without consuming ledger attempts or marking the semantic slice blocked."
     },
     "discoveredDebt": [
       {
@@ -177,8 +177,8 @@
         "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
       ],
       "expectedDebtDelta": {},
-      "attempts": 3,
-      "blocked": true,
+      "attempts": 0,
+      "blocked": false,
       "scope": "EMBEDDED_SQL",
       "sourceSyntax": "EXEC SQL INCLUDE <copybook> END-EXEC",
       "parserNode": "parser.Cobol.elements.SQL.CExecSQLInclude",
@@ -195,9 +195,7 @@
       "evidence": [
         "OnlineCorpusInventoryTest",
         "BmsArtifactContractTest.consumersResolveOnDemand"
-      ],
-      "blockedReason": "exhausted 3 attempts without independent verification; last outcome=failed",
-      "lastAttemptCommit": "b13a9c8ed971653f9a552251b6def589070e48a7"
+      ]
     },
     {
       "id": "SQL-WHENEVER",
@@ -205,8 +203,8 @@
       "dependencies": [],
       "verification": [],
       "expectedDebtDelta": {},
-      "attempts": 3,
-      "blocked": true,
+      "attempts": 0,
+      "blocked": false,
       "scope": "EMBEDDED_SQL",
       "sourceSyntax": "EXEC SQL WHENEVER SQLERROR GOTO <label> END-EXEC",
       "parserNode": null,
@@ -222,9 +220,7 @@
       "blocker": "Silently dropped; needs semantic node + manifest binding, or a structured-reject with source location + feature id (Phase 3/5).",
       "evidence": [
         "OnlineCorpusInventoryTest"
-      ],
-      "blockedReason": "exhausted 3 attempts without independent verification; last outcome=failed",
-      "lastAttemptCommit": "aed2ac83449862e04019835eb7548c72559cb002"
+      ]
     },
     {
       "id": "SQL-CURSOR-LIFECYCLE",
@@ -262,8 +258,8 @@
       "dependencies": [],
       "verification": [],
       "expectedDebtDelta": {},
-      "attempts": 3,
-      "blocked": true,
+      "attempts": 0,
+      "blocked": false,
       "scope": "EMBEDDED_CICS",
       "sourceSyntax": "EXEC CICS ADDRESS TCTUA(...) END-EXEC",
       "parserNode": null,
@@ -279,9 +275,7 @@
       "blocker": "Silently dropped (no semantic node). Phase 5 (embedded CICS).",
       "evidence": [
         "OnlineCorpusInventoryTest"
-      ],
-      "blockedReason": "exhausted 3 attempts without independent verification; last outcome=failed",
-      "lastAttemptCommit": "10008f473a0bee0f528194288cb052522a434804"
+      ]
     },
     {
       "id": "CICS-RETURN",
@@ -322,8 +316,8 @@
       ],
       "verification": [],
       "expectedDebtDelta": {},
-      "attempts": 3,
-      "blocked": true,
+      "attempts": 0,
+      "blocked": false,
       "scope": "EMBEDDED_CICS",
       "sourceSyntax": "EXEC CICS RECEIVE MAP(...) END-EXEC",
       "parserNode": null,
@@ -339,9 +333,7 @@
       "blocker": "Silently dropped (no semantic node) even though the BMS map now resolves. Phase 5 (embedded CICS).",
       "evidence": [
         "OnlineCorpusInventoryTest"
-      ],
-      "blockedReason": "exhausted 3 attempts without independent verification; last outcome=failed",
-      "lastAttemptCommit": "a72aed5fd5637ff9c888216edf8b166120d18633"
+      ]
     },
     {
       "id": "CICS-SEND",
@@ -352,8 +344,8 @@
       ],
       "verification": [],
       "expectedDebtDelta": {},
-      "attempts": 3,
-      "blocked": true,
+      "attempts": 0,
+      "blocked": false,
       "scope": "EMBEDDED_CICS",
       "sourceSyntax": "EXEC CICS SEND MAP(...) END-EXEC",
       "parserNode": null,
@@ -369,9 +361,7 @@
       "blocker": "Silently dropped (no semantic node). SEND TEXT fails closed with a structured diagnostic (CicsUnsupportedFeatureTest), but SEND MAP is dropped silently. Phase 5 (embedded CICS).",
       "evidence": [
         "OnlineCorpusInventoryTest"
-      ],
-      "blockedReason": "exhausted 3 attempts without independent verification; last outcome=failed",
-      "lastAttemptCommit": "9b78e36824dd888d499446e84cce34c67c7e4a8e"
+      ]
     },
     {
       "id": "CICS-SYNCPOINT",

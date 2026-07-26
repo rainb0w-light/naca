@@ -234,6 +234,18 @@ def default_reviewer_runner(diff_text, item, cfg):
         return {"approved": False, "debtGrew": False,
                 "issues": [f"reviewer envelope unparseable: {exc}", _snippet(raw)]}
     verdict = worker_result.extract_structured(envelope)
+    api_error_status = envelope.get("api_error_status")
+    if api_error_status is not None:
+        return {
+            "approved": False,
+            "debtGrew": False,
+            "transientApiError": True,
+            "apiErrorStatus": api_error_status,
+            "issues": [
+                f"reviewer Claude API error {api_error_status}",
+                _snippet(str(envelope.get("result") or raw)),
+            ],
+        }
     if not isinstance(verdict, dict):
         return {"approved": False, "debtGrew": False,
                 "issues": ["reviewer returned no structured verdict",
@@ -394,6 +406,9 @@ class Controller:
             base_sha = gitutil.head_sha(root)
             outcome = self._run_item(data, item, base_sha)
             summary.append(outcome)
+            if outcome.get("result") == "paused":
+                self.log("[loop] Claude API unavailable; ledger unchanged, stopping.")
+                break
             # loop continues to the next READY item regardless of outcome
         return summary
 
@@ -443,9 +458,33 @@ class Controller:
                 f"problems={outcome.problems}"
             )
 
+            # An API/quota failure is infrastructure state, never evidence that this
+            # semantic slice is blocked. Stop cleanly without consuming a ledger
+            # attempt or creating a false blocked checkpoint; a later run resumes it.
+            if outcome.api_error_status is not None:
+                self._revert_worker_changes()
+                reason = outcome.problems[0] if outcome.problems else outcome.summary
+                self.log(f"[{item_id}] paused: {reason}")
+                return {
+                    "item": item_id,
+                    "result": "paused",
+                    "reason": reason,
+                    "api_error_status": outcome.api_error_status,
+                }
+
             if outcome.ok:
                 gate = self._independent_gate(item, outcome, base_debt, expected_db, attempts)
                 last_report = gate["report"]
+                if gate.get("paused"):
+                    self._revert_worker_changes()
+                    reason = gate["reasons"][0]
+                    self.log(f"[{item_id}] paused: {reason}")
+                    return {
+                        "item": item_id,
+                        "result": "paused",
+                        "reason": reason,
+                        "api_error_status": gate.get("api_error_status"),
+                    }
                 if gate["pass"]:
                     return self._commit_success(
                         data, item, outcome, base_sha, attempts, gate)
@@ -490,6 +529,7 @@ class Controller:
         bundle = self._build_review_bundle(sorted(declared_set | actual_set))
         self._write_log(item_id, f"attempt{attempts}-review-bundle", bundle)
         verdict = self.reviewer_runner(bundle, item, self.cfg)
+        reviewer_paused = bool(verdict.get("transientApiError"))
         approved = bool(verdict.get("approved")) and not verdict.get("debtGrew")
         if not approved:
             reasons.append(f"reviewer did not approve: {verdict.get('issues')}")
@@ -503,6 +543,8 @@ class Controller:
 
         return {
             "pass": not reasons,
+            "paused": reviewer_paused,
+            "api_error_status": verdict.get("apiErrorStatus"),
             "reasons": reasons,
             "report": report,
             "files": sorted(declared_set | actual_set),

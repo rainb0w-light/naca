@@ -75,6 +75,18 @@ class InterpretTest(unittest.TestCase):
         self.assertFalse(out.ok)
         self.assertTrue(any("structured_output" in p for p in out.problems))
 
+    def test_api_error_is_preserved_for_controller_pause(self):
+        raw = json.dumps({
+            "type": "result",
+            "is_error": True,
+            "api_error_status": 429,
+            "result": "quota exhausted",
+        })
+        out = wr.interpret(raw)
+        self.assertFalse(out.ok)
+        self.assertEqual(out.api_error_status, 429)
+        self.assertIn("Claude API error 429", out.problems[0])
+
     def test_structured_in_result_string_is_recovered(self):
         so = good()
         raw = json.dumps({"type": "result", "is_error": False, "result": json.dumps(so)})

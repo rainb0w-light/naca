@@ -211,6 +211,41 @@ class ControllerTest(unittest.TestCase):
             self.assertEqual(summary[0]["result"], "blocked")
             self.assertTrue(gitutil.is_clean(repo))
 
+    def test_api_error_pauses_without_blocking_or_consuming_attempts(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as td:
+            repo = make_repo(Path(td) / "repo", ledger_two_items())
+            cfg = cfg_for(repo, td, max_iterations=2, max_attempts=3)
+            calls = {"n": 0}
+
+            def quota_error(prompt, config):
+                calls["n"] += 1
+                return json.dumps({
+                    "type": "result",
+                    "is_error": True,
+                    "api_error_status": 429,
+                    "result": "quota exhausted",
+                })
+
+            ctrl = controller.Controller(
+                cfg, worker_runner=quota_error, verify_runner=self._ok_verify,
+                reviewer_runner=self._ok_review, debt_measurer=debt_fake(3, 2),
+                log=lambda *_: None)
+            summary = ctrl.run()
+
+            self.assertEqual(calls["n"], 1)
+            self.assertEqual(summary, [{
+                "item": "CICS-FIRST",
+                "result": "paused",
+                "reason": "Claude API error 429: quota exhausted",
+                "api_error_status": 429,
+            }])
+            data = ledger.load_ledger(cfg.ledger_path)
+            first = ledger.entry_by_id(data, "CICS-FIRST")
+            self.assertFalse(first.get("blocked", False))
+            self.assertEqual(ledger.sched(first)["attempts"], 0)
+            self.assertTrue(gitutil.is_clean(repo))
+
 
 class IndependentGateTest(unittest.TestCase):
     """The controller never trusts self-report: filesChanged must exactly match the
@@ -493,6 +528,20 @@ class ReviewerRunnerTest(unittest.TestCase):
             _captured, verdict = self._capture(td, envelope)
         self.assertTrue(verdict["approved"])
         self.assertFalse(verdict.get("debtGrew"))
+
+    def test_reviewer_api_error_is_marked_transient(self):
+        import tempfile
+        envelope = json.dumps({
+            "type": "result",
+            "is_error": True,
+            "api_error_status": 429,
+            "result": "quota exhausted",
+        })
+        with tempfile.TemporaryDirectory() as td:
+            _captured, verdict = self._capture(td, envelope)
+        self.assertFalse(verdict["approved"])
+        self.assertTrue(verdict["transientApiError"])
+        self.assertEqual(verdict["apiErrorStatus"], 429)
 
     def test_reviewer_no_verdict_fails_closed_with_diagnosis(self):
         import tempfile
