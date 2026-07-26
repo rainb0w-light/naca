@@ -350,8 +350,8 @@
       ],
       "verification": [],
       "expectedDebtDelta": {},
-      "attempts": 0,
-      "blocked": false,
+      "attempts": 3,
+      "blocked": true,
       "scope": "EMBEDDED_CICS",
       "sourceSyntax": "EXEC CICS SEND MAP(...) END-EXEC",
       "parserNode": null,
@@ -367,7 +367,9 @@
       "blocker": "Silently dropped (no semantic node). SEND TEXT fails closed with a structured diagnostic (CicsUnsupportedFeatureTest), but SEND MAP is dropped silently. Phase 5 (embedded CICS).",
       "evidence": [
         "OnlineCorpusInventoryTest"
-      ]
+      ],
+      "blockedReason": "exhausted 3 attempts without independent verification; last outcome=failed",
+      "lastAttemptCommit": "9b78e36824dd888d499446e84cce34c67c7e4a8e"
     },
     {
       "id": "CICS-SYNCPOINT",
