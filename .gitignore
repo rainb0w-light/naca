@@ -44,3 +44,10 @@ ItemCount.xml
 
 # Generated test files
 NacaSamples/src/commons/include/commons/Msgzone.java
+
+# ST4 migration loop runtime state (logs, checkpoints) — outside tracked source
+.st4-loop/
+
+# Python bytecode (st4-loop controller/tests)
+__pycache__/
+*.pyc

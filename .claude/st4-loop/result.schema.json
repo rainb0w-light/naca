@@ -1,0 +1,55 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://naca/publicitas/st4-loop/result.schema.json",
+  "title": "ST4 migration worker result",
+  "description": "Structured result a single ST4 migration worker must return for exactly one ledger item. The external controller (tools/st4-loop) validates this and never trusts self-reported success alone: it re-runs deterministic gates and a read-only reviewer before committing.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["itemId", "outcome", "summary", "filesChanged", "debtDelta"],
+  "properties": {
+    "itemId": {
+      "type": "string",
+      "pattern": "^[A-Z0-9][A-Z0-9_-]*$",
+      "description": "The ledger entry id this worker was assigned. Must echo it verbatim; a worker never selects a different task."
+    },
+    "outcome": {
+      "enum": ["success", "failed", "blocked"],
+      "description": "success = slice migrated and locally green; failed = attempted but not green (retriable); blocked = a reproducible obstacle the worker cannot resolve (needs human/other slice)."
+    },
+    "summary": {
+      "type": "string",
+      "description": "One-paragraph human summary of what changed and why."
+    },
+    "filesChanged": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Repo-relative paths the worker created or modified. The controller commits EXACTLY these (plus the ledger); anything else dirty is treated as accidental and reverted."
+    },
+    "statusAdvance": {
+      "type": ["string", "null"],
+      "description": "If the slice advanced the ledger status, the new status (must be forward along meta.statusOrder). null if no status change."
+    },
+    "verificationRun": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Commands the worker ran locally and their result, e.g. './gradlew :naca-trans:test --tests \"*Return*\" -> PASS'."
+    },
+    "debtDelta": {
+      "type": "object",
+      "description": "Change in debt counts caused by this slice. directBackends must be <= 0 (a slice never adds direct backends).",
+      "additionalProperties": { "type": "integer" },
+      "properties": {
+        "directBackends": { "type": "integer" }
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Test class names / commands / file:line proving the claim."
+    },
+    "blocker": {
+      "type": ["string", "null"],
+      "description": "Reproducible blocker description (required when outcome=blocked, else null)."
+    }
+  }
+}

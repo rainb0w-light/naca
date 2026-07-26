@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://naca/publicitas/st4-loop/review.schema.json",
+  "title": "ST4 migration read-only review verdict",
+  "description": "Verdict returned by the read-only st4-reviewer subagent. The controller requires approved=true AND deterministic green gates before committing; self-reported worker success is never sufficient.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["approved", "issues"],
+  "properties": {
+    "approved": {
+      "type": "boolean",
+      "description": "true only if the diff is a faithful single-slice migration that obeys the architecture principle and does not grow debt."
+    },
+    "singleSlice": {
+      "type": "boolean",
+      "description": "true if the diff touches only the assigned item (no unrelated/while-youre-here changes)."
+    },
+    "debtGrew": {
+      "type": "boolean",
+      "description": "true if a new direct backend or other debt was introduced."
+    },
+    "issues": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Concrete file:line problems; empty when approved."
+    }
+  }
+}

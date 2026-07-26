@@ -60,7 +60,34 @@
           "productionReachable": { "type": "boolean" },
           "status": { "type": "string" },
           "blocker": { "type": ["string", "null"] },
-          "evidence": { "type": ["array", "null"], "items": { "type": "string" } }
+          "evidence": { "type": ["array", "null"], "items": { "type": "string" } },
+
+          "priority": {
+            "type": "integer", "minimum": 0,
+            "description": "Scheduler priority; lower is done first. Optional (defaults high)."
+          },
+          "dependencies": {
+            "type": "array", "items": { "type": "string" },
+            "description": "Entry ids that must be >= production-wired before this item is READY."
+          },
+          "verification": {
+            "type": "array", "items": { "type": "string" },
+            "description": "Deterministic shell commands the slice must pass (run by verify-task.sh)."
+          },
+          "expectedDebtDelta": {
+            "type": "object", "additionalProperties": { "type": "integer" },
+            "description": "Expected change in ratchet counters, e.g. {\"directBackends\": -1}."
+          },
+          "attempts": {
+            "type": "integer", "minimum": 0,
+            "description": "Worker attempts consumed so far by the external loop."
+          },
+          "blocked": {
+            "type": "boolean",
+            "description": "Scheduler skips a blocked item until a human clears it."
+          },
+          "blockedReason": { "type": ["string", "null"] },
+          "lastAttemptCommit": { "type": ["string", "null"] }
         }
       }
     }
