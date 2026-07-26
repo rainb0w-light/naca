@@ -26,7 +26,7 @@
       "finalArchitectureCheck": {
         "tests": 401,
         "failures": 222,
-        "directBackends": 168,
+        "directBackends": 167,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -402,7 +402,7 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "EMBEDDED_CICS",
       "sourceSyntax": "EXEC CICS XCTL PROGRAM(...) END-EXEC",
@@ -415,11 +415,12 @@
       "fixture": "NacaSamples/cobol/ONLINE1.cbl:270",
       "directBackend": "generate.java.CICS.CJavaCICSXctl",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Semantic node exists on a direct CJava* backend; needs ST4 binding + direct retirement.",
       "evidence": [
         "OnlineCorpusInventoryTest"
-      ]
+      ],
+      "lastAttemptCommit": "1846197a19434cb5a7bc344fadab3923c4339296"
     },
     {
       "id": "CICS-LINK",

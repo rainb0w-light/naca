@@ -248,3 +248,19 @@ operations:
     runtimeMethod: syncPointRollback
     paramTypes: []
     returns: void
+
+  # --- CICS XCTL ---
+  # EXEC CICS XCTL PROGRAM(...) END-EXEC emits CESM.xctl(...).go() (or, with a
+  # COMMAREA, CESM.xctl(...).commarea(...)). The contract declares the
+  # representative xctl(String) overload that the production-reachable
+  # program-literal form (e.g. ONLINE1.cbl:270) resolves to; the Var/Class
+  # overloads the template can also emit resolve hierarchically on
+  # BaseCESMManager like cics.returnTrans. xctl returns a CESMXctl builder on
+  # which .go()/.commarea(...) are chained.
+  - id: cics.xctl
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
+    runtimeMethod: xctl
+    paramTypes: [java.lang.String]
+    returns: nacaLib.CESM.CESMXctl

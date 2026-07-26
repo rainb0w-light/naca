@@ -111,3 +111,13 @@ features:
     runtimeOperations: [cics.syncPointCommit, cics.syncPointRollback]
     fixtures: []
     status: production
+
+  - id: cics.xctl
+    dialects: [embedded-cics]
+    semanticType: semantic.CICS.CEntityCICSXctl
+    javaBackend:
+      role: REFERENCE
+      template: recursiveCICSXctlEntity
+    runtimeOperations: [cics.xctl]
+    fixtures: []
+    status: production

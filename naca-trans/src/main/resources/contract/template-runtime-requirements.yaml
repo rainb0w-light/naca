@@ -75,3 +75,8 @@ templates:
     requires:
       - cics.syncPointCommit
       - cics.syncPointRollback
+
+  recursiveCICSXctlEntity:
+    capability: CICS
+    requires:
+      - cics.xctl
