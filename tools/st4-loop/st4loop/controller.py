@@ -21,6 +21,36 @@ ITEM_END = "<<<ST4_ITEM_END>>>"
 DIFF_BEGIN = "<<<ST4_DIFF_BEGIN>>>"
 DIFF_END = "<<<ST4_DIFF_END>>>"
 
+# Inlined from .claude/agents/st4-reviewer.md. We deliberately do NOT run the reviewer
+# as `--agent st4-reviewer`: the agent induces a long multi-turn session that ignores
+# --json-schema and returns a free-form essay. A direct, single-turn, schema-driven
+# call returns proper structured_output. The five checks + strict output contract live
+# in the prompt instead.
+REVIEWER_INSTRUCTIONS = """\
+You are the independent READ-ONLY gate for one ST4 migration slice. A worker claims it
+migrated the ledger item below; DO NOT trust the claim - verify the diff. You may Read
+any repo file for context; never edit anything.
+
+Check EXACTLY these five things:
+1. Single slice: the diff implements ONLY the assigned itemId. Flag any unrelated edit,
+   drive-by refactor, or other slice (singleSlice=false).
+2. Architecture principle: semantic export() builds sub-entities and returns nothing;
+   java.stg templates only read entity.* properties (no .export()/.exportChildren(), no
+   <obj.method()> in .stg); no backend tokens (generate., org.stringtemplate, CJava*
+   construction) inside semantic/**.
+3. Debt does not grow: no NEW direct backend (a class under generate/java/** newly
+   'extends CEntity*/CBaseActionEntity/CDataEntity'); a slice should retire, not add
+   (debtGrew=true if it adds debt).
+4. Out-of-scope untouched: no BMS (BMS_ARTIFACT) or FPac pipeline changes.
+5. Coherence: a new manifest binding has a matching template definition; a factory
+   override points at the semantic entity; a render test exists in the diff.
+
+OUTPUT CONTRACT (strict): respond with ONLY a single JSON object and NOTHING else - no
+prose, no markdown, no code fences, no explanation, no extra keys. Use EXACTLY these
+keys: "approved" (boolean), "singleSlice" (boolean), "debtGrew" (boolean), "issues"
+(array of strings; empty when approved). Set approved=true ONLY if every check passes;
+when unsure set approved=false and put the specific file:line problem in issues."""
+
 # Defense in depth: even though the worker prompt forbids git mutations, we also
 # deny the obvious history/remote-mutating commands at the CLI layer. Kept as a LIST
 # of individual rules: --disallowedTools is variadic, so each rule is its own argv
@@ -167,17 +197,18 @@ def default_reviewer_runner(diff_text, item, cfg):
     """
     schema = Path(cfg.review_schema_path).read_text(encoding="utf-8")
     prompt = (
-        "Review this single ST4 migration slice diff against its ledger item.\n"
-        f"{ITEM_BEGIN}\n{json.dumps(item, indent=2)}\n{ITEM_END}\n"
+        f"{REVIEWER_INSTRUCTIONS}\n\n"
+        f"Assigned ledger item:\n"
+        f"{ITEM_BEGIN}\n{json.dumps(item, indent=2)}\n{ITEM_END}\n\n"
+        f"Working-tree diff (tracked changes + full new-file contents):\n"
         f"{DIFF_BEGIN}\n{diff_text}\n{DIFF_END}\n"
-        "Return only the structured verdict."
     )
     base = cfg.reviewer_cmd if cfg.reviewer_cmd is not None else cfg.claude_cmd
+    # No --agent: a single-turn schema-driven call returns structured_output reliably.
     # --tools is variadic: model/effort go BEFORE it and it stays LAST; the review
     # prompt goes via stdin so the variadic flag cannot swallow it.
     argv = list(base) + [
         "-p",
-        "--agent", "st4-reviewer",
         "--permission-mode", "plan",
         "--output-format", "json",
         "--json-schema", schema,

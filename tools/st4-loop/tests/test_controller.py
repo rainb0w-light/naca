@@ -397,10 +397,11 @@ class WorkerArgvTest(unittest.TestCase):
             verdict = c.default_reviewer_runner(review_prompt, {"id": "X"}, cfg)
 
         argv = captured["argv"]
-        self.assertIn("--agent", argv)
-        self.assertEqual(argv[argv.index("--agent") + 1], "st4-reviewer")
+        # No --agent: the agent induced 50-turn schema-ignoring sessions. Single-turn.
+        self.assertNotIn("--agent", argv)
         self.assertIn("--tools", argv)
         self.assertEqual(argv[argv.index("--tools") + 1], "Read,Grep,Glob")
+        self.assertEqual(argv[argv.index("--permission-mode") + 1], "plan")
         # --tools value is the LAST token; prompt is stdin, not a positional.
         self.assertEqual(argv.index("--tools") + 2, len(argv))
         stdin_input = captured["kwargs"].get("input")
@@ -455,6 +456,30 @@ class ReviewerRunnerTest(unittest.TestCase):
         self.assertEqual(argv.index("--tools") + 2, len(argv))
         self.assertIn("DIFF", captured["kwargs"].get("input"))
         self.assertTrue(verdict["approved"])
+
+    def test_reviewer_prompt_inlines_checks_and_strict_contract_no_agent(self):
+        import tempfile
+        good = json.dumps({"type": "result", "is_error": False,
+                           "structured_output": {"approved": True, "issues": []}})
+        with tempfile.TemporaryDirectory() as td:
+            captured, _verdict = self._capture(td, good)
+        argv = captured["argv"]
+        prompt = captured["kwargs"].get("input")
+        # the five inlined checks
+        for check in ("Single slice", "Architecture principle", "Debt does not grow",
+                      "Out-of-scope untouched", "Coherence"):
+            self.assertIn(check, prompt)
+        # strict output contract demanding exact keys, no prose/markdown/fences
+        self.assertIn("OUTPUT CONTRACT", prompt)
+        self.assertIn("EXACTLY these", prompt)
+        self.assertIn("NOTHING else", prompt)
+        for key in ('"approved"', '"singleSlice"', '"debtGrew"', '"issues"'):
+            self.assertIn(key, prompt)
+        self.assertIn("no markdown", prompt)
+        self.assertIn("no code fences", prompt)
+        # single-turn: no agent, schema still passed
+        self.assertNotIn("--agent", argv)
+        self.assertIn("--json-schema", argv)
 
     def test_reviewer_recovers_fenced_verdict_without_structured_output(self):
         import tempfile
