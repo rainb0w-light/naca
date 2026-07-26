@@ -264,3 +264,19 @@ operations:
     runtimeMethod: xctl
     paramTypes: [java.lang.String]
     returns: nacaLib.CESM.CESMXctl
+
+  # --- CICS LINK ---
+  # EXEC CICS LINK PROGRAM(...) END-EXEC emits CESM.link(...).go() (or, with a
+  # COMMAREA, CESM.link(...).commarea(<ref>, <len| -1>, <dataLen| -1>)). The
+  # contract declares the representative link(String) overload that the
+  # production-reachable program-literal form (e.g. ONLINE1.cbl:283) resolves to;
+  # the Var/Class overloads the template can also emit resolve hierarchically on
+  # BaseCESMManager like cics.xctl. link returns a CESMLink builder on which
+  # .go()/.commarea(...) are chained.
+  - id: cics.link
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
+    runtimeMethod: link
+    paramTypes: [java.lang.String]
+    returns: nacaLib.CESM.CESMLink

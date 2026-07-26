@@ -121,3 +121,13 @@ features:
     runtimeOperations: [cics.xctl]
     fixtures: []
     status: production
+
+  - id: cics.link
+    dialects: [embedded-cics]
+    semanticType: semantic.CICS.CEntityCICSLink
+    javaBackend:
+      role: REFERENCE
+      template: recursiveCICSLinkEntity
+    runtimeOperations: [cics.link]
+    fixtures: []
+    status: production

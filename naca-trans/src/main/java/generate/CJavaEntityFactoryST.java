@@ -50,6 +50,7 @@ import semantic.Verbs.CEntityStringConcat;
 import semantic.Verbs.CEntitySwitchCase;
 import semantic.Verbs.CEntityNextSentence;
 import semantic.Verbs.CEntityExec;
+import semantic.CICS.CEntityCICSLink;
 import semantic.CICS.CEntityCICSReturn;
 import semantic.CICS.CEntityCICSSyncPoint;
 import semantic.CICS.CEntityCICSXctl;
@@ -135,6 +136,16 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntityCICSXctl NewEntityCICSXctl(int l) {
         CEntityCICSXctl e = new CEntityCICSXctl(l, programCatalog);
+        e.setLanguageExporter(langOutput);
+        return e;
+    }
+
+    // Embedded CICS LINK: the ST4 factory builds the pure semantic entity, which
+    // the recursive assembler renders via the recursiveCICSLinkEntity binding
+    // (no CJava* controller). Mirrors the CICS XCTL exemplar above.
+    @Override
+    public CEntityCICSLink NewEntityCICSLink(int l) {
+        CEntityCICSLink e = new CEntityCICSLink(l, programCatalog);
         e.setLanguageExporter(langOutput);
         return e;
     }

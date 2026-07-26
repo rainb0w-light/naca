@@ -46,7 +46,6 @@ import generate.java.CICS.CJavaCICSHandleAID;
 import generate.java.CICS.CJavaCICSHandleCondition;
 import generate.java.CICS.CJavaCICSIgnoreCondition;
 import generate.java.CICS.CJavaCICSInquire;
-import generate.java.CICS.CJavaCICSLink;
 import generate.java.CICS.CJavaCICSReWrite;
 import generate.java.CICS.CJavaCICSRead;
 import generate.java.CICS.CJavaCICSReadQ;
@@ -721,7 +720,11 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return e;
 	}
 	public CEntityCICSLink NewEntityCICSLink(int l)	{
-		return new CJavaCICSLink(l, programCatalog, langOutput);
+		// Direct backend CJavaCICSLink retired: the pure semantic entity is rendered
+		// by the recursive ST4 assembler (recursiveCICSLinkEntity binding).
+		CEntityCICSLink e = new CEntityCICSLink(l, programCatalog);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntityCICSAddress NewEntityCICSAddress(int l) {
 		return new CJavaCICSAddress(l, programCatalog, langOutput);
