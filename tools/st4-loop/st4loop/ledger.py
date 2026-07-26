@@ -24,6 +24,12 @@ QUEUE_SCOPES = ("COBOL_CORE", "EMBEDDED_SQL", "EMBEDDED_CICS")
 # A dependency counts as satisfied once the feature works in production.
 SATISFIED_STATUSES = ("production-wired", "direct-retired", "done")
 
+# Terminal statuses for this ST4 migration queue: the loop's target (direct backend
+# retired onto the recursive-ST4 assembler) is complete at `direct-retired`, and fully
+# complete at `done`. Neither is READY for (re)selection — a retired item has no debt
+# left to remove, so a re-run would necessarily fail the measured-debt-delta gate.
+TERMINAL_STATUSES = ("direct-retired", "done")
+
 DEFAULT_PRIORITY = 1000
 
 _SCHEDULER_DEFAULTS = {
@@ -100,12 +106,16 @@ def _dependencies_satisfied(data, entry):
 
 
 def is_ready(data, entry):
-    """READY = in-queue, production-reachable, not done, not blocked, deps satisfied."""
+    """READY = in-queue, production-reachable, not terminal, not blocked, deps satisfied.
+
+    Terminal = `direct-retired` or `done` (see TERMINAL_STATUSES): the slice's debt is
+    already removed, so it must not be re-selected.
+    """
     if entry.get("scope") not in QUEUE_SCOPES:
         return False
     if not entry.get("productionReachable"):
         return False
-    if entry.get("status") == "done":
+    if entry.get("status") in TERMINAL_STATUSES:
         return False
     if sched(entry)["blocked"]:
         return False

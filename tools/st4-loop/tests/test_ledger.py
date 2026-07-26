@@ -78,6 +78,29 @@ class SelectionTest(unittest.TestCase):
         ])
         self.assertEqual(ledger.select_ready(data)["id"], "AA")
 
+    def test_terminal_direct_retired_is_skipped(self):
+        # A priority-1 retired item (debt already removed) must NOT be re-selected;
+        # the next READY item wins. Re-running it would fail measured delta 0 != -1.
+        data = base_ledger([
+            entry("CICS-RETIRED", status="direct-retired", priority=1),
+            entry("CICS-NEXT", status="semantic-built", priority=11),
+        ])
+        self.assertFalse(ledger.is_ready(data, ledger.entry_by_id(data, "CICS-RETIRED")))
+        self.assertEqual(ledger.select_ready(data)["id"], "CICS-NEXT")
+
+    def test_terminal_statuses_are_not_ready(self):
+        for terminal in ledger.TERMINAL_STATUSES:
+            data = base_ledger([entry("X", status=terminal, priority=1)])
+            self.assertIsNone(ledger.select_ready(data), f"{terminal} must be terminal")
+
+    def test_direct_retired_still_satisfies_a_dependency(self):
+        # direct-retired is terminal for selection but counts as a satisfied dependency.
+        data = base_ledger([
+            entry("CICS-DEP", priority=1, dependencies=["CICS-BASE"]),
+            entry("CICS-BASE", status="direct-retired", priority=5),
+        ])
+        self.assertEqual(ledger.select_ready(data)["id"], "CICS-DEP")
+
 
 class UpdateTest(unittest.TestCase):
     def test_advance_status_forward_only(self):
