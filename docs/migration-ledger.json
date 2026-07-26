@@ -320,8 +320,8 @@
       ],
       "verification": [],
       "expectedDebtDelta": {},
-      "attempts": 0,
-      "blocked": false,
+      "attempts": 3,
+      "blocked": true,
       "scope": "EMBEDDED_CICS",
       "sourceSyntax": "EXEC CICS RECEIVE MAP(...) END-EXEC",
       "parserNode": null,
@@ -337,7 +337,9 @@
       "blocker": "Silently dropped (no semantic node) even though the BMS map now resolves. Phase 5 (embedded CICS).",
       "evidence": [
         "OnlineCorpusInventoryTest"
-      ]
+      ],
+      "blockedReason": "exhausted 3 attempts without independent verification; last outcome=failed",
+      "lastAttemptCommit": "a72aed5fd5637ff9c888216edf8b166120d18633"
     },
     {
       "id": "CICS-SEND",
