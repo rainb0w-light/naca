@@ -285,8 +285,8 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 3,
-      "blocked": true,
+      "attempts": 0,
+      "blocked": false,
       "scope": "EMBEDDED_CICS",
       "sourceSyntax": "EXEC CICS RETURN END-EXEC",
       "parserNode": "parser.Cobol.elements.CICS.*",
@@ -302,9 +302,7 @@
       "blocker": "Semantic node exists on a direct CJava* backend; needs ST4 binding + direct retirement. Note: 2 RETURN statements but inventory counts 1 node — verify per-statement in Phase 3.",
       "evidence": [
         "OnlineCorpusInventoryTest"
-      ],
-      "blockedReason": "exhausted 3 attempts without independent verification; last outcome=failed",
-      "lastAttemptCommit": "71005541aeb92851f2ec885dbcafc4aa14b6398c"
+      ]
     },
     {
       "id": "CICS-RECEIVE",

@@ -320,10 +320,94 @@ class WorkerArgvTest(unittest.TestCase):
         self.assertIn("--json-schema", argv)
         self.assertEqual(argv[argv.index("--permission-mode") + 1], "auto")
         self.assertNotIn("--dangerously-skip-permissions", argv)
-        self.assertIn("--disallowedTools", argv)
         self.assertEqual(argv[argv.index("--model") + 1], "sonnet")
-        self.assertEqual(argv[-1], "PROMPT")          # prompt is the trailing positional
+        # --disallowedTools is variadic: each deny rule is its OWN argv element...
+        self.assertIn("--disallowedTools", argv)
+        dt = argv.index("--disallowedTools")
+        self.assertEqual(argv[dt + 1], "Bash(git push:*)")
+        self.assertIn("Bash(git commit:*)", argv[dt + 1:])
+        # ...and the deny list is LAST (nothing for the variadic flag to swallow).
+        self.assertEqual(dt + 1 + len(controller.DEFAULT_DISALLOWED_TOOLS), len(argv))
+        # The prompt is NOT a positional argv token (the variadic bug): it is stdin.
+        self.assertNotIn("PROMPT", argv)
+        self.assertEqual(captured["kwargs"].get("input"), "PROMPT")
         self.assertEqual(out, '{"type":"result"}')
+
+    def test_prompt_is_never_a_tool_or_deny_value(self):
+        """Regression for the variadic-swallow bug: the prompt must not appear
+        anywhere in argv, and must be the stdin input instead."""
+        import tempfile
+        captured = {}
+
+        class FakeCompleted:
+            returncode = 0
+            stdout = '{"type":"result"}'
+            stderr = ""
+
+        def fake_run(argv, **kwargs):
+            captured["argv"] = argv
+            captured["kwargs"] = kwargs
+            return FakeCompleted()
+
+        import st4loop.controller as c
+        orig = c.subprocess.run
+        c.subprocess.run = fake_run
+        self.addCleanup(lambda: setattr(c.subprocess, "run", orig))
+
+        prompt = "MIGRATE CICS-RETURN now"
+        with tempfile.TemporaryDirectory() as td:
+            repo = make_repo(Path(td) / "repo", ledger_two_items())
+            cfg = cfg_for(repo, td)
+            cfg.claude_cmd = ["claude"]
+            c.default_worker_runner(prompt, cfg)
+
+        argv = captured["argv"]
+        # no argv element equals or contains the prompt text
+        self.assertFalse(any(prompt == a or prompt in a for a in argv),
+                         f"prompt leaked into argv: {argv}")
+        self.assertEqual(captured["kwargs"].get("input"), prompt)
+
+    def test_reviewer_argv_uses_stdin_prompt(self):
+        """The reviewer's variadic --tools must not consume the review prompt."""
+        import tempfile
+        captured = {}
+
+        class FakeCompleted:
+            returncode = 0
+            stdout = '{"type":"result","structured_output":{"approved":true,"issues":[]}}'
+            stderr = ""
+
+        def fake_run(argv, **kwargs):
+            captured["argv"] = argv
+            captured["kwargs"] = kwargs
+            return FakeCompleted()
+
+        import st4loop.controller as c
+        orig = c.subprocess.run
+        c.subprocess.run = fake_run
+        self.addCleanup(lambda: setattr(c.subprocess, "run", orig))
+
+        review_prompt = "REVIEW THIS DIFF"
+        with tempfile.TemporaryDirectory() as td:
+            repo = make_repo(Path(td) / "repo", ledger_two_items())
+            cfg = cfg_for(repo, td)
+            cfg.claude_cmd = ["claude"]
+            verdict = c.default_reviewer_runner(review_prompt, {"id": "X"}, cfg)
+
+        argv = captured["argv"]
+        self.assertIn("--agent", argv)
+        self.assertEqual(argv[argv.index("--agent") + 1], "st4-reviewer")
+        self.assertIn("--tools", argv)
+        self.assertEqual(argv[argv.index("--tools") + 1], "Read,Grep,Glob")
+        # --tools value is the LAST token; prompt is stdin, not a positional.
+        self.assertEqual(argv.index("--tools") + 2, len(argv))
+        stdin_input = captured["kwargs"].get("input")
+        # the (wrapped) review prompt is delivered via stdin and CONTAINS the diff...
+        self.assertIn(review_prompt, stdin_input)
+        # ...and NO argv element is the prompt (raw or wrapped) -> variadic can't eat it.
+        self.assertFalse(any(review_prompt == a or stdin_input == a for a in argv),
+                         f"review prompt leaked into argv: {argv}")
+        self.assertTrue(verdict["approved"])
 
 
 if __name__ == "__main__":

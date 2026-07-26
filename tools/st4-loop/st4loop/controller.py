@@ -22,12 +22,19 @@ DIFF_BEGIN = "<<<ST4_DIFF_BEGIN>>>"
 DIFF_END = "<<<ST4_DIFF_END>>>"
 
 # Defense in depth: even though the worker prompt forbids git mutations, we also
-# deny the obvious history/remote-mutating commands at the CLI layer.
-DEFAULT_DISALLOWED_TOOLS = (
-    "Bash(git push:*) Bash(git merge:*) Bash(git rebase:*) "
-    "Bash(git commit:*) Bash(git reset:*) Bash(git clean:*) "
-    "Bash(git checkout:*) Bash(git stash:*)"
-)
+# deny the obvious history/remote-mutating commands at the CLI layer. Kept as a LIST
+# of individual rules: --disallowedTools is variadic, so each rule is its own argv
+# element (a single space-joined string is ambiguous and mis-parses).
+DEFAULT_DISALLOWED_TOOLS = [
+    "Bash(git push:*)",
+    "Bash(git merge:*)",
+    "Bash(git rebase:*)",
+    "Bash(git commit:*)",
+    "Bash(git reset:*)",
+    "Bash(git clean:*)",
+    "Bash(git checkout:*)",
+    "Bash(git stash:*)",
+]
 
 
 @dataclass
@@ -48,7 +55,7 @@ class Config:
     worker_timeout: int = 3600
     dry_run: bool = False
     allow_commit: bool = True
-    disallowed_tools: str = DEFAULT_DISALLOWED_TOOLS
+    disallowed_tools: list = field(default_factory=lambda: list(DEFAULT_DISALLOWED_TOOLS))
 
     def __post_init__(self):
         self.repo_root = Path(self.repo_root)
@@ -68,7 +75,14 @@ class LoopError(Exception):
 # Default runners (shell out). Tests inject their own callables instead.
 # --------------------------------------------------------------------------- #
 def default_worker_runner(prompt, cfg):
-    """Invoke the worker CLI and return its raw stdout (the JSON envelope)."""
+    """Invoke the worker CLI and return its raw stdout (the JSON envelope).
+
+    The prompt is sent via STDIN, never as a trailing positional: --disallowedTools
+    (and --tools) are VARIADIC and would otherwise swallow a following positional
+    prompt ("Input must be provided either through stdin or as a prompt argument").
+    The deny rules are passed as separate argv elements and placed LAST so the
+    variadic flag stops cleanly at end-of-argv.
+    """
     schema = Path(cfg.result_schema_path).read_text(encoding="utf-8")
     argv = list(cfg.claude_cmd) + [
         "-p",
@@ -76,17 +90,17 @@ def default_worker_runner(prompt, cfg):
         "--json-schema", schema,
         "--permission-mode", "auto",
         "--no-session-persistence",
-        "--disallowedTools", cfg.disallowed_tools,
     ]
     if cfg.model:
         argv += ["--model", cfg.model]
     if cfg.effort:
         argv += ["--effort", cfg.effort]
-    argv += [prompt]
+    # Variadic flag last; each rule its own element; prompt delivered via stdin.
+    argv += ["--disallowedTools", *cfg.disallowed_tools]
     try:
         result = subprocess.run(
-            argv, cwd=str(cfg.repo_root), capture_output=True, text=True,
-            timeout=cfg.worker_timeout,
+            argv, cwd=str(cfg.repo_root), input=prompt,
+            capture_output=True, text=True, timeout=cfg.worker_timeout,
         )
     except subprocess.TimeoutExpired as exc:
         raise worker_result.WorkerResultError(
@@ -120,6 +134,8 @@ def default_reviewer_runner(diff_text, item, cfg):
         "Return only the structured verdict."
     )
     base = cfg.reviewer_cmd if cfg.reviewer_cmd is not None else cfg.claude_cmd
+    # --tools is variadic: give it a single value and place it LAST; the review
+    # prompt goes via stdin so the variadic flag cannot swallow it.
     argv = list(base) + [
         "-p",
         "--agent", "st4-reviewer",
@@ -127,11 +143,10 @@ def default_reviewer_runner(diff_text, item, cfg):
         "--output-format", "json",
         "--json-schema", schema,
         "--tools", "Read,Grep,Glob",
-        prompt,
     ]
     result = subprocess.run(
-        argv, cwd=str(cfg.repo_root), capture_output=True, text=True,
-        timeout=cfg.worker_timeout,
+        argv, cwd=str(cfg.repo_root), input=prompt,
+        capture_output=True, text=True, timeout=cfg.worker_timeout,
     )
     envelope = worker_result.parse_envelope(result.stdout)
     verdict = worker_result.extract_structured(envelope)
@@ -295,17 +310,15 @@ class Controller:
         return summary
 
     def _print_dry_run(self, item):
-        schema = Path(self.cfg.result_schema_path).read_text(encoding="utf-8")
         argv = list(self.cfg.claude_cmd) + [
             "-p", "--output-format", "json", "--json-schema", "<schema>",
             "--permission-mode", "auto", "--no-session-persistence",
-            "--disallowedTools", self.cfg.disallowed_tools,
         ]
         if self.cfg.model:
             argv += ["--model", self.cfg.model]
-        argv += ["<worker-prompt>"]
-        self.log("[dry-run] would launch worker:")
-        self.log("  " + " ".join(argv))
+        argv += ["--disallowedTools", *self.cfg.disallowed_tools]
+        self.log("[dry-run] would launch worker (prompt piped via stdin):")
+        self.log("  " + " ".join(argv) + "  < <worker-prompt>")
         self.log(f"[dry-run] verifier: {' '.join(self.cfg.verify_cmd)} {item['id']}")
         self.log(f"[dry-run] item verification commands:")
         for cmd in ledger.sched(item)["verification"]:
