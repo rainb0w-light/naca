@@ -89,5 +89,61 @@ class InterpretTest(unittest.TestCase):
         self.assertTrue(any("debtDelta" in p for p in out.problems))
 
 
+class ExtractRecoveryTest(unittest.TestCase):
+    """extract_structured fails closed but recovers exactly one JSON object from a
+    free-text `result` (fenced ```json or balanced), as some models ignore
+    --json-schema and emit prose + a fenced object instead of structured_output."""
+
+    def env(self, result):
+        return {"type": "result", "is_error": False, "result": result}
+
+    def test_recovers_single_fenced_json(self):
+        result = "Here is my verdict:\n```json\n{\"approved\": true, \"issues\": []}\n```\nDone."
+        self.assertEqual(wr.extract_structured(self.env(result)),
+                         {"approved": True, "issues": []})
+
+    def test_recovers_fenced_json_uppercase_tag(self):
+        result = "```JSON\n{\"approved\": false}\n```"
+        self.assertEqual(wr.extract_structured(self.env(result)), {"approved": False})
+
+    def test_recovers_single_balanced_object_in_prose(self):
+        result = "Verdict: {\"approved\": true, \"issues\": [\"x\"]} -- thanks!"
+        self.assertEqual(wr.extract_structured(self.env(result)),
+                         {"approved": True, "issues": ["x"]})
+
+    def test_whole_string_json_still_works(self):
+        self.assertEqual(wr.extract_structured(self.env("{\"a\": 1}")), {"a": 1})
+
+    def test_rejects_multiple_fenced_objects(self):
+        result = "```json\n{\"a\": 1}\n```\nand also\n```json\n{\"b\": 2}\n```"
+        self.assertIsNone(wr.extract_structured(self.env(result)))
+
+    def test_rejects_multiple_balanced_objects(self):
+        result = "first {\"a\": 1} then {\"b\": 2}"
+        self.assertIsNone(wr.extract_structured(self.env(result)))
+
+    def test_rejects_malformed_fenced_only(self):
+        result = "```json\n{not valid json}\n```"
+        self.assertIsNone(wr.extract_structured(self.env(result)))
+
+    def test_rejects_prose_without_json(self):
+        self.assertIsNone(wr.extract_structured(self.env("looks good to me")))
+
+    def test_interpret_validates_recovered_fenced_worker_result(self):
+        so = good()
+        result = "Summary text.\n```json\n" + json.dumps(so) + "\n```\nTrailing."
+        envelope = json.dumps({"type": "result", "is_error": False, "result": result})
+        out = wr.interpret(envelope, expected_item_id="CICS-RETURN")
+        self.assertTrue(out.ok)
+        self.assertEqual(out.outcome, "success")
+
+    def test_interpret_recovered_but_invalid_fails_closed(self):
+        # recovered object lacks required fields -> validation fails -> not ok
+        result = "```json\n{\"unrelated\": 1}\n```"
+        envelope = json.dumps({"type": "result", "is_error": False, "result": result})
+        out = wr.interpret(envelope, expected_item_id="CICS-RETURN")
+        self.assertFalse(out.ok)
+
+
 if __name__ == "__main__":
     unittest.main()

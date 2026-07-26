@@ -412,6 +412,75 @@ class WorkerArgvTest(unittest.TestCase):
         self.assertTrue(verdict["approved"])
 
 
+class ReviewerRunnerTest(unittest.TestCase):
+    """default_reviewer_runner: inherits model/effort, recovers a fenced verdict,
+    and fails closed with a preserved diagnosis."""
+
+    def _capture(self, td, stdout, model=None, effort=None):
+        import st4loop.controller as c
+        captured = {}
+
+        class FakeCompleted:
+            returncode = 0
+            stderr = ""
+
+        FakeCompleted.stdout = stdout
+
+        def fake_run(argv, **kwargs):
+            captured["argv"] = argv
+            captured["kwargs"] = kwargs
+            return FakeCompleted()
+
+        orig = c.subprocess.run
+        c.subprocess.run = fake_run
+        self.addCleanup(lambda: setattr(c.subprocess, "run", orig))
+        repo = make_repo(Path(td) / "repo", ledger_two_items())
+        cfg = cfg_for(repo, td)
+        cfg.claude_cmd = ["claude"]
+        cfg.model = model
+        cfg.effort = effort
+        verdict = c.default_reviewer_runner("DIFF", {"id": "X"}, cfg)
+        return captured, verdict
+
+    def test_reviewer_argv_inherits_model_and_effort(self):
+        import tempfile
+        good = json.dumps({"type": "result", "is_error": False,
+                           "structured_output": {"approved": True, "issues": []}})
+        with tempfile.TemporaryDirectory() as td:
+            captured, verdict = self._capture(td, good, model="sonnet", effort="medium")
+        argv = captured["argv"]
+        self.assertEqual(argv[argv.index("--model") + 1], "sonnet")
+        self.assertEqual(argv[argv.index("--effort") + 1], "medium")
+        # --tools must remain the final token (variadic), prompt via stdin
+        self.assertEqual(argv.index("--tools") + 2, len(argv))
+        self.assertIn("DIFF", captured["kwargs"].get("input"))
+        self.assertTrue(verdict["approved"])
+
+    def test_reviewer_recovers_fenced_verdict_without_structured_output(self):
+        import tempfile
+        # The real failure mode: result holds a fenced ```json verdict + prose,
+        # and structured_output is absent despite --json-schema.
+        result = ("I reviewed the slice.\n```json\n"
+                  "{\"approved\": true, \"singleSlice\": true, \"debtGrew\": false, "
+                  "\"issues\": []}\n```\nLooks good.")
+        envelope = json.dumps({"type": "result", "is_error": False, "result": result})
+        with tempfile.TemporaryDirectory() as td:
+            _captured, verdict = self._capture(td, envelope)
+        self.assertTrue(verdict["approved"])
+        self.assertFalse(verdict.get("debtGrew"))
+
+    def test_reviewer_no_verdict_fails_closed_with_diagnosis(self):
+        import tempfile
+        envelope = json.dumps({"type": "result", "is_error": False,
+                               "result": "I could not produce a verdict, sorry."})
+        with tempfile.TemporaryDirectory() as td:
+            _captured, verdict = self._capture(td, envelope)
+        self.assertFalse(verdict["approved"])
+        self.assertTrue(any("no structured verdict" in i for i in verdict["issues"]))
+        # diagnosis preserved: the raw prose snippet is included
+        self.assertTrue(any("could not produce" in i for i in verdict["issues"]))
+
+
 class PermissionModeAndTimeoutTest(unittest.TestCase):
     """Permission mode is configurable with a safe acceptEdits default; bypass is
     refused; the default worker timeout is 1800s (not an hour-long dead session)."""

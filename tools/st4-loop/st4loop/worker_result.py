@@ -20,6 +20,7 @@ never trusts self-reported success.
 """
 
 import json
+import re
 
 VALID_OUTCOMES = ("success", "failed", "blocked")
 REQUIRED_FIELDS = ("itemId", "outcome", "summary", "filesChanged", "debtDelta")
@@ -84,11 +85,76 @@ def parse_envelope(raw_text):
     return envelope
 
 
+_FENCED_BLOCK = re.compile(r"```(?:json|JSON)?[ \t]*\r?\n?(.*?)```", re.DOTALL)
+
+
+def _balanced_json_objects(text):
+    """Non-overlapping top-level JSON objects decoded from free text.
+
+    Uses JSONDecoder.raw_decode at each '{', skipping to the end of each successful
+    decode so nested objects are not double-counted. Objects that fail to parse are
+    skipped (prose with stray braces yields nothing).
+    """
+    decoder = json.JSONDecoder()
+    objs = []
+    i, n = 0, len(text)
+    while i < n:
+        if text[i] == "{":
+            try:
+                obj, end = decoder.raw_decode(text, i)
+            except ValueError:
+                i += 1
+                continue
+            if isinstance(obj, dict):
+                objs.append(obj)
+            i = end
+        else:
+            i += 1
+    return objs
+
+
+def recover_structured_from_text(text):
+    """Fail-closed recovery of ONE structured object from a free-text `result`.
+
+    Some models ignore --json-schema and return a fenced ```json object (plus
+    explanatory prose) in `result` instead of `structured_output`. We recover exactly
+    one object and otherwise fail closed:
+      1. the whole string is a JSON object;
+      2. exactly one fenced ```json object (multiple fenced objects => ambiguous);
+      3. exactly one balanced top-level object in the prose (multiple => ambiguous).
+    Returns dict or None. The caller still runs the normal schema validation.
+    """
+    if not isinstance(text, str):
+        return None
+    stripped = text.strip()
+    if stripped.startswith("{"):
+        try:
+            obj = json.loads(stripped)
+        except ValueError:
+            obj = None
+        if isinstance(obj, dict):
+            return obj
+    fenced = []
+    for chunk in _FENCED_BLOCK.findall(text):
+        try:
+            obj = json.loads(chunk.strip())
+        except ValueError:
+            continue
+        if isinstance(obj, dict):
+            fenced.append(obj)
+    if fenced:
+        return fenced[0] if len(fenced) == 1 else None  # ambiguous -> fail closed
+    objs = _balanced_json_objects(text)
+    return objs[0] if len(objs) == 1 else None  # 0 or >1 -> fail closed
+
+
 def extract_structured(envelope):
     """Best-effort extraction of the structured result object from the envelope.
 
     Tries, in order: envelope['structured_output']; envelope['result'] when it is a
-    dict; envelope['result'] when it is a JSON string. Returns dict or None.
+    dict; then fail-closed recovery of one JSON object from the result text (whole
+    string, a single fenced ```json block, or a single balanced object). Returns dict
+    or None.
     """
     so = envelope.get("structured_output")
     if isinstance(so, dict):
@@ -97,14 +163,7 @@ def extract_structured(envelope):
     if isinstance(result, dict):
         return result
     if isinstance(result, str):
-        text = result.strip()
-        if text.startswith("{"):
-            try:
-                parsed = json.loads(text)
-            except ValueError:
-                return None
-            if isinstance(parsed, dict):
-                return parsed
+        return recover_structured_from_text(result)
     return None
 
 

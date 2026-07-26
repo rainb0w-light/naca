@@ -141,8 +141,30 @@ def default_verify_runner(item, cfg):
     return result.returncode == 0, report
 
 
+def _write_raw_log(cfg, name, content):
+    """Best-effort durable log of raw subprocess output for later diagnosis."""
+    try:
+        cfg.log_dir.mkdir(parents=True, exist_ok=True)
+        stamp = time.strftime("%Y%m%d-%H%M%S")
+        (cfg.log_dir / f"{stamp}-{name}.txt").write_text(content or "", encoding="utf-8")
+    except OSError:
+        pass
+
+
+def _snippet(text, limit=400):
+    text = (text or "").strip()
+    return text[:limit] + ("..." if len(text) > limit else "")
+
+
 def default_reviewer_runner(diff_text, item, cfg):
-    """Invoke the read-only st4-reviewer and parse its structured verdict."""
+    """Invoke the read-only st4-reviewer and parse its structured verdict.
+
+    Inherits cfg.model/cfg.effort like the worker. Fails CLOSED with a diagnostic
+    verdict (and logs the raw output) when the envelope is unparseable or carries no
+    structured verdict — e.g. when the model returns a fenced ```json object in
+    `result` instead of `structured_output` (recover_structured_from_text handles the
+    single-object case).
+    """
     schema = Path(cfg.review_schema_path).read_text(encoding="utf-8")
     prompt = (
         "Review this single ST4 migration slice diff against its ledger item.\n"
@@ -151,7 +173,7 @@ def default_reviewer_runner(diff_text, item, cfg):
         "Return only the structured verdict."
     )
     base = cfg.reviewer_cmd if cfg.reviewer_cmd is not None else cfg.claude_cmd
-    # --tools is variadic: give it a single value and place it LAST; the review
+    # --tools is variadic: model/effort go BEFORE it and it stays LAST; the review
     # prompt goes via stdin so the variadic flag cannot swallow it.
     argv = list(base) + [
         "-p",
@@ -159,15 +181,33 @@ def default_reviewer_runner(diff_text, item, cfg):
         "--permission-mode", "plan",
         "--output-format", "json",
         "--json-schema", schema,
-        "--tools", "Read,Grep,Glob",
     ]
-    result = subprocess.run(
-        argv, cwd=str(cfg.repo_root), input=prompt,
-        capture_output=True, text=True, timeout=cfg.worker_timeout,
-    )
-    envelope = worker_result.parse_envelope(result.stdout)
+    if cfg.model:
+        argv += ["--model", cfg.model]
+    if cfg.effort:
+        argv += ["--effort", cfg.effort]
+    argv += ["--tools", "Read,Grep,Glob"]
+    try:
+        result = subprocess.run(
+            argv, cwd=str(cfg.repo_root), input=prompt,
+            capture_output=True, text=True, timeout=cfg.worker_timeout,
+        )
+    except subprocess.TimeoutExpired:
+        return {"approved": False, "debtGrew": False,
+                "issues": [f"reviewer timed out after {cfg.worker_timeout}s"]}
+    raw = result.stdout or result.stderr
+    _write_raw_log(cfg, "reviewer-raw", raw)
+    try:
+        envelope = worker_result.parse_envelope(raw)
+    except worker_result.WorkerResultError as exc:
+        return {"approved": False, "debtGrew": False,
+                "issues": [f"reviewer envelope unparseable: {exc}", _snippet(raw)]}
     verdict = worker_result.extract_structured(envelope)
-    return verdict or {"approved": False, "issues": ["reviewer returned no verdict"]}
+    if not isinstance(verdict, dict):
+        return {"approved": False, "debtGrew": False,
+                "issues": ["reviewer returned no structured verdict",
+                           f"is_error={envelope.get('is_error')}", _snippet(raw)]}
+    return verdict
 
 
 def _merged_env(extra):
