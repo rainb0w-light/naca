@@ -177,7 +177,7 @@
         "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
       ],
       "expectedDebtDelta": {},
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "EMBEDDED_SQL",
       "sourceSyntax": "EXEC SQL INCLUDE <copybook> END-EXEC",
@@ -190,12 +190,13 @@
       "fixture": "NacaSamples/cobol/ONLINE1.cbl:82,88,91,100",
       "directBackend": null,
       "productionReachable": true,
-      "status": "parser-preserved",
+      "status": "direct-retired",
       "blocker": "All 4 ONLINE1 INCLUDEs now resolve (ONLINM1S via BMS group; SQLCA ignoredCopy; VTBMSGA/TUAZONE copybooks). The inventory still counts them as dropped only because it aggregates by .SQL package (Phase 3 makes it statement-accurate: classify each INCLUDE as PRESERVED-via-resolution).",
       "evidence": [
         "OnlineCorpusInventoryTest",
         "BmsArtifactContractTest.consumersResolveOnDemand"
-      ]
+      ],
+      "lastAttemptCommit": "275723e3b441b3210dc593909e86c9b979be06d0"
     },
     {
       "id": "SQL-WHENEVER",
