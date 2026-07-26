@@ -259,8 +259,8 @@
       "dependencies": [],
       "verification": [],
       "expectedDebtDelta": {},
-      "attempts": 0,
-      "blocked": false,
+      "attempts": 3,
+      "blocked": true,
       "scope": "EMBEDDED_CICS",
       "sourceSyntax": "EXEC CICS ADDRESS TCTUA(...) END-EXEC",
       "parserNode": null,
@@ -276,7 +276,9 @@
       "blocker": "Silently dropped (no semantic node). Phase 5 (embedded CICS).",
       "evidence": [
         "OnlineCorpusInventoryTest"
-      ]
+      ],
+      "blockedReason": "exhausted 3 attempts without independent verification; last outcome=success",
+      "lastAttemptCommit": "c5fea07a5170577c0708dc67be47809fec1990e2"
     },
     {
       "id": "CICS-RETURN",
