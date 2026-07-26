@@ -22,7 +22,7 @@ import utils.CobolTranscoder.Notifs.NotifDeclareUseCICSPreprocessor;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityCICSSyncPoint extends CBaseActionEntity
+public class CEntityCICSSyncPoint extends CBaseActionEntity
 {
 	/**
 	 * @param line
@@ -32,12 +32,28 @@ public abstract class CEntityCICSSyncPoint extends CBaseActionEntity
 	{
 		super(line, cat);
 		bRollback = bRollback ;
-		cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
+		// The catalog notification is a production-only side effect; the ST4 render
+		// tests instantiate this entity directly with a null catalog (like the READ
+		// and CICS RETURN exemplars), so guard it instead of dereferencing unconditionally.
+		if (cat != null)
+		{
+			cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
+		}
 	}
-	
+
 	protected boolean isrollback = false ;
 	public boolean ignore()
 	{
-		return false; 
+		return false;
+	}
+
+	// ==================== ST4 Template Accessors ====================
+	// Read-only getter for the recursive ST4 assembler (template
+	// recursiveCICSSyncPointEntity). It exposes the already-resolved semantic
+	// state; rendering is done by the template, never here.
+
+	public boolean isRollback()
+	{
+		return isrollback;
 	}
 }

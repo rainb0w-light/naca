@@ -51,6 +51,7 @@ import semantic.Verbs.CEntitySwitchCase;
 import semantic.Verbs.CEntityNextSentence;
 import semantic.Verbs.CEntityExec;
 import semantic.CICS.CEntityCICSReturn;
+import semantic.CICS.CEntityCICSSyncPoint;
 import utils.CObjectCatalog;
 import generate.CBaseLanguageExporter;
 
@@ -113,6 +114,16 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntityCICSReturn NewEntityCICSReturn(int l) {
         CEntityCICSReturn e = new CEntityCICSReturn(l, programCatalog);
+        e.setLanguageExporter(langOutput);
+        return e;
+    }
+
+    // Embedded CICS SYNCPOINT: the ST4 factory builds the pure semantic entity, which
+    // the recursive assembler renders via the recursiveCICSSyncPointEntity binding
+    // (no CJava* controller). Mirrors the CICS RETURN exemplar above.
+    @Override
+    public CEntityCICSSyncPoint NewEntityCICSSyncPoint(int l, boolean bRollBack) {
+        CEntityCICSSyncPoint e = new CEntityCICSSyncPoint(l, programCatalog, bRollBack);
         e.setLanguageExporter(langOutput);
         return e;
     }

@@ -69,3 +69,9 @@ templates:
     capability: CICS
     requires:
       - cics.returnTrans
+
+  recursiveCICSSyncPointEntity:
+    capability: CICS
+    requires:
+      - cics.syncPointCommit
+      - cics.syncPointRollback

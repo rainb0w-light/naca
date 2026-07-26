@@ -227,3 +227,24 @@ operations:
     runtimeMethod: returnTrans
     paramTypes: []
     returns: void
+
+  # --- CICS SYNCPOINT ---
+  # EXEC CICS SYNCPOINT END-EXEC emits CESM.syncPointCommit() (or, for the
+  # ROLLBACK form, CESM.syncPointRollback()). Both are no-argument void calls on
+  # BaseCESMManager, declared hierarchically like cics.returnTrans. The fixture
+  # ONLINE1.cbl:269 is a bare SYNCPOINT (commit).
+  - id: cics.syncPointCommit
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
+    runtimeMethod: syncPointCommit
+    paramTypes: []
+    returns: void
+
+  - id: cics.syncPointRollback
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
+    runtimeMethod: syncPointRollback
+    paramTypes: []
+    returns: void

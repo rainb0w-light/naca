@@ -823,6 +823,14 @@ recursiveCICSReturnEntity(entity) ::= <<
 CESM.returnTrans(<if(entity.transID)><if(entity.checked)><entity.transIDConstantValue>.class<else><entity.transID><endif><if(entity.commArea)>, <entity.commArea><if(entity.commLength)>, <entity.commLength><endif><endif><endif>) ;
 >>
 
+// Embedded CICS SYNCPOINT (EXEC CICS SYNCPOINT END-EXEC). Emits the
+// CESM.syncPointCommit()/syncPointRollback() runtime call. Mirrors
+// CJavaCICSSyncPoint.DoExport exactly: the rollback flag selects the rollback
+// call, otherwise the commit call is emitted.
+recursiveCICSSyncPointEntity(entity) ::= <<
+<if(entity.rollback)>CESM.syncPointRollback() ;<else>CESM.syncPointCommit() ;<endif>
+>>
+
 recursiveAcceptEntity(entity) ::= <<
 <if(entity.fromEnvironmentValue)>acceptEnv(<entity.variable>);<else>move(<if(entity.fromDate)>getDateBatch()<else><if(entity.fromDay)>getDayBatch()<else><if(entity.fromDayOfWeek)>getDayOfWeekBatch()<else><if(entity.fromInput)>getInputBatch()<else><if(entity.fromTime)>getTimeBatch()<else><entity.source><endif><endif><endif><endif><endif>, <entity.variable>);<endif>
 >>

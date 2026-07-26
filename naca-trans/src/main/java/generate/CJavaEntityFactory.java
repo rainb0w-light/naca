@@ -56,7 +56,6 @@ import generate.java.CICS.CJavaCICSSendMap;
 import generate.java.CICS.CJavaCICSSetTDQueue;
 import generate.java.CICS.CJavaCICSStart;
 import generate.java.CICS.CJavaCICSStartBrowse;
-import generate.java.CICS.CJavaCICSSyncPoint;
 import generate.java.CICS.CJavaCICSWrite;
 import generate.java.CICS.CJavaCICSWriteQ;
 import generate.java.CICS.CJavaCICSXctl;
@@ -774,7 +773,11 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CJavaIsFieldModified();
 	}
 	public CEntityCICSSyncPoint NewEntityCICSSyncPoint(int l, boolean bRollBack)	{
-		return new CJavaCICSSyncPoint(l, programCatalog, langOutput, bRollBack);
+		// Direct backend CJavaCICSSyncPoint retired: the pure semantic entity is rendered
+		// by the recursive ST4 assembler (recursiveCICSSyncPointEntity binding).
+		CEntityCICSSyncPoint e = new CEntityCICSSyncPoint(l, programCatalog, bRollBack);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntityCICSInquire NewEntityCICSInquire(int l)	{
 		return new CJavaCICSInquire(l, programCatalog, langOutput);
