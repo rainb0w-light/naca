@@ -141,3 +141,16 @@ features:
     runtimeOperations: [cics.abend, cics.abendWithCode]
     fixtures: []
     status: production
+
+  - id: sql.cursorSection
+    dialects: [embedded-sql]
+    semanticType: semantic.CEntitySQLCursorSection
+    javaBackend:
+      role: DECLARATION
+      template: recursiveSQLCursorSectionEntity
+    # declare.cursorSection()/declare.cursor() are DataDeclaration builder calls,
+    # not Codegen-Runtime Contract operations (same treatment as the
+    # dataSectionDeclaration template's declare.workingStorageSection() &co.).
+    runtimeOperations: []
+    fixtures: []
+    status: production

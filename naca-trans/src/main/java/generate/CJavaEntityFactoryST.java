@@ -9,6 +9,7 @@ import semantic.CEntityProcedureDivision;
 import semantic.CEntityProcedureSection;
 import semantic.CBaseEntityFactory;
 import semantic.CDataEntity;
+import semantic.CEntitySQLCursorSection;
 import semantic.expression.CBaseEntityExpression;
 import semantic.expression.CEntityIntrinsicFunction;
 import semantic.Verbs.CEntityAddTo;
@@ -157,6 +158,16 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntityCICSAbend NewEntityCICSAbend(int l) {
         CEntityCICSAbend e = new CEntityCICSAbend(l, programCatalog);
+        e.setLanguageExporter(langOutput);
+        return e;
+    }
+
+    // Embedded SQL cursor declaration section: the ST4 factory builds the pure
+    // semantic entity, which the recursive assembler renders via the
+    // recursiveSQLCursorSectionEntity declaration binding (no CJava* controller).
+    @Override
+    public CEntitySQLCursorSection NewEntitySQLCursorSection() {
+        CEntitySQLCursorSection e = new CEntitySQLCursorSection(programCatalog);
         e.setLanguageExporter(langOutput);
         return e;
     }

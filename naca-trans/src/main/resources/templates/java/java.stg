@@ -917,6 +917,19 @@ FileDescriptor <entity.formattedName> = declare.file(<if(entity.fileName)><entit
 <entity.activeChildren>
 >>
 
+// Embedded SQL cursor declaration section (the DATA-DIVISION section holding the
+// program's DECLARE CURSOR handles). Mirrors CJavaSQLCursorSection.DoExport
+// exactly: a DataSection header opening a cursorSection(), then one
+// SQLCursor <ref> = declare.cursor() ; line per declared cursor. Reads only
+// entity.* properties (formattedName + the pre-resolved cursorReferences list).
+recursiveSQLCursorSectionEntity(entity) ::= <<
+DataSection <entity.formattedName> = declare.cursorSection() ;
+
+{
+<entity.cursorReferences:{ref | SQLCursor <ref> = declare.cursor() ;}; separator="\n">
+}
+>>
+
 // A COPY copybook declared as an instance in the program class (the non-inline
 // form): <Type> <ref> = <Type>.Copy(this[, replacing(level, value)]) ;
 dataInlineDeclaration(entity) ::= <<

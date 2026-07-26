@@ -26,7 +26,7 @@
       "finalArchitectureCheck": {
         "tests": 401,
         "failures": 222,
-        "directBackends": 165,
+        "directBackends": 164,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -232,7 +232,7 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "EMBEDDED_SQL",
       "sourceSyntax": "DECLARE CURSOR / OPEN / FETCH / CLOSE / SELECT / INSERT / UPDATE / DELETE / COMMIT / ROLLBACK",
@@ -245,11 +245,12 @@
       "fixture": "NacaSamples/cobol/ONLINE1.cbl",
       "directBackend": "direct SQL backend (CJavaSQL* — to inventory in Phase 5)",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Phase 5 (embedded SQL): drive by ONLINE1 statements; each must reach the assembler. Currently on direct CJavaSQL* backends.",
       "evidence": [
         "OnlineCorpusInventoryTest"
-      ]
+      ],
+      "lastAttemptCommit": "63d1ebb005a05c5340dbf57f5b7854869aefbfc9"
     },
     {
       "id": "CICS-ADDRESS",

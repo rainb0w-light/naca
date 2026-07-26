@@ -62,7 +62,6 @@ import generate.java.SQL.CJavaSQLCloseStatement;
 import generate.java.SQL.CJavaSQLCode;
 import generate.java.SQL.CJavaSQLCommit;
 import generate.java.SQL.CJavaSQLCursor;
-import generate.java.SQL.CJavaSQLCursorSection;
 import generate.java.SQL.CJavaSQLCursorSelectStatement;
 import generate.java.SQL.CJavaSQLDeclareTable;
 import generate.java.SQL.CJavaSQLDeleteStatement;
@@ -840,7 +839,12 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CJavaProcedureDivision(l, programCatalog, langOutput);
 	}
 	public CEntitySQLCursorSection NewEntitySQLCursorSection()	{
-		return new CJavaSQLCursorSection(programCatalog, langOutput);
+		// Direct backend CJavaSQLCursorSection retired: the pure semantic entity is
+		// rendered by the recursive ST4 assembler (recursiveSQLCursorSectionEntity
+		// declaration binding).
+		CEntitySQLCursorSection e = new CEntitySQLCursorSection(programCatalog);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntityFieldArrayReference NewEntityFieldArrayReference(int l)	{
 		return new CJavaFieldArrayReference(l, programCatalog, langOutput);

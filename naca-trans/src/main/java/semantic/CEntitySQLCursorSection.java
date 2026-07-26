@@ -12,6 +12,8 @@
  */
 package semantic;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 
@@ -24,7 +26,7 @@ import utils.CObjectCatalog;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntitySQLCursorSection extends CEntityDataSection
+public class CEntitySQLCursorSection extends CEntityDataSection
 {
 	/**
 	 * @param line
@@ -62,5 +64,30 @@ public abstract class CEntitySQLCursorSection extends CEntityDataSection
 	public boolean ignore()
 	{
 		return cursors.isEmpty() ;
+	}
+
+	// ==================== ST4 Template Accessors ====================
+	// Read-only getters for the recursive ST4 assembler (template
+	// recursiveSQLCursorSectionEntity). They expose the already-resolved semantic
+	// values; rendering is done by the template, never here.
+
+	/**
+	 * The Java reference expression of every declared cursor, in declaration
+	 * order. Mirrors exactly what the retired {@code CJavaSQLCursorSection.DoExport}
+	 * computed per cursor ({@code cur.ExportReference(getLine())}); the template
+	 * wraps each one as {@code SQLCursor <ref> = declare.cursor() ;}.
+	 */
+	public List<String> getCursorReferences()
+	{
+		List<String> references = new ArrayList<>();
+		if (cursors != null)
+		{
+			for (int i = 0; i < cursors.size(); i++)
+			{
+				CDataEntity cursor = (CDataEntity) cursors.get(i);
+				references.add(cursor.ExportReference(getLine()));
+			}
+		}
+		return references;
 	}
 }
