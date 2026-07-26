@@ -36,6 +36,13 @@ DEFAULT_DISALLOWED_TOOLS = [
     "Bash(git stash:*)",
 ]
 
+# Worker permission mode. Default acceptEdits: file edits are auto-approved but all
+# OTHER permission checks stay active and do NOT depend on the external auto-mode
+# classifier (which can be unavailable and stall the worker indefinitely). bypass and
+# dontAsk are deliberately NOT allowed; the loop never disables permission checks.
+WORKER_PERMISSION_MODES = ("acceptEdits", "auto", "plan", "manual")
+DEFAULT_WORKER_PERMISSION_MODE = "acceptEdits"
+
 
 @dataclass
 class Config:
@@ -52,7 +59,8 @@ class Config:
     effort: str = None
     max_iterations: int = 1
     max_attempts: int = 3
-    worker_timeout: int = 3600
+    worker_timeout: int = 1800
+    permission_mode: str = DEFAULT_WORKER_PERMISSION_MODE
     dry_run: bool = False
     allow_commit: bool = True
     disallowed_tools: list = field(default_factory=lambda: list(DEFAULT_DISALLOWED_TOOLS))
@@ -65,6 +73,12 @@ class Config:
             self.verify_cmd = [
                 str(self.repo_root / "tools" / "st4-loop" / "verify-task.sh")
             ]
+        if self.permission_mode not in WORKER_PERMISSION_MODES:
+            raise LoopError(
+                f"unsafe worker permission mode refused: {self.permission_mode!r} "
+                f"(allowed: {', '.join(WORKER_PERMISSION_MODES)}; the loop never uses "
+                f"bypassPermissions/dontAsk/dangerously-skip-permissions)"
+            )
 
 
 class LoopError(Exception):
@@ -83,12 +97,15 @@ def default_worker_runner(prompt, cfg):
     The deny rules are passed as separate argv elements and placed LAST so the
     variadic flag stops cleanly at end-of-argv.
     """
+    if cfg.permission_mode not in WORKER_PERMISSION_MODES:
+        raise LoopError(
+            f"unsafe worker permission mode refused: {cfg.permission_mode!r}")
     schema = Path(cfg.result_schema_path).read_text(encoding="utf-8")
     argv = list(cfg.claude_cmd) + [
         "-p",
         "--output-format", "json",
         "--json-schema", schema,
-        "--permission-mode", "auto",
+        "--permission-mode", cfg.permission_mode,
         "--no-session-persistence",
     ]
     if cfg.model:
@@ -312,13 +329,16 @@ class Controller:
     def _print_dry_run(self, item):
         argv = list(self.cfg.claude_cmd) + [
             "-p", "--output-format", "json", "--json-schema", "<schema>",
-            "--permission-mode", "auto", "--no-session-persistence",
+            "--permission-mode", self.cfg.permission_mode, "--no-session-persistence",
         ]
         if self.cfg.model:
             argv += ["--model", self.cfg.model]
         argv += ["--disallowedTools", *self.cfg.disallowed_tools]
         self.log("[dry-run] would launch worker (prompt piped via stdin):")
         self.log("  " + " ".join(argv) + "  < <worker-prompt>")
+        self.log(f"[dry-run] permission-mode={self.cfg.permission_mode} "
+                 f"worker-timeout={self.cfg.worker_timeout}s "
+                 f"max-attempts={self.cfg.max_attempts}")
         self.log(f"[dry-run] verifier: {' '.join(self.cfg.verify_cmd)} {item['id']}")
         self.log(f"[dry-run] item verification commands:")
         for cmd in ledger.sched(item)["verification"]:

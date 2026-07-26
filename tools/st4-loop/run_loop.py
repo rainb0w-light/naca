@@ -23,7 +23,10 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 
-from st4loop.controller import Config, Controller, LoopError  # noqa: E402
+from st4loop.controller import (  # noqa: E402
+    Config, Controller, LoopError,
+    WORKER_PERMISSION_MODES, DEFAULT_WORKER_PERMISSION_MODE,
+)
 
 
 def default_repo_root():
@@ -48,12 +51,13 @@ def build_config(args):
         max_iterations=args.max_iterations,
         max_attempts=args.max_attempts,
         worker_timeout=args.worker_timeout,
+        permission_mode=args.permission_mode,
         dry_run=args.dry_run,
         allow_commit=not args.no_commit,
     )
 
 
-def main(argv=None):
+def _build_parser():
     parser = argparse.ArgumentParser(description="External ST4 migration loop controller")
     parser.add_argument("--repo-root", default=str(default_repo_root()))
     parser.add_argument("--dry-run", action="store_true",
@@ -61,8 +65,12 @@ def main(argv=None):
     parser.add_argument("--max-iterations", type=int, default=1)
     parser.add_argument("--max-attempts", type=int, default=3,
                         help="worker attempts per item before it is marked blocked")
-    parser.add_argument("--worker-timeout", type=int, default=3600,
-                        help="seconds before a single worker run is killed")
+    parser.add_argument("--worker-timeout", type=int, default=1800,
+                        help="seconds before a single worker run is killed (default 1800)")
+    parser.add_argument("--permission-mode", default=DEFAULT_WORKER_PERMISSION_MODE,
+                        choices=list(WORKER_PERMISSION_MODES),
+                        help="worker permission mode (default acceptEdits; the loop "
+                             "never uses bypassPermissions/dontAsk/dangerously-skip)")
     parser.add_argument("--claude-cmd", default="claude",
                         help="base worker command (inject a stub for tests)")
     parser.add_argument("--verify-cmd", default=None,
@@ -73,6 +81,11 @@ def main(argv=None):
     parser.add_argument("--effort", default=None)
     parser.add_argument("--no-commit", action="store_true",
                         help="do not create commits (still updates the ledger file)")
+    return parser
+
+
+def main(argv=None):
+    parser = _build_parser()
     args = parser.parse_args(argv)
 
     cfg = build_config(args)

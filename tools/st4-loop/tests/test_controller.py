@@ -318,8 +318,10 @@ class WorkerArgvTest(unittest.TestCase):
         self.assertIn("--output-format", argv)
         self.assertEqual(argv[argv.index("--output-format") + 1], "json")
         self.assertIn("--json-schema", argv)
-        self.assertEqual(argv[argv.index("--permission-mode") + 1], "auto")
+        # default worker permission mode is acceptEdits (not auto, never bypass)
+        self.assertEqual(argv[argv.index("--permission-mode") + 1], "acceptEdits")
         self.assertNotIn("--dangerously-skip-permissions", argv)
+        self.assertNotIn("bypassPermissions", argv)
         self.assertEqual(argv[argv.index("--model") + 1], "sonnet")
         # --disallowedTools is variadic: each deny rule is its OWN argv element...
         self.assertIn("--disallowedTools", argv)
@@ -408,6 +410,93 @@ class WorkerArgvTest(unittest.TestCase):
         self.assertFalse(any(review_prompt == a or stdin_input == a for a in argv),
                          f"review prompt leaked into argv: {argv}")
         self.assertTrue(verdict["approved"])
+
+
+class PermissionModeAndTimeoutTest(unittest.TestCase):
+    """Permission mode is configurable with a safe acceptEdits default; bypass is
+    refused; the default worker timeout is 1800s (not an hour-long dead session)."""
+
+    def test_config_defaults(self):
+        self.assertEqual(controller.DEFAULT_WORKER_PERMISSION_MODE, "acceptEdits")
+        import tempfile
+        with tempfile.TemporaryDirectory() as td:
+            repo = make_repo(Path(td) / "repo", ledger_two_items())
+            # construct directly (cfg_for overrides worker_timeout for fast tests)
+            cfg = controller.Config(
+                repo_root=repo,
+                ledger_path=repo / "docs" / "migration-ledger.json",
+                worker_prompt_path=repo / ".claude" / "st4-loop" / "worker.md",
+                result_schema_path=repo / ".claude" / "st4-loop" / "result.schema.json",
+                review_schema_path=repo / ".claude" / "st4-loop" / "review.schema.json",
+                log_dir=repo / ".st4-loop" / "logs",
+            )
+            self.assertEqual(cfg.permission_mode, "acceptEdits")
+            self.assertEqual(cfg.worker_timeout, 1800)
+
+    def test_config_refuses_bypass_and_dontask(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as td:
+            repo = make_repo(Path(td) / "repo", ledger_two_items())
+            for bad in ("bypassPermissions", "dontAsk"):
+                with self.assertRaises(controller.LoopError):
+                    cfg_for(repo, td)  # build a valid base first
+                    controller.Config(
+                        repo_root=repo,
+                        ledger_path=repo / "docs" / "migration-ledger.json",
+                        worker_prompt_path=repo / ".claude" / "st4-loop" / "worker.md",
+                        result_schema_path=repo / ".claude" / "st4-loop" / "result.schema.json",
+                        review_schema_path=repo / ".claude" / "st4-loop" / "review.schema.json",
+                        log_dir=repo / ".st4-loop" / "logs",
+                        permission_mode=bad,
+                    )
+
+    def test_worker_runner_defense_in_depth_refuses_bypass(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as td:
+            repo = make_repo(Path(td) / "repo", ledger_two_items())
+            cfg = cfg_for(repo, td)
+            cfg.permission_mode = "bypassPermissions"  # smuggle past construction
+            with self.assertRaises(controller.LoopError):
+                controller.default_worker_runner("PROMPT", cfg)
+
+    def test_worker_argv_uses_configured_mode(self):
+        import tempfile
+        captured = {}
+
+        class FakeCompleted:
+            returncode = 0
+            stdout = '{"type":"result"}'
+            stderr = ""
+
+        def fake_run(argv, **kwargs):
+            captured["argv"] = argv
+            return FakeCompleted()
+
+        import st4loop.controller as c
+        orig = c.subprocess.run
+        c.subprocess.run = fake_run
+        self.addCleanup(lambda: setattr(c.subprocess, "run", orig))
+        with tempfile.TemporaryDirectory() as td:
+            repo = make_repo(Path(td) / "repo", ledger_two_items())
+            cfg = cfg_for(repo, td)
+            cfg.claude_cmd = ["claude"]
+            cfg.permission_mode = "manual"
+            c.default_worker_runner("PROMPT", cfg)
+        argv = captured["argv"]
+        self.assertEqual(argv[argv.index("--permission-mode") + 1], "manual")
+
+    def test_cli_parser_defaults_and_choices(self):
+        import run_loop
+        parser = run_loop._build_parser()
+        ns = parser.parse_args([])
+        self.assertEqual(ns.permission_mode, "acceptEdits")
+        self.assertEqual(ns.worker_timeout, 1800)
+        ns2 = parser.parse_args(["--permission-mode", "auto", "--worker-timeout", "900"])
+        self.assertEqual(ns2.permission_mode, "auto")
+        self.assertEqual(ns2.worker_timeout, 900)
+        # bypassPermissions is not an allowed choice -> argparse exits non-zero
+        with self.assertRaises(SystemExit):
+            parser.parse_args(["--permission-mode", "bypassPermissions"])
 
 
 if __name__ == "__main__":

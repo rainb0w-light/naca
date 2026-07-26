@@ -97,7 +97,8 @@
       "verifier": "tools/st4-loop/verify-task.sh",
       "workerPrompt": ".claude/st4-loop/worker.md",
       "resultSchema": ".claude/st4-loop/result.schema.json",
-      "reviewSchema": ".claude/st4-loop/review.schema.json"
+      "reviewSchema": ".claude/st4-loop/review.schema.json",
+      "workerDefaults": "permission-mode=acceptEdits (configurable via --permission-mode among acceptEdits/auto/plan/manual; bypassPermissions/dontAsk/dangerously-skip are refused), worker-timeout=1800s (configurable via --worker-timeout), prompt piped via stdin, git-mutation deny rules always applied."
     },
     "discoveredDebt": [
       {

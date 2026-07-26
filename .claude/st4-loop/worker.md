@@ -29,7 +29,8 @@ migration playbook recorded in `docs/migration-ledger.json` →
 
 - **Architecture principle (CLAUDE.md / AGENTS.md): semantic analysis and code generation are strictly separated.** `entity.export()` builds semantic sub-entities and returns nothing; ST4 templates only read `entity.*` properties and never call `.export()`/`.exportChildren()`. ST4 4.3.4 does not support `<obj.method()>`.
 - **Migrate ONLY the assigned item id.** Do not pick another task, do not refactor unrelated code, do not "while you're here" fixes.
-- **Do NOT push, merge, commit, rebase, reset, clean, stash, or otherwise mutate git history or the remote.** The controller owns all commits. You only edit working-tree files and run tests.
+- **Do NOT push, merge, commit, rebase, reset, clean, stash, or otherwise mutate git history or the remote.** The controller owns all commits. You only edit working-tree files and run tests. The controller also enforces this with `--disallowedTools` git deny rules.
+- **Permission mode:** the controller runs you under `acceptEdits` by default (file edits auto-approved) with ALL other permission checks active — never `bypassPermissions`/`dontAsk`/`dangerously-skip-permissions`. Do not attempt to disable permission checks; if a needed command is blocked, report `outcome: "blocked"` with the exact command rather than routing around it.
 - **Do NOT touch BMS (`BMS_ARTIFACT`) or FPac pipelines** — they are out of the migration queue.
 - **Debt must not grow.** Never add a new direct backend (`extends CEntity*/CBaseActionEntity/CDataEntity` under `generate/java`). `architecture.DirectBackendInventoryTest` enforces `directBackends <= 170`.
 - Keep the daily gate green: `./gradlew :naca-trans:test` (excludes the intentionally-red `final-architecture` tag) must pass, and the focused ledger gate `./gradlew :naca-cloud-native:test --tests "*LedgerConsistencyTest"` must pass.
