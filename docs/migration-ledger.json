@@ -204,8 +204,8 @@
       "dependencies": [],
       "verification": [],
       "expectedDebtDelta": {},
-      "attempts": 0,
-      "blocked": false,
+      "attempts": 3,
+      "blocked": true,
       "scope": "EMBEDDED_SQL",
       "sourceSyntax": "EXEC SQL WHENEVER SQLERROR GOTO <label> END-EXEC",
       "parserNode": null,
@@ -221,7 +221,9 @@
       "blocker": "Silently dropped; needs semantic node + manifest binding, or a structured-reject with source location + feature id (Phase 3/5).",
       "evidence": [
         "OnlineCorpusInventoryTest"
-      ]
+      ],
+      "blockedReason": "exhausted 3 attempts without independent verification; last outcome=success",
+      "lastAttemptCommit": "5808414022789272047b010087baf42bf24dac50"
     },
     {
       "id": "SQL-CURSOR-LIFECYCLE",
