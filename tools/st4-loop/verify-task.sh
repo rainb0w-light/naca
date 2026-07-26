@@ -58,15 +58,6 @@ if [[ "${ST4_SKIP_GRADLE:-0}" != "1" ]]; then
   ./gradlew :naca-trans:test --console=plain \
     || fail ":naca-trans:test daily gate is not green (debt may have grown)"
 
-  # --- 3. the item's own verification commands ------------------------------
-  mapfile -t ITEM_CMDS < <(jq -r --arg id "$ITEM_ID" \
-    '.entries[] | select(.id==$id) | (.verification // [])[]' "$LEDGER")
-  for cmd in "${ITEM_CMDS[@]}"; do
-    [[ -z "$cmd" ]] && continue
-    note "running item verification: $cmd"
-    bash -c "$cmd" || fail "item verification command failed: $cmd"
-  done
-
   # --- 4. architecture debt must not grow (check is expected RED overall) ----
   if [[ "${ST4_SKIP_ARCH:-0}" != "1" ]]; then
     note "running :naca-trans:finalArchitectureCheck (expected RED; measuring debt)"
@@ -75,10 +66,11 @@ if [[ "${ST4_SKIP_GRADLE:-0}" != "1" ]]; then
     RESULTS_DIR="naca-trans/build/test-results/finalArchitectureCheck"
     CURRENT_FAILURES=0
     if [[ -d "$RESULTS_DIR" ]]; then
-      CURRENT_FAILURES="$(
-        awk -F'"' '/<testsuite /{for(i=1;i<=NF;i++){if($(i-1)~/failures=$/)f+=$i; if($(i-1)~/errors=$/)e+=$i}} END{print f+e+0}' \
-          "$RESULTS_DIR"/*.xml 2>/dev/null || echo 0
-      )"
+      _f=$(grep -ho 'failures="[0-9]*"' "$RESULTS_DIR"/*.xml 2>/dev/null \
+             | grep -o '[0-9]*' | awk '{s+=$1} END{print s+0}')
+      _e=$(grep -ho 'errors="[0-9]*"' "$RESULTS_DIR"/*.xml 2>/dev/null \
+             | grep -o '[0-9]*' | awk '{s+=$1} END{print s+0}')
+      CURRENT_FAILURES=$((_f + _e))
     fi
     [[ "$CURRENT_FAILURES" =~ ^[0-9]+$ ]] || CURRENT_FAILURES=999999
     note "finalArchitectureCheck failures now: $CURRENT_FAILURES (ceiling $BASELINE_FAILURES)"
@@ -89,6 +81,19 @@ if [[ "${ST4_SKIP_GRADLE:-0}" != "1" ]]; then
 else
   note "ST4_SKIP_GRADLE=1: skipping gradle gates (test fast path)"
 fi
+
+# --- 3. the item's own verification commands (always run) -------------------
+# Bash 3.2 portable (no mapfile/readarray): read into an array via while-read.
+ITEM_CMDS=()
+while IFS= read -r _cmd; do
+  ITEM_CMDS+=("$_cmd")
+done < <(jq -r --arg id "$ITEM_ID" \
+  '.entries[] | select(.id==$id) | (.verification // [])[]' "$LEDGER")
+for cmd in "${ITEM_CMDS[@]}"; do
+  [[ -z "$cmd" ]] && continue
+  note "running item verification: $cmd"
+  bash -c "$cmd" || fail "item verification command failed: $cmd"
+done
 
 echo "VERIFY-PASS: $ITEM_ID"
 exit 0

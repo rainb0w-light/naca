@@ -12,6 +12,9 @@ by environment variables:
     ST4_STUB_DEBT            directBackends delta integer  (default: 0)
     ST4_STUB_BAD_JSON        1 -> print non-JSON garbage instead of an envelope
     ST4_STUB_NO_STRUCTURED   1 -> emit an envelope with no structured_output
+    ST4_STUB_NO_DECLARE      1 -> touch ST4_STUB_TOUCH but do NOT declare it (undeclared file)
+    ST4_STUB_EXTRA_FILES     comma list added to filesChanged WITHOUT being created
+                             (simulate phantom / absolute / `..` declarations)
 """
 import json
 import os
@@ -32,7 +35,11 @@ def main():
     if touch:
         with open(touch, "a", encoding="utf-8") as fh:
             fh.write(f"// edited by stub worker for {item_id}\n")
-        files.append(touch)
+        if os.environ.get("ST4_STUB_NO_DECLARE") != "1":
+            files.append(touch)
+    extra = os.environ.get("ST4_STUB_EXTRA_FILES")
+    if extra:
+        files.extend(p for p in extra.split(",") if p)
 
     if os.environ.get("ST4_STUB_NO_STRUCTURED") == "1":
         envelope = {"type": "result", "subtype": "success", "is_error": False,

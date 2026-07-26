@@ -10,6 +10,7 @@
       "baselineCapturedAtCommit": "9402b0c",
       "lastVerifiedAtCommit": "e3c4146",
       "finalArchitectureCheck": { "tests": 401, "failures": 222, "directBackends": 170, "semanticClasses": 47, "factories": 3, "templates": 1, "manifests": 1 },
+      "cloudNativeGate": { "tests": 39, "knownFailures": 1, "knownFailingTest": "com.publicitas.naca.cloudnative.TranspileControllerTest.testTranspileValidCobolWithWorkingStorage", "gate": ":naca-cloud-native:test --tests *LedgerConsistencyTest", "note": "Full :naca-cloud-native:test is 39 tests / 1 documented pre-existing failure (== discoveredDebt PREEXISTING-WSMESSAGE). The migration gate is the focused LedgerConsistencyTest only. Do not require the whole module green." },
       "onlineCorpusInventory": {
         "note": "Phase 3: inventory is now STATEMENT-ACCURATE (per source line+dialect+command, classified exactly once as PRESERVED / REJECTED / SILENT_DROP), no package-aggregate counting. DiagnosticSink (diagnostic.DiagnosticSink) collects structured diagnostics non-aborting so a whole program is inventoried per statement; throws when no sink is open (fail-closed gate). EXEC SQL INCLUDE counts as PRESERVED when it resolves/inlines (CJavaInline at the statement line).",
         "ONLINE1": { "preserved": 9, "rejected": 0, "silentDrop": 6,

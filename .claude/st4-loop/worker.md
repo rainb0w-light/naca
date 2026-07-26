@@ -32,16 +32,18 @@ migration playbook recorded in `docs/migration-ledger.json` →
 - **Do NOT push, merge, commit, rebase, reset, clean, stash, or otherwise mutate git history or the remote.** The controller owns all commits. You only edit working-tree files and run tests.
 - **Do NOT touch BMS (`BMS_ARTIFACT`) or FPac pipelines** — they are out of the migration queue.
 - **Debt must not grow.** Never add a new direct backend (`extends CEntity*/CBaseActionEntity/CDataEntity` under `generate/java`). `architecture.DirectBackendInventoryTest` enforces `directBackends <= 170`.
-- Keep the daily gate green: `./gradlew :naca-trans:test` (excludes the intentionally-red `final-architecture` tag) and `./gradlew :naca-cloud-native:test` (ledger consistency) must pass.
+- Keep the daily gate green: `./gradlew :naca-trans:test` (excludes the intentionally-red `final-architecture` tag) must pass, and the focused ledger gate `./gradlew :naca-cloud-native:test --tests "*LedgerConsistencyTest"` must pass.
+- Do **not** require the full `:naca-cloud-native:test` module to be green: it has one documented pre-existing failure (baseline 39 tests / 1 known failure, recorded in `meta.ratchet.cloudNativeGate`). Only the focused `LedgerConsistencyTest` is a migration gate.
 - The global `finalArchitectureCheck` is **expected RED** during migration — do not try to make it fully green; just do not make it redder.
+- **Declare every file you change** in `filesChanged` (repo-relative paths). The controller fails the slice if `filesChanged` does not EXACTLY match the actually-dirty production/test files, and rejects absolute paths or `..` traversal. Never edit `docs/migration-ledger.json` (the controller owns it).
 
 ## Verify locally before reporting success
 
 Run, at minimum:
 ```bash
-./gradlew :naca-trans:test --tests "*<YourRenderTest>*"   # the render test you added
-./gradlew :naca-trans:test                                # daily gate stays green
-./gradlew :naca-cloud-native:test                         # ledger consistency stays green
+./gradlew :naca-trans:test --tests "*<YourRenderTest>*"               # the render test you added
+./gradlew :naca-trans:test                                           # daily gate stays green
+./gradlew :naca-cloud-native:test --tests "*LedgerConsistencyTest"   # focused ledger gate stays green
 ```
 Only report `outcome: "success"` if those are green AND the slice's own
 `verification` commands (from the item JSON) pass.

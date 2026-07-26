@@ -8,12 +8,13 @@ loop is testable without invoking the real `claude` CLI.
 """
 
 import json
+import posixpath
 import subprocess
 import time
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from . import gitutil, ledger, worker_result
+from . import debt, gitutil, ledger, worker_result
 
 ITEM_BEGIN = "<<<ST4_ITEM_BEGIN>>>"
 ITEM_END = "<<<ST4_ITEM_END>>>"
@@ -154,13 +155,86 @@ class Controller:
         worker_runner=None,
         verify_runner=None,
         reviewer_runner=None,
+        debt_measurer=None,
         log=print,
     ):
         self.cfg = cfg
         self.worker_runner = worker_runner or default_worker_runner
         self.verify_runner = verify_runner or default_verify_runner
         self.reviewer_runner = reviewer_runner or default_reviewer_runner
+        self.debt_measurer = debt_measurer or debt.measure_direct_backends
         self.log = log
+
+    # -- path safety -------------------------------------------------------- #
+    def _ledger_rel(self):
+        return self.cfg.ledger_path.relative_to(self.cfg.repo_root).as_posix()
+
+    def _is_log_state(self, path):
+        """True for controller log/runtime state (excluded from the worker's diff)."""
+        log_rel = self.cfg.log_dir.relative_to(self.cfg.repo_root).as_posix()
+        return path == ".st4-loop" or path.startswith(".st4-loop/") or path.startswith(log_rel + "/")
+
+    def _validate_declared_files(self, files):
+        """Fail closed on absolute paths, `..` traversal, the ledger, or log state.
+
+        Returns (normalized_list, problems).
+        """
+        problems = []
+        normalized = []
+        for raw in files:
+            if not isinstance(raw, str) or not raw:
+                problems.append(f"invalid file entry: {raw!r}")
+                continue
+            if raw.startswith("/"):
+                problems.append(f"absolute path not allowed: {raw}")
+                continue
+            parts = raw.split("/")
+            if ".." in parts:
+                problems.append(f"path traversal not allowed: {raw}")
+                continue
+            norm = posixpath.normpath(raw)
+            if norm == self._ledger_rel():
+                problems.append(f"worker must not edit the ledger: {raw}")
+                continue
+            if self._is_log_state(norm):
+                problems.append(f"worker must not touch loop state: {raw}")
+                continue
+            normalized.append(norm)
+        return normalized, problems
+
+    def _actual_dirty_production_files(self):
+        """Every dirty path (tracked-modified, deleted AND untracked) minus loop state."""
+        out = []
+        for _code, path in gitutil.porcelain(self.cfg.repo_root):
+            if self._is_log_state(path):
+                continue
+            out.append(posixpath.normpath(path))
+        return sorted(set(out))
+
+    def _build_review_bundle(self, files):
+        """A complete review patch: tracked `git diff` PLUS full untracked new-file
+        contents, so the reviewer sees files `git diff` alone would hide."""
+        chunks = ["=== tracked changes (git diff) ===", gitutil.diff(self.cfg.repo_root)]
+        root = self.cfg.repo_root
+        codes = {path: code for code, path in gitutil.porcelain(root)}
+        new_files = [f for f in files if codes.get(f) == "??"]
+        if new_files:
+            chunks.append("=== new / untracked files (full content) ===")
+            for rel in new_files:
+                abs_path = root / rel
+                try:
+                    content = abs_path.read_text(encoding="utf-8", errors="replace")
+                except OSError as exc:
+                    content = f"<unreadable: {exc}>"
+                chunks.append(f"--- new file: {rel} ---")
+                chunks.append(content)
+                chunks.append(f"--- end {rel} ---")
+        return "\n".join(chunks)
+
+    def _measure_debt_delta(self, base_debt):
+        """Return (actual_delta, current_count) measured independently in the worktree."""
+        current = self.debt_measurer(self.cfg.repo_root)
+        return current - base_debt, current
 
     # -- prompt construction ------------------------------------------------ #
     def build_worker_prompt(self, item):
@@ -244,6 +318,8 @@ class Controller:
         attempts = ledger.sched(item)["attempts"]
         last_outcome = None
         last_report = ""
+        base_debt = self.debt_measurer(self.cfg.repo_root)  # clean worktree at entry
+        expected_db = (ledger.sched(item)["expectedDebtDelta"] or {}).get("directBackends", 0)
         while attempts < self.cfg.max_attempts:
             attempts += 1
             self.log(f"[{item_id}] attempt {attempts}/{self.cfg.max_attempts}")
@@ -264,35 +340,85 @@ class Controller:
             )
 
             if outcome.ok:
-                vok, report = self.verify_runner(item, self.cfg)
-                last_report = report
-                self._write_log(item_id, f"attempt{attempts}-verify", report)
-                diff_text = gitutil.diff(self.cfg.repo_root)
-                verdict = self.reviewer_runner(diff_text, item, self.cfg)
-                approved = bool(verdict.get("approved")) and not verdict.get("debtGrew")
-                self.log(
-                    f"[{item_id}] verify_ok={vok} review_approved={approved} "
-                    f"issues={verdict.get('issues')}"
-                )
-                if vok and approved:
-                    return self._commit_success(data, item, outcome, base_sha, attempts)
-                # verification failed: discard this attempt and retry
+                gate = self._independent_gate(item, outcome, base_debt, expected_db, attempts)
+                last_report = gate["report"]
+                if gate["pass"]:
+                    return self._commit_success(
+                        data, item, outcome, base_sha, attempts, gate)
+                self.log(f"[{item_id}] independent gate failed: {gate['reasons']}")
+            # any failure (worker not ok, or gate failed): discard and retry
             self._revert_worker_changes()
 
         # exhausted attempts -> reproducible blocker, then continue the global loop
         return self._mark_blocked(data, item, last_outcome, last_report, base_sha, attempts)
 
-    def _commit_success(self, data, item, outcome, base_sha, attempts_used):
+    def _independent_gate(self, item, outcome, base_debt, expected_db, attempts):
+        """Never trust self-report. Enforce, fail closed:
+        1. declared files are path-safe (relative, no `..`, not ledger/log state);
+        2. declared files EXACTLY equal the actual dirty production/test files;
+        3. deterministic verifier is green;
+        4. read-only reviewer approves the FULL patch (incl. untracked) w/o debt growth;
+        5. independently-measured direct-backend delta == item expectedDebtDelta.
+        """
+        reasons = []
+        item_id = item["id"]
+
+        declared, path_problems = self._validate_declared_files(outcome.files_changed)
+        reasons.extend(path_problems)
+        declared_set = set(declared)
+        actual = self._actual_dirty_production_files()
+        actual_set = set(actual)
+        if declared_set != actual_set:
+            undeclared = sorted(actual_set - declared_set)
+            phantom = sorted(declared_set - actual_set)
+            if undeclared:
+                reasons.append(f"undeclared dirty files (would be unreviewed): {undeclared}")
+            if phantom:
+                reasons.append(f"declared but not actually changed: {phantom}")
+
+        # deterministic gates
+        vok, report = self.verify_runner(item, self.cfg)
+        self._write_log(item_id, f"attempt{attempts}-verify", report)
+        if not vok:
+            reasons.append("deterministic verifier failed")
+
+        # read-only reviewer sees the COMPLETE patch (tracked + untracked contents)
+        bundle = self._build_review_bundle(sorted(declared_set | actual_set))
+        self._write_log(item_id, f"attempt{attempts}-review-bundle", bundle)
+        verdict = self.reviewer_runner(bundle, item, self.cfg)
+        approved = bool(verdict.get("approved")) and not verdict.get("debtGrew")
+        if not approved:
+            reasons.append(f"reviewer did not approve: {verdict.get('issues')}")
+
+        # independent debt measurement (exact match against the item's expectation)
+        actual_delta, current_db = self._measure_debt_delta(base_debt)
+        if actual_delta != expected_db:
+            reasons.append(
+                f"measured directBackends delta {actual_delta} != expected {expected_db} "
+                f"(base {base_debt} -> {current_db})")
+
+        return {
+            "pass": not reasons,
+            "reasons": reasons,
+            "report": report,
+            "files": sorted(declared_set | actual_set),
+            "debt_delta": {"directBackends": actual_delta},
+            "debt_current": current_db,
+            "verdict": verdict,
+        }
+
+    def _commit_success(self, data, item, outcome, base_sha, attempts_used, gate):
         item_id = item["id"]
         if outcome.status_advance:
             ledger.advance_status(data, item_id, outcome.status_advance)
-        ledger.apply_debt_delta(data, outcome.debt_delta)
+        # apply the INDEPENDENTLY MEASURED debt delta, not the worker's self-report
+        ledger.apply_debt_delta(data, gate["debt_delta"])
         ledger.record_attempt(item, attempts=attempts_used, blocked=False, commit=base_sha)
         ledger.save_ledger(self.cfg.ledger_path, data)
 
         root = self.cfg.repo_root
-        ledger_rel = self.cfg.ledger_path.relative_to(root).as_posix()
-        files = list(dict.fromkeys(outcome.files_changed))  # de-dup, keep order
+        ledger_rel = self._ledger_rel()
+        files = list(gate["files"])  # exactly the reviewed, declared-and-actual files
         commit_paths = files + [ledger_rel]
         sha = None
         if self.cfg.allow_commit:
@@ -300,6 +426,7 @@ class Controller:
                 f"feat(st4-loop): migrate {item_id} "
                 f"({item.get('status')} <- worker outcome)\n\n"
                 f"{outcome.summary}\n"
+                f"debt: directBackends {gate['debt_delta'].get('directBackends')}\n"
                 f"evidence: {', '.join(outcome.evidence) or 'n/a'}"
             )
             sha = gitutil.stage_and_commit(root, commit_paths, message)
@@ -308,7 +435,7 @@ class Controller:
         self._revert_worker_changes()
         return {
             "item": item_id, "result": "success", "commit": sha,
-            "files": files, "debt_delta": outcome.debt_delta,
+            "files": files, "debt_delta": gate["debt_delta"],
         }
 
     def _mark_blocked(self, data, item, outcome, report, base_sha, attempts_used):

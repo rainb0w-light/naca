@@ -66,6 +66,18 @@ def env_patch(testcase, **env):
     testcase.addCleanup(restore)
 
 
+def debt_fake(base, cur):
+    """Fake debt measurer: returns `base` on the first (clean-entry) call and
+    `cur` on every subsequent (post-worker) call, so delta = cur - base."""
+    state = {"first": True}
+    def measure(repo_root):
+        if state["first"]:
+            state["first"] = False
+            return base
+        return cur
+    return measure
+
+
 class ControllerTest(unittest.TestCase):
     def _ok_review(self, diff_text, item, cfg):
         return {"approved": True, "issues": [], "singleSlice": True, "debtGrew": False}
@@ -92,7 +104,7 @@ class ControllerTest(unittest.TestCase):
             cfg = cfg_for(repo, td, max_iterations=1)
             ctrl = controller.Controller(
                 cfg, verify_runner=self._ok_verify, reviewer_runner=self._ok_review,
-                log=lambda *_: None)
+                debt_measurer=debt_fake(3, 2), log=lambda *_: None)
             summary = ctrl.run()
             self.assertEqual(summary[0]["result"], "success")
             self.assertIsNotNone(summary[0]["commit"])
@@ -120,7 +132,7 @@ class ControllerTest(unittest.TestCase):
             orig_verify = self._ok_verify
             ctrl = controller.Controller(
                 cfg, verify_runner=self._ok_verify, reviewer_runner=self._ok_review,
-                log=lambda *_: None)
+                debt_measurer=debt_fake(3, 2), log=lambda *_: None)
             summary = ctrl.run()
             # iteration 1: CICS-FIRST blocked after 2 attempts
             self.assertEqual(summary[0]["item"], "CICS-FIRST")
@@ -147,7 +159,8 @@ class ControllerTest(unittest.TestCase):
             # verifier always says no -> success never commits -> blocked
             ctrl = controller.Controller(
                 cfg, verify_runner=lambda item, c: (False, "gate red"),
-                reviewer_runner=self._ok_review, log=lambda *_: None)
+                reviewer_runner=self._ok_review, debt_measurer=debt_fake(3, 2),
+                log=lambda *_: None)
             summary = ctrl.run()
             self.assertEqual(summary[0]["result"], "blocked")
             self.assertFalse((repo / "src" / "New.java").exists())
@@ -164,7 +177,7 @@ class ControllerTest(unittest.TestCase):
                 cfg, verify_runner=self._ok_verify,
                 reviewer_runner=lambda d, i, c: {"approved": False, "debtGrew": True,
                                                   "issues": ["adds a direct backend"]},
-                log=lambda *_: None)
+                debt_measurer=debt_fake(3, 2), log=lambda *_: None)
             summary = ctrl.run()
             self.assertEqual(summary[0]["result"], "blocked")
             self.assertFalse((repo / "src" / "New.java").exists())
@@ -193,10 +206,80 @@ class ControllerTest(unittest.TestCase):
             cfg = cfg_for(repo, td, max_iterations=1, max_attempts=1)
             ctrl = controller.Controller(
                 cfg, verify_runner=self._ok_verify, reviewer_runner=self._ok_review,
-                log=lambda *_: None)
+                debt_measurer=debt_fake(3, 2), log=lambda *_: None)
             summary = ctrl.run()
             self.assertEqual(summary[0]["result"], "blocked")
             self.assertTrue(gitutil.is_clean(repo))
+
+
+class IndependentGateTest(unittest.TestCase):
+    """The controller never trusts self-report: filesChanged must exactly match the
+    actual dirty files, paths must be safe, the reviewer sees untracked content, and
+    the debt delta is measured independently and must match the item's expectation."""
+
+    def _run(self, td, debt, reviewer=None, verify=None, **env):
+        repo = make_repo(Path(td) / "repo", ledger_two_items())
+        env_patch(self, ST4_STUB_OUTCOME="success", ST4_STUB_ITEM_ID="CICS-FIRST", **env)
+        cfg = cfg_for(repo, td, max_iterations=1, max_attempts=1)
+        ctrl = controller.Controller(
+            cfg, verify_runner=verify or (lambda i, c: (True, "ok")),
+            reviewer_runner=reviewer or (lambda d, i, c: {"approved": True, "issues": []}),
+            debt_measurer=debt, log=lambda *_: None)
+        return repo, ctrl.run()
+
+    def test_undeclared_dirty_file_blocks_and_is_not_committed(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as td:
+            repo, summary = self._run(td, debt_fake(3, 2),
+                                      ST4_STUB_TOUCH="src/New.java", ST4_STUB_NO_DECLARE="1")
+            self.assertEqual(summary[0]["result"], "blocked")
+            self.assertFalse((repo / "src" / "New.java").exists())  # reverted, unreviewed
+            self.assertTrue(gitutil.is_clean(repo))
+
+    def test_phantom_declared_file_blocks(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as td:
+            repo, summary = self._run(td, debt_fake(3, 2),
+                                      ST4_STUB_EXTRA_FILES="src/Ghost.java")
+            self.assertEqual(summary[0]["result"], "blocked")
+            self.assertTrue(gitutil.is_clean(repo))
+
+    def test_absolute_path_declaration_blocks(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as td:
+            repo, summary = self._run(td, debt_fake(3, 2),
+                                      ST4_STUB_EXTRA_FILES="/etc/passwd")
+            self.assertEqual(summary[0]["result"], "blocked")
+
+    def test_traversal_declaration_blocks(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as td:
+            repo, summary = self._run(td, debt_fake(3, 2),
+                                      ST4_STUB_EXTRA_FILES="../evil")
+            self.assertEqual(summary[0]["result"], "blocked")
+
+    def test_debt_mismatch_blocks_even_when_all_else_green(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as td:
+            # files match, verify ok, review ok -- but measured delta 0 != expected -1
+            repo, summary = self._run(td, debt_fake(3, 3), ST4_STUB_TOUCH="src/New.java")
+            self.assertEqual(summary[0]["result"], "blocked")
+            self.assertFalse((repo / "src" / "New.java").exists())
+            self.assertTrue(gitutil.is_clean(repo))
+
+    def test_review_bundle_includes_untracked_new_file_content(self):
+        import tempfile
+        seen = {}
+        def reviewer(bundle, item, cfg):
+            seen["bundle"] = bundle
+            return {"approved": True, "issues": []}
+        with tempfile.TemporaryDirectory() as td:
+            repo, summary = self._run(td, debt_fake(3, 2),
+                                      reviewer=reviewer, ST4_STUB_TOUCH="src/New.java")
+            self.assertEqual(summary[0]["result"], "success")
+            bundle = seen["bundle"]
+            self.assertIn("--- new file: src/New.java ---", bundle)
+            self.assertIn("edited by stub worker for CICS-FIRST", bundle)
 
 
 class WorkerArgvTest(unittest.TestCase):
