@@ -26,7 +26,7 @@
       "finalArchitectureCheck": {
         "tests": 401,
         "failures": 222,
-        "directBackends": 162,
+        "directBackends": 161,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -355,7 +355,7 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "EMBEDDED_CICS",
       "sourceSyntax": "EXEC CICS SEND MAP(...) END-EXEC",
@@ -368,11 +368,12 @@
       "fixture": "NacaSamples/cobol/ONLINE1.cbl:228,237",
       "directBackend": "generate.java.CICS.CJavaCICSSendMap",
       "productionReachable": true,
-      "status": "not-started",
+      "status": "direct-retired",
       "blocker": "Silently dropped (no semantic node). SEND TEXT fails closed with a structured diagnostic (CicsUnsupportedFeatureTest), but SEND MAP is dropped silently. Phase 5 (embedded CICS).",
       "evidence": [
         "OnlineCorpusInventoryTest"
-      ]
+      ],
+      "lastAttemptCommit": "057d7df3543bfa0a8d2abe37385bd384742ecf5f"
     },
     {
       "id": "CICS-SYNCPOINT",

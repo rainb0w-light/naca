@@ -55,6 +55,7 @@ import semantic.CICS.CEntityCICSAbend;
 import semantic.CICS.CEntityCICSAddress;
 import semantic.CICS.CEntityCICSLink;
 import semantic.CICS.CEntityCICSReceiveMap;
+import semantic.CICS.CEntityCICSSendMap;
 import semantic.CICS.CEntityCICSReturn;
 import semantic.CICS.CEntityCICSSyncPoint;
 import semantic.CICS.CEntityCICSXctl;
@@ -180,6 +181,16 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntityCICSReceiveMap NewEntityCICSReceiveMap(int l, CDataEntity name) {
         CEntityCICSReceiveMap e = new CEntityCICSReceiveMap(l, programCatalog, name);
+        e.setLanguageExporter(langOutput);
+        return e;
+    }
+
+    // Embedded CICS SEND MAP: the ST4 factory builds the pure semantic entity, which
+    // the recursive assembler renders via the recursiveCICSSendMapEntity binding
+    // (no CJava* controller). Mirrors the CICS RECEIVE MAP exemplar above.
+    @Override
+    public CEntityCICSSendMap NewEntityCICSSendMap(int l) {
+        CEntityCICSSendMap e = new CEntityCICSSendMap(l, programCatalog);
         e.setLanguageExporter(langOutput);
         return e;
     }

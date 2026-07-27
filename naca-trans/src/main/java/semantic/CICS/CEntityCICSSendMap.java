@@ -24,7 +24,7 @@ import utils.CobolTranscoder.Notifs.NotifDeclareUseCICSPreprocessor;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityCICSSendMap extends CBaseActionEntity
+public class CEntityCICSSendMap extends CBaseActionEntity
 {
 	/**
 	 * @param line
@@ -33,7 +33,13 @@ public abstract class CEntityCICSSendMap extends CBaseActionEntity
 	public CEntityCICSSendMap(int line, CObjectCatalog cat)
 	{
 		super(line, cat);
-		cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
+		// The catalog notification is a production-only side effect; the ST4 render
+		// tests instantiate this entity directly with a null catalog (like the READ
+		// and CICS RECEIVE exemplars), so guard it instead of dereferencing unconditionally.
+		if (cat != null)
+		{
+			cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
+		}
 	}
 	public void SetName(CDataEntity name)
 	{
@@ -141,5 +147,77 @@ public abstract class CEntityCICSSendMap extends CBaseActionEntity
 		}
 		return false ;
 	}
-	
+
+	// ==================== ST4 Template Accessors ====================
+	// Read-only getters for the recursive ST4 assembler (template
+	// recursiveCICSSendMapEntity). They expose the already-resolved semantic
+	// sub-entities and option flags; rendering is done by the template, never here.
+	// The reference getters return null when absent so the template's <if(entity.xxx)>
+	// selects exactly the active parts, mirroring the per-part guard the retired
+	// direct SEND MAP backend applied.
+
+	public CDataEntity getName()
+	{
+		return name;
+	}
+
+	public CDataEntity getSetName()
+	{
+		return setName;
+	}
+
+	public CDataEntity getDataFrom()
+	{
+		return dataFrom;
+	}
+
+	public CDataEntity getDataLength()
+	{
+		return dataLength;
+	}
+
+	public CDataEntity getCursorValue()
+	{
+		return cursorValue;
+	}
+
+	public boolean isCursor()
+	{
+		return bCursor;
+	}
+
+	public boolean isDataOnly()
+	{
+		return isdataOnly;
+	}
+
+	public boolean isAccum()
+	{
+		return isaccum;
+	}
+
+	public boolean isAlarm()
+	{
+		return isalarm;
+	}
+
+	public boolean isErase()
+	{
+		return iserase;
+	}
+
+	public boolean isFreeKB()
+	{
+		return isfreeKB;
+	}
+
+	public boolean isPaging()
+	{
+		return ispaging;
+	}
+
+	public boolean isWait()
+	{
+		return iswait;
+	}
 }

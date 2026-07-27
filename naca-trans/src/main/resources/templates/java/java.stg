@@ -879,6 +879,19 @@ recursiveCICSReceiveMapEntity(entity) ::= <<
 CESM.receiveMap(<entity.name>).mapSet(<entity.setName>).into(<entity.dataInto>) ;
 >>
 
+// Embedded CICS SEND MAP (EXEC CICS SEND MAP(...) END-EXEC). Emits the
+// CESM.sendMap(...) runtime call plus its option builder chain. Mirrors
+// CJavaCICSSendMap.DoExport exactly: the MAP name carries the CESM.sendMap prefix;
+// MAPSET chains .mapSet(<ref>); FROM chains .dataFrom(<ref>[, <len>]), or
+// .dataOnlyFrom(<ref>[, <len>]) when DATAONLY; CURSOR chains .cursor([<ref>]); then
+// the ACCUM/ALARM/ERASE/FREEKB/PAGING/WAIT flags each chain their no-arg builder call
+// in that order, terminated by " ;". The production-reachable fixtures
+// ONLINE1.cbl:228 (FROM/FREEKB/CURSOR/ERASE) and ONLINE1.cbl:237
+// (FROM/FREEKB/CURSOR/DATAONLY) render the dataFrom and dataOnlyFrom forms.
+recursiveCICSSendMapEntity(entity) ::= <<
+CESM.sendMap(<entity.name>)<if(entity.setName)>.mapSet(<entity.setName>)<endif><if(entity.dataFrom)>.<if(entity.dataOnly)>dataOnlyFrom<else>dataFrom<endif>(<entity.dataFrom><if(entity.dataLength)>, <entity.dataLength><endif>)<endif><if(entity.cursor)>.cursor(<if(entity.cursorValue)><entity.cursorValue><endif>)<endif><if(entity.accum)>.accum()<endif><if(entity.alarm)>.alarm()<endif><if(entity.erase)>.erase()<endif><if(entity.freeKB)>.freeKB()<endif><if(entity.paging)>.paging()<endif><if(entity.wait)>.wait()<endif> ;
+>>
+
 recursiveAcceptEntity(entity) ::= <<
 <if(entity.fromEnvironmentValue)>acceptEnv(<entity.variable>);<else>move(<if(entity.fromDate)>getDateBatch()<else><if(entity.fromDay)>getDayBatch()<else><if(entity.fromDayOfWeek)>getDayOfWeekBatch()<else><if(entity.fromInput)>getInputBatch()<else><if(entity.fromTime)>getTimeBatch()<else><entity.source><endif><endif><endif><endif><endif>, <entity.variable>);<endif>
 >>

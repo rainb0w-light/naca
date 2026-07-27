@@ -162,6 +162,16 @@ features:
     fixtures: []
     status: production
 
+  - id: cics.sendMap
+    dialects: [embedded-cics]
+    semanticType: semantic.CICS.CEntityCICSSendMap
+    javaBackend:
+      role: REFERENCE
+      template: recursiveCICSSendMapEntity
+    runtimeOperations: [cics.sendMap]
+    fixtures: []
+    status: production
+
   - id: sql.cursorSection
     dialects: [embedded-sql]
     semanticType: semantic.CEntitySQLCursorSection

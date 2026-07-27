@@ -103,3 +103,8 @@ templates:
     capability: CICS
     requires:
       - cics.receiveMap
+
+  recursiveCICSSendMapEntity:
+    capability: CICS
+    requires:
+      - cics.sendMap

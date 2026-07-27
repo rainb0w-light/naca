@@ -353,3 +353,23 @@ operations:
     runtimeMethod: receiveMap
     paramTypes: [java.lang.String]
     returns: idea.manager.CESMReceive
+
+  # --- CICS SEND MAP ---
+  # EXEC CICS SEND MAP(...) END-EXEC emits CESM.sendMap(<map>) followed by a builder
+  # chain (.mapSet(...), .dataFrom(...)/.dataOnlyFrom(...), .cursor(...), then the
+  # no-arg .accum()/.alarm()/.erase()/.freeKB()/.paging()/.wait() flags). The contract
+  # declares the representative sendMap(String) entry overload that the
+  # production-reachable map-literal form (e.g. ONLINE1.cbl:228/237 MAP('ONLINEF'))
+  # resolves to; the Var overload the template can also emit and the chained builder
+  # calls on the returned CESMSendMap resolve like cics.receiveMap. Like receiveMap,
+  # sendMap is implemented on the legacy idea.manager.CESMManager
+  # (nacaLib.basePrgEnv.BaseCESMManager does not declare it), so the contract names
+  # the class that actually carries the method — RuntimeContractTest reflects on this
+  # exact class.
+  - id: cics.sendMap
+    since: 1
+    capability: CICS
+    runtimeClass: idea.manager.CESMManager
+    runtimeMethod: sendMap
+    paramTypes: [java.lang.String]
+    returns: idea.manager.CESMSendMap
