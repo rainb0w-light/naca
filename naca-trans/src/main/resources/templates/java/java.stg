@@ -964,6 +964,15 @@ DataSection <entity.formattedName> = declare.cursorSection() ;
 }
 >>
 
+// Embedded SQL WHENEVER (EXEC SQL WHENEVER SQLERROR|SQLWARNING ... END-EXEC).
+// Emits NO code: the statement's entire effect is a Stage-1 catalog side effect
+// (registerSqlWheneverPolicy in CJavaEntityFactory), applied during semantic
+// analysis so every subsequent SQL call chain picks up the onError/onWarning
+// clause. Mirrors the retired CJavaSqlOnErrorGoto.DoExport, whose WriteLine calls
+// were all commented out (zero output). The template reads only entity.*
+// properties and renders empty.
+recursiveSqlOnErrorGotoEntity(entity) ::= ""
+
 // A COPY copybook declared as an instance in the program class (the non-inline
 // form): <Type> <ref> = <Type>.Copy(this[, replacing(level, value)]) ;
 dataInlineDeclaration(entity) ::= <<

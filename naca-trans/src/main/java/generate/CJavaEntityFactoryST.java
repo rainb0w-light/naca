@@ -59,6 +59,7 @@ import semantic.CICS.CEntityCICSSendMap;
 import semantic.CICS.CEntityCICSReturn;
 import semantic.CICS.CEntityCICSSyncPoint;
 import semantic.CICS.CEntityCICSXctl;
+import semantic.SQL.CEntitySqlOnErrorGoto;
 import utils.CObjectCatalog;
 import generate.CBaseLanguageExporter;
 
@@ -132,6 +133,28 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     public CEntityCICSSyncPoint NewEntityCICSSyncPoint(int l, boolean bRollBack) {
         CEntityCICSSyncPoint e = new CEntityCICSSyncPoint(l, programCatalog, bRollBack);
         e.setLanguageExporter(langOutput);
+        return e;
+    }
+
+    // Embedded SQL WHENEVER SQLERROR: the ST4 factory builds the pure semantic entity,
+    // which the recursive assembler renders via the recursiveSqlOnErrorGotoEntity
+    // binding (no CJava* controller). The WHENEVER policy is a Stage-1 catalog side
+    // effect (registerSqlWheneverPolicy, inherited from CJavaEntityFactory) applied
+    // here in program order; the template emits no code. Mirrors the CICS RETURN exemplar.
+    @Override
+    public CEntitySqlOnErrorGoto NewEntitySQLOnErrorGoto(int l, String ref) {
+        CEntitySqlOnErrorGoto e = new CEntitySqlOnErrorGoto(l, programCatalog, ref, false);
+        e.setLanguageExporter(langOutput);
+        registerSqlWheneverPolicy(ref, false);
+        return e;
+    }
+
+    // Embedded SQL WHENEVER SQLWARNING: same as above with the warning policy.
+    @Override
+    public CEntitySqlOnErrorGoto NewEntitySQLOnWarningGoto(int l, String ref) {
+        CEntitySqlOnErrorGoto e = new CEntitySqlOnErrorGoto(l, programCatalog, ref, true);
+        e.setLanguageExporter(langOutput);
+        registerSqlWheneverPolicy(ref, true);
         return e;
     }
 

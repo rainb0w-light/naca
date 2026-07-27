@@ -26,7 +26,7 @@
       "finalArchitectureCheck": {
         "tests": 401,
         "failures": 222,
-        "directBackends": 161,
+        "directBackends": 160,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -206,7 +206,7 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "EMBEDDED_SQL",
       "sourceSyntax": "EXEC SQL WHENEVER SQLERROR GOTO <label> END-EXEC",
@@ -219,11 +219,12 @@
       "fixture": "NacaSamples/cobol/ONLINE1.cbl:108",
       "directBackend": "generate.java.SQL.CJavaSqlOnErrorGoto",
       "productionReachable": true,
-      "status": "not-started",
+      "status": "direct-retired",
       "blocker": "Silently dropped; needs semantic node + manifest binding, or a structured-reject with source location + feature id (Phase 3/5).",
       "evidence": [
         "OnlineCorpusInventoryTest"
-      ]
+      ],
+      "lastAttemptCommit": "5bd2c4b45b301941c59456373d387042105a3bde"
     },
     {
       "id": "SQL-CURSOR-LIFECYCLE",

@@ -73,7 +73,6 @@ import generate.java.SQL.CJavaSQLSessionDeclare;
 import generate.java.SQL.CJavaSQLSessionDrop;
 import generate.java.SQL.CJavaSQLSingleStatement;
 import generate.java.SQL.CJavaSQLUpdateStatement;
-import generate.java.SQL.CJavaSqlOnErrorGoto;
 import generate.java.expressions.CJavaAddressOf;
 import generate.java.expressions.CJavaConcat;
 import generate.java.expressions.CJavaCondAnd;
@@ -471,10 +470,48 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CJavaCalcul(l, programCatalog, langOutput);
 	}
 	public CEntitySqlOnErrorGoto NewEntitySQLOnErrorGoto(int l, String ref)	{
-		return new CJavaSqlOnErrorGoto(l, programCatalog, langOutput, ref, false) ;
+		// Direct backend CJavaSqlOnErrorGoto retired: the pure semantic entity is
+		// rendered by the recursive ST4 assembler (recursiveSqlOnErrorGotoEntity
+		// binding). The WHENEVER policy is a Stage-1 catalog side effect registered
+		// here, in program order, during semantic analysis; the template emits no code.
+		CEntitySqlOnErrorGoto e = new CEntitySqlOnErrorGoto(l, programCatalog, ref, false) ;
+		e.setLanguageExporter(langOutput);
+		registerSqlWheneverPolicy(ref, false);
+		return e;
 	}
 	public CEntitySqlOnErrorGoto NewEntitySQLOnWarningGoto(int l, String ref)	{
-		return new CJavaSqlOnErrorGoto(l, programCatalog, langOutput, ref, true) ;
+		// Direct backend CJavaSqlOnErrorGoto retired (see NewEntitySQLOnErrorGoto).
+		CEntitySqlOnErrorGoto e = new CEntitySqlOnErrorGoto(l, programCatalog, ref, true) ;
+		e.setLanguageExporter(langOutput);
+		registerSqlWheneverPolicy(ref, true);
+		return e;
+	}
+	/**
+	 * Stage-1 side effect of {@code EXEC SQL WHENEVER ...}: records the SQLERROR /
+	 * SQLWARNING policy (continue vs goto + formatted target label) into the catalog
+	 * so the SQL statement backends can append the matching
+	 * {@code .onErrorGoto(...)}/{@code .onErrorContinue()} runtime clause. Moved out
+	 * of the retired direct backend's DoExport so it runs during semantic analysis
+	 * (program order) on both the default and ST4 export paths. The identifier is
+	 * formatted with the language exporter, exactly as the retired backend did.
+	 */
+	protected void registerSqlWheneverPolicy(String ref, boolean onWarning)	{
+		if (onWarning)	{
+			if (ref.equals(""))	{
+				programCatalog.registerSQLWarningContinue(null);
+			}
+			else	{
+				programCatalog.registerSQLWarningGoto(langOutput.FormatIdentifier(ref));
+			}
+		}
+		else	{
+			if (ref.equals(""))	{
+				programCatalog.RegisterSQLErrorContinue(null);
+			}
+			else	{
+				programCatalog.registerSQLErrorGoto(langOutput.FormatIdentifier(ref));
+			}
+		}
 	}
 	public CEntityExec NewEntityExec(int l, String statement)	{
 		return new CJavaExec(l, programCatalog, langOutput, statement);

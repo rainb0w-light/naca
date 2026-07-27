@@ -184,3 +184,17 @@ features:
     runtimeOperations: []
     fixtures: []
     status: production
+
+  - id: sql.whenever
+    dialects: [embedded-sql]
+    semanticType: semantic.SQL.CEntitySqlOnErrorGoto
+    javaBackend:
+      role: REFERENCE
+      template: recursiveSqlOnErrorGotoEntity
+    # EXEC SQL WHENEVER SQLERROR|SQLWARNING emits no code: its effect is a Stage-1
+    # catalog side effect (registerSqlWheneverPolicy in CJavaEntityFactory) that the
+    # SQL statement backends read to append .onErrorGoto(...)/.onErrorContinue().
+    # No runtime operation (fixture: NacaSamples/cobol/ONLINE1.cbl:108).
+    runtimeOperations: []
+    fixtures: []
+    status: production
