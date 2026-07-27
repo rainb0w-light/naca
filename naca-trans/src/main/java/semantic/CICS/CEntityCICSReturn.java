@@ -45,7 +45,7 @@ public class CEntityCICSReturn extends CBaseActionEntity
 		transID = TID;
 		commArea = comma ;
 		commLenght = comlen ;
-		bChecked = bChecked ;
+		ischecked = bChecked ;
 	}
 	
 	protected boolean ischecked = false ;

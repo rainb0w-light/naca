@@ -45,7 +45,7 @@ public class CEntityCICSLink extends CBaseActionEntity
 	public void SetProgramName(CDataEntity prgm, boolean bChecked)
 	{
 		refProgram = prgm ;
-		bChecked = bChecked ;
+		ischecked = bChecked ;
 	}
 	
 	protected boolean ischecked = false ;

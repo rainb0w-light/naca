@@ -55,7 +55,10 @@ public class CEntityCICSAbend extends CBaseActionEntity
 	public void Clear()
 	{
 		super.Clear();
-		aBCode.Clear() ;
+		if (aBCode != null)
+		{
+			aBCode.Clear() ;
+		}
 		aBCode = null ;
 	}
 	public boolean hasExplicitGetOut()

@@ -72,22 +72,20 @@ public class CEntitySQLCursorSection extends CEntityDataSection
 	// values; rendering is done by the template, never here.
 
 	/**
-	 * The Java reference expression of every declared cursor, in declaration
-	 * order. Mirrors exactly what the retired {@code CJavaSQLCursorSection.DoExport}
-	 * computed per cursor ({@code cur.ExportReference(getLine())}); the template
-	 * wraps each one as {@code SQLCursor <ref> = declare.cursor() ;}.
+	 * The semantic cursor entities in declaration order. The template renders each
+	 * child through the recursive assembler; this getter deliberately returns no
+	 * generated strings and invokes no export method.
 	 */
-	public List<String> getCursorReferences()
+	public List<CDataEntity> getCursorEntities()
 	{
-		List<String> references = new ArrayList<>();
+		List<CDataEntity> entities = new ArrayList<>();
 		if (cursors != null)
 		{
 			for (int i = 0; i < cursors.size(); i++)
 			{
-				CDataEntity cursor = (CDataEntity) cursors.get(i);
-				references.add(cursor.ExportReference(getLine()));
+				entities.add((CDataEntity) cursors.get(i));
 			}
 		}
-		return references;
+		return entities;
 	}
 }

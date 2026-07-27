@@ -25,26 +25,11 @@ import semantic.CICS.CEntityCICSReturn;
  */
 class CICSReturnRenderTest
 {
-    // Parameter names deliberately differ from CEntityCICSReturn's inherited fields
-    // (transID/commArea/commLenght): inside the anonymous subclass an unqualified
-    // name would resolve to the inherited field and shadow an identically-named
-    // parameter, so the getters below return these distinctly-named captures.
     private static String render(CDataEntity tid, CDataEntity comm, CDataEntity len,
-        boolean checked, String constValue)
+        boolean checked)
     {
-        CEntityCICSReturn ret = new CEntityCICSReturn(1, null)
-        {
-            @Override
-            public CDataEntity getTransID() { return tid; }
-            @Override
-            public CDataEntity getCommArea() { return comm; }
-            @Override
-            public CDataEntity getCommLength() { return len; }
-            @Override
-            public boolean isChecked() { return checked; }
-            @Override
-            public String getTransIDConstantValue() { return constValue; }
-        };
+        CEntityCICSReturn ret = new CEntityCICSReturn(1, null);
+        ret.SetTransID(tid, comm, len, checked);
         return TemplateLoader.getRecursiveAssembler()
             .renderRoot(ret, JavaTemplateRole.REFERENCE);
     }
@@ -53,7 +38,7 @@ class CICSReturnRenderTest
     @DisplayName("bare EXEC CICS RETURN renders CESM.returnTrans() ;")
     void bareReturn()
     {
-        String output = render(null, null, null, false, null);
+        String output = render(null, null, null, false);
         assertTrue(output.contains("CESM.returnTrans() ;"), output);
     }
 
@@ -61,7 +46,7 @@ class CICSReturnRenderTest
     @DisplayName("RETURN TRANSID(ref) renders CESM.returnTrans(<ref>) ;")
     void returnWithTransID()
     {
-        String output = render(new MockDataEntity(2, "MYTRANS"), null, null, false, null);
+        String output = render(new MockDataEntity(2, "MYTRANS"), null, null, false);
         assertTrue(output.contains("CESM.returnTrans(MYTRANS) ;"), output);
     }
 
@@ -69,7 +54,7 @@ class CICSReturnRenderTest
     @DisplayName("checked RETURN TRANSID renders the program class literal <const>.class")
     void returnWithCheckedTransID()
     {
-        String output = render(new MockDataEntity(2, "ignored"), null, null, true, "TRA1");
+        String output = render(new MockDataEntity(2, "TRA1"), null, null, true);
         assertTrue(output.contains("CESM.returnTrans(TRA1.class) ;"), output);
     }
 
@@ -78,7 +63,7 @@ class CICSReturnRenderTest
     void returnWithCommArea()
     {
         String output = render(new MockDataEntity(2, "MYTRANS"),
-            new MockDataEntity(3, "ONLINEFS"), null, false, null);
+            new MockDataEntity(3, "ONLINEFS"), null, false);
         assertTrue(output.contains("CESM.returnTrans(MYTRANS, ONLINEFS) ;"), output);
     }
 
@@ -87,7 +72,7 @@ class CICSReturnRenderTest
     void returnWithCommAreaAndLength()
     {
         String output = render(new MockDataEntity(2, "MYTRANS"),
-            new MockDataEntity(3, "ONLINEFS"), new MockDataEntity(4, "WS-LEN"), false, null);
+            new MockDataEntity(3, "ONLINEFS"), new MockDataEntity(4, "WS-LEN"), false);
         assertTrue(output.contains("CESM.returnTrans(MYTRANS, ONLINEFS, WS-LEN) ;"), output);
     }
 }

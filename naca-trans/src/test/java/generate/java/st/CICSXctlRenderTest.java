@@ -25,27 +25,12 @@ import semantic.CICS.CEntityCICSXctl;
  */
 class CICSXctlRenderTest
 {
-    // Parameter names deliberately differ from CEntityCICSXctl's inherited fields
-    // (refProgram/refCommArea/commAreaLength): inside the anonymous subclass an
-    // unqualified name would resolve to the inherited field and shadow an
-    // identically-named parameter, so the getters below return these
-    // distinctly-named captures.
     private static String render(CDataEntity prog, CDataEntity comm, CDataEntity len,
-        boolean checked, String constValue)
+        boolean checked)
     {
-        CEntityCICSXctl xctl = new CEntityCICSXctl(1, null)
-        {
-            @Override
-            public CDataEntity getProgram() { return prog; }
-            @Override
-            public CDataEntity getCommArea() { return comm; }
-            @Override
-            public CDataEntity getCommLength() { return len; }
-            @Override
-            public boolean isChecked() { return checked; }
-            @Override
-            public String getProgramConstantValue() { return constValue; }
-        };
+        CEntityCICSXctl xctl = new CEntityCICSXctl(1, null);
+        xctl.SetProgramName(prog, checked);
+        xctl.SetCommArea(comm, len);
         return TemplateLoader.getRecursiveAssembler()
             .renderRoot(xctl, JavaTemplateRole.REFERENCE);
     }
@@ -54,7 +39,7 @@ class CICSXctlRenderTest
     @DisplayName("XCTL PROGRAM(ref) renders CESM.xctl(<ref>).go() ;")
     void xctlWithProgram()
     {
-        String output = render(new MockDataEntity(2, "ONLINE1"), null, null, false, null);
+        String output = render(new MockDataEntity(2, "ONLINE1"), null, null, false);
         assertTrue(output.contains("CESM.xctl(ONLINE1).go() ;"), output);
     }
 
@@ -62,7 +47,7 @@ class CICSXctlRenderTest
     @DisplayName("checked XCTL PROGRAM renders the program class literal <const>.class")
     void xctlWithCheckedProgram()
     {
-        String output = render(new MockDataEntity(2, "ignored"), null, null, true, "ONLINE1");
+        String output = render(new MockDataEntity(2, "ONLINE1"), null, null, true);
         assertTrue(output.contains("CESM.xctl(ONLINE1.class).go() ;"), output);
     }
 
@@ -71,7 +56,7 @@ class CICSXctlRenderTest
     void xctlWithCommArea()
     {
         String output = render(new MockDataEntity(2, "ONLINE1"),
-            new MockDataEntity(3, "COMMAREA"), null, false, null);
+            new MockDataEntity(3, "COMMAREA"), null, false);
         assertTrue(output.contains("CESM.xctl(ONLINE1).commarea(COMMAREA) ;"), output);
     }
 
@@ -80,7 +65,7 @@ class CICSXctlRenderTest
     void xctlWithCommAreaAndLength()
     {
         String output = render(new MockDataEntity(2, "ONLINE1"),
-            new MockDataEntity(3, "COMMAREA"), new MockDataEntity(4, "WS-LEN"), false, null);
+            new MockDataEntity(3, "COMMAREA"), new MockDataEntity(4, "WS-LEN"), false);
         assertTrue(output.contains("CESM.xctl(ONLINE1).commarea(COMMAREA, WS-LEN) ;"), output);
     }
 }

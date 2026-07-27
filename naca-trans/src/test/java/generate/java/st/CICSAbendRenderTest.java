@@ -25,11 +25,8 @@ class CICSAbendRenderTest
 {
     private static String render(CDataEntity abcode)
     {
-        CEntityCICSAbend abend = new CEntityCICSAbend(1, null)
-        {
-            @Override
-            public CDataEntity getABCode() { return abcode; }
-        };
+        CEntityCICSAbend abend = new CEntityCICSAbend(1, null);
+        abend.SetABCode(abcode);
         return TemplateLoader.getRecursiveAssembler()
             .renderRoot(abend, JavaTemplateRole.REFERENCE);
     }

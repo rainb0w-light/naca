@@ -921,12 +921,12 @@ FileDescriptor <entity.formattedName> = declare.file(<if(entity.fileName)><entit
 // program's DECLARE CURSOR handles). Mirrors CJavaSQLCursorSection.DoExport
 // exactly: a DataSection header opening a cursorSection(), then one
 // SQLCursor <ref> = declare.cursor() ; line per declared cursor. Reads only
-// entity.* properties (formattedName + the pre-resolved cursorReferences list).
+// entity.* properties (formattedName + semantic cursorEntities).
 recursiveSQLCursorSectionEntity(entity) ::= <<
 DataSection <entity.formattedName> = declare.cursorSection() ;
 
 {
-<entity.cursorReferences:{ref | SQLCursor <ref> = declare.cursor() ;}; separator="\n">
+<entity.cursorEntities:{cursor | SQLCursor <cursor> = declare.cursor() ;}; separator="\n">
 }
 >>
 

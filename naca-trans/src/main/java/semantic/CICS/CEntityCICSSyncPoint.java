@@ -31,7 +31,7 @@ public class CEntityCICSSyncPoint extends CBaseActionEntity
 	public CEntityCICSSyncPoint(int line, CObjectCatalog cat, boolean bRollback)
 	{
 		super(line, cat);
-		bRollback = bRollback ;
+		isrollback = bRollback ;
 		// The catalog notification is a production-only side effect; the ST4 render
 		// tests instantiate this entity directly with a null catalog (like the READ
 		// and CICS RETURN exemplars), so guard it instead of dereferencing unconditionally.

@@ -22,16 +22,9 @@ import semantic.CICS.CEntityCICSSyncPoint;
  */
 class CICSSyncPointRenderTest
 {
-    // The rollback flag is exposed through isRollback(); the anonymous subclass
-    // overrides it so both output shapes the template can emit are reachable from
-    // the test (the real constructor leaves the flag at its default).
     private static String render(boolean rollback)
     {
-        CEntityCICSSyncPoint syncPoint = new CEntityCICSSyncPoint(1, null, rollback)
-        {
-            @Override
-            public boolean isRollback() { return rollback; }
-        };
+        CEntityCICSSyncPoint syncPoint = new CEntityCICSSyncPoint(1, null, rollback);
         return TemplateLoader.getRecursiveAssembler()
             .renderRoot(syncPoint, JavaTemplateRole.REFERENCE);
     }

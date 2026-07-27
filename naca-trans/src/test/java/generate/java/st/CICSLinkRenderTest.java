@@ -27,29 +27,12 @@ import semantic.CICS.CEntityCICSLink;
  */
 class CICSLinkRenderTest
 {
-    // Parameter names deliberately differ from CEntityCICSLink's inherited fields
-    // (refProgram/refCommArea/commAreaLength/commAreaDataLength): inside the
-    // anonymous subclass an unqualified name would resolve to the inherited field
-    // and shadow an identically-named parameter, so the getters below return these
-    // distinctly-named captures.
     private static String render(CDataEntity prog, CDataEntity comm, CDataEntity len,
-        CDataEntity dlen, boolean checked, String constValue)
+        CDataEntity dlen, boolean checked)
     {
-        CEntityCICSLink link = new CEntityCICSLink(1, null)
-        {
-            @Override
-            public CDataEntity getProgram() { return prog; }
-            @Override
-            public CDataEntity getCommArea() { return comm; }
-            @Override
-            public CDataEntity getCommLength() { return len; }
-            @Override
-            public CDataEntity getCommDataLength() { return dlen; }
-            @Override
-            public boolean isChecked() { return checked; }
-            @Override
-            public String getProgramConstantValue() { return constValue; }
-        };
+        CEntityCICSLink link = new CEntityCICSLink(1, null);
+        link.SetProgramName(prog, checked);
+        link.SetCommArea(comm, len, dlen);
         return TemplateLoader.getRecursiveAssembler()
             .renderRoot(link, JavaTemplateRole.REFERENCE);
     }
@@ -58,7 +41,7 @@ class CICSLinkRenderTest
     @DisplayName("LINK PROGRAM(ref) renders CESM.link(<ref>).go() ;")
     void linkWithProgram()
     {
-        String output = render(new MockDataEntity(2, "CALLMSG"), null, null, null, false, null);
+        String output = render(new MockDataEntity(2, "CALLMSG"), null, null, null, false);
         assertTrue(output.contains("CESM.link(CALLMSG).go() ;"), output);
     }
 
@@ -66,7 +49,7 @@ class CICSLinkRenderTest
     @DisplayName("checked LINK PROGRAM renders the program class literal <const>.class")
     void linkWithCheckedProgram()
     {
-        String output = render(new MockDataEntity(2, "ignored"), null, null, null, true, "CALLMSG");
+        String output = render(new MockDataEntity(2, "CALLMSG"), null, null, null, true);
         assertTrue(output.contains("CESM.link(CALLMSG.class).go() ;"), output);
     }
 
@@ -75,7 +58,7 @@ class CICSLinkRenderTest
     void linkWithCommArea()
     {
         String output = render(new MockDataEntity(2, "CALLMSG"),
-            new MockDataEntity(3, "MSG-ZONE"), null, null, false, null);
+            new MockDataEntity(3, "MSG-ZONE"), null, null, false);
         assertTrue(output.contains("CESM.link(CALLMSG).commarea(MSG-ZONE, -1, -1) ;"), output);
     }
 
@@ -84,7 +67,7 @@ class CICSLinkRenderTest
     void linkWithCommAreaAndLength()
     {
         String output = render(new MockDataEntity(2, "CALLMSG"),
-            new MockDataEntity(3, "MSG-ZONE"), new MockDataEntity(4, "WS-LEN"), null, false, null);
+            new MockDataEntity(3, "MSG-ZONE"), new MockDataEntity(4, "WS-LEN"), null, false);
         assertTrue(output.contains("CESM.link(CALLMSG).commarea(MSG-ZONE, WS-LEN, -1) ;"), output);
     }
 
@@ -94,7 +77,7 @@ class CICSLinkRenderTest
     {
         String output = render(new MockDataEntity(2, "CALLMSG"),
             new MockDataEntity(3, "MSG-ZONE"), new MockDataEntity(4, "WS-LEN"),
-            new MockDataEntity(5, "WS-DLEN"), false, null);
+            new MockDataEntity(5, "WS-DLEN"), false);
         assertTrue(output.contains("CESM.link(CALLMSG).commarea(MSG-ZONE, WS-LEN, WS-DLEN) ;"), output);
     }
 }
