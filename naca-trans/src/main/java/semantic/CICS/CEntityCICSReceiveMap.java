@@ -23,7 +23,7 @@ import utils.CobolTranscoder.Notifs.NotifDeclareUseCICSPreprocessor;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityCICSReceiveMap extends CBaseActionEntity
+public class CEntityCICSReceiveMap extends CBaseActionEntity
 {
 	/**
 	 * @param line
@@ -33,7 +33,13 @@ public abstract class CEntityCICSReceiveMap extends CBaseActionEntity
 	{
 		super(line, cat);
 		this.name = name ;
-		cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
+		// The catalog notification is a production-only side effect; the ST4 render
+		// tests instantiate this entity directly with a null catalog (like the READ
+		// and CICS XCTL exemplars), so guard it instead of dereferencing unconditionally.
+		if (cat != null)
+		{
+			cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
+		}
 	}
 	
 	public void SetMapSet(CDataEntity name)
@@ -58,6 +64,26 @@ public abstract class CEntityCICSReceiveMap extends CBaseActionEntity
 	}
 	public boolean ignore()
 	{
-		return false; 
+		return false;
+	}
+
+	// ==================== ST4 Template Accessors ====================
+	// Read-only getters for the recursive ST4 assembler (template
+	// recursiveCICSReceiveMapEntity). They expose the already-resolved semantic
+	// sub-entities; rendering is done by the template, never here.
+
+	public CDataEntity getName()
+	{
+		return name;
+	}
+
+	public CDataEntity getSetName()
+	{
+		return setName;
+	}
+
+	public CDataEntity getDataInto()
+	{
+		return dataInto;
 	}
 }

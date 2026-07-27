@@ -98,3 +98,8 @@ templates:
       - cics.getAddressOfCWA
       - cics.getAddressOfTCTUA
       - cics.getAddressOfTWA
+
+  recursiveCICSReceiveMapEntity:
+    capability: CICS
+    requires:
+      - cics.receiveMap

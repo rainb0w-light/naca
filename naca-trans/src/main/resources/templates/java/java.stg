@@ -869,6 +869,16 @@ recursiveCICSAddressEntity(entity) ::= <<
 <if(entity.cwa)>CESM.getAddressOfCWA(<entity.cwa>)<if(entity.tctua)>.getAddressOfTCTUA(<entity.tctua>)<endif><if(entity.twa)>.getAddressOfTWA(<entity.twa>)<endif> ;<else><if(entity.tctua)>CESM.getAddressOfTCTUA(<entity.tctua>)<if(entity.twa)>.getAddressOfTWA(<entity.twa>)<endif> ;<else><if(entity.twa)>CESM.getAddressOfTWA(<entity.twa>) ;<endif><endif><endif>
 >>
 
+// Embedded CICS RECEIVE MAP (EXEC CICS RECEIVE MAP(...) END-EXEC). Emits the
+// CESM.receiveMap(...).mapSet(...).into(...) runtime call. Mirrors
+// CJavaCICSReceiveMap.DoExport exactly: the MAP name carries the CESM.receiveMap
+// prefix, then MAPSET chains .mapSet(<ref>) and INTO chains .into(<ref>),
+// terminated by " ;". The production-reachable fixture ONLINE1.cbl:163 is
+// MAP('ONLINEF') MAPSET('ONLINE1') INTO(ONLINEFI).
+recursiveCICSReceiveMapEntity(entity) ::= <<
+CESM.receiveMap(<entity.name>).mapSet(<entity.setName>).into(<entity.dataInto>) ;
+>>
+
 recursiveAcceptEntity(entity) ::= <<
 <if(entity.fromEnvironmentValue)>acceptEnv(<entity.variable>);<else>move(<if(entity.fromDate)>getDateBatch()<else><if(entity.fromDay)>getDayBatch()<else><if(entity.fromDayOfWeek)>getDayOfWeekBatch()<else><if(entity.fromInput)>getInputBatch()<else><if(entity.fromTime)>getTimeBatch()<else><entity.source><endif><endif><endif><endif><endif>, <entity.variable>);<endif>
 >>

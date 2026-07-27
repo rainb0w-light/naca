@@ -26,7 +26,7 @@
       "finalArchitectureCheck": {
         "tests": 401,
         "failures": 222,
-        "directBackends": 163,
+        "directBackends": 162,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -324,7 +324,7 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "EMBEDDED_CICS",
       "sourceSyntax": "EXEC CICS RECEIVE MAP(...) END-EXEC",
@@ -337,11 +337,12 @@
       "fixture": "NacaSamples/cobol/ONLINE1.cbl:163",
       "directBackend": "generate.java.CICS.CJavaCICSReceiveMap",
       "productionReachable": true,
-      "status": "not-started",
+      "status": "direct-retired",
       "blocker": "Silently dropped (no semantic node) even though the BMS map now resolves. Phase 5 (embedded CICS).",
       "evidence": [
         "OnlineCorpusInventoryTest"
-      ]
+      ],
+      "lastAttemptCommit": "dd9b44f43afe57ac1db4785fafe3d3850f27da3c"
     },
     {
       "id": "CICS-SEND",

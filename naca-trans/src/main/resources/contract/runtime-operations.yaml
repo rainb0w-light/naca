@@ -335,3 +335,21 @@ operations:
     runtimeMethod: getAddressOfTWA
     paramTypes: [nacaLib.misc.Pointer]
     returns: nacaLib.basePrgEnv.BaseCESMManager
+
+  # --- CICS RECEIVE MAP ---
+  # EXEC CICS RECEIVE MAP(...) END-EXEC emits CESM.receiveMap(<map>).mapSet(<set>)
+  # .into(<into>). The contract declares the representative receiveMap(String)
+  # entry overload that the production-reachable map-literal form (e.g.
+  # ONLINE1.cbl:163 MAP('ONLINEF')) resolves to; the Var overload the template can
+  # also emit and the chained .mapSet(...)/.into(...) builder calls on the returned
+  # CESMReceive resolve like cics.xctl. Unlike the other CICS verbs, receiveMap is
+  # implemented on the legacy idea.manager.CESMManager (nacaLib.basePrgEnv.
+  # BaseCESMManager does not declare it), so the contract names the class that
+  # actually carries the method — RuntimeContractTest reflects on this exact class.
+  - id: cics.receiveMap
+    since: 1
+    capability: CICS
+    runtimeClass: idea.manager.CESMManager
+    runtimeMethod: receiveMap
+    paramTypes: [java.lang.String]
+    returns: idea.manager.CESMReceive
