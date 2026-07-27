@@ -23,7 +23,7 @@ import utils.CobolTranscoder.Notifs.NotifDeclareUseCICSPreprocessor;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityCICSAddress extends CBaseActionEntity
+public class CEntityCICSAddress extends CBaseActionEntity
 {
 	/**
 	 * @param line
@@ -32,7 +32,14 @@ public abstract class CEntityCICSAddress extends CBaseActionEntity
 	public CEntityCICSAddress(int line, CObjectCatalog cat)
 	{
 		super(line, cat);
-		cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
+		// The catalog notification is a production-only side effect; the ST4 render
+		// tests instantiate this entity directly with a null catalog (like the READ
+		// and CICS RETURN/XCTL/LINK/ABEND exemplars), so guard it instead of
+		// dereferencing unconditionally.
+		if (cat != null)
+		{
+			cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
+		}
 	}
 	public void SetRefForCWA(CDataEntity e)
 	{
@@ -56,5 +63,53 @@ public abstract class CEntityCICSAddress extends CBaseActionEntity
 		refCWA = null ;
 		refTCTUA = null ;
 		refTWA = null ;
+	}
+
+	/**
+	 * The ADDRESS verb carries no executable children of its own; it is ignored
+	 * (renders nothing) when none of its CWA/TCTUA/TWA references is present and
+	 * active. Mirrors the ignore() logic the retired CJavaCICSAddress backend
+	 * carried, so the recursive assembler filters an empty ADDRESS exactly as the
+	 * legacy ExportChildren loop did.
+	 */
+	public boolean ignore()
+	{
+		boolean ignore = true ;
+		if (refCWA != null)
+		{
+			ignore &= refCWA.ignore() ;
+		}
+		if (refTCTUA != null)
+		{
+			ignore &= refTCTUA.ignore() ;
+		}
+		if (refTWA != null)
+		{
+			ignore &= refTWA.ignore() ;
+		}
+		return ignore ;
+	}
+
+	// ==================== ST4 Template Accessors ====================
+	// Read-only getters for the recursive ST4 assembler (template
+	// recursiveCICSAddressEntity). They expose the already-resolved semantic
+	// sub-entities; rendering is done by the template, never here. Each getter
+	// returns null when its reference is absent or ignored, mirroring the
+	// per-reference guard the retired CJavaCICSAddress.DoExport applied, so the
+	// template's <if(entity.xxx)> selects exactly the active references.
+
+	public CDataEntity getCwa()
+	{
+		return (refCWA != null && !refCWA.ignore()) ? refCWA : null;
+	}
+
+	public CDataEntity getTctua()
+	{
+		return (refTCTUA != null && !refTCTUA.ignore()) ? refTCTUA : null;
+	}
+
+	public CDataEntity getTwa()
+	{
+		return (refTWA != null && !refTWA.ignore()) ? refTWA : null;
 	}
 }

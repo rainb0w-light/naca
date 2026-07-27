@@ -91,3 +91,10 @@ templates:
     requires:
       - cics.abend
       - cics.abendWithCode
+
+  recursiveCICSAddressEntity:
+    capability: CICS
+    requires:
+      - cics.getAddressOfCWA
+      - cics.getAddressOfTCTUA
+      - cics.getAddressOfTWA

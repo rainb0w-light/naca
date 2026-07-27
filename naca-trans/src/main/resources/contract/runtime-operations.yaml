@@ -303,3 +303,35 @@ operations:
     runtimeMethod: abend
     paramTypes: [nacaLib.varEx.VarAndEdit]
     returns: void
+
+  # --- CICS ADDRESS ---
+  # EXEC CICS ADDRESS [CWA(...)] [TCTUA(...)] [TWA(...)] END-EXEC emits, for each
+  # active reference, a CESM.getAddressOfCWA/TCTUA/TWA(<ref>) call. Each runtime
+  # method takes a nacaLib.misc.Pointer (the ADDRESS OF target resolves to one)
+  # and returns the BaseCESMManager so multiple references chain on a single CESM
+  # statement, mirroring CJavaCICSAddress.DoExport. Declared on BaseCESMManager
+  # like cics.returnTrans. The production-reachable fixture ONLINE1.cbl:110 is
+  # TCTUA(ADDRESS OF TUA-ZONE).
+  - id: cics.getAddressOfCWA
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
+    runtimeMethod: getAddressOfCWA
+    paramTypes: [nacaLib.misc.Pointer]
+    returns: nacaLib.basePrgEnv.BaseCESMManager
+
+  - id: cics.getAddressOfTCTUA
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
+    runtimeMethod: getAddressOfTCTUA
+    paramTypes: [nacaLib.misc.Pointer]
+    returns: nacaLib.basePrgEnv.BaseCESMManager
+
+  - id: cics.getAddressOfTWA
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
+    runtimeMethod: getAddressOfTWA
+    paramTypes: [nacaLib.misc.Pointer]
+    returns: nacaLib.basePrgEnv.BaseCESMManager

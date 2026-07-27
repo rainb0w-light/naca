@@ -142,6 +142,16 @@ features:
     fixtures: []
     status: production
 
+  - id: cics.address
+    dialects: [embedded-cics]
+    semanticType: semantic.CICS.CEntityCICSAddress
+    javaBackend:
+      role: REFERENCE
+      template: recursiveCICSAddressEntity
+    runtimeOperations: [cics.getAddressOfCWA, cics.getAddressOfTCTUA, cics.getAddressOfTWA]
+    fixtures: []
+    status: production
+
   - id: sql.cursorSection
     dialects: [embedded-sql]
     semanticType: semantic.CEntitySQLCursorSection

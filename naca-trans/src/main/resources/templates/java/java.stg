@@ -858,6 +858,17 @@ recursiveCICSAbendEntity(entity) ::= <<
 CESM.abend(<if(entity.aBCode)><entity.aBCode><endif>) ;
 >>
 
+// Embedded CICS ADDRESS (EXEC CICS ADDRESS [CWA(...)] [TCTUA(...)] [TWA(...)]
+// END-EXEC). Emits the CESM.getAddressOfCWA/TCTUA/TWA(...) runtime calls. Mirrors
+// CJavaCICSAddress.DoExport exactly: the first active reference carries the CESM
+// prefix and each further active reference chains onto the previous call (the
+// getAddressOfXxx runtime methods return the CESM manager), terminated by " ;".
+// The common single-reference form (e.g. ONLINE1.cbl:110 TCTUA(ADDRESS OF ...))
+// renders CESM.getAddressOfTCTUA(<ref>) ;.
+recursiveCICSAddressEntity(entity) ::= <<
+<if(entity.cwa)>CESM.getAddressOfCWA(<entity.cwa>)<if(entity.tctua)>.getAddressOfTCTUA(<entity.tctua>)<endif><if(entity.twa)>.getAddressOfTWA(<entity.twa>)<endif> ;<else><if(entity.tctua)>CESM.getAddressOfTCTUA(<entity.tctua>)<if(entity.twa)>.getAddressOfTWA(<entity.twa>)<endif> ;<else><if(entity.twa)>CESM.getAddressOfTWA(<entity.twa>) ;<endif><endif><endif>
+>>
+
 recursiveAcceptEntity(entity) ::= <<
 <if(entity.fromEnvironmentValue)>acceptEnv(<entity.variable>);<else>move(<if(entity.fromDate)>getDateBatch()<else><if(entity.fromDay)>getDayBatch()<else><if(entity.fromDayOfWeek)>getDayOfWeekBatch()<else><if(entity.fromInput)>getInputBatch()<else><if(entity.fromTime)>getTimeBatch()<else><entity.source><endif><endif><endif><endif><endif>, <entity.variable>);<endif>
 >>
