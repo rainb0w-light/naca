@@ -23,6 +23,16 @@ import json
 import re
 
 VALID_OUTCOMES = ("success", "failed", "blocked")
+VALID_STATUS_ADVANCES = (
+    "not-started",
+    "parser-preserved",
+    "semantic-built",
+    "binding-added",
+    "template-added",
+    "production-wired",
+    "direct-retired",
+    "done",
+)
 REQUIRED_FIELDS = ("itemId", "outcome", "summary", "filesChanged", "debtDelta")
 
 
@@ -183,6 +193,12 @@ def validate_structured(so, expected_item_id=None):
         problems.append("filesChanged must be an array")
     if "debtDelta" in so and not isinstance(so["debtDelta"], dict):
         problems.append("debtDelta must be an object")
+    status_advance = so.get("statusAdvance")
+    if status_advance is not None and status_advance not in VALID_STATUS_ADVANCES:
+        problems.append(
+            f"invalid statusAdvance: {status_advance!r}; expected one of "
+            f"{VALID_STATUS_ADVANCES}"
+        )
     if expected_item_id is not None and so.get("itemId") != expected_item_id:
         problems.append(
             f"itemId mismatch: worker reported {so.get('itemId')!r}, "

@@ -100,7 +100,7 @@ class ControllerTest(unittest.TestCase):
             repo = make_repo(Path(td) / "repo", ledger_two_items())
             env_patch(self, ST4_STUB_OUTCOME="success", ST4_STUB_ITEM_ID="CICS-FIRST",
                       ST4_STUB_TOUCH="src/New.java",
-                      ST4_STUB_STATUS_ADVANCE="binding-added", ST4_STUB_DEBT="-1")
+                      ST4_STUB_STATUS_ADVANCE="direct-retired", ST4_STUB_DEBT="-1")
             cfg = cfg_for(repo, td, max_iterations=1)
             ctrl = controller.Controller(
                 cfg, verify_runner=self._ok_verify, reviewer_runner=self._ok_review,
@@ -113,7 +113,7 @@ class ControllerTest(unittest.TestCase):
             # ledger updated: status advanced, debt decreased, checkpointed
             data = ledger.load_ledger(cfg.ledger_path)
             first = ledger.entry_by_id(data, "CICS-FIRST")
-            self.assertEqual(first["status"], "binding-added")
+            self.assertEqual(first["status"], "direct-retired")
             self.assertEqual(data["meta"]["ratchet"]["finalArchitectureCheck"]["directBackends"], 2)
             self.assertEqual(first["attempts"], 1)
             # the new file and ledger are in the commit; worktree has the file

@@ -472,6 +472,34 @@ class Controller:
             outcome = worker_result.interpret(raw, expected_item_id=item_id)
             last_outcome = outcome
             self._write_log(item_id, f"attempt{attempts}-result", raw or "")
+
+            # A successful direct-backend retirement has one unambiguous terminal
+            # status. Derive it when the worker omits statusAdvance; reject any
+            # forward-but-nonterminal claim. Unknown status names are already
+            # rejected by worker_result.validate_structured, so commit cannot crash
+            # inside ledger.advance_status.
+            if outcome.ok and expected_db < 0 and outcome.status_advance is None:
+                outcome.status_advance = "direct-retired"
+            if (
+                outcome.ok
+                and expected_db < 0
+                and outcome.status_advance not in ledger.TERMINAL_STATUSES
+            ):
+                outcome.ok = False
+                outcome.problems.append(
+                    "a successful direct-backend retirement must advance to "
+                    f"{ledger.TERMINAL_STATUSES}, got {outcome.status_advance!r}"
+                )
+            if outcome.ok and outcome.status_advance is not None:
+                current_index = ledger.status_index(data, item.get("status"))
+                target_index = ledger.status_index(data, outcome.status_advance)
+                if target_index <= current_index:
+                    outcome.ok = False
+                    outcome.problems.append(
+                        "statusAdvance must move forward: "
+                        f"{item.get('status')} -> {outcome.status_advance}"
+                    )
+
             self.log(
                 f"[{item_id}] outcome={outcome.outcome} ok={outcome.ok} "
                 f"problems={outcome.problems}"

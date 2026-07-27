@@ -100,6 +100,11 @@ class InterpretTest(unittest.TestCase):
         self.assertFalse(out.ok)
         self.assertTrue(any("debtDelta" in p for p in out.problems))
 
+    def test_unknown_status_advance_is_rejected_before_commit(self):
+        out = wr.interpret(envelope(good(statusAdvance="migrated")))
+        self.assertFalse(out.ok)
+        self.assertTrue(any("invalid statusAdvance" in p for p in out.problems))
+
 
 class ExtractRecoveryTest(unittest.TestCase):
     """extract_structured fails closed but recovers exactly one JSON object from a

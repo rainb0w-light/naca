@@ -27,6 +27,17 @@
     },
     "statusAdvance": {
       "type": ["string", "null"],
+      "enum": [
+        null,
+        "not-started",
+        "parser-preserved",
+        "semantic-built",
+        "binding-added",
+        "template-added",
+        "production-wired",
+        "direct-retired",
+        "done"
+      ],
       "description": "If the slice advanced the ledger status, the new status (must be forward along meta.statusOrder). null if no status change."
     },
     "verificationRun": {

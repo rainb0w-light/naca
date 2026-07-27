@@ -54,7 +54,9 @@ Only report `outcome: "success"` if those are green AND the slice's own
 Return **only** the structured object matching `result.schema.json`:
 `itemId` (echo the assigned id), `outcome` (`success|failed|blocked`), `summary`,
 `filesChanged` (repo-relative paths you actually edited), `statusAdvance` (new status
-along `meta.statusOrder` or null), `verificationRun`, `debtDelta`
+along `meta.statusOrder`: `not-started|parser-preserved|semantic-built|binding-added|
+template-added|production-wired|direct-retired|done`, or null; never invent another
+status name), `verificationRun`, `debtDelta`
 (`directBackends` must be `<= 0`), `evidence`, and `blocker` (null unless blocked).
 
 If you hit a reproducible obstacle you cannot resolve within this slice, set
