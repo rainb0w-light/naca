@@ -246,6 +246,39 @@ class ControllerTest(unittest.TestCase):
             self.assertEqual(ledger.sched(first)["attempts"], 0)
             self.assertTrue(gitutil.is_clean(repo))
 
+    def test_retry_prompt_contains_previous_attempt_feedback(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as td:
+            repo = make_repo(Path(td) / "repo", ledger_two_items())
+            cfg = cfg_for(repo, td, max_iterations=1, max_attempts=2)
+            prompts = []
+
+            def failed_worker(prompt, config):
+                prompts.append(prompt)
+                return json.dumps({
+                    "type": "result",
+                    "is_error": False,
+                    "structured_output": {
+                        "itemId": "CICS-FIRST",
+                        "outcome": "failed",
+                        "summary": "render test failed",
+                        "filesChanged": [],
+                        "debtDelta": {},
+                    },
+                })
+
+            ctrl = controller.Controller(
+                cfg, worker_runner=failed_worker, verify_runner=self._ok_verify,
+                reviewer_runner=self._ok_review, debt_measurer=debt_fake(3, 3),
+                log=lambda *_: None)
+            summary = ctrl.run()
+
+            self.assertEqual(summary[0]["result"], "blocked")
+            self.assertEqual(len(prompts), 2)
+            self.assertNotIn(controller.RETRY_FEEDBACK_BEGIN, prompts[0])
+            self.assertIn(controller.RETRY_FEEDBACK_BEGIN, prompts[1])
+            self.assertIn("render test failed", prompts[1])
+
 
 class IndependentGateTest(unittest.TestCase):
     """The controller never trusts self-report: filesChanged must exactly match the

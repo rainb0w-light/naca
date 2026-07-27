@@ -203,27 +203,27 @@
       "priority": 40,
       "dependencies": [],
       "verification": [],
-      "expectedDebtDelta": {},
-      "attempts": 3,
-      "blocked": true,
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
       "scope": "EMBEDDED_SQL",
       "sourceSyntax": "EXEC SQL WHENEVER SQLERROR GOTO <label> END-EXEC",
-      "parserNode": null,
-      "semanticNode": null,
+      "parserNode": "parser.Cobol.elements.SQL.CExecSQLOnErrorGoto",
+      "semanticNode": "semantic.SQL.CEntitySqlOnErrorGoto",
       "assemblerRole": null,
       "manifestBinding": null,
       "template": null,
       "runtimeOperation": null,
       "fixture": "NacaSamples/cobol/ONLINE1.cbl:108",
-      "directBackend": null,
+      "directBackend": "generate.java.SQL.CJavaSqlOnErrorGoto",
       "productionReachable": true,
       "status": "not-started",
       "blocker": "Silently dropped; needs semantic node + manifest binding, or a structured-reject with source location + feature id (Phase 3/5).",
       "evidence": [
         "OnlineCorpusInventoryTest"
-      ],
-      "blockedReason": "exhausted 3 attempts without independent verification; last outcome=success",
-      "lastAttemptCommit": "5808414022789272047b010087baf42bf24dac50"
+      ]
     },
     {
       "id": "SQL-CURSOR-LIFECYCLE",
@@ -260,27 +260,27 @@
       "priority": 30,
       "dependencies": [],
       "verification": [],
-      "expectedDebtDelta": {},
-      "attempts": 3,
-      "blocked": true,
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
       "scope": "EMBEDDED_CICS",
       "sourceSyntax": "EXEC CICS ADDRESS TCTUA(...) END-EXEC",
-      "parserNode": null,
-      "semanticNode": null,
+      "parserNode": "parser.Cobol.elements.CICS.CExecCICSAddress",
+      "semanticNode": "semantic.CICS.CEntityCICSAddress",
       "assemblerRole": null,
       "manifestBinding": null,
       "template": null,
       "runtimeOperation": null,
       "fixture": "NacaSamples/cobol/ONLINE1.cbl:110",
-      "directBackend": null,
+      "directBackend": "generate.java.CICS.CJavaCICSAddress",
       "productionReachable": true,
       "status": "not-started",
       "blocker": "Silently dropped (no semantic node). Phase 5 (embedded CICS).",
       "evidence": [
         "OnlineCorpusInventoryTest"
-      ],
-      "blockedReason": "exhausted 3 attempts without independent verification; last outcome=success",
-      "lastAttemptCommit": "c5fea07a5170577c0708dc67be47809fec1990e2"
+      ]
     },
     {
       "id": "CICS-RETURN",
@@ -320,27 +320,27 @@
         "BMS-ONLINM1S"
       ],
       "verification": [],
-      "expectedDebtDelta": {},
-      "attempts": 3,
-      "blocked": true,
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
       "scope": "EMBEDDED_CICS",
       "sourceSyntax": "EXEC CICS RECEIVE MAP(...) END-EXEC",
-      "parserNode": null,
-      "semanticNode": null,
+      "parserNode": "parser.Cobol.elements.CICS.CExecCICSReceive",
+      "semanticNode": "semantic.CICS.CEntityCICSReceiveMap",
       "assemblerRole": null,
       "manifestBinding": null,
       "template": null,
       "runtimeOperation": null,
       "fixture": "NacaSamples/cobol/ONLINE1.cbl:163",
-      "directBackend": null,
+      "directBackend": "generate.java.CICS.CJavaCICSReceiveMap",
       "productionReachable": true,
       "status": "not-started",
       "blocker": "Silently dropped (no semantic node) even though the BMS map now resolves. Phase 5 (embedded CICS).",
       "evidence": [
         "OnlineCorpusInventoryTest"
-      ],
-      "blockedReason": "exhausted 3 attempts without independent verification; last outcome=success",
-      "lastAttemptCommit": "d15be6d22eb02dcaec88f3632700cfbc02036d89"
+      ]
     },
     {
       "id": "CICS-SEND",
@@ -350,27 +350,27 @@
         "BMS-ONLINM1S"
       ],
       "verification": [],
-      "expectedDebtDelta": {},
-      "attempts": 3,
-      "blocked": true,
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
       "scope": "EMBEDDED_CICS",
       "sourceSyntax": "EXEC CICS SEND MAP(...) END-EXEC",
-      "parserNode": null,
-      "semanticNode": null,
+      "parserNode": "parser.Cobol.elements.CICS.CExecCICSSend",
+      "semanticNode": "semantic.CICS.CEntityCICSSendMap",
       "assemblerRole": null,
       "manifestBinding": null,
       "template": null,
       "runtimeOperation": null,
       "fixture": "NacaSamples/cobol/ONLINE1.cbl:228,237",
-      "directBackend": null,
+      "directBackend": "generate.java.CICS.CJavaCICSSendMap",
       "productionReachable": true,
       "status": "not-started",
       "blocker": "Silently dropped (no semantic node). SEND TEXT fails closed with a structured diagnostic (CicsUnsupportedFeatureTest), but SEND MAP is dropped silently. Phase 5 (embedded CICS).",
       "evidence": [
         "OnlineCorpusInventoryTest"
-      ],
-      "blockedReason": "exhausted 3 attempts without independent verification; last outcome=success",
-      "lastAttemptCommit": "73f46088dd1f92c4cddd2a3b279b64e7f0991a7b"
+      ]
     },
     {
       "id": "CICS-SYNCPOINT",

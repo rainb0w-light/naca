@@ -20,6 +20,8 @@ ITEM_BEGIN = "<<<ST4_ITEM_BEGIN>>>"
 ITEM_END = "<<<ST4_ITEM_END>>>"
 DIFF_BEGIN = "<<<ST4_DIFF_BEGIN>>>"
 DIFF_END = "<<<ST4_DIFF_END>>>"
+RETRY_FEEDBACK_BEGIN = "<<<ST4_RETRY_FEEDBACK_BEGIN>>>"
+RETRY_FEEDBACK_END = "<<<ST4_RETRY_FEEDBACK_END>>>"
 
 # Inlined from .claude/agents/st4-reviewer.md. We deliberately do NOT run the reviewer
 # as `--agent st4-reviewer`: the agent induces a long multi-turn session that ignores
@@ -352,12 +354,20 @@ class Controller:
         return current - base_debt, current
 
     # -- prompt construction ------------------------------------------------ #
-    def build_worker_prompt(self, item):
+    def build_worker_prompt(self, item, retry_feedback=None):
         template = Path(self.cfg.worker_prompt_path).read_text(encoding="utf-8")
-        return (
+        prompt = (
             f"{template}\n\n"
             f"{ITEM_BEGIN}\n{json.dumps(item, indent=2)}\n{ITEM_END}\n"
         )
+        if retry_feedback:
+            prompt += (
+                "\nThe previous attempt for this same item was rejected by the "
+                "external controller. Correct these concrete problems; do not repeat "
+                "the same patch:\n"
+                f"{RETRY_FEEDBACK_BEGIN}\n{retry_feedback}\n{RETRY_FEEDBACK_END}\n"
+            )
+        return prompt
 
     def _protect(self):
         """Paths the scoped revert must never touch (ledger + log dir)."""
@@ -391,7 +401,13 @@ class Controller:
         for iteration in range(1, self.cfg.max_iterations + 1):
             item = ledger.select_ready(data)
             if item is None:
-                self.log("[loop] no READY items remain; stopping.")
+                remaining_debt = self.debt_measurer(root)
+                self.log(
+                    "[loop] no READY items remain; stopping. "
+                    f"{remaining_debt} direct backends still exist, so queue exhaustion "
+                    "must not be reported as completion; resolve blockers or expand "
+                    "the migration ledger."
+                )
                 break
             item_id = item["id"]
             self.log(
@@ -437,16 +453,19 @@ class Controller:
         attempts = ledger.sched(item)["attempts"]
         last_outcome = None
         last_report = ""
+        retry_feedback = None
         base_debt = self.debt_measurer(self.cfg.repo_root)  # clean worktree at entry
         expected_db = (ledger.sched(item)["expectedDebtDelta"] or {}).get("directBackends", 0)
         while attempts < self.cfg.max_attempts:
             attempts += 1
             self.log(f"[{item_id}] attempt {attempts}/{self.cfg.max_attempts}")
             try:
-                raw = self.worker_runner(self.build_worker_prompt(item), self.cfg)
+                raw = self.worker_runner(
+                    self.build_worker_prompt(item, retry_feedback), self.cfg)
             except worker_result.WorkerResultError as exc:
                 self.log(f"[{item_id}] worker error: {exc}")
                 self._write_log(item_id, f"attempt{attempts}-error", str(exc))
+                retry_feedback = f"Worker infrastructure error: {exc}"
                 self._revert_worker_changes()
                 continue
 
@@ -474,7 +493,12 @@ class Controller:
 
             if outcome.ok:
                 gate = self._independent_gate(item, outcome, base_debt, expected_db, attempts)
-                last_report = gate["report"]
+                last_report = (
+                    "independent gate reasons:\n- "
+                    + "\n- ".join(gate["reasons"])
+                    + "\n\n"
+                    + gate["report"]
+                )
                 if gate.get("paused"):
                     self._revert_worker_changes()
                     reason = gate["reasons"][0]
@@ -489,6 +513,15 @@ class Controller:
                     return self._commit_success(
                         data, item, outcome, base_sha, attempts, gate)
                 self.log(f"[{item_id}] independent gate failed: {gate['reasons']}")
+                retry_feedback = (
+                    "Independent gate rejected the previous patch:\n- "
+                    + "\n- ".join(gate["reasons"])
+                )
+            else:
+                retry_feedback = (
+                    "Worker result was not acceptable:\n- "
+                    + "\n- ".join(outcome.problems or [outcome.summary or outcome.outcome])
+                )
             # any failure (worker not ok, or gate failed): discard and retry
             self._revert_worker_changes()
 

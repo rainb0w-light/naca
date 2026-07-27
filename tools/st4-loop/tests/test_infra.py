@@ -53,6 +53,21 @@ class VerifyScriptPortabilityTest(unittest.TestCase):
             self.assertNotEqual(result.returncode, 0)
             self.assertIn("VERIFY-FAIL", result.stdout)
 
+    def test_empty_item_verification_is_valid_under_nounset(self):
+        # Regression: macOS Bash 3.2 treats "${EMPTY_ARRAY[@]}" as an unbound
+        # variable under `set -u` unless the expansion is guarded.
+        with tempfile.TemporaryDirectory() as td:
+            ledger = {"entries": [{"id": "TEST-ITEM", "verification": []}]}
+            ledger_path = Path(td) / "ledger.json"
+            ledger_path.write_text(json.dumps(ledger), encoding="utf-8")
+            env = dict(os.environ, ST4_SKIP_GRADLE="1", ST4_LEDGER=str(ledger_path))
+            result = subprocess.run(
+                ["/bin/bash", str(VERIFY_SH), "TEST-ITEM"],
+                capture_output=True, text=True, env=env)
+            self.assertEqual(result.returncode, 0,
+                             f"stdout={result.stdout}\nstderr={result.stderr}")
+            self.assertIn("VERIFY-PASS", result.stdout)
+
 
 class WorkerPromptGateTest(unittest.TestCase):
     def test_requires_focused_ledger_gate_not_full_module(self):

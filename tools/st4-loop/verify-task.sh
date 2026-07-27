@@ -89,11 +89,15 @@ while IFS= read -r _cmd; do
   ITEM_CMDS+=("$_cmd")
 done < <(jq -r --arg id "$ITEM_ID" \
   '.entries[] | select(.id==$id) | (.verification // [])[]' "$LEDGER")
-for cmd in "${ITEM_CMDS[@]}"; do
-  [[ -z "$cmd" ]] && continue
-  note "running item verification: $cmd"
-  bash -c "$cmd" || fail "item verification command failed: $cmd"
-done
+# On macOS Bash 3.2, expanding an empty array under `set -u` raises
+# "ITEM_CMDS[@]: unbound variable". Guard the expansion explicitly.
+if (( ${#ITEM_CMDS[@]} > 0 )); then
+  for cmd in "${ITEM_CMDS[@]}"; do
+    [[ -z "$cmd" ]] && continue
+    note "running item verification: $cmd"
+    bash -c "$cmd" || fail "item verification command failed: $cmd"
+  done
+fi
 
 echo "VERIFY-PASS: $ITEM_ID"
 exit 0
