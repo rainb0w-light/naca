@@ -540,8 +540,8 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
-      "blocked": false,
+      "attempts": 3,
+      "blocked": true,
       "scope": "EMBEDDED_SQL",
       "sourceSyntax": "legacy backend CJavaSQLCall",
       "parserNode": null,
@@ -558,7 +558,9 @@
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
         "naca-trans/src/main/java/generate/java/SQL/CJavaSQLCall.java"
-      ]
+      ],
+      "blockedReason": "exhausted 3 attempts without independent verification; last outcome=success",
+      "lastAttemptCommit": "164375936c0d2a64732d5d992cbbc577279adf17"
     },
     {
       "id": "BACKEND-SQL-CJAVASQLCLOSESTATEMENT",
