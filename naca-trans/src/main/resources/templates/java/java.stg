@@ -1050,6 +1050,21 @@ recursiveSQLCommitEntity(entity) ::= <<
 sqlCommit()<if(entity.sqlWarningErrorStatement)><entity.sqlWarningErrorStatement><endif> ;
 >>
 
+// Embedded SQL EXECUTE IMMEDIATE :<host> (EXEC SQL EXECUTE IMMEDIATE ... END-EXEC).
+// Emits the sql("EXECUTE IMMEDIATE #1").param(1, <hostRef>) runtime call: the host
+// variable stays a semantic child rendered through its reference binding (exactly
+// what the retired backend's eVariable.ExportReference(getLine()) emitted as the
+// single 1-based parameter). When a WHENEVER SQLWARNING/SQLERROR policy is in
+// effect (a read-only catalog lookup registered by the WHENEVER Stage-1 side
+// effect) its clause (.onErrorGoto(...)/.onErrorContinue()/...) chains before the
+// " ;" terminator. Mirrors CJavaSQLExecute.DoExport exactly: bare EXECUTE ->
+// 'sql("EXECUTE IMMEDIATE #1").param(1, <ref>) ;', with a policy ->
+// 'sql("EXECUTE IMMEDIATE #1").param(1, <ref>).onErrorGoto(LABEL) ;'. Reads only
+// entity.* properties.
+recursiveSQLExecuteEntity(entity) ::= <<
+sql("EXECUTE IMMEDIATE #1").param(1, <entity.variable>)<if(entity.sqlWarningErrorStatement)><entity.sqlWarningErrorStatement><endif> ;
+>>
+
 // Embedded SQL DELETE FROM ... (EXEC SQL DELETE ... END-EXEC). Emits the
 // sql("<statement>") runtime call for an unbound DELETE, or
 // cursorDeleteCurrent(<cursor>, "<statement>") when a cursor is bound (the cursor

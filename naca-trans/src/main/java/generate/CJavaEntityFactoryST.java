@@ -70,6 +70,7 @@ import semantic.SQL.CEntitySQLCursor;
 import semantic.SQL.CEntitySQLCursorSelectStatement;
 import semantic.SQL.CEntitySQLDeclareTable;
 import semantic.SQL.CEntitySQLDeleteStatement;
+import semantic.SQL.CEntitySQLExecute;
 import semantic.SQL.CEntitySqlOnErrorGoto;
 import utils.CObjectCatalog;
 import generate.CBaseLanguageExporter;
@@ -303,6 +304,21 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntitySQLDeleteStatement NewEntitySQLDeleteStatement(int nLine, String csStatement, Vector<CDataEntity> arrParameters) {
         CEntitySQLDeleteStatement e = new CEntitySQLDeleteStatement(nLine, programCatalog, csStatement, arrParameters);
+        e.setLanguageExporter(langOutput);
+        return e;
+    }
+
+    // Embedded SQL EXECUTE IMMEDIATE :<host> (EXEC SQL EXECUTE IMMEDIATE ...
+    // END-EXEC): the ST4 factory builds the pure semantic entity, which the
+    // recursive assembler renders via the recursiveSQLExecuteEntity binding (no
+    // CJava* controller). The host-variable parameter stays a semantic child
+    // rendered through its reference binding; the optional WHENEVER
+    // SQLWARNING/SQLERROR clause is a read-only catalog lookup the template chains
+    // onto the sql("EXECUTE IMMEDIATE #1").param(1, ...) runtime call. Mirrors the
+    // SQL COMMIT / SQL CALL exemplars above.
+    @Override
+    public CEntitySQLExecute NewEntitySQLExecute(int line) {
+        CEntitySQLExecute e = new CEntitySQLExecute(line, programCatalog);
         e.setLanguageExporter(langOutput);
         return e;
     }

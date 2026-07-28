@@ -53,7 +53,6 @@ import generate.java.CICS.CJavaCICSStart;
 import generate.java.CICS.CJavaCICSStartBrowse;
 import generate.java.CICS.CJavaCICSWrite;
 import generate.java.CICS.CJavaCICSWriteQ;
-import generate.java.SQL.CJavaSQLExecute;
 import generate.java.SQL.CJavaSQLFetchStatement;
 import generate.java.SQL.CJavaSQLInsertStatement;
 import generate.java.SQL.CJavaSQLLock;
@@ -1098,7 +1097,15 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CJavaSQLLock(line, programCatalog, langOutput) ;
 	}
 	public CEntitySQLExecute NewEntitySQLExecute(int line)	{
-		return new CJavaSQLExecute(line, programCatalog, langOutput) ;
+		// Direct backend CJavaSQLExecute retired: the pure semantic entity is rendered
+		// by the recursive ST4 assembler (recursiveSQLExecuteEntity binding). The host
+		// variable stays a semantic child rendered through its reference binding, and
+		// the optional WHENEVER SQLWARNING/SQLERROR clause is a read-only catalog
+		// lookup the template chains onto sql("EXECUTE IMMEDIATE #1").param(1, ...);
+		// no generated string is materialized in the factory.
+		CEntitySQLExecute e = new CEntitySQLExecute(line, programCatalog);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntityFormatedVarReference NewEntityFormatedVarReference(CDataEntity object, String format)	{
 		throw new NacaTransAssertException("Method not implemented") ;
