@@ -53,7 +53,6 @@ import generate.java.CICS.CJavaCICSStart;
 import generate.java.CICS.CJavaCICSStartBrowse;
 import generate.java.CICS.CJavaCICSWrite;
 import generate.java.CICS.CJavaCICSWriteQ;
-import generate.java.SQL.CJavaSQLOpenStatement;
 import generate.java.SQL.CJavaSQLRollBack;
 import generate.java.SQL.CJavaSQLSelectStatement;
 import generate.java.SQL.CJavaSQLSessionDeclare;
@@ -419,7 +418,16 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return e;
 	}
 	public CEntitySQLOpenStatement NewEntitySQLOpenStatement(int nLine, CEntitySQLCursor cur)	{
-		return new CJavaSQLOpenStatement(nLine, programCatalog, langOutput, cur);
+		// Direct backend CJavaSQLOpenStatement retired: the pure semantic entity is
+		// rendered by the recursive ST4 assembler (the recursiveSQLOpenStatementEntity
+		// binding). The cursor and the optional USING descriptor/host variable remain
+		// semantic children rendered through their reference bindings; a cursor with a
+		// bound SELECT renders that SELECT child in place of the OPEN statement; the
+		// SQLWARNING/SQLERROR clause is a read-only catalog lookup the template chains
+		// onto cursorOpen(...). No generated string is materialized in the factory.
+		CEntitySQLOpenStatement e = new CEntitySQLOpenStatement(nLine, programCatalog, cur);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntitySQLCloseStatement NewEntitySQLCloseStatement(int nLine, CEntitySQLCursor cur)	{
 		// Direct backend CJavaSQLCloseStatement retired: the pure semantic entity is

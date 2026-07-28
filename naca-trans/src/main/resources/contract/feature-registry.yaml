@@ -388,3 +388,22 @@ features:
     runtimeOperations: []
     fixtures: []
     status: production
+
+  - id: sql.open
+    dialects: [embedded-sql]
+    semanticType: semantic.SQL.CEntitySQLOpenStatement
+    javaBackend:
+      role: REFERENCE
+      template: recursiveSQLOpenStatementEntity
+    # cursorOpen(...) is a BaseProgram helper (same treatment as cursorOpen(...)
+    # under sql.cursorSelect and cursorClose(...) under sql.close), not a
+    # Codegen-Runtime Contract operation; the cursor handle and the optional USING
+    # descriptor/host variable stay semantic children rendered through their
+    # reference bindings, a cursor with a bound SELECT renders that SELECT child in
+    # place of the OPEN statement (the recursiveSQLCursorSelectStatementEntity
+    # binding), and the optional .onErrorGoto(...)/.onErrorContinue() clause is the
+    # WHENEVER policy registered by sql.whenever's Stage-1 side effect. No runtime
+    # operation.
+    runtimeOperations: []
+    fixtures: []
+    status: production

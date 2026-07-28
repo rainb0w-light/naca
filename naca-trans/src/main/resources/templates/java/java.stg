@@ -1040,6 +1040,23 @@ recursiveSQLCursorSelectStatementEntity(entity) ::= <<
 cursorOpen(<entity.cursor>, "<entity.statement>")<if(entity.withHold)>.setHoldability(true)<endif><entity.parameters:{p | .param(<i>, <p>)}><if(entity.sqlWarningErrorStatement)><entity.sqlWarningErrorStatement><endif> ;
 >>
 
+// Embedded SQL OPEN <cursor> (EXEC SQL OPEN <cursor> END-EXEC). When the cursor
+// has a bound SELECT (its DECLARE CURSOR SELECT), that semantic child is rendered
+// in place of the OPEN statement (exactly as the retired backend dispatched the
+// select's own export); otherwise emits the cursorOpen(<ref>) runtime call, taking
+// the optional USING descriptor/host variable semantic child (rendered through its
+// reference binding) as the second argument, and, when a WHENEVER
+// SQLWARNING/SQLERROR policy is in effect (a read-only catalog lookup registered by
+// the WHENEVER Stage-1 side effect), chains its clause
+// (.onErrorGoto(...)/.onErrorContinue()/...) before the " ;" terminator. Mirrors
+// CJavaSQLOpenStatement.DoExport exactly: bare OPEN -> 'cursorOpen(<ref>) ;', with
+// a USING variable -> 'cursorOpen(<ref>, <variable>) ;', with a policy ->
+// 'cursorOpen(<ref>).onErrorGoto(LABEL) ;', bound SELECT -> the SELECT's own
+// 'cursorOpen(<ref>, "<select>")...' line. Reads only entity.* properties.
+recursiveSQLOpenStatementEntity(entity) ::= <<
+<if(entity.select)><entity.select><else>cursorOpen(<entity.cursor><if(entity.variableStatement)>, <entity.variableStatement><endif>)<if(entity.sqlWarningErrorStatement)><entity.sqlWarningErrorStatement><endif> ;<endif>
+>>
+
 // Embedded SQL COMMIT (EXEC SQL COMMIT END-EXEC). Emits the sqlCommit() runtime
 // call and, when a WHENEVER SQLWARNING/SQLERROR policy is in effect (a read-only
 // catalog lookup registered by the WHENEVER Stage-1 side effect), chains its
