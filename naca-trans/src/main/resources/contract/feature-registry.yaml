@@ -302,3 +302,20 @@ features:
     runtimeOperations: []
     fixtures: []
     status: production
+
+  - id: sql.delete
+    dialects: [embedded-sql]
+    semanticType: semantic.SQL.CEntitySQLDeleteStatement
+    javaBackend:
+      role: REFERENCE
+      template: recursiveSQLDeleteStatementEntity
+    # sql(...)/cursorDeleteCurrent(...)/.param(...) are BaseProgram helpers (same
+    # treatment as cursorClose(...) under sql.close, sqlCall(...) under sql.call
+    # and cursorOpen(...) under sql.cursorSelect), not Codegen-Runtime Contract
+    # operations; the bound cursor handle and each host-variable parameter stay
+    # semantic children rendered through their reference bindings, and the optional
+    # .onErrorGoto(...)/.onErrorContinue() clause is the WHENEVER policy registered
+    # by sql.whenever's Stage-1 side effect. No runtime operation.
+    runtimeOperations: []
+    fixtures: []
+    status: production

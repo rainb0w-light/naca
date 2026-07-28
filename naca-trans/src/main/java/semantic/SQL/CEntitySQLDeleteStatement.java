@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 20 ao�t 04
+ * Created on 20 aot 04
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -18,19 +18,33 @@ package semantic.SQL;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
+import java.util.List;
 import java.util.Vector;
 
 import semantic.CBaseActionEntity;
 import semantic.CDataEntity;
 import utils.CObjectCatalog;
 
-public abstract class CEntitySQLDeleteStatement extends CBaseActionEntity
+/**
+ * Semantic node for {@code EXEC SQL DELETE FROM ... END-EXEC}.
+ *
+ * <p>Target-neutral: carries the DELETE text, the host-variable parameters and the
+ * optional bound cursor, and exposes read-only getters for the recursive ST4
+ * assembler (template {@code recursiveSQLDeleteStatementEntity}). The cursor and
+ * each parameter remain semantic children and are recursively rendered through
+ * their reference bindings. The SQLWARNING/SQLERROR clause is read from the catalog
+ * (registered there by the WHENEVER statement's Stage-1 side effect) so the
+ * template can chain it onto the {@code sql(...)}/{@code cursorDeleteCurrent(...)}
+ * runtime call. Replaces the retired
+ * {@code generate.java.SQL.CJavaSQLDeleteStatement} direct backend.
+ */
+public class CEntitySQLDeleteStatement extends CBaseActionEntity
 {
 	public CEntitySQLDeleteStatement(int line, CObjectCatalog cat, String csStatement, Vector<CDataEntity> parameters)
 	{
 		super(line, cat);
-		csStatement = csStatement ;
-		parameters = parameters;
+		this.csStatement = csStatement ;
+		this.parameters = parameters;
 	}
 	protected String csStatement = "" ;
 	protected Vector<CDataEntity> parameters = null;
@@ -60,7 +74,45 @@ public abstract class CEntitySQLDeleteStatement extends CBaseActionEntity
 	 */
 	public void setCursor(CEntitySQLCursor cursor)
 	{
-		cursor = cursor ;
+		this.cursor = cursor ;
 	}
 	protected CEntitySQLCursor cursor = null ;
+
+	// ==================== ST4 Template Accessors ====================
+	// Read-only getters for the recursive ST4 assembler. No formatting/output
+	// happens here: the adaptor recursively renders the cursor and each parameter
+	// child through its reference binding.
+
+	/** The bound cursor semantic child, read by {@code <entity.cursor>}; {@code null}
+	 * for an unbound {@code DELETE FROM ...} (rendered as {@code sql("<statement>")}). */
+	public CEntitySQLCursor getCursor()
+	{
+		return cursor ;
+	}
+
+	/**
+	 * The trimmed DELETE text, read by {@code <entity.statement>}. The template
+	 * wraps it as a Java string literal, exactly as the retired backend's
+	 * {@code WriteLongString(csStatement.trim())} did.
+	 */
+	public String getStatement()
+	{
+		return csStatement == null ? "" : csStatement.trim() ;
+	}
+
+	/** The host-variable parameter children, read by {@code <entity.parameters>}. */
+	public List<CDataEntity> getParameters()
+	{
+		return parameters ;
+	}
+
+	/**
+	 * The SQLWARNING/SQLERROR clause to chain onto the runtime call (e.g.
+	 * {@code .onErrorGoto(LABEL)}), or {@code null} when no WHENEVER policy is in
+	 * effect. Read from the catalog where the WHENEVER statement registered it.
+	 */
+	public String getSqlWarningErrorStatement()
+	{
+		return programCatalog == null ? null : programCatalog.getSQLWarningErrorStatement() ;
+	}
 }

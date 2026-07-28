@@ -53,7 +53,6 @@ import generate.java.CICS.CJavaCICSStart;
 import generate.java.CICS.CJavaCICSStartBrowse;
 import generate.java.CICS.CJavaCICSWrite;
 import generate.java.CICS.CJavaCICSWriteQ;
-import generate.java.SQL.CJavaSQLDeleteStatement;
 import generate.java.SQL.CJavaSQLExecute;
 import generate.java.SQL.CJavaSQLFetchStatement;
 import generate.java.SQL.CJavaSQLInsertStatement;
@@ -428,7 +427,16 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return e;
 	}
 	public CEntitySQLDeleteStatement NewEntitySQLDeleteStatement(int nLine, String csStatement, Vector<CDataEntity> arrParameters)	{
-		return new CJavaSQLDeleteStatement(nLine, programCatalog, langOutput, csStatement, arrParameters);
+		// Direct backend CJavaSQLDeleteStatement retired: the pure semantic entity is
+		// rendered by the recursive ST4 assembler (the recursiveSQLDeleteStatementEntity
+		// binding). The bound cursor and each host-variable parameter remain semantic
+		// children rendered through their reference bindings; the SQLWARNING/SQLERROR
+		// clause is a read-only catalog lookup the template chains onto the
+		// sql(...)/cursorDeleteCurrent(...) runtime call. No generated string is
+		// materialized in the factory.
+		CEntitySQLDeleteStatement e = new CEntitySQLDeleteStatement(nLine, programCatalog, csStatement, arrParameters);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntitySQLUpdateStatement NewEntitySQLUpdateStatement(int nLine, String csStatement, Vector<CDataEntity> arrSets, Vector<CDataEntity> arrParameters)	{
 		return new CJavaSQLUpdateStatement(nLine, programCatalog, langOutput, csStatement, arrSets, arrParameters);

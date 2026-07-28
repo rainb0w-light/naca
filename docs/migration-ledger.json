@@ -26,7 +26,7 @@
       "finalArchitectureCheck": {
         "tests": 390,
         "failures": 212,
-        "directBackends": 152,
+        "directBackends": 151,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -767,7 +767,7 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "EMBEDDED_SQL",
       "sourceSyntax": "legacy backend CJavaSQLDeleteStatement",
@@ -781,11 +781,12 @@
       "directBackend": "generate.java.SQL.CJavaSQLDeleteStatement",
       "sourcePath": "naca-trans/src/main/java/generate/java/SQL/CJavaSQLDeleteStatement.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
         "naca-trans/src/main/java/generate/java/SQL/CJavaSQLDeleteStatement.java"
-      ]
+      ],
+      "lastAttemptCommit": "98da23a0143810fcbbba14a2fafd9053830dacc7"
     },
     {
       "id": "BACKEND-SQL-CJAVASQLEXECUTE",

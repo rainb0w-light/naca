@@ -3,6 +3,7 @@ package generate;
 import generate.java.st.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 import semantic.CEntityBloc;
 import semantic.CEntityCondition;
 import semantic.CEntityProcedure;
@@ -68,6 +69,7 @@ import semantic.SQL.CEntitySQLCommit;
 import semantic.SQL.CEntitySQLCursor;
 import semantic.SQL.CEntitySQLCursorSelectStatement;
 import semantic.SQL.CEntitySQLDeclareTable;
+import semantic.SQL.CEntitySQLDeleteStatement;
 import semantic.SQL.CEntitySqlOnErrorGoto;
 import utils.CObjectCatalog;
 import generate.CBaseLanguageExporter;
@@ -286,6 +288,21 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntitySQLCursorSelectStatement NewEntitySQLCursorSelectStatement(int line) {
         CEntitySQLCursorSelectStatement e = new CEntitySQLCursorSelectStatement(line, programCatalog);
+        e.setLanguageExporter(langOutput);
+        return e;
+    }
+
+    // Embedded SQL DELETE FROM ... (EXEC SQL DELETE ... END-EXEC): the ST4 factory
+    // builds the pure semantic entity, which the recursive assembler renders via the
+    // recursiveSQLDeleteStatementEntity binding (no CJava* controller). The bound
+    // cursor and each host-variable parameter remain semantic children and are
+    // recursively rendered through their reference bindings; the SQLWARNING/SQLERROR
+    // clause is a read-only catalog lookup the template chains onto the
+    // sql(...)/cursorDeleteCurrent(...) runtime call. Mirrors the SQL cursor SELECT
+    // exemplar above.
+    @Override
+    public CEntitySQLDeleteStatement NewEntitySQLDeleteStatement(int nLine, String csStatement, Vector<CDataEntity> arrParameters) {
+        CEntitySQLDeleteStatement e = new CEntitySQLDeleteStatement(nLine, programCatalog, csStatement, arrParameters);
         e.setLanguageExporter(langOutput);
         return e;
     }

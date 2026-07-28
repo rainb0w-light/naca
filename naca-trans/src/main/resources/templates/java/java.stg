@@ -1050,6 +1050,24 @@ recursiveSQLCommitEntity(entity) ::= <<
 sqlCommit()<if(entity.sqlWarningErrorStatement)><entity.sqlWarningErrorStatement><endif> ;
 >>
 
+// Embedded SQL DELETE FROM ... (EXEC SQL DELETE ... END-EXEC). Emits the
+// sql("<statement>") runtime call for an unbound DELETE, or
+// cursorDeleteCurrent(<cursor>, "<statement>") when a cursor is bound (the cursor
+// stays a semantic child rendered through its reference binding). The trimmed
+// DELETE text is wrapped as a Java string literal, exactly what the retired
+// backend's WriteLongString(csStatement.trim()) emitted. Each host-variable
+// parameter chains a 1-based .param(N, <hostRef>) (ST4's <i> matches the retired
+// backend's (i+1) numbering), and when a WHENEVER SQLWARNING/SQLERROR policy is in
+// effect (a read-only catalog lookup registered by the WHENEVER Stage-1 side
+// effect) its clause chains before the " ;" terminator. Mirrors
+// CJavaSQLDeleteStatement.DoExport exactly: bare DELETE -> 'sql("<statement>") ;',
+// bound cursor -> 'cursorDeleteCurrent(<ref>, "<statement>") ;', with params ->
+// '...param(1, <a>).param(2, <b>)...', with a policy -> '...onErrorGoto(LABEL) ;'.
+// Reads only entity.* properties.
+recursiveSQLDeleteStatementEntity(entity) ::= <<
+<if(entity.cursor)>cursorDeleteCurrent(<entity.cursor>, "<entity.statement>")<else>sql("<entity.statement>")<endif><entity.parameters:{p | .param(<i>, <p>)}><if(entity.sqlWarningErrorStatement)><entity.sqlWarningErrorStatement><endif> ;
+>>
+
 // A COPY copybook declared as an instance in the program class (the non-inline
 // form): <Type> <ref> = <Type>.Copy(this[, replacing(level, value)]) ;
 dataInlineDeclaration(entity) ::= <<
