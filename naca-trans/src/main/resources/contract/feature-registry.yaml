@@ -182,6 +182,16 @@ features:
     fixtures: []
     status: production
 
+  - id: cics.assign
+    dialects: [embedded-cics]
+    semanticType: semantic.CICS.CEntityCICSAssign
+    javaBackend:
+      role: REFERENCE
+      template: recursiveCICSAssignEntity
+    runtimeOperations: [cics.assign, cics.assign.applid, cics.assign.tctualeng]
+    fixtures: []
+    status: production
+
   - id: sql.cursorSection
     dialects: [embedded-sql]
     semanticType: semantic.CEntitySQLCursorSection

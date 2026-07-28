@@ -316,6 +316,38 @@ operations:
     paramTypes: []
     returns: void
 
+  # --- CICS ASSIGN ---
+  # EXEC CICS ASSIGN APPLID(...) [TCTUALENG(...)] END-EXEC emits CESM.assign()
+  # chained with one .<OPTION>(<ref>) builder call per request. BaseCESMManager.
+  # assign() returns the legacy nacaLib.misc.CCESMFakeMethodContainer, whose
+  # APPLID(Var) / TCTUALENG(Var) builder methods (the two operand keywords the
+  # production parser admits) each return the container so the calls chain on a
+  # single CESM statement, mirroring CJavaCICSAssign.DoExport. Declared on the
+  # exact classes that carry the methods, like cics.receiveMap.
+  - id: cics.assign
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
+    runtimeMethod: assign
+    paramTypes: []
+    returns: nacaLib.misc.CCESMFakeMethodContainer
+
+  - id: cics.assign.applid
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.misc.CCESMFakeMethodContainer
+    runtimeMethod: APPLID
+    paramTypes: [nacaLib.varEx.Var]
+    returns: nacaLib.misc.CCESMFakeMethodContainer
+
+  - id: cics.assign.tctualeng
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.misc.CCESMFakeMethodContainer
+    runtimeMethod: TCTUALENG
+    paramTypes: [nacaLib.varEx.Var]
+    returns: nacaLib.misc.CCESMFakeMethodContainer
+
   # --- CICS ADDRESS ---
   # EXEC CICS ADDRESS [CWA(...)] [TCTUA(...)] [TWA(...)] END-EXEC emits, for each
   # active reference, a CESM.getAddressOfCWA/TCTUA/TWA(<ref>) call. Each runtime

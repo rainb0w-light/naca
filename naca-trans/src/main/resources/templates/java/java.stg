@@ -882,6 +882,18 @@ recursiveCICSAskTimeEntity(entity) ::= <<
 CESM.askTime() ;
 >>
 
+// Embedded CICS ASSIGN (EXEC CICS ASSIGN APPLID(...) [TCTUALENG(...)] END-EXEC).
+// Emits the CESM.assign() runtime call chained with one .<OPTION>(<ref>) builder
+// call per request. Mirrors CJavaCICSAssign.DoExport exactly: each request chains
+// its operand keyword (the raw COBOL option token, e.g. APPLID / TCTUALENG) and
+// its target reference onto the CESM.assign() call, in AddRequest insertion order,
+// terminated by " ;". A statement whose requests are all ignored is filtered by
+// the assembler's active-children selection (entity.ignore()), exactly as the
+// legacy ExportChildren loop did.
+recursiveCICSAssignEntity(entity) ::= <<
+CESM.assign()<entity.requests:{r | .<r.name>(<r.variable>)}> ;
+>>
+
 // Embedded CICS ADDRESS (EXEC CICS ADDRESS [CWA(...)] [TCTUA(...)] [TWA(...)]
 // END-EXEC). Emits the CESM.getAddressOfCWA/TCTUA/TWA(...) runtime calls. Mirrors
 // CJavaCICSAddress.DoExport exactly: the first active reference carries the CESM

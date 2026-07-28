@@ -97,6 +97,13 @@ templates:
     requires:
       - cics.askTime
 
+  recursiveCICSAssignEntity:
+    capability: CICS
+    requires:
+      - cics.assign
+      - cics.assign.applid
+      - cics.assign.tctualeng
+
   recursiveCICSAddressEntity:
     capability: CICS
     requires:
