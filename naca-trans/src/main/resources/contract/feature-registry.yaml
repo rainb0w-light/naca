@@ -372,3 +372,19 @@ features:
     runtimeOperations: []
     fixtures: []
     status: production
+
+  - id: sql.lock
+    dialects: [embedded-sql]
+    semanticType: semantic.SQL.CEntitySQLLock
+    javaBackend:
+      role: REFERENCE
+      template: recursiveSQLLockEntity
+    # sql(...) is a BaseProgram helper (same treatment as sqlCommit() under
+    # sql.commit and sqlCall(...) under sql.call), not a Codegen-Runtime Contract
+    # operation; the full "LOCK TABLE <table> IN EXCLUSIVE MODE" text is assembled
+    # in Stage 1 and the template only wraps it as a Java string literal, and the
+    # optional .onErrorGoto(...)/.onErrorContinue() clause is the WHENEVER policy
+    # registered by sql.whenever's Stage-1 side effect. No runtime operation.
+    runtimeOperations: []
+    fixtures: []
+    status: production

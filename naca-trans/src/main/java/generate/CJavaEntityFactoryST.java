@@ -73,6 +73,7 @@ import semantic.SQL.CEntitySQLDeleteStatement;
 import semantic.SQL.CEntitySQLExecute;
 import semantic.SQL.CEntitySQLFetchStatement;
 import semantic.SQL.CEntitySQLInsertStatement;
+import semantic.SQL.CEntitySQLLock;
 import semantic.SQL.CEntitySqlOnErrorGoto;
 import utils.CObjectCatalog;
 import generate.CBaseLanguageExporter;
@@ -399,6 +400,20 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntitySQLCommit NewEntitySQLCommit(int l) {
         CEntitySQLCommit e = new CEntitySQLCommit(l, programCatalog);
+        e.setLanguageExporter(langOutput);
+        return e;
+    }
+
+    // Embedded SQL LOCK TABLE <table> IN EXCLUSIVE MODE (EXEC SQL LOCK TABLE ...
+    // END-EXEC): the ST4 factory builds the pure semantic entity, which the
+    // recursive assembler renders via the recursiveSQLLockEntity binding (no CJava*
+    // controller). The full "LOCK TABLE <table> IN EXCLUSIVE MODE" text is
+    // assembled in Stage 1 and the optional WHENEVER SQLWARNING/SQLERROR clause is
+    // a read-only catalog lookup the template chains onto sql(...). Mirrors the
+    // SQL COMMIT exemplar above.
+    @Override
+    public CEntitySQLLock NewEntitySQLLock(int l) {
+        CEntitySQLLock e = new CEntitySQLLock(l, programCatalog);
         e.setLanguageExporter(langOutput);
         return e;
     }

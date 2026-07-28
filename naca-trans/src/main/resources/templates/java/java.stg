@@ -1050,6 +1050,19 @@ recursiveSQLCommitEntity(entity) ::= <<
 sqlCommit()<if(entity.sqlWarningErrorStatement)><entity.sqlWarningErrorStatement><endif> ;
 >>
 
+// Embedded SQL LOCK TABLE <table> IN EXCLUSIVE MODE (EXEC SQL LOCK TABLE ...
+// END-EXEC). Emits the sql("LOCK TABLE <table> IN EXCLUSIVE MODE") runtime call,
+// the statement text being assembled in Stage 1 and read via <entity.statement>,
+// and when a WHENEVER SQLWARNING/SQLERROR policy is in effect (a read-only catalog
+// lookup registered by the WHENEVER Stage-1 side effect), chains its clause
+// (.onErrorGoto(...)/.onErrorContinue()/...) before the " ;" terminator. Mirrors
+// CJavaSQLLock.DoExport exactly: bare LOCK -> 'sql("LOCK TABLE T IN EXCLUSIVE
+// MODE") ;', with a policy -> 'sql("LOCK TABLE T IN EXCLUSIVE MODE")
+// .onErrorGoto(LABEL) ;'. Reads only entity.* properties.
+recursiveSQLLockEntity(entity) ::= <<
+sql("<entity.statement>")<if(entity.sqlWarningErrorStatement)><entity.sqlWarningErrorStatement><endif> ;
+>>
+
 // Embedded SQL EXECUTE IMMEDIATE :<host> (EXEC SQL EXECUTE IMMEDIATE ... END-EXEC).
 // Emits the sql("EXECUTE IMMEDIATE #1").param(1, <hostRef>) runtime call: the host
 // variable stays a semantic child rendered through its reference binding (exactly

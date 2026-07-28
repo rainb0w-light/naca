@@ -53,7 +53,6 @@ import generate.java.CICS.CJavaCICSStart;
 import generate.java.CICS.CJavaCICSStartBrowse;
 import generate.java.CICS.CJavaCICSWrite;
 import generate.java.CICS.CJavaCICSWriteQ;
-import generate.java.SQL.CJavaSQLLock;
 import generate.java.SQL.CJavaSQLOpenStatement;
 import generate.java.SQL.CJavaSQLRollBack;
 import generate.java.SQL.CJavaSQLSelectStatement;
@@ -1110,7 +1109,15 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CJavaSQLSessionDrop(line, programCatalog, langOutput) ;
 	}
 	public CEntitySQLLock NewEntitySQLLock(int line)	{
-		return new CJavaSQLLock(line, programCatalog, langOutput) ;
+		// Direct backend CJavaSQLLock retired: the pure semantic entity is rendered
+		// by the recursive ST4 assembler (recursiveSQLLockEntity binding). The full
+		// "LOCK TABLE <table> IN EXCLUSIVE MODE" text is assembled in Stage 1 and
+		// the optional WHENEVER SQLWARNING/SQLERROR clause is a read-only catalog
+		// lookup the template chains onto the sql(...) runtime call; no generated
+		// string is materialized in the factory.
+		CEntitySQLLock e = new CEntitySQLLock(line, programCatalog);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntitySQLExecute NewEntitySQLExecute(int line)	{
 		// Direct backend CJavaSQLExecute retired: the pure semantic entity is rendered
