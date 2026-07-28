@@ -199,6 +199,20 @@ features:
     fixtures: []
     status: production
 
+  - id: sql.declareTable
+    dialects: [embedded-sql]
+    semanticType: semantic.SQL.CEntitySQLDeclareTable
+    javaBackend:
+      role: REFERENCE
+      template: recursiveSQLDeclareTableEntity
+    # EXEC SQL DECLARE TABLE emits no code: its effect is a Stage-1 catalog side
+    # effect (RegisterSQLTable in the CEntitySQLDeclareTable constructor) applied
+    # during semantic analysis, so the SELECT/INSERT/UPDATE/DELETE backends can
+    # resolve the declared table's column references. No runtime operation.
+    runtimeOperations: []
+    fixtures: []
+    status: production
+
   - id: sql.close
     dialects: [embedded-sql]
     semanticType: semantic.SQL.CEntitySQLCloseStatement

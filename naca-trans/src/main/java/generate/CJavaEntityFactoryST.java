@@ -1,6 +1,7 @@
 package generate;
 
 import generate.java.st.*;
+import java.util.ArrayList;
 import java.util.List;
 import semantic.CEntityBloc;
 import semantic.CEntityCondition;
@@ -66,6 +67,7 @@ import semantic.SQL.CEntitySQLCloseStatement;
 import semantic.SQL.CEntitySQLCommit;
 import semantic.SQL.CEntitySQLCursor;
 import semantic.SQL.CEntitySQLCursorSelectStatement;
+import semantic.SQL.CEntitySQLDeclareTable;
 import semantic.SQL.CEntitySqlOnErrorGoto;
 import utils.CObjectCatalog;
 import generate.CBaseLanguageExporter;
@@ -162,6 +164,18 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
         CEntitySqlOnErrorGoto e = new CEntitySqlOnErrorGoto(l, programCatalog, ref, true);
         e.setLanguageExporter(langOutput);
         registerSqlWheneverPolicy(ref, true);
+        return e;
+    }
+
+    // Embedded SQL DECLARE TABLE: the ST4 factory builds the pure semantic entity,
+    // which the recursive assembler renders via the recursiveSQLDeclareTableEntity
+    // binding (no CJava* controller). The statement emits no code; its effect is the
+    // Stage-1 catalog side effect RegisterSQLTable(csViewName, this) applied in the
+    // entity constructor during semantic analysis. Mirrors the WHENEVER exemplar above.
+    @Override
+    public CEntitySQLDeclareTable NewEntitySQLDeclareTable(int nLine, String csTableName, String csViewName, ArrayList arrTableColDescription) {
+        CEntitySQLDeclareTable e = new CEntitySQLDeclareTable(nLine, programCatalog, csTableName, csViewName, arrTableColDescription);
+        e.setLanguageExporter(langOutput);
         return e;
     }
 

@@ -53,7 +53,6 @@ import generate.java.CICS.CJavaCICSStart;
 import generate.java.CICS.CJavaCICSStartBrowse;
 import generate.java.CICS.CJavaCICSWrite;
 import generate.java.CICS.CJavaCICSWriteQ;
-import generate.java.SQL.CJavaSQLDeclareTable;
 import generate.java.SQL.CJavaSQLDeleteStatement;
 import generate.java.SQL.CJavaSQLExecute;
 import generate.java.SQL.CJavaSQLFetchStatement;
@@ -438,7 +437,15 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CJavaSQLInsertStatement(nLine, programCatalog, langOutput);
 	}
 	public CEntitySQLDeclareTable NewEntitySQLDeclareTable(int nLine, String csTableName, String csViewName, ArrayList arrTableColDescription)	{
-		return new CJavaSQLDeclareTable(nLine, programCatalog, langOutput, csTableName, csViewName, arrTableColDescription);
+		// Direct backend CJavaSQLDeclareTable retired: the pure semantic entity is
+		// rendered by the recursive ST4 assembler (recursiveSQLDeclareTableEntity
+		// binding). The statement emits no code; its effect is the Stage-1 catalog
+		// side effect RegisterSQLTable(csViewName, this) applied in the entity
+		// constructor during semantic analysis. Mirrors the CEntitySqlOnErrorGoto
+		// (WHENEVER) retirement.
+		CEntitySQLDeclareTable e = new CEntitySQLDeclareTable(nLine, programCatalog, csTableName, csViewName, arrTableColDescription);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntityClass NewEntityClass(int l, String name)	{
 		return new CJavaClass(l, name, programCatalog, langOutput);

@@ -989,6 +989,15 @@ DataSection <entity.formattedName> = declare.cursorSection() ;
 // properties and renders empty.
 recursiveSqlOnErrorGotoEntity(entity) ::= ""
 
+// Embedded SQL DECLARE TABLE (EXEC SQL DECLARE TABLE ... END-EXEC). Emits NO code:
+// the statement's entire effect is a Stage-1 catalog side effect
+// (RegisterSQLTable in the CEntitySQLDeclareTable constructor) applied during
+// semantic analysis, so the SELECT/INSERT/UPDATE/DELETE backends can resolve the
+// declared table's column references. Mirrors the retired
+// CJavaSQLDeclareTable.DoExport, whose WriteLine calls were all commented out
+// (zero output). The template reads only entity.* properties and renders empty.
+recursiveSQLDeclareTableEntity(entity) ::= ""
+
 // Embedded SQL CLOSE <cursor> (EXEC SQL CLOSE <cursor> END-EXEC). Emits the
 // cursorClose(<ref>) runtime call; when a WHENEVER SQLWARNING/SQLERROR policy is
 // in effect (a read-only catalog lookup registered by the WHENEVER Stage-1 side

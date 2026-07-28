@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 20 août 04
+ * Created on 20 aoï¿½t 04
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -20,13 +20,24 @@ import semantic.CBaseActionEntity;
 import utils.CObjectCatalog;
 
 /**
- * @author U930DI
+ * Semantic node for {@code EXEC SQL DECLARE TABLE ...} (the embedded-SQL table
+ * declaration that describes a DB2 table's columns to the transpiler).
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
+ * <p>Target-neutral: this statement emits NO code. Its entire effect is a
+ * Stage-1 catalog side effect â€” registering the table (by view name) into
+ * {@link CObjectCatalog} via {@code RegisterSQLTable(csViewName, this)} in the
+ * constructor, so the other SQL backends (SELECT/INSERT/UPDATE/DELETE) can resolve
+ * the table's column references. That registration happens during semantic
+ * analysis (entity construction), never at render time; this class only carries
+ * the parsed declaration and exposes read-only getters for the recursive ST4
+ * assembler (template {@code recursiveSQLDeclareTableEntity}, which renders
+ * nothing). Mirrors the READ exemplar ({@code semantic.Verbs.CEntityReadFile})
+ * and the WHENEVER node ({@code semantic.SQL.CEntitySqlOnErrorGoto}).
+ *
+ * @author U930DI
  */
 
-public abstract class CEntitySQLDeclareTable extends CBaseActionEntity
+public class CEntitySQLDeclareTable extends CBaseActionEntity
 {
 	public CEntitySQLDeclareTable(int line, CObjectCatalog cat, String csTableName, String csViewName, ArrayList arrTableColDescription)
 	{
@@ -109,4 +120,21 @@ public abstract class CEntitySQLDeclareTable extends CBaseActionEntity
 		return csViewName ;
 	}
 
+	// ==================== ST4 Template Accessors ====================
+	// Read-only getters for the recursive ST4 assembler. The DECLARE TABLE
+	// statement emits no code, so the bound template (recursiveSQLDeclareTableEntity)
+	// renders empty; these accessors expose the parsed declaration for completeness
+	// and for the render test, and never perform formatting/output here (the
+	// RegisterSQLTable catalog side effect is a Stage-1 constructor concern). They
+	// mirror the existing GetTableName()/GetViewName() accessors exactly.
+
+	public String getTableName()
+	{
+		return csTableName ;
+	}
+
+	public String getViewName()
+	{
+		return csViewName ;
+	}
 }
