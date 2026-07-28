@@ -53,7 +53,6 @@ import generate.java.CICS.CJavaCICSStart;
 import generate.java.CICS.CJavaCICSStartBrowse;
 import generate.java.CICS.CJavaCICSWrite;
 import generate.java.CICS.CJavaCICSWriteQ;
-import generate.java.SQL.CJavaSQLRollBack;
 import generate.java.SQL.CJavaSQLSelectStatement;
 import generate.java.SQL.CJavaSQLSessionDeclare;
 import generate.java.SQL.CJavaSQLSessionDrop;
@@ -780,7 +779,14 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CJavaParseString(l, programCatalog, langOutput);
 	}
 	public CEntitySQLRollBack NewEntitySQLRollBack(int l)	{
-		return new CJavaSQLRollBack(l, programCatalog, langOutput);
+		// Direct backend CJavaSQLRollBack retired: the pure semantic entity is
+		// rendered by the recursive ST4 assembler (recursiveSQLRollBackEntity
+		// binding). The optional WHENEVER SQLWARNING/SQLERROR clause is a read-only
+		// catalog lookup the template chains onto sqlRollback(); no generated string
+		// is materialized in the factory.
+		CEntitySQLRollBack e = new CEntitySQLRollBack(l, programCatalog);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntitySQLCommit NewEntitySQLCommit(int l)	{
 		// Direct backend CJavaSQLCommit retired: the pure semantic entity is rendered

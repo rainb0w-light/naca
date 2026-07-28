@@ -286,6 +286,21 @@ features:
     fixtures: []
     status: production
 
+  - id: sql.rollback
+    dialects: [embedded-sql]
+    semanticType: semantic.SQL.CEntitySQLRollBack
+    javaBackend:
+      role: REFERENCE
+      template: recursiveSQLRollBackEntity
+    # sqlRollback() is a BaseProgram helper (same treatment as sqlCommit() under
+    # sql.commit and cursorClose(...) under sql.close), not a Codegen-Runtime
+    # Contract operation; the optional .onErrorGoto(...)/.onErrorContinue()
+    # clause is the WHENEVER policy registered by sql.whenever's Stage-1 side
+    # effect. No runtime operation.
+    runtimeOperations: []
+    fixtures: []
+    status: production
+
   - id: sql.execute
     dialects: [embedded-sql]
     semanticType: semantic.SQL.CEntitySQLExecute

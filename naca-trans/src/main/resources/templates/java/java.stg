@@ -1067,6 +1067,17 @@ recursiveSQLCommitEntity(entity) ::= <<
 sqlCommit()<if(entity.sqlWarningErrorStatement)><entity.sqlWarningErrorStatement><endif> ;
 >>
 
+// Embedded SQL ROLLBACK (EXEC SQL ROLLBACK END-EXEC). Emits the sqlRollback()
+// runtime call and, when a WHENEVER SQLWARNING/SQLERROR policy is in effect (a
+// read-only catalog lookup registered by the WHENEVER Stage-1 side effect), chains
+// its clause (.onErrorGoto(...)/.onErrorContinue()/...) before the " ;" terminator.
+// Mirrors CJavaSQLRollBack.DoExport exactly: bare ROLLBACK -> 'sqlRollback() ;',
+// with a policy -> 'sqlRollback().onErrorGoto(LABEL) ;'. Reads only entity.*
+// properties.
+recursiveSQLRollBackEntity(entity) ::= <<
+sqlRollback()<if(entity.sqlWarningErrorStatement)><entity.sqlWarningErrorStatement><endif> ;
+>>
+
 // Embedded SQL LOCK TABLE <table> IN EXCLUSIVE MODE (EXEC SQL LOCK TABLE ...
 // END-EXEC). Emits the sql("LOCK TABLE <table> IN EXCLUSIVE MODE") runtime call,
 // the statement text being assembled in Stage 1 and read via <entity.statement>,

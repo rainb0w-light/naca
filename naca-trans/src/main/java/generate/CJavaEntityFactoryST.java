@@ -75,6 +75,7 @@ import semantic.SQL.CEntitySQLFetchStatement;
 import semantic.SQL.CEntitySQLInsertStatement;
 import semantic.SQL.CEntitySQLLock;
 import semantic.SQL.CEntitySQLOpenStatement;
+import semantic.SQL.CEntitySQLRollBack;
 import semantic.SQL.CEntitySqlOnErrorGoto;
 import utils.CObjectCatalog;
 import generate.CBaseLanguageExporter;
@@ -430,6 +431,18 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntitySQLLock NewEntitySQLLock(int l) {
         CEntitySQLLock e = new CEntitySQLLock(l, programCatalog);
+        e.setLanguageExporter(langOutput);
+        return e;
+    }
+
+    // Embedded SQL ROLLBACK (EXEC SQL ROLLBACK END-EXEC): the ST4 factory builds the
+    // pure semantic entity, which the recursive assembler renders via the
+    // recursiveSQLRollBackEntity binding (no CJava* controller). The optional
+    // WHENEVER SQLWARNING/SQLERROR clause is a read-only catalog lookup the
+    // template chains onto sqlRollback(...). Mirrors the SQL COMMIT exemplar above.
+    @Override
+    public CEntitySQLRollBack NewEntitySQLRollBack(int l) {
+        CEntitySQLRollBack e = new CEntitySQLRollBack(l, programCatalog);
         e.setLanguageExporter(langOutput);
         return e;
     }
