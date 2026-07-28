@@ -53,7 +53,6 @@ import generate.java.CICS.CJavaCICSStart;
 import generate.java.CICS.CJavaCICSStartBrowse;
 import generate.java.CICS.CJavaCICSWrite;
 import generate.java.CICS.CJavaCICSWriteQ;
-import generate.java.SQL.CJavaSQLSessionDrop;
 import generate.java.SQL.CJavaSQLSingleStatement;
 import generate.java.SQL.CJavaSQLUpdateStatement;
 import generate.java.expressions.CJavaAddressOf;
@@ -1136,7 +1135,16 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return e;
 	}
 	public CEntitySQLSessionDrop NewEntitySQLSessionDrop(int line)	{
-		return new CJavaSQLSessionDrop(line, programCatalog, langOutput) ;
+		// Direct backend CJavaSQLSessionDrop retired: the pure semantic entity is
+		// rendered by the recursive ST4 assembler (recursiveSQLSessionDropEntity
+		// binding). The full "DROP ..." statement text is carried by the entity
+		// (set by the parser via setSql) and the optional WHENEVER
+		// SQLWARNING/SQLERROR clause is a read-only catalog lookup the template
+		// chains onto the sql(...) runtime call; no generated string is materialized
+		// in the factory.
+		CEntitySQLSessionDrop e = new CEntitySQLSessionDrop(line, programCatalog);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntitySQLLock NewEntitySQLLock(int line)	{
 		// Direct backend CJavaSQLLock retired: the pure semantic entity is rendered

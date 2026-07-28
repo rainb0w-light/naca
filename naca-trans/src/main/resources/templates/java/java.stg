@@ -1201,6 +1201,21 @@ recursiveSQLSessionDeclareEntity(entity) ::= <<
 sql("<entity.statement>")<if(entity.sqlWarningErrorStatement)><entity.sqlWarningErrorStatement><endif> ;
 >>
 
+// Embedded SQL session DROP (the DROP ... statement assembled token-by-token by
+// the parser CExecSQLSessionDrop). Emits the sql("<statement>") runtime call
+// where <statement> is the full DROP text carried by the entity and read via
+// <entity.statement> (wrapped as a Java string literal, exactly what the retired
+// backend's WriteWord("sql(\"" + csSql + "\")") emitted), and when a WHENEVER
+// SQLWARNING/SQLERROR policy is in effect (a read-only catalog lookup registered
+// by the WHENEVER Stage-1 side effect) its clause
+// (.onErrorGoto(...)/.onErrorContinue()/...) chains before the " ;" terminator.
+// Mirrors CJavaSQLSessionDrop.DoExport exactly: bare DROP -> 'sql("DROP ...") ;',
+// with a policy -> 'sql("DROP ...").onErrorGoto(LABEL) ;'. Reads only entity.*
+// properties.
+recursiveSQLSessionDropEntity(entity) ::= <<
+sql("<entity.statement>")<if(entity.sqlWarningErrorStatement)><entity.sqlWarningErrorStatement><endif> ;
+>>
+
 // A COPY copybook declared as an instance in the program class (the non-inline
 // form): <Type> <ref> = <Type>.Copy(this[, replacing(level, value)]) ;
 dataInlineDeclaration(entity) ::= <<

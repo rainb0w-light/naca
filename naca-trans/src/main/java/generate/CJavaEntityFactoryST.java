@@ -78,6 +78,7 @@ import semantic.SQL.CEntitySQLOpenStatement;
 import semantic.SQL.CEntitySQLRollBack;
 import semantic.SQL.CEntitySQLSelectStatement;
 import semantic.SQL.CEntitySQLSessionDeclare;
+import semantic.SQL.CEntitySQLSessionDrop;
 import semantic.SQL.CEntitySqlOnErrorGoto;
 import utils.CObjectCatalog;
 import generate.CBaseLanguageExporter;
@@ -476,6 +477,20 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntitySQLSessionDeclare NewEntitySQLSessionDeclare(int line) {
         CEntitySQLSessionDeclare e = new CEntitySQLSessionDeclare(line, programCatalog);
+        e.setLanguageExporter(langOutput);
+        return e;
+    }
+
+    // Embedded SQL session DROP (the DROP ... statement assembled token-by-token
+    // by the parser): the ST4 factory builds the pure semantic entity, which the
+    // recursive assembler renders via the recursiveSQLSessionDropEntity binding
+    // (no CJava* controller). The full statement text is carried by the entity
+    // (set by the parser via setSql) and the optional WHENEVER SQLWARNING/SQLERROR
+    // clause is a read-only catalog lookup the template chains onto sql(...).
+    // Mirrors the SQL session DECLARE exemplar above.
+    @Override
+    public CEntitySQLSessionDrop NewEntitySQLSessionDrop(int line) {
+        CEntitySQLSessionDrop e = new CEntitySQLSessionDrop(line, programCatalog);
         e.setLanguageExporter(langOutput);
         return e;
     }

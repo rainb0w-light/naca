@@ -440,6 +440,23 @@ features:
     fixtures: []
     status: production
 
+  - id: sql.sessionDrop
+    dialects: [embedded-sql]
+    semanticType: semantic.SQL.CEntitySQLSessionDrop
+    javaBackend:
+      role: REFERENCE
+      template: recursiveSQLSessionDropEntity
+    # sql(...) is a BaseProgram helper (same treatment as sql(...) under
+    # sql.sessionDeclare and sql.lock), not a Codegen-Runtime Contract operation;
+    # the full "DROP ..." statement text is carried by the entity (assembled
+    # token-by-token by the parser CExecSQLSessionDrop) and the template only
+    # wraps it as a Java string literal, and the optional
+    # .onErrorGoto(...)/.onErrorContinue() clause is the WHENEVER policy
+    # registered by sql.whenever's Stage-1 side effect. No runtime operation.
+    runtimeOperations: []
+    fixtures: []
+    status: production
+
   - id: sql.select
     dialects: [embedded-sql]
     semanticType: semantic.SQL.CEntitySQLSelectStatement

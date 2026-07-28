@@ -26,7 +26,7 @@
       "finalArchitectureCheck": {
         "tests": 390,
         "failures": 212,
-        "directBackends": 143,
+        "directBackends": 142,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -1055,7 +1055,7 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "EMBEDDED_SQL",
       "sourceSyntax": "legacy backend CJavaSQLSessionDrop",
@@ -1069,11 +1069,12 @@
       "directBackend": "generate.java.SQL.CJavaSQLSessionDrop",
       "sourcePath": "naca-trans/src/main/java/generate/java/SQL/CJavaSQLSessionDrop.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
         "naca-trans/src/main/java/generate/java/SQL/CJavaSQLSessionDrop.java"
-      ]
+      ],
+      "lastAttemptCommit": "ac5b965d6acceefb1d0f19a3a607d854f1950b93"
     },
     {
       "id": "BACKEND-SQL-CJAVASQLSINGLESTATEMENT",
