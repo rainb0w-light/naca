@@ -33,7 +33,7 @@ class DirectBackendInventoryTest
     // Current count of direct backend source files (high-water mark; may only
     // decrease as direct backends are retired — same assertAtMost semantics as
     // the architecture ratchet).
-    private static final int DIRECT_BACKEND_TOTAL_BASELINE = 159;
+    private static final int DIRECT_BACKEND_TOTAL_BASELINE = 158;
 
     private static final Pattern DIRECT_SEMANTIC_SUBCLASS =
         Pattern.compile(" extends (?:CEntity|CBaseActionEntity|CDataEntity)");

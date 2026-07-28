@@ -212,3 +212,18 @@ features:
     runtimeOperations: []
     fixtures: []
     status: production
+
+  - id: sql.condIsSQLCode
+    dialects: [embedded-sql]
+    semanticType: semantic.SQL.CEntityCondIsSQLCode
+    javaBackend:
+      role: REFERENCE
+      template: recursiveCondIsSQLCodeEntity
+    # isSQLCode(...)/isNotSQLCode(...) are BaseProgram condition helpers (same
+    # treatment as cursorClose(...) under sql.close), not Codegen-Runtime Contract
+    # operations; the SQLCode.* constants are nacaLib.sqlSupport literals imported
+    # by the factory's Stage-1 addImportDeclaration("SQL") side effect. No runtime
+    # operation.
+    runtimeOperations: []
+    fixtures: []
+    status: production

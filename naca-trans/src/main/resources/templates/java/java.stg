@@ -529,6 +529,15 @@ recursiveCondIsBooleanEntity(entity) ::= <<
 <if(entity.trueValue)><entity.conditionReference><else>!<entity.conditionReference><endif>
 >>
 
+// Embedded SQL SQLCODE condition (IF SQL-CODE = n / <> n). Emits the
+// isSQLCode(<value>)/isNotSQLCode(<value>) BaseProgram condition call. Mirrors
+// the retired CJavaCondIsSQLCode exactly: a negated condition renders isNotSQLCode,
+// well-known SQLCODE values render as SQLCode.* constants (SQL_OK, SQL_NOT_FOUND,
+// SQL_MORE_THAN_ONE_ROW, SQL_DUPLICATE_INDEX_KEY, SQL_CURSOR_ALREADY_OPENED,
+// SQL_CURSOR_NOT_OPEN, SQL_VALUE_NULL) and any other value as a raw numeric
+// literal. Reads only entity.* properties.
+recursiveCondIsSQLCodeEntity(entity) ::= "is<if(entity.opposite)>Not<endif>SQLCode(<if(entity.sqlCodeConstantName)>SQLCode.<entity.sqlCodeConstantName><else><entity.sqlCodeNumber><endif>)"
+
 recursiveContinue(entity) ::= "// CONTINUE "
 
 recursiveBreak(entity) ::= "break;"

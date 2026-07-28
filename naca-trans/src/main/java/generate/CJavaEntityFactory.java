@@ -53,7 +53,6 @@ import generate.java.CICS.CJavaCICSStart;
 import generate.java.CICS.CJavaCICSStartBrowse;
 import generate.java.CICS.CJavaCICSWrite;
 import generate.java.CICS.CJavaCICSWriteQ;
-import generate.java.SQL.CJavaCondIsSQLCode;
 import generate.java.SQL.CJavaSQLCall;
 import generate.java.SQL.CJavaSQLCode;
 import generate.java.SQL.CJavaSQLCommit;
@@ -940,8 +939,12 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CJavaSQLCode(name, programCatalog, langOutput, eHistoryItem);
 	}
 	public CEntityCondIsSQLCode NewEntityCondIsSQLCode()	{
+		// Direct backend CJavaCondIsSQLCode retired: the pure semantic entity is
+		// rendered by the recursive ST4 assembler (recursiveCondIsSQLCodeEntity
+		// binding); the addImportDeclaration("SQL") Stage-1 side effect (emits
+		// 'import nacaLib.sqlSupport.* ;' for the SQLCode.* constants) is preserved.
 		programCatalog.addImportDeclaration("SQL") ;
-		return new CJavaCondIsSQLCode();
+		return new CEntityCondIsSQLCode();
 	}
 	public CEntityRoutineEmulationCall NewEntityRoutineEmulationCall(int l)	{
 		return new CJavaRoutineEmulationCall(l, programCatalog, langOutput) ;

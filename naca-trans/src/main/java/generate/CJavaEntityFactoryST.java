@@ -59,6 +59,7 @@ import semantic.CICS.CEntityCICSSendMap;
 import semantic.CICS.CEntityCICSReturn;
 import semantic.CICS.CEntityCICSSyncPoint;
 import semantic.CICS.CEntityCICSXctl;
+import semantic.SQL.CEntityCondIsSQLCode;
 import semantic.SQL.CEntitySQLCloseStatement;
 import semantic.SQL.CEntitySQLCursor;
 import semantic.SQL.CEntitySqlOnErrorGoto;
@@ -240,6 +241,20 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
         CEntitySQLCloseStatement e = new CEntitySQLCloseStatement(nLine, programCatalog, cur);
         e.setLanguageExporter(langOutput);
         return e;
+    }
+
+    // Embedded SQL SQLCODE condition (IF SQL-CODE = n / <> n): the ST4 factory
+    // builds the pure semantic entity, which the recursive assembler renders via
+    // the recursiveCondIsSQLCodeEntity binding (no CJava* controller). The
+    // addImportDeclaration("SQL") Stage-1 side effect (emits
+    // 'import nacaLib.sqlSupport.* ;' for the SQLCode.* constants the template
+    // references) is preserved from the retired direct backend's factory method,
+    // exactly as registerSqlWheneverPolicy is preserved above. Mirrors the
+    // SQL CLOSE exemplar.
+    @Override
+    public CEntityCondIsSQLCode NewEntityCondIsSQLCode() {
+        programCatalog.addImportDeclaration("SQL");
+        return new CEntityCondIsSQLCode();
     }
 
     @Override

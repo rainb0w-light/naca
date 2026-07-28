@@ -54,7 +54,20 @@ public abstract class CBaseEntityCondExpr extends CDataEntity
 		// 
 		return false ;
 	}
-	public abstract String Export() ;
+	/**
+	 * Legacy direct-generation string protocol. Concrete target backends
+	 * (the CJava* subclasses under generate/) override it with their code
+	 * generation. Pure semantic conditions/expressions carry no string logic:
+	 * they are rendered by the recursive ST4 assembler (JavaTemplateAssembler),
+	 * so this default fails closed if the legacy protocol ever reaches one.
+	 */
+	public String Export()
+	{
+		throw new UnsupportedOperationException(
+			getClass().getName()
+				+ " is a pure semantic entity rendered by the recursive ST4"
+				+ " assembler; the legacy direct-export protocol is not supported");
+	}
 
 	private String cachedCodeString = null;
 

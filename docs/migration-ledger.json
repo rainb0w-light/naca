@@ -26,7 +26,7 @@
       "finalArchitectureCheck": {
         "tests": 390,
         "failures": 212,
-        "directBackends": 159,
+        "directBackends": 158,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -507,7 +507,7 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "EMBEDDED_SQL",
       "sourceSyntax": "legacy backend CJavaCondIsSQLCode",
@@ -521,13 +521,13 @@
       "directBackend": "generate.java.SQL.CJavaCondIsSQLCode",
       "sourcePath": "naca-trans/src/main/java/generate/java/SQL/CJavaCondIsSQLCode.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
         "naca-trans/src/main/java/generate/java/SQL/CJavaCondIsSQLCode.java"
       ],
       "blockedReason": null,
-      "lastAttemptCommit": null
+      "lastAttemptCommit": "899ee7ea2255d0203ba06ecdaaf7c7c70bfe8276"
     },
     {
       "id": "BACKEND-SQL-CJAVASQLCALL",

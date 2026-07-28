@@ -23,11 +23,11 @@ import semantic.expression.CUnitaryEntityCondition;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityCondIsSQLCode extends CUnitaryEntityCondition
+public class CEntityCondIsSQLCode extends CUnitaryEntityCondition
 {
 	protected boolean isisEqual = true ;
 	protected int nValue = 0 ;
-	
+
 	public void setIsEqual(int n)
 	{
 		isisEqual = true ;
@@ -38,11 +38,19 @@ public abstract class CEntityCondIsSQLCode extends CUnitaryEntityCondition
 		isisEqual = false ;
 		nValue = n ;
 	}
-	
-	
+
+
 	public int GetPriorityLevel()
 	{
 		return 7;
+	}
+
+	public CBaseEntityCondition GetOppositeCondition()
+	{
+		CEntityCondIsSQLCode cond = new CEntityCondIsSQLCode() ;
+		cond.isisEqual = !isisEqual ;
+		cond.nValue = nValue ;
+		return cond ;
 	}
 
 	/* (non-Javadoc)
@@ -61,5 +69,52 @@ public abstract class CEntityCondIsSQLCode extends CUnitaryEntityCondition
 	public boolean isBinaryCondition()
 	{
 		return true;
+	}
+
+	// ==================== ST4 Template Accessors ====================
+	// Read-only getters for the recursive ST4 assembler (template
+	// recursiveCondIsSQLCodeEntity). They expose the already-resolved semantic
+	// state (which SQLCODE value is tested, and whether the test is negated);
+	// formatting the runtime condition call is done by the template, never here.
+
+	/** True when the condition is negated (SQL-CODE <> n): renders isNotSQLCode. */
+	public boolean isOpposite()
+	{
+		return !isisEqual ;
+	}
+
+	/**
+	 * The DB2 SQLCODE constant name for well-known codes (SQL_OK, SQL_NOT_FOUND,
+	 * SQL_MORE_THAN_ONE_ROW, SQL_DUPLICATE_INDEX_KEY, SQL_CURSOR_ALREADY_OPENED,
+	 * SQL_CURSOR_NOT_OPEN, SQL_VALUE_NULL), or null for any other code, which the
+	 * template renders as a raw numeric literal.
+	 */
+	public String getSqlCodeConstantName()
+	{
+		switch (nValue)
+		{
+			case 0:
+				return "SQL_OK" ;
+			case 100:
+				return "SQL_NOT_FOUND" ;
+			case -811:
+				return "SQL_MORE_THAN_ONE_ROW" ;
+			case -803:
+				return "SQL_DUPLICATE_INDEX_KEY" ;
+			case -502:
+				return "SQL_CURSOR_ALREADY_OPENED" ;
+			case -501:
+				return "SQL_CURSOR_NOT_OPEN" ;
+			case -305:
+				return "SQL_VALUE_NULL" ;
+			default:
+				return null ;
+		}
+	}
+
+	/** The raw tested SQLCODE value (rendered as a literal for unmapped codes). */
+	public int getSqlCodeNumber()
+	{
+		return nValue ;
 	}
 }
