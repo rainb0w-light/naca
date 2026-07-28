@@ -72,6 +72,7 @@ import semantic.SQL.CEntitySQLDeclareTable;
 import semantic.SQL.CEntitySQLDeleteStatement;
 import semantic.SQL.CEntitySQLExecute;
 import semantic.SQL.CEntitySQLFetchStatement;
+import semantic.SQL.CEntitySQLInsertStatement;
 import semantic.SQL.CEntitySqlOnErrorGoto;
 import utils.CObjectCatalog;
 import generate.CBaseLanguageExporter;
@@ -319,6 +320,23 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntitySQLDeleteStatement NewEntitySQLDeleteStatement(int nLine, String csStatement, Vector<CDataEntity> arrParameters) {
         CEntitySQLDeleteStatement e = new CEntitySQLDeleteStatement(nLine, programCatalog, csStatement, arrParameters);
+        e.setLanguageExporter(langOutput);
+        return e;
+    }
+
+    // Embedded SQL INSERT INTO ... (EXEC SQL INSERT ... END-EXEC): the ST4 factory
+    // builds the pure semantic entity, which the recursive assembler renders via the
+    // recursiveSQLInsertStatementEntity binding (no CJava* controller). The full
+    // INSERT INTO ... text is assembled in Stage 1 (NUMBER/STRING VALUES inlined as
+    // SQL literals, every other value a positional #N marker, or the INSERT ... SELECT
+    // clause); the non-inlined VALUES entries and the SELECT host parameters remain
+    // semantic children recursively rendered through their reference bindings as
+    // 1-based .value(N, <ref>) calls, and the SQLWARNING/SQLERROR clause is a
+    // read-only catalog lookup the template chains onto the sql(...) runtime call.
+    // Mirrors the SQL DELETE exemplar above.
+    @Override
+    public CEntitySQLInsertStatement NewEntitySQLInsertStatement(int nLine) {
+        CEntitySQLInsertStatement e = new CEntitySQLInsertStatement(nLine, programCatalog);
         e.setLanguageExporter(langOutput);
         return e;
     }

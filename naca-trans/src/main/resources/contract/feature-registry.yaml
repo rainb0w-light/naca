@@ -353,3 +353,22 @@ features:
     runtimeOperations: []
     fixtures: []
     status: production
+
+  - id: sql.insert
+    dialects: [embedded-sql]
+    semanticType: semantic.SQL.CEntitySQLInsertStatement
+    javaBackend:
+      role: REFERENCE
+      template: recursiveSQLInsertStatementEntity
+    # sql(...)/.value(...) are BaseProgram helpers (same treatment as sqlCall(...)
+    # under sql.call and cursorDeleteCurrent(...) under sql.delete), not
+    # Codegen-Runtime Contract operations; the full INSERT INTO ... text is assembled
+    # in Stage 1 (NUMBER/STRING VALUES inlined as SQL literals, every other value a
+    # positional #N marker, or the INSERT ... SELECT clause), the non-inlined VALUES
+    # entries and the SELECT host parameters stay semantic children rendered through
+    # their reference bindings as 1-based .value(N, <ref>) calls, and the optional
+    # .onErrorGoto(...)/.onErrorContinue() clause is the WHENEVER policy registered
+    # by sql.whenever's Stage-1 side effect. No runtime operation.
+    runtimeOperations: []
+    fixtures: []
+    status: production

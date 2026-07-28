@@ -1098,6 +1098,28 @@ recursiveSQLFetchStatementEntity(entity) ::= <<
 cursorFetch(<entity.cursor>)<entity.intoBindings:{b | .into(<b.into><if(b.indicator)>, <b.indicator><endif>)}><if(entity.sqlWarningErrorStatement)><entity.sqlWarningErrorStatement><endif> ;
 >>
 
+// Embedded SQL INSERT INTO ... (EXEC SQL INSERT ... END-EXEC). Emits the
+// sql("<statement>") runtime call where <statement> is the full INSERT INTO ...
+// text assembled in Stage 1 by the semantic node's getStatement(): an optional
+// SESSION. prefix, the DECLARE TABLE name + column references (or the raw table
+// name + explicit column list), then either VALUES (...) (NUMBER/STRING values
+// inlined as SQL literals, every other value a positional #N marker) or the
+// INSERT ... SELECT clause. Each non-inlined VALUES entry chains a 1-based
+// .value(N, <hostRef>) (the holder's <p.index> matches the retired backend's #N
+// marker / (i+1) numbering) and each INSERT...SELECT host parameter chains a
+// 1-based .value(N, <hostRef>); when a WHENEVER SQLWARNING/SQLERROR policy is in
+// effect (a read-only catalog lookup registered by the WHENEVER Stage-1 side
+// effect) its clause chains before the " ;" terminator. The retired backend split
+// the .value(...) chain across lines via WriteWord/WriteEOL; the template emits the
+// equivalent single-line Java builder chain (exactly as the SQL FETCH migration
+// did). Mirrors CJavaSQLInsertStatement.DoExport: column form ->
+// 'sql("INSERT INTO T (A, B) VALUES (#1, #2)").value(1, <a>).value(2, <b>) ;',
+// SELECT form -> 'sql("INSERT INTO T SELECT ...").value(1, <p>) ;', with a policy ->
+// '...onErrorGoto(LABEL) ;'. Reads only entity.* properties.
+recursiveSQLInsertStatementEntity(entity) ::= <<
+sql("<entity.statement>")<entity.valueParams:{p | .value(<p.index>, <p.ref>)}><entity.selectParams:{p | .value(<p.index>, <p.ref>)}><if(entity.sqlWarningErrorStatement)><entity.sqlWarningErrorStatement><endif> ;
+>>
+
 // A COPY copybook declared as an instance in the program class (the non-inline
 // form): <Type> <ref> = <Type>.Copy(this[, replacing(level, value)]) ;
 dataInlineDeclaration(entity) ::= <<

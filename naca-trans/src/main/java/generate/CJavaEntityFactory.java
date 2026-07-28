@@ -53,7 +53,6 @@ import generate.java.CICS.CJavaCICSStart;
 import generate.java.CICS.CJavaCICSStartBrowse;
 import generate.java.CICS.CJavaCICSWrite;
 import generate.java.CICS.CJavaCICSWriteQ;
-import generate.java.SQL.CJavaSQLInsertStatement;
 import generate.java.SQL.CJavaSQLLock;
 import generate.java.SQL.CJavaSQLOpenStatement;
 import generate.java.SQL.CJavaSQLRollBack;
@@ -448,7 +447,17 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CJavaSQLUpdateStatement(nLine, programCatalog, langOutput, csStatement, arrSets, arrParameters);
 	}
 	public CEntitySQLInsertStatement NewEntitySQLInsertStatement(int nLine)	{
-		return new CJavaSQLInsertStatement(nLine, programCatalog, langOutput);
+		// Direct backend CJavaSQLInsertStatement retired: the pure semantic entity is
+		// rendered by the recursive ST4 assembler (the recursiveSQLInsertStatementEntity
+		// binding). The full INSERT INTO ... text is assembled in Stage 1; the
+		// non-inlined VALUES entries and the INSERT...SELECT host parameters remain
+		// semantic children rendered through their reference bindings as 1-based
+		// .value(N, <ref>) calls, and the SQLWARNING/SQLERROR clause is a read-only
+		// catalog lookup the template chains onto the sql(...) runtime call. No
+		// generated string is materialized in the factory.
+		CEntitySQLInsertStatement e = new CEntitySQLInsertStatement(nLine, programCatalog);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntitySQLDeclareTable NewEntitySQLDeclareTable(int nLine, String csTableName, String csViewName, ArrayList arrTableColDescription)	{
 		// Direct backend CJavaSQLDeclareTable retired: the pure semantic entity is
