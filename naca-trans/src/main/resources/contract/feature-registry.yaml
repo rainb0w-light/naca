@@ -493,3 +493,24 @@ features:
     runtimeOperations: []
     fixtures: []
     status: production
+
+  - id: sql.update
+    dialects: [embedded-sql]
+    semanticType: semantic.SQL.CEntitySQLUpdateStatement
+    javaBackend:
+      role: REFERENCE
+      template: recursiveSQLUpdateStatementEntity
+    # sql(...)/cursorUpdateCurrent(...)/.value(...)/.param(...) are BaseProgram
+    # helpers (same treatment as cursorDeleteCurrent(...) under sql.delete and
+    # sql(...)/.value(...) under sql.insert), not Codegen-Runtime Contract
+    # operations; the prepared UPDATE text is assembled in Stage 1, the bound cursor
+    # handle (cursor-positioned UPDATE ... WHERE CURRENT OF <cursor>), every SET
+    # host-variable value and every non-null WHERE host-variable parameter stay
+    # semantic children rendered through their reference bindings as 1-based
+    # .value(N, <ref>) and .param(N, <ref>) calls (the parameters continue the SET
+    # values' numbering, i.e. (i+1+sets.size()), exactly as the retired backend did),
+    # and the optional .onErrorGoto(...)/.onErrorContinue() clause is the WHENEVER
+    # policy registered by sql.whenever's Stage-1 side effect. No runtime operation.
+    runtimeOperations: []
+    fixtures: []
+    status: production

@@ -1228,6 +1228,34 @@ recursiveSQLSingleStatementEntity(entity) ::= <<
 getDBConnection().execSQL("<entity.statement>") ;
 >>
 
+// Embedded SQL UPDATE ... (EXEC SQL UPDATE ... END-EXEC), either a standalone
+// UPDATE <table> SET ... WHERE ... or a cursor-positioned UPDATE ... WHERE CURRENT
+// OF <cursor>. Emits the sql("<statement>") runtime call where <statement> is the
+// prepared UPDATE text assembled in Stage 1 and read via <entity.statement> (wrapped
+// as a Java string literal, exactly what the retired backend's
+// WriteLongString(csStatement.trim()) emitted), or cursorUpdateCurrent(<cursor>,
+// "<statement>") when a cursor is bound (the cursor handle stays a semantic child
+// rendered through its dataReferenceEntity binding, exactly the retired backend's
+// cursorUpdateCurrent(cursor.ExportReference(getLine()) + ", " + ...) branch). Each
+// SET host-variable value chains a 1-based .value(<i>, <ref>) (the ST4 <i> iteration
+// index matches the retired backend's (i+1) numbering), then each non-null WHERE
+// host-variable parameter chains a .param(<p.index>, <p.ref>) where <p.index> is the
+// retired backend's (i+1+sets.size()) position — i.e. the parameters continue the SET
+// values' numbering and null parameters are dropped (matching the retired backend's
+// if (e != null) guard). When a WHENEVER SQLWARNING/SQLERROR policy is in effect (a
+// read-only catalog lookup registered by the WHENEVER Stage-1 side effect) its clause
+// (.onErrorGoto(...)/.onErrorContinue()/...) chains before the " ;" terminator. The
+// retired backend split the .value(...) / .param(...) chain across lines via
+// WriteWord/WriteEOL; the template emits the equivalent single-line Java builder
+// chain (exactly as the SQL DELETE / SQL SELECT / SQL INSERT migrations did). Mirrors
+// CJavaSQLUpdateStatement.DoExport: standalone -> 'sql("UPDATE T SET A = ? WHERE B = ?")
+// .value(1, <a>).param(2, <b>) ;', bound cursor -> 'cursorUpdateCurrent(<ref>,
+// "UPDATE T SET A = ?")...value(1, <a>) ;', with a policy -> '...onErrorGoto(LABEL) ;'.
+// Reads only entity.* properties.
+recursiveSQLUpdateStatementEntity(entity) ::= <<
+<if(entity.cursor)>cursorUpdateCurrent(<entity.cursor>, "<entity.statement>")<else>sql("<entity.statement>")<endif><entity.sets:{s | .value(<i>, <s>)}><entity.paramBindings:{p | .param(<p.index>, <p.ref>)}><if(entity.sqlWarningErrorStatement)><entity.sqlWarningErrorStatement><endif> ;
+>>
+
 // A COPY copybook declared as an instance in the program class (the non-inline
 // form): <Type> <ref> = <Type>.Copy(this[, replacing(level, value)]) ;
 dataInlineDeclaration(entity) ::= <<

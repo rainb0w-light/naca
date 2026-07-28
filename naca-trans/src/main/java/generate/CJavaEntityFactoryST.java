@@ -80,6 +80,7 @@ import semantic.SQL.CEntitySQLSelectStatement;
 import semantic.SQL.CEntitySQLSessionDeclare;
 import semantic.SQL.CEntitySQLSessionDrop;
 import semantic.SQL.CEntitySQLSingleStatement;
+import semantic.SQL.CEntitySQLUpdateStatement;
 import semantic.SQL.CEntitySqlOnErrorGoto;
 import utils.CObjectCatalog;
 import generate.CBaseLanguageExporter;
@@ -358,6 +359,25 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntitySQLSelectStatement NewEntitySQLSelectStatement(int nLine, String csStatement, Vector<CDataEntity> arrParameters, Vector<CDataEntity> arrInto, Vector<CDataEntity> arrInd) {
         CEntitySQLSelectStatement e = new CEntitySQLSelectStatement(nLine, programCatalog, csStatement, arrParameters, arrInto, arrInd);
+        e.setLanguageExporter(langOutput);
+        return e;
+    }
+
+    // Embedded SQL UPDATE ... (EXEC SQL UPDATE ... END-EXEC): the ST4 factory builds
+    // the pure semantic entity, which the recursive assembler renders via the
+    // recursiveSQLUpdateStatementEntity binding (no CJava* controller). The prepared
+    // UPDATE text is assembled in Stage 1; every SET host-variable value and every
+    // WHERE host-variable parameter remain semantic children recursively rendered
+    // through their reference bindings as 1-based .value(N, <ref>) / .param(N, <ref>)
+    // calls (the parameters continue the SET values' numbering, i.e. (i+1+sets.size()),
+    // exactly as the retired backend did), the optional bound cursor stays a semantic
+    // child rendered through its dataReferenceEntity binding (set by the parser via
+    // setCursor), and the SQLWARNING/SQLERROR clause is a read-only catalog lookup the
+    // template chains onto the sql(...)/cursorUpdateCurrent(...) runtime call. Mirrors
+    // the SQL DELETE / SQL SELECT exemplars above.
+    @Override
+    public CEntitySQLUpdateStatement NewEntitySQLUpdateStatement(int nLine, String csStatement, Vector<CDataEntity> arrSets, Vector<CDataEntity> arrParameters) {
+        CEntitySQLUpdateStatement e = new CEntitySQLUpdateStatement(nLine, programCatalog, csStatement, arrSets, arrParameters);
         e.setLanguageExporter(langOutput);
         return e;
     }

@@ -53,7 +53,6 @@ import generate.java.CICS.CJavaCICSStart;
 import generate.java.CICS.CJavaCICSStartBrowse;
 import generate.java.CICS.CJavaCICSWrite;
 import generate.java.CICS.CJavaCICSWriteQ;
-import generate.java.SQL.CJavaSQLUpdateStatement;
 import generate.java.expressions.CJavaAddressOf;
 import generate.java.expressions.CJavaConcat;
 import generate.java.expressions.CJavaCondAnd;
@@ -455,7 +454,20 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return e;
 	}
 	public CEntitySQLUpdateStatement NewEntitySQLUpdateStatement(int nLine, String csStatement, Vector<CDataEntity> arrSets, Vector<CDataEntity> arrParameters)	{
-		return new CJavaSQLUpdateStatement(nLine, programCatalog, langOutput, csStatement, arrSets, arrParameters);
+		// Direct backend CJavaSQLUpdateStatement retired: the pure semantic entity is
+		// rendered by the recursive ST4 assembler (the recursiveSQLUpdateStatementEntity
+		// binding). The prepared UPDATE text is assembled in Stage 1; the SET
+		// host-variable values and the WHERE host-variable parameters remain semantic
+		// children rendered through their reference bindings as 1-based .value(N, <ref>)
+		// / .param(N, <ref>) calls (the parameters continue the SET values' numbering),
+		// the optional bound cursor stays a semantic child rendered through its
+		// dataReferenceEntity binding (set by the parser via setCursor), and the
+		// SQLWARNING/SQLERROR clause is a read-only catalog lookup the template chains
+		// onto the sql(...)/cursorUpdateCurrent(...) runtime call. No generated string
+		// is materialized in the factory.
+		CEntitySQLUpdateStatement e = new CEntitySQLUpdateStatement(nLine, programCatalog, csStatement, arrSets, arrParameters);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntitySQLInsertStatement NewEntitySQLInsertStatement(int nLine)	{
 		// Direct backend CJavaSQLInsertStatement retired: the pure semantic entity is
