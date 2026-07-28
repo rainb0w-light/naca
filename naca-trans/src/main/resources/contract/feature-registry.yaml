@@ -227,3 +227,17 @@ features:
     runtimeOperations: []
     fixtures: []
     status: production
+
+  - id: sql.call
+    dialects: [embedded-sql]
+    semanticType: semantic.SQL.CEntitySQLCall
+    javaBackend:
+      role: REFERENCE
+      template: recursiveSQLCallEntity
+    # sqlCall(...)/.param(...) are BaseProgram helpers (same treatment as
+    # cursorClose(...) under sql.close), not Codegen-Runtime Contract operations;
+    # the optional .onErrorGoto(...)/.onErrorContinue() clause is the WHENEVER
+    # policy registered by sql.whenever's Stage-1 side effect. No runtime operation.
+    runtimeOperations: []
+    fixtures: []
+    status: production

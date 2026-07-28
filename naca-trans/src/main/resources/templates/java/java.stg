@@ -992,6 +992,21 @@ recursiveSQLCloseStatementEntity(entity) ::= <<
 cursorClose(<entity.cursor>)<if(entity.sqlWarningErrorStatement)><entity.sqlWarningErrorStatement><endif> ;
 >>
 
+// Embedded SQL CALL <program> [USING (:host, ...)] (EXEC SQL CALL ... END-EXEC).
+// Emits the sqlCall(<programRef>) runtime call, one .param(N, <hostRef>) per
+// host-variable parameter (ST4's 1-based iteration index <i> mirrors the retired
+// backend's (i+1) numbering), and, when a WHENEVER SQLWARNING/SQLERROR policy is in
+// effect (a read-only catalog lookup registered by the WHENEVER Stage-1 side
+// effect), chains its clause (.onErrorGoto(...)/.onErrorContinue()/...) before the
+// " ;" terminator. Mirrors CJavaSQLCall.DoExport exactly: bare CALL -> 'sqlCall(<ref>) ;',
+// with params -> 'sqlCall(<ref>).param(1, <a>).param(2, <b>) ;', with a policy ->
+// 'sqlCall(<ref>).onErrorGoto(LABEL) ;'. The program reference and each parameter
+// stay semantic children rendered through their reference bindings; the template
+// reads only entity.* properties.
+recursiveSQLCallEntity(entity) ::= <<
+sqlCall(<entity.programReference>)<entity.parameters:{p | .param(<i>, <p>)}><if(entity.sqlWarningErrorStatement)><entity.sqlWarningErrorStatement><endif> ;
+>>
+
 // A COPY copybook declared as an instance in the program class (the non-inline
 // form): <Type> <ref> = <Type>.Copy(this[, replacing(level, value)]) ;
 dataInlineDeclaration(entity) ::= <<
