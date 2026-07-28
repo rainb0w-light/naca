@@ -423,6 +423,23 @@ features:
     fixtures: []
     status: production
 
+  - id: sql.sessionDeclare
+    dialects: [embedded-sql]
+    semanticType: semantic.SQL.CEntitySQLSessionDeclare
+    javaBackend:
+      role: REFERENCE
+      template: recursiveSQLSessionDeclareEntity
+    # sql(...) is a BaseProgram helper (same treatment as sql(...) under sql.lock
+    # and sqlCommit() under sql.commit), not a Codegen-Runtime Contract operation;
+    # the full "DECLARE GLOBAL ..." statement text is carried by the entity
+    # (assembled token-by-token by the parser CExecSQLSessionDeclare) and the
+    # template only wraps it as a Java string literal, and the optional
+    # .onErrorGoto(...)/.onErrorContinue() clause is the WHENEVER policy
+    # registered by sql.whenever's Stage-1 side effect. No runtime operation.
+    runtimeOperations: []
+    fixtures: []
+    status: production
+
   - id: sql.select
     dialects: [embedded-sql]
     semanticType: semantic.SQL.CEntitySQLSelectStatement

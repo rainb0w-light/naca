@@ -1185,6 +1185,22 @@ recursiveSQLSelectStatementEntity(entity) ::= <<
 sql("<entity.statement>")<entity.intoBindings:{b | .into(<b.into><if(b.indicator)>, <b.indicator><endif>)}><entity.paramBindings:{p | .param(<p.index>, <p.ref>)}><if(entity.sqlWarningErrorStatement)><entity.sqlWarningErrorStatement><endif> ;
 >>
 
+// Embedded SQL session DECLARE (the DECLARE GLOBAL TEMPORARY TABLE statement
+// assembled token-by-token by the parser CExecSQLSessionDeclare). Emits the
+// sql("<statement>") runtime call where <statement> is the full DECLARE text
+// carried by the entity and read via <entity.statement> (wrapped as a Java
+// string literal, exactly what the retired backend's WriteLongString(csSql)
+// emitted), and when a WHENEVER SQLWARNING/SQLERROR policy is in effect (a
+// read-only catalog lookup registered by the WHENEVER Stage-1 side effect) its
+// clause (.onErrorGoto(...)/.onErrorContinue()/...) chains before the " ;"
+// terminator. Mirrors CJavaSQLSessionDeclare.DoExport exactly: bare DECLARE ->
+// 'sql("DECLARE GLOBAL ...") ;', with a policy ->
+// 'sql("DECLARE GLOBAL ...").onErrorGoto(LABEL) ;'. Reads only entity.*
+// properties.
+recursiveSQLSessionDeclareEntity(entity) ::= <<
+sql("<entity.statement>")<if(entity.sqlWarningErrorStatement)><entity.sqlWarningErrorStatement><endif> ;
+>>
+
 // A COPY copybook declared as an instance in the program class (the non-inline
 // form): <Type> <ref> = <Type>.Copy(this[, replacing(level, value)]) ;
 dataInlineDeclaration(entity) ::= <<

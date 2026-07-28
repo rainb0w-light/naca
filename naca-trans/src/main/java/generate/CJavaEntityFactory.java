@@ -53,7 +53,6 @@ import generate.java.CICS.CJavaCICSStart;
 import generate.java.CICS.CJavaCICSStartBrowse;
 import generate.java.CICS.CJavaCICSWrite;
 import generate.java.CICS.CJavaCICSWriteQ;
-import generate.java.SQL.CJavaSQLSessionDeclare;
 import generate.java.SQL.CJavaSQLSessionDrop;
 import generate.java.SQL.CJavaSQLSingleStatement;
 import generate.java.SQL.CJavaSQLUpdateStatement;
@@ -1125,7 +1124,16 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 	public CEntitySQLSessionDeclare NewEntitySQLSessionDeclare(int line)	{
-		return new CJavaSQLSessionDeclare(line, programCatalog, langOutput) ;
+		// Direct backend CJavaSQLSessionDeclare retired: the pure semantic entity is
+		// rendered by the recursive ST4 assembler (recursiveSQLSessionDeclareEntity
+		// binding). The full "DECLARE GLOBAL ..." statement text is carried by the
+		// entity (set by the parser via setSql) and the optional WHENEVER
+		// SQLWARNING/SQLERROR clause is a read-only catalog lookup the template
+		// chains onto the sql(...) runtime call; no generated string is materialized
+		// in the factory.
+		CEntitySQLSessionDeclare e = new CEntitySQLSessionDeclare(line, programCatalog);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntitySQLSessionDrop NewEntitySQLSessionDrop(int line)	{
 		return new CJavaSQLSessionDrop(line, programCatalog, langOutput) ;
