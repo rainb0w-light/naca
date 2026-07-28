@@ -336,3 +336,20 @@ features:
     runtimeOperations: []
     fixtures: []
     status: production
+
+  - id: sql.fetch
+    dialects: [embedded-sql]
+    semanticType: semantic.SQL.CEntitySQLFetchStatement
+    javaBackend:
+      role: REFERENCE
+      template: recursiveSQLFetchStatementEntity
+    # cursorFetch(...)/.into(...) are BaseProgram helpers (same treatment as
+    # cursorClose(...) under sql.close and sqlCall(...) under sql.call), not
+    # Codegen-Runtime Contract operations; the cursor, every INTO target and every
+    # optional INDICATOR stay semantic children rendered through their reference
+    # bindings, and the optional .onErrorGoto(...)/.onErrorContinue() clause is the
+    # WHENEVER policy registered by sql.whenever's Stage-1 side effect. No runtime
+    # operation.
+    runtimeOperations: []
+    fixtures: []
+    status: production

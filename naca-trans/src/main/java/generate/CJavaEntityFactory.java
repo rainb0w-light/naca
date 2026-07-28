@@ -53,7 +53,6 @@ import generate.java.CICS.CJavaCICSStart;
 import generate.java.CICS.CJavaCICSStartBrowse;
 import generate.java.CICS.CJavaCICSWrite;
 import generate.java.CICS.CJavaCICSWriteQ;
-import generate.java.SQL.CJavaSQLFetchStatement;
 import generate.java.SQL.CJavaSQLInsertStatement;
 import generate.java.SQL.CJavaSQLLock;
 import generate.java.SQL.CJavaSQLOpenStatement;
@@ -411,7 +410,15 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return e;
 	}
 	public CEntitySQLFetchStatement NewEntitySQLFetchStatement(int nLine, CEntitySQLCursor cur)	{
-		return new CJavaSQLFetchStatement(nLine, programCatalog, langOutput, cur);
+		// Direct backend CJavaSQLFetchStatement retired: the pure semantic entity is
+		// rendered by the recursive ST4 assembler (the recursiveSQLFetchStatementEntity
+		// binding). The cursor, every INTO target and every optional INDICATOR remain
+		// semantic children rendered through their reference bindings; the
+		// SQLWARNING/SQLERROR clause is a read-only catalog lookup the template chains
+		// onto cursorFetch(...). No generated string is materialized in the factory.
+		CEntitySQLFetchStatement e = new CEntitySQLFetchStatement(nLine, programCatalog, cur);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntitySQLOpenStatement NewEntitySQLOpenStatement(int nLine, CEntitySQLCursor cur)	{
 		return new CJavaSQLOpenStatement(nLine, programCatalog, langOutput, cur);

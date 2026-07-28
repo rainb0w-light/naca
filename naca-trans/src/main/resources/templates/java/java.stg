@@ -1083,6 +1083,21 @@ recursiveSQLDeleteStatementEntity(entity) ::= <<
 <if(entity.cursor)>cursorDeleteCurrent(<entity.cursor>, "<entity.statement>")<else>sql("<entity.statement>")<endif><entity.parameters:{p | .param(<i>, <p>)}><if(entity.sqlWarningErrorStatement)><entity.sqlWarningErrorStatement><endif> ;
 >>
 
+// Embedded SQL FETCH <cursor> INTO :host [, :ind] ... (EXEC SQL FETCH ... END-EXEC).
+// Emits the cursorFetch(<cursor>) runtime call followed by one .into(<host>[, <ind>])
+// per INTO target: the cursor stays a semantic child rendered through its reference
+// binding, and each INTO target is paired with its optional INDICATOR variable (both
+// semantic children rendered through their reference bindings). When a WHENEVER
+// SQLWARNING/SQLERROR policy is in effect (a read-only catalog lookup registered by
+// the WHENEVER Stage-1 side effect) its clause (.onErrorGoto(...)/.onErrorContinue()/...)
+// chains before the " ;" terminator. Mirrors CJavaSQLFetchStatement.DoExport exactly:
+// bare FETCH -> 'cursorFetch(<ref>).into(<host>) ;', with an indicator ->
+// 'cursorFetch(<ref>).into(<host>, <ind>) ;', with a policy ->
+// 'cursorFetch(<ref>).into(<host>).onErrorGoto(LABEL) ;'. Reads only entity.* properties.
+recursiveSQLFetchStatementEntity(entity) ::= <<
+cursorFetch(<entity.cursor>)<entity.intoBindings:{b | .into(<b.into><if(b.indicator)>, <b.indicator><endif>)}><if(entity.sqlWarningErrorStatement)><entity.sqlWarningErrorStatement><endif> ;
+>>
+
 // A COPY copybook declared as an instance in the program class (the non-inline
 // form): <Type> <ref> = <Type>.Copy(this[, replacing(level, value)]) ;
 dataInlineDeclaration(entity) ::= <<
