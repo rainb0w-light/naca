@@ -9,9 +9,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -40,6 +45,12 @@ class LedgerConsistencyTest
 {
     private static final Set<String> VALID_SCOPES =
         Set.of("COBOL_CORE", "EMBEDDED_SQL", "EMBEDDED_CICS", "BMS_ARTIFACT");
+    private static final Set<String> TERMINAL_STATUSES = Set.of("direct-retired", "done");
+    private static final Pattern DIRECT_BACKEND_CLASS = Pattern.compile(
+        "\\bpublic\\s+(?:abstract\\s+)?class\\s+(\\w+)\\s+extends\\s+"
+            + "(?:CEntity\\w*|CBaseActionEntity|CDataEntity)\\b");
+    private static final Pattern PACKAGE =
+        Pattern.compile("(?m)^package\\s+([\\w.]+);");
 
     private static Path ledgerPath;
     private static JsonNode root;
@@ -169,6 +180,104 @@ class LedgerConsistencyTest
         }
         assertTrue(problems.isEmpty(),
             "dangling node references (renamed/removed types):\n  " + String.join("\n  ", problems));
+    }
+
+    @Test
+    @DisplayName("every live direct backend has exactly one executable ledger item")
+    void directBackendInventoryIsFullyCovered() throws Exception
+    {
+        Path repoRoot = ledgerPath.getParent().getParent();
+        Path directRoot = repoRoot.resolve("naca-trans/src/main/java/generate/java");
+        assertTrue(Files.isDirectory(directRoot), "direct backend source root must exist");
+
+        Set<String> liveBackends = new HashSet<>();
+        Map<String, String> livePaths = new HashMap<>();
+        try (Stream<Path> files = Files.walk(directRoot))
+        {
+            for (Path file : (Iterable<Path>) files
+                .filter(path -> path.toString().endsWith(".java"))::iterator)
+            {
+                String source = Files.readString(file, java.nio.charset.StandardCharsets.ISO_8859_1);
+                Matcher backend = DIRECT_BACKEND_CLASS.matcher(source);
+                if (!backend.find())
+                {
+                    continue;
+                }
+                Matcher javaPackage = PACKAGE.matcher(source);
+                assertTrue(javaPackage.find(), "missing package declaration: " + file);
+                String fqn = javaPackage.group(1) + "." + backend.group(1);
+                assertTrue(liveBackends.add(fqn), "duplicate direct backend FQN: " + fqn);
+                livePaths.put(fqn, repoRoot.relativize(file).toString().replace('\\', '/'));
+            }
+        }
+
+        Map<String, List<JsonNode>> claims = new HashMap<>();
+        List<String> problems = new ArrayList<>();
+        for (JsonNode entry : root.get("entries"))
+        {
+            if (!"DIRECT_BACKEND_RETIREMENT".equals(text(entry, "kind")))
+            {
+                continue;
+            }
+            String id = text(entry, "id");
+            String backend = text(entry, "directBackend");
+            String sourcePath = text(entry, "sourcePath");
+            if (backend == null || !backend.matches("^generate\\.java\\.[A-Za-z0-9_.]+$"))
+            {
+                problems.add(id + ": directBackend must be an exact generate.java FQN");
+                continue;
+            }
+            claims.computeIfAbsent(backend, ignored -> new ArrayList<>()).add(entry);
+            if (sourcePath == null || sourcePath.isBlank())
+            {
+                problems.add(id + ": sourcePath is required");
+            }
+            for (String field : new String[] {
+                "priority", "dependencies", "verification", "expectedDebtDelta",
+                "attempts", "blocked" })
+            {
+                if (entry.get(field) == null)
+                {
+                    problems.add(id + ": scheduler field " + field + " is required");
+                }
+            }
+            JsonNode delta = entry.path("expectedDebtDelta").get("directBackends");
+            if (delta == null || delta.asInt() != -1)
+            {
+                problems.add(id + ": expectedDebtDelta.directBackends must be -1");
+            }
+            if (TERMINAL_STATUSES.contains(text(entry, "status"))
+                && liveBackends.contains(backend))
+            {
+                problems.add(id + ": claims direct-retired but source still exists: " + sourcePath);
+            }
+        }
+
+        for (String backend : liveBackends)
+        {
+            List<JsonNode> owners = claims.getOrDefault(backend, List.of());
+            if (owners.size() != 1)
+            {
+                problems.add(backend + ": expected exactly one ledger owner, got " + owners.size());
+                continue;
+            }
+            String recordedPath = text(owners.get(0), "sourcePath");
+            if (!livePaths.get(backend).equals(recordedPath))
+            {
+                problems.add(backend + ": sourcePath mismatch: " + recordedPath
+                    + " != " + livePaths.get(backend));
+            }
+        }
+
+        int ratchet = root.path("meta").path("ratchet")
+            .path("finalArchitectureCheck").path("directBackends").asInt(-1);
+        if (ratchet < liveBackends.size() || ratchet - liveBackends.size() > 1)
+        {
+            problems.add("ratchet directBackends must equal live inventory outside a single "
+                + "in-flight retirement: ratchet=" + ratchet + ", live=" + liveBackends.size());
+        }
+        assertTrue(problems.isEmpty(),
+            "direct-backend ledger coverage problems:\n  " + String.join("\n  ", problems));
     }
 
     private static String text(JsonNode node, String field)

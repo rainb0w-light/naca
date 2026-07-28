@@ -48,6 +48,10 @@ fi
 note "debt ceiling: finalArchitectureCheck failures must stay <= $BASELINE_FAILURES"
 
 # --- 1. ledger consistency gate ---------------------------------------------
+note "checking generated direct-backend ledger inventory"
+python3 tools/st4-loop/sync_ledger_inventory.py \
+  || fail "direct-backend ledger inventory is stale"
+
 if [[ "${ST4_SKIP_GRADLE:-0}" != "1" ]]; then
   note "running :naca-cloud-native:test (LedgerConsistencyTest)"
   ./gradlew :naca-cloud-native:test --tests "*LedgerConsistencyTest" --console=plain \

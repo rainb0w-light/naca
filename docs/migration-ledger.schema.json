@@ -57,6 +57,14 @@
           "runtimeOperation": { "type": ["string", "null"] },
           "fixture": { "type": ["string", "null"] },
           "directBackend": { "type": ["string", "null"] },
+          "kind": {
+            "type": "string",
+            "description": "Entry kind. DIRECT_BACKEND_RETIREMENT entries are generated from the live source inventory."
+          },
+          "sourcePath": {
+            "type": "string",
+            "description": "Repository-relative source path owned by a DIRECT_BACKEND_RETIREMENT entry."
+          },
           "productionReachable": { "type": "boolean" },
           "status": { "type": "string" },
           "blocker": { "type": ["string", "null"] },

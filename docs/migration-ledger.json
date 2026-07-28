@@ -24,8 +24,8 @@
       "baselineCapturedAtCommit": "9402b0c",
       "lastVerifiedAtCommit": "e3c4146",
       "finalArchitectureCheck": {
-        "tests": 401,
-        "failures": 222,
+        "tests": 391,
+        "failures": 213,
         "directBackends": 160,
         "semanticClasses": 47,
         "factories": 3,
@@ -495,6 +495,4986 @@
         "OnlineCorpusInventoryTest"
       ],
       "lastAttemptCommit": "4d700f428c91a503c087f618c9125a3c5473a237"
+    },
+    {
+      "id": "BACKEND-SQL-CJAVACONDISSQLCODE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 100,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_SQL",
+      "sourceSyntax": "legacy backend CJavaCondIsSQLCode",
+      "parserNode": null,
+      "semanticNode": "semantic.SQL.CEntityCondIsSQLCode",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.SQL.CJavaCondIsSQLCode",
+      "sourcePath": "naca-trans/src/main/java/generate/java/SQL/CJavaCondIsSQLCode.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/SQL/CJavaCondIsSQLCode.java"
+      ]
+    },
+    {
+      "id": "BACKEND-SQL-CJAVASQLCALL",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 101,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_SQL",
+      "sourceSyntax": "legacy backend CJavaSQLCall",
+      "parserNode": null,
+      "semanticNode": "semantic.SQL.CEntitySQLCall",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.SQL.CJavaSQLCall",
+      "sourcePath": "naca-trans/src/main/java/generate/java/SQL/CJavaSQLCall.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/SQL/CJavaSQLCall.java"
+      ]
+    },
+    {
+      "id": "BACKEND-SQL-CJAVASQLCLOSESTATEMENT",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 102,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_SQL",
+      "sourceSyntax": "legacy backend CJavaSQLCloseStatement",
+      "parserNode": null,
+      "semanticNode": "semantic.SQL.CEntitySQLCloseStatement",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.SQL.CJavaSQLCloseStatement",
+      "sourcePath": "naca-trans/src/main/java/generate/java/SQL/CJavaSQLCloseStatement.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/SQL/CJavaSQLCloseStatement.java"
+      ]
+    },
+    {
+      "id": "BACKEND-SQL-CJAVASQLCODE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 103,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_SQL",
+      "sourceSyntax": "legacy backend CJavaSQLCode",
+      "parserNode": null,
+      "semanticNode": "semantic.SQL.CEntitySQLCode",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.SQL.CJavaSQLCode",
+      "sourcePath": "naca-trans/src/main/java/generate/java/SQL/CJavaSQLCode.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/SQL/CJavaSQLCode.java"
+      ]
+    },
+    {
+      "id": "BACKEND-SQL-CJAVASQLCOMMIT",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 104,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_SQL",
+      "sourceSyntax": "legacy backend CJavaSQLCommit",
+      "parserNode": null,
+      "semanticNode": "semantic.SQL.CEntitySQLCommit",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.SQL.CJavaSQLCommit",
+      "sourcePath": "naca-trans/src/main/java/generate/java/SQL/CJavaSQLCommit.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/SQL/CJavaSQLCommit.java"
+      ]
+    },
+    {
+      "id": "BACKEND-SQL-CJAVASQLCURSOR",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 105,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_SQL",
+      "sourceSyntax": "legacy backend CJavaSQLCursor",
+      "parserNode": null,
+      "semanticNode": "semantic.SQL.CEntitySQLCursor",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.SQL.CJavaSQLCursor",
+      "sourcePath": "naca-trans/src/main/java/generate/java/SQL/CJavaSQLCursor.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/SQL/CJavaSQLCursor.java"
+      ]
+    },
+    {
+      "id": "BACKEND-SQL-CJAVASQLCURSORSELECTSTATEMENT",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 106,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_SQL",
+      "sourceSyntax": "legacy backend CJavaSQLCursorSelectStatement",
+      "parserNode": null,
+      "semanticNode": "semantic.SQL.CEntitySQLCursorSelectStatement",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.SQL.CJavaSQLCursorSelectStatement",
+      "sourcePath": "naca-trans/src/main/java/generate/java/SQL/CJavaSQLCursorSelectStatement.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/SQL/CJavaSQLCursorSelectStatement.java"
+      ]
+    },
+    {
+      "id": "BACKEND-SQL-CJAVASQLDECLARETABLE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 107,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_SQL",
+      "sourceSyntax": "legacy backend CJavaSQLDeclareTable",
+      "parserNode": null,
+      "semanticNode": "semantic.SQL.CEntitySQLDeclareTable",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.SQL.CJavaSQLDeclareTable",
+      "sourcePath": "naca-trans/src/main/java/generate/java/SQL/CJavaSQLDeclareTable.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/SQL/CJavaSQLDeclareTable.java"
+      ]
+    },
+    {
+      "id": "BACKEND-SQL-CJAVASQLDELETESTATEMENT",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 108,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_SQL",
+      "sourceSyntax": "legacy backend CJavaSQLDeleteStatement",
+      "parserNode": null,
+      "semanticNode": "semantic.SQL.CEntitySQLDeleteStatement",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.SQL.CJavaSQLDeleteStatement",
+      "sourcePath": "naca-trans/src/main/java/generate/java/SQL/CJavaSQLDeleteStatement.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/SQL/CJavaSQLDeleteStatement.java"
+      ]
+    },
+    {
+      "id": "BACKEND-SQL-CJAVASQLEXECUTE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 109,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_SQL",
+      "sourceSyntax": "legacy backend CJavaSQLExecute",
+      "parserNode": null,
+      "semanticNode": "semantic.SQL.CEntitySQLExecute",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.SQL.CJavaSQLExecute",
+      "sourcePath": "naca-trans/src/main/java/generate/java/SQL/CJavaSQLExecute.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/SQL/CJavaSQLExecute.java"
+      ]
+    },
+    {
+      "id": "BACKEND-SQL-CJAVASQLFETCHSTATEMENT",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 110,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_SQL",
+      "sourceSyntax": "legacy backend CJavaSQLFetchStatement",
+      "parserNode": null,
+      "semanticNode": "semantic.SQL.CEntitySQLFetchStatement",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.SQL.CJavaSQLFetchStatement",
+      "sourcePath": "naca-trans/src/main/java/generate/java/SQL/CJavaSQLFetchStatement.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/SQL/CJavaSQLFetchStatement.java"
+      ]
+    },
+    {
+      "id": "BACKEND-SQL-CJAVASQLINSERTSTATEMENT",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 111,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_SQL",
+      "sourceSyntax": "legacy backend CJavaSQLInsertStatement",
+      "parserNode": null,
+      "semanticNode": "semantic.SQL.CEntitySQLInsertStatement",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.SQL.CJavaSQLInsertStatement",
+      "sourcePath": "naca-trans/src/main/java/generate/java/SQL/CJavaSQLInsertStatement.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/SQL/CJavaSQLInsertStatement.java"
+      ]
+    },
+    {
+      "id": "BACKEND-SQL-CJAVASQLLOCK",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 112,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_SQL",
+      "sourceSyntax": "legacy backend CJavaSQLLock",
+      "parserNode": null,
+      "semanticNode": "semantic.SQL.CEntitySQLLock",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.SQL.CJavaSQLLock",
+      "sourcePath": "naca-trans/src/main/java/generate/java/SQL/CJavaSQLLock.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/SQL/CJavaSQLLock.java"
+      ]
+    },
+    {
+      "id": "BACKEND-SQL-CJAVASQLOPENSTATEMENT",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 113,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_SQL",
+      "sourceSyntax": "legacy backend CJavaSQLOpenStatement",
+      "parserNode": null,
+      "semanticNode": "semantic.SQL.CEntitySQLOpenStatement",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.SQL.CJavaSQLOpenStatement",
+      "sourcePath": "naca-trans/src/main/java/generate/java/SQL/CJavaSQLOpenStatement.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/SQL/CJavaSQLOpenStatement.java"
+      ]
+    },
+    {
+      "id": "BACKEND-SQL-CJAVASQLROLLBACK",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 114,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_SQL",
+      "sourceSyntax": "legacy backend CJavaSQLRollBack",
+      "parserNode": null,
+      "semanticNode": "semantic.SQL.CEntitySQLRollBack",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.SQL.CJavaSQLRollBack",
+      "sourcePath": "naca-trans/src/main/java/generate/java/SQL/CJavaSQLRollBack.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/SQL/CJavaSQLRollBack.java"
+      ]
+    },
+    {
+      "id": "BACKEND-SQL-CJAVASQLSELECTSTATEMENT",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 115,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_SQL",
+      "sourceSyntax": "legacy backend CJavaSQLSelectStatement",
+      "parserNode": null,
+      "semanticNode": "semantic.SQL.CEntitySQLSelectStatement",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.SQL.CJavaSQLSelectStatement",
+      "sourcePath": "naca-trans/src/main/java/generate/java/SQL/CJavaSQLSelectStatement.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/SQL/CJavaSQLSelectStatement.java"
+      ]
+    },
+    {
+      "id": "BACKEND-SQL-CJAVASQLSESSIONDECLARE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 116,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_SQL",
+      "sourceSyntax": "legacy backend CJavaSQLSessionDeclare",
+      "parserNode": null,
+      "semanticNode": "semantic.SQL.CEntitySQLSessionDeclare",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.SQL.CJavaSQLSessionDeclare",
+      "sourcePath": "naca-trans/src/main/java/generate/java/SQL/CJavaSQLSessionDeclare.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/SQL/CJavaSQLSessionDeclare.java"
+      ]
+    },
+    {
+      "id": "BACKEND-SQL-CJAVASQLSESSIONDROP",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 117,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_SQL",
+      "sourceSyntax": "legacy backend CJavaSQLSessionDrop",
+      "parserNode": null,
+      "semanticNode": "semantic.SQL.CEntitySQLSessionDrop",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.SQL.CJavaSQLSessionDrop",
+      "sourcePath": "naca-trans/src/main/java/generate/java/SQL/CJavaSQLSessionDrop.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/SQL/CJavaSQLSessionDrop.java"
+      ]
+    },
+    {
+      "id": "BACKEND-SQL-CJAVASQLSINGLESTATEMENT",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 118,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_SQL",
+      "sourceSyntax": "legacy backend CJavaSQLSingleStatement",
+      "parserNode": null,
+      "semanticNode": "semantic.SQL.CEntitySQLSingleStatement",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.SQL.CJavaSQLSingleStatement",
+      "sourcePath": "naca-trans/src/main/java/generate/java/SQL/CJavaSQLSingleStatement.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/SQL/CJavaSQLSingleStatement.java"
+      ]
+    },
+    {
+      "id": "BACKEND-SQL-CJAVASQLUPDATESTATEMENT",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 119,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_SQL",
+      "sourceSyntax": "legacy backend CJavaSQLUpdateStatement",
+      "parserNode": null,
+      "semanticNode": "semantic.SQL.CEntitySQLUpdateStatement",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.SQL.CJavaSQLUpdateStatement",
+      "sourcePath": "naca-trans/src/main/java/generate/java/SQL/CJavaSQLUpdateStatement.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/SQL/CJavaSQLUpdateStatement.java"
+      ]
+    },
+    {
+      "id": "BACKEND-CICS-CJAVACICSASKTIME",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 200,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_CICS",
+      "sourceSyntax": "legacy backend CJavaCICSAskTime",
+      "parserNode": null,
+      "semanticNode": "semantic.CICS.CEntityCICSAskTime",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.CICS.CJavaCICSAskTime",
+      "sourcePath": "naca-trans/src/main/java/generate/java/CICS/CJavaCICSAskTime.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/CICS/CJavaCICSAskTime.java"
+      ]
+    },
+    {
+      "id": "BACKEND-CICS-CJAVACICSASSIGN",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 201,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_CICS",
+      "sourceSyntax": "legacy backend CJavaCICSAssign",
+      "parserNode": null,
+      "semanticNode": "semantic.CICS.CEntityCICSAssign",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.CICS.CJavaCICSAssign",
+      "sourcePath": "naca-trans/src/main/java/generate/java/CICS/CJavaCICSAssign.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/CICS/CJavaCICSAssign.java"
+      ]
+    },
+    {
+      "id": "BACKEND-CICS-CJAVACICSDEQ",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 202,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_CICS",
+      "sourceSyntax": "legacy backend CJavaCICSDeQ",
+      "parserNode": null,
+      "semanticNode": "semantic.CICS.CEntityCICSDeQ",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.CICS.CJavaCICSDeQ",
+      "sourcePath": "naca-trans/src/main/java/generate/java/CICS/CJavaCICSDeQ.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/CICS/CJavaCICSDeQ.java"
+      ]
+    },
+    {
+      "id": "BACKEND-CICS-CJAVACICSDELAY",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 203,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_CICS",
+      "sourceSyntax": "legacy backend CJavaCICSDelay",
+      "parserNode": null,
+      "semanticNode": "semantic.CICS.CEntityCICSDelay",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.CICS.CJavaCICSDelay",
+      "sourcePath": "naca-trans/src/main/java/generate/java/CICS/CJavaCICSDelay.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/CICS/CJavaCICSDelay.java"
+      ]
+    },
+    {
+      "id": "BACKEND-CICS-CJAVACICSDELETEQ",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 204,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_CICS",
+      "sourceSyntax": "legacy backend CJavaCICSDeleteQ",
+      "parserNode": null,
+      "semanticNode": "semantic.CICS.CEntityCICSDeleteQ",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.CICS.CJavaCICSDeleteQ",
+      "sourcePath": "naca-trans/src/main/java/generate/java/CICS/CJavaCICSDeleteQ.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/CICS/CJavaCICSDeleteQ.java"
+      ]
+    },
+    {
+      "id": "BACKEND-CICS-CJAVACICSENQ",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 205,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_CICS",
+      "sourceSyntax": "legacy backend CJavaCICSEnQ",
+      "parserNode": null,
+      "semanticNode": "semantic.CICS.CEntityCICSEnQ",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.CICS.CJavaCICSEnQ",
+      "sourcePath": "naca-trans/src/main/java/generate/java/CICS/CJavaCICSEnQ.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/CICS/CJavaCICSEnQ.java"
+      ]
+    },
+    {
+      "id": "BACKEND-CICS-CJAVACICSGETMAIN",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 206,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_CICS",
+      "sourceSyntax": "legacy backend CJavaCICSGetMain",
+      "parserNode": null,
+      "semanticNode": "semantic.CICS.CEntityCICSGetMain",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.CICS.CJavaCICSGetMain",
+      "sourcePath": "naca-trans/src/main/java/generate/java/CICS/CJavaCICSGetMain.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/CICS/CJavaCICSGetMain.java"
+      ]
+    },
+    {
+      "id": "BACKEND-CICS-CJAVACICSHANDLEAID",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 207,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_CICS",
+      "sourceSyntax": "legacy backend CJavaCICSHandleAID",
+      "parserNode": null,
+      "semanticNode": "semantic.CICS.CEntityCICSHandleAID",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.CICS.CJavaCICSHandleAID",
+      "sourcePath": "naca-trans/src/main/java/generate/java/CICS/CJavaCICSHandleAID.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/CICS/CJavaCICSHandleAID.java"
+      ]
+    },
+    {
+      "id": "BACKEND-CICS-CJAVACICSHANDLECONDITION",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 208,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_CICS",
+      "sourceSyntax": "legacy backend CJavaCICSHandleCondition",
+      "parserNode": null,
+      "semanticNode": "semantic.CICS.CEntityCICSHandleCondition",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.CICS.CJavaCICSHandleCondition",
+      "sourcePath": "naca-trans/src/main/java/generate/java/CICS/CJavaCICSHandleCondition.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/CICS/CJavaCICSHandleCondition.java"
+      ]
+    },
+    {
+      "id": "BACKEND-CICS-CJAVACICSIGNORECONDITION",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 209,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_CICS",
+      "sourceSyntax": "legacy backend CJavaCICSIgnoreCondition",
+      "parserNode": null,
+      "semanticNode": "semantic.CICS.CEntityCICSIgnoreCondition",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.CICS.CJavaCICSIgnoreCondition",
+      "sourcePath": "naca-trans/src/main/java/generate/java/CICS/CJavaCICSIgnoreCondition.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/CICS/CJavaCICSIgnoreCondition.java"
+      ]
+    },
+    {
+      "id": "BACKEND-CICS-CJAVACICSINQUIRE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 210,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_CICS",
+      "sourceSyntax": "legacy backend CJavaCICSInquire",
+      "parserNode": null,
+      "semanticNode": "semantic.CICS.CEntityCICSInquire",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.CICS.CJavaCICSInquire",
+      "sourcePath": "naca-trans/src/main/java/generate/java/CICS/CJavaCICSInquire.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/CICS/CJavaCICSInquire.java"
+      ]
+    },
+    {
+      "id": "BACKEND-CICS-CJAVACICSREWRITE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 211,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_CICS",
+      "sourceSyntax": "legacy backend CJavaCICSReWrite",
+      "parserNode": null,
+      "semanticNode": "semantic.CICS.CEntityCICSReWrite",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.CICS.CJavaCICSReWrite",
+      "sourcePath": "naca-trans/src/main/java/generate/java/CICS/CJavaCICSReWrite.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/CICS/CJavaCICSReWrite.java"
+      ]
+    },
+    {
+      "id": "BACKEND-CICS-CJAVACICSREAD",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 212,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_CICS",
+      "sourceSyntax": "legacy backend CJavaCICSRead",
+      "parserNode": null,
+      "semanticNode": "semantic.CICS.CEntityCICSRead",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.CICS.CJavaCICSRead",
+      "sourcePath": "naca-trans/src/main/java/generate/java/CICS/CJavaCICSRead.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/CICS/CJavaCICSRead.java"
+      ]
+    },
+    {
+      "id": "BACKEND-CICS-CJAVACICSREADQ",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 213,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_CICS",
+      "sourceSyntax": "legacy backend CJavaCICSReadQ",
+      "parserNode": null,
+      "semanticNode": "semantic.CICS.CEntityCICSReadQ",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.CICS.CJavaCICSReadQ",
+      "sourcePath": "naca-trans/src/main/java/generate/java/CICS/CJavaCICSReadQ.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/CICS/CJavaCICSReadQ.java"
+      ]
+    },
+    {
+      "id": "BACKEND-CICS-CJAVACICSRETRIEVE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 214,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_CICS",
+      "sourceSyntax": "legacy backend CJavaCICSRetrieve",
+      "parserNode": null,
+      "semanticNode": "semantic.CICS.CEntityCICSRetrieve",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.CICS.CJavaCICSRetrieve",
+      "sourcePath": "naca-trans/src/main/java/generate/java/CICS/CJavaCICSRetrieve.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/CICS/CJavaCICSRetrieve.java"
+      ]
+    },
+    {
+      "id": "BACKEND-CICS-CJAVACICSSETTDQUEUE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 215,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_CICS",
+      "sourceSyntax": "legacy backend CJavaCICSSetTDQueue",
+      "parserNode": null,
+      "semanticNode": "semantic.CICS.CEntityCICSSetTDQueue",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.CICS.CJavaCICSSetTDQueue",
+      "sourcePath": "naca-trans/src/main/java/generate/java/CICS/CJavaCICSSetTDQueue.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/CICS/CJavaCICSSetTDQueue.java"
+      ]
+    },
+    {
+      "id": "BACKEND-CICS-CJAVACICSSTART",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 216,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_CICS",
+      "sourceSyntax": "legacy backend CJavaCICSStart",
+      "parserNode": null,
+      "semanticNode": "semantic.CICS.CEntityCICSStart",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.CICS.CJavaCICSStart",
+      "sourcePath": "naca-trans/src/main/java/generate/java/CICS/CJavaCICSStart.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/CICS/CJavaCICSStart.java"
+      ]
+    },
+    {
+      "id": "BACKEND-CICS-CJAVACICSSTARTBROWSE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 217,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_CICS",
+      "sourceSyntax": "legacy backend CJavaCICSStartBrowse",
+      "parserNode": null,
+      "semanticNode": "semantic.CICS.CEntityCICSStartBrowse",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.CICS.CJavaCICSStartBrowse",
+      "sourcePath": "naca-trans/src/main/java/generate/java/CICS/CJavaCICSStartBrowse.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/CICS/CJavaCICSStartBrowse.java"
+      ]
+    },
+    {
+      "id": "BACKEND-CICS-CJAVACICSWRITE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 218,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_CICS",
+      "sourceSyntax": "legacy backend CJavaCICSWrite",
+      "parserNode": null,
+      "semanticNode": "semantic.CICS.CEntityCICSWrite",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.CICS.CJavaCICSWrite",
+      "sourcePath": "naca-trans/src/main/java/generate/java/CICS/CJavaCICSWrite.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/CICS/CJavaCICSWrite.java"
+      ]
+    },
+    {
+      "id": "BACKEND-CICS-CJAVACICSWRITEQ",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 219,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_CICS",
+      "sourceSyntax": "legacy backend CJavaCICSWriteQ",
+      "parserNode": null,
+      "semanticNode": "semantic.CICS.CEntityCICSWriteQ",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.CICS.CJavaCICSWriteQ",
+      "sourcePath": "naca-trans/src/main/java/generate/java/CICS/CJavaCICSWriteQ.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/CICS/CJavaCICSWriteQ.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-ST-CJAVAASSIGNST",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 300,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaAssignST",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntityAssign",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.st.CJavaAssignST",
+      "sourcePath": "naca-trans/src/main/java/generate/java/st/CJavaAssignST.java",
+      "productionReachable": true,
+      "status": "production-wired",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/st/CJavaAssignST.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-ST-CJAVAASSIGNWITHACCESSORST",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 301,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaAssignWithAccessorST",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntityAssignWithAccessor",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.st.CJavaAssignWithAccessorST",
+      "sourcePath": "naca-trans/src/main/java/generate/java/st/CJavaAssignWithAccessorST.java",
+      "productionReachable": true,
+      "status": "production-wired",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/st/CJavaAssignWithAccessorST.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-ST-CJAVACALLPROGRAMST",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 302,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaCallProgramST",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntityCallProgram",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.st.CJavaCallProgramST",
+      "sourcePath": "naca-trans/src/main/java/generate/java/st/CJavaCallProgramST.java",
+      "productionReachable": true,
+      "status": "production-wired",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/st/CJavaCallProgramST.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-ST-CJAVADISPLAYST",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 303,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaDisplayST",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntityDisplay",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.st.CJavaDisplayST",
+      "sourcePath": "naca-trans/src/main/java/generate/java/st/CJavaDisplayST.java",
+      "productionReachable": true,
+      "status": "production-wired",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/st/CJavaDisplayST.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-ST-CJAVAINITIALIZEST",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 304,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaInitializeST",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntityInitialize",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.st.CJavaInitializeST",
+      "sourcePath": "naca-trans/src/main/java/generate/java/st/CJavaInitializeST.java",
+      "productionReachable": true,
+      "status": "production-wired",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/st/CJavaInitializeST.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-ST-CJAVAPROCEDUREDIVISIONST",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 305,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaProcedureDivisionST",
+      "parserNode": null,
+      "semanticNode": "semantic.CEntityProcedureDivision",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.st.CJavaProcedureDivisionST",
+      "sourcePath": "naca-trans/src/main/java/generate/java/st/CJavaProcedureDivisionST.java",
+      "productionReachable": true,
+      "status": "production-wired",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/st/CJavaProcedureDivisionST.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-ST-CJAVAPROCEDUREST",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 306,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaProcedureST",
+      "parserNode": null,
+      "semanticNode": "semantic.CEntityProcedure",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.st.CJavaProcedureST",
+      "sourcePath": "naca-trans/src/main/java/generate/java/st/CJavaProcedureST.java",
+      "productionReachable": true,
+      "status": "production-wired",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/st/CJavaProcedureST.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-ST-CJAVAPROCEDURESECTIONST",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 307,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaProcedureSectionST",
+      "parserNode": null,
+      "semanticNode": "semantic.CEntityProcedureSection",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.st.CJavaProcedureSectionST",
+      "sourcePath": "naca-trans/src/main/java/generate/java/st/CJavaProcedureSectionST.java",
+      "productionReachable": true,
+      "status": "production-wired",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/st/CJavaProcedureSectionST.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-ST-CJAVASEARCHST",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 308,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaSearchST",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntitySearch",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.st.CJavaSearchST",
+      "sourcePath": "naca-trans/src/main/java/generate/java/st/CJavaSearchST.java",
+      "productionReachable": true,
+      "status": "production-wired",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/st/CJavaSearchST.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-ST-CJAVASORTST",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 309,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaSortST",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntitySort",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.st.CJavaSortST",
+      "sourcePath": "naca-trans/src/main/java/generate/java/st/CJavaSortST.java",
+      "productionReachable": true,
+      "status": "production-wired",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/st/CJavaSortST.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-VERB-CJAVAACCEPT",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 400,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaAccept",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntityAccept",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.verbs.CJavaAccept",
+      "sourcePath": "naca-trans/src/main/java/generate/java/verbs/CJavaAccept.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/verbs/CJavaAccept.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-VERB-CJAVAASSIGN",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 401,
+      "dependencies": [
+        "BACKEND-COBOL-ST-CJAVAASSIGNST"
+      ],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaAssign",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntityAssign",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.verbs.CJavaAssign",
+      "sourcePath": "naca-trans/src/main/java/generate/java/verbs/CJavaAssign.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/verbs/CJavaAssign.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-VERB-CJAVAASSIGNWITHACCESSOR",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 402,
+      "dependencies": [
+        "BACKEND-COBOL-ST-CJAVAASSIGNWITHACCESSORST"
+      ],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaAssignWithAccessor",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntityAssignWithAccessor",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.verbs.CJavaAssignWithAccessor",
+      "sourcePath": "naca-trans/src/main/java/generate/java/verbs/CJavaAssignWithAccessor.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/verbs/CJavaAssignWithAccessor.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-VERB-CJAVACALCUL",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 403,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaCalcul",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntityCalcul",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.verbs.CJavaCalcul",
+      "sourcePath": "naca-trans/src/main/java/generate/java/verbs/CJavaCalcul.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/verbs/CJavaCalcul.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-VERB-CJAVACALLFUNCTION",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 404,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaCallFunction",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntityCallFunction",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.verbs.CJavaCallFunction",
+      "sourcePath": "naca-trans/src/main/java/generate/java/verbs/CJavaCallFunction.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/verbs/CJavaCallFunction.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-VERB-CJAVACALLPROGRAM",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 405,
+      "dependencies": [
+        "BACKEND-COBOL-ST-CJAVACALLPROGRAMST"
+      ],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaCallProgram",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntityCallProgram",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.verbs.CJavaCallProgram",
+      "sourcePath": "naca-trans/src/main/java/generate/java/verbs/CJavaCallProgram.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/verbs/CJavaCallProgram.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-VERB-CJAVACLOSEFILE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 406,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaCloseFile",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntityCloseFile",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.verbs.CJavaCloseFile",
+      "sourcePath": "naca-trans/src/main/java/generate/java/verbs/CJavaCloseFile.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/verbs/CJavaCloseFile.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-VERB-CJAVACOUNT",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 407,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaCount",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntityCount",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.verbs.CJavaCount",
+      "sourcePath": "naca-trans/src/main/java/generate/java/verbs/CJavaCount.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/verbs/CJavaCount.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-VERB-CJAVADISPLAY",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 408,
+      "dependencies": [
+        "BACKEND-COBOL-ST-CJAVADISPLAYST"
+      ],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaDisplay",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntityDisplay",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.verbs.CJavaDisplay",
+      "sourcePath": "naca-trans/src/main/java/generate/java/verbs/CJavaDisplay.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/verbs/CJavaDisplay.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-VERB-CJAVADIVIDE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 409,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaDivide",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntityDivide",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.verbs.CJavaDivide",
+      "sourcePath": "naca-trans/src/main/java/generate/java/verbs/CJavaDivide.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/verbs/CJavaDivide.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-VERB-CJAVAEXEC",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 410,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaExec",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntityExec",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.verbs.CJavaExec",
+      "sourcePath": "naca-trans/src/main/java/generate/java/verbs/CJavaExec.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/verbs/CJavaExec.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-VERB-CJAVAGOTO",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 411,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaGoto",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntityGoto",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.verbs.CJavaGoto",
+      "sourcePath": "naca-trans/src/main/java/generate/java/verbs/CJavaGoto.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/verbs/CJavaGoto.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-VERB-CJAVAGOTODEPENDING",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 412,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaGotoDepending",
+      "parserNode": null,
+      "semanticNode": "semantic.CBaseActionEntity",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.verbs.CJavaGotoDepending",
+      "sourcePath": "naca-trans/src/main/java/generate/java/verbs/CJavaGotoDepending.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/verbs/CJavaGotoDepending.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-VERB-CJAVAINITIALIZE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 413,
+      "dependencies": [
+        "BACKEND-COBOL-ST-CJAVAINITIALIZEST"
+      ],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaInitialize",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntityInitialize",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.verbs.CJavaInitialize",
+      "sourcePath": "naca-trans/src/main/java/generate/java/verbs/CJavaInitialize.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/verbs/CJavaInitialize.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-VERB-CJAVAINSPECTCONVERTING",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 414,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaInspectConverting",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntityInspectConverting",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.verbs.CJavaInspectConverting",
+      "sourcePath": "naca-trans/src/main/java/generate/java/verbs/CJavaInspectConverting.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/verbs/CJavaInspectConverting.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-VERB-CJAVAMULTIPLY",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 415,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaMultiply",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntityMultiply",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.verbs.CJavaMultiply",
+      "sourcePath": "naca-trans/src/main/java/generate/java/verbs/CJavaMultiply.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/verbs/CJavaMultiply.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-VERB-CJAVANEXTSENTENCE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 416,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaNextSentence",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntityNextSentence",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.verbs.CJavaNextSentence",
+      "sourcePath": "naca-trans/src/main/java/generate/java/verbs/CJavaNextSentence.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/verbs/CJavaNextSentence.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-VERB-CJAVAOPENFILE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 417,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaOpenFile",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntityOpenFile",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.verbs.CJavaOpenFile",
+      "sourcePath": "naca-trans/src/main/java/generate/java/verbs/CJavaOpenFile.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/verbs/CJavaOpenFile.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-VERB-CJAVAPARSESTRING",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 418,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaParseString",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntityParseString",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.verbs.CJavaParseString",
+      "sourcePath": "naca-trans/src/main/java/generate/java/verbs/CJavaParseString.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/verbs/CJavaParseString.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-VERB-CJAVAREADFILE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 419,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaReadFile",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntityReadFile",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.verbs.CJavaReadFile",
+      "sourcePath": "naca-trans/src/main/java/generate/java/verbs/CJavaReadFile.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/verbs/CJavaReadFile.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-VERB-CJAVAREPLACE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 420,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaReplace",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntityReplace",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.verbs.CJavaReplace",
+      "sourcePath": "naca-trans/src/main/java/generate/java/verbs/CJavaReplace.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/verbs/CJavaReplace.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-VERB-CJAVARETURN",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 421,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaReturn",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntityReturn",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.verbs.CJavaReturn",
+      "sourcePath": "naca-trans/src/main/java/generate/java/verbs/CJavaReturn.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/verbs/CJavaReturn.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-VERB-CJAVAREWRITEFILE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 422,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaRewriteFile",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntityRewriteFile",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.verbs.CJavaRewriteFile",
+      "sourcePath": "naca-trans/src/main/java/generate/java/verbs/CJavaRewriteFile.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/verbs/CJavaRewriteFile.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-VERB-CJAVAROUTINEEMULATIONCALL",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 423,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaRoutineEmulationCall",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntityRoutineEmulationCall",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.verbs.CJavaRoutineEmulationCall",
+      "sourcePath": "naca-trans/src/main/java/generate/java/verbs/CJavaRoutineEmulationCall.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/verbs/CJavaRoutineEmulationCall.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-VERB-CJAVASEARCH",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 424,
+      "dependencies": [
+        "BACKEND-COBOL-ST-CJAVASEARCHST"
+      ],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaSearch",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntitySearch",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.verbs.CJavaSearch",
+      "sourcePath": "naca-trans/src/main/java/generate/java/verbs/CJavaSearch.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/verbs/CJavaSearch.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-VERB-CJAVASETCONSTANT",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 425,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaSetConstant",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntitySetConstant",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.verbs.CJavaSetConstant",
+      "sourcePath": "naca-trans/src/main/java/generate/java/verbs/CJavaSetConstant.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/verbs/CJavaSetConstant.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-VERB-CJAVASORT",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 426,
+      "dependencies": [
+        "BACKEND-COBOL-ST-CJAVASORTST"
+      ],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaSort",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntitySort",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.verbs.CJavaSort",
+      "sourcePath": "naca-trans/src/main/java/generate/java/verbs/CJavaSort.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/verbs/CJavaSort.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-VERB-CJAVASORTRELEASE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 427,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaSortRelease",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntitySortRelease",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.verbs.CJavaSortRelease",
+      "sourcePath": "naca-trans/src/main/java/generate/java/verbs/CJavaSortRelease.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/verbs/CJavaSortRelease.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-VERB-CJAVASORTRETURN",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 428,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaSortReturn",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntitySortReturn",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.verbs.CJavaSortReturn",
+      "sourcePath": "naca-trans/src/main/java/generate/java/verbs/CJavaSortReturn.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/verbs/CJavaSortReturn.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-VERB-CJAVASTRINGCONCAT",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 429,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaStringConcat",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntityStringConcat",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.verbs.CJavaStringConcat",
+      "sourcePath": "naca-trans/src/main/java/generate/java/verbs/CJavaStringConcat.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/verbs/CJavaStringConcat.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-VERB-CJAVASUBTRACTTO",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 430,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaSubtractTo",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntitySubtractTo",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.verbs.CJavaSubtractTo",
+      "sourcePath": "naca-trans/src/main/java/generate/java/verbs/CJavaSubtractTo.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/verbs/CJavaSubtractTo.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-VERB-CJAVAWRITEFILE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 431,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaWriteFile",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntityWriteFile",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.verbs.CJavaWriteFile",
+      "sourcePath": "naca-trans/src/main/java/generate/java/verbs/CJavaWriteFile.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/verbs/CJavaWriteFile.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-EXPRESSION-CJAVAADDRESSOF",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 500,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaAddressOf",
+      "parserNode": null,
+      "semanticNode": "semantic.expression.CEntityAddressOf",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.expressions.CJavaAddressOf",
+      "sourcePath": "naca-trans/src/main/java/generate/java/expressions/CJavaAddressOf.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/expressions/CJavaAddressOf.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-EXPRESSION-CJAVACONCAT",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 501,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaConcat",
+      "parserNode": null,
+      "semanticNode": "semantic.expression.CEntityConcat",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.expressions.CJavaConcat",
+      "sourcePath": "naca-trans/src/main/java/generate/java/expressions/CJavaConcat.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/expressions/CJavaConcat.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-EXPRESSION-CJAVACONDAND",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 502,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaCondAnd",
+      "parserNode": null,
+      "semanticNode": "semantic.expression.CEntityCondAnd",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.expressions.CJavaCondAnd",
+      "sourcePath": "naca-trans/src/main/java/generate/java/expressions/CJavaCondAnd.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/expressions/CJavaCondAnd.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-EXPRESSION-CJAVACONDCOMPARE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 503,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaCondCompare",
+      "parserNode": null,
+      "semanticNode": "semantic.expression.CEntityCondCompare",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.expressions.CJavaCondCompare",
+      "sourcePath": "naca-trans/src/main/java/generate/java/expressions/CJavaCondCompare.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/expressions/CJavaCondCompare.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-EXPRESSION-CJAVACONDEQUALS",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 504,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaCondEquals",
+      "parserNode": null,
+      "semanticNode": "semantic.expression.CEntityCondEquals",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.expressions.CJavaCondEquals",
+      "sourcePath": "naca-trans/src/main/java/generate/java/expressions/CJavaCondEquals.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/expressions/CJavaCondEquals.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-EXPRESSION-CJAVACONDISALL",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 505,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaCondIsAll",
+      "parserNode": null,
+      "semanticNode": "semantic.expression.CEntityCondIsAll",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.expressions.CJavaCondIsAll",
+      "sourcePath": "naca-trans/src/main/java/generate/java/expressions/CJavaCondIsAll.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/expressions/CJavaCondIsAll.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-EXPRESSION-CJAVACONDISCONSTANT",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 506,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaCondIsConstant",
+      "parserNode": null,
+      "semanticNode": "semantic.expression.CEntityCondIsConstant",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.expressions.CJavaCondIsConstant",
+      "sourcePath": "naca-trans/src/main/java/generate/java/expressions/CJavaCondIsConstant.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/expressions/CJavaCondIsConstant.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-EXPRESSION-CJAVACONDISKINDOF",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 507,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaCondIsKindOf",
+      "parserNode": null,
+      "semanticNode": "semantic.expression.CEntityCondIsKindOf",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.expressions.CJavaCondIsKindOf",
+      "sourcePath": "naca-trans/src/main/java/generate/java/expressions/CJavaCondIsKindOf.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/expressions/CJavaCondIsKindOf.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-EXPRESSION-CJAVACONDNOT",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 508,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaCondNot",
+      "parserNode": null,
+      "semanticNode": "semantic.expression.CEntityCondNot",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.expressions.CJavaCondNot",
+      "sourcePath": "naca-trans/src/main/java/generate/java/expressions/CJavaCondNot.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/expressions/CJavaCondNot.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-EXPRESSION-CJAVACONDOR",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 509,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaCondOr",
+      "parserNode": null,
+      "semanticNode": "semantic.expression.CEntityCondOr",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.expressions.CJavaCondOr",
+      "sourcePath": "naca-trans/src/main/java/generate/java/expressions/CJavaCondOr.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/expressions/CJavaCondOr.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-EXPRESSION-CJAVACONSTANT",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 510,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaConstant",
+      "parserNode": null,
+      "semanticNode": "semantic.expression.CEntityConstant",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.expressions.CJavaConstant",
+      "sourcePath": "naca-trans/src/main/java/generate/java/expressions/CJavaConstant.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/expressions/CJavaConstant.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-EXPRESSION-CJAVACONSTANTVALUE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 511,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaConstantValue",
+      "parserNode": null,
+      "semanticNode": "semantic.CDataEntity",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.expressions.CJavaConstantValue",
+      "sourcePath": "naca-trans/src/main/java/generate/java/expressions/CJavaConstantValue.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/expressions/CJavaConstantValue.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-EXPRESSION-CJAVACURRENTDATE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 512,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaCurrentDate",
+      "parserNode": null,
+      "semanticNode": "semantic.expression.CEntityCurrentDate",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.expressions.CJavaCurrentDate",
+      "sourcePath": "naca-trans/src/main/java/generate/java/expressions/CJavaCurrentDate.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/expressions/CJavaCurrentDate.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-EXPRESSION-CJAVADIGITS",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 513,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaDigits",
+      "parserNode": null,
+      "semanticNode": "semantic.expression.CEntityDigits",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.expressions.CJavaDigits",
+      "sourcePath": "naca-trans/src/main/java/generate/java/expressions/CJavaDigits.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/expressions/CJavaDigits.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-EXPRESSION-CJAVAENTITYNUMBER",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 514,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaEntityNumber",
+      "parserNode": null,
+      "semanticNode": "semantic.expression.CEntityNumber",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.expressions.CJavaEntityNumber",
+      "sourcePath": "naca-trans/src/main/java/generate/java/expressions/CJavaEntityNumber.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/expressions/CJavaEntityNumber.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-EXPRESSION-CJAVAEXPROPPOSITE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 515,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaExprOpposite",
+      "parserNode": null,
+      "semanticNode": "semantic.expression.CEntityExprOpposite",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.expressions.CJavaExprOpposite",
+      "sourcePath": "naca-trans/src/main/java/generate/java/expressions/CJavaExprOpposite.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/expressions/CJavaExprOpposite.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-EXPRESSION-CJAVAEXPRPROD",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 516,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaExprProd",
+      "parserNode": null,
+      "semanticNode": "semantic.expression.CEntityExprProd",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.expressions.CJavaExprProd",
+      "sourcePath": "naca-trans/src/main/java/generate/java/expressions/CJavaExprProd.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/expressions/CJavaExprProd.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-EXPRESSION-CJAVAEXPRSUM",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 517,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaExprSum",
+      "parserNode": null,
+      "semanticNode": "semantic.expression.CEntityExprSum",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.expressions.CJavaExprSum",
+      "sourcePath": "naca-trans/src/main/java/generate/java/expressions/CJavaExprSum.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/expressions/CJavaExprSum.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-EXPRESSION-CJAVAEXPRTERMINAL",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 518,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaExprTerminal",
+      "parserNode": null,
+      "semanticNode": "semantic.expression.CEntityExprTerminal",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.expressions.CJavaExprTerminal",
+      "sourcePath": "naca-trans/src/main/java/generate/java/expressions/CJavaExprTerminal.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/expressions/CJavaExprTerminal.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-EXPRESSION-CJAVAINTERNALBOOL",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 519,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaInternalBool",
+      "parserNode": null,
+      "semanticNode": "semantic.expression.CEntityInternalBool",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.expressions.CJavaInternalBool",
+      "sourcePath": "naca-trans/src/main/java/generate/java/expressions/CJavaInternalBool.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/expressions/CJavaInternalBool.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-EXPRESSION-CJAVAINTRINSICFUNCTION",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 520,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaIntrinsicFunction",
+      "parserNode": null,
+      "semanticNode": "semantic.expression.CEntityIntrinsicFunction",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.expressions.CJavaIntrinsicFunction",
+      "sourcePath": "naca-trans/src/main/java/generate/java/expressions/CJavaIntrinsicFunction.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/expressions/CJavaIntrinsicFunction.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-EXPRESSION-CJAVAISNAMEDCONDITION",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 521,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaIsNamedCondition",
+      "parserNode": null,
+      "semanticNode": "semantic.expression.CEntityIsNamedCondition",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.expressions.CJavaIsNamedCondition",
+      "sourcePath": "naca-trans/src/main/java/generate/java/expressions/CJavaIsNamedCondition.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/expressions/CJavaIsNamedCondition.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-EXPRESSION-CJAVALENGTHOF",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 522,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaLengthOf",
+      "parserNode": null,
+      "semanticNode": "semantic.expression.CEntityLengthOf",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.expressions.CJavaLengthOf",
+      "sourcePath": "naca-trans/src/main/java/generate/java/expressions/CJavaLengthOf.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/expressions/CJavaLengthOf.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-EXPRESSION-CJAVALIST",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 523,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaList",
+      "parserNode": null,
+      "semanticNode": "semantic.expression.CEntityList",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.expressions.CJavaList",
+      "sourcePath": "naca-trans/src/main/java/generate/java/expressions/CJavaList.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/expressions/CJavaList.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-EXPRESSION-CJAVASTRING",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 524,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaString",
+      "parserNode": null,
+      "semanticNode": "semantic.expression.CEntityString",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.expressions.CJavaString",
+      "sourcePath": "naca-trans/src/main/java/generate/java/expressions/CJavaString.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/expressions/CJavaString.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-DATA-CJAVAADDRESSREFERENCE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 600,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaAddressReference",
+      "parserNode": null,
+      "semanticNode": "semantic.CEntityAddressReference",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.CJavaAddressReference",
+      "sourcePath": "naca-trans/src/main/java/generate/java/CJavaAddressReference.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/CJavaAddressReference.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-DATA-CJAVAARRAYREFERENCE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 601,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaArrayReference",
+      "parserNode": null,
+      "semanticNode": "semantic.CEntityArrayReference",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.CJavaArrayReference",
+      "sourcePath": "naca-trans/src/main/java/generate/java/CJavaArrayReference.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/CJavaArrayReference.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-DATA-CJAVAATTRIBUTE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 602,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaAttribute",
+      "parserNode": null,
+      "semanticNode": "semantic.CEntityAttribute",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.CJavaAttribute",
+      "sourcePath": "naca-trans/src/main/java/generate/java/CJavaAttribute.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/CJavaAttribute.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-DATA-CJAVACLASS",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 603,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaClass",
+      "parserNode": null,
+      "semanticNode": "semantic.CEntityClass",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.CJavaClass",
+      "sourcePath": "naca-trans/src/main/java/generate/java/CJavaClass.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/CJavaClass.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-DATA-CJAVACOMMENT",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 604,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaComment",
+      "parserNode": null,
+      "semanticNode": "semantic.CEntityComment",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.CJavaComment",
+      "sourcePath": "naca-trans/src/main/java/generate/java/CJavaComment.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/CJavaComment.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-DATA-CJAVADATASECTION",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 605,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaDataSection",
+      "parserNode": null,
+      "semanticNode": "semantic.CEntityDataSection",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.CJavaDataSection",
+      "sourcePath": "naca-trans/src/main/java/generate/java/CJavaDataSection.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/CJavaDataSection.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-DATA-CJAVAENVIRONMENTVARIABLE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 606,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaEnvironmentVariable",
+      "parserNode": null,
+      "semanticNode": "semantic.CEntityEnvironmentVariable",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.CJavaEnvironmentVariable",
+      "sourcePath": "naca-trans/src/main/java/generate/java/CJavaEnvironmentVariable.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/CJavaEnvironmentVariable.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-DATA-CJAVAEXTERNALDATASTRUCTURE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 607,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaExternalDataStructure",
+      "parserNode": null,
+      "semanticNode": "semantic.CEntityExternalDataStructure",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.CJavaExternalDataStructure",
+      "sourcePath": "naca-trans/src/main/java/generate/java/CJavaExternalDataStructure.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/CJavaExternalDataStructure.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-DATA-CJAVAFILEDESCRIPTOR",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 608,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaFileDescriptor",
+      "parserNode": null,
+      "semanticNode": "semantic.CEntityFileDescriptor",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.CJavaFileDescriptor",
+      "sourcePath": "naca-trans/src/main/java/generate/java/CJavaFileDescriptor.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/CJavaFileDescriptor.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-DATA-CJAVAFILEDESCRIPTORLENGTHDEPENDENCY",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 609,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaFileDescriptorLengthDependency",
+      "parserNode": null,
+      "semanticNode": "semantic.CEntityFileDescriptorLengthDependency",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.CJavaFileDescriptorLengthDependency",
+      "sourcePath": "naca-trans/src/main/java/generate/java/CJavaFileDescriptorLengthDependency.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/CJavaFileDescriptorLengthDependency.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-DATA-CJAVAINDEX",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 610,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaIndex",
+      "parserNode": null,
+      "semanticNode": "semantic.CEntityIndex",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.CJavaIndex",
+      "sourcePath": "naca-trans/src/main/java/generate/java/CJavaIndex.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/CJavaIndex.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-DATA-CJAVAINLINE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 611,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaInline",
+      "parserNode": null,
+      "semanticNode": "semantic.CEntityInline",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.CJavaInline",
+      "sourcePath": "naca-trans/src/main/java/generate/java/CJavaInline.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/CJavaInline.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-DATA-CJAVAMOVEREFERENCE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 612,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaMoveReference",
+      "parserNode": null,
+      "semanticNode": "semantic.CEntityMoveReference",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.CJavaMoveReference",
+      "sourcePath": "naca-trans/src/main/java/generate/java/CJavaMoveReference.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/CJavaMoveReference.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-DATA-CJAVANAMEDCONDITION",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 613,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaNamedCondition",
+      "parserNode": null,
+      "semanticNode": "semantic.CEntityNamedCondition",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.CJavaNamedCondition",
+      "sourcePath": "naca-trans/src/main/java/generate/java/CJavaNamedCondition.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/CJavaNamedCondition.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-DATA-CJAVAPROCEDURE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 614,
+      "dependencies": [
+        "BACKEND-COBOL-ST-CJAVAPROCEDUREST"
+      ],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaProcedure",
+      "parserNode": null,
+      "semanticNode": "semantic.CEntityProcedure",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.CJavaProcedure",
+      "sourcePath": "naca-trans/src/main/java/generate/java/CJavaProcedure.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/CJavaProcedure.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-DATA-CJAVAPROCEDUREDIVISION",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 615,
+      "dependencies": [
+        "BACKEND-COBOL-ST-CJAVAPROCEDUREDIVISIONST"
+      ],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaProcedureDivision",
+      "parserNode": null,
+      "semanticNode": "semantic.CEntityProcedureDivision",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.CJavaProcedureDivision",
+      "sourcePath": "naca-trans/src/main/java/generate/java/CJavaProcedureDivision.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/CJavaProcedureDivision.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-DATA-CJAVAPROCEDURESECTION",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 616,
+      "dependencies": [
+        "BACKEND-COBOL-ST-CJAVAPROCEDURESECTIONST"
+      ],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaProcedureSection",
+      "parserNode": null,
+      "semanticNode": "semantic.CEntityProcedureSection",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.CJavaProcedureSection",
+      "sourcePath": "naca-trans/src/main/java/generate/java/CJavaProcedureSection.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/CJavaProcedureSection.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-DATA-CJAVASORTEDFILEDESCRIPTOR",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 617,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaSortedFileDescriptor",
+      "parserNode": null,
+      "semanticNode": "semantic.CEntitySortedFileDescriptor",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.CJavaSortedFileDescriptor",
+      "sourcePath": "naca-trans/src/main/java/generate/java/CJavaSortedFileDescriptor.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/CJavaSortedFileDescriptor.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-DATA-CJAVASTRUCTURE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 618,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaStructure",
+      "parserNode": null,
+      "semanticNode": "semantic.CEntityStructure",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.CJavaStructure",
+      "sourcePath": "naca-trans/src/main/java/generate/java/CJavaStructure.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/CJavaStructure.java"
+      ]
+    },
+    {
+      "id": "BACKEND-COBOL-DATA-CJAVAUNKNOWNREFERENCE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 619,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "legacy backend CJavaUnknownReference",
+      "parserNode": null,
+      "semanticNode": "semantic.CEntityUnknownReference",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.CJavaUnknownReference",
+      "sourcePath": "naca-trans/src/main/java/generate/java/CJavaUnknownReference.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/CJavaUnknownReference.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVAFIELD",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9000,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaField",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntityResourceField",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaField",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaField.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/forms/CJavaField.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVAFIELDARRAY",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9001,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaFieldArray",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntityResourceFieldArray",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaFieldArray",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaFieldArray.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/forms/CJavaFieldArray.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVAFIELDARRAYREFERENCE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9002,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaFieldArrayReference",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntityFieldArrayReference",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaFieldArrayReference",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaFieldArrayReference.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/forms/CJavaFieldArrayReference.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVAFIELDATTRIBUTE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9003,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaFieldAttribute",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntityFieldAttribute",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaFieldAttribute",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaFieldAttribute.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/forms/CJavaFieldAttribute.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVAFIELDCOLOR",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9004,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaFieldColor",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntityFieldColor",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaFieldColor",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaFieldColor.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/forms/CJavaFieldColor.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVAFIELDDATA",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9005,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaFieldData",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntityFieldData",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaFieldData",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaFieldData.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/forms/CJavaFieldData.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVAFIELDFLAG",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9006,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaFieldFlag",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntityFieldFlag",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaFieldFlag",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaFieldFlag.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/forms/CJavaFieldFlag.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVAFIELDHIGHLIGH",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9007,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaFieldHighligh",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntityFieldHighlight",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaFieldHighligh",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaFieldHighligh.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/forms/CJavaFieldHighligh.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVAFIELDLENGTH",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9008,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaFieldLength",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntityFieldLength",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaFieldLength",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaFieldLength.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/forms/CJavaFieldLength.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVAFIELDOCCURS",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9009,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaFieldOccurs",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntityFieldOccurs",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaFieldOccurs",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaFieldOccurs.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/forms/CJavaFieldOccurs.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVAFIELDREDEFINE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9010,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaFieldRedefine",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntityFieldRedefine",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaFieldRedefine",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaFieldRedefine.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/forms/CJavaFieldRedefine.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVAFIELDVALIDATED",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9011,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaFieldValidated",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntityFieldValidated",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaFieldValidated",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaFieldValidated.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/forms/CJavaFieldValidated.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVAFORM",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9012,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaForm",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntityResourceForm",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaForm",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaForm.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/forms/CJavaForm.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVAFORMACCESSOR",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9013,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaFormAccessor",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntityFormAccessor",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaFormAccessor",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaFormAccessor.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/forms/CJavaFormAccessor.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVAFORMCONTAINER",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9014,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaFormContainer",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntityResourceFormContainer",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaFormContainer",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaFormContainer.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/forms/CJavaFormContainer.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVAFORMREDEFINE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9015,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaFormRedefine",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntityFormRedefine",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaFormRedefine",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaFormRedefine.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/forms/CJavaFormRedefine.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVAGETKEYPRESSED",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9016,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaGetKeyPressed",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntityGetKeyPressed",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaGetKeyPressed",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaGetKeyPressed.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/forms/CJavaGetKeyPressed.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVAISFIELDATTRIBUTE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9017,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaIsFieldAttribute",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntityIsFieldAttribute",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaIsFieldAttribute",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaIsFieldAttribute.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/forms/CJavaIsFieldAttribute.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVAISFIELDCOLOR",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9018,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaIsFieldColor",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntityIsFieldColor",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaIsFieldColor",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaIsFieldColor.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/forms/CJavaIsFieldColor.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVAISFIELDCURSOR",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9019,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaIsFieldCursor",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntityIsFieldCursor",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaIsFieldCursor",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaIsFieldCursor.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/forms/CJavaIsFieldCursor.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVAISFIELDFLAG",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9020,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaIsFieldFlag",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntityIsFieldFlag",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaIsFieldFlag",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaIsFieldFlag.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/forms/CJavaIsFieldFlag.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVAISFIELDHIGHLIGHT",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9021,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaIsFieldHighlight",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntityIsFieldHighlight",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaIsFieldHighlight",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaIsFieldHighlight.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/forms/CJavaIsFieldHighlight.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVAISFIELDMODIFIED",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9022,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaIsFieldModified",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntityIsFieldModified",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaIsFieldModified",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaIsFieldModified.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/forms/CJavaIsFieldModified.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVAISKEYPRESSED",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9023,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaIsKeyPressed",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntityIsKeyPressed",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaIsKeyPressed",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaIsKeyPressed.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/forms/CJavaIsKeyPressed.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVAKEYPRESSED",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9024,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaKeyPressed",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntityKeyPressed",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaKeyPressed",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaKeyPressed.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/forms/CJavaKeyPressed.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVALABELFIELD",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9025,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaLabelField",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntityResourceField",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaLabelField",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaLabelField.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/forms/CJavaLabelField.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVARESETKEYPRESSED",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9026,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaResetKeyPressed",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntityResetKeyPressed",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaResetKeyPressed",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaResetKeyPressed.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/forms/CJavaResetKeyPressed.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVASETATTRIBUTE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9027,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaSetAttribute",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntitySetAttribute",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaSetAttribute",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaSetAttribute.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/forms/CJavaSetAttribute.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVASETCOLOR",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9028,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaSetColor",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntitySetColor",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaSetColor",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaSetColor.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/forms/CJavaSetColor.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVASETCURSOR",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9029,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaSetCursor",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntitySetCursor",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaSetCursor",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaSetCursor.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/forms/CJavaSetCursor.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVASETFLAG",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9030,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaSetFlag",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntitySetFlag",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaSetFlag",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaSetFlag.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/forms/CJavaSetFlag.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVASETHIGHLIGHT",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9031,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaSetHighlight",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntitySetHighligh",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaSetHighlight",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaSetHighlight.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/forms/CJavaSetHighlight.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVASKIPFIELD",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9032,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "directBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaSkipField",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntitySkipFields",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaSkipField",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaSkipField.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/forms/CJavaSkipField.java"
+      ]
     }
   ]
 }
