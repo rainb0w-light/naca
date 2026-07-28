@@ -65,6 +65,7 @@ import semantic.SQL.CEntitySQLCode;
 import semantic.SQL.CEntitySQLCloseStatement;
 import semantic.SQL.CEntitySQLCommit;
 import semantic.SQL.CEntitySQLCursor;
+import semantic.SQL.CEntitySQLCursorSelectStatement;
 import semantic.SQL.CEntitySqlOnErrorGoto;
 import utils.CObjectCatalog;
 import generate.CBaseLanguageExporter;
@@ -256,6 +257,21 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntitySQLCall NewEntitySQLCall(int line) {
         CEntitySQLCall e = new CEntitySQLCall(line, programCatalog);
+        e.setLanguageExporter(langOutput);
+        return e;
+    }
+
+    // Embedded SQL cursor SELECT (the SELECT bound to a DECLARE CURSOR, rendered
+    // in place of the OPEN <cursor> statement): the ST4 factory builds the pure
+    // semantic entity, which the recursive assembler renders via the
+    // recursiveSQLCursorSelectStatementEntity binding (no CJava* controller). The
+    // cursor handle and each host-variable parameter remain semantic children and
+    // are recursively rendered through their reference bindings; the
+    // SQLWARNING/SQLERROR clause is a read-only catalog lookup the template chains
+    // onto cursorOpen(...). Mirrors the SQL CALL exemplar above.
+    @Override
+    public CEntitySQLCursorSelectStatement NewEntitySQLCursorSelectStatement(int line) {
+        CEntitySQLCursorSelectStatement e = new CEntitySQLCursorSelectStatement(line, programCatalog);
         e.setLanguageExporter(langOutput);
         return e;
     }

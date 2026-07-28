@@ -53,7 +53,6 @@ import generate.java.CICS.CJavaCICSStart;
 import generate.java.CICS.CJavaCICSStartBrowse;
 import generate.java.CICS.CJavaCICSWrite;
 import generate.java.CICS.CJavaCICSWriteQ;
-import generate.java.SQL.CJavaSQLCursorSelectStatement;
 import generate.java.SQL.CJavaSQLDeclareTable;
 import generate.java.SQL.CJavaSQLDeleteStatement;
 import generate.java.SQL.CJavaSQLExecute;
@@ -404,7 +403,15 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CJavaSQLSelectStatement(nLine, programCatalog, langOutput, csStatement, arrParameters, arrInto, arrInd);
 	}
 	public CEntitySQLCursorSelectStatement NewEntitySQLCursorSelectStatement(int nLine)	{
-		return new CJavaSQLCursorSelectStatement(nLine, programCatalog, langOutput);
+		// Direct backend CJavaSQLCursorSelectStatement retired: the pure semantic
+		// entity is rendered by the recursive ST4 assembler (the
+		// recursiveSQLCursorSelectStatementEntity binding) in place of the OPEN
+		// <cursor> statement. The cursor and each host-variable parameter remain
+		// semantic children rendered through their reference bindings; no generated
+		// string is materialized in the factory.
+		CEntitySQLCursorSelectStatement e = new CEntitySQLCursorSelectStatement(nLine, programCatalog);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntitySQLFetchStatement NewEntitySQLFetchStatement(int nLine, CEntitySQLCursor cur)	{
 		return new CJavaSQLFetchStatement(nLine, programCatalog, langOutput, cur);

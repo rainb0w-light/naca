@@ -26,7 +26,7 @@
       "finalArchitectureCheck": {
         "tests": 390,
         "failures": 212,
-        "directBackends": 154,
+        "directBackends": 153,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -703,7 +703,7 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 3,
       "blocked": false,
       "scope": "EMBEDDED_SQL",
       "sourceSyntax": "legacy backend CJavaSQLCursorSelectStatement",
@@ -717,11 +717,12 @@
       "directBackend": "generate.java.SQL.CJavaSQLCursorSelectStatement",
       "sourcePath": "naca-trans/src/main/java/generate/java/SQL/CJavaSQLCursorSelectStatement.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
         "naca-trans/src/main/java/generate/java/SQL/CJavaSQLCursorSelectStatement.java"
-      ]
+      ],
+      "lastAttemptCommit": "63bfdc275d38052b2a5e5071bf6e0c0aa2aa7271"
     },
     {
       "id": "BACKEND-SQL-CJAVASQLDECLARETABLE",

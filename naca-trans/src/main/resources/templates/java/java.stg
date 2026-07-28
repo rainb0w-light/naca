@@ -1014,6 +1014,23 @@ recursiveSQLCallEntity(entity) ::= <<
 sqlCall(<entity.programReference>)<entity.parameters:{p | .param(<i>, <p>)}><if(entity.sqlWarningErrorStatement)><entity.sqlWarningErrorStatement><endif> ;
 >>
 
+// Embedded SQL cursor SELECT (the SELECT bound to a DECLARE CURSOR, rendered in
+// place of the OPEN <cursor> statement). Emits the cursorOpen(<cursor>, "<select>")
+// runtime call: the cursor stays a semantic child rendered through its reference
+// binding and the trimmed SELECT text is wrapped as a Java string literal (exactly
+// what the retired backend's WriteLongString(csStatement.trim()) emitted). A
+// WITH HOLD cursor chains .setHoldability(true); each host-variable parameter
+// chains a 1-based .param(N, <hostRef>) (ST4's 1-based iteration index <i> mirrors
+// the retired backend's (i+1) numbering); and when a WHENEVER SQLWARNING/SQLERROR
+// policy is in effect (a read-only catalog lookup registered by the WHENEVER
+// Stage-1 side effect) its clause chains before the " ;" terminator. Mirrors
+// CJavaSQLCursorSelectStatement.DoExport exactly: bare open ->
+// 'cursorOpen(<ref>, "<select>") ;', WITH HOLD -> '...setHoldability(true)...',
+// with params -> '...param(1, <a>).param(2, <b>)...'. Reads only entity.* properties.
+recursiveSQLCursorSelectStatementEntity(entity) ::= <<
+cursorOpen(<entity.cursor>, "<entity.statement>")<if(entity.withHold)>.setHoldability(true)<endif><entity.parameters:{p | .param(<i>, <p>)}><if(entity.sqlWarningErrorStatement)><entity.sqlWarningErrorStatement><endif> ;
+>>
+
 // Embedded SQL COMMIT (EXEC SQL COMMIT END-EXEC). Emits the sqlCommit() runtime
 // call and, when a WHENEVER SQLWARNING/SQLERROR policy is in effect (a read-only
 // catalog lookup registered by the WHENEVER Stage-1 side effect), chains its

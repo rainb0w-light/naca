@@ -271,3 +271,20 @@ features:
     runtimeOperations: []
     fixtures: []
     status: production
+
+  - id: sql.cursorSelect
+    dialects: [embedded-sql]
+    semanticType: semantic.SQL.CEntitySQLCursorSelectStatement
+    javaBackend:
+      role: REFERENCE
+      template: recursiveSQLCursorSelectStatementEntity
+    # cursorOpen(...)/.setHoldability(...)/.param(...) are BaseProgram helpers
+    # (same treatment as cursorClose(...) under sql.close and sqlCall(...) under
+    # sql.call), not Codegen-Runtime Contract operations; the cursor handle and
+    # each host-variable parameter stay semantic children rendered through their
+    # reference bindings, and the optional .onErrorGoto(...)/.onErrorContinue()
+    # clause is the WHENEVER policy registered by sql.whenever's Stage-1 side
+    # effect. No runtime operation.
+    runtimeOperations: []
+    fixtures: []
+    status: production
