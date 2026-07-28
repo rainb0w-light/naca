@@ -1014,6 +1014,16 @@ recursiveSQLCallEntity(entity) ::= <<
 sqlCall(<entity.programReference>)<entity.parameters:{p | .param(<i>, <p>)}><if(entity.sqlWarningErrorStatement)><entity.sqlWarningErrorStatement><endif> ;
 >>
 
+// Embedded SQL COMMIT (EXEC SQL COMMIT END-EXEC). Emits the sqlCommit() runtime
+// call and, when a WHENEVER SQLWARNING/SQLERROR policy is in effect (a read-only
+// catalog lookup registered by the WHENEVER Stage-1 side effect), chains its
+// clause (.onErrorGoto(...)/.onErrorContinue()/...) before the " ;" terminator.
+// Mirrors CJavaSQLCommit.DoExport exactly: bare COMMIT -> 'sqlCommit() ;', with a
+// policy -> 'sqlCommit().onErrorGoto(LABEL) ;'. Reads only entity.* properties.
+recursiveSQLCommitEntity(entity) ::= <<
+sqlCommit()<if(entity.sqlWarningErrorStatement)><entity.sqlWarningErrorStatement><endif> ;
+>>
+
 // A COPY copybook declared as an instance in the program class (the non-inline
 // form): <Type> <ref> = <Type>.Copy(this[, replacing(level, value)]) ;
 dataInlineDeclaration(entity) ::= <<

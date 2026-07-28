@@ -256,3 +256,18 @@ features:
     runtimeOperations: []
     fixtures: []
     status: production
+
+  - id: sql.commit
+    dialects: [embedded-sql]
+    semanticType: semantic.SQL.CEntitySQLCommit
+    javaBackend:
+      role: REFERENCE
+      template: recursiveSQLCommitEntity
+    # sqlCommit() is a BaseProgram helper (same treatment as cursorClose(...)
+    # under sql.close and sqlCall(...) under sql.call), not a Codegen-Runtime
+    # Contract operation; the optional .onErrorGoto(...)/.onErrorContinue()
+    # clause is the WHENEVER policy registered by sql.whenever's Stage-1 side
+    # effect. No runtime operation.
+    runtimeOperations: []
+    fixtures: []
+    status: production

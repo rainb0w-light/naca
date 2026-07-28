@@ -63,6 +63,7 @@ import semantic.SQL.CEntityCondIsSQLCode;
 import semantic.SQL.CEntitySQLCall;
 import semantic.SQL.CEntitySQLCode;
 import semantic.SQL.CEntitySQLCloseStatement;
+import semantic.SQL.CEntitySQLCommit;
 import semantic.SQL.CEntitySQLCursor;
 import semantic.SQL.CEntitySqlOnErrorGoto;
 import utils.CObjectCatalog;
@@ -289,6 +290,19 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntitySQLCode NewEntitySQLCode(String name, CBaseEntityExpression eHistoryItem) {
         CEntitySQLCode e = new CEntitySQLCode(name, programCatalog, eHistoryItem);
+        e.setLanguageExporter(langOutput);
+        return e;
+    }
+
+    // Embedded SQL COMMIT (EXEC SQL COMMIT END-EXEC): the ST4 factory builds the
+    // pure semantic entity, which the recursive assembler renders via the
+    // recursiveSQLCommitEntity binding (no CJava* controller). The optional
+    // WHENEVER SQLWARNING/SQLERROR clause is a read-only catalog lookup the
+    // template chains onto sqlCommit(...). Mirrors the SQL CLOSE / SQL CALL
+    // exemplars above.
+    @Override
+    public CEntitySQLCommit NewEntitySQLCommit(int l) {
+        CEntitySQLCommit e = new CEntitySQLCommit(l, programCatalog);
         e.setLanguageExporter(langOutput);
         return e;
     }

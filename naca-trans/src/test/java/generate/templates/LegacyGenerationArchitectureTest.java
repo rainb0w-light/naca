@@ -19,7 +19,7 @@ class LegacyGenerationArchitectureTest
 {
     private static final int BASE_FACTORY_ENTRY_BASELINE = 183;
     private static final int ST_FACTORY_ENTRY_BASELINE = 41;
-    private static final int DIRECT_GENERATOR_FILE_BASELINE = 200;
+    private static final int DIRECT_GENERATOR_FILE_BASELINE = 199;
     private static final int SEMANTIC_EXPORTER_IMPORT_BASELINE = 0;
     private static final int ST_CONTROLLER_RENDER_FILE_BASELINE = 0;
     private static final int TEMPLATE_CODE_STRING_BASELINE = 51;
@@ -27,7 +27,7 @@ class LegacyGenerationArchitectureTest
     private static final int TEMPLATE_REFERENCE_STRING_BASELINE = 39;
     private static final int SEMANTIC_FINAL_CONTRACT_DEBT_BASELINE = 171;
     private static final int TYPED_JAVA_RENDERER_BASELINE = 3;
-    private static final int DIRECT_SEMANTIC_SUBCLASS_BASELINE = 208;
+    private static final int DIRECT_SEMANTIC_SUBCLASS_BASELINE = 207;
 
     private static final Pattern FACTORY_METHOD = Pattern.compile("NewEntity[A-Za-z0-9_]+");
     private static final Pattern SEMANTIC_FINAL_CONTRACT_DEBT = Pattern.compile(

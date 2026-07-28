@@ -16,12 +16,17 @@ import semantic.CBaseActionEntity;
 import utils.CObjectCatalog;
 
 /**
- * @author sly
+ * Semantic node for {@code EXEC SQL COMMIT END-EXEC}.
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
+ * <p>Target-neutral: exposes a read-only getter for the recursive ST4 assembler
+ * (template {@code recursiveSQLCommitEntity}). The SQLWARNING/SQLERROR clause is
+ * read from the catalog (registered there by the WHENEVER statement's Stage-1
+ * side effect) so the template can chain {@code .onErrorGoto(...)}/
+ * {@code .onErrorContinue()} onto the {@code sqlCommit()} runtime call.
+ *
+ * @author sly
  */
-public abstract class CEntitySQLCommit extends CBaseActionEntity
+public class CEntitySQLCommit extends CBaseActionEntity
 {
 
 	/**
@@ -35,5 +40,21 @@ public abstract class CEntitySQLCommit extends CBaseActionEntity
 	public boolean ignore()
 	{
 		return false ;
+	}
+
+	// ==================== ST4 Template Accessors ====================
+	// Read-only getters for the recursive ST4 assembler (template
+	// recursiveSQLCommitEntity). No formatting/output happens here: formatting
+	// the sqlCommit() runtime call and chaining the optional WHENEVER clause is
+	// done by the template, never here.
+
+	/**
+	 * The SQLWARNING/SQLERROR clause to chain onto {@code sqlCommit()} (e.g.
+	 * {@code .onErrorGoto(LABEL)}), or {@code null} when no WHENEVER policy is in
+	 * effect. Read from the catalog where the WHENEVER statement registered it.
+	 */
+	public String getSqlWarningErrorStatement()
+	{
+		return programCatalog == null ? null : programCatalog.getSQLWarningErrorStatement() ;
 	}
 }
