@@ -76,6 +76,7 @@ import semantic.SQL.CEntitySQLInsertStatement;
 import semantic.SQL.CEntitySQLLock;
 import semantic.SQL.CEntitySQLOpenStatement;
 import semantic.SQL.CEntitySQLRollBack;
+import semantic.SQL.CEntitySQLSelectStatement;
 import semantic.SQL.CEntitySqlOnErrorGoto;
 import utils.CObjectCatalog;
 import generate.CBaseLanguageExporter;
@@ -338,6 +339,22 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntitySQLDeleteStatement NewEntitySQLDeleteStatement(int nLine, String csStatement, Vector<CDataEntity> arrParameters) {
         CEntitySQLDeleteStatement e = new CEntitySQLDeleteStatement(nLine, programCatalog, csStatement, arrParameters);
+        e.setLanguageExporter(langOutput);
+        return e;
+    }
+
+    // Embedded SQL SELECT ... INTO :host [, :ind] ... (EXEC SQL SELECT ... END-EXEC),
+    // the standalone non-cursor form: the ST4 factory builds the pure semantic
+    // entity, which the recursive assembler renders via the
+    // recursiveSQLSelectStatementEntity binding (no CJava* controller). The prepared
+    // SELECT text is assembled in Stage 1; every host-variable parameter, every INTO
+    // target and every optional INDICATOR remain semantic children recursively
+    // rendered through their reference bindings, and the SQLWARNING/SQLERROR clause
+    // is a read-only catalog lookup the template chains onto the sql(...) runtime
+    // call. Mirrors the SQL DELETE / SQL FETCH exemplars above.
+    @Override
+    public CEntitySQLSelectStatement NewEntitySQLSelectStatement(int nLine, String csStatement, Vector<CDataEntity> arrParameters, Vector<CDataEntity> arrInto, Vector<CDataEntity> arrInd) {
+        CEntitySQLSelectStatement e = new CEntitySQLSelectStatement(nLine, programCatalog, csStatement, arrParameters, arrInto, arrInd);
         e.setLanguageExporter(langOutput);
         return e;
     }

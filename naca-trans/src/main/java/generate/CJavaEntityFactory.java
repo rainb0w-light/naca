@@ -53,7 +53,6 @@ import generate.java.CICS.CJavaCICSStart;
 import generate.java.CICS.CJavaCICSStartBrowse;
 import generate.java.CICS.CJavaCICSWrite;
 import generate.java.CICS.CJavaCICSWriteQ;
-import generate.java.SQL.CJavaSQLSelectStatement;
 import generate.java.SQL.CJavaSQLSessionDeclare;
 import generate.java.SQL.CJavaSQLSessionDrop;
 import generate.java.SQL.CJavaSQLSingleStatement;
@@ -392,7 +391,16 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 	}
 	
 	public CEntitySQLSelectStatement NewEntitySQLSelectStatement(int nLine, String csStatement, Vector<CDataEntity> arrParameters, Vector<CDataEntity> arrInto, Vector<CDataEntity> arrInd)	{
-		return new CJavaSQLSelectStatement(nLine, programCatalog, langOutput, csStatement, arrParameters, arrInto, arrInd);
+		// Direct backend CJavaSQLSelectStatement retired: the pure semantic entity is
+		// rendered by the recursive ST4 assembler (the recursiveSQLSelectStatementEntity
+		// binding). Every host-variable parameter, INTO target and optional INDICATOR
+		// remain semantic children rendered through their reference bindings; the
+		// SQLWARNING/SQLERROR clause is a read-only catalog lookup the template chains
+		// onto the sql(...) runtime call. No generated string is materialized in the
+		// factory.
+		CEntitySQLSelectStatement e = new CEntitySQLSelectStatement(nLine, programCatalog, csStatement, arrParameters, arrInto, arrInd);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntitySQLCursorSelectStatement NewEntitySQLCursorSelectStatement(int nLine)	{
 		// Direct backend CJavaSQLCursorSelectStatement retired: the pure semantic

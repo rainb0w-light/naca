@@ -1161,6 +1161,30 @@ recursiveSQLInsertStatementEntity(entity) ::= <<
 sql("<entity.statement>")<entity.valueParams:{p | .value(<p.index>, <p.ref>)}><entity.selectParams:{p | .value(<p.index>, <p.ref>)}><if(entity.sqlWarningErrorStatement)><entity.sqlWarningErrorStatement><endif> ;
 >>
 
+// Embedded SQL SELECT ... INTO :host [, :ind] ... (EXEC SQL SELECT ... END-EXEC),
+// the standalone non-cursor form (a SELECT bound to a DECLARE CURSOR is rendered by
+// recursiveSQLCursorSelectStatementEntity). Emits the sql("<statement>") runtime
+// call where <statement> is the prepared SELECT text assembled in Stage 1 and read
+// via <entity.statement> (wrapped as a Java string literal, exactly what the retired
+// backend's WriteLongString(csStatement.trim()) emitted). Each INTO target chains a
+// .into(<host>[, <ind>]) paired by position with its optional INDICATOR variable
+// (both semantic children rendered through their reference bindings; a null
+// indicator is dropped, exactly as the retired backend's if (i < ind.size()) /
+// if (e != null) guards did), and each non-null host-variable parameter chains a
+// .param(<p.index>, <p.ref>) keeping its original 1-based position (null parameters
+// dropped, matching the retired backend's if (cs != null) guard and (i+1) numbering).
+// When a WHENEVER SQLWARNING/SQLERROR policy is in effect (a read-only catalog
+// lookup registered by the WHENEVER Stage-1 side effect) its clause chains before
+// the " ;" terminator. The retired backend split the .into(...) / .param(...) chain
+// across lines via WriteWord/WriteEOL; the template emits the equivalent single-line
+// Java builder chain (exactly as the SQL FETCH / SQL INSERT migrations did). Mirrors
+// CJavaSQLSelectStatement.DoExport: SELECT -> 'sql("<statement>").into(<a>)
+// .into(<b>, <ind>).param(1, <p>) ;', with a policy -> '...onErrorGoto(LABEL) ;'.
+// Reads only entity.* properties.
+recursiveSQLSelectStatementEntity(entity) ::= <<
+sql("<entity.statement>")<entity.intoBindings:{b | .into(<b.into><if(b.indicator)>, <b.indicator><endif>)}><entity.paramBindings:{p | .param(<p.index>, <p.ref>)}><if(entity.sqlWarningErrorStatement)><entity.sqlWarningErrorStatement><endif> ;
+>>
+
 // A COPY copybook declared as an instance in the program class (the non-inline
 // form): <Type> <ref> = <Type>.Copy(this[, replacing(level, value)]) ;
 dataInlineDeclaration(entity) ::= <<

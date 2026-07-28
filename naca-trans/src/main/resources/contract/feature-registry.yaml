@@ -422,3 +422,23 @@ features:
     runtimeOperations: []
     fixtures: []
     status: production
+
+  - id: sql.select
+    dialects: [embedded-sql]
+    semanticType: semantic.SQL.CEntitySQLSelectStatement
+    javaBackend:
+      role: REFERENCE
+      template: recursiveSQLSelectStatementEntity
+    # sql(...)/.into(...)/.param(...) are BaseProgram helpers (same treatment as
+    # cursorFetch(...)/.into(...) under sql.fetch and sql(...)/.param(...) under
+    # sql.delete), not Codegen-Runtime Contract operations; this is the standalone
+    # non-cursor SELECT (a SELECT bound to a DECLARE CURSOR is sql.cursorSelect). The
+    # prepared SELECT text is assembled in Stage 1, every INTO target (paired by
+    # position with its optional INDICATOR) and every non-null host-variable
+    # parameter stay semantic children rendered through their reference bindings as
+    # .into(<host>[, <ind>]) and 1-based .param(N, <ref>) calls, and the optional
+    # .onErrorGoto(...)/.onErrorContinue() clause is the WHENEVER policy registered
+    # by sql.whenever's Stage-1 side effect. No runtime operation.
+    runtimeOperations: []
+    fixtures: []
+    status: production
