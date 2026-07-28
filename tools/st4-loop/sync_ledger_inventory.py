@@ -194,6 +194,11 @@ def synchronize(data: dict, backends: list[Backend]) -> dict:
             # Inventory-owned fields are refreshed; controller-owned workflow
             # state survives repeated synchronization.
             for key in (
+                # Priority is a stable task identity attribute once assigned.
+                # Recomputing ordinals after an earlier backend is deleted would
+                # renumber every later entry and make an in-flight retirement
+                # fail the byte-for-byte synchronization gate.
+                "priority",
                 "status",
                 "attempts",
                 "blocked",

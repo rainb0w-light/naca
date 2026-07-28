@@ -507,8 +507,8 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 3,
-      "blocked": true,
+      "attempts": 0,
+      "blocked": false,
       "scope": "EMBEDDED_SQL",
       "sourceSyntax": "legacy backend CJavaCondIsSQLCode",
       "parserNode": null,
@@ -526,8 +526,8 @@
       "evidence": [
         "naca-trans/src/main/java/generate/java/SQL/CJavaCondIsSQLCode.java"
       ],
-      "blockedReason": "Gate #1 of tools/st4-loop/verify-task.sh fails structurally for this item and cannot be fixed by any worker-legal action. State -> failure: (1) the item requires deleting naca-trans/src/main/java/generate/java/SQL/CJavaCondIsSQLCode.java (expectedDebtDelta -1; status direct-retired requires source gone per LedgerConsistencyTest); (2) that file is the alphabetically-first SQL backend = area ordinal 0; (3) sync_ledger_inventory.py regenerate sets every live entry priority = areaBase(100) + ordinal without preserving the committed priority, keeps the deleted entry as-is in 'historical', and compares full-JSON string equality against the committed docs/migration-ledger.json; (4) therefore deletion renumbers BACKEND-SQL-CJAVASQLCALL..CJAVASQLUPDATESTATEMENT from 101..119 to 100..118 (19 entries) => regenerated != committed => exit 1 => 'VERIFY-FAIL: direct-backend ledger inventory is stale' before any Gradle gate runs (reproduced: exit 1 with deletion, exit 0 pristine). The only fix is `python3 tools/st4-loop/sync_ledger_inventory.py --write`, which writes docs/migration-ledger.json — forbidden to workers (controller-owned ledger; filesChanged must exactly match production/test files). Prior retirements passed only because they deleted area-TERMINAL files (no ordinal shift => byte-identical regeneration). Harness fixes (any one unblocks): (a) controller runs sync --write and commits the resync as part of its post-verification commit (or pre-syncs before spawning the worker); (b) verify-task.sh staleness check becomes in-flight-tolerant — accept exactly one live->historical transition for the item under verification plus the induced priority renumber; (c) add 'priority' to synchronize()'s preserved-keys list so ordering is stable across deletions. READY-TO-LAND migration recipe once unblocked (fully validated read-only): 1) semantic.SQL.CEntityCondIsSQLCode stays abstract but gains read-only getters isEqual()/getValue()/getSqlCodeName() (Stage-1 resolution: 0->SQL_OK, 100->SQL_NOT_FOUND, -811->SQL_MORE_THAN_ONE_ROW, -803->SQL_DUPLICATE_INDEX_KEY, -502->SQL_CURSOR_ALREADY_OPENED, -501->SQL_CURSOR_NOT_OPEN, -305->SQL_VALUE_NULL, else null) — no Export() in semantic/ (final-architecture gate forbids the token; de-abstracting is impossible anyway since CBaseEntityCondExpr.Export() is abstract); 2) retire CJavaCondIsSQLCode.java; both CJavaEntityFactory and CJavaEntityFactoryST NewEntityCondIsSQLCode() keep programCatalog.addImportDeclaration(\\\"SQL\\\") and return a package-private factory-nested 'static final class CondIsSQLCodeBridge extends CEntityCondIsSQLCode' implementing GetOppositeCondition() (flips isisEqual) and Export() = TemplateLoader.getRecursiveAssembler().renderRoot(this, JavaTemplateRole.REFERENCE) — single source of truth in the template, same delegation pattern as CJavaAssignST, inventory-neutral (not under generate/java), keeps finalArchitectureCheck from growing redder; 3) semantic-runtime-bindings.properties: semantic.SQL.CEntityCondIsSQLCode=recursiveCondIsSQLCodeEntity; 4) java.stg single-line (no trailing newline): recursiveCondIsSQLCodeEntity(entity) ::= \\\"<if(entity.equal)>isSQLCode<else>isNotSQLCode<endif>(<if(entity.sqlCodeName)>SQLCode.<entity.sqlCodeName><else><entity.value><endif>)\\\" — byte-parity with retired backend for all 7 named codes + literal fallback + not-equal; 5) feature-registry.yaml sql.sqlcodeCondition (REFERENCE, runtimeOperations [] per condition/sql.whenever precedent; isSQLCode/isNotSQLCode are BaseProgram helpers not in runtime-operations.yaml); 6) DirectBackendInventoryTest baseline 160->159; 7) CondIsSQLCodeRenderTest asserting literal parity strings, getter contract, GetOppositeCondition flip rendered via assembler, and Stage-1 SQL import registration through CJavaEntityFactoryST. CJavaFPacEntityFactory.NewEntityCondIsSQLCode already throws 'Method not implemented' — untouched (FPac out of scope).",
-      "lastAttemptCommit": "ba80e72847875e774064af468701ee0362207a99"
+      "blockedReason": null,
+      "lastAttemptCommit": null
     },
     {
       "id": "BACKEND-SQL-CJAVASQLCALL",
@@ -540,8 +540,8 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 3,
-      "blocked": true,
+      "attempts": 0,
+      "blocked": false,
       "scope": "EMBEDDED_SQL",
       "sourceSyntax": "legacy backend CJavaSQLCall",
       "parserNode": null,
@@ -559,8 +559,8 @@
       "evidence": [
         "naca-trans/src/main/java/generate/java/SQL/CJavaSQLCall.java"
       ],
-      "blockedReason": "exhausted 3 attempts without independent verification; last outcome=success",
-      "lastAttemptCommit": "164375936c0d2a64732d5d992cbbc577279adf17"
+      "blockedReason": null,
+      "lastAttemptCommit": null
     },
     {
       "id": "BACKEND-SQL-CJAVASQLCLOSESTATEMENT",

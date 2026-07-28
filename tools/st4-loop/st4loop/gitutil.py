@@ -15,6 +15,8 @@ def run_git(root, *args, check=True):
         cwd=str(root),
         capture_output=True,
         text=True,
+        encoding="utf-8",
+        errors="replace",
     )
     if check and result.returncode != 0:
         raise GitError(

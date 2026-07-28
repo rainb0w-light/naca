@@ -1,16 +1,91 @@
+import copy
+import importlib.util
 import json
 import os
 import subprocess
+import sys
 import tempfile
 import unittest
 from pathlib import Path
 
-from st4loop import debt
+from st4loop import debt, gitutil
 from tests.util import TESTS_DIR
 
 REPO_ROOT = TESTS_DIR.parents[2]
 VERIFY_SH = TESTS_DIR.parent / "verify-task.sh"
 WORKER_MD = REPO_ROOT / ".claude" / "st4-loop" / "worker.md"
+SYNC_SCRIPT = TESTS_DIR.parent / "sync_ledger_inventory.py"
+
+
+def load_sync_module():
+    name = "st4_loop_sync_inventory_test_module"
+    spec = importlib.util.spec_from_file_location(name, SYNC_SCRIPT)
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[name] = module
+    spec.loader.exec_module(module)
+    return module
+
+
+class InventorySynchronizationTest(unittest.TestCase):
+    def test_deleting_earlier_backend_does_not_renumber_later_entries(self):
+        sync = load_sync_module()
+        first = sync.Backend(
+            area="SQL",
+            class_name="CJavaFirst",
+            backend_fqn="generate.java.SQL.CJavaFirst",
+            semantic_fqn="semantic.SQL.CEntityFirst",
+            source_path="naca-trans/src/main/java/generate/java/SQL/CJavaFirst.java",
+        )
+        second = sync.Backend(
+            area="SQL",
+            class_name="CJavaSecond",
+            backend_fqn="generate.java.SQL.CJavaSecond",
+            semantic_fqn="semantic.SQL.CEntitySecond",
+            source_path="naca-trans/src/main/java/generate/java/SQL/CJavaSecond.java",
+        )
+        initial = sync.synchronize({"entries": []}, [first, second])
+        before = sync.rendered(initial)
+
+        # During worker verification the source is already deleted, while the
+        # controller-owned ledger still contains the non-terminal entry.
+        in_flight = sync.synchronize(copy.deepcopy(initial), [second])
+
+        self.assertEqual(sync.rendered(in_flight), before)
+        self.assertEqual(
+            next(e for e in in_flight["entries"] if e["id"].endswith("CJAVASECOND"))[
+                "priority"
+            ],
+            101,
+        )
+
+
+class GitEncodingTest(unittest.TestCase):
+    def test_diff_tolerates_legacy_iso_8859_1_source(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            subprocess.run(["git", "init", "-q"], cwd=root, check=True)
+            subprocess.run(
+                ["git", "config", "user.email", "loop@example.invalid"],
+                cwd=root,
+                check=True,
+            )
+            subprocess.run(
+                ["git", "config", "user.name", "Loop Test"],
+                cwd=root,
+                check=True,
+            )
+            source = root / "Legacy.java"
+            source.write_bytes(b"// cr\\xfb legacy source\\nclass Legacy {}\\n")
+            subprocess.run(["git", "add", "Legacy.java"], cwd=root, check=True)
+            subprocess.run(["git", "commit", "-qm", "base"], cwd=root, check=True)
+            source.unlink()
+
+            diff = gitutil.diff(root)
+
+            self.assertIn("Legacy.java", diff)
+            # Git may quote the byte as "\\xfb"; the contract is that legacy
+            # source content never crashes the controller's text pipeline.
+            self.assertTrue("\ufffd" in diff or "\\xfb" in diff, diff)
 
 
 class VerifyScriptPortabilityTest(unittest.TestCase):
