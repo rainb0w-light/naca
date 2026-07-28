@@ -26,7 +26,7 @@
       "finalArchitectureCheck": {
         "tests": 390,
         "failures": 212,
-        "directBackends": 142,
+        "directBackends": 141,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -1087,7 +1087,7 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "EMBEDDED_SQL",
       "sourceSyntax": "legacy backend CJavaSQLSingleStatement",
@@ -1101,11 +1101,12 @@
       "directBackend": "generate.java.SQL.CJavaSQLSingleStatement",
       "sourcePath": "naca-trans/src/main/java/generate/java/SQL/CJavaSQLSingleStatement.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
         "naca-trans/src/main/java/generate/java/SQL/CJavaSQLSingleStatement.java"
-      ]
+      ],
+      "lastAttemptCommit": "769eb11f3e5c39f0f5a5a102c80f4e3b5b05755f"
     },
     {
       "id": "BACKEND-SQL-CJAVASQLUPDATESTATEMENT",

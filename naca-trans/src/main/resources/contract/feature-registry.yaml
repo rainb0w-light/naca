@@ -457,6 +457,23 @@ features:
     fixtures: []
     status: production
 
+  - id: sql.singleStatement
+    dialects: [embedded-sql]
+    semanticType: semantic.SQL.CEntitySQLSingleStatement
+    javaBackend:
+      role: REFERENCE
+      template: recursiveSQLSingleStatementEntity
+    # getDBConnection().execSQL(...) is emitted verbatim, exactly as the retired
+    # direct backend CJavaSQLSingleStatement emitted it (a legacy runtime shape,
+    # not a current Codegen-Runtime Contract operation); the raw statement text
+    # is carried by the entity and the template only wraps it as a Java string
+    # literal. No WHENEVER SQLWARNING/SQLERROR clause is chained: the retired
+    # backend never read the policy, and the template mirrors it exactly. No
+    # runtime operation.
+    runtimeOperations: []
+    fixtures: []
+    status: production
+
   - id: sql.select
     dialects: [embedded-sql]
     semanticType: semantic.SQL.CEntitySQLSelectStatement

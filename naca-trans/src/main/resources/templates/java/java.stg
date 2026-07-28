@@ -1216,6 +1216,18 @@ recursiveSQLSessionDropEntity(entity) ::= <<
 sql("<entity.statement>")<if(entity.sqlWarningErrorStatement)><entity.sqlWarningErrorStatement><endif> ;
 >>
 
+// Embedded SQL single statement (a raw EXEC SQL <text> END-EXEC that has no
+// dedicated statement entity). Emits the getDBConnection().execSQL("<statement>")
+// runtime call where <statement> is the raw SQL text carried by the entity and
+// read via <entity.statement> (wrapped verbatim as a Java string literal, exactly
+// what the retired backend's WriteLine("getDBConnection().execSQL(\""+csStatement
+// +"\") ;") emitted). No WHENEVER SQLWARNING/SQLERROR clause is chained: the
+// retired direct backend never read the policy, and this template mirrors it
+// exactly. Reads only entity.* properties.
+recursiveSQLSingleStatementEntity(entity) ::= <<
+getDBConnection().execSQL("<entity.statement>") ;
+>>
+
 // A COPY copybook declared as an instance in the program class (the non-inline
 // form): <Type> <ref> = <Type>.Copy(this[, replacing(level, value)]) ;
 dataInlineDeclaration(entity) ::= <<

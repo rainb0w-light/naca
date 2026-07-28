@@ -53,7 +53,6 @@ import generate.java.CICS.CJavaCICSStart;
 import generate.java.CICS.CJavaCICSStartBrowse;
 import generate.java.CICS.CJavaCICSWrite;
 import generate.java.CICS.CJavaCICSWriteQ;
-import generate.java.SQL.CJavaSQLSingleStatement;
 import generate.java.SQL.CJavaSQLUpdateStatement;
 import generate.java.expressions.CJavaAddressOf;
 import generate.java.expressions.CJavaConcat;
@@ -623,7 +622,15 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CJavaNamedCondition(l, name, programCatalog, langOutput);
 	}
 	public CEntitySQLSingleStatement NewEntitySQLSingleStatement(int l, String st)	{
-		return new CJavaSQLSingleStatement(l, programCatalog, langOutput, st);
+		// Direct backend CJavaSQLSingleStatement retired: the pure semantic entity is
+		// rendered by the recursive ST4 assembler (recursiveSQLSingleStatementEntity
+		// binding). The raw statement text is carried by the entity and the template
+		// wraps it verbatim in the legacy getDBConnection().execSQL("...") call; no
+		// WHENEVER clause is chained and no generated string is materialized in the
+		// factory.
+		CEntitySQLSingleStatement e = new CEntitySQLSingleStatement(l, programCatalog, st);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntitySetColor NewEntitySetColor(int l, CDataEntity field)	{
 		programCatalog.addImportDeclaration("MAP") ;
