@@ -26,7 +26,7 @@
       "finalArchitectureCheck": {
         "tests": 390,
         "failures": 212,
-        "directBackends": 140,
+        "directBackends": 139,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -1151,7 +1151,7 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "EMBEDDED_CICS",
       "sourceSyntax": "legacy backend CJavaCICSAskTime",
@@ -1165,11 +1165,12 @@
       "directBackend": "generate.java.CICS.CJavaCICSAskTime",
       "sourcePath": "naca-trans/src/main/java/generate/java/CICS/CJavaCICSAskTime.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
         "naca-trans/src/main/java/generate/java/CICS/CJavaCICSAskTime.java"
-      ]
+      ],
+      "lastAttemptCommit": "1402f823e50c5ce6841a2c21fbaf05430b8c7c30"
     },
     {
       "id": "BACKEND-CICS-CJAVACICSASSIGN",

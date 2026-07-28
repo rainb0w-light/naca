@@ -92,6 +92,11 @@ templates:
       - cics.abend
       - cics.abendWithCode
 
+  recursiveCICSAskTimeEntity:
+    capability: CICS
+    requires:
+      - cics.askTime
+
   recursiveCICSAddressEntity:
     capability: CICS
     requires:

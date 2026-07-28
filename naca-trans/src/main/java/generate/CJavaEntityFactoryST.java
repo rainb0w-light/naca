@@ -55,6 +55,7 @@ import semantic.Verbs.CEntityNextSentence;
 import semantic.Verbs.CEntityExec;
 import semantic.CICS.CEntityCICSAbend;
 import semantic.CICS.CEntityCICSAddress;
+import semantic.CICS.CEntityCICSAskTime;
 import semantic.CICS.CEntityCICSLink;
 import semantic.CICS.CEntityCICSReceiveMap;
 import semantic.CICS.CEntityCICSSendMap;
@@ -218,6 +219,16 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntityCICSAbend NewEntityCICSAbend(int l) {
         CEntityCICSAbend e = new CEntityCICSAbend(l, programCatalog);
+        e.setLanguageExporter(langOutput);
+        return e;
+    }
+
+    // Embedded CICS ASKTIME: the ST4 factory builds the pure semantic entity, which
+    // the recursive assembler renders via the recursiveCICSAskTimeEntity binding
+    // (no CJava* controller). Mirrors the CICS ABEND exemplar above.
+    @Override
+    public CEntityCICSAskTime NewEntityCICSAskTime(int l) {
+        CEntityCICSAskTime e = new CEntityCICSAskTime(l, programCatalog);
         e.setLanguageExporter(langOutput);
         return e;
     }

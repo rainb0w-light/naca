@@ -33,7 +33,6 @@ import generate.java.CJavaSortedFileDescriptor;
 import generate.java.CJavaStructure;
 import generate.java.CJavaSubStringReference;
 import generate.java.CJavaUnknownReference;
-import generate.java.CICS.CJavaCICSAskTime;
 import generate.java.CICS.CJavaCICSAssign;
 import generate.java.CICS.CJavaCICSDeQ;
 import generate.java.CICS.CJavaCICSDelay;
@@ -848,7 +847,11 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return e;
 	}
 	public CEntityCICSAskTime NewEntityCICSAskTime(int l)	{
-		return new CJavaCICSAskTime(l, programCatalog, langOutput);
+		// Direct backend CJavaCICSAskTime retired: the pure semantic entity is rendered
+		// by the recursive ST4 assembler (recursiveCICSAskTimeEntity binding).
+		CEntityCICSAskTime e = new CEntityCICSAskTime(l, programCatalog);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntityCurrentDate NewEntityCurrentDate()	{
 		return new CJavaCurrentDate(programCatalog, langOutput);

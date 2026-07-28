@@ -172,6 +172,16 @@ features:
     fixtures: []
     status: production
 
+  - id: cics.askTime
+    dialects: [embedded-cics]
+    semanticType: semantic.CICS.CEntityCICSAskTime
+    javaBackend:
+      role: REFERENCE
+      template: recursiveCICSAskTimeEntity
+    runtimeOperations: [cics.askTime]
+    fixtures: []
+    status: production
+
   - id: sql.cursorSection
     dialects: [embedded-sql]
     semanticType: semantic.CEntitySQLCursorSection

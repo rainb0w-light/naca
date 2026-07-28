@@ -22,7 +22,7 @@ import utils.CobolTranscoder.Notifs.NotifDeclareUseCICSPreprocessor;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityCICSAskTime extends CBaseActionEntity
+public class CEntityCICSAskTime extends CBaseActionEntity
 {
 	/**
 	 * @param line
@@ -31,6 +31,17 @@ public abstract class CEntityCICSAskTime extends CBaseActionEntity
 	public CEntityCICSAskTime(int line, CObjectCatalog cat)
 	{
 		super(line, cat);
-		cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
+		// The catalog notification is a production-only side effect; the ST4 render
+		// tests instantiate this entity directly with a null catalog (like the READ
+		// and CICS ABEND/RETURN exemplars), so guard it instead of dereferencing
+		// unconditionally.
+		if (cat != null)
+		{
+			cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
+		}
+	}
+	public boolean ignore()
+	{
+		return false;
 	}
 }

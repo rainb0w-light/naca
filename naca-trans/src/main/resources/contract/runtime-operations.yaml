@@ -304,6 +304,18 @@ operations:
     paramTypes: [nacaLib.varEx.VarAndEdit]
     returns: void
 
+  # --- CICS ASKTIME ---
+  # EXEC CICS ASKTIME END-EXEC emits CESM.askTime(), a no-argument void call on
+  # BaseCESMManager, declared hierarchically like cics.syncPointCommit. Mirrors the
+  # retired CJavaCICSAskTime.DoExport, which emitted exactly "CESM.askTime() ;".
+  - id: cics.askTime
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
+    runtimeMethod: askTime
+    paramTypes: []
+    returns: void
+
   # --- CICS ADDRESS ---
   # EXEC CICS ADDRESS [CWA(...)] [TCTUA(...)] [TWA(...)] END-EXEC emits, for each
   # active reference, a CESM.getAddressOfCWA/TCTUA/TWA(<ref>) call. Each runtime

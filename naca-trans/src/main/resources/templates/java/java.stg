@@ -874,6 +874,14 @@ recursiveCICSAbendEntity(entity) ::= <<
 CESM.abend(<if(entity.aBCode)><entity.aBCode><endif>) ;
 >>
 
+// Embedded CICS ASKTIME (EXEC CICS ASKTIME END-EXEC). Emits the CESM.askTime()
+// runtime call. Mirrors CJavaCICSAskTime.DoExport exactly: a bare ASKTIME takes no
+// arguments and renders the no-arg call. The template reads only entity.* properties
+// (there are none; the statement carries no operands).
+recursiveCICSAskTimeEntity(entity) ::= <<
+CESM.askTime() ;
+>>
+
 // Embedded CICS ADDRESS (EXEC CICS ADDRESS [CWA(...)] [TCTUA(...)] [TWA(...)]
 // END-EXEC). Emits the CESM.getAddressOfCWA/TCTUA/TWA(...) runtime calls. Mirrors
 // CJavaCICSAddress.DoExport exactly: the first active reference carries the CESM
