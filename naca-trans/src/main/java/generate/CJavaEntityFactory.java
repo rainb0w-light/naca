@@ -55,7 +55,6 @@ import generate.java.CICS.CJavaCICSWrite;
 import generate.java.CICS.CJavaCICSWriteQ;
 import generate.java.SQL.CJavaCondIsSQLCode;
 import generate.java.SQL.CJavaSQLCall;
-import generate.java.SQL.CJavaSQLCloseStatement;
 import generate.java.SQL.CJavaSQLCode;
 import generate.java.SQL.CJavaSQLCommit;
 import generate.java.SQL.CJavaSQLCursor;
@@ -419,7 +418,13 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CJavaSQLOpenStatement(nLine, programCatalog, langOutput, cur);
 	}
 	public CEntitySQLCloseStatement NewEntitySQLCloseStatement(int nLine, CEntitySQLCursor cur)	{
-		return new CJavaSQLCloseStatement(nLine, programCatalog, langOutput, cur);
+		// Direct backend CJavaSQLCloseStatement retired: the pure semantic entity is
+		// rendered by the recursive ST4 assembler. The cursor remains a semantic child
+		// and is recursively rendered through its reference binding; no generated
+		// string is materialized in the factory.
+		CEntitySQLCloseStatement e = new CEntitySQLCloseStatement(nLine, programCatalog, cur);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntitySQLDeleteStatement NewEntitySQLDeleteStatement(int nLine, String csStatement, Vector<CDataEntity> arrParameters)	{
 		return new CJavaSQLDeleteStatement(nLine, programCatalog, langOutput, csStatement, arrParameters);

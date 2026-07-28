@@ -973,6 +973,16 @@ DataSection <entity.formattedName> = declare.cursorSection() ;
 // properties and renders empty.
 recursiveSqlOnErrorGotoEntity(entity) ::= ""
 
+// Embedded SQL CLOSE <cursor> (EXEC SQL CLOSE <cursor> END-EXEC). Emits the
+// cursorClose(<ref>) runtime call; when a WHENEVER SQLWARNING/SQLERROR policy is
+// in effect (a read-only catalog lookup registered by the WHENEVER Stage-1 side
+// effect) its clause (.onErrorGoto(...)/.onErrorContinue()/...) chains onto the
+// call, terminated by " ;". Mirrors CJavaSQLCloseStatement.DoExport exactly:
+// bare CLOSE -> 'cursorClose(<ref>) ;', with a policy -> 'cursorClose(<ref>).onErrorGoto(LABEL) ;'.
+recursiveSQLCloseStatementEntity(entity) ::= <<
+cursorClose(<entity.cursor>)<if(entity.sqlWarningErrorStatement)><entity.sqlWarningErrorStatement><endif> ;
+>>
+
 // A COPY copybook declared as an instance in the program class (the non-inline
 // form): <Type> <ref> = <Type>.Copy(this[, replacing(level, value)]) ;
 dataInlineDeclaration(entity) ::= <<

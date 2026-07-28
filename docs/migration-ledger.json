@@ -22,11 +22,11 @@
     "ratchet": {
       "note": "Debt counts may only move down for the COBOL scope. Refresh per phase.",
       "baselineCapturedAtCommit": "9402b0c",
-      "lastVerifiedAtCommit": "e3c4146",
+      "lastVerifiedAtCommit": "405fbe6041fa05e565b2bb3d09271ae756428056",
       "finalArchitectureCheck": {
-        "tests": 391,
-        "failures": 213,
-        "directBackends": 160,
+        "tests": 390,
+        "failures": 212,
+        "directBackends": 159,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -573,7 +573,7 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 2,
       "blocked": false,
       "scope": "EMBEDDED_SQL",
       "sourceSyntax": "legacy backend CJavaSQLCloseStatement",
@@ -587,11 +587,14 @@
       "directBackend": "generate.java.SQL.CJavaSQLCloseStatement",
       "sourcePath": "naca-trans/src/main/java/generate/java/SQL/CJavaSQLCloseStatement.java",
       "productionReachable": true,
-      "status": "semantic-built",
-      "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
+      "status": "direct-retired",
+      "blocker": null,
       "evidence": [
-        "naca-trans/src/main/java/generate/java/SQL/CJavaSQLCloseStatement.java"
-      ]
+        "naca-trans/src/test/java/generate/java/st/SQLCloseStatementRenderTest.java",
+        "tools/st4-loop/verify-task.sh BACKEND-SQL-CJAVASQLCLOSESTATEMENT"
+      ],
+      "blockedReason": null,
+      "lastAttemptCommit": "405fbe6041fa05e565b2bb3d09271ae756428056"
     },
     {
       "id": "BACKEND-SQL-CJAVASQLCODE",

@@ -198,3 +198,17 @@ features:
     runtimeOperations: []
     fixtures: []
     status: production
+
+  - id: sql.close
+    dialects: [embedded-sql]
+    semanticType: semantic.SQL.CEntitySQLCloseStatement
+    javaBackend:
+      role: REFERENCE
+      template: recursiveSQLCloseStatementEntity
+    # cursorClose(...) is a BaseProgram helper, not a Codegen-Runtime Contract
+    # operation (same treatment as the sql.cursorSection declare.* builder calls);
+    # the optional .onErrorGoto(...)/.onErrorContinue() clause is the WHENEVER
+    # policy registered by sql.whenever's Stage-1 side effect. No runtime operation.
+    runtimeOperations: []
+    fixtures: []
+    status: production
