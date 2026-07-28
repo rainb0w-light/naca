@@ -53,7 +53,6 @@ import generate.java.CICS.CJavaCICSStart;
 import generate.java.CICS.CJavaCICSStartBrowse;
 import generate.java.CICS.CJavaCICSWrite;
 import generate.java.CICS.CJavaCICSWriteQ;
-import generate.java.SQL.CJavaSQLCursor;
 import generate.java.SQL.CJavaSQLCursorSelectStatement;
 import generate.java.SQL.CJavaSQLDeclareTable;
 import generate.java.SQL.CJavaSQLDeleteStatement;
@@ -907,7 +906,13 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CJavaIndex(name, programCatalog, langOutput);
 	}
 	public CEntitySQLCursor NewEntitySQLCursor(String name)	{
-		return new CJavaSQLCursor(name, programCatalog, langOutput);
+		// Direct backend CJavaSQLCursor retired: the pure semantic entity renders
+		// through the recursive ST4 assembler (semantic.SQL.CEntitySQLCursor =
+		// dataReferenceEntity reference binding) and keeps its legacy formatted
+		// ExportReference for the direct path.
+		CEntitySQLCursor e = new CEntitySQLCursor(name, programCatalog);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntityKeyPressed NewEntityKeyPressed(String name, String caption)	{
 		//programCatalog.UseMapSupport() ;

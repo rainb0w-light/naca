@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import generate.CJavaEntityFactoryST;
-import generate.java.SQL.CJavaSQLCursor;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.DisplayName;
@@ -56,7 +55,11 @@ class SQLCloseStatementRenderTest
 
     private static CEntitySQLCursor cursor(CObjectCatalog catalog, String name)
     {
-        return new CJavaSQLCursor(name, catalog, new MockJavaExporter());
+        // Pure semantic cursor (the CJavaSQLCursor direct backend is retired):
+        // it renders through its dataReferenceEntity reference binding.
+        CEntitySQLCursor cursor = new CEntitySQLCursor(name, catalog);
+        cursor.setLanguageExporter(new MockJavaExporter());
+        return cursor;
     }
 
     @Test
@@ -94,7 +97,8 @@ class SQLCloseStatementRenderTest
         CObjectCatalog catalog = catalog();
         MockJavaExporter exporter = new MockJavaExporter();
         CJavaEntityFactoryST factory = new CJavaEntityFactoryST(catalog, exporter);
-        CEntitySQLCursor cursor = new CJavaSQLCursor("CUR-1", catalog, exporter);
+        CEntitySQLCursor cursor = new CEntitySQLCursor("CUR-1", catalog);
+        cursor.setLanguageExporter(exporter);
         CEntitySQLCloseStatement close = factory.NewEntitySQLCloseStatement(1, cursor);
         assertSame(cursor, close.getCursor());
         assertEquals("cursorClose(CUR_1) ;", render(close).trim());
@@ -106,7 +110,8 @@ class SQLCloseStatementRenderTest
     {
         CObjectCatalog catalog = catalog();
         MockJavaExporter exporter = new MockJavaExporter();
-        CEntitySQLCursor cursor = new CJavaSQLCursor("CUR-1", catalog, exporter);
+        CEntitySQLCursor cursor = new CEntitySQLCursor("CUR-1", catalog);
+        cursor.setLanguageExporter(exporter);
 
         CEntitySQLCloseStatement close = new CEntitySQLCloseStatement(1, catalog, cursor);
         assertSame(cursor, close.getCursor());
