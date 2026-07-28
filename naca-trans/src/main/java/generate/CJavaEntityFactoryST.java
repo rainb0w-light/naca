@@ -61,6 +61,7 @@ import semantic.CICS.CEntityCICSSyncPoint;
 import semantic.CICS.CEntityCICSXctl;
 import semantic.SQL.CEntityCondIsSQLCode;
 import semantic.SQL.CEntitySQLCall;
+import semantic.SQL.CEntitySQLCode;
 import semantic.SQL.CEntitySQLCloseStatement;
 import semantic.SQL.CEntitySQLCursor;
 import semantic.SQL.CEntitySqlOnErrorGoto;
@@ -270,6 +271,26 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     public CEntityCondIsSQLCode NewEntityCondIsSQLCode() {
         programCatalog.addImportDeclaration("SQL");
         return new CEntityCondIsSQLCode();
+    }
+
+    // Embedded SQL SQLCODE / SQLERRD data reference: the ST4 factory builds the
+    // pure semantic entity, which the recursive assembler renders via the
+    // recursiveSQLCodeEntity binding (no CJava* controller). The entity carries
+    // its own getSQLCode()/getSQLDiagnosticCode(...) reference protocol, so no
+    // Stage-1 import side effect is needed here. Mirrors the SQLCODE condition
+    // exemplar above.
+    @Override
+    public CEntitySQLCode NewEntitySQLCode(String name) {
+        CEntitySQLCode e = new CEntitySQLCode(name, programCatalog);
+        e.setLanguageExporter(langOutput);
+        return e;
+    }
+
+    @Override
+    public CEntitySQLCode NewEntitySQLCode(String name, CBaseEntityExpression eHistoryItem) {
+        CEntitySQLCode e = new CEntitySQLCode(name, programCatalog, eHistoryItem);
+        e.setLanguageExporter(langOutput);
+        return e;
     }
 
     @Override

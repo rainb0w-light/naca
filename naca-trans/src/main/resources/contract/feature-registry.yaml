@@ -228,6 +228,21 @@ features:
     fixtures: []
     status: production
 
+  - id: sql.sqlCode
+    dialects: [embedded-sql]
+    semanticType: semantic.SQL.CEntitySQLCode
+    javaBackend:
+      role: REFERENCE
+      template: recursiveSQLCodeEntity
+    # getSQLCode()/getSQLDiagnosticCode(...) are BaseProgram helpers (same
+    # treatment as isSQLCode(...) under sql.condIsSQLCode and cursorClose(...)
+    # under sql.close), not Codegen-Runtime Contract operations; the optional
+    # SQLERRD(n) history-item expression stays a semantic child and is recursively
+    # rendered through its reference binding. No runtime operation.
+    runtimeOperations: []
+    fixtures: []
+    status: production
+
   - id: sql.call
     dialects: [embedded-sql]
     semanticType: semantic.SQL.CEntitySQLCall

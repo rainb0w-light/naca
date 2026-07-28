@@ -538,6 +538,13 @@ recursiveCondIsBooleanEntity(entity) ::= <<
 // literal. Reads only entity.* properties.
 recursiveCondIsSQLCodeEntity(entity) ::= "is<if(entity.opposite)>Not<endif>SQLCode(<if(entity.sqlCodeConstantName)>SQLCode.<entity.sqlCodeConstantName><else><entity.sqlCodeNumber><endif>)"
 
+// Embedded SQL SQLCODE / SQLERRD data reference. Emits the getSQLCode()
+// BaseProgram call, or getSQLDiagnosticCode(<historyItem>) when an SQLERRD(n)
+// history-item expression is present (recursively rendered through its reference
+// binding). Mirrors the retired CJavaSQLCode exactly. Reads only entity.*
+// properties.
+recursiveSQLCodeEntity(entity) ::= "get<if(entity.historyItem)>SQLDiagnosticCode(<entity.historyItem>)<else>SQLCode()<endif>"
+
 recursiveContinue(entity) ::= "// CONTINUE "
 
 recursiveBreak(entity) ::= "break;"

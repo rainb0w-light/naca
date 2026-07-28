@@ -53,7 +53,6 @@ import generate.java.CICS.CJavaCICSStart;
 import generate.java.CICS.CJavaCICSStartBrowse;
 import generate.java.CICS.CJavaCICSWrite;
 import generate.java.CICS.CJavaCICSWriteQ;
-import generate.java.SQL.CJavaSQLCode;
 import generate.java.SQL.CJavaSQLCommit;
 import generate.java.SQL.CJavaSQLCursor;
 import generate.java.SQL.CJavaSQLCursorSelectStatement;
@@ -932,10 +931,17 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CJavaFieldArray(0, "", programCatalog, langOutput);
 	}
 	public CEntitySQLCode NewEntitySQLCode(String name)	{
-		return new CJavaSQLCode(name, programCatalog, langOutput);
+		// Direct backend CJavaSQLCode retired: the pure semantic entity is rendered
+		// by the recursive ST4 assembler (recursiveSQLCodeEntity binding) and carries
+		// its own getSQLCode()/resetSQLCode(...) data-reference protocol.
+		CEntitySQLCode e = new CEntitySQLCode(name, programCatalog);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntitySQLCode NewEntitySQLCode(String name, CBaseEntityExpression eHistoryItem)	{
-		return new CJavaSQLCode(name, programCatalog, langOutput, eHistoryItem);
+		CEntitySQLCode e = new CEntitySQLCode(name, programCatalog, eHistoryItem);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntityCondIsSQLCode NewEntityCondIsSQLCode()	{
 		// Direct backend CJavaCondIsSQLCode retired: the pure semantic entity is
