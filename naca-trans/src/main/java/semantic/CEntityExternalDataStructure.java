@@ -14,7 +14,6 @@ package semantic;
 
 import java.util.NoSuchElementException;
 
-import generate.*;
 import parser.expression.CTerminal;
 import utils.*;
 
