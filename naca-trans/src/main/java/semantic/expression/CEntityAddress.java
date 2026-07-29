@@ -34,12 +34,6 @@ public abstract class CEntityAddress extends CDataEntity
 	}
 
 	@Override
-	public String ExportWriteAccessorTo(String value)
-	{
-		return null;
-	}
-
-	@Override
 	public boolean isValNeeded()
 	{
 		// TODO Auto-generated method stub
@@ -50,13 +44,6 @@ public abstract class CEntityAddress extends CDataEntity
 	public String GetConstantValue()
 	{
 		return csAddress;
-	}
-
-
-	@Override
-	protected void DoExport()
-	{
-		// unused
 	}
 
 }
