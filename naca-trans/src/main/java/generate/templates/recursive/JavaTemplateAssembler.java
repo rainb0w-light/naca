@@ -47,6 +47,17 @@ public final class JavaTemplateAssembler
         Objects.requireNonNull(model, "model");
         Objects.requireNonNull(role, "role");
         String templateName = bindingsFor(role).findTemplateName(model.getClass());
+        String rootTemplateName = rootBindings.findTemplateName(model.getClass());
+        if (role != JavaTemplateRole.ROOT
+            && rootTemplateName != null
+            && rootTemplateName.equals(templateName))
+        {
+            // The complete concrete inventory includes root-only semantic types.
+            // An identical default/root binding marks such a type as requiring an
+            // explicit ROOT role; it must never silently emit an artifact while
+            // being visited as a reference child.
+            throw new MissingTemplateRendererException(model.getClass());
+        }
         if (templateName != null)
         {
             ST renderedNode = template(templateName).add("entity", model);
