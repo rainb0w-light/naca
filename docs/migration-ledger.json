@@ -22,11 +22,11 @@
     "ratchet": {
       "note": "Debt counts may only move down for the COBOL scope. Refresh per phase.",
       "baselineCapturedAtCommit": "9402b0c",
-      "lastVerifiedAtCommit": "fdbe3306",
+      "lastVerifiedAtCommit": "d509d013",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 174,
-        "directBackends": 104,
+        "failures": 173,
+        "directBackends": 103,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -2331,25 +2331,27 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "COBOL_CORE",
       "sourceSyntax": "legacy backend CJavaCloseFile",
       "parserNode": null,
       "semanticNode": "semantic.Verbs.CEntityCloseFile",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
+      "assemblerRole": "REFERENCE",
+      "manifestBinding": "semantic.Verbs.CEntityCloseFile=recursiveCloseFileEntity",
+      "template": "recursiveCloseFileEntity",
+      "runtimeOperation": "file.close",
       "fixture": null,
       "directBackend": "generate.java.verbs.CJavaCloseFile",
       "sourcePath": "naca-trans/src/main/java/generate/java/verbs/CJavaCloseFile.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/verbs/CJavaCloseFile.java"
-      ]
+        "naca-trans/src/main/java/generate/java/verbs/CJavaCloseFile.java",
+        "naca-trans/src/test/java/generate/java/st/CEntityCloseFileRenderTest.java"
+      ],
+      "lastAttemptCommit": "d509d013"
     },
     {
       "id": "BACKEND-COBOL-VERB-CJAVACOUNT",

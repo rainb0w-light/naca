@@ -92,7 +92,6 @@ import generate.java.forms.CJavaSetCursor;
 import generate.java.forms.CJavaSetFlag;
 import generate.java.forms.CJavaSetHighlight;
 import generate.java.forms.CJavaSkipField;
-import generate.java.verbs.CJavaCloseFile;
 import generate.java.verbs.CJavaCount;
 import generate.java.verbs.CJavaDisplay;
 import generate.java.verbs.CJavaDivide;
@@ -1156,7 +1155,9 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CJavaOpenFile(line, programCatalog, langOutput);
 	}
 	public CEntityCloseFile NewEntityCloseFile(int line)	{
-		return new CJavaCloseFile(line, programCatalog, langOutput);
+		CEntityCloseFile e = new CEntityCloseFile(line, programCatalog);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntityReadFile NewEntityReadFile(int line)	{
 		return new CJavaReadFile(line, programCatalog, langOutput);
