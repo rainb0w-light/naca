@@ -22,11 +22,11 @@
     "ratchet": {
       "note": "Debt counts may only move down for the COBOL scope. Refresh per phase.",
       "baselineCapturedAtCommit": "9402b0c",
-      "lastVerifiedAtCommit": "e4fa9839",
+      "lastVerifiedAtCommit": "ef8b6134",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 187,
-        "directBackends": 120,
+        "failures": 186,
+        "directBackends": 119,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -1801,25 +1801,27 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "COBOL_CORE",
       "sourceSyntax": "legacy backend CJavaAssignST",
       "parserNode": null,
       "semanticNode": "semantic.Verbs.CEntityAssign",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
+      "assemblerRole": "REFERENCE",
+      "manifestBinding": "semantic.Verbs.CEntityAssign=recursiveMoveEntity",
+      "template": "recursiveMoveEntity",
+      "runtimeOperation": "data.move.varEdit",
       "fixture": null,
       "directBackend": "generate.java.st.CJavaAssignST",
       "sourcePath": "naca-trans/src/main/java/generate/java/st/CJavaAssignST.java",
       "productionReachable": true,
-      "status": "production-wired",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/st/CJavaAssignST.java"
-      ]
+        "naca-trans/src/main/java/generate/java/st/CJavaAssignST.java",
+        "naca-trans/src/test/java/generate/java/st/CEntityAssignRenderTest.java"
+      ],
+      "lastAttemptCommit": "ef8b6134"
     },
     {
       "id": "BACKEND-COBOL-ST-CJAVAASSIGNWITHACCESSORST",
@@ -2135,9 +2137,7 @@
       "id": "BACKEND-COBOL-VERB-CJAVAASSIGN",
       "kind": "DIRECT_BACKEND_RETIREMENT",
       "priority": 401,
-      "dependencies": [
-        "BACKEND-COBOL-ST-CJAVAASSIGNST"
-      ],
+      "dependencies": [],
       "verification": [
         "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
       ],

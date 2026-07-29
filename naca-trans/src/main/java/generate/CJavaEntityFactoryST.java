@@ -123,7 +123,9 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
 
     @Override
     public CEntityAssign NewEntityAssign(int l) {
-        return new CJavaAssignST(l, programCatalog, langOutput);
+        CEntityAssign e = new CEntityAssign(l, programCatalog);
+        e.setLanguageExporter(langOutput);
+        return e;
     }
 
     @Override

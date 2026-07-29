@@ -29,7 +29,7 @@ import utils.*;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityAssign extends CBaseActionEntity
+public class CEntityAssign extends CBaseActionEntity
 {
 
 	/**
