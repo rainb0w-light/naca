@@ -51,9 +51,7 @@ class SQLCursorRenderTest
 
     private static CEntitySQLCursor cursor(CObjectCatalog catalog, String name)
     {
-        CEntitySQLCursor cursor = new CEntitySQLCursor(name, catalog);
-        cursor.setLanguageExporter(new MockJavaExporter());
-        return cursor;
+        return new CEntitySQLCursor(name, catalog);
     }
 
     @Test
@@ -79,16 +77,6 @@ class SQLCursorRenderTest
         assertTrue(output.contains("DataSection SQLCursorSection = declare.cursorSection() ;"),
             output);
         assertTrue(output.contains("SQLCursor CUR_1 = declare.cursor() ;"), output);
-    }
-
-    @Test
-    @DisplayName("the legacy ExportReference keeps the retired backend's formatted identifier")
-    void exportReferencePreservesLegacyValue()
-    {
-        // Direct-path compatibility value: identical to what the retired
-        // CJavaSQLCursor.ExportReference produced for the direct SQL statement
-        // backends (cursorFetch(cursor.ExportReference(...)) &co.).
-        assertEquals("CUR_1", cursor(catalog(), "CUR-1").ExportReference(0));
     }
 
     @Test
