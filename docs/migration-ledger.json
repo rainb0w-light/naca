@@ -25,8 +25,8 @@
       "lastVerifiedAtCommit": "5903f95d",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 109,
-        "directBackends": 41,
+        "failures": 108,
+        "directBackends": 40,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -4464,25 +4464,28 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "COBOL_CORE",
       "sourceSyntax": "legacy backend CJavaMoveReference",
       "parserNode": null,
       "semanticNode": "semantic.CEntityMoveReference",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
+      "assemblerRole": "REFERENCE",
+      "manifestBinding": "semantic.CEntityMoveReference=recursiveMoveReferenceEntity",
+      "template": "recursiveMoveReferenceEntity",
+      "runtimeOperation": "data.moveReference",
       "fixture": null,
       "directBackend": "generate.java.CJavaMoveReference",
       "sourcePath": "naca-trans/src/main/java/generate/java/CJavaMoveReference.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/CJavaMoveReference.java"
-      ]
+        "naca-trans/src/main/java/semantic/CEntityMoveReference.java",
+        "naca-trans/src/test/java/generate/java/st/CEntityMoveReferenceRenderTest.java",
+        "naca-trans/src/main/resources/contract/runtime-operations.yaml"
+      ],
+      "lastAttemptCommit": "49fdf81a"
     },
     {
       "id": "BACKEND-COBOL-DATA-CJAVANAMEDCONDITION",

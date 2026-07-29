@@ -403,6 +403,16 @@ features:
     fixtures: []
     status: production
 
+  - id: cobol.data.move-reference
+    dialects: [cobol-core]
+    semanticType: semantic.CEntityMoveReference
+    javaBackend:
+      role: REFERENCE
+      template: recursiveMoveReferenceEntity
+    runtimeOperations: [data.moveReference]
+    fixtures: []
+    status: production
+
   - id: cobol.expression.concat
     dialects: [cobol-core]
     semanticType: semantic.expression.CEntityConcat

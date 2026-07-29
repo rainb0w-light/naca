@@ -21,7 +21,7 @@ import utils.CObjectCatalog;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityMoveReference extends CBaseActionEntity
+public class CEntityMoveReference extends CBaseActionEntity
 {
 	/**
 	 * @param line
@@ -39,6 +39,16 @@ public abstract class CEntityMoveReference extends CBaseActionEntity
 	}
 	protected CEntityAddressReference from = null ;
 	protected CEntityAddressReference to = null ;
+
+	public CEntityAddressReference getFrom()
+	{
+		return from ;
+	}
+
+	public CEntityAddressReference getTo()
+	{
+		return to ;
+	}
 	public boolean ignore()
 	{
 		return from.ignore() || to.ignore();

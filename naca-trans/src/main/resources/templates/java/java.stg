@@ -371,6 +371,10 @@ addressOf(<if(reference)><reference><else>[UNDEFINED]<endif>)
 
 addressReferenceEntity(entity) ::= "addressOf(<if(entity.reference)><entity.reference><else>[UNDEFINED]<endif>)"
 
+recursiveMoveReferenceEntity(entity) ::= <<
+moveReferenceTo(<entity.from>, <entity.to>) ;
+>>
+
 internalBooleanReference(identifier) ::= "<identifier>"
 
 internalBooleanDeclaration(entity) ::= "Var <entity.formattedName> = declare.bool() ;"

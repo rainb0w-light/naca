@@ -12,7 +12,6 @@
  */
 package generate;
 
-import generate.java.CJavaMoveReference;
 import generate.java.CJavaNamedCondition;
 import generate.java.CJavaProcedure;
 import generate.java.CJavaProcedureDivision;
@@ -736,7 +735,9 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return e;
 	}
 	public CEntityMoveReference NewEntityMoveReference(int l)	{
-		return new CJavaMoveReference(l, programCatalog, langOutput) ;
+		CEntityMoveReference entity = new CEntityMoveReference(l, programCatalog) ;
+		entity.setLanguageExporter(langOutput) ;
+		return entity ;
 	}
 	public CEntitySubtractTo NewEntitySubtractTo(int l)	{
 		CEntitySubtractTo e = new CEntitySubtractTo(l, programCatalog);

@@ -81,6 +81,11 @@ templates:
       - data.moveAll
       - data.moveCorresponding
 
+  recursiveMoveReferenceEntity:
+    capability: DATA
+    requires:
+      - data.moveReference
+
   recursiveAcceptEntity:
     capability: INPUT_OUTPUT
     requires:
