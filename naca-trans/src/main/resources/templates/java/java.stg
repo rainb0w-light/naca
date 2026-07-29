@@ -1599,5 +1599,5 @@ recursiveReplaceEntity(entity) ::= <<
 >>
 
 recursiveSortEntity(entity) ::= <<
-sort(<entity.fileDescriptor>)<entity.sortKeys:{k | <if(k.ascending)>.ascKey(<else>.descKey(<endif><if(k.key)><k.key><else>[Undefined]<endif>)}><if(entity.inputFile)>.using(<entity.inputFile>)<elseif(entity.inputProcedureRef)>.usingInput(<entity.inputProcedureRef>)<endif><if(entity.outputFile)>.giving(<entity.outputFile>)<elseif(entity.outputProcedureRef)>.usingOutput(<entity.outputProcedureRef>)<endif>.exec() ;
+sort(<entity.fileDescriptor>)<entity.sortKeys:{k | <if(k.ascending)>.ascKey(<else>.descKey(<endif><if(k.key)><k.key><else>[Undefined]<endif>)}><if(entity.inputFile)>.using(<entity.inputFile>)<elseif(entity.inputProcedureName)>.usingInput(<entity.inputProcedureName; format="javaFormattedName">)<elseif(entity.unresolvedInputProcedureName)>.usingInput([<entity.unresolvedInputProcedureName>])<endif><if(entity.outputFile)>.giving(<entity.outputFile>)<elseif(entity.outputProcedureName)>.usingOutput(<entity.outputProcedureName; format="javaFormattedName">)<elseif(entity.unresolvedOutputProcedureName)>.usingOutput([<entity.unresolvedOutputProcedureName>])<endif>.exec() ;
 >>

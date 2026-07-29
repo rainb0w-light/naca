@@ -97,32 +97,47 @@ public class CEntitySort extends CBaseActionEntity
 		return fdOutputFile;
 	}
 
-	public String getInputProcedureRef()
+	public CEntityProcedure getInputProcedure()
 	{
-		CEntityProcedure procedure = pInputProcedure;
-		if (procedure == null && csInputProcedureName != null && programCatalog != null)
-		{
-			procedure = programCatalog.GetProcedure(csInputProcedureName, "");
-		}
-		if (procedure != null)
-		{
-			return procedure.ExportReference(getLine());
-		}
-		return csInputProcedureName != null ? "[" + csInputProcedureName + "]" : null;
+		return resolveProcedure(pInputProcedure, csInputProcedureName);
 	}
 
-	public String getOutputProcedureRef()
+	public CEntityProcedure getOutputProcedure()
 	{
-		CEntityProcedure procedure = pOutputProcedure;
-		if (procedure == null && csOutputProcedureName != null && programCatalog != null)
+		return resolveProcedure(pOutputProcedure, csOutputProcedureName);
+	}
+
+	public String getInputProcedureName()
+	{
+		CEntityProcedure procedure = getInputProcedure();
+		return procedure == null ? null : procedure.GetName();
+	}
+
+	public String getOutputProcedureName()
+	{
+		CEntityProcedure procedure = getOutputProcedure();
+		return procedure == null ? null : procedure.GetName();
+	}
+
+	public String getUnresolvedInputProcedureName()
+	{
+		return getInputProcedure() == null ? csInputProcedureName : null;
+	}
+
+	public String getUnresolvedOutputProcedureName()
+	{
+		return getOutputProcedure() == null ? csOutputProcedureName : null;
+	}
+
+	private CEntityProcedure resolveProcedure(
+		CEntityProcedure procedure,
+		String procedureName)
+	{
+		if (procedure != null || procedureName == null || programCatalog == null)
 		{
-			procedure = programCatalog.GetProcedure(csOutputProcedureName, "");
+			return procedure;
 		}
-		if (procedure != null)
-		{
-			return procedure.ExportReference(getLine());
-		}
-		return csOutputProcedureName != null ? "[" + csOutputProcedureName + "]" : null;
+		return programCatalog.GetProcedure(procedureName, "");
 	}
 
 	public List<SortKeyModel> getSortKeys()
