@@ -1,7 +1,10 @@
 package generate.java.st;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import generate.CJavaEntityFactory;
+import generate.CJavaEntityFactoryST;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.DisplayName;
@@ -11,6 +14,7 @@ import semantic.CDataEntity;
 import semantic.CEntityFileDescriptor;
 import semantic.Verbs.CEntityBreak;
 import semantic.Verbs.CEntityReadFile;
+import utils.CObjectCatalog;
 
 /**
  * READ rendering through the recursive assembler (the production path). READ is
@@ -21,6 +25,8 @@ import semantic.Verbs.CEntityReadFile;
  */
 class ReadFileRenderTest
 {
+    private final CObjectCatalog catalog = new CObjectCatalog(null, null, null, null);
+
     private static CEntityFileDescriptor fileDescriptor(String name)
     {
         return new CEntityFileDescriptor(1, name, null)
@@ -36,19 +42,21 @@ class ReadFileRenderTest
     private static String render(CEntityFileDescriptor fileDesc, CDataEntity dataInto,
         CBaseLanguageEntity atEndBloc, CBaseLanguageEntity notAtEndBloc)
     {
-        CEntityReadFile readFile = new CEntityReadFile(1, null)
-        {
-            @Override
-            public CEntityFileDescriptor getFileDescriptor() { return fileDesc; }
-            @Override
-            public CDataEntity getDataInto() { return dataInto; }
-            @Override
-            public CBaseLanguageEntity getAtEndBloc() { return atEndBloc; }
-            @Override
-            public CBaseLanguageEntity getNotAtEndBloc() { return notAtEndBloc; }
-        };
+        CEntityReadFile readFile = new CEntityReadFile(1, null);
+        readFile.setFileDescriptor(fileDesc, dataInto);
+        readFile.SetAtEndBloc(atEndBloc);
+        readFile.SetNotAtEndBloc(notAtEndBloc);
         return TemplateLoader.getRecursiveAssembler()
             .renderRoot(readFile, JavaTemplateRole.REFERENCE);
+    }
+
+    @Test
+    void bothFactoriesReturnPureSemanticEntity()
+    {
+        assertEquals(CEntityReadFile.class,
+            new CJavaEntityFactory(catalog, null).NewEntityReadFile(1).getClass());
+        assertEquals(CEntityReadFile.class,
+            new CJavaEntityFactoryST(catalog, null).NewEntityReadFile(1).getClass());
     }
 
     @Test

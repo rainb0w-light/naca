@@ -22,11 +22,11 @@
     "ratchet": {
       "note": "Debt counts may only move down for the COBOL scope. Refresh per phase.",
       "baselineCapturedAtCommit": "9402b0c",
-      "lastVerifiedAtCommit": "0e9a1503",
+      "lastVerifiedAtCommit": "230a6782",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 161,
-        "directBackends": 91,
+        "failures": 160,
+        "directBackends": 90,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -2764,25 +2764,28 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "COBOL_CORE",
       "sourceSyntax": "legacy backend CJavaReadFile",
       "parserNode": null,
       "semanticNode": "semantic.Verbs.CEntityReadFile",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
+      "assemblerRole": "REFERENCE",
+      "manifestBinding": "semantic.Verbs.CEntityReadFile=recursiveReadFileEntity",
+      "template": "recursiveReadFileEntity",
+      "runtimeOperation": "file.read",
       "fixture": null,
       "directBackend": "generate.java.verbs.CJavaReadFile",
       "sourcePath": "naca-trans/src/main/java/generate/java/verbs/CJavaReadFile.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/verbs/CJavaReadFile.java"
-      ]
+        "naca-trans/src/main/resources/contract/feature-registry.yaml",
+        "naca-trans/src/main/resources/contract/template-runtime-requirements.yaml",
+        "naca-trans/src/test/java/generate/java/st/ReadFileRenderTest.java"
+      ],
+      "lastAttemptCommit": "230a6782"
     },
     {
       "id": "BACKEND-COBOL-VERB-CJAVAREPLACE",
