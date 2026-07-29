@@ -33,7 +33,6 @@ import generate.java.CJavaSortedFileDescriptor;
 import generate.java.CJavaStructure;
 import generate.java.CJavaSubStringReference;
 import generate.java.CJavaUnknownReference;
-import generate.java.CICS.CJavaCICSIgnoreCondition;
 import generate.java.CICS.CJavaCICSInquire;
 import generate.java.CICS.CJavaCICSReWrite;
 import generate.java.CICS.CJavaCICSRead;
@@ -874,7 +873,9 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return e;
 	}
 	public CEntityCICSIgnoreCondition NewEntityCICSIgnoreCondition(int l)	{
-		return new CJavaCICSIgnoreCondition(l, programCatalog, langOutput);
+		CEntityCICSIgnoreCondition e = new CEntityCICSIgnoreCondition(l, programCatalog);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntityCICSRetrieve NewEntityCICSRetreive(int l, boolean bPointer)	{
 		return new CJavaCICSRetrieve(l, programCatalog, langOutput, bPointer);

@@ -989,6 +989,17 @@ recursiveCICSHandleConditionEntity(entity) ::= <<
 <if(entity.handledConditionEntries)>CESM<entity.handledConditionEntries:{e | .handleCondition("<e.condition>", <e.label>)}><entity.unhandledConditionEntries:{e | .unhandleCondition("<e.condition>")}> ;<elseif(entity.unhandledConditionEntries)>CESM<entity.unhandledConditionEntries:{e | .unhandleCondition("<e.condition>")}> ;<endif>
 >>
 
+// Embedded CICS IGNORE CONDITION (EXEC CICS IGNORE CONDITION COND1 COND2 ...
+// END-EXEC). Emits CESM.ignoreCondition("<cond>") chained calls, one per
+// condition, terminated by " ;". Mirrors CJavaCICSIgnoreCondition.DoExport
+// exactly: all conditions in parser insertion order, all on one line.
+// An entity with no conditions produces no output (the template if-guard
+// is empty), and the assembler's ignore()-based active-children selection
+// filters it at the parent level.
+recursiveCICSIgnoreConditionEntity(entity) ::= <<
+<if(entity.conditions)>CESM<entity.conditions:{c | .ignoreCondition("<c>")}> ;<endif>
+>>
+
 // Embedded CICS HANDLE AID (EXEC CICS HANDLE AID ENTER(label) PF1(label) ...
 // ANYKEY(label) END-EXEC). Emits one CESM.handleAID(<cond>, <label>) per
 // handled AID entry and one CESM.unhandleAID(<cond>) per unhandled AID entry.

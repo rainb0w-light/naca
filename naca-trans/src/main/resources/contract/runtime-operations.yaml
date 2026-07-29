@@ -567,3 +567,17 @@ operations:
     runtimeMethod: unhandleCondition
     paramTypes: [java.lang.String]
     returns: nacaLib.basePrgEnv.BaseCESMManager
+
+  # --- CICS IGNORE CONDITION ---
+  # EXEC CICS IGNORE CONDITION COND1 COND2 ... END-EXEC emits
+  # CESM.ignoreCondition("<cond>") chained calls, one per condition, terminated by
+  # " ;". ignoreCondition(String) is declared on BaseCESMManager like
+  # cics.handleCondition. The method returns BaseCESMManager so chained calls
+  # produce valid Java, mirroring the retired CJavaCICSIgnoreCondition.DoExport.
+  - id: cics.ignoreCondition
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
+    runtimeMethod: ignoreCondition
+    paramTypes: [java.lang.String]
+    returns: nacaLib.basePrgEnv.BaseCESMManager

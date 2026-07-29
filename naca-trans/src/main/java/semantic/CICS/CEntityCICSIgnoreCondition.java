@@ -24,7 +24,7 @@ import java.util.ArrayList;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityCICSIgnoreCondition extends CBaseActionEntity
+public class CEntityCICSIgnoreCondition extends CBaseActionEntity
 {
 	/**
 	 * @param line
@@ -33,7 +33,8 @@ public abstract class CEntityCICSIgnoreCondition extends CBaseActionEntity
 	public CEntityCICSIgnoreCondition(int line, CObjectCatalog cat)
 	{
 		super(line, cat);
-		cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
+		if (cat != null)
+			cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor());
 	}
 	public void IgnoreCondition(String cond)
 	{
@@ -41,8 +42,12 @@ public abstract class CEntityCICSIgnoreCondition extends CBaseActionEntity
 	}
 	
 	protected ArrayList<String> conditions = new ArrayList<String>();
+	public java.util.List<String> getConditions()
+	{
+		return conditions;
+	}
 	public boolean ignore()
 	{
-		return false; 
+		return false;
 	}
 }

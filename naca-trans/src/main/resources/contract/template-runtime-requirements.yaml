@@ -162,3 +162,8 @@ templates:
     requires:
       - cics.handleCondition
       - cics.unhandleCondition
+
+  recursiveCICSIgnoreConditionEntity:
+    capability: CICS
+    requires:
+      - cics.ignoreCondition
