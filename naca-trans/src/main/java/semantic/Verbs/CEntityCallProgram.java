@@ -18,6 +18,7 @@ import java.util.Vector;
 import semantic.CBaseActionEntity;
 import semantic.CBaseLanguageEntity;
 import semantic.CDataEntity;
+import semantic.expression.CEntityString;
 import utils.*;
 
 
@@ -139,27 +140,21 @@ public class CEntityCallProgram extends CBaseActionEntity
 		return reference ;
 	}
 
-	public String getCallableReference()
+	public boolean isLiteralProgramReference()
 	{
-		if (reference == null)
-		{
-			return "[UNDEFINED]";
-		}
-		String name = reference.ExportReference(getLine());
-		if (name.startsWith("\""))
-		{
-			name = name.substring(1, name.length()-1);
-			name = CobolNameUtil.fixJavaName(name);
-			if (ischecked)
-			{
-				name += ".class";
-			}
-			else
-			{
-				name = "\"" + name + "\"";
-			}
-		}
-		return name;
+		return reference instanceof CEntityString;
+	}
+
+	public String getLiteralProgramName()
+	{
+		return isLiteralProgramReference()
+			? ((CEntityString) reference).getLiteralValue()
+			: null;
+	}
+
+	public boolean isChecked()
+	{
+		return ischecked;
 	}
 
 	public Vector<CCallParameterView> getCallParameters()

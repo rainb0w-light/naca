@@ -158,7 +158,7 @@ callFunction(entity) ::= <<
 >>
 
 callProgram(entity) ::= <<
-<if(entity.hasOnErrorBloc)>if (<endif>call(<entity.callableReference>)<entity.callParameters:{p | .<p.method>(<p.reference.referenceString>)}>.<if(entity.hasOnErrorBloc)>executeCallSafe()) {
+<if(entity.hasOnErrorBloc)>if (<endif>call(<if(entity.literalProgramReference)><if(entity.checked)><entity.literalProgramName; format="javaClassName">.class<else>"<entity.literalProgramName; format="javaClassName">"<endif><else><entity.programReference><endif>)<entity.callParameters:{p | .<p.method>(<p.reference.referenceString>)}>.<if(entity.hasOnErrorBloc)>executeCallSafe()) {
 <entity.onErrorBloc.childrenCode>}<else>executeCall();<endif>
 >>
 
@@ -1103,7 +1103,7 @@ recursiveAcceptEntity(entity) ::= <<
 >>
 
 recursiveCallProgramEntity(entity) ::= <<
-<if(entity.onErrorBloc)>if (<endif>call(<entity.callableReference>)<entity.callParameters:{p | .<p.method>(<p.reference>)}>.<if(entity.onErrorBloc)>executeCallSafe()) {
+<if(entity.onErrorBloc)>if (<endif>call(<if(entity.literalProgramReference)><if(entity.checked)><entity.literalProgramName; format="javaClassName">.class<else>"<entity.literalProgramName; format="javaClassName">"<endif><else><entity.programReference><endif>)<entity.callParameters:{p | .<p.method>(<p.reference>)}>.<if(entity.onErrorBloc)>executeCallSafe()) {
 <entity.onErrorBloc>}<else>executeCall();<endif>
 >>
 
