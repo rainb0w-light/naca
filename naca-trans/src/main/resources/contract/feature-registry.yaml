@@ -192,6 +192,16 @@ features:
     fixtures: []
     status: production
 
+  - id: cobol.arithmetic.multiply
+    dialects: [cobol-core]
+    semanticType: semantic.Verbs.CEntityMultiply
+    javaBackend:
+      role: REFERENCE
+      template: recursiveMultiplyEntity
+    runtimeOperations: [math.multiply, math.multiply.to, math.multiply.toRounded]
+    fixtures: []
+    status: production
+
   - id: cics.return
     dialects: [embedded-cics]
     semanticType: semantic.CICS.CEntityCICSReturn

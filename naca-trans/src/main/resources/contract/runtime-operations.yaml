@@ -539,6 +539,30 @@ operations:
     paramTypes: [nacaLib.varEx.VarAndEdit, nacaLib.varEx.VarAndEdit]
     returns: nacaLib.stringSupport.InspectConvert
 
+  - id: math.multiply
+    since: 1
+    capability: ARITHMETIC
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: multiply
+    paramTypes: [nacaLib.varEx.VarAndEdit, nacaLib.varEx.VarAndEdit]
+    returns: nacaLib.mathSupport.MathMultiply
+
+  - id: math.multiply.to
+    since: 1
+    capability: ARITHMETIC
+    runtimeClass: nacaLib.mathSupport.MathBase
+    runtimeMethod: to
+    paramTypes: [nacaLib.varEx.VarAndEdit]
+    returns: nacaLib.mathSupport.MathBase
+
+  - id: math.multiply.toRounded
+    since: 1
+    capability: ARITHMETIC
+    runtimeClass: nacaLib.mathSupport.MathBase
+    runtimeMethod: toRounded
+    paramTypes: [nacaLib.varEx.Var]
+    returns: nacaLib.mathSupport.MathBase
+
   # --- CICS RETURN ---
   # EXEC CICS RETURN END-EXEC emits CESM.returnTrans(...). The contract declares the
   # representative no-argument overload — the production-reachable bare RETURN (e.g.

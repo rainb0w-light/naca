@@ -22,11 +22,11 @@
     "ratchet": {
       "note": "Debt counts may only move down for the COBOL scope. Refresh per phase.",
       "baselineCapturedAtCommit": "9402b0c",
-      "lastVerifiedAtCommit": "2fdcb841",
+      "lastVerifiedAtCommit": "80d05d1e",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 165,
-        "directBackends": 95,
+        "failures": 164,
+        "directBackends": 94,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -2629,25 +2629,27 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "COBOL_CORE",
       "sourceSyntax": "legacy backend CJavaMultiply",
       "parserNode": null,
       "semanticNode": "semantic.Verbs.CEntityMultiply",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
+      "assemblerRole": "REFERENCE",
+      "manifestBinding": "semantic.Verbs.CEntityMultiply=recursiveMultiplyEntity",
+      "template": "recursiveMultiplyEntity",
+      "runtimeOperation": "math.multiply",
       "fixture": null,
       "directBackend": "generate.java.verbs.CJavaMultiply",
       "sourcePath": "naca-trans/src/main/java/generate/java/verbs/CJavaMultiply.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/verbs/CJavaMultiply.java"
-      ]
+        "naca-trans/src/main/java/generate/java/verbs/CJavaMultiply.java",
+        "naca-trans/src/test/java/generate/java/st/CEntityMultiplyRenderTest.java"
+      ],
+      "lastAttemptCommit": "80d05d1e"
     },
     {
       "id": "BACKEND-COBOL-VERB-CJAVANEXTSENTENCE",

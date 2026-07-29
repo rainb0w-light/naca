@@ -145,6 +145,13 @@ templates:
       - inspect.converting
       - inspect.converting.to
 
+  recursiveMultiplyEntity:
+    capability: ARITHMETIC
+    requires:
+      - math.multiply
+      - math.multiply.to
+      - math.multiply.toRounded
+
   recursiveCICSReturnEntity:
     capability: CICS
     requires:
