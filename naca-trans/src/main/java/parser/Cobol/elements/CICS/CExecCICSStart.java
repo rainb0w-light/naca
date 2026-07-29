@@ -12,6 +12,7 @@
  */
 package parser.Cobol.elements.CICS;
 
+import diagnostic.DiagnosticSink;
 import lexer.CBaseToken;
 import lexer.CTokenType;
 import lexer.Cobol.CCobolKeywordList;
@@ -49,6 +50,13 @@ public class CExecCICSStart extends CCobolElement
 	 */
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
+		if (transID == null)
+		{
+			DiagnosticSink.recordUnsupported("cics.start.missing-transid",
+				"embedded-cics", getLine(),
+				"EXEC CICS START requires TRANSID");
+			return null;
+		}
 		CDataEntity TID ;
 		boolean ischecked = false ;
 		if (transID.IsReference())

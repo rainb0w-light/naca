@@ -42,6 +42,19 @@ public class CESMStart extends CJMapObject
 		csTermID = string ;
 		return this ;
 	}
+	public CESMStart termID(Var termID)
+	{
+		return termID(termID.getString()) ;
+	}
+	public CESMStart sysID(String sysID)
+	{
+		// Remote-system routing is not implemented by this local runtime.
+		return this ;
+	}
+	public CESMStart sysID(Var sysID)
+	{
+		return sysID(sysID.getString()) ;
+	}
 	public void doStart()
 	{
 		if (!csTermID.equals(""))

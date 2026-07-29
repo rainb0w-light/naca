@@ -402,6 +402,28 @@ features:
     fixtures: []
     status: production
 
+  - id: cics.start
+    dialects: [embedded-cics]
+    semanticType: semantic.CICS.CEntityCICSStart
+    javaBackend:
+      role: REFERENCE
+      template: recursiveCICSStartEntity
+    runtimeOperations:
+      - cics.start.string
+      - cics.start.var
+      - cics.start.class
+      - cics.start.interval
+      - cics.start.time
+      - cics.start.termIDString
+      - cics.start.termIDVar
+      - cics.start.sysIDString
+      - cics.start.sysIDVar
+      - cics.start.dataFrom
+      - cics.start.dataFromLength
+      - cics.start.doStart
+    fixtures: []
+    status: production
+
   - id: sql.cursorSection
     dialects: [embedded-sql]
     semanticType: semantic.CEntitySQLCursorSection

@@ -155,6 +155,12 @@ class TemplateRuntimeContractTest
             .containsAll(List.of("cics.setTDQueue.closedString",
                 "cics.setTDQueue.closedVar", "cics.setTDQueue.openString",
                 "cics.setTDQueue.openVar")));
+        assertTrue(contract.templateRequirements().get("recursiveCICSStartEntity").requires()
+            .containsAll(List.of("cics.start.string", "cics.start.var",
+                "cics.start.class", "cics.start.termIDString",
+                "cics.start.termIDVar", "cics.start.sysIDString",
+                "cics.start.sysIDVar", "cics.start.dataFrom",
+                "cics.start.dataFromLength")));
     }
 
     private static void collectMethods(Matcher matcher, Set<String> methods)

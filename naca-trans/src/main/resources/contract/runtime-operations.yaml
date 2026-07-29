@@ -1187,3 +1187,100 @@ operations:
     runtimeMethod: setTDQueueOpen
     paramTypes: [nacaLib.varEx.Var]
     returns: nacaLib.misc.CCESMFakeMethodContainer
+
+  # --- CICS START ---
+  - id: cics.start.string
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
+    runtimeMethod: start
+    paramTypes: [java.lang.String]
+    returns: nacaLib.CESM.CESMStart
+
+  - id: cics.start.var
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
+    runtimeMethod: start
+    paramTypes: [nacaLib.varEx.Var]
+    returns: nacaLib.CESM.CESMStart
+
+  - id: cics.start.class
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
+    runtimeMethod: start
+    paramTypes: [java.lang.Class]
+    returns: nacaLib.CESM.CESMStart
+
+  - id: cics.start.interval
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.CESM.CESMStart
+    runtimeMethod: interval
+    paramTypes: [nacaLib.varEx.Var]
+    returns: nacaLib.CESM.CESMStart
+
+  - id: cics.start.time
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.CESM.CESMStart
+    runtimeMethod: time
+    paramTypes: [nacaLib.varEx.Var]
+    returns: nacaLib.CESM.CESMStart
+
+  - id: cics.start.termIDString
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.CESM.CESMStart
+    runtimeMethod: termID
+    paramTypes: [java.lang.String]
+    returns: nacaLib.CESM.CESMStart
+
+  - id: cics.start.termIDVar
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.CESM.CESMStart
+    runtimeMethod: termID
+    paramTypes: [nacaLib.varEx.Var]
+    returns: nacaLib.CESM.CESMStart
+
+  - id: cics.start.sysIDString
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.CESM.CESMStart
+    runtimeMethod: sysID
+    paramTypes: [java.lang.String]
+    returns: nacaLib.CESM.CESMStart
+
+  - id: cics.start.sysIDVar
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.CESM.CESMStart
+    runtimeMethod: sysID
+    paramTypes: [nacaLib.varEx.Var]
+    returns: nacaLib.CESM.CESMStart
+
+  - id: cics.start.dataFrom
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.CESM.CESMStart
+    runtimeMethod: dataFrom
+    paramTypes: [nacaLib.varEx.Var]
+    returns: nacaLib.CESM.CESMStart
+
+  - id: cics.start.dataFromLength
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.CESM.CESMStart
+    runtimeMethod: dataFrom
+    paramTypes: [nacaLib.varEx.Var, nacaLib.varEx.Var]
+    returns: nacaLib.CESM.CESMStart
+
+  - id: cics.start.doStart
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.CESM.CESMStart
+    runtimeMethod: doStart
+    paramTypes: []
+    returns: void

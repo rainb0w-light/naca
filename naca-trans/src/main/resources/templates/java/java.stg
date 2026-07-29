@@ -1052,6 +1052,12 @@ recursiveCICSSetTDQueueEntity(entity) ::= <<
 CESM.setTDQueue<if(entity.open)>Open<else>Closed<endif>(<entity.queueName>) ;
 >>
 
+// Embedded CICS START. Stage 1 resolves TRANSID and all optional operands; ST4
+// only selects the verified class-literal form and formats the fluent call.
+recursiveCICSStartEntity(entity) ::= <<
+CESM.start(<if(entity.verified)><entity.transIDConstantValue>.class<else><entity.transID><endif>)<if(entity.interval)>.interval(<entity.interval>)<elseif(entity.time)>.time(<entity.time>)<endif><if(entity.termID)>.termID(<entity.termID>)<endif><if(entity.sysID)>.sysID(<entity.sysID>)<endif><if(entity.dataFrom)>.dataFrom(<entity.dataFrom><if(entity.dataLength)>, <entity.dataLength><endif>)<endif>.doStart() ;
+>>
+
 // Embedded CICS HANDLE AID (EXEC CICS HANDLE AID ENTER(label) PF1(label) ...
 // ANYKEY(label) END-EXEC). Emits one CESM.handleAID(<cond>, <label>) per
 // handled AID entry and one CESM.unhandleAID(<cond>) per unhandled AID entry.

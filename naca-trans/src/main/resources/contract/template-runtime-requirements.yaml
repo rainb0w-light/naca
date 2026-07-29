@@ -265,3 +265,19 @@ templates:
       - cics.setTDQueue.closedVar
       - cics.setTDQueue.openString
       - cics.setTDQueue.openVar
+
+  recursiveCICSStartEntity:
+    capability: CICS
+    requires:
+      - cics.start.string
+      - cics.start.var
+      - cics.start.class
+      - cics.start.interval
+      - cics.start.time
+      - cics.start.termIDString
+      - cics.start.termIDVar
+      - cics.start.sysIDString
+      - cics.start.sysIDVar
+      - cics.start.dataFrom
+      - cics.start.dataFromLength
+      - cics.start.doStart

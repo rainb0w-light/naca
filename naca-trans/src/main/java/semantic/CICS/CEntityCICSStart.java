@@ -23,7 +23,7 @@ import utils.CobolTranscoder.Notifs.NotifDeclareUseCICSPreprocessor;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityCICSStart extends CBaseActionEntity
+public class CEntityCICSStart extends CBaseActionEntity
 {
 	/**
 	 * @param line
@@ -33,7 +33,10 @@ public abstract class CEntityCICSStart extends CBaseActionEntity
 	{
 		super(line, cat);
 		transID = TID ;
-		cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
+		if (cat != null)
+		{
+			cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
+		}
 	}
 	
 	public void SetInterval(CDataEntity inter)
@@ -42,7 +45,7 @@ public abstract class CEntityCICSStart extends CBaseActionEntity
 	}
 	public void SetTime(CDataEntity time)
 	{
-		time = time ;
+		this.time = time ;
 	}
 	public void SetDataFrom(CDataEntity from, CDataEntity len)
 	{
@@ -91,4 +94,17 @@ public abstract class CEntityCICSStart extends CBaseActionEntity
 		isverified = checked ;
 	}
 	protected boolean isverified = false ;
+
+	public CDataEntity getTransID() { return transID; }
+	public CDataEntity getTermID() { return termID; }
+	public CDataEntity getSysID() { return sysID; }
+	public CDataEntity getInterval() { return interval; }
+	public CDataEntity getTime() { return time; }
+	public CDataEntity getDataFrom() { return dataFrom; }
+	public CDataEntity getDataLength() { return dataLength; }
+	public boolean isVerified() { return isverified; }
+	public String getTransIDConstantValue()
+	{
+		return transID == null ? null : transID.GetConstantValue();
+	}
 }
