@@ -14,6 +14,7 @@ package semantic.Verbs;
 
 import semantic.CBaseActionEntity;
 import semantic.CDataEntity;
+import semantic.SQL.CEntitySQLCode;
 import utils.*;
 
 /**
@@ -182,7 +183,7 @@ public class CEntityInitialize extends CBaseActionEntity
 	/** SQLCODE is reset through a dedicated runtime call rather than initialize(). */
 	public boolean isSqlCodeReset()
 	{
-		return data != null && "getSQLCode()".equals(data.ExportReference(getLine()));
+		return data instanceof CEntitySQLCode;
 	}
 
 }

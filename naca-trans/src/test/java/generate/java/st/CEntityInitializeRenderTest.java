@@ -8,7 +8,9 @@ import generate.CJavaEntityFactoryST;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.Test;
+import semantic.SQL.CEntitySQLCode;
 import semantic.Verbs.CEntityInitialize;
+import utils.CObjectCatalog;
 
 class CEntityInitializeRenderTest
 {
@@ -55,8 +57,9 @@ class CEntityInitializeRenderTest
     @Test
     void sqlCodeUsesDedicatedResetOperation()
     {
+        CObjectCatalog catalog = new CObjectCatalog(null, null, null, null);
         CEntityInitialize initialize = new CEntityInitialize(
-            1, null, new MockDataEntity(1, "getSQLCode()"));
+            1, null, new CEntitySQLCode("SQLCODE", catalog));
 
         assertEquals("resetSQLCode(0);", render(initialize));
     }
