@@ -1040,6 +1040,22 @@ operations:
     paramTypes: [nacaLib.varEx.VarAndEdit]
     returns: boolean
 
+  - id: condition.named.is
+    since: 1
+    capability: CONTROL_FLOW
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: is
+    paramTypes: [nacaLib.varEx.Cond]
+    returns: boolean
+
+  - id: condition.named.isNot
+    since: 1
+    capability: CONTROL_FLOW
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: isNot
+    paramTypes: [nacaLib.varEx.Cond]
+    returns: boolean
+
   # --- INSPECT REPLACING ---
   - id: inspect.replacing
     since: 1

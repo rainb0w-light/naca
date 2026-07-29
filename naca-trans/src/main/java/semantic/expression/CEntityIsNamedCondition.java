@@ -12,6 +12,8 @@
  */
 package semantic.expression;
 
+import semantic.CBaseEntityFactory;
+import semantic.CDataEntity;
 import semantic.CEntityNamedCondition;
 
 /**
@@ -20,7 +22,7 @@ import semantic.CEntityNamedCondition;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityIsNamedCondition extends CUnitaryEntityCondition
+public class CEntityIsNamedCondition extends CUnitaryEntityCondition
 {
 	public void SetCondition(CEntityNamedCondition cond)
 	{
@@ -40,6 +42,27 @@ public abstract class CEntityIsNamedCondition extends CUnitaryEntityCondition
 	public boolean isBinaryCondition()
 	{
 		return false;
+	}
+
+	public int GetPriorityLevel()
+	{
+		return 7;
+	}
+
+	public CBaseEntityCondition GetOppositeCondition()
+	{
+		CEntityIsNamedCondition opposite = new CEntityIsNamedCondition();
+		opposite.isopposite = !isopposite;
+		opposite.reference = reference;
+		return opposite;
+	}
+
+	public CBaseEntityCondition GetSpecialConditionReplacing(
+		String value,
+		CBaseEntityFactory factory,
+		CDataEntity replacement)
+	{
+		return null;
 	}
 
 }

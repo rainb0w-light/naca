@@ -34,7 +34,6 @@ import generate.java.CJavaStructure;
 import generate.java.CJavaSubStringReference;
 import generate.java.CJavaUnknownReference;
 
-import generate.java.expressions.CJavaIsNamedCondition;
 import generate.java.expressions.CJavaLengthOf;
 import generate.java.expressions.CJavaList;
 import generate.java.expressions.CJavaString;
@@ -736,7 +735,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return e;
 	}
 	public CEntityIsNamedCondition NewEntityIsNamedCondition()	{
-		return new CJavaIsNamedCondition();
+		return new CEntityIsNamedCondition();
 	}
 	public CEntityDataSection NewEntityDataSection(int l, String name)	{
 		return new CJavaDataSection(l, name, programCatalog, langOutput);

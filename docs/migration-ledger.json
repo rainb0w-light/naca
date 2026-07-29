@@ -25,8 +25,8 @@
       "lastVerifiedAtCommit": "5903f95d",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 126,
-        "directBackends": 57,
+        "failures": 125,
+        "directBackends": 56,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -3928,25 +3928,27 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "COBOL_CORE",
       "sourceSyntax": "legacy backend CJavaIsNamedCondition",
-      "parserNode": null,
+      "parserNode": "semantic.CEntityNamedCondition",
       "semanticNode": "semantic.expression.CEntityIsNamedCondition",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
+      "assemblerRole": "REFERENCE",
+      "manifestBinding": "semantic.expression.CEntityIsNamedCondition=recursiveNamedConditionEntity",
+      "template": "recursiveNamedConditionEntity",
+      "runtimeOperation": "condition.named.is, condition.named.isNot",
       "fixture": null,
       "directBackend": "generate.java.expressions.CJavaIsNamedCondition",
       "sourcePath": "naca-trans/src/main/java/generate/java/expressions/CJavaIsNamedCondition.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/expressions/CJavaIsNamedCondition.java"
-      ]
+        "naca-trans/src/main/java/semantic/expression/CEntityIsNamedCondition.java",
+        "naca-trans/src/test/java/generate/java/st/CEntityIsNamedConditionRenderTest.java"
+      ],
+      "lastAttemptCommit": "d565a99c"
     },
     {
       "id": "BACKEND-COBOL-EXPRESSION-CJAVALENGTHOF",

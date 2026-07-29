@@ -507,6 +507,16 @@ features:
     fixtures: []
     status: production
 
+  - id: cobol.condition.named
+    dialects: [cobol-core]
+    semanticType: semantic.expression.CEntityIsNamedCondition
+    javaBackend:
+      role: REFERENCE
+      template: recursiveNamedConditionEntity
+    runtimeOperations: [condition.named.is, condition.named.isNot]
+    fixtures: []
+    status: production
+
   - id: cobol.data.initialize
     dialects: [cobol-core]
     semanticType: semantic.Verbs.CEntityInitialize

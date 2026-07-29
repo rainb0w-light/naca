@@ -112,6 +112,12 @@ templates:
       - math.add
       - math.subtract
 
+  recursiveNamedConditionEntity:
+    capability: CONTROL_FLOW
+    requires:
+      - condition.named.is
+      - condition.named.isNot
+
   recursiveCallFunctionEntity:
     capability: CONTROL_FLOW
     requires:
