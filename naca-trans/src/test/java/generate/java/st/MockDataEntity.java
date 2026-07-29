@@ -12,17 +12,17 @@ public class MockDataEntity extends CDataEntity {
     private String mockReferenceValue;
 
     public MockDataEntity(int line, String referenceValue) {
-        super(line, "", null, null);
+        super(line, "", null);
         this.mockReferenceValue = referenceValue;
     }
 
     public MockDataEntity(int line, CObjectCatalog cat, CBaseLanguageExporter out, String referenceValue) {
-        super(line, "", cat, out);
+        super(line, "", cat);
+        setLanguageExporter(out);
         this.mockReferenceValue = referenceValue;
     }
 
-    @Override
-    public String ExportReference(int nLine) {
+        public String ExportReference(int nLine) {
         return mockReferenceValue;
     }
 
@@ -51,8 +51,7 @@ public class MockDataEntity extends CDataEntity {
         return false;
     }
 
-    @Override
-    public String ExportWriteAccessorTo(String varName) {
+        public String ExportWriteAccessorTo(String varName) {
         return mockReferenceValue + " = " + varName + ";";
     }
 

@@ -18,7 +18,7 @@ public class CFPacExprSum extends CEntityExprSum
 
 	public String Export()
 	{
-		return op1.ExportReference(getLine()) + "+" + op2.ExportReference(getLine()) ;
+		return generate.LegacyDataRenderer.renderReference(op1, getLine()) + "+" + generate.LegacyDataRenderer.renderReference(op2, getLine()) ;
 	}
 
 }

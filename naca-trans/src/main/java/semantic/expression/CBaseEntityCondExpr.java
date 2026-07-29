@@ -32,7 +32,7 @@ public abstract class CBaseEntityCondExpr extends CDataEntity
 	}
 	public CBaseEntityCondExpr()
 	{
-		super(0, "", null, null);
+		super(0, "", null);
 	}
 	protected void RegisterMySelfToCatalog()
 	{

@@ -49,13 +49,13 @@ public class CJavaSetColor extends CEntitySetColor
 		}
 		else if (colorVariable != null)
 		{
-			cs += colorVariable.ExportReference(getLine()) + ", " ;
+			cs += generate.LegacyDataRenderer.renderReference(colorVariable, getLine()) + ", " ;
 		}
 		else
 		{
 			cs += "MapFieldAttrColor.NEUTRAL, " ;
 		}
-		cs += field.ExportReference(getLine())+ ") ;" ;
+		cs += generate.LegacyDataRenderer.renderReference(field, getLine())+ ") ;" ;
 		WriteLine(cs) ; 
 	}
 

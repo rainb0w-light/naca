@@ -74,7 +74,7 @@ public class CJavaForm extends CEntityResourceForm
 		String cs = "" ;
 		if (of != null)
 		{
-			cs = of.ExportReference(getLine()) + "." ;
+			cs = generate.LegacyDataRenderer.renderReference(of, getLine()) + "." ;
 		}
 		cs += FormatIdentifier(GetName()) ;
 		return cs ;		

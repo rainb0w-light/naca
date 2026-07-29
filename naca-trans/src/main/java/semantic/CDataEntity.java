@@ -12,8 +12,6 @@
  */
 package semantic;
 
-import generate.*;
-
 import java.util.Vector;
 
 import parser.expression.CTerminal;
@@ -64,11 +62,6 @@ public abstract class CDataEntity extends CBaseLanguageEntity
 //	}
 
 	
-	protected CDataEntity(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out)
-	{
-		super(l, name, cat, out);
-	}
-
 	protected CDataEntity(int l, String name, CObjectCatalog cat)
 	{
 		super(l, name, cat);
@@ -83,26 +76,11 @@ public abstract class CDataEntity extends CBaseLanguageEntity
 		programCatalog.RegisterDataEntity(GetName(), this) ;
 	}
 
-	/** Legacy compatibility value; templates use semantic properties directly. */
-	public String ExportReference(int nLine)
-	{
-		return getSemanticReference();
-	}
-
 	protected String getSemanticReference()
 	{
 		return GetName();
 	}
 	
-	public String export()
-	{
-		return ExportReference(getLine());
-	}
-
-	public String getReferenceString()
-	{
-		return ExportReference(getLine());
-	}
 	public int getNbDimOccurs()
 	{
 		return 0;
@@ -130,11 +108,6 @@ public abstract class CDataEntity extends CBaseLanguageEntity
 	public CBaseExternalEntity of = null ;
 	
 	public abstract boolean HasAccessors() ;
-	public String ExportWriteAccessorTo(String value)
-	{
-		return null;
-	}
-	
 	public abstract boolean isValNeeded();
 	public CDataEntity GetSubStringReference(CBaseEntityExpression start, CBaseEntityExpression length, CBaseEntityFactory factory) 
 	{
@@ -428,16 +401,6 @@ public abstract class CDataEntity extends CBaseLanguageEntity
 	public String getQualifierFormattedName()
 	{
 		return of == null ? null : of.getFormattedName();
-	}
-
-	private String cachedCodeString = null;
-
-	@Override
-	public String getCodeString()
-	{
-		if (cachedCodeString != null) return cachedCodeString;
-		cachedCodeString = ExportReference(getLine());
-		return cachedCodeString;
 	}
 
 }

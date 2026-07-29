@@ -39,6 +39,6 @@ public class CJavaIsFieldModified extends CEntityIsFieldModified
 
 	public String Export()
 	{
-		return "isFieldModified(" + reference.ExportReference(getLine()) + ")" ;
+		return "isFieldModified(" + generate.LegacyDataRenderer.renderReference(reference, getLine()) + ")" ;
 	}
 }

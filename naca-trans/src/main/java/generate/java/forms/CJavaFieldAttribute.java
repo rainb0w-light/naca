@@ -40,7 +40,7 @@ public class CJavaFieldAttribute extends CEntityFieldAttribute
 	}
 	public String ExportReference(int nLine)
 	{
-		return "getAttribute(" + reference.ExportReference(getLine()) + ")" ;
+		return "getAttribute(" + generate.LegacyDataRenderer.renderReference(reference, getLine()) + ")" ;
 	}
 	protected void DoExport()
 	{
@@ -52,7 +52,7 @@ public class CJavaFieldAttribute extends CEntityFieldAttribute
 	}
 	public String ExportWriteAccessorTo(String value)
 	{
-		//return "moveAttribute(" + refField.ExportReference(getLine()) + ", " ;
+		//return "moveAttribute(" + generate.LegacyDataRenderer.renderReference(refField, getLine()) + ", " ;
 		return "" ;		
 	}
 	public boolean isValNeeded()

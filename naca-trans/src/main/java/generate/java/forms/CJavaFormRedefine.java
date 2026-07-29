@@ -64,7 +64,7 @@ public class CJavaFormRedefine extends CEntityFormRedefine
 //		if (!bSaveMap)
 //		{
 			String cs = "MapRedefine " + FormatIdentifier(GetName()) + " = declare.level(1).redefinesMap(" ;
-			cs += eForm.ExportReference(getLine()) ;
+			cs += generate.LegacyDataRenderer.renderReference(eForm, getLine()) ;
 			WriteLine(cs + ") ;");
 			StartOutputBloc();
 			ExportChildren();

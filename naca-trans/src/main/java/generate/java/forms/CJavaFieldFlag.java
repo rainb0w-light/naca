@@ -40,7 +40,7 @@ public class CJavaFieldFlag extends CEntityFieldFlag
 	}
 	public String ExportReference(int nLine)
 	{
-		return reference.ExportReference(getLine()) + ".getFlag()" ;
+		return generate.LegacyDataRenderer.renderReference(reference, getLine()) + ".getFlag()" ;
 		//e.WriteWord(".GetProtected()") ;
 	}
 	public boolean HasAccessors()
@@ -53,7 +53,7 @@ public class CJavaFieldFlag extends CEntityFieldFlag
 	}
 	public String ExportWriteAccessorTo(String value)
 	{
-		return "moveFlag(" + value + ", " + reference.ExportReference(getLine()) + ") ;" ;
+		return "moveFlag(" + value + ", " + generate.LegacyDataRenderer.renderReference(reference, getLine()) + ") ;" ;
 	}
 	public boolean isValNeeded()
 	{

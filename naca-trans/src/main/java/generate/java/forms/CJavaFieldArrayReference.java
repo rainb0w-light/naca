@@ -41,7 +41,7 @@ public class CJavaFieldArrayReference extends CEntityFieldArrayReference
 		if (reference != null && arrIndexes != null)
 		{
 			CBaseEntityExpression exp = arrIndexes.get(0) ;
-			out = reference.ExportReference(getLine()) + ".getAt(" + generate.LegacyExpressionRenderer.render(exp);
+			out = generate.LegacyDataRenderer.renderReference(reference, getLine()) + ".getAt(" + generate.LegacyExpressionRenderer.render(exp);
 			for (int i=1; i<arrIndexes.size();i++)
 			{
 				exp = arrIndexes.get(i) ;

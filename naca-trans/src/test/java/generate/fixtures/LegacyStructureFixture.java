@@ -37,15 +37,15 @@ public final class LegacyStructureFixture extends CEntityStructure
             + " = declare.level(" + Integer.parseInt(csLevel) + ")";
         if (refRedefine != null)
         {
-            line += ".redefines(" + refRedefine.ExportReference(getLine()) + ")";
+            line += ".redefines(" + generate.LegacyDataRenderer.renderReference(refRedefine, getLine()) + ")";
         }
         if (tableSize != null)
         {
             if (tableSizeDepending != null)
             {
                 line += ".occursDepending("
-                    + tableSize.ExportReference(getLine()) + ", "
-                    + tableSizeDepending.ExportReference(getLine()) + ")";
+                    + generate.LegacyDataRenderer.renderReference(tableSize, getLine()) + ", "
+                    + generate.LegacyDataRenderer.renderReference(tableSizeDepending, getLine()) + ")";
             }
             else if (isisVariableLenght)
             {
@@ -53,7 +53,7 @@ public final class LegacyStructureFixture extends CEntityStructure
             }
             else
             {
-                line += ".occurs(" + tableSize.ExportReference(getLine()) + ")";
+                line += ".occurs(" + generate.LegacyDataRenderer.renderReference(tableSize, getLine()) + ")";
             }
         }
         if (!declaredType.equals(""))
@@ -94,7 +94,7 @@ public final class LegacyStructureFixture extends CEntityStructure
         if (value != null)
         {
             String valueMethod = isfillWithValue ? ".valueAll(" : ".value(";
-            WriteWord(valueMethod + value.ExportReference(getLine()) + ")");
+            WriteWord(valueMethod + generate.LegacyDataRenderer.renderReference(value, getLine()) + ")");
         }
         else if (isinitialValueIsSpaces)
         {
@@ -142,19 +142,17 @@ public final class LegacyStructureFixture extends CEntityStructure
         EndOutputBloc();
     }
 
-    @Override
-    public String ExportReference(int line)
+        public String ExportReference(int line)
     {
         String reference = "";
         if (of != null)
         {
-            reference += of.ExportReference(getLine()) + ".";
+            reference += generate.LegacyDataRenderer.renderReference(of, getLine()) + ".";
         }
         return reference + FormatIdentifier(GetDisplayName());
     }
 
-    @Override
-    public String ExportWriteAccessorTo(String value)
+        public String ExportWriteAccessorTo(String value)
     {
         return "";
     }

@@ -17,7 +17,7 @@ class CSubStringReferenceTest
             new LegacyTerminal(new MockDataEntity(1, "index")),
             new LegacyTerminal(new MockDataEntity(1, "1")));
 
-        assertEquals("subString(source, index, 1)", reference.ExportReference(1));
+        assertEquals("subString(source, index, 1)", generate.LegacyDataRenderer.renderReference(reference, 1));
     }
 
     private static final class LegacyTerminal extends CEntityExprTerminal
@@ -29,7 +29,7 @@ class CSubStringReferenceTest
 
         public String Export()
         {
-            return term.ExportReference(getLine());
+            return generate.LegacyDataRenderer.renderReference(term, getLine());
         }
     }
 }

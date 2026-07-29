@@ -36,7 +36,7 @@ public class CFPacJavaAssignSpecial extends CEntityAssignSpecial
 	{
 		if (arithmeticAssign)
 		{
-			WriteLine("movePacked("+ source.ExportReference(getLine()) + ", "+destination.ExportReference(getLine())+") ;") ;
+			WriteLine("movePacked("+ generate.LegacyDataRenderer.renderReference(source, getLine()) + ", "+generate.LegacyDataRenderer.renderReference(destination, getLine())+") ;") ;
 		}
 
 	}

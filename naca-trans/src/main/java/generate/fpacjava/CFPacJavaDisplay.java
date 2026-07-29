@@ -38,7 +38,7 @@ public class CFPacJavaDisplay extends CEntityDisplay
 	{
 		for (CDataEntity e : itemsToDisplay)
 		{
-			WriteLine("wto.display(" + e.ExportReference(getLine()) + ") ;") ;
+			WriteLine("wto.display(" + generate.LegacyDataRenderer.renderReference(e, getLine()) + ") ;") ;
 		}
 	}
 

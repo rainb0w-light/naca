@@ -26,7 +26,7 @@ public class CFPacJavaAssign extends CEntityAssign
 		for (int i=0; i<GetNbRefTo(); i++)
 		{
 			CDataEntity e = GetRefTo(i) ;
-			String cs = "move(" + value.ExportReference(getLine()) + ", " + e.ExportReference(getLine()) + ") ;" ;
+			String cs = "move(" + generate.LegacyDataRenderer.renderReference(value, getLine()) + ", " + generate.LegacyDataRenderer.renderReference(e, getLine()) + ") ;" ;
 			WriteLine(cs) ;
 		}		
 	}

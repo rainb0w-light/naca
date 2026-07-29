@@ -20,10 +20,9 @@ public class CFPacJavaReadAndTestFile extends CEntityFunctionCall
 		setLanguageExporter(out);
 	}
 
-	@Override
 	public String ExportReference(int nLine)
 	{
-		String cs = reference.ExportReference(getLine()) + ".read().atEnd()" ;
+		String cs = generate.LegacyDataRenderer.renderReference(reference, getLine()) + ".read().atEnd()" ;
 		return cs ;
 	}
 

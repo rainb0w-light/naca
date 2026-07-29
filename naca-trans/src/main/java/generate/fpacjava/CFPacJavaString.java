@@ -18,7 +18,6 @@ public final class CFPacJavaString extends CEntityString
         setLanguageExporter(output);
     }
 
-    @Override
     public String ExportReference(int line)
     {
         return "\"" + escape(getLiteralValue()) + "\"";

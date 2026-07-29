@@ -19,7 +19,6 @@ public class CFPacJavaNumber extends CEntityNumber
 		setLanguageExporter(out);
 	}
 
-	@Override
 	public String ExportReference(int nLine)
 	{
 		if (csValue.startsWith("0x"))

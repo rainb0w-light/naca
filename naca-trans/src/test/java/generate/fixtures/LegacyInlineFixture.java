@@ -22,7 +22,7 @@ public final class LegacyInlineFixture extends CEntityInline
         if (externalData.IsNeedDeclarationInClass())
         {
             String type = externalData.GetTypeDecl();
-            String line = type + " " + externalData.ExportReference(getLine())
+            String line = type + " " + generate.LegacyDataRenderer.renderReference(externalData, getLine())
                 + " = " + type + ".Copy(this";
             if (externalData.GetReplaceItem() != 0)
             {

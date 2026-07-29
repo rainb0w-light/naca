@@ -38,7 +38,7 @@ public class CFPacJavaRoutineEmulationCall extends CEntityRoutineEmulationCall
 			}
 			else if (!parameter.ignore())
 			{
-				reference = parameter.ExportReference(getLine());
+				reference = generate.LegacyDataRenderer.renderReference(parameter, getLine());
 			}
 			if (!reference.isEmpty())
 			{

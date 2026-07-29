@@ -23,7 +23,7 @@ public class CEntityConstant extends CDataEntity
 	 */
 	public CEntityConstant(Value val)
 	{
-		super(0, "", null, null);
+		super(0, "", null);
 		eValue = val ;
 	}
 

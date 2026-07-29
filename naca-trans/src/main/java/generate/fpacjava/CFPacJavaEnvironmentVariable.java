@@ -21,7 +21,6 @@ public class CFPacJavaEnvironmentVariable extends CEntityEnvironmentVariable
 		setLanguageExporter(out);
 	}
 
-	@Override
 	public String ExportReference(int nLine)
 	{
 		return csAccessor ;
@@ -33,7 +32,6 @@ public class CFPacJavaEnvironmentVariable extends CEntityEnvironmentVariable
 		return csWriteAccessor != null  && !csWriteAccessor.equals("");
 	}
 
-	@Override
 	public String ExportWriteAccessorTo(String value)
 	{
 		if (csWriteAccessor.endsWith("("))

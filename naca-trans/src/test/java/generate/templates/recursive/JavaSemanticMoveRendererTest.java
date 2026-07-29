@@ -85,11 +85,12 @@ class JavaSemanticMoveRendererTest
             String prefix = isFillAll() ? "moveAll("
                 : isMoveCorresponding() ? "moveCorresponding(" : "move(";
             String source = getValue() == null
-                ? "[UNDEFINED]" : getValue().ExportReference(getLine());
+                ? "[UNDEFINED]"
+                : generate.LegacyDataRenderer.renderReference(getValue(), getLine());
             for (CDataEntity destination : getDestinations())
             {
                 WriteLine(prefix + source + ", "
-                    + destination.ExportReference(getLine()) + ");");
+                    + generate.LegacyDataRenderer.renderReference(destination, getLine()) + ");");
             }
         }
     }

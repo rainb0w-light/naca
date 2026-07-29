@@ -26,7 +26,6 @@ public class CFPacJavaArrayReference extends CEntityArrayReference
 		return reference.GetDataType() ;
 	}
 
-	@Override
 	public String ExportReference(int nLine)
 	{
 		String cs = "" ;
@@ -34,11 +33,11 @@ public class CFPacJavaArrayReference extends CEntityArrayReference
 		{
 			if (cs.equals(""))
 			{
-				cs = reference.ExportReference(getLine()) + "(" + exp.ExportReference(getLine()) ;
+				cs = generate.LegacyDataRenderer.renderReference(reference, getLine()) + "(" + generate.LegacyDataRenderer.renderReference(exp, getLine()) ;
 			}
 			else
 			{
-				cs += ", " + exp.ExportReference(getLine()) ;
+				cs += ", " + generate.LegacyDataRenderer.renderReference(exp, getLine()) ;
 			}
 		}
 		cs += ")" ;
@@ -53,7 +52,6 @@ public class CFPacJavaArrayReference extends CEntityArrayReference
 		return false;
 	}
 
-	@Override
 	public String ExportWriteAccessorTo(String value)
 	{
 		// TODO Auto-generated method stub

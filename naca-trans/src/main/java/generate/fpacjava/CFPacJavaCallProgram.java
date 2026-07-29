@@ -36,7 +36,7 @@ public class CFPacJavaCallProgram extends CEntityCallProgram
 	@Override
 	protected void DoExport()
 	{
-		String name = reference.ExportReference(getLine());
+		String name = generate.LegacyDataRenderer.renderReference(reference, getLine());
 		if (name.startsWith("\""))
 		{
 			name = name.subSequence(1, name.length()-1) + ".class";	
@@ -79,7 +79,7 @@ public class CFPacJavaCallProgram extends CEntityCallProgram
 					}			
 					if (p.reference != null)
 					{
-						cs += p.reference.ExportReference(getLine());
+						cs += generate.LegacyDataRenderer.renderReference(p.reference, getLine());
 					}
 					else
 					{

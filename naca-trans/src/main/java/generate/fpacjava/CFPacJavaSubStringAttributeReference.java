@@ -26,20 +26,19 @@ public class CFPacJavaSubStringAttributeReference extends
 		return reference.GetDataType() ;
 	}
 
-	@Override
 	public String ExportReference(int nLine)
 	{
 		if (reference.HasAccessors())
 		{
-			String cs = reference.ExportReference(getLine()) ;
+			String cs = generate.LegacyDataRenderer.renderReference(reference, getLine()) ;
 			if (!cs.contains("("))
 				cs += "(" ;
 			else
 				cs += ", " ;
-			cs += start.ExportReference(getLine()) ;
+			cs += generate.LegacyDataRenderer.renderReference(start, getLine()) ;
 			if (length != null)
 			{
-				cs += ", " + length.ExportReference(getLine()) ;
+				cs += ", " + generate.LegacyDataRenderer.renderReference(length, getLine()) ;
 			}
 			cs += ")" ;
 			return cs ;
@@ -47,11 +46,11 @@ public class CFPacJavaSubStringAttributeReference extends
 		else
 		{
 			String cs = "buffer(";
-			cs += reference.ExportReference(getLine()) + ", " ;
-			cs += start.ExportReference(getLine()) ;
+			cs += generate.LegacyDataRenderer.renderReference(reference, getLine()) + ", " ;
+			cs += generate.LegacyDataRenderer.renderReference(start, getLine()) ;
 			if (length != null)
 			{
-				cs += ", " + length.ExportReference(getLine()) ;
+				cs += ", " + generate.LegacyDataRenderer.renderReference(length, getLine()) ;
 			}
 			cs += ")" ;
 			return cs ;
@@ -64,10 +63,9 @@ public class CFPacJavaSubStringAttributeReference extends
 		return false;
 	}
 
-	@Override
 	public String ExportWriteAccessorTo(String value)
 	{
-		String cs = "move("+value+", "+reference.ExportReference(getLine())+"("+start.ExportReference(getLine())+", "+length.ExportReference(getLine())+")) ;" ;
+		String cs = "move("+value+", "+generate.LegacyDataRenderer.renderReference(reference, getLine())+"("+generate.LegacyDataRenderer.renderReference(start, getLine())+", "+generate.LegacyDataRenderer.renderReference(length, getLine())+")) ;" ;
 		return cs ;
 	}
 

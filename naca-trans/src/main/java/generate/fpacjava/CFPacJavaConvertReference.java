@@ -31,7 +31,6 @@ public class CFPacJavaConvertReference extends CEntityConvertReference
 	/**
 	 * @see semantic.CDataEntity#ExportReference(getLine())
 	 */
-	@Override
 	public String ExportReference(int nLine)
 	{
 		String csF = "" ;
@@ -45,18 +44,18 @@ public class CFPacJavaConvertReference extends CEntityConvertReference
 		}
 		else
 		{
-			return reference.ExportReference(getLine());
+			return generate.LegacyDataRenderer.renderReference(reference, getLine());
 		}
 		if (reference.HasAccessors())
 		{
-			String cs = reference.ExportReference(getLine()) ;
+			String cs = generate.LegacyDataRenderer.renderReference(reference, getLine()) ;
 			cs += csF  ;
 			return cs ;
 		}
 		else
 		{
 			String cs = "buffer"+csF+"(";
-			cs += reference.ExportReference(getLine()) ;
+			cs += generate.LegacyDataRenderer.renderReference(reference, getLine()) ;
 			return cs ;
 		}
 	}
@@ -73,7 +72,6 @@ public class CFPacJavaConvertReference extends CEntityConvertReference
 	/**
 	 * @see semantic.CDataEntity#ExportWriteAccessorTo(java.lang.String)
 	 */
-	@Override
 	public String ExportWriteAccessorTo(String value)
 	{
 		return null;

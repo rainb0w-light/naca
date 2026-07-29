@@ -21,7 +21,7 @@ public final class LegacyFileDescriptorLengthDependencyFixture
         WriteWord("FileDescriptorDepending " + FormatIdentifier(GetName())
             + " = declare.fileDescriptorDepending(");
         WriteWord(fileDescriptor.getFormattedName() + ", ");
-        WriteWord(lenghtDep.ExportReference(getLine()) + ") ;");
+        WriteWord(generate.LegacyDataRenderer.renderReference(lenghtDep, getLine()) + ") ;");
         WriteEOL();
     }
 }

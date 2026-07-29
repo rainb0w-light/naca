@@ -18,8 +18,7 @@ final class LegacyInternalBoolFixture extends CEntityInternalBool
         setLanguageExporter(output);
     }
 
-    @Override
-    public String ExportReference(int line)
+        public String ExportReference(int line)
     {
         return FormatIdentifier(GetName());
     }

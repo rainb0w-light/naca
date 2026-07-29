@@ -21,7 +21,7 @@ public class CFPacJavaExprTerminal extends CEntityExprTerminal
 	{
 		if (term != null)
 		{
-			return term.ExportReference(getLine());
+			return generate.LegacyDataRenderer.renderReference(term, getLine());
 		}
 		else
 		{

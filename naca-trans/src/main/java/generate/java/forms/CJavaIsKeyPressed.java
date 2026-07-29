@@ -44,7 +44,7 @@ public class CJavaIsKeyPressed extends CEntityIsKeyPressed
 		{
 			cs += "Not" ;
 		}
-		cs += "KeyPressed(" + keyPressed.ExportReference(getLine()) + ")" ;
+		cs += "KeyPressed(" + generate.LegacyDataRenderer.renderReference(keyPressed, getLine()) + ")" ;
 		return cs ;
 	}
 

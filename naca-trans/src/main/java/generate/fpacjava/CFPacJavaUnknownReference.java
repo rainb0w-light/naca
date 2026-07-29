@@ -18,7 +18,6 @@ public class CFPacJavaUnknownReference extends CEntityUnknownReference
 		setLanguageExporter(out);
 	}
 
-	@Override
 	public String ExportReference(int nLine)
 	{
 		return "[UNDEFINED]";
@@ -30,7 +29,6 @@ public class CFPacJavaUnknownReference extends CEntityUnknownReference
 		return false;
 	}
 
-	@Override
 	public String ExportWriteAccessorTo(String value)
 	{
 		return null;

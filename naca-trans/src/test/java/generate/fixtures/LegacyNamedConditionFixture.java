@@ -15,10 +15,9 @@ public final class LegacyNamedConditionFixture extends CEntityNamedCondition
         setLanguageExporter(output);
     }
 
-    @Override
-    public String ExportReference(int line)
+        public String ExportReference(int line)
     {
-        String prefix = of == null ? "" : of.ExportReference(getLine()) + ".";
+        String prefix = of == null ? "" : generate.LegacyDataRenderer.renderReference(of, getLine()) + ".";
         return prefix + FormatIdentifier(GetName());
     }
 
@@ -30,12 +29,17 @@ public final class LegacyNamedConditionFixture extends CEntityNamedCondition
         {
             WriteWord(value == null
                 ? ".value([undefined])"
-                : ".value(" + value.ExportReference(getLine()) + ")");
+                : ".value(" + generate.LegacyDataRenderer.renderReference(value, getLine()) + ")");
         }
         for (int i = 0; i < startIntervals.size() && i < endIntervals.size(); i++)
         {
-            WriteWord(".value(" + startIntervals.get(i).ExportReference(getLine())
-                + ", " + endIntervals.get(i).ExportReference(getLine()) + ")");
+            WriteWord(".value("
+                + generate.LegacyDataRenderer.renderReference(
+                    startIntervals.get(i), getLine())
+                + ", "
+                + generate.LegacyDataRenderer.renderReference(
+                    endIntervals.get(i), getLine())
+                + ")");
         }
         WriteWord(".var() ;");
         WriteEOL();

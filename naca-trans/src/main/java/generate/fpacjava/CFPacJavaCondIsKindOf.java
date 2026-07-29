@@ -48,7 +48,7 @@ public class CFPacJavaCondIsKindOf extends CEntityCondIsKindOf
 		}
 		if (reference != null)
 		{
-			cs += reference.ExportReference(getLine());
+			cs += generate.LegacyDataRenderer.renderReference(reference, getLine());
 		}
 		else
 		{

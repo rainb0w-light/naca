@@ -14,13 +14,12 @@ public final class LegacyIndexFixture extends CEntityIndex
         setLanguageExporter(output);
     }
 
-    @Override
-    public String ExportReference(int line)
+        public String ExportReference(int line)
     {
         String reference = "";
         if (of != null)
         {
-            reference = of.ExportReference(getLine()) + ".";
+            reference = generate.LegacyDataRenderer.renderReference(of, getLine()) + ".";
         }
         return reference + FormatIdentifier(GetName());
     }

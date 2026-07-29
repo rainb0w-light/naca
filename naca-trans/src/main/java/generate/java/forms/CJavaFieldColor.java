@@ -40,7 +40,7 @@ public class CJavaFieldColor extends CEntityFieldColor
 	}
 	public String ExportReference(int nLine)
 	{
-		return reference.ExportReference(getLine()) ;
+		return generate.LegacyDataRenderer.renderReference(reference, getLine()) ;
 	}
 	public boolean HasAccessors()
 	{
@@ -52,7 +52,7 @@ public class CJavaFieldColor extends CEntityFieldColor
 	}
 	public String ExportWriteAccessorTo(String value)
 	{
-		return "moveColor(" + value + ", "+ reference.ExportReference(getLine()) + ") ;" ;
+		return "moveColor(" + value + ", "+ generate.LegacyDataRenderer.renderReference(reference, getLine()) + ") ;" ;
 		
 	}
 	public boolean isValNeeded()

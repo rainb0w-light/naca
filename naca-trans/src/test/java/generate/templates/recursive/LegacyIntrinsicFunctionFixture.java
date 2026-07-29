@@ -22,8 +22,7 @@ final class LegacyIntrinsicFunctionFixture extends CEntityIntrinsicFunction
         setLanguageExporter(output);
     }
 
-    @Override
-    public String ExportReference(int line)
+        public String ExportReference(int line)
     {
         String renderedArguments = getArguments().stream()
             .map(generate.LegacyExpressionRenderer::render)

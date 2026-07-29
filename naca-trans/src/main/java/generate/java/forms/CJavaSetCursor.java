@@ -45,15 +45,15 @@ public class CJavaSetCursor extends CEntitySetCursor
 	{
 		if (referenceValue != null)
 		{
-			WriteLine("moveCursor(" +referenceValue.ExportReference(getLine()) +", "+ refField.ExportReference(getLine()) + ") ;") ;
+			WriteLine("moveCursor(" +generate.LegacyDataRenderer.renderReference(referenceValue, getLine()) +", "+ generate.LegacyDataRenderer.renderReference(refField, getLine()) + ") ;") ;
 		}
 		else if (isremoveCursor)
 		{
-			WriteLine("removeCursor(" + refField.ExportReference(getLine()) + ") ;") ;
+			WriteLine("removeCursor(" + generate.LegacyDataRenderer.renderReference(refField, getLine()) + ") ;") ;
 		}
 		else
 		{
-			WriteLine("setCursor(" + refField.ExportReference(getLine()) + ") ;") ;
+			WriteLine("setCursor(" + generate.LegacyDataRenderer.renderReference(refField, getLine()) + ") ;") ;
 		}
 	}
 

@@ -36,7 +36,7 @@ public class CFPacJavaFileDescriptor extends CEntityFileDescriptor
 		WriteWord(cs) ;
 		if (eOutputBufferInitialValue != null)
 		{
-			WriteWord(".fillOutputBuffer("+eOutputBufferInitialValue.ExportReference(getLine())+")") ;
+			WriteWord(".fillOutputBuffer("+generate.LegacyDataRenderer.renderReference(eOutputBufferInitialValue, getLine())+")") ;
 		}
 		WriteWord(".file() ;") ;
 		WriteEOL() ;

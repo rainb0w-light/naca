@@ -58,11 +58,11 @@ public class CJavaIsFieldFlag extends CEntityIsFieldFlag
 		}
 		if (isisSet)
 		{
-			cs += "FieldFlagSet(" + reference.ExportReference(getLine()) + ")" ;
+			cs += "FieldFlagSet(" + generate.LegacyDataRenderer.renderReference(reference, getLine()) + ")" ;
 		}
 		else
 		{
-			cs += "FieldFlag(" + reference.ExportReference(getLine()) + ", \"" + value + "\")" ;
+			cs += "FieldFlag(" + generate.LegacyDataRenderer.renderReference(reference, getLine()) + ", \"" + value + "\")" ;
 		}
 		return cs ;
 	}

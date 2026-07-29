@@ -45,45 +45,45 @@ public class CJavaSetAttribute extends CEntitySetAttribute
 	{
 		if (attributeValue != null)
 		{
-			WriteLine("moveAttribute("+attributeValue.ExportReference(getLine()) + ", " + refField.ExportReference(getLine()) + ") ;") ;
+			WriteLine("moveAttribute("+generate.LegacyDataRenderer.renderReference(attributeValue, getLine()) + ", " + generate.LegacyDataRenderer.renderReference(refField, getLine()) + ") ;") ;
 			return  ;
 		}
 		// else
 		if (isautoSkip)
 		{
-			WriteLine("moveAttribute(MapFieldAttrProtection.AUTOSKIP, " + refField.ExportReference(getLine()) + ") ;") ;
+			WriteLine("moveAttribute(MapFieldAttrProtection.AUTOSKIP, " + generate.LegacyDataRenderer.renderReference(refField, getLine()) + ") ;") ;
 		}
 		else if (isnumeric)
 		{
-			WriteLine("moveAttribute(MapFieldAttrProtection.NUMERIC, " + refField.ExportReference(getLine()) + ") ;") ;
+			WriteLine("moveAttribute(MapFieldAttrProtection.NUMERIC, " + generate.LegacyDataRenderer.renderReference(refField, getLine()) + ") ;") ;
 		}
 		else if (isprotected)
 		{
-			WriteLine("moveAttribute(MapFieldAttrProtection.PROTECTED, " + refField.ExportReference(getLine()) + ") ;") ;
+			WriteLine("moveAttribute(MapFieldAttrProtection.PROTECTED, " + generate.LegacyDataRenderer.renderReference(refField, getLine()) + ") ;") ;
 		}
 		else if (isunProtected)
 		{
-			WriteLine("moveAttribute(MapFieldAttrProtection.UNPROTECTED, " + refField.ExportReference(getLine()) + ") ;") ;
+			WriteLine("moveAttribute(MapFieldAttrProtection.UNPROTECTED, " + generate.LegacyDataRenderer.renderReference(refField, getLine()) + ") ;") ;
 		}
 		if (isbright)
 		{
-			WriteLine("moveAttribute(MapFieldAttrIntensity.BRIGHT, " + refField.ExportReference(getLine()) + ") ;") ;
+			WriteLine("moveAttribute(MapFieldAttrIntensity.BRIGHT, " + generate.LegacyDataRenderer.renderReference(refField, getLine()) + ") ;") ;
 		}
 		else if (isdark)
 		{
-			WriteLine("moveAttribute(MapFieldAttrIntensity.DARK, " + refField.ExportReference(getLine()) + ") ;") ;
+			WriteLine("moveAttribute(MapFieldAttrIntensity.DARK, " + generate.LegacyDataRenderer.renderReference(refField, getLine()) + ") ;") ;
 		}
 		else if (isnormal)
 		{
-			WriteLine("moveAttribute(MapFieldAttrIntensity.NORMAL, " + refField.ExportReference(getLine()) + ") ;") ;
+			WriteLine("moveAttribute(MapFieldAttrIntensity.NORMAL, " + generate.LegacyDataRenderer.renderReference(refField, getLine()) + ") ;") ;
 		}
 		if (bModified)
 		{
-			WriteLine("moveAttribute(MapFieldAttrModified.MODIFIED, " + refField.ExportReference(getLine()) + ") ;") ;
+			WriteLine("moveAttribute(MapFieldAttrModified.MODIFIED, " + generate.LegacyDataRenderer.renderReference(refField, getLine()) + ") ;") ;
 		}
 		else if (isunmodified)
 		{
-			WriteLine("moveAttribute(MapFieldAttrModified.UNMODIFIED, " + refField.ExportReference(getLine()) + ") ;") ;
+			WriteLine("moveAttribute(MapFieldAttrModified.UNMODIFIED, " + generate.LegacyDataRenderer.renderReference(refField, getLine()) + ") ;") ;
 		}
 	}
 

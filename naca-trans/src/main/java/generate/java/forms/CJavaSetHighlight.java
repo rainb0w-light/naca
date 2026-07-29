@@ -44,27 +44,27 @@ public class CJavaSetHighlight extends CEntitySetHighligh
 	{
 		if (isisBlink)
 		{
-			WriteLine("setFieldBlink(" + refField.ExportReference(getLine())  + ") ;") ;
+			WriteLine("setFieldBlink(" + generate.LegacyDataRenderer.renderReference(refField, getLine())  + ") ;") ;
 		}
 		if (isisReverse)
 		{
-			WriteLine("setFieldReverse("+ refField.ExportReference(getLine())  + ") ;") ;
+			WriteLine("setFieldReverse("+ generate.LegacyDataRenderer.renderReference(refField, getLine())  + ") ;") ;
 		}
 		if (isisUnderlined)
 		{
-			WriteLine("setFieldUnderline(" + refField.ExportReference(getLine())  + ") ;") ;
+			WriteLine("setFieldUnderline(" + generate.LegacyDataRenderer.renderReference(refField, getLine())  + ") ;") ;
 		}
 		if (isisNormal)
 		{
-			WriteLine("setFieldUnhighlighted(" + refField.ExportReference(getLine())  + ") ;") ;
+			WriteLine("setFieldUnhighlighted(" + generate.LegacyDataRenderer.renderReference(refField, getLine())  + ") ;") ;
 		}
 		if (highLightValue != null)
 		{
-			WriteLine("moveHighLighting(" + highLightValue.ExportReference(getLine()) + ", " + refField.ExportReference(getLine())  + ") ;") ;
+			WriteLine("moveHighLighting(" + generate.LegacyDataRenderer.renderReference(highLightValue, getLine()) + ", " + generate.LegacyDataRenderer.renderReference(refField, getLine())  + ") ;") ;
 		}
 		if (!isisBlink && !isisNormal && !isisUnderlined && !isisReverse && highLightValue==null)
 		{
-			WriteLine("resetFieldHighlighting(" + refField.ExportReference(getLine())  + ") ;") ;
+			WriteLine("resetFieldHighlighting(" + generate.LegacyDataRenderer.renderReference(refField, getLine())  + ") ;") ;
 		}
 	}
 

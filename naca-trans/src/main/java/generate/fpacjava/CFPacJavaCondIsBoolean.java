@@ -32,7 +32,7 @@ public class CFPacJavaCondIsBoolean extends CEntityCondIsBoolean
 		{
 			cs += "!" ;
 		}
-		cs += reference.ExportReference(getLine()) ;
+		cs += generate.LegacyDataRenderer.renderReference(reference, getLine()) ;
 		return cs ;
 	}
 

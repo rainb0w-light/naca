@@ -67,7 +67,7 @@ public class CFPacJavaCondIsConstant extends CEntityCondIsConstant
 		{
 			cs += "HighValue(";
 		}
-		cs += reference.ExportReference(getLine()) + ")";
+		cs += generate.LegacyDataRenderer.renderReference(reference, getLine()) + ")";
 		return cs ;
 
 	}

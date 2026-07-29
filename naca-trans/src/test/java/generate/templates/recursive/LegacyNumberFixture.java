@@ -25,8 +25,7 @@ final class LegacyNumberFixture extends CEntityNumber
         setLanguageExporter(output);
     }
 
-    @Override
-    public String ExportReference(int line)
+        public String ExportReference(int line)
     {
         if (isDecimalLiteral())
         {

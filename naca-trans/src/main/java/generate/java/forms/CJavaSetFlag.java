@@ -44,11 +44,11 @@ public class CJavaSetFlag extends CEntitySetFlag
 	{
 		if (flagValue != null)
 		{
-			WriteLine("moveFlag(\"" + flagValue + "\", " + refField.ExportReference(getLine()) + ") ;") ;
+			WriteLine("moveFlag(\"" + flagValue + "\", " + generate.LegacyDataRenderer.renderReference(refField, getLine()) + ") ;") ;
 		}
 		else
 		{
-			WriteLine("resetFlag("+refField.ExportReference(getLine()) + ") ;") ;
+			WriteLine("resetFlag("+generate.LegacyDataRenderer.renderReference(refField, getLine()) + ") ;") ;
 		}
 	}
 

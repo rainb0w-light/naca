@@ -59,7 +59,7 @@ public final class LegacyAttributeFixture extends CEntityAttribute
         if (value != null)
         {
             WriteWord((isfillWithValue ? ".valueAll(" : ".value(")
-                + value.ExportReference(getLine()) + ")");
+                + generate.LegacyDataRenderer.renderReference(value, getLine()) + ")");
         }
         else if (isinitialValueIsSpaces)
         {
@@ -92,10 +92,9 @@ public final class LegacyAttributeFixture extends CEntityAttribute
         EndOutputBloc();
     }
 
-    @Override
-    public String ExportReference(int line)
+        public String ExportReference(int line)
     {
-        String prefix = of == null ? "" : of.ExportReference(getLine()) + ".";
+        String prefix = of == null ? "" : generate.LegacyDataRenderer.renderReference(of, getLine()) + ".";
         return prefix + FormatIdentifier(GetName());
     }
 }

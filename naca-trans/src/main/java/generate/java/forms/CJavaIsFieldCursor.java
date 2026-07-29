@@ -54,7 +54,7 @@ public class CJavaIsFieldCursor extends CEntityIsFieldCursor
 		{
 			cs += "Not";
 		}
-		cs += "FieldHasCursor("+reference.ExportReference(getLine())+")";
+		cs += "FieldHasCursor("+generate.LegacyDataRenderer.renderReference(reference, getLine())+")";
 		return cs;
 	}
 

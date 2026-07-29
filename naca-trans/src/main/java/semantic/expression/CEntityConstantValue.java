@@ -11,7 +11,7 @@ public class CEntityConstantValue extends CDataEntity
 {
 	public CEntityConstantValue(String value)
 	{
-		super(0, "", null, null);
+		super(0, "", null);
 		this.value = value;
 	}
 

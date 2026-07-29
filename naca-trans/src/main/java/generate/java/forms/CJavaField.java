@@ -45,7 +45,7 @@ public class CJavaField extends CEntityResourceField
 		String cs = "" ;
 		if (of != null)
 		{
-			cs += of.ExportReference(getLine());
+			cs += generate.LegacyDataRenderer.renderReference(of, getLine());
 			cs += ".";
 		}
 		cs += FormatIdentifier(GetName()) ;

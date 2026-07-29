@@ -16,8 +16,7 @@ public final class LegacyExternalDataStructureFixture
         setLanguageExporter(output);
     }
 
-    @Override
-    public String ExportReference(int line)
+        public String ExportReference(int line)
     {
         return FormatIdentifier(GetDisplayName());
     }

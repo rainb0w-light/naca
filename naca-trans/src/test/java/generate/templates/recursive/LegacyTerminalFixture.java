@@ -15,6 +15,6 @@ final class LegacyTerminalFixture extends CEntityExprTerminal
 
     public String Export()
     {
-        return term == null ? "[UNDEFINED]" : term.ExportReference(getLine());
+        return term == null ? "[UNDEFINED]" : generate.LegacyDataRenderer.renderReference(term, getLine());
     }
 }

@@ -19,9 +19,8 @@ final class LegacyLengthOfFixture extends CEntityLengthOf
         setLanguageExporter(output);
     }
 
-    @Override
-    public String ExportReference(int line)
+        public String ExportReference(int line)
     {
-        return "lengthOf(" + reference.ExportReference(getLine()) + ")";
+        return "lengthOf(" + generate.LegacyDataRenderer.renderReference(reference, getLine()) + ")";
     }
 }

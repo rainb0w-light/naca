@@ -45,7 +45,7 @@ public class CJavaFormAccessor extends CEntityFormAccessor
 	 */
 	public String ExportReference(int nLine)
 	{
-		return owner.ExportReference(getLine()) ;
+		return generate.LegacyDataRenderer.renderReference(owner, getLine()) ;
 	}
 
 	/* (non-Javadoc)
@@ -61,7 +61,7 @@ public class CJavaFormAccessor extends CEntityFormAccessor
 	 */
 	public String ExportWriteAccessorTo(String value)
 	{
-		return owner.ExportWriteAccessorTo(value) ;
+		return generate.LegacyDataRenderer.renderWriteAccessor(owner, value) ;
 	}
 	public boolean isValNeeded()
 	{

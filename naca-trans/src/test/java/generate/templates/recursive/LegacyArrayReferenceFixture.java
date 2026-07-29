@@ -11,14 +11,13 @@ final class LegacyArrayReferenceFixture extends CEntityArrayReference
         super(line, catalog);
     }
 
-    @Override
-    public String ExportReference(int line)
+        public String ExportReference(int line)
     {
         if (reference == null || arrIndexes.isEmpty())
         {
             return "";
         }
-        StringBuilder result = new StringBuilder(reference.ExportReference(line));
+        StringBuilder result = new StringBuilder(generate.LegacyDataRenderer.renderReference(reference, line));
         result.append(".getAt(");
         for (int i = 0; i < arrIndexes.size(); i++)
         {

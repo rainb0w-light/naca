@@ -41,7 +41,7 @@ class JavaSemanticLiteralRendererTest
             "999999999999999999999999"))
         {
             LegacyNumberFixture value = number(raw);
-            assertEquals(value.ExportReference(1), assembler.renderRoot(value, JavaTemplateRole.REFERENCE), raw);
+            assertEquals(generate.LegacyDataRenderer.renderReference(value, 1), assembler.renderRoot(value, JavaTemplateRole.REFERENCE), raw);
         }
 
         for (char[] raw : List.of(
@@ -51,7 +51,7 @@ class JavaSemanticLiteralRendererTest
             new char[] {(char) 0x4f60}))
         {
             LegacyStringFixture value = new LegacyStringFixture(null, null, raw);
-            assertEquals(value.ExportReference(1), assembler.renderRoot(value, JavaTemplateRole.REFERENCE));
+            assertEquals(generate.LegacyDataRenderer.renderReference(value, 1), assembler.renderRoot(value, JavaTemplateRole.REFERENCE));
         }
     }
 

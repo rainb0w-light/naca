@@ -76,7 +76,7 @@ public class CJavaIsFieldAttribute extends CEntityIsFieldAttribute
 		boolean isaddBracket = false;
 		if (varValue != null)
 		{
-			cs += start + "FieldAttribute("+ reference.ExportReference(getLine())+", " + varValue.ExportReference(getLine())+ ")";
+			cs += start + "FieldAttribute("+ generate.LegacyDataRenderer.renderReference(reference, getLine())+", " + generate.LegacyDataRenderer.renderReference(varValue, getLine())+ ")";
 		}		
 		else
 		{
@@ -141,7 +141,7 @@ public class CJavaIsFieldAttribute extends CEntityIsFieldAttribute
 				toto += " && " ;
 			}
 		}
-		return toto + cs + "(" + reference.ExportReference(getLine()) + ")" ;
+		return toto + cs + "(" + generate.LegacyDataRenderer.renderReference(reference, getLine()) + ")" ;
 	} 
 
 }

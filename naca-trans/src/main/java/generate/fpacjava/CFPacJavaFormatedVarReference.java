@@ -33,10 +33,9 @@ public class CFPacJavaFormatedVarReference extends CEntityFormatedVarReference
 	/**
 	 * @see semantic.CDataEntity#ExportReference(getLine())
 	 */
-	@Override
 	public String ExportReference(int nLine)
 	{
-		return reference.ExportReference(getLine());
+		return generate.LegacyDataRenderer.renderReference(reference, getLine());
 	}
 
 	/**
@@ -51,10 +50,9 @@ public class CFPacJavaFormatedVarReference extends CEntityFormatedVarReference
 	/**
 	 * @see semantic.CDataEntity#ExportWriteAccessorTo(java.lang.String)
 	 */
-	@Override
 	public String ExportWriteAccessorTo(String value)
 	{
-		String cs = "moveFormated(" + value + ", " + reference.ExportReference(getLine()) + ", \"" + csFormat + "\"); " ;
+		String cs = "moveFormated(" + value + ", " + generate.LegacyDataRenderer.renderReference(reference, getLine()) + ", \"" + csFormat + "\"); " ;
 		return cs;
 	}
 

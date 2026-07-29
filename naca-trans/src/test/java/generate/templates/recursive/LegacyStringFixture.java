@@ -18,8 +18,7 @@ final class LegacyStringFixture extends CEntityString
         setLanguageExporter(output);
     }
 
-    @Override
-    public String ExportReference(int line)
+        public String ExportReference(int line)
     {
         return generate.templates.TemplateLoader.getRecursiveAssembler()
             .renderRoot(this, JavaTemplateRole.REFERENCE);

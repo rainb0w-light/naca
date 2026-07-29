@@ -58,7 +58,7 @@ public class CJavaIsFieldColor extends CEntityIsFieldColor
 		{
 			cs += "Not" ;
 		}
-		return cs += "FieldColored(" + reference.ExportReference(getLine()) + ", MapFieldAttrColor."+ this.isColor.text + ")";
+		return cs += "FieldColored(" + generate.LegacyDataRenderer.renderReference(reference, getLine()) + ", MapFieldAttrColor."+ this.isColor.text + ")";
 	}
 
 }

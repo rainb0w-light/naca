@@ -50,7 +50,7 @@ public class CJavaFormContainer extends CEntityResourceFormContainer
 //	{
 //		Element eForms = GetXMLOutput().CreateRoot("Forms") ;
 //		eForms.setAttribute("Name", GetName()) ;
-//		
+//
 //		for (int i=0; i<arrForm.size(); i++)
 //		{
 //			CEntityResourceForm e = (CEntityResourceForm)arrForm.get(i) ;
@@ -63,8 +63,8 @@ public class CJavaFormContainer extends CEntityResourceFormContainer
 	public String ExportReference(int nLine)
 	{
 		//e.WriteWord(GetName()) ;
-		//return m_Form.ExportReference(getLine());	
-		return FormatIdentifier(GetName());	
+		//return generate.LegacyDataRenderer.renderReference(m_Form, getLine());
+		return FormatIdentifier(GetName());
 	}
 	public boolean HasAccessors()
 	{
@@ -90,14 +90,14 @@ public class CJavaFormContainer extends CEntityResourceFormContainer
 		WriteLine("return new "+name+"(program);");
 		EndOutputBloc();
 		WriteLine("}");
-		
+
 		WriteLine("static "+name+" Copy(BaseProgram program, CopyReplacing rep)  {");
 		StartOutputBloc() ;
 		WriteLine("Assert(\"Unimplemented replacing for MAPs\") ;");
 		WriteLine("return null ;");
 		EndOutputBloc();
 		WriteLine("}");
-		
+
 		WriteLine(""+name+"(BaseProgram program) {");
 		StartOutputBloc() ;
 		WriteLine("super(program);");
@@ -121,10 +121,10 @@ public class CJavaFormContainer extends CEntityResourceFormContainer
 //				String lang = e.getAttribute("LangID");
 //				cs += ".text(\""+lang+"\", \""+text+"\")" ;
 //				WriteWord(cs) ;
-//			}			
+//			}
 //			WriteWord(";");
 //			WriteEOL();
-//		} 
+//		}
 
 		int nbForms = arrForm.size() ;
 		for (int i=0; i<nbForms; i++)
@@ -135,7 +135,7 @@ public class CJavaFormContainer extends CEntityResourceFormContainer
 ////			String sizeCol = eForm.getAttribute("SizeCol");
 ////			String sizeLine = eForm.getAttribute("SizeLine");
 //			WriteLine("Form " + formname + " = form() ;") ;
-//			
+//
 //			StartOutputBloc() ;
 //			Vector lstFields = eForm.GetListOfChildren() ;
 //			int nbFields = lstFields.size() ;
@@ -144,7 +144,7 @@ public class CJavaFormContainer extends CEntityResourceFormContainer
 //				CEntityResourceField eField = (CEntityResourceField)lstFields.get(j);
 //				String cs = GetLineForField(eField) ;
 //				WriteLine(cs);
-//			} 
+//			}
 //			NodeList lstLabels = eForm.getElementsByTagName("Label") ;
 //			int nbLabels = lstLabels.getLength() ;
 //			for (int j=0;j<nbLabels; j++)
@@ -152,7 +152,7 @@ public class CJavaFormContainer extends CEntityResourceFormContainer
 //				Element eField = (Element)lstLabels.item(j);
 //				String cs = GetLineForLabel(eField) ;
 //				WriteLine(cs);
-//			} 
+//			}
 //
 //			EndOutputBloc() ;
 		}
@@ -174,7 +174,7 @@ public class CJavaFormContainer extends CEntityResourceFormContainer
 	}
 	public String ExportWriteAccessorTo(String value)
 	{
-		// unused		
+		// unused
 		return "" ;
 	}
 	public boolean isValNeeded()
@@ -198,7 +198,7 @@ public class CJavaFormContainer extends CEntityResourceFormContainer
 	{
 		if (owner != null)
 		{// these are class names, not identifiers, so DO NOT FORMAT like others identifiers
-			return owner.GetTypeDecl() + "." + GetName().replace('-', '_'); 
+			return owner.GetTypeDecl() + "." + GetName().replace('-', '_');
 		}
 		else
 		{

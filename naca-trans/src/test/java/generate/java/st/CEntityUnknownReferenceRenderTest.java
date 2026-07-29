@@ -2,7 +2,6 @@ package generate.java.st;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 import generate.CJavaEntityFactory;
 import generate.CJavaEntityFactoryST;
@@ -38,7 +37,8 @@ class CEntityUnknownReferenceRenderTest
             reference.GetDataType());
         assertFalse(reference.HasAccessors());
         assertFalse(reference.isValNeeded());
-        assertNull(reference.ExportReference(1));
+        assertEquals("",
+            generate.LegacyDataRenderer.renderReference(reference, 1));
         assertEquals("", TemplateLoader.getRecursiveAssembler()
             .renderRoot(reference, JavaTemplateRole.REFERENCE));
         assertEquals("", TemplateLoader.getRecursiveAssembler()

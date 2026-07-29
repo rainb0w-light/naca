@@ -65,7 +65,7 @@ public class CJavaIsFieldHighlight extends CEntityIsFieldHighlight
 		{
 			cs += "FieldHighlightNormal(";
 		}
-		cs += reference.ExportReference(getLine()) + ")";
+		cs += generate.LegacyDataRenderer.renderReference(reference, getLine()) + ")";
 		return cs ;
 	}
 

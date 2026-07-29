@@ -40,7 +40,7 @@ public class CJavaFieldHighligh extends CEntityFieldHighlight
 	}
 	public String ExportReference(int nLine)
 	{
-		return "getHighlighting(" + reference.ExportReference(getLine()) + ")" ;
+		return "getHighlighting(" + generate.LegacyDataRenderer.renderReference(reference, getLine()) + ")" ;
 	}
 	public boolean HasAccessors()
 	{
@@ -53,7 +53,7 @@ public class CJavaFieldHighligh extends CEntityFieldHighlight
 	}
 	public String ExportWriteAccessorTo(String value)
 	{
-		return "moveHighlight(" + value +", " + reference.ExportReference(getLine()) + ") ;";
+		return "moveHighlight(" + value +", " + generate.LegacyDataRenderer.renderReference(reference, getLine()) + ") ;";
 		
 	}
 	public boolean isValNeeded()

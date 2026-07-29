@@ -27,13 +27,13 @@ public class CFPacJavaAssignWithAccessor extends CEntityAssignWithAccessor
 		String val = "" ;
 		if (value != null)
 		{
-			val = value.ExportReference(getLine()) ;
+			val = generate.LegacyDataRenderer.renderReference(value, getLine()) ;
 		}
 		if (value.GetDataType() == CDataEntityType.VAR && reference.GetDataType() == CDataEntityType.NUMERIC_VAR)
 		{
 			val += ".getInt()" ;
 		}
-		String out = reference.ExportWriteAccessorTo(val) ;
+		String out = generate.LegacyDataRenderer.renderWriteAccessor(reference, val) ;
 		if (out == null)
 		{
 			WriteLine("");

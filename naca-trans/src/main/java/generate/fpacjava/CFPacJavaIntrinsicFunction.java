@@ -23,7 +23,6 @@ public final class CFPacJavaIntrinsicFunction extends CEntityIntrinsicFunction
         setLanguageExporter(output);
     }
 
-    @Override
     public String ExportReference(int line)
     {
         String renderedArguments = getArguments().stream()

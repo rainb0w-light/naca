@@ -1085,7 +1085,9 @@ public class CSpecialActionContainer
 				CEntityStructure struct = (CEntityStructure) le ;
 				if (struct.getComp() != null && (struct.getComp().equalsIgnoreCase("COMP4") || struct.getComp().equalsIgnoreCase("COMP")))
 				{
-					Transcoder.logWarn(struct.getLine(), "COMP4 in fixed length file structure : "+struct.ExportReference(0)) ;
+					Transcoder.logWarn(struct.getLine(),
+						"COMP4 in fixed length file structure : "
+							+ generate.LegacyDataRenderer.renderReference(struct, 0)) ;
 				}
 				if (struct.HasChildren())
 				{

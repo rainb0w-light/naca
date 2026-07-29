@@ -87,15 +87,15 @@ class JavaSemanticConditionRendererTest
             1, "VALID-STATUS", catalog, output);
         named.AddValue(new LegacyNumberFixture(catalog, "1"));
 
-        assertEquals(named.ExportReference(1), assembler.renderRoot(named, JavaTemplateRole.REFERENCE));
+        assertEquals(generate.LegacyDataRenderer.renderReference(named, 1), assembler.renderRoot(named, JavaTemplateRole.REFERENCE));
 
         CBaseEntityCondition condition = named.GetAssociatedCondition(
             new generate.CJavaEntityFactory(catalog, output));
         String conditionOutput = assembler.renderRoot(condition, JavaTemplateRole.REFERENCE);
         String oppositeOutput = assembler.renderRoot(
             condition.GetOppositeCondition(), JavaTemplateRole.REFERENCE);
-        assertEquals("is(" + named.ExportReference(1) + ")", conditionOutput);
-        assertEquals("isNot(" + named.ExportReference(1) + ")", oppositeOutput);
+        assertEquals("is(" + generate.LegacyDataRenderer.renderReference(named, 1) + ")", conditionOutput);
+        assertEquals("isNot(" + generate.LegacyDataRenderer.renderReference(named, 1) + ")", oppositeOutput);
     }
 
     @Test

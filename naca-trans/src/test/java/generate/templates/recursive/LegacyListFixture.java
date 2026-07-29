@@ -20,8 +20,7 @@ final class LegacyListFixture extends CEntityList
         setLanguageExporter(output);
     }
 
-    @Override
-    public String ExportReference(int line)
+        public String ExportReference(int line)
     {
         if (isEmpty())
         {
@@ -32,7 +31,7 @@ final class LegacyListFixture extends CEntityList
             : isFieldElements() ? "Edit" : isNumberElements() ? "int" : "Var";
         return "new " + type + "[] {"
             + getData().stream()
-                .map(value -> value.ExportReference(getLine()))
+                .map(value -> generate.LegacyDataRenderer.renderReference(value, getLine()))
                 .collect(Collectors.joining(", "))
             + "}";
     }

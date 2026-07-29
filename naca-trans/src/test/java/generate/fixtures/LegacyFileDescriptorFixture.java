@@ -20,7 +20,8 @@ public final class LegacyFileDescriptorFixture extends CEntityFileDescriptor
         String file = null;
         if (fileSelect != null && fileSelect.GetFileName() != null)
         {
-            file = fileSelect.GetFileName().ExportReference(getLine());
+            file = generate.LegacyDataRenderer.renderReference(
+                fileSelect.GetFileName(), getLine());
         }
         if (file == null || file.trim().isEmpty() || file.equals("null"))
         {
@@ -31,7 +32,9 @@ public final class LegacyFileDescriptorFixture extends CEntityFileDescriptor
         if (fileSelect != null && fileSelect.getFileStatus() != null)
         {
             WriteWord(".status("
-                + fileSelect.getFileStatus().ExportReference(getLine()) + ")");
+                + generate.LegacyDataRenderer.renderReference(
+                    fileSelect.getFileStatus(), getLine())
+                + ")");
         }
         WriteWord(" ;");
         WriteEOL();
