@@ -800,6 +800,38 @@ operations:
     paramTypes: [nacaLib.varEx.VarAndEdit]
     returns: nacaLib.misc.Pointer
 
+  - id: expression.concat.varVar
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: concat
+    paramTypes: [nacaLib.varEx.VarAndEdit, nacaLib.varEx.VarAndEdit]
+    returns: java.lang.String
+
+  - id: expression.concat.varString
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: concat
+    paramTypes: [nacaLib.varEx.VarAndEdit, java.lang.String]
+    returns: java.lang.String
+
+  - id: expression.concat.stringVar
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: concat
+    paramTypes: [java.lang.String, nacaLib.varEx.VarAndEdit]
+    returns: java.lang.String
+
+  - id: expression.concat.stringString
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: concat
+    paramTypes: [java.lang.String, java.lang.String]
+    returns: java.lang.String
+
   - id: compare.isLess.intVarAndEdit
     since: 1
     capability: CONTROL_FLOW

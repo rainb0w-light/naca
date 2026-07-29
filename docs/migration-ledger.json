@@ -22,11 +22,11 @@
     "ratchet": {
       "note": "Debt counts may only move down for the COBOL scope. Refresh per phase.",
       "baselineCapturedAtCommit": "9402b0c",
-      "lastVerifiedAtCommit": "af1179fa",
+      "lastVerifiedAtCommit": "ddb1bdc7",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 147,
-        "directBackends": 77,
+        "failures": 146,
+        "directBackends": 76,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -3252,25 +3252,29 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "COBOL_CORE",
       "sourceSyntax": "legacy backend CJavaConcat",
       "parserNode": null,
       "semanticNode": "semantic.expression.CEntityConcat",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
+      "assemblerRole": "REFERENCE",
+      "manifestBinding": "semantic.expression.CEntityConcat=concatExpressionEntity",
+      "template": "concatExpressionEntity",
+      "runtimeOperation": "expression.concat.varVar",
       "fixture": null,
       "directBackend": "generate.java.expressions.CJavaConcat",
       "sourcePath": "naca-trans/src/main/java/generate/java/expressions/CJavaConcat.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/expressions/CJavaConcat.java"
-      ]
+        "naca-trans/src/main/java/semantic/expression/CEntityConcat.java",
+        "naca-trans/src/main/resources/contract/feature-registry.yaml",
+        "naca-trans/src/main/resources/contract/runtime-operations.yaml",
+        "naca-trans/src/test/java/generate/java/st/CEntityConcatRenderTest.java"
+      ],
+      "lastAttemptCommit": "ddb1bdc7"
     },
     {
       "id": "BACKEND-COBOL-EXPRESSION-CJAVACONDAND",

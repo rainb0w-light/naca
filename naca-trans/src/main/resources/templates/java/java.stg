@@ -389,7 +389,7 @@ digitsExpressionEntity(entity) ::= "digits(<entity.reference>)"
 
 concatExpression(left, right) ::= "concat(<left>, <right>)"
 
-concatExpressionEntity(entity) ::= "concat(<entity.reference>, <entity.secondReference>)"
+concatExpressionEntity(entity) ::= "concat(<if(entity.reference)><entity.reference><else>[UNDEFINED]<endif>, <if(entity.secondReference)><entity.secondReference><else>[UNDEFINED]<endif>)"
 
 listExpression(empty, stringElements, fieldElements, numberElements, elements) ::= <<
 <if(empty)>null<else>new <if(stringElements)>String<elseif(fieldElements)>Edit<elseif(numberElements)>int<else>Var<endif>[] {<elements; separator=", ">}<endif>

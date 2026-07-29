@@ -34,7 +34,6 @@ import generate.java.CJavaStructure;
 import generate.java.CJavaSubStringReference;
 import generate.java.CJavaUnknownReference;
 
-import generate.java.expressions.CJavaConcat;
 import generate.java.expressions.CJavaCondAnd;
 import generate.java.expressions.CJavaCondCompare;
 import generate.java.expressions.CJavaCondEquals;
@@ -1137,7 +1136,9 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return arr ;
 	}	
 	public CEntityConcat NewEntityConcat(CDataEntity e1, CDataEntity e2)	{
-		return new CJavaConcat(programCatalog, langOutput, e1, e2) ;
+		CEntityConcat e = new CEntityConcat(programCatalog, e1, e2);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntityIsFieldCursor NewEntityIsFieldCursor()	{
 		return new CJavaIsFieldCursor() ;

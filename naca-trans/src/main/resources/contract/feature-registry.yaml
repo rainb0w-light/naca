@@ -283,6 +283,16 @@ features:
     fixtures: []
     status: production
 
+  - id: cobol.expression.concat
+    dialects: [cobol-core]
+    semanticType: semantic.expression.CEntityConcat
+    javaBackend:
+      role: REFERENCE
+      template: concatExpressionEntity
+    runtimeOperations: [expression.concat.varVar, expression.concat.varString, expression.concat.stringVar, expression.concat.stringString]
+    fixtures: []
+    status: production
+
   - id: cobol.data.initialize
     dialects: [cobol-core]
     semanticType: semantic.Verbs.CEntityInitialize

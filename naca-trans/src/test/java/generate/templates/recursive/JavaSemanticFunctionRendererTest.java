@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import generate.java.CJavaAttribute;
 import generate.java.CJavaExporter;
-import generate.java.expressions.CJavaConcat;
 import generate.java.expressions.CJavaCurrentDate;
 import generate.java.expressions.CJavaDigits;
 import generate.java.expressions.CJavaEntityNumber;
@@ -23,6 +22,7 @@ import semantic.CDataEntity;
 import semantic.CEntityValueReference;
 import semantic.expression.CBaseEntityExpression;
 import semantic.expression.CEntityAddressOf;
+import semantic.expression.CEntityConcat;
 import utils.CObjectCatalog;
 
 class JavaSemanticFunctionRendererTest
@@ -53,12 +53,12 @@ class JavaSemanticFunctionRendererTest
     @Test
     void recursivelyComposesConcatAndTypedLists()
     {
-        CJavaConcat concat = new CJavaConcat(
+        CEntityConcat concat = new CEntityConcat(
             catalog,
-            output,
             new CJavaString(catalog, output, "PREFIX".toCharArray()),
             attribute("SOURCE-FIELD"));
-        assertMatchesDirect(concat);
+        assertEquals("concat(\"PREFIX\", source_Field)",
+            assembler.renderRoot(concat, JavaTemplateRole.REFERENCE));
 
         CJavaList empty = new CJavaList("EMPTY", catalog, output);
         assertMatchesDirect(empty);

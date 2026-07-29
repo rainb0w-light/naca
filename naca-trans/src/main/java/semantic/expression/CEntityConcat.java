@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 10 févr. 2005
+ * Created on 10 fÃ©vr. 2005
  *
  * TODO To change the template for this generated file go to
  * Window - Preferences - Java - Code Style - Code Templates
@@ -21,7 +21,7 @@ import utils.CObjectCatalog;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public abstract class CEntityConcat extends CBaseEntityFunction
+public class CEntityConcat extends CBaseEntityFunction
 {
 
 	/* (non-Javadoc)
@@ -64,5 +64,9 @@ public abstract class CEntityConcat extends CBaseEntityFunction
 		dataRef2 = null ;
 	}
 
+	public boolean isValNeeded()
+	{
+		return false;
+	}
 
 }

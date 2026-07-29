@@ -179,6 +179,14 @@ templates:
     requires:
       - data.addressOf
 
+  concatExpressionEntity:
+    capability: STRING
+    requires:
+      - expression.concat.varVar
+      - expression.concat.varString
+      - expression.concat.stringVar
+      - expression.concat.stringString
+
   recursiveCountEntity:
     capability: STRING
     requires:
