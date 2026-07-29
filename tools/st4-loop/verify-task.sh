@@ -5,7 +5,8 @@
 #
 # It NEVER trusts the worker's self-report. It runs the gates that must stay green
 # during migration and asserts debt does not grow:
-#   1. :naca-cloud-native:test  -- LedgerConsistencyTest (ledger stays valid)
+#   1. :naca-cloud-native:test  -- LedgerConsistencyTest + RuntimeContractTest
+#                                  (ledger and every emitted runtime signature stay valid)
 #   2. :naca-trans:test         -- daily gate; includes architecture.DirectBackendInventoryTest
 #                                  which asserts directBackends <= 170 (debt cannot grow)
 #   3. the item's own `verification` commands from the ledger
@@ -53,9 +54,12 @@ python3 tools/st4-loop/sync_ledger_inventory.py \
   || fail "direct-backend ledger inventory is stale"
 
 if [[ "${ST4_SKIP_GRADLE:-0}" != "1" ]]; then
-  note "running :naca-cloud-native:test (LedgerConsistencyTest)"
-  ./gradlew :naca-cloud-native:test --tests "*LedgerConsistencyTest" --console=plain \
-    || fail "LedgerConsistencyTest is not green"
+  note "running :naca-cloud-native:test (LedgerConsistencyTest + RuntimeContractTest)"
+  ./gradlew :naca-cloud-native:test \
+    --tests "*LedgerConsistencyTest" \
+    --tests "*RuntimeContractTest" \
+    --console=plain \
+    || fail "ledger/runtime contract gates are not green"
 
   # --- 2. daily transpiler gate (includes the direct-backend debt ratchet) ---
   note "running :naca-trans:test (daily gate + DirectBackendInventoryTest ratchet)"

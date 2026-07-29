@@ -145,15 +145,25 @@ class VerifyScriptPortabilityTest(unittest.TestCase):
 
 
 class WorkerPromptGateTest(unittest.TestCase):
-    def test_requires_focused_ledger_gate_not_full_module(self):
+    def test_requires_focused_contract_gates_not_full_module(self):
         text = WORKER_MD.read_text(encoding="utf-8")
         self.assertIn("LedgerConsistencyTest", text)
-        self.assertIn(':naca-cloud-native:test --tests "*LedgerConsistencyTest"', text)
+        self.assertIn("RuntimeContractTest", text)
+        self.assertIn(
+            ':naca-cloud-native:test --tests "*LedgerConsistencyTest" '
+            '--tests "*RuntimeContractTest"',
+            text,
+        )
         # documents the pre-existing failure so success is not made impossible
         self.assertIn("pre-existing", text)
         self.assertIn("Do **not** require the full", text)
         # the old "full module must be green" instruction is gone
         self.assertNotIn("ledger consistency stays green", text)
+
+    def test_verifier_runs_runtime_contract_gate(self):
+        text = VERIFY_SH.read_text(encoding="utf-8")
+        self.assertIn('--tests "*LedgerConsistencyTest"', text)
+        self.assertIn('--tests "*RuntimeContractTest"', text)
 
 
 class DebtScannerTest(unittest.TestCase):

@@ -224,18 +224,18 @@ public class BaseCESMManager extends CJMapObject
 	}
 	public BaseCESMManager handleCondition(String string, Paragraph par)
 	{
-		if(isLogCESM)
-			Log.logDebug("handleCondition"+string);
-		cESMEnv.setLastCommandCode(CESMCommandCode.HANDLE) ;
-		tabConditionHandles.put(string, par);
-		return this ;
+		return handleCondition(string, (CJMapRunnable) par);
 	}
 	public BaseCESMManager handleCondition(String string, Section par)
+	{
+		return handleCondition(string, (CJMapRunnable) par);
+	}
+	public BaseCESMManager handleCondition(String string, CJMapRunnable target)
 	{
 		if(isLogCESM)
 			Log.logDebug("handleCondition"+string);
 		cESMEnv.setLastCommandCode(CESMCommandCode.HANDLE) ;
-		tabConditionHandles.put(string, par);
+		tabConditionHandles.put(string, target);
 		return this ;
 	}
 	protected Hashtable<String, CJMapRunnable> tabConditionHandles = new Hashtable<String, CJMapRunnable>();

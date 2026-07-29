@@ -50,8 +50,8 @@ migration playbook recorded in `docs/migration-ledger.json` →
   chained call. If a recognized source form cannot be lowered safely, emit a
   structured `DiagnosticSink.recordUnsupported(...)` rejection instead of silently
   dropping it or generating invalid Java.
-- Keep the daily gate green: `./gradlew :naca-trans:test` (excludes the intentionally-red `final-architecture` tag) must pass, and the focused ledger gate `./gradlew :naca-cloud-native:test --tests "*LedgerConsistencyTest"` must pass.
-- Do **not** require the full `:naca-cloud-native:test` module to be green: it has one documented pre-existing failure (baseline 39 tests / 1 known failure, recorded in `meta.ratchet.cloudNativeGate`). Only the focused `LedgerConsistencyTest` is a migration gate.
+- Keep the daily gate green: `./gradlew :naca-trans:test` (excludes the intentionally-red `final-architecture` tag) must pass, and the focused contract gates `./gradlew :naca-cloud-native:test --tests "*LedgerConsistencyTest" --tests "*RuntimeContractTest"` must pass.
+- Do **not** require the full `:naca-cloud-native:test` module to be green: it has one documented pre-existing failure (baseline 39 tests / 1 known failure, recorded in `meta.ratchet.cloudNativeGate`). The focused `LedgerConsistencyTest` and `RuntimeContractTest` are the migration gates.
 - The global `finalArchitectureCheck` is **expected RED** during migration — do not try to make it fully green; just do not make it redder.
 - **Declare every file you change** in `filesChanged` (repo-relative paths). The controller fails the slice if `filesChanged` does not EXACTLY match the actually-dirty production/test files, and rejects absolute paths or `..` traversal. Never edit `docs/migration-ledger.json` (the controller owns it).
 
@@ -61,7 +61,7 @@ Run, at minimum:
 ```bash
 ./gradlew :naca-trans:test --tests "*<YourRenderTest>*"               # the render test you added
 ./gradlew :naca-trans:test                                           # daily gate stays green
-./gradlew :naca-cloud-native:test --tests "*LedgerConsistencyTest"   # focused ledger gate stays green
+./gradlew :naca-cloud-native:test --tests "*LedgerConsistencyTest" --tests "*RuntimeContractTest"
 ```
 Only report `outcome: "success"` if those are green AND the slice's own
 `verification` commands (from the item JSON) pass.
