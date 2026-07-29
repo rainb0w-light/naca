@@ -54,15 +54,6 @@ public abstract class CBaseEntityFunction extends CBaseDataReference
 	{
 		return false;
 	}
-	public String ExportWriteAccessorTo(String value)
-	{
-		// nothing
-		return "" ;
-	}
-	protected void DoExport()
-	{
-		// nothing
-	}
 	public boolean ignore()
 	{
 		if (reference != null)
