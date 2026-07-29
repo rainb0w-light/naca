@@ -41,9 +41,7 @@ public class CEntityAssign extends CBaseActionEntity
 		super(l, cat);
 	}
 
-	/* (non-Javadoc)
-	 * @see semantic.CBaseSemanticEntity#DoExport()
-	 */
+	/** Sets the fully resolved semantic value assigned to every destination. */
 	public boolean SetValue(CDataEntity e)
 	{
 		value = e ;
