@@ -12,6 +12,7 @@
  */
 package parser.Cobol.elements;
 
+import diagnostic.DiagnosticSink;
 import lexer.CBaseToken;
 import lexer.CTokenType;
 import lexer.Cobol.CCobolKeywordList;
@@ -22,7 +23,6 @@ import org.w3c.dom.Element;
 import parser.Cobol.CCobolElement;
 import semantic.CBaseLanguageEntity;
 import semantic.CBaseEntityFactory;
-import semantic.Verbs.CEntityExec;
 import utils.CGlobalEntityCounter;
 import utils.Transcoder;
 
@@ -95,9 +95,12 @@ public class CExecStatement extends CCobolElement
 	 */
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		CEntityExec e = factory.NewEntityExec(getLine(), csSentence);
-		parent.AddChild(e) ;
-		return e ;
+		DiagnosticSink.recordUnsupported(
+			"cobol.exec.unsupported",
+			"cobol-core",
+			getLine(),
+			"Generic EXEC has no defined Naca runtime semantics");
+		return null ;
 	}
 	
 }

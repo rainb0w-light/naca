@@ -12,6 +12,7 @@
  */
 package parser.Cobol.elements.SQL;
 
+import diagnostic.DiagnosticSink;
 import java.util.Vector;
 
 import lexer.CBaseToken;
@@ -25,7 +26,6 @@ import parser.Cobol.CCobolElement;
 import semantic.CBaseEntityFactory;
 import semantic.CBaseLanguageEntity;
 import semantic.CDataEntity;
-import semantic.Verbs.CEntityExec;
 import semantic.expression.CEntityConcat;
 import semantic.expression.CEntityDigits;
 import utils.CGlobalEntityCounter;
@@ -393,9 +393,13 @@ public class CExecSQL extends CCobolElement
 		}
 		else if (!csUnparsedStatement.equals(""))
 		{
-			CEntityExec e = factory.NewEntityExec(getLine(), csUnparsedStatement);
-			parent.AddChild(e) ;
-			return e ;
+			DiagnosticSink.recordUnsupported(
+				"sql.unparsed-statement",
+				"embedded-sql",
+				getLine(),
+				"EXEC SQL statement is recognized but has no semantic lowering: "
+					+ csUnparsedStatement);
+			return null ;
 		}
 		else
 		{

@@ -22,11 +22,11 @@
     "ratchet": {
       "note": "Debt counts may only move down for the COBOL scope. Refresh per phase.",
       "baselineCapturedAtCommit": "9402b0c",
-      "lastVerifiedAtCommit": "9aa91e83",
+      "lastVerifiedAtCommit": "35abeaea",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 170,
-        "directBackends": 100,
+        "failures": 169,
+        "directBackends": 99,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -2463,7 +2463,7 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "COBOL_CORE",
       "sourceSyntax": "legacy backend CJavaExec",
@@ -2477,11 +2477,14 @@
       "directBackend": "generate.java.verbs.CJavaExec",
       "sourcePath": "naca-trans/src/main/java/generate/java/verbs/CJavaExec.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/verbs/CJavaExec.java"
-      ]
+        "naca-trans/src/main/java/generate/java/verbs/CJavaExec.java",
+        "naca-trans/src/test/java/parser/Cobol/elements/CExecStatementDiagnosticTest.java",
+        "naca-trans/src/test/java/parser/Cobol/elements/SQL/CExecSQLDiagnosticTest.java"
+      ],
+      "lastAttemptCommit": "35abeaea"
     },
     {
       "id": "BACKEND-COBOL-VERB-CJAVAGOTO",
