@@ -806,3 +806,60 @@ operations:
     runtimeMethod: getProgramForTransID
     paramTypes: [java.lang.String, nacaLib.varEx.Var]
     returns: void
+
+  # --- CICS REWRITE ---
+  - id: cics.rewrite.dataSetString
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
+    runtimeMethod: reWriteDataSet
+    paramTypes: [java.lang.String]
+    returns: nacaLib.misc.CCESMFakeMethodContainer
+
+  - id: cics.rewrite.dataSetVar
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
+    runtimeMethod: reWriteDataSet
+    paramTypes: [nacaLib.varEx.Var]
+    returns: nacaLib.misc.CCESMFakeMethodContainer
+
+  - id: cics.rewrite.fileString
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
+    runtimeMethod: reWriteFile
+    paramTypes: [java.lang.String]
+    returns: nacaLib.misc.CCESMFakeMethodContainer
+
+  - id: cics.rewrite.fileVar
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
+    runtimeMethod: reWriteFile
+    paramTypes: [nacaLib.varEx.Var]
+    returns: nacaLib.misc.CCESMFakeMethodContainer
+
+  - id: cics.rewrite.from
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.misc.CCESMFakeMethodContainer
+    runtimeMethod: from
+    paramTypes: [nacaLib.varEx.Var]
+    returns: nacaLib.misc.CCESMFakeMethodContainer
+
+  - id: cics.rewrite.fromVarLength
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.misc.CCESMFakeMethodContainer
+    runtimeMethod: from
+    paramTypes: [nacaLib.varEx.Var, nacaLib.varEx.Var]
+    returns: nacaLib.misc.CCESMFakeMethodContainer
+
+  - id: cics.rewrite.fromIntLength
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.misc.CCESMFakeMethodContainer
+    runtimeMethod: from
+    paramTypes: [nacaLib.varEx.Var, int]
+    returns: nacaLib.misc.CCESMFakeMethodContainer

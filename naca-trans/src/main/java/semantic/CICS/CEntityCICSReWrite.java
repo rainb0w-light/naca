@@ -23,7 +23,7 @@ import utils.CobolTranscoder.Notifs.NotifDeclareUseCICSPreprocessor;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityCICSReWrite extends CBaseActionEntity
+public class CEntityCICSReWrite extends CBaseActionEntity
 {
 
 	/**
@@ -33,7 +33,10 @@ public abstract class CEntityCICSReWrite extends CBaseActionEntity
 	public CEntityCICSReWrite(int line, CObjectCatalog cat)
 	{
 		super(line, cat);
-		cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
+		if (cat != null)
+		{
+			cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
+		}
 	}
 
 	public void WriteFile(CDataEntity filename)
@@ -71,6 +74,31 @@ public abstract class CEntityCICSReWrite extends CBaseActionEntity
 	public boolean ignore()
 	{
 		return false; 
+	}
+
+	public CDataEntity getDataLength()
+	{
+		return dataLength;
+	}
+
+	public CDataEntity getDataFrom()
+	{
+		return dataFrom;
+	}
+
+	public CDataEntity getName()
+	{
+		return name;
+	}
+
+	public boolean isWriteToFile()
+	{
+		return iswriteToFile;
+	}
+
+	public boolean isWriteToDataSet()
+	{
+		return iswritetoDataSet;
 	}
 
 }

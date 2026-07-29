@@ -135,6 +135,9 @@ class TemplateRuntimeContractTest
         assertTrue(contract.templateRequirements().get("recursiveCICSInquireEntity").requires()
             .containsAll(List.of("cics.inquire.resolveProgramVars",
                 "cics.inquire.resolveProgramLiteral", "cics.inquire.transactionString")));
+        assertTrue(contract.templateRequirements().get("recursiveCICSReWriteEntity").requires()
+            .containsAll(List.of("cics.rewrite.dataSetString", "cics.rewrite.dataSetVar",
+                "cics.rewrite.fileString", "cics.rewrite.fileVar")));
     }
 
     private static void collectMethods(Matcher matcher, Set<String> methods)

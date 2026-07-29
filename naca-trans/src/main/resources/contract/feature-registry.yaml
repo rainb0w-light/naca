@@ -305,6 +305,23 @@ features:
     fixtures: []
     status: production
 
+  - id: cics.rewrite
+    dialects: [embedded-cics]
+    semanticType: semantic.CICS.CEntityCICSReWrite
+    javaBackend:
+      role: REFERENCE
+      template: recursiveCICSReWriteEntity
+    runtimeOperations:
+      - cics.rewrite.dataSetString
+      - cics.rewrite.dataSetVar
+      - cics.rewrite.fileString
+      - cics.rewrite.fileVar
+      - cics.rewrite.from
+      - cics.rewrite.fromVarLength
+      - cics.rewrite.fromIntLength
+    fixtures: []
+    status: production
+
   - id: sql.cursorSection
     dialects: [embedded-sql]
     semanticType: semantic.CEntitySQLCursorSection

@@ -34,7 +34,6 @@ import generate.java.CJavaStructure;
 import generate.java.CJavaSubStringReference;
 import generate.java.CJavaUnknownReference;
 
-import generate.java.CICS.CJavaCICSReWrite;
 import generate.java.CICS.CJavaCICSRead;
 import generate.java.CICS.CJavaCICSReadQ;
 import generate.java.CICS.CJavaCICSRetrieve;
@@ -965,7 +964,9 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CJavaInspectConverting(l, programCatalog, langOutput);
 	}
 	public CEntityCICSReWrite NewEntityCICSReWrite(int l)	{
-		return new CJavaCICSReWrite(l, programCatalog, langOutput);
+		CEntityCICSReWrite e = new CEntityCICSReWrite(l, programCatalog);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntityCICSDelay NewEntityCICSDelay(int l)	{
 		// Direct backend CJavaCICSDelay retired: the pure semantic entity is rendered

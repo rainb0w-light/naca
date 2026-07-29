@@ -1012,6 +1012,13 @@ recursiveCICSInquireEntity(entity) ::= <<
 <if(entity.transaction)><if(entity.program)>tools.getProgramForTransID(<entity.transaction>, <entity.program>) ;<else>CESM.inquire().transaction(<entity.transaction>) ;<endif><else>CESM.inquire()<if(entity.program)>.program(<entity.program>)<endif> ;<endif>
 >>
 
+// Embedded CICS REWRITE FILE/DATASET. Stage 1 resolves NAME, FROM and LENGTH
+// references; this template only selects the runtime operation and formats its
+// optional fluent FROM clause.
+recursiveCICSReWriteEntity(entity) ::= <<
+CESM.reWrite<if(entity.writeToDataSet)>DataSet<else>File<endif>(<entity.name>)<if(entity.dataFrom)>.from(<entity.dataFrom><if(entity.dataLength)>, <entity.dataLength><endif>)<endif> ;
+>>
+
 // Embedded CICS HANDLE AID (EXEC CICS HANDLE AID ENTER(label) PF1(label) ...
 // ANYKEY(label) END-EXEC). Emits one CESM.handleAID(<cond>, <label>) per
 // handled AID entry and one CESM.unhandleAID(<cond>) per unhandled AID entry.

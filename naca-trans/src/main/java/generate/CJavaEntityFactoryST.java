@@ -68,6 +68,7 @@ import semantic.CICS.CEntityCICSInquire;
 import semantic.CICS.CEntityCICSEnQ;
 import semantic.CICS.CEntityCICSLink;
 import semantic.CICS.CEntityCICSReceiveMap;
+import semantic.CICS.CEntityCICSReWrite;
 import semantic.CICS.CEntityCICSSendMap;
 import semantic.CICS.CEntityCICSReturn;
 import semantic.CICS.CEntityCICSSyncPoint;
@@ -372,6 +373,13 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntityCICSInquire NewEntityCICSInquire(int l) {
         CEntityCICSInquire e = new CEntityCICSInquire(l, programCatalog);
+        e.setLanguageExporter(langOutput);
+        return e;
+    }
+
+    @Override
+    public CEntityCICSReWrite NewEntityCICSReWrite(int l) {
+        CEntityCICSReWrite e = new CEntityCICSReWrite(l, programCatalog);
         e.setLanguageExporter(langOutput);
         return e;
     }

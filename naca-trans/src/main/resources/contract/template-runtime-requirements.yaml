@@ -198,3 +198,14 @@ templates:
       - cics.inquire.transactionString
       - cics.inquire.resolveProgramVars
       - cics.inquire.resolveProgramLiteral
+
+  recursiveCICSReWriteEntity:
+    capability: CICS
+    requires:
+      - cics.rewrite.dataSetString
+      - cics.rewrite.dataSetVar
+      - cics.rewrite.fileString
+      - cics.rewrite.fileVar
+      - cics.rewrite.from
+      - cics.rewrite.fromVarLength
+      - cics.rewrite.fromIntLength
