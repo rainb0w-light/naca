@@ -25,7 +25,7 @@
       "lastVerifiedAtCommit": "5903f95d",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 11,
+        "failures": 10,
         "directBackends": 33,
         "semanticClasses": 47,
         "factories": 3,
@@ -7179,7 +7179,7 @@
       "expectedDebtDelta": {
         "failures": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "EMBEDDED_SQL",
       "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/SQL/CEntitySQLSessionDrop.java",
@@ -7193,11 +7193,13 @@
       "directBackend": null,
       "sourcePath": "naca-trans/src/main/java/semantic/SQL/CEntitySQLSessionDrop.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "done",
       "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
       "evidence": [
-        "src/main/java/semantic/SQL/CEntitySQLSessionDrop.java"
-      ]
+        "src/main/java/semantic/SQL/CEntitySQLSessionDrop.java",
+        "generate.java.st.SQLSessionDropRenderTest"
+      ],
+      "lastAttemptCommit": "d19de79c"
     },
     {
       "id": "ARCH-SQL-SEMANTIC-CENTITYSQLSINGLESTATEMENT",
