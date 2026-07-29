@@ -5840,7 +5840,7 @@
     {
       "id": "ARCH-COBOL-MANIFEST-COVERAGE",
       "kind": "ARCHITECTURE_DEBT",
-      "priority": 1003,
+      "priority": 1059,
       "dependencies": [],
       "verification": [],
       "expectedDebtDelta": {
@@ -5869,7 +5869,7 @@
     {
       "id": "ARCH-COBOL-INFRA-CJAVAENTITYFACTORY",
       "kind": "ARCHITECTURE_DEBT",
-      "priority": 1004,
+      "priority": 1057,
       "dependencies": [],
       "verification": [],
       "expectedDebtDelta": {
@@ -7377,7 +7377,7 @@
     {
       "id": "ARCH-COBOL-INFRA-JAVA",
       "kind": "ARCHITECTURE_DEBT",
-      "priority": 1056,
+      "priority": 1058,
       "dependencies": [],
       "verification": [],
       "expectedDebtDelta": {
