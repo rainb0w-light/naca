@@ -881,7 +881,9 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
 
     @Override
     public CEntitySort NewEntitySort(int line) {
-        return new CJavaSortST(line, programCatalog, langOutput);
+        CEntitySort e = new CEntitySort(line, programCatalog);
+        e.setLanguageExporter(langOutput);
+        return e;
     }
 
     @Override

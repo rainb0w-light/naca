@@ -6,6 +6,8 @@
  */
 package semantic.Verbs;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import semantic.CBaseActionEntity;
@@ -14,7 +16,7 @@ import semantic.CEntityFileDescriptor;
 import semantic.CEntityProcedure;
 import utils.CObjectCatalog;
 
-public abstract class CEntitySort extends CBaseActionEntity
+public class CEntitySort extends CBaseActionEntity
 {
 
 	public CEntitySort(int line, CObjectCatalog cat)
@@ -79,9 +81,80 @@ public abstract class CEntitySort extends CBaseActionEntity
 	{
 		csInputProcedureName = string ;	
 	}
-	
-	
-	
 
+	public CEntityFileDescriptor getFileDescriptor()
+	{
+		return fileDescriptor;
+	}
+
+	public CEntityFileDescriptor getInputFile()
+	{
+		return fdInputFile;
+	}
+
+	public CEntityFileDescriptor getOutputFile()
+	{
+		return fdOutputFile;
+	}
+
+	public String getInputProcedureRef()
+	{
+		CEntityProcedure procedure = pInputProcedure;
+		if (procedure == null && csInputProcedureName != null && programCatalog != null)
+		{
+			procedure = programCatalog.GetProcedure(csInputProcedureName, "");
+		}
+		if (procedure != null)
+		{
+			return procedure.ExportReference(getLine());
+		}
+		return csInputProcedureName != null ? "[" + csInputProcedureName + "]" : null;
+	}
+
+	public String getOutputProcedureRef()
+	{
+		CEntityProcedure procedure = pOutputProcedure;
+		if (procedure == null && csOutputProcedureName != null && programCatalog != null)
+		{
+			procedure = programCatalog.GetProcedure(csOutputProcedureName, "");
+		}
+		if (procedure != null)
+		{
+			return procedure.ExportReference(getLine());
+		}
+		return csOutputProcedureName != null ? "[" + csOutputProcedureName + "]" : null;
+	}
+
+	public List<SortKeyModel> getSortKeys()
+	{
+		List<SortKeyModel> result = new ArrayList<SortKeyModel>();
+		for (CEntitySortKey sortKeyEntity : sortKey)
+		{
+			result.add(new SortKeyModel(sortKeyEntity.key, sortKeyEntity.bAscending));
+		}
+		return result;
+	}
+
+	public static class SortKeyModel
+	{
+		private final CDataEntity key;
+		private final boolean ascending;
+
+		public SortKeyModel(CDataEntity key, boolean ascending)
+		{
+			this.key = key;
+			this.ascending = ascending;
+		}
+
+		public CDataEntity getKey()
+		{
+			return key;
+		}
+
+		public boolean isAscending()
+		{
+			return ascending;
+		}
+	}
 
 }
