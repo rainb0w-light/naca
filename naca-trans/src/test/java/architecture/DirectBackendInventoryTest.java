@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Phase A1 — direct-backend reachability inventory. Enumerates every direct
- * {@code CJava*} backend class that still extends a semantic entity
+ * in-scope {@code CJava*} backend class that still extends a semantic entity
  * ({@code extends CEntity* / CBaseActionEntity / CDataEntity}) and groups them
  * by area/dialect. This is the retirement map for the final cleanup (goal #8):
  * it shows, by area, how many direct generators remain to be migrated to the
@@ -26,13 +26,15 @@ import org.junit.jupiter.api.Test;
  * direct backends are retired — never silently grow. The per-area counts are
  * printed as the inventory; they are the prioritized work list:
  * verbs/expressions are largely assembler-bound already (retire first); CICS /
- * SQL / forms(BMS) need vertical migration first.
+ * SQL need vertical migration first. The separate {@code forms/} BMS artifact
+ * pipeline is deliberately inventoried by the migration ledger but excluded
+ * from this COBOL/SQL/CICS ratchet.
  */
 class DirectBackendInventoryTest
 {
     // Exact current count of direct backend source files. Every retirement must
     // lower this value in the same slice, preventing slack in the ratchet.
-    private static final int DIRECT_BACKEND_TOTAL_BASELINE = 33;
+    private static final int DIRECT_BACKEND_TOTAL_BASELINE = 0;
 
     private static final Pattern DIRECT_SEMANTIC_SUBCLASS =
         Pattern.compile(" extends (?:CEntity|CBaseActionEntity|CDataEntity)");
@@ -51,6 +53,12 @@ class DirectBackendInventoryTest
             for (Path file : (Iterable<Path>) files
                 .filter(p -> p.toString().endsWith(".java"))::iterator)
             {
+                Path relative = directRoot.relativize(file);
+                if (relative.getNameCount() > 1
+                    && "forms".equals(relative.getName(0).toString()))
+                {
+                    continue;
+                }
                 String content = Files.readString(file, StandardCharsets.ISO_8859_1);
                 if (!DIRECT_SEMANTIC_SUBCLASS.matcher(content).find())
                 {

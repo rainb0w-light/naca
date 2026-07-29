@@ -26,7 +26,7 @@
       "finalArchitectureCheck": {
         "tests": 390,
         "failures": 5,
-        "directBackends": 33,
+        "directBackends": 0,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,

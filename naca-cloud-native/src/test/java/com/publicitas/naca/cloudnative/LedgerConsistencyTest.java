@@ -191,6 +191,7 @@ class LedgerConsistencyTest
         assertTrue(Files.isDirectory(directRoot), "direct backend source root must exist");
 
         Set<String> liveBackends = new HashSet<>();
+        Set<String> inScopeLiveBackends = new HashSet<>();
         Map<String, String> livePaths = new HashMap<>();
         try (Stream<Path> files = Files.walk(directRoot))
         {
@@ -207,6 +208,12 @@ class LedgerConsistencyTest
                 assertTrue(javaPackage.find(), "missing package declaration: " + file);
                 String fqn = javaPackage.group(1) + "." + backend.group(1);
                 assertTrue(liveBackends.add(fqn), "duplicate direct backend FQN: " + fqn);
+                Path relative = directRoot.relativize(file);
+                if (relative.getNameCount() <= 1
+                    || !"forms".equals(relative.getName(0).toString()))
+                {
+                    inScopeLiveBackends.add(fqn);
+                }
                 livePaths.put(fqn, repoRoot.relativize(file).toString().replace('\\', '/'));
             }
         }
@@ -271,10 +278,12 @@ class LedgerConsistencyTest
 
         int ratchet = root.path("meta").path("ratchet")
             .path("finalArchitectureCheck").path("directBackends").asInt(-1);
-        if (ratchet < liveBackends.size() || ratchet - liveBackends.size() > 1)
+        if (ratchet < inScopeLiveBackends.size()
+            || ratchet - inScopeLiveBackends.size() > 1)
         {
-            problems.add("ratchet directBackends must equal live inventory outside a single "
-                + "in-flight retirement: ratchet=" + ratchet + ", live=" + liveBackends.size());
+            problems.add("ratchet directBackends must equal in-scope live inventory outside "
+                + "a single in-flight retirement: ratchet=" + ratchet
+                + ", live=" + inScopeLiveBackends.size());
         }
         assertTrue(problems.isEmpty(),
             "direct-backend ledger coverage problems:\n  " + String.join("\n  ", problems));

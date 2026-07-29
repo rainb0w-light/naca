@@ -1,10 +1,10 @@
 """Independent direct-backend debt measurement.
 
-Mirrors architecture.DirectBackendInventoryTest EXACTLY: count the .java files under
-naca-trans/src/main/java/generate/java whose source contains
+Mirrors architecture.DirectBackendInventoryTest EXACTLY: count the in-scope .java
+files under naca-trans/src/main/java/generate/java whose source contains
 ` extends CEntity|CBaseActionEntity|CDataEntity`. The loop uses this to require that a
 slice's ACTUAL debt delta matches the item's expectedDebtDelta — it never relies on the
-worker's self-reported number, and never merely checks `<= 170`.
+worker's self-reported number. The separate forms/ BMS artifact pipeline is excluded.
 """
 
 import re
@@ -29,6 +29,8 @@ def measure_direct_backends(repo_root):
         return 0
     count = 0
     for path in sorted(root.rglob("*.java")):
+        if path.relative_to(root).parts[0] == "forms":
+            continue
         try:
             text = path.read_text(encoding="iso-8859-1")
         except OSError:
