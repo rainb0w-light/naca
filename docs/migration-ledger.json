@@ -22,11 +22,11 @@
     "ratchet": {
       "note": "Debt counts may only move down for the COBOL scope. Refresh per phase.",
       "baselineCapturedAtCommit": "9402b0c",
-      "lastVerifiedAtCommit": "759bb7a8",
+      "lastVerifiedAtCommit": "6d05abf0",
       "finalArchitectureCheck": {
         "tests": 390,
         "failures": 184,
-        "directBackends": 116,
+        "directBackends": 115,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -1933,25 +1933,27 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "COBOL_CORE",
       "sourceSyntax": "legacy backend CJavaInitializeST",
       "parserNode": null,
       "semanticNode": "semantic.Verbs.CEntityInitialize",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
+      "assemblerRole": "REFERENCE",
+      "manifestBinding": "semantic.Verbs.CEntityInitialize=recursiveInitializeEntity",
+      "template": "recursiveInitializeEntity",
       "runtimeOperation": null,
       "fixture": null,
       "directBackend": "generate.java.st.CJavaInitializeST",
       "sourcePath": "naca-trans/src/main/java/generate/java/st/CJavaInitializeST.java",
       "productionReachable": true,
-      "status": "production-wired",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/st/CJavaInitializeST.java"
-      ]
+        "naca-trans/src/main/java/generate/java/st/CJavaInitializeST.java",
+        "naca-trans/src/test/java/generate/java/st/CEntityInitializeRenderTest.java"
+      ],
+      "lastAttemptCommit": "6d05abf0"
     },
     {
       "id": "BACKEND-COBOL-ST-CJAVAPROCEDUREDIVISIONST",
@@ -2515,9 +2517,7 @@
       "id": "BACKEND-COBOL-VERB-CJAVAINITIALIZE",
       "kind": "DIRECT_BACKEND_RETIREMENT",
       "priority": 413,
-      "dependencies": [
-        "BACKEND-COBOL-ST-CJAVAINITIALIZEST"
-      ],
+      "dependencies": [],
       "verification": [
         "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
       ],

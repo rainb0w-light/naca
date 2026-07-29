@@ -22,7 +22,7 @@ import utils.*;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityInitialize extends CBaseActionEntity
+public class CEntityInitialize extends CBaseActionEntity
 {
 
 	/**
@@ -152,6 +152,37 @@ public abstract class CEntityInitialize extends CBaseActionEntity
 			return true ;
 		}
 		return false ;
+	}
+
+	public CDataEntity getData()
+	{
+		return data;
+	}
+
+	public CDataEntity getFillAlphaWith()
+	{
+		return fillAlphaWith;
+	}
+
+	public CDataEntity getRepAlphaWith()
+	{
+		return repAlphaWith;
+	}
+
+	public CDataEntity getRepNumWith()
+	{
+		return repNumWith;
+	}
+
+	public CDataEntity getRepNumEditedWith()
+	{
+		return repNumEditedWith;
+	}
+
+	/** SQLCODE is reset through a dedicated runtime call rather than initialize(). */
+	public boolean isSqlCodeReset()
+	{
+		return data != null && "getSQLCode()".equals(data.ExportReference(getLine()));
 	}
 
 }

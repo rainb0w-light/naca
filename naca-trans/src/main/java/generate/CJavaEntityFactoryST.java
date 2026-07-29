@@ -794,7 +794,9 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
 
     @Override
     public CEntityInitialize NewEntityInitialize(int l, CDataEntity data) {
-        return new CJavaInitializeST(l, programCatalog, langOutput, data);
+        CEntityInitialize e = new CEntityInitialize(l, programCatalog, data);
+        e.setLanguageExporter(langOutput);
+        return e;
     }
 
     @Override
