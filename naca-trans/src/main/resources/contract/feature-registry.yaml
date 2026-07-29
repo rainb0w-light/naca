@@ -473,6 +473,16 @@ features:
     fixtures: []
     status: production
 
+  - id: cobol.expression.terminal
+    dialects: [cobol-core]
+    semanticType: semantic.expression.CEntityExprTerminal
+    javaBackend:
+      role: REFERENCE
+      template: expressionTerminalEntity
+    runtimeOperations: []
+    fixtures: []
+    status: production
+
   - id: cobol.data.initialize
     dialects: [cobol-core]
     semanticType: semantic.Verbs.CEntityInitialize

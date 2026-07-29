@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 import generate.CJavaEntityFactory;
 import generate.CJavaEntityFactoryST;
-import generate.java.expressions.CJavaExprTerminal;
+import semantic.expression.CEntityExprTerminal;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.Test;
@@ -19,8 +19,8 @@ class CEntityCondOrRenderTest
     {
         CEntityCondEquals condition = new CEntityCondEquals();
         condition.SetEqualCondition(
-            new CJavaExprTerminal(new MockDataEntity(1, left)),
-            new CJavaExprTerminal(new MockDataEntity(1, right)));
+            new CEntityExprTerminal(new MockDataEntity(1, left)),
+            new CEntityExprTerminal(new MockDataEntity(1, right)));
         return condition;
     }
 

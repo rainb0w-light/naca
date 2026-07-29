@@ -34,7 +34,6 @@ import generate.java.CJavaStructure;
 import generate.java.CJavaSubStringReference;
 import generate.java.CJavaUnknownReference;
 
-import generate.java.expressions.CJavaExprTerminal;
 import generate.java.expressions.CJavaInternalBool;
 import generate.java.expressions.CJavaIntrinsicFunction;
 import generate.java.expressions.CJavaIsNamedCondition;
@@ -682,7 +681,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return e;
 	}
 	public CEntityExprTerminal NewEntityExprTerminal(CDataEntity eData)	{
-		return new CJavaExprTerminal(eData);
+		return new CEntityExprTerminal(eData);
 	}
 	public CEntityExprSum NewEntityExprSum()	{
 		return new CEntityExprSum();

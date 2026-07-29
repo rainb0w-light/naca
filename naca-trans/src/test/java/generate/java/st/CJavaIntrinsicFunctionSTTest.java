@@ -2,7 +2,7 @@ package generate.java.st;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import generate.java.expressions.CJavaExprTerminal;
+import semantic.expression.CEntityExprTerminal;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import semantic.expression.CBaseEntityExpression;
@@ -13,7 +13,7 @@ class CJavaIntrinsicFunctionSTTest
     void rendersGenericIntrinsicFunctionFromSemanticArguments()
     {
         MockDataEntity source = new MockDataEntity(1, "subString(source, index, 1)");
-        CBaseEntityExpression argument = new CJavaExprTerminal(source);
+        CBaseEntityExpression argument = new CEntityExprTerminal(source);
         CJavaIntrinsicFunctionST function = new CJavaIntrinsicFunctionST(
             null, new MockJavaExporter(), "ORD", List.of(argument));
 

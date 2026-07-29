@@ -11,7 +11,6 @@ import generate.java.CJavaExternalDataStructure;
 import generate.java.CJavaIndex;
 import generate.java.CJavaStructure;
 import generate.java.CJavaSubStringReference;
-import generate.java.expressions.CJavaExprTerminal;
 import generate.templates.TemplateLoader;
 import org.junit.jupiter.api.Test;
 import semantic.CDataEntity;
@@ -121,7 +120,7 @@ class JavaSemanticReferenceRendererTest
 
     private CBaseEntityExpression expression(CDataEntity value)
     {
-        return new CJavaExprTerminal(value);
+        return new LegacyTerminalFixture(value);
     }
 
     private void assertMatchesDirect(CDataEntity value)

@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import generate.java.CJavaAttribute;
 import generate.java.CJavaExporter;
-import generate.java.expressions.CJavaExprTerminal;
 import generate.java.expressions.CJavaInternalBool;
 import generate.java.expressions.CJavaIntrinsicFunction;
 import generate.java.expressions.CJavaLengthOf;
@@ -112,7 +111,7 @@ class JavaSemanticFunctionRendererTest
 
     private CBaseEntityExpression expression(CDataEntity value)
     {
-        return new CJavaExprTerminal(value);
+        return new LegacyTerminalFixture(value);
     }
 
     private void assertMatchesDirect(CDataEntity value)

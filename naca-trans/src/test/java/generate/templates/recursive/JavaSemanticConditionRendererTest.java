@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import generate.java.CJavaExporter;
 import generate.java.CJavaNamedCondition;
-import generate.java.expressions.CJavaExprTerminal;
 import generate.java.expressions.CJavaInternalBool;
 import generate.fpacjava.CFPacJavaCondIsBoolean;
 import generate.templates.TemplateLoader;
@@ -158,7 +157,7 @@ class JavaSemanticConditionRendererTest
 
     private CBaseEntityExpression number(String value)
     {
-        return new CJavaExprTerminal(new LegacyNumberFixture(catalog, value));
+        return new LegacyTerminalFixture(new LegacyNumberFixture(catalog, value));
     }
 
     private void assertMatchesDirect(CBaseEntityCondition condition)

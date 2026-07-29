@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import generate.java.CJavaAttribute;
 import generate.java.CJavaExporter;
-import generate.java.expressions.CJavaExprTerminal;
 import generate.java.st.MockJavaExporter;
 import semantic.Verbs.CEntityContinue;
 import semantic.Verbs.CEntityLoopIter;
@@ -100,8 +99,8 @@ class JavaSemanticLoopIterationTemplateTest
     {
         CEntityCondCompare condition = new CEntityCondCompare();
         condition.SetLessThan(
-            new CJavaExprTerminal(attribute(variableName, output)),
-            new CJavaExprTerminal(number(limit)));
+            new LegacyTerminalFixture(attribute(variableName, output)),
+            new LegacyTerminalFixture(number(limit)));
         return condition;
     }
 

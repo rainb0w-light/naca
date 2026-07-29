@@ -2,7 +2,6 @@ package generate.templates.recursive;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import generate.java.expressions.CJavaExprTerminal;
 import generate.java.st.MockJavaExporter;
 import semantic.Verbs.CEntityBreak;
 import semantic.Verbs.CEntityCase;
@@ -37,8 +36,8 @@ class JavaSemanticSwitchCaseTemplateTest
         TestJavaSwitchCase evaluate = new TestJavaSwitchCase(output);
         CEntityCondEquals ignored = new CEntityCondEquals();
         ignored.SetEqualCondition(
-            new CJavaExprTerminal(new CIgnoredEntity(0, "", null)),
-            new CJavaExprTerminal(new LegacyNumberFixture(null, "0")));
+            new LegacyTerminalFixture(new CIgnoredEntity(0, "", null)),
+            new LegacyTerminalFixture(new LegacyNumberFixture(null, "0")));
         evaluate.AddChild(branch(output, ignored, new CEntityBreak(0, null)));
         evaluate.AddChild(branch(output, equals("1", "1"), new CEntityContinue(0, null)));
         evaluate.AddChild(branch(output, null, new CEntityBreak(0, null)));
@@ -62,8 +61,8 @@ class JavaSemanticSwitchCaseTemplateTest
     {
         CEntityCondEquals condition = new CEntityCondEquals();
         condition.SetEqualCondition(
-            new CJavaExprTerminal(new LegacyNumberFixture(null, left)),
-            new CJavaExprTerminal(new LegacyNumberFixture(null, right)));
+            new LegacyTerminalFixture(new LegacyNumberFixture(null, left)),
+            new LegacyTerminalFixture(new LegacyNumberFixture(null, right)));
         return condition;
     }
 

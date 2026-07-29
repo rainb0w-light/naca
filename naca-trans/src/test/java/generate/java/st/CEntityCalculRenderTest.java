@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 import generate.CJavaEntityFactory;
 import generate.CJavaEntityFactoryST;
-import generate.java.expressions.CJavaExprTerminal;
+import semantic.expression.CEntityExprTerminal;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import java.util.List;
@@ -23,11 +23,11 @@ class CEntityCalculRenderTest
 
     private static CBaseEntityExpression expression()
     {
-        CBaseEntityExpression argument = new CJavaExprTerminal(
+        CBaseEntityExpression argument = new CEntityExprTerminal(
             new MockDataEntity(1, "source"));
         CJavaIntrinsicFunctionST function = new CJavaIntrinsicFunctionST(
             null, new MockJavaExporter(), "ORD", List.of(argument));
-        return new CJavaExprTerminal(function);
+        return new CEntityExprTerminal(function);
     }
 
     @Test

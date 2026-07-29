@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 import generate.CJavaEntityFactory;
 import generate.CJavaEntityFactoryST;
-import generate.java.expressions.CJavaExprTerminal;
+import semantic.expression.CEntityExprTerminal;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.Test;
@@ -13,9 +13,9 @@ import semantic.expression.CEntityCondIsAll;
 
 class CEntityCondIsAllRenderTest
 {
-    private static CJavaExprTerminal expression(String value)
+    private static CEntityExprTerminal expression(String value)
     {
-        return new CJavaExprTerminal(new MockDataEntity(1, value));
+        return new CEntityExprTerminal(new MockDataEntity(1, value));
     }
 
     private static String render(CEntityCondIsAll condition)

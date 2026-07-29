@@ -3,7 +3,6 @@ package generate.templates.recursive;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import generate.java.CJavaExporter;
-import generate.java.expressions.CJavaExprTerminal;
 import generate.templates.TemplateLoader;
 import org.junit.jupiter.api.Test;
 import parser.expression.CProdExpression;
@@ -59,7 +58,7 @@ class JavaSemanticExpressionRendererTest
 
     private CBaseEntityExpression numberExpression(String value)
     {
-        return new CJavaExprTerminal(new LegacyNumberFixture(catalog, value));
+        return new LegacyTerminalFixture(new LegacyNumberFixture(catalog, value));
     }
 
     private void assertMatchesDirect(CBaseEntityExpression expression)
