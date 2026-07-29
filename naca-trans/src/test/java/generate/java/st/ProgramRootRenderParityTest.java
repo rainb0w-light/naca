@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.CStringExporter;
 import generate.java.CJavaClass;
 import generate.templates.TemplateLoader;
@@ -67,11 +68,12 @@ class ProgramRootRenderParityTest
     }
 
     /**
-     * Parses a sample using the ST4 factory. Every entity shares {@code exporter}
-     * (set on the catalog and factory), so a single {@code root.StartExport()}
-     * captures the whole direct compilation unit into {@code exporter}.
+     * Parses a sample using either the legacy direct factory or the ST4 semantic
+     * factory. Keeping the trees independent makes this a true backend parity
+     * test even after transitional CJava*ST controllers are retired.
      */
-    private static CEntityClass parse(Path cbl, CStringExporter exporter, String programName)
+    private static CEntityClass parse(
+        Path cbl, CStringExporter exporter, String programName, boolean st4)
         throws Exception
     {
         String source = Files.readString(cbl);
@@ -88,7 +90,9 @@ class ProgramRootRenderParityTest
         CObjectCatalog catalog = new CObjectCatalog(global, listing,
             CTransApplicationGroup.EProgramType.TYPE_BATCH, null);
         catalog.setExporter(exporter);
-        CJavaEntityFactoryST factory = new CJavaEntityFactoryST(catalog, exporter);
+        CJavaEntityFactory factory = st4
+            ? new CJavaEntityFactoryST(catalog, exporter)
+            : new CJavaEntityFactory(catalog, exporter);
         factory.InitCustomCICSEntities();
         CEntityClass root = program.DoSemanticAnalysis(factory);
         // Mirror TranspilerService: some program headers parse an empty PROGRAM-ID,
@@ -111,7 +115,7 @@ class ProgramRootRenderParityTest
 
             // Tree A: flattened ONLY through the direct generator.
             CStringExporter directExporter = new CStringExporter();
-            CEntityClass directRoot = parse(path, directExporter, programName);
+            CEntityClass directRoot = parse(path, directExporter, programName, false);
             assertNotNull(directRoot, "semantic root for " + sample);
             assertTrue(directRoot instanceof CJavaClass,
                 "production root should be a CJavaClass");
@@ -125,7 +129,7 @@ class ProgramRootRenderParityTest
             // "washed" the model first. FILLER names are assigned at construction,
             // so both independent trees converge on the same names.
             CStringExporter assemblerExporter = new CStringExporter();
-            CEntityClass assemblerRoot = parse(path, assemblerExporter, programName);
+            CEntityClass assemblerRoot = parse(path, assemblerExporter, programName, true);
             assertNotNull(assemblerRoot, "semantic root for " + sample);
             String rendered = TemplateLoader.getRecursiveAssembler()
                 .renderRoot(assemblerRoot, JavaTemplateRole.ROOT);

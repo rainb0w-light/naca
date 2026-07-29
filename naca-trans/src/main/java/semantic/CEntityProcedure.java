@@ -21,14 +21,14 @@ import utils.*;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityProcedure extends CBaseLanguageEntity
+public class CEntityProcedure extends CBaseLanguageEntity
 {
 
 	/**
 	 * @param name
 	 * @param cat
 	 */
-	protected CEntityProcedure(int l, String name, CObjectCatalog cat, CEntityProcedureSection section)
+	public CEntityProcedure(int l, String name, CObjectCatalog cat, CEntityProcedureSection section)
 	{
 		super(l, "", cat);
 		sectionContainer = section ;
@@ -66,7 +66,10 @@ public abstract class CEntityProcedure extends CBaseLanguageEntity
 	}
 	
 	protected static int ms_nLastProcedureIndex = 0 ;
-	public abstract String ExportReference(int nLine) ;
+	public String ExportReference(int nLine)
+	{
+		return getFormattedName();
+	}
 	/* (non-Javadoc)
 	 * @see semantic.CBaseSemanticEntity#DoExport()
 	 */
