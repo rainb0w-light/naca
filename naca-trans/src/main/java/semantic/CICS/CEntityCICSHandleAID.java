@@ -45,9 +45,7 @@ public class CEntityCICSHandleAID extends CBaseActionEntity
 	}
 	public void HandleAID(String cond, String label)
 	{
-		// Identifier formatting is part of semantic construction. ST4 accessors
-		// below remain pure property reads during rendering.
-		handledAIDEntries.add(new HandledAIDEntry(cond, FormatIdentifier(label)));
+		handledAIDEntries.add(new HandledAIDEntry(cond, label));
 	}
 	public void UnhandleAID(String cond)
 	{
@@ -68,14 +66,14 @@ public class CEntityCICSHandleAID extends CBaseActionEntity
 
 	// ==================== ST4 Template Accessors ====================
 	// Read-only, O(1) getters for the recursive ST4 assembler. Entry
-	// construction and identifier formatting have already happened above.
+	// construction has already happened above; target formatting remains in ST4.
 
 	/**
 	 * Returns the handled AID entries (one per HANDLE AID ENTER(label), PF1(label),
 	 * etc. call). Each entry carries the AID key as its condition string and the
-	 * target label as a pre-formatted Java identifier (via FormatIdentifier).
+	 * raw target label from the COBOL source.
 	 * Iteration order matches the parser's AddRequest insertion order, which is
-	 * also the order the retired CJavaCICSHandleAID.DoExport loop iterated.
+	 * also the historical generator order.
 	 */
 	public List<HandledAIDEntry> getHandledAIDEntries()
 	{
@@ -85,8 +83,7 @@ public class CEntityCICSHandleAID extends CBaseActionEntity
 	/**
 	 * Returns the unhandled AID entries (one per bare HANDLE AID ANYKEY, etc.
 	 * call). Each entry carries the AID key as its condition string. Iteration
-	 * order matches the parser's AddRequest insertion order, which is also the
-	 * order the retired CJavaCICSHandleAID.DoExport loop iterated.
+	 * order matches the parser's AddRequest insertion order.
 	 */
 	public List<UnhandledAIDEntry> getUnhandledAIDEntries()
 	{
@@ -95,9 +92,8 @@ public class CEntityCICSHandleAID extends CBaseActionEntity
 
 	/**
 	 * One handled-AID entry: the AID key (e.g. "ENTER") paired with its
-	 * target label (a pre-formatted section/paragraph identifier). The
-	 * template renders the condition as a Java string literal and the label
-	 * as a bare identifier (a CJMapRunnable reference).
+	 * raw target label. The template renders the condition as a Java string
+	 * literal and formats the label as a bare identifier.
 	 */
 	public static final class HandledAIDEntry
 	{

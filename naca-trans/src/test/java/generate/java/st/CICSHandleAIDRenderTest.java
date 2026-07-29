@@ -27,9 +27,7 @@ class CICSHandleAIDRenderTest
 {
     private static CEntityCICSHandleAID entity()
     {
-        CEntityCICSHandleAID handle = new CEntityCICSHandleAID(1, null);
-        handle.setLanguageExporter(new MockJavaExporter());
-        return handle;
+        return new CEntityCICSHandleAID(1, null);
     }
 
     @Test
@@ -38,8 +36,6 @@ class CICSHandleAIDRenderTest
     {
         CEntityCICSHandleAID handle = entity();
         handle.HandleAID("ENTER", "ENTER-KEY");
-        // Rendering must only read the semantic value prepared above.
-        handle.setLanguageExporter(null);
         String output = TemplateLoader.getRecursiveAssembler()
             .renderRoot(handle, JavaTemplateRole.REFERENCE);
         assertEquals("CESM.handleAID(\"ENTER\", ENTER_KEY) ;", output.trim());

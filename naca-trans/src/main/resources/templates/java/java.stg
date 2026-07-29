@@ -1093,7 +1093,7 @@ CESM.write<if(entity.persistent)>Transiant<else>Temp<endif>Queue(<entity.queueNa
 // filtered by the assembler's ignore()-based active-children selection (the
 // template receives an empty iteration, producing no output).
 recursiveCICSHandleAIDEntity(entity) ::= <<
-<entity.handledAIDEntries:{entry | CESM.handleAID("<entry.condition>", <entry.label>) ;}; separator="\n">
+<entity.handledAIDEntries:{entry | CESM.handleAID("<entry.condition>", <entry.label; format="javaFormattedName">) ;}; separator="\n">
 <if(entity.handledAIDEntries)><if(entity.unhandledAIDEntries)>
 <endif><endif><entity.unhandledAIDEntries:{entry | CESM.unhandleAID("<entry.condition>") ;}; separator="\n">
 >>
