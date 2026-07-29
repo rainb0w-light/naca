@@ -443,6 +443,16 @@ features:
     fixtures: []
     status: production
 
+  - id: cobol.procedure.section
+    dialects: [cobol-core]
+    semanticType: semantic.CEntityProcedureSection
+    javaBackend:
+      role: REFERENCE
+      template: recursiveProcedureSectionEntity
+    runtimeOperations: []
+    fixtures: []
+    status: production
+
   - id: cobol.expression.concat
     dialects: [cobol-core]
     semanticType: semantic.expression.CEntityConcat

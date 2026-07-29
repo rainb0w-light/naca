@@ -12,7 +12,6 @@
  */
 package generate;
 
-import generate.java.CJavaProcedureSection;
 import generate.java.CJavaSortedFileDescriptor;
 import generate.java.CJavaStructure;
 import generate.java.CJavaSubStringReference;
@@ -429,7 +428,10 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return entity;
 	}
 	public CEntityProcedureSection NewEntityProcedureSection(int l, String name)	{
-		return new CJavaProcedureSection(l, name, programCatalog, langOutput);
+		CEntityProcedureSection entity =
+			new CEntityProcedureSection(l, name, programCatalog);
+		entity.setLanguageExporter(langOutput);
+		return entity;
 	}
 	public CEntityAssign NewEntityAssign(int l)	{
 		CEntityAssign e = new CEntityAssign(l, programCatalog);
