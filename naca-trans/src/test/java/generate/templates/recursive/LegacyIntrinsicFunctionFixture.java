@@ -26,7 +26,7 @@ final class LegacyIntrinsicFunctionFixture extends CEntityIntrinsicFunction
     public String ExportReference(int line)
     {
         String renderedArguments = getArguments().stream()
-            .map(CBaseEntityExpression::Export)
+            .map(generate.LegacyExpressionRenderer::render)
             .collect(Collectors.joining(", "));
         return "CobolIntrinsicFunctions." + getNormalizedFunctionName()
             + "(" + renderedArguments + ")";

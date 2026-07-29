@@ -17,7 +17,6 @@ public class CFPacJavaExprTerminal extends CEntityExprTerminal
 		super(term);
 	}
 
-	@Override
 	public String Export()
 	{
 		if (term != null)

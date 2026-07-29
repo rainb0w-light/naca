@@ -27,7 +27,6 @@ class CSubStringReferenceTest
             super(term);
         }
 
-        @Override
         public String Export()
         {
             return term.ExportReference(getLine());

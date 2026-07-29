@@ -161,7 +161,8 @@ class JavaSemanticConditionRendererTest
 
     private void assertMatchesDirect(CBaseEntityCondition condition)
     {
-        assertEquals(condition.Export(), assembler.renderRoot(condition, JavaTemplateRole.REFERENCE),
+        assertEquals(generate.LegacyExpressionRenderer.render(condition),
+            assembler.renderRoot(condition, JavaTemplateRole.REFERENCE),
             condition.getClass().getName());
     }
 

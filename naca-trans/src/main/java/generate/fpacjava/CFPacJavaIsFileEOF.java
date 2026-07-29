@@ -49,7 +49,6 @@ public class CFPacJavaIsFileEOF extends CEntityIsFileEOF
 	/**
 	 * @see semantic.expression.CBaseEntityCondExpr#Export()
 	 */
-	@Override
 	public String Export()
 	{
 		return "isEof("+fileDescriptor.getFormattedName()+")" ;

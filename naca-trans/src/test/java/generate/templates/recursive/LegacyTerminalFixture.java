@@ -13,7 +13,6 @@ final class LegacyTerminalFixture extends CEntityExprTerminal
         super(term);
     }
 
-    @Override
     public String Export()
     {
         return term == null ? "[UNDEFINED]" : term.ExportReference(getLine());

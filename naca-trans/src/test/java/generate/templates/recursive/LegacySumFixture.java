@@ -7,10 +7,10 @@ import semantic.expression.CEntityExprSum;
  */
 final class LegacySumFixture extends CEntityExprSum
 {
-    @Override
     public String Export()
     {
         String operation = isAdd() ? "add" : "subtract";
-        return operation + "(" + op1.Export() + ", \n" + op2.Export() + ")";
+        return operation + "(" + generate.LegacyExpressionRenderer.render(op1)
+            + ", \n" + generate.LegacyExpressionRenderer.render(op2) + ")";
     }
 }

@@ -27,7 +27,7 @@ final class LegacyArrayReferenceFixture extends CEntityArrayReference
                 result.append(", ");
             }
             CBaseEntityExpression index = arrIndexes.get(i);
-            result.append(index.Export());
+            result.append(generate.LegacyExpressionRenderer.render(index));
         }
         return result.append(")").toString();
     }

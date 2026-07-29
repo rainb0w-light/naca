@@ -31,7 +31,7 @@ public class CFPacJavaCondEquals extends CEntityCondEquals
 	public String Export()
 	{
 		String method = bIsDifferent ? "isDifferent" : "isEqual";
-		String right = op2 != null ? op2.Export() : "[UNDEFINED]";
-		return method + "(" + op1.Export() + ", " + right + ")";
+		String right = op2 != null ? generate.LegacyExpressionRenderer.render(op2) : "[UNDEFINED]";
+		return method + "(" + generate.LegacyExpressionRenderer.render(op1) + ", " + right + ")";
 	}
 }

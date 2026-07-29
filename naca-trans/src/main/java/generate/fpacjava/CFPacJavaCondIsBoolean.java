@@ -25,7 +25,6 @@ public class CFPacJavaCondIsBoolean extends CEntityCondIsBoolean
 		return cond;
 	}
 
-	@Override
 	public String Export()
 	{
 		String cs = "" ;

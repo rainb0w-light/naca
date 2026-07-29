@@ -383,11 +383,11 @@ public class CJavaExporter extends CBaseLanguageExporter
 		int childLevel = condChild.GetPriorityLevel() ;
 		if ((parentLevel == 2 && childLevel ==1) || (parentLevel == 1 && childLevel == 2) || parentLevel > childLevel)
 		{ // 1 and 2 are 'AND' and 'OR'
-			return "(" + condChild.Export() + ")" ;
+			return "(" + generate.LegacyExpressionRenderer.render(condChild) + ")" ;
 		}
 		else
 		{
-			return condChild.Export() ;
+			return generate.LegacyExpressionRenderer.render(condChild) ;
 		}
 	}
 	

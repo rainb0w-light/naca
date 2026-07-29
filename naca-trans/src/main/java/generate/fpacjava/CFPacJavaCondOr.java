@@ -21,11 +21,11 @@ public class CFPacJavaCondOr extends CEntityCondOr
 	{
 		if (op1.ignore())
 		{
-			return op2.Export();
+			return generate.LegacyExpressionRenderer.render(op2);
 		}
 		else if (op2.ignore())
 		{
-			return op1.Export();
+			return generate.LegacyExpressionRenderer.render(op1);
 		}
 		String cs = CJavaExporter.ExportChildCondition(GetPriorityLevel(), op1) ;
 		cs += " \n|| " + CJavaExporter.ExportChildCondition(GetPriorityLevel(), op2) ;

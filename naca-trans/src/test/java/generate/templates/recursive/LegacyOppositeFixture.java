@@ -7,9 +7,8 @@ import semantic.expression.CEntityExprOpposite;
  */
 final class LegacyOppositeFixture extends CEntityExprOpposite
 {
-    @Override
     public String Export()
     {
-        return "opposite(" + data.Export() + ")";
+        return "opposite(" + generate.LegacyExpressionRenderer.render(data) + ")";
     }
 }

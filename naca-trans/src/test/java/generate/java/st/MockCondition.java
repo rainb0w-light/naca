@@ -24,7 +24,6 @@ public class MockCondition extends CBaseEntityCondition {
         this.mockConditionValue = conditionValue;
     }
 
-    @Override
     public String Export() {
         return mockConditionValue;
     }

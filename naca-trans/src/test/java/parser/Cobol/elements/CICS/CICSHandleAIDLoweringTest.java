@@ -22,7 +22,9 @@ class CICSHandleAIDLoweringTest
 
         assertEquals(1, entity.getHandledAIDEntries().size());
         assertEquals("ENTER", entity.getHandledAIDEntries().get(0).getCondition());
-        assertEquals("ENTER_KEY", entity.getHandledAIDEntries().get(0).getLabel());
+        // Lowering preserves the COBOL label; Java identifier formatting belongs
+        // to the recursive ST4 assembler.
+        assertEquals("ENTER-KEY", entity.getHandledAIDEntries().get(0).getLabel());
         assertEquals(1, entity.getUnhandledAIDEntries().size());
         assertEquals("ANYKEY", entity.getUnhandledAIDEntries().get(0).getCondition());
     }

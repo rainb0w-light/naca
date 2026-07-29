@@ -63,7 +63,8 @@ class JavaSemanticExpressionRendererTest
 
     private void assertMatchesDirect(CBaseEntityExpression expression)
     {
-        assertEquals(expression.Export(), assembler.renderRoot(expression, JavaTemplateRole.REFERENCE),
+        assertEquals(generate.LegacyExpressionRenderer.render(expression),
+            assembler.renderRoot(expression, JavaTemplateRole.REFERENCE),
             expression.getClass().getName());
     }
 }

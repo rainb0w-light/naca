@@ -44,16 +44,16 @@ public class CJavaSubStringReference extends CSubStringAttributReference
 //		if (reference.HasAccessors())
 //		{
 			String cs = "subString(" + reference.ExportReference(getLine()) ;
-			cs += ", " + start.Export();
+			cs += ", " + generate.LegacyExpressionRenderer.render(start);
 			if(length != null)
-				cs += ", " + length.Export();
+				cs += ", " + generate.LegacyExpressionRenderer.render(length);
 			cs += ")" ;
 			return cs ;
 //		}
 //		else
 //		{
 //			String cs = reference.ExportReference(getLine()) ;
-//			cs += ".subString(" + start.Export() + ", " + length.Export() + ")" ;
+//			cs += ".subString(" + generate.LegacyExpressionRenderer.render(start) + ", " + generate.LegacyExpressionRenderer.render(length) + ")" ;
 //			return cs ;
 //		}		
 	}
@@ -72,9 +72,9 @@ public class CJavaSubStringReference extends CSubStringAttributReference
 	public String ExportWriteAccessorTo(String value)
 	{
 		String cs = reference.ExportReference(getLine()) ;
-		cs = "setSubString(" + cs + ", " + start.Export();
+		cs = "setSubString(" + cs + ", " + generate.LegacyExpressionRenderer.render(start);
 		if (length != null)
-			cs += ", " + length.Export();
+			cs += ", " + generate.LegacyExpressionRenderer.render(length);
 		cs += ", " + value ;
 		cs += ") ;" ;
 		return cs ;		

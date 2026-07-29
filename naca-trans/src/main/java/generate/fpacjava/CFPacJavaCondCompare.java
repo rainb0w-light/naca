@@ -61,7 +61,7 @@ public class CFPacJavaCondCompare extends CEntityCondCompare
 		{
 			cs = "isLess"+ebcdic+"(" ;
 		}
-		cs += op1.Export() + ", " + op2.Export() + ")";
+		cs += generate.LegacyExpressionRenderer.render(op1) + ", " + generate.LegacyExpressionRenderer.render(op2) + ")";
 		return cs ;
 	}
 
