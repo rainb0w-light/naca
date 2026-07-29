@@ -212,6 +212,63 @@ operations:
     paramTypes: [nacaLib.varEx.VarBase, nacaLib.varEx.VarBase]
     returns: nacaLib.basePrgEnv.BaseProgram
 
+  # --- ACCEPT (terminal/environment/date sources) ---
+  - id: data.move.stringVar
+    since: 1
+    capability: DATA
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: move
+    paramTypes: [java.lang.String, nacaLib.varEx.Var]
+    returns: void
+
+  - id: accept.input
+    since: 1
+    capability: INPUT_OUTPUT
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: accept
+    paramTypes: [nacaLib.varEx.Var]
+    returns: void
+
+  - id: accept.environment
+    since: 1
+    capability: INPUT_OUTPUT
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: acceptEnv
+    paramTypes: [nacaLib.varEx.Var]
+    returns: void
+
+  - id: accept.date
+    since: 1
+    capability: INPUT_OUTPUT
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: getDateBatch
+    paramTypes: []
+    returns: java.lang.String
+
+  - id: accept.day
+    since: 1
+    capability: INPUT_OUTPUT
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: getDayBatch
+    paramTypes: []
+    returns: java.lang.String
+
+  - id: accept.dayOfWeek
+    since: 1
+    capability: INPUT_OUTPUT
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: getDayOfWeekBatch
+    paramTypes: []
+    returns: java.lang.String
+
+  - id: accept.time
+    since: 1
+    capability: INPUT_OUTPUT
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: getTimeBatch
+    paramTypes: []
+    returns: java.lang.String
+
   # --- CICS RETURN ---
   # EXEC CICS RETURN END-EXEC emits CESM.returnTrans(...). The contract declares the
   # representative no-argument overload — the production-reachable bare RETURN (e.g.

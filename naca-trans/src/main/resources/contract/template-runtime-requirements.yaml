@@ -65,6 +65,17 @@ templates:
       - data.moveAll
       - data.moveCorresponding
 
+  recursiveAcceptEntity:
+    capability: INPUT_OUTPUT
+    requires:
+      - data.move.stringVar
+      - accept.input
+      - accept.environment
+      - accept.date
+      - accept.day
+      - accept.dayOfWeek
+      - accept.time
+
   recursiveCICSReturnEntity:
     capability: CICS
     requires:

@@ -92,6 +92,16 @@ features:
     fixtures: []
     status: production
 
+  - id: cobol.io.accept
+    dialects: [cobol-core]
+    semanticType: semantic.Verbs.CEntityAccept
+    javaBackend:
+      role: REFERENCE
+      template: recursiveAcceptEntity
+    runtimeOperations: [data.move.stringVar, accept.input, accept.environment, accept.date, accept.day, accept.dayOfWeek, accept.time]
+    fixtures: []
+    status: production
+
   - id: cics.return
     dialects: [embedded-cics]
     semanticType: semantic.CICS.CEntityCICSReturn

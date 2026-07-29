@@ -186,10 +186,6 @@ exitProgram();
 //                           ADDITIONAL VERB TEMPLATES
 // ============================================================================
 
-accept(entity) ::= <<
-<if(entity.fromEnvironmentValue)>acceptEnv(<entity.variable.referenceString>);<else>move(<if(entity.fromDate)>getDateBatch()<else><if(entity.fromDay)>getDayBatch()<else><if(entity.fromDayOfWeek)>getDayOfWeekBatch()<else><if(entity.fromInput)>getInputBatch()<else><if(entity.fromTime)>getTimeBatch()<else><entity.source.referenceString><endif><endif><endif><endif><endif>, <entity.variable.referenceString>);<endif>
->>
-
 count(entity) ::= <<
 count(<entity.values:{v | <v.codeString>}; separator=", ">);
 >>
@@ -1087,7 +1083,7 @@ recursiveCICSHandleAIDEntity(entity) ::= <<
 >>
 
 recursiveAcceptEntity(entity) ::= <<
-<if(entity.fromEnvironmentValue)>acceptEnv(<entity.variable>);<else>move(<if(entity.fromDate)>getDateBatch()<else><if(entity.fromDay)>getDayBatch()<else><if(entity.fromDayOfWeek)>getDayOfWeekBatch()<else><if(entity.fromInput)>getInputBatch()<else><if(entity.fromTime)>getTimeBatch()<else><entity.source><endif><endif><endif><endif><endif>, <entity.variable>);<endif>
+<if(entity.fromEnvironmentValue)>acceptEnv(<entity.variable>);<elseif(entity.fromInput)>accept(<entity.variable>);<else>move(<if(entity.fromDate)>getDateBatch()<else><if(entity.fromDay)>getDayBatch()<else><if(entity.fromDayOfWeek)>getDayOfWeekBatch()<else><if(entity.fromTime)>getTimeBatch()<else><entity.source><endif><endif><endif><endif>, <entity.variable>);<endif>
 >>
 
 recursiveCallProgramEntity(entity) ::= <<

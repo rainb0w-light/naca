@@ -22,11 +22,11 @@
     "ratchet": {
       "note": "Debt counts may only move down for the COBOL scope. Refresh per phase.",
       "baselineCapturedAtCommit": "9402b0c",
-      "lastVerifiedAtCommit": "c1258114",
+      "lastVerifiedAtCommit": "017645bd",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 180,
-        "directBackends": 110,
+        "failures": 179,
+        "directBackends": 109,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -2132,25 +2132,27 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "COBOL_CORE",
       "sourceSyntax": "legacy backend CJavaAccept",
       "parserNode": null,
       "semanticNode": "semantic.Verbs.CEntityAccept",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
+      "assemblerRole": "REFERENCE",
+      "manifestBinding": "semantic.Verbs.CEntityAccept=recursiveAcceptEntity",
+      "template": "recursiveAcceptEntity",
+      "runtimeOperation": "accept.input",
       "fixture": null,
       "directBackend": "generate.java.verbs.CJavaAccept",
       "sourcePath": "naca-trans/src/main/java/generate/java/verbs/CJavaAccept.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/verbs/CJavaAccept.java"
-      ]
+        "naca-trans/src/main/java/generate/java/verbs/CJavaAccept.java",
+        "naca-trans/src/test/java/generate/java/st/CEntityAcceptRenderTest.java"
+      ],
+      "lastAttemptCommit": "017645bd"
     },
     {
       "id": "BACKEND-COBOL-VERB-CJAVAASSIGN",
