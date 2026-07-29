@@ -543,3 +543,27 @@ operations:
     runtimeMethod: unhandleAID
     paramTypes: [java.lang.String]
     returns: nacaLib.basePrgEnv.BaseCESMManager
+
+  # --- CICS HANDLE CONDITION ---
+  # EXEC CICS HANDLE CONDITION COND1(label) ... END-EXEC emits
+  # CESM.handleCondition(<cond>, <target>) for each handled condition and
+  # CESM.unhandleCondition(<cond>) for each unhandled condition, chained onto
+  # a single CESM prefix. Declared on BaseCESMManager like cics.handleAID.
+  # The handleCondition/unhandleCondition methods are implemented on
+  # BaseCESMManager; handleCondition takes a Paragraph or Section (both extend
+  # CJMapRunnable) as target.
+  - id: cics.handleCondition
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
+    runtimeMethod: handleCondition
+    paramTypes: [java.lang.String, nacaLib.program.CJMapRunnable]
+    returns: nacaLib.basePrgEnv.BaseCESMManager
+
+  - id: cics.unhandleCondition
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
+    runtimeMethod: unhandleCondition
+    paramTypes: [java.lang.String]
+    returns: nacaLib.basePrgEnv.BaseCESMManager

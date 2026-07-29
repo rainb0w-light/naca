@@ -255,6 +255,16 @@ features:
     fixtures: []
     status: production
 
+  - id: cics.handleCondition
+    dialects: [embedded-cics]
+    semanticType: semantic.CICS.CEntityCICSHandleCondition
+    javaBackend:
+      role: REFERENCE
+      template: recursiveCICSHandleConditionEntity
+    runtimeOperations: [cics.handleCondition, cics.unhandleCondition]
+    fixtures: []
+    status: production
+
   - id: sql.cursorSection
     dialects: [embedded-sql]
     semanticType: semantic.CEntitySQLCursorSection

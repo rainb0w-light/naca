@@ -156,3 +156,9 @@ templates:
     requires:
       - cics.handleAID
       - cics.unhandleAID
+
+  recursiveCICSHandleConditionEntity:
+    capability: CICS
+    requires:
+      - cics.handleCondition
+      - cics.unhandleCondition

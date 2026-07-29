@@ -976,6 +976,19 @@ recursiveCICSGetMainEntity(entity) ::= <<
 CESM.getMain() ;
 >>
 
+// Embedded CICS HANDLE CONDITION (EXEC CICS HANDLE CONDITION COND1(label)
+// COND2(label) ... END-EXEC). Emits one .handleCondition("cond", label) per
+// handled condition entry and one .unhandleCondition("cond") per unhandled
+// condition entry, all chained onto the CESM prefix in parser insertion order
+// and terminated by " ;". Mirrors CJavaCICSHandleCondition.DoExport exactly:
+// handled conditions output first, then unhandled conditions, all on one line.
+// An entity with no handled and no unhandled conditions produces no output
+// (the template if-guard is empty), and the assembler's ignore()-based
+// active-children selection filters it at the parent level.
+recursiveCICSHandleConditionEntity(entity) ::= <<
+<if(entity.handledConditionEntries)>CESM<entity.handledConditionEntries:{e | .handleCondition("<e.condition>", <e.label>)}><entity.unhandledConditionEntries:{e | .unhandleCondition("<e.condition>")}> ;<elseif(entity.unhandledConditionEntries)>CESM<entity.unhandledConditionEntries:{e | .unhandleCondition("<e.condition>")}> ;<endif>
+>>
+
 // Embedded CICS HANDLE AID (EXEC CICS HANDLE AID ENTER(label) PF1(label) ...
 // ANYKEY(label) END-EXEC). Emits one CESM.handleAID(<cond>, <label>) per
 // handled AID entry and one CESM.unhandleAID(<cond>) per unhandled AID entry.
