@@ -943,11 +943,13 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
         return e;
     }
 
-    // Procedure structure is rendered by the recursive assembler in production:
-    // the ST controller renders its whole subtree via JavaTemplateAssembler.
+    // Procedure structure is rendered from the program ROOT by the recursive
+    // assembler; factories therefore build only target-neutral semantic nodes.
     @Override
     public CEntityProcedureDivision NewEntityProcedureDivision(int l) {
-        return new CJavaProcedureDivisionST(l, programCatalog, langOutput);
+        CEntityProcedureDivision e = new CEntityProcedureDivision(l, programCatalog);
+        e.setLanguageExporter(langOutput);
+        return e;
     }
 
     @Override

@@ -22,11 +22,11 @@
     "ratchet": {
       "note": "Debt counts may only move down for the COBOL scope. Refresh per phase.",
       "baselineCapturedAtCommit": "9402b0c",
-      "lastVerifiedAtCommit": "6d05abf0",
+      "lastVerifiedAtCommit": "d64d968b",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 184,
-        "directBackends": 115,
+        "failures": 183,
+        "directBackends": 114,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -1966,25 +1966,27 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "COBOL_CORE",
       "sourceSyntax": "legacy backend CJavaProcedureDivisionST",
       "parserNode": null,
       "semanticNode": "semantic.CEntityProcedureDivision",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
+      "assemblerRole": "REFERENCE",
+      "manifestBinding": "semantic.CEntityProcedureDivision=recursiveProcedureDivisionEntity",
+      "template": "recursiveProcedureDivisionEntity",
       "runtimeOperation": null,
       "fixture": null,
       "directBackend": "generate.java.st.CJavaProcedureDivisionST",
       "sourcePath": "naca-trans/src/main/java/generate/java/st/CJavaProcedureDivisionST.java",
       "productionReachable": true,
-      "status": "production-wired",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/st/CJavaProcedureDivisionST.java"
-      ]
+        "naca-trans/src/main/java/generate/java/st/CJavaProcedureDivisionST.java",
+        "naca-trans/src/test/java/generate/java/st/CEntityProcedureDivisionRenderTest.java"
+      ],
+      "lastAttemptCommit": "d64d968b"
     },
     {
       "id": "BACKEND-COBOL-ST-CJAVAPROCEDUREST",
@@ -4352,9 +4354,7 @@
       "id": "BACKEND-COBOL-DATA-CJAVAPROCEDUREDIVISION",
       "kind": "DIRECT_BACKEND_RETIREMENT",
       "priority": 615,
-      "dependencies": [
-        "BACKEND-COBOL-ST-CJAVAPROCEDUREDIVISIONST"
-      ],
+      "dependencies": [],
       "verification": [
         "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
       ],
