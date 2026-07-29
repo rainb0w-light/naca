@@ -46,15 +46,6 @@ public class CEntityConstant extends CDataEntity
 	}
 
 	/**
-	 * @see semantic.CDataEntity#ExportWriteAccessorTo(java.lang.String)
-	 */
-	@Override
-	public String ExportWriteAccessorTo(String value)
-	{
-		return null;
-	}
-
-	/**
 	 * @see semantic.CDataEntity#isValNeeded()
 	 */
 	@Override
