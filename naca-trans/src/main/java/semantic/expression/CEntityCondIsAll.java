@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 18 août 2004
+ * Created on 18 August 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -22,8 +22,20 @@ import semantic.CDataEntity;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityCondIsAll extends CBaseEntityCondition
+public class CEntityCondIsAll extends CBaseEntityCondition
 {
+	public int GetPriorityLevel()
+	{
+		return 7;
+	}
+
+	public CBaseEntityCondition GetOppositeCondition()
+	{
+		CEntityCondIsAll opposite = new CEntityCondIsAll();
+		opposite.SetCondition(exprData, exprToken);
+		opposite.bIsOpposite = !bIsOpposite;
+		return opposite;
+	}
 
 	public void SetCondition(CBaseEntityExpression data, CBaseEntityExpression tok)
 	{
@@ -37,6 +49,18 @@ public abstract class CEntityCondIsAll extends CBaseEntityCondition
 	public void setOpposite()
 	{
 		bIsOpposite = ! bIsOpposite ;
+	}
+	public CBaseEntityExpression getData()
+	{
+		return exprData;
+	}
+	public CBaseEntityExpression getToken()
+	{
+		return exprToken;
+	}
+	public boolean isOpposite()
+	{
+		return bIsOpposite;
 	}
 	public void Clear()
 	{

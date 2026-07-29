@@ -323,6 +323,16 @@ features:
     fixtures: []
     status: production
 
+  - id: cobol.condition.is-all
+    dialects: [cobol-core]
+    semanticType: semantic.expression.CEntityCondIsAll
+    javaBackend:
+      role: REFERENCE
+      template: recursiveCondIsAllEntity
+    runtimeOperations: [condition.isAll.varString, condition.isNotAll.varString]
+    fixtures: []
+    status: production
+
   - id: cobol.data.initialize
     dialects: [cobol-core]
     semanticType: semantic.Verbs.CEntityInitialize

@@ -201,6 +201,12 @@ templates:
       - compare.equal.varVar
       - compare.different.varVar
 
+  recursiveCondIsAllEntity:
+    capability: CONTROL_FLOW
+    requires:
+      - condition.isAll.varString
+      - condition.isNotAll.varString
+
   recursiveCountEntity:
     capability: STRING
     requires:

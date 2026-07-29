@@ -501,6 +501,10 @@ recursiveCondEqualsEntity(entity) ::= <<
 <if(entity.different)>isDifferent<else>isEqual<endif>(<entity.left>, <if(entity.right)><entity.right><else>[UNDEFINED]<endif>)
 >>
 
+recursiveCondIsAllEntity(entity) ::= <<
+is<if(entity.opposite)>Not<endif>All(<entity.data>, <entity.token>)
+>>
+
 recursiveNamedCondition(opposite, reference) ::= <<
 <if(opposite)>isNot<else>is<endif>(<reference>)
 >>

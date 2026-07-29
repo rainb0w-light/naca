@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 12 août 2004
+ * Created on 12 August 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -37,8 +37,8 @@ public class CCondIsAll extends CExpression
 	public CCondIsAll(int line, CExpression term1, CExpression term2)
 	{
 		super(line) ;
-		term1 = term1 ;
-		term2 = term2 ;
+		this.term1 = term1 ;
+		this.term2 = term2 ;
 	}
 	/* (non-Javadoc)
 	 * @see parser.expression.CExpression#WriteTo(parser.expression.CBaseExpressionExporter)

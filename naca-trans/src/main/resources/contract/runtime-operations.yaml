@@ -888,6 +888,22 @@ operations:
     paramTypes: [nacaLib.varEx.VarAndEdit, nacaLib.varEx.VarAndEdit]
     returns: boolean
 
+  - id: condition.isAll.varString
+    since: 1
+    capability: CONTROL_FLOW
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: isAll
+    paramTypes: [nacaLib.varEx.VarAndEdit, java.lang.String]
+    returns: boolean
+
+  - id: condition.isNotAll.varString
+    since: 1
+    capability: CONTROL_FLOW
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: isNotAll
+    paramTypes: [nacaLib.varEx.VarAndEdit, java.lang.String]
+    returns: boolean
+
   # --- INSPECT REPLACING ---
   - id: inspect.replacing
     since: 1

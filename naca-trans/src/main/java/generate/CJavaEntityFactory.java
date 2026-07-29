@@ -34,7 +34,6 @@ import generate.java.CJavaStructure;
 import generate.java.CJavaSubStringReference;
 import generate.java.CJavaUnknownReference;
 
-import generate.java.expressions.CJavaCondIsAll;
 import generate.java.expressions.CJavaCondIsConstant;
 import generate.java.expressions.CJavaCondIsKindOf;
 import generate.java.expressions.CJavaCondNot;
@@ -713,7 +712,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CEntityCondAnd();
 	}
 	public CEntityCondIsAll NewEntityCondIsAll()	{
-		return new CJavaCondIsAll();
+		return new CEntityCondIsAll();
 	}
 	public CEntityCondIsKindOf NewEntityCondIsKindOf()	{
 		return new CJavaCondIsKindOf();
