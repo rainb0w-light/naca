@@ -343,6 +343,16 @@ features:
     fixtures: []
     status: production
 
+  - id: cobol.data.environment-variable
+    dialects: [cobol-core]
+    semanticType: semantic.CEntityEnvironmentVariable
+    javaBackend:
+      role: REFERENCE
+      template: environmentVariableEntity
+    runtimeOperations: []
+    fixtures: []
+    status: production
+
   - id: cobol.expression.concat
     dialects: [cobol-core]
     semanticType: semantic.expression.CEntityConcat

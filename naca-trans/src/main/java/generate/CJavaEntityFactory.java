@@ -12,7 +12,6 @@
  */
 package generate;
 
-import generate.java.CJavaEnvironmentVariable;
 import generate.java.CJavaExternalDataStructure;
 import generate.java.CJavaFileDescriptor;
 import generate.java.CJavaFileDescriptorLengthDependency;
@@ -640,10 +639,16 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CJavaResourceStrings(nbLines, nbCols);
 	}
 	public CEntityEnvironmentVariable NewEntityEnvironmentVariable(String name, String acc, boolean bNumeric)	{
-		return new CJavaEnvironmentVariable(0, name, programCatalog, langOutput, acc, bNumeric);
+		CEntityEnvironmentVariable e =
+			new CEntityEnvironmentVariable(0, name, programCatalog, acc, "", bNumeric);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntityEnvironmentVariable NewEntityEnvironmentVariable(String name, String acc, String write, boolean bNumeric)	{
-		return new CJavaEnvironmentVariable(0, name, programCatalog, langOutput, acc, write, bNumeric);
+		CEntityEnvironmentVariable e =
+			new CEntityEnvironmentVariable(0, name, programCatalog, acc, write, bNumeric);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 //	public CEntityFormAccessor NewEntityFormAccessor(int l, String name, CEntityResourceForm owner)	{
 //		return new CJavaFormAccessor(l, name, programCatalog, langOutput, owner);

@@ -27,7 +27,7 @@ import utils.CObjectCatalog;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityEnvironmentVariable extends CDataEntity
+public class CEntityEnvironmentVariable extends CDataEntity
 {
 	/**
 	 * @param l
@@ -132,5 +132,15 @@ public abstract class CEntityEnvironmentVariable extends CDataEntity
 			return CDataEntityType.NUMERIC_VAR ;
 		else
 			return CDataEntityType.VAR;
+	}
+
+	public boolean HasAccessors()
+	{
+		return !csWriteAccessor.isEmpty();
+	}
+
+	public boolean isValNeeded()
+	{
+		return false;
 	}
 }

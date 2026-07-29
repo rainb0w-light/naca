@@ -3,7 +3,6 @@ package generate.templates.recursive;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import generate.fixtures.LegacyAttributeFixture;
-import generate.java.CJavaEnvironmentVariable;
 import generate.java.CJavaExporter;
 import generate.java.CJavaExternalDataStructure;
 import generate.java.CJavaIndex;
@@ -14,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import semantic.CDataEntity;
 import semantic.CEntityAddressReference;
 import semantic.CEntityArrayReference;
+import semantic.CEntityEnvironmentVariable;
 import semantic.expression.CBaseEntityExpression;
 import semantic.expression.CEntityConstant;
 import utils.CObjectCatalog;
@@ -98,11 +98,12 @@ class JavaSemanticReferenceRendererTest
             1, "INDEX-OWNER", catalog, output);
         CJavaIndex index = new CJavaIndex("ITEM-INDEX", catalog, output);
         index.of = qualifier;
-        CJavaEnvironmentVariable environment = new CJavaEnvironmentVariable(
-            1, "RETURN-CODE", catalog, output, "getReturnCode()", "setReturnCode(", true);
+        CEntityEnvironmentVariable environment = new CEntityEnvironmentVariable(
+            1, "RETURN-CODE", catalog, "getReturnCode()", "setReturnCode(", true);
 
         assertMatchesDirect(index);
-        assertMatchesDirect(environment);
+        assertEquals("getReturnCode()",
+            assembler.renderRoot(environment, JavaTemplateRole.REFERENCE));
     }
 
     @Test

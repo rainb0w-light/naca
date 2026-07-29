@@ -26,6 +26,13 @@ public final class JavaStringLiteralAttributeRenderer
         {
             return CobolNameUtil.fixJavaName(raw.replace('-', '_'));
         }
+        if ("writeAccessorAll".equals(formatString))
+        {
+            int parenthesis = raw.indexOf('(');
+            return parenthesis < 0
+                ? raw + "All"
+                : raw.substring(0, parenthesis) + "All" + raw.substring(parenthesis);
+        }
         if (!(value instanceof JavaStringLiteralValue)
             && !"javaString".equals(formatString)
             && !"javaNumber".equals(formatString))

@@ -14,6 +14,7 @@ package semantic.Verbs;
 
 import semantic.CBaseActionEntity;
 import semantic.CDataEntity;
+import semantic.CEntityEnvironmentVariable;
 import utils.CObjectCatalog;
 
 /**
@@ -118,6 +119,20 @@ public class CEntityAssignWithAccessor extends CBaseActionEntity
 	public CDataEntity getReference() { return reference; }
 	public CDataEntity getValue() { return value; }
 	public boolean isFillAll() { return isfillAll; }
+	public boolean isEnvironmentReference()
+	{
+		return reference instanceof CEntityEnvironmentVariable;
+	}
+	public CEntityEnvironmentVariable getEnvironmentVariable()
+	{
+		return isEnvironmentReference()
+			? (CEntityEnvironmentVariable) reference : null;
+	}
+	public String getEnvironmentWriteAccessor()
+	{
+		CEntityEnvironmentVariable environment = getEnvironmentVariable();
+		return environment == null ? null : environment.getWriteAccessor();
+	}
 
 	/** Ready accessor call consumed by recursiveAssignWithAccessorEntity. */
 	public String getAccessorInvocation()

@@ -1567,7 +1567,7 @@ recursiveRoutineEmulationCallEntity(entity) ::= <<
 >>
 
 recursiveAssignWithAccessorEntity(entity) ::= <<
-<entity.accessorInvocation>
+<if(entity.environmentReference)><if(entity.fillAll)><entity.environmentWriteAccessor; format="writeAccessorAll"><else><entity.environmentWriteAccessor><endif><entity.value>);<else><entity.accessorInvocation><endif>
 >>
 
 recursiveParseStringEntity(entity) ::= <<
