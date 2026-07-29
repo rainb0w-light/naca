@@ -202,6 +202,16 @@ features:
     fixtures: []
     status: production
 
+  - id: cics.delay
+    dialects: [embedded-cics]
+    semanticType: semantic.CICS.CEntityCICSDelay
+    javaBackend:
+      role: REFERENCE
+      template: recursiveCICSDelayEntity
+    runtimeOperations: [cics.delayInterval, cics.delaySeconds]
+    fixtures: []
+    status: production
+
   - id: sql.cursorSection
     dialects: [embedded-sql]
     semanticType: semantic.CEntitySQLCursorSection

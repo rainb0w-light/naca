@@ -110,6 +110,12 @@ templates:
       - cics.deQWithoutLength
       - cics.deQWithLength
 
+  recursiveCICSDelayEntity:
+    capability: CICS
+    requires:
+      - cics.delayInterval
+      - cics.delaySeconds
+
   recursiveCICSAddressEntity:
     capability: CICS
     requires:

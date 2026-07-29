@@ -904,6 +904,16 @@ recursiveCICSDeQEntity(entity) ::= <<
 CESM.deQ(<entity.resource><if(entity.length)>, <entity.length><endif>) ;
 >>
 
+// Embedded CICS DELAY (EXEC CICS DELAY [INTERVAL(...) | FOR SECONDS(...)]
+// END-EXEC). Emits the CESM.delayInterval(...)/delaySeconds(...) runtime call.
+// Mirrors CJavaCICSDelay.DoExport exactly: INTERVAL renders
+// CESM.delayInterval(<ref>) ;, SECONDS renders CESM.delaySeconds(<ref>) ;.
+// A bare DELAY with neither operand renders CESM.delay ; (matching the
+// retired backend's fallthrough behavior). Reads only entity.* properties.
+recursiveCICSDelayEntity(entity) ::= <<
+CESM.delay<if(entity.interval)>Interval(<entity.interval>)<elseif(entity.seconds)>Seconds(<entity.seconds>)<else>)<endif> ;
+>>
+
 // Embedded CICS ADDRESS (EXEC CICS ADDRESS [CWA(...)] [TCTUA(...)] [TWA(...)]
 // END-EXEC). Emits the CESM.getAddressOfCWA/TCTUA/TWA(...) runtime calls. Mirrors
 // CJavaCICSAddress.DoExport exactly: the first active reference carries the CESM
