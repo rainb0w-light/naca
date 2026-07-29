@@ -22,11 +22,11 @@
     "ratchet": {
       "note": "Debt counts may only move down for the COBOL scope. Refresh per phase.",
       "baselineCapturedAtCommit": "9402b0c",
-      "lastVerifiedAtCommit": "12c0ae94",
+      "lastVerifiedAtCommit": "5903f95d",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 137,
-        "directBackends": 67,
+        "failures": 136,
+        "directBackends": 66,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -3598,25 +3598,27 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "COBOL_CORE",
       "sourceSyntax": "legacy backend CJavaConstantValue",
-      "parserNode": null,
-      "semanticNode": "semantic.CDataEntity",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
+      "parserNode": "parser.expression.CStringTerminal",
+      "semanticNode": "semantic.expression.CEntityConstantValue",
+      "assemblerRole": "REFERENCE",
+      "manifestBinding": "semantic.expression.CEntityConstantValue=constantValueEntity",
+      "template": "constantValueEntity",
       "runtimeOperation": null,
       "fixture": null,
       "directBackend": "generate.java.expressions.CJavaConstantValue",
       "sourcePath": "naca-trans/src/main/java/generate/java/expressions/CJavaConstantValue.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/expressions/CJavaConstantValue.java"
-      ]
+        "naca-trans/src/main/java/semantic/expression/CEntityConstantValue.java",
+        "naca-trans/src/test/java/generate/java/st/CEntityConstantValueRenderTest.java"
+      ],
+      "lastAttemptCommit": "5903f95d"
     },
     {
       "id": "BACKEND-COBOL-EXPRESSION-CJAVACURRENTDATE",

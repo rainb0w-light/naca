@@ -34,7 +34,6 @@ import generate.java.CJavaStructure;
 import generate.java.CJavaSubStringReference;
 import generate.java.CJavaUnknownReference;
 
-import generate.java.expressions.CJavaConstantValue;
 import generate.java.expressions.CJavaCurrentDate;
 import generate.java.expressions.CJavaDigits;
 import generate.java.expressions.CJavaEntityNumber;
@@ -222,6 +221,7 @@ import semantic.expression.CEntityCondIsKindOf;
 import semantic.expression.CEntityCondNot;
 import semantic.expression.CEntityCondOr;
 import semantic.expression.CEntityConstant;
+import semantic.expression.CEntityConstantValue;
 import semantic.expression.CEntityCurrentDate;
 import semantic.expression.CEntityDigits;
 import semantic.expression.CEntityExprOpposite;
@@ -1092,7 +1092,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 	protected Hashtable<String, CDataEntity> tabConstantValues = new Hashtable<String, CDataEntity>() ; 
 	public void addSpecialConstantValue(String value, String constant)
 	{
-		tabConstantValues.put(value, new CJavaConstantValue(programCatalog, langOutput, constant));
+		tabConstantValues.put(value, new CEntityConstantValue(constant));
 	}
 	public CDataEntity getSpecialConstantValue(String value)
 	{
@@ -1110,7 +1110,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 				{
 					String code = "LanguageCode."+CResourceStrings.getOfficialLanguageCode(value);
 					programCatalog.addImportDeclaration("MAP") ;
-					return new CJavaConstantValue(programCatalog, langOutput, code) ;
+					return new CEntityConstantValue(code) ;
 				}
 			}
 			return null;

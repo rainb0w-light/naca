@@ -399,6 +399,16 @@ features:
     fixtures: []
     status: production
 
+  - id: cobol.expression.configured-constant
+    dialects: [cobol-core]
+    semanticType: semantic.expression.CEntityConstantValue
+    javaBackend:
+      role: REFERENCE
+      template: constantValueEntity
+    runtimeOperations: []
+    fixtures: []
+    status: production
+
   - id: cobol.data.initialize
     dialects: [cobol-core]
     semanticType: semantic.Verbs.CEntityInitialize

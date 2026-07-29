@@ -351,6 +351,8 @@ cobolConstantEntity(entity) ::= <<
 <if(entity.highValue)>CobolConstant.HighValue<elseif(entity.spaces)>CobolConstant.Spaces<else>[Undefined]<endif>
 >>
 
+constantValueEntity(entity) ::= "<entity.literalValue>"
+
 dataReference(identifier, qualifier) ::= <<
 <if(qualifier)><qualifier>.<endif><identifier>
 >>
