@@ -6,7 +6,6 @@
  */
 package generate.fpacjava;
 
-import generate.java.expressions.CJavaCondNot;
 import semantic.CEntityFileDescriptor;
 import semantic.expression.CBaseEntityCondition;
 import semantic.expression.CEntityIsFileEOF;
@@ -42,7 +41,7 @@ public class CFPacJavaIsFileEOF extends CEntityIsFileEOF
 	@Override
 	public CBaseEntityCondition GetOppositeCondition()
 	{
-		CJavaCondNot not = new  CJavaCondNot();
+		CFPacJavaCondNot not = new CFPacJavaCondNot();
 		not.SetCondition(this) ;
 		return not;
 	}

@@ -22,11 +22,11 @@
     "ratchet": {
       "note": "Debt counts may only move down for the COBOL scope. Refresh per phase.",
       "baselineCapturedAtCommit": "9402b0c",
-      "lastVerifiedAtCommit": "a28f1136",
+      "lastVerifiedAtCommit": "8816e8a5",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 140,
-        "directBackends": 70,
+        "failures": 139,
+        "directBackends": 69,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -3497,25 +3497,29 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "COBOL_CORE",
       "sourceSyntax": "legacy backend CJavaCondNot",
-      "parserNode": null,
+      "parserNode": "parser.condition.CCondNotStatement",
       "semanticNode": "semantic.expression.CEntityCondNot",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
+      "assemblerRole": "REFERENCE",
+      "manifestBinding": "semantic.expression.CEntityCondNot=recursiveCondNotEntity",
+      "template": "recursiveCondNotEntity",
       "runtimeOperation": null,
       "fixture": null,
       "directBackend": "generate.java.expressions.CJavaCondNot",
       "sourcePath": "naca-trans/src/main/java/generate/java/expressions/CJavaCondNot.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/expressions/CJavaCondNot.java"
-      ]
+        "naca-trans/src/main/java/generate/bmsjava/CBmsJavaCondNot.java",
+        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaCondNot.java",
+        "naca-trans/src/main/java/semantic/expression/CEntityCondNot.java",
+        "naca-trans/src/test/java/generate/java/st/CEntityCondNotRenderTest.java"
+      ],
+      "lastAttemptCommit": "8816e8a5"
     },
     {
       "id": "BACKEND-COBOL-EXPRESSION-CJAVACONDOR",
@@ -5341,8 +5345,9 @@
       "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaIsFieldModified.java",
       "productionReachable": true,
       "status": "semantic-built",
-      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
+      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler. Its explicit CBmsJavaCondNot compatibility renderer must retire with this BMS backend.",
       "evidence": [
+        "naca-trans/src/main/java/generate/bmsjava/CBmsJavaCondNot.java",
         "naca-trans/src/main/java/generate/java/forms/CJavaIsFieldModified.java"
       ]
     },

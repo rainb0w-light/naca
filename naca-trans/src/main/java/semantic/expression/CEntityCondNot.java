@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 18 ao�t 2004
+ * Created on 18 August 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -22,8 +22,17 @@ import semantic.CDataEntity;
  *
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityCondNot extends CBaseEntityCondition
+public class CEntityCondNot extends CBaseEntityCondition
 {
+	public CBaseEntityCondition GetOppositeCondition()
+	{
+		return cond;
+	}
+
+	public int GetPriorityLevel()
+	{
+		return 6;
+	}
 	
 	protected CBaseEntityCondition cond ;
 

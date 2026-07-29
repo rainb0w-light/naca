@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import generate.java.CJavaExporter;
 import generate.java.CJavaNamedCondition;
-import generate.java.expressions.CJavaCondNot;
 import generate.java.expressions.CJavaEntityNumber;
 import generate.java.expressions.CJavaExprTerminal;
 import generate.java.expressions.CJavaInternalBool;
@@ -18,6 +17,7 @@ import semantic.expression.CEntityCondAnd;
 import semantic.expression.CEntityCondCompare;
 import semantic.expression.CEntityCondEquals;
 import semantic.expression.CEntityCondIsConstant;
+import semantic.expression.CEntityCondNot;
 import semantic.expression.CEntityCondOr;
 import utils.CObjectCatalog;
 
@@ -59,7 +59,7 @@ class JavaSemanticConditionRendererTest
         CEntityCondOr or = new CEntityCondOr();
         or.SetCondition(and, equals("2", "3"));
 
-        CJavaCondNot not = new CJavaCondNot();
+        CEntityCondNot not = new CEntityCondNot();
         not.SetCondition(or);
 
         String andOutput = assembler.renderRoot(and, JavaTemplateRole.REFERENCE);

@@ -12,7 +12,7 @@
  */
 package generate.java.forms;
 
-import generate.java.expressions.CJavaCondNot;
+import generate.bmsjava.CBmsJavaCondNot;
 import semantic.expression.CBaseEntityCondition;
 import semantic.forms.CEntityIsFieldModified;
 
@@ -32,7 +32,7 @@ public class CJavaIsFieldModified extends CEntityIsFieldModified
 
 	public CBaseEntityCondition GetOppositeCondition()
 	{
-		CJavaCondNot not = new CJavaCondNot();
+		CBmsJavaCondNot not = new CBmsJavaCondNot();
 		not.SetCondition(this);
 		return not ;	
 	}

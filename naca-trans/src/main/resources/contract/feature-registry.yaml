@@ -369,6 +369,16 @@ features:
     fixtures: []
     status: production
 
+  - id: cobol.condition.not
+    dialects: [cobol-core]
+    semanticType: semantic.expression.CEntityCondNot
+    javaBackend:
+      role: REFERENCE
+      template: recursiveCondNotEntity
+    runtimeOperations: []
+    fixtures: []
+    status: production
+
   - id: cobol.data.initialize
     dialects: [cobol-core]
     semanticType: semantic.Verbs.CEntityInitialize
