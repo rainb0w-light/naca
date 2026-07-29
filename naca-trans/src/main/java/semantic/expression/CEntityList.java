@@ -55,14 +55,6 @@ public class CEntityList extends CDataEntity
 	}
 
 	/* (non-Javadoc)
-	 * @see semantic.CDataEntity#ExportWriteAccessorTo(java.lang.String)
-	 */
-	public String ExportWriteAccessorTo(String value)
-	{
-		return null;
-	}
-
-	/* (non-Javadoc)
 	 * @see semantic.CDataEntity#GetConstantValue()
 	 */
 	public String GetConstantValue()
