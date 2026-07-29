@@ -172,6 +172,16 @@ features:
     fixtures: []
     status: production
 
+  - id: cobol.data.initialize
+    dialects: [cobol-core]
+    semanticType: semantic.Verbs.CEntityInitialize
+    javaBackend:
+      role: REFERENCE
+      template: recursiveInitializeEntity
+    runtimeOperations: [data.initialize, data.initialize.alpha, data.initialize.numeric, data.initialize.numericEdited, sqlcode.reset]
+    fixtures: []
+    status: production
+
   - id: cics.return
     dialects: [embedded-cics]
     semanticType: semantic.CICS.CEntityCICSReturn

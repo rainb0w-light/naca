@@ -483,6 +483,46 @@ operations:
     paramTypes: ["nacaLib.program.CJMapRunnable[]", nacaLib.varEx.Var]
     returns: void
 
+  - id: data.initialize
+    since: 1
+    capability: DATA
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: initialize
+    paramTypes: [nacaLib.varEx.VarAndEdit]
+    returns: void
+
+  - id: data.initialize.alpha
+    since: 1
+    capability: DATA
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: initializeReplacingAlphaNum
+    paramTypes: [nacaLib.varEx.VarAndEdit, java.lang.String]
+    returns: void
+
+  - id: data.initialize.numeric
+    since: 1
+    capability: DATA
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: initializeReplacingNum
+    paramTypes: [nacaLib.varEx.VarAndEdit, int]
+    returns: void
+
+  - id: data.initialize.numericEdited
+    since: 1
+    capability: DATA
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: initializeReplacingNumEdited
+    paramTypes: [nacaLib.varEx.VarAndEdit, int]
+    returns: void
+
+  - id: sqlcode.reset
+    since: 1
+    capability: SQL
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: resetSQLCode
+    paramTypes: [int]
+    returns: void
+
   # --- CICS RETURN ---
   # EXEC CICS RETURN END-EXEC emits CESM.returnTrans(...). The contract declares the
   # representative no-argument overload — the production-reachable bare RETURN (e.g.

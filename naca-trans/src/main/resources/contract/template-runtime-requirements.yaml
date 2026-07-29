@@ -130,6 +130,15 @@ templates:
     requires:
       - goto.depending
 
+  recursiveInitializeEntity:
+    capability: DATA
+    requires:
+      - data.initialize
+      - data.initialize.alpha
+      - data.initialize.numeric
+      - data.initialize.numericEdited
+      - sqlcode.reset
+
   recursiveCICSReturnEntity:
     capability: CICS
     requires:
