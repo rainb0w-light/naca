@@ -5,11 +5,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import generate.fixtures.LegacyAttributeFixture;
-import generate.java.CJavaClass;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import generate.templates.recursive.MissingTemplateRendererException;
 import org.junit.jupiter.api.Test;
+import semantic.CEntityClass;
 import utils.CGlobalCatalog;
 import utils.CObjectCatalog;
 import utils.COriginalLisiting;
@@ -34,7 +34,7 @@ class JavaTemplateRoleBindingTest
     void rootRoleHitsTheRootManifest()
     {
         MockJavaExporter exporter = new MockJavaExporter();
-        CJavaClass program = new CJavaClass(1, "MYPROG", catalog(), exporter);
+        CEntityClass program = new CEntityClass(1, "MYPROG", catalog());
         String rendered = TemplateLoader.getRecursiveAssembler()
             .renderRoot(program, JavaTemplateRole.ROOT);
         // ROOT resolves CEntityClass to the real javaProgramRoot template, which
@@ -84,7 +84,7 @@ class JavaTemplateRoleBindingTest
     void programArtifactCannotBeGeneratedWithoutExplicitRootRole()
     {
         MockJavaExporter exporter = new MockJavaExporter();
-        CJavaClass program = new CJavaClass(1, "MYPROG", catalog(), exporter);
+        CEntityClass program = new CEntityClass(1, "MYPROG", catalog());
         // The no-arg renderRoot defaults to REFERENCE (default manifest). A
         // program root (CEntityClass) is not in the default manifest, so an
         // artifact writer that forgets to pass ROOT explicitly fails closed

@@ -313,6 +313,16 @@ features:
     fixtures: []
     status: production
 
+  - id: cobol.program.root
+    dialects: [cobol-core, embedded-sql, embedded-cics]
+    semanticType: semantic.CEntityClass
+    javaBackend:
+      role: ROOT
+      template: javaProgramRoot
+    runtimeOperations: []
+    fixtures: []
+    status: production
+
   - id: cobol.expression.concat
     dialects: [cobol-core]
     semanticType: semantic.expression.CEntityConcat

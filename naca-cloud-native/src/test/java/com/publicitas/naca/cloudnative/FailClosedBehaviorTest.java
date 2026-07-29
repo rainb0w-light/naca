@@ -3,14 +3,13 @@ package com.publicitas.naca.cloudnative;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import generate.CStringExporter;
-import generate.java.CJavaClass;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import generate.templates.recursive.MissingTemplateRendererException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import semantic.CEntityClass;
 import utils.CGlobalCatalog;
 import utils.CObjectCatalog;
 import utils.COriginalLisiting;
@@ -45,7 +44,7 @@ class FailClosedBehaviorTest {
     @Test
     @DisplayName("A node with no binding for the requested role fails closed and names the semantic type")
     void missingBindingFailsClosedAndNamesTheSemanticType() {
-        CJavaClass program = new CJavaClass(1, "PROG", catalog(), new CStringExporter());
+        CEntityClass program = new CEntityClass(1, "PROG", catalog());
 
         // CEntityClass has a ROOT binding but none in the DECLARATION manifest, so
         // rendering it in the DECLARATION role must fail closed (no fallback).

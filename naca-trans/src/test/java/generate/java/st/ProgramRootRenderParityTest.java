@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import generate.CJavaEntityFactoryST;
 import generate.CJavaEntityFactory;
 import generate.CStringExporter;
-import generate.java.CJavaClass;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import java.io.ByteArrayInputStream;
@@ -119,8 +118,8 @@ class ProgramRootRenderParityTest
             CStringExporter directExporter = new CStringExporter();
             CEntityClass directRoot = parse(path, directExporter, programName, false);
             assertNotNull(directRoot, "semantic root for " + sample);
-            assertTrue(directRoot instanceof CJavaClass,
-                "production root should be a CJavaClass");
+            assertEquals(CEntityClass.class, directRoot.getClass(),
+                "production root should be a pure semantic CEntityClass");
             String direct = TemplateLoader.getRecursiveAssembler()
                 .renderRoot(directRoot, JavaTemplateRole.ROOT);
 

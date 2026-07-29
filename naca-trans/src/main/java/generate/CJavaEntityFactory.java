@@ -12,7 +12,6 @@
  */
 package generate;
 
-import generate.java.CJavaClass;
 import generate.java.CJavaComment;
 import generate.java.CJavaDataSection;
 import generate.java.CJavaEnvironmentVariable;
@@ -417,7 +416,9 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return e;
 	}
 	public CEntityClass NewEntityClass(int l, String name)	{
-		return new CJavaClass(l, name, programCatalog, langOutput);
+		CEntityClass e = new CEntityClass(l, name, programCatalog);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntityComment NewEntityComment(int l, String comment)	{
 		return new CJavaComment(l, programCatalog, langOutput, comment);
