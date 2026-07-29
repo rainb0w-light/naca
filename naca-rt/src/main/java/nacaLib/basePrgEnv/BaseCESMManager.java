@@ -446,9 +446,10 @@ public class BaseCESMManager extends CJMapObject
 		return new CESMReadQueue(false, csName, cESMEnv.getQueueManager());
 	}
 	
-	public void deleteTempQueue(Var varName)
+	public CCESMFakeMethodContainer deleteTempQueue(Var varName)
 	{
 		deleteTempQueue(varName.getString());
+		return new CCESMFakeMethodContainer();
 	}
 	public void deleteTempQueue(String csName)
 	{
@@ -460,6 +461,13 @@ public class BaseCESMManager extends CJMapObject
 		
 		CESMQueueManager queueManager = cESMEnv.getQueueManager();
 		queueManager.deleteTempQueue(csName);
+	}
+
+	public CCESMFakeMethodContainer deleteTransiantQueue(Var varName)
+	{
+		// TODO implement CICS transient-data queue deletion.
+		// Keep the fluent result required by generated DELETEQ TD ... SYSID code.
+		return new CCESMFakeMethodContainer();
 	}
 	
 	

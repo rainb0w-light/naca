@@ -44,8 +44,13 @@ Check EXACTLY these five things:
    'extends CEntity*/CBaseActionEntity/CDataEntity'); a slice should retire, not add
    (debtGrew=true if it adds debt).
 4. Out-of-scope untouched: no BMS (BMS_ARTIFACT) or FPac pipeline changes.
-5. Coherence: a new manifest binding has a matching template definition; a factory
-   override points at the semantic entity; a render test exists in the diff.
+5. Coherence and compilability: a new manifest binding has a matching template
+   definition; a factory override points at the semantic entity; a render test
+   exists in the diff. Inspect EVERY runtime call reachable through every template
+   branch. Each call must be declared by the feature and template-requirements
+   manifests, resolve to a real signature in naca-rt, and return a type that supports
+   the next fluent call. Never approve invalid Java merely because a retired legacy
+   backend emitted the same invalid text.
 
 OUTPUT CONTRACT (strict): respond with ONLY a single JSON object and NOTHING else - no
 prose, no markdown, no code fences, no explanation, no extra keys. Use EXACTLY these

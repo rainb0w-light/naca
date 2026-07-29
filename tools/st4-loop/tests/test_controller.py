@@ -537,6 +537,9 @@ class ReviewerRunnerTest(unittest.TestCase):
         for check in ("Single slice", "Architecture principle", "Debt does not grow",
                       "Out-of-scope untouched", "Coherence"):
             self.assertIn(check, prompt)
+        self.assertIn("EVERY runtime call", prompt)
+        self.assertIn("return a type that supports", prompt)
+        self.assertIn("Never approve invalid Java", prompt)
         # strict output contract demanding exact keys, no prose/markdown/fences
         self.assertIn("OUTPUT CONTRACT", prompt)
         self.assertIn("EXACTLY these", prompt)

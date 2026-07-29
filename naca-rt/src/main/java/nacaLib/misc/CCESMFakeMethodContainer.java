@@ -173,6 +173,10 @@ public class CCESMFakeMethodContainer
 	{
 		return this ;
 	}
+	public CCESMFakeMethodContainer sysID(Var sysID)
+	{
+		return this ;
+	}
 	public CCESMFakeMethodContainer countAll(String string, Var nb_Class)
 	{
 		return this ;

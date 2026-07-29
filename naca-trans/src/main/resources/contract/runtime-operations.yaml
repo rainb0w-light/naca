@@ -393,17 +393,31 @@ operations:
   # --- CICS DELETEQ ---
   # EXEC CICS DELETEQ (persistent or transient queue). Emits
   # CESM.deleteTempQueue(<ref>) or CESM.deleteTransiantQueue(<ref>), with an
-  # optional .sysID(...) builder chain. The contract declares the existing
-  # deleteTempQueue(Var) operation; deleteTransiantQueue and .sysID() are
-  # pre-existing emitted calls without current runtime support (legacy behavior
-  # preserved by the template).
+  # optional .sysID(...) builder chain. Both queue methods return the fluent
+  # container so the optional SYSID operation is valid generated Java.
   - id: cics.deleteTempQueue
     since: 1
     capability: CICS
     runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
     runtimeMethod: deleteTempQueue
     paramTypes: [nacaLib.varEx.Var]
-    returns: void
+    returns: nacaLib.misc.CCESMFakeMethodContainer
+
+  - id: cics.deleteTransiantQueue
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
+    runtimeMethod: deleteTransiantQueue
+    paramTypes: [nacaLib.varEx.Var]
+    returns: nacaLib.misc.CCESMFakeMethodContainer
+
+  - id: cics.deleteQueueSysID
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.misc.CCESMFakeMethodContainer
+    runtimeMethod: sysID
+    paramTypes: [nacaLib.varEx.Var]
+    returns: nacaLib.misc.CCESMFakeMethodContainer
 
   # --- CICS ADDRESS ---
   # EXEC CICS ADDRESS [CWA(...)] [TCTUA(...)] [TWA(...)] END-EXEC emits, for each

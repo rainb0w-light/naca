@@ -218,7 +218,10 @@ features:
     javaBackend:
       role: REFERENCE
       template: recursiveCICSDeleteQEntity
-    runtimeOperations: [cics.deleteTempQueue]
+    runtimeOperations:
+      - cics.deleteTempQueue
+      - cics.deleteTransiantQueue
+      - cics.deleteQueueSysID
     fixtures: []
     status: production
 

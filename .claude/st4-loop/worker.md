@@ -33,6 +33,13 @@ migration playbook recorded in `docs/migration-ledger.json` →
 - **Permission mode:** the controller runs you under `acceptEdits` by default (file edits auto-approved) with ALL other permission checks active — never `bypassPermissions`/`dontAsk`/`dangerously-skip-permissions`. Do not attempt to disable permission checks; if a needed command is blocked, report `outcome: "blocked"` with the exact command rather than routing around it.
 - **Do NOT touch BMS (`BMS_ARTIFACT`) or FPac pipelines** — they are out of the migration queue.
 - **Debt must not grow.** Never add a new direct backend (`extends CEntity*/CBaseActionEntity/CDataEntity` under `generate/java`). The assigned ledger item owns exactly one `directBackend` / `sourcePath`; retire exactly that backend and no other backend in this slice. `architecture.DirectBackendInventoryTest` enforces the current ratchet.
+- **Generated Java must compile on every reachable template branch.** Do not preserve
+  invalid legacy output merely for byte parity. Every emitted runtime call, including
+  optional/fluent branches, must have a real naca-rt signature, be listed in the
+  feature and template-runtime contracts, and return a type that supports the next
+  chained call. If a recognized source form cannot be lowered safely, emit a
+  structured `DiagnosticSink.recordUnsupported(...)` rejection instead of silently
+  dropping it or generating invalid Java.
 - Keep the daily gate green: `./gradlew :naca-trans:test` (excludes the intentionally-red `final-architecture` tag) must pass, and the focused ledger gate `./gradlew :naca-cloud-native:test --tests "*LedgerConsistencyTest"` must pass.
 - Do **not** require the full `:naca-cloud-native:test` module to be green: it has one documented pre-existing failure (baseline 39 tests / 1 known failure, recorded in `meta.ratchet.cloudNativeGate`). Only the focused `LedgerConsistencyTest` is a migration gate.
 - The global `finalArchitectureCheck` is **expected RED** during migration — do not try to make it fully green; just do not make it redder.
