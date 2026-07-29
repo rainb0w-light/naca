@@ -117,40 +117,12 @@ public class CEntitySQLCode extends CDataEntity
 		return eHistoryItem ;
 	}
 
-	// ==================== data-entity protocol ====================
-	// The retired direct backend generate.java.SQL.CJavaSQLCode supplied these
-	// data-reference accessors. They live on the semantic entity now so both the
-	// recursive ST4 assembler (via the recursiveSQLCodeEntity binding) and the
-	// legacy CDataEntity reference protocol resolve the pure semantic type.
-
-	/* (non-Javadoc)
-	 * @see semantic.CDataEntity#ExportReference(getLine())
-	 */
-	public String ExportReference(int nLine)
-	{
-		if (eHistoryItem==null)
-		{
-			return "getSQLCode()";
-		}
-		else
-		{
-// http://publib.boulder.ibm.com/infocenter/iseries/v5r3/ic2924/index.htm?info/db2/rbafzmstfielddescsqlca.htm
-			return "getSQLDiagnosticCode("+eHistoryItem.Export()+")" ;
-		}
-	}
 	/* (non-Javadoc)
 	 * @see semantic.CDataEntity#HasAccessors()
 	 */
 	public boolean HasAccessors()
 	{
 		return true;
-	}
-	/* (non-Javadoc)
-	 * @see semantic.CDataEntity#ExportWriteAccessorTo()
-	 */
-	public String ExportWriteAccessorTo(String value)
-	{
-		return "resetSQLCode("+value+");";
 	}
 	/* (non-Javadoc)
 	 * @see semantic.CDataEntity#GetConstantValue()

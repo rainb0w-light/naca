@@ -121,13 +121,11 @@ class SQLCodeRenderTest
     }
 
     @Test
-    @DisplayName("the data-reference protocol preserves the retired backend's accessors")
-    void dataReferenceProtocolPreserved()
+    @DisplayName("semantic SQLCODE exposes accessor capability without rendered source")
+    void semanticAccessorCapabilityPreserved()
     {
         CEntitySQLCode sqlCode = plain();
         assertTrue(sqlCode.HasAccessors());
         assertEquals("", sqlCode.GetConstantValue());
-        assertEquals("resetSQLCode(0);", sqlCode.ExportWriteAccessorTo("0"));
-        assertEquals("getSQLCode()", sqlCode.ExportReference(0));
     }
 }
