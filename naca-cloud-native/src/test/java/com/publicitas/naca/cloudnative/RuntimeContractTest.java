@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import contract.CodegenRuntimeContract;
 import contract.CodegenRuntimeContract.RuntimeOperation;
+import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -79,6 +80,11 @@ class RuntimeContractTest
 
     private static Class<?> resolveType(String name) throws ClassNotFoundException
     {
+        if (name.endsWith("[]"))
+        {
+            Class<?> component = resolveType(name.substring(0, name.length() - 2));
+            return Array.newInstance(component, 0).getClass();
+        }
         switch (name)
         {
             case "boolean": return boolean.class;

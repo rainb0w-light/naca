@@ -125,6 +125,11 @@ templates:
       - goto.paragraph
       - goto.section
 
+  recursiveGotoDependingEntity:
+    capability: CONTROL_FLOW
+    requires:
+      - goto.depending
+
   recursiveCICSReturnEntity:
     capability: CICS
     requires:

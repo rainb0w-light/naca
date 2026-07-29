@@ -1105,6 +1105,10 @@ recursiveGotoEntity(entity) ::= <<
 goTo(<entity.goToTarget>) ;
 >>
 
+recursiveGotoDependingEntity(entity) ::= <<
+goTo(new CJMapRunnable[]{<entity.goToTargets:{target | <target>,}>}, <entity.depending>) ;
+>>
+
 recursiveInitializeEntity(entity) ::= <<
 <if(entity.fillAlphaWith)>initializeReplacingAlphaNum(<entity.data>, <entity.fillAlphaWith>) ;<elseif(entity.repAlphaWith)>initializeReplacingAlphaNum(<entity.data>, <entity.repAlphaWith>) ;<elseif(entity.repNumWith)>initializeReplacingNum(<entity.data>, <entity.repNumWith>) ;<elseif(entity.repNumEditedWith)>initializeReplacingNumEdited(<entity.data>, <entity.repNumEditedWith>) ;<elseif(entity.sqlCodeReset)>resetSQLCode(0);<else>initialize(<entity.data>) ;<endif>
 >>

@@ -22,11 +22,11 @@
     "ratchet": {
       "note": "Debt counts may only move down for the COBOL scope. Refresh per phase.",
       "baselineCapturedAtCommit": "9402b0c",
-      "lastVerifiedAtCommit": "e5298999",
+      "lastVerifiedAtCommit": "96e55cc5",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 168,
-        "directBackends": 98,
+        "failures": 167,
+        "directBackends": 97,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -2530,25 +2530,27 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "COBOL_CORE",
       "sourceSyntax": "legacy backend CJavaGotoDepending",
       "parserNode": null,
-      "semanticNode": "semantic.CBaseActionEntity",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
+      "semanticNode": "semantic.Verbs.CEntityGotoDepending",
+      "assemblerRole": "REFERENCE",
+      "manifestBinding": "semantic.Verbs.CEntityGotoDepending=recursiveGotoDependingEntity",
+      "template": "recursiveGotoDependingEntity",
+      "runtimeOperation": "goto.depending",
       "fixture": null,
       "directBackend": "generate.java.verbs.CJavaGotoDepending",
       "sourcePath": "naca-trans/src/main/java/generate/java/verbs/CJavaGotoDepending.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/verbs/CJavaGotoDepending.java"
-      ]
+        "naca-trans/src/main/java/generate/java/verbs/CJavaGotoDepending.java",
+        "naca-trans/src/test/java/generate/java/st/CEntityGotoDependingRenderTest.java"
+      ],
+      "lastAttemptCommit": "96e55cc5"
     },
     {
       "id": "BACKEND-COBOL-VERB-CJAVAINITIALIZE",

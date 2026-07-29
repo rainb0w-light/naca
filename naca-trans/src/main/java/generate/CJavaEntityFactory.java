@@ -92,7 +92,6 @@ import generate.java.forms.CJavaSetCursor;
 import generate.java.forms.CJavaSetFlag;
 import generate.java.forms.CJavaSetHighlight;
 import generate.java.forms.CJavaSkipField;
-import generate.java.verbs.CJavaGotoDepending;
 import generate.java.verbs.CJavaInitialize;
 import generate.java.verbs.CJavaInspectConverting;
 import generate.java.verbs.CJavaMultiply;
@@ -214,6 +213,7 @@ import semantic.Verbs.CEntityDisplay;
 import semantic.Verbs.CEntityDivide;
 import semantic.Verbs.CEntityExec;
 import semantic.Verbs.CEntityGoto;
+import semantic.Verbs.CEntityGotoDepending;
 import semantic.Verbs.CEntityInc;
 import semantic.Verbs.CEntityInitialize;
 import semantic.Verbs.CEntityInspectConverting;
@@ -594,8 +594,11 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		e.setLanguageExporter(langOutput);
 		return e;
 	}
-	public CJavaGotoDepending NewEntityGotoDepending(int l, List<String> refs, CDataEntity dep, CEntityProcedureSection section)	{
-		return new CJavaGotoDepending(l, programCatalog, langOutput, refs, dep, section) ;
+	public CEntityGotoDepending NewEntityGotoDepending(int l, List<String> refs, CDataEntity dep, CEntityProcedureSection section)	{
+		CEntityGotoDepending e =
+			new CEntityGotoDepending(l, programCatalog, refs, dep, section);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntityLoopWhile NewEntityLoopWhile(int l)	{
 		return new CEntityLoopWhile(l, programCatalog);
