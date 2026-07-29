@@ -92,7 +92,6 @@ import generate.java.forms.CJavaSetCursor;
 import generate.java.forms.CJavaSetFlag;
 import generate.java.forms.CJavaSetHighlight;
 import generate.java.forms.CJavaSkipField;
-import generate.java.verbs.CJavaSubtractTo;
 import generate.java.verbs.CJavaWriteFile;
 
 import java.util.ArrayList;
@@ -751,7 +750,9 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CJavaMoveReference(l, programCatalog, langOutput) ;
 	}
 	public CEntitySubtractTo NewEntitySubtractTo(int l)	{
-		return new CJavaSubtractTo(l, programCatalog, langOutput);
+		CEntitySubtractTo e = new CEntitySubtractTo(l, programCatalog);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntityIsNamedCondition NewEntityIsNamedCondition()	{
 		return new CJavaIsNamedCondition();

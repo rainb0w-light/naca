@@ -752,6 +752,46 @@ operations:
     paramTypes: []
     returns: boolean
 
+  - id: math.subtract
+    since: 1
+    capability: ARITHMETIC
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: subtract
+    paramTypes: [nacaLib.varEx.VarAndEdit, nacaLib.varEx.VarAndEdit, "nacaLib.varEx.VarAndEdit[]"]
+    returns: nacaLib.mathSupport.MathSubtract
+
+  - id: math.subtract.to
+    since: 1
+    capability: ARITHMETIC
+    runtimeClass: nacaLib.mathSupport.MathBase
+    runtimeMethod: to
+    paramTypes: [nacaLib.varEx.VarAndEdit]
+    returns: nacaLib.mathSupport.MathBase
+
+  - id: math.decrement
+    since: 1
+    capability: ARITHMETIC
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: dec
+    paramTypes: [nacaLib.varEx.Var]
+    returns: void
+
+  - id: math.decrementByVar
+    since: 1
+    capability: ARITHMETIC
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: dec
+    paramTypes: [nacaLib.varEx.Var, nacaLib.varEx.Var]
+    returns: nacaLib.mathSupport.MathBase
+
+  - id: math.increment
+    since: 1
+    capability: ARITHMETIC
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: inc
+    paramTypes: [nacaLib.varEx.Var]
+    returns: void
+
   - id: compare.isLess.intVarAndEdit
     since: 1
     capability: CONTROL_FLOW

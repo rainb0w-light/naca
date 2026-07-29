@@ -164,6 +164,16 @@ templates:
       - string.concat.into
       - string.concat.failed
 
+  recursiveSubtractToEntity:
+    capability: ARITHMETIC
+    requires:
+      - math.subtract
+      - math.subtract.to
+      - math.decrement
+      - math.decrementByVar
+      - math.increment
+      - math.isError
+
   recursiveCountEntity:
     capability: STRING
     requires:

@@ -263,6 +263,16 @@ features:
     fixtures: []
     status: production
 
+  - id: cobol.arithmetic.subtract
+    dialects: [cobol-core]
+    semanticType: semantic.Verbs.CEntitySubtractTo
+    javaBackend:
+      role: REFERENCE
+      template: recursiveSubtractToEntity
+    runtimeOperations: [math.subtract, math.subtract.to, math.decrement, math.decrementByVar, math.increment, math.isError]
+    fixtures: []
+    status: production
+
   - id: cobol.data.initialize
     dialects: [cobol-core]
     semanticType: semantic.Verbs.CEntityInitialize
