@@ -48,11 +48,6 @@ public class CEntityIndex extends CDataEntity
 		return false;
 	}
 	
-	public String ExportWriteAccessorTo(String value)
-	{
-		// unused
-		return "";
-	}
 	public boolean ignore()
 	{
 		return false ;
