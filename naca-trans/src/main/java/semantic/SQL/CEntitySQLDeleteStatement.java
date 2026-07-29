@@ -35,8 +35,7 @@ import utils.CObjectCatalog;
  * their reference bindings. The SQLWARNING/SQLERROR clause is read from the catalog
  * (registered there by the WHENEVER statement's Stage-1 side effect) so the
  * template can chain it onto the {@code sql(...)}/{@code cursorDeleteCurrent(...)}
- * runtime call. Replaces the retired
- * {@code generate.java.SQL.CJavaSQLDeleteStatement} direct backend.
+ * runtime call.
  */
 public class CEntitySQLDeleteStatement extends CBaseActionEntity
 {
@@ -92,8 +91,7 @@ public class CEntitySQLDeleteStatement extends CBaseActionEntity
 
 	/**
 	 * The trimmed DELETE text, read by {@code <entity.statement>}. The template
-	 * wraps it as a Java string literal, exactly as the retired backend's
-	 * {@code WriteLongString(csStatement.trim())} did.
+	 * wraps it as a Java string literal.
 	 */
 	public String getStatement()
 	{
