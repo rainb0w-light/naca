@@ -290,7 +290,16 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 	 * @param cat
 	 */
 	public CJavaEntityFactory(CObjectCatalog cat, CBaseLanguageExporter out)	{
-		super(cat, out);
+		super(cat);
+		langOutput = out;
+	}
+
+	protected CBaseLanguageExporter langOutput;
+
+	@Override
+	public String getOutputDirectory()
+	{
+		return langOutput == null ? "" : langOutput.getOutputDir();
 	}
 	
 	public CEntitySQLSelectStatement NewEntitySQLSelectStatement(int nLine, String csStatement, Vector<CDataEntity> arrParameters, Vector<CDataEntity> arrInto, Vector<CDataEntity> arrInd)	{

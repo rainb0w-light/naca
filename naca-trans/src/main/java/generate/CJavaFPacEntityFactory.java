@@ -31,7 +31,16 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 
 	public CJavaFPacEntityFactory(CObjectCatalog cat, CBaseLanguageExporter out)
 	{
-		super(cat, out);
+		super(cat);
+		langOutput = out;
+	}
+
+	private final CBaseLanguageExporter langOutput;
+
+	@Override
+	public String getOutputDirectory()
+	{
+		return langOutput == null ? "" : langOutput.getOutputDir();
 	}
 
 	@Override

@@ -21,8 +21,6 @@ import semantic.forms.*;
 import utils.*;
 
 
-import generate.*;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -42,10 +40,9 @@ public abstract class CBaseEntityFactory
 	/**
 	 * 
 	 */
-	public CBaseEntityFactory(CObjectCatalog cat, CBaseLanguageExporter out)
+	public CBaseEntityFactory(CObjectCatalog cat)
 	{
 		programCatalog = cat ;
-		langOutput = out ;
 	}
 
 //	public abstract CEntity NewEntityCondition(int l, String name) ;
@@ -226,7 +223,10 @@ public abstract class CBaseEntityFactory
 	public abstract CEntityFormRedefine NewEntityFormRedefine(int l, String name, CDataEntity eForm, boolean bSaveMap) ;
 	 	
 	public CObjectCatalog programCatalog = null ;
-	public CBaseLanguageExporter langOutput = null;
+	public String getOutputDirectory()
+	{
+		return "";
+	}
 	public abstract CDataEntity getSpecialConstantValue(String value) ;
 	public abstract Collection<CDataEntity> getAllSpecialConstantAttributes() ;
 	public abstract void addSpecialConstantValue(String value, String constant) ;

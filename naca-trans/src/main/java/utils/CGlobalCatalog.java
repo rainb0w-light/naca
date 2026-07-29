@@ -113,7 +113,7 @@ public class CGlobalCatalog
 			CTransApplicationGroup grp = new CTransApplicationGroup(engine);
 			grp.csInputPath = grpResources.csInputPath ;
 			grp.csInterPath = grpResources.csInterPath ;
-			grp.csOutputPath = factory.langOutput.getOutputDir() ;
+			grp.csOutputPath = factory.getOutputDirectory() ;
 			CEntityResourceFormContainer ext = GetFormContainer(contName, grp, factory.programCatalog.exporter.isResources()) ;
 
 			return ext ;
