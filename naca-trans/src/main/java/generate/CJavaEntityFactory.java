@@ -12,7 +12,6 @@
  */
 package generate;
 
-import generate.java.CJavaIndex;
 import generate.java.CJavaInline;
 import generate.java.CJavaMoveReference;
 import generate.java.CJavaNamedCondition;
@@ -1028,7 +1027,9 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CJavaFieldArrayReference(l, programCatalog, langOutput);
 	}
 	public CEntityIndex NewEntityIndex(String name)	{
-		return new CJavaIndex(name, programCatalog, langOutput);
+		CEntityIndex entity = new CEntityIndex(name, programCatalog);
+		entity.setLanguageExporter(langOutput);
+		return entity;
 	}
 	public CEntitySQLCursor NewEntitySQLCursor(String name)	{
 		// Direct backend CJavaSQLCursor retired: the pure semantic entity renders

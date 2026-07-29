@@ -383,6 +383,16 @@ features:
     fixtures: []
     status: production
 
+  - id: cobol.data.index
+    dialects: [cobol-core]
+    semanticType: semantic.CEntityIndex
+    javaBackend:
+      role: DECLARATION
+      template: dataIndexDeclaration
+    runtimeOperations: []
+    fixtures: []
+    status: production
+
   - id: cobol.expression.concat
     dialects: [cobol-core]
     semanticType: semantic.expression.CEntityConcat

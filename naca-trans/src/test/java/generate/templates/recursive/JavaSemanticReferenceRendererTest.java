@@ -3,9 +3,9 @@ package generate.templates.recursive;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import generate.fixtures.LegacyAttributeFixture;
+import generate.fixtures.LegacyIndexFixture;
 import generate.java.CJavaExporter;
 import generate.fixtures.LegacyExternalDataStructureFixture;
-import generate.java.CJavaIndex;
 import generate.java.CJavaStructure;
 import generate.java.CJavaSubStringReference;
 import generate.templates.TemplateLoader;
@@ -96,7 +96,8 @@ class JavaSemanticReferenceRendererTest
     {
         LegacyExternalDataStructureFixture qualifier = new LegacyExternalDataStructureFixture(
             1, "INDEX-OWNER", catalog, output);
-        CJavaIndex index = new CJavaIndex("ITEM-INDEX", catalog, output);
+        LegacyIndexFixture index =
+            new LegacyIndexFixture("ITEM-INDEX", catalog, output);
         index.of = qualifier;
         CEntityEnvironmentVariable environment = new CEntityEnvironmentVariable(
             1, "RETURN-CODE", catalog, "getReturnCode()", "setReturnCode(", true);

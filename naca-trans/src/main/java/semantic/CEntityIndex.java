@@ -21,7 +21,7 @@ import utils.CObjectCatalog;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityIndex extends CDataEntity
+public class CEntityIndex extends CDataEntity
 {
 	/**
 	 * @param l
@@ -39,6 +39,11 @@ public abstract class CEntityIndex extends CDataEntity
 	}
 	
 	public boolean HasAccessors()
+	{
+		return false;
+	}
+
+	public boolean isValNeeded()
 	{
 		return false;
 	}

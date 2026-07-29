@@ -25,8 +25,8 @@
       "lastVerifiedAtCommit": "5903f95d",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 111,
-        "directBackends": 43,
+        "failures": 110,
+        "directBackends": 42,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -4396,25 +4396,28 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "COBOL_CORE",
       "sourceSyntax": "legacy backend CJavaIndex",
       "parserNode": null,
       "semanticNode": "semantic.CEntityIndex",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
+      "assemblerRole": "DECLARATION",
+      "manifestBinding": "semantic.CEntityIndex=dataIndexDeclaration",
+      "template": "dataIndexDeclaration",
       "runtimeOperation": null,
       "fixture": null,
       "directBackend": "generate.java.CJavaIndex",
       "sourcePath": "naca-trans/src/main/java/generate/java/CJavaIndex.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/CJavaIndex.java"
-      ]
+        "naca-trans/src/main/java/semantic/CEntityIndex.java",
+        "naca-trans/src/test/java/generate/java/st/CEntityIndexRenderTest.java",
+        "naca-trans/src/test/java/generate/templates/recursive/JavaSemanticReferenceRendererTest.java"
+      ],
+      "lastAttemptCommit": "ab1e34d3"
     },
     {
       "id": "BACKEND-COBOL-DATA-CJAVAINLINE",
