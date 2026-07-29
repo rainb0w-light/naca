@@ -132,6 +132,103 @@ operations:
     paramTypes: [nacaLib.varEx.VarBase]
     returns: void
 
+  # --- UNSTRING ---
+  - id: unstring.start
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: unstring
+    paramTypes: [nacaLib.varEx.VarAndEdit]
+    returns: nacaLib.stringSupport.Unstring
+
+  - id: unstring.delimitedBy.var
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.stringSupport.Unstring
+    runtimeMethod: delimitedBy
+    paramTypes: [nacaLib.varEx.VarAndEdit]
+    returns: nacaLib.stringSupport.Unstring
+
+  - id: unstring.delimitedBy.string
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.stringSupport.Unstring
+    runtimeMethod: delimitedBy
+    paramTypes: [java.lang.String]
+    returns: nacaLib.stringSupport.Unstring
+
+  - id: unstring.delimitedByAll.var
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.stringSupport.Unstring
+    runtimeMethod: delimitedByAll
+    paramTypes: [nacaLib.varEx.Var]
+    returns: nacaLib.stringSupport.Unstring
+
+  - id: unstring.delimitedByAll.string
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.stringSupport.Unstring
+    runtimeMethod: delimitedByAll
+    paramTypes: [java.lang.String]
+    returns: nacaLib.stringSupport.Unstring
+
+  - id: unstring.withPointer
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.stringSupport.Unstring
+    runtimeMethod: withPointer
+    paramTypes: [nacaLib.varEx.Var]
+    returns: nacaLib.stringSupport.Unstring
+
+  - id: unstring.tallying
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.stringSupport.Unstring
+    runtimeMethod: tallying
+    paramTypes: [nacaLib.varEx.Var]
+    returns: nacaLib.stringSupport.Unstring
+
+  - id: unstring.to.one
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.stringSupport.Unstring
+    runtimeMethod: to
+    paramTypes: [nacaLib.varEx.Var]
+    returns: nacaLib.stringSupport.UnstringToManager
+
+  - id: unstring.to.three
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.stringSupport.Unstring
+    runtimeMethod: to
+    paramTypes: [nacaLib.varEx.Var, nacaLib.varEx.Var, nacaLib.varEx.Var]
+    returns: nacaLib.stringSupport.UnstringToManager
+
+  - id: unstring.toManager.to.one
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.stringSupport.UnstringToManager
+    runtimeMethod: to
+    paramTypes: [nacaLib.varEx.Var]
+    returns: nacaLib.stringSupport.UnstringToManager
+
+  - id: unstring.toManager.to.three
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.stringSupport.UnstringToManager
+    runtimeMethod: to
+    paramTypes: [nacaLib.varEx.Var, nacaLib.varEx.Var, nacaLib.varEx.Var]
+    returns: nacaLib.stringSupport.UnstringToManager
+
+  - id: unstring.toManager.failed
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.stringSupport.UnstringToManager
+    runtimeMethod: failed
+    paramTypes: []
+    returns: boolean
+
   # --- CALL PROGRAM ---
   # call(String) is protected on BaseProgram and inherited by generated program
   # subclasses; runtimeContractCheck resolves it across the class hierarchy.

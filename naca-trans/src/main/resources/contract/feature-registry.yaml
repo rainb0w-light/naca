@@ -72,6 +72,16 @@ features:
     fixtures: []
     status: production
 
+  - id: cobol.string.unstring
+    dialects: [cobol-core]
+    semanticType: semantic.Verbs.CEntityParseString
+    javaBackend:
+      role: REFERENCE
+      template: recursiveParseStringEntity
+    runtimeOperations: [unstring.start, unstring.delimitedBy.var, unstring.delimitedBy.string, unstring.delimitedByAll.var, unstring.delimitedByAll.string, unstring.withPointer, unstring.tallying, unstring.to.one, unstring.to.three, unstring.toManager.to.one, unstring.toManager.to.three, unstring.toManager.failed]
+    fixtures: []
+    status: production
+
   - id: cobol.program.call
     dialects: [cobol-core]
     semanticType: semantic.Verbs.CEntityCallProgram

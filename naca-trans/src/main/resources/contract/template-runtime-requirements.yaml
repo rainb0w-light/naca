@@ -35,6 +35,22 @@ templates:
     requires:
       - file.close
 
+  recursiveParseStringEntity:
+    capability: STRING
+    requires:
+      - unstring.start
+      - unstring.delimitedBy.var
+      - unstring.delimitedBy.string
+      - unstring.delimitedByAll.var
+      - unstring.delimitedByAll.string
+      - unstring.withPointer
+      - unstring.tallying
+      - unstring.to.one
+      - unstring.to.three
+      - unstring.toManager.to.one
+      - unstring.toManager.to.three
+      - unstring.toManager.failed
+
   recursiveWriteFileEntity:
     capability: FILE_IO
     requires:
