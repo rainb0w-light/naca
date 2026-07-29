@@ -5838,64 +5838,6 @@
       "lastAttemptCommit": "ca0174bf"
     },
     {
-      "id": "ARCH-COBOL-MANIFEST-COVERAGE",
-      "kind": "ARCHITECTURE_DEBT",
-      "priority": 1059,
-      "dependencies": [],
-      "verification": [],
-      "expectedDebtDelta": {
-        "failures": -1
-      },
-      "attempts": 0,
-      "blocked": false,
-      "scope": "COBOL_CORE",
-      "sourceSyntax": "finalArchitectureCheck: backendHasACompleteDeclarativeSemanticTemplateManifest()",
-      "parserNode": null,
-      "semanticNode": null,
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
-      "fixture": null,
-      "directBackend": null,
-      "sourcePath": "naca-trans/src/main/resources/templates/java/semantic-bindings.properties",
-      "productionReachable": true,
-      "status": "semantic-built",
-      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
-      "evidence": [
-        "backendHasACompleteDeclarativeSemanticTemplateManifest()"
-      ]
-    },
-    {
-      "id": "ARCH-COBOL-INFRA-CJAVAENTITYFACTORY",
-      "kind": "ARCHITECTURE_DEBT",
-      "priority": 1057,
-      "dependencies": [],
-      "verification": [],
-      "expectedDebtDelta": {
-        "failures": -1
-      },
-      "attempts": 0,
-      "blocked": false,
-      "scope": "COBOL_CORE",
-      "sourceSyntax": "finalArchitectureCheck: src/main/java/generate/CJavaEntityFactory.java",
-      "parserNode": null,
-      "semanticNode": null,
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
-      "fixture": null,
-      "directBackend": null,
-      "sourcePath": "naca-trans/src/main/java/generate/CJavaEntityFactory.java",
-      "productionReachable": true,
-      "status": "semantic-built",
-      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
-      "evidence": [
-        "src/main/java/generate/CJavaEntityFactory.java"
-      ]
-    },
-    {
       "id": "ARCH-COBOL-SEMANTIC-CBASERESOURCEENTITY",
       "kind": "ARCHITECTURE_DEBT",
       "priority": 1005,
@@ -7375,6 +7317,35 @@
       ]
     },
     {
+      "id": "ARCH-COBOL-INFRA-CJAVAENTITYFACTORY",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1057,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/generate/CJavaEntityFactory.java",
+      "parserNode": null,
+      "semanticNode": null,
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/generate/CJavaEntityFactory.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/generate/CJavaEntityFactory.java"
+      ]
+    },
+    {
       "id": "ARCH-COBOL-INFRA-JAVA",
       "kind": "ARCHITECTURE_DEBT",
       "priority": 1058,
@@ -7401,6 +7372,35 @@
       "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
       "evidence": [
         "src/main/resources/templates/java/java.stg"
+      ]
+    },
+    {
+      "id": "ARCH-COBOL-MANIFEST-COVERAGE",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1059,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "finalArchitectureCheck: backendHasACompleteDeclarativeSemanticTemplateManifest()",
+      "parserNode": null,
+      "semanticNode": null,
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/resources/templates/java/semantic-bindings.properties",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "backendHasACompleteDeclarativeSemanticTemplateManifest()"
       ]
     }
   ]
