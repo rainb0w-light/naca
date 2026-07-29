@@ -12,6 +12,7 @@
  */
 package parser.Cobol.elements.CICS;
 
+import diagnostic.DiagnosticSink;
 import lexer.CBaseToken;
 import lexer.CTokenType;
 import lexer.Cobol.CCobolKeywordList;
@@ -48,6 +49,15 @@ public class CExecCICSDelay extends CCobolElement
 	 */
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
+		if (interval == null && seconds == null)
+		{
+			DiagnosticSink.recordUnsupported(
+				"cics.delay.missing-duration",
+				"embedded-cics",
+				getLine(),
+				"EXEC CICS DELAY requires INTERVAL(...) or FOR SECONDS(...)");
+			return null;
+		}
 		CEntityCICSDelay eCICS = factory.NewEntityCICSDelay(getLine()) ;
 		parent.AddChild(eCICS);
 		if (interval != null)

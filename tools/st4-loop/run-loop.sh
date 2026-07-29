@@ -16,4 +16,7 @@ if ! command -v "$PY" >/dev/null 2>&1; then
   exit 3
 fi
 
-exec "$PY" "$SCRIPT_DIR/run_loop.py" "$@"
+# The controller is commonly piped through tee inside tmux. Force unbuffered
+# Python output so operators and watchdogs can see the selected item, phase,
+# retries, and gate failures while the process is still alive.
+exec "$PY" -u "$SCRIPT_DIR/run_loop.py" "$@"
