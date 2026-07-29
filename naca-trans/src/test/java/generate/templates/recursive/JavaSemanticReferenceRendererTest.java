@@ -3,7 +3,6 @@ package generate.templates.recursive;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import generate.java.CJavaArrayReference;
-import generate.java.CJavaAddressReference;
 import generate.java.CJavaAttribute;
 import generate.java.CJavaEnvironmentVariable;
 import generate.java.CJavaExporter;
@@ -14,6 +13,7 @@ import generate.java.CJavaSubStringReference;
 import generate.templates.TemplateLoader;
 import org.junit.jupiter.api.Test;
 import semantic.CDataEntity;
+import semantic.CEntityAddressReference;
 import semantic.expression.CBaseEntityExpression;
 import semantic.expression.CEntityConstant;
 import utils.CObjectCatalog;
@@ -102,10 +102,11 @@ class JavaSemanticReferenceRendererTest
     @Test
     void recursivelyRendersAddressReferences()
     {
-        CJavaAddressReference address = new CJavaAddressReference(
-            catalog, output, attribute("BUFFER-ADDRESS"));
+        CEntityAddressReference address = new CEntityAddressReference(
+            catalog, attribute("BUFFER-ADDRESS"));
 
-        assertMatchesDirect(address);
+        assertEquals("addressOf(buffer_Address)",
+            assembler.renderRoot(address, JavaTemplateRole.REFERENCE));
     }
 
     private CJavaAttribute attribute(String name)

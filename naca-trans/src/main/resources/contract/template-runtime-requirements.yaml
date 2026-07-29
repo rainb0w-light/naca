@@ -203,6 +203,11 @@ templates:
     requires:
       - data.addressOf
 
+  addressReferenceEntity:
+    capability: DATA
+    requires:
+      - data.addressOf
+
   concatExpressionEntity:
     capability: STRING
     requires:

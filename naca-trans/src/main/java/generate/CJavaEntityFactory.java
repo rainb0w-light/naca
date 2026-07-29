@@ -12,7 +12,6 @@
  */
 package generate;
 
-import generate.java.CJavaAddressReference;
 import generate.java.CJavaArrayReference;
 import generate.java.CJavaAttribute;
 import generate.java.CJavaClass;
@@ -722,7 +721,9 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CJavaIsFieldAttribute() ;
 	}
 	public CEntityAddressReference NewEntityAddressReference(CDataEntity ref)	{
-		return new CJavaAddressReference(programCatalog, langOutput, ref);
+		CEntityAddressReference e = new CEntityAddressReference(programCatalog, ref);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntityMoveReference NewEntityMoveReference(int l)	{
 		return new CJavaMoveReference(l, programCatalog, langOutput) ;

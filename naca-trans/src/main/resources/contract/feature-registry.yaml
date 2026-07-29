@@ -283,6 +283,16 @@ features:
     fixtures: []
     status: production
 
+  - id: cobol.data.address-reference
+    dialects: [cobol-core]
+    semanticType: semantic.CEntityAddressReference
+    javaBackend:
+      role: REFERENCE
+      template: addressReferenceEntity
+    runtimeOperations: [data.addressOf]
+    fixtures: []
+    status: production
+
   - id: cobol.expression.concat
     dialects: [cobol-core]
     semanticType: semantic.expression.CEntityConcat

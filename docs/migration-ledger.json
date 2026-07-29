@@ -25,8 +25,8 @@
       "lastVerifiedAtCommit": "5903f95d",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 122,
-        "directBackends": 53,
+        "failures": 121,
+        "directBackends": 52,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -4060,25 +4060,27 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "COBOL_CORE",
       "sourceSyntax": "legacy backend CJavaAddressReference",
       "parserNode": null,
       "semanticNode": "semantic.CEntityAddressReference",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
+      "assemblerRole": "REFERENCE",
+      "manifestBinding": "semantic.CEntityAddressReference=addressReferenceEntity",
+      "template": "addressReferenceEntity",
+      "runtimeOperation": "data.addressOf",
       "fixture": null,
       "directBackend": "generate.java.CJavaAddressReference",
       "sourcePath": "naca-trans/src/main/java/generate/java/CJavaAddressReference.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/CJavaAddressReference.java"
-      ]
+        "naca-trans/src/main/java/semantic/CEntityAddressReference.java",
+        "naca-trans/src/test/java/generate/java/st/CEntityAddressReferenceRenderTest.java"
+      ],
+      "lastAttemptCommit": "774003e0"
     },
     {
       "id": "BACKEND-COBOL-DATA-CJAVAARRAYREFERENCE",

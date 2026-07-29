@@ -21,7 +21,7 @@ import utils.CObjectCatalog;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityAddressReference extends CBaseDataReference
+public class CEntityAddressReference extends CBaseDataReference
 {
 	/**
 	 * @param l
@@ -46,5 +46,13 @@ public abstract class CEntityAddressReference extends CBaseDataReference
 	public String GetConstantValue()
 	{
 		return "" ;
-	} 	 
+	}
+	public boolean HasAccessors()
+	{
+		return false;
+	}
+	public boolean isValNeeded()
+	{
+		return false;
+	}
 }
