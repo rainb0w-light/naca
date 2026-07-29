@@ -30,9 +30,7 @@ class CICSHandleConditionRenderTest
 {
     private static CEntityCICSHandleCondition entity()
     {
-        CEntityCICSHandleCondition handle = new CEntityCICSHandleCondition(1, null);
-        handle.setLanguageExporter(new MockJavaExporter());
-        return handle;
+        return new CEntityCICSHandleCondition(1, null);
     }
 
     @Test
@@ -41,8 +39,6 @@ class CICSHandleConditionRenderTest
     {
         CEntityCICSHandleCondition handle = entity();
         handle.HandleCondition("COND1", "COND1-LABEL");
-        // Rendering must only read the semantic value prepared above.
-        handle.setLanguageExporter(null);
         String output = TemplateLoader.getRecursiveAssembler()
             .renderRoot(handle, JavaTemplateRole.REFERENCE);
         assertEquals("CESM.handleCondition(\"COND1\", COND1_LABEL) ;", output.trim());

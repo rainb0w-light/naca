@@ -44,9 +44,7 @@ public class CEntityCICSHandleCondition extends CBaseActionEntity
 	}
 	public void HandleCondition(String cond, String label)
 	{
-		// Identifier formatting is part of semantic construction. ST4 accessors
-		// below remain pure property reads during rendering.
-		handledConditionEntries.add(new HandledConditionEntry(cond, FormatIdentifier(label)));
+		handledConditionEntries.add(new HandledConditionEntry(cond, label));
 	}
 	public void UnhandleCondition(String cond)
 	{
@@ -63,14 +61,13 @@ public class CEntityCICSHandleCondition extends CBaseActionEntity
 
 	// ==================== ST4 Template Accessors ====================
 	// Read-only, O(1) getters for the recursive ST4 assembler. Entry
-	// construction and identifier formatting have already happened above.
+	// construction has already happened above; target formatting remains in ST4.
 
 	/**
 	 * Returns the handled condition entries (one per HANDLE CONDITION entry
 	 * call). Each entry carries the condition name as its condition string and
-	 * the target label as a pre-formatted Java identifier (via FormatIdentifier).
-	 * Iteration order matches the parser's insertion order, which is also the
-	 * order the retired CJavaCICSHandleCondition.DoExport loop iterated.
+	 * the raw target label from the COBOL source. Iteration order matches the
+	 * parser's insertion order.
 	 */
 	public List<HandledConditionEntry> getHandledConditionEntries()
 	{
@@ -80,8 +77,7 @@ public class CEntityCICSHandleCondition extends CBaseActionEntity
 	/**
 	 * Returns the unhandled condition entries (one per unhandle condition call).
 	 * Each entry carries the condition name as its condition string. Iteration
-	 * order matches the parser's insertion order, which is also the order the
-	 * retired CJavaCICSHandleCondition.DoExport loop iterated.
+	 * order matches the parser's insertion order.
 	 */
 	public List<UnhandledConditionEntry> getUnhandledConditionEntries()
 	{
@@ -90,9 +86,8 @@ public class CEntityCICSHandleCondition extends CBaseActionEntity
 
 	/**
 	 * One handled-condition entry: the condition name (e.g. "CONDITION1") paired
-	 * with its target label (a pre-formatted section/paragraph identifier). The
-	 * template renders the condition as a Java string literal and the label
-	 * as a bare identifier (a CJMapRunnable reference).
+	 * with its raw target label. The template renders the condition as a Java
+	 * string literal and formats the label as a bare identifier.
 	 */
 	public static final class HandledConditionEntry
 	{

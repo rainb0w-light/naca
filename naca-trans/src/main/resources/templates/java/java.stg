@@ -998,7 +998,7 @@ CESM.getMain() ;
 // (the template if-guard is empty), and the assembler's ignore()-based
 // active-children selection filters it at the parent level.
 recursiveCICSHandleConditionEntity(entity) ::= <<
-<if(entity.handledConditionEntries)>CESM<entity.handledConditionEntries:{e | .handleCondition("<e.condition>", <e.label>)}><entity.unhandledConditionEntries:{e | .unhandleCondition("<e.condition>")}> ;<elseif(entity.unhandledConditionEntries)>CESM<entity.unhandledConditionEntries:{e | .unhandleCondition("<e.condition>")}> ;<endif>
+<if(entity.handledConditionEntries)>CESM<entity.handledConditionEntries:{e | .handleCondition("<e.condition>", <e.label; format="javaFormattedName">)}><entity.unhandledConditionEntries:{e | .unhandleCondition("<e.condition>")}> ;<elseif(entity.unhandledConditionEntries)>CESM<entity.unhandledConditionEntries:{e | .unhandleCondition("<e.condition>")}> ;<endif>
 >>
 
 // Embedded CICS IGNORE CONDITION (EXEC CICS IGNORE CONDITION COND1 COND2 ...
