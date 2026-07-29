@@ -92,7 +92,6 @@ import generate.java.forms.CJavaSetCursor;
 import generate.java.forms.CJavaSetFlag;
 import generate.java.forms.CJavaSetHighlight;
 import generate.java.forms.CJavaSkipField;
-import generate.java.verbs.CJavaSortReturn;
 import generate.java.verbs.CJavaStringConcat;
 import generate.java.verbs.CJavaSubtractTo;
 import generate.java.verbs.CJavaWriteFile;
@@ -1198,7 +1197,9 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return e;
 	}
 	public CEntitySortReturn NewEntitySortReturn(int line)	{
-		return new CJavaSortReturn(line, programCatalog, langOutput);
+		CEntitySortReturn e = new CEntitySortReturn(line, programCatalog);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntityRewriteFile NewEntityRewriteFile(int line)	{
 		CEntityRewriteFile e = new CEntityRewriteFile(line, programCatalog);

@@ -142,6 +142,13 @@ templates:
       - sort.release
       - sort.releaseFrom
 
+  recursiveSortReturnEntity:
+    capability: FILE_IO
+    requires:
+      - sort.return
+      - sort.returnInto
+      - ioResult.atEnd
+
   recursiveCountEntity:
     capability: STRING
     requires:

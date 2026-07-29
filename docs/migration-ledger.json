@@ -22,11 +22,11 @@
     "ratchet": {
       "note": "Debt counts may only move down for the COBOL scope. Refresh per phase.",
       "baselineCapturedAtCommit": "9402b0c",
-      "lastVerifiedAtCommit": "bcfdb0ff",
+      "lastVerifiedAtCommit": "62337782",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 152,
-        "directBackends": 82,
+        "failures": 151,
+        "directBackends": 81,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -3077,25 +3077,29 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "COBOL_CORE",
       "sourceSyntax": "legacy backend CJavaSortReturn",
       "parserNode": null,
       "semanticNode": "semantic.Verbs.CEntitySortReturn",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
+      "assemblerRole": "REFERENCE",
+      "manifestBinding": "semantic.Verbs.CEntitySortReturn=recursiveSortReturnEntity",
+      "template": "recursiveSortReturnEntity",
+      "runtimeOperation": "sort.return",
       "fixture": null,
       "directBackend": "generate.java.verbs.CJavaSortReturn",
       "sourcePath": "naca-trans/src/main/java/generate/java/verbs/CJavaSortReturn.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/verbs/CJavaSortReturn.java"
-      ]
+        "naca-trans/src/main/resources/contract/feature-registry.yaml",
+        "naca-trans/src/main/resources/contract/runtime-operations.yaml",
+        "naca-trans/src/main/resources/contract/template-runtime-requirements.yaml",
+        "naca-trans/src/test/java/generate/java/st/CEntitySortReturnRenderTest.java"
+      ],
+      "lastAttemptCommit": "62337782"
     },
     {
       "id": "BACKEND-COBOL-VERB-CJAVASTRINGCONCAT",

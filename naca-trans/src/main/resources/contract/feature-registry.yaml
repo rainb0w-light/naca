@@ -232,6 +232,16 @@ features:
     fixtures: []
     status: production
 
+  - id: cobol.file.sortReturn
+    dialects: [cobol-core]
+    semanticType: semantic.Verbs.CEntitySortReturn
+    javaBackend:
+      role: REFERENCE
+      template: recursiveSortReturnEntity
+    runtimeOperations: [sort.return, sort.returnInto, ioResult.atEnd]
+    fixtures: []
+    status: production
+
   - id: cobol.data.initialize
     dialects: [cobol-core]
     semanticType: semantic.Verbs.CEntityInitialize

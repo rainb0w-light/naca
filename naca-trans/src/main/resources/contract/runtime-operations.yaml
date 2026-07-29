@@ -648,6 +648,22 @@ operations:
     paramTypes: [nacaLib.varEx.Var, nacaLib.varEx.Var]
     returns: void
 
+  - id: sort.return
+    since: 1
+    capability: FILE_IO
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: returnSort
+    paramTypes: [nacaLib.varEx.SortDescriptor]
+    returns: nacaLib.varEx.RecordDescriptorAtEnd
+
+  - id: sort.returnInto
+    since: 1
+    capability: FILE_IO
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: returnSort
+    paramTypes: [nacaLib.varEx.SortDescriptor, nacaLib.varEx.Var]
+    returns: nacaLib.varEx.RecordDescriptorAtEnd
+
   - id: compare.isLess.intVarAndEdit
     since: 1
     capability: CONTROL_FLOW
