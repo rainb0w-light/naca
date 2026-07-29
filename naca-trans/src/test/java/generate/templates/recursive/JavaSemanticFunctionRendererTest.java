@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import generate.java.CJavaAttribute;
 import generate.java.CJavaExporter;
-import generate.java.expressions.CJavaLengthOf;
 import generate.java.expressions.CJavaList;
 import generate.java.expressions.CJavaString;
 import generate.templates.TemplateLoader;
@@ -31,7 +30,7 @@ class JavaSemanticFunctionRendererTest
     {
         CJavaAttribute field = attribute("SOURCE-FIELD");
 
-        assertMatchesDirect(new CJavaLengthOf(catalog, output, field));
+        assertMatchesDirect(new LegacyLengthOfFixture(catalog, output, field));
         assertEquals("currentDate()",
             assembler.renderRoot(
                 new CEntityCurrentDate(catalog),

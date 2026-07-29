@@ -808,6 +808,14 @@ operations:
     paramTypes: [nacaLib.varEx.VarAndEdit]
     returns: nacaLib.misc.Pointer
 
+  - id: expression.lengthOf
+    since: 1
+    capability: DATA
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: lengthOf
+    paramTypes: [nacaLib.varEx.VarAndEdit]
+    returns: int
+
   - id: expression.concat.varVar
     since: 1
     capability: STRING

@@ -118,6 +118,11 @@ templates:
       - condition.named.is
       - condition.named.isNot
 
+  lengthOfEntity:
+    capability: DATA
+    requires:
+      - expression.lengthOf
+
   recursiveCallFunctionEntity:
     capability: CONTROL_FLOW
     requires:

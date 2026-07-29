@@ -21,10 +21,15 @@ import utils.CObjectCatalog;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityLengthOf extends CBaseEntityFunction
+public class CEntityLengthOf extends CBaseEntityFunction
 {
 	public CEntityLengthOf(CObjectCatalog cat, CDataEntity data)
 	{
 		super(cat, data);
+	}
+
+	public boolean isValNeeded()
+	{
+		return true;
 	}
 }

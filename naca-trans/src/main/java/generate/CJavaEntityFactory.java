@@ -34,7 +34,6 @@ import generate.java.CJavaStructure;
 import generate.java.CJavaSubStringReference;
 import generate.java.CJavaUnknownReference;
 
-import generate.java.expressions.CJavaLengthOf;
 import generate.java.expressions.CJavaList;
 import generate.java.expressions.CJavaString;
 import generate.java.forms.CJavaField;
@@ -840,7 +839,9 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return e;
 	}
 	public CEntityLengthOf NewEntityLengthOf(CDataEntity data)	{
-		return new CJavaLengthOf(programCatalog, langOutput, data);
+		CEntityLengthOf e = new CEntityLengthOf(programCatalog, data);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntityCICSHandleCondition NewEntityCICSHandleCondition(int l)	{
 		// Direct backend CJavaCICSHandleCondition retired: the pure semantic entity is
