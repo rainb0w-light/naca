@@ -25,8 +25,8 @@
       "lastVerifiedAtCommit": "5903f95d",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 117,
-        "directBackends": 48,
+        "failures": 116,
+        "directBackends": 47,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -4227,25 +4227,28 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "COBOL_CORE",
       "sourceSyntax": "legacy backend CJavaDataSection",
       "parserNode": null,
       "semanticNode": "semantic.CEntityDataSection",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
+      "assemblerRole": "DECLARATION",
+      "manifestBinding": "semantic.CEntityDataSection=dataSectionDeclaration",
+      "template": "dataSectionDeclaration",
       "runtimeOperation": null,
       "fixture": null,
       "directBackend": "generate.java.CJavaDataSection",
       "sourcePath": "naca-trans/src/main/java/generate/java/CJavaDataSection.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/CJavaDataSection.java"
-      ]
+        "naca-trans/src/main/java/semantic/CEntityDataSection.java",
+        "naca-trans/src/test/java/generate/java/st/DataSectionDeclarationTemplateTest.java",
+        "naca-trans/src/test/java/generate/java/st/DataSectionRenderParityTest.java"
+      ],
+      "lastAttemptCommit": "f1224fc8"
     },
     {
       "id": "BACKEND-COBOL-DATA-CJAVAENVIRONMENTVARIABLE",

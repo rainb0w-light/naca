@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import generate.fixtures.LegacyAttributeFixture;
-import generate.java.CJavaDataSection;
+import generate.fixtures.LegacyDataSectionFixture;
 import generate.java.CJavaExternalDataStructure;
 import generate.java.CJavaFileDescriptor;
 import generate.java.CJavaInline;
@@ -55,8 +55,8 @@ class DataSectionDeclarationTemplateTest
     {
         MockJavaExporter exporter = new MockJavaExporter();
         CObjectCatalog catalog = catalog();
-        CJavaDataSection section =
-            new CJavaDataSection(1, "FileSection", catalog, exporter);
+        LegacyDataSectionFixture section =
+            new LegacyDataSectionFixture(1, "FileSection", catalog, exporter);
         CJavaStructure structure =
             new CJavaStructure(2, "FILE-RECORD", catalog, exporter, "01");
         LegacyAttributeFixture attribute =
@@ -266,7 +266,8 @@ class DataSectionDeclarationTemplateTest
         // File section -> FD -> record group -> field. The FD is parented under
         // the file section so the record group is "inside a file section" and
         // exports all its children, matching the direct generator.
-        CJavaDataSection section = new CJavaDataSection(1, "FileSection", catalog, exporter);
+        LegacyDataSectionFixture section =
+            new LegacyDataSectionFixture(1, "FileSection", catalog, exporter);
         CJavaFileDescriptor fd = new CJavaFileDescriptor(2, "FILEIN", catalog, exporter);
         CJavaStructure record = new CJavaStructure(3, "FILEIN-Z", catalog, exporter, "01");
         LegacyAttributeFixture field = new LegacyAttributeFixture(4, "FILEIN-CODE", catalog, exporter);

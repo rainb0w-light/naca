@@ -12,7 +12,6 @@
  */
 package generate;
 
-import generate.java.CJavaDataSection;
 import generate.java.CJavaEnvironmentVariable;
 import generate.java.CJavaExternalDataStructure;
 import generate.java.CJavaFileDescriptor;
@@ -741,7 +740,9 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CEntityIsNamedCondition();
 	}
 	public CEntityDataSection NewEntityDataSection(int l, String name)	{
-		return new CJavaDataSection(l, name, programCatalog, langOutput);
+		CEntityDataSection e = new CEntityDataSection(l, name, programCatalog);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntityReplace NewEntityReplace(int l)	{
 		CEntityReplace e = new CEntityReplace(l, programCatalog);

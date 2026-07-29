@@ -333,6 +333,16 @@ features:
     fixtures: []
     status: production
 
+  - id: cobol.data.section
+    dialects: [cobol-core]
+    semanticType: semantic.CEntityDataSection
+    javaBackend:
+      role: DECLARATION
+      template: dataSectionDeclaration
+    runtimeOperations: []
+    fixtures: []
+    status: production
+
   - id: cobol.expression.concat
     dialects: [cobol-core]
     semanticType: semantic.expression.CEntityConcat

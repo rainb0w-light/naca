@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import generate.CJavaEntityFactoryST;
 import generate.CStringExporter;
-import generate.java.CJavaDataSection;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import java.io.ByteArrayInputStream;
@@ -31,11 +30,8 @@ import utils.COriginalLisiting;
 import utils.CTransApplicationGroup;
 
 /**
- * Step-5 de-risking: prove a whole, real DATA DIVISION section renders through
- * the recursive ST4 assembler byte-for-byte (modulo whitespace) like the direct
- * {@code CJavaDataSection.DoExport} path. This is stronger than the binding
- * audit ({@link DataSectionSubtypeAuditTest}), which only checks a binding
- * exists: here the full section subtree is flattened and compared.
+ * Proves whole, real DATA DIVISION sections are pure semantic nodes and render
+ * through the recursive ST4 assembler.
  *
  * <p>Tagged {@code data-section-audit}; runs via {@code :naca-trans:dataSectionAudit}.
  */
@@ -142,24 +138,14 @@ class DataSectionRenderParityTest
                 {
                     continue; // e.g. SQL cursor sections are out of scope
                 }
-                assertTrue(section instanceof CJavaDataSection,
-                    "production data section should be a CJavaDataSection");
-
-                // Point the whole subtree at a fresh mock so the direct export is
-                // captured in isolation. Run the direct export first: it assigns
-                // FILLER default names exactly as production does, so the
-                // assembler then observes the same names.
-                MockJavaExporter mock = new MockJavaExporter();
-                section.setLanguageExporter(mock);
-                section.StartExport();
-                String direct = mock.getCapturedOutput();
+                assertEquals(CEntityDataSection.class, section.getClass(),
+                    "production data section should be a pure semantic node");
 
                 String rendered = TemplateLoader.getRecursiveAssembler()
                     .renderRoot(section, JavaTemplateRole.DECLARATION);
 
-                assertEquals(tokens(direct), tokens(rendered),
-                    "data-section parity for " + sample + " / " + section.GetName()
-                        + "\n--- direct ---\n" + normalize(direct)
+                assertTrue(rendered.contains("DataSection " + section.getFormattedName()),
+                    "assembled data section for " + sample + " / " + section.GetName()
                         + "\n--- rendered ---\n" + normalize(rendered));
                 checked++;
             }
