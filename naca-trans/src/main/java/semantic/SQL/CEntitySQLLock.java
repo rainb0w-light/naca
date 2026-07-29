@@ -19,8 +19,7 @@ import utils.CObjectCatalog;
  * {@code sql(...)} runtime call. The SQLWARNING/SQLERROR clause is read from the
  * catalog (registered there by the WHENEVER statement's Stage-1 side effect) so
  * the template can chain {@code .onErrorGoto(...)}/{@code .onErrorContinue()} onto
- * the {@code sql(...)} call. Replaces the retired
- * {@code generate.java.SQL.CJavaSQLLock} direct backend.
+ * the {@code sql(...)} call.
  *
  * @author S. Charton
  * @version $Id: CEntitySQLLock.java,v 1.1 2006/03/01 22:47:49 U930CV Exp $
@@ -56,9 +55,7 @@ public class CEntitySQLLock extends CBaseActionEntity
 	/**
 	 * The full {@code LOCK TABLE <table> IN EXCLUSIVE MODE} statement text,
 	 * assembled in Stage 1 and read by {@code <entity.statement>}. The template
-	 * wraps it as a Java string literal inside {@code sql(...)}, exactly what the
-	 * retired backend's {@code WriteWord("sql(\"LOCK TABLE "+csTableName+" IN
-	 * EXCLUSIVE MODE\")")} emitted.
+	 * wraps it as a Java string literal inside {@code sql(...)}.
 	 */
 	public String getStatement()
 	{

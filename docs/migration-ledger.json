@@ -25,7 +25,7 @@
       "lastVerifiedAtCommit": "5903f95d",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 15,
+        "failures": 14,
         "directBackends": 33,
         "semanticClasses": 47,
         "factories": 3,
@@ -7055,7 +7055,7 @@
       "expectedDebtDelta": {
         "failures": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "EMBEDDED_SQL",
       "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/SQL/CEntitySQLLock.java",
@@ -7069,11 +7069,13 @@
       "directBackend": null,
       "sourcePath": "naca-trans/src/main/java/semantic/SQL/CEntitySQLLock.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "done",
       "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
       "evidence": [
-        "src/main/java/semantic/SQL/CEntitySQLLock.java"
-      ]
+        "src/main/java/semantic/SQL/CEntitySQLLock.java",
+        "generate.java.st.SQLLockRenderTest"
+      ],
+      "lastAttemptCommit": "dba72e0c"
     },
     {
       "id": "ARCH-SQL-SEMANTIC-CENTITYSQLOPENSTATEMENT",
