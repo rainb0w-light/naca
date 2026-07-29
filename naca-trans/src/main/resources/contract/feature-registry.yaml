@@ -222,6 +222,16 @@ features:
     fixtures: []
     status: production
 
+  - id: cobol.file.sortRelease
+    dialects: [cobol-core]
+    semanticType: semantic.Verbs.CEntitySortRelease
+    javaBackend:
+      role: REFERENCE
+      template: recursiveSortReleaseEntity
+    runtimeOperations: [sort.release, sort.releaseFrom]
+    fixtures: []
+    status: production
+
   - id: cobol.data.initialize
     dialects: [cobol-core]
     semanticType: semantic.Verbs.CEntityInitialize

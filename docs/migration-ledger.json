@@ -22,11 +22,11 @@
     "ratchet": {
       "note": "Debt counts may only move down for the COBOL scope. Refresh per phase.",
       "baselineCapturedAtCommit": "9402b0c",
-      "lastVerifiedAtCommit": "9cfccfc5",
+      "lastVerifiedAtCommit": "bcfdb0ff",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 153,
-        "directBackends": 83,
+        "failures": 152,
+        "directBackends": 82,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -3042,25 +3042,29 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "COBOL_CORE",
       "sourceSyntax": "legacy backend CJavaSortRelease",
       "parserNode": null,
       "semanticNode": "semantic.Verbs.CEntitySortRelease",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
+      "assemblerRole": "REFERENCE",
+      "manifestBinding": "semantic.Verbs.CEntitySortRelease=recursiveSortReleaseEntity",
+      "template": "recursiveSortReleaseEntity",
+      "runtimeOperation": "sort.release",
       "fixture": null,
       "directBackend": "generate.java.verbs.CJavaSortRelease",
       "sourcePath": "naca-trans/src/main/java/generate/java/verbs/CJavaSortRelease.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/verbs/CJavaSortRelease.java"
-      ]
+        "naca-trans/src/main/resources/contract/feature-registry.yaml",
+        "naca-trans/src/main/resources/contract/runtime-operations.yaml",
+        "naca-trans/src/main/resources/contract/template-runtime-requirements.yaml",
+        "naca-trans/src/test/java/generate/java/st/CEntitySortReleaseRenderTest.java"
+      ],
+      "lastAttemptCommit": "bcfdb0ff"
     },
     {
       "id": "BACKEND-COBOL-VERB-CJAVASORTRETURN",

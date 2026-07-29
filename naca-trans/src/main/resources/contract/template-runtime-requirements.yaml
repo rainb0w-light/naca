@@ -136,6 +136,12 @@ templates:
       - sort.usingOutputSection
       - sort.exec
 
+  recursiveSortReleaseEntity:
+    capability: FILE_IO
+    requires:
+      - sort.release
+      - sort.releaseFrom
+
   recursiveCountEntity:
     capability: STRING
     requires:

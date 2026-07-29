@@ -632,6 +632,22 @@ operations:
     paramTypes: []
     returns: void
 
+  - id: sort.release
+    since: 1
+    capability: FILE_IO
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: release
+    paramTypes: [nacaLib.varEx.Var]
+    returns: void
+
+  - id: sort.releaseFrom
+    since: 1
+    capability: FILE_IO
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: release
+    paramTypes: [nacaLib.varEx.Var, nacaLib.varEx.Var]
+    returns: void
+
   - id: compare.isLess.intVarAndEdit
     since: 1
     capability: CONTROL_FLOW
