@@ -954,7 +954,9 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
 
     @Override
     public CEntityProcedureSection NewEntityProcedureSection(int l, String name) {
-        return new CJavaProcedureSectionST(l, name, programCatalog, langOutput);
+        CEntityProcedureSection e = new CEntityProcedureSection(l, name, programCatalog);
+        e.setLanguageExporter(langOutput);
+        return e;
     }
 
     @Override
