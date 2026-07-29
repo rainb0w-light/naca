@@ -334,7 +334,9 @@ class FinalArchitectureContractTest
      */
     private static boolean isBmsSemanticPath(Path path)
     {
-        return path.toString().contains(
+        return "CBaseResourceEntity.java".equals(
+                path.getFileName().toString())
+            || path.toString().contains(
             path.getFileSystem().getSeparator() + "semantic"
                 + path.getFileSystem().getSeparator() + "forms"
                 + path.getFileSystem().getSeparator());
