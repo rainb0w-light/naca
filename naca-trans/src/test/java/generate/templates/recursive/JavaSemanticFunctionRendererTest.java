@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import generate.java.CJavaAttribute;
 import generate.java.CJavaExporter;
-import generate.java.expressions.CJavaList;
 import generate.java.expressions.CJavaString;
 import generate.templates.TemplateLoader;
 import java.util.List;
@@ -60,20 +59,20 @@ class JavaSemanticFunctionRendererTest
         assertEquals("concat(\"PREFIX\", source_Field)",
             assembler.renderRoot(concat, JavaTemplateRole.REFERENCE));
 
-        CJavaList empty = new CJavaList("EMPTY", catalog, output);
+        LegacyListFixture empty = new LegacyListFixture("EMPTY", catalog, output);
         assertMatchesDirect(empty);
 
-        CJavaList strings = new CJavaList("STRINGS", catalog, output);
+        LegacyListFixture strings = new LegacyListFixture("STRINGS", catalog, output);
         strings.AddData(new CJavaString(catalog, output, "A".toCharArray()));
         strings.AddData(new CJavaString(catalog, output, "B".toCharArray()));
         assertMatchesDirect(strings);
 
-        CJavaList numbers = new CJavaList("NUMBERS", catalog, output);
+        LegacyListFixture numbers = new LegacyListFixture("NUMBERS", catalog, output);
         numbers.AddData(number("1"));
         numbers.AddData(number("2"));
         assertMatchesDirect(numbers);
 
-        CJavaList variables = new CJavaList("VARIABLES", catalog, output);
+        LegacyListFixture variables = new LegacyListFixture("VARIABLES", catalog, output);
         variables.AddData(new LegacyInternalBoolFixture("FIRST-SWITCH", catalog, output));
         variables.AddData(new LegacyInternalBoolFixture("SECOND-SWITCH", catalog, output));
         assertMatchesDirect(variables);

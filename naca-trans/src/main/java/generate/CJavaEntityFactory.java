@@ -34,7 +34,6 @@ import generate.java.CJavaStructure;
 import generate.java.CJavaSubStringReference;
 import generate.java.CJavaUnknownReference;
 
-import generate.java.expressions.CJavaList;
 import generate.java.expressions.CJavaString;
 import generate.java.forms.CJavaField;
 import generate.java.forms.CJavaFieldArray;
@@ -1133,7 +1132,9 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CJavaIsFieldCursor() ;
 	}
 	public CEntityList NewEntityList(String name)	{
-		return new CJavaList(name, programCatalog, langOutput);
+		CEntityList e = new CEntityList(name, programCatalog);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntityDigits NewEntityDigits(CDataEntity nel)	{
 		CEntityDigits e = new CEntityDigits(programCatalog, nel);

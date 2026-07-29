@@ -25,7 +25,7 @@ import utils.CObjectCatalog;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public abstract class CEntityList extends CDataEntity
+public class CEntityList extends CDataEntity
 {
 
 	/**
@@ -104,6 +104,11 @@ public abstract class CEntityList extends CDataEntity
 	public boolean ignore()
 	{
 		return data.isEmpty() ;
+	}
+
+	public boolean isValNeeded()
+	{
+		return true;
 	}
 	protected Vector<CDataEntity> data = new Vector<CDataEntity>();
 }

@@ -527,6 +527,16 @@ features:
     fixtures: []
     status: production
 
+  - id: cobol.expression.list
+    dialects: [cobol-core]
+    semanticType: semantic.expression.CEntityList
+    javaBackend:
+      role: REFERENCE
+      template: listExpressionEntity
+    runtimeOperations: []
+    fixtures: []
+    status: production
+
   - id: cobol.data.initialize
     dialects: [cobol-core]
     semanticType: semantic.Verbs.CEntityInitialize

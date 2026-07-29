@@ -25,8 +25,8 @@
       "lastVerifiedAtCommit": "5903f95d",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 124,
-        "directBackends": 55,
+        "failures": 123,
+        "directBackends": 54,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -3994,25 +3994,27 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "COBOL_CORE",
       "sourceSyntax": "legacy backend CJavaList",
-      "parserNode": null,
+      "parserNode": "utils.CSpecialActionContainer",
       "semanticNode": "semantic.expression.CEntityList",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
+      "assemblerRole": "REFERENCE",
+      "manifestBinding": "semantic.expression.CEntityList=listExpressionEntity",
+      "template": "listExpressionEntity",
       "runtimeOperation": null,
       "fixture": null,
       "directBackend": "generate.java.expressions.CJavaList",
       "sourcePath": "naca-trans/src/main/java/generate/java/expressions/CJavaList.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/expressions/CJavaList.java"
-      ]
+        "naca-trans/src/main/java/semantic/expression/CEntityList.java",
+        "naca-trans/src/test/java/generate/java/st/CEntityListRenderTest.java"
+      ],
+      "lastAttemptCommit": "db9d3cb6"
     },
     {
       "id": "BACKEND-COBOL-EXPRESSION-CJAVASTRING",
