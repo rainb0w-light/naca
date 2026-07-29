@@ -20,7 +20,7 @@ import parser.expression.CProdExpression;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityExprProd extends CBaseEntityExpression
+public class CEntityExprProd extends CBaseEntityExpression
 {
 	public void SetProdExpression(CBaseEntityExpression Op1, CBaseEntityExpression Op2, CProdExpression.CProdType Type)
 	{

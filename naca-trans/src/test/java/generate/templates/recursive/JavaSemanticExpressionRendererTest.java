@@ -3,7 +3,6 @@ package generate.templates.recursive;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import generate.java.CJavaExporter;
-import generate.java.expressions.CJavaExprProd;
 import generate.java.expressions.CJavaExprSum;
 import generate.java.expressions.CJavaExprTerminal;
 import generate.templates.TemplateLoader;
@@ -39,7 +38,7 @@ class JavaSemanticExpressionRendererTest
         CJavaExprSum sum = sum("1", "2", CSumExpression.CSumType.ADD);
         LegacyOppositeFixture opposite = new LegacyOppositeFixture();
         opposite.SetOpposite(numberExpression("3"));
-        CJavaExprProd product = new CJavaExprProd();
+        LegacyProductFixture product = new LegacyProductFixture();
         product.SetProdExpression(sum, opposite, CProdExpression.CProdType.PROD);
 
         assertMatchesDirect(product);
@@ -52,9 +51,9 @@ class JavaSemanticExpressionRendererTest
         return expression;
     }
 
-    private CJavaExprProd product(String left, String right, CProdExpression.CProdType type)
+    private LegacyProductFixture product(String left, String right, CProdExpression.CProdType type)
     {
-        CJavaExprProd expression = new CJavaExprProd();
+        LegacyProductFixture expression = new LegacyProductFixture();
         expression.SetProdExpression(numberExpression(left), numberExpression(right), type);
         return expression;
     }

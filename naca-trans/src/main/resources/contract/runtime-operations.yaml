@@ -1469,6 +1469,14 @@ operations:
     paramTypes: [nacaLib.varEx.Var]
     returns: nacaLib.mathSupport.MathBase
 
+  - id: math.pow
+    since: 1
+    capability: ARITHMETIC
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: pow
+    paramTypes: [nacaLib.varEx.VarAndEdit, nacaLib.varEx.VarAndEdit]
+    returns: nacaLib.mathSupport.MathPow
+
   # --- CICS RETURN ---
   # EXEC CICS RETURN END-EXEC emits CESM.returnTrans(...). The contract declares the
   # representative no-argument overload — the production-reachable bare RETURN (e.g.

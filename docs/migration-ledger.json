@@ -25,8 +25,8 @@
       "lastVerifiedAtCommit": "5903f95d",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 132,
-        "directBackends": 62,
+        "failures": 131,
+        "directBackends": 61,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -3763,25 +3763,27 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "COBOL_CORE",
       "sourceSyntax": "legacy backend CJavaExprProd",
-      "parserNode": null,
+      "parserNode": "parser.expression.CProdExpression",
       "semanticNode": "semantic.expression.CEntityExprProd",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
+      "assemblerRole": "REFERENCE",
+      "manifestBinding": "semantic.expression.CEntityExprProd=recursiveExprProductEntity",
+      "template": "recursiveExprProductEntity",
+      "runtimeOperation": "math.multiply, math.divide, math.pow",
       "fixture": null,
       "directBackend": "generate.java.expressions.CJavaExprProd",
       "sourcePath": "naca-trans/src/main/java/generate/java/expressions/CJavaExprProd.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/expressions/CJavaExprProd.java"
-      ]
+        "naca-trans/src/main/java/semantic/expression/CEntityExprProd.java",
+        "naca-trans/src/test/java/generate/java/st/CEntityExprProdRenderTest.java"
+      ],
+      "lastAttemptCommit": "5cc53e8f"
     },
     {
       "id": "BACKEND-COBOL-EXPRESSION-CJAVAEXPRSUM",

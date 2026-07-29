@@ -99,6 +99,13 @@ templates:
       - compute.roundedMathVar
       - math.isError
 
+  recursiveExprProductEntity:
+    capability: ARITHMETIC
+    requires:
+      - math.multiply
+      - math.divide
+      - math.pow
+
   recursiveCallFunctionEntity:
     capability: CONTROL_FLOW
     requires:

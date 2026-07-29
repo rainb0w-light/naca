@@ -453,6 +453,16 @@ features:
     fixtures: []
     status: production
 
+  - id: cobol.expression.product
+    dialects: [cobol-core]
+    semanticType: semantic.expression.CEntityExprProd
+    javaBackend:
+      role: REFERENCE
+      template: recursiveExprProductEntity
+    runtimeOperations: [math.multiply, math.divide, math.pow]
+    fixtures: []
+    status: production
+
   - id: cobol.data.initialize
     dialects: [cobol-core]
     semanticType: semantic.Verbs.CEntityInitialize
