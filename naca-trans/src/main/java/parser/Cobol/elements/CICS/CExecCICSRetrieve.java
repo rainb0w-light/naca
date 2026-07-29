@@ -12,6 +12,7 @@
  */
 package parser.Cobol.elements.CICS;
 
+import diagnostic.DiagnosticSink;
 import lexer.CBaseToken;
 import lexer.CTokenType;
 import lexer.Cobol.CCobolKeywordList;
@@ -49,6 +50,15 @@ public class CExecCICSRetrieve extends CCobolElement
 	 */
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
+		if (dataReference == null)
+		{
+			DiagnosticSink.recordUnsupported(
+				"cics.retrieve.missing-target",
+				"embedded-cics",
+				getLine(),
+				"EXEC CICS RETRIEVE requires INTO(...) or SET(...)");
+			return null;
+		}
 		CEntityCICSRetrieve eRetr = factory.NewEntityCICSRetreive(getLine(), ispointer);
 		parent.AddChild(eRetr);
 		CDataEntity ref = dataReference.GetDataReference(getLine(), factory);

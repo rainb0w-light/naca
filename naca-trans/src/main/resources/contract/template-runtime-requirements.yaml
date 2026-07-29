@@ -249,3 +249,11 @@ templates:
       - cics.readq.itemIntoVarLength
       - cics.readq.itemIntoIntLength
       - cics.readq.numItem
+
+  recursiveCICSRetrieveEntity:
+    capability: CICS
+    requires:
+      - cics.retrieve.into
+      - cics.retrieve.intoLength
+      - cics.retrieve.set
+      - cics.retrieve.setLength

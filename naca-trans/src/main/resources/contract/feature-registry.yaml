@@ -374,6 +374,20 @@ features:
     fixtures: []
     status: production
 
+  - id: cics.retrieve
+    dialects: [embedded-cics]
+    semanticType: semantic.CICS.CEntityCICSRetrieve
+    javaBackend:
+      role: REFERENCE
+      template: recursiveCICSRetrieveEntity
+    runtimeOperations:
+      - cics.retrieve.into
+      - cics.retrieve.intoLength
+      - cics.retrieve.set
+      - cics.retrieve.setLength
+    fixtures: []
+    status: production
+
   - id: sql.cursorSection
     dialects: [embedded-sql]
     semanticType: semantic.CEntitySQLCursorSection

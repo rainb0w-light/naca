@@ -94,4 +94,14 @@ public class CESMManager extends BaseCESMManager
 			varDest.getBuffer().copyBytesFromSource(varDest.getAbsolutePosition(), data.getCharBuffer(), 0, nDestLength);
 		}
 	}
+
+	public void retrieveSet(Var pointer)
+	{
+		// TODO implement pointer-based RETRIEVE; preserve generated contract.
+	}
+
+	public void retrieveSet(Var pointer, Var length)
+	{
+		// TODO implement pointer-based RETRIEVE; preserve generated contract.
+	}
 }

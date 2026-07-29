@@ -1040,6 +1040,12 @@ recursiveCICSReadQEntity(entity) ::= <<
 CESM.read<if(entity.persistent)>Transiant<else>Temp<endif>Queue(<entity.queueName>)<if(entity.dataRef)><if(entity.item)>.itemInto(<entity.item>, <entity.dataRef><if(entity.dataLength)>, <entity.dataLength><endif>)<else>.nextInto(<entity.dataRef><if(entity.dataLength)>, <entity.dataLength><endif>)<endif><endif><if(entity.numItem)>.numItem(<entity.numItem>)<endif> ;
 >>
 
+// Embedded CICS RETRIEVE INTO/SET. The semantic entity retains the mode and
+// fully resolved target/length; ST4 only selects and formats the runtime call.
+recursiveCICSRetrieveEntity(entity) ::= <<
+CESM.retrieve<if(entity.pointer)>Set<else>Into<endif>(<entity.refInto><if(entity.dataLength)>, <entity.dataLength><endif>) ;
+>>
+
 // Embedded CICS HANDLE AID (EXEC CICS HANDLE AID ENTER(label) PF1(label) ...
 // ANYKEY(label) END-EXEC). Emits one CESM.handleAID(<cond>, <label>) per
 // handled AID entry and one CESM.unhandleAID(<cond>) per unhandled AID entry.

@@ -34,7 +34,6 @@ import generate.java.CJavaStructure;
 import generate.java.CJavaSubStringReference;
 import generate.java.CJavaUnknownReference;
 
-import generate.java.CICS.CJavaCICSRetrieve;
 import generate.java.CICS.CJavaCICSSetTDQueue;
 import generate.java.CICS.CJavaCICSStart;
 import generate.java.CICS.CJavaCICSStartBrowse;
@@ -875,7 +874,9 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return e;
 	}
 	public CEntityCICSRetrieve NewEntityCICSRetreive(int l, boolean bPointer)	{
-		return new CJavaCICSRetrieve(l, programCatalog, langOutput, bPointer);
+		CEntityCICSRetrieve e = new CEntityCICSRetrieve(l, programCatalog, bPointer);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntityCICSStart NewEntityCICSStart(int l, CDataEntity TID)	{
 		return new CJavaCICSStart(l, programCatalog, langOutput, TID);

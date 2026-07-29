@@ -1121,3 +1121,36 @@ operations:
     runtimeMethod: numItem
     paramTypes: [nacaLib.varEx.Var]
     returns: nacaLib.CESM.CESMReadQueue
+
+  # --- CICS RETRIEVE ---
+  - id: cics.retrieve.into
+    since: 1
+    capability: CICS
+    runtimeClass: idea.manager.CESMManager
+    runtimeMethod: retrieveInto
+    paramTypes: [nacaLib.varEx.Var]
+    returns: void
+
+  - id: cics.retrieve.intoLength
+    since: 1
+    capability: CICS
+    runtimeClass: idea.manager.CESMManager
+    runtimeMethod: retrieveInto
+    paramTypes: [nacaLib.varEx.Var, nacaLib.varEx.Var]
+    returns: void
+
+  - id: cics.retrieve.set
+    since: 1
+    capability: CICS
+    runtimeClass: idea.manager.CESMManager
+    runtimeMethod: retrieveSet
+    paramTypes: [nacaLib.varEx.Var]
+    returns: void
+
+  - id: cics.retrieve.setLength
+    since: 1
+    capability: CICS
+    runtimeClass: idea.manager.CESMManager
+    runtimeMethod: retrieveSet
+    paramTypes: [nacaLib.varEx.Var, nacaLib.varEx.Var]
+    returns: void

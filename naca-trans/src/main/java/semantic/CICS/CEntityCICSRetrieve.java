@@ -23,7 +23,7 @@ import utils.CobolTranscoder.Notifs.NotifDeclareUseCICSPreprocessor;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityCICSRetrieve extends CBaseActionEntity
+public class CEntityCICSRetrieve extends CBaseActionEntity
 {
 	/**
 	 * @param line
@@ -32,8 +32,11 @@ public abstract class CEntityCICSRetrieve extends CBaseActionEntity
 	public CEntityCICSRetrieve(int line,CObjectCatalog cat, boolean ispointer)
 	{
 		super(line, cat);
-		ispointer = ispointer;
-		cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
+		this.ispointer = ispointer;
+		if (cat != null)
+		{
+			cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
+		}
 	}
 	
 	public void SetRetrieve(CDataEntity into, CDataEntity length)
@@ -55,4 +58,7 @@ public abstract class CEntityCICSRetrieve extends CBaseActionEntity
 	{
 		return false; 
 	}
+	public CDataEntity getRefInto() { return refInto; }
+	public CDataEntity getDataLength() { return dataLength; }
+	public boolean isPointer() { return ispointer; }
 }
