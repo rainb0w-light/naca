@@ -25,7 +25,7 @@
       "lastVerifiedAtCommit": "5903f95d",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 56,
+        "failures": 55,
         "directBackends": 33,
         "semanticClasses": 47,
         "factories": 3,
@@ -5783,7 +5783,7 @@
       "expectedDebtDelta": {
         "failures": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "EMBEDDED_CICS",
       "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/CICS/CEntityCICSAssign.java",
@@ -5797,11 +5797,13 @@
       "directBackend": null,
       "sourcePath": "naca-trans/src/main/java/semantic/CICS/CEntityCICSAssign.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "done",
       "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
       "evidence": [
-        "src/main/java/semantic/CICS/CEntityCICSAssign.java"
-      ]
+        "src/main/java/semantic/CICS/CEntityCICSAssign.java",
+        "generate.java.st.CICSAssignRenderTest"
+      ],
+      "lastAttemptCommit": "d6be0780"
     },
     {
       "id": "ARCH-SQL-SEMANTIC-CENTITYSQLDECLARETABLE",

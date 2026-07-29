@@ -80,9 +80,8 @@ public class CEntityCICSAssign extends CBaseActionEntity
 	// recursiveCICSAssignEntity). They expose the already-resolved semantic
 	// sub-entities; rendering is done by the template, never here. getRequests()
 	// returns one holder per request in the order the parser added them (the
-	// AddRequest insertion order), exactly the order the retired
-	// CJavaCICSAssign.DoExport loop iterated, so the template chains the
-	// .<OPTION>(<ref>) calls in the very same sequence.
+	// AddRequest insertion order), preserving the retired backend's request
+	// sequence for the template's chained option calls.
 
 	public List<Request> getRequests()
 	{
@@ -98,7 +97,7 @@ public class CEntityCICSAssign extends CBaseActionEntity
 	 * One ASSIGN request: the operand keyword (e.g. APPLID / TCTUALENG) paired
 	 * with its target variable. The template reads {@code name} verbatim as the
 	 * builder method name and renders {@code variable} through its reference
-	 * binding, mirroring CJavaCICSAssign's "." + cs + "(" + ExportReference + ")".
+	 * binding.
 	 */
 	public static final class Request
 	{
