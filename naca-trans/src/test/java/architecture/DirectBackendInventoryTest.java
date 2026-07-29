@@ -30,16 +30,15 @@ import org.junit.jupiter.api.Test;
  */
 class DirectBackendInventoryTest
 {
-    // Current count of direct backend source files (high-water mark; may only
-    // decrease as direct backends are retired — same assertAtMost semantics as
-    // the architecture ratchet).
-    private static final int DIRECT_BACKEND_TOTAL_BASELINE = 141;
+    // Exact current count of direct backend source files. Every retirement must
+    // lower this value in the same slice, preventing slack in the ratchet.
+    private static final int DIRECT_BACKEND_TOTAL_BASELINE = 132;
 
     private static final Pattern DIRECT_SEMANTIC_SUBCLASS =
         Pattern.compile(" extends (?:CEntity|CBaseActionEntity|CDataEntity)");
 
     @Test
-    @DisplayName("direct backend inventory: enumerated and grouped by area, total only decreases")
+    @DisplayName("direct backend inventory: checked-in ratchet equals measured total")
     void inventory() throws IOException
     {
         Path directRoot = moduleRoot().resolve("src/main/java/generate/java");
@@ -71,9 +70,10 @@ class DirectBackendInventoryTest
         report.append(String.format("  %-14s %3d%n", "TOTAL", total));
         System.out.println(report);
 
-        assertTrue(total <= DIRECT_BACKEND_TOTAL_BASELINE,
-            "direct backend count grew from baseline " + DIRECT_BACKEND_TOTAL_BASELINE
-                + " to " + total + "; new direct backends are not allowed" + report);
+        assertTrue(total == DIRECT_BACKEND_TOTAL_BASELINE,
+            "direct backend ratchet is stale or debt changed: expected exactly "
+                + DIRECT_BACKEND_TOTAL_BASELINE + " but measured " + total
+                + "; every retirement must tighten the checked-in baseline" + report);
     }
 
     /** The area/dialect of a backend file: its package segment under generate/java. */

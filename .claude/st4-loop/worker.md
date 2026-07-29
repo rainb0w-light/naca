@@ -28,11 +28,21 @@ migration playbook recorded in `docs/migration-ledger.json` →
 ## Hard rules (the controller enforces these; violating them fails the slice)
 
 - **Architecture principle (CLAUDE.md / AGENTS.md): semantic analysis and code generation are strictly separated.** `entity.export()` builds semantic sub-entities and returns nothing; ST4 templates only read `entity.*` properties and never call `.export()`/`.exportChildren()`. ST4 4.3.4 does not support `<obj.method()>`.
+- **Template getters are pure property reads.** They must not call
+  `FormatIdentifier`, export, resolve data references, allocate/build child
+  entities, or perform lowering when ST4 accesses them. Precompute those values
+  while the parser/factory populates the semantic entity.
 - **Migrate ONLY the assigned item id.** Do not pick another task, do not refactor unrelated code, do not "while you're here" fixes.
 - **Do NOT push, merge, commit, rebase, reset, clean, stash, or otherwise mutate git history or the remote.** The controller owns all commits. You only edit working-tree files and run tests. The controller also enforces this with `--disallowedTools` git deny rules.
 - **Permission mode:** the controller runs you under `acceptEdits` by default (file edits auto-approved) with ALL other permission checks active — never `bypassPermissions`/`dontAsk`/`dangerously-skip-permissions`. Do not attempt to disable permission checks; if a needed command is blocked, report `outcome: "blocked"` with the exact command rather than routing around it.
 - **Do NOT touch BMS (`BMS_ARTIFACT`) or FPac pipelines** — they are out of the migration queue.
-- **Debt must not grow.** Never add a new direct backend (`extends CEntity*/CBaseActionEntity/CDataEntity` under `generate/java`). The assigned ledger item owns exactly one `directBackend` / `sourcePath`; retire exactly that backend and no other backend in this slice. `architecture.DirectBackendInventoryTest` enforces the current ratchet.
+- **Debt must not grow.** Never add a new direct backend (`extends CEntity*/CBaseActionEntity/CDataEntity` under `generate/java`). The assigned ledger item owns exactly one `directBackend` / `sourcePath`; retire exactly that backend and no other backend in this slice. After deleting it, update `DirectBackendInventoryTest.DIRECT_BACKEND_TOTAL_BASELINE` to the newly measured exact count; the controller rejects a stale loose ceiling.
+- **Verify production lowering, not only direct rendering.** Inspect the assigned
+  parser node and factory path and add a focused parser/lowering or end-to-end
+  fixture when the node has operands or branches. Fix latent lowering defects
+  for this assigned item (wrong collection, self-assignment, silent empty node)
+  as part of the slice. A test that only constructs the semantic entity by hand
+  is not sufficient evidence of production reachability.
 - **Generated Java must compile on every reachable template branch.** Do not preserve
   invalid legacy output merely for byte parity. Every emitted runtime call, including
   optional/fluent branches, must have a real naca-rt signature, be listed in the

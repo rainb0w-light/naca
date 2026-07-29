@@ -335,6 +335,40 @@ class IndependentGateTest(unittest.TestCase):
             self.assertFalse((repo / "src" / "New.java").exists())
             self.assertTrue(gitutil.is_clean(repo))
 
+    def test_stale_checked_in_ratchet_blocks_even_when_delta_matches(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as td:
+            repo = make_repo(Path(td) / "repo", ledger_two_items())
+            ratchet = (repo / "naca-trans" / "src" / "test" / "java"
+                       / "architecture" / "DirectBackendInventoryTest.java")
+            ratchet.parent.mkdir(parents=True)
+            ratchet.write_text(
+                "private static final int DIRECT_BACKEND_TOTAL_BASELINE = 3;\n"
+            )
+            gitutil.run_git(repo, "add", ratchet.relative_to(repo).as_posix())
+            gitutil.run_git(repo, "commit", "-m", "add ratchet fixture")
+            env_patch(
+                self, ST4_STUB_OUTCOME="success",
+                ST4_STUB_ITEM_ID="CICS-FIRST",
+                ST4_STUB_TOUCH="src/New.java",
+            )
+            cfg = cfg_for(repo, td, max_iterations=1, max_attempts=1)
+            ctrl = controller.Controller(
+                cfg,
+                verify_runner=lambda i, c: (True, "ok"),
+                reviewer_runner=lambda d, i, c: {
+                    "approved": True, "issues": []
+                },
+                debt_measurer=debt_fake(3, 2),
+                log=lambda *_: None,
+            )
+
+            summary = ctrl.run()
+
+            self.assertEqual(summary[0]["result"], "blocked")
+            self.assertFalse((repo / "src" / "New.java").exists())
+            self.assertTrue(gitutil.is_clean(repo))
+
     def test_review_bundle_includes_untracked_new_file_content(self):
         import tempfile
         seen = {}

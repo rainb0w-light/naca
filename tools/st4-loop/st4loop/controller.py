@@ -51,6 +51,11 @@ Check EXACTLY these five things:
    manifests, resolve to a real signature in naca-rt, and return a type that supports
    the next fluent call. Never approve invalid Java merely because a retired legacy
    backend emitted the same invalid text.
+   Inspect the parser/factory production lowering for this exact item: a direct
+   entity render test is insufficient if the parser silently builds an empty or
+   wrong semantic entity. Semantic getters used by ST4 must be pure property reads;
+   reject getters that call FormatIdentifier, export, resolve references, allocate
+   child entities, or otherwise perform lowering during rendering.
 
 OUTPUT CONTRACT (strict): respond with ONLY a single JSON object and NOTHING else - no
 prose, no markdown, no code fences, no explanation, no extra keys. Use EXACTLY these
@@ -606,6 +611,12 @@ class Controller:
             reasons.append(
                 f"measured directBackends delta {actual_delta} != expected {expected_db} "
                 f"(base {base_debt} -> {current_db})")
+        checked_in_baseline = debt.read_checked_in_baseline(self.cfg.repo_root)
+        if checked_in_baseline is not None and checked_in_baseline != current_db:
+            reasons.append(
+                "DirectBackendInventoryTest exact baseline is stale: "
+                f"{checked_in_baseline} != measured {current_db}; tighten the "
+                "checked-in ratchet in this slice")
 
         return {
             "pass": not reasons,

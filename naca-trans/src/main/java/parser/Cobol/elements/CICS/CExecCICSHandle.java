@@ -76,24 +76,34 @@ public class CExecCICSHandle extends CCobolElement
 		{
 			CEntityCICSHandleAID handle = factory.NewEntityCICSHandleAID(getLine());
 			parent.AddChild(handle);
-			for (int i = 0; i< conditions.size(); i++)
-			{
-				String cond = conditions.get(i);
-				CIdentifier id = labels.get(i);
-				if (id != null)
-				{
-					handle.HandleAID(cond, id.GetName());
-				}
-				else
-				{
-					handle.UnhandleAID(cond);
-				} 
-			}
+			PopulateAIDEntity(handle);
 			return handle;
 		}
 		else
 		{
 			return null ;
+		}
+	}
+
+	/**
+	 * Lowers parsed HANDLE AID operands into the semantic entity. AID operands
+	 * live in {@code aID}; iterating {@code conditions} silently built an empty
+	 * production node.
+	 */
+	protected void PopulateAIDEntity(CEntityCICSHandleAID handle)
+	{
+		for (int i = 0; i < aID.size(); i++)
+		{
+			String cond = aID.get(i);
+			CIdentifier id = labels.get(i);
+			if (id != null)
+			{
+				handle.HandleAID(cond, id.GetName());
+			}
+			else
+			{
+				handle.UnhandleAID(cond);
+			}
 		}
 	}
 
@@ -213,6 +223,23 @@ public class CExecCICSHandle extends CCobolElement
 			{
 				e = root.createElement("Unhandle");
 			} 
+			eHandle.appendChild(e);
+			e.setAttribute("Condition", cond);
+		}
+		for (int i = 0; i < aID.size(); i++)
+		{
+			String cond = aID.get(i);
+			CIdentifier id = labels.get(i);
+			Element e;
+			if (id != null)
+			{
+				e = root.createElement("HandleAID");
+				id.ExportTo(e, root);
+			}
+			else
+			{
+				e = root.createElement("UnhandleAID");
+			}
 			eHandle.appendChild(e);
 			e.setAttribute("Condition", cond);
 		}

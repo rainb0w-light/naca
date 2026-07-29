@@ -14,6 +14,12 @@ from pathlib import Path
 DIRECT_SEMANTIC_SUBCLASS = re.compile(r" extends (?:CEntity|CBaseActionEntity|CDataEntity)")
 
 DIRECT_BACKEND_ROOT = Path("naca-trans/src/main/java/generate/java")
+DIRECT_BACKEND_TEST = Path(
+    "naca-trans/src/test/java/architecture/DirectBackendInventoryTest.java"
+)
+DIRECT_BACKEND_BASELINE = re.compile(
+    r"DIRECT_BACKEND_TOTAL_BASELINE\s*=\s*(\d+)"
+)
 
 
 def measure_direct_backends(repo_root):
@@ -30,3 +36,14 @@ def measure_direct_backends(repo_root):
         if DIRECT_SEMANTIC_SUBCLASS.search(text):
             count += 1
     return count
+
+
+def read_checked_in_baseline(repo_root):
+    """Return the exact Java ratchet baseline, or None for minimal fixtures."""
+    path = Path(repo_root) / DIRECT_BACKEND_TEST
+    if not path.is_file():
+        return None
+    match = DIRECT_BACKEND_BASELINE.search(
+        path.read_text(encoding="iso-8859-1")
+    )
+    return int(match.group(1)) if match else None

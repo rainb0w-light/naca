@@ -45,21 +45,21 @@ public class CEntityCICSHandleAID extends CBaseActionEntity
 	}
 	public void HandleAID(String cond, String label)
 	{
-		handledAIDLabels.add(label);
-		handledAIDs.add(cond);
+		// Identifier formatting is part of semantic construction. ST4 accessors
+		// below remain pure property reads during rendering.
+		handledAIDEntries.add(new HandledAIDEntry(cond, FormatIdentifier(label)));
 	}
 	public void UnhandleAID(String cond)
 	{
-		unhandledAIDs.add(cond);
+		unhandledAIDEntries.add(new UnhandledAIDEntry(cond));
 	}
 
-	protected ArrayList<String> handledAIDs = new ArrayList<String>();
-	protected ArrayList<String> unhandledAIDs = new ArrayList<String>();
-	protected ArrayList<String> handledAIDLabels = new ArrayList<String>();
+	private final ArrayList<HandledAIDEntry> handledAIDEntries = new ArrayList<>();
+	private final ArrayList<UnhandledAIDEntry> unhandledAIDEntries = new ArrayList<>();
 
 	public boolean ignore()
 	{
-		if (handledAIDs.size() == 0 && unhandledAIDs.size() == 0)
+		if (handledAIDEntries.isEmpty() && unhandledAIDEntries.isEmpty())
 		{
 			return true;
 		}
@@ -67,9 +67,8 @@ public class CEntityCICSHandleAID extends CBaseActionEntity
 	}
 
 	// ==================== ST4 Template Accessors ====================
-	// Read-only getters for the recursive ST4 assembler (template
-	// recursiveCICSHandleAIDEntity). They expose pre-formatted AID entries;
-	// rendering is done by the template, never here.
+	// Read-only, O(1) getters for the recursive ST4 assembler. Entry
+	// construction and identifier formatting have already happened above.
 
 	/**
 	 * Returns the handled AID entries (one per HANDLE AID ENTER(label), PF1(label),
@@ -80,12 +79,7 @@ public class CEntityCICSHandleAID extends CBaseActionEntity
 	 */
 	public List<HandledAIDEntry> getHandledAIDEntries()
 	{
-		List<HandledAIDEntry> entries = new ArrayList<>(handledAIDs.size());
-		for (int i = 0; i < handledAIDs.size(); i++)
-		{
-			entries.add(new HandledAIDEntry(handledAIDs.get(i), FormatIdentifier(handledAIDLabels.get(i))));
-		}
-		return entries;
+		return handledAIDEntries;
 	}
 
 	/**
@@ -96,12 +90,7 @@ public class CEntityCICSHandleAID extends CBaseActionEntity
 	 */
 	public List<UnhandledAIDEntry> getUnhandledAIDEntries()
 	{
-		List<UnhandledAIDEntry> entries = new ArrayList<>(unhandledAIDs.size());
-		for (int i = 0; i < unhandledAIDs.size(); i++)
-		{
-			entries.add(new UnhandledAIDEntry(unhandledAIDs.get(i)));
-		}
-		return entries;
+		return unhandledAIDEntries;
 	}
 
 	/**

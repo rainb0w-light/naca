@@ -1,5 +1,6 @@
 package generate.java.st;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import generate.templates.TemplateLoader;
@@ -24,24 +25,31 @@ import semantic.CICS.CEntityCICSHandleAID;
  */
 class CICSHandleAIDRenderTest
 {
+    private static CEntityCICSHandleAID entity()
+    {
+        CEntityCICSHandleAID handle = new CEntityCICSHandleAID(1, null);
+        handle.setLanguageExporter(new MockJavaExporter());
+        return handle;
+    }
+
     @Test
     @DisplayName("handled AID renders CESM.handleAID(<cond>, <label>) ;")
     void handledAID()
     {
-        CEntityCICSHandleAID handle = new CEntityCICSHandleAID(1, null);
+        CEntityCICSHandleAID handle = entity();
         handle.HandleAID("ENTER", "ENTER-KEY");
+        // Rendering must only read the semantic value prepared above.
+        handle.setLanguageExporter(null);
         String output = TemplateLoader.getRecursiveAssembler()
             .renderRoot(handle, JavaTemplateRole.REFERENCE);
-        assertTrue(output.contains("CESM.handleAID"), output);
-        assertTrue(output.contains("ENTER"), output);
-        assertTrue(output.contains(" ;"), output);
+        assertEquals("CESM.handleAID(\"ENTER\", ENTER_KEY) ;", output.trim());
     }
 
     @Test
     @DisplayName("unhandled AID renders CESM.unhandleAID(<cond>) ;")
     void unhandledAID()
     {
-        CEntityCICSHandleAID handle = new CEntityCICSHandleAID(1, null);
+        CEntityCICSHandleAID handle = entity();
         handle.UnhandleAID("ANYKEY");
         String output = TemplateLoader.getRecursiveAssembler()
             .renderRoot(handle, JavaTemplateRole.REFERENCE);
@@ -54,7 +62,7 @@ class CICSHandleAIDRenderTest
     @DisplayName("both handled and unhandled AIDs render in order")
     void bothHandledAndUnhandled()
     {
-        CEntityCICSHandleAID handle = new CEntityCICSHandleAID(1, null);
+        CEntityCICSHandleAID handle = entity();
         handle.HandleAID("ENTER", "ENTER-KEY");
         handle.HandleAID("PF1", "PF1-KEY");
         handle.UnhandleAID("ANYKEY");
@@ -71,6 +79,8 @@ class CICSHandleAIDRenderTest
         // Two handled AIDs
         assertTrue(output.indexOf("ENTER") >= 0, "has ENTER");
         assertTrue(output.indexOf("PF1") >= 0, "has PF1");
+        assertTrue(output.contains(") ;\nCESM.unhandleAID"),
+            "handled and unhandled groups must be separate statements: " + output);
 
         // Each line terminated by " ;"
         assertTrue(output.contains(" ;"), "has statement terminator");
@@ -80,7 +90,7 @@ class CICSHandleAIDRenderTest
     @DisplayName("empty lists produce no output")
     void emptyIgnored()
     {
-        CEntityCICSHandleAID handle = new CEntityCICSHandleAID(1, null);
+        CEntityCICSHandleAID handle = entity();
         String output = TemplateLoader.getRecursiveAssembler()
             .renderRoot(handle, JavaTemplateRole.REFERENCE);
         assertTrue(output.isEmpty(), "empty lists produce no output: " + output);

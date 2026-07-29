@@ -986,7 +986,8 @@ CESM.getMain() ;
 // template receives an empty iteration, producing no output).
 recursiveCICSHandleAIDEntity(entity) ::= <<
 <entity.handledAIDEntries:{entry | CESM.handleAID("<entry.condition>", <entry.label>) ;}; separator="\n">
-<entity.unhandledAIDEntries:{entry | CESM.unhandleAID("<entry.condition>") ;}; separator="\n">
+<if(entity.handledAIDEntries)><if(entity.unhandledAIDEntries)>
+<endif><endif><entity.unhandledAIDEntries:{entry | CESM.unhandleAID("<entry.condition>") ;}; separator="\n">
 >>
 
 recursiveAcceptEntity(entity) ::= <<
