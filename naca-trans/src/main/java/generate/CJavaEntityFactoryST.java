@@ -759,7 +759,9 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
 
     @Override
     public CEntityAssignWithAccessor NewEntityAssignWithAccessor(int l) {
-        return new CJavaAssignWithAccessorST(l, programCatalog, langOutput);
+        CEntityAssignWithAccessor e = new CEntityAssignWithAccessor(l, programCatalog);
+        e.setLanguageExporter(langOutput);
+        return e;
     }
 
     @Override

@@ -22,7 +22,7 @@ import utils.CObjectCatalog;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityAssignWithAccessor extends CBaseActionEntity
+public class CEntityAssignWithAccessor extends CBaseActionEntity
 {
 
 	/**
@@ -115,4 +115,19 @@ public abstract class CEntityAssignWithAccessor extends CBaseActionEntity
 		isfillAll = fillAll;
 	}
 
+	public CDataEntity getReference() { return reference; }
+	public CDataEntity getValue() { return value; }
+	public boolean isFillAll() { return isfillAll; }
+
+	/** Ready accessor call consumed by recursiveAssignWithAccessorEntity. */
+	public String getAccessorInvocation()
+	{
+		String val = value != null ? value.ExportReference(getLine()) : "";
+		String invocation = reference.ExportWriteAccessorTo(val);
+		if (isfillAll)
+		{
+			invocation = invocation.replaceFirst("([^\\(]*)(\\(.*)", "$1All$2");
+		}
+		return invocation;
+	}
 }
