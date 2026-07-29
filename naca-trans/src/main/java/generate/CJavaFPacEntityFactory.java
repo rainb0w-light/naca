@@ -7,7 +7,6 @@
 package generate;
 
 import generate.fpacjava.*;
-import generate.java.expressions.CJavaIntrinsicFunction;
 import generate.java.expressions.CJavaString;
 import generate.fpacjava.CFPacJavaRoutineEmulationCall;
 
@@ -324,7 +323,8 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityIntrinsicFunction NewEntityIntrinsicFunction(String functionName, List<CBaseEntityExpression> arguments)
 	{
-		return new CJavaIntrinsicFunction(programCatalog, langOutput, functionName, arguments);
+		return new CFPacJavaIntrinsicFunction(
+			programCatalog, langOutput, functionName, arguments);
 	}
 
 	@Override

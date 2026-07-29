@@ -12,12 +12,12 @@ import semantic.CDataEntity;
 import utils.CObjectCatalog;
 
 /** Semantic model for a COBOL intrinsic function invocation. */
-public abstract class CEntityIntrinsicFunction extends CBaseEntityFunction
+public class CEntityIntrinsicFunction extends CBaseEntityFunction
 {
     private final String functionName;
     private final List<CBaseEntityExpression> arguments;
 
-    protected CEntityIntrinsicFunction(
+    public CEntityIntrinsicFunction(
         CObjectCatalog catalog,
         String functionName,
         List<CBaseEntityExpression> arguments)

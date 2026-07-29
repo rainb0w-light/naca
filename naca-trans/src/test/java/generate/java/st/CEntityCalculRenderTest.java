@@ -25,8 +25,9 @@ class CEntityCalculRenderTest
     {
         CBaseEntityExpression argument = new CEntityExprTerminal(
             new MockDataEntity(1, "source"));
-        CJavaIntrinsicFunctionST function = new CJavaIntrinsicFunctionST(
-            null, new MockJavaExporter(), "ORD", List.of(argument));
+        semantic.expression.CEntityIntrinsicFunction function =
+            new semantic.expression.CEntityIntrinsicFunction(
+                null, "ORD", List.of(argument));
         return new CEntityExprTerminal(function);
     }
 

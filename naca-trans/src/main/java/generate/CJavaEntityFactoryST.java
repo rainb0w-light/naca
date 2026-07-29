@@ -1,6 +1,5 @@
 package generate;
 
-import generate.java.st.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -145,7 +144,10 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
 
     @Override
     public CEntityIntrinsicFunction NewEntityIntrinsicFunction(String functionName, List<CBaseEntityExpression> arguments) {
-        return new CJavaIntrinsicFunctionST(programCatalog, langOutput, functionName, arguments);
+        CEntityIntrinsicFunction entity =
+            new CEntityIntrinsicFunction(programCatalog, functionName, arguments);
+        entity.setLanguageExporter(langOutput);
+        return entity;
     }
 
     @Override

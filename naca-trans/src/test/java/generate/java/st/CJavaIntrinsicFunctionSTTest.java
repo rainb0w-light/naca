@@ -6,6 +6,7 @@ import semantic.expression.CEntityExprTerminal;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import semantic.expression.CBaseEntityExpression;
+import semantic.expression.CEntityIntrinsicFunction;
 
 class CJavaIntrinsicFunctionSTTest
 {
@@ -14,11 +15,14 @@ class CJavaIntrinsicFunctionSTTest
     {
         MockDataEntity source = new MockDataEntity(1, "subString(source, index, 1)");
         CBaseEntityExpression argument = new CEntityExprTerminal(source);
-        CJavaIntrinsicFunctionST function = new CJavaIntrinsicFunctionST(
-            null, new MockJavaExporter(), "ORD", List.of(argument));
+        CEntityIntrinsicFunction function =
+            new CEntityIntrinsicFunction(null, "ORD", List.of(argument));
 
         assertEquals(
             "CobolIntrinsicFunctions.ord(subString(source, index, 1))",
-            function.ExportReference(1));
+            generate.templates.TemplateLoader.getRecursiveAssembler()
+                .renderRoot(
+                    function,
+                    generate.templates.recursive.JavaTemplateRole.REFERENCE));
     }
 }

@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import generate.java.CJavaAttribute;
 import generate.java.CJavaExporter;
-import generate.java.expressions.CJavaIntrinsicFunction;
 import generate.java.expressions.CJavaLengthOf;
 import generate.java.expressions.CJavaList;
 import generate.java.expressions.CJavaString;
@@ -89,11 +88,12 @@ class JavaSemanticFunctionRendererTest
             expression(number("1")),
             expression(number("2")),
             CSumExpression.CSumType.ADD);
-        CJavaIntrinsicFunction function = new CJavaIntrinsicFunction(
-            catalog,
-            output,
-            "INTEGER-OF-DATE",
-            List.of(expression(attribute("DATE-VALUE")), nestedSum));
+        LegacyIntrinsicFunctionFixture function =
+            new LegacyIntrinsicFunctionFixture(
+                catalog,
+                output,
+                "INTEGER-OF-DATE",
+                List.of(expression(attribute("DATE-VALUE")), nestedSum));
 
         assertMatchesDirect(function);
     }

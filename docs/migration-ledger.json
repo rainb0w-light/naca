@@ -25,8 +25,8 @@
       "lastVerifiedAtCommit": "5903f95d",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 128,
-        "directBackends": 58,
+        "failures": 126,
+        "directBackends": 57,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -3895,25 +3895,27 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "COBOL_CORE",
       "sourceSyntax": "legacy backend CJavaIntrinsicFunction",
-      "parserNode": null,
+      "parserNode": "parser.CFunctionIdentifier",
       "semanticNode": "semantic.expression.CEntityIntrinsicFunction",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
+      "assemblerRole": "REFERENCE",
+      "manifestBinding": "semantic.expression.CEntityIntrinsicFunction=recursiveIntrinsicFunctionEntity",
+      "template": "recursiveIntrinsicFunctionEntity",
       "runtimeOperation": null,
       "fixture": null,
       "directBackend": "generate.java.expressions.CJavaIntrinsicFunction",
       "sourcePath": "naca-trans/src/main/java/generate/java/expressions/CJavaIntrinsicFunction.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/expressions/CJavaIntrinsicFunction.java"
-      ]
+        "naca-trans/src/main/java/semantic/expression/CEntityIntrinsicFunction.java",
+        "naca-trans/src/test/java/generate/java/st/CJavaIntrinsicFunctionSTTest.java"
+      ],
+      "lastAttemptCommit": "a2da013f"
     },
     {
       "id": "BACKEND-COBOL-EXPRESSION-CJAVAISNAMEDCONDITION",

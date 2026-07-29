@@ -495,6 +495,18 @@ features:
     fixtures: []
     status: production
 
+  - id: cobol.expression.intrinsic-function
+    dialects: [cobol-core]
+    semanticType: semantic.expression.CEntityIntrinsicFunction
+    javaBackend:
+      role: REFERENCE
+      template: recursiveIntrinsicFunctionEntity
+    # The semantic function name selects a CobolIntrinsicFunctions static
+    # method dynamically; arguments remain recursive semantic children.
+    runtimeOperations: []
+    fixtures: []
+    status: production
+
   - id: cobol.data.initialize
     dialects: [cobol-core]
     semanticType: semantic.Verbs.CEntityInitialize
