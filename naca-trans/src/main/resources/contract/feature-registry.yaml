@@ -118,7 +118,7 @@ features:
     javaBackend:
       role: REFERENCE
       template: recursiveCICSXctlEntity
-    runtimeOperations: [cics.xctl]
+    runtimeOperations: [cics.xctl, cics.xctl.go, cics.xctl.commareaInts, cics.xctl.commareaVarLength]
     fixtures: []
     status: production
 
@@ -128,7 +128,7 @@ features:
     javaBackend:
       role: REFERENCE
       template: recursiveCICSLinkEntity
-    runtimeOperations: [cics.link]
+    runtimeOperations: [cics.link, cics.link.go, cics.link.commareaInts, cics.link.commareaVarLength]
     fixtures: []
     status: production
 
@@ -158,7 +158,7 @@ features:
     javaBackend:
       role: REFERENCE
       template: recursiveCICSReceiveMapEntity
-    runtimeOperations: [cics.receiveMap]
+    runtimeOperations: [cics.receiveMap, cics.receiveMap.mapSet, cics.receiveMap.into]
     fixtures: []
     status: production
 
@@ -168,7 +168,21 @@ features:
     javaBackend:
       role: REFERENCE
       template: recursiveCICSSendMapEntity
-    runtimeOperations: [cics.sendMap]
+    runtimeOperations:
+      - cics.sendMap
+      - cics.sendMap.mapSet
+      - cics.sendMap.dataFrom
+      - cics.sendMap.dataFromWithLength
+      - cics.sendMap.dataOnlyFrom
+      - cics.sendMap.dataOnlyFromWithLength
+      - cics.sendMap.cursor
+      - cics.sendMap.cursorValue
+      - cics.sendMap.accum
+      - cics.sendMap.alarm
+      - cics.sendMap.erase
+      - cics.sendMap.freeKB
+      - cics.sendMap.paging
+      - cics.sendMap.wait
     fixtures: []
     status: production
 
@@ -285,6 +299,9 @@ features:
       - cics.inquire
       - cics.inquire.program
       - cics.inquire.transaction
+      - cics.inquire.transactionString
+      - cics.inquire.resolveProgramVars
+      - cics.inquire.resolveProgramLiteral
     fixtures: []
     status: production
 

@@ -80,11 +80,17 @@ templates:
     capability: CICS
     requires:
       - cics.xctl
+      - cics.xctl.go
+      - cics.xctl.commareaInts
+      - cics.xctl.commareaVarLength
 
   recursiveCICSLinkEntity:
     capability: CICS
     requires:
       - cics.link
+      - cics.link.go
+      - cics.link.commareaInts
+      - cics.link.commareaVarLength
 
   recursiveCICSAbendEntity:
     capability: CICS
@@ -145,11 +151,26 @@ templates:
     capability: CICS
     requires:
       - cics.receiveMap
+      - cics.receiveMap.mapSet
+      - cics.receiveMap.into
 
   recursiveCICSSendMapEntity:
     capability: CICS
     requires:
       - cics.sendMap
+      - cics.sendMap.mapSet
+      - cics.sendMap.dataFrom
+      - cics.sendMap.dataFromWithLength
+      - cics.sendMap.dataOnlyFrom
+      - cics.sendMap.dataOnlyFromWithLength
+      - cics.sendMap.cursor
+      - cics.sendMap.cursorValue
+      - cics.sendMap.accum
+      - cics.sendMap.alarm
+      - cics.sendMap.erase
+      - cics.sendMap.freeKB
+      - cics.sendMap.paging
+      - cics.sendMap.wait
 
   recursiveCICSHandleAIDEntity:
     capability: CICS
@@ -174,3 +195,6 @@ templates:
       - cics.inquire
       - cics.inquire.program
       - cics.inquire.transaction
+      - cics.inquire.transactionString
+      - cics.inquire.resolveProgramVars
+      - cics.inquire.resolveProgramLiteral

@@ -67,7 +67,7 @@ class CICSSendMapRenderTest
     }
 
     @Test
-    @DisplayName("full option chain renders MAP/MAPSET/FROM+LENGTH/CURSOR(ref)/ACCUM/ALARM/ERASE/FREEKB/PAGING/WAIT in order")
+    @DisplayName("full option chain renders every SEND MAP option in order with a compilable WAIT adapter")
     void sendMapFullOptionOrdering()
     {
         CEntityCICSSendMap send = new CEntityCICSSendMap(1, null);
@@ -84,7 +84,7 @@ class CICSSendMapRenderTest
         String output = render(send);
         assertTrue(output.contains(
             "CESM.sendMap(MAPNAME).mapSet(SETNAME).dataFrom(FROMVAR, LENVAR).cursor(CURVAR)"
-                + ".accum().alarm().erase().freeKB().paging().wait() ;"),
+                + ".accum().alarm().erase().freeKB().paging().waitForCompletion() ;"),
             output);
     }
 

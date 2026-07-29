@@ -66,6 +66,12 @@ public class CESMSendMap extends CJMapObject
 		// this function may not be called : in this case, a COPY is missing defining a map
 		return this;
 	}
+	public CESMSendMap dataOnlyFrom(Var map, Var length)
+	{
+		assertIfFalse(map == null);
+		// Preserve the generated fluent signature; map lookup remains unsupported.
+		return this;
+	}
 	public CESMSendMap dataFrom(Form map)
 	{
 		this.varFrom = map;
@@ -103,6 +109,21 @@ public class CESMSendMap extends CJMapObject
 	public CESMSendMap freeKB()
 	{
 		// unsupported
+		return this;
+	}
+	public CESMSendMap accum()
+	{
+		// Runtime placeholder: preserve the fluent CICS SEND MAP contract.
+		return this;
+	}
+	public CESMSendMap paging()
+	{
+		// Runtime placeholder: preserve the fluent CICS SEND MAP contract.
+		return this;
+	}
+	public CESMSendMap waitForCompletion()
+	{
+		// WAIT is represented by waitForCompletion because Object.wait() is final.
 		return this;
 	}
 	public CESMSendMap cursor(Var v)

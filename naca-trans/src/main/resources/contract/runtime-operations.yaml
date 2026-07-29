@@ -265,6 +265,30 @@ operations:
     paramTypes: [java.lang.String]
     returns: nacaLib.CESM.CESMXctl
 
+  - id: cics.xctl.go
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.CESM.CESMXctl
+    runtimeMethod: go
+    paramTypes: []
+    returns: void
+
+  - id: cics.xctl.commareaInts
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.CESM.CESMXctl
+    runtimeMethod: commarea
+    paramTypes: [nacaLib.varEx.Var, int, int]
+    returns: void
+
+  - id: cics.xctl.commareaVarLength
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.CESM.CESMXctl
+    runtimeMethod: commarea
+    paramTypes: [nacaLib.varEx.Var, nacaLib.varEx.Var, int]
+    returns: void
+
   # --- CICS LINK ---
   # EXEC CICS LINK PROGRAM(...) END-EXEC emits CESM.link(...).go() (or, with a
   # COMMAREA, CESM.link(...).commarea(<ref>, <len| -1>, <dataLen| -1>)). The
@@ -280,6 +304,30 @@ operations:
     runtimeMethod: link
     paramTypes: [java.lang.String]
     returns: nacaLib.CESM.CESMLink
+
+  - id: cics.link.go
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.CESM.CESMLink
+    runtimeMethod: go
+    paramTypes: []
+    returns: void
+
+  - id: cics.link.commareaInts
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.CESM.CESMLink
+    runtimeMethod: commarea
+    paramTypes: [nacaLib.varEx.Var, int, int]
+    returns: void
+
+  - id: cics.link.commareaVarLength
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.CESM.CESMLink
+    runtimeMethod: commarea
+    paramTypes: [nacaLib.varEx.Var, nacaLib.varEx.Var, int]
+    returns: void
 
   # --- CICS ABEND ---
   # EXEC CICS ABEND [ABCODE(...)] END-EXEC emits CESM.abend() (bare form) or
@@ -490,6 +538,22 @@ operations:
     paramTypes: [java.lang.String]
     returns: idea.manager.CESMReceive
 
+  - id: cics.receiveMap.mapSet
+    since: 1
+    capability: CICS
+    runtimeClass: idea.manager.CESMReceive
+    runtimeMethod: mapSet
+    paramTypes: [java.lang.String]
+    returns: idea.manager.CESMReceive
+
+  - id: cics.receiveMap.into
+    since: 1
+    capability: CICS
+    runtimeClass: idea.manager.CESMReceive
+    runtimeMethod: into
+    paramTypes: [nacaLib.varEx.Form]
+    returns: void
+
   # --- CICS SEND MAP ---
   # EXEC CICS SEND MAP(...) END-EXEC emits CESM.sendMap(<map>) followed by a builder
   # chain (.mapSet(...), .dataFrom(...)/.dataOnlyFrom(...), .cursor(...), then the
@@ -508,6 +572,110 @@ operations:
     runtimeClass: idea.manager.CESMManager
     runtimeMethod: sendMap
     paramTypes: [java.lang.String]
+    returns: idea.manager.CESMSendMap
+
+  - id: cics.sendMap.mapSet
+    since: 1
+    capability: CICS
+    runtimeClass: idea.manager.CESMSendMap
+    runtimeMethod: mapSet
+    paramTypes: [java.lang.String]
+    returns: idea.manager.CESMSendMap
+
+  - id: cics.sendMap.dataFrom
+    since: 1
+    capability: CICS
+    runtimeClass: idea.manager.CESMSendMap
+    runtimeMethod: dataFrom
+    paramTypes: [nacaLib.varEx.Var]
+    returns: idea.manager.CESMSendMap
+
+  - id: cics.sendMap.dataFromWithLength
+    since: 1
+    capability: CICS
+    runtimeClass: idea.manager.CESMSendMap
+    runtimeMethod: dataFrom
+    paramTypes: [nacaLib.varEx.Var, nacaLib.varEx.Var]
+    returns: idea.manager.CESMSendMap
+
+  - id: cics.sendMap.dataOnlyFrom
+    since: 1
+    capability: CICS
+    runtimeClass: idea.manager.CESMSendMap
+    runtimeMethod: dataOnlyFrom
+    paramTypes: [nacaLib.varEx.Var]
+    returns: idea.manager.CESMSendMap
+
+  - id: cics.sendMap.dataOnlyFromWithLength
+    since: 1
+    capability: CICS
+    runtimeClass: idea.manager.CESMSendMap
+    runtimeMethod: dataOnlyFrom
+    paramTypes: [nacaLib.varEx.Var, nacaLib.varEx.Var]
+    returns: idea.manager.CESMSendMap
+
+  - id: cics.sendMap.cursor
+    since: 1
+    capability: CICS
+    runtimeClass: idea.manager.CESMSendMap
+    runtimeMethod: cursor
+    paramTypes: []
+    returns: idea.manager.CESMSendMap
+
+  - id: cics.sendMap.cursorValue
+    since: 1
+    capability: CICS
+    runtimeClass: idea.manager.CESMSendMap
+    runtimeMethod: cursor
+    paramTypes: [nacaLib.varEx.Var]
+    returns: idea.manager.CESMSendMap
+
+  - id: cics.sendMap.accum
+    since: 1
+    capability: CICS
+    runtimeClass: idea.manager.CESMSendMap
+    runtimeMethod: accum
+    paramTypes: []
+    returns: idea.manager.CESMSendMap
+
+  - id: cics.sendMap.alarm
+    since: 1
+    capability: CICS
+    runtimeClass: idea.manager.CESMSendMap
+    runtimeMethod: alarm
+    paramTypes: []
+    returns: idea.manager.CESMSendMap
+
+  - id: cics.sendMap.erase
+    since: 1
+    capability: CICS
+    runtimeClass: idea.manager.CESMSendMap
+    runtimeMethod: erase
+    paramTypes: []
+    returns: idea.manager.CESMSendMap
+
+  - id: cics.sendMap.freeKB
+    since: 1
+    capability: CICS
+    runtimeClass: idea.manager.CESMSendMap
+    runtimeMethod: freeKB
+    paramTypes: []
+    returns: idea.manager.CESMSendMap
+
+  - id: cics.sendMap.paging
+    since: 1
+    capability: CICS
+    runtimeClass: idea.manager.CESMSendMap
+    runtimeMethod: paging
+    paramTypes: []
+    returns: idea.manager.CESMSendMap
+
+  - id: cics.sendMap.wait
+    since: 1
+    capability: CICS
+    runtimeClass: idea.manager.CESMSendMap
+    runtimeMethod: waitForCompletion
+    paramTypes: []
     returns: idea.manager.CESMSendMap
 
   # --- CICS GETMAIN ---
@@ -614,3 +782,27 @@ operations:
     runtimeMethod: transaction
     paramTypes: [nacaLib.varEx.Var]
     returns: nacaLib.misc.CCESMFakeMethodContainer
+
+  - id: cics.inquire.transactionString
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.misc.CCESMFakeMethodContainer
+    runtimeMethod: transaction
+    paramTypes: [java.lang.String]
+    returns: nacaLib.misc.CCESMFakeMethodContainer
+
+  - id: cics.inquire.resolveProgramVars
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.misc.NacaToolBox
+    runtimeMethod: getProgramForTransID
+    paramTypes: [nacaLib.varEx.VarAndEdit, nacaLib.varEx.VarAndEdit]
+    returns: void
+
+  - id: cics.inquire.resolveProgramLiteral
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.misc.NacaToolBox
+    runtimeMethod: getProgramForTransID
+    paramTypes: [java.lang.String, nacaLib.varEx.Var]
+    returns: void

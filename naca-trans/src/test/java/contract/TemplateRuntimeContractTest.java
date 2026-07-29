@@ -6,7 +6,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import contract.CodegenRuntimeContract.RuntimeOperation;
 import contract.CodegenRuntimeContract.TemplateRequirement;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -27,6 +34,12 @@ import org.junit.jupiter.api.Test;
  */
 class TemplateRuntimeContractTest
 {
+    private static final Pattern TEMPLATE = Pattern.compile(
+        "(?ms)^(\\w+)\\([^\\n]*\\)\\s*::=\\s*<<(.*?)^>>\\s*$");
+    private static final Pattern INLINE_TEMPLATE = Pattern.compile(
+        "(?m)^(\\w+)\\([^\\n]*\\)\\s*::=\\s*\"(.*)\"\\s*$");
+    private static final Pattern STATIC_CALL = Pattern.compile("\\b(?:CESM|tools)\\.(\\w+)\\s*\\(");
+    private static final Pattern FLUENT_CALL = Pattern.compile("\\.(\\w+)\\s*\\(");
     private final CodegenRuntimeContract contract = CodegenRuntimeContract.load();
 
     @Test
@@ -68,6 +81,75 @@ class TemplateRuntimeContractTest
                         + "' (add it to runtime-operations.yaml)");
             }
         }
+    }
+
+    @Test
+    @DisplayName("every literal runtime call emitted by a contracted template is declared")
+    void everyTemplateRuntimeCallIsDeclared() throws IOException
+    {
+        String source;
+        try (InputStream in = getClass().getResourceAsStream("/templates/java/java.stg"))
+        {
+            assertNotNull(in, "java.stg must be on the test classpath");
+            source = new String(in.readAllBytes(), StandardCharsets.ISO_8859_1);
+        }
+
+        java.util.Map<String, String> bodies = new java.util.HashMap<>();
+        Matcher templates = TEMPLATE.matcher(source);
+        while (templates.find())
+        {
+            bodies.put(templates.group(1), templates.group(2));
+        }
+        Matcher inlineTemplates = INLINE_TEMPLATE.matcher(source);
+        while (inlineTemplates.find())
+        {
+            bodies.put(inlineTemplates.group(1), inlineTemplates.group(2));
+        }
+
+        for (TemplateRequirement req : contract.templateRequirements().values())
+        {
+            String body = bodies.get(req.template());
+            assertNotNull(body, "contracted template not found in java.stg: " + req.template());
+            Set<String> emittedMethods = new HashSet<>();
+            collectMethods(STATIC_CALL.matcher(body), emittedMethods);
+            collectMethods(FLUENT_CALL.matcher(body), emittedMethods);
+
+            Set<String> declaredMethods = new HashSet<>();
+            for (String operationId : req.requires())
+            {
+                declaredMethods.add(contract.operations().get(operationId).runtimeMethod());
+            }
+            assertTrue(declaredMethods.containsAll(emittedMethods),
+                "template " + req.template() + " emits undeclared runtime methods "
+                    + difference(emittedMethods, declaredMethods));
+        }
+    }
+
+    @Test
+    @DisplayName("dynamic SEND MAP and INQUIRE branches declare all overload families")
+    void dynamicCicsBranchesAreExplicitlyContracted()
+    {
+        assertTrue(contract.templateRequirements().get("recursiveCICSSendMapEntity").requires()
+            .containsAll(List.of("cics.sendMap.dataFrom", "cics.sendMap.dataFromWithLength",
+                "cics.sendMap.dataOnlyFrom", "cics.sendMap.dataOnlyFromWithLength")));
+        assertTrue(contract.templateRequirements().get("recursiveCICSInquireEntity").requires()
+            .containsAll(List.of("cics.inquire.resolveProgramVars",
+                "cics.inquire.resolveProgramLiteral", "cics.inquire.transactionString")));
+    }
+
+    private static void collectMethods(Matcher matcher, Set<String> methods)
+    {
+        while (matcher.find())
+        {
+            methods.add(matcher.group(1));
+        }
+    }
+
+    private static Set<String> difference(Set<String> left, Set<String> right)
+    {
+        Set<String> result = new HashSet<>(left);
+        result.removeAll(right);
+        return result;
     }
 
     @Test
