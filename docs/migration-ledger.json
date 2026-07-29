@@ -25,8 +25,8 @@
       "lastVerifiedAtCommit": "5903f95d",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 112,
-        "directBackends": 44,
+        "failures": 111,
+        "directBackends": 43,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -4363,25 +4363,27 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "COBOL_CORE",
       "sourceSyntax": "legacy backend CJavaFileDescriptorLengthDependency",
       "parserNode": null,
       "semanticNode": "semantic.CEntityFileDescriptorLengthDependency",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
+      "assemblerRole": "DECLARATION",
+      "manifestBinding": "semantic.CEntityFileDescriptorLengthDependency=dataFileDescriptorLengthDependencyDeclaration",
+      "template": "dataFileDescriptorLengthDependencyDeclaration",
       "runtimeOperation": null,
       "fixture": null,
       "directBackend": "generate.java.CJavaFileDescriptorLengthDependency",
       "sourcePath": "naca-trans/src/main/java/generate/java/CJavaFileDescriptorLengthDependency.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/CJavaFileDescriptorLengthDependency.java"
-      ]
+        "naca-trans/src/main/java/semantic/CEntityFileDescriptorLengthDependency.java",
+        "naca-trans/src/test/java/generate/java/st/CEntityFileDescriptorLengthDependencyRenderTest.java"
+      ],
+      "lastAttemptCommit": "62096988"
     },
     {
       "id": "BACKEND-COBOL-DATA-CJAVAINDEX",

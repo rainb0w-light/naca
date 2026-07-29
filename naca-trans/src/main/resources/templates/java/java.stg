@@ -1157,6 +1157,10 @@ FileDescriptor <entity.formattedName> = declare.file(<if(entity.fileName)><entit
 <entity.activeChildren>
 >>
 
+dataFileDescriptorLengthDependencyDeclaration(entity) ::= <<
+FileDescriptorDepending <entity.formattedName> = declare.fileDescriptorDepending( <entity.fileDescriptor>, <entity.lengthDependency>) ;
+>>
+
 // Embedded SQL cursor declaration section (the DATA-DIVISION section holding the
 // program's DECLARE CURSOR handles). Mirrors CJavaSQLCursorSection.DoExport
 // exactly: a DataSection header opening a cursorSection(), then one

@@ -12,7 +12,6 @@
  */
 package generate;
 
-import generate.java.CJavaFileDescriptorLengthDependency;
 import generate.java.CJavaIndex;
 import generate.java.CJavaInline;
 import generate.java.CJavaMoveReference;
@@ -1292,7 +1291,10 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CEntityConstant(val) ;
 	}
 	public CEntityFileDescriptorLengthDependency NewEntityFileDescriptorLengthDependency(String name)	{
-		return new CJavaFileDescriptorLengthDependency(name, programCatalog, langOutput) ;
+		CEntityFileDescriptorLengthDependency entity =
+			new CEntityFileDescriptorLengthDependency(name, programCatalog) ;
+		entity.setLanguageExporter(langOutput) ;
+		return entity ;
 	}
 	public CEntityAssignSpecial NewEntityAssignSpecial(int l)	{
 		throw new NacaTransAssertException("Method not implemented") ;

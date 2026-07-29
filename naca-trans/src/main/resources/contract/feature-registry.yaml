@@ -373,6 +373,16 @@ features:
     fixtures: []
     status: production
 
+  - id: cobol.data.file-descriptor-length-dependency
+    dialects: [cobol-core]
+    semanticType: semantic.CEntityFileDescriptorLengthDependency
+    javaBackend:
+      role: DECLARATION
+      template: dataFileDescriptorLengthDependencyDeclaration
+    runtimeOperations: []
+    fixtures: []
+    status: production
+
   - id: cobol.expression.concat
     dialects: [cobol-core]
     semanticType: semantic.expression.CEntityConcat

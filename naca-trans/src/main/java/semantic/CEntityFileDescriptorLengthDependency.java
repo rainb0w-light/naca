@@ -12,7 +12,7 @@ import utils.CObjectCatalog;
  * @author S. Charton
  * @version $Id: CEntityFileDescriptorLengthDependency.java,v 1.1 2006/05/23 11:08:18 u930cv Exp $
  */
-public abstract class CEntityFileDescriptorLengthDependency extends
+public class CEntityFileDescriptorLengthDependency extends
 				CBaseLanguageEntity
 {
 
@@ -33,6 +33,16 @@ public abstract class CEntityFileDescriptorLengthDependency extends
 	{
 		fileDescriptor = desc ;
 		lenghtDep = var ;
+	}
+
+	public CEntityFileDescriptor getFileDescriptor()
+	{
+		return fileDescriptor ;
+	}
+
+	public CDataEntity getLengthDependency()
+	{
+		return lenghtDep ;
 	}
 	
 
