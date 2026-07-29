@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import generate.java.CJavaAttribute;
+import generate.fixtures.LegacyAttributeFixture;
 import generate.java.CJavaDataSection;
 import generate.java.CJavaExternalDataStructure;
 import generate.java.CJavaFileDescriptor;
@@ -59,8 +59,8 @@ class DataSectionDeclarationTemplateTest
             new CJavaDataSection(1, "FileSection", catalog, exporter);
         CJavaStructure structure =
             new CJavaStructure(2, "FILE-RECORD", catalog, exporter, "01");
-        CJavaAttribute attribute =
-            new CJavaAttribute(3, "FILE-CHAR", catalog, exporter);
+        LegacyAttributeFixture attribute =
+            new LegacyAttributeFixture(3, "FILE-CHAR", catalog, exporter);
         attribute.SetLevel("05");
         attribute.SetTypeString(8);
         section.AddChild(structure);
@@ -269,7 +269,7 @@ class DataSectionDeclarationTemplateTest
         CJavaDataSection section = new CJavaDataSection(1, "FileSection", catalog, exporter);
         CJavaFileDescriptor fd = new CJavaFileDescriptor(2, "FILEIN", catalog, exporter);
         CJavaStructure record = new CJavaStructure(3, "FILEIN-Z", catalog, exporter, "01");
-        CJavaAttribute field = new CJavaAttribute(4, "FILEIN-CODE", catalog, exporter);
+        LegacyAttributeFixture field = new LegacyAttributeFixture(4, "FILEIN-CODE", catalog, exporter);
         field.SetLevel("05");
         field.SetTypeString(1);
         section.AddChild(fd);

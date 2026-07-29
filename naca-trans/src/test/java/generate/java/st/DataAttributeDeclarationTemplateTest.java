@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import generate.java.CJavaAttribute;
+import generate.fixtures.LegacyAttributeFixture;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.Test;
@@ -16,7 +16,7 @@ import utils.CTransApplicationGroup;
 /**
  * Validates the data-section declaration ST4 template
  * ({@code dataAttributeDeclaration}) against the fluent-builder form the direct
- * generator ({@code CJavaAttribute.DoExport}) produces. This is the building
+ * test-only legacy fixture produces. This is the building
  * block for migrating the data section to ST4.
  */
 class DataAttributeDeclarationTemplateTest
@@ -27,12 +27,12 @@ class DataAttributeDeclarationTemplateTest
             CTransApplicationGroup.EProgramType.TYPE_BATCH, null);
     }
 
-    private String render(CJavaAttribute attr) {
+    private String render(LegacyAttributeFixture attr) {
         return TemplateLoader.getRecursiveAssembler()
             .renderRoot(attr, JavaTemplateRole.DECLARATION);
     }
 
-    private String renderDirect(CJavaAttribute attr, MockJavaExporter exporter) {
+    private String renderDirect(LegacyAttributeFixture attr, MockJavaExporter exporter) {
         attr.StartExport();
         return exporter.getCapturedOutput().strip();
     }
@@ -41,7 +41,7 @@ class DataAttributeDeclarationTemplateTest
     void picXWithValueSpaces()
     {
         MockJavaExporter exporter = new MockJavaExporter();
-        CJavaAttribute attr = new CJavaAttribute(1, "WS-CHAR", catalog(), exporter);
+        LegacyAttributeFixture attr = new LegacyAttributeFixture(1, "WS-CHAR", catalog(), exporter);
         attr.SetLevel("05");
         attr.SetTypeString(10);
         attr.SetInitialValueSpaces();
@@ -54,7 +54,7 @@ class DataAttributeDeclarationTemplateTest
     void pic9Numeric()
     {
         MockJavaExporter exporter = new MockJavaExporter();
-        CJavaAttribute attr = new CJavaAttribute(1, "WS-NUM", catalog(), exporter);
+        LegacyAttributeFixture attr = new LegacyAttributeFixture(1, "WS-NUM", catalog(), exporter);
         attr.SetLevel("05");
         attr.SetTypeNum(5, 0);
         attr.SetInitialValueZeros();
@@ -67,7 +67,7 @@ class DataAttributeDeclarationTemplateTest
     void comp3WithDecimals()
     {
         MockJavaExporter exporter = new MockJavaExporter();
-        CJavaAttribute attr = new CJavaAttribute(1, "WS-PACKED", catalog(), exporter);
+        LegacyAttributeFixture attr = new LegacyAttributeFixture(1, "WS-PACKED", catalog(), exporter);
         attr.SetLevel("05");
         attr.SetTypeSigned(3, 2);
         attr.SetComp("Comp3");
@@ -80,7 +80,7 @@ class DataAttributeDeclarationTemplateTest
     void editedPictureIsEscapedByTheTemplateRenderer()
     {
         MockJavaExporter exporter = new MockJavaExporter();
-        CJavaAttribute attr = new CJavaAttribute(1, "WS-EDITED", catalog(), exporter);
+        LegacyAttributeFixture attr = new LegacyAttributeFixture(1, "WS-EDITED", catalog(), exporter);
         attr.SetLevel("05");
         attr.SetTypeEdited("ZZ\\\"9");
         String out = render(attr);
@@ -91,7 +91,7 @@ class DataAttributeDeclarationTemplateTest
     void theSameAttributeUsesReferenceAndDeclarationRoles()
     {
         MockJavaExporter exporter = new MockJavaExporter();
-        CJavaAttribute attr = new CJavaAttribute(1, "WS-ROLE", catalog(), exporter);
+        LegacyAttributeFixture attr = new LegacyAttributeFixture(1, "WS-ROLE", catalog(), exporter);
         attr.SetLevel("05");
         attr.SetTypeString(4);
 
@@ -103,7 +103,7 @@ class DataAttributeDeclarationTemplateTest
     void blankWhenZeroNumericIsDeclaredAsEditedPictureWithoutMutatingTheTree()
     {
         MockJavaExporter exporter = new MockJavaExporter();
-        CJavaAttribute attr = new CJavaAttribute(1, "WS-BWZ", catalog(), exporter);
+        LegacyAttributeFixture attr = new LegacyAttributeFixture(1, "WS-BWZ", catalog(), exporter);
         attr.SetLevel("05");
         attr.SetTypeNum(4, 2);
         attr.SetBlankWhenZero(true);
@@ -124,7 +124,7 @@ class DataAttributeDeclarationTemplateTest
     void syncClause()
     {
         MockJavaExporter exporter = new MockJavaExporter();
-        CJavaAttribute attr = new CJavaAttribute(1, "WS-SYNC", catalog(), exporter);
+        LegacyAttributeFixture attr = new LegacyAttributeFixture(1, "WS-SYNC", catalog(), exporter);
         attr.SetLevel("05");
         attr.SetTypeString(4);
         attr.SetSync(true);
@@ -137,7 +137,7 @@ class DataAttributeDeclarationTemplateTest
     void justifiedRightClause()
     {
         MockJavaExporter exporter = new MockJavaExporter();
-        CJavaAttribute attr = new CJavaAttribute(1, "WS-JUST", catalog(), exporter);
+        LegacyAttributeFixture attr = new LegacyAttributeFixture(1, "WS-JUST", catalog(), exporter);
         attr.SetLevel("05");
         attr.SetTypeString(4);
         attr.SetJustifiedRight(true);
@@ -151,7 +151,7 @@ class DataAttributeDeclarationTemplateTest
     {
         MockJavaExporter exporter = new MockJavaExporter();
         CObjectCatalog catalog = catalog();
-        CJavaAttribute attr = new CJavaAttribute(1, "WS-VAL", catalog, exporter);
+        LegacyAttributeFixture attr = new LegacyAttributeFixture(1, "WS-VAL", catalog, exporter);
         attr.SetLevel("05");
         attr.SetTypeString(4);
         attr.SetInitialValue(new MockDataEntity(1, catalog, exporter, "123"));
@@ -164,7 +164,7 @@ class DataAttributeDeclarationTemplateTest
     void compClause()
     {
         MockJavaExporter exporter = new MockJavaExporter();
-        CJavaAttribute attr = new CJavaAttribute(1, "WS-BIN", catalog(), exporter);
+        LegacyAttributeFixture attr = new LegacyAttributeFixture(1, "WS-BIN", catalog(), exporter);
         attr.SetLevel("05");
         attr.SetTypeNum(4, 0);
         attr.SetComp("Comp");
@@ -177,7 +177,7 @@ class DataAttributeDeclarationTemplateTest
     void comp2Clause()
     {
         MockJavaExporter exporter = new MockJavaExporter();
-        CJavaAttribute attr = new CJavaAttribute(1, "WS-FLT", catalog(), exporter);
+        LegacyAttributeFixture attr = new LegacyAttributeFixture(1, "WS-FLT", catalog(), exporter);
         attr.SetLevel("05");
         attr.SetTypeNum(4, 0);
         attr.SetComp("Comp2");
@@ -190,7 +190,7 @@ class DataAttributeDeclarationTemplateTest
     void attributeFillerIsNamedDuringConstruction()
     {
         MockJavaExporter exporter = new MockJavaExporter();
-        CJavaAttribute attr = new CJavaAttribute(1, "", catalog(), exporter);
+        LegacyAttributeFixture attr = new LegacyAttributeFixture(1, "", catalog(), exporter);
         attr.SetLevel("05");
         attr.SetTypeString(10);
 
@@ -208,7 +208,7 @@ class DataAttributeDeclarationTemplateTest
     void attributeFillerNamingIsIdempotentAndDoesNotMutateTheTree()
     {
         MockJavaExporter exporter = new MockJavaExporter();
-        CJavaAttribute attr = new CJavaAttribute(1, "", catalog(), exporter);
+        LegacyAttributeFixture attr = new LegacyAttributeFixture(1, "", catalog(), exporter);
         attr.SetLevel("05");
         attr.SetTypeString(10);
 

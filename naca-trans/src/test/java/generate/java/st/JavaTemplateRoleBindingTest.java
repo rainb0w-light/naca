@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import generate.java.CJavaAttribute;
+import generate.fixtures.LegacyAttributeFixture;
 import generate.java.CJavaClass;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
@@ -47,7 +47,7 @@ class JavaTemplateRoleBindingTest
     void declarationRoleHitsTheDeclarationManifest()
     {
         MockJavaExporter exporter = new MockJavaExporter();
-        CJavaAttribute attr = new CJavaAttribute(1, "WS-X", catalog(), exporter);
+        LegacyAttributeFixture attr = new LegacyAttributeFixture(1, "WS-X", catalog(), exporter);
         attr.SetLevel("05");
         attr.SetTypeString(4);
         String rendered = TemplateLoader.getRecursiveAssembler()
@@ -59,7 +59,7 @@ class JavaTemplateRoleBindingTest
     void referenceRoleHitsTheDefaultManifest()
     {
         MockJavaExporter exporter = new MockJavaExporter();
-        CJavaAttribute attr = new CJavaAttribute(1, "WS-X", catalog(), exporter);
+        LegacyAttributeFixture attr = new LegacyAttributeFixture(1, "WS-X", catalog(), exporter);
         attr.SetLevel("05");
         attr.SetTypeString(4);
         String rendered = TemplateLoader.getRecursiveAssembler()
@@ -71,7 +71,7 @@ class JavaTemplateRoleBindingTest
     void rootRoleDoesNotFallBackToTheDefaultManifest()
     {
         MockJavaExporter exporter = new MockJavaExporter();
-        CJavaAttribute attr = new CJavaAttribute(1, "WS-X", catalog(), exporter);
+        LegacyAttributeFixture attr = new LegacyAttributeFixture(1, "WS-X", catalog(), exporter);
         attr.SetLevel("05");
         attr.SetTypeString(4);
         // CEntityAttribute has no root binding and ROOT must not fall back to the

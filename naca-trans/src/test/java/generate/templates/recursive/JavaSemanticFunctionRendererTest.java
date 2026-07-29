@@ -2,7 +2,7 @@ package generate.templates.recursive;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import generate.java.CJavaAttribute;
+import generate.fixtures.LegacyAttributeFixture;
 import generate.java.CJavaExporter;
 import generate.templates.TemplateLoader;
 import java.util.List;
@@ -26,7 +26,7 @@ class JavaSemanticFunctionRendererTest
     @Test
     void rendersUnaryDataFunctionsAndInternalBooleanLikeTheDirectGenerator()
     {
-        CJavaAttribute field = attribute("SOURCE-FIELD");
+        LegacyAttributeFixture field = attribute("SOURCE-FIELD");
 
         assertMatchesDirect(new LegacyLengthOfFixture(catalog, output, field));
         assertEquals("currentDate()",
@@ -95,9 +95,9 @@ class JavaSemanticFunctionRendererTest
         assertMatchesDirect(function);
     }
 
-    private CJavaAttribute attribute(String name)
+    private LegacyAttributeFixture attribute(String name)
     {
-        return new CJavaAttribute(1, name, catalog, output);
+        return new LegacyAttributeFixture(1, name, catalog, output);
     }
 
     private LegacyNumberFixture number(String value)

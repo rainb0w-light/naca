@@ -2,7 +2,7 @@ package generate.templates.recursive;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import generate.java.CJavaAttribute;
+import generate.fixtures.LegacyAttributeFixture;
 import generate.java.CJavaEnvironmentVariable;
 import generate.java.CJavaExporter;
 import generate.java.CJavaExternalDataStructure;
@@ -27,11 +27,11 @@ class JavaSemanticReferenceRendererTest
     @Test
     void rendersOrdinaryReservedAndQualifiedReferencesLikeTheDirectGenerator()
     {
-        CJavaAttribute ordinary = attribute("WS-VALUE");
-        CJavaAttribute reserved = attribute("NEW");
+        LegacyAttributeFixture ordinary = attribute("WS-VALUE");
+        LegacyAttributeFixture reserved = attribute("NEW");
         CJavaExternalDataStructure qualifier = new CJavaExternalDataStructure(
             1, "COPY-BOOK", catalog, output);
-        CJavaAttribute qualified = attribute("COPY-FIELD");
+        LegacyAttributeFixture qualified = attribute("COPY-FIELD");
         qualified.of = qualifier;
 
         assertMatchesDirect(ordinary);
@@ -115,9 +115,9 @@ class JavaSemanticReferenceRendererTest
             assembler.renderRoot(address, JavaTemplateRole.REFERENCE));
     }
 
-    private CJavaAttribute attribute(String name)
+    private LegacyAttributeFixture attribute(String name)
     {
-        return new CJavaAttribute(1, name, catalog, output);
+        return new LegacyAttributeFixture(1, name, catalog, output);
     }
 
     private LegacyNumberFixture number(String value)

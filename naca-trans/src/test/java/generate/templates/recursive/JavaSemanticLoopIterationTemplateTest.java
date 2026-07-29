@@ -2,7 +2,7 @@ package generate.templates.recursive;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import generate.java.CJavaAttribute;
+import generate.fixtures.LegacyAttributeFixture;
 import generate.java.CJavaExporter;
 import generate.java.st.MockJavaExporter;
 import semantic.Verbs.CEntityContinue;
@@ -104,9 +104,9 @@ class JavaSemanticLoopIterationTemplateTest
         return condition;
     }
 
-    private CJavaAttribute attribute(String name, MockJavaExporter output)
+    private LegacyAttributeFixture attribute(String name, MockJavaExporter output)
     {
-        return new CJavaAttribute(0, name, catalog, referenceOutput);
+        return new LegacyAttributeFixture(0, name, catalog, referenceOutput);
     }
 
     private LegacyNumberFixture number(String value)

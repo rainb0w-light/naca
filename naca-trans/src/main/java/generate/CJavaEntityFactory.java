@@ -12,7 +12,6 @@
  */
 package generate;
 
-import generate.java.CJavaAttribute;
 import generate.java.CJavaClass;
 import generate.java.CJavaComment;
 import generate.java.CJavaDataSection;
@@ -276,17 +275,17 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		CObjectCatalog ocat = new CObjectCatalog(cat, null, null, null) ;
 		CEntityExternalDataStructure structure = new CJavaExternalDataStructure(0, "HEXZONE", ocat, null);
 		structure.SetInline(true) ;
-		CEntityAttribute att1 = new CJavaAttribute(0, "HEX-0E04", ocat, null) ;
+		CEntityAttribute att1 = new CEntityAttribute(0, "HEX-0E04", ocat) ;
 		att1.SetTypeString(2) ;
 		att1.SetInitialValue(getSpecialConstantValue("\u000E\u009C")) ;
 		structure.AddChild(att1) ;
 		ocat.RegisterAttribute(att1) ;
-		CEntityAttribute att2 = new CJavaAttribute(0, "HEX-FF", ocat, null) ;
+		CEntityAttribute att2 = new CEntityAttribute(0, "HEX-FF", ocat) ;
 		att2.SetTypeString(1) ;
 		att2.SetInitialValue(new CEntityString(ocat, new char[] {'\u00FF'})) ;
 		structure.AddChild(att2) ;
 		ocat.RegisterAttribute(att2) ;
-		CEntityAttribute att3 = new CJavaAttribute(0, "HEX-80", ocat, null) ;
+		CEntityAttribute att3 = new CEntityAttribute(0, "HEX-80", ocat) ;
 		att3.SetTypeString(1) ;
 		att3.SetInitialValue(new CEntityString(ocat, new char[] {'\u0080'})) ;
 		structure.AddChild(att3) ;
@@ -424,7 +423,9 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CJavaComment(l, programCatalog, langOutput, comment);
 	}
 	public CEntityAttribute NewEntityAttribute(int l, String name)	{
-		return new CJavaAttribute(l, name, programCatalog, langOutput);
+		CEntityAttribute e = new CEntityAttribute(l, name, programCatalog);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntityStructure NewEntityStructure(int l, String name, String level)	{
 		return new CJavaStructure(l, name, programCatalog, langOutput, level);
