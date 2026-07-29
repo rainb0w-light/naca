@@ -92,7 +92,6 @@ import generate.java.forms.CJavaSetCursor;
 import generate.java.forms.CJavaSetFlag;
 import generate.java.forms.CJavaSetHighlight;
 import generate.java.forms.CJavaSkipField;
-import generate.java.verbs.CJavaReplace;
 import generate.java.verbs.CJavaReturn;
 import generate.java.verbs.CJavaRewriteFile;
 import generate.java.verbs.CJavaRoutineEmulationCall;
@@ -766,7 +765,9 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CJavaDataSection(l, name, programCatalog, langOutput);
 	}
 	public CEntityReplace NewEntityReplace(int l)	{
-		return new CJavaReplace(l, programCatalog, langOutput);
+		CEntityReplace e = new CEntityReplace(l, programCatalog);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntityIsFieldHighlight NewEntityIsFieldHighlight(CDataEntity ref)	{
 		programCatalog.addImportDeclaration("MAP") ;

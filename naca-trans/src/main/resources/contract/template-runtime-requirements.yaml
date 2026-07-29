@@ -118,6 +118,35 @@ templates:
       - inspect.tallying.before
       - inspect.tallying.to
 
+  recursiveReplaceEntity:
+    capability: STRING
+    requires:
+      - inspect.replacing
+      - inspect.replacing.all.string
+      - inspect.replacing.all.var
+      - inspect.replacing.first.string
+      - inspect.replacing.first.var
+      - inspect.replacing.leading.string
+      - inspect.replacing.leading.var
+      - inspect.replacing.allSpaces
+      - inspect.replacing.allZeros
+      - inspect.replacing.allLowValues
+      - inspect.replacing.allHighValues
+      - inspect.replacing.firstSpaces
+      - inspect.replacing.firstZeros
+      - inspect.replacing.firstLowValues
+      - inspect.replacing.firstHighValues
+      - inspect.replacing.leadingSpaces
+      - inspect.replacing.leadingZeros
+      - inspect.replacing.leadingLowValues
+      - inspect.replacing.leadingHighValues
+      - inspect.replacing.by.string
+      - inspect.replacing.by.var
+      - inspect.replacing.bySpaces
+      - inspect.replacing.byZero
+      - inspect.replacing.byLowValues
+      - inspect.replacing.byHighValues
+
   display:
     capability: OUTPUT
     requires:

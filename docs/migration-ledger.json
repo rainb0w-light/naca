@@ -22,11 +22,11 @@
     "ratchet": {
       "note": "Debt counts may only move down for the COBOL scope. Refresh per phase.",
       "baselineCapturedAtCommit": "9402b0c",
-      "lastVerifiedAtCommit": "230a6782",
+      "lastVerifiedAtCommit": "7bc6395a",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 160,
-        "directBackends": 90,
+        "failures": 159,
+        "directBackends": 89,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -2798,25 +2798,30 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "COBOL_CORE",
       "sourceSyntax": "legacy backend CJavaReplace",
       "parserNode": null,
       "semanticNode": "semantic.Verbs.CEntityReplace",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
+      "assemblerRole": "REFERENCE",
+      "manifestBinding": "semantic.Verbs.CEntityReplace=recursiveReplaceEntity",
+      "template": "recursiveReplaceEntity",
+      "runtimeOperation": "inspect.replacing",
       "fixture": null,
       "directBackend": "generate.java.verbs.CJavaReplace",
       "sourcePath": "naca-trans/src/main/java/generate/java/verbs/CJavaReplace.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/verbs/CJavaReplace.java"
-      ]
+        "naca-rt/src/main/java/nacaLib/stringSupport/InspectReplacing.java",
+        "naca-trans/src/main/resources/contract/feature-registry.yaml",
+        "naca-trans/src/main/resources/contract/runtime-operations.yaml",
+        "naca-trans/src/main/resources/contract/template-runtime-requirements.yaml",
+        "naca-trans/src/test/java/generate/java/st/CEntityReplaceRenderTest.java"
+      ],
+      "lastAttemptCommit": "7bc6395a"
     },
     {
       "id": "BACKEND-COBOL-VERB-CJAVARETURN",

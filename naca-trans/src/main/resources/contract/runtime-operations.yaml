@@ -424,6 +424,207 @@ operations:
     paramTypes: [int, nacaLib.varEx.VarAndEdit]
     returns: boolean
 
+  # --- INSPECT REPLACING ---
+  - id: inspect.replacing
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: inspectReplacing
+    paramTypes: [nacaLib.varEx.VarAndEdit]
+    returns: nacaLib.stringSupport.InspectReplacing
+
+  - id: inspect.replacing.all.string
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.stringSupport.InspectReplacing
+    runtimeMethod: all
+    paramTypes: [java.lang.String]
+    returns: nacaLib.stringSupport.InspectReplacing
+
+  - id: inspect.replacing.all.var
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.stringSupport.InspectReplacing
+    runtimeMethod: all
+    paramTypes: [nacaLib.varEx.VarAndEdit]
+    returns: nacaLib.stringSupport.InspectReplacing
+
+  - id: inspect.replacing.first.string
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.stringSupport.InspectReplacing
+    runtimeMethod: first
+    paramTypes: [java.lang.String]
+    returns: nacaLib.stringSupport.InspectReplacing
+
+  - id: inspect.replacing.first.var
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.stringSupport.InspectReplacing
+    runtimeMethod: first
+    paramTypes: [nacaLib.varEx.VarAndEdit]
+    returns: nacaLib.stringSupport.InspectReplacing
+
+  - id: inspect.replacing.leading.string
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.stringSupport.InspectReplacing
+    runtimeMethod: leading
+    paramTypes: [java.lang.String]
+    returns: nacaLib.stringSupport.InspectReplacing
+
+  - id: inspect.replacing.leading.var
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.stringSupport.InspectReplacing
+    runtimeMethod: leading
+    paramTypes: [nacaLib.varEx.VarAndEdit]
+    returns: nacaLib.stringSupport.InspectReplacing
+
+  - id: inspect.replacing.allSpaces
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.stringSupport.InspectReplacing
+    runtimeMethod: allSpaces
+    paramTypes: []
+    returns: nacaLib.stringSupport.InspectReplacing
+
+  - id: inspect.replacing.allZeros
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.stringSupport.InspectReplacing
+    runtimeMethod: allZeros
+    paramTypes: []
+    returns: nacaLib.stringSupport.InspectReplacing
+
+  - id: inspect.replacing.allLowValues
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.stringSupport.InspectReplacing
+    runtimeMethod: allLowValues
+    paramTypes: []
+    returns: nacaLib.stringSupport.InspectReplacing
+
+  - id: inspect.replacing.allHighValues
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.stringSupport.InspectReplacing
+    runtimeMethod: allHighValues
+    paramTypes: []
+    returns: nacaLib.stringSupport.InspectReplacing
+
+  - id: inspect.replacing.firstSpaces
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.stringSupport.InspectReplacing
+    runtimeMethod: firstSpaces
+    paramTypes: []
+    returns: nacaLib.stringSupport.InspectReplacing
+
+  - id: inspect.replacing.firstZeros
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.stringSupport.InspectReplacing
+    runtimeMethod: firstZeros
+    paramTypes: []
+    returns: nacaLib.stringSupport.InspectReplacing
+
+  - id: inspect.replacing.firstLowValues
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.stringSupport.InspectReplacing
+    runtimeMethod: firstLowValues
+    paramTypes: []
+    returns: nacaLib.stringSupport.InspectReplacing
+
+  - id: inspect.replacing.firstHighValues
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.stringSupport.InspectReplacing
+    runtimeMethod: firstHighValues
+    paramTypes: []
+    returns: nacaLib.stringSupport.InspectReplacing
+
+  - id: inspect.replacing.leadingSpaces
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.stringSupport.InspectReplacing
+    runtimeMethod: leadingSpaces
+    paramTypes: []
+    returns: nacaLib.stringSupport.InspectReplacing
+
+  - id: inspect.replacing.leadingZeros
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.stringSupport.InspectReplacing
+    runtimeMethod: leadingZeros
+    paramTypes: []
+    returns: nacaLib.stringSupport.InspectReplacing
+
+  - id: inspect.replacing.leadingLowValues
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.stringSupport.InspectReplacing
+    runtimeMethod: leadingLowValues
+    paramTypes: []
+    returns: nacaLib.stringSupport.InspectReplacing
+
+  - id: inspect.replacing.leadingHighValues
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.stringSupport.InspectReplacing
+    runtimeMethod: leadingHighValues
+    paramTypes: []
+    returns: nacaLib.stringSupport.InspectReplacing
+
+  - id: inspect.replacing.by.string
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.stringSupport.InspectReplacing
+    runtimeMethod: by
+    paramTypes: [java.lang.String]
+    returns: void
+
+  - id: inspect.replacing.by.var
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.stringSupport.InspectReplacing
+    runtimeMethod: by
+    paramTypes: [nacaLib.varEx.VarAndEdit]
+    returns: void
+
+  - id: inspect.replacing.bySpaces
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.stringSupport.InspectReplacing
+    runtimeMethod: bySpaces
+    paramTypes: []
+    returns: void
+
+  - id: inspect.replacing.byZero
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.stringSupport.InspectReplacing
+    runtimeMethod: byZero
+    paramTypes: []
+    returns: void
+
+  - id: inspect.replacing.byLowValues
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.stringSupport.InspectReplacing
+    runtimeMethod: byLowValues
+    paramTypes: []
+    returns: void
+
+  - id: inspect.replacing.byHighValues
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.stringSupport.InspectReplacing
+    runtimeMethod: byHighValues
+    paramTypes: []
+    returns: void
+
   # --- INSPECT TALLYING ---
   - id: inspect.tallying
     since: 1

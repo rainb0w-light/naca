@@ -75,12 +75,37 @@ public class InspectReplacing
 		csPattern = var.getString();
 		return this;
 	}
+
+	public InspectReplacing firstSpaces()
+	{
+		return first(" ");
+	}
+
+	public InspectReplacing firstZeros()
+	{
+		return first("0");
+	}
+
+	public InspectReplacing firstLowValues()
+	{
+		return first(String.valueOf(CobolConstant.LowValue.getValue()));
+	}
+
+	public InspectReplacing firstHighValues()
+	{
+		return first(String.valueOf(CobolConstant.HighValue.getValue()));
+	}
 	
 	public InspectReplacing leading(String cs)
 	{
 		inspectReplacingType = TypeLeading;
 		csPattern = cs;
 		return this;
+	}
+
+	public InspectReplacing leading(VarAndEdit var)
+	{
+		return leading(var.getString());
 	}
 	
 	public InspectReplacing allLowValues()
@@ -116,6 +141,11 @@ public class InspectReplacing
 		return this ;
 	}
 
+	public InspectReplacing allZeros()
+	{
+		return all("0");
+	}
+
 	public InspectReplacing leadingSpaces()
 	{
 		inspectReplacingType = TypeLeadingSpaces;
@@ -126,6 +156,16 @@ public class InspectReplacing
 	{
 		inspectReplacingType = TypeLeadingZeroes;
 		return this ;
+	}
+
+	public InspectReplacing leadingLowValues()
+	{
+		return leading(String.valueOf(CobolConstant.LowValue.getValue()));
+	}
+
+	public InspectReplacing leadingHighValues()
+	{
+		return leading(String.valueOf(CobolConstant.HighValue.getValue()));
 	}
 		
 	public void bySpaces()
