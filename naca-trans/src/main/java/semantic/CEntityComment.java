@@ -12,7 +12,6 @@
  */
 package semantic;
 
-import generate.*;
 import utils.*;
 
 /**
@@ -48,14 +47,6 @@ public class CEntityComment extends CBaseLanguageEntity
 		return false; 
 	}
 
-	/**
-	 * 
-	 */
-	public void DoExportComment()
-	{
-		DoExport();
-	}
-	
 	public String getOriginalComment()
 	{
 		return csComment.replaceAll("\n", "0x000A").replaceAll("\r", "0x000D") ;
