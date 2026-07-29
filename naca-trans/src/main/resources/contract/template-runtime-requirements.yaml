@@ -116,6 +116,11 @@ templates:
       - cics.delayInterval
       - cics.delaySeconds
 
+  recursiveCICSDeleteQEntity:
+    capability: CICS
+    requires:
+      - cics.deleteTempQueue
+
   recursiveCICSAddressEntity:
     capability: CICS
     requires:

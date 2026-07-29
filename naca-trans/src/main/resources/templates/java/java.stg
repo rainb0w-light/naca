@@ -914,6 +914,17 @@ recursiveCICSDelayEntity(entity) ::= <<
 CESM.delay<if(entity.interval)>Interval(<entity.interval>)<elseif(entity.seconds)>Seconds(<entity.seconds>)<else>)<endif> ;
 >>
 
+// Embedded CICS DELETEQ (EXEC CICS DELETEQ TD|TS QUEUE(...) [SYSID(...)]
+// END-EXEC). Emits the CESM.deleteTransiantQueue(...)/deleteTempQueue(...)
+// runtime call, with an optional .sysID(...) builder chain. Mirrors
+// CJavaCICSDeleteQ.DoExport exactly: a persistent queue (TD) renders
+// CESM.deleteTransiantQueue(<name>) and a non-persistent queue (TS) renders
+// CESM.deleteTempQueue(<name>); a SYSID operand chains .sysID(<sysID>).
+// Reads only entity.* properties.
+recursiveCICSDeleteQEntity(entity) ::= <<
+CESM.delete<if(entity.persistent)>TransiantQueue(<entity.name>)<else>TempQueue(<entity.name>)<endif><if(entity.sysID)>.sysID(<entity.sysID>)<endif> ;
+>>
+
 // Embedded CICS ADDRESS (EXEC CICS ADDRESS [CWA(...)] [TCTUA(...)] [TWA(...)]
 // END-EXEC). Emits the CESM.getAddressOfCWA/TCTUA/TWA(...) runtime calls. Mirrors
 // CJavaCICSAddress.DoExport exactly: the first active reference carries the CESM

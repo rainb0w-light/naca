@@ -33,7 +33,6 @@ import generate.java.CJavaSortedFileDescriptor;
 import generate.java.CJavaStructure;
 import generate.java.CJavaSubStringReference;
 import generate.java.CJavaUnknownReference;
-import generate.java.CICS.CJavaCICSDeleteQ;
 import generate.java.CICS.CJavaCICSEnQ;
 import generate.java.CICS.CJavaCICSGetMain;
 import generate.java.CICS.CJavaCICSHandleAID;
@@ -928,7 +927,9 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CJavaCICSStartBrowse(l, programCatalog, langOutput);
 	}
 	public CEntityCICSDeleteQ NewEntityCICSDeleteQ(int l, boolean b)	{
-		return new CJavaCICSDeleteQ(l, programCatalog, langOutput, b);
+		CEntityCICSDeleteQ e = new CEntityCICSDeleteQ(l, programCatalog, b);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntityCICSWriteQ NewEntityCICSWriteQ(int l, boolean b)	{
 		return new CJavaCICSWriteQ(l, programCatalog, langOutput, b);

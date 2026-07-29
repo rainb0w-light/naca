@@ -390,6 +390,21 @@ operations:
     paramTypes: [nacaLib.varEx.Var]
     returns: void
 
+  # --- CICS DELETEQ ---
+  # EXEC CICS DELETEQ (persistent or transient queue). Emits
+  # CESM.deleteTempQueue(<ref>) or CESM.deleteTransiantQueue(<ref>), with an
+  # optional .sysID(...) builder chain. The contract declares the existing
+  # deleteTempQueue(Var) operation; deleteTransiantQueue and .sysID() are
+  # pre-existing emitted calls without current runtime support (legacy behavior
+  # preserved by the template).
+  - id: cics.deleteTempQueue
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
+    runtimeMethod: deleteTempQueue
+    paramTypes: [nacaLib.varEx.Var]
+    returns: void
+
   # --- CICS ADDRESS ---
   # EXEC CICS ADDRESS [CWA(...)] [TCTUA(...)] [TWA(...)] END-EXEC emits, for each
   # active reference, a CESM.getAddressOfCWA/TCTUA/TWA(<ref>) call. Each runtime

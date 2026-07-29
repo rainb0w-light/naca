@@ -23,7 +23,7 @@ import utils.CobolTranscoder.Notifs.NotifDeclareUseCICSPreprocessor;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityCICSDeleteQ extends CBaseActionEntity
+public class CEntityCICSDeleteQ extends CBaseActionEntity
 {
 
 	/**
@@ -33,19 +33,22 @@ public abstract class CEntityCICSDeleteQ extends CBaseActionEntity
 	public CEntityCICSDeleteQ(int line, CObjectCatalog cat, boolean ispersistent)
 	{
 		super(line, cat);
-		ispersistent = ispersistent;
-		cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
+		this.ispersistent = ispersistent;
+		if (cat != null)
+		{
+			cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
+		}
 	}
-	
+
 	public void SetName(CDataEntity name)
 	{
-		name = name ;
+		this.name = name ;
 	}
 	public void SetSysID(CDataEntity sys)
 	{
 		sysID = sys ;
 	}
-	
+
 	protected boolean ispersistent = false ;
 	protected CDataEntity name = null ;
 	protected CDataEntity sysID = null ;
@@ -60,5 +63,25 @@ public abstract class CEntityCICSDeleteQ extends CBaseActionEntity
 		name = null ;
 		sysID = null ;
 	}
-	
+
+	// ==================== ST4 Template Accessors ====================
+	// Read-only getters for the recursive ST4 assembler (template
+	// recursiveCICSDeleteQEntity). They expose the already-resolved semantic
+	// sub-entities; rendering is done by the template, never here.
+
+	public CDataEntity getName()
+	{
+		return name;
+	}
+
+	public CDataEntity getSysID()
+	{
+		return sysID;
+	}
+
+	public boolean isPersistent()
+	{
+		return ispersistent;
+	}
+
 }
