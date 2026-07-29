@@ -22,7 +22,7 @@
     "ratchet": {
       "note": "Debt counts may only move down for the COBOL scope. Refresh per phase.",
       "baselineCapturedAtCommit": "9402b0c",
-      "lastVerifiedAtCommit": "5903f95d",
+      "lastVerifiedAtCommit": "6d15b095",
       "finalArchitectureCheck": {
         "tests": 390,
         "failures": 0,
