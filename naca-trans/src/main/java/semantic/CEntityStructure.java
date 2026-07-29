@@ -12,8 +12,6 @@
  */
 package semantic;
 
-import generate.*;
-
 import java.util.Vector;
 
 import jlib.misc.NumberParser;
