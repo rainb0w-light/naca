@@ -12,8 +12,6 @@
  */
 package semantic;
 
-import generate.*;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -127,11 +125,6 @@ public class CEntityNamedCondition extends CDataEntity
 	public boolean HasAccessors()
 	{
 		return false;
-	}
-
-	public String ExportWriteAccessorTo(String value)
-	{
-		return "";
 	}
 
 	public boolean isValNeeded()
