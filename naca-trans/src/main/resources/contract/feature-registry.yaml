@@ -353,6 +353,16 @@ features:
     fixtures: []
     status: production
 
+  - id: cobol.copybook.root
+    dialects: [cobol-core, embedded-sql]
+    semanticType: semantic.CEntityExternalDataStructure
+    javaBackend:
+      role: ROOT
+      template: javaCopyClass
+    runtimeOperations: []
+    fixtures: []
+    status: production
+
   - id: cobol.expression.concat
     dialects: [cobol-core]
     semanticType: semantic.expression.CEntityConcat

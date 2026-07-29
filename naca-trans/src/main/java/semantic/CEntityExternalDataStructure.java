@@ -24,7 +24,7 @@ import utils.*;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityExternalDataStructure extends CBaseExternalEntity
+public class CEntityExternalDataStructure extends CBaseExternalEntity
 {
 
 		/* (non-Javadoc)
@@ -173,6 +173,23 @@ public abstract class CEntityExternalDataStructure extends CBaseExternalEntity
 		ApplyAliasPatternToChildren(csRenamePattern) ;
 	}
 
+	public boolean HasAccessors()
+	{
+		return false;
+	}
 
+	public boolean isValNeeded()
+	{
+		return false;
+	}
 
+	public CDataEntityType GetDataType()
+	{
+		return CDataEntityType.EXTERNAL_REFERENCE;
+	}
+
+	public String GetTypeDecl()
+	{
+		return getTypeDecl();
+	}
 }

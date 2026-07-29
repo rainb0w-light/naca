@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import generate.fixtures.LegacyAttributeFixture;
 import generate.java.CJavaExporter;
-import generate.java.CJavaExternalDataStructure;
+import generate.fixtures.LegacyExternalDataStructureFixture;
 import generate.java.CJavaIndex;
 import generate.java.CJavaStructure;
 import generate.java.CJavaSubStringReference;
@@ -29,7 +29,7 @@ class JavaSemanticReferenceRendererTest
     {
         LegacyAttributeFixture ordinary = attribute("WS-VALUE");
         LegacyAttributeFixture reserved = attribute("NEW");
-        CJavaExternalDataStructure qualifier = new CJavaExternalDataStructure(
+        LegacyExternalDataStructureFixture qualifier = new LegacyExternalDataStructureFixture(
             1, "COPY-BOOK", catalog, output);
         LegacyAttributeFixture qualified = attribute("COPY-FIELD");
         qualified.of = qualifier;
@@ -94,7 +94,7 @@ class JavaSemanticReferenceRendererTest
     @Test
     void rendersIndexAndEnvironmentReferencesLikeTheDirectGenerator()
     {
-        CJavaExternalDataStructure qualifier = new CJavaExternalDataStructure(
+        LegacyExternalDataStructureFixture qualifier = new LegacyExternalDataStructureFixture(
             1, "INDEX-OWNER", catalog, output);
         CJavaIndex index = new CJavaIndex("ITEM-INDEX", catalog, output);
         index.of = qualifier;

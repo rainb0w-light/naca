@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import generate.fixtures.LegacyAttributeFixture;
 import generate.fixtures.LegacyDataSectionFixture;
-import generate.java.CJavaExternalDataStructure;
+import generate.fixtures.LegacyExternalDataStructureFixture;
 import generate.java.CJavaFileDescriptor;
 import generate.java.CJavaInline;
 import generate.java.CJavaNamedCondition;
@@ -312,8 +312,8 @@ class DataSectionDeclarationTemplateTest
         CObjectCatalog catalog = catalog();
         // COPY MSGZONE: a non-inline copybook declared as an instance in the
         // program class (Type ref = Type.Copy(this)), as in BATCH1.
-        CJavaExternalDataStructure copybook =
-            new CJavaExternalDataStructure(1, "Msgzone", catalog, exporter);
+        LegacyExternalDataStructureFixture copybook =
+            new LegacyExternalDataStructureFixture(1, "Msgzone", catalog, exporter);
         CJavaInline inline = new CJavaInline(2, catalog, exporter, copybook);
 
         String rendered = TemplateLoader.getRecursiveAssembler()
@@ -329,8 +329,8 @@ class DataSectionDeclarationTemplateTest
     {
         MockJavaExporter exporter = new MockJavaExporter();
         CObjectCatalog catalog = catalog();
-        CJavaExternalDataStructure copybook =
-            new CJavaExternalDataStructure(1, "Msgzone", catalog, exporter);
+        LegacyExternalDataStructureFixture copybook =
+            new LegacyExternalDataStructureFixture(1, "Msgzone", catalog, exporter);
         assertFalse(copybook.isInlined());
         assertTrue(copybook.IsNeedDeclarationInClass());
         copybook.SetInline(true);
@@ -344,8 +344,8 @@ class DataSectionDeclarationTemplateTest
         MockJavaExporter exporter = new MockJavaExporter();
         CObjectCatalog catalog = catalog();
         // ROOT role: the copybook as its own Java class extending Copy.
-        CJavaExternalDataStructure copybook =
-            new CJavaExternalDataStructure(1, "Msgzone", catalog, exporter);
+        LegacyExternalDataStructureFixture copybook =
+            new LegacyExternalDataStructureFixture(1, "Msgzone", catalog, exporter);
 
         String rendered = TemplateLoader.getRecursiveAssembler()
             .renderRoot(copybook, JavaTemplateRole.ROOT);

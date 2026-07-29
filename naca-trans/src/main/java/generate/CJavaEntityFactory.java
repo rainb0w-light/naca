@@ -12,7 +12,6 @@
  */
 package generate;
 
-import generate.java.CJavaExternalDataStructure;
 import generate.java.CJavaFileDescriptor;
 import generate.java.CJavaFileDescriptorLengthDependency;
 import generate.java.CJavaIndex;
@@ -269,7 +268,8 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 	{		
 		// manage HEXZONE
 		CObjectCatalog ocat = new CObjectCatalog(cat, null, null, null) ;
-		CEntityExternalDataStructure structure = new CJavaExternalDataStructure(0, "HEXZONE", ocat, null);
+		CEntityExternalDataStructure structure =
+			new CEntityExternalDataStructure(0, "HEXZONE", ocat);
 		structure.SetInline(true) ;
 		CEntityAttribute att1 = new CEntityAttribute(0, "HEX-0E04", ocat) ;
 		att1.SetTypeString(2) ;
@@ -442,7 +442,10 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return e;
 	}
 	public CEntityExternalDataStructure NewEntityExternalDataStructure(int l, String name)	{
-		return new CJavaExternalDataStructure(l, name, programCatalog, langOutput);
+		CEntityExternalDataStructure e =
+			new CEntityExternalDataStructure(l, name, programCatalog);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntityInline NewEntityInline(int l, CBaseExternalEntity ext)	{
 		return new CJavaInline(l, programCatalog, langOutput, ext);

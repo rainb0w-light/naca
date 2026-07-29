@@ -3,7 +3,7 @@ package generate.java.st;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import generate.java.CJavaExternalDataStructure;
+import generate.fixtures.LegacyExternalDataStructureFixture;
 import generate.java.CJavaInline;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
@@ -57,8 +57,8 @@ class SQLIncludeRenderTest
         CObjectCatalog catalog = catalog();
         // EXEC SQL INCLUDE SQLCA: the resolved copybook external entity wrapped in the
         // inline entity (factory.NewEntityInline), as CExecSQLInclude lowers it.
-        CJavaExternalDataStructure copybook =
-            new CJavaExternalDataStructure(1, "Sqlca", catalog, exporter);
+        LegacyExternalDataStructureFixture copybook =
+            new LegacyExternalDataStructureFixture(1, "Sqlca", catalog, exporter);
         CJavaInline inline = new CJavaInline(2, catalog, exporter, copybook);
 
         String rendered = TemplateLoader.getRecursiveAssembler()
@@ -75,8 +75,8 @@ class SQLIncludeRenderTest
     {
         MockJavaExporter exporter = new MockJavaExporter();
         CObjectCatalog catalog = catalog();
-        CJavaExternalDataStructure copybook =
-            new CJavaExternalDataStructure(1, "Sqlca", catalog, exporter);
+        LegacyExternalDataStructureFixture copybook =
+            new LegacyExternalDataStructureFixture(1, "Sqlca", catalog, exporter);
         // REPLACING ==2 BY 5== on the INCLUDE: the inline carries the replace level/value.
         copybook.ReplaceLevel(2, 5);
         CJavaInline inline = new CJavaInline(2, catalog, exporter, copybook);
