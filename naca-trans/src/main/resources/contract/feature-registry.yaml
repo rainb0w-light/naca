@@ -192,6 +192,16 @@ features:
     fixtures: []
     status: production
 
+  - id: cobol.control.return
+    dialects: [cobol-core]
+    semanticType: semantic.Verbs.CEntityReturn
+    javaBackend:
+      role: REFERENCE
+      template: recursiveReturnEntity
+    runtimeOperations: [program.exit, program.stopRun]
+    fixtures: []
+    status: production
+
   - id: cobol.data.initialize
     dialects: [cobol-core]
     semanticType: semantic.Verbs.CEntityInitialize

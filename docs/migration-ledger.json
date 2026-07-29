@@ -22,11 +22,11 @@
     "ratchet": {
       "note": "Debt counts may only move down for the COBOL scope. Refresh per phase.",
       "baselineCapturedAtCommit": "9402b0c",
-      "lastVerifiedAtCommit": "7bc6395a",
+      "lastVerifiedAtCommit": "4982561b",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 159,
-        "directBackends": 89,
+        "failures": 158,
+        "directBackends": 88,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -2834,25 +2834,29 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "COBOL_CORE",
       "sourceSyntax": "legacy backend CJavaReturn",
       "parserNode": null,
       "semanticNode": "semantic.Verbs.CEntityReturn",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
+      "assemblerRole": "REFERENCE",
+      "manifestBinding": "semantic.Verbs.CEntityReturn=recursiveReturnEntity",
+      "template": "recursiveReturnEntity",
+      "runtimeOperation": "program.exit",
       "fixture": null,
       "directBackend": "generate.java.verbs.CJavaReturn",
       "sourcePath": "naca-trans/src/main/java/generate/java/verbs/CJavaReturn.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/verbs/CJavaReturn.java"
-      ]
+        "naca-trans/src/main/resources/contract/feature-registry.yaml",
+        "naca-trans/src/main/resources/contract/runtime-operations.yaml",
+        "naca-trans/src/main/resources/contract/template-runtime-requirements.yaml",
+        "naca-trans/src/test/java/generate/java/st/CEntityReturnRenderTest.java"
+      ],
+      "lastAttemptCommit": "4982561b"
     },
     {
       "id": "BACKEND-COBOL-VERB-CJAVAREWRITEFILE",

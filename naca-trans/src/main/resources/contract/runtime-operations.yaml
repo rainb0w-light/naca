@@ -416,6 +416,22 @@ operations:
     paramTypes: [nacaLib.program.Paragraph, nacaLib.program.Paragraph]
     returns: void
 
+  - id: program.exit
+    since: 1
+    capability: CONTROL_FLOW
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: exitProgram
+    paramTypes: []
+    returns: void
+
+  - id: program.stopRun
+    since: 1
+    capability: CONTROL_FLOW
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: stopRun
+    paramTypes: [int]
+    returns: void
+
   - id: compare.isLess.intVarAndEdit
     since: 1
     capability: CONTROL_FLOW

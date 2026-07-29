@@ -107,6 +107,12 @@ templates:
       - perform.through
       - compare.isLess.intVarAndEdit
 
+  recursiveReturnEntity:
+    capability: CONTROL_FLOW
+    requires:
+      - program.exit
+      - program.stopRun
+
   recursiveCountEntity:
     capability: STRING
     requires:
