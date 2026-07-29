@@ -42,15 +42,6 @@ public class CEntityString extends CDataEntity
 	{
 		return false;
 	}
-	public String ExportWriteAccessorTo(String value)
-	{
-		// unsued
-		return "" ;
-	}
-	protected void DoExport()
-	{
-		// unused
-	}
 	public boolean ignore()
 	{
 		return false ;
