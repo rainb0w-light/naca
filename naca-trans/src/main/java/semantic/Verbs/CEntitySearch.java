@@ -23,7 +23,7 @@ import utils.CObjectCatalog;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public abstract class CEntitySearch extends CBaseActionEntity
+public class CEntitySearch extends CBaseActionEntity
 {
 
 	/**
@@ -53,6 +53,21 @@ public abstract class CEntitySearch extends CBaseActionEntity
 	public void setElseBloc(CEntityBloc bloc)
 	{
 		blocElse = bloc ;
+	}
+
+	public CDataEntity getVariable()
+	{
+		return eVariable;
+	}
+
+	public CDataEntity getIndex()
+	{
+		return eIndex;
+	}
+
+	public CEntityBloc getElseBloc()
+	{
+		return blocElse;
 	}
 
 

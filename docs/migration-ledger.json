@@ -22,11 +22,11 @@
     "ratchet": {
       "note": "Debt counts may only move down for the COBOL scope. Refresh per phase.",
       "baselineCapturedAtCommit": "9402b0c",
-      "lastVerifiedAtCommit": "7eee221b",
+      "lastVerifiedAtCommit": "7b33ecc7",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 181,
-        "directBackends": 112,
+        "failures": 180,
+        "directBackends": 111,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -2066,25 +2066,27 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "COBOL_CORE",
       "sourceSyntax": "legacy backend CJavaSearchST",
       "parserNode": null,
       "semanticNode": "semantic.Verbs.CEntitySearch",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
+      "assemblerRole": "REFERENCE",
+      "manifestBinding": "semantic.Verbs.CEntitySearch=recursiveSearchEntity",
+      "template": "recursiveSearchEntity",
       "runtimeOperation": null,
       "fixture": null,
       "directBackend": "generate.java.st.CJavaSearchST",
       "sourcePath": "naca-trans/src/main/java/generate/java/st/CJavaSearchST.java",
       "productionReachable": true,
-      "status": "production-wired",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/st/CJavaSearchST.java"
-      ]
+        "naca-trans/src/main/java/generate/java/st/CJavaSearchST.java",
+        "naca-trans/src/test/java/generate/java/st/CEntitySearchRenderTest.java"
+      ],
+      "lastAttemptCommit": "7b33ecc7"
     },
     {
       "id": "BACKEND-COBOL-ST-CJAVASORTST",
@@ -2865,9 +2867,7 @@
       "id": "BACKEND-COBOL-VERB-CJAVASEARCH",
       "kind": "DIRECT_BACKEND_RETIREMENT",
       "priority": 424,
-      "dependencies": [
-        "BACKEND-COBOL-ST-CJAVASEARCHST"
-      ],
+      "dependencies": [],
       "verification": [
         "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
       ],

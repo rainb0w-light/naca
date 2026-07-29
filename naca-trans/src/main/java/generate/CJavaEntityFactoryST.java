@@ -874,7 +874,9 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
 
     @Override
     public CEntitySearch NewEntitySearch(int line) {
-        return new CJavaSearchST(line, programCatalog, langOutput);
+        CEntitySearch e = new CEntitySearch(line, programCatalog);
+        e.setLanguageExporter(langOutput);
+        return e;
     }
 
     @Override

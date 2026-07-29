@@ -1538,10 +1538,12 @@ inspectTallying(<entity.variable>)<entity.countAllToken:{t | .countAll(<t>)}><en
 >>
 
 recursiveSearchEntity(entity) ::= <<
-for (move(false, <entity.searchFoundFlag>); isNot(<entity.searchFoundFlag>) && isLessOrEqual(<entity.index>, getNbOccurs(<entity.variable>)); inc(1, <entity.index>)) {
-<entity.activeChildren>}<if(entity.elseBloc)>
-if (isNot(<entity.searchFoundFlag>)) {
-<entity.elseBloc>}<endif>
+for (move(false, Search_Found); isNot(Search_Found) && isLessOrEqual(<entity.index>, getNbOccurs(<entity.variable>)); inc(1, <entity.index>)) {
+<entity.activeChildren>
+}<if(entity.elseBloc)>
+if (isNot(Search_Found)) {
+<entity.elseBloc>
+}<endif>
 >>
 
 recursiveExecEntity(entity) ::= <<
