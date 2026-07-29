@@ -21,8 +21,25 @@ import semantic.CDataEntity;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityCondIsConstant extends CUnitaryEntityCondition
+public class CEntityCondIsConstant extends CUnitaryEntityCondition
 {
+	public int GetPriorityLevel()
+	{
+		return 7;
+	}
+
+	public CBaseEntityCondition GetOppositeCondition()
+	{
+		CEntityCondIsConstant opposite = new CEntityCondIsConstant();
+		opposite.isisLowValue = isisLowValue;
+		opposite.isisHighValue = isisHighValue;
+		opposite.bIsOpposite = !bIsOpposite;
+		opposite.isisSpace = isisSpace;
+		opposite.isisZero = isisZero;
+		opposite.reference = reference;
+		reference.RegisterVarTesting(opposite);
+		return opposite;
+	}
 //	public CEntityCondIsConstant(int nLine)
 //	{
 //		super(nLine);

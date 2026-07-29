@@ -207,6 +207,18 @@ templates:
       - condition.isAll.varString
       - condition.isNotAll.varString
 
+  recursiveCondIsConstantEntity:
+    capability: CONTROL_FLOW
+    requires:
+      - condition.isZero.var
+      - condition.isNotZero.var
+      - condition.isSpace.var
+      - condition.isNotSpace.var
+      - condition.isLowValue.var
+      - condition.isNotLowValue.var
+      - condition.isHighValue.var
+      - condition.isNotHighValue.var
+
   recursiveCountEntity:
     capability: STRING
     requires:

@@ -904,6 +904,70 @@ operations:
     paramTypes: [nacaLib.varEx.VarAndEdit, java.lang.String]
     returns: boolean
 
+  - id: condition.isZero.var
+    since: 1
+    capability: CONTROL_FLOW
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: isZero
+    paramTypes: [nacaLib.varEx.VarAndEdit]
+    returns: boolean
+
+  - id: condition.isNotZero.var
+    since: 1
+    capability: CONTROL_FLOW
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: isNotZero
+    paramTypes: [nacaLib.varEx.VarAndEdit]
+    returns: boolean
+
+  - id: condition.isSpace.var
+    since: 1
+    capability: CONTROL_FLOW
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: isSpace
+    paramTypes: [nacaLib.varEx.VarAndEdit]
+    returns: boolean
+
+  - id: condition.isNotSpace.var
+    since: 1
+    capability: CONTROL_FLOW
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: isNotSpace
+    paramTypes: [nacaLib.varEx.VarAndEdit]
+    returns: boolean
+
+  - id: condition.isLowValue.var
+    since: 1
+    capability: CONTROL_FLOW
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: isLowValue
+    paramTypes: [nacaLib.varEx.VarAndEdit]
+    returns: boolean
+
+  - id: condition.isNotLowValue.var
+    since: 1
+    capability: CONTROL_FLOW
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: isNotLowValue
+    paramTypes: [nacaLib.varEx.VarAndEdit]
+    returns: boolean
+
+  - id: condition.isHighValue.var
+    since: 1
+    capability: CONTROL_FLOW
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: isHighValue
+    paramTypes: [nacaLib.varEx.VarAndEdit]
+    returns: boolean
+
+  - id: condition.isNotHighValue.var
+    since: 1
+    capability: CONTROL_FLOW
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: isNotHighValue
+    paramTypes: [nacaLib.varEx.VarAndEdit]
+    returns: boolean
+
   # --- INSPECT REPLACING ---
   - id: inspect.replacing
     since: 1

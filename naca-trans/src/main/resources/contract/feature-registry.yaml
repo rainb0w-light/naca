@@ -333,6 +333,24 @@ features:
     fixtures: []
     status: production
 
+  - id: cobol.condition.figurative-constant
+    dialects: [cobol-core]
+    semanticType: semantic.expression.CEntityCondIsConstant
+    javaBackend:
+      role: REFERENCE
+      template: recursiveCondIsConstantEntity
+    runtimeOperations:
+      - condition.isZero.var
+      - condition.isNotZero.var
+      - condition.isSpace.var
+      - condition.isNotSpace.var
+      - condition.isLowValue.var
+      - condition.isNotLowValue.var
+      - condition.isHighValue.var
+      - condition.isNotHighValue.var
+    fixtures: []
+    status: production
+
   - id: cobol.data.initialize
     dialects: [cobol-core]
     semanticType: semantic.Verbs.CEntityInitialize

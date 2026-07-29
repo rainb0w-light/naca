@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import generate.java.CJavaExporter;
 import generate.java.CJavaNamedCondition;
 import generate.java.expressions.CJavaCondNot;
-import generate.java.expressions.CJavaCondIsConstant;
 import generate.java.expressions.CJavaEntityNumber;
 import generate.java.expressions.CJavaExprTerminal;
 import generate.java.expressions.CJavaInternalBool;
@@ -18,6 +17,7 @@ import semantic.expression.CBaseEntityExpression;
 import semantic.expression.CEntityCondAnd;
 import semantic.expression.CEntityCondCompare;
 import semantic.expression.CEntityCondEquals;
+import semantic.expression.CEntityCondIsConstant;
 import semantic.expression.CEntityCondOr;
 import utils.CObjectCatalog;
 
@@ -106,22 +106,27 @@ class JavaSemanticConditionRendererTest
     {
         CJavaInternalBool value = new CJavaInternalBool("BOOLEAN-VALUE", catalog, output);
 
-        CJavaCondIsConstant zero = new CJavaCondIsConstant();
+        CEntityCondIsConstant zero = new CEntityCondIsConstant();
         zero.SetIsZero(value);
-        assertMatchesDirect(zero);
-        assertMatchesDirect(zero.GetOppositeCondition());
+        assertEquals("isZero(boolean_Value)",
+            assembler.renderRoot(zero, JavaTemplateRole.REFERENCE));
+        assertEquals("isNotZero(boolean_Value)",
+            assembler.renderRoot(zero.GetOppositeCondition(), JavaTemplateRole.REFERENCE));
 
-        CJavaCondIsConstant space = new CJavaCondIsConstant();
+        CEntityCondIsConstant space = new CEntityCondIsConstant();
         space.SetIsSpace(value);
-        assertMatchesDirect(space);
+        assertEquals("isSpace(boolean_Value)",
+            assembler.renderRoot(space, JavaTemplateRole.REFERENCE));
 
-        CJavaCondIsConstant low = new CJavaCondIsConstant();
+        CEntityCondIsConstant low = new CEntityCondIsConstant();
         low.SetIsLowValue(value);
-        assertMatchesDirect(low);
+        assertEquals("isLowValue(boolean_Value)",
+            assembler.renderRoot(low, JavaTemplateRole.REFERENCE));
 
-        CJavaCondIsConstant high = new CJavaCondIsConstant();
+        CEntityCondIsConstant high = new CEntityCondIsConstant();
         high.SetIsHighValue(value);
-        assertMatchesDirect(high);
+        assertEquals("isHighValue(boolean_Value)",
+            assembler.renderRoot(high, JavaTemplateRole.REFERENCE));
 
         CFPacJavaCondIsBoolean trueCondition = new CFPacJavaCondIsBoolean();
         trueCondition.setIsTrue(value);
