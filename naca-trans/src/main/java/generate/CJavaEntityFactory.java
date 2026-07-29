@@ -34,7 +34,6 @@ import generate.java.CJavaStructure;
 import generate.java.CJavaSubStringReference;
 import generate.java.CJavaUnknownReference;
 
-import generate.java.expressions.CJavaEntityNumber;
 import generate.java.expressions.CJavaExprOpposite;
 import generate.java.expressions.CJavaExprProd;
 import generate.java.expressions.CJavaExprSum;
@@ -681,7 +680,9 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CEntityCondOr();
 	}
 	public CEntityNumber NewEntityNumber(String value)	{
-		return new CJavaEntityNumber(programCatalog, langOutput, value) ;
+		CEntityNumber e = new CEntityNumber(programCatalog, value);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntityExprTerminal NewEntityExprTerminal(CDataEntity eData)	{
 		return new CJavaExprTerminal(eData);

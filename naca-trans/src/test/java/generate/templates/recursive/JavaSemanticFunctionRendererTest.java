@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import generate.java.CJavaAttribute;
 import generate.java.CJavaExporter;
-import generate.java.expressions.CJavaEntityNumber;
 import generate.java.expressions.CJavaExprSum;
 import generate.java.expressions.CJavaExprTerminal;
 import generate.java.expressions.CJavaInternalBool;
@@ -107,9 +106,9 @@ class JavaSemanticFunctionRendererTest
         return new CJavaAttribute(1, name, catalog, output);
     }
 
-    private CJavaEntityNumber number(String value)
+    private LegacyNumberFixture number(String value)
     {
-        return new CJavaEntityNumber(catalog, output, value);
+        return new LegacyNumberFixture(catalog, value);
     }
 
     private CBaseEntityExpression expression(CDataEntity value)

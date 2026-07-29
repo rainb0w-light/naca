@@ -2,7 +2,6 @@ package generate.templates.recursive;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import generate.java.expressions.CJavaEntityNumber;
 import generate.java.expressions.CJavaString;
 import generate.templates.TemplateLoader;
 import java.util.List;
@@ -42,7 +41,7 @@ class JavaSemanticLiteralRendererTest
             "0", "00042", "-00042", "2147483648", "12.50",
             "999999999999999999999999"))
         {
-            CJavaEntityNumber value = number(raw);
+            LegacyNumberFixture value = number(raw);
             assertEquals(value.ExportReference(1), assembler.renderRoot(value, JavaTemplateRole.REFERENCE), raw);
         }
 
@@ -57,8 +56,8 @@ class JavaSemanticLiteralRendererTest
         }
     }
 
-    private static CJavaEntityNumber number(String value)
+    private static LegacyNumberFixture number(String value)
     {
-        return new CJavaEntityNumber(null, null, value);
+        return new LegacyNumberFixture(null, value);
     }
 }

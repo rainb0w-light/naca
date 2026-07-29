@@ -3,7 +3,6 @@ package generate.templates.recursive;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import generate.java.CJavaExporter;
-import generate.java.expressions.CJavaEntityNumber;
 import generate.java.expressions.CJavaExprOpposite;
 import generate.java.expressions.CJavaExprProd;
 import generate.java.expressions.CJavaExprSum;
@@ -63,7 +62,7 @@ class JavaSemanticExpressionRendererTest
 
     private CBaseEntityExpression numberExpression(String value)
     {
-        return new CJavaExprTerminal(new CJavaEntityNumber(catalog, output, value));
+        return new CJavaExprTerminal(new LegacyNumberFixture(catalog, value));
     }
 
     private void assertMatchesDirect(CBaseEntityExpression expression)

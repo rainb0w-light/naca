@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import generate.java.CJavaAttribute;
 import generate.java.CJavaExporter;
-import generate.java.expressions.CJavaEntityNumber;
 import generate.java.expressions.CJavaExprTerminal;
 import generate.java.st.MockJavaExporter;
 import semantic.Verbs.CEntityContinue;
@@ -111,9 +110,9 @@ class JavaSemanticLoopIterationTemplateTest
         return new CJavaAttribute(0, name, catalog, referenceOutput);
     }
 
-    private CJavaEntityNumber number(String value)
+    private LegacyNumberFixture number(String value)
     {
-        return new CJavaEntityNumber(catalog, null, value);
+        return new LegacyNumberFixture(catalog, value);
     }
 
     private void assertRendered(LoopFixture fixture, String expected)

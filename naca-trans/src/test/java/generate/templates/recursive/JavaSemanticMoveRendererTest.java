@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import generate.java.CJavaAttribute;
 import generate.java.CJavaExporter;
-import generate.java.expressions.CJavaEntityNumber;
 import generate.java.st.MockJavaExporter;
 import generate.templates.TemplateLoader;
 import org.junit.jupiter.api.Test;
@@ -59,9 +58,9 @@ class JavaSemanticMoveRendererTest
         return new CJavaAttribute(0, name, catalog, referenceOutput);
     }
 
-    private CJavaEntityNumber number(String value)
+    private LegacyNumberFixture number(String value)
     {
-        return new CJavaEntityNumber(catalog, referenceOutput, value);
+        return new LegacyNumberFixture(catalog, value);
     }
 
     private void assertMatchesDirect(MoveFixture fixture)

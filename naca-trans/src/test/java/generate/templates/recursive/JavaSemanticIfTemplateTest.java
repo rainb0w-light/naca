@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import semantic.CEntityBloc;
 import semantic.CEntityCondition;
-import generate.java.expressions.CJavaEntityNumber;
 import generate.java.expressions.CJavaExprTerminal;
 import generate.java.st.MockJavaExporter;
 import semantic.Verbs.CEntityBreak;
@@ -65,7 +64,7 @@ class JavaSemanticIfTemplateTest
         CEntityCondEquals ignored = new CEntityCondEquals();
         ignored.SetEqualCondition(
             new CJavaExprTerminal(new CIgnoredEntity(0, "", null)),
-            new CJavaExprTerminal(new CJavaEntityNumber(null, null, "1")));
+            new CJavaExprTerminal(new LegacyNumberFixture(null, "1")));
         TestJavaCondition condition = new TestJavaCondition(output);
         condition.SetCondition(
             ignored,
@@ -79,8 +78,8 @@ class JavaSemanticIfTemplateTest
     {
         CEntityCondEquals condition = new CEntityCondEquals();
         condition.SetEqualCondition(
-            new CJavaExprTerminal(new CJavaEntityNumber(null, null, left)),
-            new CJavaExprTerminal(new CJavaEntityNumber(null, null, right)));
+            new CJavaExprTerminal(new LegacyNumberFixture(null, left)),
+            new CJavaExprTerminal(new LegacyNumberFixture(null, right)));
         return condition;
     }
 

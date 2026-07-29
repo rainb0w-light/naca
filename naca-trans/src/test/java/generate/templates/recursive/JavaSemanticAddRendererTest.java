@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import generate.java.CJavaAttribute;
 import generate.java.CJavaExporter;
-import generate.java.expressions.CJavaEntityNumber;
 import generate.templates.TemplateLoader;
 import org.junit.jupiter.api.Test;
 import semantic.Verbs.CEntityAddTo;
@@ -24,7 +23,7 @@ class JavaSemanticAddRendererTest {
 
     private String render(String value) {
         CEntityAddTo add = new CEntityAddTo(0, catalog);
-        add.SetAddValue(new CJavaEntityNumber(catalog, refs, value));
+        add.SetAddValue(new LegacyNumberFixture(catalog, value));
         add.SetAddDest(new CJavaAttribute(0, "TOTAL", catalog, refs));
         return assembler.renderRoot(add, JavaTemplateRole.REFERENCE).replaceAll("\\$\\d+", "").stripTrailing();
     }

@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 18 août 2004
+ * Created on 18 aoÃ»t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -22,7 +22,7 @@ import utils.CObjectCatalog;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityNumber extends CDataEntity
+public class CEntityNumber extends CDataEntity
 {
 
 	protected String csValue = "" ;
@@ -37,6 +37,10 @@ public abstract class CEntityNumber extends CDataEntity
 		return CDataEntityType.NUMBER;
 	}
 	public String getLiteralValue()
+	{
+		return csValue;
+	}
+	public String GetConstantValue()
 	{
 		return csValue;
 	}
@@ -100,6 +104,10 @@ public abstract class CEntityNumber extends CDataEntity
 	public boolean ignore()
 	{
 		return false ;
+	}
+	public boolean isValNeeded()
+	{
+		return true;
 	}
 	public CBaseEntityCondition GetSpecialCondition(int nLine, String value, CBaseEntityCondition.EConditionType type, CBaseEntityFactory factory)
 	{

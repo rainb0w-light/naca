@@ -11,7 +11,6 @@ import generate.java.CJavaExternalDataStructure;
 import generate.java.CJavaIndex;
 import generate.java.CJavaStructure;
 import generate.java.CJavaSubStringReference;
-import generate.java.expressions.CJavaEntityNumber;
 import generate.java.expressions.CJavaExprTerminal;
 import generate.templates.TemplateLoader;
 import org.junit.jupiter.api.Test;
@@ -115,9 +114,9 @@ class JavaSemanticReferenceRendererTest
         return new CJavaAttribute(1, name, catalog, output);
     }
 
-    private CJavaEntityNumber number(String value)
+    private LegacyNumberFixture number(String value)
     {
-        return new CJavaEntityNumber(catalog, output, value);
+        return new LegacyNumberFixture(catalog, value);
     }
 
     private CBaseEntityExpression expression(CDataEntity value)

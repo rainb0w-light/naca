@@ -25,8 +25,8 @@
       "lastVerifiedAtCommit": "5903f95d",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 134,
-        "directBackends": 64,
+        "failures": 133,
+        "directBackends": 63,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -3697,25 +3697,27 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "COBOL_CORE",
       "sourceSyntax": "legacy backend CJavaEntityNumber",
-      "parserNode": null,
+      "parserNode": "parser.expression.CNumberTerminal",
       "semanticNode": "semantic.expression.CEntityNumber",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
+      "assemblerRole": "REFERENCE",
+      "manifestBinding": "semantic.expression.CEntityNumber=numberLiteralEntity",
+      "template": "numberLiteralEntity",
       "runtimeOperation": null,
       "fixture": null,
       "directBackend": "generate.java.expressions.CJavaEntityNumber",
       "sourcePath": "naca-trans/src/main/java/generate/java/expressions/CJavaEntityNumber.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/expressions/CJavaEntityNumber.java"
-      ]
+        "naca-trans/src/main/java/semantic/expression/CEntityNumber.java",
+        "naca-trans/src/test/java/generate/java/st/CEntityNumberRenderTest.java"
+      ],
+      "lastAttemptCommit": "2ac9a87e"
     },
     {
       "id": "BACKEND-COBOL-EXPRESSION-CJAVAEXPROPPOSITE",
