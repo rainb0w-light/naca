@@ -417,6 +417,47 @@ operations:
     paramTypes: [nacaLib.varEx.VarAndEdit]
     returns: void
 
+  # --- DIVIDE ---
+  - id: math.divide
+    since: 1
+    capability: ARITHMETIC
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: divide
+    paramTypes: [nacaLib.varEx.VarAndEdit, nacaLib.varEx.VarAndEdit]
+    returns: nacaLib.mathSupport.MathDivide
+
+  - id: math.divide.to
+    since: 1
+    capability: ARITHMETIC
+    runtimeClass: nacaLib.mathSupport.MathBase
+    runtimeMethod: to
+    paramTypes: [nacaLib.varEx.VarAndEdit]
+    returns: nacaLib.mathSupport.MathBase
+
+  - id: math.divide.toWithRemainder
+    since: 1
+    capability: ARITHMETIC
+    runtimeClass: nacaLib.mathSupport.MathDivide
+    runtimeMethod: to
+    paramTypes: [nacaLib.varEx.VarAndEdit, nacaLib.varEx.VarAndEdit]
+    returns: nacaLib.mathSupport.MathDivide
+
+  - id: math.divide.toRounded
+    since: 1
+    capability: ARITHMETIC
+    runtimeClass: nacaLib.mathSupport.MathBase
+    runtimeMethod: toRounded
+    paramTypes: [nacaLib.varEx.Var]
+    returns: nacaLib.mathSupport.MathBase
+
+  - id: math.divide.toRoundedWithRemainder
+    since: 1
+    capability: ARITHMETIC
+    runtimeClass: nacaLib.mathSupport.MathDivide
+    runtimeMethod: toRounded
+    paramTypes: [nacaLib.varEx.Var, nacaLib.varEx.VarAndEdit]
+    returns: nacaLib.mathSupport.MathBase
+
   # --- CICS RETURN ---
   # EXEC CICS RETURN END-EXEC emits CESM.returnTrans(...). The contract declares the
   # representative no-argument overload — the production-reachable bare RETURN (e.g.

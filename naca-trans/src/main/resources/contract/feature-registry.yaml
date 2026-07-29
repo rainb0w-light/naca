@@ -142,6 +142,16 @@ features:
     fixtures: []
     status: production
 
+  - id: cobol.arithmetic.divide
+    dialects: [cobol-core]
+    semanticType: semantic.Verbs.CEntityDivide
+    javaBackend:
+      role: REFERENCE
+      template: recursiveDivideEntity
+    runtimeOperations: [math.divide, math.divide.to, math.divide.toWithRemainder, math.divide.toRounded, math.divide.toRoundedWithRemainder]
+    fixtures: []
+    status: production
+
   - id: cics.return
     dialects: [embedded-cics]
     semanticType: semantic.CICS.CEntityCICSReturn

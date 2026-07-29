@@ -22,11 +22,11 @@
     "ratchet": {
       "note": "Debt counts may only move down for the COBOL scope. Refresh per phase.",
       "baselineCapturedAtCommit": "9402b0c",
-      "lastVerifiedAtCommit": "ddfb8f2b",
+      "lastVerifiedAtCommit": "9aa91e83",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 171,
-        "directBackends": 101,
+        "failures": 170,
+        "directBackends": 100,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -2430,25 +2430,27 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "COBOL_CORE",
       "sourceSyntax": "legacy backend CJavaDivide",
       "parserNode": null,
       "semanticNode": "semantic.Verbs.CEntityDivide",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
+      "assemblerRole": "REFERENCE",
+      "manifestBinding": "semantic.Verbs.CEntityDivide=recursiveDivideEntity",
+      "template": "recursiveDivideEntity",
+      "runtimeOperation": "math.divide",
       "fixture": null,
       "directBackend": "generate.java.verbs.CJavaDivide",
       "sourcePath": "naca-trans/src/main/java/generate/java/verbs/CJavaDivide.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/verbs/CJavaDivide.java"
-      ]
+        "naca-trans/src/main/java/generate/java/verbs/CJavaDivide.java",
+        "naca-trans/src/test/java/generate/java/st/CEntityDivideRenderTest.java"
+      ],
+      "lastAttemptCommit": "9aa91e83"
     },
     {
       "id": "BACKEND-COBOL-VERB-CJAVAEXEC",

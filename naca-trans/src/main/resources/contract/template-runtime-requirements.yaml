@@ -110,6 +110,15 @@ templates:
       - output.console.display
       - output.environment
 
+  recursiveDivideEntity:
+    capability: ARITHMETIC
+    requires:
+      - math.divide
+      - math.divide.to
+      - math.divide.toWithRemainder
+      - math.divide.toRounded
+      - math.divide.toRoundedWithRemainder
+
   recursiveCICSReturnEntity:
     capability: CICS
     requires:
