@@ -163,7 +163,7 @@ callProgram(entity) ::= <<
 >>
 
 display(entity) ::= <<
-<entity.displayFunction>(<entity.displayItems:{v | <v.expression>}; separator=" + ">);
+<if(entity.console)>console().display<elseif(entity.environment)>displayEnv<else>display<endif>(<entity.displayItems:{v | <if(v.valueNeeded)>val(<v.reference>)<else><v.reference><endif>}; separator=" + ">);
 >>
 
 initialize(entity) ::= <<

@@ -66,13 +66,14 @@ public class CEntityDisplay extends CBaseActionEntity
 		DEFAULT, CONSOLE, ENVINONMENT,
 	}
 
-	public String getDisplayFunction()
+	public boolean isConsole()
 	{
-		if (upon == Upon.CONSOLE)
-			return "console().display";
-		if (upon == Upon.ENVINONMENT)
-			return "displayEnv";
-		return "display";
+		return upon == Upon.CONSOLE;
+	}
+
+	public boolean isEnvironment()
+	{
+		return upon == Upon.ENVINONMENT;
 	}
 
 	public List<CDisplayItemView> getDisplayItems()
@@ -82,26 +83,31 @@ public class CEntityDisplay extends CBaseActionEntity
 		for (int i = 0; i < itemsToDisplay.size(); i++)
 		{
 			CDataEntity item = itemsToDisplay.get(i);
-			String reference = item.ExportReference(getLine());
-			if (hasMultipleItems && item.isValNeeded())
-				reference = "val(" + reference + ")";
-			values.add(new CDisplayItemView(reference));
+			values.add(new CDisplayItemView(
+				item, hasMultipleItems && item.isValNeeded()));
 		}
 		return values;
 	}
 
 	public static class CDisplayItemView
 	{
-		private final String expression;
+		private final CDataEntity reference;
+		private final boolean valueNeeded;
 
-		public CDisplayItemView(String expression)
+		public CDisplayItemView(CDataEntity reference, boolean valueNeeded)
 		{
-			this.expression = expression;
+			this.reference = reference;
+			this.valueNeeded = valueNeeded;
 		}
 
-		public String getExpression()
+		public CDataEntity getReference()
 		{
-			return expression;
+			return reference;
+		}
+
+		public boolean isValueNeeded()
+		{
+			return valueNeeded;
 		}
 	}
 }

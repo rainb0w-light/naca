@@ -38,8 +38,15 @@ class CEntityDisplayRenderTest
 
         CEntityDisplay several = new CEntityDisplay(1, null, CEntityDisplay.Upon.DEFAULT);
         several.AddItemToDisplay(new MockDataEntity(1, "name"));
-        several.AddItemToDisplay(new MockDataEntity(1, "age"));
-        assertEquals("display(name + age);", render(several));
+        several.AddItemToDisplay(new MockDataEntity(1, "age")
+        {
+            @Override
+            public boolean isValNeeded()
+            {
+                return true;
+            }
+        });
+        assertEquals("display(name + val(age));", render(several));
     }
 
     @Test
