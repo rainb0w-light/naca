@@ -119,6 +119,12 @@ templates:
       - math.divide.toRounded
       - math.divide.toRoundedWithRemainder
 
+  recursiveGotoEntity:
+    capability: CONTROL_FLOW
+    requires:
+      - goto.paragraph
+      - goto.section
+
   recursiveCICSReturnEntity:
     capability: CICS
     requires:

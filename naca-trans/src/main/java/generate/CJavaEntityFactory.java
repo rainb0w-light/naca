@@ -92,7 +92,6 @@ import generate.java.forms.CJavaSetCursor;
 import generate.java.forms.CJavaSetFlag;
 import generate.java.forms.CJavaSetHighlight;
 import generate.java.forms.CJavaSkipField;
-import generate.java.verbs.CJavaGoto;
 import generate.java.verbs.CJavaGotoDepending;
 import generate.java.verbs.CJavaInitialize;
 import generate.java.verbs.CJavaInspectConverting;
@@ -591,7 +590,9 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CJavaArrayReference(l, programCatalog, langOutput);
 	}
 	public CEntityGoto NewEntityGoto(int l, String Reference, CEntityProcedureSection section)	{
-		return new CJavaGoto(l, programCatalog, langOutput, Reference, section) ;
+		CEntityGoto e = new CEntityGoto(l, programCatalog, Reference, section);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CJavaGotoDepending NewEntityGotoDepending(int l, List<String> refs, CDataEntity dep, CEntityProcedureSection section)	{
 		return new CJavaGotoDepending(l, programCatalog, langOutput, refs, dep, section) ;

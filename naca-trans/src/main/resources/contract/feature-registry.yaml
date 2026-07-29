@@ -152,6 +152,16 @@ features:
     fixtures: []
     status: production
 
+  - id: cobol.control.goto
+    dialects: [cobol-core]
+    semanticType: semantic.Verbs.CEntityGoto
+    javaBackend:
+      role: REFERENCE
+      template: recursiveGotoEntity
+    runtimeOperations: [goto.paragraph, goto.section]
+    fixtures: []
+    status: production
+
   - id: cics.return
     dialects: [embedded-cics]
     semanticType: semantic.CICS.CEntityCICSReturn

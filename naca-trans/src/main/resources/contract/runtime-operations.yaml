@@ -458,6 +458,23 @@ operations:
     paramTypes: [nacaLib.varEx.Var, nacaLib.varEx.VarAndEdit]
     returns: nacaLib.mathSupport.MathBase
 
+  # --- GO TO ---
+  - id: goto.paragraph
+    since: 1
+    capability: CONTROL_FLOW
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: goTo
+    paramTypes: [nacaLib.program.Paragraph]
+    returns: void
+
+  - id: goto.section
+    since: 1
+    capability: CONTROL_FLOW
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: goTo
+    paramTypes: [nacaLib.program.Section]
+    returns: void
+
   # --- CICS RETURN ---
   # EXEC CICS RETURN END-EXEC emits CESM.returnTrans(...). The contract declares the
   # representative no-argument overload — the production-reachable bare RETURN (e.g.
