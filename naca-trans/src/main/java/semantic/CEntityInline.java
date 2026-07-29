@@ -22,7 +22,7 @@ import utils.*;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityInline extends CBaseActionEntity
+public class CEntityInline extends CBaseActionEntity
 {
 
 
@@ -159,6 +159,16 @@ public abstract class CEntityInline extends CBaseActionEntity
 	public CBaseExternalEntity getExternalEntity()
 	{
 		return externalData ;
+	}
+
+	public boolean isNeedDeclarationInClass()
+	{
+		return externalData.IsNeedDeclarationInClass();
+	}
+
+	public java.util.List<CBaseLanguageEntity> getDeclarationChildren()
+	{
+		return getActiveChildren();
 	}
 
 	/**

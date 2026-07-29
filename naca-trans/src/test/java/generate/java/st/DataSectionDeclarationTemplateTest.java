@@ -8,7 +8,7 @@ import generate.fixtures.LegacyAttributeFixture;
 import generate.fixtures.LegacyDataSectionFixture;
 import generate.fixtures.LegacyExternalDataStructureFixture;
 import generate.fixtures.LegacyFileDescriptorFixture;
-import generate.java.CJavaInline;
+import generate.fixtures.LegacyInlineFixture;
 import generate.java.CJavaNamedCondition;
 import generate.java.CJavaStructure;
 import generate.templates.TemplateLoader;
@@ -316,7 +316,8 @@ class DataSectionDeclarationTemplateTest
         // program class (Type ref = Type.Copy(this)), as in BATCH1.
         LegacyExternalDataStructureFixture copybook =
             new LegacyExternalDataStructureFixture(1, "Msgzone", catalog, exporter);
-        CJavaInline inline = new CJavaInline(2, catalog, exporter, copybook);
+        LegacyInlineFixture inline =
+            new LegacyInlineFixture(2, catalog, exporter, copybook);
 
         String rendered = TemplateLoader.getRecursiveAssembler()
             .renderRoot(inline, JavaTemplateRole.DECLARATION);

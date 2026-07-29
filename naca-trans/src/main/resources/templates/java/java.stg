@@ -1457,7 +1457,8 @@ recursiveSQLUpdateStatementEntity(entity) ::= <<
 // A COPY copybook declared as an instance in the program class (the non-inline
 // form): <Type> <ref> = <Type>.Copy(this[, replacing(level, value)]) ;
 dataInlineDeclaration(entity) ::= <<
-<entity.copyType> <entity.externalEntity> = <entity.copyType>.Copy(this<if(entity.replacing)>, replacing(<entity.replaceItem>, <entity.replaceValue>)<endif>) ;
+<if(entity.needDeclarationInClass)><entity.copyType> <entity.externalEntity> = <entity.copyType>.Copy(this<if(entity.replacing)>, replacing(<entity.replaceItem>, <entity.replaceValue>)<endif>) ;
+<endif><entity.declarationChildren>
 >>
 
 // ROOT artifact: a copybook as its own Java class extending the runtime Copy

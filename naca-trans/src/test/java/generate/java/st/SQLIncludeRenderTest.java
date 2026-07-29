@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import generate.fixtures.LegacyExternalDataStructureFixture;
-import generate.java.CJavaInline;
+import generate.fixtures.LegacyInlineFixture;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.DisplayName;
@@ -32,7 +32,7 @@ import utils.CTransApplicationGroup;
  *   <li>a resolved include carrying a REPLACING clause -&gt;
  *       {@code <Type> <ref> = <Type>.Copy(this, replacing(item, value)) ;}.</li>
  * </ul>
- * Asserts byte-for-byte parity with the output the {@link CJavaInline} direct generator
+ * Asserts byte-for-byte parity with the output the retired direct generator
  * produces, so the assembler-bound path stays faithful to the legacy lowering.
  */
 class SQLIncludeRenderTest
@@ -59,7 +59,8 @@ class SQLIncludeRenderTest
         // inline entity (factory.NewEntityInline), as CExecSQLInclude lowers it.
         LegacyExternalDataStructureFixture copybook =
             new LegacyExternalDataStructureFixture(1, "Sqlca", catalog, exporter);
-        CJavaInline inline = new CJavaInline(2, catalog, exporter, copybook);
+        LegacyInlineFixture inline =
+            new LegacyInlineFixture(2, catalog, exporter, copybook);
 
         String rendered = TemplateLoader.getRecursiveAssembler()
             .renderRoot(inline, JavaTemplateRole.DECLARATION);
@@ -79,7 +80,8 @@ class SQLIncludeRenderTest
             new LegacyExternalDataStructureFixture(1, "Sqlca", catalog, exporter);
         // REPLACING ==2 BY 5== on the INCLUDE: the inline carries the replace level/value.
         copybook.ReplaceLevel(2, 5);
-        CJavaInline inline = new CJavaInline(2, catalog, exporter, copybook);
+        LegacyInlineFixture inline =
+            new LegacyInlineFixture(2, catalog, exporter, copybook);
 
         String rendered = TemplateLoader.getRecursiveAssembler()
             .renderRoot(inline, JavaTemplateRole.DECLARATION);

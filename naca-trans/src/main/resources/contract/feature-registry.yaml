@@ -363,6 +363,16 @@ features:
     fixtures: []
     status: production
 
+  - id: cobol.copybook.inline
+    dialects: [cobol-core, embedded-sql]
+    semanticType: semantic.CEntityInline
+    javaBackend:
+      role: DECLARATION
+      template: dataInlineDeclaration
+    runtimeOperations: []
+    fixtures: []
+    status: production
+
   - id: cobol.data.file-descriptor
     dialects: [cobol-core]
     semanticType: semantic.CEntityFileDescriptor

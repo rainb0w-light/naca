@@ -12,7 +12,6 @@
  */
 package generate;
 
-import generate.java.CJavaInline;
 import generate.java.CJavaMoveReference;
 import generate.java.CJavaNamedCondition;
 import generate.java.CJavaProcedure;
@@ -445,7 +444,10 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return e;
 	}
 	public CEntityInline NewEntityInline(int l, CBaseExternalEntity ext)	{
-		return new CJavaInline(l, programCatalog, langOutput, ext);
+		CEntityInline entity = new CEntityInline(l, programCatalog, ext);
+		entity.setLanguageExporter(langOutput);
+		programCatalog.RegisterExternalDataStructure(ext);
+		return entity;
 	}
 	public CEntityCondition NewEntityCondition(int l)	{
 		return new CEntityCondition(l, programCatalog);
