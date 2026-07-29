@@ -20,7 +20,6 @@ public class CFPacJavaProcedure extends CEntityProcedure
 		setLanguageExporter(out);
 	}
 
-	@Override
 	public String ExportReference(int nLine)
 	{
 		return FormatIdentifier(GetName());

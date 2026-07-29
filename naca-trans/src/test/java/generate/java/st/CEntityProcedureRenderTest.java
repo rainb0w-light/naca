@@ -39,7 +39,7 @@ class CEntityProcedureRenderTest
             1, "MAIN-PARA", catalog, null);
         procedure.AddChild(new CEntityContinue(1, catalog));
 
-        assertEquals("MAIN_PARA", procedure.ExportReference(1));
+        assertEquals("MAIN_PARA", procedure.getFormattedName());
         assertEquals(
             "Paragraph MAIN_PARA = new Paragraph(this);\n"
                 + "public void MAIN_PARA() {\n"

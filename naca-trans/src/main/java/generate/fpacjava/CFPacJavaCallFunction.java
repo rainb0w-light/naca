@@ -37,7 +37,7 @@ public class CFPacJavaCallFunction extends CEntityCallFunction
 	@Override
 	protected void DoExport()
 	{
-		WriteLine(reference.getProcedure().ExportReference(getLine()) + "() ;") ;
+		WriteLine(FormatIdentifier(reference.getProcedure().GetName()) + "() ;") ;
 
 	}
 

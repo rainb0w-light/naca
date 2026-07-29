@@ -12,7 +12,6 @@
  */
 package semantic;
 
-import generate.*;
 import utils.*;
 
 /**
@@ -66,13 +65,6 @@ public class CEntityProcedure extends CBaseLanguageEntity
 	}
 	
 	protected static int ms_nLastProcedureIndex = 0 ;
-	public String ExportReference(int nLine)
-	{
-		return getFormattedName();
-	}
-	/* (non-Javadoc)
-	 * @see semantic.CBaseSemanticEntity#DoExport()
-	 */
 	public boolean ignore()
 	{
 		if (isignore)
