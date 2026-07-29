@@ -29,7 +29,7 @@ import utils.*;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityStructure extends CEntityAttribute
+public class CEntityStructure extends CEntityAttribute
 {
 
 	/**
@@ -188,6 +188,28 @@ public abstract class CEntityStructure extends CEntityAttribute
 	public boolean canOwnTableSize()
 	{
 		return true;
+	}
+
+	/**
+	 * Number of OCCURS dimensions contributed by this structure and its
+	 * enclosing structures. This is semantic shape information used while
+	 * resolving indexed references; it is independent of any output language.
+	 */
+	@Override
+	public int getNbDimOccurs()
+	{
+		int dimensions = tableSize == null ? 0 : 1;
+		CBaseLanguageEntity entity = parent;
+		while (entity != null)
+		{
+			if (entity instanceof CEntityStructure structure
+				&& structure.getTableSize() != null)
+			{
+				dimensions++;
+			}
+			entity = entity.GetParent();
+		}
+		return dimensions;
 	}
 	public int getVariableSize()
 	{

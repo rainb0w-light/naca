@@ -12,7 +12,6 @@
  */
 package generate;
 
-import generate.java.CJavaStructure;
 import generate.java.CJavaSubStringReference;
 import generate.java.CJavaUnknownReference;
 
@@ -418,7 +417,10 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return e;
 	}
 	public CEntityStructure NewEntityStructure(int l, String name, String level)	{
-		return new CJavaStructure(l, name, programCatalog, langOutput, level);
+		CEntityStructure entity =
+			new CEntityStructure(l, name, programCatalog, level);
+		entity.setLanguageExporter(langOutput);
+		return entity;
 	}
 	public CEntityProcedure NewEntityProcedure(int l, String name, CEntityProcedureSection section)	{
 		CEntityProcedure entity =

@@ -4,9 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import generate.fixtures.LegacyAttributeFixture;
 import generate.fixtures.LegacyIndexFixture;
+import generate.fixtures.LegacyStructureFixture;
 import generate.java.CJavaExporter;
 import generate.fixtures.LegacyExternalDataStructureFixture;
-import generate.java.CJavaStructure;
 import generate.java.CJavaSubStringReference;
 import generate.templates.TemplateLoader;
 import org.junit.jupiter.api.Test;
@@ -43,7 +43,7 @@ class JavaSemanticReferenceRendererTest
     @Test
     void usesTheSemanticDisplayNameForStructureReferences()
     {
-        CJavaStructure structure = new CJavaStructure(
+        LegacyStructureFixture structure = new LegacyStructureFixture(
             1, "ORIGINAL-NAME", catalog, output, "01");
         structure.SetDisplayName("DISPLAY-NAME");
 

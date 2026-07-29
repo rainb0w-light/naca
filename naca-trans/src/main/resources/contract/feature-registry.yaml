@@ -423,6 +423,16 @@ features:
     fixtures: []
     status: production
 
+  - id: cobol.data.structure
+    dialects: [cobol-core, embedded-sql, embedded-cics]
+    semanticType: semantic.CEntityStructure
+    javaBackend:
+      role: DECLARATION
+      template: dataStructureDeclaration
+    runtimeOperations: []
+    fixtures: []
+    status: production
+
   - id: cobol.procedure.paragraph
     dialects: [cobol-core]
     semanticType: semantic.CEntityProcedure

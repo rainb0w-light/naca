@@ -10,7 +10,7 @@ import generate.fixtures.LegacyExternalDataStructureFixture;
 import generate.fixtures.LegacyFileDescriptorFixture;
 import generate.fixtures.LegacyInlineFixture;
 import generate.fixtures.LegacyNamedConditionFixture;
-import generate.java.CJavaStructure;
+import generate.fixtures.LegacyStructureFixture;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.Test;
@@ -39,8 +39,8 @@ class DataSectionDeclarationTemplateTest
     void rendersAGroupDeclarationLikeTheDirectGenerator()
     {
         MockJavaExporter exporter = new MockJavaExporter();
-        CJavaStructure structure =
-            new CJavaStructure(1, "WS-GROUP", catalog(), exporter, "01");
+        LegacyStructureFixture structure =
+            new LegacyStructureFixture(1, "WS-GROUP", catalog(), exporter, "01");
 
         String rendered = TemplateLoader.getRecursiveAssembler()
             .renderRoot(structure, JavaTemplateRole.DECLARATION);
@@ -57,8 +57,8 @@ class DataSectionDeclarationTemplateTest
         CObjectCatalog catalog = catalog();
         LegacyDataSectionFixture section =
             new LegacyDataSectionFixture(1, "FileSection", catalog, exporter);
-        CJavaStructure structure =
-            new CJavaStructure(2, "FILE-RECORD", catalog, exporter, "01");
+        LegacyStructureFixture structure =
+            new LegacyStructureFixture(2, "FILE-RECORD", catalog, exporter, "01");
         LegacyAttributeFixture attribute =
             new LegacyAttributeFixture(3, "FILE-CHAR", catalog, exporter);
         attribute.SetLevel("05");
@@ -106,8 +106,8 @@ class DataSectionDeclarationTemplateTest
     {
         MockJavaExporter exporter = new MockJavaExporter();
         CObjectCatalog catalog = catalog();
-        CJavaStructure structure =
-            new CJavaStructure(2, "WS-TBL", catalog, exporter, "05");
+        LegacyStructureFixture structure =
+            new LegacyStructureFixture(2, "WS-TBL", catalog, exporter, "05");
         structure.SetTypeString(3);
         structure.SetTableSizeDepending(
             new MockDataEntity(2, catalog, exporter, "5"), null);
@@ -127,8 +127,8 @@ class DataSectionDeclarationTemplateTest
     {
         MockJavaExporter exporter = new MockJavaExporter();
         CObjectCatalog catalog = catalog();
-        CJavaStructure structure =
-            new CJavaStructure(2, "WS-REDEF", catalog, exporter, "05");
+        LegacyStructureFixture structure =
+            new LegacyStructureFixture(2, "WS-REDEF", catalog, exporter, "05");
         structure.SetTypeString(4);
         structure.SetRedefine(new MockDataEntity(2, catalog, exporter, "WS_ORIG"));
 
@@ -145,8 +145,8 @@ class DataSectionDeclarationTemplateTest
     {
         MockJavaExporter exporter = new MockJavaExporter();
         CObjectCatalog catalog = catalog();
-        CJavaStructure structure =
-            new CJavaStructure(2, "WS-TAB", catalog, exporter, "05");
+        LegacyStructureFixture structure =
+            new LegacyStructureFixture(2, "WS-TAB", catalog, exporter, "05");
         structure.SetTypeString(3);
         structure.SetTableSize(new MockDataEntity(2, catalog, exporter, "10"));
 
@@ -163,8 +163,8 @@ class DataSectionDeclarationTemplateTest
     {
         MockJavaExporter exporter = new MockJavaExporter();
         CObjectCatalog catalog = catalog();
-        CJavaStructure structure =
-            new CJavaStructure(2, "WS-DEP", catalog, exporter, "05");
+        LegacyStructureFixture structure =
+            new LegacyStructureFixture(2, "WS-DEP", catalog, exporter, "05");
         structure.SetTypeString(3);
         structure.SetTableSizeDepending(
             new MockDataEntity(2, catalog, exporter, "20"),
@@ -183,8 +183,8 @@ class DataSectionDeclarationTemplateTest
     {
         MockJavaExporter exporter = new MockJavaExporter();
         CObjectCatalog catalog = catalog();
-        CJavaStructure structure =
-            new CJavaStructure(2, "WS-PACKED", catalog, exporter, "05");
+        LegacyStructureFixture structure =
+            new LegacyStructureFixture(2, "WS-PACKED", catalog, exporter, "05");
         structure.SetTypeNum(5, 0);
         structure.SetComp("Comp3");
 
@@ -201,8 +201,8 @@ class DataSectionDeclarationTemplateTest
     {
         MockJavaExporter exporter = new MockJavaExporter();
         CObjectCatalog catalog = catalog();
-        CJavaStructure structure =
-            new CJavaStructure(2, "WS-SGNL", catalog, exporter, "05");
+        LegacyStructureFixture structure =
+            new LegacyStructureFixture(2, "WS-SGNL", catalog, exporter, "05");
         structure.SetTypeNum(3, 0);
         structure.SetSignSeparateType(CWorkingSignType.LEADING);
 
@@ -219,8 +219,8 @@ class DataSectionDeclarationTemplateTest
     {
         MockJavaExporter exporter = new MockJavaExporter();
         CObjectCatalog catalog = catalog();
-        CJavaStructure structure =
-            new CJavaStructure(2, "WS-SGNT", catalog, exporter, "05");
+        LegacyStructureFixture structure =
+            new LegacyStructureFixture(2, "WS-SGNT", catalog, exporter, "05");
         structure.SetTypeNum(3, 0);
         structure.SetSignSeparateType(CWorkingSignType.TRAILING);
 
@@ -240,8 +240,8 @@ class DataSectionDeclarationTemplateTest
         // Empty name => group FILLER; the default name is assigned at construction
         // (semantic phase), so neither the direct generator nor the template
         // mutates the tree during export.
-        CJavaStructure filler =
-            new CJavaStructure(1, "", catalog, exporter, "01");
+        LegacyStructureFixture filler =
+            new LegacyStructureFixture(1, "", catalog, exporter, "01");
 
         String rendered = TemplateLoader.getRecursiveAssembler()
             .renderRoot(filler, JavaTemplateRole.DECLARATION);
@@ -270,7 +270,8 @@ class DataSectionDeclarationTemplateTest
             new LegacyDataSectionFixture(1, "FileSection", catalog, exporter);
         LegacyFileDescriptorFixture fd =
             new LegacyFileDescriptorFixture(2, "FILEIN", catalog, exporter);
-        CJavaStructure record = new CJavaStructure(3, "FILEIN-Z", catalog, exporter, "01");
+        LegacyStructureFixture record =
+            new LegacyStructureFixture(3, "FILEIN-Z", catalog, exporter, "01");
         LegacyAttributeFixture field = new LegacyAttributeFixture(4, "FILEIN-CODE", catalog, exporter);
         field.SetLevel("05");
         field.SetTypeString(1);
