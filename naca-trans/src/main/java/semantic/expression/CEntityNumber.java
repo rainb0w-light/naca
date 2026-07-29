@@ -92,15 +92,6 @@ public class CEntityNumber extends CDataEntity
 	{
 		return false;
 	}
-	public String ExportWriteAccessorTo(String value)
-	{
-		// unused
-		return "" ;
-	}
-	protected void DoExport()
-	{
-		// unused
-	}
 	public boolean ignore()
 	{
 		return false ;
