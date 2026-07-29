@@ -246,6 +246,7 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 	public void setLanguageExporter(CBaseLanguageExporter exp)
 	{
 		output = exp ;
+		LegacyLanguageOutputRegistry.register(this, exp) ;
 		ListIterator i = lstChildren.listIterator() ;
 		try
 		{

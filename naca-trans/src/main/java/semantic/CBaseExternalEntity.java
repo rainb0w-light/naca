@@ -14,8 +14,7 @@ package semantic;
 
 import java.util.NoSuchElementException;
 
-import generate.*;
-import utils.*;
+import utils.CObjectCatalog;
 
 /**
  * @author sly
@@ -26,24 +25,11 @@ import utils.*;
 public abstract class CBaseExternalEntity extends CDataEntity
 {
 
-	/**
-	 * @param name
-	 * @param cat
-	 * @param out
-	 */
-	public CBaseExternalEntity(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out)
-	{
-		super(l, name, cat, out);
-	}
-
 	public CBaseExternalEntity(int l, String name, CObjectCatalog cat)
 	{
 		super(l, name, cat);
 	}
 
-	/* (non-Javadoc)
-	 * @see semantic.CBaseDataEntity#ExportReference(semantic.CBaseLanguageExporter)
-	 */
 	public void InitDependences(CBaseEntityFactory factory) 
 	{
 		int n= 0;
@@ -139,12 +125,4 @@ public abstract class CBaseExternalEntity extends CDataEntity
 		super.Clear();
 		inlineAction = null ;
 	}
-
-
-	public CBaseLanguageExporter getExporter()
-	{
-		return GetXMLOutput() ;
-	}
-
-
 }
