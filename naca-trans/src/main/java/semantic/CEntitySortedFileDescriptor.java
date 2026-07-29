@@ -6,9 +6,11 @@
  */
 package semantic;
 
+import java.util.Collections;
+import java.util.List;
 import utils.CObjectCatalog;
 
-public abstract class CEntitySortedFileDescriptor extends CEntityFileDescriptor
+public class CEntitySortedFileDescriptor extends CEntityFileDescriptor
 {
 
 	public CEntitySortedFileDescriptor(int line, String name,
@@ -17,5 +19,13 @@ public abstract class CEntitySortedFileDescriptor extends CEntityFileDescriptor
 		super(line, name, cat);
 	}
 
+	public List<CBaseLanguageEntity> getDeclarationChildren()
+	{
+		if (lstChildren.isEmpty())
+		{
+			return Collections.emptyList();
+		}
+		return Collections.singletonList(lstChildren.getFirst());
+	}
 
 }

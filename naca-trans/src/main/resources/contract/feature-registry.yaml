@@ -453,6 +453,16 @@ features:
     fixtures: []
     status: production
 
+  - id: cobol.file.sorted-descriptor
+    dialects: [cobol-core]
+    semanticType: semantic.CEntitySortedFileDescriptor
+    javaBackend:
+      role: DECLARATION
+      template: dataSortedFileDescriptorDeclaration
+    runtimeOperations: []
+    fixtures: []
+    status: production
+
   - id: cobol.expression.concat
     dialects: [cobol-core]
     semanticType: semantic.expression.CEntityConcat

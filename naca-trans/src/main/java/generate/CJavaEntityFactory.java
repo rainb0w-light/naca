@@ -12,7 +12,6 @@
  */
 package generate;
 
-import generate.java.CJavaSortedFileDescriptor;
 import generate.java.CJavaStructure;
 import generate.java.CJavaSubStringReference;
 import generate.java.CJavaUnknownReference;
@@ -1185,7 +1184,10 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return e;
 	}
 	public CEntitySortedFileDescriptor NewEntitySortedFileDescriptor(int line, String name)	{
-		return new CJavaSortedFileDescriptor(line, name, programCatalog, langOutput) ;
+		CEntitySortedFileDescriptor entity =
+			new CEntitySortedFileDescriptor(line, name, programCatalog);
+		entity.setLanguageExporter(langOutput);
+		return entity;
 	}
 	public CEntityOpenFile NewEntityOpenFile(int line) 	{
 		CEntityOpenFile e = new CEntityOpenFile(line, programCatalog);

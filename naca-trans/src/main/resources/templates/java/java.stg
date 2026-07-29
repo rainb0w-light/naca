@@ -1161,6 +1161,11 @@ FileDescriptor <entity.formattedName> = declare.file(<if(entity.fileName)><entit
 <entity.activeChildren>
 >>
 
+dataSortedFileDescriptorDeclaration(entity) ::= <<
+SortDescriptor <entity.formattedName> = declare.sort() ;
+<entity.declarationChildren>
+>>
+
 dataFileDescriptorLengthDependencyDeclaration(entity) ::= <<
 FileDescriptorDepending <entity.formattedName> = declare.fileDescriptorDepending( <entity.fileDescriptor>, <entity.lengthDependency>) ;
 >>
