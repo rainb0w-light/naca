@@ -25,8 +25,8 @@
       "lastVerifiedAtCommit": "5903f95d",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 133,
-        "directBackends": 63,
+        "failures": 132,
+        "directBackends": 62,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -3730,25 +3730,27 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "COBOL_CORE",
       "sourceSyntax": "legacy backend CJavaExprOpposite",
-      "parserNode": null,
+      "parserNode": "parser.expression.COppositeExpression",
       "semanticNode": "semantic.expression.CEntityExprOpposite",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
+      "assemblerRole": "REFERENCE",
+      "manifestBinding": "semantic.expression.CEntityExprOpposite=recursiveExprOppositeEntity",
+      "template": "recursiveExprOppositeEntity",
       "runtimeOperation": null,
       "fixture": null,
       "directBackend": "generate.java.expressions.CJavaExprOpposite",
       "sourcePath": "naca-trans/src/main/java/generate/java/expressions/CJavaExprOpposite.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/expressions/CJavaExprOpposite.java"
-      ]
+        "naca-trans/src/main/java/semantic/expression/CEntityExprOpposite.java",
+        "naca-trans/src/test/java/generate/java/st/CEntityExprOppositeRenderTest.java"
+      ],
+      "lastAttemptCommit": "77eb7ab7"
     },
     {
       "id": "BACKEND-COBOL-EXPRESSION-CJAVAEXPRPROD",

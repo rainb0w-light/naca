@@ -34,7 +34,6 @@ import generate.java.CJavaStructure;
 import generate.java.CJavaSubStringReference;
 import generate.java.CJavaUnknownReference;
 
-import generate.java.expressions.CJavaExprOpposite;
 import generate.java.expressions.CJavaExprProd;
 import generate.java.expressions.CJavaExprSum;
 import generate.java.expressions.CJavaExprTerminal;
@@ -800,7 +799,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return e;
 	}
 	public CEntityExprOpposite NewEntityExprOpposite()	{
-		return new CJavaExprOpposite();
+		return new CEntityExprOpposite();
 	}
 	public CEntityCICSXctl NewEntityCICSXctl(int l)	{
 		// Direct backend CJavaCICSXctl retired: the pure semantic entity is rendered

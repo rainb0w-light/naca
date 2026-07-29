@@ -21,7 +21,7 @@ package semantic.expression;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityExprOpposite extends CBaseEntityExpression
+public class CEntityExprOpposite extends CBaseEntityExpression
 {
 	
 	public void SetOpposite(CBaseEntityExpression e)
