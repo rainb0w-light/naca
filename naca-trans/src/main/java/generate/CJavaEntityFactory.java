@@ -34,7 +34,6 @@ import generate.java.CJavaStructure;
 import generate.java.CJavaSubStringReference;
 import generate.java.CJavaUnknownReference;
 
-import generate.java.expressions.CJavaDigits;
 import generate.java.expressions.CJavaEntityNumber;
 import generate.java.expressions.CJavaExprOpposite;
 import generate.java.expressions.CJavaExprProd;
@@ -1139,7 +1138,9 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CJavaList(name, programCatalog, langOutput);
 	}
 	public CEntityDigits NewEntityDigits(CDataEntity nel)	{
-		return new CJavaDigits(programCatalog, langOutput, nel);
+		CEntityDigits e = new CEntityDigits(programCatalog, nel);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntitySearch NewEntitySearch(int line)	{
 		CEntitySearch e = new CEntitySearch(line, programCatalog);

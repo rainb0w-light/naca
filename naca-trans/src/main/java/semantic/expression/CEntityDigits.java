@@ -21,7 +21,7 @@ import utils.CObjectCatalog;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public abstract class CEntityDigits extends CBaseEntityFunction
+public class CEntityDigits extends CBaseEntityFunction
 {
 
 	/**
@@ -31,5 +31,9 @@ public abstract class CEntityDigits extends CBaseEntityFunction
 	public CEntityDigits(CObjectCatalog cat, CDataEntity data1)
 	{
 		super(cat, data1);
+	}
+	public boolean isValNeeded()
+	{
+		return false;
 	}
 }

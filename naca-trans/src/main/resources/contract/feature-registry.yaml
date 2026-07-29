@@ -421,6 +421,18 @@ features:
     fixtures: []
     status: production
 
+  - id: cobol.expression.digits
+    dialects: [embedded-sql]
+    semanticType: semantic.expression.CEntityDigits
+    javaBackend:
+      role: REFERENCE
+      template: digitsExpressionEntity
+    # digits(...) is a protected BaseProgram helper; the SQL lowering retains
+    # its operand as a semantic child and ST4 renders the helper invocation.
+    runtimeOperations: []
+    fixtures: []
+    status: production
+
   - id: cobol.data.initialize
     dialects: [cobol-core]
     semanticType: semantic.Verbs.CEntityInitialize
