@@ -22,11 +22,11 @@
     "ratchet": {
       "note": "Debt counts may only move down for the COBOL scope. Refresh per phase.",
       "baselineCapturedAtCommit": "9402b0c",
-      "lastVerifiedAtCommit": "7410d36b",
+      "lastVerifiedAtCommit": "9cfccfc5",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 154,
-        "directBackends": 84,
+        "failures": 153,
+        "directBackends": 83,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -3007,25 +3007,29 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "COBOL_CORE",
       "sourceSyntax": "legacy backend CJavaSort",
       "parserNode": null,
       "semanticNode": "semantic.Verbs.CEntitySort",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
+      "assemblerRole": "REFERENCE",
+      "manifestBinding": "semantic.Verbs.CEntitySort=recursiveSortEntity",
+      "template": "recursiveSortEntity",
+      "runtimeOperation": "sort.start",
       "fixture": null,
       "directBackend": "generate.java.verbs.CJavaSort",
       "sourcePath": "naca-trans/src/main/java/generate/java/verbs/CJavaSort.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/verbs/CJavaSort.java"
-      ]
+        "naca-trans/src/main/resources/contract/feature-registry.yaml",
+        "naca-trans/src/main/resources/contract/runtime-operations.yaml",
+        "naca-trans/src/main/resources/contract/template-runtime-requirements.yaml",
+        "naca-trans/src/test/java/generate/java/st/CEntitySortRenderTest.java"
+      ],
+      "lastAttemptCommit": "9cfccfc5"
     },
     {
       "id": "BACKEND-COBOL-VERB-CJAVASORTRELEASE",

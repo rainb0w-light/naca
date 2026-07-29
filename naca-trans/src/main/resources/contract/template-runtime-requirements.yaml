@@ -122,6 +122,20 @@ templates:
       - search.occursCount
       - search.incrementIndex
 
+  recursiveSortEntity:
+    capability: FILE_IO
+    requires:
+      - sort.start
+      - sort.ascKey
+      - sort.descKey
+      - sort.usingFile
+      - sort.givingFile
+      - sort.usingInputParagraph
+      - sort.usingInputSection
+      - sort.usingOutputParagraph
+      - sort.usingOutputSection
+      - sort.exec
+
   recursiveCountEntity:
     capability: STRING
     requires:

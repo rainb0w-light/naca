@@ -212,6 +212,16 @@ features:
     fixtures: []
     status: production
 
+  - id: cobol.file.sort
+    dialects: [cobol-core]
+    semanticType: semantic.Verbs.CEntitySort
+    javaBackend:
+      role: REFERENCE
+      template: recursiveSortEntity
+    runtimeOperations: [sort.start, sort.ascKey, sort.descKey, sort.usingFile, sort.givingFile, sort.usingInputParagraph, sort.usingInputSection, sort.usingOutputParagraph, sort.usingOutputSection, sort.exec]
+    fixtures: []
+    status: production
+
   - id: cobol.data.initialize
     dialects: [cobol-core]
     semanticType: semantic.Verbs.CEntityInitialize

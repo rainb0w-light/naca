@@ -3,6 +3,7 @@ package generate.java.st;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
+import generate.CJavaEntityFactory;
 import generate.CJavaEntityFactoryST;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
@@ -35,8 +36,10 @@ class CEntitySortRenderTest
     }
 
     @Test
-    void stFactoryReturnsPureSemanticEntity()
+    void bothFactoriesReturnPureSemanticEntity()
     {
+        assertEquals(CEntitySort.class,
+            new CJavaEntityFactory(catalog, null).NewEntitySort(1).getClass());
         assertInstanceOf(CEntitySort.class,
             new CJavaEntityFactoryST(catalog, null).NewEntitySort(1));
     }

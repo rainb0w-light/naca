@@ -552,6 +552,86 @@ operations:
     paramTypes: [int, nacaLib.varEx.Var]
     returns: void
 
+  - id: sort.start
+    since: 1
+    capability: FILE_IO
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: sort
+    paramTypes: [nacaLib.varEx.SortDescriptor]
+    returns: nacaLib.varEx.SortCommand
+
+  - id: sort.ascKey
+    since: 1
+    capability: FILE_IO
+    runtimeClass: nacaLib.varEx.SortCommand
+    runtimeMethod: ascKey
+    paramTypes: [nacaLib.varEx.Var]
+    returns: nacaLib.varEx.SortCommand
+
+  - id: sort.descKey
+    since: 1
+    capability: FILE_IO
+    runtimeClass: nacaLib.varEx.SortCommand
+    runtimeMethod: descKey
+    paramTypes: [nacaLib.varEx.Var]
+    returns: nacaLib.varEx.SortCommand
+
+  - id: sort.usingFile
+    since: 1
+    capability: FILE_IO
+    runtimeClass: nacaLib.varEx.SortCommand
+    runtimeMethod: using
+    paramTypes: [nacaLib.varEx.FileDescriptor]
+    returns: nacaLib.varEx.SortCommand
+
+  - id: sort.givingFile
+    since: 1
+    capability: FILE_IO
+    runtimeClass: nacaLib.varEx.SortCommand
+    runtimeMethod: giving
+    paramTypes: [nacaLib.varEx.FileDescriptor]
+    returns: nacaLib.varEx.SortCommand
+
+  - id: sort.usingInputParagraph
+    since: 1
+    capability: FILE_IO
+    runtimeClass: nacaLib.varEx.SortCommand
+    runtimeMethod: usingInput
+    paramTypes: [nacaLib.program.Paragraph]
+    returns: nacaLib.varEx.SortCommand
+
+  - id: sort.usingInputSection
+    since: 1
+    capability: FILE_IO
+    runtimeClass: nacaLib.varEx.SortCommand
+    runtimeMethod: usingInput
+    paramTypes: [nacaLib.program.Section]
+    returns: nacaLib.varEx.SortCommand
+
+  - id: sort.usingOutputParagraph
+    since: 1
+    capability: FILE_IO
+    runtimeClass: nacaLib.varEx.SortCommand
+    runtimeMethod: usingOutput
+    paramTypes: [nacaLib.program.Paragraph]
+    returns: nacaLib.varEx.SortCommand
+
+  - id: sort.usingOutputSection
+    since: 1
+    capability: FILE_IO
+    runtimeClass: nacaLib.varEx.SortCommand
+    runtimeMethod: usingOutput
+    paramTypes: [nacaLib.program.Section]
+    returns: nacaLib.varEx.SortCommand
+
+  - id: sort.exec
+    since: 1
+    capability: FILE_IO
+    runtimeClass: nacaLib.varEx.SortCommand
+    runtimeMethod: exec
+    paramTypes: []
+    returns: void
+
   - id: compare.isLess.intVarAndEdit
     since: 1
     capability: CONTROL_FLOW
