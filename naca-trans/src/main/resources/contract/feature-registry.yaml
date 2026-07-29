@@ -242,6 +242,27 @@ features:
     fixtures: []
     status: production
 
+  - id: cobol.string.concat
+    dialects: [cobol-core]
+    semanticType: semantic.Verbs.CEntityStringConcat
+    javaBackend:
+      role: REFERENCE
+      template: recursiveStringConcatEntity
+    runtimeOperations:
+      - string.concat.startString
+      - string.concat.startVar
+      - string.concat.itemString
+      - string.concat.itemVar
+      - string.concat.itemKey
+      - string.concat.delimitedVarString
+      - string.concat.delimitedVarVar
+      - string.concat.delimitedStringString
+      - string.concat.withPointer
+      - string.concat.into
+      - string.concat.failed
+    fixtures: []
+    status: production
+
   - id: cobol.data.initialize
     dialects: [cobol-core]
     semanticType: semantic.Verbs.CEntityInitialize

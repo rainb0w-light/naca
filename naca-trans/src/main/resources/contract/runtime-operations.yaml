@@ -664,6 +664,94 @@ operations:
     paramTypes: [nacaLib.varEx.SortDescriptor, nacaLib.varEx.Var]
     returns: nacaLib.varEx.RecordDescriptorAtEnd
 
+  - id: string.concat.startString
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: concat
+    paramTypes: [java.lang.String]
+    returns: nacaLib.stringSupport.Concat
+
+  - id: string.concat.startVar
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: concat
+    paramTypes: [nacaLib.varEx.VarAndEdit]
+    returns: nacaLib.stringSupport.Concat
+
+  - id: string.concat.itemString
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.stringSupport.Concat
+    runtimeMethod: concat
+    paramTypes: [java.lang.String]
+    returns: nacaLib.stringSupport.Concat
+
+  - id: string.concat.itemVar
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.stringSupport.Concat
+    runtimeMethod: concat
+    paramTypes: [nacaLib.varEx.VarAndEdit]
+    returns: nacaLib.stringSupport.Concat
+
+  - id: string.concat.itemKey
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.stringSupport.Concat
+    runtimeMethod: concat
+    paramTypes: [nacaLib.misc.KeyPressed]
+    returns: nacaLib.stringSupport.Concat
+
+  - id: string.concat.delimitedVarString
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: concatDelimitedBy
+    paramTypes: [nacaLib.varEx.VarAndEdit, java.lang.String]
+    returns: nacaLib.stringSupport.Concat
+
+  - id: string.concat.delimitedVarVar
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: concatDelimitedBy
+    paramTypes: [nacaLib.varEx.VarAndEdit, nacaLib.varEx.Var]
+    returns: nacaLib.stringSupport.Concat
+
+  - id: string.concat.delimitedStringString
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: concatDelimitedBy
+    paramTypes: [java.lang.String, java.lang.String]
+    returns: nacaLib.stringSupport.Concat
+
+  - id: string.concat.withPointer
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.stringSupport.Concat
+    runtimeMethod: withPointer
+    paramTypes: [nacaLib.varEx.Var]
+    returns: nacaLib.stringSupport.Concat
+
+  - id: string.concat.into
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.stringSupport.Concat
+    runtimeMethod: into
+    paramTypes: [nacaLib.varEx.VarAndEdit]
+    returns: nacaLib.stringSupport.ConcatTo
+
+  - id: string.concat.failed
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.stringSupport.ConcatTo
+    runtimeMethod: failed
+    paramTypes: []
+    returns: boolean
+
   - id: compare.isLess.intVarAndEdit
     since: 1
     capability: CONTROL_FLOW

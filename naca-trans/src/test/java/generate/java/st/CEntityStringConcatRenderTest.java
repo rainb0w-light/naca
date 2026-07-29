@@ -1,14 +1,30 @@
 package generate.java.st;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import generate.CJavaEntityFactory;
+import generate.CJavaEntityFactoryST;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.Test;
+import semantic.Verbs.CEntityBreak;
 import semantic.Verbs.CEntityStringConcat;
+import utils.CObjectCatalog;
 
-class CJavaStringConcatSTTest
+class CEntityStringConcatRenderTest
 {
+    private final CObjectCatalog catalog = new CObjectCatalog(null, null, null, null);
+
+    @Test
+    void bothFactoriesReturnPureSemanticEntity()
+    {
+        assertEquals(CEntityStringConcat.class,
+            new CJavaEntityFactory(catalog, null).NewEntityStringConcat(1).getClass());
+        assertEquals(CEntityStringConcat.class,
+            new CJavaEntityFactoryST(catalog, null).NewEntityStringConcat(1).getClass());
+    }
+
     @Test
     void rendersOrderedItemsAndDestinationFromTheSemanticModel()
     {
@@ -47,5 +63,24 @@ class CJavaStringConcatSTTest
             output.contains("concat(replacement).concatDelimitedBy(replacement, replacement)"
                     + ".withPointer(replacement).into(destination);"),
             output);
+    }
+
+    @Test
+    void recursivelyRendersOverflowChildren()
+    {
+        CEntityStringConcat concat = new CEntityStringConcat(1, catalog);
+        concat.AddItem(new MockDataEntity(1, "source"));
+        concat.SetVariable(
+            new MockDataEntity(1, "destination"),
+            new MockDataEntity(1, "pointer"));
+        concat.AddChild(new CEntityBreak(1, catalog));
+
+        String output = TemplateLoader.getRecursiveAssembler()
+            .renderRoot(concat, JavaTemplateRole.REFERENCE);
+
+        assertTrue(output.contains(
+            "if (concat(source).withPointer(pointer).into(destination).failed())"),
+            output);
+        assertTrue(output.contains("break;"), output);
     }
 }

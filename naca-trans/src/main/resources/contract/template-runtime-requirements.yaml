@@ -149,6 +149,21 @@ templates:
       - sort.returnInto
       - ioResult.atEnd
 
+  recursiveStringConcatEntity:
+    capability: STRING
+    requires:
+      - string.concat.startString
+      - string.concat.startVar
+      - string.concat.itemString
+      - string.concat.itemVar
+      - string.concat.itemKey
+      - string.concat.delimitedVarString
+      - string.concat.delimitedVarVar
+      - string.concat.delimitedStringString
+      - string.concat.withPointer
+      - string.concat.into
+      - string.concat.failed
+
   recursiveCountEntity:
     capability: STRING
     requires:

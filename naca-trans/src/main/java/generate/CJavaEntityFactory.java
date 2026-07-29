@@ -92,7 +92,6 @@ import generate.java.forms.CJavaSetCursor;
 import generate.java.forms.CJavaSetFlag;
 import generate.java.forms.CJavaSetHighlight;
 import generate.java.forms.CJavaSkipField;
-import generate.java.verbs.CJavaStringConcat;
 import generate.java.verbs.CJavaSubtractTo;
 import generate.java.verbs.CJavaWriteFile;
 
@@ -773,7 +772,9 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CJavaFieldValidated(l, name, programCatalog, langOutput, field) ;
 	}
 	public CEntityStringConcat NewEntityStringConcat(int l)	{
-		return new CJavaStringConcat(l, programCatalog, langOutput);
+		CEntityStringConcat e = new CEntityStringConcat(l, programCatalog);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntityDivide NewEntityDivide(int l)	{
 		CEntityDivide e = new CEntityDivide(l, programCatalog);
