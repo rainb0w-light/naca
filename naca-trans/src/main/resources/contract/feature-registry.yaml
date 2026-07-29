@@ -322,6 +322,36 @@ features:
     fixtures: []
     status: production
 
+  - id: cics.read
+    dialects: [embedded-cics]
+    semanticType: semantic.CICS.CEntityCICSRead
+    javaBackend:
+      role: REFERENCE
+      template: recursiveCICSReadEntity
+    runtimeOperations:
+      - cics.read.dataSetString
+      - cics.read.dataSetVar
+      - cics.read.fileString
+      - cics.read.fileVar
+      - cics.read.previousDataSetString
+      - cics.read.previousDataSetVar
+      - cics.read.previousFileString
+      - cics.read.previousFileVar
+      - cics.read.nextDataSetString
+      - cics.read.nextDataSetVar
+      - cics.read.nextFileString
+      - cics.read.nextFileVar
+      - cics.read.into
+      - cics.read.lengthVar
+      - cics.read.lengthInt
+      - cics.read.recIDField
+      - cics.read.keyLengthVar
+      - cics.read.keyLengthInt
+      - cics.read.equal
+      - cics.read.update
+    fixtures: []
+    status: production
+
   - id: sql.cursorSection
     dialects: [embedded-sql]
     semanticType: semantic.CEntitySQLCursorSection

@@ -138,6 +138,13 @@ class TemplateRuntimeContractTest
         assertTrue(contract.templateRequirements().get("recursiveCICSReWriteEntity").requires()
             .containsAll(List.of("cics.rewrite.dataSetString", "cics.rewrite.dataSetVar",
                 "cics.rewrite.fileString", "cics.rewrite.fileVar")));
+        assertTrue(contract.templateRequirements().get("recursiveCICSReadEntity").requires()
+            .containsAll(List.of("cics.read.dataSetString", "cics.read.dataSetVar",
+                "cics.read.fileString", "cics.read.fileVar",
+                "cics.read.previousDataSetString", "cics.read.previousDataSetVar",
+                "cics.read.previousFileString", "cics.read.previousFileVar",
+                "cics.read.nextDataSetString", "cics.read.nextDataSetVar",
+                "cics.read.nextFileString", "cics.read.nextFileVar")));
     }
 
     private static void collectMethods(Matcher matcher, Set<String> methods)

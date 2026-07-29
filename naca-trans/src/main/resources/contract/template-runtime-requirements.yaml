@@ -209,3 +209,27 @@ templates:
       - cics.rewrite.from
       - cics.rewrite.fromVarLength
       - cics.rewrite.fromIntLength
+
+  recursiveCICSReadEntity:
+    capability: CICS
+    requires:
+      - cics.read.dataSetString
+      - cics.read.dataSetVar
+      - cics.read.fileString
+      - cics.read.fileVar
+      - cics.read.previousDataSetString
+      - cics.read.previousDataSetVar
+      - cics.read.previousFileString
+      - cics.read.previousFileVar
+      - cics.read.nextDataSetString
+      - cics.read.nextDataSetVar
+      - cics.read.nextFileString
+      - cics.read.nextFileVar
+      - cics.read.into
+      - cics.read.lengthVar
+      - cics.read.lengthInt
+      - cics.read.recIDField
+      - cics.read.keyLengthVar
+      - cics.read.keyLengthInt
+      - cics.read.equal
+      - cics.read.update

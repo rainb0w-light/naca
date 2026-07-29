@@ -99,6 +99,22 @@ public class CCESMFakeMethodContainer
 	{
 		return this ;
 	}
+	public CCESMFakeMethodContainer length(Var v)
+	{
+		return this;
+	}
+	public CCESMFakeMethodContainer length(int value)
+	{
+		return this;
+	}
+	public CCESMFakeMethodContainer keyLength(Var v)
+	{
+		return this;
+	}
+	public CCESMFakeMethodContainer update()
+	{
+		return this;
+	}
 	public CCESMFakeMethodContainer  readItem(Var v)
 	{
 		return this ;

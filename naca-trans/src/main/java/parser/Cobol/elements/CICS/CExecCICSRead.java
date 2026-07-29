@@ -12,6 +12,7 @@
  */
 package parser.Cobol.elements.CICS;
 
+import diagnostic.DiagnosticSink;
 import lexer.CBaseToken;
 import lexer.CReservedKeyword;
 import lexer.CTokenType;
@@ -51,6 +52,15 @@ public class CExecCICSRead extends CCobolElement
 	 */
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis( CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
+		if (readType == null || fileName == null || dataInto == null)
+		{
+			DiagnosticSink.recordUnsupported(
+				"cics.read.missing-required-option",
+				"embedded-cics",
+				getLine(),
+				"EXEC CICS READ requires FILE(...) or DATASET(...), plus INTO(...)");
+			return null;
+		}
 		CEntityCICSRead Read = factory.NewEntityCICSRead(getLine(), CEntityCICSRead.CEntityCICSReadMode.NORMAL);
 		parent.AddChild(Read);
 		CDataEntity filename = fileName.GetDataEntity(getLine(), factory);
@@ -90,6 +100,10 @@ public class CExecCICSRead extends CCobolElement
 		if (isequal)
 		{
 			Read.SetEqual() ;
+		}
+		if (isupdate)
+		{
+			Read.SetUpdate();
 		}
 		return Read ;
 	}

@@ -1019,6 +1019,21 @@ recursiveCICSReWriteEntity(entity) ::= <<
 CESM.reWrite<if(entity.writeToDataSet)>DataSet<else>File<endif>(<entity.name>)<if(entity.dataFrom)>.from(<entity.dataFrom><if(entity.dataLength)>, <entity.dataLength><endif>)<endif> ;
 >>
 
+// Embedded CICS READ / READPREV / READNEXT. All operands are fully lowered in
+// Stage 1; rendering selects the runtime entry point and formats fluent options.
+// The Pub2000 subtemplates preserve the retired backend's application-specific
+// compatibility hooks. They are intentionally outside the Naca runtime contract.
+recursiveCICSReadEntity(entity) ::= <<
+<if(entity.readCode)><recursiveCICSReadCode(entity)><elseif(entity.readCodeMedia)><recursiveCICSReadCodeMedia(entity)><elseif(entity.readMessage)><recursiveCICSReadMessage(entity)><elseif(entity.readField)><recursiveCICSReadField(entity)><elseif(entity.readFieldPrevious)><recursiveCICSReadFieldPrevious(entity)><elseif(entity.readFieldNext)><recursiveCICSReadFieldNext(entity)><else>CESM.read<if(entity.previous)>Previous<elseif(entity.next)>Next<endif><if(entity.readToDataSet)>DataSet<else>File<endif>(<entity.name>).into(<entity.dataInto>)<if(entity.dataLength)>.length(<entity.dataLength>)<endif><if(entity.recIDField)>.recIDField(<entity.recIDField>)<endif><if(entity.keyLength)>.keyLength(<entity.keyLength>)<endif><if(entity.equal)>.equal()<endif><if(entity.update)>.update()<endif> ;<endif>
+>>
+
+recursiveCICSReadCode(entity) ::= "Pub2000Routines.readCode(getProgramManager(), <entity.dataIntoOwner>) ;"
+recursiveCICSReadCodeMedia(entity) ::= "Pub2000Routines.readCodeMedia(getProgramManager(), <entity.dataIntoOwner>) ;"
+recursiveCICSReadMessage(entity) ::= "Pub2000Routines.readMessage(getProgramManager(), <entity.dataIntoOwner>) ;"
+recursiveCICSReadField(entity) ::= "Pub2000Routines.readFieldInMap(getProgramManager(), <entity.dataIntoOwner>, <entity.recIDField>);"
+recursiveCICSReadFieldPrevious(entity) ::= "Pub2000Routines.readFieldInMapPrevious(getProgramManager(), <entity.dataIntoOwner>, <entity.recIDField>);"
+recursiveCICSReadFieldNext(entity) ::= "Pub2000Routines.readFieldInMapNext(getProgramManager(), <entity.dataIntoOwner>, <entity.recIDField>);"
+
 // Embedded CICS HANDLE AID (EXEC CICS HANDLE AID ENTER(label) PF1(label) ...
 // ANYKEY(label) END-EXEC). Emits one CESM.handleAID(<cond>, <label>) per
 // handled AID entry and one CESM.unhandleAID(<cond>) per unhandled AID entry.
