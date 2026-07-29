@@ -27,15 +27,6 @@ public abstract class CEntityConvertReference extends CBaseDataReference
 	}
 
 	/**
-	 * @see semantic.CBaseLanguageEntity#DoExport()
-	 */
-	@Override
-	protected void DoExport()
-	{
-		// unused
-	}
-
-	/**
 	 * @see semantic.CDataEntity#GetDataType()
 	 */
 	@Override
