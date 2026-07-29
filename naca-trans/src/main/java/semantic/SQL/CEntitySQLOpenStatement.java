@@ -32,14 +32,12 @@ import utils.CObjectCatalog;
  * the USING variable remain semantic children and are recursively rendered
  * through their reference bindings. When the cursor has a bound SELECT (the
  * {@code SELECT} of its {@code DECLARE CURSOR}), that SELECT is rendered in
- * place of the OPEN statement — exactly as the retired
- * {@code CJavaSQLOpenStatement.DoExport} dispatched {@code DoExport(select)} —
- * so the template picks the cursor's {@code select} child when present and the
+ * place of the OPEN statement, so the template picks the cursor's
+ * {@code select} child when present and the
  * {@code cursorOpen(<ref>[, <variable>])} runtime call otherwise. The
  * SQLWARNING/SQLERROR clause is read from the catalog (registered there by the
  * WHENEVER statement's Stage-1 side effect) so the template can chain it onto
- * the {@code cursorOpen(...)} runtime call. Replaces the retired
- * {@code generate.java.SQL.CJavaSQLOpenStatement} direct backend.
+ * the {@code cursorOpen(...)} runtime call.
  */
 public class CEntitySQLOpenStatement extends CBaseActionEntity
 {
@@ -77,7 +75,7 @@ public class CEntitySQLOpenStatement extends CBaseActionEntity
 	 * The SELECT bound to the cursor's {@code DECLARE CURSOR}, read by
 	 * {@code <entity.select>}; when non-null the template renders it in place of
 	 * the OPEN statement (the {@code cursorOpen(<ref>, "<select>")...} runtime
-	 * call), exactly as the retired backend dispatched {@code DoExport(select)}.
+	 * call).
 	 */
 	public CEntitySQLCursorSelectStatement getSelect()
 	{
