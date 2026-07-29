@@ -12,7 +12,7 @@ import semantic.CDataEntity;
  * @author S. Charton
  * @version $Id: CEntityConstant.java,v 1.1 2006/03/14 20:46:36 U930CV Exp $
  */
-public abstract class CEntityConstant extends CDataEntity
+public class CEntityConstant extends CDataEntity
 {
 
 	/**

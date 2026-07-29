@@ -11,13 +11,13 @@ import generate.java.CJavaExternalDataStructure;
 import generate.java.CJavaIndex;
 import generate.java.CJavaStructure;
 import generate.java.CJavaSubStringReference;
-import generate.java.expressions.CJavaConstant;
 import generate.java.expressions.CJavaEntityNumber;
 import generate.java.expressions.CJavaExprTerminal;
 import generate.templates.TemplateLoader;
 import org.junit.jupiter.api.Test;
 import semantic.CDataEntity;
 import semantic.expression.CBaseEntityExpression;
+import semantic.expression.CEntityConstant;
 import utils.CObjectCatalog;
 
 class JavaSemanticReferenceRendererTest
@@ -79,8 +79,12 @@ class JavaSemanticReferenceRendererTest
     @Test
     void rendersFigurativeConstantsLikeTheDirectGenerator()
     {
-        assertMatchesDirect(new CJavaConstant(CJavaConstant.Value.HIGH_VALUE));
-        assertMatchesDirect(new CJavaConstant(CJavaConstant.Value.SPACES));
+        assertEquals("CobolConstant.HighValue", assembler.renderRoot(
+            new CEntityConstant(CEntityConstant.Value.HIGH_VALUE),
+            JavaTemplateRole.REFERENCE));
+        assertEquals("CobolConstant.Spaces", assembler.renderRoot(
+            new CEntityConstant(CEntityConstant.Value.SPACES),
+            JavaTemplateRole.REFERENCE));
     }
 
     @Test

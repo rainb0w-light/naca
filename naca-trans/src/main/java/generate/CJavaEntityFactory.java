@@ -34,7 +34,6 @@ import generate.java.CJavaStructure;
 import generate.java.CJavaSubStringReference;
 import generate.java.CJavaUnknownReference;
 
-import generate.java.expressions.CJavaConstant;
 import generate.java.expressions.CJavaConstantValue;
 import generate.java.expressions.CJavaCurrentDate;
 import generate.java.expressions.CJavaDigits;
@@ -1271,7 +1270,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 	public CEntityConstant NewEntityConstant(Value val) {
-		return new CJavaConstant(val) ;
+		return new CEntityConstant(val) ;
 	}
 	public CEntityFileDescriptorLengthDependency NewEntityFileDescriptorLengthDependency(String name)	{
 		return new CJavaFileDescriptorLengthDependency(name, programCatalog, langOutput) ;

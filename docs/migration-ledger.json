@@ -22,11 +22,11 @@
     "ratchet": {
       "note": "Debt counts may only move down for the COBOL scope. Refresh per phase.",
       "baselineCapturedAtCommit": "9402b0c",
-      "lastVerifiedAtCommit": "8a29b5d8",
+      "lastVerifiedAtCommit": "12c0ae94",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 138,
-        "directBackends": 68,
+        "failures": 137,
+        "directBackends": 67,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -3565,25 +3565,27 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "COBOL_CORE",
       "sourceSyntax": "legacy backend CJavaConstant",
       "parserNode": null,
       "semanticNode": "semantic.expression.CEntityConstant",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
+      "assemblerRole": "REFERENCE",
+      "manifestBinding": "semantic.expression.CEntityConstant=cobolConstantEntity",
+      "template": "cobolConstantEntity",
       "runtimeOperation": null,
       "fixture": null,
       "directBackend": "generate.java.expressions.CJavaConstant",
       "sourcePath": "naca-trans/src/main/java/generate/java/expressions/CJavaConstant.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/expressions/CJavaConstant.java"
-      ]
+        "naca-trans/src/main/java/semantic/expression/CEntityConstant.java",
+        "naca-trans/src/test/java/generate/java/st/CEntityConstantRenderTest.java"
+      ],
+      "lastAttemptCommit": "12c0ae94"
     },
     {
       "id": "BACKEND-COBOL-EXPRESSION-CJAVACONSTANTVALUE",
