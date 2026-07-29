@@ -785,7 +785,9 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
 
     @Override
     public CEntityCallProgram NewEntityCallProgram(int l, CDataEntity reference) {
-        return new CJavaCallProgramST(l, programCatalog, langOutput, reference);
+        CEntityCallProgram e = new CEntityCallProgram(l, programCatalog, reference);
+        e.setLanguageExporter(langOutput);
+        return e;
     }
 
     @Override

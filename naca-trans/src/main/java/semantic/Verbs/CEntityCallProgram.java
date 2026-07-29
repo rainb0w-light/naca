@@ -27,7 +27,7 @@ import utils.*;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityCallProgram extends CBaseActionEntity
+public class CEntityCallProgram extends CBaseActionEntity
 {
 	/**
 	 * @param cat
@@ -231,7 +231,7 @@ public abstract class CEntityCallProgram extends CBaseActionEntity
 
 	public void setChecked(boolean bChecked)
 	{
-		bChecked = bChecked ;
+		ischecked = bChecked ;
 	}
 
 	public void UpdateProgramReference(CDataEntity newProgram)
