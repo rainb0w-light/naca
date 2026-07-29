@@ -76,6 +76,13 @@ templates:
       - accept.dayOfWeek
       - accept.time
 
+  recursiveComputeEntity:
+    capability: ARITHMETIC
+    requires:
+      - compute.mathVar
+      - compute.roundedMathVar
+      - math.isError
+
   recursiveCICSReturnEntity:
     capability: CICS
     requires:

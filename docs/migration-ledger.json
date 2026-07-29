@@ -22,11 +22,11 @@
     "ratchet": {
       "note": "Debt counts may only move down for the COBOL scope. Refresh per phase.",
       "baselineCapturedAtCommit": "9402b0c",
-      "lastVerifiedAtCommit": "4ccdd046",
+      "lastVerifiedAtCommit": "5757dc91",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 177,
-        "directBackends": 107,
+        "failures": 176,
+        "directBackends": 106,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -2232,25 +2232,27 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "COBOL_CORE",
       "sourceSyntax": "legacy backend CJavaCalcul",
       "parserNode": null,
       "semanticNode": "semantic.Verbs.CEntityCalcul",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
+      "assemblerRole": "REFERENCE",
+      "manifestBinding": "semantic.Verbs.CEntityCalcul=recursiveComputeEntity",
+      "template": "recursiveComputeEntity",
+      "runtimeOperation": "compute.mathVar",
       "fixture": null,
       "directBackend": "generate.java.verbs.CJavaCalcul",
       "sourcePath": "naca-trans/src/main/java/generate/java/verbs/CJavaCalcul.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/verbs/CJavaCalcul.java"
-      ]
+        "naca-trans/src/main/java/generate/java/verbs/CJavaCalcul.java",
+        "naca-trans/src/test/java/generate/java/st/CEntityCalculRenderTest.java"
+      ],
+      "lastAttemptCommit": "5757dc91"
     },
     {
       "id": "BACKEND-COBOL-VERB-CJAVACALLFUNCTION",

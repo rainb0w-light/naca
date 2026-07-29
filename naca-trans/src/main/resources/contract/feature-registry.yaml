@@ -102,6 +102,16 @@ features:
     fixtures: []
     status: production
 
+  - id: cobol.arithmetic.compute
+    dialects: [cobol-core]
+    semanticType: semantic.Verbs.CEntityCalcul
+    javaBackend:
+      role: REFERENCE
+      template: recursiveComputeEntity
+    runtimeOperations: [compute.mathVar, compute.roundedMathVar, math.isError]
+    fixtures: []
+    status: production
+
   - id: cics.return
     dialects: [embedded-cics]
     semanticType: semantic.CICS.CEntityCICSReturn

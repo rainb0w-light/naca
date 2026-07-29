@@ -269,6 +269,31 @@ operations:
     paramTypes: []
     returns: java.lang.String
 
+  # --- COMPUTE ---
+  - id: compute.mathVar
+    since: 1
+    capability: ARITHMETIC
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: compute
+    paramTypes: [nacaLib.mathSupport.MathBase, nacaLib.varEx.Var]
+    returns: nacaLib.mathSupport.MathBase
+
+  - id: compute.roundedMathVar
+    since: 1
+    capability: ARITHMETIC
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: computeRounded
+    paramTypes: [nacaLib.mathSupport.MathBase, nacaLib.varEx.Var]
+    returns: nacaLib.mathSupport.MathBase
+
+  - id: math.isError
+    since: 1
+    capability: ARITHMETIC
+    runtimeClass: nacaLib.mathSupport.MathBase
+    runtimeMethod: isError
+    paramTypes: []
+    returns: boolean
+
   # --- CICS RETURN ---
   # EXEC CICS RETURN END-EXEC emits CESM.returnTrans(...). The contract declares the
   # representative no-argument overload — the production-reachable bare RETURN (e.g.

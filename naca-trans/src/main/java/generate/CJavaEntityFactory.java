@@ -92,7 +92,6 @@ import generate.java.forms.CJavaSetCursor;
 import generate.java.forms.CJavaSetFlag;
 import generate.java.forms.CJavaSetHighlight;
 import generate.java.forms.CJavaSkipField;
-import generate.java.verbs.CJavaCalcul;
 import generate.java.verbs.CJavaCallFunction;
 import generate.java.verbs.CJavaCallProgram;
 import generate.java.verbs.CJavaCloseFile;
@@ -507,7 +506,9 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CEntityBloc(l, programCatalog);
 	}
 	public CEntityCalcul NewEntityCalcul(int l)	{
-		return new CJavaCalcul(l, programCatalog, langOutput);
+		CEntityCalcul e = new CEntityCalcul(l, programCatalog);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntitySqlOnErrorGoto NewEntitySQLOnErrorGoto(int l, String ref)	{
 		// Direct backend CJavaSqlOnErrorGoto retired: the pure semantic entity is
