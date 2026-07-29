@@ -28,13 +28,15 @@ import utils.COriginalLisiting;
 import utils.CTransApplicationGroup;
 
 /**
- * Step-4 root render parity (TEST EXIT ONLY — not wired into TranscoderEngine):
- * parse a real sample into a semantic tree, flatten it once through the direct
- * {@code CJavaClass.DoExport} path and once through the recursive assembler with
- * the explicit ROOT role, and assert the two produce the same token stream
- * (whitespace-insensitive; javac ignores whitespace). The direct export runs
- * first so it assigns FILLER default names exactly as production does, and the
- * assembler then observes the same names.
+ * Root semantic parity (TEST EXIT ONLY — not wired into TranscoderEngine):
+ * parse a real sample independently with both production factories, flatten
+ * both semantic trees only through the recursive assembler with the explicit
+ * ROOT role, and assert the two produce the same token stream. As direct
+ * subclasses are retired, {@code CJavaEntityFactory} deliberately returns pure
+ * semantic nodes whose {@code DoExport()} is empty, so the old direct exporter
+ * can no longer be a complete-program oracle. Focused migration tests retain
+ * the legacy output shapes; this test proves both factories now feed the same
+ * assembler contract.
  *
  * <p>Tagged {@code program-root-parity}.
  */
@@ -105,7 +107,7 @@ class ProgramRootRenderParityTest
     }
 
     @Test
-    void programRootRendersLikeTheDirectGenerator() throws Exception
+    void bothFactoriesProduceEquivalentAssembledProgramRoots() throws Exception
     {
         for (String sample : SAMPLES)
         {
@@ -113,21 +115,17 @@ class ProgramRootRenderParityTest
             assertNotNull(path, "sample should exist: " + sample);
             String programName = sample.replaceAll("\\.cbl$", "");
 
-            // Tree A: flattened ONLY through the direct generator.
+            // Tree A: production compatibility factory, flattened only by ST4.
             CStringExporter directExporter = new CStringExporter();
             CEntityClass directRoot = parse(path, directExporter, programName, false);
             assertNotNull(directRoot, "semantic root for " + sample);
             assertTrue(directRoot instanceof CJavaClass,
                 "production root should be a CJavaClass");
-            directRoot.StartExport();
-            String direct = directExporter.getCapturedString();
+            String direct = TemplateLoader.getRecursiveAssembler()
+                .renderRoot(directRoot, JavaTemplateRole.ROOT);
 
-            // Tree B: an INDEPENDENT parse, flattened ONLY through the assembler
-            // with the ROOT role. No direct export ever touches this tree, so the
-            // comparison proves the root template does not rely on any direct
-            // export side effect (e.g. the old export-time FILLER naming) having
-            // "washed" the model first. FILLER names are assigned at construction,
-            // so both independent trees converge on the same names.
+            // Tree B: independent ST4 factory parse, flattened by the same
+            // assembler. No export side effect touches either semantic tree.
             CStringExporter assemblerExporter = new CStringExporter();
             CEntityClass assemblerRoot = parse(path, assemblerExporter, programName, true);
             assertNotNull(assemblerRoot, "semantic root for " + sample);

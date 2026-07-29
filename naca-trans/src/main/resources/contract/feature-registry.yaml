@@ -132,6 +132,16 @@ features:
     fixtures: []
     status: production
 
+  - id: cobol.output.display
+    dialects: [cobol-core]
+    semanticType: semantic.Verbs.CEntityDisplay
+    javaBackend:
+      role: REFERENCE
+      template: display
+    runtimeOperations: [output.display, output.console, output.console.display, output.environment]
+    fixtures: []
+    status: production
+
   - id: cics.return
     dialects: [embedded-cics]
     semanticType: semantic.CICS.CEntityCICSReturn

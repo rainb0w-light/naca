@@ -102,6 +102,14 @@ templates:
       - inspect.tallying.before
       - inspect.tallying.to
 
+  display:
+    capability: OUTPUT
+    requires:
+      - output.display
+      - output.console
+      - output.console.display
+      - output.environment
+
   recursiveCICSReturnEntity:
     capability: CICS
     requires:

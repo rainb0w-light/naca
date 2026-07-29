@@ -384,6 +384,39 @@ operations:
     paramTypes: [nacaLib.varEx.VarAndEdit]
     returns: nacaLib.stringSupport.InspectTallying
 
+  # --- DISPLAY ---
+  - id: output.display
+    since: 1
+    capability: OUTPUT
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: display
+    paramTypes: [nacaLib.varEx.VarAndEdit]
+    returns: void
+
+  - id: output.console
+    since: 1
+    capability: OUTPUT
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: console
+    paramTypes: []
+    returns: nacaLib.varEx.Console
+
+  - id: output.console.display
+    since: 1
+    capability: OUTPUT
+    runtimeClass: nacaLib.varEx.Console
+    runtimeMethod: display
+    paramTypes: [nacaLib.varEx.VarAndEdit]
+    returns: nacaLib.varEx.Console
+
+  - id: output.environment
+    since: 1
+    capability: OUTPUT
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: displayEnv
+    paramTypes: [nacaLib.varEx.VarAndEdit]
+    returns: void
+
   # --- CICS RETURN ---
   # EXEC CICS RETURN END-EXEC emits CESM.returnTrans(...). The contract declares the
   # representative no-argument overload — the production-reachable bare RETURN (e.g.

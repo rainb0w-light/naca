@@ -22,11 +22,11 @@
     "ratchet": {
       "note": "Debt counts may only move down for the COBOL scope. Refresh per phase.",
       "baselineCapturedAtCommit": "9402b0c",
-      "lastVerifiedAtCommit": "553815de",
+      "lastVerifiedAtCommit": "ddfb8f2b",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 172,
-        "directBackends": 102,
+        "failures": 171,
+        "directBackends": 101,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -2397,25 +2397,27 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "COBOL_CORE",
       "sourceSyntax": "legacy backend CJavaDisplay",
       "parserNode": null,
       "semanticNode": "semantic.Verbs.CEntityDisplay",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
+      "assemblerRole": "REFERENCE",
+      "manifestBinding": "semantic.Verbs.CEntityDisplay=display",
+      "template": "display",
+      "runtimeOperation": "output.display",
       "fixture": null,
       "directBackend": "generate.java.verbs.CJavaDisplay",
       "sourcePath": "naca-trans/src/main/java/generate/java/verbs/CJavaDisplay.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/verbs/CJavaDisplay.java"
-      ]
+        "naca-trans/src/main/java/generate/java/verbs/CJavaDisplay.java",
+        "naca-trans/src/test/java/generate/java/st/CEntityDisplayRenderTest.java"
+      ],
+      "lastAttemptCommit": "ddfb8f2b"
     },
     {
       "id": "BACKEND-COBOL-VERB-CJAVADIVIDE",
