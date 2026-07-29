@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 3 août 2004
+ * Created on 3 aoÃ»t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -24,6 +24,8 @@ import java.util.Arrays;
 import java.util.Date;
 
 import parser.CGlobalCommentContainer;
+import generate.templates.TemplateLoader;
+import generate.templates.recursive.JavaTemplateRole;
 //
 //import javax.xml.parsers.*;
 //import javax.xml.transform.*;
@@ -80,7 +82,7 @@ public abstract class CBaseLanguageExporter
 			if (commentContainer.GetCurrentCommentLine() == nLastOriginalLineWritten)
 			{
 				CEntityComment com = commentContainer.GetCurrentComment() ;
-				com.DoExportComment() ;
+				DoWriteLine(renderComment(com)) ;
 			}
 			else
 			{
@@ -141,7 +143,7 @@ public abstract class CBaseLanguageExporter
 				CEntityComment com = commentContainer.GetCurrentComment() ;
 				if (!line.equals(""))
 					line += indentItem ;
-				line += com.ExportReference(n) ;
+				line += renderComment(com) ;
 				//com.DoExportComment() ;
 				if (nLastOriginalLineWritten < n)
 				{
@@ -192,7 +194,7 @@ public abstract class CBaseLanguageExporter
 			if (commentContainer.GetCurrentCommentLine() == i)
 			{
 				CEntityComment com = commentContainer.GetCurrentComment() ;
-				com.DoExportComment() ;
+				DoWriteLine(renderComment(com)) ;
 			}
 			else
 			{
@@ -211,6 +213,13 @@ public abstract class CBaseLanguageExporter
 			}				
 		}
 	}
+	private String renderComment(CEntityComment comment)
+	{
+		return TemplateLoader.getRecursiveAssembler()
+			.renderRoot(comment, JavaTemplateRole.REFERENCE)
+			.strip();
+	}
+
 	public void WriteLine(String line)
 	{
 		WriteLine(line, nLastOriginalLineWritten) ;

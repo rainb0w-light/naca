@@ -45,7 +45,6 @@ public class CFPacJavaComment extends CEntityComment
 	/**
 	 * @see semantic.CEntityComment#ExportReference(getLine())
 	 */
-	@Override
 	public String ExportReference(int nLine)
 	{
 		String cs = csComment ;

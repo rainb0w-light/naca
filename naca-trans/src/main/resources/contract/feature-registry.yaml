@@ -323,6 +323,16 @@ features:
     fixtures: []
     status: production
 
+  - id: cobol.comment
+    dialects: [cobol-core]
+    semanticType: semantic.CEntityComment
+    javaBackend:
+      role: REFERENCE
+      template: javaComment
+    runtimeOperations: []
+    fixtures: []
+    status: production
+
   - id: cobol.expression.concat
     dialects: [cobol-core]
     semanticType: semantic.expression.CEntityConcat

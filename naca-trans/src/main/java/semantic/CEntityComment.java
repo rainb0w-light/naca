@@ -21,7 +21,7 @@ import utils.*;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityComment extends CBaseLanguageEntity
+public class CEntityComment extends CBaseLanguageEntity
 {
 
 	/**
@@ -56,8 +56,6 @@ public abstract class CEntityComment extends CBaseLanguageEntity
 		DoExport();
 	}
 	
-	public abstract String ExportReference(int nLine) ;
-	
 	public String getOriginalComment()
 	{
 		return csComment.replaceAll("\n", "0x000A").replaceAll("\r", "0x000D") ;
@@ -66,7 +64,7 @@ public abstract class CEntityComment extends CBaseLanguageEntity
 	/**
 	 * The raw comment text, target-neutral. The Java backend formats it (comment
 	 * marker, newline escaping, right trim) in its template/renderer; see
-	 * {@code CJavaComment.ExportReference} for the exact historical behavior.
+	 * the Java comment renderer for the exact historical behavior.
 	 */
 	public String getComment()
 	{
