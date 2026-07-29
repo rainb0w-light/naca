@@ -91,6 +91,17 @@ templates:
       - perform.through
       - compare.isLess.intVarAndEdit
 
+  recursiveCountEntity:
+    capability: STRING
+    requires:
+      - inspect.tallying
+      - inspect.tallying.countAll
+      - inspect.tallying.countLeading
+      - inspect.tallying.forChars
+      - inspect.tallying.after
+      - inspect.tallying.before
+      - inspect.tallying.to
+
   recursiveCICSReturnEntity:
     capability: CICS
     requires:

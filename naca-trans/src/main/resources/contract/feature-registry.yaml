@@ -122,6 +122,16 @@ features:
     fixtures: []
     status: production
 
+  - id: cobol.string.inspect-tallying
+    dialects: [cobol-core]
+    semanticType: semantic.Verbs.CEntityCount
+    javaBackend:
+      role: REFERENCE
+      template: recursiveCountEntity
+    runtimeOperations: [inspect.tallying, inspect.tallying.countAll, inspect.tallying.countLeading, inspect.tallying.forChars, inspect.tallying.after, inspect.tallying.before, inspect.tallying.to]
+    fixtures: []
+    status: production
+
   - id: cics.return
     dialects: [embedded-cics]
     semanticType: semantic.CICS.CEntityCICSReturn

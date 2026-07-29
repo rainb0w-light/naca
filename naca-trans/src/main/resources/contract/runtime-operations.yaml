@@ -327,6 +327,63 @@ operations:
     paramTypes: [int, nacaLib.varEx.VarAndEdit]
     returns: boolean
 
+  # --- INSPECT TALLYING ---
+  - id: inspect.tallying
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: inspectTallying
+    paramTypes: [nacaLib.varEx.VarAndEdit]
+    returns: nacaLib.stringSupport.InspectTallying
+
+  - id: inspect.tallying.countAll
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.stringSupport.InspectTallying
+    runtimeMethod: countAll
+    paramTypes: [nacaLib.varEx.VarAndEdit]
+    returns: nacaLib.stringSupport.InspectTallying
+
+  - id: inspect.tallying.countLeading
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.stringSupport.InspectTallying
+    runtimeMethod: countLeading
+    paramTypes: [nacaLib.varEx.VarAndEdit]
+    returns: nacaLib.stringSupport.InspectTallying
+
+  - id: inspect.tallying.forChars
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.stringSupport.InspectTallying
+    runtimeMethod: forChars
+    paramTypes: []
+    returns: nacaLib.stringSupport.InspectTallying
+
+  - id: inspect.tallying.after
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.stringSupport.InspectTallying
+    runtimeMethod: after
+    paramTypes: [nacaLib.varEx.VarAndEdit]
+    returns: nacaLib.stringSupport.InspectTallying
+
+  - id: inspect.tallying.before
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.stringSupport.InspectTallying
+    runtimeMethod: before
+    paramTypes: [nacaLib.varEx.VarAndEdit]
+    returns: nacaLib.stringSupport.InspectTallying
+
+  - id: inspect.tallying.to
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.stringSupport.InspectTallying
+    runtimeMethod: to
+    paramTypes: [nacaLib.varEx.VarAndEdit]
+    returns: nacaLib.stringSupport.InspectTallying
+
   # --- CICS RETURN ---
   # EXEC CICS RETURN END-EXEC emits CESM.returnTrans(...). The contract declares the
   # representative no-argument overload — the production-reachable bare RETURN (e.g.
