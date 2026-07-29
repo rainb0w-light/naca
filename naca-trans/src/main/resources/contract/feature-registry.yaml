@@ -483,6 +483,18 @@ features:
     fixtures: []
     status: production
 
+  - id: cobol.data.internal-bool
+    dialects: [cobol-core]
+    semanticType: semantic.expression.CEntityInternalBool
+    javaBackend:
+      role: DECLARATION
+      template: internalBooleanDeclaration
+    # declare.bool() is a data-declaration builder call, following the same
+    # contract treatment as the other declaration templates.
+    runtimeOperations: []
+    fixtures: []
+    status: production
+
   - id: cobol.data.initialize
     dialects: [cobol-core]
     semanticType: semantic.Verbs.CEntityInitialize

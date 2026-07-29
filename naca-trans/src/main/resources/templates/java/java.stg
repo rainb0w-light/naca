@@ -373,6 +373,8 @@ addressReferenceEntity(entity) ::= "addressOf(<if(entity.reference)><entity.refe
 
 internalBooleanReference(identifier) ::= "<identifier>"
 
+internalBooleanDeclaration(entity) ::= "Var <entity.formattedName> = declare.bool() ;"
+
 lengthOfReference(reference) ::= "lengthOf(<reference>)"
 
 lengthOfEntity(entity) ::= "lengthOf(<entity.reference>)"

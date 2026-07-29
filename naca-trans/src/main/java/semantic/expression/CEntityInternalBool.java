@@ -21,7 +21,7 @@ import utils.CObjectCatalog;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public abstract class CEntityInternalBool extends CDataEntity
+public class CEntityInternalBool extends CDataEntity
 {
 
 	/**
@@ -64,6 +64,11 @@ public abstract class CEntityInternalBool extends CDataEntity
 	public String GetConstantValue()
 	{
 		return "" ;
+	}
+
+	public boolean isValNeeded()
+	{
+		return true;
 	}
 
 }

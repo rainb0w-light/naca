@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import generate.java.CJavaAttribute;
 import generate.java.CJavaExporter;
-import generate.java.expressions.CJavaInternalBool;
 import generate.java.expressions.CJavaIntrinsicFunction;
 import generate.java.expressions.CJavaLengthOf;
 import generate.java.expressions.CJavaList;
@@ -46,7 +45,7 @@ class JavaSemanticFunctionRendererTest
             assembler.renderRoot(
                 new CEntityDigits(catalog, field),
                 JavaTemplateRole.REFERENCE));
-        assertMatchesDirect(new CJavaInternalBool("INTERNAL-SWITCH", catalog, output));
+        assertMatchesDirect(new LegacyInternalBoolFixture("INTERNAL-SWITCH", catalog, output));
 
         CEntityValueReference valueReference = new CEntityValueReference(
             catalog, attribute("VALUE-WRAPPER"));
@@ -77,8 +76,8 @@ class JavaSemanticFunctionRendererTest
         assertMatchesDirect(numbers);
 
         CJavaList variables = new CJavaList("VARIABLES", catalog, output);
-        variables.AddData(new CJavaInternalBool("FIRST-SWITCH", catalog, output));
-        variables.AddData(new CJavaInternalBool("SECOND-SWITCH", catalog, output));
+        variables.AddData(new LegacyInternalBoolFixture("FIRST-SWITCH", catalog, output));
+        variables.AddData(new LegacyInternalBoolFixture("SECOND-SWITCH", catalog, output));
         assertMatchesDirect(variables);
     }
 

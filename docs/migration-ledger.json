@@ -25,8 +25,8 @@
       "lastVerifiedAtCommit": "5903f95d",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 129,
-        "directBackends": 59,
+        "failures": 128,
+        "directBackends": 58,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -3862,25 +3862,27 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "COBOL_CORE",
       "sourceSyntax": "legacy backend CJavaInternalBool",
-      "parserNode": null,
+      "parserNode": "parser.Cobol.elements.CSearch",
       "semanticNode": "semantic.expression.CEntityInternalBool",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
+      "assemblerRole": "DECLARATION/REFERENCE",
+      "manifestBinding": "semantic.expression.CEntityInternalBool=internalBooleanDeclaration|dataReferenceEntity",
+      "template": "internalBooleanDeclaration|dataReferenceEntity",
       "runtimeOperation": null,
       "fixture": null,
       "directBackend": "generate.java.expressions.CJavaInternalBool",
       "sourcePath": "naca-trans/src/main/java/generate/java/expressions/CJavaInternalBool.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/expressions/CJavaInternalBool.java"
-      ]
+        "naca-trans/src/main/java/semantic/expression/CEntityInternalBool.java",
+        "naca-trans/src/test/java/generate/java/st/CEntityInternalBoolRenderTest.java"
+      ],
+      "lastAttemptCommit": "cdc9c3ad"
     },
     {
       "id": "BACKEND-COBOL-EXPRESSION-CJAVAINTRINSICFUNCTION",

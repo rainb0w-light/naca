@@ -34,7 +34,6 @@ import generate.java.CJavaStructure;
 import generate.java.CJavaSubStringReference;
 import generate.java.CJavaUnknownReference;
 
-import generate.java.expressions.CJavaInternalBool;
 import generate.java.expressions.CJavaIntrinsicFunction;
 import generate.java.expressions.CJavaIsNamedCondition;
 import generate.java.expressions.CJavaLengthOf;
@@ -1145,7 +1144,9 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return e;
 	}
 	public CEntityInternalBool NewEntityInternalBool(String name)	{
-		return new CJavaInternalBool(name, programCatalog, langOutput) ;
+		CEntityInternalBool e = new CEntityInternalBool(name, programCatalog);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntityBreak NewEntityBreak(int line)	{
 		return new CEntityBreak(line, programCatalog) ;

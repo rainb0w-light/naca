@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import generate.java.CJavaExporter;
 import generate.java.CJavaNamedCondition;
-import generate.java.expressions.CJavaInternalBool;
 import generate.fpacjava.CFPacJavaCondIsBoolean;
 import generate.templates.TemplateLoader;
 import org.junit.jupiter.api.Test;
@@ -102,7 +101,7 @@ class JavaSemanticConditionRendererTest
     @Test
     void rendersConstantAndBooleanPredicatesLikeTheirDirectGenerators()
     {
-        CJavaInternalBool value = new CJavaInternalBool("BOOLEAN-VALUE", catalog, output);
+        LegacyInternalBoolFixture value = new LegacyInternalBoolFixture("BOOLEAN-VALUE", catalog, output);
 
         CEntityCondIsConstant zero = new CEntityCondIsConstant();
         zero.SetIsZero(value);
