@@ -120,7 +120,7 @@ public abstract class CDataEntity extends CBaseLanguageEntity
 //	abstract public CBaseEntityCondition GetSpecialCondition(int nLine, String value, CBaseEntityCondition.EConditionType type, CBaseEntityFactory factory);
 	public CBaseEntityCondition GetSpecialCondition(int nLine, String value, CBaseEntityCondition.EConditionType type, CBaseEntityFactory factory)
 	{
-		if(getClass().getName().endsWith("CJavaUnknownReference"))
+		if(this instanceof CEntityUnknownReference)
 			Transcoder.logError(nLine, "ERROR : special condition needed for value '"+value + "; Undefined variable: "+GetName());
 		else
 			Transcoder.logError(nLine, "ERROR : special condition needed for value '"+value + "; Undefined variable: "+GetName() + " for class="+getClass().getName());

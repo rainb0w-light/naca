@@ -20,7 +20,7 @@ import utils.CObjectCatalog;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityUnknownReference extends CDataEntity
+public class CEntityUnknownReference extends CDataEntity
 {
 	/**
 	 * @see semantic.CDataEntity#GetDataType()
@@ -30,9 +30,32 @@ public abstract class CEntityUnknownReference extends CDataEntity
 	{
 		return CDataEntityType.UNKNWON ;
 	}
-	protected CEntityUnknownReference(int nLine, String csName, CObjectCatalog cat)
+	public CEntityUnknownReference(int nLine, String csName, CObjectCatalog cat)
 	{
 		super(nLine, csName, cat);
+	}
+
+	/**
+	 * An unresolved identifier has no usable semantic reference. Returning null
+	 * preserves the legacy fail-closed value for direct callers while the ST4
+	 * binding deliberately renders no source.
+	 */
+	@Override
+	protected String getSemanticReference()
+	{
+		return null;
+	}
+
+	@Override
+	public boolean HasAccessors()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean isValNeeded()
+	{
+		return false;
 	}
 	public boolean ignore()
 	{

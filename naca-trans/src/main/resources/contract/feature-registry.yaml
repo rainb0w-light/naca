@@ -433,6 +433,16 @@ features:
     fixtures: []
     status: production
 
+  - id: cobol.data.unknown-reference
+    dialects: [cobol-core, embedded-sql, embedded-cics]
+    semanticType: semantic.CEntityUnknownReference
+    javaBackend:
+      role: REFERENCE
+      template: unknownReferenceEntity
+    runtimeOperations: []
+    fixtures: []
+    status: production
+
   - id: cobol.procedure.paragraph
     dialects: [cobol-core]
     semanticType: semantic.CEntityProcedure

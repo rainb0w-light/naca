@@ -25,8 +25,8 @@
       "lastVerifiedAtCommit": "5903f95d",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 102,
-        "directBackends": 34,
+        "failures": 101,
+        "directBackends": 33,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -4697,25 +4697,27 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "COBOL_CORE",
       "sourceSyntax": "legacy backend CJavaUnknownReference",
       "parserNode": null,
       "semanticNode": "semantic.CEntityUnknownReference",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
+      "assemblerRole": "REFERENCE",
+      "manifestBinding": "semantic.CEntityUnknownReference=unknownReferenceEntity",
+      "template": "unknownReferenceEntity",
       "runtimeOperation": null,
       "fixture": null,
       "directBackend": "generate.java.CJavaUnknownReference",
       "sourcePath": "naca-trans/src/main/java/generate/java/CJavaUnknownReference.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/CJavaUnknownReference.java"
-      ]
+        "naca-trans/src/main/java/semantic/CEntityUnknownReference.java",
+        "naca-trans/src/test/java/generate/java/st/CEntityUnknownReferenceRenderTest.java"
+      ],
+      "lastAttemptCommit": "2bec37b6"
     },
     {
       "id": "BMS-BACKEND-CJAVAFIELD",

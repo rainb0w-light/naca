@@ -13,7 +13,6 @@
 package generate;
 
 import generate.java.CJavaSubStringReference;
-import generate.java.CJavaUnknownReference;
 
 import generate.java.forms.CJavaField;
 import generate.java.forms.CJavaFieldArray;
@@ -1068,7 +1067,10 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 	}
 	public CEntityUnknownReference NewEntityUnknownReference(int nLine, String csName)
 	{
-		return new CJavaUnknownReference(nLine, csName, programCatalog, langOutput);
+		CEntityUnknownReference entity =
+			new CEntityUnknownReference(nLine, csName, programCatalog);
+		entity.setLanguageExporter(langOutput);
+		return entity;
 	}
 	public CEntityCICSGetMain NewEntityCICSGetMain(int l)	{
 		// Direct backend CJavaCICSGetMain retired: the pure semantic entity is
