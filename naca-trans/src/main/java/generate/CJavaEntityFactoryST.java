@@ -150,7 +150,9 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
 
     @Override
     public CEntityDisplay NewEntityDisplay(int l, Upon t) {
-        return new CJavaDisplayST(l, programCatalog, langOutput, t);
+        CEntityDisplay e = new CEntityDisplay(l, programCatalog, t);
+        e.setLanguageExporter(langOutput);
+        return e;
     }
 
     @Override

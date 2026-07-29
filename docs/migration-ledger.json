@@ -22,11 +22,11 @@
     "ratchet": {
       "note": "Debt counts may only move down for the COBOL scope. Refresh per phase.",
       "baselineCapturedAtCommit": "9402b0c",
-      "lastVerifiedAtCommit": "5e713bd9",
+      "lastVerifiedAtCommit": "759bb7a8",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 185,
-        "directBackends": 117,
+        "failures": 184,
+        "directBackends": 116,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -1900,25 +1900,27 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "COBOL_CORE",
       "sourceSyntax": "legacy backend CJavaDisplayST",
       "parserNode": null,
       "semanticNode": "semantic.Verbs.CEntityDisplay",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
+      "assemblerRole": "REFERENCE",
+      "manifestBinding": "semantic.Verbs.CEntityDisplay=display",
+      "template": "display",
       "runtimeOperation": null,
       "fixture": null,
       "directBackend": "generate.java.st.CJavaDisplayST",
       "sourcePath": "naca-trans/src/main/java/generate/java/st/CJavaDisplayST.java",
       "productionReachable": true,
-      "status": "production-wired",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/st/CJavaDisplayST.java"
-      ]
+        "naca-trans/src/main/java/generate/java/st/CJavaDisplayST.java",
+        "naca-trans/src/test/java/generate/java/st/CEntityDisplayRenderTest.java"
+      ],
+      "lastAttemptCommit": "759bb7a8"
     },
     {
       "id": "BACKEND-COBOL-ST-CJAVAINITIALIZEST",
@@ -2358,9 +2360,7 @@
       "id": "BACKEND-COBOL-VERB-CJAVADISPLAY",
       "kind": "DIRECT_BACKEND_RETIREMENT",
       "priority": 408,
-      "dependencies": [
-        "BACKEND-COBOL-ST-CJAVADISPLAYST"
-      ],
+      "dependencies": [],
       "verification": [
         "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
       ],
