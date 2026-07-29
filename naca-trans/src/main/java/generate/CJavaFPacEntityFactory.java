@@ -7,7 +7,6 @@
 package generate;
 
 import generate.fpacjava.*;
-import generate.java.expressions.CJavaCondEquals;
 import generate.java.expressions.CJavaIntrinsicFunction;
 import generate.java.expressions.CJavaString;
 import generate.fpacjava.CFPacJavaRoutineEmulationCall;
@@ -557,7 +556,7 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityCondEquals NewEntityCondEquals()
 	{
-		return new CJavaCondEquals() ;
+		return new CFPacJavaCondEquals() ;
 	}
 
 	@Override

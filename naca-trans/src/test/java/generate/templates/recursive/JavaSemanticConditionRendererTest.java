@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import generate.java.CJavaExporter;
 import generate.java.CJavaNamedCondition;
-import generate.java.expressions.CJavaCondEquals;
 import generate.java.expressions.CJavaCondNot;
 import generate.java.expressions.CJavaCondIsConstant;
 import generate.java.expressions.CJavaEntityNumber;
@@ -18,6 +17,7 @@ import semantic.expression.CBaseEntityCondition;
 import semantic.expression.CBaseEntityExpression;
 import semantic.expression.CEntityCondAnd;
 import semantic.expression.CEntityCondCompare;
+import semantic.expression.CEntityCondEquals;
 import semantic.expression.CEntityCondOr;
 import utils.CObjectCatalog;
 
@@ -30,13 +30,15 @@ class JavaSemanticConditionRendererTest
     @Test
     void rendersEqualityAndEveryOrderedComparisonLikeTheDirectGenerator()
     {
-        CJavaCondEquals equal = new CJavaCondEquals();
+        CEntityCondEquals equal = new CEntityCondEquals();
         equal.SetEqualCondition(number("1"), number("2"));
-        assertMatchesDirect(equal);
+        assertEquals("isEqual(1, 2)",
+            assembler.renderRoot(equal, JavaTemplateRole.REFERENCE));
 
-        CJavaCondEquals different = new CJavaCondEquals();
+        CEntityCondEquals different = new CEntityCondEquals();
         different.SetDifferentCondition(number("3"), number("4"));
-        assertMatchesDirect(different);
+        assertEquals("isDifferent(3, 4)",
+            assembler.renderRoot(different, JavaTemplateRole.REFERENCE));
 
         assertEquals("isLess(7, 8)",
             assembler.renderRoot(compare(Comparison.LESS), JavaTemplateRole.REFERENCE));
@@ -92,8 +94,11 @@ class JavaSemanticConditionRendererTest
 
         CBaseEntityCondition condition = named.GetAssociatedCondition(
             new generate.CJavaEntityFactory(catalog, output));
-        assertMatchesDirect(condition);
-        assertMatchesDirect(condition.GetOppositeCondition());
+        String conditionOutput = assembler.renderRoot(condition, JavaTemplateRole.REFERENCE);
+        String oppositeOutput = assembler.renderRoot(
+            condition.GetOppositeCondition(), JavaTemplateRole.REFERENCE);
+        assertEquals("is(" + named.ExportReference(1) + ")", conditionOutput);
+        assertEquals("isNot(" + named.ExportReference(1) + ")", oppositeOutput);
     }
 
     @Test
@@ -127,9 +132,9 @@ class JavaSemanticConditionRendererTest
         assertMatchesDirect(falseCondition);
     }
 
-    private CJavaCondEquals equals(String left, String right)
+    private CEntityCondEquals equals(String left, String right)
     {
-        CJavaCondEquals condition = new CJavaCondEquals();
+        CEntityCondEquals condition = new CEntityCondEquals();
         condition.SetEqualCondition(number(left), number(right));
         return condition;
     }

@@ -2,7 +2,6 @@ package generate.templates.recursive;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import generate.java.expressions.CJavaCondEquals;
 import generate.java.expressions.CJavaEntityNumber;
 import generate.java.expressions.CJavaExprTerminal;
 import generate.java.st.MockJavaExporter;
@@ -11,6 +10,7 @@ import semantic.Verbs.CEntityContinue;
 import semantic.Verbs.CEntityLoopWhile;
 import generate.templates.TemplateLoader;
 import org.junit.jupiter.api.Test;
+import semantic.expression.CEntityCondEquals;
 
 class JavaSemanticLoopWhileTemplateTest
 {
@@ -66,9 +66,9 @@ class JavaSemanticLoopWhileTemplateTest
         return loop;
     }
 
-    private CJavaCondEquals equals(String left, String right)
+    private CEntityCondEquals equals(String left, String right)
     {
-        CJavaCondEquals condition = new CJavaCondEquals();
+        CEntityCondEquals condition = new CEntityCondEquals();
         condition.SetEqualCondition(
             new CJavaExprTerminal(new CJavaEntityNumber(null, null, left)),
             new CJavaExprTerminal(new CJavaEntityNumber(null, null, right)));

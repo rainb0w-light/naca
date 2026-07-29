@@ -22,11 +22,11 @@
     "ratchet": {
       "note": "Debt counts may only move down for the COBOL scope. Refresh per phase.",
       "baselineCapturedAtCommit": "9402b0c",
-      "lastVerifiedAtCommit": "675eb4f0",
+      "lastVerifiedAtCommit": "e3dae5fa",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 144,
-        "directBackends": 74,
+        "failures": 143,
+        "directBackends": 73,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -3357,25 +3357,29 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "COBOL_CORE",
       "sourceSyntax": "legacy backend CJavaCondEquals",
       "parserNode": null,
       "semanticNode": "semantic.expression.CEntityCondEquals",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
+      "assemblerRole": "REFERENCE",
+      "manifestBinding": "semantic.expression.CEntityCondEquals=recursiveCondEqualsEntity",
+      "template": "recursiveCondEqualsEntity",
+      "runtimeOperation": "compare.equal.varVar",
       "fixture": null,
       "directBackend": "generate.java.expressions.CJavaCondEquals",
       "sourcePath": "naca-trans/src/main/java/generate/java/expressions/CJavaCondEquals.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/expressions/CJavaCondEquals.java"
-      ]
+        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaCondEquals.java",
+        "naca-trans/src/main/java/semantic/expression/CEntityCondEquals.java",
+        "naca-trans/src/main/resources/contract/runtime-operations.yaml",
+        "naca-trans/src/test/java/generate/java/st/CEntityCondEqualsRenderTest.java"
+      ],
+      "lastAttemptCommit": "e3dae5fa"
     },
     {
       "id": "BACKEND-COBOL-EXPRESSION-CJAVACONDISALL",

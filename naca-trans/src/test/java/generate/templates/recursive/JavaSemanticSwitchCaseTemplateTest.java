@@ -2,7 +2,6 @@ package generate.templates.recursive;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import generate.java.expressions.CJavaCondEquals;
 import generate.java.expressions.CJavaEntityNumber;
 import generate.java.expressions.CJavaExprTerminal;
 import generate.java.st.MockJavaExporter;
@@ -13,6 +12,7 @@ import semantic.Verbs.CEntitySwitchCase;
 import generate.templates.TemplateLoader;
 import org.junit.jupiter.api.Test;
 import semantic.CIgnoredEntity;
+import semantic.expression.CEntityCondEquals;
 
 class JavaSemanticSwitchCaseTemplateTest
 {
@@ -36,7 +36,7 @@ class JavaSemanticSwitchCaseTemplateTest
     {
         MockJavaExporter output = new MockJavaExporter();
         TestJavaSwitchCase evaluate = new TestJavaSwitchCase(output);
-        CJavaCondEquals ignored = new CJavaCondEquals();
+        CEntityCondEquals ignored = new CEntityCondEquals();
         ignored.SetEqualCondition(
             new CJavaExprTerminal(new CIgnoredEntity(0, "", null)),
             new CJavaExprTerminal(new CJavaEntityNumber(null, null, "0")));
@@ -50,7 +50,7 @@ class JavaSemanticSwitchCaseTemplateTest
 
     private CEntityCase branch(
         MockJavaExporter output,
-        CJavaCondEquals condition,
+        CEntityCondEquals condition,
         semantic.CBaseActionEntity action)
     {
         CEntityCase branch = new CEntityCase(0, null, 0);
@@ -59,9 +59,9 @@ class JavaSemanticSwitchCaseTemplateTest
         return branch;
     }
 
-    private CJavaCondEquals equals(String left, String right)
+    private CEntityCondEquals equals(String left, String right)
     {
-        CJavaCondEquals condition = new CJavaCondEquals();
+        CEntityCondEquals condition = new CEntityCondEquals();
         condition.SetEqualCondition(
             new CJavaExprTerminal(new CJavaEntityNumber(null, null, left)),
             new CJavaExprTerminal(new CJavaEntityNumber(null, null, right)));

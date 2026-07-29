@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 18 ao�t 2004
+ * Created on 18 August 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -23,8 +23,35 @@ import semantic.CDataEntity;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityCondEquals extends CBinaryEntityCondition
+public class CEntityCondEquals extends CBinaryEntityCondition
 {
+	public int GetPriorityLevel()
+	{
+		return 7;
+	}
+
+	public CBaseEntityCondition GetOppositeCondition()
+	{
+		CEntityCondEquals newCond = new CEntityCondEquals();
+		if (bIsDifferent)
+		{
+			newCond.SetEqualCondition(op1, op2);
+		}
+		else
+		{
+			newCond.SetDifferentCondition(op1, op2);
+		}
+		if (op1.GetSingleOperator() != null)
+		{
+			op1.GetSingleOperator().RegisterVarTesting(newCond);
+		}
+		if (op2.GetSingleOperator() != null)
+		{
+			op2.GetSingleOperator().RegisterValueAccess(newCond);
+		}
+		return newCond;
+	}
+
 	
 	public void SetEqualCondition(CBaseEntityExpression op1, CBaseEntityExpression op2)
 	{

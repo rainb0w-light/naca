@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import semantic.CEntityBloc;
 import semantic.CEntityCondition;
-import generate.java.expressions.CJavaCondEquals;
 import generate.java.expressions.CJavaEntityNumber;
 import generate.java.expressions.CJavaExprTerminal;
 import generate.java.st.MockJavaExporter;
@@ -13,6 +12,7 @@ import semantic.Verbs.CEntityContinue;
 import generate.templates.TemplateLoader;
 import org.junit.jupiter.api.Test;
 import semantic.CIgnoredEntity;
+import semantic.expression.CEntityCondEquals;
 
 class JavaSemanticIfTemplateTest
 {
@@ -62,7 +62,7 @@ class JavaSemanticIfTemplateTest
     void rendersOnlyTheElseBlockWhenTheConditionIsIgnored()
     {
         MockJavaExporter output = new MockJavaExporter();
-        CJavaCondEquals ignored = new CJavaCondEquals();
+        CEntityCondEquals ignored = new CEntityCondEquals();
         ignored.SetEqualCondition(
             new CJavaExprTerminal(new CIgnoredEntity(0, "", null)),
             new CJavaExprTerminal(new CJavaEntityNumber(null, null, "1")));
@@ -75,9 +75,9 @@ class JavaSemanticIfTemplateTest
         assertEquals("{\nbreak;\n}", assembler.renderRoot(condition, JavaTemplateRole.REFERENCE).stripTrailing());
     }
 
-    private CJavaCondEquals equals(String left, String right)
+    private CEntityCondEquals equals(String left, String right)
     {
-        CJavaCondEquals condition = new CJavaCondEquals();
+        CEntityCondEquals condition = new CEntityCondEquals();
         condition.SetEqualCondition(
             new CJavaExprTerminal(new CJavaEntityNumber(null, null, left)),
             new CJavaExprTerminal(new CJavaEntityNumber(null, null, right)));

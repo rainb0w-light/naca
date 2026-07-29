@@ -872,6 +872,22 @@ operations:
     paramTypes: [nacaLib.varEx.VarAndEdit, nacaLib.varEx.VarAndEdit]
     returns: boolean
 
+  - id: compare.equal.varVar
+    since: 1
+    capability: CONTROL_FLOW
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: isEqual
+    paramTypes: [nacaLib.varEx.VarAndEdit, nacaLib.varEx.VarAndEdit]
+    returns: boolean
+
+  - id: compare.different.varVar
+    since: 1
+    capability: CONTROL_FLOW
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: isDifferent
+    paramTypes: [nacaLib.varEx.VarAndEdit, nacaLib.varEx.VarAndEdit]
+    returns: boolean
+
   # --- INSPECT REPLACING ---
   - id: inspect.replacing
     since: 1

@@ -195,6 +195,12 @@ templates:
       - compare.greater.varVar
       - compare.greaterOrEqual.varVar
 
+  recursiveCondEqualsEntity:
+    capability: CONTROL_FLOW
+    requires:
+      - compare.equal.varVar
+      - compare.different.varVar
+
   recursiveCountEntity:
     capability: STRING
     requires:
