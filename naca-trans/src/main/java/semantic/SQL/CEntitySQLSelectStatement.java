@@ -34,8 +34,7 @@ import utils.CObjectCatalog;
  * rendered through their reference bindings. The SQLWARNING/SQLERROR clause is
  * read from the catalog (registered there by the WHENEVER statement's Stage-1
  * side effect) so the template can chain {@code .onErrorGoto(...)}/
- * {@code .onErrorContinue()} onto the {@code sql(...)} runtime call. Replaces the
- * retired {@code generate.java.SQL.CJavaSQLSelectStatement} direct backend.
+ * {@code .onErrorContinue()} onto the {@code sql(...)} runtime call.
  */
 public class CEntitySQLSelectStatement extends CBaseActionEntity
 {
@@ -104,8 +103,7 @@ public class CEntitySQLSelectStatement extends CBaseActionEntity
 
 	/**
 	 * The trimmed SELECT text, read by {@code <entity.statement>}. The template
-	 * wraps it as a Java string literal, exactly as the retired backend's
-	 * {@code WriteLongString(csStatement.trim())} did.
+	 * wraps it as a Java string literal.
 	 */
 	public String getStatement()
 	{
