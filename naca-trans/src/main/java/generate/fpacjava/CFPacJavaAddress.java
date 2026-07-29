@@ -18,7 +18,7 @@ public class CFPacJavaAddress extends CEntityAddress
 	public CFPacJavaAddress(CObjectCatalog cat, CBaseLanguageExporter out, String address)
 	{
 		super(cat, address);
-		setLanguageExporter(out);
+		generate.LegacyLanguageRenderer.bind(this, out);
 	}
 
 	public String ExportReference(int nLine)

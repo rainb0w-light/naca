@@ -17,7 +17,7 @@ public class CFPacJavaSubStringAttributeReference extends
 	public CFPacJavaSubStringAttributeReference(int l, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
 		super(l, cat);
-		setLanguageExporter(out);
+		generate.LegacyLanguageRenderer.bind(this, out);
 	}
 
 	@Override
@@ -74,8 +74,6 @@ public class CFPacJavaSubStringAttributeReference extends
 	{
 		return false;
 	}
-
-	@Override
 	protected void DoExport()
 	{
 		// unused

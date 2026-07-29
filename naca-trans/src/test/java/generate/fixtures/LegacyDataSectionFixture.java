@@ -13,10 +13,8 @@ public final class LegacyDataSectionFixture extends CEntityDataSection
         int line, String name, CObjectCatalog catalog, CBaseLanguageExporter output)
     {
         super(line, name, catalog);
-        setLanguageExporter(output);
+        generate.LegacyLanguageRenderer.bind(this, output);
     }
-
-    @Override
     protected void DoExport()
     {
         String type;
@@ -40,18 +38,18 @@ public final class LegacyDataSectionFixture extends CEntityDataSection
         }
         else
         {
-            ExportChildren();
+            generate.LegacyLanguageRenderer.exportChildren(this, false);
             return;
         }
-        WriteLine("DataSection " + FormatIdentifier(GetName())
+        generate.LegacyLanguageRenderer.writeLine(this, "DataSection " + generate.LegacyLanguageRenderer.formatIdentifier(this, GetName())
             + " = declare." + type + "() ;");
         if (exportAllChildren)
         {
-            ExportAllChildren();
+            generate.LegacyLanguageRenderer.exportChildren(this, true);
         }
         else
         {
-            ExportChildren();
+            generate.LegacyLanguageRenderer.exportChildren(this, false);
         }
     }
 }

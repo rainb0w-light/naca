@@ -12,6 +12,9 @@
  */
 package semantic;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import utils.*;
 
 /**
@@ -95,6 +98,16 @@ public class CEntityProcedureSection extends CEntityProcedure
 	public CEntityBloc getSectionBloc()
 	{
 		return sectionBloc ;
+	}
+	@Override
+	public List<CBaseLanguageEntity> getSemanticChildren()
+	{
+		List<CBaseLanguageEntity> children = new ArrayList<>(super.getSemanticChildren());
+		if (sectionBloc != null && !children.contains(sectionBloc))
+		{
+			children.add(sectionBloc);
+		}
+		return Collections.unmodifiableList(children);
 	}
 	public boolean ignore()
 	{

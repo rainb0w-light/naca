@@ -34,7 +34,7 @@ public class CJavaSetColor extends CEntitySetColor
 	public CJavaSetColor(int line, CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity field)
 	{
 		super(line, cat, field);
-		setLanguageExporter(out);
+		generate.LegacyLanguageRenderer.bind(this, out);
 	}
 
 	/* (non-Javadoc)
@@ -56,7 +56,7 @@ public class CJavaSetColor extends CEntitySetColor
 			cs += "MapFieldAttrColor.NEUTRAL, " ;
 		}
 		cs += generate.LegacyDataRenderer.renderReference(field, getLine())+ ") ;" ;
-		WriteLine(cs) ; 
+		generate.LegacyLanguageRenderer.writeLine(this, cs) ;
 	}
 
 }

@@ -35,7 +35,7 @@ public class CJavaSetCursor extends CEntitySetCursor
 	public CJavaSetCursor(int line, CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity field)
 	{
 		super(line, cat, field);
-		setLanguageExporter(out);
+		generate.LegacyLanguageRenderer.bind(this, out);
 	}
 
 	/* (non-Javadoc)
@@ -45,15 +45,15 @@ public class CJavaSetCursor extends CEntitySetCursor
 	{
 		if (referenceValue != null)
 		{
-			WriteLine("moveCursor(" +generate.LegacyDataRenderer.renderReference(referenceValue, getLine()) +", "+ generate.LegacyDataRenderer.renderReference(refField, getLine()) + ") ;") ;
+			generate.LegacyLanguageRenderer.writeLine(this, "moveCursor(" +generate.LegacyDataRenderer.renderReference(referenceValue, getLine()) +", "+ generate.LegacyDataRenderer.renderReference(refField, getLine()) + ") ;") ;
 		}
 		else if (isremoveCursor)
 		{
-			WriteLine("removeCursor(" + generate.LegacyDataRenderer.renderReference(refField, getLine()) + ") ;") ;
+			generate.LegacyLanguageRenderer.writeLine(this, "removeCursor(" + generate.LegacyDataRenderer.renderReference(refField, getLine()) + ") ;") ;
 		}
 		else
 		{
-			WriteLine("setCursor(" + generate.LegacyDataRenderer.renderReference(refField, getLine()) + ") ;") ;
+			generate.LegacyLanguageRenderer.writeLine(this, "setCursor(" + generate.LegacyDataRenderer.renderReference(refField, getLine()) + ") ;") ;
 		}
 	}
 

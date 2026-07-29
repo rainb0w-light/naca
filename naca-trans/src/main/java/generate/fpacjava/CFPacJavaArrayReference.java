@@ -17,7 +17,7 @@ public class CFPacJavaArrayReference extends CEntityArrayReference
 	public CFPacJavaArrayReference(int l, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
 		super(l, cat);
-		setLanguageExporter(out);
+		generate.LegacyLanguageRenderer.bind(this, out);
 	}
 
 	@Override
@@ -64,8 +64,6 @@ public class CFPacJavaArrayReference extends CEntityArrayReference
 		// TODO Auto-generated method stub
 		return false;
 	}
-
-	@Override
 	protected void DoExport()
 	{
 		// TODO Auto-generated method stub

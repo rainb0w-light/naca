@@ -3,7 +3,6 @@ package generate.templates.recursive;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import generate.fixtures.LegacyAttributeFixture;
-import generate.java.CJavaExporter;
 import generate.java.st.MockJavaExporter;
 import generate.templates.TemplateLoader;
 import org.junit.jupiter.api.Test;
@@ -14,8 +13,7 @@ import utils.CObjectCatalog;
 class JavaSemanticMoveRendererTest
 {
     private final CObjectCatalog catalog = new CObjectCatalog(null, null, null, null);
-    private final CJavaExporter referenceOutput = new CJavaExporter(
-        null, "/tmp/unused.java", null, false);
+    private final MockJavaExporter referenceOutput = new MockJavaExporter();
     private final JavaTemplateAssembler assembler = TemplateLoader.newRecursiveAssembler();
 
     @Test
@@ -77,7 +75,7 @@ class JavaSemanticMoveRendererTest
         private TestJavaAssign(MockJavaExporter output)
         {
             super(0, null);
-            setLanguageExporter(output);
+            generate.LegacyLanguageRenderer.bind(this, output);
         }
 
         private void exportDirect()
@@ -89,7 +87,7 @@ class JavaSemanticMoveRendererTest
                 : generate.LegacyDataRenderer.renderReference(getValue(), getLine());
             for (CDataEntity destination : getDestinations())
             {
-                WriteLine(prefix + source + ", "
+                generate.LegacyLanguageRenderer.writeLine(this, prefix + source + ", "
                     + generate.LegacyDataRenderer.renderReference(destination, getLine()) + ");");
             }
         }

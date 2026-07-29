@@ -257,7 +257,7 @@ public class CGlobalCatalog
 	//		ext = transcoderEngine.getExternalDataStructure(name, null) ;
 			if (ext != null)
 			{
-				ext.StartExport() ;
+				generate.LegacyLanguageRenderer.startExport(ext) ;
 				return ext ;
 			}
 		}

@@ -153,7 +153,7 @@ public class CEntityCallFunction extends CBaseActionEntity
 			CEntityProcedure procedure = reference.getProcedure() ;
 			if (procedure != null)
 			{
-				return procedure.getFormattedName() ;
+				return procedure.GetDisplayName() ;
 			}
 		}
 		return null ;
@@ -167,7 +167,7 @@ public class CEntityCallFunction extends CBaseActionEntity
 			CEntityProcedure procedure = referenceThru.getProcedure() ;
 			if (procedure != null)
 			{
-				return procedure.getFormattedName() ;
+				return procedure.GetDisplayName() ;
 			}
 		}
 		return null ;

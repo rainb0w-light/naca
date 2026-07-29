@@ -87,7 +87,7 @@ public class CobolIncludeTranscoderEngine extends TranscoderEngine<CStandAloneWo
 					}
 				}
 			}
-//			eFile.StartExport() ;
+//			generate.LegacyLanguageRenderer.startExport(eFile) ;
 			return eFile  ;
 		}
 		else

@@ -36,12 +36,12 @@ public class CJavaSkipField extends CEntitySkipFields
 	public CJavaSkipField(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out, int nbFields, String level)
 	{
 		super(l, name, cat, nbFields, level);
-		setLanguageExporter(out);
+		generate.LegacyLanguageRenderer.bind(this, out);
 	}
 
 	public String ExportReference(int nLine)
 	{
-		return FormatIdentifier(GetName()) ;
+		return generate.LegacyLanguageRenderer.formatIdentifier(this, GetName()) ;
 	}
 	public boolean HasAccessors()
 	{
@@ -59,11 +59,11 @@ public class CJavaSkipField extends CEntitySkipFields
 
 	protected void DoExport()
 	{
-		String cs = "Edit " + FormatIdentifier(GetName()) + " = declare.level("+Integer.parseInt(csLevel)+").editSkip(" + nbFields + ") ;" ;
-		WriteLine(cs);
+		String cs = "Edit " + generate.LegacyLanguageRenderer.formatIdentifier(this, GetName()) + " = declare.level("+Integer.parseInt(csLevel)+").editSkip(" + nbFields + ") ;" ;
+		generate.LegacyLanguageRenderer.writeLine(this, cs);
 		
-		StartOutputBloc();
-		ExportChildren();
-		EndOutputBloc() ;
+		generate.LegacyLanguageRenderer.startBlock(this);
+		generate.LegacyLanguageRenderer.exportChildren(this, false);
+		generate.LegacyLanguageRenderer.endBlock(this) ;
 	}
 }

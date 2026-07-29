@@ -18,7 +18,7 @@ public class CFPacJavaEnvironmentVariable extends CEntityEnvironmentVariable
 					boolean bNumericVar)
 	{
 		super(l, name, cat, accessor, writer, bNumericVar);
-		setLanguageExporter(out);
+		generate.LegacyLanguageRenderer.bind(this, out);
 	}
 
 	public String ExportReference(int nLine)
@@ -49,8 +49,6 @@ public class CFPacJavaEnvironmentVariable extends CEntityEnvironmentVariable
 	{
 		return false;
 	}
-
-	@Override
 	protected void DoExport()
 	{
 		// not used

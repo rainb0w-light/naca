@@ -39,11 +39,11 @@ public class CJavaFormRedefine extends CEntityFormRedefine
 	public CJavaFormRedefine(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity form, boolean bSaveMap)
 	{
 		super(l, name, cat, form, bSaveMap);
-		setLanguageExporter(out);
+		generate.LegacyLanguageRenderer.bind(this, out);
 	}
 	public String ExportReference(int nLine)
 	{
-		return FormatIdentifier(GetName());
+		return generate.LegacyLanguageRenderer.formatIdentifier(this, GetName());
 	}
 	public boolean HasAccessors()
 	{
@@ -63,12 +63,12 @@ public class CJavaFormRedefine extends CEntityFormRedefine
 	{
 //		if (!bSaveMap)
 //		{
-			String cs = "MapRedefine " + FormatIdentifier(GetName()) + " = declare.level(1).redefinesMap(" ;
+			String cs = "MapRedefine " + generate.LegacyLanguageRenderer.formatIdentifier(this, GetName()) + " = declare.level(1).redefinesMap(" ;
 			cs += generate.LegacyDataRenderer.renderReference(eForm, getLine()) ;
-			WriteLine(cs + ") ;");
-			StartOutputBloc();
-			ExportChildren();
-			EndOutputBloc();
+			generate.LegacyLanguageRenderer.writeLine(this, cs + ") ;");
+			generate.LegacyLanguageRenderer.startBlock(this);
+			generate.LegacyLanguageRenderer.exportChildren(this, false);
+			generate.LegacyLanguageRenderer.endBlock(this);
 //		} 
 	}
 

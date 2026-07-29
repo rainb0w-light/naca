@@ -28,16 +28,15 @@ public class CFPacJavaCallFunction extends CEntityCallFunction
 	public CFPacJavaCallFunction(int l, CObjectCatalog cat, CBaseLanguageExporter out, String ref)
 	{
 		super(l, cat, ref, "", null);
-		setLanguageExporter(out);
+		generate.LegacyLanguageRenderer.bind(this, out);
 	}
 
 	/**
 	 * @see semantic.CBaseLanguageEntity#DoExport()
 	 */
-	@Override
 	protected void DoExport()
 	{
-		WriteLine(FormatIdentifier(reference.getProcedure().GetName()) + "() ;") ;
+		generate.LegacyLanguageRenderer.writeLine(this, generate.LegacyLanguageRenderer.formatIdentifier(this, reference.getProcedure().GetName()) + "() ;") ;
 
 	}
 

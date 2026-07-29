@@ -123,7 +123,7 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntityAssign NewEntityAssign(int l) {
         CEntityAssign e = new CEntityAssign(l, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
@@ -146,21 +146,21 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     public CEntityIntrinsicFunction NewEntityIntrinsicFunction(String functionName, List<CBaseEntityExpression> arguments) {
         CEntityIntrinsicFunction entity =
             new CEntityIntrinsicFunction(programCatalog, functionName, arguments);
-        entity.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(entity, langOutput);
         return entity;
     }
 
     @Override
     public CEntityDisplay NewEntityDisplay(int l, Upon t) {
         CEntityDisplay e = new CEntityDisplay(l, programCatalog, t);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
     @Override
     public CEntityReadFile NewEntityReadFile(int line) {
         CEntityReadFile e = new CEntityReadFile(line, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
@@ -170,7 +170,7 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntityCICSReturn NewEntityCICSReturn(int l) {
         CEntityCICSReturn e = new CEntityCICSReturn(l, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
@@ -180,7 +180,7 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntityCICSSyncPoint NewEntityCICSSyncPoint(int l, boolean bRollBack) {
         CEntityCICSSyncPoint e = new CEntityCICSSyncPoint(l, programCatalog, bRollBack);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
@@ -192,7 +192,7 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntitySqlOnErrorGoto NewEntitySQLOnErrorGoto(int l, String ref) {
         CEntitySqlOnErrorGoto e = new CEntitySqlOnErrorGoto(l, programCatalog, ref, false);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         registerSqlWheneverPolicy(ref, false);
         return e;
     }
@@ -201,7 +201,7 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntitySqlOnErrorGoto NewEntitySQLOnWarningGoto(int l, String ref) {
         CEntitySqlOnErrorGoto e = new CEntitySqlOnErrorGoto(l, programCatalog, ref, true);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         registerSqlWheneverPolicy(ref, true);
         return e;
     }
@@ -214,7 +214,7 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntitySQLDeclareTable NewEntitySQLDeclareTable(int nLine, String csTableName, String csViewName, ArrayList arrTableColDescription) {
         CEntitySQLDeclareTable e = new CEntitySQLDeclareTable(nLine, programCatalog, csTableName, csViewName, arrTableColDescription);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
@@ -224,7 +224,7 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntityCICSXctl NewEntityCICSXctl(int l) {
         CEntityCICSXctl e = new CEntityCICSXctl(l, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
@@ -234,7 +234,7 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntityCICSLink NewEntityCICSLink(int l) {
         CEntityCICSLink e = new CEntityCICSLink(l, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
@@ -244,7 +244,7 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntityCICSAbend NewEntityCICSAbend(int l) {
         CEntityCICSAbend e = new CEntityCICSAbend(l, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
@@ -254,7 +254,7 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntityCICSAskTime NewEntityCICSAskTime(int l) {
         CEntityCICSAskTime e = new CEntityCICSAskTime(l, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
@@ -264,7 +264,7 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntityCICSAddress NewEntityCICSAddress(int l) {
         CEntityCICSAddress e = new CEntityCICSAddress(l, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
@@ -274,7 +274,7 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntityCICSAssign NewEntityCICSAssign(int l) {
         CEntityCICSAssign e = new CEntityCICSAssign(l, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
@@ -284,7 +284,7 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntityCICSReceiveMap NewEntityCICSReceiveMap(int l, CDataEntity name) {
         CEntityCICSReceiveMap e = new CEntityCICSReceiveMap(l, programCatalog, name);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
@@ -294,7 +294,7 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntityCICSSendMap NewEntityCICSSendMap(int l) {
         CEntityCICSSendMap e = new CEntityCICSSendMap(l, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
@@ -304,7 +304,7 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntityCICSDeQ NewEntityCICSDeQ(int l) {
         CEntityCICSDeQ e = new CEntityCICSDeQ(l, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
@@ -314,7 +314,7 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntityCICSEnQ NewEntityCICSEnQ(int l) {
         CEntityCICSEnQ e = new CEntityCICSEnQ(l, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
@@ -324,7 +324,7 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntityCICSDelay NewEntityCICSDelay(int l) {
         CEntityCICSDelay e = new CEntityCICSDelay(l, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
@@ -334,7 +334,7 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntityCICSDeleteQ NewEntityCICSDeleteQ(int l, boolean b) {
         CEntityCICSDeleteQ e = new CEntityCICSDeleteQ(l, programCatalog, b);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
@@ -344,7 +344,7 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntityCICSGetMain NewEntityCICSGetMain(int l) {
         CEntityCICSGetMain e = new CEntityCICSGetMain(l, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
@@ -354,7 +354,7 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntityCICSHandleAID NewEntityCICSHandleAID(int l) {
         CEntityCICSHandleAID e = new CEntityCICSHandleAID(l, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
@@ -365,7 +365,7 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntityCICSHandleCondition NewEntityCICSHandleCondition(int l) {
         CEntityCICSHandleCondition e = new CEntityCICSHandleCondition(l, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
@@ -376,7 +376,7 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntityCICSIgnoreCondition NewEntityCICSIgnoreCondition(int l) {
         CEntityCICSIgnoreCondition e = new CEntityCICSIgnoreCondition(l, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
@@ -387,70 +387,70 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntityCICSInquire NewEntityCICSInquire(int l) {
         CEntityCICSInquire e = new CEntityCICSInquire(l, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
     @Override
     public CEntityCICSReWrite NewEntityCICSReWrite(int l) {
         CEntityCICSReWrite e = new CEntityCICSReWrite(l, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
     @Override
     public CEntityCICSRead NewEntityCICSRead(int l, CEntityCICSRead.CEntityCICSReadMode mode) {
         CEntityCICSRead e = new CEntityCICSRead(l, programCatalog, mode);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
     @Override
     public CEntityCICSReadQ NewEntityCICSReadQ(int l, boolean persistent) {
         CEntityCICSReadQ e = new CEntityCICSReadQ(l, programCatalog, persistent);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
     @Override
     public CEntityCICSRetrieve NewEntityCICSRetreive(int l, boolean pointer) {
         CEntityCICSRetrieve e = new CEntityCICSRetrieve(l, programCatalog, pointer);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
     @Override
     public CEntityCICSSetTDQueue NewEntityCICSSetTDQueue(int l) {
         CEntityCICSSetTDQueue e = new CEntityCICSSetTDQueue(l, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
     @Override
     public CEntityCICSStart NewEntityCICSStart(int l, CDataEntity transID) {
         CEntityCICSStart e = new CEntityCICSStart(l, programCatalog, transID);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
     @Override
     public CEntityCICSStartBrowse NewEntityCICSStartBrowse(int l) {
         CEntityCICSStartBrowse e = new CEntityCICSStartBrowse(l, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
     @Override
     public CEntityCICSWrite NewEntityCICSWrite(int l) {
         CEntityCICSWrite e = new CEntityCICSWrite(l, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
     @Override
     public CEntityCICSWriteQ NewEntityCICSWriteQ(int l, boolean persistent) {
         CEntityCICSWriteQ e = new CEntityCICSWriteQ(l, programCatalog, persistent);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
@@ -460,7 +460,7 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntitySQLCursorSection NewEntitySQLCursorSection() {
         CEntitySQLCursorSection e = new CEntitySQLCursorSection(programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
@@ -472,7 +472,7 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntitySQLCloseStatement NewEntitySQLCloseStatement(int nLine, CEntitySQLCursor cur) {
         CEntitySQLCloseStatement e = new CEntitySQLCloseStatement(nLine, programCatalog, cur);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
@@ -487,7 +487,7 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntitySQLOpenStatement NewEntitySQLOpenStatement(int nLine, CEntitySQLCursor cur) {
         CEntitySQLOpenStatement e = new CEntitySQLOpenStatement(nLine, programCatalog, cur);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
@@ -501,7 +501,7 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntitySQLFetchStatement NewEntitySQLFetchStatement(int nLine, CEntitySQLCursor cur) {
         CEntitySQLFetchStatement e = new CEntitySQLFetchStatement(nLine, programCatalog, cur);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
@@ -515,7 +515,7 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntitySQLCall NewEntitySQLCall(int line) {
         CEntitySQLCall e = new CEntitySQLCall(line, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
@@ -530,7 +530,7 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntitySQLCursorSelectStatement NewEntitySQLCursorSelectStatement(int line) {
         CEntitySQLCursorSelectStatement e = new CEntitySQLCursorSelectStatement(line, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
@@ -545,7 +545,7 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntitySQLDeleteStatement NewEntitySQLDeleteStatement(int nLine, String csStatement, Vector<CDataEntity> arrParameters) {
         CEntitySQLDeleteStatement e = new CEntitySQLDeleteStatement(nLine, programCatalog, csStatement, arrParameters);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
@@ -561,7 +561,7 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntitySQLSelectStatement NewEntitySQLSelectStatement(int nLine, String csStatement, Vector<CDataEntity> arrParameters, Vector<CDataEntity> arrInto, Vector<CDataEntity> arrInd) {
         CEntitySQLSelectStatement e = new CEntitySQLSelectStatement(nLine, programCatalog, csStatement, arrParameters, arrInto, arrInd);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
@@ -580,7 +580,7 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntitySQLUpdateStatement NewEntitySQLUpdateStatement(int nLine, String csStatement, Vector<CDataEntity> arrSets, Vector<CDataEntity> arrParameters) {
         CEntitySQLUpdateStatement e = new CEntitySQLUpdateStatement(nLine, programCatalog, csStatement, arrSets, arrParameters);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
@@ -597,7 +597,7 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntitySQLInsertStatement NewEntitySQLInsertStatement(int nLine) {
         CEntitySQLInsertStatement e = new CEntitySQLInsertStatement(nLine, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
@@ -612,7 +612,7 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntitySQLExecute NewEntitySQLExecute(int line) {
         CEntitySQLExecute e = new CEntitySQLExecute(line, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
@@ -639,14 +639,14 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntitySQLCode NewEntitySQLCode(String name) {
         CEntitySQLCode e = new CEntitySQLCode(name, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
     @Override
     public CEntitySQLCode NewEntitySQLCode(String name, CBaseEntityExpression eHistoryItem) {
         CEntitySQLCode e = new CEntitySQLCode(name, programCatalog, eHistoryItem);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
@@ -659,7 +659,7 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntitySQLCommit NewEntitySQLCommit(int l) {
         CEntitySQLCommit e = new CEntitySQLCommit(l, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
@@ -673,7 +673,7 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntitySQLLock NewEntitySQLLock(int l) {
         CEntitySQLLock e = new CEntitySQLLock(l, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
@@ -685,7 +685,7 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntitySQLRollBack NewEntitySQLRollBack(int l) {
         CEntitySQLRollBack e = new CEntitySQLRollBack(l, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
@@ -700,7 +700,7 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntitySQLSessionDeclare NewEntitySQLSessionDeclare(int line) {
         CEntitySQLSessionDeclare e = new CEntitySQLSessionDeclare(line, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
@@ -714,7 +714,7 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntitySQLSessionDrop NewEntitySQLSessionDrop(int line) {
         CEntitySQLSessionDrop e = new CEntitySQLSessionDrop(line, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
@@ -729,42 +729,42 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntitySQLSingleStatement NewEntitySQLSingleStatement(int l, String st) {
         CEntitySQLSingleStatement e = new CEntitySQLSingleStatement(l, programCatalog, st);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
     @Override
     public CEntitySubtractTo NewEntitySubtractTo(int l) {
         CEntitySubtractTo e = new CEntitySubtractTo(l, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
     @Override
     public CEntityMultiply NewEntityMultiply(int l) {
         CEntityMultiply e = new CEntityMultiply(l, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
     @Override
     public CEntityDivide NewEntityDivide(int l) {
         CEntityDivide e = new CEntityDivide(l, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
     @Override
     public CEntityCalcul NewEntityCalcul(int l) {
         CEntityCalcul e = new CEntityCalcul(l, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
     @Override
     public CEntityAssignWithAccessor NewEntityAssignWithAccessor(int l) {
         CEntityAssignWithAccessor e = new CEntityAssignWithAccessor(l, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
@@ -776,56 +776,56 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntityGoto NewEntityGoto(int l, String Reference, CEntityProcedureSection section) {
         CEntityGoto e = new CEntityGoto(l, programCatalog, Reference, section);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
     @Override
     public CEntityCallFunction NewEntityCallFunction(int l, String reference, String csRefThru, CEntityProcedureSection section) {
         CEntityCallFunction e = new CEntityCallFunction(l, programCatalog, reference, csRefThru, section);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
     @Override
     public CEntityCallProgram NewEntityCallProgram(int l, CDataEntity reference) {
         CEntityCallProgram e = new CEntityCallProgram(l, programCatalog, reference);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
     @Override
     public CEntityInitialize NewEntityInitialize(int l, CDataEntity data) {
         CEntityInitialize e = new CEntityInitialize(l, programCatalog, data);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
     @Override
     public CEntityReturn NewEntityReturn(int l) {
         CEntityReturn e = new CEntityReturn(l, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
     @Override
     public CEntityWriteFile NewEntityWriteFile(int line) {
         CEntityWriteFile e = new CEntityWriteFile(line, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
     @Override
     public CEntityOpenFile NewEntityOpenFile(int line) {
         CEntityOpenFile e = new CEntityOpenFile(line, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
     @Override
     public CEntityCloseFile NewEntityCloseFile(int line) {
         CEntityCloseFile e = new CEntityCloseFile(line, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
@@ -842,91 +842,91 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntityAccept NewEntityAccept(int line) {
         CEntityAccept e = new CEntityAccept(line, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
     @Override
     public CEntityParseString NewEntityParseString(int line) {
         CEntityParseString e = new CEntityParseString(line, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
     @Override
     public CEntityReplace NewEntityReplace(int line) {
         CEntityReplace e = new CEntityReplace(line, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
     @Override
     public CEntitySetConstant NewEntitySetConstant(int line) {
         CEntitySetConstant e = new CEntitySetConstant(line, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
     @Override
     public CEntityCount NewEntityCount(int line) {
         CEntityCount e = new CEntityCount(line, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
     @Override
     public CEntitySearch NewEntitySearch(int line) {
         CEntitySearch e = new CEntitySearch(line, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
     @Override
     public CEntitySort NewEntitySort(int line) {
         CEntitySort e = new CEntitySort(line, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
     @Override
     public CEntitySortRelease NewEntitySortRelease(int line) {
         CEntitySortRelease e = new CEntitySortRelease(line, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
     @Override
     public CEntitySortReturn NewEntitySortReturn(int line) {
         CEntitySortReturn e = new CEntitySortReturn(line, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
     @Override
     public CEntityRewriteFile NewEntityRewriteFile(int line) {
         CEntityRewriteFile e = new CEntityRewriteFile(line, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
     @Override
     public CEntityInspectConverting NewEntityInspectConverting(int line) {
         CEntityInspectConverting e = new CEntityInspectConverting(line, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
     @Override
     public CEntityRoutineEmulationCall NewEntityRoutineEmulationCall(int line) {
         CEntityRoutineEmulationCall e = new CEntityRoutineEmulationCall(line, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
     @Override
     public CEntityStringConcat NewEntityStringConcat(int line) {
         CEntityStringConcat e = new CEntityStringConcat(line, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
@@ -938,14 +938,14 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntityNextSentence NewEntityNextSentence(int line) {
         CEntityNextSentence e = new CEntityNextSentence(line, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
     @Override
     public CEntityExec NewEntityExec(int l, String statement) {
         CEntityExec e = new CEntityExec(l, programCatalog, statement);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
@@ -954,21 +954,21 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntityProcedureDivision NewEntityProcedureDivision(int l) {
         CEntityProcedureDivision e = new CEntityProcedureDivision(l, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
     @Override
     public CEntityProcedureSection NewEntityProcedureSection(int l, String name) {
         CEntityProcedureSection e = new CEntityProcedureSection(l, name, programCatalog);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 
     @Override
     public CEntityProcedure NewEntityProcedure(int l, String name, CEntityProcedureSection section) {
         CEntityProcedure e = new CEntityProcedure(l, name, programCatalog, section);
-        e.setLanguageExporter(langOutput);
+        generate.LegacyLanguageRenderer.bind(e, langOutput);
         return e;
     }
 }

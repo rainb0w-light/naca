@@ -25,16 +25,15 @@ public class CFPacJavaReturn extends CEntityReturn
 	public CFPacJavaReturn(int l, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
 		super(l, cat);
-		setLanguageExporter(out);
+		generate.LegacyLanguageRenderer.bind(this, out);
 	}
 
 	/**
 	 * @see semantic.CBaseLanguageEntity#DoExport()
 	 */
-	@Override
 	protected void DoExport()
 	{
-		WriteLine("return NEXT ;") ;
+		generate.LegacyLanguageRenderer.writeLine(this, "return NEXT ;") ;
 	}
 
 }

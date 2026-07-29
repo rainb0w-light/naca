@@ -36,7 +36,7 @@ public class CJavaFieldLength extends CEntityFieldLength
 	public CJavaFieldLength(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity owner)
 	{
 		super(l, name, cat, owner);
-		setLanguageExporter(out);
+		generate.LegacyLanguageRenderer.bind(this, out);
 	}
 	public String ExportReference(int nLine)
 	{

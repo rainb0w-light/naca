@@ -455,6 +455,15 @@ public class CEntityAttribute extends CGenericDataEntityReference implements ITy
 	public boolean isFillWithValue() {
 		return isfillWithValue;
 	}
+	@Override
+	public boolean isDeclarationRequired() {
+		return super.isDeclarationRequired()
+			|| value != null
+			|| isinitialValueIsSpaces
+			|| isinitialValueIsZeros
+			|| isinitialValueIsLowValue
+			|| isinitialValueIsHighValue;
+	}
 	public boolean isJustifiedRight() {
 		return isjustifiedRight;
 	}

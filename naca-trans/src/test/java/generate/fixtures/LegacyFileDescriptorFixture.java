@@ -11,10 +11,8 @@ public final class LegacyFileDescriptorFixture extends CEntityFileDescriptor
         int line, String name, CObjectCatalog catalog, CBaseLanguageExporter output)
     {
         super(line, name, catalog);
-        setLanguageExporter(output);
+        generate.LegacyLanguageRenderer.bind(this, output);
     }
-
-    @Override
     protected void DoExport()
     {
         String file = null;
@@ -27,17 +25,17 @@ public final class LegacyFileDescriptorFixture extends CEntityFileDescriptor
         {
             file = "\"" + GetDisplayName() + "\"";
         }
-        WriteWord("FileDescriptor " + FormatIdentifier(GetDisplayName())
+        generate.LegacyLanguageRenderer.writeWord(this, "FileDescriptor " + generate.LegacyLanguageRenderer.formatIdentifier(this, GetDisplayName())
             + " = declare.file(" + file + ")");
         if (fileSelect != null && fileSelect.getFileStatus() != null)
         {
-            WriteWord(".status("
+            generate.LegacyLanguageRenderer.writeWord(this, ".status("
                 + generate.LegacyDataRenderer.renderReference(
                     fileSelect.getFileStatus(), getLine())
                 + ")");
         }
-        WriteWord(" ;");
-        WriteEOL();
-        ExportChildren();
+        generate.LegacyLanguageRenderer.writeWord(this, " ;");
+        generate.LegacyLanguageRenderer.writeEol(this);
+        generate.LegacyLanguageRenderer.exportChildren(this, false);
     }
 }

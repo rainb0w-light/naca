@@ -27,18 +27,17 @@ public class CFPacJavaDisplay extends CEntityDisplay
 	public CFPacJavaDisplay(int line, CObjectCatalog cat, CBaseLanguageExporter out, Upon t)
 	{
 		super(line, cat, t);
-		setLanguageExporter(out);
+		generate.LegacyLanguageRenderer.bind(this, out);
 	}
 
 	/**
 	 * @see semantic.CBaseLanguageEntity#DoExport()
 	 */
-	@Override
 	protected void DoExport()
 	{
 		for (CDataEntity e : itemsToDisplay)
 		{
-			WriteLine("wto.display(" + generate.LegacyDataRenderer.renderReference(e, getLine()) + ") ;") ;
+			generate.LegacyLanguageRenderer.writeLine(this, "wto.display(" + generate.LegacyDataRenderer.renderReference(e, getLine()) + ") ;") ;
 		}
 	}
 

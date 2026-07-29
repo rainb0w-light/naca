@@ -431,7 +431,7 @@ subStringReferenceEntity(entity) ::= <<
 subString(<entity.reference>, <entity.start><if(entity.length)>, <entity.length><endif>)
 >>
 
-valueReferenceEntity(entity) ::= "<entity.semanticReferenceName; format=\"raw\">"
+valueReferenceEntity(entity) ::= "<entity.reference>"
 
 fileBufferEntity(entity) ::= "<entity.fileDescriptor>"
 
@@ -788,7 +788,7 @@ recursiveReturnEntity(entity) ::= <<
 
 recursiveCallFunctionEntity(entity) ::= <<
 <if(entity.repetitions)>for (int <entity.repetitionIndex>=0; isLess(<entity.repetitionIndex>, <entity.repetitions>); <entity.repetitionIndex>++) {
-<endif><if(entity.performThrough)>performThrough(<entity.performedProcedureName>, <entity.performedThroughName>) ;<elseif(entity.performedProcedureName)>perform(<entity.performedProcedureName>) ;<else><entity.activeChildren; separator="\n"><endif>
+<endif><if(entity.performThrough)>performThrough(<entity.performedProcedureName; format="javaFormattedName">, <entity.performedThroughName; format="javaFormattedName">) ;<elseif(entity.performedProcedureName)>perform(<entity.performedProcedureName; format="javaFormattedName">) ;<else><entity.activeChildren; separator="\n"><endif>
 <if(entity.repetitions)>}<endif>
 >>
 
@@ -1118,11 +1118,11 @@ recursiveStringConcatItem(item) ::= <<
 >>
 
 recursiveGotoEntity(entity) ::= <<
-goTo(<entity.goToTarget>) ;
+goTo(<entity.goToTarget; format="javaFormattedName">) ;
 >>
 
 recursiveGotoDependingEntity(entity) ::= <<
-goTo(new CJMapRunnable[]{<entity.goToTargets:{target | <target>,}>}, <entity.depending>) ;
+goTo(new CJMapRunnable[]{<entity.goToTargets:{target | <target; format="javaFormattedName">,}>}, <entity.depending>) ;
 >>
 
 recursiveInitializeEntity(entity) ::= <<
@@ -1145,7 +1145,7 @@ Var <entity.formattedName> = declare.level(<entity.level>).<entity.declaredType>
 
 dataStructureDeclaration(entity) ::= <<
 Var <entity.formattedName> = declare.level(<entity.numericLevel>)<if(entity.redefines)>.redefines(<entity.redefines>)<endif><if(entity.occurs)><if(entity.tableSizeDepending)>.occursDepending(<entity.occurs>, <entity.tableSizeDepending>)<elseif(entity.variableLength)>.variableLength()<else>.occurs(<entity.occurs>)<endif><endif><if(entity.typed)>.<entity.declaredType>(<if(entity.declaredEditedPicture)><entity.declaredFormat; format="javaString"><else><entity.declaredLength><if(entity.scaled)>,<entity.decimals><endif><endif>)<endif><if(entity.comp3)>.comp3()<elseif(entity.comp2)>.comp2()<elseif(entity.binaryComp)>.comp()<endif><if(entity.sync)>.sync()<endif><if(entity.value)>.<if(entity.fillWithValue)>valueAll<else>value<endif>(<entity.value>)<else><if(entity.initialValueIsSpaces)>.valueSpaces()<elseif(entity.initialValueIsZeros)>.valueZero()<elseif(entity.initialValueIsLowValue)>.valueLowValue()<elseif(entity.initialValueIsHighValue)>.valueHighValue()<endif><endif><if(entity.justifiedRight)>.justifyRight()<endif><if(entity.blankWhenZero)>.blankWhenZero()<endif><if(entity.signLeadingSeparated)>.signLeadingSeparated()<elseif(entity.signTrailingSeparated)>.signTrailingSeparated()<endif><if(entity.filler)>.filler()<else>.var()<endif> ;
-<if(entity.insideExternalDataStructure)><entity.children><elseif(entity.insideFileSection)><entity.children><else><entity.activeChildren><endif>
+<if(entity.insideExternalDataStructure)><entity.children><elseif(entity.insideFileSection)><entity.children><else><entity.declarationChildren><endif>
 >>
 
 dataSectionDeclaration(entity) ::= <<
@@ -1153,7 +1153,7 @@ dataSectionDeclaration(entity) ::= <<
 <elseif(entity.linkageSection)>DataSection <entity.formattedName> = declare.linkageSection() ;
 <elseif(entity.fileSection)>DataSection <entity.formattedName> = declare.fileSection() ;
 <elseif(entity.variableSection)>DataSection <entity.formattedName> = declare.variableSection() ;
-<endif><if(entity.fileSection)><entity.children><else><entity.activeChildren><endif>
+<endif><if(entity.fileSection)><entity.children><else><entity.declarationChildren><endif>
 >>
 
 dataFileDescriptorDeclaration(entity) ::= <<

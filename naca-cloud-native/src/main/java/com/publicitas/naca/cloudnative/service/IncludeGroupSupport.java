@@ -114,27 +114,6 @@ public final class IncludeGroupSupport {
             .renderRoot(structure, generate.templates.recursive.JavaTemplateRole.ROOT);
     }
 
-    /**
-     * Legacy direct re-export of the copybook class, retained ONLY as the parity
-     * reference for {@code CopybookClassParityTest} (which asserts the assembler
-     * output is token-identical). Uses {@link CopybookStringExporter} so the
-     * identifiers follow the {@code CJavaExporter} lower-case convention. Once the
-     * assembler path is proven stable this can be deleted.
-     */
-    public static String generateCopybookClassDirect(String copybookName) {
-        CEntityExternalDataStructure structure = resolveCopybook(copybookName);
-        if (structure == null) {
-            return null;
-        }
-        CopybookStringExporter stringExporter = new CopybookStringExporter();
-        if (structure.programCatalog != null) {
-            structure.programCatalog.setExporter(stringExporter);
-        }
-        structure.setLanguageExporter(stringExporter);
-        structure.StartExport();
-        return stringExporter.getCapturedString();
-    }
-
     private static Transcoder build(String inputDir, String outputDir) {
         String interDir = outputDir + "/stat";
         String configXml =

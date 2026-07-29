@@ -16,10 +16,8 @@ public class CFpacJavaOpenFile extends CEntityOpenFile
 	public CFpacJavaOpenFile(int line, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
 		super(line, cat);
-		setLanguageExporter(out);
+		generate.LegacyLanguageRenderer.bind(this, out);
 	}
-
-	@Override
 	protected void DoExport()
 	{
 		String cs = eFileDescriptor.getFormattedName() + ".open" ;
@@ -43,7 +41,7 @@ public class CFpacJavaOpenFile extends CEntityOpenFile
 			cs += ".variableLength()" ;
 		}
 		cs += " ;" ;
-		WriteLine(cs) ;
+		generate.LegacyLanguageRenderer.writeLine(this, cs) ;
 	}
 
 }

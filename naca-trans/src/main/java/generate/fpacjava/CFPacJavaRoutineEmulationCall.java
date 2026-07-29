@@ -16,17 +16,15 @@ public class CFPacJavaRoutineEmulationCall extends CEntityRoutineEmulationCall
 		int line, CObjectCatalog catalog, CBaseLanguageExporter exporter)
 	{
 		super(line, catalog);
-		setLanguageExporter(exporter);
+		generate.LegacyLanguageRenderer.bind(this, exporter);
 	}
-
-	@Override
 	protected void DoExport()
 	{
-		WriteWord(csDisplay + "(");
+		generate.LegacyLanguageRenderer.writeWord(this, csDisplay + "(");
 		boolean dynamicAllocation = csDisplay.equals("tools.dynamicAllocation");
 		if (dynamicAllocation)
 		{
-			WriteWord("new Var[] {");
+			generate.LegacyLanguageRenderer.writeWord(this, "new Var[] {");
 		}
 		boolean first = true;
 		for (CDataEntity parameter : parameters)
@@ -44,18 +42,18 @@ public class CFPacJavaRoutineEmulationCall extends CEntityRoutineEmulationCall
 			{
 				if (!first)
 				{
-					WriteWord(", ");
+					generate.LegacyLanguageRenderer.writeWord(this, ", ");
 				}
 				first = false;
-				WriteWord(reference);
+				generate.LegacyLanguageRenderer.writeWord(this, reference);
 			}
 		}
 		if (dynamicAllocation)
 		{
-			WriteWord("}");
+			generate.LegacyLanguageRenderer.writeWord(this, "}");
 		}
-		WriteWord(") ;");
-		WriteEOL();
+		generate.LegacyLanguageRenderer.writeWord(this, ") ;");
+		generate.LegacyLanguageRenderer.writeEol(this);
 	}
 
 	@Override

@@ -13,54 +13,52 @@ public final class LegacyExternalDataStructureFixture
         int line, String name, CObjectCatalog catalog, CBaseLanguageExporter output)
     {
         super(line, name, catalog);
-        setLanguageExporter(output);
+        generate.LegacyLanguageRenderer.bind(this, output);
     }
 
         public String ExportReference(int line)
     {
-        return FormatIdentifier(GetDisplayName());
+        return generate.LegacyLanguageRenderer.formatIdentifier(this, GetDisplayName());
     }
-
-    @Override
     protected void DoExport()
     {
         if (isInlined())
         {
-            ExportChildren();
+            generate.LegacyLanguageRenderer.exportChildren(this, false);
             return;
         }
         String name = CobolNameUtil.fixJavaName(getTypeDecl());
-        WriteEOL();
-        WriteLine("import nacaLib.program.* ;");
-        WriteLine("import nacaLib.varEx.* ;");
-        WriteLine("import nacaLib.basePrgEnv.* ;");
-        WriteEOL();
-        WriteLine("public class " + name + " extends Copy {");
-        StartOutputBloc();
-        WriteLine("");
-        WriteLine("public static " + name + " Copy(BaseProgram program) {");
-        StartOutputBloc();
-        WriteLine("return new " + name + "(program, null);");
-        EndOutputBloc();
-        WriteLine("}");
-        WriteLine("");
-        WriteLine("");
-        WriteLine("public static " + name
+        generate.LegacyLanguageRenderer.writeEol(this);
+        generate.LegacyLanguageRenderer.writeLine(this, "import nacaLib.program.* ;");
+        generate.LegacyLanguageRenderer.writeLine(this, "import nacaLib.varEx.* ;");
+        generate.LegacyLanguageRenderer.writeLine(this, "import nacaLib.basePrgEnv.* ;");
+        generate.LegacyLanguageRenderer.writeEol(this);
+        generate.LegacyLanguageRenderer.writeLine(this, "public class " + name + " extends Copy {");
+        generate.LegacyLanguageRenderer.startBlock(this);
+        generate.LegacyLanguageRenderer.writeLine(this, "");
+        generate.LegacyLanguageRenderer.writeLine(this, "public static " + name + " Copy(BaseProgram program) {");
+        generate.LegacyLanguageRenderer.startBlock(this);
+        generate.LegacyLanguageRenderer.writeLine(this, "return new " + name + "(program, null);");
+        generate.LegacyLanguageRenderer.endBlock(this);
+        generate.LegacyLanguageRenderer.writeLine(this, "}");
+        generate.LegacyLanguageRenderer.writeLine(this, "");
+        generate.LegacyLanguageRenderer.writeLine(this, "");
+        generate.LegacyLanguageRenderer.writeLine(this, "public static " + name
             + " Copy(BaseProgram program, CopyReplacing copyReplacing) {");
-        StartOutputBloc();
-        WriteLine("return new " + name + "(program, copyReplacing);");
-        EndOutputBloc();
-        WriteLine("}");
-        WriteLine("");
-        WriteLine("public " + name
+        generate.LegacyLanguageRenderer.startBlock(this);
+        generate.LegacyLanguageRenderer.writeLine(this, "return new " + name + "(program, copyReplacing);");
+        generate.LegacyLanguageRenderer.endBlock(this);
+        generate.LegacyLanguageRenderer.writeLine(this, "}");
+        generate.LegacyLanguageRenderer.writeLine(this, "");
+        generate.LegacyLanguageRenderer.writeLine(this, "public " + name
             + "(BaseProgram program, CopyReplacing copyReplacing) {");
-        StartOutputBloc();
-        WriteLine("super(program, copyReplacing);");
-        EndOutputBloc();
-        WriteLine("}");
-        WriteLine("");
-        ExportChildren();
-        EndOutputBloc();
-        WriteLine("}");
+        generate.LegacyLanguageRenderer.startBlock(this);
+        generate.LegacyLanguageRenderer.writeLine(this, "super(program, copyReplacing);");
+        generate.LegacyLanguageRenderer.endBlock(this);
+        generate.LegacyLanguageRenderer.writeLine(this, "}");
+        generate.LegacyLanguageRenderer.writeLine(this, "");
+        generate.LegacyLanguageRenderer.exportChildren(this, false);
+        generate.LegacyLanguageRenderer.endBlock(this);
+        generate.LegacyLanguageRenderer.writeLine(this, "}");
     }
 }

@@ -49,7 +49,7 @@ public class CEntityGoto extends CBaseActionEntity
 	public String getGoToTarget()
 	{
 		semantic.CEntityProcedure e = reference.getProcedure();
-		return e != null ? e.getFormattedName() : "[UNDEFINED]";
+		return e != null ? e.GetDisplayName() : "[UNDEFINED]";
 	}
 
 	protected CProcedureReference reference = null;

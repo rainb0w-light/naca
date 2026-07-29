@@ -3,7 +3,7 @@ package generate.templates.recursive;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import generate.java.CJavaExporter;
+import generate.java.st.MockJavaExporter;
 import generate.fixtures.LegacyNamedConditionFixture;
 import generate.fpacjava.CFPacJavaCondIsBoolean;
 import generate.templates.TemplateLoader;
@@ -21,7 +21,7 @@ import utils.CObjectCatalog;
 class JavaSemanticConditionRendererTest
 {
     private final CObjectCatalog catalog = new CObjectCatalog(null, null, null, null);
-    private final CJavaExporter output = new CJavaExporter(null, "/tmp/unused.java", null, false);
+    private final MockJavaExporter output = new MockJavaExporter();
     private final JavaTemplateAssembler assembler = TemplateLoader.newRecursiveAssembler();
 
     @Test
@@ -105,24 +105,24 @@ class JavaSemanticConditionRendererTest
 
         CEntityCondIsConstant zero = new CEntityCondIsConstant();
         zero.SetIsZero(value);
-        assertEquals("isZero(boolean_Value)",
+        assertEquals("isZero(BOOLEAN_VALUE)",
             assembler.renderRoot(zero, JavaTemplateRole.REFERENCE));
-        assertEquals("isNotZero(boolean_Value)",
+        assertEquals("isNotZero(BOOLEAN_VALUE)",
             assembler.renderRoot(zero.GetOppositeCondition(), JavaTemplateRole.REFERENCE));
 
         CEntityCondIsConstant space = new CEntityCondIsConstant();
         space.SetIsSpace(value);
-        assertEquals("isSpace(boolean_Value)",
+        assertEquals("isSpace(BOOLEAN_VALUE)",
             assembler.renderRoot(space, JavaTemplateRole.REFERENCE));
 
         CEntityCondIsConstant low = new CEntityCondIsConstant();
         low.SetIsLowValue(value);
-        assertEquals("isLowValue(boolean_Value)",
+        assertEquals("isLowValue(BOOLEAN_VALUE)",
             assembler.renderRoot(low, JavaTemplateRole.REFERENCE));
 
         CEntityCondIsConstant high = new CEntityCondIsConstant();
         high.SetIsHighValue(value);
-        assertEquals("isHighValue(boolean_Value)",
+        assertEquals("isHighValue(BOOLEAN_VALUE)",
             assembler.renderRoot(high, JavaTemplateRole.REFERENCE));
 
         CFPacJavaCondIsBoolean trueCondition = new CFPacJavaCondIsBoolean();

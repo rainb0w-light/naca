@@ -251,7 +251,7 @@ public class BMSTranscoderEngine extends TranscoderEngine<CMapSetElement, CEntit
 						
 						// PJD 08/08/2007 Uncomment to export xxx.java screen copy file. These are duplicated files generated twice beforecorrect generation export by    
 						//Transcoder.logInfo("Exporting java file "+csJavaOutFileName);
-						//ext.StartExport() ;
+						//generate.LegacyLanguageRenderer.startExport(ext) ;
 						
 						String fileNameJavaS = FileSystem.appendFilePath(grp.csOutputPath + csApplication, ReplaceExtensionFileNameWithSuffix(csOutputFile, "S", "java"));
 						//String fileNameJavaS = grp.csOutputPath + csApplication + "/" + ReplaceExtensionFileNameWithSuffix(csOutputFile, "S", "java");
@@ -268,7 +268,7 @@ public class BMSTranscoderEngine extends TranscoderEngine<CMapSetElement, CEntit
 						{
 							// PJD 08/08/2007 Uncomment to export xxxS.java screen copy file. These are duplicated files generated twice beforecorrect generation export by
 //							Transcoder.logInfo("Exporting javaS file "+fileNameJavaS);
-//							ext.GetSavCopy().StartExport() ;
+//							generate.LegacyLanguageRenderer.startExport(ext.GetSavCopy()) ;
 						}
 					}	
 					return ext;

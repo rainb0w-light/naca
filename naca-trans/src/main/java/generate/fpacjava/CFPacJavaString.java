@@ -15,7 +15,7 @@ public final class CFPacJavaString extends CEntityString
         char[] value)
     {
         super(catalog, value);
-        setLanguageExporter(output);
+        generate.LegacyLanguageRenderer.bind(this, output);
     }
 
     public String ExportReference(int line)

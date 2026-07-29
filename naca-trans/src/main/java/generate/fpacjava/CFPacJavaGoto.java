@@ -17,13 +17,11 @@ public class CFPacJavaGoto extends CEntityGoto
 	public CFPacJavaGoto(int line, CObjectCatalog cat, CBaseLanguageExporter out, String ref, CEntityProcedureSection sectionContainer)
 	{
 		super(line, cat, ref, sectionContainer);
-		setLanguageExporter(out);
+		generate.LegacyLanguageRenderer.bind(this, out);
 	}
-
-	@Override
 	protected void DoExport()
 	{
-		WriteLine("return " + reference.getProcedureName() + " ;") ;
+		generate.LegacyLanguageRenderer.writeLine(this, "return " + reference.getProcedureName() + " ;") ;
 	}
 
 }

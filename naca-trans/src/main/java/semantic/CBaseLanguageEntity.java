@@ -12,8 +12,6 @@
  */
 package semantic;
 
-import generate.*;
-
 import java.util.*;
 
 import semantic.expression.CBaseEntityCondition;
@@ -28,7 +26,7 @@ import utils.*;
  */
 public abstract class CBaseLanguageEntity //extends CBaseEntity
 {
-	// deprecated : use CBaseLanguageExporter.FormatIdentifier instead
+	// Deprecated identifier-normalization prototype retained only as history.
 //	public String NormalizeCobolVariableName(String cs)
 //	{
 //		String csNormalized = cs.trim().replace('-', '_').toUpperCase();
@@ -139,7 +137,7 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
  		return line;
  	}
  	
-	protected CBaseLanguageEntity(int line, String name, CObjectCatalog cat, CBaseLanguageExporter out)
+	protected CBaseLanguageEntity(int line, String name, CObjectCatalog cat)
 	{
 		SetLine(line);
 		programCatalog = cat ;
@@ -152,11 +150,6 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 		{
 			RegisterMySelfToCatalog() ;
 		}
-		output = out ;
-	}
-	protected CBaseLanguageEntity(int line, String name, CObjectCatalog cat)
-	{
-		this(line, name, cat, null);
 	}
 	public void AddChild(CBaseLanguageEntity e)
 	{
@@ -173,51 +166,6 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 			lstChildren.add(e) ;
 		}
 	}
-	protected void
-    ExportChildren()
-	{
-		ListIterator i = lstChildren.listIterator() ;
-		try
-		{
-			CBaseLanguageEntity le = (CBaseLanguageEntity)i.next() ;
-			while (le != null)
-			{
-				if (!le.ignore())
-				{
-					le.DoExport();
-				}
-				else
-				{
-					int n=0 ; // debug
-				}
-				le = (CBaseLanguageEntity)i.next() ;
-			}
-		}
-		catch (NoSuchElementException e)
-		{
-			//System.out.println(e.toString());
-		}
-	}
-
-	protected void ExportAllChildren()
-	{
-		ListIterator i = lstChildren.listIterator() ;
-		try
-		{
-			CBaseLanguageEntity le = (CBaseLanguageEntity)i.next() ;
-			while (le != null)
-			{
-				le.DoExport();
-				le = (CBaseLanguageEntity)i.next() ;
-			}
-		}
-		catch (NoSuchElementException e)
-		{
-			//System.out.println(e.toString());
-		}
-	}
-	
-	
 	public Vector<CBaseLanguageEntity> GetListOfChildren()
 	{
 		Vector<CBaseLanguageEntity> v = new Vector<CBaseLanguageEntity>() ;
@@ -242,121 +190,6 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 	{
 		return ! lstChildren.isEmpty();
 	}
-	private CBaseLanguageExporter output = null ;
-	public void setLanguageExporter(CBaseLanguageExporter exp)
-	{
-		output = exp ;
-		LegacyLanguageOutputRegistry.register(this, exp) ;
-		ListIterator i = lstChildren.listIterator() ;
-		try
-		{
-			CBaseLanguageEntity le = (CBaseLanguageEntity)i.next() ;
-			while (le != null)
-			{
-				le.setLanguageExporter(exp) ;
-				le = (CBaseLanguageEntity)i.next() ;
-			}
-		}
-		catch (NoSuchElementException e)
-		{
-			//System.out.println(e.toString());
-		}
-	}
-	protected CBaseLanguageExporter GetXMLOutput()
-	{
-		return output;
-	}
-	protected void WriteComment(String text)
-	{
-		output.WriteComment(text, getLine());
-	}
-	protected void WriteLine(String text)
-	{
-		output.WriteLine(text, getLine());
-	}
-	protected void WriteLine(String text, int l)
-	{
-		output.WriteLine(text, l);
-	}
-	protected void WriteEOL()
-	{
-		output.WriteEOL(getLine());
-	}
-	protected void WriteWord(String text)
-	{
-		output.WriteWord(text, getLine());
-	}
-	protected void WriteLongString(String text)
-	{
-		output.WriteLongString(text, getLine());
-	}
-	protected void WriteWord(String text, int l)
-	{
-		output.WriteWord(text, l);
-	}
-	protected void StartOutputBloc()
-	{
-		output.StartBloc();
-	}
-	protected void EndOutputBloc()
-	{
-		output.EndBloc();
-	}
-	protected String FormatIdentifier(String cs)
-	{
-		if (output != null)
-		{
-			return output.FormatIdentifier(cs);
-		}
-		String out = formatIdentifier(cs);
-		return out;
-	}
-	
-	private String formatIdentifier(String cs)
-	{
-		String result = cs.toLowerCase();
-		result = result.replace('_', '$');
-		StringBuilder sb = new StringBuilder();
-		int pos = result.indexOf('-');
-		int start = 0;
-		while (pos != -1)
-		{
-			sb.append(result, start, pos).append('_');
-			if (pos + 1 < result.length())
-			{
-				sb.append(Character.toUpperCase(result.charAt(pos + 1)));
-			}
-			start = pos + 2;
-			if (start >= result.length() || result.charAt(start) == '-')
-			{
-				sb.append(result.substring(start).replace("-", ""));
-				break;
-			}
-			pos = result.indexOf('-', start);
-		}
-		if (start <= result.length() - 1)
-		{
-			sb.append(result.substring(start));
-		}
-		String name = sb.toString();
-		if (name.length() > 0 && Character.isDigit(name.charAt(0)))
-		{
-			name = "$" + name;
-		}
-		return name.replace('#', '$');
-	}
-	/** Legacy compatibility hook; target-neutral semantic nodes leave emission to ST4. */
-	protected void DoExport() { }
-	protected void DoExport(CBaseLanguageEntity le)
-	{
-		le.DoExport() ;
-	}
-	public void StartExport()
-	{
-		DoExport() ;
-		output.closeOutput() ;
-	}
-	
 	protected void ASSERT(Object o)
 	{
 		if (o == null)
@@ -488,7 +321,6 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 		lstChildren.clear();
 		parent = null ;
 		programCatalog = null ;
-		output = null ;
 	}
 	/**
 	 * @param entity
@@ -619,6 +451,16 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 		return lstChildren;
 	}
 
+	/**
+	 * Structural traversal view used by architecture inventories. Most entities
+	 * own children directly; control-flow entities override this to expose
+	 * semantic blocks held in named properties without changing render order.
+	 */
+	public List<CBaseLanguageEntity> getSemanticChildren()
+	{
+		return Collections.unmodifiableList(new ArrayList<CBaseLanguageEntity>(lstChildren));
+	}
+
 	public List<CBaseLanguageEntity> getActiveChildren()
 	{
 		List<CBaseLanguageEntity> children = new ArrayList<CBaseLanguageEntity>();
@@ -630,6 +472,29 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 			}
 		}
 		return Collections.unmodifiableList(children);
+	}
+
+	/**
+	 * Declaration traversal retains initialized data even when reachability
+	 * analysis marks it unused. Initial values are observable declaration
+	 * semantics; executable traversal may still omit ignored actions.
+	 */
+	public List<CBaseLanguageEntity> getDeclarationChildren()
+	{
+		List<CBaseLanguageEntity> children = new ArrayList<CBaseLanguageEntity>();
+		for (CBaseLanguageEntity child : lstChildren)
+		{
+			if (child.isDeclarationRequired())
+			{
+				children.add(child);
+			}
+		}
+		return Collections.unmodifiableList(children);
+	}
+
+	public boolean isDeclarationRequired()
+	{
+		return !ignore();
 	}
 	
 	/**
@@ -653,46 +518,6 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 		{
 			displayName = GetName();
 		}
-		if (output != null)
-		{
-			return output.FormatIdentifier(displayName);
-		}
-		String cs = displayName;
-		cs = cs.replace('-', '_');
-		cs = cs.replace('#', '$');
-		return cs;
+		return displayName.replace('-', '_').replace('#', '$');
 	}
-
-	private String cachedCodeString = null;
-	private boolean computingCodeString = false;
-
-	public String getCodeString()
-	{
-		if (cachedCodeString != null) return cachedCodeString;
-		if (computingCodeString) return "/* recursive */";
-		computingCodeString = true;
-		CBaseLanguageExporter saved = output;
-		CStringExporter temp = new CStringExporter();
-		output = temp;
-		DoExport();
-		cachedCodeString = temp.getCapturedString().trim();
-		output = saved;
-		computingCodeString = false;
-		return cachedCodeString;
-	}
-
-	public String getChildrenCode()
-	{
-		StringBuilder sb = new StringBuilder();
-		for (CBaseLanguageEntity child : lstChildren)
-		{
-			if (!child.ignore())
-			{
-				sb.append(child.getCodeString()).append("\n");
-			}
-		}
-		return sb.toString();
-	}
-
-	
 }

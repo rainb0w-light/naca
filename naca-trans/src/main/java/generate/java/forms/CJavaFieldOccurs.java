@@ -32,7 +32,7 @@ public class CJavaFieldOccurs extends CEntityFieldOccurs
 	public CJavaFieldOccurs(int l, String name, CObjectCatalog cat, CBaseLanguageExporter lexp)
 	{
 		super(l, name, cat);
-		setLanguageExporter(lexp);
+		generate.LegacyLanguageRenderer.bind(this, lexp);
 	}
 
 	public Element DoXMLExport(Document doc, CResourceStrings res)
@@ -42,7 +42,7 @@ public class CJavaFieldOccurs extends CEntityFieldOccurs
 
 	public String ExportReference(int nLine)
 	{
-		return FormatIdentifier(GetName());
+		return generate.LegacyLanguageRenderer.formatIdentifier(this, GetName());
 	}
 
 	public String ExportWriteAccessorTo(String value)
@@ -57,12 +57,12 @@ public class CJavaFieldOccurs extends CEntityFieldOccurs
 
 	protected void DoExport()
 	{
-		String name = FormatIdentifier(GetName());
+		String name = generate.LegacyLanguageRenderer.formatIdentifier(this, GetName());
 		String cs = "Edit " + name + " = declare.level("+Integer.parseInt(csLevel)+").editOccurs(" + generate.LegacyDataRenderer.renderReference(occurs, getLine()) + ", \"" + name + "\") ;" ;
-		WriteLine(cs) ;
-		StartOutputBloc();
-		ExportChildren();
-		EndOutputBloc() ;
+		generate.LegacyLanguageRenderer.writeLine(this, cs) ;
+		generate.LegacyLanguageRenderer.startBlock(this);
+		generate.LegacyLanguageRenderer.exportChildren(this, false);
+		generate.LegacyLanguageRenderer.endBlock(this) ;
 	}
 
 }

@@ -13,10 +13,8 @@ public final class LegacyStructureFixture extends CEntityStructure
         CBaseLanguageExporter output, String level)
     {
         super(line, name, catalog, level);
-        setLanguageExporter(output);
+        generate.LegacyLanguageRenderer.bind(this, output);
     }
-
-    @Override
     protected void DoExport()
     {
         String declaredType = getDeclaredType();
@@ -33,7 +31,7 @@ public final class LegacyStructureFixture extends CEntityStructure
             SetName(identifier);
         }
 
-        String line = "Var " + FormatIdentifier(identifier)
+        String line = "Var " + generate.LegacyLanguageRenderer.formatIdentifier(this, identifier)
             + " = declare.level(" + Integer.parseInt(csLevel) + ")";
         if (refRedefine != null)
         {
@@ -86,60 +84,60 @@ public final class LegacyStructureFixture extends CEntityStructure
         {
             line += ".comp2()";
         }
-        WriteWord(line);
+        generate.LegacyLanguageRenderer.writeWord(this, line);
         if (issync)
         {
-            WriteWord(".sync()");
+            generate.LegacyLanguageRenderer.writeWord(this, ".sync()");
         }
         if (value != null)
         {
             String valueMethod = isfillWithValue ? ".valueAll(" : ".value(";
-            WriteWord(valueMethod + generate.LegacyDataRenderer.renderReference(value, getLine()) + ")");
+            generate.LegacyLanguageRenderer.writeWord(this, valueMethod + generate.LegacyDataRenderer.renderReference(value, getLine()) + ")");
         }
         else if (isinitialValueIsSpaces)
         {
-            WriteWord(".valueSpaces()");
+            generate.LegacyLanguageRenderer.writeWord(this, ".valueSpaces()");
         }
         else if (isinitialValueIsZeros)
         {
-            WriteWord(".valueZero()");
+            generate.LegacyLanguageRenderer.writeWord(this, ".valueZero()");
         }
         else if (isinitialValueIsLowValue)
         {
-            WriteWord(".valueLowValue()");
+            generate.LegacyLanguageRenderer.writeWord(this, ".valueLowValue()");
         }
         else if (isinitialValueIsHighValue)
         {
-            WriteWord(".valueHighValue()");
+            generate.LegacyLanguageRenderer.writeWord(this, ".valueHighValue()");
         }
         if (isjustifiedRight)
         {
-            WriteWord(".justifyRight()");
+            generate.LegacyLanguageRenderer.writeWord(this, ".justifyRight()");
         }
         if (isblankWhenZero)
         {
-            WriteWord(".blankWhenZero()");
+            generate.LegacyLanguageRenderer.writeWord(this, ".blankWhenZero()");
         }
         if (issignSeparateType == CWorkingSignType.LEADING)
         {
-            WriteWord(".signLeadingSeparated()");
+            generate.LegacyLanguageRenderer.writeWord(this, ".signLeadingSeparated()");
         }
         else if (issignSeparateType == CWorkingSignType.TRAILING)
         {
-            WriteWord(".signTrailingSeparated()");
+            generate.LegacyLanguageRenderer.writeWord(this, ".signTrailingSeparated()");
         }
-        WriteWord(isfiller ? ".filler() ;" : ".var() ;");
-        WriteEOL();
-        StartOutputBloc();
+        generate.LegacyLanguageRenderer.writeWord(this, isfiller ? ".filler() ;" : ".var() ;");
+        generate.LegacyLanguageRenderer.writeEol(this);
+        generate.LegacyLanguageRenderer.startBlock(this);
         if (isInsideExternalDataStructure() || isInsideFileSection())
         {
-            ExportAllChildren();
+            generate.LegacyLanguageRenderer.exportChildren(this, true);
         }
         else
         {
-            ExportChildren();
+            generate.LegacyLanguageRenderer.exportChildren(this, false);
         }
-        EndOutputBloc();
+        generate.LegacyLanguageRenderer.endBlock(this);
     }
 
         public String ExportReference(int line)
@@ -149,7 +147,7 @@ public final class LegacyStructureFixture extends CEntityStructure
         {
             reference += generate.LegacyDataRenderer.renderReference(of, getLine()) + ".";
         }
-        return reference + FormatIdentifier(GetDisplayName());
+        return reference + generate.LegacyLanguageRenderer.formatIdentifier(this, GetDisplayName());
     }
 
         public String ExportWriteAccessorTo(String value)

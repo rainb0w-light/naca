@@ -25,18 +25,17 @@ public class CFPacJavaAssignSpecial extends CEntityAssignSpecial
 	public CFPacJavaAssignSpecial(int line, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
 		super(line, cat);
-		setLanguageExporter(out);
+		generate.LegacyLanguageRenderer.bind(this, out);
 	}
 
 	/**
 	 * @see semantic.CBaseLanguageEntity#DoExport()
 	 */
-	@Override
 	protected void DoExport()
 	{
 		if (arithmeticAssign)
 		{
-			WriteLine("movePacked("+ generate.LegacyDataRenderer.renderReference(source, getLine()) + ", "+generate.LegacyDataRenderer.renderReference(destination, getLine())+") ;") ;
+			generate.LegacyLanguageRenderer.writeLine(this, "movePacked("+ generate.LegacyDataRenderer.renderReference(source, getLine()) + ", "+generate.LegacyDataRenderer.renderReference(destination, getLine())+") ;") ;
 		}
 
 	}

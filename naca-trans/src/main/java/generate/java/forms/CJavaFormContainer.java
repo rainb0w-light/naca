@@ -40,7 +40,7 @@ public class CJavaFormContainer extends CEntityResourceFormContainer
 	public CJavaFormContainer(int l, String name, CObjectCatalog cat, CBaseLanguageExporter lexp, boolean bSave)
 	{
 		super(l, name, cat, bSave);
-		setLanguageExporter(lexp);
+		generate.LegacyLanguageRenderer.bind(this, lexp);
 	}
 
 	/* (non-Javadoc)
@@ -48,7 +48,7 @@ public class CJavaFormContainer extends CEntityResourceFormContainer
 	 */
 //	public Element DoXMLExport()
 //	{
-//		Element eForms = GetXMLOutput().CreateRoot("Forms") ;
+//		Element eForms = generate.LegacyLanguageRenderer.output(this).CreateRoot("Forms") ;
 //		eForms.setAttribute("Name", GetName()) ;
 //
 //		for (int i=0; i<arrForm.size(); i++)
@@ -57,14 +57,14 @@ public class CJavaFormContainer extends CEntityResourceFormContainer
 //			Element el = e.DoXMLExport() ;
 //			eForms.appendChild(el) ;
 //		}
-//		Element eStrings = resStrings.Export(eForms, GetXMLOutput().GetDocument()) ;
+//		Element eStrings = resStrings.Export(eForms, generate.LegacyLanguageRenderer.output(this).GetDocument()) ;
 //		return eForms ;
 //	}
 	public String ExportReference(int nLine)
 	{
-		//e.WriteWord(GetName()) ;
+		//e.generate.LegacyLanguageRenderer.writeWord(this, GetName()) ;
 		//return generate.LegacyDataRenderer.renderReference(m_Form, getLine());
-		return FormatIdentifier(GetName());
+		return generate.LegacyLanguageRenderer.formatIdentifier(this, GetName());
 	}
 	public boolean HasAccessors()
 	{
@@ -75,42 +75,42 @@ public class CJavaFormContainer extends CEntityResourceFormContainer
 		String name = GetName();
 //		if (!bSaveCopy)
 //		{
-			WriteEOL() ;
-			WriteLine("import nacaLib.mapSupport.* ;") ;
-			WriteLine("import nacaLib.varEx.* ;") ;
-			WriteLine("import nacaLib.program.* ;") ;
-			WriteLine("import nacaLib.basePrgEnv.* ;") ;
-			WriteEOL() ;
+			generate.LegacyLanguageRenderer.writeEol(this) ;
+			generate.LegacyLanguageRenderer.writeLine(this, "import nacaLib.mapSupport.* ;") ;
+			generate.LegacyLanguageRenderer.writeLine(this, "import nacaLib.varEx.* ;") ;
+			generate.LegacyLanguageRenderer.writeLine(this, "import nacaLib.program.* ;") ;
+			generate.LegacyLanguageRenderer.writeLine(this, "import nacaLib.basePrgEnv.* ;") ;
+			generate.LegacyLanguageRenderer.writeEol(this) ;
 //		}
-		WriteLine("class "+name+" extends Map {") ;
-		StartOutputBloc() ;
+		generate.LegacyLanguageRenderer.writeLine(this, "class "+name+" extends Map {") ;
+		generate.LegacyLanguageRenderer.startBlock(this) ;
 
-		WriteLine("static "+name+" Copy(BaseProgram program) {");
-		StartOutputBloc() ;
-		WriteLine("return new "+name+"(program);");
-		EndOutputBloc();
-		WriteLine("}");
+		generate.LegacyLanguageRenderer.writeLine(this, "static "+name+" Copy(BaseProgram program) {");
+		generate.LegacyLanguageRenderer.startBlock(this) ;
+		generate.LegacyLanguageRenderer.writeLine(this, "return new "+name+"(program);");
+		generate.LegacyLanguageRenderer.endBlock(this);
+		generate.LegacyLanguageRenderer.writeLine(this, "}");
 
-		WriteLine("static "+name+" Copy(BaseProgram program, CopyReplacing rep)  {");
-		StartOutputBloc() ;
-		WriteLine("Assert(\"Unimplemented replacing for MAPs\") ;");
-		WriteLine("return null ;");
-		EndOutputBloc();
-		WriteLine("}");
+		generate.LegacyLanguageRenderer.writeLine(this, "static "+name+" Copy(BaseProgram program, CopyReplacing rep)  {");
+		generate.LegacyLanguageRenderer.startBlock(this) ;
+		generate.LegacyLanguageRenderer.writeLine(this, "Assert(\"Unimplemented replacing for MAPs\") ;");
+		generate.LegacyLanguageRenderer.writeLine(this, "return null ;");
+		generate.LegacyLanguageRenderer.endBlock(this);
+		generate.LegacyLanguageRenderer.writeLine(this, "}");
 
-		WriteLine(""+name+"(BaseProgram program) {");
-		StartOutputBloc() ;
-		WriteLine("super(program);");
-		EndOutputBloc();
-		WriteLine("}");
-		WriteLine("");
+		generate.LegacyLanguageRenderer.writeLine(this, ""+name+"(BaseProgram program) {");
+		generate.LegacyLanguageRenderer.startBlock(this) ;
+		generate.LegacyLanguageRenderer.writeLine(this, "super(program);");
+		generate.LegacyLanguageRenderer.endBlock(this);
+		generate.LegacyLanguageRenderer.writeLine(this, "}");
+		generate.LegacyLanguageRenderer.writeLine(this, "");
 
 //		for (int j=0;j<nbStrings; j++)
 //		{
 //			Element eString = (Element)lstString.item(j);
 //			String strname = eString.getAttribute("Name") ;
-//			String cs = "LocalizedString " + FormatIdentifier(strname) + " = localizedString()";
-//			WriteWord(cs);
+//			String cs = "LocalizedString " + generate.LegacyLanguageRenderer.formatIdentifier(this, strname) + " = localizedString()";
+//			generate.LegacyLanguageRenderer.writeWord(this, cs);
 //			NodeList lstLang = eString.getElementsByTagName("LocalizedText") ;
 //			int nbLang = lstLang.getLength() ;
 //			for (int k=0; k<nbLang; k++)
@@ -120,30 +120,30 @@ public class CJavaFormContainer extends CEntityResourceFormContainer
 //				String text = e.getAttribute("Text");
 //				String lang = e.getAttribute("LangID");
 //				cs += ".text(\""+lang+"\", \""+text+"\")" ;
-//				WriteWord(cs) ;
+//				generate.LegacyLanguageRenderer.writeWord(this, cs) ;
 //			}
-//			WriteWord(";");
-//			WriteEOL();
+//			generate.LegacyLanguageRenderer.writeWord(this, ";");
+//			generate.LegacyLanguageRenderer.writeEol(this);
 //		}
 
 		int nbForms = arrForm.size() ;
 		for (int i=0; i<nbForms; i++)
 		{
 			CEntityResourceForm eForm = arrForm.get(i) ;
-			DoExport(eForm) ;
-//			String formname = FormatIdentifier(eForm.GetName()) ;
+			generate.LegacyLanguageRenderer.invokeExport(eForm) ;
+//			String formname = generate.LegacyLanguageRenderer.formatIdentifier(this, eForm.GetName()) ;
 ////			String sizeCol = eForm.getAttribute("SizeCol");
 ////			String sizeLine = eForm.getAttribute("SizeLine");
-//			WriteLine("Form " + formname + " = form() ;") ;
+//			generate.LegacyLanguageRenderer.writeLine(this, "Form " + formname + " = form() ;") ;
 //
-//			StartOutputBloc() ;
+//			generate.LegacyLanguageRenderer.startBlock(this) ;
 //			Vector lstFields = eForm.GetListOfChildren() ;
 //			int nbFields = lstFields.size() ;
 //			for (int j=0;j<nbFields; j++)
 //			{
 //				CEntityResourceField eField = (CEntityResourceField)lstFields.get(j);
 //				String cs = GetLineForField(eField) ;
-//				WriteLine(cs);
+//				generate.LegacyLanguageRenderer.writeLine(this, cs);
 //			}
 //			NodeList lstLabels = eForm.getElementsByTagName("Label") ;
 //			int nbLabels = lstLabels.getLength() ;
@@ -151,21 +151,21 @@ public class CJavaFormContainer extends CEntityResourceFormContainer
 //			{
 //				Element eField = (Element)lstLabels.item(j);
 //				String cs = GetLineForLabel(eField) ;
-//				WriteLine(cs);
+//				generate.LegacyLanguageRenderer.writeLine(this, cs);
 //			}
 //
-//			EndOutputBloc() ;
+//			generate.LegacyLanguageRenderer.endBlock(this) ;
 		}
-		WriteLine("");
+		generate.LegacyLanguageRenderer.writeLine(this, "");
 
 
-		EndOutputBloc() ;
-		WriteLine("}") ;
-		WriteLine("");
-		WriteLine("");
+		generate.LegacyLanguageRenderer.endBlock(this) ;
+		generate.LegacyLanguageRenderer.writeLine(this, "}") ;
+		generate.LegacyLanguageRenderer.writeLine(this, "");
+		generate.LegacyLanguageRenderer.writeLine(this, "");
 //		if (savCopy != null)
 //		{
-//			savCopy.StartExport() ;
+//			generate.LegacyLanguageRenderer.startExport(savCopy) ;
 //		}
 	}
 	public boolean IsNeedDeclarationInClass()

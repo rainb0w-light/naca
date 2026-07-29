@@ -38,7 +38,7 @@ public class CJavaLabelField extends CEntityResourceField
 	public CJavaLabelField(int l, CObjectCatalog cat, CBaseLanguageExporter lexp)
 	{
 		super(l, "", cat);
-		setLanguageExporter(lexp);
+		generate.LegacyLanguageRenderer.bind(this, lexp);
 	}
 	public boolean IsEntryField()
 	{
@@ -67,7 +67,7 @@ public class CJavaLabelField extends CEntityResourceField
 		{
 			ef = doc.createElement("label") ;
 			ef.setAttribute("type", "linkedActiveChoice") ;
-			ef.setAttribute("activeChoiceLink", FormatIdentifier(csActiveChoiceValue));
+			ef.setAttribute("activeChoiceLink", generate.LegacyLanguageRenderer.formatIdentifier(this, csActiveChoiceValue));
 			ef.setAttribute("activeChoiceTarget", csActiveChoiceTarget);
 			ef.setAttribute("activeChoiceSubmit", isactiveChoiceSubmit ?"true":"false");
 		}

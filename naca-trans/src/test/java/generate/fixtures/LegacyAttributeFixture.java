@@ -13,15 +13,13 @@ public final class LegacyAttributeFixture extends CEntityAttribute
         int line, String name, CObjectCatalog catalog, CBaseLanguageExporter output)
     {
         super(line, name, catalog);
-        setLanguageExporter(output);
+        generate.LegacyLanguageRenderer.bind(this, output);
     }
-
-    @Override
     protected void DoExport()
     {
         String declaredType = getDeclaredType();
         String declaredFormat = getDeclaredFormat();
-        String line = "Var " + FormatIdentifier(GetName())
+        String line = "Var " + generate.LegacyLanguageRenderer.formatIdentifier(this, GetName())
             + " = declare.level(" + getLevel() + ")." + declaredType + "(";
         if (declaredFormat.isEmpty())
         {
@@ -51,50 +49,50 @@ public final class LegacyAttributeFixture extends CEntityAttribute
         {
             line += ".comp2()";
         }
-        WriteWord(line);
+        generate.LegacyLanguageRenderer.writeWord(this, line);
         if (issync)
         {
-            WriteWord(".sync()");
+            generate.LegacyLanguageRenderer.writeWord(this, ".sync()");
         }
         if (value != null)
         {
-            WriteWord((isfillWithValue ? ".valueAll(" : ".value(")
+            generate.LegacyLanguageRenderer.writeWord(this, (isfillWithValue ? ".valueAll(" : ".value(")
                 + generate.LegacyDataRenderer.renderReference(value, getLine()) + ")");
         }
         else if (isinitialValueIsSpaces)
         {
-            WriteWord(".valueSpaces()");
+            generate.LegacyLanguageRenderer.writeWord(this, ".valueSpaces()");
         }
         else if (isinitialValueIsZeros)
         {
-            WriteWord(".valueZero()");
+            generate.LegacyLanguageRenderer.writeWord(this, ".valueZero()");
         }
         else if (isinitialValueIsLowValue)
         {
-            WriteWord(".valueLowValue()");
+            generate.LegacyLanguageRenderer.writeWord(this, ".valueLowValue()");
         }
         else if (isinitialValueIsHighValue)
         {
-            WriteWord(".valueHighValue()");
+            generate.LegacyLanguageRenderer.writeWord(this, ".valueHighValue()");
         }
         if (isjustifiedRight)
         {
-            WriteWord(".justifyRight()");
+            generate.LegacyLanguageRenderer.writeWord(this, ".justifyRight()");
         }
         if (isblankWhenZero)
         {
-            WriteWord(".blankWhenZero()");
+            generate.LegacyLanguageRenderer.writeWord(this, ".blankWhenZero()");
         }
-        WriteWord(isFiller() ? ".filler() ;" : ".var() ;");
-        WriteEOL();
-        StartOutputBloc();
-        ExportChildren();
-        EndOutputBloc();
+        generate.LegacyLanguageRenderer.writeWord(this, isFiller() ? ".filler() ;" : ".var() ;");
+        generate.LegacyLanguageRenderer.writeEol(this);
+        generate.LegacyLanguageRenderer.startBlock(this);
+        generate.LegacyLanguageRenderer.exportChildren(this, false);
+        generate.LegacyLanguageRenderer.endBlock(this);
     }
 
         public String ExportReference(int line)
     {
         String prefix = of == null ? "" : generate.LegacyDataRenderer.renderReference(of, getLine()) + ".";
-        return prefix + FormatIdentifier(GetName());
+        return prefix + generate.LegacyLanguageRenderer.formatIdentifier(this, GetName());
     }
 }

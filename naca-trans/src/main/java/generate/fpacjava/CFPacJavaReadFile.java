@@ -16,22 +16,20 @@ public class CFPacJavaReadFile extends CEntityReadFile
 	public CFPacJavaReadFile(int line, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
 		super(line, cat);
-		setLanguageExporter(out);
+		generate.LegacyLanguageRenderer.bind(this, out);
 	}
-
-	@Override
 	protected void DoExport()
 	{
 		String cs = eFileDescriptor.getFormattedName() + ".read()" ;
 		if (eAtEndBloc != null)
 		{
-			WriteLine("if ("+cs+".atEnd()) {") ;
-			DoExport(eAtEndBloc) ;
-			WriteLine("}") ;
+			generate.LegacyLanguageRenderer.writeLine(this, "if ("+cs+".atEnd()) {") ;
+			generate.LegacyLanguageRenderer.invokeExport(eAtEndBloc) ;
+			generate.LegacyLanguageRenderer.writeLine(this, "}") ;
 		}
 		else
 		{
-			WriteLine(cs + " ;") ;
+			generate.LegacyLanguageRenderer.writeLine(this, cs + " ;") ;
 		}
 	}
 

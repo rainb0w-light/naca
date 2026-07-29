@@ -17,17 +17,15 @@ public class CFPacJavaAssign extends CEntityAssign
 	public CFPacJavaAssign(int l, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
 		super(l, cat);
-		setLanguageExporter(out);
+		generate.LegacyLanguageRenderer.bind(this, out);
 	}
-
-	@Override
 	protected void DoExport()
 	{
 		for (int i=0; i<GetNbRefTo(); i++)
 		{
 			CDataEntity e = GetRefTo(i) ;
 			String cs = "move(" + generate.LegacyDataRenderer.renderReference(value, getLine()) + ", " + generate.LegacyDataRenderer.renderReference(e, getLine()) + ") ;" ;
-			WriteLine(cs) ;
+			generate.LegacyLanguageRenderer.writeLine(this, cs) ;
 		}		
 	}
 

@@ -33,7 +33,7 @@ class DataAttributeDeclarationTemplateTest
     }
 
     private String renderDirect(LegacyAttributeFixture attr, MockJavaExporter exporter) {
-        attr.StartExport();
+        generate.LegacyLanguageRenderer.startExport(attr);
         return exporter.getCapturedOutput().strip();
     }
 

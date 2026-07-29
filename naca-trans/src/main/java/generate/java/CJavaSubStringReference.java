@@ -33,7 +33,7 @@ public class CJavaSubStringReference extends CSubStringAttributReference
 	public CJavaSubStringReference(int l, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
 		super(l, cat);
-		setLanguageExporter(out);
+		generate.LegacyLanguageRenderer.bind(this, out);
 	}
 
 	/* (non-Javadoc)

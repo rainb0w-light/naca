@@ -15,11 +15,11 @@ final class LegacyInternalBoolFixture extends CEntityInternalBool
         CBaseLanguageExporter output)
     {
         super(name, catalog);
-        setLanguageExporter(output);
+        generate.LegacyLanguageRenderer.bind(this, output);
     }
 
         public String ExportReference(int line)
     {
-        return FormatIdentifier(GetName());
+        return generate.LegacyLanguageRenderer.formatIdentifier(this, GetName());
     }
 }

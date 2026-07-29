@@ -41,7 +41,7 @@ public class CJavaFieldArray extends CEntityResourceFieldArray
 	public CJavaFieldArray(int l, String name, CObjectCatalog cat, CBaseLanguageExporter lexp)
 	{
 		super(l, name, cat);
-		setLanguageExporter(lexp);
+		generate.LegacyLanguageRenderer.bind(this, lexp);
 	}
 
 	public String GetTypeDecl()
@@ -75,7 +75,7 @@ public class CJavaFieldArray extends CEntityResourceFieldArray
 	protected void DoExport()
 	{
 		// nothing
-		ExportChildren() ;
+		generate.LegacyLanguageRenderer.exportChildren(this, false) ;
 	}
 
 

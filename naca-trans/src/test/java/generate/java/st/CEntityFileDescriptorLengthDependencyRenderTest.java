@@ -43,7 +43,7 @@ class CEntityFileDescriptorLengthDependencyRenderTest
             new LegacyFileDescriptorLengthDependencyFixture(
                 "FILE-IN-dependency", catalog, exporter);
         legacy.setDependency(file, length);
-        legacy.StartExport();
+        generate.LegacyLanguageRenderer.startExport(legacy);
 
         String rendered = TemplateLoader.getRecursiveAssembler()
             .renderRoot(semantic, JavaTemplateRole.DECLARATION);

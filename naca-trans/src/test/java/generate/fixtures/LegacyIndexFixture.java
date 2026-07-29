@@ -11,7 +11,7 @@ public final class LegacyIndexFixture extends CEntityIndex
         String name, CObjectCatalog catalog, CBaseLanguageExporter output)
     {
         super(name, catalog);
-        setLanguageExporter(output);
+        generate.LegacyLanguageRenderer.bind(this, output);
     }
 
         public String ExportReference(int line)
@@ -21,12 +21,10 @@ public final class LegacyIndexFixture extends CEntityIndex
         {
             reference = generate.LegacyDataRenderer.renderReference(of, getLine()) + ".";
         }
-        return reference + FormatIdentifier(GetName());
+        return reference + generate.LegacyLanguageRenderer.formatIdentifier(this, GetName());
     }
-
-    @Override
     protected void DoExport()
     {
-        WriteLine("Var " + FormatIdentifier(GetName()) + " = declare.index() ;");
+        generate.LegacyLanguageRenderer.writeLine(this, "Var " + generate.LegacyLanguageRenderer.formatIdentifier(this, GetName()) + " = declare.index() ;");
     }
 }

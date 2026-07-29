@@ -18,10 +18,8 @@ public class CFPacJavaAssignWithAccessor extends CEntityAssignWithAccessor
 					CBaseLanguageExporter out)
 	{
 		super(line, cat);
-		setLanguageExporter(out);
+		generate.LegacyLanguageRenderer.bind(this, out);
 	}
-
-	@Override
 	protected void DoExport()
 	{
 		String val = "" ;
@@ -36,11 +34,11 @@ public class CFPacJavaAssignWithAccessor extends CEntityAssignWithAccessor
 		String out = generate.LegacyDataRenderer.renderWriteAccessor(reference, val) ;
 		if (out == null)
 		{
-			WriteLine("");
+			generate.LegacyLanguageRenderer.writeLine(this, "");
 		}
 		else
 		{
-			WriteLine(out);
+			generate.LegacyLanguageRenderer.writeLine(this, out);
 		}
 	}
 

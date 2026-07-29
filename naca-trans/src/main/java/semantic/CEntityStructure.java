@@ -188,6 +188,23 @@ public class CEntityStructure extends CEntityAttribute
 		return true;
 	}
 
+	@Override
+	public boolean isDeclarationRequired()
+	{
+		if (super.isDeclarationRequired())
+		{
+			return true;
+		}
+		for (CBaseLanguageEntity child : getChildren())
+		{
+			if (child.isDeclarationRequired())
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
 	/**
 	 * Number of OCCURS dimensions contributed by this structure and its
 	 * enclosing structures. This is semantic shape information used while

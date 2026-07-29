@@ -12,16 +12,14 @@ public final class LegacyFileDescriptorLengthDependencyFixture
         String name, CObjectCatalog catalog, CBaseLanguageExporter output)
     {
         super(name, catalog);
-        setLanguageExporter(output);
+        generate.LegacyLanguageRenderer.bind(this, output);
     }
-
-    @Override
     protected void DoExport()
     {
-        WriteWord("FileDescriptorDepending " + FormatIdentifier(GetName())
+        generate.LegacyLanguageRenderer.writeWord(this, "FileDescriptorDepending " + generate.LegacyLanguageRenderer.formatIdentifier(this, GetName())
             + " = declare.fileDescriptorDepending(");
-        WriteWord(fileDescriptor.getFormattedName() + ", ");
-        WriteWord(generate.LegacyDataRenderer.renderReference(lenghtDep, getLine()) + ") ;");
-        WriteEOL();
+        generate.LegacyLanguageRenderer.writeWord(this, fileDescriptor.getFormattedName() + ", ");
+        generate.LegacyLanguageRenderer.writeWord(this, generate.LegacyDataRenderer.renderReference(lenghtDep, getLine()) + ") ;");
+        generate.LegacyLanguageRenderer.writeEol(this);
     }
 }

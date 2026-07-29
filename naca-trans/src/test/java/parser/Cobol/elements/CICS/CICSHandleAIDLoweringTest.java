@@ -17,7 +17,7 @@ class CICSHandleAIDLoweringTest
         parserNode.addAID("ANYKEY", null);
 
         CEntityCICSHandleAID entity = new CEntityCICSHandleAID(1, null);
-        entity.setLanguageExporter(new MockJavaExporter());
+        generate.LegacyLanguageRenderer.bind(entity, new MockJavaExporter());
         parserNode.lowerInto(entity);
 
         assertEquals(1, entity.getHandledAIDEntries().size());

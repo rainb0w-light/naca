@@ -30,7 +30,7 @@ class CEntityStringConcatRenderTest
     {
         MockJavaExporter exporter = new MockJavaExporter();
         CEntityStringConcat concat = new CEntityStringConcat(1, null);
-        concat.setLanguageExporter(exporter);
+        generate.LegacyLanguageRenderer.bind(concat, exporter);
         concat.AddItem(new MockDataEntity(1, "prefix"));
         concat.AddItem(
             new MockDataEntity(1, "text"),
@@ -49,7 +49,7 @@ class CEntityStringConcatRenderTest
     {
         MockJavaExporter exporter = new MockJavaExporter();
         CEntityStringConcat concat = new CEntityStringConcat(1, null);
-        concat.setLanguageExporter(exporter);
+        generate.LegacyLanguageRenderer.bind(concat, exporter);
         MockDataEntity source = new MockDataEntity(1, "source");
         MockDataEntity replacement = new MockDataEntity(1, "replacement");
         concat.AddItem(source);

@@ -112,16 +112,16 @@ public class TranspileControllerTest {
         String javaSource = response.getBody().getJavaSource();
         assertNotNull(javaSource);
 
-        // Verify WORKING-STORAGE variables are present in generated code (converted to Java style)
-        assertTrue(javaSource.contains("wsMessage"), "Should contain wsMessage variable");
-        assertTrue(javaSource.contains("wsGreeting"), "Should contain wsGreeting variable");
-        assertTrue(javaSource.contains("wsStatus"), "Should contain wsStatus variable");
-        assertTrue(javaSource.contains("wsCounter"), "Should contain wsCounter variable");
+        // Verify the complete WORKING-STORAGE tree is preserved as declarations.
+        assertTrue(javaSource.contains("WS_MESSAGE"), "Should contain WS_MESSAGE variable");
+        assertTrue(javaSource.contains("WS_GREETING"), "Should contain WS_GREETING variable");
+        assertTrue(javaSource.contains("WS_STATUS"), "Should contain WS_STATUS variable");
+        assertTrue(javaSource.contains("WS_COUNTER"), "Should contain WS_COUNTER variable");
         assertTrue(javaSource.contains("declare.level("), "Should use NacaTrans declare pattern");
 
         // Verify procedure division contains translated statements (not just comments)
         assertTrue(javaSource.contains("display("), "Should contain display() method call");
-        assertTrue(javaSource.contains("return;"), "Should contain return statement for STOP RUN");
+        assertTrue(javaSource.contains("stopRun(0);"), "Should contain STOP RUN translation");
     }
 
     @Test

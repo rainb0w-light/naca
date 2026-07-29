@@ -14,19 +14,17 @@ public class CFPacJavaMultiply extends CEntityMultiply {
 
 	public CFPacJavaMultiply(int line, CObjectCatalog cat, CBaseLanguageExporter out) {
 		super(line, cat);
-		setLanguageExporter(out);
+		generate.LegacyLanguageRenderer.bind(this, out);
 	}
-
-	@Override
 	protected void DoExport() {
-		WriteWord("multiply(") ;
-		WriteWord(generate.LegacyDataRenderer.renderReference(this.what, getLine())) ;
-		WriteWord(", ") ;
-		WriteWord(generate.LegacyDataRenderer.renderReference(this.by, getLine())) ;
-		WriteWord(").to(") ;
-		WriteWord(generate.LegacyDataRenderer.renderReference(this.to, getLine())) ;
-		WriteWord(") ;") ;
-		WriteEOL() ;
+		generate.LegacyLanguageRenderer.writeWord(this, "multiply(") ;
+		generate.LegacyLanguageRenderer.writeWord(this, generate.LegacyDataRenderer.renderReference(this.what, getLine())) ;
+		generate.LegacyLanguageRenderer.writeWord(this, ", ") ;
+		generate.LegacyLanguageRenderer.writeWord(this, generate.LegacyDataRenderer.renderReference(this.by, getLine())) ;
+		generate.LegacyLanguageRenderer.writeWord(this, ").to(") ;
+		generate.LegacyLanguageRenderer.writeWord(this, generate.LegacyDataRenderer.renderReference(this.to, getLine())) ;
+		generate.LegacyLanguageRenderer.writeWord(this, ") ;") ;
+		generate.LegacyLanguageRenderer.writeEol(this) ;
 	}
 
 }

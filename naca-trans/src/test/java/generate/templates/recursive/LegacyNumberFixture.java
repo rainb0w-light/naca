@@ -22,7 +22,7 @@ final class LegacyNumberFixture extends CEntityNumber
         String number)
     {
         super(catalog, number);
-        setLanguageExporter(output);
+        generate.LegacyLanguageRenderer.bind(this, output);
     }
 
         public String ExportReference(int line)

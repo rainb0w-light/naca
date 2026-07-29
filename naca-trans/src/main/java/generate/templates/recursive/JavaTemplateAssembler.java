@@ -23,6 +23,10 @@ public final class JavaTemplateAssembler
     private final JavaSemanticTemplateBindings rootBindings;
     private final Map<ST, JavaTemplateRole> templateRoles =
         Collections.synchronizedMap(new WeakHashMap<>());
+    private final Map<ST, Boolean> artifactContexts =
+        Collections.synchronizedMap(new WeakHashMap<>());
+    private final ThreadLocal<Boolean> artifactRendering =
+        ThreadLocal.withInitial(() -> Boolean.FALSE);
 
     public JavaTemplateAssembler(STGroup templateGroup)
     {
@@ -44,6 +48,11 @@ public final class JavaTemplateAssembler
 
     public ST renderNode(Object model, JavaTemplateRole role)
     {
+        return renderNode(model, role, false);
+    }
+
+    ST renderNode(Object model, JavaTemplateRole role, boolean artifactContext)
+    {
         Objects.requireNonNull(model, "model");
         Objects.requireNonNull(role, "role");
         String templateName = bindingsFor(role).findTemplateName(model.getClass());
@@ -62,6 +71,7 @@ public final class JavaTemplateAssembler
         {
             ST renderedNode = template(templateName).add("entity", model);
             templateRoles.put(renderedNode, role);
+            artifactContexts.put(renderedNode, artifactContext);
             return renderedNode;
         }
         throw new MissingTemplateRendererException(model.getClass());
@@ -104,7 +114,17 @@ public final class JavaTemplateAssembler
      */
     public String renderRoot(Object rootModel, JavaTemplateRole role)
     {
-        return renderNode(rootModel, role).render();
+        boolean artifactContext = role == JavaTemplateRole.ROOT;
+        Boolean previous = artifactRendering.get();
+        artifactRendering.set(artifactContext);
+        try
+        {
+            return renderNode(rootModel, role, artifactContext).render();
+        }
+        finally
+        {
+            artifactRendering.set(previous);
+        }
     }
 
     private JavaSemanticTemplateBindings bindingsFor(JavaTemplateRole role)
@@ -151,5 +171,11 @@ public final class JavaTemplateAssembler
         // Any other property defaults to REFERENCE; root role is never inherited
         // implicitly.
         return JavaTemplateRole.REFERENCE;
+    }
+
+    boolean isArtifactContext(ST template)
+    {
+        return Boolean.TRUE.equals(artifactRendering.get())
+            || Boolean.TRUE.equals(artifactContexts.get(template));
     }
 }

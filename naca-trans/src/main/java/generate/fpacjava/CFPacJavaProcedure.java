@@ -17,29 +17,27 @@ public class CFPacJavaProcedure extends CEntityProcedure
 	public CFPacJavaProcedure(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out, CEntityProcedureSection section)
 	{
 		super(l, name, cat, section);
-		setLanguageExporter(out);
+		generate.LegacyLanguageRenderer.bind(this, out);
 	}
 
 	public String ExportReference(int nLine)
 	{
-		return FormatIdentifier(GetName());
+		return generate.LegacyLanguageRenderer.formatIdentifier(this, GetName());
 	}
-
-	@Override
 	protected void DoExport()
 	{
-		String cs = "protected int " + FormatIdentifier(GetName()) + "() {" ;
-		WriteLine(cs) ;
-		StartOutputBloc() ;
+		String cs = "protected int " + generate.LegacyLanguageRenderer.formatIdentifier(this, GetName()) + "() {" ;
+		generate.LegacyLanguageRenderer.writeLine(this, cs) ;
+		generate.LegacyLanguageRenderer.startBlock(this) ;
 		
-		ExportChildren() ;
+		generate.LegacyLanguageRenderer.exportChildren(this, false) ;
 		if (!this.hasExplicitGetOut())
 		{
-			WriteLine("return NEXT ;") ;
+			generate.LegacyLanguageRenderer.writeLine(this, "return NEXT ;") ;
 		}
 		
-		EndOutputBloc() ;
-		WriteLine("}", nEndLine) ;
+		generate.LegacyLanguageRenderer.endBlock(this) ;
+		generate.LegacyLanguageRenderer.writeLine(this, "}", nEndLine) ;
 	}
 
 }

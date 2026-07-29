@@ -17,26 +17,24 @@ public class CFPacJavaSubtractTo extends CEntitySubtractTo
 	public CFPacJavaSubtractTo(int line, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
 		super(line, cat);
-		setLanguageExporter(out);
+		generate.LegacyLanguageRenderer.bind(this, out);
 	}
-
-	@Override
 	protected void DoExport() {
-		WriteWord("subtract(") ;
-		WriteWord(generate.LegacyDataRenderer.renderReference(this.variable, getLine())) ;
+		generate.LegacyLanguageRenderer.writeWord(this, "subtract(") ;
+		generate.LegacyLanguageRenderer.writeWord(this, generate.LegacyDataRenderer.renderReference(this.variable, getLine())) ;
 		for(CDataEntity value : values)
 		{
-			WriteWord(", ") ;
-			WriteWord(generate.LegacyDataRenderer.renderReference(value, getLine())) ;
+			generate.LegacyLanguageRenderer.writeWord(this, ", ") ;
+			generate.LegacyLanguageRenderer.writeWord(this, generate.LegacyDataRenderer.renderReference(value, getLine())) ;
 		}
-		WriteWord(")") ;
+		generate.LegacyLanguageRenderer.writeWord(this, ")") ;
 		for(CDataEntity value : this.destination)
 		{
-			WriteWord(".to(");
-			WriteWord(generate.LegacyDataRenderer.renderReference(value, getLine())) ;
-			WriteWord(")");
+			generate.LegacyLanguageRenderer.writeWord(this, ".to(");
+			generate.LegacyLanguageRenderer.writeWord(this, generate.LegacyDataRenderer.renderReference(value, getLine())) ;
+			generate.LegacyLanguageRenderer.writeWord(this, ")");
 		}
-		WriteWord(" ;") ;
-		WriteEOL() ;
+		generate.LegacyLanguageRenderer.writeWord(this, " ;") ;
+		generate.LegacyLanguageRenderer.writeEol(this) ;
 	}
 }

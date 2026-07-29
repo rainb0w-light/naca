@@ -12,6 +12,9 @@
  */
 package semantic;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Vector;
 
 import semantic.expression.CBaseEntityCondition;
@@ -133,6 +136,31 @@ public class CEntityCondition extends CBaseActionEntity
 	public Vector<CBaseLanguageEntity> getAlternativeConditions()
 	{
 		return alternativeConditions;
+	}
+
+	@Override
+	public List<CBaseLanguageEntity> getSemanticChildren()
+	{
+		List<CBaseLanguageEntity> children = new ArrayList<>(super.getSemanticChildren());
+		addSemanticChild(children, thenBloc);
+		addSemanticChild(children, elseBloc);
+		if (alternativeConditions != null)
+		{
+			for (CBaseLanguageEntity alternative : alternativeConditions)
+			{
+				addSemanticChild(children, alternative);
+			}
+		}
+		return Collections.unmodifiableList(children);
+	}
+
+	private static void addSemanticChild(
+		List<CBaseLanguageEntity> children, CBaseLanguageEntity child)
+	{
+		if (child != null && !children.contains(child))
+		{
+			children.add(child);
+		}
 	}
 
 	public boolean isConditionIgnored()

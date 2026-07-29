@@ -26,13 +26,12 @@ public class CFPacJavaComment extends CEntityComment
 	public CFPacJavaComment(int l, CObjectCatalog cat, CBaseLanguageExporter out, String comment)
 	{
 		super(l, cat, comment);
-		setLanguageExporter(out);
+		generate.LegacyLanguageRenderer.bind(this, out);
 	}
 
 	/**
 	 * @see semantic.CBaseLanguageEntity#DoExport()
 	 */
-	@Override
 	protected void DoExport()
 	{
 		String cs = csComment ;
@@ -40,7 +39,7 @@ public class CFPacJavaComment extends CEntityComment
 		{
 			cs = cs.replaceAll("\n", "0x000A").replaceAll("\r", "Ox000D") ;
 		}
-		WriteLine("// " + cs) ;	
+		generate.LegacyLanguageRenderer.writeLine(this, "// " + cs) ;
 	}
 	/**
 	 * @see semantic.CEntityComment#ExportReference(getLine())
@@ -52,7 +51,7 @@ public class CFPacJavaComment extends CEntityComment
 		{
 			cs = cs.replaceAll("\n", "0x000A").replaceAll("\r", "Ox000D") ;
 		}
-		return "  // " + cs ;	
+		return "  // " + cs ;
 	}
 
 }

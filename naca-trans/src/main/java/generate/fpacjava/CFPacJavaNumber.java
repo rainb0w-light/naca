@@ -16,7 +16,7 @@ public class CFPacJavaNumber extends CEntityNumber
 	public CFPacJavaNumber(CObjectCatalog cat, CBaseLanguageExporter out, String number)
 	{
 		super(cat, number);
-		setLanguageExporter(out);
+		generate.LegacyLanguageRenderer.bind(this, out);
 	}
 
 	public String ExportReference(int nLine)

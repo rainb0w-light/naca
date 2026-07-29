@@ -34,7 +34,7 @@ public class CJavaSetFlag extends CEntitySetFlag
 	public CJavaSetFlag(int line, CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity field)
 	{
 		super(line, cat, field);
-		setLanguageExporter(out);
+		generate.LegacyLanguageRenderer.bind(this, out);
 	}
 
 	/* (non-Javadoc)
@@ -44,11 +44,11 @@ public class CJavaSetFlag extends CEntitySetFlag
 	{
 		if (flagValue != null)
 		{
-			WriteLine("moveFlag(\"" + flagValue + "\", " + generate.LegacyDataRenderer.renderReference(refField, getLine()) + ") ;") ;
+			generate.LegacyLanguageRenderer.writeLine(this, "moveFlag(\"" + flagValue + "\", " + generate.LegacyDataRenderer.renderReference(refField, getLine()) + ") ;") ;
 		}
 		else
 		{
-			WriteLine("resetFlag("+generate.LegacyDataRenderer.renderReference(refField, getLine()) + ") ;") ;
+			generate.LegacyLanguageRenderer.writeLine(this, "resetFlag("+generate.LegacyDataRenderer.renderReference(refField, getLine()) + ") ;") ;
 		}
 	}
 

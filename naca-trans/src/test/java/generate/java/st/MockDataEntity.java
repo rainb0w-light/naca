@@ -18,7 +18,7 @@ public class MockDataEntity extends CDataEntity {
 
     public MockDataEntity(int line, CObjectCatalog cat, CBaseLanguageExporter out, String referenceValue) {
         super(line, "", cat);
-        setLanguageExporter(out);
+        generate.LegacyLanguageRenderer.bind(this, out);
         this.mockReferenceValue = referenceValue;
     }
 
@@ -40,10 +40,8 @@ public class MockDataEntity extends CDataEntity {
     public String GetConstantValue() {
         return mockReferenceValue;
     }
-
-    @Override
     protected void DoExport() {
-        WriteLine(mockReferenceValue);
+        generate.LegacyLanguageRenderer.writeLine(this, mockReferenceValue);
     }
 
     @Override

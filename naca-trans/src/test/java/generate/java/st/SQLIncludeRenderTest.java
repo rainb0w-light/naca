@@ -64,7 +64,7 @@ class SQLIncludeRenderTest
 
         String rendered = TemplateLoader.getRecursiveAssembler()
             .renderRoot(inline, JavaTemplateRole.DECLARATION);
-        inline.StartExport();
+        generate.LegacyLanguageRenderer.startExport(inline);
 
         assertEquals(normalize(exporter.getCapturedOutput()), normalize(rendered));
         assertTrue(rendered.contains("= Sqlca.Copy(this) ;"), rendered);
@@ -85,7 +85,7 @@ class SQLIncludeRenderTest
 
         String rendered = TemplateLoader.getRecursiveAssembler()
             .renderRoot(inline, JavaTemplateRole.DECLARATION);
-        inline.StartExport();
+        generate.LegacyLanguageRenderer.startExport(inline);
 
         assertEquals(normalize(exporter.getCapturedOutput()), normalize(rendered));
         assertTrue(rendered.contains("= Sqlca.Copy(this, replacing(2, 5)) ;"), rendered);

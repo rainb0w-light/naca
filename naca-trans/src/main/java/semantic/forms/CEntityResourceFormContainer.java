@@ -178,7 +178,7 @@ public abstract class CEntityResourceFormContainer extends CBaseResourceEntity
 		form.ExportXMLFields(fields, doc, resStrings) ;
 //		}
 		
-		String name = FormatIdentifier(GetName()) ;
+		String name = getFormattedName() ;
 		Element ePFKeysDefine = form.MakePFKeysDescriptionDefine(doc) ;
 		Element ePFKeysSpecial = form.MakePFKeysDescriptionAction(doc) ;
 		Element eRoot = createNewFormBody(doc, name, name, ePFKeysDefine, ePFKeysSpecial) ;

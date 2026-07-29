@@ -17,13 +17,11 @@ public class CFPacJavaDataSection extends CEntityDataSection
 					CBaseLanguageExporter out)
 	{
 		super(line, name, cat);
-		setLanguageExporter(out);
+		generate.LegacyLanguageRenderer.bind(this, out);
 	}
-
-	@Override
 	protected void DoExport()
 	{
-		ExportChildren() ;
+		generate.LegacyLanguageRenderer.exportChildren(this, false) ;
 	}
 
 }

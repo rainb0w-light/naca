@@ -25,17 +25,16 @@ public class CFPacJavaCloseFile extends CEntityCloseFile
 	public CFPacJavaCloseFile(int line, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
 		super(line, cat);
-		setLanguageExporter(out);
+		generate.LegacyLanguageRenderer.bind(this, out);
 	}
 
 	/**
 	 * @see semantic.CBaseLanguageEntity#DoExport()
 	 */
-	@Override
 	protected void DoExport()
 	{
 		String cs = eFileDescriptor.getFormattedName() + ".close() ;" ;
-		WriteLine(cs) ;
+		generate.LegacyLanguageRenderer.writeLine(this, cs) ;
 	}
 
 }

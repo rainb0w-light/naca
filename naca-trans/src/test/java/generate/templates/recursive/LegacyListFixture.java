@@ -17,7 +17,7 @@ final class LegacyListFixture extends CEntityList
         CBaseLanguageExporter output)
     {
         super(name, catalog);
-        setLanguageExporter(output);
+        generate.LegacyLanguageRenderer.bind(this, output);
     }
 
         public String ExportReference(int line)

@@ -58,7 +58,7 @@ class SQLCloseStatementRenderTest
         // Pure semantic cursor (the CJavaSQLCursor direct backend is retired):
         // it renders through its dataReferenceEntity reference binding.
         CEntitySQLCursor cursor = new CEntitySQLCursor(name, catalog);
-        cursor.setLanguageExporter(new MockJavaExporter());
+        generate.LegacyLanguageRenderer.bind(cursor, new MockJavaExporter());
         return cursor;
     }
 
@@ -98,7 +98,7 @@ class SQLCloseStatementRenderTest
         MockJavaExporter exporter = new MockJavaExporter();
         CJavaEntityFactoryST factory = new CJavaEntityFactoryST(catalog, exporter);
         CEntitySQLCursor cursor = new CEntitySQLCursor("CUR-1", catalog);
-        cursor.setLanguageExporter(exporter);
+        generate.LegacyLanguageRenderer.bind(cursor, exporter);
         CEntitySQLCloseStatement close = factory.NewEntitySQLCloseStatement(1, cursor);
         assertSame(cursor, close.getCursor());
         assertEquals("cursorClose(CUR_1) ;", render(close).trim());
@@ -111,7 +111,7 @@ class SQLCloseStatementRenderTest
         CObjectCatalog catalog = catalog();
         MockJavaExporter exporter = new MockJavaExporter();
         CEntitySQLCursor cursor = new CEntitySQLCursor("CUR-1", catalog);
-        cursor.setLanguageExporter(exporter);
+        generate.LegacyLanguageRenderer.bind(cursor, exporter);
 
         CEntitySQLCloseStatement close = new CEntitySQLCloseStatement(1, catalog, cursor);
         assertSame(cursor, close.getCursor());

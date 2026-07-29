@@ -38,7 +38,7 @@ public class CJavaField extends CEntityResourceField
 	public CJavaField(int l, String name, CObjectCatalog cat, CBaseLanguageExporter lexp)
 	{
 		super(l, name, cat);
-		setLanguageExporter(lexp);
+		generate.LegacyLanguageRenderer.bind(this, lexp);
 	}
 	public String ExportReference(int nLine)
 	{
@@ -48,18 +48,18 @@ public class CJavaField extends CEntityResourceField
 			cs += generate.LegacyDataRenderer.renderReference(of, getLine());
 			cs += ".";
 		}
-		cs += FormatIdentifier(GetName()) ;
+		cs += generate.LegacyLanguageRenderer.formatIdentifier(this, GetName()) ;
 		return cs ;
 	}
 	protected void DoExport()
 	{
-		String fieldname = FormatIdentifier(GetName()) ;
+		String fieldname = generate.LegacyLanguageRenderer.formatIdentifier(this, GetName()) ;
 //		String length = eField.getAttribute("Length");
 //		String col = eField.getAttribute("Col");
 //		String line = eField.getAttribute("Line");
 		if (!fieldname.equals(""))
 		{
-			String displayName = FormatIdentifier(csDisplayName) ;
+			String displayName = generate.LegacyLanguageRenderer.formatIdentifier(this, csDisplayName) ;
 			if (displayName.equals(""))
 			{
 				displayName = fieldname ;
@@ -71,9 +71,9 @@ public class CJavaField extends CEntityResourceField
 //			}
 			if (!csInitialValue.equals(""))
 			{
-				String display = FormatIdentifier(csInitialValue) ;
+				String display = generate.LegacyLanguageRenderer.formatIdentifier(this, csInitialValue) ;
 				String res = resourceStrings.ExportForField(csInitialValue, display) ;
-				WriteLine(res) ;
+				generate.LegacyLanguageRenderer.writeLine(this, res) ;
 				cs += ".initialValue("+display+")" ;
 			}
 //			if (!csColor.equals(""))
@@ -117,13 +117,13 @@ public class CJavaField extends CEntityResourceField
 				cs += ".format(\"" + csFormat + "\")" ;
 			}
 			cs += ".edit() ;" ;
-			WriteLine(cs);
+			generate.LegacyLanguageRenderer.writeLine(this, cs);
 		}
 		if (lstChildren.size()> 0)
 		{
-			StartOutputBloc() ;
-			ExportChildren();
-			EndOutputBloc() ;
+			generate.LegacyLanguageRenderer.startBlock(this) ;
+			generate.LegacyLanguageRenderer.exportChildren(this, false);
+			generate.LegacyLanguageRenderer.endBlock(this) ;
 		}
 	}
 
@@ -137,8 +137,8 @@ public class CJavaField extends CEntityResourceField
 		else if (mode == FieldMode.SWITCH)
 		{
 			ef = doc.createElement("switch") ;
-			ef.setAttribute("linkedvalue", FormatIdentifier(GetDisplayName())) ;
-			ef.setAttribute("name", FormatIdentifier(GetDisplayName())) ;
+			ef.setAttribute("linkedvalue", generate.LegacyLanguageRenderer.formatIdentifier(this, GetDisplayName())) ;
+			ef.setAttribute("name", generate.LegacyLanguageRenderer.formatIdentifier(this, GetDisplayName())) ;
 			ef.setAttribute("length", String.valueOf(nLength)) ;
 			for  (int i = 0; i< switchCaseElement.size(); i++)
 			{
@@ -201,7 +201,7 @@ public class CJavaField extends CEntityResourceField
 		else if (mode == FieldMode.LINKED_ACTIVE_CHOICE)
 		{
 			ef.setAttribute("type", "linkedActiveChoice") ;
-			ef.setAttribute("activeChoiceLink", FormatIdentifier(csActiveChoiceValue));
+			ef.setAttribute("activeChoiceLink", generate.LegacyLanguageRenderer.formatIdentifier(this, csActiveChoiceValue));
 			ef.setAttribute("activeChoiceTarget", csActiveChoiceTarget);
 			ef.setAttribute("activeChoiceSubmit", isactiveChoiceSubmit ?"true":"false");
 		}
@@ -218,14 +218,14 @@ public class CJavaField extends CEntityResourceField
 			ef.setAttribute("line", String.valueOf(nPosLine)) ;
 			ef.setAttribute("col", String.valueOf(nPosCol)) ;
 		}
-		ef.setAttribute("linkedvalue", FormatIdentifier(GetDisplayName())) ;
+		ef.setAttribute("linkedvalue", generate.LegacyLanguageRenderer.formatIdentifier(this, GetDisplayName())) ;
 		if (!GetName().equals(""))
 		{
-			String csName = FormatIdentifier(GetDisplayName());
+			String csName = generate.LegacyLanguageRenderer.formatIdentifier(this, GetDisplayName());
 			ef.setAttribute("name", csName) ;
-			String csNameCopy = FormatIdentifier(GetName());
+			String csNameCopy = generate.LegacyLanguageRenderer.formatIdentifier(this, GetName());
 			if (!csNameCopy.equals(csName))
-				ef.setAttribute("namecopy", FormatIdentifier(GetName())) ;
+				ef.setAttribute("namecopy", generate.LegacyLanguageRenderer.formatIdentifier(this, GetName())) ;
 		}
 		if (!csColor.equals(""))
 		{

@@ -25,7 +25,7 @@
       "lastVerifiedAtCommit": "5903f95d",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 1,
+        "failures": 0,
         "directBackends": 0,
         "semanticClasses": 47,
         "factories": 3,
@@ -33,37 +33,35 @@
         "manifests": 1
       },
       "cloudNativeGate": {
-        "tests": 39,
-        "knownFailures": 1,
-        "knownFailingTest": "com.publicitas.naca.cloudnative.TranspileControllerTest.testTranspileValidCobolWithWorkingStorage",
-        "gate": ":naca-cloud-native:test --tests *LedgerConsistencyTest --tests *RuntimeContractTest",
-        "note": "Full :naca-cloud-native:test is 39 tests / 1 documented pre-existing failure (== discoveredDebt PREEXISTING-WSMESSAGE). Migration uses the focused LedgerConsistencyTest and RuntimeContractTest gates. Do not require the whole module green."
+        "tests": 41,
+        "knownFailures": 0,
+        "gate": ":naca-cloud-native:test",
+        "note": "Full cloud-native gate is green. Initialized WORKING-STORAGE declarations are retained even when executable reachability marks them unused."
       },
       "onlineCorpusInventory": {
         "note": "Phase 3: inventory is now STATEMENT-ACCURATE (per source line+dialect+command, classified exactly once as PRESERVED / REJECTED / SILENT_DROP), no package-aggregate counting. DiagnosticSink (diagnostic.DiagnosticSink) collects structured diagnostics non-aborting so a whole program is inventoried per statement; throws when no sink is open (fail-closed gate). EXEC SQL INCLUDE counts as PRESERVED when it resolves/inlines (CJavaInline at the statement line).",
         "ONLINE1": {
-          "preserved": 9,
+          "preserved": 15,
           "rejected": 0,
-          "silentDrop": 6,
+          "silentDrop": 0,
           "preservedStatements": [
             "82 INCLUDE",
             "88 INCLUDE",
             "91 INCLUDE",
             "100 INCLUDE",
+            "108 WHENEVER",
+            "110 ADDRESS",
             "127 RETURN",
+            "163 RECEIVE",
+            "228 SEND",
+            "237 SEND",
+            "247 RETURN",
             "269 SYNCPOINT",
             "270 XCTL",
             "283 LINK",
             "293 ABEND"
           ],
-          "silentDropStatements": [
-            "108 WHENEVER",
-            "110 ADDRESS",
-            "163 RECEIVE",
-            "228 SEND",
-            "237 SEND",
-            "247 RETURN"
-          ]
+          "silentDropStatements": []
         }
       },
       "rules": [
@@ -108,7 +106,8 @@
       {
         "id": "PREEXISTING-WSMESSAGE",
         "scope": "COBOL_CORE",
-        "note": "TranspileControllerTest.testTranspileValidCobolWithWorkingStorage fails ('Should contain wsMessage variable') at baseline 9402b0c — pre-existing, unrelated to BMS. COBOL working-storage codegen debt; address during the COBOL data/class migration (Phase 5 step 1)."
+        "resolved": true,
+        "note": "Resolved: declaration traversal retains initialized working-storage data even when executable reachability marks it unused; TranspileControllerTest and the full cloud-native gate are green."
       },
       {
         "id": "CALLMSG-SUBPROGRAM",
@@ -118,13 +117,14 @@
       {
         "id": "ONLINE1-SILENT-DROPS",
         "scope": "EMBEDDED_SQL/EMBEDDED_CICS",
-        "note": "Phase 3 measured 6 SILENT_DROPs in ONLINE1: WHENEVER(108), ADDRESS(110), RECEIVE(163), SEND(228), SEND(237), RETURN(247). NOTE: ADDRESS/RECEIVE/RETURN have parser classes AND factory NewEntity* methods (CJavaCICSAddress/ReceiveMap/Return), so their drop is likely a lowering/line-attribution BUG to fix (make PRESERVED), NOT an unsupported feature to reject. WHENEVER and SEND MAP appear genuinely unlowered -> structured-reject (DiagnosticSink) interim, then migrate. Phase 5 resolves each.",
-        "returnAt247-root-cause": "RETURN@127 is bare (preserved); RETURN@247 has TRANSID('TRA1') COMMAREA(ONLINEFS). VERIFIED: DoParsing (CExecCICSReturn.java:105-165) parses the TRANSID(...)/COMMAREA(...) form fine — the parser element IS created with transID+commArea, so parsing is exonerated. DoCustomSemanticAnalysis adds the node at CExecCICSReturn.java:54 (parent.AddChild, line=247) BEFORE the transID block (lines 56-97); only ONE CJavaCICSReturn node exists in the whole tree (at 127), so the 247 node is discarded AFTER AddChild. GetProgramForTransaction returns '' (no throw) and CheckProgramReference returns boolean, so the throw is in the transID/commArea data-reference resolution (transID.GetDataEntity / commArea.GetDataReference / RegisterReadingAction, lines 62-95) propagating up and discarding the partially-built statement. FIX DIRECTION: trace the semantic-analysis exception handler that drops a verb child on exception, and make the TRANSID/COMMAREA lowering degrade gracefully (a missing transaction/program must not throw away the RETURN node). Then RETURN@247 becomes PRESERVED; verify with the statement-accurate inventory."
+        "resolved": true,
+        "note": "Resolved: all 15 ONLINE1 EXEC statements are PRESERVED. The six apparent drops already lowered successfully but lived in named procedure/condition blocks outside lstChildren; getSemanticChildren now supplies a complete structural traversal view. WHENEVER was the final inventory false negative because CEntitySqlOnErrorGoto used mixed-case Sql; classification is now case-insensitive."
       },
       {
         "id": "ADDRESS-RECEIVE-DROP",
         "scope": "EMBEDDED_CICS",
-        "note": "ADDRESS@110 and RECEIVE MAP@163 drop despite CExecCICSAddress/CExecCICSReceive parser classes and CJavaEntityFactory.NewEntityCICSAddress/NewEntityCICSReceiveMap. Phase 5: trace why no node reaches the tree at the statement line (likely an exception in SetRefFor*/SetMapSet data-reference resolution, or the node is created under a different line). Make PRESERVED."
+        "resolved": true,
+        "note": "Resolved as an inventory traversal defect: ADDRESS@110 and RECEIVE MAP@163 were present in the semantic control-flow blocks and are now classified PRESERVED."
       }
     ]
   },
@@ -7399,7 +7399,7 @@
       "expectedDebtDelta": {
         "failures": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "COBOL_CORE",
       "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/CBaseLanguageEntity.java",
@@ -7413,11 +7413,15 @@
       "directBackend": null,
       "sourcePath": "naca-trans/src/main/java/semantic/CBaseLanguageEntity.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "done",
       "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
       "evidence": [
-        "src/main/java/semantic/CBaseLanguageEntity.java"
-      ]
+        "src/main/java/semantic/CBaseLanguageEntity.java",
+        "src/main/java/generate/LegacyLanguageRenderer.java",
+        "architecture.FinalArchitectureContractTest",
+        "526 naca-trans tests"
+      ],
+      "lastAttemptCommit": "28b17344"
     },
     {
       "id": "ARCH-COBOL-INFRA-CJAVAENTITYFACTORY",

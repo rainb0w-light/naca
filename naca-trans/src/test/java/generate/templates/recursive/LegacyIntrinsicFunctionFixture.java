@@ -19,7 +19,7 @@ final class LegacyIntrinsicFunctionFixture extends CEntityIntrinsicFunction
         List<CBaseEntityExpression> arguments)
     {
         super(catalog, functionName, arguments);
-        setLanguageExporter(output);
+        generate.LegacyLanguageRenderer.bind(this, output);
     }
 
         public String ExportReference(int line)

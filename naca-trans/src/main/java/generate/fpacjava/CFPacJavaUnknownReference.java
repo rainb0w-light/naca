@@ -15,7 +15,7 @@ public class CFPacJavaUnknownReference extends CEntityUnknownReference
 	public CFPacJavaUnknownReference(int nLine, String csName, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
 		super(nLine, csName, cat);
-		setLanguageExporter(out);
+		generate.LegacyLanguageRenderer.bind(this, out);
 	}
 
 	public String ExportReference(int nLine)
@@ -39,8 +39,6 @@ public class CFPacJavaUnknownReference extends CEntityUnknownReference
 	{
 		return false;
 	}
-
-	@Override
 	protected void DoExport()
 	{
 		// nothing

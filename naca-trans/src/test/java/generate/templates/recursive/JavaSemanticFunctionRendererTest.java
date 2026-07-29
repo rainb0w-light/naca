@@ -3,7 +3,7 @@ package generate.templates.recursive;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import generate.fixtures.LegacyAttributeFixture;
-import generate.java.CJavaExporter;
+import generate.java.st.MockJavaExporter;
 import generate.templates.TemplateLoader;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -20,7 +20,7 @@ import utils.CObjectCatalog;
 class JavaSemanticFunctionRendererTest
 {
     private final CObjectCatalog catalog = new CObjectCatalog(null, null, null, null);
-    private final CJavaExporter output = new CJavaExporter(null, "/tmp/unused.java", null, false);
+    private final MockJavaExporter output = new MockJavaExporter();
     private final JavaTemplateAssembler assembler = TemplateLoader.newRecursiveAssembler();
 
     @Test
@@ -33,11 +33,11 @@ class JavaSemanticFunctionRendererTest
             assembler.renderRoot(
                 new CEntityCurrentDate(catalog),
                 JavaTemplateRole.REFERENCE));
-        assertEquals("addressOf(source_Field)",
+        assertEquals("addressOf(SOURCE_FIELD)",
             assembler.renderRoot(
                 new CEntityAddressOf(catalog, field),
                 JavaTemplateRole.REFERENCE));
-        assertEquals("digits(source_Field)",
+        assertEquals("digits(SOURCE_FIELD)",
             assembler.renderRoot(
                 new CEntityDigits(catalog, field),
                 JavaTemplateRole.REFERENCE));
@@ -55,7 +55,7 @@ class JavaSemanticFunctionRendererTest
             catalog,
             new LegacyStringFixture(catalog, output, "PREFIX".toCharArray()),
             attribute("SOURCE-FIELD"));
-        assertEquals("concat(\"PREFIX\", source_Field)",
+        assertEquals("concat(\"PREFIX\", SOURCE_FIELD)",
             assembler.renderRoot(concat, JavaTemplateRole.REFERENCE));
 
         LegacyListFixture empty = new LegacyListFixture("EMPTY", catalog, output);

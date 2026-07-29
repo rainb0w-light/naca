@@ -3,7 +3,6 @@ package generate.templates.recursive;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import generate.fixtures.LegacyAttributeFixture;
-import generate.java.CJavaExporter;
 import generate.java.st.MockJavaExporter;
 import semantic.Verbs.CEntityContinue;
 import semantic.Verbs.CEntityLoopIter;
@@ -16,19 +15,18 @@ import utils.CObjectCatalog;
 class JavaSemanticLoopIterationTemplateTest
 {
     private final CObjectCatalog catalog = new CObjectCatalog(null, null, null, null);
-    private final CJavaExporter referenceOutput = new CJavaExporter(
-        null, "/tmp/unused.java", null, false);
+    private final MockJavaExporter referenceOutput = new MockJavaExporter();
     private final JavaTemplateAssembler assembler = TemplateLoader.newRecursiveAssembler();
 
     @Test
     void rendersTestBeforeIncrementDecrementAndExplicitStepLikeDirect()
     {
         assertRendered(testBefore(Mode.INCREMENT, null),
-            "for (move(1, outer_Index); isLess(outer_Index$1, 10); inc(outer_Index)) {\n// CONTINUE \n}");
+            "for (move(1, OUTER_INDEX); isLess(OUTER_INDEX$1, 10); inc(OUTER_INDEX)) {\n// CONTINUE \n}");
         assertRendered(testBefore(Mode.DECREMENT, null),
-            "for (move(1, outer_Index); isLess(outer_Index$1, 10); dec(outer_Index)) {\n// CONTINUE \n}");
+            "for (move(1, OUTER_INDEX); isLess(OUTER_INDEX$1, 10); dec(OUTER_INDEX)) {\n// CONTINUE \n}");
         assertRendered(testBefore(Mode.EXPLICIT_STEP, number("2")),
-            "for (move(1, outer_Index); isLess(outer_Index$1, 10); inc(2, outer_Index)) {\n// CONTINUE \n}");
+            "for (move(1, OUTER_INDEX); isLess(OUTER_INDEX$1, 10); inc(2, OUTER_INDEX)) {\n// CONTINUE \n}");
     }
 
     @Test
@@ -42,8 +40,8 @@ class JavaSemanticLoopIterationTemplateTest
             lessThan("INNER-INDEX", "10", fixture.output));
 
         assertRendered(fixture,
-            "for (move(1, outer_Index); isLess(outer_Index$1, 10); inc(outer_Index)) {\n"
-                + "for (move(1, inner_Index); isLess(inner_Index$1, 10); inc(2, inner_Index)) {\n"
+            "for (move(1, OUTER_INDEX); isLess(OUTER_INDEX$1, 10); inc(OUTER_INDEX)) {\n"
+                + "for (move(1, INNER_INDEX); isLess(INNER_INDEX$1, 10); inc(2, INNER_INDEX)) {\n"
                 + "// CONTINUE \n}\n}");
     }
 
@@ -51,12 +49,12 @@ class JavaSemanticLoopIterationTemplateTest
     void rendersTestAfterIncrementAndDecrementLikeDirect()
     {
         assertRendered(testAfter(Mode.INCREMENT),
-            "move(1, after_Index);\nwhile (true) {\n// CONTINUE \n"
-                + "if (isLess(after_Index$1, 10)) {\ninc(after_Index) ;\n}\n"
+            "move(1, AFTER_INDEX);\nwhile (true) {\n// CONTINUE \n"
+                + "if (isLess(AFTER_INDEX$1, 10)) {\ninc(AFTER_INDEX) ;\n}\n"
                 + "else {\nbreak ;\n}\n}");
         assertRendered(testAfter(Mode.DECREMENT),
-            "move(1, after_Index);\nwhile (true) {\n// CONTINUE \n"
-                + "if (isLess(after_Index$1, 10)) {\ndec(after_Index) ;\n}\n"
+            "move(1, AFTER_INDEX);\nwhile (true) {\n// CONTINUE \n"
+                + "if (isLess(AFTER_INDEX$1, 10)) {\ndec(AFTER_INDEX) ;\n}\n"
                 + "else {\nbreak ;\n}\n}");
     }
 
@@ -121,7 +119,7 @@ class JavaSemanticLoopIterationTemplateTest
 
     private String normalize(String source)
     {
-        return source.replaceAll("((?:outer|after|inner)_Index)\\$\\d+", "$1");
+        return source.replaceAll("(OUTER_INDEX|AFTER_INDEX|INNER_INDEX)\\$\\d+", "$1");
     }
 
     private record LoopFixture(TestJavaLoopIter loop, MockJavaExporter output) {}

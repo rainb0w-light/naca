@@ -38,7 +38,7 @@ public class CJavaForm extends CEntityResourceForm
 	public CJavaForm(int l, String name, CObjectCatalog cat, CBaseLanguageExporter lexp, boolean bSave)
 	{
 		super(l, name, cat, bSave);
-		setLanguageExporter(lexp);
+		generate.LegacyLanguageRenderer.bind(this, lexp);
 	}
 
 	/* (non-Javadoc)
@@ -76,7 +76,7 @@ public class CJavaForm extends CEntityResourceForm
 		{
 			cs = generate.LegacyDataRenderer.renderReference(of, getLine()) + "." ;
 		}
-		cs += FormatIdentifier(GetName()) ;
+		cs += generate.LegacyLanguageRenderer.formatIdentifier(this, GetName()) ;
 		return cs ;		
 	}
 	public boolean HasAccessors()
@@ -85,20 +85,20 @@ public class CJavaForm extends CEntityResourceForm
 	}
 	protected void DoExport()
 	{
-		String name = FormatIdentifier(GetName()) ;
-		String formname = FormatIdentifier(csResourceName);
-		WriteLine("Form " + name + " = declare.form(\""+formname+"\", "+nSizeLine+", "+nSizeCol+") ;") ;
+		String name = generate.LegacyLanguageRenderer.formatIdentifier(this, GetName()) ;
+		String formname = generate.LegacyLanguageRenderer.formatIdentifier(this, csResourceName);
+		generate.LegacyLanguageRenderer.writeLine(this, "Form " + name + " = declare.form(\""+formname+"\", "+nSizeLine+", "+nSizeCol+") ;") ;
 			
-		StartOutputBloc() ;
+		generate.LegacyLanguageRenderer.startBlock(this) ;
 		int nbFields = arrFields.size() ;
 		for (int j=0;j<nbFields; j++)
 		{
 			CEntityResourceField eField = (CEntityResourceField)arrFields.get(j);
 //			String cs = GetLineForField(eField) ;
-//			WriteLine(cs);
-			DoExport(eField) ;
+//			generate.LegacyLanguageRenderer.writeLine(this, cs);
+			generate.LegacyLanguageRenderer.invokeExport(eField) ;
 		} 
-		EndOutputBloc() ;
+		generate.LegacyLanguageRenderer.endBlock(this) ;
 	}
 	public String ExportWriteAccessorTo(String value)
 	{

@@ -12,6 +12,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
@@ -129,7 +130,7 @@ class OnlineCorpusInventoryTest
         }
         nodesByLine.computeIfAbsent(node.getLine(), k -> new ArrayList<>())
             .add(node.getClass().getSimpleName());
-        List<CBaseLanguageEntity> children = node.getChildren();
+        List<CBaseLanguageEntity> children = node.getSemanticChildren();
         if (children != null)
         {
             for (CBaseLanguageEntity child : children)
@@ -144,7 +145,8 @@ class OnlineCorpusInventoryTest
         // Dialect lowering produces semantic.* / generate.java.{SQL,CICS} entities.
         // INCLUDE inlines an external/form entity instead, which the per-line report
         // surfaces separately.
-        return simpleClassName.contains("CICS") || simpleClassName.contains("SQL");
+        String normalized = simpleClassName.toUpperCase(Locale.ROOT);
+        return normalized.contains("CICS") || normalized.contains("SQL");
     }
 
     /** Parses the leading source line number out of a diagnostic's source span. */

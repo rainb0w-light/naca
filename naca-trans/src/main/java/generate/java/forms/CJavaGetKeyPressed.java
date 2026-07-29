@@ -33,7 +33,7 @@ public class CJavaGetKeyPressed extends CEntityGetKeyPressed
 	public CJavaGetKeyPressed(String name, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
 		super(name, cat);
-		setLanguageExporter(out);
+		generate.LegacyLanguageRenderer.bind(this, out);
 	}
 
 	public String ExportReference(int nLine)

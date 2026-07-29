@@ -17,7 +17,7 @@ public class CFPacJavaReadAndTestFile extends CEntityFunctionCall
 	public CFPacJavaReadAndTestFile(CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity data)
 	{
 		super(cat, data);
-		setLanguageExporter(out);
+		generate.LegacyLanguageRenderer.bind(this, out);
 	}
 
 	public String ExportReference(int nLine)

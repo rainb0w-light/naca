@@ -25,21 +25,19 @@ public class CFPacJavaFileDescriptor extends CEntityFileDescriptor
 	public CFPacJavaFileDescriptor(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
 		super(l, name, cat);
-		setLanguageExporter(out);
+		generate.LegacyLanguageRenderer.bind(this, out);
 	}
-
-	@Override
 	protected void DoExport()
 	{
-		String cs = "FPacFileDescriptor " + FormatIdentifier(GetName()) ;
+		String cs = "FPacFileDescriptor " + generate.LegacyLanguageRenderer.formatIdentifier(this, GetName()) ;
 		cs += " = declare.fpacFile(\""+GetName().toUpperCase()+"\")" ;
-		WriteWord(cs) ;
+		generate.LegacyLanguageRenderer.writeWord(this, cs) ;
 		if (eOutputBufferInitialValue != null)
 		{
-			WriteWord(".fillOutputBuffer("+generate.LegacyDataRenderer.renderReference(eOutputBufferInitialValue, getLine())+")") ;
+			generate.LegacyLanguageRenderer.writeWord(this, ".fillOutputBuffer("+generate.LegacyDataRenderer.renderReference(eOutputBufferInitialValue, getLine())+")") ;
 		}
-		WriteWord(".file() ;") ;
-		WriteEOL() ;
+		generate.LegacyLanguageRenderer.writeWord(this, ".file() ;") ;
+		generate.LegacyLanguageRenderer.writeEol(this) ;
 
 	}
 	

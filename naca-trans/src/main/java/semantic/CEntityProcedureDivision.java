@@ -12,6 +12,9 @@
  */
 package semantic;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Vector;
 
 import utils.CObjectCatalog;
@@ -58,6 +61,16 @@ public class CEntityProcedureDivision extends CBaseLanguageEntity
 	public CEntityBloc getProcedureBloc()
 	{
 		return procedureBloc ;
+	}
+	@Override
+	public List<CBaseLanguageEntity> getSemanticChildren()
+	{
+		List<CBaseLanguageEntity> children = new ArrayList<>(super.getSemanticChildren());
+		if (procedureBloc != null && !children.contains(procedureBloc))
+		{
+			children.add(procedureBloc);
+		}
+		return Collections.unmodifiableList(children);
 	}
 	public CEntityProcedureSection getSectionContainer()
 	{

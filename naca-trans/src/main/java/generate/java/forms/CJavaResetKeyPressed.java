@@ -33,12 +33,12 @@ public class CJavaResetKeyPressed extends CEntityResetKeyPressed
 	public CJavaResetKeyPressed(int line, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
 		super(line, cat);
-		setLanguageExporter(out);
+		generate.LegacyLanguageRenderer.bind(this, out);
 	}
 
 	protected void DoExport()
 	{
-		WriteLine("resetKeyPressed();");
+		generate.LegacyLanguageRenderer.writeLine(this, "resetKeyPressed();");
 	}
 
 }

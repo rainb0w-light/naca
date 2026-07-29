@@ -40,7 +40,7 @@ public class CJavaFieldRedefine extends CEntityFieldRedefine
 	public CJavaFieldRedefine(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out, String level)
 	{
 		super(l, name, cat, level);
-		setLanguageExporter(out);
+		generate.LegacyLanguageRenderer.bind(this, out);
 	}
 	public boolean IsEntryField()
 	{
@@ -56,7 +56,7 @@ public class CJavaFieldRedefine extends CEntityFieldRedefine
 	}
 	public String ExportReference(int nLine)
 	{
-		return FormatIdentifier(GetName());
+		return generate.LegacyLanguageRenderer.formatIdentifier(this, GetName());
 	}
 	public String ExportWriteAccessorTo(String value)
 	{
@@ -71,7 +71,7 @@ public class CJavaFieldRedefine extends CEntityFieldRedefine
 	protected void DoExport()
 	{
 		String name = GetName() ;
-		name = FormatIdentifier(name) ;
+		name = generate.LegacyLanguageRenderer.formatIdentifier(this, name) ;
 		String cs = "Edit " + name + " = declare.level("+Integer.parseInt(csLevel)+")" ;
 		if (!type.equals(""))
 		{
@@ -104,10 +104,10 @@ public class CJavaFieldRedefine extends CEntityFieldRedefine
 			cs += ".blankWhenZero()" ;
 		}
 		cs += ".edit() ;" ;
-		WriteLine(cs);
-		StartOutputBloc() ;
-		ExportChildren();
-		EndOutputBloc() ;
+		generate.LegacyLanguageRenderer.writeLine(this, cs);
+		generate.LegacyLanguageRenderer.startBlock(this) ;
+		generate.LegacyLanguageRenderer.exportChildren(this, false);
+		generate.LegacyLanguageRenderer.endBlock(this) ;
 	}
 
 	/* (non-Javadoc)

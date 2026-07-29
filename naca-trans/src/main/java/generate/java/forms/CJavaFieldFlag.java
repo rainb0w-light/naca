@@ -36,12 +36,12 @@ public class CJavaFieldFlag extends CEntityFieldFlag
 	public CJavaFieldFlag(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity owner)
 	{
 		super(l, name, cat, owner);
-		setLanguageExporter(out);
+		generate.LegacyLanguageRenderer.bind(this, out);
 	}
 	public String ExportReference(int nLine)
 	{
 		return generate.LegacyDataRenderer.renderReference(reference, getLine()) + ".getFlag()" ;
-		//e.WriteWord(".GetProtected()") ;
+		//e.generate.LegacyLanguageRenderer.writeWord(this, ".GetProtected()") ;
 	}
 	public boolean HasAccessors()
 	{

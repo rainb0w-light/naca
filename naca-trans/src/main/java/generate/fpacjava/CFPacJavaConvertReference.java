@@ -25,7 +25,7 @@ public class CFPacJavaConvertReference extends CEntityConvertReference
 	public CFPacJavaConvertReference(CObjectCatalog cat, CBaseLanguageExporter out)
 	{
 		super(cat);
-		setLanguageExporter(out);
+		generate.LegacyLanguageRenderer.bind(this, out);
 	}
 
 	/**

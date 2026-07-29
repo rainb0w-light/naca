@@ -16,7 +16,7 @@ final class LegacyLengthOfFixture extends CEntityLengthOf
         CDataEntity data)
     {
         super(catalog, data);
-        setLanguageExporter(output);
+        generate.LegacyLanguageRenderer.bind(this, output);
     }
 
         public String ExportReference(int line)

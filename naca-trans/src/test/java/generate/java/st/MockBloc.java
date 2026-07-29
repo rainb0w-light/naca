@@ -22,8 +22,6 @@ public class MockBloc extends CEntityBloc {
     public boolean ignore() {
         return false;
     }
-
-    @Override
     protected void DoExport() {
         // No-op for mock
     }

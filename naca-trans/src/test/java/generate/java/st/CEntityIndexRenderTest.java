@@ -32,7 +32,7 @@ class CEntityIndexRenderTest
         LegacyIndexFixture legacy =
             new LegacyIndexFixture("ITEM-INDEX",
                 new CObjectCatalog(null, null, null, null), exporter);
-        legacy.StartExport();
+        generate.LegacyLanguageRenderer.startExport(legacy);
 
         assertEquals("ITEM_INDEX", TemplateLoader.getRecursiveAssembler()
             .renderRoot(semantic, JavaTemplateRole.REFERENCE));

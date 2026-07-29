@@ -37,7 +37,7 @@ public class CJavaFormAccessor extends CEntityFormAccessor
 	public CJavaFormAccessor(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out, CEntityResourceForm owner)
 	{
 		super(l, name, cat, owner);
-		setLanguageExporter(out);
+		generate.LegacyLanguageRenderer.bind(this, out);
 	}
 
 	/* (non-Javadoc)

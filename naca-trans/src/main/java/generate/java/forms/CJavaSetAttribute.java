@@ -35,7 +35,7 @@ public class CJavaSetAttribute extends CEntitySetAttribute
 	public CJavaSetAttribute(int line, CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity field)
 	{
 		super(line, cat, field);
-		setLanguageExporter(out);
+		generate.LegacyLanguageRenderer.bind(this, out);
 	}
 
 	/* (non-Javadoc)
@@ -45,45 +45,45 @@ public class CJavaSetAttribute extends CEntitySetAttribute
 	{
 		if (attributeValue != null)
 		{
-			WriteLine("moveAttribute("+generate.LegacyDataRenderer.renderReference(attributeValue, getLine()) + ", " + generate.LegacyDataRenderer.renderReference(refField, getLine()) + ") ;") ;
+			generate.LegacyLanguageRenderer.writeLine(this, "moveAttribute("+generate.LegacyDataRenderer.renderReference(attributeValue, getLine()) + ", " + generate.LegacyDataRenderer.renderReference(refField, getLine()) + ") ;") ;
 			return  ;
 		}
 		// else
 		if (isautoSkip)
 		{
-			WriteLine("moveAttribute(MapFieldAttrProtection.AUTOSKIP, " + generate.LegacyDataRenderer.renderReference(refField, getLine()) + ") ;") ;
+			generate.LegacyLanguageRenderer.writeLine(this, "moveAttribute(MapFieldAttrProtection.AUTOSKIP, " + generate.LegacyDataRenderer.renderReference(refField, getLine()) + ") ;") ;
 		}
 		else if (isnumeric)
 		{
-			WriteLine("moveAttribute(MapFieldAttrProtection.NUMERIC, " + generate.LegacyDataRenderer.renderReference(refField, getLine()) + ") ;") ;
+			generate.LegacyLanguageRenderer.writeLine(this, "moveAttribute(MapFieldAttrProtection.NUMERIC, " + generate.LegacyDataRenderer.renderReference(refField, getLine()) + ") ;") ;
 		}
 		else if (isprotected)
 		{
-			WriteLine("moveAttribute(MapFieldAttrProtection.PROTECTED, " + generate.LegacyDataRenderer.renderReference(refField, getLine()) + ") ;") ;
+			generate.LegacyLanguageRenderer.writeLine(this, "moveAttribute(MapFieldAttrProtection.PROTECTED, " + generate.LegacyDataRenderer.renderReference(refField, getLine()) + ") ;") ;
 		}
 		else if (isunProtected)
 		{
-			WriteLine("moveAttribute(MapFieldAttrProtection.UNPROTECTED, " + generate.LegacyDataRenderer.renderReference(refField, getLine()) + ") ;") ;
+			generate.LegacyLanguageRenderer.writeLine(this, "moveAttribute(MapFieldAttrProtection.UNPROTECTED, " + generate.LegacyDataRenderer.renderReference(refField, getLine()) + ") ;") ;
 		}
 		if (isbright)
 		{
-			WriteLine("moveAttribute(MapFieldAttrIntensity.BRIGHT, " + generate.LegacyDataRenderer.renderReference(refField, getLine()) + ") ;") ;
+			generate.LegacyLanguageRenderer.writeLine(this, "moveAttribute(MapFieldAttrIntensity.BRIGHT, " + generate.LegacyDataRenderer.renderReference(refField, getLine()) + ") ;") ;
 		}
 		else if (isdark)
 		{
-			WriteLine("moveAttribute(MapFieldAttrIntensity.DARK, " + generate.LegacyDataRenderer.renderReference(refField, getLine()) + ") ;") ;
+			generate.LegacyLanguageRenderer.writeLine(this, "moveAttribute(MapFieldAttrIntensity.DARK, " + generate.LegacyDataRenderer.renderReference(refField, getLine()) + ") ;") ;
 		}
 		else if (isnormal)
 		{
-			WriteLine("moveAttribute(MapFieldAttrIntensity.NORMAL, " + generate.LegacyDataRenderer.renderReference(refField, getLine()) + ") ;") ;
+			generate.LegacyLanguageRenderer.writeLine(this, "moveAttribute(MapFieldAttrIntensity.NORMAL, " + generate.LegacyDataRenderer.renderReference(refField, getLine()) + ") ;") ;
 		}
 		if (bModified)
 		{
-			WriteLine("moveAttribute(MapFieldAttrModified.MODIFIED, " + generate.LegacyDataRenderer.renderReference(refField, getLine()) + ") ;") ;
+			generate.LegacyLanguageRenderer.writeLine(this, "moveAttribute(MapFieldAttrModified.MODIFIED, " + generate.LegacyDataRenderer.renderReference(refField, getLine()) + ") ;") ;
 		}
 		else if (isunmodified)
 		{
-			WriteLine("moveAttribute(MapFieldAttrModified.UNMODIFIED, " + generate.LegacyDataRenderer.renderReference(refField, getLine()) + ") ;") ;
+			generate.LegacyLanguageRenderer.writeLine(this, "moveAttribute(MapFieldAttrModified.UNMODIFIED, " + generate.LegacyDataRenderer.renderReference(refField, getLine()) + ") ;") ;
 		}
 	}
 

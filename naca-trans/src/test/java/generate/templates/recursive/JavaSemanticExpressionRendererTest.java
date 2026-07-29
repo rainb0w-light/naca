@@ -2,7 +2,7 @@ package generate.templates.recursive;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import generate.java.CJavaExporter;
+import generate.java.st.MockJavaExporter;
 import generate.templates.TemplateLoader;
 import org.junit.jupiter.api.Test;
 import parser.expression.CProdExpression;
@@ -13,7 +13,7 @@ import utils.CObjectCatalog;
 class JavaSemanticExpressionRendererTest
 {
     private final CObjectCatalog catalog = new CObjectCatalog(null, null, null, null);
-    private final CJavaExporter output = new CJavaExporter(null, "/tmp/unused.java", null, false);
+    private final MockJavaExporter output = new MockJavaExporter();
     private final JavaTemplateAssembler assembler = TemplateLoader.newRecursiveAssembler();
 
     @Test

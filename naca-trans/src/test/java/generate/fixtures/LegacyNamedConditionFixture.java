@@ -12,28 +12,26 @@ public final class LegacyNamedConditionFixture extends CEntityNamedCondition
         int line, String name, CObjectCatalog catalog, CBaseLanguageExporter output)
     {
         super(line, name, catalog);
-        setLanguageExporter(output);
+        generate.LegacyLanguageRenderer.bind(this, output);
     }
 
         public String ExportReference(int line)
     {
         String prefix = of == null ? "" : generate.LegacyDataRenderer.renderReference(of, getLine()) + ".";
-        return prefix + FormatIdentifier(GetName());
+        return prefix + generate.LegacyLanguageRenderer.formatIdentifier(this, GetName());
     }
-
-    @Override
     protected void DoExport()
     {
-        WriteWord("Cond " + FormatIdentifier(GetName()) + " = declare.condition()");
+        generate.LegacyLanguageRenderer.writeWord(this, "Cond " + generate.LegacyLanguageRenderer.formatIdentifier(this, GetName()) + " = declare.condition()");
         for (CDataEntity value : values)
         {
-            WriteWord(value == null
+            generate.LegacyLanguageRenderer.writeWord(this, value == null
                 ? ".value([undefined])"
                 : ".value(" + generate.LegacyDataRenderer.renderReference(value, getLine()) + ")");
         }
         for (int i = 0; i < startIntervals.size() && i < endIntervals.size(); i++)
         {
-            WriteWord(".value("
+            generate.LegacyLanguageRenderer.writeWord(this, ".value("
                 + generate.LegacyDataRenderer.renderReference(
                     startIntervals.get(i), getLine())
                 + ", "
@@ -41,7 +39,7 @@ public final class LegacyNamedConditionFixture extends CEntityNamedCondition
                     endIntervals.get(i), getLine())
                 + ")");
         }
-        WriteWord(".var() ;");
-        WriteEOL();
+        generate.LegacyLanguageRenderer.writeWord(this, ".var() ;");
+        generate.LegacyLanguageRenderer.writeEol(this);
     }
 }

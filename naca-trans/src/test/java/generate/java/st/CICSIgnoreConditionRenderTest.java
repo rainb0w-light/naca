@@ -31,7 +31,7 @@ class CICSIgnoreConditionRenderTest
     private static CEntityCICSIgnoreCondition entity()
     {
         CEntityCICSIgnoreCondition e = new CEntityCICSIgnoreCondition(1, null);
-        e.setLanguageExporter(new MockJavaExporter());
+        generate.LegacyLanguageRenderer.bind(e, new MockJavaExporter());
         return e;
     }
 
@@ -42,7 +42,7 @@ class CICSIgnoreConditionRenderTest
         CEntityCICSIgnoreCondition e = entity();
         e.IgnoreCondition("COND1");
         // Rendering must only read the semantic value prepared above.
-        e.setLanguageExporter(null);
+        generate.LegacyLanguageRenderer.bind(e, null);
         String output = TemplateLoader.getRecursiveAssembler()
             .renderRoot(e, JavaTemplateRole.REFERENCE);
         assertEquals("CESM.ignoreCondition(\"COND1\") ;", output.trim());

@@ -71,7 +71,7 @@ class SQLOpenStatementRenderTest
         // Pure semantic cursor (the CJavaSQLCursor direct backend is retired):
         // it renders through its dataReferenceEntity reference binding.
         CEntitySQLCursor cursor = new CEntitySQLCursor(name, catalog);
-        cursor.setLanguageExporter(new MockJavaExporter());
+        generate.LegacyLanguageRenderer.bind(cursor, new MockJavaExporter());
         return cursor;
     }
 

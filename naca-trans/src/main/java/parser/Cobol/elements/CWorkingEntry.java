@@ -910,7 +910,8 @@ public class CWorkingEntry extends CCobolElement
 	 * @see parser.CBaseElement#DoCustomSemanticAnalysis(semantic.CBaseSemanticEntity, semantic.CBaseSemanticEntityFactory)
 	 */
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{CEntityAttribute eAtt = null ;
+	{
+		CEntityAttribute eAtt = null ;
 		// A PIC entry is normally a leaf attribute. A PIC entry with REDEFINES must
 		// retain structure semantics so its declaration shares the target buffer.
 		if (entryType == CWorkingEntryType.STRUCTURE && (type == null || redefines != null))

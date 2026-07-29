@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import generate.fixtures.LegacyAttributeFixture;
 import generate.fixtures.LegacyIndexFixture;
 import generate.fixtures.LegacyStructureFixture;
-import generate.java.CJavaExporter;
+import generate.java.st.MockJavaExporter;
 import generate.fixtures.LegacyExternalDataStructureFixture;
 import generate.java.CJavaSubStringReference;
 import generate.templates.TemplateLoader;
@@ -21,7 +21,7 @@ import utils.CObjectCatalog;
 class JavaSemanticReferenceRendererTest
 {
     private final CObjectCatalog catalog = new CObjectCatalog(null, null, null, null);
-    private final CJavaExporter output = new CJavaExporter(null, "/tmp/unused.java", null, false);
+    private final MockJavaExporter output = new MockJavaExporter();
     private final JavaTemplateAssembler assembler = TemplateLoader.newRecursiveAssembler();
 
     @Test
@@ -58,7 +58,7 @@ class JavaSemanticReferenceRendererTest
         array.AddIndex(expression(number("1")));
         array.AddIndex(expression(number("00002")));
 
-        assertEquals("table_Value.getAt(1, 2)",
+        assertEquals("TABLE_VALUE.getAt(1, 2)",
             assembler.renderRoot(array, JavaTemplateRole.REFERENCE));
 
         LegacyArrayReferenceFixture legacyArray = new LegacyArrayReferenceFixture(1, catalog);
@@ -113,7 +113,7 @@ class JavaSemanticReferenceRendererTest
         CEntityAddressReference address = new CEntityAddressReference(
             catalog, attribute("BUFFER-ADDRESS"));
 
-        assertEquals("addressOf(buffer_Address)",
+        assertEquals("addressOf(BUFFER_ADDRESS)",
             assembler.renderRoot(address, JavaTemplateRole.REFERENCE));
     }
 

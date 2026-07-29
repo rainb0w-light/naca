@@ -16,34 +16,32 @@ public class CFPacJavaClass extends CEntityClass
 	public CFPacJavaClass(int l, String name, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
 		super(l, name, cat);
-		setLanguageExporter(out);
+		generate.LegacyLanguageRenderer.bind(this, out);
 	}
-
-	@Override
 	protected void DoExport()
 	{
 		String name = GetName().replace('-', '_').toUpperCase();
-		WriteEOL() ;
+		generate.LegacyLanguageRenderer.writeEol(this) ;
 
-		WriteLine("import nacaLib.fpacPrgEnv.* ;", 0) ;
-//		WriteLine("import nacaLib.batchPrgEnv.* ;", 0) ;
-		WriteEOL() ;
+		generate.LegacyLanguageRenderer.writeLine(this, "import nacaLib.fpacPrgEnv.* ;", 0) ;
+//		generate.LegacyLanguageRenderer.writeLine(this, "import nacaLib.batchPrgEnv.* ;", 0) ;
+		generate.LegacyLanguageRenderer.writeEol(this) ;
 		
 		String line = "public class " + name + " extends FPacProgram" ;
-		WriteLine(line);
-		WriteLine("{") ;
-		StartOutputBloc();
+		generate.LegacyLanguageRenderer.writeLine(this, line);
+		generate.LegacyLanguageRenderer.writeLine(this, "{") ;
+		generate.LegacyLanguageRenderer.startBlock(this);
 
-//		WriteLine("public "+name+"(BatchProgramManagerFactory batchProgramManagerFactory) {");
-//		StartOutputBloc() ;
-//		WriteLine("super(batchProgramManagerFactory);");
-//		EndOutputBloc() ;
-//		WriteLine("}") ;
+//		generate.LegacyLanguageRenderer.writeLine(this, "public "+name+"(BatchProgramManagerFactory batchProgramManagerFactory) {");
+//		generate.LegacyLanguageRenderer.startBlock(this) ;
+//		generate.LegacyLanguageRenderer.writeLine(this, "super(batchProgramManagerFactory);");
+//		generate.LegacyLanguageRenderer.endBlock(this) ;
+//		generate.LegacyLanguageRenderer.writeLine(this, "}") ;
 		
-		ExportChildren() ;
+		generate.LegacyLanguageRenderer.exportChildren(this, false) ;
 
-		EndOutputBloc();
-		WriteLine("}") ;
+		generate.LegacyLanguageRenderer.endBlock(this);
+		generate.LegacyLanguageRenderer.writeLine(this, "}") ;
 		
 	}
 

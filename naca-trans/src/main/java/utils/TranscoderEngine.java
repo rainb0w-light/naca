@@ -111,7 +111,7 @@ public abstract class TranscoderEngine<T_Elem extends CBaseElement, T_Entity ext
 		}
 		else
 		{
-			eSem.StartExport() ;
+			generate.LegacyLanguageRenderer.startExport(eSem) ;
 		}
 		if (cat.CanExportResources(eSem.GetProgramName()))
 		{

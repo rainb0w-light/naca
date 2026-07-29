@@ -70,7 +70,7 @@ class SQLCursorSelectStatementRenderTest
     private static CEntitySQLCursor cursor(CObjectCatalog catalog, String name)
     {
         CEntitySQLCursor cursor = new CEntitySQLCursor(name, catalog);
-        cursor.setLanguageExporter(new MockJavaExporter());
+        generate.LegacyLanguageRenderer.bind(cursor, new MockJavaExporter());
         return cursor;
     }
 

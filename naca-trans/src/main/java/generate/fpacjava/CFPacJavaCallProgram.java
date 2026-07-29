@@ -27,13 +27,12 @@ public class CFPacJavaCallProgram extends CEntityCallProgram
 	public CFPacJavaCallProgram(int l, CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity Reference)
 	{
 		super(l, cat, Reference);
-		setLanguageExporter(out);
+		generate.LegacyLanguageRenderer.bind(this, out);
 	}
 
 	/**
 	 * @see semantic.CBaseLanguageEntity#DoExport()
 	 */
-	@Override
 	protected void DoExport()
 	{
 		String name = generate.LegacyDataRenderer.renderReference(reference, getLine());
@@ -43,11 +42,11 @@ public class CFPacJavaCallProgram extends CEntityCallProgram
 		}
 		if (ischecked)
 		{
-			WriteWord("call(" +  name + ")") ;
+			generate.LegacyLanguageRenderer.writeWord(this, "call(" +  name + ")") ;
 		}
 		else
 		{
-			WriteWord("call(\"" +  name + "\")") ;
+			generate.LegacyLanguageRenderer.writeWord(this, "call(\"" +  name + "\")") ;
 		}
 		if (parameters.size()>0)
 		{
@@ -85,13 +84,13 @@ public class CFPacJavaCallProgram extends CEntityCallProgram
 					{
 						cs += "[UNDEFINED]";
 					}
-					WriteWord(cs + ")");
+					generate.LegacyLanguageRenderer.writeWord(this, cs + ")");
 					
 				}
 			}
 		}
-		WriteWord(".executeCall() ;");
-		WriteEOL();
+		generate.LegacyLanguageRenderer.writeWord(this, ".executeCall() ;");
+		generate.LegacyLanguageRenderer.writeEol(this);
 	}
 
 }

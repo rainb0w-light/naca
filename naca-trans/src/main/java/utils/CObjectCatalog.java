@@ -168,7 +168,7 @@ public class CObjectCatalog
 		if (formContainer != null)
 		{			
 			formContainer.MakeXMLOutput(bResources);  
-			formContainer.StartExport() ;
+			generate.LegacyLanguageRenderer.startExport(formContainer) ;
 			
 			Tag t = CRulesManager.getInstance().getRule("ReduceMaps") ;
 			if (t != null)
@@ -183,7 +183,7 @@ public class CObjectCatalog
 			// else, if not reducing maps
 			if (formContainer.GetSavCopy() != null)
 			{
-				formContainer.GetSavCopy().StartExport() ;
+				generate.LegacyLanguageRenderer.startExport(formContainer.GetSavCopy()) ;
 			}
 		}
 	}

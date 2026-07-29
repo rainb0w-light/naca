@@ -26,7 +26,7 @@ class CEntityDivideRenderTest
     {
         MockJavaExporter exporter = new MockJavaExporter();
         CEntityDivide divide = new CEntityDivide(1, null);
-        divide.setLanguageExporter(exporter);
+        generate.LegacyLanguageRenderer.bind(divide, exporter);
         divide.SetDivide(
             new MockDataEntity(1, "dividend"),
             new MockDataEntity(1, "divisor"),

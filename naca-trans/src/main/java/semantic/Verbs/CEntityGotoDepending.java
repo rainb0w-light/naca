@@ -35,7 +35,7 @@ public class CEntityGotoDepending extends CBaseActionEntity
         for (CProcedureReference reference : references)
         {
             CEntityProcedure procedure = reference.getProcedure();
-            targets.add(procedure == null ? "[UNDEFINED]" : procedure.getFormattedName());
+            targets.add(procedure == null ? "[UNDEFINED]" : procedure.GetDisplayName());
         }
         return Collections.unmodifiableList(targets);
     }

@@ -34,7 +34,7 @@ public class CJavaSetHighlight extends CEntitySetHighligh
 	public CJavaSetHighlight(int line, CObjectCatalog cat, CBaseLanguageExporter out, CDataEntity field)
 	{
 		super(line, cat, field);
-		setLanguageExporter(out);
+		generate.LegacyLanguageRenderer.bind(this, out);
 	}
 
 	/* (non-Javadoc)
@@ -44,27 +44,27 @@ public class CJavaSetHighlight extends CEntitySetHighligh
 	{
 		if (isisBlink)
 		{
-			WriteLine("setFieldBlink(" + generate.LegacyDataRenderer.renderReference(refField, getLine())  + ") ;") ;
+			generate.LegacyLanguageRenderer.writeLine(this, "setFieldBlink(" + generate.LegacyDataRenderer.renderReference(refField, getLine())  + ") ;") ;
 		}
 		if (isisReverse)
 		{
-			WriteLine("setFieldReverse("+ generate.LegacyDataRenderer.renderReference(refField, getLine())  + ") ;") ;
+			generate.LegacyLanguageRenderer.writeLine(this, "setFieldReverse("+ generate.LegacyDataRenderer.renderReference(refField, getLine())  + ") ;") ;
 		}
 		if (isisUnderlined)
 		{
-			WriteLine("setFieldUnderline(" + generate.LegacyDataRenderer.renderReference(refField, getLine())  + ") ;") ;
+			generate.LegacyLanguageRenderer.writeLine(this, "setFieldUnderline(" + generate.LegacyDataRenderer.renderReference(refField, getLine())  + ") ;") ;
 		}
 		if (isisNormal)
 		{
-			WriteLine("setFieldUnhighlighted(" + generate.LegacyDataRenderer.renderReference(refField, getLine())  + ") ;") ;
+			generate.LegacyLanguageRenderer.writeLine(this, "setFieldUnhighlighted(" + generate.LegacyDataRenderer.renderReference(refField, getLine())  + ") ;") ;
 		}
 		if (highLightValue != null)
 		{
-			WriteLine("moveHighLighting(" + generate.LegacyDataRenderer.renderReference(highLightValue, getLine()) + ", " + generate.LegacyDataRenderer.renderReference(refField, getLine())  + ") ;") ;
+			generate.LegacyLanguageRenderer.writeLine(this, "moveHighLighting(" + generate.LegacyDataRenderer.renderReference(highLightValue, getLine()) + ", " + generate.LegacyDataRenderer.renderReference(refField, getLine())  + ") ;") ;
 		}
 		if (!isisBlink && !isisNormal && !isisUnderlined && !isisReverse && highLightValue==null)
 		{
-			WriteLine("resetFieldHighlighting(" + generate.LegacyDataRenderer.renderReference(refField, getLine())  + ") ;") ;
+			generate.LegacyLanguageRenderer.writeLine(this, "resetFieldHighlighting(" + generate.LegacyDataRenderer.renderReference(refField, getLine())  + ") ;") ;
 		}
 	}
 

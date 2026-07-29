@@ -277,7 +277,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		// onto the sql(...) runtime call. No generated string is materialized in the
 		// factory.
 		CEntitySQLSelectStatement e = new CEntitySQLSelectStatement(nLine, programCatalog, csStatement, arrParameters, arrInto, arrInd);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntitySQLCursorSelectStatement NewEntitySQLCursorSelectStatement(int nLine)	{
@@ -288,7 +288,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		// semantic children rendered through their reference bindings; no generated
 		// string is materialized in the factory.
 		CEntitySQLCursorSelectStatement e = new CEntitySQLCursorSelectStatement(nLine, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntitySQLFetchStatement NewEntitySQLFetchStatement(int nLine, CEntitySQLCursor cur)	{
@@ -299,7 +299,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		// SQLWARNING/SQLERROR clause is a read-only catalog lookup the template chains
 		// onto cursorFetch(...). No generated string is materialized in the factory.
 		CEntitySQLFetchStatement e = new CEntitySQLFetchStatement(nLine, programCatalog, cur);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntitySQLOpenStatement NewEntitySQLOpenStatement(int nLine, CEntitySQLCursor cur)	{
@@ -311,7 +311,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		// SQLWARNING/SQLERROR clause is a read-only catalog lookup the template chains
 		// onto cursorOpen(...). No generated string is materialized in the factory.
 		CEntitySQLOpenStatement e = new CEntitySQLOpenStatement(nLine, programCatalog, cur);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntitySQLCloseStatement NewEntitySQLCloseStatement(int nLine, CEntitySQLCursor cur)	{
@@ -320,7 +320,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		// and is recursively rendered through its reference binding; no generated
 		// string is materialized in the factory.
 		CEntitySQLCloseStatement e = new CEntitySQLCloseStatement(nLine, programCatalog, cur);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntitySQLDeleteStatement NewEntitySQLDeleteStatement(int nLine, String csStatement, Vector<CDataEntity> arrParameters)	{
@@ -332,7 +332,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		// sql(...)/cursorDeleteCurrent(...) runtime call. No generated string is
 		// materialized in the factory.
 		CEntitySQLDeleteStatement e = new CEntitySQLDeleteStatement(nLine, programCatalog, csStatement, arrParameters);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntitySQLUpdateStatement NewEntitySQLUpdateStatement(int nLine, String csStatement, Vector<CDataEntity> arrSets, Vector<CDataEntity> arrParameters)	{
@@ -348,7 +348,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		// onto the sql(...)/cursorUpdateCurrent(...) runtime call. No generated string
 		// is materialized in the factory.
 		CEntitySQLUpdateStatement e = new CEntitySQLUpdateStatement(nLine, programCatalog, csStatement, arrSets, arrParameters);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntitySQLInsertStatement NewEntitySQLInsertStatement(int nLine)	{
@@ -361,7 +361,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		// catalog lookup the template chains onto the sql(...) runtime call. No
 		// generated string is materialized in the factory.
 		CEntitySQLInsertStatement e = new CEntitySQLInsertStatement(nLine, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntitySQLDeclareTable NewEntitySQLDeclareTable(int nLine, String csTableName, String csViewName, ArrayList arrTableColDescription)	{
@@ -372,56 +372,56 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		// constructor during semantic analysis. Mirrors the CEntitySqlOnErrorGoto
 		// (WHENEVER) retirement.
 		CEntitySQLDeclareTable e = new CEntitySQLDeclareTable(nLine, programCatalog, csTableName, csViewName, arrTableColDescription);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityClass NewEntityClass(int l, String name)	{
 		CEntityClass e = new CEntityClass(l, name, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityComment NewEntityComment(int l, String comment)	{
 		CEntityComment e = new CEntityComment(l, programCatalog, comment);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityAttribute NewEntityAttribute(int l, String name)	{
 		CEntityAttribute e = new CEntityAttribute(l, name, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityStructure NewEntityStructure(int l, String name, String level)	{
 		CEntityStructure entity =
 			new CEntityStructure(l, name, programCatalog, level);
-		entity.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(entity, langOutput);
 		return entity;
 	}
 	public CEntityProcedure NewEntityProcedure(int l, String name, CEntityProcedureSection section)	{
 		CEntityProcedure entity =
 			new CEntityProcedure(l, name, programCatalog, section);
-		entity.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(entity, langOutput);
 		return entity;
 	}
 	public CEntityProcedureSection NewEntityProcedureSection(int l, String name)	{
 		CEntityProcedureSection entity =
 			new CEntityProcedureSection(l, name, programCatalog);
-		entity.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(entity, langOutput);
 		return entity;
 	}
 	public CEntityAssign NewEntityAssign(int l)	{
 		CEntityAssign e = new CEntityAssign(l, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityExternalDataStructure NewEntityExternalDataStructure(int l, String name)	{
 		CEntityExternalDataStructure e =
 			new CEntityExternalDataStructure(l, name, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityInline NewEntityInline(int l, CBaseExternalEntity ext)	{
 		CEntityInline entity = new CEntityInline(l, programCatalog, ext);
-		entity.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(entity, langOutput);
 		programCatalog.RegisterExternalDataStructure(ext);
 		return entity;
 	}
@@ -433,7 +433,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 	}
 	public CEntityCalcul NewEntityCalcul(int l)	{
 		CEntityCalcul e = new CEntityCalcul(l, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntitySqlOnErrorGoto NewEntitySQLOnErrorGoto(int l, String ref)	{
@@ -442,14 +442,14 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		// binding). The WHENEVER policy is a Stage-1 catalog side effect registered
 		// here, in program order, during semantic analysis; the template emits no code.
 		CEntitySqlOnErrorGoto e = new CEntitySqlOnErrorGoto(l, programCatalog, ref, false) ;
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		registerSqlWheneverPolicy(ref, false);
 		return e;
 	}
 	public CEntitySqlOnErrorGoto NewEntitySQLOnWarningGoto(int l, String ref)	{
 		// Direct backend CJavaSqlOnErrorGoto retired (see NewEntitySQLOnErrorGoto).
 		CEntitySqlOnErrorGoto e = new CEntitySqlOnErrorGoto(l, programCatalog, ref, true) ;
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		registerSqlWheneverPolicy(ref, true);
 		return e;
 	}
@@ -482,7 +482,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 	}
 	public CEntityExec NewEntityExec(int l, String statement)	{
 		CEntityExec e = new CEntityExec(l, programCatalog, statement);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityResourceFormContainer NewEntityFormContainer(int l, String name, boolean bSave)	{
@@ -497,22 +497,22 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 	public CEntityCallFunction NewEntityCallFunction(int l, String reference, String csRefThru, CEntityProcedureSection section)	{
 		CEntityCallFunction e = new CEntityCallFunction(
 			l, programCatalog, reference, csRefThru, section);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityInitialize NewEntityInitialize(int l, CDataEntity data)	{
 		CEntityInitialize e = new CEntityInitialize(l, programCatalog, data);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityReturn NewEntityReturn(int l)	{
 		CEntityReturn e = new CEntityReturn(l, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityCallProgram NewEntityCallProgram(int l, CDataEntity reference)	{
 		CEntityCallProgram e = new CEntityCallProgram(l, programCatalog, reference);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntitySwitchCase NewEntitySwitchCase(int l)	{
@@ -524,23 +524,23 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 	public CSubStringAttributReference NewEntitySubString(int l)	{
 		CSubStringAttributReference entity =
 			new CSubStringAttributReference(l, programCatalog);
-		entity.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(entity, langOutput);
 		return entity;
 	}
 	public CEntityArrayReference NewEntityArrayReference(int l)	{
 		CEntityArrayReference e = new CEntityArrayReference(l, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityGoto NewEntityGoto(int l, String Reference, CEntityProcedureSection section)	{
 		CEntityGoto e = new CEntityGoto(l, programCatalog, Reference, section);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityGotoDepending NewEntityGotoDepending(int l, List<String> refs, CDataEntity dep, CEntityProcedureSection section)	{
 		CEntityGotoDepending e =
 			new CEntityGotoDepending(l, programCatalog, refs, dep, section);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityLoopWhile NewEntityLoopWhile(int l)	{
@@ -557,13 +557,13 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 	}
 	public CEntityNextSentence NewEntityNextSentence(int l)	{
 		CEntityNextSentence e = new CEntityNextSentence(l, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityNamedCondition NewEntityNamedCondition(int l, String name)	{
 		CEntityNamedCondition entity =
 			new CEntityNamedCondition(l, name, programCatalog);
-		entity.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(entity, langOutput);
 		return entity;
 	}
 	public CEntitySQLSingleStatement NewEntitySQLSingleStatement(int l, String st)	{
@@ -574,7 +574,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		// WHENEVER clause is chained and no generated string is materialized in the
 		// factory.
 		CEntitySQLSingleStatement e = new CEntitySQLSingleStatement(l, programCatalog, st);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntitySetColor NewEntitySetColor(int l, CDataEntity field)	{
@@ -613,7 +613,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 	}
 	public CEntityAssignWithAccessor NewEntityAssignWithAccessor(int l)	{
 		CEntityAssignWithAccessor e = new CEntityAssignWithAccessor(l, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityFieldData NewEntityFieldData(int l, String name, CDataEntity field)	{
@@ -625,13 +625,13 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 	public CEntityEnvironmentVariable NewEntityEnvironmentVariable(String name, String acc, boolean bNumeric)	{
 		CEntityEnvironmentVariable e =
 			new CEntityEnvironmentVariable(0, name, programCatalog, acc, "", bNumeric);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityEnvironmentVariable NewEntityEnvironmentVariable(String name, String acc, String write, boolean bNumeric)	{
 		CEntityEnvironmentVariable e =
 			new CEntityEnvironmentVariable(0, name, programCatalog, acc, write, bNumeric);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntitySkipFields NewEntityWorkingSkipField(int l, String name, int nbFields, String level)	{
@@ -652,7 +652,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 	}
 	public CEntityString NewEntityString(char[] value)	{
 		CEntityString e = new CEntityString(programCatalog, value) ;
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e ;
 	}
 	public CEntityCondOr NewEntityCondOr()	{
@@ -660,7 +660,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 	}
 	public CEntityNumber NewEntityNumber(String value)	{
 		CEntityNumber e = new CEntityNumber(programCatalog, value);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityExprTerminal NewEntityExprTerminal(CDataEntity eData)	{
@@ -698,7 +698,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 	}
 	public CEntitySetConstant NewEntitySetConstant(int l)	{
 		CEntitySetConstant e = new CEntitySetConstant(l, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityIsFieldColor NewEntityIsFieldColor()	{
@@ -711,17 +711,17 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 	}
 	public CEntityAddressReference NewEntityAddressReference(CDataEntity ref)	{
 		CEntityAddressReference e = new CEntityAddressReference(programCatalog, ref);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityMoveReference NewEntityMoveReference(int l)	{
 		CEntityMoveReference entity = new CEntityMoveReference(l, programCatalog) ;
-		entity.setLanguageExporter(langOutput) ;
+		generate.LegacyLanguageRenderer.bind(entity, langOutput);
 		return entity ;
 	}
 	public CEntitySubtractTo NewEntitySubtractTo(int l)	{
 		CEntitySubtractTo e = new CEntitySubtractTo(l, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityIsNamedCondition NewEntityIsNamedCondition()	{
@@ -729,12 +729,12 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 	}
 	public CEntityDataSection NewEntityDataSection(int l, String name)	{
 		CEntityDataSection e = new CEntityDataSection(l, name, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityReplace NewEntityReplace(int l)	{
 		CEntityReplace e = new CEntityReplace(l, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityIsFieldHighlight NewEntityIsFieldHighlight(CDataEntity ref)	{
@@ -746,22 +746,22 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 	}
 	public CEntityStringConcat NewEntityStringConcat(int l)	{
 		CEntityStringConcat e = new CEntityStringConcat(l, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityDivide NewEntityDivide(int l)	{
 		CEntityDivide e = new CEntityDivide(l, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityMultiply NewEntityMultiply(int l)	{
 		CEntityMultiply e = new CEntityMultiply(l, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityParseString NewEntityParseString(int l)	{
 		CEntityParseString e = new CEntityParseString(l, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntitySQLRollBack NewEntitySQLRollBack(int l)	{
@@ -771,7 +771,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		// catalog lookup the template chains onto sqlRollback(); no generated string
 		// is materialized in the factory.
 		CEntitySQLRollBack e = new CEntitySQLRollBack(l, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntitySQLCommit NewEntitySQLCommit(int l)	{
@@ -781,7 +781,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		// the template chains onto sqlCommit(); no generated string is materialized
 		// in the factory.
 		CEntitySQLCommit e = new CEntitySQLCommit(l, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityExprOpposite NewEntityExprOpposite()	{
@@ -791,49 +791,49 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		// Direct backend CJavaCICSXctl retired: the pure semantic entity is rendered
 		// by the recursive ST4 assembler (recursiveCICSXctlEntity binding).
 		CEntityCICSXctl e = new CEntityCICSXctl(l, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityCICSLink NewEntityCICSLink(int l)	{
 		// Direct backend CJavaCICSLink retired: the pure semantic entity is rendered
 		// by the recursive ST4 assembler (recursiveCICSLinkEntity binding).
 		CEntityCICSLink e = new CEntityCICSLink(l, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityCICSAddress NewEntityCICSAddress(int l) {
 		// Direct backend CJavaCICSAddress retired: the pure semantic entity is rendered
 		// by the recursive ST4 assembler (recursiveCICSAddressEntity binding).
 		CEntityCICSAddress e = new CEntityCICSAddress(l, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityCICSAskTime NewEntityCICSAskTime(int l)	{
 		// Direct backend CJavaCICSAskTime retired: the pure semantic entity is rendered
 		// by the recursive ST4 assembler (recursiveCICSAskTimeEntity binding).
 		CEntityCICSAskTime e = new CEntityCICSAskTime(l, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityCurrentDate NewEntityCurrentDate()	{
 		CEntityCurrentDate e = new CEntityCurrentDate(programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityIntrinsicFunction NewEntityIntrinsicFunction(String functionName, List<CBaseEntityExpression> arguments)	{
 		CEntityIntrinsicFunction e =
 			new CEntityIntrinsicFunction(programCatalog, functionName, arguments);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityAddressOf NewEntityAddressOf(CDataEntity data)	{
 		CEntityAddressOf e = new CEntityAddressOf(programCatalog, data);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityLengthOf NewEntityLengthOf(CDataEntity data)	{
 		CEntityLengthOf e = new CEntityLengthOf(programCatalog, data);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityCICSHandleCondition NewEntityCICSHandleCondition(int l)	{
@@ -841,7 +841,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		// rendered by the recursive ST4 assembler (recursiveCICSHandleConditionEntity
 		// binding).
 		CEntityCICSHandleCondition e = new CEntityCICSHandleCondition(l, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityCICSHandleAID NewEntityCICSHandleAID(int l)	{
@@ -849,48 +849,48 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		// rendered by the recursive ST4 assembler (recursiveCICSHandleAIDEntity
 		// binding).
 		CEntityCICSHandleAID e = new CEntityCICSHandleAID(l, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityCICSIgnoreCondition NewEntityCICSIgnoreCondition(int l)	{
 		CEntityCICSIgnoreCondition e = new CEntityCICSIgnoreCondition(l, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityCICSRetrieve NewEntityCICSRetreive(int l, boolean bPointer)	{
 		CEntityCICSRetrieve e = new CEntityCICSRetrieve(l, programCatalog, bPointer);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityCICSStart NewEntityCICSStart(int l, CDataEntity TID)	{
 		CEntityCICSStart e = new CEntityCICSStart(l, programCatalog, TID);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityCICSReturn NewEntityCICSReturn(int l)	{
 		// Direct backend CJavaCICSReturn retired: the pure semantic entity is rendered
 		// by the recursive ST4 assembler (recursiveCICSReturnEntity binding).
 		CEntityCICSReturn e = new CEntityCICSReturn(l, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityCICSSendMap NewEntityCICSSendMap(int l)	{
 		// Direct backend CJavaCICSSendMap retired: the pure semantic entity is
 		// rendered by the recursive ST4 assembler (recursiveCICSSendMapEntity binding).
 		CEntityCICSSendMap e = new CEntityCICSSendMap(l, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityCICSWrite NewEntityCICSWrite(int l)	{
 		CEntityCICSWrite e = new CEntityCICSWrite(l, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityCICSReceiveMap NewEntityCICSReceiveMap(int l, CDataEntity name)	{
 		// Direct backend CJavaCICSReceiveMap retired: the pure semantic entity is
 		// rendered by the recursive ST4 assembler (recursiveCICSReceiveMapEntity binding).
 		CEntityCICSReceiveMap e = new CEntityCICSReceiveMap(l, programCatalog, name);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityIsFieldModified NewEntityIsFieldModified() {
@@ -900,105 +900,105 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		// Direct backend CJavaCICSSyncPoint retired: the pure semantic entity is rendered
 		// by the recursive ST4 assembler (recursiveCICSSyncPointEntity binding).
 		CEntityCICSSyncPoint e = new CEntityCICSSyncPoint(l, programCatalog, bRollBack);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityCICSInquire NewEntityCICSInquire(int l)	{
 		// Direct backend CJavaCICSInquire retired: the pure semantic entity is rendered
 		// by the recursive ST4 assembler (recursiveCICSInquireEntity binding).
 		CEntityCICSInquire e = new CEntityCICSInquire(l, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityCICSAbend NewEntityCICSAbend(int l)	{
 		// Direct backend CJavaCICSAbend retired: the pure semantic entity is rendered
 		// by the recursive ST4 assembler (recursiveCICSAbendEntity binding).
 		CEntityCICSAbend e = new CEntityCICSAbend(l, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityCICSRead NewEntityCICSRead(int l, CEntityCICSRead.CEntityCICSReadMode mode)	{
 		CEntityCICSRead e = new CEntityCICSRead(l, programCatalog, mode);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityCICSStartBrowse NewEntityCICSStartBrowse(int l)	{
 		CEntityCICSStartBrowse e = new CEntityCICSStartBrowse(l, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityCICSDeleteQ NewEntityCICSDeleteQ(int l, boolean b)	{
 		CEntityCICSDeleteQ e = new CEntityCICSDeleteQ(l, programCatalog, b);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityCICSWriteQ NewEntityCICSWriteQ(int l, boolean b)	{
 		CEntityCICSWriteQ e = new CEntityCICSWriteQ(l, programCatalog, b);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityCICSReadQ NewEntityCICSReadQ(int l, boolean b)	{
 		CEntityCICSReadQ e = new CEntityCICSReadQ(l, programCatalog, b);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityCICSAssign NewEntityCICSAssign(int l)	{
 		// Direct backend CJavaCICSAssign retired: the pure semantic entity is rendered
 		// by the recursive ST4 assembler (recursiveCICSAssignEntity binding).
 		CEntityCICSAssign e = new CEntityCICSAssign(l, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityDisplay NewEntityDisplay(int l, Upon t)	{
 		CEntityDisplay e = new CEntityDisplay(l, programCatalog, t);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityCount NewEntityCount(int l)	{
 		CEntityCount e = new CEntityCount(l, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityInspectConverting NewEntityInspectConverting(int l) {
 		CEntityInspectConverting e = new CEntityInspectConverting(l, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityCICSReWrite NewEntityCICSReWrite(int l)	{
 		CEntityCICSReWrite e = new CEntityCICSReWrite(l, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityCICSDelay NewEntityCICSDelay(int l)	{
 		// Direct backend CJavaCICSDelay retired: the pure semantic entity is rendered
 		// by the recursive ST4 assembler (recursiveCICSDelayEntity binding).
 		CEntityCICSDelay e = new CEntityCICSDelay(l, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityCICSSetTDQueue NewEntityCICSSetTDQueue(int l)	{
 		CEntityCICSSetTDQueue e = new CEntityCICSSetTDQueue(l, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityCICSDeQ NewEntityCICSDeQ(int l)	{
 		// Direct backend CJavaCICSDeQ retired: the pure semantic entity is rendered
 		// by the recursive ST4 assembler (recursiveCICSDeQEntity binding).
 		CEntityCICSDeQ e = new CEntityCICSDeQ(l, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityCICSEnQ NewEntityCICSEnQ(int l)	{
 		// Direct backend CJavaCICSEnQ retired: the pure semantic entity is rendered
 		// by the recursive ST4 assembler (recursiveCICSEnQEntity binding).
 		CEntityCICSEnQ e = new CEntityCICSEnQ(l, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityProcedureDivision NewEntityProcedureDivision(int l)	{
 		CEntityProcedureDivision entity =
 			new CEntityProcedureDivision(l, programCatalog);
-		entity.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(entity, langOutput);
 		return entity;
 	}
 	public CEntitySQLCursorSection NewEntitySQLCursorSection()	{
@@ -1006,7 +1006,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		// rendered by the recursive ST4 assembler (recursiveSQLCursorSectionEntity
 		// declaration binding).
 		CEntitySQLCursorSection e = new CEntitySQLCursorSection(programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityFieldArrayReference NewEntityFieldArrayReference(int l)	{
@@ -1014,7 +1014,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 	}
 	public CEntityIndex NewEntityIndex(String name)	{
 		CEntityIndex entity = new CEntityIndex(name, programCatalog);
-		entity.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(entity, langOutput);
 		return entity;
 	}
 	public CEntitySQLCursor NewEntitySQLCursor(String name)	{
@@ -1023,7 +1023,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		// dataReferenceEntity reference binding) and keeps its legacy formatted
 		// ExportReference for the direct path.
 		CEntitySQLCursor e = new CEntitySQLCursor(name, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityKeyPressed NewEntityKeyPressed(String name, String caption)	{
@@ -1044,7 +1044,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 	{
 		CEntityUnknownReference entity =
 			new CEntityUnknownReference(nLine, csName, programCatalog);
-		entity.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(entity, langOutput);
 		return entity;
 	}
 	public CEntityCICSGetMain NewEntityCICSGetMain(int l)	{
@@ -1052,7 +1052,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		// rendered by the recursive ST4 assembler (recursiveCICSGetMainEntity
 		// binding).
 		CEntityCICSGetMain e = new CEntityCICSGetMain(l, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityResetKeyPressed NewEntityResetKeyPressed(int l)	{
@@ -1066,12 +1066,12 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		// by the recursive ST4 assembler (recursiveSQLCodeEntity binding) and carries
 		// its own getSQLCode()/resetSQLCode(...) data-reference protocol.
 		CEntitySQLCode e = new CEntitySQLCode(name, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntitySQLCode NewEntitySQLCode(String name, CBaseEntityExpression eHistoryItem)	{
 		CEntitySQLCode e = new CEntitySQLCode(name, programCatalog, eHistoryItem);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityCondIsSQLCode NewEntityCondIsSQLCode()	{
@@ -1084,7 +1084,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 	}
 	public CEntityRoutineEmulationCall NewEntityRoutineEmulationCall(int l)	{
 		CEntityRoutineEmulationCall e = new CEntityRoutineEmulationCall(l, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 
@@ -1127,7 +1127,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 	}	
 	public CEntityConcat NewEntityConcat(CDataEntity e1, CDataEntity e2)	{
 		CEntityConcat e = new CEntityConcat(programCatalog, e1, e2);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityIsFieldCursor NewEntityIsFieldCursor()	{
@@ -1135,22 +1135,22 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 	}
 	public CEntityList NewEntityList(String name)	{
 		CEntityList e = new CEntityList(name, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityDigits NewEntityDigits(CDataEntity nel)	{
 		CEntityDigits e = new CEntityDigits(programCatalog, nel);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntitySearch NewEntitySearch(int line)	{
 		CEntitySearch e = new CEntitySearch(line, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityInternalBool NewEntityInternalBool(String name)	{
 		CEntityInternalBool e = new CEntityInternalBool(name, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityBreak NewEntityBreak(int line)	{
@@ -1159,58 +1159,58 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 	public CEntityFileDescriptor NewEntityFileDescriptor(int line, String name) {
 		CEntityFileDescriptor e =
 			new CEntityFileDescriptor(line, name, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntitySortedFileDescriptor NewEntitySortedFileDescriptor(int line, String name)	{
 		CEntitySortedFileDescriptor entity =
 			new CEntitySortedFileDescriptor(line, name, programCatalog);
-		entity.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(entity, langOutput);
 		return entity;
 	}
 	public CEntityOpenFile NewEntityOpenFile(int line) 	{
 		CEntityOpenFile e = new CEntityOpenFile(line, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityCloseFile NewEntityCloseFile(int line)	{
 		CEntityCloseFile e = new CEntityCloseFile(line, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityReadFile NewEntityReadFile(int line)	{
 		CEntityReadFile e = new CEntityReadFile(line, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityWriteFile NewEntityWriteFile(int line) {
 		CEntityWriteFile e = new CEntityWriteFile(line, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityAccept NewEntityAccept(int line){
 		CEntityAccept e = new CEntityAccept(line, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntitySort NewEntitySort(int line)	{
 		CEntitySort e = new CEntitySort(line, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntitySortRelease NewEntitySortRelease(int line)	{
 		CEntitySortRelease e = new CEntitySortRelease(line, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntitySortReturn NewEntitySortReturn(int line)	{
 		CEntitySortReturn e = new CEntitySortReturn(line, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityRewriteFile NewEntityRewriteFile(int line)	{
 		CEntityRewriteFile e = new CEntityRewriteFile(line, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityAddress NewEntityAddress(String csAddresse)	{
@@ -1231,7 +1231,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		// chains onto the sql(...) runtime call; no generated string is materialized
 		// in the factory.
 		CEntitySQLSessionDeclare e = new CEntitySQLSessionDeclare(line, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntitySQLSessionDrop NewEntitySQLSessionDrop(int line)	{
@@ -1243,7 +1243,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		// chains onto the sql(...) runtime call; no generated string is materialized
 		// in the factory.
 		CEntitySQLSessionDrop e = new CEntitySQLSessionDrop(line, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntitySQLLock NewEntitySQLLock(int line)	{
@@ -1254,7 +1254,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		// lookup the template chains onto the sql(...) runtime call; no generated
 		// string is materialized in the factory.
 		CEntitySQLLock e = new CEntitySQLLock(line, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntitySQLExecute NewEntitySQLExecute(int line)	{
@@ -1265,7 +1265,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		// lookup the template chains onto sql("EXECUTE IMMEDIATE #1").param(1, ...);
 		// no generated string is materialized in the factory.
 		CEntitySQLExecute e = new CEntitySQLExecute(line, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 	public CEntityFormatedVarReference NewEntityFormatedVarReference(CDataEntity object, String format)	{
@@ -1286,7 +1286,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 	public CEntityFileDescriptorLengthDependency NewEntityFileDescriptorLengthDependency(String name)	{
 		CEntityFileDescriptorLengthDependency entity =
 			new CEntityFileDescriptorLengthDependency(name, programCatalog) ;
-		entity.setLanguageExporter(langOutput) ;
+		generate.LegacyLanguageRenderer.bind(entity, langOutput);
 		return entity ;
 	}
 	public CEntityAssignSpecial NewEntityAssignSpecial(int l)	{
@@ -1299,7 +1299,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		// and are recursively rendered through their reference bindings; no generated
 		// string is materialized in the factory.
 		CEntitySQLCall e = new CEntitySQLCall(line, programCatalog);
-		e.setLanguageExporter(langOutput);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 

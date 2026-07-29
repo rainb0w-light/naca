@@ -44,7 +44,7 @@ class DataSectionDeclarationTemplateTest
 
         String rendered = TemplateLoader.getRecursiveAssembler()
             .renderRoot(structure, JavaTemplateRole.DECLARATION);
-        structure.StartExport();
+        generate.LegacyLanguageRenderer.startExport(structure);
 
         assertEquals(normalize(exporter.getCapturedOutput()), normalize(rendered));
         assertTrue(rendered.contains("declare.level(1).var()"), rendered);
@@ -68,7 +68,7 @@ class DataSectionDeclarationTemplateTest
 
         String rendered = TemplateLoader.getRecursiveAssembler()
             .renderRoot(section, JavaTemplateRole.DECLARATION);
-        section.StartExport();
+        generate.LegacyLanguageRenderer.startExport(section);
 
         assertEquals(normalize(exporter.getCapturedOutput()), normalize(rendered));
         assertTrue(rendered.contains("DataSection FileSection = declare.fileSection()"), rendered);
@@ -91,7 +91,7 @@ class DataSectionDeclarationTemplateTest
 
         String rendered = TemplateLoader.getRecursiveAssembler()
             .renderRoot(condition, JavaTemplateRole.DECLARATION);
-        condition.StartExport();
+        generate.LegacyLanguageRenderer.startExport(condition);
 
         assertEquals(normalize(exporter.getCapturedOutput()), normalize(rendered));
         assertTrue(rendered.contains("Cond WS_COND = declare.condition()"), rendered);
@@ -114,7 +114,7 @@ class DataSectionDeclarationTemplateTest
 
         String rendered = TemplateLoader.getRecursiveAssembler()
             .renderRoot(structure, JavaTemplateRole.DECLARATION);
-        structure.StartExport();
+        generate.LegacyLanguageRenderer.startExport(structure);
 
         assertEquals(normalize(exporter.getCapturedOutput()), normalize(rendered));
         assertTrue(rendered.contains("Var WS_TBL = declare.level(5).variableLength().picX(15)"), rendered);
@@ -134,7 +134,7 @@ class DataSectionDeclarationTemplateTest
 
         String rendered = TemplateLoader.getRecursiveAssembler()
             .renderRoot(structure, JavaTemplateRole.DECLARATION);
-        structure.StartExport();
+        generate.LegacyLanguageRenderer.startExport(structure);
 
         assertEquals(normalize(exporter.getCapturedOutput()), normalize(rendered));
         assertTrue(rendered.contains("Var WS_REDEF = declare.level(5).redefines(WS_ORIG).picX(4)"), rendered);
@@ -152,7 +152,7 @@ class DataSectionDeclarationTemplateTest
 
         String rendered = TemplateLoader.getRecursiveAssembler()
             .renderRoot(structure, JavaTemplateRole.DECLARATION);
-        structure.StartExport();
+        generate.LegacyLanguageRenderer.startExport(structure);
 
         assertEquals(normalize(exporter.getCapturedOutput()), normalize(rendered));
         assertTrue(rendered.contains("Var WS_TAB = declare.level(5).occurs(10).picX(3)"), rendered);
@@ -172,7 +172,7 @@ class DataSectionDeclarationTemplateTest
 
         String rendered = TemplateLoader.getRecursiveAssembler()
             .renderRoot(structure, JavaTemplateRole.DECLARATION);
-        structure.StartExport();
+        generate.LegacyLanguageRenderer.startExport(structure);
 
         assertEquals(normalize(exporter.getCapturedOutput()), normalize(rendered));
         assertTrue(rendered.contains("Var WS_DEP = declare.level(5).occursDepending(20, WS_COUNT).picX(3)"), rendered);
@@ -190,7 +190,7 @@ class DataSectionDeclarationTemplateTest
 
         String rendered = TemplateLoader.getRecursiveAssembler()
             .renderRoot(structure, JavaTemplateRole.DECLARATION);
-        structure.StartExport();
+        generate.LegacyLanguageRenderer.startExport(structure);
 
         assertEquals(normalize(exporter.getCapturedOutput()), normalize(rendered));
         assertTrue(rendered.contains("Var WS_PACKED = declare.level(5).pic9(5).comp3()"), rendered);
@@ -208,7 +208,7 @@ class DataSectionDeclarationTemplateTest
 
         String rendered = TemplateLoader.getRecursiveAssembler()
             .renderRoot(structure, JavaTemplateRole.DECLARATION);
-        structure.StartExport();
+        generate.LegacyLanguageRenderer.startExport(structure);
 
         assertEquals(normalize(exporter.getCapturedOutput()), normalize(rendered));
         assertTrue(rendered.contains("Var WS_SGNL = declare.level(5).pic9(3).signLeadingSeparated()"), rendered);
@@ -226,7 +226,7 @@ class DataSectionDeclarationTemplateTest
 
         String rendered = TemplateLoader.getRecursiveAssembler()
             .renderRoot(structure, JavaTemplateRole.DECLARATION);
-        structure.StartExport();
+        generate.LegacyLanguageRenderer.startExport(structure);
 
         assertEquals(normalize(exporter.getCapturedOutput()), normalize(rendered));
         assertTrue(rendered.contains("Var WS_SGNT = declare.level(5).pic9(3).signTrailingSeparated()"), rendered);
@@ -245,7 +245,7 @@ class DataSectionDeclarationTemplateTest
 
         String rendered = TemplateLoader.getRecursiveAssembler()
             .renderRoot(filler, JavaTemplateRole.DECLARATION);
-        filler.StartExport();
+        generate.LegacyLanguageRenderer.startExport(filler);
 
         assertEquals(normalize(exporter.getCapturedOutput()), normalize(rendered));
         assertTrue(rendered.contains("declare.level(1).filler() ;"), rendered);
@@ -281,7 +281,7 @@ class DataSectionDeclarationTemplateTest
 
         String rendered = TemplateLoader.getRecursiveAssembler()
             .renderRoot(fd, JavaTemplateRole.DECLARATION);
-        fd.StartExport();
+        generate.LegacyLanguageRenderer.startExport(fd);
 
         assertEquals(normalize(exporter.getCapturedOutput()), normalize(rendered));
         assertTrue(rendered.contains("FileDescriptor FILEIN = declare.file(\"FILEIN\") ;"), rendered);
@@ -302,7 +302,7 @@ class DataSectionDeclarationTemplateTest
 
         String rendered = TemplateLoader.getRecursiveAssembler()
             .renderRoot(fd, JavaTemplateRole.DECLARATION);
-        fd.StartExport();
+        generate.LegacyLanguageRenderer.startExport(fd);
 
         assertEquals(normalize(exporter.getCapturedOutput()), normalize(rendered));
         assertTrue(rendered.contains("FileDescriptor FILEOUT = declare.file(\"FILEOUT\").status(WS_STATUS) ;"), rendered);
@@ -322,7 +322,7 @@ class DataSectionDeclarationTemplateTest
 
         String rendered = TemplateLoader.getRecursiveAssembler()
             .renderRoot(inline, JavaTemplateRole.DECLARATION);
-        inline.StartExport();
+        generate.LegacyLanguageRenderer.startExport(inline);
 
         assertEquals(normalize(exporter.getCapturedOutput()), normalize(rendered));
         assertTrue(rendered.contains("= Msgzone.Copy(this) ;"), rendered);
@@ -353,7 +353,7 @@ class DataSectionDeclarationTemplateTest
 
         String rendered = TemplateLoader.getRecursiveAssembler()
             .renderRoot(copybook, JavaTemplateRole.ROOT);
-        copybook.StartExport();
+        generate.LegacyLanguageRenderer.startExport(copybook);
 
         assertEquals(normalize(exporter.getCapturedOutput()), normalize(rendered));
         assertTrue(rendered.contains("public class Msgzone extends Copy {"), rendered);

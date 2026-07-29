@@ -41,10 +41,5 @@ class JavaSemanticBlockTemplateTest
         {
             super(line, null);
         }
-
-        private void exportDirect()
-        {
-            super.DoExport();
-        }
     }
 }

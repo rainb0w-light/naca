@@ -12,11 +12,9 @@ public final class LegacyInlineFixture extends CEntityInline
         CBaseLanguageExporter output, CBaseExternalEntity external)
     {
         super(line, catalog, external);
-        setLanguageExporter(output);
+        generate.LegacyLanguageRenderer.bind(this, output);
         catalog.RegisterExternalDataStructure(external);
     }
-
-    @Override
     protected void DoExport()
     {
         if (externalData.IsNeedDeclarationInClass())
@@ -29,15 +27,15 @@ public final class LegacyInlineFixture extends CEntityInline
                 line += ", replacing(" + externalData.GetReplaceItem()
                     + ", " + externalData.GetReplaceValue() + ")";
             }
-            WriteLine(line + ") ;");
+            generate.LegacyLanguageRenderer.writeLine(this, line + ") ;");
         }
         else
         {
-            externalData.setLanguageExporter(GetXMLOutput());
-            DoExport(externalData);
+            generate.LegacyLanguageRenderer.bind(externalData, generate.LegacyLanguageRenderer.output(this));
+            generate.LegacyLanguageRenderer.invokeExport(externalData);
         }
-        StartOutputBloc();
-        ExportChildren();
-        EndOutputBloc();
+        generate.LegacyLanguageRenderer.startBlock(this);
+        generate.LegacyLanguageRenderer.exportChildren(this, false);
+        generate.LegacyLanguageRenderer.endBlock(this);
     }
 }

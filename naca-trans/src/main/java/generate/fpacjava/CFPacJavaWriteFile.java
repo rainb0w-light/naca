@@ -16,14 +16,12 @@ public class CFPacJavaWriteFile extends CEntityWriteFile
 	public CFPacJavaWriteFile(int line, CObjectCatalog cat, CBaseLanguageExporter out)
 	{
 		super(line, cat);
-		setLanguageExporter(out);
+		generate.LegacyLanguageRenderer.bind(this, out);
 	}
-
-	@Override
 	protected void DoExport()
 	{
 		String cs = eFileDescriptor.getFormattedName() + ".write() ;" ;
-		WriteLine(cs) ;
+		generate.LegacyLanguageRenderer.writeLine(this, cs) ;
 	}
 
 }
