@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import generate.java.CJavaAttribute;
 import generate.java.CJavaExporter;
-import generate.java.expressions.CJavaExprSum;
 import generate.java.expressions.CJavaExprTerminal;
 import generate.java.expressions.CJavaInternalBool;
 import generate.java.expressions.CJavaIntrinsicFunction;
@@ -87,7 +86,7 @@ class JavaSemanticFunctionRendererTest
     @Test
     void recursivelyRendersGenericIntrinsicArgumentsAndRuntimeName()
     {
-        CJavaExprSum nestedSum = new CJavaExprSum();
+        LegacySumFixture nestedSum = new LegacySumFixture();
         nestedSum.SetSumExpression(
             expression(number("1")),
             expression(number("2")),

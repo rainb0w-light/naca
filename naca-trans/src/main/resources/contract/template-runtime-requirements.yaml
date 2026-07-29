@@ -106,6 +106,12 @@ templates:
       - math.divide
       - math.pow
 
+  recursiveExprSumEntity:
+    capability: ARITHMETIC
+    requires:
+      - math.add
+      - math.subtract
+
   recursiveCallFunctionEntity:
     capability: CONTROL_FLOW
     requires:

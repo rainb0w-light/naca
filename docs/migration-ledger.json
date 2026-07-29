@@ -25,8 +25,8 @@
       "lastVerifiedAtCommit": "5903f95d",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 131,
-        "directBackends": 61,
+        "failures": 130,
+        "directBackends": 60,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -3796,25 +3796,27 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "COBOL_CORE",
       "sourceSyntax": "legacy backend CJavaExprSum",
-      "parserNode": null,
+      "parserNode": "parser.expression.CSumExpression",
       "semanticNode": "semantic.expression.CEntityExprSum",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
+      "assemblerRole": "REFERENCE",
+      "manifestBinding": "semantic.expression.CEntityExprSum=recursiveExprSumEntity",
+      "template": "recursiveExprSumEntity",
+      "runtimeOperation": "math.add, math.subtract",
       "fixture": null,
       "directBackend": "generate.java.expressions.CJavaExprSum",
       "sourcePath": "naca-trans/src/main/java/generate/java/expressions/CJavaExprSum.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/expressions/CJavaExprSum.java"
-      ]
+        "naca-trans/src/main/java/semantic/expression/CEntityExprSum.java",
+        "naca-trans/src/test/java/generate/java/st/CEntityExprSumRenderTest.java"
+      ],
+      "lastAttemptCommit": "ec3cc1a6"
     },
     {
       "id": "BACKEND-COBOL-EXPRESSION-CJAVAEXPRTERMINAL",

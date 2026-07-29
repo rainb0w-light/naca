@@ -20,7 +20,7 @@ import parser.expression.CSumExpression;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityExprSum extends CBaseEntityExpression
+public class CEntityExprSum extends CBaseEntityExpression
 {
 	public void SetSumExpression(CBaseEntityExpression Op1, CBaseEntityExpression Op2, CSumExpression.CSumType Type)
 	{

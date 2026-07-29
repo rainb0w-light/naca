@@ -752,6 +752,14 @@ operations:
     paramTypes: []
     returns: boolean
 
+  - id: math.add
+    since: 1
+    capability: ARITHMETIC
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: add
+    paramTypes: [nacaLib.varEx.VarAndEdit, nacaLib.varEx.VarAndEdit]
+    returns: nacaLib.mathSupport.MathAdd
+
   - id: math.subtract
     since: 1
     capability: ARITHMETIC
