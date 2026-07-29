@@ -15,7 +15,6 @@ package semantic;
 import java.util.Vector;
 
 
-import generate.*;
 import semantic.expression.CBaseEntityCondition;
 import semantic.expression.CBaseEntityExpression;
 import semantic.expression.CEntityCondIsConstant;
