@@ -294,6 +294,39 @@ operations:
     paramTypes: []
     returns: boolean
 
+  # --- PERFORM paragraph/section ---
+  - id: perform.paragraph
+    since: 1
+    capability: CONTROL_FLOW
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: perform
+    paramTypes: [nacaLib.program.Paragraph]
+    returns: void
+
+  - id: perform.section
+    since: 1
+    capability: CONTROL_FLOW
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: perform
+    paramTypes: [nacaLib.program.Section]
+    returns: void
+
+  - id: perform.through
+    since: 1
+    capability: CONTROL_FLOW
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: performThrough
+    paramTypes: [nacaLib.program.Paragraph, nacaLib.program.Paragraph]
+    returns: void
+
+  - id: compare.isLess.intVarAndEdit
+    since: 1
+    capability: CONTROL_FLOW
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: isLess
+    paramTypes: [int, nacaLib.varEx.VarAndEdit]
+    returns: boolean
+
   # --- CICS RETURN ---
   # EXEC CICS RETURN END-EXEC emits CESM.returnTrans(...). The contract declares the
   # representative no-argument overload — the production-reachable bare RETURN (e.g.

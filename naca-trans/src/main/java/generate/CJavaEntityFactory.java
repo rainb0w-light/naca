@@ -92,7 +92,6 @@ import generate.java.forms.CJavaSetCursor;
 import generate.java.forms.CJavaSetFlag;
 import generate.java.forms.CJavaSetHighlight;
 import generate.java.forms.CJavaSkipField;
-import generate.java.verbs.CJavaCallFunction;
 import generate.java.verbs.CJavaCallProgram;
 import generate.java.verbs.CJavaCloseFile;
 import generate.java.verbs.CJavaCount;
@@ -567,7 +566,10 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CJavaFieldAttribute(l, name, programCatalog, langOutput, owner);
 	}
 	public CEntityCallFunction NewEntityCallFunction(int l, String reference, String csRefThru, CEntityProcedureSection section)	{
-		return new CJavaCallFunction(l, programCatalog, langOutput, reference, csRefThru, section);
+		CEntityCallFunction e = new CEntityCallFunction(
+			l, programCatalog, reference, csRefThru, section);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntityInitialize NewEntityInitialize(int l, CDataEntity data)	{
 		return new CJavaInitialize(l, programCatalog, langOutput, data);

@@ -112,6 +112,16 @@ features:
     fixtures: []
     status: production
 
+  - id: cobol.control.perform
+    dialects: [cobol-core]
+    semanticType: semantic.Verbs.CEntityCallFunction
+    javaBackend:
+      role: REFERENCE
+      template: recursiveCallFunctionEntity
+    runtimeOperations: [perform.paragraph, perform.section, perform.through, compare.isLess.intVarAndEdit]
+    fixtures: []
+    status: production
+
   - id: cics.return
     dialects: [embedded-cics]
     semanticType: semantic.CICS.CEntityCICSReturn

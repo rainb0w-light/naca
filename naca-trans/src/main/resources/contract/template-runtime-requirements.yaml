@@ -83,6 +83,14 @@ templates:
       - compute.roundedMathVar
       - math.isError
 
+  recursiveCallFunctionEntity:
+    capability: CONTROL_FLOW
+    requires:
+      - perform.paragraph
+      - perform.section
+      - perform.through
+      - compare.isLess.intVarAndEdit
+
   recursiveCICSReturnEntity:
     capability: CICS
     requires:
