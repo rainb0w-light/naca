@@ -202,6 +202,16 @@ features:
     fixtures: []
     status: production
 
+  - id: cobol.table.search
+    dialects: [cobol-core]
+    semanticType: semantic.Verbs.CEntitySearch
+    javaBackend:
+      role: REFERENCE
+      template: recursiveSearchEntity
+    runtimeOperations: [search.resetFound, search.isNotFound, search.indexWithinOccurs, search.occursCount, search.incrementIndex]
+    fixtures: []
+    status: production
+
   - id: cobol.data.initialize
     dialects: [cobol-core]
     semanticType: semantic.Verbs.CEntityInitialize

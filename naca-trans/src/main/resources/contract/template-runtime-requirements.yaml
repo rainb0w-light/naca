@@ -113,6 +113,15 @@ templates:
       - program.exit
       - program.stopRun
 
+  recursiveSearchEntity:
+    capability: TABLE
+    requires:
+      - search.resetFound
+      - search.isNotFound
+      - search.indexWithinOccurs
+      - search.occursCount
+      - search.incrementIndex
+
   recursiveCountEntity:
     capability: STRING
     requires:

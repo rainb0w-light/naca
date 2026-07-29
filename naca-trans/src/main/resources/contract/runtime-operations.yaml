@@ -432,6 +432,46 @@ operations:
     paramTypes: [int]
     returns: void
 
+  - id: search.resetFound
+    since: 1
+    capability: TABLE
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: move
+    paramTypes: [boolean, nacaLib.varEx.Var]
+    returns: void
+
+  - id: search.isNotFound
+    since: 1
+    capability: TABLE
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: isNot
+    paramTypes: [nacaLib.varEx.Var]
+    returns: boolean
+
+  - id: search.indexWithinOccurs
+    since: 1
+    capability: TABLE
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: isLessOrEqual
+    paramTypes: [nacaLib.varEx.VarAndEdit, int]
+    returns: boolean
+
+  - id: search.occursCount
+    since: 1
+    capability: TABLE
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: getNbOccurs
+    paramTypes: [nacaLib.varEx.VarAndEdit]
+    returns: int
+
+  - id: search.incrementIndex
+    since: 1
+    capability: TABLE
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: inc
+    paramTypes: [int, nacaLib.varEx.Var]
+    returns: void
+
   - id: compare.isLess.intVarAndEdit
     since: 1
     capability: CONTROL_FLOW

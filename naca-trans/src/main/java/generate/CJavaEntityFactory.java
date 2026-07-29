@@ -92,7 +92,6 @@ import generate.java.forms.CJavaSetCursor;
 import generate.java.forms.CJavaSetFlag;
 import generate.java.forms.CJavaSetHighlight;
 import generate.java.forms.CJavaSkipField;
-import generate.java.verbs.CJavaSearch;
 import generate.java.verbs.CJavaSetConstant;
 import generate.java.verbs.CJavaSort;
 import generate.java.verbs.CJavaSortRelease;
@@ -1150,7 +1149,9 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CJavaDigits(programCatalog, langOutput, nel);
 	}
 	public CEntitySearch NewEntitySearch(int line)	{
-		return new CJavaSearch(line, programCatalog, langOutput) ;
+		CEntitySearch e = new CEntitySearch(line, programCatalog);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntityInternalBool NewEntityInternalBool(String name)	{
 		return new CJavaInternalBool(name, programCatalog, langOutput) ;
