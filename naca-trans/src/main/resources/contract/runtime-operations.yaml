@@ -318,6 +318,86 @@ operations:
     paramTypes: [java.lang.String, nacaLib.varEx.Var]
     returns: void
 
+  - id: data.set.space
+    since: 1
+    capability: DATA
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: moveSpace
+    paramTypes: [nacaLib.varEx.VarAndEdit]
+    returns: void
+
+  - id: data.set.zero
+    since: 1
+    capability: DATA
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: moveZero
+    paramTypes: [nacaLib.varEx.VarAndEdit]
+    returns: void
+
+  - id: data.set.lowValue
+    since: 1
+    capability: DATA
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: moveLowValue
+    paramTypes: [nacaLib.varEx.VarAndEdit]
+    returns: void
+
+  - id: data.set.highValue
+    since: 1
+    capability: DATA
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: moveHighValue
+    paramTypes: [nacaLib.varEx.VarAndEdit]
+    returns: void
+
+  - id: data.set.true
+    since: 1
+    capability: DATA
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: moveTrue
+    paramTypes: [nacaLib.varEx.Cond]
+    returns: void
+
+  - id: data.set.false
+    since: 1
+    capability: DATA
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: moveFalse
+    paramTypes: [nacaLib.varEx.Cond]
+    returns: void
+
+  - id: data.set.substringSpace
+    since: 1
+    capability: DATA
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: moveSubStringSpace
+    paramTypes: [nacaLib.varEx.VarAndEdit, int, int]
+    returns: void
+
+  - id: data.set.substringZero
+    since: 1
+    capability: DATA
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: moveSubStringZero
+    paramTypes: [nacaLib.varEx.VarAndEdit, int, int]
+    returns: void
+
+  - id: data.set.substringLowValue
+    since: 1
+    capability: DATA
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: moveSubStringLowValue
+    paramTypes: [nacaLib.varEx.VarAndEdit, int, int]
+    returns: void
+
+  - id: data.set.substringHighValue
+    since: 1
+    capability: DATA
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: moveSubStringHighValue
+    paramTypes: [nacaLib.varEx.VarAndEdit, int, int]
+    returns: void
+
   - id: accept.input
     since: 1
     capability: INPUT_OUTPUT

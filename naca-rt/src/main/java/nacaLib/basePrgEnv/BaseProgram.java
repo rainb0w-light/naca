@@ -3919,6 +3919,14 @@ public abstract class BaseProgram extends CJMapObject
 		cond.setTrue() ;
 	}
 
+	protected void moveFalse(Cond cond)
+	{
+		if(IsSTCheck)
+			Log.logFineDebug("moveFalse_cond:" + cond.getSTCheckValue());
+
+		cond.setFalse();
+	}
+
 	/**
 	 * @param IN Var var: Variable whose value is evaluated
 	 * @return true if the var contains a numeric value
@@ -5956,4 +5964,3 @@ public abstract class BaseProgram extends CJMapObject
 		varDest.set(baseProgramManager.getEnv().getDisplayValue());
 	}
 }
-

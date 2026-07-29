@@ -67,6 +67,26 @@ public class CEntitySetConstant extends CBaseActionEntity
 		return subStringRefStart != null && subStringRefLength != null ;
 	}
 
+	public boolean isSetToTrue()
+	{
+		return issetToTrue;
+	}
+
+	public boolean isSetToFalse()
+	{
+		return issetToFalse;
+	}
+
+	public CBaseEntityExpression getSubStringRefStart()
+	{
+		return subStringRefStart;
+	}
+
+	public CBaseEntityExpression getSubStringRefLength()
+	{
+		return subStringRefLength;
+	}
+
 	/**
 	 * @param line
 	 * @param cat

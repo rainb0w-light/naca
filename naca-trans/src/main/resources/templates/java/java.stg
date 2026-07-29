@@ -777,7 +777,7 @@ recursiveCallFunctionEntity(entity) ::= <<
 >>
 
 recursiveSetConstantEntity(entity) ::= <<
-<if(entity.valueAssigned)>moveAll(<entity.valueAssigned>, <entity.variable>) ;<else>move<if(entity.subString)>SubString<endif><if(entity.setToLowValue)>LowValue<elseif(entity.setToHighValue)>HighValue<elseif(entity.setToSpace)>Space<elseif(entity.setToZero)>Zero<endif>(<entity.variable>) ;<endif>
+<if(entity.valueAssigned)>moveAll(<entity.valueAssigned>, <entity.variable>) ;<else>move<if(entity.subString)>SubString<endif><if(entity.setToLowValue)>LowValue<elseif(entity.setToHighValue)>HighValue<elseif(entity.setToSpace)>Space<elseif(entity.setToZero)>Zero<elseif(entity.setToTrue)>True<elseif(entity.setToFalse)>False<endif>(<entity.variable><if(entity.subString)>, <entity.subStringRefStart>, <entity.subStringRefLength><endif>) ;<endif>
 >>
 
 recursiveComputeEntity(entity) ::= <<

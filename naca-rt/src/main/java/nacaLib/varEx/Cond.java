@@ -51,6 +51,20 @@ public class Cond extends CJMapObject
 				var.set(s);
 		}
 	}
+
+	public void setFalse()
+	{
+		String[] candidates = {"0", "1", " ", "__NACA_CONDITION_FALSE__"};
+		for (String candidate : candidates)
+		{
+			var.set(candidate);
+			if (!is())
+			{
+				return;
+			}
+		}
+		throw new IllegalStateException("No value outside the level-88 condition range");
+	}
 	public boolean is()
 	{
 		int nNbValues = values.size();

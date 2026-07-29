@@ -222,6 +222,16 @@ features:
     fixtures: []
     status: production
 
+  - id: cobol.data.set-constant
+    dialects: [cobol-core]
+    semanticType: semantic.Verbs.CEntitySetConstant
+    javaBackend:
+      role: REFERENCE
+      template: recursiveSetConstantEntity
+    runtimeOperations: [data.moveAll, data.set.space, data.set.zero, data.set.lowValue, data.set.highValue, data.set.true, data.set.false, data.set.substringSpace, data.set.substringZero, data.set.substringLowValue, data.set.substringHighValue]
+    fixtures: []
+    status: production
+
   - id: cobol.string.inspect-converting
     dialects: [cobol-core]
     semanticType: semantic.Verbs.CEntityInspectConverting

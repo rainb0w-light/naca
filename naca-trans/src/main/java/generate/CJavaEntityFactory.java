@@ -92,7 +92,6 @@ import generate.java.forms.CJavaSetCursor;
 import generate.java.forms.CJavaSetFlag;
 import generate.java.forms.CJavaSetHighlight;
 import generate.java.forms.CJavaSkipField;
-import generate.java.verbs.CJavaSetConstant;
 import generate.java.verbs.CJavaSort;
 import generate.java.verbs.CJavaSortRelease;
 import generate.java.verbs.CJavaSortReturn;
@@ -737,7 +736,9 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CJavaIsFieldFlag();
 	}
 	public CEntitySetConstant NewEntitySetConstant(int l)	{
-		return new CJavaSetConstant(l, programCatalog, langOutput);
+		CEntitySetConstant e = new CEntitySetConstant(l, programCatalog);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntityIsFieldColor NewEntityIsFieldColor()	{
 		programCatalog.addImportDeclaration("MAP") ;

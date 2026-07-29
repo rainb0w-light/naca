@@ -22,11 +22,11 @@
     "ratchet": {
       "note": "Debt counts may only move down for the COBOL scope. Refresh per phase.",
       "baselineCapturedAtCommit": "9402b0c",
-      "lastVerifiedAtCommit": "9fde7a03",
+      "lastVerifiedAtCommit": "7410d36b",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 155,
-        "directBackends": 85,
+        "failures": 154,
+        "directBackends": 84,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -2972,25 +2972,29 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "COBOL_CORE",
       "sourceSyntax": "legacy backend CJavaSetConstant",
       "parserNode": null,
       "semanticNode": "semantic.Verbs.CEntitySetConstant",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
+      "assemblerRole": "REFERENCE",
+      "manifestBinding": "semantic.Verbs.CEntitySetConstant=recursiveSetConstantEntity",
+      "template": "recursiveSetConstantEntity",
+      "runtimeOperation": "data.set.zero",
       "fixture": null,
       "directBackend": "generate.java.verbs.CJavaSetConstant",
       "sourcePath": "naca-trans/src/main/java/generate/java/verbs/CJavaSetConstant.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/verbs/CJavaSetConstant.java"
-      ]
+        "naca-rt/src/main/java/nacaLib/varEx/Cond.java",
+        "naca-trans/src/main/resources/contract/runtime-operations.yaml",
+        "naca-trans/src/main/resources/templates/java/java.stg",
+        "naca-trans/src/test/java/generate/java/st/CEntitySetConstantRenderTest.java"
+      ],
+      "lastAttemptCommit": "7410d36b"
     },
     {
       "id": "BACKEND-COBOL-VERB-CJAVASORT",

@@ -199,6 +199,21 @@ templates:
       - data.initialize.numericEdited
       - sqlcode.reset
 
+  recursiveSetConstantEntity:
+    capability: DATA
+    requires:
+      - data.moveAll
+      - data.set.space
+      - data.set.zero
+      - data.set.lowValue
+      - data.set.highValue
+      - data.set.true
+      - data.set.false
+      - data.set.substringSpace
+      - data.set.substringZero
+      - data.set.substringLowValue
+      - data.set.substringHighValue
+
   recursiveInspectConvertingEntity:
     capability: STRING
     requires:
