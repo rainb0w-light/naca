@@ -22,11 +22,11 @@
     "ratchet": {
       "note": "Debt counts may only move down for the COBOL scope. Refresh per phase.",
       "baselineCapturedAtCommit": "9402b0c",
-      "lastVerifiedAtCommit": "b289c565",
+      "lastVerifiedAtCommit": "14a6811c",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 189,
-        "directBackends": 122,
+        "failures": 188,
+        "directBackends": 121,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -1733,25 +1733,28 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "EMBEDDED_CICS",
       "sourceSyntax": "legacy backend CJavaCICSWrite",
       "parserNode": null,
       "semanticNode": "semantic.CICS.CEntityCICSWrite",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
+      "assemblerRole": "REFERENCE",
+      "manifestBinding": "semantic.CICS.CEntityCICSWrite=recursiveCICSWriteEntity",
+      "template": "recursiveCICSWriteEntity",
+      "runtimeOperation": "cics.write.dataSetString",
       "fixture": null,
       "directBackend": "generate.java.CICS.CJavaCICSWrite",
       "sourcePath": "naca-trans/src/main/java/generate/java/CICS/CJavaCICSWrite.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/CICS/CJavaCICSWrite.java"
-      ]
+        "naca-trans/src/main/java/generate/java/CICS/CJavaCICSWrite.java",
+        "naca-trans/src/test/java/generate/java/st/CICSWriteRenderTest.java",
+        "naca-trans/src/test/java/parser/Cobol/elements/CICS/CICSWriteDiagnosticTest.java"
+      ],
+      "lastAttemptCommit": "14a6811c"
     },
     {
       "id": "BACKEND-CICS-CJAVACICSWRITEQ",

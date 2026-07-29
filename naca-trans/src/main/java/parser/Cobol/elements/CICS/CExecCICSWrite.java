@@ -12,6 +12,7 @@
  */
 package parser.Cobol.elements.CICS;
 
+import diagnostic.DiagnosticSink;
 import lexer.CBaseToken;
 import lexer.CReservedKeyword;
 import lexer.CTokenType;
@@ -51,9 +52,30 @@ public class CExecCICSWrite extends CCobolElement
 	 */
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		CEntityCICSWrite write = factory.NewEntityCICSWrite(getLine());
-		parent.AddChild(write);
+		if (fileName == null || writeType == null)
+		{
+			DiagnosticSink.recordUnsupported("cics.write.missing-target",
+				"embedded-cics", getLine(),
+				"EXEC CICS WRITE requires FILE or DATASET");
+			return null;
+		}
+		if (dataFrom == null)
+		{
+			DiagnosticSink.recordUnsupported("cics.write.missing-from",
+				"embedded-cics", getLine(),
+				"EXEC CICS WRITE requires FROM");
+			return null;
+		}
 		CDataEntity filename = fileName.GetDataEntity(getLine(), factory);
+		CDataEntity source = dataFrom.GetDataReference(getLine(), factory);
+		if ("CUM-COLL".equals(source.GetName()) && source.of == null)
+		{
+			DiagnosticSink.recordUnsupported("cics.write.statistics.missing-owner",
+				"embedded-cics", getLine(),
+				"CUM-COLL statistics WRITE requires an owning structure");
+			return null;
+		}
+		CEntityCICSWrite write = factory.NewEntityCICSWrite(getLine());
 		if (writeType == CCobolKeywordList.FILE)
 		{
 			write.WriteFile(filename);
@@ -64,20 +86,27 @@ public class CExecCICSWrite extends CCobolElement
 		}
 		else
 		{
-			Transcoder.logError(getLine(), "Error in semantic analysis of EXEC CICS WRITE") ;
+			DiagnosticSink.recordUnsupported("cics.write.unsupported-target",
+				"embedded-cics", getLine(),
+				"EXEC CICS WRITE target is recognized but not lowered");
 			return null ;
 		}
-
-		if (dataFrom != null)
+		CDataEntity length = null;
+		if (dataLength != null)
 		{
-			CDataEntity edata = dataFrom.GetDataReference(getLine(), factory);
-			write.SetDataFrom(edata);
+			length = dataLength.GetDataEntity(getLine(), factory);
 		}
+		write.SetDataFrom(source, length);
 		if (recIDField != null)
 		{
 			CDataEntity edata = recIDField.GetDataReference(getLine(), factory);
 			write.SetRecIDField(edata);
 		}
+		if (keyLength != null)
+		{
+			write.SetKeyLength(keyLength.GetDataEntity(getLine(), factory));
+		}
+		parent.AddChild(write);
 		return write ;
 	}
 

@@ -291,3 +291,17 @@ templates:
       - cics.startBrowse.keyLengthVar
       - cics.startBrowse.keyLengthInt
       - cics.startBrowse.gTEQ
+
+  recursiveCICSWriteEntity:
+    capability: CICS
+    requires:
+      - cics.write.dataSetString
+      - cics.write.dataSetVar
+      - cics.write.fileString
+      - cics.write.fileVar
+      - cics.write.from
+      - cics.write.fromVarLength
+      - cics.write.fromIntLength
+      - cics.write.recIDField
+      - cics.write.keyLengthVar
+      - cics.write.keyLengthInt

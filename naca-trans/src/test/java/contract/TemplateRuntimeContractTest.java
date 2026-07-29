@@ -166,6 +166,10 @@ class TemplateRuntimeContractTest
                 "cics.startBrowse.dataSetVar", "cics.startBrowse.recIDField",
                 "cics.startBrowse.keyLengthVar", "cics.startBrowse.keyLengthInt",
                 "cics.startBrowse.gTEQ")));
+        assertTrue(contract.templateRequirements().get("recursiveCICSWriteEntity").requires()
+            .containsAll(List.of("cics.write.dataSetString", "cics.write.dataSetVar",
+                "cics.write.fileString", "cics.write.fileVar", "cics.write.from",
+                "cics.write.fromVarLength", "cics.write.fromIntLength")));
     }
 
     private static void collectMethods(Matcher matcher, Set<String> methods)

@@ -23,7 +23,7 @@ import utils.CobolTranscoder.Notifs.NotifDeclareUseCICSPreprocessor;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityCICSWrite extends CBaseActionEntity
+public class CEntityCICSWrite extends CBaseActionEntity
 {
 	/**
 	 * @param line
@@ -32,31 +32,41 @@ public abstract class CEntityCICSWrite extends CBaseActionEntity
 	public CEntityCICSWrite(int line, CObjectCatalog cat)
 	{
 		super(line, cat);
-		cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
+		if (cat != null)
+		{
+			cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
+		}
 	}
-	public void WriteFile(CDataEntity name)
+	public void WriteFile(CDataEntity dataName)
 	{
-		name = name ;
+		name = dataName ;
 		iswritetoDataSet = false ;
 		iswriteToFile = true ;
 	}
-	public void WriteDataSet(CDataEntity name)
+	public void WriteDataSet(CDataEntity dataName)
 	{
-		name = name ;
+		name = dataName ;
 		iswritetoDataSet = true ;
 		iswriteToFile = false ;
 	}
-	public void SetDataFrom(CDataEntity from)
+	public void SetDataFrom(CDataEntity from, CDataEntity length)
 	{
 		dataFrom = from ;
+		dataLength = length ;
 	}
 	public void SetRecIDField(CDataEntity rec)
 	{
 		recIDField = rec ;
 	}
+	public void SetKeyLength(CDataEntity length)
+	{
+		keyLength = length ;
+	}
 	
 	protected CDataEntity recIDField = null ;
 	protected CDataEntity dataFrom = null ;
+	protected CDataEntity dataLength = null ;
+	protected CDataEntity keyLength = null ;
 	protected CDataEntity name ;
 	protected boolean iswriteToFile = false ;
 	protected boolean iswritetoDataSet = false ;
@@ -65,10 +75,30 @@ public abstract class CEntityCICSWrite extends CBaseActionEntity
 		super.Clear();
 		recIDField = null ;
 		dataFrom = null ;
+		dataLength = null ;
+		keyLength = null ;
 		name = null ;
+		iswriteToFile = false ;
+		iswritetoDataSet = false ;
 	}
 	public boolean ignore()
 	{
 		return false; 
+	}
+	public CDataEntity getName() { return name; }
+	public CDataEntity getDataFrom() { return dataFrom; }
+	public CDataEntity getDataLength() { return dataLength; }
+	public CDataEntity getRecIDField() { return recIDField; }
+	public CDataEntity getKeyLength() { return keyLength; }
+	public CDataEntity getDataFromOwner()
+	{
+		return dataFrom == null ? null : dataFrom.of;
+	}
+	public boolean isWriteToFile() { return iswriteToFile; }
+	public boolean isWriteToDataSet() { return iswritetoDataSet; }
+	public boolean isWriteStatistics()
+	{
+		return iswritetoDataSet && dataFrom != null
+			&& "CUM-COLL".equals(dataFrom.GetName()) && dataFrom.of != null;
 	}
 }

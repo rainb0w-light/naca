@@ -589,6 +589,17 @@ public class BaseCESMManager extends CJMapObject
 		// --> VSAM will be suppressed from COBOL
 		return new CCESMFakeMethodContainer();
 	}
+
+	public CCESMFakeMethodContainer writeFile(Var file)
+	{
+		return writeFile(file.getString());
+	}
+
+	public CCESMFakeMethodContainer writeFile(String file)
+	{
+		// TODO implement CICS file write; preserve the generated runtime contract.
+		return new CCESMFakeMethodContainer();
+	}
 	
 	public CCESMFakeMethodContainer reWriteDataSet(String string)
 	{

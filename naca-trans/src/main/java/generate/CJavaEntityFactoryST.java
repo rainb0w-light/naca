@@ -76,6 +76,7 @@ import semantic.CICS.CEntityCICSSendMap;
 import semantic.CICS.CEntityCICSSetTDQueue;
 import semantic.CICS.CEntityCICSStart;
 import semantic.CICS.CEntityCICSStartBrowse;
+import semantic.CICS.CEntityCICSWrite;
 import semantic.CICS.CEntityCICSReturn;
 import semantic.CICS.CEntityCICSSyncPoint;
 import semantic.CICS.CEntityCICSXctl;
@@ -428,6 +429,13 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntityCICSStartBrowse NewEntityCICSStartBrowse(int l) {
         CEntityCICSStartBrowse e = new CEntityCICSStartBrowse(l, programCatalog);
+        e.setLanguageExporter(langOutput);
+        return e;
+    }
+
+    @Override
+    public CEntityCICSWrite NewEntityCICSWrite(int l) {
+        CEntityCICSWrite e = new CEntityCICSWrite(l, programCatalog);
         e.setLanguageExporter(langOutput);
         return e;
     }

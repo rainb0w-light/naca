@@ -34,7 +34,6 @@ import generate.java.CJavaStructure;
 import generate.java.CJavaSubStringReference;
 import generate.java.CJavaUnknownReference;
 
-import generate.java.CICS.CJavaCICSWrite;
 import generate.java.CICS.CJavaCICSWriteQ;
 import generate.java.expressions.CJavaAddressOf;
 import generate.java.expressions.CJavaConcat;
@@ -895,7 +894,9 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return e;
 	}
 	public CEntityCICSWrite NewEntityCICSWrite(int l)	{
-		return new CJavaCICSWrite(l, programCatalog, langOutput);
+		CEntityCICSWrite e = new CEntityCICSWrite(l, programCatalog);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntityCICSReceiveMap NewEntityCICSReceiveMap(int l, CDataEntity name)	{
 		// Direct backend CJavaCICSReceiveMap retired: the pure semantic entity is

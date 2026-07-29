@@ -1062,6 +1062,12 @@ recursiveCICSStartBrowseEntity(entity) ::= <<
 CESM.startBrowseDataSet(<entity.dataSet>)<if(entity.recIDField)>.recIDField(<entity.recIDField>)<endif><if(entity.keyLength)>.keyLength(<entity.keyLength>)<endif><if(entity.GTEQ)>.gTEQ()<endif> ;
 >>
 
+recursiveCICSWriteEntity(entity) ::= <<
+<if(entity.writeStatistics)><recursiveCICSWriteStatistics(entity)><else>CESM.write<if(entity.writeToDataSet)>DataSet<else>File<endif>(<entity.name>).from(<entity.dataFrom><if(entity.dataLength)>, <entity.dataLength><endif>)<if(entity.recIDField)>.recIDField(<entity.recIDField>)<endif><if(entity.keyLength)>.keyLength(<entity.keyLength>)<endif> ;<endif>
+>>
+
+recursiveCICSWriteStatistics(entity) ::= "Pub2000Routines.writeStatistics(getProgramManager(), <entity.dataFromOwner>) ;"
+
 // Embedded CICS HANDLE AID (EXEC CICS HANDLE AID ENTER(label) PF1(label) ...
 // ANYKEY(label) END-EXEC). Emits one CESM.handleAID(<cond>, <label>) per
 // handled AID entry and one CESM.unhandleAID(<cond>) per unhandled AID entry.
