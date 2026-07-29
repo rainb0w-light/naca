@@ -27,7 +27,7 @@ import utils.CObjectCatalog;
  * statement entities, this one carries no WHENEVER SQLWARNING/SQLERROR clause:
  * the retired direct backend never read the policy, and the template mirrors
  * that exactly. Replaces the retired
- * {@code generate.java.SQL.CJavaSQLSingleStatement} direct backend.
+ * the historical direct backend.
  *
  * @author U930CV
  *
@@ -65,8 +65,7 @@ public class CEntitySQLSingleStatement extends CBaseActionEntity
 	 * {@code <entity.statement>}. The template wraps it verbatim as a Java
 	 * string literal inside the legacy {@code getDBConnection().execSQL(...)}
 	 * call, exactly what the retired backend's
-	 * {@code WriteLine("getDBConnection().execSQL(\"" + csStatement + "\") ;")}
-	 * emitted.
+	 * historical generator emitted.
 	 */
 	public String getStatement()
 	{
