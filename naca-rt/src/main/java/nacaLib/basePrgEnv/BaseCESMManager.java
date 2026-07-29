@@ -347,6 +347,12 @@ public class BaseCESMManager extends CJMapObject
 		return new CCESMFakeMethodContainer() ;
 	}
 
+	public CCESMFakeMethodContainer enQ(Var enqsycr)
+	{
+		// TODO fake method CEMS ENQ
+		return new CCESMFakeMethodContainer() ;
+	}
+
 	public CCESMFakeMethodContainer deQ(Var enqsycr, int i)
 	{
 		// TODO fake method CEMS DEQ

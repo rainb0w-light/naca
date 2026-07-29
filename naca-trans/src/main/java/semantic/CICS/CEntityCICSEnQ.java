@@ -23,7 +23,7 @@ import utils.CobolTranscoder.Notifs.NotifDeclareUseCICSPreprocessor;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityCICSEnQ extends CBaseActionEntity
+public class CEntityCICSEnQ extends CBaseActionEntity
 {
 
 	/**
@@ -33,7 +33,14 @@ public abstract class CEntityCICSEnQ extends CBaseActionEntity
 	public CEntityCICSEnQ(int line, CObjectCatalog cat)
 	{
 		super(line, cat);
-		cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
+		// The catalog notification is a production-only side effect; the ST4 render
+			// tests instantiate this entity directly with a null catalog (like the DEQ
+			// and CICS ABEND exemplars), so guard it instead of dereferencing
+			// unconditionally.
+			if (cat != null)
+			{
+				cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
+			}
 	}
 
 	public void SetResource(CDataEntity eRes, CDataEntity eLen)
@@ -54,5 +61,20 @@ public abstract class CEntityCICSEnQ extends CBaseActionEntity
 		super.Clear();
 		resource = null ;
 		length = null ;
+	}
+
+	// ==================== ST4 Template Accessors ====================
+	// Read-only getters for the recursive ST4 assembler (template
+	// recursiveCICSEnQEntity). They expose the already-resolved semantic
+	// sub-entities; rendering is done by the template, never here.
+
+	public CDataEntity getResource()
+	{
+		return resource;
+	}
+
+	public CDataEntity getLength()
+	{
+		return length;
 	}
 }

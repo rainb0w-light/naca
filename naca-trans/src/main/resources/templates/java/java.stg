@@ -904,6 +904,16 @@ recursiveCICSDeQEntity(entity) ::= <<
 CESM.deQ(<entity.resource><if(entity.length)>, <entity.length><endif>) ;
 >>
 
+// Embedded CICS ENQ (EXEC CICS ENQ RESOURCE(...) [LENGTH(...)] END-EXEC). Emits
+// the CESM.enQ(...) runtime call. Mirrors CJavaCICSEnQ.DoExport exactly: the
+// RESOURCE reference always carries the CESM.enQ prefix and the LENGTH reference
+// is appended (preceded by ", ") only when a LENGTH operand is present, terminated
+// by " ;". A bare ENQ renders CESM.enQ(<resource>) ;, an ENQ with LENGTH renders
+// CESM.enQ(<resource>, <length>) ;.
+recursiveCICSEnQEntity(entity) ::= <<
+CESM.enQ(<entity.resource><if(entity.length)>, <entity.length><endif>) ;
+>>
+
 // Embedded CICS DELAY (EXEC CICS DELAY [INTERVAL(...) | FOR SECONDS(...)]
 // END-EXEC). Emits the CESM.delayInterval(...)/delaySeconds(...) runtime call.
 // Mirrors CJavaCICSDelay.DoExport exactly: INTERVAL renders

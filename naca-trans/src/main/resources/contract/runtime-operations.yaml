@@ -369,6 +369,27 @@ operations:
     paramTypes: [nacaLib.varEx.Var, int]
     returns: nacaLib.misc.CCESMFakeMethodContainer
 
+  # --- CICS ENQ ---
+  # EXEC CICS ENQ RESOURCE(...) [LENGTH(...)] END-EXEC emits CESM.enQ(Var)
+  # (bare form) or CESM.enQ(Var, int) (LENGTH form). BaseCESMManager exposes
+  # both signatures: enQ(Var) when LENGTH is absent and enQ(Var, int) when
+  # it is present.
+  - id: cics.enQWithoutLength
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
+    runtimeMethod: enQ
+    paramTypes: [nacaLib.varEx.Var]
+    returns: nacaLib.misc.CCESMFakeMethodContainer
+
+  - id: cics.enQWithLength
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
+    runtimeMethod: enQ
+    paramTypes: [nacaLib.varEx.Var, int]
+    returns: nacaLib.misc.CCESMFakeMethodContainer
+
   # --- CICS DELAY ---
   # EXEC CICS DELAY INTERVAL(...) END-EXEC emits CESM.delayInterval(Var) ;
   # EXEC CICS DELAY FOR SECONDS(...) END-EXEC emits CESM.delaySeconds(Var) ;
