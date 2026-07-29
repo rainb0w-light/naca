@@ -12,7 +12,6 @@
  */
 package generate;
 
-import generate.java.CJavaProcedure;
 import generate.java.CJavaProcedureDivision;
 import generate.java.CJavaProcedureSection;
 import generate.java.CJavaSortedFileDescriptor;
@@ -425,7 +424,10 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CJavaStructure(l, name, programCatalog, langOutput, level);
 	}
 	public CEntityProcedure NewEntityProcedure(int l, String name, CEntityProcedureSection section)	{
-		return new CJavaProcedure(l, name, programCatalog, langOutput, section);
+		CEntityProcedure entity =
+			new CEntityProcedure(l, name, programCatalog, section);
+		entity.setLanguageExporter(langOutput);
+		return entity;
 	}
 	public CEntityProcedureSection NewEntityProcedureSection(int l, String name)	{
 		return new CJavaProcedureSection(l, name, programCatalog, langOutput);

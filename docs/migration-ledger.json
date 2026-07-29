@@ -25,8 +25,8 @@
       "lastVerifiedAtCommit": "5903f95d",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 107,
-        "directBackends": 39,
+        "failures": 106,
+        "directBackends": 38,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -4532,25 +4532,27 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "COBOL_CORE",
       "sourceSyntax": "legacy backend CJavaProcedure",
       "parserNode": null,
       "semanticNode": "semantic.CEntityProcedure",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
+      "assemblerRole": "REFERENCE",
+      "manifestBinding": "semantic.CEntityProcedure=recursiveProcedureEntity",
+      "template": "recursiveProcedureEntity",
       "runtimeOperation": null,
       "fixture": null,
       "directBackend": "generate.java.CJavaProcedure",
       "sourcePath": "naca-trans/src/main/java/generate/java/CJavaProcedure.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/CJavaProcedure.java"
-      ]
+        "naca-trans/src/main/java/semantic/CEntityProcedure.java",
+        "naca-trans/src/test/java/generate/java/st/CEntityProcedureRenderTest.java"
+      ],
+      "lastAttemptCommit": "3da5b017"
     },
     {
       "id": "BACKEND-COBOL-DATA-CJAVAPROCEDUREDIVISION",
