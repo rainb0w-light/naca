@@ -976,6 +976,19 @@ recursiveCICSGetMainEntity(entity) ::= <<
 CESM.getMain() ;
 >>
 
+// Embedded CICS HANDLE AID (EXEC CICS HANDLE AID ENTER(label) PF1(label) ...
+// ANYKEY(label) END-EXEC). Emits one CESM.handleAID(<cond>, <label>) per
+// handled AID entry and one CESM.unhandleAID(<cond>) per unhandled AID entry.
+// Mirrors CJavaCICSHandleAID.DoExport exactly: handled AIDs output first (in
+// parser insertion order), then unhandled AIDs, each on its own line and
+// terminated by " ;". An entity with no handled and no unhandled AIDs is
+// filtered by the assembler's ignore()-based active-children selection (the
+// template receives an empty iteration, producing no output).
+recursiveCICSHandleAIDEntity(entity) ::= <<
+<entity.handledAIDEntries:{entry | CESM.handleAID("<entry.condition>", <entry.label>) ;}; separator="\n">
+<entity.unhandledAIDEntries:{entry | CESM.unhandleAID("<entry.condition>") ;}; separator="\n">
+>>
+
 recursiveAcceptEntity(entity) ::= <<
 <if(entity.fromEnvironmentValue)>acceptEnv(<entity.variable>);<else>move(<if(entity.fromDate)>getDateBatch()<else><if(entity.fromDay)>getDayBatch()<else><if(entity.fromDayOfWeek)>getDayOfWeekBatch()<else><if(entity.fromInput)>getInputBatch()<else><if(entity.fromTime)>getTimeBatch()<else><entity.source><endif><endif><endif><endif><endif>, <entity.variable>);<endif>
 >>

@@ -26,7 +26,7 @@
       "finalArchitectureCheck": {
         "tests": 390,
         "failures": 212,
-        "directBackends": 133,
+        "directBackends": 132,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -1375,7 +1375,7 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "EMBEDDED_CICS",
       "sourceSyntax": "legacy backend CJavaCICSHandleAID",
@@ -1389,11 +1389,12 @@
       "directBackend": "generate.java.CICS.CJavaCICSHandleAID",
       "sourcePath": "naca-trans/src/main/java/generate/java/CICS/CJavaCICSHandleAID.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
         "naca-trans/src/main/java/generate/java/CICS/CJavaCICSHandleAID.java"
-      ]
+      ],
+      "lastAttemptCommit": "f69a6780c354e88f35f7359eb8d08b6d6d9dd6fb"
     },
     {
       "id": "BACKEND-CICS-CJAVACICSHANDLECONDITION",

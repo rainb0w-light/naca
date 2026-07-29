@@ -522,3 +522,24 @@ operations:
     runtimeMethod: getMain
     paramTypes: []
     returns: nacaLib.misc.CCESMFakeMethodContainer
+
+  # --- CICS HANDLE AID ---
+  # EXEC CICS HANDLE AID ENTER(label) ... END-EXEC emits CESM.handleAID(<cond>, <target>)
+  # for each handled AID and CESM.unhandleAID(<cond>) for each unhandled AID.
+  # Declared on BaseCESMManager like cics.deQ. The handleAID/unhandleAID methods
+  # are TODO-stub entries in BaseCESMManager.
+  - id: cics.handleAID
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
+    runtimeMethod: handleAID
+    paramTypes: [java.lang.String, nacaLib.program.CJMapRunnable]
+    returns: nacaLib.basePrgEnv.BaseCESMManager
+
+  - id: cics.unhandleAID
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
+    runtimeMethod: unhandleAID
+    paramTypes: [java.lang.String]
+    returns: nacaLib.basePrgEnv.BaseCESMManager

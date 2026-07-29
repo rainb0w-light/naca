@@ -33,7 +33,6 @@ import generate.java.CJavaSortedFileDescriptor;
 import generate.java.CJavaStructure;
 import generate.java.CJavaSubStringReference;
 import generate.java.CJavaUnknownReference;
-import generate.java.CICS.CJavaCICSHandleAID;
 import generate.java.CICS.CJavaCICSHandleCondition;
 import generate.java.CICS.CJavaCICSIgnoreCondition;
 import generate.java.CICS.CJavaCICSInquire;
@@ -863,7 +862,12 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CJavaCICSHandleCondition(l, programCatalog, langOutput);
 	}
 	public CEntityCICSHandleAID NewEntityCICSHandleAID(int l)	{
-		return new CJavaCICSHandleAID(l, programCatalog, langOutput);
+		// Direct backend CJavaCICSHandleAID retired: the pure semantic entity is
+		// rendered by the recursive ST4 assembler (recursiveCICSHandleAIDEntity
+		// binding).
+		CEntityCICSHandleAID e = new CEntityCICSHandleAID(l, programCatalog);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntityCICSIgnoreCondition NewEntityCICSIgnoreCondition(int l)	{
 		return new CJavaCICSIgnoreCondition(l, programCatalog, langOutput);

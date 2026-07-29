@@ -61,6 +61,7 @@ import semantic.CICS.CEntityCICSDeQ;
 import semantic.CICS.CEntityCICSDelay;
 import semantic.CICS.CEntityCICSDeleteQ;
 import semantic.CICS.CEntityCICSGetMain;
+import semantic.CICS.CEntityCICSHandleAID;
 import semantic.CICS.CEntityCICSEnQ;
 import semantic.CICS.CEntityCICSLink;
 import semantic.CICS.CEntityCICSReceiveMap;
@@ -325,6 +326,16 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntityCICSGetMain NewEntityCICSGetMain(int l) {
         CEntityCICSGetMain e = new CEntityCICSGetMain(l, programCatalog);
+        e.setLanguageExporter(langOutput);
+        return e;
+    }
+
+    // Embedded CICS HANDLE AID: the ST4 factory builds the pure semantic entity,
+    // which the recursive assembler renders via the recursiveCICSHandleAIDEntity
+    // binding (no CJava* controller). Mirrors the CICS GETMAIN exemplar above.
+    @Override
+    public CEntityCICSHandleAID NewEntityCICSHandleAID(int l) {
+        CEntityCICSHandleAID e = new CEntityCICSHandleAID(l, programCatalog);
         e.setLanguageExporter(langOutput);
         return e;
     }

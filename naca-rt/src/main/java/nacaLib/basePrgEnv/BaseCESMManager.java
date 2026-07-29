@@ -642,4 +642,23 @@ public class BaseCESMManager extends CJMapObject
 	{
 		return cESMEnv.getLastCommandCode() ;
 	}
-}
+	// ==================== CICS HANDLE AID Runtime ====================
+	// TODO-stub methods for the ST4-migrated CICS HANDLE AID backend
+	// (recursiveCICSHandleAIDEntity template). The template emits one
+	// CESM.handleAID(<cond>, <target>) per handled-AID entry and one
+	// CESM.unhandleAID(<cond>) per unhandled-AID entry. These are
+	// placeholders matching the retired CJavaCICSHandleAID.DoExport
+	// output format.
+	
+	public BaseCESMManager handleAID(String cond, CJMapRunnable target)
+	{
+		// TODO fake method handleAID
+		return this;
+	}
+	
+	public BaseCESMManager unhandleAID(String cond)
+	{
+		// TODO fake method unhandleAID
+		return this;
+	}
+	}

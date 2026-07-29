@@ -150,3 +150,9 @@ templates:
     capability: CICS
     requires:
       - cics.sendMap
+
+  recursiveCICSHandleAIDEntity:
+    capability: CICS
+    requires:
+      - cics.handleAID
+      - cics.unhandleAID
