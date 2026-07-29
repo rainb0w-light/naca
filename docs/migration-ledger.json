@@ -25,7 +25,7 @@
       "lastVerifiedAtCommit": "5903f95d",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 25,
+        "failures": 24,
         "directBackends": 33,
         "semanticClasses": 47,
         "factories": 3,
@@ -6745,7 +6745,7 @@
       "expectedDebtDelta": {
         "failures": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "COBOL_CORE",
       "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/CBaseActionEntity.java",
@@ -6759,11 +6759,13 @@
       "directBackend": null,
       "sourcePath": "naca-trans/src/main/java/semantic/CBaseActionEntity.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "done",
       "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
       "evidence": [
-        "src/main/java/semantic/CBaseActionEntity.java"
-      ]
+        "src/main/java/semantic/CBaseActionEntity.java",
+        "FinalArchitectureContractTest"
+      ],
+      "lastAttemptCommit": "00ff77ce"
     },
     {
       "id": "ARCH-COBOL-SEMANTIC-CBASEENTITYFACTORY",

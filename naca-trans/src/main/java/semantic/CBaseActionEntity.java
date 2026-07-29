@@ -14,7 +14,6 @@ package semantic;
 
 import java.util.Vector;
 
-import generate.*;
 import utils.*;
 
 /**
@@ -29,11 +28,6 @@ public abstract class CBaseActionEntity extends CBaseLanguageEntity
 	 * @param name
 	 * @param cat
 	 */
-	public CBaseActionEntity(int line, CObjectCatalog cat, CBaseLanguageExporter out)
-	{
-		super(line, "", cat, out);
-	}
-
 	/** Constructor for target-neutral semantic actions. */
 	public CBaseActionEntity(int line, CObjectCatalog cat)
 	{
