@@ -22,11 +22,11 @@
     "ratchet": {
       "note": "Debt counts may only move down for the COBOL scope. Refresh per phase.",
       "baselineCapturedAtCommit": "9402b0c",
-      "lastVerifiedAtCommit": "31007103",
+      "lastVerifiedAtCommit": "2fdcb841",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 166,
-        "directBackends": 96,
+        "failures": 165,
+        "directBackends": 95,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -2596,25 +2596,27 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "COBOL_CORE",
       "sourceSyntax": "legacy backend CJavaInspectConverting",
       "parserNode": null,
       "semanticNode": "semantic.Verbs.CEntityInspectConverting",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
+      "assemblerRole": "REFERENCE",
+      "manifestBinding": "semantic.Verbs.CEntityInspectConverting=recursiveInspectConvertingEntity",
+      "template": "recursiveInspectConvertingEntity",
+      "runtimeOperation": "inspect.converting",
       "fixture": null,
       "directBackend": "generate.java.verbs.CJavaInspectConverting",
       "sourcePath": "naca-trans/src/main/java/generate/java/verbs/CJavaInspectConverting.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/verbs/CJavaInspectConverting.java"
-      ]
+        "naca-trans/src/main/java/generate/java/verbs/CJavaInspectConverting.java",
+        "naca-trans/src/test/java/generate/java/st/CEntityInspectConvertingRenderTest.java"
+      ],
+      "lastAttemptCommit": "2fdcb841"
     },
     {
       "id": "BACKEND-COBOL-VERB-CJAVAMULTIPLY",

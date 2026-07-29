@@ -523,6 +523,22 @@ operations:
     paramTypes: [int]
     returns: void
 
+  - id: inspect.converting
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: inspectConverting
+    paramTypes: [nacaLib.varEx.VarAndEdit]
+    returns: nacaLib.stringSupport.InspectConvert
+
+  - id: inspect.converting.to
+    since: 1
+    capability: STRING
+    runtimeClass: nacaLib.stringSupport.InspectConvert
+    runtimeMethod: to
+    paramTypes: [nacaLib.varEx.VarAndEdit, nacaLib.varEx.VarAndEdit]
+    returns: nacaLib.stringSupport.InspectConvert
+
   # --- CICS RETURN ---
   # EXEC CICS RETURN END-EXEC emits CESM.returnTrans(...). The contract declares the
   # representative no-argument overload — the production-reachable bare RETURN (e.g.

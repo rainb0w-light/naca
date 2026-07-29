@@ -139,6 +139,12 @@ templates:
       - data.initialize.numericEdited
       - sqlcode.reset
 
+  recursiveInspectConvertingEntity:
+    capability: STRING
+    requires:
+      - inspect.converting
+      - inspect.converting.to
+
   recursiveCICSReturnEntity:
     capability: CICS
     requires:

@@ -92,7 +92,6 @@ import generate.java.forms.CJavaSetCursor;
 import generate.java.forms.CJavaSetFlag;
 import generate.java.forms.CJavaSetHighlight;
 import generate.java.forms.CJavaSkipField;
-import generate.java.verbs.CJavaInspectConverting;
 import generate.java.verbs.CJavaMultiply;
 import generate.java.verbs.CJavaNextSentence;
 import generate.java.verbs.CJavaOpenFile;
@@ -980,7 +979,9 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return e;
 	}
 	public CEntityInspectConverting NewEntityInspectConverting(int l) {
-		return new CJavaInspectConverting(l, programCatalog, langOutput);
+		CEntityInspectConverting e = new CEntityInspectConverting(l, programCatalog);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntityCICSReWrite NewEntityCICSReWrite(int l)	{
 		CEntityCICSReWrite e = new CEntityCICSReWrite(l, programCatalog);

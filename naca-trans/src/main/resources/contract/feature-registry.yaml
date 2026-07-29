@@ -182,6 +182,16 @@ features:
     fixtures: []
     status: production
 
+  - id: cobol.string.inspect-converting
+    dialects: [cobol-core]
+    semanticType: semantic.Verbs.CEntityInspectConverting
+    javaBackend:
+      role: REFERENCE
+      template: recursiveInspectConvertingEntity
+    runtimeOperations: [inspect.converting, inspect.converting.to]
+    fixtures: []
+    status: production
+
   - id: cics.return
     dialects: [embedded-cics]
     semanticType: semantic.CICS.CEntityCICSReturn
