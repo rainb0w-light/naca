@@ -969,6 +969,13 @@ recursiveCICSSendMapEntity(entity) ::= <<
 CESM.sendMap(<entity.name>)<if(entity.setName)>.mapSet(<entity.setName>)<endif><if(entity.dataFrom)>.<if(entity.dataOnly)>dataOnlyFrom<else>dataFrom<endif>(<entity.dataFrom><if(entity.dataLength)>, <entity.dataLength><endif>)<endif><if(entity.cursor)>.cursor(<if(entity.cursorValue)><entity.cursorValue><endif>)<endif><if(entity.accum)>.accum()<endif><if(entity.alarm)>.alarm()<endif><if(entity.erase)>.erase()<endif><if(entity.freeKB)>.freeKB()<endif><if(entity.paging)>.paging()<endif><if(entity.wait)>.wait()<endif> ;
 >>
 
+// Embedded CICS GETMAIN (EXEC CICS GETMAIN END-EXEC). Emits the CESM.getMain()
+// runtime call. Mirrors CJavaCICSGetMain.DoExport exactly: a fixed string with no
+// operands. Reads only entity.* properties (currently none).
+recursiveCICSGetMainEntity(entity) ::= <<
+CESM.getMain() ;
+>>
+
 recursiveAcceptEntity(entity) ::= <<
 <if(entity.fromEnvironmentValue)>acceptEnv(<entity.variable>);<else>move(<if(entity.fromDate)>getDateBatch()<else><if(entity.fromDay)>getDayBatch()<else><if(entity.fromDayOfWeek)>getDayOfWeekBatch()<else><if(entity.fromInput)>getInputBatch()<else><if(entity.fromTime)>getTimeBatch()<else><entity.source><endif><endif><endif><endif><endif>, <entity.variable>);<endif>
 >>

@@ -509,3 +509,16 @@ operations:
     runtimeMethod: sendMap
     paramTypes: [java.lang.String]
     returns: idea.manager.CESMSendMap
+
+  # --- CICS GETMAIN ---
+  # EXEC CICS GETMAIN END-EXEC emits CESM.getMain(), a no-argument call on
+  # BaseCESMManager that returns a CCESMFakeMethodContainer (the 2026-07 baseline
+  # fake method, matching the retired CJavaCICSGetMain.DoExport). Declared on
+  # BaseCESMManager, declared hierarchically like cics.syncPointCommit.
+  - id: cics.getMain
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
+    runtimeMethod: getMain
+    paramTypes: []
+    returns: nacaLib.misc.CCESMFakeMethodContainer

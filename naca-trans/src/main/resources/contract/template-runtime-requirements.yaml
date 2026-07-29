@@ -136,6 +136,11 @@ templates:
       - cics.getAddressOfTCTUA
       - cics.getAddressOfTWA
 
+  recursiveCICSGetMainEntity:
+    capability: CICS
+    requires:
+      - cics.getMain
+
   recursiveCICSReceiveMapEntity:
     capability: CICS
     requires:

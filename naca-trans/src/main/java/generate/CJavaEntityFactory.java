@@ -33,7 +33,6 @@ import generate.java.CJavaSortedFileDescriptor;
 import generate.java.CJavaStructure;
 import generate.java.CJavaSubStringReference;
 import generate.java.CJavaUnknownReference;
-import generate.java.CICS.CJavaCICSGetMain;
 import generate.java.CICS.CJavaCICSHandleAID;
 import generate.java.CICS.CJavaCICSHandleCondition;
 import generate.java.CICS.CJavaCICSIgnoreCondition;
@@ -1024,7 +1023,12 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CJavaUnknownReference(nLine, csName, programCatalog, langOutput);
 	}
 	public CEntityCICSGetMain NewEntityCICSGetMain(int l)	{
-		return new CJavaCICSGetMain(l, programCatalog, langOutput);
+		// Direct backend CJavaCICSGetMain retired: the pure semantic entity is
+		// rendered by the recursive ST4 assembler (recursiveCICSGetMainEntity
+		// binding).
+		CEntityCICSGetMain e = new CEntityCICSGetMain(l, programCatalog);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntityResetKeyPressed NewEntityResetKeyPressed(int l)	{
 		return new CJavaResetKeyPressed(l, programCatalog, langOutput);

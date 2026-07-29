@@ -60,6 +60,7 @@ import semantic.CICS.CEntityCICSAssign;
 import semantic.CICS.CEntityCICSDeQ;
 import semantic.CICS.CEntityCICSDelay;
 import semantic.CICS.CEntityCICSDeleteQ;
+import semantic.CICS.CEntityCICSGetMain;
 import semantic.CICS.CEntityCICSEnQ;
 import semantic.CICS.CEntityCICSLink;
 import semantic.CICS.CEntityCICSReceiveMap;
@@ -314,6 +315,16 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntityCICSDeleteQ NewEntityCICSDeleteQ(int l, boolean b) {
         CEntityCICSDeleteQ e = new CEntityCICSDeleteQ(l, programCatalog, b);
+        e.setLanguageExporter(langOutput);
+        return e;
+    }
+
+    // Embedded CICS GETMAIN: the ST4 factory builds the pure semantic entity, which
+    // the recursive assembler renders via the recursiveCICSGetMainEntity binding
+    // (no CJava* controller). Mirrors the CICS DELETEQ exemplar above.
+    @Override
+    public CEntityCICSGetMain NewEntityCICSGetMain(int l) {
+        CEntityCICSGetMain e = new CEntityCICSGetMain(l, programCatalog);
         e.setLanguageExporter(langOutput);
         return e;
     }
