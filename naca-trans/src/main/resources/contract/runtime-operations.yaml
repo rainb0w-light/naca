@@ -968,6 +968,70 @@ operations:
     paramTypes: [nacaLib.varEx.VarAndEdit]
     returns: boolean
 
+  - id: condition.isNumeric.var
+    since: 1
+    capability: CONTROL_FLOW
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: isNumeric
+    paramTypes: [nacaLib.varEx.VarAndEdit]
+    returns: boolean
+
+  - id: condition.isNotNumeric.var
+    since: 1
+    capability: CONTROL_FLOW
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: isNotNumeric
+    paramTypes: [nacaLib.varEx.VarAndEdit]
+    returns: boolean
+
+  - id: condition.isAlphabetic.var
+    since: 1
+    capability: CONTROL_FLOW
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: isAlphabetic
+    paramTypes: [nacaLib.varEx.VarAndEdit]
+    returns: boolean
+
+  - id: condition.isNotAlphabetic.var
+    since: 1
+    capability: CONTROL_FLOW
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: isNotAlphabetic
+    paramTypes: [nacaLib.varEx.VarAndEdit]
+    returns: boolean
+
+  - id: condition.isAlphabeticLower.var
+    since: 1
+    capability: CONTROL_FLOW
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: isAlphabeticLower
+    paramTypes: [nacaLib.varEx.VarAndEdit]
+    returns: boolean
+
+  - id: condition.isNotAlphabeticLower.var
+    since: 1
+    capability: CONTROL_FLOW
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: isNotAlphabeticLower
+    paramTypes: [nacaLib.varEx.VarAndEdit]
+    returns: boolean
+
+  - id: condition.isAlphabeticUpper.var
+    since: 1
+    capability: CONTROL_FLOW
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: isAlphabeticUpper
+    paramTypes: [nacaLib.varEx.VarAndEdit]
+    returns: boolean
+
+  - id: condition.isNotAlphabeticUpper.var
+    since: 1
+    capability: CONTROL_FLOW
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: isNotAlphabeticUpper
+    paramTypes: [nacaLib.varEx.VarAndEdit]
+    returns: boolean
+
   # --- INSPECT REPLACING ---
   - id: inspect.replacing
     since: 1

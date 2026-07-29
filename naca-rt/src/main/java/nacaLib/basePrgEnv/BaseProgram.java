@@ -3985,6 +3985,26 @@ public abstract class BaseProgram extends CJMapObject
 		tempCache.resetTempIndex(var);
 		return b;
 	}
+
+	protected boolean isAlphabeticLower(VarAndEdit var)
+	{
+		return isAlphabeticLower(var.getString());
+	}
+
+	protected boolean isNotAlphabeticLower(VarAndEdit var)
+	{
+		return !isAlphabeticLower(var);
+	}
+
+	protected boolean isAlphabeticUpper(VarAndEdit var)
+	{
+		return isAlphabeticUpper(var.getString());
+	}
+
+	protected boolean isNotAlphabeticUpper(VarAndEdit var)
+	{
+		return !isAlphabeticUpper(var);
+	}
 	
 	/**
 	 * @param IN Var var: Variable whose value is tested as been a valid number
@@ -4029,6 +4049,28 @@ public abstract class BaseProgram extends CJMapObject
 			char c = s.charAt(n);
 			if(!((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || c == ' '))
 				return false;  
+		}
+		return true;
+	}
+
+	public static boolean isAlphabeticLower(String s)
+	{
+		for(int n=0; n<s.length(); n++)
+		{
+			char c = s.charAt(n);
+			if(!((c >= 'a' && c <= 'z') || c == ' '))
+				return false;
+		}
+		return true;
+	}
+
+	public static boolean isAlphabeticUpper(String s)
+	{
+		for(int n=0; n<s.length(); n++)
+		{
+			char c = s.charAt(n);
+			if(!((c >= 'A' && c <= 'Z') || c == ' '))
+				return false;
 		}
 		return true;
 	}

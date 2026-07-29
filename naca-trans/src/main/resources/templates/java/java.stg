@@ -521,6 +521,10 @@ recursiveCondIsConstantEntity(entity) ::= <<
 is<if(entity.opposite)>Not<endif><if(entity.zero)>Zero<elseif(entity.space)>Space<elseif(entity.lowValue)>LowValue<elseif(entity.highValue)>HighValue<endif>(<entity.conditionReference>)
 >>
 
+recursiveCondIsKindOfEntity(entity) ::= <<
+is<if(entity.opposite)>Not<endif><if(entity.numeric)>Numeric<elseif(entity.alphabetic)>Alphabetic<elseif(entity.lower)>AlphabeticLower<elseif(entity.upper)>AlphabeticUpper<endif>(<if(entity.conditionReference)><entity.conditionReference><else>[UNDEFINED]<endif>)
+>>
+
 recursiveCondIsBoolean(trueValue, reference) ::= <<
 <if(trueValue)><reference><else>!<reference><endif>
 >>

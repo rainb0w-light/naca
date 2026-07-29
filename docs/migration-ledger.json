@@ -22,11 +22,11 @@
     "ratchet": {
       "note": "Debt counts may only move down for the COBOL scope. Refresh per phase.",
       "baselineCapturedAtCommit": "9402b0c",
-      "lastVerifiedAtCommit": "89955b5a",
+      "lastVerifiedAtCommit": "a28f1136",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 141,
-        "directBackends": 71,
+        "failures": 140,
+        "directBackends": 70,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -3461,25 +3461,30 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "COBOL_CORE",
       "sourceSyntax": "legacy backend CJavaCondIsKindOf",
-      "parserNode": null,
+      "parserNode": "parser.condition.CCondIsNumeric",
       "semanticNode": "semantic.expression.CEntityCondIsKindOf",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
+      "assemblerRole": "REFERENCE",
+      "manifestBinding": "semantic.expression.CEntityCondIsKindOf=recursiveCondIsKindOfEntity",
+      "template": "recursiveCondIsKindOfEntity",
+      "runtimeOperation": "condition.isNumeric.var",
       "fixture": null,
       "directBackend": "generate.java.expressions.CJavaCondIsKindOf",
       "sourcePath": "naca-trans/src/main/java/generate/java/expressions/CJavaCondIsKindOf.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/expressions/CJavaCondIsKindOf.java"
-      ]
+        "naca-trans/src/main/java/parser/condition/CCondIsAlphabetic.java",
+        "naca-trans/src/main/java/parser/condition/CCondIsNumeric.java",
+        "naca-trans/src/main/java/semantic/expression/CEntityCondIsKindOf.java",
+        "naca-rt/src/test/java/nacaLib/basePrgEnv/BaseProgramAlphabeticCaseTest.java",
+        "naca-trans/src/test/java/generate/java/st/CEntityCondIsKindOfRenderTest.java"
+      ],
+      "lastAttemptCommit": "a28f1136"
     },
     {
       "id": "BACKEND-COBOL-EXPRESSION-CJAVACONDNOT",

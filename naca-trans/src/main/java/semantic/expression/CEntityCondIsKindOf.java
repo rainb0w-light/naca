@@ -22,8 +22,24 @@ import semantic.CDataEntity;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityCondIsKindOf extends CUnitaryEntityCondition
+public class CEntityCondIsKindOf extends CUnitaryEntityCondition
 {
+	public int GetPriorityLevel()
+	{
+		return 7;
+	}
+
+	public CBaseEntityCondition GetOppositeCondition()
+	{
+		CEntityCondIsKindOf opposite = new CEntityCondIsKindOf();
+		opposite.isisAlphabetic = isisAlphabetic;
+		opposite.isisLower = isisLower;
+		opposite.isisNumeric = isisNumeric;
+		opposite.isisUpper = isisUpper;
+		opposite.isopposite = !isopposite;
+		opposite.reference = reference;
+		return opposite;
+	}
 	public void SetIsNumeric(CDataEntity data)
 	{
 		SetConditonReference(data) ;
@@ -84,6 +100,26 @@ public abstract class CEntityCondIsKindOf extends CUnitaryEntityCondition
 	public void setOpposite()
 	{
 		isopposite = !isopposite;
+	}
+	public boolean isNumeric()
+	{
+		return isisNumeric;
+	}
+	public boolean isAlphabetic()
+	{
+		return isisAlphabetic;
+	}
+	public boolean isLower()
+	{
+		return isisLower;
+	}
+	public boolean isUpper()
+	{
+		return isisUpper;
+	}
+	public boolean isOpposite()
+	{
+		return isopposite;
 	}
 	public boolean isBinaryCondition()
 	{

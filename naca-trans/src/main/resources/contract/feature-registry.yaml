@@ -351,6 +351,24 @@ features:
     fixtures: []
     status: production
 
+  - id: cobol.condition.class-test
+    dialects: [cobol-core]
+    semanticType: semantic.expression.CEntityCondIsKindOf
+    javaBackend:
+      role: REFERENCE
+      template: recursiveCondIsKindOfEntity
+    runtimeOperations:
+      - condition.isNumeric.var
+      - condition.isNotNumeric.var
+      - condition.isAlphabetic.var
+      - condition.isNotAlphabetic.var
+      - condition.isAlphabeticLower.var
+      - condition.isNotAlphabeticLower.var
+      - condition.isAlphabeticUpper.var
+      - condition.isNotAlphabeticUpper.var
+    fixtures: []
+    status: production
+
   - id: cobol.data.initialize
     dialects: [cobol-core]
     semanticType: semantic.Verbs.CEntityInitialize

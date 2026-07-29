@@ -219,6 +219,18 @@ templates:
       - condition.isHighValue.var
       - condition.isNotHighValue.var
 
+  recursiveCondIsKindOfEntity:
+    capability: CONTROL_FLOW
+    requires:
+      - condition.isNumeric.var
+      - condition.isNotNumeric.var
+      - condition.isAlphabetic.var
+      - condition.isNotAlphabetic.var
+      - condition.isAlphabeticLower.var
+      - condition.isNotAlphabeticLower.var
+      - condition.isAlphabeticUpper.var
+      - condition.isNotAlphabeticUpper.var
+
   recursiveCountEntity:
     capability: STRING
     requires:
