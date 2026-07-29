@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 6 août 2004
+ * Created on 6 aoÃ»t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -32,7 +32,7 @@ import utils.CObjectCatalog;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityArrayReference extends CBaseDataReference
+public class CEntityArrayReference extends CBaseDataReference
 {
 
 	/**
@@ -152,5 +152,25 @@ public abstract class CEntityArrayReference extends CBaseDataReference
 	{
 		super.Clear();
 		arrIndexes.clear() ;
+	}
+
+	public int getNbDimOccurs()
+	{
+		return 0;
+	}
+
+	public boolean HasAccessors()
+	{
+		return false;
+	}
+
+	public boolean isValNeeded()
+	{
+		return true;
+	}
+
+	public CDataEntityType GetDataType()
+	{
+		return CDataEntityType.VAR;
 	}
 }

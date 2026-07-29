@@ -12,7 +12,6 @@
  */
 package generate;
 
-import generate.java.CJavaArrayReference;
 import generate.java.CJavaAttribute;
 import generate.java.CJavaClass;
 import generate.java.CJavaComment;
@@ -547,7 +546,9 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CJavaSubStringReference(l, programCatalog, langOutput);
 	}
 	public CEntityArrayReference NewEntityArrayReference(int l)	{
-		return new CJavaArrayReference(l, programCatalog, langOutput);
+		CEntityArrayReference e = new CEntityArrayReference(l, programCatalog);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntityGoto NewEntityGoto(int l, String Reference, CEntityProcedureSection section)	{
 		CEntityGoto e = new CEntityGoto(l, programCatalog, Reference, section);

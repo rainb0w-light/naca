@@ -2,7 +2,6 @@ package generate.templates.recursive;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import generate.java.CJavaArrayReference;
 import generate.java.CJavaAttribute;
 import generate.java.CJavaEnvironmentVariable;
 import generate.java.CJavaExporter;
@@ -14,6 +13,7 @@ import generate.templates.TemplateLoader;
 import org.junit.jupiter.api.Test;
 import semantic.CDataEntity;
 import semantic.CEntityAddressReference;
+import semantic.CEntityArrayReference;
 import semantic.expression.CBaseEntityExpression;
 import semantic.expression.CEntityConstant;
 import utils.CObjectCatalog;
@@ -53,15 +53,21 @@ class JavaSemanticReferenceRendererTest
     @Test
     void recursivelyRendersArrayIndexesAndSubstringBounds()
     {
-        CJavaArrayReference array = new CJavaArrayReference(1, catalog, output);
+        CEntityArrayReference array = new CEntityArrayReference(1, catalog);
         array.SetReference(attribute("TABLE-VALUE"));
         array.AddIndex(expression(number("1")));
         array.AddIndex(expression(number("00002")));
 
-        CJavaSubStringReference substring = new CJavaSubStringReference(1, catalog, output);
-        substring.SetReference(array, expression(number("3")), expression(number("4")));
+        assertEquals("table_Value.getAt(1, 2)",
+            assembler.renderRoot(array, JavaTemplateRole.REFERENCE));
 
-        assertMatchesDirect(array);
+        LegacyArrayReferenceFixture legacyArray = new LegacyArrayReferenceFixture(1, catalog);
+        legacyArray.SetReference(attribute("TABLE-VALUE"));
+        legacyArray.AddIndex(expression(number("1")));
+        legacyArray.AddIndex(expression(number("00002")));
+        CJavaSubStringReference substring = new CJavaSubStringReference(1, catalog, output);
+        substring.SetReference(legacyArray, expression(number("3")), expression(number("4")));
+
         assertMatchesDirect(substring);
     }
 
