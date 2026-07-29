@@ -64,6 +64,7 @@ import semantic.CICS.CEntityCICSGetMain;
 import semantic.CICS.CEntityCICSHandleAID;
 import semantic.CICS.CEntityCICSHandleCondition;
 import semantic.CICS.CEntityCICSIgnoreCondition;
+import semantic.CICS.CEntityCICSInquire;
 import semantic.CICS.CEntityCICSEnQ;
 import semantic.CICS.CEntityCICSLink;
 import semantic.CICS.CEntityCICSReceiveMap;
@@ -360,6 +361,17 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntityCICSIgnoreCondition NewEntityCICSIgnoreCondition(int l) {
         CEntityCICSIgnoreCondition e = new CEntityCICSIgnoreCondition(l, programCatalog);
+        e.setLanguageExporter(langOutput);
+        return e;
+    }
+
+    // Embedded CICS INQUIRE: the ST4 factory builds the pure semantic entity,
+    // which the recursive assembler renders via the recursiveCICSInquireEntity
+    // binding (no CJava* controller). Mirrors the CICS IGNORE CONDITION
+    // exemplar above.
+    @Override
+    public CEntityCICSInquire NewEntityCICSInquire(int l) {
+        CEntityCICSInquire e = new CEntityCICSInquire(l, programCatalog);
         e.setLanguageExporter(langOutput);
         return e;
     }

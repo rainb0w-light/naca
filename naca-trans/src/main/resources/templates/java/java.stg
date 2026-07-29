@@ -1000,6 +1000,18 @@ recursiveCICSIgnoreConditionEntity(entity) ::= <<
 <if(entity.conditions)>CESM<entity.conditions:{c | .ignoreCondition("<c>")}> ;<endif>
 >>
 
+// Embedded CICS INQUIRE (EXEC CICS INQUIRE [PROGRAM(...)] [TRANSACTION(...)]
+// END-EXEC). Emits tools.getProgramForTransID(<trans>, <prog>) when both
+// operands are present; otherwise emits CESM.inquire() with optional
+// .program(<ref>)/.transaction(<ref>) builder chain. Mirrors
+// CJavaCICSInquire.DoExport exactly: the Branch A form (both transaction and
+// program non-null) emits the tools helper; Branch B (one or both absent) emits
+// the CESM builder chain. An entity with neither operand renders bare
+// "CESM.inquire() ;". The template reads only entity.* properties.
+recursiveCICSInquireEntity(entity) ::= <<
+<if(entity.transaction)><if(entity.program)>tools.getProgramForTransID(<entity.transaction>, <entity.program>) ;<else>CESM.inquire().transaction(<entity.transaction>) ;<endif><else>CESM.inquire()<if(entity.program)>.program(<entity.program>)<endif> ;<endif>
+>>
+
 // Embedded CICS HANDLE AID (EXEC CICS HANDLE AID ENTER(label) PF1(label) ...
 // ANYKEY(label) END-EXEC). Emits one CESM.handleAID(<cond>, <label>) per
 // handled AID entry and one CESM.unhandleAID(<cond>) per unhandled AID entry.

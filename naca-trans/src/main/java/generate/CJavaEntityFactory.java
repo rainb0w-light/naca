@@ -33,7 +33,7 @@ import generate.java.CJavaSortedFileDescriptor;
 import generate.java.CJavaStructure;
 import generate.java.CJavaSubStringReference;
 import generate.java.CJavaUnknownReference;
-import generate.java.CICS.CJavaCICSInquire;
+
 import generate.java.CICS.CJavaCICSReWrite;
 import generate.java.CICS.CJavaCICSRead;
 import generate.java.CICS.CJavaCICSReadQ;
@@ -918,7 +918,11 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return e;
 	}
 	public CEntityCICSInquire NewEntityCICSInquire(int l)	{
-		return new CJavaCICSInquire(l, programCatalog, langOutput);
+		// Direct backend CJavaCICSInquire retired: the pure semantic entity is rendered
+		// by the recursive ST4 assembler (recursiveCICSInquireEntity binding).
+		CEntityCICSInquire e = new CEntityCICSInquire(l, programCatalog);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntityCICSAbend NewEntityCICSAbend(int l)	{
 		// Direct backend CJavaCICSAbend retired: the pure semantic entity is rendered

@@ -167,3 +167,10 @@ templates:
     capability: CICS
     requires:
       - cics.ignoreCondition
+
+  recursiveCICSInquireEntity:
+    capability: CICS
+    requires:
+      - cics.inquire
+      - cics.inquire.program
+      - cics.inquire.transaction

@@ -581,3 +581,36 @@ operations:
     runtimeMethod: ignoreCondition
     paramTypes: [java.lang.String]
     returns: nacaLib.basePrgEnv.BaseCESMManager
+
+  # --- CICS INQUIRE ---
+  # EXEC CICS INQUIRE [PROGRAM(...)] [TRANSACTION(...)] END-EXEC emits
+  # CESM.inquire() optionally chained with .program(<ref>) and/or
+  # .transaction(<ref>). All three methods are declared on the runtime classes
+  # that carry them: inquire() on BaseCESMManager, program(Var)/transaction(Var)
+  # on the returned CCESMFakeMethodContainer, mirroring CJavaCICSInquire.DoExport.
+  # See also the Branch A form (both PROGRAM and TRANSACTION present) which emits
+  # tools.getProgramForTransID(Var, Var) -- a BaseProgram helper, not a contract
+  # operation (same treatment as sqlCommit()/cursorClose() elsewhere).
+  - id: cics.inquire
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
+    runtimeMethod: inquire
+    paramTypes: []
+    returns: nacaLib.misc.CCESMFakeMethodContainer
+
+  - id: cics.inquire.program
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.misc.CCESMFakeMethodContainer
+    runtimeMethod: program
+    paramTypes: [nacaLib.varEx.Var]
+    returns: nacaLib.misc.CCESMFakeMethodContainer
+
+  - id: cics.inquire.transaction
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.misc.CCESMFakeMethodContainer
+    runtimeMethod: transaction
+    paramTypes: [nacaLib.varEx.Var]
+    returns: nacaLib.misc.CCESMFakeMethodContainer

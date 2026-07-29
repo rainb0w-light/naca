@@ -275,6 +275,19 @@ features:
     fixtures: []
     status: production
 
+  - id: cics.inquire
+    dialects: [embedded-cics]
+    semanticType: semantic.CICS.CEntityCICSInquire
+    javaBackend:
+      role: REFERENCE
+      template: recursiveCICSInquireEntity
+    runtimeOperations:
+      - cics.inquire
+      - cics.inquire.program
+      - cics.inquire.transaction
+    fixtures: []
+    status: production
+
   - id: sql.cursorSection
     dialects: [embedded-sql]
     semanticType: semantic.CEntitySQLCursorSection
