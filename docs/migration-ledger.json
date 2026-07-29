@@ -22,11 +22,11 @@
     "ratchet": {
       "note": "Debt counts may only move down for the COBOL scope. Refresh per phase.",
       "baselineCapturedAtCommit": "9402b0c",
-      "lastVerifiedAtCommit": "80d05d1e",
+      "lastVerifiedAtCommit": "79c06426",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 164,
-        "directBackends": 94,
+        "failures": 163,
+        "directBackends": 93,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -2662,25 +2662,27 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "COBOL_CORE",
       "sourceSyntax": "legacy backend CJavaNextSentence",
       "parserNode": null,
       "semanticNode": "semantic.Verbs.CEntityNextSentence",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
+      "assemblerRole": "REFERENCE",
+      "manifestBinding": "semantic.Verbs.CEntityNextSentence=recursiveNextSentenceEntity",
+      "template": "recursiveNextSentenceEntity",
       "runtimeOperation": null,
       "fixture": null,
       "directBackend": "generate.java.verbs.CJavaNextSentence",
       "sourcePath": "naca-trans/src/main/java/generate/java/verbs/CJavaNextSentence.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/verbs/CJavaNextSentence.java"
-      ]
+        "naca-trans/src/main/resources/templates/java/java.stg",
+        "naca-trans/src/test/java/generate/java/st/CEntityNextSentenceRenderTest.java"
+      ],
+      "lastAttemptCommit": "79c06426"
     },
     {
       "id": "BACKEND-COBOL-VERB-CJAVAOPENFILE",

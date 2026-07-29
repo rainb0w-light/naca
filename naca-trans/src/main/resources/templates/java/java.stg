@@ -1114,7 +1114,7 @@ recursiveInitializeEntity(entity) ::= <<
 >>
 
 recursiveNextSentenceEntity(entity) ::= <<
-// NEXT SEQUENCE
+// NEXT SENTENCE
 >>
 
 recursiveInspectConvertingEntity(entity) ::= <<

@@ -92,7 +92,6 @@ import generate.java.forms.CJavaSetCursor;
 import generate.java.forms.CJavaSetFlag;
 import generate.java.forms.CJavaSetHighlight;
 import generate.java.forms.CJavaSkipField;
-import generate.java.verbs.CJavaNextSentence;
 import generate.java.verbs.CJavaOpenFile;
 import generate.java.verbs.CJavaParseString;
 import generate.java.verbs.CJavaReadFile;
@@ -612,7 +611,9 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CEntityContinue(l, programCatalog);
 	}
 	public CEntityNextSentence NewEntityNextSentence(int l)	{
-		return new CJavaNextSentence(l, programCatalog, langOutput);
+		CEntityNextSentence e = new CEntityNextSentence(l, programCatalog);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntityNamedCondition NewEntityNamedCondition(int l, String name)	{
 		return new CJavaNamedCondition(l, name, programCatalog, langOutput);
