@@ -58,6 +58,41 @@ class InventorySynchronizationTest(unittest.TestCase):
             101,
         )
 
+    def test_scoped_architecture_report_becomes_ready_ledger_items(self):
+        sync = load_sync_module()
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            report = (
+                root
+                / "naca-trans/build/test-results/finalArchitectureCheck"
+                / "TEST-architecture.FinalArchitectureContractTest.xml"
+            )
+            report.parent.mkdir(parents=True)
+            report.write_text(
+                """<testsuite failures="3">
+                <testcase name="src/main/java/semantic/CICS/CEntityOne.java">
+                  <failure message="semantic class contract violations (1):"/>
+                </testcase>
+                <testcase name="src/main/java/semantic/SQL/CEntityTwo.java">
+                  <failure message="semantic class contract violations (2):"/>
+                </testcase>
+                <testcase name="src/main/java/semantic/forms/CEntityBms.java">
+                  <failure message="semantic class contract violations (1):"/>
+                </testcase>
+                </testsuite>""",
+                encoding="utf-8",
+            )
+
+            debts = sync.discover_architecture_debt(root)
+            data = sync.synchronize_architecture({"entries": []}, debts)
+
+            self.assertEqual(2, len(data["entries"]))
+            first, second = data["entries"]
+            self.assertEqual("EMBEDDED_CICS", first["scope"])
+            self.assertEqual({"failures": -1}, first["expectedDebtDelta"])
+            self.assertEqual("EMBEDDED_SQL", second["scope"])
+            self.assertNotIn("BMS", "\n".join(e["id"] for e in data["entries"]))
+
 
 class GitEncodingTest(unittest.TestCase):
     def test_diff_tolerates_legacy_iso_8859_1_source(self):

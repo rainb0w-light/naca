@@ -50,7 +50,8 @@
       "description": "Change in debt counts caused by this slice. directBackends must be <= 0 (a slice never adds direct backends).",
       "additionalProperties": { "type": "integer" },
       "properties": {
-        "directBackends": { "type": "integer" }
+        "directBackends": { "type": "integer" },
+        "failures": { "type": "integer" }
       }
     },
     "evidence": {

@@ -33,6 +33,24 @@ def ledger_two_items():
     }
 
 
+def ledger_architecture_item():
+    data = ledger_two_items()
+    data["entries"] = [
+        {
+            "id": "ARCH-CICS-SEMANTIC-ONE",
+            "kind": "ARCHITECTURE_DEBT",
+            "scope": "EMBEDDED_CICS",
+            "status": "semantic-built",
+            "productionReachable": True,
+            "blocker": None,
+            "priority": 1,
+            "verification": [],
+            "expectedDebtDelta": {"failures": -1},
+        }
+    ]
+    return data
+
+
 def cfg_for(repo, tmp_path, max_iterations=1, max_attempts=3, dry_run=False,
             allow_commit=True):
     return controller.Config(
@@ -118,6 +136,45 @@ class ControllerTest(unittest.TestCase):
             self.assertEqual(first["attempts"], 1)
             # the new file and ledger are in the commit; worktree has the file
             self.assertTrue((repo / "src" / "New.java").exists())
+
+    def test_architecture_item_requires_and_records_exact_failure_reduction(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as td:
+            repo = make_repo(Path(td) / "repo", ledger_architecture_item())
+            env_patch(
+                self,
+                ST4_STUB_OUTCOME="success",
+                ST4_STUB_ITEM_ID="ARCH-CICS-SEMANTIC-ONE",
+                ST4_STUB_TOUCH="src/Pure.java",
+                ST4_STUB_STATUS_ADVANCE="done",
+                ST4_STUB_DEBT="0",
+            )
+            cfg = cfg_for(repo, td, max_iterations=1)
+            ctrl = controller.Controller(
+                cfg,
+                verify_runner=lambda item, config: (
+                    True,
+                    "finalArchitectureCheck failures now: 4 (ceiling 5)",
+                ),
+                reviewer_runner=self._ok_review,
+                debt_measurer=debt_fake(3, 3),
+                log=lambda *_: None,
+            )
+
+            summary = ctrl.run()
+
+            self.assertEqual("success", summary[0]["result"])
+            data = ledger.load_ledger(cfg.ledger_path)
+            item = ledger.entry_by_id(data, "ARCH-CICS-SEMANTIC-ONE")
+            self.assertEqual("done", item["status"])
+            self.assertEqual(
+                4,
+                data["meta"]["ratchet"]["finalArchitectureCheck"]["failures"],
+            )
+            self.assertEqual(
+                3,
+                data["meta"]["ratchet"]["finalArchitectureCheck"]["directBackends"],
+            )
 
     def test_failed_worker_retries_then_blocks_and_continues(self):
         import tempfile

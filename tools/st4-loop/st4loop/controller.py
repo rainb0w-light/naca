@@ -9,6 +9,7 @@ loop is testable without invoking the real `claude` CLI.
 
 import json
 import posixpath
+import re
 import subprocess
 import time
 from dataclasses import dataclass, field
@@ -465,7 +466,10 @@ class Controller:
         last_report = ""
         retry_feedback = None
         base_debt = self.debt_measurer(self.cfg.repo_root)  # clean worktree at entry
-        expected_db = (ledger.sched(item)["expectedDebtDelta"] or {}).get("directBackends", 0)
+        expected_delta = ledger.sched(item)["expectedDebtDelta"] or {}
+        expected_db = expected_delta.get("directBackends", 0)
+        expected_failures = expected_delta.get("failures", 0)
+        base_failures = data["meta"]["ratchet"]["finalArchitectureCheck"]["failures"]
         while attempts < self.cfg.max_attempts:
             attempts += 1
             self.log(f"[{item_id}] attempt {attempts}/{self.cfg.max_attempts}")
@@ -490,6 +494,22 @@ class Controller:
             # inside ledger.advance_status.
             if outcome.ok and expected_db < 0 and outcome.status_advance is None:
                 outcome.status_advance = "direct-retired"
+            if (
+                outcome.ok
+                and item.get("kind") == "ARCHITECTURE_DEBT"
+                and outcome.status_advance is None
+            ):
+                outcome.status_advance = "done"
+            if (
+                outcome.ok
+                and item.get("kind") == "ARCHITECTURE_DEBT"
+                and outcome.status_advance != "done"
+            ):
+                outcome.ok = False
+                outcome.problems.append(
+                    "a successful architecture-debt slice must advance to done, "
+                    f"got {outcome.status_advance!r}"
+                )
             if (
                 outcome.ok
                 and expected_db < 0
@@ -530,7 +550,11 @@ class Controller:
                 }
 
             if outcome.ok:
-                gate = self._independent_gate(item, outcome, base_debt, expected_db, attempts)
+                gate = self._independent_gate(
+                    item, outcome, base_debt, expected_db, attempts,
+                    base_failures=base_failures,
+                    expected_failures=expected_failures,
+                )
                 last_report = (
                     "independent gate reasons:\n- "
                     + "\n- ".join(gate["reasons"])
@@ -566,13 +590,23 @@ class Controller:
         # exhausted attempts -> reproducible blocker, then continue the global loop
         return self._mark_blocked(data, item, last_outcome, last_report, base_sha, attempts)
 
-    def _independent_gate(self, item, outcome, base_debt, expected_db, attempts):
+    def _independent_gate(
+        self,
+        item,
+        outcome,
+        base_debt,
+        expected_db,
+        attempts,
+        base_failures=0,
+        expected_failures=0,
+    ):
         """Never trust self-report. Enforce, fail closed:
         1. declared files are path-safe (relative, no `..`, not ledger/log state);
         2. declared files EXACTLY equal the actual dirty production/test files;
         3. deterministic verifier is green;
         4. read-only reviewer approves the FULL patch (incl. untracked) w/o debt growth;
-        5. independently-measured direct-backend delta == item expectedDebtDelta.
+        5. independently-measured direct-backend and architecture-failure deltas
+           equal the item's expectedDebtDelta.
         """
         reasons = []
         item_id = item["id"]
@@ -618,6 +652,24 @@ class Controller:
                 f"{checked_in_baseline} != measured {current_db}; tighten the "
                 "checked-in ratchet in this slice")
 
+        debt_delta = {"directBackends": actual_delta}
+        if expected_failures:
+            matches = re.findall(
+                r"finalArchitectureCheck failures now:\s*(\d+)", report)
+            if not matches:
+                reasons.append(
+                    "verifier did not report the measured finalArchitectureCheck "
+                    "failure count")
+            else:
+                current_failures = int(matches[-1])
+                actual_failure_delta = current_failures - base_failures
+                debt_delta["failures"] = actual_failure_delta
+                if actual_failure_delta != expected_failures:
+                    reasons.append(
+                        "measured finalArchitectureCheck failures delta "
+                        f"{actual_failure_delta} != expected {expected_failures} "
+                        f"(base {base_failures} -> {current_failures})")
+
         return {
             "pass": not reasons,
             "paused": reviewer_paused,
@@ -625,7 +677,7 @@ class Controller:
             "reasons": reasons,
             "report": report,
             "files": sorted(declared_set | actual_set),
-            "debt_delta": {"directBackends": actual_delta},
+            "debt_delta": debt_delta,
             "debt_current": current_db,
             "verdict": verdict,
         }
@@ -649,7 +701,7 @@ class Controller:
                 f"feat(st4-loop): migrate {item_id} "
                 f"({item.get('status')} <- worker outcome)\n\n"
                 f"{outcome.summary}\n"
-                f"debt: directBackends {gate['debt_delta'].get('directBackends')}\n"
+                f"debt: {json.dumps(gate['debt_delta'], sort_keys=True)}\n"
                 f"evidence: {', '.join(outcome.evidence) or 'n/a'}"
             )
             sha = gitutil.stage_and_commit(root, commit_paths, message)

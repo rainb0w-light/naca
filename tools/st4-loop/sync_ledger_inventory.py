@@ -14,6 +14,7 @@ import argparse
 import json
 import re
 import sys
+import xml.etree.ElementTree as ET
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -25,6 +26,7 @@ BACKEND_PATTERN = re.compile(
 PACKAGE_PATTERN = re.compile(r"^package\s+([\w.]+);", re.MULTILINE)
 IMPORT_PATTERN = re.compile(r"^import\s+([\w.]+);", re.MULTILINE)
 MANAGED_KIND = "DIRECT_BACKEND_RETIREMENT"
+ARCHITECTURE_KIND = "ARCHITECTURE_DEBT"
 
 AREA_CONFIG = {
     "SQL": ("EMBEDDED_SQL", 100, "SQL"),
@@ -46,6 +48,16 @@ class Backend:
     backend_fqn: str
     semantic_fqn: str
     source_path: str
+
+
+@dataclass(frozen=True)
+class ArchitectureDebt:
+    item_id: str
+    scope: str
+    priority: int
+    source_path: str
+    test_name: str
+    semantic_fqn: str | None
 
 
 def read_java(path: Path) -> str:
@@ -234,6 +246,167 @@ def synchronize(data: dict, backends: list[Backend]) -> dict:
     return data
 
 
+def _architecture_scope(test_name: str) -> str:
+    if "/semantic/SQL/" in test_name:
+        return "EMBEDDED_SQL"
+    if "/semantic/CICS/" in test_name:
+        return "EMBEDDED_CICS"
+    return "COBOL_CORE"
+
+
+def _architecture_id(scope: str, test_name: str) -> str:
+    if test_name == "backendHasACompleteDeclarativeSemanticTemplateManifest()":
+        return "ARCH-COBOL-MANIFEST-COVERAGE"
+    stem = Path(test_name).stem
+    label = {
+        "COBOL_CORE": "COBOL",
+        "EMBEDDED_SQL": "SQL",
+        "EMBEDDED_CICS": "CICS",
+    }[scope]
+    category = "SEMANTIC" if "/semantic/" in test_name else "INFRA"
+    safe = re.sub(r"[^A-Z0-9]+", "-", stem.upper()).strip("-")
+    return f"ARCH-{label}-{category}-{safe}"
+
+
+def discover_architecture_debt(repo_root: Path) -> list[ArchitectureDebt] | None:
+    """Read the latest scoped finalArchitectureCheck report, when available.
+
+    Build output is deliberately optional: a clean clone uses the checked-in
+    ledger, while a verifier run refreshes this generated queue from the
+    authoritative JUnit report.
+    """
+    report = (
+        repo_root
+        / "naca-trans/build/test-results/finalArchitectureCheck"
+        / "TEST-architecture.FinalArchitectureContractTest.xml"
+    )
+    if not report.is_file():
+        return None
+
+    root = ET.parse(report).getroot()
+    raw: list[tuple[int, str]] = []
+    for testcase in root.findall("testcase"):
+        failure = testcase.find("failure")
+        if failure is None:
+            continue
+        name = testcase.get("name", "")
+        # The scoped contract already excludes BMS/forms and FPac. Refuse to
+        # enqueue them if an older report is encountered.
+        if "/forms/" in name or "FPac" in name:
+            continue
+        message = failure.get("message", "")
+        count_match = re.search(r"violations \((\d+)\)", message)
+        violation_count = int(count_match.group(1)) if count_match else 1
+        raw.append((violation_count, name))
+
+    scope_rank = {"EMBEDDED_CICS": 0, "EMBEDDED_SQL": 1, "COBOL_CORE": 2}
+    raw.sort(key=lambda row: (
+        row[0], scope_rank[_architecture_scope(row[1])], row[1]))
+    debts: list[ArchitectureDebt] = []
+    for ordinal, (_count, name) in enumerate(raw):
+        scope = _architecture_scope(name)
+        if name == "backendHasACompleteDeclarativeSemanticTemplateManifest()":
+            source_path = (
+                "naca-trans/src/main/resources/templates/java/"
+                "semantic-bindings.properties"
+            )
+            semantic_fqn = None
+        else:
+            source_path = f"naca-trans/{name}"
+            semantic_fqn = None
+            marker = "src/main/java/semantic/"
+            if marker in name:
+                suffix = name.split(marker, 1)[1].removesuffix(".java")
+                semantic_fqn = "semantic." + suffix.replace("/", ".")
+        debts.append(ArchitectureDebt(
+            item_id=_architecture_id(scope, name),
+            scope=scope,
+            priority=1000 + ordinal,
+            source_path=source_path,
+            test_name=name,
+            semantic_fqn=semantic_fqn,
+        ))
+    return debts
+
+
+def generated_architecture_entry(debt: ArchitectureDebt) -> dict:
+    return {
+        "id": debt.item_id,
+        "kind": ARCHITECTURE_KIND,
+        "priority": debt.priority,
+        "dependencies": [],
+        "verification": [],
+        "expectedDebtDelta": {"failures": -1},
+        "attempts": 0,
+        "blocked": False,
+        "scope": debt.scope,
+        "sourceSyntax": f"finalArchitectureCheck: {debt.test_name}",
+        "parserNode": None,
+        "semanticNode": debt.semantic_fqn,
+        "assemblerRole": None,
+        "manifestBinding": None,
+        "template": None,
+        "runtimeOperation": None,
+        "fixture": None,
+        "directBackend": None,
+        "sourcePath": debt.source_path,
+        "productionReachable": True,
+        "status": "semantic-built",
+        "blocker": (
+            "Remove every finalArchitectureCheck violation reported for this "
+            "single source artifact while preserving behavior. Semantic code "
+            "must retain only target-neutral state/getters; Java formatting and "
+            "selection belong in the recursive ST4 assembler."
+        ),
+        "evidence": [debt.test_name],
+    }
+
+
+def synchronize_architecture(
+    data: dict, debts: list[ArchitectureDebt] | None
+) -> dict:
+    if debts is None:
+        return data
+    old_entries = data["entries"]
+    existing = {
+        entry["id"]: entry
+        for entry in old_entries
+        if entry.get("kind") == ARCHITECTURE_KIND
+    }
+    live: list[dict] = []
+    live_ids: set[str] = set()
+    for debt in debts:
+        fresh = generated_architecture_entry(debt)
+        live_ids.add(debt.item_id)
+        old = existing.get(debt.item_id)
+        if old is not None:
+            for key in (
+                "priority",
+                "status",
+                "attempts",
+                "blocked",
+                "blockedReason",
+                "lastAttemptCommit",
+                "evidence",
+            ):
+                if key in old:
+                    fresh[key] = old[key]
+        live.append(fresh)
+
+    historical = [
+        entry for item_id, entry in existing.items()
+        if item_id not in live_ids
+    ]
+    architecture = historical + live
+    architecture.sort(key=lambda entry: (
+        entry.get("priority", 100000), entry["id"]))
+    data["entries"] = [
+        entry for entry in old_entries
+        if entry.get("kind") != ARCHITECTURE_KIND
+    ] + architecture
+    return data
+
+
 def rendered(data: dict) -> str:
     return json.dumps(data, indent=2, ensure_ascii=False) + "\n"
 
@@ -251,7 +424,9 @@ def main() -> int:
     ledger_path = repo_root / "docs/migration-ledger.json"
     before = ledger_path.read_text(encoding="utf-8")
     data = json.loads(before)
-    after = rendered(synchronize(data, discover(repo_root)))
+    data = synchronize(data, discover(repo_root))
+    data = synchronize_architecture(data, discover_architecture_debt(repo_root))
+    after = rendered(data)
 
     if args.write:
         ledger_path.write_text(after, encoding="utf-8")

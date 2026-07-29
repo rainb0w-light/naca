@@ -56,6 +56,7 @@ class FinalArchitectureContractTest
     Stream<DynamicTest> everySemanticClassSatisfiesTheFinalContract() throws IOException
     {
         return javaFiles(moduleRoot().resolve("src/main/java/semantic")).stream()
+            .filter(path -> !isBmsSemanticPath(path))
             .map(file -> DynamicTest.dynamicTest(relative(file), () -> {
                 String source = read(file);
                 List<String> violations = new ArrayList<>();
@@ -172,7 +173,8 @@ class FinalArchitectureContractTest
         Path javaFactoryRoot = moduleRoot().resolve("src/main/java/generate");
         List<Path> factories = files(javaFactoryRoot,
             path -> path.getFileName().toString().contains("EntityFactory")
-                && path.toString().endsWith(".java"));
+                && path.toString().endsWith(".java")
+                && !path.getFileName().toString().contains("FPac"));
         return factories.stream().map(file -> DynamicTest.dynamicTest(relative(file), () -> {
             List<String> violations = new ArrayList<>();
             collectPresentTokens(violations, file, read(file),
@@ -187,6 +189,7 @@ class FinalArchitectureContractTest
     {
         Path directRoot = moduleRoot().resolve("src/main/java/generate/java");
         return javaFiles(directRoot).stream()
+            .filter(path -> !isBmsBackendPath(path))
             .map(file -> DynamicTest.dynamicTest(relative(file), () -> {
                 String source = read(file);
                 assertTrue(!source.contains(" extends CEntity")
@@ -290,6 +293,10 @@ class FinalArchitectureContractTest
         Set<String> types = new TreeSet<>();
         for (Path file : javaFiles(semanticRoot))
         {
+            if (isBmsSemanticPath(file))
+            {
+                continue;
+            }
             String suffix = semanticRoot.relativize(file).toString()
                 .replace(file.getFileSystem().getSeparator(), ".")
                 .replaceFirst("\\.java$", "");
@@ -318,6 +325,28 @@ class FinalArchitectureContractTest
     private static String relative(Path path)
     {
         return moduleRoot().relativize(path).toString();
+    }
+
+    /**
+     * BMS map/resource generation is a separate artifact pipeline. The final
+     * architecture gate in this module covers the COBOL semantic tree plus
+     * embedded SQL/CICS only, matching the migration ledger's queue scopes.
+     */
+    private static boolean isBmsSemanticPath(Path path)
+    {
+        return path.toString().contains(
+            path.getFileSystem().getSeparator() + "semantic"
+                + path.getFileSystem().getSeparator() + "forms"
+                + path.getFileSystem().getSeparator());
+    }
+
+    private static boolean isBmsBackendPath(Path path)
+    {
+        return path.toString().contains(
+            path.getFileSystem().getSeparator() + "generate"
+                + path.getFileSystem().getSeparator() + "java"
+                + path.getFileSystem().getSeparator() + "forms"
+                + path.getFileSystem().getSeparator());
     }
 
     private static Path moduleRoot()

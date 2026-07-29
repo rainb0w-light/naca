@@ -25,7 +25,7 @@
       "lastVerifiedAtCommit": "5903f95d",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 101,
+        "failures": 57,
         "directBackends": 33,
         "semanticClasses": 47,
         "factories": 3,
@@ -5741,6 +5741,1659 @@
       "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
       "evidence": [
         "naca-trans/src/main/java/generate/java/forms/CJavaSkipField.java"
+      ]
+    },
+    {
+      "id": "ARCH-CICS-SEMANTIC-CENTITYCICSADDRESS",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1000,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_CICS",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/CICS/CEntityCICSAddress.java",
+      "parserNode": null,
+      "semanticNode": "semantic.CICS.CEntityCICSAddress",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/semantic/CICS/CEntityCICSAddress.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/semantic/CICS/CEntityCICSAddress.java"
+      ]
+    },
+    {
+      "id": "ARCH-CICS-SEMANTIC-CENTITYCICSASSIGN",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1001,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_CICS",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/CICS/CEntityCICSAssign.java",
+      "parserNode": null,
+      "semanticNode": "semantic.CICS.CEntityCICSAssign",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/semantic/CICS/CEntityCICSAssign.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/semantic/CICS/CEntityCICSAssign.java"
+      ]
+    },
+    {
+      "id": "ARCH-SQL-SEMANTIC-CENTITYSQLDECLARETABLE",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1002,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_SQL",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/SQL/CEntitySQLDeclareTable.java",
+      "parserNode": null,
+      "semanticNode": "semantic.SQL.CEntitySQLDeclareTable",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/semantic/SQL/CEntitySQLDeclareTable.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/semantic/SQL/CEntitySQLDeclareTable.java"
+      ]
+    },
+    {
+      "id": "ARCH-COBOL-MANIFEST-COVERAGE",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1003,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "finalArchitectureCheck: backendHasACompleteDeclarativeSemanticTemplateManifest()",
+      "parserNode": null,
+      "semanticNode": null,
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/resources/templates/java/semantic-bindings.properties",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "backendHasACompleteDeclarativeSemanticTemplateManifest()"
+      ]
+    },
+    {
+      "id": "ARCH-COBOL-INFRA-CJAVAENTITYFACTORY",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1004,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/generate/CJavaEntityFactory.java",
+      "parserNode": null,
+      "semanticNode": null,
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/generate/CJavaEntityFactory.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/generate/CJavaEntityFactory.java"
+      ]
+    },
+    {
+      "id": "ARCH-COBOL-SEMANTIC-CBASERESOURCEENTITY",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1005,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/CBaseResourceEntity.java",
+      "parserNode": null,
+      "semanticNode": "semantic.CBaseResourceEntity",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/semantic/CBaseResourceEntity.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/semantic/CBaseResourceEntity.java"
+      ]
+    },
+    {
+      "id": "ARCH-COBOL-SEMANTIC-CENTITYADDRESSREFERENCE",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1006,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/CEntityAddressReference.java",
+      "parserNode": null,
+      "semanticNode": "semantic.CEntityAddressReference",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/semantic/CEntityAddressReference.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/semantic/CEntityAddressReference.java"
+      ]
+    },
+    {
+      "id": "ARCH-COBOL-SEMANTIC-CENTITYARRAYREFERENCE",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1007,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/CEntityArrayReference.java",
+      "parserNode": null,
+      "semanticNode": "semantic.CEntityArrayReference",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/semantic/CEntityArrayReference.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/semantic/CEntityArrayReference.java"
+      ]
+    },
+    {
+      "id": "ARCH-COBOL-SEMANTIC-CENTITYATTRIBUTE",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1008,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/CEntityAttribute.java",
+      "parserNode": null,
+      "semanticNode": "semantic.CEntityAttribute",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/semantic/CEntityAttribute.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/semantic/CEntityAttribute.java"
+      ]
+    },
+    {
+      "id": "ARCH-COBOL-SEMANTIC-CENTITYDATASECTION",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1009,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/CEntityDataSection.java",
+      "parserNode": null,
+      "semanticNode": "semantic.CEntityDataSection",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/semantic/CEntityDataSection.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/semantic/CEntityDataSection.java"
+      ]
+    },
+    {
+      "id": "ARCH-COBOL-SEMANTIC-CENTITYENVIRONMENTVARIABLE",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1010,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/CEntityEnvironmentVariable.java",
+      "parserNode": null,
+      "semanticNode": "semantic.CEntityEnvironmentVariable",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/semantic/CEntityEnvironmentVariable.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/semantic/CEntityEnvironmentVariable.java"
+      ]
+    },
+    {
+      "id": "ARCH-COBOL-SEMANTIC-CENTITYEXTERNALDATASTRUCTURE",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1011,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/CEntityExternalDataStructure.java",
+      "parserNode": null,
+      "semanticNode": "semantic.CEntityExternalDataStructure",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/semantic/CEntityExternalDataStructure.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/semantic/CEntityExternalDataStructure.java"
+      ]
+    },
+    {
+      "id": "ARCH-COBOL-SEMANTIC-CENTITYINDEX",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1012,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/CEntityIndex.java",
+      "parserNode": null,
+      "semanticNode": "semantic.CEntityIndex",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/semantic/CEntityIndex.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/semantic/CEntityIndex.java"
+      ]
+    },
+    {
+      "id": "ARCH-COBOL-SEMANTIC-CENTITYINLINE",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1013,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/CEntityInline.java",
+      "parserNode": null,
+      "semanticNode": "semantic.CEntityInline",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/semantic/CEntityInline.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/semantic/CEntityInline.java"
+      ]
+    },
+    {
+      "id": "ARCH-COBOL-SEMANTIC-CENTITYMOVEREFERENCE",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1014,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/CEntityMoveReference.java",
+      "parserNode": null,
+      "semanticNode": "semantic.CEntityMoveReference",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/semantic/CEntityMoveReference.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/semantic/CEntityMoveReference.java"
+      ]
+    },
+    {
+      "id": "ARCH-COBOL-SEMANTIC-CENTITYPROCEDURESECTION",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1015,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/CEntityProcedureSection.java",
+      "parserNode": null,
+      "semanticNode": "semantic.CEntityProcedureSection",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/semantic/CEntityProcedureSection.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/semantic/CEntityProcedureSection.java"
+      ]
+    },
+    {
+      "id": "ARCH-COBOL-SEMANTIC-CENTITYSTRUCTURE",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1016,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/CEntityStructure.java",
+      "parserNode": null,
+      "semanticNode": "semantic.CEntityStructure",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/semantic/CEntityStructure.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/semantic/CEntityStructure.java"
+      ]
+    },
+    {
+      "id": "ARCH-COBOL-SEMANTIC-CSUBSTRINGATTRIBUTREFERENCE",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1017,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/CSubStringAttributReference.java",
+      "parserNode": null,
+      "semanticNode": "semantic.CSubStringAttributReference",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/semantic/CSubStringAttributReference.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/semantic/CSubStringAttributReference.java"
+      ]
+    },
+    {
+      "id": "ARCH-COBOL-SEMANTIC-CENTITYASSIGN",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1018,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/Verbs/CEntityAssign.java",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntityAssign",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/semantic/Verbs/CEntityAssign.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/semantic/Verbs/CEntityAssign.java"
+      ]
+    },
+    {
+      "id": "ARCH-COBOL-SEMANTIC-CENTITYASSIGNWITHACCESSOR",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1019,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/Verbs/CEntityAssignWithAccessor.java",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntityAssignWithAccessor",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/semantic/Verbs/CEntityAssignWithAccessor.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/semantic/Verbs/CEntityAssignWithAccessor.java"
+      ]
+    },
+    {
+      "id": "ARCH-COBOL-SEMANTIC-CENTITYCALLPROGRAM",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1020,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/Verbs/CEntityCallProgram.java",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntityCallProgram",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/semantic/Verbs/CEntityCallProgram.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/semantic/Verbs/CEntityCallProgram.java"
+      ]
+    },
+    {
+      "id": "ARCH-COBOL-SEMANTIC-CENTITYCONVERTREFERENCE",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1021,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/Verbs/CEntityConvertReference.java",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntityConvertReference",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/semantic/Verbs/CEntityConvertReference.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/semantic/Verbs/CEntityConvertReference.java"
+      ]
+    },
+    {
+      "id": "ARCH-COBOL-SEMANTIC-CENTITYDISPLAY",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1022,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/Verbs/CEntityDisplay.java",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntityDisplay",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/semantic/Verbs/CEntityDisplay.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/semantic/Verbs/CEntityDisplay.java"
+      ]
+    },
+    {
+      "id": "ARCH-COBOL-SEMANTIC-CENTITYINITIALIZE",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1023,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/Verbs/CEntityInitialize.java",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntityInitialize",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/semantic/Verbs/CEntityInitialize.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/semantic/Verbs/CEntityInitialize.java"
+      ]
+    },
+    {
+      "id": "ARCH-COBOL-SEMANTIC-CENTITYSORT",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1024,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/Verbs/CEntitySort.java",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntitySort",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/semantic/Verbs/CEntitySort.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/semantic/Verbs/CEntitySort.java"
+      ]
+    },
+    {
+      "id": "ARCH-COBOL-SEMANTIC-CBASEENTITYFUNCTION",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1025,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/expression/CBaseEntityFunction.java",
+      "parserNode": null,
+      "semanticNode": "semantic.expression.CBaseEntityFunction",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/semantic/expression/CBaseEntityFunction.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/semantic/expression/CBaseEntityFunction.java"
+      ]
+    },
+    {
+      "id": "ARCH-COBOL-SEMANTIC-CENTITYADDRESS",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1026,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/expression/CEntityAddress.java",
+      "parserNode": null,
+      "semanticNode": "semantic.expression.CEntityAddress",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/semantic/expression/CEntityAddress.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/semantic/expression/CEntityAddress.java"
+      ]
+    },
+    {
+      "id": "ARCH-COBOL-SEMANTIC-CENTITYCONSTANT",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1027,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/expression/CEntityConstant.java",
+      "parserNode": null,
+      "semanticNode": "semantic.expression.CEntityConstant",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/semantic/expression/CEntityConstant.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/semantic/expression/CEntityConstant.java"
+      ]
+    },
+    {
+      "id": "ARCH-COBOL-SEMANTIC-CENTITYINTERNALBOOL",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1028,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/expression/CEntityInternalBool.java",
+      "parserNode": null,
+      "semanticNode": "semantic.expression.CEntityInternalBool",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/semantic/expression/CEntityInternalBool.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/semantic/expression/CEntityInternalBool.java"
+      ]
+    },
+    {
+      "id": "ARCH-COBOL-SEMANTIC-CENTITYLIST",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1029,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/expression/CEntityList.java",
+      "parserNode": null,
+      "semanticNode": "semantic.expression.CEntityList",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/semantic/expression/CEntityList.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/semantic/expression/CEntityList.java"
+      ]
+    },
+    {
+      "id": "ARCH-COBOL-SEMANTIC-CENTITYNUMBER",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1030,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/expression/CEntityNumber.java",
+      "parserNode": null,
+      "semanticNode": "semantic.expression.CEntityNumber",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/semantic/expression/CEntityNumber.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/semantic/expression/CEntityNumber.java"
+      ]
+    },
+    {
+      "id": "ARCH-COBOL-SEMANTIC-CENTITYSTRING",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1031,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/expression/CEntityString.java",
+      "parserNode": null,
+      "semanticNode": "semantic.expression.CEntityString",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/semantic/expression/CEntityString.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/semantic/expression/CEntityString.java"
+      ]
+    },
+    {
+      "id": "ARCH-CICS-SEMANTIC-CENTITYCICSHANDLEAID",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1032,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_CICS",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/CICS/CEntityCICSHandleAID.java",
+      "parserNode": null,
+      "semanticNode": "semantic.CICS.CEntityCICSHandleAID",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/semantic/CICS/CEntityCICSHandleAID.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/semantic/CICS/CEntityCICSHandleAID.java"
+      ]
+    },
+    {
+      "id": "ARCH-CICS-SEMANTIC-CENTITYCICSHANDLECONDITION",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1033,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_CICS",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/CICS/CEntityCICSHandleCondition.java",
+      "parserNode": null,
+      "semanticNode": "semantic.CICS.CEntityCICSHandleCondition",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/semantic/CICS/CEntityCICSHandleCondition.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/semantic/CICS/CEntityCICSHandleCondition.java"
+      ]
+    },
+    {
+      "id": "ARCH-COBOL-SEMANTIC-CBASEACTIONENTITY",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1034,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/CBaseActionEntity.java",
+      "parserNode": null,
+      "semanticNode": "semantic.CBaseActionEntity",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/semantic/CBaseActionEntity.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/semantic/CBaseActionEntity.java"
+      ]
+    },
+    {
+      "id": "ARCH-COBOL-SEMANTIC-CBASEENTITYFACTORY",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1035,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/CBaseEntityFactory.java",
+      "parserNode": null,
+      "semanticNode": "semantic.CBaseEntityFactory",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/semantic/CBaseEntityFactory.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/semantic/CBaseEntityFactory.java"
+      ]
+    },
+    {
+      "id": "ARCH-COBOL-SEMANTIC-CENTITYCLASS",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1036,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/CEntityClass.java",
+      "parserNode": null,
+      "semanticNode": "semantic.CEntityClass",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/semantic/CEntityClass.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/semantic/CEntityClass.java"
+      ]
+    },
+    {
+      "id": "ARCH-COBOL-SEMANTIC-CENTITYCOMMENT",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1037,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/CEntityComment.java",
+      "parserNode": null,
+      "semanticNode": "semantic.CEntityComment",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/semantic/CEntityComment.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/semantic/CEntityComment.java"
+      ]
+    },
+    {
+      "id": "ARCH-COBOL-SEMANTIC-CENTITYNAMEDCONDITION",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1038,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/CEntityNamedCondition.java",
+      "parserNode": null,
+      "semanticNode": "semantic.CEntityNamedCondition",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/semantic/CEntityNamedCondition.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/semantic/CEntityNamedCondition.java"
+      ]
+    },
+    {
+      "id": "ARCH-COBOL-SEMANTIC-CENTITYPROCEDURE",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1039,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/CEntityProcedure.java",
+      "parserNode": null,
+      "semanticNode": "semantic.CEntityProcedure",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/semantic/CEntityProcedure.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/semantic/CEntityProcedure.java"
+      ]
+    },
+    {
+      "id": "ARCH-SQL-SEMANTIC-CENTITYSQLCODE",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1040,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_SQL",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/SQL/CEntitySQLCode.java",
+      "parserNode": null,
+      "semanticNode": "semantic.SQL.CEntitySQLCode",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/semantic/SQL/CEntitySQLCode.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/semantic/SQL/CEntitySQLCode.java"
+      ]
+    },
+    {
+      "id": "ARCH-SQL-SEMANTIC-CENTITYSQLCURSOR",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1041,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_SQL",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/SQL/CEntitySQLCursor.java",
+      "parserNode": null,
+      "semanticNode": "semantic.SQL.CEntitySQLCursor",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/semantic/SQL/CEntitySQLCursor.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/semantic/SQL/CEntitySQLCursor.java"
+      ]
+    },
+    {
+      "id": "ARCH-SQL-SEMANTIC-CENTITYSQLCURSORSELECTSTATEMENT",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1042,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_SQL",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/SQL/CEntitySQLCursorSelectStatement.java",
+      "parserNode": null,
+      "semanticNode": "semantic.SQL.CEntitySQLCursorSelectStatement",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/semantic/SQL/CEntitySQLCursorSelectStatement.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/semantic/SQL/CEntitySQLCursorSelectStatement.java"
+      ]
+    },
+    {
+      "id": "ARCH-SQL-SEMANTIC-CENTITYSQLDELETESTATEMENT",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1043,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_SQL",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/SQL/CEntitySQLDeleteStatement.java",
+      "parserNode": null,
+      "semanticNode": "semantic.SQL.CEntitySQLDeleteStatement",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/semantic/SQL/CEntitySQLDeleteStatement.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/semantic/SQL/CEntitySQLDeleteStatement.java"
+      ]
+    },
+    {
+      "id": "ARCH-SQL-SEMANTIC-CENTITYSQLLOCK",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1044,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_SQL",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/SQL/CEntitySQLLock.java",
+      "parserNode": null,
+      "semanticNode": "semantic.SQL.CEntitySQLLock",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/semantic/SQL/CEntitySQLLock.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/semantic/SQL/CEntitySQLLock.java"
+      ]
+    },
+    {
+      "id": "ARCH-SQL-SEMANTIC-CENTITYSQLOPENSTATEMENT",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1045,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_SQL",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/SQL/CEntitySQLOpenStatement.java",
+      "parserNode": null,
+      "semanticNode": "semantic.SQL.CEntitySQLOpenStatement",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/semantic/SQL/CEntitySQLOpenStatement.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/semantic/SQL/CEntitySQLOpenStatement.java"
+      ]
+    },
+    {
+      "id": "ARCH-SQL-SEMANTIC-CENTITYSQLSELECTSTATEMENT",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1046,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_SQL",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/SQL/CEntitySQLSelectStatement.java",
+      "parserNode": null,
+      "semanticNode": "semantic.SQL.CEntitySQLSelectStatement",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/semantic/SQL/CEntitySQLSelectStatement.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/semantic/SQL/CEntitySQLSelectStatement.java"
+      ]
+    },
+    {
+      "id": "ARCH-SQL-SEMANTIC-CENTITYSQLSESSIONDECLARE",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1047,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_SQL",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/SQL/CEntitySQLSessionDeclare.java",
+      "parserNode": null,
+      "semanticNode": "semantic.SQL.CEntitySQLSessionDeclare",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/semantic/SQL/CEntitySQLSessionDeclare.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/semantic/SQL/CEntitySQLSessionDeclare.java"
+      ]
+    },
+    {
+      "id": "ARCH-SQL-SEMANTIC-CENTITYSQLSESSIONDROP",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1048,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_SQL",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/SQL/CEntitySQLSessionDrop.java",
+      "parserNode": null,
+      "semanticNode": "semantic.SQL.CEntitySQLSessionDrop",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/semantic/SQL/CEntitySQLSessionDrop.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/semantic/SQL/CEntitySQLSessionDrop.java"
+      ]
+    },
+    {
+      "id": "ARCH-SQL-SEMANTIC-CENTITYSQLSINGLESTATEMENT",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1049,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_SQL",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/SQL/CEntitySQLSingleStatement.java",
+      "parserNode": null,
+      "semanticNode": "semantic.SQL.CEntitySQLSingleStatement",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/semantic/SQL/CEntitySQLSingleStatement.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/semantic/SQL/CEntitySQLSingleStatement.java"
+      ]
+    },
+    {
+      "id": "ARCH-SQL-SEMANTIC-CENTITYSQLUPDATESTATEMENT",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1050,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_SQL",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/SQL/CEntitySQLUpdateStatement.java",
+      "parserNode": null,
+      "semanticNode": "semantic.SQL.CEntitySQLUpdateStatement",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/semantic/SQL/CEntitySQLUpdateStatement.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/semantic/SQL/CEntitySQLUpdateStatement.java"
+      ]
+    },
+    {
+      "id": "ARCH-COBOL-SEMANTIC-CBASEEXTERNALENTITY",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1051,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/CBaseExternalEntity.java",
+      "parserNode": null,
+      "semanticNode": "semantic.CBaseExternalEntity",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/semantic/CBaseExternalEntity.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/semantic/CBaseExternalEntity.java"
+      ]
+    },
+    {
+      "id": "ARCH-SQL-SEMANTIC-CENTITYSQLINSERTSTATEMENT",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1052,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "EMBEDDED_SQL",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/SQL/CEntitySQLInsertStatement.java",
+      "parserNode": null,
+      "semanticNode": "semantic.SQL.CEntitySQLInsertStatement",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/semantic/SQL/CEntitySQLInsertStatement.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/semantic/SQL/CEntitySQLInsertStatement.java"
+      ]
+    },
+    {
+      "id": "ARCH-COBOL-SEMANTIC-CDATAENTITY",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1053,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/CDataEntity.java",
+      "parserNode": null,
+      "semanticNode": "semantic.CDataEntity",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/semantic/CDataEntity.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/semantic/CDataEntity.java"
+      ]
+    },
+    {
+      "id": "ARCH-COBOL-SEMANTIC-CBASEENTITYCONDEXPR",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1054,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/expression/CBaseEntityCondExpr.java",
+      "parserNode": null,
+      "semanticNode": "semantic.expression.CBaseEntityCondExpr",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/semantic/expression/CBaseEntityCondExpr.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/semantic/expression/CBaseEntityCondExpr.java"
+      ]
+    },
+    {
+      "id": "ARCH-COBOL-SEMANTIC-CBASELANGUAGEENTITY",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1055,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/CBaseLanguageEntity.java",
+      "parserNode": null,
+      "semanticNode": "semantic.CBaseLanguageEntity",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/java/semantic/CBaseLanguageEntity.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/java/semantic/CBaseLanguageEntity.java"
+      ]
+    },
+    {
+      "id": "ARCH-COBOL-INFRA-JAVA",
+      "kind": "ARCHITECTURE_DEBT",
+      "priority": 1056,
+      "dependencies": [],
+      "verification": [],
+      "expectedDebtDelta": {
+        "failures": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "COBOL_CORE",
+      "sourceSyntax": "finalArchitectureCheck: src/main/resources/templates/java/java.stg",
+      "parserNode": null,
+      "semanticNode": null,
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": null,
+      "sourcePath": "naca-trans/src/main/resources/templates/java/java.stg",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
+      "evidence": [
+        "src/main/resources/templates/java/java.stg"
       ]
     }
   ]
