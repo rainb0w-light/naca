@@ -22,11 +22,11 @@
     "ratchet": {
       "note": "Debt counts may only move down for the COBOL scope. Refresh per phase.",
       "baselineCapturedAtCommit": "9402b0c",
-      "lastVerifiedAtCommit": "6360e32f",
+      "lastVerifiedAtCommit": "8af90b29",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 149,
-        "directBackends": 79,
+        "failures": 148,
+        "directBackends": 78,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -3182,25 +3182,29 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "COBOL_CORE",
       "sourceSyntax": "legacy backend CJavaWriteFile",
       "parserNode": null,
       "semanticNode": "semantic.Verbs.CEntityWriteFile",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
+      "assemblerRole": "REFERENCE",
+      "manifestBinding": "semantic.Verbs.CEntityWriteFile=recursiveWriteFileEntity",
+      "template": "recursiveWriteFileEntity",
+      "runtimeOperation": "file.write",
       "fixture": null,
       "directBackend": "generate.java.verbs.CJavaWriteFile",
       "sourcePath": "naca-trans/src/main/java/generate/java/verbs/CJavaWriteFile.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/verbs/CJavaWriteFile.java"
-      ]
+        "naca-trans/src/main/java/semantic/Verbs/CEntityWriteFile.java",
+        "naca-trans/src/main/resources/contract/runtime-operations.yaml",
+        "naca-trans/src/main/resources/templates/java/java.stg",
+        "naca-trans/src/test/java/generate/java/st/CEntityWriteFileRenderTest.java"
+      ],
+      "lastAttemptCommit": "8af90b29"
     },
     {
       "id": "BACKEND-COBOL-EXPRESSION-CJAVAADDRESSOF",

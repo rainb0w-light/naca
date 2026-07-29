@@ -813,7 +813,7 @@ recursiveOpenFileEntity(entity) ::= <<
 recursiveCloseFileEntity(entity) ::= "<entity.fileDescriptor>.close();"
 
 recursiveWriteFileEntity(entity) ::= <<
-<if(entity.dataFrom)>writeFrom(<entity.fileDescriptor>, <entity.dataFrom>)<else><if(entity.after)>writeAfter(<entity.fileDescriptor>, <entity.after>)<else>write(<entity.fileDescriptor>)<endif><endif>;
+<if(entity.dataFrom)>writeFrom(<if(entity.fileDescriptor)><entity.fileDescriptor><else>[UnknownReference]<endif>, <entity.dataFrom>)<else><if(entity.after)>writeAfter(<if(entity.fileDescriptor)><entity.fileDescriptor><else>[UnknownReference]<endif>, <entity.after>)<else>write(<if(entity.fileDescriptor)><entity.fileDescriptor><else>[UnknownReference]<endif>)<endif><endif>;
 >>
 
 recursiveReadFileEntity(entity) ::= <<

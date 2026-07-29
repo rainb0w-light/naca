@@ -26,7 +26,7 @@ public class CEntityWriteFile extends CBaseActionEntity
 	}
 	public void SetAfter(CDataEntity after)
 	{
-		after = after;
+		this.after = after;
 	}
 	protected CEntityFileDescriptor eFileDescriptor = null  ;
 	protected CDataEntity eDataFrom = null ;

@@ -92,7 +92,6 @@ import generate.java.forms.CJavaSetCursor;
 import generate.java.forms.CJavaSetFlag;
 import generate.java.forms.CJavaSetHighlight;
 import generate.java.forms.CJavaSkipField;
-import generate.java.verbs.CJavaWriteFile;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -1181,7 +1180,9 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return e;
 	}
 	public CEntityWriteFile NewEntityWriteFile(int line) {
-		return new CJavaWriteFile(line, programCatalog, langOutput);
+		CEntityWriteFile e = new CEntityWriteFile(line, programCatalog);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntityAccept NewEntityAccept(int line){
 		CEntityAccept e = new CEntityAccept(line, programCatalog);

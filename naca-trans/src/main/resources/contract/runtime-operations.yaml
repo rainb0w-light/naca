@@ -94,25 +94,25 @@ operations:
   - id: file.write
     since: 1
     capability: FILE_IO
-    runtimeClass: nacaLib.varEx.FileDescriptor
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
     runtimeMethod: write
-    paramTypes: []
+    paramTypes: [nacaLib.varEx.FileDescriptor]
     returns: void
 
   - id: file.writeFrom
     since: 1
     capability: FILE_IO
-    runtimeClass: nacaLib.varEx.FileDescriptor
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
     runtimeMethod: writeFrom
-    paramTypes: [nacaLib.varEx.VarBase]
+    paramTypes: [nacaLib.varEx.FileDescriptor, nacaLib.varEx.Var]
     returns: void
 
   - id: file.writeAfter
     since: 1
     capability: FILE_IO
-    runtimeClass: nacaLib.varEx.FileDescriptor
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
     runtimeMethod: writeAfter
-    paramTypes: [int]
+    paramTypes: [nacaLib.varEx.FileDescriptor, int]
     returns: void
 
   # --- REWRITE ---
