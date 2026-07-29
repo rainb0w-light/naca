@@ -1154,3 +1154,36 @@ operations:
     runtimeMethod: retrieveSet
     paramTypes: [nacaLib.varEx.Var, nacaLib.varEx.Var]
     returns: void
+
+  # --- CICS SET TDQUEUE ---
+  - id: cics.setTDQueue.closedString
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
+    runtimeMethod: setTDQueueClosed
+    paramTypes: [java.lang.String]
+    returns: nacaLib.misc.CCESMFakeMethodContainer
+
+  - id: cics.setTDQueue.closedVar
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
+    runtimeMethod: setTDQueueClosed
+    paramTypes: [nacaLib.varEx.Var]
+    returns: nacaLib.misc.CCESMFakeMethodContainer
+
+  - id: cics.setTDQueue.openString
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
+    runtimeMethod: setTDQueueOpen
+    paramTypes: [java.lang.String]
+    returns: nacaLib.misc.CCESMFakeMethodContainer
+
+  - id: cics.setTDQueue.openVar
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
+    runtimeMethod: setTDQueueOpen
+    paramTypes: [nacaLib.varEx.Var]
+    returns: nacaLib.misc.CCESMFakeMethodContainer

@@ -151,6 +151,10 @@ class TemplateRuntimeContractTest
         assertTrue(contract.templateRequirements().get("recursiveCICSRetrieveEntity").requires()
             .containsAll(List.of("cics.retrieve.into", "cics.retrieve.intoLength",
                 "cics.retrieve.set", "cics.retrieve.setLength")));
+        assertTrue(contract.templateRequirements().get("recursiveCICSSetTDQueueEntity").requires()
+            .containsAll(List.of("cics.setTDQueue.closedString",
+                "cics.setTDQueue.closedVar", "cics.setTDQueue.openString",
+                "cics.setTDQueue.openVar")));
     }
 
     private static void collectMethods(Matcher matcher, Set<String> methods)

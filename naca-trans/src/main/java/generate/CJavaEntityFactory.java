@@ -34,7 +34,6 @@ import generate.java.CJavaStructure;
 import generate.java.CJavaSubStringReference;
 import generate.java.CJavaUnknownReference;
 
-import generate.java.CICS.CJavaCICSSetTDQueue;
 import generate.java.CICS.CJavaCICSStart;
 import generate.java.CICS.CJavaCICSStartBrowse;
 import generate.java.CICS.CJavaCICSWrite;
@@ -979,7 +978,9 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return e;
 	}
 	public CEntityCICSSetTDQueue NewEntityCICSSetTDQueue(int l)	{
-		return new CJavaCICSSetTDQueue(l, programCatalog, langOutput);
+		CEntityCICSSetTDQueue e = new CEntityCICSSetTDQueue(l, programCatalog);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntityCICSDeQ NewEntityCICSDeQ(int l)	{
 		// Direct backend CJavaCICSDeQ retired: the pure semantic entity is rendered

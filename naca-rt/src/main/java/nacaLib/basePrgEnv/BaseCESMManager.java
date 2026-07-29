@@ -371,10 +371,18 @@ public class BaseCESMManager extends CJMapObject
 		// TODO fake method CEMS TD CLOSE
 		return new CCESMFakeMethodContainer() ;
 	}
+	public CCESMFakeMethodContainer setTDQueueClosed(Var queue)
+	{
+		return setTDQueueClosed(queue.getString()) ;
+	}
 	public CCESMFakeMethodContainer setTDQueueOpen(String string)
 	{
 		// TODO fake method CEMS TD CLOSE
 		return new CCESMFakeMethodContainer() ;
+	}
+	public CCESMFakeMethodContainer setTDQueueOpen(Var queue)
+	{
+		return setTDQueueOpen(queue.getString()) ;
 	}
 
 	public CCESMFakeMethodContainer writeTransiantQueue(String string)

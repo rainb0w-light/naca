@@ -73,6 +73,7 @@ import semantic.CICS.CEntityCICSRead;
 import semantic.CICS.CEntityCICSReadQ;
 import semantic.CICS.CEntityCICSRetrieve;
 import semantic.CICS.CEntityCICSSendMap;
+import semantic.CICS.CEntityCICSSetTDQueue;
 import semantic.CICS.CEntityCICSReturn;
 import semantic.CICS.CEntityCICSSyncPoint;
 import semantic.CICS.CEntityCICSXctl;
@@ -404,6 +405,13 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntityCICSRetrieve NewEntityCICSRetreive(int l, boolean pointer) {
         CEntityCICSRetrieve e = new CEntityCICSRetrieve(l, programCatalog, pointer);
+        e.setLanguageExporter(langOutput);
+        return e;
+    }
+
+    @Override
+    public CEntityCICSSetTDQueue NewEntityCICSSetTDQueue(int l) {
+        CEntityCICSSetTDQueue e = new CEntityCICSSetTDQueue(l, programCatalog);
         e.setLanguageExporter(langOutput);
         return e;
     }

@@ -22,11 +22,11 @@
     "ratchet": {
       "note": "Debt counts may only move down for the COBOL scope. Refresh per phase.",
       "baselineCapturedAtCommit": "9402b0c",
-      "lastVerifiedAtCommit": "ebedbb8c",
+      "lastVerifiedAtCommit": "4651bffa",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 212,
-        "directBackends": 125,
+        "failures": 191,
+        "directBackends": 124,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -1631,25 +1631,28 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "EMBEDDED_CICS",
       "sourceSyntax": "legacy backend CJavaCICSSetTDQueue",
       "parserNode": null,
       "semanticNode": "semantic.CICS.CEntityCICSSetTDQueue",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
+      "assemblerRole": "REFERENCE",
+      "manifestBinding": "semantic.CICS.CEntityCICSSetTDQueue=recursiveCICSSetTDQueueEntity",
+      "template": "recursiveCICSSetTDQueueEntity",
+      "runtimeOperation": "cics.setTDQueue.closedString",
       "fixture": null,
       "directBackend": "generate.java.CICS.CJavaCICSSetTDQueue",
       "sourcePath": "naca-trans/src/main/java/generate/java/CICS/CJavaCICSSetTDQueue.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/CICS/CJavaCICSSetTDQueue.java"
-      ]
+        "naca-trans/src/main/java/generate/java/CICS/CJavaCICSSetTDQueue.java",
+        "naca-trans/src/test/java/generate/java/st/CICSSetTDQueueRenderTest.java",
+        "naca-trans/src/test/java/parser/Cobol/elements/CICS/CICSSetDiagnosticTest.java"
+      ],
+      "lastAttemptCommit": "4651bffa"
     },
     {
       "id": "BACKEND-CICS-CJAVACICSSTART",

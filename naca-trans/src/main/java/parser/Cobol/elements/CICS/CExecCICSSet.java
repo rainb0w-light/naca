@@ -12,6 +12,7 @@
  */
 package parser.Cobol.elements.CICS;
 
+import diagnostic.DiagnosticSink;
 import lexer.CBaseToken;
 import lexer.CTokenType;
 import lexer.Cobol.CCobolKeywordList;
@@ -51,6 +52,13 @@ public class CExecCICSSet extends CCobolElement
 	{
 		if (tDQueue != null)
 		{
+			if (!istDQueueOpen && !istDQueueClosed)
+			{
+				DiagnosticSink.recordUnsupported("cics.set.tdqueue.missing-state",
+					"embedded-cics", getLine(),
+					"EXEC CICS SET TDQUEUE requires OPEN or CLOSED");
+				return null;
+			}
 			CEntityCICSSetTDQueue eCICS = factory.NewEntityCICSSetTDQueue(getLine()) ;
 			parent.AddChild(eCICS);
 			eCICS.SetQueue(tDQueue.GetDataEntity(getLine(), factory));
@@ -66,12 +74,23 @@ public class CExecCICSSet extends CCobolElement
 		}
 		else if (dataSet != null)
 		{
-			Transcoder.logError(getLine(), "No Semantic Analysis for EXEC CICS SET DATASET") ;
+			DiagnosticSink.recordUnsupported("cics.set.dataset.unsupported",
+				"embedded-cics", getLine(),
+				"EXEC CICS SET DATASET is recognized but not lowered");
+			return null ;
+		}
+		else if (terminal != null)
+		{
+			DiagnosticSink.recordUnsupported("cics.set.terminal.unsupported",
+				"embedded-cics", getLine(),
+				"EXEC CICS SET TERMINAL is recognized but not lowered");
 			return null ;
 		}
 		else
 		{
-			Transcoder.logError(getLine(), "No Semantic Analysis for EXEC CICS SET") ;
+			DiagnosticSink.recordUnsupported("cics.set.unsupported-form",
+				"embedded-cics", getLine(),
+				"EXEC CICS SET form is recognized but not lowered");
 			return null;
 		}
 	}

@@ -257,3 +257,11 @@ templates:
       - cics.retrieve.intoLength
       - cics.retrieve.set
       - cics.retrieve.setLength
+
+  recursiveCICSSetTDQueueEntity:
+    capability: CICS
+    requires:
+      - cics.setTDQueue.closedString
+      - cics.setTDQueue.closedVar
+      - cics.setTDQueue.openString
+      - cics.setTDQueue.openVar

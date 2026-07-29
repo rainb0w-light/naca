@@ -23,7 +23,7 @@ import utils.CobolTranscoder.Notifs.NotifDeclareUseCICSPreprocessor;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityCICSSetTDQueue extends CBaseActionEntity
+public class CEntityCICSSetTDQueue extends CBaseActionEntity
 {
 
 	/**
@@ -33,7 +33,10 @@ public abstract class CEntityCICSSetTDQueue extends CBaseActionEntity
 	public CEntityCICSSetTDQueue(int line, CObjectCatalog cat)
 	{
 		super(line, cat);
-		cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
+		if (cat != null)
+		{
+			cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
+		}
 	}
 	
 	public void SetQueue(CDataEntity e)
@@ -42,16 +45,8 @@ public abstract class CEntityCICSSetTDQueue extends CBaseActionEntity
 	}
 	public void SetOpen(boolean bOpen)
 	{
-		if (bOpen)
-		{
-			bOpen = true ;
-			isclosed = false ;
-		}
-		else
-		{
-			isclosed =true ;
-			bOpen = false ;
-		}
+		isopen = bOpen ;
+		isclosed = !bOpen ;
 	}
 		
 	protected CDataEntity queueName = null ;
@@ -61,9 +56,14 @@ public abstract class CEntityCICSSetTDQueue extends CBaseActionEntity
 	{
 		super.Clear();
 		queueName = null ;
+		isopen = false ;
+		isclosed = false ;
 	}
 	public boolean ignore()
 	{
 		return false; 
 	}
+	public CDataEntity getQueueName() { return queueName; }
+	public boolean isOpen() { return isopen; }
+	public boolean isClosed() { return isclosed; }
 }
