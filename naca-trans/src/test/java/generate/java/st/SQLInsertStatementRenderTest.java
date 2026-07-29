@@ -121,6 +121,25 @@ class SQLInsertStatementRenderTest
     }
 
     @Test
+    @DisplayName("session-table flag adds the SESSION qualifier")
+    void sessionTableAddsQualifier()
+    {
+        ArrayList<String> columns = new ArrayList<>();
+        columns.add("CUST_ID");
+        Vector values = new Vector();
+        values.add(ref("CUSTID"));
+
+        CEntitySQLInsertStatement insert = new CEntitySQLInsertStatement(1, catalog());
+        insert.SetInsert("CUSTOMER", columns, values);
+        insert.setSessionTable(true);
+
+        assertEquals(
+            "sql(\"INSERT INTO SESSION.CUSTOMER (CUST_ID) VALUES (#1)\")"
+                + ".value(1, CUSTID) ;",
+            render(insert).trim());
+    }
+
+    @Test
     @DisplayName("column form inlines NUMBER/STRING VALUES as SQL literals and only chains the non-literals")
     void columnFormInlinesLiterals()
     {

@@ -31,8 +31,7 @@ import java.util.List;
  * calls through their reference bindings. The SQLWARNING/SQLERROR clause is read
  * from the catalog (registered there by the WHENEVER statement's Stage-1 side
  * effect) so the template can chain it onto the {@code sql(...)} runtime call.
- * Replaces the retired {@code generate.java.SQL.CJavaSQLInsertStatement} direct
- * backend.
+ * The former direct backend is retired.
  */
 public class CEntitySQLInsertStatement extends CBaseActionEntity
 {
@@ -43,7 +42,7 @@ public class CEntitySQLInsertStatement extends CBaseActionEntity
 
 	public void SetInsert(CEntitySQLDeclareTable table, Vector arrVal)
 	{
-		table = table ;
+		this.table = table ;
 		values = arrVal;
 	}
 	public void SetInsert(String tableName, ArrayList<String> arrColumns, Vector arrVal)
@@ -63,7 +62,7 @@ public class CEntitySQLInsertStatement extends CBaseActionEntity
 
 	public void setSessionTable(boolean bSessionTable)
 	{
-		bSessionTable = bSessionTable;
+		issessionTable = bSessionTable;
 	}
 
 	protected String csTable = "" ;
@@ -104,13 +103,11 @@ public class CEntitySQLInsertStatement extends CBaseActionEntity
 
 	/**
 	 * The full {@code INSERT INTO ...} SQL text, read by {@code <entity.statement>}
-	 * and wrapped by the template as a Java string literal (exactly what the retired
-	 * backend's {@code WriteLongString(statement)} emitted). Mirrors
-	 * {@code CJavaSQLInsertStatement.DoExport}'s string construction: an optional
+	 * and wrapped by the template as a Java string literal. It contains an optional
 	 * {@code SESSION.} prefix, the {@code DECLARE TABLE} name + column references (or
 	 * the raw table name + explicit column list), then either {@code VALUES (...)}
-	 * (NUMBER/STRING values inlined as SQL literals via
-	 * {@code ExportReference(getLine()).replace('"','\'')}, every other value as a
+	 * (NUMBER/STRING values inlined from their target-neutral constant values, with
+	 * double quotes converted to SQL single quotes, every other value as a
 	 * positional {@code #N} marker) or the {@code INSERT ... SELECT} clause.
 	 */
 	public String getStatement()
@@ -153,7 +150,7 @@ public class CEntitySQLInsertStatement extends CBaseActionEntity
 				}
 				if (e.GetDataType() == CDataEntity.CDataEntityType.NUMBER || e.GetDataType() == CDataEntity.CDataEntityType.STRING)
 				{
-					statement.append(e.ExportReference(getLine()).replace('"', '\'')) ;
+					statement.append(e.GetConstantValue().replace('"', '\'')) ;
 				}
 				else
 				{
