@@ -379,6 +379,16 @@ features:
     fixtures: []
     status: production
 
+  - id: cobol.condition.or
+    dialects: [cobol-core]
+    semanticType: semantic.expression.CEntityCondOr
+    javaBackend:
+      role: REFERENCE
+      template: recursiveCondOrEntity
+    runtimeOperations: []
+    fixtures: []
+    status: production
+
   - id: cobol.data.initialize
     dialects: [cobol-core]
     semanticType: semantic.Verbs.CEntityInitialize

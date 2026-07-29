@@ -34,7 +34,6 @@ import generate.java.CJavaStructure;
 import generate.java.CJavaSubStringReference;
 import generate.java.CJavaUnknownReference;
 
-import generate.java.expressions.CJavaCondOr;
 import generate.java.expressions.CJavaConstant;
 import generate.java.expressions.CJavaConstantValue;
 import generate.java.expressions.CJavaCurrentDate;
@@ -682,7 +681,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return e ;
 	}
 	public CEntityCondOr NewEntityCondOr()	{
-		return new CJavaCondOr();
+		return new CEntityCondOr();
 	}
 	public CEntityNumber NewEntityNumber(String value)	{
 		return new CJavaEntityNumber(programCatalog, langOutput, value) ;
