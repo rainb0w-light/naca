@@ -22,11 +22,11 @@
     "ratchet": {
       "note": "Debt counts may only move down for the COBOL scope. Refresh per phase.",
       "baselineCapturedAtCommit": "9402b0c",
-      "lastVerifiedAtCommit": "79c06426",
+      "lastVerifiedAtCommit": "adc891c1",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 163,
-        "directBackends": 93,
+        "failures": 162,
+        "directBackends": 92,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -2695,25 +2695,28 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "COBOL_CORE",
       "sourceSyntax": "legacy backend CJavaOpenFile",
       "parserNode": null,
       "semanticNode": "semantic.Verbs.CEntityOpenFile",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
+      "assemblerRole": "REFERENCE",
+      "manifestBinding": "semantic.Verbs.CEntityOpenFile=recursiveOpenFileEntity",
+      "template": "recursiveOpenFileEntity",
+      "runtimeOperation": "file.open.input",
       "fixture": null,
       "directBackend": "generate.java.verbs.CJavaOpenFile",
       "sourcePath": "naca-trans/src/main/java/generate/java/verbs/CJavaOpenFile.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/verbs/CJavaOpenFile.java"
-      ]
+        "naca-trans/src/main/resources/contract/feature-registry.yaml",
+        "naca-trans/src/main/resources/contract/template-runtime-requirements.yaml",
+        "naca-trans/src/test/java/generate/java/st/CEntityOpenFileRenderTest.java"
+      ],
+      "lastAttemptCommit": "adc891c1"
     },
     {
       "id": "BACKEND-COBOL-VERB-CJAVAPARSESTRING",
