@@ -1585,7 +1585,7 @@ recursiveRoutineEmulationCallEntity(entity) ::= <<
 >>
 
 recursiveAssignWithAccessorEntity(entity) ::= <<
-<if(entity.environmentReference)><if(entity.fillAll)><entity.environmentWriteAccessor; format="writeAccessorAll"><else><entity.environmentWriteAccessor><endif><entity.value>);<else><entity.accessorInvocation><endif>
+<if(entity.environmentReference)><if(entity.fillAll)><entity.environmentWriteAccessor; format="writeAccessorAll"><else><entity.environmentWriteAccessor><endif><entity.value>);<elseif(entity.SQLCodeReference)>resetSQLCode(<entity.value>);<else>/* unsupported accessor assignment */<endif>
 >>
 
 recursiveParseStringEntity(entity) ::= <<

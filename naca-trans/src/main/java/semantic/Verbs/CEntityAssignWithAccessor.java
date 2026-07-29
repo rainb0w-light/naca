@@ -15,6 +15,7 @@ package semantic.Verbs;
 import semantic.CBaseActionEntity;
 import semantic.CDataEntity;
 import semantic.CEntityEnvironmentVariable;
+import semantic.SQL.CEntitySQLCode;
 import utils.CObjectCatalog;
 
 /**
@@ -134,15 +135,8 @@ public class CEntityAssignWithAccessor extends CBaseActionEntity
 		return environment == null ? null : environment.getWriteAccessor();
 	}
 
-	/** Ready accessor call consumed by recursiveAssignWithAccessorEntity. */
-	public String getAccessorInvocation()
+	public boolean isSQLCodeReference()
 	{
-		String val = value != null ? value.ExportReference(getLine()) : "";
-		String invocation = reference.ExportWriteAccessorTo(val);
-		if (isfillAll)
-		{
-			invocation = invocation.replaceFirst("([^\\(]*)(\\(.*)", "$1All$2");
-		}
-		return invocation;
+		return reference instanceof CEntitySQLCode;
 	}
 }
