@@ -12,7 +12,6 @@
  */
 package semantic;
 
-import generate.*;
 import lexer.Cobol.CCobolConstantList;
 import parser.Cobol.elements.CWorkingEntry.CWorkingSignType;
 import parser.expression.CTerminal;
