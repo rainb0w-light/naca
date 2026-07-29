@@ -68,9 +68,8 @@ public class CEntityCICSAddress extends CBaseActionEntity
 	/**
 	 * The ADDRESS verb carries no executable children of its own; it is ignored
 	 * (renders nothing) when none of its CWA/TCTUA/TWA references is present and
-	 * active. Mirrors the ignore() logic the retired CJavaCICSAddress backend
-	 * carried, so the recursive assembler filters an empty ADDRESS exactly as the
-	 * legacy ExportChildren loop did.
+	 * active. This preserves the retired backend's filtering behavior without
+	 * coupling the semantic model to that target-specific implementation.
 	 */
 	public boolean ignore()
 	{
@@ -95,8 +94,8 @@ public class CEntityCICSAddress extends CBaseActionEntity
 	// recursiveCICSAddressEntity). They expose the already-resolved semantic
 	// sub-entities; rendering is done by the template, never here. Each getter
 	// returns null when its reference is absent or ignored, mirroring the
-	// per-reference guard the retired CJavaCICSAddress.DoExport applied, so the
-	// template's <if(entity.xxx)> selects exactly the active references.
+	// retired backend's per-reference guard, so the template selects exactly the
+	// active references.
 
 	public CDataEntity getCwa()
 	{

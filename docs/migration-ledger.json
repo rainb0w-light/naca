@@ -25,7 +25,7 @@
       "lastVerifiedAtCommit": "5903f95d",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 57,
+        "failures": 56,
         "directBackends": 33,
         "semanticClasses": 47,
         "factories": 3,
@@ -5752,7 +5752,7 @@
       "expectedDebtDelta": {
         "failures": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "EMBEDDED_CICS",
       "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/CICS/CEntityCICSAddress.java",
@@ -5766,11 +5766,13 @@
       "directBackend": null,
       "sourcePath": "naca-trans/src/main/java/semantic/CICS/CEntityCICSAddress.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "done",
       "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
       "evidence": [
-        "src/main/java/semantic/CICS/CEntityCICSAddress.java"
-      ]
+        "src/main/java/semantic/CICS/CEntityCICSAddress.java",
+        "generate.java.st.CICSAddressRenderTest"
+      ],
+      "lastAttemptCommit": "fe5e2b1b"
     },
     {
       "id": "ARCH-CICS-SEMANTIC-CENTITYCICSASSIGN",
