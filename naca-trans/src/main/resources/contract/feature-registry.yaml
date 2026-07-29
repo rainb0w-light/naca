@@ -424,6 +424,22 @@ features:
     fixtures: []
     status: production
 
+  - id: cics.startBrowse
+    dialects: [embedded-cics]
+    semanticType: semantic.CICS.CEntityCICSStartBrowse
+    javaBackend:
+      role: REFERENCE
+      template: recursiveCICSStartBrowseEntity
+    runtimeOperations:
+      - cics.startBrowse.dataSetString
+      - cics.startBrowse.dataSetVar
+      - cics.startBrowse.recIDField
+      - cics.startBrowse.keyLengthVar
+      - cics.startBrowse.keyLengthInt
+      - cics.startBrowse.gTEQ
+    fixtures: []
+    status: production
+
   - id: sql.cursorSection
     dialects: [embedded-sql]
     semanticType: semantic.CEntitySQLCursorSection

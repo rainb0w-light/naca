@@ -281,3 +281,13 @@ templates:
       - cics.start.dataFrom
       - cics.start.dataFromLength
       - cics.start.doStart
+
+  recursiveCICSStartBrowseEntity:
+    capability: CICS
+    requires:
+      - cics.startBrowse.dataSetString
+      - cics.startBrowse.dataSetVar
+      - cics.startBrowse.recIDField
+      - cics.startBrowse.keyLengthVar
+      - cics.startBrowse.keyLengthInt
+      - cics.startBrowse.gTEQ

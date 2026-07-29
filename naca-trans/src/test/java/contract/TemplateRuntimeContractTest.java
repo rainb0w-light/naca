@@ -161,6 +161,11 @@ class TemplateRuntimeContractTest
                 "cics.start.termIDVar", "cics.start.sysIDString",
                 "cics.start.sysIDVar", "cics.start.dataFrom",
                 "cics.start.dataFromLength")));
+        assertTrue(contract.templateRequirements().get("recursiveCICSStartBrowseEntity").requires()
+            .containsAll(List.of("cics.startBrowse.dataSetString",
+                "cics.startBrowse.dataSetVar", "cics.startBrowse.recIDField",
+                "cics.startBrowse.keyLengthVar", "cics.startBrowse.keyLengthInt",
+                "cics.startBrowse.gTEQ")));
     }
 
     private static void collectMethods(Matcher matcher, Set<String> methods)

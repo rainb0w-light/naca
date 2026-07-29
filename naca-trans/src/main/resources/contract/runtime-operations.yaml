@@ -1284,3 +1284,52 @@ operations:
     runtimeMethod: doStart
     paramTypes: []
     returns: void
+
+  # --- CICS STARTBR ---
+  - id: cics.startBrowse.dataSetString
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
+    runtimeMethod: startBrowseDataSet
+    paramTypes: [java.lang.String]
+    returns: nacaLib.misc.CCESMFakeMethodContainer
+
+  - id: cics.startBrowse.dataSetVar
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
+    runtimeMethod: startBrowseDataSet
+    paramTypes: [nacaLib.varEx.Var]
+    returns: nacaLib.misc.CCESMFakeMethodContainer
+
+  - id: cics.startBrowse.recIDField
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.misc.CCESMFakeMethodContainer
+    runtimeMethod: recIDField
+    paramTypes: [nacaLib.varEx.Var]
+    returns: nacaLib.misc.CCESMFakeMethodContainer
+
+  - id: cics.startBrowse.keyLengthVar
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.misc.CCESMFakeMethodContainer
+    runtimeMethod: keyLength
+    paramTypes: [nacaLib.varEx.Var]
+    returns: nacaLib.misc.CCESMFakeMethodContainer
+
+  - id: cics.startBrowse.keyLengthInt
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.misc.CCESMFakeMethodContainer
+    runtimeMethod: keyLength
+    paramTypes: [int]
+    returns: nacaLib.misc.CCESMFakeMethodContainer
+
+  - id: cics.startBrowse.gTEQ
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.misc.CCESMFakeMethodContainer
+    runtimeMethod: gTEQ
+    paramTypes: []
+    returns: nacaLib.misc.CCESMFakeMethodContainer

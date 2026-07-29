@@ -1058,6 +1058,10 @@ recursiveCICSStartEntity(entity) ::= <<
 CESM.start(<if(entity.verified)><entity.transIDConstantValue>.class<else><entity.transID><endif>)<if(entity.interval)>.interval(<entity.interval>)<elseif(entity.time)>.time(<entity.time>)<endif><if(entity.termID)>.termID(<entity.termID>)<endif><if(entity.sysID)>.sysID(<entity.sysID>)<endif><if(entity.dataFrom)>.dataFrom(<entity.dataFrom><if(entity.dataLength)>, <entity.dataLength><endif>)<endif>.doStart() ;
 >>
 
+recursiveCICSStartBrowseEntity(entity) ::= <<
+CESM.startBrowseDataSet(<entity.dataSet>)<if(entity.recIDField)>.recIDField(<entity.recIDField>)<endif><if(entity.keyLength)>.keyLength(<entity.keyLength>)<endif><if(entity.GTEQ)>.gTEQ()<endif> ;
+>>
+
 // Embedded CICS HANDLE AID (EXEC CICS HANDLE AID ENTER(label) PF1(label) ...
 // ANYKEY(label) END-EXEC). Emits one CESM.handleAID(<cond>, <label>) per
 // handled AID entry and one CESM.unhandleAID(<cond>) per unhandled AID entry.

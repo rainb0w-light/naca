@@ -34,7 +34,6 @@ import generate.java.CJavaStructure;
 import generate.java.CJavaSubStringReference;
 import generate.java.CJavaUnknownReference;
 
-import generate.java.CICS.CJavaCICSStartBrowse;
 import generate.java.CICS.CJavaCICSWrite;
 import generate.java.CICS.CJavaCICSWriteQ;
 import generate.java.expressions.CJavaAddressOf;
@@ -935,7 +934,9 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return e;
 	}
 	public CEntityCICSStartBrowse NewEntityCICSStartBrowse(int l)	{
-		return new CJavaCICSStartBrowse(l, programCatalog, langOutput);
+		CEntityCICSStartBrowse e = new CEntityCICSStartBrowse(l, programCatalog);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntityCICSDeleteQ NewEntityCICSDeleteQ(int l, boolean b)	{
 		CEntityCICSDeleteQ e = new CEntityCICSDeleteQ(l, programCatalog, b);

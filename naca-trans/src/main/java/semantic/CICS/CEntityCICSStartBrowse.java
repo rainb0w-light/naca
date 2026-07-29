@@ -23,7 +23,7 @@ import utils.CobolTranscoder.Notifs.NotifDeclareUseCICSPreprocessor;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityCICSStartBrowse extends CBaseActionEntity
+public class CEntityCICSStartBrowse extends CBaseActionEntity
 {
 	protected boolean isgTEQ = false ;
 	protected CDataEntity dataSet = null ;
@@ -44,7 +44,10 @@ public abstract class CEntityCICSStartBrowse extends CBaseActionEntity
 	public CEntityCICSStartBrowse(int line, CObjectCatalog cat)
 	{
 		super(line, cat);
-		cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
+		if (cat != null)
+		{
+			cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
+		}
 	}
 	public void SetGTEQ()
 	{
@@ -69,4 +72,8 @@ public abstract class CEntityCICSStartBrowse extends CBaseActionEntity
 	{
 		keyLength = entity ;
 	}
+	public boolean isGTEQ() { return isgTEQ; }
+	public CDataEntity getDataSet() { return dataSet; }
+	public CDataEntity getRecIDField() { return recIDField; }
+	public CDataEntity getKeyLength() { return keyLength; }
 }

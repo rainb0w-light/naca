@@ -12,6 +12,7 @@
  */
 package parser.Cobol.elements.CICS;
 
+import diagnostic.DiagnosticSink;
 import lexer.CBaseToken;
 import lexer.CTokenType;
 import lexer.Cobol.CCobolKeywordList;
@@ -49,6 +50,13 @@ public class CExecCICSStartBR extends CCobolElement
 	 */
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
+		if (dataSet == null)
+		{
+			DiagnosticSink.recordUnsupported("cics.startbr.missing-dataset",
+				"embedded-cics", getLine(),
+				"EXEC CICS STARTBR requires DATASET");
+			return null;
+		}
 		CEntityCICSStartBrowse eSt = factory.NewEntityCICSStartBrowse(getLine()) ;
 		parent.AddChild(eSt);
 		if (dataSet != null)
