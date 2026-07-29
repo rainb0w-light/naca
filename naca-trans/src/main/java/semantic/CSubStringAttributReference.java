@@ -12,7 +12,6 @@
  */
 package semantic;
 
-import generate.*;
 import lexer.Cobol.CCobolConstantList;
 import parser.expression.CTerminal;
 import semantic.Verbs.*;
