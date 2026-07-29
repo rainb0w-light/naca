@@ -10,7 +10,7 @@ import generate.fpacjava.*;
 import generate.java.expressions.CJavaCondEquals;
 import generate.java.expressions.CJavaIntrinsicFunction;
 import generate.java.expressions.CJavaString;
-import generate.java.verbs.CJavaRoutineEmulationCall;
+import generate.fpacjava.CFPacJavaRoutineEmulationCall;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -1065,7 +1065,7 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityRoutineEmulationCall NewEntityRoutineEmulationCall(int l)
 	{
-		return new CJavaRoutineEmulationCall(l, programCatalog, langOutput) ;
+		return new CFPacJavaRoutineEmulationCall(l, programCatalog, langOutput) ;
 	}
 
 	@Override

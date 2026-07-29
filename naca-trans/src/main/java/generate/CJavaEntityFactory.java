@@ -92,7 +92,6 @@ import generate.java.forms.CJavaSetCursor;
 import generate.java.forms.CJavaSetFlag;
 import generate.java.forms.CJavaSetHighlight;
 import generate.java.forms.CJavaSkipField;
-import generate.java.verbs.CJavaRoutineEmulationCall;
 import generate.java.verbs.CJavaSearch;
 import generate.java.verbs.CJavaSetConstant;
 import generate.java.verbs.CJavaSort;
@@ -1096,7 +1095,9 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CEntityCondIsSQLCode();
 	}
 	public CEntityRoutineEmulationCall NewEntityRoutineEmulationCall(int l)	{
-		return new CJavaRoutineEmulationCall(l, programCatalog, langOutput) ;
+		CEntityRoutineEmulationCall e = new CEntityRoutineEmulationCall(l, programCatalog);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 
 	protected Hashtable<String, CDataEntity> tabConstantValues = new Hashtable<String, CDataEntity>() ; 

@@ -22,11 +22,11 @@
     "ratchet": {
       "note": "Debt counts may only move down for the COBOL scope. Refresh per phase.",
       "baselineCapturedAtCommit": "9402b0c",
-      "lastVerifiedAtCommit": "866e0034",
+      "lastVerifiedAtCommit": "d6eaddc7",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 157,
-        "directBackends": 87,
+        "failures": 156,
+        "directBackends": 86,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -2903,25 +2903,28 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "COBOL_CORE",
       "sourceSyntax": "legacy backend CJavaRoutineEmulationCall",
       "parserNode": null,
       "semanticNode": "semantic.Verbs.CEntityRoutineEmulationCall",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
+      "assemblerRole": "REFERENCE",
+      "manifestBinding": "semantic.Verbs.CEntityRoutineEmulationCall=recursiveRoutineEmulationCallEntity",
+      "template": "recursiveRoutineEmulationCallEntity",
       "runtimeOperation": null,
       "fixture": null,
       "directBackend": "generate.java.verbs.CJavaRoutineEmulationCall",
       "sourcePath": "naca-trans/src/main/java/generate/java/verbs/CJavaRoutineEmulationCall.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/verbs/CJavaRoutineEmulationCall.java"
-      ]
+        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaRoutineEmulationCall.java",
+        "naca-trans/src/main/resources/templates/java/java.stg",
+        "naca-trans/src/test/java/generate/java/st/CEntityRoutineEmulationCallRenderTest.java"
+      ],
+      "lastAttemptCommit": "d6eaddc7"
     },
     {
       "id": "BACKEND-COBOL-VERB-CJAVASEARCH",
