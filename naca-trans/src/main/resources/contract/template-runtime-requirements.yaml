@@ -104,6 +104,12 @@ templates:
       - cics.assign.applid
       - cics.assign.tctualeng
 
+  recursiveCICSDeQEntity:
+    capability: CICS
+    requires:
+      - cics.deQWithoutLength
+      - cics.deQWithLength
+
   recursiveCICSAddressEntity:
     capability: CICS
     requires:

@@ -33,7 +33,6 @@ import generate.java.CJavaSortedFileDescriptor;
 import generate.java.CJavaStructure;
 import generate.java.CJavaSubStringReference;
 import generate.java.CJavaUnknownReference;
-import generate.java.CICS.CJavaCICSDeQ;
 import generate.java.CICS.CJavaCICSDelay;
 import generate.java.CICS.CJavaCICSDeleteQ;
 import generate.java.CICS.CJavaCICSEnQ;
@@ -964,7 +963,11 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CJavaCICSSetTDQueue(l, programCatalog, langOutput);
 	}
 	public CEntityCICSDeQ NewEntityCICSDeQ(int l)	{
-		return new CJavaCICSDeQ(l, programCatalog, langOutput);
+		// Direct backend CJavaCICSDeQ retired: the pure semantic entity is rendered
+		// by the recursive ST4 assembler (recursiveCICSDeQEntity binding).
+		CEntityCICSDeQ e = new CEntityCICSDeQ(l, programCatalog);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntityCICSEnQ NewEntityCICSEnQ(int l)	{
 		return new CJavaCICSEnQ(l, programCatalog, langOutput);

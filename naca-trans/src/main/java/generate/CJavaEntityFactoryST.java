@@ -57,6 +57,7 @@ import semantic.CICS.CEntityCICSAbend;
 import semantic.CICS.CEntityCICSAddress;
 import semantic.CICS.CEntityCICSAskTime;
 import semantic.CICS.CEntityCICSAssign;
+import semantic.CICS.CEntityCICSDeQ;
 import semantic.CICS.CEntityCICSLink;
 import semantic.CICS.CEntityCICSReceiveMap;
 import semantic.CICS.CEntityCICSSendMap;
@@ -270,6 +271,16 @@ public class CJavaEntityFactoryST extends CJavaEntityFactory {
     @Override
     public CEntityCICSSendMap NewEntityCICSSendMap(int l) {
         CEntityCICSSendMap e = new CEntityCICSSendMap(l, programCatalog);
+        e.setLanguageExporter(langOutput);
+        return e;
+    }
+
+    // Embedded CICS DEQ: the ST4 factory builds the pure semantic entity, which
+    // the recursive assembler renders via the recursiveCICSDeQEntity binding
+    // (no CJava* controller). Mirrors the CICS ABEND exemplar above.
+    @Override
+    public CEntityCICSDeQ NewEntityCICSDeQ(int l) {
+        CEntityCICSDeQ e = new CEntityCICSDeQ(l, programCatalog);
         e.setLanguageExporter(langOutput);
         return e;
     }

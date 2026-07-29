@@ -894,6 +894,16 @@ recursiveCICSAssignEntity(entity) ::= <<
 CESM.assign()<entity.requests:{r | .<r.name>(<r.variable>)}> ;
 >>
 
+// Embedded CICS DEQ (EXEC CICS DEQ RESOURCE(...) [LENGTH(...)] END-EXEC). Emits
+// the CESM.deQ(...) runtime call. Mirrors CJavaCICSDeQ.DoExport exactly: the
+// RESOURCE reference always carries the CESM.deQ prefix and the LENGTH reference
+// is appended (preceded by ", ") only when a LENGTH operand is present, terminated
+// by " ;". A bare DEQ renders CESM.deQ(<resource>) ;, a DEQ with LENGTH renders
+// CESM.deQ(<resource>, <length>) ;.
+recursiveCICSDeQEntity(entity) ::= <<
+CESM.deQ(<entity.resource><if(entity.length)>, <entity.length><endif>) ;
+>>
+
 // Embedded CICS ADDRESS (EXEC CICS ADDRESS [CWA(...)] [TCTUA(...)] [TWA(...)]
 // END-EXEC). Emits the CESM.getAddressOfCWA/TCTUA/TWA(...) runtime calls. Mirrors
 // CJavaCICSAddress.DoExport exactly: the first active reference carries the CESM

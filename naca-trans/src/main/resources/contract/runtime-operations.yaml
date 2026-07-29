@@ -348,6 +348,27 @@ operations:
     paramTypes: [nacaLib.varEx.Var]
     returns: nacaLib.misc.CCESMFakeMethodContainer
 
+  # --- CICS DEQ ---
+  # EXEC CICS DEQ RESOURCE(...) [LENGTH(...)] END-EXEC emits CESM.deQ(<resource>)
+  # (bare form) or CESM.deQ(<resource>, <length>) (LENGTH form). BaseCESMManager
+  # exposes both signatures produced by the retired CJavaCICSDeQ.DoExport:
+  # deQ(Var) when LENGTH is absent and deQ(Var, int) when it is present.
+  - id: cics.deQWithoutLength
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
+    runtimeMethod: deQ
+    paramTypes: [nacaLib.varEx.Var]
+    returns: nacaLib.misc.CCESMFakeMethodContainer
+
+  - id: cics.deQWithLength
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
+    runtimeMethod: deQ
+    paramTypes: [nacaLib.varEx.Var, int]
+    returns: nacaLib.misc.CCESMFakeMethodContainer
+
   # --- CICS ADDRESS ---
   # EXEC CICS ADDRESS [CWA(...)] [TCTUA(...)] [TWA(...)] END-EXEC emits, for each
   # active reference, a CESM.getAddressOfCWA/TCTUA/TWA(<ref>) call. Each runtime

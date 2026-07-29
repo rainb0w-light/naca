@@ -192,6 +192,16 @@ features:
     fixtures: []
     status: production
 
+  - id: cics.deQ
+    dialects: [embedded-cics]
+    semanticType: semantic.CICS.CEntityCICSDeQ
+    javaBackend:
+      role: REFERENCE
+      template: recursiveCICSDeQEntity
+    runtimeOperations: [cics.deQWithoutLength, cics.deQWithLength]
+    fixtures: []
+    status: production
+
   - id: sql.cursorSection
     dialects: [embedded-sql]
     semanticType: semantic.CEntitySQLCursorSection

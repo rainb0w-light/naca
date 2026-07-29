@@ -353,6 +353,12 @@ public class BaseCESMManager extends CJMapObject
 		return new CCESMFakeMethodContainer() ;
 	}
 
+	public CCESMFakeMethodContainer deQ(Var enqsycr)
+	{
+		// TODO fake method CEMS DEQ
+		return new CCESMFakeMethodContainer() ;
+	}
+
 
 	public CCESMFakeMethodContainer setTDQueueClosed(String string)
 	{
