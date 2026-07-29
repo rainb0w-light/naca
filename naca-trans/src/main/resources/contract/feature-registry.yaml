@@ -433,6 +433,16 @@ features:
     fixtures: []
     status: production
 
+  - id: cobol.procedure.division
+    dialects: [cobol-core]
+    semanticType: semantic.CEntityProcedureDivision
+    javaBackend:
+      role: REFERENCE
+      template: recursiveProcedureDivisionEntity
+    runtimeOperations: []
+    fixtures: []
+    status: production
+
   - id: cobol.expression.concat
     dialects: [cobol-core]
     semanticType: semantic.expression.CEntityConcat

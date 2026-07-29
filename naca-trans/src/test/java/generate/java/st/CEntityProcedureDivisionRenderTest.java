@@ -1,8 +1,8 @@
 package generate.java.st;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
+import generate.CJavaEntityFactory;
 import generate.CJavaEntityFactoryST;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
@@ -23,10 +23,14 @@ class CEntityProcedureDivisionRenderTest
     }
 
     @Test
-    void stFactoryReturnsPureSemanticEntity()
+    void bothFactoriesReturnPureSemanticEntity()
     {
-        assertInstanceOf(CEntityProcedureDivision.class,
-            new CJavaEntityFactoryST(catalog, null).NewEntityProcedureDivision(1));
+        assertEquals(CEntityProcedureDivision.class,
+            new CJavaEntityFactory(catalog, null)
+                .NewEntityProcedureDivision(1).getClass());
+        assertEquals(CEntityProcedureDivision.class,
+            new CJavaEntityFactoryST(catalog, null)
+                .NewEntityProcedureDivision(1).getClass());
     }
 
     @Test

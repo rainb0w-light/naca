@@ -12,7 +12,6 @@
  */
 package generate;
 
-import generate.java.CJavaProcedureDivision;
 import generate.java.CJavaProcedureSection;
 import generate.java.CJavaSortedFileDescriptor;
 import generate.java.CJavaStructure;
@@ -1020,7 +1019,10 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return e;
 	}
 	public CEntityProcedureDivision NewEntityProcedureDivision(int l)	{
-		return new CJavaProcedureDivision(l, programCatalog, langOutput);
+		CEntityProcedureDivision entity =
+			new CEntityProcedureDivision(l, programCatalog);
+		entity.setLanguageExporter(langOutput);
+		return entity;
 	}
 	public CEntitySQLCursorSection NewEntitySQLCursorSection()	{
 		// Direct backend CJavaSQLCursorSection retired: the pure semantic entity is
