@@ -1068,6 +1068,10 @@ recursiveCICSWriteEntity(entity) ::= <<
 
 recursiveCICSWriteStatistics(entity) ::= "Pub2000Routines.writeStatistics(getProgramManager(), <entity.dataFromOwner>) ;"
 
+recursiveCICSWriteQEntity(entity) ::= <<
+CESM.write<if(entity.persistent)>Transiant<else>Temp<endif>Queue(<entity.queueName><if(entity.rewrite)>, <entity.item><endif>).from(<entity.dataRef><if(entity.dataLength)>, <entity.dataLength><endif>)<if(entity.itemOutput)>.item(<entity.item>)<endif><if(entity.numItem)>.numItem(<entity.numItem>)<endif><if(entity.main)>.main()<elseif(entity.auxiliary)>.auxiliary()<endif><if(entity.sysID)>.sysID(<entity.sysID>)<endif> ;
+>>
+
 // Embedded CICS HANDLE AID (EXEC CICS HANDLE AID ENTER(label) PF1(label) ...
 // ANYKEY(label) END-EXEC). Emits one CESM.handleAID(<cond>, <label>) per
 // handled AID entry and one CESM.unhandleAID(<cond>) per unhandled AID entry.

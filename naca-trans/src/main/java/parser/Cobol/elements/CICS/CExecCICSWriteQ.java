@@ -12,6 +12,7 @@
  */
 package parser.Cobol.elements.CICS;
 
+import diagnostic.DiagnosticSink;
 import lexer.CBaseToken;
 import lexer.CTokenType;
 import lexer.Cobol.CCobolKeywordList;
@@ -51,33 +52,53 @@ public class CExecCICSWriteQ extends CCobolElement
 	 */
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
+		if (queueName == null)
+		{
+			DiagnosticSink.recordUnsupported("cics.writeq.missing-queue",
+				"embedded-cics", getLine(),
+				"EXEC CICS WRITEQ requires QUEUE");
+			return null;
+		}
+		if (dataRef == null)
+		{
+			DiagnosticSink.recordUnsupported("cics.writeq.missing-from",
+				"embedded-cics", getLine(),
+				"EXEC CICS WRITEQ requires FROM");
+			return null;
+		}
+		if (bRewrite && item == null)
+		{
+			DiagnosticSink.recordUnsupported("cics.writeq.rewrite.missing-item",
+				"embedded-cics", getLine(),
+				"EXEC CICS WRITEQ REWRITE requires ITEM");
+			return null;
+		}
 		CEntityCICSWriteQ eWQ = factory.NewEntityCICSWriteQ(getLine(), ispersistant);
-		parent.AddChild(eWQ);
 		
 		eWQ.SetName(queueName.GetDataEntity(getLine(), factory)) ;
-		if (dataRef != null)
+		CDataEntity len = null ;
+		if (length != null)
 		{
-			CDataEntity len = null ;
-			if (length != null)
-			{
-				len = length.GetDataEntity(getLine(), factory);
-				len.RegisterWritingAction(eWQ); 
-			}
-			CDataEntity data = dataRef.GetDataReference(getLine(), factory) ;
-			data.RegisterWritingAction(eWQ); 
-			eWQ.SetDataRef(data, len);
+			len = length.GetDataEntity(getLine(), factory);
+			len.RegisterReadingAction(eWQ);
 		}
+		CDataEntity data = dataRef.GetDataReference(getLine(), factory) ;
+		data.RegisterReadingAction(eWQ);
+		eWQ.SetDataRef(data, len);
 		if (item != null)
 		{
 			CDataEntity e = item.GetDataEntity(getLine(), factory) ;
 			eWQ.WriteItem(e);
-			e.RegisterReadingAction(eWQ) ;
+			if (bRewrite)
+				e.RegisterReadingAction(eWQ) ;
+			else
+				e.RegisterWritingAction(eWQ) ;
 		}
 		if (numItem != null)
 		{
 			CDataEntity e = numItem.GetDataEntity(getLine(), factory) ;
 			eWQ.WriteNumItem(e);
-			e.RegisterReadingAction(eWQ) ;
+			e.RegisterWritingAction(eWQ) ;
 		}
 		if (bAuxiliary)
 		{
@@ -91,6 +112,11 @@ public class CExecCICSWriteQ extends CCobolElement
 		{
 			eWQ.SetRewrite() ;
 		}
+		if (sysID != null)
+		{
+			eWQ.SetSysID(sysID.GetDataEntity(getLine(), factory));
+		}
+		parent.AddChild(eWQ);
 		return eWQ ;
 	}
 

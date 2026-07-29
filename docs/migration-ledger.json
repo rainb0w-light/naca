@@ -22,11 +22,11 @@
     "ratchet": {
       "note": "Debt counts may only move down for the COBOL scope. Refresh per phase.",
       "baselineCapturedAtCommit": "9402b0c",
-      "lastVerifiedAtCommit": "14a6811c",
+      "lastVerifiedAtCommit": "e4fa9839",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 188,
-        "directBackends": 121,
+        "failures": 187,
+        "directBackends": 120,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -1767,25 +1767,28 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "EMBEDDED_CICS",
       "sourceSyntax": "legacy backend CJavaCICSWriteQ",
       "parserNode": null,
       "semanticNode": "semantic.CICS.CEntityCICSWriteQ",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
+      "assemblerRole": "REFERENCE",
+      "manifestBinding": "semantic.CICS.CEntityCICSWriteQ=recursiveCICSWriteQEntity",
+      "template": "recursiveCICSWriteQEntity",
+      "runtimeOperation": "cics.writeq.tempString",
       "fixture": null,
       "directBackend": "generate.java.CICS.CJavaCICSWriteQ",
       "sourcePath": "naca-trans/src/main/java/generate/java/CICS/CJavaCICSWriteQ.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/CICS/CJavaCICSWriteQ.java"
-      ]
+        "naca-trans/src/main/java/generate/java/CICS/CJavaCICSWriteQ.java",
+        "naca-trans/src/test/java/generate/java/st/CICSWriteQRenderTest.java",
+        "naca-trans/src/test/java/parser/Cobol/elements/CICS/CICSWriteQDiagnosticTest.java"
+      ],
+      "lastAttemptCommit": "e4fa9839"
     },
     {
       "id": "BACKEND-COBOL-ST-CJAVAASSIGNST",

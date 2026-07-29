@@ -34,7 +34,6 @@ import generate.java.CJavaStructure;
 import generate.java.CJavaSubStringReference;
 import generate.java.CJavaUnknownReference;
 
-import generate.java.CICS.CJavaCICSWriteQ;
 import generate.java.expressions.CJavaAddressOf;
 import generate.java.expressions.CJavaConcat;
 import generate.java.expressions.CJavaCondAnd;
@@ -945,7 +944,9 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return e;
 	}
 	public CEntityCICSWriteQ NewEntityCICSWriteQ(int l, boolean b)	{
-		return new CJavaCICSWriteQ(l, programCatalog, langOutput, b);
+		CEntityCICSWriteQ e = new CEntityCICSWriteQ(l, programCatalog, b);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntityCICSReadQ NewEntityCICSReadQ(int l, boolean b)	{
 		CEntityCICSReadQ e = new CEntityCICSReadQ(l, programCatalog, b);

@@ -385,10 +385,29 @@ public class BaseCESMManager extends CJMapObject
 		return setTDQueueOpen(queue.getString()) ;
 	}
 
-	public CCESMFakeMethodContainer writeTransiantQueue(String string)
+	public CESMWriteQueue writeTransiantQueue(String name)
 	{
-		// TODO fake method writeTransiantQueue
-		return new CCESMFakeMethodContainer() ;
+		return new CESMWriteQueue(true, name, null) ;
+	}
+	public CESMWriteQueue writeTransiantQueue(Var name)
+	{
+		return writeTransiantQueue(name.getString()) ;
+	}
+	public CESMWriteQueue writeTransiantQueue(String name, Var rewriteItem)
+	{
+		return writeTransiantQueue(name).rewrite(rewriteItem.getInt()) ;
+	}
+	public CESMWriteQueue writeTransiantQueue(Var name, Var rewriteItem)
+	{
+		return writeTransiantQueue(name.getString(), rewriteItem) ;
+	}
+	public CESMWriteQueue writeTransiantQueue(String name, int rewriteItem)
+	{
+		return writeTransiantQueue(name).rewrite(rewriteItem) ;
+	}
+	public CESMWriteQueue writeTransiantQueue(Var name, int rewriteItem)
+	{
+		return writeTransiantQueue(name.getString(), rewriteItem) ;
 	}
 
 	public CCESMFakeMethodContainer getMain()
@@ -524,6 +543,21 @@ public class BaseCESMManager extends CJMapObject
 		int item = reWriteItem.getInt() ;
 		writeorder.rewrite(item) ;
 		return writeorder ;	
+	}
+
+	public CESMWriteQueue writeTempQueue(String name, Var rewriteItem)
+	{
+		return writeTempQueue(name).rewrite(rewriteItem.getInt()) ;
+	}
+
+	public CESMWriteQueue writeTempQueue(String name, int rewriteItem)
+	{
+		return writeTempQueue(name).rewrite(rewriteItem) ;
+	}
+
+	public CESMWriteQueue writeTempQueue(Var name, int rewriteItem)
+	{
+		return writeTempQueue(name.getString(), rewriteItem) ;
 	}
 
 	public CCESMFakeMethodContainer readDataSet(Var var)

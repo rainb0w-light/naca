@@ -23,14 +23,17 @@ import utils.CobolTranscoder.Notifs.NotifDeclareUseCICSPreprocessor;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityCICSWriteQ extends CBaseActionEntity
+public class CEntityCICSWriteQ extends CBaseActionEntity
 {
 
 	public CEntityCICSWriteQ(int line, CObjectCatalog cat, boolean bPersistant)
 	{
 		super(line, cat);
-		bPersistant = bPersistant ;
-		cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
+		ispersistant = bPersistant ;
+		if (cat != null)
+		{
+			cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
+		}
 	}
 
 	protected boolean ispersistant = false ;
@@ -39,6 +42,7 @@ public abstract class CEntityCICSWriteQ extends CBaseActionEntity
 	protected CDataEntity dataLength = null ;
 	protected CDataEntity numItem = null ;
 	protected CDataEntity item = null ;
+	protected CDataEntity sysID = null ;
 	protected boolean bAuxiliary = false ;
 	protected boolean bMain = false ;
 	protected boolean bRewrite = false ;	
@@ -50,6 +54,10 @@ public abstract class CEntityCICSWriteQ extends CBaseActionEntity
 		dataRef = null ;
 		numItem = null ;
 		item = null ;
+		sysID = null ;
+		bAuxiliary = false ;
+		bMain = false ;
+		bRewrite = false ;
 	}
 
 	public void SetName(CDataEntity entity)
@@ -72,6 +80,11 @@ public abstract class CEntityCICSWriteQ extends CBaseActionEntity
 		item = entity ;
 	}
 
+	public void SetSysID(CDataEntity entity)
+	{
+		sysID = entity ;
+	}
+
 	public void SetRewrite()
 	{
 		bRewrite = true ;
@@ -90,6 +103,18 @@ public abstract class CEntityCICSWriteQ extends CBaseActionEntity
 	{
 		return false; 
 	}
+
+	public boolean isPersistent() { return ispersistant; }
+	public CDataEntity getQueueName() { return queueName; }
+	public CDataEntity getDataRef() { return dataRef; }
+	public CDataEntity getDataLength() { return dataLength; }
+	public CDataEntity getNumItem() { return numItem; }
+	public CDataEntity getItem() { return item; }
+	public CDataEntity getSysID() { return sysID; }
+	public boolean isAuxiliary() { return bAuxiliary; }
+	public boolean isMain() { return bMain; }
+	public boolean isRewrite() { return bRewrite; }
+	public boolean isItemOutput() { return item != null && !bRewrite; }
 
 	/* (non-Javadoc)
 	 * @see semantic.CBaseActionEntity#ReplaceVariable(semantic.CDataEntity, semantic.CDataEntity)

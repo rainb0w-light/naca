@@ -30,9 +30,9 @@ public class CESMWriteQueue extends CJMapObject
 	
 	public CESMWriteQueue(boolean istransient, String name, CESMQueueManager manager)
 	{
-		istransient = istransient;
-		name = name ;
-		manager = manager ;
+		this.istransient = istransient;
+		this.name = name ;
+		this.manager = manager ;
 	}
 	
 	public CESMWriteQueue from(Var varSource, Var tsLong)
@@ -83,6 +83,32 @@ public class CESMWriteQueue extends CJMapObject
 		return this ;
 	}
 
+	public CESMWriteQueue numItem(Var numItem)
+	{
+		numItem.set(nItemPosition) ;
+		return this ;
+	}
+
+	public CESMWriteQueue main()
+	{
+		return this ;
+	}
+
+	public CESMWriteQueue auxiliary()
+	{
+		return this ;
+	}
+
+	public CESMWriteQueue sysID(String sysID)
+	{
+		return this ;
+	}
+
+	public CESMWriteQueue sysID(Var sysID)
+	{
+		return sysID(sysID.getString()) ;
+	}
+
 //	public CESMWriteQueue main()
 //	{
 //		// unsupported
@@ -104,5 +130,4 @@ public class CESMWriteQueue extends CJMapObject
 //		return this ;
 //	}
 }
-
 

@@ -1414,3 +1414,152 @@ operations:
     runtimeMethod: keyLength
     paramTypes: [int]
     returns: nacaLib.misc.CCESMFakeMethodContainer
+
+  # --- CICS WRITEQ TD / TS ---
+  - id: cics.writeq.tempString
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
+    runtimeMethod: writeTempQueue
+    paramTypes: [java.lang.String]
+    returns: nacaLib.CESM.CESMWriteQueue
+  - id: cics.writeq.tempVar
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
+    runtimeMethod: writeTempQueue
+    paramTypes: [nacaLib.varEx.Var]
+    returns: nacaLib.CESM.CESMWriteQueue
+  - id: cics.writeq.tempRewriteStringVar
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
+    runtimeMethod: writeTempQueue
+    paramTypes: [java.lang.String, nacaLib.varEx.Var]
+    returns: nacaLib.CESM.CESMWriteQueue
+  - id: cics.writeq.tempRewriteVarVar
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
+    runtimeMethod: writeTempQueue
+    paramTypes: [nacaLib.varEx.Var, nacaLib.varEx.Var]
+    returns: nacaLib.CESM.CESMWriteQueue
+  - id: cics.writeq.tempRewriteStringInt
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
+    runtimeMethod: writeTempQueue
+    paramTypes: [java.lang.String, int]
+    returns: nacaLib.CESM.CESMWriteQueue
+  - id: cics.writeq.tempRewriteVarInt
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
+    runtimeMethod: writeTempQueue
+    paramTypes: [nacaLib.varEx.Var, int]
+    returns: nacaLib.CESM.CESMWriteQueue
+  - id: cics.writeq.transiantString
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
+    runtimeMethod: writeTransiantQueue
+    paramTypes: [java.lang.String]
+    returns: nacaLib.CESM.CESMWriteQueue
+  - id: cics.writeq.transiantVar
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
+    runtimeMethod: writeTransiantQueue
+    paramTypes: [nacaLib.varEx.Var]
+    returns: nacaLib.CESM.CESMWriteQueue
+  - id: cics.writeq.transiantRewriteStringVar
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
+    runtimeMethod: writeTransiantQueue
+    paramTypes: [java.lang.String, nacaLib.varEx.Var]
+    returns: nacaLib.CESM.CESMWriteQueue
+  - id: cics.writeq.transiantRewriteVarVar
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
+    runtimeMethod: writeTransiantQueue
+    paramTypes: [nacaLib.varEx.Var, nacaLib.varEx.Var]
+    returns: nacaLib.CESM.CESMWriteQueue
+  - id: cics.writeq.transiantRewriteStringInt
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
+    runtimeMethod: writeTransiantQueue
+    paramTypes: [java.lang.String, int]
+    returns: nacaLib.CESM.CESMWriteQueue
+  - id: cics.writeq.transiantRewriteVarInt
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
+    runtimeMethod: writeTransiantQueue
+    paramTypes: [nacaLib.varEx.Var, int]
+    returns: nacaLib.CESM.CESMWriteQueue
+  - id: cics.writeq.from
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.CESM.CESMWriteQueue
+    runtimeMethod: from
+    paramTypes: [nacaLib.varEx.Var]
+    returns: nacaLib.CESM.CESMWriteQueue
+  - id: cics.writeq.fromVarLength
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.CESM.CESMWriteQueue
+    runtimeMethod: from
+    paramTypes: [nacaLib.varEx.Var, nacaLib.varEx.Var]
+    returns: nacaLib.CESM.CESMWriteQueue
+  - id: cics.writeq.fromIntLength
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.CESM.CESMWriteQueue
+    runtimeMethod: from
+    paramTypes: [nacaLib.varEx.Var, int]
+    returns: nacaLib.CESM.CESMWriteQueue
+  - id: cics.writeq.item
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.CESM.CESMWriteQueue
+    runtimeMethod: item
+    paramTypes: [nacaLib.varEx.Var]
+    returns: nacaLib.CESM.CESMWriteQueue
+  - id: cics.writeq.numItem
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.CESM.CESMWriteQueue
+    runtimeMethod: numItem
+    paramTypes: [nacaLib.varEx.Var]
+    returns: nacaLib.CESM.CESMWriteQueue
+  - id: cics.writeq.main
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.CESM.CESMWriteQueue
+    runtimeMethod: main
+    paramTypes: []
+    returns: nacaLib.CESM.CESMWriteQueue
+  - id: cics.writeq.auxiliary
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.CESM.CESMWriteQueue
+    runtimeMethod: auxiliary
+    paramTypes: []
+    returns: nacaLib.CESM.CESMWriteQueue
+  - id: cics.writeq.sysIDString
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.CESM.CESMWriteQueue
+    runtimeMethod: sysID
+    paramTypes: [java.lang.String]
+    returns: nacaLib.CESM.CESMWriteQueue
+  - id: cics.writeq.sysIDVar
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.CESM.CESMWriteQueue
+    runtimeMethod: sysID
+    paramTypes: [nacaLib.varEx.Var]
+    returns: nacaLib.CESM.CESMWriteQueue

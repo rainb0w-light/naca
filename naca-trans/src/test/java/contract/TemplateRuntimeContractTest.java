@@ -170,6 +170,14 @@ class TemplateRuntimeContractTest
             .containsAll(List.of("cics.write.dataSetString", "cics.write.dataSetVar",
                 "cics.write.fileString", "cics.write.fileVar", "cics.write.from",
                 "cics.write.fromVarLength", "cics.write.fromIntLength")));
+        assertTrue(contract.templateRequirements().get("recursiveCICSWriteQEntity").requires()
+            .containsAll(List.of("cics.writeq.tempString", "cics.writeq.tempVar",
+                "cics.writeq.transiantString", "cics.writeq.transiantVar",
+                "cics.writeq.from", "cics.writeq.fromVarLength",
+                "cics.writeq.fromIntLength", "cics.writeq.item",
+                "cics.writeq.numItem", "cics.writeq.main",
+                "cics.writeq.auxiliary", "cics.writeq.sysIDString",
+                "cics.writeq.sysIDVar")));
     }
 
     private static void collectMethods(Matcher matcher, Set<String> methods)
