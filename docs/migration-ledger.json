@@ -22,11 +22,11 @@
     "ratchet": {
       "note": "Debt counts may only move down for the COBOL scope. Refresh per phase.",
       "baselineCapturedAtCommit": "9402b0c",
-      "lastVerifiedAtCommit": "017645bd",
+      "lastVerifiedAtCommit": "414a3e03",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 179,
-        "directBackends": 109,
+        "failures": 178,
+        "directBackends": 108,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -2165,25 +2165,28 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "COBOL_CORE",
       "sourceSyntax": "legacy backend CJavaAssign",
       "parserNode": null,
       "semanticNode": "semantic.Verbs.CEntityAssign",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
+      "assemblerRole": "REFERENCE",
+      "manifestBinding": "semantic.Verbs.CEntityAssign=recursiveMoveEntity",
+      "template": "recursiveMoveEntity",
+      "runtimeOperation": "data.move.varEdit",
       "fixture": null,
       "directBackend": "generate.java.verbs.CJavaAssign",
       "sourcePath": "naca-trans/src/main/java/generate/java/verbs/CJavaAssign.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/verbs/CJavaAssign.java"
-      ]
+        "naca-trans/src/main/java/generate/java/verbs/CJavaAssign.java",
+        "naca-trans/src/test/java/generate/java/st/CEntityAssignRenderTest.java",
+        "naca-trans/src/test/java/generate/templates/recursive/JavaSemanticMoveRendererTest.java"
+      ],
+      "lastAttemptCommit": "414a3e03"
     },
     {
       "id": "BACKEND-COBOL-VERB-CJAVAASSIGNWITHACCESSOR",

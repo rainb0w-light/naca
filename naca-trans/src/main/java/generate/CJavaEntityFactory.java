@@ -92,7 +92,6 @@ import generate.java.forms.CJavaSetCursor;
 import generate.java.forms.CJavaSetFlag;
 import generate.java.forms.CJavaSetHighlight;
 import generate.java.forms.CJavaSkipField;
-import generate.java.verbs.CJavaAssign;
 import generate.java.verbs.CJavaAssignWithAccessor;
 import generate.java.verbs.CJavaCalcul;
 import generate.java.verbs.CJavaCallFunction;
@@ -492,7 +491,9 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CJavaProcedureSection(l, name, programCatalog, langOutput);
 	}
 	public CEntityAssign NewEntityAssign(int l)	{
-		return new CJavaAssign(l, programCatalog, langOutput) ;
+		CEntityAssign e = new CEntityAssign(l, programCatalog);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntityExternalDataStructure NewEntityExternalDataStructure(int l, String name)	{
 		return new CJavaExternalDataStructure(l, name, programCatalog, langOutput);

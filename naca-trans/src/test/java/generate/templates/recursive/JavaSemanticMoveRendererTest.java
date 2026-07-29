@@ -6,9 +6,10 @@ import generate.java.CJavaAttribute;
 import generate.java.CJavaExporter;
 import generate.java.expressions.CJavaEntityNumber;
 import generate.java.st.MockJavaExporter;
-import generate.java.verbs.CJavaAssign;
 import generate.templates.TemplateLoader;
 import org.junit.jupiter.api.Test;
+import semantic.CDataEntity;
+import semantic.Verbs.CEntityAssign;
 import utils.CObjectCatalog;
 
 class JavaSemanticMoveRendererTest
@@ -72,16 +73,25 @@ class JavaSemanticMoveRendererTest
 
     private record MoveFixture(TestJavaAssign move, MockJavaExporter output) {}
 
-    private static final class TestJavaAssign extends CJavaAssign
+    private static final class TestJavaAssign extends CEntityAssign
     {
         private TestJavaAssign(MockJavaExporter output)
         {
-            super(0, null, output);
+            super(0, null);
+            setLanguageExporter(output);
         }
 
         private void exportDirect()
         {
-            super.DoExport();
+            String prefix = isFillAll() ? "moveAll("
+                : isMoveCorresponding() ? "moveCorresponding(" : "move(";
+            String source = getValue() == null
+                ? "[UNDEFINED]" : getValue().ExportReference(getLine());
+            for (CDataEntity destination : getDestinations())
+            {
+                WriteLine(prefix + source + ", "
+                    + destination.ExportReference(getLine()) + ");");
+            }
         }
     }
 }
