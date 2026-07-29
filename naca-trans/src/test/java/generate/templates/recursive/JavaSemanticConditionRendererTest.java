@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import generate.java.CJavaExporter;
-import generate.java.CJavaNamedCondition;
+import generate.fixtures.LegacyNamedConditionFixture;
 import generate.fpacjava.CFPacJavaCondIsBoolean;
 import generate.templates.TemplateLoader;
 import org.junit.jupiter.api.Test;
@@ -83,7 +83,7 @@ class JavaSemanticConditionRendererTest
     @Test
     void recursivelyRendersNamedConditionAndItsOpposite()
     {
-        CJavaNamedCondition named = new CJavaNamedCondition(
+        LegacyNamedConditionFixture named = new LegacyNamedConditionFixture(
             1, "VALID-STATUS", catalog, output);
         named.AddValue(new LegacyNumberFixture(catalog, "1"));
 

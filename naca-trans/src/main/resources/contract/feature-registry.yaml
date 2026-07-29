@@ -413,6 +413,16 @@ features:
     fixtures: []
     status: production
 
+  - id: cobol.data.named-condition
+    dialects: [cobol-core]
+    semanticType: semantic.CEntityNamedCondition
+    javaBackend:
+      role: DECLARATION
+      template: dataNamedConditionDeclaration
+    runtimeOperations: []
+    fixtures: []
+    status: production
+
   - id: cobol.expression.concat
     dialects: [cobol-core]
     semanticType: semantic.expression.CEntityConcat

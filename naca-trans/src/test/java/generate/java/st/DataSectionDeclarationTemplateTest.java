@@ -9,7 +9,7 @@ import generate.fixtures.LegacyDataSectionFixture;
 import generate.fixtures.LegacyExternalDataStructureFixture;
 import generate.fixtures.LegacyFileDescriptorFixture;
 import generate.fixtures.LegacyInlineFixture;
-import generate.java.CJavaNamedCondition;
+import generate.fixtures.LegacyNamedConditionFixture;
 import generate.java.CJavaStructure;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
@@ -81,8 +81,8 @@ class DataSectionDeclarationTemplateTest
     {
         MockJavaExporter exporter = new MockJavaExporter();
         CObjectCatalog catalog = catalog();
-        CJavaNamedCondition condition =
-            new CJavaNamedCondition(4, "WS-COND", catalog, exporter);
+        LegacyNamedConditionFixture condition =
+            new LegacyNamedConditionFixture(4, "WS-COND", catalog, exporter);
         condition.AddValue(new MockDataEntity(4, catalog, exporter, "1"));
         condition.AddValue(new MockDataEntity(4, catalog, exporter, "2"));
         condition.AddInterval(

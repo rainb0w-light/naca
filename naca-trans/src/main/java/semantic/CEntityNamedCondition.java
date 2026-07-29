@@ -34,7 +34,7 @@ import utils.CObjectCatalog;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityNamedCondition extends CDataEntity
+public class CEntityNamedCondition extends CDataEntity
 {
 
 
@@ -123,6 +123,26 @@ public abstract class CEntityNamedCondition extends CDataEntity
 	{
 		return "" ;
 	} 	 
+
+	public boolean HasAccessors()
+	{
+		return false;
+	}
+
+	public String ExportWriteAccessorTo(String value)
+	{
+		return "";
+	}
+
+	public boolean isValNeeded()
+	{
+		return false;
+	}
+
+	public CDataEntityType GetDataType()
+	{
+		return CDataEntityType.CONDITION;
+	}
 	public void Clear()
 	{
 		super.Clear();
@@ -139,6 +159,36 @@ public abstract class CEntityNamedCondition extends CDataEntity
 	public List<CDataEntity> getValues()
 	{
 		return Collections.unmodifiableList(values);
+	}
+
+	public static final class ValueModel
+	{
+		private final CDataEntity value;
+
+		public ValueModel(CDataEntity value)
+		{
+			this.value = value;
+		}
+
+		public boolean isDefined()
+		{
+			return value != null;
+		}
+
+		public CDataEntity getValue()
+		{
+			return value;
+		}
+	}
+
+	public List<ValueModel> getValueModels()
+	{
+		List<ValueModel> models = new ArrayList<>(values.size());
+		for (CDataEntity value : values)
+		{
+			models.add(new ValueModel(value));
+		}
+		return Collections.unmodifiableList(models);
 	}
 
 	/**

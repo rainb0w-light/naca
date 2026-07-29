@@ -12,7 +12,6 @@
  */
 package generate;
 
-import generate.java.CJavaNamedCondition;
 import generate.java.CJavaProcedure;
 import generate.java.CJavaProcedureDivision;
 import generate.java.CJavaProcedureSection;
@@ -581,7 +580,10 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return e;
 	}
 	public CEntityNamedCondition NewEntityNamedCondition(int l, String name)	{
-		return new CJavaNamedCondition(l, name, programCatalog, langOutput);
+		CEntityNamedCondition entity =
+			new CEntityNamedCondition(l, name, programCatalog);
+		entity.setLanguageExporter(langOutput);
+		return entity;
 	}
 	public CEntitySQLSingleStatement NewEntitySQLSingleStatement(int l, String st)	{
 		// Direct backend CJavaSQLSingleStatement retired: the pure semantic entity is

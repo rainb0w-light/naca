@@ -4,10 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import generate.CJavaEntityFactory;
 import generate.CJavaEntityFactoryST;
-import generate.java.CJavaNamedCondition;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.Test;
+import semantic.CEntityNamedCondition;
 import semantic.expression.CBaseEntityCondition;
 import semantic.expression.CEntityIsNamedCondition;
 import utils.CObjectCatalog;
@@ -28,8 +28,8 @@ class CEntityIsNamedConditionRenderTest
     @Test
     void oppositeRetainsTheNamedConditionReference()
     {
-        CJavaNamedCondition named =
-            new CJavaNamedCondition(1, "VALID-STATUS", catalog, null);
+        CEntityNamedCondition named =
+            new CEntityNamedCondition(1, "VALID-STATUS", catalog);
         CEntityIsNamedCondition condition = new CEntityIsNamedCondition();
         condition.SetCondition(named);
         assertEquals("is(VALID_STATUS)", render(condition));

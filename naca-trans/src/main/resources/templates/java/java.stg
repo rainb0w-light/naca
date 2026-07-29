@@ -1489,7 +1489,7 @@ super(program, copyReplacing);
 >>
 
 dataNamedConditionDeclaration(entity) ::= <<
-Cond <entity.formattedName> = declare.condition()<entity.values:{val | .value(<val>)}><entity.intervals:{interval | .value(<interval.start>, <interval.end>)}>.var() ;
+Cond <entity.formattedName> = declare.condition()<entity.valueModels:{model | .value(<if(model.defined)><model.value><else>[undefined]<endif>)}><entity.intervals:{interval | .value(<interval.start>, <interval.end>)}>.var() ;
 >>
 
 // An unresolved reference: the direct generator emits nothing for it
