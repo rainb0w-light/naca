@@ -25,7 +25,7 @@
       "lastVerifiedAtCommit": "5903f95d",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 55,
+        "failures": 54,
         "directBackends": 33,
         "semanticClasses": 47,
         "factories": 3,
@@ -5814,7 +5814,7 @@
       "expectedDebtDelta": {
         "failures": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "EMBEDDED_SQL",
       "sourceSyntax": "finalArchitectureCheck: src/main/java/semantic/SQL/CEntitySQLDeclareTable.java",
@@ -5828,11 +5828,14 @@
       "directBackend": null,
       "sourcePath": "naca-trans/src/main/java/semantic/SQL/CEntitySQLDeclareTable.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "done",
       "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
       "evidence": [
-        "src/main/java/semantic/SQL/CEntitySQLDeclareTable.java"
-      ]
+        "src/main/java/semantic/SQL/CEntitySQLDeclareTable.java",
+        "generate.java.st.SQLDeclareTableRenderTest",
+        "generate.java.st.SQLInsertStatementRenderTest"
+      ],
+      "lastAttemptCommit": "ca0174bf"
     },
     {
       "id": "ARCH-COBOL-MANIFEST-COVERAGE",

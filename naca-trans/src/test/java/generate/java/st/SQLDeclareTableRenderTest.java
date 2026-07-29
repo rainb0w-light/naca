@@ -92,9 +92,10 @@ class SQLDeclareTableRenderTest
     {
         CEntitySQLDeclareTable declareTable =
             new CEntitySQLDeclareTable(1, catalog(), "MYTABLE", "MYVIEW", new ArrayList());
-        // Behavior parity: the new camelCase ST4 accessors return exactly what the
-        // pre-existing PascalCase getters return (no behavior change).
-        assertEquals(declareTable.GetTableName(), declareTable.getTableName());
-        assertEquals(declareTable.GetViewName(), declareTable.getViewName());
+        assertEquals("MYTABLE", declareTable.GetTableName());
+        assertEquals("MYVIEW", declareTable.GetViewName());
+        assertEquals("MYTABLE", declareTable.getTableName());
+        assertEquals("MYVIEW", declareTable.getViewName());
+        assertEquals("", declareTable.getColumnReferences());
     }
 }

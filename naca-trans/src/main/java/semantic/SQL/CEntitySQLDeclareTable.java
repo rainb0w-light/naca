@@ -42,13 +42,9 @@ public class CEntitySQLDeclareTable extends CBaseActionEntity
 	public CEntitySQLDeclareTable(int line, CObjectCatalog cat, String csTableName, String csViewName, ArrayList arrTableColDescription)
 	{
 		super(line, cat);
-		csViewName = csViewName ;
-		csTableName = csTableName;
-		if (csTableName == null)
-		{
-			int n=0; 
-		}
-		arrTableColDescription = arrTableColDescription;
+		this.csViewName = csViewName ;
+		this.csTableName = csTableName;
+		this.arrTableColDescription = arrTableColDescription;
 		programCatalog.RegisterSQLTable(csViewName, this);
 	}
 	protected String csTableName = "";
@@ -63,7 +59,7 @@ public class CEntitySQLDeclareTable extends CBaseActionEntity
 	 * @see semantic.CBaseLanguageEntity#RegisterMySelfToCatalog()
 	 */
 
-	public String ExportColReferences()
+	public String getColumnReferences()
 	{
 		String out = "" ;
 		for (int i=0; i<arrTableColDescription.size();i++)
@@ -77,7 +73,7 @@ public class CEntitySQLDeclareTable extends CBaseActionEntity
 		}
 		return out;
 	}
-	public String ExportColReferences(String alias)
+	public String getColumnReferences(String alias)
 	{
 		String out = "" ;
 		for (int i=0; i<arrTableColDescription.size();i++)

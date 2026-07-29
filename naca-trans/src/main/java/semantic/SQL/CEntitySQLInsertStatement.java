@@ -122,7 +122,7 @@ public class CEntitySQLInsertStatement extends CBaseActionEntity
 		}
 		if (table != null)
 		{
-			statement.append(table.GetTableName()).append(" (").append(table.ExportColReferences()).append(")") ;
+			statement.append(table.GetTableName()).append(" (").append(table.getColumnReferences()).append(")") ;
 		}
 		else
 		{
