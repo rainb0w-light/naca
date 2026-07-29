@@ -12,9 +12,6 @@
  */
 package semantic;
 
-import generate.*;
-
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashSet;
@@ -161,7 +158,7 @@ public class CEntityClass extends CBaseLanguageEntity
 	/**
 	 * Declaration-role root children: DATA SECTIONs (including SQL cursor
 	 * declaration sections). Filtered exactly like the direct
-	 * {@code ExportChildren()} (ignores {@code ignore()}d nodes) and classified
+	 * active-child traversal (ignoring {@code ignore()}d nodes) and classified
 	 * by semantic type, never by backend runtime type.
 	 */
 	public List<CBaseLanguageEntity> getDeclarationChildren()
@@ -181,7 +178,7 @@ public class CEntityClass extends CBaseLanguageEntity
 	 * Executable-role root children: PROCEDURE DIVISION / SECTION / PARAGRAPH
 	 * entities ({@link CEntityProcedureDivision} and {@link CEntityProcedure},
 	 * the latter covering sections). Filtered exactly like the direct
-	 * {@code ExportChildren()} and classified by semantic type, never by backend
+	 * active-child traversal and classified by semantic type, never by backend
 	 * runtime type.
 	 */
 	public List<CBaseLanguageEntity> getExecutableChildren()
