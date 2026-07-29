@@ -21,8 +21,7 @@ import utils.CObjectCatalog;
  * call. The SQLWARNING/SQLERROR clause is read from the catalog (registered
  * there by the WHENEVER statement's Stage-1 side effect) so the template can
  * chain {@code .onErrorGoto(...)}/{@code .onErrorContinue()} onto the
- * {@code sql(...)} call. Replaces the retired
- * {@code generate.java.SQL.CJavaSQLSessionDeclare} direct backend.
+ * {@code sql(...)} call.
  */
 public class CEntitySQLSessionDeclare extends CBaseActionEntity
 {
@@ -54,9 +53,7 @@ public class CEntitySQLSessionDeclare extends CBaseActionEntity
 	/**
 	 * The full {@code DECLARE GLOBAL ...} statement text, assembled
 	 * token-by-token by the parser and read by {@code <entity.statement>}. The
-	 * template wraps it as a Java string literal inside {@code sql(...)},
-	 * exactly what the retired backend's {@code WriteLongString(csSql)}
-	 * emitted.
+	 * template wraps it as a Java string literal inside {@code sql(...)}.
 	 */
 	public String getStatement()
 	{
