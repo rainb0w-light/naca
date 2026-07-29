@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import generate.java.CJavaAttribute;
 import generate.java.CJavaExporter;
-import generate.java.expressions.CJavaCurrentDate;
 import generate.java.expressions.CJavaDigits;
 import generate.java.expressions.CJavaEntityNumber;
 import generate.java.expressions.CJavaExprSum;
@@ -23,6 +22,7 @@ import semantic.CEntityValueReference;
 import semantic.expression.CBaseEntityExpression;
 import semantic.expression.CEntityAddressOf;
 import semantic.expression.CEntityConcat;
+import semantic.expression.CEntityCurrentDate;
 import utils.CObjectCatalog;
 
 class JavaSemanticFunctionRendererTest
@@ -37,7 +37,10 @@ class JavaSemanticFunctionRendererTest
         CJavaAttribute field = attribute("SOURCE-FIELD");
 
         assertMatchesDirect(new CJavaLengthOf(catalog, output, field));
-        assertMatchesDirect(new CJavaCurrentDate(catalog, output));
+        assertEquals("currentDate()",
+            assembler.renderRoot(
+                new CEntityCurrentDate(catalog),
+                JavaTemplateRole.REFERENCE));
         assertEquals("addressOf(source_Field)",
             assembler.renderRoot(
                 new CEntityAddressOf(catalog, field),

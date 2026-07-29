@@ -21,7 +21,7 @@ import utils.CObjectCatalog;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityCurrentDate extends CBaseEntityFunction
+public class CEntityCurrentDate extends CBaseEntityFunction
 {
 	/**
 	 * @param cat
@@ -46,5 +46,9 @@ public abstract class CEntityCurrentDate extends CBaseEntityFunction
 	public void RegisterWritingAction(CBaseActionEntity act)
 	{
 		arrActionsWriting.add(act) ;
+	}
+	public boolean isValNeeded()
+	{
+		return false;
 	}
 }

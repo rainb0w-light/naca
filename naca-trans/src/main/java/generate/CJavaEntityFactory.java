@@ -34,7 +34,6 @@ import generate.java.CJavaStructure;
 import generate.java.CJavaSubStringReference;
 import generate.java.CJavaUnknownReference;
 
-import generate.java.expressions.CJavaCurrentDate;
 import generate.java.expressions.CJavaDigits;
 import generate.java.expressions.CJavaEntityNumber;
 import generate.java.expressions.CJavaExprOpposite;
@@ -832,7 +831,9 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return e;
 	}
 	public CEntityCurrentDate NewEntityCurrentDate()	{
-		return new CJavaCurrentDate(programCatalog, langOutput);
+		CEntityCurrentDate e = new CEntityCurrentDate(programCatalog);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntityIntrinsicFunction NewEntityIntrinsicFunction(String functionName, List<CBaseEntityExpression> arguments)	{
 		return new CJavaIntrinsicFunction(programCatalog, langOutput, functionName, arguments);

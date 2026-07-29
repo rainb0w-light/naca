@@ -409,6 +409,18 @@ features:
     fixtures: []
     status: production
 
+  - id: cobol.expression.current-date
+    dialects: [cobol-core]
+    semanticType: semantic.expression.CEntityCurrentDate
+    javaBackend:
+      role: REFERENCE
+      template: currentDateEntity
+    # currentDate() is a protected BaseProgram helper inherited by generated
+    # programs; the template emits that stable helper call directly.
+    runtimeOperations: []
+    fixtures: []
+    status: production
+
   - id: cobol.data.initialize
     dialects: [cobol-core]
     semanticType: semantic.Verbs.CEntityInitialize

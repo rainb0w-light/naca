@@ -25,8 +25,8 @@
       "lastVerifiedAtCommit": "5903f95d",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 136,
-        "directBackends": 66,
+        "failures": 135,
+        "directBackends": 65,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -3631,25 +3631,27 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "COBOL_CORE",
       "sourceSyntax": "legacy backend CJavaCurrentDate",
-      "parserNode": null,
+      "parserNode": "parser.CFunctionIdentifier",
       "semanticNode": "semantic.expression.CEntityCurrentDate",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
+      "assemblerRole": "REFERENCE",
+      "manifestBinding": "semantic.expression.CEntityCurrentDate=currentDateEntity",
+      "template": "currentDateEntity",
       "runtimeOperation": null,
       "fixture": null,
       "directBackend": "generate.java.expressions.CJavaCurrentDate",
       "sourcePath": "naca-trans/src/main/java/generate/java/expressions/CJavaCurrentDate.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/expressions/CJavaCurrentDate.java"
-      ]
+        "naca-trans/src/main/java/semantic/expression/CEntityCurrentDate.java",
+        "naca-trans/src/test/java/generate/java/st/CEntityCurrentDateRenderTest.java"
+      ],
+      "lastAttemptCommit": "e7e3218a"
     },
     {
       "id": "BACKEND-COBOL-EXPRESSION-CJAVADIGITS",
