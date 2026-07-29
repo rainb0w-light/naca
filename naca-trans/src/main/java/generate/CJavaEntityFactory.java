@@ -92,7 +92,6 @@ import generate.java.forms.CJavaSetCursor;
 import generate.java.forms.CJavaSetFlag;
 import generate.java.forms.CJavaSetHighlight;
 import generate.java.forms.CJavaSkipField;
-import generate.java.verbs.CJavaRewriteFile;
 import generate.java.verbs.CJavaRoutineEmulationCall;
 import generate.java.verbs.CJavaSearch;
 import generate.java.verbs.CJavaSetConstant;
@@ -1197,7 +1196,9 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CJavaSortReturn(line, programCatalog, langOutput);
 	}
 	public CEntityRewriteFile NewEntityRewriteFile(int line)	{
-		return new CJavaRewriteFile(line, programCatalog, langOutput);
+		CEntityRewriteFile e = new CEntityRewriteFile(line, programCatalog);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntityAddress NewEntityAddress(String csAddresse)	{
 		throw new NacaTransAssertException("Method not implemented") ;
