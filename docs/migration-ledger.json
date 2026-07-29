@@ -25,8 +25,8 @@
       "lastVerifiedAtCommit": "5903f95d",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 123,
-        "directBackends": 54,
+        "failures": 122,
+        "directBackends": 53,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -4027,25 +4027,27 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "COBOL_CORE",
       "sourceSyntax": "legacy backend CJavaString",
-      "parserNode": null,
+      "parserNode": "parser.expression.CStringTerminal",
       "semanticNode": "semantic.expression.CEntityString",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
+      "assemblerRole": "REFERENCE",
+      "manifestBinding": "semantic.expression.CEntityString=stringLiteralEntity",
+      "template": "stringLiteralEntity",
       "runtimeOperation": null,
       "fixture": null,
       "directBackend": "generate.java.expressions.CJavaString",
       "sourcePath": "naca-trans/src/main/java/generate/java/expressions/CJavaString.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/expressions/CJavaString.java"
-      ]
+        "naca-trans/src/main/java/semantic/expression/CEntityString.java",
+        "naca-trans/src/test/java/generate/java/st/CEntityStringRenderTest.java"
+      ],
+      "lastAttemptCommit": "a5d067ed"
     },
     {
       "id": "BACKEND-COBOL-DATA-CJAVAADDRESSREFERENCE",

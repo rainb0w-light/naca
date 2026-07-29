@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import generate.java.CJavaAttribute;
 import generate.java.CJavaExporter;
-import generate.java.expressions.CJavaString;
 import generate.templates.TemplateLoader;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -54,7 +53,7 @@ class JavaSemanticFunctionRendererTest
     {
         CEntityConcat concat = new CEntityConcat(
             catalog,
-            new CJavaString(catalog, output, "PREFIX".toCharArray()),
+            new LegacyStringFixture(catalog, output, "PREFIX".toCharArray()),
             attribute("SOURCE-FIELD"));
         assertEquals("concat(\"PREFIX\", source_Field)",
             assembler.renderRoot(concat, JavaTemplateRole.REFERENCE));
@@ -63,8 +62,8 @@ class JavaSemanticFunctionRendererTest
         assertMatchesDirect(empty);
 
         LegacyListFixture strings = new LegacyListFixture("STRINGS", catalog, output);
-        strings.AddData(new CJavaString(catalog, output, "A".toCharArray()));
-        strings.AddData(new CJavaString(catalog, output, "B".toCharArray()));
+        strings.AddData(new LegacyStringFixture(catalog, output, "A".toCharArray()));
+        strings.AddData(new LegacyStringFixture(catalog, output, "B".toCharArray()));
         assertMatchesDirect(strings);
 
         LegacyListFixture numbers = new LegacyListFixture("NUMBERS", catalog, output);

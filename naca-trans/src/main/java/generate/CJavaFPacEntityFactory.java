@@ -7,7 +7,6 @@
 package generate;
 
 import generate.fpacjava.*;
-import generate.java.expressions.CJavaString;
 import generate.fpacjava.CFPacJavaRoutineEmulationCall;
 
 import java.util.ArrayList;
@@ -512,7 +511,7 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityString NewEntityString(char[] value)
 	{
-		return new CJavaString(programCatalog, langOutput, value) ;
+		return new CFPacJavaString(programCatalog, langOutput, value) ;
 	}
 
 	@Override

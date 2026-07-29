@@ -34,7 +34,6 @@ import generate.java.CJavaStructure;
 import generate.java.CJavaSubStringReference;
 import generate.java.CJavaUnknownReference;
 
-import generate.java.expressions.CJavaString;
 import generate.java.forms.CJavaField;
 import generate.java.forms.CJavaFieldArray;
 import generate.java.forms.CJavaFieldArrayReference;
@@ -286,12 +285,12 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		ocat.RegisterAttribute(att1) ;
 		CEntityAttribute att2 = new CJavaAttribute(0, "HEX-FF", ocat, null) ;
 		att2.SetTypeString(1) ;
-		att2.SetInitialValue(new CJavaString(ocat, null, new char[] {'\u00FF'})) ;
+		att2.SetInitialValue(new CEntityString(ocat, new char[] {'\u00FF'})) ;
 		structure.AddChild(att2) ;
 		ocat.RegisterAttribute(att2) ;
 		CEntityAttribute att3 = new CJavaAttribute(0, "HEX-80", ocat, null) ;
 		att3.SetTypeString(1) ;
-		att3.SetInitialValue(new CJavaString(ocat, null, new char[] {'\u0080'})) ;
+		att3.SetInitialValue(new CEntityString(ocat, new char[] {'\u0080'})) ;
 		structure.AddChild(att3) ;
 		ocat.RegisterAttribute(att3) ;
 		cat.RegisterExternalDataStructure(structure) ;
@@ -664,7 +663,8 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CJavaFormRedefine(l, name, programCatalog, langOutput, eForm, bSaveMap);
 	}
 	public CEntityString NewEntityString(char[] value)	{
-		CJavaString e = new CJavaString(programCatalog, langOutput, value) ;
+		CEntityString e = new CEntityString(programCatalog, value) ;
+		e.setLanguageExporter(langOutput);
 		return e ;
 	}
 	public CEntityCondOr NewEntityCondOr()	{
