@@ -273,6 +273,16 @@ features:
     fixtures: []
     status: production
 
+  - id: cobol.expression.addressOf
+    dialects: [cobol-core]
+    semanticType: semantic.expression.CEntityAddressOf
+    javaBackend:
+      role: REFERENCE
+      template: addressOfExpressionEntity
+    runtimeOperations: [data.addressOf]
+    fixtures: []
+    status: production
+
   - id: cobol.data.initialize
     dialects: [cobol-core]
     semanticType: semantic.Verbs.CEntityInitialize

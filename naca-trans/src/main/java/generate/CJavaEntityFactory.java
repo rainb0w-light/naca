@@ -34,7 +34,6 @@ import generate.java.CJavaStructure;
 import generate.java.CJavaSubStringReference;
 import generate.java.CJavaUnknownReference;
 
-import generate.java.expressions.CJavaAddressOf;
 import generate.java.expressions.CJavaConcat;
 import generate.java.expressions.CJavaCondAnd;
 import generate.java.expressions.CJavaCondCompare;
@@ -849,7 +848,9 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CJavaIntrinsicFunction(programCatalog, langOutput, functionName, arguments);
 	}
 	public CEntityAddressOf NewEntityAddressOf(CDataEntity data)	{
-		return new CJavaAddressOf(programCatalog, langOutput, data);
+		CEntityAddressOf e = new CEntityAddressOf(programCatalog, data);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntityLengthOf NewEntityLengthOf(CDataEntity data)	{
 		return new CJavaLengthOf(programCatalog, langOutput, data);

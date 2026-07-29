@@ -381,7 +381,7 @@ currentDateEntity(entity) ::= "currentDate()"
 
 addressOfExpression(reference) ::= "addressOf(<reference>)"
 
-addressOfExpressionEntity(entity) ::= "addressOf(<entity.reference>)"
+addressOfExpressionEntity(entity) ::= "addressOf(<if(entity.reference)><entity.reference><else>[UNDEFINED]<endif>)"
 
 digitsExpression(reference) ::= "digits(<reference>)"
 

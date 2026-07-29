@@ -21,7 +21,7 @@ import utils.CObjectCatalog;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityAddressOf extends CBaseEntityFunction
+public class CEntityAddressOf extends CBaseEntityFunction
 {
 	/**
 	 * @param cat
@@ -29,5 +29,10 @@ public abstract class CEntityAddressOf extends CBaseEntityFunction
 	public CEntityAddressOf(CObjectCatalog cat, CDataEntity data)
 	{
 		super(cat, data);
+	}
+
+	public boolean isValNeeded()
+	{
+		return false;
 	}
 }

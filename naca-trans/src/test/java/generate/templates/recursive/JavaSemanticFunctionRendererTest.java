@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import generate.java.CJavaAttribute;
 import generate.java.CJavaExporter;
-import generate.java.expressions.CJavaAddressOf;
 import generate.java.expressions.CJavaConcat;
 import generate.java.expressions.CJavaCurrentDate;
 import generate.java.expressions.CJavaDigits;
@@ -23,6 +22,7 @@ import parser.expression.CSumExpression;
 import semantic.CDataEntity;
 import semantic.CEntityValueReference;
 import semantic.expression.CBaseEntityExpression;
+import semantic.expression.CEntityAddressOf;
 import utils.CObjectCatalog;
 
 class JavaSemanticFunctionRendererTest
@@ -38,7 +38,10 @@ class JavaSemanticFunctionRendererTest
 
         assertMatchesDirect(new CJavaLengthOf(catalog, output, field));
         assertMatchesDirect(new CJavaCurrentDate(catalog, output));
-        assertMatchesDirect(new CJavaAddressOf(catalog, output, field));
+        assertEquals("addressOf(source_Field)",
+            assembler.renderRoot(
+                new CEntityAddressOf(catalog, field),
+                JavaTemplateRole.REFERENCE));
         assertMatchesDirect(new CJavaDigits(catalog, output, field));
         assertMatchesDirect(new CJavaInternalBool("INTERNAL-SWITCH", catalog, output));
 

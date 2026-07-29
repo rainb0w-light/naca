@@ -792,6 +792,14 @@ operations:
     paramTypes: [nacaLib.varEx.Var]
     returns: void
 
+  - id: data.addressOf
+    since: 1
+    capability: DATA
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: addressOf
+    paramTypes: [nacaLib.varEx.VarAndEdit]
+    returns: nacaLib.misc.Pointer
+
   - id: compare.isLess.intVarAndEdit
     since: 1
     capability: CONTROL_FLOW

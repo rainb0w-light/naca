@@ -22,11 +22,11 @@
     "ratchet": {
       "note": "Debt counts may only move down for the COBOL scope. Refresh per phase.",
       "baselineCapturedAtCommit": "9402b0c",
-      "lastVerifiedAtCommit": "8af90b29",
+      "lastVerifiedAtCommit": "af1179fa",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 148,
-        "directBackends": 78,
+        "failures": 147,
+        "directBackends": 77,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -3217,25 +3217,29 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "COBOL_CORE",
       "sourceSyntax": "legacy backend CJavaAddressOf",
       "parserNode": null,
       "semanticNode": "semantic.expression.CEntityAddressOf",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
+      "assemblerRole": "REFERENCE",
+      "manifestBinding": "semantic.expression.CEntityAddressOf=addressOfExpressionEntity",
+      "template": "addressOfExpressionEntity",
+      "runtimeOperation": "data.addressOf",
       "fixture": null,
       "directBackend": "generate.java.expressions.CJavaAddressOf",
       "sourcePath": "naca-trans/src/main/java/generate/java/expressions/CJavaAddressOf.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/expressions/CJavaAddressOf.java"
-      ]
+        "naca-trans/src/main/java/semantic/expression/CEntityAddressOf.java",
+        "naca-trans/src/main/resources/contract/feature-registry.yaml",
+        "naca-trans/src/main/resources/contract/runtime-operations.yaml",
+        "naca-trans/src/test/java/generate/java/st/CEntityAddressOfRenderTest.java"
+      ],
+      "lastAttemptCommit": "af1179fa"
     },
     {
       "id": "BACKEND-COBOL-EXPRESSION-CJAVACONCAT",
