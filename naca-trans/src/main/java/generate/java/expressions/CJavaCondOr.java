@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 18 août 2004
+ * Created on 18 aoÃ»t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -14,6 +14,7 @@ package generate.java.expressions;
 
 import generate.java.CJavaExporter;
 import semantic.expression.CBaseEntityCondition;
+import semantic.expression.CEntityCondAnd;
 import semantic.expression.CEntityCondOr;
 
 /**
@@ -41,7 +42,7 @@ public class CJavaCondOr extends CEntityCondOr
 	}
 	public CBaseEntityCondition GetOppositeCondition()
 	{
-		CJavaCondAnd eAnd = new CJavaCondAnd();
+		CEntityCondAnd eAnd = new CEntityCondAnd();
 		eAnd.SetCondition(op1.GetOppositeCondition(), op2.GetOppositeCondition()) ;
 		return eAnd;
 	}

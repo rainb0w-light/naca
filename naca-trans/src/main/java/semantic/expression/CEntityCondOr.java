@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 18 août 2004
+ * Created on 18 aoÃ»t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -23,8 +23,20 @@ import semantic.CDataEntity;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityCondOr extends CBaseEntityCondition
+public class CEntityCondOr extends CBaseEntityCondition
 {
+	public int GetPriorityLevel()
+	{
+		return 2;
+	}
+
+	public CBaseEntityCondition GetOppositeCondition()
+	{
+		CEntityCondAnd eAnd = new CEntityCondAnd();
+		eAnd.SetCondition(op1.GetOppositeCondition(), op2.GetOppositeCondition());
+		return eAnd;
+	}
+
 	public void SetCondition(CBaseEntityCondition op1, CBaseEntityCondition op2)	{
 		this.op1 = op1 ;
 		op1.SetParent(this) ; 
@@ -46,6 +58,14 @@ public abstract class CEntityCondOr extends CBaseEntityCondition
 	public CBaseEntityCondition getEffectiveRight()
 	{
 		return op2 != null && op2.ignore() ? op1 : op2;
+	}
+	public boolean isLeftIgnored()
+	{
+		return op1 != null && op1.ignore();
+	}
+	public boolean isRightIgnored()
+	{
+		return op2 != null && op2.ignore();
 	}
 	public boolean isLeftGrouped()
 	{

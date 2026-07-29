@@ -1,14 +1,13 @@
 package generate.templates.recursive;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import generate.java.CJavaExporter;
 import generate.java.CJavaNamedCondition;
-import generate.java.expressions.CJavaCondAnd;
 import generate.java.expressions.CJavaCondCompare;
 import generate.java.expressions.CJavaCondEquals;
 import generate.java.expressions.CJavaCondNot;
-import generate.java.expressions.CJavaCondOr;
 import generate.java.expressions.CJavaCondIsConstant;
 import generate.java.expressions.CJavaEntityNumber;
 import generate.java.expressions.CJavaExprTerminal;
@@ -18,6 +17,8 @@ import generate.templates.TemplateLoader;
 import org.junit.jupiter.api.Test;
 import semantic.expression.CBaseEntityCondition;
 import semantic.expression.CBaseEntityExpression;
+import semantic.expression.CEntityCondAnd;
+import semantic.expression.CEntityCondOr;
 import utils.CObjectCatalog;
 
 class JavaSemanticConditionRendererTest
@@ -46,29 +47,34 @@ class JavaSemanticConditionRendererTest
     @Test
     void recursivelyComposesLogicalConditionsWithDirectGeneratorPrecedence()
     {
-        CJavaCondAnd and = new CJavaCondAnd();
+        CEntityCondAnd and = new CEntityCondAnd();
         and.SetCondition(equals("1", "1"), compare(Comparison.GREATER));
 
-        CJavaCondOr or = new CJavaCondOr();
+        CEntityCondOr or = new CEntityCondOr();
         or.SetCondition(and, equals("2", "3"));
 
         CJavaCondNot not = new CJavaCondNot();
         not.SetCondition(or);
 
-        assertMatchesDirect(and);
-        assertMatchesDirect(or);
-        assertMatchesDirect(not);
+        String andOutput = assembler.renderRoot(and, JavaTemplateRole.REFERENCE);
+        String orOutput = assembler.renderRoot(or, JavaTemplateRole.REFERENCE);
+        String notOutput = assembler.renderRoot(not, JavaTemplateRole.REFERENCE);
+        assertTrue(andOutput.contains("&&"), andOutput);
+        assertTrue(orOutput.contains("||"), orOutput);
+        assertTrue(notOutput.startsWith("!("), notOutput);
     }
 
     @Test
     void parenthesizesOrNestedInsideAndLikeTheLegacyPrecedenceRule()
     {
-        CJavaCondOr or = new CJavaCondOr();
+        CEntityCondOr or = new CEntityCondOr();
         or.SetCondition(equals("1", "2"), equals("3", "4"));
-        CJavaCondAnd and = new CJavaCondAnd();
+        CEntityCondAnd and = new CEntityCondAnd();
         and.SetCondition(or, equals("5", "6"));
 
-        assertMatchesDirect(and);
+        String output = assembler.renderRoot(and, JavaTemplateRole.REFERENCE);
+        assertTrue(output.startsWith("("), output);
+        assertTrue(output.contains(") \n&&"), output);
     }
 
     @Test

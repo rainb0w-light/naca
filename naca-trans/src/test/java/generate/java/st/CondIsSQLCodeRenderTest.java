@@ -5,13 +5,13 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import generate.CJavaEntityFactoryST;
-import generate.java.expressions.CJavaCondAnd;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import semantic.SQL.CEntityCondIsSQLCode;
 import semantic.expression.CBaseEntityCondition;
+import semantic.expression.CEntityCondAnd;
 import utils.CGlobalCatalog;
 import utils.CObjectCatalog;
 import utils.COriginalLisiting;
@@ -118,7 +118,7 @@ class CondIsSQLCodeRenderTest
     @DisplayName("the recursive assembler resolves the pure semantic type inside a condition tree")
     void conditionComposesThroughTheAssembler()
     {
-        CJavaCondAnd and = new CJavaCondAnd();
+        CEntityCondAnd and = new CEntityCondAnd();
         and.SetCondition(isEqual(0), isNotEqual(100));
         String output = render(and);
         assertTrue(output.contains("isSQLCode(SQLCode.SQL_OK)"), output);

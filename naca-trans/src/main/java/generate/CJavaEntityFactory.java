@@ -34,7 +34,6 @@ import generate.java.CJavaStructure;
 import generate.java.CJavaSubStringReference;
 import generate.java.CJavaUnknownReference;
 
-import generate.java.expressions.CJavaCondAnd;
 import generate.java.expressions.CJavaCondCompare;
 import generate.java.expressions.CJavaCondEquals;
 import generate.java.expressions.CJavaCondIsAll;
@@ -713,7 +712,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CJavaCondCompare();
 	}
 	public CEntityCondAnd NewEntityCondAnd()	{
-		return new CJavaCondAnd();
+		return new CEntityCondAnd();
 	}
 	public CEntityCondIsAll NewEntityCondIsAll()	{
 		return new CJavaCondIsAll();

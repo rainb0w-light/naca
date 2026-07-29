@@ -472,13 +472,13 @@ recursiveCondOr(left, right) ::= <<
 >>
 
 recursiveCondAndEntity(entity) ::= <<
-<recursiveConditionChild(entity.effectiveLeft, entity.leftGrouped)><space()>
-&& <recursiveConditionChild(entity.effectiveRight, entity.rightGrouped)>
+<if(entity.leftIgnored)><entity.right><elseif(entity.rightIgnored)><entity.left><else><recursiveConditionChild(entity.effectiveLeft, entity.leftGrouped)><space()>
+&& <recursiveConditionChild(entity.effectiveRight, entity.rightGrouped)><endif>
 >>
 
 recursiveCondOrEntity(entity) ::= <<
-<recursiveConditionChild(entity.effectiveLeft, entity.leftGrouped)><space()>
-|| <recursiveConditionChild(entity.effectiveRight, entity.rightGrouped)>
+<if(entity.leftIgnored)><entity.right><elseif(entity.rightIgnored)><entity.left><else><recursiveConditionChild(entity.effectiveLeft, entity.leftGrouped)><space()>
+|| <recursiveConditionChild(entity.effectiveRight, entity.rightGrouped)><endif>
 >>
 
 recursiveCondNot(operand) ::= "!<operand>"

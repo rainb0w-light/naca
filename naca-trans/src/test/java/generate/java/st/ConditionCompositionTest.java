@@ -2,9 +2,9 @@ package generate.java.st;
 
 import static org.junit.jupiter.api.Assertions.assertSame;
 
-import generate.java.expressions.CJavaCondAnd;
-import generate.java.expressions.CJavaCondOr;
 import org.junit.jupiter.api.Test;
+import semantic.expression.CEntityCondAnd;
+import semantic.expression.CEntityCondOr;
 
 class ConditionCompositionTest
 {
@@ -13,7 +13,7 @@ class ConditionCompositionTest
     {
         MockCondition left = new MockCondition(1, "left");
         MockCondition right = new MockCondition(1, "right");
-        CJavaCondAnd condition = new CJavaCondAnd();
+        CEntityCondAnd condition = new CEntityCondAnd();
 
         condition.SetCondition(left, right);
 
@@ -26,7 +26,7 @@ class ConditionCompositionTest
     {
         MockCondition left = new MockCondition(1, "left");
         MockCondition right = new MockCondition(1, "right");
-        CJavaCondOr condition = new CJavaCondOr();
+        CEntityCondOr condition = new CEntityCondOr();
 
         condition.SetCondition(left, right);
 
