@@ -303,6 +303,16 @@ features:
     fixtures: []
     status: production
 
+  - id: cobol.condition.compare
+    dialects: [cobol-core]
+    semanticType: semantic.expression.CEntityCondCompare
+    javaBackend:
+      role: REFERENCE
+      template: recursiveCondCompareEntity
+    runtimeOperations: [compare.less.varVar, compare.lessOrEqual.varVar, compare.greater.varVar, compare.greaterOrEqual.varVar]
+    fixtures: []
+    status: production
+
   - id: cobol.data.initialize
     dialects: [cobol-core]
     semanticType: semantic.Verbs.CEntityInitialize

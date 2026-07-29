@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 18 ao�t 2004
+ * Created on 18 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -23,8 +23,23 @@ import semantic.CDataEntity;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityCondCompare extends CBinaryEntityCondition
+public class CEntityCondCompare extends CBinaryEntityCondition
 {
+	public int GetPriorityLevel()
+	{
+		return 7;
+	}
+
+	public CBaseEntityCondition GetOppositeCondition()
+	{
+		CEntityCondCompare newCond = new CEntityCondCompare();
+		newCond.isisGreater = !isisGreater;
+		newCond.isisOrEquals = !isisOrEquals;
+		newCond.op1 = op1;
+		newCond.op2 = op2;
+		return newCond;
+	}
+
 	
 	public void SetLessThan(CBaseEntityExpression op1, CBaseEntityExpression op2)
 	{

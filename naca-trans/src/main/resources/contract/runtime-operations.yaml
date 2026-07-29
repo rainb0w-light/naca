@@ -840,6 +840,38 @@ operations:
     paramTypes: [int, nacaLib.varEx.VarAndEdit]
     returns: boolean
 
+  - id: compare.less.varVar
+    since: 1
+    capability: CONTROL_FLOW
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: isLess
+    paramTypes: [nacaLib.varEx.VarAndEdit, nacaLib.varEx.VarAndEdit]
+    returns: boolean
+
+  - id: compare.lessOrEqual.varVar
+    since: 1
+    capability: CONTROL_FLOW
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: isLessOrEqual
+    paramTypes: [nacaLib.varEx.VarAndEdit, nacaLib.varEx.VarAndEdit]
+    returns: boolean
+
+  - id: compare.greater.varVar
+    since: 1
+    capability: CONTROL_FLOW
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: isGreater
+    paramTypes: [nacaLib.varEx.VarAndEdit, nacaLib.varEx.VarAndEdit]
+    returns: boolean
+
+  - id: compare.greaterOrEqual.varVar
+    since: 1
+    capability: CONTROL_FLOW
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: isGreaterOrEqual
+    paramTypes: [nacaLib.varEx.VarAndEdit, nacaLib.varEx.VarAndEdit]
+    returns: boolean
+
   # --- INSPECT REPLACING ---
   - id: inspect.replacing
     since: 1

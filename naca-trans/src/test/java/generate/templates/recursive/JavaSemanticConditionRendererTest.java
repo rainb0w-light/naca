@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import generate.java.CJavaExporter;
 import generate.java.CJavaNamedCondition;
-import generate.java.expressions.CJavaCondCompare;
 import generate.java.expressions.CJavaCondEquals;
 import generate.java.expressions.CJavaCondNot;
 import generate.java.expressions.CJavaCondIsConstant;
@@ -18,6 +17,7 @@ import org.junit.jupiter.api.Test;
 import semantic.expression.CBaseEntityCondition;
 import semantic.expression.CBaseEntityExpression;
 import semantic.expression.CEntityCondAnd;
+import semantic.expression.CEntityCondCompare;
 import semantic.expression.CEntityCondOr;
 import utils.CObjectCatalog;
 
@@ -38,10 +38,14 @@ class JavaSemanticConditionRendererTest
         different.SetDifferentCondition(number("3"), number("4"));
         assertMatchesDirect(different);
 
-        assertMatchesDirect(compare(Comparison.LESS));
-        assertMatchesDirect(compare(Comparison.LESS_OR_EQUAL));
-        assertMatchesDirect(compare(Comparison.GREATER));
-        assertMatchesDirect(compare(Comparison.GREATER_OR_EQUAL));
+        assertEquals("isLess(7, 8)",
+            assembler.renderRoot(compare(Comparison.LESS), JavaTemplateRole.REFERENCE));
+        assertEquals("isLessOrEqual(7, 8)",
+            assembler.renderRoot(compare(Comparison.LESS_OR_EQUAL), JavaTemplateRole.REFERENCE));
+        assertEquals("isGreater(7, 8)",
+            assembler.renderRoot(compare(Comparison.GREATER), JavaTemplateRole.REFERENCE));
+        assertEquals("isGreaterOrEqual(7, 8)",
+            assembler.renderRoot(compare(Comparison.GREATER_OR_EQUAL), JavaTemplateRole.REFERENCE));
     }
 
     @Test
@@ -130,9 +134,9 @@ class JavaSemanticConditionRendererTest
         return condition;
     }
 
-    private CJavaCondCompare compare(Comparison comparison)
+    private CEntityCondCompare compare(Comparison comparison)
     {
-        CJavaCondCompare condition = new CJavaCondCompare();
+        CEntityCondCompare condition = new CEntityCondCompare();
         switch (comparison)
         {
             case LESS -> condition.SetLessThan(number("7"), number("8"));
