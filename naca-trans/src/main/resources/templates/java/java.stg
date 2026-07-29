@@ -1034,6 +1034,12 @@ recursiveCICSReadField(entity) ::= "Pub2000Routines.readFieldInMap(getProgramMan
 recursiveCICSReadFieldPrevious(entity) ::= "Pub2000Routines.readFieldInMapPrevious(getProgramManager(), <entity.dataIntoOwner>, <entity.recIDField>);"
 recursiveCICSReadFieldNext(entity) ::= "Pub2000Routines.readFieldInMapNext(getProgramManager(), <entity.dataIntoOwner>, <entity.recIDField>);"
 
+// Embedded CICS READQ TD/TS. Stage 1 validates option combinations and resolves
+// all references; the template only selects the queue family and fluent shape.
+recursiveCICSReadQEntity(entity) ::= <<
+CESM.read<if(entity.persistent)>Transiant<else>Temp<endif>Queue(<entity.queueName>)<if(entity.dataRef)><if(entity.item)>.itemInto(<entity.item>, <entity.dataRef><if(entity.dataLength)>, <entity.dataLength><endif>)<else>.nextInto(<entity.dataRef><if(entity.dataLength)>, <entity.dataLength><endif>)<endif><endif><if(entity.numItem)>.numItem(<entity.numItem>)<endif> ;
+>>
+
 // Embedded CICS HANDLE AID (EXEC CICS HANDLE AID ENTER(label) PF1(label) ...
 // ANYKEY(label) END-EXEC). Emits one CESM.handleAID(<cond>, <label>) per
 // handled AID entry and one CESM.unhandleAID(<cond>) per unhandled AID entry.

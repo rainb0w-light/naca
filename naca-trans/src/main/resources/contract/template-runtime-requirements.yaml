@@ -233,3 +233,19 @@ templates:
       - cics.read.keyLengthInt
       - cics.read.equal
       - cics.read.update
+
+  recursiveCICSReadQEntity:
+    capability: CICS
+    requires:
+      - cics.readq.tempString
+      - cics.readq.tempVar
+      - cics.readq.transiantString
+      - cics.readq.transiantVar
+      - cics.readq.nextInto
+      - cics.readq.nextIntoVarLength
+      - cics.readq.nextIntoIntLength
+      - cics.readq.itemIntoVar
+      - cics.readq.itemIntoInt
+      - cics.readq.itemIntoVarLength
+      - cics.readq.itemIntoIntLength
+      - cics.readq.numItem

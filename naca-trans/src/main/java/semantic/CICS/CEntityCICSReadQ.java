@@ -23,14 +23,17 @@ import utils.CobolTranscoder.Notifs.NotifDeclareUseCICSPreprocessor;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityCICSReadQ extends CBaseActionEntity
+public class CEntityCICSReadQ extends CBaseActionEntity
 {
 
 	public CEntityCICSReadQ(int line, CObjectCatalog cat, boolean bPersistant)
 	{
 		super(line, cat);
 		ispesistant = bPersistant ;
-		cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
+		if (cat != null)
+		{
+			cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
+		}
 	}
 
 	protected boolean ispesistant = false ;
@@ -49,6 +52,7 @@ public abstract class CEntityCICSReadQ extends CBaseActionEntity
 		dataLength = null ;
 		numItem = null;
 		item = null;
+		bReadNext = false;
 	}
 
 	public void SetName(CDataEntity entity)
@@ -90,4 +94,12 @@ public abstract class CEntityCICSReadQ extends CBaseActionEntity
 		}
 		return false ;
 	}
+
+	public boolean isPersistent() { return ispesistant; }
+	public CDataEntity getQueueName() { return queueName; }
+	public CDataEntity getDataRef() { return dataRef; }
+	public CDataEntity getDataLength() { return dataLength; }
+	public boolean isReadNext() { return bReadNext; }
+	public CDataEntity getNumItem() { return numItem; }
+	public CDataEntity getItem() { return item; }
 }

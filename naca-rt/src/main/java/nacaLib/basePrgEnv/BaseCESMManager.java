@@ -451,6 +451,17 @@ public class BaseCESMManager extends CJMapObject
 		
 		return new CESMReadQueue(false, csName, cESMEnv.getQueueManager());
 	}
+
+	public CESMReadQueue readTransiantQueue(Var name)
+	{
+		return readTransiantQueue(name.getString());
+	}
+
+	public CESMReadQueue readTransiantQueue(String name)
+	{
+		cESMEnv.setCommandReturnCode(CESMReturnCode.NORMAL);
+		return new CESMReadQueue(true, name, cESMEnv.getQueueManager());
+	}
 	
 	public CCESMFakeMethodContainer deleteTempQueue(Var varName)
 	{

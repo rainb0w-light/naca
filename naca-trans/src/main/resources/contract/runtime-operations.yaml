@@ -1024,3 +1024,100 @@ operations:
     runtimeMethod: update
     paramTypes: []
     returns: nacaLib.misc.CCESMFakeMethodContainer
+
+  # --- CICS READQ TD / TS ---
+  - id: cics.readq.tempString
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
+    runtimeMethod: readTempQueue
+    paramTypes: [java.lang.String]
+    returns: nacaLib.CESM.CESMReadQueue
+
+  - id: cics.readq.tempVar
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
+    runtimeMethod: readTempQueue
+    paramTypes: [nacaLib.varEx.Var]
+    returns: nacaLib.CESM.CESMReadQueue
+
+  - id: cics.readq.transiantString
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
+    runtimeMethod: readTransiantQueue
+    paramTypes: [java.lang.String]
+    returns: nacaLib.CESM.CESMReadQueue
+
+  - id: cics.readq.transiantVar
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
+    runtimeMethod: readTransiantQueue
+    paramTypes: [nacaLib.varEx.Var]
+    returns: nacaLib.CESM.CESMReadQueue
+
+  - id: cics.readq.nextInto
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.CESM.CESMReadQueue
+    runtimeMethod: nextInto
+    paramTypes: [nacaLib.varEx.Var]
+    returns: nacaLib.CESM.CESMReadQueue
+
+  - id: cics.readq.nextIntoVarLength
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.CESM.CESMReadQueue
+    runtimeMethod: nextInto
+    paramTypes: [nacaLib.varEx.Var, nacaLib.varEx.Var]
+    returns: nacaLib.CESM.CESMReadQueue
+
+  - id: cics.readq.nextIntoIntLength
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.CESM.CESMReadQueue
+    runtimeMethod: nextInto
+    paramTypes: [nacaLib.varEx.Var, int]
+    returns: nacaLib.CESM.CESMReadQueue
+
+  - id: cics.readq.itemIntoVar
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.CESM.CESMReadQueue
+    runtimeMethod: itemInto
+    paramTypes: [nacaLib.varEx.Var, nacaLib.varEx.Var]
+    returns: nacaLib.CESM.CESMReadQueue
+
+  - id: cics.readq.itemIntoInt
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.CESM.CESMReadQueue
+    runtimeMethod: itemInto
+    paramTypes: [int, nacaLib.varEx.Var]
+    returns: nacaLib.CESM.CESMReadQueue
+
+  - id: cics.readq.itemIntoVarLength
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.CESM.CESMReadQueue
+    runtimeMethod: itemInto
+    paramTypes: [nacaLib.varEx.Var, nacaLib.varEx.Var, nacaLib.varEx.Var]
+    returns: nacaLib.CESM.CESMReadQueue
+
+  - id: cics.readq.itemIntoIntLength
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.CESM.CESMReadQueue
+    runtimeMethod: itemInto
+    paramTypes: [int, nacaLib.varEx.Var, nacaLib.varEx.Var]
+    returns: nacaLib.CESM.CESMReadQueue
+
+  - id: cics.readq.numItem
+    since: 1
+    capability: CICS
+    runtimeClass: nacaLib.CESM.CESMReadQueue
+    runtimeMethod: numItem
+    paramTypes: [nacaLib.varEx.Var]
+    returns: nacaLib.CESM.CESMReadQueue

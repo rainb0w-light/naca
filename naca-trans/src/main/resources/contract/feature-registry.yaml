@@ -352,6 +352,28 @@ features:
     fixtures: []
     status: production
 
+  - id: cics.readq
+    dialects: [embedded-cics]
+    semanticType: semantic.CICS.CEntityCICSReadQ
+    javaBackend:
+      role: REFERENCE
+      template: recursiveCICSReadQEntity
+    runtimeOperations:
+      - cics.readq.tempString
+      - cics.readq.tempVar
+      - cics.readq.transiantString
+      - cics.readq.transiantVar
+      - cics.readq.nextInto
+      - cics.readq.nextIntoVarLength
+      - cics.readq.nextIntoIntLength
+      - cics.readq.itemIntoVar
+      - cics.readq.itemIntoInt
+      - cics.readq.itemIntoVarLength
+      - cics.readq.itemIntoIntLength
+      - cics.readq.numItem
+    fixtures: []
+    status: production
+
   - id: sql.cursorSection
     dialects: [embedded-sql]
     semanticType: semantic.CEntitySQLCursorSection

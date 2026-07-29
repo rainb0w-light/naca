@@ -12,6 +12,7 @@
  */
 package parser.Cobol.elements.CICS;
 
+import diagnostic.DiagnosticSink;
 import lexer.CBaseToken;
 import lexer.CTokenType;
 import lexer.Cobol.CCobolKeywordList;
@@ -51,6 +52,17 @@ public class CExecCICSReadQ extends CCobolElement
 	 */
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
+		if (queueName == null
+			|| ((isnext || item != null || length != null) && dataRef == null)
+			|| (isnext && item != null))
+		{
+			DiagnosticSink.recordUnsupported(
+				"cics.readq.invalid-option-combination",
+				"embedded-cics",
+				getLine(),
+				"EXEC CICS READQ requires QUEUE(...); NEXT/ITEM/LENGTH require INTO(...), and NEXT conflicts with ITEM");
+			return null;
+		}
 		CEntityCICSReadQ eRQ = factory.NewEntityCICSReadQ(getLine(), ispersistant);
 		parent.AddChild(eRQ);
 		
@@ -81,7 +93,7 @@ public class CExecCICSReadQ extends CCobolElement
 		{
 			CDataEntity e = numItem.GetDataEntity(getLine(), factory) ;
 			eRQ.ReadNumItem(e);
-			e.RegisterReadingAction(eRQ) ;
+			e.RegisterWritingAction(eRQ) ;
 		}
 		return eRQ ;
 	}
@@ -267,4 +279,3 @@ public class CExecCICSReadQ extends CCobolElement
 	protected CTerminal length = null ;
 	protected boolean isnext = false ;
 }
- 

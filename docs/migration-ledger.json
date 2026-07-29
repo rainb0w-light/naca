@@ -22,11 +22,11 @@
     "ratchet": {
       "note": "Debt counts may only move down for the COBOL scope. Refresh per phase.",
       "baselineCapturedAtCommit": "9402b0c",
-      "lastVerifiedAtCommit": "23769ee4",
+      "lastVerifiedAtCommit": "e24fdcbb",
       "finalArchitectureCheck": {
         "tests": 390,
         "failures": 212,
-        "directBackends": 127,
+        "directBackends": 126,
         "semanticClasses": 47,
         "factories": 3,
         "templates": 1,
@@ -1567,7 +1567,7 @@
       "expectedDebtDelta": {
         "directBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "EMBEDDED_CICS",
       "sourceSyntax": "legacy backend CJavaCICSReadQ",
@@ -1581,11 +1581,12 @@
       "directBackend": "generate.java.CICS.CJavaCICSReadQ",
       "sourcePath": "naca-trans/src/main/java/generate/java/CICS/CJavaCICSReadQ.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Retire this one legacy backend through the unified semantic-tree + recursive-ST4 assembler; preserve behavior and reduce directBackends by one.",
       "evidence": [
         "naca-trans/src/main/java/generate/java/CICS/CJavaCICSReadQ.java"
-      ]
+      ],
+      "lastAttemptCommit": "e24fdcbb"
     },
     {
       "id": "BACKEND-CICS-CJAVACICSRETRIEVE",

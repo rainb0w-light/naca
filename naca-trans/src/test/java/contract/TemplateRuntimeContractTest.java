@@ -145,6 +145,9 @@ class TemplateRuntimeContractTest
                 "cics.read.previousFileString", "cics.read.previousFileVar",
                 "cics.read.nextDataSetString", "cics.read.nextDataSetVar",
                 "cics.read.nextFileString", "cics.read.nextFileVar")));
+        assertTrue(contract.templateRequirements().get("recursiveCICSReadQEntity").requires()
+            .containsAll(List.of("cics.readq.tempString", "cics.readq.tempVar",
+                "cics.readq.transiantString", "cics.readq.transiantVar")));
     }
 
     private static void collectMethods(Matcher matcher, Set<String> methods)

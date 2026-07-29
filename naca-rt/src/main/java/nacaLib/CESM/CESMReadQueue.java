@@ -31,14 +31,20 @@ public class CESMReadQueue extends CJMapObject
 
 	public CESMReadQueue(boolean bTransient, String name, CESMQueueManager manager)
 	{		
-		bTransient = bTransient ;
-		name = name ;
-		manager = manager ;
+		this.istransient = bTransient ;
+		this.name = name ;
+		this.manager = manager ;
 	}
 	
 	public CESMReadQueue nextInto(Var tsZone, Var tsLong)
 	{
 		manager.readNextTempQueue(name, tsZone) ;
+		return this;
+	}
+
+	public CESMReadQueue nextInto(Var tsZone, int length)
+	{
+		manager.readNextTempQueue(name, tsZone);
 		return this;
 	}
 
@@ -66,6 +72,12 @@ public class CESMReadQueue extends CJMapObject
 		manager.readIndexedTempQueue(name, nIndex, varItem, varLength) ;
 		return this ;
 	}
+
+	public CESMReadQueue itemInto(int index, Var varItem, Var varLength)
+	{
+		manager.readIndexedTempQueue(name, index, varItem, varLength);
+		return this;
+	}
 	
 	public CESMReadQueue numItem(Var varNbItems)	// Get the number of items in the collection
 	{
@@ -73,4 +85,3 @@ public class CESMReadQueue extends CJMapObject
 		return this ;
 	}
 }
-
