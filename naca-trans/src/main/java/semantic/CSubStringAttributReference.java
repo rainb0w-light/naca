@@ -25,7 +25,7 @@ import utils.CObjectCatalog;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CSubStringAttributReference extends CBaseDataReference
+public class CSubStringAttributReference extends CBaseDataReference
 {
 
 	/**
@@ -36,6 +36,21 @@ public abstract class CSubStringAttributReference extends CBaseDataReference
 	public CSubStringAttributReference(int l, CObjectCatalog cat)
 	{
 		super(l, "", cat);
+	}
+
+	public boolean HasAccessors()
+	{
+		return true;
+	}
+
+	public boolean isValNeeded()
+	{
+		return true;
+	}
+
+	public CDataEntityType GetDataType()
+	{
+		return CDataEntityType.VAR;
 	}
 	public void SetReference(CDataEntity ref, CBaseEntityExpression start, CBaseEntityExpression length)
 	{

@@ -12,41 +12,7 @@
  */
 package generate;
 
-import generate.java.CJavaSubStringReference;
-
-import generate.java.forms.CJavaField;
-import generate.java.forms.CJavaFieldArray;
-import generate.java.forms.CJavaFieldArrayReference;
-import generate.java.forms.CJavaFieldAttribute;
-import generate.java.forms.CJavaFieldColor;
-import generate.java.forms.CJavaFieldData;
-import generate.java.forms.CJavaFieldFlag;
-import generate.java.forms.CJavaFieldHighligh;
-import generate.java.forms.CJavaFieldLength;
-import generate.java.forms.CJavaFieldOccurs;
-import generate.java.forms.CJavaFieldRedefine;
-import generate.java.forms.CJavaFieldValidated;
-import generate.java.forms.CJavaForm;
-import generate.java.forms.CJavaFormContainer;
-import generate.java.forms.CJavaFormRedefine;
-import generate.java.forms.CJavaGetKeyPressed;
-import generate.java.forms.CJavaIsFieldAttribute;
-import generate.java.forms.CJavaIsFieldColor;
-import generate.java.forms.CJavaIsFieldCursor;
-import generate.java.forms.CJavaIsFieldFlag;
-import generate.java.forms.CJavaIsFieldHighlight;
-import generate.java.forms.CJavaIsFieldModified;
-import generate.java.forms.CJavaIsKeyPressed;
-import generate.java.forms.CJavaKeyPressed;
-import generate.java.forms.CJavaLabelField;
-import generate.java.forms.CJavaResetKeyPressed;
-import generate.java.forms.CJavaResourceStrings;
-import generate.java.forms.CJavaSetAttribute;
-import generate.java.forms.CJavaSetColor;
-import generate.java.forms.CJavaSetCursor;
-import generate.java.forms.CJavaSetFlag;
-import generate.java.forms.CJavaSetHighlight;
-import generate.java.forms.CJavaSkipField;
+import generate.java.forms.BmsJavaEntities;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -520,13 +486,13 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return e;
 	}
 	public CEntityResourceFormContainer NewEntityFormContainer(int l, String name, boolean bSave)	{
-		return new CJavaFormContainer(l, name, programCatalog, langOutput, bSave);
+		return BmsJavaEntities.formContainer(l, name, programCatalog, langOutput, bSave);
 	}
 	public CEntityResourceForm NewEntityForm(int l, String name, boolean bSave)	{
-		return new CJavaForm(l, name, programCatalog, langOutput, bSave);
+		return BmsJavaEntities.form(l, name, programCatalog, langOutput, bSave);
 	}
 	public CEntityFieldAttribute NewEntityFieldAttribute(int l, String name, CDataEntity owner)	{
-		return new CJavaFieldAttribute(l, name, programCatalog, langOutput, owner);
+		return BmsJavaEntities.fieldAttribute(l, name, programCatalog, langOutput, owner);
 	}
 	public CEntityCallFunction NewEntityCallFunction(int l, String reference, String csRefThru, CEntityProcedureSection section)	{
 		CEntityCallFunction e = new CEntityCallFunction(
@@ -556,7 +522,10 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CEntityCase(l, programCatalog, endline);
 	}
 	public CSubStringAttributReference NewEntitySubString(int l)	{
-		return new CJavaSubStringReference(l, programCatalog, langOutput);
+		CSubStringAttributReference entity =
+			new CSubStringAttributReference(l, programCatalog);
+		entity.setLanguageExporter(langOutput);
+		return entity;
 	}
 	public CEntityArrayReference NewEntityArrayReference(int l)	{
 		CEntityArrayReference e = new CEntityArrayReference(l, programCatalog);
@@ -610,37 +579,37 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 	}
 	public CEntitySetColor NewEntitySetColor(int l, CDataEntity field)	{
 		programCatalog.addImportDeclaration("MAP") ;
-		return new CJavaSetColor(l, programCatalog, langOutput, field) ;
+		return BmsJavaEntities.setColor(l, programCatalog, langOutput, field) ;
 	}
 	public CEntityFieldLength NewEntityFieldLengh(int l, String name, CDataEntity field)	{
-		return new CJavaFieldLength(l, name, programCatalog, langOutput, field) ;
+		return BmsJavaEntities.fieldLength(l, name, programCatalog, langOutput, field) ;
 	}
 	public CEntityFieldColor NewEntityFieldColor(int l, String name, CDataEntity field)	{
-		return new CJavaFieldColor(l, name, programCatalog, langOutput, field) ;
+		return BmsJavaEntities.fieldColor(l, name, programCatalog, langOutput, field) ;
 	}
 	public CEntityFieldHighlight NewEntityFieldHighlight(int l, String name, CDataEntity field)	{
-		return new CJavaFieldHighligh(l, name, programCatalog, langOutput, field) ;
+		return BmsJavaEntities.fieldHighlight(l, name, programCatalog, langOutput, field) ;
 	}
 //	public CEntityFieldFlag NewEntityFieldFlag(int l, String name, CBaseDataEntity field)
 //	{
-//		return new CJavaFieldFlag(l, name, programCatalog, langOutput, field) ;
+//		return BmsJavaEntities.fieldFlag(l, name, programCatalog, langOutput, field) ;
 //	}
 	public CEntityFieldFlag NewEntityFieldFlag(int l, String name, CDataEntity field)	{
-		return new CJavaFieldFlag(l, name, programCatalog, langOutput, field) ;
+		return BmsJavaEntities.fieldFlag(l, name, programCatalog, langOutput, field) ;
 	}
 	public CEntitySetHighligh NewEntitySetHighlight(int l, CDataEntity field)	{
 		programCatalog.addImportDeclaration("MAP") ;
-		return new CJavaSetHighlight(l, programCatalog, langOutput, field) ;
+		return BmsJavaEntities.setHighlight(l, programCatalog, langOutput, field) ;
 	}
 	public CEntitySetFlag NewEntitySetFlag(int l, CDataEntity field)	{
-		return new CJavaSetFlag(l, programCatalog, langOutput, field) ;
+		return BmsJavaEntities.setFlag(l, programCatalog, langOutput, field) ;
 	}
 	public CEntitySetCursor NewEntitySetCursor(int l, CDataEntity field)	{
-		return new CJavaSetCursor(l, programCatalog, langOutput, field) ;
+		return BmsJavaEntities.setCursor(l, programCatalog, langOutput, field) ;
 	}
 	public CEntitySetAttribute NewEntitySetAttribute(int l, CDataEntity field)	{
 		programCatalog.addImportDeclaration("MAP") ;
-		return new CJavaSetAttribute(l, programCatalog, langOutput, field) ;
+		return BmsJavaEntities.setAttribute(l, programCatalog, langOutput, field) ;
 	}
 	public CEntityAssignWithAccessor NewEntityAssignWithAccessor(int l)	{
 		CEntityAssignWithAccessor e = new CEntityAssignWithAccessor(l, programCatalog);
@@ -648,10 +617,10 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return e;
 	}
 	public CEntityFieldData NewEntityFieldData(int l, String name, CDataEntity field)	{
-		return new CJavaFieldData(l, name, programCatalog, langOutput, field);
+		return BmsJavaEntities.fieldData(l, name, programCatalog, langOutput, field);
 	}
 	public CResourceStrings NewResourceString(int nbLines, int nbCols)	{
-		return new CJavaResourceStrings(nbLines, nbCols);
+		return BmsJavaEntities.resourceStrings(nbLines, nbCols);
 	}
 	public CEntityEnvironmentVariable NewEntityEnvironmentVariable(String name, String acc, boolean bNumeric)	{
 		CEntityEnvironmentVariable e =
@@ -665,24 +634,21 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		e.setLanguageExporter(langOutput);
 		return e;
 	}
-//	public CEntityFormAccessor NewEntityFormAccessor(int l, String name, CEntityResourceForm owner)	{
-//		return new CJavaFormAccessor(l, name, programCatalog, langOutput, owner);
-//	}
 	public CEntitySkipFields NewEntityWorkingSkipField(int l, String name, int nbFields, String level)	{
-		return new CJavaSkipField(l, name, programCatalog, langOutput, nbFields, level);
+		return BmsJavaEntities.skipFields(l, name, programCatalog, langOutput, nbFields, level);
 	}
 	public CEntityResourceField NewEntityEntryField(int l, String name)	{
-		return new CJavaField(l, name, programCatalog, langOutput);	
+		return BmsJavaEntities.entryField(l, name, programCatalog, langOutput);
 	}
 	public CEntityResourceField NewEntityLabelField(int l)	{
-		return new CJavaLabelField(l, programCatalog, langOutput);
+		return BmsJavaEntities.labelField(l, programCatalog, langOutput);
 	}
 	public CEntityFieldRedefine NewEntityFieldRedefine(int l, String name, String level)	{
-		return new CJavaFieldRedefine(l, name, programCatalog, langOutput, level);	
+		return BmsJavaEntities.fieldRedefine(l, name, programCatalog, langOutput, level);
 	}
 	public CEntityFormRedefine NewEntityFormRedefine(int l, String name, CDataEntity eForm, boolean bSaveMap)	{
 		//programCatalog.addImportDeclaration("MAP") ;
-		return new CJavaFormRedefine(l, name, programCatalog, langOutput, eForm, bSaveMap);
+		return BmsJavaEntities.formRedefine(l, name, programCatalog, langOutput, eForm, bSaveMap);
 	}
 	public CEntityString NewEntityString(char[] value)	{
 		CEntityString e = new CEntityString(programCatalog, value) ;
@@ -728,7 +694,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CEntityCondIsConstant() ;
 	}
 	public CEntityIsFieldFlag NewEntityIsFieldFlag()	{
-		return new CJavaIsFieldFlag();
+		return BmsJavaEntities.isFieldFlag();
 	}
 	public CEntitySetConstant NewEntitySetConstant(int l)	{
 		CEntitySetConstant e = new CEntitySetConstant(l, programCatalog);
@@ -737,11 +703,11 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 	}
 	public CEntityIsFieldColor NewEntityIsFieldColor()	{
 		programCatalog.addImportDeclaration("MAP") ;
-		return new CJavaIsFieldColor();
+		return BmsJavaEntities.isFieldColor();
 	}
 	public CEntityIsFieldAttribute NewEntityIsFieldAttribute()	{
 		programCatalog.addImportDeclaration("MAP") ;
-		return new CJavaIsFieldAttribute() ;
+		return BmsJavaEntities.isFieldAttribute() ;
 	}
 	public CEntityAddressReference NewEntityAddressReference(CDataEntity ref)	{
 		CEntityAddressReference e = new CEntityAddressReference(programCatalog, ref);
@@ -773,10 +739,10 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 	}
 	public CEntityIsFieldHighlight NewEntityIsFieldHighlight(CDataEntity ref)	{
 		programCatalog.addImportDeclaration("MAP") ;
-		return new CJavaIsFieldHighlight(ref) ;
+		return BmsJavaEntities.isFieldHighlight(ref) ;
 	}
 	public CEntityFieldValidated NewEntityFieldValidated(int l, String name, CDataEntity field)	{
-		return new CJavaFieldValidated(l, name, programCatalog, langOutput, field) ;
+		return BmsJavaEntities.fieldValidated(l, name, programCatalog, langOutput, field) ;
 	}
 	public CEntityStringConcat NewEntityStringConcat(int l)	{
 		CEntityStringConcat e = new CEntityStringConcat(l, programCatalog);
@@ -928,7 +894,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return e;
 	}
 	public CEntityIsFieldModified NewEntityIsFieldModified() {
-		return new CJavaIsFieldModified();
+		return BmsJavaEntities.isFieldModified();
 	}
 	public CEntityCICSSyncPoint NewEntityCICSSyncPoint(int l, boolean bRollBack)	{
 		// Direct backend CJavaCICSSyncPoint retired: the pure semantic entity is rendered
@@ -1044,7 +1010,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return e;
 	}
 	public CEntityFieldArrayReference NewEntityFieldArrayReference(int l)	{
-		return new CJavaFieldArrayReference(l, programCatalog, langOutput);
+		return BmsJavaEntities.fieldArrayReference(l, programCatalog, langOutput);
 	}
 	public CEntityIndex NewEntityIndex(String name)	{
 		CEntityIndex entity = new CEntityIndex(name, programCatalog);
@@ -1062,17 +1028,17 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 	}
 	public CEntityKeyPressed NewEntityKeyPressed(String name, String caption)	{
 		//programCatalog.UseMapSupport() ;
-		return new CJavaKeyPressed(0, name, programCatalog, langOutput, caption);
+		return BmsJavaEntities.keyPressed(0, name, programCatalog, langOutput, caption);
 	}
 	public CEntityGetKeyPressed NewEntityGetKeyPressed(String name)	{
-		return new CJavaGetKeyPressed(name, programCatalog, langOutput);
+		return BmsJavaEntities.getKeyPressed(name, programCatalog, langOutput);
 	}
 	public CEntityIsKeyPressed NewEntityIsKeyPressed()	{
 		programCatalog.addImportDeclaration("KEYPRESSED") ;
-		return new CJavaIsKeyPressed();
+		return BmsJavaEntities.isKeyPressed();
 	}
 	public CEntityFieldOccurs NewEntityFieldOccurs(int l, String name)	{
-		return new CJavaFieldOccurs(l, name, programCatalog, langOutput);
+		return BmsJavaEntities.fieldOccurs(l, name, programCatalog, langOutput);
 	}
 	public CEntityUnknownReference NewEntityUnknownReference(int nLine, String csName)
 	{
@@ -1090,10 +1056,10 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return e;
 	}
 	public CEntityResetKeyPressed NewEntityResetKeyPressed(int l)	{
-		return new CJavaResetKeyPressed(l, programCatalog, langOutput);
+		return BmsJavaEntities.resetKeyPressed(l, programCatalog, langOutput);
 	}
 	public CEntityResourceFieldArray NewEntityFieldArray()	{
-		return new CJavaFieldArray(0, "", programCatalog, langOutput);
+		return BmsJavaEntities.fieldArray(0, "", programCatalog, langOutput);
 	}
 	public CEntitySQLCode NewEntitySQLCode(String name)	{
 		// Direct backend CJavaSQLCode retired: the pure semantic entity is rendered
@@ -1165,7 +1131,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return e;
 	}
 	public CEntityIsFieldCursor NewEntityIsFieldCursor()	{
-		return new CJavaIsFieldCursor() ;
+		return BmsJavaEntities.isFieldCursor() ;
 	}
 	public CEntityList NewEntityList(String name)	{
 		CEntityList e = new CEntityList(name, programCatalog);

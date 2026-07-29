@@ -25,7 +25,7 @@
       "lastVerifiedAtCommit": "5903f95d",
       "finalArchitectureCheck": {
         "tests": 390,
-        "failures": 4,
+        "failures": 3,
         "directBackends": 0,
         "semanticClasses": 47,
         "factories": 3,
@@ -7428,7 +7428,7 @@
       "expectedDebtDelta": {
         "failures": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "COBOL_CORE",
       "sourceSyntax": "finalArchitectureCheck: src/main/java/generate/CJavaEntityFactory.java",
@@ -7442,11 +7442,15 @@
       "directBackend": null,
       "sourcePath": "naca-trans/src/main/java/generate/CJavaEntityFactory.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "done",
       "blocker": "Remove every finalArchitectureCheck violation reported for this single source artifact while preserving behavior. Semantic code must retain only target-neutral state/getters; Java formatting and selection belong in the recursive ST4 assembler.",
       "evidence": [
-        "src/main/java/generate/CJavaEntityFactory.java"
-      ]
+        "src/main/java/generate/CJavaEntityFactory.java",
+        "src/main/java/generate/java/forms/BmsJavaEntities.java",
+        "generate.java.st.CSubStringReferenceTest",
+        "com.publicitas.naca.cloudnative.BmsArtifactContractTest"
+      ],
+      "lastAttemptCommit": "f75f56da"
     },
     {
       "id": "ARCH-COBOL-INFRA-JAVA",
