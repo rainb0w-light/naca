@@ -22,7 +22,7 @@ public class CFPacJavaWriteFile extends CEntityWriteFile
 	@Override
 	protected void DoExport()
 	{
-		String cs = eFileDescriptor.ExportReference(getLine()) + ".write() ;" ;
+		String cs = eFileDescriptor.getFormattedName() + ".write() ;" ;
 		WriteLine(cs) ;
 	}
 

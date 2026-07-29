@@ -363,6 +363,16 @@ features:
     fixtures: []
     status: production
 
+  - id: cobol.data.file-descriptor
+    dialects: [cobol-core]
+    semanticType: semantic.CEntityFileDescriptor
+    javaBackend:
+      role: DECLARATION
+      template: dataFileDescriptorDeclaration
+    runtimeOperations: []
+    fixtures: []
+    status: production
+
   - id: cobol.expression.concat
     dialects: [cobol-core]
     semanticType: semantic.expression.CEntityConcat

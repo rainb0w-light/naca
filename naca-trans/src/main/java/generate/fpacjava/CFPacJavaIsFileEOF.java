@@ -52,7 +52,7 @@ public class CFPacJavaIsFileEOF extends CEntityIsFileEOF
 	@Override
 	public String Export()
 	{
-		return "isEof("+fileDescriptor.ExportReference(getLine())+")" ;
+		return "isEof("+fileDescriptor.getFormattedName()+")" ;
 	}
 
 }

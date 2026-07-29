@@ -22,7 +22,7 @@ public class CFPacJavaReadFile extends CEntityReadFile
 	@Override
 	protected void DoExport()
 	{
-		String cs = eFileDescriptor.ExportReference(getLine()) + ".read()" ;
+		String cs = eFileDescriptor.getFormattedName() + ".read()" ;
 		if (eAtEndBloc != null)
 		{
 			WriteLine("if ("+cs+".atEnd()) {") ;

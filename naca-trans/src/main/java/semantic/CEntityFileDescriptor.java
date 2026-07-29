@@ -9,7 +9,7 @@ package semantic;
 import semantic.Verbs.CEntityOpenFile;
 import utils.CObjectCatalog;
 
-public abstract class CEntityFileDescriptor extends CBaseLanguageEntity
+public class CEntityFileDescriptor extends CBaseLanguageEntity
 {
 	public CEntityFileDescriptor(int line, String name, CObjectCatalog cat)
 	{
@@ -26,16 +26,6 @@ public abstract class CEntityFileDescriptor extends CBaseLanguageEntity
 
 	protected CEntityFileSelect fileSelect ;
 
-
-	public String ExportReference(int nLine)
-	{
-		return FormatIdentifier(GetDisplayName());
-	}
-
-	public String getReferenceString()
-	{
-		return ExportReference(getLine());
-	}
 
 	public CDataEntity GetRecord()
 	{

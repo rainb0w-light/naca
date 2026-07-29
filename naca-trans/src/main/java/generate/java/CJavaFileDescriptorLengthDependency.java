@@ -35,7 +35,7 @@ public class CJavaFileDescriptorLengthDependency extends CEntityFileDescriptorLe
 	protected void DoExport()
 	{
 		WriteWord("FileDescriptorDepending " + FormatIdentifier(GetName()) + " = declare.fileDescriptorDepending(") ;
-		WriteWord(fileDescriptor.ExportReference(getLine()) + ", ");
+		WriteWord(fileDescriptor.getFormattedName() + ", ");
 		WriteWord(lenghtDep.ExportReference(getLine()) + ") ;") ;
 		WriteEOL() ;
 	}

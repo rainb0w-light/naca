@@ -22,7 +22,7 @@ public class CFpacJavaOpenFile extends CEntityOpenFile
 	@Override
 	protected void DoExport()
 	{
-		String cs = eFileDescriptor.ExportReference(getLine()) + ".open" ;
+		String cs = eFileDescriptor.getFormattedName() + ".open" ;
 		switch (eFileDescriptor.getAccessMode())
 		{
 			case APPEND:

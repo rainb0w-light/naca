@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import generate.fixtures.LegacyAttributeFixture;
 import generate.fixtures.LegacyDataSectionFixture;
 import generate.fixtures.LegacyExternalDataStructureFixture;
-import generate.java.CJavaFileDescriptor;
+import generate.fixtures.LegacyFileDescriptorFixture;
 import generate.java.CJavaInline;
 import generate.java.CJavaNamedCondition;
 import generate.java.CJavaStructure;
@@ -268,7 +268,8 @@ class DataSectionDeclarationTemplateTest
         // exports all its children, matching the direct generator.
         LegacyDataSectionFixture section =
             new LegacyDataSectionFixture(1, "FileSection", catalog, exporter);
-        CJavaFileDescriptor fd = new CJavaFileDescriptor(2, "FILEIN", catalog, exporter);
+        LegacyFileDescriptorFixture fd =
+            new LegacyFileDescriptorFixture(2, "FILEIN", catalog, exporter);
         CJavaStructure record = new CJavaStructure(3, "FILEIN-Z", catalog, exporter, "01");
         LegacyAttributeFixture field = new LegacyAttributeFixture(4, "FILEIN-CODE", catalog, exporter);
         field.SetLevel("05");
@@ -295,7 +296,8 @@ class DataSectionDeclarationTemplateTest
         CEntityFileSelect select = new CEntityFileSelect("FILEOUT", catalog);
         select.setFileStatus(new MockDataEntity(1, catalog, exporter, "WS_STATUS"));
         catalog.RegisterFileSelect(select);
-        CJavaFileDescriptor fd = new CJavaFileDescriptor(2, "FILEOUT", catalog, exporter);
+        LegacyFileDescriptorFixture fd =
+            new LegacyFileDescriptorFixture(2, "FILEOUT", catalog, exporter);
 
         String rendered = TemplateLoader.getRecursiveAssembler()
             .renderRoot(fd, JavaTemplateRole.DECLARATION);

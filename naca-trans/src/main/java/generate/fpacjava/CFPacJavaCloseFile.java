@@ -34,7 +34,7 @@ public class CFPacJavaCloseFile extends CEntityCloseFile
 	@Override
 	protected void DoExport()
 	{
-		String cs = eFileDescriptor.ExportReference(getLine()) + ".close() ;" ;
+		String cs = eFileDescriptor.getFormattedName() + ".close() ;" ;
 		WriteLine(cs) ;
 	}
 

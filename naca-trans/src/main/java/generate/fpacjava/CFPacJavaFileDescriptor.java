@@ -29,12 +29,6 @@ public class CFPacJavaFileDescriptor extends CEntityFileDescriptor
 	}
 
 	@Override
-	public String ExportReference(int nLine)
-	{
-		return FormatIdentifier(GetName()) ;
-	}
-
-	@Override
 	protected void DoExport()
 	{
 		String cs = "FPacFileDescriptor " + FormatIdentifier(GetName()) ;

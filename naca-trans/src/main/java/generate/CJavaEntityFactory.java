@@ -12,7 +12,6 @@
  */
 package generate;
 
-import generate.java.CJavaFileDescriptor;
 import generate.java.CJavaFileDescriptorLengthDependency;
 import generate.java.CJavaIndex;
 import generate.java.CJavaInline;
@@ -1169,7 +1168,10 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CEntityBreak(line, programCatalog) ;
 	}
 	public CEntityFileDescriptor NewEntityFileDescriptor(int line, String name) {
-		return new CJavaFileDescriptor(line, name, programCatalog, langOutput) ;
+		CEntityFileDescriptor e =
+			new CEntityFileDescriptor(line, name, programCatalog);
+		e.setLanguageExporter(langOutput);
+		return e;
 	}
 	public CEntitySortedFileDescriptor NewEntitySortedFileDescriptor(int line, String name)	{
 		return new CJavaSortedFileDescriptor(line, name, programCatalog, langOutput) ;
