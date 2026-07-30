@@ -6,7 +6,6 @@ import semantic.forms.CEntityFieldArrayReference;
 import semantic.forms.CEntityFieldAttribute;
 import semantic.forms.CEntityFieldData;
 import semantic.forms.CEntityFieldFlag;
-import semantic.forms.CEntityFieldHighlight;
 import semantic.forms.CEntityFieldOccurs;
 import semantic.forms.CEntityFieldRedefine;
 import semantic.forms.CEntityFieldValidated;
@@ -74,13 +73,6 @@ public final class BmsJavaEntities
 		CDataEntity field)
 	{
 		return new CJavaSetColor(line, catalog, output, field);
-	}
-
-	public static CEntityFieldHighlight fieldHighlight(
-		int line, String name, CObjectCatalog catalog,
-		CBaseLanguageExporter output, CDataEntity field)
-	{
-		return new CJavaFieldHighligh(line, name, catalog, output, field);
 	}
 
 	public static CEntityFieldFlag fieldFlag(

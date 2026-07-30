@@ -604,7 +604,18 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return e ;
 	}
 	public CEntityFieldHighlight NewEntityFieldHighlight(int l, String name, CDataEntity field)	{
-		return BmsJavaEntities.fieldHighlight(l, name, programCatalog, langOutput, field) ;
+		// Direct backend CJavaFieldHighligh retired: the pure semantic entity is
+		// rendered by the recursive ST4 assembler (semantic.forms.CEntityFieldHighlight
+		// -> fieldHighlightReferenceEntity), reproducing the legacy ExportReference
+		// "getHighlighting(<owner field reference>)" (owner carried in the inherited
+		// reference slot). The legacy ExportWriteAccessorTo (moveHighlight) had no
+		// live consumer in the recursive pipeline (no naca-rt signature; the FPac
+		// factory throws for this entity, and CJavaFormAccessor delegates to its
+		// owner form), so it retired without a replacement. The legacy output
+		// controller stays bound for the BMS traversal compatibility boundary.
+		CEntityFieldHighlight e = new CEntityFieldHighlight(l, name, programCatalog, field) ;
+		generate.LegacyLanguageRenderer.bind(e, langOutput) ;
+		return e ;
 	}
 //	public CEntityFieldFlag NewEntityFieldFlag(int l, String name, CBaseDataEntity field)
 //	{

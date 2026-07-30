@@ -635,3 +635,11 @@ templates:
       - cics.writeq.auxiliary
       - cics.writeq.sysIDString
       - cics.writeq.sysIDVar
+
+  # BMS map-resource DSL: the <FIELD>-H highlight pseudo-variable reference
+  # (retired direct backend CJavaFieldHighligh) emits getHighlighting(<owner
+  # field>), resolved by OnlineProgram.getHighlighting(Edit).
+  fieldHighlightReferenceEntity:
+    capability: BMS_MAP
+    requires:
+      - bms.highlight.get

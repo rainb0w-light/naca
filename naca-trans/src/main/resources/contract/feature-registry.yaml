@@ -1528,3 +1528,23 @@ features:
     runtimeOperations: []
     fixtures: []
     status: production
+
+  # --- BMS map-resource DSL (independent CICS screen-map pipeline, not COBOL) ---
+  # The <FIELD>-H highlight pseudo-variable (created for every map field by
+  # CEntityResourceField.InitDependences). Reference reads lower through the
+  # runtime binding semantic.forms.CEntityFieldHighlight -> fieldHighlightReferenceEntity,
+  # emitting getHighlighting(<owner field reference>) exactly as the retired
+  # direct backend generate.java.forms.CJavaFieldHighligh did. The legacy
+  # moveHighlight write accessor had no live consumer (no naca-rt signature; the
+  # FPac factory throws for this entity) and retired without a replacement; MOVEs
+  # and conditions on <FIELD>-H lower through the CEntitySetHighligh /
+  # CEntityIsFieldHighlight action/condition entities.
+  - id: bms.field.highlight
+    dialects: [bms-artifact]
+    semanticType: semantic.forms.CEntityFieldHighlight
+    javaBackend:
+      role: REFERENCE
+      template: fieldHighlightReferenceEntity
+    runtimeOperations: [bms.highlight.get]
+    fixtures: []
+    status: production

@@ -433,6 +433,8 @@ subString(<entity.reference>, <entity.start><if(entity.length)>, <entity.length>
 
 valueReferenceEntity(entity) ::= "<entity.reference>"
 
+fieldHighlightReferenceEntity(entity) ::= "getHighlighting(<entity.reference>)"
+
 fileBufferEntity(entity) ::= "<entity.fileDescriptor>"
 
 emptyEntity(entity) ::= ""

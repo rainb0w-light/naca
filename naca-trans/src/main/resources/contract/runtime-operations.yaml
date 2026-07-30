@@ -2868,3 +2868,17 @@ operations:
     runtimeMethod: sysID
     paramTypes: [nacaLib.varEx.Var]
     returns: nacaLib.CESM.CESMWriteQueue
+
+  # --- BMS map-resource DSL (independent CICS screen-map pipeline, not COBOL) ---
+  # Reading the <FIELD>-H highlight pseudo-variable lowers to
+  # OnlineProgram.getHighlighting(<owner Edit field>), exactly what the retired
+  # direct backend generate.java.forms.CJavaFieldHighligh emitted. The method is
+  # protected on OnlineProgram and inherited by generated online program
+  # subclasses (RuntimeContractTest walks the declared-method hierarchy).
+  - id: bms.highlight.get
+    since: 1
+    capability: BMS_MAP
+    runtimeClass: idea.onlinePrgEnv.OnlineProgram
+    runtimeMethod: getHighlighting
+    paramTypes: [nacaLib.varEx.Edit]
+    returns: nacaLib.mapSupport.MapFieldAttrHighlighting
