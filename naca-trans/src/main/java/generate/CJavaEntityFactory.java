@@ -582,7 +582,14 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return BmsJavaEntities.setColor(l, programCatalog, langOutput, field) ;
 	}
 	public CEntityFieldLength NewEntityFieldLengh(int l, String name, CDataEntity field)	{
-		return BmsJavaEntities.fieldLength(l, name, programCatalog, langOutput, field) ;
+		// Direct backend CJavaFieldLength retired: the pure semantic entity is
+		// rendered by the recursive ST4 assembler (semantic.forms.CEntityFieldLength
+		// -> valueReferenceEntity), reproducing the legacy ExportReference that
+		// rendered the owner field reference. The legacy output controller stays
+		// bound for the BMS traversal compatibility boundary.
+		CEntityFieldLength e = new CEntityFieldLength(l, name, programCatalog, field) ;
+		generate.LegacyLanguageRenderer.bind(e, langOutput) ;
+		return e ;
 	}
 	public CEntityFieldColor NewEntityFieldColor(int l, String name, CDataEntity field)	{
 		return BmsJavaEntities.fieldColor(l, name, programCatalog, langOutput, field) ;

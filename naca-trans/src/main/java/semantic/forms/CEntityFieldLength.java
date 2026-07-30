@@ -21,7 +21,7 @@ import semantic.expression.CBaseEntityCondition;
 import utils.*;
 
 
-public abstract class CEntityFieldLength extends CBaseEntityFieldAttribute
+public class CEntityFieldLength extends CBaseEntityFieldAttribute
 {
 	/* (non-Javadoc)
 	 * @see semantic.CDataEntity#GetSpecialAssignment(semantic.CDataEntity, semantic.CBaseEntityFactory, int)
@@ -38,6 +38,21 @@ public abstract class CEntityFieldLength extends CBaseEntityFieldAttribute
 	public CEntityFieldLength(int l, String name, CObjectCatalog cat, CDataEntity owner)
 	{
 		super(l, name, cat, CEntityFieldAttributeType.LENGTH, owner) ;
+	}
+	/* (non-Javadoc)
+	 * @see semantic.CDataEntity#GetDataType()
+	 */
+	public CDataEntityType GetDataType()
+	{
+		return CDataEntityType.FIELD ;
+	}
+	public boolean HasAccessors()
+	{
+		return true ;
+	}
+	public boolean isValNeeded()
+	{
+		return false ;
 	}
 	/* (non-Javadoc)
 	 * @see semantic.CBaseDataEntity#GetSpecialAssignment(parser.expression.CTerminal)

@@ -8,7 +8,6 @@ import semantic.forms.CEntityFieldColor;
 import semantic.forms.CEntityFieldData;
 import semantic.forms.CEntityFieldFlag;
 import semantic.forms.CEntityFieldHighlight;
-import semantic.forms.CEntityFieldLength;
 import semantic.forms.CEntityFieldOccurs;
 import semantic.forms.CEntityFieldRedefine;
 import semantic.forms.CEntityFieldValidated;
@@ -76,13 +75,6 @@ public final class BmsJavaEntities
 		CDataEntity field)
 	{
 		return new CJavaSetColor(line, catalog, output, field);
-	}
-
-	public static CEntityFieldLength fieldLength(
-		int line, String name, CObjectCatalog catalog,
-		CBaseLanguageExporter output, CDataEntity field)
-	{
-		return new CJavaFieldLength(line, name, catalog, output, field);
 	}
 
 	public static CEntityFieldColor fieldColor(
