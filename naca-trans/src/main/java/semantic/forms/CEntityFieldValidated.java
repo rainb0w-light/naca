@@ -12,8 +12,6 @@
  */
 package semantic.forms;
 
-import generate.*;
-
 import java.util.Vector;
 
 
@@ -29,11 +27,31 @@ import utils.Transcoder;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityFieldValidated extends CBaseEntityFieldAttribute
+public class CEntityFieldValidated extends CBaseEntityFieldAttribute
 {
 	public CEntityFieldValidated(int l, String name, CObjectCatalog cat, CDataEntity owner)
 	{
 		super(l, name, cat, CEntityFieldAttributeType.VALIDATION, owner) ;
+	}
+	/*
+	 * Semantic predicates preserved from the retired direct backend
+	 * (generate.java.forms.CJavaFieldValidated): pure read-only getters, consumed
+	 * by the recursive ST4 assembly contract and the BMS traversal; no output
+	 * protocol lives here. The reference read renders through the
+	 * fieldValidatedReferenceEntity binding ("<owner field reference>.getValidation()"),
+	 * exactly the legacy ExportReference shape.
+	 */
+	public CDataEntityType GetDataType()
+	{
+		return CDataEntityType.FIELD ;
+	}
+	public boolean HasAccessors()
+	{
+		return true ;
+	}
+	public boolean isValNeeded()
+	{
+		return false ;
 	}
 	public CBaseActionEntity GetSpecialAssignment(CTerminal term, CBaseEntityFactory factory, int l)
 	{
@@ -43,7 +61,7 @@ public abstract class CEntityFieldValidated extends CBaseEntityFieldAttribute
 		return null ;
 	}
 
-	public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory) 
+	public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory)
 	{
 		CDataEntity e = reference.GetArrayReference(v, factory) ;
 		return factory.NewEntityFieldValidated(getLine(), "", e);

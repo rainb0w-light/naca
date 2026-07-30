@@ -1566,3 +1566,27 @@ features:
     runtimeOperations: [bms.flag.get]
     fixtures: []
     status: production
+
+  # The <FIELD>V validated pseudo-variable (created by the CWorkingEntry
+  # position-6 byte of a BMS MAP/MAPREDEFINE layout). Reference reads lower
+  # through the runtime binding semantic.forms.CEntityFieldValidated ->
+  # fieldValidatedReferenceEntity, emitting <owner field reference>.getValidation()
+  # exactly as the retired direct backend generate.java.forms.CJavaFieldValidated
+  # did. getValidation()/moveValidation() are a legacy runtime shape with no
+  # current naca-rt signature (Edit/OnlineProgram expose no Validation accessor),
+  # so this feature carries no Codegen-Runtime Contract operation — same treatment
+  # as sql.singleStatement's verbatim legacy emission; the template mirrors the
+  # retired backend byte-for-byte and no runtime operation is declared or required.
+  # The legacy moveValidation write accessor had no live consumer (the FPac factory
+  # throws for this entity, and CJavaFormAccessor delegates to its owner form) and
+  # retired without a replacement; GetSpecialAssignment/GetSpecialCondition on
+  # <FIELD>V produce no action/condition entity (legacy behavior preserved).
+  - id: bms.field.validated
+    dialects: [bms-artifact]
+    semanticType: semantic.forms.CEntityFieldValidated
+    javaBackend:
+      role: REFERENCE
+      template: fieldValidatedReferenceEntity
+    runtimeOperations: []
+    fixtures: []
+    status: production

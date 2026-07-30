@@ -82,7 +82,7 @@
         ],
         "baselineCapturedAtCommit": "42d72b42",
         "bmsArchitectureCheck": {
-          "bmsDirectBackends": 30
+          "bmsDirectBackends": 29
         },
         "fpacArchitectureCheck": {
           "fpacDirectBackends": 43
@@ -4978,7 +4978,7 @@
       "expectedDebtDelta": {
         "bmsDirectBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "BMS_ARTIFACT",
       "sourceSyntax": "legacy backend CJavaFieldValidated",
@@ -4992,11 +4992,12 @@
       "directBackend": "generate.java.forms.CJavaFieldValidated",
       "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaFieldValidated.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Phase 2 (BMS_ARTIFACT): retire this one BMS map-resource backend onto declarative bindings + the recursive-ST4 assembly contract; preserve the emitted Java (and XML/.res where present) and reduce bmsDirectBackends by one. BMS is an independent CICS screen-map DSL, never a COBOL dialect. Tier: leaf (inline attribute/condition/action).",
       "evidence": [
         "naca-trans/src/main/java/generate/java/forms/CJavaFieldValidated.java"
-      ]
+      ],
+      "lastAttemptCommit": "f62a0d9cfe578c19d45333e42cf8e2ad9ab4ab85"
     },
     {
       "id": "BMS-BACKEND-CJAVAFIELDARRAYREFERENCE",

@@ -776,7 +776,18 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return BmsJavaEntities.isFieldHighlight(ref) ;
 	}
 	public CEntityFieldValidated NewEntityFieldValidated(int l, String name, CDataEntity field)	{
-		return BmsJavaEntities.fieldValidated(l, name, programCatalog, langOutput, field) ;
+		// Direct backend CJavaFieldValidated retired: the pure semantic entity is
+		// rendered by the recursive ST4 assembler (semantic.forms.CEntityFieldValidated
+		// -> fieldValidatedReferenceEntity), reproducing the legacy ExportReference
+		// "<owner field reference>.getValidation()" (owner carried in the inherited
+		// reference slot). The legacy ExportWriteAccessorTo (moveValidation) had no
+		// live consumer in the recursive pipeline (no naca-rt signature; the FPac
+		// factory throws for this entity, and CJavaFormAccessor delegates to its
+		// owner form), so it retired without a replacement. The legacy output
+		// controller stays bound for the BMS traversal compatibility boundary.
+		CEntityFieldValidated e = new CEntityFieldValidated(l, name, programCatalog, field) ;
+		generate.LegacyLanguageRenderer.bind(e, langOutput) ;
+		return e ;
 	}
 	public CEntityStringConcat NewEntityStringConcat(int l)	{
 		CEntityStringConcat e = new CEntityStringConcat(l, programCatalog);

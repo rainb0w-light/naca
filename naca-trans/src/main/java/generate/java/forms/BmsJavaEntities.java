@@ -7,7 +7,6 @@ import semantic.forms.CEntityFieldAttribute;
 import semantic.forms.CEntityFieldData;
 import semantic.forms.CEntityFieldOccurs;
 import semantic.forms.CEntityFieldRedefine;
-import semantic.forms.CEntityFieldValidated;
 import semantic.forms.CEntityFormRedefine;
 import semantic.forms.CEntityGetKeyPressed;
 import semantic.forms.CEntityIsFieldAttribute;
@@ -168,13 +167,6 @@ public final class BmsJavaEntities
 	public static CEntityIsFieldHighlight isFieldHighlight(CDataEntity reference)
 	{
 		return new CJavaIsFieldHighlight(reference);
-	}
-
-	public static CEntityFieldValidated fieldValidated(
-		int line, String name, CObjectCatalog catalog,
-		CBaseLanguageExporter output, CDataEntity field)
-	{
-		return new CJavaFieldValidated(line, name, catalog, output, field);
 	}
 
 	public static CEntityIsFieldModified isFieldModified()

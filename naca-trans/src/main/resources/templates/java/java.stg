@@ -437,6 +437,8 @@ fieldHighlightReferenceEntity(entity) ::= "getHighlighting(<entity.reference>)"
 
 fieldFlagReferenceEntity(entity) ::= "<entity.reference>.getFlag()"
 
+fieldValidatedReferenceEntity(entity) ::= "<entity.reference>.getValidation()"
+
 fileBufferEntity(entity) ::= "<entity.fileDescriptor>"
 
 emptyEntity(entity) ::= ""
