@@ -17,7 +17,7 @@
     },
     "debtGrew": {
       "type": "boolean",
-      "description": "true if a new direct backend or other debt was introduced."
+      "description": "true if a new direct backend (in ANY pipeline: generate/java or generate/fpacjava) or other debt was introduced."
     },
     "issues": {
       "type": "array",

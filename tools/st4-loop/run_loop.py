@@ -23,6 +23,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 
+from st4loop import ledger  # noqa: E402
 from st4loop.controller import (  # noqa: E402
     Config, Controller, LoopError,
     WORKER_PERMISSION_MODES, DEFAULT_WORKER_PERMISSION_MODE,
@@ -52,6 +53,7 @@ def build_config(args):
         max_attempts=args.max_attempts,
         worker_timeout=args.worker_timeout,
         permission_mode=args.permission_mode,
+        phase=args.phase,
         dry_run=args.dry_run,
         allow_commit=not args.no_commit,
     )
@@ -71,6 +73,11 @@ def _build_parser():
                         choices=list(WORKER_PERMISSION_MODES),
                         help="worker permission mode (default acceptEdits; the loop "
                              "never uses bypassPermissions/dontAsk/dangerously-skip)")
+    parser.add_argument("--phase", default=ledger.DEFAULT_PHASE,
+                        choices=sorted(ledger.MIGRATION_PHASES),
+                        help="migration phase selecting the ordered queue scopes "
+                             "(default %(default)s: BMS_ARTIFACT first, FPAC second; "
+                             "phase-1-cobol replays the completed COBOL/SQL/CICS queue)")
     parser.add_argument("--claude-cmd", default="claude",
                         help="base worker command (inject a stub for tests)")
     parser.add_argument("--verify-cmd", default=None,

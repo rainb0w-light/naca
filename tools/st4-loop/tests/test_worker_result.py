@@ -55,6 +55,19 @@ class InterpretTest(unittest.TestCase):
         self.assertFalse(out.ok)
         self.assertTrue(any("directBackends" in p for p in out.problems))
 
+    def test_bms_and_fpac_debt_growth_is_a_problem(self):
+        # Every pipeline's direct-backend counter may only go down.
+        for key in ("bmsDirectBackends", "fpacDirectBackends"):
+            so = good(debt=0)
+            so["debtDelta"] = {key: 1}
+            out = wr.interpret(envelope(so))
+            self.assertFalse(out.ok, key)
+            self.assertTrue(any(key in p for p in out.problems), (key, out.problems))
+        # and a legitimate BMS retirement is fine
+        so = good(debt=0)
+        so["debtDelta"] = {"bmsDirectBackends": -1}
+        self.assertTrue(wr.interpret(envelope(so)).ok)
+
     def test_blocked_requires_blocker(self):
         out = wr.interpret(envelope(good(outcome="blocked", blocker=None)))
         self.assertFalse(out.ok)

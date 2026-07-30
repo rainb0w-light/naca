@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 """Synchronize the direct-backend retirement queue with the Java source tree.
 
-The source inventory is authoritative: every CJava* class under generate/java
-that still subclasses a semantic entity gets exactly one ledger entry. Existing
-workflow state is preserved, including terminal entries for already-deleted
-backends. BMS/form backends are recorded but excluded from the COBOL queue by
-their BMS_ARTIFACT scope.
+The source inventory is authoritative: every direct backend class under
+generate/java (COBOL/SQL/CICS + the BMS forms subtree) and generate/fpacjava
+(the independent FPac pipeline) that still subclasses a semantic entity gets
+exactly one ledger entry. Existing workflow state is preserved, including
+terminal entries for already-deleted backends. Scope decides the queue phase:
+COBOL_CORE/EMBEDDED_SQL/EMBEDDED_CICS belong to the completed phase 1,
+BMS_ARTIFACT and FPAC to phase 2 (BMS first, FPAC second).
 """
 
 from __future__ import annotations
@@ -20,8 +22,22 @@ from pathlib import Path
 
 
 BACKEND_PATTERN = re.compile(
-    r"\bpublic\s+(?:abstract\s+)?class\s+(\w+)\s+extends\s+"
+    r"\bpublic\s+(?:(?:abstract|final)\s+)*class\s+(\w+)\s+extends\s+"
     r"((?:CEntity\w*|CBaseActionEntity|CDataEntity))\b"
+)
+# BMS forms: the shared rule plus CResourceStrings (CJavaResourceStrings
+# subclasses that BMS semantic base directly — no backend may hide outside the
+# inventory). Mirrors debt.BMS_DIRECT_SEMANTIC_SUBCLASS.
+BMS_BACKEND_PATTERN = re.compile(
+    r"\bpublic\s+(?:(?:abstract|final)\s+)*class\s+(\w+)\s+extends\s+"
+    r"((?:CEntity\w*|CBaseActionEntity|CDataEntity|CResourceStrings))\b"
+)
+# FPac: the shared rule (tolerating a wrapped `extends` declaration via \s+)
+# plus CSubStringAttributReference (CFPacJavaSubStringAttributeReference).
+# Mirrors debt.FPAC_DIRECT_SEMANTIC_SUBCLASS.
+FPAC_BACKEND_PATTERN = re.compile(
+    r"\bpublic\s+(?:(?:abstract|final)\s+)*class\s+(\w+)\s+extends\s+"
+    r"((?:CEntity\w*|CBaseActionEntity|CDataEntity|CSubStringAttributReference))\b"
 )
 PACKAGE_PATTERN = re.compile(r"^package\s+([\w.]+);", re.MULTILINE)
 IMPORT_PATTERN = re.compile(r"^import\s+([\w.]+);", re.MULTILINE)
@@ -35,9 +51,26 @@ AREA_CONFIG = {
     "verbs": ("COBOL_CORE", 400, "COBOL-VERB"),
     "expressions": ("COBOL_CORE", 500, "COBOL-EXPRESSION"),
     "root": ("COBOL_CORE", 600, "COBOL-DATA"),
-    # The forms package is the separate BMS/map-resource pipeline. It remains
-    # inventoried, but the scheduler deliberately excludes BMS_ARTIFACT.
+    # The forms package is the separate BMS/map-resource pipeline (phase 2).
     "forms": ("BMS_ARTIFACT", 9000, "BMS"),
+    # The independent FPac pipeline (phase 2, after BMS).
+    "fpac": ("FPAC", 9500, "FPAC"),
+}
+
+# Counter key each scope's direct-backend debt is ratcheted under.
+SCOPE_DEBT_KEY = {
+    "COBOL_CORE": "directBackends",
+    "EMBEDDED_SQL": "directBackends",
+    "EMBEDDED_CICS": "directBackends",
+    "BMS_ARTIFACT": "bmsDirectBackends",
+    "FPAC": "fpacDirectBackends",
+}
+
+# The deterministic inventory ratchet each scope's retirement slices must pass.
+SCOPE_INVENTORY_TEST = {
+    "directBackends": "architecture.DirectBackendInventoryTest",
+    "bmsDirectBackends": "architecture.BmsFormsDirectBackendInventoryTest",
+    "fpacDirectBackends": "architecture.FPacDirectBackendInventoryTest",
 }
 
 
@@ -84,49 +117,67 @@ def semantic_index(java_root: Path) -> dict[str, str]:
 
 
 def discover(repo_root: Path) -> list[Backend]:
+    """Every live direct backend under the COBOL and FPac generator roots.
+
+    Two authoritative scan roots, each with its inventory pattern (mirrored by
+    st4loop/debt.py and the Java inventory tests):
+      generate/java        COBOL/SQL/CICS areas + the forms (BMS) subtree
+      generate/fpacjava    the independent FPac pipeline (flat `fpac` area)
+    """
     java_root = repo_root / "naca-trans/src/main/java"
-    direct_root = java_root / "generate/java"
     semantics = semantic_index(java_root)
+    roots = (
+        (java_root / "generate/java", None, BACKEND_PATTERN,
+         BMS_BACKEND_PATTERN),
+        (java_root / "generate/fpacjava", "fpac", FPAC_BACKEND_PATTERN,
+         FPAC_BACKEND_PATTERN),
+    )
     result: list[Backend] = []
 
-    for path in sorted(direct_root.rglob("*.java")):
-        text = read_java(path)
-        match = BACKEND_PATTERN.search(text)
-        if match is None:
+    for direct_root, flat_area, core_pattern, forms_pattern in roots:
+        if not direct_root.is_dir():
             continue
-        class_name, superclass = match.groups()
-        package = PACKAGE_PATTERN.search(text)
-        if package is None:
-            raise ValueError(f"missing package declaration: {path}")
-        imports = {
-            fqn.rsplit(".", 1)[-1]: fqn
-            for fqn in IMPORT_PATTERN.findall(text)
-        }
-        semantic_fqn = imports.get(superclass) or semantics.get(superclass)
-        if semantic_fqn is None:
-            raise ValueError(
-                f"cannot resolve semantic superclass {superclass} in {path}"
+        for path in sorted(direct_root.rglob("*.java")):
+            relative = path.relative_to(direct_root)
+            area = flat_area if flat_area is not None else (
+                relative.parts[0] if len(relative.parts) > 1 else "root")
+            pattern = forms_pattern if area == "forms" else core_pattern
+            text = read_java(path)
+            match = pattern.search(text)
+            if match is None:
+                continue
+            class_name, superclass = match.groups()
+            package = PACKAGE_PATTERN.search(text)
+            if package is None:
+                raise ValueError(f"missing package declaration: {path}")
+            imports = {
+                fqn.rsplit(".", 1)[-1]: fqn
+                for fqn in IMPORT_PATTERN.findall(text)
+            }
+            semantic_fqn = imports.get(superclass) or semantics.get(superclass)
+            if semantic_fqn is None:
+                raise ValueError(
+                    f"cannot resolve semantic superclass {superclass} in {path}"
+                )
+            result.append(
+                Backend(
+                    area=area,
+                    class_name=class_name,
+                    backend_fqn=f"{package.group(1)}.{class_name}",
+                    semantic_fqn=semantic_fqn,
+                    source_path=path.relative_to(repo_root).as_posix(),
+                )
             )
-        relative = path.relative_to(direct_root)
-        area = relative.parts[0] if len(relative.parts) > 1 else "root"
-        result.append(
-            Backend(
-                area=area,
-                class_name=class_name,
-                backend_fqn=f"{package.group(1)}.{class_name}",
-                semantic_fqn=semantic_fqn,
-                source_path=path.relative_to(repo_root).as_posix(),
-            )
-        )
     return result
 
 
 def entry_id(backend: Backend) -> str:
     _scope, _priority, label = AREA_CONFIG[backend.area]
-    prefix = "BMS-BACKEND" if backend.area == "forms" else "BACKEND"
     if backend.area == "forms":
-        return f"{prefix}-{backend.class_name.upper()}"
-    return f"{prefix}-{label}-{backend.class_name.upper()}"
+        return f"BMS-BACKEND-{backend.class_name.upper()}"
+    if backend.area == "fpac":
+        return f"FPAC-BACKEND-{backend.class_name.upper()}"
+    return f"BACKEND-{label}-{backend.class_name.upper()}"
 
 
 def generated_entry(
@@ -136,11 +187,23 @@ def generated_entry(
 ) -> dict:
     scope, priority, _label = AREA_CONFIG[backend.area]
     item_id = entry_id(backend)
+    debt_key = SCOPE_DEBT_KEY[scope]
+    inventory_test = SCOPE_INVENTORY_TEST[debt_key]
     status = "production-wired" if backend.area == "st" else "semantic-built"
     if backend.area == "forms":
         blocker = (
-            "Tracked as separate BMS/map-resource pipeline debt; excluded from "
-            "the COBOL/SQL/CICS migration scheduler."
+            "Phase 2 (BMS_ARTIFACT): retire this one BMS map-resource backend "
+            "onto declarative bindings + the recursive-ST4 assembly contract; "
+            "preserve emitted output and reduce bmsDirectBackends by one. BMS "
+            "is an independent CICS screen-map DSL, never a COBOL dialect."
+        )
+    elif backend.area == "fpac":
+        blocker = (
+            "Phase 2 (FPAC): retire this one FPac backend onto declarative "
+            "bindings + the recursive-ST4 assembly contract; preserve emitted "
+            "output and reduce fpacDirectBackends by one. FPac is an "
+            "independent pipeline sharing the semantic model; do not couple "
+            "its parsing/semantics to COBOL machinery."
         )
     else:
         blocker = (
@@ -153,9 +216,9 @@ def generated_entry(
         "priority": priority + ordinal,
         "dependencies": [dependency] if dependency else [],
         "verification": [
-            './gradlew :naca-trans:test --tests "architecture.DirectBackendInventoryTest"'
+            f'./gradlew :naca-trans:test --tests "{inventory_test}"'
         ],
-        "expectedDebtDelta": {"directBackends": -1},
+        "expectedDebtDelta": {debt_key: -1},
         "attempts": 0,
         "blocked": False,
         "scope": scope,

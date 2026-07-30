@@ -1,8 +1,8 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://naca/publicitas/migration-ledger.schema.json",
-  "title": "Naca COBOL/SQL/CICS -> ST4 migration ledger",
-  "description": "Machine-readable ledger tracking the migration of every production-reachable COBOL / embedded-SQL / embedded-CICS semantic type onto the unified declarative-manifest + recursive-ST4 assembler. Enforced by LedgerConsistencyTest.",
+  "title": "Naca COBOL/SQL/CICS + BMS/FPAC -> ST4 migration ledger",
+  "description": "Machine-readable ledger tracking the migration of every production-reachable semantic type onto declarative manifests + recursive-ST4 assembly, per phase: phase 1 (complete) = COBOL / embedded-SQL / embedded-CICS; phase 2 = the independent BMS map-resource DSL (BMS_ARTIFACT) and the independent FPac pipeline (FPAC) — neither a COBOL dialect. Enforced by LedgerConsistencyTest.",
   "type": "object",
   "required": ["meta", "entries"],
   "additionalProperties": true,
@@ -19,7 +19,7 @@
         },
         "scopeOrder": {
           "type": "array",
-          "items": { "enum": ["COBOL_CORE", "EMBEDDED_SQL", "EMBEDDED_CICS", "BMS_ARTIFACT"] }
+          "items": { "enum": ["COBOL_CORE", "EMBEDDED_SQL", "EMBEDDED_CICS", "BMS_ARTIFACT", "FPAC"] }
         },
         "ratchet": {
           "type": "object",
@@ -47,7 +47,7 @@
         "required": ["id", "scope", "status", "productionReachable", "blocker"],
         "properties": {
           "id": { "type": "string", "pattern": "^[A-Z0-9][A-Z0-9_-]*$" },
-          "scope": { "enum": ["COBOL_CORE", "EMBEDDED_SQL", "EMBEDDED_CICS", "BMS_ARTIFACT"] },
+          "scope": { "enum": ["COBOL_CORE", "EMBEDDED_SQL", "EMBEDDED_CICS", "BMS_ARTIFACT", "FPAC"] },
           "sourceSyntax": { "type": ["string", "null"] },
           "parserNode": { "type": ["string", "null"] },
           "semanticNode": { "type": ["string", "null"] },

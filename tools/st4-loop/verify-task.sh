@@ -6,9 +6,12 @@
 # It NEVER trusts the worker's self-report. It runs the gates that must stay green
 # during migration and asserts debt does not grow:
 #   1. :naca-cloud-native:test  -- LedgerConsistencyTest + RuntimeContractTest
-#                                  (ledger and every emitted runtime signature stay valid)
-#   2. :naca-trans:test         -- daily gate; includes architecture.DirectBackendInventoryTest
-#                                  which asserts directBackends <= 170 (debt cannot grow)
+#                                  (ledger and every emitted runtime signature stay valid;
+#                                  every live backend in EVERY pipeline keeps exactly one
+#                                  owner and each scope ratchet equals its live inventory)
+#   2. :naca-trans:test         -- daily gate; includes the three exact-equality direct
+#                                  backend inventory ratchets (COBOL frozen at 0; BMS forms
+#                                  and FPac decrease as their backends retire)
 #   3. the item's own `verification` commands from the ledger
 #   4. :naca-trans:finalArchitectureCheck -- EXPECTED RED during migration; we only
 #      assert its failure count did not EXCEED the recorded baseline (debt not grow)

@@ -2,7 +2,7 @@
   "$schema": "./migration-ledger.schema.json",
   "meta": {
     "schemaVersion": 1,
-    "description": "Machine-readable ledger tracking the migration of every production-reachable COBOL / embedded-SQL / embedded-CICS semantic type onto the unified declarative-manifest + recursive-ST4 assembler. BMS is tracked only as BMS_ARTIFACT (a separate CICS screen-map DSL), never as a COBOL dialect. FPac and other non-COBOL pipelines are out of scope.",
+    "description": "Machine-readable ledger tracking the migration of every production-reachable semantic type onto declarative manifests + recursive-ST4 assembly, per phase. Phase 1 (COMPLETE, frozen zero-debt gates): COBOL core + embedded SQL + embedded CICS. Phase 2 (active; queue order BMS_ARTIFACT first, FPAC second, one ledger item per worker): the BMS map-resource artifact pipeline and the FPac pipeline -- both are independent source/resource DSL pipelines, never COBOL dialects. Their parsing and semantics stay decoupled from COBOL; common rendering infrastructure is reused only where the semantic model genuinely supports it.",
     "statusOrder": [
       "not-started",
       "parser-preserved",
@@ -17,10 +17,11 @@
       "COBOL_CORE",
       "EMBEDDED_SQL",
       "EMBEDDED_CICS",
-      "BMS_ARTIFACT"
+      "BMS_ARTIFACT",
+      "FPAC"
     ],
     "ratchet": {
-      "note": "Debt counts may only move down for the COBOL scope. Refresh per phase.",
+      "note": "Debt counts may only move down, per pipeline counter. Phase 1 counters (finalArchitectureCheck) are frozen at zero debt. Phase 2 counters live under ratchet.phase2 and are measured independently per scope.",
       "baselineCapturedAtCommit": "9402b0c",
       "lastVerifiedAtCommit": "6d15b095",
       "finalArchitectureCheck": {
@@ -66,10 +67,27 @@
       },
       "rules": [
         "status may only advance forward along statusOrder",
-        "COBOL-scope direct backend count may only decrease",
-        "no unexplained allowlist may hide COBOL/SQL/CICS debt",
-        "BMS entries must use scope BMS_ARTIFACT, never a COBOL dialect scope"
-      ]
+        "COBOL-scope direct backend count may only decrease (frozen at zero)",
+        "BMS (forms) direct backend count may only decrease",
+        "FPac direct backend count may only decrease",
+        "no unexplained allowlist may hide COBOL/SQL/CICS, BMS, or FPac debt",
+        "BMS entries must use scope BMS_ARTIFACT and FPac entries scope FPAC, never a COBOL dialect scope"
+      ],
+      "phase2": {
+        "phase": "phase-2-bms-fpac",
+        "note": "Phase 2 baseline captured on top of commit 42d72b42 (the completed phase-1 HEAD). bmsDirectBackends counts generate/java/forms (incl. the CResourceStrings subclass); fpacDirectBackends counts generate/fpacjava (incl. the CSubStringAttributReference subclass). Each retirement slice tightens the matching checked-in Java inventory test (BmsFormsDirectBackendInventoryTest / FPacDirectBackendInventoryTest) and this counter together.",
+        "queueScopes": [
+          "BMS_ARTIFACT",
+          "FPAC"
+        ],
+        "baselineCapturedAtCommit": "42d72b42",
+        "bmsArchitectureCheck": {
+          "bmsDirectBackends": 34
+        },
+        "fpacArchitectureCheck": {
+          "fpacDirectBackends": 43
+        }
+      }
     },
     "targetArchitecture": {
       "entry": "generate.templates.recursive.JavaTemplateAssembler.renderRoot(entity, JavaTemplateRole.ROOT)",
@@ -87,10 +105,31 @@
       "featureRegistry": "naca-trans/src/main/resources/contract/feature-registry.yaml",
       "codegenRuntimeContract": "naca-trans/src/main/java/contract/CodegenRuntimeContract.java",
       "failClosed": "generate.templates.recursive.MissingTemplateRendererException (names semantic type + concrete class; NOTE: carries no source line / feature id yet — Phase 3 must add source location + feature id to structured diagnostics)",
-      "migrationPlaybook": "6 steps: (1) semantic entity read-only getters + de-abstract; (2) one semantic-*-bindings.properties line; (3) one java.stg template reading only entity.* properties; (4) feature-registry.yaml entry (+ runtime-operations.yaml/template-runtime-requirements.yaml if new runtime ops); (5) CJavaEntityFactoryST.NewEntity* override; (6) delete legacy direct backend + render test + ratchet bumps. READ domain (semantic.Verbs.CEntityReadFile -> recursiveReadFileEntity) is the exemplar."
+      "migrationPlaybook": "6 steps: (1) semantic entity read-only getters + de-abstract; (2) one semantic-*-bindings.properties line; (3) one java.stg template reading only entity.* properties; (4) feature-registry.yaml entry (+ runtime-operations.yaml/template-runtime-requirements.yaml if new runtime ops); (5) CJavaEntityFactoryST.NewEntity* override; (6) delete legacy direct backend + render test + ratchet bumps. READ domain (semantic.Verbs.CEntityReadFile -> recursiveReadFileEntity) is the exemplar.",
+      "phase2": {
+        "phase": "phase-2-bms-fpac",
+        "target": "BMS and FPac remain INDEPENDENT source/resource DSL pipelines. Their semantic generation migrates from the legacy reflective direct emitters onto declarative bindings + an appropriate recursive ST4 assembly contract, WITHOUT coupling their parsing or semantics to COBOL. Common rendering infrastructure (ST4 group files, the runtime contract, DiagnosticSink fail-closed behavior) is reused only where the semantic model genuinely supports it.",
+        "bms": {
+          "pipeline": "parser/BMS + parser/map_elements -> semantic/forms -> generate/java/forms (BmsJavaEntities via CJavaEntityFactory)",
+          "productionEntry": "utils/CobolTranscoder/BMSTranscoderEngine -> TranscoderEngine.doFileTranscoding",
+          "runtime": "nacaLib.mapSupport (Map, declare.form/edit/level/editOccurs/editSkip/localizedString, MapFieldAttr*, MapFieldFlag, KeyPressed, attribute move/set/is helpers)",
+          "corpus": "NacaSamples/cobol/ONLINM1.bms; behavior pinned by BmsArtifactContractTest (naca-cloud-native)",
+          "ratchet": "architecture.BmsFormsDirectBackendInventoryTest (BMS_DIRECT_BACKEND_TOTAL_BASELINE) <-> meta.ratchet.phase2.bmsArchitectureCheck.bmsDirectBackends",
+          "notes": "XML/.res output currently fused into semantic/forms (see discoveredDebt BMS-XML-OUTPUT-IN-SEMANTIC) must be separated or templated under the same principle; 5 dead-wiring backends are deleted together with the pipeline."
+        },
+        "fpac": {
+          "pipeline": "lexer/FPac + parser/FPac -> shared semantic model -> generate/fpacjava (CJavaFPacEntityFactory)",
+          "productionEntry": "config-registered utils.FPacTranscoder.FPacTranscoderEngine -> TranscoderEngine.doFileTranscoding (standard NacaTrans/NacaTransTask entry; no shipped config registers it today)",
+          "runtime": "nacaLib.fpacPrgEnv (FPacProgram: declare/wto/move/multiply/divide/subtract/is*/buffer*/call/executeCall, FPacFileDeclaration, FPacFileDescriptor)",
+          "corpus": "NONE shipped — retirement slices must add focused fixtures; JavaSemanticConditionRendererTest is the only existing parity test (one FPac condition unit)",
+          "ratchet": "architecture.FPacDirectBackendInventoryTest (FPAC_DIRECT_BACKEND_TOTAL_BASELINE) <-> meta.ratchet.phase2.fpacArchitectureCheck.fpacDirectBackends",
+          "notes": "FPac emitters subclass the SAME shared semantic entities as COBOL, but render differently; binding manifests/assembler roles must stay FPAC-specific (the shared semantic-bindings map one semantic class to one COBOL template). See discoveredDebt FPAC-LEGACY-SILENT-DROP and FPAC-GENERATOR-COUPLINGS; 2 dormant backends are deleted together with the pipeline."
+        },
+        "completionCondition": "Every production-reachable BMS/FPac ledger item is terminal (direct-retired/done); bmsDirectBackends and fpacDirectBackends are 0 with the checked-in Java inventory baselines tightened to 0; generated outputs compile where applicable; representative end-to-end behavior is preserved (BMS artifact contract green; FPac focused fixtures green); all prior COBOL/SQL/CICS gates stay green (directBackends frozen at 0, cloud-native gate green, online corpus inventory unchanged); the final architecture checks pass for all enabled scopes."
+      }
     },
     "scheduler": {
-      "note": "Fields consumed by the external loop in tools/st4-loop (run-loop.sh). Per-entry: priority (lower=first), dependencies (ids that must be >= production-wired), verification (deterministic commands), expectedDebtDelta, attempts, blocked, blockedReason, lastAttemptCommit. The loop selects exactly one highest-priority READY item: scope in COBOL_CORE/EMBEDDED_SQL/EMBEDDED_CICS (never BMS_ARTIFACT / FPac), productionReachable, not terminal (status direct-retired or done — debt already removed, never re-selected), not blocked, all dependencies satisfied. BMS/FPac are out of the migration queue and tracked only as separate debt.",
+      "note": "Fields consumed by the external loop in tools/st4-loop (run-loop.sh). The loop is configured by migration PHASE (--phase): phase-1-cobol = COBOL_CORE/EMBEDDED_SQL/EMBEDDED_CICS (complete; kept replayable with its zero-debt gates); the active default phase-2-bms-fpac = BMS_ARTIFACT then FPAC. Within a phase the queue scopes are ORDERED: every READY item of an earlier scope is drained before any later scope (BMS fully before FPAC). Exactly one highest-priority READY item is selected per iteration and handed to one fresh worker. Per-entry fields: priority (lower=first), dependencies (ids that must be >= production-wired), verification (deterministic commands), expectedDebtDelta (per-scope counter: directBackends for COBOL scopes, bmsDirectBackends for BMS_ARTIFACT, fpacDirectBackends for FPAC), attempts, blocked, blockedReason, lastAttemptCommit. READY = scope in the phase queue, productionReachable, not terminal (status direct-retired or done -- debt already removed, never re-selected), not blocked, all dependencies satisfied.",
       "controller": "tools/st4-loop/run-loop.sh",
       "verifier": "tools/st4-loop/verify-task.sh",
       "workerPrompt": ".claude/st4-loop/worker.md",
@@ -125,6 +164,21 @@
         "scope": "EMBEDDED_CICS",
         "resolved": true,
         "note": "Resolved as an inventory traversal defect: ADDRESS@110 and RECEIVE MAP@163 were present in the semantic control-flow blocks and are now classified PRESERVED."
+      },
+      {
+        "id": "FPAC-LEGACY-SILENT-DROP",
+        "scope": "FPAC",
+        "note": "Pre-existing latent defect in the dormant FPac legacy export path: LegacyLanguageRenderer.invokeExport reflectively skips any node without DoExport, so plain structural semantic nodes (CEntityCondition, CEntityBloc, CEntityLoopWhile/Iter, CEntityCase, CEntityAddTo, CEntityContinue/Break/Inc created by CJavaFPacEntityFactory) emit nothing -- e.g. CFPacJavaReadFile's at-end bloc renders an empty if-block. No FPac fixtures exist to catch it. FPac retirement slices must preserve what the direct backend actually emitted and must not silently drop recognized constructs; fail closed with DiagnosticSink.recordUnsupported when a form cannot be lowered safely."
+      },
+      {
+        "id": "BMS-XML-OUTPUT-IN-SEMANTIC",
+        "scope": "BMS_ARTIFACT",
+        "note": "semantic/forms classes still contain XML/.res output backends (CEntityResourceFormContainer.MakeXMLOutput + DOM helpers, CEntityResourceForm.ExportXMLFields/MakePFKeysDescription*, CResourceStrings.ExportResource/ExportAllLangId, CEntityResourceField abstract DoXMLExport). This is codegen fused into the semantic layer; BMS retirement slices must move it behind the same separation principle (target-neutral semantic state + declarative rendering) or isolate it as a distinct artifact backend."
+      },
+      {
+        "id": "FPAC-GENERATOR-COUPLINGS",
+        "scope": "FPAC",
+        "note": "Couplings to resolve during FPac retirement: CFPacJavaCondAnd/Or/Not call the static COBOL-side generate.java.CJavaExporter.ExportChildCondition (generator->COBOL-generator), and parser/FPac/elements/CFPacScript imports generate.CJavaFPacEntityFactory + generate.fpacjava.CFPacJavaClass for its typed DoSemanticAnalysis overload (parser->generator). Retiring condition rendering onto the recursive assembler removes the first; keep the FPac pipeline decoupled from COBOL machinery."
       }
     ]
   },
@@ -142,8 +196,8 @@
       "fixture": "NacaSamples/cobol/ONLINM1.bms",
       "directBackend": "generate.CJavaExporter BMS form path (non-COBOL; out of ST4 migration scope)",
       "productionReachable": true,
-      "status": "production-wired",
-      "blocker": "Artifact contract satisfied: real ONLINM1.bms -> CEntityResourceFormContainer via the Resources/Map group (CObjectCatalog.GetExternalDataReference -> CGlobalCatalog.GetFormContainer -> BMSTranscoderEngine). COPY ONLINM1 resolves. Full BMS generator ST4 migration is OUT of this Goal's scope (non-COBOL DSL).",
+      "status": "done",
+      "blocker": "Artifact contract satisfied and verified (BmsArtifactContractTest): real ONLINM1.bms lowers to semantic.forms.CEntityResourceFormContainer and COPY/EXEC SQL INCLUDE resolve. The BMS GENERATOR migration is tracked per backend under the BMS-BACKEND-* items (phase 2); this contract entry is terminal.",
       "evidence": [
         "parser.BMS.ONLINM1BmsFullParseTest",
         "BmsArtifactContractTest.baseMapsetFromRealSource"
@@ -162,8 +216,8 @@
       "fixture": "NacaSamples/cobol/ONLINM1.bms",
       "directBackend": "generate.CJavaExporter BMS symbolic path (non-COBOL; out of ST4 migration scope)",
       "productionReachable": true,
-      "status": "production-wired",
-      "blocker": "Artifact contract satisfied: S-suffix -> MakeSavCopy of base ONLINM1 (isSavCopy()==true after bSaveCopy fix). EXEC SQL INCLUDE ONLINM1S resolves from real source (no empty/handwritten copybook). Full BMS generator ST4 migration out of scope.",
+      "status": "done",
+      "blocker": "Artifact contract satisfied and verified (BmsArtifactContractTest): real ONLINM1S symbolic save map lowers to semantic.forms.CEntityResourceFormContainer and COPY/EXEC SQL INCLUDE resolve. The BMS GENERATOR migration is tracked per backend under the BMS-BACKEND-* items (phase 2); this contract entry is terminal.",
       "evidence": [
         "parser.BMS.ONLINM1BmsFullParseTest",
         "BmsArtifactContractTest.symbolicSaveMapFromRealSource"
@@ -4720,108 +4774,46 @@
       "lastAttemptCommit": "2bec37b6"
     },
     {
-      "id": "BMS-BACKEND-CJAVAFIELD",
+      "id": "BMS-BACKEND-CJAVARESOURCESTRINGS",
       "kind": "DIRECT_BACKEND_RETIREMENT",
       "priority": 9000,
       "dependencies": [],
       "verification": [
-        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+        "./gradlew :naca-trans:test --tests \"architecture.BmsFormsDirectBackendInventoryTest\""
       ],
       "expectedDebtDelta": {
-        "directBackends": -1
+        "bmsDirectBackends": -1
       },
       "attempts": 0,
       "blocked": false,
       "scope": "BMS_ARTIFACT",
-      "sourceSyntax": "legacy backend CJavaField",
+      "sourceSyntax": "legacy backend CJavaResourceStrings",
       "parserNode": null,
-      "semanticNode": "semantic.forms.CEntityResourceField",
+      "semanticNode": "semantic.forms.CResourceStrings",
       "assemblerRole": null,
       "manifestBinding": null,
       "template": null,
       "runtimeOperation": null,
       "fixture": null,
-      "directBackend": "generate.java.forms.CJavaField",
-      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaField.java",
+      "directBackend": "generate.java.forms.CJavaResourceStrings",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaResourceStrings.java",
       "productionReachable": true,
       "status": "semantic-built",
-      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
+      "blocker": "Phase 2 (BMS_ARTIFACT): retire this one BMS map-resource backend onto declarative bindings + the recursive-ST4 assembly contract; preserve the emitted Java (and XML/.res where present) and reduce bmsDirectBackends by one. BMS is an independent CICS screen-map DSL, never a COBOL dialect. Tier: leaf (inline attribute/condition/action).",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/forms/CJavaField.java"
-      ]
-    },
-    {
-      "id": "BMS-BACKEND-CJAVAFIELDARRAY",
-      "kind": "DIRECT_BACKEND_RETIREMENT",
-      "priority": 9001,
-      "dependencies": [],
-      "verification": [
-        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
-      ],
-      "expectedDebtDelta": {
-        "directBackends": -1
-      },
-      "attempts": 0,
-      "blocked": false,
-      "scope": "BMS_ARTIFACT",
-      "sourceSyntax": "legacy backend CJavaFieldArray",
-      "parserNode": null,
-      "semanticNode": "semantic.forms.CEntityResourceFieldArray",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
-      "fixture": null,
-      "directBackend": "generate.java.forms.CJavaFieldArray",
-      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaFieldArray.java",
-      "productionReachable": true,
-      "status": "semantic-built",
-      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
-      "evidence": [
-        "naca-trans/src/main/java/generate/java/forms/CJavaFieldArray.java"
-      ]
-    },
-    {
-      "id": "BMS-BACKEND-CJAVAFIELDARRAYREFERENCE",
-      "kind": "DIRECT_BACKEND_RETIREMENT",
-      "priority": 9002,
-      "dependencies": [],
-      "verification": [
-        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
-      ],
-      "expectedDebtDelta": {
-        "directBackends": -1
-      },
-      "attempts": 0,
-      "blocked": false,
-      "scope": "BMS_ARTIFACT",
-      "sourceSyntax": "legacy backend CJavaFieldArrayReference",
-      "parserNode": null,
-      "semanticNode": "semantic.forms.CEntityFieldArrayReference",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
-      "fixture": null,
-      "directBackend": "generate.java.forms.CJavaFieldArrayReference",
-      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaFieldArrayReference.java",
-      "productionReachable": true,
-      "status": "semantic-built",
-      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
-      "evidence": [
-        "naca-trans/src/main/java/generate/java/forms/CJavaFieldArrayReference.java"
+        "naca-trans/src/main/java/generate/java/forms/CJavaResourceStrings.java"
       ]
     },
     {
       "id": "BMS-BACKEND-CJAVAFIELDATTRIBUTE",
       "kind": "DIRECT_BACKEND_RETIREMENT",
-      "priority": 9003,
+      "priority": 9001,
       "dependencies": [],
       "verification": [
-        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+        "./gradlew :naca-trans:test --tests \"architecture.BmsFormsDirectBackendInventoryTest\""
       ],
       "expectedDebtDelta": {
-        "directBackends": -1
+        "bmsDirectBackends": -1
       },
       "attempts": 0,
       "blocked": false,
@@ -4838,145 +4830,21 @@
       "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaFieldAttribute.java",
       "productionReachable": true,
       "status": "semantic-built",
-      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
+      "blocker": "Phase 2 (BMS_ARTIFACT): retire this one BMS map-resource backend onto declarative bindings + the recursive-ST4 assembly contract; preserve the emitted Java (and XML/.res where present) and reduce bmsDirectBackends by one. BMS is an independent CICS screen-map DSL, never a COBOL dialect. Tier: leaf (inline attribute/condition/action).",
       "evidence": [
         "naca-trans/src/main/java/generate/java/forms/CJavaFieldAttribute.java"
       ]
     },
     {
-      "id": "BMS-BACKEND-CJAVAFIELDCOLOR",
-      "kind": "DIRECT_BACKEND_RETIREMENT",
-      "priority": 9004,
-      "dependencies": [],
-      "verification": [
-        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
-      ],
-      "expectedDebtDelta": {
-        "directBackends": -1
-      },
-      "attempts": 0,
-      "blocked": false,
-      "scope": "BMS_ARTIFACT",
-      "sourceSyntax": "legacy backend CJavaFieldColor",
-      "parserNode": null,
-      "semanticNode": "semantic.forms.CEntityFieldColor",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
-      "fixture": null,
-      "directBackend": "generate.java.forms.CJavaFieldColor",
-      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaFieldColor.java",
-      "productionReachable": true,
-      "status": "semantic-built",
-      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
-      "evidence": [
-        "naca-trans/src/main/java/generate/java/forms/CJavaFieldColor.java"
-      ]
-    },
-    {
-      "id": "BMS-BACKEND-CJAVAFIELDDATA",
-      "kind": "DIRECT_BACKEND_RETIREMENT",
-      "priority": 9005,
-      "dependencies": [],
-      "verification": [
-        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
-      ],
-      "expectedDebtDelta": {
-        "directBackends": -1
-      },
-      "attempts": 0,
-      "blocked": false,
-      "scope": "BMS_ARTIFACT",
-      "sourceSyntax": "legacy backend CJavaFieldData",
-      "parserNode": null,
-      "semanticNode": "semantic.forms.CEntityFieldData",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
-      "fixture": null,
-      "directBackend": "generate.java.forms.CJavaFieldData",
-      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaFieldData.java",
-      "productionReachable": true,
-      "status": "semantic-built",
-      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
-      "evidence": [
-        "naca-trans/src/main/java/generate/java/forms/CJavaFieldData.java"
-      ]
-    },
-    {
-      "id": "BMS-BACKEND-CJAVAFIELDFLAG",
-      "kind": "DIRECT_BACKEND_RETIREMENT",
-      "priority": 9006,
-      "dependencies": [],
-      "verification": [
-        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
-      ],
-      "expectedDebtDelta": {
-        "directBackends": -1
-      },
-      "attempts": 0,
-      "blocked": false,
-      "scope": "BMS_ARTIFACT",
-      "sourceSyntax": "legacy backend CJavaFieldFlag",
-      "parserNode": null,
-      "semanticNode": "semantic.forms.CEntityFieldFlag",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
-      "fixture": null,
-      "directBackend": "generate.java.forms.CJavaFieldFlag",
-      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaFieldFlag.java",
-      "productionReachable": true,
-      "status": "semantic-built",
-      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
-      "evidence": [
-        "naca-trans/src/main/java/generate/java/forms/CJavaFieldFlag.java"
-      ]
-    },
-    {
-      "id": "BMS-BACKEND-CJAVAFIELDHIGHLIGH",
-      "kind": "DIRECT_BACKEND_RETIREMENT",
-      "priority": 9007,
-      "dependencies": [],
-      "verification": [
-        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
-      ],
-      "expectedDebtDelta": {
-        "directBackends": -1
-      },
-      "attempts": 0,
-      "blocked": false,
-      "scope": "BMS_ARTIFACT",
-      "sourceSyntax": "legacy backend CJavaFieldHighligh",
-      "parserNode": null,
-      "semanticNode": "semantic.forms.CEntityFieldHighlight",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
-      "fixture": null,
-      "directBackend": "generate.java.forms.CJavaFieldHighligh",
-      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaFieldHighligh.java",
-      "productionReachable": true,
-      "status": "semantic-built",
-      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
-      "evidence": [
-        "naca-trans/src/main/java/generate/java/forms/CJavaFieldHighligh.java"
-      ]
-    },
-    {
       "id": "BMS-BACKEND-CJAVAFIELDLENGTH",
       "kind": "DIRECT_BACKEND_RETIREMENT",
-      "priority": 9008,
+      "priority": 9002,
       "dependencies": [],
       "verification": [
-        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+        "./gradlew :naca-trans:test --tests \"architecture.BmsFormsDirectBackendInventoryTest\""
       ],
       "expectedDebtDelta": {
-        "directBackends": -1
+        "bmsDirectBackends": -1
       },
       "attempts": 0,
       "blocked": false,
@@ -4993,83 +4861,114 @@
       "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaFieldLength.java",
       "productionReachable": true,
       "status": "semantic-built",
-      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
+      "blocker": "Phase 2 (BMS_ARTIFACT): retire this one BMS map-resource backend onto declarative bindings + the recursive-ST4 assembly contract; preserve the emitted Java (and XML/.res where present) and reduce bmsDirectBackends by one. BMS is an independent CICS screen-map DSL, never a COBOL dialect. Tier: leaf (inline attribute/condition/action).",
       "evidence": [
         "naca-trans/src/main/java/generate/java/forms/CJavaFieldLength.java"
       ]
     },
     {
-      "id": "BMS-BACKEND-CJAVAFIELDOCCURS",
+      "id": "BMS-BACKEND-CJAVAFIELDCOLOR",
       "kind": "DIRECT_BACKEND_RETIREMENT",
-      "priority": 9009,
+      "priority": 9003,
       "dependencies": [],
       "verification": [
-        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+        "./gradlew :naca-trans:test --tests \"architecture.BmsFormsDirectBackendInventoryTest\""
       ],
       "expectedDebtDelta": {
-        "directBackends": -1
+        "bmsDirectBackends": -1
       },
       "attempts": 0,
       "blocked": false,
       "scope": "BMS_ARTIFACT",
-      "sourceSyntax": "legacy backend CJavaFieldOccurs",
+      "sourceSyntax": "legacy backend CJavaFieldColor",
       "parserNode": null,
-      "semanticNode": "semantic.forms.CEntityFieldOccurs",
+      "semanticNode": "semantic.forms.CEntityFieldColor",
       "assemblerRole": null,
       "manifestBinding": null,
       "template": null,
       "runtimeOperation": null,
       "fixture": null,
-      "directBackend": "generate.java.forms.CJavaFieldOccurs",
-      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaFieldOccurs.java",
+      "directBackend": "generate.java.forms.CJavaFieldColor",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaFieldColor.java",
       "productionReachable": true,
       "status": "semantic-built",
-      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
+      "blocker": "Phase 2 (BMS_ARTIFACT): retire this one BMS map-resource backend onto declarative bindings + the recursive-ST4 assembly contract; preserve the emitted Java (and XML/.res where present) and reduce bmsDirectBackends by one. BMS is an independent CICS screen-map DSL, never a COBOL dialect. Tier: leaf (inline attribute/condition/action).",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/forms/CJavaFieldOccurs.java"
+        "naca-trans/src/main/java/generate/java/forms/CJavaFieldColor.java"
       ]
     },
     {
-      "id": "BMS-BACKEND-CJAVAFIELDREDEFINE",
+      "id": "BMS-BACKEND-CJAVAFIELDHIGHLIGH",
       "kind": "DIRECT_BACKEND_RETIREMENT",
-      "priority": 9010,
+      "priority": 9004,
       "dependencies": [],
       "verification": [
-        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+        "./gradlew :naca-trans:test --tests \"architecture.BmsFormsDirectBackendInventoryTest\""
       ],
       "expectedDebtDelta": {
-        "directBackends": -1
+        "bmsDirectBackends": -1
       },
       "attempts": 0,
       "blocked": false,
       "scope": "BMS_ARTIFACT",
-      "sourceSyntax": "legacy backend CJavaFieldRedefine",
+      "sourceSyntax": "legacy backend CJavaFieldHighligh",
       "parserNode": null,
-      "semanticNode": "semantic.forms.CEntityFieldRedefine",
+      "semanticNode": "semantic.forms.CEntityFieldHighlight",
       "assemblerRole": null,
       "manifestBinding": null,
       "template": null,
       "runtimeOperation": null,
       "fixture": null,
-      "directBackend": "generate.java.forms.CJavaFieldRedefine",
-      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaFieldRedefine.java",
+      "directBackend": "generate.java.forms.CJavaFieldHighligh",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaFieldHighligh.java",
       "productionReachable": true,
       "status": "semantic-built",
-      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
+      "blocker": "Phase 2 (BMS_ARTIFACT): retire this one BMS map-resource backend onto declarative bindings + the recursive-ST4 assembly contract; preserve the emitted Java (and XML/.res where present) and reduce bmsDirectBackends by one. BMS is an independent CICS screen-map DSL, never a COBOL dialect. Tier: leaf (inline attribute/condition/action).",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/forms/CJavaFieldRedefine.java"
+        "naca-trans/src/main/java/generate/java/forms/CJavaFieldHighligh.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVAFIELDFLAG",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9005,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.BmsFormsDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "bmsDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaFieldFlag",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntityFieldFlag",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaFieldFlag",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaFieldFlag.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (BMS_ARTIFACT): retire this one BMS map-resource backend onto declarative bindings + the recursive-ST4 assembly contract; preserve the emitted Java (and XML/.res where present) and reduce bmsDirectBackends by one. BMS is an independent CICS screen-map DSL, never a COBOL dialect. Tier: leaf (inline attribute/condition/action).",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/forms/CJavaFieldFlag.java"
       ]
     },
     {
       "id": "BMS-BACKEND-CJAVAFIELDVALIDATED",
       "kind": "DIRECT_BACKEND_RETIREMENT",
-      "priority": 9011,
+      "priority": 9006,
       "dependencies": [],
       "verification": [
-        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+        "./gradlew :naca-trans:test --tests \"architecture.BmsFormsDirectBackendInventoryTest\""
       ],
       "expectedDebtDelta": {
-        "directBackends": -1
+        "bmsDirectBackends": -1
       },
       "attempts": 0,
       "blocked": false,
@@ -5086,549 +4985,52 @@
       "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaFieldValidated.java",
       "productionReachable": true,
       "status": "semantic-built",
-      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
+      "blocker": "Phase 2 (BMS_ARTIFACT): retire this one BMS map-resource backend onto declarative bindings + the recursive-ST4 assembly contract; preserve the emitted Java (and XML/.res where present) and reduce bmsDirectBackends by one. BMS is an independent CICS screen-map DSL, never a COBOL dialect. Tier: leaf (inline attribute/condition/action).",
       "evidence": [
         "naca-trans/src/main/java/generate/java/forms/CJavaFieldValidated.java"
       ]
     },
     {
-      "id": "BMS-BACKEND-CJAVAFORM",
+      "id": "BMS-BACKEND-CJAVAFIELDARRAYREFERENCE",
       "kind": "DIRECT_BACKEND_RETIREMENT",
-      "priority": 9012,
+      "priority": 9007,
       "dependencies": [],
       "verification": [
-        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+        "./gradlew :naca-trans:test --tests \"architecture.BmsFormsDirectBackendInventoryTest\""
       ],
       "expectedDebtDelta": {
-        "directBackends": -1
+        "bmsDirectBackends": -1
       },
       "attempts": 0,
       "blocked": false,
       "scope": "BMS_ARTIFACT",
-      "sourceSyntax": "legacy backend CJavaForm",
+      "sourceSyntax": "legacy backend CJavaFieldArrayReference",
       "parserNode": null,
-      "semanticNode": "semantic.forms.CEntityResourceForm",
+      "semanticNode": "semantic.forms.CEntityFieldArrayReference",
       "assemblerRole": null,
       "manifestBinding": null,
       "template": null,
       "runtimeOperation": null,
       "fixture": null,
-      "directBackend": "generate.java.forms.CJavaForm",
-      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaForm.java",
+      "directBackend": "generate.java.forms.CJavaFieldArrayReference",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaFieldArrayReference.java",
       "productionReachable": true,
       "status": "semantic-built",
-      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
+      "blocker": "Phase 2 (BMS_ARTIFACT): retire this one BMS map-resource backend onto declarative bindings + the recursive-ST4 assembly contract; preserve the emitted Java (and XML/.res where present) and reduce bmsDirectBackends by one. BMS is an independent CICS screen-map DSL, never a COBOL dialect. Tier: leaf (inline attribute/condition/action).",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/forms/CJavaForm.java"
-      ]
-    },
-    {
-      "id": "BMS-BACKEND-CJAVAFORMACCESSOR",
-      "kind": "DIRECT_BACKEND_RETIREMENT",
-      "priority": 9013,
-      "dependencies": [],
-      "verification": [
-        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
-      ],
-      "expectedDebtDelta": {
-        "directBackends": -1
-      },
-      "attempts": 0,
-      "blocked": false,
-      "scope": "BMS_ARTIFACT",
-      "sourceSyntax": "legacy backend CJavaFormAccessor",
-      "parserNode": null,
-      "semanticNode": "semantic.forms.CEntityFormAccessor",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
-      "fixture": null,
-      "directBackend": "generate.java.forms.CJavaFormAccessor",
-      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaFormAccessor.java",
-      "productionReachable": true,
-      "status": "semantic-built",
-      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
-      "evidence": [
-        "naca-trans/src/main/java/generate/java/forms/CJavaFormAccessor.java"
-      ]
-    },
-    {
-      "id": "BMS-BACKEND-CJAVAFORMCONTAINER",
-      "kind": "DIRECT_BACKEND_RETIREMENT",
-      "priority": 9014,
-      "dependencies": [],
-      "verification": [
-        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
-      ],
-      "expectedDebtDelta": {
-        "directBackends": -1
-      },
-      "attempts": 0,
-      "blocked": false,
-      "scope": "BMS_ARTIFACT",
-      "sourceSyntax": "legacy backend CJavaFormContainer",
-      "parserNode": null,
-      "semanticNode": "semantic.forms.CEntityResourceFormContainer",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
-      "fixture": null,
-      "directBackend": "generate.java.forms.CJavaFormContainer",
-      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaFormContainer.java",
-      "productionReachable": true,
-      "status": "semantic-built",
-      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
-      "evidence": [
-        "naca-trans/src/main/java/generate/java/forms/CJavaFormContainer.java"
-      ]
-    },
-    {
-      "id": "BMS-BACKEND-CJAVAFORMREDEFINE",
-      "kind": "DIRECT_BACKEND_RETIREMENT",
-      "priority": 9015,
-      "dependencies": [],
-      "verification": [
-        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
-      ],
-      "expectedDebtDelta": {
-        "directBackends": -1
-      },
-      "attempts": 0,
-      "blocked": false,
-      "scope": "BMS_ARTIFACT",
-      "sourceSyntax": "legacy backend CJavaFormRedefine",
-      "parserNode": null,
-      "semanticNode": "semantic.forms.CEntityFormRedefine",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
-      "fixture": null,
-      "directBackend": "generate.java.forms.CJavaFormRedefine",
-      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaFormRedefine.java",
-      "productionReachable": true,
-      "status": "semantic-built",
-      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
-      "evidence": [
-        "naca-trans/src/main/java/generate/java/forms/CJavaFormRedefine.java"
-      ]
-    },
-    {
-      "id": "BMS-BACKEND-CJAVAGETKEYPRESSED",
-      "kind": "DIRECT_BACKEND_RETIREMENT",
-      "priority": 9016,
-      "dependencies": [],
-      "verification": [
-        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
-      ],
-      "expectedDebtDelta": {
-        "directBackends": -1
-      },
-      "attempts": 0,
-      "blocked": false,
-      "scope": "BMS_ARTIFACT",
-      "sourceSyntax": "legacy backend CJavaGetKeyPressed",
-      "parserNode": null,
-      "semanticNode": "semantic.forms.CEntityGetKeyPressed",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
-      "fixture": null,
-      "directBackend": "generate.java.forms.CJavaGetKeyPressed",
-      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaGetKeyPressed.java",
-      "productionReachable": true,
-      "status": "semantic-built",
-      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
-      "evidence": [
-        "naca-trans/src/main/java/generate/java/forms/CJavaGetKeyPressed.java"
-      ]
-    },
-    {
-      "id": "BMS-BACKEND-CJAVAISFIELDATTRIBUTE",
-      "kind": "DIRECT_BACKEND_RETIREMENT",
-      "priority": 9017,
-      "dependencies": [],
-      "verification": [
-        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
-      ],
-      "expectedDebtDelta": {
-        "directBackends": -1
-      },
-      "attempts": 0,
-      "blocked": false,
-      "scope": "BMS_ARTIFACT",
-      "sourceSyntax": "legacy backend CJavaIsFieldAttribute",
-      "parserNode": null,
-      "semanticNode": "semantic.forms.CEntityIsFieldAttribute",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
-      "fixture": null,
-      "directBackend": "generate.java.forms.CJavaIsFieldAttribute",
-      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaIsFieldAttribute.java",
-      "productionReachable": true,
-      "status": "semantic-built",
-      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
-      "evidence": [
-        "naca-trans/src/main/java/generate/java/forms/CJavaIsFieldAttribute.java"
-      ]
-    },
-    {
-      "id": "BMS-BACKEND-CJAVAISFIELDCOLOR",
-      "kind": "DIRECT_BACKEND_RETIREMENT",
-      "priority": 9018,
-      "dependencies": [],
-      "verification": [
-        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
-      ],
-      "expectedDebtDelta": {
-        "directBackends": -1
-      },
-      "attempts": 0,
-      "blocked": false,
-      "scope": "BMS_ARTIFACT",
-      "sourceSyntax": "legacy backend CJavaIsFieldColor",
-      "parserNode": null,
-      "semanticNode": "semantic.forms.CEntityIsFieldColor",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
-      "fixture": null,
-      "directBackend": "generate.java.forms.CJavaIsFieldColor",
-      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaIsFieldColor.java",
-      "productionReachable": true,
-      "status": "semantic-built",
-      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
-      "evidence": [
-        "naca-trans/src/main/java/generate/java/forms/CJavaIsFieldColor.java"
-      ]
-    },
-    {
-      "id": "BMS-BACKEND-CJAVAISFIELDCURSOR",
-      "kind": "DIRECT_BACKEND_RETIREMENT",
-      "priority": 9019,
-      "dependencies": [],
-      "verification": [
-        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
-      ],
-      "expectedDebtDelta": {
-        "directBackends": -1
-      },
-      "attempts": 0,
-      "blocked": false,
-      "scope": "BMS_ARTIFACT",
-      "sourceSyntax": "legacy backend CJavaIsFieldCursor",
-      "parserNode": null,
-      "semanticNode": "semantic.forms.CEntityIsFieldCursor",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
-      "fixture": null,
-      "directBackend": "generate.java.forms.CJavaIsFieldCursor",
-      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaIsFieldCursor.java",
-      "productionReachable": true,
-      "status": "semantic-built",
-      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
-      "evidence": [
-        "naca-trans/src/main/java/generate/java/forms/CJavaIsFieldCursor.java"
-      ]
-    },
-    {
-      "id": "BMS-BACKEND-CJAVAISFIELDFLAG",
-      "kind": "DIRECT_BACKEND_RETIREMENT",
-      "priority": 9020,
-      "dependencies": [],
-      "verification": [
-        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
-      ],
-      "expectedDebtDelta": {
-        "directBackends": -1
-      },
-      "attempts": 0,
-      "blocked": false,
-      "scope": "BMS_ARTIFACT",
-      "sourceSyntax": "legacy backend CJavaIsFieldFlag",
-      "parserNode": null,
-      "semanticNode": "semantic.forms.CEntityIsFieldFlag",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
-      "fixture": null,
-      "directBackend": "generate.java.forms.CJavaIsFieldFlag",
-      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaIsFieldFlag.java",
-      "productionReachable": true,
-      "status": "semantic-built",
-      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
-      "evidence": [
-        "naca-trans/src/main/java/generate/java/forms/CJavaIsFieldFlag.java"
-      ]
-    },
-    {
-      "id": "BMS-BACKEND-CJAVAISFIELDHIGHLIGHT",
-      "kind": "DIRECT_BACKEND_RETIREMENT",
-      "priority": 9021,
-      "dependencies": [],
-      "verification": [
-        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
-      ],
-      "expectedDebtDelta": {
-        "directBackends": -1
-      },
-      "attempts": 0,
-      "blocked": false,
-      "scope": "BMS_ARTIFACT",
-      "sourceSyntax": "legacy backend CJavaIsFieldHighlight",
-      "parserNode": null,
-      "semanticNode": "semantic.forms.CEntityIsFieldHighlight",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
-      "fixture": null,
-      "directBackend": "generate.java.forms.CJavaIsFieldHighlight",
-      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaIsFieldHighlight.java",
-      "productionReachable": true,
-      "status": "semantic-built",
-      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
-      "evidence": [
-        "naca-trans/src/main/java/generate/java/forms/CJavaIsFieldHighlight.java"
-      ]
-    },
-    {
-      "id": "BMS-BACKEND-CJAVAISFIELDMODIFIED",
-      "kind": "DIRECT_BACKEND_RETIREMENT",
-      "priority": 9022,
-      "dependencies": [],
-      "verification": [
-        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
-      ],
-      "expectedDebtDelta": {
-        "directBackends": -1
-      },
-      "attempts": 0,
-      "blocked": false,
-      "scope": "BMS_ARTIFACT",
-      "sourceSyntax": "legacy backend CJavaIsFieldModified",
-      "parserNode": null,
-      "semanticNode": "semantic.forms.CEntityIsFieldModified",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
-      "fixture": null,
-      "directBackend": "generate.java.forms.CJavaIsFieldModified",
-      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaIsFieldModified.java",
-      "productionReachable": true,
-      "status": "semantic-built",
-      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler. Its explicit CBmsJavaCondNot compatibility renderer must retire with this BMS backend.",
-      "evidence": [
-        "naca-trans/src/main/java/generate/bmsjava/CBmsJavaCondNot.java",
-        "naca-trans/src/main/java/generate/java/forms/CJavaIsFieldModified.java"
-      ]
-    },
-    {
-      "id": "BMS-BACKEND-CJAVAISKEYPRESSED",
-      "kind": "DIRECT_BACKEND_RETIREMENT",
-      "priority": 9023,
-      "dependencies": [],
-      "verification": [
-        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
-      ],
-      "expectedDebtDelta": {
-        "directBackends": -1
-      },
-      "attempts": 0,
-      "blocked": false,
-      "scope": "BMS_ARTIFACT",
-      "sourceSyntax": "legacy backend CJavaIsKeyPressed",
-      "parserNode": null,
-      "semanticNode": "semantic.forms.CEntityIsKeyPressed",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
-      "fixture": null,
-      "directBackend": "generate.java.forms.CJavaIsKeyPressed",
-      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaIsKeyPressed.java",
-      "productionReachable": true,
-      "status": "semantic-built",
-      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
-      "evidence": [
-        "naca-trans/src/main/java/generate/java/forms/CJavaIsKeyPressed.java"
-      ]
-    },
-    {
-      "id": "BMS-BACKEND-CJAVAKEYPRESSED",
-      "kind": "DIRECT_BACKEND_RETIREMENT",
-      "priority": 9024,
-      "dependencies": [],
-      "verification": [
-        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
-      ],
-      "expectedDebtDelta": {
-        "directBackends": -1
-      },
-      "attempts": 0,
-      "blocked": false,
-      "scope": "BMS_ARTIFACT",
-      "sourceSyntax": "legacy backend CJavaKeyPressed",
-      "parserNode": null,
-      "semanticNode": "semantic.forms.CEntityKeyPressed",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
-      "fixture": null,
-      "directBackend": "generate.java.forms.CJavaKeyPressed",
-      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaKeyPressed.java",
-      "productionReachable": true,
-      "status": "semantic-built",
-      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
-      "evidence": [
-        "naca-trans/src/main/java/generate/java/forms/CJavaKeyPressed.java"
-      ]
-    },
-    {
-      "id": "BMS-BACKEND-CJAVALABELFIELD",
-      "kind": "DIRECT_BACKEND_RETIREMENT",
-      "priority": 9025,
-      "dependencies": [],
-      "verification": [
-        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
-      ],
-      "expectedDebtDelta": {
-        "directBackends": -1
-      },
-      "attempts": 0,
-      "blocked": false,
-      "scope": "BMS_ARTIFACT",
-      "sourceSyntax": "legacy backend CJavaLabelField",
-      "parserNode": null,
-      "semanticNode": "semantic.forms.CEntityResourceField",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
-      "fixture": null,
-      "directBackend": "generate.java.forms.CJavaLabelField",
-      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaLabelField.java",
-      "productionReachable": true,
-      "status": "semantic-built",
-      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
-      "evidence": [
-        "naca-trans/src/main/java/generate/java/forms/CJavaLabelField.java"
-      ]
-    },
-    {
-      "id": "BMS-BACKEND-CJAVARESETKEYPRESSED",
-      "kind": "DIRECT_BACKEND_RETIREMENT",
-      "priority": 9026,
-      "dependencies": [],
-      "verification": [
-        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
-      ],
-      "expectedDebtDelta": {
-        "directBackends": -1
-      },
-      "attempts": 0,
-      "blocked": false,
-      "scope": "BMS_ARTIFACT",
-      "sourceSyntax": "legacy backend CJavaResetKeyPressed",
-      "parserNode": null,
-      "semanticNode": "semantic.forms.CEntityResetKeyPressed",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
-      "fixture": null,
-      "directBackend": "generate.java.forms.CJavaResetKeyPressed",
-      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaResetKeyPressed.java",
-      "productionReachable": true,
-      "status": "semantic-built",
-      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
-      "evidence": [
-        "naca-trans/src/main/java/generate/java/forms/CJavaResetKeyPressed.java"
-      ]
-    },
-    {
-      "id": "BMS-BACKEND-CJAVASETATTRIBUTE",
-      "kind": "DIRECT_BACKEND_RETIREMENT",
-      "priority": 9027,
-      "dependencies": [],
-      "verification": [
-        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
-      ],
-      "expectedDebtDelta": {
-        "directBackends": -1
-      },
-      "attempts": 0,
-      "blocked": false,
-      "scope": "BMS_ARTIFACT",
-      "sourceSyntax": "legacy backend CJavaSetAttribute",
-      "parserNode": null,
-      "semanticNode": "semantic.forms.CEntitySetAttribute",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
-      "fixture": null,
-      "directBackend": "generate.java.forms.CJavaSetAttribute",
-      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaSetAttribute.java",
-      "productionReachable": true,
-      "status": "semantic-built",
-      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
-      "evidence": [
-        "naca-trans/src/main/java/generate/java/forms/CJavaSetAttribute.java"
-      ]
-    },
-    {
-      "id": "BMS-BACKEND-CJAVASETCOLOR",
-      "kind": "DIRECT_BACKEND_RETIREMENT",
-      "priority": 9028,
-      "dependencies": [],
-      "verification": [
-        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
-      ],
-      "expectedDebtDelta": {
-        "directBackends": -1
-      },
-      "attempts": 0,
-      "blocked": false,
-      "scope": "BMS_ARTIFACT",
-      "sourceSyntax": "legacy backend CJavaSetColor",
-      "parserNode": null,
-      "semanticNode": "semantic.forms.CEntitySetColor",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
-      "fixture": null,
-      "directBackend": "generate.java.forms.CJavaSetColor",
-      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaSetColor.java",
-      "productionReachable": true,
-      "status": "semantic-built",
-      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
-      "evidence": [
-        "naca-trans/src/main/java/generate/java/forms/CJavaSetColor.java"
+        "naca-trans/src/main/java/generate/java/forms/CJavaFieldArrayReference.java"
       ]
     },
     {
       "id": "BMS-BACKEND-CJAVASETCURSOR",
       "kind": "DIRECT_BACKEND_RETIREMENT",
-      "priority": 9029,
+      "priority": 9008,
       "dependencies": [],
       "verification": [
-        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+        "./gradlew :naca-trans:test --tests \"architecture.BmsFormsDirectBackendInventoryTest\""
       ],
       "expectedDebtDelta": {
-        "directBackends": -1
+        "bmsDirectBackends": -1
       },
       "attempts": 0,
       "blocked": false,
@@ -5645,52 +5047,52 @@
       "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaSetCursor.java",
       "productionReachable": true,
       "status": "semantic-built",
-      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
+      "blocker": "Phase 2 (BMS_ARTIFACT): retire this one BMS map-resource backend onto declarative bindings + the recursive-ST4 assembly contract; preserve the emitted Java (and XML/.res where present) and reduce bmsDirectBackends by one. BMS is an independent CICS screen-map DSL, never a COBOL dialect. Tier: leaf (inline attribute/condition/action).",
       "evidence": [
         "naca-trans/src/main/java/generate/java/forms/CJavaSetCursor.java"
       ]
     },
     {
-      "id": "BMS-BACKEND-CJAVASETFLAG",
+      "id": "BMS-BACKEND-CJAVASETATTRIBUTE",
       "kind": "DIRECT_BACKEND_RETIREMENT",
-      "priority": 9030,
+      "priority": 9009,
       "dependencies": [],
       "verification": [
-        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+        "./gradlew :naca-trans:test --tests \"architecture.BmsFormsDirectBackendInventoryTest\""
       ],
       "expectedDebtDelta": {
-        "directBackends": -1
+        "bmsDirectBackends": -1
       },
       "attempts": 0,
       "blocked": false,
       "scope": "BMS_ARTIFACT",
-      "sourceSyntax": "legacy backend CJavaSetFlag",
+      "sourceSyntax": "legacy backend CJavaSetAttribute",
       "parserNode": null,
-      "semanticNode": "semantic.forms.CEntitySetFlag",
+      "semanticNode": "semantic.forms.CEntitySetAttribute",
       "assemblerRole": null,
       "manifestBinding": null,
       "template": null,
       "runtimeOperation": null,
       "fixture": null,
-      "directBackend": "generate.java.forms.CJavaSetFlag",
-      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaSetFlag.java",
+      "directBackend": "generate.java.forms.CJavaSetAttribute",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaSetAttribute.java",
       "productionReachable": true,
       "status": "semantic-built",
-      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
+      "blocker": "Phase 2 (BMS_ARTIFACT): retire this one BMS map-resource backend onto declarative bindings + the recursive-ST4 assembly contract; preserve the emitted Java (and XML/.res where present) and reduce bmsDirectBackends by one. BMS is an independent CICS screen-map DSL, never a COBOL dialect. Tier: leaf (inline attribute/condition/action).",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/forms/CJavaSetFlag.java"
+        "naca-trans/src/main/java/generate/java/forms/CJavaSetAttribute.java"
       ]
     },
     {
       "id": "BMS-BACKEND-CJAVASETHIGHLIGHT",
       "kind": "DIRECT_BACKEND_RETIREMENT",
-      "priority": 9031,
+      "priority": 9010,
       "dependencies": [],
       "verification": [
-        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+        "./gradlew :naca-trans:test --tests \"architecture.BmsFormsDirectBackendInventoryTest\""
       ],
       "expectedDebtDelta": {
-        "directBackends": -1
+        "bmsDirectBackends": -1
       },
       "attempts": 0,
       "blocked": false,
@@ -5707,21 +5109,394 @@
       "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaSetHighlight.java",
       "productionReachable": true,
       "status": "semantic-built",
-      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
+      "blocker": "Phase 2 (BMS_ARTIFACT): retire this one BMS map-resource backend onto declarative bindings + the recursive-ST4 assembly contract; preserve the emitted Java (and XML/.res where present) and reduce bmsDirectBackends by one. BMS is an independent CICS screen-map DSL, never a COBOL dialect. Tier: leaf (inline attribute/condition/action).",
       "evidence": [
         "naca-trans/src/main/java/generate/java/forms/CJavaSetHighlight.java"
       ]
     },
     {
-      "id": "BMS-BACKEND-CJAVASKIPFIELD",
+      "id": "BMS-BACKEND-CJAVASETFLAG",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9011,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.BmsFormsDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "bmsDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaSetFlag",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntitySetFlag",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaSetFlag",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaSetFlag.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (BMS_ARTIFACT): retire this one BMS map-resource backend onto declarative bindings + the recursive-ST4 assembly contract; preserve the emitted Java (and XML/.res where present) and reduce bmsDirectBackends by one. BMS is an independent CICS screen-map DSL, never a COBOL dialect. Tier: leaf (inline attribute/condition/action).",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/forms/CJavaSetFlag.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVASETCOLOR",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9012,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.BmsFormsDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "bmsDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaSetColor",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntitySetColor",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaSetColor",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaSetColor.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (BMS_ARTIFACT): retire this one BMS map-resource backend onto declarative bindings + the recursive-ST4 assembly contract; preserve the emitted Java (and XML/.res where present) and reduce bmsDirectBackends by one. BMS is an independent CICS screen-map DSL, never a COBOL dialect. Tier: leaf (inline attribute/condition/action).",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/forms/CJavaSetColor.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVAISFIELDMODIFIED",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9013,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.BmsFormsDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "bmsDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaIsFieldModified",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntityIsFieldModified",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaIsFieldModified",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaIsFieldModified.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (BMS_ARTIFACT): retire this one BMS map-resource backend onto declarative bindings + the recursive-ST4 assembly contract; preserve the emitted Java (and XML/.res where present) and reduce bmsDirectBackends by one. BMS is an independent CICS screen-map DSL, never a COBOL dialect. Tier: leaf (inline attribute/condition/action).",
+      "evidence": [
+        "naca-trans/src/main/java/generate/bmsjava/CBmsJavaCondNot.java",
+        "naca-trans/src/main/java/generate/java/forms/CJavaIsFieldModified.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVAISFIELDCURSOR",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9014,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.BmsFormsDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "bmsDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaIsFieldCursor",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntityIsFieldCursor",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaIsFieldCursor",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaIsFieldCursor.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (BMS_ARTIFACT): retire this one BMS map-resource backend onto declarative bindings + the recursive-ST4 assembly contract; preserve the emitted Java (and XML/.res where present) and reduce bmsDirectBackends by one. BMS is an independent CICS screen-map DSL, never a COBOL dialect. Tier: leaf (inline attribute/condition/action).",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/forms/CJavaIsFieldCursor.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVAISFIELDFLAG",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9015,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.BmsFormsDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "bmsDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaIsFieldFlag",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntityIsFieldFlag",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaIsFieldFlag",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaIsFieldFlag.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (BMS_ARTIFACT): retire this one BMS map-resource backend onto declarative bindings + the recursive-ST4 assembly contract; preserve the emitted Java (and XML/.res where present) and reduce bmsDirectBackends by one. BMS is an independent CICS screen-map DSL, never a COBOL dialect. Tier: leaf (inline attribute/condition/action).",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/forms/CJavaIsFieldFlag.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVAISFIELDATTRIBUTE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9016,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.BmsFormsDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "bmsDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaIsFieldAttribute",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntityIsFieldAttribute",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaIsFieldAttribute",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaIsFieldAttribute.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (BMS_ARTIFACT): retire this one BMS map-resource backend onto declarative bindings + the recursive-ST4 assembly contract; preserve the emitted Java (and XML/.res where present) and reduce bmsDirectBackends by one. BMS is an independent CICS screen-map DSL, never a COBOL dialect. Tier: leaf (inline attribute/condition/action).",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/forms/CJavaIsFieldAttribute.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVAISFIELDCOLOR",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9017,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.BmsFormsDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "bmsDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaIsFieldColor",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntityIsFieldColor",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaIsFieldColor",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaIsFieldColor.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (BMS_ARTIFACT): retire this one BMS map-resource backend onto declarative bindings + the recursive-ST4 assembly contract; preserve the emitted Java (and XML/.res where present) and reduce bmsDirectBackends by one. BMS is an independent CICS screen-map DSL, never a COBOL dialect. Tier: leaf (inline attribute/condition/action).",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/forms/CJavaIsFieldColor.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVAISFIELDHIGHLIGHT",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9018,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.BmsFormsDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "bmsDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaIsFieldHighlight",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntityIsFieldHighlight",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaIsFieldHighlight",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaIsFieldHighlight.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (BMS_ARTIFACT): retire this one BMS map-resource backend onto declarative bindings + the recursive-ST4 assembly contract; preserve the emitted Java (and XML/.res where present) and reduce bmsDirectBackends by one. BMS is an independent CICS screen-map DSL, never a COBOL dialect. Tier: leaf (inline attribute/condition/action).",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/forms/CJavaIsFieldHighlight.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVAKEYPRESSED",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9019,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.BmsFormsDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "bmsDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaKeyPressed",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntityKeyPressed",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaKeyPressed",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaKeyPressed.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (BMS_ARTIFACT): retire this one BMS map-resource backend onto declarative bindings + the recursive-ST4 assembly contract; preserve the emitted Java (and XML/.res where present) and reduce bmsDirectBackends by one. BMS is an independent CICS screen-map DSL, never a COBOL dialect. Tier: leaf (inline attribute/condition/action).",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/forms/CJavaKeyPressed.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVAFIELD",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9030,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.BmsFormsDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "bmsDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaField",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntityResourceField",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaField",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaField.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (BMS_ARTIFACT): retire this one BMS map-resource backend onto declarative bindings + the recursive-ST4 assembly contract; preserve the emitted Java (and XML/.res where present) and reduce bmsDirectBackends by one. BMS is an independent CICS screen-map DSL, never a COBOL dialect. Tier: field-level block.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/forms/CJavaField.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVALABELFIELD",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9031,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.BmsFormsDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "bmsDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaLabelField",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntityResourceField",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaLabelField",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaLabelField.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (BMS_ARTIFACT): retire this one BMS map-resource backend onto declarative bindings + the recursive-ST4 assembly contract; preserve the emitted Java (and XML/.res where present) and reduce bmsDirectBackends by one. BMS is an independent CICS screen-map DSL, never a COBOL dialect. Tier: field-level block.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/forms/CJavaLabelField.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVAFIELDOCCURS",
       "kind": "DIRECT_BACKEND_RETIREMENT",
       "priority": 9032,
       "dependencies": [],
       "verification": [
-        "./gradlew :naca-trans:test --tests \"architecture.DirectBackendInventoryTest\""
+        "./gradlew :naca-trans:test --tests \"architecture.BmsFormsDirectBackendInventoryTest\""
       ],
       "expectedDebtDelta": {
-        "directBackends": -1
+        "bmsDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaFieldOccurs",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntityFieldOccurs",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaFieldOccurs",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaFieldOccurs.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (BMS_ARTIFACT): retire this one BMS map-resource backend onto declarative bindings + the recursive-ST4 assembly contract; preserve the emitted Java (and XML/.res where present) and reduce bmsDirectBackends by one. BMS is an independent CICS screen-map DSL, never a COBOL dialect. Tier: field-level block.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/forms/CJavaFieldOccurs.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVASKIPFIELD",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9033,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.BmsFormsDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "bmsDirectBackends": -1
       },
       "attempts": 0,
       "blocked": false,
@@ -5738,9 +5513,1652 @@
       "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaSkipField.java",
       "productionReachable": true,
       "status": "semantic-built",
-      "blocker": "Tracked as separate BMS/map-resource pipeline debt; excluded from the COBOL/SQL/CICS migration scheduler.",
+      "blocker": "Phase 2 (BMS_ARTIFACT): retire this one BMS map-resource backend onto declarative bindings + the recursive-ST4 assembly contract; preserve the emitted Java (and XML/.res where present) and reduce bmsDirectBackends by one. BMS is an independent CICS screen-map DSL, never a COBOL dialect. Tier: field-level block.",
       "evidence": [
         "naca-trans/src/main/java/generate/java/forms/CJavaSkipField.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVAFIELDREDEFINE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9034,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.BmsFormsDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "bmsDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaFieldRedefine",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntityFieldRedefine",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaFieldRedefine",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaFieldRedefine.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (BMS_ARTIFACT): retire this one BMS map-resource backend onto declarative bindings + the recursive-ST4 assembly contract; preserve the emitted Java (and XML/.res where present) and reduce bmsDirectBackends by one. BMS is an independent CICS screen-map DSL, never a COBOL dialect. Tier: field-level block.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/forms/CJavaFieldRedefine.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVAFIELDARRAY",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9040,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.BmsFormsDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "bmsDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaFieldArray",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntityResourceFieldArray",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaFieldArray",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaFieldArray.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (BMS_ARTIFACT): retire this one BMS map-resource backend onto declarative bindings + the recursive-ST4 assembly contract; preserve the emitted Java (and XML/.res where present) and reduce bmsDirectBackends by one. BMS is an independent CICS screen-map DSL, never a COBOL dialect. Tier: form-level block.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/forms/CJavaFieldArray.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVAFORM",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9041,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.BmsFormsDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "bmsDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaForm",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntityResourceForm",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaForm",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaForm.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (BMS_ARTIFACT): retire this one BMS map-resource backend onto declarative bindings + the recursive-ST4 assembly contract; preserve the emitted Java (and XML/.res where present) and reduce bmsDirectBackends by one. BMS is an independent CICS screen-map DSL, never a COBOL dialect. Tier: form-level block.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/forms/CJavaForm.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVAFORMREDEFINE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9042,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.BmsFormsDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "bmsDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaFormRedefine",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntityFormRedefine",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaFormRedefine",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaFormRedefine.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (BMS_ARTIFACT): retire this one BMS map-resource backend onto declarative bindings + the recursive-ST4 assembly contract; preserve the emitted Java (and XML/.res where present) and reduce bmsDirectBackends by one. BMS is an independent CICS screen-map DSL, never a COBOL dialect. Tier: form-level block.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/forms/CJavaFormRedefine.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVAFORMCONTAINER",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9050,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.BmsFormsDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "bmsDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaFormContainer",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntityResourceFormContainer",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaFormContainer",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaFormContainer.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (BMS_ARTIFACT): retire this one BMS map-resource backend onto declarative bindings + the recursive-ST4 assembly contract; preserve the emitted Java (and XML/.res where present) and reduce bmsDirectBackends by one. BMS is an independent CICS screen-map DSL, never a COBOL dialect. Tier: mapset root (retire last).",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/forms/CJavaFormContainer.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVAFORMACCESSOR",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9060,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.BmsFormsDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "bmsDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaFormAccessor",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntityFormAccessor",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaFormAccessor",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaFormAccessor.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (BMS_ARTIFACT): retire this one BMS map-resource backend onto declarative bindings + the recursive-ST4 assembly contract; preserve the emitted Java (and XML/.res where present) and reduce bmsDirectBackends by one. BMS is an independent CICS screen-map DSL, never a COBOL dialect. Tier: dead wiring. Factory-wired but currently dead wiring (no live caller); delete together with the pipeline.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/forms/CJavaFormAccessor.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVAFIELDDATA",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9061,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.BmsFormsDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "bmsDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaFieldData",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntityFieldData",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaFieldData",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaFieldData.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (BMS_ARTIFACT): retire this one BMS map-resource backend onto declarative bindings + the recursive-ST4 assembly contract; preserve the emitted Java (and XML/.res where present) and reduce bmsDirectBackends by one. BMS is an independent CICS screen-map DSL, never a COBOL dialect. Tier: dead wiring. Factory-wired but currently dead wiring (no live caller); delete together with the pipeline.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/forms/CJavaFieldData.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVAGETKEYPRESSED",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9062,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.BmsFormsDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "bmsDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaGetKeyPressed",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntityGetKeyPressed",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaGetKeyPressed",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaGetKeyPressed.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (BMS_ARTIFACT): retire this one BMS map-resource backend onto declarative bindings + the recursive-ST4 assembly contract; preserve the emitted Java (and XML/.res where present) and reduce bmsDirectBackends by one. BMS is an independent CICS screen-map DSL, never a COBOL dialect. Tier: dead wiring. Factory-wired but currently dead wiring (no live caller); delete together with the pipeline.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/forms/CJavaGetKeyPressed.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVAISKEYPRESSED",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9063,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.BmsFormsDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "bmsDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaIsKeyPressed",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntityIsKeyPressed",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaIsKeyPressed",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaIsKeyPressed.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (BMS_ARTIFACT): retire this one BMS map-resource backend onto declarative bindings + the recursive-ST4 assembly contract; preserve the emitted Java (and XML/.res where present) and reduce bmsDirectBackends by one. BMS is an independent CICS screen-map DSL, never a COBOL dialect. Tier: dead wiring. Factory-wired but currently dead wiring (no live caller); delete together with the pipeline.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/forms/CJavaIsKeyPressed.java"
+      ]
+    },
+    {
+      "id": "BMS-BACKEND-CJAVARESETKEYPRESSED",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9064,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.BmsFormsDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "bmsDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "BMS_ARTIFACT",
+      "sourceSyntax": "legacy backend CJavaResetKeyPressed",
+      "parserNode": null,
+      "semanticNode": "semantic.forms.CEntityResetKeyPressed",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.java.forms.CJavaResetKeyPressed",
+      "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaResetKeyPressed.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (BMS_ARTIFACT): retire this one BMS map-resource backend onto declarative bindings + the recursive-ST4 assembly contract; preserve the emitted Java (and XML/.res where present) and reduce bmsDirectBackends by one. BMS is an independent CICS screen-map DSL, never a COBOL dialect. Tier: dead wiring. Factory-wired but currently dead wiring (no live caller); delete together with the pipeline.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/java/forms/CJavaResetKeyPressed.java"
+      ]
+    },
+    {
+      "id": "FPAC-BACKEND-CFPACEXPRSUM",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9500,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.FPacDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "fpacDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "FPAC",
+      "sourceSyntax": "legacy backend CFPacExprSum",
+      "parserNode": null,
+      "semanticNode": "semantic.expression.CEntityExprSum",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.fpacjava.CFPacExprSum",
+      "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacExprSum.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/fpacjava/CFPacExprSum.java"
+      ]
+    },
+    {
+      "id": "FPAC-BACKEND-CFPACJAVAADDRESS",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9501,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.FPacDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "fpacDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "FPAC",
+      "sourceSyntax": "legacy backend CFPacJavaAddress",
+      "parserNode": null,
+      "semanticNode": "semantic.expression.CEntityAddress",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.fpacjava.CFPacJavaAddress",
+      "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaAddress.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaAddress.java"
+      ]
+    },
+    {
+      "id": "FPAC-BACKEND-CFPACJAVAARRAYREFERENCE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9502,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.FPacDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "fpacDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "FPAC",
+      "sourceSyntax": "legacy backend CFPacJavaArrayReference",
+      "parserNode": null,
+      "semanticNode": "semantic.CEntityArrayReference",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.fpacjava.CFPacJavaArrayReference",
+      "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaArrayReference.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaArrayReference.java"
+      ]
+    },
+    {
+      "id": "FPAC-BACKEND-CFPACJAVAASSIGN",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9503,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.FPacDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "fpacDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "FPAC",
+      "sourceSyntax": "legacy backend CFPacJavaAssign",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntityAssign",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.fpacjava.CFPacJavaAssign",
+      "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaAssign.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaAssign.java"
+      ]
+    },
+    {
+      "id": "FPAC-BACKEND-CFPACJAVAASSIGNSPECIAL",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9504,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.FPacDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "fpacDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "FPAC",
+      "sourceSyntax": "legacy backend CFPacJavaAssignSpecial",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntityAssignSpecial",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.fpacjava.CFPacJavaAssignSpecial",
+      "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaAssignSpecial.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery. Dormant wiring today (no live FPac call path); delete together with the pipeline.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaAssignSpecial.java"
+      ]
+    },
+    {
+      "id": "FPAC-BACKEND-CFPACJAVAASSIGNWITHACCESSOR",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9505,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.FPacDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "fpacDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "FPAC",
+      "sourceSyntax": "legacy backend CFPacJavaAssignWithAccessor",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntityAssignWithAccessor",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.fpacjava.CFPacJavaAssignWithAccessor",
+      "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaAssignWithAccessor.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaAssignWithAccessor.java"
+      ]
+    },
+    {
+      "id": "FPAC-BACKEND-CFPACJAVACALLFUNCTION",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9506,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.FPacDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "fpacDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "FPAC",
+      "sourceSyntax": "legacy backend CFPacJavaCallFunction",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntityCallFunction",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.fpacjava.CFPacJavaCallFunction",
+      "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaCallFunction.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaCallFunction.java"
+      ]
+    },
+    {
+      "id": "FPAC-BACKEND-CFPACJAVACALLPROGRAM",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9507,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.FPacDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "fpacDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "FPAC",
+      "sourceSyntax": "legacy backend CFPacJavaCallProgram",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntityCallProgram",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.fpacjava.CFPacJavaCallProgram",
+      "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaCallProgram.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaCallProgram.java"
+      ]
+    },
+    {
+      "id": "FPAC-BACKEND-CFPACJAVACLASS",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9508,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.FPacDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "fpacDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "FPAC",
+      "sourceSyntax": "legacy backend CFPacJavaClass",
+      "parserNode": null,
+      "semanticNode": "semantic.CEntityClass",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.fpacjava.CFPacJavaClass",
+      "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaClass.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaClass.java"
+      ]
+    },
+    {
+      "id": "FPAC-BACKEND-CFPACJAVACLOSEFILE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9509,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.FPacDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "fpacDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "FPAC",
+      "sourceSyntax": "legacy backend CFPacJavaCloseFile",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntityCloseFile",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.fpacjava.CFPacJavaCloseFile",
+      "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaCloseFile.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaCloseFile.java"
+      ]
+    },
+    {
+      "id": "FPAC-BACKEND-CFPACJAVACOMMENT",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9510,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.FPacDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "fpacDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "FPAC",
+      "sourceSyntax": "legacy backend CFPacJavaComment",
+      "parserNode": null,
+      "semanticNode": "semantic.CEntityComment",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.fpacjava.CFPacJavaComment",
+      "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaComment.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaComment.java"
+      ]
+    },
+    {
+      "id": "FPAC-BACKEND-CFPACJAVACONDAND",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9511,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.FPacDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "fpacDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "FPAC",
+      "sourceSyntax": "legacy backend CFPacJavaCondAnd",
+      "parserNode": null,
+      "semanticNode": "semantic.expression.CEntityCondAnd",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.fpacjava.CFPacJavaCondAnd",
+      "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaCondAnd.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaCondAnd.java"
+      ]
+    },
+    {
+      "id": "FPAC-BACKEND-CFPACJAVACONDCOMPARE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9512,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.FPacDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "fpacDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "FPAC",
+      "sourceSyntax": "legacy backend CFPacJavaCondCompare",
+      "parserNode": null,
+      "semanticNode": "semantic.expression.CEntityCondCompare",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.fpacjava.CFPacJavaCondCompare",
+      "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaCondCompare.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaCondCompare.java"
+      ]
+    },
+    {
+      "id": "FPAC-BACKEND-CFPACJAVACONDEQUALS",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9513,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.FPacDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "fpacDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "FPAC",
+      "sourceSyntax": "legacy backend CFPacJavaCondEquals",
+      "parserNode": null,
+      "semanticNode": "semantic.expression.CEntityCondEquals",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.fpacjava.CFPacJavaCondEquals",
+      "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaCondEquals.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaCondEquals.java"
+      ]
+    },
+    {
+      "id": "FPAC-BACKEND-CFPACJAVACONDISBOOLEAN",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9514,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.FPacDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "fpacDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "FPAC",
+      "sourceSyntax": "legacy backend CFPacJavaCondIsBoolean",
+      "parserNode": null,
+      "semanticNode": "semantic.expression.CEntityCondIsBoolean",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.fpacjava.CFPacJavaCondIsBoolean",
+      "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaCondIsBoolean.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaCondIsBoolean.java"
+      ]
+    },
+    {
+      "id": "FPAC-BACKEND-CFPACJAVACONDISCONSTANT",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9515,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.FPacDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "fpacDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "FPAC",
+      "sourceSyntax": "legacy backend CFPacJavaCondIsConstant",
+      "parserNode": null,
+      "semanticNode": "semantic.expression.CEntityCondIsConstant",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.fpacjava.CFPacJavaCondIsConstant",
+      "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaCondIsConstant.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaCondIsConstant.java"
+      ]
+    },
+    {
+      "id": "FPAC-BACKEND-CFPACJAVACONDISKINDOF",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9516,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.FPacDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "fpacDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "FPAC",
+      "sourceSyntax": "legacy backend CFPacJavaCondIsKindOf",
+      "parserNode": null,
+      "semanticNode": "semantic.expression.CEntityCondIsKindOf",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.fpacjava.CFPacJavaCondIsKindOf",
+      "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaCondIsKindOf.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaCondIsKindOf.java"
+      ]
+    },
+    {
+      "id": "FPAC-BACKEND-CFPACJAVACONDNOT",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9517,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.FPacDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "fpacDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "FPAC",
+      "sourceSyntax": "legacy backend CFPacJavaCondNot",
+      "parserNode": null,
+      "semanticNode": "semantic.expression.CEntityCondNot",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.fpacjava.CFPacJavaCondNot",
+      "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaCondNot.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaCondNot.java"
+      ]
+    },
+    {
+      "id": "FPAC-BACKEND-CFPACJAVACONDOR",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9518,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.FPacDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "fpacDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "FPAC",
+      "sourceSyntax": "legacy backend CFPacJavaCondOr",
+      "parserNode": null,
+      "semanticNode": "semantic.expression.CEntityCondOr",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.fpacjava.CFPacJavaCondOr",
+      "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaCondOr.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaCondOr.java"
+      ]
+    },
+    {
+      "id": "FPAC-BACKEND-CFPACJAVACONVERTREFERENCE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9519,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.FPacDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "fpacDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "FPAC",
+      "sourceSyntax": "legacy backend CFPacJavaConvertReference",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntityConvertReference",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.fpacjava.CFPacJavaConvertReference",
+      "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaConvertReference.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaConvertReference.java"
+      ]
+    },
+    {
+      "id": "FPAC-BACKEND-CFPACJAVADATASECTION",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9520,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.FPacDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "fpacDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "FPAC",
+      "sourceSyntax": "legacy backend CFPacJavaDataSection",
+      "parserNode": null,
+      "semanticNode": "semantic.CEntityDataSection",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.fpacjava.CFPacJavaDataSection",
+      "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaDataSection.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaDataSection.java"
+      ]
+    },
+    {
+      "id": "FPAC-BACKEND-CFPACJAVADISPLAY",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9521,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.FPacDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "fpacDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "FPAC",
+      "sourceSyntax": "legacy backend CFPacJavaDisplay",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntityDisplay",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.fpacjava.CFPacJavaDisplay",
+      "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaDisplay.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaDisplay.java"
+      ]
+    },
+    {
+      "id": "FPAC-BACKEND-CFPACJAVADIVIDE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9522,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.FPacDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "fpacDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "FPAC",
+      "sourceSyntax": "legacy backend CFPacJavaDivide",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntityDivide",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.fpacjava.CFPacJavaDivide",
+      "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaDivide.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaDivide.java"
+      ]
+    },
+    {
+      "id": "FPAC-BACKEND-CFPACJAVAENVIRONMENTVARIABLE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9523,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.FPacDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "fpacDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "FPAC",
+      "sourceSyntax": "legacy backend CFPacJavaEnvironmentVariable",
+      "parserNode": null,
+      "semanticNode": "semantic.CEntityEnvironmentVariable",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.fpacjava.CFPacJavaEnvironmentVariable",
+      "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaEnvironmentVariable.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaEnvironmentVariable.java"
+      ]
+    },
+    {
+      "id": "FPAC-BACKEND-CFPACJAVAEXPRTERMINAL",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9524,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.FPacDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "fpacDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "FPAC",
+      "sourceSyntax": "legacy backend CFPacJavaExprTerminal",
+      "parserNode": null,
+      "semanticNode": "semantic.expression.CEntityExprTerminal",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.fpacjava.CFPacJavaExprTerminal",
+      "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaExprTerminal.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaExprTerminal.java"
+      ]
+    },
+    {
+      "id": "FPAC-BACKEND-CFPACJAVAFILEDESCRIPTOR",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9525,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.FPacDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "fpacDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "FPAC",
+      "sourceSyntax": "legacy backend CFPacJavaFileDescriptor",
+      "parserNode": null,
+      "semanticNode": "semantic.CEntityFileDescriptor",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.fpacjava.CFPacJavaFileDescriptor",
+      "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaFileDescriptor.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaFileDescriptor.java"
+      ]
+    },
+    {
+      "id": "FPAC-BACKEND-CFPACJAVAFORMATEDVARREFERENCE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9526,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.FPacDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "fpacDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "FPAC",
+      "sourceSyntax": "legacy backend CFPacJavaFormatedVarReference",
+      "parserNode": null,
+      "semanticNode": "semantic.CEntityFormatedVarReference",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.fpacjava.CFPacJavaFormatedVarReference",
+      "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaFormatedVarReference.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaFormatedVarReference.java"
+      ]
+    },
+    {
+      "id": "FPAC-BACKEND-CFPACJAVAGOTO",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9527,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.FPacDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "fpacDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "FPAC",
+      "sourceSyntax": "legacy backend CFPacJavaGoto",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntityGoto",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.fpacjava.CFPacJavaGoto",
+      "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaGoto.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaGoto.java"
+      ]
+    },
+    {
+      "id": "FPAC-BACKEND-CFPACJAVAINTRINSICFUNCTION",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9528,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.FPacDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "fpacDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "FPAC",
+      "sourceSyntax": "legacy backend CFPacJavaIntrinsicFunction",
+      "parserNode": null,
+      "semanticNode": "semantic.expression.CEntityIntrinsicFunction",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.fpacjava.CFPacJavaIntrinsicFunction",
+      "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaIntrinsicFunction.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery. Dormant wiring today (no live FPac call path); delete together with the pipeline.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaIntrinsicFunction.java"
+      ]
+    },
+    {
+      "id": "FPAC-BACKEND-CFPACJAVAISFILEEOF",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9529,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.FPacDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "fpacDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "FPAC",
+      "sourceSyntax": "legacy backend CFPacJavaIsFileEOF",
+      "parserNode": null,
+      "semanticNode": "semantic.expression.CEntityIsFileEOF",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.fpacjava.CFPacJavaIsFileEOF",
+      "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaIsFileEOF.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaIsFileEOF.java"
+      ]
+    },
+    {
+      "id": "FPAC-BACKEND-CFPACJAVAMULTIPLY",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9530,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.FPacDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "fpacDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "FPAC",
+      "sourceSyntax": "legacy backend CFPacJavaMultiply",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntityMultiply",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.fpacjava.CFPacJavaMultiply",
+      "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaMultiply.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaMultiply.java"
+      ]
+    },
+    {
+      "id": "FPAC-BACKEND-CFPACJAVANUMBER",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9531,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.FPacDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "fpacDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "FPAC",
+      "sourceSyntax": "legacy backend CFPacJavaNumber",
+      "parserNode": null,
+      "semanticNode": "semantic.expression.CEntityNumber",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.fpacjava.CFPacJavaNumber",
+      "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaNumber.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaNumber.java"
+      ]
+    },
+    {
+      "id": "FPAC-BACKEND-CFPACJAVAPROCEDURE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9532,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.FPacDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "fpacDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "FPAC",
+      "sourceSyntax": "legacy backend CFPacJavaProcedure",
+      "parserNode": null,
+      "semanticNode": "semantic.CEntityProcedure",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.fpacjava.CFPacJavaProcedure",
+      "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaProcedure.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaProcedure.java"
+      ]
+    },
+    {
+      "id": "FPAC-BACKEND-CFPACJAVAREADANDTESTFILE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9533,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.FPacDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "fpacDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "FPAC",
+      "sourceSyntax": "legacy backend CFPacJavaReadAndTestFile",
+      "parserNode": null,
+      "semanticNode": "semantic.expression.CEntityFunctionCall",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.fpacjava.CFPacJavaReadAndTestFile",
+      "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaReadAndTestFile.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaReadAndTestFile.java"
+      ]
+    },
+    {
+      "id": "FPAC-BACKEND-CFPACJAVAREADFILE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9534,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.FPacDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "fpacDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "FPAC",
+      "sourceSyntax": "legacy backend CFPacJavaReadFile",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntityReadFile",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.fpacjava.CFPacJavaReadFile",
+      "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaReadFile.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaReadFile.java"
+      ]
+    },
+    {
+      "id": "FPAC-BACKEND-CFPACJAVARETURN",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9535,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.FPacDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "fpacDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "FPAC",
+      "sourceSyntax": "legacy backend CFPacJavaReturn",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntityReturn",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.fpacjava.CFPacJavaReturn",
+      "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaReturn.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaReturn.java"
+      ]
+    },
+    {
+      "id": "FPAC-BACKEND-CFPACJAVAROUTINEEMULATIONCALL",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9536,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.FPacDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "fpacDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "FPAC",
+      "sourceSyntax": "legacy backend CFPacJavaRoutineEmulationCall",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntityRoutineEmulationCall",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.fpacjava.CFPacJavaRoutineEmulationCall",
+      "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaRoutineEmulationCall.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaRoutineEmulationCall.java"
+      ]
+    },
+    {
+      "id": "FPAC-BACKEND-CFPACJAVASTRING",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9537,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.FPacDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "fpacDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "FPAC",
+      "sourceSyntax": "legacy backend CFPacJavaString",
+      "parserNode": null,
+      "semanticNode": "semantic.expression.CEntityString",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.fpacjava.CFPacJavaString",
+      "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaString.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaString.java"
+      ]
+    },
+    {
+      "id": "FPAC-BACKEND-CFPACJAVASUBSTRINGATTRIBUTEREFERENCE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9538,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.FPacDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "fpacDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "FPAC",
+      "sourceSyntax": "legacy backend CFPacJavaSubStringAttributeReference",
+      "parserNode": null,
+      "semanticNode": "semantic.CSubStringAttributReference",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.fpacjava.CFPacJavaSubStringAttributeReference",
+      "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaSubStringAttributeReference.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaSubStringAttributeReference.java"
+      ]
+    },
+    {
+      "id": "FPAC-BACKEND-CFPACJAVASUBTRACTTO",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9539,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.FPacDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "fpacDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "FPAC",
+      "sourceSyntax": "legacy backend CFPacJavaSubtractTo",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntitySubtractTo",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.fpacjava.CFPacJavaSubtractTo",
+      "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaSubtractTo.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaSubtractTo.java"
+      ]
+    },
+    {
+      "id": "FPAC-BACKEND-CFPACJAVAUNKNOWNREFERENCE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9540,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.FPacDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "fpacDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "FPAC",
+      "sourceSyntax": "legacy backend CFPacJavaUnknownReference",
+      "parserNode": null,
+      "semanticNode": "semantic.CEntityUnknownReference",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.fpacjava.CFPacJavaUnknownReference",
+      "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaUnknownReference.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaUnknownReference.java"
+      ]
+    },
+    {
+      "id": "FPAC-BACKEND-CFPACJAVAWRITEFILE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9541,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.FPacDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "fpacDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "FPAC",
+      "sourceSyntax": "legacy backend CFPacJavaWriteFile",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntityWriteFile",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.fpacjava.CFPacJavaWriteFile",
+      "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaWriteFile.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaWriteFile.java"
+      ]
+    },
+    {
+      "id": "FPAC-BACKEND-CFPACJAVAOPENFILE",
+      "kind": "DIRECT_BACKEND_RETIREMENT",
+      "priority": 9542,
+      "dependencies": [],
+      "verification": [
+        "./gradlew :naca-trans:test --tests \"architecture.FPacDirectBackendInventoryTest\""
+      ],
+      "expectedDebtDelta": {
+        "fpacDirectBackends": -1
+      },
+      "attempts": 0,
+      "blocked": false,
+      "scope": "FPAC",
+      "sourceSyntax": "legacy backend CFpacJavaOpenFile",
+      "parserNode": null,
+      "semanticNode": "semantic.Verbs.CEntityOpenFile",
+      "assemblerRole": null,
+      "manifestBinding": null,
+      "template": null,
+      "runtimeOperation": null,
+      "fixture": null,
+      "directBackend": "generate.fpacjava.CFpacJavaOpenFile",
+      "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFpacJavaOpenFile.java",
+      "productionReachable": true,
+      "status": "semantic-built",
+      "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
+      "evidence": [
+        "naca-trans/src/main/java/generate/fpacjava/CFpacJavaOpenFile.java"
       ]
     },
     {

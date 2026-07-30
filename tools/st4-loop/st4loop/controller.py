@@ -38,13 +38,23 @@ Check EXACTLY these five things:
 1. Single slice: the diff implements ONLY the assigned itemId. Flag any unrelated edit,
    drive-by refactor, or other slice (singleSlice=false).
 2. Architecture principle: semantic export() builds sub-entities and returns nothing;
-   java.stg templates only read entity.* properties (no .export()/.exportChildren(), no
+   ST4 templates only read entity.* properties (no .export()/.exportChildren(), no
    <obj.method()> in .stg); no backend tokens (generate., org.stringtemplate, CJava*
-   construction) inside semantic/**.
-3. Debt does not grow: no NEW direct backend (a class under generate/java/** newly
-   'extends CEntity*/CBaseActionEntity/CDataEntity'); a slice should retire, not add
+   construction) inside semantic/** — this applies to the BMS (semantic/forms) and
+   FPac semantic trees exactly as it does to the COBOL tree.
+3. Debt does not grow in ANY pipeline: no NEW direct backend (a class under
+   generate/java/** or generate/fpacjava/** newly 'extends
+   CEntity*/CBaseActionEntity/CDataEntity'); a slice should retire, not add
    (debtGrew=true if it adds debt).
-4. Out-of-scope untouched: no BMS (BMS_ARTIFACT) or FPac pipeline changes.
+4. Out-of-scope untouched: the diff stays inside the assigned item's pipeline. A
+   BMS_ARTIFACT slice touches only the BMS map-resource pipeline (parser/BMS,
+   semantic/forms, generate/java/forms, BMS templates/bindings); a FPAC slice
+   touches only the FPac pipeline (parser/FPac, generate/fpacjava, FPac
+   templates/bindings). The completed COBOL/SQL/CICS generation is FROZEN: no new
+   COBOL direct backends, no edits to retired COBOL backends, and no coupling of
+   BMS/FPac parsing or semantics into COBOL-specific machinery (reuse common
+   rendering infrastructure only where the semantic model genuinely supports it).
+   No scope may be treated as a COBOL dialect.
 5. Coherence and compilability: a new manifest binding has a matching template
    definition; a factory override points at the semantic entity; a render test
    exists in the diff. Inspect EVERY runtime call reachable through every template
@@ -104,6 +114,7 @@ class Config:
     max_attempts: int = 3
     worker_timeout: int = 1800
     permission_mode: str = DEFAULT_WORKER_PERMISSION_MODE
+    phase: str = ledger.DEFAULT_PHASE
     dry_run: bool = False
     allow_commit: bool = True
     disallowed_tools: list = field(default_factory=lambda: list(DEFAULT_DISALLOWED_TOOLS))
@@ -112,6 +123,12 @@ class Config:
         self.repo_root = Path(self.repo_root)
         self.ledger_path = Path(self.ledger_path)
         self.log_dir = Path(self.log_dir)
+        # Fail closed on an unknown phase: an invalid queue scope set would
+        # silently select nothing (or the wrong pipeline).
+        try:
+            self.queue_scopes = ledger.queue_scopes_for(self.phase)
+        except ledger.LedgerError as exc:
+            raise LoopError(str(exc)) from exc
         if self.verify_cmd is None:
             self.verify_cmd = [
                 str(self.repo_root / "tools" / "st4-loop" / "verify-task.sh")
@@ -284,14 +301,28 @@ class Controller:
         verify_runner=None,
         reviewer_runner=None,
         debt_measurer=None,
+        scope_debt_measurer=None,
         log=print,
     ):
         self.cfg = cfg
         self.worker_runner = worker_runner or default_worker_runner
         self.verify_runner = verify_runner or default_verify_runner
         self.reviewer_runner = reviewer_runner or default_reviewer_runner
-        self.debt_measurer = debt_measurer or debt.measure_direct_backends
+        # Test seam: a single debt_measurer overrides EVERY scope (legacy
+        # fixtures). scope_debt_measurer overrides per scope; anything unset
+        # falls back to the real per-scope inventory mirror in debt.py.
+        self.debt_measurer = debt_measurer
+        self.scope_debt_measurer = scope_debt_measurer or {}
         self.log = log
+
+    def _debt_measurer_for(self, item):
+        """The independent direct-backend measurer for an item's pipeline scope."""
+        if self.debt_measurer is not None:
+            return self.debt_measurer
+        scope = item.get("scope")
+        if scope in self.scope_debt_measurer:
+            return self.scope_debt_measurer[scope]
+        return debt.measurer_for_scope(scope)
 
     # -- path safety -------------------------------------------------------- #
     def _ledger_rel(self):
@@ -359,9 +390,9 @@ class Controller:
                 chunks.append(f"--- end {rel} ---")
         return "\n".join(chunks)
 
-    def _measure_debt_delta(self, base_debt):
+    def _measure_debt_delta(self, base_debt, measure):
         """Return (actual_delta, current_count) measured independently in the worktree."""
-        current = self.debt_measurer(self.cfg.repo_root)
+        current = measure(self.cfg.repo_root)
         return current - base_debt, current
 
     # -- prompt construction ------------------------------------------------ #
@@ -408,14 +439,24 @@ class Controller:
             )
 
         data = ledger.load_ledger(self.cfg.ledger_path)
+        queue_scopes = self.cfg.queue_scopes
+        self.log(
+            f"[loop] phase {self.cfg.phase}: queue scopes "
+            f"{list(queue_scopes)} (ordered; one item per worker)"
+        )
         summary = []
         for iteration in range(1, self.cfg.max_iterations + 1):
-            item = ledger.select_ready(data)
+            item = ledger.select_ready(data, queue_scopes)
             if item is None:
-                remaining_debt = self.debt_measurer(root)
+                remaining = {
+                    scope: debt.measure_for_scope(root, scope)
+                    for scope in queue_scopes
+                }
+                remaining_total = sum(remaining.values())
                 self.log(
                     "[loop] no READY items remain; stopping. "
-                    f"{remaining_debt} direct backends still exist, so queue exhaustion "
+                    f"{remaining_total} direct backends still exist "
+                    f"(per scope: {remaining}), so queue exhaustion "
                     "must not be reported as completion; resolve blockers or expand "
                     "the migration ledger."
                 )
@@ -423,7 +464,8 @@ class Controller:
             item_id = item["id"]
             self.log(
                 f"[loop] iteration {iteration}: selected {item_id} "
-                f"(priority={ledger.sched(item)['priority']}, status={item['status']})"
+                f"(scope={item.get('scope')}, "
+                f"priority={ledger.sched(item)['priority']}, status={item['status']})"
             )
             if self.cfg.dry_run:
                 self._print_dry_run(item)
@@ -465,9 +507,14 @@ class Controller:
         last_outcome = None
         last_report = ""
         retry_feedback = None
-        base_debt = self.debt_measurer(self.cfg.repo_root)  # clean worktree at entry
+        # Each pipeline scope has its own direct-backend counter and its own
+        # independent measurer (COBOL/SQL/CICS share one; BMS and FPac each
+        # have theirs). base_debt is measured on the clean worktree at entry.
+        measure = self._debt_measurer_for(item)
+        debt_key = debt.counter_key_for_scope(item.get("scope"))
+        base_debt = measure(self.cfg.repo_root)
         expected_delta = ledger.sched(item)["expectedDebtDelta"] or {}
-        expected_db = expected_delta.get("directBackends", 0)
+        expected_db = expected_delta.get(debt_key, 0)
         expected_failures = expected_delta.get("failures", 0)
         base_failures = data["meta"]["ratchet"]["finalArchitectureCheck"]["failures"]
         while attempts < self.cfg.max_attempts:
@@ -552,6 +599,7 @@ class Controller:
             if outcome.ok:
                 gate = self._independent_gate(
                     item, outcome, base_debt, expected_db, attempts,
+                    measure=measure, debt_key=debt_key,
                     base_failures=base_failures,
                     expected_failures=expected_failures,
                 )
@@ -597,6 +645,8 @@ class Controller:
         base_debt,
         expected_db,
         attempts,
+        measure=None,
+        debt_key="directBackends",
         base_failures=0,
         expected_failures=0,
     ):
@@ -605,9 +655,12 @@ class Controller:
         2. declared files EXACTLY equal the actual dirty production/test files;
         3. deterministic verifier is green;
         4. read-only reviewer approves the FULL patch (incl. untracked) w/o debt growth;
-        5. independently-measured direct-backend and architecture-failure deltas
-           equal the item's expectedDebtDelta.
+        5. independently-measured direct-backend delta (the item's own pipeline
+           scope counter) and architecture-failure delta equal the item's
+           expectedDebtDelta.
         """
+        if measure is None:
+            measure = self._debt_measurer_for(item)
         reasons = []
         item_id = item["id"]
 
@@ -639,20 +692,22 @@ class Controller:
         if not approved:
             reasons.append(f"reviewer did not approve: {verdict.get('issues')}")
 
-        # independent debt measurement (exact match against the item's expectation)
-        actual_delta, current_db = self._measure_debt_delta(base_debt)
+        # independent debt measurement (exact match against the item's expectation,
+        # on the item's own pipeline counter — never the worker's self-report)
+        actual_delta, current_db = self._measure_debt_delta(base_debt, measure)
         if actual_delta != expected_db:
             reasons.append(
-                f"measured directBackends delta {actual_delta} != expected {expected_db} "
+                f"measured {debt_key} delta {actual_delta} != expected {expected_db} "
                 f"(base {base_debt} -> {current_db})")
-        checked_in_baseline = debt.read_checked_in_baseline(self.cfg.repo_root)
+        checked_in_baseline = debt.read_checked_in_baseline(
+            self.cfg.repo_root, item.get("scope"))
         if checked_in_baseline is not None and checked_in_baseline != current_db:
             reasons.append(
-                "DirectBackendInventoryTest exact baseline is stale: "
+                f"the checked-in {debt_key} inventory baseline is stale: "
                 f"{checked_in_baseline} != measured {current_db}; tighten the "
                 "checked-in ratchet in this slice")
 
-        debt_delta = {"directBackends": actual_delta}
+        debt_delta = {debt_key: actual_delta}
         if expected_failures:
             matches = re.findall(
                 r"finalArchitectureCheck failures now:\s*(\d+)", report)

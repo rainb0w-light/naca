@@ -206,9 +206,11 @@ def validate_structured(so, expected_item_id=None):
         )
     if so.get("outcome") == "blocked" and not so.get("blocker"):
         problems.append("outcome=blocked requires a blocker description")
-    db = (so.get("debtDelta") or {}).get("directBackends")
-    if isinstance(db, int) and db > 0:
-        problems.append(f"debtDelta.directBackends must be <= 0, got {db}")
+    # No slice may grow ANY pipeline's direct-backend debt (COBOL
+    # `directBackends`, BMS `bmsDirectBackends`, FPAC `fpacDirectBackends`).
+    for key, value in (so.get("debtDelta") or {}).items():
+        if key.lower().endswith("directbackends") and isinstance(value, int) and value > 0:
+            problems.append(f"debtDelta.{key} must be <= 0, got {value}")
     return problems
 
 

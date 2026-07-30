@@ -47,7 +47,7 @@
     },
     "debtDelta": {
       "type": "object",
-      "description": "Change in debt counts caused by this slice. directBackends must be <= 0 (a slice never adds direct backends).",
+      "description": "Change in debt counts caused by this slice, keyed by the item scope's counter (directBackends for COBOL scopes, bmsDirectBackends for BMS_ARTIFACT, fpacDirectBackends for FPAC). Every direct-backend counter delta must be <= 0 (a slice never adds direct backends in any pipeline).",
       "additionalProperties": { "type": "integer" },
       "properties": {
         "directBackends": { "type": "integer" },

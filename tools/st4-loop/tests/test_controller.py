@@ -11,14 +11,25 @@ STATUS_ORDER = ["not-started", "parser-preserved", "semantic-built",
                 "direct-retired", "done"]
 
 
+def phase2_ratchet():
+    return {
+        "phase": "phase-2-bms-fpac",
+        "queueScopes": ["BMS_ARTIFACT", "FPAC"],
+        "bmsArchitectureCheck": {"bmsDirectBackends": 3},
+        "fpacArchitectureCheck": {"fpacDirectBackends": 2},
+    }
+
+
 def ledger_two_items():
     return {
         "meta": {
             "schemaVersion": 1,
             "statusOrder": STATUS_ORDER,
-            "scopeOrder": ["COBOL_CORE", "EMBEDDED_SQL", "EMBEDDED_CICS", "BMS_ARTIFACT"],
+            "scopeOrder": ["COBOL_CORE", "EMBEDDED_SQL", "EMBEDDED_CICS",
+                           "BMS_ARTIFACT", "FPAC"],
             "ratchet": {
                 "finalArchitectureCheck": {"tests": 10, "failures": 5, "directBackends": 3},
+                "phase2": phase2_ratchet(),
                 "rules": ["r"],
             },
         },
@@ -31,6 +42,22 @@ def ledger_two_items():
              "verification": []},
         ],
     }
+
+
+def ledger_phase2_items():
+    data = ledger_two_items()
+    data["entries"] = [
+        {"id": "FPAC-FIRST", "scope": "FPAC", "status": "semantic-built",
+         "productionReachable": True, "blocker": None, "priority": 9500,
+         "verification": [], "expectedDebtDelta": {"fpacDirectBackends": -1}},
+        {"id": "BMS-FIRST", "scope": "BMS_ARTIFACT", "status": "semantic-built",
+         "productionReachable": True, "blocker": None, "priority": 9000,
+         "verification": [], "expectedDebtDelta": {"bmsDirectBackends": -1}},
+        {"id": "BMS-SECOND", "scope": "BMS_ARTIFACT", "status": "semantic-built",
+         "productionReachable": True, "blocker": None, "priority": 9001,
+         "verification": [], "expectedDebtDelta": {"bmsDirectBackends": -1}},
+    ]
+    return data
 
 
 def ledger_architecture_item():
@@ -52,7 +79,9 @@ def ledger_architecture_item():
 
 
 def cfg_for(repo, tmp_path, max_iterations=1, max_attempts=3, dry_run=False,
-            allow_commit=True):
+            allow_commit=True, phase="phase-1-cobol"):
+    # The legacy suite exercises the completed COBOL queue explicitly; phase-2
+    # behavior has its own test class below.
     return controller.Config(
         repo_root=repo,
         ledger_path=repo / "docs" / "migration-ledger.json",
@@ -64,6 +93,7 @@ def cfg_for(repo, tmp_path, max_iterations=1, max_attempts=3, dry_run=False,
         max_iterations=max_iterations,
         max_attempts=max_attempts,
         worker_timeout=60,
+        phase=phase,
         dry_run=dry_run,
         allow_commit=allow_commit,
     )
@@ -682,6 +712,175 @@ class ReviewerRunnerTest(unittest.TestCase):
         self.assertTrue(any("could not produce" in i for i in verdict["issues"]))
 
 
+class Phase2BmsFpacTest(unittest.TestCase):
+    """Phase 2 migrates the independent BMS and FPac pipelines: the queue is
+    BMS_ARTIFACT first, FPAC second (structural, not priority-policed); each
+    scope's debt is measured and ratcheted on its OWN counter; the completed
+    COBOL counter stays frozen."""
+
+    def _ok_review(self, diff_text, item, cfg):
+        return {"approved": True, "issues": [], "singleSlice": True, "debtGrew": False}
+
+    def test_default_phase_is_phase2_and_unknown_phase_refused(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as td:
+            repo = make_repo(Path(td) / "repo", ledger_phase2_items())
+            cfg = controller.Config(
+                repo_root=repo,
+                ledger_path=repo / "docs" / "migration-ledger.json",
+                worker_prompt_path=repo / ".claude" / "st4-loop" / "worker.md",
+                result_schema_path=repo / ".claude" / "st4-loop" / "result.schema.json",
+                review_schema_path=repo / ".claude" / "st4-loop" / "review.schema.json",
+                log_dir=repo / ".st4-loop" / "logs",
+            )
+            self.assertEqual(cfg.phase, "phase-2-bms-fpac")
+            self.assertEqual(cfg.queue_scopes, ("BMS_ARTIFACT", "FPAC"))
+            with self.assertRaises(controller.LoopError):
+                controller.Config(
+                    repo_root=repo,
+                    ledger_path=repo / "docs" / "migration-ledger.json",
+                    worker_prompt_path=repo / ".claude" / "st4-loop" / "worker.md",
+                    result_schema_path=repo / ".claude" / "st4-loop" / "result.schema.json",
+                    review_schema_path=repo / ".claude" / "st4-loop" / "review.schema.json",
+                    log_dir=repo / ".st4-loop" / "logs",
+                    phase="phase-9-nope",
+                )
+
+    def test_default_phase_dry_run_selects_bms_first(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as td:
+            repo = make_repo(Path(td) / "repo", ledger_phase2_items())
+            # No phase argument: the active default phase (phase 2) applies.
+            cfg = cfg_for(repo, td, dry_run=True, max_iterations=5,
+                          phase=ledger.DEFAULT_PHASE)
+            ctrl = controller.Controller(
+                cfg, worker_runner=lambda p, c: "{}", log=lambda *_: None)
+            summary = ctrl.run()
+            self.assertEqual(summary[0]["item"], "BMS-FIRST")
+
+    def test_phase2_skips_completed_cobol_queue(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as td:
+            # COBOL-scope items only: phase 2 has nothing READY -> clean stop,
+            # nothing attempted, ledger untouched.
+            repo = make_repo(Path(td) / "repo", ledger_two_items())
+            cfg = cfg_for(repo, td, max_iterations=3, phase="phase-2-bms-fpac")
+            ctrl = controller.Controller(
+                cfg, worker_runner=lambda p, c: "{}",
+                verify_runner=lambda i, c: (True, "ok"),
+                reviewer_runner=self._ok_review,
+                debt_measurer=debt_fake(3, 3), log=lambda *_: None)
+            summary = ctrl.run()
+            self.assertEqual(summary, [])
+            self.assertTrue(gitutil.is_clean(repo))
+
+    def test_bms_success_ratchets_bms_counter_and_freezes_cobol(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as td:
+            repo = make_repo(Path(td) / "repo", ledger_phase2_items())
+            env_patch(self, ST4_STUB_OUTCOME="success", ST4_STUB_ITEM_ID="BMS-FIRST",
+                      ST4_STUB_TOUCH="src/Bms.java",
+                      ST4_STUB_STATUS_ADVANCE="direct-retired", ST4_STUB_DEBT="-1")
+            cfg = cfg_for(repo, td, max_iterations=1, phase="phase-2-bms-fpac")
+            ctrl = controller.Controller(
+                cfg, verify_runner=lambda i, c: (True, "ok"),
+                reviewer_runner=self._ok_review,
+                scope_debt_measurer={
+                    "BMS_ARTIFACT": debt_fake(3, 2),
+                    "FPAC": debt_fake(2, 2),
+                },
+                log=lambda *_: None)
+            summary = ctrl.run()
+            self.assertEqual(summary[0]["item"], "BMS-FIRST")
+            self.assertEqual(summary[0]["result"], "success")
+            self.assertEqual(summary[0]["debt_delta"], {"bmsDirectBackends": -1})
+            data = ledger.load_ledger(cfg.ledger_path)
+            self.assertEqual(ledger.entry_by_id(data, "BMS-FIRST")["status"],
+                             "direct-retired")
+            phase2 = data["meta"]["ratchet"]["phase2"]
+            self.assertEqual(phase2["bmsArchitectureCheck"]["bmsDirectBackends"], 2)
+            # the frozen COBOL counter is untouched
+            self.assertEqual(
+                data["meta"]["ratchet"]["finalArchitectureCheck"]["directBackends"], 3)
+            self.assertEqual(
+                data["meta"]["ratchet"]["finalArchitectureCheck"]["failures"], 5)
+
+    def test_phase2_drains_all_bms_before_any_fpac(self):
+        import tempfile, re
+        with tempfile.TemporaryDirectory() as td:
+            repo = make_repo(Path(td) / "repo", ledger_phase2_items())
+            cfg = cfg_for(repo, td, max_iterations=3, phase="phase-2-bms-fpac")
+
+            def worker(prompt, config):
+                m = re.search(
+                    r'<<<ST4_ITEM_BEGIN>>>\s*\{\s*"id": "([^"]+)"', prompt)
+                item_id = m.group(1)
+                (repo / "src" / f"{item_id}.java").write_text(
+                    f"// retired {item_id}\n", encoding="utf-8")
+                delta_key = ("bmsDirectBackends" if item_id.startswith("BMS-")
+                             else "fpacDirectBackends")
+                return json.dumps({
+                    "type": "result", "is_error": False,
+                    "structured_output": {
+                        "itemId": item_id, "outcome": "success",
+                        "summary": f"retired {item_id}",
+                        "filesChanged": [f"src/{item_id}.java"],
+                        "statusAdvance": "direct-retired",
+                        "debtDelta": {delta_key: -1},
+                        "verificationRun": [], "evidence": [], "blocker": None,
+                    },
+                })
+
+            def step(values):
+                state = {"i": 0}
+                def measure(repo_root):
+                    value = values[min(state["i"], len(values) - 1)]
+                    state["i"] += 1
+                    return value
+                return measure
+
+            ctrl = controller.Controller(
+                cfg, worker_runner=worker,
+                verify_runner=lambda i, c: (True, "ok"),
+                reviewer_runner=self._ok_review,
+                scope_debt_measurer={
+                    # per item: base on clean entry, then the post-worker count
+                    "BMS_ARTIFACT": step([3, 2, 2, 1]),
+                    "FPAC": step([2, 1]),
+                },
+                log=lambda *_: None)
+            summary = ctrl.run()
+            self.assertEqual(
+                [s["item"] for s in summary],
+                ["BMS-FIRST", "BMS-SECOND", "FPAC-FIRST"])
+            self.assertTrue(all(s["result"] == "success" for s in summary))
+            data = ledger.load_ledger(cfg.ledger_path)
+            phase2 = data["meta"]["ratchet"]["phase2"]
+            self.assertEqual(phase2["bmsArchitectureCheck"]["bmsDirectBackends"], 1)
+            self.assertEqual(phase2["fpacArchitectureCheck"]["fpacDirectBackends"], 1)
+            self.assertTrue(gitutil.is_clean(repo))
+
+    def test_bms_debt_mismatch_on_scope_counter_blocks(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as td:
+            repo = make_repo(Path(td) / "repo", ledger_phase2_items())
+            env_patch(self, ST4_STUB_OUTCOME="success", ST4_STUB_ITEM_ID="BMS-FIRST",
+                      ST4_STUB_TOUCH="src/Bms.java",
+                      ST4_STUB_STATUS_ADVANCE="direct-retired", ST4_STUB_DEBT="-1")
+            cfg = cfg_for(repo, td, max_iterations=1, max_attempts=1,
+                          phase="phase-2-bms-fpac")
+            # BMS counter did NOT move (0 != expected -1): fail closed.
+            ctrl = controller.Controller(
+                cfg, verify_runner=lambda i, c: (True, "ok"),
+                reviewer_runner=self._ok_review,
+                scope_debt_measurer={"BMS_ARTIFACT": debt_fake(3, 3)},
+                log=lambda *_: None)
+            summary = ctrl.run()
+            self.assertEqual(summary[0]["result"], "blocked")
+            self.assertFalse((repo / "src" / "Bms.java").exists())
+            self.assertTrue(gitutil.is_clean(repo))
+
+
 class PermissionModeAndTimeoutTest(unittest.TestCase):
     """Permission mode is configurable with a safe acceptEdits default; bypass is
     refused; the default worker timeout is 1800s (not an hour-long dead session)."""
@@ -761,12 +960,19 @@ class PermissionModeAndTimeoutTest(unittest.TestCase):
         ns = parser.parse_args([])
         self.assertEqual(ns.permission_mode, "acceptEdits")
         self.assertEqual(ns.worker_timeout, 1800)
-        ns2 = parser.parse_args(["--permission-mode", "auto", "--worker-timeout", "900"])
+        # default phase is the active BMS/FPAC phase
+        self.assertEqual(ns.phase, "phase-2-bms-fpac")
+        ns2 = parser.parse_args(["--permission-mode", "auto", "--worker-timeout", "900",
+                                 "--phase", "phase-1-cobol"])
         self.assertEqual(ns2.permission_mode, "auto")
         self.assertEqual(ns2.worker_timeout, 900)
+        self.assertEqual(ns2.phase, "phase-1-cobol")
         # bypassPermissions is not an allowed choice -> argparse exits non-zero
         with self.assertRaises(SystemExit):
             parser.parse_args(["--permission-mode", "bypassPermissions"])
+        # nor is an unknown phase
+        with self.assertRaises(SystemExit):
+            parser.parse_args(["--phase", "phase-9-nope"])
 
 
 if __name__ == "__main__":

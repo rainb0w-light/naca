@@ -22,33 +22,55 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
- * Phase 4 — consistency gate for the machine-readable migration ledger
+ * Consistency gate for the machine-readable migration ledger
  * ({@code docs/migration-ledger.json}, schema {@code docs/migration-ledger.schema.json}).
  *
  * <p>The ledger is the single source of truth that survives context compression and
- * tracks every production-reachable COBOL / embedded-SQL / embedded-CICS semantic type
- * on its way to the unified recursive-ST4 assembler. This test keeps it honest:
+ * tracks every production-reachable semantic type on its way to declarative bindings
+ * plus the recursive-ST4 assembler, per migration phase:
+ * <ul>
+ *   <li>phase 1 (complete, frozen): COBOL core + embedded SQL/CICS;</li>
+ *   <li>phase 2: the independent BMS map-resource DSL ({@code BMS_ARTIFACT}) and the
+ *       independent FPac pipeline ({@code FPAC}) — neither is a COBOL dialect.</li>
+ * </ul>
+ * This test keeps the ledger honest:
  * <ul>
  *   <li>it parses and carries the required structure (schema conformance);</li>
  *   <li>entry ids are unique and well-formed;</li>
  *   <li>every {@code status} is a known stage that can only advance forward along
  *       {@code meta.statusOrder};</li>
- *   <li>every {@code scope} is valid, and BMS entries are {@code BMS_ARTIFACT} — never a
- *       COBOL dialect scope (BMS is a separate screen-map DSL, out of the COBOL goal);</li>
+ *   <li>every {@code scope} is valid; BMS entries are {@code BMS_ARTIFACT} and FPac
+ *       entries are {@code FPAC} — never a COBOL dialect scope;</li>
  *   <li>clean fully-qualified {@code parserNode}/{@code semanticNode} references resolve
  *       to real classes (no dangling/renamed types);</li>
- *   <li>the ratchet block is present with non-negative debt counts.</li>
+ *   <li>the ratchet blocks are present with non-negative debt counts;</li>
+ *   <li>every live direct backend in every pipeline (generate/java incl. the forms
+ *       subtree, and generate/fpacjava) has exactly one owning retirement item with
+ *       the scope-correct expected debt delta, and each scope's ratchet equals its
+ *       live inventory outside a single in-flight retirement.</li>
  * </ul>
  * It runs in the default gate and must stay green; the ledger grows per migration slice.
  */
 class LedgerConsistencyTest
 {
     private static final Set<String> VALID_SCOPES =
-        Set.of("COBOL_CORE", "EMBEDDED_SQL", "EMBEDDED_CICS", "BMS_ARTIFACT");
+        Set.of("COBOL_CORE", "EMBEDDED_SQL", "EMBEDDED_CICS", "BMS_ARTIFACT", "FPAC");
+    private static final Set<String> COBOL_SCOPES =
+        Set.of("COBOL_CORE", "EMBEDDED_SQL", "EMBEDDED_CICS");
     private static final Set<String> TERMINAL_STATUSES = Set.of("direct-retired", "done");
+    // Mirrors sync_ledger_inventory.py / st4loop.debt per pipeline.
     private static final Pattern DIRECT_BACKEND_CLASS = Pattern.compile(
-        "\\bpublic\\s+(?:abstract\\s+)?class\\s+(\\w+)\\s+extends\\s+"
+        "\\bpublic\\s+(?:(?:abstract|final)\\s+)*class\\s+(\\w+)\\s+extends\\s+"
             + "(?:CEntity\\w*|CBaseActionEntity|CDataEntity)\\b");
+    // BMS forms: plus CResourceStrings (CJavaResourceStrings).
+    private static final Pattern BMS_DIRECT_BACKEND_CLASS = Pattern.compile(
+        "\\bpublic\\s+(?:(?:abstract|final)\\s+)*class\\s+(\\w+)\\s+extends\\s+"
+            + "(?:CEntity\\w*|CBaseActionEntity|CDataEntity|CResourceStrings)\\b");
+    // FPac: plus CSubStringAttributReference (CFPacJavaSubStringAttributeReference,
+    // whose declaration wraps across lines — \s+ covers it).
+    private static final Pattern FPAC_DIRECT_BACKEND_CLASS = Pattern.compile(
+        "\\bpublic\\s+(?:(?:abstract|final)\\s+)*class\\s+(\\w+)\\s+extends\\s+"
+            + "(?:CEntity\\w*|CBaseActionEntity|CDataEntity|CSubStringAttributReference)\\b");
     private static final Pattern PACKAGE =
         Pattern.compile("(?m)^package\\s+([\\w.]+);");
 
@@ -94,6 +116,20 @@ class LedgerConsistencyTest
         assertTrue(fac.get("failures").asInt() >= 0);
         assertTrue(ratchet.get("rules").isArray() && ratchet.get("rules").size() >= 1,
             "ratchet.rules must state the monotonic debt rules");
+
+        // Phase-2 ratchet (BMS + FPAC counters), present since the BMS/FPAC phase.
+        JsonNode phase2 = ratchet.get("phase2");
+        if (phase2 != null && !phase2.isNull())
+        {
+            JsonNode bms = phase2.get("bmsArchitectureCheck");
+            JsonNode fpac = phase2.get("fpacArchitectureCheck");
+            assertNotNull(bms, "ratchet.phase2.bmsArchitectureCheck is required");
+            assertNotNull(fpac, "ratchet.phase2.fpacArchitectureCheck is required");
+            assertTrue(bms.path("bmsDirectBackends").asInt(-1) >= 0,
+                "bmsDirectBackends must be a non-negative counter");
+            assertTrue(fpac.path("fpacDirectBackends").asInt(-1) >= 0,
+                "fpacDirectBackends must be a non-negative counter");
+        }
     }
 
     @Test
@@ -133,7 +169,7 @@ class LedgerConsistencyTest
     }
 
     @Test
-    @DisplayName("BMS entries are scoped BMS_ARTIFACT, never a COBOL dialect")
+    @DisplayName("BMS entries are scoped BMS_ARTIFACT and FPac entries FPAC, never a COBOL dialect")
     void bmsIsNotACobolDialect()
     {
         List<String> problems = new ArrayList<>();
@@ -150,8 +186,18 @@ class LedgerConsistencyTest
             {
                 problems.add(id + " has BMS_ARTIFACT scope but its id should start with BMS-");
             }
+            boolean looksLikeFpac = id != null && id.startsWith("FPAC-");
+            if (looksLikeFpac && !"FPAC".equals(scope))
+            {
+                problems.add(id + " must be scope FPAC, got " + scope);
+            }
+            if ("FPAC".equals(scope) && !looksLikeFpac)
+            {
+                problems.add(id + " has FPAC scope but its id should start with FPAC-");
+            }
         }
-        assertTrue(problems.isEmpty(), "BMS scope problems:\n  " + String.join("\n  ", problems));
+        assertTrue(problems.isEmpty(),
+            "BMS/FPAC scope problems:\n  " + String.join("\n  ", problems));
     }
 
     @Test
@@ -183,23 +229,34 @@ class LedgerConsistencyTest
     }
 
     @Test
-    @DisplayName("every live direct backend has exactly one executable ledger item")
+    @DisplayName("every live direct backend in every pipeline has exactly one executable ledger item")
     void directBackendInventoryIsFullyCovered() throws Exception
     {
         Path repoRoot = ledgerPath.getParent().getParent();
         Path directRoot = repoRoot.resolve("naca-trans/src/main/java/generate/java");
+        Path fpacRoot = repoRoot.resolve("naca-trans/src/main/java/generate/fpacjava");
         assertTrue(Files.isDirectory(directRoot), "direct backend source root must exist");
+        assertTrue(Files.isDirectory(fpacRoot), "FPac backend source root must exist");
 
+        // Live backends per pipeline: COBOL/SQL/CICS (generate/java minus the
+        // forms subtree), BMS (forms subtree), FPAC (generate/fpacjava).
         Set<String> liveBackends = new HashSet<>();
-        Set<String> inScopeLiveBackends = new HashSet<>();
+        Set<String> cobolLiveBackends = new HashSet<>();
+        Set<String> bmsLiveBackends = new HashSet<>();
+        Set<String> fpacLiveBackends = new HashSet<>();
         Map<String, String> livePaths = new HashMap<>();
+
         try (Stream<Path> files = Files.walk(directRoot))
         {
             for (Path file : (Iterable<Path>) files
                 .filter(path -> path.toString().endsWith(".java"))::iterator)
             {
+                Path relative = directRoot.relativize(file);
+                boolean forms = relative.getNameCount() > 1
+                    && "forms".equals(relative.getName(0).toString());
+                Pattern pattern = forms ? BMS_DIRECT_BACKEND_CLASS : DIRECT_BACKEND_CLASS;
                 String source = Files.readString(file, java.nio.charset.StandardCharsets.ISO_8859_1);
-                Matcher backend = DIRECT_BACKEND_CLASS.matcher(source);
+                Matcher backend = pattern.matcher(source);
                 if (!backend.find())
                 {
                     continue;
@@ -208,12 +265,26 @@ class LedgerConsistencyTest
                 assertTrue(javaPackage.find(), "missing package declaration: " + file);
                 String fqn = javaPackage.group(1) + "." + backend.group(1);
                 assertTrue(liveBackends.add(fqn), "duplicate direct backend FQN: " + fqn);
-                Path relative = directRoot.relativize(file);
-                if (relative.getNameCount() <= 1
-                    || !"forms".equals(relative.getName(0).toString()))
+                (forms ? bmsLiveBackends : cobolLiveBackends).add(fqn);
+                livePaths.put(fqn, repoRoot.relativize(file).toString().replace('\\', '/'));
+            }
+        }
+        try (Stream<Path> files = Files.walk(fpacRoot))
+        {
+            for (Path file : (Iterable<Path>) files
+                .filter(path -> path.toString().endsWith(".java"))::iterator)
+            {
+                String source = Files.readString(file, java.nio.charset.StandardCharsets.ISO_8859_1);
+                Matcher backend = FPAC_DIRECT_BACKEND_CLASS.matcher(source);
+                if (!backend.find())
                 {
-                    inScopeLiveBackends.add(fqn);
+                    continue;
                 }
+                Matcher javaPackage = PACKAGE.matcher(source);
+                assertTrue(javaPackage.find(), "missing package declaration: " + file);
+                String fqn = javaPackage.group(1) + "." + backend.group(1);
+                assertTrue(liveBackends.add(fqn), "duplicate direct backend FQN: " + fqn);
+                fpacLiveBackends.add(fqn);
                 livePaths.put(fqn, repoRoot.relativize(file).toString().replace('\\', '/'));
             }
         }
@@ -227,11 +298,13 @@ class LedgerConsistencyTest
                 continue;
             }
             String id = text(entry, "id");
+            String scope = text(entry, "scope");
             String backend = text(entry, "directBackend");
             String sourcePath = text(entry, "sourcePath");
-            if (backend == null || !backend.matches("^generate\\.java\\.[A-Za-z0-9_.]+$"))
+            if (backend == null
+                || !backend.matches("^generate\\.(java|fpacjava)\\.[A-Za-z0-9_.]+$"))
             {
-                problems.add(id + ": directBackend must be an exact generate.java FQN");
+                problems.add(id + ": directBackend must be an exact generate.java/generate.fpacjava FQN");
                 continue;
             }
             claims.computeIfAbsent(backend, ignored -> new ArrayList<>()).add(entry);
@@ -248,10 +321,14 @@ class LedgerConsistencyTest
                     problems.add(id + ": scheduler field " + field + " is required");
                 }
             }
-            JsonNode delta = entry.path("expectedDebtDelta").get("directBackends");
+            // Each scope retires exactly one backend against its OWN counter.
+            String debtKey = "FPAC".equals(scope) ? "fpacDirectBackends"
+                : "BMS_ARTIFACT".equals(scope) ? "bmsDirectBackends"
+                : "directBackends";
+            JsonNode delta = entry.path("expectedDebtDelta").get(debtKey);
             if (delta == null || delta.asInt() != -1)
             {
-                problems.add(id + ": expectedDebtDelta.directBackends must be -1");
+                problems.add(id + ": expectedDebtDelta." + debtKey + " must be -1");
             }
             if (TERMINAL_STATUSES.contains(text(entry, "status"))
                 && liveBackends.contains(backend))
@@ -276,17 +353,32 @@ class LedgerConsistencyTest
             }
         }
 
-        int ratchet = root.path("meta").path("ratchet")
-            .path("finalArchitectureCheck").path("directBackends").asInt(-1);
-        if (ratchet < inScopeLiveBackends.size()
-            || ratchet - inScopeLiveBackends.size() > 1)
-        {
-            problems.add("ratchet directBackends must equal in-scope live inventory outside "
-                + "a single in-flight retirement: ratchet=" + ratchet
-                + ", live=" + inScopeLiveBackends.size());
-        }
+        // Every pipeline's ratchet equals its live inventory, outside exactly one
+        // in-flight retirement (the slice the controller is currently verifying).
+        checkRatchetTolerance(problems, "directBackends",
+            root.path("meta").path("ratchet").path("finalArchitectureCheck")
+                .path("directBackends").asInt(-1),
+            cobolLiveBackends.size());
+        checkRatchetTolerance(problems, "bmsDirectBackends",
+            root.path("meta").path("ratchet").path("phase2")
+                .path("bmsArchitectureCheck").path("bmsDirectBackends").asInt(-1),
+            bmsLiveBackends.size());
+        checkRatchetTolerance(problems, "fpacDirectBackends",
+            root.path("meta").path("ratchet").path("phase2")
+                .path("fpacArchitectureCheck").path("fpacDirectBackends").asInt(-1),
+            fpacLiveBackends.size());
         assertTrue(problems.isEmpty(),
             "direct-backend ledger coverage problems:\n  " + String.join("\n  ", problems));
+    }
+
+    private static void checkRatchetTolerance(
+        List<String> problems, String counter, int ratchet, int live)
+    {
+        if (ratchet < live || ratchet - live > 1)
+        {
+            problems.add("ratchet " + counter + " must equal live inventory outside "
+                + "a single in-flight retirement: ratchet=" + ratchet + ", live=" + live);
+        }
     }
 
     private static String text(JsonNode node, String field)

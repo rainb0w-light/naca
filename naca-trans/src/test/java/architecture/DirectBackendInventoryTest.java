@@ -21,14 +21,14 @@ import org.junit.jupiter.api.Test;
  * it shows, by area, how many direct generators remain to be migrated to the
  * declarative manifest + ST4 assembler before they can be deleted.
  *
- * <p>The total is asserted against the same baseline as the architecture ratchet
- * ({@code DIRECT_SEMANTIC_SUBCLASS_BASELINE = 209}) so it can only decrease as
- * direct backends are retired — never silently grow. The per-area counts are
- * printed as the inventory; they are the prioritized work list:
- * verbs/expressions are largely assembler-bound already (retire first); CICS /
- * SQL need vertical migration first. The separate {@code forms/} BMS artifact
- * pipeline is deliberately inventoried by the migration ledger but excluded
- * from this COBOL/SQL/CICS ratchet.
+ * <p>The total is asserted against the checked-in baseline
+ * ({@code DIRECT_BACKEND_TOTAL_BASELINE}) so it can only decrease as direct
+ * backends are retired — never silently grow. The per-area counts are printed
+ * as the inventory. The separate {@code forms/} BMS artifact pipeline and the
+ * independent FPac pipeline ({@code generate/fpacjava}) are deliberately
+ * EXCLUDED from this completed COBOL/SQL/CICS ratchet; each has its own twin
+ * ratchet: {@link BmsFormsDirectBackendInventoryTest} and
+ * {@link FPacDirectBackendInventoryTest}.
  */
 class DirectBackendInventoryTest
 {

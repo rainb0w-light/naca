@@ -58,6 +58,52 @@ class InventorySynchronizationTest(unittest.TestCase):
             101,
         )
 
+    def test_forms_and_fpac_backends_get_scope_specific_fields(self):
+        sync = load_sync_module()
+        forms = sync.Backend(
+            area="forms",
+            class_name="CJavaForm",
+            backend_fqn="generate.java.forms.CJavaForm",
+            semantic_fqn="semantic.forms.CEntityResourceForm",
+            source_path="naca-trans/src/main/java/generate/java/forms/CJavaForm.java",
+        )
+        fpac = sync.Backend(
+            area="fpac",
+            class_name="CFPacJavaAssign",
+            backend_fqn="generate.fpacjava.CFPacJavaAssign",
+            semantic_fqn="semantic.Verbs.CEntityAssign",
+            source_path="naca-trans/src/main/java/generate/fpacjava/CFPacJavaAssign.java",
+        )
+        cics = sync.Backend(
+            area="CICS",
+            class_name="CJavaReturn",
+            backend_fqn="generate.java.CICS.CJavaReturn",
+            semantic_fqn="semantic.CICS.CEntityReturn",
+            source_path="naca-trans/src/main/java/generate/java/CICS/CJavaReturn.java",
+        )
+        data = sync.synchronize({"entries": []}, [forms, fpac, cics])
+        by_id = {e["id"]: e for e in data["entries"]}
+
+        bms_entry = by_id["BMS-BACKEND-CJAVAFORM"]
+        self.assertEqual("BMS_ARTIFACT", bms_entry["scope"])
+        self.assertEqual({"bmsDirectBackends": -1}, bms_entry["expectedDebtDelta"])
+        self.assertIn("BmsFormsDirectBackendInventoryTest",
+                      bms_entry["verification"][0])
+
+        fpac_entry = by_id["FPAC-BACKEND-CFPACJAVAASSIGN"]
+        self.assertEqual("FPAC", fpac_entry["scope"])
+        self.assertEqual({"fpacDirectBackends": -1}, fpac_entry["expectedDebtDelta"])
+        self.assertIn("FPacDirectBackendInventoryTest",
+                      fpac_entry["verification"][0])
+        # FPAC queue sits after the BMS priority band
+        self.assertGreater(fpac_entry["priority"], bms_entry["priority"])
+
+        cics_entry = by_id["BACKEND-CICS-CJAVARETURN"]
+        self.assertEqual("EMBEDDED_CICS", cics_entry["scope"])
+        self.assertEqual({"directBackends": -1}, cics_entry["expectedDebtDelta"])
+        self.assertIn("architecture.DirectBackendInventoryTest",
+                      cics_entry["verification"][0])
+
     def test_scoped_architecture_report_becomes_ready_ledger_items(self):
         sync = load_sync_module()
         with tempfile.TemporaryDirectory() as td:
@@ -222,6 +268,63 @@ class DebtScannerTest(unittest.TestCase):
     def test_missing_tree_is_zero(self):
         with tempfile.TemporaryDirectory() as td:
             self.assertEqual(debt.measure_direct_backends(Path(td)), 0)
+
+    def test_scope_measurer_each_own_inventory(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            # COBOL inventory: generate/java minus forms/
+            cobol = root / "naca-trans/src/main/java/generate/java"
+            (cobol / "forms").mkdir(parents=True)
+            (cobol / "verbs").mkdir(parents=True)
+            (cobol / "verbs" / "V.java").write_text(
+                "class V extends CEntityX {}\n")
+            # BMS inventory: forms/ incl. the CResourceStrings subclass
+            (cobol / "forms" / "F.java").write_text(
+                "class F extends CEntityForm {}\n")
+            (cobol / "forms" / "R.java").write_text(
+                "class R extends CResourceStrings {}\n")
+            (cobol / "forms" / "X.java").write_text(
+                "class X extends SomethingElse {}\n")
+            # FPac inventory: generate/fpacjava incl. the wrapped declaration
+            fpac = root / "naca-trans/src/main/java/generate/fpacjava"
+            fpac.mkdir(parents=True)
+            (fpac / "P.java").write_text("class P extends CEntityAssign {}\n")
+            (fpac / "S.java").write_text(
+                "class S extends\n\tCSubStringAttributReference {}\n")
+
+            self.assertEqual(debt.measure_direct_backends(root), 1)
+            self.assertEqual(debt.measure_bms_direct_backends(root), 2)
+            self.assertEqual(debt.measure_fpac_direct_backends(root), 2)
+            self.assertEqual(debt.measure_for_scope(root, "EMBEDDED_CICS"), 1)
+            self.assertEqual(debt.measure_for_scope(root, "BMS_ARTIFACT"), 2)
+            self.assertEqual(debt.measure_for_scope(root, "FPAC"), 2)
+
+    def test_scope_counter_keys(self):
+        self.assertEqual(debt.counter_key_for_scope("COBOL_CORE"), "directBackends")
+        self.assertEqual(debt.counter_key_for_scope("EMBEDDED_SQL"), "directBackends")
+        self.assertEqual(debt.counter_key_for_scope("EMBEDDED_CICS"), "directBackends")
+        self.assertEqual(debt.counter_key_for_scope("BMS_ARTIFACT"),
+                         "bmsDirectBackends")
+        self.assertEqual(debt.counter_key_for_scope("FPAC"), "fpacDirectBackends")
+
+    def test_checked_in_baseline_is_scope_aware(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            arch = root / "naca-trans/src/test/java/architecture"
+            arch.mkdir(parents=True)
+            (arch / "DirectBackendInventoryTest.java").write_text(
+                "private static final int DIRECT_BACKEND_TOTAL_BASELINE = 0;\n")
+            (arch / "BmsFormsDirectBackendInventoryTest.java").write_text(
+                "private static final int BMS_DIRECT_BACKEND_TOTAL_BASELINE = 34;\n")
+            (arch / "FPacDirectBackendInventoryTest.java").write_text(
+                "private static final int FPAC_DIRECT_BACKEND_TOTAL_BASELINE = 43;\n")
+            self.assertEqual(debt.read_checked_in_baseline(root), 0)
+            self.assertEqual(debt.read_checked_in_baseline(root, "COBOL_CORE"), 0)
+            self.assertEqual(debt.read_checked_in_baseline(root, "BMS_ARTIFACT"), 34)
+            self.assertEqual(debt.read_checked_in_baseline(root, "FPAC"), 43)
+            # minimal fixture (no test files) -> None, not a crash
+            with tempfile.TemporaryDirectory() as td2:
+                self.assertIsNone(debt.read_checked_in_baseline(Path(td2), "FPAC"))
 
     def test_rule_matches_the_inventory_test_regex(self):
         # Same rule as architecture.DirectBackendInventoryTest.
