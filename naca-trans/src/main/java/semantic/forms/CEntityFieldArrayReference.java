@@ -26,7 +26,7 @@ import utils.CObjectCatalog;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityFieldArrayReference extends CEntityArrayReference
+public class CEntityFieldArrayReference extends CEntityArrayReference
 {
 	/**
 	 * @param l
@@ -35,6 +35,21 @@ public abstract class CEntityFieldArrayReference extends CEntityArrayReference
 	public CEntityFieldArrayReference(int l, CObjectCatalog cat)
 	{
 		super(l, cat);
+	}
+	/*
+	 * Semantic predicate preserved from the retired direct backend
+	 * (generate.java.forms.CJavaFieldArrayReference): a pure read-only getter
+	 * consumed by the BMS traversal and the recursive ST4 assembly contract; no
+	 * output protocol lives here. The reference read renders through the
+	 * semantic.forms.CEntityFieldArrayReference -> arrayReferenceEntity binding
+	 * ("<field reference>.getAt(<indexes>)"), exactly the legacy ExportReference
+	 * shape (the same frozen template the COBOL CEntityArrayReference uses). The
+	 * retired backend reported FIELD here whereas the CEntityArrayReference base
+	 * reports VAR, so the override stays on the pure entity to preserve behavior.
+	 */
+	public CDataEntityType GetDataType()
+	{
+		return CDataEntityType.FIELD ;
 	}
 	public CBaseEntityCondition GetSpecialCondition(int nLine, String value, CBaseEntityCondition.EConditionType type, CBaseEntityFactory factory)
 	{

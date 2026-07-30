@@ -2,7 +2,6 @@ package generate.java.forms;
 
 import generate.CBaseLanguageExporter;
 import semantic.CDataEntity;
-import semantic.forms.CEntityFieldArrayReference;
 import semantic.forms.CEntityFieldAttribute;
 import semantic.forms.CEntityFieldData;
 import semantic.forms.CEntityFieldOccurs;
@@ -172,12 +171,6 @@ public final class BmsJavaEntities
 	public static CEntityIsFieldModified isFieldModified()
 	{
 		return new CJavaIsFieldModified();
-	}
-
-	public static CEntityFieldArrayReference fieldArrayReference(
-		int line, CObjectCatalog catalog, CBaseLanguageExporter output)
-	{
-		return new CJavaFieldArrayReference(line, catalog, output);
 	}
 
 	public static CEntityKeyPressed keyPressed(

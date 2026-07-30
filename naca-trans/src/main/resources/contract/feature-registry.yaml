@@ -1590,3 +1590,31 @@ features:
     runtimeOperations: []
     fixtures: []
     status: production
+
+  # The BMS map-field array reference (an indexed read of an OCCURS-style map
+  # field, built by semantic.forms.CEntityFieldRedefine.GetArrayReference and by
+  # the pure semantic node's own GetSpecialCondition). Reference reads lower
+  # through the runtime binding semantic.forms.CEntityFieldArrayReference ->
+  # arrayReferenceEntity, emitting <field reference>.getAt(<indexes>) exactly as
+  # the retired direct backend generate.java.forms.CJavaFieldArrayReference did.
+  # The retired backend's ExportReference is byte-for-byte the COBOL
+  # arrayReferenceEntity shape, so this feature reuses that frozen template (the
+  # same reuse the forms island applies to valueReferenceEntity) and, exactly like
+  # cobol.data.array-reference, carries no Codegen-Runtime Contract operation:
+  # .getAt(...) is the established runtime shape already emitted by the COBOL
+  # array reference, so no new runtime-operations.yaml / template-runtime-
+  # requirements.yaml entry is declared or required. The legacy
+  # ExportWriteAccessorTo returned "" (unused) and had no live consumer
+  # (LegacyDataRenderer.renderWriteAccessor is only reached from the FPac accessor
+  # backend, whose factory throws NacaTransAssertException for this entity), so it
+  # retired without a replacement; GetSpecialCondition still rebuilds a pure array
+  # reference around the condition's data reference (legacy behavior preserved).
+  - id: bms.field.arrayReference
+    dialects: [bms-artifact]
+    semanticType: semantic.forms.CEntityFieldArrayReference
+    javaBackend:
+      role: REFERENCE
+      template: arrayReferenceEntity
+    runtimeOperations: []
+    fixtures: []
+    status: production

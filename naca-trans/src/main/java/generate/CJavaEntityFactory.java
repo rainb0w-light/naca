@@ -1055,7 +1055,19 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return e;
 	}
 	public CEntityFieldArrayReference NewEntityFieldArrayReference(int l)	{
-		return BmsJavaEntities.fieldArrayReference(l, programCatalog, langOutput);
+		// Direct backend CJavaFieldArrayReference retired: the pure semantic entity is
+		// rendered by the recursive ST4 assembler (semantic.forms.CEntityFieldArrayReference
+		// -> arrayReferenceEntity), reproducing the legacy ExportReference
+		// "<field reference>.getAt(<indexes>)" byte-for-byte (the same frozen template
+		// the COBOL CEntityArrayReference uses). The legacy ExportWriteAccessorTo returned
+		// "" (unused) and had no live consumer in the recursive pipeline
+		// (LegacyDataRenderer.renderWriteAccessor is only reached from the FPac accessor
+		// backend, whose factory throws for this entity), so it retired without a
+		// replacement. The legacy output controller stays bound for the BMS traversal
+		// compatibility boundary.
+		CEntityFieldArrayReference e = new CEntityFieldArrayReference(l, programCatalog);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
+		return e;
 	}
 	public CEntityIndex NewEntityIndex(String name)	{
 		CEntityIndex entity = new CEntityIndex(name, programCatalog);
