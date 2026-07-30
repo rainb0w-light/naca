@@ -632,8 +632,21 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return e ;
 	}
 	public CEntitySetHighligh NewEntitySetHighlight(int l, CDataEntity field)	{
+		// Direct backend CJavaSetHighlight retired: the pure semantic entity is
+		// rendered by the recursive ST4 assembler (semantic.forms.CEntitySetHighligh
+		// -> recursiveSetHighlightEntity), reproducing the legacy DoExport's
+		// independent flag branches in order — blink -> setFieldBlink(<field>),
+		// reverse -> setFieldReverse(<field>), underline -> setFieldUnderline(<field>),
+		// normal -> setFieldUnhighlighted(<field>), a moved value ->
+		// moveHighLighting(<value>, <field>) — and mapping the legacy reset branch's
+		// resetFieldHighlighting(<field>) (which has no naca-rt signature and never
+		// compiled) to the real OnlineProgram.setFieldUnhighlighted (highlighting
+		// OFF). CJavaEntityFactoryST inherits this wiring; the legacy output
+		// controller stays bound for the BMS traversal compatibility boundary.
 		programCatalog.addImportDeclaration("MAP") ;
-		return BmsJavaEntities.setHighlight(l, programCatalog, langOutput, field) ;
+		CEntitySetHighligh e = new CEntitySetHighligh(l, programCatalog, field) ;
+		generate.LegacyLanguageRenderer.bind(e, langOutput) ;
+		return e ;
 	}
 	public CEntitySetFlag NewEntitySetFlag(int l, CDataEntity field)	{
 		return BmsJavaEntities.setFlag(l, programCatalog, langOutput, field) ;

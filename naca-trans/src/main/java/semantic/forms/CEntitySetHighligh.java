@@ -23,7 +23,7 @@ import utils.CObjectCatalog;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntitySetHighligh extends CBaseActionEntity
+public class CEntitySetHighligh extends CBaseActionEntity
 {
 
 //	public static class CFieldHighligh
@@ -44,7 +44,55 @@ public abstract class CEntitySetHighligh extends CBaseActionEntity
 		super(line, cat);
 		refField = field ;
 	}
-	
+
+	/*
+	 * Pure read-only getters consumed by the recursive ST4 assembly contract
+	 * (semantic.forms.CEntitySetHighligh -> recursiveSetHighlightEntity), preserved
+	 * from the retired direct backend generate.java.forms.CJavaSetHighlight whose
+	 * DoExport selected the emitted runtime call(s) from exactly these slots, in
+	 * this order: isisBlink -> setFieldBlink(<field>), isisReverse ->
+	 * setFieldReverse(<field>), isisUnderlined -> setFieldUnderline(<field>),
+	 * isisNormal -> setFieldUnhighlighted(<field>), a non-null highLightValue ->
+	 * moveHighLighting(<value>, <field>), and when no slot is set a reset ->
+	 * setFieldUnhighlighted(<field>). The legacy reset branch named a
+	 * resetFieldHighlighting(<field>) call that has no naca-rt signature (it never
+	 * compiled); the reset slot maps to the real OnlineProgram.setFieldUnhighlighted
+	 * (highlighting OFF), the semantic equivalent. The flags are independent (the
+	 * "6" highlight sets both reverse and underline), so more than one getter may be
+	 * true at once. No output protocol lives here; the getters only expose the
+	 * already-resolved semantic state and the assembler renders the child data
+	 * references recursively.
+	 */
+	public CDataEntity getField()
+	{
+		return refField ;
+	}
+	public CDataEntity getHighLightValue()
+	{
+		return highLightValue ;
+	}
+	public boolean isBlink()
+	{
+		return isisBlink ;
+	}
+	public boolean isReverse()
+	{
+		return isisReverse ;
+	}
+	public boolean isUnderlined()
+	{
+		return isisUnderlined ;
+	}
+	public boolean isNormal()
+	{
+		return isisNormal ;
+	}
+	public boolean isReset()
+	{
+		return !isisBlink && !isisNormal && !isisUnderlined && !isisReverse
+			&& highLightValue == null ;
+	}
+
 	public void SetBlink()
 	{
 		isisBlink = true ;

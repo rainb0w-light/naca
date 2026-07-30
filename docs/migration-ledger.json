@@ -82,7 +82,7 @@
         ],
         "baselineCapturedAtCommit": "42d72b42",
         "bmsArchitectureCheck": {
-          "bmsDirectBackends": 26
+          "bmsDirectBackends": 25
         },
         "fpacArchitectureCheck": {
           "fpacDirectBackends": 43
@@ -5106,7 +5106,7 @@
       "expectedDebtDelta": {
         "bmsDirectBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "BMS_ARTIFACT",
       "sourceSyntax": "legacy backend CJavaSetHighlight",
@@ -5120,11 +5120,12 @@
       "directBackend": "generate.java.forms.CJavaSetHighlight",
       "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaSetHighlight.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Phase 2 (BMS_ARTIFACT): retire this one BMS map-resource backend onto declarative bindings + the recursive-ST4 assembly contract; preserve the emitted Java (and XML/.res where present) and reduce bmsDirectBackends by one. BMS is an independent CICS screen-map DSL, never a COBOL dialect. Tier: leaf (inline attribute/condition/action).",
       "evidence": [
         "naca-trans/src/main/java/generate/java/forms/CJavaSetHighlight.java"
-      ]
+      ],
+      "lastAttemptCommit": "7954811a632bf11ecf94aafc1417010b423dde98"
     },
     {
       "id": "BMS-BACKEND-CJAVASETFLAG",

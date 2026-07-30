@@ -472,6 +472,31 @@ recursiveSetAttributeEntity(entity) ::= <<
 <endif><if(entity.modifiedConstant)>moveAttribute(<entity.modifiedConstant>, <entity.field>) ;<endif><endif>
 >>
 
+// BMS map-resource highlight action (MOVE <val> TO <FIELD>-H, lowered by
+// semantic.forms.CEntityFieldHighlight.intGetSpecialAssignment /
+// GetSpecialAssignment to a semantic.forms.CEntitySetHighligh statement). Mirrors
+// the retired direct backend generate.java.forms.CJavaSetHighlight.DoExport exactly,
+// preserving its independent flag branches and their order: blink emits
+// setFieldBlink(<field>), reverse emits setFieldReverse(<field>), underline emits
+// setFieldUnderline(<field>), normal emits setFieldUnhighlighted(<field>), a moved
+// value emits moveHighLighting(<value>, <field>) — the protected OnlineProgram
+// highlight calls (contract operations bms.highlight.blink / .reverse / .underline
+// / .unhighlighted / .move.var / .move.attr). The flags are independent, so the "6"
+// highlight (reverse + underline) emits two statements. The legacy reset branch
+// named resetFieldHighlighting(<field>), which has no naca-rt signature and never
+// compiled; it is mapped to the real setFieldUnhighlighted(<field>) (highlighting
+// OFF), the semantic equivalent (contract operation bms.highlight.unhighlighted).
+// Reads only entity.* properties; the field and value data references ride in their
+// own slots and unfold through the assembler.
+recursiveSetHighlightEntity(entity) ::= <<
+<if(entity.blink)>setFieldBlink(<entity.field>) ;
+<endif><if(entity.reverse)>setFieldReverse(<entity.field>) ;
+<endif><if(entity.underlined)>setFieldUnderline(<entity.field>) ;
+<endif><if(entity.normal)>setFieldUnhighlighted(<entity.field>) ;
+<endif><if(entity.highLightValue)>moveHighLighting(<entity.highLightValue>, <entity.field>) ;
+<endif><if(entity.reset)>setFieldUnhighlighted(<entity.field>) ;<endif>
+>>
+
 fileBufferEntity(entity) ::= "<entity.fileDescriptor>"
 
 emptyEntity(entity) ::= ""

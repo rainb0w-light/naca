@@ -678,3 +678,20 @@ templates:
       - bms.attribute.intensity
       - bms.attribute.modified
       - bms.attribute.move.var
+
+  # BMS map-resource DSL: the highlight action statement (MOVE <val> TO <FIELD>-H,
+  # retired direct backend CJavaSetHighlight) emits the protected OnlineProgram
+  # highlight calls: setFieldBlink/setFieldReverse/setFieldUnderline/
+  # setFieldUnhighlighted for the independent blink/reverse/underline/normal flags
+  # (the normal and legacy reset branches both map to setFieldUnhighlighted), and
+  # moveHighLighting(<value>, <field>) for a moved value (both runtime overload
+  # families).
+  recursiveSetHighlightEntity:
+    capability: BMS_MAP
+    requires:
+      - bms.highlight.blink
+      - bms.highlight.reverse
+      - bms.highlight.underline
+      - bms.highlight.unhighlighted
+      - bms.highlight.move.var
+      - bms.highlight.move.attr

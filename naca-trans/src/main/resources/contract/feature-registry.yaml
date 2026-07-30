@@ -1671,3 +1671,33 @@ features:
     runtimeOperations: [bms.attribute.protection, bms.attribute.intensity, bms.attribute.modified, bms.attribute.move.var]
     fixtures: []
     status: production
+
+  # The BMS map-field highlight action (MOVE <val> TO <FIELD>-H). Built by
+  # semantic.forms.CEntityFieldHighlight.intGetSpecialAssignment / GetSpecialAssignment
+  # as a pure semantic.forms.CEntitySetHighligh statement: the independent flag
+  # branches emit, in order, setFieldBlink(<field>) / setFieldReverse(<field>) /
+  # setFieldUnderline(<field>) / setFieldUnhighlighted(<field>) for blink / reverse /
+  # underline / normal (the "6" highlight emits both reverse and underline), a moved
+  # value emits moveHighLighting(<value>, <field>), and the reset branch (no slot set)
+  # maps to setFieldUnhighlighted(<field>) — exactly what the retired direct backend
+  # generate.java.forms.CJavaSetHighlight.DoExport wrote (branch order and " ;"
+  # spacing preserved), except the legacy reset branch's resetFieldHighlighting(<field>)
+  # had no naca-rt signature (it never compiled) and is mapped to the real
+  # setFieldUnhighlighted (highlighting OFF). Statements lower through the runtime
+  # binding semantic.forms.CEntitySetHighligh -> recursiveSetHighlightEntity in the BMS
+  # forms-island manifest (semantic-runtime-bindings.properties, kept disjoint from the
+  # concrete manifest FinalArchitectureContractTest pins to the COBOL tree); the
+  # template reads only entity.* properties and the field/value data references unfold
+  # through the assembler. The emitted calls are the protected OnlineProgram highlight
+  # methods contracted as bms.highlight.blink / .reverse / .underline / .unhighlighted
+  # / .move.var / .move.attr (both moveHighLighting overload families, selected by the
+  # rendered static type of the MOVE source).
+  - id: bms.highlight.set
+    dialects: [bms-artifact]
+    semanticType: semantic.forms.CEntitySetHighligh
+    javaBackend:
+      role: REFERENCE
+      template: recursiveSetHighlightEntity
+    runtimeOperations: [bms.highlight.blink, bms.highlight.reverse, bms.highlight.underline, bms.highlight.unhighlighted, bms.highlight.move.var, bms.highlight.move.attr]
+    fixtures: []
+    status: production

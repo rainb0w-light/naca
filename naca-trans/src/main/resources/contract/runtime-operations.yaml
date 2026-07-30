@@ -2982,3 +2982,70 @@ operations:
     runtimeMethod: moveAttribute
     paramTypes: [nacaLib.varEx.Var, nacaLib.varEx.Edit]
     returns: void
+
+  # MOVE <val> TO <FIELD>-H lowers through semantic.forms.CEntitySetHighligh (built
+  # by semantic.forms.CEntityFieldHighlight.intGetSpecialAssignment /
+  # GetSpecialAssignment) to the protected OnlineProgram highlight calls, exactly
+  # what the retired direct backend generate.java.forms.CJavaSetHighlight emitted:
+  # blink -> setFieldBlink(<field>), reverse -> setFieldReverse(<field>), underline
+  # -> setFieldUnderline(<field>), normal -> setFieldUnhighlighted(<field>), a moved
+  # value -> moveHighLighting(<value>, <field>). The legacy reset branch named
+  # resetFieldHighlighting(<field>), which has no naca-rt signature (it never
+  # compiled); the reset slot maps to the real setFieldUnhighlighted (highlighting
+  # OFF). All are protected on OnlineProgram and inherited by generated online
+  # program subclasses (RuntimeContractTest walks the declared-method hierarchy).
+  - id: bms.highlight.blink
+    since: 1
+    capability: BMS_MAP
+    runtimeClass: idea.onlinePrgEnv.OnlineProgram
+    runtimeMethod: setFieldBlink
+    paramTypes: [nacaLib.varEx.Edit]
+    returns: void
+
+  - id: bms.highlight.reverse
+    since: 1
+    capability: BMS_MAP
+    runtimeClass: idea.onlinePrgEnv.OnlineProgram
+    runtimeMethod: setFieldReverse
+    paramTypes: [nacaLib.varEx.Edit]
+    returns: void
+
+  - id: bms.highlight.underline
+    since: 1
+    capability: BMS_MAP
+    runtimeClass: idea.onlinePrgEnv.OnlineProgram
+    runtimeMethod: setFieldUnderline
+    paramTypes: [nacaLib.varEx.Edit]
+    returns: void
+
+  # setFieldUnhighlighted sets the highlight attribute OFF; it backs both the normal
+  # branch and the legacy reset branch (whose resetFieldHighlighting had no naca-rt
+  # signature).
+  - id: bms.highlight.unhighlighted
+    since: 1
+    capability: BMS_MAP
+    runtimeClass: idea.onlinePrgEnv.OnlineProgram
+    runtimeMethod: setFieldUnhighlighted
+    paramTypes: [nacaLib.varEx.Edit]
+    returns: void
+
+  # moveHighLighting has two runtime overloads; the compiler selects one by the
+  # rendered static type of the MOVE source (a highlight attribute -> the
+  # MapFieldAttrHighlighting overload, any other data reference -> the Var
+  # overload), so both families are contracted exactly like the cursor/attribute
+  # overload families.
+  - id: bms.highlight.move.var
+    since: 1
+    capability: BMS_MAP
+    runtimeClass: idea.onlinePrgEnv.OnlineProgram
+    runtimeMethod: moveHighLighting
+    paramTypes: [nacaLib.varEx.Var, nacaLib.varEx.Edit]
+    returns: void
+
+  - id: bms.highlight.move.attr
+    since: 1
+    capability: BMS_MAP
+    runtimeClass: idea.onlinePrgEnv.OnlineProgram
+    runtimeMethod: moveHighLighting
+    paramTypes: [nacaLib.mapSupport.MapFieldAttrHighlighting, nacaLib.varEx.Edit]
+    returns: void
