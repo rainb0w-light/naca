@@ -4784,8 +4784,8 @@
       "expectedDebtDelta": {
         "bmsDirectBackends": -1
       },
-      "attempts": 0,
-      "blocked": false,
+      "attempts": 3,
+      "blocked": true,
       "scope": "BMS_ARTIFACT",
       "sourceSyntax": "legacy backend CJavaResourceStrings",
       "parserNode": null,
@@ -4802,7 +4802,9 @@
       "blocker": "Phase 2 (BMS_ARTIFACT): retire this one BMS map-resource backend onto declarative bindings + the recursive-ST4 assembly contract; preserve the emitted Java (and XML/.res where present) and reduce bmsDirectBackends by one. BMS is an independent CICS screen-map DSL, never a COBOL dialect. Tier: leaf (inline attribute/condition/action).",
       "evidence": [
         "naca-trans/src/main/java/generate/java/forms/CJavaResourceStrings.java"
-      ]
+      ],
+      "blockedReason": "exhausted 3 attempts without independent verification; last outcome=success",
+      "lastAttemptCommit": "2b03e002dbe5fc5d837614a59f503ae744fdd5d7"
     },
     {
       "id": "BMS-BACKEND-CJAVAFIELDATTRIBUTE",
