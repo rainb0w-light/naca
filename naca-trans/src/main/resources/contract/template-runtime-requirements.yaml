@@ -657,6 +657,15 @@ templates:
   # OnlineProgram cursor calls: moveCursor(<value>, <field>) for a set
   # reference value (both runtime overload families), removeCursor(<field>)
   # for the remove flag, otherwise setCursor(<field>).
+  # BMS map-resource DSL: the field-modified condition (IF <FIELD>-L > 0, retired
+  # direct backend CJavaIsFieldModified) emits the protected OnlineProgram
+  # isFieldModified(Edit) condition call (negation rides a pure CEntityCondNot ->
+  # recursiveCondNotEntity, no extra runtime call).
+  recursiveIsFieldModifiedEntity:
+    capability: BMS_MAP
+    requires:
+      - bms.field.modified
+
   recursiveSetCursorEntity:
     capability: BMS_MAP
     requires:

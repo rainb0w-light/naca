@@ -622,6 +622,19 @@ recursiveCondIsConstantEntity(entity) ::= <<
 is<if(entity.opposite)>Not<endif><if(entity.zero)>Zero<elseif(entity.space)>Space<elseif(entity.lowValue)>LowValue<elseif(entity.highValue)>HighValue<endif>(<entity.conditionReference>)
 >>
 
+// BMS map-resource field-modified condition (IF <FIELD>-L > 0, lowered by
+// semantic.forms.CEntityFieldLength.GetSpecialCondition to a pure
+// semantic.forms.CEntityIsFieldModified). Mirrors the retired direct backend
+// generate.java.forms.CJavaIsFieldModified exactly: emits the protected
+// OnlineProgram.isFieldModified(Edit) condition call (contract operation
+// bms.field.modified). Negation is carried by a pure semantic.expression.CEntityCondNot
+// (GetOppositeCondition), rendered !(isFieldModified(<reference>)) by
+// recursiveCondNotEntity — no generate.* coupling in the semantic tree. Reads only
+// entity.* properties; the field data reference rides in its own slot (the entity
+// shadows the inherited condition reference, so the template reads getReference())
+// and unfolds through the assembler.
+recursiveIsFieldModifiedEntity(entity) ::= "isFieldModified(<entity.reference>)"
+
 recursiveCondIsKindOfEntity(entity) ::= <<
 is<if(entity.opposite)>Not<endif><if(entity.numeric)>Numeric<elseif(entity.alphabetic)>Alphabetic<elseif(entity.lower)>AlphabeticLower<elseif(entity.upper)>AlphabeticUpper<endif>(<if(entity.conditionReference)><entity.conditionReference><else>[UNDEFINED]<endif>)
 >>

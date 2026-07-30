@@ -1619,6 +1619,31 @@ features:
     fixtures: []
     status: production
 
+  # The BMS map-resource field-modified condition (IF <FIELD>-L > 0). Built by
+  # semantic.forms.CEntityFieldLength.GetSpecialCondition as a pure
+  # semantic.forms.CEntityIsFieldModified condition: emits the protected
+  # OnlineProgram.isFieldModified(Edit) call exactly as the retired direct backend
+  # generate.java.forms.CJavaIsFieldModified.Export did. Conditions lower through the
+  # runtime binding semantic.forms.CEntityIsFieldModified ->
+  # recursiveIsFieldModifiedEntity in the BMS forms-island manifest
+  # (semantic-runtime-bindings.properties, kept disjoint from the concrete manifest
+  # FinalArchitectureContractTest pins to the COBOL tree); the template reads only
+  # entity.* properties and the field data reference unfolds through the assembler
+  # (the entity shadows the inherited condition reference, so the template reads
+  # getReference()). Negation is a pure semantic.expression.CEntityCondNot
+  # (recursiveCondNotEntity -> !(isFieldModified(<reference>))). The emitted call is
+  # the protected OnlineProgram.isFieldModified(Edit) condition helper contracted as
+  # bms.field.modified.
+  - id: bms.condIsFieldModified
+    dialects: [bms-artifact]
+    semanticType: semantic.forms.CEntityIsFieldModified
+    javaBackend:
+      role: REFERENCE
+      template: recursiveIsFieldModifiedEntity
+    runtimeOperations: [bms.field.modified]
+    fixtures: []
+    status: production
+
   # The BMS map-field cursor action (MOVE ... TO <FIELD>-L). Built by
   # semantic.forms.CEntityFieldLength.GetSpecialAssignment as a pure
   # semantic.forms.CEntitySetCursor statement: a moved value emits

@@ -2903,6 +2903,19 @@ operations:
   # otherwise setCursor(<field>). All three are protected on OnlineProgram and
   # inherited by generated online program subclasses (RuntimeContractTest walks
   # the declared-method hierarchy).
+  # IF <FIELD>-L > 0 lowers through semantic.forms.CEntityIsFieldModified (built by
+  # semantic.forms.CEntityFieldLength.GetSpecialCondition) to the protected
+  # OnlineProgram.isFieldModified(Edit) condition call, inherited by generated online
+  # program subclasses exactly like the cursor/color calls (RuntimeContractTest walks
+  # the declared-method hierarchy). Returns boolean for use inside an IF condition.
+  - id: bms.field.modified
+    since: 1
+    capability: BMS_MAP
+    runtimeClass: idea.onlinePrgEnv.OnlineProgram
+    runtimeMethod: isFieldModified
+    paramTypes: [nacaLib.varEx.Edit]
+    returns: boolean
+
   - id: bms.cursor.set
     since: 1
     capability: BMS_MAP

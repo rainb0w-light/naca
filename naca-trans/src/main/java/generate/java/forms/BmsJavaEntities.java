@@ -13,7 +13,6 @@ import semantic.forms.CEntityIsFieldColor;
 import semantic.forms.CEntityIsFieldCursor;
 import semantic.forms.CEntityIsFieldFlag;
 import semantic.forms.CEntityIsFieldHighlight;
-import semantic.forms.CEntityIsFieldModified;
 import semantic.forms.CEntityIsKeyPressed;
 import semantic.forms.CEntityKeyPressed;
 import semantic.forms.CEntityResetKeyPressed;
@@ -126,11 +125,6 @@ public final class BmsJavaEntities
 	public static CEntityIsFieldHighlight isFieldHighlight(CDataEntity reference)
 	{
 		return new CJavaIsFieldHighlight(reference);
-	}
-
-	public static CEntityIsFieldModified isFieldModified()
-	{
-		return new CJavaIsFieldModified();
 	}
 
 	public static CEntityKeyPressed keyPressed(

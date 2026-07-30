@@ -996,7 +996,18 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return e;
 	}
 	public CEntityIsFieldModified NewEntityIsFieldModified() {
-		return BmsJavaEntities.isFieldModified();
+		// Direct backend CJavaIsFieldModified retired: the pure semantic entity is
+		// rendered by the recursive ST4 assembly contract
+		// (semantic.forms.CEntityIsFieldModified -> recursiveIsFieldModifiedEntity),
+		// reproducing the legacy Export exactly — isFieldModified(<reference>), the
+		// protected OnlineProgram.isFieldModified(Edit) condition call contracted as
+		// bms.field.modified. GetOppositeCondition now returns a pure
+		// semantic.expression.CEntityCondNot (rendered !(isFieldModified(<reference>))
+		// by recursiveCondNotEntity) instead of the legacy generate.bmsjava.CBmsJavaCondNot,
+		// keeping the semantic tree free of any generate.* coupling. CJavaEntityFactoryST
+		// inherits this wiring; the FPac factory still throws for this entity, so no FPac
+		// tree ever holds it.
+		return new CEntityIsFieldModified();
 	}
 	public CEntityCICSSyncPoint NewEntityCICSSyncPoint(int l, boolean bRollBack)	{
 		// Direct backend CJavaCICSSyncPoint retired: the pure semantic entity is rendered
