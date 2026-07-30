@@ -2882,3 +2882,15 @@ operations:
     runtimeMethod: getHighlighting
     paramTypes: [nacaLib.varEx.Edit]
     returns: nacaLib.mapSupport.MapFieldAttrHighlighting
+
+  # Reading the <FIELD>P flag pseudo-variable lowers to
+  # Edit.getFlag() on the owner field, exactly what the retired direct backend
+  # generate.java.forms.CJavaFieldFlag emitted in ExportReference. The method is
+  # public on nacaLib.varEx.Edit.
+  - id: bms.flag.get
+    since: 1
+    capability: BMS_MAP
+    runtimeClass: nacaLib.varEx.Edit
+    runtimeMethod: getFlag
+    paramTypes: []
+    returns: java.lang.String

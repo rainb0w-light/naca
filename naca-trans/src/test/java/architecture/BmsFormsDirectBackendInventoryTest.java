@@ -35,7 +35,7 @@ class BmsFormsDirectBackendInventoryTest
 {
     // Exact current count of BMS direct backend source files. Every retirement
     // must lower this value in the same slice, preventing slack in the ratchet.
-    private static final int BMS_DIRECT_BACKEND_TOTAL_BASELINE = 31;
+    private static final int BMS_DIRECT_BACKEND_TOTAL_BASELINE = 30;
 
     // Mirrors st4loop.debt.BMS_DIRECT_SEMANTIC_SUBCLASS exactly.
     private static final Pattern BMS_DIRECT_SEMANTIC_SUBCLASS =

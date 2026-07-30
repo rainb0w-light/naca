@@ -5,14 +5,12 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 11 août 2004
+ * Created on 11 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 package semantic.forms;
-
-import generate.*;
 
 import java.util.Vector;
 
@@ -28,7 +26,7 @@ import utils.CObjectCatalog;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityFieldFlag extends CBaseEntityFieldAttribute
+public class CEntityFieldFlag extends CBaseEntityFieldAttribute
 {
 
 	/**
@@ -41,6 +39,27 @@ public abstract class CEntityFieldFlag extends CBaseEntityFieldAttribute
 	public CEntityFieldFlag(int l, String name, CObjectCatalog cat, CDataEntity owner)
 	{
 		super(l, name, cat, CEntityFieldAttributeType.FLAG, owner);
+	}
+	/*
+	 * Semantic predicates preserved from the retired direct backend
+	 * (generate.java.forms.CJavaFieldFlag): pure read-only getters, consumed
+	 * by the recursive ST4 assembly contract and the BMS traversal; no output
+	 * protocol lives here.
+	 */
+	/* (non-Javadoc)
+	 * @see semantic.CDataEntity#GetDataType()
+	 */
+	public CDataEntityType GetDataType()
+	{
+		return CDataEntityType.FIELD ;
+	}
+	public boolean HasAccessors()
+	{
+		return true ;
+	}
+	public boolean isValNeeded()
+	{
+		return false ;
 	}
 	public CBaseActionEntity GetSpecialAssignment(CTerminal term, CBaseEntityFactory factory, int l)
 	{

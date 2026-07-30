@@ -643,3 +643,11 @@ templates:
     capability: BMS_MAP
     requires:
       - bms.highlight.get
+
+  # BMS map-resource DSL: the <FIELD>P flag pseudo-variable reference (retired
+  # direct backend CJavaFieldFlag) emits <owner field>.getFlag(), resolved by
+  # Edit.getFlag().
+  fieldFlagReferenceEntity:
+    capability: BMS_MAP
+    requires:
+      - bms.flag.get

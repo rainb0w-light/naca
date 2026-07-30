@@ -617,12 +617,19 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		generate.LegacyLanguageRenderer.bind(e, langOutput) ;
 		return e ;
 	}
-//	public CEntityFieldFlag NewEntityFieldFlag(int l, String name, CBaseDataEntity field)
-//	{
-//		return BmsJavaEntities.fieldFlag(l, name, programCatalog, langOutput, field) ;
-//	}
 	public CEntityFieldFlag NewEntityFieldFlag(int l, String name, CDataEntity field)	{
-		return BmsJavaEntities.fieldFlag(l, name, programCatalog, langOutput, field) ;
+		// Direct backend CJavaFieldFlag retired: the pure semantic entity is
+		// rendered by the recursive ST4 assembler (semantic.forms.CEntityFieldFlag
+		// -> fieldFlagReferenceEntity), reproducing the legacy ExportReference that
+		// rendered "<owner field reference>.getFlag()". The legacy
+		// ExportWriteAccessorTo (moveFlag) had no live consumer in the recursive
+		// pipeline (MOVEs on <FIELD>P lower through the CEntitySetFlag action
+		// entity built by the semantic node's GetSpecialAssignment), so it retired
+		// without a replacement. The legacy output controller stays bound for the
+		// BMS traversal compatibility boundary.
+		CEntityFieldFlag e = new CEntityFieldFlag(l, name, programCatalog, field) ;
+		generate.LegacyLanguageRenderer.bind(e, langOutput) ;
+		return e ;
 	}
 	public CEntitySetHighligh NewEntitySetHighlight(int l, CDataEntity field)	{
 		programCatalog.addImportDeclaration("MAP") ;

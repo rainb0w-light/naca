@@ -1548,3 +1548,21 @@ features:
     runtimeOperations: [bms.highlight.get]
     fixtures: []
     status: production
+
+  # The <FIELD>P flag pseudo-variable (created for every map field by
+  # CEntityResourceField.InitDependences). Reference reads lower through the
+  # runtime binding semantic.forms.CEntityFieldFlag -> fieldFlagReferenceEntity,
+  # emitting <owner field reference>.getFlag() exactly as the retired direct
+  # backend generate.java.forms.CJavaFieldFlag did. The legacy moveFlag write
+  # accessor had no live consumer in the recursive pipeline (MOVEs on <FIELD>P
+  # lower through the CEntitySetFlag action entity built by the pure semantic
+  # node's GetSpecialAssignment) and retired without a replacement.
+  - id: bms.field.flag
+    dialects: [bms-artifact]
+    semanticType: semantic.forms.CEntityFieldFlag
+    javaBackend:
+      role: REFERENCE
+      template: fieldFlagReferenceEntity
+    runtimeOperations: [bms.flag.get]
+    fixtures: []
+    status: production
