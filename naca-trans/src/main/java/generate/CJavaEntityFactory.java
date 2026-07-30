@@ -649,7 +649,17 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return e ;
 	}
 	public CEntitySetFlag NewEntitySetFlag(int l, CDataEntity field)	{
-		return BmsJavaEntities.setFlag(l, programCatalog, langOutput, field) ;
+		// Direct backend CJavaSetFlag retired: the pure semantic entity is
+		// rendered by the recursive ST4 assembler (semantic.forms.CEntitySetFlag
+		// -> recursiveSetFlagEntity), reproducing the legacy DoExport exactly —
+		// a non-null flag value emits moveFlag("<value>", <field>) with the
+		// constant quoted verbatim, otherwise resetFlag(<field>) (the protected
+		// OnlineProgram flag calls contracted as bms.flag.move / bms.flag.reset).
+		// CJavaEntityFactoryST inherits this wiring; the legacy output controller
+		// stays bound for the BMS traversal compatibility boundary.
+		CEntitySetFlag e = new CEntitySetFlag(l, programCatalog, field) ;
+		generate.LegacyLanguageRenderer.bind(e, langOutput) ;
+		return e ;
 	}
 	public CEntitySetCursor NewEntitySetCursor(int l, CDataEntity field)	{
 		// Direct backend CJavaSetCursor retired: the pure semantic entity is

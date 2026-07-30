@@ -1701,3 +1701,28 @@ features:
     runtimeOperations: [bms.highlight.blink, bms.highlight.reverse, bms.highlight.underline, bms.highlight.unhighlighted, bms.highlight.move.var, bms.highlight.move.attr]
     fixtures: []
     status: production
+
+  # The BMS map-field flag action (MOVE <val> TO <FIELD>P). Built by
+  # semantic.forms.CEntityFieldFlag.GetSpecialAssignment as a pure
+  # semantic.forms.CEntitySetFlag statement: a non-null flag value emits
+  # moveFlag("<value>", <field>) with the constant quoted verbatim ("1" / "0",
+  # with SPACE/SPACES/ZERO/ZEROS/ZEROES normalizing to "0"), otherwise
+  # (LOW-VALUE/LOW-VALUES) resetFlag(<field>) — exactly what the retired direct
+  # backend generate.java.forms.CJavaSetFlag.DoExport wrote (branch selection
+  # and " ;" spacing preserved). Statements lower through the runtime binding
+  # semantic.forms.CEntitySetFlag -> recursiveSetFlagEntity in the BMS
+  # forms-island manifest (semantic-runtime-bindings.properties, kept disjoint
+  # from the concrete manifest FinalArchitectureContractTest pins to the COBOL
+  # tree); the template reads only entity.* properties and the field data
+  # reference unfolds through the assembler. The emitted calls are the protected
+  # OnlineProgram flag methods contracted as bms.flag.move (the String overload)
+  # / bms.flag.reset.
+  - id: bms.flag.set
+    dialects: [bms-artifact]
+    semanticType: semantic.forms.CEntitySetFlag
+    javaBackend:
+      role: REFERENCE
+      template: recursiveSetFlagEntity
+    runtimeOperations: [bms.flag.move, bms.flag.reset]
+    fixtures: []
+    status: production

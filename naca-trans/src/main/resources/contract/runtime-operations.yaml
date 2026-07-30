@@ -3049,3 +3049,27 @@ operations:
     runtimeMethod: moveHighLighting
     paramTypes: [nacaLib.mapSupport.MapFieldAttrHighlighting, nacaLib.varEx.Edit]
     returns: void
+
+  # MOVE <val> TO <FIELD>P lowers through semantic.forms.CEntitySetFlag (built
+  # by semantic.forms.CEntityFieldFlag.GetSpecialAssignment) to the protected
+  # OnlineProgram flag calls, exactly what the retired direct backend
+  # generate.java.forms.CJavaSetFlag emitted: a non-null flag value emits
+  # moveFlag("<value>", <field>) (the String overload, constant quoted
+  # verbatim), otherwise resetFlag(<field>). Both are protected on OnlineProgram
+  # and inherited by generated online program subclasses (RuntimeContractTest
+  # walks the declared-method hierarchy).
+  - id: bms.flag.move
+    since: 1
+    capability: BMS_MAP
+    runtimeClass: idea.onlinePrgEnv.OnlineProgram
+    runtimeMethod: moveFlag
+    paramTypes: [java.lang.String, nacaLib.varEx.Edit]
+    returns: void
+
+  - id: bms.flag.reset
+    since: 1
+    capability: BMS_MAP
+    runtimeClass: idea.onlinePrgEnv.OnlineProgram
+    runtimeMethod: resetFlag
+    paramTypes: [nacaLib.varEx.Edit]
+    returns: void

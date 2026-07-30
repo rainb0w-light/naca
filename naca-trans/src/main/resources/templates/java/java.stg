@@ -497,6 +497,19 @@ recursiveSetHighlightEntity(entity) ::= <<
 <endif><if(entity.reset)>setFieldUnhighlighted(<entity.field>) ;<endif>
 >>
 
+// BMS map-resource flag action (MOVE <val> TO <FIELD>P, lowered by
+// semantic.forms.CEntityFieldFlag.GetSpecialAssignment to a
+// semantic.forms.CEntitySetFlag statement). Mirrors the retired direct backend
+// generate.java.forms.CJavaSetFlag.DoExport exactly: a non-null flag value emits
+// moveFlag("<value>", <field>) ; with the constant quoted verbatim ("1" / "0"),
+// otherwise resetFlag(<field>) ; — the protected OnlineProgram flag calls
+// (contract operations bms.flag.move / bms.flag.reset). Reads only entity.*
+// properties; the field data reference rides in its own slot and unfolds through
+// the assembler.
+recursiveSetFlagEntity(entity) ::= <<
+<if(entity.flagValue)>moveFlag("<entity.flagValue>", <entity.field>) ;<else>resetFlag(<entity.field>) ;<endif>
+>>
+
 fileBufferEntity(entity) ::= "<entity.fileDescriptor>"
 
 emptyEntity(entity) ::= ""

@@ -695,3 +695,13 @@ templates:
       - bms.highlight.unhighlighted
       - bms.highlight.move.var
       - bms.highlight.move.attr
+
+  # BMS map-resource DSL: the flag action statement (MOVE <val> TO <FIELD>P,
+  # retired direct backend CJavaSetFlag) emits one of the protected OnlineProgram
+  # flag calls: moveFlag("<value>", <field>) (the String overload, constant
+  # quoted verbatim) for a non-null flag value, otherwise resetFlag(<field>).
+  recursiveSetFlagEntity:
+    capability: BMS_MAP
+    requires:
+      - bms.flag.move
+      - bms.flag.reset

@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 11 août 2004
+ * Created on 11 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -22,7 +22,7 @@ import utils.CObjectCatalog;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntitySetFlag extends CBaseActionEntity
+public class CEntitySetFlag extends CBaseActionEntity
 {
 
 	/**
@@ -34,7 +34,32 @@ public abstract class CEntitySetFlag extends CBaseActionEntity
 		super(line, cat);
 		refField = field ;
 	}
-	
+
+	/*
+	 * Pure read-only getters consumed by the recursive ST4 assembly contract
+	 * (semantic.forms.CEntitySetFlag -> recursiveSetFlagEntity), preserved from
+	 * the retired direct backend generate.java.forms.CJavaSetFlag whose DoExport
+	 * selected the emitted runtime call from exactly these two slots: a non-null
+	 * flag value selects moveFlag("<value>", <field>) (the protected
+	 * OnlineProgram.moveFlag(String, Edit) call, value quoted verbatim), otherwise
+	 * resetFlag(<field>) is emitted (the protected OnlineProgram.resetFlag(Edit)
+	 * call). No output protocol lives here; the getters only expose the
+	 * already-resolved semantic state and the assembler renders the child field
+	 * data reference recursively.
+	 */
+	public CDataEntity getField()
+	{
+		return refField ;
+	}
+	public String getFlagValue()
+	{
+		return flagValue ;
+	}
+	public boolean isMoveFlag()
+	{
+		return flagValue != null ;
+	}
+
 	public void SetFlag(String cs)
 	{
 		flagValue = cs ;
