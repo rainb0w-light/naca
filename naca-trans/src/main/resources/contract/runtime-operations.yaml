@@ -2938,3 +2938,47 @@ operations:
     runtimeMethod: moveCursor
     paramTypes: [nacaLib.varEx.Var, nacaLib.varEx.Edit]
     returns: void
+
+  # MOVE <attr> TO <FIELD> / MOVE 1 TO <FIELD>-L lowers through
+  # semantic.forms.CEntitySetAttribute (built by
+  # semantic.forms.CEntityFieldAttribute.intGetSpecialAssignment and
+  # semantic.forms.CEntityFieldLength.GetSpecialAssignment) to the protected
+  # OnlineProgram.moveAttribute overloads, exactly what the retired direct backend
+  # generate.java.forms.CJavaSetAttribute emitted: a moved attribute value emits
+  # moveAttribute(<value>, <field>) (the Var overload), otherwise one call per
+  # attribute group selects a nacaLib.mapSupport constant — protection
+  # (MapFieldAttrProtection), intensity (MapFieldAttrIntensity) and modified
+  # (MapFieldAttrModified). All four are protected on OnlineProgram and inherited
+  # by generated online program subclasses (RuntimeContractTest walks the
+  # declared-method hierarchy).
+  - id: bms.attribute.protection
+    since: 1
+    capability: BMS_MAP
+    runtimeClass: idea.onlinePrgEnv.OnlineProgram
+    runtimeMethod: moveAttribute
+    paramTypes: [nacaLib.mapSupport.MapFieldAttrProtection, nacaLib.varEx.Edit]
+    returns: void
+
+  - id: bms.attribute.intensity
+    since: 1
+    capability: BMS_MAP
+    runtimeClass: idea.onlinePrgEnv.OnlineProgram
+    runtimeMethod: moveAttribute
+    paramTypes: [nacaLib.mapSupport.MapFieldAttrIntensity, nacaLib.varEx.Edit]
+    returns: void
+
+  - id: bms.attribute.modified
+    since: 1
+    capability: BMS_MAP
+    runtimeClass: idea.onlinePrgEnv.OnlineProgram
+    runtimeMethod: moveAttribute
+    paramTypes: [nacaLib.mapSupport.MapFieldAttrModified, nacaLib.varEx.Edit]
+    returns: void
+
+  - id: bms.attribute.move.var
+    since: 1
+    capability: BMS_MAP
+    runtimeClass: idea.onlinePrgEnv.OnlineProgram
+    runtimeMethod: moveAttribute
+    paramTypes: [nacaLib.varEx.Var, nacaLib.varEx.Edit]
+    returns: void

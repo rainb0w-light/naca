@@ -1643,3 +1643,31 @@ features:
     runtimeOperations: [bms.cursor.set, bms.cursor.remove, bms.cursor.move.edit, bms.cursor.move.var]
     fixtures: []
     status: production
+
+  # The BMS map-field attribute action (MOVE <attr> TO <FIELD>, MOVE 1 TO
+  # <FIELD>-L). Built by semantic.forms.CEntityFieldAttribute.intGetSpecialAssignment
+  # and semantic.forms.CEntityFieldLength.GetSpecialAssignment as a pure
+  # semantic.forms.CEntitySetAttribute statement: a moved attribute value emits the
+  # single moveAttribute(<value>, <field>) and stops (legacy early return),
+  # otherwise up to three moveAttribute(<constant>, <field>) calls are emitted, one
+  # per attribute group in the legacy else-if precedence — protection
+  # (MapFieldAttrProtection), intensity (MapFieldAttrIntensity), modified
+  # (MapFieldAttrModified) — exactly what the retired direct backend
+  # generate.java.forms.CJavaSetAttribute.DoExport wrote (group precedence and
+  # " ;" spacing preserved). Statements lower through the runtime binding
+  # semantic.forms.CEntitySetAttribute -> recursiveSetAttributeEntity in the BMS
+  # forms-island manifest (semantic-runtime-bindings.properties, kept disjoint from
+  # the concrete manifest FinalArchitectureContractTest pins to the COBOL tree); the
+  # template reads only entity.* properties and the field/value data references
+  # unfold through the assembler. The emitted calls are the protected OnlineProgram
+  # moveAttribute overloads contracted as bms.attribute.protection /
+  # bms.attribute.intensity / bms.attribute.modified / bms.attribute.move.var.
+  - id: bms.attribute
+    dialects: [bms-artifact]
+    semanticType: semantic.forms.CEntitySetAttribute
+    javaBackend:
+      role: REFERENCE
+      template: recursiveSetAttributeEntity
+    runtimeOperations: [bms.attribute.protection, bms.attribute.intensity, bms.attribute.modified, bms.attribute.move.var]
+    fixtures: []
+    status: production

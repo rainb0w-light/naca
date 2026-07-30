@@ -664,3 +664,17 @@ templates:
       - bms.cursor.remove
       - bms.cursor.move.edit
       - bms.cursor.move.var
+
+  # BMS map-resource DSL: the attribute action statement (MOVE <attr> TO <FIELD>,
+  # retired direct backend CJavaSetAttribute) emits the protected OnlineProgram
+  # moveAttribute overloads: moveAttribute(<value>, <field>) for a moved attribute
+  # value (the Var overload), otherwise one call per attribute group selecting a
+  # nacaLib.mapSupport constant — protection (MapFieldAttrProtection), intensity
+  # (MapFieldAttrIntensity) and modified (MapFieldAttrModified).
+  recursiveSetAttributeEntity:
+    capability: BMS_MAP
+    requires:
+      - bms.attribute.protection
+      - bms.attribute.intensity
+      - bms.attribute.modified
+      - bms.attribute.move.var

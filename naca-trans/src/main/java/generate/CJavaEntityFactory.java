@@ -652,8 +652,20 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return e ;
 	}
 	public CEntitySetAttribute NewEntitySetAttribute(int l, CDataEntity field)	{
+		// Direct backend CJavaSetAttribute retired: the pure semantic entity is
+		// rendered by the recursive ST4 assembler (semantic.forms.CEntitySetAttribute
+		// -> recursiveSetAttributeEntity), reproducing the legacy DoExport exactly —
+		// a set attribute value emits the single moveAttribute(<value>, <field>) and
+		// stops, otherwise up to three moveAttribute(<constant>, <field>) calls are
+		// emitted, one per attribute group in the legacy else-if precedence
+		// (protection / intensity / modified; the protected OnlineProgram moveAttribute
+		// overloads contracted as bms.attribute.protection / .intensity / .modified /
+		// .move.var). CJavaEntityFactoryST inherits this wiring; the legacy output
+		// controller stays bound for the BMS traversal compatibility boundary.
 		programCatalog.addImportDeclaration("MAP") ;
-		return BmsJavaEntities.setAttribute(l, programCatalog, langOutput, field) ;
+		CEntitySetAttribute e = new CEntitySetAttribute(l, programCatalog, field) ;
+		generate.LegacyLanguageRenderer.bind(e, langOutput) ;
+		return e ;
 	}
 	public CEntityAssignWithAccessor NewEntityAssignWithAccessor(int l)	{
 		CEntityAssignWithAccessor e = new CEntityAssignWithAccessor(l, programCatalog);

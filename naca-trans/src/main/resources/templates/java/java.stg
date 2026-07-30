@@ -453,6 +453,25 @@ recursiveSetCursorEntity(entity) ::= <<
 <if(entity.moveCursor)>moveCursor(<entity.referenceValue>, <entity.field>) ;<elseif(entity.removeCursor)>removeCursor(<entity.field>) ;<else>setCursor(<entity.field>) ;<endif>
 >>
 
+// BMS map-resource attribute action (MOVE <attr> TO <FIELD>, lowered by
+// semantic.forms.CEntityFieldAttribute.intGetSpecialAssignment /
+// semantic.forms.CEntityFieldLength.GetSpecialAssignment to a
+// semantic.forms.CEntitySetAttribute statement). Mirrors the retired direct
+// backend generate.java.forms.CJavaSetAttribute.DoExport exactly: a set
+// attribute value emits the single moveAttribute(<value>, <field>) and stops
+// (legacy early return); otherwise up to three protected OnlineProgram
+// moveAttribute(<constant>, <field>) calls are emitted, one per attribute group
+// in the legacy else-if precedence — protection (MapFieldAttrProtection),
+// intensity (MapFieldAttrIntensity) and modified (MapFieldAttrModified) — each
+// constant name carried by a pure entity getter. Reads only entity.* properties;
+// the field and value data references ride in their own slots and unfold through
+// the assembler.
+recursiveSetAttributeEntity(entity) ::= <<
+<if(entity.attributeValue)>moveAttribute(<entity.attributeValue>, <entity.field>) ;<else><if(entity.protectionConstant)>moveAttribute(<entity.protectionConstant>, <entity.field>) ;
+<endif><if(entity.intensityConstant)>moveAttribute(<entity.intensityConstant>, <entity.field>) ;
+<endif><if(entity.modifiedConstant)>moveAttribute(<entity.modifiedConstant>, <entity.field>) ;<endif><endif>
+>>
+
 fileBufferEntity(entity) ::= "<entity.fileDescriptor>"
 
 emptyEntity(entity) ::= ""

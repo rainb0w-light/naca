@@ -21,7 +21,6 @@ import semantic.forms.CEntityResourceField;
 import semantic.forms.CEntityResourceFieldArray;
 import semantic.forms.CEntityResourceForm;
 import semantic.forms.CEntityResourceFormContainer;
-import semantic.forms.CEntitySetAttribute;
 import semantic.forms.CEntitySetColor;
 import semantic.forms.CEntitySetFlag;
 import semantic.forms.CEntitySetHighligh;
@@ -83,13 +82,6 @@ public final class BmsJavaEntities
 		CDataEntity field)
 	{
 		return new CJavaSetFlag(line, catalog, output, field);
-	}
-
-	public static CEntitySetAttribute setAttribute(
-		int line, CObjectCatalog catalog, CBaseLanguageExporter output,
-		CDataEntity field)
-	{
-		return new CJavaSetAttribute(line, catalog, output, field);
 	}
 
 	public static CEntityFieldData fieldData(
