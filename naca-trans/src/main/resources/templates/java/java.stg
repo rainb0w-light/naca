@@ -439,6 +439,20 @@ fieldFlagReferenceEntity(entity) ::= "<entity.reference>.getFlag()"
 
 fieldValidatedReferenceEntity(entity) ::= "<entity.reference>.getValidation()"
 
+// BMS map-resource cursor action (MOVE ... TO <FIELD>-L, lowered by
+// semantic.forms.CEntityFieldLength.GetSpecialAssignment to a
+// semantic.forms.CEntitySetCursor statement). Mirrors the retired direct
+// backend generate.java.forms.CJavaSetCursor.DoExport exactly, preserving its
+// branch precedence: a set reference value emits moveCursor(<value>, <field>),
+// the remove flag emits removeCursor(<field>), otherwise setCursor(<field>) —
+// the protected OnlineProgram cursor calls (contract operations
+// bms.cursor.move.edit / bms.cursor.move.var / bms.cursor.remove /
+// bms.cursor.set). Reads only entity.* properties; the field and value data
+// references ride in their own slots and unfold through the assembler.
+recursiveSetCursorEntity(entity) ::= <<
+<if(entity.moveCursor)>moveCursor(<entity.referenceValue>, <entity.field>) ;<elseif(entity.removeCursor)>removeCursor(<entity.field>) ;<else>setCursor(<entity.field>) ;<endif>
+>>
+
 fileBufferEntity(entity) ::= "<entity.fileDescriptor>"
 
 emptyEntity(entity) ::= ""

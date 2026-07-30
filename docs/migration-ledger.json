@@ -82,7 +82,7 @@
         ],
         "baselineCapturedAtCommit": "42d72b42",
         "bmsArchitectureCheck": {
-          "bmsDirectBackends": 28
+          "bmsDirectBackends": 27
         },
         "fpacArchitectureCheck": {
           "fpacDirectBackends": 43
@@ -5042,7 +5042,7 @@
       "expectedDebtDelta": {
         "bmsDirectBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "BMS_ARTIFACT",
       "sourceSyntax": "legacy backend CJavaSetCursor",
@@ -5056,11 +5056,12 @@
       "directBackend": "generate.java.forms.CJavaSetCursor",
       "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaSetCursor.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Phase 2 (BMS_ARTIFACT): retire this one BMS map-resource backend onto declarative bindings + the recursive-ST4 assembly contract; preserve the emitted Java (and XML/.res where present) and reduce bmsDirectBackends by one. BMS is an independent CICS screen-map DSL, never a COBOL dialect. Tier: leaf (inline attribute/condition/action).",
       "evidence": [
         "naca-trans/src/main/java/generate/java/forms/CJavaSetCursor.java"
-      ]
+      ],
+      "lastAttemptCommit": "a680780215348eaa0b0b9a1bba145f63050e1b08"
     },
     {
       "id": "BMS-BACKEND-CJAVASETATTRIBUTE",

@@ -23,7 +23,6 @@ import semantic.forms.CEntityResourceForm;
 import semantic.forms.CEntityResourceFormContainer;
 import semantic.forms.CEntitySetAttribute;
 import semantic.forms.CEntitySetColor;
-import semantic.forms.CEntitySetCursor;
 import semantic.forms.CEntitySetFlag;
 import semantic.forms.CEntitySetHighligh;
 import semantic.forms.CEntitySkipFields;
@@ -84,13 +83,6 @@ public final class BmsJavaEntities
 		CDataEntity field)
 	{
 		return new CJavaSetFlag(line, catalog, output, field);
-	}
-
-	public static CEntitySetCursor setCursor(
-		int line, CObjectCatalog catalog, CBaseLanguageExporter output,
-		CDataEntity field)
-	{
-		return new CJavaSetCursor(line, catalog, output, field);
 	}
 
 	public static CEntitySetAttribute setAttribute(

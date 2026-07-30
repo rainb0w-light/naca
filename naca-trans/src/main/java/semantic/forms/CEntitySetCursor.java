@@ -22,7 +22,7 @@ import utils.CObjectCatalog;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntitySetCursor extends CBaseActionEntity
+public class CEntitySetCursor extends CBaseActionEntity
 {
 
 	/**
@@ -34,7 +34,35 @@ public abstract class CEntitySetCursor extends CBaseActionEntity
 		super(line, cat);
 		refField = field ;
 	}
-	
+
+	/*
+	 * Pure read-only getters consumed by the recursive ST4 assembly contract
+	 * (semantic.forms.CEntitySetCursor -> recursiveSetCursorEntity), preserved
+	 * from the retired direct backend generate.java.forms.CJavaSetCursor whose
+	 * DoExport selected the emitted runtime call from exactly these three slots:
+	 * a set reference value selects moveCursor(<value>, <field>), the remove
+	 * flag selects removeCursor(<field>), otherwise setCursor(<field>) is
+	 * emitted. No output protocol lives here; the getters only expose the
+	 * already-resolved semantic state and the assembler renders the child data
+	 * references recursively.
+	 */
+	public CDataEntity getField()
+	{
+		return refField ;
+	}
+	public CDataEntity getReferenceValue()
+	{
+		return referenceValue ;
+	}
+	public boolean isMoveCursor()
+	{
+		return referenceValue != null ;
+	}
+	public boolean isRemoveCursor()
+	{
+		return isremoveCursor ;
+	}
+
 	protected CDataEntity refField = null ;
 	public void Clear()
 	{

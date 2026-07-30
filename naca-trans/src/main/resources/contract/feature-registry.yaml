@@ -1618,3 +1618,28 @@ features:
     runtimeOperations: []
     fixtures: []
     status: production
+
+  # The BMS map-field cursor action (MOVE ... TO <FIELD>-L). Built by
+  # semantic.forms.CEntityFieldLength.GetSpecialAssignment as a pure
+  # semantic.forms.CEntitySetCursor statement: a moved value emits
+  # moveCursor(<value>, <field>), MOVE -1 emits setCursor(<field>), MOVE 0/ZERO
+  # emits removeCursor(<field>) — exactly what the retired direct backend
+  # generate.java.forms.CJavaSetCursor.DoExport wrote (branch precedence and
+  # " ;" spacing preserved). Statements lower through the runtime binding
+  # semantic.forms.CEntitySetCursor -> recursiveSetCursorEntity in the BMS
+  # forms-island manifest (semantic-runtime-bindings.properties, kept disjoint
+  # from the concrete manifest FinalArchitectureContractTest pins to the COBOL
+  # tree); the template reads only entity.* properties and the field/value data
+  # references unfold through the assembler. The emitted calls are the protected
+  # OnlineProgram cursor methods contracted as bms.cursor.set / bms.cursor.remove
+  # / bms.cursor.move.edit / bms.cursor.move.var (both moveCursor overload
+  # families, selected by the rendered static type of the MOVE source).
+  - id: bms.cursor
+    dialects: [bms-artifact]
+    semanticType: semantic.forms.CEntitySetCursor
+    javaBackend:
+      role: REFERENCE
+      template: recursiveSetCursorEntity
+    runtimeOperations: [bms.cursor.set, bms.cursor.remove, bms.cursor.move.edit, bms.cursor.move.var]
+    fixtures: []
+    status: production

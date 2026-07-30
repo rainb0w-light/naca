@@ -639,7 +639,17 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return BmsJavaEntities.setFlag(l, programCatalog, langOutput, field) ;
 	}
 	public CEntitySetCursor NewEntitySetCursor(int l, CDataEntity field)	{
-		return BmsJavaEntities.setCursor(l, programCatalog, langOutput, field) ;
+		// Direct backend CJavaSetCursor retired: the pure semantic entity is
+		// rendered by the recursive ST4 assembler (semantic.forms.CEntitySetCursor
+		// -> recursiveSetCursorEntity), reproducing the legacy DoExport exactly —
+		// a set reference value emits moveCursor(<value>, <field>), the remove
+		// flag emits removeCursor(<field>), otherwise setCursor(<field>) (the
+		// OnlineProgram cursor calls contracted as bms.cursor.set/remove/move).
+		// CJavaEntityFactoryST inherits this wiring; the legacy output controller
+		// stays bound for the BMS traversal compatibility boundary.
+		CEntitySetCursor e = new CEntitySetCursor(l, programCatalog, field) ;
+		generate.LegacyLanguageRenderer.bind(e, langOutput) ;
+		return e ;
 	}
 	public CEntitySetAttribute NewEntitySetAttribute(int l, CDataEntity field)	{
 		programCatalog.addImportDeclaration("MAP") ;

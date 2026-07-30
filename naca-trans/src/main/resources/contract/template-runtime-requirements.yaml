@@ -651,3 +651,16 @@ templates:
     capability: BMS_MAP
     requires:
       - bms.flag.get
+
+  # BMS map-resource DSL: the cursor action statement (MOVE ... TO <FIELD>-L,
+  # retired direct backend CJavaSetCursor) emits one of the protected
+  # OnlineProgram cursor calls: moveCursor(<value>, <field>) for a set
+  # reference value (both runtime overload families), removeCursor(<field>)
+  # for the remove flag, otherwise setCursor(<field>).
+  recursiveSetCursorEntity:
+    capability: BMS_MAP
+    requires:
+      - bms.cursor.set
+      - bms.cursor.remove
+      - bms.cursor.move.edit
+      - bms.cursor.move.var
