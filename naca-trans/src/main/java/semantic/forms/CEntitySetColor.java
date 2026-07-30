@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 11 août 2004
+ * Created on 11 aoï¿½t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -23,7 +23,7 @@ import utils.CObjectCatalog;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntitySetColor extends CBaseActionEntity
+public class CEntitySetColor extends CBaseActionEntity
 {
 
 	/**
@@ -33,9 +33,44 @@ public abstract class CEntitySetColor extends CBaseActionEntity
 	public CEntitySetColor(int line, CObjectCatalog cat, CDataEntity field)
 	{
 		super(line, cat);
-		field = field ;
+		this.field = field ;
 	}
-	
+
+	/*
+	 * Pure read-only getters consumed by the recursive ST4 assembly contract
+	 * (semantic.forms.CEntitySetColor -> recursiveSetColorEntity), preserved from
+	 * the retired direct backend generate.java.forms.CJavaSetColor whose DoExport
+	 * selected the emitted OnlineProgram.moveColor(<color>, <field>) call from
+	 * exactly these slots, with this branch precedence: a set color constant emits
+	 * moveColor(MapFieldAttrColor.<name>, <field>), else a moved color variable
+	 * emits moveColor(<variable>, <field>), else the fall-through emits
+	 * moveColor(MapFieldAttrColor.NEUTRAL, <field>). No output protocol lives here;
+	 * the getters only expose the already-resolved semantic state (the constant
+	 * name is a static nacaLib.mapSupport.MapFieldAttrColor field reference, never
+	 * lowering) and the assembler renders the field and variable data references
+	 * recursively.
+	 */
+	public CDataEntity getField()
+	{
+		return field ;
+	}
+	public CDataEntity getColorVariable()
+	{
+		return colorVariable ;
+	}
+	public String getColorConstant()
+	{
+		if (color != null)
+		{
+			return "MapFieldAttrColor." + color.text ;
+		}
+		if (colorVariable != null)
+		{
+			return null ;
+		}
+		return "MapFieldAttrColor.NEUTRAL" ;
+	}
+
 	public void SetColor(CEntityFieldColor.CFieldColor c)
 	{
 		color = c ;
@@ -71,9 +106,9 @@ public abstract class CEntitySetColor extends CBaseActionEntity
 	}
 	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
 	{
-		if (field == field)
+		if (this.field == field)
 		{
-			field = var ;
+			this.field = var ;
 			field.UnRegisterWritingAction(this) ;
 			var.RegisterWritingAction(this) ;
 			return true ;

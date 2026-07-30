@@ -665,6 +665,19 @@ templates:
       - bms.cursor.move.edit
       - bms.cursor.move.var
 
+  # BMS map-resource DSL: the color action statement (MOVE <val> TO <FIELD>-C,
+  # retired direct backend CJavaSetColor) emits the protected OnlineProgram
+  # moveColor overloads: moveColor(MapFieldAttrColor.<name>, <field>) for a set
+  # color constant and for the NEUTRAL fall-through (the MapFieldAttrColor
+  # overload), moveColor(<variable>, <field>) for a moved color variable (the
+  # Edit/Var overload families).
+  recursiveSetColorEntity:
+    capability: BMS_MAP
+    requires:
+      - bms.color.move.attr
+      - bms.color.move.edit
+      - bms.color.move.var
+
   # BMS map-resource DSL: the attribute action statement (MOVE <attr> TO <FIELD>,
   # retired direct backend CJavaSetAttribute) emits the protected OnlineProgram
   # moveAttribute overloads: moveAttribute(<value>, <field>) for a moved attribute

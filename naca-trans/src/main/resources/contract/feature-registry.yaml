@@ -1644,6 +1644,33 @@ features:
     fixtures: []
     status: production
 
+  # The BMS map-field color action (MOVE <val> TO <FIELD>-C). Built by
+  # semantic.forms.CEntityFieldColor.GetSpecialAssignment as a pure
+  # semantic.forms.CEntitySetColor statement: a set color constant emits
+  # moveColor(MapFieldAttrColor.<name>, <field>), a moved color variable emits
+  # moveColor(<variable>, <field>), otherwise the fall-through emits
+  # moveColor(MapFieldAttrColor.NEUTRAL, <field>) — exactly what the retired direct
+  # backend generate.java.forms.CJavaSetColor.DoExport wrote (branch precedence and
+  # " ;" spacing preserved). Statements lower through the runtime binding
+  # semantic.forms.CEntitySetColor -> recursiveSetColorEntity in the BMS
+  # forms-island manifest (semantic-runtime-bindings.properties, kept disjoint
+  # from the concrete manifest FinalArchitectureContractTest pins to the COBOL
+  # tree); the template reads only entity.* properties and the field/variable data
+  # references unfold through the assembler. The emitted calls are the protected
+  # OnlineProgram moveColor overloads contracted as bms.color.move.attr (the
+  # MapFieldAttrColor constant branch) and bms.color.move.edit / bms.color.move.var
+  # (the moved-variable branch, selected by the rendered static type of the MOVE
+  # source).
+  - id: bms.color
+    dialects: [bms-artifact]
+    semanticType: semantic.forms.CEntitySetColor
+    javaBackend:
+      role: REFERENCE
+      template: recursiveSetColorEntity
+    runtimeOperations: [bms.color.move.attr, bms.color.move.edit, bms.color.move.var]
+    fixtures: []
+    status: production
+
   # The BMS map-field attribute action (MOVE <attr> TO <FIELD>, MOVE 1 TO
   # <FIELD>-L). Built by semantic.forms.CEntityFieldAttribute.intGetSpecialAssignment
   # and semantic.forms.CEntityFieldLength.GetSpecialAssignment as a pure

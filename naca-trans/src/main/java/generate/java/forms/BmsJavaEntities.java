@@ -21,7 +21,6 @@ import semantic.forms.CEntityResourceField;
 import semantic.forms.CEntityResourceFieldArray;
 import semantic.forms.CEntityResourceForm;
 import semantic.forms.CEntityResourceFormContainer;
-import semantic.forms.CEntitySetColor;
 import semantic.forms.CEntitySkipFields;
 import semantic.forms.CResourceStrings;
 import utils.CObjectCatalog;
@@ -59,13 +58,6 @@ public final class BmsJavaEntities
 		CBaseLanguageExporter output, CDataEntity owner)
 	{
 		return new CJavaFieldAttribute(line, name, catalog, output, owner);
-	}
-
-	public static CEntitySetColor setColor(
-		int line, CObjectCatalog catalog, CBaseLanguageExporter output,
-		CDataEntity field)
-	{
-		return new CJavaSetColor(line, catalog, output, field);
 	}
 
 	public static CEntityFieldData fieldData(

@@ -578,8 +578,20 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return e;
 	}
 	public CEntitySetColor NewEntitySetColor(int l, CDataEntity field)	{
+		// Direct backend CJavaSetColor retired: the pure semantic entity is
+		// rendered by the recursive ST4 assembler (semantic.forms.CEntitySetColor
+		// -> recursiveSetColorEntity), reproducing the legacy DoExport exactly —
+		// a set color constant emits moveColor(MapFieldAttrColor.<name>, <field>),
+		// a moved color variable emits moveColor(<variable>, <field>), otherwise
+		// the fall-through emits moveColor(MapFieldAttrColor.NEUTRAL, <field>) (the
+		// protected OnlineProgram moveColor overloads contracted as
+		// bms.color.move.attr / bms.color.move.edit / bms.color.move.var).
+		// CJavaEntityFactoryST inherits this wiring; the legacy output controller
+		// stays bound for the BMS traversal compatibility boundary.
 		programCatalog.addImportDeclaration("MAP") ;
-		return BmsJavaEntities.setColor(l, programCatalog, langOutput, field) ;
+		CEntitySetColor e = new CEntitySetColor(l, programCatalog, field) ;
+		generate.LegacyLanguageRenderer.bind(e, langOutput) ;
+		return e ;
 	}
 	public CEntityFieldLength NewEntityFieldLengh(int l, String name, CDataEntity field)	{
 		// Direct backend CJavaFieldLength retired: the pure semantic entity is
