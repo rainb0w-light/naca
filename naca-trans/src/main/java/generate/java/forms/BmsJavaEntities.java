@@ -134,7 +134,14 @@ public final class BmsJavaEntities
 		int line, String name, CObjectCatalog catalog,
 		CBaseLanguageExporter output, String caption)
 	{
-		return new CJavaKeyPressed(line, name, catalog, output, caption);
+		// Retired direct backend generate.java.forms.CJavaKeyPressed: the factory now
+		// builds the pure semantic entity, rendered by recursiveKeyPressedEntity
+		// (binding in semantic-runtime-bindings.properties). The exporter bind preserves
+		// the retired backend constructor's LegacyLanguageRenderer.bind side effect for
+		// the BMS traversal compatibility boundary.
+		CEntityKeyPressed entity = new CEntityKeyPressed(line, name, catalog, caption);
+		generate.LegacyLanguageRenderer.bind(entity, output);
+		return entity;
 	}
 
 	public static CEntityGetKeyPressed getKeyPressed(

@@ -439,6 +439,19 @@ fieldFlagReferenceEntity(entity) ::= "<entity.reference>.getFlag()"
 
 fieldValidatedReferenceEntity(entity) ::= "<entity.reference>.getValidation()"
 
+// BMS map-resource DSL: the CICS AID-key pseudo-variable reference (registered from
+// the keyPressed transcoder rules, retired direct backend
+// generate.java.forms.CJavaKeyPressed). Its ExportReference returned
+// "KeyPressed." + csPublicName — a static constant reference into
+// nacaLib.misc.KeyPressed (e.g. KeyPressed.PF1), not a runtime method call. Reads only
+// entity.publicName (the precomputed nacaLib.misc.KeyPressed constant name) and prepends
+// the target-specific KeyPressed. qualifier; no runtime operation is contracted (same
+// treatment as fieldValidatedReferenceEntity's legacy reference shape). Reached through
+// LegacyDataRenderer.renderReference's recursive fall-through (e.g. from the
+// CJavaIsKeyPressed condition backend) once the backend's reflective ExportReference is
+// gone.
+recursiveKeyPressedEntity(entity) ::= "KeyPressed.<entity.publicName>"
+
 // BMS map-resource cursor action (MOVE ... TO <FIELD>-L, lowered by
 // semantic.forms.CEntityFieldLength.GetSpecialAssignment to a
 // semantic.forms.CEntitySetCursor statement). Mirrors the retired direct

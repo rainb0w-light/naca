@@ -1591,6 +1591,35 @@ features:
     fixtures: []
     status: production
 
+  # The CICS AID-key pseudo-variable (registered from the keyPressed transcoder rules:
+  # keyName -> a nacaLib.misc.KeyPressed constant such as PF1/ENTER, CICSAlias -> the
+  # entity name). Reference reads lower through the runtime binding
+  # semantic.forms.CEntityKeyPressed -> recursiveKeyPressedEntity in the BMS forms-island
+  # manifest (semantic-runtime-bindings.properties, kept disjoint from the concrete
+  # manifest FinalArchitectureContractTest pins to the COBOL tree), emitting
+  # KeyPressed.<constant name> exactly as the retired direct backend
+  # generate.java.forms.CJavaKeyPressed.ExportReference did. The emission is a static
+  # constant reference into nacaLib.misc.KeyPressed (import nacaLib.misc.KeyPressed; is
+  # surfaced through CEntityClass.isKeyPressed() in the program root template), not a
+  # runtime method call, so — same treatment as bms.field.validated's legacy reference
+  # shape — this feature carries no Codegen-Runtime Contract operation: no
+  # runtime-operations.yaml / template-runtime-requirements.yaml entry is declared or
+  # required. The retired backend's HasAccessors()/isValNeeded() returned false and its
+  # ExportWriteAccessorTo returned null (a console key is a pseudo-constant reference,
+  # never a declared val nor an accessor-bearing variable), so its write-accessor protocol
+  # had no live consumer (LegacyDataRenderer.renderWriteAccessor is only reached from the
+  # FPac accessor backend, whose factory throws NacaTransAssertException for this entity)
+  # and retired without a replacement.
+  - id: bms.keyPressed.reference
+    dialects: [bms-artifact]
+    semanticType: semantic.forms.CEntityKeyPressed
+    javaBackend:
+      role: REFERENCE
+      template: recursiveKeyPressedEntity
+    runtimeOperations: []
+    fixtures: []
+    status: production
+
   # The BMS map-field array reference (an indexed read of an OCCURS-style map
   # field, built by semantic.forms.CEntityFieldRedefine.GetArrayReference and by
   # the pure semantic node's own GetSpecialCondition). Reference reads lower
