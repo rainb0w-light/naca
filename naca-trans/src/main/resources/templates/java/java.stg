@@ -553,6 +553,31 @@ recursiveFormEntity(entity) ::= "<entity.formReference>"
 // traversal rather than the assembler's REFERENCE role.
 recursiveFormDeclarationEntity(entity) ::= "Form <entity.formattedName> = declare.form(\"<entity.formattedResourceName>\", <entity.sizeLine>, <entity.sizeCol>) ;"
 
+// BMS map-resource DSL: a reference to a screen-map mapset root (a CICS MAPSET container, retired
+// direct backend generate.java.forms.CJavaFormContainer). Its ExportReference returned
+// formatIdentifier(GetName()) — the target-formatted mapset name. Reads only entity.containerReference
+// (the precomputed reference the pure entity computes over the precomputed name through the injected
+// target-specific formatter); reached through LegacyDataRenderer.renderReference's recursive
+// fall-through once the backend's reflective ExportReference is gone (a semantic-declared
+// ExportReference is ignored there). This is the forms-island binding for
+// semantic.forms.CEntityResourceFormContainer (REFERENCE role).
+recursiveFormContainerEntity(entity) ::= "<entity.containerReference>"
+
+// BMS map-resource DSL: the class-header declaration line of a screen-map mapset root (retired direct
+// backend generate.java.forms.CJavaFormContainer). Mirrors its DoExport's class header exactly:
+// class <name> extends Map { — opening the mapset class that the surrounding imports / Copy methods /
+// constructor / map block flesh out. Reads only entity.mapClassName — the RAW GetName(), which the
+// retired backend used for the class name WITHOUT formatting (only GetTypeDecl applies '-' -> '_');
+// preserving the emitted Java byte-for-byte. The imports, the two Copy factory methods, the
+// constructor, and the class-body { ... } map block are emitted by the generate-layer bridge
+// (BmsJavaEntities.renderFormContainerDeclaration), which drives the legacy invokeExport traversal over
+// entity.getForms() (the mapset's maps live in arrForm, not the generic child list); this template is
+// invoked by that bridge (assembler.template(...)), not by a manifest binding, because the mapset is
+// reached as the BMS transcoder's root rather than the assembler's REFERENCE role. NOTE: the BMS
+// XML/.res artifact (MakeXMLOutput) reads the neutral getFormattedName(), NOT this — the target-specific
+// formatter never touches the artifact name.
+recursiveFormContainerDeclarationEntity(entity) ::= "class <entity.mapClassName> extends Map {"
+
 // BMS map-resource DSL: a reference to a screen-map MAPREDEFINE (a re-view over an existing
 // screen form, retired direct backend generate.java.forms.CJavaFormRedefine). Its
 // ExportReference returned formatIdentifier(GetName()) — the target-formatted form redefine

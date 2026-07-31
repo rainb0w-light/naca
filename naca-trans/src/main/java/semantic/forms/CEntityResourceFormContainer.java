@@ -17,6 +17,8 @@ import java.util.Comparator;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.Vector;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -37,12 +39,61 @@ import utils.CRulesManager;
 import utils.Transcoder;
 
 /**
- * @author sly
+ * BMS map-resource DSL: a screen-map <em>mapset</em> root (a CICS mapset container), lowered from a
+ * BMS {@code .bms} {@code MAPSET} definition ({@code parser/map_elements/CMapSetElement} -&gt;
+ * {@code factory.NewEntityFormContainer(line, name, save)}). A mapset is the top-level artifact: it
+ * emits a whole {@code class <name> extends Map} skeleton (imports, two {@code Copy} factory methods,
+ * a constructor) and then unfolds its maps ({@link CEntityResourceForm}) inside the class body.
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
+ * <p>De-abstracted when the direct backend {@code generate.java.forms.CJavaFormContainer} was retired
+ * onto the recursive ST4 assembly contract. The backend's live output protocols are preserved
+ * target-neutrally here:
+ * <ul>
+ *   <li><b>data reference</b> — {@code ExportReference(nLine) == formatIdentifier(GetName())}. A
+ *       reference to the mapset now renders through the BMS forms-island binding
+ *       {@code semantic.forms.CEntityResourceFormContainer -> recursiveFormContainerEntity}, whose
+ *       template reads only {@code entity.containerReference} (the target-formatted mapset name).
+ *       {@code LegacyDataRenderer.renderReference} ignores a semantic-declared {@code ExportReference}
+ *       and falls through to that binding, reproducing the backend's reference exactly.</li>
+ *   <li><b>class skeleton</b> — {@code DoExport} emitted the mapset class (imports, {@code class
+ *       <name> extends Map {}, the two {@code Copy} methods, the constructor) and then traversed
+ *       {@code arrForm} via {@code invokeExport}. The class-header declaration LINE now renders
+ *       declaratively through the {@code recursiveFormContainerDeclarationEntity} template (reading
+ *       only {@code entity.mapClassName}); the surrounding imports / {@code Copy} methods /
+ *       constructor / {@code { ... }} map block are driven by the generate-layer factory bridge
+ *       {@code BmsJavaEntities.renderFormContainerDeclaration}, which iterates {@link #getForms()}
+ *       (the production map collection populated via {@link #AddForm}, not the generic child list)
+ *       through {@code invokeExport} — exactly the {@code arrForm} traversal the retired backend
+ *       performed.</li>
+ * </ul>
+ *
+ * <p><b>The BMS XML/.res artifact stays target-neutral.</b> {@link #MakeXMLOutput} reads the
+ * <em>neutral</em> {@code CBaseLanguageEntity.getFormattedName()} (displayName / {@code '-'->'_'} /
+ * {@code '#'->'$'}), exactly as it did before this retirement — the retired backend never overrode
+ * {@code getFormattedName()}, so this entity deliberately does NOT override it either. The
+ * target-specific identifier formatting the ST4 reference/declaration getters need is supplied by the
+ * generate-layer factory through an injected {@link Function} (standing in for
+ * {@code LegacyLanguageRenderer.formatIdentifier}) and is consumed only by {@link #getContainerReference}
+ * and {@link #getMapClassName}; it never touches the XML/.res name.
+ *
+ * <p>This tree names no {@code generate.*} class, so the dependency arrow stays generate -&gt;
+ * semantic. The generate-layer rendering the retired backend performed inline is supplied by the
+ * generate-layer factory ({@code generate.java.forms.BmsJavaEntities.formContainer}): a neutral
+ * identifier {@link Function} and a {@link Consumer} that renders the class skeleton through the
+ * recursive assembler and drives the map block. A hand-built entity (no factory) defaults to the
+ * neutral identifier normalization and a no-op skeleton renderer, so it stays well-formed and never
+ * fails.
+ *
+ * <p>The retired backend's data-entity protocols are preserved exactly: a mapset bears {@code FORM}
+ * data type, needs no {@code val} ({@code isValNeeded() == false}), bears no accessors
+ * ({@code HasAccessors() == false}), has no reachable write-accessor protocol
+ * ({@code ExportWriteAccessorTo -> ""}, unused), is needed as an in-class declaration
+ * ({@code IsNeedDeclarationInClass() == true}), and contributes the mapset type declaration
+ * ({@code GetTypeDecl -> [owner.GetTypeDecl() + "."] + GetName().replace('-','_')}).
+ *
+ * @author sly
  */
-public abstract class CEntityResourceFormContainer extends CBaseResourceEntity
+public class CEntityResourceFormContainer extends CBaseResourceEntity
 {
 	protected boolean bSaveCopy = false ;
 	/**
@@ -446,4 +497,158 @@ public abstract class CEntityResourceFormContainer extends CBaseResourceEntity
 		super.SetDisplayName(name);
 	}
 
+	/**
+	 * Read-only snapshot of this mapset's maps, in definition order. Consumed by the generate-layer
+	 * skeleton bridge ({@code BmsJavaEntities.renderFormContainerDeclaration}) to drive the class-body
+	 * {@code { ... }} block over the still-direct/still-semantic BMS map backends — exactly the
+	 * {@code arrForm} traversal the retired {@code CJavaFormContainer.DoExport} performed via
+	 * {@code invokeExport(eForm)}. The mapset's maps live in {@code arrForm} (populated via
+	 * {@link #AddForm}), not in the generic child list, so this list — not {@code exportChildren} — is
+	 * the production map collection. A fresh copy is returned so the semantic tree's internal state
+	 * cannot be mutated through it.
+	 */
+	public java.util.List<CEntityResourceForm> getForms()
+	{
+		return new java.util.ArrayList<>(arrForm) ;
+	}
+
+	// ---------------------------------------------------------------------------------------------
+	// Retired direct backend generate.java.forms.CJavaFormContainer: the output protocols below were
+	// moved out of the generate layer onto this pure semantic entity when the backend was retired onto
+	// the recursive ST4 assembly contract. They read only precomputed state; the two generate-layer
+	// operations the backend performed inline (identifier formatting and the class-skeleton rendering)
+	// are injected by the generate-layer factory (BmsJavaEntities.formContainer), so this tree names no
+	// generate.* class. NOTE: getFormattedName() is deliberately NOT overridden — MakeXMLOutput (the
+	// BMS XML/.res artifact) keeps the neutral CBaseLanguageEntity normalization, exactly as it did
+	// before this retirement (the retired backend never overrode it either).
+	// ---------------------------------------------------------------------------------------------
+
+	/* (non-Javadoc)
+	 * @see semantic.CBaseDataEntity#GetDataType()
+	 */
+	public CDataEntityType GetDataType()
+	{
+		// Preserved from the retired backend: a mapset bears the FORM data type.
+		return CDataEntityType.FORM ;
+	}
+
+	public boolean HasAccessors()
+	{
+		// Preserved from the retired backend: a mapset bears no accessors.
+		return false;
+	}
+
+	public boolean isValNeeded()
+	{
+		// Preserved from the retired backend: a mapset is never declared as a val.
+		return false;
+	}
+
+	public String ExportWriteAccessorTo(String value)
+	{
+		// Preserved from the retired backend: no reachable write-accessor protocol (the legacy
+		// backend returned "" — unused). LegacyDataRenderer.renderWriteAccessor ignores this
+		// semantic-declared method (declaring class starts with "semantic.") and returns null.
+		return "" ;
+	}
+
+	public boolean IsNeedDeclarationInClass()
+	{
+		// Preserved from the retired backend: a mapset is needed as an in-class declaration.
+		return true ;
+	}
+
+	/* (non-Javadoc)
+	 * @see semantic.CBaseExternalEntity#GetTypeDecl()
+	 */
+	public String GetTypeDecl()
+	{
+		// Preserved from the retired backend: these are class names, not identifiers, so DO NOT FORMAT
+		// like other identifiers — only '-' -> '_'. Qualified by the owner's type declaration when set.
+		if (owner != null)
+		{
+			return owner.GetTypeDecl() + "." + GetName().replace('-', '_');
+		}
+		else
+		{
+			return GetName().replace('-', '_');
+		}
+	}
+
+	public String ExportReference(int nLine)
+	{
+		// Mirrors the retired backend's formatIdentifier(GetName()). LegacyDataRenderer ignores this
+		// semantic-declared ExportReference and renders the reference through the
+		// recursiveFormContainerEntity binding instead; this override stays for direct callers and
+		// reads only the precomputed, target-formatted reference.
+		return getContainerReference() ;
+	}
+
+	protected void DoExport()
+	{
+		// Legacy traversal bridge: the BMS transcoder reaches the mapset root through
+		// LegacyLanguageRenderer.invokeExport. The class skeleton (imports, class header, Copy methods,
+		// constructor) and the map block are rendered through the recursive ST4 assembly contract by
+		// the generate-layer renderer the factory injects; a hand-built entity (no factory) is a no-op
+		// and never fails.
+		containerRenderer.accept(this) ;
+	}
+
+	/**
+	 * Target-neutral identifier formatter standing in for the retired backend's
+	 * {@code LegacyLanguageRenderer.formatIdentifier}. Installed by the generate-layer factory
+	 * ({@code BmsJavaEntities.formContainer} injects the bound output's {@code FormatIdentifier});
+	 * defaults to the neutral legacy fallback so a directly constructed entity stays well-formed. A
+	 * pure injected value — no {@code generate.*} coupling lives in this tree. Consumed ONLY by the
+	 * Java-reference/declaration getters below; {@link #MakeXMLOutput} never uses it (it keeps the
+	 * neutral {@code getFormattedName()}).
+	 */
+	private Function<String, String> identifierFormatter =
+		identifier -> identifier.replace('-', '_').replace('#', '$');
+
+	public void setIdentifierFormatter(Function<String, String> formatter)
+	{
+		if (formatter != null)
+		{
+			identifierFormatter = formatter ;
+		}
+	}
+
+	/**
+	 * Pure read-only getter consumed by the {@code recursiveFormContainerEntity} reference binding:
+	 * the target-formatted mapset name. Mirrors the retired backend's {@code ExportReference ==
+	 * formatIdentifier(GetName())}. A pure formatting step over a precomputed name through the injected
+	 * formatter — no data-reference resolution, no lowering.
+	 */
+	public String getContainerReference()
+	{
+		return identifierFormatter.apply(GetName()) ;
+	}
+
+	/**
+	 * Pure read-only getter consumed by the {@code recursiveFormContainerDeclarationEntity} template
+	 * and by the generate-layer skeleton bridge: the mapset's Java class name. The retired backend's
+	 * {@code DoExport} used the RAW {@code GetName()} for the class name (it did NOT format it — only
+	 * {@code GetTypeDecl} applies {@code '-' -> '_'}), so this returns the raw name to preserve the
+	 * emitted Java byte-for-byte. A plain field read.
+	 */
+	public String getMapClassName()
+	{
+		return GetName() ;
+	}
+
+	/**
+	 * Generate-layer class-skeleton renderer (the retired backend's {@code DoExport} body, moved out of
+	 * the semantic tree). Invoked from {@link #DoExport()} when the BMS transcoder reaches this mapset
+	 * root. Defaults to a no-op so a hand-built entity stays well-formed.
+	 */
+	private Consumer<CEntityResourceFormContainer> containerRenderer = entity -> {};
+
+	public void setContainerRenderer(Consumer<CEntityResourceFormContainer> renderer)
+	{
+		if (renderer != null)
+		{
+			containerRenderer = renderer ;
+		}
+	}
 }

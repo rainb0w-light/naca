@@ -1747,6 +1747,43 @@ features:
     fixtures: []
     status: production
 
+  # The BMS map-resource mapset root (a CICS MAPSET container — the top-level
+  # screen-map artifact, lowered from a BMS .bms MAPSET definition by
+  # parser/map_elements/CMapSetElement -> factory.NewEntityFormContainer). Retired
+  # direct backend generate.java.forms.CJavaFormContainer. Its data-reference
+  # protocol (ExportReference == formatIdentifier(GetName())) renders through the
+  # forms-island binding semantic.forms.CEntityResourceFormContainer ->
+  # recursiveFormContainerEntity (REFERENCE role, the template named below); its
+  # class skeleton (imports, "class <name> extends Map {", the two Copy factory
+  # methods, the constructor) and its class-body map block render through the
+  # recursiveFormContainerDeclarationEntity template (the class-header line, reading
+  # only entity.mapClassName — the RAW GetName() the retired backend used for the
+  # class name without formatting) invoked by the generate-layer factory bridge
+  # BmsJavaEntities.renderFormContainerDeclaration, which drives the { ... } block
+  # over entity.getForms() through the legacy invokeExport traversal (the maps live
+  # in arrForm, populated via AddForm, not the generic child list). The mapset class
+  # extends nacaLib.mapSupport.Map and its Copy methods take nacaLib.program.BaseProgram
+  # / CopyReplacing — these were already emitted uncontracted by the retired backend,
+  # so — same treatment as bms.form / bms.form.redefine — this feature carries no
+  # Codegen-Runtime Contract operation: no runtime-operations.yaml /
+  # template-runtime-requirements.yaml entry is declared or required. The retirement
+  # deliberately does NOT override getFormattedName(): the BMS XML/.res artifact
+  # (MakeXMLOutput) keeps the neutral CBaseLanguageEntity normalization exactly as
+  # before (the retired backend never overrode it either); the injected target-specific
+  # formatter is consumed only by the Java reference/declaration getters. The retired
+  # backend's HasAccessors() returned false, isValNeeded() returned false,
+  # ExportWriteAccessorTo returned "" (unused), IsNeedDeclarationInClass returned true,
+  # and GetTypeDecl returned [owner.GetTypeDecl() + "."] + GetName().replace('-','_').
+  - id: bms.form.container
+    dialects: [bms-artifact]
+    semanticType: semantic.forms.CEntityResourceFormContainer
+    javaBackend:
+      role: REFERENCE
+      template: recursiveFormContainerEntity
+    runtimeOperations: []
+    fixtures: []
+    status: production
+
   # The BMS map-resource form redefine (a CICS MAPREDEFINE — a re-view over an
   # existing screen form, lowered from a BMS MAP/MAPREDEFINE working-storage
   # structure by parser/Cobol/elements/CWorkingEntry.DoSemanticAnalysisForMapRedefine

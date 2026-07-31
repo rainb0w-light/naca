@@ -41,7 +41,85 @@ public final class BmsJavaEntities
 		int line, String name, CObjectCatalog catalog,
 		CBaseLanguageExporter output, boolean save)
 	{
-		return new CJavaFormContainer(line, name, catalog, output, save);
+		// Retired direct backend generate.java.forms.CJavaFormContainer: the factory now builds the
+		// pure semantic entity. Its data-reference protocol renders through the
+		// recursiveFormContainerEntity binding (semantic-runtime-bindings.properties); its class
+		// skeleton (imports, "class <name> extends Map {", the two Copy methods, the constructor) and
+		// the map block render through the recursiveFormContainerDeclarationEntity template + the
+		// skeleton renderer injected below (the retired backend's DoExport body, relocated to this
+		// generate-layer boundary so the semantic tree names no generate.* class). The exporter bind
+		// preserves the retired backend constructor's LegacyLanguageRenderer.bind side effect for the
+		// BMS traversal boundary; the injected identifier formatter stands in for
+		// LegacyLanguageRenderer.formatIdentifier and is consumed ONLY by the Java reference getter —
+		// the BMS XML/.res artifact (MakeXMLOutput) keeps the neutral getFormattedName() normalization,
+		// exactly as before this retirement.
+		CEntityResourceFormContainer entity =
+			new CEntityResourceFormContainer(line, name, catalog, save);
+		generate.LegacyLanguageRenderer.bind(entity, output);
+		entity.setIdentifierFormatter(identifier -> output.FormatIdentifier(identifier));
+		entity.setContainerRenderer(BmsJavaEntities::renderFormContainerDeclaration);
+		return entity;
+	}
+
+	/**
+	 * The retired {@code CJavaFormContainer.DoExport} body, relocated to this generate-layer boundary.
+	 * Reproduces the legacy mapset class skeleton byte-for-byte: the imports, the
+	 * {@code class <name> extends Map { } header (rendered declaratively through the recursive ST4
+	 * assembly contract {@code recursiveFormContainerDeclarationEntity}, reading only
+	 * {@code entity.mapClassName} — the RAW {@code GetName()}, which the retired backend used for the
+	 * class name without formatting), the two {@code Copy} factory methods and the constructor (fixed
+	 * boilerplate over the raw class name), then the class-body {@code { ... }} block driven over
+	 * {@code entity.getForms()} via the legacy {@code invokeExport} traversal — exactly the
+	 * {@code arrForm} collection the retired backend iterated (the maps live in {@code arrForm},
+	 * populated via {@code AddForm}, not the generic child list). The maps keep rendering through
+	 * their own ST4 bindings/backends.
+	 */
+	private static void renderFormContainerDeclaration(CEntityResourceFormContainer entity)
+	{
+		generate.LegacyLanguageRenderer.writeEol(entity);
+		generate.LegacyLanguageRenderer.writeLine(entity, "import nacaLib.mapSupport.* ;");
+		generate.LegacyLanguageRenderer.writeLine(entity, "import nacaLib.varEx.* ;");
+		generate.LegacyLanguageRenderer.writeLine(entity, "import nacaLib.program.* ;");
+		generate.LegacyLanguageRenderer.writeLine(entity, "import nacaLib.basePrgEnv.* ;");
+		generate.LegacyLanguageRenderer.writeEol(entity);
+		String header = generate.templates.TemplateLoader.getRecursiveAssembler()
+			.template("recursiveFormContainerDeclarationEntity")
+			.add("entity", entity)
+			.render();
+		generate.LegacyLanguageRenderer.writeLine(entity, header);
+		generate.LegacyLanguageRenderer.startBlock(entity);
+
+		String name = entity.getMapClassName();
+		generate.LegacyLanguageRenderer.writeLine(entity, "static "+name+" Copy(BaseProgram program) {");
+		generate.LegacyLanguageRenderer.startBlock(entity);
+		generate.LegacyLanguageRenderer.writeLine(entity, "return new "+name+"(program);");
+		generate.LegacyLanguageRenderer.endBlock(entity);
+		generate.LegacyLanguageRenderer.writeLine(entity, "}");
+
+		generate.LegacyLanguageRenderer.writeLine(entity, "static "+name+" Copy(BaseProgram program, CopyReplacing rep)  {");
+		generate.LegacyLanguageRenderer.startBlock(entity);
+		generate.LegacyLanguageRenderer.writeLine(entity, "Assert(\"Unimplemented replacing for MAPs\") ;");
+		generate.LegacyLanguageRenderer.writeLine(entity, "return null ;");
+		generate.LegacyLanguageRenderer.endBlock(entity);
+		generate.LegacyLanguageRenderer.writeLine(entity, "}");
+
+		generate.LegacyLanguageRenderer.writeLine(entity, ""+name+"(BaseProgram program) {");
+		generate.LegacyLanguageRenderer.startBlock(entity);
+		generate.LegacyLanguageRenderer.writeLine(entity, "super(program);");
+		generate.LegacyLanguageRenderer.endBlock(entity);
+		generate.LegacyLanguageRenderer.writeLine(entity, "}");
+		generate.LegacyLanguageRenderer.writeLine(entity, "");
+
+		for (semantic.forms.CEntityResourceForm form : entity.getForms())
+		{
+			generate.LegacyLanguageRenderer.invokeExport(form);
+		}
+		generate.LegacyLanguageRenderer.writeLine(entity, "");
+
+		generate.LegacyLanguageRenderer.endBlock(entity);
+		generate.LegacyLanguageRenderer.writeLine(entity, "}");
+		generate.LegacyLanguageRenderer.writeLine(entity, "");
+		generate.LegacyLanguageRenderer.writeLine(entity, "");
 	}
 
 	public static CEntityResourceForm form(
