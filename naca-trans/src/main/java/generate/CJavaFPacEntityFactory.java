@@ -544,7 +544,12 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityExprSum NewEntityExprSum()
 	{
-		return new CFPacExprSum() ;
+		// FPac shares the target-neutral semantic expression model: a sum is a pure
+		// CEntityExprSum whose operands are precomputed by the parser. Rendering goes
+		// through the recursive ST4 assembler (recursiveExprSumEntity) via the
+		// LegacyDataRenderer bridge; the retired CFPacExprSum backend only carried a
+		// dead Export() override that no production path ever invoked.
+		return new CEntityExprSum() ;
 	}
 
 	@Override
