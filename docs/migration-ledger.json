@@ -82,7 +82,7 @@
         ],
         "baselineCapturedAtCommit": "42d72b42",
         "bmsArchitectureCheck": {
-          "bmsDirectBackends": 6
+          "bmsDirectBackends": 5
         },
         "fpacArchitectureCheck": {
           "fpacDirectBackends": 43
@@ -5780,7 +5780,7 @@
       "expectedDebtDelta": {
         "bmsDirectBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "BMS_ARTIFACT",
       "sourceSyntax": "legacy backend CJavaGetKeyPressed",
@@ -5794,11 +5794,12 @@
       "directBackend": "generate.java.forms.CJavaGetKeyPressed",
       "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaGetKeyPressed.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Phase 2 (BMS_ARTIFACT): retire this one BMS map-resource backend onto declarative bindings + the recursive-ST4 assembly contract; preserve the emitted Java (and XML/.res where present) and reduce bmsDirectBackends by one. BMS is an independent CICS screen-map DSL, never a COBOL dialect. Tier: dead wiring. Factory-wired but currently dead wiring (no live caller); delete together with the pipeline.",
       "evidence": [
         "naca-trans/src/main/java/generate/java/forms/CJavaGetKeyPressed.java"
-      ]
+      ],
+      "lastAttemptCommit": "dcad079550fe751fdb8e12ae7b82ff4e8f455b24"
     },
     {
       "id": "BMS-BACKEND-CJAVAISKEYPRESSED",

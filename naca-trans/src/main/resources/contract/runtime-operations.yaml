@@ -2895,6 +2895,24 @@ operations:
     paramTypes: []
     returns: java.lang.String
 
+  # Reading the get-key-pressed pseudo-variable (the AID-key state of the last map I/O)
+  # as a value lowers to the protected BaseProgram.getKeyPressed() call, exactly what the
+  # retired direct backend generate.java.forms.CJavaGetKeyPressed emitted in
+  # ExportReference ("getKeyPressed()"). The method is protected on BaseProgram and
+  # inherited by generated program subclasses (RuntimeContractTest walks the
+  # declared-method hierarchy). Returns the nacaLib.misc.KeyPressed AID-key value. The
+  # reference is dead wiring in production (every real use of the pseudo-variable lowers
+  # through CEntityGetKeyPressed.GetSpecialCondition/GetSpecialAssignment into
+  # CEntityIsKeyPressed/CEntityResetKeyPressed), but the call is contracted so the
+  # recursiveGetKeyPressedEntity template emits only a declared runtime operation.
+  - id: bms.keyPressed.get
+    since: 1
+    capability: BMS_MAP
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: getKeyPressed
+    paramTypes: []
+    returns: nacaLib.misc.KeyPressed
+
   # MOVE ... TO <FIELD>-L lowers through semantic.forms.CEntitySetCursor (built
   # by semantic.forms.CEntityFieldLength.GetSpecialAssignment) to the protected
   # OnlineProgram cursor calls, exactly what the retired direct backend

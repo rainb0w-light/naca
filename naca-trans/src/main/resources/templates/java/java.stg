@@ -452,6 +452,22 @@ fieldValidatedReferenceEntity(entity) ::= "<entity.reference>.getValidation()"
 // gone.
 recursiveKeyPressedEntity(entity) ::= "KeyPressed.<entity.publicName>"
 
+// BMS map-resource DSL: the CICS get-key-pressed pseudo-variable reference (retired
+// direct backend generate.java.forms.CJavaGetKeyPressed). Its ExportReference returned
+// "getKeyPressed()" — a no-argument call on the program (protected
+// BaseProgram.getKeyPressed(), inherited by generated program subclasses), not a static
+// constant. Emits the bare getKeyPressed() call exactly as the retired backend did.
+// Contracted as runtime operation bms.keyPressed.get (runtime-operations.yaml) and
+// required by this template (template-runtime-requirements.yaml). Reached through
+// LegacyDataRenderer.renderReference's recursive fall-through once the backend's
+// reflective ExportReference is gone. The reference is dead wiring in production (every
+// real use of the pseudo-variable lowers through GetSpecialCondition/GetSpecialAssignment
+// into CEntityIsKeyPressed/CEntityResetKeyPressed), so it has no live caller; the
+// backend's setKeyPressed(<value>) write accessor retired without a replacement
+// (LegacyDataRenderer.renderWriteAccessor is only reached from the FPac accessor backend,
+// whose factory throws for this BMS-only entity).
+recursiveGetKeyPressedEntity(entity) ::= "getKeyPressed()"
+
 // BMS map-resource DSL: a reference to a screen-map OCCURS group field (retired direct
 // backend generate.java.forms.CJavaFieldOccurs). Its ExportReference returned
 // formatIdentifier(GetName()) — the target-formatted group name. Reads only

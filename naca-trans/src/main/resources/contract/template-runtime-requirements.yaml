@@ -652,6 +652,18 @@ templates:
     requires:
       - bms.flag.get
 
+  # BMS map-resource DSL: the get-key-pressed pseudo-variable reference (retired
+  # direct backend CJavaGetKeyPressed) emits the bare no-argument getKeyPressed()
+  # program call, resolved by BaseProgram.getKeyPressed(). The reference is dead
+  # wiring in production (every real use lowers through
+  # CEntityGetKeyPressed.GetSpecialCondition/GetSpecialAssignment into
+  # CEntityIsKeyPressed/CEntityResetKeyPressed), but the call is declared so the
+  # template emits only a contracted runtime operation.
+  recursiveGetKeyPressedEntity:
+    capability: BMS_MAP
+    requires:
+      - bms.keyPressed.get
+
   # BMS map-resource DSL: the cursor action statement (MOVE ... TO <FIELD>-L,
   # retired direct backend CJavaSetCursor) emits one of the protected
   # OnlineProgram cursor calls: moveCursor(<value>, <field>) for a set

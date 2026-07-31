@@ -23,12 +23,51 @@ import semantic.expression.CBaseEntityCondition.EConditionType;
 
 
 /**
- * @author U930CV
+ * BMS map-resource DSL: the CICS get-key-pressed pseudo-variable (the AID-key state of the
+ * last map I/O). It is the semantic source of two lowerings, both pure semantic analysis that
+ * build OTHER entities:
+ * <ul>
+ *   <li>a comparison against a console key ({@link #GetSpecialCondition}) lowers to a
+ *       {@link CEntityIsKeyPressed} condition ({@code isKeyPressed}/{@code isNotKeyPressed});</li>
+ *   <li>an assignment of {@code SPACE} ({@link #GetSpecialAssignment}) lowers to a
+ *       {@link CEntityResetKeyPressed} action ({@code resetKeyPressed();}).</li>
+ * </ul>
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
+ * <p>De-abstracted when the direct backend {@code generate.java.forms.CJavaGetKeyPressed}
+ * was retired onto the recursive ST4 assembly contract. The backend carried two output
+ * protocols, both preserved target-neutrally:
+ * <ul>
+ *   <li><b>data reference</b> — {@code ExportReference(nLine) == "getKeyPressed()"}, a
+ *       no-argument call on the program (protected {@code BaseProgram.getKeyPressed()},
+ *       inherited by generated program subclasses). That reference now renders through the BMS
+ *       forms-island binding {@code semantic.forms.CEntityGetKeyPressed ->
+ *       recursiveGetKeyPressedEntity}; the template emits the bare {@code getKeyPressed()} call.
+ *       {@code LegacyDataRenderer.renderReference} finds no {@code generate.*}
+ *       {@code ExportReference} on this semantic type and falls through to that binding,
+ *       reproducing the backend's reference exactly. The runtime call is contracted as
+ *       {@code bms.keyPressed.get} (runtime-operations.yaml) and required by the template
+ *       (template-runtime-requirements.yaml).</li>
+ *   <li><b>write accessor</b> — {@code ExportWriteAccessorTo(value) == "setKeyPressed("+value+") ;"}.
+ *       This protocol had no live consumer: {@code LegacyDataRenderer.renderWriteAccessor} is only
+ *       reached from the FPac accessor backend, whose factory throws {@code NacaTransAssertException}
+ *       for this BMS-only entity, so no FPac tree ever holds it. With the {@code generate.*}
+ *       override gone the reflective lookup finds no method and returns null — the protocol retired
+ *       without a replacement (same treatment as {@code bms.keyPressed.reference}).</li>
+ * </ul>
+ *
+ * <p>The reference/write-accessor protocols are dead wiring in production: every real use of the
+ * pseudo-variable flows through {@link #GetSpecialCondition}/{@link #GetSpecialAssignment} into the
+ * {@code CEntityIsKeyPressed}/{@code CEntityResetKeyPressed} entities above, so the
+ * {@code getKeyPressed()} reference is preserved for completeness but has no live caller. This tree
+ * names no {@code generate.*} class, so the dependency arrow stays generate -&gt; semantic.
+ *
+ * <p>The retired backend's data-entity protocols are preserved exactly: it forced
+ * {@code isValNeeded() == false} (the pseudo-variable is never declared as a {@code val}) and
+ * inherited {@code HasAccessors() == true} / {@code ignore() == false} / {@code GetConstantValue() == ""}.
+ *
+ * @author U930CV
  */
-public abstract class CEntityGetKeyPressed extends CDataEntity
+public class CEntityGetKeyPressed extends CDataEntity
 {
 	/**
 	 * @param l
@@ -48,6 +87,12 @@ public abstract class CEntityGetKeyPressed extends CDataEntity
 	public boolean HasAccessors()
 	{
 		return true;
+	}
+	public boolean isValNeeded()
+	{
+		// Preserved from the retired backend generate.java.forms.CJavaGetKeyPressed: the
+		// get-key-pressed pseudo-variable is never declared as a val.
+		return false;
 	}
 	protected void DoExport()
 	{

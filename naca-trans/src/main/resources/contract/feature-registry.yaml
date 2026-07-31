@@ -1620,6 +1620,34 @@ features:
     fixtures: []
     status: production
 
+  # The CICS get-key-pressed pseudo-variable (the AID-key state of the last map I/O). Its
+  # value reference lowers through the runtime binding
+  # semantic.forms.CEntityGetKeyPressed -> recursiveGetKeyPressedEntity in the BMS
+  # forms-island manifest (semantic-runtime-bindings.properties, kept disjoint from the
+  # concrete manifest FinalArchitectureContractTest pins to the COBOL tree), emitting the
+  # bare no-argument getKeyPressed() program call exactly as the retired direct backend
+  # generate.java.forms.CJavaGetKeyPressed.ExportReference did. Unlike the static-constant
+  # bms.keyPressed.reference, this is a runtime method call (protected
+  # BaseProgram.getKeyPressed(), inherited by generated program subclasses), so it carries
+  # the Codegen-Runtime Contract operation bms.keyPressed.get. The reference is dead wiring
+  # in production: every real use of the pseudo-variable lowers through
+  # CEntityGetKeyPressed.GetSpecialCondition/GetSpecialAssignment into
+  # CEntityIsKeyPressed/CEntityResetKeyPressed, so getKeyPressed() has no live caller. The
+  # retired backend's setKeyPressed(<value>) write accessor had no live consumer either
+  # (LegacyDataRenderer.renderWriteAccessor is only reached from the FPac accessor backend,
+  # whose factory throws NacaTransAssertException for this BMS-only entity) and retired
+  # without a replacement; the backend also forced isValNeeded() == false, preserved on the
+  # de-abstracted semantic entity.
+  - id: bms.getKeyPressed.reference
+    dialects: [bms-artifact]
+    semanticType: semantic.forms.CEntityGetKeyPressed
+    javaBackend:
+      role: REFERENCE
+      template: recursiveGetKeyPressedEntity
+    runtimeOperations: [bms.keyPressed.get]
+    fixtures: []
+    status: production
+
   # The BMS map-resource OCCURS group field (a COBOL group item carrying OCCURS inside a
   # BMS MAP/MAPREDEFINE working-storage structure, lowered by
   # parser/Cobol/elements/CWorkingEntry.DoSemanticAnalysisForMapRedefine ->

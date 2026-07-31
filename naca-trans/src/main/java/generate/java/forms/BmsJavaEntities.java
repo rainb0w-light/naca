@@ -389,7 +389,13 @@ public final class BmsJavaEntities
 	public static CEntityGetKeyPressed getKeyPressed(
 		String name, CObjectCatalog catalog, CBaseLanguageExporter output)
 	{
-		return new CJavaGetKeyPressed(name, catalog, output);
+		// builds the pure semantic entity, rendered by recursiveGetKeyPressedEntity
+		// (binding in semantic-runtime-bindings.properties). The exporter bind preserves
+		// the retired backend constructor's LegacyLanguageRenderer.bind side effect for
+		// the BMS traversal compatibility boundary.
+		CEntityGetKeyPressed entity = new CEntityGetKeyPressed(name, catalog);
+		generate.LegacyLanguageRenderer.bind(entity, output);
+		return entity;
 	}
 
 	public static CEntityIsKeyPressed isKeyPressed()
