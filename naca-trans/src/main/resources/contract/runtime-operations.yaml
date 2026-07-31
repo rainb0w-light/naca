@@ -2983,6 +2983,139 @@ operations:
     paramTypes: [nacaLib.varEx.Edit]
     returns: boolean
 
+  # BMS map-resource field-attribute condition (retired direct backend
+  # generate.java.forms.CJavaIsFieldAttribute). When a compared value is present it emits
+  # the protected OnlineProgram.isFieldAttribute(Edit, VarAndEdit) condition call; otherwise
+  # it emits up to three attribute terms drawn from the field-attribute helpers below
+  # (autoSkip/numeric/unprotected/bright/dark/modified/unmodified/cleared and their
+  # negations; isFieldModified is the existing bms.field.modified operation). All are
+  # protected on OnlineProgram and inherited by generated online program subclasses
+  # (RuntimeContractTest walks the declared-method hierarchy). Each returns boolean for use
+  # inside an IF condition. NOTE: the legacy backend's isFieldProtected/isNotFieldProtected,
+  # isNotFieldAttribute and isNotFieldUnmodified branches have NO OnlineProgram
+  # implementation (pre-existing latent debt in an unreachable dead-code entity) and are
+  # therefore deliberately NOT declared here — they are reproduced by the template for byte
+  # parity only.
+  - id: bms.field.attribute
+    since: 1
+    capability: BMS_MAP
+    runtimeClass: idea.onlinePrgEnv.OnlineProgram
+    runtimeMethod: isFieldAttribute
+    paramTypes: [nacaLib.varEx.Edit, nacaLib.varEx.VarAndEdit]
+    returns: boolean
+
+  - id: bms.field.autoSkip
+    since: 1
+    capability: BMS_MAP
+    runtimeClass: idea.onlinePrgEnv.OnlineProgram
+    runtimeMethod: isFieldAutoSkip
+    paramTypes: [nacaLib.varEx.Edit]
+    returns: boolean
+
+  - id: bms.field.autoSkip.not
+    since: 1
+    capability: BMS_MAP
+    runtimeClass: idea.onlinePrgEnv.OnlineProgram
+    runtimeMethod: isNotFieldAutoSkip
+    paramTypes: [nacaLib.varEx.Edit]
+    returns: boolean
+
+  - id: bms.field.numeric
+    since: 1
+    capability: BMS_MAP
+    runtimeClass: idea.onlinePrgEnv.OnlineProgram
+    runtimeMethod: isFieldNumeric
+    paramTypes: [nacaLib.varEx.Edit]
+    returns: boolean
+
+  - id: bms.field.numeric.not
+    since: 1
+    capability: BMS_MAP
+    runtimeClass: idea.onlinePrgEnv.OnlineProgram
+    runtimeMethod: isNotFieldNumeric
+    paramTypes: [nacaLib.varEx.Edit]
+    returns: boolean
+
+  - id: bms.field.unprotected
+    since: 1
+    capability: BMS_MAP
+    runtimeClass: idea.onlinePrgEnv.OnlineProgram
+    runtimeMethod: isFieldUnprotected
+    paramTypes: [nacaLib.varEx.Edit]
+    returns: boolean
+
+  - id: bms.field.unprotected.not
+    since: 1
+    capability: BMS_MAP
+    runtimeClass: idea.onlinePrgEnv.OnlineProgram
+    runtimeMethod: isNotFieldUnprotected
+    paramTypes: [nacaLib.varEx.Edit]
+    returns: boolean
+
+  - id: bms.field.bright
+    since: 1
+    capability: BMS_MAP
+    runtimeClass: idea.onlinePrgEnv.OnlineProgram
+    runtimeMethod: isFieldBright
+    paramTypes: [nacaLib.varEx.Edit]
+    returns: boolean
+
+  - id: bms.field.bright.not
+    since: 1
+    capability: BMS_MAP
+    runtimeClass: idea.onlinePrgEnv.OnlineProgram
+    runtimeMethod: isNotFieldBright
+    paramTypes: [nacaLib.varEx.Edit]
+    returns: boolean
+
+  - id: bms.field.dark
+    since: 1
+    capability: BMS_MAP
+    runtimeClass: idea.onlinePrgEnv.OnlineProgram
+    runtimeMethod: isFieldDark
+    paramTypes: [nacaLib.varEx.Edit]
+    returns: boolean
+
+  - id: bms.field.dark.not
+    since: 1
+    capability: BMS_MAP
+    runtimeClass: idea.onlinePrgEnv.OnlineProgram
+    runtimeMethod: isNotFieldDark
+    paramTypes: [nacaLib.varEx.Edit]
+    returns: boolean
+
+  - id: bms.field.modified.not
+    since: 1
+    capability: BMS_MAP
+    runtimeClass: idea.onlinePrgEnv.OnlineProgram
+    runtimeMethod: isNotFieldModified
+    paramTypes: [nacaLib.varEx.Edit]
+    returns: boolean
+
+  - id: bms.field.unmodified
+    since: 1
+    capability: BMS_MAP
+    runtimeClass: idea.onlinePrgEnv.OnlineProgram
+    runtimeMethod: isFieldUnmodified
+    paramTypes: [nacaLib.varEx.Edit]
+    returns: boolean
+
+  - id: bms.field.cleared
+    since: 1
+    capability: BMS_MAP
+    runtimeClass: idea.onlinePrgEnv.OnlineProgram
+    runtimeMethod: isFieldCleared
+    paramTypes: [nacaLib.varEx.Edit]
+    returns: boolean
+
+  - id: bms.field.cleared.not
+    since: 1
+    capability: BMS_MAP
+    runtimeClass: idea.onlinePrgEnv.OnlineProgram
+    runtimeMethod: isNotFieldCleared
+    paramTypes: [nacaLib.varEx.Edit]
+    returns: boolean
+
   - id: bms.cursor.set
     since: 1
     capability: BMS_MAP

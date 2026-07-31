@@ -1693,6 +1693,28 @@ features:
     fixtures: []
     status: production
 
+  # The BMS map-resource field-attribute condition (retired direct backend
+  # generate.java.forms.CJavaIsFieldAttribute). Built by the factory
+  # (CJavaEntityFactory.NewEntityIsFieldAttribute, inherited by CJavaEntityFactoryST) as a
+  # pure semantic.forms.CEntityIsFieldAttribute. With a compared value it emits the
+  # protected OnlineProgram.isFieldAttribute(Edit, VarAndEdit) condition call; otherwise it
+  # emits up to three attribute terms (autoSkip/numeric/unprotected, bright/dark,
+  # modified/unmodified/cleared and their negations; isFieldModified is the existing
+  # bms.field.modified operation), joined by " && "/" || " and parenthesized when two or
+  # three groups are present — byte-for-byte the retired Export. The protected,
+  # opposite-value and opposite-unmodified legacy branches emit calls with no OnlineProgram
+  # implementation (pre-existing latent debt, unreachable dead code) and are reproduced for
+  # parity but not contracted.
+  - id: bms.condIsFieldAttribute
+    dialects: [bms-artifact]
+    semanticType: semantic.forms.CEntityIsFieldAttribute
+    javaBackend:
+      role: REFERENCE
+      template: recursiveIsFieldAttributeEntity
+    runtimeOperations: [bms.field.attribute, bms.field.autoSkip, bms.field.autoSkip.not, bms.field.numeric, bms.field.numeric.not, bms.field.unprotected, bms.field.unprotected.not, bms.field.bright, bms.field.bright.not, bms.field.dark, bms.field.dark.not, bms.field.modified, bms.field.modified.not, bms.field.unmodified, bms.field.cleared, bms.field.cleared.not]
+    fixtures: []
+    status: production
+
   # The BMS map-field cursor action (MOVE ... TO <FIELD>-L). Built by
   # semantic.forms.CEntityFieldLength.GetSpecialAssignment as a pure
   # semantic.forms.CEntitySetCursor statement: a moved value emits

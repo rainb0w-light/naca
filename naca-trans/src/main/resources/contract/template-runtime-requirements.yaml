@@ -692,6 +692,35 @@ templates:
       - bms.field.flag.set
       - bms.field.flag.setNot
 
+  # BMS map-resource DSL: the field-attribute condition (retired direct backend
+  # CJavaIsFieldAttribute) emits the protected OnlineProgram.isFieldAttribute(Edit,
+  # VarAndEdit) call for a compared value and, otherwise, up to three attribute terms drawn
+  # from the field-attribute helpers (autoSkip/numeric/unprotected/bright/dark/modified/
+  # unmodified/cleared and their negations; isFieldModified is the existing bms.field.modified
+  # operation). Every contracted call below is a real OnlineProgram method. The legacy
+  # isFieldProtected/isNotFieldProtected/isNotFieldAttribute/isNotFieldUnmodified branches
+  # have no runtime implementation (pre-existing latent debt in unreachable dead code) and
+  # are intentionally absent from this list.
+  recursiveIsFieldAttributeEntity:
+    capability: BMS_MAP
+    requires:
+      - bms.field.attribute
+      - bms.field.autoSkip
+      - bms.field.autoSkip.not
+      - bms.field.numeric
+      - bms.field.numeric.not
+      - bms.field.unprotected
+      - bms.field.unprotected.not
+      - bms.field.bright
+      - bms.field.bright.not
+      - bms.field.dark
+      - bms.field.dark.not
+      - bms.field.modified
+      - bms.field.modified.not
+      - bms.field.unmodified
+      - bms.field.cleared
+      - bms.field.cleared.not
+
   recursiveSetCursorEntity:
     capability: BMS_MAP
     requires:

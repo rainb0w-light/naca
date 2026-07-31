@@ -112,7 +112,10 @@ public final class BmsJavaEntities
 
 	public static CEntityIsFieldAttribute isFieldAttribute()
 	{
-		return new CJavaIsFieldAttribute();
+		// Retired direct backend generate.java.forms.CJavaIsFieldAttribute: the factory now
+		// builds the pure semantic entity, rendered by recursiveIsFieldAttributeEntity
+		// (binding in semantic-runtime-bindings.properties).
+		return new CEntityIsFieldAttribute();
 	}
 
 	public static CEntityIsFieldHighlight isFieldHighlight(CDataEntity reference)

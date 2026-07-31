@@ -669,6 +669,31 @@ recursiveIsFieldCursorEntity(entity) ::= "is<if(entity.opposite)>Not<endif>Field
 // assembler, and entity.value is the compared flag constant wrapped in literal quotes.
 recursiveIsFieldFlagEntity(entity) ::= "is<if(entity.opposite)>Not<endif>FieldFlag<if(entity.set)>Set(<entity.reference>)<else>(<entity.reference>, \"<entity.value>\")<endif>"
 
+// BMS map-resource field-attribute condition (the retired direct backend
+// generate.java.forms.CJavaIsFieldAttribute). Mirrors that backend's Export exactly.
+// When a compared value is present (IsAttribute -> entity.varValue) it emits the single
+// protected OnlineProgram.isFieldAttribute(Edit, VarAndEdit) condition call (contract
+// operation bms.field.attribute), negated to isNotFieldAttribute when entity.opposite.
+// Otherwise it emits up to three mutually-exclusive attribute terms — group1
+// autoSkip>protected>numeric>unprotected, group2 bright>dark, group3
+// modified>unmodified>cleared — each rendered by a group helper below as
+// is[Not]Field<Kind>(<entity.reference>), joined by entity.joinOperator (" && ", or
+// " || " when opposite) and wrapped in parentheses (entity.bracketed, the legacy
+// isaddBracket) when two or three groups are present. GetPriorityLevel/GetOppositeCondition
+// moved up to the pure semantic entity; reads only entity.* properties and the field
+// reference / compared value unfold recursively through the assembler. Pre-existing
+// latent debt (unreachable dead code, NOT introduced here): the protected, opposite-value
+// and opposite-unmodified branches emit isFieldProtected/isNotFieldProtected/
+// isNotFieldAttribute/isNotFieldUnmodified, which have no OnlineProgram implementation;
+// they are reproduced for byte parity but are not declared in the runtime contract.
+recursiveIsFieldAttributeEntity(entity) ::= "<if(entity.varValue)>is<if(entity.opposite)>Not<endif>FieldAttribute(<entity.reference>, <entity.varValue>)<else><if(entity.bracketed)>(<endif><if(entity.group1Present)><recursiveIsFieldAttributeGroup1(entity)><endif><if(entity.group2Join)> <entity.joinOperator> <endif><if(entity.group2Present)><recursiveIsFieldAttributeGroup2(entity)><endif><if(entity.group3Join)> <entity.joinOperator> <endif><if(entity.group3Present)><recursiveIsFieldAttributeGroup3(entity)><endif><if(entity.bracketed)>)<endif><endif>"
+
+recursiveIsFieldAttributeGroup1(entity) ::= "<if(entity.autoSkip)>is<if(entity.opposite)>Not<endif>FieldAutoSkip(<entity.reference>)<elseif(entity.protected)>is<if(entity.opposite)>Not<endif>FieldProtected(<entity.reference>)<elseif(entity.numeric)>is<if(entity.opposite)>Not<endif>FieldNumeric(<entity.reference>)<elseif(entity.unprotected)>is<if(entity.opposite)>Not<endif>FieldUnprotected(<entity.reference>)<endif>"
+
+recursiveIsFieldAttributeGroup2(entity) ::= "<if(entity.bright)>is<if(entity.opposite)>Not<endif>FieldBright(<entity.reference>)<elseif(entity.dark)>is<if(entity.opposite)>Not<endif>FieldDark(<entity.reference>)<endif>"
+
+recursiveIsFieldAttributeGroup3(entity) ::= "<if(entity.modified)>is<if(entity.opposite)>Not<endif>FieldModified(<entity.reference>)<elseif(entity.unmodified)>is<if(entity.opposite)>Not<endif>FieldUnmodified(<entity.reference>)<elseif(entity.cleared)>is<if(entity.opposite)>Not<endif>FieldCleared(<entity.reference>)<endif>"
+
 recursiveCondIsKindOfEntity(entity) ::= <<
 is<if(entity.opposite)>Not<endif><if(entity.numeric)>Numeric<elseif(entity.alphabetic)>Alphabetic<elseif(entity.lower)>AlphabeticLower<elseif(entity.upper)>AlphabeticUpper<endif>(<if(entity.conditionReference)><entity.conditionReference><else>[UNDEFINED]<endif>)
 >>
