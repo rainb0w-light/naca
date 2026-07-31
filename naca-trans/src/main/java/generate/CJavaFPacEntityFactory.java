@@ -1012,7 +1012,23 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityAssignWithAccessor NewEntityAssignWithAccessor(int l)
 	{
-		return new CFPacJavaAssignWithAccessor(l, programCatalog, langOutput) ;
+		// Pure target-neutral semantic entity shared with the COBOL pipeline: an accessor
+		// assignment renders through the existing recursive ST4 binding
+		// (semantic.Verbs.CEntityAssignWithAccessor -> recursiveAssignWithAccessorEntity),
+		// not the retired generate.fpacjava direct backend CFPacJavaAssignWithAccessor.
+		// The only FPac destination that carries accessors is a CFPacJavaEnvironmentVariable
+		// built from the rules engine (e.g. RETCD, writer "setReturnCode("), so the shared
+		// template's environment branch lowers to "setReturnCode(<value>);" — the canonical
+		// shape COBOL emits for this same entity. The retired backend appended a redundant
+		// ".getInt()" plus a stray " ;"; both are dropped because BaseProgram declares a
+		// setReturnCode(Var) overload that coerces the value internally. FPac never populates
+		// fillAll and never builds a CEntitySQLCode, so the fillAll/SQLCode branches of the
+		// shared template are unreachable from FPac. The template only reads
+		// entity.environmentWriteAccessor / entity.value; the parser/factory precomputes both
+		// (CFPacAssign calls SetAssign, CFPacMove calls SetRefTo + SetValue).
+		CEntityAssignWithAccessor e = new CEntityAssignWithAccessor(l, programCatalog);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
+		return e;
 	}
 
 	@Override
