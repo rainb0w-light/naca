@@ -1648,6 +1648,30 @@ features:
     fixtures: []
     status: production
 
+  # The BMS map-resource reset-key-pressed action (MOVE SPACE TO KEYPRESSED). Built by
+  # semantic.forms.CEntityGetKeyPressed.GetSpecialAssignment as a pure
+  # semantic.forms.CEntityResetKeyPressed statement: it emits the protected no-argument
+  # nacaLib.basePrgEnv.BaseProgram.resetKeyPressed() call, exactly as the retired direct
+  # backend generate.java.forms.CJavaResetKeyPressed.DoExport wrote ("resetKeyPressed();").
+  # Statements lower through the runtime binding semantic.forms.CEntityResetKeyPressed ->
+  # recursiveResetKeyPressedEntity in the BMS forms-island manifest
+  # (semantic-runtime-bindings.properties, kept disjoint from the concrete manifest
+  # FinalArchitectureContractTest pins to the COBOL tree); the template reads only entity.*
+  # properties and emits the bare statement. Like the sibling bms.cursor action, it renders
+  # purely through the recursive assembler's REFERENCE role. The emitted call is the protected
+  # BaseProgram.resetKeyPressed() method contracted as bms.keyPressed.reset. The action is dead
+  # wiring in production: it is built only for a MOVE SPACE TO KEYPRESSED, which no shipped BMS
+  # map-resource program performs, so resetKeyPressed(); has no live caller.
+  - id: bms.resetKeyPressed
+    dialects: [bms-artifact]
+    semanticType: semantic.forms.CEntityResetKeyPressed
+    javaBackend:
+      role: REFERENCE
+      template: recursiveResetKeyPressedEntity
+    runtimeOperations: [bms.keyPressed.reset]
+    fixtures: []
+    status: production
+
   # The BMS map-resource OCCURS group field (a COBOL group item carrying OCCURS inside a
   # BMS MAP/MAPREDEFINE working-storage structure, lowered by
   # parser/Cobol/elements/CWorkingEntry.DoSemanticAnalysisForMapRedefine ->

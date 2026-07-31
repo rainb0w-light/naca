@@ -469,6 +469,21 @@ recursiveKeyPressedEntity(entity) ::= "KeyPressed.<entity.publicName>"
 // whose factory throws for this BMS-only entity).
 recursiveGetKeyPressedEntity(entity) ::= "getKeyPressed()"
 
+// BMS map-resource DSL: the CICS reset-key-pressed action statement (MOVE SPACE TO
+// KEYPRESSED, lowered by semantic.forms.CEntityGetKeyPressed.GetSpecialAssignment to a
+// semantic.forms.CEntityResetKeyPressed action). Mirrors the retired direct backend
+// generate.java.forms.CJavaResetKeyPressed.DoExport exactly: it wrote the single line
+// "resetKeyPressed();" — the protected no-argument BaseProgram.resetKeyPressed() call
+// (inherited by generated program subclasses), with no space before the semicolon. Emits
+// that bare statement byte-for-byte. Contracted as runtime operation bms.keyPressed.reset
+// (runtime-operations.yaml) and required by this template
+// (template-runtime-requirements.yaml). Like the sibling recursiveSetCursorEntity action,
+// it renders purely through the recursive assembler's REFERENCE role (the program root's
+// executable children); the entity carries no DoExport of its own. The action is dead
+// wiring in production (no shipped BMS program performs MOVE SPACE TO KEYPRESSED), so it
+// has no live caller; it is preserved for completeness.
+recursiveResetKeyPressedEntity(entity) ::= "resetKeyPressed();"
+
 // BMS map-resource DSL: a reference to a screen-map OCCURS group field (retired direct
 // backend generate.java.forms.CJavaFieldOccurs). Its ExportReference returned
 // formatIdentifier(GetName()) — the target-formatted group name. Reads only

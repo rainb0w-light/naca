@@ -2941,6 +2941,24 @@ operations:
     paramTypes: [nacaLib.misc.KeyPressed]
     returns: boolean
 
+  # MOVE SPACE TO KEYPRESSED lowers through semantic.forms.CEntityResetKeyPressed
+  # (built by semantic.forms.CEntityGetKeyPressed.GetSpecialAssignment) to the protected
+  # no-argument nacaLib.basePrgEnv.BaseProgram.resetKeyPressed() statement call — exactly
+  # what the retired direct backend generate.java.forms.CJavaResetKeyPressed.DoExport wrote
+  # ("resetKeyPressed();"). The method is protected on BaseProgram and inherited by generated
+  # program subclasses (RuntimeContractTest walks the declared-method hierarchy); it returns
+  # void (a standalone action statement, not an expression). The action is dead wiring in
+  # production (no shipped BMS program performs MOVE SPACE TO KEYPRESSED), but the call is
+  # contracted so the recursiveResetKeyPressedEntity template emits only a declared runtime
+  # operation.
+  - id: bms.keyPressed.reset
+    since: 1
+    capability: BMS_MAP
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: resetKeyPressed
+    paramTypes: []
+    returns: void
+
   # MOVE ... TO <FIELD>-L lowers through semantic.forms.CEntitySetCursor (built
   # by semantic.forms.CEntityFieldLength.GetSpecialAssignment) to the protected
   # OnlineProgram cursor calls, exactly what the retired direct backend

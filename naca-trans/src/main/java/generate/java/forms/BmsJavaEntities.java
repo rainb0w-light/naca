@@ -458,7 +458,20 @@ public final class BmsJavaEntities
 	public static CEntityResetKeyPressed resetKeyPressed(
 		int line, CObjectCatalog catalog, CBaseLanguageExporter output)
 	{
-		return new CJavaResetKeyPressed(line, catalog, output);
+		// Retired direct backend generate.java.forms.CJavaResetKeyPressed: the factory now builds
+		// the pure semantic entity, rendered by recursiveResetKeyPressedEntity (REFERENCE binding
+		// in semantic-runtime-bindings.properties), which emits the protected
+		// BaseProgram.resetKeyPressed() statement byte-for-byte as the retired backend's DoExport
+		// did ("resetKeyPressed();"). Like the sibling CEntitySetCursor action, the statement
+		// renders purely through the recursive assembler's REFERENCE role, so no declaration
+		// renderer is injected and the semantic tree names no generate.* class. The exporter bind
+		// preserves the retired backend constructor's LegacyLanguageRenderer.bind side effect for
+		// the BMS traversal compatibility boundary. The action is dead wiring in production: it is
+		// built only by CEntityGetKeyPressed.GetSpecialAssignment for a MOVE SPACE TO KEYPRESSED,
+		// which no shipped BMS program performs.
+		CEntityResetKeyPressed entity = new CEntityResetKeyPressed(line, catalog);
+		generate.LegacyLanguageRenderer.bind(entity, output);
+		return entity;
 	}
 
 	public static CEntityResourceFieldArray fieldArray(

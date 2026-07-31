@@ -676,6 +676,17 @@ templates:
       - bms.keyPressed.is
       - bms.keyPressed.isNot
 
+  # BMS map-resource DSL: the reset-key-pressed action statement (MOVE SPACE TO KEYPRESSED,
+  # retired direct backend CJavaResetKeyPressed) emits the protected no-argument
+  # BaseProgram.resetKeyPressed() call, exactly the legacy DoExport line "resetKeyPressed();".
+  # The action is dead wiring in production (no shipped BMS program performs MOVE SPACE TO
+  # KEYPRESSED), but the call is declared so the template emits only a contracted runtime
+  # operation.
+  recursiveResetKeyPressedEntity:
+    capability: BMS_MAP
+    requires:
+      - bms.keyPressed.reset
+
   # BMS map-resource DSL: the cursor action statement (MOVE ... TO <FIELD>-L,
   # retired direct backend CJavaSetCursor) emits one of the protected
   # OnlineProgram cursor calls: moveCursor(<value>, <field>) for a set
