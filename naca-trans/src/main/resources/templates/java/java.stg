@@ -635,6 +635,21 @@ is<if(entity.opposite)>Not<endif><if(entity.zero)>Zero<elseif(entity.space)>Spac
 // and unfolds through the assembler.
 recursiveIsFieldModifiedEntity(entity) ::= "isFieldModified(<entity.reference>)"
 
+// BMS map-resource field-cursor condition (IF <FIELD>-L = -1 / <> -1, lowered by
+// semantic.forms.CEntityFieldLength.GetSpecialCondition to a pure
+// semantic.forms.CEntityIsFieldCursor). Mirrors the retired direct backend
+// generate.java.forms.CJavaIsFieldCursor exactly: IF <FIELD>-L = -1 emits the protected
+// OnlineProgram.isFieldHasCursor(Edit) condition call (contract operation
+// bms.field.cursor.has); any other test on -1 emits isNotFieldHasCursor(Edit)
+// (bms.field.cursor.hasNot). Unlike the field-modified condition, negation is carried by
+// the entity's own hasCursor flag (SetHasCursor/SetHasNotCursor and GetOppositeCondition
+// flip it) rather than a wrapping CEntityCondNot, so the template branches on
+// entity.opposite to select the is/isNot runtime call — preserving the two distinct
+// legacy runtime calls byte-for-byte. Reads only entity.* properties; the field data
+// reference rides in the inherited condition reference slot (the entity exposes
+// getReference()) and unfolds through the assembler.
+recursiveIsFieldCursorEntity(entity) ::= "is<if(entity.opposite)>Not<endif>FieldHasCursor(<entity.reference>)"
+
 recursiveCondIsKindOfEntity(entity) ::= <<
 is<if(entity.opposite)>Not<endif><if(entity.numeric)>Numeric<elseif(entity.alphabetic)>Alphabetic<elseif(entity.lower)>AlphabeticLower<elseif(entity.upper)>AlphabeticUpper<endif>(<if(entity.conditionReference)><entity.conditionReference><else>[UNDEFINED]<endif>)
 >>

@@ -666,6 +666,17 @@ templates:
     requires:
       - bms.field.modified
 
+  # BMS map-resource DSL: the field-cursor condition (IF <FIELD>-L = -1 / <> -1, retired
+  # direct backend CJavaIsFieldCursor) emits one of two protected OnlineProgram condition
+  # calls, selected by the entity's hasCursor flag: isFieldHasCursor(Edit) for
+  # IF <FIELD>-L = -1, isNotFieldHasCursor(Edit) otherwise. Both are real runtime methods
+  # and both are listed because each is reachable on a template branch.
+  recursiveIsFieldCursorEntity:
+    capability: BMS_MAP
+    requires:
+      - bms.field.cursor.has
+      - bms.field.cursor.hasNot
+
   recursiveSetCursorEntity:
     capability: BMS_MAP
     requires:

@@ -10,7 +10,6 @@ import semantic.forms.CEntityFormRedefine;
 import semantic.forms.CEntityGetKeyPressed;
 import semantic.forms.CEntityIsFieldAttribute;
 import semantic.forms.CEntityIsFieldColor;
-import semantic.forms.CEntityIsFieldCursor;
 import semantic.forms.CEntityIsFieldFlag;
 import semantic.forms.CEntityIsFieldHighlight;
 import semantic.forms.CEntityIsKeyPressed;
@@ -163,10 +162,5 @@ public final class BmsJavaEntities
 		CBaseLanguageExporter output)
 	{
 		return new CJavaFieldArray(line, name, catalog, output);
-	}
-
-	public static CEntityIsFieldCursor isFieldCursor()
-	{
-		return new CJavaIsFieldCursor();
 	}
 }

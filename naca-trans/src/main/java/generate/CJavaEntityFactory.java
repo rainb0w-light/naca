@@ -1256,7 +1256,18 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return e;
 	}
 	public CEntityIsFieldCursor NewEntityIsFieldCursor()	{
-		return BmsJavaEntities.isFieldCursor() ;
+		// Direct backend CJavaIsFieldCursor retired: the pure semantic entity is rendered
+		// by the recursive ST4 assembly contract
+		// (semantic.forms.CEntityIsFieldCursor -> recursiveIsFieldCursorEntity),
+		// reproducing the legacy Export exactly — isFieldHasCursor(<reference>) when the
+		// hasCursor flag is set (IF <FIELD>-L = -1) and isNotFieldHasCursor(<reference>)
+		// otherwise, the two protected OnlineProgram condition calls contracted as
+		// bms.field.cursor.has / bms.field.cursor.hasNot. The template branches on the
+		// entity's own isOpposite() flag (SetHasCursor/SetHasNotCursor and
+		// GetOppositeCondition flip it), so both legacy runtime calls are preserved
+		// byte-for-byte without a CEntityCondNot wrap. CJavaEntityFactoryST inherits this
+		// wiring; the FPac factory still throws for this entity, so no FPac tree holds it.
+		return new CEntityIsFieldCursor();
 	}
 	public CEntityList NewEntityList(String name)	{
 		CEntityList e = new CEntityList(name, programCatalog);

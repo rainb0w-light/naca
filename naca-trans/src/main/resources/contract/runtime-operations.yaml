@@ -2916,6 +2916,30 @@ operations:
     paramTypes: [nacaLib.varEx.Edit]
     returns: boolean
 
+  # IF <FIELD>-L = -1 lowers through semantic.forms.CEntityIsFieldCursor (built by
+  # semantic.forms.CEntityFieldLength.GetSpecialCondition) to the protected
+  # OnlineProgram.isFieldHasCursor(Edit) condition call; any other test on -1 lowers to
+  # isNotFieldHasCursor(Edit). Both are protected on OnlineProgram and inherited by
+  # generated online program subclasses (RuntimeContractTest walks the declared-method
+  # hierarchy). Each returns boolean for use inside an IF condition. Mirrors the retired
+  # direct backend generate.java.forms.CJavaIsFieldCursor, whose Export selected between
+  # the two calls from its hasCursor flag.
+  - id: bms.field.cursor.has
+    since: 1
+    capability: BMS_MAP
+    runtimeClass: idea.onlinePrgEnv.OnlineProgram
+    runtimeMethod: isFieldHasCursor
+    paramTypes: [nacaLib.varEx.Edit]
+    returns: boolean
+
+  - id: bms.field.cursor.hasNot
+    since: 1
+    capability: BMS_MAP
+    runtimeClass: idea.onlinePrgEnv.OnlineProgram
+    runtimeMethod: isNotFieldHasCursor
+    paramTypes: [nacaLib.varEx.Edit]
+    returns: boolean
+
   - id: bms.cursor.set
     since: 1
     capability: BMS_MAP

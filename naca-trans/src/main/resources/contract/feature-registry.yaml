@@ -1644,6 +1644,30 @@ features:
     fixtures: []
     status: production
 
+  # The BMS map-resource field-cursor condition (IF <FIELD>-L = -1 / <> -1). Built by
+  # semantic.forms.CEntityFieldLength.GetSpecialCondition as a pure
+  # semantic.forms.CEntityIsFieldCursor condition: IF <FIELD>-L = -1 emits the protected
+  # OnlineProgram.isFieldHasCursor(Edit) call, any other test on -1 emits
+  # isNotFieldHasCursor(Edit), exactly as the retired direct backend
+  # generate.java.forms.CJavaIsFieldCursor.Export did (its hasCursor flag selected the
+  # call). Conditions lower through the runtime binding
+  # semantic.forms.CEntityIsFieldCursor -> recursiveIsFieldCursorEntity in the BMS
+  # forms-island manifest (semantic-runtime-bindings.properties, kept disjoint from the
+  # concrete manifest FinalArchitectureContractTest pins to the COBOL tree); the template
+  # reads only entity.* properties, branches on entity.opposite to select the is/isNot
+  # call, and the field data reference unfolds through the assembler. The emitted calls
+  # are the protected OnlineProgram condition helpers contracted as bms.field.cursor.has
+  # and bms.field.cursor.hasNot.
+  - id: bms.condIsFieldCursor
+    dialects: [bms-artifact]
+    semanticType: semantic.forms.CEntityIsFieldCursor
+    javaBackend:
+      role: REFERENCE
+      template: recursiveIsFieldCursorEntity
+    runtimeOperations: [bms.field.cursor.has, bms.field.cursor.hasNot]
+    fixtures: []
+    status: production
+
   # The BMS map-field cursor action (MOVE ... TO <FIELD>-L). Built by
   # semantic.forms.CEntityFieldLength.GetSpecialAssignment as a pure
   # semantic.forms.CEntitySetCursor statement: a moved value emits
