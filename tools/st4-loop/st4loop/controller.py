@@ -435,7 +435,9 @@ class Controller:
         if not gitutil.is_clean(root):
             raise LoopError(
                 "refusing to start: worktree is dirty. Commit or stash first.\n"
-                + gitutil.run_git(root, "status", "--porcelain").stdout
+                + gitutil.run_git(
+                    root, "status", "--porcelain", "--untracked-files=all"
+                ).stdout
             )
 
         data = ledger.load_ledger(self.cfg.ledger_path)

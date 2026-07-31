@@ -28,13 +28,18 @@ def run_git(root, *args, check=True):
 
 def is_clean(root):
     """True when the worktree has no uncommitted changes (tracked or untracked)."""
-    result = run_git(root, "status", "--porcelain")
+    result = run_git(root, "status", "--porcelain", "--untracked-files=all")
     return result.stdout.strip() == ""
 
 
 def porcelain(root):
-    """Return [(XY, path), ...] for every dirty path."""
-    result = run_git(root, "status", "--porcelain")
+    """Return [(XY, path), ...] for every dirty file path.
+
+    Git's default normal-mode status collapses a wholly-untracked directory to
+    one directory entry. The loop compares this inventory with the worker's
+    file-level declaration, so always enumerate every untracked file.
+    """
+    result = run_git(root, "status", "--porcelain", "--untracked-files=all")
     out = []
     for line in result.stdout.splitlines():
         if not line.strip():

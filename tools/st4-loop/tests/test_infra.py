@@ -141,6 +141,19 @@ class InventorySynchronizationTest(unittest.TestCase):
 
 
 class GitEncodingTest(unittest.TestCase):
+    def test_porcelain_expands_wholly_untracked_directories_to_files(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            subprocess.run(["git", "init", "-q"], cwd=root, check=True)
+            nested = root / "new" / "test" / "Example.java"
+            nested.parent.mkdir(parents=True)
+            nested.write_text("class Example {}\n", encoding="utf-8")
+
+            self.assertEqual(
+                [("??", "new/test/Example.java")],
+                gitutil.porcelain(root),
+            )
+
     def test_diff_tolerates_legacy_iso_8859_1_source(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
