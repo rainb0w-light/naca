@@ -23,24 +23,55 @@ import semantic.Verbs.CEntitySetConstant;
 import utils.CObjectCatalog;
 
 /**
- * @author U930CV
+ * BMS map-resource DSL: a screen-map form accessor — a pseudo-variable aliasing its
+ * owning CICS {@code MAP} ({@link CEntityResourceForm}). The transcoder rules that once
+ * created accessors ({@code CBaseEntityFactory.NewEntityFormAccessor}) are commented out;
+ * no production path constructs this entity today (the retired direct backend was dead
+ * wiring), but the pure semantic node and its recursive-ST4 reference binding stay
+ * well-formed for any tree that holds one.
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
+ * <p>De-abstracted when the direct backend {@code generate.java.forms.CJavaFormAccessor}
+ * was retired onto the recursive ST4 assembly contract. The backend's only live output
+ * protocol was {@code ExportReference(nLine) == LegacyDataRenderer.renderReference(owner,
+ * getLine())} — i.e. exactly the owning form's data reference (the backend merely
+ * delegated). A reference to the accessor now renders through the BMS forms-island binding
+ * {@code semantic.forms.CEntityFormAccessor -> recursiveFormAccessorEntity}, whose template
+ * reads only {@code entity.formReference}; that pure getter delegates to the owning form's
+ * own precomputed reference (the owner renders through {@code recursiveFormEntity}) and
+ * falls back to the legacy {@code [UNDEFINED]} sentinel {@code renderReference(null)}
+ * returned when the owner is absent. {@code LegacyDataRenderer.renderReference} ignores a
+ * semantic-declared {@code ExportReference} and falls through to that binding, reproducing
+ * the backend's reference exactly.
+ *
+ * <p>The constructor also fixes the legacy {@code owner = owner} self-assignment no-op
+ * (the parameter shadowed the field, so {@link #GetForm()} and every owner-delegating
+ * protocol saw {@code null}): the field is now assigned with {@code this.owner = owner}.
+ *
+ * <p>The retired backend's data-entity protocols are preserved exactly: the accessor bears
+ * accessors iff its owner does ({@code HasAccessors() == owner.HasAccessors()} — a form
+ * bears none), needs no {@code val} ({@code isValNeeded() == false}), and has no reachable
+ * write-accessor protocol ({@code ExportWriteAccessorTo -> null}: the backend delegated to
+ * {@code LegacyDataRenderer.renderWriteAccessor(owner, value)}, which returns {@code null}
+ * for the semantic-declared owner method). {@code DoExport} was unused and stays a no-op.
+ * This tree names no {@code generate.*} class, so the dependency arrow stays
+ * generate -&gt; semantic.
+ *
+ * @author U930CV
  */
-public abstract class CEntityFormAccessor extends CBaseDataReference
+public class CEntityFormAccessor extends CBaseDataReference
 {
 	/**
 	 * @param l
 	 * @param name
 	 * @param cat
-	 * @param type
-	 * @param owner
+	 * @param owner the owning screen-map form this accessor aliases
 	 */
 	public CEntityFormAccessor(int l, String name, CObjectCatalog cat, CEntityResourceForm owner)
 	{
 		super(l, name, cat);
-		owner = owner ;
+		// Fixes the legacy `owner = owner` self-assignment no-op (the parameter shadowed
+		// the field, leaving it null); the owner-delegating protocols below rely on it.
+		this.owner = owner ;
 		reference = owner ;
 		parent = owner ;
 	}
@@ -144,6 +175,66 @@ public abstract class CEntityFormAccessor extends CBaseDataReference
 	public CEntityResourceForm getSaveCopy()
 	{
 		return owner.getSaveCopy() ;
+	}
+
+	/**
+	 * Mirrors the retired backend's {@code ExportReference(nLine) ==
+	 * LegacyDataRenderer.renderReference(owner, getLine())}: a reference to the accessor is
+	 * exactly the owning form's data reference. {@code LegacyDataRenderer.renderReference}
+	 * ignores this semantic-declared override and renders the reference through the
+	 * {@code recursiveFormAccessorEntity} binding instead; this override stays for direct
+	 * callers and reads only the precomputed owner reference.
+	 */
+	public String ExportReference(int nLine)
+	{
+		return getFormReference() ;
+	}
+
+	/**
+	 * Pure read-only getter consumed by the {@code recursiveFormAccessorEntity} template:
+	 * the owning form's data reference this accessor aliases. The owner's reference is the
+	 * precomputed, target-formatted reference {@link CEntityResourceForm#getFormReference()}
+	 * exposes (itself rendered through the {@code recursiveFormEntity} binding) — a pure
+	 * delegation over precomputed state, no data-reference resolution and no lowering when
+	 * ST4 accesses it. When the owner is absent (a cleared entity), returns the legacy
+	 * {@code [UNDEFINED]} sentinel {@code LegacyDataRenderer.renderReference(null, ...)}
+	 * returned for the retired backend.
+	 */
+	public String getFormReference()
+	{
+		if (owner == null)
+		{
+			return "[UNDEFINED]" ;
+		}
+		return owner.getFormReference() ;
+	}
+
+	public boolean HasAccessors()
+	{
+		// Preserved from the retired backend: the accessor bears accessors iff its owner
+		// does (a screen-map form bears none).
+		return owner != null && owner.HasAccessors() ;
+	}
+
+	public String ExportWriteAccessorTo(String value)
+	{
+		// Preserved from the retired backend, which returned
+		// LegacyDataRenderer.renderWriteAccessor(owner, value): that reflection boundary
+		// ignores the owner's semantic-declared method and yields null, so the effective
+		// legacy result is null — no reachable write-accessor protocol. A semantic-declared
+		// override is ignored by renderWriteAccessor on this entity as well.
+		return null ;
+	}
+
+	public boolean isValNeeded()
+	{
+		// Preserved from the retired backend: a form accessor is never declared as a val.
+		return false ;
+	}
+
+	protected void DoExport()
+	{
+		// Preserved from the retired backend: unused (a form accessor emits no statement).
 	}
 //	protected void RegisterMySelfToCatalog()
 //	{

@@ -1747,6 +1747,38 @@ features:
     fixtures: []
     status: production
 
+  # The BMS map-resource form accessor (a pseudo-variable aliasing its owning
+  # CICS MAP, semantic.forms.CEntityFormAccessor). Retired direct backend
+  # generate.java.forms.CJavaFormAccessor — dead wiring: factory-wired but no
+  # production path ever constructed one (the transcoder's NewEntityFormAccessor
+  # factory method is commented out, so no COBOL/BMS/FPac tree holds it today).
+  # Its only live output protocol (ExportReference ==
+  # LegacyDataRenderer.renderReference(owner, getLine())) merely delegated to the
+  # owning form's data reference; that reference now renders through the
+  # forms-island binding semantic.forms.CEntityFormAccessor ->
+  # recursiveFormAccessorEntity (REFERENCE role, the template named below), whose
+  # template reads only entity.formReference — the pure getter that delegates to
+  # the owning form's precomputed reference (the owner renders through
+  # recursiveFormEntity) and falls back to the legacy [UNDEFINED] sentinel
+  # renderReference(null) returned when the owner is absent. A reference emission
+  # carries no runtime call, so — same treatment as bms.form's legacy reference
+  # shape — this feature carries no Codegen-Runtime Contract operation: no
+  # runtime-operations.yaml / template-runtime-requirements.yaml entry is declared
+  # or required. The retired backend's HasAccessors() delegated to the owner (a
+  # form bears none), isValNeeded() returned false, ExportWriteAccessorTo returned
+  # null (its delegation to LegacyDataRenderer.renderWriteAccessor(owner, value)
+  # yields null for the semantic-declared owner method — no reachable
+  # write-accessor protocol), and DoExport was unused.
+  - id: bms.formAccessor.reference
+    dialects: [bms-artifact]
+    semanticType: semantic.forms.CEntityFormAccessor
+    javaBackend:
+      role: REFERENCE
+      template: recursiveFormAccessorEntity
+    runtimeOperations: []
+    fixtures: []
+    status: production
+
   # The BMS map-resource mapset root (a CICS MAPSET container — the top-level
   # screen-map artifact, lowered from a BMS .bms MAPSET definition by
   # parser/map_elements/CMapSetElement -> factory.NewEntityFormContainer). Retired

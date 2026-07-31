@@ -537,6 +537,21 @@ recursiveFieldRedefineDeclarationEntity(entity) ::= "Edit <entity.formattedName>
 // forms-island binding for semantic.forms.CEntityResourceForm (REFERENCE role).
 recursiveFormEntity(entity) ::= "<entity.formReference>"
 
+// BMS map-resource DSL: a reference to a screen-map form accessor (a pseudo-variable aliasing
+// its owning CICS MAP; retired direct backend generate.java.forms.CJavaFormAccessor — dead
+// wiring: factory-wired but no production path ever constructed one, the transcoder's
+// NewEntityFormAccessor factory method being commented out). Its ExportReference returned
+// LegacyDataRenderer.renderReference(owner, getLine()) — exactly the owning form's data
+// reference (the backend merely delegated). Reads only entity.formReference (the pure getter
+// that delegates to the owning form's precomputed reference — the owner renders through
+// recursiveFormEntity — and falls back to the legacy [UNDEFINED] sentinel renderReference(null)
+// returned when the owner is absent); reached through LegacyDataRenderer.renderReference's
+// recursive fall-through once the backend's reflective ExportReference is gone (a
+// semantic-declared ExportReference is ignored there). This is the forms-island binding for
+// semantic.forms.CEntityFormAccessor (REFERENCE role). No runtime operation is contracted
+// (same legacy reference shape as recursiveFormEntity).
+recursiveFormAccessorEntity(entity) ::= "<entity.formReference>"
+
 // BMS map-resource DSL: the declaration line of a screen-map form (retired direct backend
 // generate.java.forms.CJavaForm). Mirrors its DoExport's declaration exactly:
 // Form <name> = declare.form("<resourceName>", <sizeLine>, <sizeCol>) ; — the
