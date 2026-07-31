@@ -761,7 +761,17 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityArrayReference NewEntityArrayReference(int l)
 	{
-		return new CFPacJavaArrayReference(l, programCatalog, langOutput) ;
+		// Pure target-neutral semantic entity shared with the COBOL pipeline: an array
+		// reference renders through the existing recursive ST4 binding
+		// (semantic.CEntityArrayReference -> arrayReferenceEntity, "<reference>.getAt(<indexes>)"),
+		// not the retired generate.fpacjava direct backend CFPacJavaArrayReference. That
+		// backend's legacy "reference(idx)" output was not valid Java array access; the
+		// canonical, compilable form is the naca-rt ".getAt(...)" accessor COBOL already
+		// emits for this same semantic entity. The factory populates reference + indexes
+		// (CEntityStructure.GetArrayReference et al.); the template only reads entity.*.
+		CEntityArrayReference e = new CEntityArrayReference(l, programCatalog);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
+		return e;
 	}
 
 	@Override

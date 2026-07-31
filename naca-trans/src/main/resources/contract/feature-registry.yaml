@@ -295,6 +295,23 @@ features:
     fixtures: []
     status: production
 
+  - id: fpac.data.array-reference
+    dialects: [fpac]
+    semanticType: semantic.CEntityArrayReference
+    javaBackend:
+      role: REFERENCE
+      template: arrayReferenceEntity
+    # FPac shares the target-neutral semantic.CEntityArrayReference with COBOL and
+    # reuses the frozen arrayReferenceEntity binding ("<reference>.getAt(<indexes>)").
+    # The retired CFPacJavaArrayReference backend emitted "reference(idx)" — a field
+    # invoked with (), which is not valid Java array access; FPac converges onto the
+    # canonical naca-rt accessor COBOL already emits for this same entity (runtime-legal:
+    # nacaLib.varEx.Var declares getAt(int) and getAt(int,int)). No runtime-op is declared
+    # because .getAt(...) is a method on the data entity, not a contract operation.
+    runtimeOperations: []
+    fixtures: []
+    status: production
+
   - id: cobol.data.address-reference
     dialects: [cobol-core]
     semanticType: semantic.CEntityAddressReference
