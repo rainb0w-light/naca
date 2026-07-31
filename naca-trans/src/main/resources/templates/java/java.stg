@@ -500,6 +500,32 @@ recursiveSkipFieldEntity(entity) ::= "<entity.formattedName>"
 // the legacy CJavaForm/CJavaFieldRedefine traversal rather than the assembler's REFERENCE role.
 recursiveSkipFieldDeclarationEntity(entity) ::= "Edit <entity.formattedName> = declare.level(<entity.level>).editSkip(<entity.nbFields>) ;"
 
+// BMS map-resource DSL: a reference to a screen-map field redefine (an edit sub-view over an
+// existing screen-map field, retired direct backend generate.java.forms.CJavaFieldRedefine).
+// Its ExportReference returned formatIdentifier(GetName()) — the target-formatted field name.
+// Reads only entity.formattedName (the precomputed, target-formatted identifier the
+// generate-layer factory supplies through an injected formatter); reached through
+// LegacyDataRenderer.renderReference's recursive fall-through once the backend's reflective
+// ExportReference is gone (a semantic-declared ExportReference is ignored there). This is the
+// forms-island binding for semantic.forms.CEntityFieldRedefine (REFERENCE role).
+recursiveFieldRedefineEntity(entity) ::= "<entity.formattedName>"
+
+// BMS map-resource DSL: the declaration line of a screen-map field redefine (retired direct
+// backend generate.java.forms.CJavaFieldRedefine). Mirrors its DoExport's declaration exactly:
+// Edit <name> = declare.level(<int level>)[.pic("<picture>")][.justifyRight()][.blankWhenZero()].edit() ;
+// — the declare.level(int)/.edit() chain (nacaLib.varEx.VarLevel.edit() -> nacaLib.varEx.Edit)
+// with the optional fluent pic/justifyRight/blankWhenZero calls the parser resolved on the
+// redefining field. Reads only entity.* properties: entity.formattedName (precomputed formatted
+// identifier), entity.level (the COBOL formal level parsed to an int), entity.picClause (the
+// precomputed .pic(...) clause over the precomputed type/length/decimals/format, "" when the
+// field carries no picture), entity.justifyRightClause and entity.blankWhenZeroClause (the
+// precomputed ".justifyRight()" / ".blankWhenZero()" strings, "" when the flag is unset). The
+// surrounding { ... } block over the field's child attributes is emitted by the generate-layer
+// bridge (BmsJavaEntities.renderFieldRedefineDeclaration); this template is invoked by that
+// bridge (assembler.template(...)), not by a manifest binding, because the redefining field is
+// reached through the legacy CJavaForm traversal rather than the assembler's REFERENCE role.
+recursiveFieldRedefineDeclarationEntity(entity) ::= "Edit <entity.formattedName> = declare.level(<entity.level>)<entity.picClause><entity.justifyRightClause><entity.blankWhenZeroClause>.edit() ;"
+
 // BMS map-resource cursor action (MOVE ... TO <FIELD>-L, lowered by
 // semantic.forms.CEntityFieldLength.GetSpecialAssignment to a
 // semantic.forms.CEntitySetCursor statement). Mirrors the retired direct

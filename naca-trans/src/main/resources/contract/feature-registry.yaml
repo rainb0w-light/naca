@@ -1680,6 +1680,41 @@ features:
     fixtures: []
     status: production
 
+  # The BMS map-resource field redefine (an edit sub-view over an existing
+  # screen-map field, lowered from a BMS MAP/MAPREDEFINE working-storage
+  # structure by parser/Cobol/elements/CWorkingEntry.DoSemanticAnalysisForMapRedefine
+  # -> factory.NewEntityFieldRedefine). Retired direct backend
+  # generate.java.forms.CJavaFieldRedefine. Its data-reference protocol
+  # (ExportReference == formatIdentifier(GetName())) renders through the
+  # forms-island binding semantic.forms.CEntityFieldRedefine ->
+  # recursiveFieldRedefineEntity (REFERENCE role, the template named below); its
+  # declaration block (Edit <name> =
+  # declare.level(<n>)[.pic("<picture>")][.justifyRight()][.blankWhenZero()].edit() ;
+  # { ...children... }) renders through the recursiveFieldRedefineDeclarationEntity
+  # template, invoked by the generate-layer factory bridge
+  # (BmsJavaEntities.renderFieldRedefineDeclaration) that the still-direct
+  # CJavaForm legacy traversal reaches through the pure entity's DoExport. The
+  # declare.level(int)/.edit()/.pic(String)/.justifyRight()/.blankWhenZero() chain
+  # (nacaLib.varEx.VarLevel.edit() -> nacaLib.varEx.Edit) was already emitted
+  # uncontracted by the retired backend (and is still emitted uncontracted by the
+  # still-direct CJavaField backend), so — same treatment as bms.field.occurs /
+  # bms.field.skipField — this feature carries no Codegen-Runtime Contract
+  # operation: no runtime-operations.yaml / template-runtime-requirements.yaml
+  # entry is declared or required. The retired backend's IsEntryField() returned
+  # true (a redefining edit field is always an entry field), isValNeeded()
+  # returned false, ExportWriteAccessorTo returned "" (unused, no live consumer),
+  # GetTypeDecl returned "" (unused), and DoXMLExport returned null (a redefining
+  # field contributes no XML/.res node of its own).
+  - id: bms.field.redefine
+    dialects: [bms-artifact]
+    semanticType: semantic.forms.CEntityFieldRedefine
+    javaBackend:
+      role: REFERENCE
+      template: recursiveFieldRedefineEntity
+    runtimeOperations: []
+    fixtures: []
+    status: production
+
   # The BMS map-field array reference (an indexed read of an OCCURS-style map
   # field, built by semantic.forms.CEntityFieldRedefine.GetArrayReference and by
   # the pure semantic node's own GetSpecialCondition). Reference reads lower

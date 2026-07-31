@@ -136,7 +136,39 @@ public final class BmsJavaEntities
 		int line, String name, CObjectCatalog catalog,
 		CBaseLanguageExporter output, String level)
 	{
-		return new CJavaFieldRedefine(line, name, catalog, output, level);
+		// Retired direct backend generate.java.forms.CJavaFieldRedefine: the factory now builds
+		// the pure semantic entity. Its data-reference protocol renders through the
+		// recursiveFieldRedefineEntity binding (semantic-runtime-bindings.properties); its
+		// declaration block renders through the recursiveFieldRedefineDeclarationEntity template,
+		// driven by the declaration renderer injected below (the retired backend's DoExport body,
+		// relocated to this generate-layer boundary so the semantic tree names no generate.*
+		// class). The exporter bind preserves the retired backend constructor's
+		// LegacyLanguageRenderer.bind side effect for the BMS traversal compatibility boundary;
+		// the injected identifier formatter stands in for LegacyLanguageRenderer.formatIdentifier.
+		CEntityFieldRedefine entity = new CEntityFieldRedefine(line, name, catalog, level);
+		generate.LegacyLanguageRenderer.bind(entity, output);
+		entity.setIdentifierFormatter(identifier -> output.FormatIdentifier(identifier));
+		entity.setDeclarationRenderer(BmsJavaEntities::renderFieldRedefineDeclaration);
+		return entity;
+	}
+
+	/**
+	 * The retired {@code CJavaFieldRedefine.DoExport} body, relocated to this generate-layer
+	 * boundary. Renders the declaration line declaratively through the recursive ST4 assembly
+	 * contract ({@code recursiveFieldRedefineDeclarationEntity}), then drives the {@code { ... }}
+	 * block over the field's child attributes — which keep rendering through the still-direct BMS
+	 * field backends the surrounding {@code CJavaForm} legacy traversal invokes.
+	 */
+	private static void renderFieldRedefineDeclaration(CEntityFieldRedefine entity)
+	{
+		String declaration = generate.templates.TemplateLoader.getRecursiveAssembler()
+			.template("recursiveFieldRedefineDeclarationEntity")
+			.add("entity", entity)
+			.render();
+		generate.LegacyLanguageRenderer.writeLine(entity, declaration);
+		generate.LegacyLanguageRenderer.startBlock(entity);
+		generate.LegacyLanguageRenderer.exportChildren(entity, false);
+		generate.LegacyLanguageRenderer.endBlock(entity);
 	}
 
 	public static CEntityFormRedefine formRedefine(
