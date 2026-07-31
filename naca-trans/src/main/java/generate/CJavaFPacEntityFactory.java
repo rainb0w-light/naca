@@ -1197,7 +1197,10 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityAddress NewEntityAddress(String csAddress)
 	{
-		return new CFPacJavaAddress(programCatalog, langOutput, csAddress);
+		// Pure target-neutral semantic entity: the address literal is fully resolved
+		// here and rendered through the recursive ST4 binding (addressExpressionEntity),
+		// not a generate.fpacjava direct backend.
+		return new CEntityAddress(programCatalog, csAddress);
 	}
 
 	@Override

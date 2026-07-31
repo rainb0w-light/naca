@@ -10,13 +10,24 @@ package semantic.expression;
 import semantic.CDataEntity;
 import utils.CObjectCatalog;
 
-public abstract class CEntityAddress extends CDataEntity
+public class CEntityAddress extends CDataEntity
 {
 
 	public CEntityAddress(CObjectCatalog cat, String address)
 	{
 		super(0, "", cat);
 		csAddress = address ;
+	}
+
+	/**
+	 * Pure read-only getter consumed by the recursive ST4 assembler binding
+	 * {@code addressExpressionEntity}. The address literal is fully resolved while
+	 * the FPac factory/parser populates this entity; the template only reads this
+	 * value and never triggers semantic analysis or identifier formatting.
+	 */
+	public String getAddress()
+	{
+		return csAddress ;
 	}
 
 	@Override

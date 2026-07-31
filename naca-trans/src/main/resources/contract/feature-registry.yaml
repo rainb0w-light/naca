@@ -283,6 +283,18 @@ features:
     fixtures: []
     status: production
 
+  - id: fpac.expression.address
+    dialects: [fpac]
+    semanticType: semantic.expression.CEntityAddress
+    javaBackend:
+      role: REFERENCE
+      template: addressExpressionEntity
+    # The FPac address terminal (&ADDR) lowers to a fully-resolved address literal;
+    # the template reads the precomputed value and emits no naca-rt runtime call.
+    runtimeOperations: []
+    fixtures: []
+    status: production
+
   - id: cobol.data.address-reference
     dialects: [cobol-core]
     semanticType: semantic.CEntityAddressReference

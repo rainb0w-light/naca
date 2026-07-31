@@ -391,6 +391,8 @@ addressOfExpression(reference) ::= "addressOf(<reference>)"
 
 addressOfExpressionEntity(entity) ::= "addressOf(<if(entity.reference)><entity.reference><else>[UNDEFINED]<endif>)"
 
+addressExpressionEntity(entity) ::= "<entity.address>"
+
 digitsExpression(reference) ::= "digits(<reference>)"
 
 digitsExpressionEntity(entity) ::= "digits(<entity.reference>)"
