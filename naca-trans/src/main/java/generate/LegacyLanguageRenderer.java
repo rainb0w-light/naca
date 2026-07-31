@@ -46,6 +46,24 @@ public final class LegacyLanguageRenderer
 
 	public static void invokeExport(CBaseLanguageEntity entity)
 	{
+		invokeExport(entity, null);
+	}
+
+	/**
+	 * Renders one child of a legacy pipeline (FPac/BMS) subtree. A node that still
+	 * carries a direct {@code DoExport} backend is driven reflectively as before. A
+	 * node that has been retired onto the declarative bindings (no {@code DoExport})
+	 * is rendered through the recursive ST4 assembler with the pipeline's
+	 * {@code fallbackRole} and written to the bound legacy output — exactly the bridge
+	 * {@link LegacyExpressionRenderer#render} provides for expressions. When
+	 * {@code fallbackRole} is {@code null} the historical behavior is preserved (a
+	 * backend-less node is left unrendered), so BMS callers that have not opted in are
+	 * unaffected.
+	 */
+	public static void invokeExport(
+		CBaseLanguageEntity entity,
+		generate.templates.recursive.JavaTemplateRole fallbackRole)
+	{
 		if (entity == null)
 		{
 			return;
@@ -53,6 +71,10 @@ public final class LegacyLanguageRenderer
 		Method method = findExportMethod(entity.getClass());
 		if (method == null)
 		{
+			if (fallbackRole != null)
+			{
+				renderViaAssembler(entity, fallbackRole);
+			}
 			return;
 		}
 		try
@@ -82,13 +104,40 @@ public final class LegacyLanguageRenderer
 	public static void exportChildren(
 		CBaseLanguageEntity entity, boolean includeIgnored)
 	{
+		exportChildren(entity, includeIgnored, null);
+	}
+
+	/**
+	 * Renders a legacy container's children, routing any backend-less (retired) child
+	 * through the recursive ST4 assembler with {@code fallbackRole}. See
+	 * {@link #invokeExport(CBaseLanguageEntity, generate.templates.recursive.JavaTemplateRole)}.
+	 */
+	public static void exportChildren(
+		CBaseLanguageEntity entity, boolean includeIgnored,
+		generate.templates.recursive.JavaTemplateRole fallbackRole)
+	{
 		for (CBaseLanguageEntity child : entity.getChildren())
 		{
 			if (includeIgnored || !child.ignore())
 			{
-				invokeExport(child);
+				invokeExport(child, fallbackRole);
 			}
 		}
+	}
+
+	/**
+	 * Flattens a retired semantic node through the single recursive assembler and writes
+	 * the result to the node's bound legacy output controller. The assembler's
+	 * {@code renderRoot} is the only ST-tree flattening point; this bridge merely feeds
+	 * it a pipeline-specific role and forwards the produced source line.
+	 */
+	private static void renderViaAssembler(
+		CBaseLanguageEntity entity,
+		generate.templates.recursive.JavaTemplateRole role)
+	{
+		String rendered = generate.templates.TemplateLoader.getRecursiveAssembler()
+			.renderRoot(entity, role);
+		writeLine(entity, rendered);
 	}
 
 	public static void writeComment(CBaseLanguageEntity entity, String text)

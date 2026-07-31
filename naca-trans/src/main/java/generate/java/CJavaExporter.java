@@ -53,8 +53,20 @@ public class CJavaExporter extends CBaseLanguageExporter
 	}
 
 	protected Hashtable tabReservedWords = new Hashtable() ;
+
 	/**
-	 * 
+	 * The reserved-word keys used by {@link #formatJavaIdentifier(String)}. Mirrors
+	 * exactly the keys {@link #InitReservedWords()} puts into {@link #tabReservedWords}
+	 * (only the keys are consulted), so the static formatter and the instance
+	 * {@link #FormatIdentifier(String)} produce identical identifiers. Exposed so the
+	 * independent FPac pipeline's recursive ST4 rendering can name a DOSUBR call with
+	 * the SAME rules a generated paragraph method is named with.
+	 */
+	private static final java.util.Set<String> RESERVED_IDENTIFIERS = java.util.Set.of(
+		"new", "long", "char", "enum", "int", "double", "for", "string", "switch", "interface") ;
+
+	/**
+	 *
 	 */
 	private void InitReservedWords()
 	{
@@ -393,6 +405,18 @@ public class CJavaExporter extends CBaseLanguageExporter
 	
 	public String FormatIdentifier(String id)
 	{
+		return formatJavaIdentifier(id) ;
+	}
+
+	/**
+	 * Target-identifier formatting shared by every Java backend. Lowercases, maps
+	 * {@code _}->{@code $}, camelizes {@code -X}->{@code _X}, prefixes a leading digit
+	 * with {@code $}, maps {@code #}->{@code $} and suffixes a Java reserved word with
+	 * {@code $}. Pure and static so non-COBOL pipelines (FPac recursive ST4 rendering)
+	 * reuse the exact rules instead of diverging.
+	 */
+	public static String formatJavaIdentifier(String id)
+	{
 		String cs = id.toLowerCase() ;
 		cs = cs.replace('_', '$') ;
 		String out = "" ;
@@ -403,14 +427,14 @@ public class CJavaExporter extends CBaseLanguageExporter
 			char c = cs.charAt(pos+1) ;
 			if (c == '-')
 			{
-				cs = cs.substring(pos+1) ; 
+				cs = cs.substring(pos+1) ;
 				pos = 0 ;
 			}
 			else
 			{
 				c=Character.toUpperCase(c) ;
 				out += c ;
-				cs = cs.substring(pos+2) ; 
+				cs = cs.substring(pos+2) ;
 				pos = cs.indexOf('-') ;
 			}
 		}
@@ -423,7 +447,7 @@ public class CJavaExporter extends CBaseLanguageExporter
 			}
 		}
 		out = out.replace('#', '$') ;
-		if (tabReservedWords.containsKey(out.toLowerCase()))
+		if (RESERVED_IDENTIFIERS.contains(out.toLowerCase()))
 		{
 			out += "$" ;
 		}

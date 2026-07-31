@@ -370,6 +370,27 @@ features:
     fixtures: []
     status: production
 
+  - id: fpac.control.callFunction
+    dialects: [fpac]
+    semanticType: semantic.Verbs.CEntityCallFunction
+    javaBackend:
+      role: FPAC_REFERENCE
+      template: recursiveFPacCallFunctionEntity
+    # FPac shares the target-neutral semantic.Verbs.CEntityCallFunction with COBOL, but its
+    # lowering genuinely differs: COBOL renders this class as a PERFORM
+    # (recursiveCallFunctionEntity, REFERENCE role), whereas an FPac DOSUBR is a DIRECT call
+    # to the generated paragraph method, "name() ;". The FPAC_REFERENCE role layers
+    # semantic-fpac-bindings.properties over the shared reference manifest and redirects ONLY
+    # this class to recursiveFPacCallFunctionEntity, leaving the frozen COBOL PERFORM binding
+    # intact. The retired CFPacJavaCallFunction backend emitted "formatIdentifier(name)() ;";
+    # the template reproduces it via the fpacIdentifier format, which applies the exact same
+    # CJavaExporter.FormatIdentifier rules CFPacJavaProcedure uses to NAME the method, so the
+    # call always matches and compiles. No runtime-op is declared: the emitted call targets the
+    # generated paragraph method itself, not a naca-rt operation.
+    runtimeOperations: []
+    fixtures: []
+    status: production
+
   - id: cobol.data.address-reference
     dialects: [cobol-core]
     semanticType: semantic.CEntityAddressReference

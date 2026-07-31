@@ -21,6 +21,7 @@ public final class JavaTemplateAssembler
     private final JavaSemanticTemplateBindings defaultBindings;
     private final JavaSemanticTemplateBindings declarationBindings;
     private final JavaSemanticTemplateBindings rootBindings;
+    private final JavaSemanticTemplateBindings fpacBindings;
     private final Map<ST, JavaTemplateRole> templateRoles =
         Collections.synchronizedMap(new WeakHashMap<>());
     private final Map<ST, Boolean> artifactContexts =
@@ -34,6 +35,7 @@ public final class JavaTemplateAssembler
         this.defaultBindings = JavaSemanticTemplateBindings.loadDefault();
         this.declarationBindings = JavaSemanticTemplateBindings.loadDeclarations();
         this.rootBindings = JavaSemanticTemplateBindings.loadRoots();
+        this.fpacBindings = JavaSemanticTemplateBindings.loadFpac();
         this.templateGroup.registerModelAdaptor(
             Object.class, new RecursiveSemanticModelAdaptor(this));
         // Fail closed: a missing binding or property must abort generation
@@ -138,6 +140,11 @@ public final class JavaTemplateAssembler
                 // no fallback to the default manifest, so a root type without an
                 // explicit binding fails closed in renderNode.
                 return rootBindings;
+            case FPAC_REFERENCE:
+                // Independent FPac pipeline: shared reference bindings plus the FPac
+                // overrides (semantic-fpac-bindings.properties). Never falls back to the
+                // COBOL PERFORM binding for a type FPac redirects.
+                return fpacBindings;
             case REFERENCE:
             default:
                 return defaultBindings;

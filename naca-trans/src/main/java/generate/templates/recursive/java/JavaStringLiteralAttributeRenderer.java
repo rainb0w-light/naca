@@ -30,6 +30,15 @@ public final class JavaStringLiteralAttributeRenderer
         {
             return raw.replace('-', '_').replace('#', '$');
         }
+        if ("fpacIdentifier".equals(formatString))
+        {
+            // The independent FPac pipeline names generated paragraph methods with
+            // CJavaExporter.FormatIdentifier (lowercase, '_'->'$', dash-camelizing,
+            // reserved-word suffix). A DOSUBR call must apply the SAME rules so the
+            // emitted "name();" matches the generated method and compiles; reuse the
+            // exact formatter rather than re-deriving it.
+            return generate.java.CJavaExporter.formatJavaIdentifier(raw);
+        }
         if ("writeAccessorAll".equals(formatString))
         {
             int parenthesis = raw.indexOf('(');

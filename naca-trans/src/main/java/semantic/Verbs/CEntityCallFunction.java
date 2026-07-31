@@ -172,4 +172,24 @@ public class CEntityCallFunction extends CBaseActionEntity
 		}
 		return null ;
 	}
+
+	/**
+	 * FPac DOSUBR target: the resolved called procedure's raw name, or null when the
+	 * reference is absent/unresolved. The FPac template formats it with the same
+	 * identifier rules the generated paragraph method is named with, so this getter only
+	 * reads the already-resolved reference built during semantic analysis — no lowering,
+	 * formatting or catalog mutation happens when the template accesses it.
+	 */
+	public String getCalledProcedureName()
+	{
+		if (reference != null)
+		{
+			CEntityProcedure procedure = reference.getProcedure() ;
+			if (procedure != null)
+			{
+				return procedure.GetName() ;
+			}
+		}
+		return null ;
+	}
 }

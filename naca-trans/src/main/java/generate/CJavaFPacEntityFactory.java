@@ -728,7 +728,19 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	public CEntityCallFunction NewEntityCallFunction(int l, String reference,
 					String refThru, CEntityProcedureSection section)
 	{
-		return new CFPacJavaCallFunction(l, programCatalog, langOutput, reference) ;
+		// Pure target-neutral semantic entity shared with the COBOL pipeline. FPac's
+		// DOSUBR (CFPacDoSubr passes refThru=null, section=null) renders through the
+		// FPac-recursive ST4 binding (semantic.Verbs.CEntityCallFunction ->
+		// recursiveFPacCallFunctionEntity, "<name>() ;"), NOT the retired generate.fpacjava
+		// direct backend CFPacJavaCallFunction and NOT the COBOL PERFORM template the shared
+		// REFERENCE manifest selects for this same class. Mirroring the retired backend, the
+		// call is built with an empty refThru and a null section (FPac never performs THRU a
+		// range nor scopes calls to a section); passing the parser's null refThru straight
+		// through would NPE in the entity constructor. Lowering stays in the factory; the
+		// semantic entity stays generate-neutral and the reference is resolved in stage 1.
+		CEntityCallFunction e = new CEntityCallFunction(l, programCatalog, reference, "", null) ;
+		generate.LegacyLanguageRenderer.bind(e, langOutput) ;
+		return e ;
 	}
 
 	@Override

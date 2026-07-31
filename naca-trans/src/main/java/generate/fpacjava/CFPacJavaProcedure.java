@@ -29,8 +29,14 @@ public class CFPacJavaProcedure extends CEntityProcedure
 		String cs = "protected int " + generate.LegacyLanguageRenderer.formatIdentifier(this, GetName()) + "() {" ;
 		generate.LegacyLanguageRenderer.writeLine(this, cs) ;
 		generate.LegacyLanguageRenderer.startBlock(this) ;
-		
-		generate.LegacyLanguageRenderer.exportChildren(this, false) ;
+
+		// FPac verb bodies render through the recursive ST4 assembler: children that
+		// still carry a direct DoExport backend are driven reflectively, while retired
+		// pure semantic verbs (e.g. CEntityAssign -> recursiveMoveEntity,
+		// CEntityCallFunction -> recursiveFPacCallFunctionEntity) are lowered with the
+		// FPAC_REFERENCE role. This is the production path a lowered DOSUBR call takes.
+		generate.LegacyLanguageRenderer.exportChildren(this, false,
+			generate.templates.recursive.JavaTemplateRole.FPAC_REFERENCE) ;
 		if (!this.hasExplicitGetOut())
 		{
 			generate.LegacyLanguageRenderer.writeLine(this, "return NEXT ;") ;
