@@ -1154,6 +1154,10 @@ recursiveMoveStatementEntity(entity, destination) ::= <<
 <if(entity.fillAll)>moveAll<elseif(entity.moveCorresponding)>moveCorresponding<else>move<endif>(<if(entity.value)><entity.value><else>[UNDEFINED]<endif>, <destination>);
 >>
 
+recursiveMovePackedEntity(entity) ::= <<
+movePacked(<if(entity.source)><entity.source><else>[UNDEFINED]<endif>, <if(entity.destination)><entity.destination><else>[UNDEFINED]<endif>);
+>>
+
 recursiveUndefinedValue() ::= "[Undefined]"
 
 recursiveBinaryAdd(left, right) ::= "add(<left>, <right>)"

@@ -1353,7 +1353,19 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	}
 
 	public CEntityAssignSpecial NewEntityAssignSpecial(int l)	{
-		return new CFPacJavaAssignSpecial(l, programCatalog, langOutput);
+		// Pure target-neutral semantic entity: a packed FPac move renders through the
+		// declarative recursive ST4 binding
+		// (semantic.Verbs.CEntityAssignSpecial -> recursiveMovePackedEntity,
+		// "movePacked(<source>, <destination>);"), not the retired generate.fpacjava
+		// direct backend CFPacJavaAssignSpecial. FPac populates source + destination +
+		// arithmeticAssign (CFPacMove's packed branch calls setDestination + setSource
+		// + setArithmeticAssign); the template only reads entity.source /
+		// entity.destination, which the parser precomputes. The runtime call is legal:
+		// nacaLib.fpacPrgEnv.FPacProgram declares movePacked(Var, Var), delegating to
+		// nacaLib.basePrgEnv.BaseProgram.move(Var, Var).
+		CEntityAssignSpecial e = new CEntityAssignSpecial(l, programCatalog);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
+		return e;
 	}
 
 	/**

@@ -317,6 +317,19 @@ operations:
     paramTypes: [nacaLib.misc.Pointer, nacaLib.misc.Pointer]
     returns: void
 
+  # FPac packed-decimal move, emitted by recursiveMovePackedEntity for
+  # semantic.Verbs.CEntityAssignSpecial. FPacProgram already declared the constant
+  # overload movePacked(int, Var); the reference overload mirrors it and delegates
+  # to BaseProgram.move(Var, Var), exactly as the retired FPac direct backend's
+  # "movePacked(<source>, <destination>)" output requires.
+  - id: data.movePacked
+    since: 1
+    capability: DATA
+    runtimeClass: nacaLib.fpacPrgEnv.FPacProgram
+    runtimeMethod: movePacked
+    paramTypes: [nacaLib.varEx.Var, nacaLib.varEx.Var]
+    returns: void
+
   # --- ACCEPT (terminal/environment/date sources) ---
   - id: data.move.stringVar
     since: 1

@@ -85,7 +85,7 @@
           "bmsDirectBackends": 3
         },
         "fpacArchitectureCheck": {
-          "fpacDirectBackends": 39
+          "fpacDirectBackends": 38
         }
       }
     },
@@ -6004,7 +6004,7 @@
       "expectedDebtDelta": {
         "fpacDirectBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "FPAC",
       "sourceSyntax": "legacy backend CFPacJavaAssignSpecial",
@@ -6018,11 +6018,12 @@
       "directBackend": "generate.fpacjava.CFPacJavaAssignSpecial",
       "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaAssignSpecial.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery. Dormant wiring today (no live FPac call path); delete together with the pipeline.",
       "evidence": [
         "naca-trans/src/main/java/generate/fpacjava/CFPacJavaAssignSpecial.java"
-      ]
+      ],
+      "lastAttemptCommit": "9e96f4cbd6fa5f39efff4a2ef7eb146cabdfdfd2"
     },
     {
       "id": "FPAC-BACKEND-CFPACJAVAASSIGNWITHACCESSOR",

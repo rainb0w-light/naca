@@ -330,6 +330,25 @@ features:
     fixtures: []
     status: production
 
+  - id: fpac.data.movePacked
+    dialects: [fpac]
+    semanticType: semantic.Verbs.CEntityAssignSpecial
+    javaBackend:
+      role: REFERENCE
+      template: recursiveMovePackedEntity
+    # FPac-only packed-decimal move. The retired CFPacJavaAssignSpecial backend emitted
+    # "movePacked(<source>, <destination>) ;" (stray space before the semicolon) and only
+    # when arithmeticAssign was set; FPac converges onto the canonical
+    # "movePacked(<source>, <destination>);" rendered by the recursiveMovePackedEntity
+    # binding, which reads only entity.source / entity.destination. The packed branch of
+    # the FPac parser is the sole populator and always sets arithmeticAssign, so the
+    # template always lowers to the one runtime call. Runtime-legal:
+    # nacaLib.fpacPrgEnv.FPacProgram declares movePacked(Var, Var), delegating to
+    # nacaLib.basePrgEnv.BaseProgram.move(Var, Var).
+    runtimeOperations: [data.movePacked]
+    fixtures: []
+    status: production
+
   - id: cobol.data.address-reference
     dialects: [cobol-core]
     semanticType: semantic.CEntityAddressReference

@@ -404,5 +404,19 @@ public abstract class FPacProgram extends BaseProgram
 	protected void movePacked(int i, Var var)
 	{
 		move(i, var);
-	}	
+	}
+
+	/**
+	 * Move a packed source variable into a destination variable. Emitted by the
+	 * recursive ST4 binding (semantic.Verbs.CEntityAssignSpecial maps to
+	 * recursiveMovePackedEntity) for FPac packed moves; mirrors the constant
+	 * overload above by delegating to BaseProgram.move(Var, Var). Declared in the
+	 * codegen-runtime contract as operation data.movePacked.
+	 * @param varSource
+	 * @param varDest
+	 */
+	protected void movePacked(Var varSource, Var varDest)
+	{
+		move(varSource, varDest);
+	}
 }

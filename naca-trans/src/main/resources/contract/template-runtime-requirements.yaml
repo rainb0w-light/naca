@@ -81,6 +81,11 @@ templates:
       - data.moveAll
       - data.moveCorresponding
 
+  recursiveMovePackedEntity:
+    capability: DATA
+    requires:
+      - data.movePacked
+
   recursiveMoveReferenceEntity:
     capability: DATA
     requires:
