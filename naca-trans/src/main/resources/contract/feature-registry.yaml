@@ -419,6 +419,28 @@ features:
     fixtures: []
     status: production
 
+  - id: fpac.program.root
+    dialects: [fpac]
+    semanticType: semantic.CEntityClass
+    javaBackend:
+      role: FPAC_ROOT
+      template: recursiveFPacClassEntity
+    # The independent FPac pipeline shares the target-neutral semantic.CEntityClass program root
+    # with COBOL, but wraps it differently, so a dedicated FPAC_ROOT role consults ONLY
+    # semantic-fpac-root-bindings.properties (never the COBOL root manifest). COBOL binds
+    # semantic.CEntityClass to javaProgramRoot ("public class Prog extends BatchProgram/..." +
+    # nacaLib.program imports); FPac wraps the SAME semantic type as
+    # "import nacaLib.fpacPrgEnv.* ;" + "public class PROG extends FPacProgram", the class name
+    # UPPERCASE via the fpacClassName format (GetName().replace('-','_').toUpperCase()), exactly
+    # as the retired generate.fpacjava.CFPacJavaClass.DoExport emitted. The frozen COBOL ROOT
+    # binding is left untouched. The wrapper declares no runtime operation of its own (the base
+    # type FPacProgram and the wildcard import are template concerns, like COBOL's
+    # cobol.program.root which also carries runtimeOperations: []); the body's verbs carry their
+    # own FPac features and lower under FPAC_REFERENCE.
+    runtimeOperations: []
+    fixtures: []
+    status: production
+
   - id: cobol.data.address-reference
     dialects: [cobol-core]
     semanticType: semantic.CEntityAddressReference

@@ -9,7 +9,6 @@ package parser.FPac.elements;
 import java.util.Vector;
 
 import generate.CJavaFPacEntityFactory;
-import generate.fpacjava.CFPacJavaClass;
 import lexer.CBaseToken;
 import lexer.FPac.CFPacKeywordList;
 
@@ -139,9 +138,9 @@ public class CFPacScript extends CFPacElement
 		}
 	}
 
-	public CFPacJavaClass DoSemanticAnalysis(CJavaFPacEntityFactory factory)
+	public CEntityClass DoSemanticAnalysis(CJavaFPacEntityFactory factory)
 	{
-		return (CFPacJavaClass)DoSemanticAnalysis(null, factory) ;
+		return (CEntityClass)DoSemanticAnalysis(null, factory) ;
 	}
 
 	public void setName(String name)

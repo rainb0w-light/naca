@@ -1569,6 +1569,24 @@ recursiveFPacCallProgramEntity(entity) ::= <<
 <entity.onErrorBloc>}<else>executeCall();<endif>
 >>
 
+// FPac program root (bound by semantic-fpac-root-bindings.properties, role FPAC_ROOT). The
+// independent FPac pipeline wraps the whole program in a single class extending
+// nacaLib.fpacPrgEnv.FPacProgram, named UPPERCASE via the fpacClassName format
+// (GetName().replace('-','_').toUpperCase()) — exactly what the retired
+// generate.fpacjava.CFPacJavaClass.DoExport emitted. Children lower under FPAC_REFERENCE
+// (JavaTemplateAssembler.childRole), so a shared verb such as semantic.Verbs.CEntityCallProgram
+// resolves through the FPac override (call(PROG.class)) and never the frozen COBOL PERFORM
+// binding. The frozen COBOL root javaProgramRoot (semantic-root-bindings.properties, role ROOT)
+// is left untouched: one semantic class (semantic.CEntityClass), one wrapper per pipeline.
+recursiveFPacClassEntity(entity) ::= <<
+import nacaLib.fpacPrgEnv.* ;
+
+public class <entity.programName; format="fpacClassName"> extends FPacProgram
+{
+<entity.activeChildren; separator="\n">
+}
+>>
+
 recursiveStringConcatEntity(entity) ::= <<
 <if(entity.hasOverflowHandler)>if (<endif><entity.concatItems:{item | <recursiveStringConcatItem(item)>}; separator=""><if(entity.startIndex)>withPointer(<entity.startIndex>).<endif>into(<entity.destination>)<if(entity.hasOverflowHandler)>.failed())
 {

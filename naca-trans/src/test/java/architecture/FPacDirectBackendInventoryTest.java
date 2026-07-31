@@ -37,7 +37,7 @@ class FPacDirectBackendInventoryTest
 {
     // Exact current count of FPac direct backend source files. Every retirement
     // must lower this value in the same slice, preventing slack in the ratchet.
-    private static final int FPAC_DIRECT_BACKEND_TOTAL_BASELINE = 35;
+    private static final int FPAC_DIRECT_BACKEND_TOTAL_BASELINE = 34;
 
     // Mirrors st4loop.debt.FPAC_DIRECT_SEMANTIC_SUBCLASS exactly.
     private static final Pattern FPAC_DIRECT_SEMANTIC_SUBCLASS =

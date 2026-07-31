@@ -22,6 +22,7 @@ public final class JavaTemplateAssembler
     private final JavaSemanticTemplateBindings declarationBindings;
     private final JavaSemanticTemplateBindings rootBindings;
     private final JavaSemanticTemplateBindings fpacBindings;
+    private final JavaSemanticTemplateBindings fpacRootBindings;
     private final Map<ST, JavaTemplateRole> templateRoles =
         Collections.synchronizedMap(new WeakHashMap<>());
     private final Map<ST, Boolean> artifactContexts =
@@ -36,6 +37,7 @@ public final class JavaTemplateAssembler
         this.declarationBindings = JavaSemanticTemplateBindings.loadDeclarations();
         this.rootBindings = JavaSemanticTemplateBindings.loadRoots();
         this.fpacBindings = JavaSemanticTemplateBindings.loadFpac();
+        this.fpacRootBindings = JavaSemanticTemplateBindings.loadFpacRoots();
         this.templateGroup.registerModelAdaptor(
             Object.class, new RecursiveSemanticModelAdaptor(this));
         // Fail closed: a missing binding or property must abort generation
@@ -145,6 +147,13 @@ public final class JavaTemplateAssembler
                 // overrides (semantic-fpac-bindings.properties). Never falls back to the
                 // COBOL PERFORM binding for a type FPac redirects.
                 return fpacBindings;
+            case FPAC_ROOT:
+                // Independent FPac pipeline root: consults ONLY the FPac root manifest
+                // (semantic-fpac-root-bindings.properties), never the COBOL root manifest,
+                // so the shared semantic.CEntityClass maps to the FPac FPacProgram wrapper
+                // and the frozen COBOL javaProgramRoot binding is left untouched. No
+                // fallback: an FPac root type without an explicit binding fails closed.
+                return fpacRootBindings;
             case REFERENCE:
             default:
                 return defaultBindings;
@@ -174,6 +183,17 @@ public final class JavaTemplateAssembler
                 || "activeChildren".equals(propertyName)))
         {
             return JavaTemplateRole.DECLARATION;
+        }
+        if ((parentRole == JavaTemplateRole.FPAC_ROOT
+                || parentRole == JavaTemplateRole.FPAC_REFERENCE)
+            && ("children".equals(propertyName)
+                || "activeChildren".equals(propertyName)))
+        {
+            // Independent FPac pipeline: children of the FPac program root (and of any
+            // FPac-rendered container) lower under FPAC_REFERENCE, so a shared verb such
+            // as semantic.Verbs.CEntityCallProgram resolves through the FPac override
+            // manifest (call(PROG.class)) and never the frozen COBOL PERFORM binding.
+            return JavaTemplateRole.FPAC_REFERENCE;
         }
         // Any other property defaults to REFERENCE; root role is never inherited
         // implicitly.

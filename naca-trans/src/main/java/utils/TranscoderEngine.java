@@ -88,6 +88,30 @@ public abstract class TranscoderEngine<T_Elem extends CBaseElement, T_Entity ext
 		}
 
 		Transcoder.logDebug("Starting export for: " + filename);
+		exportRoot(eSem, filename, csApplication, grp, bResources) ;
+		if (cat.CanExportResources(eSem.GetProgramName()))
+		{
+			eSem.programCatalog.ExportRegisteredFormContainer(bResources) ;
+		}
+		eSem.Clear();
+
+		cat.registerProgram(filename);
+		Transcoder.dumpUnboundReferences();
+	}
+
+	/**
+	 * Renders the analyzed semantic root to its output target. The default drives the
+	 * COBOL/SQL/CICS (and BMS) pipelines exactly as before: either the single recursive
+	 * ST4 assembler with the explicit {@code ROOT} role (the opt-in ST4 artifact writer)
+	 * or the legacy direct {@code startExport} reflection path. A pipeline whose root
+	 * needs a different assembly role or a transitional bridge overrides this hook —
+	 * e.g. the independent FPac pipeline ({@code FPacTranscoderEngine}) reproduces its
+	 * {@code FPacProgram} class wrapper while its body containers are still direct
+	 * backends on their own retirement slices. Default behavior is unchanged for every
+	 * pipeline that does not override.
+	 */
+	protected void exportRoot(T_Entity eSem, String filename, String csApplication, CTransApplicationGroup grp, boolean bResources)
+	{
 		if (useSt4ArtifactWriter())
 		{
 			// ST4 artifact writer: render the whole program through the single
@@ -113,14 +137,6 @@ public abstract class TranscoderEngine<T_Elem extends CBaseElement, T_Entity ext
 		{
 			generate.LegacyLanguageRenderer.startExport(eSem) ;
 		}
-		if (cat.CanExportResources(eSem.GetProgramName()))
-		{
-			eSem.programCatalog.ExportRegisteredFormContainer(bResources) ;
-		}
-		eSem.Clear();
-
-		cat.registerProgram(filename);
-		Transcoder.dumpUnboundReferences();
 	}
 
 	/**

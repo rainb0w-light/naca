@@ -586,7 +586,16 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 
 	@Override
 	public CEntityClass NewEntityClass(int l, String name)	{
-		return new CFPacJavaClass(l, name, programCatalog, langOutput);
+		// Pure target-neutral semantic root shared with the COBOL pipeline. The FPac program
+		// wrapper renders through the FPac-recursive ST4 root binding (role FPAC_ROOT:
+		// semantic.CEntityClass -> recursiveFPacClassEntity, "import nacaLib.fpacPrgEnv.* ;" +
+		// "public class NAME extends FPacProgram" with the UPPERCASE fpacClassName), NOT the
+		// retired generate.fpacjava.CFPacJavaClass direct backend and NOT the frozen COBOL
+		// javaProgramRoot the shared ROOT manifest selects for this same class. Lowering stays
+		// in stage 1: the entity is generate-neutral and its name/catalog are resolved here.
+		CEntityClass e = new CEntityClass(l, name, programCatalog) ;
+		generate.LegacyLanguageRenderer.bind(e, langOutput) ;
+		return e ;
 	}
 
 	@Override

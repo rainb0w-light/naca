@@ -21,6 +21,8 @@ public final class JavaSemanticTemplateBindings
         "/templates/java/semantic-root-bindings.properties";
     private static final String FPAC_RESOURCE =
         "/templates/java/semantic-fpac-bindings.properties";
+    private static final String FPAC_ROOT_RESOURCE =
+        "/templates/java/semantic-fpac-root-bindings.properties";
 
     private final Map<String, String> templateNames;
 
@@ -61,6 +63,21 @@ public final class JavaSemanticTemplateBindings
         loadResource(bindings, RUNTIME_RESOURCE);
         loadResourceOverride(bindings, FPAC_RESOURCE);
         return new JavaSemanticTemplateBindings(bindings);
+    }
+
+    /**
+     * Root bindings for the independent FPac pipeline. Like the COBOL {@code ROOT}
+     * manifest this is consulted ALONE (no fallback to the concrete/runtime
+     * manifests), so an FPac root type without an explicit binding fails closed. It
+     * is deliberately separate from {@code semantic-root-bindings.properties}: the
+     * shared {@code semantic.CEntityClass} is bound there to the COBOL
+     * {@code javaProgramRoot}, whereas FPac wraps the same semantic type as
+     * {@code public class NAME extends FPacProgram} (see {@code recursiveFPacClassEntity}).
+     * One semantic class, one wrapper per pipeline — the pipelines stay decoupled.
+     */
+    public static JavaSemanticTemplateBindings loadFpacRoots()
+    {
+        return load(FPAC_ROOT_RESOURCE);
     }
 
     private static JavaSemanticTemplateBindings load(String... resources)
