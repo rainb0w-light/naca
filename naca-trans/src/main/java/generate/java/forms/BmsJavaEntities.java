@@ -13,6 +13,7 @@ import semantic.forms.CEntityIsFieldColor;
 import semantic.forms.CEntityIsFieldHighlight;
 import semantic.forms.CEntityIsKeyPressed;
 import semantic.forms.CEntityKeyPressed;
+import semantic.forms.CEntityLabelField;
 import semantic.forms.CEntityResetKeyPressed;
 import semantic.forms.CEntityResourceField;
 import semantic.forms.CEntityResourceFieldArray;
@@ -87,7 +88,18 @@ public final class BmsJavaEntities
 	public static CEntityResourceField labelField(
 		int line, CObjectCatalog catalog, CBaseLanguageExporter output)
 	{
-		return new CJavaLabelField(line, catalog, output);
+		// Retired direct backend generate.java.forms.CJavaLabelField: the factory now builds
+		// the pure semantic entity. A label field emits no Java (its DoExport was empty); its
+		// only live output protocol is the BMS XML/.res artifact DoXMLExport, which stays
+		// target-neutral in semantic.forms.CEntityLabelField. The retired backend's single
+		// generate-layer call (LegacyLanguageRenderer.formatIdentifier for the
+		// linkedActiveChoice branch) is injected here as a neutral formatter, so the semantic
+		// tree carries no generate.* coupling. The exporter bind preserves the retired backend
+		// constructor's LegacyLanguageRenderer.bind side effect for the BMS traversal boundary.
+		CEntityLabelField entity = new CEntityLabelField(line, catalog);
+		generate.LegacyLanguageRenderer.bind(entity, output);
+		entity.setIdentifierFormatter(identifier -> output.FormatIdentifier(identifier));
+		return entity;
 	}
 
 	public static CEntityFieldRedefine fieldRedefine(
