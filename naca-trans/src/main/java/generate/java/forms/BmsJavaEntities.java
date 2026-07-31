@@ -107,7 +107,10 @@ public final class BmsJavaEntities
 
 	public static CEntityIsFieldColor isFieldColor()
 	{
-		return new CJavaIsFieldColor();
+		// Retired direct backend generate.java.forms.CJavaIsFieldColor: the factory now
+		// builds the pure semantic entity, rendered by recursiveIsFieldColorEntity
+		// (binding in semantic-runtime-bindings.properties).
+		return new CEntityIsFieldColor();
 	}
 
 	public static CEntityIsFieldAttribute isFieldAttribute()

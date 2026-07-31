@@ -694,6 +694,26 @@ recursiveIsFieldAttributeGroup2(entity) ::= "<if(entity.bright)>is<if(entity.opp
 
 recursiveIsFieldAttributeGroup3(entity) ::= "<if(entity.modified)>is<if(entity.opposite)>Not<endif>FieldModified(<entity.reference>)<elseif(entity.unmodified)>is<if(entity.opposite)>Not<endif>FieldUnmodified(<entity.reference>)<elseif(entity.cleared)>is<if(entity.opposite)>Not<endif>FieldCleared(<entity.reference>)<endif>"
 
+// BMS map-resource field-color condition (IF <FIELD>C = <color-code> / <> <color-code>,
+// lowered by semantic.forms.CEntityFieldColor.GetSpecialCondition to a pure
+// semantic.forms.CEntityIsFieldColor). Mirrors the retired direct backend
+// generate.java.forms.CJavaIsFieldColor exactly: its output protocol built "is" +
+// ("Not" when isopposite) + "FieldColored(<reference>, MapFieldAttrColor.<color>)" —
+// IF <FIELD>C = <color-code> (IS_EQUAL) emits the protected
+// OnlineProgram.isFieldColored(Edit, MapFieldAttrColor) condition call (contract
+// operation bms.field.color.is); IF <FIELD>C <> <color-code> (IS_DIFFERENT) lowers
+// through SetOpposite and emits isNotFieldColored(Edit, MapFieldAttrColor)
+// (bms.field.color.isNot). Unlike the field-modified condition, negation is carried by
+// the entity's own isopposite flag (SetOpposite and GetOppositeCondition flip it)
+// rather than a wrapping CEntityCondNot, so the template branches on entity.opposite to
+// select the is/isNot runtime call — preserving the two distinct legacy runtime calls
+// byte-for-byte. entity.colorConstant is a pure entity getter folding the compared
+// color slot into the static nacaLib.mapSupport.MapFieldAttrColor field reference
+// (MapFieldAttrColor.<color>); reads only entity.* properties and the field data
+// reference rides in the inherited condition reference slot (the entity exposes
+// getReference()) and unfolds through the assembler.
+recursiveIsFieldColorEntity(entity) ::= "is<if(entity.opposite)>Not<endif>FieldColored(<entity.reference>, <entity.colorConstant>)"
+
 recursiveCondIsKindOfEntity(entity) ::= <<
 is<if(entity.opposite)>Not<endif><if(entity.numeric)>Numeric<elseif(entity.alphabetic)>Alphabetic<elseif(entity.lower)>AlphabeticLower<elseif(entity.upper)>AlphabeticUpper<endif>(<if(entity.conditionReference)><entity.conditionReference><else>[UNDEFINED]<endif>)
 >>

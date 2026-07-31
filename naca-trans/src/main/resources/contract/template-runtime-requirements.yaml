@@ -677,6 +677,18 @@ templates:
       - bms.field.cursor.has
       - bms.field.cursor.hasNot
 
+  # BMS map-resource DSL: the field-color condition (IF <FIELD>C = <color-code> /
+  # <> <color-code>, retired direct backend CJavaIsFieldColor) emits one of two protected
+  # OnlineProgram condition calls, selected by the entity's isopposite flag:
+  # isFieldColored(Edit, MapFieldAttrColor) for IS_EQUAL, isNotFieldColored(Edit,
+  # MapFieldAttrColor) for IS_DIFFERENT. Both are real runtime methods and both are
+  # listed because each is reachable on a template branch.
+  recursiveIsFieldColorEntity:
+    capability: BMS_MAP
+    requires:
+      - bms.field.color.is
+      - bms.field.color.isNot
+
   # BMS map-resource DSL: the field-flag condition (IF <FIELD>P = 1 / 0 / LOW-VALUE,
   # retired direct backend CJavaIsFieldFlag) emits one of four protected OnlineProgram
   # condition calls, selected by the entity's isSet and isopposite flags:

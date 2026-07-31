@@ -1668,6 +1668,32 @@ features:
     fixtures: []
     status: production
 
+  # The BMS map-resource field-color condition (IF <FIELD>C = <color-code> /
+  # <> <color-code>). Built by semantic.forms.CEntityFieldColor.GetSpecialCondition as a
+  # pure semantic.forms.CEntityIsFieldColor condition: IS_EQUAL emits the protected
+  # OnlineProgram.isFieldColored(Edit, MapFieldAttrColor) call (isNotFieldColored for
+  # IS_DIFFERENT), exactly as the retired direct backend
+  # generate.java.forms.CJavaIsFieldColor.Export did (its isopposite flag selected the
+  # call and its isColor slot the MapFieldAttrColor.<color> operand). Conditions lower
+  # through the runtime binding semantic.forms.CEntityIsFieldColor ->
+  # recursiveIsFieldColorEntity in the BMS forms-island manifest
+  # (semantic-runtime-bindings.properties, kept disjoint from the concrete manifest
+  # FinalArchitectureContractTest pins to the COBOL tree); the template reads only
+  # entity.* properties, branches on entity.opposite to select the is/isNot call, takes
+  # the MapFieldAttrColor.<color> operand from the pure entity.colorConstant getter, and
+  # the field data reference unfolds through the assembler. The emitted calls are the
+  # protected OnlineProgram condition helpers contracted as bms.field.color.is and
+  # bms.field.color.isNot.
+  - id: bms.condIsFieldColor
+    dialects: [bms-artifact]
+    semanticType: semantic.forms.CEntityIsFieldColor
+    javaBackend:
+      role: REFERENCE
+      template: recursiveIsFieldColorEntity
+    runtimeOperations: [bms.field.color.is, bms.field.color.isNot]
+    fixtures: []
+    status: production
+
   # The BMS map-resource field-flag condition (IF <FIELD>P = 1 / 0 / LOW-VALUE). Built by
   # semantic.forms.CEntityFieldFlag.GetSpecialCondition as a pure
   # semantic.forms.CEntityIsFieldFlag condition: IF <FIELD>P = 1 / 0 emits the protected
