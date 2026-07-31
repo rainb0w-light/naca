@@ -477,6 +477,29 @@ recursiveFieldOccursEntity(entity) ::= "<entity.formattedName>"
 // traversal rather than the assembler's REFERENCE role.
 recursiveFieldOccursDeclarationEntity(entity) ::= "Edit <entity.formattedName> = declare.level(<entity.level>).editOccurs(<entity.occursReference>, \"<entity.formattedName>\") ;"
 
+// BMS map-resource DSL: a reference to a screen-map SKIPFIELD run (retired direct backend
+// generate.java.forms.CJavaSkipField). Its ExportReference returned formatIdentifier(GetName())
+// — the target-formatted skip-field name. Reads only entity.formattedName (the precomputed,
+// target-formatted identifier the generate-layer factory supplies through an injected formatter);
+// reached through LegacyDataRenderer.renderReference's recursive fall-through once the backend's
+// reflective ExportReference is gone (a semantic-declared ExportReference is ignored there). This
+// is the forms-island binding for semantic.forms.CEntitySkipFields (REFERENCE role).
+recursiveSkipFieldEntity(entity) ::= "<entity.formattedName>"
+
+// BMS map-resource DSL: the declaration line of a screen-map SKIPFIELD run (retired direct
+// backend generate.java.forms.CJavaSkipField). Mirrors its DoExport's declaration exactly:
+// Edit <name> = declare.level(<int level>).editSkip(<nbFields>) ; — the editSkip(int) call
+// (nacaLib.varEx.VarLevel.editSkip(int) -> nacaLib.varEx.Edit) skips the run of screen bytes the
+// parser resolved (eForm.ConsumeFieldsAsBytes). Reads only entity.* properties:
+// entity.formattedName (precomputed formatted identifier), entity.level (the COBOL formal level
+// parsed to an int) and entity.nbFields (the consumed-field count; the latent constructor
+// self-assignment that zeroed it is fixed in semantic.forms.CEntitySkipFields). The surrounding
+// { ... } block over any child fields is emitted by the generate-layer bridge
+// (BmsJavaEntities.renderSkipFieldDeclaration); this template is invoked by that bridge
+// (assembler.template(...)), not by a manifest binding, because the skip field is reached through
+// the legacy CJavaForm/CJavaFieldRedefine traversal rather than the assembler's REFERENCE role.
+recursiveSkipFieldDeclarationEntity(entity) ::= "Edit <entity.formattedName> = declare.level(<entity.level>).editSkip(<entity.nbFields>) ;"
+
 // BMS map-resource cursor action (MOVE ... TO <FIELD>-L, lowered by
 // semantic.forms.CEntityFieldLength.GetSpecialAssignment to a
 // semantic.forms.CEntitySetCursor statement). Mirrors the retired direct

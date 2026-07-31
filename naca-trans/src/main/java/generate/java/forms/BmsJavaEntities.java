@@ -74,8 +74,38 @@ public final class BmsJavaEntities
 		int line, String name, CObjectCatalog catalog,
 		CBaseLanguageExporter output, int fields, String level)
 	{
-		return new CJavaSkipField(
-			line, name, catalog, output, fields, level);
+		// Retired direct backend generate.java.forms.CJavaSkipField: the factory now builds the
+		// pure semantic entity, rendered by recursiveSkipFieldEntity (REFERENCE binding in
+		// semantic-runtime-bindings.properties) and by the recursiveSkipFieldDeclarationEntity
+		// declaration template, driven by the declaration renderer injected below (the retired
+		// backend's DoExport body, relocated to this generate-layer boundary so the semantic tree
+		// names no generate.* class). The exporter bind preserves the retired backend
+		// constructor's LegacyLanguageRenderer.bind side effect for the BMS traversal boundary;
+		// the injected identifier formatter stands in for LegacyLanguageRenderer.formatIdentifier.
+		CEntitySkipFields entity = new CEntitySkipFields(line, name, catalog, fields, level);
+		generate.LegacyLanguageRenderer.bind(entity, output);
+		entity.setIdentifierFormatter(identifier -> output.FormatIdentifier(identifier));
+		entity.setDeclarationRenderer(BmsJavaEntities::renderSkipFieldDeclaration);
+		return entity;
+	}
+
+	/**
+	 * The retired {@code CJavaSkipField.DoExport} body, relocated to this generate-layer
+	 * boundary. Renders the declaration line declaratively through the recursive ST4 assembly
+	 * contract ({@code recursiveSkipFieldDeclarationEntity}), then drives the {@code { ... }}
+	 * block over any child fields — which keep rendering through the still-direct BMS field
+	 * backends the surrounding {@code CJavaForm}/{@code CJavaFieldRedefine} traversal invokes.
+	 */
+	private static void renderSkipFieldDeclaration(CEntitySkipFields entity)
+	{
+		String declaration = generate.templates.TemplateLoader.getRecursiveAssembler()
+			.template("recursiveSkipFieldDeclarationEntity")
+			.add("entity", entity)
+			.render();
+		generate.LegacyLanguageRenderer.writeLine(entity, declaration);
+		generate.LegacyLanguageRenderer.startBlock(entity);
+		generate.LegacyLanguageRenderer.exportChildren(entity, false);
+		generate.LegacyLanguageRenderer.endBlock(entity);
 	}
 
 	public static CEntityResourceField entryField(
