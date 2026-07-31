@@ -526,6 +526,33 @@ recursiveFieldRedefineEntity(entity) ::= "<entity.formattedName>"
 // reached through the legacy CJavaForm traversal rather than the assembler's REFERENCE role.
 recursiveFieldRedefineDeclarationEntity(entity) ::= "Edit <entity.formattedName> = declare.level(<entity.level>)<entity.picClause><entity.justifyRightClause><entity.blankWhenZeroClause>.edit() ;"
 
+// BMS map-resource DSL: a reference to a screen-map form (a CICS MAP, retired direct backend
+// generate.java.forms.CJavaForm). Its ExportReference returned [renderReference(of) + "."] +
+// formatIdentifier(GetName()) — the target-formatted form name, qualified by the target-formatted
+// enclosing mapset container when the parser set the of qualifier (CMapElement assigns
+// ef.of = container). Reads only entity.formReference (the precomputed reference the pure entity
+// computes over precomputed names through the injected target-specific formatter); reached through
+// LegacyDataRenderer.renderReference's recursive fall-through once the backend's reflective
+// ExportReference is gone (a semantic-declared ExportReference is ignored there). This is the
+// forms-island binding for semantic.forms.CEntityResourceForm (REFERENCE role).
+recursiveFormEntity(entity) ::= "<entity.formReference>"
+
+// BMS map-resource DSL: the declaration line of a screen-map form (retired direct backend
+// generate.java.forms.CJavaForm). Mirrors its DoExport's declaration exactly:
+// Form <name> = declare.form("<resourceName>", <sizeLine>, <sizeCol>) ; — the
+// declare.form(String, int, int) call (nacaLib.varEx.VarDeclarationInMap.form(String, int, int) ->
+// nacaLib.mapSupport.Form) declares the screen form sized by the parser-resolved line/column
+// counts. Reads only entity.* properties: entity.formattedName (the precomputed, target-formatted
+// form name — the Java variable), entity.formattedResourceName (the precomputed, target-formatted
+// BMS resource name — the quoted declare.form argument), and entity.sizeLine / entity.sizeCol (the
+// parser-resolved screen dimensions). The surrounding { ... } block over the form's fields is
+// emitted by the generate-layer bridge (BmsJavaEntities.renderFormDeclaration), which drives the
+// legacy invokeExport traversal over entity.getFields() (the form's fields live in arrFields, not
+// the generic child list); this template is invoked by that bridge (assembler.template(...)), not
+// by a manifest binding, because the form is reached through the legacy CJavaFormContainer
+// traversal rather than the assembler's REFERENCE role.
+recursiveFormDeclarationEntity(entity) ::= "Form <entity.formattedName> = declare.form(\"<entity.formattedResourceName>\", <entity.sizeLine>, <entity.sizeCol>) ;"
+
 // BMS map-resource cursor action (MOVE ... TO <FIELD>-L, lowered by
 // semantic.forms.CEntityFieldLength.GetSpecialAssignment to a
 // semantic.forms.CEntitySetCursor statement). Mirrors the retired direct

@@ -37,14 +37,56 @@ import utils.Transcoder;
 
 import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 /**
- * @author sly
+ * BMS map-resource DSL: a screen-map {@code MAP} (a CICS screen form), lowered from a BMS
+ * {@code .bms} map definition ({@code parser/map_elements/CMapElement} -&gt;
+ * {@code factory.NewEntityForm(line, name, save)}). A form declares a
+ * {@code nacaLib.mapSupport.Form} and opens a {@code { ... }} block over its fields.
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
+ * <p>De-abstracted when the direct backend {@code generate.java.forms.CJavaForm} was retired
+ * onto the recursive ST4 assembly contract. The backend had two live output protocols, both
+ * preserved target-neutrally here:
+ * <ul>
+ *   <li><b>data reference</b> — {@code ExportReference(nLine) == [renderReference(of) + "."] +
+ *       formatIdentifier(GetName())}. A reference to the form now renders through the BMS
+ *       forms-island binding {@code semantic.forms.CEntityResourceForm -> recursiveFormEntity},
+ *       whose template reads only {@code entity.formReference} (the precomputed reference: the
+ *       target-formatted container qualifier — when the parser set {@code of} — followed by the
+ *       target-formatted form name). {@code LegacyDataRenderer.renderReference} ignores a
+ *       semantic-declared {@code ExportReference} and falls through to that binding, reproducing
+ *       the backend's reference exactly.</li>
+ *   <li><b>declaration block</b> — {@code DoExport} emitted
+ *       {@code Form <name> = declare.form("<resourceName>", <sizeLine>, <sizeCol>) ;} followed by
+ *       a {@code { ... }} block over the form's fields. The declaration LINE now renders
+ *       declaratively through the {@code recursiveFormDeclarationEntity} template (invoked by the
+ *       generate-layer factory bridge {@code BmsJavaEntities.renderFormDeclaration}); the block and
+ *       the fields keep rendering through the still-direct BMS field backends, which that bridge
+ *       drives over {@link #getFields()} (the form's fields live in {@code arrFields}, populated
+ *       via {@link #AddField}, not in the generic child list).</li>
+ * </ul>
+ *
+ * <p>This tree names no {@code generate.*} class, so the dependency arrow stays
+ * generate -&gt; semantic. The two generate-layer protocols the retired backend performed inline
+ * are supplied by the generate-layer factory ({@code generate.java.forms.BmsJavaEntities.form}):
+ * a neutral identifier {@link Function} (standing in for
+ * {@code LegacyLanguageRenderer.formatIdentifier}) and a declaration {@link Consumer} that renders
+ * the declaration line through the recursive assembler and drives the
+ * {@code startBlock/<fields>/endBlock} block over the still-direct field backends. A hand-built
+ * entity (no factory) defaults to the neutral identifier normalization and a no-op declaration
+ * renderer, so it stays well-formed and never fails.
+ *
+ * <p>The retired backend's data-entity protocols are preserved exactly: a form bears
+ * {@code FORM} data type, needs no {@code val} ({@code isValNeeded() == false}), bears no
+ * accessors ({@code HasAccessors() == false}), has no reachable write-accessor protocol
+ * ({@code ExportWriteAccessorTo -> ""}, unused), and contributes no type declaration
+ * ({@code GetTypeDecl -> ""}, unused).
+ *
+ * @author sly
  */
-public abstract class CEntityResourceForm extends CBaseResourceEntity
+public class CEntityResourceForm extends CBaseResourceEntity
 {
 	public class CFormByteConsumingState
 	{
@@ -133,6 +175,20 @@ public abstract class CEntityResourceForm extends CBaseResourceEntity
 			names.add(f.GetName()) ;
 		}
 		return names ;
+	}
+
+	/**
+	 * Read-only snapshot of this form's fields, in layout order. Consumed by the generate-layer
+	 * declaration bridge ({@code BmsJavaEntities.renderFormDeclaration}) to drive the {@code { ... }}
+	 * block over the still-direct BMS field backends — exactly the {@code arrFields} traversal the
+	 * retired {@code CJavaForm.DoExport} performed. The form's fields live in {@code arrFields}
+	 * (populated via {@link #AddField}), not in the generic child list, so this list — not
+	 * {@code exportChildren} — is the production field collection. A fresh copy is returned so the
+	 * semantic tree's internal state cannot be mutated through it.
+	 */
+	public java.util.List<CBaseResourceEntity> getFields()
+	{
+		return new java.util.ArrayList<>(arrFields) ;
 	}
 
 	protected Vector<CBaseResourceEntity> arrFields = new Vector<CBaseResourceEntity>() ;
@@ -871,4 +927,162 @@ public abstract class CEntityResourceForm extends CBaseResourceEntity
 	}
 	protected String csResourceName = "" ;
 
+	// ---------------------------------------------------------------------------------------------
+	// Retired direct backend generate.java.forms.CJavaForm: the output protocols below were moved
+	// out of the generate layer onto this pure semantic entity when the backend was retired onto
+	// the recursive ST4 assembly contract. They read only precomputed state; the two generate-layer
+	// operations the backend performed inline (identifier formatting and the declaration/block
+	// rendering) are injected by the generate-layer factory (BmsJavaEntities.form), so this tree
+	// names no generate.* class.
+	// ---------------------------------------------------------------------------------------------
+
+	/* (non-Javadoc)
+	 * @see semantic.CBaseDataEntity#GetDataType()
+	 */
+	public CDataEntityType GetDataType()
+	{
+		// Preserved from the retired backend: a screen map bears the FORM data type.
+		return CDataEntityType.FORM ;
+	}
+
+	public boolean HasAccessors()
+	{
+		// Preserved from the retired backend: a form bears no accessors.
+		return false;
+	}
+
+	public boolean isValNeeded()
+	{
+		// Preserved from the retired backend: a form is never declared as a val.
+		return false;
+	}
+
+	public String ExportWriteAccessorTo(String value)
+	{
+		// Preserved from the retired backend: no reachable write-accessor protocol (the legacy
+		// backend returned "" — unused). LegacyDataRenderer.renderWriteAccessor ignores this
+		// semantic-declared method (declaring class starts with "semantic.") and returns null.
+		return "" ;
+	}
+
+	/* (non-Javadoc)
+	 * @see semantic.CBaseExternalEntity#GetTypeDecl()
+	 */
+	public String GetTypeDecl()
+	{
+		// Preserved from the retired backend: a form contributes no type declaration (unused).
+		return "";
+	}
+
+	public String ExportReference(int nLine)
+	{
+		// Mirrors the retired backend's [renderReference(of) + "."] + formatIdentifier(GetName()).
+		// LegacyDataRenderer ignores this semantic-declared ExportReference and renders the reference
+		// through the recursiveFormEntity binding instead; this override stays for direct callers and
+		// reads only the precomputed, target-formatted reference.
+		return getFormReference() ;
+	}
+
+	protected void DoExport()
+	{
+		// Legacy traversal bridge: the surrounding CJavaFormContainer.DoExport reflectively invokes
+		// this (invokeExport(eForm)). The declaration line + field block are rendered through the
+		// recursive ST4 assembly contract by the generate-layer renderer the factory injects; a
+		// hand-built entity (no factory) is a no-op and never fails.
+		declarationRenderer.accept(this) ;
+	}
+
+	/**
+	 * Target-neutral identifier formatter standing in for the retired backend's
+	 * {@code LegacyLanguageRenderer.formatIdentifier}. Installed by the generate-layer factory
+	 * ({@code BmsJavaEntities.form} injects the bound output's {@code FormatIdentifier}); defaults
+	 * to the neutral legacy fallback so a directly constructed entity stays well-formed. A pure
+	 * injected value — no {@code generate.*} coupling lives in this tree.
+	 */
+	private Function<String, String> identifierFormatter =
+		identifier -> identifier.replace('-', '_').replace('#', '$');
+
+	public void setIdentifierFormatter(Function<String, String> formatter)
+	{
+		if (formatter != null)
+		{
+			identifierFormatter = formatter ;
+		}
+	}
+
+	/**
+	 * Pure read-only getter consumed by the {@code recursiveFormDeclarationEntity} template: the
+	 * form's Java variable name — the target-formatted {@code GetName()}. Mirrors the retired
+	 * backend's {@code formatIdentifier(GetName())}. A pure formatting step over precomputed state.
+	 */
+	public String getFormattedName()
+	{
+		return identifierFormatter.apply(GetName()) ;
+	}
+
+	/**
+	 * Pure read-only getter consumed by the {@code recursiveFormDeclarationEntity} template: the
+	 * quoted {@code declare.form("<resourceName>", ...)} argument — the target-formatted resource
+	 * name. Mirrors the retired backend's {@code formatIdentifier(csResourceName)}. A pure
+	 * formatting step over precomputed state.
+	 */
+	public String getFormattedResourceName()
+	{
+		return identifierFormatter.apply(csResourceName) ;
+	}
+
+	/**
+	 * Pure read-only getter consumed by the {@code recursiveFormDeclarationEntity} template and by
+	 * the {@code recursiveFormEntity} reference binding: the full data reference to this form.
+	 * Mirrors the retired backend's {@code ExportReference}: when the parser set the {@code of}
+	 * qualifier (the enclosing mapset container, {@code CMapElement} assigns {@code ef.of =
+	 * container}), the target-formatted container name prefixes the target-formatted form name with
+	 * a {@code .}; otherwise the reference is just the target-formatted form name. Reads only
+	 * precomputed names through the injected formatter — no data-reference resolution, no lowering.
+	 */
+	public String getFormReference()
+	{
+		String ref = "" ;
+		if (of != null)
+		{
+			ref = identifierFormatter.apply(of.GetName()) + "." ;
+		}
+		ref += identifierFormatter.apply(GetName()) ;
+		return ref ;
+	}
+
+	/**
+	 * Pure read-only getter consumed by the {@code recursiveFormDeclarationEntity} template: the
+	 * {@code declare.form(..., <sizeLine>, ...)} argument — the screen line count the parser
+	 * resolved ({@link #SetSize}). A plain field read.
+	 */
+	public int getSizeLine()
+	{
+		return nSizeLine ;
+	}
+
+	/**
+	 * Pure read-only getter consumed by the {@code recursiveFormDeclarationEntity} template: the
+	 * {@code declare.form(..., ..., <sizeCol>)} argument — the screen column count the parser
+	 * resolved ({@link #SetSize}). A plain field read.
+	 */
+	public int getSizeCol()
+	{
+		return nSizeCol ;
+	}
+
+	/**
+	 * Generate-layer declaration renderer (the retired backend's {@code DoExport} body, moved out
+	 * of the semantic tree). Invoked from {@link #DoExport()} when the legacy traversal reaches
+	 * this form. Defaults to a no-op so a hand-built entity stays well-formed.
+	 */
+	private Consumer<CEntityResourceForm> declarationRenderer = entity -> {};
+
+	public void setDeclarationRenderer(Consumer<CEntityResourceForm> renderer)
+	{
+		if (renderer != null)
+		{
+			declarationRenderer = renderer ;
+		}
+	}
 }

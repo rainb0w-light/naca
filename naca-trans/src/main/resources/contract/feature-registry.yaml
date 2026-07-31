@@ -1715,6 +1715,38 @@ features:
     fixtures: []
     status: production
 
+  # The BMS map-resource form (a CICS screen MAP, lowered from a BMS .bms map
+  # definition by parser/map_elements/CMapElement -> factory.NewEntityForm).
+  # Retired direct backend generate.java.forms.CJavaForm. Its data-reference
+  # protocol (ExportReference == [renderReference(of) + "."] +
+  # formatIdentifier(GetName())) renders through the forms-island binding
+  # semantic.forms.CEntityResourceForm -> recursiveFormEntity (REFERENCE role,
+  # the template named below); its declaration block (Form <name> =
+  # declare.form("<resourceName>", <sizeLine>, <sizeCol>) ; { ...fields... })
+  # renders through the recursiveFormDeclarationEntity template, invoked by the
+  # generate-layer factory bridge (BmsJavaEntities.renderFormDeclaration) that
+  # the still-direct CJavaFormContainer legacy traversal reaches through the pure
+  # entity's DoExport. That bridge drives the { ... } block over entity.getFields()
+  # (the form's fields live in arrFields via AddField, not the generic child list),
+  # exactly the collection the retired backend iterated. The declare.form call
+  # (nacaLib.varEx.VarDeclarationInMap.form(String, int, int) ->
+  # nacaLib.mapSupport.Form) was already emitted uncontracted by the retired
+  # backend, so — same treatment as bms.field.occurs / bms.field.skipField /
+  # bms.field.redefine — this feature carries no Codegen-Runtime Contract
+  # operation: no runtime-operations.yaml / template-runtime-requirements.yaml
+  # entry is declared or required. The retired backend's HasAccessors() returned
+  # false, isValNeeded() returned false, ExportWriteAccessorTo returned "" (unused,
+  # no live consumer), and GetTypeDecl returned "" (unused).
+  - id: bms.form
+    dialects: [bms-artifact]
+    semanticType: semantic.forms.CEntityResourceForm
+    javaBackend:
+      role: REFERENCE
+      template: recursiveFormEntity
+    runtimeOperations: []
+    fixtures: []
+    status: production
+
   # The BMS map-field array reference (an indexed read of an OCCURS-style map
   # field, built by semantic.forms.CEntityFieldRedefine.GetArrayReference and by
   # the pure semantic node's own GetSpecialCondition). Reference reads lower

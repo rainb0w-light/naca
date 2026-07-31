@@ -48,7 +48,44 @@ public final class BmsJavaEntities
 		int line, String name, CObjectCatalog catalog,
 		CBaseLanguageExporter output, boolean save)
 	{
-		return new CJavaForm(line, name, catalog, output, save);
+		// Retired direct backend generate.java.forms.CJavaForm: the factory now builds the pure
+		// semantic entity. Its data-reference protocol renders through the recursiveFormEntity
+		// binding (semantic-runtime-bindings.properties); its declaration block renders through the
+		// recursiveFormDeclarationEntity template, driven by the declaration renderer injected below
+		// (the retired backend's DoExport body, relocated to this generate-layer boundary so the
+		// semantic tree names no generate.* class). The exporter bind preserves the retired backend
+		// constructor's LegacyLanguageRenderer.bind side effect for the BMS traversal boundary; the
+		// injected identifier formatter stands in for LegacyLanguageRenderer.formatIdentifier.
+		CEntityResourceForm entity = new CEntityResourceForm(line, name, catalog, save);
+		generate.LegacyLanguageRenderer.bind(entity, output);
+		entity.setIdentifierFormatter(identifier -> output.FormatIdentifier(identifier));
+		entity.setDeclarationRenderer(BmsJavaEntities::renderFormDeclaration);
+		return entity;
+	}
+
+	/**
+	 * The retired {@code CJavaForm.DoExport} body, relocated to this generate-layer boundary.
+	 * Renders the declaration line declaratively through the recursive ST4 assembly contract
+	 * ({@code recursiveFormDeclarationEntity}), then drives the {@code { ... }} block over the
+	 * form's fields. The form's fields live in {@code arrFields} (populated via
+	 * {@code CEntityResourceForm.AddField}), not in the generic child list, so this drives the
+	 * legacy {@code invokeExport} traversal over {@code entity.getFields()} — exactly the collection
+	 * the retired backend iterated — and the fields keep rendering through the still-direct BMS
+	 * field backends.
+	 */
+	private static void renderFormDeclaration(CEntityResourceForm entity)
+	{
+		String declaration = generate.templates.TemplateLoader.getRecursiveAssembler()
+			.template("recursiveFormDeclarationEntity")
+			.add("entity", entity)
+			.render();
+		generate.LegacyLanguageRenderer.writeLine(entity, declaration);
+		generate.LegacyLanguageRenderer.startBlock(entity);
+		for (semantic.CBaseResourceEntity field : entity.getFields())
+		{
+			generate.LegacyLanguageRenderer.invokeExport(field);
+		}
+		generate.LegacyLanguageRenderer.endBlock(entity);
 	}
 
 	public static CEntityFieldAttribute fieldAttribute(
