@@ -76,9 +76,12 @@ public class FPacTranscoderEngine extends TranscoderEngine<CFPacScript, CEntityC
 	 * output controller), and the FPac {@code FPacProgram} class wrapper is owned by the
 	 * recursive-ST4 contract ({@code recursiveFPacClassEntity}, role {@code FPAC_ROOT}).
 	 *
-	 * <p>The body containers ({@code CFPacJavaProcedure}/{@code CFPacJavaDataSection}/
-	 * {@code CFPacJavaComment}) are STILL direct backends on their own retirement slices,
-	 * so a whole-tree {@code renderRoot(eSem, FPAC_ROOT)} would wrongly resolve those shared
+	 * <p>The body containers ({@code CFPacJavaProcedure}/{@code CFPacJavaDataSection})
+	 * are STILL direct backends on their own retirement slices ({@code CFPacJavaComment}
+	 * is retired: the factory hands back the pure {@link semantic.CEntityComment}, which
+	 * the shared {@code semantic.CEntityComment=javaComment} binding renders through the
+	 * assembler under both {@code REFERENCE} and {@code FPAC_REFERENCE}), so a whole-tree
+	 * {@code renderRoot(eSem, FPAC_ROOT)} would wrongly resolve those shared
 	 * semantic subclasses through the frozen COBOL reference bindings. Until they are retired,
 	 * this transitional bridge reproduces the retired {@code CFPacJavaClass.DoExport} wrapper
 	 * byte-for-byte through the bound legacy output and drives the body with

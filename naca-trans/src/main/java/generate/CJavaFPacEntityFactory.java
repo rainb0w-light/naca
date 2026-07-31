@@ -601,7 +601,21 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityComment NewEntityComment(int l, String comment)
 	{
-		return new CFPacJavaComment(l, programCatalog, langOutput, comment) ;
+		// Pure target-neutral semantic entity shared with the COBOL pipeline: a comment
+		// renders through the SHARED recursive ST4 binding
+		// (semantic.CEntityComment -> javaComment, "// <entity.comment; format=javaCommentText>")
+		// which loadFpac() layers VERBATIM into the FPAC_REFERENCE role — no FPac-specific
+		// override is required in semantic-fpac-bindings.properties, because the retired
+		// generate.fpacjava.CFPacJavaComment.DoExport emitted exactly the same shape COBOL's
+		// retired CJavaComment did ("// " + text, newlines escaped to "0x000A"/"Ox000D"
+		// behind the historical indexOf > 0 gate, reproduced by the javaCommentText atomic
+		// renderer). FPac header comments reach this template through the shared
+		// CBaseLanguageExporter.renderComment bridge (role REFERENCE), and any comment child
+		// of a retired verb container lowers through FPAC_REFERENCE; the template only reads
+		// entity.comment, a pure getter (no FormatIdentifier/output work).
+		CEntityComment e = new CEntityComment(l, programCatalog, comment) ;
+		generate.LegacyLanguageRenderer.bind(e, langOutput) ;
+		return e ;
 	}
 
 	@Override
