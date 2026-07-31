@@ -391,6 +391,34 @@ features:
     fixtures: []
     status: production
 
+  - id: fpac.program.call
+    dialects: [fpac]
+    semanticType: semantic.Verbs.CEntityCallProgram
+    javaBackend:
+      role: FPAC_REFERENCE
+      template: recursiveFPacCallProgramEntity
+    # FPac shares the target-neutral semantic.Verbs.CEntityCallProgram with COBOL and reuses the
+    # SAME lowering SHAPE — call(<program>).using(...).executeCall(); — but its program-class
+    # naming genuinely differs, so the FPAC_REFERENCE role layers semantic-fpac-bindings.properties
+    # over the shared reference manifest and redirects ONLY this class to
+    # recursiveFPacCallProgramEntity, leaving the frozen COBOL recursiveCallProgramEntity binding
+    # intact. The COBOL template references a checked literal CALL "PROG" as call(Prog.class) via
+    # the title-case javaClassName format (CobolNameUtil.fixJavaName). FPac names generated program
+    # classes UPPERCASE (CFPacJavaClass.DoExport: GetName().replace('-','_').toUpperCase()), so the
+    # template applies the fpacClassName format to emit call(PROG.class), matching
+    # "public class PROG extends FPacProgram"; call(Prog.class) would not compile. The retired
+    # CFPacJavaCallProgram backend used the raw literal text (call(PROG.class) for an uppercase
+    # source literal, but call(prog.class) for a lowercase one — a latent casing defect) and, on the
+    # unchecked error path, wrapped the name in quotes WITH a stray ".class" suffix; the template
+    # reproduces the correct uppercase form and drops the buggy ".class"-in-string. The runtime
+    # chain (BaseProgram.call -> CCallProgram.using/executeCall/executeCallSafe) is shared and
+    # runtime-legal for FPac because nacaLib.fpacPrgEnv.FPacProgram extends nacaLib.basePrgEnv.BaseProgram.
+    # FPac's parser (CFPacCall) never calls SetOnErrorBloc, so the executeCallSafe branch is
+    # unreachable from FPac; it is retained in the template only for totality with the COBOL shape.
+    runtimeOperations: [program.call, program.call.using, program.call.executeCall, program.call.executeCallSafe]
+    fixtures: []
+    status: production
+
   - id: cobol.data.address-reference
     dialects: [cobol-core]
     semanticType: semantic.CEntityAddressReference

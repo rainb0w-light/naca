@@ -1555,6 +1555,20 @@ recursiveCallProgramEntity(entity) ::= <<
 <entity.onErrorBloc>}<else>executeCall();<endif>
 >>
 
+// FPac lowering of semantic.Verbs.CEntityCallProgram (bound by semantic-fpac-bindings.properties,
+// role FPAC_REFERENCE). Identical in SHAPE to the frozen COBOL recursiveCallProgramEntity above
+// — call(<program>).using(...).executeCall(); — but the checked literal CALL "PROG" references
+// the program class with the fpacClassName (UPPERCASE) format instead of COBOL's title-case
+// javaClassName, because the FPac pipeline names generated program classes UPPERCASE
+// (CFPacJavaClass.DoExport: GetName().replace('-','_').toUpperCase()). So an FPac CALL "SUBPROG"
+// lowers to call(SUBPROG.class), matching "public class SUBPROG extends FPacProgram"; COBOL's
+// call(Subprog.class) would not compile here. onErrorBloc is rendered for totality, though the
+// FPac parser (CFPacCall) never calls SetOnErrorBloc, so executeCallSafe is unreachable in FPac.
+recursiveFPacCallProgramEntity(entity) ::= <<
+<if(entity.onErrorBloc)>if (<endif>call(<if(entity.literalProgramReference)><if(entity.checked)><entity.literalProgramName; format="fpacClassName">.class<else>"<entity.literalProgramName; format="fpacClassName">"<endif><else><entity.programReference><endif>)<entity.callParameters:{p | .<p.method>(<p.reference>)}>.<if(entity.onErrorBloc)>executeCallSafe()) {
+<entity.onErrorBloc>}<else>executeCall();<endif>
+>>
+
 recursiveStringConcatEntity(entity) ::= <<
 <if(entity.hasOverflowHandler)>if (<endif><entity.concatItems:{item | <recursiveStringConcatItem(item)>}; separator=""><if(entity.startIndex)>withPointer(<entity.startIndex>).<endif>into(<entity.destination>)<if(entity.hasOverflowHandler)>.failed())
 {

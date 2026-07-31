@@ -39,6 +39,16 @@ public final class JavaStringLiteralAttributeRenderer
             // exact formatter rather than re-deriving it.
             return generate.java.CJavaExporter.formatJavaIdentifier(raw);
         }
+        if ("fpacClassName".equals(formatString))
+        {
+            // The independent FPac pipeline names generated PROGRAM classes UPPERCASE
+            // (CFPacJavaClass.DoExport: GetName().replace('-', '_').toUpperCase()). A
+            // checked CALL "PROG" must lower to call(PROG.class) referencing that exact
+            // class, so apply the SAME rules. COBOL's title-case javaClassName
+            // (CobolNameUtil.fixJavaName -> "Prog") is WRONG for FPac: call(Prog.class)
+            // would not compile against "public class PROG extends FPacProgram".
+            return raw.replace('-', '_').toUpperCase(Locale.ROOT);
+        }
         if ("writeAccessorAll".equals(formatString))
         {
             int parenthesis = raw.indexOf('(');

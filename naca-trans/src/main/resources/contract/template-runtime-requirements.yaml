@@ -72,6 +72,14 @@ templates:
       - program.call.executeCall
       - program.call.executeCallSafe
 
+  recursiveFPacCallProgramEntity:
+    capability: CALL
+    requires:
+      - program.call
+      - program.call.using
+      - program.call.executeCall
+      - program.call.executeCallSafe
+
   recursiveMoveEntity:
     capability: DATA
     requires:

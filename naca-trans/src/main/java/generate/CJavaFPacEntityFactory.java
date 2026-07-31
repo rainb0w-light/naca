@@ -759,7 +759,21 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityCallProgram NewEntityCallProgram(int l, CDataEntity reference)
 	{
-		return new CFPacJavaCallProgram(l, programCatalog, langOutput, reference) ;
+		// Pure target-neutral semantic entity shared with the COBOL pipeline. FPac's CALL
+		// (CFPacCall builds reference + checked flag + by-ref/by-value parameters) renders
+		// through the FPac-recursive ST4 binding (semantic.Verbs.CEntityCallProgram ->
+		// recursiveFPacCallProgramEntity), NOT the retired generate.fpacjava direct backend
+		// CFPacJavaCallProgram and NOT the frozen COBOL recursiveCallProgramEntity the shared
+		// REFERENCE manifest selects for this same class. FPac reuses the exact COBOL lowering
+		// SHAPE — call(<program>).using(...).executeCall(); — but names generated program classes
+		// UPPERCASE (CFPacJavaClass.DoExport), so the FPac template references the program class
+		// with the fpacClassName format (call(PROG.class)) instead of COBOL's title-case
+		// javaClassName (call(Prog.class)), which would not compile against "public class PROG
+		// extends FPacProgram". Lowering stays in the factory; the semantic entity stays
+		// generate-neutral and the reference/parameters are resolved in stage 1.
+		CEntityCallProgram e = new CEntityCallProgram(l, programCatalog, reference) ;
+		generate.LegacyLanguageRenderer.bind(e, langOutput) ;
+		return e ;
 	}
 
 	@Override
