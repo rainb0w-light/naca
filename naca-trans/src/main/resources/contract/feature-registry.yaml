@@ -1960,6 +1960,30 @@ features:
     fixtures: []
     status: production
 
+  # The BMS map-resource AID-key test condition (IF KEYPRESSED = <key> / <> <key>). Built by
+  # semantic.forms.CEntityGetKeyPressed.GetSpecialCondition as a pure
+  # semantic.forms.CEntityIsKeyPressed condition: the positive test emits the protected
+  # nacaLib.basePrgEnv.BaseProgram.isKeyPressed(nacaLib.misc.KeyPressed) call, the negated test
+  # emits isNotKeyPressed(...), exactly as the retired direct backend
+  # generate.java.forms.CJavaIsKeyPressed.Export did (its bIsNot flag selected the call).
+  # Conditions lower through the runtime binding semantic.forms.CEntityIsKeyPressed ->
+  # recursiveIsKeyPressedEntity in the BMS forms-island manifest
+  # (semantic-runtime-bindings.properties, kept disjoint from the concrete manifest
+  # FinalArchitectureContractTest pins to the COBOL tree); the template reads only entity.*
+  # properties, branches on entity.opposite to select the is/isNot call, and the console-key
+  # sub-entity (entity.keyPressed) unfolds recursively through the assembler
+  # (recursiveKeyPressedEntity -> KeyPressed.<constant>). The emitted calls are the protected
+  # BaseProgram condition helpers contracted as bms.keyPressed.is and bms.keyPressed.isNot.
+  - id: bms.condIsKeyPressed
+    dialects: [bms-artifact]
+    semanticType: semantic.forms.CEntityIsKeyPressed
+    javaBackend:
+      role: REFERENCE
+      template: recursiveIsKeyPressedEntity
+    runtimeOperations: [bms.keyPressed.is, bms.keyPressed.isNot]
+    fixtures: []
+    status: production
+
   # The BMS map-resource field-color condition (IF <FIELD>C = <color-code> /
   # <> <color-code>). Built by semantic.forms.CEntityFieldColor.GetSpecialCondition as a
   # pure semantic.forms.CEntityIsFieldColor condition: IS_EQUAL emits the protected

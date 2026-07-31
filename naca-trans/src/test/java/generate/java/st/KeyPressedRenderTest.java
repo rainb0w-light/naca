@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 import generate.CJavaEntityFactoryST;
 import generate.LegacyDataRenderer;
-import generate.java.forms.CJavaIsKeyPressed;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.DisplayName;
@@ -15,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import semantic.CDataEntity;
 import semantic.expression.CBaseEntityCondition;
 import semantic.forms.CEntityGetKeyPressed;
+import semantic.forms.CEntityIsKeyPressed;
 import semantic.forms.CEntityKeyPressed;
 import utils.CGlobalCatalog;
 import utils.CObjectCatalog;
@@ -47,16 +47,16 @@ import utils.CTransApplicationGroup;
  * {@code CJavaEntityFactoryST} production factory inherits {@code NewEntityKeyPressed};
  * the FPac factory throws {@code NacaTransAssertException}, so no FPac tree ever holds it).
  *
- * <p>Production consumption: the reference is read through
- * {@code generate.LegacyDataRenderer.renderReference} — e.g. the still-direct condition
- * backend {@code generate.java.forms.CJavaIsKeyPressed.Export} builds
- * {@code "isKeyPressed(" + renderReference(keyPressed, line) + ")"} for the condition that
- * {@code CEntityGetKeyPressed.GetSpecialCondition} lowers from a comparison of the
- * get-key-pressed pseudo-variable against a console key. With the backend's reflective
- * {@code ExportReference} gone, {@code renderReference} falls through to the recursive
- * assembler (REFERENCE role), which resolves the new binding. The end-to-end test drives
- * that exact parser-driven lowering and asserts the inner reference renders through this
- * slice's template.
+ * <p>Production consumption: the reference is read through the recursive assembler — e.g. the
+ * AID-key test condition that {@code CEntityGetKeyPressed.GetSpecialCondition} lowers from a
+ * comparison of the get-key-pressed pseudo-variable against a console key (a pure
+ * {@code semantic.forms.CEntityIsKeyPressed}, since the {@code generate.java.forms.CJavaIsKeyPressed}
+ * backend was retired onto the {@code recursiveIsKeyPressedEntity} binding) unfolds its inner
+ * console-key sub-entity through this slice's {@code recursiveKeyPressedEntity} binding. With the
+ * backend's reflective {@code ExportReference} gone, {@code LegacyDataRenderer.renderReference}
+ * falls through to the recursive assembler (REFERENCE role), which resolves the new binding. The
+ * end-to-end test drives that exact parser-driven lowering and asserts the inner reference renders
+ * through this slice's template.
  */
 class KeyPressedRenderTest
 {
@@ -74,6 +74,15 @@ class KeyPressedRenderTest
         // semantic.forms.CEntityKeyPressed -> recursiveKeyPressedEntity.
         return TemplateLoader.getRecursiveAssembler()
             .renderRoot(entity, JavaTemplateRole.REFERENCE);
+    }
+
+    private static String renderCondition(CBaseEntityCondition condition)
+    {
+        // Conditions render through the assembler in the REFERENCE role exactly as the
+        // program root's <entity.condition> does: resolved by the forms-island manifest
+        // binding semantic.forms.CEntityIsKeyPressed -> recursiveIsKeyPressedEntity.
+        return TemplateLoader.getRecursiveAssembler()
+            .renderRoot(condition, JavaTemplateRole.REFERENCE);
     }
 
     /**
@@ -123,9 +132,10 @@ class KeyPressedRenderTest
             new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
         CEntityKeyPressed entity = lowerKeyPressed(factory, "PF3", "PF3");
 
-        // The exact production consumption protocol (CJavaIsKeyPressed.Export calls this).
-        // With the backend's reflective ExportReference gone, the semantic-declared path
-        // returns null and falls through to the recursive assembler binding.
+        // The LegacyDataRenderer.renderReference compatibility boundary: with the retired
+        // backend's reflective ExportReference gone, the semantic-declared path returns null
+        // and falls through to the recursive assembler binding (the same binding the
+        // recursiveIsKeyPressedEntity condition template reaches through the model adaptor).
         assertEquals("KeyPressed.PF3", LegacyDataRenderer.renderReference(entity, 0));
         // A null reference still yields the legacy [UNDEFINED] sentinel (behavior preserved).
         assertEquals("[UNDEFINED]", LegacyDataRenderer.renderReference(null, 0));
@@ -150,17 +160,19 @@ class KeyPressedRenderTest
         CBaseEntityCondition condition = getKeyPressed.GetSpecialCondition(
             0, key, CBaseEntityCondition.EConditionType.IS_EQUAL, factory);
 
-        // The condition is the still-direct CJavaIsKeyPressed backend (a separate future
-        // retirement item); its Export renders the inner console-key reference through THIS
-        // slice's recursiveKeyPressedEntity binding via LegacyDataRenderer.renderReference.
-        CJavaIsKeyPressed isKeyPressed = assertInstanceOf(CJavaIsKeyPressed.class, condition);
-        assertEquals("isKeyPressed(KeyPressed.PF1)", isKeyPressed.Export());
+        // The condition is the pure semantic.forms.CEntityIsKeyPressed (the
+        // generate.java.forms.CJavaIsKeyPressed backend was retired onto the
+        // recursiveIsKeyPressedEntity binding); it renders through the recursive assembler,
+        // unfolding the inner console-key reference through THIS slice's
+        // recursiveKeyPressedEntity binding.
+        CEntityIsKeyPressed isKeyPressed = assertInstanceOf(CEntityIsKeyPressed.class, condition);
+        assertEquals("isKeyPressed(KeyPressed.PF1)", renderCondition(isKeyPressed));
 
         // IS_DIFFERENT lowers the negated condition around the same reference.
         CBaseEntityCondition notCondition = getKeyPressed.GetSpecialCondition(
             0, key, CBaseEntityCondition.EConditionType.IS_DIFFERENT, factory);
         assertEquals("isNotKeyPressed(KeyPressed.PF1)",
-            assertInstanceOf(CJavaIsKeyPressed.class, notCondition).Export());
+            renderCondition(assertInstanceOf(CEntityIsKeyPressed.class, notCondition)));
     }
 
     @Test

@@ -664,6 +664,18 @@ templates:
     requires:
       - bms.keyPressed.get
 
+  # BMS map-resource DSL: the AID-key test condition (IF KEYPRESSED = <key> / <> <key>,
+  # retired direct backend CJavaIsKeyPressed) emits one of two protected BaseProgram
+  # condition calls, selected by the entity's bIsNot flag: isKeyPressed(nacaLib.misc.KeyPressed)
+  # for the positive test, isNotKeyPressed(nacaLib.misc.KeyPressed) for the negated test. Both
+  # are real runtime methods and both are listed because each is reachable on a template branch
+  # (the template branches on entity.opposite to select the call).
+  recursiveIsKeyPressedEntity:
+    capability: BMS_MAP
+    requires:
+      - bms.keyPressed.is
+      - bms.keyPressed.isNot
+
   # BMS map-resource DSL: the cursor action statement (MOVE ... TO <FIELD>-L,
   # retired direct backend CJavaSetCursor) emits one of the protected
   # OnlineProgram cursor calls: moveCursor(<value>, <field>) for a set

@@ -8,13 +8,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import generate.CJavaEntityFactoryST;
 import generate.LegacyDataRenderer;
-import generate.java.forms.CJavaIsKeyPressed;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import semantic.expression.CBaseEntityCondition;
 import semantic.forms.CEntityGetKeyPressed;
+import semantic.forms.CEntityIsKeyPressed;
 import semantic.forms.CEntityKeyPressed;
 import utils.CGlobalCatalog;
 import utils.CObjectCatalog;
@@ -53,10 +53,11 @@ import utils.CTransApplicationGroup;
  * <p>Production construction: {@code CJavaEntityFactory.NewEntityGetKeyPressed} (inherited by
  * the {@code CJavaEntityFactoryST} production factory) calls {@code BmsJavaEntities.getKeyPressed},
  * which now builds the pure {@link CEntityGetKeyPressed}. Production consumption of the lowering:
- * {@code CEntityGetKeyPressed.GetSpecialCondition} builds the still-direct
- * {@code CJavaIsKeyPressed} condition whose {@code Export} renders the inner console-key
- * reference through the sibling {@code recursiveKeyPressedEntity} binding. The end-to-end test
- * drives that exact parser-driven lowering through the ST factory.
+ * {@code CEntityGetKeyPressed.GetSpecialCondition} builds the pure
+ * {@code semantic.forms.CEntityIsKeyPressed} condition (the {@code generate.java.forms.CJavaIsKeyPressed}
+ * backend was retired onto the {@code recursiveIsKeyPressedEntity} binding), which renders the
+ * inner console-key reference through the sibling {@code recursiveKeyPressedEntity} binding. The
+ * end-to-end test drives that exact parser-driven lowering through the ST factory.
  */
 class GetKeyPressedRenderTest
 {
@@ -74,6 +75,15 @@ class GetKeyPressedRenderTest
         // semantic.forms.CEntityGetKeyPressed -> recursiveGetKeyPressedEntity.
         return TemplateLoader.getRecursiveAssembler()
             .renderRoot(entity, JavaTemplateRole.REFERENCE);
+    }
+
+    private static String renderCondition(CBaseEntityCondition condition)
+    {
+        // Conditions render through the assembler in the REFERENCE role exactly as the
+        // program root's <entity.condition> does: resolved by the forms-island manifest
+        // binding semantic.forms.CEntityIsKeyPressed -> recursiveIsKeyPressedEntity.
+        return TemplateLoader.getRecursiveAssembler()
+            .renderRoot(condition, JavaTemplateRole.REFERENCE);
     }
 
     /**
@@ -174,16 +184,18 @@ class GetKeyPressedRenderTest
         CBaseEntityCondition condition = getKeyPressed.GetSpecialCondition(
             0, key, CBaseEntityCondition.EConditionType.IS_EQUAL, factory);
 
-        // The condition is the still-direct CJavaIsKeyPressed backend (a separate future
-        // retirement item); its Export renders the inner console-key reference through the
-        // sibling recursiveKeyPressedEntity binding via LegacyDataRenderer.renderReference.
-        CJavaIsKeyPressed isKeyPressed = assertInstanceOf(CJavaIsKeyPressed.class, condition);
-        assertEquals("isKeyPressed(KeyPressed.PF1)", isKeyPressed.Export());
+        // The condition is the pure semantic.forms.CEntityIsKeyPressed (the
+        // generate.java.forms.CJavaIsKeyPressed backend was retired onto the
+        // recursiveIsKeyPressedEntity binding); it renders through the recursive assembler,
+        // unfolding the inner console-key reference through the sibling
+        // recursiveKeyPressedEntity binding.
+        CEntityIsKeyPressed isKeyPressed = assertInstanceOf(CEntityIsKeyPressed.class, condition);
+        assertEquals("isKeyPressed(KeyPressed.PF1)", renderCondition(isKeyPressed));
 
         // IS_DIFFERENT lowers the negated condition around the same reference.
         CBaseEntityCondition notCondition = getKeyPressed.GetSpecialCondition(
             0, key, CBaseEntityCondition.EConditionType.IS_DIFFERENT, factory);
         assertEquals("isNotKeyPressed(KeyPressed.PF1)",
-            assertInstanceOf(CJavaIsKeyPressed.class, notCondition).Export());
+            renderCondition(assertInstanceOf(CEntityIsKeyPressed.class, notCondition)));
     }
 }

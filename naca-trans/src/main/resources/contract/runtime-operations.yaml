@@ -2913,6 +2913,34 @@ operations:
     paramTypes: []
     returns: nacaLib.misc.KeyPressed
 
+  # IF KEYPRESSED = <key> / <> <key> lowers through
+  # semantic.forms.CEntityIsKeyPressed (built by
+  # semantic.forms.CEntityGetKeyPressed.GetSpecialCondition) to one of two protected
+  # nacaLib.basePrgEnv.BaseProgram condition calls, selected by the entity's bIsNot flag:
+  # the positive test emits isKeyPressed(nacaLib.misc.KeyPressed), the negated test emits
+  # isNotKeyPressed(nacaLib.misc.KeyPressed) — exactly what the retired direct backend
+  # generate.java.forms.CJavaIsKeyPressed.Export built ("is" + ("Not" when bIsNot) +
+  # "KeyPressed(" + renderReference(keyPressed) + ")"). Both are protected on BaseProgram and
+  # inherited by generated program subclasses (RuntimeContractTest walks the declared-method
+  # hierarchy), and both return boolean for use inside an IF condition. Both are listed
+  # because each is reachable on a template branch (recursiveIsKeyPressedEntity branches on
+  # entity.opposite to select the call).
+  - id: bms.keyPressed.is
+    since: 1
+    capability: BMS_MAP
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: isKeyPressed
+    paramTypes: [nacaLib.misc.KeyPressed]
+    returns: boolean
+
+  - id: bms.keyPressed.isNot
+    since: 1
+    capability: BMS_MAP
+    runtimeClass: nacaLib.basePrgEnv.BaseProgram
+    runtimeMethod: isNotKeyPressed
+    paramTypes: [nacaLib.misc.KeyPressed]
+    returns: boolean
+
   # MOVE ... TO <FIELD>-L lowers through semantic.forms.CEntitySetCursor (built
   # by semantic.forms.CEntityFieldLength.GetSpecialAssignment) to the protected
   # OnlineProgram cursor calls, exactly what the retired direct backend

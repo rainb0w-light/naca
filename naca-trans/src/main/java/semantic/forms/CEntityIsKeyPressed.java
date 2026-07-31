@@ -17,12 +17,43 @@ import semantic.CDataEntity;
 import semantic.expression.CBaseEntityCondition;
 
 /**
- * @author U930CV
+ * BMS map-resource DSL: the CICS AID-key test condition (the comparison of the
+ * get-key-pressed pseudo-variable against a console key). It is built by
+ * {@link CEntityGetKeyPressed#getSpecialCondition} when an {@code IF KEYPRESSED = <key>}
+ * / {@code IF KEYPRESSED <> <key>} lowers from a BMS map-resource program: the positive
+ * test populates {@link #isKeyPressed(CDataEntity)}, the negated test
+ * {@link #isNotKeyPressed(CDataEntity)}.
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
+ * <p>De-abstracted when the direct backend {@code generate.java.forms.CJavaIsKeyPressed}
+ * was retired onto the recursive ST4 assembly contract. The backend carried a single output
+ * protocol, preserved target-neutrally:
+ * <ul>
+ *   <li><b>condition</b> — {@code Export() == "is" + (bIsNot ? "Not" : "") + "KeyPressed("
+ *       + renderReference(keyPressed, line) + ")"} — i.e. {@code isKeyPressed(KeyPressed.PF1)}
+ *       or {@code isNotKeyPressed(KeyPressed.PF1)}. The two forms are two distinct protected
+ *       {@code nacaLib.basePrgEnv.BaseProgram} condition calls
+ *       ({@code isKeyPressed(nacaLib.misc.KeyPressed)} / {@code isNotKeyPressed(...)}), selected
+ *       by the {@code bIsNot} flag — not a {@code !(...)} wrapping. The condition now renders
+ *       through the BMS forms-island binding {@code semantic.forms.CEntityIsKeyPressed ->
+ *       recursiveIsKeyPressedEntity}; the template branches on the pure read-only
+ *       {@link #isOpposite()} getter to select the {@code is}/{@code isNot} call and reads the
+ *       console-key sub-entity through {@link #getKeyPressed()}, which unfolds recursively
+ *       through the assembler (REFERENCE role -&gt; {@code recursiveKeyPressedEntity} -&gt;
+ *       {@code KeyPressed.<constant>}). Both runtime calls are contracted as
+ *       {@code bms.keyPressed.is} / {@code bms.keyPressed.isNot} (runtime-operations.yaml) and
+ *       required by the template (template-runtime-requirements.yaml).</li>
+ * </ul>
+ *
+ * <p>The template getters are pure property reads: {@link #isOpposite()} returns the
+ * precomputed {@code bIsNot} flag and {@link #getKeyPressed()} returns the already-resolved
+ * console-key sub-entity populated by {@link #isKeyPressed}/{@link #isNotKeyPressed} during
+ * semantic analysis — no formatting, reference resolution or lowering happens when ST4 accesses
+ * them. This tree names no {@code generate.*} class, so the dependency arrow stays
+ * generate -&gt; semantic.
+ *
+ * @author U930CV
  */
-public abstract class CEntityIsKeyPressed extends CBaseEntityCondition
+public class CEntityIsKeyPressed extends CBaseEntityCondition
 {
 
 	public void isKeyPressed(CDataEntity key)
@@ -37,19 +68,47 @@ public abstract class CEntityIsKeyPressed extends CBaseEntityCondition
 	}
 	protected CDataEntity keyPressed = null ;
 	protected boolean bIsNot = false ;
+
+	public int GetPriorityLevel()
+	{
+		return 7;
+	}
+
+	public CBaseEntityCondition GetOppositeCondition()
+	{
+		CEntityIsKeyPressed is = new CEntityIsKeyPressed();
+		is.bIsNot = !bIsNot ;
+		is.keyPressed = keyPressed ;
+		keyPressed.RegisterValueAccess(is) ;
+		return is ;
+	}
+
+	/**
+	 * Pure read-only getter for the {@code recursiveIsKeyPressedEntity} template: the negation
+	 * flag selecting the {@code isKeyPressed}/{@code isNotKeyPressed} runtime call. Precomputed
+	 * by {@link #isKeyPressed}/{@link #isNotKeyPressed}; ST4 only reads it.
+	 */
+	public boolean isOpposite()
+	{
+		return bIsNot ;
+	}
+
+	/**
+	 * Pure read-only getter for the {@code recursiveIsKeyPressedEntity} template: the console-key
+	 * sub-entity (a {@link CEntityKeyPressed}) rendered recursively through the assembler to
+	 * {@code KeyPressed.<constant>}. Resolved during semantic analysis; ST4 only reads it.
+	 */
+	public CDataEntity getKeyPressed()
+	{
+		return keyPressed ;
+	}
+
 	public void Clear()
 	{
 		super.Clear();
 		keyPressed = null ;
 	}
-	
-//	public CBaseEntityCondition getSimilarCondition(CBaseEntityFactory factory, CTerminal term)
-//	{
-//		CEntityIsKeyPressed ikp = factory.NewEntityIsKeyPressed() ;
-//		ikp.bIsNot = bIsNot ;
-//		ikp.keyPressed = term.GetDataEntity(factory);
-//		return ikp ;
-//	}
+
 	public boolean ignore()
 	{
 		return false ;

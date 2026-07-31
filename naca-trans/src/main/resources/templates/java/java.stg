@@ -446,10 +446,11 @@ fieldValidatedReferenceEntity(entity) ::= "<entity.reference>.getValidation()"
 // nacaLib.misc.KeyPressed (e.g. KeyPressed.PF1), not a runtime method call. Reads only
 // entity.publicName (the precomputed nacaLib.misc.KeyPressed constant name) and prepends
 // the target-specific KeyPressed. qualifier; no runtime operation is contracted (same
-// treatment as fieldValidatedReferenceEntity's legacy reference shape). Reached through
-// LegacyDataRenderer.renderReference's recursive fall-through (e.g. from the
-// CJavaIsKeyPressed condition backend) once the backend's reflective ExportReference is
-// gone.
+// treatment as fieldValidatedReferenceEntity's legacy reference shape). Reached recursively
+// from the recursiveIsKeyPressedEntity condition template's entity.keyPressed slot (the
+// console-key sub-entity unfolds through the model adaptor) and through
+// LegacyDataRenderer.renderReference's recursive fall-through, now that the retired backend's
+// reflective ExportReference is gone.
 recursiveKeyPressedEntity(entity) ::= "KeyPressed.<entity.publicName>"
 
 // BMS map-resource DSL: the CICS get-key-pressed pseudo-variable reference (retired
@@ -844,6 +845,22 @@ recursiveIsFieldModifiedEntity(entity) ::= "isFieldModified(<entity.reference>)"
 // reference rides in the inherited condition reference slot (the entity exposes
 // getReference()) and unfolds through the assembler.
 recursiveIsFieldCursorEntity(entity) ::= "is<if(entity.opposite)>Not<endif>FieldHasCursor(<entity.reference>)"
+
+// BMS map-resource AID-key test condition (IF KEYPRESSED = <key> / <> <key>, lowered by
+// semantic.forms.CEntityGetKeyPressed.GetSpecialCondition to a pure
+// semantic.forms.CEntityIsKeyPressed). Mirrors the retired direct backend
+// generate.java.forms.CJavaIsKeyPressed exactly: the positive test emits the protected
+// nacaLib.basePrgEnv.BaseProgram.isKeyPressed(nacaLib.misc.KeyPressed) condition call
+// (contract operation bms.keyPressed.is); the negated test emits isNotKeyPressed(...)
+// (bms.keyPressed.isNot). Like the field-cursor condition (and unlike field-modified, whose
+// negation rides a wrapping CEntityCondNot), negation is carried by the entity's own bIsNot
+// flag (isKeyPressed/isNotKeyPressed and GetOppositeCondition set/flip it), so the template
+// branches on entity.opposite to select the is/isNot runtime call — preserving the two
+// distinct legacy runtime calls byte-for-byte. Reads only entity.* properties; the console-key
+// sub-entity rides in the entity's keyPressed slot (the entity exposes getKeyPressed()) and
+// unfolds recursively through the assembler (REFERENCE role -> recursiveKeyPressedEntity ->
+// KeyPressed.<constant>).
+recursiveIsKeyPressedEntity(entity) ::= "is<if(entity.opposite)>Not<endif>KeyPressed(<entity.keyPressed>)"
 
 // BMS map-resource field-flag condition (IF <FIELD>P = 1 / 0 / LOW-VALUE, lowered by
 // semantic.forms.CEntityFieldFlag.GetSpecialCondition to a pure

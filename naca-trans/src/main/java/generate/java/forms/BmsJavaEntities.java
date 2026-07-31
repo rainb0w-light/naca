@@ -400,7 +400,15 @@ public final class BmsJavaEntities
 
 	public static CEntityIsKeyPressed isKeyPressed()
 	{
-		return new CJavaIsKeyPressed();
+		// Retired direct backend generate.java.forms.CJavaIsKeyPressed: the factory now builds
+		// the pure semantic entity. Its condition protocol renders through the
+		// recursiveIsKeyPressedEntity binding (semantic-runtime-bindings.properties), branching
+		// on the entity's bIsNot flag to select the protected BaseProgram.isKeyPressed /
+		// isNotKeyPressed condition call and unfolding the console-key sub-entity recursively
+		// (recursiveKeyPressedEntity -> KeyPressed.<constant>) — reproducing the legacy Export
+		// byte-for-byte. No exporter bind is needed: the condition renders through the recursive
+		// assembler, not the reflective LegacyDataRenderer/LegacyLanguageRenderer boundary.
+		return new CEntityIsKeyPressed();
 	}
 
 	public static CEntityFieldOccurs fieldOccurs(
