@@ -283,6 +283,30 @@ public final class BmsJavaEntities
 		int line, String name, CObjectCatalog catalog,
 		CBaseLanguageExporter output)
 	{
-		return new CJavaFieldArray(line, name, catalog, output);
+		// Retired direct backend generate.java.forms.CJavaFieldArray: the factory now builds the
+		// pure semantic entity. A field array emits no Java of its own — the retired backend's
+		// DoExport only traversed its child motif fields — so there is no ST4 template/binding
+		// for it (its ledger item carries manifestBinding/template == null, like CEntityLabelField);
+		// its only own output protocol is the BMS XML/.res artifact DoXMLExport, which stays
+		// target-neutral in semantic.forms.CEntityResourceFieldArray. The retired backend's single
+		// generate-layer operation (the DoExport child traversal) is relocated to this
+		// generate-layer boundary so the semantic tree names no generate.* class. The exporter
+		// bind preserves the retired backend constructor's LegacyLanguageRenderer.bind side effect
+		// for the BMS traversal boundary.
+		CEntityResourceFieldArray entity = new CEntityResourceFieldArray(line, name, catalog);
+		generate.LegacyLanguageRenderer.bind(entity, output);
+		entity.setDeclarationRenderer(BmsJavaEntities::renderFieldArrayChildren);
+		return entity;
+	}
+
+	/**
+	 * The retired {@code CJavaFieldArray.DoExport} body, relocated to this generate-layer
+	 * boundary. A field array emits no declaration line and no block of its own; it only drives
+	 * the legacy traversal over its child motif fields — which keep rendering through the
+	 * still-direct BMS field backends the surrounding {@code CJavaForm} traversal invokes.
+	 */
+	private static void renderFieldArrayChildren(CEntityResourceFieldArray entity)
+	{
+		generate.LegacyLanguageRenderer.exportChildren(entity, false);
 	}
 }
