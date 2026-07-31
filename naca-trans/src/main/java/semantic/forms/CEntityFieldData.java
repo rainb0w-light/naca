@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 11 ao�t 2004
+ * Created on 11 ao�t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
@@ -14,6 +14,7 @@ package semantic.forms;
 
 
 import java.util.Vector;
+import java.util.function.BiFunction;
 
 import parser.expression.CTerminal;
 
@@ -29,12 +30,44 @@ import semantic.expression.CEntityCondIsConstant;
 import utils.CObjectCatalog;
 
 /**
- * @author sly
+ * BMS map-resource DSL: the DATA attribute of a screen-map field (the {@code I}/{@code O}
+ * input/output data reference a {@code DFHMDF} entry field exposes), lowered from
+ * {@code CEntityFieldData.GetArrayReference} / the BMS field-attribute construction path
+ * ({@code CBaseEntityFactory.NewEntityFieldData}).
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
+ * <p>De-abstracted when the direct backend {@code generate.java.forms.CJavaFieldData} was
+ * retired. This is the <b>dead-wiring</b> tier (the same tier as {@code CEntityLabelField} /
+ * {@code CEntityResourceFieldArray}): the entity is factory-wired but has no live production
+ * caller. {@code NewEntityFieldData} is reached only from
+ * {@link #GetArrayReference(Vector, CBaseEntityFactory)} — i.e. building a
+ * {@code CEntityFieldData} requires one to already exist — so no parser node bootstraps it and
+ * the BMS artifact contract ({@code ONLINM1.bms}) never produces one. Accordingly it emits
+ * <b>no Java and no XML of its own</b>: the retired backend's {@code DoExport} was an empty
+ * stub, it contributes no {@code DoXMLExport} node, and there is no ST4 template/binding for it
+ * (its ledger item carries {@code manifestBinding/template == null}).
+ *
+ * <p>The retired backend's data-entity protocols are preserved exactly and target-neutrally
+ * here: a field-data attribute carries {@code FIELD} data type, has no accessors
+ * ({@code HasAccessors() == false}), needs a {@code val} ({@code isValNeeded() == true}), has
+ * no reachable write-accessor protocol ({@code ExportWriteAccessorTo -> ""}), and its empty
+ * {@code DoExport} stays empty. This tree names no {@code generate.*} class, so the dependency
+ * arrow stays generate -&gt; semantic.
+ *
+ * <p>The retired backend's single generate-layer call — {@code ExportReference(nLine)}
+ * returning {@code LegacyDataRenderer.renderReference(reference, getLine())} (the OWNER field's
+ * rendered reference) — is preserved by an injected reference renderer installed from the
+ * generate-layer factory ({@code generate.java.forms.BmsJavaEntities.fieldData} binds the active
+ * output and injects {@code LegacyDataRenderer::renderReference}). The renderer is a neutral
+ * {@link BiFunction}; a hand-built entity (no factory) defaults to the owner's raw name (or
+ * {@code [UNDEFINED]} when unset), mirroring {@code LegacyDataRenderer.renderReference}'s
+ * null handling so it never fails. Note {@code LegacyDataRenderer.renderReference} ignores a
+ * semantic-declared {@code ExportReference} (declaring class under {@code semantic.*}) and falls
+ * through to the recursive assembler — so, exactly as for {@code CEntityFieldOccurs}, this
+ * override only serves direct callers and is itself unreachable while the entity stays dead.
+ *
+ * @author sly
  */
-public abstract class CEntityFieldData extends CBaseEntityFieldAttribute
+public class CEntityFieldData extends CBaseEntityFieldAttribute
 {
 
 	/**
@@ -47,6 +80,60 @@ public abstract class CEntityFieldData extends CBaseEntityFieldAttribute
 	public CEntityFieldData(int l, String name, CObjectCatalog cat, CDataEntity owner)
 	{
 		super(l, name, cat, CEntityFieldAttributeType.DATA, owner);
+	}
+
+	public CDataEntityType GetDataType()
+	{
+		return CDataEntityType.FIELD ;
+	}
+
+	public boolean HasAccessors()
+	{
+		return false ;
+	}
+
+	public boolean isValNeeded()
+	{
+		return true ;
+	}
+
+	public String ExportReference(int nLine)
+	{
+		// Preserved from the retired backend: the OWNER field's rendered reference, using this
+		// entity's own line (the backend passed getLine(), ignoring nLine). The generate-layer
+		// factory injects LegacyDataRenderer::renderReference; a hand-built entity reads the
+		// neutral fallback below. No generate.* coupling lives in this tree.
+		return referenceRenderer.apply(getReference(), getLine()) ;
+	}
+
+	public String ExportWriteAccessorTo(String value)
+	{
+		// Preserved from the retired backend: no reachable write-accessor protocol.
+		return "" ;
+	}
+
+	protected void DoExport()
+	{
+		// Preserved from the retired backend: a field-data attribute emits no Java of its own.
+	}
+
+	/**
+	 * Target-neutral reference renderer standing in for the retired backend's
+	 * {@code LegacyDataRenderer.renderReference(reference, getLine())}. Installed by the
+	 * generate-layer factory ({@code BmsJavaEntities.fieldData}); defaults to the owner's raw
+	 * name (or {@code [UNDEFINED]} when unset), mirroring {@code LegacyDataRenderer.renderReference}'s
+	 * null handling so a directly-constructed entity stays well-formed. A pure injected value —
+	 * no {@code generate.*} coupling lives in this tree.
+	 */
+	private BiFunction<CDataEntity, Integer, String> referenceRenderer =
+		(ref, line) -> ref == null ? "[UNDEFINED]" : ref.GetName();
+
+	public void setReferenceRenderer(BiFunction<CDataEntity, Integer, String> renderer)
+	{
+		if (renderer != null)
+		{
+			referenceRenderer = renderer ;
+		}
 	}
 	public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory) 
 	{

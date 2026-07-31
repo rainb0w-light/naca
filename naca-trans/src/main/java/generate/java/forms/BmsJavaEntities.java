@@ -177,7 +177,20 @@ public final class BmsJavaEntities
 		int line, String name, CObjectCatalog catalog,
 		CBaseLanguageExporter output, CDataEntity field)
 	{
-		return new CJavaFieldData(line, name, catalog, output, field);
+		// Retired direct backend generate.java.forms.CJavaFieldData: the factory now builds the
+		// pure semantic entity. This is the dead-wiring tier (like CEntityLabelField /
+		// CEntityResourceFieldArray): the entity emits no Java and no XML of its own (the retired
+		// backend's DoExport was empty), so there is no ST4 template/binding for it. Its data-entity
+		// protocols (FIELD data type, no accessors, val needed, empty write-accessor/DoExport) are
+		// preserved target-neutrally in semantic.forms.CEntityFieldData. The retired backend's single
+		// generate-layer call — ExportReference returning LegacyDataRenderer.renderReference(reference,
+		// getLine()) (the owner field's reference) — is injected here as a neutral BiFunction so the
+		// semantic tree carries no generate.* coupling. The exporter bind preserves the retired backend
+		// constructor's LegacyLanguageRenderer.bind side effect for the BMS traversal boundary.
+		CEntityFieldData entity = new CEntityFieldData(line, name, catalog, field);
+		generate.LegacyLanguageRenderer.bind(entity, output);
+		entity.setReferenceRenderer((ref, l) -> generate.LegacyDataRenderer.renderReference(ref, l));
+		return entity;
 	}
 
 	public static CResourceStrings resourceStrings(int lines, int columns)
