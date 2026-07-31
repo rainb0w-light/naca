@@ -785,7 +785,19 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return new CEntityCondIsConstant() ;
 	}
 	public CEntityIsFieldFlag NewEntityIsFieldFlag()	{
-		return BmsJavaEntities.isFieldFlag();
+		// Direct backend CJavaIsFieldFlag retired: the pure semantic entity is rendered
+		// by the recursive ST4 assembly contract
+		// (semantic.forms.CEntityIsFieldFlag -> recursiveIsFieldFlagEntity), reproducing
+		// the legacy Export exactly — isFieldFlagSet(<reference>) / isNotFieldFlagSet(<reference>)
+		// when the isSet flag is set (IF <FIELD>P = LOW-VALUE) and
+		// isFieldFlag(<reference>, "v") / isNotFieldFlag(<reference>, "v") otherwise
+		// (IF <FIELD>P = 1 / 0), the four protected OnlineProgram condition calls contracted
+		// as bms.field.flag / bms.field.flag.not / bms.field.flag.set / bms.field.flag.setNot.
+		// The template branches on the entity's own isOpposite()/isSet() flags (SetIsFlag /
+		// SetIsFlagSet / SetOpposite and GetOppositeCondition set them), so all four legacy
+		// runtime calls are preserved byte-for-byte. CJavaEntityFactoryST inherits this
+		// wiring; the FPac factory still throws for this entity, so no FPac tree holds it.
+		return new CEntityIsFieldFlag();
 	}
 	public CEntitySetConstant NewEntitySetConstant(int l)	{
 		CEntitySetConstant e = new CEntitySetConstant(l, programCatalog);

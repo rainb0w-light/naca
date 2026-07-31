@@ -677,6 +677,21 @@ templates:
       - bms.field.cursor.has
       - bms.field.cursor.hasNot
 
+  # BMS map-resource DSL: the field-flag condition (IF <FIELD>P = 1 / 0 / LOW-VALUE,
+  # retired direct backend CJavaIsFieldFlag) emits one of four protected OnlineProgram
+  # condition calls, selected by the entity's isSet and isopposite flags:
+  # isFieldFlag(Edit, String) / isNotFieldFlag(Edit, String) for a value test
+  # (IF <FIELD>P = 1 / 0) and isFieldFlagSet(Edit) / isNotFieldFlagSet(Edit) for the set
+  # test (IF <FIELD>P = LOW-VALUE). All four are real runtime methods and all four are
+  # listed because each is reachable on a template branch.
+  recursiveIsFieldFlagEntity:
+    capability: BMS_MAP
+    requires:
+      - bms.field.flag
+      - bms.field.flag.not
+      - bms.field.flag.set
+      - bms.field.flag.setNot
+
   recursiveSetCursorEntity:
     capability: BMS_MAP
     requires:

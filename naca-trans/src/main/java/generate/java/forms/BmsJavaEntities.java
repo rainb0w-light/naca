@@ -10,7 +10,6 @@ import semantic.forms.CEntityFormRedefine;
 import semantic.forms.CEntityGetKeyPressed;
 import semantic.forms.CEntityIsFieldAttribute;
 import semantic.forms.CEntityIsFieldColor;
-import semantic.forms.CEntityIsFieldFlag;
 import semantic.forms.CEntityIsFieldHighlight;
 import semantic.forms.CEntityIsKeyPressed;
 import semantic.forms.CEntityKeyPressed;
@@ -104,11 +103,6 @@ public final class BmsJavaEntities
 	{
 		return new CJavaFormRedefine(
 			line, name, catalog, output, form, save);
-	}
-
-	public static CEntityIsFieldFlag isFieldFlag()
-	{
-		return new CJavaIsFieldFlag();
 	}
 
 	public static CEntityIsFieldColor isFieldColor()

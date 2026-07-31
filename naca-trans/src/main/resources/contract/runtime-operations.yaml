@@ -2940,6 +2940,49 @@ operations:
     paramTypes: [nacaLib.varEx.Edit]
     returns: boolean
 
+  # IF <FIELD>P = 1 / 0 / LOW-VALUE lowers through semantic.forms.CEntityIsFieldFlag
+  # (built by semantic.forms.CEntityFieldFlag.GetSpecialCondition) to one of four protected
+  # OnlineProgram condition calls, selected by the entity's isSet and isopposite flags:
+  # isFieldFlag(Edit, String) / isNotFieldFlag(Edit, String) for a value test
+  # (IF <FIELD>P = 1 / 0) and isFieldFlagSet(Edit) / isNotFieldFlagSet(Edit) for the set
+  # test (IF <FIELD>P = LOW-VALUE lowers to SetIsFlagSet + SetOpposite). All four are
+  # protected on OnlineProgram and inherited by generated online program subclasses
+  # (RuntimeContractTest walks the declared-method hierarchy). Each returns boolean for use
+  # inside an IF condition. Mirrors the retired direct backend
+  # generate.java.forms.CJavaIsFieldFlag, whose Export built "is" + ("Not" if opposite) +
+  # ("FieldFlagSet(<ref>)" if isSet else "FieldFlag(<ref>, "<value>")").
+  - id: bms.field.flag
+    since: 1
+    capability: BMS_MAP
+    runtimeClass: idea.onlinePrgEnv.OnlineProgram
+    runtimeMethod: isFieldFlag
+    paramTypes: [nacaLib.varEx.Edit, java.lang.String]
+    returns: boolean
+
+  - id: bms.field.flag.not
+    since: 1
+    capability: BMS_MAP
+    runtimeClass: idea.onlinePrgEnv.OnlineProgram
+    runtimeMethod: isNotFieldFlag
+    paramTypes: [nacaLib.varEx.Edit, java.lang.String]
+    returns: boolean
+
+  - id: bms.field.flag.set
+    since: 1
+    capability: BMS_MAP
+    runtimeClass: idea.onlinePrgEnv.OnlineProgram
+    runtimeMethod: isFieldFlagSet
+    paramTypes: [nacaLib.varEx.Edit]
+    returns: boolean
+
+  - id: bms.field.flag.setNot
+    since: 1
+    capability: BMS_MAP
+    runtimeClass: idea.onlinePrgEnv.OnlineProgram
+    runtimeMethod: isNotFieldFlagSet
+    paramTypes: [nacaLib.varEx.Edit]
+    returns: boolean
+
   - id: bms.cursor.set
     since: 1
     capability: BMS_MAP

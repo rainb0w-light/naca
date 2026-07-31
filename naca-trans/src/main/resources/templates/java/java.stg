@@ -650,6 +650,25 @@ recursiveIsFieldModifiedEntity(entity) ::= "isFieldModified(<entity.reference>)"
 // getReference()) and unfolds through the assembler.
 recursiveIsFieldCursorEntity(entity) ::= "is<if(entity.opposite)>Not<endif>FieldHasCursor(<entity.reference>)"
 
+// BMS map-resource field-flag condition (IF <FIELD>P = 1 / 0 / LOW-VALUE, lowered by
+// semantic.forms.CEntityFieldFlag.GetSpecialCondition to a pure
+// semantic.forms.CEntityIsFieldFlag). Mirrors the retired direct backend
+// generate.java.forms.CJavaIsFieldFlag exactly: its Export built "is" + ("Not" when
+// isopposite) and then either "FieldFlagSet(<reference>)" when the isSet flag was set
+// (IF <FIELD>P = LOW-VALUE lowers to SetIsFlagSet + SetOpposite) or
+// "FieldFlag(<reference>, "<value>")" otherwise (IF <FIELD>P = 1 / 0 lowers to SetIsFlag).
+// That yields the four protected OnlineProgram condition calls — isFieldFlagSet(Edit),
+// isNotFieldFlagSet(Edit), isFieldFlag(Edit, String), isNotFieldFlag(Edit, String)
+// (contract operations bms.field.flag.set / bms.field.flag.setNot / bms.field.flag /
+// bms.field.flag.not). Negation and the set/value distinction are carried by the entity's
+// own flags (SetIsFlag/SetIsFlagSet/SetOpposite and GetOppositeCondition set them), so the
+// template branches on entity.opposite to select is/isNot and on entity.set to select the
+// Set form vs the value form — preserving all four legacy runtime calls byte-for-byte.
+// Reads only entity.* properties; the field data reference rides in the inherited
+// condition reference slot (the entity exposes getReference()) and unfolds through the
+// assembler, and entity.value is the compared flag constant wrapped in literal quotes.
+recursiveIsFieldFlagEntity(entity) ::= "is<if(entity.opposite)>Not<endif>FieldFlag<if(entity.set)>Set(<entity.reference>)<else>(<entity.reference>, \"<entity.value>\")<endif>"
+
 recursiveCondIsKindOfEntity(entity) ::= <<
 is<if(entity.opposite)>Not<endif><if(entity.numeric)>Numeric<elseif(entity.alphabetic)>Alphabetic<elseif(entity.lower)>AlphabeticLower<elseif(entity.upper)>AlphabeticUpper<endif>(<if(entity.conditionReference)><entity.conditionReference><else>[UNDEFINED]<endif>)
 >>
