@@ -689,6 +689,29 @@ templates:
       - bms.field.color.is
       - bms.field.color.isNot
 
+  # BMS map-resource DSL: the field-highlight condition (IF <FIELD>H = <code> /
+  # <> <code>, retired direct backend CJavaIsFieldHighlight) emits one of the seven
+  # protected OnlineProgram highlight condition calls, selected by the entity's mode
+  # flags (precedence underlined > blink > reverse > normal) and its isopposite flag:
+  # isFieldUnderlined / isNotFieldUnderlined, isFieldBlink, isFieldReverse /
+  # isNotFieldReverse, isFieldHighlightNormal / isNotFieldHighlightNormal. All seven
+  # contracted calls are real OnlineProgram methods and all seven are listed because
+  # each is reachable on a template branch. The blink + opposite branch does NOT emit
+  # a separate call: the legacy isNotFieldBlink has no naca-rt implementation, so that
+  # branch renders the Java negation !isFieldBlink(<ref>) of the already-listed
+  # bms.field.highlight.blink operation (semantically identical, compilable) — no
+  # eighth operation is required or declared.
+  recursiveIsFieldHighlightEntity:
+    capability: BMS_MAP
+    requires:
+      - bms.field.highlight.underlined
+      - bms.field.highlight.underlined.not
+      - bms.field.highlight.blink
+      - bms.field.highlight.reverse
+      - bms.field.highlight.reverse.not
+      - bms.field.highlight.normal
+      - bms.field.highlight.normal.not
+
   # BMS map-resource DSL: the field-flag condition (IF <FIELD>P = 1 / 0 / LOW-VALUE,
   # retired direct backend CJavaIsFieldFlag) emits one of four protected OnlineProgram
   # condition calls, selected by the entity's isSet and isopposite flags:

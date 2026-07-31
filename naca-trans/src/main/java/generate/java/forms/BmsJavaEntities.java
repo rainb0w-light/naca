@@ -123,7 +123,11 @@ public final class BmsJavaEntities
 
 	public static CEntityIsFieldHighlight isFieldHighlight(CDataEntity reference)
 	{
-		return new CJavaIsFieldHighlight(reference);
+		// Retired direct backend generate.java.forms.CJavaIsFieldHighlight: the factory
+		// now builds the pure semantic entity, rendered by
+		// recursiveIsFieldHighlightEntity (binding in
+		// semantic-runtime-bindings.properties).
+		return new CEntityIsFieldHighlight(reference);
 	}
 
 	public static CEntityKeyPressed keyPressed(

@@ -1694,6 +1694,40 @@ features:
     fixtures: []
     status: production
 
+  # The BMS map-resource field-highlight condition (IF <FIELD>H = <code> / <> <code>).
+  # Built by semantic.forms.CEntityFieldHighlight.GetSpecialCondition as a pure
+  # semantic.forms.CEntityIsFieldHighlight condition ("4" -> underlined, "2" -> reverse,
+  # "1" -> blink, HIGH-VALUE/HIGH-VALUES -> normal; IS_DIFFERENT sets the entity's own
+  # isopposite flag via setOpposite): it emits one of the protected OnlineProgram
+  # highlight condition calls — isFieldUnderlined / isNotFieldUnderlined, isFieldBlink,
+  # isFieldReverse / isNotFieldReverse, isFieldHighlightNormal /
+  # isNotFieldHighlightNormal — in the legacy mode precedence order, exactly as the
+  # retired direct backend generate.java.forms.CJavaIsFieldHighlight.Export did (its
+  # isopposite flag selected the is/isNot form), with one deliberate deviation: the
+  # legacy blink + opposite branch emitted isNotFieldBlink(<ref>), a call with no
+  # naca-rt implementation (invalid generated Java on the production-reachable
+  # IF <FIELD>H <> 1 branch), which the template replaces with the Java negation
+  # !isFieldBlink(<ref>) of the same contracted call — semantically identical and
+  # compilable, as the gate requires for every reachable branch. Conditions lower
+  # through the runtime binding semantic.forms.CEntityIsFieldHighlight ->
+  # recursiveIsFieldHighlightEntity in the BMS forms-island manifest
+  # (semantic-runtime-bindings.properties, kept disjoint from the concrete manifest
+  # FinalArchitectureContractTest pins to the COBOL tree); the template reads only
+  # entity.* properties, branches on entity.underlined / entity.blink / entity.reverse
+  # (normal as the else branch) and entity.opposite, and the field data reference
+  # unfolds through the assembler. The emitted calls are the protected OnlineProgram
+  # condition helpers contracted as bms.field.highlight.underlined /
+  # .underlined.not / .blink / .reverse / .reverse.not / .normal / .normal.not.
+  - id: bms.condIsFieldHighlight
+    dialects: [bms-artifact]
+    semanticType: semantic.forms.CEntityIsFieldHighlight
+    javaBackend:
+      role: REFERENCE
+      template: recursiveIsFieldHighlightEntity
+    runtimeOperations: [bms.field.highlight.underlined, bms.field.highlight.underlined.not, bms.field.highlight.blink, bms.field.highlight.reverse, bms.field.highlight.reverse.not, bms.field.highlight.normal, bms.field.highlight.normal.not]
+    fixtures: []
+    status: production
+
   # The BMS map-resource field-flag condition (IF <FIELD>P = 1 / 0 / LOW-VALUE). Built by
   # semantic.forms.CEntityFieldFlag.GetSpecialCondition as a pure
   # semantic.forms.CEntityIsFieldFlag condition: IF <FIELD>P = 1 / 0 emits the protected

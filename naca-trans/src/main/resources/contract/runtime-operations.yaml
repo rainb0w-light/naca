@@ -2968,6 +2968,77 @@ operations:
     paramTypes: [nacaLib.varEx.Edit, nacaLib.mapSupport.MapFieldAttrColor]
     returns: boolean
 
+  # IF <FIELD>H = <code> / <> <code> lowers through
+  # semantic.forms.CEntityIsFieldHighlight (built by
+  # semantic.forms.CEntityFieldHighlight.GetSpecialCondition: "4" -> underlined,
+  # "2" -> reverse, "1" -> blink, HIGH-VALUE/HIGH-VALUES -> normal; IS_DIFFERENT sets
+  # the entity's isopposite flag) to the seven protected OnlineProgram highlight
+  # condition calls, selected by the entity's mode flags (precedence underlined >
+  # blink > reverse > normal) and its isopposite flag. All seven are protected on
+  # OnlineProgram and inherited by generated online program subclasses
+  # (RuntimeContractTest walks the declared-method hierarchy); each returns boolean
+  # for use inside an IF condition. The blink + opposite combination has no
+  # isNotFieldBlink runtime method (OnlineProgram declares isFieldBlink only), so the
+  # template renders that branch as the Java negation !isFieldBlink(<ref>) of the
+  # bms.field.highlight.blink call — semantically identical and compilable, unlike the
+  # retired direct backend's isNotFieldBlink emission, which never resolved to a real
+  # signature.
+  - id: bms.field.highlight.underlined
+    since: 1
+    capability: BMS_MAP
+    runtimeClass: idea.onlinePrgEnv.OnlineProgram
+    runtimeMethod: isFieldUnderlined
+    paramTypes: [nacaLib.varEx.Edit]
+    returns: boolean
+
+  - id: bms.field.highlight.underlined.not
+    since: 1
+    capability: BMS_MAP
+    runtimeClass: idea.onlinePrgEnv.OnlineProgram
+    runtimeMethod: isNotFieldUnderlined
+    paramTypes: [nacaLib.varEx.Edit]
+    returns: boolean
+
+  - id: bms.field.highlight.blink
+    since: 1
+    capability: BMS_MAP
+    runtimeClass: idea.onlinePrgEnv.OnlineProgram
+    runtimeMethod: isFieldBlink
+    paramTypes: [nacaLib.varEx.Edit]
+    returns: boolean
+
+  - id: bms.field.highlight.reverse
+    since: 1
+    capability: BMS_MAP
+    runtimeClass: idea.onlinePrgEnv.OnlineProgram
+    runtimeMethod: isFieldReverse
+    paramTypes: [nacaLib.varEx.Edit]
+    returns: boolean
+
+  - id: bms.field.highlight.reverse.not
+    since: 1
+    capability: BMS_MAP
+    runtimeClass: idea.onlinePrgEnv.OnlineProgram
+    runtimeMethod: isNotFieldReverse
+    paramTypes: [nacaLib.varEx.Edit]
+    returns: boolean
+
+  - id: bms.field.highlight.normal
+    since: 1
+    capability: BMS_MAP
+    runtimeClass: idea.onlinePrgEnv.OnlineProgram
+    runtimeMethod: isFieldHighlightNormal
+    paramTypes: [nacaLib.varEx.Edit]
+    returns: boolean
+
+  - id: bms.field.highlight.normal.not
+    since: 1
+    capability: BMS_MAP
+    runtimeClass: idea.onlinePrgEnv.OnlineProgram
+    runtimeMethod: isNotFieldHighlightNormal
+    paramTypes: [nacaLib.varEx.Edit]
+    returns: boolean
+
   # IF <FIELD>P = 1 / 0 / LOW-VALUE lowers through semantic.forms.CEntityIsFieldFlag
   # (built by semantic.forms.CEntityFieldFlag.GetSpecialCondition) to one of four protected
   # OnlineProgram condition calls, selected by the entity's isSet and isopposite flags:

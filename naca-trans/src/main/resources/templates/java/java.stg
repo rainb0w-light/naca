@@ -714,6 +714,34 @@ recursiveIsFieldAttributeGroup3(entity) ::= "<if(entity.modified)>is<if(entity.o
 // getReference()) and unfolds through the assembler.
 recursiveIsFieldColorEntity(entity) ::= "is<if(entity.opposite)>Not<endif>FieldColored(<entity.reference>, <entity.colorConstant>)"
 
+// BMS map-resource field-highlight condition (IF <FIELD>H = <code> / <> <code>,
+// lowered by semantic.forms.CEntityFieldHighlight.GetSpecialCondition to a pure
+// semantic.forms.CEntityIsFieldHighlight: "4" -> underlined, "2" -> reverse,
+// "1" -> blink, HIGH-VALUE/HIGH-VALUES -> normal; IS_DIFFERENT sets the entity's own
+// isopposite flag via setOpposite). Mirrors the retired direct backend
+// generate.java.forms.CJavaIsFieldHighlight: its Export built "is" + ("Not" when
+// isopposite) + one of "FieldUnderlined" / "FieldBlink" / "FieldReverse" /
+// "FieldHighlightNormal" (that precedence order) + "(<reference>)", i.e. the protected
+// OnlineProgram condition calls is[Not]FieldUnderlined(Edit), is[Not]FieldReverse(Edit)
+// and is[Not]FieldHighlightNormal(Edit) (contract operations
+// bms.field.highlight.underlined / .underlined.not / .reverse / .reverse.not / .normal
+// / .normal.not) plus isFieldBlink(Edit) (bms.field.highlight.blink). One legacy output
+// is deliberately NOT reproduced byte-for-byte: the retired backend's blink + opposite
+// branch emitted isNotFieldBlink(<reference>), a call that has no naca-rt implementation
+// (OnlineProgram declares isFieldBlink at idea/onlinePrgEnv/OnlineProgram.java:167 but
+// no isNotFieldBlink anywhere) — invalid generated Java on a production-reachable branch
+// (IF <FIELD>H <> 1). The contract gate requires every reachable template branch to
+// compile, so that branch emits the Java negation !isFieldBlink(<reference>) of the same
+// contracted call instead: semantically identical (OnlineProgram's own isNotField*
+// helpers are implemented as exactly such a negation of the positive test) and
+// compilable. Negation for the three modes that DO have an isNot* runtime method keeps
+// the legacy isNot* call byte-for-byte. The template reads only entity.* properties:
+// entity.underlined / entity.blink / entity.reverse select the mode in the legacy
+// precedence order (normal is the else branch), entity.opposite selects the
+// positive/negated call, and the field data reference rides in the inherited condition
+// reference slot (the entity exposes getReference()) and unfolds through the assembler.
+recursiveIsFieldHighlightEntity(entity) ::= "<if(entity.underlined)>is<if(entity.opposite)>Not<endif>FieldUnderlined(<entity.reference>)<elseif(entity.blink)><if(entity.opposite)>!isFieldBlink(<entity.reference>)<else>isFieldBlink(<entity.reference>)<endif><elseif(entity.reverse)>is<if(entity.opposite)>Not<endif>FieldReverse(<entity.reference>)<else>is<if(entity.opposite)>Not<endif>FieldHighlightNormal(<entity.reference>)<endif>"
+
 recursiveCondIsKindOfEntity(entity) ::= <<
 is<if(entity.opposite)>Not<endif><if(entity.numeric)>Numeric<elseif(entity.alphabetic)>Alphabetic<elseif(entity.lower)>AlphabeticLower<elseif(entity.upper)>AlphabeticUpper<endif>(<if(entity.conditionReference)><entity.conditionReference><else>[UNDEFINED]<endif>)
 >>
