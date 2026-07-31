@@ -553,6 +553,31 @@ recursiveFormEntity(entity) ::= "<entity.formReference>"
 // traversal rather than the assembler's REFERENCE role.
 recursiveFormDeclarationEntity(entity) ::= "Form <entity.formattedName> = declare.form(\"<entity.formattedResourceName>\", <entity.sizeLine>, <entity.sizeCol>) ;"
 
+// BMS map-resource DSL: a reference to a screen-map MAPREDEFINE (a re-view over an existing
+// screen form, retired direct backend generate.java.forms.CJavaFormRedefine). Its
+// ExportReference returned formatIdentifier(GetName()) — the target-formatted form redefine
+// name. Reads only entity.formattedName (the precomputed, target-formatted identifier the
+// generate-layer factory supplies through an injected formatter); reached through
+// LegacyDataRenderer.renderReference's recursive fall-through once the backend's reflective
+// ExportReference is gone (a semantic-declared ExportReference is ignored there). This is the
+// forms-island binding for semantic.forms.CEntityFormRedefine (REFERENCE role).
+recursiveFormRedefineEntity(entity) ::= "<entity.formattedName>"
+
+// BMS map-resource DSL: the declaration line of a screen-map MAPREDEFINE (retired direct
+// backend generate.java.forms.CJavaFormRedefine). Mirrors its DoExport's declaration exactly:
+// MapRedefine <name> = declare.level(1).redefinesMap(<origin form ref>) ; — the
+// declare.level(int)/redefinesMap(Form) chain (nacaLib.varEx.VarLevel.redefinesMap(Form) ->
+// nacaLib.varEx.MapRedefine) declares a re-view over the origin form the parser resolved. Reads
+// only entity.* properties: entity.formattedName (precomputed formatted identifier) and
+// entity.redefinesReference (the origin form reference pre-rendered by the generate-layer bridge
+// through the exact legacy LegacyDataRenderer.renderReference protocol, preserving byte parity).
+// The surrounding { ... } block over the form redefine's children is emitted by that same
+// generate-layer bridge (BmsJavaEntities.renderFormRedefineDeclaration) through the still-direct
+// BMS field backends; this template is invoked by the bridge (assembler.template(...)), not by a
+// manifest binding, because the form redefine is reached through the legacy CJavaFormContainer
+// traversal rather than the assembler's REFERENCE role.
+recursiveFormRedefineDeclarationEntity(entity) ::= "MapRedefine <entity.formattedName> = declare.level(1).redefinesMap(<entity.redefinesReference>) ;"
+
 // BMS map-resource cursor action (MOVE ... TO <FIELD>-L, lowered by
 // semantic.forms.CEntityFieldLength.GetSpecialAssignment to a
 // semantic.forms.CEntitySetCursor statement). Mirrors the retired direct

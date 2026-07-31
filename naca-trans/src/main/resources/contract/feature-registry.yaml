@@ -1747,6 +1747,45 @@ features:
     fixtures: []
     status: production
 
+  # The BMS map-resource form redefine (a CICS MAPREDEFINE — a re-view over an
+  # existing screen form, lowered from a BMS MAP/MAPREDEFINE working-storage
+  # structure by parser/Cobol/elements/CWorkingEntry.DoSemanticAnalysisForMapRedefine
+  # -> factory.NewEntityFormRedefine). Retired direct backend
+  # generate.java.forms.CJavaFormRedefine. Its data-reference protocol
+  # (ExportReference == formatIdentifier(GetName())) renders through the
+  # forms-island binding semantic.forms.CEntityFormRedefine ->
+  # recursiveFormRedefineEntity (REFERENCE role, the template named below); its
+  # declaration block (MapRedefine <name> =
+  # declare.level(1).redefinesMap(<origin form ref>) ; { ...children... }) renders
+  # through the recursiveFormRedefineDeclarationEntity template, invoked by the
+  # generate-layer factory bridge (BmsJavaEntities.renderFormRedefineDeclaration)
+  # that the still-direct CJavaFormContainer legacy traversal reaches through the
+  # pure entity's DoExport. That bridge pre-renders the origin form reference
+  # through the exact legacy LegacyDataRenderer.renderReference protocol, then
+  # drives the { ... } block over the form redefine's children through
+  # exportChildren. The declare.level(int)/redefinesMap(Form) chain
+  # (nacaLib.varEx.VarLevel.redefinesMap(Form) -> nacaLib.varEx.MapRedefine) was
+  # already emitted uncontracted by the retired backend, so — same treatment as
+  # bms.form / bms.field.occurs / bms.field.skipField / bms.field.redefine — this
+  # feature carries no Codegen-Runtime Contract operation: no
+  # runtime-operations.yaml / template-runtime-requirements.yaml entry is declared
+  # or required. The retirement also fixes the latent constructor self-assignment
+  # (eForm = eForm) that nulled the origin form reference, so redefinesMap now
+  # receives the real origin form the parser resolved. The retired backend's
+  # HasAccessors() returned false, isValNeeded() returned false,
+  # ExportWriteAccessorTo returned "" (unused, no live consumer), GetTypeDecl
+  # returned "" (unused), and DoXMLExport returned null (a form redefine
+  # contributes no XML/.res node of its own).
+  - id: bms.form.redefine
+    dialects: [bms-artifact]
+    semanticType: semantic.forms.CEntityFormRedefine
+    javaBackend:
+      role: REFERENCE
+      template: recursiveFormRedefineEntity
+    runtimeOperations: []
+    fixtures: []
+    status: production
+
   # The BMS map-field array reference (an indexed read of an OCCURS-style map
   # field, built by semantic.forms.CEntityFieldRedefine.GetArrayReference and by
   # the pure semantic node's own GetSpecialCondition). Reference reads lower

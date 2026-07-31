@@ -212,8 +212,48 @@ public final class BmsJavaEntities
 		int line, String name, CObjectCatalog catalog,
 		CBaseLanguageExporter output, CDataEntity form, boolean save)
 	{
-		return new CJavaFormRedefine(
-			line, name, catalog, output, form, save);
+		// Retired direct backend generate.java.forms.CJavaFormRedefine: the factory now builds
+		// the pure semantic entity. Its data-reference protocol renders through the
+		// recursiveFormRedefineEntity binding (semantic-runtime-bindings.properties); its
+		// declaration block renders through the recursiveFormRedefineDeclarationEntity template,
+		// driven by the declaration renderer injected below (the retired backend's DoExport body,
+		// relocated to this generate-layer boundary so the semantic tree names no generate.*
+		// class). The exporter bind preserves the retired backend constructor's
+		// LegacyLanguageRenderer.bind side effect for the BMS traversal compatibility boundary;
+		// the injected identifier formatter stands in for LegacyLanguageRenderer.formatIdentifier.
+		CEntityFormRedefine entity = new CEntityFormRedefine(line, name, catalog, form, save);
+		generate.LegacyLanguageRenderer.bind(entity, output);
+		entity.setIdentifierFormatter(identifier -> output.FormatIdentifier(identifier));
+		entity.setDeclarationRenderer(BmsJavaEntities::renderFormRedefineDeclaration);
+		return entity;
+	}
+
+	/**
+	 * The retired {@code CJavaFormRedefine.DoExport} body, relocated to this generate-layer
+	 * boundary. Pre-renders the {@code redefinesMap(<ref>)} origin form reference through the
+	 * exact legacy {@code LegacyDataRenderer.renderReference} protocol (preserving byte parity),
+	 * renders the declaration line declaratively through the recursive ST4 assembly contract
+	 * ({@code recursiveFormRedefineDeclarationEntity}), then drives the {@code { ... }} block
+	 * over the form redefine's children — which keep rendering through the still-direct BMS field
+	 * backends the surrounding {@code CJavaFormContainer} traversal invokes.
+	 *
+	 * <p>Accepts {@code CEntityResourceForm} to match the inherited
+	 * {@code Consumer<CEntityResourceForm>} declaration-renderer type; the factory only installs
+	 * this on {@link CEntityFormRedefine} instances.
+	 */
+	private static void renderFormRedefineDeclaration(CEntityResourceForm rawEntity)
+	{
+		CEntityFormRedefine entity = (CEntityFormRedefine) rawEntity;
+		entity.setRedefinesReference(
+			generate.LegacyDataRenderer.renderReference(entity.getForm(), entity.getLine()));
+		String declaration = generate.templates.TemplateLoader.getRecursiveAssembler()
+			.template("recursiveFormRedefineDeclarationEntity")
+			.add("entity", entity)
+			.render();
+		generate.LegacyLanguageRenderer.writeLine(entity, declaration);
+		generate.LegacyLanguageRenderer.startBlock(entity);
+		generate.LegacyLanguageRenderer.exportChildren(entity, false);
+		generate.LegacyLanguageRenderer.endBlock(entity);
 	}
 
 	public static CEntityIsFieldColor isFieldColor()
