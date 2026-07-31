@@ -625,7 +625,18 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityAssign NewEntityAssign(int l)
 	{
-		return new CFPacJavaAssign(l, programCatalog, langOutput) ;
+		// Pure target-neutral semantic entity shared with the COBOL pipeline: an assign
+		// renders through the existing recursive ST4 binding
+		// (semantic.Verbs.CEntityAssign -> recursiveMoveEntity, "move(<value>, <destination>);"),
+		// not the retired generate.fpacjava direct backend CFPacJavaAssign. FPac only ever
+		// populates value + destinations (CFPacAssign/CFPacMove/CFPacArithmeticOperation/
+		// CFPacConvert call SetValue + AddRefTo; SetFillAll/SetAssignCorresponding are never
+		// invoked from FPac), so the shared template always lowers to the plain "move(...)"
+		// statement COBOL already emits for this same semantic entity. The template only reads
+		// entity.value / entity.destinations; the parser/factory precomputes both.
+		CEntityAssign e = new CEntityAssign(l, programCatalog);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
+		return e;
 	}
 
 	@Override

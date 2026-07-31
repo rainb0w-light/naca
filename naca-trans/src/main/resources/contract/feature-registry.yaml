@@ -312,6 +312,24 @@ features:
     fixtures: []
     status: production
 
+  - id: fpac.data.move
+    dialects: [fpac]
+    semanticType: semantic.Verbs.CEntityAssign
+    javaBackend:
+      role: REFERENCE
+      template: recursiveMoveEntity
+    # FPac shares the target-neutral semantic.Verbs.CEntityAssign with COBOL and reuses
+    # the frozen recursiveMoveEntity binding ("move(<value>, <destination>);"). The retired
+    # CFPacJavaAssign backend emitted the same plain move(...) statement (with a stray ") ;"
+    # spacing); FPac converges onto the canonical shape COBOL already emits for this entity.
+    # FPac only ever populates value + destinations (never fillAll/corresponding), so the
+    # shared template always lowers to the plain move overloads; the full move op set is
+    # declared because the template is shared verbatim with COBOL. Runtime-legal:
+    # nacaLib.fpacPrgEnv.FPacProgram extends nacaLib.basePrgEnv.BaseProgram, which declares move.
+    runtimeOperations: [data.move.varEdit, data.move.editVar, data.move.editEdit, data.moveAll, data.moveCorresponding]
+    fixtures: []
+    status: production
+
   - id: cobol.data.address-reference
     dialects: [cobol-core]
     semanticType: semantic.CEntityAddressReference
