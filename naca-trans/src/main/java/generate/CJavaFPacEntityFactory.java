@@ -1216,7 +1216,26 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityCloseFile NewEntityCloseFile(int line)
 	{
-		return new CFPacJavaCloseFile(line, programCatalog, langOutput) ;
+		// Pure target-neutral semantic entity shared with the COBOL pipeline: an FPac CLOSE-
+		// renders through the existing recursive ST4 binding
+		// (semantic.Verbs.CEntityCloseFile -> recursiveCloseFileEntity,
+		// "<entity.fileDescriptor>.close();"), NOT the retired generate.fpacjava direct
+		// backend CFPacJavaCloseFile. FPac's lowering is the SAME shape COBOL already emits
+		// for this same semantic entity (descriptor.getFormattedName() + ".close()"), so the
+		// shared reference binding is reused verbatim — no FPac override is needed in
+		// semantic-fpac-bindings.properties (unlike CEntityCallFunction/CEntityCallProgram,
+		// whose FPac lowering genuinely differs). The parser populates the descriptor
+		// (CFPacClose.DoCustomSemanticAnalysis and CFPacCodeBloc call setFileDescriptor); the
+		// template only reads entity.fileDescriptor, a pure getter (getFormattedName performs
+		// no FormatIdentifier/output work). The factory binds the legacy output controller AT
+		// CREATION: CBaseLanguageEntity.AddChild does NOT propagate output bindings and
+		// FPacTranscoderEngine performs no whole-tree bind pass, so without this bind a CLOSE-
+		// in any FPac program would throw "No legacy output controller bound to
+		// semantic.Verbs.CEntityCloseFile" once CFPacJavaProcedure.DoExport routes the retired
+		// verb through the assembler (exportChildren(this, false, FPAC_REFERENCE)).
+		CEntityCloseFile e = new CEntityCloseFile(line, programCatalog);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
+		return e;
 	}
 
 	@Override
