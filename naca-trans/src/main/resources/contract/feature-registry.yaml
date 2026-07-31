@@ -1620,6 +1620,35 @@ features:
     fixtures: []
     status: production
 
+  # The BMS map-resource OCCURS group field (a COBOL group item carrying OCCURS inside a
+  # BMS MAP/MAPREDEFINE working-storage structure, lowered by
+  # parser/Cobol/elements/CWorkingEntry.DoSemanticAnalysisForMapRedefine ->
+  # factory.NewEntityFieldOccurs). Retired direct backend
+  # generate.java.forms.CJavaFieldOccurs. Its data-reference protocol (ExportReference ==
+  # formatIdentifier(GetName())) renders through the forms-island binding
+  # semantic.forms.CEntityFieldOccurs -> recursiveFieldOccursEntity (REFERENCE role, the
+  # template named below); its declaration block (Edit <name> =
+  # declare.level(<n>).editOccurs(<ref>, "<name>") ; { ...children... }) renders through the
+  # recursiveFieldOccursDeclarationEntity template, invoked by the generate-layer factory
+  # bridge (BmsJavaEntities.renderFieldOccursDeclaration) that the still-direct
+  # CJavaForm/CJavaFieldRedefine legacy traversal reaches through the pure entity's DoExport.
+  # The editOccurs call (nacaLib.varEx.VarLevel.editOccurs(int, String) -> nacaLib.varEx.Edit)
+  # was already emitted uncontracted by the retired backend, so — same treatment as
+  # bms.keyPressed.reference — this feature carries no Codegen-Runtime Contract operation: no
+  # runtime-operations.yaml / template-runtime-requirements.yaml entry is declared or required.
+  # The retired backend's isValNeeded() returned false and its ExportWriteAccessorTo returned
+  # null (an occurs group is never a declared val nor an accessor-bearing variable), and its
+  # DoXMLExport returned null (the group contributes no XML/.res node of its own).
+  - id: bms.field.occurs
+    dialects: [bms-artifact]
+    semanticType: semantic.forms.CEntityFieldOccurs
+    javaBackend:
+      role: REFERENCE
+      template: recursiveFieldOccursEntity
+    runtimeOperations: []
+    fixtures: []
+    status: production
+
   # The BMS map-field array reference (an indexed read of an OCCURS-style map
   # field, built by semantic.forms.CEntityFieldRedefine.GetArrayReference and by
   # the pure semantic node's own GetSpecialCondition). Reference reads lower

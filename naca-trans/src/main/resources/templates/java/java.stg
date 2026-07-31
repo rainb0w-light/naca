@@ -452,6 +452,31 @@ fieldValidatedReferenceEntity(entity) ::= "<entity.reference>.getValidation()"
 // gone.
 recursiveKeyPressedEntity(entity) ::= "KeyPressed.<entity.publicName>"
 
+// BMS map-resource DSL: a reference to a screen-map OCCURS group field (retired direct
+// backend generate.java.forms.CJavaFieldOccurs). Its ExportReference returned
+// formatIdentifier(GetName()) — the target-formatted group name. Reads only
+// entity.formattedName (the precomputed, target-formatted identifier the generate-layer
+// factory supplies through an injected formatter); reached through
+// LegacyDataRenderer.renderReference's recursive fall-through once the backend's reflective
+// ExportReference is gone (a semantic-declared ExportReference is ignored there). This is the
+// forms-island binding for semantic.forms.CEntityFieldOccurs (REFERENCE role).
+recursiveFieldOccursEntity(entity) ::= "<entity.formattedName>"
+
+// BMS map-resource DSL: the declaration line of a screen-map OCCURS group field (retired
+// direct backend generate.java.forms.CJavaFieldOccurs). Mirrors its DoExport's declaration
+// exactly: Edit <name> = declare.level(<int level>).editOccurs(<occurs ref>, "<name>") ; —
+// the same target-formatted name is the Java variable and the quoted editOccurs argument
+// (nacaLib.varEx.VarLevel.editOccurs(int, String) -> nacaLib.varEx.Edit). Reads only entity.*
+// properties: entity.formattedName (precomputed formatted identifier), entity.level (the COBOL
+// formal level parsed to an int) and entity.occursReference (the OCCURS reference pre-rendered
+// by the generate-layer bridge through the exact legacy LegacyDataRenderer.renderReference
+// protocol, preserving byte parity). The surrounding { ... } block over the group's child
+// fields is emitted by that same generate-layer bridge through the still-direct BMS field
+// backends; this template is invoked by the bridge (assembler.template(...)), not by a
+// manifest binding, because the group is reached through the legacy CJavaForm/CJavaFieldRedefine
+// traversal rather than the assembler's REFERENCE role.
+recursiveFieldOccursDeclarationEntity(entity) ::= "Edit <entity.formattedName> = declare.level(<entity.level>).editOccurs(<entity.occursReference>, \"<entity.formattedName>\") ;"
+
 // BMS map-resource cursor action (MOVE ... TO <FIELD>-L, lowered by
 // semantic.forms.CEntityFieldLength.GetSpecialAssignment to a
 // semantic.forms.CEntitySetCursor statement). Mirrors the retired direct
