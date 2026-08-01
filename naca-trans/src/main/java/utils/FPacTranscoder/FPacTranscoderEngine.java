@@ -16,7 +16,9 @@ import parser.CParser;
 import parser.FPac.CFPacParser;
 import parser.FPac.elements.CFPacScript;
 import semantic.CBaseEntityFactory;
+import semantic.CBaseLanguageEntity;
 import semantic.CEntityClass;
+import semantic.CEntityDataSection;
 import utils.Transcoder;
 import utils.TranscoderEngine;
 import utils.CGlobalEntityCounter;
@@ -76,17 +78,19 @@ public class FPacTranscoderEngine extends TranscoderEngine<CFPacScript, CEntityC
 	 * output controller), and the FPac {@code FPacProgram} class wrapper is owned by the
 	 * recursive-ST4 contract ({@code recursiveFPacClassEntity}, role {@code FPAC_ROOT}).
 	 *
-	 * <p>The body containers ({@code CFPacJavaProcedure}/{@code CFPacJavaDataSection})
-	 * are STILL direct backends on their own retirement slices ({@code CFPacJavaComment}
-	 * is retired: the factory hands back the pure {@link semantic.CEntityComment}, which
-	 * the shared {@code semantic.CEntityComment=javaComment} binding renders through the
-	 * assembler under both {@code REFERENCE} and {@code FPAC_REFERENCE}), so a whole-tree
-	 * {@code renderRoot(eSem, FPAC_ROOT)} would wrongly resolve those shared
-	 * semantic subclasses through the frozen COBOL reference bindings. Until they are retired,
-	 * this transitional bridge reproduces the retired {@code CFPacJavaClass.DoExport} wrapper
-	 * byte-for-byte through the bound legacy output and drives the body with
-	 * {@code exportChildren(eSem, false)} exactly as the deleted backend did: still-legacy
-	 * containers render by reflection, and verbs already retired inside a procedure lower via
+	 * <p>The body procedure container ({@code CFPacJavaProcedure}) is STILL a direct backend
+	 * on its own retirement slice ({@code CFPacJavaComment} and {@code CFPacJavaDataSection}
+	 * are retired: the factory hands back the pure {@link semantic.CEntityComment} /
+	 * {@link semantic.CEntityDataSection}). A comment renders through the shared
+	 * {@code semantic.CEntityComment=javaComment} binding under both {@code REFERENCE} and
+	 * {@code FPAC_REFERENCE}; a whole-tree {@code renderRoot(eSem, FPAC_ROOT)} would still
+	 * wrongly resolve the remaining shared semantic subclasses through the frozen COBOL
+	 * reference bindings. Until they are retired, this transitional bridge reproduces the
+	 * retired {@code CFPacJavaClass.DoExport} wrapper byte-for-byte through the bound legacy
+	 * output and drives the body with {@link #exportFpacRootChildren} exactly as the deleted
+	 * backend did: the still-legacy procedure renders by reflection, the retired transparent
+	 * {@code CEntityDataSection} is flattened in place (its still-legacy FPac file-descriptor
+	 * children render by reflection), and verbs already retired inside a procedure lower via
 	 * {@code FPAC_REFERENCE} (the procedure's own bridge). This converges to
 	 * {@code renderRoot(eSem, JavaTemplateRole.FPAC_ROOT)} once the container backends retire.
 	 */
@@ -116,10 +120,47 @@ public class FPacTranscoderEngine extends TranscoderEngine<CFPacScript, CEntityC
 		generate.LegacyLanguageRenderer.writeLine(eSem, "{") ;
 		generate.LegacyLanguageRenderer.startBlock(eSem) ;
 
-		generate.LegacyLanguageRenderer.exportChildren(eSem, false) ;
+		exportFpacRootChildren(eSem) ;
 
 		generate.LegacyLanguageRenderer.endBlock(eSem) ;
 		generate.LegacyLanguageRenderer.writeLine(eSem, "}") ;
+	}
+
+	/**
+	 * Drives the FPac program root's body exactly as the retired {@code CFPacJavaClass.DoExport}
+	 * ({@code exportChildren(eSem, false)}) did. A still-legacy container such as
+	 * {@code CFPacJavaProcedure} is driven by reflection. The retired, target-neutral
+	 * {@link CEntityDataSection} is a transparent container that carries no code of its own —
+	 * its {@code DoExport} was exactly {@code exportChildren(this, false)} — so it is flattened
+	 * in place: its still-legacy FPac file-descriptor children render by reflection at the
+	 * class-body block level, byte-for-byte as the deleted {@code CFPacJavaDataSection.DoExport}
+	 * emitted them ({@code FPacFileDescriptor NAME = declare.fpacFile("NAME").file() ;}). It is
+	 * DELIBERATELY NOT routed through the recursive assembler: the shared
+	 * {@code semantic.CEntityDataSection=dataSectionDeclaration} binding would lower those
+	 * file-descriptor children under the frozen COBOL declaration binding
+	 * ({@code FileDescriptor NAME = declare.file(...)}), which does not compile against
+	 * {@code FPacProgram}. Every other child keeps the historical null-fallback behavior (a
+	 * backend-less node is left unrendered), so this bridge stays byte-identical to the retired
+	 * backend. Converges to {@code renderRoot(eSem, FPAC_ROOT)} once the file-descriptor and
+	 * procedure backends retire.
+	 */
+	private static void exportFpacRootChildren(CEntityClass eSem)
+	{
+		for (CBaseLanguageEntity child : eSem.getChildren())
+		{
+			if (child.ignore())
+			{
+				continue ;
+			}
+			if (child instanceof CEntityDataSection)
+			{
+				generate.LegacyLanguageRenderer.exportChildren(child, false) ;
+			}
+			else
+			{
+				generate.LegacyLanguageRenderer.invokeExport(child, null) ;
+			}
+		}
 	}
 	protected void InitCustomCICSEntriesFromRules(CBaseEntityFactory factory)
 	{

@@ -440,7 +440,28 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityDataSection NewEntityDataSection(int l, String name)
 	{
-		return new CFPacJavaDataSection(l, name, programCatalog, langOutput);
+		// Pure target-neutral semantic entity shared with the COBOL pipeline. The FPac
+		// declaration zone (parser/FPac/elements/CFPacDeclarationZone) lowers IPF/OPF/UPF
+		// file declarations into a "DeclarationSection" data section whose ONLY children are
+		// still-legacy FPac file descriptors (CFPacJavaFileDescriptor). The retired
+		// generate.fpacjava.CFPacJavaDataSection direct backend carried no code of its own —
+		// its DoExport was exactly exportChildren(this, false): a transparent container that
+		// renders its children in place at the class-body block level. The FPac program-root
+		// bridge (FPacTranscoderEngine.exportFpacProgramRoot) reproduces that byte-for-byte by
+		// flattening this backend-less container: its file-descriptor children are driven by
+		// reflection (FPacFileDescriptor NAME = declare.fpacFile("NAME").file() ;). It is
+		// DELIBERATELY NOT routed through the recursive assembler: the shared
+		// semantic.CEntityDataSection=dataSectionDeclaration binding would lower those
+		// file-descriptor children under the frozen COBOL declaration binding
+		// (FileDescriptor NAME = declare.file(...)), which does not compile against
+		// nacaLib.fpacPrgEnv.FPacProgram. This converges to renderRoot(eSem, FPAC_ROOT) once
+		// the FPac file-descriptor backends retire. The factory binds the legacy output
+		// controller AT CREATION (AddChild does not propagate bindings and FPacTranscoderEngine
+		// performs no whole-tree bind pass), mirroring the COBOL factory and every retired FPac
+		// verb. Lowering stays in stage 1; the semantic entity stays generate-neutral.
+		CEntityDataSection e = new CEntityDataSection(l, name, programCatalog);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
+		return e;
 	}
 
 	@Override
