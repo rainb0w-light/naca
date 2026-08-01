@@ -185,7 +185,24 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityDisplay NewEntityDisplay(int l, Upon t)
 	{
-		return new CFPacJavaDisplay(l, programCatalog, langOutput, t)  ;
+		// Pure target-neutral semantic entity rendered through the recursive ST4 binding
+		// semantic.Verbs.CEntityDisplay -> recursiveFPacDisplayEntity (FPAC_REFERENCE role,
+		// layered over the shared reference manifest by semantic-fpac-bindings.properties so
+		// the frozen COBOL `display` binding is left untouched). The retired FPac direct display
+		// backend wrote, per operand, "wto.display(" + LegacyDataRenderer.renderReference(item,
+		// getLine()) + ") ;". That exact reference-rendering bridge is INJECTED here (the same
+		// LegacyDataRenderer::renderReference idiom the BMS field attributes use) so the entity's
+		// getDisplayReferences() reproduces the retired output byte-for-byte for every operand
+		// shape CFPacWTO builds -- a positioned substring wrapping a conversion buffer, a numeric
+		// or string literal, an undefined reference, or a plain field -- without the semantic tree
+		// naming any backend type. Routing those operands through the shared assembler reference
+		// walk instead would re-route the still-legacy FPac operand types to the COBOL templates
+		// and diverge (or emit invalid Java). Replaced the retired generate.fpacjava display
+		// backend; mirrors the conversion-reference retirement (pure entity + legacy output bind).
+		CEntityDisplay e = new CEntityDisplay(l, programCatalog, t) ;
+		e.setReferenceRenderer(generate.LegacyDataRenderer::renderReference) ;
+		generate.LegacyLanguageRenderer.bind(e, langOutput) ;
+		return e ;
 	}
 
 	@Override

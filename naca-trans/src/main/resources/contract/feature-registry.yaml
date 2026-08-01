@@ -573,6 +573,32 @@ features:
     fixtures: []
     status: production
 
+  - id: fpac.verb.display
+    dialects: [fpac]
+    semanticType: semantic.Verbs.CEntityDisplay
+    javaBackend:
+      role: FPAC_REFERENCE
+      template: recursiveFPacDisplayEntity
+    # FPac shares the target-neutral semantic.Verbs.CEntityDisplay with COBOL, but its lowering
+    # genuinely differs: COBOL renders the verb with the shared `display` template (REFERENCE
+    # role) as a single console().display/displayEnv/display call joining every operand with
+    # " + ", whereas an FPac WTO writes ONE "wto.display(<ref>) ;" console statement PER OPERAND
+    # ("wto" is the protected nacaLib.varEx.Console field on nacaLib.fpacPrgEnv.FPacProgram). The
+    # FPAC_REFERENCE role layers semantic-fpac-bindings.properties over the shared reference
+    # manifest and redirects ONLY this class to recursiveFPacDisplayEntity, leaving the frozen
+    # COBOL `display` binding intact. The retired FPac display backend rendered each operand with
+    # LegacyDataRenderer.renderReference(item, getLine()); that exact bridge is injected into the
+    # entity by the FPac factory and read back as the entity.displayReferences strings, so the
+    # template reproduces the retired output byte-for-byte for every operand shape CFPacWTO builds
+    # (positioned substring + conversion buffer, numeric/string literal, undefined reference, plain
+    # field). The operands are deliberately NOT routed through the assembler reference walk, which
+    # would re-route the still-legacy FPac operand types to the shared COBOL templates and diverge
+    # or emit invalid Java. The single runtime operation is the Console.display call itself; the
+    # "wto" receiver is the FPacProgram field, a template concern like COBOL's console() accessor.
+    runtimeOperations: [output.console.display]
+    fixtures: []
+    status: production
+
   - id: fpac.program.call
     dialects: [fpac]
     semanticType: semantic.Verbs.CEntityCallProgram

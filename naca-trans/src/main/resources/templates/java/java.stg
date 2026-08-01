@@ -450,6 +450,22 @@ valueReferenceEntity(entity) ::= "<entity.reference>"
 // fragment, uses the inline (no-trailing-newline) form like valueReferenceEntity.
 recursiveFPacConvertReferenceEntity(entity) ::= "<if(entity.plainReference)><entity.reference><elseif(entity.accessorConversion)><entity.reference><entity.conversionSuffix><else>buffer<entity.conversionSuffix>(<entity.reference><endif>"
 
+// Independent FPac pipeline DISPLAY / WTO verb (semantic.Verbs.CEntityDisplay, FPAC_REFERENCE
+// role override layered over the shared reference manifest; the frozen COBOL `display` binding
+// is left untouched). The retired FPac display backend wrote, for each operand, one console
+// statement "wto.display(<ref>) ;" where <ref> was LegacyDataRenderer.renderReference(item,
+// getLine()) -- "wto" being the protected nacaLib.varEx.Console field on nacaLib.fpacPrgEnv.
+// FPacProgram. The operand reference text is NOT rendered through the assembler reference walk:
+// the still-legacy FPac operand types (a positioned substring wrapping a conversion buffer, a
+// numeric/string literal, an undefined reference) each carry their own reference protocol, and
+// the walk would silently re-route them to the shared COBOL templates and diverge (the substring
+// shape even yields unbalanced parentheses). Instead the entity precomputes each operand's
+// reference through the injected renderReference bridge -- the exact call the retired backend
+// made -- and this template only reads those entity.displayReferences strings, so the emitted
+// output stays byte-for-byte identical. Inline (no trailing newline) form like the other FPac
+// verb templates rendered through the legacy traversal's assembler bridge.
+recursiveFPacDisplayEntity(entity) ::= "<entity.displayReferences:{r | wto.display(<r>) ;}; separator=\"\n\">"
+
 fieldHighlightReferenceEntity(entity) ::= "getHighlighting(<entity.reference>)"
 
 fieldFlagReferenceEntity(entity) ::= "<entity.reference>.getFlag()"

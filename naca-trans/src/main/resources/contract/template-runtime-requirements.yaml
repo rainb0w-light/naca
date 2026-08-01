@@ -116,6 +116,16 @@ templates:
       - fpac.buffer.packed
       - fpac.buffer.alphanum
 
+  # Independent FPac DISPLAY / WTO verb (semantic.Verbs.CEntityDisplay, FPAC_REFERENCE override).
+  # Emits one "wto.display(<ref>) ;" console statement per operand; "wto" is the protected
+  # nacaLib.varEx.Console field on nacaLib.fpacPrgEnv.FPacProgram, so the single runtime call is
+  # Console.display (the operand reference text is precomputed on the entity through the injected
+  # renderReference bridge, not emitted as a literal runtime call here).
+  recursiveFPacDisplayEntity:
+    capability: OUTPUT
+    requires:
+      - output.console.display
+
   recursiveMoveReferenceEntity:
     capability: DATA
     requires:
