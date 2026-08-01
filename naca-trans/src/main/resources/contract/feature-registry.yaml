@@ -398,6 +398,30 @@ features:
     fixtures: []
     status: production
 
+  - id: fpac.condition.isFileEOF
+    dialects: [fpac]
+    semanticType: semantic.expression.CEntityIsFileEOF
+    javaBackend:
+      role: REFERENCE
+      template: recursiveIsFileEOFEntity
+    # FPac-only END-OF-FILE condition (COBOL never instantiates CEntityIsFileEOF — it is an
+    # abstract type only the independent FPac pipeline lowers, via
+    # CJavaFPacEntityFactory.NewEntityIsFileEOF -> generate.fpacjava.CFPacJavaIsFileEOF, from
+    # parser/FPac/elements/CFPacAt for the AT loop's EOF test). Because the semantic type is
+    # abstract it is bound through the semantic-runtime-bindings.properties superclass alias
+    # (NOT the concrete semantic-bindings.properties inventory). The shared
+    # recursiveIsFileEOFEntity binding emits the protected FPacProgram.isEof(BaseFileDescriptor)
+    # call (contract operation fpac.file.eof) as "isEof(<name>)", reproducing the retired
+    # CFPacJavaIsFileEOF.Export() output; the descriptor name unfolds through the shared
+    # recursiveFileDescriptorEntity binding exactly as recursiveCloseFileEntity does. The
+    # binding's chief role is making the EOF condition renderable as the OPERAND of a wrapping
+    # pure CEntityCondNot (GetOppositeCondition negates EOF; recursiveCondNotEntity renders
+    # !(<entity.operand>)). The entity's getFileDescriptor getter is a pure field read.
+    runtimeOperations:
+      - fpac.file.eof
+    fixtures: []
+    status: production
+
   - id: fpac.expression.address
     dialects: [fpac]
     semanticType: semantic.expression.CEntityAddress

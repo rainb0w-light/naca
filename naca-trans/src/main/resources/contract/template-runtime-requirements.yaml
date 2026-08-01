@@ -35,6 +35,17 @@ templates:
     requires:
       - file.close
 
+  # Independent FPac pipeline EOF condition (semantic.expression.CEntityIsFileEOF, bound through
+  # the semantic-runtime-bindings.properties superclass alias). Emits the protected
+  # FPacProgram.isEof(BaseFileDescriptor) condition call; negation rides a pure CEntityCondNot ->
+  # recursiveCondNotEntity, no extra runtime call. The bare "isEof(" call matches neither the
+  # STATIC_CALL nor FLUENT_CALL scan pattern, so the requirement is declarative documentation of
+  # the contract operation rather than a scanned emit.
+  recursiveIsFileEOFEntity:
+    capability: FILE_IO
+    requires:
+      - fpac.file.eof
+
   recursiveParseStringEntity:
     capability: STRING
     requires:

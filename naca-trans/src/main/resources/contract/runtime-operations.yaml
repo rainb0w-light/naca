@@ -90,6 +90,22 @@ operations:
     paramTypes: []
     returns: void
 
+  # Independent FPac pipeline END-OF-FILE test, emitted by recursiveIsFileEOFEntity for
+  # semantic.expression.CEntityIsFileEOF (instantiated by FPac as CFPacJavaIsFileEOF). The
+  # protected FPacProgram.isEof(BaseFileDescriptor) predicate returns boolean for use inside
+  # an IF condition; generated FPac programs extend nacaLib.fpacPrgEnv.FPacProgram, so the
+  # call compiles (RuntimeContractTest walks the declared-method hierarchy). Negation rides a
+  # pure semantic.expression.CEntityCondNot -> recursiveCondNotEntity (no isNotEof runtime
+  # call). Mirrors the retired direct backend generate.fpacjava.CFPacJavaIsFileEOF.Export
+  # ("isEof(<formattedName>)").
+  - id: fpac.file.eof
+    since: 1
+    capability: FILE_IO
+    runtimeClass: nacaLib.fpacPrgEnv.FPacProgram
+    runtimeMethod: isEof
+    paramTypes: [nacaLib.varEx.BaseFileDescriptor]
+    returns: boolean
+
   # --- WRITE ---
   - id: file.write
     since: 1

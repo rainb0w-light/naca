@@ -8,6 +8,7 @@ package generate.fpacjava;
 
 import semantic.CEntityFileDescriptor;
 import semantic.expression.CBaseEntityCondition;
+import semantic.expression.CEntityCondNot;
 import semantic.expression.CEntityIsFileEOF;
 
 /**
@@ -37,11 +38,20 @@ public class CFPacJavaIsFileEOF extends CEntityIsFileEOF
 
 	/**
 	 * @see semantic.expression.CBaseEntityCondition#GetOppositeCondition()
+	 *
+	 * <p>FPac negates an EOF test by wrapping it in a pure target-neutral
+	 * {@link semantic.expression.CEntityCondNot} (there is no {@code isNotEof} runtime call).
+	 * The wrapping node renders through the shared {@code recursiveCondNotEntity} binding
+	 * ({@code !(<entity.operand>)}); the EOF operand itself resolves through the
+	 * {@code semantic.expression.CEntityIsFileEOF -> recursiveIsFileEOFEntity} runtime
+	 * superclass alias, so the retired {@code CFPacJavaCondNot} direct backend is no longer
+	 * needed. The emitted {@code !(isEof(<name>))} is the canonical recursive-assembler shape
+	 * (semantically identical to the legacy {@code !isEof(<name>)}).
 	 */
 	@Override
 	public CBaseEntityCondition GetOppositeCondition()
 	{
-		CFPacJavaCondNot not = new CFPacJavaCondNot();
+		CEntityCondNot not = new CEntityCondNot();
 		not.SetCondition(this) ;
 		return not;
 	}

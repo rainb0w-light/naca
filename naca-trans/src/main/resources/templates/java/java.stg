@@ -799,6 +799,19 @@ recursiveCondNot(operand) ::= "!<operand>"
 
 recursiveCondNotEntity(entity) ::= "!(<entity.operand>)"
 
+// Independent FPac pipeline file-EOF condition (semantic.expression.CEntityIsFileEOF, an abstract
+// type the FPac pipeline instantiates as generate.fpacjava.CFPacJavaIsFileEOF; bound through the
+// semantic-runtime-bindings.properties superclass alias). Mirrors the retired direct backend's
+// Export exactly: emits the protected nacaLib.fpacPrgEnv.FPacProgram.isEof(BaseFileDescriptor)
+// condition call (contract operation fpac.file.eof) as "isEof(<name>)". This binding exists chiefly
+// so the EOF condition is renderable as the OPERAND of a wrapping pure semantic.expression.CEntityCondNot
+// (FPac negates EOF via GetOppositeCondition; recursiveCondNotEntity renders !(<entity.operand>), which
+// re-enters the assembler on this operand) — and likewise for the positive EOF test the FPac AT loop
+// lowers directly. Reads only entity.fileDescriptor, a pure field getter; the descriptor name unfolds
+// through the shared recursiveFileDescriptorEntity binding (<entity.formattedName>), exactly as
+// recursiveCloseFileEntity does. No generate.* coupling in the semantic tree.
+recursiveIsFileEOFEntity(entity) ::= "isEof(<entity.fileDescriptor>)"
+
 recursiveCondCompare(greater, orEqual, left, right) ::= <<
 <if(greater)>isGreater<if(orEqual)>OrEqual<endif><else>isLess<if(orEqual)>OrEqual<endif><endif>(<if(left)><left><else>[MissingExpr1]<endif>, <if(right)><right><else>[MissingExpr2]<endif>)
 >>
