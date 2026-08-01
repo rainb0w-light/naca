@@ -515,7 +515,24 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityCondIsKindOf NewEntityCondIsKindOf()
 	{
-		return new CFPacJavaCondIsKindOf() ;
+		// Direct backend CFPacJavaCondIsKindOf retired: the pure semantic entity is
+		// rendered by the SHARED recursive ST4 binding
+		// (semantic.expression.CEntityCondIsKindOf -> recursiveCondIsKindOfEntity),
+		// the canonical template COBOL already emits for this same target-neutral
+		// entity. The FPac parser (parser/FPac/CFPacGenericExpression.AnalyseSingleOperand)
+		// lowers "IF X NUMERIC" via SetIsNumeric, and the shared parser/condition
+		// CCondIsNumeric adds setOpposite for the negated form; the template emits
+		// is[Not](Numeric|Alphabetic|AlphabeticLower|AlphabeticUpper)(<reference>) —
+		// byte-identical to the deleted Export() for the numeric/alphabetic kinds FPac
+		// actually lowers. (The deleted backend rendered the lower/upper kinds — which
+		// the FPac parser never produces — as a bare "is(<reference>)", invalid Java;
+		// the shared canonical template emits the compilable isAlphabeticLower/
+		// isAlphabeticUpper BaseProgram calls instead.) The priority (7) and the
+		// opposite rebuild (copy the reference, flip the flag) live on the
+		// target-neutral semantic entity; the is[Not]Numeric/is[Not]Alphabetic[Lower|
+		// Upper] predicates are nacaLib.basePrgEnv.BaseProgram runtime calls that
+		// FPacProgram inherits, so no FPac-specific runtime operation is introduced.
+		return new CEntityCondIsKindOf() ;
 	}
 
 	@Override
