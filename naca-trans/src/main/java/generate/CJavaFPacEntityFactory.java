@@ -501,7 +501,15 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityCondIsConstant NewEntityCondIsConstant()
 	{
-		return new CFPacJavaCondIsConstant() ;
+		// Direct backend CFPacJavaCondIsConstant retired: the pure semantic entity is
+		// rendered by the SHARED recursive ST4 binding
+		// (semantic.expression.CEntityCondIsConstant -> recursiveCondIsConstantEntity).
+		// The parser (parser/FPac/CFPacGenericExpression, IF X = SPACE/LOW-VALUE/...)
+		// populates it via SetIsZero/SetIsSpace/SetIsLowValue/SetIsHighValue + SetOpposite,
+		// and the template emits is[Not](Zero|Space|LowValue|HighValue)(<reference>) —
+		// byte-identical to the deleted Export(). The priority (7) and the opposite rebuild
+		// (copy the reference, flip the flag) live on the target-neutral semantic entity.
+		return new CEntityCondIsConstant() ;
 	}
 
 	@Override

@@ -338,6 +338,35 @@ features:
     fixtures: []
     status: production
 
+  - id: fpac.condition.isConstant
+    dialects: [fpac]
+    semanticType: semantic.expression.CEntityCondIsConstant
+    javaBackend:
+      role: REFERENCE
+      template: recursiveCondIsConstantEntity
+    # FPac shares the target-neutral semantic.expression.CEntityCondIsConstant with COBOL
+    # and reuses the frozen recursiveCondIsConstantEntity binding
+    # ("is[Not](Zero|Space|LowValue|HighValue)(<reference>)"). The retired
+    # CFPacJavaCondIsConstant backend carried an Export() override emitting exactly that
+    # shape; FPac converges onto the canonical shared template COBOL already emits for this
+    # same entity (parser/FPac/CFPacGenericExpression lowers IF X = SPACE/LOW-VALUE/... via
+    # SetIsSpace/SetIsZero/... and COppositeExpression flips SetOpposite for "<>"). The
+    # entity's getters (isOpposite/isZero/isSpace/isLowValue/isHighValue/getConditionReference)
+    # are pure state reads populated by the parser; the is[Not](Zero|Space|LowValue|HighValue)
+    # predicates are BaseProgram runtime calls that FPacProgram inherits, so FPac declares
+    # the same operations as cobol.condition.figurative-constant.
+    runtimeOperations:
+      - condition.isZero.var
+      - condition.isNotZero.var
+      - condition.isSpace.var
+      - condition.isNotSpace.var
+      - condition.isLowValue.var
+      - condition.isNotLowValue.var
+      - condition.isHighValue.var
+      - condition.isNotHighValue.var
+    fixtures: []
+    status: production
+
   - id: fpac.expression.address
     dialects: [fpac]
     semanticType: semantic.expression.CEntityAddress
