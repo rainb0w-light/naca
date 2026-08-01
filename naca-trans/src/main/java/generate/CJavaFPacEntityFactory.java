@@ -569,7 +569,21 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityCondEquals NewEntityCondEquals()
 	{
-		return new CFPacJavaCondEquals() ;
+		// Pure target-neutral semantic entity shared with the COBOL pipeline. It renders
+		// through the SHARED recursive ST4 binding (semantic.expression.CEntityCondEquals ->
+		// recursiveCondEqualsEntity), emitting "isEqual(left, right)" / "isDifferent(left,
+		// right)" (with the same "[UNDEFINED]" fallback for a missing right operand) —
+		// exactly the shape the retired generate.fpacjava.CFPacJavaCondEquals.Export()
+		// produced. The runtime comparison predicates (isEqual/isDifferent) live on
+		// nacaLib.basePrgEnv.BaseProgram, which nacaLib.fpacPrgEnv.FPacProgram extends, so
+		// the emitted calls are runtime-legal for FPac. Lowering stays in stage 1: the
+		// parser sets the operands and the equal/different flag via
+		// SetEqualCondition/SetDifferentCondition (parser/FPac/CFPacGenericExpression),
+		// and the entity's getLeft/getRight/isDifferent getters consumed by the template
+		// are pure state reads. No FPac override is needed in
+		// semantic-fpac-bindings.properties because FPac's equality lowering is identical
+		// in shape to COBOL's.
+		return new CEntityCondEquals() ;
 	}
 
 	@Override

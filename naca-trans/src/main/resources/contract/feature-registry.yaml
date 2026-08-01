@@ -300,6 +300,25 @@ features:
     fixtures: []
     status: production
 
+  - id: fpac.condition.equals
+    dialects: [fpac]
+    semanticType: semantic.expression.CEntityCondEquals
+    javaBackend:
+      role: REFERENCE
+      template: recursiveCondEqualsEntity
+    # FPac shares the target-neutral semantic.expression.CEntityCondEquals with COBOL and
+    # reuses the frozen recursiveCondEqualsEntity binding ("isEqual(left, right)" /
+    # "isDifferent(left, right)" with the "[UNDEFINED]" missing-right fallback). The
+    # retired CFPacJavaCondEquals backend carried an Export() override emitting the same
+    # shape; FPac converges onto the canonical shared template COBOL already emits for
+    # this same entity. The entity's getters (getLeft/getRight/isDifferent) are pure
+    # state reads populated by the parser's SetEqualCondition/SetDifferentCondition; the
+    # isEqual/isDifferent predicates are BaseProgram runtime calls that FPacProgram
+    # inherits, so FPac declares the same operations as cobol.condition.equals.
+    runtimeOperations: [compare.equal.varVar, compare.different.varVar]
+    fixtures: []
+    status: production
+
   - id: fpac.expression.address
     dialects: [fpac]
     semanticType: semantic.expression.CEntityAddress
