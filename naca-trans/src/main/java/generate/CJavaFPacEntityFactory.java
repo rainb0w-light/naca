@@ -1192,7 +1192,7 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 		// assignment renders through the existing recursive ST4 binding
 		// (semantic.Verbs.CEntityAssignWithAccessor -> recursiveAssignWithAccessorEntity),
 		// not the retired generate.fpacjava direct backend CFPacJavaAssignWithAccessor.
-		// The only FPac destination that carries accessors is a CFPacJavaEnvironmentVariable
+		// The only FPac destination that carries accessors is a CEntityEnvironmentVariable
 		// built from the rules engine (e.g. RETCD, writer "setReturnCode("), so the shared
 		// template's environment branch lowers to "setReturnCode(<value>);" — the canonical
 		// shape COBOL emits for this same entity. The retired backend appended a redundant
@@ -1225,7 +1225,23 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityEnvironmentVariable NewEntityEnvironmentVariable(String namev, String acc, String write, boolean bNumeric)
 	{
-		return new CFPacJavaEnvironmentVariable(0, namev, programCatalog, langOutput, acc, write, bNumeric) ;
+		// Pure target-neutral semantic entity shared with the COBOL pipeline: an environment
+		// variable reference renders through the existing recursive ST4 binding
+		// (semantic.CEntityEnvironmentVariable -> environmentVariableEntity, "<entity.readAccessor>"),
+		// not the retired generate.fpacjava direct backend CFPacJavaEnvironmentVariable. That
+		// backend's ExportReference returned csAccessor, exactly what getReadAccessor() exposes,
+		// and its HasAccessors()/isValNeeded() overrides were identical to the shared base, so the
+		// shared binding is byte-equivalent for the read path. The write path (e.g. RETCD, writer
+		// "setReturnCode(") lowers through the shared CEntityAssignWithAccessor ->
+		// recursiveAssignWithAccessorEntity binding to "setReturnCode(<value>);" (see
+		// NewEntityAssignWithAccessor above). The binding is inherited by the FPac reference role
+		// verbatim (JavaSemanticTemplateBindings.loadFpac layers the shared concrete manifest), so
+		// no FPac override is needed. The parser/rules engine precomputes accessor/writer/numeric
+		// at construction; the template only reads entity.readAccessor.
+		CEntityEnvironmentVariable e =
+			new CEntityEnvironmentVariable(0, namev, programCatalog, acc, write, bNumeric);
+		generate.LegacyLanguageRenderer.bind(e, langOutput);
+		return e;
 	}
 
 	@Override

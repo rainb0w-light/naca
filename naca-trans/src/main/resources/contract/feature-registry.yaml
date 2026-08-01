@@ -539,7 +539,7 @@ features:
       template: recursiveAssignWithAccessorEntity
     # FPac shares the target-neutral semantic.Verbs.CEntityAssignWithAccessor with COBOL and
     # reuses the frozen recursiveAssignWithAccessorEntity binding. The only FPac destination
-    # that carries accessors is a CFPacJavaEnvironmentVariable built from the rules engine
+    # that carries accessors is a CEntityEnvironmentVariable built from the rules engine
     # (e.g. RETCD, writer "setReturnCode("), so the environment branch lowers to
     # "setReturnCode(<value>);". The retired CFPacJavaAssignWithAccessor backend appended a
     # redundant ".getInt()" plus a stray " ;"; both are dropped because BaseProgram declares a
@@ -549,6 +549,26 @@ features:
     # operation, same as cobol.data.environment-variable); sqlcode.reset covers the shared
     # template's SQLCode branch.
     runtimeOperations: [sqlcode.reset]
+    fixtures: []
+    status: production
+
+  - id: fpac.data.environmentVariable
+    dialects: [fpac]
+    semanticType: semantic.CEntityEnvironmentVariable
+    javaBackend:
+      role: REFERENCE
+      template: environmentVariableEntity
+    # FPac shares the target-neutral semantic.CEntityEnvironmentVariable with COBOL and reuses the
+    # frozen environmentVariableEntity binding verbatim ("<entity.readAccessor>"), inherited by the
+    # independent FPac reference role (JavaSemanticTemplateBindings.loadFpac layers the shared
+    # concrete manifest under FPAC_REFERENCE); no FPac override is needed because the retired
+    # CFPacJavaEnvironmentVariable backend's ExportReference returned csAccessor — exactly what
+    # getReadAccessor() exposes — and its HasAccessors()/isValNeeded() overrides were identical to
+    # the shared base. The read path emits no runtime call; the write accessor (e.g. RETCD, writer
+    # "setReturnCode(") lowers through the shared CEntityAssignWithAccessor binding (see
+    # fpac.data.assignWithAccessor) and is user-configured from the rules XML, not a contract
+    # operation (same as cobol.data.environment-variable).
+    runtimeOperations: []
     fixtures: []
     status: production
 

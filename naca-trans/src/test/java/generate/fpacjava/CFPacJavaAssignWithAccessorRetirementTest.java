@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Test;
  * {@code semantic.Verbs.CEntityAssignWithAccessor -> recursiveAssignWithAccessorEntity}
  * binding — the exact production path a lowered FPac accessor assignment takes.
  *
- * <p>The only FPac destination that carries accessors is a {@code CFPacJavaEnvironmentVariable}
+ * <p>The only FPac destination that carries accessors is a {@code CEntityEnvironmentVariable}
  * built from the rules engine (e.g. {@code RETCD}, writer {@code "setReturnCode("}), so the
  * shared template's environment branch lowers to {@code setReturnCode(<value>);}. The deleted
  * backend emitted {@code setReturnCode(<value>.getInt()) ;} — a redundant {@code .getInt()}
