@@ -319,6 +319,25 @@ features:
     fixtures: []
     status: production
 
+  - id: fpac.condition.isBoolean
+    dialects: [fpac]
+    semanticType: semantic.expression.CEntityCondIsBoolean
+    javaBackend:
+      role: REFERENCE
+      template: recursiveCondIsBooleanEntity
+    # FPac-only condition (COBOL never instantiates CEntityCondIsBoolean — its factory
+    # throws — so there is no cobol.* counterpart). The parser lowers the IF
+    # read-and-test-file pattern (parser/FPac/elements/CFPacCodeBloc) into the pure
+    # target-neutral semantic.expression.CEntityCondIsBoolean via setIsTrue/setIsFalse,
+    # and the shared recursiveCondIsBooleanEntity binding emits the bare data reference,
+    # "!"-prefixed when negated — exactly the shape the retired CFPacJavaCondIsBoolean
+    # Export() produced. The entity's getters (isTrueValue/getConditionReference) are
+    # pure state reads; no runtime operation is emitted beyond the reference itself,
+    # which unfolds through the assembler's reference binding.
+    runtimeOperations: []
+    fixtures: []
+    status: production
+
   - id: fpac.expression.address
     dialects: [fpac]
     semanticType: semantic.expression.CEntityAddress

@@ -85,7 +85,7 @@
           "bmsDirectBackends": 3
         },
         "fpacArchitectureCheck": {
-          "fpacDirectBackends": 29
+          "fpacDirectBackends": 28
         }
       }
     },
@@ -6324,7 +6324,7 @@
       "expectedDebtDelta": {
         "fpacDirectBackends": -1
       },
-      "attempts": 0,
+      "attempts": 2,
       "blocked": false,
       "scope": "FPAC",
       "sourceSyntax": "legacy backend CFPacJavaCondIsBoolean",
@@ -6338,11 +6338,12 @@
       "directBackend": "generate.fpacjava.CFPacJavaCondIsBoolean",
       "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaCondIsBoolean.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
       "evidence": [
         "naca-trans/src/main/java/generate/fpacjava/CFPacJavaCondIsBoolean.java"
-      ]
+      ],
+      "lastAttemptCommit": "426134436286c704a90b0bd16711e0c2ef5cc373"
     },
     {
       "id": "FPAC-BACKEND-CFPACJAVACONDISCONSTANT",

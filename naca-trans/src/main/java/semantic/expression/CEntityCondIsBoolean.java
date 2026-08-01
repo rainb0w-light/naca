@@ -9,9 +9,27 @@ package semantic.expression;
 import semantic.CBaseEntityFactory;
 import semantic.CDataEntity;
 
-public abstract class CEntityCondIsBoolean extends CUnitaryEntityCondition
+public class CEntityCondIsBoolean extends CUnitaryEntityCondition
 {
 	protected boolean isisTrue = false ;
+
+	public int GetPriorityLevel()
+	{
+		return 7;
+	}
+
+	@Override
+	public CBaseEntityCondition GetOppositeCondition()
+	{
+		// Target-neutral semantic rebuild: the opposite of "reference is true" is
+		// "reference is not true" (and conversely) — copy the reference, flip the
+		// flag, with no output protocol involved; the recursive ST4 assembler
+		// renders both forms through the recursiveCondIsBooleanEntity binding.
+		CEntityCondIsBoolean cond = new CEntityCondIsBoolean() ;
+		cond.reference = reference ;
+		cond.isisTrue = !isisTrue;
+		return cond;
+	}
 
 	public boolean isTrue()
 	{

@@ -1357,7 +1357,22 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityCondIsBoolean NewEntityCondIsBoolean()
 	{
-		return new CFPacJavaCondIsBoolean() ;
+		// Pure target-neutral semantic entity shared with the COBOL pipeline (COBOL
+		// itself never instantiates it — CJavaEntityFactory.NewEntityCondIsBoolean
+		// throws — so FPac is the sole producer). It renders through the SHARED
+		// recursive ST4 binding (semantic.expression.CEntityCondIsBoolean ->
+		// recursiveCondIsBooleanEntity), emitting the bare data reference, prefixed
+		// with "!" when the condition is negated — exactly the shape the retired
+		// generate.fpacjava.CFPacJavaCondIsBoolean.Export() produced. No runtime
+		// operation is emitted beyond the reference itself, which unfolds through the
+		// assembler's reference binding. Lowering stays in stage 1: the parser sets
+		// the reference and the true/false flag via setIsTrue/setIsFalse
+		// (parser/FPac/elements/CFPacCodeBloc, the IF <file-buffer> READ-AND-TEST
+		// pattern), and the entity's isTrueValue/getConditionReference getters
+		// consumed by the template are pure state reads. GetOppositeCondition now
+		// lives on the semantic entity and rebuilds a negated pure entity, exactly
+		// as the retired backend's override did (copy reference, flip flag).
+		return new CEntityCondIsBoolean() ;
 	}
 	
 	/**

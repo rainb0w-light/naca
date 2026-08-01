@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import generate.java.st.MockJavaExporter;
 import generate.fixtures.LegacyNamedConditionFixture;
-import generate.fpacjava.CFPacJavaCondIsBoolean;
 import generate.templates.TemplateLoader;
 import org.junit.jupiter.api.Test;
 import semantic.expression.CBaseEntityCondition;
@@ -13,6 +12,7 @@ import semantic.expression.CBaseEntityExpression;
 import semantic.expression.CEntityCondAnd;
 import semantic.expression.CEntityCondCompare;
 import semantic.expression.CEntityCondEquals;
+import semantic.expression.CEntityCondIsBoolean;
 import semantic.expression.CEntityCondIsConstant;
 import semantic.expression.CEntityCondNot;
 import semantic.expression.CEntityCondOr;
@@ -125,13 +125,23 @@ class JavaSemanticConditionRendererTest
         assertEquals("isHighValue(BOOLEAN_VALUE)",
             assembler.renderRoot(high, JavaTemplateRole.REFERENCE));
 
-        CFPacJavaCondIsBoolean trueCondition = new CFPacJavaCondIsBoolean();
+        // The retired CFPacJavaCondIsBoolean backend is replaced by the pure
+        // semantic.expression.CEntityCondIsBoolean rendered through the shared
+        // recursiveCondIsBooleanEntity binding: the bare reference, "!"-prefixed
+        // when the condition is negated — exactly the legacy Export() shape.
+        CEntityCondIsBoolean trueCondition = new CEntityCondIsBoolean();
         trueCondition.setIsTrue(value);
-        assertMatchesDirect(trueCondition);
+        assertEquals("BOOLEAN_VALUE",
+            assembler.renderRoot(trueCondition, JavaTemplateRole.REFERENCE));
+        assertEquals("!BOOLEAN_VALUE",
+            assembler.renderRoot(trueCondition.GetOppositeCondition(), JavaTemplateRole.REFERENCE));
 
-        CFPacJavaCondIsBoolean falseCondition = new CFPacJavaCondIsBoolean();
+        CEntityCondIsBoolean falseCondition = new CEntityCondIsBoolean();
         falseCondition.setIsFalse(value);
-        assertMatchesDirect(falseCondition);
+        assertEquals("!BOOLEAN_VALUE",
+            assembler.renderRoot(falseCondition, JavaTemplateRole.REFERENCE));
+        assertEquals("BOOLEAN_VALUE",
+            assembler.renderRoot(falseCondition.GetOppositeCondition(), JavaTemplateRole.REFERENCE));
     }
 
     private CEntityCondEquals equals(String left, String right)
@@ -157,13 +167,6 @@ class JavaSemanticConditionRendererTest
     private CBaseEntityExpression number(String value)
     {
         return new LegacyTerminalFixture(new LegacyNumberFixture(catalog, value));
-    }
-
-    private void assertMatchesDirect(CBaseEntityCondition condition)
-    {
-        assertEquals(generate.LegacyExpressionRenderer.render(condition),
-            assembler.renderRoot(condition, JavaTemplateRole.REFERENCE),
-            condition.getClass().getName());
     }
 
     private enum Comparison
