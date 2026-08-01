@@ -422,6 +422,26 @@ features:
     fixtures: []
     status: production
 
+  - id: fpac.condition.or
+    dialects: [fpac]
+    semanticType: semantic.expression.CEntityCondOr
+    javaBackend:
+      role: REFERENCE
+      template: recursiveCondOrEntity
+    # FPac shares the target-neutral semantic.expression.CEntityCondOr with COBOL and
+    # reuses the frozen recursiveCondOrEntity binding (priority-2 grouping, " \n|| " join,
+    # ignored-operand collapse). The retired CFPacJavaCondOr backend carried an Export()
+    # override emitting the same "left \n|| right" shape (CJavaExporter.ExportChildCondition
+    # with parent priority 2); FPac converges onto the canonical shared template COBOL
+    # already emits for this same entity. The FPac parser lowers "cond1 OR cond2" via
+    # parser/FPac/CFPacElement -> parser.condition.CCondOrStatement.AnalyseCondition ->
+    # NewEntityCondOr + SetCondition, and the entity's getters (getEffectiveLeft/Right,
+    # isLeft/RightIgnored/Grouped) are pure state reads populated by the parser, so no
+    # runtime-op is declared.
+    runtimeOperations: []
+    fixtures: []
+    status: production
+
   - id: fpac.expression.address
     dialects: [fpac]
     semanticType: semantic.expression.CEntityAddress

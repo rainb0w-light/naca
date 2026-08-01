@@ -551,7 +551,19 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityCondOr NewEntityCondOr()
 	{
-		return new CFPacJavaCondOr() ;
+		// Pure target-neutral semantic entity shared with the COBOL pipeline. It renders
+		// through the SHARED recursive ST4 binding (semantic.expression.CEntityCondOr ->
+		// recursiveCondOrEntity, priority-2 grouping, " \n|| " join, ignored-operand
+		// collapse), NOT the retired generate.fpacjava.CFPacJavaCondOr direct backend.
+		// The FPac parser lowers "cond1 OR cond2" through parser/FPac/CFPacElement ->
+		// parser.condition.CCondOrStatement.AnalyseCondition, which calls NewEntityCondOr +
+		// SetCondition (stage 1); the entity's getEffectiveLeft/Right +
+		// isLeft/RightIgnored/Grouped getters consumed by the template are pure state reads
+		// and mirror exactly the grouping rule the deleted backend applied via
+		// CJavaExporter.ExportChildCondition(GetPriorityLevel(), op). The priority (2) and
+		// the opposite rebuild (De Morgan: NOT(a OR b) == (NOT a) AND (NOT b)) live on the
+		// target-neutral semantic entity, exactly as the retired backend's overrides did.
+		return new CEntityCondOr() ;
 	}
 
 	@Override
