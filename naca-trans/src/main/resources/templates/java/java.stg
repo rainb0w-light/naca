@@ -435,6 +435,21 @@ subString(<entity.reference>, <entity.start><if(entity.length)>, <entity.length>
 
 valueReferenceEntity(entity) ::= "<entity.reference>"
 
+// Independent FPac pipeline conversion reference (semantic.Verbs.CEntityConvertReference,
+// FPac-only: the COBOL factory never builds one). Reproduces the three shapes the retired
+// FPac direct backend emitted for this reference, reading only the entity's precomputed
+// getters:
+//   - no conversion mode            -> the wrapped reference alone;
+//   - conversion + reference has
+//     accessors                     -> "<reference>P" / "<reference>X";
+//   - conversion + no accessors     -> "bufferP(<reference>" / "bufferX(<reference>".
+// The third shape is DELIBERATELY an unclosed call head: in production this entity is
+// always wrapped by a CSubStringAttributReference, whose renderer sees the "(" and appends
+// ", start, length)", completing a real FPacProgram.bufferP/bufferX(FPacFileDescriptor,
+// int, int) call. The fragment therefore keeps its opening paren and, being a composed
+// fragment, uses the inline (no-trailing-newline) form like valueReferenceEntity.
+recursiveFPacConvertReferenceEntity(entity) ::= "<if(entity.plainReference)><entity.reference><elseif(entity.accessorConversion)><entity.reference><entity.conversionSuffix><else>buffer<entity.conversionSuffix>(<entity.reference><endif>"
+
 fieldHighlightReferenceEntity(entity) ::= "getHighlighting(<entity.reference>)"
 
 fieldFlagReferenceEntity(entity) ::= "<entity.reference>.getFlag()"

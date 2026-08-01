@@ -1472,7 +1472,17 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityConvertReference NewEntityConvert(int line)
 	{
-		return new CFPacJavaConvertReference(programCatalog, langOutput) ;
+		// Pure target-neutral semantic entity: the FPac conversion reference renders
+		// through the recursive ST4 binding semantic.Verbs.CEntityConvertReference ->
+		// recursiveFPacConvertReferenceEntity (REFERENCE role), reached via
+		// LegacyDataRenderer.renderReference's reflective fallback. The conversion mode
+		// and wrapped reference are populated by the parser via convertToPacked/
+		// convertToAlphaNum; the entity's read-only getters drive the template. Replaced
+		// the retired generate.fpacjava.CFPacJavaConvertReference direct backend. Mirrors
+		// the CEntityArrayReference retirement (pure entity + legacy output binding).
+		CEntityConvertReference e = new CEntityConvertReference(programCatalog) ;
+		generate.LegacyLanguageRenderer.bind(e, langOutput) ;
+		return e ;
 	}
 
 	/**

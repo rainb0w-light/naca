@@ -508,6 +508,29 @@ features:
     fixtures: []
     status: production
 
+  - id: fpac.data.convert-reference
+    dialects: [fpac]
+    semanticType: semantic.Verbs.CEntityConvertReference
+    javaBackend:
+      role: REFERENCE
+      template: recursiveFPacConvertReferenceEntity
+    # FPac-only positioned-conversion data reference (COBOL's NewEntityConvert throws "not
+    # implemented"). It is bound in the SHARED reference manifest (not the FPac override)
+    # because the FPac production path reaches it through LegacyDataRenderer.renderReference,
+    # whose reflective fallback renders under JavaTemplateRole.REFERENCE. The template reads
+    # only the entity's precomputed getters (isPlainReference/isAccessorConversion/
+    # getConversionSuffix + the wrapped reference) and reproduces the retired
+    # CFPacJavaConvertReference.ExportReference shapes byte for byte. For a reference without
+    # accessors (ordinary field/structure/file buffer — the live case) it emits the UNCLOSED
+    # call head "bufferP(<ref>"/"bufferX(<ref>"; the wrapping CSubStringAttributReference
+    # detects the "(" and appends ", start, length)", completing the real
+    # FPacProgram.bufferP/bufferX(FPacFileDescriptor, int, int) call. Those two call heads are
+    # the only runtime operations declared; the accessor ("<ref>P") and plain ("<ref>") shapes
+    # emit no runtime call. The opening paren is intentional and must not be "closed" here.
+    runtimeOperations: [fpac.buffer.packed, fpac.buffer.alphanum]
+    fixtures: []
+    status: production
+
   - id: fpac.data.assignWithAccessor
     dialects: [fpac]
     semanticType: semantic.Verbs.CEntityAssignWithAccessor

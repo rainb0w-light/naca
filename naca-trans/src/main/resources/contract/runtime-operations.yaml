@@ -346,6 +346,32 @@ operations:
     paramTypes: [nacaLib.varEx.Var, nacaLib.varEx.Var]
     returns: void
 
+  # FPac positioned packed-decimal buffer view, emitted (as the call head "bufferP(") by
+  # recursiveFPacConvertReferenceEntity for semantic.Verbs.CEntityConvertReference. The
+  # convert reference renders only the UNCLOSING head "bufferP(<fd>"; the wrapping
+  # CSubStringAttributReference appends ", <start>, <length>)", completing the 3-arg
+  # FPacProgram.bufferP(FPacFileDescriptor, int, int) call declared here (it returns a
+  # typed Var view over the file buffer at the 1-based position). Contracted so the
+  # emitted call head is documented against a real naca-rt signature.
+  - id: fpac.buffer.packed
+    since: 1
+    capability: DATA
+    runtimeClass: nacaLib.fpacPrgEnv.FPacProgram
+    runtimeMethod: bufferP
+    paramTypes: [nacaLib.fpacPrgEnv.FPacFileDescriptor, int, int]
+    returns: nacaLib.varEx.Var
+
+  # FPac positioned alphanumeric buffer view — the "bufferX(" call head emitted by
+  # recursiveFPacConvertReferenceEntity, completed by the wrapping substring to the 3-arg
+  # FPacProgram.bufferX(FPacFileDescriptor, int, int) call (returns a raw Var view).
+  - id: fpac.buffer.alphanum
+    since: 1
+    capability: DATA
+    runtimeClass: nacaLib.fpacPrgEnv.FPacProgram
+    runtimeMethod: bufferX
+    paramTypes: [nacaLib.fpacPrgEnv.FPacFileDescriptor, int, int]
+    returns: nacaLib.varEx.Var
+
   # --- ACCEPT (terminal/environment/date sources) ---
   - id: data.move.stringVar
     since: 1

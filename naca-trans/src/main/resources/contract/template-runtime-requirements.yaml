@@ -105,6 +105,17 @@ templates:
     requires:
       - data.movePacked
 
+  # Independent FPac positioned-conversion reference (semantic.Verbs.CEntityConvertReference).
+  # Emits only the UNCLOSING call heads "bufferP("/"bufferX("; the wrapping
+  # CSubStringAttributReference supplies the position/length args and the closing paren,
+  # completing FPacProgram.bufferP/bufferX(FPacFileDescriptor, int, int). The accessor
+  # ("<ref>P") and plain ("<ref>") shapes emit no runtime call.
+  recursiveFPacConvertReferenceEntity:
+    capability: DATA
+    requires:
+      - fpac.buffer.packed
+      - fpac.buffer.alphanum
+
   recursiveMoveReferenceEntity:
     capability: DATA
     requires:
