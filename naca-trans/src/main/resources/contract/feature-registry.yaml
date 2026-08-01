@@ -283,6 +283,23 @@ features:
     fixtures: []
     status: production
 
+  - id: fpac.condition.and
+    dialects: [fpac]
+    semanticType: semantic.expression.CEntityCondAnd
+    javaBackend:
+      role: REFERENCE
+      template: recursiveCondAndEntity
+    # FPac shares the target-neutral semantic.expression.CEntityCondAnd with COBOL and
+    # reuses the frozen recursiveCondAndEntity binding (priority-1 grouping, " \n&& " join,
+    # ignored-operand collapse). The retired CFPacJavaCondAnd backend carried an Export()
+    # override emitting the same "left \n&& right" shape; FPac converges onto the canonical
+    # shared template COBOL already emits for this same entity. The entity's getters
+    # (getEffectiveLeft/Right, isLeft/RightIgnored/Grouped) are pure state reads populated
+    # by the parser, so no runtime-op is declared.
+    runtimeOperations: []
+    fixtures: []
+    status: production
+
   - id: fpac.expression.address
     dialects: [fpac]
     semanticType: semantic.expression.CEntityAddress

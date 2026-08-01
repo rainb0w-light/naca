@@ -8,6 +8,7 @@ package generate.fpacjava;
 
 import generate.java.CJavaExporter;
 import semantic.expression.CBaseEntityCondition;
+import semantic.expression.CEntityCondAnd;
 import semantic.expression.CEntityCondOr;
 
 /**
@@ -33,7 +34,7 @@ public class CFPacJavaCondOr extends CEntityCondOr
 	}
 	public CBaseEntityCondition GetOppositeCondition()
 	{
-		CFPacJavaCondAnd eAnd = new CFPacJavaCondAnd();
+		CEntityCondAnd eAnd = new CEntityCondAnd();
 		eAnd.SetCondition(op1.GetOppositeCondition(), op2.GetOppositeCondition()) ;
 		return eAnd;
 	}

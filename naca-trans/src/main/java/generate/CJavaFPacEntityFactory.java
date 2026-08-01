@@ -581,7 +581,13 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityCondAnd NewEntityCondAnd()
 	{
-		return new CFPacJavaCondAnd() ;
+		// Pure target-neutral semantic entity shared with the COBOL pipeline. It renders
+		// through the SHARED recursive ST4 binding (semantic.expression.CEntityCondAnd ->
+		// recursiveCondAndEntity, priority-1 grouping, " \n&& " join, ignored-operand
+		// collapse), NOT the retired generate.fpacjava.CFPacJavaCondAnd direct backend.
+		// Lowering stays in stage 1: the operands are set by the parser and the entity's
+		// getEffectiveLeft/Right + isLeft/RightIgnored/Grouped getters are pure state reads.
+		return new CEntityCondAnd() ;
 	}
 
 	@Override
