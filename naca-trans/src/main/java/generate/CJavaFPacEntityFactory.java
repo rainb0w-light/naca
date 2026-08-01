@@ -632,7 +632,29 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityExprTerminal NewEntityExprTerminal(CDataEntity eData)
 	{
-		return new CFPacJavaExprTerminal(eData) ;
+		// Pure target-neutral semantic entity shared with the COBOL pipeline. FPac's expression
+		// terminals -- the single-operand leaves the FPac parser builds via
+		// factory.NewEntityExprTerminal(term) (parser/FPac/CFPacGenericExpression, CFPacMove,
+		// CFPacArithmeticOperation, CFPacDoLoop, CFPacWTO, CFPacCall, OperandDescription, plus the
+		// shared CCondEqualsStatement/CTermExpression when the FPac factory is active) -- render
+		// through the SHARED recursive ST4 binding
+		// (semantic.expression.CEntityExprTerminal -> expressionTerminalEntity, "<entity.term>"),
+		// NOT the retired generate.fpacjava.CFPacJavaExprTerminal direct backend. That backend's
+		// Export() override (renderReference(term, getLine())) was DEAD on every reachable FPac
+		// path: a terminal is only ever rendered as an operand child (term/left/right/condition) of
+		// a condition/expression template, whose child role defaults to REFERENCE, so the assembler
+		// dispatches on the target-neutral semantic class CEntityExprTerminal and walks the term
+		// through the shared reference manifest -- byte-identical output with or without the
+		// generate.fpacjava subclass (the binding resolves by superclass walk today already). The
+		// ONLY reflective-Export() consumer, generate.fpacjava.CFPacJavaIntrinsicFunction.
+		// ExportReference, is unreachable from FPac: no FPac parser node calls
+		// NewEntityIntrinsicFunction. Mirrors the CEntityExprSum / CEntityAddress / CEntityCondIsBoolean
+		// retirements (pure entity + shared assembler, dead Export removed). No FPac override belongs
+		// in semantic-fpac-bindings.properties: FPac's terminal lowering is the bare term reference,
+		// identical in shape to COBOL's, and the FPAC_REFERENCE role is never consulted for an operand
+		// child (JavaTemplateAssembler.childRole routes term/left/right to REFERENCE). Lowering stays
+		// in stage 1; the factory only constructs the entity the parser then populates.
+		return new CEntityExprTerminal(eData) ;
 	}
 
 	@Override

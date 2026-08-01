@@ -454,6 +454,28 @@ features:
     fixtures: []
     status: production
 
+  - id: fpac.expression.terminal
+    dialects: [fpac]
+    semanticType: semantic.expression.CEntityExprTerminal
+    javaBackend:
+      role: REFERENCE
+      template: expressionTerminalEntity
+    # FPac shares the target-neutral semantic.expression.CEntityExprTerminal with COBOL and
+    # reuses the frozen expressionTerminalEntity binding ("<entity.term>"): a terminal is the
+    # single-operand expression leaf the FPac parser builds (CFPacGenericExpression/CFPacMove/
+    # CFPacArithmeticOperation/CFPacDoLoop/CFPacWTO/CFPacCall + the shared CCondEqualsStatement/
+    # CTermExpression) and is only ever rendered as an operand child (term/left/right/condition)
+    # of a condition/expression template, whose child role is REFERENCE, so the assembler walks
+    # the term through the shared reference manifest. The retired CFPacJavaExprTerminal backend
+    # carried a dead Export() override (renderReference(term, line)) no reachable FPac path
+    # invoked — the only reflective-Export consumer, CFPacJavaIntrinsicFunction.ExportReference,
+    # is unreachable because no FPac parser node calls NewEntityIntrinsicFunction. FPac converges
+    # onto the canonical shared template COBOL already emits for this same entity; no runtime-op
+    # is declared because the terminal emits only the term reference itself.
+    runtimeOperations: []
+    fixtures: []
+    status: production
+
   - id: fpac.data.array-reference
     dialects: [fpac]
     semanticType: semantic.CEntityArrayReference
