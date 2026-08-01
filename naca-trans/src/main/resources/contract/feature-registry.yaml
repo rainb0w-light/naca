@@ -599,6 +599,34 @@ features:
     fixtures: []
     status: production
 
+  - id: fpac.verb.divide
+    dialects: [fpac]
+    semanticType: semantic.Verbs.CEntityDivide
+    javaBackend:
+      role: FPAC_REFERENCE
+      template: recursiveFPacDivideEntity
+    # FPac shares the target-neutral semantic.Verbs.CEntityDivide with COBOL, but its lowering
+    # genuinely differs: COBOL renders the verb with recursiveDivideEntity (REFERENCE role), which
+    # walks every operand through the shared reference templates and branches on rounded/remainder,
+    # whereas an FPac D operation is a single "divide(<what>, <by>).to(<result>) ;" statement. The
+    # FPAC_REFERENCE role layers semantic-fpac-bindings.properties over the shared reference manifest
+    # and redirects ONLY this class to recursiveFPacDivideEntity, leaving the frozen COBOL
+    # recursiveDivideEntity binding intact. The FPac parser (CFPacArithmeticOperation) always calls
+    # SetDivide(var2, var1, false), so result == what and the rounded/remainder branches are never
+    # reachable. The retired FPac divide backend rendered each operand with
+    # LegacyDataRenderer.renderReference(operand, getLine()); that exact bridge is injected into the
+    # entity by the FPac factory and read back as the entity.dividendReference/divisorReference/
+    # resultReference strings, so the template reproduces the retired output byte-for-byte for every
+    # operand shape CFPacArithmeticOperation builds (positioned substring + conversion buffer,
+    # numeric/string literal, undefined reference, plain field). The operands are deliberately NOT
+    # routed through the assembler reference walk, which would re-route the still-legacy FPac operand
+    # types to the shared COBOL templates and diverge or emit invalid Java. The runtime calls are the
+    # shared BaseProgram.divide(...) -> MathDivide/MathBase.to(...) chain (FPacProgram extends
+    # BaseProgram), the same math.divide / math.divide.to operations the COBOL verb declares.
+    runtimeOperations: [math.divide, math.divide.to]
+    fixtures: []
+    status: production
+
   - id: fpac.program.call
     dialects: [fpac]
     semanticType: semantic.Verbs.CEntityCallProgram

@@ -126,6 +126,19 @@ templates:
     requires:
       - output.console.display
 
+  # Independent FPac DIVIDE / D-operation verb (semantic.Verbs.CEntityDivide, FPAC_REFERENCE
+  # override). Emits a single "divide(<what>, <by>).to(<result>) ;" statement; the operand
+  # reference text is precomputed on the entity through the injected renderReference bridge, so the
+  # only runtime calls are the shared BaseProgram.divide(...) (math.divide) and the
+  # MathDivide/MathBase .to(...) quotient store (math.divide.to). The FPac parser never sets
+  # rounded/remainder, so the toRounded/toWithRemainder variants the COBOL recursiveDivideEntity
+  # declares are not reachable on this template.
+  recursiveFPacDivideEntity:
+    capability: ARITHMETIC
+    requires:
+      - math.divide
+      - math.divide.to
+
   recursiveMoveReferenceEntity:
     capability: DATA
     requires:

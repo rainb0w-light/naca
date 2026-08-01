@@ -1284,6 +1284,23 @@ recursiveCallFunctionEntity(entity) ::= <<
 
 recursiveFPacCallFunctionEntity(entity) ::= "<entity.calledProcedureName; format=\"fpacIdentifier\">() ;"
 
+// Independent FPac DIVIDE / D-operation verb (semantic.Verbs.CEntityDivide, FPAC_REFERENCE override
+// layered over the shared reference manifest by semantic-fpac-bindings.properties, so the frozen
+// COBOL recursiveDivideEntity binding is left untouched). The retired FPac divide backend wrote a
+// single "divide(<what>, <by>).to(<result>) ;" statement, each <ref> being
+// LegacyDataRenderer.renderReference(operand, getLine()); the FPac parser always calls
+// SetDivide(var2, var1, false), so result == what and the rounded/remainder branches the COBOL
+// template supports are never reachable here. The operand reference text is NOT rendered through the
+// assembler reference walk: the still-legacy FPac operand types (a positioned substring wrapping a
+// conversion buffer, a numeric/string literal, an undefined reference) each carry their own
+// reference protocol, and the walk would silently re-route them to the shared COBOL templates and
+// diverge or emit invalid Java. Instead the entity precomputes each operand's reference through the
+// injected renderReference bridge -- the exact call the retired backend made -- and this template
+// only reads those entity.dividendReference/divisorReference/resultReference strings, so the emitted
+// output stays byte-for-byte identical. Inline single-statement form (space before ";"), matching
+// recursiveFPacCallFunctionEntity and the other FPac verb templates.
+recursiveFPacDivideEntity(entity) ::= "divide(<entity.dividendReference>, <entity.divisorReference>).to(<entity.resultReference>) ;"
+
 recursiveSetConstantEntity(entity) ::= <<
 <if(entity.valueAssigned)>moveAll(<entity.valueAssigned>, <entity.variable>) ;<else>move<if(entity.subString)>SubString<endif><if(entity.setToLowValue)>LowValue<elseif(entity.setToHighValue)>HighValue<elseif(entity.setToSpace)>Space<elseif(entity.setToZero)>Zero<elseif(entity.setToTrue)>True<elseif(entity.setToFalse)>False<endif>(<entity.variable><if(entity.subString)>, <entity.subStringRefStart>, <entity.subStringRefLength><endif>) ;<endif>
 >>

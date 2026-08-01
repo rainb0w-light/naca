@@ -431,7 +431,26 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityDivide NewEntityDivide(int l)
 	{
-		return new CFPacJavaDivide(l, programCatalog, langOutput) ;
+		// Pure target-neutral semantic entity rendered through the recursive ST4 binding
+		// semantic.Verbs.CEntityDivide -> recursiveFPacDivideEntity (FPAC_REFERENCE role, layered
+		// over the shared reference manifest by semantic-fpac-bindings.properties so the frozen
+		// COBOL recursiveDivideEntity binding is left untouched). The retired FPac direct divide
+		// backend wrote "divide(" + renderReference(what) + ", " + renderReference(by) + ").to(" +
+		// renderReference(result) + ") ;" (the FPac parser's D operation calls SetDivide(var2, var1,
+		// false), so result == what and the backend never emitted the rounded/remainder branches).
+		// That exact reference-rendering bridge is INJECTED here (the same LegacyDataRenderer::
+		// renderReference idiom the FPac display retirement uses) so the entity's
+		// getDividendReference/getDivisorReference/getResultReference reproduce the retired output
+		// byte-for-byte for every operand shape CFPacArithmeticOperation builds -- a positioned
+		// substring wrapping a conversion buffer, a numeric or string literal, an undefined
+		// reference, or a plain field -- without the semantic tree naming any backend type. Routing
+		// those operands through the shared assembler reference walk instead would re-route the
+		// still-legacy FPac operand types to the COBOL templates and diverge (or emit invalid Java).
+		// Replaced the retired generate.fpacjava.CFPacJavaDivide backend.
+		CEntityDivide e = new CEntityDivide(l, programCatalog) ;
+		e.setReferenceRenderer(generate.LegacyDataRenderer::renderReference) ;
+		generate.LegacyLanguageRenderer.bind(e, langOutput) ;
+		return e ;
 	}
 
 	@Override
