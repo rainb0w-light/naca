@@ -236,7 +236,8 @@ class LedgerConsistencyTest
         Path directRoot = repoRoot.resolve("naca-trans/src/main/java/generate/java");
         Path fpacRoot = repoRoot.resolve("naca-trans/src/main/java/generate/fpacjava");
         assertTrue(Files.isDirectory(directRoot), "direct backend source root must exist");
-        assertTrue(Files.isDirectory(fpacRoot), "FPac backend source root must exist");
+        assertTrue(!Files.exists(fpacRoot) || Files.isDirectory(fpacRoot),
+            "FPac backend source root must be a directory when present");
 
         // Live backends per pipeline: COBOL/SQL/CICS (generate/java minus the
         // forms subtree), BMS (forms subtree), FPAC (generate/fpacjava).
@@ -269,23 +270,27 @@ class LedgerConsistencyTest
                 livePaths.put(fqn, repoRoot.relativize(file).toString().replace('\\', '/'));
             }
         }
-        try (Stream<Path> files = Files.walk(fpacRoot))
+        if (Files.isDirectory(fpacRoot))
         {
-            for (Path file : (Iterable<Path>) files
-                .filter(path -> path.toString().endsWith(".java"))::iterator)
+            try (Stream<Path> files = Files.walk(fpacRoot))
             {
-                String source = Files.readString(file, java.nio.charset.StandardCharsets.ISO_8859_1);
-                Matcher backend = FPAC_DIRECT_BACKEND_CLASS.matcher(source);
-                if (!backend.find())
+                for (Path file : (Iterable<Path>) files
+                    .filter(path -> path.toString().endsWith(".java"))::iterator)
                 {
-                    continue;
+                    String source = Files.readString(
+                        file, java.nio.charset.StandardCharsets.ISO_8859_1);
+                    Matcher backend = FPAC_DIRECT_BACKEND_CLASS.matcher(source);
+                    if (!backend.find())
+                    {
+                        continue;
+                    }
+                    Matcher javaPackage = PACKAGE.matcher(source);
+                    assertTrue(javaPackage.find(), "missing package declaration: " + file);
+                    String fqn = javaPackage.group(1) + "." + backend.group(1);
+                    assertTrue(liveBackends.add(fqn), "duplicate direct backend FQN: " + fqn);
+                    fpacLiveBackends.add(fqn);
+                    livePaths.put(fqn, repoRoot.relativize(file).toString().replace('\\', '/'));
                 }
-                Matcher javaPackage = PACKAGE.matcher(source);
-                assertTrue(javaPackage.find(), "missing package declaration: " + file);
-                String fqn = javaPackage.group(1) + "." + backend.group(1);
-                assertTrue(liveBackends.add(fqn), "duplicate direct backend FQN: " + fqn);
-                fpacLiveBackends.add(fqn);
-                livePaths.put(fqn, repoRoot.relativize(file).toString().replace('\\', '/'));
             }
         }
 

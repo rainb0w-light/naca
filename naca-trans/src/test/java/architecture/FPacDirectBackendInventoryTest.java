@@ -32,7 +32,9 @@ import org.junit.jupiter.api.Test;
  * (COBOL/SQL/CICS, forms excluded) and {@link BmsFormsDirectBackendInventoryTest}
  * own the other two roots, and all three must agree with
  * {@code tools/st4-loop/st4loop/debt.py}. FPac is an independent pipeline,
- * never a COBOL dialect.
+ * never a COBOL dialect. Once the inventory reaches zero, Git legitimately
+ * removes the empty source directory; an absent root therefore means an empty
+ * inventory, not a missing gate.
  */
 @Tag("final-architecture")
 class FPacDirectBackendInventoryTest
@@ -50,20 +52,24 @@ class FPacDirectBackendInventoryTest
     void inventory() throws IOException
     {
         Path fpacRoot = moduleRoot().resolve("src/main/java/generate/fpacjava");
-        assertTrue(Files.isDirectory(fpacRoot), "generate/fpacjava must exist");
+        assertTrue(!Files.exists(fpacRoot) || Files.isDirectory(fpacRoot),
+            "generate/fpacjava must be a directory when present");
 
         List<String> backends = new ArrayList<>();
-        try (Stream<Path> files = Files.walk(fpacRoot))
+        if (Files.isDirectory(fpacRoot))
         {
-            for (Path file : (Iterable<Path>) files
-                .filter(p -> p.toString().endsWith(".java"))::iterator)
+            try (Stream<Path> files = Files.walk(fpacRoot))
             {
-                String content = Files.readString(file, StandardCharsets.ISO_8859_1);
-                if (!FPAC_DIRECT_SEMANTIC_SUBCLASS.matcher(content).find())
+                for (Path file : (Iterable<Path>) files
+                    .filter(p -> p.toString().endsWith(".java"))::iterator)
                 {
-                    continue;
+                    String content = Files.readString(file, StandardCharsets.ISO_8859_1);
+                    if (!FPAC_DIRECT_SEMANTIC_SUBCLASS.matcher(content).find())
+                    {
+                        continue;
+                    }
+                    backends.add(fpacRoot.relativize(file).toString());
                 }
-                backends.add(fpacRoot.relativize(file).toString());
             }
         }
         backends.sort(String::compareTo);
