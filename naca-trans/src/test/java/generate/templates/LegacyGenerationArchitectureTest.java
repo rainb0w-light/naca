@@ -145,6 +145,10 @@ class LegacyGenerationArchitectureTest
 
     private static long countJavaFilesExcluding(Path root, Path excludedRoot) throws IOException
     {
+        if (!Files.exists(root))
+        {
+            return 0;
+        }
         try (Stream<Path> files = Files.walk(root))
         {
             return files.filter(path -> path.toString().endsWith(".java"))
@@ -155,6 +159,10 @@ class LegacyGenerationArchitectureTest
 
     private static long countJavaFilesContaining(Path root, String needle) throws IOException
     {
+        if (!Files.exists(root))
+        {
+            return 0;
+        }
         try (Stream<Path> files = Files.walk(root))
         {
             return files.filter(path -> path.toString().endsWith(".java"))
@@ -165,6 +173,10 @@ class LegacyGenerationArchitectureTest
 
     private static long countJavaFilesMatching(Path root, Pattern pattern) throws IOException
     {
+        if (!Files.exists(root))
+        {
+            return 0;
+        }
         try (Stream<Path> files = Files.walk(root))
         {
             return files.filter(path -> path.toString().endsWith(".java"))
@@ -175,6 +187,10 @@ class LegacyGenerationArchitectureTest
 
     private static long countOccurrencesInJavaFiles(Path root, String needle) throws IOException
     {
+        if (!Files.exists(root))
+        {
+            return 0;
+        }
         try (Stream<Path> files = Files.walk(root))
         {
             return files.filter(path -> path.toString().endsWith(".java"))
