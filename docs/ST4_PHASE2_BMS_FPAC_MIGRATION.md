@@ -1,5 +1,9 @@
 # ST4 Phase 2 — BMS + FPac Migration
 
+> **Status: COMPLETE (2026-08-07).** Both inventories are frozen at zero,
+> every Phase 2 ledger entry is terminal, BMS artifacts pass the ONLINM1
+> contract, FPac focused fixtures pass, and the full final architecture gate is green.
+
 Phase 1 (COBOL core + embedded SQL + embedded CICS onto the unified
 declarative-manifest + recursive-ST4 assembler) is **complete and frozen**:
 every queue item is terminal, `meta.ratchet.finalArchitectureCheck.directBackends`
@@ -8,10 +12,10 @@ It stays replayable via `--phase phase-1-cobol` but is never re-opened.
 
 Phase 2 migrates the two remaining **independent DSL pipelines**:
 
-| Pipeline | Scope | Generator root | Semantic tree | Backends | Ratchet |
+| Pipeline | Scope | Historical generator root | Semantic tree | Initial → current backends | Ratchet |
 |---|---|---|---|---|---|
-| BMS map-resource DSL (`.bms` CICS screen maps) | `BMS_ARTIFACT` | `generate/java/forms` | `semantic/forms` | 34 | `BmsFormsDirectBackendInventoryTest` / `bmsDirectBackends` |
-| FPac | `FPAC` | `generate/fpacjava` | shared `semantic/` model | 43 | `FPacDirectBackendInventoryTest` / `fpacDirectBackends` |
+| BMS map-resource DSL (`.bms` CICS screen maps) | `BMS_ARTIFACT` | `generate/java/forms` + `generate/bmsjava` | `semantic/forms` | 34 → **0** | `BmsFormsDirectBackendInventoryTest` / `bmsDirectBackends` |
+| FPac | `FPAC` | `generate/fpacjava` | shared `semantic/` model | 43 → **0** | `FPacDirectBackendInventoryTest` / `fpacDirectBackends` |
 
 **Neither is a COBOL dialect.** Their parsing and semantics stay decoupled from
 COBOL machinery; common rendering infrastructure (ST4 group files, the runtime
@@ -23,7 +27,8 @@ stay FPac-specific. BMS emits `nacaLib.mapSupport.*`.
 
 ## Loop configuration
 
-`tools/st4-loop/run-loop.sh --phase phase-2-bms-fpac` (the active default). The
+`tools/st4-loop/run-loop.sh --phase phase-2-bms-fpac` remains replayable as the
+completed historical scheduler configuration. The
 phase declares an **ordered** scope queue: the scheduler drains every READY
 `BMS_ARTIFACT` item before any `FPAC` item; within a scope the usual
 priority/status/id ordering applies; exactly one item goes to one fresh worker
@@ -51,16 +56,14 @@ at the end (`9060+`). FPac items sit at `9500+`.
   expected delta, and each ratchet to equal its live inventory ± one in-flight
   retirement.
 
-## Known traps (ledger `meta.discoveredDebt`)
+## Resolved traps (ledger `meta.discoveredDebt`)
 
-- `FPAC-LEGACY-SILENT-DROP` — the legacy FPac traversal silently skipped
-  structural nodes without `DoExport` (empty if/loop bodies). FPac slices must
-  not preserve that hole; fail closed via `DiagnosticSink.recordUnsupported`.
-- `FPAC-GENERATOR-COUPLINGS` — `CFPacJavaCondAnd/Or/Not` call the static
-  COBOL-side `CJavaExporter.ExportChildCondition`; `CFPacScript` imports the FPac
-  factory (parser→generator). Resolve during retirement; stay decoupled.
-- `BMS-XML-OUTPUT-IN-SEMANTIC` — `semantic/forms` classes still contain XML/.res
-  output backends; separate or template them under the same principle.
+- `FPAC-LEGACY-SILENT-DROP` — removed with the reflective traversal; missing FPac
+  bindings now fail closed.
+- `FPAC-GENERATOR-COUPLINGS` — condition/reference rendering now uses FPac
+  recursive bindings; `CJavaExporter.ExportChildCondition` is gone.
+- `BMS-XML-OUTPUT-IN-SEMANTIC` — Java/XML/resource emission is isolated behind
+  BMS artifact renderers/writers, and semantic forms pass the final contract.
 
 ## Completion condition
 

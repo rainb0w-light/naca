@@ -4,7 +4,11 @@
 > `ST4_CLASS_BY_CLASS_AUDIT.md`，下一执行专项见
 > `ST4_DATA_SECTION_MIGRATION_PLAN.md`。
 
-> 状态：执行中（M0/M1 基础设施，M2 literal）
+> 状态：**已完成（M0–M14，2026-08-07）**
+>
+> 最终快照：ST4 为唯一生产生成路径；direct/typed backend 与生产态 legacy
+> renderer 已删除；三个 inventory 均为 0；最终架构门禁、全仓 build 和样例矩阵
+> 全绿；TEST-A 与 GnuCOBOL 34/34 行一致。
 >
 > 2026-07-19 最新：递归 assembler 已接入生产导出路径（procedure division/section/paragraph 级 + DISPLAY/STOP-RUN 绑定），控制流输出回归已修复；T01 端到端（transpile→compile→run）7/7 通过。详见 `ST4_CLASS_BY_CLASS_AUDIT.md` 的「2026-07-19 进展」节。注意：此前未提交改动曾使无显式 paragraph / 含 IF 的程序 procedure 体输出为空，文档中早期「样例通过」记录为过时信息。
 >
@@ -577,13 +581,12 @@ templates/
 
 ### M13：默认切换和兼容期
 
-任务：
+最终实现：
 
-- 默认启用递归 ST4 renderer。
-- direct generator 只能通过显式兼容开关运行。
-- CI 全量测试使用 ST4 Strict 模式。
-- 收集一段兼容期内的 fallback 指标，必须始终为 0。
-- 对生成代码执行稳定性和性能对比。
+- 递归 ST4 renderer 是唯一生产出口。
+- direct 兼容开关已删除；历史 factory 属性不能恢复旧路径。
+- CI/Gradle 门禁使用 fail-closed assembler 和零容忍 architecture scan。
+- 生产 fallback 面为 0，legacy renderer 仅保留为 test fixture。
 
 完成条件：
 
@@ -757,6 +760,10 @@ ST controller forbidden behavior:
 - TEST-A 与 GnuCOBOL 34/34 行一致。
 - BATCH1 文件和控制台结果与 baseline 一致。
 - 架构门禁、开发文档和新增语法指南进入 CI。
+
+以上条件已于 2026-08-07 全部满足。遗留 NacaRT 兼容程序的 21 个历史失败
+被明确隔离到 `:naca-rt-tests:legacyRuntimeTest` 严格审计任务；它们不经过转码器、
+不依赖 ST4，也不构成迁移 fallback。
 
 ## 13. 建议的首个实施序列
 

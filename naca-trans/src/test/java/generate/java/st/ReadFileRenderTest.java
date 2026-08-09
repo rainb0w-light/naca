@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import generate.CJavaEntityFactory;
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.DisplayName;
@@ -56,7 +56,7 @@ class ReadFileRenderTest
         assertEquals(CEntityReadFile.class,
             new CJavaEntityFactory(catalog, null).NewEntityReadFile(1).getClass());
         assertEquals(CEntityReadFile.class,
-            new CJavaEntityFactoryST(catalog, null).NewEntityReadFile(1).getClass());
+            new CJavaEntityFactory(catalog, null).NewEntityReadFile(1).getClass());
     }
 
     @Test

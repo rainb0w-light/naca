@@ -37,7 +37,7 @@ public class VarDefNumDecComp4 extends VarDefNum
 	private static final long serialVersionUID = 1L;
 	public VarDefNumDecComp4(VarDefBase varDefParent, DeclareType9 declareType9, NumericValue numericValue)
 	{
-		super(varDefParent, declareType9.varLevel);
+		super(varDefParent, declareType9.varLevel, numericValue);
 		nNbDigitInteger = numericValue.nNbDigitInteger;
 		nNbDigitDecimal = numericValue.nNbDigitDecimal;
 	}
@@ -57,6 +57,7 @@ public class VarDefNumDecComp4 extends VarDefNum
 		VarDefNumDecComp4 v = new VarDefNumDecComp4();
 		v.nNbDigitInteger = nNbDigitInteger;
 		v.nNbDigitDecimal = nNbDigitDecimal;
+		v.copyBinarySettingsFrom(this);
 		return v;
 	}
 	
@@ -557,18 +558,18 @@ public class VarDefNumDecComp4 extends VarDefNum
 		if(nBinaryNumberStorage == 4)	// 32 bits
 		{
 			int n = (short)l;
-			buffer.setIntAt(buffer.nAbsolutePosition+nOffset, n);
+			setBinaryIntAt(buffer, buffer.nAbsolutePosition+nOffset, n);
 			return buffer.nAbsolutePosition + 4+nOffset;
 		}		
 		else if(nBinaryNumberStorage == 2)	// short
 		{
 			short s = (short)l;
-			buffer.setShortAt(buffer.nAbsolutePosition+nOffset, s);
+			setBinaryShortAt(buffer, buffer.nAbsolutePosition+nOffset, s);
 			return buffer.nAbsolutePosition + 2+nOffset;
 		}
 		else			// long
 		{
-			buffer.setLongAt(buffer.nAbsolutePosition+nOffset, l);
+			setBinaryLongAt(buffer, buffer.nAbsolutePosition+nOffset, l);
 			return buffer.nAbsolutePosition + 8+nOffset;
 		}
 	}

@@ -5,8 +5,10 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import generate.CJavaEntityFactory;
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.java.st.MockJavaExporter;
+import generate.templates.TemplateLoader;
+import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import semantic.CDataEntity;
@@ -65,7 +67,7 @@ class CEntityFieldDataRenderTest
             new CJavaEntityFactory(catalog(), new MockJavaExporter())
                 .NewEntityFieldData(1, "FLD", null);
         CEntityFieldData st4 =
-            new CJavaEntityFactoryST(catalog(), null)
+            new CJavaEntityFactory(catalog(), null)
                 .NewEntityFieldData(1, "FLD", null);
 
         // Exactly the pure semantic class, not the retired CJavaFieldData backend subclass.
@@ -84,7 +86,8 @@ class CEntityFieldDataRenderTest
         assertEquals(CDataEntity.CDataEntityType.FIELD, entity.GetDataType());
         assertFalse(entity.HasAccessors());
         assertTrue(entity.isValNeeded());
-        assertEquals("", entity.ExportWriteAccessorTo("x"));
+        assertEquals("", TemplateLoader.getRecursiveAssembler()
+            .renderRoot(entity, JavaTemplateRole.DECLARATION));
     }
 
     @Test
@@ -93,17 +96,17 @@ class CEntityFieldDataRenderTest
     {
         // No owner -> mirrors LegacyDataRenderer.renderReference's null handling.
         CEntityFieldData bare = new CEntityFieldData(1, "FLD", catalog(), null);
-        assertEquals("[UNDEFINED]", bare.ExportReference(1));
+        assertEquals("[UNDEFINED]", renderReference(bare));
 
         // With an owner -> the owner's raw name (no formatting, no generate coupling).
         CEntityFieldData owner = new CEntityFieldData(2, "MY-OWNER", catalog(), null);
         CEntityFieldData withOwner = new CEntityFieldData(1, "FLD", catalog(), owner);
-        assertEquals("MY-OWNER", withOwner.ExportReference(1));
+        assertEquals("MY-OWNER", renderReference(withOwner));
     }
 
     @Test
-    @DisplayName("the generate-layer factory injects the reference renderer; a custom renderer is honored and null is ignored")
-    void referenceRendererIsInjected()
+    @DisplayName("factory-built field data renders its owner recursively")
+    void factoryBuiltReferenceRendersRecursively()
     {
         CEntityFieldData entity =
             new CJavaEntityFactory(catalog(), new MockJavaExporter())
@@ -112,18 +115,16 @@ class CEntityFieldDataRenderTest
         // Factory-installed renderer delegates to LegacyDataRenderer.renderReference: a null
         // owner renders to [UNDEFINED] exactly as the retired backend's generate-layer call did,
         // without any generate.* token living in semantic.forms.CEntityFieldData.
-        assertEquals("[UNDEFINED]", entity.ExportReference(1));
+        assertEquals("[UNDEFINED]", renderReference(entity));
 
-        // A custom renderer is honored (reference + this entity's own line, matching the retired
-        // backend's renderReference(reference, getLine()) argument shape).
         CEntityFieldData owner = new CEntityFieldData(7, "OWN", catalog(), null);
         CEntityFieldData injected = new CEntityFieldData(3, "FLD", catalog(), owner);
-        injected.setReferenceRenderer(
-            (ref, line) -> "RENDERED:" + (ref == null ? "null" : ref.GetName()) + "@" + line);
-        assertEquals("RENDERED:OWN@3", injected.ExportReference(99));
+        assertEquals("OWN", renderReference(injected));
+    }
 
-        // A null renderer is ignored, keeping the previously-installed one.
-        injected.setReferenceRenderer(null);
-        assertEquals("RENDERED:OWN@3", injected.ExportReference(99));
+    private static String renderReference(CEntityFieldData entity)
+    {
+        return TemplateLoader.getRecursiveAssembler()
+            .renderRoot(entity, JavaTemplateRole.REFERENCE);
     }
 }

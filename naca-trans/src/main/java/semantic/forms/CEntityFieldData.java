@@ -14,7 +14,6 @@ package semantic.forms;
 
 
 import java.util.Vector;
-import java.util.function.BiFunction;
 
 import parser.expression.CTerminal;
 
@@ -97,44 +96,11 @@ public class CEntityFieldData extends CBaseEntityFieldAttribute
 		return true ;
 	}
 
-	public String ExportReference(int nLine)
+	public String getReferenceName()
 	{
-		// Preserved from the retired backend: the OWNER field's rendered reference, using this
-		// entity's own line (the backend passed getLine(), ignoring nLine). The generate-layer
-		// factory injects LegacyDataRenderer::renderReference; a hand-built entity reads the
-		// neutral fallback below. No generate.* coupling lives in this tree.
-		return referenceRenderer.apply(getReference(), getLine()) ;
+		return getReference() == null ? "[UNDEFINED]" : getReference().GetName() ;
 	}
 
-	public String ExportWriteAccessorTo(String value)
-	{
-		// Preserved from the retired backend: no reachable write-accessor protocol.
-		return "" ;
-	}
-
-	protected void DoExport()
-	{
-		// Preserved from the retired backend: a field-data attribute emits no Java of its own.
-	}
-
-	/**
-	 * Target-neutral reference renderer standing in for the retired backend's
-	 * {@code LegacyDataRenderer.renderReference(reference, getLine())}. Installed by the
-	 * generate-layer factory ({@code BmsJavaEntities.fieldData}); defaults to the owner's raw
-	 * name (or {@code [UNDEFINED]} when unset), mirroring {@code LegacyDataRenderer.renderReference}'s
-	 * null handling so a directly-constructed entity stays well-formed. A pure injected value —
-	 * no {@code generate.*} coupling lives in this tree.
-	 */
-	private BiFunction<CDataEntity, Integer, String> referenceRenderer =
-		(ref, line) -> ref == null ? "[UNDEFINED]" : ref.GetName();
-
-	public void setReferenceRenderer(BiFunction<CDataEntity, Integer, String> renderer)
-	{
-		if (renderer != null)
-		{
-			referenceRenderer = renderer ;
-		}
-	}
 	public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory) 
 	{
 		CDataEntity e = reference.GetArrayReference(v, factory) ;

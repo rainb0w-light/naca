@@ -1,8 +1,11 @@
 # ST4模板重构进度报告
 
-> 历史状态文档：其中提出的 `export()` / `exportChildren()` 方案已废止。当前计划与状态判定见 `ST4_RECURSIVE_TEMPLATE_REFACTOR_MASTER_PLAN.md`。
+> **归档说明（2026-08-07）：ST4 迁移已完成。** 本文是 2026-03-14 的历史快照，
+> 其中“暂挂”以及 `export()` / `exportChildren()` 方案均已失效，不能用于判断当前状态。
+> 最终结果见 `ST4_RECURSIVE_TEMPLATE_REFACTOR_MASTER_PLAN.md`、
+> `ST4_FINAL_ARCHITECTURE_CONTRACT.md` 和 `migration-ledger.json`。
 
-> **状态**: 暂挂
+> **历史状态**: 暂挂（已被最终完成状态取代）
 > **日期**: 2026-03-14
 > **原因**: 需要先处理遗留代码命名规范问题
 

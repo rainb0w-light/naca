@@ -2,7 +2,7 @@
 """Synchronize the direct-backend retirement queue with the Java source tree.
 
 The source inventory is authoritative: every direct backend class under
-generate/java (COBOL/SQL/CICS + the BMS forms subtree) and generate/fpacjava
+generate/java (COBOL/SQL/CICS + the BMS forms subtree), generate/bmsjava, and generate/fpacjava
 (the independent FPac pipeline) that still subclasses a semantic entity gets
 exactly one ledger entry. Existing workflow state is preserved, including
 terminal entries for already-deleted backends. Scope decides the queue phase:
@@ -119,15 +119,18 @@ def semantic_index(java_root: Path) -> dict[str, str]:
 def discover(repo_root: Path) -> list[Backend]:
     """Every live direct backend under the COBOL and FPac generator roots.
 
-    Two authoritative scan roots, each with its inventory pattern (mirrored by
+    Three authoritative scan roots, each with its inventory pattern (mirrored by
     st4loop/debt.py and the Java inventory tests):
       generate/java        COBOL/SQL/CICS areas + the forms (BMS) subtree
+      generate/bmsjava     the historical BMS expression package (flat `forms` area)
       generate/fpacjava    the independent FPac pipeline (flat `fpac` area)
     """
     java_root = repo_root / "naca-trans/src/main/java"
     semantics = semantic_index(java_root)
     roots = (
         (java_root / "generate/java", None, BACKEND_PATTERN,
+         BMS_BACKEND_PATTERN),
+        (java_root / "generate/bmsjava", "forms", BMS_BACKEND_PATTERN,
          BMS_BACKEND_PATTERN),
         (java_root / "generate/fpacjava", "fpac", FPAC_BACKEND_PATTERN,
          FPAC_BACKEND_PATTERN),

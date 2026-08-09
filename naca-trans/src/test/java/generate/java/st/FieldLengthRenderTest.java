@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.LegacyDataRenderer;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
@@ -79,8 +79,8 @@ class FieldLengthRenderTest
     void factoryReturnsPureSemanticEntity()
     {
         CObjectCatalog catalog = catalog();
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog, new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog, new MockJavaExporter());
         CEntityFieldLength fieldLength =
             factory.NewEntityFieldLengh(1, "WS-FIELD-L", owner());
         // Exactly the pure semantic class, not a legacy CJava* controller subclass.

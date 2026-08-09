@@ -26,6 +26,8 @@ public class CEntityNumber extends CDataEntity
 {
 
 	protected String csValue = "" ;
+	private boolean preserveSourceLexeme = false ;
+	private boolean valueNeeded = true ;
 	
 	public CEntityNumber(CObjectCatalog cat, String number)
 	{
@@ -39,6 +41,26 @@ public class CEntityNumber extends CDataEntity
 	public String getLiteralValue()
 	{
 		return csValue;
+	}
+	public boolean isPreserveSourceLexeme()
+	{
+		return preserveSourceLexeme ;
+	}
+	public void preserveSourceLexeme()
+	{
+		preserveSourceLexeme = true ;
+	}
+	public boolean isHexLiteral()
+	{
+		return preserveSourceLexeme && csValue.startsWith("0x") ;
+	}
+	public String getHexDigits()
+	{
+		return isHexLiteral() ? csValue.substring(2) : csValue ;
+	}
+	public void setValueNeeded(boolean valueNeeded)
+	{
+		this.valueNeeded = valueNeeded ;
 	}
 	public String GetConstantValue()
 	{
@@ -98,7 +120,7 @@ public class CEntityNumber extends CDataEntity
 	}
 	public boolean isValNeeded()
 	{
-		return true;
+		return valueNeeded;
 	}
 	public CBaseEntityCondition GetSpecialCondition(int nLine, String value, CBaseEntityCondition.EConditionType type, CBaseEntityFactory factory)
 	{

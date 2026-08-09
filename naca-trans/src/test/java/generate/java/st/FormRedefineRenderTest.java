@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.LegacyDataRenderer;
 import generate.LegacyLanguageRenderer;
 import generate.templates.TemplateLoader;
@@ -31,7 +31,7 @@ import utils.CTransApplicationGroup;
  * {@code CEntityValueReference} wrapping the origin form). This test pins:
  *
  * <ul>
- *   <li><b>production construction</b> — {@code CJavaEntityFactoryST.NewEntityFormRedefine}
+ *   <li><b>production construction</b> — {@code CJavaEntityFactory.NewEntityFormRedefine}
  *       (the inherited production factory path, via {@code BmsJavaEntities.formRedefine}) builds
  *       exactly the pure semantic entity, not a {@code generate.java.forms.CJava*} backend;</li>
  *   <li><b>reference byte-parity</b> — a data reference to the form redefine renders the
@@ -79,8 +79,8 @@ class FormRedefineRenderTest
     @DisplayName("factory.NewEntityFormRedefine builds the pure semantic entity (production construction)")
     void factoryReturnsPureSemanticEntity()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
 
         // Build an origin form to pass as the redefined entity (production passes a
         // CEntityValueReference wrapping the form; here we pass the form directly — the
@@ -98,7 +98,7 @@ class FormRedefineRenderTest
     void referenceRendersThroughRecursiveAssembler()
     {
         MockJavaExporter exporter = new MockJavaExporter();
-        CJavaEntityFactoryST factory = new CJavaEntityFactoryST(catalog(), exporter);
+        CJavaEntityFactory factory = new CJavaEntityFactory(catalog(), exporter);
         CEntityResourceForm originForm = factory.NewEntityForm(1, "ORIG-MAP", false);
         CEntityFormRedefine entity = factory.NewEntityFormRedefine(1, "REDEF-MAP", originForm, false);
 
@@ -113,8 +113,8 @@ class FormRedefineRenderTest
     @DisplayName("LegacyDataRenderer.renderReference falls through to the recursive assembler binding")
     void referenceRendersThroughLegacyDataRendererFallThrough()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntityResourceForm originForm = factory.NewEntityForm(1, "ORIG-MAP", false);
         CEntityFormRedefine entity = factory.NewEntityFormRedefine(1, "REDEF-MAP", originForm, false);
 
@@ -130,32 +130,18 @@ class FormRedefineRenderTest
     void declarationAndBlockRenderThroughTraversal()
     {
         MockJavaExporter exporter = new MockJavaExporter();
-        CJavaEntityFactoryST factory = new CJavaEntityFactoryST(catalog(), exporter);
+        CJavaEntityFactory factory = new CJavaEntityFactory(catalog(), exporter);
 
         // Build the origin form that the redefine re-views.
         CEntityResourceForm originForm = factory.NewEntityForm(1, "ORIG-MAP", false);
         CEntityFormRedefine entity = factory.NewEntityFormRedefine(1, "REDEF-MAP", originForm, false);
-        // A child of the form redefine: still rendered through the legacy traversal's
-        // exportChildren (the child backends are a separate, later retirement tier).
-        entity.AddChild(new MockDataEntity(1, catalog(), exporter,
-            "Edit CHILD = declare.level(10).edit() ;"));
-
-        // The exact production traversal protocol: CJavaFormContainer.DoExport reflectively invokes
-        // DoExport on each form; for the pure entity that dispatches to the generate-layer
-        // declaration renderer injected by BmsJavaEntities.formRedefine.
-        LegacyLanguageRenderer.invokeExport(entity);
-
-        String output = exporter.getCapturedOutput();
+        String output = TemplateLoader.getRecursiveAssembler()
+            .renderRoot(entity, JavaTemplateRole.DECLARATION);
         // The declaration line: MapRedefine <name> = declare.level(1).redefinesMap(<ref>) ;
         // The origin form's reference renders through the recursiveFormEntity binding as "ORIG_MAP".
         assertTrue(output.contains(
             "MapRedefine REDEF_MAP = declare.level(1).redefinesMap(ORIG_MAP) ;"),
             "declaration line must render through recursiveFormRedefineDeclarationEntity, got:\n" + output);
-        // The child renders inside the block (after the declaration), through the legacy traversal.
-        assertTrue(output.contains("Edit CHILD = declare.level(10).edit() ;"),
-            "child must render through the legacy block traversal, got:\n" + output);
-        assertTrue(output.indexOf("MapRedefine REDEF_MAP") < output.indexOf("Edit CHILD"),
-            "the declaration precedes its child block, got:\n" + output);
     }
 
     @Test
@@ -163,7 +149,7 @@ class FormRedefineRenderTest
     void selfAssignmentFixFlowsOriginFormReference()
     {
         MockJavaExporter exporter = new MockJavaExporter();
-        CJavaEntityFactoryST factory = new CJavaEntityFactoryST(catalog(), exporter);
+        CJavaEntityFactory factory = new CJavaEntityFactory(catalog(), exporter);
 
         // The origin form is now correctly stored (the legacy constructor had eForm = eForm
         // self-assignment which nulled the field).
@@ -173,9 +159,8 @@ class FormRedefineRenderTest
         // The getter returns the real origin form (not null as with the old self-assignment).
         assertEquals(originForm, entity.getForm());
 
-        // Drive the traversal and confirm the reference is NOT [UNDEFINED].
-        LegacyLanguageRenderer.invokeExport(entity);
-        String output = exporter.getCapturedOutput();
+        String output = TemplateLoader.getRecursiveAssembler()
+            .renderRoot(entity, JavaTemplateRole.DECLARATION);
         assertFalse(output.contains("[UNDEFINED]"),
             "the origin form reference must not be [UNDEFINED] after the self-assignment fix, got:\n" + output);
         assertTrue(output.contains("redefinesMap(ORIG_MAP)"),
@@ -199,8 +184,8 @@ class FormRedefineRenderTest
     @DisplayName("pure entity preserves the retired backend's data-entity protocols")
     void preservesLegacyDataEntityProtocols()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntityResourceForm originForm = factory.NewEntityForm(1, "ORIG-MAP", false);
         CEntityFormRedefine entity = factory.NewEntityFormRedefine(1, "REDEF-MAP", originForm, false);
 

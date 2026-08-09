@@ -4,11 +4,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import generate.CJavaFPacEntityFactory;
-import generate.LegacyLanguageRenderer;
 import generate.java.st.MockJavaExporter;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import semantic.CEntityFileDescriptor;
+import semantic.CEntityProcedure;
 import semantic.Verbs.CEntityCloseFile;
 import utils.CObjectCatalog;
 import org.junit.jupiter.api.Test;
@@ -111,17 +111,15 @@ class CFPacJavaCloseFileRetirementTest
         CJavaFPacEntityFactory factory = new CJavaFPacEntityFactory(catalog, out);
 
         // Constructor self-binds the owner to `out`, exactly as in production.
-        CFPacJavaProcedure owner = new CFPacJavaProcedure(2, "MAIN", catalog, out, null);
+        CEntityProcedure owner = factory.NewEntityProcedure(2, "MAIN", null);
 
         // Factory binds the verb to `out` at creation; AddChild below does not propagate.
         CEntityCloseFile close = factory.NewEntityCloseFile(3);
         close.setFileDescriptor(fileDescriptor("CUSTOMER-FILE"));
         owner.AddChild(close);
 
-        // The exact production driver: CFPacJavaProcedure.DoExport -> exportChildren(FPAC_REFERENCE).
-        LegacyLanguageRenderer.invokeExport(owner);
-
-        String rendered = out.getCapturedOutput();
+        String rendered = TemplateLoader.getRecursiveAssembler()
+            .renderRoot(owner, JavaTemplateRole.FPAC_REFERENCE);
         assertTrue(rendered.contains("CUSTOMER_FILE.close();"),
             "production FPac rendering must emit the descriptor close through the assembler; got:\n"
                 + rendered);

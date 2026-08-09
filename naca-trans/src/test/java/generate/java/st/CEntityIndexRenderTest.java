@@ -3,7 +3,7 @@ package generate.java.st;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import generate.CJavaEntityFactory;
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.fixtures.LegacyIndexFixture;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
@@ -21,7 +21,7 @@ class CEntityIndexRenderTest
         assertEquals(CEntityIndex.class,
             new CJavaEntityFactory(catalog, null).NewEntityIndex("ITEM-INDEX").getClass());
         assertEquals(CEntityIndex.class,
-            new CJavaEntityFactoryST(catalog, null).NewEntityIndex("ITEM-INDEX").getClass());
+            new CJavaEntityFactory(catalog, null).NewEntityIndex("ITEM-INDEX").getClass());
     }
 
     @Test

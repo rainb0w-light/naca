@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import generate.CJavaEntityFactory;
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.Test;
@@ -72,6 +72,6 @@ class JavaCommentRenderTest
         assertEquals(CEntityComment.class,
             new CJavaEntityFactory(catalog(), null).NewEntityComment(1, "COMMENT").getClass());
         assertEquals(CEntityComment.class,
-            new CJavaEntityFactoryST(catalog(), null).NewEntityComment(1, "COMMENT").getClass());
+            new CJavaEntityFactory(catalog(), null).NewEntityComment(1, "COMMENT").getClass());
     }
 }

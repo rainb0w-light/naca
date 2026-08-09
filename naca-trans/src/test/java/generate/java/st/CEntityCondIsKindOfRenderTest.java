@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 import generate.CJavaEntityFactory;
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.Test;
@@ -24,7 +24,7 @@ class CEntityCondIsKindOfRenderTest
         assertEquals(CEntityCondIsKindOf.class,
             new CJavaEntityFactory(null, null).NewEntityCondIsKindOf().getClass());
         assertEquals(CEntityCondIsKindOf.class,
-            new CJavaEntityFactoryST(null, null).NewEntityCondIsKindOf().getClass());
+            new CJavaEntityFactory(null, null).NewEntityCondIsKindOf().getClass());
     }
 
     @Test

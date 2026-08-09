@@ -9,7 +9,7 @@ number:
       source contains ` extends CEntity|CBaseActionEntity|CDataEntity`. Mirrors
       architecture.DirectBackendInventoryTest EXACTLY. Counter: directBackends.
   BMS_ARTIFACT
-      generate/java/forms (the BMS map-resource artifact pipeline): the same
+      generate/java/forms and generate/bmsjava (the BMS map-resource artifact pipeline): the same
       subclass rule PLUS CResourceStrings — CJavaResourceStrings subclasses that
       BMS semantic base directly, and no backend may hide outside the inventory.
       Mirrors architecture.BmsFormsDirectBackendInventoryTest. Counter:
@@ -44,7 +44,10 @@ FPAC_DIRECT_SEMANTIC_SUBCLASS = re.compile(
 )
 
 COBOL_DIRECT_BACKEND_ROOT = Path("naca-trans/src/main/java/generate/java")
-BMS_DIRECT_BACKEND_ROOT = COBOL_DIRECT_BACKEND_ROOT / "forms"
+BMS_DIRECT_BACKEND_ROOTS = (
+    COBOL_DIRECT_BACKEND_ROOT / "forms",
+    Path("naca-trans/src/main/java/generate/bmsjava"),
+)
 FPAC_DIRECT_BACKEND_ROOT = Path("naca-trans/src/main/java/generate/fpacjava")
 
 DIRECT_BACKEND_TEST = Path(
@@ -114,10 +117,10 @@ def measure_direct_backends(repo_root):
 
 
 def measure_bms_direct_backends(repo_root):
-    """BMS artifact pipeline direct backends: generate/java/forms only."""
-    return _count_matching(
-        Path(repo_root) / BMS_DIRECT_BACKEND_ROOT,
-        BMS_DIRECT_SEMANTIC_SUBCLASS,
+    """BMS artifact direct backends across both historical package roots."""
+    return sum(
+        _count_matching(Path(repo_root) / root, BMS_DIRECT_SEMANTIC_SUBCLASS)
+        for root in BMS_DIRECT_BACKEND_ROOTS
     )
 
 

@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import generate.CJavaEntityFactory;
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.Test;
@@ -22,7 +22,7 @@ class CEntityExternalDataStructureRenderTest
             new CJavaEntityFactory(catalog, null)
                 .NewEntityExternalDataStructure(1, "MY-COPY").getClass());
         assertEquals(CEntityExternalDataStructure.class,
-            new CJavaEntityFactoryST(catalog, null)
+            new CJavaEntityFactory(catalog, null)
                 .NewEntityExternalDataStructure(1, "MY-COPY").getClass());
     }
 

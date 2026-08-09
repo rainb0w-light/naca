@@ -6,15 +6,16 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.LegacyDataRenderer;
-import generate.java.forms.CJavaField;
+import generate.java.forms.BmsJavaEntities;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import semantic.CDataEntity;
 import semantic.forms.CEntityFieldValidated;
+import semantic.forms.CEntityResourceField;
 import utils.CGlobalCatalog;
 import utils.CObjectCatalog;
 import utils.COriginalLisiting;
@@ -96,8 +97,8 @@ class FieldValidatedRenderTest
     void factoryReturnsPureSemanticEntity()
     {
         CObjectCatalog catalog = catalog();
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog, new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog, new MockJavaExporter());
         CEntityFieldValidated fieldValidated =
             factory.NewEntityFieldValidated(1, "WS-FIELD-V", owner());
         // Exactly the pure semantic class, not a legacy CJava* controller subclass.
@@ -147,8 +148,9 @@ class FieldValidatedRenderTest
         // entity through the rewired factory.
         CObjectCatalog catalog = catalog();
         MockJavaExporter exporter = new MockJavaExporter();
-        CJavaEntityFactoryST factory = new CJavaEntityFactoryST(catalog, exporter);
-        CJavaField field = new CJavaField(1, "NMMASQ", catalog, exporter);
+        CJavaEntityFactory factory = new CJavaEntityFactory(catalog, exporter);
+        CEntityResourceField field = BmsJavaEntities.entryField(
+            1, "NMMASQ", catalog, exporter);
 
         CEntityFieldValidated fieldValidated =
             factory.NewEntityFieldValidated(1, "NMMASQV", field);
@@ -166,8 +168,8 @@ class FieldValidatedRenderTest
     void specialAssignmentAndConditionBranchesPreserved()
     {
         CObjectCatalog catalog = catalog();
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog, new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog, new MockJavaExporter());
         MockDataEntity ownerField = owner();
         CEntityFieldValidated fieldValidated =
             new CEntityFieldValidated(1, "WS-FIELD-V", catalog, ownerField);

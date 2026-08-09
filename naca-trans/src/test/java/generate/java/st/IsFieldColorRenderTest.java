@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.DisplayName;
@@ -57,7 +57,7 @@ import utils.NacaTransAssertException;
  * condition is null and the caller falls back to a plain comparison). It builds the
  * pure entity through the rewired factory
  * ({@code CJavaEntityFactory.NewEntityIsFieldColor}, inherited by
- * {@code CJavaEntityFactoryST}). The FPac factory throws
+ * {@code CJavaEntityFactory}). The FPac factory throws
  * {@code NacaTransAssertException} for this entity, so no FPac tree ever holds it.
  */
 class IsFieldColorRenderTest
@@ -93,7 +93,7 @@ class IsFieldColorRenderTest
      * IS_DIFFERENT -> SetOpposite).
      */
     private static CEntityIsFieldColor lowerFieldColorCondition(
-        CJavaEntityFactoryST factory, String colorCode,
+        CJavaEntityFactory factory, String colorCode,
         CBaseEntityCondition.EConditionType type)
     {
         CEntityFieldColor fieldColor =
@@ -107,8 +107,8 @@ class IsFieldColorRenderTest
     @DisplayName("IF <FIELD>C = 2 renders isFieldColored(field, MapFieldAttrColor.RED) (legacy Export parity)")
     void fieldColorEqualsRendersIsFieldColored()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntityIsFieldColor condition = lowerFieldColorCondition(
             factory, "2", CBaseEntityCondition.EConditionType.IS_EQUAL);
 
@@ -129,8 +129,8 @@ class IsFieldColorRenderTest
     @DisplayName("IF <FIELD>C <> 2 renders isNotFieldColored(field, MapFieldAttrColor.RED) (legacy Export parity)")
     void fieldColorDifferentRendersIsNotFieldColored()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         // IS_DIFFERENT lowers through SetOpposite.
         CEntityIsFieldColor condition = lowerFieldColorCondition(
             factory, "2", CBaseEntityCondition.EConditionType.IS_DIFFERENT);
@@ -146,8 +146,8 @@ class IsFieldColorRenderTest
     @DisplayName("all seven BMS color codes map to the legacy MapFieldAttrColor names")
     void allSevenColorCodesRenderTheirMapFieldAttrColorName()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         // Legacy CEntityFieldColor.CFieldColor.WhichColor digit -> name table.
         String[][] codes = {
             {"1", "BLUE"}, {"2", "RED"}, {"3", "PINK"}, {"4", "GREEN"},
@@ -167,8 +167,8 @@ class IsFieldColorRenderTest
     @DisplayName("a non-color literal does not lower to a color condition (legacy WhichColor null path)")
     void nonColorLiteralDoesNotLowerToIsFieldColor()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntityFieldColor fieldColor =
             new CEntityFieldColor(1, "WS-FIELD-C", catalog(), owner());
         // Values outside the 1..7 color-code table never lowered in the legacy
@@ -185,8 +185,8 @@ class IsFieldColorRenderTest
     @DisplayName("an unsupported comparison type on a color code is rejected, not silently lowered")
     void unsupportedComparisonTypeIsRejected()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntityFieldColor fieldColor =
             new CEntityFieldColor(1, "WS-FIELD-C", catalog(), owner());
         // Legacy behavior preserved: only IS_EQUAL / IS_DIFFERENT lower to a color
@@ -199,8 +199,8 @@ class IsFieldColorRenderTest
     @DisplayName("the ST4 factory returns the pure semantic entity (no CJava* backend)")
     void factoryReturnsPureSemanticEntity()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntityIsFieldColor condition = factory.NewEntityIsFieldColor();
 
         // Exactly the pure semantic class, not a legacy CJava* controller subclass.
@@ -219,8 +219,8 @@ class IsFieldColorRenderTest
     @DisplayName("the opposite is a flag-flipped pure color condition (legacy GetOppositeCondition parity)")
     void oppositeIsAFlagFlippedColorCondition()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntityIsFieldColor condition = lowerFieldColorCondition(
             factory, "2", CBaseEntityCondition.EConditionType.IS_EQUAL);
 
@@ -239,8 +239,8 @@ class IsFieldColorRenderTest
     @DisplayName("the retired backend's ignore semantics are preserved")
     void ignoreSemanticsPreserved()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
 
         // A live reference -> rendered (not ignored).
         CEntityIsFieldColor live = factory.NewEntityIsFieldColor();

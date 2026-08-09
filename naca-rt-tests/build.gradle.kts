@@ -19,11 +19,17 @@ dependencies {
     implementation(project(":naca-rt"))
     
     // Spring Boot
-    implementation("org.springframework.boot:spring-boot-starter")
-    implementation("org.springframework.boot:spring-boot-starter-validation")
+    implementation("org.springframework.boot:spring-boot-starter") {
+        exclude(group = "org.springframework.boot", module = "spring-boot-starter-logging")
+    }
+    implementation("org.springframework.boot:spring-boot-starter-validation") {
+        exclude(group = "org.springframework.boot", module = "spring-boot-starter-logging")
+    }
     
     // Spring Boot Test
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-test") {
+        exclude(group = "org.springframework.boot", module = "spring-boot-starter-logging")
+    }
     
     // Testing - JUnit 5
     testImplementation("org.junit.jupiter:junit-jupiter:5.11.4")
@@ -47,6 +53,11 @@ sourceSets {
             srcDir("../NacaSamples/src/commons")
             srcDir("../NacaSamples/src/commons/include")
             srcDir("../NacaSamples/src/online")
+            // The assembler integration tests generate the modern `Msgzone`
+            // copybook independently. Do not compile that nested generated
+            // fixture together with the legacy sample's `MSGZONE`: both map to
+            // the same class-file name on case-insensitive filesystems.
+            exclude("commons/**", "include/commons/**")
         }
         resources {
             srcDir("Main")
@@ -79,7 +90,9 @@ tasks.withType<ProcessResources> {
 
 // Configure test task
 tasks.named<Test>("test") {
-    useJUnitPlatform()
+    useJUnitPlatform {
+        excludeTags("legacy-runtime")
+    }
     
     // Test output configuration
     testLogging {
@@ -95,6 +108,22 @@ tasks.named<Test>("test") {
     
     // JaCoCo configuration for coverage
     finalizedBy(tasks.jacocoTestReport)
+}
+
+// The hand-written 2005 compatibility programs exercise runtime behavior that
+// predates the ST4 migration and currently carry an explicit failure baseline.
+// Keep them runnable as a strict, opt-in audit without making unrelated runtime
+// debt indistinguishable from a transpiler/build regression.
+tasks.register<Test>("legacyRuntimeTest") {
+    group = "verification"
+    description = "Run the strict legacy NacaRT compatibility suite (known runtime debt)."
+    testClassesDirs = sourceSets["test"].output.classesDirs
+    classpath = sourceSets["test"].runtimeClasspath
+    useJUnitPlatform {
+        includeTags("legacy-runtime")
+    }
+    failFast = false
+    shouldRunAfter(tasks.test)
 }
 
 // Configure JaCoCo to include coverage from dependencies

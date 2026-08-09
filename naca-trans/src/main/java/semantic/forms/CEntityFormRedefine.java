@@ -141,13 +141,6 @@ public class CEntityFormRedefine extends CEntityResourceForm //CEntityAttribute
 		return false;
 	}
 
-	public String ExportWriteAccessorTo(String value)
-	{
-		// Preserved from the retired backend: no reachable write-accessor protocol (the legacy
-		// backend returned "" — unused).
-		return "" ;
-	}
-
 	public String GetTypeDecl()
 	{
 		// Preserved from the retired backend: a form redefine contributes no type declaration
@@ -161,22 +154,6 @@ public class CEntityFormRedefine extends CEntityResourceForm //CEntityAttribute
 		// own (unused).
 		return null;
 	}
-
-	public String ExportReference(int nLine)
-	{
-		// Mirrors the retired backend's formatIdentifier(GetName()). LegacyDataRenderer ignores a
-		// semantic-declared ExportReference and renders the reference through the
-		// recursiveFormRedefineEntity binding instead; this override stays for direct callers and
-		// reads only the precomputed, target-formatted identifier. Unlike the parent's
-		// ExportReference (which qualifies with the of container), the retired
-		// CJavaFormRedefine returned only the formatted name.
-		return getFormattedName() ;
-	}
-
-	// DoExport is inherited from CEntityResourceForm: it delegates to the declarationRenderer
-	// the generate-layer factory injects (BmsJavaEntities.formRedefine installs the
-	// renderFormRedefineDeclaration bridge). A hand-built entity (no factory) inherits the
-	// parent's no-op default and never fails.
 
 	/**
 	 * Read-only getter exposing the origin form this redefine re-views. Consumed by the

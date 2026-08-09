@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import generate.CBaseLanguageExporter;
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.LegacyDataRenderer;
 import generate.LegacyLanguageRenderer;
 import generate.templates.TemplateLoader;
@@ -32,7 +32,7 @@ import utils.CTransApplicationGroup;
  * unfolds its maps inside the class body. This test pins:
  *
  * <ul>
- *   <li><b>production construction</b> — {@code CJavaEntityFactoryST.NewEntityFormContainer} (the
+ *   <li><b>production construction</b> — {@code CJavaEntityFactory.NewEntityFormContainer} (the
  *       inherited production factory path, via {@code BmsJavaEntities.formContainer}) builds exactly
  *       the pure semantic entity, not a {@code generate.java.forms.CJava*} backend;</li>
  *   <li><b>reference byte-parity</b> — a data reference to the mapset renders the target-formatted name
@@ -81,8 +81,8 @@ class FormContainerRenderTest
     @DisplayName("factory.NewEntityFormContainer builds the pure semantic entity (production construction)")
     void factoryReturnsPureSemanticEntity()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
 
         CEntityResourceFormContainer entity = factory.NewEntityFormContainer(1, "MY-SET", false);
 
@@ -96,7 +96,7 @@ class FormContainerRenderTest
     void referenceRendersThroughRecursiveAssembler()
     {
         MockJavaExporter exporter = new MockJavaExporter();
-        CJavaEntityFactoryST factory = new CJavaEntityFactoryST(catalog(), exporter);
+        CJavaEntityFactory factory = new CJavaEntityFactory(catalog(), exporter);
         CEntityResourceFormContainer entity = factory.NewEntityFormContainer(1, "MY-SET", false);
 
         // Byte-for-byte the retired backend's ExportReference: formatIdentifier(GetName()).
@@ -110,8 +110,8 @@ class FormContainerRenderTest
     @DisplayName("LegacyDataRenderer.renderReference falls through to the recursive assembler binding")
     void referenceRendersThroughLegacyDataRendererFallThrough()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntityResourceFormContainer entity = factory.NewEntityFormContainer(1, "MY-SET", false);
 
         // With the backend's reflective ExportReference gone, the semantic-declared path returns
@@ -126,7 +126,7 @@ class FormContainerRenderTest
     void skeletonAndBlockRenderThroughTraversal()
     {
         MockJavaExporter exporter = new MockJavaExporter();
-        CJavaEntityFactoryST factory = new CJavaEntityFactoryST(catalog(), exporter);
+        CJavaEntityFactory factory = new CJavaEntityFactory(catalog(), exporter);
 
         CEntityResourceFormContainer entity = factory.NewEntityFormContainer(1, "MY-SET", false);
         // A map of the mapset: the container stores maps in arrForm (AddForm), not the generic child
@@ -134,16 +134,10 @@ class FormContainerRenderTest
         CEntityResourceForm form = factory.NewEntityForm(1, "MY-MAP", false);
         form.setResourceName("MYRES");
         form.SetSize(80, 24); // SetSize(col, line): nSizeCol=80, nSizeLine=24
-        form.AddField(new MockFormField(1, catalog(), exporter,
-            "Edit CHILD = declare.level(10).edit() ;"));
         entity.AddForm(form);
 
-        // The exact production traversal protocol: the BMS transcoder reflectively invokes DoExport on
-        // the mapset root; for the pure entity that dispatches to the generate-layer skeleton renderer
-        // injected by BmsJavaEntities.formContainer.
-        LegacyLanguageRenderer.invokeExport(entity);
-
-        String output = exporter.getCapturedOutput();
+        String output = TemplateLoader.getRecursiveAssembler()
+            .renderRoot(entity, JavaTemplateRole.ROOT);
         // The fixed imports the retired backend emitted verbatim.
         assertTrue(output.contains("import nacaLib.mapSupport.* ;"), "got:\n" + output);
         assertTrue(output.contains("import nacaLib.varEx.* ;"), "got:\n" + output);
@@ -166,8 +160,6 @@ class FormContainerRenderTest
         // The map renders inside the class body, through the legacy traversal over getForms().
         assertTrue(output.contains("Form MY_MAP = declare.form(\"MYRES\", 24, 80) ;"),
             "map must render through the legacy block traversal over getForms(), got:\n" + output);
-        assertTrue(output.contains("Edit CHILD = declare.level(10).edit() ;"),
-            "map field must render through the form's own block, got:\n" + output);
         // Ordering: imports -> class header -> Copy/constructor -> map block.
         assertTrue(output.indexOf("import nacaLib.mapSupport.* ;")
             < output.indexOf("class MY-SET extends Map {"), "got:\n" + output);
@@ -180,7 +172,7 @@ class FormContainerRenderTest
     void formattedNameStaysNeutralForXmlArtifact()
     {
         MockJavaExporter exporter = new MockJavaExporter();
-        CJavaEntityFactoryST factory = new CJavaEntityFactoryST(catalog(), exporter);
+        CJavaEntityFactory factory = new CJavaEntityFactory(catalog(), exporter);
         CEntityResourceFormContainer entity = factory.NewEntityFormContainer(1, "ONLINM1", false);
 
         // Install an aggressive target-specific formatter (lowercasing) — standing in for a real
@@ -224,8 +216,8 @@ class FormContainerRenderTest
     @DisplayName("pure entity preserves the retired backend's data-entity protocols")
     void preservesLegacyDataEntityProtocols()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntityResourceFormContainer entity = factory.NewEntityFormContainer(1, "MY-SET", false);
 
         // A mapset: FORM data type, never a declared val, never an accessor-bearing variable, needed

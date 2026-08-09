@@ -47,7 +47,7 @@ class LegacyGenerationArchitectureTest
         Set<String> baseEntries = matches(
             root.resolve("src/main/java/semantic/CBaseEntityFactory.java"), FACTORY_METHOD);
         Set<String> stEntries = matches(
-            root.resolve("src/main/java/generate/CJavaEntityFactoryST.java"), FACTORY_METHOD);
+            root.resolve("src/main/java/generate/CJavaEntityFactory.java"), FACTORY_METHOD);
 
         assertEquals(BASE_FACTORY_ENTRY_BASELINE, baseEntries.size(),
             "Update the migration manifest when the semantic factory surface changes");

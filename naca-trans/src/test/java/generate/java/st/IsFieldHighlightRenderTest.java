@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.DisplayName;
@@ -68,7 +68,7 @@ import utils.CTransApplicationGroup;
  * legacy pipeline returned null and the caller fell back to a plain comparison). It
  * builds the pure entity through the rewired factory
  * ({@code CJavaEntityFactory.NewEntityIsFieldHighlight}, inherited by
- * {@code CJavaEntityFactoryST}). The FPac factory throws
+ * {@code CJavaEntityFactory}). The FPac factory throws
  * {@code NacaTransAssertException} for this entity, so no FPac tree ever holds it.
  */
 class IsFieldHighlightRenderTest
@@ -104,7 +104,7 @@ class IsFieldHighlightRenderTest
      * IS_DIFFERENT -> setOpposite).
      */
     private static CEntityIsFieldHighlight lowerFieldHighlightCondition(
-        CJavaEntityFactoryST factory, String code,
+        CJavaEntityFactory factory, String code,
         CBaseEntityCondition.EConditionType type)
     {
         CEntityFieldHighlight fieldHighlight =
@@ -118,8 +118,8 @@ class IsFieldHighlightRenderTest
     @DisplayName("IF <FIELD>H = 1 renders isFieldBlink(field) (legacy Export parity)")
     void fieldHighlightEqualsOneRendersIsFieldBlink()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntityIsFieldHighlight condition = lowerFieldHighlightCondition(
             factory, "1", CBaseEntityCondition.EConditionType.IS_EQUAL);
 
@@ -141,8 +141,8 @@ class IsFieldHighlightRenderTest
     @DisplayName("IF <FIELD>H <> 1 renders !isFieldBlink(field): the legacy isNotFieldBlink call has no naca-rt signature, so the negation rides Java's ! operator on the contracted isFieldBlink call")
     void fieldHighlightDifferentOneRendersNegatedIsFieldBlink()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         // IS_DIFFERENT lowers through setOpposite — the production-reachable branch
         // whose legacy emission (isNotFieldBlink) never compiled.
         CEntityIsFieldHighlight condition = lowerFieldHighlightCondition(
@@ -161,8 +161,8 @@ class IsFieldHighlightRenderTest
     @DisplayName("IF <FIELD>H = 4 / <> 4 renders is[Not]FieldUnderlined(field) (legacy Export parity)")
     void fieldHighlightFourRendersIsFieldUnderlined()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntityIsFieldHighlight positive = lowerFieldHighlightCondition(
             factory, "4", CBaseEntityCondition.EConditionType.IS_EQUAL);
         assertTrue(positive.isUnderlined());
@@ -180,8 +180,8 @@ class IsFieldHighlightRenderTest
     @DisplayName("IF <FIELD>H = 2 / <> 2 renders is[Not]FieldReverse(field) (legacy Export parity)")
     void fieldHighlightTwoRendersIsFieldReverse()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntityIsFieldHighlight positive = lowerFieldHighlightCondition(
             factory, "2", CBaseEntityCondition.EConditionType.IS_EQUAL);
         assertTrue(positive.isReverse());
@@ -199,8 +199,8 @@ class IsFieldHighlightRenderTest
     @DisplayName("IF <FIELD>H = HIGH-VALUE / <> HIGH-VALUE renders is[Not]FieldHighlightNormal(field); HIGH-VALUES and the HIGH literal byte lower identically")
     void fieldHighlightHighValueRendersIsFieldHighlightNormal()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         for (String highValue : new String[]{"HIGH-VALUE", "HIGH-VALUES", "\u009F"})
         {
             CEntityIsFieldHighlight positive = lowerFieldHighlightCondition(
@@ -224,8 +224,8 @@ class IsFieldHighlightRenderTest
     @DisplayName("an unrecognized highlight code does not lower to a highlight condition (legacy null path)")
     void unrecognizedCodeDoesNotLowerToIsFieldHighlight()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntityFieldHighlight fieldHighlight =
             new CEntityFieldHighlight(1, "WS-FIELD-H", catalog(), owner());
         // Values outside the 1/2/4/HIGH table never lowered in the legacy pipeline
@@ -243,8 +243,8 @@ class IsFieldHighlightRenderTest
     @DisplayName("a comparison other than <> keeps the positive form (legacy only flips on IS_DIFFERENT)")
     void nonDifferentComparisonKeepsPositiveForm()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         // Legacy parity: GetSpecialCondition only calls setOpposite for IS_DIFFERENT;
         // any other comparison type builds the positive condition.
         CEntityIsFieldHighlight condition = lowerFieldHighlightCondition(
@@ -257,8 +257,8 @@ class IsFieldHighlightRenderTest
     @DisplayName("mode selection follows the legacy Export precedence underlined > blink > reverse > normal")
     void modePrecedenceFollowsLegacyExportOrder()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
 
         // Underlined wins over blink (legacy if/else-if order).
         CEntityIsFieldHighlight underlinedAndBlink =
@@ -291,8 +291,8 @@ class IsFieldHighlightRenderTest
     @DisplayName("the ST4 factory returns the pure semantic entity (no CJava* backend)")
     void factoryReturnsPureSemanticEntity()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntityIsFieldHighlight condition =
             factory.NewEntityIsFieldHighlight(owner());
 
@@ -310,8 +310,8 @@ class IsFieldHighlightRenderTest
     @DisplayName("the opposite is a flag-flipped pure highlight condition (legacy GetOppositeCondition parity)")
     void oppositeIsAFlagFlippedHighlightCondition()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntityIsFieldHighlight condition = lowerFieldHighlightCondition(
             factory, "4", CBaseEntityCondition.EConditionType.IS_EQUAL);
 
@@ -333,8 +333,8 @@ class IsFieldHighlightRenderTest
     @DisplayName("the retired backend's ignore semantics are preserved")
     void ignoreSemanticsPreserved()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
 
         // A live reference -> rendered (not ignored).
         CEntityIsFieldHighlight live = factory.NewEntityIsFieldHighlight(owner());

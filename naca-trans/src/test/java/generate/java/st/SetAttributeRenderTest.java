@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.DisplayName;
@@ -60,7 +60,7 @@ import utils.CTransApplicationGroup;
  * {@code semantic.forms.CEntityFieldLength.GetSpecialAssignment} maps {@code MOVE 1
  * TO <FIELD>-L} to the bare MODIFIED action; both build the pure entity through the
  * rewired factory ({@code CJavaEntityFactory.NewEntitySetAttribute}, inherited by
- * {@code CJavaEntityFactoryST}). The FPac factory throws
+ * {@code CJavaEntityFactory}). The FPac factory throws
  * {@code NacaTransAssertException} for this entity, so no FPac tree ever holds it.
  */
 class SetAttributeRenderTest
@@ -97,7 +97,7 @@ class SetAttributeRenderTest
      * to the owner field.
      */
     private static CEntitySetAttribute lowerAttributeChar(
-        String attrChar, CJavaEntityFactoryST factory)
+        String attrChar, CJavaEntityFactory factory)
     {
         CBaseActionEntity action = CEntityFieldAttribute.intGetSpecialAssignment(
             owner(), new MockTerminal(attrChar), factory, 7);
@@ -108,8 +108,8 @@ class SetAttributeRenderTest
     @DisplayName("an attribute char renders one moveAttribute per group (legacy DoExport parity)")
     void attributeCharRendersThreeGroupCalls()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         // "A" lowers to UNPROTECTED + NORMAL + MODIFIED: three attribute groups,
         // three moveAttribute calls in the legacy protection/intensity/modified order.
         CEntitySetAttribute setAttribute = lowerAttributeChar("A", factory);
@@ -133,8 +133,8 @@ class SetAttributeRenderTest
     @DisplayName("an attribute char without a modified flag renders only the set groups")
     void attributeCharRendersProtectionAndIntensityOnly()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         // "D" lowers to UNPROTECTED + NORMAL (the modified setter is commented out
         // in the legacy table): exactly two calls, no blank line for the absent group.
         CEntitySetAttribute setAttribute = lowerAttributeChar("D", factory);
@@ -151,8 +151,8 @@ class SetAttributeRenderTest
     @DisplayName("MOVE 1 TO <FIELD>-L renders the single MODIFIED call (production lowering)")
     void moveToFieldLengthRendersModified()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntityFieldLength fieldLength =
             new CEntityFieldLength(1, "WS-FIELD-L", catalog(), owner());
 
@@ -173,8 +173,8 @@ class SetAttributeRenderTest
     @DisplayName("a moved attribute value renders the single moveAttribute(value, field) and stops")
     void movedAttributeValueRendersMoveAttribute()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntitySetAttribute setAttribute = factory.NewEntitySetAttribute(1, owner());
         setAttribute.SetAttribute(new MockDataEntity(2, "WS-ATTR"));
 
@@ -187,8 +187,8 @@ class SetAttributeRenderTest
     void factoryReturnsPureSemanticEntity()
     {
         CObjectCatalog catalog = catalog();
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog, new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog, new MockJavaExporter());
         MockDataEntity field = owner();
 
         CEntitySetAttribute setAttribute = factory.NewEntitySetAttribute(1, field);
@@ -206,8 +206,8 @@ class SetAttributeRenderTest
     void legacyBranchPrecedencePreserved()
     {
         CObjectCatalog catalog = catalog();
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog, new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog, new MockJavaExporter());
         CEntitySetAttribute setAttribute = factory.NewEntitySetAttribute(1, owner());
 
         // Legacy DoExport tested attributeValue first and returned: even with every
@@ -234,8 +234,8 @@ class SetAttributeRenderTest
     void ignoreSemanticsPreserved()
     {
         CObjectCatalog catalog = catalog();
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog, new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog, new MockJavaExporter());
 
         // No field reference -> ignored (never rendered).
         CEntitySetAttribute noField = factory.NewEntitySetAttribute(1, null);

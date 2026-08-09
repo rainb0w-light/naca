@@ -18,7 +18,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ```bash
 ./gradlew :naca-trans:run -PconfigFile=path/to/config.txt
 ./gradlew :naca-trans:transpile -PconfigFile=... -PinputDir=... -PoutputDir=...
-./gradlew :naca-trans:transpileWithST4 -PconfigFile=...  # Enable ST4 factory
 ```
 
 ### Tests
@@ -70,25 +69,27 @@ The transpiler follows a classic compiler pipeline:
    - `parser/BMS/` - BMS map parsing
    - Key class: `CCobolParser`
 
-3. **Generator** (`generate/`) - Walks the AST and produces Java code:
-   - `generate/java/` - Direct Java code generation (verbs, expressions, conditions, forms, CICS, SQL)
-   - `generate/java/st/` - ST4-based code generation (uses StringTemplate 4)
-   - `generate/fpacjava/` - FPac-specific Java generation
-   - `generate/templates/` - ST4 template files and `TemplateLoader`
+3. **Generator** (`generate/`) - Renders the completed semantic tree:
+   - `generate/templates/recursive/` - The unique production recursive-ST4 assembler
+   - `generate/templates/` - ST4 loading and binding infrastructure
+   - `generate/java/forms/` - BMS artifact writers around the semantic form model
+   - `generate/java/` and `generate/fpacjava/` - Compatibility namespaces only; direct semantic backends have been retired
 
 4. **Transcoder** (`utils/`) - Bridges parser and generator: `Transcoder`, `TranscoderEngine`, `CRulesManager`
 
-### Code Generation: Two Modes
+### Code Generation: One Production Mode
 
-- **Direct generation** (`CJavaExporter` and subclasses): Each AST node has a corresponding `CJava*` class that emits Java strings directly.
-- **ST4 templates** (`TemplateLoader` + `generate/java/st/`): Uses StringTemplate 4 group files (`base.stg`, `java/java.stg`) for template-based generation. The ST4 mode is enabled via `-Dnaca.transpiler.factory=st4`.
+- **Recursive ST4 generation** (`JavaTemplateAssembler` + `TemplateLoader`): declarative manifests bind semantic entity types to templates in `base.stg` and `java/java.stg`.
+- ST4 is unconditional in production. The historical `naca.transpiler.factory` property is accepted only by compatibility tests and cannot select a direct fallback.
+- `CJavaExporter` remains an identifier/export utility and root output sink; it is not an alternative semantic code generator.
 
 ### Key Entry Points
 
 - `NacaTrans.java` - Main CLI entry point
 - `NacaTransTask.java` - Ant/Gradle task wrapper
 - `CCobolParser.java` - COBOL parser
-- `CJavaExporter.java` - Java code generator
+- `JavaTemplateAssembler.java` - Unique Java semantic-tree renderer
+- `CJavaExporter.java` - Identifier/export utility and output sink
 - `TemplateLoader.java` - ST4 template loader
 
 ### ST4 Template Files
@@ -169,4 +170,5 @@ if (<entity.condition>)                // ✅ semantic entity ready, template on
 **Verification Standard:**
 - API `POST http://localhost:8000/api/transpile` returns `success: true`
 - Generated Java code compiles with `javac`
-- Runtime output matches GnuCOBOL baseline (`NacaSamples/cobol/TEST-A-STANDALONE.cbl`, 32 lines, 16 scenarios)
+- Runtime output matches GnuCOBOL baseline (`NacaSamples/cobol/TEST-A-STANDALONE.cbl`, 34 lines)
+- `./gradlew :naca-trans:finalArchitectureCheck` passes with zero direct-backend debt

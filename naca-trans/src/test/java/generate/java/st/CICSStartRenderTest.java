@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertSame;
 
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.Test;
@@ -52,7 +52,7 @@ class CICSStartRenderTest
     void factoryReturnsPureSemanticEntity()
     {
         assertInstanceOf(CEntityCICSStart.class,
-            new CJavaEntityFactoryST(null, null)
+            new CJavaEntityFactory(null, null)
                 .NewEntityCICSStart(1, new MockDataEntity(2, "TRANS-ID")));
     }
 }

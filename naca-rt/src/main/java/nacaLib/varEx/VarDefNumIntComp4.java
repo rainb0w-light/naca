@@ -38,7 +38,7 @@ public class VarDefNumIntComp4 extends VarDefNum
 
 	public VarDefNumIntComp4(VarDefBase varDefParent, DeclareType9 declareType9, NumericValue numericValue)
 	{
-		super(varDefParent, declareType9.varLevel);
+		super(varDefParent, declareType9.varLevel, numericValue);
 		nNbDigitInteger = numericValue.nNbDigitInteger;
 	}
 	
@@ -72,6 +72,7 @@ public class VarDefNumIntComp4 extends VarDefNum
 	{
 		VarDefNumIntComp4 v = new VarDefNumIntComp4();
 		v.nNbDigitInteger = nNbDigitInteger;
+		v.copyBinarySettingsFrom(this);
 		return v;
 	}
 	
@@ -546,17 +547,17 @@ public class VarDefNumIntComp4 extends VarDefNum
 		int nBinaryNumberStorage = getSingleItemRequiredStorageSize();
 		if(nBinaryNumberStorage == 4)	// short
 		{
-			buffer.setIntAt(buffer.nAbsolutePosition, n);
+			setBinaryIntAt(buffer, buffer.nAbsolutePosition, n);
 		}		
 		else if(nBinaryNumberStorage == 2)	// long
 		{
 			short s = (short)n;
-			buffer.setShortAt(buffer.nAbsolutePosition, s);
+			setBinaryShortAt(buffer, buffer.nAbsolutePosition, s);
 		}
 		else		
 		{
 			long l = n;
-			buffer.setLongAt(buffer.nAbsolutePosition, l);
+			setBinaryLongAt(buffer, buffer.nAbsolutePosition, l);
 		}
 	}
 	
@@ -567,21 +568,21 @@ public class VarDefNumIntComp4 extends VarDefNum
 		int nBinaryNumberStorage = getSingleItemRequiredStorageSize();
 		if(nBinaryNumberStorage == 4)	// short
 		{
-			buffer.setIntAt(buffer.nAbsolutePosition+nOffset, n);
+			setBinaryIntAt(buffer, buffer.nAbsolutePosition+nOffset, n);
 			return;
 			//return buffer.nAbsolutePosition + 4+nOffset;
 		}		
 		else if(nBinaryNumberStorage == 2)	// long
 		{
 			short s = (short)n;
-			buffer.setShortAt(buffer.nAbsolutePosition+nOffset, s);
+			setBinaryShortAt(buffer, buffer.nAbsolutePosition+nOffset, s);
 			return;
 			//return buffer.nAbsolutePosition + 2+nOffset;
 		}
 		else		
 		{
 			long l = n;
-			buffer.setLongAt(buffer.nAbsolutePosition+nOffset, l);
+			setBinaryLongAt(buffer, buffer.nAbsolutePosition+nOffset, l);
 			return;
 			//return buffer.nAbsolutePosition + 8 + nOffset;
 		}
@@ -594,20 +595,20 @@ public class VarDefNumIntComp4 extends VarDefNum
 		int nBinaryNumberStorage = getSingleItemRequiredStorageSize();
 		if(nBinaryNumberStorage == 4)	// short
 		{
-			buffer.setIntAt(buffer.nAbsolutePosition, (int)l);
+			setBinaryIntAt(buffer, buffer.nAbsolutePosition, (int)l);
 			return;
 			//return buffer.nAbsolutePosition + 4;
 		}		
 		else if(nBinaryNumberStorage == 2)	// long
 		{
 			short s = (short)l;
-			buffer.setShortAt(buffer.nAbsolutePosition, s);
+			setBinaryShortAt(buffer, buffer.nAbsolutePosition, s);
 			return;
 			//return buffer.nAbsolutePosition + 2;
 		}
 		else		
 		{
-			buffer.setLongAt(buffer.nAbsolutePosition, l);
+			setBinaryLongAt(buffer, buffer.nAbsolutePosition, l);
 			return;
 			//return buffer.nAbsolutePosition + 8;
 		}

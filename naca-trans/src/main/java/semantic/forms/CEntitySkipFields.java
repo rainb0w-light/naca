@@ -12,7 +12,6 @@
  */
 package semantic.forms;
 
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 import org.w3c.dom.Document;
@@ -150,32 +149,6 @@ public class CEntitySkipFields extends CEntityResourceField
 		return false;
 	}
 
-	public String ExportReference(int nLine)
-	{
-		// Mirrors the retired backend's formatIdentifier(GetName()). LegacyDataRenderer ignores a
-		// semantic-declared ExportReference and renders the reference through the
-		// recursiveSkipFieldEntity binding instead; this override stays for direct callers and
-		// reads only the precomputed, target-formatted identifier.
-		return getFormattedName() ;
-	}
-
-	public String ExportWriteAccessorTo(String value)
-	{
-		// Preserved from the retired backend: no reachable write-accessor protocol. The legacy
-		// backend returned "" (unused); renderWriteAccessor finds no generate.* override on the
-		// pure entity and returns null (same treatment as CEntityFieldOccurs).
-		return null ;
-	}
-
-	protected void DoExport()
-	{
-		// Legacy traversal bridge: the surrounding CJavaForm/CJavaFieldRedefine DoExport
-		// reflectively invokes this. The declaration line + block are rendered through the
-		// recursive ST4 assembly contract by the generate-layer renderer the factory injects;
-		// a hand-built entity (no factory) is a no-op and never fails.
-		declarationRenderer.accept(this) ;
-	}
-
 	/**
 	 * Target-neutral identifier formatter standing in for the retired backend's
 	 * {@code LegacyLanguageRenderer.formatIdentifier(GetName())}. Installed by the generate-layer
@@ -227,18 +200,4 @@ public class CEntitySkipFields extends CEntityResourceField
 		return nbFields ;
 	}
 
-	/**
-	 * Generate-layer declaration renderer (the retired backend's {@code DoExport} body, moved out
-	 * of the semantic tree). Invoked from {@link #DoExport()} when the legacy traversal reaches
-	 * this skip field. Defaults to a no-op so a hand-built entity stays well-formed.
-	 */
-	private Consumer<CEntitySkipFields> declarationRenderer = entity -> {};
-
-	public void setDeclarationRenderer(Consumer<CEntitySkipFields> renderer)
-	{
-		if (renderer != null)
-		{
-			declarationRenderer = renderer ;
-		}
-	}
 }

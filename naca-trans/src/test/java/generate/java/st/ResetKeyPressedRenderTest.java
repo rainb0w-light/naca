@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import lexer.Cobol.CCobolConstantList;
@@ -72,7 +72,7 @@ class ResetKeyPressedRenderTest
      * factory must build the pure semantic entity, not the retired {@code CJava*} subclass.
      */
     private static CEntityResetKeyPressed lowerResetKeyPressed(
-        CJavaEntityFactoryST factory, int line)
+        CJavaEntityFactory factory, int line)
     {
         return factory.NewEntityResetKeyPressed(line);
     }
@@ -109,8 +109,8 @@ class ResetKeyPressedRenderTest
     @DisplayName("factory.NewEntityResetKeyPressed builds the pure semantic entity (production construction)")
     void factoryReturnsPureSemanticEntity()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
 
         CEntityResetKeyPressed entity = lowerResetKeyPressed(factory, 0);
 
@@ -122,8 +122,8 @@ class ResetKeyPressedRenderTest
     @DisplayName("reset-key-pressed action renders resetKeyPressed(); through the recursive assembler")
     void statementRendersThroughRecursiveAssembler()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
 
         // Byte-for-byte the retired backend's DoExport line: "resetKeyPressed();".
         assertEquals("resetKeyPressed();", render(lowerResetKeyPressed(factory, 0)));
@@ -133,8 +133,8 @@ class ResetKeyPressedRenderTest
     @DisplayName("pure entity preserves the retired backend's action protocol (ignore() == false)")
     void preservesLegacyActionProtocol()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntityResetKeyPressed entity = lowerResetKeyPressed(factory, 0);
 
         // The retired backend inherited ignore() == false; the action is never skipped.
@@ -145,8 +145,8 @@ class ResetKeyPressedRenderTest
     @DisplayName("end-to-end: MOVE SPACE TO KEYPRESSED lowers through the ST factory to resetKeyPressed();")
     void endToEndAssignmentLowersThroughSTFactory()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
 
         // Production construction of the get-key-pressed pseudo-variable (the sibling slice's
         // rewired factory bridge); its GetSpecialAssignment lowering builds this slice's action.

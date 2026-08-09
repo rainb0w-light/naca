@@ -16,14 +16,13 @@ import parser.CParser;
 import parser.FPac.CFPacParser;
 import parser.FPac.elements.CFPacScript;
 import semantic.CBaseEntityFactory;
-import semantic.CBaseLanguageEntity;
 import semantic.CEntityClass;
-import semantic.CEntityDataSection;
 import utils.Transcoder;
 import utils.TranscoderEngine;
 import utils.CGlobalEntityCounter;
 import utils.CObjectCatalog;
 import utils.CTransApplicationGroup;
+import utils.NacaTransAssertException;
 import lexer.CBaseLexer;
 import lexer.CTokenList;
 import lexer.FPac.CFPacLexer;
@@ -97,71 +96,23 @@ public class FPacTranscoderEngine extends TranscoderEngine<CFPacScript, CEntityC
 	@Override
 	protected void exportRoot(CEntityClass eSem, String filename, String csApplication, CTransApplicationGroup grp, boolean bResources)
 	{
-		exportFpacProgramRoot(eSem) ;
-		generate.LegacyLanguageRenderer.output(eSem).closeOutput() ;
-	}
-
-	/**
-	 * Emits the FPac program class wrapper through the bound legacy output controller,
-	 * mirroring the retired {@code CFPacJavaClass.DoExport} (blank line, {@code import
-	 * nacaLib.fpacPrgEnv.* ;} at column 0, blank line, {@code public class NAME extends
-	 * FPacProgram} with NAME = {@code GetProgramName().replace('-','_').toUpperCase()},
-	 * an indented body, and the closing brace). Package-visible so the retirement test
-	 * can drive the exact production rendering without a full engine.
-	 */
-	public static void exportFpacProgramRoot(CEntityClass eSem)
-	{
-		generate.LegacyLanguageRenderer.writeEol(eSem) ;
-		generate.LegacyLanguageRenderer.writeLine(eSem, "import nacaLib.fpacPrgEnv.* ;", 0) ;
-		generate.LegacyLanguageRenderer.writeEol(eSem) ;
-
-		String name = eSem.GetProgramName().replace('-', '_').toUpperCase(java.util.Locale.ROOT) ;
-		generate.LegacyLanguageRenderer.writeLine(eSem, "public class " + name + " extends FPacProgram") ;
-		generate.LegacyLanguageRenderer.writeLine(eSem, "{") ;
-		generate.LegacyLanguageRenderer.startBlock(eSem) ;
-
-		exportFpacRootChildren(eSem) ;
-
-		generate.LegacyLanguageRenderer.endBlock(eSem) ;
-		generate.LegacyLanguageRenderer.writeLine(eSem, "}") ;
-	}
-
-	/**
-	 * Drives the FPac program root's body exactly as the retired {@code CFPacJavaClass.DoExport}
-	 * ({@code exportChildren(eSem, false)}) did. A still-legacy container such as
-	 * {@code CFPacJavaProcedure} is driven by reflection. The retired, target-neutral
-	 * {@link CEntityDataSection} is a transparent container that carries no code of its own —
-	 * its {@code DoExport} was exactly {@code exportChildren(this, false)} — so it is flattened
-	 * in place: its still-legacy FPac file-descriptor children render by reflection at the
-	 * class-body block level, byte-for-byte as the deleted {@code CFPacJavaDataSection.DoExport}
-	 * emitted them ({@code FPacFileDescriptor NAME = declare.fpacFile("NAME").file() ;}). It is
-	 * DELIBERATELY NOT routed through the recursive assembler: the shared
-	 * {@code semantic.CEntityDataSection=dataSectionDeclaration} binding would lower those
-	 * file-descriptor children under the frozen COBOL declaration binding
-	 * ({@code FileDescriptor NAME = declare.file(...)}), which does not compile against
-	 * {@code FPacProgram}. Every other child keeps the historical null-fallback behavior (a
-	 * backend-less node is left unrendered), so this bridge stays byte-identical to the retired
-	 * backend. Converges to {@code renderRoot(eSem, FPAC_ROOT)} once the file-descriptor and
-	 * procedure backends retire.
-	 */
-	private static void exportFpacRootChildren(CEntityClass eSem)
-	{
-		for (CBaseLanguageEntity child : eSem.getChildren())
+		String rendered = generate.templates.TemplateLoader.getRecursiveAssembler()
+			.renderRoot(eSem, generate.templates.recursive.JavaTemplateRole.FPAC_ROOT) ;
+		String outPath = grp.csOutputPath
+			+ (csApplication.equals("") ? "" : csApplication + "/")
+			+ generateOutputFileName(filename) ;
+		try
 		{
-			if (child.ignore())
-			{
-				continue ;
-			}
-			if (child instanceof CEntityDataSection)
-			{
-				generate.LegacyLanguageRenderer.exportChildren(child, false) ;
-			}
-			else
-			{
-				generate.LegacyLanguageRenderer.invokeExport(child, null) ;
-			}
+			java.nio.file.Files.writeString(java.nio.file.Path.of(outPath), rendered,
+				java.nio.charset.StandardCharsets.ISO_8859_1) ;
+		}
+		catch (java.io.IOException e)
+		{
+			throw new NacaTransAssertException(
+				"Cannot write FPac ST4 artifact " + outPath + ": " + e.getMessage()) ;
 		}
 	}
+
 	protected void InitCustomCICSEntriesFromRules(CBaseEntityFactory factory)
 	{
 //		int nb = rulesManager.getNbRules("ignoreEntity") ;

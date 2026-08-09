@@ -38,7 +38,7 @@ public class VarDefNumIntComp4Long extends VarDefNum
 
 	public VarDefNumIntComp4Long(VarDefBase varDefParent, DeclareType9 declareType9, NumericValue numericValue)
 	{
-		super(varDefParent, declareType9.varLevel);
+		super(varDefParent, declareType9.varLevel, numericValue);
 		nNbDigitInteger = numericValue.nNbDigitInteger;
 	}
 	
@@ -72,6 +72,7 @@ public class VarDefNumIntComp4Long extends VarDefNum
 	{
 		VarDefNumIntComp4Long v = new VarDefNumIntComp4Long();
 		v.nNbDigitInteger = nNbDigitInteger;
+		v.copyBinarySettingsFrom(this);
 		return v;
 	}
 	
@@ -544,18 +545,18 @@ public class VarDefNumIntComp4Long extends VarDefNum
 		int nBinaryNumberStorage = getSingleItemRequiredStorageSize();
 		if(nBinaryNumberStorage == 4)	// short
 		{
-			buffer.setIntAt(buffer.nAbsolutePosition, (int)l);
+			setBinaryIntAt(buffer, buffer.nAbsolutePosition, (int)l);
 			return buffer.nAbsolutePosition + 4;
 		}		
 		else if(nBinaryNumberStorage == 2)	// long
 		{
 			short s = (short)l;
-			buffer.setShortAt(buffer.nAbsolutePosition, s);
+			setBinaryShortAt(buffer, buffer.nAbsolutePosition, s);
 			return buffer.nAbsolutePosition + 2;
 		}
 		else		
 		{
-			buffer.setLongAt(buffer.nAbsolutePosition, l);
+			setBinaryLongAt(buffer, buffer.nAbsolutePosition, l);
 			return buffer.nAbsolutePosition + 8;
 		}
 	}
@@ -567,18 +568,18 @@ public class VarDefNumIntComp4Long extends VarDefNum
 		int nBinaryNumberStorage = getSingleItemRequiredStorageSize();
 		if(nBinaryNumberStorage == 4)	// short
 		{
-			buffer.setIntAt(buffer.nAbsolutePosition+nOffset, (int)l);
+			setBinaryIntAt(buffer, buffer.nAbsolutePosition+nOffset, (int)l);
 			return buffer.nAbsolutePosition + 4+nOffset;
 		}		
 		else if(nBinaryNumberStorage == 2)	// long
 		{
 			short s = (short)l;
-			buffer.setShortAt(buffer.nAbsolutePosition+nOffset, s);
+			setBinaryShortAt(buffer, buffer.nAbsolutePosition+nOffset, s);
 			return buffer.nAbsolutePosition + 2+nOffset;
 		}
 		else		
 		{
-			buffer.setLongAt(buffer.nAbsolutePosition+nOffset, l);
+			setBinaryLongAt(buffer, buffer.nAbsolutePosition+nOffset, l);
 			return buffer.nAbsolutePosition + 8+nOffset;
 		}
 	}

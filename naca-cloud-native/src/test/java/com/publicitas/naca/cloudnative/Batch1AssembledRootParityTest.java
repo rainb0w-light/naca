@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.publicitas.naca.cloudnative.service.IncludeGroupSupport;
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.CStringExporter;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
@@ -109,7 +109,7 @@ class Batch1AssembledRootParityTest {
             CTransApplicationGroup.EProgramType.TYPE_BATCH, null);
         CStringExporter exporter = new CStringExporter();
         catalog.setExporter(exporter);
-        CJavaEntityFactoryST factory = new CJavaEntityFactoryST(catalog, exporter);
+        CJavaEntityFactory factory = new CJavaEntityFactory(catalog, exporter);
         factory.InitCustomCICSEntities();
         CEntityClass root = program.DoSemanticAnalysis(factory);
         assertNotNull(root, "BATCH1 semantic root");

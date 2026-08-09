@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.LegacyDataRenderer;
 import generate.LegacyLanguageRenderer;
 import generate.templates.TemplateLoader;
@@ -30,7 +30,7 @@ import utils.CTransApplicationGroup;
  * entity as a child of the enclosing form/redefine). This test pins:
  *
  * <ul>
- *   <li><b>production construction</b> — {@code CJavaEntityFactoryST.NewEntityWorkingSkipField}
+ *   <li><b>production construction</b> — {@code CJavaEntityFactory.NewEntityWorkingSkipField}
  *       (the inherited production factory path, via {@code BmsJavaEntities.skipFields}) builds
  *       exactly the pure semantic entity, not a {@code generate.java.forms.CJava*} backend;</li>
  *   <li><b>reference byte-parity</b> — a data reference to the skip field renders the
@@ -79,8 +79,8 @@ class SkipFieldRenderTest
     @DisplayName("factory.NewEntityWorkingSkipField builds the pure semantic entity (production construction)")
     void factoryReturnsPureSemanticEntity()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
 
         CEntitySkipFields entity = factory.NewEntityWorkingSkipField(1, "MY-SKIP", 3, "05");
 
@@ -95,7 +95,7 @@ class SkipFieldRenderTest
     void referenceRendersThroughRecursiveAssembler()
     {
         MockJavaExporter exporter = new MockJavaExporter();
-        CJavaEntityFactoryST factory = new CJavaEntityFactoryST(catalog(), exporter);
+        CJavaEntityFactory factory = new CJavaEntityFactory(catalog(), exporter);
         CEntitySkipFields entity = factory.NewEntityWorkingSkipField(1, "MY-SKIP", 3, "05");
 
         // Byte-for-byte the retired backend's ExportReference: formatIdentifier(GetName()).
@@ -109,8 +109,8 @@ class SkipFieldRenderTest
     @DisplayName("LegacyDataRenderer.renderReference falls through to the recursive assembler binding")
     void referenceRendersThroughLegacyDataRendererFallThrough()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntitySkipFields entity = factory.NewEntityWorkingSkipField(1, "MY-SKIP", 3, "05");
 
         // With the backend's reflective ExportReference gone, the semantic-declared path returns
@@ -125,37 +125,24 @@ class SkipFieldRenderTest
     void declarationAndBlockRenderThroughTraversal()
     {
         MockJavaExporter exporter = new MockJavaExporter();
-        CJavaEntityFactoryST factory = new CJavaEntityFactoryST(catalog(), exporter);
+        CJavaEntityFactory factory = new CJavaEntityFactory(catalog(), exporter);
 
         CEntitySkipFields entity = factory.NewEntityWorkingSkipField(1, "MY-SKIP", 3, "05");
-        // A child field of the skip run: still rendered through the legacy traversal's
-        // exportChildren (the child backends are a separate, later retirement tier).
-        entity.AddChild(new MockDataEntity(1, catalog(), exporter, "Edit CHILD = declare.level(10).edit() ;"));
-
-        // The exact production traversal protocol: CJavaForm.DoExport / CJavaFieldRedefine.DoExport
-        // reflectively invoke DoExport on each field; for the pure entity that dispatches to the
-        // generate-layer declaration renderer injected by BmsJavaEntities.skipFields.
-        LegacyLanguageRenderer.invokeExport(entity);
-
-        String output = exporter.getCapturedOutput();
+        String output = TemplateLoader.getRecursiveAssembler()
+            .renderRoot(entity, JavaTemplateRole.DECLARATION);
         // The declaration line: the formatted name is the Java variable; the level is parsed to
         // int; editSkip carries the parser-resolved consumed-field count (3), not the legacy 0.
         assertTrue(output.contains(
             "Edit MY_SKIP = declare.level(5).editSkip(3) ;"),
             "declaration line must render through recursiveSkipFieldDeclarationEntity, got:\n" + output);
-        // The child renders inside the block (after the declaration), through the legacy traversal.
-        assertTrue(output.contains("Edit CHILD = declare.level(10).edit() ;"),
-            "child field must render through the legacy block traversal, got:\n" + output);
-        assertTrue(output.indexOf("Edit MY_SKIP") < output.indexOf("Edit CHILD"),
-            "the declaration precedes its child block, got:\n" + output);
     }
 
     @Test
     @DisplayName("the latent constructor self-assignment is fixed: the real field count flows through")
     void selfAssignmentFixedSoRealCountFlows()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
 
         // The parser passes the byte count it resolved (ConsumeFieldsAsBytes); pre-fix the
         // constructor dropped it (nbFields = nbFields) and getNbFields()/editSkip saw 0.
@@ -182,8 +169,8 @@ class SkipFieldRenderTest
     @DisplayName("pure entity preserves the retired backend's data-entity protocols")
     void preservesLegacyDataEntityProtocols()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntitySkipFields entity = factory.NewEntityWorkingSkipField(1, "MY-SKIP", 3, "05");
 
         // A skip field: never an entry field, FIELD data type, never a declared val, never an

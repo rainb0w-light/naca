@@ -7,13 +7,13 @@ import generate.fixtures.LegacyIndexFixture;
 import generate.fixtures.LegacyStructureFixture;
 import generate.java.st.MockJavaExporter;
 import generate.fixtures.LegacyExternalDataStructureFixture;
-import generate.java.CJavaSubStringReference;
 import generate.templates.TemplateLoader;
 import org.junit.jupiter.api.Test;
 import semantic.CDataEntity;
 import semantic.CEntityAddressReference;
 import semantic.CEntityArrayReference;
 import semantic.CEntityEnvironmentVariable;
+import semantic.CSubStringAttributReference;
 import semantic.expression.CBaseEntityExpression;
 import semantic.expression.CEntityConstant;
 import utils.CObjectCatalog;
@@ -61,23 +61,21 @@ class JavaSemanticReferenceRendererTest
         assertEquals("TABLE_VALUE.getAt(1, 2)",
             assembler.renderRoot(array, JavaTemplateRole.REFERENCE));
 
-        LegacyArrayReferenceFixture legacyArray = new LegacyArrayReferenceFixture(1, catalog);
-        legacyArray.SetReference(attribute("TABLE-VALUE"));
-        legacyArray.AddIndex(expression(number("1")));
-        legacyArray.AddIndex(expression(number("00002")));
-        CJavaSubStringReference substring = new CJavaSubStringReference(1, catalog, output);
-        substring.SetReference(legacyArray, expression(number("3")), expression(number("4")));
+        CSubStringAttributReference substring = new CSubStringAttributReference(1, catalog);
+        substring.SetReference(array, expression(number("3")), expression(number("4")));
 
-        assertMatchesDirect(substring);
+        assertEquals("subString(TABLE_VALUE.getAt(1, 2), 3, 4)",
+            assembler.renderRoot(substring, JavaTemplateRole.REFERENCE));
     }
 
     @Test
     void supportsSubstringWithoutAnExplicitLength()
     {
-        CJavaSubStringReference substring = new CJavaSubStringReference(1, catalog, output);
+        CSubStringAttributReference substring = new CSubStringAttributReference(1, catalog);
         substring.SetReference(attribute("TEXT-VALUE"), expression(number("2")), null);
 
-        assertMatchesDirect(substring);
+        assertEquals("subString(TEXT_VALUE, 2)",
+            assembler.renderRoot(substring, JavaTemplateRole.REFERENCE));
     }
 
     @Test

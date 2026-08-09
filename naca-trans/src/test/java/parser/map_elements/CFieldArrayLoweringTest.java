@@ -45,7 +45,7 @@ import utils.CTransApplicationGroup;
  *       {@code nOccurs} set;</li>
  *   <li><b>XML artifact</b> — the lowered array exports the {@code <array nbCol nbItems vert
  *       line col><item>...} node the BMS artifact traversal ({@code CEntityResourceForm
- *       .ExportXMLFields}) dispatches polymorphically.</li>
+ *       .exportXMLFields}) dispatches polymorphically.</li>
  * </ul>
  */
 class CFieldArrayLoweringTest
@@ -67,25 +67,13 @@ class CFieldArrayLoweringTest
         return new CResourceStrings(24, 80)
         {
             @Override
-            public Element Export(Element parent, Document root)
-            {
-                return root.createElement("resources");
-            }
-
-            @Override
             public void FormatResource(String name)
             {
                 // no-op
             }
 
             @Override
-            public String ExportForField(String initialValue, String display)
-            {
-                return "";
-            }
-
-            @Override
-            public Node ExportResource(String name, Document doc)
+            public Node exportResource(String name, Document doc)
             {
                 return doc.createElement("texts");
             }

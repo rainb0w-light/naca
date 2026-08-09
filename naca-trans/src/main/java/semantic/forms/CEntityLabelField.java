@@ -71,26 +71,9 @@ public class CEntityLabelField extends CEntityResourceField
 		return CDataEntityType.FIELD ;
 	}
 
-	public String ExportReference(int nLine)
-	{
-		// unused
-		return "" ;
-	}
-
-	public String ExportWriteAccessorTo(String value)
-	{
-		// unused
-		return "" ;
-	}
-
 	public boolean isValNeeded()
 	{
 		return false;
-	}
-
-	protected void DoExport()
-	{
-		// unused: a label field emits no Java of its own.
 	}
 
 	/* (non-Javadoc)
@@ -166,7 +149,7 @@ public class CEntityLabelField extends CEntityResourceField
 		ef.setAttribute("col", String.valueOf(nPosCol)) ;
 		if (!csInitialValue.equals(""))
 		{
-			ef.appendChild(res.ExportResource(csInitialValue, doc)) ;
+			ef.appendChild(res.exportResource(csInitialValue, doc)) ;
 		}
 		if (!csDisplayName.equals(""))
 		{

@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import java.util.Vector;
@@ -181,7 +181,7 @@ class SQLSelectStatementRenderTest
     void selectWithSqlErrorGotoChainsClause()
     {
         CObjectCatalog catalog = catalog();
-        CJavaEntityFactoryST factory = new CJavaEntityFactoryST(catalog, new MockJavaExporter());
+        CJavaEntityFactory factory = new CJavaEntityFactory(catalog, new MockJavaExporter());
         // Stage-1 side effect of EXEC SQL WHENEVER SQLERROR GOTO PC-ERR-DB2: registers
         // the policy into the catalog (exactly as pinned by SqlOnErrorGotoRenderTest).
         factory.NewEntitySQLOnErrorGoto(108, "PC-ERR-DB2");
@@ -199,7 +199,7 @@ class SQLSelectStatementRenderTest
     void factoryReturnsPureSemanticEntity()
     {
         CObjectCatalog catalog = catalog();
-        CJavaEntityFactoryST factory = new CJavaEntityFactoryST(catalog, new MockJavaExporter());
+        CJavaEntityFactory factory = new CJavaEntityFactory(catalog, new MockJavaExporter());
         Vector<CDataEntity> into = vector(ref("CUSTID"));
         CEntitySQLSelectStatement select = factory.NewEntitySQLSelectStatement(1,
             "SELECT CUSTID FROM CUSTOMERS", vector(), into, vector());

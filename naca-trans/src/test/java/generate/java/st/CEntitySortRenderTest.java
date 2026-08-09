@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 import generate.CJavaEntityFactory;
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.Test;
@@ -41,7 +41,7 @@ class CEntitySortRenderTest
         assertEquals(CEntitySort.class,
             new CJavaEntityFactory(catalog, null).NewEntitySort(1).getClass());
         assertInstanceOf(CEntitySort.class,
-            new CJavaEntityFactoryST(catalog, null).NewEntitySort(1));
+            new CJavaEntityFactory(catalog, null).NewEntitySort(1));
     }
 
     @Test

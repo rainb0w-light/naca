@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import generate.CJavaEntityFactory;
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.Test;
@@ -22,7 +22,7 @@ class CEntityStringConcatRenderTest
         assertEquals(CEntityStringConcat.class,
             new CJavaEntityFactory(catalog, null).NewEntityStringConcat(1).getClass());
         assertEquals(CEntityStringConcat.class,
-            new CJavaEntityFactoryST(catalog, null).NewEntityStringConcat(1).getClass());
+            new CJavaEntityFactory(catalog, null).NewEntityStringConcat(1).getClass());
     }
 
     @Test

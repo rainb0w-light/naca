@@ -264,7 +264,7 @@ switchBranch(branch) ::= <<
 // ============================================================================
 
 structure(entity) ::= <<
-Var <entity.formattedName> = declare.level(<entity.level>)<if(entity.redefines)>.redefines(<entity.redefines>)<endif><if(entity.occurs)>.occurs(<entity.occurs>)<endif><if(entity.type)>.<entity.type>(<entity.length><if(entity.decimals)>, <entity.decimals><endif>)<endif><if(entity.comp3)>.comp3()<endif><if(entity.comp)>.comp()<endif><if(entity.value)>.value(<entity.value>)<endif><if(entity.filler)>.filler()<else>.var()<endif>;
+Var <entity.formattedName> = declare.level(<entity.level>)<if(entity.redefines)>.redefines(<entity.redefines>)<endif><if(entity.occurs)>.occurs(<entity.occurs>)<endif><if(entity.type)>.<entity.type>(<entity.length><if(entity.decimals)>, <entity.decimals><endif>)<endif><if(entity.comp3)>.comp3()<endif><if(entity.comp5)>.comp5()<elseif(entity.comp)>.comp()<endif><if(entity.value)>.value(<entity.value>)<endif><if(entity.filler)>.filler()<else>.var()<endif>;
 >>
 
 dataSection(entity) ::= <<
@@ -335,7 +335,7 @@ numberLiteral(value, decimalLiteral, longLiteral) ::= <<
 >>
 
 numberLiteralEntity(entity) ::= <<
-<if(entity.decimalLiteral)><entity.literalValue; format="javaNumber"><else><entity.normalizedLiteralValue><if(entity.longLiteral)>L<endif><endif>
+<if(entity.hexLiteral)>hexa("<entity.hexDigits>")<elseif(entity.preserveSourceLexeme)><entity.literalValue><else><if(entity.decimalLiteral)><entity.literalValue; format="javaNumber"><else><entity.normalizedLiteralValue><if(entity.longLiteral)>L<endif><endif><endif>
 >>
 
 stringLiteral(value) ::= "\"<value>\""
@@ -433,6 +433,10 @@ subStringReferenceEntity(entity) ::= <<
 subString(<entity.reference>, <entity.start><if(entity.length)>, <entity.length><endif>)
 >>
 
+recursiveFPacPositionedBufferEntity(entity) ::= <<
+<if(entity.wrappedReferenceAccessor)><entity.reference><if(entity.openConversionCall)>, <else>(<endif><entity.start><if(entity.length)>, <entity.length><endif>)<else>buffer(<entity.reference>, <entity.start><if(entity.length)>, <entity.length><endif>)<endif>
+>>
+
 valueReferenceEntity(entity) ::= "<entity.reference>"
 
 // Independent FPac pipeline conversion reference (semantic.Verbs.CEntityConvertReference,
@@ -450,6 +454,12 @@ valueReferenceEntity(entity) ::= "<entity.reference>"
 // fragment, uses the inline (no-trailing-newline) form like valueReferenceEntity.
 recursiveFPacConvertReferenceEntity(entity) ::= "<if(entity.plainReference)><entity.reference><elseif(entity.accessorConversion)><entity.reference><entity.conversionSuffix><else>buffer<entity.conversionSuffix>(<entity.reference><endif>"
 
+// Independent FPac formatted-variable read reference. The retired direct backend's
+// ExportReference returned only the wrapped reference; the captured edit format was
+// consulted solely by its dead, value-parameterized write-accessor protocol. Keep the
+// read rendering transparent and let semantic action entities own future writes.
+recursiveFPacFormatedVarReferenceEntity(entity) ::= "<entity.reference>"
+
 // Independent FPac pipeline DISPLAY / WTO verb (semantic.Verbs.CEntityDisplay, FPAC_REFERENCE
 // role override layered over the shared reference manifest; the frozen COBOL `display` binding
 // is left untouched). The retired FPac display backend wrote, for each operand, one console
@@ -464,7 +474,7 @@ recursiveFPacConvertReferenceEntity(entity) ::= "<if(entity.plainReference)><ent
 // made -- and this template only reads those entity.displayReferences strings, so the emitted
 // output stays byte-for-byte identical. Inline (no trailing newline) form like the other FPac
 // verb templates rendered through the legacy traversal's assembler bridge.
-recursiveFPacDisplayEntity(entity) ::= "<entity.displayReferences:{r | wto.display(<r>) ;}; separator=\"\n\">"
+recursiveFPacDisplayEntity(entity) ::= "<entity.displayItems:{item | wto.display(<item.reference>) ;}; separator=\"\n\">"
 
 fieldHighlightReferenceEntity(entity) ::= "getHighlighting(<entity.reference>)"
 
@@ -658,6 +668,60 @@ recursiveFormContainerEntity(entity) ::= "<entity.containerReference>"
 // formatter never touches the artifact name.
 recursiveFormContainerDeclarationEntity(entity) ::= "class <entity.mapClassName> extends Map {"
 
+// Complete BMS mapset artifact root. Unlike the historical imperative bridge,
+// this template owns the compilation-unit wrapper and recursively lowers every
+// map/field through DECLARATION bindings without invoking semantic export APIs.
+bmsMapsetRoot(entity) ::= <<
+import nacaLib.mapSupport.* ;
+import nacaLib.varEx.* ;
+import nacaLib.program.* ;
+import nacaLib.basePrgEnv.* ;
+
+class <entity.mapClassName> extends Map {
+    static <entity.mapClassName> Copy(BaseProgram program) {
+        return new <entity.mapClassName>(program);
+    }
+    static <entity.mapClassName> Copy(BaseProgram program, CopyReplacing rep)  {
+        Assert("Unimplemented replacing for MAPs") ;
+        return null ;
+    }
+    <entity.mapClassName>(BaseProgram program) {
+        super(program);
+    }
+
+<entity.forms; separator="\n">
+}
+>>
+
+recursiveFormDeclarationBlockEntity(entity) ::= <<
+Form <entity.formattedName> = declare.form("<entity.formattedResourceName>", <entity.sizeLine>, <entity.sizeCol>) ;
+<entity.fields; separator="\n">
+>>
+
+recursiveFormRedefineDeclarationBlockEntity(entity) ::= <<
+MapRedefine <entity.formattedName> = declare.level(1).redefinesMap(<entity.form>) ;
+<entity.children; separator="\n">
+>>
+
+recursiveSkipFieldDeclarationBlockEntity(entity) ::= <<
+Edit <entity.formattedName> = declare.level(<entity.level>).editSkip(<entity.nbFields>) ;
+<entity.children; separator="\n">
+>>
+
+recursiveFieldRedefineDeclarationBlockEntity(entity) ::= <<
+Edit <entity.formattedName> = declare.level(<entity.level>)<entity.picClause><entity.justifyRightClause><entity.blankWhenZeroClause>.edit() ;
+<entity.children; separator="\n">
+>>
+
+recursiveFieldOccursDeclarationBlockEntity(entity) ::= <<
+Edit <entity.formattedName> = declare.level(<entity.level>).editOccurs(<entity.occurs>, "<entity.formattedName>") ;
+<entity.children; separator="\n">
+>>
+
+recursiveFieldArrayDeclarationEntity(entity) ::= "<entity.children; separator=\"\n\">"
+
+emptyBmsDeclarationEntity(entity) ::= ""
+
 // BMS map-resource DSL: a reference to a screen-map MAPREDEFINE (a re-view over an existing
 // screen form, retired direct backend generate.java.forms.CJavaFormRedefine). Its
 // ExportReference returned formatIdentifier(GetName()) — the target-formatted form redefine
@@ -830,9 +894,8 @@ recursiveCondNot(operand) ::= "!<operand>"
 
 recursiveCondNotEntity(entity) ::= "!(<entity.operand>)"
 
-// Independent FPac pipeline file-EOF condition (semantic.expression.CEntityIsFileEOF, an abstract
-// type the FPac pipeline instantiates as generate.fpacjava.CFPacJavaIsFileEOF; bound through the
-// semantic-runtime-bindings.properties superclass alias). Mirrors the retired direct backend's
+// Independent FPac pipeline file-EOF condition (pure semantic.expression.CEntityIsFileEOF,
+// bound through the concrete semantic manifest). Mirrors the retired direct backend's
 // Export exactly: emits the protected nacaLib.fpacPrgEnv.FPacProgram.isEof(BaseFileDescriptor)
 // condition call (contract operation fpac.file.eof) as "isEof(<name>)". This binding exists chiefly
 // so the EOF condition is renderable as the OPERAND of a wrapping pure semantic.expression.CEntityCondNot
@@ -842,6 +905,10 @@ recursiveCondNotEntity(entity) ::= "!(<entity.operand>)"
 // through the shared recursiveFileDescriptorEntity binding (<entity.formattedName>), exactly as
 // recursiveCloseFileEntity does. No generate.* coupling in the semantic tree.
 recursiveIsFileEOFEntity(entity) ::= "isEof(<entity.fileDescriptor>)"
+
+// FPac NORMAL-entry read probe. The sole producer is NewEntityFunctionCall
+// ("ReadAndTestFile", buffer); the semantic reference is already resolved.
+recursiveFPacReadAndTestFileEntity(entity) ::= "<entity.reference>.read().atEnd()"
 
 recursiveCondCompare(greater, orEqual, left, right) ::= <<
 <if(greater)>isGreater<if(orEqual)>OrEqual<endif><else>isLess<if(orEqual)>OrEqual<endif><endif>(<if(left)><left><else>[MissingExpr1]<endif>, <if(right)><right><else>[MissingExpr2]<endif>)
@@ -1272,9 +1339,18 @@ public void <entity.formattedName>() {
 }
 >>
 
+recursiveFPacProcedureEntity(entity) ::= <<
+protected int <entity.formattedName; format="fpacIdentifier">() {
+<entity.activeChildren; separator="\n">
+<if(entity.implicitNextReturn)>return NEXT ;
+<endif>}
+>>
+
 recursiveReturnEntity(entity) ::= <<
 <if(entity.stopProgram)>stopRun(<entity.stopAllStackCalls>);<elseif(entity.bonlyLeaveParagraph)>return;<else>exitProgram();<endif>
 >>
+
+recursiveFPacReturnEntity(entity) ::= "return NEXT ;"
 
 recursiveCallFunctionEntity(entity) ::= <<
 <if(entity.repetitions)>for (int <entity.repetitionIndex>=0; isLess(<entity.repetitionIndex>, <entity.repetitions>); <entity.repetitionIndex>++) {
@@ -1299,7 +1375,11 @@ recursiveFPacCallFunctionEntity(entity) ::= "<entity.calledProcedureName; format
 // only reads those entity.dividendReference/divisorReference/resultReference strings, so the emitted
 // output stays byte-for-byte identical. Inline single-statement form (space before ";"), matching
 // recursiveFPacCallFunctionEntity and the other FPac verb templates.
-recursiveFPacDivideEntity(entity) ::= "divide(<entity.dividendReference>, <entity.divisorReference>).to(<entity.resultReference>) ;"
+recursiveFPacDivideEntity(entity) ::= "divide(<entity.dividend>, <entity.divisor>).to(<entity.result>) ;"
+
+// Independent FPac GOEND/GOLAST lowering. The retired direct backend emitted
+// exactly "return " + reference.getProcedureName() + " ;".
+recursiveFPacGotoEntity(entity) ::= "return <entity.targetName> ;"
 
 recursiveSetConstantEntity(entity) ::= <<
 <if(entity.valueAssigned)>moveAll(<entity.valueAssigned>, <entity.variable>) ;<else>move<if(entity.subString)>SubString<endif><if(entity.setToLowValue)>LowValue<elseif(entity.setToHighValue)>HighValue<elseif(entity.setToSpace)>Space<elseif(entity.setToZero)>Zero<elseif(entity.setToTrue)>True<elseif(entity.setToFalse)>False<endif>(<entity.variable><if(entity.subString)>, <entity.subStringRefStart>, <entity.subStringRefLength><endif>) ;<endif>
@@ -1335,11 +1415,19 @@ recursiveOpenFileEntity(entity) ::= <<
 <entity.fileDescriptor>.<if(entity.inputMode)>openInput<else><if(entity.outputMode)>openOutput<else><if(entity.inputOutputMode)>openInputOutput<else><if(entity.appendMode)>openExtend<else>open<endif><endif><endif><endif>();
 >>
 
+recursiveFPacOpenFileEntity(entity) ::= <<
+<entity.fileDescriptor>.<if(entity.inputMode)>openInput<else><if(entity.outputMode)>openOutput<else><if(entity.inputOutputMode)>openInputOutput<else>openExtend<endif><endif><endif>()<if(entity.variableLengthFile)>.variableLength()<endif> ;
+>>
+
 recursiveCloseFileEntity(entity) ::= "<entity.fileDescriptor>.close();"
 
 recursiveWriteFileEntity(entity) ::= <<
 <if(entity.dataFrom)>writeFrom(<if(entity.fileDescriptor)><entity.fileDescriptor><else>[UnknownReference]<endif>, <entity.dataFrom>)<else><if(entity.after)>writeAfter(<if(entity.fileDescriptor)><entity.fileDescriptor><else>[UnknownReference]<endif>, <entity.after>)<else>write(<if(entity.fileDescriptor)><entity.fileDescriptor><else>[UnknownReference]<endif>)<endif><endif>;
 >>
+
+// Independent FPac PUT: the descriptor owns its current output buffer and
+// exposes the zero-argument write operation.
+recursiveFPacWriteFileEntity(entity) ::= "<entity.fileDescriptor>.write() ;"
 
 recursiveReadFileEntity(entity) ::= <<
 <if(entity.atEndBloc)>if (<recursiveReadInvocation(entity)>.atEnd()) {
@@ -1350,6 +1438,12 @@ recursiveReadFileEntity(entity) ::= <<
 
 recursiveReadInvocation(entity) ::= <<
 <if(entity.dataInto)>readInto(<entity.fileDescriptor>, <entity.dataInto>)<else>read(<entity.fileDescriptor>)<endif>
+>>
+
+recursiveFPacReadFileEntity(entity) ::= <<
+<if(entity.atEndBloc)>if (<entity.fileDescriptor>.read().atEnd()) {
+<entity.atEndBloc>
+}<else><entity.fileDescriptor>.read() ;<endif>
 >>
 
 // Embedded CICS RETURN (EXEC CICS RETURN END-EXEC). Emits the CESM.returnTrans(...)
@@ -1648,6 +1742,18 @@ public class <entity.programName; format="fpacClassName"> extends FPacProgram
 }
 >>
 
+// FPac's DeclarationSection is intentionally transparent: it contributes no
+// DataSection header and keeps every child in FPAC_REFERENCE.
+recursiveFPacDataSectionEntity(entity) ::= <<
+<entity.activeChildren; separator="\n">
+>>
+
+// Independent FPac file declaration. The identifier follows the exact FPac
+// CJavaExporter naming convention; the external file name remains uppercase.
+recursiveFPacFileDescriptorEntity(entity) ::= <<
+FPacFileDescriptor <entity.sourceName; format="fpacIdentifier"> = declare.fpacFile("<entity.sourceName; format="fpacFileName">")<if(entity.outputBufferInitialValue)>.fillOutputBuffer(<entity.outputBufferInitialValue>)<endif>.file() ;
+>>
+
 recursiveStringConcatEntity(entity) ::= <<
 <if(entity.hasOverflowHandler)>if (<endif><entity.concatItems:{item | <recursiveStringConcatItem(item)>}; separator=""><if(entity.startIndex)>withPointer(<entity.startIndex>).<endif>into(<entity.destination>)<if(entity.hasOverflowHandler)>.failed())
 {
@@ -1681,11 +1787,11 @@ inspectConverting(<entity.variable>).to(<entity.from>, <entity.to>) ;
 mockDataEntityReference(entity) ::= "<entity.mockReferenceValue>"
 
 dataAttributeDeclaration(entity) ::= <<
-Var <entity.formattedName> = declare.level(<entity.level>).<entity.declaredType>(<if(entity.declaredEditedPicture)><entity.declaredFormat; format="javaString"><elseif(entity.declaredPictureSizeSpecified)><entity.declaredLength><if(entity.scaled)>,<entity.decimals><endif><endif>)<if(entity.comp3)>.comp3()<elseif(entity.comp2)>.comp2()<elseif(entity.binaryComp)>.comp()<endif><if(entity.sync)>.sync()<endif><if(entity.value)>.<if(entity.fillWithValue)>valueAll<else>value<endif>(<entity.value>)<else><if(entity.initialValueIsSpaces)>.valueSpaces()<elseif(entity.initialValueIsZeros)>.valueZero()<elseif(entity.initialValueIsLowValue)>.valueLowValue()<elseif(entity.initialValueIsHighValue)>.valueHighValue()<endif><endif><if(entity.justifiedRight)>.justifyRight()<endif><if(entity.blankWhenZero)>.blankWhenZero()<endif><if(entity.filler)>.filler()<else>.var()<endif> ;
+Var <entity.formattedName> = declare.level(<entity.level>).<entity.declaredType>(<if(entity.declaredEditedPicture)><entity.declaredFormat; format="javaString"><elseif(entity.declaredPictureSizeSpecified)><entity.declaredLength><if(entity.scaled)>,<entity.decimals><endif><endif>)<if(entity.comp3)>.comp3()<elseif(entity.comp2)>.comp2()<elseif(entity.comp5)>.comp5()<elseif(entity.binaryComp)>.comp()<endif><if(entity.sync)>.sync()<endif><if(entity.value)>.<if(entity.fillWithValue)>valueAll<else>value<endif>(<entity.value>)<else><if(entity.initialValueIsSpaces)>.valueSpaces()<elseif(entity.initialValueIsZeros)>.valueZero()<elseif(entity.initialValueIsLowValue)>.valueLowValue()<elseif(entity.initialValueIsHighValue)>.valueHighValue()<endif><endif><if(entity.justifiedRight)>.justifyRight()<endif><if(entity.blankWhenZero)>.blankWhenZero()<endif><if(entity.filler)>.filler()<else>.var()<endif> ;
 >>
 
 dataStructureDeclaration(entity) ::= <<
-Var <entity.formattedName> = declare.level(<entity.numericLevel>)<if(entity.redefines)>.redefines(<entity.redefines>)<endif><if(entity.occurs)><if(entity.tableSizeDepending)>.occursDepending(<entity.occurs>, <entity.tableSizeDepending>)<elseif(entity.variableLength)>.variableLength()<else>.occurs(<entity.occurs>)<endif><endif><if(entity.typed)>.<entity.declaredType>(<if(entity.declaredEditedPicture)><entity.declaredFormat; format="javaString"><else><entity.declaredLength><if(entity.scaled)>,<entity.decimals><endif><endif>)<endif><if(entity.comp3)>.comp3()<elseif(entity.comp2)>.comp2()<elseif(entity.binaryComp)>.comp()<endif><if(entity.sync)>.sync()<endif><if(entity.value)>.<if(entity.fillWithValue)>valueAll<else>value<endif>(<entity.value>)<else><if(entity.initialValueIsSpaces)>.valueSpaces()<elseif(entity.initialValueIsZeros)>.valueZero()<elseif(entity.initialValueIsLowValue)>.valueLowValue()<elseif(entity.initialValueIsHighValue)>.valueHighValue()<endif><endif><if(entity.justifiedRight)>.justifyRight()<endif><if(entity.blankWhenZero)>.blankWhenZero()<endif><if(entity.signLeadingSeparated)>.signLeadingSeparated()<elseif(entity.signTrailingSeparated)>.signTrailingSeparated()<endif><if(entity.filler)>.filler()<else>.var()<endif> ;
+Var <entity.formattedName> = declare.level(<entity.numericLevel>)<if(entity.redefines)>.redefines(<entity.redefines>)<endif><if(entity.occurs)><if(entity.tableSizeDepending)>.occursDepending(<entity.occurs>, <entity.tableSizeDepending>)<elseif(entity.variableLength)>.variableLength()<else>.occurs(<entity.occurs>)<endif><endif><if(entity.typed)>.<entity.declaredType>(<if(entity.declaredEditedPicture)><entity.declaredFormat; format="javaString"><else><entity.declaredLength><if(entity.scaled)>,<entity.decimals><endif><endif>)<endif><if(entity.comp3)>.comp3()<elseif(entity.comp2)>.comp2()<elseif(entity.comp5)>.comp5()<elseif(entity.binaryComp)>.comp()<endif><if(entity.sync)>.sync()<endif><if(entity.value)>.<if(entity.fillWithValue)>valueAll<else>value<endif>(<entity.value>)<else><if(entity.initialValueIsSpaces)>.valueSpaces()<elseif(entity.initialValueIsZeros)>.valueZero()<elseif(entity.initialValueIsLowValue)>.valueLowValue()<elseif(entity.initialValueIsHighValue)>.valueHighValue()<endif><endif><if(entity.justifiedRight)>.justifyRight()<endif><if(entity.blankWhenZero)>.blankWhenZero()<endif><if(entity.signLeadingSeparated)>.signLeadingSeparated()<elseif(entity.signTrailingSeparated)>.signTrailingSeparated()<endif><if(entity.filler)>.filler()<else>.var()<endif> ;
 <if(entity.insideExternalDataStructure)><entity.children><elseif(entity.insideFileSection)><entity.children><else><entity.declarationChildren><endif>
 >>
 
@@ -2042,6 +2148,31 @@ Cond <entity.formattedName> = declare.condition()<entity.valueModels:{model | .v
 // (CJavaUnknownReference.DoExport is empty and ExportReference returns null),
 // so it renders as empty here too.
 unknownReferenceEntity(entity) ::= ""
+
+// FPac source semantics preserve the legacy unresolved-identifier marker. The
+// COBOL CEntityUnknownReference binding above remains the empty fail-closed form.
+fpacUnknownReferenceEntity(entity) ::= "[UNDEFINED]"
+
+// BMS localized-resource declaration. Semantic analysis supplies an ordered
+// language/text model; this template owns the Java declaration syntax only.
+bmsLocalizedStringDeclaration(display, texts) ::= "LocalizedString <display> = declare.localizedString()<texts:{t |.text(LanguageCode.<t.languageCode>, \"<t.text>\")}>;"
+
+recursiveResourceFieldDeclarationEntity(entity) ::= <<
+<if(entity.initialValuePresent)>LocalizedString <entity.formattedInitialValue> = declare.localizedString()<entity.initialLocalizedTexts:{t |.text(LanguageCode.<t.languageCode>, "<t.text>")}>;
+<endif><if(entity.formattedSourceName)>Edit <entity.formattedSourceName> = declare.edit("<entity.formattedDisplayName>", <entity.length>)<if(entity.initialValuePresent)>.initialValue(<entity.formattedInitialValue>)<endif><if(entity.fillValuePresent)>.justifyFill(MapFieldAttrFill.<entity.fillValue>)<endif><if(entity.rightJustified)>.justifyRight()<endif><if(entity.developableFlagMarkPresent)>.setDevelopableMark("<entity.developableFlagMark>")<endif><if(entity.formatStringPresent)>.format("<entity.formatString>")<endif>.edit() ;<endif><if(entity.attributeChildren)>
+{
+<entity.attributeChildren>
+}<endif>
+>>
+
+// A BMS field's attribute value is owned by Edit itself. The retired backend
+// emitted getAttribute(field), for which no runtime method exists; this canonical
+// descriptor call is signature-checked against Edit.getAttribute().
+fieldAttributeEntity(entity) ::= "<entity.reference>.getAttribute()"
+
+resourceFieldReferenceEntity(entity) ::= "<if(entity.qualifierFormattedName)><entity.qualifierFormattedName>.<endif><entity.formattedSourceName>"
+
+fieldDataReferenceEntity(entity) ::= "<entity.referenceName>"
 
 // A program comment, rendered in the REFERENCE role as a root child. The "// "
 // marker is Java lexical (STG); the newline escaping and right trim are done by

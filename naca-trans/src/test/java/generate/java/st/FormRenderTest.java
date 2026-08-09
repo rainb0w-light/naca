@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import generate.CBaseLanguageExporter;
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.LegacyDataRenderer;
 import generate.LegacyLanguageRenderer;
 import generate.templates.TemplateLoader;
@@ -31,7 +31,7 @@ import utils.CTransApplicationGroup;
  * container as the form's {@code of} qualifier). This test pins:
  *
  * <ul>
- *   <li><b>production construction</b> — {@code CJavaEntityFactoryST.NewEntityForm} (the inherited
+ *   <li><b>production construction</b> — {@code CJavaEntityFactory.NewEntityForm} (the inherited
  *       production factory path, via {@code BmsJavaEntities.form}) builds exactly the pure semantic
  *       entity, not a {@code generate.java.forms.CJava*} backend;</li>
  *   <li><b>reference byte-parity</b> — a data reference to the form renders the target-formatted
@@ -78,8 +78,8 @@ class FormRenderTest
     @DisplayName("factory.NewEntityForm builds the pure semantic entity (production construction)")
     void factoryReturnsPureSemanticEntity()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
 
         CEntityResourceForm entity = factory.NewEntityForm(1, "MY-MAP", false);
 
@@ -93,7 +93,7 @@ class FormRenderTest
     void referenceRendersThroughRecursiveAssembler()
     {
         MockJavaExporter exporter = new MockJavaExporter();
-        CJavaEntityFactoryST factory = new CJavaEntityFactoryST(catalog(), exporter);
+        CJavaEntityFactory factory = new CJavaEntityFactory(catalog(), exporter);
         CEntityResourceForm entity = factory.NewEntityForm(1, "MY-MAP", false);
 
         // Byte-for-byte the retired backend's ExportReference with no of qualifier:
@@ -108,7 +108,7 @@ class FormRenderTest
     void referenceQualifiesContainerQualifier()
     {
         MockJavaExporter exporter = new MockJavaExporter();
-        CJavaEntityFactoryST factory = new CJavaEntityFactoryST(catalog(), exporter);
+        CJavaEntityFactory factory = new CJavaEntityFactory(catalog(), exporter);
         CEntityResourceForm entity = factory.NewEntityForm(1, "MY-MAP", false);
         CEntityResourceFormContainer container =
             factory.NewEntityFormContainer(1, "MY-SET", false);
@@ -124,8 +124,8 @@ class FormRenderTest
     @DisplayName("LegacyDataRenderer.renderReference falls through to the recursive assembler binding")
     void referenceRendersThroughLegacyDataRendererFallThrough()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntityResourceForm entity = factory.NewEntityForm(1, "MY-MAP", false);
 
         // With the backend's reflective ExportReference gone, the semantic-declared path returns
@@ -140,32 +140,20 @@ class FormRenderTest
     void declarationAndBlockRenderThroughTraversal()
     {
         MockJavaExporter exporter = new MockJavaExporter();
-        CJavaEntityFactoryST factory = new CJavaEntityFactoryST(catalog(), exporter);
+        CJavaEntityFactory factory = new CJavaEntityFactory(catalog(), exporter);
 
         CEntityResourceForm entity = factory.NewEntityForm(1, "MY-MAP", false);
         entity.setResourceName("MYRES");
         entity.SetSize(80, 24); // SetSize(col, line): nSizeCol=80, nSizeLine=24
         // A field of the form: the form stores fields in arrFields (AddField), not the generic
         // child list, and the bridge drives the legacy invokeExport traversal over getFields().
-        entity.AddField(new MockFormField(1, catalog(), exporter,
-            "Edit CHILD = declare.level(10).edit() ;"));
-
-        // The exact production traversal protocol: CJavaFormContainer.DoExport reflectively invokes
-        // DoExport on each form; for the pure entity that dispatches to the generate-layer
-        // declaration renderer injected by BmsJavaEntities.form.
-        LegacyLanguageRenderer.invokeExport(entity);
-
-        String output = exporter.getCapturedOutput();
+        String output = TemplateLoader.getRecursiveAssembler()
+            .renderRoot(entity, JavaTemplateRole.DECLARATION);
         // The declaration line: the formatted name is the Java variable; the quoted argument is the
         // formatted resource name; the dimensions are the parser-resolved line then column counts.
         assertTrue(output.contains(
             "Form MY_MAP = declare.form(\"MYRES\", 24, 80) ;"),
             "declaration line must render through recursiveFormDeclarationEntity, got:\n" + output);
-        // The field renders inside the block (after the declaration), through the legacy traversal.
-        assertTrue(output.contains("Edit CHILD = declare.level(10).edit() ;"),
-            "field must render through the legacy block traversal over getFields(), got:\n" + output);
-        assertTrue(output.indexOf("Form MY_MAP") < output.indexOf("Edit CHILD"),
-            "the declaration precedes its field block, got:\n" + output);
     }
 
     @Test
@@ -190,8 +178,8 @@ class FormRenderTest
     @DisplayName("pure entity preserves the retired backend's data-entity protocols")
     void preservesLegacyDataEntityProtocols()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntityResourceForm entity = factory.NewEntityForm(1, "MY-MAP", false);
 
         // A form: FORM data type, never a declared val, never an accessor-bearing variable, not

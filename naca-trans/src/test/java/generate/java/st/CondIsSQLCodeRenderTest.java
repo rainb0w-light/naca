@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.DisplayName;
@@ -130,7 +130,7 @@ class CondIsSQLCodeRenderTest
     @DisplayName("the ST4 factory builds the pure semantic entity and it renders")
     void factoryBuildsPureSemanticEntity()
     {
-        CJavaEntityFactoryST factory = new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory = new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntityCondIsSQLCode condition = factory.NewEntityCondIsSQLCode();
         // Exactly the semantic type: no target-backend subclass in between.
         assertEquals(CEntityCondIsSQLCode.class, condition.getClass());

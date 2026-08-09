@@ -62,7 +62,6 @@ public class NumericValue
 	
 	VarDefBuffer createVarDef(VarDefBase varDefParent, DeclareType9 declareType9)
 	{
-		System.out.println("DEBUG createVarDef: bSigned=" + bSigned + ", nNbDigitInteger=" + nNbDigitInteger + ", nNbDigitDecimal=" + nNbDigitDecimal + ", nComp=" + nComp);
 		if(nComp == 0)	// No Comp-... specified: 1 char is a digit, except maybe the sign that may be embbed in the last char
 		{
 			if(nNbDigitDecimal == 0)
@@ -141,7 +140,7 @@ public class NumericValue
 					return new VarDefNumDecSignComp3(varDefParent, declareType9, this);
 			}
 		}
-		else if(nComp == -4)	// Binary
+		else if(nComp == -4 || nComp == -5)	// Standard binary or native binary (COMP-5)
 		{
 			if(nNbDigitDecimal == 0)
 			{
@@ -242,7 +241,7 @@ public class NumericValue
 					return new VarNumDecSignComp3(declareType9);
 			}
 		}
-		else if(nComp == -4)
+		else if(nComp == -4 || nComp == -5)
 		{
 			if(nNbDigitDecimal == 0)
 			{

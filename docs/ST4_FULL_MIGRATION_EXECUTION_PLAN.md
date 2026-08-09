@@ -5,9 +5,11 @@
 > `ST4_FINAL_ARCHITECTURE_CONTRACT.md` 为准，当前数据段专项以
 > `ST4_DATA_SECTION_MIGRATION_PLAN.md` 为准。
 
-> 当前状态: 执行中
-> 当前进度: Phase 6 - ST4 端到端样例驱动验证
-> 最新更新时间: 2026-07-18
+> 当前状态: **已完成**
+> 当前进度: Phase 10 - 账本、文档与最终门禁已闭环
+> 最新更新时间: 2026-08-07
+
+最终验收快照：三个 direct-backend inventory 均为 0；ST4 是唯一生产生成路径且不存在 direct 回退开关；`TEST-A-STANDALONE` 与 GnuCOBOL 34/34 行逐行一致；`./gradlew build`、`:naca-trans:finalArchitectureCheck` 和云端样例矩阵全绿。与 ST4 无关的 2005 年遗留 NacaRT 兼容程序保留在显式 `:naca-rt-tests:legacyRuntimeTest` 审计任务中，不属于默认构建门禁。
 
 ## 目标状态
 
@@ -25,15 +27,15 @@ Naca 最终成为“语义分析模型 + ST4 模板引擎”的代码生成系�
 | Phase | 名称 | 状态 | 当前结论 |
 |---|---|---|---|
 | Phase 1 | 建立迁移基线 | 已完成 | ST4 单测、模板语法测试、`:naca-trans:test` 已通过 |
-| Phase 2 | 定义严格两阶段契约 | 进行中 | 原则已明确，但代码中仍有 `codeString` / `childrenCode` 遗留 |
-| Phase 3 | 引入明确渲染模型 | 进行中 | 已加入 `referenceString`、`increment/decrement` 等局部 accessor |
-| Phase 4 | 迁移核心 COBOL 动词 | 进行中 | 已覆盖 assign/add/condition/loop/display/read/bloc 基线 |
-| Phase 5 | 迁移程序级和数据声明生成 | 进行中 | file section / filler / data level 已修复一批端到端缺口，class/data 输出仍需模板化 |
-| Phase 6 | ST4 端到端转译基线 | 当前执行 | `TEST-A-STANDALONE` 已可经 API 转译、编译、运行；34 行输出中 31 行与 GnuCOBOL 完全一致，剩余 3 行为 COMP/COMP-5 运行时表示差异 |
-| Phase 7 | 迁移 CICS / SQL / BMS / FPac | 未开始 | 等普通 COBOL batch 路径稳定后执行 |
-| Phase 8 | ST4 切默认 | 未开始 | 当前仍通过 `-Dnaca.transpiler.factory=st4` 显式启用 |
-| Phase 9 | 删除旧代码生成器 | 未开始 | 必须在 ST4 默认路径和样例回归稳定后执行 |
-| Phase 10 | 质量门禁和文档 | 进行中 | 本文档作为执行跟踪入口 |
+| Phase 2 | 定义严格两阶段契约 | 已完成 | semantic、binding、STG 与 root writer 的零容忍契约由 `finalArchitectureCheck` 强制 |
+| Phase 3 | 引入明确渲染模型 | 已完成 | 子语义节点通过递归 role/binding 组合，不再依赖预渲染字符串 |
+| Phase 4 | 迁移核心 COBOL 动词 | 已完成 | COBOL/SQL/CICS direct backend inventory 为 0 |
+| Phase 5 | 迁移程序级和数据声明生成 | 已完成 | class/data/COPY/FD/root 统一由 assembler ROOT 输出 |
+| Phase 6 | ST4 端到端转译基线 | 已完成 | `TEST-A-STANDALONE` 转译、javac、运行成功并与 GnuCOBOL 34/34 一致 |
+| Phase 7 | 迁移 CICS / SQL / BMS / FPac | 已完成 | ONLINE1 15/15 preserved；BMS 与 FPac direct backend inventory 均为 0 |
+| Phase 8 | ST4 切默认 | 已完成 | ST4 已成为唯一生产路径，历史 factory 属性不能恢复 direct 模式 |
+| Phase 9 | 删除旧代码生成器 | 已完成 | 生产态 typed/direct backend、legacy renderer 和回退协议已删除 |
+| Phase 10 | 质量门禁和文档 | 已完成 | 全仓 build、架构门禁、样例矩阵、账本一致性均通过 |
 
 ## Phase 1: 建立迁移基线
 
@@ -239,11 +241,11 @@ Naca 最终成为“语义分析模型 + ST4 模板引擎”的代码生成系�
 - 已完成: `TEST-A-STANDALONE.cbl` 的 `FUNCTION ORD(...)` 通用语义分析与模板输出。
 - 已完成: `TEST-A-STANDALONE.cbl` API 转译及生成 Java 编译。
 - 已完成: `TEST-A-STANDALONE.cbl` 运行，共输出 34 行且无额外循环字符。
-- 待完成: 统一 COMP 位数溢出截断与 COMP-5 原生端序，使剩余 3 行运行输出与 GnuCOBOL 一致。
+- 已完成: 区分 `COMP` 与 `COMP-5`，实现普通 COMP 的 PIC 位数截断及 COMP-5 的本机字节序；34 行逐行一致。
 - 已推进: `BATCH1.cbl` 已越过 `EVALUATE/WHEN` 语义阻塞并生成 Java。
 - 已完成: `BATCH1.cbl` ST4 生成 Java 编译。
 - 已完成: `BATCH1.cbl` 生成 Java 可通过 `BatchMain` 运行，输出文件长度和计数符合当前两条输入记录预期。
-- 下一步: 清理 debug 输出，补充 BATCH1 端到端脚本化回归，并执行 GnuCOBOL 输出对比。
+- 已完成: 清理运行时 debug 输出，补充 TEST-A 自动化存储语义门禁，并完成 BATCH1/TESTHELLO/T01/ONLINE1/BMS 样例回归。
 
 第一批样例:
 
@@ -277,17 +279,15 @@ Naca 最终成为“语义分析模型 + ST4 模板引擎”的代码生成系�
 
 ## Phase 8: ST4 切默认
 
-任务:
+最终实现:
 
-- 默认 factory 改为 `CJavaEntityFactoryST`。
-- 保留短期回退开关:
-  - `-Dnaca.transpiler.factory=direct`
-- 本地和 CI 默认跑 ST4。
-- direct generator 进入 deprecated 状态。
+- 语义工厂统一为 `CJavaEntityFactory`，不再存在 `CJavaEntityFactoryST` subtype。
+- `TranscoderEngine` 始终从 semantic root 调用递归 assembler；不保留 direct 回退开关。
+- 历史 `naca.transpiler.factory` 属性仅保留兼容测试，不能改变生产工厂。
 
 验收:
 
-- 不带系统属性时生成路径是 ST4。
+- 不带系统属性时生成路径是 ST4，设置历史 direct 属性也仍是 ST4。
 - 全量测试通过。
 - 样例转译、编译、运行通过。
 

@@ -159,7 +159,6 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
 	public int calcSize()
 	{
 		nTotalSize = getSumChildrenSize();
-		System.out.println("DEBUG VarDefBase.calcSize: " + this.getClass().getSimpleName() + " nTotalSize=" + nTotalSize);
 		return nTotalSize;
 	}
 	
@@ -172,16 +171,13 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
 		if(isVarDefForm())
 			nSumChildrenSize = getHeaderLength();
 
-		System.out.println("DEBUG getSumChildrenSize: " + this.getClass().getSimpleName() + " arrChildren=" + (arrChildren != null ? "not null" : "null") + " nSingleItemSize=" + nSingleItemSize);
 		if(arrChildren != null)
 		{
 			int nNbChildren = arrChildren.size();
-			System.out.println("DEBUG getSumChildrenSize: nNbChildren=" + nNbChildren);
 			for(int nChild=0; nChild<nNbChildren; nChild++)
 			{
 				VarDefBase varDefChild = getChild(nChild);
 				int nSize = varDefChild.calcSize();
-				System.out.println("DEBUG getSumChildrenSize: child " + nChild + " " + varDefChild.getClass().getSimpleName() + " nSize=" + nSize);
 				if(varDefChild.varDefRedefinOrigin == null || varDefChild.isEditInMapRedefine())
 					nSumChildrenSize += nSize;
 				else if(isVarInMapRedefine() && !varDefParent.isEditInMapRedefine())
@@ -1528,5 +1524,4 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
 	
 	public static final int NULL_ID = 0xffff;
 }
-
 

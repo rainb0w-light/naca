@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 import generate.CJavaEntityFactory;
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import semantic.expression.CEntityExprTerminal;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
@@ -30,7 +30,7 @@ class CEntityCondOrRenderTest
         assertEquals(CEntityCondOr.class,
             new CJavaEntityFactory(null, null).NewEntityCondOr().getClass());
         assertEquals(CEntityCondOr.class,
-            new CJavaEntityFactoryST(null, null).NewEntityCondOr().getClass());
+            new CJavaEntityFactory(null, null).NewEntityCondOr().getClass());
     }
 
     @Test

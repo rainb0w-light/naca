@@ -1,8 +1,30 @@
 # ST4 类级架构审计
 
-> 文档职责：本文是当前工作树状态的唯一事实来源；最终完成标准见
-> `ST4_FINAL_ARCHITECTURE_CONTRACT.md`，下一专项的执行步骤见
-> `ST4_DATA_SECTION_MIGRATION_PLAN.md`。其余 ST4 计划文档仅保留历史记录。
+> **最终状态（2026-08-07）：迁移完成。** 本文后续逐日记录保留为历史审计轨迹，
+> 不再代表当前失败数。最终契约与验收口径以
+> `ST4_FINAL_ARCHITECTURE_CONTRACT.md` 和 `migration-ledger.json` 为准。
+
+## 最终验收快照
+
+| 验收面 | 最终结果 |
+| --- | ---: |
+| COBOL/SQL/CICS direct backend inventory | 0 |
+| BMS direct backend inventory | 0 |
+| FPac direct backend inventory | 0 |
+| `:naca-trans:finalArchitectureCheck` | 237/237 通过，0 失败 |
+| `:naca-trans:test` | 1118/1118 通过 |
+| `:naca-cloud-native:test` | 42/42 通过 |
+| `TEST-A-STANDALONE` | GnuCOBOL/Java 34/34 行一致 |
+| `./gradlew build` | 通过 |
+
+生产生成路径现在只有 recursive ST4 assembler；旧 direct renderer、生产 legacy
+renderer fixture 和工厂切换/回退协议均已退出生产代码。默认构建把 2005 年手写
+runtime 兼容程序作为独立债务隔离；可通过 `:naca-rt-tests:legacyRuntimeTest` 严格审计，
+当前仍有 21 个已知失败，它们不经过 transpiler，也不构成 ST4 迁移阻塞。
+
+---
+
+## 历史审计轨迹（已归档）
 
 审计日期：2026-07-19。
 

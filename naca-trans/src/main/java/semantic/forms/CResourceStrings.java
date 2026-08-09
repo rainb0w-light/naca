@@ -12,14 +12,15 @@
  */
 package semantic.forms;
 
-import java.util.Hashtable;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -28,7 +29,7 @@ import java.util.ArrayList;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CResourceStrings
+public class CResourceStrings
 {
 	public static String LANG_FRENCH = "FR" ;
 	public static String LANG_GERMAN = "DE" ;
@@ -60,18 +61,45 @@ public abstract class CResourceStrings
 	}
 	
 	protected ArrayList<String> langId = new ArrayList<String>() ;
-	protected class CLocalizedText
+	public static final class CLocalizedValue
 	{
-		public String csId = "" ;
-		public HashMap<String, String> textTable = new HashMap<String, String>();
-		public int length =0  ; 
+		private final String languageCode;
+		private final String text;
+
+		CLocalizedValue(String languageCode, String text)
+		{
+			this.languageCode = languageCode;
+			this.text = text;
+		}
+
+		public String getLanguageCode() { return languageCode; }
+		public String getText() { return text; }
+	}
+
+	public static final class CLocalizedText
+	{
+		private String id = "" ;
+		private final LinkedHashMap<String, String> textTable = new LinkedHashMap<>();
+		private int length = 0;
+
+		public String getId() { return id; }
+		public int getLength() { return length; }
+		public List<CLocalizedValue> getTexts()
+		{
+			ArrayList<CLocalizedValue> values = new ArrayList<>();
+			for (Map.Entry<String, String> entry : textTable.entrySet())
+			{
+				values.add(new CLocalizedValue(entry.getKey(), entry.getValue()));
+			}
+			return Collections.unmodifiableList(values);
+		}
 	}
 	public CResourceStrings(int nbLines, int nbCols)
 	{
 		this.nbCols = nbCols ;
 		this.nbLines = nbLines ;
 		lines = new CLocalizedText[nbLines+1][];
-		tabTexts = new Hashtable<String, CLocalizedText>() ;
+		tabTexts = new LinkedHashMap<String, CLocalizedText>() ;
 	}
 	public void SetResourceText(int line, int col, String text, String langID, int length)
 	{
@@ -96,7 +124,7 @@ public abstract class CResourceStrings
 		lText.textTable.put(csLang, text) ;
 		if (!id.equals(""))
 		{
-			lText.csId = id ;
+			lText.id = id ;
 			tabTexts.put(id, lText) ;
 		}
 	}
@@ -115,8 +143,6 @@ public abstract class CResourceStrings
 		} 
 		return text;
 	}
-	public abstract Element Export(Element parent, Document root);
-	
 	public String CreateName(String radical)
 	{
 		return radical + "_LABEL_" + lastIndex++;
@@ -125,9 +151,19 @@ public abstract class CResourceStrings
 	protected int nbLines = 0 ;
 	protected int nbCols = 0 ;
 	protected CLocalizedText[][] lines = null ;
-	protected Hashtable<String, CLocalizedText> tabTexts = null ;
+	protected LinkedHashMap<String, CLocalizedText> tabTexts = null ;
 
-	public Node ExportResource(String name, Document doc)
+	public CLocalizedText getLocalizedText(String name)
+	{
+		return tabTexts.get(name);
+	}
+
+	public List<CLocalizedText> getLocalizedTexts()
+	{
+		return Collections.unmodifiableList(new ArrayList<>(tabTexts.values()));
+	}
+
+	public Node exportResource(String name, Document doc)
 	{
 		CLocalizedText res = tabTexts.get(name) ;
 		if (res == null)
@@ -135,26 +171,28 @@ public abstract class CResourceStrings
 			return null;
 		}
 		Element eText = doc.createElement("texts");
-		int n = res.textTable.size() ;
-		for (int i=0; i<n; i+=2)
+		for (CLocalizedValue value : res.getTexts())
 		{
-			String id = res.textTable.get(i) ;
-			String text = res.textTable.get(i+1) ;
 			Element e = doc.createElement("text");
-			e.setAttribute("lang", id) ;
+			e.setAttribute("lang", value.getLanguageCode()) ;
 			eText.appendChild(e);
-			e.appendChild(doc.createTextNode(text));
+			e.appendChild(doc.createTextNode(value.getText()));
 		}
 		return eText ;
 	}
-	public abstract void FormatResource(String name) ;
-	/**
-	 * @param initialValue
-	 * @return
-	 */
-	public abstract String ExportForField(String initialValue, String display) ; 
+
+	/** Semantic normalization used by TITLE fields; target formatting is handled by the renderer. */
+	public void FormatResource(String name)
+	{
+		CLocalizedText resource = tabTexts.get(name);
+		if (resource == null)
+		{
+			return;
+		}
+		resource.textTable.replaceAll((language, text) -> text.trim());
+	}
 	
-	public String ExportAllLangId()
+	public String exportAllLangId()
 	{
 		String cs = "" ;
 		for (int i = 0; i< langId.size(); i++)

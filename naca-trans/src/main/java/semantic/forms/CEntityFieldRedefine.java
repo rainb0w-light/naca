@@ -8,7 +8,6 @@ package semantic.forms;
 
 
 import java.util.Vector;
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 import org.w3c.dom.Document;
@@ -111,21 +110,6 @@ public class CEntityFieldRedefine extends CEntityResourceField
 		return CDataEntityType.FIELD ;
 	}
 
-	public String ExportReference(int nLine)
-	{
-		// Mirrors the retired backend's formatIdentifier(GetName()). LegacyDataRenderer
-		// ignores a semantic-declared ExportReference and renders the reference through the
-		// recursiveFieldRedefineEntity binding instead; this override stays for direct callers
-		// and reads only the precomputed, target-formatted identifier.
-		return getFormattedName() ;
-	}
-
-	public String ExportWriteAccessorTo(String value)
-	{
-		// Preserved from the retired backend: unused, no reachable write-accessor protocol.
-		return "" ;
-	}
-
 	public boolean isValNeeded()
 	{
 		// Preserved from the retired backend: a redefining edit field is never declared as a val.
@@ -136,15 +120,6 @@ public class CEntityFieldRedefine extends CEntityResourceField
 	{
 		// Preserved from the retired backend: unused.
 		return "" ;
-	}
-
-	protected void DoExport()
-	{
-		// Legacy traversal bridge: the surrounding CJavaForm DoExport reflectively invokes this.
-		// The declaration line + block are rendered through the recursive ST4 assembly contract by
-		// the generate-layer renderer the factory injects; a hand-built entity (no factory) is a
-		// no-op and never fails.
-		declarationRenderer.accept(this) ;
 	}
 
 	protected void RegisterMySelfToCatalog()
@@ -253,18 +228,4 @@ public class CEntityFieldRedefine extends CEntityResourceField
 		return isblankWhenZero ? ".blankWhenZero()" : "" ;
 	}
 
-	/**
-	 * Generate-layer declaration renderer (the retired backend's {@code DoExport} body, moved
-	 * out of the semantic tree). Invoked from {@link #DoExport()} when the legacy traversal
-	 * reaches this field. Defaults to a no-op so a hand-built entity stays well-formed.
-	 */
-	private Consumer<CEntityFieldRedefine> declarationRenderer = entity -> {};
-
-	public void setDeclarationRenderer(Consumer<CEntityFieldRedefine> renderer)
-	{
-		if (renderer != null)
-		{
-			declarationRenderer = renderer ;
-		}
-	}
 }

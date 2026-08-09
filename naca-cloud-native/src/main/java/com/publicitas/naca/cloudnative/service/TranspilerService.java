@@ -8,7 +8,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.CStringExporter;
 import lexer.CTokenList;
 import lexer.Cobol.CCobolLexer;
@@ -267,7 +267,7 @@ public class TranspilerService {
             CObjectCatalog catalog = new CObjectCatalog(globalCatalog, listing, CTransApplicationGroup.EProgramType.TYPE_BATCH, null);
             CStringExporter exporter = new CStringExporter();
             catalog.setExporter(exporter);
-            CJavaEntityFactoryST factory = new CJavaEntityFactoryST(catalog, exporter);
+            CJavaEntityFactory factory = new CJavaEntityFactory(catalog, exporter);
             factory.InitCustomCICSEntities();
             CEntityClass rootEntity = program.DoSemanticAnalysis(factory);
             if (rootEntity == null) return null;

@@ -17,7 +17,6 @@ import java.util.Comparator;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.Vector;
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -226,14 +225,14 @@ public class CEntityResourceFormContainer extends CBaseResourceEntity
 //		for (int i=0; i<arrForm.size(); i++)
 //		{
 		CEntityResourceForm form = arrForm.get(0);
-		form.ExportXMLFields(fields, doc, resStrings) ;
+		form.exportXMLFields(fields, doc, resStrings) ;
 //		}
 		
 		String name = getFormattedName() ;
 		Element ePFKeysDefine = form.MakePFKeysDescriptionDefine(doc) ;
 		Element ePFKeysSpecial = form.MakePFKeysDescriptionAction(doc) ;
 		Element eRoot = createNewFormBody(doc, name, name, ePFKeysDefine, ePFKeysSpecial) ;
-		form.ExportCustomProperties(doc) ;
+		form.exportCustomProperties(doc) ;
 		Element eBody = createVBox(doc, eRoot);
 		int nb = fields.size() ;
 		FieldExportDescription[] arr = new FieldExportDescription[nb] ;
@@ -328,7 +327,7 @@ public class CEntityResourceFormContainer extends CBaseResourceEntity
 		eForm.appendChild(ePFKeysSpecial);
 		
 		// list all languages
-		String lang = resStrings.ExportAllLangId() ;
+		String lang = resStrings.exportAllLangId() ;
 		eForm.setAttribute("allLanguages", lang) ;
 		
 		Element eBody = doc.createElement("formbody");
@@ -544,14 +543,6 @@ public class CEntityResourceFormContainer extends CBaseResourceEntity
 		return false;
 	}
 
-	public String ExportWriteAccessorTo(String value)
-	{
-		// Preserved from the retired backend: no reachable write-accessor protocol (the legacy
-		// backend returned "" — unused). LegacyDataRenderer.renderWriteAccessor ignores this
-		// semantic-declared method (declaring class starts with "semantic.") and returns null.
-		return "" ;
-	}
-
 	public boolean IsNeedDeclarationInClass()
 	{
 		// Preserved from the retired backend: a mapset is needed as an in-class declaration.
@@ -573,25 +564,6 @@ public class CEntityResourceFormContainer extends CBaseResourceEntity
 		{
 			return GetName().replace('-', '_');
 		}
-	}
-
-	public String ExportReference(int nLine)
-	{
-		// Mirrors the retired backend's formatIdentifier(GetName()). LegacyDataRenderer ignores this
-		// semantic-declared ExportReference and renders the reference through the
-		// recursiveFormContainerEntity binding instead; this override stays for direct callers and
-		// reads only the precomputed, target-formatted reference.
-		return getContainerReference() ;
-	}
-
-	protected void DoExport()
-	{
-		// Legacy traversal bridge: the BMS transcoder reaches the mapset root through
-		// LegacyLanguageRenderer.invokeExport. The class skeleton (imports, class header, Copy methods,
-		// constructor) and the map block are rendered through the recursive ST4 assembly contract by
-		// the generate-layer renderer the factory injects; a hand-built entity (no factory) is a no-op
-		// and never fails.
-		containerRenderer.accept(this) ;
 	}
 
 	/**
@@ -637,18 +609,4 @@ public class CEntityResourceFormContainer extends CBaseResourceEntity
 		return GetName() ;
 	}
 
-	/**
-	 * Generate-layer class-skeleton renderer (the retired backend's {@code DoExport} body, moved out of
-	 * the semantic tree). Invoked from {@link #DoExport()} when the BMS transcoder reaches this mapset
-	 * root. Defaults to a no-op so a hand-built entity stays well-formed.
-	 */
-	private Consumer<CEntityResourceFormContainer> containerRenderer = entity -> {};
-
-	public void setContainerRenderer(Consumer<CEntityResourceFormContainer> renderer)
-	{
-		if (renderer != null)
-		{
-			containerRenderer = renderer ;
-		}
-	}
 }

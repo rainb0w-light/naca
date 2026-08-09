@@ -94,10 +94,6 @@ public class CEntityGetKeyPressed extends CDataEntity
 		// get-key-pressed pseudo-variable is never declared as a val.
 		return false;
 	}
-	protected void DoExport()
-	{
-		// unused
-	}
 	public CBaseEntityCondition GetSpecialCondition(int nLine, CDataEntity eData2, EConditionType type, CBaseEntityFactory factory)
 	{
 		if (eData2.GetDataType() == CDataEntityType.CONSOLE_KEY)

@@ -7,9 +7,9 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.LegacyDataRenderer;
-import generate.java.forms.CJavaField;
+import generate.java.forms.BmsJavaEntities;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.DisplayName;
@@ -18,6 +18,7 @@ import semantic.CBaseActionEntity;
 import semantic.CDataEntity;
 import semantic.expression.CBaseEntityCondition;
 import semantic.forms.CEntityFieldHighlight;
+import semantic.forms.CEntityResourceField;
 import semantic.forms.CEntityIsFieldHighlight;
 import semantic.forms.CEntitySetHighligh;
 import utils.CGlobalCatalog;
@@ -99,8 +100,8 @@ class FieldHighlightRenderTest
     void factoryReturnsPureSemanticEntity()
     {
         CObjectCatalog catalog = catalog();
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog, new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog, new MockJavaExporter());
         CEntityFieldHighlight fieldHighlight =
             factory.NewEntityFieldHighlight(1, "WS-FIELD-H", owner());
         // Exactly the pure semantic class, not a legacy CJava* controller subclass.
@@ -149,8 +150,9 @@ class FieldHighlightRenderTest
         // the pure semantic entity through the rewired factory.
         CObjectCatalog catalog = catalog();
         MockJavaExporter exporter = new MockJavaExporter();
-        CJavaEntityFactoryST factory = new CJavaEntityFactoryST(catalog, exporter);
-        CJavaField field = new CJavaField(1, "NMMASQ", catalog, exporter);
+        CJavaEntityFactory factory = new CJavaEntityFactory(catalog, exporter);
+        CEntityResourceField field = BmsJavaEntities.entryField(
+            1, "NMMASQ", catalog, exporter);
 
         field.InitDependences(factory);
 
@@ -170,8 +172,8 @@ class FieldHighlightRenderTest
     void specialAssignmentAndConditionBranchesPreserved()
     {
         CObjectCatalog catalog = catalog();
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog, new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog, new MockJavaExporter());
         MockDataEntity ownerField = owner();
         CEntityFieldHighlight fieldHighlight =
             new CEntityFieldHighlight(1, "WS-FIELD-H", catalog, ownerField);

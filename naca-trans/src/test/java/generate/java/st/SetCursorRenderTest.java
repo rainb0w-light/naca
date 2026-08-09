@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.DisplayName;
@@ -52,7 +52,7 @@ import utils.CTransApplicationGroup;
  * lowers to a moved-value cursor action, {@code MOVE -1} to the bare
  * {@code setCursor}, {@code MOVE 0}/ZERO to {@code removeCursor}); it now builds
  * the pure entity through the rewired factory ({@code CJavaEntityFactory.NewEntitySetCursor},
- * inherited by {@code CJavaEntityFactoryST}). The FPac factory throws
+ * inherited by {@code CJavaEntityFactory}). The FPac factory throws
  * {@code NacaTransAssertException} for this entity, so no FPac tree ever holds it.
  */
 class SetCursorRenderTest
@@ -88,7 +88,7 @@ class SetCursorRenderTest
      * to the owner field.
      */
     private static CEntitySetCursor lowerMoveToFieldLength(
-        CDataEntity movedValue, CJavaEntityFactoryST factory)
+        CDataEntity movedValue, CJavaEntityFactory factory)
     {
         CEntityFieldLength fieldLength =
             new CEntityFieldLength(1, "WS-FIELD-L", catalog(), owner());
@@ -101,8 +101,8 @@ class SetCursorRenderTest
     @DisplayName("a moved value renders moveCursor(value, field) (legacy DoExport parity)")
     void movedValueRendersMoveCursor()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntitySetCursor setCursor =
             lowerMoveToFieldLength(new MockDataEntity(2, "WS-POS"), factory);
 
@@ -120,8 +120,8 @@ class SetCursorRenderTest
     @DisplayName("MOVE -1 TO <FIELD>-L renders setCursor(field)")
     void minusOneConstantRendersSetCursor()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntityFieldLength fieldLength =
             new CEntityFieldLength(1, "WS-FIELD-L", catalog(), owner());
 
@@ -140,8 +140,8 @@ class SetCursorRenderTest
     @DisplayName("MOVE 0/ZERO TO <FIELD>-L renders removeCursor(field)")
     void zeroConstantRendersRemoveCursor()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         for (String zero : new String[] { "0", "ZERO", "ZEROS", "ZEROES" })
         {
             CEntityFieldLength fieldLength =
@@ -161,8 +161,8 @@ class SetCursorRenderTest
     @DisplayName("an unsupported constant still lowers to no cursor action")
     void unsupportedConstantLowersToNothing()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntityFieldLength fieldLength =
             new CEntityFieldLength(1, "WS-FIELD-L", catalog(), owner());
         // MOVE 1 TO <FIELD>-L lowers to a set-attribute (modified) action, never a
@@ -176,8 +176,8 @@ class SetCursorRenderTest
     void factoryReturnsPureSemanticEntity()
     {
         CObjectCatalog catalog = catalog();
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog, new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog, new MockJavaExporter());
         MockDataEntity field = owner();
 
         CEntitySetCursor setCursor = factory.NewEntitySetCursor(1, field);
@@ -195,8 +195,8 @@ class SetCursorRenderTest
     void legacyBranchPrecedencePreserved()
     {
         CObjectCatalog catalog = catalog();
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog, new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog, new MockJavaExporter());
         MockDataEntity field = owner();
         CEntitySetCursor setCursor = factory.NewEntitySetCursor(1, field);
 
@@ -218,8 +218,8 @@ class SetCursorRenderTest
     void ignoreSemanticsPreserved()
     {
         CObjectCatalog catalog = catalog();
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog, new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog, new MockJavaExporter());
 
         // No field reference -> ignored (never rendered).
         CEntitySetCursor noField = factory.NewEntitySetCursor(1, null);

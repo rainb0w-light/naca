@@ -178,19 +178,6 @@ public class CEntityFormAccessor extends CBaseDataReference
 	}
 
 	/**
-	 * Mirrors the retired backend's {@code ExportReference(nLine) ==
-	 * LegacyDataRenderer.renderReference(owner, getLine())}: a reference to the accessor is
-	 * exactly the owning form's data reference. {@code LegacyDataRenderer.renderReference}
-	 * ignores this semantic-declared override and renders the reference through the
-	 * {@code recursiveFormAccessorEntity} binding instead; this override stays for direct
-	 * callers and reads only the precomputed owner reference.
-	 */
-	public String ExportReference(int nLine)
-	{
-		return getFormReference() ;
-	}
-
-	/**
 	 * Pure read-only getter consumed by the {@code recursiveFormAccessorEntity} template:
 	 * the owning form's data reference this accessor aliases. The owner's reference is the
 	 * precomputed, target-formatted reference {@link CEntityResourceForm#getFormReference()}
@@ -216,26 +203,12 @@ public class CEntityFormAccessor extends CBaseDataReference
 		return owner != null && owner.HasAccessors() ;
 	}
 
-	public String ExportWriteAccessorTo(String value)
-	{
-		// Preserved from the retired backend, which returned
-		// LegacyDataRenderer.renderWriteAccessor(owner, value): that reflection boundary
-		// ignores the owner's semantic-declared method and yields null, so the effective
-		// legacy result is null — no reachable write-accessor protocol. A semantic-declared
-		// override is ignored by renderWriteAccessor on this entity as well.
-		return null ;
-	}
-
 	public boolean isValNeeded()
 	{
 		// Preserved from the retired backend: a form accessor is never declared as a val.
 		return false ;
 	}
 
-	protected void DoExport()
-	{
-		// Preserved from the retired backend: unused (a form accessor emits no statement).
-	}
 //	protected void RegisterMySelfToCatalog()
 //	{
 //		programCatalog.RegisterDataEntity(GetName(), this) ;

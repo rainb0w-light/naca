@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.DisplayName;
@@ -69,7 +69,7 @@ class SQLLockRenderTest
     void lockWithSqlErrorGotoChainsClause()
     {
         CObjectCatalog catalog = catalog();
-        CJavaEntityFactoryST factory = new CJavaEntityFactoryST(catalog, new MockJavaExporter());
+        CJavaEntityFactory factory = new CJavaEntityFactory(catalog, new MockJavaExporter());
         // Stage-1 side effect of EXEC SQL WHENEVER SQLERROR GOTO PC-ERR-DB2: registers
         // the policy into the catalog (exactly as pinned by SqlOnErrorGotoRenderTest).
         factory.NewEntitySQLOnErrorGoto(108, "PC-ERR-DB2");
@@ -86,7 +86,7 @@ class SQLLockRenderTest
     void factoryReturnsPureSemanticEntity()
     {
         CObjectCatalog catalog = catalog();
-        CJavaEntityFactoryST factory = new CJavaEntityFactoryST(catalog, new MockJavaExporter());
+        CJavaEntityFactory factory = new CJavaEntityFactory(catalog, new MockJavaExporter());
         CEntitySQLLock lock = factory.NewEntitySQLLock(1);
         // Exactly the pure semantic class, not a legacy CJava* controller subclass.
         assertEquals(CEntitySQLLock.class, lock.getClass());
@@ -119,7 +119,7 @@ class SQLLockRenderTest
 
         // Once a WHENEVER SQLERROR GOTO policy is registered (Stage-1 side effect),
         // the getter surfaces the chainable clause verbatim for the template.
-        CJavaEntityFactoryST factory = new CJavaEntityFactoryST(catalog, new MockJavaExporter());
+        CJavaEntityFactory factory = new CJavaEntityFactory(catalog, new MockJavaExporter());
         factory.NewEntitySQLOnErrorGoto(108, "PC-ERR-DB2");
         assertEquals(".onErrorGoto(PC_ERR_DB2)", lock.getSqlWarningErrorStatement());
     }

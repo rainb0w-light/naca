@@ -6,9 +6,6 @@
  */
 package generate;
 
-import generate.fpacjava.*;
-import generate.fpacjava.CFPacJavaRoutineEmulationCall;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -67,7 +64,9 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityUnknownReference NewEntityUnknownReference(int nLine, String csName)
 	{
-		return new CFPacJavaUnknownReference(nLine, csName, programCatalog, langOutput);
+		CFPacUnknownReference entity =
+			new CFPacUnknownReference(nLine, csName, programCatalog);
+		return entity;
 	}
 
 	@Override
@@ -200,8 +199,6 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 		// and diverge (or emit invalid Java). Replaced the retired generate.fpacjava display
 		// backend; mirrors the conversion-reference retirement (pure entity + legacy output bind).
 		CEntityDisplay e = new CEntityDisplay(l, programCatalog, t) ;
-		e.setReferenceRenderer(generate.LegacyDataRenderer::renderReference) ;
-		generate.LegacyLanguageRenderer.bind(e, langOutput) ;
 		return e ;
 	}
 
@@ -348,8 +345,12 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityIntrinsicFunction NewEntityIntrinsicFunction(String functionName, List<CBaseEntityExpression> arguments)
 	{
-		return new CFPacJavaIntrinsicFunction(
-			programCatalog, langOutput, functionName, arguments);
+		// The FPac parser has no live intrinsic-function producer, but the factory
+		// contract still returns the same pure semantic function used by COBOL. Its
+		// shared recursive template is byte-identical to the retired backend.
+		CEntityIntrinsicFunction entity =
+			new CEntityIntrinsicFunction(programCatalog, functionName, arguments) ;
+		return entity ;
 	}
 
 	@Override
@@ -425,7 +426,8 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityMultiply NewEntityMultiply(int l)
 	{
-		return new CFPacJavaMultiply(l, programCatalog, langOutput) ;
+		CEntityMultiply entity = new CEntityMultiply(l, programCatalog) ;
+		return entity ;
 	}
 
 	@Override
@@ -448,8 +450,6 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 		// still-legacy FPac operand types to the COBOL templates and diverge (or emit invalid Java).
 		// Replaced the retired generate.fpacjava.CFPacJavaDivide backend.
 		CEntityDivide e = new CEntityDivide(l, programCatalog) ;
-		e.setReferenceRenderer(generate.LegacyDataRenderer::renderReference) ;
-		generate.LegacyLanguageRenderer.bind(e, langOutput) ;
 		return e ;
 	}
 
@@ -496,7 +496,6 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 		// performs no whole-tree bind pass), mirroring the COBOL factory and every retired FPac
 		// verb. Lowering stays in stage 1; the semantic entity stays generate-neutral.
 		CEntityDataSection e = new CEntityDataSection(l, name, programCatalog);
-		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 
@@ -510,7 +509,8 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntitySubtractTo NewEntitySubtractTo(int l)
 	{
-		return new CFPacJavaSubtractTo(l, programCatalog, langOutput);
+		CEntitySubtractTo entity = new CEntitySubtractTo(l, programCatalog) ;
+		return entity;
 	}
 
 	@Override
@@ -602,7 +602,8 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityString NewEntityString(char[] value)
 	{
-		return new CFPacJavaString(programCatalog, langOutput, value) ;
+		CEntityString entity = new CEntityString(programCatalog, value) ;
+		return entity ;
 	}
 
 	@Override
@@ -626,7 +627,10 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityNumber NewEntityNumber(String value)
 	{
-		return new CFPacJavaNumber(programCatalog, langOutput, value) ;
+		CEntityNumber entity = new CEntityNumber(programCatalog, value) ;
+		entity.preserveSourceLexeme() ;
+		entity.setValueNeeded(false) ;
+		return entity ;
 	}
 
 	@Override
@@ -646,8 +650,8 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 		// dispatches on the target-neutral semantic class CEntityExprTerminal and walks the term
 		// through the shared reference manifest -- byte-identical output with or without the
 		// generate.fpacjava subclass (the binding resolves by superclass walk today already). The
-		// ONLY reflective-Export() consumer, generate.fpacjava.CFPacJavaIntrinsicFunction.
-		// ExportReference, is unreachable from FPac: no FPac parser node calls
+		// The former reflective intrinsic-function consumer was unreachable from FPac:
+		// no FPac parser node calls
 		// NewEntityIntrinsicFunction. Mirrors the CEntityExprSum / CEntityAddress / CEntityCondIsBoolean
 		// retirements (pure entity + shared assembler, dead Export removed). No FPac override belongs
 		// in semantic-fpac-bindings.properties: FPac's terminal lowering is the bare term reference,
@@ -743,7 +747,6 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 		// javaProgramRoot the shared ROOT manifest selects for this same class. Lowering stays
 		// in stage 1: the entity is generate-neutral and its name/catalog are resolved here.
 		CEntityClass e = new CEntityClass(l, name, programCatalog) ;
-		generate.LegacyLanguageRenderer.bind(e, langOutput) ;
 		return e ;
 	}
 
@@ -763,7 +766,6 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 		// of a retired verb container lowers through FPAC_REFERENCE; the template only reads
 		// entity.comment, a pure getter (no FormatIdentifier/output work).
 		CEntityComment e = new CEntityComment(l, programCatalog, comment) ;
-		generate.LegacyLanguageRenderer.bind(e, langOutput) ;
 		return e ;
 	}
 
@@ -784,7 +786,8 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityProcedure NewEntityProcedure(int l, String name,	CEntityProcedureSection section)
 	{
-		return new CFPacJavaProcedure(l, name, programCatalog, langOutput, section) ;
+		CEntityProcedure entity = new CEntityProcedure(l, name, programCatalog, section) ;
+		return entity ;
 	}
 
 	@Override
@@ -807,7 +810,6 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 		// statement COBOL already emits for this same semantic entity. The template only reads
 		// entity.value / entity.destinations; the parser/factory precomputes both.
 		CEntityAssign e = new CEntityAssign(l, programCatalog);
-		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 
@@ -911,7 +913,6 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 		// through would NPE in the entity constructor. Lowering stays in the factory; the
 		// semantic entity stays generate-neutral and the reference is resolved in stage 1.
 		CEntityCallFunction e = new CEntityCallFunction(l, programCatalog, reference, "", null) ;
-		generate.LegacyLanguageRenderer.bind(e, langOutput) ;
 		return e ;
 	}
 
@@ -925,7 +926,8 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityReturn NewEntityReturn(int l)
 	{
-		return new CFPacJavaReturn(l, programCatalog, langOutput) ;
+		CEntityReturn entity = new CEntityReturn(l, programCatalog) ;
+		return entity ;
 	}
 
 	@Override
@@ -944,7 +946,6 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 		// extends FPacProgram". Lowering stays in the factory; the semantic entity stays
 		// generate-neutral and the reference/parameters are resolved in stage 1.
 		CEntityCallProgram e = new CEntityCallProgram(l, programCatalog, reference) ;
-		generate.LegacyLanguageRenderer.bind(e, langOutput) ;
 		return e ;
 	}
 
@@ -964,7 +965,9 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CSubStringAttributReference NewEntitySubString(int l)
 	{
-		return new CFPacJavaSubStringAttributeReference(l, programCatalog,langOutput) ;
+		CPositionedBufferReference entity =
+			new CPositionedBufferReference(l, programCatalog) ;
+		return entity ;
 	}
 
 	@Override
@@ -979,14 +982,17 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 		// emits for this same semantic entity. The factory populates reference + indexes
 		// (CEntityStructure.GetArrayReference et al.); the template only reads entity.*.
 		CEntityArrayReference e = new CEntityArrayReference(l, programCatalog);
-		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 
 	@Override
 	public CEntityGoto NewEntityGoto(int l, String Reference, CEntityProcedureSection section)
 	{
-		return new CFPacJavaGoto(l, programCatalog, langOutput, Reference, section) ;
+		// FPac GOEND/GOLAST returns the reserved FPacProgram control token. Keep
+		// the shared semantic GO TO node, but lower it through the FPAC_REFERENCE
+		// override rather than COBOL's goTo(paragraph) template.
+		CEntityGoto entity = new CEntityGoto(l, programCatalog, Reference, section) ;
+		return entity ;
 	}
 
 	@Override
@@ -1225,7 +1231,6 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 		// entity.environmentWriteAccessor / entity.value; the parser/factory precomputes both
 		// (CFPacAssign calls SetAssign, CFPacMove calls SetRefTo + SetValue).
 		CEntityAssignWithAccessor e = new CEntityAssignWithAccessor(l, programCatalog);
-		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 
@@ -1262,7 +1267,6 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 		// at construction; the template only reads entity.readAccessor.
 		CEntityEnvironmentVariable e =
 			new CEntityEnvironmentVariable(0, namev, programCatalog, acc, write, bNumeric);
-		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 
@@ -1328,7 +1332,9 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityRoutineEmulationCall NewEntityRoutineEmulationCall(int l)
 	{
-		return new CFPacJavaRoutineEmulationCall(l, programCatalog, langOutput) ;
+		CEntityRoutineEmulationCall entity =
+			new CEntityRoutineEmulationCall(l, programCatalog) ;
+		return entity ;
 	}
 
 	@Override
@@ -1375,7 +1381,13 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityFileDescriptor NewEntityFileDescriptor(int line, String name)
 	{
-		return new CFPacJavaFileDescriptor(line, name, programCatalog, langOutput) ;
+		// Pure target-neutral descriptor. FPac declaration syntax is selected by the
+		// FPAC_REFERENCE manifest (recursiveFPacFileDescriptorEntity), while the shared
+		// COBOL declaration binding remains unchanged. Bind the compatibility output at
+		// construction because the transitional FPac root still forwards assembler text
+		// through LegacyLanguageRenderer until the procedure container also retires.
+		CEntityFileDescriptor entity = new CEntityFileDescriptor(line, name, programCatalog);
+		return entity;
 	}
 
 	@Override
@@ -1389,7 +1401,8 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityOpenFile NewEntityOpenFile(int line)
 	{
-		return new CFpacJavaOpenFile(line, programCatalog, langOutput) ;
+		CEntityOpenFile entity = new CEntityOpenFile(line, programCatalog) ;
+		return entity ;
 	}
 
 	@Override
@@ -1413,20 +1426,21 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 		// semantic.Verbs.CEntityCloseFile" once CFPacJavaProcedure.DoExport routes the retired
 		// verb through the assembler (exportChildren(this, false, FPAC_REFERENCE)).
 		CEntityCloseFile e = new CEntityCloseFile(line, programCatalog);
-		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 
 	@Override
 	public CEntityReadFile NewEntityReadFile(int line)
 	{
-		return new CFPacJavaReadFile(line, programCatalog, langOutput) ;
+		CEntityReadFile entity = new CEntityReadFile(line, programCatalog) ;
+		return entity ;
 	}
 
 	@Override
 	public CEntityWriteFile NewEntityWriteFile(int line)
 	{
-		return new CFPacJavaWriteFile(line, programCatalog, langOutput) ;
+		CEntityWriteFile entity = new CEntityWriteFile(line, programCatalog) ;
+		return entity ;
 	}
 
 	@Override
@@ -1478,7 +1492,9 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	{
 		if (mehodName.equalsIgnoreCase("ReadAndTestFile"))
 		{
-			return new CFPacJavaReadAndTestFile(programCatalog, langOutput, object) ;
+			CEntityFunctionCall entity = new CEntityFunctionCall(programCatalog, object) ;
+			entity.CallFunction(mehodName) ;
+			return entity ;
 		}
 		else
 		{
@@ -1553,7 +1569,14 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityFormatedVarReference NewEntityFormatedVarReference(CDataEntity object, String format)
 	{
-		return new CFPacJavaFormatedVarReference(object, programCatalog, langOutput, format) ;
+		// Direct backend CFPacJavaFormatedVarReference retired: the pure semantic
+		// reference renders transparently through recursiveFPacFormatedVarReferenceEntity.
+		// Its former value-parameterized ExportWriteAccessorTo protocol has no producer
+		// or consumer in the parser/generator pipeline and is intentionally not retained
+		// on the semantic value; writes belong to action entities.
+		CEntityFormatedVarReference entity =
+			new CEntityFormatedVarReference(object, programCatalog, format) ;
+		return entity ;
 	}
 	@Override
 	public CEntityInc NewEntityInc(int line)
@@ -1576,7 +1599,6 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 		// the retired generate.fpacjava.CFPacJavaConvertReference direct backend. Mirrors
 		// the CEntityArrayReference retirement (pure entity + legacy output binding).
 		CEntityConvertReference e = new CEntityConvertReference(programCatalog) ;
-		generate.LegacyLanguageRenderer.bind(e, langOutput) ;
 		return e ;
 	}
 
@@ -1586,7 +1608,8 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityIsFileEOF NewEntityIsFileEOF(CEntityFileDescriptor fb)
 	{
-		return new CFPacJavaIsFileEOF(fb) ;
+		CEntityIsFileEOF entity = new CEntityIsFileEOF(fb) ;
+		return entity ;
 	}
 
 	/**
@@ -1638,7 +1661,6 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 		// nacaLib.fpacPrgEnv.FPacProgram declares movePacked(Var, Var), delegating to
 		// nacaLib.basePrgEnv.BaseProgram.move(Var, Var).
 		CEntityAssignSpecial e = new CEntityAssignSpecial(l, programCatalog);
-		generate.LegacyLanguageRenderer.bind(e, langOutput);
 		return e;
 	}
 

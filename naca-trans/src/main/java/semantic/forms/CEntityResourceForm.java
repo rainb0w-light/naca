@@ -37,7 +37,6 @@ import utils.Transcoder;
 
 import java.util.HashMap;
 import java.util.ArrayList;
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
@@ -470,7 +469,7 @@ public class CEntityResourceForm extends CBaseResourceEntity
 	}
 	protected CFieldRedefineStructure redefineStructure = new CFieldRedefineStructure() ;
 
-	public void ExportXMLFields(SortedSet<CEntityResourceFormContainer.FieldExportDescription> setFields, Document doc, CResourceStrings res)
+	public void exportXMLFields(SortedSet<CEntityResourceFormContainer.FieldExportDescription> setFields, Document doc, CResourceStrings res)
 	{
 		for (int i=0; i<arrFields.size(); i++)
 		{
@@ -827,7 +826,7 @@ public class CEntityResourceForm extends CBaseResourceEntity
 	/**
 	 * @param root
 	 */
-	public void ExportCustomProperties(Document doc)
+	public void exportCustomProperties(Document doc)
 	{
 		Element eForm = doc.getDocumentElement() ;
 		if (!csCustomOnloadMethod.equals(""))
@@ -957,14 +956,6 @@ public class CEntityResourceForm extends CBaseResourceEntity
 		return false;
 	}
 
-	public String ExportWriteAccessorTo(String value)
-	{
-		// Preserved from the retired backend: no reachable write-accessor protocol (the legacy
-		// backend returned "" — unused). LegacyDataRenderer.renderWriteAccessor ignores this
-		// semantic-declared method (declaring class starts with "semantic.") and returns null.
-		return "" ;
-	}
-
 	/* (non-Javadoc)
 	 * @see semantic.CBaseExternalEntity#GetTypeDecl()
 	 */
@@ -972,24 +963,6 @@ public class CEntityResourceForm extends CBaseResourceEntity
 	{
 		// Preserved from the retired backend: a form contributes no type declaration (unused).
 		return "";
-	}
-
-	public String ExportReference(int nLine)
-	{
-		// Mirrors the retired backend's [renderReference(of) + "."] + formatIdentifier(GetName()).
-		// LegacyDataRenderer ignores this semantic-declared ExportReference and renders the reference
-		// through the recursiveFormEntity binding instead; this override stays for direct callers and
-		// reads only the precomputed, target-formatted reference.
-		return getFormReference() ;
-	}
-
-	protected void DoExport()
-	{
-		// Legacy traversal bridge: the surrounding CJavaFormContainer.DoExport reflectively invokes
-		// this (invokeExport(eForm)). The declaration line + field block are rendered through the
-		// recursive ST4 assembly contract by the generate-layer renderer the factory injects; a
-		// hand-built entity (no factory) is a no-op and never fails.
-		declarationRenderer.accept(this) ;
 	}
 
 	/**
@@ -1071,18 +1044,4 @@ public class CEntityResourceForm extends CBaseResourceEntity
 		return nSizeCol ;
 	}
 
-	/**
-	 * Generate-layer declaration renderer (the retired backend's {@code DoExport} body, moved out
-	 * of the semantic tree). Invoked from {@link #DoExport()} when the legacy traversal reaches
-	 * this form. Defaults to a no-op so a hand-built entity stays well-formed.
-	 */
-	private Consumer<CEntityResourceForm> declarationRenderer = entity -> {};
-
-	public void setDeclarationRenderer(Consumer<CEntityResourceForm> renderer)
-	{
-		if (renderer != null)
-		{
-			declarationRenderer = renderer ;
-		}
-	}
 }

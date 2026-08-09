@@ -11,6 +11,7 @@ import generate.java.st.MockJavaExporter;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import semantic.CEntityStructure;
+import semantic.CEntityProcedure;
 import semantic.CDataEntity;
 import semantic.CSubStringAttributReference;
 import semantic.Verbs.CEntityConvertReference;
@@ -243,7 +244,7 @@ class CFPacJavaDivideRetirementTest
         CJavaFPacEntityFactory factory = new CJavaFPacEntityFactory(productionCatalog, out);
 
         // Constructor self-binds the owner to `out`, exactly as in production.
-        CFPacJavaProcedure owner = new CFPacJavaProcedure(2, "MAIN", productionCatalog, out, null);
+        CEntityProcedure owner = factory.NewEntityProcedure(2, "MAIN", null);
 
         // Factory binds the verb to `out` at creation; AddChild below does not propagate. The
         // operand order mirrors the parser: SetDivide(var2, var1, false) -> result == var2 (dividend).
@@ -251,10 +252,8 @@ class CFPacJavaDivideRetirementTest
         divide.SetDivide(factory.NewEntityNumber("00050"), factory.NewEntityNumber("00002"), false);
         owner.AddChild(divide);
 
-        // The exact production driver: CFPacJavaProcedure.DoExport -> exportChildren(FPAC_REFERENCE).
-        LegacyLanguageRenderer.invokeExport(owner);
-
-        String rendered = out.getCapturedOutput();
+        String rendered = TemplateLoader.getRecursiveAssembler()
+            .renderRoot(owner, JavaTemplateRole.FPAC_REFERENCE);
         assertTrue(rendered.contains("divide(00050, 00002).to(00050) ;"),
             "production FPac rendering must emit the divide through the recursive assembler with the "
                 + "raw legacy operand references and the quotient stored back into the dividend; got:\n"

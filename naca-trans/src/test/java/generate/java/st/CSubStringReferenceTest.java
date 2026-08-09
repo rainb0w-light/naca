@@ -2,7 +2,9 @@ package generate.java.st;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import generate.java.CJavaSubStringReference;
+import generate.templates.TemplateLoader;
+import generate.templates.recursive.JavaTemplateRole;
+import semantic.CSubStringAttributReference;
 import semantic.expression.CEntityExprTerminal;
 import org.junit.jupiter.api.Test;
 
@@ -11,13 +13,14 @@ class CSubStringReferenceTest
     @Test
     void retainsStartAndLengthExpressions()
     {
-        CJavaSubStringReference reference = new CJavaSubStringReference(1, null, null);
+        CSubStringAttributReference reference = new CSubStringAttributReference(1, null);
         reference.SetReference(
             new MockDataEntity(1, "source"),
             new LegacyTerminal(new MockDataEntity(1, "index")),
             new LegacyTerminal(new MockDataEntity(1, "1")));
 
-        assertEquals("subString(source, index, 1)", generate.LegacyDataRenderer.renderReference(reference, 1));
+        assertEquals("subString(source, index, 1)", TemplateLoader.getRecursiveAssembler()
+            .renderRoot(reference, JavaTemplateRole.REFERENCE));
     }
 
     private static final class LegacyTerminal extends CEntityExprTerminal
@@ -27,9 +30,5 @@ class CSubStringReferenceTest
             super(term);
         }
 
-        public String Export()
-        {
-            return generate.LegacyDataRenderer.renderReference(term, getLine());
-        }
     }
 }

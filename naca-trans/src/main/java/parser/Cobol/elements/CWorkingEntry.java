@@ -223,7 +223,13 @@ public class CWorkingEntry extends CCobolElement
 				isnext = true ;
 				GetNext();
 			}
-			else if (tokPic.GetKeyword()==CCobolKeywordList.COMP || tokPic.GetKeyword()==CCobolKeywordList.COMP_5 || tokPic.GetKeyword()==CCobolKeywordList.COMPUTATIONAL)
+			else if (tokPic.GetKeyword()==CCobolKeywordList.COMP_5)
+			{
+				comp = "COMP5" ;
+				isnext = true ;
+				GetNext();
+			}
+			else if (tokPic.GetKeyword()==CCobolKeywordList.COMP || tokPic.GetKeyword()==CCobolKeywordList.COMPUTATIONAL)
 			{
 				comp = "COMP" ;
 				isnext = true ;

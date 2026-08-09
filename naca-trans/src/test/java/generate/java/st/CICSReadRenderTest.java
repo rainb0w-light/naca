@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.DisplayName;
@@ -70,7 +70,7 @@ class CICSReadRenderTest
     void factoryReturnsSemanticEntity()
     {
         assertInstanceOf(CEntityCICSRead.class,
-            new CJavaEntityFactoryST(null, null)
+            new CJavaEntityFactory(null, null)
                 .NewEntityCICSRead(1, CEntityCICSReadMode.NORMAL));
     }
 }

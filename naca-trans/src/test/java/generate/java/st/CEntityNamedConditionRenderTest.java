@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import generate.CJavaEntityFactory;
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.Test;
@@ -22,7 +22,7 @@ class CEntityNamedConditionRenderTest
             new CJavaEntityFactory(catalog, null)
                 .NewEntityNamedCondition(1, "VALID-STATUS").getClass());
         assertEquals(CEntityNamedCondition.class,
-            new CJavaEntityFactoryST(catalog, null)
+            new CJavaEntityFactory(catalog, null)
                 .NewEntityNamedCondition(1, "VALID-STATUS").getClass());
     }
 

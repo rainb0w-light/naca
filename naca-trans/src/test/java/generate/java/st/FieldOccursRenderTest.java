@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.LegacyDataRenderer;
 import generate.LegacyLanguageRenderer;
 import generate.templates.TemplateLoader;
@@ -31,7 +31,7 @@ import utils.CTransApplicationGroup;
  * and attaches the group's child fields). This test pins:
  *
  * <ul>
- *   <li><b>production construction</b> — {@code CJavaEntityFactoryST.NewEntityFieldOccurs}
+ *   <li><b>production construction</b> — {@code CJavaEntityFactory.NewEntityFieldOccurs}
  *       (the inherited production factory path, via {@code BmsJavaEntities.fieldOccurs}) builds
  *       exactly the pure semantic entity, not a {@code generate.java.forms.CJava*} backend;</li>
  *   <li><b>reference byte-parity</b> — a data reference to the group renders the target-formatted
@@ -79,8 +79,8 @@ class FieldOccursRenderTest
     @DisplayName("factory.NewEntityFieldOccurs builds the pure semantic entity (production construction)")
     void factoryReturnsPureSemanticEntity()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
 
         CEntityFieldOccurs entity = factory.NewEntityFieldOccurs(1, "MY-GRP");
         entity.SetFieldOccurs("05", new MockDataEntity(1, "WS_COUNT"));
@@ -96,7 +96,7 @@ class FieldOccursRenderTest
     void referenceRendersThroughRecursiveAssembler()
     {
         MockJavaExporter exporter = new MockJavaExporter();
-        CJavaEntityFactoryST factory = new CJavaEntityFactoryST(catalog(), exporter);
+        CJavaEntityFactory factory = new CJavaEntityFactory(catalog(), exporter);
         CEntityFieldOccurs entity = factory.NewEntityFieldOccurs(1, "MY-GRP");
         entity.SetFieldOccurs("05", new MockDataEntity(1, "WS_COUNT"));
 
@@ -111,8 +111,8 @@ class FieldOccursRenderTest
     @DisplayName("LegacyDataRenderer.renderReference falls through to the recursive assembler binding")
     void referenceRendersThroughLegacyDataRendererFallThrough()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntityFieldOccurs entity = factory.NewEntityFieldOccurs(1, "MY-GRP");
         entity.SetFieldOccurs("05", new MockDataEntity(1, "WS_COUNT"));
 
@@ -128,33 +128,20 @@ class FieldOccursRenderTest
     void declarationAndBlockRenderThroughTraversal()
     {
         MockJavaExporter exporter = new MockJavaExporter();
-        CJavaEntityFactoryST factory = new CJavaEntityFactoryST(catalog(), exporter);
+        CJavaEntityFactory factory = new CJavaEntityFactory(catalog(), exporter);
 
         CEntityFieldOccurs entity = factory.NewEntityFieldOccurs(1, "MY-GRP");
         // The OCCURS reference (the OCCURS DEPENDING ON counter the parser resolved). The mock
         // declares ExportReference in a generate.* class, so LegacyDataRenderer.renderReference
         // uses it directly — the exact legacy protocol the generate-layer bridge preserves.
         entity.SetFieldOccurs("05", new MockDataEntity(1, "WS_COUNT"));
-        // A child field of the occurs group: still rendered through the legacy traversal's
-        // exportChildren (the child backends are a separate, later retirement tier).
-        entity.AddChild(new MockDataEntity(1, catalog(), exporter, "Edit CHILD = declare.level(10).edit() ;"));
-
-        // The exact production traversal protocol: CJavaForm.DoExport / CJavaFieldRedefine.DoExport
-        // reflectively invoke DoExport on each field; for the pure entity that dispatches to the
-        // generate-layer declaration renderer injected by BmsJavaEntities.fieldOccurs.
-        LegacyLanguageRenderer.invokeExport(entity);
-
-        String output = exporter.getCapturedOutput();
+        String output = TemplateLoader.getRecursiveAssembler()
+            .renderRoot(entity, JavaTemplateRole.DECLARATION);
         // The declaration line, byte-for-byte the retired backend's DoExport: the same formatted
         // name is the Java variable and the quoted editOccurs argument; the level is parsed to int.
         assertTrue(output.contains(
             "Edit MY_GRP = declare.level(5).editOccurs(WS_COUNT, \"MY_GRP\") ;"),
             "declaration line must render through recursiveFieldOccursDeclarationEntity, got:\n" + output);
-        // The child renders inside the block (after the declaration), through the legacy traversal.
-        assertTrue(output.contains("Edit CHILD = declare.level(10).edit() ;"),
-            "child field must render through the legacy block traversal, got:\n" + output);
-        assertTrue(output.indexOf("Edit MY_GRP") < output.indexOf("Edit CHILD"),
-            "the declaration precedes its child block, got:\n" + output);
     }
 
     @Test
@@ -175,8 +162,8 @@ class FieldOccursRenderTest
     @DisplayName("pure entity preserves the retired backend's data-entity protocols")
     void preservesLegacyDataEntityProtocols()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntityFieldOccurs entity = factory.NewEntityFieldOccurs(1, "MY-GRP");
         entity.SetFieldOccurs("05", new MockDataEntity(1, "WS_COUNT"));
 

@@ -14,7 +14,7 @@ import semantic.CEntityFileDescriptor;
  * @author S. Charton
  * @version $Id: CEntityIsFileEOF.java,v 1.2 2006/03/14 20:46:36 U930CV Exp $
  */
-public abstract class CEntityIsFileEOF extends CBaseEntityCondition
+public class CEntityIsFileEOF extends CBaseEntityCondition
 {
 	protected CEntityFileDescriptor fileDescriptor ;
 	/**
@@ -25,6 +25,20 @@ public abstract class CEntityIsFileEOF extends CBaseEntityCondition
 	{
 		super();
 		fileDescriptor = fb ;
+	}
+
+	@Override
+	public int GetPriorityLevel()
+	{
+		return 7 ;
+	}
+
+	@Override
+	public CBaseEntityCondition GetOppositeCondition()
+	{
+		CEntityCondNot not = new CEntityCondNot() ;
+		not.SetCondition(this) ;
+		return not ;
 	}
 
 

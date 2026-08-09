@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 
 import generate.CJavaEntityFactory;
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import semantic.expression.CEntityExprTerminal;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
@@ -20,7 +20,7 @@ class CEntityCondNotRenderTest
         assertEquals(CEntityCondNot.class,
             new CJavaEntityFactory(null, null).NewEntityCondNot().getClass());
         assertEquals(CEntityCondNot.class,
-            new CJavaEntityFactoryST(null, null).NewEntityCondNot().getClass());
+            new CJavaEntityFactory(null, null).NewEntityCondNot().getClass());
     }
 
     @Test

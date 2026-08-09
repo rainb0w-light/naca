@@ -15,12 +15,34 @@
 contractVersion: 1
 
 templates:
+  numberLiteralEntity:
+    capability: DATA
+    requires:
+      - fpac.literal.hexa
+
   recursiveReadFileEntity:
     capability: FILE_IO
     requires:
       - file.read
       - file.readInto
       - ioResult.atEnd
+
+  recursiveFPacReadAndTestFileEntity:
+    capability: FILE_IO
+    requires:
+      - file.read
+      - ioResult.atEnd
+
+  recursiveFPacReadFileEntity:
+    capability: FILE_IO
+    requires:
+      - fpac.file.read
+      - ioResult.atEnd
+
+  recursiveFPacWriteFileEntity:
+    capability: FILE_IO
+    requires:
+      - fpac.file.write
 
   recursiveOpenFileEntity:
     capability: FILE_IO
@@ -29,6 +51,15 @@ templates:
       - file.open.output
       - file.open.inputOutput
       - file.open.extend
+
+  recursiveFPacOpenFileEntity:
+    capability: FILE_IO
+    requires:
+      - fpac.file.open.input
+      - fpac.file.open.output
+      - fpac.file.open.inputOutput
+      - fpac.file.open.extend
+      - fpac.file.variableLength
 
   recursiveCloseFileEntity:
     capability: FILE_IO
@@ -45,6 +76,13 @@ templates:
     capability: FILE_IO
     requires:
       - fpac.file.eof
+
+  recursiveFPacFileDescriptorEntity:
+    capability: FILE_IO
+    requires:
+      - fpac.file.declare
+      - fpac.file.fillOutputBuffer
+      - fpac.file.finishDeclaration
 
   recursiveParseStringEntity:
     capability: STRING
@@ -115,6 +153,12 @@ templates:
     requires:
       - fpac.buffer.packed
       - fpac.buffer.alphanum
+
+  recursiveFPacPositionedBufferEntity:
+    capability: DATA
+    requires:
+      - fpac.buffer.slice
+      - fpac.buffer.sliceToEnd
 
   # Independent FPac DISPLAY / WTO verb (semantic.Verbs.CEntityDisplay, FPAC_REFERENCE override).
   # Emits one "wto.display(<ref>) ;" console statement per operand; "wto" is the protected
@@ -848,6 +892,11 @@ templates:
       - bms.field.unmodified
       - bms.field.cleared
       - bms.field.cleared.not
+
+  fieldAttributeEntity:
+    capability: BMS_MAP
+    requires:
+      - bms.field.attribute.get
 
   recursiveSetCursorEntity:
     capability: BMS_MAP

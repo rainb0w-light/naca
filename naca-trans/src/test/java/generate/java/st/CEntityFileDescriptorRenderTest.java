@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import generate.CJavaEntityFactory;
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.Test;
@@ -22,7 +22,7 @@ class CEntityFileDescriptorRenderTest
             new CJavaEntityFactory(catalog, null)
                 .NewEntityFileDescriptor(1, "FILE-IN").getClass());
         assertEquals(CEntityFileDescriptor.class,
-            new CJavaEntityFactoryST(catalog, null)
+            new CJavaEntityFactory(catalog, null)
                 .NewEntityFileDescriptor(1, "FILE-IN").getClass());
     }
 

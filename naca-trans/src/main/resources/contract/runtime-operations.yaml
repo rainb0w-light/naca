@@ -106,6 +106,110 @@ operations:
     paramTypes: [nacaLib.varEx.BaseFileDescriptor]
     returns: boolean
 
+  - id: fpac.file.read
+    since: 1
+    capability: FILE_IO
+    runtimeClass: nacaLib.fpacPrgEnv.FPacFileDescriptor
+    runtimeMethod: read
+    paramTypes: []
+    returns: nacaLib.varEx.RecordDescriptorAtEnd
+
+  - id: fpac.file.open.input
+    since: 1
+    capability: FILE_IO
+    runtimeClass: nacaLib.fpacPrgEnv.FPacFileDescriptor
+    runtimeMethod: openInput
+    paramTypes: []
+    returns: nacaLib.fpacPrgEnv.FPacFileDescriptor
+
+  - id: fpac.file.open.output
+    since: 1
+    capability: FILE_IO
+    runtimeClass: nacaLib.fpacPrgEnv.FPacFileDescriptor
+    runtimeMethod: openOutput
+    paramTypes: []
+    returns: nacaLib.fpacPrgEnv.FPacFileDescriptor
+
+  - id: fpac.file.open.inputOutput
+    since: 1
+    capability: FILE_IO
+    runtimeClass: nacaLib.fpacPrgEnv.FPacFileDescriptor
+    runtimeMethod: openInputOutput
+    paramTypes: []
+    returns: nacaLib.fpacPrgEnv.FPacFileDescriptor
+
+  - id: fpac.file.open.extend
+    since: 1
+    capability: FILE_IO
+    runtimeClass: nacaLib.fpacPrgEnv.FPacFileDescriptor
+    runtimeMethod: openExtend
+    paramTypes: []
+    returns: nacaLib.fpacPrgEnv.FPacFileDescriptor
+
+  - id: fpac.file.variableLength
+    since: 1
+    capability: FILE_IO
+    runtimeClass: nacaLib.fpacPrgEnv.FPacFileDescriptor
+    runtimeMethod: variableLength
+    paramTypes: []
+    returns: void
+
+  - id: fpac.file.write
+    since: 1
+    capability: FILE_IO
+    runtimeClass: nacaLib.fpacPrgEnv.FPacFileDescriptor
+    runtimeMethod: write
+    paramTypes: []
+    returns: void
+
+  - id: fpac.literal.hexa
+    since: 1
+    capability: DATA
+    runtimeClass: nacaLib.fpacPrgEnv.FPacProgram
+    runtimeMethod: hexa
+    paramTypes: [java.lang.String]
+    returns: java.lang.String
+
+  - id: fpac.buffer.slice
+    since: 1
+    capability: DATA
+    runtimeClass: nacaLib.fpacPrgEnv.FPacProgram
+    runtimeMethod: buffer
+    paramTypes: [nacaLib.fpacPrgEnv.FPacFileDescriptor, int, int]
+    returns: nacaLib.varEx.Var
+
+  - id: fpac.buffer.sliceToEnd
+    since: 1
+    capability: DATA
+    runtimeClass: nacaLib.fpacPrgEnv.FPacProgram
+    runtimeMethod: buffer
+    paramTypes: [nacaLib.fpacPrgEnv.FPacFileDescriptor, int]
+    returns: nacaLib.fpacPrgEnv.VarFPacRawLengthUndef
+
+  - id: fpac.file.declare
+    since: 1
+    capability: FILE_IO
+    runtimeClass: nacaLib.fpacPrgEnv.FPacVarSectionDeclaration
+    runtimeMethod: fpacFile
+    paramTypes: [java.lang.String]
+    returns: nacaLib.fpacPrgEnv.FPacFileDeclaration
+
+  - id: fpac.file.fillOutputBuffer
+    since: 1
+    capability: FILE_IO
+    runtimeClass: nacaLib.fpacPrgEnv.FPacFileDeclaration
+    runtimeMethod: fillOutputBuffer
+    paramTypes: [java.lang.String]
+    returns: nacaLib.fpacPrgEnv.FPacFileDeclaration
+
+  - id: fpac.file.finishDeclaration
+    since: 1
+    capability: FILE_IO
+    runtimeClass: nacaLib.fpacPrgEnv.FPacFileDeclaration
+    runtimeMethod: file
+    paramTypes: []
+    returns: nacaLib.fpacPrgEnv.FPacFileDescriptor
+
   # --- WRITE ---
   - id: file.write
     since: 1
@@ -3221,6 +3325,14 @@ operations:
     runtimeMethod: isFieldAttribute
     paramTypes: [nacaLib.varEx.Edit, nacaLib.varEx.VarAndEdit]
     returns: boolean
+
+  - id: bms.field.attribute.get
+    since: 1
+    capability: BMS_MAP
+    runtimeClass: nacaLib.varEx.Edit
+    runtimeMethod: getAttribute
+    paramTypes: []
+    returns: nacaLib.mapSupport.MapFieldAttribute
 
   - id: bms.field.autoSkip
     since: 1

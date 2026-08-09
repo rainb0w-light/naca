@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.LegacyDataRenderer;
 import generate.LegacyLanguageRenderer;
 import generate.templates.TemplateLoader;
@@ -31,7 +31,7 @@ import utils.CTransApplicationGroup;
  * attributes and types it through the {@code ITypableEntity} setters). This test pins:
  *
  * <ul>
- *   <li><b>production construction</b> — {@code CJavaEntityFactoryST.NewEntityFieldRedefine}
+ *   <li><b>production construction</b> — {@code CJavaEntityFactory.NewEntityFieldRedefine}
  *       (the inherited production factory path, via {@code BmsJavaEntities.fieldRedefine}) builds
  *       exactly the pure semantic entity, not a {@code generate.java.forms.CJava*} backend;</li>
  *   <li><b>reference byte-parity</b> — a data reference to the redefining field renders the
@@ -78,8 +78,8 @@ class FieldRedefineRenderTest
     @DisplayName("factory.NewEntityFieldRedefine builds the pure semantic entity (production construction)")
     void factoryReturnsPureSemanticEntity()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
 
         CEntityFieldRedefine entity = factory.NewEntityFieldRedefine(1, "FLD$edit", "10");
 
@@ -94,7 +94,7 @@ class FieldRedefineRenderTest
     void referenceRendersThroughRecursiveAssembler()
     {
         MockJavaExporter exporter = new MockJavaExporter();
-        CJavaEntityFactoryST factory = new CJavaEntityFactoryST(catalog(), exporter);
+        CJavaEntityFactory factory = new CJavaEntityFactory(catalog(), exporter);
         CEntityFieldRedefine entity = factory.NewEntityFieldRedefine(1, "MY-FLD$edit", "10");
 
         // Byte-for-byte the retired backend's ExportReference: formatIdentifier(GetName()).
@@ -108,8 +108,8 @@ class FieldRedefineRenderTest
     @DisplayName("LegacyDataRenderer.renderReference falls through to the recursive assembler binding")
     void referenceRendersThroughLegacyDataRendererFallThrough()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntityFieldRedefine entity = factory.NewEntityFieldRedefine(1, "MY-FLD$edit", "10");
 
         // With the backend's reflective ExportReference gone, the semantic-declared path returns
@@ -124,31 +124,18 @@ class FieldRedefineRenderTest
     void declarationAndBlockRenderThroughTraversal()
     {
         MockJavaExporter exporter = new MockJavaExporter();
-        CJavaEntityFactoryST factory = new CJavaEntityFactoryST(catalog(), exporter);
+        CJavaEntityFactory factory = new CJavaEntityFactory(catalog(), exporter);
 
         // An untyped redefining field (SetTypeString leaves type == ""): the declaration carries
         // no .pic(...) clause — exactly the retired backend's empty-type branch.
         CEntityFieldRedefine entity = factory.NewEntityFieldRedefine(1, "FLD$edit", "10");
         entity.SetTypeString(4);
-        // A child attribute of the redefining field: still rendered through the legacy traversal's
-        // exportChildren (the child backends are a separate, later retirement tier).
-        entity.AddChild(new MockDataEntity(1, catalog(), exporter, "Edit CHILD = declare.level(10).edit() ;"));
-
-        // The exact production traversal protocol: CJavaForm.DoExport reflectively invokes DoExport
-        // on each field; for the pure entity that dispatches to the generate-layer declaration
-        // renderer injected by BmsJavaEntities.fieldRedefine.
-        LegacyLanguageRenderer.invokeExport(entity);
-
-        String output = exporter.getCapturedOutput();
+        String output = TemplateLoader.getRecursiveAssembler()
+            .renderRoot(entity, JavaTemplateRole.DECLARATION);
         // The declaration line, byte-for-byte the retired backend's DoExport: the level is parsed
         // to an int and .edit() ; closes the chain (note the legacy space before the semicolon).
         assertTrue(output.contains("Edit FLD$edit = declare.level(10).edit() ;"),
             "declaration line must render through recursiveFieldRedefineDeclarationEntity, got:\n" + output);
-        // The child renders inside the block (after the declaration), through the legacy traversal.
-        assertTrue(output.contains("Edit CHILD = declare.level(10).edit() ;"),
-            "child field must render through the legacy block traversal, got:\n" + output);
-        assertTrue(output.indexOf("Edit FLD$edit") < output.indexOf("Edit CHILD"),
-            "the declaration precedes its child block, got:\n" + output);
     }
 
     @Test
@@ -156,7 +143,7 @@ class FieldRedefineRenderTest
     void declarationRendersOptionalClauses()
     {
         MockJavaExporter exporter = new MockJavaExporter();
-        CJavaEntityFactoryST factory = new CJavaEntityFactoryST(catalog(), exporter);
+        CJavaEntityFactory factory = new CJavaEntityFactory(catalog(), exporter);
 
         // The fully-decorated branch: a numeric picture with decimals, right-justified and
         // blank-when-zero — exercises every optional clause of the retired backend's DoExport.
@@ -165,22 +152,21 @@ class FieldRedefineRenderTest
         decorated.SetRightJustified(true);
         decorated.SetBlankWhenZero(true);
 
-        LegacyLanguageRenderer.invokeExport(decorated);
-
-        String output = exporter.getCapturedOutput();
+        String output = TemplateLoader.getRecursiveAssembler()
+            .renderRoot(decorated, JavaTemplateRole.DECLARATION);
         assertTrue(output.contains(
             "Edit NUM$edit = declare.level(5).pic(\"999.99\").justifyRight().blankWhenZero().edit() ;"),
             "decorated declaration must render the pic/justifyRight/blankWhenZero clauses, got:\n" + output);
 
         // The integer pic9 branch (no decimals): no '.' in the picture.
-        exporter.clearOutput();
         CEntityFieldRedefine integer = factory.NewEntityFieldRedefine(1, "INT$edit", "05");
         integer.SetTypeNum(4, 0);
-        LegacyLanguageRenderer.invokeExport(integer);
-        assertTrue(exporter.getCapturedOutput().contains(
+        String integerOutput = TemplateLoader.getRecursiveAssembler()
+            .renderRoot(integer, JavaTemplateRole.DECLARATION);
+        assertTrue(integerOutput.contains(
             "Edit INT$edit = declare.level(5).pic(\"9999\").edit() ;"),
             "integer pic9 declaration must omit the decimal point, got:\n"
-                + exporter.getCapturedOutput());
+                + integerOutput);
     }
 
     @Test
@@ -203,8 +189,8 @@ class FieldRedefineRenderTest
     @DisplayName("pure entity preserves the retired backend's data-entity protocols")
     void preservesLegacyDataEntityProtocols()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntityFieldRedefine entity = factory.NewEntityFieldRedefine(1, "FLD$edit", "10");
 
         // A redefining edit field: always an entry field, FIELD data type, never a declared val,

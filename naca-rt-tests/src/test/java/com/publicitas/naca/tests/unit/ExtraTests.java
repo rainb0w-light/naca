@@ -8,6 +8,7 @@ package com.publicitas.naca.tests.unit;
 import com.publicitas.naca.tests.base.AbstractNacaTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Tag;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -19,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * Extra tests for NacaRT functionality.
  * Migrated from JUnit 3/4 to JUnit 5.
  */
+@Tag("legacy-runtime")
 public class ExtraTests extends AbstractNacaTest {
 
     @Test

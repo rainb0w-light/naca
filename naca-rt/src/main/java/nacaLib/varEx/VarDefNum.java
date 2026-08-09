@@ -71,6 +71,9 @@ Numeric Edited  No/9b  Yes/11  Yes/12
 
 public abstract class VarDefNum extends VarDefVariable 
 {
+	private boolean nativeBinary;
+	private int binaryDigits;
+
 	protected VarDefNum()
 	{
 		super();
@@ -79,6 +82,70 @@ public abstract class VarDefNum extends VarDefVariable
 	public VarDefNum(VarDefBase varDefParent, VarLevel varLevel)
 	{
 		super(varDefParent, varLevel);	//declareType9.varLevel);
+	}
+
+	protected VarDefNum(VarDefBase varDefParent, VarLevel varLevel, NumericValue numericValue)
+	{
+		super(varDefParent, varLevel);
+		nativeBinary = numericValue.nComp == -5;
+		binaryDigits = numericValue.nNbDigitInteger + numericValue.nNbDigitDecimal;
+	}
+
+	protected final void copyBinarySettingsFrom(VarDefNum source)
+	{
+		nativeBinary = source.nativeBinary;
+		binaryDigits = source.binaryDigits;
+	}
+
+	protected int normalizeBinaryValue(int value, int digits)
+	{
+		return (int)normalizeBinaryValue((long)value, digits);
+	}
+
+	protected long normalizeBinaryValue(long value, int digits)
+	{
+		if(nativeBinary || digits <= 0 || digits >= 19)
+			return value;
+		long modulo = 1L;
+		for(int digit = 0; digit < digits; digit++)
+			modulo *= 10L;
+		return value % modulo;
+	}
+
+	protected void setBinaryShortAt(VarBufferPos buffer, int position, short value)
+	{
+		value = (short)normalizeBinaryValue(value, binaryDigits);
+		buffer.setShortAt(position, nativeBinary ? Short.reverseBytes(value) : value);
+	}
+
+	protected void setBinaryIntAt(VarBufferPos buffer, int position, int value)
+	{
+		value = normalizeBinaryValue(value, binaryDigits);
+		buffer.setIntAt(position, nativeBinary ? Integer.reverseBytes(value) : value);
+	}
+
+	protected void setBinaryLongAt(VarBufferPos buffer, int position, long value)
+	{
+		value = normalizeBinaryValue(value, binaryDigits);
+		buffer.setLongAt(position, nativeBinary ? Long.reverseBytes(value) : value);
+	}
+
+	private short getBinaryShortAt(VarBufferPos buffer, int position)
+	{
+		short value = buffer.getShortAt(position);
+		return nativeBinary ? Short.reverseBytes(value) : value;
+	}
+
+	private int getBinaryIntAt(VarBufferPos buffer, int position)
+	{
+		int value = buffer.getIntAt(position);
+		return nativeBinary ? Integer.reverseBytes(value) : value;
+	}
+
+	private long getBinaryLongAt(VarBufferPos buffer, int position)
+	{
+		long value = buffer.getLongAt(position);
+		return nativeBinary ? Long.reverseBytes(value) : value;
 	}
 	
 //	VarDefNum(VarDefNum varDefSource)
@@ -568,17 +635,17 @@ public abstract class VarDefNum extends VarDefVariable
 		int nBinaryNumberStorage = getSingleItemRequiredStorageSize();
 		if(nBinaryNumberStorage == 4)	// int
 		{				
-			int n = buffer.getIntAt(buffer.nAbsolutePosition);
+			int n = getBinaryIntAt(buffer, buffer.nAbsolutePosition);
 			return n;
 		}	
 		else if(nBinaryNumberStorage == 2)	// short
 		{
-			short s = buffer.getShortAt(buffer.nAbsolutePosition);
+			short s = getBinaryShortAt(buffer, buffer.nAbsolutePosition);
 			return s;
 		}
 		else // long
 		{			
-			long l = buffer.getLongAt(buffer.nAbsolutePosition);
+			long l = getBinaryLongAt(buffer, buffer.nAbsolutePosition);
 			return (int)l;
 		}
 	}
@@ -589,15 +656,15 @@ public abstract class VarDefNum extends VarDefVariable
 		int nBinaryNumberStorage = getSingleItemRequiredStorageSize();
 		if(nBinaryNumberStorage == 4)	// int
 		{				
-			lValue = (long)buffer.getIntAt(buffer.nAbsolutePosition);
+			lValue = (long)getBinaryIntAt(buffer, buffer.nAbsolutePosition);
 		}	
 		else if(nBinaryNumberStorage == 2)	// short
 		{
-			lValue = (long)buffer.getShortAt(buffer.nAbsolutePosition);
+			lValue = (long)getBinaryShortAt(buffer, buffer.nAbsolutePosition);
 		}
 		else // long
 		{			
-			lValue = buffer.getLongAt(buffer.nAbsolutePosition);	
+			lValue = getBinaryLongAt(buffer, buffer.nAbsolutePosition);
 		}
 		// lValue = Pic9Comp3BufferSupport.keepRightMostDigits(varDef, lValue, nNbDigitsToKeep);
 		return (int)lValue;
@@ -609,15 +676,15 @@ public abstract class VarDefNum extends VarDefVariable
 		int nBinaryNumberStorage = getSingleItemRequiredStorageSize();
 		if(nBinaryNumberStorage == 4)	// int
 		{				
-			lValue = (long)buffer.getIntAt(buffer.nAbsolutePosition);
+			lValue = (long)getBinaryIntAt(buffer, buffer.nAbsolutePosition);
 		}	
 		else if(nBinaryNumberStorage == 2)	// short
 		{
-			lValue = (long)buffer.getShortAt(buffer.nAbsolutePosition);
+			lValue = (long)getBinaryShortAt(buffer, buffer.nAbsolutePosition);
 		}
 		else // long
 		{			
-			lValue = buffer.getLongAt(buffer.nAbsolutePosition);	
+			lValue = getBinaryLongAt(buffer, buffer.nAbsolutePosition);
 		}
 		// lValue = Pic9Comp3BufferSupport.keepRightMostDigits(varDef, lValue, nNbDigitsToKeep);
 		return lValue;
@@ -628,17 +695,17 @@ public abstract class VarDefNum extends VarDefVariable
 		int nBinaryNumberStorage = getSingleItemRequiredStorageSize();
 		if(nBinaryNumberStorage == 4)	// int
 		{				
-			int n = buffer.getIntAt(buffer.nAbsolutePosition);
+			int n = getBinaryIntAt(buffer, buffer.nAbsolutePosition);
 			return n;
 		}	
 		else if(nBinaryNumberStorage == 2)	// short
 		{
-			short s = buffer.getShortAt(buffer.nAbsolutePosition);
+			short s = getBinaryShortAt(buffer, buffer.nAbsolutePosition);
 			return s;
 		}
 		else // long
 		{			
-			long l = buffer.getLongAt(buffer.nAbsolutePosition);
+			long l = getBinaryLongAt(buffer, buffer.nAbsolutePosition);
 			return l;
 		}
 	}
@@ -677,5 +744,3 @@ public abstract class VarDefNum extends VarDefVariable
 		return 8;	// store in a long
 	}
 }
-
-

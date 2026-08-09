@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.LegacyDataRenderer;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
@@ -51,7 +51,7 @@ import utils.CTransApplicationGroup;
  * no {@code generate.*} method and returns null).
  *
  * <p>Production construction: {@code CJavaEntityFactory.NewEntityGetKeyPressed} (inherited by
- * the {@code CJavaEntityFactoryST} production factory) calls {@code BmsJavaEntities.getKeyPressed},
+ * the {@code CJavaEntityFactory} production factory) calls {@code BmsJavaEntities.getKeyPressed},
  * which now builds the pure {@link CEntityGetKeyPressed}. Production consumption of the lowering:
  * {@code CEntityGetKeyPressed.GetSpecialCondition} builds the pure
  * {@code semantic.forms.CEntityIsKeyPressed} condition (the {@code generate.java.forms.CJavaIsKeyPressed}
@@ -92,7 +92,7 @@ class GetKeyPressedRenderTest
      * factory must build the pure semantic entity, not the retired {@code CJava*} subclass.
      */
     private static CEntityGetKeyPressed lowerGetKeyPressed(
-        CJavaEntityFactoryST factory, String name)
+        CJavaEntityFactory factory, String name)
     {
         return factory.NewEntityGetKeyPressed(name);
     }
@@ -101,8 +101,8 @@ class GetKeyPressedRenderTest
     @DisplayName("factory.NewEntityGetKeyPressed builds the pure semantic entity (production construction)")
     void factoryReturnsPureSemanticEntity()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
 
         CEntityGetKeyPressed entity = lowerGetKeyPressed(factory, "KEYPRESSED");
 
@@ -114,8 +114,8 @@ class GetKeyPressedRenderTest
     @DisplayName("get-key-pressed reference renders getKeyPressed() through the recursive assembler")
     void referenceRendersThroughRecursiveAssembler()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
 
         // Byte-for-byte the retired backend's ExportReference: "getKeyPressed()".
         assertEquals("getKeyPressed()", render(lowerGetKeyPressed(factory, "KEYPRESSED")));
@@ -125,8 +125,8 @@ class GetKeyPressedRenderTest
     @DisplayName("LegacyDataRenderer.renderReference falls through to the recursive assembler")
     void referenceRendersThroughLegacyDataRendererFallThrough()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntityGetKeyPressed entity = lowerGetKeyPressed(factory, "KEYPRESSED");
 
         // With the backend's reflective ExportReference gone, the semantic-declared path
@@ -140,8 +140,8 @@ class GetKeyPressedRenderTest
     @DisplayName("the retired setKeyPressed write accessor has no live consumer and renders null")
     void writeAccessorRetiredWithoutReplacement()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntityGetKeyPressed entity = lowerGetKeyPressed(factory, "KEYPRESSED");
 
         // LegacyDataRenderer.renderWriteAccessor is reflection-only with no ST4 fall-through;
@@ -154,8 +154,8 @@ class GetKeyPressedRenderTest
     @DisplayName("pure entity preserves the retired backend's data-entity protocols")
     void preservesLegacyDataEntityProtocols()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntityGetKeyPressed entity = lowerGetKeyPressed(factory, "KEYPRESSED");
 
         // The backend forced isValNeeded() == false and inherited HasAccessors() == true,
@@ -170,8 +170,8 @@ class GetKeyPressedRenderTest
     @DisplayName("end-to-end: IF get-key-pressed = <key> lowers through the ST factory to isKeyPressed(KeyPressed.<key>)")
     void endToEndConditionLowersThroughSTFactory()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
 
         // Production construction of the console key (keyPressed rule path) and of the
         // get-key-pressed pseudo-variable (this slice's rewired factory bridge).

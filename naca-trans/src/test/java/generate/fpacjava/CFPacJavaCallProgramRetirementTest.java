@@ -10,6 +10,7 @@ import generate.java.st.MockDataEntity;
 import generate.java.st.MockJavaExporter;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
+import semantic.CEntityProcedure;
 import semantic.Verbs.CEntityCallProgram;
 import semantic.expression.CEntityString;
 import utils.CObjectCatalog;
@@ -153,14 +154,14 @@ class CFPacJavaCallProgramRetirementTest
         CObjectCatalog catalog = new CObjectCatalog(null, null, null, null);
         CJavaFPacEntityFactory factory = new CJavaFPacEntityFactory(catalog, out);
 
-        CFPacJavaProcedure caller = new CFPacJavaProcedure(2, "MAIN", catalog, out, null);
+        CEntityProcedure caller = factory.NewEntityProcedure(2, "MAIN", null);
         CEntityCallProgram call = factory.NewEntityCallProgram(3, programLiteral(catalog, "SUBPROG"));
         call.setChecked(true);
         caller.AddChild(call);
         LegacyLanguageRenderer.bind(caller, out);
 
         // The exact production driver: CFPacJavaProcedure.DoExport -> exportChildren(FPAC_REFERENCE).
-        LegacyLanguageRenderer.invokeExport(caller);
+        LegacyLanguageRenderer.invokeExport(caller, JavaTemplateRole.FPAC_REFERENCE);
 
         String rendered = out.getCapturedOutput();
         assertTrue(rendered.contains("call(SUBPROG.class)"),

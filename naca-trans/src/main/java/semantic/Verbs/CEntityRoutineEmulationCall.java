@@ -86,4 +86,9 @@ public class CEntityRoutineEmulationCall extends CBaseActionEntity
 		}
 		return result;
 	}
+	@Override
+	public boolean ignore()
+	{
+		return csDisplay.isEmpty() ;
+	}
 }

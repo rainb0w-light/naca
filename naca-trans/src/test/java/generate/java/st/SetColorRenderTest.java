@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.DisplayName;
@@ -54,7 +54,7 @@ import utils.CTransApplicationGroup;
  * code falls through to NEUTRAL; {@code MOVE <attr> TO <FIELD>-C} moves a color
  * attribute variable). It now builds the pure entity through the rewired factory
  * ({@code CJavaEntityFactory.NewEntitySetColor}, inherited by
- * {@code CJavaEntityFactoryST}). The FPac factory throws
+ * {@code CJavaEntityFactory}). The FPac factory throws
  * {@code NacaTransAssertException} for this entity, so no FPac tree ever holds it.
  *
  * <p>This slice also repairs two latent self-assignment defects the retired backend
@@ -102,7 +102,7 @@ class SetColorRenderTest
      * to the owner field.
      */
     private static CEntitySetColor lowerColorCode(
-        String code, CJavaEntityFactoryST factory)
+        String code, CJavaEntityFactory factory)
     {
         CBaseActionEntity action =
             fieldColor().GetSpecialAssignment(new MockTerminal(code), factory, 7);
@@ -113,8 +113,8 @@ class SetColorRenderTest
     @DisplayName("a color code renders moveColor(MapFieldAttrColor.<name>, field) (legacy DoExport parity)")
     void colorCodeRendersMoveColorConstant()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         // "2" lowers to the RED color constant.
         CEntitySetColor setColor = lowerColorCode("2", factory);
 
@@ -132,8 +132,8 @@ class SetColorRenderTest
     @DisplayName("every BMS color code renders its MapFieldAttrColor constant")
     void everyColorCodeRendersItsConstant()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         String[] codes = { "1", "2", "3", "4", "5", "6", "7" };
         String[] names = { "BLUE", "RED", "PINK", "GREEN", "TURQUOISE", "YELLOW", "NEUTRAL" };
         for (int i = 0; i < codes.length; i++)
@@ -152,8 +152,8 @@ class SetColorRenderTest
     @DisplayName("an unrecognized color code falls through to moveColor(MapFieldAttrColor.NEUTRAL, field)")
     void unrecognizedColorCodeRendersNeutral()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         // "9" (and "") map to no CFieldColor: the legacy DoExport else-branch emits
         // the NEUTRAL constant rather than dropping the statement.
         CEntitySetColor setColor = lowerColorCode("9", factory);
@@ -168,8 +168,8 @@ class SetColorRenderTest
     @DisplayName("a moved color attribute renders moveColor(variable, field) (production lowering)")
     void movedColorVariableRendersMoveColor()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         // MOVE <attr> TO <FIELD>-C drives GetSpecialAssignment(CDataEntity) with a
         // FIELD_ATTRIBUTE source, selecting the moved-variable branch.
         CBaseActionEntity action = fieldColor().GetSpecialAssignment(
@@ -187,8 +187,8 @@ class SetColorRenderTest
     @DisplayName("a non-color MOVE source lowers to no color action")
     void nonColorSourceLowersToNothing()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         // A plain (non FIELD_ATTRIBUTE) source is rejected by the legacy
         // GetSpecialAssignment(CDataEntity) guard, which returns null.
         assertNull(fieldColor().GetSpecialAssignment(owner(), factory, 9));
@@ -199,8 +199,8 @@ class SetColorRenderTest
     void factoryReturnsPureSemanticEntity()
     {
         CObjectCatalog catalog = catalog();
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog, new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog, new MockJavaExporter());
         MockDataEntity field = owner();
 
         CEntitySetColor setColor = factory.NewEntitySetColor(1, field);
@@ -221,8 +221,8 @@ class SetColorRenderTest
     void legacyBranchPrecedencePreserved()
     {
         CObjectCatalog catalog = catalog();
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog, new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog, new MockJavaExporter());
         CEntitySetColor setColor = factory.NewEntitySetColor(1, owner());
 
         // Legacy DoExport tested the color constant first: even with a moved color
@@ -246,8 +246,8 @@ class SetColorRenderTest
     void ignoreSemanticsPreserved()
     {
         CObjectCatalog catalog = catalog();
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog, new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog, new MockJavaExporter());
 
         // No field reference -> ignored (never rendered).
         CEntitySetColor noField = factory.NewEntitySetColor(1, null);

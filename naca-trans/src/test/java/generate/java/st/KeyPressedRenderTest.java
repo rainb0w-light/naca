@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.LegacyDataRenderer;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
@@ -44,7 +44,7 @@ import utils.CTransApplicationGroup;
  * rules ({@code keyName} -> constant, {@code CICSAlias} -> name) and calls
  * {@code factory.NewEntityKeyPressed(alias, key)}; the rewired
  * {@code BmsJavaEntities.keyPressed} now builds the pure {@link CEntityKeyPressed} (the
- * {@code CJavaEntityFactoryST} production factory inherits {@code NewEntityKeyPressed};
+ * {@code CJavaEntityFactory} production factory inherits {@code NewEntityKeyPressed};
  * the FPac factory throws {@code NacaTransAssertException}, so no FPac tree ever holds it).
  *
  * <p>Production consumption: the reference is read through the recursive assembler — e.g. the
@@ -91,7 +91,7 @@ class KeyPressedRenderTest
      * factory must build the pure semantic entity, not a legacy {@code CJava*} subclass.
      */
     private static CEntityKeyPressed lowerKeyPressed(
-        CJavaEntityFactoryST factory, String alias, String keyName)
+        CJavaEntityFactory factory, String alias, String keyName)
     {
         return factory.NewEntityKeyPressed(alias, keyName);
     }
@@ -100,8 +100,8 @@ class KeyPressedRenderTest
     @DisplayName("factory.NewEntityKeyPressed builds the pure semantic entity (production construction)")
     void factoryReturnsPureSemanticEntity()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
 
         CEntityKeyPressed entity = lowerKeyPressed(factory, "PF1", "PF1");
 
@@ -115,8 +115,8 @@ class KeyPressedRenderTest
     @DisplayName("KeyPressed reference renders KeyPressed.<key> through the recursive assembler")
     void referenceRendersThroughRecursiveAssembler()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
 
         // Byte-for-byte the retired backend's ExportReference: "KeyPressed." + csPublicName.
         assertEquals("KeyPressed.PF1", render(lowerKeyPressed(factory, "PF1", "PF1")));
@@ -128,8 +128,8 @@ class KeyPressedRenderTest
     @DisplayName("LegacyDataRenderer.renderReference falls through to the recursive assembler")
     void referenceRendersThroughLegacyDataRendererFallThrough()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntityKeyPressed entity = lowerKeyPressed(factory, "PF3", "PF3");
 
         // The LegacyDataRenderer.renderReference compatibility boundary: with the retired
@@ -145,8 +145,8 @@ class KeyPressedRenderTest
     @DisplayName("end-to-end: IF get-key-pressed = <key> renders isKeyPressed(KeyPressed.<key>)")
     void endToEndConditionRendersInnerReferenceThroughTemplate()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
 
         // Production construction of the console key (keyPressed rule path).
         CEntityKeyPressed key = lowerKeyPressed(factory, "PF1", "PF1");
@@ -179,8 +179,8 @@ class KeyPressedRenderTest
     @DisplayName("pure entity preserves the retired backend's data-entity protocols")
     void preservesLegacyDataEntityProtocols()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntityKeyPressed entity = lowerKeyPressed(factory, "PF1", "PF1");
 
         // A console key is a pseudo-constant reference: never a declared val, never an

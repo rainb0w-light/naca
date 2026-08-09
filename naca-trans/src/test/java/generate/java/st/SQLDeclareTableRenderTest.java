@@ -3,7 +3,7 @@ package generate.java.st;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import java.util.ArrayList;
@@ -65,7 +65,7 @@ class SQLDeclareTableRenderTest
     @DisplayName("the ST4 factory returns the pure semantic entity, which renders no code")
     void factoryReturnsPureSemanticEntity()
     {
-        CJavaEntityFactoryST factory = new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory = new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntitySQLDeclareTable declareTable =
             factory.NewEntitySQLDeclareTable(12, "MYTABLE", "MYVIEW", new ArrayList());
         assertEquals(CEntitySQLDeclareTable.class, declareTable.getClass());
@@ -77,7 +77,7 @@ class SQLDeclareTableRenderTest
     void factoryRegistersTableInCatalog()
     {
         CObjectCatalog catalog = catalog();
-        CJavaEntityFactoryST factory = new CJavaEntityFactoryST(catalog, new MockJavaExporter());
+        CJavaEntityFactory factory = new CJavaEntityFactory(catalog, new MockJavaExporter());
         CEntitySQLDeclareTable declareTable =
             factory.NewEntitySQLDeclareTable(12, "MYTABLE", "MYVIEW", new ArrayList());
         // The constructor's RegisterSQLTable(viewName, this) side effect keys the table

@@ -3,7 +3,7 @@ package generate.java.st;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import generate.CJavaEntityFactory;
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.fixtures.LegacyFileDescriptorLengthDependencyFixture;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
@@ -23,7 +23,7 @@ class CEntityFileDescriptorLengthDependencyRenderTest
             new CJavaEntityFactory(catalog, null)
                 .NewEntityFileDescriptorLengthDependency("FILE-IN-dependency").getClass());
         assertEquals(CEntityFileDescriptorLengthDependency.class,
-            new CJavaEntityFactoryST(catalog, null)
+            new CJavaEntityFactory(catalog, null)
                 .NewEntityFileDescriptorLengthDependency("FILE-IN-dependency").getClass());
     }
 

@@ -9,6 +9,7 @@ import generate.LegacyLanguageRenderer;
 import generate.java.st.MockJavaExporter;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
+import semantic.CEntityProcedure;
 import semantic.Verbs.CEntityCallFunction;
 import utils.CObjectCatalog;
 import org.junit.jupiter.api.Test;
@@ -52,7 +53,7 @@ class CFPacJavaCallFunctionRetirementTest
         CObjectCatalog catalog = new CObjectCatalog(null, null, null, null);
         // Constructing the procedure registers it in the catalog (CEntityProcedure ctor),
         // so a DOSUBR call reference resolves to it exactly as in a transcoded program.
-        new CFPacJavaProcedure(1, "DOSUBR", catalog, out, null);
+        new CJavaFPacEntityFactory(catalog, out).NewEntityProcedure(1, "DOSUBR", null);
         return catalog;
     }
 
@@ -98,13 +99,13 @@ class CFPacJavaCallFunctionRetirementTest
         CObjectCatalog catalog = catalogWithDosubr(out);
         CJavaFPacEntityFactory factory = new CJavaFPacEntityFactory(catalog, out);
 
-        CFPacJavaProcedure caller = new CFPacJavaProcedure(2, "MAIN", catalog, out, null);
+        CEntityProcedure caller = factory.NewEntityProcedure(2, "MAIN", null);
         CEntityCallFunction call = factory.NewEntityCallFunction(3, "DOSUBR", null, null);
         caller.AddChild(call);
         LegacyLanguageRenderer.bind(caller, out);
 
         // The exact production driver: CFPacJavaProcedure.DoExport -> exportChildren(FPAC_REFERENCE).
-        LegacyLanguageRenderer.invokeExport(caller);
+        LegacyLanguageRenderer.invokeExport(caller, JavaTemplateRole.FPAC_REFERENCE);
 
         String rendered = out.getCapturedOutput();
         assertTrue(rendered.contains("dosubr() ;"),

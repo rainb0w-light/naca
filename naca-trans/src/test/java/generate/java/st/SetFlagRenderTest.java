@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.DisplayName;
@@ -49,7 +49,7 @@ import utils.CTransApplicationGroup;
  * lowers to flag value "1", {@code MOVE 0}/ZERO/SPACE family to "0",
  * {@code MOVE LOW-VALUE} to the reset branch); it now builds the pure entity
  * through the rewired factory ({@code CJavaEntityFactory.NewEntitySetFlag},
- * inherited by {@code CJavaEntityFactoryST}). The FPac factory throws
+ * inherited by {@code CJavaEntityFactory}). The FPac factory throws
  * {@code NacaTransAssertException} for this entity, so no FPac tree ever holds it.
  */
 class SetFlagRenderTest
@@ -85,7 +85,7 @@ class SetFlagRenderTest
      * to the owner field.
      */
     private static CEntitySetFlag lowerMoveToFieldFlag(
-        String constant, CJavaEntityFactoryST factory)
+        String constant, CJavaEntityFactory factory)
     {
         CEntityFieldFlag fieldFlag =
             new CEntityFieldFlag(1, "WS-FIELDP", catalog(), owner());
@@ -98,8 +98,8 @@ class SetFlagRenderTest
     @DisplayName("MOVE 1 TO <FIELD>P renders moveFlag(\"1\", field) (legacy DoExport parity)")
     void oneConstantRendersMoveFlag()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntitySetFlag setFlag = lowerMoveToFieldFlag("1", factory);
 
         // Exactly the pure semantic class, not a legacy CJava* controller subclass.
@@ -116,8 +116,8 @@ class SetFlagRenderTest
     @DisplayName("MOVE 0/ZERO/SPACE family TO <FIELD>P normalizes to moveFlag(\"0\", field)")
     void zeroConstantFamilyRendersMoveFlagZero()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         for (String zero : new String[] { "0", "ZERO", "ZEROS", "ZEROES", "SPACE", "SPACES" })
         {
             CEntitySetFlag setFlag = lowerMoveToFieldFlag(zero, factory);
@@ -133,8 +133,8 @@ class SetFlagRenderTest
     @DisplayName("MOVE LOW-VALUE TO <FIELD>P renders resetFlag(field)")
     void lowValueConstantRendersResetFlag()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         for (String low : new String[] { "LOW-VALUE", "LOW-VALUES" })
         {
             CEntitySetFlag setFlag = lowerMoveToFieldFlag(low, factory);
@@ -150,8 +150,8 @@ class SetFlagRenderTest
     @DisplayName("an unsupported constant still lowers to no flag action")
     void unsupportedConstantLowersToNothing()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntityFieldFlag fieldFlag =
             new CEntityFieldFlag(1, "WS-FIELDP", catalog(), owner());
         // MOVE X TO <FIELD>P lowers to no action entity (legacy
@@ -166,8 +166,8 @@ class SetFlagRenderTest
     void factoryReturnsPureSemanticEntity()
     {
         CObjectCatalog catalog = catalog();
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog, new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog, new MockJavaExporter());
         MockDataEntity field = owner();
 
         CEntitySetFlag setFlag = factory.NewEntitySetFlag(1, field);
@@ -185,8 +185,8 @@ class SetFlagRenderTest
     void legacyBranchSelectionPreserved()
     {
         CObjectCatalog catalog = catalog();
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog, new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog, new MockJavaExporter());
         MockDataEntity field = owner();
 
         // Legacy DoExport tested flagValue != null first: a set flag value
@@ -208,8 +208,8 @@ class SetFlagRenderTest
     void ignoreSemanticsPreserved()
     {
         CObjectCatalog catalog = catalog();
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog, new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog, new MockJavaExporter());
 
         // No field reference -> ignored (never rendered), exactly the legacy
         // CEntitySetFlag.ignore() contract the retired backend relied on.

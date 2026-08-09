@@ -3,7 +3,7 @@ package generate.java.st;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import generate.CJavaEntityFactory;
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.Test;
@@ -21,7 +21,7 @@ class CEntityDigitsRenderTest
         assertEquals(CEntityDigits.class,
             new CJavaEntityFactory(catalog, null).NewEntityDigits(field).getClass());
         assertEquals(CEntityDigits.class,
-            new CJavaEntityFactoryST(catalog, null).NewEntityDigits(field).getClass());
+            new CJavaEntityFactory(catalog, null).NewEntityDigits(field).getClass());
     }
 
     @Test

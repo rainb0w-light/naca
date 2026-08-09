@@ -14,7 +14,7 @@ import semantic.CDataEntity;
 import utils.CObjectCatalog;
 
 
-public abstract class CEntityFunctionCall extends CBaseEntityFunction
+public class CEntityFunctionCall extends CBaseEntityFunction
 {
 	public CEntityFunctionCall(CObjectCatalog cat, CDataEntity data)
 	{
@@ -26,6 +26,15 @@ public abstract class CEntityFunctionCall extends CBaseEntityFunction
 	public void CallFunction(String function)
 	{
 		csFunction = function ;
+	}
+	public String getFunctionName()
+	{
+		return csFunction ;
+	}
+	@Override
+	public boolean isValNeeded()
+	{
+		return false ;
 	}
 	public void AddParameter(CDataEntity e)
 	{

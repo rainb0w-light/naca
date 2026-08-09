@@ -3,7 +3,7 @@ package generate.java.st;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import generate.CJavaEntityFactory;
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.Test;
@@ -22,7 +22,7 @@ class CEntityExprOppositeRenderTest
         assertEquals(CEntityExprOpposite.class,
             new CJavaEntityFactory(catalog, null).NewEntityExprOpposite().getClass());
         assertEquals(CEntityExprOpposite.class,
-            new CJavaEntityFactoryST(catalog, null).NewEntityExprOpposite().getClass());
+            new CJavaEntityFactory(catalog, null).NewEntityExprOpposite().getClass());
     }
 
     @Test

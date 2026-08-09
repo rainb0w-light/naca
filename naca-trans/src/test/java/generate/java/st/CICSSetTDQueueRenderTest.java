@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.DisplayName;
@@ -51,6 +51,6 @@ class CICSSetTDQueueRenderTest
     void factoryReturnsSemanticEntity()
     {
         assertInstanceOf(CEntityCICSSetTDQueue.class,
-            new CJavaEntityFactoryST(null, null).NewEntityCICSSetTDQueue(1));
+            new CJavaEntityFactory(null, null).NewEntityCICSSetTDQueue(1));
     }
 }

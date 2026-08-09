@@ -143,8 +143,8 @@ public class LogLevel
 	
 	private LogLevel(int nLevel, String csName)
 	{
-		nLevel = nLevel;
-		csName = csName;
+		this.nLevel = nLevel;
+		this.csName = csName;
 	}
 	
 	private boolean hasName(String cs)

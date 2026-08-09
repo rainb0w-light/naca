@@ -42,24 +42,36 @@ public class CEntityOpenFile extends CBaseActionEntity
 		return eMode;
 	}
 
+	private OpenMode getEffectiveMode()
+	{
+		return eMode != null || eFileDescriptor == null
+			? eMode
+			: eFileDescriptor.getAccessMode();
+	}
+
 	public boolean isInputMode()
 	{
-		return eMode == OpenMode.INPUT;
+		return getEffectiveMode() == OpenMode.INPUT;
 	}
 
 	public boolean isOutputMode()
 	{
-		return eMode == OpenMode.OUTPUT;
+		return getEffectiveMode() == OpenMode.OUTPUT;
 	}
 
 	public boolean isInputOutputMode()
 	{
-		return eMode == OpenMode.INPUT_OUTPUT;
+		return getEffectiveMode() == OpenMode.INPUT_OUTPUT;
 	}
 
 	public boolean isAppendMode()
 	{
-		return eMode == OpenMode.APPEND;
+		return getEffectiveMode() == OpenMode.APPEND;
+	}
+
+	public boolean isVariableLengthFile()
+	{
+		return eFileDescriptor != null && eFileDescriptor.isRecordSizeVariable();
 	}
 
 }

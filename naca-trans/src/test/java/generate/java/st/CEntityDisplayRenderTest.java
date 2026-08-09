@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 import generate.CJavaEntityFactory;
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.Test;
@@ -25,7 +25,7 @@ class CEntityDisplayRenderTest
             new CJavaEntityFactory(null, null)
                 .NewEntityDisplay(1, CEntityDisplay.Upon.DEFAULT));
         assertInstanceOf(CEntityDisplay.class,
-            new CJavaEntityFactoryST(null, null)
+            new CJavaEntityFactory(null, null)
                 .NewEntityDisplay(1, CEntityDisplay.Upon.DEFAULT));
     }
 

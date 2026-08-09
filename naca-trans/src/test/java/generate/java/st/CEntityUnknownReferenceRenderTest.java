@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import generate.CJavaEntityFactory;
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.Test;
@@ -23,7 +23,7 @@ class CEntityUnknownReferenceRenderTest
             new CJavaEntityFactory(catalog, null)
                 .NewEntityUnknownReference(1, "MISSING").getClass());
         assertEquals(CEntityUnknownReference.class,
-            new CJavaEntityFactoryST(catalog, null)
+            new CJavaEntityFactory(catalog, null)
                 .NewEntityUnknownReference(1, "MISSING").getClass());
     }
 

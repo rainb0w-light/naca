@@ -58,11 +58,12 @@ tasks.processResources {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
-// Keep the daily regression gate green while the zero-tolerance architecture
-// contract is intentionally being paid down in a separate, visible task.
+// Architecture debt is now zero across COBOL/SQL/CICS, BMS and FPac. Keep the
+// zero-tolerance contract in the daily regression gate as well as the explicit
+// finalArchitectureCheck task so newly introduced debt fails immediately.
 tasks.test {
     useJUnitPlatform {
-        excludeTags("final-architecture", "data-section-audit")
+        excludeTags("data-section-audit")
     }
 }
 

@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.DisplayName;
@@ -47,7 +47,7 @@ import utils.CTransApplicationGroup;
  * (renders {@code isFieldHasCursor}), any other test on {@code -1} builds
  * {@code SetHasNotCursor} (renders {@code isNotFieldHasCursor}). It builds the pure
  * entity through the rewired factory ({@code CJavaEntityFactory.NewEntityIsFieldCursor},
- * inherited by {@code CJavaEntityFactoryST}). The FPac factory throws
+ * inherited by {@code CJavaEntityFactory}). The FPac factory throws
  * {@code NacaTransAssertException} for this entity, so no FPac tree ever holds it.
  */
 class IsFieldCursorRenderTest
@@ -82,7 +82,7 @@ class IsFieldCursorRenderTest
      * the cursor condition around the owner field reference (IS_EQUAL -> SetHasCursor).
      */
     private static CEntityIsFieldCursor lowerFieldLengthEqualsMinusOne(
-        CJavaEntityFactoryST factory)
+        CJavaEntityFactory factory)
     {
         CEntityFieldLength fieldLength =
             new CEntityFieldLength(1, "WS-FIELD-L", catalog(), owner());
@@ -95,8 +95,8 @@ class IsFieldCursorRenderTest
     @DisplayName("IF <FIELD>-L = -1 renders isFieldHasCursor(field) (legacy Export parity)")
     void fieldLengthEqualsMinusOneRendersIsFieldHasCursor()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntityIsFieldCursor condition = lowerFieldLengthEqualsMinusOne(factory);
 
         // Exactly the pure semantic class, not a legacy CJava* controller subclass.
@@ -114,8 +114,8 @@ class IsFieldCursorRenderTest
     @DisplayName("IF <FIELD>-L <> -1 renders isNotFieldHasCursor(field) (legacy Export parity)")
     void fieldLengthNotEqualsMinusOneRendersIsNotFieldHasCursor()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntityFieldLength fieldLength =
             new CEntityFieldLength(1, "WS-FIELD-L", catalog(), owner());
         // Any non-IS_EQUAL test on -1 lowers through SetHasNotCursor.
@@ -133,8 +133,8 @@ class IsFieldCursorRenderTest
     @DisplayName("a test on a value other than -1 does not lower to a cursor condition")
     void nonMinusOneDoesNotLowerToIsFieldCursor()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntityFieldLength fieldLength =
             new CEntityFieldLength(1, "WS-FIELD-L", catalog(), owner());
         // IF <FIELD>-L = 0 is the field-modified test, never a cursor test (legacy
@@ -148,8 +148,8 @@ class IsFieldCursorRenderTest
     @DisplayName("the ST4 factory returns the pure semantic entity (no CJava* backend)")
     void factoryReturnsPureSemanticEntity()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntityIsFieldCursor condition = factory.NewEntityIsFieldCursor();
 
         // Exactly the pure semantic class, not a legacy CJava* controller subclass.
@@ -166,8 +166,8 @@ class IsFieldCursorRenderTest
     @DisplayName("the opposite is a flag-flipped pure cursor condition (legacy GetOppositeCondition parity)")
     void oppositeIsAFlagFlippedCursorCondition()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntityIsFieldCursor condition = lowerFieldLengthEqualsMinusOne(factory);
 
         CBaseEntityCondition opposite = condition.GetOppositeCondition();
@@ -184,8 +184,8 @@ class IsFieldCursorRenderTest
     @DisplayName("the retired backend's ignore semantics are preserved")
     void ignoreSemanticsPreserved()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
 
         // A live reference -> rendered (not ignored).
         CEntityIsFieldCursor live = factory.NewEntityIsFieldCursor();

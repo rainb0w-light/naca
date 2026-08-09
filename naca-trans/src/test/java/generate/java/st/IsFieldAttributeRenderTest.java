@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.DisplayName;
@@ -38,7 +38,7 @@ import utils.CTransApplicationGroup;
  * are data references that unfold recursively through the assembler.
  *
  * <p>Production lowering: the factory {@code CJavaEntityFactory.NewEntityIsFieldAttribute}
- * (inherited by {@code CJavaEntityFactoryST}) now builds the pure entity through
+ * (inherited by {@code CJavaEntityFactory}) now builds the pure entity through
  * {@code BmsJavaEntities.isFieldAttribute()}. The FPac factory throws
  * {@code NacaTransAssertException} for this entity, so no FPac tree ever holds it.
  *
@@ -73,9 +73,9 @@ class IsFieldAttributeRenderTest
         return new MockDataEntity(1, VALUE_REFERENCE);
     }
 
-    private static CJavaEntityFactoryST factory()
+    private static CJavaEntityFactory factory()
     {
-        return new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        return new CJavaEntityFactory(catalog(), new MockJavaExporter());
     }
 
     private static String render(CBaseEntityCondition condition)

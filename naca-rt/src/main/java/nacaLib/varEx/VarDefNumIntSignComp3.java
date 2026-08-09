@@ -92,7 +92,6 @@ public class VarDefNumIntSignComp3 extends VarDefNum
 		int n = nNbDigits / 2;
 		if((nNbDigits % 2) != 0)
 			n++;
-		System.out.println("DEBUG VarDefNumIntSignComp3.getSingleItemRequiredStorageSize: nNbDigitInteger=" + nNbDigitInteger + ", result=" + n);
 		return n;
 	}
 

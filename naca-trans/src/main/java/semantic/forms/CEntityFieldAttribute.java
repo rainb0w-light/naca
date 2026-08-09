@@ -5,14 +5,12 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /*
- * Created on 11 ao�t 2004
+ * Created on 11 aoÃ»t 2004
  *
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 package semantic.forms;
-
-import generate.*;
 
 import java.util.Vector;
 
@@ -30,7 +28,7 @@ import utils.NacaTransAssertException;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityFieldAttribute extends CBaseEntityFieldAttribute
+public class CEntityFieldAttribute extends CBaseEntityFieldAttribute
 {
 
 	/**
@@ -43,6 +41,24 @@ public abstract class CEntityFieldAttribute extends CBaseEntityFieldAttribute
 	public CEntityFieldAttribute(int l, String name, CObjectCatalog cat, CDataEntity owner)
 	{
 		super(l, name, cat, CEntityFieldAttributeType.ATTRIBUTE, owner);
+	}
+
+	@Override
+	public boolean HasAccessors()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean isValNeeded()
+	{
+		return true;
+	}
+
+	@Override
+	public CDataEntityType GetDataType()
+	{
+		return CDataEntityType.FIELD_ATTRIBUTE;
 	}
 	/* (non-Javadoc)
 	 * @see semantic.CBaseDataEntity#GetSpecialAssignment(parser.expression.CTerminal)
@@ -165,7 +181,7 @@ public abstract class CEntityFieldAttribute extends CBaseEntityFieldAttribute
 		else if (v.equals(")"))	{eCond.IsNumeric() ; eCond.IsDark() ; eCond.IsModified() ; }
 		else if (v.equals("@"))	{eCond.IsAutoSkip() ; eCond.IsDark() ; }
 		else if (v.equals("LOW-VALUE") || v.equals("LOW-VALUES") || v.equals("SPACE"))	{eCond.IsUnmodified() ;}
-		else if (v.equals("�") || (v.equals("\u0080")))	
+		else if (v.equals("Ã") || (v.equals("\u0080")))
 		{
 			eCond.IsCleared() ;
 		}

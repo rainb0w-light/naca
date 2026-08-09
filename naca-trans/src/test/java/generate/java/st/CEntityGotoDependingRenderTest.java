@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 import generate.CJavaEntityFactory;
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import java.util.List;
@@ -30,7 +30,7 @@ class CEntityGotoDependingRenderTest
             new CJavaEntityFactory(catalog, null).NewEntityGotoDepending(
                 1, List.of("FIRST"), new MockDataEntity(1, "CHOICE"), null));
         assertInstanceOf(CEntityGotoDepending.class,
-            new CJavaEntityFactoryST(catalog, null).NewEntityGotoDepending(
+            new CJavaEntityFactory(catalog, null).NewEntityGotoDepending(
                 1, List.of("FIRST"), new MockDataEntity(1, "CHOICE"), null));
     }
 

@@ -14,7 +14,6 @@ package semantic.forms;
 
 
 
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 import org.w3c.dom.Document;
@@ -125,35 +124,11 @@ public class CEntityFieldOccurs extends CEntityResourceField
 		return false;
 	}
 
-	public String ExportReference(int nLine)
-	{
-		// Mirrors the retired backend's formatIdentifier(GetName()). LegacyDataRenderer
-		// ignores a semantic-declared ExportReference and renders the reference through the
-		// recursiveFieldOccursEntity binding instead; this override stays for direct callers
-		// and reads only the precomputed, target-formatted identifier.
-		return getFormattedName() ;
-	}
-
-	public String ExportWriteAccessorTo(String value)
-	{
-		// Preserved from the retired backend: no reachable write-accessor protocol.
-		return null ;
-	}
-
 	public Element DoXMLExport(Document doc, CResourceStrings res)
 	{
 		// Preserved from the retired backend: an occurs group contributes no XML/.res node
 		// of its own (its child fields export their own nodes). Target-neutral semantic state.
 		return null ;
-	}
-
-	protected void DoExport()
-	{
-		// Legacy traversal bridge: the surrounding CJavaForm/CJavaFieldRedefine DoExport
-		// reflectively invokes this. The declaration line + block are rendered through the
-		// recursive ST4 assembly contract by the generate-layer renderer the factory injects;
-		// a hand-built entity (no factory) is a no-op and never fails.
-		declarationRenderer.accept(this) ;
 	}
 
 	/**
@@ -209,37 +184,4 @@ public class CEntityFieldOccurs extends CEntityResourceField
 		return occurs ;
 	}
 
-	/**
-	 * Pre-rendered {@code editOccurs(<ref>, ...)} argument. Computed by the generate-layer
-	 * declaration renderer through the exact legacy {@code LegacyDataRenderer.renderReference}
-	 * protocol (preserving its ExportReference-first-then-assembler byte parity) immediately
-	 * before the declaration template renders; the template reads it as a plain precomputed
-	 * string. A pure field read — no reference resolution happens when ST4 accesses it.
-	 */
-	private String occursReference = "" ;
-
-	public void setOccursReference(String occursReference)
-	{
-		this.occursReference = occursReference == null ? "" : occursReference ;
-	}
-
-	public String getOccursReference()
-	{
-		return occursReference ;
-	}
-
-	/**
-	 * Generate-layer declaration renderer (the retired backend's {@code DoExport} body, moved
-	 * out of the semantic tree). Invoked from {@link #DoExport()} when the legacy traversal
-	 * reaches this group. Defaults to a no-op so a hand-built entity stays well-formed.
-	 */
-	private Consumer<CEntityFieldOccurs> declarationRenderer = entity -> {};
-
-	public void setDeclarationRenderer(Consumer<CEntityFieldOccurs> renderer)
-	{
-		if (renderer != null)
-		{
-			declarationRenderer = renderer ;
-		}
-	}
 }

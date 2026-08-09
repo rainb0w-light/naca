@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.DisplayName;
@@ -49,7 +49,7 @@ import utils.CTransApplicationGroup;
  * parser-driven construction of this condition ({@code IF <FIELD>P = 1} lowers to a value test
  * around the owner field; {@code IF <FIELD>P = LOW-VALUE} lowers to a set test). It builds the
  * pure entity through the rewired factory ({@code CJavaEntityFactory.NewEntityIsFieldFlag},
- * inherited by {@code CJavaEntityFactoryST}). The FPac factory throws
+ * inherited by {@code CJavaEntityFactory}). The FPac factory throws
  * {@code NacaTransAssertException} for this entity, so no FPac tree ever holds it.
  */
 class IsFieldFlagRenderTest
@@ -77,9 +77,9 @@ class IsFieldFlagRenderTest
             .renderRoot(condition, JavaTemplateRole.REFERENCE);
     }
 
-    private static CJavaEntityFactoryST factory()
+    private static CJavaEntityFactory factory()
     {
-        return new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        return new CJavaEntityFactory(catalog(), new MockJavaExporter());
     }
 
     /**
@@ -89,7 +89,7 @@ class IsFieldFlagRenderTest
      * flag condition around the owner field reference.
      */
     private static CEntityIsFieldFlag lower(
-        CJavaEntityFactoryST factory, String value,
+        CJavaEntityFactory factory, String value,
         CBaseEntityCondition.EConditionType type)
     {
         CEntityFieldFlag fieldFlag =
@@ -187,7 +187,7 @@ class IsFieldFlagRenderTest
     @DisplayName("the ST4 factory returns the pure semantic entity (no CJava* backend)")
     void factoryReturnsPureSemanticEntity()
     {
-        CJavaEntityFactoryST factory = factory();
+        CJavaEntityFactory factory = factory();
         CEntityIsFieldFlag condition = factory.NewEntityIsFieldFlag();
 
         // Exactly the pure semantic class, not a legacy CJava* controller subclass.
@@ -221,7 +221,7 @@ class IsFieldFlagRenderTest
     @DisplayName("the retired backend's ignore semantics are preserved")
     void ignoreSemanticsPreserved()
     {
-        CJavaEntityFactoryST factory = factory();
+        CJavaEntityFactory factory = factory();
 
         // A live reference -> rendered (not ignored).
         CEntityIsFieldFlag live = factory.NewEntityIsFieldFlag();

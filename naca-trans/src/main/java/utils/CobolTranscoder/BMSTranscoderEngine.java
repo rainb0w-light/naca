@@ -99,7 +99,7 @@ public class BMSTranscoderEngine extends TranscoderEngine<CMapSetElement, CEntit
 			{
 				String fileNameJavaS = grp.csOutputPath + csFileNameNoExt + ".java" ;
 				CJavaExporter outjavaS = new CJavaExporter(
-					generate.LegacyLanguageOutputRegistry.get(cont), fileNameJavaS) ;
+					generate.LanguageArtifactOutputRegistry.get(cont), fileNameJavaS) ;
 				CJavaEntityFactory factoryS = new CJavaEntityFactory(cont.programCatalog, outjavaS) ;
 				CEntityResourceFormContainer eSav = cont.MakeSavCopy(factoryS, false) ;
 				cat.RegisterFormContainer(eSav.GetName(), eSav) ;
@@ -133,7 +133,7 @@ public class BMSTranscoderEngine extends TranscoderEngine<CMapSetElement, CEntit
 			{
 				String fileNameJavaS = grp.csOutputPath + filename + ".java" ;
 				CJavaExporter outjavaS = new CJavaExporter(
-					generate.LegacyLanguageOutputRegistry.get(cont), fileNameJavaS) ;
+					generate.LanguageArtifactOutputRegistry.get(cont), fileNameJavaS) ;
 				CJavaEntityFactory factoryS = new CJavaEntityFactory(cont.programCatalog, outjavaS) ;
 				CEntityResourceFormContainer eSav = cont.MakeSavCopy(factoryS, false) ;
 				cat.RegisterFormContainer(eSav.GetName(), eSav) ;
@@ -256,7 +256,7 @@ public class BMSTranscoderEngine extends TranscoderEngine<CMapSetElement, CEntit
 						String fileNameJavaS = FileSystem.appendFilePath(grp.csOutputPath + csApplication, ReplaceExtensionFileNameWithSuffix(csOutputFile, "S", "java"));
 						//String fileNameJavaS = grp.csOutputPath + csApplication + "/" + ReplaceExtensionFileNameWithSuffix(csOutputFile, "S", "java");
 						CJavaExporter outjavaS = new CJavaExporter(
-							generate.LegacyLanguageOutputRegistry.get(ext), fileNameJavaS) ;
+							generate.LanguageArtifactOutputRegistry.get(ext), fileNameJavaS) ;
 						CJavaEntityFactory factoryS0 = new CJavaEntityFactory(ext.programCatalog, outjavaS) ;
 						CObjectCatalog globalCat = new CObjectCatalog(ms_BMSTranscoderEngine.getGlobalCatalog(), listing, grp.eType, engine) ;
 						CJavaEntityFactory factoryS = new CJavaEntityFactory(globalCat, outjavaS) ;

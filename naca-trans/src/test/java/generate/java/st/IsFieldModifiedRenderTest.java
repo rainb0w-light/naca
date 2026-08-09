@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.DisplayName;
@@ -51,7 +51,7 @@ import utils.CTransApplicationGroup;
  * is the parser-driven construction of this condition ({@code IF <FIELD>-L > 0} lowers
  * to a field-modified test around the owner field); it builds the pure entity through
  * the rewired factory ({@code CJavaEntityFactory.NewEntityIsFieldModified}, inherited
- * by {@code CJavaEntityFactoryST}). The FPac factory throws
+ * by {@code CJavaEntityFactory}). The FPac factory throws
  * {@code NacaTransAssertException} for this entity, so no FPac tree ever holds it.
  */
 class IsFieldModifiedRenderTest
@@ -86,7 +86,7 @@ class IsFieldModifiedRenderTest
      * the field-modified condition around the owner field reference.
      */
     private static CEntityIsFieldModified lowerFieldLengthGreaterThanZero(
-        CJavaEntityFactoryST factory)
+        CJavaEntityFactory factory)
     {
         CEntityFieldLength fieldLength =
             new CEntityFieldLength(1, "WS-FIELD-L", catalog(), owner());
@@ -99,8 +99,8 @@ class IsFieldModifiedRenderTest
     @DisplayName("IF <FIELD>-L > 0 renders isFieldModified(field) (legacy Export parity)")
     void fieldLengthGreaterThanZeroRendersIsFieldModified()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntityIsFieldModified condition = lowerFieldLengthGreaterThanZero(factory);
 
         // Exactly the pure semantic class, not a legacy CJava* controller subclass.
@@ -117,8 +117,8 @@ class IsFieldModifiedRenderTest
     @DisplayName("ZERO/ZEROS/ZEROES spellings all lower to the field-modified condition")
     void zeroSpellingsLowerToIsFieldModified()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         for (String zero : new String[] { "0", "ZERO", "ZEROS", "ZEROES" })
         {
             CEntityFieldLength fieldLength =
@@ -136,8 +136,8 @@ class IsFieldModifiedRenderTest
     @DisplayName("a non-greater-than test does not lower to a field-modified condition")
     void nonGreaterThanDoesNotLowerToIsFieldModified()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntityFieldLength fieldLength =
             new CEntityFieldLength(1, "WS-FIELD-L", catalog(), owner());
         // IF <FIELD>-L = 0 is an equality test, never a field-modified test (legacy
@@ -151,8 +151,8 @@ class IsFieldModifiedRenderTest
     @DisplayName("the ST4 factory returns the pure semantic entity (no CJava* backend)")
     void factoryReturnsPureSemanticEntity()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntityIsFieldModified condition = factory.NewEntityIsFieldModified();
 
         // Exactly the pure semantic class, not a legacy CJava* controller subclass.
@@ -165,8 +165,8 @@ class IsFieldModifiedRenderTest
     @DisplayName("the opposite is a pure CEntityCondNot rendering !(isFieldModified(field))")
     void oppositeIsAPureCondNot()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntityIsFieldModified condition = lowerFieldLengthGreaterThanZero(factory);
 
         CBaseEntityCondition opposite = condition.GetOppositeCondition();
@@ -180,8 +180,8 @@ class IsFieldModifiedRenderTest
     @DisplayName("the retired backend's ignore semantics are preserved")
     void ignoreSemanticsPreserved()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
 
         // A live reference -> rendered (not ignored).
         CEntityIsFieldModified live = factory.NewEntityIsFieldModified();

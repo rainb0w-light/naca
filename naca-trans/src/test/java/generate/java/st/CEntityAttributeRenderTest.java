@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import generate.CJavaEntityFactory;
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.Test;
@@ -21,7 +21,7 @@ class CEntityAttributeRenderTest
         assertEquals(CEntityAttribute.class,
             new CJavaEntityFactory(catalog, null).NewEntityAttribute(1, "FIELD").getClass());
         assertEquals(CEntityAttribute.class,
-            new CJavaEntityFactoryST(catalog, null).NewEntityAttribute(1, "FIELD").getClass());
+            new CJavaEntityFactory(catalog, null).NewEntityAttribute(1, "FIELD").getClass());
     }
 
     @Test

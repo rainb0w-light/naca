@@ -5,8 +5,10 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import generate.CJavaEntityFactory;
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.java.st.MockJavaExporter;
+import generate.templates.TemplateLoader;
+import generate.templates.recursive.JavaTemplateRole;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -66,25 +68,13 @@ class CEntityFieldArrayRenderTest
         return new CResourceStrings(24, 80)
         {
             @Override
-            public Element Export(Element parent, Document root)
-            {
-                return root.createElement("resources");
-            }
-
-            @Override
             public void FormatResource(String name)
             {
                 // no-op
             }
 
             @Override
-            public String ExportForField(String initialValue, String display)
-            {
-                return "";
-            }
-
-            @Override
-            public Node ExportResource(String name, Document doc)
+            public Node exportResource(String name, Document doc)
             {
                 return doc.createElement("texts");
             }
@@ -98,7 +88,7 @@ class CEntityFieldArrayRenderTest
         CEntityResourceFieldArray direct =
             new CJavaEntityFactory(catalog(), new MockJavaExporter()).NewEntityFieldArray();
         CEntityResourceFieldArray st4 =
-            new CJavaEntityFactoryST(catalog(), null).NewEntityFieldArray();
+            new CJavaEntityFactory(catalog(), null).NewEntityFieldArray();
 
         // Exactly the pure semantic class, not the retired CJavaFieldArray backend subclass.
         assertEquals(CEntityResourceFieldArray.class, direct.getClass());
@@ -109,8 +99,8 @@ class CEntityFieldArrayRenderTest
         assertEquals(CDataEntity.CDataEntityType.FIELD, direct.GetDataType());
         assertFalse(direct.isValNeeded());
         assertEquals("", direct.GetTypeDecl());
-        assertEquals("", direct.ExportReference(1));
-        assertEquals("", direct.ExportWriteAccessorTo("x"));
+        assertEquals("", TemplateLoader.getRecursiveAssembler()
+            .renderRoot(direct, JavaTemplateRole.DECLARATION));
     }
 
     @Test

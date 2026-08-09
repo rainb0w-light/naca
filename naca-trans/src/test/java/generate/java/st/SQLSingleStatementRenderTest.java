@@ -3,7 +3,7 @@ package generate.java.st;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.DisplayName;
@@ -74,7 +74,7 @@ class SQLSingleStatementRenderTest
     void factoryReturnsPureSemanticEntity()
     {
         CObjectCatalog catalog = catalog();
-        CJavaEntityFactoryST factory = new CJavaEntityFactoryST(catalog, new MockJavaExporter());
+        CJavaEntityFactory factory = new CJavaEntityFactory(catalog, new MockJavaExporter());
         CEntitySQLSingleStatement statement =
             factory.NewEntitySQLSingleStatement(1, SQL_TEXT);
         // Exactly the pure semantic class, not a legacy CJava* controller subclass.

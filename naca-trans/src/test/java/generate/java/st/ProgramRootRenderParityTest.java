@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.CJavaEntityFactory;
 import generate.CStringExporter;
 import generate.templates.TemplateLoader;
@@ -92,7 +92,7 @@ class ProgramRootRenderParityTest
             CTransApplicationGroup.EProgramType.TYPE_BATCH, null);
         catalog.setExporter(exporter);
         CJavaEntityFactory factory = st4
-            ? new CJavaEntityFactoryST(catalog, exporter)
+            ? new CJavaEntityFactory(catalog, exporter)
             : new CJavaEntityFactory(catalog, exporter);
         factory.InitCustomCICSEntities();
         CEntityClass root = program.DoSemanticAnalysis(factory);

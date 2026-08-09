@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.LegacyDataRenderer;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
@@ -51,7 +51,7 @@ import utils.CTransApplicationGroup;
  * <p>Because the entity is dead wiring there is no production construction path to drive; the
  * reference consumption protocol ({@code LegacyDataRenderer.renderReference} fall-through, exactly
  * what the retired backend itself called on its owner) and the entity's parser-facing lowering
- * ({@code GetSpecialAssignment} through the production {@code CJavaEntityFactoryST}) are exercised
+ * ({@code GetSpecialAssignment} through the production {@code CJavaEntityFactory}) are exercised
  * below instead.
  */
 class FormAccessorRenderTest
@@ -76,8 +76,8 @@ class FormAccessorRenderTest
     @DisplayName("accessor reference renders the owning form's reference through the recursive assembler")
     void referenceRendersOwnerFormReferenceThroughRecursiveAssembler()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         // Production construction of the owning screen-map form (BMS .bms MAP path).
         CEntityResourceForm form = factory.NewEntityForm(1, "MY-MAP", false);
         CEntityFormAccessor accessor = new CEntityFormAccessor(1, "MY-MAP", catalog(), form);
@@ -93,8 +93,8 @@ class FormAccessorRenderTest
     @DisplayName("accessor reference qualifies the container when the parser set the owner's of qualifier")
     void referenceQualifiesContainerQualifier()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntityResourceForm form = factory.NewEntityForm(1, "MY-MAP", false);
         CEntityResourceFormContainer container =
             factory.NewEntityFormContainer(1, "MY-SET", false);
@@ -110,8 +110,8 @@ class FormAccessorRenderTest
     @DisplayName("LegacyDataRenderer.renderReference falls through to the recursive assembler binding")
     void referenceRendersThroughLegacyDataRendererFallThrough()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntityResourceForm form = factory.NewEntityForm(1, "MY-MAP", false);
         CEntityFormAccessor accessor = new CEntityFormAccessor(1, "MY-MAP", catalog(), form);
 
@@ -132,7 +132,6 @@ class FormAccessorRenderTest
         // Byte-for-byte the retired backend: ExportReference -> renderReference(null, line)
         // == "[UNDEFINED]". Both the direct protocol and the assembler binding agree.
         assertNull(accessor.GetForm());
-        assertEquals("[UNDEFINED]", accessor.ExportReference(0));
         assertEquals("[UNDEFINED]", render(accessor));
         assertEquals("[UNDEFINED]", LegacyDataRenderer.renderReference(accessor, 0));
     }
@@ -141,8 +140,8 @@ class FormAccessorRenderTest
     @DisplayName("Clear() drops the owner and the reference falls back to [UNDEFINED]")
     void clearedAccessorRendersLegacyUndefinedSentinel()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntityResourceForm form = factory.NewEntityForm(1, "MY-MAP", false);
         CEntityFormAccessor accessor = new CEntityFormAccessor(1, "MY-MAP", catalog(), form);
         assertEquals("MY_MAP", render(accessor));
@@ -157,8 +156,8 @@ class FormAccessorRenderTest
     @DisplayName("GetForm() returns the owner (fixes the retired backend's self-assignment no-op)")
     void getFormReturnsOwnerFixesLegacySelfAssignment()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntityResourceForm form = factory.NewEntityForm(1, "MY-MAP", false);
         CEntityFormAccessor accessor = new CEntityFormAccessor(1, "MY-MAP", catalog(), form);
 
@@ -175,8 +174,8 @@ class FormAccessorRenderTest
     @DisplayName("parser-facing special assignments lower through the production factory")
     void specialAssignmentLowersThroughProductionFactory()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntityResourceForm form = factory.NewEntityForm(1, "MY-MAP", false);
         CEntityFormAccessor accessor = new CEntityFormAccessor(1, "MY-MAP", catalog(), form);
 
@@ -203,8 +202,8 @@ class FormAccessorRenderTest
     @DisplayName("pure entity preserves the retired backend's data-entity protocols")
     void preservesLegacyDataEntityProtocols()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntityResourceForm form = factory.NewEntityForm(1, "MY-MAP", false);
         CEntityFormAccessor accessor = new CEntityFormAccessor(1, "MY-MAP", catalog(), form);
 
@@ -221,7 +220,6 @@ class FormAccessorRenderTest
         // No write-accessor protocol is reachable: the semantic-declared method is ignored by
         // the reflection boundary (returns null), exactly the retired backend's effective
         // result (its delegation to renderWriteAccessor(owner, value) also yielded null).
-        assertNull(accessor.ExportWriteAccessorTo("X"));
         assertNull(LegacyDataRenderer.renderWriteAccessor(accessor, "X"));
     }
 

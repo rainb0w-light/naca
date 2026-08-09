@@ -437,6 +437,7 @@
                    UNTIL WS-DUMP-IDX > WS-DUMP-LEN
                COMPUTE WS-DUMP-BYTE =
                    FUNCTION ORD(WS-DUMP-SRC(WS-DUMP-IDX:1))
+               SUBTRACT 1 FROM WS-DUMP-BYTE
                DIVIDE WS-DUMP-BYTE BY 16
                    GIVING WS-DUMP-HI
                    REMAINDER WS-DUMP-LO

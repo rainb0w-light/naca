@@ -89,10 +89,6 @@ public class CEntityKeyPressed extends CDataEntity
 		return false;
 	}
 
-	protected void DoExport()
-	{
-		// unused
-	}
 	public boolean ignore()
 	{
 		return false ;

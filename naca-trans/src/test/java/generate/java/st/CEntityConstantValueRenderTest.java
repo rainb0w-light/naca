@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 import generate.CJavaEntityFactory;
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.Test;
@@ -23,7 +23,7 @@ class CEntityConstantValueRenderTest
         assertInstanceOf(CEntityConstantValue.class,
             directFactory.getSpecialConstantValue("source"));
 
-        CJavaEntityFactoryST stFactory = new CJavaEntityFactoryST(catalog, null);
+        CJavaEntityFactory stFactory = new CJavaEntityFactory(catalog, null);
         stFactory.addSpecialConstantValue("source", "LanguageCode.FR");
         assertInstanceOf(CEntityConstantValue.class,
             stFactory.getSpecialConstantValue("source"));

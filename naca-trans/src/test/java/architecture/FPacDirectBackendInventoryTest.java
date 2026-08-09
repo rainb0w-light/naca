@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -33,11 +34,12 @@ import org.junit.jupiter.api.Test;
  * {@code tools/st4-loop/st4loop/debt.py}. FPac is an independent pipeline,
  * never a COBOL dialect.
  */
+@Tag("final-architecture")
 class FPacDirectBackendInventoryTest
 {
     // Exact current count of FPac direct backend source files. Every retirement
     // must lower this value in the same slice, preventing slack in the ratchet.
-    private static final int FPAC_DIRECT_BACKEND_TOTAL_BASELINE = 18;
+    private static final int FPAC_DIRECT_BACKEND_TOTAL_BASELINE = 0;
 
     // Mirrors st4loop.debt.FPAC_DIRECT_SEMANTIC_SUBCLASS exactly.
     private static final Pattern FPAC_DIRECT_SEMANTIC_SUBCLASS =
@@ -74,10 +76,11 @@ class FPacDirectBackendInventoryTest
         report.append(String.format("  %-14s %3d%n", "TOTAL", backends.size()));
         System.out.println(report);
 
-        assertTrue(backends.size() == FPAC_DIRECT_BACKEND_TOTAL_BASELINE,
-            "FPac backend ratchet is stale or debt changed: expected exactly "
-                + FPAC_DIRECT_BACKEND_TOTAL_BASELINE + " but measured " + backends.size()
-                + "; every retirement must tighten the checked-in baseline" + report);
+        assertTrue(FPAC_DIRECT_BACKEND_TOTAL_BASELINE == 0,
+            "completed FPac migration must keep the checked-in baseline at zero");
+        assertTrue(backends.isEmpty(),
+            "zero-tolerance FPac backend gate found " + backends.size()
+                + " newly introduced backend(s)" + report);
     }
 
     private static Path moduleRoot()

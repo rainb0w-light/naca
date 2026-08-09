@@ -52,6 +52,16 @@ public class CEntityGoto extends CBaseActionEntity
 		return e != null ? e.GetDisplayName() : "[UNDEFINED]";
 	}
 
+	/**
+	 * Raw control token captured by semantic analysis. COBOL resolves this to a
+	 * paragraph for {@link #getGoToTarget()}, while FPac uses the reserved
+	 * {@code NEXT}/{@code LAST}/{@code END} integer control values directly.
+	 */
+	public String getTargetName()
+	{
+		return reference != null ? reference.getProcedureName() : "[UNDEFINED]" ;
+	}
+
 	protected CProcedureReference reference = null;
 	public void Clear()
 	{

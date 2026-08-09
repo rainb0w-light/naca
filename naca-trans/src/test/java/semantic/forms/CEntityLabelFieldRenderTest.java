@@ -39,7 +39,7 @@ import utils.CTransApplicationGroup;
  * <p>A label field emits <b>no Java</b> of its own (the retired backend's {@code DoExport}
  * was empty), so there is no ST4 template/binding for it; its only live output protocol is
  * the BMS XML/.res artifact {@code DoXMLExport}, dispatched polymorphically from the
- * semantic form traversal ({@code CEntityResourceForm.ExportXMLFields}). This test pins:
+ * semantic form traversal ({@code CEntityResourceForm.exportXMLFields}). This test pins:
  *
  * <ul>
  *   <li><b>production construction</b> — {@code CJavaEntityFactory.NewEntityLabelField}
@@ -76,25 +76,13 @@ class CEntityLabelFieldRenderTest
         return new CResourceStrings(24, 80)
         {
             @Override
-            public Element Export(Element parent, Document root)
-            {
-                return root.createElement("resources");
-            }
-
-            @Override
             public void FormatResource(String name)
             {
                 // no-op
             }
 
             @Override
-            public String ExportForField(String initialValue, String display)
-            {
-                return "";
-            }
-
-            @Override
-            public Node ExportResource(String name, Document doc)
+            public Node exportResource(String name, Document doc)
             {
                 return doc.createElement("texts");
             }
@@ -248,7 +236,7 @@ class CEntityLabelFieldRenderTest
         assertTrue(entries >= 1, "named DFHMDF fields must stay entry fields, got " + entries);
 
         // A parsed label exports its XML through the production protocol (the BMS artifact
-        // traversal CEntityResourceForm.ExportXMLFields calls exactly this method).
+        // traversal CEntityResourceForm.exportXMLFields calls exactly this method).
         Element el = firstLabel.DoXMLExport(newDocument(), stubResources());
         assertNotNull(el, "a parsed ONLINM1 label is not hidden, so it must export an element");
         assertEquals("label", el.getNodeName());

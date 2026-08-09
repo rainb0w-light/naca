@@ -24,7 +24,6 @@ import java.util.Hashtable;
 
 import parser.CGlobalCommentContainer;
 
-import semantic.expression.CBaseEntityCondition;
 import utils.Transcoder;
 import utils.COriginalLisiting;
 
@@ -384,23 +383,6 @@ public class CJavaExporter extends CBaseLanguageExporter
 	public void OpenBracket()
 	{
 		WriteWord("(") ;
-	}
-	
-	public static String ExportChildCondition(int parentLevel, CBaseEntityCondition condChild)
-	{
-		if (condChild == null)
-		{
-			return "[UNDEFINED]";
-		}
-		int childLevel = condChild.GetPriorityLevel() ;
-		if ((parentLevel == 2 && childLevel ==1) || (parentLevel == 1 && childLevel == 2) || parentLevel > childLevel)
-		{ // 1 and 2 are 'AND' and 'OR'
-			return "(" + generate.LegacyExpressionRenderer.render(condChild) + ")" ;
-		}
-		else
-		{
-			return generate.LegacyExpressionRenderer.render(condChild) ;
-		}
 	}
 	
 	public String FormatIdentifier(String id)

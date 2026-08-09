@@ -80,6 +80,15 @@ public class CEntityFileDescriptor extends CBaseLanguageEntity
 	}
 
 	/**
+	 * Optional FPac output-buffer filler captured during semantic analysis.
+	 * The backend decides how that value participates in a file declaration.
+	 */
+	public CDataEntity getOutputBufferInitialValue()
+	{
+		return eOutputBufferInitialValue;
+	}
+
+	/**
 	 * The SELECT file-name data entity (rendered in the REFERENCE role), or null
 	 * when there is no resolvable file name — the backend then falls back to the
 	 * quoted display name, exactly as the direct generator does (which discards a
@@ -111,5 +120,11 @@ public class CEntityFileDescriptor extends CBaseLanguageEntity
 	public String getDisplayName()
 	{
 		return GetDisplayName();
+	}
+
+	/** Raw logical descriptor name as written by the source dialect. */
+	public String getSourceName()
+	{
+		return GetName();
 	}
 }

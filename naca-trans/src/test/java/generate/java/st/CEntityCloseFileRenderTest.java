@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 import generate.CJavaEntityFactory;
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.Test;
@@ -40,7 +40,7 @@ class CEntityCloseFileRenderTest
         assertInstanceOf(CEntityCloseFile.class,
             new CJavaEntityFactory(catalog, null).NewEntityCloseFile(1));
         assertInstanceOf(CEntityCloseFile.class,
-            new CJavaEntityFactoryST(catalog, null).NewEntityCloseFile(1));
+            new CJavaEntityFactory(catalog, null).NewEntityCloseFile(1));
     }
 
     @Test

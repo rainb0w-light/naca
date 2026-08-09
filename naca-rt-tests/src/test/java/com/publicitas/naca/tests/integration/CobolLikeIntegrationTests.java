@@ -8,6 +8,7 @@ package com.publicitas.naca.tests.integration;
 import com.publicitas.naca.tests.base.AbstractNacaTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -26,6 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  * - SQL operations (SQL)
  */
 @DisplayName("COBOL Runtime Integration Tests")
+@Tag("legacy-runtime")
 public class CobolLikeIntegrationTests extends AbstractNacaTest {
 
     @Nested

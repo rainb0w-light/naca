@@ -102,55 +102,25 @@ public abstract class TranscoderEngine<T_Elem extends CBaseElement, T_Entity ext
 	/**
 	 * Renders the analyzed semantic root to its output target. The default drives the
 	 * COBOL/SQL/CICS (and BMS) pipelines exactly as before: either the single recursive
-	 * ST4 assembler with the explicit {@code ROOT} role (the opt-in ST4 artifact writer)
-	 * or the legacy direct {@code startExport} reflection path. A pipeline whose root
-	 * needs a different assembly role or a transitional bridge overrides this hook —
-	 * e.g. the independent FPac pipeline ({@code FPacTranscoderEngine}) reproduces its
-	 * {@code FPacProgram} class wrapper while its body containers are still direct
-	 * backends on their own retirement slices. Default behavior is unchanged for every
-	 * pipeline that does not override.
+	 * ST4 assembler with the explicit {@code ROOT} role. A pipeline whose root
+	 * needs a different assembly role overrides this hook.
 	 */
 	protected void exportRoot(T_Entity eSem, String filename, String csApplication, CTransApplicationGroup grp, boolean bResources)
 	{
-		if (useSt4ArtifactWriter())
+		String rendered = generate.templates.TemplateLoader.getRecursiveAssembler()
+			.renderRoot(eSem, generate.templates.recursive.JavaTemplateRole.ROOT);
+		String outPath = grp.csOutputPath
+			+ (csApplication.equals("") ? "" : csApplication + "/")
+			+ generateOutputFileName(filename);
+		try
 		{
-			// ST4 artifact writer: render the whole program through the single
-			// recursive assembler with the explicit ROOT role and write it to the
-			// same output path the legacy exporter targets. No fallback to the
-			// direct generator: a missing binding fails closed (propagates).
-			String rendered = generate.templates.TemplateLoader.getRecursiveAssembler()
-				.renderRoot(eSem, generate.templates.recursive.JavaTemplateRole.ROOT);
-			String outPath = grp.csOutputPath
-				+ (csApplication.equals("") ? "" : csApplication + "/")
-				+ generateOutputFileName(filename);
-			try
-			{
-				java.nio.file.Files.writeString(java.nio.file.Path.of(outPath), rendered,
-					java.nio.charset.StandardCharsets.ISO_8859_1);
-			}
-			catch (java.io.IOException e)
-			{
-				throw new NacaTransAssertException("Cannot write ST4 artifact " + outPath + ": " + e.getMessage());
-			}
+			java.nio.file.Files.writeString(java.nio.file.Path.of(outPath), rendered,
+				java.nio.charset.StandardCharsets.ISO_8859_1);
 		}
-		else
+		catch (java.io.IOException e)
 		{
-			generate.LegacyLanguageRenderer.startExport(eSem) ;
+			throw new NacaTransAssertException("Cannot write ST4 artifact " + outPath + ": " + e.getMessage());
 		}
-	}
-
-	/**
-	 * Whether the CLI/batch export uses the ST4 artifact writer (the single
-	 * recursive assembler with the explicit ROOT role) instead of the legacy
-	 * direct {@code StartExport()} path. Opt-in via
-	 * {@code -Dnaca.transpiler.artifactWriter=st4}; the default ({@code legacy})
-	 * preserves the existing behavior. There is deliberately no runtime fallback
-	 * from the ST4 writer to the direct generator on a missing binding — that
-	 * fails closed.
-	 */
-	protected boolean useSt4ArtifactWriter()
-	{
-		return "st4".equalsIgnoreCase(System.getProperty("naca.transpiler.artifactWriter", "legacy"));
 	}
 	
 	public T_Entity doAllAnalysis(String filename, String csApplication, CTransApplicationGroup grp, boolean bResources)

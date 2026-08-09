@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.DisplayName;
@@ -44,6 +44,6 @@ class CICSRetrieveRenderTest
     void factoryReturnsSemanticEntity()
     {
         assertInstanceOf(CEntityCICSRetrieve.class,
-            new CJavaEntityFactoryST(null, null).NewEntityCICSRetreive(1, false));
+            new CJavaEntityFactory(null, null).NewEntityCICSRetreive(1, false));
     }
 }

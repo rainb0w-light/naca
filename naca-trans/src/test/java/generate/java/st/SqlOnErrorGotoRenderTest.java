@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.DisplayName;
@@ -88,7 +88,7 @@ class SqlOnErrorGotoRenderTest
     void factoryRegistersSqlErrorGoto()
     {
         CObjectCatalog catalog = catalog();
-        CJavaEntityFactoryST factory = new CJavaEntityFactoryST(catalog, new MockJavaExporter());
+        CJavaEntityFactory factory = new CJavaEntityFactory(catalog, new MockJavaExporter());
         factory.NewEntitySQLOnErrorGoto(108, "PC-ERR-DB2");
         // MockJavaExporter.FormatIdentifier maps '-' -> '_'; the registered label is the
         // exporter-formatted identifier, exactly as the retired backend produced.
@@ -100,7 +100,7 @@ class SqlOnErrorGotoRenderTest
     void factoryRegistersSqlErrorContinue()
     {
         CObjectCatalog catalog = catalog();
-        CJavaEntityFactoryST factory = new CJavaEntityFactoryST(catalog, new MockJavaExporter());
+        CJavaEntityFactory factory = new CJavaEntityFactory(catalog, new MockJavaExporter());
         factory.NewEntitySQLOnErrorGoto(108, "");
         assertEquals(".onErrorContinue()", catalog.getSQLWarningErrorStatement());
     }
@@ -110,7 +110,7 @@ class SqlOnErrorGotoRenderTest
     void factoryRegistersSqlWarningGoto()
     {
         CObjectCatalog catalog = catalog();
-        CJavaEntityFactoryST factory = new CJavaEntityFactoryST(catalog, new MockJavaExporter());
+        CJavaEntityFactory factory = new CJavaEntityFactory(catalog, new MockJavaExporter());
         factory.NewEntitySQLOnWarningGoto(108, "PC-WARN-DB2");
         String statement = catalog.getSQLWarningErrorStatement();
         assertNotNull(statement);

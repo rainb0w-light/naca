@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import generate.CJavaEntityFactory;
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.LegacyDataRenderer;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
@@ -102,8 +102,8 @@ class FieldArrayReferenceRenderTest
     @DisplayName("the ST4 factory returns the pure semantic entity (no CJava* backend)")
     void factoryReturnsPureSemanticEntity()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog, new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog, new MockJavaExporter());
         CEntityFieldArrayReference array = factory.NewEntityFieldArrayReference(1);
         // Exactly the pure semantic class, not a legacy CJava* controller subclass.
         assertEquals(CEntityFieldArrayReference.class, array.getClass());
@@ -117,12 +117,12 @@ class FieldArrayReferenceRenderTest
     void bothFactoriesReturnPureSemanticEntity()
     {
         // NewEntityFieldArrayReference is the production lowering seam: both the
-        // direct and ST4 factories must now build the pure entity (CJavaEntityFactoryST
+        // direct and ST4 factories must now build the pure entity (CJavaEntityFactory
         // inherits the rewired CJavaEntityFactory method).
         assertEquals(CEntityFieldArrayReference.class,
             new CJavaEntityFactory(catalog, null).NewEntityFieldArrayReference(1).getClass());
         assertEquals(CEntityFieldArrayReference.class,
-            new CJavaEntityFactoryST(catalog, null).NewEntityFieldArrayReference(1).getClass());
+            new CJavaEntityFactory(catalog, null).NewEntityFieldArrayReference(1).getClass());
     }
 
     @Test
@@ -163,8 +163,8 @@ class FieldArrayReferenceRenderTest
         // an OCCURS-style map field) and the pure node's own GetSpecialCondition are
         // the production callers; both route through factory.NewEntityFieldArrayReference,
         // which must now build the pure semantic entity through the rewired factory.
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog, new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog, new MockJavaExporter());
         CEntityFieldArrayReference array = factory.NewEntityFieldArrayReference(1);
 
         // The exact pure semantic class: no legacy CJava* controller subclass.

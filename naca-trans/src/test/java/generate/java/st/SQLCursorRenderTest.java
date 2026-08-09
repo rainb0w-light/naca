@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import generate.CJavaEntityFactory;
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import java.util.Vector;
@@ -91,7 +91,7 @@ class SQLCursorRenderTest
         assertEquals(CEntitySQLCursor.class, fromDirect.getClass());
 
         CEntitySQLCursor fromST =
-            new CJavaEntityFactoryST(catalog, exporter).NewEntitySQLCursor("CUR-ST");
+            new CJavaEntityFactory(catalog, exporter).NewEntitySQLCursor("CUR-ST");
         assertEquals(CEntitySQLCursor.class, fromST.getClass());
         assertSame(fromST, catalog.GetSQLCursor("CUR-ST"));
     }

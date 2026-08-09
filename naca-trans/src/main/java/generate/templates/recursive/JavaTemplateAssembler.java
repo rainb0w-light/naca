@@ -177,22 +177,45 @@ public final class JavaTemplateAssembler
         {
             return JavaTemplateRole.REFERENCE;
         }
+        if ("forms".equals(propertyName)
+            || "fields".equals(propertyName))
+        {
+            return JavaTemplateRole.DECLARATION;
+        }
         JavaTemplateRole parentRole = templateRoles.get(parentTemplate);
         if (parentRole == JavaTemplateRole.DECLARATION
             && ("children".equals(propertyName)
-                || "activeChildren".equals(propertyName)))
+                || "activeChildren".equals(propertyName)
+                || "attributeChildren".equals(propertyName)))
         {
             return JavaTemplateRole.DECLARATION;
         }
         if ((parentRole == JavaTemplateRole.FPAC_ROOT
                 || parentRole == JavaTemplateRole.FPAC_REFERENCE)
             && ("children".equals(propertyName)
-                || "activeChildren".equals(propertyName)))
+                || "activeChildren".equals(propertyName)
+                || "actions".equals(propertyName)
+                || "activeActions".equals(propertyName)
+                || propertyName.endsWith("Bloc")))
         {
             // Independent FPac pipeline: children of the FPac program root (and of any
             // FPac-rendered container) lower under FPAC_REFERENCE, so a shared verb such
             // as semantic.Verbs.CEntityCallProgram resolves through the FPac override
             // manifest (call(PROG.class)) and never the frozen COBOL PERFORM binding.
+            return JavaTemplateRole.FPAC_REFERENCE;
+        }
+        if ((parentRole == JavaTemplateRole.FPAC_ROOT
+                || parentRole == JavaTemplateRole.FPAC_REFERENCE)
+            && ("displayItems".equals(propertyName)
+                || "reference".equals(propertyName)
+                || "dividend".equals(propertyName)
+                || "divisor".equals(propertyName)
+                || "result".equals(propertyName)))
+        {
+            // FPac display/divide operands must keep the FPac reference overlay.
+            // Other properties retain the existing shared-reference behavior;
+            // notably a file descriptor used by an action is a reference, while
+            // the same type rendered as an FPac root child is a declaration.
             return JavaTemplateRole.FPAC_REFERENCE;
         }
         // Any other property defaults to REFERENCE; root role is never inherited

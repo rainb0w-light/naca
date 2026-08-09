@@ -56,9 +56,8 @@ class FinalArchitectureContractTest
     Stream<DynamicTest> everySemanticClassSatisfiesTheFinalContract() throws IOException
     {
         return javaFiles(moduleRoot().resolve("src/main/java/semantic")).stream()
-            .filter(path -> !isBmsSemanticPath(path))
             .map(file -> DynamicTest.dynamicTest(relative(file), () -> {
-                String source = read(file);
+                String source = executableSource(read(file));
                 List<String> violations = new ArrayList<>();
                 collectPresentTokens(violations, file, source,
                     SEMANTIC_BACKEND_TOKENS, "backend dependency");
@@ -189,7 +188,6 @@ class FinalArchitectureContractTest
     {
         Path directRoot = moduleRoot().resolve("src/main/java/generate/java");
         return javaFiles(directRoot).stream()
-            .filter(path -> !isBmsBackendPath(path))
             .map(file -> DynamicTest.dynamicTest(relative(file), () -> {
                 String source = read(file);
                 assertTrue(!source.contains(" extends CEntity")
@@ -284,6 +282,13 @@ class FinalArchitectureContractTest
         return new String(Files.readAllBytes(file), StandardCharsets.ISO_8859_1);
     }
 
+    private static String executableSource(String source)
+    {
+        return source
+            .replaceAll("(?s)/\\*.*?\\*/", "")
+            .replaceAll("(?m)//.*$", "");
+    }
+
     private static Set<String> concreteSemanticEntityTypes() throws Exception
     {
         Path semanticRoot = moduleRoot().resolve("src/main/java/semantic");
@@ -338,15 +343,6 @@ class FinalArchitectureContractTest
                 path.getFileName().toString())
             || path.toString().contains(
             path.getFileSystem().getSeparator() + "semantic"
-                + path.getFileSystem().getSeparator() + "forms"
-                + path.getFileSystem().getSeparator());
-    }
-
-    private static boolean isBmsBackendPath(Path path)
-    {
-        return path.toString().contains(
-            path.getFileSystem().getSeparator() + "generate"
-                + path.getFileSystem().getSeparator() + "java"
                 + path.getFileSystem().getSeparator() + "forms"
                 + path.getFileSystem().getSeparator());
     }

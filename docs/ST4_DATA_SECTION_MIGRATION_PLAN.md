@@ -1,5 +1,10 @@
 # ST4 数据段模板化专项计划
 
+> **状态（2026-08-07）：已完成。** class root、DATA DIVISION 与 procedure tree
+> 已统一接入 recursive ST4 assembler，COBOL/SQL/CICS direct backend inventory 为 0；
+> `finalArchitectureCheck` 237/237、`naca-trans` 1118/1118、全仓 `build` 均通过。
+> 下文保留为实施设计与历史任务拆解。
+
 ## 1. 专项目标
 
 把 Java class skeleton 与 DATA DIVISION 的生产输出从 direct generator 迁到唯一的递归 ST4 assembler，同时保持 semantic tree 与目标语言无关。

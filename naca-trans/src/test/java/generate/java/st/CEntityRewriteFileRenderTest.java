@@ -3,7 +3,7 @@ package generate.java.st;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import generate.CJavaEntityFactory;
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.Test;
@@ -39,7 +39,7 @@ class CEntityRewriteFileRenderTest
         assertEquals(CEntityRewriteFile.class,
             new CJavaEntityFactory(catalog, null).NewEntityRewriteFile(1).getClass());
         assertEquals(CEntityRewriteFile.class,
-            new CJavaEntityFactoryST(catalog, null).NewEntityRewriteFile(1).getClass());
+            new CJavaEntityFactory(catalog, null).NewEntityRewriteFile(1).getClass());
     }
 
     @Test

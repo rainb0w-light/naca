@@ -7,9 +7,9 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.LegacyDataRenderer;
-import generate.java.forms.CJavaField;
+import generate.java.forms.BmsJavaEntities;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.DisplayName;
@@ -18,6 +18,7 @@ import semantic.CBaseActionEntity;
 import semantic.CDataEntity;
 import semantic.expression.CBaseEntityCondition;
 import semantic.forms.CEntityFieldFlag;
+import semantic.forms.CEntityResourceField;
 import semantic.forms.CEntityIsFieldFlag;
 import semantic.forms.CEntitySetFlag;
 import utils.CGlobalCatalog;
@@ -90,8 +91,8 @@ class FieldFlagRenderTest
     void factoryReturnsPureSemanticEntity()
     {
         CObjectCatalog catalog = catalog();
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog, new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog, new MockJavaExporter());
         CEntityFieldFlag fieldFlag =
             factory.NewEntityFieldFlag(1, "WS-FIELDP", owner());
         // Exactly the pure semantic class, not a legacy CJava* controller subclass.
@@ -140,8 +141,9 @@ class FieldFlagRenderTest
         // the pure semantic entity through the rewired factory.
         CObjectCatalog catalog = catalog();
         MockJavaExporter exporter = new MockJavaExporter();
-        CJavaEntityFactoryST factory = new CJavaEntityFactoryST(catalog, exporter);
-        CJavaField field = new CJavaField(1, "NMMASQ", catalog, exporter);
+        CJavaEntityFactory factory = new CJavaEntityFactory(catalog, exporter);
+        CEntityResourceField field = BmsJavaEntities.entryField(
+            1, "NMMASQ", catalog, exporter);
 
         field.InitDependences(factory);
 
@@ -159,8 +161,8 @@ class FieldFlagRenderTest
     void specialAssignmentAndConditionBranchesPreserved()
     {
         CObjectCatalog catalog = catalog();
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog, new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog, new MockJavaExporter());
         MockDataEntity ownerField = owner();
         CEntityFieldFlag fieldFlag =
             new CEntityFieldFlag(1, "WS-FIELDP", catalog, ownerField);

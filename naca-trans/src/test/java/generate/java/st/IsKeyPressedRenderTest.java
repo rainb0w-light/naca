@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.DisplayName;
@@ -49,7 +49,7 @@ import utils.CTransApplicationGroup;
  * {@code factory.NewEntityIsKeyPressed()} (which fires the {@code addImportDeclaration("KEYPRESSED")}
  * side effect) and populates {@code isKeyPressed(key)} / {@code isNotKeyPressed(key)}; the rewired
  * {@code BmsJavaEntities.isKeyPressed} now builds the pure {@link CEntityIsKeyPressed} (the
- * {@code CJavaEntityFactoryST} production factory inherits {@code NewEntityIsKeyPressed}; the FPac
+ * {@code CJavaEntityFactory} production factory inherits {@code NewEntityIsKeyPressed}; the FPac
  * factory throws {@code NacaTransAssertException}, so no FPac tree ever holds it).
  *
  * <p>Production consumption: the condition renders through the recursive assembler in the REFERENCE
@@ -83,7 +83,7 @@ class IsKeyPressedRenderTest
      * pure semantic entity, not the retired {@code CJava*} subclass.
      */
     private static CBaseEntityCondition lowerCondition(
-        CJavaEntityFactoryST factory, CBaseEntityCondition.EConditionType type)
+        CJavaEntityFactory factory, CBaseEntityCondition.EConditionType type)
     {
         CEntityKeyPressed key = factory.NewEntityKeyPressed("PF1", "PF1");
         CEntityGetKeyPressed getKeyPressed = factory.NewEntityGetKeyPressed("KEYPRESSED");
@@ -94,8 +94,8 @@ class IsKeyPressedRenderTest
     @DisplayName("factory.NewEntityIsKeyPressed builds the pure semantic entity (production construction)")
     void factoryReturnsPureSemanticEntity()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
 
         CEntityIsKeyPressed entity = factory.NewEntityIsKeyPressed();
 
@@ -107,8 +107,8 @@ class IsKeyPressedRenderTest
     @DisplayName("IF KEYPRESSED = <key> renders isKeyPressed(KeyPressed.<key>) through the recursive assembler")
     void positiveConditionRendersThroughRecursiveAssembler()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
 
         // Byte-for-byte the retired backend's Export for the positive test.
         CBaseEntityCondition condition =
@@ -120,8 +120,8 @@ class IsKeyPressedRenderTest
     @DisplayName("IF KEYPRESSED <> <key> renders isNotKeyPressed(KeyPressed.<key>) through the recursive assembler")
     void negatedConditionRendersThroughRecursiveAssembler()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
 
         // Byte-for-byte the retired backend's Export for the negated test (a distinct
         // BaseProgram.isNotKeyPressed call, not a !(isKeyPressed(...)) wrapping).
@@ -134,8 +134,8 @@ class IsKeyPressedRenderTest
     @DisplayName("GetOppositeCondition flips the is/isNot call and re-renders through the assembler")
     void oppositeConditionFlipsTheCall()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
 
         CBaseEntityCondition condition =
             lowerCondition(factory, CBaseEntityCondition.EConditionType.IS_EQUAL);
@@ -151,8 +151,8 @@ class IsKeyPressedRenderTest
     @DisplayName("pure entity preserves the retired backend's condition protocols")
     void preservesLegacyConditionProtocols()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
 
         CBaseEntityCondition condition =
             lowerCondition(factory, CBaseEntityCondition.EConditionType.IS_EQUAL);

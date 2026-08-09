@@ -2,7 +2,7 @@
   "$schema": "./migration-ledger.schema.json",
   "meta": {
     "schemaVersion": 1,
-    "description": "Machine-readable ledger tracking the migration of every production-reachable semantic type onto declarative manifests + recursive-ST4 assembly, per phase. Phase 1 (COMPLETE, frozen zero-debt gates): COBOL core + embedded SQL + embedded CICS. Phase 2 (active; queue order BMS_ARTIFACT first, FPAC second, one ledger item per worker): the BMS map-resource artifact pipeline and the FPac pipeline -- both are independent source/resource DSL pipelines, never COBOL dialects. Their parsing and semantics stay decoupled from COBOL; common rendering infrastructure is reused only where the semantic model genuinely supports it.",
+    "description": "Machine-readable ledger tracking the completed migration of every production-reachable semantic type onto declarative manifests + recursive-ST4 assembly. Phase 1 (COBOL core + embedded SQL + embedded CICS) and Phase 2 (the independent BMS map-resource and FPac pipelines) are complete with zero direct backends and frozen zero-debt gates.",
     "statusOrder": [
       "not-started",
       "parser-preserved",
@@ -24,20 +24,31 @@
       "note": "Debt counts may only move down, per pipeline counter. Phase 1 counters (finalArchitectureCheck) are frozen at zero debt. Phase 2 counters live under ratchet.phase2 and are measured independently per scope.",
       "baselineCapturedAtCommit": "9402b0c",
       "lastVerifiedAtCommit": "6d15b095",
+      "lastVerifiedAt": "2026-08-07",
       "finalArchitectureCheck": {
-        "tests": 390,
+        "tests": 237,
         "failures": 0,
         "directBackends": 0,
-        "semanticClasses": 47,
-        "factories": 3,
-        "templates": 1,
-        "manifests": 1
+        "semanticClasses": 209,
+        "recursiveBackendClasses": 14,
+        "directBackendNamespaceClasses": 4,
+        "factories": 1,
+        "templates": 2,
+        "manifests": 6,
+        "note": "Counts are the production files exercised by the 2026-08-07 zero-tolerance contract; the four generate/java namespace classes are artifact/output utilities and none subclasses a semantic entity."
       },
       "cloudNativeGate": {
-        "tests": 41,
+        "tests": 42,
         "knownFailures": 0,
         "gate": ":naca-cloud-native:test",
         "note": "Full cloud-native gate is green. Initialized WORKING-STORAGE declarations are retained even when executable reachability marks them unused."
+      },
+      "legacyRuntimeAudit": {
+        "tests": 46,
+        "failures": 21,
+        "gate": ":naca-rt-tests:legacyRuntimeTest",
+        "partOfDefaultBuild": false,
+        "note": "Strict opt-in audit of hand-written 2005 runtime compatibility programs. These tests do not traverse the transpiler/ST4 pipeline; their OCCURS/REDEFINES/program-call/string-operation/GOTO failures are tracked as separate runtime debt, not as an ST4 migration blocker."
       },
       "onlineCorpusInventory": {
         "note": "Phase 3: inventory is now STATEMENT-ACCURATE (per source line+dialect+command, classified exactly once as PRESERVED / REJECTED / SILENT_DROP), no package-aggregate counting. DiagnosticSink (diagnostic.DiagnosticSink) collects structured diagnostics non-aborting so a whole program is inventoried per statement; throws when no sink is open (fail-closed gate). EXEC SQL INCLUDE counts as PRESERVED when it resolves/inlines (CJavaInline at the statement line).",
@@ -75,17 +86,17 @@
       ],
       "phase2": {
         "phase": "phase-2-bms-fpac",
-        "note": "Phase 2 baseline captured on top of commit 42d72b42 (the completed phase-1 HEAD). bmsDirectBackends counts generate/java/forms (incl. the CResourceStrings subclass); fpacDirectBackends counts generate/fpacjava (incl. the CSubStringAttributReference subclass). Each retirement slice tightens the matching checked-in Java inventory test (BmsFormsDirectBackendInventoryTest / FPacDirectBackendInventoryTest) and this counter together.",
+        "note": "Phase 2 is complete. The initial baselines were captured on top of commit 42d72b42; both BMS and FPac direct-backend inventories now measure zero and are frozen by their checked-in Java inventory tests.",
         "queueScopes": [
           "BMS_ARTIFACT",
           "FPAC"
         ],
         "baselineCapturedAtCommit": "42d72b42",
         "bmsArchitectureCheck": {
-          "bmsDirectBackends": 3
+          "bmsDirectBackends": 0
         },
         "fpacArchitectureCheck": {
-          "fpacDirectBackends": 18
+          "fpacDirectBackends": 0
         }
       }
     },
@@ -105,7 +116,7 @@
       "featureRegistry": "naca-trans/src/main/resources/contract/feature-registry.yaml",
       "codegenRuntimeContract": "naca-trans/src/main/java/contract/CodegenRuntimeContract.java",
       "failClosed": "generate.templates.recursive.MissingTemplateRendererException (names semantic type + concrete class; NOTE: carries no source line / feature id yet — Phase 3 must add source location + feature id to structured diagnostics)",
-      "migrationPlaybook": "6 steps: (1) semantic entity read-only getters + de-abstract; (2) one semantic-*-bindings.properties line; (3) one java.stg template reading only entity.* properties; (4) feature-registry.yaml entry (+ runtime-operations.yaml/template-runtime-requirements.yaml if new runtime ops); (5) CJavaEntityFactoryST.NewEntity* override; (6) delete legacy direct backend + render test + ratchet bumps. READ domain (semantic.Verbs.CEntityReadFile -> recursiveReadFileEntity) is the exemplar.",
+      "migrationPlaybook": "Completed 6-step playbook: (1) semantic entity read-only getters + de-abstract; (2) one semantic-*-bindings.properties line; (3) one java.stg template reading only entity.* properties; (4) feature-registry.yaml entry (+ runtime-operations.yaml/template-runtime-requirements.yaml for runtime ops); (5) pure CJavaEntityFactory.NewEntity* construction; (6) delete legacy direct backend + add render test + freeze ratchets at zero. READ domain (semantic.Verbs.CEntityReadFile -> recursiveReadFileEntity) is the exemplar.",
       "phase2": {
         "phase": "phase-2-bms-fpac",
         "target": "BMS and FPac remain INDEPENDENT source/resource DSL pipelines. Their semantic generation migrates from the legacy reflective direct emitters onto declarative bindings + an appropriate recursive ST4 assembly contract, WITHOUT coupling their parsing or semantics to COBOL. Common rendering infrastructure (ST4 group files, the runtime contract, DiagnosticSink fail-closed behavior) is reused only where the semantic model genuinely supports it.",
@@ -115,13 +126,13 @@
           "runtime": "nacaLib.mapSupport (Map, declare.form/edit/level/editOccurs/editSkip/localizedString, MapFieldAttr*, MapFieldFlag, KeyPressed, attribute move/set/is helpers)",
           "corpus": "NacaSamples/cobol/ONLINM1.bms; behavior pinned by BmsArtifactContractTest (naca-cloud-native)",
           "ratchet": "architecture.BmsFormsDirectBackendInventoryTest (BMS_DIRECT_BACKEND_TOTAL_BASELINE) <-> meta.ratchet.phase2.bmsArchitectureCheck.bmsDirectBackends",
-          "notes": "XML/.res output currently fused into semantic/forms (see discoveredDebt BMS-XML-OUTPUT-IN-SEMANTIC) must be separated or templated under the same principle; 5 dead-wiring backends are deleted together with the pipeline."
+          "notes": "Completed: Java/XML/resource artifact formatting is isolated behind BMS artifact writers/renderers; semantic/forms is covered by the final zero-tolerance scan and all dead-wiring backends are deleted."
         },
         "fpac": {
           "pipeline": "lexer/FPac + parser/FPac -> shared semantic model -> generate/fpacjava (CJavaFPacEntityFactory)",
           "productionEntry": "config-registered utils.FPacTranscoder.FPacTranscoderEngine -> TranscoderEngine.doFileTranscoding (standard NacaTrans/NacaTransTask entry; no shipped config registers it today)",
           "runtime": "nacaLib.fpacPrgEnv (FPacProgram: declare/wto/move/multiply/divide/subtract/is*/buffer*/call/executeCall, FPacFileDeclaration, FPacFileDescriptor)",
-          "corpus": "NONE shipped — retirement slices must add focused fixtures; JavaSemanticConditionRendererTest is the only existing parity test (one FPac condition unit)",
+          "corpus": "Focused FPac fixtures cover the FPAC_ROOT recursive-ST4 path, conditions, data declarations, file operations and retired backend slices; missing bindings fail closed.",
           "ratchet": "architecture.FPacDirectBackendInventoryTest (FPAC_DIRECT_BACKEND_TOTAL_BASELINE) <-> meta.ratchet.phase2.fpacArchitectureCheck.fpacDirectBackends",
           "notes": "FPac emitters subclass the SAME shared semantic entities as COBOL, but render differently; binding manifests/assembler roles must stay FPAC-specific (the shared semantic-bindings map one semantic class to one COBOL template). See discoveredDebt FPAC-LEGACY-SILENT-DROP and FPAC-GENERATOR-COUPLINGS; 2 dormant backends are deleted together with the pipeline."
         },
@@ -129,7 +140,7 @@
       }
     },
     "scheduler": {
-      "note": "Fields consumed by the external loop in tools/st4-loop (run-loop.sh). The loop is configured by migration PHASE (--phase): phase-1-cobol = COBOL_CORE/EMBEDDED_SQL/EMBEDDED_CICS (complete; kept replayable with its zero-debt gates); the active default phase-2-bms-fpac = BMS_ARTIFACT then FPAC. Within a phase the queue scopes are ORDERED: every READY item of an earlier scope is drained before any later scope (BMS fully before FPAC). Exactly one highest-priority READY item is selected per iteration and handed to one fresh worker. Per-entry fields: priority (lower=first), dependencies (ids that must be >= production-wired), verification (deterministic commands), expectedDebtDelta (per-scope counter: directBackends for COBOL scopes, bmsDirectBackends for BMS_ARTIFACT, fpacDirectBackends for FPAC), attempts, blocked, blockedReason, lastAttemptCommit. READY = scope in the phase queue, productionReachable, not terminal (status direct-retired or done -- debt already removed, never re-selected), not blocked, all dependencies satisfied.",
+      "note": "Historical fields consumed by the external loop in tools/st4-loop (run-loop.sh). Both phase-1-cobol and phase-2-bms-fpac queues are complete and replayable only for their zero-debt gates; no READY production item remains. Within a phase the queue scopes are ordered and terminal direct-retired/done items are never re-selected.",
       "controller": "tools/st4-loop/run-loop.sh",
       "verifier": "tools/st4-loop/verify-task.sh",
       "workerPrompt": ".claude/st4-loop/worker.md",
@@ -168,17 +179,20 @@
       {
         "id": "FPAC-LEGACY-SILENT-DROP",
         "scope": "FPAC",
-        "note": "Pre-existing latent defect in the dormant FPac legacy export path: LegacyLanguageRenderer.invokeExport reflectively skips any node without DoExport, so plain structural semantic nodes (CEntityCondition, CEntityBloc, CEntityLoopWhile/Iter, CEntityCase, CEntityAddTo, CEntityContinue/Break/Inc created by CJavaFPacEntityFactory) emit nothing -- e.g. CFPacJavaReadFile's at-end bloc renders an empty if-block. No FPac fixtures exist to catch it. FPac retirement slices must preserve what the direct backend actually emitted and must not silently drop recognized constructs; fail closed with DiagnosticSink.recordUnsupported when a form cannot be lowered safely."
+        "resolved": true,
+        "note": "Resolved: FPac no longer traverses the reflective legacy exporter. Its focused fixtures render through the FPAC_ROOT/recursive ST4 roles, and missing bindings fail closed."
       },
       {
         "id": "BMS-XML-OUTPUT-IN-SEMANTIC",
         "scope": "BMS_ARTIFACT",
-        "note": "semantic/forms classes still contain XML/.res output backends (CEntityResourceFormContainer.MakeXMLOutput + DOM helpers, CEntityResourceForm.ExportXMLFields/MakePFKeysDescription*, CResourceStrings.ExportResource/ExportAllLangId, CEntityResourceField abstract DoXMLExport). This is codegen fused into the semantic layer; BMS retirement slices must move it behind the same separation principle (target-neutral semantic state + declarative rendering) or isolate it as a distinct artifact backend."
+        "resolved": true,
+        "note": "Resolved: BMS Java/XML/resource artifacts are isolated behind the BMS artifact writer/renderers; the semantic source now passes the same final architecture scan, and both BMS backend inventory roots are frozen at zero."
       },
       {
         "id": "FPAC-GENERATOR-COUPLINGS",
         "scope": "FPAC",
-        "note": "Couplings to resolve during FPac retirement: CFPacJavaCondAnd/Or/Not call the static COBOL-side generate.java.CJavaExporter.ExportChildCondition (generator->COBOL-generator), and parser/FPac/elements/CFPacScript imports generate.CJavaFPacEntityFactory + generate.fpacjava.CFPacJavaClass for its typed DoSemanticAnalysis overload (parser->generator). Retiring condition rendering onto the recursive assembler removes the first; keep the FPac pipeline decoupled from COBOL machinery."
+        "resolved": true,
+        "note": "Resolved: FPac condition/reference rendering uses recursive ST4 bindings; CJavaExporter.ExportChildCondition and the FPac direct backend subclasses are deleted."
       }
     ]
   },
@@ -4785,25 +4799,27 @@
         "bmsDirectBackends": -1
       },
       "attempts": 3,
-      "blocked": true,
+      "blocked": false,
       "scope": "BMS_ARTIFACT",
       "sourceSyntax": "legacy backend CJavaResourceStrings",
       "parserNode": null,
       "semanticNode": "semantic.forms.CResourceStrings",
-      "assemblerRole": null,
+      "assemblerRole": "BMS_ARTIFACT",
       "manifestBinding": null,
-      "template": null,
+      "template": "bmsLocalizedStringDeclaration",
       "runtimeOperation": null,
-      "fixture": null,
+      "fixture": "CJavaResourceStringsRetirementTest",
       "directBackend": "generate.java.forms.CJavaResourceStrings",
       "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaResourceStrings.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Phase 2 (BMS_ARTIFACT): retire this one BMS map-resource backend onto declarative bindings + the recursive-ST4 assembly contract; preserve the emitted Java (and XML/.res where present) and reduce bmsDirectBackends by one. BMS is an independent CICS screen-map DSL, never a COBOL dialect. Tier: leaf (inline attribute/condition/action).",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/forms/CJavaResourceStrings.java"
+        "naca-trans/src/main/java/semantic/forms/CResourceStrings.java",
+        "naca-trans/src/main/java/generate/java/forms/BmsJavaEntities.java",
+        "naca-trans/src/main/resources/templates/java/java.stg",
+        "naca-trans/src/test/java/generate/java/forms/CJavaResourceStringsRetirementTest.java"
       ],
-      "blockedReason": "exhausted 3 attempts without independent verification; last outcome=success",
       "lastAttemptCommit": "2b03e002dbe5fc5d837614a59f503ae744fdd5d7"
     },
     {
@@ -4818,25 +4834,28 @@
         "bmsDirectBackends": -1
       },
       "attempts": 3,
-      "blocked": true,
+      "blocked": false,
       "scope": "BMS_ARTIFACT",
       "sourceSyntax": "legacy backend CJavaFieldAttribute",
       "parserNode": null,
       "semanticNode": "semantic.forms.CEntityFieldAttribute",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
-      "fixture": null,
+      "assemblerRole": "REFERENCE",
+      "manifestBinding": "semantic.forms.CEntityFieldAttribute=fieldAttributeEntity",
+      "template": "fieldAttributeEntity",
+      "runtimeOperation": "bms.field.attribute.get",
+      "fixture": "CJavaFieldAttributeRetirementTest",
       "directBackend": "generate.java.forms.CJavaFieldAttribute",
       "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaFieldAttribute.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Phase 2 (BMS_ARTIFACT): retire this one BMS map-resource backend onto declarative bindings + the recursive-ST4 assembly contract; preserve the emitted Java (and XML/.res where present) and reduce bmsDirectBackends by one. BMS is an independent CICS screen-map DSL, never a COBOL dialect. Tier: leaf (inline attribute/condition/action).",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/forms/CJavaFieldAttribute.java"
+        "naca-trans/src/main/java/semantic/forms/CEntityFieldAttribute.java",
+        "naca-trans/src/main/resources/templates/java/semantic-runtime-bindings.properties",
+        "naca-trans/src/main/resources/templates/java/java.stg",
+        "naca-trans/src/main/resources/contract/runtime-operations.yaml",
+        "naca-trans/src/test/java/generate/java/forms/CJavaFieldAttributeRetirementTest.java"
       ],
-      "blockedReason": "exhausted 3 attempts without independent verification; last outcome=success",
       "lastAttemptCommit": "7a8321b69f2b98cea01c4eea0d07e85f3f67da94"
     },
     {
@@ -5428,25 +5447,30 @@
         "bmsDirectBackends": -1
       },
       "attempts": 3,
-      "blocked": true,
+      "blocked": false,
       "scope": "BMS_ARTIFACT",
       "sourceSyntax": "legacy backend CJavaField",
       "parserNode": null,
       "semanticNode": "semantic.forms.CEntityResourceField",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
+      "assemblerRole": "DECLARATION",
+      "manifestBinding": "semantic.forms.CEntityResourceField=recursiveResourceFieldDeclarationEntity",
+      "template": "recursiveResourceFieldDeclarationEntity",
       "runtimeOperation": null,
-      "fixture": null,
+      "fixture": "CJavaFieldRetirementTest",
       "directBackend": "generate.java.forms.CJavaField",
       "sourcePath": "naca-trans/src/main/java/generate/java/forms/CJavaField.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Phase 2 (BMS_ARTIFACT): retire this one BMS map-resource backend onto declarative bindings + the recursive-ST4 assembly contract; preserve the emitted Java (and XML/.res where present) and reduce bmsDirectBackends by one. BMS is an independent CICS screen-map DSL, never a COBOL dialect. Tier: field-level block.",
       "evidence": [
-        "naca-trans/src/main/java/generate/java/forms/CJavaField.java"
+        "naca-trans/src/main/java/semantic/forms/CEntityResourceField.java",
+        "naca-trans/src/main/java/generate/java/forms/BmsJavaEntities.java",
+        "naca-trans/src/main/java/generate/java/forms/BmsFieldArtifactRenderer.java",
+        "naca-trans/src/main/resources/templates/semantic-declaration-bindings.properties",
+        "naca-trans/src/main/resources/templates/semantic-runtime-bindings.properties",
+        "naca-trans/src/main/resources/templates/java/java.stg",
+        "naca-trans/src/test/java/generate/java/forms/CJavaFieldRetirementTest.java"
       ],
-      "blockedReason": "exhausted 3 attempts without independent verification; last outcome=success",
       "lastAttemptCommit": "f1708d2cb4a2b264af6a8409a8611dc138f580f3"
     },
     {
@@ -6676,24 +6700,26 @@
       "expectedDebtDelta": {
         "fpacDirectBackends": -1
       },
-      "attempts": 0,
+      "attempts": 1,
       "blocked": false,
       "scope": "FPAC",
       "sourceSyntax": "legacy backend CFPacJavaFileDescriptor",
       "parserNode": null,
       "semanticNode": "semantic.CEntityFileDescriptor",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
-      "fixture": null,
+      "assemblerRole": "FPAC_REFERENCE",
+      "manifestBinding": "semantic.CEntityFileDescriptor=recursiveFPacFileDescriptorEntity",
+      "template": "recursiveFPacFileDescriptorEntity",
+      "runtimeOperation": "fpac.file.declare",
+      "fixture": "CFPacJavaFileDescriptorRetirementTest",
       "directBackend": "generate.fpacjava.CFPacJavaFileDescriptor",
       "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaFileDescriptor.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
       "evidence": [
-        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaFileDescriptor.java"
+        "naca-trans/src/test/java/generate/fpacjava/CFPacJavaFileDescriptorRetirementTest.java",
+        "naca-trans/src/main/resources/templates/java/semantic-fpac-bindings.properties",
+        "naca-trans/src/main/resources/templates/java/java.stg"
       ]
     },
     {
@@ -6713,18 +6739,20 @@
       "sourceSyntax": "legacy backend CFPacJavaFormatedVarReference",
       "parserNode": null,
       "semanticNode": "semantic.CEntityFormatedVarReference",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
+      "assemblerRole": "FPAC_REFERENCE",
+      "manifestBinding": "semantic.CEntityFormatedVarReference=recursiveFPacFormatedVarReferenceEntity",
+      "template": "recursiveFPacFormatedVarReferenceEntity",
       "runtimeOperation": null,
-      "fixture": null,
+      "fixture": "CFPacJavaFormatedVarReferenceRetirementTest",
       "directBackend": "generate.fpacjava.CFPacJavaFormatedVarReference",
       "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaFormatedVarReference.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
       "evidence": [
-        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaFormatedVarReference.java"
+        "naca-trans/src/test/java/generate/fpacjava/CFPacJavaFormatedVarReferenceRetirementTest.java",
+        "naca-trans/src/main/resources/templates/java/semantic-bindings.properties",
+        "naca-trans/src/main/resources/templates/java/java.stg"
       ]
     },
     {
@@ -6744,18 +6772,20 @@
       "sourceSyntax": "legacy backend CFPacJavaGoto",
       "parserNode": null,
       "semanticNode": "semantic.Verbs.CEntityGoto",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
+      "assemblerRole": "FPAC_REFERENCE",
+      "manifestBinding": "semantic.Verbs.CEntityGoto=recursiveFPacGotoEntity",
+      "template": "recursiveFPacGotoEntity",
       "runtimeOperation": null,
-      "fixture": null,
+      "fixture": "CFPacJavaGotoRetirementTest",
       "directBackend": "generate.fpacjava.CFPacJavaGoto",
       "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaGoto.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
       "evidence": [
-        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaGoto.java"
+        "naca-trans/src/test/java/generate/fpacjava/CFPacJavaGotoRetirementTest.java",
+        "naca-trans/src/main/resources/templates/java/semantic-fpac-bindings.properties",
+        "naca-trans/src/main/resources/templates/java/java.stg"
       ]
     },
     {
@@ -6775,18 +6805,20 @@
       "sourceSyntax": "legacy backend CFPacJavaIntrinsicFunction",
       "parserNode": null,
       "semanticNode": "semantic.expression.CEntityIntrinsicFunction",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
+      "assemblerRole": "FPAC_REFERENCE",
+      "manifestBinding": "semantic.expression.CEntityIntrinsicFunction=recursiveIntrinsicFunctionEntity",
+      "template": "recursiveIntrinsicFunctionEntity",
       "runtimeOperation": null,
-      "fixture": null,
+      "fixture": "CFPacJavaIntrinsicFunctionRetirementTest",
       "directBackend": "generate.fpacjava.CFPacJavaIntrinsicFunction",
       "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaIntrinsicFunction.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery. Dormant wiring today (no live FPac call path); delete together with the pipeline.",
       "evidence": [
-        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaIntrinsicFunction.java"
+        "naca-trans/src/test/java/generate/fpacjava/CFPacJavaIntrinsicFunctionRetirementTest.java",
+        "naca-trans/src/main/resources/templates/java/semantic-bindings.properties",
+        "naca-trans/src/main/resources/templates/java/java.stg"
       ]
     },
     {
@@ -6806,18 +6838,20 @@
       "sourceSyntax": "legacy backend CFPacJavaIsFileEOF",
       "parserNode": null,
       "semanticNode": "semantic.expression.CEntityIsFileEOF",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
-      "fixture": null,
+      "assemblerRole": "FPAC_REFERENCE",
+      "manifestBinding": "semantic.expression.CEntityIsFileEOF=recursiveIsFileEOFEntity",
+      "template": "recursiveIsFileEOFEntity",
+      "runtimeOperation": "fpac.file.eof",
+      "fixture": "CFPacJavaIsFileEOFRetirementTest",
       "directBackend": "generate.fpacjava.CFPacJavaIsFileEOF",
       "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaIsFileEOF.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
       "evidence": [
-        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaIsFileEOF.java"
+        "naca-trans/src/test/java/generate/fpacjava/CFPacJavaIsFileEOFRetirementTest.java",
+        "naca-trans/src/main/resources/templates/java/semantic-bindings.properties",
+        "naca-trans/src/main/resources/templates/java/java.stg"
       ]
     },
     {
@@ -6837,18 +6871,20 @@
       "sourceSyntax": "legacy backend CFPacJavaMultiply",
       "parserNode": null,
       "semanticNode": "semantic.Verbs.CEntityMultiply",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
-      "fixture": null,
+      "assemblerRole": "FPAC_REFERENCE",
+      "manifestBinding": "semantic.Verbs.CEntityMultiply=recursiveMultiplyEntity",
+      "template": "recursiveMultiplyEntity",
+      "runtimeOperation": "math.multiply",
+      "fixture": "CFPacJavaMultiplyRetirementTest",
       "directBackend": "generate.fpacjava.CFPacJavaMultiply",
       "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaMultiply.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
       "evidence": [
-        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaMultiply.java"
+        "naca-trans/src/test/java/generate/fpacjava/CFPacJavaMultiplyRetirementTest.java",
+        "naca-trans/src/main/resources/templates/java/semantic-bindings.properties",
+        "naca-trans/src/main/resources/templates/java/java.stg"
       ]
     },
     {
@@ -6868,18 +6904,20 @@
       "sourceSyntax": "legacy backend CFPacJavaNumber",
       "parserNode": null,
       "semanticNode": "semantic.expression.CEntityNumber",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
-      "fixture": null,
+      "assemblerRole": "REFERENCE",
+      "manifestBinding": "semantic.expression.CEntityNumber=numberLiteralEntity",
+      "template": "numberLiteralEntity",
+      "runtimeOperation": "fpac.literal.hexa",
+      "fixture": "CFPacJavaNumberRetirementTest",
       "directBackend": "generate.fpacjava.CFPacJavaNumber",
       "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaNumber.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
       "evidence": [
-        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaNumber.java"
+        "naca-trans/src/test/java/generate/fpacjava/CFPacJavaNumberRetirementTest.java",
+        "naca-trans/src/main/resources/templates/java/semantic-bindings.properties",
+        "naca-trans/src/main/resources/templates/java/java.stg"
       ]
     },
     {
@@ -6899,18 +6937,20 @@
       "sourceSyntax": "legacy backend CFPacJavaProcedure",
       "parserNode": null,
       "semanticNode": "semantic.CEntityProcedure",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
+      "assemblerRole": "FPAC_REFERENCE",
+      "manifestBinding": "semantic.CEntityProcedure=recursiveFPacProcedureEntity",
+      "template": "recursiveFPacProcedureEntity",
       "runtimeOperation": null,
-      "fixture": null,
+      "fixture": "CFPacJavaProcedureRetirementTest",
       "directBackend": "generate.fpacjava.CFPacJavaProcedure",
       "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaProcedure.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
       "evidence": [
-        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaProcedure.java"
+        "naca-trans/src/test/java/generate/fpacjava/CFPacJavaProcedureRetirementTest.java",
+        "naca-trans/src/main/resources/templates/java/semantic-fpac-bindings.properties",
+        "naca-trans/src/main/resources/templates/java/java.stg"
       ]
     },
     {
@@ -6930,18 +6970,20 @@
       "sourceSyntax": "legacy backend CFPacJavaReadAndTestFile",
       "parserNode": null,
       "semanticNode": "semantic.expression.CEntityFunctionCall",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
-      "fixture": null,
+      "assemblerRole": "REFERENCE",
+      "manifestBinding": "semantic.expression.CEntityFunctionCall=recursiveFPacReadAndTestFileEntity",
+      "template": "recursiveFPacReadAndTestFileEntity",
+      "runtimeOperation": "file.read",
+      "fixture": "CFPacJavaReadAndTestFileRetirementTest",
       "directBackend": "generate.fpacjava.CFPacJavaReadAndTestFile",
       "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaReadAndTestFile.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
       "evidence": [
-        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaReadAndTestFile.java"
+        "naca-trans/src/test/java/generate/fpacjava/CFPacJavaReadAndTestFileRetirementTest.java",
+        "naca-trans/src/main/resources/templates/java/semantic-bindings.properties",
+        "naca-trans/src/main/resources/templates/java/java.stg"
       ]
     },
     {
@@ -6961,18 +7003,20 @@
       "sourceSyntax": "legacy backend CFPacJavaReadFile",
       "parserNode": null,
       "semanticNode": "semantic.Verbs.CEntityReadFile",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
-      "fixture": null,
+      "assemblerRole": "FPAC_REFERENCE",
+      "manifestBinding": "semantic.Verbs.CEntityReadFile=recursiveFPacReadFileEntity",
+      "template": "recursiveFPacReadFileEntity",
+      "runtimeOperation": "fpac.file.read",
+      "fixture": "CFPacJavaReadFileRetirementTest",
       "directBackend": "generate.fpacjava.CFPacJavaReadFile",
       "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaReadFile.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
       "evidence": [
-        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaReadFile.java"
+        "naca-trans/src/test/java/generate/fpacjava/CFPacJavaReadFileRetirementTest.java",
+        "naca-trans/src/main/resources/templates/java/semantic-fpac-bindings.properties",
+        "naca-trans/src/main/resources/templates/java/java.stg"
       ]
     },
     {
@@ -6992,18 +7036,20 @@
       "sourceSyntax": "legacy backend CFPacJavaReturn",
       "parserNode": null,
       "semanticNode": "semantic.Verbs.CEntityReturn",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
+      "assemblerRole": "FPAC_REFERENCE",
+      "manifestBinding": "semantic.Verbs.CEntityReturn=recursiveFPacReturnEntity",
+      "template": "recursiveFPacReturnEntity",
       "runtimeOperation": null,
-      "fixture": null,
+      "fixture": "CFPacJavaReturnRetirementTest",
       "directBackend": "generate.fpacjava.CFPacJavaReturn",
       "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaReturn.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
       "evidence": [
-        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaReturn.java"
+        "naca-trans/src/test/java/generate/fpacjava/CFPacJavaReturnRetirementTest.java",
+        "naca-trans/src/main/resources/templates/java/semantic-fpac-bindings.properties",
+        "naca-trans/src/main/resources/templates/java/java.stg"
       ]
     },
     {
@@ -7023,18 +7069,20 @@
       "sourceSyntax": "legacy backend CFPacJavaRoutineEmulationCall",
       "parserNode": null,
       "semanticNode": "semantic.Verbs.CEntityRoutineEmulationCall",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
+      "assemblerRole": "FPAC_REFERENCE",
+      "manifestBinding": "semantic.Verbs.CEntityRoutineEmulationCall=recursiveRoutineEmulationCallEntity",
+      "template": "recursiveRoutineEmulationCallEntity",
       "runtimeOperation": null,
-      "fixture": null,
+      "fixture": "CFPacJavaRoutineEmulationCallRetirementTest",
       "directBackend": "generate.fpacjava.CFPacJavaRoutineEmulationCall",
       "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaRoutineEmulationCall.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
       "evidence": [
-        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaRoutineEmulationCall.java"
+        "naca-trans/src/test/java/generate/fpacjava/CFPacJavaRoutineEmulationCallRetirementTest.java",
+        "naca-trans/src/main/resources/templates/java/semantic-bindings.properties",
+        "naca-trans/src/main/resources/templates/java/java.stg"
       ]
     },
     {
@@ -7054,18 +7102,20 @@
       "sourceSyntax": "legacy backend CFPacJavaString",
       "parserNode": null,
       "semanticNode": "semantic.expression.CEntityString",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
+      "assemblerRole": "REFERENCE",
+      "manifestBinding": "semantic.expression.CEntityString=stringLiteralEntity",
+      "template": "stringLiteralEntity",
       "runtimeOperation": null,
-      "fixture": null,
+      "fixture": "CFPacJavaStringRetirementTest",
       "directBackend": "generate.fpacjava.CFPacJavaString",
       "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaString.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
       "evidence": [
-        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaString.java"
+        "naca-trans/src/test/java/generate/fpacjava/CFPacJavaStringRetirementTest.java",
+        "naca-trans/src/main/resources/templates/java/semantic-bindings.properties",
+        "naca-trans/src/main/resources/templates/java/java.stg"
       ]
     },
     {
@@ -7085,18 +7135,20 @@
       "sourceSyntax": "legacy backend CFPacJavaSubStringAttributeReference",
       "parserNode": null,
       "semanticNode": "semantic.CSubStringAttributReference",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
-      "fixture": null,
+      "assemblerRole": "REFERENCE",
+      "manifestBinding": "semantic.CPositionedBufferReference=recursiveFPacPositionedBufferEntity",
+      "template": "recursiveFPacPositionedBufferEntity",
+      "runtimeOperation": "fpac.buffer.slice",
+      "fixture": "CFPacJavaSubStringAttributeReferenceRetirementTest",
       "directBackend": "generate.fpacjava.CFPacJavaSubStringAttributeReference",
       "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaSubStringAttributeReference.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
       "evidence": [
-        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaSubStringAttributeReference.java"
+        "naca-trans/src/test/java/generate/fpacjava/CFPacJavaSubStringAttributeReferenceRetirementTest.java",
+        "naca-trans/src/main/resources/templates/java/semantic-bindings.properties",
+        "naca-trans/src/main/resources/templates/java/java.stg"
       ]
     },
     {
@@ -7116,18 +7168,20 @@
       "sourceSyntax": "legacy backend CFPacJavaSubtractTo",
       "parserNode": null,
       "semanticNode": "semantic.Verbs.CEntitySubtractTo",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
-      "fixture": null,
+      "assemblerRole": "FPAC_REFERENCE",
+      "manifestBinding": "semantic.Verbs.CEntitySubtractTo=recursiveSubtractToEntity",
+      "template": "recursiveSubtractToEntity",
+      "runtimeOperation": "math.subtract",
+      "fixture": "CFPacJavaSubtractToRetirementTest",
       "directBackend": "generate.fpacjava.CFPacJavaSubtractTo",
       "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaSubtractTo.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
       "evidence": [
-        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaSubtractTo.java"
+        "naca-trans/src/test/java/generate/fpacjava/CFPacJavaSubtractToRetirementTest.java",
+        "naca-trans/src/main/resources/templates/java/semantic-bindings.properties",
+        "naca-trans/src/main/resources/templates/java/java.stg"
       ]
     },
     {
@@ -7146,19 +7200,22 @@
       "scope": "FPAC",
       "sourceSyntax": "legacy backend CFPacJavaUnknownReference",
       "parserNode": null,
-      "semanticNode": "semantic.CEntityUnknownReference",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
+      "semanticNode": "semantic.CFPacUnknownReference",
+      "assemblerRole": "REFERENCE",
+      "manifestBinding": "semantic.CFPacUnknownReference=fpacUnknownReferenceEntity",
+      "template": "fpacUnknownReferenceEntity",
       "runtimeOperation": null,
-      "fixture": null,
+      "fixture": "CFPacJavaUnknownReferenceRetirementTest",
       "directBackend": "generate.fpacjava.CFPacJavaUnknownReference",
       "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaUnknownReference.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
       "evidence": [
-        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaUnknownReference.java"
+        "naca-trans/src/main/java/semantic/CFPacUnknownReference.java",
+        "naca-trans/src/test/java/generate/fpacjava/CFPacJavaUnknownReferenceRetirementTest.java",
+        "naca-trans/src/main/resources/templates/java/semantic-bindings.properties",
+        "naca-trans/src/main/resources/templates/java/java.stg"
       ]
     },
     {
@@ -7178,18 +7235,23 @@
       "sourceSyntax": "legacy backend CFPacJavaWriteFile",
       "parserNode": null,
       "semanticNode": "semantic.Verbs.CEntityWriteFile",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
-      "fixture": null,
+      "assemblerRole": "FPAC_REFERENCE",
+      "manifestBinding": "semantic.Verbs.CEntityWriteFile=recursiveFPacWriteFileEntity",
+      "template": "recursiveFPacWriteFileEntity",
+      "runtimeOperation": "fpac.file.write",
+      "fixture": "CFPacJavaWriteFileRetirementTest",
       "directBackend": "generate.fpacjava.CFPacJavaWriteFile",
       "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFPacJavaWriteFile.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
       "evidence": [
-        "naca-trans/src/main/java/generate/fpacjava/CFPacJavaWriteFile.java"
+        "naca-trans/src/test/java/generate/fpacjava/CFPacJavaWriteFileRetirementTest.java",
+        "naca-trans/src/main/resources/templates/java/semantic-fpac-bindings.properties",
+        "naca-trans/src/main/resources/templates/java/java.stg",
+        "naca-trans/src/main/resources/contract/runtime-operations.yaml",
+        "naca-trans/src/main/resources/contract/template-runtime-requirements.yaml",
+        "naca-trans/src/main/resources/contract/feature-registry.yaml"
       ]
     },
     {
@@ -7209,18 +7271,24 @@
       "sourceSyntax": "legacy backend CFpacJavaOpenFile",
       "parserNode": null,
       "semanticNode": "semantic.Verbs.CEntityOpenFile",
-      "assemblerRole": null,
-      "manifestBinding": null,
-      "template": null,
-      "runtimeOperation": null,
-      "fixture": null,
+      "assemblerRole": "FPAC_REFERENCE",
+      "manifestBinding": "semantic.Verbs.CEntityOpenFile=recursiveFPacOpenFileEntity",
+      "template": "recursiveFPacOpenFileEntity",
+      "runtimeOperation": "fpac.file.open.*; fpac.file.variableLength",
+      "fixture": "CFpacJavaOpenFileRetirementTest",
       "directBackend": "generate.fpacjava.CFpacJavaOpenFile",
       "sourcePath": "naca-trans/src/main/java/generate/fpacjava/CFpacJavaOpenFile.java",
       "productionReachable": true,
-      "status": "semantic-built",
+      "status": "direct-retired",
       "blocker": "Phase 2 (FPAC): retire this one FPac backend onto declarative bindings + the recursive-ST4 assembly contract; preserve emitted output and reduce fpacDirectBackends by one. FPac is an independent pipeline sharing the semantic model; do not couple its parsing/semantics to COBOL machinery.",
       "evidence": [
-        "naca-trans/src/main/java/generate/fpacjava/CFpacJavaOpenFile.java"
+        "naca-trans/src/test/java/generate/fpacjava/CFpacJavaOpenFileRetirementTest.java",
+        "naca-trans/src/main/resources/templates/java/semantic-fpac-bindings.properties",
+        "naca-trans/src/main/resources/templates/java/java.stg",
+        "naca-trans/src/main/resources/contract/runtime-operations.yaml",
+        "naca-trans/src/main/resources/contract/template-runtime-requirements.yaml",
+        "naca-trans/src/main/resources/contract/feature-registry.yaml",
+        "naca-rt/src/main/java/nacaLib/fpacPrgEnv/FPacFileDescriptor.java"
       ]
     },
     {

@@ -49,6 +49,12 @@ public final class JavaStringLiteralAttributeRenderer
             // would not compile against "public class PROG extends FPacProgram".
             return raw.replace('-', '_').toUpperCase(Locale.ROOT);
         }
+        if ("fpacFileName".equals(formatString))
+        {
+            // FPac logical file names are uppercased but otherwise preserved.
+            // Unlike generated class names, dashes are not rewritten.
+            return raw.toUpperCase(Locale.ROOT);
+        }
         if ("writeAccessorAll".equals(formatString))
         {
             int parenthesis = raw.indexOf('(');

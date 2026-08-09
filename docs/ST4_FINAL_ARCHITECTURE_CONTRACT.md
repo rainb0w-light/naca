@@ -1,5 +1,9 @@
 # ST4 最终架构契约
 
+> **状态：已满足（2026-08-07）。** `:naca-trans:finalArchitectureCheck`
+> 当前执行 237 项检查、0 失败；COBOL/SQL/CICS、BMS、FPac 三组 direct
+> backend inventory 均冻结为 0。
+
 ## 1. 目标
 
 同一棵 COBOL semantic tree 必须能在不修改 semantic 类、不重新做语义分析的前提下，分别交给 Java、Go、Rust 或其他 backend。
@@ -49,7 +53,7 @@
 ## 5. Factory 和类型边界
 
 - Parser/semantic analysis 只能创建目标无关 semantic 具体类。
-- `CJavaEntityFactory`、`CGoEntityFactory`、`CRustEntityFactory` 不得参与 semantic tree 构建。
+- 现有 `CJavaEntityFactory` 是历史命名的 semantic factory：它只返回纯 semantic 类型，不得创建目标语言 subtype 或执行输出。
 - Java backend 类不得 `extends CEntity*` 来重写输出方法。
 - backend 的 concrete semantic 类型必须被主 manifest 完整覆盖；多一项、少一项或歧义映射都失败。运行时别名必须通过独立文件显式加载，不能混入主 inventory。
 
@@ -57,7 +61,7 @@
 
 - 日常迁移回归：`./gradlew :naca-trans:test`。
 - 最终零容忍契约：`./gradlew :naca-trans:finalArchitectureCheck`。
-- 后者在当前阶段预期失败，且必须逐类列出所有违规，不使用 allowlist。
+- 后者必须通过；任何新增违规均逐类失败，不使用 allowlist。
 - 日常任务排除 `final-architecture` tag；专项任务只包含该 tag。二者不能因为共享同一个默认 `test` 任务而互相污染结果。
 - 任何语法项只有在行为测试通过、对应旧生成路径删除，且零容忍契约不再报告该类时，才能标记为“最终完成”。
 
@@ -65,4 +69,4 @@
 
 - “行为已覆盖”：有 semantic tree 和 direct parity 测试，但可能仍有 typed Java renderer。
 - “最终完成”：semantic 类目标无关，无 direct subclass，无 typed renderer，只由 backend manifest + STG 生成，并通过 `finalArchitectureCheck`。
-- 目前已实现的 recursive renderer 全部只能记为过渡性行为验证，不得作为最终迁移完成计数。
+- 当前生产 renderer、manifest、semantic model 与 root writer 已满足“最终完成”定义；历史 parity fixture 仅位于测试源码中。

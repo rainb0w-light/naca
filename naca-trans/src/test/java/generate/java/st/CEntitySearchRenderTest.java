@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 import generate.CJavaEntityFactory;
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.Test;
@@ -27,7 +27,7 @@ class CEntitySearchRenderTest
         assertEquals(CEntitySearch.class,
             new CJavaEntityFactory(null, null).NewEntitySearch(1).getClass());
         assertInstanceOf(CEntitySearch.class,
-            new CJavaEntityFactoryST(null, null).NewEntitySearch(1));
+            new CJavaEntityFactory(null, null).NewEntitySearch(1));
     }
 
     @Test

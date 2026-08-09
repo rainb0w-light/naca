@@ -60,6 +60,13 @@ public class FPacFileDescriptor extends BaseFileDescriptor
 		super.openInputOutput();
 		return this;
 	}
+
+	@Override
+	public FPacFileDescriptor openExtend()
+	{
+		super.openExtend();
+		return this;
+	}
 		
 	public void variableLength()
 	{

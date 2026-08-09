@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import generate.CJavaEntityFactory;
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.fixtures.LegacyExternalDataStructureFixture;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
@@ -20,7 +20,7 @@ class CEntityInlineRenderTest
     void bothFactoriesReturnPureSemanticEntityAndRegisterTheCopybook()
     {
         assertPureFactory(new CJavaEntityFactory(catalog(), null));
-        assertPureFactory(new CJavaEntityFactoryST(catalog(), null));
+        assertPureFactory(new CJavaEntityFactory(catalog(), null));
     }
 
     @Test

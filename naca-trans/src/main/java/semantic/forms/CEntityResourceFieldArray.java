@@ -14,7 +14,6 @@ package semantic.forms;
 
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
-import java.util.function.Consumer;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -143,32 +142,10 @@ public class CEntityResourceFieldArray extends CEntityResourceField
 		return "";
 	}
 
-	public String ExportReference(int nLine)
-	{
-		// Preserved from the retired backend: a field array bears no reference output of its own
-		// (an element access lowers through the separate CEntityFieldArrayReference entity).
-		return "" ;
-	}
-
-	public String ExportWriteAccessorTo(String value)
-	{
-		// Preserved from the retired backend: no reachable write-accessor protocol (unused).
-		return "" ;
-	}
-
 	public boolean isValNeeded()
 	{
 		// Preserved from the retired backend: a field array is never declared as a val.
 		return false;
-	}
-
-	protected void DoExport()
-	{
-		// Legacy traversal bridge: the surrounding CJavaForm DoExport reflectively invokes this.
-		// The retired backend emitted no Java of its own — it only traversed its child motif
-		// fields. That generate-layer traversal is supplied by the generate-layer renderer the
-		// factory injects; a hand-built entity (no factory) is a no-op and never fails.
-		declarationRenderer.accept(this) ;
 	}
 
 	/* (non-Javadoc)
@@ -255,18 +232,4 @@ public class CEntityResourceFieldArray extends CEntityResourceField
 		return nPosCol ;
 	}
 
-	/**
-	 * Generate-layer declaration renderer (the retired backend's {@code DoExport} child-traversal
-	 * body, moved out of the semantic tree). Invoked from {@link #DoExport()} when the legacy
-	 * traversal reaches this array. Defaults to a no-op so a hand-built entity stays well-formed.
-	 */
-	private Consumer<CEntityResourceFieldArray> declarationRenderer = entity -> {};
-
-	public void setDeclarationRenderer(Consumer<CEntityResourceFieldArray> renderer)
-	{
-		if (renderer != null)
-		{
-			declarationRenderer = renderer ;
-		}
-	}
 }

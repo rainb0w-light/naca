@@ -476,6 +476,48 @@ features:
     fixtures: []
     status: production
 
+  - id: fpac.file.declaration
+    dialects: [fpac]
+    semanticType: semantic.CEntityFileDescriptor
+    javaBackend:
+      role: FPAC_REFERENCE
+      template: recursiveFPacFileDescriptorEntity
+    runtimeOperations:
+      - fpac.file.declare
+      - fpac.file.fillOutputBuffer
+      - fpac.file.finishDeclaration
+    fixtures:
+      - CFPacJavaFileDescriptorRetirementTest
+    status: production
+
+  - id: fpac.file.write
+    dialects: [fpac]
+    semanticType: semantic.Verbs.CEntityWriteFile
+    javaBackend:
+      role: FPAC_REFERENCE
+      template: recursiveFPacWriteFileEntity
+    runtimeOperations:
+      - fpac.file.write
+    fixtures:
+      - CFPacJavaWriteFileRetirementTest
+    status: production
+
+  - id: fpac.file.open
+    dialects: [fpac]
+    semanticType: semantic.Verbs.CEntityOpenFile
+    javaBackend:
+      role: FPAC_REFERENCE
+      template: recursiveFPacOpenFileEntity
+    runtimeOperations:
+      - fpac.file.open.input
+      - fpac.file.open.output
+      - fpac.file.open.inputOutput
+      - fpac.file.open.extend
+      - fpac.file.variableLength
+    fixtures:
+      - CFpacJavaOpenFileRetirementTest
+    status: production
+
   - id: fpac.data.array-reference
     dialects: [fpac]
     semanticType: semantic.CEntityArrayReference
@@ -2549,6 +2591,26 @@ features:
       template: recursiveIsFieldAttributeEntity
     runtimeOperations: [bms.field.attribute, bms.field.autoSkip, bms.field.autoSkip.not, bms.field.numeric, bms.field.numeric.not, bms.field.unprotected, bms.field.unprotected.not, bms.field.bright, bms.field.bright.not, bms.field.dark, bms.field.dark.not, bms.field.modified, bms.field.modified.not, bms.field.unmodified, bms.field.cleared, bms.field.cleared.not]
     fixtures: []
+    status: production
+
+  - id: bms.field.attribute-reference
+    dialects: [bms-artifact]
+    semanticType: semantic.forms.CEntityFieldAttribute
+    javaBackend:
+      role: REFERENCE
+      template: fieldAttributeEntity
+    runtimeOperations: [bms.field.attribute.get]
+    fixtures: [CJavaFieldAttributeRetirementTest]
+    status: production
+
+  - id: bms.field.entry
+    dialects: [bms-artifact]
+    semanticType: semantic.forms.CEntityResourceField
+    javaBackend:
+      role: DECLARATION
+      template: recursiveResourceFieldDeclarationEntity
+    runtimeOperations: []
+    fixtures: [CJavaFieldRetirementTest]
     status: production
 
   # The BMS map-field cursor action (MOVE ... TO <FIELD>-L). Built by

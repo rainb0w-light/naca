@@ -11,6 +11,7 @@ import java.util.TreeMap;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -30,6 +31,7 @@ import org.junit.jupiter.api.Test;
  * ratchet: {@link BmsFormsDirectBackendInventoryTest} and
  * {@link FPacDirectBackendInventoryTest}.
  */
+@Tag("final-architecture")
 class DirectBackendInventoryTest
 {
     // Exact current count of direct backend source files. Every retirement must
@@ -37,7 +39,7 @@ class DirectBackendInventoryTest
     private static final int DIRECT_BACKEND_TOTAL_BASELINE = 0;
 
     private static final Pattern DIRECT_SEMANTIC_SUBCLASS =
-        Pattern.compile(" extends (?:CEntity|CBaseActionEntity|CDataEntity)");
+        Pattern.compile(" extends (?:CEntity|CBaseActionEntity|CDataEntity|CSubStringAttributReference)");
 
     @Test
     @DisplayName("direct backend inventory: checked-in ratchet equals measured total")
@@ -78,10 +80,11 @@ class DirectBackendInventoryTest
         report.append(String.format("  %-14s %3d%n", "TOTAL", total));
         System.out.println(report);
 
-        assertTrue(total == DIRECT_BACKEND_TOTAL_BASELINE,
-            "direct backend ratchet is stale or debt changed: expected exactly "
-                + DIRECT_BACKEND_TOTAL_BASELINE + " but measured " + total
-                + "; every retirement must tighten the checked-in baseline" + report);
+        assertTrue(DIRECT_BACKEND_TOTAL_BASELINE == 0,
+            "completed migration must keep the checked-in direct-backend baseline at zero");
+        assertTrue(total == 0,
+            "zero-tolerance direct backend gate found " + total
+                + " newly introduced backend(s)" + report);
     }
 
     /** The area/dialect of a backend file: its package segment under generate/java. */

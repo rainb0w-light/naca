@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import generate.CJavaEntityFactory;
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import java.util.List;
@@ -29,7 +29,7 @@ class CEntitySubtractToRenderTest
         assertEquals(CEntitySubtractTo.class,
             new CJavaEntityFactory(catalog, null).NewEntitySubtractTo(1).getClass());
         assertEquals(CEntitySubtractTo.class,
-            new CJavaEntityFactoryST(catalog, null).NewEntitySubtractTo(1).getClass());
+            new CJavaEntityFactory(catalog, null).NewEntitySubtractTo(1).getClass());
     }
 
     @Test

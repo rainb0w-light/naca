@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.CStringExporter;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
@@ -12,6 +12,7 @@ import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 import jlib.misc.AsciiEbcdicConverter;
 import lexer.CTokenList;
 import lexer.Cobol.CCobolLexer;
@@ -72,7 +73,7 @@ class AssembledRootExecutionTest
         CObjectCatalog catalog = new CObjectCatalog(global, listing,
             CTransApplicationGroup.EProgramType.TYPE_BATCH, null);
         catalog.setExporter(exporter);
-        CJavaEntityFactoryST factory = new CJavaEntityFactoryST(catalog, exporter);
+        CJavaEntityFactory factory = new CJavaEntityFactory(catalog, exporter);
         factory.InitCustomCICSEntities();
         CEntityClass root = program.DoSemanticAnalysis(factory);
         // Mirror TranspilerService: some program headers parse an empty PROGRAM-ID,
@@ -184,5 +185,33 @@ class AssembledRootExecutionTest
         assertNotNull(output);
         assertTrue(output.contains("Test Complete") || output.contains("STOP"),
             "assembled T01 should run to completion; got:\n" + output);
+    }
+
+    @Test
+    @DisplayName("Assembled TEST-A preserves COMP and COMP-5 storage semantics")
+    void assembledTestACompilesAndMatchesBinaryStorageBaseline() throws Exception
+    {
+        String source = assembleRoot("TEST-A-STANDALONE.cbl");
+        assertTrue(source.contains("picS9(4).comp().var()"), source);
+        assertTrue(source.contains("picS9(9).comp5().var()"), source);
+
+        Path classesDir = Path.of(System.getProperty("java.io.tmpdir"),
+            "naca-assembled-test-a-" + System.nanoTime());
+        Files.createDirectories(classesDir);
+        assertEquals(0, javac("Test_a", source, classesDir),
+            "assembled TEST-A must compile with javac");
+
+        List<String> output = runBatch("Test_a", classesDir).lines()
+            .filter(line -> line.startsWith("=== TEST-A")
+                || line.startsWith("A1-")
+                || line.startsWith("=== DONE"))
+            .toList();
+        assertEquals(34, output.size(), "TEST-A must emit all 16 two-line scenarios");
+        assertTrue(output.stream().anyMatch(line -> line.startsWith("A1-007")
+            && line.contains("|TGT  |CS2BT-V") && line.contains("|0929")), output.toString());
+        assertTrue(output.stream().anyMatch(line -> line.startsWith("A1-009")
+            && line.contains("|TGT  |NS4BT-V") && line.contains("|39300000")), output.toString());
+        assertTrue(output.stream().anyMatch(line -> line.startsWith("A1-014")
+            && line.contains("|SRC  |NS2BS-V") && line.contains("|FFFF")), output.toString());
     }
 }

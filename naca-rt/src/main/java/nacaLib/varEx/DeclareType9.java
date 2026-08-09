@@ -83,6 +83,12 @@ public class DeclareType9 extends DeclareTypeBase
 		numericValue.nComp = -4;
 		return this;		
 	}
+
+	public DeclareType9 comp5()
+	{
+		numericValue.nComp = -5;
+		return this;
+	}
 	
 	public DeclareType9 value(double d)
 	{

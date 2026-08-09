@@ -14,6 +14,11 @@ package semantic.forms;
 
 
 import java.util.Vector;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 import lexer.Cobol.CCobolConstantList;
 
@@ -23,6 +28,7 @@ import org.w3c.dom.Element;
 import parser.expression.CExpression;
 import parser.expression.CTerminal;
 import semantic.CBaseActionEntity;
+import semantic.CBaseLanguageEntity;
 import semantic.CDataEntity;
 import semantic.CBaseEntityFactory;
 import semantic.CBaseResourceEntity;
@@ -43,7 +49,7 @@ import utils.*;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public abstract class CEntityResourceField extends CBaseResourceEntity  implements ITypableEntity
+public class CEntityResourceField extends CBaseResourceEntity  implements ITypableEntity
 {
 	/* (non-Javadoc)
 	 * @see semantic.ITypableEntity#SetTypeEdited(java.lang.String)
@@ -103,7 +109,10 @@ public abstract class CEntityResourceField extends CBaseResourceEntity  implemen
 //		return "" ;
 //	}
 
-	public abstract boolean IsEntryField();
+	public boolean IsEntryField()
+	{
+		return true;
+	}
 	
 	public void InitDependences(CBaseEntityFactory factory)
 	{
@@ -401,7 +410,143 @@ public abstract class CEntityResourceField extends CBaseResourceEntity  implemen
 		return ref ;
 	}
 
-	public abstract Element DoXMLExport(Document doc, CResourceStrings res) ;
+	private BiFunction<Document, CResourceStrings, Element> artifactRenderer =
+		(document, resources) -> null;
+	private Function<String, String> identifierFormatter =
+		identifier -> identifier == null ? "" : identifier.replace('-', '_').replace('#', '$');
+
+	public void setArtifactRenderer(BiFunction<Document, CResourceStrings, Element> renderer)
+	{
+		if (renderer != null)
+		{
+			artifactRenderer = renderer;
+		}
+	}
+
+	public void setIdentifierFormatter(Function<String, String> formatter)
+	{
+		if (formatter != null)
+		{
+			identifierFormatter = formatter;
+		}
+	}
+
+	public Element DoXMLExport(Document doc, CResourceStrings res)
+	{
+		return artifactRenderer.apply(doc, res);
+	}
+
+	public String getFormattedDisplayName()
+	{
+		String display = identifierFormatter.apply(csDisplayName);
+		return display.isEmpty() ? getFormattedName() : display;
+	}
+	public String getFormattedLinkedValue() { return identifierFormatter.apply(GetDisplayName()); }
+	public String getFormattedSourceName() { return identifierFormatter.apply(GetName()); }
+
+	public String getFormattedInitialValue()
+	{
+		return identifierFormatter.apply(csInitialValue);
+	}
+
+	public boolean isInitialValuePresent() { return !csInitialValue.isEmpty(); }
+	public List<CResourceStrings.CLocalizedValue> getInitialLocalizedTexts()
+	{
+		if (resourceStrings == null)
+		{
+			return Collections.emptyList();
+		}
+		CResourceStrings.CLocalizedText text = resourceStrings.getLocalizedText(csInitialValue);
+		return text == null ? Collections.emptyList() : text.getTexts();
+	}
+	public int getLength() { return nLength; }
+	public int getPositionLine() { return nPosLine; }
+	public int getPositionColumn() { return nPosCol; }
+	public String getInitialValueName() { return csInitialValue; }
+	public String getColorName() { return csColor; }
+	public String getHighlightName() { return csHighLight; }
+	public String getBrightnessName() { return csBrightness; }
+	public String getProtectionName() { return csProtection; }
+	public String getFillValue() { return csFillValue; }
+	public boolean isFillValuePresent() { return !csFillValue.isEmpty(); }
+	public boolean isCursor() { return bCursor; }
+	public boolean isModified() { return bModified; }
+	public boolean isReplayMutable() { return isreplayMutable; }
+	public boolean isRightJustified() { return isrightJustified; }
+	public String getDevelopableFlagMark() { return csDevelopableFlagMark; }
+	public boolean isDevelopableFlagMarkPresent() { return !csDevelopableFlagMark.isEmpty(); }
+	public String getFormatString() { return csFormat; }
+	public boolean isFormatStringPresent() { return !csFormat.isEmpty(); }
+	public boolean isTitleMode() { return mode == FieldMode.TITLE; }
+	public boolean isSwitchMode() { return mode == FieldMode.SWITCH; }
+	public boolean isCheckboxMode() { return mode == FieldMode.CHECKBOX; }
+	public boolean isActiveChoiceMode() { return mode == FieldMode.ACTIVE_CHOICE; }
+	public boolean isLinkedActiveChoiceMode() { return mode == FieldMode.LINKED_ACTIVE_CHOICE; }
+	public boolean isHiddenMode() { return mode == FieldMode.HIDDEN; }
+	public String getCheckboxValueOn() { return csCheckBoxValueOn; }
+	public String getCheckboxValueOff() { return csCheckBoxValueOff; }
+	public String getActiveChoiceValue() { return csActiveChoiceValue; }
+	public String getActiveChoiceTarget() { return csActiveChoiceTarget; }
+	public boolean isActiveChoiceSubmit() { return isactiveChoiceSubmit; }
+	public String getFormattedActiveChoiceValue()
+	{
+		return identifierFormatter.apply(csActiveChoiceValue);
+	}
+
+	public List<SwitchCaseModel> getSwitchCases()
+	{
+		if (switchCaseElement == null)
+		{
+			return Collections.emptyList();
+		}
+		List<SwitchCaseModel> result = new ArrayList<>();
+		for (CSwitchCaseElement element : switchCaseElement)
+		{
+			result.add(new SwitchCaseModel(element.val, element.protection, element.tag));
+		}
+		return Collections.unmodifiableList(result);
+	}
+
+	public static final class SwitchCaseModel
+	{
+		private final String value;
+		private final String protection;
+		private final Element tag;
+
+		SwitchCaseModel(String value, String protection, Element tag)
+		{
+			this.value = value;
+			this.protection = protection;
+			this.tag = tag;
+		}
+
+		public String getValue() { return value; }
+		public String getProtection() { return protection; }
+		public Element getTag() { return tag; }
+	}
+
+	public List<CBaseLanguageEntity> getAttributeChildren()
+	{
+		List<CBaseLanguageEntity> children = new ArrayList<>();
+		for (CBaseLanguageEntity child : lstChildren)
+		{
+			if (!child.ignore())
+			{
+				children.add(child);
+			}
+		}
+		return Collections.unmodifiableList(children);
+	}
+
+	@Override
+	public boolean IsNeedDeclarationInClass() { return false; }
+
+	@Override
+	public boolean isValNeeded() { return true; }
+	@Override
+	public CDataEntityType GetDataType() { return CDataEntityType.FIELD; }
+	@Override
+	public String GetTypeDecl() { return ""; }
 
 	public void SetOf(CEntityResourceFormContainer container)
 	{

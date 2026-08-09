@@ -106,6 +106,10 @@ public class CEntityProcedure extends CBaseLanguageEntity
 		CBaseActionEntity le = (CBaseActionEntity)lstChildren.getLast() ;
 		return le.hasExplicitGetOut() ;
 	}
+	public boolean isImplicitNextReturn()
+	{
+		return !hasExplicitGetOut() ;
+	}
 
 	/**
 	 * 

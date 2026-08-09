@@ -416,6 +416,10 @@ public class CEntityAttribute extends CGenericDataEntityReference implements ITy
 	{
 		return "Comp".equalsIgnoreCase(comp) || "Comp4".equalsIgnoreCase(comp);
 	}
+	public boolean isComp5()
+	{
+		return "Comp5".equalsIgnoreCase(comp);
+	}
 	public boolean isBinaryComp()
 	{
 		return isComp();

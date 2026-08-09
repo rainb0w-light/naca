@@ -1087,7 +1087,9 @@ public class CSpecialActionContainer
 				{
 					Transcoder.logWarn(struct.getLine(),
 						"COMP4 in fixed length file structure : "
-							+ generate.LegacyDataRenderer.renderReference(struct, 0)) ;
+							+ generate.templates.TemplateLoader.getRecursiveAssembler()
+								.renderRoot(struct,
+									generate.templates.recursive.JavaTemplateRole.REFERENCE)) ;
 				}
 				if (struct.HasChildren())
 				{

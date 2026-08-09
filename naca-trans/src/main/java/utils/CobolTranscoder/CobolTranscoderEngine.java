@@ -12,7 +12,6 @@
 package utils.CobolTranscoder;
 
 import generate.CJavaEntityFactory;
-import generate.CJavaEntityFactoryST;
 import generate.java.CJavaExporter;
 
 import java.io.BufferedReader;
@@ -265,12 +264,8 @@ public class CobolTranscoderEngine extends TranscoderEngine<CProgram, CEntityCla
 		return eSem ;
 	}
 
-	private CJavaEntityFactory newJavaEntityFactory(CObjectCatalog cat, CJavaExporter out)
+	static CJavaEntityFactory newJavaEntityFactory(CObjectCatalog cat, CJavaExporter out)
 	{
-		if ("st4".equalsIgnoreCase(System.getProperty("naca.transpiler.factory")))
-		{
-			return new CJavaEntityFactoryST(cat, out);
-		}
 		return new CJavaEntityFactory(cat, out);
 	}
 	

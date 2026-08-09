@@ -20,7 +20,7 @@ import utils.CObjectCatalog;
  * Phase 2 (FPAC) — retirement proof for the former {@code CFPacJavaCondNot} direct backend.
  *
  * <p>The ONLY production creation site of that backend was
- * {@link CFPacJavaIsFileEOF#GetOppositeCondition()}: FPac negates an END-OF-FILE test by wrapping
+ * {@link CEntityIsFileEOF#GetOppositeCondition()}: FPac negates an END-OF-FILE test by wrapping
  * it (there is no {@code isNotEof} runtime call). The retired backend's {@code Export()} emitted
  * {@code "!" + CJavaExporter.ExportChildCondition(...)} → {@code !isEof(<name>)}. Post-retirement,
  * {@code GetOppositeCondition()} returns a pure target-neutral {@link CEntityCondNot} wrapping the
@@ -81,8 +81,7 @@ class CFPacJavaCondNotRetirementTest
     void rendersEofOperandThroughRecursiveAssembler()
     {
         CEntityIsFileEOF condition = eof();
-        // The factory hands back the concrete FPac instantiation the retired backend wrapped.
-        assertInstanceOf(CFPacJavaIsFileEOF.class, condition);
+        assertEquals(CEntityIsFileEOF.class, condition.getClass());
         assertEquals("isEof(CUSTOMER_FILE)", render(condition));
     }
 
@@ -108,7 +107,7 @@ class CFPacJavaCondNotRetirementTest
         CBaseEntityCondition opposite = eof().GetOppositeCondition();
         CBaseEntityCondition operand =
             assertInstanceOf(CEntityCondNot.class, opposite).getOperand();
-        assertInstanceOf(CFPacJavaIsFileEOF.class, operand);
+        assertEquals(CEntityIsFileEOF.class, operand.getClass());
         assertEquals("isEof(CUSTOMER_FILE)", render(operand));
         assertEquals("isEof(CUSTOMER_FILE)", render(opposite.GetOppositeCondition()));
     }

@@ -55,71 +55,9 @@ public final class BmsJavaEntities
 		// exactly as before this retirement.
 		CEntityResourceFormContainer entity =
 			new CEntityResourceFormContainer(line, name, catalog, save);
-		generate.LegacyLanguageRenderer.bind(entity, output);
-		entity.setIdentifierFormatter(identifier -> output.FormatIdentifier(identifier));
-		entity.setContainerRenderer(BmsJavaEntities::renderFormContainerDeclaration);
+		generate.LanguageArtifactOutputRegistry.register(entity, output);
+		entity.setIdentifierFormatter(identifier -> formatIdentifier(output, identifier));
 		return entity;
-	}
-
-	/**
-	 * The retired {@code CJavaFormContainer.DoExport} body, relocated to this generate-layer boundary.
-	 * Reproduces the legacy mapset class skeleton byte-for-byte: the imports, the
-	 * {@code class <name> extends Map { } header (rendered declaratively through the recursive ST4
-	 * assembly contract {@code recursiveFormContainerDeclarationEntity}, reading only
-	 * {@code entity.mapClassName} — the RAW {@code GetName()}, which the retired backend used for the
-	 * class name without formatting), the two {@code Copy} factory methods and the constructor (fixed
-	 * boilerplate over the raw class name), then the class-body {@code { ... }} block driven over
-	 * {@code entity.getForms()} via the legacy {@code invokeExport} traversal — exactly the
-	 * {@code arrForm} collection the retired backend iterated (the maps live in {@code arrForm},
-	 * populated via {@code AddForm}, not the generic child list). The maps keep rendering through
-	 * their own ST4 bindings/backends.
-	 */
-	private static void renderFormContainerDeclaration(CEntityResourceFormContainer entity)
-	{
-		generate.LegacyLanguageRenderer.writeEol(entity);
-		generate.LegacyLanguageRenderer.writeLine(entity, "import nacaLib.mapSupport.* ;");
-		generate.LegacyLanguageRenderer.writeLine(entity, "import nacaLib.varEx.* ;");
-		generate.LegacyLanguageRenderer.writeLine(entity, "import nacaLib.program.* ;");
-		generate.LegacyLanguageRenderer.writeLine(entity, "import nacaLib.basePrgEnv.* ;");
-		generate.LegacyLanguageRenderer.writeEol(entity);
-		String header = generate.templates.TemplateLoader.getRecursiveAssembler()
-			.template("recursiveFormContainerDeclarationEntity")
-			.add("entity", entity)
-			.render();
-		generate.LegacyLanguageRenderer.writeLine(entity, header);
-		generate.LegacyLanguageRenderer.startBlock(entity);
-
-		String name = entity.getMapClassName();
-		generate.LegacyLanguageRenderer.writeLine(entity, "static "+name+" Copy(BaseProgram program) {");
-		generate.LegacyLanguageRenderer.startBlock(entity);
-		generate.LegacyLanguageRenderer.writeLine(entity, "return new "+name+"(program);");
-		generate.LegacyLanguageRenderer.endBlock(entity);
-		generate.LegacyLanguageRenderer.writeLine(entity, "}");
-
-		generate.LegacyLanguageRenderer.writeLine(entity, "static "+name+" Copy(BaseProgram program, CopyReplacing rep)  {");
-		generate.LegacyLanguageRenderer.startBlock(entity);
-		generate.LegacyLanguageRenderer.writeLine(entity, "Assert(\"Unimplemented replacing for MAPs\") ;");
-		generate.LegacyLanguageRenderer.writeLine(entity, "return null ;");
-		generate.LegacyLanguageRenderer.endBlock(entity);
-		generate.LegacyLanguageRenderer.writeLine(entity, "}");
-
-		generate.LegacyLanguageRenderer.writeLine(entity, ""+name+"(BaseProgram program) {");
-		generate.LegacyLanguageRenderer.startBlock(entity);
-		generate.LegacyLanguageRenderer.writeLine(entity, "super(program);");
-		generate.LegacyLanguageRenderer.endBlock(entity);
-		generate.LegacyLanguageRenderer.writeLine(entity, "}");
-		generate.LegacyLanguageRenderer.writeLine(entity, "");
-
-		for (semantic.forms.CEntityResourceForm form : entity.getForms())
-		{
-			generate.LegacyLanguageRenderer.invokeExport(form);
-		}
-		generate.LegacyLanguageRenderer.writeLine(entity, "");
-
-		generate.LegacyLanguageRenderer.endBlock(entity);
-		generate.LegacyLanguageRenderer.writeLine(entity, "}");
-		generate.LegacyLanguageRenderer.writeLine(entity, "");
-		generate.LegacyLanguageRenderer.writeLine(entity, "");
 	}
 
 	public static CEntityResourceForm form(
@@ -135,42 +73,17 @@ public final class BmsJavaEntities
 		// constructor's LegacyLanguageRenderer.bind side effect for the BMS traversal boundary; the
 		// injected identifier formatter stands in for LegacyLanguageRenderer.formatIdentifier.
 		CEntityResourceForm entity = new CEntityResourceForm(line, name, catalog, save);
-		generate.LegacyLanguageRenderer.bind(entity, output);
-		entity.setIdentifierFormatter(identifier -> output.FormatIdentifier(identifier));
-		entity.setDeclarationRenderer(BmsJavaEntities::renderFormDeclaration);
+		entity.setIdentifierFormatter(identifier -> formatIdentifier(output, identifier));
 		return entity;
-	}
-
-	/**
-	 * The retired {@code CJavaForm.DoExport} body, relocated to this generate-layer boundary.
-	 * Renders the declaration line declaratively through the recursive ST4 assembly contract
-	 * ({@code recursiveFormDeclarationEntity}), then drives the {@code { ... }} block over the
-	 * form's fields. The form's fields live in {@code arrFields} (populated via
-	 * {@code CEntityResourceForm.AddField}), not in the generic child list, so this drives the
-	 * legacy {@code invokeExport} traversal over {@code entity.getFields()} — exactly the collection
-	 * the retired backend iterated — and the fields keep rendering through the still-direct BMS
-	 * field backends.
-	 */
-	private static void renderFormDeclaration(CEntityResourceForm entity)
-	{
-		String declaration = generate.templates.TemplateLoader.getRecursiveAssembler()
-			.template("recursiveFormDeclarationEntity")
-			.add("entity", entity)
-			.render();
-		generate.LegacyLanguageRenderer.writeLine(entity, declaration);
-		generate.LegacyLanguageRenderer.startBlock(entity);
-		for (semantic.CBaseResourceEntity field : entity.getFields())
-		{
-			generate.LegacyLanguageRenderer.invokeExport(field);
-		}
-		generate.LegacyLanguageRenderer.endBlock(entity);
 	}
 
 	public static CEntityFieldAttribute fieldAttribute(
 		int line, String name, CObjectCatalog catalog,
 		CBaseLanguageExporter output, CDataEntity owner)
 	{
-		return new CJavaFieldAttribute(line, name, catalog, output, owner);
+		CEntityFieldAttribute entity =
+			new CEntityFieldAttribute(line, name, catalog, owner);
+		return entity;
 	}
 
 	public static CEntityFieldData fieldData(
@@ -188,14 +101,27 @@ public final class BmsJavaEntities
 		// semantic tree carries no generate.* coupling. The exporter bind preserves the retired backend
 		// constructor's LegacyLanguageRenderer.bind side effect for the BMS traversal boundary.
 		CEntityFieldData entity = new CEntityFieldData(line, name, catalog, field);
-		generate.LegacyLanguageRenderer.bind(entity, output);
-		entity.setReferenceRenderer((ref, l) -> generate.LegacyDataRenderer.renderReference(ref, l));
 		return entity;
 	}
 
 	public static CResourceStrings resourceStrings(int lines, int columns)
 	{
-		return new CJavaResourceStrings(lines, columns);
+		return new CResourceStrings(lines, columns);
+	}
+
+	public static String renderLocalizedStringDeclaration(
+		CResourceStrings resources, String resourceName, String displayName)
+	{
+		CResourceStrings.CLocalizedText text = resources.getLocalizedText(resourceName);
+		if (text == null)
+		{
+			return "";
+		}
+		return generate.templates.TemplateLoader.getRecursiveAssembler()
+			.template("bmsLocalizedStringDeclaration")
+			.add("display", displayName)
+			.add("texts", text.getTexts())
+			.render();
 	}
 
 	public static CEntitySkipFields skipFields(
@@ -211,36 +137,19 @@ public final class BmsJavaEntities
 		// constructor's LegacyLanguageRenderer.bind side effect for the BMS traversal boundary;
 		// the injected identifier formatter stands in for LegacyLanguageRenderer.formatIdentifier.
 		CEntitySkipFields entity = new CEntitySkipFields(line, name, catalog, fields, level);
-		generate.LegacyLanguageRenderer.bind(entity, output);
-		entity.setIdentifierFormatter(identifier -> output.FormatIdentifier(identifier));
-		entity.setDeclarationRenderer(BmsJavaEntities::renderSkipFieldDeclaration);
+		entity.setIdentifierFormatter(identifier -> formatIdentifier(output, identifier));
 		return entity;
-	}
-
-	/**
-	 * The retired {@code CJavaSkipField.DoExport} body, relocated to this generate-layer
-	 * boundary. Renders the declaration line declaratively through the recursive ST4 assembly
-	 * contract ({@code recursiveSkipFieldDeclarationEntity}), then drives the {@code { ... }}
-	 * block over any child fields — which keep rendering through the still-direct BMS field
-	 * backends the surrounding {@code CJavaForm}/{@code CJavaFieldRedefine} traversal invokes.
-	 */
-	private static void renderSkipFieldDeclaration(CEntitySkipFields entity)
-	{
-		String declaration = generate.templates.TemplateLoader.getRecursiveAssembler()
-			.template("recursiveSkipFieldDeclarationEntity")
-			.add("entity", entity)
-			.render();
-		generate.LegacyLanguageRenderer.writeLine(entity, declaration);
-		generate.LegacyLanguageRenderer.startBlock(entity);
-		generate.LegacyLanguageRenderer.exportChildren(entity, false);
-		generate.LegacyLanguageRenderer.endBlock(entity);
 	}
 
 	public static CEntityResourceField entryField(
 		int line, String name, CObjectCatalog catalog,
 		CBaseLanguageExporter output)
 	{
-		return new CJavaField(line, name, catalog, output);
+		CEntityResourceField entity = new CEntityResourceField(line, name, catalog);
+		entity.setIdentifierFormatter(identifier -> formatIdentifier(output, identifier));
+		entity.setArtifactRenderer((document, resources) ->
+			BmsFieldArtifactRenderer.render(entity, document, resources));
+		return entity;
 	}
 
 	public static CEntityResourceField labelField(
@@ -255,8 +164,7 @@ public final class BmsJavaEntities
 		// tree carries no generate.* coupling. The exporter bind preserves the retired backend
 		// constructor's LegacyLanguageRenderer.bind side effect for the BMS traversal boundary.
 		CEntityLabelField entity = new CEntityLabelField(line, catalog);
-		generate.LegacyLanguageRenderer.bind(entity, output);
-		entity.setIdentifierFormatter(identifier -> output.FormatIdentifier(identifier));
+		entity.setIdentifierFormatter(identifier -> formatIdentifier(output, identifier));
 		return entity;
 	}
 
@@ -274,29 +182,8 @@ public final class BmsJavaEntities
 		// LegacyLanguageRenderer.bind side effect for the BMS traversal compatibility boundary;
 		// the injected identifier formatter stands in for LegacyLanguageRenderer.formatIdentifier.
 		CEntityFieldRedefine entity = new CEntityFieldRedefine(line, name, catalog, level);
-		generate.LegacyLanguageRenderer.bind(entity, output);
-		entity.setIdentifierFormatter(identifier -> output.FormatIdentifier(identifier));
-		entity.setDeclarationRenderer(BmsJavaEntities::renderFieldRedefineDeclaration);
+		entity.setIdentifierFormatter(identifier -> formatIdentifier(output, identifier));
 		return entity;
-	}
-
-	/**
-	 * The retired {@code CJavaFieldRedefine.DoExport} body, relocated to this generate-layer
-	 * boundary. Renders the declaration line declaratively through the recursive ST4 assembly
-	 * contract ({@code recursiveFieldRedefineDeclarationEntity}), then drives the {@code { ... }}
-	 * block over the field's child attributes — which keep rendering through the still-direct BMS
-	 * field backends the surrounding {@code CJavaForm} legacy traversal invokes.
-	 */
-	private static void renderFieldRedefineDeclaration(CEntityFieldRedefine entity)
-	{
-		String declaration = generate.templates.TemplateLoader.getRecursiveAssembler()
-			.template("recursiveFieldRedefineDeclarationEntity")
-			.add("entity", entity)
-			.render();
-		generate.LegacyLanguageRenderer.writeLine(entity, declaration);
-		generate.LegacyLanguageRenderer.startBlock(entity);
-		generate.LegacyLanguageRenderer.exportChildren(entity, false);
-		generate.LegacyLanguageRenderer.endBlock(entity);
 	}
 
 	public static CEntityFormRedefine formRedefine(
@@ -313,38 +200,8 @@ public final class BmsJavaEntities
 		// LegacyLanguageRenderer.bind side effect for the BMS traversal compatibility boundary;
 		// the injected identifier formatter stands in for LegacyLanguageRenderer.formatIdentifier.
 		CEntityFormRedefine entity = new CEntityFormRedefine(line, name, catalog, form, save);
-		generate.LegacyLanguageRenderer.bind(entity, output);
-		entity.setIdentifierFormatter(identifier -> output.FormatIdentifier(identifier));
-		entity.setDeclarationRenderer(BmsJavaEntities::renderFormRedefineDeclaration);
+		entity.setIdentifierFormatter(identifier -> formatIdentifier(output, identifier));
 		return entity;
-	}
-
-	/**
-	 * The retired {@code CJavaFormRedefine.DoExport} body, relocated to this generate-layer
-	 * boundary. Pre-renders the {@code redefinesMap(<ref>)} origin form reference through the
-	 * exact legacy {@code LegacyDataRenderer.renderReference} protocol (preserving byte parity),
-	 * renders the declaration line declaratively through the recursive ST4 assembly contract
-	 * ({@code recursiveFormRedefineDeclarationEntity}), then drives the {@code { ... }} block
-	 * over the form redefine's children — which keep rendering through the still-direct BMS field
-	 * backends the surrounding {@code CJavaFormContainer} traversal invokes.
-	 *
-	 * <p>Accepts {@code CEntityResourceForm} to match the inherited
-	 * {@code Consumer<CEntityResourceForm>} declaration-renderer type; the factory only installs
-	 * this on {@link CEntityFormRedefine} instances.
-	 */
-	private static void renderFormRedefineDeclaration(CEntityResourceForm rawEntity)
-	{
-		CEntityFormRedefine entity = (CEntityFormRedefine) rawEntity;
-		entity.setRedefinesReference(
-			generate.LegacyDataRenderer.renderReference(entity.getForm(), entity.getLine()));
-		String declaration = generate.templates.TemplateLoader.getRecursiveAssembler()
-			.template("recursiveFormRedefineDeclarationEntity")
-			.add("entity", entity)
-			.render();
-		generate.LegacyLanguageRenderer.writeLine(entity, declaration);
-		generate.LegacyLanguageRenderer.startBlock(entity);
-		generate.LegacyLanguageRenderer.exportChildren(entity, false);
-		generate.LegacyLanguageRenderer.endBlock(entity);
 	}
 
 	public static CEntityIsFieldColor isFieldColor()
@@ -382,7 +239,6 @@ public final class BmsJavaEntities
 		// the retired backend constructor's LegacyLanguageRenderer.bind side effect for
 		// the BMS traversal compatibility boundary.
 		CEntityKeyPressed entity = new CEntityKeyPressed(line, name, catalog, caption);
-		generate.LegacyLanguageRenderer.bind(entity, output);
 		return entity;
 	}
 
@@ -394,7 +250,6 @@ public final class BmsJavaEntities
 		// the retired backend constructor's LegacyLanguageRenderer.bind side effect for
 		// the BMS traversal compatibility boundary.
 		CEntityGetKeyPressed entity = new CEntityGetKeyPressed(name, catalog);
-		generate.LegacyLanguageRenderer.bind(entity, output);
 		return entity;
 	}
 
@@ -425,34 +280,8 @@ public final class BmsJavaEntities
 		// LegacyLanguageRenderer.bind side effect for the BMS traversal compatibility boundary;
 		// the injected identifier formatter stands in for LegacyLanguageRenderer.formatIdentifier.
 		CEntityFieldOccurs entity = new CEntityFieldOccurs(line, name, catalog);
-		generate.LegacyLanguageRenderer.bind(entity, output);
-		entity.setIdentifierFormatter(identifier -> output.FormatIdentifier(identifier));
-		entity.setDeclarationRenderer(BmsJavaEntities::renderFieldOccursDeclaration);
+		entity.setIdentifierFormatter(identifier -> formatIdentifier(output, identifier));
 		return entity;
-	}
-
-	/**
-	 * The retired {@code CJavaFieldOccurs.DoExport} body, relocated to this generate-layer
-	 * boundary. Pre-renders the {@code OCCURS} reference through the exact legacy
-	 * {@code LegacyDataRenderer.renderReference} protocol (preserving its
-	 * ExportReference-first-then-assembler byte parity), renders the declaration line
-	 * declaratively through the recursive ST4 assembly contract
-	 * ({@code recursiveFieldOccursDeclarationEntity}), then drives the {@code { ... }} block
-	 * over the group's child fields — which keep rendering through the still-direct BMS field
-	 * backends the surrounding {@code CJavaForm}/{@code CJavaFieldRedefine} traversal invokes.
-	 */
-	private static void renderFieldOccursDeclaration(CEntityFieldOccurs entity)
-	{
-		entity.setOccursReference(
-			generate.LegacyDataRenderer.renderReference(entity.getOccurs(), entity.getLine()));
-		String declaration = generate.templates.TemplateLoader.getRecursiveAssembler()
-			.template("recursiveFieldOccursDeclarationEntity")
-			.add("entity", entity)
-			.render();
-		generate.LegacyLanguageRenderer.writeLine(entity, declaration);
-		generate.LegacyLanguageRenderer.startBlock(entity);
-		generate.LegacyLanguageRenderer.exportChildren(entity, false);
-		generate.LegacyLanguageRenderer.endBlock(entity);
 	}
 
 	public static CEntityResetKeyPressed resetKeyPressed(
@@ -470,7 +299,6 @@ public final class BmsJavaEntities
 		// built only by CEntityGetKeyPressed.GetSpecialAssignment for a MOVE SPACE TO KEYPRESSED,
 		// which no shipped BMS program performs.
 		CEntityResetKeyPressed entity = new CEntityResetKeyPressed(line, catalog);
-		generate.LegacyLanguageRenderer.bind(entity, output);
 		return entity;
 	}
 
@@ -489,19 +317,14 @@ public final class BmsJavaEntities
 		// bind preserves the retired backend constructor's LegacyLanguageRenderer.bind side effect
 		// for the BMS traversal boundary.
 		CEntityResourceFieldArray entity = new CEntityResourceFieldArray(line, name, catalog);
-		generate.LegacyLanguageRenderer.bind(entity, output);
-		entity.setDeclarationRenderer(BmsJavaEntities::renderFieldArrayChildren);
 		return entity;
 	}
 
-	/**
-	 * The retired {@code CJavaFieldArray.DoExport} body, relocated to this generate-layer
-	 * boundary. A field array emits no declaration line and no block of its own; it only drives
-	 * the legacy traversal over its child motif fields — which keep rendering through the
-	 * still-direct BMS field backends the surrounding {@code CJavaForm} traversal invokes.
-	 */
-	private static void renderFieldArrayChildren(CEntityResourceFieldArray entity)
+	private static String formatIdentifier(
+		CBaseLanguageExporter output, String identifier)
 	{
-		generate.LegacyLanguageRenderer.exportChildren(entity, false);
+		return output == null
+			? identifier.replace('-', '_').replace('#', '$')
+			: output.FormatIdentifier(identifier);
 	}
 }

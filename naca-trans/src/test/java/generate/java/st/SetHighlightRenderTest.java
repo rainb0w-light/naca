@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.DisplayName;
@@ -63,7 +63,7 @@ import utils.CTransApplicationGroup;
  * reverse + underline, {@code "0"}/HIGH-VALUE to normal, LOW-VALUE to the reset slot,
  * and a moved data reference to {@code moveHighLighting}); it now builds the pure
  * entity through the rewired factory ({@code CJavaEntityFactory.NewEntitySetHighlight},
- * inherited by {@code CJavaEntityFactoryST}). The FPac factory throws
+ * inherited by {@code CJavaEntityFactory}). The FPac factory throws
  * {@code NacaTransAssertException} for this entity, so no FPac tree ever holds it.
  */
 class SetHighlightRenderTest
@@ -100,7 +100,7 @@ class SetHighlightRenderTest
      * to the owner field.
      */
     private static CEntitySetHighligh lowerHighlightConstant(
-        String value, CJavaEntityFactoryST factory)
+        String value, CJavaEntityFactory factory)
     {
         CEntityFieldHighlight fieldHighlight =
             new CEntityFieldHighlight(1, "WS-FIELD-H", catalog(), owner());
@@ -113,8 +113,8 @@ class SetHighlightRenderTest
     @DisplayName("MOVE 1 TO <FIELD>-H renders setFieldBlink(field) (legacy DoExport parity)")
     void blinkRendersSetFieldBlink()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntitySetHighligh setHighlight = lowerHighlightConstant("1", factory);
 
         // Exactly the pure semantic class, not a legacy CJava* controller subclass.
@@ -131,8 +131,8 @@ class SetHighlightRenderTest
     @DisplayName("MOVE 2 TO <FIELD>-H renders setFieldReverse(field)")
     void reverseRendersSetFieldReverse()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntitySetHighligh setHighlight = lowerHighlightConstant("2", factory);
         assertTrue(setHighlight.isReverse());
         assertEquals("setFieldReverse(" + OWNER_REFERENCE + ") ;", render(setHighlight).trim());
@@ -142,8 +142,8 @@ class SetHighlightRenderTest
     @DisplayName("MOVE 4 TO <FIELD>-H renders setFieldUnderline(field)")
     void underlineRendersSetFieldUnderline()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntitySetHighligh setHighlight = lowerHighlightConstant("4", factory);
         assertTrue(setHighlight.isUnderlined());
         assertEquals("setFieldUnderline(" + OWNER_REFERENCE + ") ;", render(setHighlight).trim());
@@ -153,8 +153,8 @@ class SetHighlightRenderTest
     @DisplayName("MOVE 6 TO <FIELD>-H renders both reverse and underline (independent flags)")
     void reverseUnderlineRendersTwoStatements()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         // "6" sets reverse AND underline: two statements in the legacy branch order,
         // no blank line for the absent flags.
         CEntitySetHighligh setHighlight = lowerHighlightConstant("6", factory);
@@ -171,8 +171,8 @@ class SetHighlightRenderTest
     @DisplayName("MOVE 0 / HIGH-VALUE TO <FIELD>-H renders setFieldUnhighlighted(field)")
     void normalRendersSetFieldUnhighlighted()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         for (String normal : new String[] { "0", "HIGH-VALUE", "HIGH-VALUES" })
         {
             CEntitySetHighligh setHighlight = lowerHighlightConstant(normal, factory);
@@ -187,8 +187,8 @@ class SetHighlightRenderTest
     @DisplayName("MOVE LOW-VALUE TO <FIELD>-H maps the legacy reset branch to setFieldUnhighlighted")
     void resetRendersSetFieldUnhighlighted()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         // LOW-VALUE calls Reset(): no flag set, so the legacy reset branch fired. The
         // retired backend emitted resetFieldHighlighting(<field>) — a call with no
         // naca-rt signature that never compiled. The reset slot now maps to the real
@@ -208,8 +208,8 @@ class SetHighlightRenderTest
     @DisplayName("MOVE <value> TO <FIELD>-H renders moveHighLighting(value, field) (production lowering)")
     void movedValueRendersMoveHighLighting()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         // The data-reference overload of GetSpecialAssignment is the production path
         // for a moved highlight value (MOVE <var> TO <FIELD>-H).
         CEntityFieldHighlight fieldHighlight =
@@ -229,8 +229,8 @@ class SetHighlightRenderTest
     @DisplayName("an unsupported highlight constant still lowers to no action")
     void unsupportedConstantLowersToNothing()
     {
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog(), new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog(), new MockJavaExporter());
         CEntityFieldHighlight fieldHighlight =
             new CEntityFieldHighlight(1, "WS-FIELD-H", catalog(), owner());
         // "3" is not a recognized highlight constant: GetSpecialAssignment returns
@@ -243,8 +243,8 @@ class SetHighlightRenderTest
     void factoryReturnsPureSemanticEntity()
     {
         CObjectCatalog catalog = catalog();
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog, new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog, new MockJavaExporter());
         MockDataEntity field = owner();
 
         CEntitySetHighligh setHighlight = factory.NewEntitySetHighlight(1, field);
@@ -264,8 +264,8 @@ class SetHighlightRenderTest
     void legacyBranchOrderPreserved()
     {
         CObjectCatalog catalog = catalog();
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog, new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog, new MockJavaExporter());
         CEntitySetHighligh setHighlight = factory.NewEntitySetHighlight(1, owner());
 
         // Legacy DoExport tested the flags in the fixed order blink, reverse,
@@ -287,8 +287,8 @@ class SetHighlightRenderTest
     void ignoreSemanticsPreserved()
     {
         CObjectCatalog catalog = catalog();
-        CJavaEntityFactoryST factory =
-            new CJavaEntityFactoryST(catalog, new MockJavaExporter());
+        CJavaEntityFactory factory =
+            new CJavaEntityFactory(catalog, new MockJavaExporter());
 
         // No field reference -> ignored (never rendered).
         CEntitySetHighligh noField = factory.NewEntitySetHighlight(1, null);

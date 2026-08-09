@@ -9,10 +9,10 @@ import generate.java.st.MockJavaExporter;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import semantic.CEntityClass;
+import semantic.CEntityProcedure;
 import semantic.Verbs.CEntityCallProgram;
 import semantic.expression.CEntityString;
 import utils.CObjectCatalog;
-import utils.FPacTranscoder.FPacTranscoderEngine;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -130,20 +130,19 @@ class CFPacJavaClassRetirementTest
 
         CEntityClass programClass = factory.NewEntityClass(1, "PROG");
 
-        CFPacJavaProcedure main = new CFPacJavaProcedure(2, "MAIN", catalog, out, null);
+        CEntityProcedure main = factory.NewEntityProcedure(2, "MAIN", null);
         CEntityCallProgram call = factory.NewEntityCallProgram(3, programLiteral(catalog, "SUBPROG"));
         call.setChecked(true);
         main.AddChild(call);
         programClass.AddChild(main);
 
-        FPacTranscoderEngine.exportFpacProgramRoot(programClass);
-
-        String rendered = out.getCapturedOutput();
+        String rendered = TemplateLoader.getRecursiveAssembler()
+            .renderRoot(programClass, JavaTemplateRole.FPAC_ROOT);
         assertTrue(rendered.contains("import nacaLib.fpacPrgEnv.* ;"),
             "production FPac root must emit the fpacPrgEnv import; got:\n" + rendered);
         assertTrue(rendered.contains("public class PROG extends FPacProgram"),
             "production FPac root must declare the UPPERCASE FPacProgram class; got:\n" + rendered);
-        assertTrue(rendered.contains("protected int MAIN() {"),
+        assertTrue(rendered.contains("protected int main() {"),
             "production FPac root must drive the still-legacy procedure by reflection; got:\n" + rendered);
         assertTrue(rendered.contains("call(SUBPROG.class)"),
             "production FPac root must lower the retired verb via FPAC_REFERENCE; got:\n" + rendered);

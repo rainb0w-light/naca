@@ -3,7 +3,7 @@ package generate.java.st;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import generate.CJavaEntityFactory;
-import generate.CJavaEntityFactoryST;
+import generate.CJavaEntityFactory;
 import generate.templates.TemplateLoader;
 import generate.templates.recursive.JavaTemplateRole;
 import org.junit.jupiter.api.Test;
@@ -23,7 +23,7 @@ class CEntityEnvironmentVariableRenderTest
                 .NewEntityEnvironmentVariable("RETURN-CODE", "getReturnCode()",
                     "setReturnCode(", true).getClass());
         assertEquals(CEntityEnvironmentVariable.class,
-            new CJavaEntityFactoryST(catalog, null)
+            new CJavaEntityFactory(catalog, null)
                 .NewEntityEnvironmentVariable("RETURN-CODE", "getReturnCode()",
                     "setReturnCode(", true).getClass());
     }
