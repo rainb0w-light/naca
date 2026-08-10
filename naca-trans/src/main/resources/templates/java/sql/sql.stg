@@ -1,0 +1,290 @@
+group sql;
+
+// Embedded SQL cursor declaration section (the DATA-DIVISION section holding the
+// program's DECLARE CURSOR handles). Mirrors CJavaSQLCursorSection.DoExport
+// exactly: a DataSection header opening a cursorSection(), then one
+// SQLCursor <ref> = declare.cursor() ; line per declared cursor. Reads only
+// entity.* properties (formattedName + semantic cursorEntities).
+recursiveSQLCursorSectionEntity(entity) ::= <<
+DataSection <entity.formattedName> = declare.cursorSection() ;
+
+{
+<entity.cursorEntities:{cursor | SQLCursor <cursor> = declare.cursor() ;}; separator="\n">
+}
+>>
+
+// Embedded SQL WHENEVER (EXEC SQL WHENEVER SQLERROR|SQLWARNING ... END-EXEC).
+// Emits NO code: the statement's entire effect is a Stage-1 catalog side effect
+// (registerSqlWheneverPolicy in CJavaEntityFactory), applied during semantic
+// analysis so every subsequent SQL call chain picks up the onError/onWarning
+// clause. Mirrors the retired CJavaSqlOnErrorGoto.DoExport, whose WriteLine calls
+// were all commented out (zero output). The template reads only entity.*
+// properties and renders empty.
+recursiveSqlOnErrorGotoEntity(entity) ::= ""
+
+// Embedded SQL DECLARE TABLE (EXEC SQL DECLARE TABLE ... END-EXEC). Emits NO code:
+// the statement's entire effect is a Stage-1 catalog side effect
+// (RegisterSQLTable in the CEntitySQLDeclareTable constructor) applied during
+// semantic analysis, so the SELECT/INSERT/UPDATE/DELETE backends can resolve the
+// declared table's column references. Mirrors the retired
+// CJavaSQLDeclareTable.DoExport, whose WriteLine calls were all commented out
+// (zero output). The template reads only entity.* properties and renders empty.
+recursiveSQLDeclareTableEntity(entity) ::= ""
+
+// Embedded SQL CLOSE <cursor> (EXEC SQL CLOSE <cursor> END-EXEC). Emits the
+// cursorClose(<ref>) runtime call; when a WHENEVER SQLWARNING/SQLERROR policy is
+// in effect (a read-only catalog lookup registered by the WHENEVER Stage-1 side
+// effect) its clause (.onErrorGoto(...)/.onErrorContinue()/...) chains onto the
+// call, terminated by " ;". Mirrors CJavaSQLCloseStatement.DoExport exactly:
+// bare CLOSE -> 'cursorClose(<ref>) ;', with a policy -> 'cursorClose(<ref>).onErrorGoto(LABEL) ;'.
+recursiveSQLCloseStatementEntity(entity) ::= <<
+cursorClose(<entity.cursor>)<if(entity.sqlWarningErrorStatement)><entity.sqlWarningErrorStatement><endif> ;
+>>
+
+// Embedded SQL CALL <program> [USING (:host, ...)] (EXEC SQL CALL ... END-EXEC).
+// Emits the sqlCall(<programRef>) runtime call, one .param(N, <hostRef>) per
+// host-variable parameter (ST4's 1-based iteration index <i> mirrors the retired
+// backend's (i+1) numbering), and, when a WHENEVER SQLWARNING/SQLERROR policy is in
+// effect (a read-only catalog lookup registered by the WHENEVER Stage-1 side
+// effect), chains its clause (.onErrorGoto(...)/.onErrorContinue()/...) before the
+// " ;" terminator. Mirrors CJavaSQLCall.DoExport exactly: bare CALL -> 'sqlCall(<ref>) ;',
+// with params -> 'sqlCall(<ref>).param(1, <a>).param(2, <b>) ;', with a policy ->
+// 'sqlCall(<ref>).onErrorGoto(LABEL) ;'. The program reference and each parameter
+// stay semantic children rendered through their reference bindings; the template
+// reads only entity.* properties.
+recursiveSQLCallEntity(entity) ::= <<
+sqlCall(<entity.programReference>)<entity.parameters:{p | .param(<i>, <p>)}><if(entity.sqlWarningErrorStatement)><entity.sqlWarningErrorStatement><endif> ;
+>>
+
+// Embedded SQL cursor SELECT (the SELECT bound to a DECLARE CURSOR, rendered in
+// place of the OPEN <cursor> statement). Emits the cursorOpen(<cursor>, "<select>")
+// runtime call: the cursor stays a semantic child rendered through its reference
+// binding and the trimmed SELECT text is wrapped as a Java string literal (exactly
+// what the retired backend's WriteLongString(csStatement.trim()) emitted). A
+// WITH HOLD cursor chains .setHoldability(true); each host-variable parameter
+// chains a 1-based .param(N, <hostRef>) (ST4's 1-based iteration index <i> mirrors
+// the retired backend's (i+1) numbering); and when a WHENEVER SQLWARNING/SQLERROR
+// policy is in effect (a read-only catalog lookup registered by the WHENEVER
+// Stage-1 side effect) its clause chains before the " ;" terminator. Mirrors
+// CJavaSQLCursorSelectStatement.DoExport exactly: bare open ->
+// 'cursorOpen(<ref>, "<select>") ;', WITH HOLD -> '...setHoldability(true)...',
+// with params -> '...param(1, <a>).param(2, <b>)...'. Reads only entity.* properties.
+recursiveSQLCursorSelectStatementEntity(entity) ::= <<
+cursorOpen(<entity.cursor>, "<entity.statement>")<if(entity.withHold)>.setHoldability(true)<endif><entity.parameters:{p | .param(<i>, <p>)}><if(entity.sqlWarningErrorStatement)><entity.sqlWarningErrorStatement><endif> ;
+>>
+
+// Embedded SQL OPEN <cursor> (EXEC SQL OPEN <cursor> END-EXEC). When the cursor
+// has a bound SELECT (its DECLARE CURSOR SELECT), that semantic child is rendered
+// in place of the OPEN statement (exactly as the retired backend dispatched the
+// select's own export); otherwise emits the cursorOpen(<ref>) runtime call, taking
+// the optional USING descriptor/host variable semantic child (rendered through its
+// reference binding) as the second argument, and, when a WHENEVER
+// SQLWARNING/SQLERROR policy is in effect (a read-only catalog lookup registered by
+// the WHENEVER Stage-1 side effect), chains its clause
+// (.onErrorGoto(...)/.onErrorContinue()/...) before the " ;" terminator. Mirrors
+// CJavaSQLOpenStatement.DoExport exactly: bare OPEN -> 'cursorOpen(<ref>) ;', with
+// a USING variable -> 'cursorOpen(<ref>, <variable>) ;', with a policy ->
+// 'cursorOpen(<ref>).onErrorGoto(LABEL) ;', bound SELECT -> the SELECT's own
+// 'cursorOpen(<ref>, "<select>")...' line. Reads only entity.* properties.
+recursiveSQLOpenStatementEntity(entity) ::= <<
+<if(entity.select)><entity.select><else>cursorOpen(<entity.cursor><if(entity.variableStatement)>, <entity.variableStatement><endif>)<if(entity.sqlWarningErrorStatement)><entity.sqlWarningErrorStatement><endif> ;<endif>
+>>
+
+// Embedded SQL COMMIT (EXEC SQL COMMIT END-EXEC). Emits the sqlCommit() runtime
+// call and, when a WHENEVER SQLWARNING/SQLERROR policy is in effect (a read-only
+// catalog lookup registered by the WHENEVER Stage-1 side effect), chains its
+// clause (.onErrorGoto(...)/.onErrorContinue()/...) before the " ;" terminator.
+// Mirrors CJavaSQLCommit.DoExport exactly: bare COMMIT -> 'sqlCommit() ;', with a
+// policy -> 'sqlCommit().onErrorGoto(LABEL) ;'. Reads only entity.* properties.
+recursiveSQLCommitEntity(entity) ::= <<
+sqlCommit()<if(entity.sqlWarningErrorStatement)><entity.sqlWarningErrorStatement><endif> ;
+>>
+
+// Embedded SQL ROLLBACK (EXEC SQL ROLLBACK END-EXEC). Emits the sqlRollback()
+// runtime call and, when a WHENEVER SQLWARNING/SQLERROR policy is in effect (a
+// read-only catalog lookup registered by the WHENEVER Stage-1 side effect), chains
+// its clause (.onErrorGoto(...)/.onErrorContinue()/...) before the " ;" terminator.
+// Mirrors CJavaSQLRollBack.DoExport exactly: bare ROLLBACK -> 'sqlRollback() ;',
+// with a policy -> 'sqlRollback().onErrorGoto(LABEL) ;'. Reads only entity.*
+// properties.
+recursiveSQLRollBackEntity(entity) ::= <<
+sqlRollback()<if(entity.sqlWarningErrorStatement)><entity.sqlWarningErrorStatement><endif> ;
+>>
+
+// Embedded SQL LOCK TABLE <table> IN EXCLUSIVE MODE (EXEC SQL LOCK TABLE ...
+// END-EXEC). Emits the sql("LOCK TABLE <table> IN EXCLUSIVE MODE") runtime call,
+// the statement text being assembled in Stage 1 and read via <entity.statement>,
+// and when a WHENEVER SQLWARNING/SQLERROR policy is in effect (a read-only catalog
+// lookup registered by the WHENEVER Stage-1 side effect), chains its clause
+// (.onErrorGoto(...)/.onErrorContinue()/...) before the " ;" terminator. Mirrors
+// CJavaSQLLock.DoExport exactly: bare LOCK -> 'sql("LOCK TABLE T IN EXCLUSIVE
+// MODE") ;', with a policy -> 'sql("LOCK TABLE T IN EXCLUSIVE MODE")
+// .onErrorGoto(LABEL) ;'. Reads only entity.* properties.
+recursiveSQLLockEntity(entity) ::= <<
+sql("<entity.statement>")<if(entity.sqlWarningErrorStatement)><entity.sqlWarningErrorStatement><endif> ;
+>>
+
+// Embedded SQL EXECUTE IMMEDIATE :<host> (EXEC SQL EXECUTE IMMEDIATE ... END-EXEC).
+// Emits the sql("EXECUTE IMMEDIATE #1").param(1, <hostRef>) runtime call: the host
+// variable stays a semantic child rendered through its reference binding (exactly
+// what the retired backend's eVariable legacy direct-reference rendering) emitted as the
+// single 1-based parameter). When a WHENEVER SQLWARNING/SQLERROR policy is in
+// effect (a read-only catalog lookup registered by the WHENEVER Stage-1 side
+// effect) its clause (.onErrorGoto(...)/.onErrorContinue()/...) chains before the
+// " ;" terminator. Mirrors CJavaSQLExecute.DoExport exactly: bare EXECUTE ->
+// 'sql("EXECUTE IMMEDIATE #1").param(1, <ref>) ;', with a policy ->
+// 'sql("EXECUTE IMMEDIATE #1").param(1, <ref>).onErrorGoto(LABEL) ;'. Reads only
+// entity.* properties.
+recursiveSQLExecuteEntity(entity) ::= <<
+sql("EXECUTE IMMEDIATE #1").param(1, <entity.variable>)<if(entity.sqlWarningErrorStatement)><entity.sqlWarningErrorStatement><endif> ;
+>>
+
+// Embedded SQL DELETE FROM ... (EXEC SQL DELETE ... END-EXEC). Emits the
+// sql("<statement>") runtime call for an unbound DELETE, or
+// cursorDeleteCurrent(<cursor>, "<statement>") when a cursor is bound (the cursor
+// stays a semantic child rendered through its reference binding). The trimmed
+// DELETE text is wrapped as a Java string literal, exactly what the retired
+// backend's WriteLongString(csStatement.trim()) emitted. Each host-variable
+// parameter chains a 1-based .param(N, <hostRef>) (ST4's <i> matches the retired
+// backend's (i+1) numbering), and when a WHENEVER SQLWARNING/SQLERROR policy is in
+// effect (a read-only catalog lookup registered by the WHENEVER Stage-1 side
+// effect) its clause chains before the " ;" terminator. Mirrors
+// CJavaSQLDeleteStatement.DoExport exactly: bare DELETE -> 'sql("<statement>") ;',
+// bound cursor -> 'cursorDeleteCurrent(<ref>, "<statement>") ;', with params ->
+// '...param(1, <a>).param(2, <b>)...', with a policy -> '...onErrorGoto(LABEL) ;'.
+// Reads only entity.* properties.
+recursiveSQLDeleteStatementEntity(entity) ::= <<
+<if(entity.cursor)>cursorDeleteCurrent(<entity.cursor>, "<entity.statement>")<else>sql("<entity.statement>")<endif><entity.parameters:{p | .param(<i>, <p>)}><if(entity.sqlWarningErrorStatement)><entity.sqlWarningErrorStatement><endif> ;
+>>
+
+// Embedded SQL FETCH <cursor> INTO :host [, :ind] ... (EXEC SQL FETCH ... END-EXEC).
+// Emits the cursorFetch(<cursor>) runtime call followed by one .into(<host>[, <ind>])
+// per INTO target: the cursor stays a semantic child rendered through its reference
+// binding, and each INTO target is paired with its optional INDICATOR variable (both
+// semantic children rendered through their reference bindings). When a WHENEVER
+// SQLWARNING/SQLERROR policy is in effect (a read-only catalog lookup registered by
+// the WHENEVER Stage-1 side effect) its clause (.onErrorGoto(...)/.onErrorContinue()/...)
+// chains before the " ;" terminator. Mirrors CJavaSQLFetchStatement.DoExport exactly:
+// bare FETCH -> 'cursorFetch(<ref>).into(<host>) ;', with an indicator ->
+// 'cursorFetch(<ref>).into(<host>, <ind>) ;', with a policy ->
+// 'cursorFetch(<ref>).into(<host>).onErrorGoto(LABEL) ;'. Reads only entity.* properties.
+recursiveSQLFetchStatementEntity(entity) ::= <<
+cursorFetch(<entity.cursor>)<entity.intoBindings:{b | .into(<b.into><if(b.indicator)>, <b.indicator><endif>)}><if(entity.sqlWarningErrorStatement)><entity.sqlWarningErrorStatement><endif> ;
+>>
+
+// Embedded SQL INSERT INTO ... (EXEC SQL INSERT ... END-EXEC). Emits the
+// sql("<statement>") runtime call where <statement> is the full INSERT INTO ...
+// text assembled in Stage 1 by the semantic node's getStatement(): an optional
+// SESSION. prefix, the DECLARE TABLE name + column references (or the raw table
+// name + explicit column list), then either VALUES (...) (NUMBER/STRING values
+// inlined as SQL literals, every other value a positional #N marker) or the
+// INSERT ... SELECT clause. Each non-inlined VALUES entry chains a 1-based
+// .value(N, <hostRef>) (the holder's <p.index> matches the retired backend's #N
+// marker / (i+1) numbering) and each INSERT...SELECT host parameter chains a
+// 1-based .value(N, <hostRef>); when a WHENEVER SQLWARNING/SQLERROR policy is in
+// effect (a read-only catalog lookup registered by the WHENEVER Stage-1 side
+// effect) its clause chains before the " ;" terminator. The retired backend split
+// the .value(...) chain across lines via WriteWord/WriteEOL; the template emits the
+// equivalent single-line Java builder chain (exactly as the SQL FETCH migration
+// did). Mirrors CJavaSQLInsertStatement.DoExport: column form ->
+// 'sql("INSERT INTO T (A, B) VALUES (#1, #2)").value(1, <a>).value(2, <b>) ;',
+// SELECT form -> 'sql("INSERT INTO T SELECT ...").value(1, <p>) ;', with a policy ->
+// '...onErrorGoto(LABEL) ;'. Reads only entity.* properties.
+recursiveSQLInsertStatementEntity(entity) ::= <<
+sql("<entity.statement>")<entity.valueParams:{p | .value(<p.index>, <p.ref>)}><entity.selectParams:{p | .value(<p.index>, <p.ref>)}><if(entity.sqlWarningErrorStatement)><entity.sqlWarningErrorStatement><endif> ;
+>>
+
+// Embedded SQL SELECT ... INTO :host [, :ind] ... (EXEC SQL SELECT ... END-EXEC),
+// the standalone non-cursor form (a SELECT bound to a DECLARE CURSOR is rendered by
+// recursiveSQLCursorSelectStatementEntity). Emits the sql("<statement>") runtime
+// call where <statement> is the prepared SELECT text assembled in Stage 1 and read
+// via <entity.statement> (wrapped as a Java string literal, exactly what the retired
+// backend's WriteLongString(csStatement.trim()) emitted). Each INTO target chains a
+// .into(<host>[, <ind>]) paired by position with its optional INDICATOR variable
+// (both semantic children rendered through their reference bindings; a null
+// indicator is dropped, exactly as the retired backend's if (i < ind.size()) /
+// if (e != null) guards did), and each non-null host-variable parameter chains a
+// .param(<p.index>, <p.ref>) keeping its original 1-based position (null parameters
+// dropped, matching the retired backend's if (cs != null) guard and (i+1) numbering).
+// When a WHENEVER SQLWARNING/SQLERROR policy is in effect (a read-only catalog
+// lookup registered by the WHENEVER Stage-1 side effect) its clause chains before
+// the " ;" terminator. The retired backend split the .into(...) / .param(...) chain
+// across lines via WriteWord/WriteEOL; the template emits the equivalent single-line
+// Java builder chain (exactly as the SQL FETCH / SQL INSERT migrations did). Mirrors
+// CJavaSQLSelectStatement.DoExport: SELECT -> 'sql("<statement>").into(<a>)
+// .into(<b>, <ind>).param(1, <p>) ;', with a policy -> '...onErrorGoto(LABEL) ;'.
+// Reads only entity.* properties.
+recursiveSQLSelectStatementEntity(entity) ::= <<
+sql("<entity.statement>")<entity.intoBindings:{b | .into(<b.into><if(b.indicator)>, <b.indicator><endif>)}><entity.paramBindings:{p | .param(<p.index>, <p.ref>)}><if(entity.sqlWarningErrorStatement)><entity.sqlWarningErrorStatement><endif> ;
+>>
+
+// Embedded SQL session DECLARE (the DECLARE GLOBAL TEMPORARY TABLE statement
+// assembled token-by-token by the parser CExecSQLSessionDeclare). Emits the
+// sql("<statement>") runtime call where <statement> is the full DECLARE text
+// carried by the entity and read via <entity.statement> (wrapped as a Java
+// string literal, exactly what the retired backend's WriteLongString(csSql)
+// emitted), and when a WHENEVER SQLWARNING/SQLERROR policy is in effect (a
+// read-only catalog lookup registered by the WHENEVER Stage-1 side effect) its
+// clause (.onErrorGoto(...)/.onErrorContinue()/...) chains before the " ;"
+// terminator. Mirrors CJavaSQLSessionDeclare.DoExport exactly: bare DECLARE ->
+// 'sql("DECLARE GLOBAL ...") ;', with a policy ->
+// 'sql("DECLARE GLOBAL ...").onErrorGoto(LABEL) ;'. Reads only entity.*
+// properties.
+recursiveSQLSessionDeclareEntity(entity) ::= <<
+sql("<entity.statement>")<if(entity.sqlWarningErrorStatement)><entity.sqlWarningErrorStatement><endif> ;
+>>
+
+// Embedded SQL session DROP (the DROP ... statement assembled token-by-token by
+// the parser CExecSQLSessionDrop). Emits the sql("<statement>") runtime call
+// where <statement> is the full DROP text carried by the entity and read via
+// <entity.statement> (wrapped as a Java string literal, exactly what the retired
+// backend's WriteWord("sql(\"" + csSql + "\")") emitted), and when a WHENEVER
+// SQLWARNING/SQLERROR policy is in effect (a read-only catalog lookup registered
+// by the WHENEVER Stage-1 side effect) its clause
+// (.onErrorGoto(...)/.onErrorContinue()/...) chains before the " ;" terminator.
+// Mirrors CJavaSQLSessionDrop.DoExport exactly: bare DROP -> 'sql("DROP ...") ;',
+// with a policy -> 'sql("DROP ...").onErrorGoto(LABEL) ;'. Reads only entity.*
+// properties.
+recursiveSQLSessionDropEntity(entity) ::= <<
+sql("<entity.statement>")<if(entity.sqlWarningErrorStatement)><entity.sqlWarningErrorStatement><endif> ;
+>>
+
+// Embedded SQL single statement (a raw EXEC SQL <text> END-EXEC that has no
+// dedicated statement entity). Emits the getDBConnection().execSQL("<statement>")
+// runtime call where <statement> is the raw SQL text carried by the entity and
+// read via <entity.statement> (wrapped verbatim as a Java string literal, exactly
+// what the retired backend's WriteLine("getDBConnection().execSQL(\""+csStatement
+// +"\") ;") emitted). No WHENEVER SQLWARNING/SQLERROR clause is chained: the
+// retired direct backend never read the policy, and this template mirrors it
+// exactly. Reads only entity.* properties.
+recursiveSQLSingleStatementEntity(entity) ::= <<
+getDBConnection().execSQL("<entity.statement>") ;
+>>
+
+// Embedded SQL UPDATE ... (EXEC SQL UPDATE ... END-EXEC), either a standalone
+// UPDATE <table> SET ... WHERE ... or a cursor-positioned UPDATE ... WHERE CURRENT
+// OF <cursor>. Emits the sql("<statement>") runtime call where <statement> is the
+// prepared UPDATE text assembled in Stage 1 and read via <entity.statement> (wrapped
+// as a Java string literal, exactly what the retired backend's
+// WriteLongString(csStatement.trim()) emitted), or cursorUpdateCurrent(<cursor>,
+// "<statement>") when a cursor is bound (the cursor handle stays a semantic child
+// rendered through its dataReferenceEntity binding, exactly the retired backend's
+// cursorUpdateCurrent(cursor legacy direct-reference rendering) + ", " + ...) branch). Each
+// SET host-variable value chains a 1-based .value(<i>, <ref>) (the ST4 <i> iteration
+// index matches the retired backend's (i+1) numbering), then each non-null WHERE
+// host-variable parameter chains a .param(<p.index>, <p.ref>) where <p.index> is the
+// retired backend's (i+1+sets.size()) position — i.e. the parameters continue the SET
+// values' numbering and null parameters are dropped (matching the retired backend's
+// if (e != null) guard). When a WHENEVER SQLWARNING/SQLERROR policy is in effect (a
+// read-only catalog lookup registered by the WHENEVER Stage-1 side effect) its clause
+// (.onErrorGoto(...)/.onErrorContinue()/...) chains before the " ;" terminator. The
+// retired backend split the .value(...) / .param(...) chain across lines via
+// WriteWord/WriteEOL; the template emits the equivalent single-line Java builder
+// chain (exactly as the SQL DELETE / SQL SELECT / SQL INSERT migrations did). Mirrors
+// CJavaSQLUpdateStatement.DoExport: standalone -> 'sql("UPDATE T SET A = ? WHERE B = ?")
+// .value(1, <a>).param(2, <b>) ;', bound cursor -> 'cursorUpdateCurrent(<ref>,
+// "UPDATE T SET A = ?")...value(1, <a>) ;', with a policy -> '...onErrorGoto(LABEL) ;'.
+// Reads only entity.* properties.
+recursiveSQLUpdateStatementEntity(entity) ::= <<
+<if(entity.cursor)>cursorUpdateCurrent(<entity.cursor>, "<entity.statement>")<else>sql("<entity.statement>")<endif><entity.sets:{s | .value(<i>, <s>)}><entity.paramBindings:{p | .param(<p.index>, <p.ref>)}><if(entity.sqlWarningErrorStatement)><entity.sqlWarningErrorStatement><endif> ;
+>>

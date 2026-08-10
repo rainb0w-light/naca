@@ -77,7 +77,7 @@ class FeatureRegistryTest
         for (Feature feature : registry.features().values())
         {
             String template = feature.javaBackend().template();
-            assertNotNull(TemplateLoader.getJavaGroup().getInstanceOf(template),
+            assertTrue(TemplateLoader.hasTemplate(template),
                 "feature " + feature.id() + " backend template not defined in STG: " + template);
         }
     }

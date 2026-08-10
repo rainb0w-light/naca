@@ -1,0 +1,169 @@
+group common;
+
+numberLiteral(value, decimalLiteral, longLiteral) ::= <<
+<if(decimalLiteral)>"<value>"<else><value><if(longLiteral)>L<endif><endif>
+>>
+
+numberLiteralEntity(entity) ::= <<
+<if(entity.hexLiteral)>hexa("<entity.hexDigits>")<elseif(entity.preserveSourceLexeme)><entity.literalValue><else><if(entity.decimalLiteral)><entity.literalValue; format="javaNumber"><else><entity.normalizedLiteralValue><if(entity.longLiteral)>L<endif><endif><endif>
+>>
+
+stringLiteral(value) ::= "\"<value>\""
+
+stringLiteralEntity(entity) ::= "<entity.literalValue; format=\"javaString\">"
+
+
+cobolConstant(highValue, spaces) ::= <<
+<if(highValue)>CobolConstant.HighValue<elseif(spaces)>CobolConstant.Spaces<else>[Undefined]<endif>
+>>
+
+cobolConstantEntity(entity) ::= <<
+<if(entity.highValue)>CobolConstant.HighValue<elseif(entity.spaces)>CobolConstant.Spaces<else>[Undefined]<endif>
+>>
+
+constantValueEntity(entity) ::= "<entity.literalValue>"
+
+dataReference(identifier, qualifier) ::= <<
+<if(qualifier)><qualifier>.<endif><identifier>
+>>
+
+dataReferenceEntity(entity) ::= <<
+<if(entity.qualifierFormattedName)><entity.qualifierFormattedName>.<endif><entity.formattedName>
+>>
+
+environmentVariableReference(readAccessor) ::= "<readAccessor>"
+
+environmentVariableEntity(entity) ::= "<entity.readAccessor>"
+
+addressReference(reference) ::= <<
+addressOf(<if(reference)><reference><else>[UNDEFINED]<endif>)
+>>
+
+addressReferenceEntity(entity) ::= "addressOf(<if(entity.reference)><entity.reference><else>[UNDEFINED]<endif>)"
+
+recursiveMoveReferenceEntity(entity) ::= <<
+moveReferenceTo(<entity.from>, <entity.to>) ;
+>>
+
+internalBooleanReference(identifier) ::= "<identifier>"
+
+internalBooleanDeclaration(entity) ::= "Var <entity.formattedName> = declare.bool() ;"
+
+lengthOfReference(reference) ::= "lengthOf(<reference>)"
+
+lengthOfEntity(entity) ::= "lengthOf(<entity.reference>)"
+
+currentDateReference() ::= "currentDate()"
+
+currentDateEntity(entity) ::= "currentDate()"
+
+addressOfExpression(reference) ::= "addressOf(<reference>)"
+
+addressOfExpressionEntity(entity) ::= "addressOf(<if(entity.reference)><entity.reference><else>[UNDEFINED]<endif>)"
+
+addressExpressionEntity(entity) ::= "<entity.address>"
+
+digitsExpression(reference) ::= "digits(<reference>)"
+
+digitsExpressionEntity(entity) ::= "digits(<entity.reference>)"
+
+concatExpression(left, right) ::= "concat(<left>, <right>)"
+
+concatExpressionEntity(entity) ::= "concat(<if(entity.reference)><entity.reference><else>[UNDEFINED]<endif>, <if(entity.secondReference)><entity.secondReference><else>[UNDEFINED]<endif>)"
+
+listExpression(empty, stringElements, fieldElements, numberElements, elements) ::= <<
+<if(empty)>null<else>new <if(stringElements)>String<elseif(fieldElements)>Edit<elseif(numberElements)>int<else>Var<endif>[] {<elements; separator=", ">}<endif>
+>>
+
+listExpressionEntity(entity) ::= <<
+<if(entity.empty)>null<else>new <if(entity.stringElements)>String<elseif(entity.fieldElements)>Edit<elseif(entity.numberElements)>int<else>Var<endif>[] {<entity.data; separator=", ">}<endif>
+>>
+
+recursiveIntrinsicFunction(functionName, arguments) ::= <<
+CobolIntrinsicFunctions.<functionName>(<arguments; separator=", ">)
+>>
+
+recursiveIntrinsicFunctionEntity(entity) ::= <<
+CobolIntrinsicFunctions.<entity.normalizedFunctionName>(<entity.arguments; separator=", ">)
+>>
+
+arrayReference(reference, indexes) ::= <<
+<reference>.getAt(<indexes; separator=", ">)
+>>
+
+arrayReferenceEntity(entity) ::= <<
+<entity.reference>.getAt(<entity.indexes; separator=", ">)
+>>
+
+subStringReference(reference, start, length) ::= <<
+subString(<reference>, <start><if(length)>, <length><endif>)
+>>
+
+subStringReferenceEntity(entity) ::= <<
+subString(<entity.reference>, <entity.start><if(entity.length)>, <entity.length><endif>)
+>>
+
+
+valueReferenceEntity(entity) ::= "<entity.reference>"
+
+// Independent FPac pipeline conversion reference (semantic.Verbs.CEntityConvertReference,
+// FPac-only: the COBOL factory never builds one). Reproduces the three shapes the retired
+// FPac direct backend emitted for this reference, reading only the entity's precomputed
+// getters:
+//   - no conversion mode            -> the wrapped reference alone;
+//   - conversion + reference has
+//     accessors                     -> "<reference>P" / "<reference>X";
+//   - conversion + no accessors     -> "bufferP(<reference>" / "bufferX(<reference>".
+// The third shape is DELIBERATELY an unclosed call head: in production this entity is
+// always wrapped by a CSubStringAttributReference, whose renderer sees the "(" and appends
+// ", start, length)", completing a real FPacProgram.bufferP/bufferX(FPacFileDescriptor,
+// int, int) call. The fragment therefore keeps its opening paren and, being a composed
+// fragment, uses the inline (no-trailing-newline) form like valueReferenceEntity.
+
+// Independent FPac formatted-variable read reference. The retired direct backend's
+// ExportReference returned only the wrapped reference; the captured edit format was
+// consulted solely by its dead, value-parameterized write-accessor protocol. Keep the
+// read rendering transparent and let semantic action entities own future writes.
+
+// Independent FPac pipeline DISPLAY / WTO verb (semantic.Verbs.CEntityDisplay, FPAC_REFERENCE
+// role override layered over the shared reference manifest; the frozen COBOL `display` binding
+// is left untouched). The retired FPac display backend wrote, for each operand, one console
+// statement "wto.display(<ref>) ;" where <ref> was LegacyDataRenderer.renderReference(item,
+// getLine()) -- "wto" being the protected nacaLib.varEx.Console field on nacaLib.fpacPrgEnv.
+// FPacProgram. The operand reference text is NOT rendered through the assembler reference walk:
+// the still-legacy FPac operand types (a positioned substring wrapping a conversion buffer, a
+// numeric/string literal, an undefined reference) each carry their own reference protocol, and
+// the walk would silently re-route them to the shared COBOL templates and diverge (the substring
+// shape even yields unbalanced parentheses). Instead the entity precomputes each operand's
+// reference through the injected renderReference bridge -- the exact call the retired backend
+// made -- and this template only reads those entity.displayReferences strings, so the emitted
+// output stays byte-for-byte identical. Inline (no trailing newline) form like the other FPac
+// verb templates rendered through the legacy traversal's assembler bridge.
+
+recursiveCondIsKindOfEntity(entity) ::= <<
+is<if(entity.opposite)>Not<endif><if(entity.numeric)>Numeric<elseif(entity.alphabetic)>Alphabetic<elseif(entity.lower)>AlphabeticLower<elseif(entity.upper)>AlphabeticUpper<endif>(<if(entity.conditionReference)><entity.conditionReference><else>[UNDEFINED]<endif>)
+>>
+
+recursiveCondIsBoolean(trueValue, reference) ::= <<
+<if(trueValue)><reference><else>!<reference><endif>
+>>
+
+recursiveCondIsBooleanEntity(entity) ::= <<
+<if(entity.trueValue)><entity.conditionReference><else>!<entity.conditionReference><endif>
+>>
+
+// Embedded SQL SQLCODE condition (IF SQL-CODE = n / <> n). Emits the
+// isSQLCode(<value>)/isNotSQLCode(<value>) BaseProgram condition call. Mirrors
+// the retired CJavaCondIsSQLCode exactly: a negated condition renders isNotSQLCode,
+// well-known SQLCODE values render as SQLCode.* constants (SQL_OK, SQL_NOT_FOUND,
+// SQL_MORE_THAN_ONE_ROW, SQL_DUPLICATE_INDEX_KEY, SQL_CURSOR_ALREADY_OPENED,
+// SQL_CURSOR_NOT_OPEN, SQL_VALUE_NULL) and any other value as a raw numeric
+// literal. Reads only entity.* properties.
+recursiveCondIsSQLCodeEntity(entity) ::= "is<if(entity.opposite)>Not<endif>SQLCode(<if(entity.sqlCodeConstantName)>SQLCode.<entity.sqlCodeConstantName><else><entity.sqlCodeNumber><endif>)"
+
+// Embedded SQL SQLCODE / SQLERRD data reference. Emits the getSQLCode()
+// BaseProgram call, or getSQLDiagnosticCode(<historyItem>) when an SQLERRD(n)
+// history-item expression is present (recursively rendered through its reference
+// binding). Mirrors the retired CJavaSQLCode exactly. Reads only entity.*
+// properties.
+recursiveSQLCodeEntity(entity) ::= "get<if(entity.historyItem)>SQLDiagnosticCode(<entity.historyItem>)<else>SQLCode()<endif>"

@@ -23,6 +23,7 @@ public final class JavaTemplateAssembler
     private final JavaSemanticTemplateBindings rootBindings;
     private final JavaSemanticTemplateBindings fpacBindings;
     private final JavaSemanticTemplateBindings fpacRootBindings;
+    private final JavaTemplateRolePolicy rolePolicy;
     private final Map<ST, JavaTemplateRole> templateRoles =
         Collections.synchronizedMap(new WeakHashMap<>());
     private final Map<ST, Boolean> artifactContexts =
@@ -32,7 +33,14 @@ public final class JavaTemplateAssembler
 
     public JavaTemplateAssembler(STGroup templateGroup)
     {
+        this(templateGroup, new JavaTemplateRolePolicy());
+    }
+
+    public JavaTemplateAssembler(
+        STGroup templateGroup, JavaTemplateRolePolicy rolePolicy)
+    {
         this.templateGroup = Objects.requireNonNull(templateGroup, "templateGroup");
+        this.rolePolicy = Objects.requireNonNull(rolePolicy, "rolePolicy");
         this.defaultBindings = JavaSemanticTemplateBindings.loadDefault();
         this.declarationBindings = JavaSemanticTemplateBindings.loadDeclarations();
         this.rootBindings = JavaSemanticTemplateBindings.loadRoots();
@@ -162,65 +170,8 @@ public final class JavaTemplateAssembler
 
     JavaTemplateRole childRole(ST parentTemplate, String propertyName)
     {
-        // Explicit root-child role propagation: the program root names its child
-        // collections, and each carries a fixed role regardless of the parent's
-        // own role.
-        if ("declarationChildren".equals(propertyName))
-        {
-            return JavaTemplateRole.DECLARATION;
-        }
-        if ("executableChildren".equals(propertyName))
-        {
-            return JavaTemplateRole.REFERENCE;
-        }
-        if ("commentChildren".equals(propertyName))
-        {
-            return JavaTemplateRole.REFERENCE;
-        }
-        if ("forms".equals(propertyName)
-            || "fields".equals(propertyName))
-        {
-            return JavaTemplateRole.DECLARATION;
-        }
         JavaTemplateRole parentRole = templateRoles.get(parentTemplate);
-        if (parentRole == JavaTemplateRole.DECLARATION
-            && ("children".equals(propertyName)
-                || "activeChildren".equals(propertyName)
-                || "attributeChildren".equals(propertyName)))
-        {
-            return JavaTemplateRole.DECLARATION;
-        }
-        if ((parentRole == JavaTemplateRole.FPAC_ROOT
-                || parentRole == JavaTemplateRole.FPAC_REFERENCE)
-            && ("children".equals(propertyName)
-                || "activeChildren".equals(propertyName)
-                || "actions".equals(propertyName)
-                || "activeActions".equals(propertyName)
-                || propertyName.endsWith("Bloc")))
-        {
-            // Independent FPac pipeline: children of the FPac program root (and of any
-            // FPac-rendered container) lower under FPAC_REFERENCE, so a shared verb such
-            // as semantic.Verbs.CEntityCallProgram resolves through the FPac override
-            // manifest (call(PROG.class)) and never the frozen COBOL PERFORM binding.
-            return JavaTemplateRole.FPAC_REFERENCE;
-        }
-        if ((parentRole == JavaTemplateRole.FPAC_ROOT
-                || parentRole == JavaTemplateRole.FPAC_REFERENCE)
-            && ("displayItems".equals(propertyName)
-                || "reference".equals(propertyName)
-                || "dividend".equals(propertyName)
-                || "divisor".equals(propertyName)
-                || "result".equals(propertyName)))
-        {
-            // FPac display/divide operands must keep the FPac reference overlay.
-            // Other properties retain the existing shared-reference behavior;
-            // notably a file descriptor used by an action is a reference, while
-            // the same type rendered as an FPac root child is a declaration.
-            return JavaTemplateRole.FPAC_REFERENCE;
-        }
-        // Any other property defaults to REFERENCE; root role is never inherited
-        // implicitly.
-        return JavaTemplateRole.REFERENCE;
+        return rolePolicy.childRole(parentRole, propertyName);
     }
 
     boolean isArtifactContext(ST template)

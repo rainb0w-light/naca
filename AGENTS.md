@@ -34,7 +34,9 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 
 ### Code Quality
 ```bash
-./gradlew :naca-trans:spotlessApply   # Format code
+./gradlew :naca-trans:finalArchitectureCheck  # Enforce recursive-ST4 architecture
+./gradlew :naca-trans:templateJarCheck        # Verify modular STG packaging
+./gradlew :naca-trans:templateJarSmoke        # Load the catalog from the built JAR
 ./gradlew jacocoAggregateReport       # Aggregate coverage report
 ```
 
@@ -75,7 +77,7 @@ The transpiler follows a classic compiler pipeline:
 
 ### Code Generation: One Production Mode
 
-- **Recursive ST4 generation** (`JavaTemplateAssembler` + `TemplateLoader`): declarative manifests bind semantic entity types to templates in `base.stg` and `java/java.stg`.
+- **Recursive ST4 generation** (`JavaTemplateAssembler` + `TemplateLoader`): declarative manifests bind semantic entity types to an explicit, validated catalog of Java template modules.
 - ST4 is unconditional in production. The historical `naca.transpiler.factory` property is accepted only by compatibility tests and cannot select a direct fallback.
 - `CJavaExporter` remains an identifier/export utility and root output sink; it is not an alternative semantic code generator.
 
@@ -91,8 +93,17 @@ The transpiler follows a classic compiler pipeline:
 ### ST4 Template Files
 
 Located in `naca-trans/src/main/resources/templates/`:
-- `base.stg` - Base templates (utility functions, data references, placeholders)
-- `java/java.stg` - Java-specific templates (control flow, data ops, file ops, expressions)
+- `java/common/` - shared references, expressions, and compatibility templates
+- `java/cobol/` - control flow, data/file operations, declarations, roots, and verbs
+- `java/sql/` - embedded SQL templates
+- `java/cics/` - embedded CICS templates
+- `java/bms/` - BMS map and form templates
+- `java/fpac/` - FPac pipeline overrides and roots
+- `java/semantic-*-bindings.properties` - role- and pipeline-specific semantic bindings
+
+`JavaTemplateProfile` declares every module explicitly. `JavaTemplateCatalogFactory`
+loads dependencies, rejects missing resources and duplicate template names, registers
+renderers, and exposes one logical ST group to `JavaTemplateAssembler`.
 
 ## Important Conventions
 

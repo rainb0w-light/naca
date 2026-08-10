@@ -1,0 +1,99 @@
+group semanticExpressions;
+
+fileBufferEntity(entity) ::= "<entity.fileDescriptor>"
+
+emptyEntity(entity) ::= ""
+
+expressionTerminal(value) ::= "<value>"
+
+expressionTerminalEntity(entity) ::= "<entity.term>"
+
+recursiveExprOpposite(operand) ::= "opposite(<operand>)"
+
+recursiveExprOppositeEntity(entity) ::= "opposite(<entity.operand>)"
+
+recursiveExprSum(add, left, right) ::= <<
+<if(add)>add<else>subtract<endif>(<left>,<space()>
+<right>)
+>>
+
+recursiveExprSumEntity(entity) ::= <<
+<if(entity.add)>add<else>subtract<endif>(<entity.left>,<space()>
+<entity.right>)
+>>
+
+recursiveExprProduct(multiply, divide, left, right) ::= <<
+<if(multiply)>multiply<elseif(divide)>divide<else>pow<endif>(<left>,<space()>
+<right>)
+>>
+
+recursiveExprProductEntity(entity) ::= <<
+<if(entity.multiply)>multiply<elseif(entity.divide)>divide<else>pow<endif>(<entity.left>,<space()>
+<entity.right>)
+>>
+
+recursiveConditionChild(condition, parentheses) ::= <<
+<if(parentheses)>(<condition>)<else><condition><endif>
+>>
+
+recursiveCondAnd(left, right) ::= <<
+<left><space()>
+&& <right>
+>>
+
+recursiveCondOr(left, right) ::= <<
+<left><space()>
+|| <right>
+>>
+
+recursiveCondAndEntity(entity) ::= <<
+<if(entity.leftIgnored)><entity.right><elseif(entity.rightIgnored)><entity.left><else><recursiveConditionChild(entity.effectiveLeft, entity.leftGrouped)><space()>
+&& <recursiveConditionChild(entity.effectiveRight, entity.rightGrouped)><endif>
+>>
+
+recursiveCondOrEntity(entity) ::= <<
+<if(entity.leftIgnored)><entity.right><elseif(entity.rightIgnored)><entity.left><else><recursiveConditionChild(entity.effectiveLeft, entity.leftGrouped)><space()>
+|| <recursiveConditionChild(entity.effectiveRight, entity.rightGrouped)><endif>
+>>
+
+recursiveCondNot(operand) ::= "!<operand>"
+
+recursiveCondNotEntity(entity) ::= "!(<entity.operand>)"
+
+recursiveIsFileEOFEntity(entity) ::= "isEof(<entity.fileDescriptor>)"
+
+recursiveCondCompare(greater, orEqual, left, right) ::= <<
+<if(greater)>isGreater<if(orEqual)>OrEqual<endif><else>isLess<if(orEqual)>OrEqual<endif><endif>(<if(left)><left><else>[MissingExpr1]<endif>, <if(right)><right><else>[MissingExpr2]<endif>)
+>>
+
+recursiveCondCompareEntity(entity) ::= <<
+<if(entity.greater)>isGreater<if(entity.orEqual)>OrEqual<endif><else>isLess<if(entity.orEqual)>OrEqual<endif><endif>(<if(entity.left)><entity.left><else>[MissingExpr1]<endif>, <if(entity.right)><entity.right><else>[MissingExpr2]<endif>)
+>>
+
+recursiveCondEquals(different, left, right) ::= <<
+<if(different)>isDifferent<else>isEqual<endif>(<left>, <if(right)><right><else>[UNDEFINED]<endif>)
+>>
+
+recursiveCondEqualsEntity(entity) ::= <<
+<if(entity.different)>isDifferent<else>isEqual<endif>(<entity.left>, <if(entity.right)><entity.right><else>[UNDEFINED]<endif>)
+>>
+
+recursiveCondIsAllEntity(entity) ::= <<
+is<if(entity.opposite)>Not<endif>All(<entity.data>, <entity.token>)
+>>
+
+recursiveNamedCondition(opposite, reference) ::= <<
+<if(opposite)>isNot<else>is<endif>(<reference>)
+>>
+
+recursiveNamedConditionEntity(entity) ::= <<
+<if(entity.opposite)>isNot<else>is<endif>(<entity.conditionReference>)
+>>
+
+recursiveCondIsConstant(opposite, zero, space, lowValue, highValue, reference) ::= <<
+is<if(opposite)>Not<endif><if(zero)>Zero<elseif(space)>Space<elseif(lowValue)>LowValue<elseif(highValue)>HighValue<endif>(<reference>)
+>>
+
+recursiveCondIsConstantEntity(entity) ::= <<
+is<if(entity.opposite)>Not<endif><if(entity.zero)>Zero<elseif(entity.space)>Space<elseif(entity.lowValue)>LowValue<elseif(entity.highValue)>HighValue<endif>(<entity.conditionReference>)
+>>

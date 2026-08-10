@@ -1,0 +1,87 @@
+group procedures;
+
+recursiveProcedureDivisionEntity(entity) ::= <<
+<if(entity.callParameters)>ParamDeclaration callParameters = declare<entity.callParameters:{p | .using(<p>)}>;<endif>
+<if(entity.procedureBloc)>public void procedureDivision() {
+<entity.procedureBloc>
+}<endif>
+>>
+
+recursiveProcedureSectionEntity(entity) ::= <<
+<if(entity.reducedToProcedure)><if(entity.sectionBloc)>Paragraph <entity.formattedName> = new Paragraph(this);
+public void <entity.formattedName>() {
+<entity.sectionBloc>
+}<endif><else><if(entity.sectionBloc)>Section <entity.formattedName> = new Section(this);
+public void <entity.formattedName>() {
+<entity.sectionBloc>
+}<else>Section <entity.formattedName> = new Section(this, false);
+<endif><endif>
+<entity.activeChildren; separator="\n">
+>>
+
+recursiveProcedureEntity(entity) ::= <<
+Paragraph <entity.formattedName> = new Paragraph(this);
+public void <entity.formattedName>() {
+<entity.activeChildren; separator="\n">
+}
+>>
+
+
+recursiveReturnEntity(entity) ::= <<
+<if(entity.stopProgram)>stopRun(<entity.stopAllStackCalls>);<elseif(entity.bonlyLeaveParagraph)>return;<else>exitProgram();<endif>
+>>
+
+
+recursiveCallFunctionEntity(entity) ::= <<
+<if(entity.repetitions)>for (int <entity.repetitionIndex>=0; isLess(<entity.repetitionIndex>, <entity.repetitions>); <entity.repetitionIndex>++) {
+<endif><if(entity.performThrough)>performThrough(<entity.performedProcedureName; format="javaFormattedName">, <entity.performedThroughName; format="javaFormattedName">) ;<elseif(entity.performedProcedureName)>perform(<entity.performedProcedureName; format="javaFormattedName">) ;<else><entity.activeChildren; separator="\n"><endif>
+<if(entity.repetitions)>}<endif>
+>>
+
+
+// Independent FPac DIVIDE / D-operation verb (semantic.Verbs.CEntityDivide, FPAC_REFERENCE override
+// layered over the shared reference manifest by semantic-fpac-bindings.properties, so the frozen
+// COBOL recursiveDivideEntity binding is left untouched). The retired FPac divide backend wrote a
+// single "divide(<what>, <by>).to(<result>) ;" statement, each <ref> being
+// LegacyDataRenderer.renderReference(operand, getLine()); the FPac parser always calls
+// SetDivide(var2, var1, false), so result == what and the rounded/remainder branches the COBOL
+// template supports are never reachable here. The operand reference text is NOT rendered through the
+// assembler reference walk: the still-legacy FPac operand types (a positioned substring wrapping a
+// conversion buffer, a numeric/string literal, an undefined reference) each carry their own
+// reference protocol, and the walk would silently re-route them to the shared COBOL templates and
+// diverge or emit invalid Java. Instead the entity precomputes each operand's reference through the
+// injected renderReference bridge -- the exact call the retired backend made -- and this template
+// only reads those entity.dividendReference/divisorReference/resultReference strings, so the emitted
+// output stays byte-for-byte identical. Inline single-statement form (space before ";"), matching
+// recursiveFPacCallFunctionEntity and the other FPac verb templates.
+
+// Independent FPac GOEND/GOLAST lowering. The retired direct backend emitted
+// exactly "return " + reference.getProcedureName() + " ;".
+
+recursiveSetConstantEntity(entity) ::= <<
+<if(entity.valueAssigned)>moveAll(<entity.valueAssigned>, <entity.variable>) ;<else>move<if(entity.subString)>SubString<endif><if(entity.setToLowValue)>LowValue<elseif(entity.setToHighValue)>HighValue<elseif(entity.setToSpace)>Space<elseif(entity.setToZero)>Zero<elseif(entity.setToTrue)>True<elseif(entity.setToFalse)>False<endif>(<entity.variable><if(entity.subString)>, <entity.subStringRefStart>, <entity.subStringRefLength><endif>) ;<endif>
+>>
+
+recursiveComputeEntity(entity) ::= <<
+<if(entity.onErrorBloc)>if (<entity.calculationDestinations:{d | <recursiveComputeCheck(entity.expression, d)>}; separator=" || ">)
+{
+<entity.onErrorBloc>}<else><entity.calculationDestinations:{d | <recursiveComputeStatement(entity.expression, d)>}; separator="\n"><endif>
+>>
+
+recursiveComputeStatement(expression, destination) ::= "compute<if(destination.rounded)>Rounded<endif>(<expression>, <destination.destination>) ;"
+
+recursiveComputeCheck(expression, destination) ::= "compute<if(destination.rounded)>Rounded<endif>(<expression>, <destination.destination>).isError()"
+
+recursiveDivideEntity(entity) ::= <<
+divide(<entity.dividend>, <entity.divisor>).<if(entity.rounded)>toRounded<else>to<endif>(<entity.result><if(entity.remainder)>, <entity.remainder><endif>) ;
+>>
+
+recursiveMultiplyEntity(entity) ::= <<
+multiply(<entity.value>, <entity.by>)<if(entity.to)>.<if(entity.rounded)>toRounded<else>to<endif>(<entity.to>)<endif> ;
+>>
+
+recursiveSubtractToEntity(entity) ::= <<
+<if(entity.onErrorBloc)>if (<endif><if(entity.destinations)>subtract(<entity.variable><entity.values:{v | , <v>}>)<entity.destinations:{d | .to(<d>)}><elseif(entity.decrementByOne)>dec(<entity.variable>)<elseif(entity.incrementByOne)>inc(<entity.variable>)<else>dec(<entity.values; separator=", ">, <entity.variable>)<endif><if(entity.onErrorBloc)>.isError())
+{
+<entity.onErrorBloc>}<else> ;<endif>
+>>

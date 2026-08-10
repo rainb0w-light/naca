@@ -6,6 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import contract.CodegenRuntimeContract.RuntimeOperation;
 import contract.CodegenRuntimeContract.TemplateRequirement;
+import generate.templates.JavaTemplateCatalog;
+import generate.templates.JavaTemplateCatalogFactory;
+import generate.templates.JavaTemplateProfile;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -87,12 +90,19 @@ class TemplateRuntimeContractTest
     @DisplayName("every literal runtime call emitted by a contracted template is declared")
     void everyTemplateRuntimeCallIsDeclared() throws IOException
     {
-        String source;
-        try (InputStream in = getClass().getResourceAsStream("/templates/java/java.stg"))
+        JavaTemplateCatalog catalog =
+            JavaTemplateCatalogFactory.create(JavaTemplateProfile.full());
+        StringBuilder sources = new StringBuilder();
+        for (String resourcePath : catalog.resourcePaths())
         {
-            assertNotNull(in, "java.stg must be on the test classpath");
-            source = new String(in.readAllBytes(), StandardCharsets.ISO_8859_1);
+            try (InputStream in = getClass().getResourceAsStream(resourcePath))
+            {
+                assertNotNull(in, resourcePath + " must be on the test classpath");
+                sources.append(new String(in.readAllBytes(), StandardCharsets.ISO_8859_1))
+                    .append('\n');
+            }
         }
+        String source = sources.toString();
 
         java.util.Map<String, String> bodies = new java.util.HashMap<>();
         Matcher templates = TEMPLATE.matcher(source);
@@ -109,7 +119,8 @@ class TemplateRuntimeContractTest
         for (TemplateRequirement req : contract.templateRequirements().values())
         {
             String body = bodies.get(req.template());
-            assertNotNull(body, "contracted template not found in java.stg: " + req.template());
+            assertNotNull(body,
+                "contracted template not found in Java template catalog: " + req.template());
             Set<String> emittedMethods = new HashSet<>();
             collectMethods(STATIC_CALL.matcher(body), emittedMethods);
             collectMethods(FLUENT_CALL.matcher(body), emittedMethods);

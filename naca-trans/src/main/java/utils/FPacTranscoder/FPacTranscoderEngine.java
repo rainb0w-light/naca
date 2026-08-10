@@ -96,7 +96,8 @@ public class FPacTranscoderEngine extends TranscoderEngine<CFPacScript, CEntityC
 	@Override
 	protected void exportRoot(CEntityClass eSem, String filename, String csApplication, CTransApplicationGroup grp, boolean bResources)
 	{
-		String rendered = generate.templates.TemplateLoader.getRecursiveAssembler()
+		String rendered = generate.templates.TemplateLoader.getRecursiveAssembler(
+			generate.templates.JavaTemplatePipeline.FPAC)
 			.renderRoot(eSem, generate.templates.recursive.JavaTemplateRole.FPAC_ROOT) ;
 		String outPath = grp.csOutputPath
 			+ (csApplication.equals("") ? "" : csApplication + "/")

@@ -1,0 +1,28 @@
+group fileOperations;
+
+recursiveFileDescriptorEntity(entity) ::= "<entity.formattedName>"
+
+recursiveOpenFileEntity(entity) ::= <<
+<entity.fileDescriptor>.<if(entity.inputMode)>openInput<else><if(entity.outputMode)>openOutput<else><if(entity.inputOutputMode)>openInputOutput<else><if(entity.appendMode)>openExtend<else>open<endif><endif><endif><endif>();
+>>
+
+
+recursiveCloseFileEntity(entity) ::= "<entity.fileDescriptor>.close();"
+
+recursiveWriteFileEntity(entity) ::= <<
+<if(entity.dataFrom)>writeFrom(<if(entity.fileDescriptor)><entity.fileDescriptor><else>[UnknownReference]<endif>, <entity.dataFrom>)<else><if(entity.after)>writeAfter(<if(entity.fileDescriptor)><entity.fileDescriptor><else>[UnknownReference]<endif>, <entity.after>)<else>write(<if(entity.fileDescriptor)><entity.fileDescriptor><else>[UnknownReference]<endif>)<endif><endif>;
+>>
+
+// Independent FPac PUT: the descriptor owns its current output buffer and
+// exposes the zero-argument write operation.
+
+recursiveReadFileEntity(entity) ::= <<
+<if(entity.atEndBloc)>if (<recursiveReadInvocation(entity)>.atEnd()) {
+<entity.atEndBloc>}<if(entity.notAtEndBloc)> else {
+<entity.notAtEndBloc>}<endif><else><if(entity.notAtEndBloc)>if (!<recursiveReadInvocation(entity)>.atEnd()) {
+<entity.notAtEndBloc>}<else><recursiveReadInvocation(entity)> ;<endif><endif>
+>>
+
+recursiveReadInvocation(entity) ::= <<
+<if(entity.dataInto)>readInto(<entity.fileDescriptor>, <entity.dataInto>)<else>read(<entity.fileDescriptor>)<endif>
+>>

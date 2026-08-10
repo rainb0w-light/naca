@@ -1,0 +1,256 @@
+group cics;
+
+// Embedded CICS RETURN (EXEC CICS RETURN END-EXEC). Emits the CESM.returnTrans(...)
+// runtime call. Mirrors CJavaCICSReturn.DoExport exactly: bare RETURN -> no args;
+// a checked TRANSID renders as a program class literal (<const>.class), an unchecked
+// TRANSID as a data reference; COMMAREA/LENGTH append further reference arguments.
+recursiveCICSReturnEntity(entity) ::= <<
+CESM.returnTrans(<if(entity.transID)><if(entity.checked)><entity.transIDConstantValue>.class<else><entity.transID><endif><if(entity.commArea)>, <entity.commArea><if(entity.commLength)>, <entity.commLength><endif><endif><endif>) ;
+>>
+
+// Embedded CICS SYNCPOINT (EXEC CICS SYNCPOINT END-EXEC). Emits the
+// CESM.syncPointCommit()/syncPointRollback() runtime call. Mirrors
+// CJavaCICSSyncPoint.DoExport exactly: the rollback flag selects the rollback
+// call, otherwise the commit call is emitted.
+recursiveCICSSyncPointEntity(entity) ::= <<
+<if(entity.rollback)>CESM.syncPointRollback() ;<else>CESM.syncPointCommit() ;<endif>
+>>
+
+// Embedded CICS XCTL (EXEC CICS XCTL PROGRAM(...) END-EXEC). Emits the
+// CESM.xctl(...).go()/.commarea(...) runtime call. Mirrors CJavaCICSXctl.DoExport
+// exactly: a checked program renders as a program class literal (<const>.class),
+// an unchecked program as a data reference; a COMMAREA appends .commarea(<ref>[, <len>]),
+// otherwise the no-commarea .go() form is emitted.
+recursiveCICSXctlEntity(entity) ::= <<
+CESM.xctl(<if(entity.program)><if(entity.checked)><entity.programConstantValue>.class<else><entity.program><endif><endif>)<if(entity.commArea)>.commarea(<entity.commArea><if(entity.commLength)>, <entity.commLength><endif>)<else>.go()<endif> ;
+>>
+
+// Embedded CICS LINK (EXEC CICS LINK PROGRAM(...) END-EXEC). Emits the
+// CESM.link(...).go()/.commarea(...) runtime call. Mirrors CJavaCICSLink.DoExport
+// exactly: a checked program renders as a program class literal (<const>.class),
+// an unchecked program as a data reference; a COMMAREA appends
+// .commarea(<ref>, <len| -1>, <dataLen| -1>) — LINK always emits all three
+// commarea arguments, defaulting an omitted LENGTH/DATALENGTH to the literal -1 —
+// otherwise the no-commarea .go() form is emitted.
+recursiveCICSLinkEntity(entity) ::= <<
+CESM.link(<if(entity.program)><if(entity.checked)><entity.programConstantValue>.class<else><entity.program><endif><endif>)<if(entity.commArea)>.commarea(<entity.commArea>, <if(entity.commLength)><entity.commLength><else>-1<endif>, <if(entity.commDataLength)><entity.commDataLength><else>-1<endif>)<else>.go()<endif> ;
+>>
+
+// Embedded CICS ABEND (EXEC CICS ABEND [ABCODE(...)] END-EXEC). Emits the
+// CESM.abend(...) runtime call. Mirrors CJavaCICSAbend.DoExport exactly: a bare
+// ABEND renders CESM.abend() ;, an ABCODE(...) argument renders CESM.abend(<ref>) ;.
+recursiveCICSAbendEntity(entity) ::= <<
+CESM.abend(<if(entity.aBCode)><entity.aBCode><endif>) ;
+>>
+
+// Embedded CICS ASKTIME (EXEC CICS ASKTIME END-EXEC). Emits the CESM.askTime()
+// runtime call. Mirrors CJavaCICSAskTime.DoExport exactly: a bare ASKTIME takes no
+// arguments and renders the no-arg call. The template reads only entity.* properties
+// (there are none; the statement carries no operands).
+recursiveCICSAskTimeEntity(entity) ::= <<
+CESM.askTime() ;
+>>
+
+// Embedded CICS ASSIGN (EXEC CICS ASSIGN APPLID(...) [TCTUALENG(...)] END-EXEC).
+// Emits the CESM.assign() runtime call chained with one .<OPTION>(<ref>) builder
+// call per request. Mirrors CJavaCICSAssign.DoExport exactly: each request chains
+// its operand keyword (the raw COBOL option token, e.g. APPLID / TCTUALENG) and
+// its target reference onto the CESM.assign() call, in AddRequest insertion order,
+// terminated by " ;". A statement whose requests are all ignored is filtered by
+// the assembler's active-children selection (entity.ignore()), exactly as the
+// legacy ExportChildren loop did.
+recursiveCICSAssignEntity(entity) ::= <<
+CESM.assign()<entity.requests:{r | .<r.name>(<r.variable>)}> ;
+>>
+
+// Embedded CICS DEQ (EXEC CICS DEQ RESOURCE(...) [LENGTH(...)] END-EXEC). Emits
+// the CESM.deQ(...) runtime call. Mirrors CJavaCICSDeQ.DoExport exactly: the
+// RESOURCE reference always carries the CESM.deQ prefix and the LENGTH reference
+// is appended (preceded by ", ") only when a LENGTH operand is present, terminated
+// by " ;". A bare DEQ renders CESM.deQ(<resource>) ;, a DEQ with LENGTH renders
+// CESM.deQ(<resource>, <length>) ;.
+recursiveCICSDeQEntity(entity) ::= <<
+CESM.deQ(<entity.resource><if(entity.length)>, <entity.length><endif>) ;
+>>
+
+// Embedded CICS ENQ (EXEC CICS ENQ RESOURCE(...) [LENGTH(...)] END-EXEC). Emits
+// the CESM.enQ(...) runtime call. Mirrors CJavaCICSEnQ.DoExport exactly: the
+// RESOURCE reference always carries the CESM.enQ prefix and the LENGTH reference
+// is appended (preceded by ", ") only when a LENGTH operand is present, terminated
+// by " ;". A bare ENQ renders CESM.enQ(<resource>) ;, an ENQ with LENGTH renders
+// CESM.enQ(<resource>, <length>) ;.
+recursiveCICSEnQEntity(entity) ::= <<
+CESM.enQ(<entity.resource><if(entity.length)>, <entity.length><endif>) ;
+>>
+
+// Embedded CICS DELAY (EXEC CICS DELAY [INTERVAL(...) | FOR SECONDS(...)]
+// END-EXEC). Emits the CESM.delayInterval(...)/delaySeconds(...) runtime call.
+// Mirrors CJavaCICSDelay.DoExport exactly: INTERVAL renders
+// CESM.delayInterval(<ref>) ;, SECONDS renders CESM.delaySeconds(<ref>) ;.
+// A bare DELAY with neither operand renders CESM.delay ; (matching the
+// retired backend's fallthrough behavior). Reads only entity.* properties.
+recursiveCICSDelayEntity(entity) ::= <<
+CESM.delay<if(entity.interval)>Interval(<entity.interval>)<elseif(entity.seconds)>Seconds(<entity.seconds>)<else>)<endif> ;
+>>
+
+// Embedded CICS DELETEQ (EXEC CICS DELETEQ TD|TS QUEUE(...) [SYSID(...)]
+// END-EXEC). Emits the CESM.deleteTransiantQueue(...)/deleteTempQueue(...)
+// runtime call, with an optional .sysID(...) builder chain. Mirrors
+// CJavaCICSDeleteQ.DoExport exactly: a persistent queue (TD) renders
+// CESM.deleteTransiantQueue(<name>) and a non-persistent queue (TS) renders
+// CESM.deleteTempQueue(<name>); a SYSID operand chains .sysID(<sysID>).
+// Reads only entity.* properties.
+recursiveCICSDeleteQEntity(entity) ::= <<
+CESM.delete<if(entity.persistent)>TransiantQueue(<entity.name>)<else>TempQueue(<entity.name>)<endif><if(entity.sysID)>.sysID(<entity.sysID>)<endif> ;
+>>
+
+// Embedded CICS ADDRESS (EXEC CICS ADDRESS [CWA(...)] [TCTUA(...)] [TWA(...)]
+// END-EXEC). Emits the CESM.getAddressOfCWA/TCTUA/TWA(...) runtime calls. Mirrors
+// CJavaCICSAddress.DoExport exactly: the first active reference carries the CESM
+// prefix and each further active reference chains onto the previous call (the
+// getAddressOfXxx runtime methods return the CESM manager), terminated by " ;".
+// The common single-reference form (e.g. ONLINE1.cbl:110 TCTUA(ADDRESS OF ...))
+// renders CESM.getAddressOfTCTUA(<ref>) ;.
+recursiveCICSAddressEntity(entity) ::= <<
+<if(entity.cwa)>CESM.getAddressOfCWA(<entity.cwa>)<if(entity.tctua)>.getAddressOfTCTUA(<entity.tctua>)<endif><if(entity.twa)>.getAddressOfTWA(<entity.twa>)<endif> ;<else><if(entity.tctua)>CESM.getAddressOfTCTUA(<entity.tctua>)<if(entity.twa)>.getAddressOfTWA(<entity.twa>)<endif> ;<else><if(entity.twa)>CESM.getAddressOfTWA(<entity.twa>) ;<endif><endif><endif>
+>>
+
+// Embedded CICS RECEIVE MAP (EXEC CICS RECEIVE MAP(...) END-EXEC). Emits the
+// CESM.receiveMap(...).mapSet(...).into(...) runtime call. Mirrors
+// CJavaCICSReceiveMap.DoExport exactly: the MAP name carries the CESM.receiveMap
+// prefix, then MAPSET chains .mapSet(<ref>) and INTO chains .into(<ref>),
+// terminated by " ;". The production-reachable fixture ONLINE1.cbl:163 is
+// MAP('ONLINEF') MAPSET('ONLINE1') INTO(ONLINEFI).
+recursiveCICSReceiveMapEntity(entity) ::= <<
+CESM.receiveMap(<entity.name>).mapSet(<entity.setName>).into(<entity.dataInto>) ;
+>>
+
+// Embedded CICS SEND MAP (EXEC CICS SEND MAP(...) END-EXEC). Emits the
+// CESM.sendMap(...) runtime call plus its option builder chain. Mirrors
+// CJavaCICSSendMap.DoExport exactly: the MAP name carries the CESM.sendMap prefix;
+// MAPSET chains .mapSet(<ref>); FROM chains .dataFrom(<ref>[, <len>]), or
+// .dataOnlyFrom(<ref>[, <len>]) when DATAONLY; CURSOR chains .cursor([<ref>]); then
+// the ACCUM/ALARM/ERASE/FREEKB/PAGING/WAIT flags each chain their no-arg builder call
+// in that order, terminated by " ;". The production-reachable fixtures
+// ONLINE1.cbl:228 (FROM/FREEKB/CURSOR/ERASE) and ONLINE1.cbl:237
+// (FROM/FREEKB/CURSOR/DATAONLY) render the dataFrom and dataOnlyFrom forms.
+recursiveCICSSendMapEntity(entity) ::= <<
+CESM.sendMap(<entity.name>)<if(entity.setName)>.mapSet(<entity.setName>)<endif><if(entity.dataFrom)>.<if(entity.dataOnly)>dataOnlyFrom<else>dataFrom<endif>(<entity.dataFrom><if(entity.dataLength)>, <entity.dataLength><endif>)<endif><if(entity.cursor)>.cursor(<if(entity.cursorValue)><entity.cursorValue><endif>)<endif><if(entity.accum)>.accum()<endif><if(entity.alarm)>.alarm()<endif><if(entity.erase)>.erase()<endif><if(entity.freeKB)>.freeKB()<endif><if(entity.paging)>.paging()<endif><if(entity.wait)>.waitForCompletion()<endif> ;
+>>
+
+// Embedded CICS GETMAIN (EXEC CICS GETMAIN END-EXEC). Emits the CESM.getMain()
+// runtime call. Mirrors CJavaCICSGetMain.DoExport exactly: a fixed string with no
+// operands. Reads only entity.* properties (currently none).
+recursiveCICSGetMainEntity(entity) ::= <<
+CESM.getMain() ;
+>>
+
+// Embedded CICS HANDLE CONDITION (EXEC CICS HANDLE CONDITION COND1(label)
+// COND2(label) ... END-EXEC). Emits one .handleCondition("cond", label) per
+// handled condition entry and one .unhandleCondition("cond") per unhandled
+// condition entry, all chained onto the CESM prefix in parser insertion order
+// and terminated by " ;". Mirrors CJavaCICSHandleCondition.DoExport exactly:
+// handled conditions output first, then unhandled conditions, all on one line.
+// An entity with no handled and no unhandled conditions produces no output
+// (the template if-guard is empty), and the assembler's ignore()-based
+// active-children selection filters it at the parent level.
+recursiveCICSHandleConditionEntity(entity) ::= <<
+<if(entity.handledConditionEntries)>CESM<entity.handledConditionEntries:{e | .handleCondition("<e.condition>", <e.label; format="javaFormattedName">)}><entity.unhandledConditionEntries:{e | .unhandleCondition("<e.condition>")}> ;<elseif(entity.unhandledConditionEntries)>CESM<entity.unhandledConditionEntries:{e | .unhandleCondition("<e.condition>")}> ;<endif>
+>>
+
+// Embedded CICS IGNORE CONDITION (EXEC CICS IGNORE CONDITION COND1 COND2 ...
+// END-EXEC). Emits CESM.ignoreCondition("<cond>") chained calls, one per
+// condition, terminated by " ;". Mirrors CJavaCICSIgnoreCondition.DoExport
+// exactly: all conditions in parser insertion order, all on one line.
+// An entity with no conditions produces no output (the template if-guard
+// is empty), and the assembler's ignore()-based active-children selection
+// filters it at the parent level.
+recursiveCICSIgnoreConditionEntity(entity) ::= <<
+<if(entity.conditions)>CESM<entity.conditions:{c | .ignoreCondition("<c>")}> ;<endif>
+>>
+
+// Embedded CICS INQUIRE (EXEC CICS INQUIRE [PROGRAM(...)] [TRANSACTION(...)]
+// END-EXEC). Emits tools.getProgramForTransID(<trans>, <prog>) when both
+// operands are present; otherwise emits CESM.inquire() with optional
+// .program(<ref>)/.transaction(<ref>) builder chain. Mirrors
+// CJavaCICSInquire.DoExport exactly: the Branch A form (both transaction and
+// program non-null) emits the tools helper; Branch B (one or both absent) emits
+// the CESM builder chain. An entity with neither operand renders bare
+// "CESM.inquire() ;". The template reads only entity.* properties.
+recursiveCICSInquireEntity(entity) ::= <<
+<if(entity.transaction)><if(entity.program)>tools.getProgramForTransID(<entity.transaction>, <entity.program>) ;<else>CESM.inquire().transaction(<entity.transaction>) ;<endif><else>CESM.inquire()<if(entity.program)>.program(<entity.program>)<endif> ;<endif>
+>>
+
+// Embedded CICS REWRITE FILE/DATASET. Stage 1 resolves NAME, FROM and LENGTH
+// references; this template only selects the runtime operation and formats its
+// optional fluent FROM clause.
+recursiveCICSReWriteEntity(entity) ::= <<
+CESM.reWrite<if(entity.writeToDataSet)>DataSet<else>File<endif>(<entity.name>)<if(entity.dataFrom)>.from(<entity.dataFrom><if(entity.dataLength)>, <entity.dataLength><endif>)<endif> ;
+>>
+
+// Embedded CICS READ / READPREV / READNEXT. All operands are fully lowered in
+// Stage 1; rendering selects the runtime entry point and formats fluent options.
+// The Pub2000 subtemplates preserve the retired backend's application-specific
+// compatibility hooks. They are intentionally outside the Naca runtime contract.
+recursiveCICSReadEntity(entity) ::= <<
+<if(entity.readCode)><recursiveCICSReadCode(entity)><elseif(entity.readCodeMedia)><recursiveCICSReadCodeMedia(entity)><elseif(entity.readMessage)><recursiveCICSReadMessage(entity)><elseif(entity.readField)><recursiveCICSReadField(entity)><elseif(entity.readFieldPrevious)><recursiveCICSReadFieldPrevious(entity)><elseif(entity.readFieldNext)><recursiveCICSReadFieldNext(entity)><else>CESM.read<if(entity.previous)>Previous<elseif(entity.next)>Next<endif><if(entity.readToDataSet)>DataSet<else>File<endif>(<entity.name>).into(<entity.dataInto>)<if(entity.dataLength)>.length(<entity.dataLength>)<endif><if(entity.recIDField)>.recIDField(<entity.recIDField>)<endif><if(entity.keyLength)>.keyLength(<entity.keyLength>)<endif><if(entity.equal)>.equal()<endif><if(entity.update)>.update()<endif> ;<endif>
+>>
+
+recursiveCICSReadCode(entity) ::= "Pub2000Routines.readCode(getProgramManager(), <entity.dataIntoOwner>) ;"
+recursiveCICSReadCodeMedia(entity) ::= "Pub2000Routines.readCodeMedia(getProgramManager(), <entity.dataIntoOwner>) ;"
+recursiveCICSReadMessage(entity) ::= "Pub2000Routines.readMessage(getProgramManager(), <entity.dataIntoOwner>) ;"
+recursiveCICSReadField(entity) ::= "Pub2000Routines.readFieldInMap(getProgramManager(), <entity.dataIntoOwner>, <entity.recIDField>);"
+recursiveCICSReadFieldPrevious(entity) ::= "Pub2000Routines.readFieldInMapPrevious(getProgramManager(), <entity.dataIntoOwner>, <entity.recIDField>);"
+recursiveCICSReadFieldNext(entity) ::= "Pub2000Routines.readFieldInMapNext(getProgramManager(), <entity.dataIntoOwner>, <entity.recIDField>);"
+
+// Embedded CICS READQ TD/TS. Stage 1 validates option combinations and resolves
+// all references; the template only selects the queue family and fluent shape.
+recursiveCICSReadQEntity(entity) ::= <<
+CESM.read<if(entity.persistent)>Transiant<else>Temp<endif>Queue(<entity.queueName>)<if(entity.dataRef)><if(entity.item)>.itemInto(<entity.item>, <entity.dataRef><if(entity.dataLength)>, <entity.dataLength><endif>)<else>.nextInto(<entity.dataRef><if(entity.dataLength)>, <entity.dataLength><endif>)<endif><endif><if(entity.numItem)>.numItem(<entity.numItem>)<endif> ;
+>>
+
+// Embedded CICS RETRIEVE INTO/SET. The semantic entity retains the mode and
+// fully resolved target/length; ST4 only selects and formats the runtime call.
+recursiveCICSRetrieveEntity(entity) ::= <<
+CESM.retrieve<if(entity.pointer)>Set<else>Into<endif>(<entity.refInto><if(entity.dataLength)>, <entity.dataLength><endif>) ;
+>>
+
+// Embedded CICS SET TDQUEUE. Stage 1 resolves the queue reference and OPEN /
+// CLOSED state; ST4 only selects and formats the runtime operation.
+recursiveCICSSetTDQueueEntity(entity) ::= <<
+CESM.setTDQueue<if(entity.open)>Open<else>Closed<endif>(<entity.queueName>) ;
+>>
+
+// Embedded CICS START. Stage 1 resolves TRANSID and all optional operands; ST4
+// only selects the verified class-literal form and formats the fluent call.
+recursiveCICSStartEntity(entity) ::= <<
+CESM.start(<if(entity.verified)><entity.transIDConstantValue>.class<else><entity.transID><endif>)<if(entity.interval)>.interval(<entity.interval>)<elseif(entity.time)>.time(<entity.time>)<endif><if(entity.termID)>.termID(<entity.termID>)<endif><if(entity.sysID)>.sysID(<entity.sysID>)<endif><if(entity.dataFrom)>.dataFrom(<entity.dataFrom><if(entity.dataLength)>, <entity.dataLength><endif>)<endif>.doStart() ;
+>>
+
+recursiveCICSStartBrowseEntity(entity) ::= <<
+CESM.startBrowseDataSet(<entity.dataSet>)<if(entity.recIDField)>.recIDField(<entity.recIDField>)<endif><if(entity.keyLength)>.keyLength(<entity.keyLength>)<endif><if(entity.GTEQ)>.gTEQ()<endif> ;
+>>
+
+recursiveCICSWriteEntity(entity) ::= <<
+<if(entity.writeStatistics)><recursiveCICSWriteStatistics(entity)><else>CESM.write<if(entity.writeToDataSet)>DataSet<else>File<endif>(<entity.name>).from(<entity.dataFrom><if(entity.dataLength)>, <entity.dataLength><endif>)<if(entity.recIDField)>.recIDField(<entity.recIDField>)<endif><if(entity.keyLength)>.keyLength(<entity.keyLength>)<endif> ;<endif>
+>>
+
+recursiveCICSWriteStatistics(entity) ::= "Pub2000Routines.writeStatistics(getProgramManager(), <entity.dataFromOwner>) ;"
+
+recursiveCICSWriteQEntity(entity) ::= <<
+CESM.write<if(entity.persistent)>Transiant<else>Temp<endif>Queue(<entity.queueName><if(entity.rewrite)>, <entity.item><endif>).from(<entity.dataRef><if(entity.dataLength)>, <entity.dataLength><endif>)<if(entity.itemOutput)>.item(<entity.item>)<endif><if(entity.numItem)>.numItem(<entity.numItem>)<endif><if(entity.main)>.main()<elseif(entity.auxiliary)>.auxiliary()<endif><if(entity.sysID)>.sysID(<entity.sysID>)<endif> ;
+>>
+
+// Embedded CICS HANDLE AID (EXEC CICS HANDLE AID ENTER(label) PF1(label) ...
+// ANYKEY(label) END-EXEC). Emits one CESM.handleAID(<cond>, <label>) per
+// handled AID entry and one CESM.unhandleAID(<cond>) per unhandled AID entry.
+// Mirrors CJavaCICSHandleAID.DoExport exactly: handled AIDs output first (in
+// parser insertion order), then unhandled AIDs, each on its own line and
+// terminated by " ;". An entity with no handled and no unhandled AIDs is
+// filtered by the assembler's ignore()-based active-children selection (the
+// template receives an empty iteration, producing no output).
+recursiveCICSHandleAIDEntity(entity) ::= <<
+<entity.handledAIDEntries:{entry | CESM.handleAID("<entry.condition>", <entry.label; format="javaFormattedName">) ;}; separator="\n">
+<if(entity.handledAIDEntries)><if(entity.unhandledAIDEntries)>
+<endif><endif><entity.unhandledAIDEntries:{entry | CESM.unhandleAID("<entry.condition>") ;}; separator="\n">
+>>

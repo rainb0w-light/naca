@@ -117,7 +117,8 @@ public final class BmsJavaEntities
 		{
 			return "";
 		}
-		return generate.templates.TemplateLoader.getRecursiveAssembler()
+		return generate.templates.TemplateLoader.getRecursiveAssembler(
+			generate.templates.JavaTemplatePipeline.BMS)
 			.template("bmsLocalizedStringDeclaration")
 			.add("display", displayName)
 			.add("texts", text.getTexts())

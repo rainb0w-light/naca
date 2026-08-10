@@ -67,7 +67,8 @@ class LegacyGenerationArchitectureTest
         Path stRoot = directRoot.resolve("st");
         Path recursiveJavaRoot = root.resolve(
             "src/main/java/generate/templates/recursive/java");
-        String javaTemplates = read(root.resolve("src/main/resources/templates/java/java.stg"));
+        String javaTemplates = readAllTemplates(
+            root.resolve("src/main/resources/templates/java"));
 
         assertAtMost(
             countJavaFilesExcluding(directRoot, stRoot),
@@ -219,6 +220,18 @@ class LegacyGenerationArchitectureTest
     private static String read(Path path) throws IOException
     {
         return new String(Files.readAllBytes(path), StandardCharsets.ISO_8859_1);
+    }
+
+    private static String readAllTemplates(Path root) throws IOException
+    {
+        StringBuilder templates = new StringBuilder();
+        try (Stream<Path> files = Files.walk(root))
+        {
+            files.filter(path -> path.toString().endsWith(".stg"))
+                .sorted()
+                .forEach(path -> templates.append(readUnchecked(path)).append('\n'));
+        }
+        return templates.toString();
     }
 
     private static int occurrences(String value, String needle)

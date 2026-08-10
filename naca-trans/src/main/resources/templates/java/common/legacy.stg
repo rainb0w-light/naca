@@ -1,0 +1,331 @@
+group legacy;
+
+// ============================================================================
+//                           CONTROL FLOW TEMPLATES
+// ============================================================================
+
+condition(entity) ::= <<
+<if(entity.conditionIgnored)><if(entity.shouldRenderElseBlock)>
+{
+<entity.elseBloc>
+}
+<endif><else>
+if (<entity.condition>)
+{
+<entity.thenBloc>}<if(entity.elseBloc)>
+else
+{
+<entity.elseBloc>}<endif><endif>
+>>
+
+loop(entity) ::= <<
+<if(entity.doBefore)>do
+{
+<entity>} while (<entity.whileCondition>);<else>
+while (<entity.whileCondition>)
+{
+<entity>}<endif>
+>>
+
+loopIter(entity) ::= <<
+<if(entity.testBefore)><entity.iterations:{iteration | <iterationOpen(iteration)>}; separator="\n"><entity><entity.closingIterations:{iteration | <iterationClose(iteration)>}; separator="\n"><else><iterationInitialize(entity.iterations.first)>
+while (true)
+{
+<entity>if (<entity.iterations.first.condition>)
+{
+<iterationUpdate(entity.iterations.first)>}
+else
+{
+break;
+}
+}<endif>
+>>
+
+iterationInitialize(iteration) ::= <<
+move(<iteration.initialValue>, <iteration.variable>);
+>>
+
+iterationOpen(iteration) ::= <<
+<iterationInitialize(iteration)>
+while (<iteration.condition>)
+{
+>>
+
+iterationUpdate(iteration) ::= <<
+<if(iteration.incrementByOne)>inc(<iteration.variable>);
+<else><if(iteration.decrementByOne)>dec(<iteration.variable>);
+<else><if(iteration.step)>inc(<iteration.step>, <iteration.variable>);
+<endif><endif><endif>
+>>
+
+iterationClose(iteration) ::= <<
+<iterationUpdate(iteration)>}
+>>
+
+case(entity) ::= <<
+<if(entity.otherwise)><else>if (<entity.condition>)<endif>
+{
+<entity>}
+>>
+
+caseWhen(whenEntity) ::= <<
+case <whenEntity.value>:
+{
+<whenEntity.block>
+break;
+}
+>>
+
+// ============================================================================
+//                           DATA OPERATION TEMPLATES
+// ============================================================================
+
+assign(entity) ::= <<
+<if(entity.moveCorresponding)>moveCorresponding(<else><if(entity.fillAll)>moveAll(<else>move(<endif><endif><entity.value>, <entity.destinations:{d | <d>}; separator=", ">);
+>>
+
+addTo(entity) ::= <<
+<if(entity.singleValue)><if(entity.increment)>inc(<entity.singleDestination>);<else><if(entity.decrement)>dec(<entity.singleDestination>);<else>inc(<entity.singleValue>, <entity.singleDestination>);<endif><endif><else>add(<entity.values:{v | <v>}; separator=", ">).<if(entity.rounded)>toRounded<else>to<endif>(<entity.destinations:{d | <d>}; separator=", ">);<endif>
+>>
+
+subtractTo(entity) ::= <<
+subtract(<entity.values:{v | <v>}; separator=", ">).<if(entity.rounded)>toRounded<else>to<endif>(<entity.destinations:{d | <d>}; separator=", ">);
+>>
+
+multiply(entity) ::= <<
+multiply(<entity.value>, <entity.destination>).<if(entity.rounded)>toRounded<else>to<endif>(<entity.result>);
+>>
+
+divide(entity) ::= <<
+divide(<entity.dividend>, <entity.divisor>).<if(entity.rounded)>toRounded<else>to<endif>(<entity.result><if(entity.remainder)>, <entity.remainder><endif>);
+>>
+
+compute(entity) ::= <<
+<if(entity.onErrorBloc)>if (<entity.calculationDestinations:{d | <computeCheck(entity.expression, d)>}; separator=" || ">)
+{
+<entity.onErrorBloc>}<else><entity.calculationDestinations:{d | <computeStatement(entity.expression, d)>}; separator="\n"><endif>
+>>
+
+computeStatement(expression, destination) ::= <<
+compute<if(destination.rounded)>Rounded<endif>(<expression>, <destination.destination>);
+>>
+
+computeCheck(expression, destination) ::= <<
+compute<if(destination.rounded)>Rounded<endif>(<expression>, <destination.destination>).isError()
+>>
+
+assignWithAccessor(entity) ::= <<
+<entity.accessorInvocation>;
+>>
+
+// ============================================================================
+//                           FILE OPERATION TEMPLATES
+// ============================================================================
+
+readFile(entity) ::= <<
+<if(entity.atEndBloc)>if (<readInvocation(entity)>.atEnd()) {
+<entity.atEndBloc>}<if(entity.notAtEndBloc)> else {
+<entity.notAtEndBloc>}<endif><else><if(entity.notAtEndBloc)>if (!<readInvocation(entity)>.atEnd()) {
+<entity.notAtEndBloc>}<else><readInvocation(entity)> ;<endif><endif>
+>>
+
+readInvocation(entity) ::= <<
+<if(entity.dataInto)>readInto(<entity.fileDescriptor>, <entity.dataInto>)<else>read(<entity.fileDescriptor>)<endif>
+>>
+
+writeFile(entity) ::= <<
+<if(entity.dataFrom)>writeFrom(<entity.fileDescriptor>, <entity.dataFrom>)<else><if(entity.after)>writeAfter(<entity.fileDescriptor>, <entity.after>)<else>write(<entity.fileDescriptor>)<endif><endif>;
+>>
+
+openFile(entity) ::= <<
+<entity.fileDescriptor>.<if(entity.inputMode)>openInput<else><if(entity.outputMode)>openOutput<else><if(entity.inputOutputMode)>openInputOutput<else><if(entity.appendMode)>openExtend<else>open<endif><endif><endif><endif>();
+>>
+
+closeFile(entity) ::= <<
+<entity.fileDescriptor>.close();
+>>
+
+// ============================================================================
+//                           CONTROL STATEMENTS
+// ============================================================================
+
+gotoStatement(entity) ::= <<
+goto <entity.reference>;
+>>
+
+callFunction(entity) ::= <<
+<entity.reference>.execute(<entity.parameters:{p | <p>}; separator=", ">);
+>>
+
+callProgram(entity) ::= <<
+<if(entity.hasOnErrorBloc)>if (<endif>call(<if(entity.literalProgramReference)><if(entity.checked)><entity.literalProgramName; format="javaClassName">.class<else>"<entity.literalProgramName; format="javaClassName">"<endif><else><entity.programReference><endif>)<entity.callParameters:{p | .<p.method>(<p.reference>)}>.<if(entity.hasOnErrorBloc)>executeCallSafe()) {
+<entity.onErrorBloc>}<else>executeCall();<endif>
+>>
+
+display(entity) ::= <<
+<if(entity.console)>console().display<elseif(entity.environment)>displayEnv<else>display<endif>(<entity.displayItems:{v | <if(v.valueNeeded)>val(<v.reference>)<else><v.reference><endif>}; separator=" + ">);
+>>
+
+initialize(entity) ::= <<
+initialize(<entity.data>);
+>>
+
+returnStatement(entity) ::= <<
+return;
+>>
+
+stopRun(entity) ::= <<
+stopRun(<entity.stopAllStackCalls>);
+>>
+
+exitProgram(entity) ::= <<
+exitProgram();
+>>
+
+// ============================================================================
+//                           ADDITIONAL VERB TEMPLATES
+// ============================================================================
+
+count(entity) ::= <<
+count(<entity.values:{v | <v>}; separator=", ">);
+>>
+
+exec(entity) ::= <<
+<entity.code>;
+>>
+
+inspectConverting(entity) ::= <<
+inspect(<entity.variable>).converting(<entity.converting>);
+>>
+
+nextSentence(entity) ::= <<
+nextSentence();
+>>
+
+parseString(entity) ::= <<
+parse(<entity.source>, <entity.delimiter>);
+>>
+
+replace(entity) ::= <<
+replace(<entity.values:{v | <v>}; separator=", ">);
+>>
+
+rewriteFile(entity) ::= <<
+rewrite(<entity.file>);
+>>
+
+routineEmulationCall(entity) ::= <<
+routineEmulation("<entity.name>");
+>>
+
+search(entity) ::= <<
+search(<entity.table>, <entity.condition>);
+>>
+
+setConstant(entity) ::= <<
+setConstant(<entity.value>, <entity.target>);
+>>
+
+sort(entity) ::= <<
+sort(<entity.file>);
+>>
+
+sortRelease(entity) ::= <<
+sortRelease(<entity.file>);
+>>
+
+sortReturn(entity) ::= <<
+sortReturn();
+>>
+
+stringConcat(entity) ::= <<
+<if(entity.hasOverflowHandler)>if (<endif><entity.concatItems:{item | <stringConcatItem(item)>}; separator=""><if(entity.startIndex)>withPointer(<entity.startIndex>).<endif>into(<entity.destination>)<if(entity.hasOverflowHandler)>.failed())
+{
+<entity>}<else>;<endif>
+>>
+
+stringConcatItem(item) ::= <<
+<if(item.delimiter)>concatDelimitedBy(<item.value>, <item.delimiter>).<else>concat(<item.value>).<endif>
+>>
+
+switchCase(entity) ::= <<
+<entity.branches:{branch | <switchBranch(branch)>}; separator="\n">
+>>
+
+switchBranch(branch) ::= <<
+<if(branch.otherwise)><if(branch.continuation)>else
+<endif><else><if(branch.continuation)>else <endif>if (<branch.condition>)
+<endif>{
+<branch>}
+>>
+
+// ============================================================================
+//                           DATA STRUCTURE TEMPLATES
+// ============================================================================
+
+structure(entity) ::= <<
+Var <entity.formattedName> = declare.level(<entity.level>)<if(entity.redefines)>.redefines(<entity.redefines>)<endif><if(entity.occurs)>.occurs(<entity.occurs>)<endif><if(entity.type)>.<entity.type>(<entity.length><if(entity.decimals)>, <entity.decimals><endif>)<endif><if(entity.comp3)>.comp3()<endif><if(entity.comp5)>.comp5()<elseif(entity.comp)>.comp()<endif><if(entity.value)>.value(<entity.value>)<endif><if(entity.filler)>.filler()<else>.var()<endif>;
+>>
+
+dataSection(entity) ::= <<
+// <entity.sectionName> Section
+>>
+
+// ============================================================================
+//                           EXPRESSION TEMPLATES
+// Note: Expression templates use boolean flags pushed from controller
+// instead of value comparison (ST4 does not support <if(a == "x")>)
+// ============================================================================
+
+exprSum(entity) ::= <<
+<if(entity.isAdd)>add(<entity.left>, <entity.right>)<else>subtract(<entity.left>, <entity.right>)<endif>
+>>
+
+exprProd(entity) ::= <<
+<if(entity.isMultiply)>multiply(<entity.left>, <entity.right>)<else>divide(<entity.left>, <entity.right>)<endif>
+>>
+
+intrinsicFunction(entity) ::= <<
+CobolIntrinsicFunctions.<entity.runtimeName>(<entity.arguments:{argument | <argument>}; separator=", ">)
+>>
+
+condOr(entity) ::= <<
+(<entity.left> || <entity.right>)
+>>
+
+condAnd(entity) ::= <<
+(<entity.left> && <entity.right>)
+>>
+
+condNot(entity) ::= <<
+!<entity.operand>
+>>
+
+condCompare(entity) ::= <<
+(<entity.left> <entity.operator> <entity.right>)
+>>
+
+condEquals(entity) ::= <<
+<entity.left>.equals(<entity.right>)
+>>
+
+// ==================== Utility Templates (merged from base.stg) ====================
+
+nullCheck(value, defaultValue) ::= <<
+<if(value)><value><else><defaultValue><endif>
+>>
+
+formatName(name) ::= <<
+<name>
+>>
+
+dataRef(entity) ::= <<
+<if(entity.ofQualifier)><entity.ofQualifier.formattedName>.<endif><entity.formattedName>
+>>
+
+continueStatement(entity) ::= "continue;"
+breakStatement(entity) ::= "break;"
+
+// ============================================================================
+//                     RECURSIVE ST MIGRATION TEMPLATES
+// ============================================================================

@@ -1,34 +1,45 @@
 package generate.templates;
 
 import org.stringtemplate.v4.ST;
-import org.stringtemplate.v4.STGroup;
-import org.stringtemplate.v4.STGroupFile;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
-import java.net.URL;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TemplateValidationTest {
 
     @Test
-    @DisplayName("Validate java.stg template group loads without errors")
+    @DisplayName("Validate the full Java template catalog loads without errors")
     void testJavaGroupLoads() {
-        URL templateResource = TemplateValidationTest.class.getResource("/templates/java/java.stg");
-        assertNotNull(templateResource, "Template file not found: /templates/java/java.stg");
-        
-        STGroup group = new STGroupFile(templateResource, "UTF-8", '<', '>');
-        assertNotNull(group, "Failed to load template group");
-        
-        System.out.println("\n=== Defined Templates in java.stg ===");
-        group.getTemplateNames().forEach(name -> System.out.println("  - " + name));
+        JavaTemplateCatalog catalog =
+            JavaTemplateCatalogFactory.create(JavaTemplateProfile.full());
+        assertEquals(411, catalog.templateNames().size(),
+            "Compiled template inventory (including anonymous subtemplates) changed");
+        assertEquals(List.of(
+            "/templates/java/common/legacy.stg",
+            "/templates/java/common/common.stg",
+            "/templates/java/cobol/data-operations.stg",
+            "/templates/java/common/semantic-expressions.stg",
+            "/templates/java/cobol/control-flow.stg",
+            "/templates/java/cobol/declarations.stg",
+            "/templates/java/cobol/file-operations.stg",
+            "/templates/java/cobol/procedures.stg",
+            "/templates/java/cobol/verbs.stg",
+            "/templates/java/cobol/roots.stg",
+            "/templates/java/bms/references.stg",
+            "/templates/java/bms/declarations.stg",
+            "/templates/java/bms/actions.stg",
+            "/templates/java/bms/roots.stg",
+            "/templates/java/cics/cics.stg",
+            "/templates/java/fpac/fpac.stg",
+            "/templates/java/sql/sql.stg"), catalog.resourcePaths());
     }
 
     @Test
     @DisplayName("Validate all templates compile without errors")
     void testAllTemplatesCompile() {
-        URL templateResource = TemplateValidationTest.class.getResource("/templates/java/java.stg");
-        STGroup group = new STGroupFile(templateResource, "UTF-8", '<', '>');
+        JavaTemplateCatalog catalog =
+            JavaTemplateCatalogFactory.create(JavaTemplateProfile.full());
         
         List<String> templateNames = List.of(
             "condition", "loop", "loopIter", "case", "caseWhen",
@@ -61,7 +72,7 @@ public class TemplateValidationTest {
         System.out.println("\n=== Template Compilation Check ===");
         for (String name : templateNames) {
             try {
-                ST template = group.getInstanceOf(name);
+                ST template = catalog.requireTemplate(name);
                 if (template == null) {
                     System.out.println("  WARNING: Template not found: " + name);
                 } else {
@@ -72,18 +83,5 @@ public class TemplateValidationTest {
                 fail("Template '" + name + "' failed: " + e.getMessage());
             }
         }
-    }
-
-    @Test
-    @DisplayName("Validate base.stg template group")
-    void testBaseGroupLoads() {
-        URL templateResource = TemplateValidationTest.class.getResource("/templates/base.stg");
-        assertNotNull(templateResource, "Template file not found: /templates/base.stg");
-        
-        STGroup group = new STGroupFile(templateResource, "UTF-8", '<', '>');
-        assertNotNull(group, "Failed to load base template group");
-        
-        System.out.println("\n=== Defined Templates in base.stg ===");
-        group.getTemplateNames().forEach(name -> System.out.println("  - " + name));
     }
 }

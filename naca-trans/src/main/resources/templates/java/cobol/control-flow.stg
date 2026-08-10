@@ -1,0 +1,140 @@
+group controlFlow;
+
+recursiveContinue(entity) ::= "// CONTINUE "
+
+recursiveBreak(entity) ::= "break;"
+
+recursiveBlock(statements) ::= <<
+<statements; separator="\n">
+>>
+
+recursiveBlockEntity(entity) ::= <<
+<entity.activeActions; separator="\n">
+>>
+
+recursiveIf(conditionMissing, conditionIgnored, renderElseOnly, condition, thenBlock, elseBlock) ::= <<
+<if(conditionMissing)><else><if(conditionIgnored)><if(renderElseOnly)>{
+<elseBlock>
+}<endif><else>if (<condition>) {
+<thenBlock>
+}<if(elseBlock)>
+else {
+<elseBlock>
+}<endif><endif><endif>
+>>
+
+recursiveIfEntity(entity) ::= <<
+<if(entity.conditionMissing)><else><if(entity.conditionIgnored)><if(entity.elseOnly)>{
+<entity.elseBloc>
+}<endif><else>if (<entity.condition>) {
+<entity.thenBloc>
+}<if(entity.elseBloc)>
+else {
+<entity.elseBloc>
+}<endif><endif><endif>
+>>
+
+recursiveLoopWhile(doBefore, condition, body) ::= <<
+<if(doBefore)>do {
+<body; separator="\n">
+}
+while (<condition>) ;<else>while (<condition>) {
+<body; separator="\n">
+}<endif>
+>>
+
+recursiveLoopWhileEntity(entity) ::= <<
+<if(entity.doBefore)>do {
+<entity.activeChildren; separator="\n">
+}
+while (<entity.whileCondition>) ;<else>while (<entity.whileCondition>) {
+<entity.activeChildren; separator="\n">
+}<endif>
+>>
+
+recursiveIterationOpen(initialValue, variable, condition, step, incrementByOne) ::= <<
+for (move(<initialValue>, <variable>); <condition>; <if(step)>inc(<step>, <variable>)<elseif(incrementByOne)>inc(<variable>)<else>dec(<variable>)<endif>) {
+>>
+
+recursiveIterationClose() ::= "}"
+
+recursiveIterationAfterUpdate(variable, step, incrementByOne, decrementByOne) ::= <<
+<if(step)>add(<step>).to(<variable>) ;<elseif(incrementByOne)>inc(<variable>) ;<elseif(decrementByOne)>dec(<variable>) ;<else><variable>) ;<endif>
+>>
+
+recursiveLoopIterBefore(openings, body, closings) ::= <<
+<openings; separator="\n">
+<body; separator="\n">
+<closings; separator="\n">
+>>
+
+recursiveLoopIterAfter(initialValue, variable, condition, body, update) ::= <<
+move(<initialValue>, <variable>);
+while (true) {
+<body; separator="\n">
+if (<condition>) {
+<update>
+}
+else {
+break ;
+}
+}
+>>
+
+recursiveIterationModelOpen(iteration) ::= <<
+for (move(<iteration.initialValue>, <iteration.variable>); <iteration.condition>; <if(iteration.step)>inc(<iteration.step>, <iteration.variable>)<elseif(iteration.incrementByOne)>inc(<iteration.variable>)<else>dec(<iteration.variable>)<endif>) {
+>>
+
+recursiveIterationModelAfterUpdate(iteration) ::= <<
+<if(iteration.step)>add(<iteration.step>).to(<iteration.variable>) ;<elseif(iteration.incrementByOne)>inc(<iteration.variable>) ;<elseif(iteration.decrementByOne)>dec(<iteration.variable>) ;<else><iteration.variable>) ;<endif>
+>>
+
+recursiveLoopIterationAfter(iteration, body) ::= <<
+move(<iteration.initialValue>, <iteration.variable>);
+while (true) {
+<body; separator="\n">
+if (<iteration.condition>) {
+<recursiveIterationModelAfterUpdate(iteration)>
+}
+else {
+break ;
+}
+}
+>>
+
+recursiveLoopIteration(entity) ::= <<
+<if(entity.testBefore)><entity.iterations:{iteration | <recursiveIterationModelOpen(iteration)>}; separator="\n">
+<entity.activeChildren; separator="\n">
+<entity.iterations:{iteration | <recursiveIterationClose()>}; separator="\n"><else><recursiveLoopIterationAfter(entity.iterations.first, entity.activeChildren)><endif>
+>>
+
+recursiveSwitchBranch(continuation, otherwise, condition, body) ::= <<
+<if(otherwise)><if(continuation)>else<space()>
+<endif><else><if(continuation)>else <endif>if (<condition>)
+<endif>{
+<body; separator="\n">
+}
+>>
+
+recursiveSwitchCase(branches) ::= <<
+<branches; separator="\n">
+>>
+
+recursiveSwitchBranchEntity(branch) ::= <<
+<if(branch.otherwise)><if(branch.continuation)>else<space()>
+<endif><else><if(branch.continuation)>else <endif>if (<branch.condition>)
+<endif>{
+<branch.body; separator="\n">
+}
+>>
+
+recursiveSwitchCaseEntity(entity) ::= <<
+<entity.branches:{branch | <recursiveSwitchBranchEntity(branch)>}; separator="\n">
+>>
+
+recursiveCaseEntity(entity) ::= <<
+<if(entity.otherwise)><else>if (<entity.condition>)<endif>
+{
+<entity.activeChildren; separator="\n">
+}
+>>

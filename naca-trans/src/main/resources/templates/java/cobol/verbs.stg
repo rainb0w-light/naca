@@ -1,0 +1,126 @@
+group verbs;
+
+recursiveAcceptEntity(entity) ::= <<
+<if(entity.fromEnvironmentValue)>acceptEnv(<entity.variable>);<elseif(entity.fromInput)>accept(<entity.variable>);<else>move(<if(entity.fromDate)>getDateBatch()<else><if(entity.fromDay)>getDayBatch()<else><if(entity.fromDayOfWeek)>getDayOfWeekBatch()<else><if(entity.fromTime)>getTimeBatch()<else><entity.source><endif><endif><endif><endif>, <entity.variable>);<endif>
+>>
+
+recursiveCallProgramEntity(entity) ::= <<
+<if(entity.onErrorBloc)>if (<endif>call(<if(entity.literalProgramReference)><if(entity.checked)><entity.literalProgramName; format="javaClassName">.class<else>"<entity.literalProgramName; format="javaClassName">"<endif><else><entity.programReference><endif>)<entity.callParameters:{p | .<p.method>(<p.reference>)}>.<if(entity.onErrorBloc)>executeCallSafe()) {
+<entity.onErrorBloc>}<else>executeCall();<endif>
+>>
+
+// FPac lowering of semantic.Verbs.CEntityCallProgram (bound by semantic-fpac-bindings.properties,
+// role FPAC_REFERENCE). Identical in SHAPE to the frozen COBOL recursiveCallProgramEntity above
+// — call(<program>).using(...).executeCall(); — but the checked literal CALL "PROG" references
+// the program class with the fpacClassName (UPPERCASE) format instead of COBOL's title-case
+// javaClassName, because the FPac pipeline names generated program classes UPPERCASE
+// (CFPacJavaClass.DoExport: GetName().replace('-','_').toUpperCase()). So an FPac CALL "SUBPROG"
+// lowers to call(SUBPROG.class), matching "public class SUBPROG extends FPacProgram"; COBOL's
+// call(Subprog.class) would not compile here. onErrorBloc is rendered for totality, though the
+// FPac parser (CFPacCall) never calls SetOnErrorBloc, so executeCallSafe is unreachable in FPac.
+
+// FPac program root (bound by semantic-fpac-root-bindings.properties, role FPAC_ROOT). The
+// independent FPac pipeline wraps the whole program in a single class extending
+// nacaLib.fpacPrgEnv.FPacProgram, named UPPERCASE via the fpacClassName format
+// (GetName().replace('-','_').toUpperCase()) — exactly what the retired
+// generate.fpacjava.CFPacJavaClass.DoExport emitted. Children lower under FPAC_REFERENCE
+// (JavaTemplateAssembler.childRole), so a shared verb such as semantic.Verbs.CEntityCallProgram
+// resolves through the FPac override (call(PROG.class)) and never the frozen COBOL PERFORM
+// binding. The frozen COBOL root javaProgramRoot (semantic-root-bindings.properties, role ROOT)
+// is left untouched: one semantic class (semantic.CEntityClass), one wrapper per pipeline.
+
+// FPac's DeclarationSection is intentionally transparent: it contributes no
+// DataSection header and keeps every child in FPAC_REFERENCE.
+
+// Independent FPac file declaration. The identifier follows the exact FPac
+// CJavaExporter naming convention; the external file name remains uppercase.
+
+recursiveStringConcatEntity(entity) ::= <<
+<if(entity.hasOverflowHandler)>if (<endif><entity.concatItems:{item | <recursiveStringConcatItem(item)>}; separator=""><if(entity.startIndex)>withPointer(<entity.startIndex>).<endif>into(<entity.destination>)<if(entity.hasOverflowHandler)>.failed())
+{
+<entity.activeChildren>}<else>;<endif>
+>>
+
+recursiveStringConcatItem(item) ::= <<
+<if(item.delimiter)>concatDelimitedBy(<item.value>, <item.delimiter>).<else>concat(<item.value>).<endif>
+>>
+
+recursiveGotoEntity(entity) ::= <<
+goTo(<entity.goToTarget; format="javaFormattedName">) ;
+>>
+
+recursiveGotoDependingEntity(entity) ::= <<
+goTo(new CJMapRunnable[]{<entity.goToTargets:{target | <target; format="javaFormattedName">,}>}, <entity.depending>) ;
+>>
+
+recursiveInitializeEntity(entity) ::= <<
+<if(entity.fillAlphaWith)>initializeReplacingAlphaNum(<entity.data>, <entity.fillAlphaWith>) ;<elseif(entity.repAlphaWith)>initializeReplacingAlphaNum(<entity.data>, <entity.repAlphaWith>) ;<elseif(entity.repNumWith)>initializeReplacingNum(<entity.data>, <entity.repNumWith>) ;<elseif(entity.repNumEditedWith)>initializeReplacingNumEdited(<entity.data>, <entity.repNumEditedWith>) ;<elseif(entity.sqlCodeReset)>resetSQLCode(0);<else>initialize(<entity.data>) ;<endif>
+>>
+
+recursiveNextSentenceEntity(entity) ::= <<
+// NEXT SENTENCE
+>>
+
+recursiveInspectConvertingEntity(entity) ::= <<
+inspectConverting(<entity.variable>).to(<entity.from>, <entity.to>) ;
+>>
+
+mockDataEntityReference(entity) ::= "<entity.mockReferenceValue>"
+
+recursiveRewriteFileEntity(entity) ::= <<
+<if(entity.dataFrom)>rewriteFrom(<entity.fileDescriptor>, <entity.dataFrom>) ;<else>rewrite(<entity.fileDescriptor>) ;<endif>
+>>
+
+recursiveSortReleaseEntity(entity) ::= <<
+release(<if(entity.sortField)><entity.sortField><else>[Undefined]<endif><if(entity.datReference)>, <entity.datReference><endif>) ;
+>>
+
+recursiveSortReturnEntity(entity) ::= <<
+<if(entity.atEndBloc)>if (<recursiveSortReturnInvocation(entity)>.atEnd()) {
+<entity.atEndBloc>}<if(entity.notAtEndBloc)> else {
+<entity.notAtEndBloc>}<endif><else><if(entity.notAtEndBloc)>if (!<recursiveSortReturnInvocation(entity)>.atEnd()) {
+<entity.notAtEndBloc>}<else><recursiveSortReturnInvocation(entity)> ;<endif><endif>
+>>
+
+recursiveSortReturnInvocation(entity) ::= <<
+returnSort(<if(entity.fileDesc)><entity.fileDesc><else>[Undefined]<endif><if(entity.dataInto)>, <entity.dataInto><endif>)
+>>
+
+recursiveCountEntity(entity) ::= <<
+inspectTallying(<entity.variable>)<entity.countAllToken:{t | .countAll(<t>)}><entity.countLeadingToken:{t | .countLeading(<t>)}><if(entity.forChars)>.forChars()<endif><entity.countAfterToken:{t | .after(<t>)}><entity.countBeforeToken:{t | .before(<t>)}>.to(<entity.toVariable>) ;
+>>
+
+recursiveSearchEntity(entity) ::= <<
+for (move(false, Search_Found); isNot(Search_Found) && isLessOrEqual(<entity.index>, getNbOccurs(<entity.variable>)); inc(1, <entity.index>)) {
+<entity.activeChildren>
+}<if(entity.elseBloc)>
+if (isNot(Search_Found)) {
+<entity.elseBloc>
+}<endif>
+>>
+
+recursiveExecEntity(entity) ::= <<
+execStatement("<entity.statement>") ;
+>>
+
+recursiveRoutineEmulationCallEntity(entity) ::= <<
+<entity.routineName>(<if(entity.dynamicAllocation)>new Var[] {<endif><entity.emulationParameters; separator=", "><if(entity.dynamicAllocation)>}<endif>) ;
+>>
+
+recursiveAssignWithAccessorEntity(entity) ::= <<
+<if(entity.environmentReference)><if(entity.fillAll)><entity.environmentWriteAccessor; format="writeAccessorAll"><else><entity.environmentWriteAccessor><endif><entity.value>);<elseif(entity.SQLCodeReference)>resetSQLCode(<entity.value>);<else>/* unsupported accessor assignment */<endif>
+>>
+
+recursiveParseStringEntity(entity) ::= <<
+<if(entity.hasOverflowHandler)>if (<endif>unstring(<entity.variable>)<entity.delimitersSingle:{d | .delimitedBy(<d>)}><entity.delimitersMulti:{d | .delimitedByAll(<d>)}><if(entity.withPointer)>.withPointer(<entity.withPointer>)<endif><if(entity.tallying)>.tallying(<entity.tallying>)<endif><entity.unstringDestinations:{item | .to(<item.to><if(item.hasDelimiterOrCount)>, <if(item.delimiterIn)><item.delimiterIn><else>null<endif>, <if(item.countIn)><item.countIn><else>null<endif><endif>)}><if(entity.hasOverflowHandler)>.failed())
+{
+<entity.activeChildren>}<else> ;<endif>
+>>
+
+recursiveReplaceEntity(entity) ::= <<
+<entity.replaceItems:{item | inspectReplacing(<entity.variable>).<item.modeName><item.replaceMethodName>(<if(item.replaceData)><item.replaceData><endif>).by<item.byMethodName>(<if(item.data)><item.data><endif>) ;}; separator="\n">
+>>
+
+recursiveSortEntity(entity) ::= <<
+sort(<entity.fileDescriptor>)<entity.sortKeys:{k | <if(k.ascending)>.ascKey(<else>.descKey(<endif><if(k.key)><k.key><else>[Undefined]<endif>)}><if(entity.inputFile)>.using(<entity.inputFile>)<elseif(entity.inputProcedureName)>.usingInput(<entity.inputProcedureName; format="javaFormattedName">)<elseif(entity.unresolvedInputProcedureName)>.usingInput([<entity.unresolvedInputProcedureName>])<endif><if(entity.outputFile)>.giving(<entity.outputFile>)<elseif(entity.outputProcedureName)>.usingOutput(<entity.outputProcedureName; format="javaFormattedName">)<elseif(entity.unresolvedOutputProcedureName)>.usingOutput([<entity.unresolvedOutputProcedureName>])<endif>.exec() ;
+>>

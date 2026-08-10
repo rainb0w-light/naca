@@ -1,0 +1,65 @@
+group dataOperations;
+
+recursiveMoveStatement(fillAll, corresponding, value, destination) ::= <<
+<if(fillAll)>moveAll<elseif(corresponding)>moveCorresponding<else>move<endif>(<if(value)><value><else>[UNDEFINED]<endif>, <destination>);
+>>
+
+recursiveMove(statements) ::= <<
+<statements; separator="\n">
+>>
+
+recursiveMoveEntity(entity) ::= <<
+<entity.destinations:{destination | <recursiveMoveStatementEntity(entity, destination)>}; separator="\n">
+>>
+
+recursiveMoveStatementEntity(entity, destination) ::= <<
+<if(entity.fillAll)>moveAll<elseif(entity.moveCorresponding)>moveCorresponding<else>move<endif>(<if(entity.value)><entity.value><else>[UNDEFINED]<endif>, <destination>);
+>>
+
+recursiveMovePackedEntity(entity) ::= <<
+movePacked(<if(entity.source)><entity.source><else>[UNDEFINED]<endif>, <if(entity.destination)><entity.destination><else>[UNDEFINED]<endif>);
+>>
+
+recursiveUndefinedValue() ::= "[Undefined]"
+
+recursiveBinaryAdd(left, right) ::= "add(<left>, <right>)"
+
+recursiveAddSingle(increment, decrement, value, destination) ::= <<
+<if(increment)>inc(<destination>) ;<elseif(decrement)>dec(<destination>) ;<else>inc(<value>, <destination>) ;<endif>
+>>
+
+recursiveAddToDestination(value, rounded, destination) ::= <<
+<value>.<if(rounded)>toRounded<else>to<endif>(<destination>) ;
+>>
+
+recursiveSetSubstring(reference, start, length, value) ::= <<
+setSubString(<reference>, <start><if(length)>, <length><endif>, <value>) ;
+>>
+
+recursiveEnvironmentWrite(writeAccessor, value) ::= "<writeAccessor><value>);"
+
+recursiveAdd(statements) ::= <<
+<statements; separator="\n">
+>>
+
+recursiveAddEntity(entity) ::= <<
+<if(entity.noValues)><else><if(entity.singleValue)><if(entity.singleDestinationHasAccessors)><recursiveAddAccessorEntity(entity)><else><entity.destinations:{destination | <recursiveAddSingleEntity(entity, destination)>}; separator="\n"><endif><else><entity.destinations:{destination | <recursiveAddMultiEntity(entity, destination)>}; separator="\n"><endif><endif>
+>>
+
+recursiveIncEntity(entity) ::= "<entity.addDest> += <entity.addValue> ;"
+
+recursiveAddSingleEntity(entity, destination) ::= <<
+<if(entity.increment)>inc(<destination>) ;<elseif(entity.decrement)>dec(<destination>) ;<else>inc(<entity.singleValue>, <destination>) ;<endif>
+>>
+
+recursiveAddMultiEntity(entity, destination) ::= <<
+<entity.combinedValueTree>.<if(entity.rounded)>toRounded<else>to<endif>(<destination>) ;
+>>
+
+recursiveAddValueTreeEntity(entity) ::= "add(<entity.left>, <entity.right>)"
+
+recursiveAddAccessorEntity(entity) ::= <<
+<if(entity.singleDestinationSubstring)>setSubString(<entity.singleDestinationReference>, <entity.singleDestinationStart><if(entity.singleDestinationLength)>, <entity.singleDestinationLength><endif>, <recursiveBinaryAdd(entity.singleDestination, entity.singleValue)>) ;<elseif(entity.singleDestinationEnvironmentVariable)><entity.singleDestinationWriteAccessor><recursiveBinaryAdd(entity.singleDestination, entity.singleValue)>);<else><recursiveBinaryAdd(entity.singleDestination, entity.singleValue)><endif>
+>>
+
+space() ::= " "

@@ -107,7 +107,8 @@ public abstract class TranscoderEngine<T_Elem extends CBaseElement, T_Entity ext
 	 */
 	protected void exportRoot(T_Entity eSem, String filename, String csApplication, CTransApplicationGroup grp, boolean bResources)
 	{
-		String rendered = generate.templates.TemplateLoader.getRecursiveAssembler()
+		String rendered = generate.templates.TemplateLoader.getRecursiveAssembler(
+			generate.templates.JavaTemplatePipeline.COBOL)
 			.renderRoot(eSem, generate.templates.recursive.JavaTemplateRole.ROOT);
 		String outPath = grp.csOutputPath
 			+ (csApplication.equals("") ? "" : csApplication + "/")

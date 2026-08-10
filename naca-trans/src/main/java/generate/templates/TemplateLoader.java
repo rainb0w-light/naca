@@ -1,24 +1,14 @@
 package generate.templates;
 
 import generate.templates.recursive.JavaTemplateAssembler;
-import generate.templates.recursive.java.JavaIdentifierAttributeRenderer;
-import generate.templates.recursive.java.JavaIdentifierValue;
-import generate.templates.recursive.java.JavaIntrinsicFunctionNameAttributeRenderer;
-import generate.templates.recursive.java.JavaIntrinsicFunctionNameValue;
-import generate.templates.recursive.java.JavaStringLiteralAttributeRenderer;
-import generate.templates.recursive.java.JavaStringLiteralValue;
 import org.stringtemplate.v4.ST;
-import org.stringtemplate.v4.STGroup;
-import org.stringtemplate.v4.STGroupFile;
-
-import java.io.InputStream;
-import java.net.URL;
 
 /**
  * StringTemplate4 Template Loader
  *
  * Provides centralized access to ST4 templates for code generation.
- * All templates are in java.stg (base.stg utilities merged in for jar compatibility).
+ * The current full profile is exposed through a validated template catalog. Template
+ * modules can be split without changing callers or the recursive rendering protocol.
  *
  * Design Principle (PUSH Model):
  * - Controllers push entity objects to templates
@@ -29,52 +19,8 @@ import java.net.URL;
  */
 public class TemplateLoader {
 
-    private static STGroup javaGroup;
-    private static boolean initialized = false;
-
-    // Template group names
-    public static final String GROUP_JAVA = "java";
-    public static final String GROUP_BASE = "base";
-
-    /**
-     * Initialize template groups lazily
-     */
-    private static void initialize() {
-        if (initialized) {
-            return;
-        }
-
-        try {
-            // Load java.stg (self-contained, base.stg merged in)
-            URL templateResource = TemplateLoader.class.getResource("/templates/java/java.stg");
-            if (templateResource == null) {
-                throw new RuntimeException("Cannot find template file: /templates/java/java.stg");
-            }
-            
-            javaGroup = createJavaGroup(templateResource);
-            initialized = true;
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to initialize ST4 templates", e);
-        }
-    }
-
-    private static STGroup createJavaGroup(URL templateResource) {
-            STGroup group = new STGroupFile(templateResource, "UTF-8", '<', '>');
-            group.registerRenderer(
-                JavaStringLiteralValue.class,
-                new JavaStringLiteralAttributeRenderer());
-            group.registerRenderer(
-                String.class,
-                new JavaStringLiteralAttributeRenderer());
-            group.registerRenderer(
-                JavaIdentifierValue.class,
-                new JavaIdentifierAttributeRenderer());
-            group.registerRenderer(
-                JavaIntrinsicFunctionNameValue.class,
-                new JavaIntrinsicFunctionNameAttributeRenderer());
-            group.load();  // Pre-load templates
-            return group;
-    }
+    private static final JavaTemplateProfileController PROFILES =
+        JavaTemplateProfileController.instance();
 
     /**
      * Get a template instance from the Java template group.
@@ -90,43 +36,7 @@ public class TemplateLoader {
      * @return ST template instance ready for attribute population
      */
     public static ST getTemplate(String name) {
-        initialize();
-        ST template = javaGroup.getInstanceOf(name);
-        if (template == null) {
-            throw new RuntimeException("Template not found: " + name);
-        }
-        return template;
-    }
-
-    /**
-     * Get a template for verbs (COBOL verbs → Java methods).
-     * Currently same as getTemplate since all templates are in java.stg.
-     * 
-     * @param name Verb template name (e.g., "assign", "addTo", "readFile")
-     * @return ST template instance
-     */
-    public static ST getVerbsTemplate(String name) {
-        return getTemplate(name);
-    }
-
-    /**
-     * Get a template for expressions.
-     * 
-     * @param name Expression template name (e.g., "exprSum", "condOr")
-     * @return ST template instance
-     */
-    public static ST getExpressionTemplate(String name) {
-        return getTemplate(name);
-    }
-
-    /**
-     * Get a template for control flow statements.
-     * 
-     * @param name Control template name (e.g., "condition", "loop", "case")
-     * @return ST template instance
-     */
-    public static ST getControlTemplate(String name) {
-        return getTemplate(name);
+        return PROFILES.catalog(JavaTemplatePipeline.FULL).requireTemplate(name);
     }
 
     /**
@@ -136,50 +46,31 @@ public class TemplateLoader {
      * @return true if template exists
      */
     public static boolean hasTemplate(String name) {
-        initialize();
-        return javaGroup.isDefined(name);
-    }
-
-    /**
-     * Get the underlying STGroup for advanced operations.
-     * 
-     * @return STGroup for Java templates
-     */
-    public static STGroup getJavaGroup() {
-        initialize();
-        return javaGroup;
+        return PROFILES.catalog(JavaTemplatePipeline.FULL).hasTemplate(name);
     }
 
     /** Creates a strict recursive assembler with all migrated Java renderers. */
     public static JavaTemplateAssembler newRecursiveAssembler() {
-        initialize();
-        URL templateResource = TemplateLoader.class
-            .getResource("/templates/java/java.stg");
-        if (templateResource == null) {
-            throw new IllegalStateException("Cannot find template file: /templates/java/java.stg");
-        }
-        return new JavaTemplateAssembler(createJavaGroup(templateResource));
+        return newRecursiveAssembler(JavaTemplatePipeline.FULL);
     }
 
-    private static volatile JavaTemplateAssembler sharedRecursiveAssembler;
+    /** Creates a strict recursive assembler for one explicitly selected pipeline. */
+    public static JavaTemplateAssembler newRecursiveAssembler(JavaTemplatePipeline pipeline) {
+        return PROFILES.newAssembler(pipeline);
+    }
 
     /**
      * Shared recursive assembler used by the production export driver. The
      * underlying STGroup is reusable and thread-safe for {@code getInstanceOf};
      * each {@code renderNode} builds fresh ST instances, so a single assembler
-     * can serve concurrent transpilations without re-parsing java.stg.
+     * can serve concurrent transpilations without re-parsing the module catalog.
      */
     public static JavaTemplateAssembler getRecursiveAssembler() {
-        JavaTemplateAssembler local = sharedRecursiveAssembler;
-        if (local == null) {
-            synchronized (TemplateLoader.class) {
-                local = sharedRecursiveAssembler;
-                if (local == null) {
-                    local = newRecursiveAssembler();
-                    sharedRecursiveAssembler = local;
-                }
-            }
-        }
-        return local;
+        return getRecursiveAssembler(JavaTemplatePipeline.FULL);
+    }
+
+    /** Returns the cached assembler for one pipeline-level template profile. */
+    public static JavaTemplateAssembler getRecursiveAssembler(JavaTemplatePipeline pipeline) {
+        return PROFILES.sharedAssembler(pipeline);
     }
 }

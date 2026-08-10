@@ -1,0 +1,54 @@
+group bmsDeclarations;
+
+// BMS declarations templates. Semantic analysis supplies all values.
+
+recursiveFieldOccursDeclarationEntity(entity) ::= "Edit <entity.formattedName> = declare.level(<entity.level>).editOccurs(<entity.occursReference>, \"<entity.formattedName>\") ;"
+
+recursiveSkipFieldDeclarationEntity(entity) ::= "Edit <entity.formattedName> = declare.level(<entity.level>).editSkip(<entity.nbFields>) ;"
+
+recursiveFieldRedefineDeclarationEntity(entity) ::= "Edit <entity.formattedName> = declare.level(<entity.level>)<entity.picClause><entity.justifyRightClause><entity.blankWhenZeroClause>.edit() ;"
+
+recursiveFormDeclarationEntity(entity) ::= "Form <entity.formattedName> = declare.form(\"<entity.formattedResourceName>\", <entity.sizeLine>, <entity.sizeCol>) ;"
+
+recursiveFormContainerDeclarationEntity(entity) ::= "class <entity.mapClassName> extends Map {"
+
+recursiveFormDeclarationBlockEntity(entity) ::= <<
+Form <entity.formattedName> = declare.form("<entity.formattedResourceName>", <entity.sizeLine>, <entity.sizeCol>) ;
+<entity.fields; separator="\n">
+>>
+
+recursiveFormRedefineDeclarationBlockEntity(entity) ::= <<
+MapRedefine <entity.formattedName> = declare.level(1).redefinesMap(<entity.form>) ;
+<entity.children; separator="\n">
+>>
+
+recursiveSkipFieldDeclarationBlockEntity(entity) ::= <<
+Edit <entity.formattedName> = declare.level(<entity.level>).editSkip(<entity.nbFields>) ;
+<entity.children; separator="\n">
+>>
+
+recursiveFieldRedefineDeclarationBlockEntity(entity) ::= <<
+Edit <entity.formattedName> = declare.level(<entity.level>)<entity.picClause><entity.justifyRightClause><entity.blankWhenZeroClause>.edit() ;
+<entity.children; separator="\n">
+>>
+
+recursiveFieldOccursDeclarationBlockEntity(entity) ::= <<
+Edit <entity.formattedName> = declare.level(<entity.level>).editOccurs(<entity.occurs>, "<entity.formattedName>") ;
+<entity.children; separator="\n">
+>>
+
+recursiveFieldArrayDeclarationEntity(entity) ::= "<entity.children; separator=\"\n\">"
+
+emptyBmsDeclarationEntity(entity) ::= ""
+
+recursiveFormRedefineDeclarationEntity(entity) ::= "MapRedefine <entity.formattedName> = declare.level(1).redefinesMap(<entity.redefinesReference>) ;"
+
+bmsLocalizedStringDeclaration(display, texts) ::= "LocalizedString <display> = declare.localizedString()<texts:{t |.text(LanguageCode.<t.languageCode>, \"<t.text>\")}>;"
+
+recursiveResourceFieldDeclarationEntity(entity) ::= <<
+<if(entity.initialValuePresent)>LocalizedString <entity.formattedInitialValue> = declare.localizedString()<entity.initialLocalizedTexts:{t |.text(LanguageCode.<t.languageCode>, "<t.text>")}>;
+<endif><if(entity.formattedSourceName)>Edit <entity.formattedSourceName> = declare.edit("<entity.formattedDisplayName>", <entity.length>)<if(entity.initialValuePresent)>.initialValue(<entity.formattedInitialValue>)<endif><if(entity.fillValuePresent)>.justifyFill(MapFieldAttrFill.<entity.fillValue>)<endif><if(entity.rightJustified)>.justifyRight()<endif><if(entity.developableFlagMarkPresent)>.setDevelopableMark("<entity.developableFlagMark>")<endif><if(entity.formatStringPresent)>.format("<entity.formatString>")<endif>.edit() ;<endif><if(entity.attributeChildren)>
+{
+<entity.attributeChildren>
+}<endif>
+>>

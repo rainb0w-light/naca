@@ -1,0 +1,33 @@
+group bmsReferences;
+
+// BMS references templates. Semantic analysis supplies all values.
+
+fieldHighlightReferenceEntity(entity) ::= "getHighlighting(<entity.reference>)"
+
+fieldFlagReferenceEntity(entity) ::= "<entity.reference>.getFlag()"
+
+fieldValidatedReferenceEntity(entity) ::= "<entity.reference>.getValidation()"
+
+recursiveKeyPressedEntity(entity) ::= "KeyPressed.<entity.publicName>"
+
+recursiveGetKeyPressedEntity(entity) ::= "getKeyPressed()"
+
+recursiveFieldOccursEntity(entity) ::= "<entity.formattedName>"
+
+recursiveSkipFieldEntity(entity) ::= "<entity.formattedName>"
+
+recursiveFieldRedefineEntity(entity) ::= "<entity.formattedName>"
+
+recursiveFormEntity(entity) ::= "<entity.formReference>"
+
+recursiveFormAccessorEntity(entity) ::= "<entity.formReference>"
+
+recursiveFormContainerEntity(entity) ::= "<entity.containerReference>"
+
+recursiveFormRedefineEntity(entity) ::= "<entity.formattedName>"
+
+fieldAttributeEntity(entity) ::= "<entity.reference>.getAttribute()"
+
+resourceFieldReferenceEntity(entity) ::= "<if(entity.qualifierFormattedName)><entity.qualifierFormattedName>.<endif><entity.formattedSourceName>"
+
+fieldDataReferenceEntity(entity) ::= "<entity.referenceName>"

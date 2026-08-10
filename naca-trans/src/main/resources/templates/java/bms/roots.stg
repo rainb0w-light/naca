@@ -1,0 +1,25 @@
+group bmsRoots;
+
+// BMS roots templates. Semantic analysis supplies all values.
+
+bmsMapsetRoot(entity) ::= <<
+import nacaLib.mapSupport.* ;
+import nacaLib.varEx.* ;
+import nacaLib.program.* ;
+import nacaLib.basePrgEnv.* ;
+
+class <entity.mapClassName> extends Map {
+    static <entity.mapClassName> Copy(BaseProgram program) {
+        return new <entity.mapClassName>(program);
+    }
+    static <entity.mapClassName> Copy(BaseProgram program, CopyReplacing rep)  {
+        Assert("Unimplemented replacing for MAPs") ;
+        return null ;
+    }
+    <entity.mapClassName>(BaseProgram program) {
+        super(program);
+    }
+
+<entity.forms; separator="\n">
+}
+>>

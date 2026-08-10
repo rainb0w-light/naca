@@ -4,6 +4,8 @@
  * JDK 21 Compatible
  */
 
+import java.util.zip.ZipFile
+
 plugins {
     `java-library`
     application
@@ -56,6 +58,65 @@ sourceSets {
 // Configure resource copying to handle duplicate files
 tasks.processResources {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+val javaTemplateResources = listOf(
+    "templates/java/common/legacy.stg",
+    "templates/java/common/common.stg",
+    "templates/java/common/semantic-expressions.stg",
+    "templates/java/cobol/control-flow.stg",
+    "templates/java/cobol/data-operations.stg",
+    "templates/java/cobol/declarations.stg",
+    "templates/java/cobol/file-operations.stg",
+    "templates/java/cobol/procedures.stg",
+    "templates/java/cobol/roots.stg",
+    "templates/java/cobol/verbs.stg",
+    "templates/java/bms/actions.stg",
+    "templates/java/bms/declarations.stg",
+    "templates/java/bms/references.stg",
+    "templates/java/bms/roots.stg",
+    "templates/java/cics/cics.stg",
+    "templates/java/fpac/fpac.stg",
+    "templates/java/sql/sql.stg",
+)
+
+val jarTask = tasks.named<Jar>("jar")
+tasks.register("templateJarCheck") {
+    group = "verification"
+    description = "Verifies every configured ST4 module is packaged in the transpiler JAR"
+    dependsOn(jarTask)
+    inputs.file(jarTask.flatMap { it.archiveFile })
+    doLast {
+        val archive = jarTask.get().archiveFile.get().asFile
+        ZipFile(archive).use { jar ->
+            javaTemplateResources.forEach { resource ->
+                check(jar.getEntry(resource) != null) {
+                    "Missing ST4 module in ${archive.name}: $resource"
+                }
+            }
+            check(jar.getEntry("templates/java/java.stg") == null) {
+                "Retired monolithic java.stg must not be packaged"
+            }
+            check(jar.getEntry("templates/base.stg") == null) {
+                "Retired base.stg must not be packaged"
+            }
+        }
+    }
+}
+
+tasks.register<JavaExec>("templateJarSmoke") {
+    group = "verification"
+    description = "Loads the complete ST4 catalog with naca-trans classes/resources from its JAR"
+    dependsOn(jarTask, tasks.testClasses)
+    mainClass.set("generate.templates.TemplateJarSmokeMain")
+    classpath = files(
+        sourceSets.test.get().output,
+        jarTask.flatMap { it.archiveFile },
+        configurations.testRuntimeClasspath)
+}
+
+tasks.named("check") {
+    dependsOn("templateJarCheck", "templateJarSmoke")
 }
 
 // Architecture debt is now zero across COBOL/SQL/CICS, BMS and FPac. Keep the

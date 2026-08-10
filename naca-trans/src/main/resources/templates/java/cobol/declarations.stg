@@ -1,0 +1,84 @@
+group declarations;
+
+dataAttributeDeclaration(entity) ::= <<
+Var <entity.formattedName> = declare.level(<entity.level>).<entity.declaredType>(<if(entity.declaredEditedPicture)><entity.declaredFormat; format="javaString"><elseif(entity.declaredPictureSizeSpecified)><entity.declaredLength><if(entity.scaled)>,<entity.decimals><endif><endif>)<if(entity.comp3)>.comp3()<elseif(entity.comp2)>.comp2()<elseif(entity.comp5)>.comp5()<elseif(entity.binaryComp)>.comp()<endif><if(entity.sync)>.sync()<endif><if(entity.value)>.<if(entity.fillWithValue)>valueAll<else>value<endif>(<entity.value>)<else><if(entity.initialValueIsSpaces)>.valueSpaces()<elseif(entity.initialValueIsZeros)>.valueZero()<elseif(entity.initialValueIsLowValue)>.valueLowValue()<elseif(entity.initialValueIsHighValue)>.valueHighValue()<endif><endif><if(entity.justifiedRight)>.justifyRight()<endif><if(entity.blankWhenZero)>.blankWhenZero()<endif><if(entity.filler)>.filler()<else>.var()<endif> ;
+>>
+
+dataStructureDeclaration(entity) ::= <<
+Var <entity.formattedName> = declare.level(<entity.numericLevel>)<if(entity.redefines)>.redefines(<entity.redefines>)<endif><if(entity.occurs)><if(entity.tableSizeDepending)>.occursDepending(<entity.occurs>, <entity.tableSizeDepending>)<elseif(entity.variableLength)>.variableLength()<else>.occurs(<entity.occurs>)<endif><endif><if(entity.typed)>.<entity.declaredType>(<if(entity.declaredEditedPicture)><entity.declaredFormat; format="javaString"><else><entity.declaredLength><if(entity.scaled)>,<entity.decimals><endif><endif>)<endif><if(entity.comp3)>.comp3()<elseif(entity.comp2)>.comp2()<elseif(entity.comp5)>.comp5()<elseif(entity.binaryComp)>.comp()<endif><if(entity.sync)>.sync()<endif><if(entity.value)>.<if(entity.fillWithValue)>valueAll<else>value<endif>(<entity.value>)<else><if(entity.initialValueIsSpaces)>.valueSpaces()<elseif(entity.initialValueIsZeros)>.valueZero()<elseif(entity.initialValueIsLowValue)>.valueLowValue()<elseif(entity.initialValueIsHighValue)>.valueHighValue()<endif><endif><if(entity.justifiedRight)>.justifyRight()<endif><if(entity.blankWhenZero)>.blankWhenZero()<endif><if(entity.signLeadingSeparated)>.signLeadingSeparated()<elseif(entity.signTrailingSeparated)>.signTrailingSeparated()<endif><if(entity.filler)>.filler()<else>.var()<endif> ;
+<if(entity.insideExternalDataStructure)><entity.children><elseif(entity.insideFileSection)><entity.children><else><entity.declarationChildren><endif>
+>>
+
+dataSectionDeclaration(entity) ::= <<
+<if(entity.workingStorageSection)>DataSection <entity.formattedName> = declare.workingStorageSection() ;
+<elseif(entity.linkageSection)>DataSection <entity.formattedName> = declare.linkageSection() ;
+<elseif(entity.fileSection)>DataSection <entity.formattedName> = declare.fileSection() ;
+<elseif(entity.variableSection)>DataSection <entity.formattedName> = declare.variableSection() ;
+<endif><if(entity.fileSection)><entity.children><else><entity.declarationChildren><endif>
+>>
+
+dataFileDescriptorDeclaration(entity) ::= <<
+FileDescriptor <entity.formattedName> = declare.file(<if(entity.fileName)><entity.fileName><else>"<entity.displayName>"<endif>)<if(entity.fileStatus)>.status(<entity.fileStatus>)<endif> ;
+<entity.activeChildren>
+>>
+
+dataSortedFileDescriptorDeclaration(entity) ::= <<
+SortDescriptor <entity.formattedName> = declare.sort() ;
+<entity.declarationChildren>
+>>
+
+dataFileDescriptorLengthDependencyDeclaration(entity) ::= <<
+FileDescriptorDepending <entity.formattedName> = declare.fileDescriptorDepending( <entity.fileDescriptor>, <entity.lengthDependency>) ;
+>>
+
+dataIndexDeclaration(entity) ::= <<
+Var <entity.formattedName> = declare.index() ;
+>>
+
+// A COPY copybook declared as an instance in the program class (the non-inline
+// form): <Type> <ref> = <Type>.Copy(this[, replacing(level, value)]) ;
+dataInlineDeclaration(entity) ::= <<
+<if(entity.needDeclarationInClass)><entity.copyType> <entity.externalEntity> = <entity.copyType>.Copy(this<if(entity.replacing)>, replacing(<entity.replaceItem>, <entity.replaceValue>)<endif>) ;
+<endif><entity.declarationChildren>
+>>
+
+// ROOT artifact: a copybook as its own Java class extending the runtime Copy
+// base (generated as a separate compilation unit). Mirrors
+// CJavaExternalDataStructure.DoExport for the non-inline form.
+javaCopyClass(entity) ::= <<
+
+import nacaLib.program.* ;
+import nacaLib.varEx.* ;
+import nacaLib.basePrgEnv.* ;
+
+public class <entity.typeDecl; format="javaClassName"> extends Copy {
+public static <entity.typeDecl; format="javaClassName"> Copy(BaseProgram program) {
+return new <entity.typeDecl; format="javaClassName">(program, null);
+}
+public static <entity.typeDecl; format="javaClassName"> Copy(BaseProgram program, CopyReplacing copyReplacing) {
+return new <entity.typeDecl; format="javaClassName">(program, copyReplacing);
+}
+public <entity.typeDecl; format="javaClassName">(BaseProgram program, CopyReplacing copyReplacing) {
+super(program, copyReplacing);
+}
+<entity.declarationChildren>
+}
+>>
+
+dataNamedConditionDeclaration(entity) ::= <<
+Cond <entity.formattedName> = declare.condition()<entity.valueModels:{model | .value(<if(model.defined)><model.value><else>[undefined]<endif>)}><entity.intervals:{interval | .value(<interval.start>, <interval.end>)}>.var() ;
+>>
+
+// An unresolved reference: the direct generator emits nothing for it
+// (CJavaUnknownReference.DoExport is empty and ExportReference returns null),
+// so it renders as empty here too.
+unknownReferenceEntity(entity) ::= ""
+
+// FPac source semantics preserve the legacy unresolved-identifier marker. The
+// COBOL CEntityUnknownReference binding above remains the empty fail-closed form.
+
+
+// A program comment, rendered in the REFERENCE role as a root child. The "// "
+// marker is Java lexical (STG); the newline escaping and right trim are done by
+// the javaCommentText atomic renderer, faithfully reproducing the historical
+// legacy Java comment rendering behavior (including the "Ox000D" quirk).

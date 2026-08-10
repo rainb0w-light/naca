@@ -1,0 +1,68 @@
+group fpac;
+
+// FPac pipeline-specific overrides and reference forms.
+
+recursiveFPacPositionedBufferEntity(entity) ::= <<
+<if(entity.wrappedReferenceAccessor)><entity.reference><if(entity.openConversionCall)>, <else>(<endif><entity.start><if(entity.length)>, <entity.length><endif>)<else>buffer(<entity.reference>, <entity.start><if(entity.length)>, <entity.length><endif>)<endif>
+>>
+
+recursiveFPacConvertReferenceEntity(entity) ::= "<if(entity.plainReference)><entity.reference><elseif(entity.accessorConversion)><entity.reference><entity.conversionSuffix><else>buffer<entity.conversionSuffix>(<entity.reference><endif>"
+
+recursiveFPacFormatedVarReferenceEntity(entity) ::= "<entity.reference>"
+
+recursiveFPacDisplayEntity(entity) ::= "<entity.displayItems:{item | wto.display(<item.reference>) ;}; separator=\"\n\">"
+
+recursiveFPacProcedureEntity(entity) ::= <<
+protected int <entity.formattedName; format="fpacIdentifier">() {
+<entity.activeChildren; separator="\n">
+<if(entity.implicitNextReturn)>return NEXT ;
+<endif>}
+>>
+
+recursiveFPacReturnEntity(entity) ::= "return NEXT ;"
+
+recursiveFPacCallFunctionEntity(entity) ::= "<entity.calledProcedureName; format=\"fpacIdentifier\">() ;"
+
+recursiveFPacDivideEntity(entity) ::= "divide(<entity.dividend>, <entity.divisor>).to(<entity.result>) ;"
+
+recursiveFPacGotoEntity(entity) ::= "return <entity.targetName> ;"
+
+recursiveFPacOpenFileEntity(entity) ::= <<
+<entity.fileDescriptor>.<if(entity.inputMode)>openInput<else><if(entity.outputMode)>openOutput<else><if(entity.inputOutputMode)>openInputOutput<else>openExtend<endif><endif><endif>()<if(entity.variableLengthFile)>.variableLength()<endif> ;
+>>
+
+recursiveFPacWriteFileEntity(entity) ::= "<entity.fileDescriptor>.write() ;"
+
+recursiveFPacReadFileEntity(entity) ::= <<
+<if(entity.atEndBloc)>if (<entity.fileDescriptor>.read().atEnd()) {
+<entity.atEndBloc>
+}<else><entity.fileDescriptor>.read() ;<endif>
+>>
+
+recursiveFPacCallProgramEntity(entity) ::= <<
+<if(entity.onErrorBloc)>if (<endif>call(<if(entity.literalProgramReference)><if(entity.checked)><entity.literalProgramName; format="fpacClassName">.class<else>"<entity.literalProgramName; format="fpacClassName">"<endif><else><entity.programReference><endif>)<entity.callParameters:{p | .<p.method>(<p.reference>)}>.<if(entity.onErrorBloc)>executeCallSafe()) {
+<entity.onErrorBloc>}<else>executeCall();<endif>
+>>
+
+recursiveFPacClassEntity(entity) ::= <<
+import nacaLib.fpacPrgEnv.* ;
+
+public class <entity.programName; format="fpacClassName"> extends FPacProgram
+{
+<entity.activeChildren; separator="\n">
+}
+>>
+
+recursiveFPacDataSectionEntity(entity) ::= <<
+<entity.activeChildren; separator="\n">
+>>
+
+recursiveFPacFileDescriptorEntity(entity) ::= <<
+FPacFileDescriptor <entity.sourceName; format="fpacIdentifier"> = declare.fpacFile("<entity.sourceName; format="fpacFileName">")<if(entity.outputBufferInitialValue)>.fillOutputBuffer(<entity.outputBufferInitialValue>)<endif>.file() ;
+>>
+
+fpacUnknownReferenceEntity(entity) ::= "[UNDEFINED]"
+
+
+// FPac file probe expression.
+recursiveFPacReadAndTestFileEntity(entity) ::= "<entity.reference>.read().atEnd()"

@@ -1,0 +1,52 @@
+group bmsActions;
+
+// BMS actions templates. Semantic analysis supplies all values.
+
+recursiveResetKeyPressedEntity(entity) ::= "resetKeyPressed();"
+
+recursiveSetCursorEntity(entity) ::= <<
+<if(entity.moveCursor)>moveCursor(<entity.referenceValue>, <entity.field>) ;<elseif(entity.removeCursor)>removeCursor(<entity.field>) ;<else>setCursor(<entity.field>) ;<endif>
+>>
+
+recursiveSetColorEntity(entity) ::= <<
+<if(entity.colorConstant)>moveColor(<entity.colorConstant>, <entity.field>) ;<else>moveColor(<entity.colorVariable>, <entity.field>) ;<endif>
+>>
+
+recursiveSetAttributeEntity(entity) ::= <<
+<if(entity.attributeValue)>moveAttribute(<entity.attributeValue>, <entity.field>) ;<else><if(entity.protectionConstant)>moveAttribute(<entity.protectionConstant>, <entity.field>) ;
+<endif><if(entity.intensityConstant)>moveAttribute(<entity.intensityConstant>, <entity.field>) ;
+<endif><if(entity.modifiedConstant)>moveAttribute(<entity.modifiedConstant>, <entity.field>) ;<endif><endif>
+>>
+
+recursiveSetHighlightEntity(entity) ::= <<
+<if(entity.blink)>setFieldBlink(<entity.field>) ;
+<endif><if(entity.reverse)>setFieldReverse(<entity.field>) ;
+<endif><if(entity.underlined)>setFieldUnderline(<entity.field>) ;
+<endif><if(entity.normal)>setFieldUnhighlighted(<entity.field>) ;
+<endif><if(entity.highLightValue)>moveHighLighting(<entity.highLightValue>, <entity.field>) ;
+<endif><if(entity.reset)>setFieldUnhighlighted(<entity.field>) ;<endif>
+>>
+
+recursiveSetFlagEntity(entity) ::= <<
+<if(entity.flagValue)>moveFlag("<entity.flagValue>", <entity.field>) ;<else>resetFlag(<entity.field>) ;<endif>
+>>
+
+recursiveIsFieldModifiedEntity(entity) ::= "isFieldModified(<entity.reference>)"
+
+recursiveIsFieldCursorEntity(entity) ::= "is<if(entity.opposite)>Not<endif>FieldHasCursor(<entity.reference>)"
+
+recursiveIsKeyPressedEntity(entity) ::= "is<if(entity.opposite)>Not<endif>KeyPressed(<entity.keyPressed>)"
+
+recursiveIsFieldFlagEntity(entity) ::= "is<if(entity.opposite)>Not<endif>FieldFlag<if(entity.set)>Set(<entity.reference>)<else>(<entity.reference>, \"<entity.value>\")<endif>"
+
+recursiveIsFieldAttributeEntity(entity) ::= "<if(entity.varValue)>is<if(entity.opposite)>Not<endif>FieldAttribute(<entity.reference>, <entity.varValue>)<else><if(entity.bracketed)>(<endif><if(entity.group1Present)><recursiveIsFieldAttributeGroup1(entity)><endif><if(entity.group2Join)> <entity.joinOperator> <endif><if(entity.group2Present)><recursiveIsFieldAttributeGroup2(entity)><endif><if(entity.group3Join)> <entity.joinOperator> <endif><if(entity.group3Present)><recursiveIsFieldAttributeGroup3(entity)><endif><if(entity.bracketed)>)<endif><endif>"
+
+recursiveIsFieldAttributeGroup1(entity) ::= "<if(entity.autoSkip)>is<if(entity.opposite)>Not<endif>FieldAutoSkip(<entity.reference>)<elseif(entity.protected)>is<if(entity.opposite)>Not<endif>FieldProtected(<entity.reference>)<elseif(entity.numeric)>is<if(entity.opposite)>Not<endif>FieldNumeric(<entity.reference>)<elseif(entity.unprotected)>is<if(entity.opposite)>Not<endif>FieldUnprotected(<entity.reference>)<endif>"
+
+recursiveIsFieldAttributeGroup2(entity) ::= "<if(entity.bright)>is<if(entity.opposite)>Not<endif>FieldBright(<entity.reference>)<elseif(entity.dark)>is<if(entity.opposite)>Not<endif>FieldDark(<entity.reference>)<endif>"
+
+recursiveIsFieldAttributeGroup3(entity) ::= "<if(entity.modified)>is<if(entity.opposite)>Not<endif>FieldModified(<entity.reference>)<elseif(entity.unmodified)>is<if(entity.opposite)>Not<endif>FieldUnmodified(<entity.reference>)<elseif(entity.cleared)>is<if(entity.opposite)>Not<endif>FieldCleared(<entity.reference>)<endif>"
+
+recursiveIsFieldColorEntity(entity) ::= "is<if(entity.opposite)>Not<endif>FieldColored(<entity.reference>, <entity.colorConstant>)"
+
+recursiveIsFieldHighlightEntity(entity) ::= "<if(entity.underlined)>is<if(entity.opposite)>Not<endif>FieldUnderlined(<entity.reference>)<elseif(entity.blink)><if(entity.opposite)>!isFieldBlink(<entity.reference>)<else>isFieldBlink(<entity.reference>)<endif><elseif(entity.reverse)>is<if(entity.opposite)>Not<endif>FieldReverse(<entity.reference>)<else>is<if(entity.opposite)>Not<endif>FieldHighlightNormal(<entity.reference>)<endif>"
