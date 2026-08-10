@@ -245,7 +245,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 	
 	public void InitCustomCICSEntities()
 	{
-		// some entries are no longer defined here : look into Pub2000/NacaTransRules.xml	
+		// Some entries are supplied directly by the runtime environment.
 		NewEntitySQLCode("SQLCODE") ;
 		NewEntitySQLCode("SQLERRD") ;
 		

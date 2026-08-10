@@ -26,8 +26,8 @@ class CopybookClassAssemblerTest {
     @BeforeAll
     static void setup() {
         for (Path p : new Path[] {
-            Path.of("NacaSamples/cobol/include"),
-            Path.of("../NacaSamples/cobol/include") }) {
+            Path.of("naca-rt-tests/src/test/resources/naca-samples/source/copybooks"),
+            Path.of("../naca-rt-tests/src/test/resources/naca-samples/source/copybooks") }) {
             if (Files.isDirectory(p)) {
                 copybookDir = p.toAbsolutePath();
                 break;

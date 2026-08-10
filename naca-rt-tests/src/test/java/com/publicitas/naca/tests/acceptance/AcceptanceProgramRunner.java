@@ -1,7 +1,8 @@
-package com.publicitas.naca.cloudnative;
+package com.publicitas.naca.tests.acceptance;
 
 import idea.onlinePrgEnv.OnlineEnvironment;
 import idea.onlinePrgEnv.OnlineSession;
+import java.util.ArrayList;
 import jlib.classLoader.CodeManager;
 import jlib.log.Log;
 import jlib.log.LogCenterConsole;
@@ -11,41 +12,27 @@ import jlib.log.LogLevel;
 import jlib.log.LogParams;
 import jlib.log.PatternLayoutConsole;
 import jlib.misc.BasePic9Comp3BufferSupport;
-import java.util.ArrayList;
 import nacaLib.basePrgEnv.BaseProgramLoader;
 import nacaLib.batchPrgEnv.BatchProgramLoader;
 import nacaLib.calledPrgSupport.BaseCalledPrgPublicArgPositioned;
 import nacaLib.tempCache.TempCacheLocator;
 
-/**
- * Standalone launcher that runs one assembled batch program on the NacaRT
- * runtime in its OWN JVM, so the run is isolated from the shared static
- * {@code CodeManager}/{@code Log} state that other tests pollute (and from
- * unrelated generated artifacts that could otherwise resolve ahead of the freshly
- * compiled class.
- *
- * <p>args[0] = program class name, args[1] = directory holding its .class file.
- * Display output is sent to stdout for the calling test to capture.
- */
-public final class AssembledProgramRunner
-{
-    public static void main(String[] args)
-    {
+/** Runs one freshly compiled acceptance program in an isolated JVM. */
+public final class AcceptanceProgramRunner {
+
+    public static void main(String[] args) {
         String className = args[0];
         String classesDir = args[1];
 
-        LogCenterConsole center = new LogCenterConsole(new LogCenterLoader()
-        {
+        LogCenterConsole center = new LogCenterConsole(new LogCenterLoader() {
             {
                 logLevel = LogLevel.Normal;
                 logFlow = LogFlowStd.Any;
                 csChannel = "NacaRT";
             }
-        })
-        {
+        }) {
             @Override
-            protected void sendOutput(LogParams logParam)
-            {
+            protected void sendOutput(LogParams logParam) {
                 System.out.println(logParam.toString());
             }
         };
@@ -59,12 +46,13 @@ public final class AssembledProgramRunner
 
         BaseProgramLoader loader = new BatchProgramLoader(null, null);
         OnlineSession session = new OnlineSession(false);
-        OnlineEnvironment env = (OnlineEnvironment) loader.GetEnvironment(session, null, null);
-        env.setNextProgramToLoad(className);
-        loader.runTopProgram(env, new ArrayList<BaseCalledPrgPublicArgPositioned>());
+        OnlineEnvironment environment =
+            (OnlineEnvironment) loader.GetEnvironment(session, null, null);
+        environment.setNextProgramToLoad(className);
+        loader.runTopProgram(
+            environment, new ArrayList<BaseCalledPrgPublicArgPositioned>());
     }
 
-    private AssembledProgramRunner()
-    {
+    private AcceptanceProgramRunner() {
     }
 }

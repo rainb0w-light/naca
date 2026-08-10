@@ -35,15 +35,11 @@ Thumbs.db
 *.original
 ItemCount.xml
 /test-output/st4/
-/NacaSamples/cobol/TEST-A-STANDALONE
 
 # COBOL compiled executables
 *.so
 *.dylib
 *.dll
-
-# Generated test files
-NacaSamples/src/commons/include/commons/Msgzone.java
 
 # ST4 migration loop runtime state (logs, checkpoints) — outside tracked source
 .st4-loop/

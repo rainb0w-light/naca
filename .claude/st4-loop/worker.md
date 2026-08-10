@@ -48,7 +48,7 @@ the 6-step migration playbook recorded in `docs/migration-ledger.json` →
 
 `semantic.Verbs.CEntityReadFile -> recursiveReadFileEntity` is the worked COBOL
 exemplar. For BMS, the artifact contract (`BmsArtifactContractTest`,
-`NacaSamples/cobol/ONLINM1.bms`) pins end-to-end behavior; for FPac there is NO
+`naca-rt-tests/src/test/resources/naca-samples/source/bms/ONLINM1.bms`) pins end-to-end behavior; for FPac there is NO
 shipped corpus — add focused fixtures, and note `docs/migration-ledger.json` →
 `meta.discoveredDebt` entries `FPAC-LEGACY-SILENT-DROP`,
 `FPAC-GENERATOR-COUPLINGS`, `BMS-XML-OUTPUT-IN-SEMANTIC` for known traps.

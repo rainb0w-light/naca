@@ -30,8 +30,8 @@ public class GotoTranspileTest {
     @BeforeAll
     static void setup() throws IOException {
         Path[] sources = {
-            Path.of("NacaSamples/cobol/VERBS.cbl"),
-            Path.of("../NacaSamples/cobol/VERBS.cbl")
+            Path.of("naca-rt-tests/src/test/resources/naca-samples/source/cobol/VERBS.cbl"),
+            Path.of("../naca-rt-tests/src/test/resources/naca-samples/source/cobol/VERBS.cbl")
         };
         for (Path p : sources) {
             if (Files.exists(p)) {

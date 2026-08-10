@@ -247,8 +247,8 @@ class CEntityLabelFieldRenderTest
     {
         Path bms = null;
         for (Path p : new Path[] {
-            Path.of("NacaSamples/cobol/ONLINM1.bms"),
-            Path.of("../NacaSamples/cobol/ONLINM1.bms") })
+            Path.of("naca-rt-tests/src/test/resources/naca-samples/source/bms/ONLINM1.bms"),
+            Path.of("../naca-rt-tests/src/test/resources/naca-samples/source/bms/ONLINM1.bms") })
         {
             if (Files.exists(p))
             {

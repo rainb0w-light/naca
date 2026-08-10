@@ -1686,7 +1686,7 @@ features:
     # EXEC SQL WHENEVER SQLERROR|SQLWARNING emits no code: its effect is a Stage-1
     # catalog side effect (registerSqlWheneverPolicy in CJavaEntityFactory) that the
     # SQL statement backends read to append .onErrorGoto(...)/.onErrorContinue().
-    # No runtime operation (fixture: NacaSamples/cobol/ONLINE1.cbl:108).
+    # No runtime operation (fixture: naca-rt-tests sample corpus ONLINE1.cbl:108).
     runtimeOperations: []
     fixtures: []
     status: production

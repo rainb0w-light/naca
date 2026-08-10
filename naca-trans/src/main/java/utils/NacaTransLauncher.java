@@ -18,7 +18,7 @@ public class NacaTransLauncher extends Transcoder
 {
 	public static void launchMain(String[] args)
 	{
-		String csCfg = "NacaTrans.cfg" ;
+		String csCfg = null;
 		boolean iscfgSet = false;
 		String csGroupToTranscode = "" ;
 		String csApplication = null;
@@ -63,6 +63,8 @@ public class NacaTransLauncher extends Transcoder
 					csGroupToTranscode = s;
 			}
 		}
+		if (csCfg == null || csCfg.isBlank())
+			throw new IllegalArgumentException("A transpiler config file must be supplied with -ConfigFile=<path>");
 		doStart(csApplication, transcoderAction, csCfg, csGroupToTranscode);
 	}
 

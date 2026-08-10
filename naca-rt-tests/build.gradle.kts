@@ -30,6 +30,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.springframework.boot", module = "spring-boot-starter-logging")
     }
+    testImplementation(project(":naca-cloud-native"))
     
     // Testing - JUnit 5
     testImplementation("org.junit.jupiter:junit-jupiter:5.11.4")
@@ -49,15 +50,7 @@ sourceSets {
     main {
         java {
             srcDir("src/main/java")
-            srcDir("../NacaSamples/src/batch")
-            srcDir("../NacaSamples/src/commons")
-            srcDir("../NacaSamples/src/commons/include")
-            srcDir("../NacaSamples/src/online")
-            // The assembler integration tests generate the modern `Msgzone`
-            // copybook independently. Do not compile that nested generated
-            // fixture together with the legacy sample's `MSGZONE`: both map to
-            // the same class-file name on case-insensitive filesystems.
-            exclude("commons/**", "include/commons/**")
+            srcDir("src/main/translated-java")
         }
         resources {
             srcDir("Main")
@@ -80,6 +73,7 @@ sourceSets {
             include("**/*.yaml")
             include("**/*.yml")
             include("**/*.properties")
+            include("naca-samples/**")
         }
     }
 }
@@ -91,7 +85,7 @@ tasks.withType<ProcessResources> {
 // Configure test task
 tasks.named<Test>("test") {
     useJUnitPlatform {
-        excludeTags("legacy-runtime")
+        excludeTags("legacy-runtime", "sample-acceptance")
     }
     
     // Test output configuration
@@ -108,6 +102,20 @@ tasks.named<Test>("test") {
     
     // JaCoCo configuration for coverage
     finalizedBy(tasks.jacocoTestReport)
+}
+
+tasks.register<Test>("sampleAcceptance") {
+    group = "verification"
+    description = "Runs the canonical GnuCOBOL vs Naca/Javac/NacaRT acceptance pipeline"
+    testClassesDirs = sourceSets["test"].output.classesDirs
+    classpath = sourceSets["test"].runtimeClasspath
+    inputs.file(layout.projectDirectory.file(
+        "src/test/resources/naca-samples/source/cobol/TEST-A-STANDALONE.cbl"))
+    outputs.upToDateWhen { false }
+    useJUnitPlatform {
+        includeTags("sample-acceptance")
+    }
+    shouldRunAfter(tasks.test)
 }
 
 // The hand-written 2005 compatibility programs exercise runtime behavior that

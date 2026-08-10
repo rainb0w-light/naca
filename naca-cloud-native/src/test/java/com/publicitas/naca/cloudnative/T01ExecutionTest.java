@@ -40,11 +40,13 @@ public class T01ExecutionTest {
     @BeforeAll
     static void setup() throws IOException {
         // Load COBOL source
-        Path cobolPath = Path.of("NacaSamples/cobol/T01.cbl");
+        Path cobolPath = Path.of(
+            "naca-rt-tests/src/test/resources/naca-samples/source/cobol/T01.cbl");
         if (Files.exists(cobolPath)) {
             t01CobolSource = Files.readString(cobolPath);
         } else {
-            Path altPath = Path.of("../NacaSamples/cobol/T01.cbl");
+            Path altPath = Path.of(
+                "../naca-rt-tests/src/test/resources/naca-samples/source/cobol/T01.cbl");
             if (Files.exists(altPath)) {
                 t01CobolSource = Files.readString(altPath);
             }

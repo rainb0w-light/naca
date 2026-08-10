@@ -27,13 +27,9 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 ./gradlew :naca-trans:test --tests "*TemplateValidationTest*"  # Single test class
 ```
 
-### COBOL Workflow (requires GnuCOBOL)
+### End-to-End Acceptance (requires GnuCOBOL and JDK 21)
 ```bash
-./gradlew checkCobolCompiler    # Check GnuCOBOL availability
-./gradlew compileCobol          # Compile COBOL programs
-./gradlew runCobol -Pprogram=BATCH1              # Run original COBOL
-./gradlew runTranspiled -Pprogram=BATCH1         # Run transpiled Java
-./gradlew compareResults -Pprogram=BATCH1        # Compare outputs
+./gradlew sampleAcceptance      # GnuCOBOL vs Naca -> javac -> NacaRT, strict 34-line diff
 ```
 
 ### Code Quality
@@ -108,7 +104,8 @@ Located in `naca-trans/src/main/resources/templates/`:
 
 ## Sample Programs
 
-COBOL sample programs are in `NacaSamples/` directory for testing the transpiler end-to-end.
+COBOL/BMS/copybook samples are owned by `naca-rt-tests/src/test/resources/naca-samples/source/`.
+Legacy translated runtime fixtures are isolated under `naca-rt-tests/src/main/translated-java/`.
 
 ## ST4 Refactoring: Architecture Principle
 
@@ -170,5 +167,6 @@ if (<entity.condition>)                // ✅ semantic entity ready, template on
 **Verification Standard:**
 - API `POST http://localhost:8000/api/transpile` returns `success: true`
 - Generated Java code compiles with `javac`
-- Runtime output matches GnuCOBOL baseline (`NacaSamples/cobol/TEST-A-STANDALONE.cbl`, 34 lines)
+- Runtime output matches the 34-line GnuCOBOL baseline from
+  `naca-rt-tests/src/test/resources/naca-samples/source/cobol/TEST-A-STANDALONE.cbl`
 - `./gradlew :naca-trans:finalArchitectureCheck` passes with zero direct-backend debt

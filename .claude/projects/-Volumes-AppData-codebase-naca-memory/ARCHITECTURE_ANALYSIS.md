@@ -494,7 +494,7 @@ services:
   gnucobol:
     image: dagui0/gnucobol:latest
     volumes:
-      - ./NacaSamples/cobol:/src
+      - ./naca-rt-tests/src/test/resources/naca-samples/source:/src
 ```
 
 ### 3. 常用命令
@@ -541,7 +541,7 @@ docker-compose run cobol-env
 ### 配置文件
 - `naca-rt/src/main/resources/application.yml.example` - 配置模板
 - `naca-rt/src/main/resources/log4j2.xml` - 日志配置
-- `NacaSamples/trans/NacaTransRules.xml` - 转译规则
+- 旧的 `NacaSamples/trans/NacaTransRules.xml` 已随历史样例工程移除
 
 ### 核心源码
 - `naca-rt/src/main/java/nacaLib/basePrgEnv/BaseProgramManager.java` - 程序管理器 (1540 行)

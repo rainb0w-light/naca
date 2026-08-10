@@ -27,10 +27,8 @@ public class T01TranspileTest {
     static void loadCobolSource() throws IOException {
         // Try multiple paths
         Path[] possiblePaths = {
-            Path.of("NacaSamples/cobol/T01.cbl"),
-            Path.of("../NacaSamples/cobol/T01.cbl"),
-            Path.of("naca-cloud-native/NacaSamples/cobol/T01.cbl"),
-            Path.of("./NacaSamples/cobol/T01.cbl")
+            Path.of("naca-rt-tests/src/test/resources/naca-samples/source/cobol/T01.cbl"),
+            Path.of("../naca-rt-tests/src/test/resources/naca-samples/source/cobol/T01.cbl")
         };
 
         for (Path path : possiblePaths) {

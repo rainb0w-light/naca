@@ -71,6 +71,6 @@ Every production-reachable BMS/FPac ledger item terminal; `bmsDirectBackends`
 and `fpacDirectBackends` at 0 with the Java baselines tightened to 0; generated
 outputs compile where applicable; representative end-to-end behavior preserved
 (BMS artifact contract `BmsArtifactContractTest` green against
-`NacaSamples/cobol/ONLINM1.bms`; FPac focused fixtures green — no shipped corpus
+`naca-rt-tests/src/test/resources/naca-samples/source/bms/ONLINM1.bms`; FPac focused fixtures green — no shipped corpus
 exists); all prior COBOL/SQL/CICS gates stay green; final architecture checks
 pass for all enabled scopes.

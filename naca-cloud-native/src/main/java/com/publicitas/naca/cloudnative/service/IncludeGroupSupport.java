@@ -34,7 +34,7 @@ public final class IncludeGroupSupport {
 
     /**
      * Configure the directory holding copybook source files (e.g.
-     * {@code NacaSamples/cobol/include}) and the directory where generated
+     * {@code naca-rt-tests/src/test/resources/naca-samples/source/copybooks}) and the directory where generated
      * copybook classes are written.
      */
     public static synchronized void configure(String copybookDirectory, String outputDirectory) {

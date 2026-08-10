@@ -139,4 +139,9 @@ tasks.register<JacocoReport>("jacocoAggregateReport") {
     }
 }
 
-apply(from = "cobol-tasks.gradle.kts")
+tasks.register("sampleAcceptance") {
+    group = "verification"
+    description = "Runs the canonical COBOL-to-Java end-to-end acceptance pipeline"
+    dependsOn(":naca-trans:finalArchitectureCheck")
+    dependsOn(":naca-rt-tests:sampleAcceptance")
+}

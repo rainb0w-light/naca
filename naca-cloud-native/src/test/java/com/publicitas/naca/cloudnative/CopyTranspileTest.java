@@ -27,8 +27,8 @@ public class CopyTranspileTest {
     @BeforeAll
     static void setup() throws IOException {
         Path[] sources = {
-            Path.of("NacaSamples/cobol/BATCH1.cbl"),
-            Path.of("../NacaSamples/cobol/BATCH1.cbl")
+            Path.of("naca-rt-tests/src/test/resources/naca-samples/source/cobol/BATCH1.cbl"),
+            Path.of("../naca-rt-tests/src/test/resources/naca-samples/source/cobol/BATCH1.cbl")
         };
         for (Path p : sources) {
             if (Files.exists(p)) {
@@ -37,8 +37,8 @@ public class CopyTranspileTest {
             }
         }
         Path[] includes = {
-            Path.of("NacaSamples/cobol/include"),
-            Path.of("../NacaSamples/cobol/include")
+            Path.of("naca-rt-tests/src/test/resources/naca-samples/source/copybooks"),
+            Path.of("../naca-rt-tests/src/test/resources/naca-samples/source/copybooks")
         };
         for (Path p : includes) {
             if (Files.isDirectory(p)) {

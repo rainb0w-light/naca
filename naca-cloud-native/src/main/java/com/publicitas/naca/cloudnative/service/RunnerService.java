@@ -37,10 +37,9 @@ public class RunnerService {
         if (!codeManagerInitialized) {
             String userDir = System.getProperty("user.dir");
             if (userDir != null) {
-                // Add NacaSamples src directory to classpath
-                String nacaSamplesPath = userDir + "/NacaSamples/src/";
-                CodeManager.setPath(nacaSamplesPath);
-                System.out.println("CodeManager path set to: " + nacaSamplesPath);
+                String generatedClasses = GeneratedProgramWorkspace.classesDirectory().toString();
+                CodeManager.setPath(generatedClasses);
+                System.out.println("CodeManager path set to: " + generatedClasses);
             }
             // Enable class loading from file system (not JAR)
             CodeManager.initLoadPossibilities(true, false);
@@ -73,8 +72,8 @@ public class RunnerService {
             // Resolve the full class name
             String fullClassName = resolveFullClassName(programName);
 
-            // Load class with dynamic class loader that includes NacaSamples/src/
-            Class<?> programClass = loadClassFromNacaSamples(fullClassName);
+            // Load the freshly generated class from the build workspace.
+            Class<?> programClass = loadGeneratedClass(fullClassName);
             if (programClass == null) {
                 return RunResult.failure("Program class not found: " + programName +
                     ". Please transpile and compile the COBOL program first.");
@@ -110,26 +109,24 @@ public class RunnerService {
     }
 
     /**
-     * Load a class from NacaSamples/src/ directory using a custom class loader.
+     * Load a class from the generated-program build directory using a custom class loader.
      */
-    private Class<?> loadClassFromNacaSamples(String className) {
+    private Class<?> loadGeneratedClass(String className) {
         try {
             // First try with current class loader
             try {
                 return Class.forName(className);
             } catch (ClassNotFoundException e) {
-                // Try with NacaSamples/src/ directory
+                // Try the generated-program build directory.
             }
 
-            String userDir = System.getProperty("user.dir");
-            java.io.File nacaSamplesDir = new java.io.File(userDir + "/NacaSamples/src/");
+            java.io.File generatedClassesDir = GeneratedProgramWorkspace.classesDirectory().toFile();
 
-            if (!nacaSamplesDir.exists()) {
+            if (!generatedClassesDir.exists()) {
                 return null;
             }
 
-            // Create URL class loader for NacaSamples/src/
-            java.net.URL url = nacaSamplesDir.toURI().toURL();
+            java.net.URL url = generatedClassesDir.toURI().toURL();
             java.net.URLClassLoader urlClassLoader = new java.net.URLClassLoader(
                 new java.net.URL[] { url },
                 Thread.currentThread().getContextClassLoader()
@@ -138,7 +135,7 @@ public class RunnerService {
             Class<?> cls = urlClassLoader.loadClass(className);
 
             // Register with CodeManager so it can be found later
-            CodeManager.setPath(userDir + "/NacaSamples/src/");
+            CodeManager.setPath(generatedClassesDir.getAbsolutePath());
             CodeManager.initLoadPossibilities(true, false);
 
             return cls;

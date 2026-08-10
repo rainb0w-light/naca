@@ -16,11 +16,9 @@ Version 1.1.0 02/03/2009
 - CobolAppOnline: New directory; it contains standard resource definition for error and login screen. 
 	They can be customized depending on target application.
 
-- NacaSamples: New directory: It contains a sample online program. 
-	The original cobol files are in NacaSamples\cobol
-	The transcoded files are in NacaSamples\src
-	The transcoder configuration is in NacaSamples\trans
-	It's documented in NacaSamples\NacaSample.doc
+- NacaSamples: New directory: It contains a sample online program.
+	Historical note: this directory was retired after the source corpus moved to
+	naca-rt-tests/src/test/resources/naca-samples/source.
 	
 
 	

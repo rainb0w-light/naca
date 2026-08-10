@@ -16,7 +16,7 @@ services:
   gnucobol:
     image: gnucobol/gnucobol:latest
     volumes:
-      - ./NacaSamples/cobol:/src
+      - ./naca-rt-tests/src/test/resources/naca-samples/source:/src:ro
       - ./build/cobol:/output
     working_dir: /src
     command: /bin/bash

@@ -54,8 +54,8 @@ class DataSectionSubtypeAuditTest
     private static Path locate(String name)
     {
         for (Path p : new Path[] {
-            Path.of("NacaSamples/cobol", name),
-            Path.of("../NacaSamples/cobol", name) })
+            Path.of("naca-rt-tests/src/test/resources/naca-samples/source/cobol", name),
+            Path.of("../naca-rt-tests/src/test/resources/naca-samples/source/cobol", name) })
         {
             if (Files.exists(p))
             {

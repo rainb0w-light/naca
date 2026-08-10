@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.publicitas.naca.cloudnative.model.TranspileRequest;
 import com.publicitas.naca.cloudnative.model.TranspileResponse;
+import com.publicitas.naca.cloudnative.service.GeneratedProgramWorkspace;
 import com.publicitas.naca.cloudnative.service.TranspilerService;
 
 @RestController
@@ -27,14 +28,13 @@ import com.publicitas.naca.cloudnative.service.TranspilerService;
 public class TranspileController {
 
     private final TranspilerService transpilerService;
-    private static final String COBOL_SAMPLES_DIR = "NacaSamples/cobol";
-    // Use absolute path for compile output
-    private static final String COMPILE_OUTPUT_DIR = System.getProperty("user.dir") + "/NacaSamples/src/";
-
+    private static final List<Path> COBOL_SAMPLE_DIRS = List.of(
+        Paths.get("naca-rt-tests/src/test/resources/naca-samples/source/cobol"),
+        Paths.get("../naca-rt-tests/src/test/resources/naca-samples/source/cobol"));
     public TranspileController(TranspilerService transpilerService) {
         this.transpilerService = transpilerService;
-        // Enable auto-compile: transpiled code will be compiled and saved to NacaSamples/src/
-        TranspilerService.enableAutoCompile(COMPILE_OUTPUT_DIR);
+        // Generated programs are build artifacts, never source-controlled sample files.
+        TranspilerService.enableAutoCompile(GeneratedProgramWorkspace.classesDirectory().toString());
     }
 
     /**
@@ -120,9 +120,13 @@ public class TranspileController {
     public ResponseEntity<List<String>> listSamples() {
         List<String> samples = new ArrayList<>();
 
-        // Look for COBOL files in NacaSamples/cobol directory
-        Path samplesPath = Paths.get(COBOL_SAMPLES_DIR);
-        if (Files.exists(samplesPath)) {
+        // Development samples are owned by naca-rt-tests; production packaging does
+        // not persist or duplicate generated source files.
+        Path samplesPath = COBOL_SAMPLE_DIRS.stream()
+            .filter(Files::isDirectory)
+            .findFirst()
+            .orElse(null);
+        if (samplesPath != null) {
             try (Stream<Path> paths = Files.walk(samplesPath)) {
                 samples = paths
                     .filter(Files::isRegularFile)

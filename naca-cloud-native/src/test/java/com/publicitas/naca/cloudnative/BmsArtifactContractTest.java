@@ -46,35 +46,32 @@ class BmsArtifactContractTest
 {
     private static Path cobolDir;
     private static Path includeDir;
-    private static Path csdFile;
-    private static Path ruleFile;
+    private static Path bmsDir;
 
     private Transcoder transcoder;
 
     @BeforeEach
     void build()
     {
-        for (Path base : new Path[] { Path.of("NacaSamples"), Path.of("../NacaSamples") })
+        for (Path base : new Path[] {
+            Path.of("naca-rt-tests/src/test/resources/naca-samples/source"),
+            Path.of("../naca-rt-tests/src/test/resources/naca-samples/source") })
         {
-            Path candidate = base.resolve("cobol");
-            if (Files.isDirectory(candidate))
+            if (Files.isDirectory(base.resolve("cobol")))
             {
-                cobolDir = candidate.toAbsolutePath().normalize();
-                includeDir = candidate.resolve("include").toAbsolutePath().normalize();
-                csdFile = candidate.resolve("CICSCSD.txt").toAbsolutePath().normalize();
-                ruleFile = base.resolve("trans/NacaTransRules.xml").toAbsolutePath().normalize();
+                cobolDir = base.resolve("cobol").toAbsolutePath().normalize();
+                includeDir = base.resolve("copybooks").toAbsolutePath().normalize();
+                bmsDir = base.resolve("bms").toAbsolutePath().normalize();
                 break;
             }
         }
-        assertNotNull(cobolDir, "NacaSamples/cobol must exist");
+        assertNotNull(cobolDir, "naca-rt-tests sample COBOL directory must exist");
         String outputDir = System.getProperty("java.io.tmpdir") + "/naca-bms-contract-"
             + System.nanoTime();
         // Fresh transcoder per test: the BMS engine caches form containers and save maps
         // in its catalog, so isolation keeps each assertion independent.
         transcoder = OnlineCorpusSupport.build(
-            cobolDir.toString(), includeDir.toString(),
-            Files.exists(csdFile) ? csdFile.toString() : null,
-            Files.exists(ruleFile) ? ruleFile.toString() : null, outputDir);
+            cobolDir.toString(), includeDir.toString(), bmsDir.toString(), outputDir);
     }
 
     @Test

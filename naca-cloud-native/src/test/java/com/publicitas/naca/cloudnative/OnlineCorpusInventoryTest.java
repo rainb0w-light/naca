@@ -55,8 +55,7 @@ class OnlineCorpusInventoryTest
 {
     private static Path cobolDir;
     private static Path includeDir;
-    private static Path csdFile;
-    private static Path ruleFile;
+    private static Path bmsDir;
 
     /** Real copybook files in the Includes group that must exist on disk. */
     private static final List<String> COPYBOOK_INCLUDES = List.of("VTBMSGA", "TUAZONE");
@@ -84,15 +83,15 @@ class OnlineCorpusInventoryTest
     @BeforeAll
     static void locate()
     {
-        for (Path base : new Path[] { Path.of("NacaSamples"), Path.of("../NacaSamples") })
+        for (Path base : new Path[] {
+            Path.of("naca-rt-tests/src/test/resources/naca-samples/source"),
+            Path.of("../naca-rt-tests/src/test/resources/naca-samples/source") })
         {
-            Path candidate = base.resolve("cobol");
-            if (Files.isDirectory(candidate))
+            if (Files.isDirectory(base.resolve("cobol")))
             {
-                cobolDir = candidate.toAbsolutePath().normalize();
-                includeDir = candidate.resolve("include").toAbsolutePath().normalize();
-                csdFile = candidate.resolve("CICSCSD.txt").toAbsolutePath().normalize();
-                ruleFile = base.resolve("trans/NacaTransRules.xml").toAbsolutePath().normalize();
+                cobolDir = base.resolve("cobol").toAbsolutePath().normalize();
+                includeDir = base.resolve("copybooks").toAbsolutePath().normalize();
+                bmsDir = base.resolve("bms").toAbsolutePath().normalize();
                 break;
             }
         }
@@ -161,16 +160,14 @@ class OnlineCorpusInventoryTest
     @DisplayName("ONLINE1: every EXEC statement is PRESERVED or REJECTED with a structured diagnostic; SILENT_DROP fails")
     void online1StatementAccurateInventory() throws Exception
     {
-        assertTrue(cobolDir != null, "NacaSamples/cobol must exist");
+        assertTrue(cobolDir != null, "naca-rt-tests sample COBOL directory must exist");
         Path online1 = cobolDir.resolve("ONLINE1.cbl");
         assertTrue(Files.exists(online1), "ONLINE1.cbl must exist");
 
         String outputDir = System.getProperty("java.io.tmpdir") + "/naca-online-corpus-"
             + System.nanoTime();
         Transcoder transcoder = OnlineCorpusSupport.build(
-            cobolDir.toString(), includeDir.toString(),
-            Files.exists(csdFile) ? csdFile.toString() : null,
-            Files.exists(ruleFile) ? ruleFile.toString() : null, outputDir);
+            cobolDir.toString(), includeDir.toString(), bmsDir.toString(), outputDir);
 
         List<Stmt> sourceStatements = sourceExecStatements(online1);
 
