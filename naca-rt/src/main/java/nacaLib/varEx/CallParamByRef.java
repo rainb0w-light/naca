@@ -22,16 +22,16 @@ public class CallParamByRef extends CCallParam
 {
 	public CallParamByRef(Var var)
 	{
-		var = var;
+		this.var = var;
 		edit = null;
 	}
-	
+
 	public CallParamByRef(Edit edit)
 	{
 		var = null;
 		edit = edit;
 	}
-	
+
 	public int getParamLength()
 	{
 		if(var != null)
@@ -40,7 +40,7 @@ public class CallParamByRef extends CCallParam
 			return edit.getLength();
 		return 0;
 	}
-	
+
 	public void MapOn(Var varLinkageSection)
 	{
 		if(var != null)

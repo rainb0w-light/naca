@@ -7,6 +7,8 @@
       "tests": 46,
       "failures": 21
     },
+    "sampleAcceptanceTests": 2,
+    "sampleAcceptanceFailures": 0,
     "cicsRuntimeTodoOrFakeMarkers": 21,
     "fpacFactoryNotImplementedBranches": 131,
     "analyzerPlaceholderOperations": 3,

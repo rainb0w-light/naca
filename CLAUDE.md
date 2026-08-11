@@ -29,7 +29,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### End-to-End Acceptance (requires GnuCOBOL and JDK 21)
 ```bash
-./gradlew sampleAcceptance      # GnuCOBOL vs Naca -> javac -> NacaRT, strict 34-line diff
+./gradlew sampleAcceptance      # strict TEST-A GnuCOBOL diff + BATCH1/CALLMSG/file-I/O run
 ```
 
 ### Code Quality

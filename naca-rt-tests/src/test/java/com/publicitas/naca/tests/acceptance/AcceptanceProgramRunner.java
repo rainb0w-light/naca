@@ -12,6 +12,7 @@ import jlib.log.LogLevel;
 import jlib.log.LogParams;
 import jlib.log.PatternLayoutConsole;
 import jlib.misc.BasePic9Comp3BufferSupport;
+import jlib.misc.LogicalFileDescriptor;
 import nacaLib.basePrgEnv.BaseProgramLoader;
 import nacaLib.batchPrgEnv.BatchProgramLoader;
 import nacaLib.calledPrgSupport.BaseCalledPrgPublicArgPositioned;
@@ -46,11 +47,21 @@ public final class AcceptanceProgramRunner {
 
         BaseProgramLoader loader = new BatchProgramLoader(null, null);
         OnlineSession session = new OnlineSession(false);
+        if (args.length == 4) {
+            session.putLogicalFileDescriptor("FILEIN",
+                fixedAsciiFile("FILEIN", args[2]));
+            session.putLogicalFileDescriptor("FILEOUT",
+                fixedAsciiFile("FILEOUT", args[3]));
+        }
         OnlineEnvironment environment =
             (OnlineEnvironment) loader.GetEnvironment(session, null, null);
         environment.setNextProgramToLoad(className);
         loader.runTopProgram(
             environment, new ArrayList<BaseCalledPrgPublicArgPositioned>());
+    }
+
+    private static LogicalFileDescriptor fixedAsciiFile(String logicalName, String path) {
+        return new LogicalFileDescriptor(logicalName, path + ",ascii,fb,69");
     }
 
     private AcceptanceProgramRunner() {

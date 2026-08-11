@@ -151,7 +151,8 @@
     "discoveredDebt": [
       {
       "id": "LATENT-SELF-ASSIGN",
-      "note": "Repeated 'x = x' constructor self-assignment bugs (param shadows field). The BMS instances, including CEntityFormAccessor.owner and CEntityFormRedefine.eForm, are fixed. One verified production defect remains in CWorkingEntry.CWorkingPicType (text = text); track it in the modernization roadmap and close it with a focused parser test."
+      "resolved": true,
+      "note": "Resolved for the production paths found by the migration audit: transpiler assignments are protected by NoSelfAssignmentRegressionTest, CWorkingPicType has focused parser coverage, and the BATCH1 acceptance exposed and closed CallParamByRef's discarded by-reference argument. The broader runtime/jlib audit remains governed by the modernization quality baseline."
       },
       {
         "id": "PREEXISTING-WSMESSAGE",
@@ -163,7 +164,7 @@
       "id": "CALLMSG-SUBPROGRAM",
       "scope": "COBOL_CORE",
       "resolved": true,
-      "note": "The canonical CALLMSG.cbl source is now present in the sample corpus. BATCH1 and MSGZONE transpile and compile together; strict multi-program execution with FILEIN/FILEOUT remains tracked as an acceptance-matrix task rather than missing-source migration debt."
+      "note": "Resolved end to end: BatchMultiProgramAcceptanceTest transpiles BATCH1 and CALLMSG, generates MSGZONE, compiles all three classes, injects 69-byte FILEIN/FILEOUT descriptors, verifies by-reference dynamic CALL output, and compares both written records exactly."
       },
       {
         "id": "ONLINE1-SILENT-DROPS",

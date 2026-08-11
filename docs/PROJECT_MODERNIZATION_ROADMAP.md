@@ -11,9 +11,9 @@ the current queue.
   inventories are frozen at zero.
 - The migration ledger contains 274 terminal entries and no blocked entry.
 - `:naca-rt-tests:legacyRuntimeTest` executes 46 tests; 21 currently fail.
-- The canonical `sampleAcceptance` covers `TEST-A-STANDALONE` and matches the
-  34-line GnuCOBOL baseline. BATCH1 is transpiled and compiled but does not yet
-  have an equally strict multi-program runtime acceptance test.
+- The canonical `sampleAcceptance` contains two strict pipelines: the 34-line
+  `TEST-A-STANDALONE` GnuCOBOL comparison, and a BATCH1/CALLMSG/MSGZONE run that
+  verifies dynamic CALL linkage plus exact FILEIN/FILEOUT behavior.
 - `naca-analyzer` has no tests and its three public operations are placeholders.
 - The CICS runtime has 21 explicit TODO/fake markers in `BaseCESMManager`.
 - `CJavaFPacEntityFactory` has 131 explicit `Method not implemented` branches;
@@ -25,6 +25,17 @@ the current queue.
   name a conformance fixture.
 - JaCoCo verification is configured with a zero minimum and therefore provides
   reporting but no coverage gate.
+
+## Progress
+
+- M0-M3 are complete: roadmap/baselines, quality tooling, CI/security workflows,
+  and transpiler self-assignment cleanup are committed.
+- M4-M5 have active no-growth gates and completed first cleanup slices; broader
+  semantic naming and comment/Javadoc cleanup continue module by module.
+- M6's canonical multi-program batch slice is complete. Feature-registry fixture
+  traceability remains part of the acceptance-matrix work.
+- The BATCH1 slice also fixed the runtime `CallParamByRef` constructor defect that
+  previously discarded every by-reference `Var` argument.
 
 Machine-readable counters live in `project-quality-baseline.json`. A counter may
 only decrease unless a reviewed change updates both its rationale and its target.

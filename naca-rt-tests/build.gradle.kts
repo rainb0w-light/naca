@@ -111,6 +111,11 @@ tasks.register<Test>("sampleAcceptance") {
     classpath = sourceSets["test"].runtimeClasspath
     inputs.file(layout.projectDirectory.file(
         "src/test/resources/naca-samples/source/cobol/TEST-A-STANDALONE.cbl"))
+    inputs.files(
+        layout.projectDirectory.file("src/test/resources/naca-samples/source/cobol/BATCH1.cbl"),
+        layout.projectDirectory.file("src/test/resources/naca-samples/source/cobol/CALLMSG.cbl"),
+        layout.projectDirectory.file("src/test/resources/naca-samples/source/copybooks/MSGZONE"),
+        layout.projectDirectory.file("src/test/resources/testdata/FILEIN.dat"))
     outputs.upToDateWhen { false }
     useJUnitPlatform {
         includeTags("sample-acceptance")
