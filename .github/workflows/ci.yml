@@ -1,0 +1,111 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+  schedule:
+    - cron: "17 18 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verification:
+    name: Build, architecture, and quality
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "21"
+      - uses: gradle/actions/setup-gradle@v6
+      - name: Verify build and architecture
+        run: >-
+          ./gradlew build qualityCheck
+          :naca-trans:finalArchitectureCheck
+          :naca-trans:templateJarCheck
+          :naca-trans:templateJarSmoke
+          :naca-cloud-native:onlineCorpusBaseline
+          --stacktrace
+      - name: Upload verification reports
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: verification-reports
+          path: |
+            **/build/reports/**
+            **/build/test-results/**
+          if-no-files-found: warn
+          retention-days: 14
+
+  sample-acceptance:
+    name: GnuCOBOL acceptance
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "21"
+      - uses: gradle/actions/setup-gradle@v6
+      - name: Install GnuCOBOL
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes gnucobol
+          cobc --version
+      - name: Run strict sample acceptance
+        run: ./gradlew sampleAcceptance --stacktrace
+      - name: Upload acceptance reports
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: sample-acceptance-reports
+          path: |
+            naca-rt-tests/build/reports/tests/sampleAcceptance/**
+            naca-rt-tests/build/test-results/sampleAcceptance/**
+          if-no-files-found: warn
+          retention-days: 14
+
+  legacy-runtime-audit:
+    name: Legacy runtime debt audit
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "21"
+      - uses: gradle/actions/setup-gradle@v6
+      - name: Run known-debt compatibility suite
+        id: legacy
+        continue-on-error: true
+        run: ./gradlew :naca-rt-tests:legacyRuntimeTest --stacktrace
+      - name: Record audit status
+        run: echo "Legacy runtime audit outcome：${{ steps.legacy.outcome }}" >> "$GITHUB_STEP_SUMMARY"
+      - name: Upload legacy runtime reports
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: legacy-runtime-reports
+          path: |
+            naca-rt-tests/build/reports/tests/legacyRuntimeTest/**
+            naca-rt-tests/build/test-results/legacyRuntimeTest/**
+          if-no-files-found: warn
+          retention-days: 30
