@@ -47,7 +47,6 @@ public class CEntityAddress extends CDataEntity
 	@Override
 	public boolean isValNeeded()
 	{
-		// TODO Auto-generated method stub
 		return false;
 	}
 

@@ -43,21 +43,18 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityIsFieldCursor NewEntityIsFieldCursor()
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityResetKeyPressed NewEntityResetKeyPressed(int l)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityCICSGetMain NewEntityCICSGetMain(int l)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
@@ -72,112 +69,96 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityFieldOccurs NewEntityFieldOccurs(int i, String string)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityGetKeyPressed NewEntityGetKeyPressed(String name)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityIsKeyPressed NewEntityIsKeyPressed()
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityKeyPressed NewEntityKeyPressed(String name, String caption)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntitySQLCursor NewEntitySQLCursor(String name)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityIndex NewEntityIndex(String name)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityFieldArrayReference NewEntityFieldArrayReference(int l)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntitySQLCursorSection NewEntitySQLCursorSection()
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityProcedureDivision NewEntityProcedureDivision(int l)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityCICSReWrite NewEntityCICSReWrite(int l)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityCICSDelay NewEntityCICSDelay(int l)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityCICSSetTDQueue NewEntityCICSSetTDQueue(int l)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityCICSDeQ NewEntityCICSDeQ(int l)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityCICSEnQ NewEntityCICSEnQ(int l)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityCount NewEntityCount(int l)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityInspectConverting NewEntityInspectConverting(int l)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
@@ -205,140 +186,120 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityCICSAssign NewEntityCICSAssign(int l)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityCICSWriteQ NewEntityCICSWriteQ(int l, boolean b)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityCICSReadQ NewEntityCICSReadQ(int l, boolean b)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityCICSDeleteQ NewEntityCICSDeleteQ(int l, boolean b)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityCICSStartBrowse NewEntityCICSStartBrowse(int l)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityCICSRead NewEntityCICSRead(int l, CEntityCICSReadMode mode)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityCICSAbend NewEntityCICSAbend(int l)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityCICSInquire NewEntityCICSInquire(int l)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityCICSSyncPoint NewEntityCICSSyncPoint(int l, boolean bRollBack)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityIsFieldModified NewEntityIsFieldModified()
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityCICSReceiveMap NewEntityCICSReceiveMap(int l, CDataEntity name)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityCICSWrite NewEntityCICSWrite(int l)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityCICSSendMap NewEntityCICSSendMap(int l)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityCICSReturn NewEntityCICSReturn(int l)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityCICSStart NewEntityCICSStart(int l, CDataEntity TID)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityCICSRetrieve NewEntityCICSRetreive(int l, boolean bPointer)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityCICSIgnoreCondition NewEntityCICSIgnoreCondition(int l)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityCICSHandleCondition NewEntityCICSHandleCondition(int line)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityCICSHandleAID NewEntityCICSHandleAID(int line)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityCurrentDate NewEntityCurrentDate()
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
@@ -356,70 +317,60 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityAddressOf NewEntityAddressOf(CDataEntity data)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityLengthOf NewEntityLengthOf(CDataEntity data)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityCICSXctl NewEntityCICSXctl(int l)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityCICSLink NewEntityCICSLink(int l)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityCICSAddress NewEntityCICSAddress(int l)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityCICSAskTime NewEntityCICSAskTime(int l)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityExprOpposite NewEntityExprOpposite()
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntitySQLCommit NewEntitySQLCommit(int l)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntitySQLRollBack NewEntitySQLRollBack(int l)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityParseString NewEntityParseString(int l)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
@@ -456,7 +407,6 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityStringConcat NewEntityStringConcat(int l)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
@@ -469,7 +419,6 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityReplace NewEntityReplace(int l)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
@@ -502,7 +451,6 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityIsNamedCondition NewEntityIsNamedCondition()
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
@@ -516,42 +464,36 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityMoveReference NewEntityMoveReference(int l)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityAddressReference NewEntityAddressReference(CDataEntity ref)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityIsFieldAttribute NewEntityIsFieldAttribute()
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityIsFieldColor NewEntityIsFieldColor()
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntitySetConstant NewEntitySetConstant(int l)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityIsFieldFlag NewEntityIsFieldFlag()
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
@@ -595,7 +537,6 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityCondIsAll NewEntityCondIsAll()
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
@@ -675,14 +616,12 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityExprProd NewEntityExprProd()
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityCondNot NewEntityCondNot()
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
@@ -772,14 +711,12 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityAttribute NewEntityAttribute(int l, String name)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityStructure NewEntityStructure(int l, String name, String Level)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
@@ -793,7 +730,6 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityProcedureSection NewEntityProcedureSection(int l, String name)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
@@ -817,14 +753,12 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	public CEntityExternalDataStructure NewEntityExternalDataStructure(int l,
 					String name)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityInline NewEntityInline(int l, CBaseExternalEntity ext)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
@@ -843,28 +777,24 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityCalcul NewEntityCalcul(int l)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntitySqlOnErrorGoto NewEntitySQLOnErrorGoto(int l, String ref)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntitySqlOnErrorGoto NewEntitySQLOnWarningGoto(int l, String ref)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityExec NewEntityExec(int l, String statement)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
@@ -872,7 +802,6 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	public CEntityResourceFormContainer NewEntityFormContainer(int l,
 					String name, boolean bSavCopy)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
@@ -880,21 +809,18 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	public CEntityResourceForm NewEntityForm(int l, String name,
 					boolean bSavCopy)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityResourceField NewEntityEntryField(int l, String name)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityResourceField NewEntityLabelField(int l)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
@@ -919,7 +845,6 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityInitialize NewEntityInitialize(int l, CDataEntity data)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
@@ -952,7 +877,6 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntitySwitchCase NewEntitySwitchCase(int l)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
@@ -998,7 +922,6 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityGoto NewEntityGotoDepending(int l, List<String> refs, CDataEntity dep, CEntityProcedureSection section)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
@@ -1029,14 +952,12 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityNextSentence NewEntityNextSentence(int l)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityNamedCondition NewEntityNamedCondition(int l, String name)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
@@ -1044,7 +965,6 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	public CEntitySQLSingleStatement NewEntitySQLSingleStatement(int l,
 					String name)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
@@ -1053,7 +973,6 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 					String name, Vector<CDataEntity> arrParameters,
 					Vector<CDataEntity> arrInto, Vector<CDataEntity> arrInd)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
@@ -1061,7 +980,6 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	public CEntitySQLCursorSelectStatement NewEntitySQLCursorSelectStatement(
 					int l)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
@@ -1069,7 +987,6 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	public CEntitySQLFetchStatement NewEntitySQLFetchStatement(int l,
 					CEntitySQLCursor cur)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
@@ -1077,7 +994,6 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	public CEntitySQLOpenStatement NewEntitySQLOpenStatement(int l,
 					CEntitySQLCursor cur)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
@@ -1085,7 +1001,6 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	public CEntitySQLCloseStatement NewEntitySQLCloseStatement(int l,
 					CEntitySQLCursor cur)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
@@ -1093,7 +1008,6 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	public CEntitySQLDeleteStatement NewEntitySQLDeleteStatement(int l,
 					String csStatement, Vector<CDataEntity> arrParameters)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
@@ -1102,14 +1016,12 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 					String csStatement, Vector<CDataEntity> arrSets,
 					Vector<CDataEntity> arrParameters)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntitySQLInsertStatement NewEntitySQLInsertStatement(int l)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
@@ -1118,14 +1030,12 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 					String csTableName, String csViewName,
 					ArrayList arrTableColDescription)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntitySetColor NewEntitySetColor(int l, CDataEntity field)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
@@ -1133,7 +1043,6 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	public CEntityFieldLength NewEntityFieldLengh(int l, String name,
 					CDataEntity field)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
@@ -1141,7 +1050,6 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	public CEntityFieldData NewEntityFieldData(int l, String name,
 					CDataEntity field)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
@@ -1149,7 +1057,6 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	public CEntityFieldColor NewEntityFieldColor(int l, String name,
 					CDataEntity field)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
@@ -1157,7 +1064,6 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	public CEntityFieldAttribute NewEntityFieldAttribute(int l, String name,
 					CDataEntity field)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
@@ -1165,7 +1071,6 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	public CEntityFieldHighlight NewEntityFieldHighlight(int l, String name,
 					CDataEntity field)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
@@ -1173,7 +1078,6 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	public CEntityFieldFlag NewEntityFieldFlag(int l, String name,
 					CDataEntity field)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
@@ -1181,35 +1085,30 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	public CEntityFieldValidated NewEntityFieldValidated(int l, String name,
 					CDataEntity field)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntitySetHighligh NewEntitySetHighlight(int l, CDataEntity field)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntitySetFlag NewEntitySetFlag(int l, CDataEntity field)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntitySetCursor NewEntitySetCursor(int l, CDataEntity field)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntitySetAttribute NewEntitySetAttribute(int l, CDataEntity field)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
@@ -1237,7 +1136,6 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CResourceStrings NewResourceString(int nbLines, int nbCols)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
@@ -1245,7 +1143,6 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	public CEntityEnvironmentVariable NewEntityEnvironmentVariable(
 					String namev, String acc, boolean bNumeric)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
@@ -1274,7 +1171,6 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	public CEntitySkipFields NewEntityWorkingSkipField(int l, String name,
 					int nbFields, String level)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
@@ -1282,7 +1178,6 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	public CEntityFieldRedefine NewEntityFieldRedefine(int l, String name,
 					String level)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
@@ -1290,7 +1185,6 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	public CEntityFormRedefine NewEntityFormRedefine(int l, String name,
 					CDataEntity eForm, boolean bSaveMap)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
@@ -1303,14 +1197,12 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityResourceFieldArray NewEntityFieldArray()
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntitySQLCode NewEntitySQLCode(String name)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
@@ -1318,14 +1210,12 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	public CEntitySQLCode NewEntitySQLCode(String name,
 					CBaseEntityExpression eHistoryItem)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityCondIsSQLCode NewEntityCondIsSQLCode()
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
@@ -1340,35 +1230,30 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityConcat NewEntityConcat(CDataEntity e1, CDataEntity e2)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityList NewEntityList(String name)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityDigits NewEntityDigits(CDataEntity nel)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntitySearch NewEntitySearch(int line)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityInternalBool NewEntityInternalBool(String name)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
@@ -1394,7 +1279,6 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	public CEntitySortedFileDescriptor NewEntitySortedFileDescriptor(int line,
 					String name)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
@@ -1446,35 +1330,30 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityAccept NewEntityAccept(int line)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntitySort NewEntitySort(int line)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntitySortRelease NewEntitySortRelease(int line)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntitySortReturn NewEntitySortReturn(int line)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
 	@Override
 	public CEntityRewriteFile NewEntityRewriteFile(int line)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
@@ -1522,24 +1401,22 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 		// as the retired backend's override did (copy reference, flip flag).
 		return new CEntityCondIsBoolean() ;
 	}
-	
+
 	/**
 	 * @see semantic.CBaseEntityFactory#NewEntitySQLLock(int)
 	 */
 	@Override
 	public CEntitySQLSessionDeclare NewEntitySQLSessionDeclare(int line)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
-	
+
 	/**
 	 * @see semantic.CBaseEntityFactory#NewEntitySQLLock(int)
 	 */
 	@Override
 	public CEntitySQLSessionDrop NewEntitySQLSessionDrop(int line)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
@@ -1549,7 +1426,6 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntitySQLLock NewEntitySQLLock(int line)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
@@ -1559,7 +1435,6 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntitySQLExecute NewEntitySQLExecute(int line)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
@@ -1618,7 +1493,6 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityConstant NewEntityConstant(Value val)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
 
@@ -1628,7 +1502,7 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public void addSpecialConstantValue(String value, String constant)
 	{
-		
+
 	}
 
 	/**
@@ -1670,8 +1544,7 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntitySQLCall NewEntitySQLCall(int line)
 	{
-		// TODO Auto-generated method stub
 		throw new NacaTransAssertException("Method not implemented") ;
 	}
-	
+
 }

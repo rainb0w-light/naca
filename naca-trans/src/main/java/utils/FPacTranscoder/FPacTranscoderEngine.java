@@ -149,7 +149,7 @@ public class FPacTranscoderEngine extends TranscoderEngine<CFPacScript, CEntityC
 			String method = e.getVal("method") ;
 			factory.programCatalog.RegisterRoutineEmulation(name, method) ;
 		}
-//		
+//
 //		nb = rulesManager.getNbRules("NoExportResource") ;
 //		for (int i=0; i<nb; i++)
 //		{
@@ -169,8 +169,7 @@ public class FPacTranscoderEngine extends TranscoderEngine<CFPacScript, CEntityC
 	@Override
 	protected void doPopulateSpecialActionHandlers(NotificationEngine engine)
 	{
-		// TODO Auto-generated method stub
-		
+
 	}
 
 

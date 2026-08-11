@@ -31,7 +31,7 @@ import utils.TranscoderEngine;
 
 public class CobolIncludeTranscoderEngine extends TranscoderEngine<CStandAloneWorking, CEntityExternalDataStructure>
 {
-	
+
 
 	@Override
 	protected CParser<CStandAloneWorking> doParsing(CTokenList lst)
@@ -65,10 +65,10 @@ public class CobolIncludeTranscoderEngine extends TranscoderEngine<CStandAloneWo
 		String javafilePath = filePath.replaceAll(fileName, finalName) ;
 		CJavaExporter exp = new CJavaExporter(cat.listing, javafilePath, parser.commentContainer, bResources) ;
 		CJavaEntityFactory factory = new CJavaEntityFactory(cat, exp) ;
-		
+
 		CStandAloneWorking working = parser.GetRootElement() ;
 		CEntityExternalDataStructure eFile = working.DoSemanticAnalysis(factory);
-		
+
 		String replace = tabRulesReplaceCopy.get(fileName) ;
 		if (replace == null)
 		{
@@ -79,7 +79,7 @@ public class CobolIncludeTranscoderEngine extends TranscoderEngine<CStandAloneWo
 				CBaseLanguageEntity[] lsta = eFile.GetChildrenList(null, null) ;
 				for (int i=0; i<lsta.length; i++)
 				{
-					String s = lsta[i].GetName() ; 
+					String s = lsta[i].GetName() ;
 					if (s.indexOf(fileName) >= 0)
 					{
 						s = s.replaceAll(fileName, newname) ;
@@ -98,7 +98,7 @@ public class CobolIncludeTranscoderEngine extends TranscoderEngine<CStandAloneWo
 			CEntityExternalDataStructure newext = doAllAnalysis(replace, "", grp, false) ;
 			if(newext == null)
 			{
-				Transcoder.logError("File not found : "+replace); 
+				Transcoder.logError("File not found : "+replace);
 				return null;
 			}
 			eFile.Rename(newext.GetName()) ;
@@ -106,13 +106,13 @@ public class CobolIncludeTranscoderEngine extends TranscoderEngine<CStandAloneWo
 			CBaseLanguageEntity[] lsta = eFile.GetChildrenList(null, null) ;
 			for (int i=0; i<lsta.length && i<lstb.length; i++)
 			{
-				String s = lsta[i].GetName() ; 
+				String s = lsta[i].GetName() ;
 				lsta[i].SetDisplayName(lstb[i].GetDisplayName()) ;
 			}
 			return newext ;
 		}
 	}
-	
+
 	@Override
 	protected CBaseLexer getLexer()
 	{
@@ -121,7 +121,7 @@ public class CobolIncludeTranscoderEngine extends TranscoderEngine<CStandAloneWo
 
 	private void setReplaceRule(String name, String replace)
 	{
-		tabRulesReplaceCopy.put(name, replace);	
+		tabRulesReplaceCopy.put(name, replace);
 	}
 
 	private void setRenameRule(String name, String rename)
@@ -137,14 +137,13 @@ public class CobolIncludeTranscoderEngine extends TranscoderEngine<CStandAloneWo
 	protected void doLogs(String csInput, String csOutput)
 	{
 		// Nothing
-		
+
 	}
 
 	@Override
 	protected void doPopulateSpecialActionHandlers(NotificationEngine engine)
 	{
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	/**
@@ -190,5 +189,5 @@ public class CobolIncludeTranscoderEngine extends TranscoderEngine<CStandAloneWo
 		return filename;
 	}
 
-	
+
 }

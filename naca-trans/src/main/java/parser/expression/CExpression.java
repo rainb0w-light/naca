@@ -37,19 +37,19 @@ public abstract class CExpression
 		this.line = line ;
 	}
 	private int line = 0 ;
-	
+
 	public int getLine()
 	{
 		return line;
 	}
-	
+
 	public abstract CBaseEntityExpression AnalyseExpression(CBaseEntityFactory factory);
 	public CBaseEntityCondition AnalyseCondition(CBaseEntityFactory factory)
 	{
 		return AnalyseCondition(factory, new CDefaultConditionManager(null));
 	}
 	public abstract CBaseEntityCondition AnalyseCondition(CBaseEntityFactory factory, CDefaultConditionManager masterCond);
-	
+
 	public CExpression NewCopy(int line, CExpression term1, CExpression term2)
 	{ // used by some child classes
 		return null ;
@@ -66,7 +66,7 @@ public abstract class CExpression
 	}
 	public abstract Element DoExport(Document root);
 	protected abstract boolean CheckMembersBeforeExport();
-	
+
 	protected boolean CheckMemberNotNull(Object o)
 	{
 		if(o == null)
@@ -76,12 +76,12 @@ public abstract class CExpression
 		}
 		return true;
 	}
-	
+
 
 	public boolean IsReference()
 	{
 		return false ;
-	}	
+	}
 	public boolean IsConstant()
 	{
 		return false ;
@@ -89,13 +89,13 @@ public abstract class CExpression
 	public CDataEntity GetReference(CBaseEntityFactory factory)
 	{
 		return null ;
-	} 
+	}
 	public String GetConstantValue()
 	{
 		return "" ;
-	} 
-	
-	protected void ASSERT(Object o, CExpression expressionSource) 
+	}
+
+	protected void ASSERT(Object o, CExpression expressionSource)
 	{
 		if (o == null)
 		{
@@ -106,7 +106,7 @@ public abstract class CExpression
 			throw new NacaTransAssertException("ASSERTION: Cannot continue transcoding");
 		}
 	}
-	protected void ASSERT() 
+	protected void ASSERT()
 	{
 		throw new NacaTransAssertException("ASSERT");
 	}
@@ -119,7 +119,6 @@ public abstract class CExpression
 	 */
 	public Object GetConditionType()
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 	/**

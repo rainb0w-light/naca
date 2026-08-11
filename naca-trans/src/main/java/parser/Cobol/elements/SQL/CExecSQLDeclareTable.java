@@ -7,8 +7,6 @@
 /*
  * Created on 20 ao�t 04
  *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 package parser.Cobol.elements.SQL;
 import lexer.*;
@@ -33,8 +31,6 @@ import utils.CRulesManager;
 /**
  * @author U930DI
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CExecSQLDeclareTable extends CBaseExecSQLAction
 {

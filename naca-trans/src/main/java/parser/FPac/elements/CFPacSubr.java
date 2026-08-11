@@ -49,7 +49,7 @@ public class CFPacSubr extends CFPacCodeBloc
 				return false ;
 			}
 		}
-		
+
 		if (tok.GetType() == CTokenType.IDENTIFIER)
 		{
 			super.csName = tok.GetValue() ;
@@ -60,10 +60,10 @@ public class CFPacSubr extends CFPacCodeBloc
 			Transcoder.logError(getLine(), "Expecting IDENTIFIER") ;
 			return false ;
 		}
-		
+
 		if (!super.DoParsing())
 			return false ;
-		
+
 		tok = GetCurrentToken() ;
 		if (tok.GetKeyword() == CFPacKeywordList.SUBREND)
 		{
@@ -74,22 +74,11 @@ public class CFPacSubr extends CFPacCodeBloc
 	}
 
 	/**
-	 * @see parser.CLanguageElement#DoCustomSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
-	 */
-//	@Override
-//	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-//	{
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-
-	/**
 	 * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
 	 */
 	@Override
 	protected Element ExportCustom(Document root)
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 

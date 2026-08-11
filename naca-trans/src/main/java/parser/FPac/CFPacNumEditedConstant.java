@@ -22,7 +22,7 @@ public class CFPacNumEditedConstant extends CTerminal
 
 	protected String csFormat = "" ;
 	/**
-	 * 
+	 *
 	 */
 	public CFPacNumEditedConstant(String cs)
 	{
@@ -53,7 +53,6 @@ public class CFPacNumEditedConstant extends CTerminal
 	@Override
 	public void ExportTo(Element e, Document root)
 	{
-		// TODO Auto-generated method stub
 
 	}
 

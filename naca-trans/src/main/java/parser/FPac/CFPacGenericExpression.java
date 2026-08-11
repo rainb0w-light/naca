@@ -482,21 +482,18 @@ public class CFPacGenericExpression extends CExpression
 	@Override
 	public CExpression GetFirstConditionOperand()
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public CExpression GetSimilarExpression(CExpression operand)
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public boolean IsBinaryCondition()
 	{
-		// TODO Auto-generated method stub
 		return false;
 	}
 

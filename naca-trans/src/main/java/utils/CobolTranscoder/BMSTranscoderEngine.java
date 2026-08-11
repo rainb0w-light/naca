@@ -42,14 +42,14 @@ import utils.TranscoderEngine;
 public class BMSTranscoderEngine extends TranscoderEngine<CMapSetElement, CEntityResourceFormContainer>
 {
 	public static BMSTranscoderEngine ms_BMSTranscoderEngine = null;
-	
+
 	public BMSTranscoderEngine()
 	{
 		if(ms_BMSTranscoderEngine == null)
 			ms_BMSTranscoderEngine = this;
 	}
-	
-	protected CFormEnhancer formEnhancer = null ;  
+
+	protected CFormEnhancer formEnhancer = null ;
 
 
 	@Override
@@ -66,7 +66,7 @@ public class BMSTranscoderEngine extends TranscoderEngine<CMapSetElement, CEntit
 			Transcoder.logError("BMS parsing failed") ;
 			return null ;
 		}
-	}				
+	}
 
 	@Override
 	protected CEntityResourceFormContainer doSemanticAnalysis(CParser<CMapSetElement> parser, String fileName, CObjectCatalog cat, CTransApplicationGroup grp, boolean bResources)
@@ -76,10 +76,10 @@ public class BMSTranscoderEngine extends TranscoderEngine<CMapSetElement, CEntit
 		CEntityResourceFormContainer eSem = (CEntityResourceFormContainer)parser.GetRootElement().DoSemanticAnalysis(null, factory) ;
 
 		if(formEnhancer != null)
-		{	
+		{
 			formEnhancer.ProcessFormContainer(eSem, bResources) ;
-		}	
-		
+		}
+
 		return eSem ;
 	}
 
@@ -114,7 +114,7 @@ public class BMSTranscoderEngine extends TranscoderEngine<CMapSetElement, CEntit
 			cat.RegisterFormContainer(filename, ext) ;
 		return ext;
 	}
-	
+
 	@Override
 	public CEntityResourceFormContainer doAllAnalysis(String filename, String csApplication, CTransApplicationGroup grp, boolean bResources)
 	{
@@ -124,7 +124,7 @@ public class BMSTranscoderEngine extends TranscoderEngine<CMapSetElement, CEntit
 			filename += ".res";
 			return doAllAnalysisforResFiles(filename, csApplication, grp, bResources);
 		}
-		
+
 		if (filename.endsWith("S"))
 		{
 			String map = filename.substring(0, filename.length()-1) ;
@@ -142,7 +142,7 @@ public class BMSTranscoderEngine extends TranscoderEngine<CMapSetElement, CEntit
 				return eSav;
 			}
 		}
-			
+
 		CEntityResourceFormContainer ext = super.doAllAnalysis(filename, csApplication, grp, bResources) ;
 		if (ext != null)
 		{
@@ -154,14 +154,13 @@ public class BMSTranscoderEngine extends TranscoderEngine<CMapSetElement, CEntit
 	@Override
 	protected void doLogs(String csInput, String csOutput)
 	{
-		// Nothing		
+		// Nothing
 	}
 
 	@Override
 	protected void doPopulateSpecialActionHandlers(NotificationEngine engine)
 	{
-		// TODO Auto-generated method stub
-		
+
 	}
 
 
@@ -174,8 +173,8 @@ public class BMSTranscoderEngine extends TranscoderEngine<CMapSetElement, CEntit
 		Tag tagCobol = eConf.getChild("BMSSpec") ;
 		if (tagCobol != null)
 		{
-			String csFormTransformPath = tagCobol.getVal("FormTransformPath") ; 
-			String csGlobalTransformPath = tagCobol.getVal("GlobalFormTransform") ; 
+			String csFormTransformPath = tagCobol.getVal("FormTransformPath") ;
+			String csGlobalTransformPath = tagCobol.getVal("GlobalFormTransform") ;
 			formEnhancer = new CFormEnhancer(csFormTransformPath, csGlobalTransformPath) ;
 		}
 		return true ;
@@ -199,7 +198,7 @@ public class BMSTranscoderEngine extends TranscoderEngine<CMapSetElement, CEntit
 	{
 		return ReplaceExtensionFileName(filename, "bms") ;
 	}
-	
+
 	private void createDirIsRequired(String csOutputDir, String csApplication)
 	{
 		if (!csApplication.equals(""))
@@ -212,23 +211,23 @@ public class BMSTranscoderEngine extends TranscoderEngine<CMapSetElement, CEntit
 			}
 		}
 	}
-	
+
 	private CEntityResourceFormContainer importRESResource(String inputFileName, String csApplication, CTransApplicationGroup grp, boolean bResources)
 	{
 		String csOutputFile = generateOutputFileName(inputFileName) ;
 		CTransApplicationGroup grpResources = cat.getGroupResources();
 		String csFullInputFileName = grpResources.csOutputPath + inputFileName;
-		
+
 		//String csOutputFile = generateOutputFileName(inputFileName) ;
 		//createDirIsRequired(grp.csOutputPath, csApplication);	// For .res output
-		
+
 		Tag tagRoot = Tag.createFromFile(csFullInputFileName);
 		if(tagRoot == null)
 			return null;
-		
+
 		if(grp.csOutputPath != null)
 			createDirIsRequired(grp.csOutputPath, csApplication);	// For .java output
-		
+
 		CBMSParser BMSParser = parseRESResource(tagRoot);
 		if(BMSParser != null)
 		{
@@ -248,11 +247,11 @@ public class BMSTranscoderEngine extends TranscoderEngine<CMapSetElement, CEntit
 					if (ext != null)
 					{
 						cat.RegisterFormContainer(inputFileName, ext) ;
-						
-						// PJD 08/08/2007 Uncomment to export xxx.java screen copy file. These are duplicated files generated twice beforecorrect generation export by    
+
+						// PJD 08/08/2007 Uncomment to export xxx.java screen copy file. These are duplicated files generated twice beforecorrect generation export by
 						//Transcoder.logInfo("Exporting java file "+csJavaOutFileName);
 						//generate.LegacyLanguageRenderer.startExport(ext) ;
-						
+
 						String fileNameJavaS = FileSystem.appendFilePath(grp.csOutputPath + csApplication, ReplaceExtensionFileNameWithSuffix(csOutputFile, "S", "java"));
 						//String fileNameJavaS = grp.csOutputPath + csApplication + "/" + ReplaceExtensionFileNameWithSuffix(csOutputFile, "S", "java");
 						CJavaExporter outjavaS = new CJavaExporter(
@@ -260,17 +259,17 @@ public class BMSTranscoderEngine extends TranscoderEngine<CMapSetElement, CEntit
 						CJavaEntityFactory factoryS0 = new CJavaEntityFactory(ext.programCatalog, outjavaS) ;
 						CObjectCatalog globalCat = new CObjectCatalog(ms_BMSTranscoderEngine.getGlobalCatalog(), listing, grp.eType, engine) ;
 						CJavaEntityFactory factoryS = new CJavaEntityFactory(globalCat, outjavaS) ;
-												
+
 						ext.clearSavCopy(factoryS) ;
-						
-						CEntityResourceFormContainer eSav = ext.MakeSavCopy(factoryS, true) ;	// we are generating directly form a .res file; the name of variables in *S.java file is not very well managed in taht case, so, the flag ... 
+
+						CEntityResourceFormContainer eSav = ext.MakeSavCopy(factoryS, true) ;	// we are generating directly form a .res file; the name of variables in *S.java file is not very well managed in taht case, so, the flag ...
 						if(ext.GetSavCopy() != null)
 						{
 							// PJD 08/08/2007 Uncomment to export xxxS.java screen copy file. These are duplicated files generated twice beforecorrect generation export by
 //							Transcoder.logInfo("Exporting javaS file "+fileNameJavaS);
 //							generate.LegacyLanguageRenderer.startExport(ext.GetSavCopy()) ;
 						}
-					}	
+					}
 					return ext;
 				}
 			}
@@ -279,28 +278,28 @@ public class BMSTranscoderEngine extends TranscoderEngine<CMapSetElement, CEntit
 				Transcoder.logError("Failure while transcoding "+csFullInputFileName+" : "+e.csMessage) ;
 			}
 		}
-			
+
 		return null;
 	}
-	
+
 	private CBMSParser parseRESResource(Tag tagForm)
 	{
 		Hashtable<String, CMapElement> hashMapsByLanguage = new Hashtable<String, CMapElement>();
 		Hashtable<String, PosLineCol> hashPosLineColByLanguage = new Hashtable<String, PosLineCol>();
-		
+
 		CBMSParser BMSParser = new CBMSParser();
 		CMapSetElement eMapSet = new CMapSetElement("", 0);
 		BMSParser.setRoot(eMapSet);
-		
+
 		String csName = tagForm.getVal("name");
 		csName = csName.toUpperCase();
-		
+
 		eMapSet.loadFromRES(csName);
-		
+
 		csName = csName.substring(0, 4) + csName.substring(5);
-		
+
 		String csLanguages = tagForm.getVal("allLanguages");
-		StringRef rcsLanguages = new StringRef(csLanguages); 
+		StringRef rcsLanguages = new StringRef(csLanguages);
 		String csLanguage = StringUtil.extractCurrentWord(rcsLanguages, false, ";");
 		while(csLanguage != null)
 		{
@@ -308,10 +307,10 @@ public class BMSTranscoderEngine extends TranscoderEngine<CMapSetElement, CEntit
 			eMap.loadFromRES(0, csName, csLanguage);
 			eMapSet.AddElement(eMap);
 			hashMapsByLanguage.put(csLanguage, eMap);
-			
+
 			PosLineCol posLineCol = new PosLineCol();
 			hashPosLineColByLanguage.put(csLanguage, posLineCol);
-			
+
 			if(rcsLanguages == null)
 			{
 				csLanguage = null;
@@ -320,10 +319,10 @@ public class BMSTranscoderEngine extends TranscoderEngine<CMapSetElement, CEntit
 			csLanguage = StringUtil.extractCurrentWord(rcsLanguages, false, ";");
 			if(csLanguage == null)
 			{
-				csLanguage = rcsLanguages.get();				
+				csLanguage = rcsLanguages.get();
 				rcsLanguages = null;
 			}
-			csLanguage = StringUtil.trimLeft(csLanguage, ';');			
+			csLanguage = StringUtil.trimLeft(csLanguage, ';');
 		}
 		// Skip <pfkeydefine>
 		// Skip <pfkeyaction>
@@ -352,13 +351,13 @@ public class BMSTranscoderEngine extends TranscoderEngine<CMapSetElement, CEntit
 							String csLg = entry.getKey();
 							CMapElement eMap = entry.getValue();
 							PosLineCol posLineCol = hashPosLineColByLanguage.get(csLg);
-	
+
 							CFieldElement eField = new CFieldElement("", 0);
 							boolean istoAdd = eField.loadTagParameters(posLineCol, tagEditTitle, csLg);
 							if(istoAdd)
 								eMap.AddElement(eField);
 						}
-						
+
 						tagEditTitle = tagHBox.getNextChild(curEdit);
 					}
 					// Found </hbox>
@@ -367,10 +366,10 @@ public class BMSTranscoderEngine extends TranscoderEngine<CMapSetElement, CEntit
 				}
 			}
 		}
-		
+
 		return BMSParser;
 	}
-	
+
 	private void addTagForClosingHBox(Hashtable<String, PosLineCol> hashPosLineColByLanguage, Hashtable<String, CMapElement> hashMapsByLanguage)
 	{
 		// Enum all Maps in every language and add the item into the map
@@ -389,7 +388,7 @@ public class BMSTranscoderEngine extends TranscoderEngine<CMapSetElement, CEntit
 				eMap.AddElement(eField);
 		}
 	}
-	
+
 	private CBMSParser parseXMLResource(Tag tagCurrent)
 	{
 		CBMSParser BMSParser = new CBMSParser();
@@ -401,5 +400,5 @@ public class BMSTranscoderEngine extends TranscoderEngine<CMapSetElement, CEntit
 			e.loadTagParameters(tagCurrent);
 		}
 		return BMSParser;
-	}	
+	}
 }
