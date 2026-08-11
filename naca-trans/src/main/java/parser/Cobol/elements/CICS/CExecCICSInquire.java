@@ -12,6 +12,7 @@
  */
 package parser.Cobol.elements.CICS;
 
+import diagnostic.DiagnosticSink;
 import lexer.CBaseToken;
 import lexer.CTokenType;
 import lexer.Cobol.CCobolKeywordList;
@@ -48,6 +49,13 @@ public class CExecCICSInquire extends CCobolElement
 	 */
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis( CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
+		if (transaction == null || program == null)
+		{
+			DiagnosticSink.recordUnsupported("cics.inquire.unsupported-form",
+				"embedded-cics", getLine(),
+				"EXEC CICS INQUIRE requires both TRANSACTION and PROGRAM for local resolution");
+			return null;
+		}
 		CEntityCICSInquire inq = factory.NewEntityCICSInquire(getLine());
 		parent.AddChild(inq) ;
 		if (transaction != null)
@@ -73,7 +81,7 @@ public class CExecCICSInquire extends CCobolElement
 		{
 			tok = GetNext();
 		}
-		
+
 		boolean isdone = false ;
 		while (!isdone)
 		{
@@ -96,7 +104,7 @@ public class CExecCICSInquire extends CCobolElement
 					{
 						tok = GetNext();
 					}
-				} 
+				}
 				if (cs.equalsIgnoreCase("TRANSACTION"))
 				{
 					transaction = id ;
@@ -116,10 +124,10 @@ public class CExecCICSInquire extends CCobolElement
 				else
 				{
 					Transcoder.logError(tok.getLine(), "Unexpecting token : "+cs);
-				}				
+				}
 			}
 		}
-		
+
 		if (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
 		{
 			Transcoder.logError(getLine(), "Error while parsing EXEC CICS INQUIRE");
@@ -135,7 +143,7 @@ public class CExecCICSInquire extends CCobolElement
 	protected Element ExportCustom(Document root)
 	{
 		Element eInq = root.createElement("ExecCICSInquire") ;
-		
+
 		if (transaction != null)
 		{
 			Element e = root.createElement("Transaction");

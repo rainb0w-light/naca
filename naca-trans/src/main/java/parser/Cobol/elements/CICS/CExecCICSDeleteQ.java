@@ -12,6 +12,7 @@
  */
 package parser.Cobol.elements.CICS;
 
+import diagnostic.DiagnosticSink;
 import lexer.CBaseToken;
 import lexer.CTokenType;
 import lexer.Cobol.CCobolKeywordList;
@@ -49,6 +50,19 @@ public class CExecCICSDeleteQ extends CCobolElement
 	 */
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
+		if (queueName == null)
+		{
+			DiagnosticSink.recordUnsupported("cics.deleteq.missing-queue",
+				"embedded-cics", getLine(), "EXEC CICS DELETEQ requires QUEUE");
+			return null;
+		}
+		if (sysID != null)
+		{
+			DiagnosticSink.recordUnsupported("cics.deleteq.remote-sysid-unsupported",
+				"embedded-cics", getLine(),
+				"EXEC CICS DELETEQ SYSID requires a remote queue backend");
+			return null;
+		}
 		CEntityCICSDeleteQ eDelQ = factory.NewEntityCICSDeleteQ(getLine(), ispersistant);
 		parent.AddChild(eDelQ);
 		eDelQ.SetName(queueName.GetDataEntity(getLine(), factory));
@@ -69,17 +83,17 @@ public class CExecCICSDeleteQ extends CCobolElement
 		{
 			tok = GetNext();
 		}
-		
+
 		if (tok.GetValue().equals("TD"))
 		{
 			CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("DELETEQ", "TD") ;
-			tok = GetNext(); 
+			tok = GetNext();
 			ispersistant = true ;
 		}
 		else if (tok.GetValue().equals("TS"))
 		{
 			CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("DELETEQ", "TS") ;
-			tok = GetNext(); 
+			tok = GetNext();
 			ispersistant = false ;
 		}
 		else
@@ -87,7 +101,7 @@ public class CExecCICSDeleteQ extends CCobolElement
 			CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("DELETEQ", "Unkonwn") ;
 			ispersistant = false ;
 		}
-		
+
 		boolean isdone = false ;
 		while (!isdone)
 		{
@@ -124,7 +138,7 @@ public class CExecCICSDeleteQ extends CCobolElement
 				isdone = true ;
 			}
 		}
-		
+
 		if (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
 		{
 			Transcoder.logError(getLine(), "Error while parsing EXEC CICS DELETEQ");

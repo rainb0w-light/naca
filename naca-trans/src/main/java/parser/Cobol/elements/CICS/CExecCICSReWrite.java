@@ -12,6 +12,7 @@
  */
 package parser.Cobol.elements.CICS;
 
+import diagnostic.DiagnosticSink;
 import lexer.CBaseToken;
 import lexer.CReservedKeyword;
 import lexer.CTokenType;
@@ -25,8 +26,6 @@ import parser.Cobol.CCobolElement;
 import parser.expression.CTerminal;
 import semantic.CBaseEntityFactory;
 import semantic.CBaseLanguageEntity;
-import semantic.CDataEntity;
-import semantic.CICS.CEntityCICSReWrite;
 import utils.Transcoder;
 
 /**
@@ -51,34 +50,17 @@ public class CExecCICSReWrite extends CCobolElement
 	 */
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		CEntityCICSReWrite write = factory.NewEntityCICSReWrite(getLine());
-		parent.AddChild(write);
-		CDataEntity filename = fileName.GetDataEntity(getLine(), factory);
-		if (writeType == CCobolKeywordList.FILE)
+		if (fileName == null || writeType == null || dataFrom == null)
 		{
-			write.WriteFile(filename);
+			DiagnosticSink.recordUnsupported("cics.rewrite.missing-required-option",
+				"embedded-cics", getLine(),
+				"EXEC CICS REWRITE requires FILE or DATASET, plus FROM");
+			return null;
 		}
-		else if (writeType == CCobolKeywordList.DATASET)
-		{
-			write.WriteDataSet(filename);
-		}
-		else
-		{
-			Transcoder.logError(getLine(), "Error in semantic analysis of EXEC CICS WRITE") ;
-			return null ;
-		}
-
-		if (dataFrom != null)
-		{
-			CDataEntity edata = dataFrom.GetDataReference(getLine(), factory);
-			CDataEntity eLen = null ;
-			if (dataLength != null)
-			{
-				eLen = dataLength.GetDataEntity(getLine(), factory);
-			}
-			write.SetDataFrom(edata, eLen);
-		}
-		return write ;
+		DiagnosticSink.recordUnsupported("cics.rewrite.runtime-backend-unavailable",
+			"embedded-cics", getLine(),
+			"EXEC CICS REWRITE requires a configured indexed-file backend");
+		return null;
 	}
 
 	/* (non-Javadoc)
@@ -91,7 +73,7 @@ public class CExecCICSReWrite extends CCobolElement
 		{
 			tok = GetNext();
 		}
-		
+
 		boolean isdone = false ;
 		while (!isdone)
 		{
@@ -101,7 +83,7 @@ public class CExecCICSReWrite extends CCobolElement
 				writeType = CCobolKeywordList.FILE ;
 				tok = GetNext() ;
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
-				{ 
+				{
 					tok = GetNext();
 					fileName = ReadTerminal();
 					tok= GetCurrentToken() ;
@@ -116,7 +98,7 @@ public class CExecCICSReWrite extends CCobolElement
 				writeType = CCobolKeywordList.DATASET ;
 				tok = GetNext();
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
-				{ 
+				{
 					tok = GetNext();
 					fileName = ReadTerminal();
 					tok= GetCurrentToken() ;
@@ -130,7 +112,7 @@ public class CExecCICSReWrite extends CCobolElement
 			{
 				tok = GetNext();
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
-				{ 
+				{
 					tok = GetNext();
 					dataFrom = ReadIdentifier() ;
 					tok= GetCurrentToken() ;
@@ -139,12 +121,12 @@ public class CExecCICSReWrite extends CCobolElement
 						tok = GetNext();
 					}
 				}
-			}		
+			}
 			else if (tok.GetKeyword() == CCobolKeywordList.LENGTH)
 			{
 				tok = GetNext();
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
-				{ 
+				{
 					tok = GetNext();
 					dataLength = ReadTerminal() ;
 					tok= GetCurrentToken() ;
@@ -153,13 +135,13 @@ public class CExecCICSReWrite extends CCobolElement
 						tok = GetNext();
 					}
 				}
-			}		
-			else 
+			}
+			else
 			{
 				isdone = true ;
 			}
 		}
-				
+
 		if (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
 		{
 			Transcoder.logError(tok.getLine(), "Error while parsing EXEC CICS REWRITE");
@@ -190,7 +172,7 @@ public class CExecCICSReWrite extends CCobolElement
 		}
 		eWr.appendChild(e);
 		fileName.ExportTo(e, root);
-		
+
 		if (dataFrom != null)
 		{
 			Element eFrom = root.createElement("From");
@@ -207,7 +189,7 @@ public class CExecCICSReWrite extends CCobolElement
 	}
 
 	protected CReservedKeyword writeType = null ;
-	protected CTerminal fileName = null ; 
+	protected CTerminal fileName = null ;
 	protected CIdentifier dataFrom = null ;
 	protected CTerminal dataLength = null ;
 }

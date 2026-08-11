@@ -26,8 +26,6 @@ import parser.Cobol.CCobolElement;
 import parser.expression.CTerminal;
 import semantic.CBaseEntityFactory;
 import semantic.CBaseLanguageEntity;
-import semantic.CDataEntity;
-import semantic.CICS.CEntityCICSWrite;
 import utils.Transcoder;
 
 /**
@@ -66,48 +64,10 @@ public class CExecCICSWrite extends CCobolElement
 				"EXEC CICS WRITE requires FROM");
 			return null;
 		}
-		CDataEntity filename = fileName.GetDataEntity(getLine(), factory);
-		CDataEntity source = dataFrom.GetDataReference(getLine(), factory);
-		if ("CUM-COLL".equals(source.GetName()) && source.of == null)
-		{
-			DiagnosticSink.recordUnsupported("cics.write.statistics.missing-owner",
-				"embedded-cics", getLine(),
-				"CUM-COLL statistics WRITE requires an owning structure");
-			return null;
-		}
-		CEntityCICSWrite write = factory.NewEntityCICSWrite(getLine());
-		if (writeType == CCobolKeywordList.FILE)
-		{
-			write.WriteFile(filename);
-		}
-		else if (writeType == CCobolKeywordList.DATASET)
-		{
-			write.WriteDataSet(filename);
-		}
-		else
-		{
-			DiagnosticSink.recordUnsupported("cics.write.unsupported-target",
-				"embedded-cics", getLine(),
-				"EXEC CICS WRITE target is recognized but not lowered");
-			return null ;
-		}
-		CDataEntity length = null;
-		if (dataLength != null)
-		{
-			length = dataLength.GetDataEntity(getLine(), factory);
-		}
-		write.SetDataFrom(source, length);
-		if (recIDField != null)
-		{
-			CDataEntity edata = recIDField.GetDataReference(getLine(), factory);
-			write.SetRecIDField(edata);
-		}
-		if (keyLength != null)
-		{
-			write.SetKeyLength(keyLength.GetDataEntity(getLine(), factory));
-		}
-		parent.AddChild(write);
-		return write ;
+		DiagnosticSink.recordUnsupported("cics.write.runtime-backend-unavailable",
+			"embedded-cics", getLine(),
+			"EXEC CICS WRITE requires a configured indexed-file backend");
+		return null;
 	}
 
 	/* (non-Javadoc)
@@ -120,7 +80,7 @@ public class CExecCICSWrite extends CCobolElement
 		{
 			tok = GetNext();
 		}
-		
+
 		boolean isdone = false ;
 		while (!isdone)
 		{
@@ -130,7 +90,7 @@ public class CExecCICSWrite extends CCobolElement
 				writeType = CCobolKeywordList.FILE ;
 				tok = GetNext() ;
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
-				{ 
+				{
 					tok = GetNext();
 					fileName = ReadTerminal();
 					tok= GetCurrentToken() ;
@@ -145,7 +105,7 @@ public class CExecCICSWrite extends CCobolElement
 				writeType = CCobolKeywordList.DATASET ;
 				tok = GetNext();
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
-				{ 
+				{
 					tok = GetNext();
 					fileName = ReadTerminal();
 					tok= GetCurrentToken() ;
@@ -159,7 +119,7 @@ public class CExecCICSWrite extends CCobolElement
 			{
 				tok = GetNext();
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
-				{ 
+				{
 					tok = GetNext();
 					dataFrom = ReadIdentifier() ;
 					tok= GetCurrentToken() ;
@@ -168,12 +128,12 @@ public class CExecCICSWrite extends CCobolElement
 						tok = GetNext();
 					}
 				}
-			}		
+			}
 			else if (tok.GetKeyword() == CCobolKeywordList.LENGTH)
 			{
 				tok = GetNext();
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
-				{ 
+				{
 					tok = GetNext();
 					dataLength = ReadTerminal() ;
 					tok= GetCurrentToken() ;
@@ -182,12 +142,12 @@ public class CExecCICSWrite extends CCobolElement
 						tok = GetNext();
 					}
 				}
-			}		
+			}
 			else if (tok.GetKeyword() == CCobolKeywordList.KEYLENGTH)
 			{
 				tok = GetNext();
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
-				{ 
+				{
 					tok = GetNext();
 					keyLength = ReadTerminal() ;
 					tok= GetCurrentToken() ;
@@ -196,12 +156,12 @@ public class CExecCICSWrite extends CCobolElement
 						tok = GetNext();
 					}
 				}
-			}		
+			}
 			else if (tok.GetValue().equals("RIDFLD"))
 			{
 				tok = GetNext();
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
-				{ 
+				{
 					tok = GetNext();
 					recIDField = ReadIdentifier() ;
 					tok= GetCurrentToken() ;
@@ -210,13 +170,13 @@ public class CExecCICSWrite extends CCobolElement
 						tok = GetNext();
 					}
 				}
-			}		
-			else 
+			}
+			else
 			{
 				isdone = true ;
 			}
 		}
-				
+
 		if (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
 		{
 			Transcoder.logError(tok.getLine(), "Error while parsing EXEC CICS WRITE");
@@ -247,7 +207,7 @@ public class CExecCICSWrite extends CCobolElement
 		}
 		eWr.appendChild(e);
 		fileName.ExportTo(e, root);
-		
+
 		if (dataFrom != null)
 		{
 			Element eFrom = root.createElement("From");
@@ -271,9 +231,9 @@ public class CExecCICSWrite extends CCobolElement
 
 
 	protected CReservedKeyword writeType = null ;
-	protected CTerminal fileName = null ; 
+	protected CTerminal fileName = null ;
 	protected CIdentifier dataFrom = null ;
-	protected CIdentifier recIDField = null ; 
+	protected CIdentifier recIDField = null ;
 	protected CTerminal dataLength = null ;
 	protected CTerminal keyLength = null ;
 }

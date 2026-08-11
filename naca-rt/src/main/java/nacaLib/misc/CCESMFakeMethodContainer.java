@@ -17,12 +17,31 @@
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-package nacaLib.misc; 
+package nacaLib.misc;
 
+import nacaLib.basePrgEnv.BaseEnvironment;
 import nacaLib.varEx.Var;
 
+/**
+ * Compatibility fluent result used by generated CICS statements.
+ *
+ * <p>The historical class name is retained for source and binary migration,
+ * but environment-backed operations perform their runtime side effects here.
+ */
 public class CCESMFakeMethodContainer
 {
+	private final BaseEnvironment environment;
+
+	public CCESMFakeMethodContainer()
+	{
+		this(null);
+	}
+
+	public CCESMFakeMethodContainer(BaseEnvironment environment)
+	{
+		this.environment = environment;
+	}
+
 	public CCESMFakeMethodContainer aBCode(Var m)
 	{
 		return this ;
@@ -141,6 +160,8 @@ public class CCESMFakeMethodContainer
 	}
 	public CCESMFakeMethodContainer TCTUALENG(Var tctualong)
 	{
+		requireEnvironment("ASSIGN TCTUALENG");
+		tctualong.set(environment.getTCTUA().length);
 		return this ;
 	}
 	/*public CCESMFakeMethodContainer concat(Var var)
@@ -187,14 +208,30 @@ public class CCESMFakeMethodContainer
 	*/
 	public CCESMFakeMethodContainer APPLID(Var applid)
 	{
+		requireEnvironment("ASSIGN APPLID");
+		String applicationId = environment.getConfigOption("APPLID");
+		if (applicationId.isEmpty())
+		{
+			applicationId = environment.getConfigOption("ApplicationId");
+		}
+		applid.set(applicationId);
 		return this ;
 	}
 	public CCESMFakeMethodContainer sysID(Var sysID)
 	{
-		return this ;
+		throw new UnsupportedOperationException(
+			"Remote CICS SYSID operations require a configured transport backend");
 	}
 	public CCESMFakeMethodContainer countAll(String string, Var nb_Class)
 	{
 		return this ;
+	}
+
+	private void requireEnvironment(String operation)
+	{
+		if (environment == null)
+		{
+			throw new IllegalStateException(operation + " requires a CICS environment");
+		}
 	}
 }

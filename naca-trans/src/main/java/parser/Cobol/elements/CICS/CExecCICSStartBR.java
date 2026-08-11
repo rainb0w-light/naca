@@ -25,7 +25,6 @@ import parser.Cobol.CCobolElement;
 import parser.expression.CTerminal;
 import semantic.CBaseEntityFactory;
 import semantic.CBaseLanguageEntity;
-import semantic.CICS.CEntityCICSStartBrowse;
 import utils.Transcoder;
 
 /**
@@ -57,25 +56,10 @@ public class CExecCICSStartBR extends CCobolElement
 				"EXEC CICS STARTBR requires DATASET");
 			return null;
 		}
-		CEntityCICSStartBrowse eSt = factory.NewEntityCICSStartBrowse(getLine()) ;
-		parent.AddChild(eSt);
-		if (dataSet != null)
-		{
-			eSt.BrowseDataSet(dataSet.GetDataEntity(getLine(), factory)); 
-		}
-		if (keyLength != null)
-		{
-			eSt.SetKeyLength(keyLength.GetDataEntity(getLine(), factory)); 
-		}
-		if (recIDField != null)
-		{
-			eSt.SetRecIDField(recIDField.GetDataReference(getLine(), factory)); 
-		}
-		if (isgTEQ)
-		{
-			eSt.SetGTEQ() ;
-		}
-		return eSt ;
+		DiagnosticSink.recordUnsupported("cics.startbr.runtime-backend-unavailable",
+			"embedded-cics", getLine(),
+			"EXEC CICS STARTBR requires a configured indexed-file backend");
+		return null;
 	}
 
 	/* (non-Javadoc)
@@ -88,7 +72,7 @@ public class CExecCICSStartBR extends CCobolElement
 		{
 			tok = GetNext();
 		}
-		
+
 		boolean isdone = false ;
 		while (!isdone)
 		{
@@ -140,12 +124,12 @@ public class CExecCICSStartBR extends CCobolElement
 				isgTEQ = true ;
 				tok = GetNext() ;
 			}
-			else 
+			else
 			{
 				isdone = true ;
 			}
 		}
-		
+
 		if (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
 		{
 			Transcoder.logError(getLine(), "Error while parsing EXEC CICS STARBR");
@@ -165,13 +149,13 @@ public class CExecCICSStartBR extends CCobolElement
 		{
 			Element e = root.createElement("DataSet") ;
 			eCICS.appendChild(e) ;
-			dataSet.ExportTo(e, root); 
+			dataSet.ExportTo(e, root);
 		}
 		if (recIDField != null)
 		{
 			Element e = root.createElement("RecIdField") ;
 			eCICS.appendChild(e) ;
-			recIDField.ExportTo(e, root); 
+			recIDField.ExportTo(e, root);
 		}
 		if (isgTEQ)
 		{

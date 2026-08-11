@@ -16,7 +16,9 @@ the current queue.
   `TEST-A-STANDALONE` GnuCOBOL comparison, and a BATCH1/CALLMSG/MSGZONE run that
   verifies dynamic CALL linkage plus exact FILEIN/FILEOUT behavior.
 - `naca-analyzer` has no tests and its three public operations are placeholders.
-- The CICS runtime has 21 explicit TODO/fake markers in `BaseCESMManager`.
+- The CICS runtime has no explicit TODO/fake marker in `BaseCESMManager`;
+  supported local operations execute real behavior and unsupported indexed-file
+  operations fail closed during lowering.
 - `CJavaFPacEntityFactory` has 131 explicit `Method not implemented` branches;
   many are inherited capabilities that require classification rather than blind
   implementation. No canonical FPac corpus or shipped configuration exists.
@@ -42,6 +44,10 @@ the current queue.
   The 46-program compatibility audit is green after repairing assertion
   collection, artifact classification, call/link resolution, COBOL substring
   and INSPECT expectations, and DISPLAY/COMP-3/sign handling.
+- M8 is complete: ENQ/DEQ, ASSIGN, HANDLE AID, and local TS/TD queue behavior
+  have concrete runtime semantics. GETMAIN, indexed-file READ/WRITE/REWRITE and
+  STARTBR are classified as structured rejections until a storage backend is
+  configured; legacy generated entry points throw instead of silently succeeding.
 
 Machine-readable counters live in `project-quality-baseline.json`. A counter may
 only decrease unless a reviewed change updates both its rationale and its target.

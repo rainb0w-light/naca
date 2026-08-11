@@ -6,7 +6,9 @@
  */
 package nacaLib.CESM;
 
+import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.Set;
 
 import nacaLib.base.CJMapObject;
 import nacaLib.basePrgEnv.BaseEnvironment;
@@ -33,112 +35,196 @@ public class CESMQueueManager extends CJMapObject
 	{
 		eSMEnv = env;
 	}
-	
+
 	private BaseEnvironment eSMEnv = null;
 	protected Hashtable<String, CESMTempStorageColl> tabTempQueues = new Hashtable<String, CESMTempStorageColl>() ;
-	protected Hashtable tabTransientQueues = new Hashtable() ;
-	
+	protected Hashtable<String, CESMTempStorageColl> tabTransientQueues = new Hashtable<String, CESMTempStorageColl>() ;
+	private final Set<String> closedTransientQueues = new HashSet<String>();
+
 	public int writeTempQueue(String csQueueName, InternalCharBuffer Data)
 	{
-		CESMTempStorageColl tempStorageColl = getOrCreateTempStorageColl(csQueueName);
-		return tempStorageColl.add(Data) ;
+		return writeQueue(false, csQueueName, Data);
 	}
-	
+
+	public synchronized int writeQueue(boolean transientQueue, String queueName, InternalCharBuffer data)
+	{
+		if (transientQueue && closedTransientQueues.contains(queueName))
+		{
+			setReturnCode(CESMReturnCode.QIDERR);
+			return 0;
+		}
+		CESMTempStorageColl tempStorageColl = getOrCreateStorageColl(transientQueue, queueName);
+		return tempStorageColl.add(data) ;
+	}
+
 	public void writeTempQueue(String csQueueName, InternalCharBuffer varData, int nRewriteItem)
 	{
-		CESMTempStorageColl tempStorageColl = getOrCreateTempStorageColl(csQueueName);
-		if (!tempStorageColl.set(nRewriteItem, varData)) {
-			eSMEnv.setCommandReturnCode(CESMReturnCode.ITEMERR) ;
+		writeQueue(false, csQueueName, varData, nRewriteItem);
+	}
+
+	public synchronized void writeQueue(boolean transientQueue, String queueName,
+		InternalCharBuffer data, int rewriteItem)
+	{
+		if (transientQueue && closedTransientQueues.contains(queueName))
+		{
+			setReturnCode(CESMReturnCode.QIDERR);
+			return;
+		}
+		CESMTempStorageColl tempStorageColl = getOrCreateStorageColl(transientQueue, queueName);
+		if (!tempStorageColl.set(rewriteItem, data)) {
+			setReturnCode(CESMReturnCode.ITEMERR) ;
 		}
 	}
 
 	public void readNextTempQueue(String csQueueName, VarBase varDest)
 	{
-		CESMTempStorageColl tempStorageColl = getExistingTempStorageColl(csQueueName);
+		readNextQueue(false, csQueueName, varDest);
+	}
+
+	public synchronized void readNextQueue(boolean transientQueue, String queueName, VarBase destination)
+	{
+		if (transientQueue && closedTransientQueues.contains(queueName))
+		{
+			setReturnCode(CESMReturnCode.QIDERR);
+			return;
+		}
+		CESMTempStorageColl tempStorageColl = getExistingStorageColl(transientQueue, queueName);
 		if(tempStorageColl == null)
 		{
-			eSMEnv.setCommandReturnCode(CESMReturnCode.QIDERR) ;
+			setReturnCode(CESMReturnCode.QIDERR) ;
 			return ;
 		}
 		InternalCharBuffer item = tempStorageColl.getNextItem();
 		if(item == null)
 		{
-			eSMEnv.setCommandReturnCode(CESMReturnCode.ITEMERR) ;
-			return;
-		}	
-		if (item.getBufferSize() > varDest.getTotalSize())
-		{
-			eSMEnv.setCommandReturnCode(CESMReturnCode.LENGERR) ;
+			setReturnCode(CESMReturnCode.ITEMERR) ;
 			return;
 		}
-		varDest.copyBytesFromSourceIntoBody(item);
+		if (item.getBufferSize() > destination.getTotalSize())
+		{
+			setReturnCode(CESMReturnCode.LENGERR) ;
+			return;
+		}
+		destination.copyBytesFromSourceIntoBody(item);
 	}
-	
+
 	public void readIndexedTempQueue(String csQueueName, int nIndex, Var varDest, Var varLength)
 	{
-		CESMTempStorageColl tempStorageColl = getExistingTempStorageColl(csQueueName);
+		readIndexedQueue(false, csQueueName, nIndex, varDest, varLength);
+	}
+
+	public synchronized void readIndexedQueue(boolean transientQueue, String queueName,
+		int index, Var destination, Var length)
+	{
+		if (transientQueue && closedTransientQueues.contains(queueName))
+		{
+			setReturnCode(CESMReturnCode.QIDERR);
+			return;
+		}
+		CESMTempStorageColl tempStorageColl = getExistingStorageColl(transientQueue, queueName);
 		if(tempStorageColl == null)
 		{
-			eSMEnv.setCommandReturnCode(CESMReturnCode.QIDERR) ;
+			setReturnCode(CESMReturnCode.QIDERR) ;
 			return ;
 		}
-		InternalCharBuffer item = tempStorageColl.getIndexedTempQueue(nIndex);
+		InternalCharBuffer item = tempStorageColl.getIndexedTempQueue(index);
 		if(item == null)
 		{
-			eSMEnv.setCommandReturnCode(CESMReturnCode.ITEMERR) ;
-			return;
-		}	
-		if (item.getBufferSize() > varDest.getTotalSize())
-		{
-			eSMEnv.setCommandReturnCode(CESMReturnCode.LENGERR) ;
+			setReturnCode(CESMReturnCode.ITEMERR) ;
 			return;
 		}
-		varDest.copyBytesFromSourceIntoBody(item);
-		if (varLength != null)
+		if (item.getBufferSize() > destination.getTotalSize())
 		{
-			varLength.set(item.getBufferSize());
+			setReturnCode(CESMReturnCode.LENGERR) ;
+			return;
+		}
+		destination.copyBytesFromSourceIntoBody(item);
+		if (length != null)
+		{
+			length.set(item.getBufferSize());
 		}
 	}
-	
-	
+
+
 	public void getNbItems(String csQueueName, Var varDest)
 	{
-		CESMTempStorageColl tempStorageColl = getExistingTempStorageColl(csQueueName);
+		getNbItems(false, csQueueName, varDest);
+	}
+
+	public synchronized void getNbItems(boolean transientQueue, String queueName, Var destination)
+	{
+		if (transientQueue && closedTransientQueues.contains(queueName))
+		{
+			setReturnCode(CESMReturnCode.QIDERR);
+			return;
+		}
+		CESMTempStorageColl tempStorageColl = getExistingStorageColl(transientQueue, queueName);
 		if(tempStorageColl == null)
 		{
-			eSMEnv.setCommandReturnCode(CESMReturnCode.QIDERR) ;
+			setReturnCode(CESMReturnCode.QIDERR) ;
 			return ;
 		}
 		int n = tempStorageColl.getNbItems();
-		varDest.set(n);
+		destination.set(n);
 	}
-	
+
 
 	public void deleteTempQueue(String csQueueName)
 	{
-		CESMTempStorageColl tempStorageColl = getExistingTempStorageColl(csQueueName);
+		deleteQueue(false, csQueueName);
+	}
+
+	public synchronized void deleteQueue(boolean transientQueue, String queueName)
+	{
+		Hashtable<String, CESMTempStorageColl> queues = getQueues(transientQueue);
+		CESMTempStorageColl tempStorageColl = queues.get(queueName);
 		if(tempStorageColl == null)
 		{
-			eSMEnv.setCommandReturnCode(CESMReturnCode.QIDERR) ;
+			setReturnCode(CESMReturnCode.QIDERR) ;
 			return ;
 		}
-		tabTempQueues.remove(csQueueName);
+		queues.remove(queueName);
 	}
-	
-	private CESMTempStorageColl getOrCreateTempStorageColl(String csQueueName)
+
+	public synchronized void setTransientQueueOpen(String queueName, boolean open)
 	{
-		CESMTempStorageColl tempStorageColl = tabTempQueues.get(csQueueName);
-		if (tempStorageColl == null)
+		if (open)
 		{
-			tempStorageColl = new CESMTempStorageColl() ;
-			tabTempQueues.put(csQueueName, tempStorageColl);
+			closedTransientQueues.remove(queueName);
 		}
-		return tempStorageColl;
+		else
+		{
+			closedTransientQueues.add(queueName);
+		}
 	}
-	
-	private CESMTempStorageColl getExistingTempStorageColl(String csQueueName)
+
+	private Hashtable<String, CESMTempStorageColl> getQueues(boolean transientQueue)
 	{
-		CESMTempStorageColl tempStorageColl = tabTempQueues.get(csQueueName);
-		return tempStorageColl;
-	}	
+		return transientQueue ? tabTransientQueues : tabTempQueues;
+	}
+
+	private CESMTempStorageColl getOrCreateStorageColl(boolean transientQueue, String queueName)
+	{
+		Hashtable<String, CESMTempStorageColl> queues = getQueues(transientQueue);
+		CESMTempStorageColl storage = queues.get(queueName);
+		if (storage == null)
+		{
+			storage = new CESMTempStorageColl();
+			queues.put(queueName, storage);
+		}
+		return storage;
+	}
+
+	private CESMTempStorageColl getExistingStorageColl(boolean transientQueue, String queueName)
+	{
+		return getQueues(transientQueue).get(queueName);
+	}
+
+	private void setReturnCode(CESMReturnCode returnCode)
+	{
+		if (eSMEnv != null)
+		{
+			eSMEnv.setCommandReturnCode(returnCode);
+		}
+	}
 }

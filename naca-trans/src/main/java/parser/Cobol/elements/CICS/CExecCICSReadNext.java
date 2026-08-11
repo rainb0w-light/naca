@@ -26,8 +26,6 @@ import parser.Cobol.CCobolElement;
 import parser.expression.CTerminal;
 import semantic.CBaseEntityFactory;
 import semantic.CBaseLanguageEntity;
-import semantic.CDataEntity;
-import semantic.CICS.CEntityCICSRead;
 import utils.Transcoder;
 
 /**
@@ -61,43 +59,10 @@ public class CExecCICSReadNext extends CCobolElement
 				"EXEC CICS READNEXT requires FILE(...) or DATASET(...), plus INTO(...)");
 			return null;
 		}
-		CEntityCICSRead Read = factory.NewEntityCICSRead(getLine(), CEntityCICSRead.CEntityCICSReadMode.NEXT);
-		parent.AddChild(Read);
-		CDataEntity filename = fileName.GetDataEntity(getLine(), factory);
-		if (readType == CCobolKeywordList.FILE)
-		{
-			Read.ReadFile(filename);
-		}
-		else if (readType == CCobolKeywordList.DATASET)
-		{
-			Read.ReadDataSet(filename);
-		}
-		else
-		{
-			Transcoder.logError(getLine(), "Error in semantic analysis of EXEC CICS READNEXT") ;
-			return null ;
-		}
-
-		if (dataInto != null)
-		{
-			CDataEntity edata = dataInto.GetDataReference(getLine(), factory);
-			CDataEntity edatalen = null ;
-			if (length != null)
-			{
-				edatalen = length.GetDataEntity(getLine(), factory);
-			}
-			Read.SetDataInto(edata, edatalen);
-		}
-		if (recIDField != null)
-		{
-			CDataEntity edata = recIDField.GetDataReference(getLine(), factory);
-			Read.SetRecIDField(edata);
-		}
-		if (keyLength != null)
-		{
-			Read.SetKeyLength(keyLength.GetDataEntity(getLine(), factory));
-		}
-		return Read ;
+		DiagnosticSink.recordUnsupported("cics.readnext.runtime-backend-unavailable",
+			"embedded-cics", getLine(),
+			"EXEC CICS READNEXT requires a configured indexed-file backend");
+		return null;
 	}
 
 	/* (non-Javadoc)
@@ -110,7 +75,7 @@ public class CExecCICSReadNext extends CCobolElement
 		{
 			tok = GetNext();
 		}
-		
+
 		boolean isdone = false ;
 		while (!isdone)
 		{
@@ -120,7 +85,7 @@ public class CExecCICSReadNext extends CCobolElement
 				readType = CCobolKeywordList.FILE ;
 				tok = GetNext() ;
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
-				{ 
+				{
 					tok = GetNext();
 					fileName = ReadTerminal();
 					tok= GetCurrentToken() ;
@@ -135,7 +100,7 @@ public class CExecCICSReadNext extends CCobolElement
 				readType = CCobolKeywordList.DATASET ;
 				tok = GetNext();
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
-				{ 
+				{
 					tok = GetNext();
 					fileName = ReadTerminal();
 					tok= GetCurrentToken() ;
@@ -149,7 +114,7 @@ public class CExecCICSReadNext extends CCobolElement
 			{
 				tok = GetNext();
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
-				{ 
+				{
 					tok = GetNext();
 					dataInto = ReadIdentifier() ;
 					tok= GetCurrentToken() ;
@@ -158,12 +123,12 @@ public class CExecCICSReadNext extends CCobolElement
 						tok = GetNext();
 					}
 				}
-			}		
+			}
 			else if (tok.GetValue().equals("RIDFLD"))
 			{
 				tok = GetNext();
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
-				{ 
+				{
 					tok = GetNext();
 					recIDField = ReadIdentifier() ;
 					tok= GetCurrentToken() ;
@@ -172,12 +137,12 @@ public class CExecCICSReadNext extends CCobolElement
 						tok = GetNext();
 					}
 				}
-			}		
+			}
 			else if (tok.GetKeyword() == CCobolKeywordList.LENGTH)
 			{
 				tok = GetNext();
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
-				{ 
+				{
 					tok = GetNext();
 					length = ReadTerminal() ;
 					tok= GetCurrentToken() ;
@@ -186,12 +151,12 @@ public class CExecCICSReadNext extends CCobolElement
 						tok = GetNext();
 					}
 				}
-			}		
+			}
 			else if (tok.GetKeyword() == CCobolKeywordList.KEYLENGTH)
 			{
 				tok = GetNext();
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
-				{ 
+				{
 					tok = GetNext();
 					keyLength = ReadTerminal() ;
 					tok= GetCurrentToken() ;
@@ -200,13 +165,13 @@ public class CExecCICSReadNext extends CCobolElement
 						tok = GetNext();
 					}
 				}
-			}		
-			else 
+			}
+			else
 			{
 				isdone = true ;
 			}
 		}
-				
+
 		if (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
 		{
 			Transcoder.logError(tok.getLine(), "Error while parsing EXEC CICS READ");
@@ -237,7 +202,7 @@ public class CExecCICSReadNext extends CCobolElement
 		}
 		eWr.appendChild(e);
 		fileName.ExportTo(e, root);
-		
+
 		if (dataInto != null)
 		{
 			Element eFrom = root.createElement("Into");
@@ -254,9 +219,9 @@ public class CExecCICSReadNext extends CCobolElement
 	}
 
 	protected CReservedKeyword readType = null ;
-	protected CTerminal fileName = null ; 
+	protected CTerminal fileName = null ;
 	protected CIdentifier dataInto = null ;
-	protected CIdentifier recIDField = null ; 
+	protected CIdentifier recIDField = null ;
 	protected CTerminal dataLength = null ;
 	protected CTerminal length = null ;
 	protected CTerminal keyLength = null ;

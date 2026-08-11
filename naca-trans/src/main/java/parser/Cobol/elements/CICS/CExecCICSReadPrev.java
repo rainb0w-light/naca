@@ -26,8 +26,6 @@ import parser.Cobol.CCobolElement;
 import parser.expression.CTerminal;
 import semantic.CBaseEntityFactory;
 import semantic.CBaseLanguageEntity;
-import semantic.CDataEntity;
-import semantic.CICS.CEntityCICSRead;
 import utils.Transcoder;
 
 /**
@@ -57,43 +55,10 @@ public class CExecCICSReadPrev extends CCobolElement
 				"EXEC CICS READPREV requires FILE(...) or DATASET(...), plus INTO(...)");
 			return null;
 		}
-		CEntityCICSRead Read = factory.NewEntityCICSRead(getLine(), CEntityCICSRead.CEntityCICSReadMode.PREVIOUS);
-		parent.AddChild(Read);
-		CDataEntity filename = fileName.GetDataEntity(getLine(), factory);
-		if (readType == CCobolKeywordList.FILE)
-		{
-			Read.ReadFile(filename);
-		}
-		else if (readType == CCobolKeywordList.DATASET)
-		{
-			Read.ReadDataSet(filename);
-		}
-		else
-		{
-			Transcoder.logError(getLine(), "Error in semantic analysis of EXEC CICS READPREV") ;
-			return null ;
-		}
-
-		if (dataInto != null)
-		{
-			CDataEntity edata = dataInto.GetDataReference(getLine(), factory);
-			CDataEntity edatalen = null ;
-			if (length != null)
-			{
-				edatalen = length.GetDataEntity(getLine(), factory);
-			}
-			Read.SetDataInto(edata, edatalen);
-		}
-		if (keyLength != null)
-		{
-			Read.SetKeyLength(keyLength.GetDataEntity(getLine(), factory));
-		}
-		if (recIDField != null)
-		{
-			CDataEntity edata = recIDField.GetDataReference(getLine(), factory);
-			Read.SetRecIDField(edata);
-		}
-		return Read ;
+		DiagnosticSink.recordUnsupported("cics.readprev.runtime-backend-unavailable",
+			"embedded-cics", getLine(),
+			"EXEC CICS READPREV requires a configured indexed-file backend");
+		return null;
 	}
 	protected boolean DoParsing()
 	{
@@ -102,7 +67,7 @@ public class CExecCICSReadPrev extends CCobolElement
 		{
 			tok = GetNext();
 		}
-		
+
 		boolean isdone = false ;
 		while (!isdone)
 		{
@@ -112,7 +77,7 @@ public class CExecCICSReadPrev extends CCobolElement
 				readType = CCobolKeywordList.FILE ;
 				tok = GetNext() ;
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
-				{ 
+				{
 					tok = GetNext();
 					fileName = ReadTerminal();
 					tok= GetCurrentToken() ;
@@ -127,7 +92,7 @@ public class CExecCICSReadPrev extends CCobolElement
 				readType = CCobolKeywordList.DATASET ;
 				tok = GetNext();
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
-				{ 
+				{
 					tok = GetNext();
 					fileName = ReadTerminal();
 					tok= GetCurrentToken() ;
@@ -141,7 +106,7 @@ public class CExecCICSReadPrev extends CCobolElement
 			{
 				tok = GetNext();
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
-				{ 
+				{
 					tok = GetNext();
 					dataInto = ReadIdentifier() ;
 					tok= GetCurrentToken() ;
@@ -150,12 +115,12 @@ public class CExecCICSReadPrev extends CCobolElement
 						tok = GetNext();
 					}
 				}
-			}		
+			}
 			else if (tok.GetValue().equals("RIDFLD"))
 			{
 				tok = GetNext();
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
-				{ 
+				{
 					tok = GetNext();
 					recIDField = ReadIdentifier() ;
 					tok= GetCurrentToken() ;
@@ -164,12 +129,12 @@ public class CExecCICSReadPrev extends CCobolElement
 						tok = GetNext();
 					}
 				}
-			}		
+			}
 			else if (tok.GetKeyword() == CCobolKeywordList.LENGTH)
 			{
 				tok = GetNext();
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
-				{ 
+				{
 					tok = GetNext();
 					length = ReadTerminal() ;
 					tok= GetCurrentToken() ;
@@ -178,12 +143,12 @@ public class CExecCICSReadPrev extends CCobolElement
 						tok = GetNext();
 					}
 				}
-			}		
+			}
 			else if (tok.GetValue().equals("KEYLENGTH"))
 			{
 				tok = GetNext();
 				if (tok.GetType() == CTokenType.LEFT_BRACKET)
-				{ 
+				{
 					tok = GetNext();
 					keyLength = ReadTerminal() ;
 					tok= GetCurrentToken() ;
@@ -193,12 +158,12 @@ public class CExecCICSReadPrev extends CCobolElement
 					}
 				}
 			}
-			else 
+			else
 			{
 				isdone = true ;
 			}
 		}
-				
+
 		if (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
 		{
 			Transcoder.logError(tok.getLine(), "Error while parsing EXEC CICS READ");
@@ -225,7 +190,7 @@ public class CExecCICSReadPrev extends CCobolElement
 		}
 		eWr.appendChild(e);
 		fileName.ExportTo(e, root);
-		
+
 		if (dataInto != null)
 		{
 			Element eFrom = root.createElement("Into");
@@ -248,9 +213,9 @@ public class CExecCICSReadPrev extends CCobolElement
 	}
 
 	protected CReservedKeyword readType = null ;
-	protected CTerminal fileName = null ; 
+	protected CTerminal fileName = null ;
 	protected CIdentifier dataInto = null ;
-	protected CIdentifier recIDField = null ; 
+	protected CIdentifier recIDField = null ;
 	protected CTerminal dataLength = null ;
 	protected CTerminal length = null ;
 	protected CTerminal keyLength = null ;

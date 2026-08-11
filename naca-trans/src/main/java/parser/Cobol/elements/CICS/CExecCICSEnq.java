@@ -12,6 +12,7 @@
  */
 package parser.Cobol.elements.CICS;
 
+import diagnostic.DiagnosticSink;
 import lexer.CBaseToken;
 import lexer.CTokenType;
 import lexer.Cobol.CCobolKeywordList;
@@ -50,6 +51,12 @@ public class CExecCICSEnq extends CCobolElement
 	 */
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
+		if (resource == null)
+		{
+			DiagnosticSink.recordUnsupported("cics.enq.missing-resource",
+				"embedded-cics", getLine(), "EXEC CICS ENQ requires RESOURCE");
+			return null;
+		}
 		CEntityCICSEnQ eCICS = factory.NewEntityCICSEnQ(getLine()) ;
 		parent.AddChild(eCICS);
 		CDataEntity eRes = resource.GetDataReference(getLine(), factory) ;
@@ -72,7 +79,7 @@ public class CExecCICSEnq extends CCobolElement
 		{
 			tok = GetNext();
 		}
-		
+
 		if (tok.GetKeyword() == CCobolKeywordList.RESOURCE)
 		{
 			tok = GetNext() ;
@@ -87,7 +94,7 @@ public class CExecCICSEnq extends CCobolElement
 				}
 			}
 		}
-		
+
 		if (tok.GetKeyword() == CCobolKeywordList.LENGTH)
 		{
 			tok = GetNext() ;
@@ -102,7 +109,7 @@ public class CExecCICSEnq extends CCobolElement
 				}
 			}
 		}
-		
+
 		if (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
 		{
 			Transcoder.logError(getLine(), "Error while parsing EXEC CICS ENQ");
@@ -130,6 +137,6 @@ public class CExecCICSEnq extends CCobolElement
 		return e;
 	}
 
-	protected CIdentifier resource = null ; 
+	protected CIdentifier resource = null ;
 	protected CTerminal lengh = null ;
 }

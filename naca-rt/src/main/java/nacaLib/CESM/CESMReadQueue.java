@@ -30,58 +30,58 @@ public class CESMReadQueue extends CJMapObject
 	protected int nRecordPosition = 0;
 
 	public CESMReadQueue(boolean bTransient, String name, CESMQueueManager manager)
-	{		
+	{
 		this.istransient = bTransient ;
 		this.name = name ;
 		this.manager = manager ;
 	}
-	
+
 	public CESMReadQueue nextInto(Var tsZone, Var tsLong)
 	{
-		manager.readNextTempQueue(name, tsZone) ;
+		manager.readNextQueue(istransient, name, tsZone) ;
 		return this;
 	}
 
 	public CESMReadQueue nextInto(Var tsZone, int length)
 	{
-		manager.readNextTempQueue(name, tsZone);
+		manager.readNextQueue(istransient, name, tsZone);
 		return this;
 	}
 
 	public CESMReadQueue nextInto(Var tsZone)
 	{
-		manager.readNextTempQueue(name, tsZone) ;
+		manager.readNextQueue(istransient, name, tsZone) ;
 		return this;
 	}
-	
-	public CESMReadQueue itemInto(int nIndex, Var varItem)	
+
+	public CESMReadQueue itemInto(int nIndex, Var varItem)
 	{
-		manager.readIndexedTempQueue(name, nIndex, varItem, null) ;
+		manager.readIndexedQueue(istransient, name, nIndex, varItem, null) ;
 		return this ;
 	}
-	
-	public CESMReadQueue itemInto(Var varIndex, Var varItem)	
+
+	public CESMReadQueue itemInto(Var varIndex, Var varItem)
 	{
 		int nIndex = varIndex.getInt();
-		manager.readIndexedTempQueue(name, nIndex, varItem, null) ;
+		manager.readIndexedQueue(istransient, name, nIndex, varItem, null) ;
 		return this ;
 	}
-	public CESMReadQueue itemInto(Var varIndex, Var varItem, Var varLength)	
+	public CESMReadQueue itemInto(Var varIndex, Var varItem, Var varLength)
 	{
 		int nIndex = varIndex.getInt();
-		manager.readIndexedTempQueue(name, nIndex, varItem, varLength) ;
+		manager.readIndexedQueue(istransient, name, nIndex, varItem, varLength) ;
 		return this ;
 	}
 
 	public CESMReadQueue itemInto(int index, Var varItem, Var varLength)
 	{
-		manager.readIndexedTempQueue(name, index, varItem, varLength);
+		manager.readIndexedQueue(istransient, name, index, varItem, varLength);
 		return this;
 	}
-	
+
 	public CESMReadQueue numItem(Var varNbItems)	// Get the number of items in the collection
 	{
-		manager.getNbItems(name, varNbItems);
+		manager.getNbItems(istransient, name, varNbItems);
 		return this ;
 	}
 }

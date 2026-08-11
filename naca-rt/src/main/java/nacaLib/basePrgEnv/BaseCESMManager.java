@@ -9,6 +9,10 @@ package nacaLib.basePrgEnv;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Hashtable;
+import java.util.Locale;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.locks.ReentrantLock;
 
 import jlib.log.Log;
 import jlib.misc.DateUtil;
@@ -38,17 +42,17 @@ import nacaLib.varEx.VarAndEdit;
 public class BaseCESMManager extends CJMapObject
 {
 	protected BaseEnvironment cESMEnv = null ;
-	
+
 	public BaseCESMManager(BaseEnvironment env)
 	{
 		cESMEnv = env;
 	}
-	
+
 	public BaseEnvironment getEnvironment()
 	{
 		return cESMEnv ;
 	}
-	
+
 	public void returnTrans(String csTransaction, Var v1, VarAndEdit len)
 	{
 		int l = len.getInt();
@@ -77,7 +81,7 @@ public class BaseCESMManager extends CJMapObject
 	public void returnTrans(VarAndEdit varTransaction, Form form1, VarAndEdit len)
 	{
 		returnTrans(varTransaction.getString(), form1, len.getInt(), true);
-	}	
+	}
 	public void returnTrans(Class cl, Var v1)
 	{
 		returnTrans(cl.getName(), v1, v1.getLength(), false);
@@ -89,16 +93,16 @@ public class BaseCESMManager extends CJMapObject
 	public void returnTrans(String csTransaction, Var v1, int length)
 	{
 		returnTrans(csTransaction, v1, length, true);
-	}	
+	}
 	public void returnTrans(Class cl, Form form)
 	{
 		returnTrans(cl.getName(), form, false);
-	}	
+	}
 	public void returnTrans(String csTransaction, Form form)
 	{
 		returnTrans(csTransaction, form, true);
 	}
-	
+
 	public void returnTrans()
 	{
 		if(isLogCESM)
@@ -108,14 +112,14 @@ public class BaseCESMManager extends CJMapObject
 		cESMEnv.setCommarea(null);
 		CESMReturnException excp = new CESMReturnException();
 		throw excp;
-	}	
+	}
 	private void returnTrans(String csProgramId, Form form, boolean bResolveProgram)
 	{
 		if (bResolveProgram)
 			csProgramId = BaseProgramLoader.ResolveTransID(csProgramId);
-			
+
 		if(isLogCESM)
-			Log.logDebug("returnTrans program="+csProgramId+" Form="+form.getLoggableValue());		
+			Log.logDebug("returnTrans program="+csProgramId+" Form="+form.getLoggableValue());
 		cESMEnv.setLastCommandCode(CESMCommandCode.RETURN);
 		cESMEnv.setNextProgramToLoad(csProgramId) ;
 		CCommarea comm = new CCommarea() ;
@@ -123,16 +127,16 @@ public class BaseCESMManager extends CJMapObject
 		cESMEnv.setCommarea(comm);
 		CESMReturnException excp = new CESMReturnException();
 		throw excp;
-	}	
+	}
 	private void returnTrans(String csProgramId, Var v1, int length, boolean bResolveProgram)
 	{
 		if (bResolveProgram)
 			csProgramId = BaseProgramLoader.ResolveTransID(csProgramId);
 		if (length > v1.getLength())
 			length = v1.getLength();
-		
+
 		if(isLogCESM)
-			Log.logDebug("returnTrans program="+csProgramId+ " Var="+v1.getLoggableValue());		
+			Log.logDebug("returnTrans program="+csProgramId+ " Var="+v1.getLoggableValue());
 		cESMEnv.setLastCommandCode(CESMCommandCode.RETURN) ;
 		cESMEnv.setNextProgramToLoad(csProgramId) ;
 		CCommarea comm = new CCommarea() ;
@@ -141,7 +145,7 @@ public class BaseCESMManager extends CJMapObject
 		CESMReturnException excp = new CESMReturnException();
 		throw excp;
 	}
-	
+
 	public void abend()
 	{
 		if(isLogCESM)
@@ -153,7 +157,7 @@ public class BaseCESMManager extends CJMapObject
 
 	public void abend(VarAndEdit v)
 	{
-		abend(v.getString()); 
+		abend(v.getString());
 	}
 	public void abend(String cs)
 	{
@@ -161,7 +165,7 @@ public class BaseCESMManager extends CJMapObject
 			Log.logDebug("abend");
 		cESMEnv.setLastCommandCode(CESMCommandCode.ABEND) ;
 		CESMAbendException e = new CESMAbendException(cs);
-		throw e ; 
+		throw e ;
 	}
 
 	public BaseCESMManager getAddressOfTCTUA(Pointer p)
@@ -170,11 +174,11 @@ public class BaseCESMManager extends CJMapObject
 			Log.logDebug("getAddressOfTCTUA");
 		cESMEnv.setLastCommandCode(CESMCommandCode.GET_ADDRESS) ;
 		//p.addressOf.varManager.redefinesAs(cESMEnv.getTCTUA());
-		
-		char [] acTCTUA = cESMEnv.getTCTUA();	
+
+		char [] acTCTUA = cESMEnv.getTCTUA();
 		p.addressOf.setCustomBuffer(acTCTUA);
-		
-		return this;	
+
+		return this;
 	}
 
 	public BaseCESMManager getAddressOfTWA(Pointer p)
@@ -185,10 +189,10 @@ public class BaseCESMManager extends CJMapObject
 		char [] acTWA = cESMEnv.getTWA();
 		p.addressOf.setCustomBuffer(acTWA);
 		//p.addressOf.varManager.manageRedefines();
-			
-		return this;	
+
+		return this;
 	}
-	
+
 	public BaseCESMManager getAddressOfCWA(Pointer p)
 	{
 		if(isLogCESM)
@@ -196,16 +200,15 @@ public class BaseCESMManager extends CJMapObject
 		//p.addressOf.varManager.redefinesAs(cESMEnv.getCWA());
 		char [] acCWA = cESMEnv.getCWA();
 		p.addressOf.setCustomBuffer(acCWA);
-		
-		return this;	
+
+		return this;
 	}
 
 	public CCESMFakeMethodContainer assign()
 	{
-		// TODO fake method CEMS Assign
-		return new CCESMFakeMethodContainer() ;
+		return new CCESMFakeMethodContainer(cESMEnv) ;
 	}
-	
+
 	public BaseCESMManager ignoreCondition(String string)
 	{
 		if(isLogCESM)
@@ -239,7 +242,7 @@ public class BaseCESMManager extends CJMapObject
 		return this ;
 	}
 	protected Hashtable<String, CJMapRunnable> tabConditionHandles = new Hashtable<String, CJMapRunnable>();
-	
+
 	public String getLastCommandReturnCode()
 	{
 		return cESMEnv.getLastCommandReturnCode().getCode();
@@ -262,32 +265,27 @@ public class BaseCESMManager extends CJMapObject
 
 	public CCESMFakeMethodContainer startBrowseDataSet(String ws_Fichier)
 	{
-		// TODO fake Method
-		return new CCESMFakeMethodContainer() ;
+		throw unsupported("STARTBR DATASET");
 	}
 
 	public CCESMFakeMethodContainer startBrowseDataSet(Var ws_Fichier)
 	{
-		// TODO fake Method
-		return new CCESMFakeMethodContainer() ;
+		return startBrowseDataSet(ws_Fichier.getString());
 	}
 
 	public CCESMFakeMethodContainer readNextDataSet(Var res_Fichier)
 	{
-		// TODO fake Method
-		return new CCESMFakeMethodContainer() ;
+		return readNextDataSet(res_Fichier.getString());
 	}
 
 	public CCESMFakeMethodContainer readNextDataSet(String res_Fichier)
 	{
-		// TODO fake Method
-		return new CCESMFakeMethodContainer() ;
+		throw unsupported("READNEXT DATASET");
 	}
 
 	public CCESMFakeMethodContainer readPreviousDataSet(Var res_Fichier)
 	{
-		// TODO fake Method
-		return new CCESMFakeMethodContainer() ;
+		return readPreviousDataSet(res_Fichier.getString());
 	}
 
 	public String getConfig(String string)
@@ -339,36 +337,52 @@ public class BaseCESMManager extends CJMapObject
 	public String getDeclaredAgency()
 	{
 		return cESMEnv.getApplicationCredentials().substring(2, 5) ;
-	}	
+	}
 
 	public CCESMFakeMethodContainer enQ(Var enqsycr, int i)
 	{
-		// TODO fake method CEMS ENQ
-		return new CCESMFakeMethodContainer() ;
+		return enQ(resourceName(enqsycr, i));
 	}
 
 	public CCESMFakeMethodContainer enQ(Var enqsycr)
 	{
-		// TODO fake method CEMS ENQ
-		return new CCESMFakeMethodContainer() ;
+		return enQ(resourceName(enqsycr, enqsycr.getLength()));
 	}
 
 	public CCESMFakeMethodContainer deQ(Var enqsycr, int i)
 	{
-		// TODO fake method CEMS DEQ
-		return new CCESMFakeMethodContainer() ;
+		return deQ(resourceName(enqsycr, i));
 	}
 
 	public CCESMFakeMethodContainer deQ(Var enqsycr)
 	{
-		// TODO fake method CEMS DEQ
-		return new CCESMFakeMethodContainer() ;
+		return deQ(resourceName(enqsycr, enqsycr.getLength()));
+	}
+
+	CCESMFakeMethodContainer enQ(String resource)
+	{
+		RESOURCE_LOCKS.computeIfAbsent(resource, ignored -> new ReentrantLock(true)).lock();
+		setNormalReturnCode();
+		return new CCESMFakeMethodContainer();
+	}
+
+	CCESMFakeMethodContainer deQ(String resource)
+	{
+		ReentrantLock lock = RESOURCE_LOCKS.get(resource);
+		if (lock == null || !lock.isHeldByCurrentThread())
+		{
+			throw new IllegalStateException("CICS DEQ without matching ENQ for resource " + resource);
+		}
+		lock.unlock();
+		setNormalReturnCode();
+		return new CCESMFakeMethodContainer();
 	}
 
 
 	public CCESMFakeMethodContainer setTDQueueClosed(String string)
 	{
-		// TODO fake method CEMS TD CLOSE
+		cESMEnv.getQueueManager().setTransientQueueOpen(string, false);
+		setNormalReturnCode();
 		return new CCESMFakeMethodContainer() ;
 	}
 	public CCESMFakeMethodContainer setTDQueueClosed(Var queue)
@@ -377,7 +391,8 @@ public class BaseCESMManager extends CJMapObject
 	}
 	public CCESMFakeMethodContainer setTDQueueOpen(String string)
 	{
-		// TODO fake method CEMS TD CLOSE
+		cESMEnv.getQueueManager().setTransientQueueOpen(string, true);
+		setNormalReturnCode();
 		return new CCESMFakeMethodContainer() ;
 	}
 	public CCESMFakeMethodContainer setTDQueueOpen(Var queue)
@@ -387,7 +402,8 @@ public class BaseCESMManager extends CJMapObject
 
 	public CESMWriteQueue writeTransiantQueue(String name)
 	{
-		return new CESMWriteQueue(true, name, null) ;
+		cESMEnv.setCommandReturnCode(CESMReturnCode.NORMAL);
+		return new CESMWriteQueue(true, name, cESMEnv.getQueueManager()) ;
 	}
 	public CESMWriteQueue writeTransiantQueue(Var name)
 	{
@@ -412,8 +428,7 @@ public class BaseCESMManager extends CJMapObject
 
 	public CCESMFakeMethodContainer getMain()
 	{
-		// TODO fake method getMain
-		return new CCESMFakeMethodContainer() ;
+		throw unsupported("GETMAIN without a storage target");
 	}
 
 	public String getCurrentDay()
@@ -445,7 +460,7 @@ public class BaseCESMManager extends CJMapObject
 		String cs = "" + ((n%100)/10) + (n%10) ;
 		return cs ;
 	}
-	
+
 	public void askTime()
 	{
 		if(isLogCESM)
@@ -453,15 +468,12 @@ public class BaseCESMManager extends CJMapObject
 		cESMEnv.setLastCommandCode(CESMCommandCode.ASKTIME) ;
 		cESMEnv.resetDateTime() ;
 	}
-	
+
 	public CCESMFakeMethodContainer inquire()
 	{
 		if(isLogCESM)
 			Log.logDebug("inquire");
-		
-		cESMEnv.setLastCommandCode(CESMCommandCode.INQUIRE) ;
-		// TODO fake method inquire
-		return new CCESMFakeMethodContainer();
+		throw unsupported("INQUIRE without PROGRAM and TRANSACTION resolution");
 	}
 
 	public CESMReadQueue readTempQueue(Var varName)
@@ -472,10 +484,10 @@ public class BaseCESMManager extends CJMapObject
 	{
 		if(isLogCESM)
 			Log.logDebug("readTempQueue "+csName);
-		
-		cESMEnv.setLastCommandCode(CESMCommandCode.READ_TEMPQUEUE);		
+
+		cESMEnv.setLastCommandCode(CESMCommandCode.READ_TEMPQUEUE);
 		cESMEnv.setCommandReturnCode(CESMReturnCode.NORMAL) ;
-		
+
 		return new CESMReadQueue(false, csName, cESMEnv.getQueueManager());
 	}
 
@@ -489,7 +501,7 @@ public class BaseCESMManager extends CJMapObject
 		cESMEnv.setCommandReturnCode(CESMReturnCode.NORMAL);
 		return new CESMReadQueue(true, name, cESMEnv.getQueueManager());
 	}
-	
+
 	public CCESMFakeMethodContainer deleteTempQueue(Var varName)
 	{
 		deleteTempQueue(varName.getString());
@@ -499,34 +511,39 @@ public class BaseCESMManager extends CJMapObject
 	{
 		if(isLogCESM)
 			Log.logDebug("deleteTempQueue "+csName);
-		
+
 		cESMEnv.setLastCommandCode(CESMCommandCode.DELETE_TEMPQUEUE);
 		cESMEnv.setCommandReturnCode(CESMReturnCode.NORMAL) ;
-		
+
 		CESMQueueManager queueManager = cESMEnv.getQueueManager();
 		queueManager.deleteTempQueue(csName);
 	}
 
 	public CCESMFakeMethodContainer deleteTransiantQueue(Var varName)
 	{
-		// TODO implement CICS transient-data queue deletion.
-		// Keep the fluent result required by generated DELETEQ TD ... SYSID code.
+		return deleteTransiantQueue(varName.getString());
+	}
+
+	public CCESMFakeMethodContainer deleteTransiantQueue(String queueName)
+	{
+		cESMEnv.setCommandReturnCode(CESMReturnCode.NORMAL);
+		cESMEnv.getQueueManager().deleteQueue(true, queueName);
 		return new CCESMFakeMethodContainer();
 	}
-	
-	
+
+
 	public CESMWriteQueue writeTempQueue(Var varName)
 	{
-		return writeTempQueue(varName.getString());	
+		return writeTempQueue(varName.getString());
 	}
 	public CESMWriteQueue writeTempQueue(String csName)
 	{
 		if(isLogCESM)
 			Log.logDebug("writeTempQueue "+csName);
-		
+
 		cESMEnv.setLastCommandCode(CESMCommandCode.WRITE_TEMPQUEUE);
 		cESMEnv.setCommandReturnCode(CESMReturnCode.NORMAL) ;
-		
+
 		return new CESMWriteQueue(false, csName, cESMEnv.getQueueManager());
 	}
 
@@ -534,15 +551,15 @@ public class BaseCESMManager extends CJMapObject
 	{
 		if(isLogCESM)
 			Log.logDebug("writeTempQueue "+tsNom.getLoggableValue());
-		
+
 		cESMEnv.setLastCommandCode(CESMCommandCode.WRITE_TEMPQUEUE);
 		cESMEnv.setCommandReturnCode(CESMReturnCode.NORMAL) ;
-		
+
 		String name = tsNom.getString();
 		CESMWriteQueue writeorder = new CESMWriteQueue(false, name, cESMEnv.getQueueManager());
 		int item = reWriteItem.getInt() ;
 		writeorder.rewrite(item) ;
-		return writeorder ;	
+		return writeorder ;
 	}
 
 	public CESMWriteQueue writeTempQueue(String name, Var rewriteItem)
@@ -566,12 +583,7 @@ public class BaseCESMManager extends CJMapObject
 	}
 	public CCESMFakeMethodContainer readDataSet(String string)
 	{
-		if(isLogCESM)
-			Log.logDebug("readDataSet "+string);
-		cESMEnv.setLastCommandCode(CESMCommandCode.READ_DATASET) ;
-		cESMEnv.setCommandReturnCode(CESMReturnCode.NORMAL) ;
-		// --> VSAM will be suppressed from COBOL
-		return new CCESMFakeMethodContainer();
+		throw unsupported("READ DATASET");
 	}
 
 	public CCESMFakeMethodContainer readFile(Var name)
@@ -581,13 +593,12 @@ public class BaseCESMManager extends CJMapObject
 
 	public CCESMFakeMethodContainer readFile(String name)
 	{
-		// TODO implement CICS file read; preserve the generated runtime contract.
-		return new CCESMFakeMethodContainer();
+		throw unsupported("READ FILE");
 	}
 
 	public CCESMFakeMethodContainer readPreviousDataSet(String name)
 	{
-		return new CCESMFakeMethodContainer();
+		throw unsupported("READPREV DATASET");
 	}
 
 	public CCESMFakeMethodContainer readPreviousFile(Var name)
@@ -597,7 +608,7 @@ public class BaseCESMManager extends CJMapObject
 
 	public CCESMFakeMethodContainer readPreviousFile(String name)
 	{
-		return new CCESMFakeMethodContainer();
+		throw unsupported("READPREV FILE");
 	}
 
 	public CCESMFakeMethodContainer readNextFile(Var name)
@@ -607,21 +618,16 @@ public class BaseCESMManager extends CJMapObject
 
 	public CCESMFakeMethodContainer readNextFile(String name)
 	{
-		return new CCESMFakeMethodContainer();
+		throw unsupported("READNEXT FILE");
 	}
-	
+
 	public CCESMFakeMethodContainer writeDataSet(Var var)
 	{
 		return writeDataSet(var.getString());
 	}
 	public CCESMFakeMethodContainer writeDataSet(String string)
 	{
-		if(isLogCESM)
-			Log.logDebug("writeDataSet "+string);
-		cESMEnv.setLastCommandCode(CESMCommandCode.WRITE_DATASET) ;
-		cESMEnv.setCommandReturnCode(CESMReturnCode.NORMAL) ;
-		// --> VSAM will be suppressed from COBOL
-		return new CCESMFakeMethodContainer();
+		throw unsupported("WRITE DATASET");
 	}
 
 	public CCESMFakeMethodContainer writeFile(Var file)
@@ -631,17 +637,12 @@ public class BaseCESMManager extends CJMapObject
 
 	public CCESMFakeMethodContainer writeFile(String file)
 	{
-		// TODO implement CICS file write; preserve the generated runtime contract.
-		return new CCESMFakeMethodContainer();
+		throw unsupported("WRITE FILE");
 	}
-	
+
 	public CCESMFakeMethodContainer reWriteDataSet(String string)
 	{
-		if(isLogCESM)
-			Log.logDebug("reWriteDataSet "+string);
-		cESMEnv.setCommandReturnCode(CESMReturnCode.NORMAL) ;
-		// --> VSAM will be suppressed from COBOL
-		return new CCESMFakeMethodContainer();
+		throw unsupported("REWRITE DATASET");
 	}
 
 	public CCESMFakeMethodContainer reWriteDataSet(Var var)
@@ -651,15 +652,14 @@ public class BaseCESMManager extends CJMapObject
 
 	public CCESMFakeMethodContainer reWriteFile(String name)
 	{
-		// TODO implement CICS file rewrite; preserve the generated runtime contract.
-		return new CCESMFakeMethodContainer();
+		throw unsupported("REWRITE FILE");
 	}
 
 	public CCESMFakeMethodContainer reWriteFile(Var name)
 	{
 		return reWriteFile(name.getString());
 	}
-	
+
 	public CESMStart start(String csTransaction)
 	{
 		return start(csTransaction, true);
@@ -697,7 +697,7 @@ public class BaseCESMManager extends CJMapObject
 				Log.logDebug("syncPointRollback: Nothing to do: No connection opened");
 		}
 	}
-	
+
 	public void syncPointCommit()
 	{
 		if(cESMEnv.hasSQLConnection())
@@ -719,7 +719,7 @@ public class BaseCESMManager extends CJMapObject
 				Log.logDebug("syncPointCommit: Nothing to do: No connection opened");
 		}
 	}
-	
+
 	public CESMLink link(Var varProgram)
 	{
 		return link(varProgram.getString().trim());
@@ -736,7 +736,7 @@ public class BaseCESMManager extends CJMapObject
 		cESMEnv.setCommarea(null);
 		return new CESMLink(cESMEnv, csProgramName);
 	}
-	
+
 	public CESMXctl xctl(Class cl)
 	{
 		return xctl(cl.getName());
@@ -758,23 +758,59 @@ public class BaseCESMManager extends CJMapObject
 	{
 		return cESMEnv.getLastCommandCode() ;
 	}
-	// ==================== CICS HANDLE AID Runtime ====================
-	// TODO-stub methods for the ST4-migrated CICS HANDLE AID backend
-	// (recursiveCICSHandleAIDEntity template). The template emits one
-	// CESM.handleAID(<cond>, <target>) per handled-AID entry and one
-	// CESM.unhandleAID(<cond>) per unhandled-AID entry. These are
-	// placeholders matching the retired CJavaCICSHandleAID.DoExport
-	// output format.
-	
 	public BaseCESMManager handleAID(String cond, CJMapRunnable target)
 	{
-		// TODO fake method handleAID
+		if (target == null)
+		{
+			throw new IllegalArgumentException("CICS HANDLE AID target must not be null");
+		}
+		aidHandlers.put(normalizeCondition(cond), target);
 		return this;
 	}
-	
+
 	public BaseCESMManager unhandleAID(String cond)
 	{
-		// TODO fake method unhandleAID
+		aidHandlers.remove(normalizeCondition(cond));
 		return this;
 	}
+
+	public CJMapRunnable getAIDHandler(String condition)
+	{
+		return aidHandlers.get(normalizeCondition(condition));
+	}
+
+	private void setNormalReturnCode()
+	{
+		if (cESMEnv != null)
+		{
+			cESMEnv.setCommandReturnCode(CESMReturnCode.NORMAL);
+		}
+	}
+
+	private static String resourceName(Var resource, int length)
+	{
+		String value = resource.getString();
+		int boundedLength = Math.max(0, Math.min(length, value.length()));
+		return value.substring(0, boundedLength);
+	}
+
+	private static String normalizeCondition(String condition)
+	{
+		if (condition == null || condition.trim().isEmpty())
+		{
+			throw new IllegalArgumentException("CICS condition must not be blank");
+		}
+		return condition.trim().toUpperCase(Locale.ROOT);
+	}
+
+	private static UnsupportedOperationException unsupported(String operation)
+	{
+		return new UnsupportedOperationException(
+			"CICS " + operation + " has no configured NacaRT backend");
+	}
+
+	private static final ConcurrentMap<String, ReentrantLock> RESOURCE_LOCKS =
+		new ConcurrentHashMap<String, ReentrantLock>();
+	private final Hashtable<String, CJMapRunnable> aidHandlers =
+		new Hashtable<String, CJMapRunnable>();
 }

@@ -2143,10 +2143,9 @@ operations:
     returns: idea.manager.CESMSendMap
 
   # --- CICS GETMAIN ---
-  # EXEC CICS GETMAIN END-EXEC emits CESM.getMain(), a no-argument call on
-  # BaseCESMManager that returns a CCESMFakeMethodContainer (the 2026-07 baseline
-  # fake method, matching the retired CJavaCICSGetMain.DoExport). Declared on
-  # BaseCESMManager, declared hierarchically like cics.syncPointCommit.
+  # The method remains declared so historical generated sources compile, but it
+  # fails closed. New source is rejected during lowering because the parsed form
+  # has no storage target and NacaRT cannot implement its allocation semantics.
   - id: cics.getMain
     since: 1
     capability: CICS
@@ -2158,8 +2157,8 @@ operations:
   # --- CICS HANDLE AID ---
   # EXEC CICS HANDLE AID ENTER(label) ... END-EXEC emits CESM.handleAID(<cond>, <target>)
   # for each handled AID and CESM.unhandleAID(<cond>) for each unhandled AID.
-  # Declared on BaseCESMManager like cics.deQ. The handleAID/unhandleAID methods
-  # are TODO-stub entries in BaseCESMManager.
+  # BaseCESMManager stores normalized AID-to-target registrations and supports
+  # explicit removal through unhandleAID.
   - id: cics.handleAID
     since: 1
     capability: CICS
@@ -2219,10 +2218,10 @@ operations:
   # CESM.inquire() optionally chained with .program(<ref>) and/or
   # .transaction(<ref>). All three methods are declared on the runtime classes
   # that carry them: inquire() on BaseCESMManager, program(Var)/transaction(Var)
-  # on the returned CCESMFakeMethodContainer, mirroring CJavaCICSInquire.DoExport.
-  # See also the Branch A form (both PROGRAM and TRANSACTION present) which emits
-  # tools.getProgramForTransID(Var, Var) -- a BaseProgram helper, not a contract
-  # operation (same treatment as sqlCommit()/cursorClose() elsewhere).
+  # on the returned compatibility container. New lowering accepts only the form
+  # with both PROGRAM and TRANSACTION, which emits tools.getProgramForTransID;
+  # partial forms are structured rejections and the legacy runtime entry fails
+  # closed.
   - id: cics.inquire
     since: 1
     capability: CICS

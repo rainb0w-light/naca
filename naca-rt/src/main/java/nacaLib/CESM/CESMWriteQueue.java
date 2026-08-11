@@ -27,14 +27,14 @@ public class CESMWriteQueue extends CJMapObject
 	protected String name = "" ;
 	protected CESMQueueManager manager = null;
 	protected int nItemPosition = 0 ;
-	
+
 	public CESMWriteQueue(boolean istransient, String name, CESMQueueManager manager)
 	{
 		this.istransient = istransient;
 		this.name = name ;
 		this.manager = manager ;
 	}
-	
+
 	public CESMWriteQueue from(Var varSource, Var tsLong)
 	{
 		return from(varSource, tsLong.getInt());
@@ -50,16 +50,16 @@ public class CESMWriteQueue extends CJMapObject
 		{
 			if (isrewrite)
 			{
-				manager.writeTempQueue(name, charBufferCopy, nItemPosition - 1) ;
+					manager.writeQueue(istransient, name, charBufferCopy, nItemPosition - 1) ;
 			}
 			else
 			{
-				nItemPosition = manager.writeTempQueue(name, charBufferCopy) ;
+					nItemPosition = manager.writeQueue(istransient, name, charBufferCopy) ;
 			}
 		}
 		return this;
 	}
-	
+
 	public CESMWriteQueue from(Var varSource)
 	{
 		InternalCharBuffer charBufferCopy = varSource.exportToCharBuffer();
@@ -67,11 +67,11 @@ public class CESMWriteQueue extends CJMapObject
 		{
 			if (isrewrite)
 			{
-				manager.writeTempQueue(name, charBufferCopy, nItemPosition - 1) ;
+					manager.writeQueue(istransient, name, charBufferCopy, nItemPosition - 1) ;
 			}
 			else
 			{
-				nItemPosition = manager.writeTempQueue(name, charBufferCopy) ;
+					nItemPosition = manager.writeQueue(istransient, name, charBufferCopy) ;
 			}
 		}
 		return this;
@@ -123,11 +123,10 @@ public class CESMWriteQueue extends CJMapObject
 	}
 	protected boolean isrewrite = false ;
 	/**
-	 * 
+	 *
 	 */
 //	public CESMWriteQueue auxiliary()
 //	{
 //		return this ;
 //	}
 }
-

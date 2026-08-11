@@ -12,6 +12,7 @@
  */
 package parser.Cobol.elements.CICS;
 
+import diagnostic.DiagnosticSink;
 import lexer.CBaseToken;
 import lexer.Cobol.CCobolKeywordList;
 
@@ -21,7 +22,6 @@ import org.w3c.dom.Element;
 import parser.Cobol.CCobolElement;
 import semantic.CBaseEntityFactory;
 import semantic.CBaseLanguageEntity;
-import semantic.CICS.CEntityCICSGetMain;
 import utils.Transcoder;
 
 /**
@@ -46,9 +46,10 @@ public class CExecCICSGetMain extends CCobolElement
 	 */
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
-		CEntityCICSGetMain eCICS = factory.NewEntityCICSGetMain(getLine()) ;
-		parent.AddChild(eCICS);
-		return eCICS ;
+		DiagnosticSink.recordUnsupported("cics.getmain.runtime-backend-unavailable",
+			"embedded-cics", getLine(),
+			"EXEC CICS GETMAIN has no supported storage target in NacaRT");
+		return null;
 	}
 
 	/* (non-Javadoc)
@@ -68,7 +69,7 @@ public class CExecCICSGetMain extends CCobolElement
 		{
 			cs += tok.GetDisplay() + " " ;
 			tok = GetNext() ;
-		}		
+		}
 
 		if (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
 		{

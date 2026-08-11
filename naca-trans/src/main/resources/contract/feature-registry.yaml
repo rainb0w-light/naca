@@ -1429,8 +1429,8 @@ features:
       role: REFERENCE
       template: recursiveCICSGetMainEntity
     runtimeOperations: [cics.getMain]
-    fixtures: []
-    status: production
+    fixtures: [CICSRuntimeBackendDiagnosticTest]
+    status: structured-rejection
 
   - id: cics.handleAID
     dialects: [embedded-cics]
@@ -1492,8 +1492,8 @@ features:
       - cics.rewrite.from
       - cics.rewrite.fromVarLength
       - cics.rewrite.fromIntLength
-    fixtures: []
-    status: production
+    fixtures: [CICSRuntimeBackendDiagnosticTest]
+    status: structured-rejection
 
   - id: cics.read
     dialects: [embedded-cics]
@@ -1522,8 +1522,8 @@ features:
       - cics.read.keyLengthInt
       - cics.read.equal
       - cics.read.update
-    fixtures: []
-    status: production
+    fixtures: [CICSRuntimeBackendDiagnosticTest]
+    status: structured-rejection
 
   - id: cics.readq
     dialects: [embedded-cics]
@@ -1610,8 +1610,8 @@ features:
       - cics.startBrowse.keyLengthVar
       - cics.startBrowse.keyLengthInt
       - cics.startBrowse.gTEQ
-    fixtures: []
-    status: production
+    fixtures: [CICSRuntimeBackendDiagnosticTest]
+    status: structured-rejection
 
   - id: cics.write
     dialects: [embedded-cics]
@@ -1630,8 +1630,8 @@ features:
       - cics.write.recIDField
       - cics.write.keyLengthVar
       - cics.write.keyLengthInt
-    fixtures: []
-    status: production
+    fixtures: [CICSRuntimeBackendDiagnosticTest]
+    status: structured-rejection
 
   - id: cics.writeQ
     dialects: [embedded-cics]
