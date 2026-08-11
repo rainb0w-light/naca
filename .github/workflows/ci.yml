@@ -24,11 +24,36 @@ jobs:
       - uses: actions/checkout@v7
         with:
           fetch-depth: 0
+      - name: Read cobol-rekt source lock
+        id: cobol-rekt-lock
+        shell: bash
+        run: |
+          echo "repository=$(sed -n 's/^repository=//p' gradle/cobol-rekt.properties)" >> "$GITHUB_OUTPUT"
+          echo "commit=$(sed -n 's/^commit=//p' gradle/cobol-rekt.properties)" >> "$GITHUB_OUTPUT"
+      - uses: actions/checkout@v7
+        with:
+          repository: ${{ steps.cobol-rekt-lock.outputs.repository }}
+          ref: ${{ steps.cobol-rekt-lock.outputs.commit }}
+          path: cobol-rekt-src
+          submodules: recursive
+      - name: Verify cobol-rekt source lock
+        shell: bash
+        run: |
+          test "$(git -C cobol-rekt-src rev-parse HEAD)" = "$(sed -n 's/^commit=//p' gradle/cobol-rekt.properties)"
+          test "$(git -C cobol-rekt-src/che-che4z-lsp-for-cobol-integration rev-parse HEAD)" = "$(sed -n 's/^che4zCommit=//p' gradle/cobol-rekt.properties)"
+          test "$(git -C cobol-rekt-src/mojo-common rev-parse HEAD)" = "$(sed -n 's/^mojoCommonCommit=//p' gradle/cobol-rekt.properties)"
+          test "$(git -C cobol-rekt-src/woof rev-parse HEAD)" = "$(sed -n 's/^woofCommit=//p' gradle/cobol-rekt.properties)"
       - uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: "21"
       - uses: gradle/actions/setup-gradle@v6
+      - name: Install pinned cobol-rekt dependencies
+        run: >-
+          mvn --file cobol-rekt-src/pom.xml
+          --projects smojol-core,smojol-toolkit
+          --also-make install
+          -DskipTests -Dmaven.test.skip=true -Dcheckstyle.skip
       - name: Verify build and architecture
         run: >-
           ./gradlew build qualityCheck

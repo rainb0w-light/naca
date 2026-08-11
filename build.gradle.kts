@@ -38,6 +38,7 @@ ext {
     set("sqliteVersion", "3.47.0.0")
     set("neo4jDriverVersion", "5.23.0")
     set("graphvizVersion", "0.18.1")
+    set("graalJsVersion", "24.2.2")
     set("vavrVersion", "0.10.4")
     set("picocliVersion", "4.7.6")
     set("jlineVersion", "3.26.1")

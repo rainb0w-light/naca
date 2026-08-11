@@ -15,7 +15,8 @@ the current queue.
 - The canonical `sampleAcceptance` contains two strict pipelines: the 34-line
   `TEST-A-STANDALONE` GnuCOBOL comparison, and a BATCH1/CALLMSG/MSGZONE run that
   verifies dynamic CALL linkage plus exact FILEIN/FILEOUT behavior.
-- `naca-analyzer` has no tests and its three public operations are placeholders.
+- `naca-analyzer` has parser-backed AST/CFG/data-layout analysis and bounded
+  SMOJOL execution, with a dedicated integration test source.
 - The CICS runtime has no explicit TODO/fake marker in `BaseCESMManager`;
   supported local operations execute real behavior and unsupported indexed-file
   operations fail closed during lowering.
@@ -48,6 +49,10 @@ the current queue.
   have concrete runtime semantics. GETMAIN, indexed-file READ/WRITE/REWRITE and
   STARTBR are classified as structured rejections until a storage backend is
   configured; legacy generated entry points throw instead of silently succeeding.
+- M9 is complete: Analyzer now runs the real cobol-rekt parse, AST, CFG, data
+  layout, and interpreter pipeline. Cloud endpoints delegate to that facade,
+  Graphviz renders actual SVG/PNG output, resource limits are tested, and CI
+  bootstraps cobol-rekt from a source/submodule lock.
 
 Machine-readable counters live in `project-quality-baseline.json`. A counter may
 only decrease unless a reviewed change updates both its rationale and its target.

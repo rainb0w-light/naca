@@ -1,370 +1,212 @@
 package com.publicitas.naca.cloudnative.service;
 
+import com.publicitas.naca.analyzer.CobolAnalyzer;
+import com.publicitas.naca.analyzer.CobolAnalyzer.AnalyzerException;
+import jakarta.annotation.PreDestroy;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-/**
- * SMOJOL-based COBOL analysis service.
- * Integrates cobol-rekt's smojol-core for COBOL code analysis.
- *
- * Available features from cobol-rekt:
- * - CobolInterpreter: COBOL code interpretation
- * - CobolProgram: Program representation
- * - Control Flow Graph nodes for program analysis
- */
+/** HTTP-facing adapter for the bounded cobol-rekt integration in {@code naca-analyzer}. */
 @Service
 public class SmojolService {
+    private final CobolAnalyzer analyzer = new CobolAnalyzer();
 
-    public SmojolService() {
-        // Initialization - cobol-rekt dependencies are available via Maven
-    }
-
-    /**
-     * Interpret and execute COBOL source code using SMOJOL interpreter.
-     *
-     * @param cobolSource The COBOL source code
-     * @param inputData Input data for the program (optional)
-     * @return ExecutionResult containing output, success status, and any errors
-     */
+    /** Interprets COBOL with parser, execution-step, and wall-clock limits. */
     public ExecutionResult interpret(String cobolSource, String inputData) {
-        try {
-            // Validate COBOL source
-            if (cobolSource == null || cobolSource.trim().isEmpty()) {
-                return ExecutionResult.failure("COBOL source is empty");
-            }
-
-            // Note: Full SMOJOL interpreter integration requires:
-            // 1. LSP4COBOL parser to parse COBOL source
-            // 2. AST to SMOJOL IR conversion
-            // 3. Memory layout and data structure setup
-            // 4. Interpreter execution
-            //
-            // This is a placeholder that demonstrates the API structure.
-            // The actual implementation would use:
-            // - org.smojol.common.vm.interpreter.CobolInterpreter
-            // - org.eclipse.lsp.cobol.core.parser.CobolParser
-
-            return ExecutionResult.success(
-                "SMOJOL interpretation is available. " +
-                "Full implementation requires LSP4COBOL parser integration. " +
-                "COBOL source received: " + cobolSource.length() + " characters."
-            );
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ExecutionResult.failure("Interpretation error: " + e.getMessage());
-        }
+        CobolAnalyzer.ExecutionResult result = analyzer.execute(cobolSource, inputData);
+        return result.isSuccess()
+            ? ExecutionResult.success(result.getOutput(), result.executedSteps())
+            : ExecutionResult.failure(result.getErrorMessage());
     }
 
-    /**
-     * Build AST from COBOL source code using LSP4COBOL parser.
-     *
-     * @param cobolSource The COBOL source code
-     * @return AST representation as a Map structure
-     */
+    /** Builds a real parser AST and returns a JSON-serializable response. */
     public Map<String, Object> buildAst(String cobolSource) {
         try {
-            // Note: Full implementation would use:
-            // - org.eclipse.lsp.cobol.core.parser.CobolParser
-            // - org.smojol.common.ast.CobolAstBuilder
-
-            Map<String, Object> astMap = new HashMap<>();
-            astMap.put("success", true);
-            astMap.put("message", "AST building available via LSP4COBOL parser integration");
-            astMap.put("sourceLength", cobolSource.length());
-            astMap.put("structure", extractBasicStructure(cobolSource));
-
-            return astMap;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            Map<String, Object> errorMap = new HashMap<>();
-            errorMap.put("success", false);
-            errorMap.put("error", e.getMessage());
-            return errorMap;
+            CobolAnalyzer.AnalysisResult result = analyzer.analyze(cobolSource);
+            Map<String, Object> response = new LinkedHashMap<>();
+            response.put("success", true);
+            response.put("programId", result.programId());
+            response.put("ast", result.ast());
+            response.put("dataFlow", result.dataFlowResult());
+            return response;
+        } catch (AnalyzerException exception) {
+            return Map.of("success", false, "error", exception.getMessage());
         }
     }
 
-    /**
-     * Build Control Flow Graph from COBOL source code.
-     *
-     * @param cobolSource The COBOL source code
-     * @return CfgResult containing nodes, edges, and DOT format
-     */
+    /** Builds the real cobol-rekt control-flow graph. */
     public CfgResult buildControlFlowGraph(String cobolSource) {
         try {
-            // Note: Full implementation would use:
-            // - org.smojol.common.cfg.ControlFlowGraphBuilder
-            // - org.jgrapht.graph.DefaultEdge for graph representation
-
-            // Extract basic CFG information from COBOL source
-            List<String> paragraphs = extractParagraphs(cobolSource);
-            Set<String> nodes = new HashSet<>(paragraphs);
-
-            // Create simple linear edges
-            List<Map<String, String>> edges = new ArrayList<>();
-            for (int i = 0; i < paragraphs.size() - 1; i++) {
-                Map<String, String> edge = new HashMap<>();
-                edge.put("source", paragraphs.get(i));
-                edge.put("target", paragraphs.get(i + 1));
-                edges.add(edge);
-            }
-
-            // Generate DOT format
-            String dotFormat = generateDotFormat(nodes, edges);
-
-            return CfgResult.success(nodes, edges, dotFormat);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return CfgResult.failure("CFG building error: " + e.getMessage());
+            CobolAnalyzer.ControlFlowGraph graph = analyzer.analyze(cobolSource).cfg();
+            Set<String> nodes = new LinkedHashSet<>();
+            graph.nodes().forEach(node -> nodes.add(node.name()));
+            List<Map<String, String>> edges = graph.edges().stream()
+                .map(edge -> Map.of(
+                    "source", edge.source(),
+                    "target", edge.target(),
+                    "kind", edge.kind()))
+                .toList();
+            return CfgResult.success(nodes, edges, graph.dot());
+        } catch (AnalyzerException exception) {
+            return CfgResult.failure(exception.getMessage());
         }
     }
 
-    /**
-     * Analyze COBOL program structure and return detailed information.
-     *
-     * @param cobolSource The COBOL source code
-     * @return AnalysisResult containing program metadata
-     */
+    /** Returns parser-backed program metadata instead of source-text heuristics. */
     public AnalysisResult analyzeProgram(String cobolSource) {
         try {
-            Map<String, Object> analysis = new HashMap<>();
-
-            // Extract basic information
-            analysis.put("programId", extractProgramId(cobolSource));
-            analysis.put("divisionCount", countDivisions(cobolSource));
-            analysis.put("paragraphCount", countParagraphs(cobolSource));
-            analysis.put("variableCount", countVariables(cobolSource));
-            analysis.put("statementCount", countStatements(cobolSource));
-            analysis.put("sourceLines", cobolSource.split("\n").length);
-
+            CobolAnalyzer.AnalysisResult result = analyzer.analyze(cobolSource);
+            Map<String, Object> analysis = new LinkedHashMap<>();
+            analysis.put("programId", result.programId());
+            analysis.put("astRootType", result.ast().type());
+            analysis.put("variableCount", result.dataFlowResult().variableCount());
+            analysis.put("cfgNodeCount", result.cfg().nodes().size());
+            analysis.put("cfgEdgeCount", result.cfg().edges().size());
             return AnalysisResult.success(analysis);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return AnalysisResult.failure("Analysis error: " + e.getMessage());
+        } catch (AnalyzerException exception) {
+            return AnalysisResult.failure(exception.getMessage());
         }
     }
 
-    // Utility methods for program analysis
-
-    private Map<String, Object> extractBasicStructure(String cobolSource) {
-        Map<String, Object> structure = new HashMap<>();
-        structure.put("programId", extractProgramId(cobolSource));
-        structure.put("divisions", new ArrayList<>());
-        structure.put("sections", new ArrayList<>());
-        structure.put("paragraphs", extractParagraphs(cobolSource));
-        return structure;
+    /** Releases the virtual-thread executor when the Spring application stops. */
+    @PreDestroy
+    public void close() {
+        analyzer.close();
     }
 
-    private List<String> extractParagraphs(String cobolSource) {
-        List<String> paragraphs = new ArrayList<>();
-        String[] lines = cobolSource.split("\n");
-        boolean inProcedure = false;
-
-        for (String line : lines) {
-            String trimmed = line.trim();
-            if (trimmed.toUpperCase().contains("PROCEDURE DIVISION")) {
-                inProcedure = true;
-                continue;
-            }
-            if (inProcedure && trimmed.toUpperCase().contains("END PROGRAM")) {
-                break;
-            }
-            // Paragraph names end with a period and are on their own line
-            if (inProcedure && trimmed.matches("^[A-Z0-9\\-]+\\.$")) {
-                paragraphs.add(trimmed.substring(0, trimmed.length() - 1));
-            }
-        }
-        return paragraphs;
-    }
-
-    private String generateDotFormat(Set<String> nodes, List<Map<String, String>> edges) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("digraph CFG {\n");
-        sb.append("    rankdir=TB;\n");
-        sb.append("    node [shape=box, style=filled, fillcolor=lightblue];\n");
-
-        for (String node : nodes) {
-            sb.append("    \"").append(node.replace("\"", "\\\"")).append("\";\n");
-        }
-
-        for (Map<String, String> edge : edges) {
-            sb.append("    \"").append(edge.get("source").replace("\"", "\\\""))
-              .append("\" -> \"").append(edge.get("target").replace("\"", "\\\"")).append("\";\n");
-        }
-
-        sb.append("}");
-        return sb.toString();
-    }
-
-    private String extractProgramId(String cobolSource) {
-        String[] lines = cobolSource.split("\n");
-        for (String line : lines) {
-            String trimmed = line.trim().toUpperCase();
-            if (trimmed.contains("PROGRAM-ID")) {
-                int colonPos = trimmed.indexOf(":");
-                if (colonPos > 0) {
-                    return line.substring(colonPos + 1).trim().replaceAll("\\.$", "");
-                }
-                // Handle "PROGRAM-ID program-name."
-                String[] parts = line.split("\\s+");
-                for (int i = 0; i < parts.length; i++) {
-                    if (parts[i].toUpperCase().equals("PROGRAM-ID") && i + 1 < parts.length) {
-                        return parts[i + 1].replaceAll("\\.$", "");
-                    }
-                }
-            }
-        }
-        return "UNKNOWN";
-    }
-
-    private int countDivisions(String cobolSource) {
-        int count = 0;
-        String upper = cobolSource.toUpperCase();
-        if (upper.contains("IDENTIFICATION DIVISION")) count++;
-        if (upper.contains("ENVIRONMENT DIVISION")) count++;
-        if (upper.contains("DATA DIVISION")) count++;
-        if (upper.contains("PROCEDURE DIVISION")) count++;
-        return count;
-    }
-
-    private int countParagraphs(String cobolSource) {
-        return extractParagraphs(cobolSource).size();
-    }
-
-    private int countVariables(String cobolSource) {
-        int count = 0;
-        String[] lines = cobolSource.split("\n");
-        boolean inWorkingStorage = false;
-
-        for (String line : lines) {
-            String trimmed = line.trim().toUpperCase();
-            if (trimmed.contains("WORKING-STORAGE SECTION") || trimmed.contains("LINKAGE SECTION")) {
-                inWorkingStorage = true;
-                continue;
-            }
-            if (trimmed.contains("PROCEDURE DIVISION")) {
-                break;
-            }
-            if (inWorkingStorage && line.matches("^\\s*\\d+\\s+.*") && !trimmed.startsWith("*")) {
-                count++;
-            }
-        }
-        return count;
-    }
-
-    private int countStatements(String cobolSource) {
-        int count = 0;
-        String[] lines = cobolSource.split("\n");
-        boolean inProcedure = false;
-
-        for (String line : lines) {
-            String trimmed = line.trim().toUpperCase();
-            if (trimmed.contains("PROCEDURE DIVISION")) {
-                inProcedure = true;
-                continue;
-            }
-            if (inProcedure && trimmed.contains("END PROGRAM")) {
-                break;
-            }
-            if (inProcedure && !trimmed.isEmpty() && !trimmed.startsWith("*") &&
-                !trimmed.startsWith("/") && line.contains(" ")) {
-                count++;
-            }
-        }
-        return count;
-    }
-
-    /**
-     * Result class for COBOL interpretation.
-     */
-    public static class ExecutionResult {
+    /** Result returned by the interpretation endpoint. */
+    public static final class ExecutionResult {
         private final boolean success;
         private final String output;
         private final List<String> errors;
+        private final int executedSteps;
 
-        private ExecutionResult(boolean success, String output, List<String> errors) {
+        private ExecutionResult(
+            boolean success,
+            String output,
+            List<String> errors,
+            int executedSteps) {
             this.success = success;
             this.output = output;
-            this.errors = errors;
+            this.errors = List.copyOf(errors);
+            this.executedSteps = executedSteps;
         }
 
-        public static ExecutionResult success(String output) {
-            return new ExecutionResult(true, output, new ArrayList<>());
+        static ExecutionResult success(String output, int executedSteps) {
+            return new ExecutionResult(true, output, List.of(), executedSteps);
         }
 
-        public static ExecutionResult failure(String error) {
-            List<String> errors = new ArrayList<>();
-            errors.add(error);
-            return new ExecutionResult(false, null, errors);
+        static ExecutionResult failure(String error) {
+            return new ExecutionResult(false, null, List.of(error), 0);
         }
 
-        public boolean isSuccess() { return success; }
-        public String getOutput() { return output; }
-        public List<String> getErrors() { return errors; }
+        public boolean isSuccess() {
+            return success;
+        }
+
+        public String getOutput() {
+            return output;
+        }
+
+        public List<String> getErrors() {
+            return errors;
+        }
+
+        public int getExecutedSteps() {
+            return executedSteps;
+        }
     }
 
-    /**
-     * Result class for CFG operations.
-     */
-    public static class CfgResult {
+    /** Result returned by the CFG endpoint. */
+    public static final class CfgResult {
         private final boolean success;
         private final Set<String> nodes;
         private final List<Map<String, String>> edges;
         private final String dotFormat;
         private final String error;
 
-        private CfgResult(boolean success, Set<String> nodes, List<Map<String, String>> edges,
-                         String dotFormat, String error) {
+        private CfgResult(
+            boolean success,
+            Set<String> nodes,
+            List<Map<String, String>> edges,
+            String dotFormat,
+            String error) {
             this.success = success;
-            this.nodes = nodes;
-            this.edges = edges;
+            this.nodes = nodes == null ? Set.of() : Set.copyOf(nodes);
+            this.edges = edges == null ? List.of() : List.copyOf(edges);
             this.dotFormat = dotFormat;
             this.error = error;
         }
 
-        public static CfgResult success(Set<String> nodes, List<Map<String, String>> edges, String dotFormat) {
+        static CfgResult success(
+            Set<String> nodes,
+            List<Map<String, String>> edges,
+            String dotFormat) {
             return new CfgResult(true, nodes, edges, dotFormat, null);
         }
 
-        public static CfgResult failure(String error) {
+        static CfgResult failure(String error) {
             return new CfgResult(false, null, null, null, error);
         }
 
-        public boolean isSuccess() { return success; }
-        public Set<String> getNodes() { return nodes; }
-        public List<Map<String, String>> getEdges() { return edges; }
-        public String getDotFormat() { return dotFormat; }
-        public String getError() { return error; }
+        public boolean isSuccess() {
+            return success;
+        }
+
+        public Set<String> getNodes() {
+            return nodes;
+        }
+
+        public List<Map<String, String>> getEdges() {
+            return edges;
+        }
+
+        public String getDotFormat() {
+            return dotFormat;
+        }
+
+        public String getError() {
+            return error;
+        }
     }
 
-    /**
-     * Result class for analysis operations.
-     */
-    public static class AnalysisResult {
+    /** Result returned by the program-analysis endpoint. */
+    public static final class AnalysisResult {
         private final boolean success;
         private final Map<String, Object> analysis;
         private final String error;
 
         private AnalysisResult(boolean success, Map<String, Object> analysis, String error) {
             this.success = success;
-            this.analysis = analysis;
+            this.analysis = analysis == null
+                ? Map.of()
+                : Map.copyOf(new LinkedHashMap<>(analysis));
             this.error = error;
         }
 
-        public static AnalysisResult success(Map<String, Object> analysis) {
+        static AnalysisResult success(Map<String, Object> analysis) {
             return new AnalysisResult(true, analysis, null);
         }
 
-        public static AnalysisResult failure(String error) {
+        static AnalysisResult failure(String error) {
             return new AnalysisResult(false, null, error);
         }
 
-        public boolean isSuccess() { return success; }
-        public Map<String, Object> getAnalysis() { return analysis; }
-        public String getError() { return error; }
+        public boolean isSuccess() {
+            return success;
+        }
+
+        public Map<String, Object> getAnalysis() {
+            return analysis;
+        }
+
+        public String getError() {
+            return error;
+        }
     }
 }

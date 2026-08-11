@@ -4,9 +4,18 @@ import com.publicitas.naca.cloudnative.service.SmojolService;
 import com.publicitas.naca.cloudnative.service.SmojolService.ExecutionResult;
 import com.publicitas.naca.cloudnative.service.SmojolService.CfgResult;
 import com.publicitas.naca.cloudnative.service.SmojolService.AnalysisResult;
+import guru.nidi.graphviz.engine.Format;
+import guru.nidi.graphviz.engine.Graphviz;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -54,6 +63,7 @@ public class SmojolController {
         response.setSuccess(result.isSuccess());
         response.setOutput(result.getOutput());
         response.setErrors(result.getErrors());
+        response.setExecutedSteps(result.getExecutedSteps());
 
         if (result.isSuccess()) {
             return ResponseEntity.ok(response);
@@ -80,7 +90,9 @@ public class SmojolController {
         }
 
         Map<String, Object> astResult = smojolService.buildAst(request.getCobolSource());
-        return ResponseEntity.ok(astResult);
+        return Boolean.TRUE.equals(astResult.get("success"))
+            ? ResponseEntity.ok(astResult)
+            : ResponseEntity.badRequest().body(astResult);
     }
 
     /**
@@ -155,7 +167,7 @@ public class SmojolController {
      * Get program visualization (CFG as SVG/PNG).
      * GET /api/smojol/visualize?source=...&format=svg
      *
-     * @param cobolSource COBOL source code
+     * @param source COBOL source code
      * @param format Output format (svg or png)
      * @return Visualization as image
      */
@@ -172,28 +184,30 @@ public class SmojolController {
         }
 
         try {
-            CfgResult configresult = smojolService.buildControlFlowGraph(source);
-            if (!configresult.isSuccess()) {
+            CfgResult cfgResult = smojolService.buildControlFlowGraph(source);
+            if (!cfgResult.isSuccess()) {
                 return ResponseEntity.badRequest().body(Map.of(
                     "success", false,
-                    "error", configresult.getError()
+                    "error", cfgResult.getError()
                 ));
             }
 
-            // Generate SVG from DOT
-            // Note: Full implementation would use graphviz-java here
-            String svgContent = generateSvgFromDot(configresult.getDotFormat());
-
             if ("svg".equalsIgnoreCase(format)) {
                 return ResponseEntity.ok()
-                    .header("Content-Type", "image/svg+xml")
-                    .body(svgContent);
-            } else {
-                // For PNG, would need to convert SVG to PNG
-                return ResponseEntity.ok()
-                    .header("Content-Type", "image/svg+xml")
-                    .body(svgContent);
+                    .contentType(MediaType.valueOf("image/svg+xml"))
+                    .body(Graphviz.fromString(cfgResult.getDotFormat()).render(Format.SVG).toString());
             }
+            if ("png".equalsIgnoreCase(format)) {
+                ByteArrayOutputStream image = new ByteArrayOutputStream();
+                Graphviz.fromString(cfgResult.getDotFormat()).render(Format.PNG).toOutputStream(image);
+                return ResponseEntity.ok()
+                    .contentType(MediaType.IMAGE_PNG)
+                    .body(image.toByteArray());
+            }
+            return ResponseEntity.badRequest().body(Map.of(
+                "success", false,
+                "error", "format must be svg or png"
+            ));
 
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body(Map.of(
@@ -201,20 +215,6 @@ public class SmojolController {
                 "error", e.getMessage()
             ));
         }
-    }
-
-    /**
-     * Generate SVG from DOT format.
-     */
-    private String generateSvgFromDot(String dotFormat) {
-        // TODO: Implement using graphviz-java
-        // This is a placeholder that returns a simple SVG
-        return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-               "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"300\">\n" +
-               "  <rect width=\"100%\" height=\"100%\" fill=\"#f0f0f0\"/>\n" +
-               "  <text x=\"50%\" y=\"50%\" text-anchor=\"middle\" dy=\".3em\">CFG Visualization</text>\n" +
-               "  <text x=\"50%\" y=\"60%\" text-anchor=\"middle\" dy=\".3em\" font-size=\"12\">Coming Soon</text>\n" +
-               "</svg>";
     }
 
     // Request/Response DTOs
@@ -233,6 +233,7 @@ public class SmojolController {
         private boolean success;
         private String output;
         private List<String> errors;
+        private int executedSteps;
 
         public boolean isSuccess() { return success; }
         public void setSuccess(boolean success) { this.success = success; }
@@ -240,6 +241,8 @@ public class SmojolController {
         public void setOutput(String output) { this.output = output; }
         public List<String> getErrors() { return errors; }
         public void setErrors(List<String> errors) { this.errors = errors; }
+        public int getExecutedSteps() { return executedSteps; }
+        public void setExecutedSteps(int executedSteps) { this.executedSteps = executedSteps; }
     }
 
     public static class AstRequest {

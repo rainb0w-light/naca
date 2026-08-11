@@ -17,6 +17,12 @@ repositories {
     mavenCentral()
 }
 
+configurations.configureEach {
+    exclude(group = "ch.qos.logback", module = "logback-classic")
+    exclude(group = "org.apache.logging.log4j", module = "log4j-slf4j2-impl")
+    exclude(group = "org.slf4j", module = "slf4j-simple")
+}
+
 dependencies {
     // Internal Naca modules
     implementation(project(":naca-trans"))
@@ -24,19 +30,11 @@ dependencies {
     implementation(project(":naca-jlib"))
     implementation(project(":naca-analyzer"))
 
-    // SMOJOL - COBOL interpreter from cobol-rekt
-    implementation("org.smojol:smojol-core:1.0-SNAPSHOT")
-    implementation("org.smojol:smojol-toolkit:1.0-SNAPSHOT")
-
-    // LSP4COBOL Parser
-    implementation("org.eclipse.lsp.cobol:parser:1.0-SNAPSHOT")
-    implementation("org.eclipse.lsp.cobol:engine:1.0.0-SNAPSHOT")
-    implementation("org.eclipse.lsp.cobol:common:1.0.8")
-
     // Graph visualization for CFG
     implementation("org.jgrapht:jgrapht-core:${rootProject.ext.get("jgraphtVersion")}")
     implementation("org.jgrapht:jgrapht-io:${rootProject.ext.get("jgraphtVersion")}")
     implementation("guru.nidi:graphviz-java:${rootProject.ext.get("graphvizVersion")}")
+    runtimeOnly("org.graalvm.polyglot:js-community:${rootProject.ext.get("graalJsVersion")}")
 
     // Functional programming
     implementation("io.vavr:vavr:${rootProject.ext.get("vavrVersion")}")
@@ -49,11 +47,10 @@ dependencies {
         exclude(group = "org.springframework.boot", module = "spring-boot-starter-logging")
     }
 
-    // Test - exclude default logging and use log4j-slf4j2-impl
+    // Test - exclude default logging. The pinned COBOL parser engine currently shades Logback.
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.springframework.boot", module = "spring-boot-starter-logging")
     }
-    testImplementation("org.apache.logging.log4j:log4j-slf4j2-impl:2.24.3")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
