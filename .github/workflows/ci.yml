@@ -60,6 +60,7 @@ jobs:
           :naca-trans:finalArchitectureCheck
           :naca-trans:templateJarCheck
           :naca-trans:templateJarSmoke
+          :naca-trans:fpacAcceptance
           :naca-cloud-native:onlineCorpusBaseline
           --stacktrace
       - name: Upload verification reports

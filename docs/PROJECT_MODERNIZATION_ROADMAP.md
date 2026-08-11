@@ -26,9 +26,10 @@ the current queue.
 - The active `m_*` identifier ratchet is zero. Historical `C*` type names remain
   an intentional compatibility convention and are outside this cleanup.
 - The feature registry declares 173 production features; 168 entries do not yet
-  name a conformance fixture.
-- JaCoCo verification is configured with a zero minimum and therefore provides
-  reporting but no coverage gate.
+  name a conformance fixture and are recorded in the machine-readable baseline.
+- The complete suite covers 10,400 of 150,043 aggregate executable lines
+  (6.93%). The blocking JaCoCo floor is 6.5%, leaving a small environment margin
+  while preventing the former zero-coverage policy from returning.
 
 ## Progress
 
@@ -60,9 +61,18 @@ the current queue.
   ST4 and compiled; undefined-length numeric runtime operations are executable;
   unsupported factory, PARM, CB/CD command and PR/CD file paths fail closed.
   The maintained capability boundary is documented in `FPAC_CAPABILITY_MATRIX.md`.
+- M11 is complete: root `check` now runs the formatting gate, source-debt scan,
+  OpenRewrite recipe tests, a per-module Checkstyle/PMD/SpotBugs plus CPD
+  no-growth ratchet, and the nonzero aggregate coverage gate. CI also runs the
+  explicit FPac acceptance task. No broad temporary suppression was added.
 
-Machine-readable counters live in `project-quality-baseline.json`. A counter may
-only decrease unless a reviewed change updates both its rationale and its target.
+All eleven modernization milestones are complete. Future work lowers the
+recorded debt and expands the feature-fixture matrix without weakening these
+gates.
+
+Machine-readable counters live in `project-quality-baseline.json`. Debt may only
+decrease; coverage and verified capability may only increase unless a reviewed
+change updates both its rationale and target.
 
 ## Execution order
 

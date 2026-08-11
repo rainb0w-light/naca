@@ -1,7 +1,66 @@
 {
   "schemaVersion": 1,
   "capturedAt": "2026-08-11",
-  "capturedAtCommit": "d315e0b3",
+  "capturedAtCommit": "88f69d0e",
+  "aggregateLineCoverageMinimum": 0.065,
+  "cpdDuplications": 369,
+  "staticAnalysis": {
+    "naca-analyzer": {
+      "checkstyleMain": 0,
+      "checkstyleTest": 0,
+      "pmdMain": 18,
+      "pmdTest": 21,
+      "spotbugsMain": 8,
+      "spotbugsTest": 0
+    },
+    "naca-cloud-native": {
+      "checkstyleMain": 41,
+      "checkstyleTest": 14,
+      "pmdMain": 62,
+      "pmdTest": 174,
+      "spotbugsMain": 21,
+      "spotbugsTest": 10
+    },
+    "naca-jlib": {
+      "checkstyleMain": 4721,
+      "checkstyleTest": 0,
+      "pmdMain": 4030,
+      "pmdTest": 0,
+      "spotbugsMain": 462,
+      "spotbugsTest": 0
+    },
+    "naca-rt": {
+      "checkstyleMain": 8379,
+      "checkstyleTest": 0,
+      "pmdMain": 9630,
+      "pmdTest": 44,
+      "spotbugsMain": 923,
+      "spotbugsTest": 0
+    },
+    "naca-rt-tests": {
+      "checkstyleMain": 21,
+      "checkstyleTest": 31,
+      "pmdMain": 13,
+      "pmdTest": 84,
+      "spotbugsTest": 6
+    },
+    "naca-trans": {
+      "checkstyleMain": 3632,
+      "checkstyleTest": 67,
+      "pmdMain": 7306,
+      "pmdTest": 2635,
+      "spotbugsMain": 1524,
+      "spotbugsTest": 21
+    },
+    "rewrite-recipes": {
+      "checkstyleMain": 0,
+      "checkstyleTest": 0,
+      "pmdMain": 0,
+      "pmdTest": 2,
+      "spotbugsMain": 0,
+      "spotbugsTest": 0
+    }
+  },
   "ratchet": {
     "legacyRuntimeTests": {
       "tests": 46,
@@ -20,13 +79,13 @@
     "generatedTodoPlaceholders": 0,
     "activeHungarianIdentifierLines": 0,
     "activeHungarianIdentifierFiles": 0,
-    "productionFeatures": 168,
-    "productionFeaturesWithoutFixture": 163,
+    "productionFeatures": 173,
+    "productionFeaturesWithoutFixture": 168,
     "directBackends": {
       "cobolSqlCics": 0,
       "bms": 0,
       "fpac": 0
     }
   },
-  "policy": "Every counter is a no-growth baseline and must decrease to its documented target. A reviewed baseline update must include evidence and rationale."
+  "policy": "Debt counters may not grow and coverage/capability counters may not decrease. A reviewed baseline update must include evidence and rationale."
 }
