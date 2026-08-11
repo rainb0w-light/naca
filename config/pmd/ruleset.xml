@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<ruleset name="Naca Java quality rules"
+         xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 https://pmd.sourceforge.io/ruleset_2_0_0.xsd">
+    <description>
+        Broad report-only baseline. Individual rules move into blocking mode only
+        after their existing findings have been fixed or baselined.
+    </description>
+
+    <rule ref="category/java/bestpractices.xml"/>
+    <rule ref="category/java/errorprone.xml"/>
+    <rule ref="category/java/multithreading.xml"/>
+    <rule ref="category/java/performance.xml"/>
+    <rule ref="category/java/codestyle.xml/FieldNamingConventions"/>
+    <rule ref="category/java/codestyle.xml/FormalParameterNamingConventions"/>
+    <rule ref="category/java/codestyle.xml/LocalVariableNamingConventions"/>
+</ruleset>

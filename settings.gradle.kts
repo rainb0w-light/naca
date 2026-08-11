@@ -18,6 +18,7 @@ include("naca-trans")
 include("naca-rt-tests")
 include("naca-cloud-native")
 include("naca-analyzer")
+include("rewrite-recipes")
 
 // Project directory mapping
 project(":naca-jlib").projectDir = file("naca-jlib")
@@ -26,3 +27,4 @@ project(":naca-trans").projectDir = file("naca-trans")
 project(":naca-rt-tests").projectDir = file("naca-rt-tests")
 project(":naca-cloud-native").projectDir = file("naca-cloud-native")
 project(":naca-analyzer").projectDir = file("naca-analyzer")
+project(":rewrite-recipes").projectDir = file("rewrite-recipes")
