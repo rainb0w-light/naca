@@ -47,7 +47,7 @@ and no faked incomplete CICS runtime in the fixing commit.
 
 ---
 
-## D-002 — T0 ONLINE1 fixtures: canonical sources (open, next slice)
+## D-002 — T0 ONLINE1 fixtures: canonical sources (resolved 2026-08-07)
 
 The T0 fail-closed baseline (`onlineCorpusBaseline`, PR #4) is RED because ONLINE1
 references four copybooks that are not yet resolvable. Their canonical sources
@@ -67,3 +67,9 @@ must be real content — **no empty copybooks**:
 Once these resolve, the `onlineCorpusBaseline` turns green statement-by-statement
 as each EXEC SQL / EXEC CICS feature is migrated in T3-T5 (each with a structured
 diagnostic or a preserved semantic node).
+
+**Resolution:** canonical `SQLCA` and `DFHAID` copybooks are checked in under the
+sample corpus, while `ONLINM1`/`ONLINM1S` are derived from the real BMS source.
+`BmsArtifactContractTest`, `OnlineCorpusInventoryTest`, and the migration ledger
+now prove that all 15 ONLINE1 EXEC statements are preserved with zero rejection
+or silent drop. This decision no longer blocks any migration slice.

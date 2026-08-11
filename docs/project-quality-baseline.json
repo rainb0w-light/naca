@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-08-11",
+  "capturedAtCommit": "d315e0b3",
+  "ratchet": {
+    "legacyRuntimeTests": {
+      "tests": 46,
+      "failures": 21
+    },
+    "cicsRuntimeTodoOrFakeMarkers": 21,
+    "fpacFactoryNotImplementedBranches": 131,
+    "analyzerPlaceholderOperations": 3,
+    "analyzerTestSources": 0,
+    "activeHungarianIdentifierLines": 41,
+    "activeHungarianIdentifierFiles": 10,
+    "productionFeatures": 173,
+    "productionFeaturesWithoutFixture": 168,
+    "directBackends": {
+      "cobolSqlCics": 0,
+      "bms": 0,
+      "fpac": 0
+    }
+  },
+  "policy": "Every counter is a no-growth baseline and must decrease to its documented target. A reviewed baseline update must include evidence and rationale."
+}

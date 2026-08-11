@@ -150,8 +150,8 @@
     },
     "discoveredDebt": [
       {
-        "id": "LATENT-SELF-ASSIGN",
-        "note": "Repeated 'x = x' constructor self-assignment bugs (param shadows field). Fixed during BMS unblock: CBMSElement.name, CResourceStrings.nbLines/nbCols, CEntityResourceFormContainer.bSaveCopy. STILL PRESENT (not yet exercised by the corpus): CWorkingEntry.java:78 (text), CEntityFormAccessor.java:43 (owner), CEntityFormRedefine.java:52 (eForm). Fix when their path is migrated/tested."
+      "id": "LATENT-SELF-ASSIGN",
+      "note": "Repeated 'x = x' constructor self-assignment bugs (param shadows field). The BMS instances, including CEntityFormAccessor.owner and CEntityFormRedefine.eForm, are fixed. One verified production defect remains in CWorkingEntry.CWorkingPicType (text = text); track it in the modernization roadmap and close it with a focused parser test."
       },
       {
         "id": "PREEXISTING-WSMESSAGE",
@@ -160,9 +160,10 @@
         "note": "Resolved: declaration traversal retains initialized working-storage data even when executable reachability marks it unused; TranspileControllerTest and the full cloud-native gate are green."
       },
       {
-        "id": "CALLMSG-SUBPROGRAM",
-        "scope": "COBOL_CORE",
-        "note": "ONLINE1 logs 'Missing sub-program : CALLMSG' (a CALL to a sub-program not in the corpus). Separate debt; not a driver of the online-corpus baseline."
+      "id": "CALLMSG-SUBPROGRAM",
+      "scope": "COBOL_CORE",
+      "resolved": true,
+      "note": "The canonical CALLMSG.cbl source is now present in the sample corpus. BATCH1 and MSGZONE transpile and compile together; strict multi-program execution with FILEIN/FILEOUT remains tracked as an acceptance-matrix task rather than missing-source migration debt."
       },
       {
         "id": "ONLINE1-SILENT-DROPS",
