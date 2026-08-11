@@ -11,29 +11,29 @@ public class StringRef
 	public StringRef()
 	{
 	}
-	
+
 	public StringRef(String cs)
 	{
-		cs = cs;
+		this.cs = cs;
 	}
 
-	
+
 	public String get()
 	{
 		return cs;
 	}
-	
+
 	public void set(String cs)
 	{
-		cs = cs;
+		this.cs = cs;
 	}
-	
+
 	public String toString()
 	{
 		if(cs != null)
 			return "StringRef: \""+cs + "\"";
 		return "StringRef: \"<null>\"";
 	}
-	
+
 	private String cs = null;
 }

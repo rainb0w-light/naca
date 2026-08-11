@@ -26,14 +26,14 @@ public class PatternLayoutConsole extends LogPatternLayout
 	public PatternLayoutConsole(String csFormat)
 	{
 		super();
-		csFormat = csFormat;
+		this.csFormat = csFormat;
 	}
-	
+
 	String getMessage(LogParams logParams)
 	{
 		return logParams.getMessage();
 	}
-	
+
 	String format(LogParams logParams, int n)
 	{
 		String cs = csFormat;
@@ -46,11 +46,11 @@ public class PatternLayoutConsole extends LogPatternLayout
 		cs = StringUtil.replace(cs, "%LF", "\r", true);
 		return cs;
 	}
-	
+
 	int getNbLoop(LogParams logParams)
 	{
 		return 1;
 	}
-	
+
 	private String csFormat = null;
 }

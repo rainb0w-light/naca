@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.sql;
 
@@ -20,25 +20,25 @@ import java.sql.Types;
 public class SQLClauseSPParamInOutDouble extends SQLClauseSPParamInOut
 {
 	private double tdVal[] = null;
-	
+
 	public SQLClauseSPParamInOutDouble(SQLClauseSPParamWay wayInOut, double tdVal[])
 	{
 		super(wayInOut);
-		tdVal = tdVal;
-	}	
-	
+		this.tdVal = tdVal;
+	}
+
 	protected void setInValueWithException(int nParamId, DbPreparedCallableStatement stmt)
 		throws SQLException
 	{
 		stmt.setInValueWithException(nParamId, tdVal[0]);
 	}
-	
+
 	protected void registerOutParameterWithException(int nParamId, DbPreparedCallableStatement stmt)
 		throws SQLException
 	{
 		stmt.registerOutParameterWithException(nParamId+1, Types.DOUBLE);
 	}
-	
+
 	protected void retrieveOutValuesWithException(int nParamId, DbPreparedCallableStatement stmt)
 		throws SQLException
 	{

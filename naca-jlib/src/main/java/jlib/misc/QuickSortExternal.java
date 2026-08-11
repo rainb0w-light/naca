@@ -10,11 +10,11 @@ import java.util.ArrayList;
 
 // See http://max.cs.kzoo.edu/~abrady/java/sorting/QSort.html
 
-public class QuickSortExternal<Item> 
+public class QuickSortExternal<Item>
 {
 	protected ArrayList<Item> arr = null;
-	private BaseQuickSortComparer<Item> comparer = null; 
-	/** This is a generic version of C.A.R Hoare's Quick Sort 
+	private BaseQuickSortComparer<Item> comparer = null;
+	/** This is a generic version of C.A.R Hoare's Quick Sort
 	* algorithm.  This will handle arrays that are already
 	* sorted, and arrays with duplicate keys.
 	*
@@ -31,16 +31,16 @@ public class QuickSortExternal<Item>
 
 	public QuickSortExternal(ArrayList<Item> arr, BaseQuickSortComparer<Item> comparer)
 	{
-		arr = arr;
-		comparer = comparer;	
+		this.arr = arr;
+		this.comparer = comparer;
 	}
-	
+
 	public void sort()
 	{
 		if(arr != null)
 			sort(0, arr.size()-1);
 	}
-	
+
 	private void sort(int lo0, int hi0)
 	{
 		int lo = lo0;
@@ -54,26 +54,26 @@ public class QuickSortExternal<Item>
 			/* Arbitrarily establishing partition element as the midpoint of
 			* the array.
 			*/
-			int nIndex = (lo0 + hi0 ) / 2; 
+			int nIndex = (lo0 + hi0 ) / 2;
 			mid = arr.get(nIndex);
 
 			// loop through the array until indices cross
 			while( lo <= hi )
 			{
-				/* find the first element that is greater than or equal to 
+				/* find the first element that is greater than or equal to
 				* the partition element starting from the left Index.
 				*/
 				while( ( lo < hi0 ) && (comparer.compare(arr.get(lo), mid) < 0 ) )
 					++lo;
 
-				/* find an element that is smaller than or equal to 
+				/* find an element that is smaller than or equal to
 				* the partition element starting from the right Index.
 				*/
 				while( ( hi > lo0 ) && (comparer.compare(arr.get(hi), mid) > 0 ) )
 					--hi;
 
 				// if the indexes have not crossed, swap
-				if( lo <= hi ) 
+				if( lo <= hi )
 				{
 					swap(lo, hi);
 					// pause

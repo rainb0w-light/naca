@@ -28,7 +28,7 @@ import org.w3c.dom.Element;
 public class LogCenterPluginConsole extends LogCenter
 {
 	private static int nLineId = 0;
-	
+
 	public static void resetLineCoutner()
 	{
 		nLineId = 0;
@@ -38,37 +38,37 @@ public class LogCenterPluginConsole extends LogCenter
 	{
 		super(logCenterLoader);
 	}
-	
+
 	public void loadSpecificsEntries(Element el)
 	{
 	}
-	
+
 	public static String getAndIncLine()
 	{
 		int n = nLineId;
 		nLineId++;
 		return StringUtil.FormatWithFill4LeftZero(n);
 	}
-			
+
 	public void loadSpecificsEntries(Tag tagLogCenter)
 	{
 		csFormat = tagLogCenter.getVal("Format");
 	}
-	
+
 	boolean open()
 	{
 		return true;
 	}
-	
+
 	boolean closeLogCenter()
 	{
 		return true;
 	}
-	
+
 	void preSendOutput()
 	{
 	}
-	
+
 	void sendOutput(LogParams logParam)
 	{
 		String csOut = patternLayout.format(logParam, 0);
@@ -83,33 +83,33 @@ public class LogCenterPluginConsole extends LogCenter
 				pluginMarker.info("(0) [Info] " + getAndIncLine() + " " + csDecoratedFileNameSource + csOut);
 		}
 	}
-	
+
 	void postSendOutput()
 	{
 	}
 
-	
+
 	String getFormat()
 	{
 		return csFormat;
 	}
-	
+
 	private String csFormat = null;
-	
+
 	public String getType()
 	{
 		return "LogCenterPluginConsole";
 	}
-	
+
 	public void setPluginMarker(BasePluginMarker pluginMarker, String csFileNameSource, boolean bInfo, boolean bWarning, boolean bError)
 	{
-		pluginMarker = pluginMarker;
-		bInfo = bInfo; 
-		bWarning = bWarning;
-		bError = bError;
+		this.pluginMarker = pluginMarker;
+		this.isinfo = bInfo;
+		this.iswarning = bWarning;
+		this.iserror = bError;
 		csDecoratedFileNameSource = "%" + csFileNameSource + "% ";
 	}
-	
+
 	private BasePluginMarker pluginMarker = null;
 	private String csDecoratedFileNameSource = null;
 	boolean isinfo = false;

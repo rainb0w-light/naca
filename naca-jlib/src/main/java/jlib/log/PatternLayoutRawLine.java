@@ -27,16 +27,16 @@ public class PatternLayoutRawLine extends LogPatternLayout
 	public PatternLayoutRawLine(String csFormat)
 	{
 		super();
-		csFormat = csFormat;
+		this.csFormat = csFormat;
 	}
-	
+
 	String getMessage(LogParams logParams)
 	{
 		String csMessage = logParams.getMessage();
-		return csMessage+"\r\n";	
+		return csMessage+"\r\n";
 	}
-	
-	
+
+
 	public String format(LogParams logParams, int n)
 	{
 		if(n == 0)
@@ -59,14 +59,14 @@ public class PatternLayoutRawLine extends LogPatternLayout
 				return cs;
 			}
 		}
-				
+
 		return null;
-	}	
-	
+	}
+
 	int getNbLoop(LogParams logParams)
 	{
 		return 1;
 	}
-	
+
 	private String csFormat = null;
 }

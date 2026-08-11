@@ -38,9 +38,10 @@ the current queue.
 - The BATCH1 slice also fixed the runtime `CallParamByRef` constructor defect that
   previously discarded every by-reference `Var` argument.
 - M7 is in progress: all 65 unqualified self-assignments in maintained NacaRT code
-  are fixed and guarded. The remaining eight failures are now isolated to stale
-  fixture expectations/classification, packed/display numeric formatting, and
-  focused program-link/control-flow cases.
+  and all 142 equivalents in JLib are fixed and guarded by module-level tests.
+  The remaining eight failures are now isolated to stale fixture
+  expectations/classification, packed/display numeric formatting, and focused
+  program-link/control-flow cases.
 
 Machine-readable counters live in `project-quality-baseline.json`. A counter may
 only decrease unless a reviewed change updates both its rationale and its target.

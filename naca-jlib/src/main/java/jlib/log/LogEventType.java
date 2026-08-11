@@ -95,22 +95,22 @@ public class LogEventType
  * normally. If they are finishing prematurely, they should signal an event
  * of type {@link #Abort}.
  * To rise an <i>Finish</i> event, use the {@link jlib.log.stdEvents.EventFinish} class.
- * @deprecated Use {@link #Finish} instead. The COP/Log application 
- * (which reads the events reported with a {@link LogCenterDbFlat} 
- * log center) wont be able to read events of type <i>Completed</i>. 
+ * @deprecated Use {@link #Finish} instead. The COP/Log application
+ * (which reads the events reported with a {@link LogCenterDbFlat}
+ * log center) wont be able to read events of type <i>Completed</i>.
  */
 	public static LogEventType Completed = new LogEventType("C");
 
 /**
  * Class constructor
  * @param csType The event type should be one of
- * {@link #Start}, {@link #Finish}, {@link #Abort}, 
+ * {@link #Start}, {@link #Finish}, {@link #Abort},
  * {@link #Error}, {@link #Warning}, {@link #Remark},
- * {@link #Progress}, {@link #Report}.  
+ * {@link #Progress}, {@link #Report}.
  */
 	LogEventType(String csType)
 	{
-		csType = csType;
+		this.csType = csType;
 	}
 
 /**
@@ -127,11 +127,11 @@ public class LogEventType
  * 	<li><i>r</i>: event of type {@link #Report}.</li>
  * </ul>
  * @return The event type as a string.
- */	
+ */
 	public String getType()
 	{
 		return csType;
 	}
-	
+
 	private String csType = null;
 }

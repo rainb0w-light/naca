@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.threads;
 
@@ -20,12 +20,12 @@ public class FixedSizeBlockingQueue<T>
 {
 	public FixedSizeBlockingQueue(int nNbEntries)
 	{
-		nNbEntries = nNbEntries;
+		this.nNbEntries = nNbEntries;
 		arr = new Object[nNbEntries];
 		semFilledEntries = new Semaphore(0, true);
 		semNotFilledEntries = new Semaphore(nNbEntries, true);
 	}
-	
+
 	public void enqueue(T t)
 	{
 		try
@@ -46,9 +46,9 @@ public class FixedSizeBlockingQueue<T>
 		}
 		semFilledEntries.release();
 	}
-	
+
 	public T dequeue()
-	{		
+	{
 		try
 		{
 			semFilledEntries.acquire();
@@ -66,9 +66,9 @@ public class FixedSizeBlockingQueue<T>
 				nIndexGet = 0;
 			semNotFilledEntries.release();
 			return t;
-		}		
+		}
 	}
-	
+
 	private int nNbEntries = 0;
 	private Object arr[] = null;
 	private int nIndexSet = 0;

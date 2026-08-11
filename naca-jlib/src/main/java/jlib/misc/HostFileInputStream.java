@@ -18,14 +18,14 @@ public class HostFileInputStream extends InputStream
 	protected int[] record = null;
 	protected int nCurrentRecordRead = 0;
 	private byte[] tbyHeader = new byte[4];
-	
+
 	public HostFileInputStream(InputStream is, String csFormat, int nLength)
 	{
 		stream = is;
 		if (csFormat != null && csFormat.equals("VB")) {
 			isheaderVariable = true;
 		}
-		nLength = nLength;
+		this.nLength = nLength;
 	}
 
 	public int read() throws IOException
@@ -70,7 +70,7 @@ public class HostFileInputStream extends InputStream
 					stream.read();
 				}
 			}
-			
+
 			record = new int[v.size()+3];
 			if (stream.available() == 0)
 			{
@@ -80,7 +80,7 @@ public class HostFileInputStream extends InputStream
 			{
 				record[0] = 128;
 			}
-			record[1] = v.size() / 256; 
+			record[1] = v.size() / 256;
 			record[2] = v.size() % 256;
 			for (int i=0; i<v.size(); i++)
 			{
@@ -88,7 +88,7 @@ public class HostFileInputStream extends InputStream
 			}
 			nCurrentRecordRead = 0;
 		}
-		
+
 		int b = record[nCurrentRecordRead];
 		nCurrentRecordRead++;
 		if (nCurrentRecordRead == record.length)
@@ -96,7 +96,7 @@ public class HostFileInputStream extends InputStream
 			record = null;
 			nCurrentRecordRead = 0;
 		}
-		
+
 		return b;
 	}
 

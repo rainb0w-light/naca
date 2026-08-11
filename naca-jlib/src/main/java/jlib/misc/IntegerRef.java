@@ -11,42 +11,42 @@ public class IntegerRef
 	public IntegerRef()
 	{
 	}
-	
+
 	public IntegerRef(int n)
 	{
-		n = n;
+		this.n = n;
 	}
 
-	
+
 	public int get()
 	{
 		return n;
 	}
-	
+
 	public void set(int n)
 	{
-		n = n;
+		this.n = n;
 	}
 
 	public void inc(int n)
 	{
 		n += n;
 	}
-	
+
 	public void inc()
 	{
 		n++;
 	}
-	
+
 	public void dec()
 	{
 		n--;
 	}
-	
+
 	public String toString()
 	{
 		return "IntegerRef:" + n;
 	}
-	
+
 	private int n = 0;
 }

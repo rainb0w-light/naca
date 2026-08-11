@@ -16,21 +16,21 @@ import jlib.log.Log;
 public class LdapThread extends Thread
 {
 	private ThreadSafeCounter nbThreadCreated = null;
-	
+
 	LdapThread(int nRquestId, String csUserId, String csPassword, String csServer, ThreadSafeCounter NbThreadCreated)
 	{
 		nRequestId = nRquestId;
-		csUserId = csUserId;
-		csPassword = csPassword;
-		csServer = csServer;
+		this.csUserId = csUserId;
+		this.csPassword = csPassword;
+		this.csServer = csServer;
 		nbThreadCreated = NbThreadCreated;
 	}
-	
+
 	void setLdapThreadOwner(LdapUtil ldapUtil)
 	{
-		ldapUtil = ldapUtil;  
+		this.ldapUtil = ldapUtil;
 	}
-	
+
 	public void run()
     {
 		Log.logNormal("LDap request " + nRequestId + ": trying to get ldap info from server " + csServer);
@@ -42,7 +42,7 @@ public class LdapThread extends Thread
             env.put(Context.PROVIDER_URL, "ldap://"+csServer+"/");
             env.put(Context.SECURITY_AUTHENTICATION, "simple");
             env.put(Context.SECURITY_PRINCIPAL, csUserId);
-            env.put(Context.SECURITY_CREDENTIALS, csPassword);  
+            env.put(Context.SECURITY_CREDENTIALS, csPassword);
             if(ldapUtil != null)
             {
             	DirContext dirContext = ldapUtil.getDirContext(env);
@@ -52,7 +52,7 @@ public class LdapThread extends Thread
             		Log.logNormal("LDap request " + nRequestId + ": dir context correctly set");
             		return;
             	}
-            }   
+            }
             nNbTries++;
 		}
 		if(nbThreadCreated.dec() <= 0)
@@ -61,7 +61,7 @@ public class LdapThread extends Thread
 		}
 		Log.logCritical("LDap request " + nRequestId + ": dir context NOT correctly set");
     }
-	
+
 	private LdapUtil ldapUtil = null;
 	private String csUserId = null;
 	private String csPassword = null;

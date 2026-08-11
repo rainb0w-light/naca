@@ -24,34 +24,34 @@ public class ControlerDirector
 	private BaseControlerConfig config = null;
 	private Hashtable<String, BaseControler> tabControlers = null ;
 	private Hashtable<String, ControlerThread> tabThreads = null ;
-	
+
 	public void Init(BaseControlerConfig config)
 	{
 		desc = new Vector<ControlerItemDescription>() ;
 //		arrControler = new Vector<BaseControler>() ;
 //		arrThreads = new Vector<ControlerThread>() ;
 		tabControlers = new Hashtable<String, BaseControler>() ;
-		tabThreads = new Hashtable<String, ControlerThread>(); 
+		tabThreads = new Hashtable<String, ControlerThread>();
 
-		config = config ;
+		this.config = config ;
 		config.LoadConfig(this) ;
 	}
-	
+
 //	public void launchControlers()
 //	{
-//	   	
+//
 //	    //Pour chaque site et pour chaque groupe pr�sent dans le fichier de configuration on cr�e un thread.
-//	    for (int i=0; i<config.getNbTasks(); i++) 
+//	    for (int i=0; i<config.getNbTasks(); i++)
 //	    {
 //	    	BaseControler ctrl = factory.getControlerForTask(i) ;
 //	    	BaseControlerTaskConfig confgrp = config.getTaskConfig(i) ;
-//	    	
-//	    	
+//
+//
 //	    	if (config.isAutoStart())
 //	    	{
 //	    		ControlerThread th = new ControlerThread(ctrl) ;
 //	    		arrThreads.add(th) ;
-//	    		th.AutoStart() ; 
+//	    		th.AutoStart() ;
 //	    	}
 //	    	else
 //	    	{
@@ -61,32 +61,32 @@ public class ControlerDirector
 //
 //	}
 
-	private void AddControler(BaseControler ctrl, BaseControlerTaskConfig confgrp)	  
+	private void AddControler(BaseControler ctrl, BaseControlerTaskConfig confgrp)
 	{
 		if (confgrp.isModeGroup())
-    	{
-	    	ControlerItemDescription descSite = new ControlerItemDescription() ;
-	    	descSite.csControlerName = confgrp.getName() ;
-	    	descSite.nStepId = 0 ; // single item
-	    	desc.add(descSite) ;
-    	}
-    	else
-    	{
-	    	for (int j=0; j<confgrp.getNbSteps(); j++)
-	    	{
-		    	BaseControlerStepConfig conf = confgrp.getStep(j) ;
-		    	ControlerItemDescription descSite = new ControlerItemDescription() ;
-		    	descSite.csControlerName = confgrp.getName() ;
-		    	descSite.nStepId = j ; // single item
-		    	desc.add(descSite) ;
-	    	}
-    	}
-
-    	tabControlers.put(confgrp.getName(), ctrl) ;
+	{
+		ControlerItemDescription descSite = new ControlerItemDescription() ;
+		descSite.csControlerName = confgrp.getName() ;
+		descSite.nStepId = 0 ; // single item
+		desc.add(descSite) ;
 	}
-	
+	else
+	{
+		for (int j=0; j<confgrp.getNbSteps(); j++)
+		{
+			BaseControlerStepConfig conf = confgrp.getStep(j) ;
+			ControlerItemDescription descSite = new ControlerItemDescription() ;
+			descSite.csControlerName = confgrp.getName() ;
+			descSite.nStepId = j ; // single item
+			desc.add(descSite) ;
+		}
+	}
+
+	tabControlers.put(confgrp.getName(), ctrl) ;
+	}
+
 	/**
-	 * 
+	 *
 	 */
 	public void StopAllControlers()
 	{
@@ -128,7 +128,7 @@ public class ControlerDirector
 
 	/**
 	 * @param i
-	 * @param b 
+	 * @param b
 	 */
 	public void StopControler(int i, boolean bForce)
 	{
@@ -213,12 +213,12 @@ public class ControlerDirector
 	{
 		BaseControler ctrl = grpConfig.NewControler() ;
 		AddControler(ctrl, grpConfig) ;
-    	if (config.isAutoStart())
-    	{
-    		ControlerThread th = new ControlerThread(ctrl) ;
-    		tabThreads.put(grpConfig.getName(), th) ;
-    		th.AutoStart() ; 
-    	}
+	if (config.isAutoStart())
+	{
+		ControlerThread th = new ControlerThread(ctrl) ;
+		tabThreads.put(grpConfig.getName(), th) ;
+		th.AutoStart() ;
+	}
 	}
 
 	public void RemoveTask(BaseControlerTaskConfig conf)
@@ -244,11 +244,11 @@ public class ControlerDirector
 				th.StopControler(true) ;
 				try {
 				th.join() ;
-				} catch (InterruptedException e) {} 
+				} catch (InterruptedException e) {}
 			}
 			tabControlers.remove(name) ;
 		}
-		
+
 	}
 
 	public void RemoveStepFromTask(BaseControlerTaskConfig cfg)

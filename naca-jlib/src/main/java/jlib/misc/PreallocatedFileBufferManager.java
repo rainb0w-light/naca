@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.misc;
 
@@ -18,32 +18,32 @@ public class PreallocatedFileBufferManager
 {
 	private byte[] tBytes = null;
 	private int nOverheadSize = 1000;
-	
+
 	PreallocatedFileBufferManager()
 	{
 		nOverheadSize = 1000;
 	}
-	
+
 	PreallocatedFileBufferManager(int nOverheadSize)
 	{
-		nOverheadSize = nOverheadSize;
+		this.nOverheadSize = nOverheadSize;
 	}
-	
+
 	protected byte[] checkBuffer(int nSize)
 	{
 		if(tBytes == null || tBytes.length < nSize)
 			tBytes = new byte[nSize + nOverheadSize];
 		return tBytes;
 	}
-	
+
 	public byte[] getByteBuffer(int nSize)
 	{
 		checkBuffer(nSize);
 		return tBytes;
 	}
-	
+
 	byte[] getBytes()
 	{
-		return tBytes; 
+		return tBytes;
 	}
 }

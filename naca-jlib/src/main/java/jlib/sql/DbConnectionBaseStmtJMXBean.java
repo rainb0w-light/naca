@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.sql;
 
@@ -23,28 +23,28 @@ public class DbConnectionBaseStmtJMXBean extends BaseCloseMBean
 {
 	private String csStmt = null;
 	private long lastUsageTimeValue = 0;
-	
+
 	DbConnectionBaseStmtJMXBean(String csStmt, long lastUsageTimeValue)
 	{
-		 csStmt = csStmt;
-		 lastUsageTimeValue = lastUsageTimeValue;
+		 this.csStmt = csStmt;
+		 this.lastUsageTimeValue = lastUsageTimeValue;
 	}
-		
+
 	void cleanup()
 	{
 	}
-	
+
 	protected void buildDynamicMBeanInfo()
 	{
 		addAttribute("Stmt", getClass(), "Stmt", String.class);
 		addAttribute("LastTimeStamp", getClass(), "LastTimeStamp", String.class);
 	}
-	
+
 	public String getStmt()
 	{
 		return csStmt;
 	}
-	
+
 	public String getLastTimeStamp()
 	{
 		Date date = new Date(lastUsageTimeValue);

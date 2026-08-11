@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.misc;
 
@@ -18,23 +18,23 @@ public class CoupleNameValueItem
 {
 	private String csName = null;
 	private String csValue = null;
-	
+
 	public CoupleNameValueItem(String csName, String csValue)
 	{
-		csName = csName; 
-		csValue = csValue;
+		this.csName = csName;
+		this.csValue = csValue;
 	}
-	
+
 	public String getName()
 	{
 		return csName;
 	}
-	
+
 	public int getNameAsInt()
 	{
 		return NumberParser.getAsInt(csName);
 	}
-	
+
 	public String getValue()
 	{
 		return csValue;

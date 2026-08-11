@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.sql;
 
@@ -25,45 +25,45 @@ public class DbConnectionBaseJMXBean extends BaseCloseMBean
 	private boolean isshowStatements = false;
 	private DbConnectionBaseStmtJMXBean dbConnectionBaseStmtJMXBean = null;
 	private ArrayList<DbConnectionBaseStmtJMXBean> stmts = null;
-	
+
 	DbConnectionBaseJMXBean(DbConnectionBase dbConnectionBase)
 	{
-		 dbConnectionBase = dbConnectionBase;
+		 this.dbConnectionBase = dbConnectionBase;
 	}
-	
+
 	void cleanup()
 	{
 		isshowStatements = false;	// Hide sttm beans
 		doSetShowStatments();
-		dbConnectionBaseStmtJMXBean = null;		
+		dbConnectionBaseStmtJMXBean = null;
 		dbConnectionBase = null;
 	}
-	
+
 	protected void buildDynamicMBeanInfo()
 	{
 		addAttribute("AreStatementsShown", getClass(), "AreStatementsShown", boolean.class);
-		addAttribute("NbCachedStatements", getClass(), "NbCachedStatements", int.class);		
+		addAttribute("NbCachedStatements", getClass(), "NbCachedStatements", int.class);
 		addOperation("ShowStatments", getClass(), "setShowStatments");
 	}
-	
+
 	public int getNbCachedStatements()
 	{
 		if(dbConnectionBase != null)
 			return dbConnectionBase.getNbCachedStatements();
 		return 0;
 	}
-	
+
 	public boolean getAreStatementsShown()
 	{
 		return isshowStatements;
 	}
-	
+
 	public void setShowStatments()
 	{
 		isshowStatements = !isshowStatements;
 		doSetShowStatments();
 	}
-	
+
 	synchronized void doSetShowStatments()
 	{
 		if(isshowStatements)	//&& !isBeanCreated())
@@ -81,8 +81,8 @@ public class DbConnectionBaseJMXBean extends BaseCloseMBean
 				}
 			}
 		}
-	}	
-	
+	}
+
 	synchronized void add(DbConnectionBaseStmtJMXBean dbConnectionBaseStmtJMXBean)
 	{
 		if(stmts == null)

@@ -21,7 +21,7 @@ import jlib.misc.StringUtil;
  * 	<li>A text message.</li>
  * 	<li>The channer where the message is sent to.</li>
  * 	<li>Information about the file, the class, the method and the thread
- * 	where the event has been created.</li> 
+ * 	where the event has been created.</li>
  * </ul>
  * In some special cases it is useful to specify:
  * <ul>
@@ -57,7 +57,7 @@ public class LogParams
  * @param csChannel The channel where the event is to be sent.
  * @param logEvent The event itself.
  * @param csMessage A text message with additional description about the event.
- * @param csRunId 
+ * @param csRunId
  * @param csRuntimeId
  */
 	LogParams(String csChannel, LogEvent logEvent, String csMessage, String csRunId, String csRuntimeId)
@@ -70,20 +70,20 @@ public class LogParams
 		threadId = thread.getId();
 		csThreadName = thread.getName();
 		csTimestamp = DateUtil.getDisplayTimeStamp();
-		csRunId = csRunId;
-		csRuntimeId = csRuntimeId;
+		this.csRunId = csRunId;
+		this.csRuntimeId = csRuntimeId;
 	}
 
 	LogEventType getLogEventType()
 	{
 		return logEvent.getLogEventType();
 	}
-	
+
 	String getDisplayTimestamp()
 	{
-		return csTimestamp;	
+		return csTimestamp;
 	}
-	
+
 	boolean isAcceptable(LogLevel minLogLevel, LogFlow logFlow)
 	{
 		if(logFlow.isAcceptable(logEvent.getLogFlow()))
@@ -93,32 +93,32 @@ public class LogParams
 		}
 		return false;
 	}
-	
+
 	public String toString()
 	{
 		String cs = "";
 		if (!StringUtil.isEmpty(getMessage()))
 		{
 			cs += getMessage();
-		} 
+		}
 		cs += logEvent.getAsString();
 		return cs;
 	}
-	
+
 	public String getTextItem(int n)
 	{
 		return logEvent.getTextAsString(n);
 	}
-	
+
 	public String getItemValue(int n)
 	{
 		return logEvent.getItemValue(n);
 	}
-	
+
 	void fillAppCallerLocation(CallStackExclusion callStackExclusion)
 	{
 		Throwable th = new Throwable();
-		StackTraceElement tStack[]  = th.getStackTrace(); 
+		StackTraceElement tStack[]  = th.getStackTrace();
 		int nNbEntries = tStack.length;
 		for(int n=0; n<nNbEntries; n++)
 		{
@@ -131,27 +131,27 @@ public class LogParams
 		}
 		caller = null;
 	}
-	
+
 	long getThreadId()
 	{
 		return threadId;
 	}
-	
+
 	String getThreadName()
 	{
 		return csThreadName;
 	}
-	
+
 	long getStartTime()
 	{
 		return startTime;
 	}
-	
+
 	String getType()
 	{
 		return logEvent.getLogEventType().getType();
 	}
-	
+
 	String getFile()
 	{
 		String fileName=null;
@@ -165,7 +165,7 @@ public class LogParams
 
 		return fileName;
 	}
-	
+
 	String getMethod()
 	{
 		String method = null;
@@ -184,12 +184,12 @@ public class LogParams
 			return caller.getLineNumber();
 		return 0;
 	}
-	
+
 	String getEventName()
 	{
-		return logEvent.getName();		
+		return logEvent.getName();
 	}
-	
+
 	String getShortEventName()
 	{
 		String cs = logEvent.getName();
@@ -200,7 +200,7 @@ public class LogParams
 		}
 		return cs;
 	}
-	
+
 	int getEventId()
 	{
 		String cs = logEvent.getName();
@@ -210,23 +210,23 @@ public class LogParams
 		{
 			LogInfoMember info = getParamInfoMember(n);
 			String csParamId = info.getName();
-			cs += csParamId;			
+			cs += csParamId;
 		}
 		return cs.hashCode();
 	}
-	
+
 	String getMessage()
 	{
 		if(csMessage != null)
 			return csMessage;
 		return "";
 	}
-	
+
 	LogInfoMember getParamInfoMember(int n)
 	{
 		return logEvent.getParamInfoMember(n);
 	}
-	
+
 	int getNbParamInfoMember()
 	{
 		int n = logEvent.getNbParamInfoMember();
@@ -234,7 +234,7 @@ public class LogParams
 			n = 10;
 		return n;
 	}
-	
+
 	String getProduct()
 	{
 		String csProduct = logEvent.getProduct();
@@ -244,7 +244,7 @@ public class LogParams
 	String csChannel = null;
 	LogEvent logEvent = null;
 	String csMessage = null;
-	StackTraceElement caller = null;	
+	StackTraceElement caller = null;
 	String csThreadName;
 	long threadId = 0;
 	long startTime = 0;
@@ -252,4 +252,3 @@ public class LogParams
 	String csRunId;
 	String csRuntimeId;
 }
- 

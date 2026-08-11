@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.misc;
 
@@ -27,12 +27,12 @@ public class MarkerFile
 	private String csMakerPath = null;
 	private FileLock outLock = null;
 	private BufferedOutputStream out = null;
-	
+
 	public MarkerFile(String csMakerPath)
 	{
-		csMakerPath = csMakerPath;
+		this.csMakerPath = csMakerPath;
 	}
-	
+
 	public boolean exclusiveLockFile()
 	{
 		try
@@ -46,7 +46,7 @@ public class MarkerFile
 			}
 			catch(IOException e)
 			{
-				return false;	
+				return false;
 			}
 			return true;
 		}
@@ -54,9 +54,9 @@ public class MarkerFile
 		{
 			//Logger.error("Marker file " + csMakerPath + " doesn't exists and thus cannot be exclivilly locked !");
 			return false;
-		} 
+		}
 	}
-	
+
 	public boolean unlockFile()
 	{
 		try

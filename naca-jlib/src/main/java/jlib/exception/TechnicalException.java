@@ -16,24 +16,24 @@ import jlib.sql.SQLClause;
  * Notifies all technical exceptions detected during a processing.
  * Usually an application is connected to several other systems (databases, web services,
  * servers...). A <i>technical error</i> signals that one of those systems is malfunctioning.<p/>
- * 
- * A technical exception is by definition a temporary error. A technical exception is communicating 
- * to the calling system that currently the requested operation cannot be achieved, but the same 
+ *
+ * A technical exception is by definition a temporary error. A technical exception is communicating
+ * to the calling system that currently the requested operation cannot be achieved, but the same
  * operation may succeed later on. Some configuration errors (for example a bad database connection string),
- * lead to systematic technical errors. It is not possible to diagnose such misconfiguration as the 
+ * lead to systematic technical errors. It is not possible to diagnose such misconfiguration as the
  * configuration is not missing nor misformated.<p/>
- * 
+ *
  * The  technical exception are raised as {@link RuntimeException} to avoid forcing the calling system
  * to explicitly deal with it.<p/>
- * 
+ *
  * The technical exception has the following properties:
  * <ul>
  * 	<li>An error code ({@link #getCode()}), used to classify the exceptions into categories.</li>
  * 	<li>An error message ({@link #getError()}), used to describe the error in human-understandable terms.</li>
  * </ul>
  * The default {@link #getMessage()} property returns a default concatenation
- * of <code>code</code> and <code>error</code>. 
- * 
+ * of <code>code</code> and <code>error</code>.
+ *
  * @author Pierre-Jean Ditscheid, Consultas SA
  * @version $Id: TechnicalException.java,v 1.9 2008/04/28 16:11:17 u930gn Exp $
  */
@@ -62,76 +62,76 @@ public class TechnicalException extends RuntimeException
 	public TechnicalException(String csError, String csMessage)
 	{
 		super(StringUtil.concatArgWithSeparator(csError,"-",csMessage));
-		csError = csError;
-		csMessage = csMessage;
+		this.csError = csError;
+		this.csMessage = csMessage;
 	}
 
 	private TechnicalException(String csError, SQLClause sqlClause, SQLException sqlException)
 	{
 		super(StringUtil.concatArgWithSeparator(csError,"-",sqlClause.toString()),sqlException);
-		csError = csError;
+		this.csError = csError;
 		csMessage = sqlClause.toString();
 	}
 
-	
+
 	public TechnicalException(String csError, String csMessage, Exception exception)
 	{
 		super(StringUtil.concatArgWithSeparator(csError, "-", csMessage),exception);
-		csError = csError;
-		csMessage = csMessage;
+		this.csError = csError;
+		this.csMessage = csMessage;
 	}
 
 
 	private TechnicalException(String csError, String csMessage, IOException eIO)
 	{
 		super(StringUtil.concatArgWithSeparator(csError, "-", csMessage), eIO);
-		csError = csError;
-		csMessage = csMessage;
+		this.csError = csError;
+		this.csMessage = csMessage;
 	}
-	
+
 	public void appendMessage(String cs)
-	{	
+	{
 		csMessage += cs;
 	}
-	
+
 	public static void throwException(String csError, SQLClause sqlClause, SQLException sqlException)
 	{
 		throw new TechnicalException(csError, sqlClause, sqlException);
 	}
-	
+
 	public static void throwException(String csError, String csClause, SQLException sqlException)
 	{
 		throw new TechnicalException(csError, csClause, sqlException);
 	}
-	
+
 	public static void throwException(String csError, String csMessage, Exception exception)
 	{
 		throw new TechnicalException(csError, csMessage, exception);
 	}
-	
+
 	public static void throwException(String csError, String csMessage, IOException ioexception)
 	{
 		throw new TechnicalException(csError, csMessage, ioexception);
 	}
 
-	
+
 	public static void throwException(String csError, String csMessage)
 	{
 		throw new TechnicalException(csError, csMessage);
 	}
-	
+
 	public static void throwIfNull(Object o, String csError, String csMessage)
 	{
 		if(o == null)
 			throw new TechnicalException(csError, csMessage);
 	}
-	
+
 	public static void throwIfNullOrEmpty(String csObject, String csError, String csMessage)
 	{
 		if(StringUtil.isEmpty(csObject))
 			throw new TechnicalException(csError, csMessage);
 	}
-	
+
 //	public static void throwIfNullOrInvalid(IValidable validable, String csError, String csMessage)
 //	{
 //		if(validable == null || !validable.isValid())
@@ -160,14 +160,14 @@ public class TechnicalException extends RuntimeException
 	public static final String MISSING_CONFIGURATION = "Missing configuration ";
 	public static final String MISSING_KEY_VALUE_IN_PROPERTY_FILE = "Missing Key value in property file.";
 	public static final String SQL_PARSING_ERROR = "Could not correctly parse SQL Statement to add tablespace prefix; Please check statement: ";
-	public static final String RESULTSET_NEXT_SQL_ERROR = "SQLException catche while calling next() in resultset; statement: "; 
-	
+	public static final String RESULTSET_NEXT_SQL_ERROR = "SQLException catche while calling next() in resultset; statement: ";
+
 	public static final String DB_ERROR_STOREDPROC = "Stored procedure error";
 	public static final String DB_ERROR_STOREDPROC_PARAM_MANDATORY = "Stored procedure: Missing mandatory parameter ";
-	
+
 	public static final String IO_ERROR = "IO Error while accessing file: ";
 	public static final String WEBSERVICENOTRESPONDING="WEBSERVICENOTRESPONDING";
-	
+
 	public static final String MISSINGE_CONFIG_FILE = "Missing configuration file";
 	public static final String CONTEXT_IS_NULL = "Context parameter is null while accessing config file: ";
 

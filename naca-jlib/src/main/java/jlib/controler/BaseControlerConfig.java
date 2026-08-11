@@ -21,13 +21,13 @@ public abstract class BaseControlerConfig
 {
 	private String csTaskTagName = "" ;
 	private String csStepTagName = "" ;
-	
+
 	protected BaseControlerConfig(String csTaskTagName, String csStepTagName)
 	{
-		csTaskTagName = csTaskTagName ;
-		csStepTagName = csStepTagName ;
+		this.csTaskTagName = csTaskTagName ;
+		this.csStepTagName = csStepTagName ;
 	}
-	
+
 	public abstract int getNbTasks() ;
 
 	public abstract BaseControlerTaskConfig getTaskConfig(String name) ;
@@ -38,7 +38,7 @@ public abstract class BaseControlerConfig
 //	    {
 //			Tag tagConf = tagRoot.getChild("Config");
 //		    Setup(tagConf) ;
-//			
+//
 //			TagCursor cur = new TagCursor() ;
 //			Tag tagSite = tagRoot.getFirstChild(cur, csTaskTagName);
 //			while (cur.isValid() && tagSite != null)
@@ -51,11 +51,11 @@ public abstract class BaseControlerConfig
 //					arrSites.add(siteconf) ;
 //				}
 //				siteconf.setFromTag(tagSite) ;
-//				
+//
 //				tagSite = tagRoot.getNextChild(cur) ;
 //			}
 //		    LoadConfigCompleted.log("Conf loading completed.") ;
-//		    
+//
 //		    DoCVSUpdate() ;
 //		}
 //	    else
@@ -63,7 +63,7 @@ public abstract class BaseControlerConfig
 //		    LoadConfigError.log(fConfigFile.getAbsolutePath(), "Conf loading completed.") ;
 //	    }
 //	}
-	
+
 	private File fConfigFile = null ;
 
 	private boolean isautoStart = false ;
@@ -71,20 +71,20 @@ public abstract class BaseControlerConfig
 	{
 		return isautoStart;
 	}
-	
-	
+
+
 	public void setXMLFile(String cs)
 	{
 		File f = new File(cs) ;
 		setXMLFile(f) ;
 	}
 	public abstract String getLogChannel() ;
-	
+
 	public void setXMLFile(File file)
 	{
 		fConfigFile = file ;
 	}
-	
+
 	synchronized void LoadConfig(ControlerDirector director)
 	{
 		LoadConfigStart.log(getLogChannel(), fConfigFile.getAbsolutePath(), "Start loading from file...") ;
@@ -94,10 +94,10 @@ public abstract class BaseControlerConfig
 	    	// init global parameters
 			Tag tagConf = tagRoot.getChild("Config");
 		    Setup(tagConf) ;
-		    
+
 		    // get a table with all existing tasks
 		    Hashtable<String, BaseControlerTaskConfig> tabTasks = getTabConfig() ;
-		    
+
 		    // iteration on all task Tags
 			TagCursor curgrp = new TagCursor() ;
 			Tag tagGroup = tagRoot.getFirstChild(curgrp, csTaskTagName);
@@ -113,10 +113,10 @@ public abstract class BaseControlerConfig
 				}
 				// task own configuration
 				grpConfig.Setup(tagGroup) ;
-				
+
 				// get a table with all steps of that task
 				Hashtable<String, BaseControlerStepConfig> tabSteps = grpConfig.getTabConfig() ;
-				
+
 				// iteration on all step Tags
 				TagCursor cur = new TagCursor() ;
 				Tag tagSite = tagGroup.getFirstChild(cur, csStepTagName);
@@ -133,8 +133,8 @@ public abstract class BaseControlerConfig
 					}
 					// step own configuration
 					stepConf.Setup(tagSite) ;
-					
-					
+
+
 					if (isnewStep && !isnewTask)
 					{ // the step is new, but not the task : tel the director
 						director.AddStepToTask(grpConfig/*, nStepIndex, stepConf*/) ;
@@ -146,11 +146,11 @@ public abstract class BaseControlerConfig
 					nStepIndex ++ ;
 					tagSite = tagRoot.getNextChild(cur) ;
 				}
-				
+
 				if (!tabSteps.isEmpty())
 				{ // known steps have not been found in XML : remove them
 					Enumeration<BaseControlerStepConfig> enm = tabSteps.elements() ;
-					while  (enm.hasMoreElements()) 
+					while  (enm.hasMoreElements())
 					{
 						BaseControlerStepConfig conf = enm.nextElement() ;
 						//conf.OnDeleteConfig() ;
@@ -170,7 +170,7 @@ public abstract class BaseControlerConfig
 				}
 				tagGroup = tagRoot.getNextChild(curgrp) ;
 			}
-		    
+
 			// iteration on single steps remaining in XML
 			TagCursor cur = new TagCursor() ;
 			Tag tagSite = tagRoot.getFirstChild(cur, csStepTagName);
@@ -194,7 +194,7 @@ public abstract class BaseControlerConfig
 				}
 				// task own configuration
 				grpConfig.Setup(tagSite) ;
-		
+
 				BaseControlerStepConfig stepConf = null ;
 				if (grpConfig.getNbSteps()>0)
 				{ // single step already exists
@@ -206,7 +206,7 @@ public abstract class BaseControlerConfig
 				}
 				// step own configuration
 				stepConf.Setup(tagSite) ;
-				
+
 				if (isnewTask)
 				{ // task is new : create a controler
 					director.AddNewTask(grpConfig) ;
@@ -221,7 +221,7 @@ public abstract class BaseControlerConfig
 			if (!tabTasks.isEmpty())
 			{
 				Enumeration<BaseControlerTaskConfig> enm = tabTasks.elements() ;
-				while  (enm.hasMoreElements()) 
+				while  (enm.hasMoreElements())
 				{
 					BaseControlerTaskConfig conf = enm.nextElement() ;
 //					conf.OnDeleteConfig() ;
@@ -246,10 +246,10 @@ public abstract class BaseControlerConfig
 	private void Setup(Tag tagConf)
 	{
 		isautoStart = tagConf.getValAsBoolean("AutoStart") ;
-		
+
 		intSetup(tagConf) ;
 	}
 	protected abstract void intSetup(Tag tagConf) ;
 
-	
+
 }

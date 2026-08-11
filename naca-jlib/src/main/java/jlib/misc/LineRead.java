@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.misc;
 
@@ -16,15 +16,15 @@ package jlib.misc;
  */
 public class LineRead
 {
-	private byte tbLine[] = null; 
+	private byte tbLine[] = null;
 	private int nTotalLength = 0;
 	private int nBodyLength = 0;
 	private int nOffset = 0;
-	
+
 	LineRead()
 	{
 	}
-	
+
 	void resetAndGaranteeBufferStorage(int nMinBufferStorageLength, int nBufferStorageLengthToAlloc)
 	{
 		if(tbLine == null || tbLine.length < nMinBufferStorageLength)
@@ -35,7 +35,7 @@ public class LineRead
 		nBodyLength = 0;
 		nOffset = 0;
 	}
-	
+
 	int readAndConvertHeaderVHToVBMode()
 	{
 		// Header read in VH mode are hh ll 00 00; and the length 0xhhll includes the header itself
@@ -45,7 +45,7 @@ public class LineRead
 		LittleEndingUnsignBinaryBufferStorage.writeInt(tbLine, nLength, nOffset);
 		return nLength;
 	}
-	
+
 	void append(LineRead lineSource)
 	{
 		int nSourceOffset = lineSource.getOffset();
@@ -54,7 +54,7 @@ public class LineRead
 		nTotalLength += nSourceLength;
 		nBodyLength += nSourceLength;
 	}
-	
+
 	private void fill(byte tReadBytes[], int nSourceOffset, int nSourceLength, int nOffsetDest)
 	{
 		for(int n=0; n<nSourceLength; n++)
@@ -62,38 +62,38 @@ public class LineRead
 			tbLine[nOffsetDest++] = tReadBytes[nSourceOffset++];
 		}
 	}
-	
+
 	public void shiftOffset(int nShiftLength)
 	{
 		nTotalLength -= nShiftLength;
 		nBodyLength -= nShiftLength;
 		nOffset += nShiftLength;
 	}
-	
+
 	void set(byte tReadBytesAHead[], int nBodyFirstPositionInReadAHead, int nBodyLength, int nHeaderLength)
 	{
 		tbLine = tReadBytesAHead;
 		nOffset = nBodyFirstPositionInReadAHead - nHeaderLength;
-		nBodyLength = nBodyLength ;		
+		this.nBodyLength = nBodyLength ;
 		nTotalLength = nBodyLength + nHeaderLength;
-		int nDest = nOffset; 
+		int nDest = nOffset;
 		for(int n=0; n<nHeaderLength; n++)
 		{
 			tbLine[nDest++] = 0;
 		}
 	}
-	
+
 	public String getChunkAsString()
 	{
 		String cs = new String(tbLine, nOffset, nTotalLength);
 		return cs;
 	}
-	
+
 	public byte [] getBuffer()
 	{
 		return tbLine;
 	}
-	
+
 	public byte [] getBufferCopy()
 	{
 		byte by[] = new byte[nTotalLength];
@@ -104,27 +104,27 @@ public class LineRead
 		}
 		return by;
 	}
-	
+
 	public int getOffset()
 	{
-		return nOffset; 
+		return nOffset;
 	}
-	
+
 	public int getTotalLength()
 	{
-		return nTotalLength; 
+		return nTotalLength;
 	}
-	
+
 	public int getBodyLength()
 	{
 		return nBodyLength;
 	}
-	
+
 	public int getBufferLength()
 	{
 		return tbLine.length;
 	}
-	
+
 	public boolean manageTrailingLF()
 	{
 		if(tbLine[nOffset+nTotalLength-1] == 0x0A)
@@ -132,33 +132,33 @@ public class LineRead
 			nBodyLength--;	// Do not use the trailing LF; just consume it
 			nTotalLength--;
 			return true;
-		}		
+		}
 		return false;
 	}
-	
+
 	public boolean isTrailingLF()
 	{
-		// PJD Next line was if(tbLine[nOffset+nTotalLength-1] == 0x0A); 
+		// PJD Next line was if(tbLine[nOffset+nTotalLength-1] == 0x0A);
 		// the -1 is wrong as manageTrailingLF() must have already been called previously on this LineReadObject, so nTotalLength was decremented.
-		if(tbLine[nOffset+nTotalLength] == 0x0A)	 
+		if(tbLine[nOffset+nTotalLength] == 0x0A)
 			return true;
 		return false;
 	}
-	
+
 	public int getAsLittleEndingUnsignBinaryInt()
 	{
 		if(nBodyLength >= 4)
 			return (int)LittleEndingUnsignBinaryBufferStorage.readInt(tbLine, nOffset);
 		return -1;	// Error
 	}
-	
+
 	public int getAsLittleEndingUnsignBinaryShort()
 	{
 		if(nBodyLength >= 2)
 			return (int)LittleEndingUnsignBinaryBufferStorage.readShort(tbLine, nOffset);
 		return -1;	// Error
 	}
-	
+
 	public void setDataLengthStartingAt0(int nLength)
 	{
 		nBodyLength = nLength;

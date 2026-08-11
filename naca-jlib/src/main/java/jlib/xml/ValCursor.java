@@ -27,18 +27,18 @@ public class ValCursor
 	public ValCursor()
 	{
 	}
-	
+
 	void setEnumVal(NamedNodeMap nodeMap)
 	{
-		nodeMap = nodeMap; 
+		this.nodeMap = nodeMap;
 	}
-	
+
 	public String getFirstVal()
 	{
 		nIndex = 0;
 		return getNextVal();
 	}
-	
+
 	public String getNextVal()
 	{
 		int nNbIndex = nodeMap.getLength();
@@ -51,13 +51,13 @@ public class ValCursor
 		}
 		return null;
 	}
-	
+
 	public Node getFirstParam()
 	{
 		nIndex = 0;
 		return getNextParam();
 	}
-	
+
 	public Node getNextParam()
 	{
 		int nNbIndex = nodeMap.getLength();
@@ -69,9 +69,9 @@ public class ValCursor
 		}
 		return null;
 	}
-	
-	
-	
+
+
+
 	NamedNodeMap nodeMap = null;
 	int nIndex = 0;
 }

@@ -31,14 +31,14 @@ import jlib.xml.TagCursor;
  */
 public abstract class BaseDialog
 {
-	private DisplayContext context = null ; 
+	private DisplayContext context = null ;
 	public BaseDialog(DisplayContext context)
 	{
 		csDisplayFile = context.getRootPath() + DeclareDispalyFile() ;
-		context = context ;
+		this.context = context ;
 	}
 	/**
-	 * 
+	 *
 	 */
 	public abstract boolean BeforeDisplay() ;
 	protected abstract String DeclareDispalyFile() ;
@@ -54,9 +54,9 @@ public abstract class BaseDialog
 		{
 			tagDisplay.addChild(tagForm) ;
 		}
-		
+
 		FillWidgetValuesForChildren(tagDisplay) ;
-		
+
 		return tagDisplay ;
 	}
 	/**
@@ -116,18 +116,18 @@ public abstract class BaseDialog
 				String csVal = getLocalValueForWidget(csParam, index)  ;
 				if (csVal == null)
 				{
-					csVal = ""; 
+					csVal = "";
 				}
 				csText = csText.replaceAll("%"+csParam+"%", csVal) ;
 				csParam = FindParam(csText) ;
 			}
 			tag.addVal("Text", csText) ;
-			
+
 			csText = tag.getVal("Link") ;
 			csParam = FindParam(csText) ;
 			while (csParam != null)
 			{
-				String csVal = getLocalValueForWidget(csParam, index)  ; 
+				String csVal = getLocalValueForWidget(csParam, index)  ;
 				if (csVal == null)
 				{
 					csVal = "" ;
@@ -167,7 +167,7 @@ public abstract class BaseDialog
 //			String cs = tag.getVal("Name") ;
 //			cs += "_CELL_" + index ;
 //			tag.addVal("Name", cs) ;
-			
+
 			String csAction = tag.getVal("Action") ;
 			csAction  += "_CELL_" + index ;
 			tag.addVal("Action", csAction) ;
@@ -177,11 +177,11 @@ public abstract class BaseDialog
 //			String cs = tag.getVal("Name") ;
 //			cs += "_CELL_" + index ;
 //			tag.addVal("Name", cs) ;
-			
+
 			String csTest = tag.getVal("Test") ;
 			String val = getLocalValueForWidget(csTest, index) ;
 			tag.addVal("Value", val) ;
-			
+
 			Tag tagThen = tag.getChild("Then") ;
 			if (tagThen != null)
 			{
@@ -206,14 +206,14 @@ public abstract class BaseDialog
 				e.printStackTrace() ;
 				return ;
 			}
-			
+
 			double lng = map.getCenterLng() ;
 			double lat = map.getCenterLat() ;
 			int zoom = map.getZoom() ;
 			tag.addVal("CenterLng", lng) ;
 			tag.addVal("CenterLat", lat) ;
 			tag.addVal("Zoom", zoom) ;
-			
+
 			for (int i=0; i<map.getNbmarkers(); i++)
 			{
 				MapMarker mark = map.getMarker(i) ;
@@ -238,7 +238,7 @@ public abstract class BaseDialog
 		if (n>=0)
 		{
 			int m = csText.indexOf('%', n+1) ;
-			if (m>0) 
+			if (m>0)
 			{
 				String cs = csText.substring(n+1, m) ;
 				return cs ;
@@ -384,17 +384,17 @@ public abstract class BaseDialog
 		return null ;
 	}
 	private String csDisplayFile = "" ;
-	
+
 	protected DisplayContext getContext()
 	{
 		return context ;
 	}
-	
+
 	protected void OpenDisplay(String form)
 	{
 		context.AddDisplay(this, form) ;
 	}
-	
+
 	protected void OpenDisplay(BaseDialog dlg)
 	{
 		dlg.BeforeDisplay() ;
@@ -408,7 +408,7 @@ public abstract class BaseDialog
 		Enumeration en = reqLoader.getFieldNames() ;
 		if (en == null)
 			return false;
-		
+
 		Class cl = this.getClass() ;
 
 		while (en.hasMoreElements())
@@ -473,7 +473,7 @@ public abstract class BaseDialog
 				//e.printStackTrace();
 			}
 		}
-		
+
 		String act = reqLoader.getAction() ;
 		if (act != null && !act.equals(""))
 		{
@@ -534,9 +534,9 @@ public abstract class BaseDialog
 			}
 			return false ;
 		}
-		return true ;	
+		return true ;
 	}
-	
+
 	protected void CloseCurrentDisplay()
 	{
 		if (!context.stackDisplayedElements.isEmpty())

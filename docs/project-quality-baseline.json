@@ -15,7 +15,7 @@
     "analyzerTestSources": 0,
     "transpilerUnqualifiedSelfAssignments": 0,
     "runtimeUnqualifiedSelfAssignments": 0,
-    "jlibUnqualifiedSelfAssignments": 142,
+    "jlibUnqualifiedSelfAssignments": 0,
     "staleIdeTemplateCommentMarkers": 1192,
     "generatedTodoPlaceholders": 97,
     "activeHungarianIdentifierLines": 0,

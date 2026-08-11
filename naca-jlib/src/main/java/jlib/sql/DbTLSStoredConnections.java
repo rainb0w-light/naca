@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.sql;
 
@@ -22,12 +22,12 @@ public class DbTLSStoredConnections
 	private DbConnectionBase foreignDbConnectionBase = null;	// Holds a foreign db connection, that is a connection is has been provided by a caller using setForeignConnection
 	private Hashtable<DbAccessor, DbConnectionBase> hashConById = new Hashtable<DbAccessor, DbConnectionBase>();
 
-	DbConnectionBase getDbId(DbAccessor dbId)	// No need to synchonize: the m_hashConById is private to the current thread 
+	DbConnectionBase getDbId(DbAccessor dbId)	// No need to synchonize: the m_hashConById is private to the current thread
 	{
 		return hashConById.get(dbId);
 	}
 
-	void putDbId(DbAccessor dbId, DbConnectionBase connection)	// No need to synchonize: the m_hashConById is private to the current thread 
+	void putDbId(DbAccessor dbId, DbConnectionBase connection)	// No need to synchonize: the m_hashConById is private to the current thread
 	{
 		hashConById.put(dbId, connection);
 	}
@@ -38,7 +38,7 @@ public class DbTLSStoredConnections
 		{
 			foreignDbConnectionBase = null;	// Do not hold it anymore
 		}
-		
+
 		Enumeration<DbConnectionBase> enumConnections = hashConById.elements();
 		while(enumConnections.hasMoreElements())
 		{
@@ -48,7 +48,7 @@ public class DbTLSStoredConnections
 		hashConById.clear();
 		return true;
 	}
-	
+
 	void dumpConnections(StringBuilder sbText)
 	{
 		if(foreignDbConnectionBase != null)	// We have a foreign connection
@@ -81,8 +81,8 @@ public class DbTLSStoredConnections
 		}
 		return false;
 	}
-	
-/*	int getNbConnection(DbAccessor dbId)	// No need to synchonize: the m_hashConById is private to the current thread 
+
+/*	int getNbConnection(DbAccessor dbId)	// No need to synchonize: the m_hashConById is private to the current thread
 	{
 		//if(m_hashConById == null)
 			return 0;
@@ -92,11 +92,11 @@ public class DbTLSStoredConnections
 
 	/*
 	 * setForeignConnection
-	 * Store a foreign connection in the TLS for usage by jlib management; the connection is not pooled ! 
+	 * Store a foreign connection in the TLS for usage by jlib management; the connection is not pooled !
 	 */
 	void setForeignConnection(DbConnectionBase foreignDbConnectionBase)
 	{
-		foreignDbConnectionBase = foreignDbConnectionBase;
+		this.foreignDbConnectionBase = foreignDbConnectionBase;
 	}
 
 	/*
@@ -128,7 +128,7 @@ public class DbTLSStoredConnections
 	Not usable for foreign connections
 	 */
 	/** Method added by Jilali Raki for WLC stored procedures
-	 * 
+	 *
 	 * @param dbId
 	 * @param autoCommit
 	 * @return
@@ -143,12 +143,12 @@ public class DbTLSStoredConnections
 			return true;
 		}
 		return false;
-	}	
+	}
 
 	/*
 		rollback for an accessor
 		Not usable for foreign connections
-	 */	
+	 */
 	boolean rollBack(DbAccessor dbId)
 	{
 		// Foreign connections are not usable

@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.sql;
 
@@ -30,13 +30,13 @@ public class DbConnectionManagerContext
 	private int nTimeBeforeRemoveConnection_ms = 0;
 	private int nMaxStatementLiveTime_ms = 0;
 	private boolean iscreated = false;
-	
+
 	private DbConnectionManagerBase dbConnectionManager = null;
-	
+
 	public  DbConnectionManagerContext()
 	{
 	}
-	
+
 	public boolean create(String csPropertyPrefix)
 		throws TechnicalException
 	{
@@ -49,41 +49,41 @@ public class DbConnectionManagerContext
 		csDBUser = pl.getProperty(csPropertyPrefix + "user");
 		csDBPassword = pl.getProperty(csPropertyPrefix + "password");
 		csEnvironment = pl.getProperty(csPropertyPrefix + "environment", "");
-					
+
 		String cs = pl.getProperty(csPropertyPrefix + "NbMaxConnections", "2");
 		nNbMaxConnections = NumberParser.getAsInt(cs);
-		
+
 		cs = pl.getProperty(csPropertyPrefix + "TimeBeforeRemoveConnection_ms", "600000");	// 10 minutes by defaut
 		nTimeBeforeRemoveConnection_ms = NumberParser.getAsInt(cs);
-		
+
 		cs = pl.getProperty(csPropertyPrefix + "MaxStatementLiveTime_ms", "600000");	// 10 minutes by defaut
 		nMaxStatementLiveTime_ms = NumberParser.getAsInt(cs);
-		
+
 		iscreated = doCreateConnection(csPropertyPrefix);
 
 		return iscreated;
 	}
-	
+
 	public boolean create(String csDBProvider, String csUrl, String csUser, String csPassword, String csEnvironment)
 		throws TechnicalException
 	{
-		csDBProvider = csDBProvider;
+		this.csDBProvider = csDBProvider;
 		csDBUrl = csUrl;
 		csDBUser = csUser;
 		csDBPassword = csPassword;
-		csEnvironment = csEnvironment;
-		
+		this.csEnvironment = csEnvironment;
+
 		nNbMaxConnections = 2;		// Resonable default values; Should be parametrized ???
 		nTimeBeforeRemoveConnection_ms = 10 * 60 * 1000; // 10 minutes
 		nMaxStatementLiveTime_ms = 10 * 60 * 1000; 	// 10 minutes too
-		
+
 		iscreated = doCreateConnection("");
 		return iscreated;
 	}
 
 	private boolean doCreateConnection(String csPropertyPrefix)
 		throws TechnicalException
-	{		
+	{
 		dbConnectionManager = new DbConnectionManager();
 		dbConnectionManager.setPropertyPrefix(csPropertyPrefix);
 		try
@@ -103,19 +103,19 @@ public class DbConnectionManagerContext
 		}
 		return iscreated;
 	}
-	
+
 	public boolean isOracle()
 	{
 		if(csDBProvider.equalsIgnoreCase("Oracle"))
 			return true;
 		return false;
 	}
-	
+
 	public DbConnectionBase getConnection()
 	{
 		if(dbConnectionManager == null)
 			return null;
-		
+
 		try
 		{
 			DbConnectionBase connection = dbConnectionManager.getConnection(true);
@@ -127,12 +127,12 @@ public class DbConnectionManagerContext
 		}
 		return null;
 	}
-	
+
 	public boolean isCreated()
 	{
 		return iscreated;
 	}
-	
+
 	/**
 	 * @function getNbUnusedConnections
 	 * @return Number of currently unused connection
@@ -141,42 +141,42 @@ public class DbConnectionManagerContext
 	{
 		if(dbConnectionManager == null)
 			return 0;
-		return dbConnectionManager.getNbUnusedConnections();		
+		return dbConnectionManager.getNbUnusedConnections();
 	}
-	
+
 	public int getNbRunningConnections()
 	{
 		if(dbConnectionManager == null)
 			return 0;
-		return dbConnectionManager.getNbRunningConnections();		
+		return dbConnectionManager.getNbRunningConnections();
 	}
-	
+
 	public void showHideRunningConnections(boolean bShowRunningCon)
 	{
 		if(dbConnectionManager != null)
 			dbConnectionManager.showHideRunningConnections(bShowRunningCon);
 	}
-	
+
 	public void dumpConnections(StringBuilder sbText)
 	{
 		if(dbConnectionManager != null)
 			dbConnectionManager.dumpConnections(sbText);
 	}
-	
+
 	public int getNbAllocConnnections()
 	{
 		if(dbConnectionManager == null)
 			return 0;
-		return dbConnectionManager.getNbAllocConnnections();		
+		return dbConnectionManager.getNbAllocConnnections();
 	}
-	
+
 	public int getNbMaxConnection()
 	{
 		if(dbConnectionManager == null)
 			return 0;
 		return dbConnectionManager.getNbMaxConnection();
 	}
-	
+
 	public int getNbCachedStatementsForAccessor()
 	{
 		if(dbConnectionManager == null)

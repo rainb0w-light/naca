@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.misc;
 
@@ -19,31 +19,31 @@ public class JSonCoupleItem
 	private String csName;
 	private String csValue;
 	private JSonCoupleItemType type;
-	
+
 	JSonCoupleItem()
 	{
 	}
-	
+
 	String getName()
 	{
 		return csName;
 	}
-	
+
 	int getValueAsInt()
 	{
 		return NumberParser.getAsInt(csValue);
 	}
-	
+
 	String getValueAsString()
 	{
 		return csValue;
 	}
-	
+
 	boolean getValueAsBoolean()
 	{
 		return NumberParser.getAsBoolean(csValue);
 	}
-	
+
 	boolean parse(String csCouple)
 	{
 		int nIndex = csCouple.indexOf(":");
@@ -51,7 +51,7 @@ public class JSonCoupleItem
 		{
 			csName = csCouple.substring(0, nIndex);
 			csName = StringUtil.removeSurroundingQuotes(csName);
-			
+
 			String csValue = csCouple.substring(nIndex+1);
 			if(csValue.startsWith("\"") && csValue.endsWith("\""))
 			{
@@ -70,26 +70,26 @@ public class JSonCoupleItem
 				}
 				else if(csValue.equalsIgnoreCase("true"))
 				{
-					csValue = csValue;
+					this.csValue = csValue;
 					type = JSonCoupleItemType.TypeBoolean;
 					return true;
 				}
 				else if(csValue.equalsIgnoreCase("false"))
 				{
-					csValue = csValue;
+					this.csValue = csValue;
 					type = JSonCoupleItemType.TypeBoolean;
 					return true;
 				}
 				else	// Number
 				{
 					// Check numeric value
-					csValue = csValue;
+					this.csValue = csValue;
 					if(csValue.indexOf(".") >= 0)	// ouble
 						type = JSonCoupleItemType.TypeDouble;
 					else
 						type = JSonCoupleItemType.TypeInteger;
 					return true;
-				}				
+				}
 			}
 		}
 		return false;

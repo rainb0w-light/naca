@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.threads;
 
@@ -14,7 +14,7 @@ package jlib.threads;
  * @author Pierre-Jean Ditscheid, Consultas SA
  * @version $Id$
  */
-// Usage 
+// Usage
 
 /*
 public class MyTimer extends Timer
@@ -24,14 +24,14 @@ public class MyTimer extends Timer
 	{
 		this.c = c;
 	}
-	
+
 	protected boolean pulse()
 	{
 		return c.onTimerPulse();
 	}
 }
 
-// Caller code in class Caller 
+// Caller code in class Caller
 
 class Caller
 {
@@ -43,11 +43,11 @@ class Caller
 		timer.startTimer(60000);	// Pulse every minute
 		...
 	}
-	
+
 	public boolean onTimerPulse()	// Executed in the context of the timer thread
 	{
 		// Do actions ...
-		return true; 
+		return true;
 	}
 
 */
@@ -55,17 +55,17 @@ class Caller
 public abstract class Timer extends Thread
 {
 	private int nPeriodWait_ms = 1000;
-	
+
 	public Timer()
 	{
 	}
-	
+
 	public void startTimer(int nPeriodWait_ms)
 	{
-		nPeriodWait_ms = nPeriodWait_ms;
+		this.nPeriodWait_ms = nPeriodWait_ms;
 		start();
 	}
-	
+
 	public void run()
 	{
 		boolean iscontinue = true;
@@ -75,15 +75,15 @@ public abstract class Timer extends Thread
 			{
 				Thread.sleep(nPeriodWait_ms);
 				iscontinue = pulse();
-			} 
+			}
 			catch (InterruptedException e)
 			{
 			}
 		}
 	}
-	
+
 	protected abstract boolean pulse();
-	
+
 	public void requestStop()
 	{
 		interrupt();

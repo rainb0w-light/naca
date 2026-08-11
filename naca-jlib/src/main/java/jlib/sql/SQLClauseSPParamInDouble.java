@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.sql;
 
@@ -19,12 +19,12 @@ import java.sql.SQLException;
 public class SQLClauseSPParamInDouble extends SQLClauseSPParamIn
 {
 	private double val = 0;
-	
+
 	public SQLClauseSPParamInDouble(double dVal)
 	{
-		dVal = dVal;
+		this.val = dVal;
 	}
-	
+
 	protected void setInValueWithException(int nParamId, DbPreparedCallableStatement stmt)
 		throws SQLException
 	{

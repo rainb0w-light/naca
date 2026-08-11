@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.sql;
 
@@ -19,35 +19,35 @@ public class SQLLoadStatus
 	public static final SQLLoadStatus loadSuccess = new SQLLoadStatus(true, false);
 	public static final SQLLoadStatus loadFailure = new SQLLoadStatus(false, false);
 	public static final SQLLoadStatus loadSuccessWithDuplicates = new SQLLoadStatus(true, true);
-	
+
 	private boolean issuccess;
 	private boolean isduplicates;
-	
+
 	private SQLLoadStatus(boolean issuccess, boolean isduplicates)
 	{
-		issuccess = issuccess;
-		isduplicates = isduplicates;
+		this.issuccess = issuccess;
+		this.isduplicates = isduplicates;
 	}
-	
+
 	public boolean isSuccess()
 	{
 		return issuccess;
 	}
-	
+
 	public boolean hadDuplicates()
 	{
 		return isduplicates;
 	}
-	
+
 	public static SQLLoadStatus updateWithLocalStatus(SQLLoadStatus globalStatus, SQLLoadStatus status)
 	{
 		if(!status.issuccess)
 			return loadFailure;
 		if(globalStatus.isduplicates || status.isduplicates)
 			return loadSuccessWithDuplicates;
-		return loadSuccess;			
+		return loadSuccess;
 	}
-	
+
 	public String toString()
 	{
 		String cs;
@@ -55,7 +55,7 @@ public class SQLLoadStatus
 			cs = "Success";
 		else
 			cs = "Failure";
-		
+
 		if(isduplicates)
 			cs += " with duplicate keys";
 		else

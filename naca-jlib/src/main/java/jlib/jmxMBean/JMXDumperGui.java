@@ -15,13 +15,13 @@ public class JMXDumperGui extends BaseCloseMBean
 		super("# JMX Dump","# JMX Dump");
 		setOutputFile(csOutputFile);
 	}
-	
-	protected void buildDynamicMBeanInfo() 
+
+	protected void buildDynamicMBeanInfo()
     {
 		addOperation("Dump", getClass(), "setDump");
 		addAttribute("OutputFile", getClass(), "OutputFile", String.class);
     }
-	
+
 	public void setDump()
 	{
 		JMXDumper dumper = new JMXDumper(JmxRegistration.getMBeanServer());
@@ -32,16 +32,16 @@ public class JMXDumperGui extends BaseCloseMBean
 			tag.exportToFile(getOutputFile());
 		}
 	}
-	
+
 	public String getOutputFile()
 	{
 		return csOutputFile;
 	}
-	
+
 	public void setOutputFile(String csOutputFile)
 	{
-		csOutputFile = csOutputFile;
+		this.csOutputFile = csOutputFile;
 	}
-	
-	private String csOutputFile = "./JMXOutput.txt";	
+
+	private String csOutputFile = "./JMXOutput.txt";
 }

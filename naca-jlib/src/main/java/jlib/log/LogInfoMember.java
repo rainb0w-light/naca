@@ -19,19 +19,19 @@ package jlib.log;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class LogInfoMember
-{	
+{
 	LogInfoMember(String csName, String csValue)
 	{
-		csName = csName;
-		csValue = csValue;
+		this.csName = csName;
+		this.csValue = csValue;
 	}
-	
+
 	LogInfoMember(String csName, int nValue)
 	{
-		csName = csName;
+		this.csName = csName;
 		value = Integer.valueOf(nValue);
 	}
-	
+
 	String getAsString()
 	{
 		if(csValue != null)
@@ -40,12 +40,12 @@ public class LogInfoMember
 			return csName + "=" + value.toString();
 		return csName + "=?";
 	}
-	
+
 	String getName()
 	{
-		return csName; 
+		return csName;
 	}
-	
+
 	String getValue()
 	{
 		if(csValue != null)
@@ -55,7 +55,7 @@ public class LogInfoMember
 		return "";
 	}
 
-	
+
 	String csName = null;
 	String csValue = null;
 	Integer value = null;

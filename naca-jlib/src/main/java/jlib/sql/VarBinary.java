@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.sql;
 
@@ -22,23 +22,23 @@ public class VarBinary
 	{
 		tb = null;
 	}
-	
+
 	public VarBinary(byte tb[])
 	{
-		tb = tb;
+		this.tb = tb;
 	}
-	
+
 	public String getAsString()
 	{
 		if(tb	!= null)
 		{
 			String cs = new String(tb);
-			return cs; 
+			return cs;
 		}
-		
+
 		return "";
 	}
-	
+
 	public String getAsUTF8String()
 	{
 		if(tb	!= null)
@@ -47,17 +47,17 @@ public class VarBinary
 			try
 			{
 				cs = new String(tb, "UTF-8");
-				return cs; 
+				return cs;
 			}
 			catch (UnsupportedEncodingException e)
 			{
-				
-			}			
+
+			}
 		}
-		
+
 		return "";
 	}
-	
+
 	public boolean setUTF8FromString(String cs)
 	{
 		try
@@ -70,16 +70,16 @@ public class VarBinary
 		}
 		return false;
 	}
-	
+
 	public byte [] getBytes()
 	{
 		return tb;
 	}
-	
+
 	public void setBytes(byte [] tb)
 	{
-		tb = tb;
+		this.tb = tb;
 	}
-	
+
 	private byte tb[] = null;
 }

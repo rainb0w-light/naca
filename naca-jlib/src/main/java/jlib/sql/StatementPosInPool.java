@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.sql;
 
@@ -18,10 +18,10 @@ public class StatementPosInPool
 {
 	StatementPosInPool(DbConnectionBase connection, String csStatementId)
 	{
-		connection = connection; 
-		csStatementId = csStatementId;
+		this.connection = connection;
+		this.csStatementId = csStatementId;
 	}
-	
+
 	boolean forceRemoveStatement()
 	{
 		if(connection != null)
@@ -31,8 +31,8 @@ public class StatementPosInPool
 			return b;
 		}
 		return false;
-	}	
-	
+	}
+
 	private DbConnectionBase connection = null;
 	private String csStatementId = null;
 }

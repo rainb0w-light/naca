@@ -15,33 +15,33 @@ public class JarItemEntry
 {
 	JarItemEntry(ZipEntry zipEntry)
 	{
-		zipEntry = zipEntry; 
+		this.zipEntry = zipEntry;
 	}
-	
+
 	public int getSize()
 	{
 		if(zipEntry != null)
 			return (int) zipEntry.getSize();
 		return 0;
 	}
-	
+
 	public String getName()
 	{
 		if(zipEntry != null)
 			return zipEntry.getName();
 		return null;
 	}
-	
+
 	public ZipEntry getZipEntry()
 	{
 		return zipEntry;
 	}
-	
+
 	public byte[] loadBytes(JarEntries jarEntries)
 	{
 		return loadBytes(jarEntries.getZipFile());
 	}
-	
+
 	public byte[] loadBytes(ZipFile zipFile)
 	{
 		try
@@ -75,6 +75,6 @@ public class JarItemEntry
 		return null;
 	}
 
-	
+
 	private ZipEntry zipEntry = null;
 }

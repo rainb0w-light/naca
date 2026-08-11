@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.sql;
 
@@ -24,19 +24,19 @@ public class ColValueVarBinary extends ColValue
 	public ColValueVarBinary(String csName, VarBinary vbValue)
 	{
 		super(csName);
-		vbValue = vbValue;
+		this.vbValue = vbValue;
 	}
-	
+
 	public ColValue duplicate()
 	{
 		return new ColValueVarBinary(csName, vbValue);
 	}
-	
+
 	public void setParamSQLClause(SQLClause clause)
 	{
 		clause.param(vbValue);
-	}	
-	
+	}
+
 	public void doFillWithResurltSetCol(ResultSet resultSet, int nCol)
 		throws SQLException
 	{
@@ -48,13 +48,13 @@ public class ColValueVarBinary extends ColValue
 	{
 		return String.valueOf(vbValue);
 	}
-	
+
 	public int getValueAsInt()
 	{
 		//return m_vbValue.intValue();
 		return 0;
 	}
-	
+
 	double getValueAsDouble()
 	{
 		//return m_vbValue.doubleValue();
@@ -65,27 +65,27 @@ public class ColValueVarBinary extends ColValue
 	{
 		return "(VarBinary): Cannot display value";
 	}
-	
+
 	String getType()
 	{
 		return "VarBinary";
 	}
-	
+
 	int getSQLType()
 	{
 		return Types.VARBINARY;
 	}
-	
+
 	Object getValue()
 	{
 		return vbValue;
 	}
-	
+
 	public boolean canSetColParam()
 	{
 		return true;
 	}
-	
+
 	public boolean setParamIntoStmt(PreparedStatement stmt, int nCol)
 	{
 		byte tb[] = vbValue.getBytes();
@@ -100,6 +100,6 @@ public class ColValueVarBinary extends ColValue
 		}
 		return true;
 	}
-	
+
 	VarBinary vbValue = null;
 }

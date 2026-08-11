@@ -9,21 +9,21 @@ package jlib.threads;
 public class PooledThread extends BaseThread
 {
 	protected PoolOfThreads owningPool = null;
-	
+
 	public PooledThread(PoolOfThreads owningPool)
 	{
-		owningPool = owningPool;
+		this.owningPool = owningPool;
 	}
-	
+
 	protected boolean canHandleRequest()
 	{
 		return false;	// return true if the thread object must handle it self the request; false if the request handles itself
 	}
-	
+
 	protected void handleRequest(ThreadPoolRequest request)
 	{
 	}
-	
+
 	public void run()
 	{
 		try
@@ -63,7 +63,7 @@ public class PooledThread extends BaseThread
 	{
 		return true;
 	}
-	
+
 	public void postRun()
 	{
 	}

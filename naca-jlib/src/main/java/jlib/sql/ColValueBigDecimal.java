@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.sql;
 
@@ -24,19 +24,19 @@ public class ColValueBigDecimal extends ColValue
 	public ColValueBigDecimal(String csName, BigDecimal bdValue)
 	{
 		super(csName);
-		bdValue = bdValue;
+		this.bdValue = bdValue;
 	}
-	
+
 	public ColValue duplicate()
 	{
 		return new ColValueBigDecimal(csName, bdValue);
 	}
-	
+
 	public void setParamSQLClause(SQLClause clause)
 	{
 		clause.param(bdValue);
-	}	
-	
+	}
+
 	public void doFillWithResurltSetCol(ResultSet resultSet, int nCol)
 		throws SQLException
 	{
@@ -47,12 +47,12 @@ public class ColValueBigDecimal extends ColValue
 	{
 		return String.valueOf(bdValue);
 	}
-	
+
 	public int getValueAsInt()
 	{
 		return bdValue.intValue();
 	}
-	
+
 	double getValueAsDouble()
 	{
 		return bdValue.doubleValue();
@@ -62,21 +62,21 @@ public class ColValueBigDecimal extends ColValue
 	{
 		return "(BigDecimal):'"+String.valueOf(bdValue)+"'";
 	}
-	
+
 	String getType()
 	{
 		return "BigDecimal";
 	}
-	
+
 	int getSQLType()
 	{
 		return Types.DECIMAL;
 	}
-	
+
 	Object getValue()
 	{
 		return bdValue;
 	}
-	
+
 	BigDecimal bdValue = null;
 }

@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.exception;
 
@@ -20,7 +20,7 @@ public class ApplicativeException extends Exception
 	private String csError = null;
 	private  String csMessage = null;
 	private  Throwable throwable = null;
-	
+
 	protected ApplicativeException(ApplicativeException e)
 	{
 		super(e);
@@ -28,31 +28,31 @@ public class ApplicativeException extends Exception
 		csMessage = e.csMessage;
 		throwable = e.throwable;
 	}
-	
+
 	protected ApplicativeException(String csError, String csMessage)
 	{
-		csError = csError;
-		csMessage = csMessage;
-		throwable = new Throwable(); 
+		this.csError = csError;
+		this.csMessage = csMessage;
+		throwable = new Throwable();
 	}
-	
+
 	protected ApplicativeException(String csError, String csMessage, Throwable throwable)
 	{
-		csError = csError;
-		csMessage = csMessage;
-		throwable = throwable;
+		this.csError = csError;
+		this.csMessage = csMessage;
+		this.throwable = throwable;
 	}
-	
+
 	public String getCode()
 	{
 		return csError;
 	}
-	
+
 	public String getMessage()
 	{
 		return csMessage;
 	}
-	
+
 	public Throwable getThrowable()
 	{
 		return throwable;

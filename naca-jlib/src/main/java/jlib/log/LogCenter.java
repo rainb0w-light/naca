@@ -28,22 +28,22 @@ import jlib.jmxMBean.CompositeTypeDesc;
  * </ul>
  * @author PJD
  */
-public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBean   
+public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBean
 {
 /**
- * The <i>LogCenter</i> instance is initialized based on the information a 
+ * The <i>LogCenter</i> instance is initialized based on the information a
  * <i>LogCenterLoader</i> has collected from a [LogCenter] section of the JLib.log
  * xml configuration file.
  * This configuration file is originally provided to the {@link Log#open} method,
  * which is the method that initializes the {@link Log} static instance containing
- * the collection of <i>LogCenter</i>s. 
+ * the collection of <i>LogCenter</i>s.
  * @param logCenterLoader A xml reader which has loaded a [LogCenter] section
  * of the JLib.log xml configuration file.
  */
 	public LogCenter(LogCenterLoader logCenterLoader)
 	{
 		super(logCenterLoader.csName + " (" + logCenterLoader.csMode + ")", "Log center Open MBean");
-		
+
 		isenable = logCenterLoader.isenable;
 		csChannel = logCenterLoader.csChannel;
 		logLevel = new LogLevel(logCenterLoader.logLevel);
@@ -52,12 +52,12 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
 		nNbRequestBufferSize = logCenterLoader.nNbRequestBufferSize;
 		logParamItem = new ArrayList<LogParams>();
 	}
-	
+
 	public void setPatternLayout(LogPatternLayout patternLayout)
 	{
-		patternLayout = patternLayout;
-	}	
-	
+		this.patternLayout = patternLayout;
+	}
+
 	protected LogPatternLayout patternLayout = null;
 
 	protected boolean isenable = false;                    // If not enabled, the log center doesn't accept any event.
@@ -86,7 +86,7 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
  * 	<li>The event has a {@link LogFlow} accepted by the <i>LogCenter</i> flow (see protected
  * 	property {@link logFlow}).</li>
  * 	<li>The event has a {@link LogLevel} equal or higher than the
- * 	minimal required by the <i>LogCenter</i> (see property {@link getLevel}.</li> 
+ * 	minimal required by the <i>LogCenter</i> (see property {@link getLevel}.</li>
  * </ul>
  * If the events buffer is enabled, the event description is added to it,
  * instead of immediately stored.
@@ -141,14 +141,14 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
  * 	<li></li>
  * 	<li></li>
  * 	<li></li>
- * </ul> 
- */	
+ * </ul>
+ */
 	synchronized void flushCachedLogParamsItems()
 	{
 		if(logParamItem != null)
 			outputAllLogParamsItems();
 	}
-	
+
 	synchronized private void outputAllLogParamsItems()
 	{
 		int nNbEntries = logParamItem.size();
@@ -161,7 +161,7 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
 		postSendOutput();
 		logParamItem.clear();
 	}
-	
+
 	abstract boolean open();
 /**
  * Method called before storing one or more events via {@link sendOutput}.
@@ -172,7 +172,7 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
  * 	void preSendOutput(){}
  * </pre>
  * When the events buffer is being flushed, this method is called only once,
- * before the first event is sent to be stored. 
+ * before the first event is sent to be stored.
  */
 	abstract void preSendOutput();
 /**
@@ -193,25 +193,25 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
  * 	void postSendOutput(){}
  * </pre>
  * When the events buffer is being flushed, this method is called only once,
- * after the first event has beem sent to be stored. 
+ * after the first event has beem sent to be stored.
  */
 	abstract void postSendOutput();
-	
+
 	abstract boolean closeLogCenter();
-	
+
 	boolean isOpen()
 	{
 		return isopen;
 	}
-	
+
 	boolean doOpen()
 	{
 		if(!isopen)
 			isopen = open();
 		return isopen;
 	}
-	
-	
+
+
 	boolean close()
 	{
 		if(isopen)
@@ -220,8 +220,8 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
 			isopen = !closeLogCenter();
 		}
 		return !isopen;
-	}	
-	
+	}
+
 	private boolean isopen = false;
 /**
  * Returns <i>true</i> if the <i>LogCenter</i> is enabled.
@@ -233,10 +233,10 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
  * 	<li>The event has a {@link LogFlow} accepted by the <i>LogCenter</i> flow (see protected
  * 	property {@link #logFlow}).</li>
  * 	<li>The event has a {@link LogLevel} equal or higher than the
- * 	minimal required by the <i>LogCenter</i> (see property {@link #getLevel}.</li> 
+ * 	minimal required by the <i>LogCenter</i> (see property {@link #getLevel}.</li>
  * </ul>
  * @return <i>true</i> if the <i>LogCenter</i> is enabled.
- */	
+ */
 	public Boolean getEnable()
 	{
 		return isenable;
@@ -251,11 +251,11 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
  * 	<li>The event has a {@link LogFlow} accepted by the <i>LogCenter</i> flow (see protected
  * 	property {@link #logFlow}).</li>
  * 	<li>The event has a {@link LogLevel} equal or higher than the
- * 	minimal required by the <i>LogCenter</i> (see property {@link #getLevel}.</li> 
+ * 	minimal required by the <i>LogCenter</i> (see property {@link #getLevel}.</li>
  * </ul>
  * @param b If <i>true</i>, it enables the <i>LogCenter</i>. Otherwise
  * it disables it.
- */	
+ */
 	public void setEnable(Boolean b)
 	{
 		isenable = b;
@@ -263,7 +263,7 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
 /**
  * Returns the current {@link LogLevel} of the <i>LogCenter</i> as a string.
  * @return The current {@link LogLevel} of the <i>LogCenter</i> as a string.
- */	
+ */
 	public String getLevel()
 	{
 		return logLevel.getAsString();
@@ -273,66 +273,66 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
  * accepted by the <i>LogCenter</i>.
  * @param csLevel The minimal required level. Provided level should be
  * one of the accepted by {@link LogLevel}.
- */	
+ */
 	public void setLevel(String csLevel)
 	{
 		logLevel.set(csLevel);
 	}
-	
+
 /**
  * Sets the minimal level required for the {@link LogEvent}s to be
- * accepted by the <i>LogCenter</i> to {@link LogLevel#Critical}. 
- */	
+ * accepted by the <i>LogCenter</i> to {@link LogLevel#Critical}.
+ */
 	public void setCritical()
 	{
 		setLevel("Critical");
 	}
-	
+
 /**
  * Sets the minimal level required for the {@link LogEvent}s to be
- * accepted by the <i>LogCenter</i> to {@link LogLevel#Important}. 
- */	
+ * accepted by the <i>LogCenter</i> to {@link LogLevel#Important}.
+ */
 	public void setImportant()
 	{
 		setLevel("Important");
-	}	
-	
+	}
+
 /**
  * Sets the minimal level required for the {@link LogEvent}s to be
- * accepted by the <i>LogCenter</i> to {@link LogLevel#Normal}. 
- */	
+ * accepted by the <i>LogCenter</i> to {@link LogLevel#Normal}.
+ */
 	public void setNormal()
 	{
 		setLevel("Normal");
 	}
-	
+
 /**
  * Sets the minimal level required for the {@link LogEvent}s to be
- * accepted by the <i>LogCenter</i> to {@link LogLevel#Verbose}. 
- */	
+ * accepted by the <i>LogCenter</i> to {@link LogLevel#Verbose}.
+ */
 	public void setVerbose()
 	{
 		setLevel("Verbose");
 	}
-	
+
 /**
  * Sets the minimal level required for the {@link LogEvent}s to be
- * accepted by the <i>LogCenter</i> to {@link LogLevel#Debug}. 
- */	
+ * accepted by the <i>LogCenter</i> to {@link LogLevel#Debug}.
+ */
 	public void setDebug()
 	{
 		setLevel("Debug");
 	}
-	
+
 /**
  * Sets the minimal level required for the {@link LogEvent}s to be
- * accepted by the <i>LogCenter</i> to {@link LogLevel#FineDebug}. 
- */	
+ * accepted by the <i>LogCenter</i> to {@link LogLevel#FineDebug}.
+ */
 	public void setFineDebug()
 	{
 		setLevel("FineDebug");
 	}
-	
+
 	public CompositeType getStateType()
 	{
 		CompositeTypeDesc compositeTypeDesc = new CompositeTypeDesc("LogCenterCompositeType", "LogCenterCompositeType Desc");
@@ -340,7 +340,7 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
 		compositeTypeDesc.addItem("Level", "LevelDesc", SimpleType.STRING);
 		return compositeTypeDesc.generateCompositeType();
 	}
-			
+
 	public CompositeData getState()
 	{
 		CompositeType compositeType = getStateType();
@@ -349,25 +349,25 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
 		compositeDataDesc.setItemValue("Level", getLevel());
 		return compositeDataDesc.generateCompositeData();
 	}
-	
+
 	public void setState(CompositeData data)
 	{
 		int n = 0;
 	}
 
-	public String getChannel() 
+	public String getChannel()
 	{
 		return csChannel;
 	}
 
-	public void setRunId(String csRunId) 
+	public void setRunId(String csRunId)
 	{
-		csRunId=csRunId;
+		this.csRunId=csRunId;
 	}
 
-	public String getRunId() 
+	public String getRunId()
 	{
-		if (csRunId==null) 
+		if (csRunId==null)
 		{
 			csRunId=UUID.randomUUID().toString();
 		}
@@ -376,12 +376,12 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
 
 	public void setRuntimeId(String csRuntimeId)
 	{
-		csRuntimeId=csRuntimeId;		
+		this.csRuntimeId=csRuntimeId;
 	}
 
-	public String getRuntimeId() 
+	public String getRuntimeId()
 	{
-		if (csRuntimeId==null) 
+		if (csRuntimeId==null)
 		{
 			csRuntimeId=UUID.randomUUID().toString();
 		}
@@ -391,9 +391,9 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
  * Sets the default product for the <i>LogCenter</i>
  * @param csProduct
  */
-	public void setProduct(String csProduct) 
+	public void setProduct(String csProduct)
 	{
-		csProduct=csProduct;
+		this.csProduct=csProduct;
 	}
 
 	public String getProduct()
@@ -403,13 +403,13 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
 
 	public void setProcess(String csProcess)
 	{
-		csProcess=csProcess;
+		this.csProcess=csProcess;
 	}
 
 	public String getProcess()
 	{
 		return csProcess;
 	}
-	
+
 	public abstract String getType();
 }

@@ -34,7 +34,7 @@ public class DisplayOutput
 	protected DisplayConfig config = null ;
 	public DisplayOutput(DisplayContext context)
 	{
-		context = context ;
+		this.context = context ;
 		config = DisplayConfig.getInstance() ;
 	}
 	/**
@@ -42,9 +42,9 @@ public class DisplayOutput
 	 */
 	public void setXMLDisplay(Tag tagOutput)
 	{
-		tagDisplayOutput = tagOutput ;		
+		tagDisplayOutput = tagOutput ;
 	}
-	
+
 	protected Tag tagDisplayOutput = null ;
 
 	public void doRenderOutput(HttpServletResponse res)
@@ -54,7 +54,7 @@ public class DisplayOutput
 		{
 			Document xmlOutput = tagDisplayOutput.getEmbeddedDocument() ;
 			tagDisplayOutput.exportToFile(config.getRootPath()+"output.xml") ;
-			
+
 			ServletOutputStream out = res.getOutputStream();
 			if (xmlOutput == null)
 			{
@@ -70,13 +70,13 @@ public class DisplayOutput
 					out.println("Erreur interne") ;
 					res.setStatus(500);
 				}
-				
+
 				if (!trans.doTransform(xmlOutput, out))
 				{
 					out.println("Erreur interne") ;
 					res.setStatus(500);
 				}
-				
+
 			}
 		}
 		catch (IOException e)

@@ -12,10 +12,10 @@ public class CoupleCodeLoader
 {
 	public CoupleCodeLoader(Class classCode, ClassDynLoader classDynLoader)
 	{
-		classCode = classCode;
-		classDynLoader = classDynLoader;
+		this.classCode = classCode;
+		this.classDynLoader = classDynLoader;
 	}
-	
+
 	public Class getClassCode()
 	{
 		return classCode;
@@ -28,7 +28,7 @@ public class CoupleCodeLoader
 		arrInstances.add(obj);
 	}
 
-	
+
 //	Object makeNewInstance()
 //	{
 //		Object obj = null;
@@ -55,9 +55,9 @@ public class CoupleCodeLoader
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
-//		return null;		
+//		return null;
 //	}
-	
+
 	void removeAllInstances()
 	{
 		if(arrInstances != null)
@@ -66,7 +66,7 @@ public class CoupleCodeLoader
 //			for(int nInstance=0; nInstance<nNbinstances; nInstance++)
 //			{
 //				Object obj = getInstance(nInstance);
-//				// remove all copy parented by obj 
+//				// remove all copy parented by obj
 //			}
 			arrInstances.clear();
 			arrInstances = null;
@@ -74,7 +74,7 @@ public class CoupleCodeLoader
 		classCode = null;
 		classDynLoader = null;
 	}
-	
+
 	int getNbInstances()
 	{
 		if(arrInstances != null)
@@ -83,7 +83,7 @@ public class CoupleCodeLoader
 		}
 		return 0;
 	}
-	
+
 	Object getInstance(int n)
 	{
 		if(arrInstances != null)
@@ -92,10 +92,10 @@ public class CoupleCodeLoader
 		}
 		return null;
 	}
-	
-	
+
+
 
 	private Class classCode = null;
-	private ClassDynLoader classDynLoader = null;	// Holds a ref; do not delete 
-	private ArrayList<Object> arrInstances = null;	
+	private ClassDynLoader classDynLoader = null;	// Holds a ref; do not delete
+	private ArrayList<Object> arrInstances = null;
 }

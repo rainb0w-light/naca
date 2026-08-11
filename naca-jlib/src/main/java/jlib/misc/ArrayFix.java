@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.misc;
 
@@ -17,47 +17,47 @@ package jlib.misc;
 public class ArrayFix<T> extends ArrayFixDyn<T>
 {
 	T arr[] = null;
-	
+
 	public ArrayFix(T arr[])
 	{
 		this.arr = arr;
 	}
-	
+
 	public int size()
 	{
 		if(arr != null)
 			return arr.length;
 		return 0;
 	}
-	
+
 	public T get(int n)
 	{
 		//if(arr != null)
 			return arr[n];
 		//return null;
 	}
-	
+
 	public void add(T t)
 	{
 		//assertIfFalse(false);
 	}
-	
+
 //	public T[] getAsArray()
 //	{
 //		return arr;
 //	}
 
-	
+
 	public void transferInto(T[] arr)
 	{
-		arr = arr;		
+		this.arr = arr;
 	}
-	
+
 	public boolean isDyn()
 	{
 		return false;
 	}
-	
+
 	public void setSize(int n)
 	{
 	}

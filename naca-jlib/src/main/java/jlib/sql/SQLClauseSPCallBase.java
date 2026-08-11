@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.sql;
 
@@ -25,26 +25,26 @@ public class SQLClauseSPCallBase
 	private boolean ischeckParams = false;
 	private String csName = null;
 	private ArrayList<SQLClauseSPParam> params = new ArrayList<SQLClauseSPParam>();
-	private DbPreparedCallableStatement preparedCallableStatement = null; 
-	
+	private DbPreparedCallableStatement preparedCallableStatement = null;
+
 	protected SQLClauseSPParamsDesc getStoredProcedureParamsList(DbConnectionBase connection)
 	{
 		SQLClauseSPSupport support = new SQLClauseSPSupport();
 		SQLClauseSPParamsDesc paramsDesc = support.getStoredProcedureParamsList(connection, csName);
-		return paramsDesc;		
+		return paramsDesc;
 	}
-	
+
 	protected SQLClauseSPCallBase(String csName, boolean ischeckParams)
 	{
-		csName = csName;
-		ischeckParams = ischeckParams;
+		this.csName = csName;
+		this.ischeckParams = ischeckParams;
 	}
-	
+
 	protected void addParam(SQLClauseSPParam param)
 	{
 		params.add(param);
 	}
-	
+
 	protected int prepareAndCallWithException(DbConnectionBase connection)
 		throws TechnicalException
 	{
@@ -57,7 +57,7 @@ public class SQLClauseSPCallBase
 		}
 		return 0;
 	}
-	
+
 	public String toString()
 	{
 		StringBuilder sb = new StringBuilder("StoredProc: "+csName+"\n");
@@ -68,16 +68,16 @@ public class SQLClauseSPCallBase
 			int n1Based = n+1;
 			sb.append("Parameter " + n1Based + ": " + param.toString()+"\n");
 		}
-		return sb.toString();		
+		return sb.toString();
 	}
-	
+
 	public String dump(DbConnectionBase connection)
 	{
 		int nNbParams = params.size();
-		int nMin = nNbParams; 
-		
+		int nMin = nNbParams;
+
 		SQLClauseSPParamsDesc paramsDesc = getStoredProcedureParamsList(connection);
-				
+
 		StringBuilder sb = new StringBuilder("StoredProc: "+csName+"\n");
 		if(paramsDesc == null)
 			sb.append("No Description found in DB for the Stored proc !!!\n");
@@ -87,7 +87,7 @@ public class SQLClauseSPCallBase
 			if(nNbParams != paramsDesc.getNbParamToProvide())
 				sb.append("Number of parameters defined in Stored proc is different form the number of parameters provided by caller\n");
 		}
-		
+
 		for(int n=0; n<nMin; n++)
 		{
 			SQLClauseSPParam param = params.get(n);
@@ -99,9 +99,9 @@ public class SQLClauseSPCallBase
 				sb.append(paramDesc.toString() + "\n");
 			}
 		}
-		return sb.toString();		
+		return sb.toString();
 	}
-	
+
 	private DbPreparedCallableStatement prepareWithException(DbConnectionBase connection)
 		throws TechnicalException
 	{
@@ -117,17 +117,17 @@ public class SQLClauseSPCallBase
 		}
 		if(n != 0)
 			csSql += ")";
-		
-		SQLClauseSPParamsDesc paramsDesc = null; 
+
+		SQLClauseSPParamsDesc paramsDesc = null;
 		if(ischeckParams)
 			paramsDesc = getStoredProcedureParamsList(connection);
-		
+
 		try
 		{
 			CallableStatement call = connection.dbConnection.prepareCall(csSql);
 			if(call != null)
 			{
-				DbPreparedCallableStatement preparedCallableStatement = new DbPreparedCallableStatement(call); 
+				DbPreparedCallableStatement preparedCallableStatement = new DbPreparedCallableStatement(call);
 				registerInOutParameters(preparedCallableStatement, paramsDesc);
 				return preparedCallableStatement;
 			}
@@ -138,21 +138,21 @@ public class SQLClauseSPCallBase
 		}
 		return null;
 	}
-	
-	
+
+
 	private void registerInOutParameters(DbPreparedCallableStatement callableStatement, SQLClauseSPParamsDesc paramsDesc)
 		throws TechnicalException
-	{		
+	{
 		SQLClauseSPParamDesc paramDesc = null;
-		
+
 		if(callableStatement != null)
 		{
 			int nNbParams = params.size();
-			int nNbParamDesc = nNbParams; 
+			int nNbParamDesc = nNbParams;
 			if(paramsDesc != null)	// If we check the parameters; check their number
 				nNbParamDesc = paramsDesc.getNbParamToProvide();
 			if(nNbParams == nNbParamDesc)	// Correct number of parameters
-			{				
+			{
 				for(int n=0; n<nNbParams; n++)
 				{
 					SQLClauseSPParam param = params.get(n);
@@ -184,7 +184,7 @@ public class SQLClauseSPCallBase
 			TechnicalException.throwException(TechnicalException.STORED_PROC_CALL_EXECUTE_ERROR, dump(connection), e);
 		}
 	}
-	
+
 	private void retrieveOutValuesWithException(DbConnectionBase connection)
 		throws TechnicalException
 	{
@@ -194,7 +194,7 @@ public class SQLClauseSPCallBase
 			for(; n< params.size(); n++)	// 1 based
 			{
 				SQLClauseSPParam param = params.get(n);
-				int n1Based = n+1;  
+				int n1Based = n+1;
 				param.retrieveOutValuesWithException(n1Based, preparedCallableStatement);
 			}
 		}
@@ -204,7 +204,7 @@ public class SQLClauseSPCallBase
 			TechnicalException.throwException(TechnicalException.STORED_PROC_CALL_RETRIEVE_OUT_VALUES_ERROR, "Parameter:" + n1Based + "; Clause=" + dump(connection), e);
 		}
 	}
-	
+
 	private void closeWithException(DbConnectionBase connection)
 		throws TechnicalException
 	{
@@ -215,6 +215,6 @@ public class SQLClauseSPCallBase
 		catch (SQLException e)
 		{
 			TechnicalException.throwException(TechnicalException.STORED_PROC_CALL_RETRIEVE_OUT_VALUES_ERROR, dump(connection), e);
-		}		
+		}
 	}
 }

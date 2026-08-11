@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.sql;
 
@@ -19,12 +19,12 @@ import java.sql.SQLException;
 public class SQLClauseSPParamInShort extends SQLClauseSPParamIn
 {
 	private short val = 0;
-	
+
 	public SQLClauseSPParamInShort(short val)
 	{
-		val = val;
+		this.val = val;
 	}
-	
+
 	protected void setInValueWithException(int nParamId, DbPreparedCallableStatement stmt)
 		throws SQLException
 	{
