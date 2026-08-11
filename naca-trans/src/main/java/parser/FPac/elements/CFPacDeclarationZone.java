@@ -21,6 +21,7 @@ import parser.expression.CConstantTerminal;
 import semantic.CBaseEntityFactory;
 import semantic.CBaseLanguageEntity;
 import semantic.CEntityDataSection;
+import utils.NacaTransAssertException;
 import utils.Transcoder;
 
 public class CFPacDeclarationZone extends CFPacElement
@@ -35,10 +36,11 @@ public class CFPacDeclarationZone extends CFPacElement
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
 		CEntityDataSection data = factory.NewEntityDataSection(getLine(), "DeclarationSection") ;
-		
-		for (CConstantTerminal c : arrParams)
+
+		if (!arrParams.isEmpty())
 		{
-			// TODO do semantic analysis
+			throw new NacaTransAssertException(
+				"FPac PARM declarations are parsed but have no defined runtime binding");
 		}
 		for (CFPacInputFile f : inputFiles)
 		{
@@ -52,7 +54,7 @@ public class CFPacDeclarationZone extends CFPacElement
 		{
 			f.DoSemanticAnalysis(data, factory) ;
 		}
-		
+
 		parent.AddChild(data) ;
 		return data ;
 	}
@@ -84,8 +86,8 @@ public class CFPacDeclarationZone extends CFPacElement
 		}
 		return eAdd ;
 	}
-	
-	protected boolean DoParsing() 
+
+	protected boolean DoParsing()
 	{
 		boolean isparsed = true ;
 		while (isparsed)
@@ -138,7 +140,7 @@ public class CFPacDeclarationZone extends CFPacElement
 						Transcoder.logError(tok.getLine(), "Expecting CONSTANT after PARM") ;
 						return false ;
 					}
-					
+
 					tok = GetNext() ;
 					if (tok.GetType() == CTokenType.COMMA)
 					{
@@ -156,7 +158,7 @@ public class CFPacDeclarationZone extends CFPacElement
 				return false ;
 			}
 		}
-		else 
+		else
 			return false ;
 
 		if (el != null)

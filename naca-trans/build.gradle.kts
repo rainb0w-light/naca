@@ -33,6 +33,7 @@ dependencies {
 
     // Testing
     testImplementation("org.junit.jupiter:junit-jupiter:5.11.4")
+    testImplementation(project(":naca-rt"))
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
@@ -57,6 +58,10 @@ sourceSets {
 
 // Configure resource copying to handle duplicate files
 tasks.processResources {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+tasks.processTestResources {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
@@ -147,6 +152,18 @@ tasks.register<Test>("dataSectionAudit") {
     classpath = sourceSets["test"].runtimeClasspath
     useJUnitPlatform {
         includeTags("data-section-audit")
+    }
+    shouldRunAfter(tasks.test)
+}
+
+tasks.register<Test>("fpacAcceptance") {
+    group = "verification"
+    description = "Runs the canonical FPac parse, ST4 render, compile and runtime-boundary contract"
+    testClassesDirs = sourceSets["test"].output.classesDirs
+    classpath = sourceSets["test"].runtimeClasspath
+    useJUnitPlatform()
+    filter {
+        includeTestsMatching("*FPacPipelineAcceptanceTest")
     }
     shouldRunAfter(tasks.test)
 }

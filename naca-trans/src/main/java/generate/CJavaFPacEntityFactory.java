@@ -40,22 +40,33 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 		return langOutput == null ? "" : langOutput.getOutputDir();
 	}
 
+	private NacaTransAssertException unsupportedOperation()
+	{
+		String operation = StackWalker.getInstance().walk(frames -> frames
+			.map(StackWalker.StackFrame::getMethodName)
+			.filter(method -> method.startsWith("NewEntity"))
+			.findFirst()
+			.orElse("unknown factory operation"));
+		return new NacaTransAssertException(
+			"FPac grammar does not support semantic factory operation " + operation);
+	}
+
 	@Override
 	public CEntityIsFieldCursor NewEntityIsFieldCursor()
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityResetKeyPressed NewEntityResetKeyPressed(int l)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityCICSGetMain NewEntityCICSGetMain(int l)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
@@ -69,97 +80,97 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityFieldOccurs NewEntityFieldOccurs(int i, String string)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityGetKeyPressed NewEntityGetKeyPressed(String name)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityIsKeyPressed NewEntityIsKeyPressed()
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityKeyPressed NewEntityKeyPressed(String name, String caption)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntitySQLCursor NewEntitySQLCursor(String name)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityIndex NewEntityIndex(String name)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityFieldArrayReference NewEntityFieldArrayReference(int l)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntitySQLCursorSection NewEntitySQLCursorSection()
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityProcedureDivision NewEntityProcedureDivision(int l)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityCICSReWrite NewEntityCICSReWrite(int l)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityCICSDelay NewEntityCICSDelay(int l)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityCICSSetTDQueue NewEntityCICSSetTDQueue(int l)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityCICSDeQ NewEntityCICSDeQ(int l)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityCICSEnQ NewEntityCICSEnQ(int l)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityCount NewEntityCount(int l)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityInspectConverting NewEntityInspectConverting(int l)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
@@ -186,121 +197,121 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityCICSAssign NewEntityCICSAssign(int l)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityCICSWriteQ NewEntityCICSWriteQ(int l, boolean b)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityCICSReadQ NewEntityCICSReadQ(int l, boolean b)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityCICSDeleteQ NewEntityCICSDeleteQ(int l, boolean b)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityCICSStartBrowse NewEntityCICSStartBrowse(int l)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityCICSRead NewEntityCICSRead(int l, CEntityCICSReadMode mode)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityCICSAbend NewEntityCICSAbend(int l)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityCICSInquire NewEntityCICSInquire(int l)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityCICSSyncPoint NewEntityCICSSyncPoint(int l, boolean bRollBack)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityIsFieldModified NewEntityIsFieldModified()
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityCICSReceiveMap NewEntityCICSReceiveMap(int l, CDataEntity name)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityCICSWrite NewEntityCICSWrite(int l)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityCICSSendMap NewEntityCICSSendMap(int l)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityCICSReturn NewEntityCICSReturn(int l)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityCICSStart NewEntityCICSStart(int l, CDataEntity TID)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityCICSRetrieve NewEntityCICSRetreive(int l, boolean bPointer)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityCICSIgnoreCondition NewEntityCICSIgnoreCondition(int l)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityCICSHandleCondition NewEntityCICSHandleCondition(int line)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityCICSHandleAID NewEntityCICSHandleAID(int line)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityCurrentDate NewEntityCurrentDate()
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
@@ -317,61 +328,61 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityAddressOf NewEntityAddressOf(CDataEntity data)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityLengthOf NewEntityLengthOf(CDataEntity data)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityCICSXctl NewEntityCICSXctl(int l)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityCICSLink NewEntityCICSLink(int l)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityCICSAddress NewEntityCICSAddress(int l)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityCICSAskTime NewEntityCICSAskTime(int l)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityExprOpposite NewEntityExprOpposite()
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntitySQLCommit NewEntitySQLCommit(int l)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntitySQLRollBack NewEntitySQLRollBack(int l)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityParseString NewEntityParseString(int l)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
@@ -407,19 +418,19 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityStringConcat NewEntityStringConcat(int l)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityIsFieldHighlight NewEntityIsFieldHighlight(CDataEntity ref)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityReplace NewEntityReplace(int l)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
@@ -451,7 +462,7 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityIsNamedCondition NewEntityIsNamedCondition()
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
@@ -464,37 +475,37 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityMoveReference NewEntityMoveReference(int l)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityAddressReference NewEntityAddressReference(CDataEntity ref)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityIsFieldAttribute NewEntityIsFieldAttribute()
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityIsFieldColor NewEntityIsFieldColor()
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntitySetConstant NewEntitySetConstant(int l)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityIsFieldFlag NewEntityIsFieldFlag()
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
@@ -537,7 +548,7 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityCondIsAll NewEntityCondIsAll()
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
@@ -616,13 +627,13 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityExprProd NewEntityExprProd()
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityCondNot NewEntityCondNot()
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
@@ -711,13 +722,13 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityAttribute NewEntityAttribute(int l, String name)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityStructure NewEntityStructure(int l, String name, String Level)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
@@ -730,7 +741,7 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityProcedureSection NewEntityProcedureSection(int l, String name)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
@@ -753,13 +764,13 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	public CEntityExternalDataStructure NewEntityExternalDataStructure(int l,
 					String name)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityInline NewEntityInline(int l, CBaseExternalEntity ext)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
@@ -777,51 +788,51 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityCalcul NewEntityCalcul(int l)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntitySqlOnErrorGoto NewEntitySQLOnErrorGoto(int l, String ref)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntitySqlOnErrorGoto NewEntitySQLOnWarningGoto(int l, String ref)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityExec NewEntityExec(int l, String statement)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityResourceFormContainer NewEntityFormContainer(int l,
 					String name, boolean bSavCopy)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityResourceForm NewEntityForm(int l, String name,
 					boolean bSavCopy)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityResourceField NewEntityEntryField(int l, String name)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityResourceField NewEntityLabelField(int l)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
@@ -845,7 +856,7 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityInitialize NewEntityInitialize(int l, CDataEntity data)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
@@ -877,7 +888,7 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntitySwitchCase NewEntitySwitchCase(int l)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
@@ -922,7 +933,7 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityGoto NewEntityGotoDepending(int l, List<String> refs, CDataEntity dep, CEntityProcedureSection section)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
@@ -952,20 +963,20 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityNextSentence NewEntityNextSentence(int l)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityNamedCondition NewEntityNamedCondition(int l, String name)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntitySQLSingleStatement NewEntitySQLSingleStatement(int l,
 					String name)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
@@ -973,42 +984,42 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 					String name, Vector<CDataEntity> arrParameters,
 					Vector<CDataEntity> arrInto, Vector<CDataEntity> arrInd)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntitySQLCursorSelectStatement NewEntitySQLCursorSelectStatement(
 					int l)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntitySQLFetchStatement NewEntitySQLFetchStatement(int l,
 					CEntitySQLCursor cur)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntitySQLOpenStatement NewEntitySQLOpenStatement(int l,
 					CEntitySQLCursor cur)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntitySQLCloseStatement NewEntitySQLCloseStatement(int l,
 					CEntitySQLCursor cur)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntitySQLDeleteStatement NewEntitySQLDeleteStatement(int l,
 					String csStatement, Vector<CDataEntity> arrParameters)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
@@ -1016,13 +1027,13 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 					String csStatement, Vector<CDataEntity> arrSets,
 					Vector<CDataEntity> arrParameters)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntitySQLInsertStatement NewEntitySQLInsertStatement(int l)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
@@ -1030,86 +1041,86 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 					String csTableName, String csViewName,
 					ArrayList arrTableColDescription)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntitySetColor NewEntitySetColor(int l, CDataEntity field)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityFieldLength NewEntityFieldLengh(int l, String name,
 					CDataEntity field)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityFieldData NewEntityFieldData(int l, String name,
 					CDataEntity field)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityFieldColor NewEntityFieldColor(int l, String name,
 					CDataEntity field)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityFieldAttribute NewEntityFieldAttribute(int l, String name,
 					CDataEntity field)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityFieldHighlight NewEntityFieldHighlight(int l, String name,
 					CDataEntity field)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityFieldFlag NewEntityFieldFlag(int l, String name,
 					CDataEntity field)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityFieldValidated NewEntityFieldValidated(int l, String name,
 					CDataEntity field)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntitySetHighligh NewEntitySetHighlight(int l, CDataEntity field)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntitySetFlag NewEntitySetFlag(int l, CDataEntity field)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntitySetCursor NewEntitySetCursor(int l, CDataEntity field)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntitySetAttribute NewEntitySetAttribute(int l, CDataEntity field)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
@@ -1136,14 +1147,14 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CResourceStrings NewResourceString(int nbLines, int nbCols)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityEnvironmentVariable NewEntityEnvironmentVariable(
 					String namev, String acc, boolean bNumeric)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
@@ -1171,21 +1182,21 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	public CEntitySkipFields NewEntityWorkingSkipField(int l, String name,
 					int nbFields, String level)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityFieldRedefine NewEntityFieldRedefine(int l, String name,
 					String level)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityFormRedefine NewEntityFormRedefine(int l, String name,
 					CDataEntity eForm, boolean bSaveMap)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
@@ -1197,26 +1208,26 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityResourceFieldArray NewEntityFieldArray()
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntitySQLCode NewEntitySQLCode(String name)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntitySQLCode NewEntitySQLCode(String name,
 					CBaseEntityExpression eHistoryItem)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityCondIsSQLCode NewEntityCondIsSQLCode()
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
@@ -1230,31 +1241,31 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityConcat NewEntityConcat(CDataEntity e1, CDataEntity e2)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityList NewEntityList(String name)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityDigits NewEntityDigits(CDataEntity nel)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntitySearch NewEntitySearch(int line)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityInternalBool NewEntityInternalBool(String name)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
@@ -1279,7 +1290,7 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	public CEntitySortedFileDescriptor NewEntitySortedFileDescriptor(int line,
 					String name)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
@@ -1330,31 +1341,31 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityAccept NewEntityAccept(int line)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntitySort NewEntitySort(int line)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntitySortRelease NewEntitySortRelease(int line)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntitySortReturn NewEntitySortReturn(int line)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
 	public CEntityRewriteFile NewEntityRewriteFile(int line)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	@Override
@@ -1377,7 +1388,7 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 		}
 		else
 		{
-			throw new NacaTransAssertException("Method not implemented") ;
+			throw unsupportedOperation() ;
 		}
 	}
 
@@ -1408,7 +1419,7 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntitySQLSessionDeclare NewEntitySQLSessionDeclare(int line)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	/**
@@ -1417,7 +1428,7 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntitySQLSessionDrop NewEntitySQLSessionDrop(int line)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	/**
@@ -1426,7 +1437,7 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntitySQLLock NewEntitySQLLock(int line)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	/**
@@ -1435,7 +1446,7 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntitySQLExecute NewEntitySQLExecute(int line)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	/**
@@ -1493,7 +1504,7 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityConstant NewEntityConstant(Value val)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	/**
@@ -1511,7 +1522,7 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public Collection<CDataEntity> getAllSpecialConstantAttributes()
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	/**
@@ -1520,7 +1531,7 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntityFileDescriptorLengthDependency NewEntityFileDescriptorLengthDependency(String name)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 	public CEntityAssignSpecial NewEntityAssignSpecial(int l)	{
@@ -1544,7 +1555,7 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 	@Override
 	public CEntitySQLCall NewEntitySQLCall(int line)
 	{
-		throw new NacaTransAssertException("Method not implemented") ;
+		throw unsupportedOperation() ;
 	}
 
 }

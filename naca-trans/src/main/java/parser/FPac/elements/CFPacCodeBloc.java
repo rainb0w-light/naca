@@ -422,13 +422,13 @@ public class CFPacCodeBloc extends CFPacElement
 		else if (kCommand == CFPacKeywordList.CB)
 		{
 			CFPacMove ass = new CFPacMove(nLine, terms) ;
-			Transcoder.logWarn(nLine, "CB command not managed yet") ;
+			ass.rejectUnsupportedCommand("CB") ;
 			AddChild(ass) ;
 		}
 		else if (kCommand == CFPacKeywordList.CD)
 		{
 			CFPacMove ass = new CFPacMove(nLine, terms) ;
-			Transcoder.logWarn(nLine, "CD command not managed yet") ;
+			ass.rejectUnsupportedCommand("CD") ;
 			AddChild(ass) ;
 		}
 		else if (kCommand == CFPacKeywordList.U)

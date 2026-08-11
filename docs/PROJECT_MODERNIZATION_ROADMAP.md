@@ -20,11 +20,11 @@ the current queue.
 - The CICS runtime has no explicit TODO/fake marker in `BaseCESMManager`;
   supported local operations execute real behavior and unsupported indexed-file
   operations fail closed during lowering.
-- `CJavaFPacEntityFactory` has 131 explicit `Method not implemented` branches;
-  many are inherited capabilities that require classification rather than blind
-  implementation. No canonical FPac corpus or shipped configuration exists.
-- A lexical audit finds active `m_*` identifiers on 41 source lines in 10 Java
-  files (nine production files and one test file).
+- `CJavaFPacEntityFactory` has no generic `Method not implemented` branch. Its
+  grammar-excluded inherited operations now fail closed with the exact factory
+  operation name; the shipped smoke corpus is exercised by `fpacAcceptance`.
+- The active `m_*` identifier ratchet is zero. Historical `C*` type names remain
+  an intentional compatibility convention and are outside this cleanup.
 - The feature registry declares 173 production features; 168 entries do not yet
   name a conformance fixture.
 - JaCoCo verification is configured with a zero minimum and therefore provides
@@ -53,6 +53,10 @@ the current queue.
   layout, and interpreter pipeline. Cloud endpoints delegate to that facade,
   Graphviz renders actual SVG/PNG output, resource limits are tested, and CI
   bootstraps cobol-rekt from a source/submodule lock.
+- M10 is complete: a shipped FPac program is parsed, lowered through recursive
+  ST4 and compiled; undefined-length numeric runtime operations are executable;
+  unsupported factory, PARM, CB/CD command and PR/CD file paths fail closed.
+  The maintained capability boundary is documented in `FPAC_CAPABILITY_MATRIX.md`.
 
 Machine-readable counters live in `project-quality-baseline.json`. A counter may
 only decrease unless a reviewed change updates both its rationale and its target.

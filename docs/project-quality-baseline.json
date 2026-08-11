@@ -10,7 +10,7 @@
     "sampleAcceptanceTests": 2,
     "sampleAcceptanceFailures": 0,
     "cicsRuntimeTodoOrFakeMarkers": 0,
-    "fpacFactoryNotImplementedBranches": 131,
+    "fpacFactoryNotImplementedBranches": 0,
     "analyzerPlaceholderOperations": 0,
     "analyzerTestSources": 1,
     "transpilerUnqualifiedSelfAssignments": 0,

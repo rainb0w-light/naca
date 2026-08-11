@@ -132,7 +132,7 @@
           "pipeline": "lexer/FPac + parser/FPac -> shared semantic model -> generate/fpacjava (CJavaFPacEntityFactory)",
           "productionEntry": "config-registered utils.FPacTranscoder.FPacTranscoderEngine -> TranscoderEngine.doFileTranscoding (standard NacaTrans/NacaTransTask entry; no shipped config registers it today)",
           "runtime": "nacaLib.fpacPrgEnv (FPacProgram: declare/wto/move/multiply/divide/subtract/is*/buffer*/call/executeCall, FPacFileDeclaration, FPacFileDescriptor)",
-          "corpus": "Focused FPac fixtures cover the FPAC_ROOT recursive-ST4 path, conditions, data declarations, file operations and retired backend slices; missing bindings fail closed.",
+          "corpus": "The shipped fpac/SMOKE.fpac source and fpacAcceptance task cover parse-to-compiled-Java through FPAC_ROOT; focused fixtures retain conditions, declarations, file operations and retired backend slices; missing bindings fail closed.",
           "ratchet": "architecture.FPacDirectBackendInventoryTest (FPAC_DIRECT_BACKEND_TOTAL_BASELINE) <-> meta.ratchet.phase2.fpacArchitectureCheck.fpacDirectBackends",
           "notes": "FPac emitters subclass the SAME shared semantic entities as COBOL, but render differently; binding manifests/assembler roles must stay FPAC-specific (the shared semantic-bindings map one semantic class to one COBOL template). See discoveredDebt FPAC-LEGACY-SILENT-DROP and FPAC-GENERATOR-COUPLINGS; 2 dormant backends are deleted together with the pipeline."
         },

@@ -26,6 +26,7 @@ import semantic.Verbs.CEntityAssignWithAccessor;
 import semantic.Verbs.CEntityConvertReference;
 import semantic.expression.CBaseEntityExpression;
 import utils.Transcoder;
+import utils.NacaTransAssertException;
 import utils.FPacTranscoder.OperandDescription;
 
 public class CFPacMove extends CFPacElement
@@ -35,6 +36,7 @@ public class CFPacMove extends CFPacElement
 	private boolean ismovefromOutput = false ;
 	private boolean bMovePacked = false ;
 	private boolean isunpack = false ;
+	private String unsupportedCommand = null ;
 
 	public CFPacMove(int line, Vector<CExpression> arrTerms)
 	{
@@ -51,6 +53,11 @@ public class CFPacMove extends CFPacElement
 	@Override
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
+		if (unsupportedCommand != null)
+		{
+			throw new NacaTransAssertException(
+				"FPac " + unsupportedCommand + " command has no defined runtime semantics");
+		}
 		if (terms.size() == 1)
 		{
 			CExpression e = terms.get(0) ;
@@ -261,6 +268,11 @@ public class CFPacMove extends CFPacElement
 	public void unpack()
 	{
 		this.isunpack = true ;
+	}
+
+	public void rejectUnsupportedCommand(String command)
+	{
+		unsupportedCommand = command ;
 	}
 
 }

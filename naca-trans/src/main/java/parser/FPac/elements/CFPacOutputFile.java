@@ -24,6 +24,7 @@ import semantic.CEntityFileBuffer;
 import semantic.CEntityFileDescriptor;
 import semantic.Verbs.CEntityOpenFile;
 import utils.Transcoder;
+import utils.NacaTransAssertException;
 import utils.FPacTranscoder.notifs.NotifRegisterOutputFile;
 
 public class CFPacOutputFile extends CFPacElement
@@ -48,20 +49,20 @@ public class CFPacOutputFile extends CFPacElement
 			csFileId = "" ;
 		else if (tok.GetKeyword().name.startsWith("OPF"))
 		{
-			csFileId = tok.GetKeyword().name.substring(3); 
+			csFileId = tok.GetKeyword().name.substring(3);
 		}
 		else
 		{
 			Transcoder.logError(getLine(), "Unexpecting token : "+tok.toString()) ;
 			return false ;
 		}
-		
+
 		tok = GetNext() ;
 		if  (tok.GetType() != CTokenType.EQUALS)
 		{
 			return false ;
 		}
-		
+
 		tok = GetNext() ;
 		if (tok.GetKeyword() == CFPacKeywordList.SQ)
 		{
@@ -103,7 +104,7 @@ public class CFPacOutputFile extends CFPacElement
 			if (tok.GetKeyword() == CFPacKeywordList.CLR)
 			{
 				tok = GetNext() ;
-				if (tok.GetType() == CTokenType.EQUALS) 
+				if (tok.GetType() == CTokenType.EQUALS)
 				{
 					tok = GetNext() ;
 					r = ReadTerminal() ;
@@ -126,9 +127,9 @@ public class CFPacOutputFile extends CFPacElement
 			}
 		}
 		return true ;
-		
+
 	}
-	
+
 	protected Vector<String> numbers = new Vector<String>() ;
 
 	@Override
@@ -136,11 +137,13 @@ public class CFPacOutputFile extends CFPacElement
 	{
 		if (ispFFile)
 		{
-			Transcoder.logError(getLine(), "PR file not supported yet") ;
+			throw new NacaTransAssertException(
+				"FPac PR output files have no defined runtime semantics") ;
 		}
 		if (iscDFile)
 		{
-			Transcoder.logError(getLine(), "CD file not supported yet") ;
+			throw new NacaTransAssertException(
+				"FPac CD output files have no defined runtime semantics") ;
 		}
 		String csDescName = "OPF"+csFileId ;
 		String csDescAlias = "O"+csFileId ;
@@ -155,7 +158,7 @@ public class CFPacOutputFile extends CFPacElement
 
 		att.setFileAccessType(CEntityOpenFile.OpenMode.OUTPUT) ;
 		att.setRecordSizeVariable(isvariableFile) ;
-		
+
 		if (r != null)
 		{
 			CDataEntity e = r.GetDataEntity(getLine(), factory) ;
@@ -164,13 +167,13 @@ public class CFPacOutputFile extends CFPacElement
 				att.setOutputBufferInitialValue(e) ;
 			}
 		}
-		
+
 		CEntityFileBuffer buff = factory.NewEntityFileBuffer(csDescAlias, att) ;
 		NotifRegisterOutputFile notif = new NotifRegisterOutputFile() ;
 		notif.id = csDescAlias ;
 		notif.fileBuffer = buff ;
 		factory.programCatalog.SendNotifRequest(notif) ;
-		
+
 		parent.AddChild(att) ;
 		return att ;
 	}
