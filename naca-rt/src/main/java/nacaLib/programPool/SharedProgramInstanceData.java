@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
-/*
- * Created on 28 avr. 2005
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 package nacaLib.programPool;
 
 
@@ -28,8 +22,6 @@ import nacaLib.varEx.*;
 /**
  * @author PJD
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 public class SharedProgramInstanceData extends CJMapObject
 {
@@ -237,12 +229,10 @@ public class SharedProgramInstanceData extends CJMapObject
 //		}
 //		catch (FileNotFoundException e)
 //		{
-//			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
 //		catch (IOException e)
 //		{
-//			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
 //	}
@@ -308,12 +298,10 @@ public class SharedProgramInstanceData extends CJMapObject
 //		}
 //		catch (IOException e)
 //		{
-//			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
 //		catch (ClassNotFoundException e)
 //		{
-//			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
 //		return false;

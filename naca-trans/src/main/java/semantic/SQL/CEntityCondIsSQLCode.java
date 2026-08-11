@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 14 janv. 2005
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic.SQL;
 
 import semantic.CBaseEntityFactory;
@@ -20,8 +14,6 @@ import semantic.expression.CUnitaryEntityCondition;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CEntityCondIsSQLCode extends CUnitaryEntityCondition
 {

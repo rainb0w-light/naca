@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 8 sept. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements;
 
 import lexer.CBaseToken;
@@ -31,8 +25,6 @@ import utils.Transcoder;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CReturn extends CCobolElement
 {
@@ -48,7 +40,7 @@ public class CReturn extends CCobolElement
 	{
 		CEntitySortReturn eRet = factory.NewEntitySortReturn(getLine()) ;
 		parent.AddChild(eRet) ;
-		
+
 		CEntityFileDescriptor eRef = factory.programCatalog.getFileDescriptor(sortFile.GetName()) ;
 		if (dataRef != null)
 		{
@@ -59,7 +51,7 @@ public class CReturn extends CCobolElement
 		{
 			eRet.setDataReference(eRef) ;
 		}
-		
+
 		if (atEndBloc != null)
 		{
 			CBaseLanguageEntity le = atEndBloc.DoSemanticAnalysis(eRet, factory) ;
@@ -70,7 +62,7 @@ public class CReturn extends CCobolElement
 			CBaseLanguageEntity le = notAtEndBloc.DoSemanticAnalysis(eRet, factory) ;
 			eRet.SetNotAtEndBloc(le) ;
 		}
-		
+
 		return eRet ;
 	}
 	protected boolean DoParsing()
@@ -81,10 +73,10 @@ public class CReturn extends CCobolElement
 			return false ;
 		}
 		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
-		
+
 		tok = GetNext() ;
 		sortFile = ReadIdentifier();
-		
+
 		tok = GetCurrentToken();
 		if (tok.GetKeyword() == CCobolKeywordList.RECORD)
 		{
@@ -95,7 +87,7 @@ public class CReturn extends CCobolElement
 			tok = GetNext();
 			dataRef = ReadIdentifier();
 		}
-		
+
 		tok = GetCurrentToken() ;
 		if (tok.GetKeyword() == CCobolKeywordList.AT)
 		{
@@ -108,7 +100,7 @@ public class CReturn extends CCobolElement
 				{
 					return false ;
 				}
-				tok = GetCurrentToken();	
+				tok = GetCurrentToken();
 			}
 			else
 			{
@@ -116,7 +108,7 @@ public class CReturn extends CCobolElement
 				return false ;
 			}
 		}
-		
+
 		if (tok.GetKeyword() == CCobolKeywordList.NOT)
 		{
 			if (tok.GetKeyword() == CCobolKeywordList.AT)
@@ -130,7 +122,7 @@ public class CReturn extends CCobolElement
 					{
 						return false ;
 					}
-					tok = GetCurrentToken();	
+					tok = GetCurrentToken();
 				}
 				else
 				{
@@ -144,7 +136,7 @@ public class CReturn extends CCobolElement
 				return false ;
 			}
 		}
-		
+
 		tok = GetCurrentToken() ;
 		if (tok.GetKeyword() == CCobolKeywordList.END_RETURN)
 		{
@@ -158,27 +150,27 @@ public class CReturn extends CCobolElement
 		Element eRecord = root.createElement("Record");
 		eReturn.appendChild(eRecord);
 		sortFile.ExportTo(eRecord, root);
-		
+
 		if (dataRef != null)
 		{
 			Element e = root.createElement("Into");
 			dataRef.ExportTo(e, root);
 			eReturn.appendChild(e);
 		}
-		
+
 		if (atEndBloc != null)
 		{
 			Element e = atEndBloc.Export(root);
 			eReturn.appendChild(e);
-		} 
+		}
 		if (notAtEndBloc != null)
 		{
 			Element e = notAtEndBloc.Export(root);
 			eReturn.appendChild(e);
-		} 
+		}
 		return eReturn;
 	}
-	
+
 	protected CIdentifier sortFile = null ;
 	protected CIdentifier dataRef = null ;
 	protected CGenericBloc atEndBloc = null ;

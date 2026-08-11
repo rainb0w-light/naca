@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on Oct 18, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic.forms;
 
 import semantic.CBaseEntityFactory;

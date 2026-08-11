@@ -6,18 +6,9 @@
  */
 package nacaLib.CESM;
 
-/*
- * Created on 24 déc. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
-
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 
 public class CESMAgency
@@ -51,7 +42,7 @@ public class CESMAgency
 //		else
 //		{
 //			req += " FROM VI7801" ;
-//		} 
+//		}
 //		req += " WHERE UTISTE = #1" +
 //			" AND UTICPR = #2" +
 //			" AND ADRNO = #3" +
@@ -64,7 +55,7 @@ public class CESMAgency
 //		reqUser.param(4, new Integer(date).intValue()) ;
 //		reqUser.param(5, new Integer(date).intValue()) ;
 //		CSQLResultSet result = reqUser.executeQuery() ;
-//	
+//
 //		if (result != null)
 //		{
 //			ResultSet rs = result.getResultSet() ;

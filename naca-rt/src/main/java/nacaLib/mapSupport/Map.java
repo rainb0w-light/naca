@@ -4,17 +4,9 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
-/*
- * Created on 23 sept. 04
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 /**
  * @author U930DI
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 package nacaLib.mapSupport;
 
@@ -26,24 +18,24 @@ import nacaLib.varEx.VarDeclarationInMap;
 import nacaLib.varEx.VarDefForm;
 
 public class Map extends CJMapObject
-{	
+{
 	public Map(BaseProgram program)
 	{
 		declare = new VarDeclarationInMap(program, this);
 		defForms = new ArrayList<VarDefForm>();
 	}
-		
+
 	public void registerForm(VarDefForm varDefForm)
 	{
 		if(varDefForm != null)
 			defForms.add(varDefForm);
 	}
-		
+
 //	public void move(CobolConstant constant)
 //	{
 //		char cValue = constant.getValue();
 //		Form form = null;
-//		
+//
 //		// All form's edit and labels are init at low value, including all children
 //		for(int nForm=0; nForm<arrForms.size(); nForm++)
 //		{

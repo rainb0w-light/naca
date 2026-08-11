@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 3 ao�t 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package utils;
 
 
@@ -32,8 +26,6 @@ import semantic.forms.CEntityResourceFormContainer;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CGlobalCatalog
 {
@@ -57,7 +49,7 @@ public class CGlobalCatalog
 			return false ;
 		}
 	}
-	
+
 	protected Hashtable<String, CEntityExternalDataStructure> tabIncludedStructures = new Hashtable<String, CEntityExternalDataStructure>() ;
 	//protected Hashtable<String, CEntityResourceFormContainer> m_tabFormContainers = new Hashtable<String, CEntityResourceFormContainer>() ;
 	protected Hashtable<String, CIgnoreExternalEntity> tabIgnoredExternals = new Hashtable<String, CIgnoreExternalEntity>() ;
@@ -66,8 +58,8 @@ public class CGlobalCatalog
 	private String csReferenceGroupName = "" ;
 	private String csResourceGroupName = "" ;
 	private String csIncludeGroupName = "" ;
-	
-	
+
+
 	public void AddIgnoredExternal(CIgnoreExternalEntity e)
 	{
 		String name = e.GetName() ;
@@ -97,8 +89,8 @@ public class CGlobalCatalog
 	{
 		return transcoder == null ? null : transcoder.getGroup(name) ;
 	}
-	
-	
+
+
 	@SuppressWarnings("unchecked")
 	public CEntityResourceFormContainer GetFormContainer(String contName, CBaseEntityFactory factory)
 	{
@@ -132,7 +124,7 @@ public class CGlobalCatalog
 		{
 			BaseEngine<CEntityResourceFormContainer> engine = grp.getEngine() ;
 			CEntityResourceFormContainer ext = engine.doAllAnalysis(contName, "", grp, bResources) ;
-			
+
 			if (ext != null)
 			{
 				CTransApplicationGroup grpResources = getGroupSafe(csResourceGroupName) ;
@@ -141,17 +133,17 @@ public class CGlobalCatalog
 					String csFilePathXML = grpResources.csOutputPath + contName + ".res" ;
 					ext.setExportFilePath(csFilePathXML);
 				}
-			}			
+			}
 			return ext ;
 		}
 	}
-	
+
 	public CTransApplicationGroup getGroupResources()
 	{
 		return  getGroupSafe(csResourceGroupName) ;
 	}
-	
-	protected Hashtable<String, CEntityResourceFormContainer> tabFormContainers = new Hashtable<String, CEntityResourceFormContainer>() ; 
+
+	protected Hashtable<String, CEntityResourceFormContainer> tabFormContainers = new Hashtable<String, CEntityResourceFormContainer>() ;
 	public void RegisterFormContainer(String name, CEntityResourceFormContainer cont)
 	{
 		if (cont == null)
@@ -164,12 +156,12 @@ public class CGlobalCatalog
 		}
 	}
 
-	
-	
-	
-	
+
+
+
+
 	public boolean CheckProgramReference(String prg, boolean bWithDFHCommarea, int nbParameters, boolean bRegisterSubProgram)
-	{ 
+	{
 		if (isCustomSubProgram(prg))
 		{
 			return true ;
@@ -194,7 +186,7 @@ public class CGlobalCatalog
 			}
 			else
 			{
-				return true ; 
+				return true ;
 			}
 		}
 		else
@@ -209,7 +201,7 @@ public class CGlobalCatalog
 			}
 			return false ;
 		}
-	} 
+	}
 	public boolean isProgramReference(String cs)
 	{
 		CTransApplicationGroup grpReferences = getGroupSafe(csReferenceGroupName) ;
@@ -224,7 +216,7 @@ public class CGlobalCatalog
 			}
 		}
 		return false ;
-	} 
+	}
 	public void RegisterExternalDataStructure(CEntityExternalDataStructure structure)
 	{
 		tabIncludedStructures.put(structure.GetName(), structure) ;
@@ -237,13 +229,13 @@ public class CGlobalCatalog
 		{
 			return ign ;
 		}
-		
+
 		CEntityExternalDataStructure ext = tabIncludedStructures.get(name);
 		if (ext != null)
 		{
 			return ext ;
 		}
-		
+
 		// else do transcoding ;
 		for (String includeGroupName : csIncludeGroupName.split(":"))
 		{
@@ -266,7 +258,7 @@ public class CGlobalCatalog
 	protected Hashtable<String, String> tabTransID = new Hashtable<String, String>() ;
 	public void registerTransID(String TID, String prog)
 	{
-		tabTransID.put(TID, prog);		
+		tabTransID.put(TID, prog);
 	}
 	public String GetProgramForTransaction(String transID)
 	{
@@ -345,9 +337,9 @@ public class CGlobalCatalog
 		tabProgramNotExportingResource.put(name, name) ;
 	}
 	protected Hashtable<String, String> tabProgramNotExportingResource = new Hashtable<String, String>() ;
-	
-	
-	
+
+
+
 	protected class CSubProgramCallDescription
 	{
 		public String subProgramName = "" ;
@@ -360,7 +352,7 @@ public class CGlobalCatalog
 		if (desc == null)
 		{
 			desc = new CSubProgramCallDescription() ;
-			desc.subProgramName = cs ; 
+			desc.subProgramName = cs ;
 			desc.iscalledLikeCICS = bWithDFHCommarea ;
 			desc.nNbParameters = nbParameters ;
 			tabSubProgramCall.put(cs, desc) ;
@@ -402,7 +394,7 @@ public class CGlobalCatalog
 				if (!programDone.contains(ssprg))
 				{
 					engine.doFileTranscoding(ssprg, "", grpReferences, false) ;
-				} 
+				}
 			}
 		}
 	}
@@ -432,10 +424,10 @@ public class CGlobalCatalog
 		}
 		return false ;
 	}
-	
+
 	public void ClearFormContainers()
 	{
 		tabFormContainers.clear() ;
 	}
-	
+
 }

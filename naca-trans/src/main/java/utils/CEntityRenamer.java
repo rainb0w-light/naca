@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 10 mars 2005
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 package utils;
 
 import java.util.Vector;
@@ -17,8 +11,6 @@ import java.util.Vector;
 /**
  * @author sly
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 public class CEntityRenamer
 {
@@ -29,7 +21,7 @@ public class CEntityRenamer
 			csMask = mask ;
 		}
 		protected String csMask ;
-		public String getMask() 
+		public String getMask()
 		{
 			return csMask ;
 		}
@@ -84,12 +76,12 @@ public class CEntityRenamer
 		protected String csParam = "";
 	}
 	/**
-	 * 
+	 *
 	 */
 	public CEntityRenamer()
 	{
 	}
-	
+
 	public void AddRule(String mask, String action, String param)
 	{
 		CBaseRenameRule rule = null ;

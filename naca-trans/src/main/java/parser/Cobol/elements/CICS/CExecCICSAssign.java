@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 7 sept. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements.CICS;
 
 import java.util.Enumeration;
@@ -35,8 +29,6 @@ import utils.Transcoder;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CExecCICSAssign extends CCobolElement
 {
@@ -65,8 +57,8 @@ public class CExecCICSAssign extends CCobolElement
 				CIdentifier id = tabRequests.get(cs);
 				CDataEntity e = id.GetDataReference(getLine(), factory);
 				eAss.AddRequest(cs, e) ;
-				cs = (String)iter.nextElement() ;				
-			}		
+				cs = (String)iter.nextElement() ;
+			}
 		}
 		catch (NoSuchElementException e){}
 		return eAss ;
@@ -82,7 +74,7 @@ public class CExecCICSAssign extends CCobolElement
 		{
 			tok = GetNext();
 		}
-		
+
 		boolean isdone = false ;
 		while (!isdone)
 		{
@@ -112,11 +104,11 @@ public class CExecCICSAssign extends CCobolElement
 					{
 						tok = GetNext() ;
 					}
-					tabRequests.put(cs, id) ;					
+					tabRequests.put(cs, id) ;
 				}
 			}
 		}
-		
+
 		if (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
 		{
 			Transcoder.logError(getLine(), "Error while parsing EXEC CICS ASSIGN");
@@ -133,7 +125,7 @@ public class CExecCICSAssign extends CCobolElement
 	{
 		Element eass = root.createElement("ExecCICSAssign") ;
 		Enumeration enumere = tabRequests.keys() ;
-		try 
+		try
 		{
 			String cs = (String)enumere.nextElement() ;
 			while (cs != null)

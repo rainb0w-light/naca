@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on Oct 11, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic;
 
 import java.util.ArrayList;
@@ -22,8 +16,6 @@ import utils.CObjectCatalog;
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CEntityProcedureDivision extends CBaseLanguageEntity
 {
@@ -52,7 +44,7 @@ public class CEntityProcedureDivision extends CBaseLanguageEntity
 	{
 		return callParameters;
 	}
-	
+
 	protected CEntityBloc procedureBloc =null ;
 	public void SetProcedureBloc(CEntityBloc b)
 	{
@@ -75,7 +67,7 @@ public class CEntityProcedureDivision extends CBaseLanguageEntity
 	public CEntityProcedureSection getSectionContainer()
 	{
 		return null ;
-	} 
+	}
 	public boolean ignore()
 	{
 		return false ;

@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 1 sept. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic.Verbs;
 
 
@@ -120,7 +114,7 @@ public class CEntityParseString extends CBaseActionEntity
 	protected Vector<CDataEntity> delimitersSingle = new Vector<CDataEntity>() ;
 	protected CDataEntity tallying = null ;
 	protected CDataEntity withPointer = null ;
-	
+
 	public void Clear()
 	{
 		super.Clear() ;

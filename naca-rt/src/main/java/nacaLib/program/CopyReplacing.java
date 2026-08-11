@@ -5,18 +5,9 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 
-/*
- * Created on 11 oct. 04
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
-
 /**
  * @author U930DI
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 
 package nacaLib.program;
@@ -28,20 +19,20 @@ import nacaLib.base.*;
 public class CopyReplacing extends CJMapObject
 {
 	private ArrayList<CopyReplacingItem> arr = null;
-	
+
 	public CopyReplacing(int nOldLevel, int nNewLevel)
 	{
 		arr = new ArrayList<CopyReplacingItem>();
 		replacing(nOldLevel, nNewLevel);
 	}
-	
+
 	public CopyReplacing replacing(int nOldLevel, int nNewLevel)
 	{
 		CopyReplacingItem item = new CopyReplacingItem(nOldLevel, nNewLevel);
 		arr.add(item);
 		return this;
 	}
-	
+
 	public int getReplacedLevel(int nLevel)
 	{
 		int nNbItems = arr.size();

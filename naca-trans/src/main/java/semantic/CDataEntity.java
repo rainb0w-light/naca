@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 2 aoï¿½t 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic;
 
 import java.util.Vector;
@@ -25,14 +19,12 @@ import utils.*;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public abstract class CDataEntity extends CBaseLanguageEntity
 {
 	public enum CDataEntityType
 	{
-		VAR, 
+		VAR,
 		NUMERIC_VAR,
 		EXTERNAL_REFERENCE,
 		FIELD,
@@ -44,12 +36,12 @@ public abstract class CDataEntity extends CBaseLanguageEntity
 		CONDITION,
 		CONSOLE_KEY,
 		IGNORE,
-		VIRTUAL_FORM, 
+		VIRTUAL_FORM,
 		EXPRESSION,
 		ADDRESS,
 		UNKNWON
-	} 
-	
+	}
+
 	public abstract CDataEntityType GetDataType();
 
 	/**
@@ -61,7 +53,7 @@ public abstract class CDataEntity extends CBaseLanguageEntity
 //		super(nLine);
 //	}
 
-	
+
 	protected CDataEntity(int l, String name, CObjectCatalog cat)
 	{
 		super(l, name, cat);
@@ -80,21 +72,21 @@ public abstract class CDataEntity extends CBaseLanguageEntity
 	{
 		return GetName();
 	}
-	
+
 	public int getNbDimOccurs()
 	{
 		return 0;
 	}
-	
+
 	public CBaseActionEntity GetSpecialAssignment(CTerminal term, CBaseEntityFactory factory, int l)
 	{
 		return null ;
 	} ;
-	public CBaseActionEntity GetSpecialAssignment(CDataEntity term, CBaseEntityFactory factory, int l) 
+	public CBaseActionEntity GetSpecialAssignment(CDataEntity term, CBaseEntityFactory factory, int l)
 	{
 		return null ;
 	}
-	
+
 //	abstract public CBaseEntityCondition GetSpecialCondition(int nLine, String value, CBaseEntityCondition.EConditionType type, CBaseEntityFactory factory);
 	public CBaseEntityCondition GetSpecialCondition(int nLine, String value, CBaseEntityCondition.EConditionType type, CBaseEntityFactory factory)
 	{
@@ -104,22 +96,22 @@ public abstract class CDataEntity extends CBaseLanguageEntity
 			Transcoder.logError(nLine, "ERROR : special condition needed for value '"+value + "; Undefined variable: "+GetName() + " for class="+getClass().getName());
 		return null ;
 	}
-		
+
 	public CBaseExternalEntity of = null ;
-	
+
 	public abstract boolean HasAccessors() ;
 	public abstract boolean isValNeeded();
-	public CDataEntity GetSubStringReference(CBaseEntityExpression start, CBaseEntityExpression length, CBaseEntityFactory factory) 
+	public CDataEntity GetSubStringReference(CBaseEntityExpression start, CBaseEntityExpression length, CBaseEntityFactory factory)
 	{
 		Transcoder.logError(getLine(), "Error, substring not implemented for variable: " + GetName()) ;
 		return null ;
 	};
-	public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory) 
+	public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory)
 	{
 		Transcoder.logError(getLine(), "Error, GetArray not implemented for variable: " + GetName()) ;
 		return null ;
 	};
-	
+
 	public CUnitaryEntityCondition GetAssociatedCondition(CBaseEntityFactory factory)
 	{
 //		m_logger.error("GetAssociatedCondition not implemented for this tye of data") ;
@@ -130,7 +122,7 @@ public abstract class CDataEntity extends CBaseLanguageEntity
 	{
 		return null;
 	}
-	
+
 	// algorythmic analysis
 	protected Vector<CBaseActionEntity> arrActionsWriting = new Vector<CBaseActionEntity>() ; // when this var is accessed in write mode : MOVE a TO THIS
 	protected Vector<CBaseActionEntity> arrActionsReading = new Vector<CBaseActionEntity>() ; // when this var is accessed in read mode : MOVE THIS TO a
@@ -139,7 +131,7 @@ public abstract class CDataEntity extends CBaseLanguageEntity
 	protected Vector<CBaseEntityCondition> arrTestsAsVar = new Vector<CBaseEntityCondition>() ; // when this var is tested : IF THIS = a / IF IS NUMERIC(THIS)
 	protected Vector<CBaseEntityCondExpr> accessAsValue = new Vector<CBaseEntityCondExpr>() ; // when the value of this var occures in a test : IF a = THIS
 	protected Vector<CEntityFileDescriptor> fileDescriptorDepending = new Vector<CEntityFileDescriptor>() ; // when this var is used in a file descriptor : DEPENDING ON THIS
-	
+
 	public void RegisterReadReference(CGenericDataEntityReference ent)
 	{
 		readReference.add(ent) ;
@@ -354,7 +346,7 @@ public abstract class CDataEntity extends CBaseLanguageEntity
 			of = null ;
 		}
 	}
-	
+
 	public void ResetReferenceCount()
 	{
 		arrActionsReading.clear() ;

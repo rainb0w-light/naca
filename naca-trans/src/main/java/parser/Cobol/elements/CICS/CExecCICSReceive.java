@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 7 sept. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements.CICS;
 
 import lexer.CBaseToken;
@@ -32,8 +26,6 @@ import utils.Transcoder;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CExecCICSReceive extends CCobolElement
 {
@@ -68,7 +60,7 @@ public class CExecCICSReceive extends CCobolElement
 			CDataEntity name = this.name.GetDataEntity(getLine(), factory);
 			CEntityCICSReceiveMap recv = factory.NewEntityCICSReceiveMap(getLine(), name);
 			parent.AddChild(recv);
-			
+
 			if (setName !=  null)
 			{
 				CDataEntity ms = setName.GetDataEntity(getLine(), factory);
@@ -98,7 +90,7 @@ public class CExecCICSReceive extends CCobolElement
 		{
 			tok = GetNext();
 		}
-		
+
 		boolean bRet = true ;
 		if (tok.GetValue().equals("MAP")) // MAP can't be defiend as keyword....
 		{
@@ -129,11 +121,11 @@ public class CExecCICSReceive extends CCobolElement
 			{
 				cs += tok.GetDisplay() + " " ;
 				tok = GetNext() ;
-			}		
+			}
 			GetNext() ;
 			return true ;
 		}
-		
+
 		tok = GetCurrentToken() ;
 		if (!bRet || tok.GetKeyword() != CCobolKeywordList.END_EXEC)
 		{
@@ -151,7 +143,7 @@ public class CExecCICSReceive extends CCobolElement
 		if (tok.GetValue().equals("MAP"))
 		{
 			tok = GetNext();
-		} 
+		}
 		//CGlobalEntityCounter.GetInstance().CountCICSCommand("SEND_MAP") ;
 		receiveType = CCICSReceiveType.MAP ;
 		if (tok.GetType() == CTokenType.LEFT_BRACKET)
@@ -164,7 +156,7 @@ public class CExecCICSReceive extends CCobolElement
 				tok = GetNext();
 			}
 		}
-		
+
 		boolean isdone = false ;
 		while (!isdone)
 		{
@@ -216,7 +208,7 @@ public class CExecCICSReceive extends CCobolElement
 			Element eMap = root.createElement("Map");
 			eRcv.appendChild(eMap);
 			name.ExportTo(eMap, root);
-			
+
 			if (setName !=  null)
 			{
 				Element eMapset = root.createElement("MapSet");
@@ -237,8 +229,8 @@ public class CExecCICSReceive extends CCobolElement
 			return eRcv;
 		}
 	}
-	
-	
+
+
 	protected CCICSReceiveType receiveType = null ;
 	protected CTerminal name = null ;
 	protected CTerminal setName = null ;

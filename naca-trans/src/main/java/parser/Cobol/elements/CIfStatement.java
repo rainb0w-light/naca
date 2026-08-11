@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on Jul 19, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements;
 
 import lexer.CBaseToken;
@@ -27,15 +21,11 @@ import semantic.CEntityBloc;
 import semantic.CEntityCondition;
 import semantic.expression.CBaseEntityCondition;
 import utils.CGlobalEntityCounter;
-import utils.LevelKeywordStackManager;
-import utils.LevelKeywords;
 import utils.Transcoder;
 
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CIfStatement extends CCommentContainer
 {
@@ -45,7 +35,7 @@ public class CIfStatement extends CCommentContainer
 	public CIfStatement(int line) {
 		super(line);
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see parser.CLanguageElement#Parse(lexer.CTokenList)
 	 */
@@ -55,25 +45,25 @@ public class CIfStatement extends CCommentContainer
 		if (tokIf.GetKeyword()!=CCobolKeywordList.IF)
 		{
 			Transcoder.logError(getLine(), "Expecting 'IF' keyword") ;
-			return false ; 
+			return false ;
 		}
 		CGlobalEntityCounter.GetInstance().CountCobolVerb(tokIf.GetKeyword().name) ;
 		GetNext() ;
-		
+
 		if (!ReadCondition())
 		{
 			Transcoder.logError(getLine(), "Failure while reading condition") ;
 			return false ;
-		} 
-		
+		}
+
 		if (!ReadThenStatement(fCheckForNextSentence))
 		{
 			Transcoder.logError(getLine(), "Failure while reading the THEN BLOC") ;
 			return false ;
-		}			
+		}
 		return true ;
 	}
-	
+
 	protected boolean ReadCondition()
 	{
 		condition = ReadConditionalStatement() ;
@@ -151,9 +141,9 @@ public class CIfStatement extends CCommentContainer
 			return false ;
 		}
 	}
-	
-	
-	
+
+
+
 	/* (non-Javadoc)
 	 * @see parser.CLanguageElement#ExportCustom(org.w3c.dom.Document)
 	 */
@@ -187,7 +177,7 @@ public class CIfStatement extends CCommentContainer
 		}
 		return eIf;
 	}
-	
+
 	protected CExpression condition = null ;
 	protected CElseBloc elseBloc = null ;
 	protected CThenBloc thenBloc = null ;
@@ -198,7 +188,7 @@ public class CIfStatement extends CCommentContainer
 	{
 		CEntityCondition eIf = factory.NewEntityCondition(getLine()) ;
 		parent.AddChild(eIf) ;
-		
+
 		CEntityBloc blocThen = null ;
 		if (thenBloc != null)
 		{

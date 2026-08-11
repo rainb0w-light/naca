@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on Jul 16, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements;
 
 import java.util.ListIterator;
@@ -36,8 +30,6 @@ import utils.Transcoder;
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CCopyInWorking extends CCobolElement
 {
@@ -65,7 +57,7 @@ public class CCopyInWorking extends CCobolElement
 		{
 			Transcoder.logError(getLine(), "Expecting an identifier after COPY, instead of : " + tokRef.toString()) ;
 			return false ;
-		} 
+		}
 		csCopyReference = tokRef.GetValue() ;
 		Transcoder.pushTranscodedUnit(csCopyReference, "");
 		CBaseToken tokSuppr = GetNext() ;
@@ -73,7 +65,7 @@ public class CCopyInWorking extends CCobolElement
 		{
 			issuppress = true ;
 			tokSuppr = GetNext() ;
-		} 
+		}
 		if (tokSuppr.GetKeyword() == CCobolKeywordList.REPLACING)
 		{
 			CBaseToken tok = GetNext();
@@ -93,13 +85,13 @@ public class CCopyInWorking extends CCobolElement
 				replaceBy.add(csReplaceBy);
 				tok = GetNext();
 			}
-		} 
+		}
 		tokSuppr = GetCurrentToken() ;
 		if (tokSuppr.GetType() == CTokenType.DOT)
 		{
 			GetNext();
 		}
-		
+
 		boolean b = ParseContent();
 		Transcoder.popTranscodedUnit();
 		return b;
@@ -154,10 +146,10 @@ public class CCopyInWorking extends CCobolElement
 			eCopy.appendChild(e);
 			e.setAttribute("Replace", replace.get(i));
 			e.setAttribute("ReplaceBy", replaceBy.get(i));
-		}			
+		}
 		return eCopy;
 	}
-	
+
 	protected String csCopyReference = "" ;
 	protected ArrayList<String> replace = new ArrayList<String>() ;
 	protected ArrayList<String> replaceBy = new ArrayList<String>() ;
@@ -170,12 +162,12 @@ public class CCopyInWorking extends CCobolElement
 		CGlobalEntityCounter.GetInstance().RegisterCopy(parent.GetProgramName(), csCopyReference) ;
 		CBaseExternalEntity e = factory.programCatalog.GetExternalDataReference(csCopyReference, factory) ;
 		if (e == null)
-		{			
+		{
 			CGlobalEntityCounter.GetInstance().RegisterMissingCopy(parent.GetProgramName(), csCopyReference) ;
 			return null ;
 		}
 		boolean isotherData = factory.programCatalog.IsExistingDataEntity(e.GetName(), "");
-		
+
 		if (replace.size()>0 && replaceBy.size()>0)
 		{
 			String cs1 = replace.get(0);
@@ -191,18 +183,18 @@ public class CCopyInWorking extends CCobolElement
 		CBaseLanguageEntity ent = parent.FindLastEntityAvailableForLevel(e.GetInternalLevel());
 		if (ent == null)
 		{
-			ent = parent ;	
+			ent = parent ;
 		}
 
 		CEntityInline eil = factory.NewEntityInline(getLine(), e) ;
-		e.InitDependences(factory) ; 
+		e.InitDependences(factory) ;
 		ent.AddChild(eil) ;
 		e.SetParent(eil);
 
 		ListIterator i = children.listIterator() ;
 		CCobolElement le = null ;
 		try
-		{	
+		{
 			le = (CCobolElement)i.next() ;
 		}
 		catch (NoSuchElementException ex)
@@ -223,7 +215,7 @@ public class CCopyInWorking extends CCobolElement
 				eil.AddChild(eSub) ;
 			}
 			try
-			{	
+			{
 				le = (CCobolElement)i.next() ;
 			}
 			catch (NoSuchElementException exp)
@@ -232,7 +224,7 @@ public class CCopyInWorking extends CCobolElement
 			}
 		}
 		bAnalysisDoneForChildren = true ;
-		
+
 		return eil ;
 	}
 }

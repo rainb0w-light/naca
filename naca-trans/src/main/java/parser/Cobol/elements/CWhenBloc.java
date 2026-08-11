@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on Jul 19, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements;
 
 import org.w3c.dom.Document;
@@ -25,8 +19,6 @@ import semantic.expression.CBaseEntityCondition;
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CWhenBloc extends CBlocElement
 {
@@ -35,14 +27,14 @@ public class CWhenBloc extends CBlocElement
 		super(line);
 		this.cond = cond ;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see parser.CLanguageElement#Parse(lexer.CTokenList)
 	 */
 	/*
 	public boolean Parse(CTokenList lstTokens)
 	{
-		// read multiple WHEN statements 
+		// read multiple WHEN statements
 		boolean bDone = false ;
 		while (!bDone)
 		{
@@ -53,9 +45,9 @@ public class CWhenBloc extends CBlocElement
 				if (!eCase.Parse(lstTokens))
 				{
 					return false ;
-				} 
+				}
 			}
-			
+
 		}
 		// maybe a 'ALSO' statement
 		CBaseToken tokAlso = GetCurrentToken() ;
@@ -105,7 +97,7 @@ public class CWhenBloc extends CBlocElement
 		eCondition.appendChild(eCond) ;
 		return e;
 	}
-	
+
 	protected CExpression cond = null ;
 
 	/* (non-Javadoc)
@@ -133,5 +125,5 @@ public class CWhenBloc extends CBlocElement
 	protected boolean isTopLevelBloc()
 	{
 		return false;
-	} 
+	}
 }

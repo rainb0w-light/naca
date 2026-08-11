@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 8 sept. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements;
 
 import lexer.CBaseToken;
@@ -31,8 +25,6 @@ import utils.Transcoder;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CRewrite extends CCobolElement
 {
@@ -48,7 +40,7 @@ public class CRewrite extends CCobolElement
 	{
 		CEntityRewriteFile eWrite = factory.NewEntityRewriteFile(getLine()) ;
 		parent.AddChild(eWrite) ;
-		
+
 		CEntityFileDescriptor eFD = factory.programCatalog.getFileDescriptor(fileDesc.GetName()) ;
 		if (eFD != null)
 		{
@@ -73,10 +65,10 @@ public class CRewrite extends CCobolElement
 			return false ;
 		}
 		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
-		
+
 		tok = GetNext() ;
 		fileDesc = ReadIdentifier();
-		
+
 		tok = GetCurrentToken() ;
 		if (tok.GetKeyword() == CCobolKeywordList.FROM)
 		{
@@ -84,7 +76,7 @@ public class CRewrite extends CCobolElement
 			dataRef = ReadIdentifier();
 			tok = GetCurrentToken() ;
 		}
-		
+
 		if (tok.GetKeyword() == CCobolKeywordList.INVALID)
 		{
 			tok = GetNext();
@@ -106,7 +98,7 @@ public class CRewrite extends CCobolElement
 		Element eRecord = root.createElement("File");
 		eRW.appendChild(eRecord);
 		fileDesc.ExportTo(eRecord, root);
-		
+
 		if (dataRef != null)
 		{
 			Element e = root.createElement("From");

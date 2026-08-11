@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 7 sept. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements.CICS;
 
 import java.util.Vector;
@@ -34,8 +28,6 @@ import utils.Transcoder;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CExecCICSHandle extends CCobolElement
 {
@@ -68,7 +60,7 @@ public class CExecCICSHandle extends CCobolElement
 				else
 				{
 					handle.UnhandleCondition(cond);
-				} 
+				}
 			}
 			return handle;
 		}
@@ -117,7 +109,7 @@ public class CExecCICSHandle extends CCobolElement
 		{
 			tok = GetNext();
 		}
-		
+
 		if (tok.GetKeyword() == CCobolKeywordList.CONDITION)
 		{
 			tok = GetNext() ;
@@ -189,11 +181,11 @@ public class CExecCICSHandle extends CCobolElement
 			{
 				cs += tok.GetDisplay() + " " ;
 				tok = GetNext() ;
-			}		
+			}
 			GetNext() ;
 			return true ;
 		}
-		
+
 		if (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
 		{
 			Transcoder.logError(getLine(), "Error while parsing EXEC CICS HANDLE");
@@ -222,7 +214,7 @@ public class CExecCICSHandle extends CCobolElement
 			else
 			{
 				e = root.createElement("Unhandle");
-			} 
+			}
 			eHandle.appendChild(e);
 			e.setAttribute("Condition", cond);
 		}
@@ -245,7 +237,7 @@ public class CExecCICSHandle extends CCobolElement
 		}
 		return eHandle;
 	}
-	
+
 	protected Vector<CIdentifier> labels = new Vector<CIdentifier>() ;
 	protected ArrayList<String> conditions = new ArrayList<String>() ;
 	protected ArrayList<String> aID = new ArrayList<String>() ;

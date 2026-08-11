@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 11 ao�t 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic.forms;
 
 import java.util.Vector;
@@ -23,8 +17,6 @@ import utils.CObjectCatalog;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CEntityFieldFlag extends CBaseEntityFieldAttribute
 {
@@ -93,7 +85,7 @@ public class CEntityFieldFlag extends CBaseEntityFieldAttribute
 		ref.RegisterWritingAction(eSet) ;
 		return eSet;
 	}
-	public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory) 
+	public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory)
 	{
 		CDataEntity e = reference.GetArrayReference(v, factory) ;
 		return factory.NewEntityFieldFlag(getLine(), "", e);
@@ -126,7 +118,7 @@ public class CEntityFieldFlag extends CBaseEntityFieldAttribute
 		else if (type == CBaseEntityCondition.EConditionType.IS_DIFFERENT)
 		{
 			eCond.SetOpposite() ;
-			return eCond ;			
+			return eCond ;
 		}
 		else
 		{

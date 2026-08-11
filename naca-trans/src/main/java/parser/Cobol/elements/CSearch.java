@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on Sep 7, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements;
 
 import java.util.ListIterator;
@@ -42,8 +36,6 @@ import utils.Transcoder;
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CSearch extends CCobolElement
 {
@@ -72,13 +64,13 @@ public class CSearch extends CCobolElement
 			eIndex = str.getOccursIndex() ;
 		}
 		eSearch.setVariable(eVar, eIndex) ;
-		
+
 		if (blocElse != null)
 		{
 			CEntityBloc eBloc = (CEntityBloc)blocElse.DoSemanticAnalysis(eSearch, factory) ;
 			eSearch.setElseBloc(eBloc) ;
 		}
-		
+
 		CDataEntity eAtt  ;
 		if (factory.programCatalog.IsExistingDataEntity("Search-Found", ""))
 		{
@@ -95,7 +87,7 @@ public class CSearch extends CCobolElement
 		ListIterator i = children.listIterator() ;
 		CCobolElement le = null ;
 		try
-		{	
+		{
 			le = (CCobolElement)i.next() ;
 		}
 		catch (NoSuchElementException e)
@@ -104,7 +96,7 @@ public class CSearch extends CCobolElement
 		while (le != null)
 		{
 			CBaseLanguageEntity e = le.DoSemanticAnalysis(eSearch, factory) ;
-			
+
 			CEntityAssign eAss = factory.NewEntityAssign(0) ;
 			eAss.SetValue(val) ;
 			eAss.AddRefTo(eAtt) ;
@@ -113,7 +105,7 @@ public class CSearch extends CCobolElement
 			CEntityBreak eBr = factory.NewEntityBreak(0) ;
 			e.AddChild(eBr) ;
 			try
-			{	
+			{
 				le = (CCobolElement)i.next() ;
 			}
 			catch (NoSuchElementException ee)
@@ -126,8 +118,8 @@ public class CSearch extends CCobolElement
 		bAnalysisDoneForChildren = true ;
 		return eSearch ;
 	}
-	
-	
+
+
 	protected CIdentifier variable = null ;
 	protected CIdentifier index = null;
 	protected CGenericBloc blocElse = null ;
@@ -145,7 +137,7 @@ public class CSearch extends CCobolElement
 		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
 		tok = GetNext() ;
 		variable = ReadIdentifier() ;
-		
+
 		// VARYING ???
 		tok = GetCurrentToken();
 		if (tok.GetKeyword() == CCobolKeywordList.VARYING)
@@ -153,8 +145,8 @@ public class CSearch extends CCobolElement
 			tok = GetNext() ;
 			index = ReadIdentifier();
 			tok = GetCurrentToken() ;
-		} 
-		
+		}
+
 		// AT END ?
 		blocElse = null ;
 		if (tok.GetKeyword() == CCobolKeywordList.AT)
@@ -176,8 +168,8 @@ public class CSearch extends CCobolElement
 				return false ;
 			}
 		}
-		
-		tok = GetCurrentToken();		
+
+		tok = GetCurrentToken();
 		while (tok.GetKeyword() == CCobolKeywordList.WHEN)
 		{
 			tok = GetNext() ;
@@ -192,11 +184,11 @@ public class CSearch extends CCobolElement
 			{
 				Transcoder.logError(GetCurrentToken().getLine(), "Error while parsing bloc");
 				return false ;
-			} 
+			}
 			AddChild(bloc);
 			tok = GetCurrentToken() ;
 		}
-		
+
 		tok = GetCurrentToken() ;
 		if (tok.GetKeyword() == CCobolKeywordList.END_SEARCH)
 		{
@@ -223,7 +215,7 @@ public class CSearch extends CCobolElement
 		if (blocElse != null)
 		{
 			eSearch.appendChild(blocElse.ExportCustom(root));
-		}		
+		}
 		return eSearch;
 	}
 }

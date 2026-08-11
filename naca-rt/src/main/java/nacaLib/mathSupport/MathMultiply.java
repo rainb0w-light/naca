@@ -4,18 +4,9 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
-/*
- * Created on 15 oct. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
-
 /**
  * @author PJD
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 package nacaLib.mathSupport;
 
@@ -34,7 +25,7 @@ public class MathMultiply extends MathBase
 	{
 		String s1 = var1.getDottedSignedString();
 		d = new BigDecimal(s1);
-		
+
 		String s2 = var2.getDottedSignedString();
 		BigDecimal val2 = new BigDecimal(s2);
 		d = d.multiply(val2);
@@ -49,11 +40,11 @@ public class MathMultiply extends MathBase
 	{
 		String s1 = var1.getDottedSignedString();
 		d = new BigDecimal(s1);
-		
+
 		BigDecimal val2 = new BigDecimal(String.valueOf(n));
-		d = d.multiply(val2); 
+		d = d.multiply(val2);
 	}
-	
+
 	/**
 	 * @param int a
 	 * @param int n
@@ -63,16 +54,16 @@ public class MathMultiply extends MathBase
 	{
 		String s1 = String.valueOf(a);
 		d = new BigDecimal(s1);
-		
+
 		BigDecimal val2 = new BigDecimal(String.valueOf(n));
-		d = d.multiply(val2); 
+		d = d.multiply(val2);
 	}
 
 	/**
 	 * @param Var var1
 	 * @param double d
 	 * Set current object to var1*d (var are treated as numeric optionnaly decimals / signed)
-	 */	
+	 */
 	public MathMultiply(VarAndEdit var1, double d)
 	{
 		String s1 = var1.getDottedSignedString();
@@ -84,18 +75,18 @@ public class MathMultiply extends MathBase
 
 	/**
 	 * @param Var var1
-	 * @param String s, treated as a number 
+	 * @param String s, treated as a number
 	 * Set current object to var1*s (var are treated as numeric optionnaly decimals / signed)
 	 */
 	public MathMultiply(VarAndEdit var1, String s)
 	{
 		String s1 = var1.getDottedSignedString();
 		d = new BigDecimal(s1);
-		
+
 		BigDecimal val2 = new BigDecimal(s);
-		d = d.multiply(val2); 
+		d = d.multiply(val2);
 	}
-	
+
 	/**
 	 * @param Var var1
 	 * @param MathBase mathBase
@@ -105,10 +96,10 @@ public class MathMultiply extends MathBase
 	{
 		String s1 = var1.getDottedSignedString();
 		d = new BigDecimal(s1);
-		
+
 		d = d.multiply(mathBase.d);
-	}	
-	
+	}
+
 	/**
 	 * @param int n
 	 * @param MathBase mathBase
@@ -118,34 +109,34 @@ public class MathMultiply extends MathBase
 	{
 		String s1 = String.valueOf(n);
 		d = new BigDecimal(s1);
-		
+
 		d = d.multiply(mathBase.d);
-	}	
-	
+	}
+
 	/**
 	 * @param double d
 	 * @param MathBase mathBase
 	 * Set current object to d*mathBase
-	 */	
+	 */
 	public MathMultiply(double d, MathBase mathBase)
 	{
 		this.d = new BigDecimal(d);
 		this.d = this.d.multiply(mathBase.d);
 	}
-	
+
 	/**
 	 * @param MathBase mathBase1
 	 * @param MathBase mathBase2
 	 * Set current object to mathBase1*mathBase2
-	 */	
+	 */
 	public MathMultiply(MathBase mathBase1, MathBase mathBase2)
 	{
 		setWithMathBase(mathBase1);
 		d = d.multiply(mathBase2.d);
-	}	
-	
+	}
 
-	
+
+
 	/**
 	 * @param Var var
 	 * @return this
@@ -154,12 +145,12 @@ public class MathMultiply extends MathBase
 	public MathMultiply multiply(VarAndEdit var)
 	{
 		String s = var.getDottedSignedString();
-		
+
 		BigDecimal val = new BigDecimal(s);
 		d = d.multiply(val);
 		return this;
-	}	
-	
+	}
+
 	/**
 	 * @param String s; treated as a number
 	 * @return this
@@ -195,7 +186,7 @@ public class MathMultiply extends MathBase
 		this.d = this.d.multiply(val);
 		return this;
 	}
-	
+
 	/**
 	 * @param MathBase mathBase
 	 * @return this
@@ -205,7 +196,7 @@ public class MathMultiply extends MathBase
 	{
 		d = d.multiply(mathBase.d);
 		return this;
-	}	
-	
+	}
+
 
 }

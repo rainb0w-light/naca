@@ -13,25 +13,16 @@ import java.util.Hashtable;
 
 import jlib.misc.MapStringByString;
 
-/*
- * Created on 20 oct. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
-
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CEmulMapFieldLoader extends CMapFieldLoader
 {
 	MapStringByString tabValues = new MapStringByString() ;
 	Hashtable<String, Boolean> tabModified = new Hashtable<String, Boolean>() ;
 	String csIdPage = null;
-	
+
 	public String getFieldValue(String fieldName)
 	{
 		String cs = tabValues.get(fieldName) ;
@@ -63,7 +54,7 @@ public class CEmulMapFieldLoader extends CMapFieldLoader
 	{
 		return csIdPage ;
 	}
-	
+
 	public void setIDPage(String csIdPage)
 	{
 		this.csIdPage = csIdPage;

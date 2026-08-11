@@ -4,18 +4,9 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
-/*
- * Created on 13 oct. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
-
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 package nacaLib.mapSupport;
 
@@ -27,17 +18,17 @@ public class MapFieldAttrFill extends MapFieldBaseAttr
 	}
 	public static MapFieldAttrFill BLANK = new MapFieldAttrFill(1, "blank");
 	public static MapFieldAttrFill ZERO = new MapFieldAttrFill(2, "zero");
-	
+
 	static int getNbBitsEncoding()
 	{
 		return 2;
 	}
-	
+
 	static int getMask()
 	{
 		return 3;
 	}
-			
+
 //	public String toString()
 //	{
 //		return getText();
@@ -49,21 +40,21 @@ public class MapFieldAttrFill extends MapFieldBaseAttr
 //			return "zero";
 //		return "blank";
 //	}
-	
+
 	boolean isFillZero()
 	{
 		if(getInternalValue() == ZERO.getInternalValue())
 			return true;
-		return false;		
+		return false;
 	}
 
 	boolean isFillBlank()
 	{
 		if(getInternalValue() == BLANK.getInternalValue())
 			return true;
-		return false;		
+		return false;
 	}
-		
+
 	// Encoded in 1 bit
 //	char encodeInto(char cBitField)	//Uses bit 7
 //	{

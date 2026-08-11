@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.sql;
 
@@ -33,7 +33,7 @@ public class DbColDefinitionDecimal extends BaseDbColDefinition
 	private int nNbDigits = 0;
 	private int nNbDecimals = 0;
 	private boolean radioButtonnegative[] = null;
-	
+
 	DbColDefinitionDecimal(ColDescriptionInfo colDescription)
 	{
 		super(colDescription);
@@ -41,7 +41,7 @@ public class DbColDefinitionDecimal extends BaseDbColDefinition
 		nNbDecimals = colDescription.getScale();
 		radioButtonnegative = new boolean[1];
 	}
-	
+
 	public byte[] getByteValue(ResultSet resultSet, int nCol1Based, boolean bEbcdicOutput)
 	{
 		try
@@ -52,46 +52,45 @@ public class DbColDefinitionDecimal extends BaseDbColDefinition
 			int nNbDecimals = resultSetmetaData.getScale(nCol1Based);
 			Asserter.assertIfFalse(nNbDigits == nNbDigits);
 			Asserter.assertIfFalse(nNbDecimals == nNbDecimals);
-	
+
 			if((nNbDigits % 2) == 0)
 				nNbDigits++;
 			int nNbCharsInComp3 = (nNbDigits / 2) + 1;
-			
+
 			BigDecimal bd = resultSet.getBigDecimal(nCol1Based);
 			DecBase decValue = DecBase.toDec(bd);
-			
+
 			byte [] aBytes = new byte[nNbCharsInComp3];
-			
+
 			boolean ispositive = !decValue.isNegative();
 			String cs = Comp3Support.encodeDecComp3(decValue, nNbDigits-nNbDecimals, nNbDecimals);
 			Comp3Support.internalWriteEncodeComp3(aBytes, cs, ispositive, true);
-						
+
 			//nPhysicalPosInRecordSet += nNbCharsInComp3;
-			return aBytes;					
+			return aBytes;
 		}
 		catch (SQLException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
 	}
-	
+
 //	public int setByteValue(byte arrByteValue[], int nSourceOffset, boolean bEbcdicInput, ColValueGeneric colValueGenericDest)
 //	{
 //		int nSize = 1+(nNbDigits / 2);
 //		String cs = getAsString(arrByteValue, nSourceOffset, nNbDigits, nNbDecimals, nSize);
 //		colValueGenericDest.setValue(cs);
-//		
+//
 //		return nSize;
 //	}
-	
+
 	public int setByteValueInStmtCol(DbColDefErrorManager dbColDefErrorManager, DbPreparedStatement stmt, int nCol, byte arrByteValue[], int nSourceOffset, boolean bEbcdicInput)
 	{
 		int nSize = 1+(nNbDigits / 2);
 		if(nNbDigits < 18) // Binary value fits in a long
 		{
-			if(nNbDecimals == 0)					
+			if(nNbDecimals == 0)
 			{
 				long originalValue = BasePic9Comp3BufferSupport.getAsLong(arrByteValue, nSourceOffset, nNbDigits, nSize);
 				long lValue = BasePic9Comp3BufferSupport.keepRightMostDigits(originalValue, nNbDigits);
@@ -108,13 +107,13 @@ public class DbColDefinitionDecimal extends BaseDbColDefinition
 				String csValue = BasePic9Comp3BufferSupport.makeDottedString(lValue, nNbDecimals);
 //				if(csValue.startsWith("815"))
 //				{
-//					int n = 0;					
+//					int n = 0;
 //				}
 				stmt.setColParam(nCol, csValue);
 			}
 		}
 		else	// Cannot use a long (64 bits is not enough ...)
-		{			
+		{
 			String csOriginalValue = getAsString(arrByteValue, nSourceOffset, nNbDigits, nNbDecimals, nSize, radioButtonnegative);
 			int nPosDot = csOriginalValue.indexOf(".");
 			String csDec = "";
@@ -129,15 +128,15 @@ public class DbColDefinitionDecimal extends BaseDbColDefinition
 			}
 			else
 				csInt = csOriginalValue;
-			int nNbDigitsInt = nNbDigits - nNbDecimals; 
+			int nNbDigitsInt = nNbDigits - nNbDecimals;
 			if(csInt.length() > nNbDigitsInt)	// Integer part is too long
 			{
 				int nNbDigitsToRemoveOnLeft = csInt.length() - nNbDigitsInt;
 				String csLeft = csInt.substring(0, nNbDigitsToRemoveOnLeft);
 				boolean issignificantTruncation = false;
-				if(NumberParser.getAsLong(csLeft) != 0)	// We truncates significant digits on left	
+				if(NumberParser.getAsLong(csLeft) != 0)	// We truncates significant digits on left
 					issignificantTruncation = true;
-					
+
 				csInt = csInt.substring(nNbDigitsToRemoveOnLeft);
 				if(radioButtonnegative[0])
 					csInt = "-" + csInt;
@@ -147,10 +146,10 @@ public class DbColDefinitionDecimal extends BaseDbColDefinition
 				stmt.setColParam(nCol, csValue);
 			}
 		}
-		
+
 		return nSize;
 	}
-	
+
 	private String getAsString(byte acBuffer[], int nAbsolutePosition, int nNbDigits, int nNbDecimals, int nTotalSize, boolean rbNegative[])
 	{
 		rbNegative[0] = false;
@@ -158,7 +157,7 @@ public class DbColDefinitionDecimal extends BaseDbColDefinition
 		int nPosDecimalDot = -1;
 		//boolean bAddLeadingDigit = true;
 		int nNbDigitsInteger = nNbDigits - nNbDecimals;
-		
+
 		if(nNbDecimals == 0)
 			cs = new StringBuilder(1+nNbDigits);
 		else
@@ -169,7 +168,7 @@ public class DbColDefinitionDecimal extends BaseDbColDefinition
 //				bAddLeadingDigit = false;
 			cs = new StringBuilder(2+nNbDigits);
 		}
-		
+
 		int nNbChars = nTotalSize;
 		for(int n=0; n<nNbChars; n++)
 		{
@@ -190,7 +189,7 @@ public class DbColDefinitionDecimal extends BaseDbColDefinition
 //					bAddLeadingDigit = true;	// Consume leading digit
 //				else
 					cs.append((char)('0' + nHigh));
-				
+
 				if(nLow == COMP3_SIGN_MINUS)
 				{
 					rbNegative[0] = true;
@@ -202,16 +201,16 @@ public class DbColDefinitionDecimal extends BaseDbColDefinition
 		}
 		if(nPosDecimalDot != -1)
 			cs.insert(nPosDecimalDot, '.');
-		return cs.toString();		
+		return cs.toString();
 	}
-		
+
 //	private String getAsString(byte acBuffer[], int nAbsolutePosition, int nNbDigits, int nNbDecimals, int nTotalSize)
 //	{
 //		StringBuilder cs = null;
 //		int nPosDecimalDot = -1;
 //		boolean bAddLeadingDigit = true;
 //		int nNbDigitsInteger = nNbDigits - nNbDecimals;
-//		
+//
 //		if(nNbDecimals == 0)
 //			cs = new StringBuilder(1+nNbDigits);
 //		else
@@ -221,7 +220,7 @@ public class DbColDefinitionDecimal extends BaseDbColDefinition
 //				bAddLeadingDigit = false;
 //			cs = new StringBuilder(2+nNbDigits);
 //		}
-//		
+//
 //		int nNbChars = nTotalSize;
 //		for(int n=0; n<nNbChars; n++)
 //		{
@@ -242,7 +241,7 @@ public class DbColDefinitionDecimal extends BaseDbColDefinition
 //					bAddLeadingDigit = true;	// Consume leading digit
 //				else
 //					cs.append((char)('0' + nHigh));
-//				
+//
 //				if(nLow == COMP3_SIGN_MINUS)
 //				{
 //					if(nPosDecimalDot != -1)
@@ -253,15 +252,15 @@ public class DbColDefinitionDecimal extends BaseDbColDefinition
 //		}
 //		if(nPosDecimalDot != -1)
 //			cs.insert(nPosDecimalDot, '.');
-//		return cs.toString();		
+//		return cs.toString();
 //	}
-	
+
 	public boolean fillCallableStatementParam(int nParamId, StoredProcParamDescBase storedProcParamDescBase, DbPreparedCallableStatement callableStatement)
 	{
 		String cs = storedProcParamDescBase.getInValueAsString();
 		return callableStatement.setInValue(nParamId, cs);
 	}
-	
+
 	public byte[] getExcelValue(ResultSet resultSet, int nCol1Based, boolean bEbcdicOutput)
 	{
 		try
@@ -269,14 +268,14 @@ public class DbColDefinitionDecimal extends BaseDbColDefinition
 			String csValue = resultSet.getString(nCol1Based);
 			byte[] aBytes = csValue.getBytes();
 			if(bEbcdicOutput)	// Must outout in ebcdic
-				AsciiEbcdicConverter.swapByteAsciiToEbcdic(aBytes, 0, aBytes.length);	
+				AsciiEbcdicConverter.swapByteAsciiToEbcdic(aBytes, 0, aBytes.length);
 			return aBytes;
 		}
 		catch (SQLException e)
 		{
-			return null;		
+			return null;
 		}
 	}
-	
+
 	private final static byte COMP3_SIGN_MINUS =(byte)13;	// D is encoded sign for -
 }

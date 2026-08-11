@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on Jul 19, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.condition;
 
 import org.w3c.dom.Document;
@@ -25,8 +19,6 @@ import semantic.expression.CEntityCondCompare;
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CCondGreaterStatement extends CExpression
 {
@@ -43,14 +35,14 @@ public class CCondGreaterStatement extends CExpression
 		this.term2 = term2 ;
 		this.isorEquals = bOrEquals ;
 	}
-	
+
 	protected boolean CheckMembersBeforeExport()
 	{
 		boolean b = CheckMemberNotNull(term1);
 		b &= CheckMemberNotNull(term2);
 		return b;
 	}
-	
+
 	protected boolean isorEquals = false ;
 	protected CExpression term1 = null ;
 	protected CExpression term2 = null ;
@@ -67,7 +59,7 @@ public class CCondGreaterStatement extends CExpression
 		else
 		{
 			e = root.createElement("GreaterThan") ;
-		}			
+		}
 		Element e1 = term1.Export(root) ;
 		if (e1 == null)
 		{
@@ -138,7 +130,7 @@ public class CCondGreaterStatement extends CExpression
 				return eCond ;
 			}
 		}
-		
+
 		value = term1.GetConstantValue() ;
 		if (!value.equals("") && term2.IsReference())
 		{

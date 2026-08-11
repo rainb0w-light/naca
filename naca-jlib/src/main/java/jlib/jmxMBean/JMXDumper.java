@@ -14,12 +14,12 @@ import jlib.xml.Tag;
 public class JMXDumper
 {
 	private MBeanServer server = null;
-	
+
 	JMXDumper(MBeanServer server)
 	{
 		this.server = server;
 	}
-	
+
 	void dumpAllMBeans(Tag tagOut)
 	{
 		ObjectName oName = null;
@@ -27,9 +27,9 @@ public class JMXDumper
 		{
 			oName = new ObjectName("jmxMbean:*");
 			Set names = server.queryNames(oName, null);
-			
+
 			Iterator itr = names.iterator();
-			while(itr.hasNext()) 
+			while(itr.hasNext())
 			{
 				ObjectName name = (ObjectName)itr.next();
 				dumpMBean(tagOut, name);
@@ -37,23 +37,21 @@ public class JMXDumper
 		}
 		catch (MalformedObjectNameException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		catch (NullPointerException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void dumpMBean(Tag tagOut, ObjectName name)
 	{
 		String csName = name.toString();
 		Tag tagChild = tagOut.addTag("MBean");
 		tagChild.addVal("Name", csName);
 		Tag tagAttributes = tagChild.addTag("Attributes");
-		
+
 		MBeanInfo info = getMBeanInfo(name);
 		if(info != null)
 		{
@@ -63,10 +61,10 @@ public class JMXDumper
 				for(int n=0; n<tAttr.length; n++)
 				{
 					MBeanAttributeInfo attr = tAttr[n];
-										
+
 					String csAttributeName = attr.getName();
 					String csValue = getAttributeValue(name, csAttributeName);
-					
+
 					Tag tagAttribute = tagAttributes.addTag("Attribute");
 					tagAttribute.addVal("Name", csAttributeName);
 					tagAttribute.addVal("Value", csValue);
@@ -74,9 +72,9 @@ public class JMXDumper
 			}
 		}
 	}
-		
+
 	private MBeanInfo getMBeanInfo(ObjectName name)
-	{		
+	{
 		try
 		{
 			MBeanInfo info;
@@ -94,7 +92,7 @@ public class JMXDumper
 		}
 		return null;
 	}
-	
+
 	private String getAttributeValue(ObjectName name, String csAttributeName)
 	{
 		try

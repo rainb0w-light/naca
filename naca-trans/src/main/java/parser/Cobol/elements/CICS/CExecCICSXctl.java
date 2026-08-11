@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 7 sept. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements.CICS;
 
 import lexer.CBaseToken;
@@ -32,8 +26,6 @@ import utils.Transcoder;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CExecCICSXctl extends CCobolElement
 {
@@ -54,7 +46,7 @@ public class CExecCICSXctl extends CCobolElement
 		boolean ischecked = false ;
 		if (!program.IsReference())
 		{ // reference is a constant string : 'PRGM'
-			String prg = program.GetValue() ; 
+			String prg = program.GetValue() ;
 			if (!factory.programCatalog.CheckProgramReference(prg, true, 0, false))
 			{
 				//m_Logger.error("ERROR line "+getLine()+" : Missing referenced program : "+prg) ;
@@ -73,9 +65,9 @@ public class CExecCICSXctl extends CCobolElement
 		}
 		CEntityCICSXctl eCICS = factory.NewEntityCICSXctl(getLine());
 		parent.AddChild(eCICS);
-		CDataEntity ePrgm = program.GetDataEntity(getLine(), factory) ; 
+		CDataEntity ePrgm = program.GetDataEntity(getLine(), factory) ;
 		eCICS.SetProgramName(ePrgm, ischecked) ;
-		
+
 		if (commArea != null)
 		{
 			CDataEntity eCommArea = commArea.GetDataReference(getLine(), factory) ;
@@ -101,7 +93,7 @@ public class CExecCICSXctl extends CCobolElement
 		{
 			tok = GetNext() ;
 		}
-		
+
 		if (tok.GetKeyword()== CCobolKeywordList.PROGRAM)
 		{
 			tok = GetNext();

@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
-/*
- * Created on 17 mars 2005
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 package nacaLib.varEx;
 
 import nacaLib.base.CJMapObject;
@@ -20,46 +14,44 @@ import nacaLib.programPool.SharedProgramInstanceData;
 /**
  * @author U930DI
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 public abstract class DeclareTypeBase extends CJMapObject
 {
 	protected VarLevel varLevel = null;
 	private boolean isvariableLengthDeclaration = false;
-	
+
 	public DeclareTypeBase()
 	{
 	}
-	
+
 	// to be removed
 	public DeclareTypeBase(VarLevel varLevel)
 	{
 		set(varLevel);
 	}
-	
+
 	void set(VarLevel varLevel)
 	{
 		this.varLevel = varLevel;
 		isvariableLengthDeclaration = false;
 	}
-	
+
 	public VarLevel getLevel()
 	{
 		return varLevel;
 	}
-	
+
 	int getLevelValue()
 	{
 		return varLevel.getLevel();
 	}
-	
+
 	public VarDefBuffer getOrCreateVarDef(SharedProgramInstanceData sharedProgramInstanceData /*VarInstancesHolder varInstancesHolder*/)
 	{
 		if(sharedProgramInstanceData != null)
 		{
 			VarLevel varLevel = getLevel();
-			BaseProgramManager p = varLevel.getProgramManager();  
+			BaseProgramManager p = varLevel.getProgramManager();
 			int nId = p.getAndIncLastVarId();
 
 			VarDefBuffer varDef = sharedProgramInstanceData.getVarDef(nId);
@@ -67,10 +59,10 @@ public abstract class DeclareTypeBase extends CJMapObject
 			{
 				VarDefBuffer varDefParent = p.popLevel(varLevel.getLevel());
 				varDef = createVarDef(varDefParent);
-				varDef.setId(nId);				
-				
+				varDef.setId(nId);
+
 				sharedProgramInstanceData.addVarDef(varDef);
-								
+
 				CInitialValue initialValue = getInitialValue();
 				sharedProgramInstanceData.setInitialValue(nId, initialValue);
 
@@ -81,7 +73,7 @@ public abstract class DeclareTypeBase extends CJMapObject
 		}
 		return null;
 	}
-	
+
 	VarBase getRoot()
 	{
 		VarLevel varLevel = getLevel();
@@ -93,27 +85,27 @@ public abstract class DeclareTypeBase extends CJMapObject
 		}
 		return null;
 	}
-	
+
 	BaseProgramManager getProgramManager()
 	{
 		return varLevel.getProgramManager();
 	}
-	
+
 	BaseProgram getProgram()
 	{
 		return varLevel.getProgram();
 	}
-	
+
 	void setVariableLengthDeclaration()
 	{
 		isvariableLengthDeclaration = true;
 	}
-	
+
 	boolean isVariableLengthDeclaration()
 	{
 		return isvariableLengthDeclaration;
 	}
-	
+
 	public abstract VarDefBuffer createVarDef(VarDefBuffer varDefParent);
 	public abstract CInitialValue getInitialValue();
 }

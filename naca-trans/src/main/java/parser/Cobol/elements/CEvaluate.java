@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on Jul 19, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements;
 
 import java.util.Vector;
@@ -40,8 +34,6 @@ import utils.Transcoder;
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CEvaluate extends CCobolElement
 {
@@ -89,7 +81,7 @@ public class CEvaluate extends CCobolElement
 				//GetNext();
 			}
 		}
-					
+
 		// read WHEN statements
 		isdone = false ;
 		while (!isdone)
@@ -131,7 +123,7 @@ public class CEvaluate extends CCobolElement
 		}
 		return true ;
 	}
-		
+
 	protected CExpression ReadWhenCondition()
 	{
 		CExpression condGlobal = null ;
@@ -170,7 +162,7 @@ public class CEvaluate extends CCobolElement
 								else
 								{
 									cond = new CCondAndStatement(tok.getLine(), cond, tempcond) ;
-								}								
+								}
 							}
 						}
 						else
@@ -199,7 +191,7 @@ public class CEvaluate extends CCobolElement
 		}
 		return condGlobal ;
 	}
-	
+
 	protected CExpression ReadSingleCondition(int i)
 	{
 		CExpression cond = null ;
@@ -259,7 +251,7 @@ public class CEvaluate extends CCobolElement
 			}
 		}
 		return cond ;
-	} 
+	}
 	/* (non-Javadoc)
 	 * @see parser.CLanguageElement#ExportCustom(org.w3c.dom.Document)
 	 */
@@ -268,7 +260,7 @@ public class CEvaluate extends CCobolElement
 		Element e = root.createElement("Evaluate") ;
 		return e ;
 	}
-	
+
 	protected Vector<CExpression> idToEval = new Vector<CExpression>() ;
 
 	/* (non-Javadoc)

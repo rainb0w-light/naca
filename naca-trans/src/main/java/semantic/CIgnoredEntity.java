@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 10 nov. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic;
 
 import java.util.Vector;
@@ -22,8 +16,6 @@ import utils.CObjectCatalog;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CIgnoredEntity extends CDataEntity
 {
@@ -68,7 +60,7 @@ public class CIgnoredEntity extends CDataEntity
 	 */
 	public CBaseActionEntity GetSpecialAssignment(CDataEntity term, CBaseEntityFactory factory, int l)
 	{
-		return factory.NewEntityNoAction(l) ; 
+		return factory.NewEntityNoAction(l) ;
 	}
 
 	/* (non-Javadoc)
@@ -76,7 +68,7 @@ public class CIgnoredEntity extends CDataEntity
 	 */
 	public CBaseActionEntity GetSpecialAssignment(CTerminal term, CBaseEntityFactory factory, int l)
 	{
-		return factory.NewEntityNoAction(l) ; 
+		return factory.NewEntityNoAction(l) ;
 	}
 
 	/* (non-Javadoc)
@@ -90,9 +82,9 @@ public class CIgnoredEntity extends CDataEntity
 	{
 		return true;
 	}
-	
 
-	public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory) 
+
+	public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory)
 	{
 		CEntityArrayReference e = factory.NewEntityArrayReference(getLine()) ;
 		e.SetReference(this) ;

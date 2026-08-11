@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 8 sept. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements;
 
 import lexer.CBaseToken;
@@ -29,8 +23,6 @@ import utils.Transcoder;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CTransform extends CCobolElement
 {
@@ -55,10 +47,10 @@ public class CTransform extends CCobolElement
 			return false ;
 		}
 		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
-		
+
 		tok = GetNext();
 		variable = ReadIdentifier();
-		
+
 		tok = GetCurrentToken();
 		if (tok.GetKeyword() != CCobolKeywordList.FROM)
 		{
@@ -66,7 +58,7 @@ public class CTransform extends CCobolElement
 		}
 		tok = GetNext();
 		valueFrom = ReadTerminal();
-		
+
 		tok = GetCurrentToken();
 		if (tok.GetKeyword() != CCobolKeywordList.TO)
 		{
@@ -83,15 +75,15 @@ public class CTransform extends CCobolElement
 		Element eVar = root.createElement("Variable");
 		eTr.appendChild(eVar);
 		variable.ExportTo(eVar, root);
-		
+
 		Element eFrom = root.createElement("From");
 		eTr.appendChild(eFrom);
 		valueFrom.ExportTo(eFrom, root);
-		
+
 		Element eTo = root.createElement("To");
 		eTr.appendChild(eTo);
 		valueTo.ExportTo(eTo, root);
-		
+
 		return eTr;
 	}
 

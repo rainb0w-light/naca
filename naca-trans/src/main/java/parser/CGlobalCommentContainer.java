@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on Dec 6, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser;
 
 import java.util.Vector;
@@ -26,8 +20,6 @@ import lexer.CTokenType;
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CGlobalCommentContainer
 {
@@ -36,7 +28,7 @@ public class CGlobalCommentContainer
 	{
 		Integer in = new Integer(line) ;
 		comments.add(comm) ;
-	}	
+	}
 	public void DoSemanticAnalysis(CBaseEntityFactory factory)
 	{
 		for (int i = 0; i< comments.size(); i++)
@@ -68,7 +60,7 @@ public class CGlobalCommentContainer
 		return comm ;
 	}
 	public int GetCurrentCommentLine()
-	{ 
+	{
 		if (nCurrentComment < commentEntities.size())
 		{
 			CEntityComment comm = commentEntities.get(nCurrentComment);

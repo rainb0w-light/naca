@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on Oct 12, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic;
 
 import semantic.expression.CBaseEntityCondition;
@@ -18,8 +12,6 @@ import utils.CObjectCatalog;
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CEntityIndex extends CDataEntity
 {
@@ -37,7 +29,7 @@ public class CEntityIndex extends CDataEntity
 	{
 		return CDataEntityType.VAR ;
 	}
-	
+
 	public boolean HasAccessors()
 	{
 		return false;
@@ -47,7 +39,7 @@ public class CEntityIndex extends CDataEntity
 	{
 		return false;
 	}
-	
+
 	public boolean ignore()
 	{
 		return false ;
@@ -55,7 +47,7 @@ public class CEntityIndex extends CDataEntity
 	public String GetConstantValue()
 	{
 		return "" ;
-	} 	 
+	}
 	public CBaseEntityCondition GetSpecialCondition(int nLine, String value, CBaseEntityCondition.EConditionType type, CBaseEntityFactory factory)
 	{
 		return null ;

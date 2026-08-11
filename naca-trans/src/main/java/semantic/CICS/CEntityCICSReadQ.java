@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 1 oct. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic.CICS;
 
 import semantic.CBaseActionEntity;
@@ -20,8 +14,6 @@ import utils.CobolTranscoder.Notifs.NotifDeclareUseCICSPreprocessor;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CEntityCICSReadQ extends CBaseActionEntity
 {
@@ -57,7 +49,7 @@ public class CEntityCICSReadQ extends CBaseActionEntity
 
 	public void SetName(CDataEntity entity)
 	{
-		queueName = entity ;		
+		queueName = entity ;
 	}
 	public void SetDataRef(CDataEntity entity, CDataEntity len)
 	{
@@ -67,12 +59,12 @@ public class CEntityCICSReadQ extends CBaseActionEntity
 
 	public void ReadNext()
 	{
-		bReadNext = true ; 		
+		bReadNext = true ;
 	}
 
 	public void ReadNumItem(CDataEntity entity)
 	{
-		numItem = entity ;		
+		numItem = entity ;
 	}
 
 	public void ReadItem(CDataEntity entity)
@@ -81,7 +73,7 @@ public class CEntityCICSReadQ extends CBaseActionEntity
 	}
 	public boolean ignore()
 	{
-		return false; 
+		return false;
 	}
 	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
 	{

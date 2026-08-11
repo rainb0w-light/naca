@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 11 ao�t 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic.forms;
 
 import parser.expression.CStringTerminal;
@@ -22,8 +16,6 @@ import utils.CObjectCatalog;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CEntitySetAttribute extends CBaseActionEntity
 {
@@ -120,9 +112,9 @@ public class CEntitySetAttribute extends CBaseActionEntity
 
 	public void SetModified()
 	{
-		bModified = true ;		
+		bModified = true ;
 	}
-	protected boolean bModified = false ; 
+	protected boolean bModified = false ;
 
 	public void SetNumeric()
 	{
@@ -168,9 +160,9 @@ public class CEntitySetAttribute extends CBaseActionEntity
 
 	public void SetAttribute(CDataEntity entity)
 	{
-		attributeValue = entity ;		
+		attributeValue = entity ;
 	}
-	protected CDataEntity attributeValue = null ; 
+	protected CDataEntity attributeValue = null ;
 	public void Clear()
 	{
 		super.Clear();

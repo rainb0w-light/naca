@@ -172,7 +172,6 @@ public class DataFileRead extends BaseDataFileBuffered
 			}
 			catch (IOException e)
 			{
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -201,7 +200,6 @@ public class DataFileRead extends BaseDataFileBuffered
 			}
 			catch (IOException e)
 			{
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -231,7 +229,6 @@ public class DataFileRead extends BaseDataFileBuffered
 			}
 			catch (IOException e)
 			{
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				setEOF(true);
 				return -1;
@@ -263,7 +260,6 @@ public class DataFileRead extends BaseDataFileBuffered
 			}
 			catch (IOException e)
 			{
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -284,7 +280,6 @@ public class DataFileRead extends BaseDataFileBuffered
 			}
 			catch (IOException e)
 			{
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -305,7 +300,6 @@ public class DataFileRead extends BaseDataFileBuffered
 			}
 			catch (IOException e)
 			{
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -324,7 +318,6 @@ public class DataFileRead extends BaseDataFileBuffered
 			}
 			catch (IOException e)
 			{
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 

@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 18 August 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic.expression;
 
 import semantic.CBaseEntityFactory;
@@ -20,8 +14,6 @@ import semantic.CDataEntity;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CEntityCondEquals extends CBinaryEntityCondition
 {
@@ -52,7 +44,7 @@ public class CEntityCondEquals extends CBinaryEntityCondition
 		return newCond;
 	}
 
-	
+
 	public void SetEqualCondition(CBaseEntityExpression op1, CBaseEntityExpression op2)
 	{
 		ASSERT(op1);
@@ -98,7 +90,7 @@ public class CEntityCondEquals extends CBinaryEntityCondition
 	}
 	public boolean ignore()
 	{
-		return op1.ignore() || op2.ignore(); 
+		return op1.ignore() || op2.ignore();
 	}
 //	public CBaseEntityCondition getSimilarCondition(CBaseEntityFactory factory, CTerminal term)
 //	{
@@ -120,7 +112,7 @@ public class CEntityCondEquals extends CBinaryEntityCondition
 //				if (bIsDifferent)
 //				{
 //					type = CBaseEntityCondition.ConditionType.IS_DIFFERENT ;
-//				} 
+//				}
 //				CBaseEntityCondition eCond = eOP.GetSpecialCondition(term.GetValue(), type, factory);
 //				if (eCond != null)
 //				{
@@ -139,11 +131,11 @@ public class CEntityCondEquals extends CBinaryEntityCondition
 		EConditionType type = null ;
 		if (bIsDifferent)
 		{
-			type = EConditionType.IS_DIFFERENT ; 
+			type = EConditionType.IS_DIFFERENT ;
 		}
 		else
 		{
-			type = EConditionType.IS_EQUAL ; 
+			type = EConditionType.IS_EQUAL ;
 		}
 		CDataEntity op1New = op1.GetSingleOperator() ;
 		CDataEntity op2New = op2.GetSingleOperator() ;

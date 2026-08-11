@@ -4,18 +4,9 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
-/*
- * Created on 13 oct. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
-
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 package nacaLib.mapSupport;
 
@@ -25,22 +16,22 @@ public class MapFieldAttrProtection extends MapFieldBaseAttr
 	{
 		super(nValue, text);
 	}
-	
+
 	static int getNbBitsEncoding()
 	{
 		return 3;
 	}
-	
+
 	static int getMask()
 	{
 		return 7;
 	}
-	
+
 //	public String toString()
 //	{
 //		return getText();
 //	}
-//	
+//
 //	String getText()
 //	{
 //		if(getInternalValue() == 0)
@@ -51,7 +42,7 @@ public class MapFieldAttrProtection extends MapFieldBaseAttr
 //			return "numeric";
 //		return "protected";
 //	}
-	 
+
 	// Encoded in 2 bits
 	public static MapFieldAttrProtection AUTOSKIP = new MapFieldAttrProtection(1, "autoskip");
 	public static MapFieldAttrProtection UNPROTECTED = new MapFieldAttrProtection(2, "unprotected");

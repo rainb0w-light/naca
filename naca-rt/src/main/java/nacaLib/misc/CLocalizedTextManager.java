@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
-/*
- * Created on 2 févr. 2005
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package nacaLib.misc;
 
 import java.util.Hashtable;
@@ -22,15 +16,13 @@ import nacaLib.base.CJMapObject;
 /**
  * @author SLY
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CLocalizedTextManager extends CJMapObject
 {
 	private CLocalizedTextManager()
 	{
 	}
-	
+
 	protected static CLocalizedTextManager ms_instance = null ;
 	public static CLocalizedTextManager getInstance()
 	{
@@ -40,7 +32,7 @@ public class CLocalizedTextManager extends CJMapObject
 		}
 		return ms_instance ;
 	}
-	
+
 	public void Init(Tag tagRoot)
 	{
 		Tag tagLanguages = tagRoot.getEnumChild("languages");
@@ -52,7 +44,7 @@ public class CLocalizedTextManager extends CJMapObject
 				String csId = tagCode.getVal("id");
 				String csLang = tagCode.getVal("lang");
 				tabLanguageCodes.put(csId, csLang);
-				
+
 				tagCode = tagLanguages.getEnumChild();
 			}
 			tagLanguages = tagRoot.getEnumChild();
@@ -71,13 +63,13 @@ public class CLocalizedTextManager extends CJMapObject
 				String lang = tagText.getVal("lang");
 				String text = tagText.getNodeVal();
 				table.put(lang, text) ;
-				
+
 				tagText = tagItem.getEnumChild();
 			}
 			tagItem = tagRoot.getEnumChild();
 		}
 	}
-	
+
 	public String getLocalizedString(String id, String code)
 	{
 		String lang = tabLanguageCodes.get(code);
@@ -85,7 +77,7 @@ public class CLocalizedTextManager extends CJMapObject
 		{
 			lang = code ;
 		}
-		
+
 		MapStringByString table = tabLocalizedTexts.get(id);
 		if (table != null)
 		{
@@ -100,5 +92,5 @@ public class CLocalizedTextManager extends CJMapObject
 
 	protected Hashtable<String, String> tabLanguageCodes = new Hashtable<String, String>() ;
 	protected Hashtable<String, MapStringByString> tabLocalizedTexts = new Hashtable<String, MapStringByString>() ;
-	
+
 }

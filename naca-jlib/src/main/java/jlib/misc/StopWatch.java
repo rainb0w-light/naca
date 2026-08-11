@@ -6,18 +6,9 @@
  */
 package jlib.misc;
 
-/*
- * Created on 17 d�c. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
-
 /**
  * @author PJD
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 
 public class StopWatch
@@ -26,7 +17,7 @@ public class StopWatch
 	{
 		start = System.currentTimeMillis();
 	}
-	
+
 	public long getElapsedTime()
 	{
 		long stop = System.currentTimeMillis();
@@ -38,14 +29,14 @@ public class StopWatch
 		long stop = System.currentTimeMillis();
 		long l = stop - start;
 		start = stop;
-		return l;		
+		return l;
 	}
-	
+
 	public void Reset()
 	{
 		start = System.currentTimeMillis();
 	}
-	
+
 	public boolean isTimeElapsed(long lTimeOut)
 	{
 		long now = System.currentTimeMillis();
@@ -54,11 +45,11 @@ public class StopWatch
 			return true;
 		return false;
 	}
-	
+
 	public long getStartValue()
 	{
 		return start;
 	}
-	
+
 	private long start = 0;
 }

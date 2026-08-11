@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 18 août 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic.expression;
 
 import semantic.CBaseEntityFactory;
@@ -19,8 +13,6 @@ import utils.CObjectCatalog;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CEntityString extends CDataEntity
 {
@@ -53,7 +45,7 @@ public class CEntityString extends CDataEntity
 	public String GetConstantValue()
 	{
 		return new String(carrValue);
-	} 	 
+	}
 	public CBaseEntityCondition GetSpecialCondition(int nLine, String value, CBaseEntityCondition.EConditionType type, CBaseEntityFactory factory)
 	{
 		return null ;

@@ -41,7 +41,7 @@ public class EmulWebRunner extends BaseCloseMBean
 	{
 		super("EmulWebRunner", "EmulWebRunner executor");
 	}
-	
+
 	void run(String[] args)
 	{
 		String csINIFilePath = "NacaRT.cfg" ;
@@ -49,11 +49,11 @@ public class EmulWebRunner extends BaseCloseMBean
 		{
 			csINIFilePath = args[0] ;
 		}
-		
+
 		ReadParams(args) ;
-		
+
 		OnlineResourceManager resourceManager = OnlineResourceManagerFactory.GetInstance(csINIFilePath) ;
-				
+
 //		if (args.length > 1)
 //		{
 //			String csAppliPath = args[1] ;
@@ -63,7 +63,7 @@ public class EmulWebRunner extends BaseCloseMBean
 //			}
 //			ResourceManager.setApplicationRootPath(csAppliPath) ;
 //		}
-		
+
 		if (ms_bPlayAllScenario)
 		{
 			File dir = new File(resourceManager.getScenarioDir()) ;
@@ -97,17 +97,17 @@ public class EmulWebRunner extends BaseCloseMBean
 			}
 		}
 		else
-		{			
+		{
 			ArrayList<ThreadEmulWeb> threads = new ArrayList<ThreadEmulWeb>();
 			// Creates threads
-			ThreadSafeCounter counter = new ThreadSafeCounter(ms_nNbThreads); 
+			ThreadSafeCounter counter = new ThreadSafeCounter(ms_nNbThreads);
 			for(int n=0; n<ms_nNbThreads; n++)
 			{
-				EmulWebThreadedRun emulWebThreadedRun = new EmulWebThreadedRun(this, resourceManager, ms_nbLoops, ms_bCheckScenario, ms_bOutputExport);  
+				EmulWebThreadedRun emulWebThreadedRun = new EmulWebThreadedRun(this, resourceManager, ms_nbLoops, ms_bCheckScenario, ms_bOutputExport);
 				ThreadEmulWeb threadEmulWeb = new ThreadEmulWeb(counter, emulWebThreadedRun);
 				threads.add(threadEmulWeb);
 			}
-			
+
 			StopWatch sw = new StopWatch();
 			// Starts threads
 			for(int n=0; n<ms_nNbThreads; n++)
@@ -115,22 +115,21 @@ public class EmulWebRunner extends BaseCloseMBean
 				ThreadEmulWeb thread = threads.get(n);
 				thread.start();
 			}
-			
+
 			// Wait until all threads are over
 			while(counter.get() > 0)
 			{
 				try
 				{
 					Thread.sleep(1000L);
-				} 
+				}
 				catch (InterruptedException e)
 				{
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
-			
-//			
+
+//
 //			CSession session = new CSession() ;
 //			session.setCheckScenario(ms_bCheckScenario);
 //			for (int i=0; i<ms_nbLoops; i++)
@@ -141,10 +140,10 @@ public class EmulWebRunner extends BaseCloseMBean
 //				waitUntilNextLoopEnabled(i);
 //				session.reset();
 //			}
-//			
+//
 			Log.logCritical("" + ms_nbLoops + "Scenarios loops executed in by " + ms_nNbThreads + " in " + sw.getElapsedTimeReset() + " ms");
 			Log.logCritical("EmulWeb finished");
-			
+
 
 		}
 //		else
@@ -154,7 +153,7 @@ public class EmulWebRunner extends BaseCloseMBean
 //			ActionCompat action = new ActionCompat() ;
 //
 //			action.RunClientRequest(session);
-//			Document xmlOutput = session.getXMLOutput();	
+//			Document xmlOutput = session.getXMLOutput();
 //			XMLUtil.ExportXML(xmlOutput, "D:\\Dev\\NacaRunTime\\idea\\web\\1-login.xml") ;
 //			renderOutput(xmlOutput, "D:\\Dev\\NacaRunTime\\idea\\web\\1-login.html") ;
 //
@@ -168,7 +167,7 @@ public class EmulWebRunner extends BaseCloseMBean
 //			loader.setFieldValue("newpass", "", false);
 //			loader.setKeyPressed(KeyPressed.ENTER);
 //			action.RunClientRequest(session);
-//			xmlOutput = session.getXMLOutput() ;	
+//			xmlOutput = session.getXMLOutput() ;
 //			XMLUtil.ExportXML(xmlOutput, "D:\\Dev\\NacaRunTime\\idea\\web\\2-menu.xml") ;
 //			renderOutput(xmlOutput, "D:\\Dev\\NacaRunTime\\idea\\web\\2-menu.html") ;
 //
@@ -177,7 +176,7 @@ public class EmulWebRunner extends BaseCloseMBean
 //			loader.setFieldValue("mapchoi", "78", true);
 //			loader.setKeyPressed(KeyPressed.ENTER);
 //			action.RunClientRequest(session);
-//			xmlOutput = session.getXMLOutput() ;	
+//			xmlOutput = session.getXMLOutput() ;
 //			XMLUtil.ExportXML(xmlOutput, "D:\\Dev\\NacaRunTime\\idea\\web\\3-rs78m00.xml") ;
 //			renderOutput(xmlOutput, "D:\\Dev\\NacaRunTime\\idea\\web\\3-rs78m00.html") ;
 //
@@ -186,10 +185,10 @@ public class EmulWebRunner extends BaseCloseMBean
 //			loader.setFieldValue("mapchoi", "04", true);
 //			loader.setKeyPressed(KeyPressed.ENTER);
 //			action.RunClientRequest(session);
-//			xmlOutput = session.getXMLOutput() ;	
+//			xmlOutput = session.getXMLOutput() ;
 //			XMLUtil.ExportXML(xmlOutput, "D:\\Dev\\NacaRunTime\\idea\\web\\4-rs78m02.xml") ;
 //			renderOutput(xmlOutput, "D:\\Dev\\NacaRunTime\\idea\\web\\4-rs78m02.html") ;
-//		}		
+//		}
 	}
 
 	/**
@@ -223,7 +222,7 @@ public class EmulWebRunner extends BaseCloseMBean
 			if(cs.equalsIgnoreCase("-noCheckScenario"))
 				ms_bCheckScenario = false;
 		}
-		
+
 	}
 	protected static int ms_nbLoops = 1 ;
 	protected static int ms_nNbThreads = 1;
@@ -251,10 +250,10 @@ public class EmulWebRunner extends BaseCloseMBean
 			ActionCompat action = new ActionCompat() ;
 			CEmulMapFieldLoader loader = new CEmulMapFieldLoader() ;
 			session.setInputWrapper(loader);
-			
+
 			action.runClientRequestWithRender(resourceManager, player, session, bExportOutput);
-			
-//			ProgramSequencer prgseq = ProgramSequencer.GetInstance() ;			
+
+//			ProgramSequencer prgseq = ProgramSequencer.GetInstance() ;
 //			prgseq.ResetSession(session);
 //			action.RunClientRequest(session) ;
 //			Document xmlOutput = session.getXMLOutput();
@@ -270,15 +269,15 @@ public class EmulWebRunner extends BaseCloseMBean
 //				renderOutput(xmlOutput, csDirOut + "/output.html") ;
 //				System.out.println("Current page : " + page) ;
 //			}
-			
-			
+
+
 			int i=0 ;
 			String csDirOut = resourceManager.getOutputDir() ;
 			while (player.isPlayingScenario())
 			{
 				//Document xmlData = session.getXMLData() ;
 				//player.CheckOutput(xmlOutput) ;
-				
+
 				Document data = player.getCurrentPage() ;
 
 				i=player.nextPage() ;
@@ -295,7 +294,7 @@ public class EmulWebRunner extends BaseCloseMBean
 					System.out.println("Current page : " + page) ;
 				}
 			}
-		} 
+		}
 		catch (AbortSessionException e)
 		{
 			e.printStackTrace();
@@ -348,10 +347,10 @@ public class EmulWebRunner extends BaseCloseMBean
 		catch (IOException e)
 		{
 			e.printStackTrace();
-		}	
+		}
 	}
-	
-    protected void buildDynamicMBeanInfo() 
+
+    protected void buildDynamicMBeanInfo()
     {
     	addAttribute("EnableNextLoop", getClass(), "EnableNextLoop", Boolean.class);
     	addAttribute("EnableRemainingLoops", getClass(), "EnableRemainingLoops", Boolean.class);
@@ -362,50 +361,49 @@ public class EmulWebRunner extends BaseCloseMBean
 //        addOperation("Set Verbose level", getClass(), "setVerbose");
 //        addOperation("Set Debug level", getClass(), "setDebug");
 //        addOperation("Set Fine Debug level", getClass(), "setFineDebug");
-		
+
     }
-    
+
 	public Boolean getEnableNextLoop()
 	{
 		return bNextLoopEnabled;
 	}
-	
+
 	public void setEnableNextLoop(Boolean b)
 	{
 		this.bNextLoopEnabled = b;
 	}
-	
+
 	public void setEnableRemainingLoops(Boolean b)
 	{
 		this.bEnableRemainingLoops = b;
 	}
-	
+
 	public Boolean getEnableRemainingLoops()
 	{
 		return bEnableRemainingLoops;
 	}
-//	
+//
 //	private void waitUntilNextLoopEnabled(int i)
-//	{	
+//	{
 //		if(!bEnableRemainingLoops)
 //		{
-//			Log.logCritical("EmulWeb Loop " + i + " Done; waiting to be enabled by jmx ...");	
+//			Log.logCritical("EmulWeb Loop " + i + " Done; waiting to be enabled by jmx ...");
 //			while(!bNextLoopEnabled)
 //			{
 //				try
 //				{
 //					Thread.sleep(1000L);
-//				} 
+//				}
 //				catch (InterruptedException e)
 //				{
-//					// TODO Auto-generated catch block
 //					e.printStackTrace();
 //				}
 //			}
 //			bNextLoopEnabled= false;
 //		}
 //	}
-	
+
 	private boolean bNextLoopEnabled = false;
 	private boolean bEnableRemainingLoops = false;
 }

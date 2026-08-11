@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 11 aoÃ»t 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic.forms;
 
 import java.util.Vector;
@@ -25,8 +19,6 @@ import utils.NacaTransAssertException;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CEntityFieldAttribute extends CBaseEntityFieldAttribute
 {
@@ -71,12 +63,12 @@ public class CEntityFieldAttribute extends CBaseEntityFieldAttribute
 		ref.RegisterWritingAction(eSet) ;
 		return eSet ;
 	}
-	
+
 	public CBaseActionEntity GetSpecialAssignment(CTerminal term, CBaseEntityFactory factory, int l)
 	{
 		return CEntityFieldAttribute.intGetSpecialAssignment(reference, term, factory, l) ;
 	}
-	
+
 	public static CBaseActionEntity intGetSpecialAssignment(CDataEntity field, CTerminal term, CBaseEntityFactory factory, int l)
 	{
 		/*
@@ -127,7 +119,7 @@ public class CEntityFieldAttribute extends CBaseEntityFieldAttribute
 		ref.RegisterWritingAction(eSet) ;
 		return eSet;
 	}
-	public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory) 
+	public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory)
 	{
 		CDataEntity e = reference.GetArrayReference(v, factory) ;
 		return factory.NewEntityFieldAttribute(getLine(), "", e);

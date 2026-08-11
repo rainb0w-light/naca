@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on Jul 19, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements;
 
 import java.util.Vector;
@@ -38,15 +32,13 @@ import utils.Transcoder;
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CCall extends CCobolElement
 {
 	/* (non-Javadoc)
 	 * @see parser.CLanguageElement#Parse(lexer.CTokenList)
 	 */
-	 
+
 	/**
 	 * @param line
 	 */
@@ -58,7 +50,7 @@ public class CCall extends CCobolElement
 		public CTerminal term = null ;
 		public String method = "" ;
 	}
-	
+
 	protected boolean DoParsing()
 	{
 		CBaseToken tokPerf = GetCurrentToken();
@@ -81,7 +73,7 @@ public class CCall extends CCobolElement
 			Transcoder.logError(getLine(), "Expecting a STRING token as reference for CALL") ;
 			return false ;
 		}
-		
+
 		//read parameter sent to sub-soutine
 		CBaseToken tokUsing = GetCurrentToken() ;
 		if (tokUsing.GetKeyword() != CCobolKeywordList.USING)
@@ -106,7 +98,7 @@ public class CCall extends CCobolElement
 				p.term = new CIdentifierTerminal(id) ;
 				p.method = "BY_REFERENCE" ;
 				arrParams.addElement(p) ;
-				
+
 				// more IDs ?
 				CBaseToken tokComma = GetCurrentToken() ;
 				if (tokComma.GetType() == CTokenType.COMMA)
@@ -136,7 +128,7 @@ public class CCall extends CCobolElement
 					Transcoder.logError(getLine(), "Unexpecting methode for CALL : " + tokMethod.GetValue()) ;
 					return false ;
 				}
-				
+
 				CBaseToken tokNext = GetNext() ;
 				if (tokNext.GetType() == CTokenType.IDENTIFIER)
 				{
@@ -156,7 +148,7 @@ public class CCall extends CCobolElement
 					{
 						GetNext() ;
 					}
-				} 
+				}
 				else if (tokNext.GetKeyword() == CCobolKeywordList.ADDRESS)
 				{
 					tokNext = GetNext() ;
@@ -231,7 +223,7 @@ public class CCall extends CCobolElement
 			}
 			else if (tok.GetType() == CTokenType.NUMBER || tok.GetType() == CTokenType.STRING)
 			{
-				CTerminal term = ReadTerminal() ; 
+				CTerminal term = ReadTerminal() ;
 				CCallParameter p = new CCallParameter();
 				p.term = term ;
 				p.method = "VALUE" ;
@@ -282,7 +274,7 @@ public class CCall extends CCobolElement
 		}
 		return e;
 	}
-	
+
 	protected CTerminal reference = null ;
 	private CExceptionBloc onErrorBloc ;
 	protected Vector<CCallParameter> arrParams = new Vector<CCallParameter>();
@@ -293,7 +285,7 @@ public class CCall extends CCobolElement
 	{
 		CDataEntity eRef = reference.GetDataEntity(getLine(), factory);
 		boolean ischecked = false ;
-		
+
 		String prg = "" ;
 		if (reference.IsReference())
 		{
@@ -310,17 +302,17 @@ public class CCall extends CCobolElement
 				}
 			}
 		}
-		
+
 		if (!reference.IsReference())
 		{ // reference is a constant string : 'PRGM'
 			prg = reference.GetValue() ;
 		}
-		
+
 		if (!prg.equals(""))
 		{
 			String prgname = parent.GetProgramName();
 			CGlobalEntityCounter.GetInstance().RegisterSubProgram(prgname, prg) ;
-			
+
 			CEntityRoutineEmulation emul = factory.programCatalog.getRoutineEmulation(prg) ;
 			if (emul != null)
 			{

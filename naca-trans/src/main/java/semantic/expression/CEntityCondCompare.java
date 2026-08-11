@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 18 aoï¿½t 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic.expression;
 
 import semantic.CBaseEntityFactory;
@@ -20,8 +14,6 @@ import semantic.CDataEntity;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CEntityCondCompare extends CBinaryEntityCondition
 {
@@ -40,7 +32,7 @@ public class CEntityCondCompare extends CBinaryEntityCondition
 		return newCond;
 	}
 
-	
+
 	public void SetLessThan(CBaseEntityExpression op1, CBaseEntityExpression op2)
 	{
 		this.op1 = op1 ;
@@ -69,7 +61,7 @@ public class CEntityCondCompare extends CBinaryEntityCondition
 		isisOrEquals = true ;
 		isisGreater = true ;
 	}
-	
+
 	protected CBaseEntityExpression op1 ;
 	protected CBaseEntityExpression op2 ;
 	protected boolean isisGreater = false ; // true : >/>=, false : </<=
@@ -128,19 +120,19 @@ public class CEntityCondCompare extends CBinaryEntityCondition
 		EConditionType type = null ;
 		if (isisGreater && isisOrEquals)
 		{
-			type = EConditionType.IS_GREATER_THAN_OR_EQUAL ; 
+			type = EConditionType.IS_GREATER_THAN_OR_EQUAL ;
 		}
 		else if (isisGreater && !isisOrEquals)
 		{
-			type = EConditionType.IS_GREATER_THAN ; 
+			type = EConditionType.IS_GREATER_THAN ;
 		}
 		else if (!isisGreater && isisOrEquals)
 		{
-			type = EConditionType.IS_LESS_THAN_OR_EQUAL ; 
+			type = EConditionType.IS_LESS_THAN_OR_EQUAL ;
 		}
 		else if (!isisGreater && !isisOrEquals)
 		{
-			type = EConditionType.IS_LESS_THAN ; 
+			type = EConditionType.IS_LESS_THAN ;
 		}
 		return type ;
 	}

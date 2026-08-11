@@ -12,7 +12,7 @@ import java.net.UnknownHostException;
 public class Blowfish
 {
 	private String csKey = null;
-	
+
     public Blowfish(String csKey, boolean bMixWithIpAdress)
 	{
 		try
@@ -32,35 +32,34 @@ public class Blowfish
 		}
 		catch (UnknownHostException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		this.csKey = csKey;
 	}
-	
+
     public String encrypt(String csClearValue)
 	{
         byte[] testkey = csKey.getBytes();
 
         BlowfishECB bfecb = new BlowfishECB(testkey);
-        
+
         // align to the next 8 byte border
         byte[] messbuf = null;
         byte[] tempbuf = csClearValue.getBytes();
         int nMessSize = csClearValue.length();
         int nRest = nMessSize & 7;
-        if (nRest != 0) 
+        if (nRest != 0)
         {
         	messbuf = new byte[(nMessSize & (~7)) + 8];
         	System.arraycopy(tempbuf, 0, messbuf, 0, nMessSize);
 
-        	for (int nI = nMessSize; nI < messbuf.length ; nI++) 
+	       for (int nI = nMessSize; nI < messbuf.length ; nI++)
         	{
         		messbuf[nI] = 0x20;
         	}
         	//System.out.println("message with " + nMessSize + " bytes aligned to " + messbuf.length + " bytes");
         }
-        else 
+        else
         {
         	messbuf = new byte[nMessSize];
         	System.arraycopy(tempbuf, 0, messbuf, 0, nMessSize);
@@ -70,7 +69,7 @@ public class Blowfish
         String csCryptedValue = BinConverter.bytesToBinHex(messbuf);
         return csCryptedValue;
 	}
-	
+
     public String decrypt(String csCryptedValue)
 	{
 		byte[] testkey = csKey.getBytes();
@@ -78,9 +77,9 @@ public class Blowfish
 
         int n = csCryptedValue.length()/2;
         byte[] tByteCrypedValue = new byte[n];
-        BinConverter.binHexToBytes(csCryptedValue, tByteCrypedValue, 0, 0, n);  
-        
-        
+        BinConverter.binHexToBytes(csCryptedValue, tByteCrypedValue, 0, 0, n);
+
+
         bfecb.decrypt(tByteCrypedValue);
         String csClearValue = new String(tByteCrypedValue).trim();
         return csClearValue;

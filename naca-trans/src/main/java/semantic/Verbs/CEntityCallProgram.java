@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 5 ao�t 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic.Verbs;
 
 
@@ -25,8 +19,6 @@ import utils.*;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CEntityCallProgram extends CBaseActionEntity
 {
@@ -39,7 +31,7 @@ public class CEntityCallProgram extends CBaseActionEntity
 		reference = Reference ;
 		cat.RegisterCallProgram(this) ;
 	}
-	
+
 	public void SetParameterByRef(CDataEntity e)
 	{
 		CCallParameter p = new CCallParameter(e, CCallParameterMethode.BY_REFERENCE);
@@ -60,7 +52,7 @@ public class CEntityCallProgram extends CBaseActionEntity
 		CCallParameter p = new CCallParameter(e, CCallParameterMethode.LENGTH_OF);
 		parameters.add(p);
 	}
-	
+
 	protected boolean ischecked = false ;
 	protected CDataEntity reference = null ;
 	protected CBaseLanguageEntity onErrorBloc ;
@@ -109,7 +101,7 @@ public class CEntityCallProgram extends CBaseActionEntity
 				param.reference = null ;
 				return true ;
 			}
-		}		
+		}
 		return false ;
 	}
 	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
@@ -131,10 +123,10 @@ public class CEntityCallProgram extends CBaseActionEntity
 				var.RegisterReadingAction(this) ;
 				return true ;
 			}
-		}		
+		}
 		return false ;
 	}
-	
+
 	public CDataEntity getProgramReference()
 	{
 		return reference ;
@@ -231,7 +223,7 @@ public class CEntityCallProgram extends CBaseActionEntity
 
 	public void UpdateProgramReference(CDataEntity newProgram)
 	{
-		reference = newProgram ;		
+		reference = newProgram ;
 	}
 
 	public void SetOnErrorBloc(CBaseLanguageEntity error)

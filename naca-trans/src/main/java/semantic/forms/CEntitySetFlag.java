@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 11 ao�t 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic.forms;
 
 import semantic.CBaseActionEntity;
@@ -19,8 +13,6 @@ import utils.CObjectCatalog;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CEntitySetFlag extends CBaseActionEntity
 {
@@ -81,7 +73,7 @@ public class CEntitySetFlag extends CBaseActionEntity
 		{
 			refField = null ;
 			data.UnRegisterWritingAction(this) ;
-			
+
 			return true ;
 		}
 		return false ;
@@ -99,7 +91,7 @@ public class CEntitySetFlag extends CBaseActionEntity
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public void ResetFlag()
 	{

@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
-/*
- * Created on 8 mars 2005
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 package nacaLib.varEx;
 
 import jlib.misc.AsciiEbcdicConverter;
@@ -20,8 +14,6 @@ import nacaLib.tempCache.TempCacheLocator;
 /**
  * @author U930DI
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 public class InternalCharBuffer extends CJMapObject
 {
@@ -34,22 +26,22 @@ public class InternalCharBuffer extends CJMapObject
 	{
 		alloc(nBufferSize);
 	}
-	
+
 	public void prepareAutoRemoval()
 	{
 		acBuffer = null;
 	}
-	
+
 	public InternalCharBuffer(char [] acBuffer)
 	{
 		this.acBuffer = acBuffer;
 	}
-	
+
 //	public InternalCharBuffer(InternalCharBuffer internalCharBufferOriginal)
 //	{
 //		copyFrom(internalCharBufferOriginal);
 //	}
-	
+
 	public InternalCharBuffer(InternalCharBuffer internalCharBufferOriginal, int nAbsolutePosition, int nTotalSize)
 	{
 		copyFrom(internalCharBufferOriginal, nAbsolutePosition, nTotalSize);
@@ -59,7 +51,7 @@ public class InternalCharBuffer extends CJMapObject
 	{
 		alloc(nBufferSize);
 		//JmxGeneralStat.incInternalCharBufferSize(nBufferSize);
-		//m_hashSemantics = new Hashtable<Integer, String>(); 
+		//m_hashSemantics = new Hashtable<Integer, String>();
 	}
 
 	private void alloc(int nNewLength)
@@ -79,7 +71,7 @@ public class InternalCharBuffer extends CJMapObject
 //			acBuffer[n] = internalCharBufferOriginal.acBuffer[n];
 //		}
 //	}
-	
+
 	public void copyFrom(InternalCharBufferCompressedBackup internalCharBufferCompressedBackup)
 	{
 		if(internalCharBufferCompressedBackup == null)
@@ -98,8 +90,8 @@ public class InternalCharBuffer extends CJMapObject
 				acBuffer[n] = (char)b;
 		}
 	}
-	
-	 
+
+
 	public void copyFrom(InternalCharBuffer internalCharBufferOriginal, int nAbsolutePosition, int nTotalSize)
 	{
 		if(!isLargeEnough(internalCharBufferOriginal.getBufferSize()))
@@ -111,11 +103,11 @@ public class InternalCharBuffer extends CJMapObject
 			acBuffer[n] = internalCharBufferOriginal.acBuffer[nAbsolutePosition+n];
 		}
 	}
-	
+
 //	public char[] getRawChars(int nPos, int nLength)
 //	{
 //		byte[] t = new byte[nLength];
-//		
+//
 //		for(int n=0; n<nLength; n++)
 //		{
 //			char c = acBuffer[n+nPos];
@@ -125,24 +117,24 @@ public class InternalCharBuffer extends CJMapObject
 //		}
 //		return t;
 //	}
-//	
-	
-	
+//
+
+
 	void shareDataBufferFrom(InternalCharBuffer internalCharBufferOriginal)
 	{
 		acBuffer = internalCharBufferOriginal.acBuffer;
 		//m_hashSemantics = internalCharBufferOriginal.m_hashSemantics;
 	}
-	
+
 	boolean isLargeEnough(int nLength)
 	{
 		if(acBuffer == null)
 			return false;
-		
+
 		if(acBuffer.length < nLength)
 			return false;
-		return true;			
-	}	
+		return true;
+	}
 
 //	boolean isBufferComputed()
 //	{
@@ -150,7 +142,7 @@ public class InternalCharBuffer extends CJMapObject
 //			return false;
 //		return true;
 //	}
-	
+
 	public int writeInt(int nValue, int nPos)
 	{
 		if(nPos+4 <= acBuffer.length)
@@ -158,10 +150,10 @@ public class InternalCharBuffer extends CJMapObject
 			setIntAt(nPos, nValue);
 			nPos += 4;
 			return nPos;
-		}	
+		}
 		return -1;
 	}
-	
+
 	public int writeShort(short sValue, int nPos)
 	{
 		if(nPos+2 <= acBuffer.length)
@@ -169,10 +161,10 @@ public class InternalCharBuffer extends CJMapObject
 			setShortAt(nPos, sValue);
 			nPos += 2;
 			return nPos;
-		}	
+		}
 		return -1;
 	}
-	
+
 	public int writeChar(char cValue, int nPos)
 	{
 		if(nPos < acBuffer.length)
@@ -181,17 +173,17 @@ public class InternalCharBuffer extends CJMapObject
 			//setCharAt(nPos, cValue);
 			nPos++;
 			return nPos;
-		}	
+		}
 		return -1;
 	}
-		
+
 	public int writeRepeatingCharAt(int nPosition, char c, int nNbChars)
 	{
 		for(int n=0; n<nNbChars; n++, nPosition++)
 			acBuffer[nPosition] = c;
 		return nPosition;
 	}
-	
+
 	public void copyBytes(int nPositionDest, int nNbCharsToCopy, int nPositionSource, InternalCharBuffer sourceCharBuffer)
 	{
 		for(int n=0; n<nNbCharsToCopy; n++, nPositionDest++, nPositionSource++)
@@ -199,7 +191,7 @@ public class InternalCharBuffer extends CJMapObject
 			acBuffer[nPositionDest] = sourceCharBuffer.acBuffer[nPositionSource];
 		}
 	}
-			
+
 	public int writeString(String csValue, int nPos)
 	{
 		int nLength = csValue.length();
@@ -224,18 +216,18 @@ public class InternalCharBuffer extends CJMapObject
 	{
 		acBuffer[nPosition] = c;
 	}
-		
+
 	public void setIntSignComp3At(VarBufferPos varBufferPos, long lValue, int nNbDigitInteger, int nTotalSize)
 	{
 		Pic9Comp3BufferSupport.setFromRightToLeft(varBufferPos, nNbDigitInteger, nTotalSize, 0, true, lValue);
 	}
 
-	
+
 //	public int setStringAtWithStringLength(int nAbsoluteStartPosition, String cs, int nStringLength, int nLength)
 //	{
 //		char c = 0;
 //		for(int n=0; n<nLength && nAbsoluteStartPosition<acBuffer.length; n++)
-//		{			
+//		{
 //			if(n < nStringLength)
 //				c = cs.charAt(n);
 //			else
@@ -249,17 +241,17 @@ public class InternalCharBuffer extends CJMapObject
 	public int setStringAt(int nAbsoluteStartPosition, String cs, int nLength)
 	{
 		int nStringLength = cs.length();
-		int nBufRemainingLength = acBuffer.length - nAbsoluteStartPosition; 
+		int nBufRemainingLength = acBuffer.length - nAbsoluteStartPosition;
 		if(nStringLength > nBufRemainingLength)
 			nStringLength = nBufRemainingLength;
 
 		cs.getChars(0, nStringLength, acBuffer, nAbsoluteStartPosition);
 
-		
+
 //		int nStringLength = cs.length();
 //		char c = 0;
 //		for(int n=0; n<nLength && nAbsoluteStartPosition<acBuffer.length; n++)
-//		{			
+//		{
 //			if(n < nStringLength)
 //				c = cs.charAt(n);
 //			else
@@ -269,7 +261,7 @@ public class InternalCharBuffer extends CJMapObject
 //		}
 		return nAbsoluteStartPosition + nStringLength;
 	}
-	
+
 	public int writeString(String csValue, int nLength, int nPos)
 	{
 		int nNbChars = acBuffer.length - nPos;
@@ -283,11 +275,11 @@ public class InternalCharBuffer extends CJMapObject
 			csValue.getChars(0, nLength, acBuffer, nPos);
 			return nPos+nLength;
 		}
-// 		Old code			
+// 		Old code
 //		int n = 0;
 //		while(nPos < acBuffer.length && n < nLength)
 //		{
-//			char c = csValue.charAt(n); 
+//			char c = csValue.charAt(n);
 //			acBuffer[nPos++] = c;
 //			n++;
 //		}
@@ -295,14 +287,14 @@ public class InternalCharBuffer extends CJMapObject
 //			return nPos;
 //		return -1;
 	}
-	
-	
+
+
 	public int setStringAt(int nAbsoluteStartPosition, CStr cs, int nLength)
 	{
 		int nStringLength = cs.length();
 		char c = 0;
 		for(int n=0; n<nLength && nAbsoluteStartPosition<acBuffer.length; n++)
-		{			
+		{
 			if(n < nStringLength)
 				c = cs.charAt(n);
 			else
@@ -312,26 +304,26 @@ public class InternalCharBuffer extends CJMapObject
 		}
 		return nAbsoluteStartPosition;
 	}
-	
+
 	public String getString()
 	{
 		String cs = new String(acBuffer);
 		return cs;
-	}	
-	
+	}
+
 	public CStr getBufChunkAt(int nAbsolutePosition, int nSize)
 	{
 		if(nSize < 0)
 			nSize = 0;
-		
+
 		int nMaxSize = acBuffer.length - nAbsolutePosition;
 		if(nSize > nMaxSize)
 			nSize = nMaxSize;
-		CStr cs = TempCacheLocator.getTLSTempCache().getMappedCStr(); 
+		CStr cs = TempCacheLocator.getTLSTempCache().getMappedCStr();
 		cs.set(acBuffer, nAbsolutePosition, nSize);
 		return cs;
 	}
-	
+
 	public CStr getStringAt(int nAbsolutePosition, int nSize)
 	{
 		CStr cs = TempCacheLocator.getTLSTempCache().getMappedCStr();
@@ -351,23 +343,23 @@ public class InternalCharBuffer extends CJMapObject
 				if(nMaxSize > acBuffer.length - nAbsolutePosition)
 					nMaxSize = acBuffer.length - nAbsolutePosition;
 				if(nAbsolutePosition < acBuffer.length)
-				{						
-					cs.set(acBuffer, nAbsolutePosition, nMaxSize); 
+				{
+					cs.set(acBuffer, nAbsolutePosition, nMaxSize);
 					return cs ;
 				}
-			}						
+			}
 		}
 		cs.set(null, 0, 0);	// Erase previous buffer, as we are mapped
 		return cs;
 	}
-	
+
 	public void setShortAt(int nPosition, short s)
 	{
-		int n = s; 
+		int n = s;
 		acBuffer[nPosition+1] = (char)(n & 255) ;
 	    n = n >> 8 ;
 		acBuffer[nPosition] = (char)(n & 255) ;
-//		
+//
 //		//int nChecksum = 0;	// PJD Optimization
 //		int nSignOffet = 0;
 //		int n = s;
@@ -376,28 +368,28 @@ public class InternalCharBuffer extends CJMapObject
 //			n = -n;
 //			nSignOffet = 256;
 //		}
-//		
+//
 //		for(int nByte=0, nPos=1; nByte <2; nByte++, nPos--)
 //		{
 //			int nChar = n % 256;
 //			if(nByte == 1)	// High order byte
 //				nChar += nSignOffet;
-//			
+//
 //			char cVal = (char)(nChar);
 //			setCharAt(nPosition+nPos, cVal);
 //			//nChecksum += cVal;
 //			n = n / 256;
-//		} 
+//		}
 //		//return nChecksum;
 	}
-	
+
 	public short getShortAt(int nPosition)
 	{
 		int n = acBuffer[nPosition] & 0xFF;
 	    n = n << 8 ;
 		n += acBuffer[nPosition+1] & 0xFF;
 		return (short)n;
-//		
+//
 //		boolean bNegative = false;
 //		int nVal = 0;
 //		for(int nIndex=0; nIndex<2; nIndex++)
@@ -416,10 +408,10 @@ public class InternalCharBuffer extends CJMapObject
 //		short s = (short)nVal;
 //		return s;
 	}
-	
+
 	public void setIntAt(int nPosition, int n)
 	{
-		for (int nByte=3; nByte>=0; nByte--) 
+		for (int nByte=3; nByte>=0; nByte--)
 		{
 			acBuffer[nPosition+nByte] = (char)(n & 255) ;
 		    n = n >> 8 ;
@@ -430,21 +422,21 @@ public class InternalCharBuffer extends CJMapObject
 //			n = -n;
 //			nSignOffet = 256;
 //		}
-//		
+//
 //		for(int nByte=0, nPos=3; nByte <4; nByte++, nPos--)
 //		{
 //			int nChar = n % 256;
 //			if(nByte == 3)	// High order byte
 //				nChar += nSignOffet;
-//			
+//
 //			char cVal = (char)(nChar);
 //			setCharAt(nPosition+nPos, cVal);
 //			n = n / 256;
-//		} 
-	}	
-	
+//		}
+	}
+
 	public int getIntAt(int nPosition)
-	{	
+	{
 		int n = acBuffer[nPosition++] & 0xFF;
 		n <<= 8 ;
 		n += acBuffer[nPosition++] & 0xFF;
@@ -453,7 +445,7 @@ public class InternalCharBuffer extends CJMapObject
 		n <<= 8 ;
 		n += acBuffer[nPosition++] & 0xFF;
 		return n;
-		
+
 //		boolean bNegative = false;
 //		int nVal = 0;
 //		for(int nIndex=0; nIndex<4; nIndex++)
@@ -469,12 +461,12 @@ public class InternalCharBuffer extends CJMapObject
 //		}
 //		if(bNegative)
 //			nVal = -nVal;
-//		return nVal;		
+//		return nVal;
 	}
-		
+
 	public void setLongAt(int nPosition, long l)
 	{
-		for (int nByte=7; nByte>=0; nByte--) 
+		for (int nByte=7; nByte>=0; nByte--)
 		{
 			acBuffer[nPosition+nByte] = (char)(l & 255) ;
 		    l = l >> 8 ;
@@ -485,19 +477,19 @@ public class InternalCharBuffer extends CJMapObject
 //			l = -l;
 //			nSignOffet = 256;
 //		}
-//		
+//
 //		for(int nByte=0, nPos=7; nByte <8; nByte++, nPos--)
 //		{
 //			long lChar = l % 256;
 //			if(nByte == 7)	// High order byte
 //				lChar += nSignOffet;
-//			
+//
 //			char cVal = (char)(lChar);
 //			setCharAt(nPosition+nPos, cVal);
 //			l = l / 256;
-//		} 
-	}	
-	
+//		}
+	}
+
 	public long getLongAt(int nPosition)
 	{
 		long l = acBuffer[nPosition++] & 0xFF;
@@ -516,7 +508,7 @@ public class InternalCharBuffer extends CJMapObject
 		l <<= 8 ;
 		l += acBuffer[nPosition++] & 0xFF;
 		return l;
-		
+
 //		boolean bNegative = false;
 //		long lVal = 0;
 //		for(int nIndex=0; nIndex<8; nIndex++)
@@ -532,22 +524,22 @@ public class InternalCharBuffer extends CJMapObject
 //		}
 //		if(bNegative)
 //			lVal = -lVal;
-//		return lVal;		
+//		return lVal;
 	}
 
-	
+
 	public String toString()
 	{
 		return "Size="+getBufferSize()+" Value=\""+getString()+"\"";
 	}
-	
+
 	public int getBufferSize()
 	{
 		if(acBuffer != null)
 			return acBuffer.length;
 		return 0;
 	}
-	
+
 
 	void convertEbcdicToAscii(int nPosition, int nLength)
 	{
@@ -558,7 +550,7 @@ public class InternalCharBuffer extends CJMapObject
 			acBuffer[nPosition+n] = ascii;
 		}
 	}
-	
+
 	void convertAsciiToEbcdic(int nPosition, int nLength)
 	{
 		for(int n=0; n<nLength; n++)
@@ -568,7 +560,7 @@ public class InternalCharBuffer extends CJMapObject
 			acBuffer[nPosition+n] = ebcdic;
 		}
 	}
-	
+
 	void getConvertedBytesAsciiToEbcdic(int nPositionDest, int nLength, byte tbyDest[])
 	{
 		for(int n=0; n<nLength; n++)
@@ -579,18 +571,18 @@ public class InternalCharBuffer extends CJMapObject
 		}
 	}
 
-	
+
 //	public boolean isShared()
 //	{
 //		return bShared;
 //	}
-	
-//	
+
+//
 //	int getBufferSize()
 //	{
 //		return acBuffer.length;
 //	}
-	
+
 //	public void setProgramManager(BaseProgramManager programManager)
 //	{
 //		programManager = programManager;
@@ -598,24 +590,24 @@ public class InternalCharBuffer extends CJMapObject
 //
 //	public BaseProgramManager getProgramManager()
 //	{
-//		// Check TLS 
+//		// Check TLS
 //		BaseProgramManager tlspm = TempCacheLocator.getTLSTempCache().getProgramManager();
-//		assertIfFalse(tlspm == programManager); 
+//		assertIfFalse(tlspm == programManager);
 //		return programManager;
 //	}
 
 //	public BaseProgramManager getProgramManager()
 //	{
-//		// Check TLS 
+//		// Check TLS
 //		BaseProgramManager tlspm = TempCacheLocator.getTLSTempCache().getProgramManager();
 //		return tlspm;
 //	}
-		
+
 //	public void setSemanticContextValue(String csValue, int nAbsoluteStartPosition)
 //	{
 //		if(m_hashSemantics == null)
 //			m_hashSemantics = new Hashtable<Integer, String>();
-//		
+//
 //		Integer intKey = getSemanticHashIndex(nAbsoluteStartPosition);
 //		boolean bSemanticExists = m_hashSemantics.containsKey(intKey);
 //		if(bSemanticExists)
@@ -623,7 +615,7 @@ public class InternalCharBuffer extends CJMapObject
 //		if(csValue != null)
 //			m_hashSemantics.put(intKey, csValue);
 //	}
-	
+
 //	public String getSemanticContextValue(int nAbsoluteStartPosition)
 //	{
 //		if(m_hashSemantics != null)
@@ -641,7 +633,7 @@ public class InternalCharBuffer extends CJMapObject
 //		Integer intKey = new Integer(nKey);
 //		return intKey;
 //	}
-	
+
 //	public void removeAllSemanticContext()
 //	{
 //		if(m_hashSemantics != null)
@@ -649,7 +641,7 @@ public class InternalCharBuffer extends CJMapObject
 //			m_hashSemantics.clear();
 //		}
 //	}
-	
+
 //	public void inheritSemanticContext(InternalCharBuffer bufferSource, int nOffset)
 //	{
 //		ArrayList arrCoupleIdValue = getArrayCoupleIdValue();
@@ -657,16 +649,16 @@ public class InternalCharBuffer extends CJMapObject
 //		{
 //			//int nMinAbsoluteStartPositionSource = 0;
 //			//int nLengthPositionSource = bufferSource.getBufferSize();
-//			//int nMaxAbsoluteStartPositionSource = nMinAbsoluteStartPositionSource + nLengthPositionSource - 1; 
+//			//int nMaxAbsoluteStartPositionSource = nMinAbsoluteStartPositionSource + nLengthPositionSource - 1;
 //			for(int n=0; n<arrCoupleIdValue.size(); n++)
 //			{
 //				CoupleIdValue couple = (CoupleIdValue)arrCoupleIdValue.get(n);
 //				int nKeyDest = couple.nId + nOffset;
 //				setSemanticContextValue(couple.csValue, nKeyDest);
 //			}
-//		}		
+//		}
 //	}
-	
+
 //	ArrayList getArrayCoupleIdValue()
 //	{
 //		ArrayList<CoupleIdValue> arr = null;
@@ -681,16 +673,16 @@ public class InternalCharBuffer extends CJMapObject
 //					int nKey = intKey.intValue();
 //					String csValue = m_hashSemantics.get(intKey);
 //					CoupleIdValue couple = new CoupleIdValue(nKey, csValue);
-//					
+//
 //					if(arr == null)
 //						arr = new ArrayList<CoupleIdValue>();
 //					arr.add(couple);
 //				}
 //			}
 //		}
-//		return arr;	
+//		return arr;
 //	}
-	
+
 	//private Hashtable<Integer, String> m_hashSemantics = null;	// Hash table of vars index by name
 
 	public char [] acBuffer = null;		// Array of chars used as the buffer where data are stored

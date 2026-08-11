@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
-/*
- * Created on 7 juil. 2005
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 package jlib.display;
 
 import java.io.File;
@@ -20,8 +14,6 @@ import jlib.xml.Tag;
 /**
  * @author U930CV
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 public class DisplayConfig
 {
@@ -76,9 +68,9 @@ public class DisplayConfig
 				e.printStackTrace();
 				factoryDialogs = null;
 			}
-			
+
 			resourceManager = new ResourceManager() ;
-			
+
 			String csXSLFilePath = tagConfig.getVal("XSLFilePath") ;
 			File xSLFilePath = new File(csRootPath + csXSLFilePath) ;
 			if (!xSLFilePath.isFile())
@@ -93,7 +85,7 @@ public class DisplayConfig
 				csLogINIFilePath = csRootPath + csLogINIFilePath ;
 				Log.open(csLogINIFilePath);
 			}
-			
+
 			Tag tagFactory = tagConfig.getChild("factory") ;
 			if (tagFactory != null)
 			{
@@ -101,7 +93,7 @@ public class DisplayConfig
 			}
 		}
 	}
-	
+
 	private BaseDialogFactory factoryDialogs = null ;
 	private ResourceManager resourceManager = null ;
 	/**

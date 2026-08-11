@@ -4,18 +4,9 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
-/*
- * Created on 13 oct. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
-
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 package nacaLib.mapSupport;
 
@@ -25,18 +16,18 @@ public class MapFieldAttrColor extends MapFieldBaseAttr
 	{
 		super(nEncodedColorValue, text);
 	}
-	
+
 	static int getNbBitsEncoding()
 	{
 		return 3;
 	}
-	
+
 	static int getMask()
 	{
 		return 7;
 	}
-	
-		
+
+
 //	String getText()
 //	{
 //		int n = getInternalValue();
@@ -56,7 +47,7 @@ public class MapFieldAttrColor extends MapFieldBaseAttr
 //			return "neutral";
 //		return "default";
 //	}
-	
+
 //	char encode()
 //	{
 //		if(getInternalValue() > 0 && getInternalValue() <= 7)
@@ -72,9 +63,9 @@ public class MapFieldAttrColor extends MapFieldBaseAttr
 //		if(cValue >= 1 && cValue <= 7)
 //			nValue = Character.digit(cValue, 10);
 //		else
-//			nValue = 7; 
+//			nValue = 7;
 //	}
-	
+
 	public static MapFieldAttrColor BLUE = new MapFieldAttrColor(1, "blue");
 	public static MapFieldAttrColor RED = new MapFieldAttrColor(2, "red");
 	public static MapFieldAttrColor PINK = new MapFieldAttrColor(3, "pink");

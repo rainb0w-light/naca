@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on Sep 27, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic.CICS;
 
 import semantic.CBaseActionEntity;
@@ -20,8 +14,6 @@ import utils.CobolTranscoder.Notifs.NotifDeclareUseCICSPreprocessor;
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CEntityCICSStart extends CBaseActionEntity
 {
@@ -38,7 +30,7 @@ public class CEntityCICSStart extends CBaseActionEntity
 			cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
 		}
 	}
-	
+
 	public void SetInterval(CDataEntity inter)
 	{
 		interval = inter ;
@@ -60,14 +52,14 @@ public class CEntityCICSStart extends CBaseActionEntity
 	{
 		termID = term ;
 	}
-	
+
 	protected CDataEntity transID = null ;
 	protected CDataEntity termID = null ;
 	protected CDataEntity sysID = null ;
-	
+
 	protected CDataEntity interval = null ;
 	protected CDataEntity time = null ;
-	
+
 	protected CDataEntity dataFrom = null ;
 	protected CDataEntity dataLength = null ;
 	public void Clear()
@@ -83,7 +75,7 @@ public class CEntityCICSStart extends CBaseActionEntity
 	}
 	public boolean ignore()
 	{
-		return false; 
+		return false;
 	}
 
 	/**

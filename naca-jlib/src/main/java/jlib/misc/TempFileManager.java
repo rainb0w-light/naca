@@ -5,19 +5,11 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.misc;
 
-import java.io.BufferedWriter;
-import java.io.DataOutputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 
-import jlib.log.Log;
 import jlib.xml.Tag;
 
 /**
@@ -29,14 +21,14 @@ public class TempFileManager
 {
 	private String csTempPath = null;
 	private String csLastTempFilePathName = null;
-	
+
 	public TempFileManager(String csTempPath)
 	{
 		csTempPath = FileSystem.normalizePath(csTempPath);
 		FileSystem.createPath(csTempPath);
 		cleanupTempPath(csTempPath);
 	}
-	
+
 	public void cleanupTempPath(String csTempPath)
 	{
 		csTempPath = FileSystem.normalizePath(csTempPath);
@@ -49,7 +41,7 @@ public class TempFileManager
 		csLastTempFilePathName = FileSystem.buildFileName(csTempPath, csFileName, csTmpExt);
 		return csLastTempFilePathName;
 	}
-	
+
 //	public void saveTmpFile(Tag tag, String csFile, String csExt, int nStep)
 //	{
 //		String csFullExt = "" + nStep + "." + csExt + "." + nStep;
@@ -58,7 +50,7 @@ public class TempFileManager
 //		tag.exportToFileUTF8(csFileTmpOut);
 //	}
 
-//	
+//
 //	public void saveIndentedTmpFileHtml(Tag tag, String csFile, String csExt, int nStep)
 //	{
 //		String csFullExt = "" + nStep + "." + csExt + "." + nStep;
@@ -66,18 +58,18 @@ public class TempFileManager
 //		tag.exportIndentedUtf8Html(csFileTmpOut);
 //	}
 
-	// PJD: Sometimes calling saveIndentedTmpFile wites lots of huge xmlcomment with the grammar of the DTD; it's not the case when using saveNotIndentedTmpFile; Why ? 
+	// PJD: Sometimes calling saveIndentedTmpFile wites lots of huge xmlcomment with the grammar of the DTD; it's not the case when using saveNotIndentedTmpFile; Why ?
 	public void saveNotIndentedTmpFile(Tag tag, String csFile, String csExt, int nStep)
 	{
 		String csFullExt = "" + nStep + "." + csExt + "." + nStep;
 		String csFileTmpOut = makeTempFileName(csFile, csFullExt);
 		tag.exportToFileUTF8(csFileTmpOut);
 	}
-	
+
 //	public boolean saveTmpFile(StringBuilder sb, String csFile, String csExt, int nStep)
 //	{
 //		boolean b = true;
-//		
+//
 //		String csFullExt = "" + nStep + "." + csExt + "." + nStep;
 //		String csTempFileName = makeTempFileName(csFile, csFullExt);
 //		DataOutputStream stream = FileSystem.openWrite(csTempFileName);
@@ -89,17 +81,16 @@ public class TempFileManager
 //		}
 //		catch (IOException e)
 //		{
-//			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //			b= false;
 //		}
 //		FileSystem.closeFile(stream);
-//		
+//
 //		if(!b)
 //			Log.logCritical("Could not save temp file " + getLastTempFilePathName());
 //		return b;
-//	}	
-	
+//	}
+
 	public boolean saveTmpFile(StringBuilder sb, String csFile, String csExt, int nStep)
 	{
 		String csFullExt = "" + nStep + "." + csExt + "." + nStep;
@@ -107,7 +98,7 @@ public class TempFileManager
 		boolean b = FileSystem.writeFileUtf8(csTempFileName, sb);
 		return b;
 	}
-		
+
 	public String getLastTempFilePathName()
 	{
 		return csLastTempFilePathName;

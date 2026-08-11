@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 4 oct. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic.Verbs;
 
 import java.util.ArrayList;
@@ -23,8 +17,6 @@ import utils.CObjectCatalog;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CEntityDisplay extends CBaseActionEntity
 {
@@ -42,7 +34,7 @@ public class CEntityDisplay extends CBaseActionEntity
 	{
 		itemsToDisplay.add(e) ;
 	}
-	
+
 	protected Vector<CDataEntity> itemsToDisplay = new Vector<CDataEntity>();
 	protected Upon upon = Upon.DEFAULT ;
 	public void Clear()
@@ -60,7 +52,7 @@ public class CEntityDisplay extends CBaseActionEntity
 		}
 		return ignore ;
 	}
-	
+
 	public static enum Upon
 	{
 		DEFAULT, CONSOLE, ENVINONMENT,

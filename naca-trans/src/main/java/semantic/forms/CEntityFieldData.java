@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 11 ao�t 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic.forms;
 
 
@@ -101,12 +95,12 @@ public class CEntityFieldData extends CBaseEntityFieldAttribute
 		return getReference() == null ? "[UNDEFINED]" : getReference().GetName() ;
 	}
 
-	public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory) 
+	public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory)
 	{
 		CDataEntity e = reference.GetArrayReference(v, factory) ;
 		return factory.NewEntityFieldData(getLine(), "", e);
 	};
-	public CDataEntity GetSubStringReference(CBaseEntityExpression start, CBaseEntityExpression length, CBaseEntityFactory factory) 
+	public CDataEntity GetSubStringReference(CBaseEntityExpression start, CBaseEntityExpression length, CBaseEntityFactory factory)
 	{
 		CSubStringAttributReference ref = factory.NewEntitySubString(getLine()) ;
 		ref.SetReference(this, start, length) ;
@@ -170,7 +164,7 @@ public class CEntityFieldData extends CBaseEntityFieldAttribute
 			eAssign.SetToSpace(reference) ;
 		}
 		else if (value.equals("LOW-VALUE") || value.equals("LOW-VALUES"))
-		{	
+		{
 			eAssign.SetToLowValue(reference) ;
 		}
 		else

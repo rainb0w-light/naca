@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 7 oct. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package utils;
 
 import java.util.Vector;
@@ -17,8 +11,6 @@ import java.util.Vector;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CEntityHierarchy
 {
@@ -26,21 +18,21 @@ public class CEntityHierarchy
 	public CEntityHierarchy()
 	{
 	}
-	
+
 //	public CEntityHierarchy(CEntityHierarchy hier)
 //	{
 //		if (hier != null)
 //		{
 //			Concat(hier) ;
 //		}
-//	}	
+//	}
 	protected Vector<String> ascendants = new Vector<String>() ;
 
 	public void AddLevel(String level)
 	{
 		ascendants.addElement(level) ;
 	}
-	
+
 	public boolean CheckAscendant(String name)
 	{
 		if (name.contains(";"))
@@ -49,7 +41,7 @@ public class CEntityHierarchy
 			return CheckAscendants(arr) ;
 		}
 		return ascendants.contains(name) && !ascendants.elementAt(ascendants.size()-1).equals(name);
-	}	
+	}
 	public boolean CheckAscendants(String[] arr)
 	{
 		boolean b = true ;
@@ -58,8 +50,8 @@ public class CEntityHierarchy
 			b &= CheckAscendant(cs) ;
 		}
 		return b ;
-	}	
-	
+	}
+
 	public String FindGoodName(CEntityHierarchy tab[], String curName, int index)
 	{
 		String radical = curName ;
@@ -89,13 +81,13 @@ public class CEntityHierarchy
 		}
 		return radical+"$"+goodName ;
 	}
-	
+
 	public CEntityHierarchy Concat(CEntityHierarchy hier)
 	{
 		for (int i = 0; i<hier.ascendants.size(); i++)
 		{
 			ascendants.addElement(hier.ascendants.get(i));
-		}		
+		}
 		return this ;
 	}
 }

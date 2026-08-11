@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 17 janv. 2005
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic.Verbs;
 
 import semantic.CBaseEntityFactory;
@@ -17,8 +11,6 @@ import semantic.CBaseEntityFactory;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CEntityRoutineEmulation
 {
@@ -30,7 +22,7 @@ public class CEntityRoutineEmulation
 	 */
 	public CEntityRoutineEmulation(String alias, String display)
 	{
-		csAlias = alias ; 
+		csAlias = alias ;
 		csDisplay = display ;
 	}
 

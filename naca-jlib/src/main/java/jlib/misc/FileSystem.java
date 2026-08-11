@@ -6,13 +6,6 @@
  */
 package jlib.misc;
 
-/*
- * Created on 4 mars 2005
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
-
 import java.io.BufferedInputStream;
 import java.io.BufferedWriter;
 import java.io.DataInputStream;
@@ -38,21 +31,19 @@ import java.util.Vector;
 /**
  * @author U930DI
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class FileSystem
-{	
+{
 	public FileSystem()
 	{
 	}
-	
+
 	public static String getCurrentWorkingDir()
 	{
 		String cs = System.getProperty("user.dir");
 		return cs;
 	}
-	
+
 	public static String normalizePath(String csPath)
 	{
 		csPath = csPath.replace('\\', '/') ;
@@ -60,39 +51,39 @@ public class FileSystem
 			csPath = csPath + "/";
 		return csPath;
 	}
-	
+
 	public static String normalizeFileNamePath(String csPath)
 	{
 		csPath = csPath.replace('\\', '/') ;
 		return csPath;
 	}
-	
+
 	public static String buildFileName(String csFilePath, String csFileName, String csFileExt)
 	{
 		String cs = normalizePath(csFilePath) + csFileName;
 		if(csFileExt != null && csFileExt.length() > 0)
 			cs += "." + csFileExt;
-		return cs; 
+		return cs;
 	}
-	
+
 	public static String createFullPath(String csDir, String csSubDir, String csFileName)
 	{
 		csDir = normalizePath(csDir) + csSubDir;
 		csDir = FileSystem.normalizePath(csDir);
 		createPath(csDir);
 		csFileName = appendFilePath(csDir, csFileName);
-		return csFileName; 
+		return csFileName;
 	}
-	
+
 	public static String appendFilePath(String csPath, String csFileName)
 	{
 		String cs = normalizePath(csPath) + csFileName;
 		return cs;
 	}
-	
+
 	public static String getNameWithoutExtension(String csFilePath)
 	{
-		String csFileName = csFilePath.replace('\\', '/') ; 
+		String csFileName = csFilePath.replace('\\', '/') ;
 		int nSep = csFileName.lastIndexOf('/') ;
 		if(nSep != -1)
 			csFileName = csFileName.substring(nSep+1) ;
@@ -101,31 +92,31 @@ public class FileSystem
 			return csFileName.substring(0, nSep);
 		return csFileName;
 	}
-	
+
 
 	/*
 	 * StringRef rcsPath = new StringRef();
 	StringRef rcsExt = new StringRef();
 	String csFileName = split("C:/toto\\tutu.xml", csPath, csExt);
 	// csFileName: Filled with "tutu"
-	String csPath = rcsPath.get();	// "C:/toto/" 
+	String csPath = rcsPath.get();	// "C:/toto/"
 	String csExt = rcsExt.get();	// "xml"
 	*/
 	public static String splitFilePathExt(String csFilePath, StringRef rcsPath, StringRef rcsExt)
 	{
-		String csFileName = csFilePath.replace('\\', '/') ; 
+		String csFileName = csFilePath.replace('\\', '/') ;
 		int nSep = csFileName.lastIndexOf('/') ;
 		if(nSep != -1)
 		{
 			if(rcsPath != null)
 			{
 				String csPath = csFileName.substring(0, nSep);
-				rcsPath.set(csPath);				
+				rcsPath.set(csPath);
 			}
 
 			csFileName = csFileName.substring(nSep+1) ;
 		}
-		
+
 		nSep = csFileName.lastIndexOf('.');
 		if(rcsExt != null)
 		{
@@ -139,7 +130,7 @@ public class FileSystem
 		}
 		return csFileName;
 	}
-	
+
 	public static void createPath(String csPath)	// The path can be a path or full file name
 	{
 		// Check and create path if needed
@@ -158,13 +149,13 @@ public class FileSystem
 			}
 		}
 	}
-	
+
 	public static boolean exists(String csFile)
 	{
 		File f = new File(csFile);
-		return f.exists();		
+		return f.exists();
 	}
-	
+
 	public static void keepMoreRecentFile(String csPath, int nMaxBackupFileCount)
 	{
 		File path = new File(csPath);
@@ -179,10 +170,10 @@ public class FileSystem
 				File file = files[n];
 				vect.add(file);
 			}
-			
-			FileTimestampComparator fileTimestampComparator = new FileTimestampComparator();  
+
+			FileTimestampComparator fileTimestampComparator = new FileTimestampComparator();
 			Collections.sort(vect, fileTimestampComparator);
-			
+
 			if(nNbFiles > nMaxBackupFileCount)
 			{
 				int nNbFilesToKeep = nNbFiles - nMaxBackupFileCount;
@@ -194,7 +185,7 @@ public class FileSystem
 			}
 		}
 	}
-	
+
 	public static void DeleteContent(String csPath)
 	{
 		if(csPath != null)
@@ -219,7 +210,7 @@ public class FileSystem
 			}
 		}
 	}
-	
+
 
 	public static void DeleteDirAndContent(String csPath)
 	{
@@ -241,14 +232,14 @@ public class FileSystem
 			f.delete();
 		}
 	}
-	
+
 	public static File[] getFileList(String csDir)
 	{
 		csDir = normalizePath(csDir);
 		File file = new File(csDir);
 		return file.listFiles();
 	}
-	
+
 	public static File[] getFileList(String csDir, FilenameFilter filenameFilter)
 	{
 		csDir = normalizePath(csDir);
@@ -260,11 +251,11 @@ public class FileSystem
 		}
 		return lst ;
 	}
-	
+
 	public static File[] getFileListByPrefix(String csDir, String csPrefix)
 	{
 		FileFilterByPrefix filter = new FileFilterByPrefix(csPrefix);
-		
+
 		csDir = normalizePath(csDir);
 		File file = new File(csDir);
 		File[] lst = file.listFiles(filter);
@@ -277,7 +268,7 @@ public class FileSystem
 	public static String[] getFileNameListByPrefix(String csDir, String csPrefix)
 	{
 		FileFilterByPrefix filter = new FileFilterByPrefix(csPrefix);
-		
+
 		csDir = normalizePath(csDir);
 		File file = new File(csDir);
 		String[] lst = file.list(filter);
@@ -287,11 +278,11 @@ public class FileSystem
 		}
 		return lst;
 	}
-	
+
 	public static File[] getFileListBySuffix(String csDir, String csSuffix)
 	{
 		FileFilterBySuffix filter = new FileFilterBySuffix(csSuffix);
-		
+
 		csDir = normalizePath(csDir);
 		File file = new File(csDir);
 		File[] lst = file.listFiles(filter);
@@ -304,7 +295,7 @@ public class FileSystem
 	public static String[] getFileNameListBySuffix(String csDir, String csSuffix)
 	{
 		FileFilterBySuffix filter = new FileFilterBySuffix(csSuffix);
-		
+
 		csDir = normalizePath(csDir);
 		File file = new File(csDir);
 		String[] lst = file.list(filter);
@@ -314,20 +305,20 @@ public class FileSystem
 		}
 		return lst;
 	}
-	
+
 	public static boolean delete(String csFile)
 	{
 		File file = new File(csFile);
 		return file.delete();
 	}
-	
+
 	public static boolean moveOrCopy(String csFileSource, String csFileDest)
 	{
 		File fileSource = new File(csFileSource);
 		File fileDest = new File(csFileDest);
 		return moveOrCopy(fileSource, fileDest) ;
 	}
-	
+
 	public static boolean moveOrCopy(File fileSource, File fileDest)
 	{
 		if(fileSource.exists())
@@ -335,7 +326,7 @@ public class FileSystem
 			if(fileDest.exists())
 			{
 				fileDest.delete();
-			}				
+			}
 			if (!fileSource.renameTo(fileDest))
 			{
 				boolean ret = copy(fileSource, fileDest);
@@ -352,22 +343,22 @@ public class FileSystem
 		createPath(csDestination);	// The path can be a path or full file name
 		File source = new File(csSource);
 		File destination = new File(csDestination);
-		return copy(source, destination);		
+		return copy(source, destination);
 	}
-	
+
 	public static boolean copy(File source, File destination)
 	{
 		boolean resultat = false;
-        
+
         // Declaration des flux
         java.io.FileInputStream sourceFile=null;
         java.io.FileOutputStream destinationFile=null;
-        
-        try 
+
+        try
         {
 			// Cr�ation du fichier :
         	destination.createNewFile();
-			
+
 			// Ouverture des flux
 			sourceFile = new java.io.FileInputStream(source);
 			if(sourceFile != null)
@@ -378,7 +369,7 @@ public class FileSystem
 					// Lecture par segment de 100 K
 					byte buffer[]=new byte[1024 * 100];
 					int nNbBytesRead = sourceFile.read(buffer);
-					while(nNbBytesRead != -1) 
+					while(nNbBytesRead != -1)
 					{
 						destinationFile.write(buffer, 0, nNbBytesRead);
 						nNbBytesRead = sourceFile.read(buffer);
@@ -387,34 +378,34 @@ public class FileSystem
 					resultat = true;
 				}
 			}
-        } 
-        catch( java.io.FileNotFoundException f ) 
+        }
+        catch( java.io.FileNotFoundException f )
         {
-        } 
-        catch( java.io.IOException e ) 
+        }
+        catch( java.io.IOException e )
         {
-        } 
-        finally 
+        }
+        finally
         {
             // Quoi qu'il arrive, on ferme les flux
-            try 
+            try
             {
             	if(sourceFile != null)
             	{
             		sourceFile.close();
             	}
-            } 
+            }
             catch(Exception e)
             {
             }
-            try 
+            try
             {
             	if(destinationFile != null)
             	{
             		destinationFile.close();
             	}
             }
-            catch(Exception e) 
+            catch(Exception e)
             {
             }
         }
@@ -431,24 +422,24 @@ public class FileSystem
 		{
 			e.printStackTrace();
 			throw new RuntimeException(e);
-		}		
+		}
 	}
-	
+
 	public static int countLines(String csFilename)
 	{
 		return countLines(csFilename, null, 0);
 	}
-	
+
 	public static int countLines(String csFilename, String csFormat, int nLength)
 	{
 		int nLines = 0;
 		LineRead header = null;
-		
+
 		BaseDataFile dataFile = new DataFileLineReader(csFilename, 65536, 0);
 		if (dataFile.open(null))	// PJD: Do not managed file header. Is it correct ?
-		{		
+		{
 			if (csFormat == null)
-			{	
+			{
 				while (dataFile.readNextUnixLine() != null)
 				{
 					nLines++;
@@ -459,7 +450,7 @@ public class FileSystem
 				if (csFormat.equals("VB"))
 				{
 					while (!dataFile.isEOF())
-					{	
+					{
 						header = dataFile.readBuffer(4, false);
 						if (header != null)
 						{
@@ -476,34 +467,34 @@ public class FileSystem
 						nLines++;
 					}
 				}
-			}	
+			}
 			dataFile.close();
-		}	
-		
+		}
+
 		return nLines;
 	}
 
-	public static FileCompareStat compareFiles(String csFilenameLeft, String csFilenameRight, Vector<Integer> vFilterPos, 
+	public static FileCompareStat compareFiles(String csFilenameLeft, String csFilenameRight, Vector<Integer> vFilterPos,
 			boolean bAsciiLeft, boolean bAsciiRight)
 	{
 		return compareFiles(csFilenameLeft, csFilenameRight, vFilterPos, bAsciiLeft, bAsciiRight, null, 0);
 	}
-	
-	public static FileCompareStat compareFiles(String csFilenameLeft, String csFilenameRight, Vector<Integer> vFilterPos, 
+
+	public static FileCompareStat compareFiles(String csFilenameLeft, String csFilenameRight, Vector<Integer> vFilterPos,
 			boolean bAsciiLeft, boolean bAsciiRight, String csFormat, int nLength)
-	{	
+	{
 		BaseDataFile fileLeft = new DataFileLineReader(csFilenameLeft, 65536, 0);
 		fileLeft.open(null);	// PJD: Do not manage file header
 		BaseDataFile fileRight = new DataFileLineReader(csFilenameRight, 65536, 0);
 		fileRight.open(null);	// Do not manage file header
-		
+
 		int nLinesLeft = 0, nLinesRight = 0, nLineDiff = 0;
 		boolean equal = true ;
-		
+
 		LineRead lineReadLeft = null;
 		LineRead lineReadRight = null;
 		LineRead header = null;
-		
+
 		if (csFormat == null)
 		{
 			lineReadLeft = fileLeft.readNextUnixLine();
@@ -594,7 +585,7 @@ public class FileSystem
 					}
 				}
 				while (lineReadRight != null)
-				{	
+				{
 					equal = false;
 					nLinesRight++;
 					if (nLineDiff == 0)
@@ -637,7 +628,7 @@ public class FileSystem
 					lineReadLeft = fileLeft.readBuffer(nLength, true);
 				}
 				while (lineReadRight != null)
-				{	
+				{
 					equal = false;
 					nLinesRight++;
 					if (nLineDiff == 0)
@@ -649,16 +640,16 @@ public class FileSystem
 
 		fileRight.close();
 		fileLeft.close();
-		
+
 		FileCompareStat stat = new FileCompareStat();
 		stat.setNbLinesLeft(nLinesLeft);
 		stat.setNbLinesRight(nLinesRight);
 		stat.setEqual(equal);
 		stat.setNLineDiff(nLineDiff);
-		
+
 		return stat;
 	}
-	
+
 	private static boolean compareFilesString(LineRead lineReadLeft, LineRead lineReadRight, Vector<Integer> vFilterPos, boolean bAsciiLeft, boolean bAsciiRight) {
 		if (lineReadLeft.getTotalLength() != lineReadRight.getTotalLength())
 			return false;
@@ -692,20 +683,20 @@ public class FileSystem
 		 RandomGuid guid = new RandomGuid();
 		 return guid.formatAsFilename();
 	}
-	
-	public static void copyDirectory(File source, File destination) 
+
+	public static void copyDirectory(File source, File destination)
 	{
 		File[] list = source.listFiles();
 
-		for (int i=0;i<list.length;i++) 
+		for (int i=0;i<list.length;i++)
 		{
 			File dest=new File(destination,list[i].getName());
-			if (list[i].isDirectory()) 
+			if (list[i].isDirectory())
 			{
-				dest.mkdir(); 
+				dest.mkdir();
 				copyDirectory(list[i],dest);
-			} 
-			else 
+			}
+			else
 			{
 				copy(list[i],dest);
 			}
@@ -715,10 +706,10 @@ public class FileSystem
 	public static byte[] getBytesFromFile(File file) throws IOException
 	{
         InputStream is = new FileInputStream(file);
-    
+
         // Get the size of the file
         long length = file.length();
-    
+
         // You cannot create an array using a long type.
         // It needs to be an int type.
         // Before converting to an int type, check
@@ -726,10 +717,10 @@ public class FileSystem
         if (length > Integer.MAX_VALUE) {
             // File is too large
         }
-    
+
         // Create the byte array to hold the data
         byte[] bytes = new byte[(int)length];
-    
+
         // Read in the bytes
         int offset = 0;
         int numRead = 0;
@@ -737,39 +728,38 @@ public class FileSystem
                && (numRead=is.read(bytes, offset, bytes.length-offset)) >= 0) {
             offset += numRead;
         }
-    
+
         // Ensure all the bytes have been read in
         if (offset < bytes.length) {
             throw new IOException("Could not completely read file "+file.getName());
         }
-    
+
         // Close the input stream and return bytes
         is.close();
         return bytes;
-    }	
-	
+    }
+
 	public static BufferedInputStream openRead(String csFile)
 	{
 		BufferedInputStream bufStreamIn;
 		try
 		{
 			bufStreamIn = new BufferedInputStream(new DataInputStream(new FileInputStream(csFile)));
-			return bufStreamIn;		
+			return bufStreamIn;
 		}
 		catch (FileNotFoundException e)
 		{
-			// TODO Auto-generated catch block
 			//e.printStackTrace();
 		}
 		return null;
 	}
-	
+
 	public static StringBuilder readWholeFile(String csFile)
-	{		
+	{
 		BufferedInputStream buf = openRead(csFile);
 		if(buf == null)
 			return null;
-	
+
 		StringBuilder sbOut = new StringBuilder();
 		boolean iscontinue = true;
 		try
@@ -782,9 +772,9 @@ public class FileSystem
 //				{
 //					int gg =0 ;
 //				}
-//				
-//				
-//				
+//
+//
+//
 				sbOut.append(cChar);
 				n++;
 			}
@@ -797,23 +787,22 @@ public class FileSystem
 		closeFile(buf);
 		return sbOut;
 	}
-	
+
 	public static DataOutputStream openWrite(String csFile)
 	{
 		DataOutputStream streamOut;
 		try
 		{
 			streamOut = new DataOutputStream(new FileOutputStream(csFile));
-			return streamOut;		
+			return streamOut;
 		}
 		catch (FileNotFoundException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
 	}
-	
+
 	public static boolean closeFile(BufferedInputStream bufStreamIn)
 	{
 		try
@@ -830,7 +819,7 @@ public class FileSystem
 		}
 		return false;
 	}
-	
+
 	public static boolean closeFile(DataOutputStream streamOut)
 	{
 		try
@@ -847,7 +836,7 @@ public class FileSystem
 		}
 		return false;
 	}
-	
+
 	public static StringBuilder readFile(String csFile)
 	{
 		try
@@ -866,34 +855,31 @@ public class FileSystem
 		{
 			Reader in = new InputStreamReader(is);
 			StringBuilder sb = new StringBuilder();
-			CharBuffer bufTarget = CharBuffer.allocate(65536); 
+			CharBuffer bufTarget = CharBuffer.allocate(65536);
 			int nLength = in.read(bufTarget);
 			while(nLength >= 0)
 			{
 				char t[] = bufTarget.array();
 				sb.append(t, 0, nLength);
-				nLength = in.read(bufTarget);				
+				nLength = in.read(bufTarget);
 			}
 			return sb;
 		}
 		catch (UnsupportedEncodingException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		catch (FileNotFoundException e)
 		{
-			// TODO Auto-generated catch block
 			//e.printStackTrace();
 		}
 		catch (IOException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
 	}
-	
+
 	public static StringBuilder readFileUtf8(String csFile)
 	{
 		try
@@ -911,7 +897,7 @@ public class FileSystem
 		try
 		{
 			Reader in = new InputStreamReader(is, "UTF-8");
-			CharBuffer bufTarget = CharBuffer.allocate(65536); 
+			CharBuffer bufTarget = CharBuffer.allocate(65536);
 			int nLength = in.read(bufTarget);
 			if(nLength >= 0)
 			{
@@ -923,22 +909,19 @@ public class FileSystem
 		}
 		catch (UnsupportedEncodingException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		catch (FileNotFoundException e)
 		{
-			// TODO Auto-generated catch block
 			//e.printStackTrace();
 		}
 		catch (IOException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
 	}
-	
+
 	public static boolean writeFile(String csFile, StringBuilder sb)
 	{
 		return writeFile(csFile, sb.toString());
@@ -954,17 +937,14 @@ public class FileSystem
 		}
 		catch (UnsupportedEncodingException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		catch (FileNotFoundException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		catch (IOException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return false;
@@ -985,17 +965,14 @@ public class FileSystem
 		}
 		catch (UnsupportedEncodingException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		catch (FileNotFoundException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		catch (IOException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return false;

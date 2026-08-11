@@ -4,17 +4,9 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
-/*
- * Created on 27 ao�t 04
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 /**
  * @author U930DI
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 package idea.entryPoint;
 
@@ -51,9 +43,9 @@ public class OnlineMain
 		int nWait = 0;
 
 		StringArray path = new StringArray();
-		
+
 		EnvironmentVar.registerCmdLineArgs(args);
-		 
+
 		if(args.length >= 2)
 		{
 			for(int nArg=0; nArg<args.length; nArg++)
@@ -64,28 +56,28 @@ public class OnlineMain
 					String arg = s.substring(1);
 					String argUpper = arg.toUpperCase();
 					if(argUpper.startsWith("PATH="))
-					{						
+					{
 						csPath = arg.substring(5);
 						if(!csPath.endsWith("/"))
 							csPath += "/";
 						path.add(csPath);
 					}
-						 
+
 					if(argUpper.startsWith("PROGRAM="))
 						csPrgClassName = arg.substring(8);
 
 					if(argUpper.startsWith("DB="))
 						csDB = arg.substring(3);
-					
+
 					if(argUpper.startsWith("HELP"))
 					{
 						displayHelp();
 						return ;
 					}
-					
+
 					if(argUpper.startsWith("LOG="))
 						csLogCfg = arg.substring(4);
-					
+
 					if(argUpper.startsWith("NBLOOPS="))
 					{
 						String cs = arg.substring(8);
@@ -96,20 +88,20 @@ public class OnlineMain
 						String cs = arg.substring(5);
 						nWait = Integer.parseInt(cs);
 					}
-					
+
 					if(argUpper.startsWith("NBTHREADS="))
 					{
 						String cs = arg.substring(10);
 						nNbThreads = Integer.parseInt(cs);
 					}
-					
+
 					if(argUpper.startsWith("CONFIGFILE="))
 					{
 						csConfigFile = arg.substring(11);
 					}
 				}
 			}
-			
+
 			if(!csPrgClassName.equals("") && path.size() > 0)
 			{
 				if(BaseResourceManager.isInUpdateMode())
@@ -117,14 +109,14 @@ public class OnlineMain
 					Log.logCritical("Application is in update mode");
 					return;
 				}
-				
+
 				OnlineResourceManager resourceManager = OnlineResourceManagerFactory.GetInstance(csConfigFile, csDB);
 				if(BaseResourceManager.getAppOpenState() != CalendarOpenState.AppOpened)
 				{
 					Log.logCritical("Application is closed");
 					return;
 				}
-					
+
 				if(nNbThreads > 1)
 				{
 					ArrayList<ThreadCJMap> threads = new ArrayList<ThreadCJMap>();
@@ -136,7 +128,7 @@ public class OnlineMain
 						threads.add(threadCJMap);
 					}
 
-					
+
 					//StopWatch sw = new StopWatch();
 					// Starts threads
 					for(int n=0; n<nNbThreads; n++)
@@ -144,17 +136,16 @@ public class OnlineMain
 						ThreadCJMap thread = threads.get(n);
 						thread.start();
 					}
-					
+
 					// Wait until all threads are over
 					while(counter.get() > 0)
 					{
 						try
 						{
 							Thread.sleep(1000L);
-						} 
+						}
 						catch (InterruptedException e)
 						{
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 					}
@@ -169,11 +160,11 @@ public class OnlineMain
 
 						env = loader.GetEnvironment(session, null, null) ;
 						env.startRunTransaction();
-						
+
 						loader.setPaths(path);
 						env.setNextProgramToLoad(csPrgClassName);
-						
-						//StopWatch sw = new StopWatch(); 
+
+						//StopWatch sw = new StopWatch();
 						for(int n =0; n<nNbLoops; n++)
 						{
 							env.setNextProgramToLoad(csPrgClassName);
@@ -190,7 +181,7 @@ public class OnlineMain
 							}
 						}
 						env.endRunTransaction(CriteriaEndRunMain.Normal);
-						
+
 						Time_ms.wait_ms(nWait);
 					}
 					catch (CGotoException e)
@@ -216,7 +207,7 @@ public class OnlineMain
 		System.out.println("JCMap: CtoJ Transcoded Cobol Application runtime and executor");
 		System.out.println("Command line is");
 		System.out.println("        JCMap ");
-		System.out.println("        	-Path=CaseSensitiveString [-Path=CaseSensitiveString]"); 
+		System.out.println("        	-Path=CaseSensitiveString [-Path=CaseSensitiveString]");
 		System.out.println("        	-Program=CaseSensitiveString ");
 		System.out.println("       		[-DB=Oracle|DB2] (defaulted to DB2)");
 		System.out.println("        	[-Help]");

@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 3 aoï¿½t 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic;
 
 import java.util.NoSuchElementException;
@@ -20,8 +14,6 @@ import utils.*;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CEntityExternalDataStructure extends CBaseExternalEntity
 {
@@ -80,7 +72,7 @@ public class CEntityExternalDataStructure extends CBaseExternalEntity
 	}
 	public int GetInternalLevel()
 	{
-		try 
+		try
 		{
 			int i =0;
 			int level = 0 ;
@@ -130,7 +122,7 @@ public class CEntityExternalDataStructure extends CBaseExternalEntity
 	{
 		// nothing
 	}
-	
+
 	protected boolean isinline = false ;
 	public void SetInline(boolean bInline)
 	{

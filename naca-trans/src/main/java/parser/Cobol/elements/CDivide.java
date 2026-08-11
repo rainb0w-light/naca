@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 13 ao�t 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements;
 
 import lexer.CBaseToken;
@@ -32,8 +26,6 @@ import utils.Transcoder;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CDivide extends CCobolElement
 {
@@ -67,7 +59,7 @@ public class CDivide extends CCobolElement
 		{
 			eDivide.SetDivide(eWhat, eBy, isisRounded);
 		}
-		
+
 		if (remainder != null)
 		{
 			CDataEntity eRem = remainder.GetDataReference(getLine(), factory);
@@ -91,7 +83,7 @@ public class CDivide extends CCobolElement
 
 		tok = GetNext();
 		divideWhat = ReadTerminal();
-		
+
 		tok = GetCurrentToken();
 		if (tok.GetKeyword() == CCobolKeywordList.INTO)
 		{
@@ -109,7 +101,7 @@ public class CDivide extends CCobolElement
 			Transcoder.logError(tok.getLine(), "Unexpecting token : " + tok.GetValue()) ;
 			return false ;
 		}
-		
+
 		tok = GetCurrentToken();
 		if (tok.GetKeyword() == CCobolKeywordList.ROUNDED)
 		{
@@ -120,7 +112,7 @@ public class CDivide extends CCobolElement
 		{
 			GetNext() ;
 			result = ReadIdentifier();
-			
+
 			tok = GetCurrentToken();
 			if (tok.GetKeyword() == CCobolKeywordList.ROUNDED)
 			{
@@ -137,7 +129,7 @@ public class CDivide extends CCobolElement
 				remainder = ReadIdentifier();
 			}
 		}
-		
+
 		tok = GetCurrentToken() ;
 		if (tok.GetKeyword() == CCobolKeywordList.END_DIVIDE)
 		{
@@ -178,7 +170,7 @@ public class CDivide extends CCobolElement
 	}
 
 	protected CTerminal divideWhat = null ;
-	protected CTerminal divideBy = null ; 
+	protected CTerminal divideBy = null ;
 	protected CIdentifier result = null ;
 	protected CIdentifier remainder = null ;
 	protected boolean isisRounded = false ;

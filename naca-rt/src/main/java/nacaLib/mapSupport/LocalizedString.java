@@ -8,18 +8,9 @@ package nacaLib.mapSupport;
 
 import jlib.misc.MapStringByString;
 
-/*
- * Created on 13 oct. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
-
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class LocalizedString
 {
@@ -37,10 +28,10 @@ public class LocalizedString
 		String cs = tabTexts.get(csLangId.trim());
 		return cs;
 	}
-	
+
 	public LocalizedString text(String csId, String text)
 	{
-		tabTexts.put(csId, text); 		
+		tabTexts.put(csId, text);
 		return this ;
 	}
 

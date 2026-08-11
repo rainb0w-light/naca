@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 12 ao�t 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements;
 
 import java.util.Arrays;
@@ -42,8 +36,6 @@ import utils.Transcoder;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CSet extends CCobolElement
 {
@@ -111,7 +103,7 @@ public class CSet extends CCobolElement
 							parent.AddChild(eAssign) ;
 						}
 					}
-					return parent; 
+					return parent;
 				}
 			}
 			else if (downByValue != null)
@@ -158,7 +150,7 @@ public class CSet extends CCobolElement
 			return false ;
 		}
 		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
-		tok = GetNext(); 
+		tok = GetNext();
 		if (tok.GetKeyword() == CCobolKeywordList.ADDRESS)
 		{
 			tok = GetNext() ;
@@ -184,12 +176,12 @@ public class CSet extends CCobolElement
 					break ;
 				}
 			}
-		}		
-		
+		}
+
 		tok = GetCurrentToken() ;
 		if (tok.GetKeyword() == CCobolKeywordList.TO)
 		{
-			tok = GetNext(); 
+			tok = GetNext();
 			if (tok.GetKeyword() == CCobolKeywordList.ADDRESS)
 			{
 				tok = GetNext() ;
@@ -228,7 +220,7 @@ public class CSet extends CCobolElement
 		{
 			Transcoder.logError(tok.getLine(), "Expecting TO");
 			return false ;
-		}					
+		}
 		return true;
 	}
 

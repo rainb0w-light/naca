@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 3 ao�t 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic;
 
 import java.util.ArrayList;
@@ -20,8 +14,6 @@ import utils.*;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CEntityProcedureSection extends CEntityProcedure
 {
@@ -48,7 +40,7 @@ public class CEntityProcedureSection extends CEntityProcedure
 	public CEntityProcedureSection getSectionContainer()
 	{
 		return this ;
-	} 
+	}
 	public boolean UpdateAction(CBaseActionEntity entity, CBaseActionEntity newCond)
 	{
 		if (sectionBloc!=null && sectionBloc.UpdateAction(entity, newCond))
@@ -83,12 +75,12 @@ public class CEntityProcedureSection extends CEntityProcedure
 		return sectionBloc.hasExplicitGetOut() ;
 	}
 	/**
-	 * 
+	 *
 	 */
 	public void ReduceToProcedure()
 	{
 		isreducedToProcedure = true ;
-	}	
+	}
 	protected boolean isreducedToProcedure = false ;
 	/** Target-neutral semantic flag: optimizer demoted this SECTION to a plain Paragraph. */
 	public boolean isReducedToProcedure() { return isreducedToProcedure; }

@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on Jul 19, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements;
 
 import java.util.ListIterator;
@@ -38,23 +32,21 @@ import utils.Transcoder;
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CMove extends CCobolElement
 {
 	/* (non-Javadoc)
 	 * @see parser.CLanguageElement#Parse(lexer.CTokenList)
 	 */
-	 
+
 	/**
 	 * @param line
 	 */
-	public CMove(int line) 
+	public CMove(int line)
 	{
 		super(line);
 	}
-	
+
 	protected boolean DoParsing()
 	{
 		CBaseToken tokMove = GetCurrentToken();
@@ -64,7 +56,7 @@ public class CMove extends CCobolElement
 			return false ;
 		}
 		CGlobalEntityCounter.GetInstance().CountCobolVerb(tokMove.GetKeyword().name) ;
-		
+
 		// read the FROM token
 		CBaseToken tokFrom = GetNext() ;
 		if (tokFrom.GetKeyword() == CCobolKeywordList.CORR || tokFrom.GetKeyword() == CCobolKeywordList.CORRESPONDING)
@@ -87,7 +79,7 @@ public class CMove extends CCobolElement
 			Transcoder.logError(getLine(), "Expecting 'TO' keyword") ;
 			return false ;
 		}
-		
+
 		GetNext() ;
 		//read the DEST tokens
 		boolean isdone0 = false ;
@@ -153,11 +145,11 @@ public class CMove extends CCobolElement
 		}
 		catch (NoSuchElementException e)
 		{
-			// nothing 
+			// nothing
 		}
 		return eMove;
 	}
-	
+
 	//protected CMoveFromType fromType = null ;	// STRING / NUMBER / IDENTIFIER / SPACE / ZERO
 	protected CTerminal valueFrom = null ;
 	protected Vector<CIdentifier> toIdentifiers = new Vector<CIdentifier>() ;
@@ -175,13 +167,13 @@ public class CMove extends CCobolElement
 				CIdentifier id = toIdentifiers.get(i) ;
 				if (id != null)
 				{
-					CDataEntity e = id.GetDataReference(getLine(), factory) ;  
+					CDataEntity e = id.GetDataReference(getLine(), factory) ;
 					if (e == null)
 					{
 						Transcoder.addOnceUnboundReference(getLine(), id.GetName());
 						//Transcoder.logError(getLine(), "Identifier can't be bound : " + id.GetName()) ;
 					}
-					else 
+					else
 					{
 						if (!vDest.contains(e))
 						{
@@ -193,7 +185,7 @@ public class CMove extends CCobolElement
 								parent.AddChild(eAction) ;
 								e.RegisterWritingAction(eAction) ;
 							}
-							else 
+							else
 							{
 								CDataEntity eFrom = valueFrom.GetDataEntity(getLine(), factory) ;
 								if (eFrom != null)
@@ -234,7 +226,7 @@ public class CMove extends CCobolElement
 						}
 						else
 						{
-							int n=0; 
+							int n=0;
 						}
 					}
 				}
@@ -252,13 +244,13 @@ public class CMove extends CCobolElement
 				CIdentifier id = toIdentifiers.get(i) ;
 				if (id != null)
 				{
-					CDataEntity e = id.GetDataReference(getLine(), factory) ;  
+					CDataEntity e = id.GetDataReference(getLine(), factory) ;
 					if (e == null)
 					{
 						Transcoder.addOnceUnboundReference(getLine(), id.GetName());
 						//Transcoder.logError(getLine(), "Identifier can't be bound : " + id.GetName()) ;
 					}
-					else 
+					else
 					{
 						if (!vDest.contains(e))
 						{
@@ -302,7 +294,7 @@ public class CMove extends CCobolElement
 				}
 			}
 			if (ismoveToUsed)
-			{		 
+			{
 				parent.AddChild(eAsgn) ;
 				if (eFrom != null)
 				{

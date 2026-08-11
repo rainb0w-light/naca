@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on Sep 7, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements;
 
 import lexer.CBaseToken;
@@ -33,8 +27,6 @@ import utils.Transcoder;
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CFileSelect extends CCobolElement
 {
@@ -52,7 +44,7 @@ public class CFileSelect extends CCobolElement
 	{
 		CEntityFileSelect eFS = factory.NewEntityFileSelect(fileReference.GetName()) ;
 		eFS.setFileName(fileName.GetDataEntity(getLine(), factory)) ;
-		
+
 		if (isaccessModeDynamic)
 		{
 			eFS.setAccessMode(CEntityFileSelect.AccessMode.DYNAMIC) ;
@@ -65,7 +57,7 @@ public class CFileSelect extends CCobolElement
 		{
 			eFS.setAccessMode(CEntityFileSelect.AccessMode.SEQUENTIAL) ;
 		}
-		
+
 		if (isorganizationIndexed)
 		{
 			eFS.setOrganizationMode(CEntityFileSelect.OrganizationMode.INDEXED) ;
@@ -74,7 +66,7 @@ public class CFileSelect extends CCobolElement
 		{
 			eFS.setOrganizationMode(CEntityFileSelect.OrganizationMode.INDEXED) ;
 		}
-		
+
 		if (fileStatus != null)
 		{
 			eFS.setFileStatus(fileStatus.GetDataReference(getLine(), factory));
@@ -96,7 +88,7 @@ public class CFileSelect extends CCobolElement
 			return false ;
 		}
 		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
-		
+
 		// file local identifier
 		tok = GetNext();
 		fileReference = ReadIdentifier();
@@ -105,7 +97,7 @@ public class CFileSelect extends CCobolElement
 			Transcoder.logError(tok.getLine(), "Expecting identifier");
 			return false ;
 		}
-		
+
 		tok = GetCurrentToken() ;
 		if (tok.GetKeyword() == CCobolKeywordList.ASSIGN)
 		{
@@ -130,7 +122,7 @@ public class CFileSelect extends CCobolElement
 			GetNext();
 			return true;
 		}
-		
+
 		// file name in computer file system
 		fileName = ReadTerminal();
 		if (fileName == null)
@@ -138,7 +130,7 @@ public class CFileSelect extends CCobolElement
 			Transcoder.logError(tok.getLine(), "Expecting identifier");
 			return false ;
 		}
-		
+
 		boolean isdone = false ;
 		while (!isdone)
 		{
@@ -255,29 +247,29 @@ public class CFileSelect extends CCobolElement
 	protected Element ExportCustom(Document root)
 	{
 		Element eFile = root.createElement("FileSelect");
-		
+
 		Element eName = root.createElement("FileName");
 		fileName.ExportTo(eName, root);
 		eFile.appendChild(eName);
-		
+
 		Element eRef = root.createElement("Reference");
 		eFile.appendChild(eRef);
 		fileReference.ExportTo(eRef, root);
-		
+
 		if (recordKey != null)
 		{
 			Element eKey = root.createElement("RecordKey");
 			eFile.appendChild(eKey);
 			recordKey.ExportTo(eKey, root);
 		}
-		
+
 		if (fileStatus != null)
 		{
 			Element eSt = root.createElement("FileStatus");
 			eFile.appendChild(eSt);
 			fileStatus.ExportTo(eSt, root);
 		}
-		
+
 		if (isorganizationIndexed)
 		{
 			eFile.setAttribute("Organization", "Indexed");
@@ -286,7 +278,7 @@ public class CFileSelect extends CCobolElement
 		{
 			eFile.setAttribute("Organization", "Sequential");
 		}
-		
+
 		if (isaccessModeDynamic)
 		{
 			eFile.setAttribute("AccessMode", "Dynamic");
@@ -298,10 +290,10 @@ public class CFileSelect extends CCobolElement
 		else if (isaccessModeSequential)
 		{
 			eFile.setAttribute("AccessMode", "Sequential");
-		} 
+		}
 		return eFile;
 	}
-	
+
 	protected CIdentifier fileReference = null ;
 	protected CTerminal fileName = null ;
 	protected CIdentifier recordKey = null ;

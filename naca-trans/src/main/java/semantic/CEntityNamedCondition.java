@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 9 ao�t 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic;
 
 import java.util.ArrayList;
@@ -29,8 +23,6 @@ import utils.CObjectCatalog;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CEntityNamedCondition extends CDataEntity
 {
@@ -50,7 +42,7 @@ public class CEntityNamedCondition extends CDataEntity
 //	{
 //		condition = cond ;
 //	}
-	
+
 //	protected CBaseEntityCondition condition = null ;
 
 	/* (non-Javadoc)
@@ -83,11 +75,11 @@ public class CEntityNamedCondition extends CDataEntity
 	}
 	public CUnitaryEntityCondition GetAssociatedCondition(CBaseEntityFactory factory)
 	{
-		CEntityIsNamedCondition eCond = factory.NewEntityIsNamedCondition() ; 
+		CEntityIsNamedCondition eCond = factory.NewEntityIsNamedCondition() ;
 		eCond.SetCondition(this) ;
 		return eCond ;
 	}
-	
+
 	public void AddInterval(CDataEntity eStart, CDataEntity eEnd)
 	{
 		endIntervals.add(eEnd);
@@ -97,7 +89,7 @@ public class CEntityNamedCondition extends CDataEntity
 	{
 		values.add(eValue);
 	}
-	public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory) 
+	public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory)
 	{
 		CEntityArrayReference e = factory.NewEntityArrayReference(getLine()) ;
 		e.SetReference(this) ;
@@ -109,7 +101,7 @@ public class CEntityNamedCondition extends CDataEntity
 		}
 		return e ;
 	};
-	
+
 	protected Vector<CDataEntity> startIntervals = new Vector<CDataEntity>() ;
 	protected Vector<CDataEntity> endIntervals = new Vector<CDataEntity>() ;
 	protected Vector<CDataEntity> values = new Vector<CDataEntity>() ;
@@ -120,7 +112,7 @@ public class CEntityNamedCondition extends CDataEntity
 	public String GetConstantValue()
 	{
 		return "" ;
-	} 	 
+	}
 
 	public boolean HasAccessors()
 	{

@@ -4,13 +4,7 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
-///*
-// * Created on 28 avr. 2005
-// *
-// * TODO To change the template for this generated file go to
-// * Window - Preferences - Java - Code Style - Code Templates
-// */
-//package nacaLib.programPool;
+////package nacaLib.programPool;
 //
 //import nacaLib.basePrgEnv.BaseProgram;
 //import nacaLib.program.CopyManager;
@@ -18,8 +12,6 @@
 ///**
 // * @author PJD
 // *
-// * TODO To change the template for this generated type comment go to
-// * Window - Preferences - Java - Code Style - Code Templates
 // */
 //public class ProgramInstance
 //{
@@ -33,9 +25,9 @@
 //			program.setProgramName(csProgramName);
 //			program.setNewInstance(bNewProgramInstance);
 //		}
-//		
+//
 //	}
-//	
+//
 //	public void setNewProgramInstance(boolean bNewProgramInstance)
 //	{
 //		//bNewProgramInstance = b;
@@ -44,12 +36,12 @@
 //			program.setNewInstance(bNewProgramInstance);
 //		}
 //	}
-//	
+//
 //	public BaseProgram getProgram()
 //	{
 //		return program;
 //	}
-//	
+//
 //	public boolean isNewProgramInstance()
 //	{
 //		if(program != null)
@@ -58,21 +50,21 @@
 //		}
 //		return false;
 //	}
-//	
+//
 //	String getProgramName()
 //	{
 //		if(program != null)
 //			return program.getProgramName();
 //		return "";
 //	}
-//	
+//
 //	/*
 //	public Class getUnloadableClass()
 //	{
 //		return classLoaderUnloaderRef.get();
 //	}
 //	*/
-//	
+//
 //	long getTimeRun()
 //	{
 //		return program.getProgramManager().getTimeRun();
@@ -82,19 +74,19 @@
 //	{
 //		return program.getProgramManager().getTimeLastRunBegin_ms();
 //	}
-//	
+//
 //	void setLastTimeRunBegin()
 //	{
 //		program.getProgramManager().setLastTimeRunBegin();
 //	}
-//	
+//
 //	void setLastTimeRunEnd()
 //	{
 //		program.getProgramManager().setLastTimeRunEnd();
 //	}
-//	
+//
 //	void unloadClassCode()
-//	{		
+//	{
 //		SharedProgramInstanceData sharedProgramInstanceData = program.getProgramManager().getSharedProgramInstanceData();
 //		int nNbCopy = sharedProgramInstanceData.getNbCopy();
 //		String csProgramName = getProgramName();
@@ -103,12 +95,12 @@
 //			String csCopyName = sharedProgramInstanceData.getCopy(n);
 //			CopyManager.removeCopyFormProg(csCopyName, csProgramName);
 //		}
-//		
-//		
+//
+//
 ////		Class classParent = program.getClass();
 ////		// Get all copy
 ////		Field fieldlist[] = classParent.getDeclaredFields();
-////		for (int i=0; i < fieldlist.length; i++) 
+////		for (int i=0; i < fieldlist.length; i++)
 ////		{
 ////			Field fld = fieldlist[i];
 ////			fld.setAccessible(true);
@@ -138,20 +130,20 @@
 ////					}
 ////				}
 ////			}
-////			catch (IllegalAccessException e) 
+////			catch (IllegalAccessException e)
 ////			{
 ////			   System.err.println(e);
 ////			}
 ////		}
-//		
+//
 //		//program.getProgramManager().prepareAutoRemoval();
 //		program = null;
 //	}
-//	
-//		
+//
+//
 //	//String csProgramName = null;
 //	//boolean bNewProgramInstance = false;
 //	BaseProgram program = null;
-//	
+//
 //	//ClassLoaderUnloaderRef classLoaderUnloaderRef = null;
 //}

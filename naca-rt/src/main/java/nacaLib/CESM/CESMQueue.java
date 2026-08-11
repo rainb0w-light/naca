@@ -12,17 +12,9 @@ import java.util.concurrent.SynchronousQueue;
 import nacaLib.base.CJMapObject;
 import nacaLib.varEx.Var;
 
-/*
- * Created on Oct 19, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CESMQueue extends CJMapObject
 {

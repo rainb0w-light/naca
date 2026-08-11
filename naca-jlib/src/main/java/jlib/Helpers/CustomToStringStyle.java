@@ -13,20 +13,18 @@ package jlib.Helpers;
 /**
  * @author U930MY
  *
- * To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 //public class CustomToStringStyle extends ToStringStyle
 //{
 //	private static CustomToStringStyle ms_customToStringStyle = null;
-//	
+//
 //	/**
-//	 * 
+//	 *
 //	 */
-//	private CustomToStringStyle() 
+//	private CustomToStringStyle()
 //	{
 //	}
-//	
+//
 //	public static CustomToStringStyle getInstance()
 //	{
 //		if (ms_customToStringStyle == null) {
@@ -34,7 +32,7 @@ package jlib.Helpers;
 //		}
 //		return ms_customToStringStyle;
 //	}
-//	
+//
 //	/* (non-Javadoc)
 //	 * @see org.apache.commons.lang.builder.ToStringStyle#appendIdentityHashCode(java.lang.StringBuffer, java.lang.Object)
 //	 */
@@ -46,7 +44,7 @@ package jlib.Helpers;
 //	/* (non-Javadoc)
 //	 * @see org.apache.commons.lang.builder.ToStringStyle#appendClassName(java.lang.StringBuffer, java.lang.Object)
 //	 */
-//	protected void appendClassName(StringBuffer buffer, Object object) 
+//	protected void appendClassName(StringBuffer buffer, Object object)
 //	{
 //		buffer.append(getShortClassName(object.getClass()));
 //	}

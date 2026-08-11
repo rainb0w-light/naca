@@ -4,17 +4,9 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
-/*
- * Created on Oct 26, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 package nacaLib.CESM;
 
@@ -36,7 +28,7 @@ public class CESMStart extends CJMapObject
 	public String csTransID = "" ;
 	public String csTermID = "" ;
 	private CESMStartData data = null;
-	
+
 	public CESMStart termID(String string)
 	{
 		csTermID = string ;
@@ -75,13 +67,13 @@ public class CESMStart extends CJMapObject
 		data = new CESMStartData(var, varLength);
 		return this ;
 	}
-	
+
 	public CESMStart dataFrom(Var var)
 	{
 		data = new CESMStartData(var, null);
 		return this ;
 	}
-	
+
 	/**
 	 * @param trans_Time
 	 * @return
@@ -91,7 +83,7 @@ public class CESMStart extends CJMapObject
 		// trans_Time uses format HHMMSS
 		int nNbSecondsSinceMidnightFromNow_s = DateUtil.getNbSecondSinceMidnight();
 		int nNextTime_s = DateUtil.getNbSecondsFromHour(trans_Time.getInt());
-		if (nNbSecondsSinceMidnightFromNow_s < nNextTime_s)	// We are before next time 
+		if (nNbSecondsSinceMidnightFromNow_s < nNextTime_s)	// We are before next time
 			nIntervalTimeSeconds = nNextTime_s - nNbSecondsSinceMidnightFromNow_s;
 		else
 			nIntervalTimeSeconds = 0;

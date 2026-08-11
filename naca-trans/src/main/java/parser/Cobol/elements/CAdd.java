@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on Jul 28, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements;
 
 import java.util.Vector;
@@ -34,8 +28,6 @@ import utils.Transcoder;
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CAdd extends CCobolElement
 {
@@ -57,7 +49,7 @@ public class CAdd extends CCobolElement
 			return false ;
 		}
 		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
-		GetNext() ; 
+		GetNext() ;
 
 		boolean isdone = false ;
 		while (!isdone)
@@ -67,7 +59,7 @@ public class CAdd extends CCobolElement
 			{
 				isdone = true ;
 			}
-			else 
+			else
 			{
 				values.add(t) ;
 			}
@@ -76,16 +68,16 @@ public class CAdd extends CCobolElement
 			{
 				GetNext() ;
 			}
-			else if (tok.GetKeyword() == CCobolKeywordList.TO) 
+			else if (tok.GetKeyword() == CCobolKeywordList.TO)
 			{
 				isdone = true ;
 			}
 		}
-				
+
 		CBaseToken tokTo= GetCurrentToken() ;
 		if (tokTo.GetKeyword() == CCobolKeywordList.TO)
 		{ // 'TO' is optional
-			GetNext() ; 
+			GetNext() ;
 			isdone = false ;
 			while (!isdone)
 			{
@@ -94,7 +86,7 @@ public class CAdd extends CCobolElement
 				{
 					isdone = true ;
 				}
-				else 
+				else
 				{
 					identifiers.add(t) ;
 				}
@@ -105,7 +97,7 @@ public class CAdd extends CCobolElement
 				}
 			}
 		}
-		
+
 		tok = GetCurrentToken() ;
 		if (tok.GetKeyword() == CCobolKeywordList.GIVING)
 		{
@@ -118,13 +110,13 @@ public class CAdd extends CCobolElement
 				{
 					isdone = true ;
 				}
-				else 
+				else
 				{
 					result.add(identifier) ;
 				}
 			}
-		} 
-		
+		}
+
 		tok = GetCurrentToken() ;
 		if (tok.GetKeyword() == CCobolKeywordList.ROUNDED)
 		{
@@ -163,7 +155,7 @@ public class CAdd extends CCobolElement
 		}
 		return e ;
 	}
-	
+
 	protected Vector<CTerminal> values = new Vector<CTerminal>() ;
 	protected Vector<CIdentifier> identifiers = new Vector<CIdentifier>() ;
 	protected Vector<CIdentifier> result = new Vector<CIdentifier>() ;

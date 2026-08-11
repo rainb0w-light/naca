@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on Jul 19, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements;
 
 
@@ -31,8 +25,6 @@ import utils.Transcoder;
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public abstract class CBlocElement extends CCommentContainer
 {
@@ -77,8 +69,8 @@ public abstract class CBlocElement extends CCommentContainer
 		}
 		return true;
 	}
-	
-	
+
+
 	protected CCobolElement GetCICSVerb()
 	{
 		CCobolElement e = null ;
@@ -242,12 +234,12 @@ public abstract class CBlocElement extends CCommentContainer
 		{
 			Transcoder.logError(tok.getLine(), "Unrecognized CICS command : " + tok.GetValue());
 			e = new CExecStatement(tok.getLine()) ;
-		}  
+		}
 		CGlobalEntityCounter.GetInstance().CountCICSCommand(tok.GetValue()) ;
 		return e ;
 	}
-			
-	protected int nRewriteLine = 0; 
+
+	protected int nRewriteLine = 0;
 	protected boolean ParseVerb()
 	{
 		CBaseToken tokVerb = GetCurrentToken() ;
@@ -563,7 +555,7 @@ public abstract class CBlocElement extends CCommentContainer
 			return true;
 		}
 	}
-	
+
 	/**
 	 * @return
 	 */
@@ -583,10 +575,10 @@ public abstract class CBlocElement extends CCommentContainer
 		if (tokKW.GetKeyword() == CCobolKeywordList.THRU)
 		{
 			CBaseToken tok = GetNext() ;
-			identifierThru = ReadIdentifier(); 
+			identifierThru = ReadIdentifier();
 			tokKW = GetCurrentToken();
 		}
-		
+
 		// PERFORM usage depends on following keyword
 		boolean istestBefore = true ; // default value
 		if (tokKW.GetKeyword() == CCobolKeywordList.WITH)
@@ -609,7 +601,7 @@ public abstract class CBlocElement extends CCommentContainer
 			else
 			{
 				Transcoder.logError(tokKW.getLine(), "Unexpecting token : " + tokKW.GetValue());
-				return false ; 
+				return false ;
 			}
 		}
 		if (tokKW.GetKeyword() == CCobolKeywordList.UNTIL)
@@ -648,7 +640,7 @@ public abstract class CBlocElement extends CCommentContainer
 			{
 				Transcoder.logError(tokKW.getLine(), "Unexpecting situation in PERFORM") ;
 				return false ;
-			} 			
+			}
 		}
 		else if (identifier != null)
 		{
@@ -662,7 +654,7 @@ public abstract class CBlocElement extends CCommentContainer
 			return false ;
 		}
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see parser.CBaseElement#DoCustomSemanticAnalysis(semantic.CBaseSemanticEntity, semantic.CBaseSemanticEntityFactory)
 	 */

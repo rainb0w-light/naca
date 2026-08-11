@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 8 sept. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser;
 
 import java.util.ArrayList;
@@ -36,8 +30,6 @@ import lexer.Cobol.CCobolKeywordList;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CFunctionIdentifier extends CIdentifier
 {
@@ -50,7 +42,7 @@ public class CFunctionIdentifier extends CIdentifier
 		super("");
 		Parse(lstTokens, owner) ;
 	}
-	
+
 	protected void Parse(CTokenList lstTokens, CCobolElement owner)
 	{
 		CBaseToken tok = lstTokens.GetCurrentToken();
@@ -58,7 +50,7 @@ public class CFunctionIdentifier extends CIdentifier
 		{
 			tok = lstTokens.GetNext();
 		}
-		
+
 		if (tok.GetKeyword() == CCobolKeywordList.CURRENT_DATE)
 		{
 			function = tok.GetKeyword() ;
@@ -68,7 +60,7 @@ public class CFunctionIdentifier extends CIdentifier
 		{
 			CBaseToken tokOf = lstTokens.GetNext() ;
 			if (tokOf.GetKeyword() == CCobolKeywordList.OF)
-			{ 
+			{
 				function = tok.GetKeyword() ;
 				lstTokens.GetNext() ;
 				parameter = owner.ReadIdentifier();
@@ -82,7 +74,7 @@ public class CFunctionIdentifier extends CIdentifier
 		{
 			CBaseToken tokOf = lstTokens.GetNext() ;
 			if (tokOf.GetKeyword() == CCobolKeywordList.OF)
-			{ 
+			{
 				function = tok.GetKeyword() ;
 				lstTokens.GetNext() ;
 				parameter = owner.ReadIdentifier();
@@ -183,7 +175,7 @@ public class CFunctionIdentifier extends CIdentifier
 			}
 			f = fact.NewEntityIntrinsicFunction(intrinsicFunctionName, arguments);
 		}
-		else 
+		else
 		{
 			Transcoder.logError(nLine, "Missing semantic analysis for FUNCTIONS");
 			f = null ;
@@ -219,15 +211,15 @@ public class CFunctionIdentifier extends CIdentifier
 				intrinsic.appendChild(argument.Export(root));
 			}
 		}
-		else 
+		else
 		{
 			Element eLen = root.createElement("Undefined");
 			e.appendChild(eLen);
 		}
 	}
-	
+
 	protected CReservedKeyword function = null ;
-	protected CIdentifier parameter = null ; 
+	protected CIdentifier parameter = null ;
 	private String intrinsicFunctionName = null;
 	private final List<CExpression> intrinsicArguments = new ArrayList<>();
 }

@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.sqlSupport;
 
@@ -26,12 +26,12 @@ import jlib.sql.StoredProcParamDescBase;
 public class StoredProcParamDesc extends StoredProcParamDescBase
 {
 	private Var varInOut = null;
-		
+
 	void setVar(Var var)
 	{
 		varInOut = var;
 	}
-	
+
 	public void retrieveOutValues(int nParamId, PreparedCallableStatement callableStatement, CSQLStatus sqlStatus)
 	{
 		nParamId++;	// 1 based
@@ -39,55 +39,54 @@ public class StoredProcParamDesc extends StoredProcParamDescBase
 		{
 			try
 			{
-				String csOutLang = callableStatement.getOutValueString(nParamId);				
+				String csOutLang = callableStatement.getOutValueString(nParamId);
 				if(varInOut != null)
 					varInOut.set(csOutLang);
-			} 			
+			}
 			catch (SQLException e)
 			{
 				String csState = e.getSQLState();
 				String csReason = e.getMessage();
 				Log.logImportant("Catched SQLException from stored procedure retrieveOutValues: "+csReason + " State="+csState);
 				sqlStatus.setSQLCode("StoredProc", e.getErrorCode(), csReason, csState);
-				
+
 				sqlStatus.setSQLCode(e);
 			}
 			catch (Exception e)
 			{
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-	}	
-	
+	}
+
 	public boolean fillInValue(int nParamId, DbPreparedCallableStatement callableStatement)
 	{
 		if(varInOut != null)
-		{			
+		{
 			BaseDbColDefinition def = colDescriptionInfo.makeDbColDefinition();
 			return def.fillCallableStatementParam(nParamId, this, callableStatement);
 		}
 		return false;
 	}
-	
+
 	public String getInValueAsString()
 	{
 		String cs = varInOut.getString();
 		return cs;
 	}
-	
+
 	public double getInValueAsDouble()
 	{
 		double d = varInOut.getDouble();
 		return d;
 	}
-	
+
 	public int getInValueAsInt()
 	{
 		int n = varInOut.getInt();
 		return n;
 	}
-	
+
 	public short getInValueAsShort()
 	{
 		int n = varInOut.getInt();

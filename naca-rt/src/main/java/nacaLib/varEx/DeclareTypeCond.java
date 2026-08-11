@@ -4,18 +4,9 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
-/*
- * Created on 26 nov. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
-
 /**
  * @author PJD
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 package nacaLib.varEx;
 
@@ -30,13 +21,13 @@ public class DeclareTypeCond extends CJMapObject
 	public DeclareTypeCond()
 	{
 	}
-	
+
 	public void set(BaseProgram program)
 	{
 		programManager = program.getProgramManager();
 		values = new ArrayList<CondValue>();
 	}
-	
+
 	public DeclareTypeCond value(String s)
 	{
 		CondValue condValue = new CondValue(s);
@@ -50,7 +41,7 @@ public class DeclareTypeCond extends CJMapObject
 		values.add(condValue);
 		return this;
 	}
-	
+
 	public DeclareTypeCond value(int nMin, int nMax)
 	{
 		String min = String.valueOf(nMin);
@@ -60,7 +51,7 @@ public class DeclareTypeCond extends CJMapObject
 		values.add(condValue);
 		return this;
 	}
-	
+
 	public DeclareTypeCond value(int n)
 	{
 		String s = String.valueOf(n);
@@ -76,7 +67,7 @@ public class DeclareTypeCond extends CJMapObject
 		values.add(condValue);
 		return this;
 	}
-	
+
 	public Cond var()
 	{
 		Var varParent = (Var)programManager.getLastVarCreated();
@@ -84,7 +75,7 @@ public class DeclareTypeCond extends CJMapObject
 		Cond cond = new Cond(varParent, this);
 		return cond;
 	}
-	
+
 	ArrayList<CondValue> values = null;
 	BaseProgramManager programManager = null;
 }

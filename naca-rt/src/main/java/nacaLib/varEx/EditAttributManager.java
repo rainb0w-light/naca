@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
-/*
- * Created on 14 avr. 2005
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 package nacaLib.varEx;
 
 import nacaLib.mapSupport.*;
@@ -17,8 +11,6 @@ import nacaLib.mapSupport.*;
 /**
  * @author PJD
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 public class EditAttributManager
 {
@@ -26,7 +18,7 @@ public class EditAttributManager
 	{
 		int n = 0;
 	}
-	
+
 	void allocAttributes(DeclareTypeEditInMap declareTypeEdit)
 	{
 		mapFieldAttribute = declareTypeEdit.mapFieldAttribute.duplicate();
@@ -36,14 +28,14 @@ public class EditAttributManager
 		csFormat = declareTypeEdit.csFormat;
 		//csSemanticContext = declareTypeEdit.csSemanticContextValue;
 	}
-	
+
 	void initialize()
 	{
 		ishasCursor = false ;
 		mapFieldAttribute.initialize();
 		flag.reset() ;
 	}
-	
+
 	void copyInto(EditAttributManager attrManagerDest)
 	{
 		attrManagerDest.mapFieldAttribute = mapFieldAttribute.duplicate();
@@ -67,12 +59,12 @@ public class EditAttributManager
 			cs = "NoMapFieldAtribute ";
 		return cs;
 	}
-	
+
 	public void attrib(MapFieldAttrModified Modified)
 	{
 		setModified(Modified);
 	}
-	
+
 	public void setModified(MapFieldAttrModified Modified)
 	{
 		mapFieldAttribute.setAttrModified(Modified);
@@ -89,18 +81,18 @@ public class EditAttributManager
 	{
 		return mapFieldAttribute.getHighlighting();
 	}
-	
+
 	public void highLighting(MapFieldAttrHighlighting hl)
 	{
 		mapFieldAttribute.setHighlighting(hl) ;
 	}
-	
+
 	public void intensity(MapFieldAttrIntensity intensity)
 	{
 		mapFieldAttribute.setIntensity(intensity);
-	
+
 	}
-		
+
 	public void protection(MapFieldAttrProtection protection)
 	{
 		mapFieldAttribute.setProtection(protection);
@@ -110,7 +102,7 @@ public class EditAttributManager
 	{
 		mapFieldAttribute.setAttrModified(MapFieldAttrModified.MODIFIED);
 	}
-	
+
 	public void setUnmodified()
 	{
 		mapFieldAttribute.setAttrModified(MapFieldAttrModified.UNMODIFIED);
@@ -120,7 +112,7 @@ public class EditAttributManager
 	{
 		mapFieldAttribute.setAttrModified(MapFieldAttrModified.CLEARED);
 	}
-	
+
 	public boolean isModified()
 	{
 		if (mapFieldAttribute != null)
@@ -130,8 +122,8 @@ public class EditAttributManager
 		}
 		return false ;
 	}
-	
-	
+
+
 	public boolean isUnmodified()
 	{
 		if (mapFieldAttribute != null)
@@ -140,8 +132,8 @@ public class EditAttributManager
 			return attrModified == MapFieldAttrModified.UNMODIFIED ;
 		}
 		return false ;
-	}	
-	
+	}
+
 	public boolean isCleared()
 	{
 		if (mapFieldAttribute != null)
@@ -150,31 +142,31 @@ public class EditAttributManager
 			return attrModified == MapFieldAttrModified.CLEARED ;
 		}
 		return false ;
-	}	
-		
+	}
+
 	public void justify(MapFieldAttrJustify justify)
 	{
 		mapFieldAttribute.setJustify(justify) ;
 	}
-	
+
 	public void justifyFill(MapFieldAttrFill fill)
 	{
 		mapFieldAttribute.setFill(fill) ;
 	}
-	
-		
+
+
 	public void setFlag(String cs)
 	{
 		if(flag == null)
 			flag = new MapFieldFlag();
-		flag.set(cs);		
+		flag.set(cs);
 	}
 
 	public void resetFlag()
 	{
 		if(flag == null)
 			flag = new MapFieldFlag();
-		flag.reset();		
+		flag.reset();
 	}
 
 	public boolean isFlag(String cs)
@@ -194,7 +186,7 @@ public class EditAttributManager
 		}
 		return false ;
 	}
-	
+
 	public boolean isDark()
 	{
 		if (mapFieldAttribute != null)
@@ -204,7 +196,7 @@ public class EditAttributManager
 		}
 		return false ;
 	}
-	
+
 	public boolean isProtected()
 	{
 		if (mapFieldAttribute != null)
@@ -214,7 +206,7 @@ public class EditAttributManager
 		}
 		return false ;
 	}
-	
+
 	public boolean isNumericProtected()
 	{
 		if (mapFieldAttribute != null)
@@ -234,7 +226,7 @@ public class EditAttributManager
 		}
 		return false ;
 	}
-		
+
 	public boolean isColored(MapFieldAttrColor col)
 	{
 		if (mapFieldAttribute != null)
@@ -264,7 +256,7 @@ public class EditAttributManager
 		}
 		return false ;
 	}
-	
+
 	public boolean IsAttribute(MapFieldAttrIntensity intensity)
 	{
 		if (mapFieldAttribute != null)
@@ -290,12 +282,12 @@ public class EditAttributManager
 		}
 		return false ;
 	}
-	
+
 	public MapFieldAttribute getAttribute()
 	{
 		return mapFieldAttribute ;
 	}
-	
+
 	public void setAttribute(MapFieldAttribute att)
 	{
 		mapFieldAttribute.set(att) ;
@@ -306,17 +298,17 @@ public class EditAttributManager
 		int n = mapFieldAttribute.getEncodedValue();
 		return n;
 	}
-	
+
 	public void setEncodedAttr(int n)
 	{
 		mapFieldAttribute.setEncodedValue(n);
 	}
-	
+
 	public void setCursor(boolean b)
 	{
 		ishasCursor = b;
 	}
-	
+
 	public boolean hasCursor()
 	{
 		return ishasCursor;
@@ -328,7 +320,7 @@ public class EditAttributManager
 			return flag.get();
 		return "" ;
 	}
-	
+
 		/**
 	 * @return
 	 */
@@ -345,7 +337,7 @@ public class EditAttributManager
 		return mapFieldAttribute.getColor() ;
 	}
 
-	
+
 	public boolean isHighlightNormal()
 	{
 		if (mapFieldAttribute != null)
@@ -355,54 +347,54 @@ public class EditAttributManager
 		}
 		return true ;
 	}
-	
+
 	public void setAttributes(int n)
 	{
 	}
-	
+
 	MapFieldAttribute getMapFieldAttribute()
 	{
 		return mapFieldAttribute;
 	}
-	
+
 	int getAttributeEncodedValue()	// Will use 4 char position
 	{
 		return mapFieldAttribute.getEncodedValue();	// Will use 4 char position
 	}
-	
+
 	void setAttributeEncodedValue(int nAttrEncoded)	// Will use 4 char position
 	{
 		mapFieldAttribute.setEncodedValue(nAttrEncoded);
 	}
 
-	
+
 	char getEncodedFlag()	// Will use 4 char position
 	{
 		char flag = this.flag.getEncodedValue();	// Will use 1 char
 		return flag;
 	}
-	
+
 	void setEncodedFlag(char cFlag)	// Will use 4 char position
 	{
 		flag.setEncodedValue(cFlag);
 	}
-	
+
 	void setDevelopableMark(String cs)
 	{
 		csDevelopableMark = cs;
 	}
-	
+
 	void setFormat(String cs)
 	{
 		csFormat = cs;
 	}
-	
+
 	LocalizedString getLocalizedString()
 	{
 		return localizedString;
 	}
-	
-	
+
+
 	boolean isFillBlank()
 	{
 		return mapFieldAttribute.isFillBlank();
@@ -412,20 +404,20 @@ public class EditAttributManager
 	{
 		return mapFieldAttribute.isFillZero();
 	}
-	
+
 	boolean isJustifyLeft()
 	{
 		return mapFieldAttribute.isJustifyLeft();
 	}
-	
+
 	boolean isJustifyRight()
 	{
 		return mapFieldAttribute.isJustifyRight();
 	}
 
 
-	MapFieldAttribute mapFieldAttribute = null;	
-	MapFieldFlag flag = new MapFieldFlag();	
+	MapFieldAttribute mapFieldAttribute = null;
+	MapFieldFlag flag = new MapFieldFlag();
 	LocalizedString localizedString = null;		// Encoded in commarea
 	String csDevelopableMark = null;
 	String csFormat = null;

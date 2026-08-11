@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 2 mars 2005
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 package utils;
 
 import java.util.Hashtable;
@@ -20,8 +14,6 @@ import jlib.xml.*;
 /**
  * @author sly
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 public class CRulesManager
 {
@@ -38,19 +30,19 @@ public class CRulesManager
 		}
 		return ms_Instance ;
 	}
-	
+
 	public void LoadRulesFile(String csFilePath)
 	{
 		LoadRulesFile(Tag.createFromFile(csFilePath));
 	}
-	
+
 	public void LoadRulesFile(Tag tag)
 	{
 		tagRules = tag;
 		LoadRules() ;
 	}
 	/**
-	 * 
+	 *
 	 */
 	private void LoadRules()
 	{
@@ -71,7 +63,7 @@ public class CRulesManager
 				}
 				tagCat = tagRules.getNextChild(cur) ;
 			}
-			
+
 			cur = new TagCursor() ;
 			Tag tagRule = tagRules.getFirstChild(cur, "rule") ;
 			while  (tagRule != null)
@@ -86,11 +78,11 @@ public class CRulesManager
 				tagRule = tagRules.getNextChild(cur) ;
 			}
 		}
-		
+
 	}
 	protected Tag tagRules = null ;
 	protected Hashtable<String, Vector<Tag>> tabCategories = new Hashtable<String, Vector<Tag>>() ;
-	
+
 	public int getNbRules(String category)
 	{
 		Vector<Tag> lst = tabCategories.get(category);

@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 30 juil. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.BMS;
 
 
@@ -25,19 +19,17 @@ import lexer.BMS.CBMSKeywordList;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CBMSParser extends CParser<CMapSetElement>
-{	
+{
 	//protected Logger m_logger = Transcoder.ms_logger ;
-	
-	
+
+
 	protected boolean DoParsing(CTokenList lstTokens)
 	{
 		commentContainer = new CGlobalCommentContainer();
 //		commentContainer.lstTokens = lstTokens ;
-		
+
 		CBaseToken tokID = lstTokens.GetCurrentToken() ;
 		String name = "" ;
 		if (tokID.GetType() == CTokenType.END_OF_BLOCK)
@@ -47,9 +39,9 @@ public class CBMSParser extends CParser<CMapSetElement>
 		if (tokID.GetType() == CTokenType.IDENTIFIER)
 		{
 			name = tokID.GetValue() ;
-			lstTokens.GetNext() ; 
+			lstTokens.GetNext() ;
 		}
-		
+
 		CBaseToken tokMS = lstTokens.GetCurrentToken() ;
 		if (tokMS.GetKeyword() != CBMSKeywordList.DFHMSD)
 		{
@@ -63,20 +55,20 @@ public class CBMSParser extends CParser<CMapSetElement>
 			Transcoder.logError("Error while parsing MAPSET") ;
 			return false ;
 		}
-		
+
 		String csAlias = "" ;
 		Hashtable<String, CFieldGroup> tabGroups = new Hashtable<String, CFieldGroup>();
 		boolean isdone = false ;
 		while (!isdone)
 		{
-			tokID = lstTokens.GetCurrentToken() ; 
+			tokID = lstTokens.GetCurrentToken() ;
 			String elName = "" ;
 			if (tokID.GetType() == CTokenType.IDENTIFIER)
 			{
 				elName = tokID.GetValue() ;
 				lstTokens.GetNext() ;
-			} 
-			
+			}
+
 			CBaseToken tokMap = lstTokens.GetCurrentToken();
 			if (tokMap.GetKeyword() == CBMSKeywordList.DFHMDI)
 			{
@@ -86,7 +78,7 @@ public class CBMSParser extends CParser<CMapSetElement>
 				if (!curMap.Parse(lstTokens, commentContainer))
 				{
 					Transcoder.logError("Error while parsing MAP") ;
-					return false ; 
+					return false ;
 				}
 			}
 			else if (tokMap.GetKeyword() == CBMSKeywordList.DFHMDF)
@@ -96,7 +88,7 @@ public class CBMSParser extends CParser<CMapSetElement>
 				if (!eField.Parse(lstTokens, commentContainer))
 				{
 					Transcoder.logError("Error while parsing FIELD") ;
-					return false ; 
+					return false ;
 				}
 				String grp = eField.GetGroupName() ;
 				if (grp.equals(""))
@@ -109,7 +101,7 @@ public class CBMSParser extends CParser<CMapSetElement>
 						if (csAlias.indexOf('(')>0 && csAlias.indexOf(')')>0)
 						{
 							curMap.setFindArrays();
-						} 
+						}
 						csAlias = "" ;
 					}
 					curMap.AddElement(eField) ;
@@ -138,7 +130,7 @@ public class CBMSParser extends CParser<CMapSetElement>
 				String comm = tokMap.GetValue().trim() ;
 				if (comm.startsWith("'") && comm.endsWith("'"))
 				{
-					csAlias = comm.substring(1, comm.length()-1) ; 
+					csAlias = comm.substring(1, comm.length()-1) ;
 					lstTokens.GetNext() ;
 				}
 				else
@@ -154,12 +146,12 @@ public class CBMSParser extends CParser<CMapSetElement>
 			{
 				isdone = true ;
 			}
-			
+
 		}
 		return true ;
-	}  
+	}
 
-	protected CMapElement curMap = null ; 
+	protected CMapElement curMap = null ;
 
 //	public class CBMSCommentContainer extends CCommentContainer
 //	{

@@ -8,17 +8,9 @@ package nacaLib.misc;
 
 import nacaLib.varEx.Var;
 
-/*
- * Created on Oct 18, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class KeyPressed
 {
@@ -28,8 +20,8 @@ public class KeyPressed
 		csName = name ;
 	}
 	public String csValue = "" ;
-	public String csName = "" ; 
-	
+	public String csName = "" ;
+
 	public static KeyPressed CLEAR = new KeyPressed("_", "CLEAR") ;
 	public static KeyPressed ENTER = new KeyPressed("'", "ENTER") ;
 	public static KeyPressed PF1 = new KeyPressed("1", "PF1") ;
@@ -58,7 +50,7 @@ public class KeyPressed
 	public static KeyPressed PF24 = new KeyPressed("O", "PF24") ;
 	public static KeyPressed LOG_OUT = new KeyPressed("logout", "LOGOUT") ;
 	public static KeyPressed CHANGE_USER = new KeyPressed("chguser", "CHGUSER") ;
-	
+
 	public String getName()
 	{
 		return csName;
@@ -68,16 +60,16 @@ public class KeyPressed
 	{
 		return csValue;
 	}
-	
+
 	public String getSTCheckValue()
 	{
 		return csName;
-	}	
-	
+	}
+
 	public static KeyPressed getKeyFromHttp(String csKey)
-	{	
+	{
 		if(csKey == null)
-			return null ; 
+			return null ;
 		else if (csKey.equals("0"))
 		{
 			return KeyPressed.ENTER ;
@@ -191,12 +183,12 @@ public class KeyPressed
 			return null ;
 		}
 	}
-	
+
 	public static KeyPressed getKey(Var v)
 	{
 		String cs = v.getString();
 		return getKey(cs);
-	}	
+	}
 
 	public static KeyPressed getKey(String cs)
 	{
@@ -317,7 +309,7 @@ public class KeyPressed
 			return null ;
 		}
 	}
-	
+
 	public String toString()
 	{
 		return csName + ": " + csValue;

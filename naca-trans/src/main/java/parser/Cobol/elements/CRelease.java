@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 8 sept. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements;
 
 import lexer.CBaseToken;
@@ -29,8 +23,6 @@ import utils.CGlobalEntityCounter;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CRelease extends CCobolElement
 {
@@ -46,7 +38,7 @@ public class CRelease extends CCobolElement
 	{
 		CEntitySortRelease eRel = factory.NewEntitySortRelease(getLine()) ;
 		parent.AddChild(eRel) ;
-		
+
 		CDataEntity e = sortFile.GetDataReference(getLine(), factory) ;
 		if (dataRef != null)
 		{
@@ -56,9 +48,9 @@ public class CRelease extends CCobolElement
 		else
 		{
 			eRel.setDataReference(e) ;
-			
+
 		}
-		
+
 		return eRel;
 	}
 	protected boolean DoParsing()
@@ -69,10 +61,10 @@ public class CRelease extends CCobolElement
 			return false ;
 		}
 		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
-		
+
 		tok = GetNext() ;
 		sortFile = ReadIdentifier();
-		
+
 		tok = GetCurrentToken();
 		if (tok.GetKeyword() == CCobolKeywordList.FROM)
 		{
@@ -84,11 +76,11 @@ public class CRelease extends CCobolElement
 	protected Element ExportCustom(Document root)
 	{
 		Element eRelease = root.createElement("Release");
-		
+
 		Element eRecord = root.createElement("Record");
 		eRelease.appendChild(eRecord);
 		sortFile.ExportTo(eRecord, root);
-		
+
 		if (dataRef != null)
 		{
 			Element e = root.createElement("From");

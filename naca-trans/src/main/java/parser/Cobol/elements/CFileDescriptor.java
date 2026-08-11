@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on Sep 7, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements;
 
 import lexer.CBaseToken;
@@ -34,8 +28,6 @@ import utils.CGlobalEntityCounter;
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CFileDescriptor extends CCobolElement
 {
@@ -61,14 +53,14 @@ public class CFileDescriptor extends CCobolElement
 			eFD = factory.NewEntityFileDescriptor(getLine(), d.GetName()) ;
 		}
 		parent.AddChild(eFD) ;
-		
+
 		if (dependingOnLenghtRecord != null)
 		{
 			CDataEntity e = dependingOnLenghtRecord.GetDataReference(getLine(), factory) ;
 			e.RegisterFileDescriptorDepending(eFD);
 			eFD.setRecordSizeVariable(e) ;
 		}
-		
+
 		CBaseLanguageEntity firstEntity = null ;
 		for (CBaseElement be : children)
 		{
@@ -96,7 +88,7 @@ public class CFileDescriptor extends CCobolElement
 			}
 		}
 		bAnalysisDoneForChildren = true ;
-		
+
 		return eFD;
 	}
 	/* (non-Javadoc)
@@ -118,14 +110,14 @@ public class CFileDescriptor extends CCobolElement
 			return false ;
 		}
 		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
-		
+
 		tok = GetNext() ;
 		d = ReadIdentifier();
 		if (d == null)
 		{
 			return false ;
 		}
-		
+
 		boolean isdone = false ;
 		while (!isdone)
 		{
@@ -162,7 +154,7 @@ public class CFileDescriptor extends CCobolElement
 						minLenghtRecord = maxLenghtRecord ;
 						tok = GetNext() ;
 						maxLenghtRecord = Integer.parseInt(tok.GetValue());
-						
+
 						tok = GetNext() ;
 						if (tok.GetKeyword() == CCobolKeywordList.CHARACTERS)
 						{
@@ -269,14 +261,14 @@ public class CFileDescriptor extends CCobolElement
 					{
 						tok =GetNext() ;
 						if (tok.GetType() == CTokenType.NUMBER)
-						{ 
+						{
 							minBlockLenght = maxBlockLenght ;
 							maxBlockLenght = Integer.parseInt(tok.GetValue());
 							tok = GetNext() ;
 						}
 						else
 						{
-							return false ;	
+							return false ;
 						}
 					}
 					if (tok.GetKeyword() == CCobolKeywordList.RECORDS)
@@ -284,7 +276,7 @@ public class CFileDescriptor extends CCobolElement
 						tok = GetNext();
 					}
 				}
-				else 
+				else
 				{
 					return false ;
 				}
@@ -304,7 +296,7 @@ public class CFileDescriptor extends CCobolElement
 					{
 						dataRecord = ReadIdentifier();
 					}
-				} 
+				}
 				else
 				{
 					return false ;
@@ -319,7 +311,7 @@ public class CFileDescriptor extends CCobolElement
 				}
 				if (tok.GetKeyword() == CCobolKeywordList.IS)
 				{
-					tok = GetNext(); 
+					tok = GetNext();
 				}
 				recordingMode = ReadTerminal();
 			}
@@ -331,8 +323,8 @@ public class CFileDescriptor extends CCobolElement
 			{
 				isdone = true ;
 			}
-		} 
-		
+		}
+
 		//file record structure
 		tok = GetCurrentToken() ;
 		if (tok.GetType() == CTokenType.DOT)
@@ -391,14 +383,14 @@ public class CFileDescriptor extends CCobolElement
 				}
 				AddChild(fdstruct) ;
 			}
-			else 
+			else
 			{
 				isdone = true;
 			}
 			tok = GetCurrentToken();
 		}
-		
-		
+
+
 		return true ;
 	}
 	/* (non-Javadoc)
@@ -416,9 +408,9 @@ public class CFileDescriptor extends CCobolElement
 			eFD = root.createElement("FD");
 		}
 		d.ExportTo(eFD, root);
-		
+
 		Element rec = root.createElement("Record");
-		eFD.appendChild(rec);		
+		eFD.appendChild(rec);
 		if (variableLenghtRecord)
 		{
 			rec.setAttribute("MaxLength", ""+maxLenghtRecord);
@@ -431,13 +423,13 @@ public class CFileDescriptor extends CCobolElement
 				Element eDep = root.createElement("Depending");
 				dependingOnLenghtRecord.ExportTo(eDep, root);
 				rec.appendChild(eDep);
-			}			
+			}
 		}
 		else
 		{
 			rec.setAttribute("Length", ""+maxLenghtRecord);
 		}
-		
+
 		Element block = root.createElement("Block");
 		if (minBlockLenght >0)
 		{
@@ -448,27 +440,27 @@ public class CFileDescriptor extends CCobolElement
 		{
 			block.setAttribute("Lenght", ""+maxBlockLenght) ;
 		}
-		
+
 		if (dataRecord != null)
 		{
 			Element eDataRec = root.createElement("DataRecord");
 			eFD.appendChild(eDataRec);
-			dataRecord.ExportTo(eDataRec, root); 
+			dataRecord.ExportTo(eDataRec, root);
 		}
 		if (recordingMode != null)
 		{
 			Element eDataRec = root.createElement("RecordingMode");
 			eFD.appendChild(eDataRec);
-			recordingMode.ExportTo(eDataRec, root); 
+			recordingMode.ExportTo(eDataRec, root);
 		}
 		return eFD;
 	}
-	
+
 	protected CIdentifier d = null ;
-	protected int maxLenghtRecord = 0 ; 
+	protected int maxLenghtRecord = 0 ;
 	protected int minLenghtRecord = 0 ;
 	protected boolean variableLenghtRecord = false ;
-	protected CIdentifier dependingOnLenghtRecord = null ; 
+	protected CIdentifier dependingOnLenghtRecord = null ;
 	protected int maxBlockLenght = 0 ;
 	protected int minBlockLenght = 0 ;
 	protected CIdentifier dataRecord = null ;

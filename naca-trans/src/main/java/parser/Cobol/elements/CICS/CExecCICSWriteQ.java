@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 7 sept. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements.CICS;
 
 import diagnostic.DiagnosticSink;
@@ -33,8 +27,6 @@ import utils.Transcoder;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CExecCICSWriteQ extends CCobolElement
 {
@@ -74,7 +66,7 @@ public class CExecCICSWriteQ extends CCobolElement
 			return null;
 		}
 		CEntityCICSWriteQ eWQ = factory.NewEntityCICSWriteQ(getLine(), ispersistant);
-		
+
 		eWQ.SetName(queueName.GetDataEntity(getLine(), factory)) ;
 		CDataEntity len = null ;
 		if (length != null)
@@ -130,17 +122,17 @@ public class CExecCICSWriteQ extends CCobolElement
 		{
 			tok = GetNext();
 		}
-		
+
 		if (tok.GetValue().equals("TD"))
 		{
 			CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("WRITEQ", "TD") ;
-			tok = GetNext(); 
+			tok = GetNext();
 			ispersistant = true ;
 		}
 		else if (tok.GetValue().equals("TS"))
 		{
 			CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("WRITEQ", "TS") ;
-			tok = GetNext(); 
+			tok = GetNext();
 			ispersistant = false ;
 		}
 		else
@@ -148,7 +140,7 @@ public class CExecCICSWriteQ extends CCobolElement
 			CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("WRITEQ", "Unknown") ;
 			ispersistant = false ;
 		}
-		
+
 		boolean isdone = false ;
 		while (!isdone)
 		{
@@ -251,12 +243,12 @@ public class CExecCICSWriteQ extends CCobolElement
 					}
 				}
 			}
-			else 
+			else
 			{
 				isdone = true ;
 			}
 		}
-		
+
 		if (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
 		{
 			Transcoder.logError(getLine(), "Error whle parsing EXEC CICS WRITEQ");

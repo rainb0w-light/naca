@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on Sep 7, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements;
 
 import lexer.CBaseToken;
@@ -31,8 +25,6 @@ import utils.Transcoder;
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CRead extends CCobolElement
 {
@@ -47,7 +39,7 @@ public class CRead extends CCobolElement
 	{
 		CEntityReadFile eRead = factory.NewEntityReadFile(getLine()) ;
 		parent.AddChild(eRead) ;
-		
+
 		CEntityFileDescriptor eFD = factory.programCatalog.getFileDescriptor(fileDescriptor.GetName()) ;
 		if (eFD != null)
 		{
@@ -61,12 +53,12 @@ public class CRead extends CCobolElement
 				}
 			}
 			eRead.setFileDescriptor(eFD, eData) ;
-			if (atEndBloc != null) 
+			if (atEndBloc != null)
 			{
 				CBaseLanguageEntity eBloc = atEndBloc.DoSemanticAnalysis(eRead, factory) ;
 				eRead.SetAtEndBloc(eBloc) ;
 			}
-			if (notAtEndBloc != null) 
+			if (notAtEndBloc != null)
 			{
 				CBaseLanguageEntity eBloc = notAtEndBloc.DoSemanticAnalysis(eRead, factory) ;
 				eRead.SetNotAtEndBloc(eBloc) ;
@@ -106,10 +98,10 @@ public class CRead extends CCobolElement
 			return false ;
 		}
 		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
-		
+
 		tok = GetNext() ;
 		fileDescriptor = ReadIdentifier();
-		
+
 		tok = GetCurrentToken() ;
 		if (tok.GetKeyword() == CCobolKeywordList.NEXT)
 		{
@@ -137,7 +129,7 @@ public class CRead extends CCobolElement
 			dataInto = ReadIdentifier();
 			tok = GetCurrentToken() ;
 		}
-		
+
 		if (tok.GetKeyword() == CCobolKeywordList.KEY)
 		{
 			tok = GetNext();
@@ -148,7 +140,7 @@ public class CRead extends CCobolElement
 			key = ReadIdentifier();
 			tok = GetCurrentToken();
 		}
-		
+
 		if (tok.GetKeyword() == CCobolKeywordList.AT)
 		{
 			tok = GetNext() ;
@@ -213,7 +205,7 @@ public class CRead extends CCobolElement
 				}
 			}
 		}
-		
+
 		tok = GetCurrentToken() ;
 		if (tok.GetKeyword() == CCobolKeywordList.END_READ)
 		{
@@ -236,46 +228,46 @@ public class CRead extends CCobolElement
 		Element eFile = root.createElement(cs);
 		eRead.appendChild(eFile);
 		fileDescriptor.ExportTo(eFile, root);
-		
+
 		if (dataInto != null)
 		{
 			Element eTo = root.createElement("Into");
 			eRead.appendChild(eTo);
 			dataInto.ExportTo(eTo, root);
 		}
-		
+
 		if (key != null)
 		{
 			Element eKey = root.createElement("Key");
 			eRead.appendChild(eKey);
 			key.ExportTo(eKey, root);
 		}
-		
+
 		if (atEndBloc != null)
 		{
 			Element e = atEndBloc.Export(root);
 			eRead.appendChild(e);
-		} 
+		}
 		if (notAtEndBloc != null)
 		{
 			Element e = notAtEndBloc.Export(root);
 			eRead.appendChild(e);
-		} 
+		}
 		if (invalidKeyBloc != null)
 		{
 			Element e = invalidKeyBloc.Export(root);
 			eRead.appendChild(e);
-		} 
+		}
 		if (notInvalidKeyBloc != null)
 		{
 			Element e = notInvalidKeyBloc.Export(root);
 			eRead.appendChild(e);
-		} 
+		}
 		return eRead;
 	}
-	
+
 	protected CIdentifier fileDescriptor = null ;
-	protected CIdentifier dataInto = null ; 
+	protected CIdentifier dataInto = null ;
 	protected CIdentifier key = null ;
 	protected CGenericBloc atEndBloc = null ;
 	protected CGenericBloc notAtEndBloc = null ;

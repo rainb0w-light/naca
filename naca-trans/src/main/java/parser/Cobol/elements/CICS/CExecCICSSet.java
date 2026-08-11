@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 7 sept. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements.CICS;
 
 import diagnostic.DiagnosticSink;
@@ -31,8 +25,6 @@ import utils.Transcoder;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CExecCICSSet extends CCobolElement
 {
@@ -139,7 +131,7 @@ public class CExecCICSSet extends CCobolElement
 				else
 				{
 					Transcoder.logError(getLine(), "Error while parsing EXEC CICS SET TDQUEUE");
-				}				
+				}
 			}
 			else if (tok.GetKeyword() == CCobolKeywordList.DATASET)
 			{
@@ -179,7 +171,7 @@ public class CExecCICSSet extends CCobolElement
 				else
 				{
 					Transcoder.logError(getLine(), "Error while parsing EXEC CICS SET DATASET");
-				}				
+				}
 			}
 			else if (tok.GetValue().equals("TERMINAL"))
 			{
@@ -207,7 +199,7 @@ public class CExecCICSSet extends CCobolElement
 				else
 				{
 					Transcoder.logError(getLine(), "Error whle parsing EXEC CICS SET TERMINAL");
-				}				
+				}
 			}
 			else
 			{
@@ -249,7 +241,7 @@ public class CExecCICSSet extends CCobolElement
 			return e;
 		}
 	}
-	
+
 	// DataSet
 	protected CTerminal dataSet = null ;
 	protected boolean isdataSetOpen = false ;
@@ -259,8 +251,8 @@ public class CExecCICSSet extends CCobolElement
 	// Terminal
 	protected CTerminal terminal = null ;
 	protected boolean isterminalUpperCase = false ;
-	
-	// TDQueues	
+
+	// TDQueues
 	protected CTerminal tDQueue = null ;
 	protected boolean istDQueueClosed = false ;
 	protected boolean istDQueueOpen = false ;

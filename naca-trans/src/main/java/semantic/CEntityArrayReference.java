@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 6 août 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic;
 
 import java.util.Collections;
@@ -27,8 +21,6 @@ import utils.CObjectCatalog;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CEntityArrayReference extends CBaseDataReference
 {
@@ -42,7 +34,7 @@ public class CEntityArrayReference extends CBaseDataReference
 	{
 		super(l, "", cat);
 	}
-	
+
 	public void SetReference(CDataEntity e)
 	{
 		reference = e ;
@@ -135,8 +127,8 @@ public class CEntityArrayReference extends CBaseDataReference
 	public String GetConstantValue()
 	{
 		return "" ;
-	} 	 
-	public CDataEntity GetSubStringReference(CBaseEntityExpression start, CBaseEntityExpression length, CBaseEntityFactory factory) 
+	}
+	public CDataEntity GetSubStringReference(CBaseEntityExpression start, CBaseEntityExpression length, CBaseEntityFactory factory)
 	{
 		CSubStringAttributReference ref = factory.NewEntitySubString(getLine()) ;
 		ref.SetReference(this, start, length) ;

@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 3 ao�t 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic;
 
 
@@ -18,8 +12,6 @@ import utils.*;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CEntityInline extends CBaseActionEntity
 {
@@ -46,7 +38,7 @@ public class CEntityInline extends CBaseActionEntity
 	}
 
 	protected CBaseExternalEntity externalData = null;
-	
+
 	/* (non-Javadoc)
 	 * @see semantic.CBaseLanguageEntity#GetInternalLevel()
 	 */
@@ -84,7 +76,7 @@ public class CEntityInline extends CBaseActionEntity
 		CBaseLanguageEntity le = newParent.FindLastEntityAvailableForLevel(sub.GetInternalLevel()) ;
 		if (le == null)
 			le = newParent ;
-		sub.parent = le ;		
+		sub.parent = le ;
 	}
 	public void AddChild(CBaseLanguageEntity e)
 	{
@@ -127,7 +119,7 @@ public class CEntityInline extends CBaseActionEntity
 			}
 			return ep ;
 		}
-		else 
+		else
 		{
 			return null ;
 		}
@@ -154,7 +146,7 @@ public class CEntityInline extends CBaseActionEntity
 		}
 		return false  ;
 	}
-	
+
 	public CBaseExternalEntity getExternalEntity()
 	{
 		return externalData ;

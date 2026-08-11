@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
-/*
- * Created on 25 janv. 2005
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 package idea.semanticContext;
 
 import java.util.ArrayList;
@@ -17,27 +11,25 @@ import java.util.ArrayList;
 /**
  * @author U930DI
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 public class CMenuDef
 {
 	CMenuDef()
 	{
 	}
-	
+
 	void setTitle(String csTitle)
 	{
 		this.csTitle = csTitle;
 	}
-	
+
 	CMenuOptionDef createAndRegisterNewOption()
 	{
 		CMenuOptionDef MenuOptionDef = new CMenuOptionDef();
 		options.add(MenuOptionDef);
 		return MenuOptionDef;
 	}
-	
+
 	public String buildHTMLMenu()
 	{
 		String cs = "<H1><CENTER>"+csTitle+"</CENTER></H1><BR><table>";
@@ -50,7 +42,7 @@ public class CMenuDef
 		cs += "</table>";
 		return cs;
 	}
-		
+
 	ArrayList<CMenuOptionDef> options = new ArrayList<CMenuOptionDef>();	// Array of  MenuOptionDef
 	public String csTitle = null;
 }

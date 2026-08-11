@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on Jan 7, 2005
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.map_elements;
 
 import java.util.ListIterator;
@@ -31,8 +25,6 @@ import utils.NacaTransAssertException;
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CFieldArray extends CFieldElement
 {
@@ -93,7 +85,7 @@ public class CFieldArray extends CFieldElement
 
 	public boolean ReadField(CFieldElement field)
 	{
-		String fullName = field.getName() ; 
+		String fullName = field.getName() ;
 		String name = "" ;
 		String index = "" ;
 		int n = 0 ;
@@ -150,7 +142,7 @@ public class CFieldArray extends CFieldElement
 			CFieldElement cur = GetNextFieldInMotif() ;
 			if (!cur.getName().equals(name) || cur.length != field.length)
 			{
-				return false ; 
+				return false ;
 			}
 			if (!name.equals("") && index.equals(""))
 			{
@@ -164,7 +156,7 @@ public class CFieldArray extends CFieldElement
 					nLastColIndexStart = n ;
 					isverticalFilling = false ;
 				}
-				else if (n>0 && nLastColIndexStart != n) 
+				else if (n>0 && nLastColIndexStart != n)
 				{
 					nbCol ++ ;
 					nLastColIndexStart = n ;
@@ -172,7 +164,7 @@ public class CFieldArray extends CFieldElement
 				}
 			}
 			return true ;
-		} 
+		}
 		return false;
 	}
 	private CFieldElement GetNextFieldInMotif()

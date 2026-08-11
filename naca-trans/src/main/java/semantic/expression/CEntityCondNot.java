@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 18 August 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic.expression;
 
 import semantic.CBaseEntityFactory;
@@ -33,7 +27,7 @@ public class CEntityCondNot extends CBaseEntityCondition
 	{
 		return 6;
 	}
-	
+
 	protected CBaseEntityCondition cond ;
 
 	public CBaseEntityCondition getOperand()

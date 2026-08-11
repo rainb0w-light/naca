@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 5 ao�t 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic.forms;
 
 
@@ -111,17 +105,17 @@ public class CEntityResourceFormContainer extends CBaseResourceEntity
 	 */
 	protected void RegisterMySelfToCatalog()
 	{
-//		programCatalog.RegisterFormContainer(GetName(), this) ;		
+//		programCatalog.RegisterFormContainer(GetName(), this) ;
 	}
 	public void AddForm(CEntityResourceForm form)
 	{
 		arrForm.add(form) ;
 	}
-	
-	public void InitDependences(CBaseEntityFactory factory) 
+
+	public void InitDependences(CBaseEntityFactory factory)
 	{
 		for (int i=0; i<arrForm.size(); i++)
-		{ 
+		{
 			CEntityResourceForm form = arrForm.get(i);
 			form.InitDependences(factory) ;
 		}
@@ -130,7 +124,7 @@ public class CEntityResourceFormContainer extends CBaseResourceEntity
 //		CIgnoreExternalEntity ext = factory.NewIgnoreExternalEntity(sav) ;
 //		programCatalog.AddIgnoredExternalEntity(sav, ext);
 	}
-	
+
 	protected Vector<CEntityResourceForm> arrForm = new Vector<CEntityResourceForm>() ;
 	protected CEntityResourceFormContainer owner = null ;
 
@@ -149,15 +143,15 @@ public class CEntityResourceFormContainer extends CBaseResourceEntity
 	{
 		return null;
 	}
-	
+
 	public CResourceStrings resStrings = null ;
-	
-	
+
+
 	public void clearSavCopy(CBaseEntityFactory factory)
 	{
 		factory.programCatalog.ClearSavCopy();
 	}
-	
+
 	public CEntityResourceFormContainer MakeSavCopy(CBaseEntityFactory factory, boolean bFromRes)
 	{
 		CEntityResourceFormContainer newContainer = factory.NewEntityFormContainer(getLine(), GetName()+"S", true) ;
@@ -165,7 +159,7 @@ public class CEntityResourceFormContainer extends CBaseResourceEntity
 		newContainer.of = this ;
 		newContainer.owner = null ;
 		savCopy = newContainer ;
-		
+
 		CObjectCatalog o = Transcoder.getCurrentObjectCatalog();
 		// The current object catalog is only set when the sav copy is built on demand
 		// from a consuming COBOL program (CObjectCatalog.GetExternalDataReference). When
@@ -175,9 +169,9 @@ public class CEntityResourceFormContainer extends CBaseResourceEntity
 		{
 			o.clearSaveMaps();
 		}
-		
+
 		for (int i=0; i<arrForm.size(); i++)
-		{ 
+		{
 			CEntityResourceForm form = arrForm.get(i);
 			CEntityResourceForm fs = factory.NewEntityForm(form.getLine(), form.GetName()+"S", true) ;
 			fs.setResourceName(GetName()) ;
@@ -227,7 +221,7 @@ public class CEntityResourceFormContainer extends CBaseResourceEntity
 		CEntityResourceForm form = arrForm.get(0);
 		form.exportXMLFields(fields, doc, resStrings) ;
 //		}
-		
+
 		String name = getFormattedName() ;
 		Element ePFKeysDefine = form.MakePFKeysDescriptionDefine(doc) ;
 		Element ePFKeysSpecial = form.MakePFKeysDescriptionAction(doc) ;
@@ -243,7 +237,7 @@ public class CEntityResourceFormContainer extends CBaseResourceEntity
 		FieldExportType lastType = null ;
 
 		FieldExportDescription eLineToAdd = null ;
-		
+
 		for (int i=0; i<nb; i++)
 		{
 			FieldExportDescription f = arr[i] ;
@@ -295,7 +289,7 @@ public class CEntityResourceFormContainer extends CBaseResourceEntity
 			curLineElem.appendChild(f.tag);
 			lastType = f.type ;
 		}
-		
+
 		Tag t = new Tag();
 		t.setDoc(doc);
 		t.exportToFile(csExportFilePath);
@@ -314,9 +308,9 @@ public class CEntityResourceFormContainer extends CBaseResourceEntity
 		catch(ParserConfigurationException e)
 		{
 			return null ;
-		}		
+		}
 	}
-	
+
 	private Element createNewFormBody(Document doc, String csFormName, String csTitle, Element ePFKeysDefine, Element ePFKeysSpecial)
 	{
 		Element eForm = doc.createElement("form");
@@ -325,31 +319,31 @@ public class CEntityResourceFormContainer extends CBaseResourceEntity
 		eForm.setAttribute("title", csTitle);
 		eForm.appendChild(ePFKeysDefine);
 		eForm.appendChild(ePFKeysSpecial);
-		
+
 		// list all languages
 		String lang = resStrings.exportAllLangId() ;
 		eForm.setAttribute("allLanguages", lang) ;
-		
+
 		Element eBody = doc.createElement("formbody");
 		eForm.appendChild(eBody);
-		
+
 		return eBody;
 	}
-	
+
 	private Element createVBox(Document doc, Element eParent)
 	{
 		Element eVBox = doc.createElement("vbox");
 		eParent.appendChild(eVBox);
 		return eVBox;
 	}
-	
+
 	private Element createHBox(Document doc, Element eParent)
 	{
 		Element eHBox = doc.createElement("hbox");
 		eParent.appendChild(eHBox);
 		return eHBox;
-	} 
-		
+	}
+
 	private Element createBlank(Document doc, Element eParent, int size)
 	{
 		Element eBlank = doc.createElement("blank");
@@ -362,35 +356,35 @@ public class CEntityResourceFormContainer extends CBaseResourceEntity
 //		eBlank.setAttribute("text", cs);
 		eParent.appendChild(eBlank);
 		return eBlank;
-	} 
+	}
 	public static class FieldExportDescription
 	{
 		private int line = 0 ;
 		int col = 0 ;
 		int length = 0 ;
-		
+
 		boolean isrightJustified = false;	// Valid only for Edits
 		String csFillValue = "";			// Valid only for Edits
-		
+
 		Element tag = null ;
 		FieldExportType type = null ;
-		
+
 		void setLine(int n)
 		{
 			line = n;
 			Transcoder.setLine(line);
 		}
-		
+
 		int getLine()
 		{
 			return line;
 		}
 	}
-	public enum FieldExportType 
+	public enum FieldExportType
 	{
 		TYPE_EDIT, TYPE_LABEL, TYPE_CUSTOM, TYPE_LINE ;
 	}
-	private class FieldComparator implements Comparator<FieldExportDescription> 
+	private class FieldComparator implements Comparator<FieldExportDescription>
 	{
 		public int compare(FieldExportDescription e1, FieldExportDescription e2)
 		{
@@ -404,7 +398,7 @@ public class CEntityResourceFormContainer extends CBaseResourceEntity
 			{
 				return 1 ;
 			}
-			else 
+			else
 			{
 				int col1 = e1.col ;
 				int col2 = e2.col ;
@@ -436,7 +430,7 @@ public class CEntityResourceFormContainer extends CBaseResourceEntity
 //	public String getExportFilePath()
 //	{
 //		return csExportFilePath ;
-//	} 
+//	}
 
 	public void Clear()
 	{
@@ -486,7 +480,7 @@ public class CEntityResourceFormContainer extends CBaseResourceEntity
 	{
 		return arrForm.size() ;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see semantic.CBaseLanguageEntity#SetDisplayName(java.lang.String)
 	 */

@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
-/*
- * Created on 6 avr. 2005
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 package idea.action;
 
 import java.io.File;
@@ -35,8 +29,6 @@ import org.w3c.dom.Element;
 /**
  * @author U930CV
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 public class ActionScenarioList extends Action
 {
@@ -47,7 +39,7 @@ public class ActionScenarioList extends Action
 			return arg1.endsWith(".xml");
 		}
 	}
-	
+
 	public ActionForward execute(
 			ActionMapping mapping,
 			ActionForm form,
@@ -63,13 +55,13 @@ public class ActionScenarioList extends Action
 				appSession = new OnlineSession(false) ;
 				javaSession.setAttribute("AppSession", appSession);
 			}
-			
+
 			OnlineResourceManager resMan = OnlineResourceManagerFactory.GetInstance() ;
 			// create wrapper for form fields
 			CHTTPMapFieldLoader reqLoader = new CHTTPMapFieldLoader(request);
 			String choix = reqLoader.getFieldValue("choixScenario") ;
 			if (choix != null && !choix.equals(""))
-			{ 
+			{
 				String scepath = resMan.getScenarioDir() + "/" + choix ;
 				appSession = new OnlineSession(false) ;
 				javaSession.setAttribute("AppSession", appSession);
@@ -78,21 +70,21 @@ public class ActionScenarioList extends Action
 			}
 			String scenarioFile = reqLoader.getFieldValue("scenariofile") ;
 			if (scenarioFile != null && !scenarioFile.equals(""))
-			{ 
+			{
 				appSession = new OnlineSession(false) ;
 				javaSession.setAttribute("AppSession", appSession);
 				appSession.SetScenario(scenarioFile) ;
 				return mapping.findForward("StartNaca");
 			}
-			
-			
+
+
 			// display liste of scenarios
 			Document doc = XMLUtil.CreateDocument() ;
 			Element eRoot = doc.createElement("form") ;
 			doc.appendChild(eRoot) ;
 			eRoot.setAttribute("lang", "fr") ;
 			eRoot.setAttribute("name", "scenarii") ;
-			
+
 			File dir = new File(resMan.getScenarioDir()) ;
 			File lst[] = dir.listFiles(new XMLFilter()) ;
 			int index = 1 ;
@@ -127,9 +119,9 @@ public class ActionScenarioList extends Action
 			eRoot.appendChild(eItem) ;
 			eItem.setAttribute("name", "choixScenario") ;
 			eItem.setAttribute("value", "") ;
-			
+
 			appSession.setXMLData(doc) ;
-			appSession.setIdPage("scenarii") ;			
+			appSession.setIdPage("scenarii") ;
 			appSession.setActionAlias("scenario.do") ;
 			return mapping.findForward("ViewCompat");
 		}

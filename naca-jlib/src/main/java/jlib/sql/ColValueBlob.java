@@ -24,17 +24,17 @@ public class ColValueBlob extends ColValue
 		super(csName);
 		blValue = blob;
 	}
-	
+
 	public ColValue duplicate()
 	{
 		return new ColValueBlob(csName, blValue);
 	}
-	
+
 	public void setParamSQLClause(SQLClause clause)
 	{
 		clause.param(blValue);
 	}
-	
+
 	public void doFillWithResurltSetCol(ResultSet resultSet, int nCol)
 		throws SQLException
 	{
@@ -46,42 +46,42 @@ public class ColValueBlob extends ColValue
 	{
 		return blValue.toString();
 	}
-	
+
 	public int getValueAsInt()
 	{
 		return 0;
 	}
-	
+
 	double getValueAsDouble()
 	{
 		return 0.0;
 	}
-	
+
 	String getDumpValueAsString()
 	{
 		return "(Blog):'"+blValue.toString();
 	}
-	
+
 	String getType()
 	{
 		return "Blob";
 	}
-	
+
 	int getSQLType()
 	{
 		return Types.BLOB;
 	}
-	
+
 	Object getValue()
 	{
 		return blValue;
 	}
-	
+
 	public boolean canSetColParam()
 	{
 		return true;
 	}
-	
+
 	public boolean setParamIntoStmt(PreparedStatement stmt, int nCol)
 	{
 		InputStream is;
@@ -93,7 +93,6 @@ public class ColValueBlob extends ColValue
 		}
 		catch (SerialException e1)
 		{
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 			return false;
 		}
@@ -110,6 +109,6 @@ public class ColValueBlob extends ColValue
 
 		return true;
 	}
-	
+
 	private SerialBlob blValue = null;
 }

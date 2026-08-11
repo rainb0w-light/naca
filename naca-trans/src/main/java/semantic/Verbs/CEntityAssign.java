@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 3 ao�t 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic.Verbs;
 
 
@@ -26,8 +20,6 @@ import utils.*;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CEntityAssign extends CBaseActionEntity
 {
@@ -47,7 +39,7 @@ public class CEntityAssign extends CBaseActionEntity
 		value = e ;
 		return true ;
 	}
-	
+
 	public void AddRefTo(CDataEntity id)
 	{
 		refTo.add(id) ;
@@ -67,7 +59,7 @@ public class CEntityAssign extends CBaseActionEntity
 	{
 		return refTo.size() ;
 	}
-	
+
 	protected CDataEntity value = null ;
 	protected boolean isfillAll = false ;
 	protected boolean ismoveCorresponding = false ;
@@ -87,7 +79,7 @@ public class CEntityAssign extends CBaseActionEntity
 	{
 		ismoveCorresponding = bCorr ;
 	}
-	
+
 	public boolean ignore()
 	{
 		if (value == null || value.ignore())
@@ -142,7 +134,7 @@ public class CEntityAssign extends CBaseActionEntity
 				var.RegisterReadingAction(this) ;
 			}
 			return true ;
-		} 
+		}
 		else if (refTo.contains(field))
 		{
 			field.UnRegisterWritingAction(this) ;

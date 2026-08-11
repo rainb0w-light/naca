@@ -16,36 +16,28 @@ import jakarta.servlet.http.HttpServlet;
 
 import jlib.jmxMBean.JmxRegistration;
 
-/*
- * Created on Dec 13, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class InitServlet extends HttpServlet
 {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	public void init(ServletConfig config) throws ServletException
 	{
 		JmxRegistration.register();
-		
+
 		super.init(config);
 		String path = this.getServletContext().getRealPath("/") ;
 		OnlineResourceManager.setOnceRootPath(path) ;
 
 		String csINIFilePath = config.getInitParameter("INIFilePath");
 		csINIFilePath = OnlineResourceManager.getRootPath() + csINIFilePath ;
-		
+
 		String csAppliRootPath = config.getInitParameter("ApplicationRootPath");
 		OnlineResourceManager.setApplicationRootPath(csAppliRootPath) ;
 
@@ -54,23 +46,23 @@ public class InitServlet extends HttpServlet
 /*
 		resourceManager.setXMLConfigFilePath(csINIFilePath) ;
 		resourceManager.Init() ;
-		
+
 		resourceManager.loadDBSemanticContextDef();
 
 		// Load semantic context data dictionnary: Defines semantic context associtaed to DB columns
-				
-		
+
+
 		// Load semantic context configuration file: Defines menus, options, ...
 		String csSemanticContext = resourceManager.getSemanticContextPathFile();
 		if(csSemanticContext != null && csSemanticContext.length() != 0)
 		{
 			SemanticManager semanticManager = SemanticManager.GetInstance();
 			semanticManager.Init(csSemanticContext);
-			resourceManager.registerSemanticManager(semanticManager);			
+			resourceManager.registerSemanticManager(semanticManager);
 		}
 	*/
 	}
-	
+
 	OnlineResourceManager resourceManager = null ;
 	SemanticManager semanticManager = SemanticManager.GetInstance();
 }

@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on Aug 25, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic.Verbs;
 
 
@@ -25,8 +19,6 @@ import utils.CObjectCatalog;
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CEntitySubtractTo extends CBaseActionEntity
 {
@@ -79,12 +71,12 @@ public class CEntitySubtractTo extends CBaseActionEntity
 	{
 		super(line, cat);
 	}
-	
+
 	public void SetSubstract(CDataEntity var, CDataEntity val, CDataEntity dest)
 	{
 		SetSubstract(var, Arrays.asList(val), Arrays.asList(dest));
 	}
-	
+
 	public void SetSubstract(CDataEntity var, List<CDataEntity> val, List<CDataEntity> dest)
 	{
 		variable = var ;
@@ -94,7 +86,7 @@ public class CEntitySubtractTo extends CBaseActionEntity
 	public void SetOnErrorBloc(CBaseLanguageEntity error) {
 		onErrorBloc = error;
 	}
-	
+
 	protected CDataEntity variable ;
 	protected CBaseLanguageEntity onErrorBloc ;
 	protected final List<CDataEntity> values = new ArrayList<CDataEntity>();
@@ -159,4 +151,3 @@ public class CEntitySubtractTo extends CBaseActionEntity
 		return onErrorBloc ;
 	}
 }
-

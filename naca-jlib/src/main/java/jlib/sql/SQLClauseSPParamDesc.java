@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.sql;
 
@@ -26,7 +26,7 @@ public class SQLClauseSPParamDesc extends StoredProcParamDescBase
 //		{
 //			try
 //			{
-//				String csOutLang = callableStatement.getOutValueString(nParamId);				
+//				String csOutLang = callableStatement.getOutValueString(nParamId);
 //				if(varInOut != null)
 //					varInOut.set(csOutLang);
 //			}
@@ -36,42 +36,41 @@ public class SQLClauseSPParamDesc extends StoredProcParamDescBase
 //				String csReason = e.getMessage();
 //				Log.logImportant("Catched SQLException from stored procedure retrieveOutValues: "+csReason + " State="+csState);
 //				sqlStatus.setSQLCode("StoredProc", e.getErrorCode(), csReason, csState);
-//				
+//
 //				sqlStatus.setSQLCode(e);
 //			}
 //			catch (Exception e)
 //			{
-//				// TODO Auto-generated catch block
 //				e.printStackTrace();
 //			}
 //		}
-//	}	
-	
+//	}
+
 	public boolean fillInValue(int nParamId, DbPreparedCallableStatement callableStatement)
 	{
 //		if(varInOut != null)
-//		{			
+//		{
 //			BaseDbColDefinition def = colDescriptionInfo.makeDbColDefinition();
 //			return def.fillCallableStatementParam(nParamId, this, callableStatement);
 //		}
 		return false;
 	}
-	
+
 	public String getInValueAsString()
 	{
 		return null;
 	}
-	
+
 	public double getInValueAsDouble()
 	{
 		return 0.0;
 	}
-	
+
 	public int getInValueAsInt()
 	{
 		return 0;
 	}
-	
+
 	public short getInValueAsShort()
 	{
 		return (short)0;

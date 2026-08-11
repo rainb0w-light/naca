@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 5 ao�t 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package utils;
 
 import java.io.BufferedInputStream;
@@ -44,15 +38,13 @@ import semantic.CBaseLanguageEntity;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public abstract class TranscoderEngine<T_Elem extends CBaseElement, T_Entity extends CBaseLanguageEntity> extends BaseEngine<T_Entity>
 {
 	protected TranscoderEngine()
 	{
 	}
-	
+
 	public boolean MainInit(Tag eConf)
 	{
 		String csCallGroupName  = eConf.getVal("ReferenceGroupName") ;
@@ -61,13 +53,13 @@ public abstract class TranscoderEngine<T_Elem extends CBaseElement, T_Entity ext
 		cat = new CGlobalCatalog(transcoder, csCallGroupName, csResGroupName, csIncludeGroupName) ;
 		return CustomInit(eConf) ;
 	}
-	
+
 	/**
 	 * @param conf
 	 * @return
 	 */
 	protected abstract boolean CustomInit(Tag conf) ;
-	
+
 	protected NotificationEngine notificationEngine = new NotificationEngine() ;
 	protected CGlobalCatalog cat = null ;
 
@@ -75,7 +67,7 @@ public abstract class TranscoderEngine<T_Elem extends CBaseElement, T_Entity ext
 	{
 		return cat ;
 	}
-	
+
 	@Override
 	public void doFileTranscoding(String filename, String csApplication, CTransApplicationGroup grp, boolean bResources)
 	{
@@ -123,7 +115,7 @@ public abstract class TranscoderEngine<T_Elem extends CBaseElement, T_Entity ext
 			throw new NacaTransAssertException("Cannot write ST4 artifact " + outPath + ": " + e.getMessage());
 		}
 	}
-	
+
 	public T_Entity doAllAnalysis(String filename, String csApplication, CTransApplicationGroup grp, boolean bResources)
 	{
 		String outname = generateOutputFileName(filename) ;
@@ -182,7 +174,7 @@ public abstract class TranscoderEngine<T_Elem extends CBaseElement, T_Entity ext
 		}
 		return null ;
 	}
-	
+
 	/**
 	 * @param filename
 	 * @return
@@ -226,7 +218,7 @@ public abstract class TranscoderEngine<T_Elem extends CBaseElement, T_Entity ext
 		}
 	}
 
-	
+
 	protected abstract void doPopulateSpecialActionHandlers(NotificationEngine engine) ;
 
 	protected abstract void doLogs(String csInput, String csOutput) ;
@@ -236,20 +228,20 @@ public abstract class TranscoderEngine<T_Elem extends CBaseElement, T_Entity ext
 		int nPos = filename.lastIndexOf('.') ;
 		if (nPos > 0)
 		{
-			return filename.substring(0, nPos) + "." + ext ;	// Modification PJD 14/06/07; was return filename.substring(0, nPos) + ext ;  
+			return filename.substring(0, nPos) + "." + ext ;	// Modification PJD 14/06/07; was return filename.substring(0, nPos) + ext ;
 		}
 		else
 		{
 			return filename + "." + ext ;
 		}
 	}
-	
+
 	protected String ReplaceExtensionFileNameWithSuffix(String filename, String csSuffix, String ext)
 	{
 		int nPos = filename.lastIndexOf('.') ;
 		if (nPos > 0)
 		{
-			return filename.substring(0, nPos) + csSuffix + "." + ext ;	// Modification PJD 14/06/07; was return filename.substring(0, nPos) + ext ;  
+			return filename.substring(0, nPos) + csSuffix + "." + ext ;	// Modification PJD 14/06/07; was return filename.substring(0, nPos) + ext ;
 		}
 		else
 		{
@@ -277,12 +269,12 @@ public abstract class TranscoderEngine<T_Elem extends CBaseElement, T_Entity ext
 			}
 			else
 			{
-				Transcoder.logError("Lexing failed"); 
+				Transcoder.logError("Lexing failed");
 			}
 		}
 		catch (FileNotFoundException e)
 		{
-			//Transcoder.error("File not found : "+csFullFileName); 
+			//Transcoder.error("File not found : "+csFullFileName);
 			return null ;
 		}
 		catch (Exception e)
@@ -291,7 +283,7 @@ public abstract class TranscoderEngine<T_Elem extends CBaseElement, T_Entity ext
 		}
 		return lst ;
 	}
-	
+
 
 	protected abstract CParser<T_Elem> doParsing(CTokenList lst) ;
 
@@ -300,9 +292,9 @@ public abstract class TranscoderEngine<T_Elem extends CBaseElement, T_Entity ext
 		Document doc = parser.Export() ;
 		Tag tag = new Tag();
 		tag.setDoc(doc);
-		tag.exportToFile(csFileOut);	
+		tag.exportToFile(csFileOut);
 	}
-	
+
 	protected void ExportParser(CParser<T_Elem> parser, String filename)
 	{
 		try
@@ -317,7 +309,7 @@ public abstract class TranscoderEngine<T_Elem extends CBaseElement, T_Entity ext
 				xformer.setOutputProperty(OutputKeys.ENCODING, "ISO8859-1");
 				xformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
 				xformer.setOutputProperty(OutputKeys.INDENT, "yes");
-		
+
 				xformer.transform(source, res);
 			}
 		}
@@ -330,11 +322,11 @@ public abstract class TranscoderEngine<T_Elem extends CBaseElement, T_Entity ext
 		catch (TransformerException e)
 		{
 			Transcoder.logError(e.toString() + "\n" + e.getStackTrace());
-		}	
+		}
 	}
-	
+
 	protected abstract T_Entity doSemanticAnalysis(CParser<T_Elem> parser, String fileName, CObjectCatalog cat, CTransApplicationGroup grp, boolean bResources) ;
-	
+
 	/**
 	 * Lexer Factory
 	 */

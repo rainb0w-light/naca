@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 13 ao�t 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements;
 
 import lexer.CBaseToken;
@@ -31,8 +25,6 @@ import utils.Transcoder;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CMultiply extends CCobolElement
 {
@@ -79,7 +71,7 @@ public class CMultiply extends CCobolElement
 		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
 		tok = GetNext();
 		multiplyWhat = ReadTerminal();
-		
+
 		tok=GetCurrentToken();
 		if (tok.GetKeyword() != CCobolKeywordList.BY)
 		{
@@ -88,13 +80,13 @@ public class CMultiply extends CCobolElement
 		}
 		GetNext() ;
 		multiplyBy = ReadTerminal();
-		
+
 		tok = GetCurrentToken();
 		if (tok.GetKeyword() == CCobolKeywordList.ROUNDED)
 		{
 			isisRounded = true ;
 			GetNext() ;
-		} 
+		}
 		else if (tok.GetKeyword() == CCobolKeywordList.GIVING)
 		{
 			GetNext();
@@ -104,7 +96,7 @@ public class CMultiply extends CCobolElement
 			{
 				isisRounded = true ;
 				GetNext() ;
-			} 
+			}
 		}
 		return true;
 	}
@@ -125,11 +117,11 @@ public class CMultiply extends CCobolElement
 		{
 			Element eResult = root.createElement("To");
 			eMult.appendChild(eResult);
-			result.ExportTo(eResult, root);			
+			result.ExportTo(eResult, root);
 		}
 		return eMult;
 	}
-	
+
 	protected CTerminal multiplyWhat = null ;
 	protected CTerminal multiplyBy = null ;
 	protected CIdentifier result = null ;

@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 11 ao�t 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic.forms;
 
 import org.w3c.dom.Document;
@@ -26,8 +20,6 @@ import java.util.Map;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CResourceStrings
 {
@@ -59,7 +51,7 @@ public class CResourceStrings
 			return lang;
 		}
 	}
-	
+
 	protected ArrayList<String> langId = new ArrayList<String>() ;
 	public static final class CLocalizedValue
 	{
@@ -103,7 +95,7 @@ public class CResourceStrings
 	}
 	public void SetResourceText(int line, int col, String text, String langID, int length)
 	{
-		String csLang = getOfficialLanguageCode(langID) ; 
+		String csLang = getOfficialLanguageCode(langID) ;
 		if (!langId.contains(csLang))
 		{
 			langId.add(csLang) ;
@@ -114,7 +106,7 @@ public class CResourceStrings
 	}
 	public void SetResourceText(int line, int col, String text, String langID, String id, int length)
 	{
-		String csLang = getOfficialLanguageCode(langID) ; 
+		String csLang = getOfficialLanguageCode(langID) ;
 		if (!langId.contains(csLang))
 		{
 			langId.add(csLang) ;
@@ -140,7 +132,7 @@ public class CResourceStrings
 		{
 			text = new CLocalizedText() ;
 			lines[line][col] = text;
-		} 
+		}
 		return text;
 	}
 	public String CreateName(String radical)
@@ -191,7 +183,7 @@ public class CResourceStrings
 		}
 		resource.textTable.replaceAll((language, text) -> text.trim());
 	}
-	
+
 	public String exportAllLangId()
 	{
 		String cs = "" ;
@@ -225,7 +217,7 @@ public class CResourceStrings
 		if (text == null)
 		{
 			return false ;
-		} 
+		}
 		if (text.length != length)
 		{
 			return false ;

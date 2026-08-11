@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 27 ao�t 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic.forms;
 
 import semantic.CBaseEntityFactory;
@@ -20,8 +14,6 @@ import semantic.expression.CUnitaryEntityCondition;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CEntityIsFieldHighlight extends CUnitaryEntityCondition
 {
@@ -30,7 +22,7 @@ public class CEntityIsFieldHighlight extends CUnitaryEntityCondition
 	{
 		reference = ref ;
 	}
-	
+
 	public void IsBlink()
 	{
 		isisBlink = true ;
@@ -48,7 +40,7 @@ public class CEntityIsFieldHighlight extends CUnitaryEntityCondition
 	protected boolean isisReverse = false ;
 	protected boolean isisUnderlined = false ;
 	protected boolean isopposite = false ;
-	
+
 	public boolean ignore()
 	{
 		return reference.ignore() ;
@@ -70,7 +62,7 @@ public class CEntityIsFieldHighlight extends CUnitaryEntityCondition
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public void IsNormal()
 	{
@@ -82,7 +74,7 @@ public class CEntityIsFieldHighlight extends CUnitaryEntityCondition
 	{
 		return true;
 	}
-	
+
 	public void setOpposite()
 	{
 		isopposite = !isopposite;

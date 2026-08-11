@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 10 févr. 2005
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 package semantic.expression;
 
 import semantic.CDataEntity;
@@ -18,8 +12,6 @@ import utils.CObjectCatalog;
 /**
  * @author sly
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 public class CEntityConcat extends CBaseEntityFunction
 {
@@ -50,7 +42,7 @@ public class CEntityConcat extends CBaseEntityFunction
 		dataRef2 = data2 ;
 		dataRef2.RegisterReadReference(this) ;
 	}
-	
+
 	protected CDataEntity dataRef2 = null ;
 
 	public CDataEntity getSecondReference()

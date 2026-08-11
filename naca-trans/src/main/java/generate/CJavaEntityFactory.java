@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 2 ao�t 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package generate;
 
 import generate.java.forms.BmsJavaEntities;
@@ -212,14 +206,12 @@ import utils.NacaTransAssertException;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CJavaEntityFactory extends CBaseEntityFactory
 {
 
 	public void InitCustomGlobalEntities(CGlobalCatalog cat)
-	{		
+	{
 		// manage HEXZONE
 		CObjectCatalog ocat = new CObjectCatalog(cat, null, null, null) ;
 		CEntityExternalDataStructure structure =
@@ -242,14 +234,14 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		ocat.RegisterAttribute(att3) ;
 		cat.RegisterExternalDataStructure(structure) ;
 	}
-	
+
 	public void InitCustomCICSEntities()
 	{
 		// Some entries are supplied directly by the runtime environment.
 		NewEntitySQLCode("SQLCODE") ;
 		NewEntitySQLCode("SQLERRD") ;
-		
-		
+
+
 	}
 
 	/**
@@ -267,7 +259,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 	{
 		return langOutput == null ? "" : langOutput.getOutputDir();
 	}
-	
+
 	public CEntitySQLSelectStatement NewEntitySQLSelectStatement(int nLine, String csStatement, Vector<CDataEntity> arrParameters, Vector<CDataEntity> arrInto, Vector<CDataEntity> arrInd)	{
 		// Direct backend CJavaSQLSelectStatement retired: the pure semantic entity is
 		// rendered by the recursive ST4 assembler (the recursiveSQLSelectStatementEntity
@@ -1121,7 +1113,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 		return e;
 	}
 
-	protected Hashtable<String, CDataEntity> tabConstantValues = new Hashtable<String, CDataEntity>() ; 
+	protected Hashtable<String, CDataEntity> tabConstantValues = new Hashtable<String, CDataEntity>() ;
 	public void addSpecialConstantValue(String value, String constant)
 	{
 		tabConstantValues.put(value, new CEntityConstantValue(constant));
@@ -1137,7 +1129,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 			int n = programCatalog.GetNbMap() ;
 			for (int i=0; i<n; i++)
 			{
-				CEntityResourceForm form = programCatalog.GetMap(i) ; 
+				CEntityResourceForm form = programCatalog.GetMap(i) ;
 				if (form.isFormAlias(value))
 				{
 					String code = "LanguageCode."+CResourceStrings.getOfficialLanguageCode(value);
@@ -1150,14 +1142,14 @@ public class CJavaEntityFactory extends CBaseEntityFactory
 	}
 	public Vector<CDataEntity> getAllSpecialConstantAttributes()
 	{
-		Vector<CDataEntity> arr = new Vector<CDataEntity>() ; 
+		Vector<CDataEntity> arr = new Vector<CDataEntity>() ;
 		Enumeration<CDataEntity> iter = tabConstantValues.elements();
 		while (iter.hasMoreElements())
 		{
 			arr.add(iter.nextElement()) ;
 		}
 		return arr ;
-	}	
+	}
 	public CEntityConcat NewEntityConcat(CDataEntity e1, CDataEntity e2)	{
 		CEntityConcat e = new CEntityConcat(programCatalog, e1, e2);
 		return e;

@@ -13,22 +13,14 @@ import java.io.IOException;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 
-/*
- * Created on Sep 23, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class RequestHandlerServlet extends HttpServlet
 {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -52,9 +44,9 @@ public class RequestHandlerServlet extends HttpServlet
 	* user and displays it in the HTML page. The parameters to doGet() method is
 	* 1) HttpServletRequest object, which encapsulates the data from the client
 	* 2) HttpServletResponse object, which encapsulates the response to the client
-	*/	
-	public void doGet(HttpServletRequest req, HttpServletResponse res) 
-		throws ServletException, IOException 
+	*/
+	public void doGet(HttpServletRequest req, HttpServletResponse res)
+		throws ServletException, IOException
 	{
 		// get session
 		HttpSession javaSession = req.getSession(true);
@@ -65,7 +57,7 @@ public class RequestHandlerServlet extends HttpServlet
 			dispContext = new DisplayContext() ;
 			javaSession.setAttribute("DisplayContext", dispContext);
 		}
-		
+
 		// create wrapper for form fields
 		HTTPMapFieldLoader reqLoader = new HTTPMapFieldLoader(req);
 		DisplayOutput output = new DisplayOutput(dispContext) ;
@@ -83,12 +75,12 @@ public class RequestHandlerServlet extends HttpServlet
 	}
 
 
-	public void doPost(HttpServletRequest req, HttpServletResponse Res) 
-		throws ServletException, IOException 
+	public void doPost(HttpServletRequest req, HttpServletResponse Res)
+		throws ServletException, IOException
 	{
 		doGet(req, Res) ;
 	}
-	
+
 	/**
 	* Override the getServletInfo() method which is supposed to return information
 	* about the Servlet, e.g. the Servlet name, version, author and copyright
@@ -105,7 +97,7 @@ public class RequestHandlerServlet extends HttpServlet
 	/**
 	* Destroy the servlet. This method is called once when the servlet is unloaded
 	**/
-	public void destroy() 
+	public void destroy()
 	{
 		super.destroy();
 	}

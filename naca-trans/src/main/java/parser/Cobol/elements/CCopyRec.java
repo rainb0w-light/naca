@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 13 ao�t 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements;
 
 import jlib.misc.NumberParser;
@@ -33,8 +27,6 @@ import utils.Transcoder;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CCopyRec extends CCobolElement
 {
@@ -72,7 +64,7 @@ public class CCopyRec extends CCobolElement
 				}
 			}
 		}
-		
+
 		CBaseExternalEntity e = factory.programCatalog.GetExternalDataReference(identifier, csRenamePattern, factory) ;
 		if (e == null)
 		{
@@ -88,7 +80,7 @@ public class CCopyRec extends CCobolElement
 		}
 
 		CEntityInline eil = factory.NewEntityInline(getLine(), e) ;
-		e.InitDependences(factory) ; 
+		e.InitDependences(factory) ;
 		//parent.AddChild(eil) ;
 		ent.AddChild(eil) ;
 		if (ent != null)
@@ -111,7 +103,7 @@ public class CCopyRec extends CCobolElement
 		}
 		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
 
-		int line = tok.getLine() ; 
+		int line = tok.getLine() ;
 		tok = GetNext();
 		if (tok.GetType() == CTokenType.IDENTIFIER)
 		{
@@ -156,7 +148,7 @@ public class CCopyRec extends CCobolElement
 			{
 				break ;
 			}
-			
+
 		}
 		if (tok.GetType() == CTokenType.DOT)
 		{
@@ -164,7 +156,7 @@ public class CCopyRec extends CCobolElement
 		}
 		return ParseContent() ;
 	}
-	
+
 	protected boolean ParseContent()
 	{
 		boolean isdone = false ;
@@ -208,11 +200,11 @@ public class CCopyRec extends CCobolElement
 		{
 			String cs = "Option"+i ;
 			String val = option.get(i);
-			eCopy.setAttribute(cs, val);		
+			eCopy.setAttribute(cs, val);
 		}
 		return eCopy;
 	}
-	
+
 	protected String identifier = ""  ;
 	protected ArrayList<String> option = new ArrayList<String>() ;
 

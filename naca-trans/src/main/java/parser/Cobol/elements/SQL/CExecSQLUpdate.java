@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 20 ao�t 04
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements.SQL;
 import java.util.Vector;
 
@@ -34,8 +28,6 @@ import utils.Transcoder;
 /**
  * @author U930DI
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CExecSQLUpdate extends CBaseExecSQLAction
 {
@@ -66,14 +58,14 @@ public class CExecSQLUpdate extends CBaseExecSQLAction
 			else if (tok.GetType() == CTokenType.DOT || tok.GetType() == CTokenType.COMMA)
 			{
 				String cs = new String(tok.GetType().GetSourceValue());
-				clause += cs; 
+				clause += cs;
 				GetNext();
 			}
 			else if (tok.GetType() == CTokenType.LESS_THAN)
 			{
 				String cs = new String(tok.GetType().GetSourceValue());
 				AppendRequiredSpace() ;
-				clause += cs; 
+				clause += cs;
 				tok = GetNext();
 				if (tok.GetType() == CTokenType.GREATER_THAN)
 				{
@@ -138,7 +130,7 @@ public class CExecSQLUpdate extends CBaseExecSQLAction
 			{
 				String cs = new String(tok.GetType().GetSourceValue());
 				AppendRequiredSpace() ;
-				clause += cs; 
+				clause += cs;
 				tok = GetNext();
 				if (tok.GetType() == CTokenType.EQUALS)
 				{
@@ -151,7 +143,7 @@ public class CExecSQLUpdate extends CBaseExecSQLAction
 			{
 				String cs = new String(tok.GetType().GetSourceValue());
 				AppendRequiredSpace();
-				clause += cs; 
+				clause += cs;
 				GetNext();
 			}
 			else if (tok.GetType() == CTokenType.STRING)
@@ -176,20 +168,20 @@ public class CExecSQLUpdate extends CBaseExecSQLAction
 				String cs = new String(tok.GetValue());
 				if (!iswhere && !isvalue && tok.GetType() == CTokenType.IDENTIFIER && csViewName.equals(""))
 				{
-					csViewName = cs ; 
-				} 
+					csViewName = cs ;
+				}
 				AppendRequiredSpace();
-				clause += cs; 
+				clause += cs;
 				GetNext();
 			}
 		}
 		return true ;
 	}
-		
+
 	public void AppendRequiredSpace()
 	{
 		if(clause.endsWith(" ") == false && clause.endsWith(":") == false && clause.endsWith(".") == false)
-			clause += " ";			
+			clause += " ";
 	}
 
 
@@ -199,10 +191,10 @@ public class CExecSQLUpdate extends CBaseExecSQLAction
 		e.setAttribute("Clause", clause) ;
 		//ExportSet(root, e);
 		//ExportParameters(root, e);
-		
+
 		return e;
 	}
-	
+
 	private void ExportParameters(Document root, Element parent)
 	{
 		try
@@ -215,7 +207,7 @@ public class CExecSQLUpdate extends CBaseExecSQLAction
 			{
 				Element eParam = root.createElement("Parameter") ;
 				e.appendChild(eParam);
-				
+
 				CIdentifier s = parameters.get(n);
 				s.ExportTo(eParam, root) ;
 			}
@@ -238,7 +230,7 @@ public class CExecSQLUpdate extends CBaseExecSQLAction
 			{
 				Element eParam = root.createElement("Parameter") ;
 				e.appendChild(eParam);
-				
+
 				CIdentifier s = sets.get(n);
 				s.ExportTo(eParam, root) ;
 			}
@@ -256,14 +248,14 @@ public class CExecSQLUpdate extends CBaseExecSQLAction
 		{
 			CIdentifier id = sets.get(i);
 			CDataEntity e = id.GetDataReference(getLine(), factory);
-			vVal.add(e); 
+			vVal.add(e);
 		}
 		Vector<CDataEntity> vPar = new Vector<CDataEntity>();
 		for (int i = 0; i< parameters.size(); i++)
 		{
 			CIdentifier id = parameters.get(i);
 			CDataEntity e = id.GetDataReference(getLine(), factory);
-			vPar.add(e); 
+			vPar.add(e);
 		}
 		clause = CExecSQL.CheckConcat(clause, vPar, factory);
 		String tablename = "" ;
@@ -282,18 +274,18 @@ public class CExecSQLUpdate extends CBaseExecSQLAction
 		}
 		else
 		{
-			tablename = table.GetTableName();			
+			tablename = table.GetTableName();
 		}
 		CGlobalEntityCounter.GetInstance().CountSQLTableAccess("UPDATE", tablename, parent.GetProgramName());
 		clause = clause.replaceAll(csViewName, tablename);
-		
+
 		CEntitySQLCursor cursor = null ;
 		int n = clause.indexOf("WHERE CURRENT OF") ;
 		if (n>0)
 		{
 			String cur = clause.substring(n + 17) ;
 			cursor = factory.programCatalog.GetSQLCursor(cur) ;
-			if (cursor == null) 
+			if (cursor == null)
 			{
 				throw new NacaTransAssertException("Cursor not found : "+cur) ; // ASSERT
 			}
@@ -321,12 +313,12 @@ public class CExecSQLUpdate extends CBaseExecSQLAction
 					}
 					from = CExecSQLSelect.ManageFrom(parent, from, factory, false) ;
 					clause = clause.substring(0, nFrom+5) + from + where ;
-					
+
 					nFrom = clause.indexOf("FROM", nFrom + 1);
 				}
 			}
 		}
-		
+
 		CEntitySQLUpdateStatement eSQL = factory.NewEntitySQLUpdateStatement(getLine(), clause, vVal, vPar);
 		Transcoder.checkSQL(getLine(), clause);
 		parent.AddChild(eSQL) ;
@@ -343,10 +335,9 @@ public class CExecSQLUpdate extends CBaseExecSQLAction
 		}
 		return eSQL;
 	}
-	
+
 	public String clause = "" ;
 	public String csViewName = "" ;
 	public Vector<CIdentifier> parameters = new Vector<CIdentifier>() ;
 	public Vector<CIdentifier> sets = new Vector<CIdentifier>() ;
 }
-

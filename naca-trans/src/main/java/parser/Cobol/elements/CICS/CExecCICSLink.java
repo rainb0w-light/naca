@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 7 sept. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements.CICS;
 
 import lexer.CBaseToken;
@@ -34,8 +28,6 @@ import utils.Transcoder;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CExecCICSLink extends CCobolElement
 {
@@ -56,7 +48,7 @@ public class CExecCICSLink extends CCobolElement
 		boolean ischecked = false ;
 		if (!programName.IsReference())
 		{ // reference is a constant string : 'PRGM'
-			String prg = programName.GetValue() ; 
+			String prg = programName.GetValue() ;
 			CEntityRoutineEmulation emul = factory.programCatalog.getRoutineEmulation(prg) ;
 			if (emul != null)
 			{
@@ -91,9 +83,9 @@ public class CExecCICSLink extends CCobolElement
 		}
 		CEntityCICSLink eCICS = factory.NewEntityCICSLink(getLine());
 		parent.AddChild(eCICS);
-		CDataEntity ePrgm = programName.GetDataEntity(getLine(), factory) ; 
+		CDataEntity ePrgm = programName.GetDataEntity(getLine(), factory) ;
 		eCICS.SetProgramName(ePrgm, ischecked) ;
-		
+
 		if (commArea != null)
 		{
 			CDataEntity eCommArea = commArea.GetDataReference(getLine(), factory) ;
@@ -127,7 +119,7 @@ public class CExecCICSLink extends CCobolElement
 		}
 		if (tok.GetKeyword() != CCobolKeywordList.PROGRAM)
 		{
-			return false ; 
+			return false ;
 		}
 		tok = GetNext() ;
 		if (tok.GetType() == CTokenType.LEFT_BRACKET)
@@ -141,7 +133,7 @@ public class CExecCICSLink extends CCobolElement
 				tok = GetNext();
 			}
 		}
-		
+
 		if (tok.GetKeyword() == CCobolKeywordList.COMMAREA)
 		{
 			tok = GetNext();
@@ -224,7 +216,7 @@ public class CExecCICSLink extends CCobolElement
 				commAreaDataLength.ExportTo(eL, root);
 			}
 		}
-		
+
 		return e;
 	}
 
@@ -233,5 +225,5 @@ public class CExecCICSLink extends CCobolElement
 	protected CIdentifier commArea = null ;
 	protected CTerminal commAreaLength = null ;
 	protected CTerminal commAreaDataLength = null ;
-	
+
 }

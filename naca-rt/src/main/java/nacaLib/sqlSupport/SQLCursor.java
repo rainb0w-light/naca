@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
-/*
- * Created on 15 f�vr. 2005
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 package nacaLib.sqlSupport;
 
 import jlib.log.Log;
@@ -23,10 +17,8 @@ import nacaLib.varEx.VarAndEdit;
 /**
  * @author U930DI
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
-public class SQLCursor  extends CJMapObject // extends SQLCursor 
+public class SQLCursor  extends CJMapObject // extends SQLCursor
 {
 	public SQLCursor(BaseProgramManager programManager)
 	{
@@ -35,36 +27,36 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
 		bOpen = false;
 		programManager.registerCursor(this);
 	}
-	
+
 	public void setQuery(String csQuery)
 	{
 		//VarBuffer working = programManager.dataDivision.getWorkingStorageSectionVarBuffer();
 		//CESMEnvironment env = programManager.cESMEnv;
 		//CSQLStatus sqlstatus = programManager.getSQLStatus();
 		//sQL = new SQL(working, env, csQuery, true, sqlstatus);
-		
+
 		//String csFileLine = StackStraceSupport.getFileLineAtStackDepth(3);	// Caller File Line
 		//sQL = programManager.getOrCreateSQLForCursor(csQuery, this);//, csFileLine);
 		sQL = programManager.getOrCreateSQLGeneral(csQuery, this);//, csFileLine);
 	}
-	
+
 	public void setMustBeNamed(boolean bNameToSet)
 	{
 		this.isnameToSet = bNameToSet;
 	}
-	
+
 	public boolean getMustNameCursor()
 	{
 		return isnameToSet;
 	}
-	
+
 //	public SQLCursor(ProgramManager programManager, VarBuffer Working, CESMEnvironment env, String csQuery, CSQLStatus sqlstatus)
 //	{
 //		programManager = programManager;
 //		sQL = new SQL(Working, env, csQuery, true, sqlstatus);
 //		bOpen = false;
 //	}
-	
+
 	public CSQLStatus open()
 	{
 		CSQLStatus sqlStatus = programManager.getSQLStatus();
@@ -74,21 +66,21 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
 				sqlStatus.setSQLCode(SQLCode.SQL_CURSOR_ALREADY_OPENED);
 			else
 				sqlStatus.reset();
-		}		
+		}
 		bOpen = true;
 		return sqlStatus;
 	}
-	
+
 	public CSQLStatus close()
 	{
 		CSQLStatus sqlStatus = programManager.getSQLStatus();
 		if(sQL != null)
 		{
 			if(!bOpen)
-				sqlStatus.setSQLCode(SQLCode.SQL_CURSOR_NOT_OPEN);				
+				sqlStatus.setSQLCode(SQLCode.SQL_CURSOR_NOT_OPEN);
 			else
 				sqlStatus.reset();
-			sQL.close();			
+			sQL.close();
 		}
 		else	// too many close
 		{
@@ -100,7 +92,7 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
 		qLCursorFetch = null;
 		return sqlStatus;
 	}
-	
+
 	public void closeIfOpen()
 	{
 		if(bOpen)
@@ -108,12 +100,12 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
 			close();
 		}
 	}
-		
+
 	public boolean isOpen()
 	{
 		return bOpen;
 	}
-	
+
 	public SQLCursor param(int nName, VarAndEdit var)
 	{
 		if(isLogSql)
@@ -122,7 +114,7 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
 			sQL.param(nName, var);
 		return this;
 	}
-	
+
 	public SQLCursor param(String csName, VarAndEdit var)
 	{
 		if(isLogSql)
@@ -131,7 +123,7 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
 			sQL.param(csName, var);
 		return this;
 	}
-	
+
 	public SQLCursor param(int nName, int nValue)
 	{
 		if(isLogSql)
@@ -139,7 +131,7 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
 		sQL.param(nName, nValue);
 		return this;
 	}
-	
+
 	public SQLCursor param(String csName, int nValue)
 	{
 		if(isLogSql)
@@ -157,7 +149,7 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
 			sQL.param(nName, dValue);
 		return this;
 	}
-	
+
 	public SQLCursor param(String csName, double dValue)
 	{
 		if(isLogSql)
@@ -166,7 +158,7 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
 			sQL.param(csName, dValue);
 		return this;
 	}
-		
+
 	public SQLCursor param(int nName, String csValue)
 	{
 		if(isLogSql)
@@ -175,16 +167,16 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
 			sQL.param(nName, csValue);
 		return this;
 	}
-	
+
 	public SQLCursor param(String csName, String csValue)
-	{	
+	{
 		if(isLogSql)
 			Log.logDebug("param "+csName+"="+csValue);
 		if(sQL != null)
 			sQL.param(csName, csValue);
 		return this;
 	}
-	
+
 	public SQLCursor onWarningGoto(Paragraph paragraphSQGErrorGoto)
 	{
 		if(isLogSql)
@@ -193,7 +185,7 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
 			sQL.onWarningGoto(paragraphSQGErrorGoto);
 		return this;
 	}
-	
+
 	public SQLCursor onWarningGoto(Section section)
 	{
 		if(isLogSql)
@@ -202,7 +194,7 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
 			sQL.onWarningGoto(section);
 		return this;
 	}
-	
+
 	public SQLCursor onWarningContinue()
 	{
 		if(isLogSql)
@@ -211,7 +203,7 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
 			sQL.onWarningContinue();
 		return this;
 	}
-	
+
 	public SQLCursor onErrorGoto(Paragraph paragraphSQGErrorGoto)
 	{
 		if(isLogSql)
@@ -220,7 +212,7 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
 			sQL.onErrorGoto(paragraphSQGErrorGoto);
 		return this;
 	}
-	
+
 	public SQLCursor onErrorGoto(Section section)
 	{
 		if(isLogSql)
@@ -229,7 +221,7 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
 			sQL.onErrorGoto(section);
 		return this;
 	}
-	
+
 	public SQLCursor onErrorContinue()
 	{
 		if(isLogSql)
@@ -238,7 +230,7 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
 			sQL.onErrorContinue();
 		return this;
 	}
-	
+
 	public SQLCursorFetch fetch(BaseEnvironment env)
 	{
 		if(qLCursorFetch == null)
@@ -250,13 +242,13 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
 			// PJD ROWID Support:
 			//	if(sQL.hasRowIdGenerated())
 			//{
-			//	sqlItemRowId = new CSQLIntoItem();	
+			//	sqlItemRowId = new CSQLIntoItem();
 			//	sQL.into(sqlItemRowId);
-			//}			
+			//}
 		}
 		return qLCursorFetch;
 	}
-	
+
 	public void setName(String csProgramName, String csName)
 	{
 		String cs = csProgramName + csName;
@@ -267,14 +259,14 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
 	{
 		return csUniqueName;
 	}
-	
+
 	private SQLCursorFetch qLCursorFetch = null;
 	public /*private*/ SQL sQL = null;
 	private boolean bOpen = false;
 	private BaseProgramManager programManager = null;
 	private String csUniqueName = null;
 	private boolean isnameToSet = false;
-	
+
 	public SQLCursor setHoldability(boolean b)
 	{
 		sQL.setHoldability(b);

@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 6 août 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic.Verbs;
 
 import java.util.ArrayList;
@@ -24,8 +18,6 @@ import utils.CObjectCatalog;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CEntityLoopIter extends CBaseActionEntity
 {
@@ -63,10 +55,10 @@ public class CEntityLoopIter extends CBaseActionEntity
 	 * @param cat
 	 * @param out
 	 */
-	
+
 	protected boolean isincrementByOne = false ;
 	protected boolean isdecrementByOne = false ;
-	
+
 	public CEntityLoopIter(int line, CObjectCatalog cat)
 	{
 		super(line, cat);

@@ -27,18 +27,9 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-/*
- * Created on 8 d�c. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
-
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class XMLMerger
 {
@@ -57,24 +48,23 @@ public class XMLMerger
 		}
 		catch (ParserConfigurationException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
+
 	void set(OnlineSession appSession)
 	{
 		this.appSession = appSession;
 	}
-	
+
 	void clear()
 	{
 		appSession = null ;
 		cursorField = null ;
 		tab.clear();
 	}
-	
-	
+
+
 	/**
 	 * @param xmlStruct
 	 * @param xmlData
@@ -86,23 +76,23 @@ public class XMLMerger
 		{
 			return xmlStruct ;
 		}
-		
+
 		//XMLUtil.ExportXML(xmlData, ResourceManager.getLogDir()+"xmlData.xml");
 		//XMLUtil.ExportXML(xmlStruct, ResourceManager.getLogDir()+"xmlStruct.xml");
 		Document xmlOutput = XMLUtil.CreateDocument() ;
 		Element eOutput = (Element)xmlOutput.importNode(xmlStruct.getDocumentElement(), true) ;
 		xmlOutput.appendChild(eOutput) ;
 		Element eData = xmlData.getDocumentElement() ;
-		
+
 		if (eData.hasAttribute("cursorPosition"))
 		{
 			int cursorPosition = NumberParser.getAsInt(eData.getAttribute("cursorPosition"));
 			SetCursorPosition(eOutput, cursorPosition);
 		}
-		SetEditTags(eOutput, eData) ;		
-		SetFormProperties(eOutput, eData) ;		
+		SetEditTags(eOutput, eData) ;
+		SetFormProperties(eOutput, eData) ;
 		SetPFKeys(eOutput, eData) ;
-		
+
 		//XMLUtil.ExportXML(xmlOutput, ResourceManager.getLogDir()+"xmlOutput.xml");
 		return xmlOutput ;
 	}
@@ -136,18 +126,18 @@ public class XMLMerger
 		if (temp.getLength() == 0)
 			return;
 		Element eDefine = (Element)temp.item(0);
-		
+
 		temp = eOutput.getElementsByTagName("pfkeyaction") ;
 		Element eAction = null;
 		if (temp.getLength() != 0)
 			eAction = (Element)temp.item(0);
-		
+
 		NodeList lstPFOutput = eOutput.getElementsByTagName("pfkey") ;
 		for (int i=0; i<lstPFOutput.getLength(); i++)
 		{
 			Element ePF = (Element)lstPFOutput.item(i);
 			String name = ePF.getAttribute("name");
-			String valid = eDefine.getAttribute(name);			
+			String valid = eDefine.getAttribute(name);
 			String ignore = "true" ;
 			if (valid.equalsIgnoreCase("true"))
 			{
@@ -157,7 +147,7 @@ public class XMLMerger
 			{
 				ePF.setAttribute("ignore", ignore);
 			}
-			
+
 			if (eAction != null)
 			{
 				String action = eAction.getAttribute(name);
@@ -181,13 +171,13 @@ public class XMLMerger
 			String name = e.getAttribute("name");
 			tab.put(name, e) ;
 		}
-		
+
 		SetLabelTags(eOutput);
 		SetEditTagsForName(eOutput, defaultCursorField, "title");
 		SetEditTagsForName(eOutput, defaultCursorField, "edit");
 		//SetEditTagsForName(eOutput, tabFields, defaultCursorField, "activedit");
 		SetSwitchTags(eOutput) ;
-		
+
 		if (cursorField == null)
 		{
 			cursorField = defaultCursorField ;
@@ -197,7 +187,7 @@ public class XMLMerger
 		eOutput.setAttribute("userName", appSession.getUserLdapName());
 		eOutput.setAttribute("serverName", appSession.getServerName());
 		eOutput.setAttribute("terminalName", appSession.getTerminalTerm());
-		
+
 		BaseProgramLoader prgseq = BaseProgramLoader.GetInstance() ;
 		if (prgseq != null)
 		{
@@ -208,7 +198,7 @@ public class XMLMerger
 			}
 		}
 	}
-	
+
 	private void SetSwitchTags(Element eOutput)
 	{
 		NodeList lst = eOutput.getElementsByTagName("switch") ;
@@ -216,14 +206,14 @@ public class XMLMerger
 		for (int i=0; i<nb; i++)
 		{
 			Element e = (Element)lst.item(0) ;
-			
+
 			String ref = e.getAttribute("linkedvalue");
 			Element efield = tab.get(ref);
 			if (efield != null)
 			{
 				String value = efield.getAttribute("value") ;
 				String protection = efield.getAttribute("protection") ;
-				
+
 				if (!e.hasAttribute("addItem") || e.getAttribute("addItem").equals("false"))
 				{
 					Element eHidden = eOutput.getOwnerDocument().createElement("edit") ;
@@ -232,7 +222,7 @@ public class XMLMerger
 					eHidden.setAttribute("value", value) ;
 					e.getParentNode().insertBefore(eHidden, e) ;
 				}
-				
+
 				NodeList lstcase = e.getElementsByTagName("case") ;
 				Element eTag = null  ;
 				for (int j=0; j<lstcase.getLength() && eTag == null; j++)
@@ -284,14 +274,14 @@ public class XMLMerger
 			}
 		}
 	}
-	
-	private void SetLabelTags(Element eOutput) 
+
+	private void SetLabelTags(Element eOutput)
 	{
 		NodeList lst = eOutput.getElementsByTagName("label") ;
 		int nb = lst.getLength() ;
 		for (int i=0; i<nb; i++)
 		{
-			Element e = (Element)lst.item(i) ;			
+			Element e = (Element)lst.item(i) ;
 			if (e.hasAttribute("type"))
 			{
 				if (e.getAttribute("type").equals("activeChoice"))
@@ -306,8 +296,8 @@ public class XMLMerger
 			}
 		}
 	}
-	
-	private void SetEditTagsForName(Element eOutput, Element defaultCursorField, String csName) 
+
+	private void SetEditTagsForName(Element eOutput, Element defaultCursorField, String csName)
 	{
 		NodeList lst = eOutput.getElementsByTagName(csName) ;
 		int nb = lst.getLength() ;
@@ -327,7 +317,7 @@ public class XMLMerger
 			{
 				MergeFieldAttributes(e, efield) ;
 			}
-			
+
 			if (e.hasAttribute("type"))
 			{
 				if (e.getAttribute("type").equals("linkedActiveChoice"))
@@ -339,7 +329,7 @@ public class XMLMerger
 						e.setAttribute("type", "") ;
 					}
 					else
-					{	
+					{
 						String target = e.getAttribute("activeChoiceTarget") ;
 						Element eTarget = tab.get(target);
 						if (eTarget==null || eTarget.getAttribute("protection").equals("autoskip"))
@@ -349,7 +339,7 @@ public class XMLMerger
 					}
 				}
 				else if (e.getAttribute("type").equals("activeChoice"))
-				{		
+				{
 					String target = e.getAttribute("activeChoiceTarget") ;
 					Element eTarget = tab.get(target);
 					if (eTarget==null || eTarget.getAttribute("protection").equals("autoskip"))
@@ -367,14 +357,14 @@ public class XMLMerger
 		if (eData.hasAttribute("SemanticContext"))
 		{
 			String csSemanticContext = eData.getAttribute("SemanticContext");
-			eField.setAttribute("SemanticContext", csSemanticContext); 
+			eField.setAttribute("SemanticContext", csSemanticContext);
 			int n = 0;
 		}
 		if (eData.hasAttribute("protection"))
 		{
 			eField.setAttribute("protection", eData.getAttribute("protection")) ;
 		}
-		csProtection = eField.getAttribute("protection") ; 
+		csProtection = eField.getAttribute("protection") ;
 		if (eData.hasAttribute("value"))
 		{
 			if (csProtection.equals("autoskip"))
@@ -452,7 +442,7 @@ public class XMLMerger
 			{
 				eForm.setAttribute("printScreen", "show") ;
 			}
-			
+
 		}
 	}
 	public Document BuildXLMStructure(Document xmlFrame, Element xmlForm)
@@ -460,7 +450,7 @@ public class XMLMerger
 		Document xmlStruct = docBuilder.newDocument();
 		Element eStruct = (Element)xmlStruct.importNode(xmlFrame.getDocumentElement(), true) ;
 		xmlStruct.appendChild(eStruct) ;
-		
+
 		NodeList lst = xmlStruct.getDocumentElement().getElementsByTagName("pageform");
 		for (int i=0; i<lst.getLength(); i++)
 		{
@@ -469,11 +459,11 @@ public class XMLMerger
 			Node node = eForm.getParentNode() ;
 			node.removeChild(eForm) ;
 			node.appendChild(eNewForm) ;
-		} 
-		
+		}
+
 		//do replacing fields
 		lst = xmlStruct.getElementsByTagName("edit") ;
-		
+
 		//Hashtable<String, Element> tab = new Hashtable<String, Element>() ;
 		for (int i=0; i<lst.getLength(); i++)
 		{
@@ -509,7 +499,7 @@ public class XMLMerger
 				}
 			}
 		}
-		
+
 		// do replacing title
 		lst = xmlStruct.getElementsByTagName("replaceTitle") ;
 		if (lst.getLength()>0)
@@ -532,7 +522,7 @@ public class XMLMerger
 				eRep.getParentNode().removeChild(eRep) ;
 			}
 		}
-		
+
 		return xmlStruct ;
 	}
 	/**
@@ -548,9 +538,9 @@ public class XMLMerger
 		//XMLUtil.ExportXML(xmlData, ResourceManager.getLogDir()+"xmlData.xml");
 		Element eOutput = xmlOutput.getDocumentElement();
 		Element eData = xmlData.getDocumentElement() ;
-		
+
 		SetEditTags(eOutput, eData) ;
-		
+
 		//XMLUtil.ExportXML(xmlOutput, ResourceManager.getLogDir()+"xmlOutput.xml");
 	}
 }

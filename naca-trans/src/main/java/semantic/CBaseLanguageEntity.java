@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 2 août 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic;
 
 import java.util.*;
@@ -21,8 +15,6 @@ import utils.*;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public abstract class CBaseLanguageEntity //extends CBaseEntity
 {
@@ -32,10 +24,10 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 //		String csNormalized = cs.trim().replace('-', '_').toUpperCase();
 //		return csNormalized;
 //	}
-	
+
 	protected String GetDefaultName()
 	{
-		
+
 		String name = "Filler$" + (programCatalog != null ? programCatalog.GetLastFillerIndex() : 0) ;
 		return name ;
 	}
@@ -47,7 +39,7 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 	public void SetName(String name)
 	{
 		this.name = name ;
-		RegisterMySelfToCatalog() ;		
+		RegisterMySelfToCatalog() ;
 	}
 	public void Rename(String name)
 	{
@@ -56,7 +48,7 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 			programCatalog.RemoveObject(this) ;
 		}
 		this.name = name ;
-		RegisterMySelfToCatalog() ;		
+		RegisterMySelfToCatalog() ;
 	}
 	protected abstract void RegisterMySelfToCatalog() ;
 	public CObjectCatalog programCatalog = null ;
@@ -100,7 +92,7 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 		}
 		return hier ;
 	}
-	
+
 	private void AddAlias(String alias)
 	{
 		if (aliases == null)
@@ -120,13 +112,13 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 			le.ApplyAliasPatternToChildren(csPattern) ;
 		}
 	}
-	
-	
+
+
 	//protected Logger m_logger = Transcoder.ms_logger ;
- 
- 
+
+
  	private int line = 0 ;
- 	
+
  	public void SetLine(int line)
  	{
  		this.line = line ;
@@ -136,7 +128,7 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
  	{
  		return line;
  	}
- 	
+
 	protected CBaseLanguageEntity(int line, String name, CObjectCatalog cat)
 	{
 		SetLine(line);
@@ -254,7 +246,7 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 		}
 		return null ;
 	}
-	
+
 	public String GetProgramName()
 	{
 		if (parent != null)
@@ -272,10 +264,10 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 		else
 		{
 			return null ;
-		}		
-	} 
-	
-	public boolean ignore() 
+		}
+	}
+
+	public boolean ignore()
 	{
 		return isignore;
 	}
@@ -434,14 +426,14 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 	{
 		csDisplayName = name ;
 	}
-	
+
 	public boolean canOwnTableSize()
 	{
 		return false;
 	}
 
 	// ==================== ST4 Template Accessors ====================
-	
+
 	/**
 	 * Get children list for template iteration.
 	 * Used by ST4 templates: <entity.children:statement()>
@@ -496,7 +488,7 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 	{
 		return !ignore();
 	}
-	
+
 	/**
 	 * Get entity type name for template dispatch.
 	 * Used by ST4 templates to select appropriate template.
@@ -506,7 +498,7 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 		String className = this.getClass().getSimpleName();
 		return className;
 	}
-	
+
 	/**
 	 * Get formatted name for Java identifier.
 	 * Used by ST4 templates: <entity.formattedName>

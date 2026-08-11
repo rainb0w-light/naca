@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 1 oct. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic.CICS;
 
 import semantic.CBaseActionEntity;
@@ -20,8 +14,6 @@ import utils.CobolTranscoder.Notifs.NotifDeclareUseCICSPreprocessor;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CEntityCICSWriteQ extends CBaseActionEntity
 {
@@ -45,7 +37,7 @@ public class CEntityCICSWriteQ extends CBaseActionEntity
 	protected CDataEntity sysID = null ;
 	protected boolean bAuxiliary = false ;
 	protected boolean bMain = false ;
-	protected boolean bRewrite = false ;	
+	protected boolean bRewrite = false ;
 	public void Clear()
 	{
 		super.Clear();
@@ -62,7 +54,7 @@ public class CEntityCICSWriteQ extends CBaseActionEntity
 
 	public void SetName(CDataEntity entity)
 	{
-		queueName = entity ;		
+		queueName = entity ;
 	}
 	public void SetDataRef(CDataEntity entity, CDataEntity len)
 	{
@@ -72,7 +64,7 @@ public class CEntityCICSWriteQ extends CBaseActionEntity
 
 	public void WriteNumItem(CDataEntity entity)
 	{
-		numItem = entity ;		
+		numItem = entity ;
 	}
 
 	public void WriteItem(CDataEntity entity)
@@ -92,16 +84,16 @@ public class CEntityCICSWriteQ extends CBaseActionEntity
 
 	public void SetMain()
 	{
-		bMain = true ;		
+		bMain = true ;
 	}
 
 	public void SetAuxiliary()
 	{
-		bAuxiliary = true ; 		
+		bAuxiliary = true ;
 	}
 	public boolean ignore()
 	{
-		return false; 
+		return false;
 	}
 
 	public boolean isPersistent() { return ispersistant; }

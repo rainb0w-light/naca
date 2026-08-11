@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on Jul 28, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.expression;
 
 import org.w3c.dom.Document;
@@ -20,14 +14,11 @@ import semantic.CDataEntity;
 import semantic.CBaseEntityFactory;
 import semantic.expression.CBaseEntityCondition;
 import semantic.expression.CBaseEntityExpression;
-import utils.Transcoder;
 
 
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CTermExpression extends CExpression
 {
@@ -36,14 +27,14 @@ public class CTermExpression extends CExpression
 		super(line) ;
 		term = t ;
 	}
-	
+
 	CTerminal term = null ;
-	
+
 	protected boolean CheckMembersBeforeExport()
 	{
 		return CheckMemberNotNull(term);
 	}
-	
+
 	public Element DoExport(Document root)
 	{
 		Element e = root.createElement("Value");
@@ -82,7 +73,7 @@ public class CTermExpression extends CExpression
 			}
 			else
 			{
-				CExpression newCond = condMaster.GetSimilarExpression(this); 
+				CExpression newCond = condMaster.GetSimilarExpression(this);
 				eCond = newCond.AnalyseCondition(factory, condMaster) ;
 				return eCond ;
 			}
@@ -91,7 +82,7 @@ public class CTermExpression extends CExpression
 		{
 			if (condMaster != null)
 			{
-				CExpression newCond = condMaster.GetSimilarExpression(this); 
+				CExpression newCond = condMaster.GetSimilarExpression(this);
 				CBaseEntityCondition eCond = newCond.AnalyseCondition(factory, condMaster) ;
 				return eCond ;
 			}
@@ -99,7 +90,7 @@ public class CTermExpression extends CExpression
 			{
 				return null ;
 			}
-		} 
+		}
 		else
 		{
 			return null ;
@@ -108,7 +99,7 @@ public class CTermExpression extends CExpression
 	public boolean IsReference()
 	{
 		return term.IsReference() ;
-	}	
+	}
 	public boolean IsConstant()
 	{
 		return !term.IsReference() ;
@@ -117,7 +108,7 @@ public class CTermExpression extends CExpression
 	{
 		CDataEntity e = term.GetDataReference(getLine(), factory);
 		return e;
-	} 
+	}
 	public String GetConstantValue()
 	{
 		if (term.IsReference())
@@ -166,5 +157,5 @@ public class CTermExpression extends CExpression
 		return this ;
 	}
 
-	
+
 }

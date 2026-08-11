@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on Jan 7, 2005
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.map_elements;
 
 import lexer.CReservedKeyword;
@@ -31,8 +25,6 @@ import utils.CEntityHierarchy;
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CFieldGroup extends CFieldElement
 {
@@ -91,14 +83,14 @@ public class CFieldGroup extends CFieldElement
 	{
 		// nothing
 	}
-	
-	
+
+
 	public CBaseLanguageEntity DoSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
 		CEntityResourceField ef ;
 		CEntityHierarchy hier = null ;
 		ef = factory.NewEntityEntryField(getLine(), getName()) ;
-		
+
 		CFieldElement[] fields = new CFieldElement[children.size()] ;
 		children.toArray(fields) ;
 		ef.nLength = 0;
@@ -110,7 +102,7 @@ public class CFieldGroup extends CFieldElement
 			{
 				ef.nPosCol = el.posCol ;
 				ef.nPosLine = el.posLine ;
-				ef.csInitialValue = "" ; 
+				ef.csInitialValue = "" ;
 				// el.value ;
 				if (el.highLight != null)
 				{
@@ -171,9 +163,9 @@ public class CFieldGroup extends CFieldElement
 	public void setPosition(CFieldElement eField)
 	{
 		posCol = eField.posCol ;
-		posLine = eField.posLine ;		
+		posLine = eField.posLine ;
 	}
-	
+
 	public void AddChildField(CFieldElement e)
 	{
 		AddChild(e) ;

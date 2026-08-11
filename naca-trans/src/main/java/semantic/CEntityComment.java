@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 2 ao�t 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic;
 
 import utils.*;
@@ -17,8 +11,6 @@ import utils.*;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CEntityComment extends CBaseLanguageEntity
 {
@@ -44,7 +36,7 @@ public class CEntityComment extends CBaseLanguageEntity
 	protected String csComment = "" ;
 	public boolean ignore()
 	{
-		return false; 
+		return false;
 	}
 
 	public String getOriginalComment()

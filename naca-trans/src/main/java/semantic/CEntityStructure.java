@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 2 ao�t 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic;
 
 import java.util.Vector;
@@ -24,8 +18,6 @@ import utils.*;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CEntityStructure extends CEntityAttribute
 {
@@ -42,7 +34,7 @@ public class CEntityStructure extends CEntityAttribute
 		super(l, name, cat);
 		csLevel = level ;
 	}
-	public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory) 
+	public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory)
 	{
 		CEntityArrayReference e = factory.NewEntityArrayReference(getLine()) ;
 		e.SetReference(this) ;
@@ -97,7 +89,7 @@ public class CEntityStructure extends CEntityAttribute
 	public int GetInternalLevel()
 	{
 		return Integer.parseInt(csLevel) ;
-	} 
+	}
 	public CEntityProcedureSection getSectionContainer()
 	{
 		return null ;
@@ -105,7 +97,7 @@ public class CEntityStructure extends CEntityAttribute
 	public boolean IsRedefine()
 	{
 		return refRedefine != null ;
-	} 
+	}
 	public boolean ignore()
 	{
 //		boolean ignore = arrActionsReading.size()== 0 ;
@@ -115,7 +107,7 @@ public class CEntityStructure extends CEntityAttribute
 //		ignore &= (lstChildren.size() == 0 || isChildrenIgnored()) ;
 //		if (ignore)
 //		{
-//			int n=0; 
+//			int n=0;
 //		}
 //		return ignore ;
 		return isignore;
@@ -162,10 +154,10 @@ public class CEntityStructure extends CEntityAttribute
 	 */
 	public void setOccursIndex(CEntityIndex index)
 	{
-		occursIndex = index ;		
+		occursIndex = index ;
 	}
 	protected CEntityIndex occursIndex = null ;
-	
+
 	@Override
 	public CDataEntity FindFirstDataEntityAtLevel(int level)
 	{

@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on Sep 16, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package utils;
 
 import java.io.File;
@@ -38,8 +32,6 @@ import java.util.HashMap;
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CGlobalEntityCounter
 {
@@ -66,13 +58,13 @@ public class CGlobalEntityCounter
 		public HashMap<String, Integer> tabCount = new HashMap<String, Integer>() ;
 		public ArrayList<String> deps = new ArrayList<String>();
 	}
-	
+
 	protected Hashtable<String, CItemCounter> tabProperties = new Hashtable<String, CItemCounter>() ;
 	protected Hashtable<String, CItemCounter> tabCobolVerbs = new Hashtable<String, CItemCounter>();
 	protected Hashtable<String, CItemCounter> tabCICSCommands = new Hashtable<String, CItemCounter>();
 	protected Hashtable<String, CItemCounter> tabSQLCommands = new Hashtable<String, CItemCounter>();
 	protected Hashtable<String, CItemCounter> tabDataTables = new Hashtable<String, CItemCounter>();
-	
+
 	// dependences
 	protected Hashtable<String, CDepCounter> tabCopyForPrograms = new Hashtable<String, CDepCounter>();
 	protected Hashtable<String, CDepCounter> tabProgramsUsingCopy = new Hashtable<String, CDepCounter>();
@@ -80,9 +72,9 @@ public class CGlobalEntityCounter
 	protected Hashtable<String, CDepCounter> tabProgramCalled = new Hashtable<String, CDepCounter>();
 	protected Hashtable<String, CDepCounter> tabSubProgramCalls = new Hashtable<String, CDepCounter>();
 	protected Hashtable<String, CDepCounter> tabMissingSubProgram = new Hashtable<String, CDepCounter>();
-	
+
 	protected static CGlobalEntityCounter ms_Instance = null ;
-	
+
 	public static CGlobalEntityCounter GetInstance()
 	{
 		if (ms_Instance == null)
@@ -94,7 +86,7 @@ public class CGlobalEntityCounter
 	protected CGlobalEntityCounter()
 	{
 	}
-	
+
 	public void Export(String path)
 	{
 		try
@@ -110,25 +102,25 @@ public class CGlobalEntityCounter
 			xformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
 			xformer.setOutputProperty(OutputKeys.INDENT, "yes");
 			xformer.transform(source, res);
-			
+
 			File s = new File(path+".xsl");
 			if(!s.exists())
 				return;
 			Source stylesheet = new StreamSource(s) ;
 			Templates templ = TransformerFactory.newInstance().newTemplates(stylesheet) ;
-			Transformer xformer2 = templ.newTransformer() ;			
+			Transformer xformer2 = templ.newTransformer() ;
 
 			FileOutputStream file2 = new FileOutputStream(path+".html");
 			StreamResult result = new StreamResult(file2) ;
 			xformer2.transform(source, result);
-			
+
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace() ;
 		}
 	}
-	
+
 	protected Object GetNextCount(Enumeration enumere)
 	{
 		try
@@ -183,7 +175,7 @@ public class CGlobalEntityCounter
 				{
 					e.setAttribute("Count", String.valueOf(ic.nItemCount));
 				}
-				
+
 				Enumeration enumopt = ic.tabOptions.keys();
 				try
 				{
@@ -220,7 +212,7 @@ public class CGlobalEntityCounter
 				{
 					e.setAttribute("Count", String.valueOf(ic.nItemCount));
 				}
-				
+
 				Enumeration enumopt = ic.tabOptions.keys();
 				try
 				{
@@ -257,7 +249,7 @@ public class CGlobalEntityCounter
 				{
 					e.setAttribute("Count", String.valueOf(ic.nItemCount));
 				}
-				
+
 				Enumeration enumopt = ic.tabOptions.keys();
 				try
 				{
@@ -294,7 +286,7 @@ public class CGlobalEntityCounter
 				{
 					e.setAttribute("Count", String.valueOf(ic.nItemCount));
 				}
-				
+
 				Enumeration enumopt = ic.tabOptions.keys();
 				try
 				{
@@ -496,7 +488,7 @@ public class CGlobalEntityCounter
 		}
 		return eItemCount ;
 	}
-	
+
 	protected CItemCounter GetIC(Hashtable<String, CItemCounter> tab, String cs)
 	{
 		CItemCounter ic = tab.get(cs);
@@ -576,7 +568,7 @@ public class CGlobalEntityCounter
 		}
 		else
 		{
-			int n=0 ; 
+			int n=0 ;
 		}
 	}
 	protected Hashtable<String, CSQLTableAccessCounter> tabSQLTableAccess = new Hashtable<String, CSQLTableAccessCounter>() ;
@@ -597,7 +589,7 @@ public class CGlobalEntityCounter
 		public int nbSelectCursor = 0 ;
 		public int nbInsert = 0;
 		public int nbDelete = 0;
-		public int nbUpdate = 0 ; 
+		public int nbUpdate = 0 ;
 	}
 	public void CountCopyFile()
 	{
@@ -615,7 +607,7 @@ public class CGlobalEntityCounter
 		ic = GetIC(tabProperties, NB_LINES_CODE);
 		SetMinMaxValue(nbLinesCode, ic) ;
 	}
-	
+
 	protected void SetMinMaxValue(int val, CItemCounter ic)
 	{
 		ic.nItemCount ++ ;
@@ -629,7 +621,7 @@ public class CGlobalEntityCounter
 		}
 		ic.nItemTotal += val ;
 	}
-	
+
 	public void CountCobolVerb(String vb)
 	{
 		if (!vb.equals(""))
@@ -651,7 +643,7 @@ public class CGlobalEntityCounter
 			}
 			else
 			{
-				i2 = new Integer(i.intValue()+1) ;	
+				i2 = new Integer(i.intValue()+1) ;
 			}
 			ic.tabOptions.put(option, i2);
 		}
@@ -677,7 +669,7 @@ public class CGlobalEntityCounter
 			}
 			else
 			{
-				i2 = new Integer(i.intValue()+1) ;	
+				i2 = new Integer(i.intValue()+1) ;
 			}
 			ic.tabOptions.put(option, i2);
 		}
@@ -807,7 +799,7 @@ public class CGlobalEntityCounter
 			dep.tabCount.put(prg, 1) ;
 		}
 	}
-	
+
 	public void RegisterProgramToRewrite(String progName, int line, String reason)
 	{
 		programLinesToRewrite.add(line);

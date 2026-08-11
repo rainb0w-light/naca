@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on Oct 12, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic;
 
 import java.util.ArrayList;
@@ -23,8 +17,6 @@ import utils.CObjectCatalog;
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CEntitySQLCursorSection extends CEntityDataSection
 {
@@ -37,7 +29,7 @@ public class CEntitySQLCursorSection extends CEntityDataSection
 	{
 		super(0, "SQLCursorSection", cat);
 	}
-	
+
 	protected Vector cursors = null ;
 	public void SetCursors(Vector v)
 	{
@@ -46,7 +38,7 @@ public class CEntitySQLCursorSection extends CEntityDataSection
 	public CEntityProcedureSection getSectionContainer()
 	{
 		return null ;
-	} 
+	}
 	public void Clear()
 	{
 		super.Clear();

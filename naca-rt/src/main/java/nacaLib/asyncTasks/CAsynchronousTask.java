@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
-/*
- * Created on 21 avr. 2005
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 package nacaLib.asyncTasks;
 
 import idea.onlinePrgEnv.OnlineSession;
@@ -27,8 +21,6 @@ import nacaLib.exceptions.AbortSessionException;
 /**
  * @author U930CV
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 public class CAsynchronousTask extends CJMapObject implements Runnable
 {
@@ -47,37 +39,37 @@ public class CAsynchronousTask extends CJMapObject implements Runnable
 		this.startData = startData;
 		thread = new Thread(this, csProgramToRun);
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see java.lang.Runnable#run()
 	 */
 	public void run()
 	{
 		boolean bUseJmx = BaseResourceManager.getUsingJmx();
-		
+
 		long threadId = thread.getId();
 		String csThreadId = String.valueOf(threadId);
 		String csThreadName = thread.getName();
-		
+
 		if(bUseJmx)
 		{
 			AsyncThreadJmxManager.startAsyncProgram(csThreadId, csThreadName, csProgramToRun, csProgramParent, nDelaySeconds);
 		}
-		
+
 		Time_ms.wait_ms(nDelaySeconds * 1000);
 
 		while (BaseResourceManager.isInUpdateMode())
 		{
 			Time_ms.wait_ms(1 * 60 * 1000);
 		}
-		
+
 		CalendarOpenState openState = BaseResourceManager.getAppOpenState();
 		while(openState != CalendarOpenState.AppOpened)
 		{
 			Time_ms.wait_ms(5 * 60 * 1000);
 			openState = BaseResourceManager.getAppOpenState();
 		}
-		
+
 		if (isinvalidate)
 		{
 			return ;
@@ -88,14 +80,14 @@ public class CAsynchronousTask extends CJMapObject implements Runnable
 		BaseEnvironment env = loader.GetEnvironment(session, csProgramToRun, csProgramParent) ;
 
 		env.startRunTransaction();
-		
+
 		env.enqueueData(startData);
-		
+
 		try
 		{
 			if(bUseJmx)
 				AsyncThreadJmxManager.setRunningAsyncProgram(csThreadId, csThreadName);
-			
+
 			loader.runTopProgram(env, null);
 			env.endRunTransaction(CriteriaEndRunMain.Normal);
 			env.resetSession();
@@ -113,7 +105,7 @@ public class CAsynchronousTask extends CJMapObject implements Runnable
 		if(bUseJmx)
 			AsyncThreadJmxManager.endAsyncProgram(csThreadId, csThreadName);
 	}
-	
+
 	public void Start()
 	{
 		if (!isinvalidate)
@@ -125,7 +117,7 @@ public class CAsynchronousTask extends CJMapObject implements Runnable
 			thread = null ;
 		}
 	}
-	
+
 	public void Wait()
 	{
 		if (thread != null)

@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on Sep 27, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package lexer.BMS;
 
 import java.io.InputStream;
@@ -25,8 +19,6 @@ import lexer.CTokenString;
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CBMSLexer extends CBaseLexer
 {
@@ -53,7 +45,7 @@ public class CBMSLexer extends CBaseLexer
 					return null ;
 				}
 				nCurrentPositionInLine = 15 ;
-				continue ;  
+				continue ;
 			}
 			if (cCurrent != delimit && cCurrent != '\n' && cCurrent != '\r')
 			{
@@ -63,7 +55,7 @@ public class CBMSLexer extends CBaseLexer
 			{
 				isdone = true ;
 			}
-			else if (cCurrent == delimit && nCurrentPositionInLine==nCurrentLineLength-2 
+			else if (cCurrent == delimit && nCurrentPositionInLine==nCurrentLineLength-2
 					&& arrCurrentLine[nCurrentPositionInLine+1]=='*')
 			{ // maybe the string continues on the next line : it depends on the first character on the next line.
 				if (!ReadLine(buffer))
@@ -80,7 +72,7 @@ public class CBMSLexer extends CBaseLexer
 				{
 					isdone = true ;
 				}
-				continue ;  
+				continue ;
 			}
 			else if (cCurrent == delimit && arrCurrentLine[nCurrentPositionInLine+1]==delimit)
 			{
@@ -107,16 +99,16 @@ public class CBMSLexer extends CBaseLexer
 		CBaseToken tok = new CTokenString(res, getLine(), false);
 		return tok ;
 	}
-	
+
 	protected void DoCount(int nbLines, int nbLinesComment, int nbLinesCode)
 	{
 		 /// nothing
 	}
-	
+
 	protected CBaseToken ReadComment(InputStream buffer)
 	{
 		String val = new String() ;
-		try 
+		try
 		{
 			nCurrentPositionInLine ++ ;
 			boolean isdone = false;
@@ -168,5 +160,5 @@ public class CBMSLexer extends CBaseLexer
 	}
 
 
-	
+
 }

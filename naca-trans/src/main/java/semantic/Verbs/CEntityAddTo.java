@@ -4,19 +4,12 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 9 aoï¿½t 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic.Verbs;
 
 
 import java.util.Vector;
 
 import semantic.CBaseActionEntity;
-import semantic.CBaseLanguageEntity;
 import semantic.CDataEntity;
 import semantic.CEntityEnvironmentVariable;
 import semantic.CEntityValueReference;
@@ -26,8 +19,6 @@ import utils.CObjectCatalog;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CEntityAddTo extends CBaseActionEntity
 {
@@ -66,7 +57,7 @@ public class CEntityAddTo extends CBaseActionEntity
 	{
 		super(line, cat);
 	}
-	
+
 	public void SetAddDest(CDataEntity dest)
 	{
 		dest.RegisterWritingAction(this);
@@ -96,7 +87,7 @@ public class CEntityAddTo extends CBaseActionEntity
 		for (int i = 0; i< dest.size(); i++)
 		{
 			CDataEntity e = dest.get(i);
-			ignore &= e.ignore() ; 
+			ignore &= e.ignore() ;
 		}
 		if (ignore)
 		{
@@ -106,9 +97,9 @@ public class CEntityAddTo extends CBaseActionEntity
 		for (int i = 0; i< values.size(); i++)
 		{
 			CDataEntity e = values.get(i);
-			ignore &= e.ignore() ; 
+			ignore &= e.ignore() ;
 		}
-		return ignore ; 
+		return ignore ;
 	}
 	public boolean IgnoreVariable(CDataEntity data)
 	{

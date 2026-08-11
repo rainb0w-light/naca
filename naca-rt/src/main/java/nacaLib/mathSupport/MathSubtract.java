@@ -4,18 +4,9 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
-/*
- * Created on 15 oct. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
-
 /**
  * @author PJD
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 package nacaLib.mathSupport;
 
@@ -37,7 +28,7 @@ public class MathSubtract extends MathBase
 
 		String s2 = var2.getDottedSignedString();
 		BigDecimal val2 = new BigDecimal(s2);
-		
+
 		d = d.subtract(val2);
 	}
 
@@ -45,30 +36,30 @@ public class MathSubtract extends MathBase
 	{
 		String s1 = String.valueOf(a);
 		d = new BigDecimal(s1);
-		
+
 		BigDecimal val2 = new BigDecimal(String.valueOf(n));
 		d = d.subtract(val2);
 	}
-	
+
 	public MathSubtract(int n, MathBase mathBase)
 	{
 		String s1 = String.valueOf(n) ;
 		d = new BigDecimal(s1);
-		
+
 		d = d.subtract(mathBase.d);
-	}		
+	}
 
 
 	/**
 	 * @param VarAndEdit var1
 	 * @param int n
 	 * Set current object to var1-n
-	 */	
+	 */
 	public MathSubtract(VarAndEdit var1, int n)
 	{
 		String s1 = var1.getDottedSignedString();
 		d = new BigDecimal(s1);
-		
+
 		BigDecimal val2 = new BigDecimal(String.valueOf(n));
 		d = d.subtract(val2);
 	}
@@ -77,18 +68,18 @@ public class MathSubtract extends MathBase
 	 * @param VarAndEdit var1
 	 * @param int n
 	 * Set current object to var1-n
-	 */	
+	 */
 	public MathSubtract(VarAndEdit var1)
 	{
 		String s1 = var1.getDottedSignedString();
 		d = new BigDecimal(s1);
 	}
-	
+
 	/**
 	 * @param VarAndEdit var1
 	 * @param int n
 	 * Set current object to var1-n
-	 */	
+	 */
 	public MathSubtract(int n)
 	{
 		d = new BigDecimal(String.valueOf(n));
@@ -105,10 +96,10 @@ public class MathSubtract extends MathBase
 
 		String s1 = var1.getDottedSignedString();
 		BigDecimal val2 = new BigDecimal(s1);
-		
+
 		d = d.subtract(val2);
 	}
-	
+
 	/**
 	 * @param VarAndEdit var1
 	 * @param double d
@@ -122,7 +113,7 @@ public class MathSubtract extends MathBase
 		BigDecimal val2 = new BigDecimal(d);
 		this.d = this.d.subtract(val2);
 	}
-	
+
 	/**
 	 * @param double d
 	 * @param VarAndEdit var1
@@ -146,7 +137,7 @@ public class MathSubtract extends MathBase
 	{
 		String s1 = var1.getDottedSignedString();
 		d = new BigDecimal(s1);
-		
+
 		BigDecimal val2 = new BigDecimal(s);
 		d = d.subtract(val2);
 	}
@@ -160,11 +151,11 @@ public class MathSubtract extends MathBase
 	{
 		String s1 = var1.getDottedSignedString();
 		d = new BigDecimal(s);
-		
+
 		BigDecimal val2 = new BigDecimal(s1);
 		d = d.subtract(val2);
 	}
-	
+
 	/**
 	 * @param VarAndEdit var1
 	 * @param MathBase mathBase
@@ -174,14 +165,14 @@ public class MathSubtract extends MathBase
 	{
 		String s1 = var1.getDottedSignedString();
 		d = new BigDecimal(s1);
-		
+
 		d = d.subtract(mathBase.d);
-	}		
-	
+	}
+
 	/**
 	 * @param MathBase mathBase
 	 * @param VarAndEdit var1
-	 * Set current object to mathBase-var1 
+	 * Set current object to mathBase-var1
 	*/
 	public MathSubtract(MathBase mathBase, VarAndEdit var1)
 	{
@@ -190,7 +181,7 @@ public class MathSubtract extends MathBase
 
 		String s1 = var1.getDottedSignedString();
 		BigDecimal val1 = new BigDecimal(s1);
-		
+
 		d = d.subtract(val1);
 	}
 
@@ -203,15 +194,15 @@ public class MathSubtract extends MathBase
 	{
 		//d = mathBase.d;
 		setWithMathBase(mathBase);
-		
+
 		BigDecimal val2 = new BigDecimal(String.valueOf(n));
 		d = d.subtract(val2);
 	}
-	
+
 	/**
 	 * @param MathBase mathBase
 	 * @param double d
-	 * Set current object to mathBase-d 
+	 * Set current object to mathBase-d
 	*/
 	public MathSubtract(MathBase mathBase, double d)
 	{
@@ -225,34 +216,34 @@ public class MathSubtract extends MathBase
 	/**
 	 * @param MathBase mathBase
 	 * @param String s
-	 * Set current object to mathBase-s 
+	 * Set current object to mathBase-s
 	*/
 	public MathSubtract(MathBase mathBase, String s)
 	{
 		//d = mathBase.d;
 		setWithMathBase(mathBase);
-		
+
 		BigDecimal val2 = new BigDecimal(s);
 		d = d.subtract(val2);
 	}
-	
+
 	public MathSubtract(String s, MathBase mathBase)
 	{
 		d = new BigDecimal(s).subtract(mathBase.d);
 	}
-	
+
 	/**
 	 * @param MathBase mathBase1
 	 * @param MathBase mathBase2
-	 * Set current object to mathBase1-mathBase2 
+	 * Set current object to mathBase1-mathBase2
 	*/
 	public MathSubtract(MathBase mathBase1, MathBase mathBase2)
 	{
 		//d = mathBase1.d;
 		setWithMathBase(mathBase1);
-		
+
 		d = d.subtract(mathBase2.d);
-	}	
+	}
 
 	/**
 	 * @param VarAndEdit var

@@ -21,9 +21,9 @@ public class EmulWebThreadedRun
 		this.ischeckScenario = ischeckScenario;
 		this.isoutputExport = isoutputExport;
 	}
-	
+
 	void run()
-	{	
+	{
 		OnlineSession session = new OnlineSession(false) ;
 		session.setCheckScenario(ischeckScenario);
 		for (int i=0; i<nbLoops; i++)
@@ -36,28 +36,27 @@ public class EmulWebThreadedRun
 		}
 		Log.logCritical("EmulWebRun finished");
 	}
-	
+
 	private void waitUntilNextLoopEnabled(int i)
-	{	
+	{
 //		if(!bEnableRemainingLoops)
 //		{
-//			Log.logCritical("EmulWeb Loop " + i + " Done; waiting to be enabled by jmx ...");	
+//			Log.logCritical("EmulWeb Loop " + i + " Done; waiting to be enabled by jmx ...");
 //			while(!bNextLoopEnabled)
 //			{
 //				try
 //				{
 //					Thread.sleep(1000L);
-//				} 
+//				}
 //				catch (InterruptedException e)
 //				{
-//					// TODO Auto-generated catch block
 //					e.printStackTrace();
 //				}
 //			}
 //			bNextLoopEnabled= false;
 //		}
 	}
-	
+
 	int nbLoops = 0;
 	boolean ischeckScenario = false;
 	boolean isoutputExport = false;

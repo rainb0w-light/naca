@@ -23,7 +23,7 @@ import jlib.xml.Tag;
  * 	<li>Eventually the application launches another application to perform some
  * 	additional task.</li>
  * 	<li>The application processes elements of information.</li>
- * 	<li>Eventually the application founds an error in some of the information 
+ * 	<li>Eventually the application founds an error in some of the information
  * 	elements to process. Then it skips the current element to process the next
  * 	one.</li>
  * 	<li>Eventually, the error is so critical that the application has to
@@ -56,14 +56,14 @@ import jlib.xml.Tag;
  * </ul>
  * For that second kind of report, an additional identifier is needed to specify the
  * client, product, brand, source, etc. This additional identifier is the <i>Product</i>.<p/>
- * 
+ *
  * This is a typical <i>LogCenterDbFlat</i> configuration:
  * <pre>
  * </pre>
- * This configuration predefines the default <i>Process</i> name, and the default <i>Product</i> 
- * name. That means that any {@link LogEvent} not specifying 
+ * This configuration predefines the default <i>Process</i> name, and the default <i>Product</i>
+ * name. That means that any {@link LogEvent} not specifying
  * the {@link LogEvent#getProcess} or the {@link LogEvent#getProduct}, will be assigned to
- * the default ones if the event is accepted by the log center.  
+ * the default ones if the event is accepted by the log center.
  */
 
 public class LogCenterDbFlat extends LogCenter
@@ -72,7 +72,7 @@ public class LogCenterDbFlat extends LogCenter
 	{
 		super(logCenterLoader);
 	}
-	
+
 	private String csTable = null;
 	private String csTableRunId = null;
 	private String csLogEventDefinitionTable = null;
@@ -83,10 +83,10 @@ public class LogCenterDbFlat extends LogCenter
 	private String csMachine = null;
 	private String csRunMode = null;
 	private Hashtable<Integer, Boolean> hashDefinedLogEvent = new Hashtable<Integer, Boolean> ();
-	
+
 	DbConnectionManager manager = null;
 	DbConnectionBase dbConnection = null;
-		
+
 	public void loadSpecificsEntries(Tag tagLogCenter)	// Special values for file appenders
 	{
 		csDbUser = tagLogCenter.getVal("DbUser");
@@ -100,7 +100,7 @@ public class LogCenterDbFlat extends LogCenter
 		csRunMode = tagLogCenter.getVal("RunMode");
 		csLogEventDefinitionTable = tagLogCenter.getVal("LogEventDefinitionTable");
 	}
-	
+
 	boolean open()
 	{
 		boolean b = false;
@@ -127,7 +127,7 @@ public class LogCenterDbFlat extends LogCenter
 		{
 			b = manager.initDriverClass(csDbUrl, csDbUser, csDbPassword, null, csDbProvider, 8, nTime_Ms, -1, 0);
 		}
-		
+
 		try
 		{
 			dbConnection = manager.getConnection("LogStatement", null, true);
@@ -141,12 +141,12 @@ public class LogCenterDbFlat extends LogCenter
 
 		return b;
 	}
-	
+
 	boolean closeLogCenter()
 	{
 		return true;
 	}
-	
+
 	void preSendOutput()
 	{
 		try
@@ -155,14 +155,13 @@ public class LogCenterDbFlat extends LogCenter
 		}
 		catch (DbConnectionException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			dbConnection = null;
-		}	
+		}
 	}
 
 	void sendOutput(LogParams logParam)
-	{		
+	{
 		if(dbConnection != null)
 		{
 			int nEventId = logParam.getEventId();
@@ -192,12 +191,12 @@ public class LogCenterDbFlat extends LogCenter
 				csParamNames += ", Parameter_Value" + n;
 				csParamQuestions += ", ?";
 			}
-			
+
 			String cs = "Insert into " + csTable +
-				"(Machine, Process, Run_Mode, Ins_Date, Event_Message, Log_Type, File_Name, Line, Thread, Method, Start_Time, Event_Id, Run_Id, Product, Runtime" + csParamNames +  
-				") values (" +  
-				" ?,       ?,       ?,        ?,        ?,             ?,        ?,         ?,    ?,      ?,      ?,          ?,        ?,      ?,       ?" + csParamQuestions + 
-				")";   
+				"(Machine, Process, Run_Mode, Ins_Date, Event_Message, Log_Type, File_Name, Line, Thread, Method, Start_Time, Event_Id, Run_Id, Product, Runtime" + csParamNames +
+				") values (" +
+				" ?,       ?,       ?,        ?,        ?,             ?,        ?,         ?,    ?,      ?,      ?,          ?,        ?,      ?,       ?" + csParamQuestions +
+				")";
 			int nCol = 0;
 			DbPreparedStatement stInsert = dbConnection.prepareStatement(cs, 0, false);
 			stInsert.setColParam(nCol++, csMachine);
@@ -223,11 +222,11 @@ public class LogCenterDbFlat extends LogCenter
 				String csParam = logParam.getItemValue(n);
 				stInsert.setColParam(nCol++, csParam);
 			}
-			
+
 			int n0 = stInsert.executeInsert();
 		}
 	}
-	
+
 	void postSendOutput()
 	{
 		if(dbConnection != null)
@@ -236,10 +235,10 @@ public class LogCenterDbFlat extends LogCenter
 			dbConnection.returnConnectionToPool();
 		}
 	}
-	
+
 	private void loadDefinedLogEvent()
 	{
-		String cs = "Select Event_Id from " + csLogEventDefinitionTable; 
+		String cs = "Select Event_Id from " + csLogEventDefinitionTable;
 		DbPreparedStatement st = dbConnection.prepareStatement(cs, 0, false);
 		ResultSet rs = st.executeSelect();
 		if(rs != null)
@@ -261,7 +260,7 @@ public class LogCenterDbFlat extends LogCenter
 			}
 		}
 	}
-	
+
 	private synchronized void manageLogEventDefinition(LogParams logParam, int nEventId)
 	{
 		Boolean b = hashDefinedLogEvent.get(nEventId);
@@ -274,7 +273,7 @@ public class LogCenterDbFlat extends LogCenter
 			}
 		}
 	}
-	
+
 	private boolean addLogEventDefinition(int nEventId, LogParams logParam)
 	{
 		String csParamNames = "";
@@ -285,12 +284,12 @@ public class LogCenterDbFlat extends LogCenter
 			csParamNames += ", Parameter_Name" + n;
 			csParamQuestions += ", ?";
 		}
-		
+
 		String cs = "Insert into " + csLogEventDefinitionTable +
-			"(Event_Name, Event_Id, Short_Event_Name" + csParamNames +    
-			") values (" +  
-			"?,           ?,         ?" + csParamQuestions + ")";  
-			   
+			"(Event_Name, Event_Id, Short_Event_Name" + csParamNames +
+			") values (" +
+			"?,           ?,         ?" + csParamQuestions + ")";
+
 		int nCol = 0;
 		DbPreparedStatement stInsert = dbConnection.prepareStatement(cs, 0, false);
 		stInsert.setColParam(nCol++, logParam.getEventName());
@@ -301,7 +300,7 @@ public class LogCenterDbFlat extends LogCenter
 			LogInfoMember info = logParam.getParamInfoMember(n);
 			stInsert.setColParam(nCol++, info.getName());
 		}
-		
+
 		int n = stInsert.executeInsert();
 		if(n == 1)
 			return true;
@@ -313,7 +312,7 @@ public class LogCenterDbFlat extends LogCenter
  * unique identifier.
  */
 	public String getRunId() {
-		if (csRunId==null) 
+		if (csRunId==null)
 		{
 			csRunId=generateIdentifier();
 		}
@@ -326,7 +325,7 @@ public class LogCenterDbFlat extends LogCenter
  * unique identifier.
  */
 	public String getRuntimeId() {
-		if (csRuntimeId==null) 
+		if (csRuntimeId==null)
 		{
 			csRuntimeId=generateIdentifier();
 		}
@@ -337,17 +336,17 @@ public class LogCenterDbFlat extends LogCenter
 	{
 		String csOut = "0";
 		DbConnectionBase dbConnection;
-		try 
+		try
 		{
 			dbConnection=manager.getConnection("LogStatement", null, true);
 		}
-		catch (DbConnectionException e) 
+		catch (DbConnectionException e)
 		{
 			e.printStackTrace();
 			return csOut;
 		}
-	
-		String cs = "Select RunId from " + csTableRunId + " where channel=''";	
+
+		String cs = "Select RunId from " + csTableRunId + " where channel=''";
 		DbPreparedStatement stSelect = dbConnection.prepareStatement(cs, 0, false);
 		ResultSet rs = stSelect.executeSelect();
 		if (rs==null) {
@@ -368,8 +367,8 @@ public class LogCenterDbFlat extends LogCenter
 					int nRunId = rs.getInt("RunId");
 					nRunId++;
 //					stSelect.close();
-//					String csUpdate = "update " + csTableRunId + " set RunId=" + nRunId + " where channel='"+csOrganisation+"'";		
-					String csUpdate = "update " + csTableRunId + " set RunId=" + nRunId + " where channel=''";		
+//					String csUpdate = "update " + csTableRunId + " set RunId=" + nRunId + " where channel='"+csOrganisation+"'";
+					String csUpdate = "update " + csTableRunId + " set RunId=" + nRunId + " where channel=''";
 					DbPreparedStatement stUpdate = dbConnection.prepareStatement(csUpdate, 0, false);
 					int n = stUpdate.executeUpdate();
 					csOut = String.valueOf(nRunId);
@@ -397,10 +396,9 @@ public class LogCenterDbFlat extends LogCenter
 		dbConnection.returnConnectionToPool();
 		return csOut;
 	}
-	
+
 	public String getType()
 	{
 		return "LogCenterDbFlat";
 	}
 }
-

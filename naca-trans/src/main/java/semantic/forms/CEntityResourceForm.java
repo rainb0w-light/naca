@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 5 ao�t 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic.forms;
 
 
@@ -92,7 +86,7 @@ public class CEntityResourceForm extends CBaseResourceEntity
 		public int nCurrentField = 0 ;
 		public int nCurrentByteInField = 0 ;
 	}
-	
+
 	protected boolean bSaveMap = false ;
 
 	/**
@@ -117,29 +111,29 @@ public class CEntityResourceForm extends CBaseResourceEntity
 //			programCatalog.RegisterMasterMap(this) ;
 //		}
 //	}
-	
-	public void InitDependences(CBaseEntityFactory factory) 
+
+	public void InitDependences(CBaseEntityFactory factory)
 	{
 		for (int i=0; i<arrFields.size(); i++)
 		{
 			CEntityResourceField f = (CEntityResourceField)arrFields.get(i);
 			f.SetParent(this) ;
-			f.InitDependences(factory) ; 
+			f.InitDependences(factory) ;
 		}
 		for (int i = 0; i< formReferences.size(); i++)
 		{
 			String cs = formReferences.get(i);
-//			CEntityFormAccessor fa1 = factory.NewEntityFormAccessor(getLine(), cs+"I", this) ; 
-//			CEntityFormAccessor fa2 = factory.NewEntityFormAccessor(getLine(), cs+"O", this) ; 
-//			CEntityFormAccessor fa3 = factory.NewEntityFormAccessor(getLine(), cs, this) ; 
+//			CEntityFormAccessor fa1 = factory.NewEntityFormAccessor(getLine(), cs+"I", this) ;
+//			CEntityFormAccessor fa2 = factory.NewEntityFormAccessor(getLine(), cs+"O", this) ;
+//			CEntityFormAccessor fa3 = factory.NewEntityFormAccessor(getLine(), cs, this) ;
 			factory.programCatalog.RegisterDataEntity(cs+"I", this) ;
 			factory.programCatalog.RegisterDataEntity(cs+"O", this) ;
 			factory.programCatalog.RegisterDataEntity(cs, this) ;
 		}
 		String cs = GetName() ;
-//		CEntityFormAccessor fa1 = factory.NewEntityFormAccessor(getLine(), GetName()+"I", this) ; 
-//		CEntityFormAccessor fa2 = factory.NewEntityFormAccessor(getLine(), GetName()+"O", this) ; 
-//		CEntityFormAccessor fa3 = factory.NewEntityFormAccessor(getLine(), GetName(), this) ; 
+//		CEntityFormAccessor fa1 = factory.NewEntityFormAccessor(getLine(), GetName()+"I", this) ;
+//		CEntityFormAccessor fa2 = factory.NewEntityFormAccessor(getLine(), GetName()+"O", this) ;
+//		CEntityFormAccessor fa3 = factory.NewEntityFormAccessor(getLine(), GetName(), this) ;
 		factory.programCatalog.RegisterDataEntity(cs+"I", this) ;
 		factory.programCatalog.RegisterDataEntity(cs+"O", this) ;
 		factory.programCatalog.RegisterDataEntity(cs, this) ;
@@ -195,7 +189,7 @@ public class CEntityResourceForm extends CBaseResourceEntity
 	public void SetReferences(ArrayList<String> v)
 	{
 		formReferences = v ;
-	}	
+	}
 	public void SetSize(int col, int line)
 	{
 		nSizeCol = col ;
@@ -247,7 +241,7 @@ public class CEntityResourceForm extends CBaseResourceEntity
 			{
 				if (term.GetDataType() == CDataEntityType.FORM && !IsSaveCopy())
 				{
-					CEntityNoAction act = factory.NewEntityNoAction(l) ; 
+					CEntityNoAction act = factory.NewEntityNoAction(l) ;
 					factory.programCatalog.RegisterMapCopy(act) ;
 					return act ;
 				}
@@ -296,11 +290,11 @@ public class CEntityResourceForm extends CBaseResourceEntity
 			fs.resourceStrings = f.resourceStrings ;
 			if(bFromRes)
 				fs.setDevelopable(f.csDevelopableFlagMark);
-			
+
 			form.arrFields.add(fs) ;
 		}
 	}
-	
+
 	protected int nCurrentField = -1;
 	protected int nCurrentByteInField = 0 ;
 	public void StartFieldAnalyse()
@@ -343,7 +337,7 @@ public class CEntityResourceForm extends CBaseResourceEntity
 			{
 				return -1 ;
 			}
-		}	
+		}
 		int nbFields = 0;
 		while (nbBytesLeft > 0 && nCurrentField < arrFields.size())
 		{
@@ -364,18 +358,18 @@ public class CEntityResourceForm extends CBaseResourceEntity
 					nCurrentField ++ ;
 				}
 			}
-		} 
+		}
 		if (nbBytesLeft == 0)
 		{
 			return nbFields ;
 		}
 		else
-		{ // error 
+		{ // error
 			//m_logger.error("WARNING : Redefine is larger than original size. Check if this is not important");
 			return nbFields ;
 		}
 	}
-	
+
 	/**
 	 * @return
 	 */
@@ -433,7 +427,7 @@ public class CEntityResourceForm extends CBaseResourceEntity
 		public String name = "" ;
 		public String type = "" ;
 		public int size = 0 ;
-		
+
 		public CFieldRedefineDescription Next()
 		{
 			if (next == null)
@@ -483,7 +477,7 @@ public class CEntityResourceForm extends CBaseResourceEntity
 				exp.length = field.nLength ;
 				exp.isrightJustified = field.isrightJustified;
 				exp.csFillValue = field.csFillValue;
-				
+
 				exp.tag = e ;
 				if (e.getNodeName().equalsIgnoreCase("edit"))
 				{
@@ -500,7 +494,7 @@ public class CEntityResourceForm extends CBaseResourceEntity
 				setFields.add(exp) ;
 			}
 		}
-		
+
 		if (addedItems != null)
 		{
 			for (int i = 0; i< addedItems.size(); i++)
@@ -523,7 +517,7 @@ public class CEntityResourceForm extends CBaseResourceEntity
 			}
 		}
 	}
-	
+
 	protected HashMap<String, String> tabActivePFKeys = new HashMap<String, String>() ;
 	public String getPFActive(String key)
 	{
@@ -532,8 +526,8 @@ public class CEntityResourceForm extends CBaseResourceEntity
 	public void setPFActive(String key, String status)
 	{
 		tabActivePFKeys.put(key, status);
-	}	
-	
+	}
+
 	protected HashMap<String, String> tabActionPFKeys = new HashMap<String, String>() ;
 	public String getPFAction(String key)
 	{
@@ -543,7 +537,7 @@ public class CEntityResourceForm extends CBaseResourceEntity
 	{
 		tabActionPFKeys.put(key, action);
 	}
-	
+
 	public Element MakePFKeysDescriptionDefine(Document doc)
 	{
 		Element ePFKEys = doc.createElement("pfkeydefine") ;
@@ -623,7 +617,7 @@ public class CEntityResourceForm extends CBaseResourceEntity
 			field.setDevelopable(flagMark) ;
 		}
 	}
-	
+
 	public void setFormat(String name, String format)
 	{
 		CEntityResourceField field = getField(name) ;
@@ -646,7 +640,7 @@ public class CEntityResourceForm extends CBaseResourceEntity
 			field.setCheckBox(valueOn, valueOff) ;
 		}
 	}
-	
+
 	protected CEntityResourceField getField(String name)
 	{
 		for (int i=0; i<arrFields.size(); i++)
@@ -685,7 +679,7 @@ public class CEntityResourceForm extends CBaseResourceEntity
 	 */
 	public void setNameLabel(int col, int line, String name)
 	{
-		CEntityResourceField field = getField(col, line); 
+		CEntityResourceField field = getField(col, line);
 		if (field != null)
 		{
 			field.SetDisplayName(name) ;
@@ -697,7 +691,7 @@ public class CEntityResourceForm extends CBaseResourceEntity
 	 */
 	public void setTitle(String name)
 	{
-		CEntityResourceField field = getField(name); 
+		CEntityResourceField field = getField(name);
 		if (field != null)
 		{
 			CEntityResourceFormContainer cont = (CEntityResourceFormContainer)of ;
@@ -714,7 +708,7 @@ public class CEntityResourceForm extends CBaseResourceEntity
 	public void setActiveChoice(String label, String value, String target, boolean submit)
 	{
 		CEntityResourceField field = getField(label) ;
-		if (field != null) 
+		if (field != null)
 		{
 			if (getField(target) != null)
 			{
@@ -726,7 +720,7 @@ public class CEntityResourceForm extends CBaseResourceEntity
 	{
 		CEntityResourceField field = getField(label) ;
 		CEntityResourceField link = getField(edit) ;
-		if (field != null) 
+		if (field != null)
 		{
 			if (getField(target) != null && getField(edit)!=null)
 			{
@@ -741,7 +735,7 @@ public class CEntityResourceForm extends CBaseResourceEntity
 	public void setEditReplayMutable(String name)
 	{
 		CEntityResourceField field = getField(name) ;
-		if (field != null) 
+		if (field != null)
 		{
 			field.setReplayMutable();
 		}
@@ -795,7 +789,7 @@ public class CEntityResourceForm extends CBaseResourceEntity
 		}
 		return false ;
 	}
-	
+
 	/**
 	 * @param method
 	 */
@@ -813,7 +807,7 @@ public class CEntityResourceForm extends CBaseResourceEntity
 		csCustomSubmitMethod = method ;
 	}
 	protected String csCustomSubmitMethod = "" ;
-	
+
 	/**
 	 * @param field
 	 */
@@ -846,7 +840,7 @@ public class CEntityResourceForm extends CBaseResourceEntity
 	public void AddSwitchCase(String name, String value, String protection, Element tag)
 	{
 		CEntityResourceField field = getField(name) ;
-		if (field != null) 
+		if (field != null)
 		{
 			field.AddSwitchCase(value, protection, tag);
 		}
@@ -855,7 +849,7 @@ public class CEntityResourceForm extends CBaseResourceEntity
 	public void HideField(String name)
 	{
 		CEntityResourceField field = getField(name) ;
-		if (field != null) 
+		if (field != null)
 		{
 			field.Hide();
 		}
@@ -863,7 +857,7 @@ public class CEntityResourceForm extends CBaseResourceEntity
 
 	public void HideField(int col, int line)
 	{
-		CEntityResourceField field = getField(col, line); 
+		CEntityResourceField field = getField(col, line);
 		if (field != null)
 		{
 			field.Hide() ;
@@ -883,7 +877,7 @@ public class CEntityResourceForm extends CBaseResourceEntity
 		exp.tag = tag ;
 		exp.type = FieldExportType.TYPE_CUSTOM ;
 		addedItems.add(exp) ;
-	} 
+	}
 	protected Vector<CEntityResourceFormContainer.FieldExportDescription> addedItems = null ;
 	protected Vector<CEntityResourceFormContainer.FieldExportDescription> lines = null ;
 
@@ -905,7 +899,7 @@ public class CEntityResourceForm extends CBaseResourceEntity
 	public void MoveField(String name, int nc, int nl)
 	{
 		CEntityResourceField field = getField(name) ;
-		if (field != null) 
+		if (field != null)
 		{
 			field.move(nc, nl);
 		}
@@ -914,7 +908,7 @@ public class CEntityResourceForm extends CBaseResourceEntity
 	public void MoveField(int c, int l, int nc, int nl)
 	{
 		CEntityResourceField field = getField(c, l) ;
-		if (field != null) 
+		if (field != null)
 		{
 			field.move(nc, nl);
 		}

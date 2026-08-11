@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 5 août 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic;
 
 //import org.w3c.dom.Element;
@@ -19,8 +13,6 @@ import utils.*;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public abstract class CBaseResourceEntity extends CBaseExternalEntity
 {
@@ -33,7 +25,7 @@ public abstract class CBaseResourceEntity extends CBaseExternalEntity
 	{
 		super(l, name, cat);
 	}
-	
+
 //	public abstract Element DoXMLExport() ;
 	/* (non-Javadoc)
 	 * @see semantic.CBaseDataEntity#HasAccessors()

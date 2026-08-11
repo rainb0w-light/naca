@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 3 août 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic;
 
 import java.util.ArrayList;
@@ -23,8 +17,6 @@ import utils.*;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CEntityCondition extends CBaseActionEntity
 {
@@ -37,7 +29,7 @@ public class CEntityCondition extends CBaseActionEntity
 	{
 		super(l, cat);
 	}
-	
+
 	public void SetCondition(CBaseEntityCondition exp, CEntityBloc ifyes, CEntityBloc ifnot)
 	{
 		condition = exp ;
@@ -45,12 +37,12 @@ public class CEntityCondition extends CBaseActionEntity
 			condition.SetParent(this);
 		elseBloc = ifnot ;
 		thenBloc = ifyes ;
-	} 
+	}
 	protected CBaseEntityCondition condition = null ;
 	protected CEntityBloc elseBloc = null ;
 	protected CEntityBloc thenBloc = null ;
 	protected boolean isalternativeCondition = false ;
-	
+
 	public boolean ignore()
 	{
 		return condition == null || condition.ignore() || ((elseBloc == null || elseBloc.ignore()) && thenBloc.ignore()) ;

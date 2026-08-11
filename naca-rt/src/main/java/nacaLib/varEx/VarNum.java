@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
-/*
- * Created on 18 mars 2005
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 package nacaLib.varEx;
 
 import nacaLib.tempCache.*;
@@ -19,8 +13,6 @@ import nacaLib.tempCache.*;
 /**
  * @author U930DI
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 public abstract class VarNum extends Var
 {
@@ -28,17 +20,17 @@ public abstract class VarNum extends Var
 	{
 		super(declareType9);
 	}
-	
+
 	protected VarNum()
 	{
 		super();
 	}
-	
+
 //	public void set(char c)
 //	{
 //		int n = c - '0';
 //	}
-	
+
 	protected String getAsLoggableString()
 	{
 		//return varDef.getRawStringIncludingHeader(bufferPos);
@@ -47,20 +39,20 @@ public abstract class VarNum extends Var
 		//cstr.resetManagerCache();;
 		return cs;
 	}
-	
+
 	public boolean hasType(VarTypeEnum e)
 	{
 		if(e == VarTypeEnum.Type9)
 			return true;
 		return false;
 	}
-	
+
 	static protected char[] ebcdicToUnicodeInBinaryFormat(byte[] tBytes)
 	{
 		int nLength = tBytes.length;
 		char tc[]  = new char[nLength];
 		//if(nLength <= 4)	// 32 bits chunks are high weight - low eight
-		{		
+		{
 			for(int n=0; n<nLength; n++)
 				tc[n] = byteToChar(tBytes[n]);
 		}
@@ -81,7 +73,7 @@ public abstract class VarNum extends Var
 			return (char) (b + 256);
 		return (char) b;
 	}
-	
+
 
 	//abstract void setInt(int n);
 //	public void set(String cs)

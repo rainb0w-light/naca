@@ -19,7 +19,7 @@ public class Time_ms
 		long l = System.currentTimeMillis();
 		return l;
 	}
-	
+
 	public static String formatHHMMSS_ms(long l)
 	{
 		int nNb_ms = (int)(l % 1000);
@@ -31,29 +31,29 @@ public class Time_ms
 		String cs = nNb_h + ":" + nNb_min + ":" + nNb_s + "." + nNb_ms;
 		return cs;
 	}
-	
+
 	public static String formatYYYYMMDDHHMMSS_ms(long l)
 	{
 		Calendar calendar = new GregorianCalendar();
 		calendar.setTimeInMillis(l);
-		
+
 		Date date = calendar.getTime();
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
 		String cs = formatter.format(date) ;
 		return cs ;
 	}
-	
+
 	public static String formatDMY_HHMMSS_ms(long l)
 	{
 		Calendar calendar = new GregorianCalendar();
 		calendar.setTimeInMillis(l);
-		
+
 		Date date = calendar.getTime();
 		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yy HH:mm:ss.SSS");
 		String cs = formatter.format(date) ;
 		return cs ;
 	}
-	
+
 	public static void wait_ms(long lNbMs)
 	{
 		try
@@ -62,7 +62,6 @@ public class Time_ms
 		}
 		catch (InterruptedException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

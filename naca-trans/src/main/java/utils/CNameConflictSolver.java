@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 7 oct. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package utils;
 
 import java.util.Enumeration;
@@ -25,8 +19,6 @@ import semantic.CDataEntity;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CNameConflictSolver
 {
@@ -36,7 +28,7 @@ public class CNameConflictSolver
 		Vector<CDataEntity> entities = new Vector<CDataEntity>() ;
 		//Vector arrHierachies = new Vector() ;
 	}
-	
+
 	protected Hashtable<String, CNameConflictItem> tabConflicts = new Hashtable<String, CNameConflictItem>() ;
 
 	public void AddConflictedEntity(String name, CDataEntity eCont)
@@ -61,7 +53,7 @@ public class CNameConflictSolver
 			{
 				return ;
 			}
-					
+
 			item.entities.add(eCont) ;
 			CEntityHierarchy newHier = eCont.GetHierarchy() ;
 			if (newHier == null)
@@ -69,7 +61,7 @@ public class CNameConflictSolver
 				int n = 0 ;
 			}
 			//item.arrHierachies.add(newHier) ;
-			
+
 			ArrayList<String> arr = new ArrayList<String>() ;
 			boolean istoDo = false ;
 			for (int i = 0; i<item.entities.size(); i++)
@@ -88,11 +80,11 @@ public class CNameConflictSolver
 					}
 				}
 			}
-			
+
 			if (istoDo)
 			{
 				//int counter = 0 ;
-				// rename entities, except the first one, which is not renamed 
+				// rename entities, except the first one, which is not renamed
 				for (int i = 1; i<item.entities.size(); i++)
 				{
 					CDataEntity currentEntity = item.entities.get(i);
@@ -100,7 +92,7 @@ public class CNameConflictSolver
 					{ // if this entity is part of an external structure (like COPY), this name is qualified this way
 						CEntityHierarchy hier = currentEntity.GetHierarchy() ;
 						CEntityHierarchy tab[] = new CEntityHierarchy[item.entities.size()-1] ;
-						int k = 0 ; 
+						int k = 0 ;
 						for (int j = 0; j<item.entities.size(); j++)
 						{
 							if (i != j)
@@ -124,7 +116,7 @@ public class CNameConflictSolver
 			}
 		}
 	}
-	
+
 	public boolean HasConflictForName(String name)
 	{
 		return tabConflicts.containsKey(name) ;
@@ -146,8 +138,8 @@ public class CNameConflictSolver
 					if (d.of == null)
 					{
 						return true ;
-					}	
-				}			
+					}
+				}
 				return false ;
 			}
 			else
@@ -155,7 +147,7 @@ public class CNameConflictSolver
 				for (int i = 0; i<item.entities.size(); i++)
 				{
 					CDataEntity d = item.entities.get(i) ;
-					CEntityHierarchy hier = d.GetHierarchy() ;				
+					CEntityHierarchy hier = d.GetHierarchy() ;
 					if (hier.CheckAscendant(memberOf))
 					{
 						return true ;
@@ -165,7 +157,7 @@ public class CNameConflictSolver
 			}
 		}
 	}
-	
+
 	public boolean IsExistingDataEntity(String name, String of)
 	{
 		CNameConflictItem item = tabConflicts.get(name) ;
@@ -191,8 +183,8 @@ public class CNameConflictSolver
 						{ // there are 2 entries with the same ascendant
 							return false ;
 						}
-					}	
-				}			
+					}
+				}
 				return true ;
 			}
 			else
@@ -201,7 +193,7 @@ public class CNameConflictSolver
 				for (int i = 0; i<item.entities.size(); i++)
 				{
 					CDataEntity d = item.entities.get(i) ;
-					CEntityHierarchy hier = d.GetHierarchy() ;				
+					CEntityHierarchy hier = d.GetHierarchy() ;
 					if (hier.CheckAscendant(of))
 					{
 						if (eData == null)
@@ -247,8 +239,8 @@ public class CNameConflictSolver
 						{ // there are 2 entries with the same ascendant
 							return null ;
 						}
-					}	
-				}			
+					}
+				}
 				return eData ;
 			}
 			else
@@ -257,7 +249,7 @@ public class CNameConflictSolver
 				for (int i = 0; i<item.entities.size(); i++)
 				{
 					CDataEntity d = item.entities.get(i) ;
-					CEntityHierarchy hier = d.GetHierarchy() ;				
+					CEntityHierarchy hier = d.GetHierarchy() ;
 					if (hier.CheckAscendant(of))
 					{
 						if (eData == null)
@@ -308,7 +300,7 @@ public class CNameConflictSolver
 							item = null ;
 						}
 						tabConflicts.remove(itemName) ;
-						
+
 						String cs = alone.GetName() ;
 						int nPos = cs.indexOf('$') ;
 						if (nPos>0)

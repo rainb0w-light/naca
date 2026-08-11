@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on Jul 28, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements;
 
 import java.util.Vector;
@@ -35,8 +29,6 @@ import utils.Transcoder;
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CCompute extends CCobolElement
 {
@@ -58,7 +50,7 @@ public class CCompute extends CCobolElement
 			return false ;
 		}
 		CGlobalEntityCounter.GetInstance().CountCobolVerb(tokComp.GetKeyword().name) ;
-		
+
 		CBaseToken tokId = GetNext();
 		boolean isdone = false ;
 		while (!isdone)
@@ -75,22 +67,22 @@ public class CCompute extends CCobolElement
 				Transcoder.logError(getLine(), "Identifier not read as detination of 'COMPUTE'") ;
 				return false ;
 			}
-			
+
 			CBaseToken tok = GetCurrentToken() ;
 			if (tok.GetKeyword() == CCobolKeywordList.ROUNDED)
 			{
 				roundedDestinations.add(idDestination);
-				tok = GetNext(); 
+				tok = GetNext();
 			}
 			else
 			{
 				destinations.add(idDestination);
 			}
-			
+
 			if (tok.GetType() != CTokenType.IDENTIFIER)
 			{
 				isdone = true ;
-			} 
+			}
 		}
 
 		CBaseToken tokEquals = GetCurrentToken() ;
@@ -99,7 +91,7 @@ public class CCompute extends CCobolElement
 			Transcoder.logError(getLine(), "Expecting '=' in 'COMPUTE'") ;
 			return false ;
 		}
-		
+
 		tokEquals = GetNext();
 		expr = ReadCalculExpression() ;
 		if (expr == null)
@@ -107,7 +99,7 @@ public class CCompute extends CCobolElement
 			Transcoder.logError(getLine(), "Can't read any Expression in 'COMPUTE'") ;
 			return false ;
 		}
-		
+
 		CBaseToken tok = GetCurrentToken() ;
 		if (tok.GetKeyword() == CCobolKeywordList.ON)
 		{
@@ -157,7 +149,7 @@ public class CCompute extends CCobolElement
 		{
 			Element e = expr.Export(root);
 			eComp.appendChild(e) ;
-		}		
+		}
 		if (onErrorBloc != null)
 		{
 			Element e = onErrorBloc.Export(root) ;
@@ -165,7 +157,7 @@ public class CCompute extends CCobolElement
 		}
 		return eComp ;
 	}
-	
+
 	protected Vector<CIdentifier> destinations = new Vector<CIdentifier>() ;
 	protected Vector<CIdentifier> roundedDestinations = new Vector<CIdentifier>() ;
 	protected CExpression expr = null ;
@@ -222,15 +214,15 @@ public class CCompute extends CCobolElement
 			dest.RegisterWritingAction(eCalc);
 			eCalc.AddRoundedDestination(dest);
 		}
-		
+
 		CBaseEntityExpression eExpr = expr.AnalyseExpression(factory);
 		eCalc.SetCalcul(eExpr) ;
-		
+
 		if (onErrorBloc != null)
 		{
 			CBaseLanguageEntity eBloc = onErrorBloc.DoSemanticAnalysis(eCalc, factory) ;
 			eCalc.SetOnErrorBloc(eBloc);
 		}
 		return eCalc;
-	} 
+	}
 }

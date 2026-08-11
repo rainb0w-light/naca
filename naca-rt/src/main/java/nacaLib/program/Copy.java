@@ -5,18 +5,9 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 
-/*
- * Created on 10 nov. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
-
 /**
  * @author PJD
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 package nacaLib.program;
 
@@ -40,12 +31,12 @@ public class Copy
 		}
 		JmxGeneralStat.incCopyClassLoaded(1);
 	}
-	
+
 	public void finalize()
 	{
-		//Log.logNormal("Copy finalized: " +toString()); 
+		//Log.logNormal("Copy finalized: " +toString());
 		JmxGeneralStat.incCopyClassLoaded(-1);
 	}
-	
+
 	protected VarDeclaration declare = null;
 }

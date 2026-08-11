@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on Sep 27, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic.CICS;
 
 import semantic.CBaseActionEntity;
@@ -21,8 +15,6 @@ import utils.CobolTranscoder.Notifs.NotifDeclareUseCICSPreprocessor;
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CEntityCICSSendMap extends CBaseActionEntity
 {
@@ -49,7 +41,7 @@ public class CEntityCICSSendMap extends CBaseActionEntity
 	{
 		setName = name ;
 	}
-	
+
 	public void SetDataFrom(CDataEntity from, CDataEntity len, boolean b)
 	{
 		if (from.GetDataType() == CDataEntity.CDataEntityType.FORM)
@@ -73,43 +65,43 @@ public class CEntityCICSSendMap extends CBaseActionEntity
 		dataLength = len ;
 		isdataOnly = b ;
 	}
-	
+
 	public void SetAccum(boolean b)
 	{
 		isaccum = b ;
 	}
-	
+
 	public void SetAlarm(boolean b)
 	{
 		isalarm = b ;
 	}
-	
+
 	public void SetErase(boolean b)
 	{
 		iserase = b ;
 	}
-	
+
 	public void SetFreeKB(boolean b)
 	{
 		isfreeKB = b ;
 	}
-	
+
 	public void SetPaging(boolean b)
 	{
 		ispaging = b ;
 	}
-	
+
 	public void SetWait(boolean b)
 	{
 		iswait = b ;
 	}
-	
+
 	public void SetCursor(CDataEntity e)
 	{
 		bCursor = true ;
 		cursorValue = e ;
 	}
-	
+
 	protected CDataEntity name = null ;
 	protected CDataEntity setName = null ;
 	protected CDataEntity dataFrom = null ;
@@ -134,7 +126,7 @@ public class CEntityCICSSendMap extends CBaseActionEntity
 	}
 	public boolean ignore()
 	{
-		return false; 
+		return false;
 	}
 	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
 	{

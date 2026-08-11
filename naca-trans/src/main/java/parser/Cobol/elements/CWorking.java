@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on Jul 16, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements;
 
 
@@ -34,8 +28,6 @@ import utils.Transcoder;
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CWorking extends CCommentContainer
 {
@@ -47,9 +39,9 @@ public class CWorking extends CCommentContainer
 	{
 		super(line);
 	}
-	
+
 	private void beginParseWorking()
-	{	
+	{
 		LevelKeywords levelKeywords = LevelKeywordStackManager.getAndPushNewLevelKeywords();
 		levelKeywords.registerManagedKeyword(CCobolKeywordList.EJECT);
 		levelKeywords.registerManagedKeyword(CCobolKeywordList.SKIP2);
@@ -60,10 +52,10 @@ public class CWorking extends CCommentContainer
 	}
 
 	private void endParseWorking()
-	{		
+	{
 		LevelKeywordStackManager.popLevelKeywords();
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see parser.CLanguageElement#Parse(lexer.CTokenList)
 	 */
@@ -73,7 +65,7 @@ public class CWorking extends CCommentContainer
 		beginParseWorking();
 		boolean isloop = true;
 		while(isloop)
-		{		
+		{
 			isloop = false;
 			b = internalDoParsing();
 			CBaseToken tokEntry = GetCurrentToken();
@@ -88,7 +80,7 @@ public class CWorking extends CCommentContainer
 		}
 		return b;
 	}
-	
+
 	private boolean internalDoParsing()
 	{
 		boolean isdone = false ;
@@ -208,7 +200,7 @@ public class CWorking extends CCommentContainer
 		Element eWorking = root.createElement(GetType()) ;
 		return eWorking ;
 	}
-	/* 
+	/*
 	 * unused (CV : 25/03/2006)
 	 */
 //	protected CBaseLanguageEntity DoSemanticAnalysisForVariables(CBaseLanguageEntity parent, CBaseEntityFactory factory)
@@ -246,10 +238,10 @@ public class CWorking extends CCommentContainer
 
 		ListIterator i = children.listIterator() ;
 		CBaseLanguageEntity eLast = null;
-		
+
 		CCobolElement le = null ;
 		try
-		{	
+		{
 			le = (CCobolElement)i.next() ;
 		}
 		catch (NoSuchElementException e)
@@ -283,7 +275,7 @@ public class CWorking extends CCommentContainer
 				}
 			}
 			try
-			{	
+			{
 				le = (CCobolElement)i.next() ;
 			}
 			catch (NoSuchElementException ee)
@@ -292,12 +284,12 @@ public class CWorking extends CCommentContainer
 			}
 		}
 		bAnalysisDoneForChildren = true ;
-	
+
 		return eSection ;
 	}
-	
+
 	protected String GetType()
 	{
-		return "WorkingStorageSection" ; 
+		return "WorkingStorageSection" ;
 	}
 }

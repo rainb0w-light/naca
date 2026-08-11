@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 18 août 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic.expression;
 
 import semantic.CBaseEntityFactory;
@@ -20,8 +14,6 @@ import semantic.CDataEntity;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CEntityCondOr extends CBaseEntityCondition
 {
@@ -39,7 +31,7 @@ public class CEntityCondOr extends CBaseEntityCondition
 
 	public void SetCondition(CBaseEntityCondition op1, CBaseEntityCondition op2)	{
 		this.op1 = op1 ;
-		op1.SetParent(this) ; 
+		op1.SetParent(this) ;
 		this.op2 = op2 ;
 		op2.SetParent(this);
 	}

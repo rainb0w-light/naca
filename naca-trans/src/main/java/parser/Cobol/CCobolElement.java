@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on Jul 16, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol;
 
 
@@ -49,8 +43,6 @@ import utils.Transcoder;
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public abstract class CCobolElement extends CLanguageElement
 {
@@ -58,7 +50,7 @@ public abstract class CCobolElement extends CLanguageElement
 	{
 		super(line) ;
 	};
-		
+
 	public static CIdentifier ReadIdentifier(CTokenList lstTokens)
 	{
 		CFakeElement e = new CFakeElement(lstTokens) ;
@@ -69,8 +61,8 @@ public abstract class CCobolElement extends CLanguageElement
 			tok = lstTokens.GetNext() ;
 		}
 		return e.ReadIdentifier() ;
-	}	
-	
+	}
+
 	public CIdentifier ReadIdentifier()
 	{
 		CBaseToken tok = GetCurrentToken() ;
@@ -122,7 +114,7 @@ public abstract class CCobolElement extends CLanguageElement
 				{
 					return null ;
 				}
-			} 
+			}
 			else if (tok.GetKeyword() == CCobolKeywordList.IN)
 			{	// --> ID OF ID
 				tok = GetNext() ;
@@ -136,7 +128,7 @@ public abstract class CCobolElement extends CLanguageElement
 				{
 					return null ;
 				}
-			} 
+			}
 			else if (tok.GetType() == CTokenType.LEFT_BRACKET)
 			{
 				GetNext();
@@ -144,8 +136,8 @@ public abstract class CCobolElement extends CLanguageElement
 				while (!isdone)
 				{
 					tok = GetCurrentToken() ;
-					CExpression exp =  ReadCalculExpression() ; 
-						
+					CExpression exp =  ReadCalculExpression() ;
+
 					CBaseToken tok2 = GetCurrentToken() ;
 					if (tok2.GetType() == CTokenType.COMMA)
 					{
@@ -160,7 +152,7 @@ public abstract class CCobolElement extends CLanguageElement
 					}
 					else if (tok2.GetType() == CTokenType.COLON)
 					{
-						GetNext() ; // consume ':' 
+						GetNext() ; // consume ':'
 						CExpression expr2 = ReadCalculExpression() ;
 						CBaseToken tokNext = GetCurrentToken() ;
 						if (tokNext.GetType() == CTokenType.RIGHT_BRACKET)
@@ -206,7 +198,7 @@ public abstract class CCobolElement extends CLanguageElement
 			else
 			{
 				return null ;
-			} 
+			}
 		}
 		else if (tok.GetType() == CTokenType.NUMBER)
 		{
@@ -228,7 +220,7 @@ public abstract class CCobolElement extends CLanguageElement
 		{
 			tok = GetNext() ; // consume '-'
 			if (tok.GetType() == CTokenType.NUMBER)
-			{ 
+			{
 				GetNext(); // consume number
 				return new CNumberTerminal("-" + tok.GetValue()) ;
 			}
@@ -239,7 +231,7 @@ public abstract class CCobolElement extends CLanguageElement
 		}
 		else if (tok.GetType() == CTokenType.PLUS)
 		{
-			tok = GetNext() ; // consume '+' 
+			tok = GetNext() ; // consume '+'
 			GetNext(); // consume number
 			return new CNumberTerminal(tok.GetValue()) ;
 		}
@@ -253,7 +245,7 @@ public abstract class CCobolElement extends CLanguageElement
 			GetNext() ;
 			return new CConstantTerminal(tok.GetValue()) ;
 		}
-		return null ; 
+		return null ;
 	}
 
 	public CExpression ReadExpression()
@@ -271,7 +263,7 @@ public abstract class CCobolElement extends CLanguageElement
 		exprGlobal = ReadSumExpr() ;
 		return exprGlobal ;
 	}
-		
+
 	private CExpression ReadSumExpr()
 	{
 		CExpression exprSum = null ;
@@ -281,7 +273,7 @@ public abstract class CCobolElement extends CLanguageElement
 			return null ;
 		}
 		exprSum = expr1 ;
-		
+
 		boolean isdone = false ;
 		while (!isdone)
 		{
@@ -297,7 +289,7 @@ public abstract class CCobolElement extends CLanguageElement
 				else
 				{
 					exprSum = new CSumExpression(tok.getLine(), exprSum, expr2, CSumExpression.CSumType.ADD);
-				}				
+				}
 			}
 			else if (tok.GetType() == CTokenType.MINUS)
 			{
@@ -310,16 +302,16 @@ public abstract class CCobolElement extends CLanguageElement
 				else
 				{
 					exprSum = new CSumExpression(tok.getLine(), exprSum, expr2, CSumExpression.CSumType.SUB);
-				}				
+				}
 			}
-			else 
+			else
 			{
 				isdone = true ;
 			}
 		}
 		return exprSum ;
 	}
-	
+
 	private CExpression ReadProdExpr()
 	{
 		CExpression exprProd = null ;
@@ -328,7 +320,7 @@ public abstract class CCobolElement extends CLanguageElement
 		{
 			return null ;
 		}
-		
+
 		boolean isdone = false ;
 		while (!isdone)
 		{
@@ -361,7 +353,7 @@ public abstract class CCobolElement extends CLanguageElement
 
 	public CExpression ReadConditionalStatement()
 	{ // this function is called at the begining of the statment
-//		boolean bDone = false ; 
+//		boolean bDone = false ;
 //		CExpression curCond = null ;
 //		while (!bDone)
 //		{
@@ -403,12 +395,12 @@ public abstract class CCobolElement extends CLanguageElement
 //				curCond = ReadSimpleCondition(defaultOperand) ;
 //				if (curCond == null)
 //				{
-//					return null ;	
+//					return null ;
 //				}
 //			}
 //			else
 //			{
-//				bDone = true ; 
+//				bDone = true ;
 //			}
 //		}
 //		ASSERT(curCond) ;
@@ -436,7 +428,7 @@ public abstract class CCobolElement extends CLanguageElement
 //				if ((curCond.IsReference() || curCond.IsConstant())
 //						&& !fstOperand.IsBinaryCondition() && !fstOperand.IsReference())
 //				{
-//					m_Logger.warn("WARNING : be carrefull to Abbreviated combined relation condition ; line "+tok.getLine()) ;  
+//					m_Logger.warn("WARNING : be carrefull to Abbreviated combined relation condition ; line "+tok.getLine()) ;
 //				}
 				return new CCondOrStatement(tok.getLine(), fstOperand, curCond) ;
 			}
@@ -488,7 +480,7 @@ public abstract class CCobolElement extends CLanguageElement
 		CExpression curCond = null ;
 		CBaseToken tok = GetCurrentToken() ;
 		if (tok.GetType() == CTokenType.IDENTIFIER || tok.GetType() == CTokenType.STRING ||
-			tok.GetType() == CTokenType.NUMBER || tok.GetType() == CTokenType.CONSTANT || 
+			tok.GetType() == CTokenType.NUMBER || tok.GetType() == CTokenType.CONSTANT ||
 			tok.GetType() == CTokenType.MINUS || tok.GetType() == CTokenType.PLUS
 			|| tok.GetType() == CTokenType.LEFT_BRACKET)
 		{
@@ -496,7 +488,7 @@ public abstract class CCobolElement extends CLanguageElement
 			curCond = ReadBinaryCondEvaluator(curTerminal, false);
 			if (curCond == null)
 			{
-				curCond = curTerminal ; 
+				curCond = curTerminal ;
 			}
 		}
 //		else if (tok.GetType() == CTokenType.LEFT_BRACKET)
@@ -504,7 +496,7 @@ public abstract class CCobolElement extends CLanguageElement
 //			tok = GetNext() ;
 //			//CExpression braCond = ReadConditionalStatement(defaultCondition) ;
 //			CExpression braCond = ReadConditionalStatement() ;
-//		
+//
 //			tok = GetCurrentToken() ;
 //			if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 //			{
@@ -521,7 +513,7 @@ public abstract class CCobolElement extends CLanguageElement
 //			}
 //			else
 //			{
-//				// not good;			
+//				// not good;
 //			}
 //		}
 		else if (tok.GetKeyword() == CCobolKeywordList.NOT)
@@ -540,12 +532,12 @@ public abstract class CCobolElement extends CLanguageElement
 		ASSERT(curCond);
 		return curCond ;
 	}
-	
+
 	private CExpression ReadNOTCondition(CExpression defaultOperand)
 	{ // read with NOT considered as composed logical operator (NOT > / NOT = / NOT < ...)
 		CBaseToken tok = GetCurrentToken() ;
 		if (tok.GetType() == CTokenType.IDENTIFIER || tok.GetType() == CTokenType.STRING ||
-			tok.GetType() == CTokenType.NUMBER || tok.GetType() == CTokenType.CONSTANT || 
+			tok.GetType() == CTokenType.NUMBER || tok.GetType() == CTokenType.CONSTANT ||
 			tok.GetType() == CTokenType.MINUS || tok.GetType() == CTokenType.PLUS
 			|| tok.GetType() == CTokenType.LEFT_BRACKET)
 		{
@@ -553,7 +545,7 @@ public abstract class CCobolElement extends CLanguageElement
 			CExpression curCond = ReadBinaryCondEvaluator(curTerminal, false);
 			if (curCond == null)
 			{
-				curCond = curTerminal ; 
+				curCond = curTerminal ;
 			}
 			return new CCondNotStatement(tok.getLine(), curCond) ;
 		}
@@ -562,7 +554,7 @@ public abstract class CCobolElement extends CLanguageElement
 //			tok = GetNext() ;
 //			//CExpression braCond = ReadConditionalStatement(defaultCondition) ;
 //			CExpression braCond = ReadConditionalStatement() ;
-//		
+//
 //			tok = GetCurrentToken() ;
 //			if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 //			{
@@ -572,7 +564,7 @@ public abstract class CCobolElement extends CLanguageElement
 //			}
 //			else
 //			{
-//				// not good;	
+//				// not good;
 //				ASSERT(null) ;
 //				return null ;
 //			}
@@ -613,11 +605,11 @@ public abstract class CCobolElement extends CLanguageElement
 		}
 		GetNext();
 	}
-	
+
 	private CExpression ReadBinaryCondEvaluator(CExpression operand1, boolean bIsOpposite)
 	{
 		CBaseToken tok = GetCurrentToken();
-		if (tok.GetType() == CTokenType.EQUALS) 
+		if (tok.GetType() == CTokenType.EQUALS)
 		{
 			CBaseToken tokNext = GetNext() ;
 			if (tokNext.GetKeyword() == CCobolKeywordList.ALL)
@@ -646,7 +638,7 @@ public abstract class CCobolElement extends CLanguageElement
 				}
 			}
 		}
-		else if (tok.GetKeyword() == CCobolKeywordList.EQUAL) 
+		else if (tok.GetKeyword() == CCobolKeywordList.EQUAL)
 		{
 			CBaseToken tokNext = GetNext() ;
 			if (tokNext.GetKeyword() == CCobolKeywordList.TO)
@@ -676,7 +668,7 @@ public abstract class CCobolElement extends CLanguageElement
 			}
 			return condGlobal ;
 		}
-		else if (tok.GetType() == CTokenType.GREATER_THAN || tok.GetKeyword() == CCobolKeywordList.GREATER) 
+		else if (tok.GetType() == CTokenType.GREATER_THAN || tok.GetKeyword() == CCobolKeywordList.GREATER)
 		{
 			boolean isorEquals = getNextThan() ;
 			CExpression term2 = ReadSimpleCondition(null);
@@ -689,7 +681,7 @@ public abstract class CCobolElement extends CLanguageElement
 				return new CCondGreaterStatement(tok.getLine(), operand1, term2, isorEquals) ;
 			}
 		}
-		else if (tok.GetType() == CTokenType.LESS_THAN || tok.GetKeyword() == CCobolKeywordList.LESS) 
+		else if (tok.GetType() == CTokenType.LESS_THAN || tok.GetKeyword() == CCobolKeywordList.LESS)
 		{
 			boolean isorEquals = getNextThan() ;
 			CExpression term2 = ReadSimpleCondition(null);
@@ -702,7 +694,7 @@ public abstract class CCobolElement extends CLanguageElement
 				return new CCondLessStatement(tok.getLine(), operand1, term2, isorEquals) ;
 			}
 		}
-		else if (tok.GetType() == CTokenType.GREATER_OR_EQUALS) 
+		else if (tok.GetType() == CTokenType.GREATER_OR_EQUALS)
 		{
 			GetNext() ;
 			CExpression term2 = ReadSimpleCondition(null);
@@ -715,7 +707,7 @@ public abstract class CCobolElement extends CLanguageElement
 				return new CCondGreaterStatement(tok.getLine(), operand1, term2, true) ;
 			}
 		}
-		else if (tok.GetType() == CTokenType.LESS_OR_EQUALS) 
+		else if (tok.GetType() == CTokenType.LESS_OR_EQUALS)
 		{
 			GetNext() ;
 			CExpression term2 = ReadSimpleCondition(null);
@@ -775,7 +767,7 @@ public abstract class CCobolElement extends CLanguageElement
 //						}
 //						else
 //						{
-//							m_Logger.warn("WARNING line "+tok.getLine()+" : Token unexpected : 'NOT'"); 
+//							m_Logger.warn("WARNING line "+tok.getLine()+" : Token unexpected : 'NOT'");
 //							return null ;
 //						}
 //					}
@@ -830,7 +822,7 @@ public abstract class CCobolElement extends CLanguageElement
 			return new CCondIsAlphabetic(tok.getLine(), operand1, 0, bIsOpposite);
 		}
 		else if (tok.GetType() == CTokenType.IDENTIFIER || tok.GetType() == CTokenType.STRING ||
-			tok.GetType() == CTokenType.NUMBER || tok.GetType() == CTokenType.CONSTANT || 
+			tok.GetType() == CTokenType.NUMBER || tok.GetType() == CTokenType.CONSTANT ||
 			tok.GetType() == CTokenType.MINUS || tok.GetType() == CTokenType.PLUS)
 		{
 			CExpression curTerminal = ReadCalculExpression();
@@ -874,7 +866,7 @@ public abstract class CCobolElement extends CLanguageElement
 		{
 			return data ;
 		}
-		int n = tok.getLine() ;		
+		int n = tok.getLine() ;
 		while (tok != null && tok.getLine() == n)
 		{
 			if (tok.GetType() != CTokenType.DOT)
@@ -887,7 +879,7 @@ public abstract class CCobolElement extends CLanguageElement
 				data += cs ;
 				tok = GetNext() ;
 			}
-			else 
+			else
 			{
 				// in case of a dot, we must check if this dot is a the end of the line or not ;
 				// if not, the DOT is part of the result string
@@ -903,7 +895,7 @@ public abstract class CCobolElement extends CLanguageElement
 			}
 		}
 		//GetNext() ; // consume NEW_LINE token
-		return data ;		
+		return data ;
 	}
 
 	private CExpression ReadTerminalExpr()
@@ -927,7 +919,7 @@ public abstract class CCobolElement extends CLanguageElement
 		{
 			tok = GetNext() ; // consume '-'
 			if (tok.GetType() == CTokenType.NUMBER)
-			{ 
+			{
 				GetNext(); // consume number
 				CTerminal term = new CNumberTerminal("-" + tok.GetValue()) ;
 				return new CTermExpression(tok.getLine(), term) ;
@@ -945,7 +937,7 @@ public abstract class CCobolElement extends CLanguageElement
 				}
 			}
 		}
-		else 
+		else
 		{
 			CTerminal term = ReadTerminal() ;
 			if (term != null)

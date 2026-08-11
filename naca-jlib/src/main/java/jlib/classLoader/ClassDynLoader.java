@@ -243,7 +243,6 @@ public class ClassDynLoader extends ClassLoader
 		}
 		catch (IllegalAccessException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		catch (NoClassDefFoundError e)
@@ -360,7 +359,6 @@ public class ClassDynLoader extends ClassLoader
 		}
 		catch (IOException e2)
 		{
-			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
 		return hashFileData;

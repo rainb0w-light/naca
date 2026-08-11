@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
-/*
- * Created on 18 mars 2005
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 package nacaLib.varEx;
 
 import java.math.BigDecimal;
@@ -30,8 +24,6 @@ import nacaLib.tempCache.TempCacheLocator;
 /**
  * @author U930DI
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 public abstract class VarDefBuffer extends VarDefBase
 {
@@ -39,24 +31,24 @@ public abstract class VarDefBuffer extends VarDefBase
 	{
 		super();
 	}
-	
+
 	VarDefBuffer(VarDefBase varDefParent, VarLevel varLevel)
 	{
 		super(varDefParent, varLevel);
 	}
-			
+
 	protected void copyBytesFromSource(VarBufferPos bufferDest, int nPosition, InternalCharBuffer charBuffer)
 	{
 		bufferDest.copyBytesFromSource(nPosition, charBuffer);
 	}
-	
+
 	void dumpToSTCheck(BaseProgramManager programManager)
-	{		
+	{
 		dump(programManager);
 		int nNbChildren = getNbChildren();
 		for(int nChild=0; nChild<nNbChildren; nChild++)
 		{
-			VarDefBuffer varDefChild = getChild(nChild);			
+			VarDefBuffer varDefChild = getChild(nChild);
 			varDefChild.dumpToSTCheck(programManager);
 		}
 	}
@@ -67,25 +59,25 @@ public abstract class VarDefBuffer extends VarDefBase
 		String cs = varChild.getSTCheckValue();
 		Log.logFineDebug("dumpSTCheck:" + cs);
 	}
-	
+
 	int copySourceChunk(VarBufferPos bufferDest, VarBase varSource, int nPosDest, int nPosSource, int nDestLength)
 	{
 		int nPositionDest = getBodyAbsolutePosition(bufferDest)+ nPosDest;
 		int nPositionSource = varSource.getBodyAbsolutePosition() + nPosSource;
 		bufferDest.copyBytesFromSource(nPositionDest, varSource.bufferPos, nPositionSource, nDestLength);
-		
+
 		return nPosSource + nDestLength;
 	}
-	
+
 	int copySourceChunk(VarBufferPos bufferDest, InternalCharBuffer charBufferSource, int nPosDest, int nPosSource, int nDestLength)
 	{
 		int nPositionDest = getBodyAbsolutePosition(bufferDest)+ nPosDest;
 		int nPositionSource = nPosSource;
 		bufferDest.copyBytesFromSource(nPositionDest, charBufferSource, nPositionSource, nDestLength);
-		
+
 		return nPosSource + nDestLength;
 	}
-	
+
 	protected int internalWriteRightPadding(VarBufferPos buffer, int nPosition, int nTotalSize, String cs, char cPad)
 	{
 		int nLength = 0;
@@ -104,7 +96,7 @@ public abstract class VarDefBuffer extends VarDefBase
 		}
 		return nPosition;
 	}
-	
+
 	protected void internalWriteRightPaddingSpace(VarBufferPos buffer, int nPosition, int nTotalSize, String cs)
 	{
 		int nLength = 0;
@@ -123,16 +115,16 @@ public abstract class VarDefBuffer extends VarDefBase
 				buffer.acBuffer[nPosition++] = ' ';
 		}
 	}
-	
 
-	
+
+
 	protected int writeEditRightPaddingBlankInit(VarBufferPos buffer, int nOffset, InitializeCache initializeCache)
 	{
 		int nBodyPosStart = getBodyAbsolutePosition(buffer);
 		int nBodyLength = getBodyLength();
 		return internalWriteRightPaddingBlankInitSpace(buffer, nBodyPosStart+nOffset, nBodyLength, initializeCache);
 	}
-	
+
 	protected int internalWriteRightPaddingBlankInitSpace(VarBufferPos buffer, int nPosition, int nTotalSize, InitializeCache initializeCache)
 	{
 		if(nTotalSize >= 1)
@@ -145,7 +137,7 @@ public abstract class VarDefBuffer extends VarDefBase
 	}
 
 	protected int internalWriteRightPaddingBlankInit0(VarBufferPos buffer, int nPosition, int nTotalSize, InitializeCache initializeCache)
-	{	
+	{
 		if(nTotalSize >= 1)
 		{
 			if(initializeCache != null)
@@ -154,7 +146,7 @@ public abstract class VarDefBuffer extends VarDefBase
 		}
 		return nPosition;
 	}
-	
+
 	protected int internalWriteRightPadding(VarBufferPos buffer, int nPosition, int nTotalSize, CStr cs, char cPad)
 	{
 		int nLength = 0;
@@ -170,12 +162,12 @@ public abstract class VarDefBuffer extends VarDefBase
 		}
 		return nPosition;
 	}
-	
+
 	protected void internalWriteJustifyRightPadding(VarBufferPos buffer, int nPosition, int nDestLength, String cs, char cPad)
 	{
 		/*
 		http://docs.hp.com/cgi-bin/doc3k/B3150090013.11820/52
-		
+
 		Data is moved from a sending data item to the right justified receiving
 		data item starting with the rightmost character of the sending data item.
 		The rightmost character is placed in the rightmost character of the
@@ -187,16 +179,16 @@ public abstract class VarDefBuffer extends VarDefBase
 		is within the sending data item.  That is, spaces are not stripped from
 		the sending item, even if they are in the rightmost positions of the
 		sending item.
-		
+
 		When a receiving data item is described using this clause, and the
 		sending data item is larger than the receiving item, the leftmost
 		characters are truncated.
-		
+
 		When the receiving data item is longer than a sending item, the data is
 		aligned at the rightmost character position in the receiving field, and
 		unused characters to the left are filled with spaces
 		*/
-		
+
 		if(cs != null)
 		{
 			int nSourceLength = cs.length();
@@ -210,12 +202,12 @@ public abstract class VarDefBuffer extends VarDefBase
 			nPosition = buffer.writeRepeatingCharAt(nPosition, cPad, nPosStart);
 		}
 	}
-	
+
 	protected void internalWriteJustifyRightPadding(VarBufferPos buffer, int nPosition, int nDestLength, CStr cs, char cPad)
 	{
 		/*
 		http://docs.hp.com/cgi-bin/doc3k/B3150090013.11820/52
-		
+
 		Data is moved from a sending data item to the right justified receiving
 		data item starting with the rightmost character of the sending data item.
 		The rightmost character is placed in the rightmost character of the
@@ -227,16 +219,16 @@ public abstract class VarDefBuffer extends VarDefBase
 		is within the sending data item.  That is, spaces are not stripped from
 		the sending item, even if they are in the rightmost positions of the
 		sending item.
-		
+
 		When a receiving data item is described using this clause, and the
 		sending data item is larger than the receiving item, the leftmost
 		characters are truncated.
-		
+
 		When the receiving data item is longer than a sending item, the data is
 		aligned at the rightmost character position in the receiving field, and
 		unused characters to the left are filled with spaces
 		*/
-		
+
 		if(cs != null)
 		{
 			int nSourceLength = cs.length();
@@ -250,7 +242,7 @@ public abstract class VarDefBuffer extends VarDefBase
 			nPosition = buffer.writeRepeatingCharAt(nPosition, cPad, nPosStart);
 		}
 	}
-	
+
 	protected int internalWriteNoPadding(VarBufferPos buffer, int nPosition, int nTotalSize, String cs)
 	{
 		if(cs != null)
@@ -260,44 +252,44 @@ public abstract class VarDefBuffer extends VarDefBase
 		}
 		return nPosition;
 	}
-		
+
 	protected CStr getCStrRightPadded(int n, int nNbCharDest)
 	{
 		CStrNumber cs = TempCacheLocator.getTLSTempCache().getCStrNumber();
 		cs.setAbsoluteValueRightPadded(n, nNbCharDest);
 		return cs;
 	}
-	
+
 	protected CStr getCStrRightPadded(CStr csIn, char cPad, int nNbCharDest)
 	{
 		CStrString csOut = TempCacheLocator.getTLSTempCache().getCStrString();
 		csOut.set(csIn, cPad, nNbCharDest);
 		return csOut;
 	}
-		
+
 //	protected CStr getCStrRightPadded(long l, int nNbCharDest)
 //	{
 //		CStrNumber cs = TempCacheLocator.getTLSTempCache().getCStrNumber();
 //		cs.setAbsoluteValueRightPadded(l, nNbCharDest);
 //		return cs;
 //	}
-	
+
 //	protected String getStringRightPadded(int n, char cPad, int nNbCharDest)
 //	{
 //		String cs = String.valueOf(n);
 //		return getStringRightPadded(cs, cPad, nNbCharDest);
 //	}
-	
+
 //	protected String getStringRightPadded(long l, char cPad, int nNbCharDest)
 //	{
 //		String cs = String.valueOf(l);
 //		return getStringRightPadded(cs, cPad, nNbCharDest);
 //	}
-	
+
 //	protected String getStringRightPadded(String cs, char cPad, int nNbCharDest)
-//	{	
+//	{
 //		StringBuffer buf = new StringBuffer();
-//			
+//
 //		int nLength = 0;
 //		if(cs != null)
 //		{
@@ -309,10 +301,10 @@ public abstract class VarDefBuffer extends VarDefBase
 //		{
 //			buf.append(cPad);
 //			nLength++;
-//		}			
+//		}
 //		return buf.toString();
 //	}
-	
+
 	protected void internalPhysicalWrite(VarBufferPos bufferDest, VarDefBuffer varSource, VarBufferPos bufferSource)
 	{
 		int nNbCharSource = varSource.getBodyLength();
@@ -320,13 +312,13 @@ public abstract class VarDefBuffer extends VarDefBase
 		int nNbCharToCopy = Math.min(nNbCharSource, nNbCharDest);
 		bufferDest.copyBytesFromSource(getBodyAbsolutePosition(bufferDest), bufferSource, varSource.getBodyAbsolutePosition(bufferSource), nNbCharToCopy);
 	}
-	
+
 //	protected void internalPhysicalWrite(VarBufferPos bufferDest, String csSource)
 //	{
 //		int nNbCharSource = csSource.length();
 //		int nNbCharDest = getBodyLength();
 //		int nNbCharToCopy = Math.min(nNbCharSource, nNbCharDest);
-//		
+//
 //		int nPositionDest = getBodyAbsolutePosition(bufferDest);
 //		for(int n=0; n<nNbCharToCopy; n++, nPositionDest++)
 //		{
@@ -334,13 +326,13 @@ public abstract class VarDefBuffer extends VarDefBase
 //			bufferDest.acBuffer[nPositionDest] = cSource;
 //		}
 //	}
-	
+
 //	protected void internalPhysicalWrite(VarBufferPos bufferDest, CStr csSource)
 //	{
 //		int nNbCharSource = csSource.length();
 //		int nNbCharDest = getBodyLength();
 //		int nNbCharToCopy = Math.min(nNbCharSource, nNbCharDest);
-//		
+//
 //		int nPositionDest = getBodyAbsolutePosition(bufferDest);
 //		for(int n=0; n<nNbCharToCopy; n++, nPositionDest++)
 //		{
@@ -348,11 +340,11 @@ public abstract class VarDefBuffer extends VarDefBase
 //			bufferDest.acBuffer[nPositionDest] = cSource;
 //		}
 //	}
-		
+
 	void fillInitialValueAndClearUnusedMembers(TempCache cache, SharedProgramInstanceData sharedProgramInstanceData, VarBuffer buffer)
 	{
 		if(arrChildren == null)	// Final node
-		{	
+		{
 			int nNbDim = getNbDim();
 			if(nNbDim == 0)
 			{
@@ -362,7 +354,7 @@ public abstract class VarDefBuffer extends VarDefBase
 			{
 				int nNbX = getMaxIndexAtDim(0);
 				for(int x=0; x<nNbX; x++)
-				{					
+				{
 					VarDefBuffer varDefItem = getCachedGetAt(cache, x+1);
 					if(varDefItem != null)
 						varDefItem.setInitialValueAndClearUnusedMembers(sharedProgramInstanceData, buffer);
@@ -420,11 +412,11 @@ public abstract class VarDefBuffer extends VarDefBase
 			}
 			setInitialValueAndClearUnusedMembers(sharedProgramInstanceData, buffer);
 		}
-	}	
-	
+	}
+
 	private void setInitialValueAndClearUnusedMembers(SharedProgramInstanceData sharedProgramInstanceData, VarBuffer buffer)
 	{
-		VarBufferPos bufferPos = new VarBufferPos(buffer, nDefaultAbsolutePosition); 
+		VarBufferPos bufferPos = new VarBufferPos(buffer, nDefaultAbsolutePosition);
 		CInitialValue initialValue = sharedProgramInstanceData.getInitialValue(getId());
 		if(initialValue != null)
 		{
@@ -433,23 +425,23 @@ public abstract class VarDefBuffer extends VarDefBase
 				char c = 0;
 				String cs = initialValue.genericValue.getAsString();
 				if(cs.length() > 0)
-					c = cs.charAt(0); 
+					c = cs.charAt(0);
 				writeRepeatingchar(bufferPos, c);
 			}
 			else
 			{
 				String cs = initialValue.genericValue.getAsString();
 				write(bufferPos, cs);
-			}			
+			}
 		}
 	}
-	
-	
-	
+
+
+
 //	void initializeItemAndChildren(ProgramManager programManager, InitializeManager initializeManager)
 //	{
 //		if(arrChildren == null)	// Final node
-//		{	
+//		{
 //			int nNbTotalItems = getNbTotalItemsInAllDim();
 //			for(int n=0; n<nNbTotalItems; n++)
 //			{
@@ -469,11 +461,11 @@ public abstract class VarDefBuffer extends VarDefBase
 //			}
 //		}
 //	}
-	
+
 	void moveCorrespondingItemAndChildren(MoveCorrespondingEntryManager manager, SharedProgramInstanceData sharedProgramInstanceData, BaseProgramManager programManager, VarDefBase varDefDestGroup, int nSourceOffset, int nDestOffset)
 	{
 		if(arrChildren == null)	// Final node
-		{	
+		{
 			String csSourceName = getUnprefixedUnindexedName(sharedProgramInstanceData).toUpperCase();
 			// Find in destination the child with the same name, if it exists
 			VarDefBase varDefItemDest = varDefDestGroup.getNamedChild(sharedProgramInstanceData, csSourceName);
@@ -485,7 +477,7 @@ public abstract class VarDefBuffer extends VarDefBase
 					MoveCorrespondingEntry moveCorrespondingEntry = new MoveCorrespondingEntry(this, varDefItemDest);
 					manager.addEntry(moveCorrespondingEntry);
 				}
-				
+
 				VarBase varSource = programManager.getVarFullName(this);
 				VarBase varDest = programManager.getVarFullName(varDefItemDest);
 				varSource.bufferPos.nAbsolutePosition += nSourceOffset;
@@ -506,37 +498,37 @@ public abstract class VarDefBuffer extends VarDefBase
 			}
 		}
 	}
-	
+
 //	void initializeUsingCache(VarBufferPos varBufferPos, InitializeCache initializeCache)	//, int nOffset)
 //	{
 //		initializeCache.applyItems(varBufferPos, varBufferPos.nAbsolutePosition);	//, nOffset);
-//	}	
-	 
+//	}
+
 //	void initializeItemAndChildren(VarBufferPos varBufferPos, InitializeManager initializeManager, int nOffset)
 //	{
-//		initializeItemAndChildren(varBufferPos, initializeManager, nOffset, null);		
+//		initializeItemAndChildren(varBufferPos, initializeManager, nOffset, null);
 //	}
-	
+
 	void initializeItemAndChildren(VarBufferPos varBufferPos, InitializeManager initializeManager, int nOffset, InitializeCache initializeCache)
 	{
 		int nOldAbsolutePosition = varBufferPos.nAbsolutePosition;
 		//char acOldBuffer[] = varBufferPos.getCharArray();
 		//boolean bOldShared = varBufferPos.isShared();
-		
+
 		TempCache cache = TempCacheLocator.getTLSTempCache();
 		initializeItemAndChildren(cache, varBufferPos, initializeManager, nOffset, getTempNbDim(), initializeCache);
-		
+
 		varBufferPos.restore(nOldAbsolutePosition, varBufferPos.acBuffer);	//, varBufferPos.isShared());
 	}
-	
+
 	private void initializeItemAndChildren(TempCache cache, VarBufferPos varBufferPos, InitializeManager initializeManager, int nOffset, int nNbDimUsed, InitializeCache initializeCache)
-	{		
+	{
 		if(arrChildren == null)	// Final node
-		{	
+		{
 			//int nNbDim = getNbDim();
-			int nNbDim = getNbDim(); 
+			int nNbDim = getNbDim();
 			int nNbDimRemaining = nNbDim - nNbDimUsed;
-			
+
 			if(nNbDimRemaining == 0)
 			{
 				tryInitialize(varBufferPos, initializeManager, nOffset, initializeCache);
@@ -551,7 +543,7 @@ public abstract class VarDefBuffer extends VarDefBase
 					if(varDefItem != null)
 						varDefItem.tryInitialize(varBufferPos, initializeManager, nOffset, initializeCache);
 					if(cache != null)
-						cache.resetTempVarIndex(varDefItem.getTypeId());					
+						cache.resetTempVarIndex(varDefItem.getTypeId());
 				}
 			}
 			else if(nNbDimRemaining == 2)
@@ -593,7 +585,7 @@ public abstract class VarDefBuffer extends VarDefBase
 				}
 			}
 			else if(nNbDimRemaining < 0)	// Indexed item initializied (x.getAt(n)); the offset is alreday managed
-			{				
+			{
 				tryInitialize(varBufferPos, initializeManager, 0, initializeCache);
 			}
 		}
@@ -604,7 +596,7 @@ public abstract class VarDefBuffer extends VarDefBase
 			{
 				VarDefBuffer varDefChild = getChild(nChild);
 				if(varDefChild != null)
-					if(!varDefChild.isARedefine()) 
+					if(!varDefChild.isARedefine())
 						varDefChild.initializeItemAndChildren(cache, varBufferPos, initializeManager, nOffset, nNbDimUsed, initializeCache);
 			}
 		}
@@ -620,11 +612,11 @@ public abstract class VarDefBuffer extends VarDefBase
 //			assertIfFalse(b);
 			//if(b)
 				initializeManager.initialize(varBufferPos, this, nOffset, initializeCache);
-			
+
 			//initializeManager.initialize(varBufferPos, this, nOffset);
 		}
 	}
-	
+
 //	private void tryInitialize(ProgramManager programManager, InitializeManager initializeManager)
 //	{
 //		if(varDefRedefinOrigin == null && !bFiller)
@@ -633,49 +625,49 @@ public abstract class VarDefBuffer extends VarDefBase
 //			initializeManager.initialize(varChild.bufferPos, this);
 //		}
 //	}
-	
+
 	protected int writeRepeatingchar(VarBufferPos buffer, char c)
 	{
 		return buffer.writeRepeatingCharAt(buffer.nAbsolutePosition, c, nTotalSize);
-	}	
-	
+	}
+
 	protected int writeRepeatingcharAtOffset(VarBufferPos buffer, int nOffset, char c)
 	{
 		return buffer.writeRepeatingCharAt(buffer.nAbsolutePosition+nOffset, c, nTotalSize);
 	}
-	
+
 	protected int writeRepeatingcharAtOffsetWithLength(VarBufferPos buffer, int nOffset, char c, int nNbBytes)
 	{
 		return buffer.writeRepeatingCharAt(buffer.nAbsolutePosition+nOffset, c, nNbBytes);
-	}	
-	
+	}
+
 	protected void writeRepeatingCharUpToEnd(VarBufferPos buffer, char c, int nOffsetPosition, int nNbChar)
 	{
 		int nMaxCharOnRight = nTotalSize - nOffsetPosition;
 		int nNbCharsToWrite = Math.min(nMaxCharOnRight, nNbChar);
 		buffer.writeRepeatingCharAt(buffer.nAbsolutePosition+nOffsetPosition, c, nNbCharsToWrite);
 	}
-	
+
 	protected int internalWriteAtOffsetPosition(VarBufferPos buffer, String csValue, int nOffset, int nNbChar, char cPad)
 	{
 		int nMaxCharOnRight = nTotalSize - nOffset;
 		int nNbCharsToWrite = Math.min(nMaxCharOnRight, nNbChar);
 		return internalWriteRightPadding(buffer, buffer.nAbsolutePosition+nOffset, nNbCharsToWrite, csValue, cPad);
-	}	
-	
+	}
+
 	protected int internalWriteSubstringComp0(VarBufferPos buffer, String csValue, int nOffset, int nNbChar)
 	{
 		int nMaxCharOnRight = nTotalSize - nOffset;
 		int nNbCharsToWrite = Math.min(nMaxCharOnRight, nNbChar);
 		return internalWriteNoPadding(buffer, buffer.nAbsolutePosition+nOffset, nNbCharsToWrite, csValue);
-	}	
-	
+	}
+
 	public double getDouble(VarBufferPos buffer)
 	{
 		Dec dec = getAsDecodedDec(buffer);
 		return dec.getAsDouble();
 	}
-	
+
 	public long getUnsignedLong(VarBufferPos buffer)
 	{
 		long l = getAsDecodedLong(buffer);
@@ -683,13 +675,13 @@ public abstract class VarDefBuffer extends VarDefBase
 			return -l;
 		return l;
 	}
-	
+
 	public int getUnsignedInt(VarBufferPos buffer)
 	{
 		int n = getAsDecodedUnsignedInt(buffer);
 		return n;
 	}
-	
+
 	public Dec getUnsignedDec(VarBufferPos buffer)
 	{
 		Dec dec = getAsDecodedDec(buffer);
@@ -706,9 +698,9 @@ public abstract class VarDefBuffer extends VarDefBase
 	abstract CStr getDottedSignedStringAsSQLCol(VarBufferPos buffer);
 	abstract CStr getAsDecodedString(VarBufferPos buffer);
 	abstract CStr getAsAlphaNumString(VarBufferPos bufferSource);
-	
+
 	//abstract VarDefBuffer deepDuplicate();
-	
+
 	abstract public void inc(VarBufferPos buffer, int n);
 	abstract public void inc(VarBufferPos buffer, BigDecimal bdStep);
 
@@ -716,12 +708,12 @@ public abstract class VarDefBuffer extends VarDefBase
 	abstract void write(VarBufferPos buffer, CobolConstantSpace cst);
 	abstract void write(VarBufferPos buffer, CobolConstantLowValue cst);
 	abstract void write(VarBufferPos buffer, CobolConstantHighValue cst);
-	
+
 	abstract void write(VarBufferPos buffer, CobolConstantZero cst, int nOffsetPosition, int nNbChar);
 	abstract void write(VarBufferPos buffer, CobolConstantSpace cst, int nOffsetPosition, int nNbChar);
 	abstract void write(VarBufferPos buffer, CobolConstantLowValue cst, int nOffsetPosition, int nNbChar);
 	abstract void write(VarBufferPos buffer, CobolConstantHighValue cst, int nOffsetPosition, int nNbChar);
-		
+
 	abstract void write(VarBufferPos buffer, char c);
 	public abstract void write(VarBufferPos buffer, int n);
 	public abstract void write(VarBufferPos buffer, long l);
@@ -729,14 +721,14 @@ public abstract class VarDefBuffer extends VarDefBase
 	public abstract void write(VarBufferPos buffer, String cs);
 	abstract void write(VarBufferPos buffer, Dec dec);
 	public abstract void write(VarBufferPos buffer, BigDecimal bigDecimal);
-	
+
 	abstract void write(VarBufferPos buffer, String csValue, int nOffsetPosition, int nNbChar);
-	
+
 	abstract void writeAndFill(VarBufferPos buffer, char c);
 
 	abstract public void moveIntoSameType(VarBufferPos bufferPosDest, VarDefBuffer varDefSource, VarBufferPos bufferSource);
-	
-	abstract void transfer(VarBufferPos bufferSource, VarAndEdit Dest);	
+
+	abstract void transfer(VarBufferPos bufferSource, VarAndEdit Dest);
 
 	abstract void write(VarBufferPos buffer, VarDefG varSource, VarBufferPos bufferSource);
 	abstract void write(VarBufferPos buffer, VarDefX varSource, VarBufferPos bufferSource);
@@ -753,7 +745,7 @@ public abstract class VarDefBuffer extends VarDefBase
 	abstract void write(VarBufferPos buffer, VarDefNumIntComp3 varSource, VarBufferPos bufferSource);
 	abstract void write(VarBufferPos buffer, VarDefNumIntComp3Long varSource, VarBufferPos bufferSource);
 	abstract void write(VarBufferPos buffer, VarDefNumIntComp4 varSource, VarBufferPos bufferSource);
-	abstract void write(VarBufferPos buffer, VarDefNumIntComp4Long varSource, VarBufferPos bufferSource);	
+	abstract void write(VarBufferPos buffer, VarDefNumIntComp4Long varSource, VarBufferPos bufferSource);
 	abstract void write(VarBufferPos buffer, VarDefNumIntSignComp0 varSource, VarBufferPos bufferSource);
 	abstract void write(VarBufferPos buffer, VarDefNumIntSignComp0Long varSource, VarBufferPos bufferSource);
 	abstract void write(VarBufferPos buffer, VarDefNumIntSignComp3 varSource, VarBufferPos bufferSource);
@@ -772,23 +764,23 @@ public abstract class VarDefBuffer extends VarDefBase
 	abstract void write(VarBufferPos buffer, VarDefFPacNumIntSignComp3 varSource, VarBufferPos bufferSource);
 	abstract void write(VarBufferPos buffer, VarDefFPacAlphaNum varSource, VarBufferPos bufferSource);
 	abstract void write(VarBufferPos buffer, VarDefFPacRaw varSource, VarBufferPos bufferSource);
-	
+
 //	abstract void initialize(VarBufferPos buffer);
 //	abstract void initialize(VarBufferPos buffer, String cs);
 //	abstract void initialize(VarBufferPos buffer, int n);
-	
+
 	//abstract void initializeEdited(VarBufferPos buffer, String cs);
 	//abstract void initializeEdited(VarBufferPos buffer, int n);
 
 	abstract void initializeAtOffset(VarBufferPos buffer, int nOffset, InitializeCache initializeCache);
 	abstract void initializeAtOffset(VarBufferPos buffer, int nOffset, int n);
 	abstract void initializeAtOffset(VarBufferPos buffer, int nOffset, String cs);
-	
+
 	abstract void initializeEditedAtOffset(VarBufferPos buffer, int nOffset, int nValue);
 	abstract void initializeEditedAtOffset(VarBufferPos buffer, int nOffset, double dValue);
-	
+
 	abstract boolean isConvertibleInEbcdic();
-	
+
 	abstract int compare(ComparisonMode mode, VarBufferPos bufferSource, VarAndEdit var2);
 	abstract int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefG varSource, VarBufferPos buffer1);
 	abstract int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefX varSource, VarBufferPos buffer1);
@@ -820,13 +812,13 @@ public abstract class VarDefBuffer extends VarDefBase
 	abstract int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumEdited varSource, VarBufferPos buffer1);
 	abstract int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefFPacAlphaNum varSource, VarBufferPos buffer1);
 	abstract int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefFPacRaw varSource, VarBufferPos buffer1);
-	
+
 	abstract boolean isNumeric(VarBufferPos buffer);
 	abstract boolean isAlphabetic(VarBufferPos buffer);
-	
-	
+
+
 	abstract public String digits(VarBufferPos buffer);
-	
+
 	public boolean isEqualWithSameTypeTo(VarBufferPos buffer1, VarDefBuffer varDefBuffer2, VarBufferPos buffer2)
 	{
 		// Same length
@@ -839,7 +831,7 @@ public abstract class VarDefBuffer extends VarDefBase
 		}
 		return true;
 	}
-	
+
 	protected int internalCompare(int n1, int n2)
 	{
 		if(n1 == n2)
@@ -848,7 +840,7 @@ public abstract class VarDefBuffer extends VarDefBase
 			return -1;
 		return 1;
 	}
-	
+
 	protected int internalCompare(long l1, long l2)
 	{
 		if(l1 == l2)
@@ -865,9 +857,9 @@ public abstract class VarDefBuffer extends VarDefBase
 			return 0;
 		if(n < 0)	// d2 < n1
 			return 1;
-		return -1;		
+		return -1;
 	}
-	
+
 	protected int internalCompare(long l1, Dec d2)
 	{
 		int n = d2.compare(l1);
@@ -875,68 +867,68 @@ public abstract class VarDefBuffer extends VarDefBase
 			return 0;
 		if(n < 0)	// d2 < n1
 			return 1;
-		return -1;		
+		return -1;
 	}
-	
+
 	protected int internalCompare(Dec d1, int n2)
 	{
 		return d1.compare(n2);
 	}
-	
+
 	protected int internalCompare(Dec d1, long l2)
 	{
 		return d1.compare(l2);
 	}
-	
+
 	protected int internalCompare(Dec d1, Dec d2)
 	{
 		return d1.compare(d2);
 	}
-	
+
 	protected int internalCompare(ComparisonMode mode, String cs1, String cs2)
 	{
 		return StringAsciiEbcdicUtil.compare(mode, cs1, cs2);
 	}
-	
+
 	protected int internalCompare(ComparisonMode mode, CStr cs1, CStr cs2)
 	{
 		return StringAsciiEbcdicUtil.compare(mode, cs1, cs2);
 	}
-	
+
 	protected boolean internalIsRawStringNumeric(VarBufferPos buffer)
 	{
 		CStr cs = buffer.getBodyCStr(this);
 		boolean b = cs.isOnlyNumeric();
 		return b;
 //		String cs = getRawStringExcludingHeader(buffer);
-//		
+//
 //		int nLg = cs.length();
 //		for(int n=0; n<nLg; n++)
 //		{
 //			char c = cs.charAt(n);
 //			if(!((c >= '0' && c <= '9') || c == '+' || c == '-' ))
-//				return false;  
+//				return false;
 //		}
 //		return true;
 	}
-	
+
 	protected boolean internalIsRawStringAlphabetic(VarBufferPos buffer)
 	{
 		CStr cs = buffer.getBodyCStr(this);
 		return cs.isOnlyAlphabetic();
-//		
+//
 //		String cs = getRawStringExcludingHeader(buffer);
-//		
+//
 //		int nLg = cs.length();
 //		for(int n=0; n<nLg; n++)
 //		{
 //			char c = cs.charAt(n);
 //			if(!((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || c == ' '))
-//				return false;  
+//				return false;
 //		}
 //		return true;
 	}
-	
+
 	static int getDecodedEditAttributes(InternalCharBuffer buffer, int nPos)
 	{
 		// Header is:
@@ -948,8 +940,8 @@ public abstract class VarDefBuffer extends VarDefBase
 		int nAttributes = buffer.getIntAt(nPos);
 		return nAttributes;
 	}
-	
-	static char getDecodedEditFlag(InternalCharBuffer buffer, int nPos) 
+
+	static char getDecodedEditFlag(InternalCharBuffer buffer, int nPos)
 	{
 		// Header is:
 		// 4 char for attributes
@@ -974,9 +966,9 @@ public abstract class VarDefBuffer extends VarDefBase
 //			int gg = 0;
 //		}
 //	}
-	
+
 	void shiftAbsolutePosition(VarBase var, int nShift, ArrayList<VarDefBase> arrVarShifted)
-	{		
+	{
 		boolean isthisInArray = isThisInArray(arrVarShifted);
 		if(!isthisInArray)
 		{
@@ -985,7 +977,7 @@ public abstract class VarDefBuffer extends VarDefBase
 			Log.logCritical("var shifted At pos"+var.bufferPos.nAbsolutePosition);
 		}
 	}
-	
+
 	private boolean isThisInArray(ArrayList<VarDefBase> arrVarShifted)
 	{
 		int nNbItems = arrVarShifted.size();
@@ -996,7 +988,7 @@ public abstract class VarDefBuffer extends VarDefBase
 		}
 		return false;
 	}
-		
+
 //	boolean DEBUGCheckRangeWithinToParentRange()
 //	{
 //		if(varDefParent != null)
@@ -1008,7 +1000,7 @@ public abstract class VarDefBuffer extends VarDefBase
 //				Assert("Child: '" + toString() + "' starts before it's parent variable: " + varDefParent.toString() + "'");	// We are not inside parent range
 //				return false;
 //			}
-//			
+//
 //			int nLastPosParent = nStartPosParent + varDefParent.getHeaderLength()+varDefParent.getBodyLength() - 1;
 //			int nLastPos = nStartPos + getHeaderLength()+getBodyLength() - 1;
 //			if(nLastPos > nLastPosParent)
@@ -1017,31 +1009,31 @@ public abstract class VarDefBuffer extends VarDefBase
 //				return false;
 //			}
 //		}
-//		return true;		
+//		return true;
 //	}
-	
+
 //	boolean DEBUGCheckParentage()
 //	{
 //		if(varDefParent != null)
 //		{
-//			boolean b = varDefParent.isChildKnown(this);	// Check if our parent known us 
+//			boolean b = varDefParent.isChildKnown(this);	// Check if our parent known us
 //			if(!b)
 //				Assert("Child: '" + toString() + "' isn't correctly parented by: '" + varDefParent.toString() + "'");	// We are not inside parent range
 //			b = DEBUGCheckRangeWithinToParentRange();	// Chck if our range is withinparent range
 //			return b;
 //		}
-//		return true;		
+//		return true;
 //	}
-	
+
 	VarDefBuffer getVarDefEditInMapOrigin()
 	{
 		return null;
 	}
-	
+
 //	void restoreLinkageOriginalPosition(ProgramManager programManager)
 //	{
 //		if(arrChildren == null)	// Final node
-//		{	
+//		{
 //			int nNbTotalItems = getNbTotalItemsInAllDim();
 //			for(int n=0; n<nNbTotalItems; n++)
 //			{
@@ -1059,17 +1051,17 @@ public abstract class VarDefBuffer extends VarDefBase
 //				if(varDefChild != null)
 //					varDefChild.restoreLinkageOriginalPosition(programManager);
 //			}
-//		}	
+//		}
 //		restoreLinkageVarOriginalPosition(programManager);
 //	}
-	
+
 //	private void restoreLinkageVarOriginalPosition(ProgramManager programManager)
 //	{
 //		VarBase varChild = programManager.getVarFullName(this);
 //		varChild.bufferPos.nAbsolutePosition = nDefaultAbsolutePosition;
 //		int n = 0;
 //	}
-	
+
 	public boolean isLongVarCharVarStructure()
 	{
 		if(arrChildren != null)
@@ -1087,24 +1079,24 @@ public abstract class VarDefBuffer extends VarDefBase
 		}
 		return false;
 	}
-	
+
 	boolean isTypedLongVarCharLength()
 	{
 		return false;
 	}
-	
+
 	boolean isTypedLongVarCharText()
 	{
 		return false;
 	}
-	
+
 	public int getNbDigitDecimal()
 	{
 		return -1;
 	}
-	
+
 	public void writeToFile(BaseProgramManager programManager, BaseDataFile dataFile, VarBufferPos bufferPos, boolean bConvertUnicodeToEbcdic)
-	{		
+	{
 		if(arrChildren == null)	// Final node
 		{
 			VarBase var = programManager.getVarFullName(this);
@@ -1127,14 +1119,14 @@ public abstract class VarDefBuffer extends VarDefBase
 			}
 		}
 	}
-	
+
 //	public boolean readFromFile(ProgramManager programManager, DataFile dataFile, VarBufferPos bufferPos, boolean bConvertEbcdicToUnicode)
-//	{		
+//	{
 //		// Read the line
 //		VarBase var = programManager.getVarFullName(this);
 //		int nSize = var.getTotalSize();
 //		dataFile.readLine(nSize);
-//		
+//
 //		if(arrChildren == null)	// Final node
 //		{
 //			VarBase var = programManager.getVarFullName(this);
@@ -1158,7 +1150,7 @@ public abstract class VarDefBuffer extends VarDefBase
 //		}
 //		return dataFile.isEOF();
 //	}
-	
+
 	public int getOffsetFromLevel01()
 	{
 		VarDefBase varDefLevel01 = getParentAtLevel01();
@@ -1169,8 +1161,8 @@ public abstract class VarDefBuffer extends VarDefBase
 			return nPos - nLevel01Pos;
 		}
 		return 0;
-	}	
-	
+	}
+
 
 	Var getRecordDependingVar()
 	{
@@ -1178,7 +1170,7 @@ public abstract class VarDefBuffer extends VarDefBase
 			return occursDef.getRecordDependingVar();
 		return null;
 	}
-	
+
 	int getRecordDependingLength(VarBufferPos buffer)
 	{
 		Var varRecordDependingLength = getRecordDependingVar();
@@ -1189,10 +1181,10 @@ public abstract class VarDefBuffer extends VarDefBase
 		}
 		return getLength();
 	}
-	
+
 	public void setTotalSize(int n)
 	{
 		nTotalSize = n;
 	}
-	
+
 }

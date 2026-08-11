@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 7 sept. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements.CICS;
 
 import diagnostic.DiagnosticSink;
@@ -31,8 +25,6 @@ import utils.Transcoder;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CExecCICSStart extends CCobolElement
 {
@@ -85,19 +77,19 @@ public class CExecCICSStart extends CCobolElement
 		CEntityCICSStart start = factory.NewEntityCICSStart(getLine(), TID);
 		TID.RegisterReadingAction(start) ;
 		parent.AddChild(start);
-				
+
 		start.setVerified(ischecked) ;
 		if (interval != null)
 		{
-			CDataEntity inter = interval.GetDataEntity(getLine(), factory); 
+			CDataEntity inter = interval.GetDataEntity(getLine(), factory);
 			start.SetInterval(inter) ;
 		}
 		else if (time != null)
 		{
-			CDataEntity inter = time.GetDataEntity(getLine(), factory); 
+			CDataEntity inter = time.GetDataEntity(getLine(), factory);
 			start.SetTime(inter) ;
 		}
-		
+
 		if (from != null)
 		{
 			CDataEntity dataFrom = from.GetDataEntity(getLine(), factory);
@@ -108,13 +100,13 @@ public class CExecCICSStart extends CCobolElement
 			}
 			start.SetDataFrom(dataFrom, dataLength);
 		}
-		
+
 		if (termID != null)
 		{
 			CDataEntity term = termID.GetDataEntity(getLine(), factory);
 			start.SetTermID(term);
 		}
-		
+
 		if (sysID != null)
 		{
 			CDataEntity sys = sysID.GetDataEntity(getLine(), factory);
@@ -133,7 +125,7 @@ public class CExecCICSStart extends CCobolElement
 		{
 			tok = GetNext();
 		}
-		
+
 		boolean isdone = false ;
 		while (!isdone)
 		{
@@ -241,8 +233,8 @@ public class CExecCICSStart extends CCobolElement
 				isdone = true ;
 			}
 		}
-		
-		
+
+
 		if (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
 		{
 			Transcoder.logError(getLine(), "Error while parsing EXEC CICS START");
@@ -302,12 +294,12 @@ public class CExecCICSStart extends CCobolElement
 		}
 		return eSt;
 	}
-	
+
 	protected CTerminal transID = null ;
 	protected CTerminal length = null ;
 	protected CTerminal from = null ;
 	protected CTerminal termID = null ;
 	protected CTerminal sysID = null ;
-	protected CTerminal interval = null ; 
+	protected CTerminal interval = null ;
 	protected CTerminal time = null ;
 }

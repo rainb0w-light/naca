@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 12 ao�t 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements;
 
 import lexer.CBaseToken;
@@ -29,8 +23,6 @@ import utils.Transcoder;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CConfigurationSection extends CCommentContainer
 {
@@ -127,12 +119,12 @@ public class CConfigurationSection extends CCommentContainer
 					if (tok.GetKeyword() == CCobolKeywordList.IS)
 					{
 						GetNext();
-						CIdentifier id2 = ReadIdentifier();	
+						CIdentifier id2 = ReadIdentifier();
 						tok = GetCurrentToken() ;
 						if (tok.GetType() == CTokenType.DOT)
 						{
 							GetNext();
-						}					
+						}
 					}
 				}
 			}

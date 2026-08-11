@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
-/*
- * Created on 8 juil. 2005
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 package nacaLib.sqlSupport;
 
 import java.sql.CallableStatement;
@@ -25,8 +19,6 @@ import jlib.sql.DbPreparedStatement;
 /**
  * @author PJD
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 public class SQLConnection extends DbConnectionBase
 {
@@ -34,18 +26,18 @@ public class SQLConnection extends DbConnectionBase
 	{
 		super(conn, csPrefId, csEnv, bUseCachedStatements, bUseJmx, dbDriverId);
 	}
-	
+
 	public DbPreparedStatement createAndPrepare(String csQuery, boolean bHoldability)
 	{
 		CSQLPreparedStatement preparedStatement = new CSQLPreparedStatement(/*this*/);
 		if(preparedStatement.prepare(this, csQuery, bHoldability))
 		{
-			//preparedStatement.setSemanticContextDef(BaseResourceManager.getSemanticContextDef()); 
+			//preparedStatement.setSemanticContextDef(BaseResourceManager.getSemanticContextDef());
 			return preparedStatement;
 		}
 		return null;
 	}
-		
+
 	public boolean prepareCallableStatement(DbPreparedCallableStatement preparedCallableStatement, String csStoredProcName, int nNbParamToProvide)
 	{
 		String sql = "CALL " + csStoredProcName;
@@ -59,7 +51,7 @@ public class SQLConnection extends DbConnectionBase
 		}
 		if(n != 0)
 			sql += ")";
-		
+
 		try
 		{
 			CallableStatement callableStatement = getDbConnection().prepareCall(sql);
@@ -78,7 +70,7 @@ public class SQLConnection extends DbConnectionBase
 	 * @see jlib.sql.DbConnectionBase#createAndPrepareWithException(java.lang.String, boolean)
 	 */
 	@Override
-	public DbPreparedStatement createAndPrepareWithException(String csQuery, boolean bHoldability) 
+	public DbPreparedStatement createAndPrepareWithException(String csQuery, boolean bHoldability)
 		throws TechnicalException
 	{
 		return createAndPrepare(csQuery, bHoldability);

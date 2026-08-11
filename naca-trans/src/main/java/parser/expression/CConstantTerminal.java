@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on Jul 27, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.expression;
 
 import lexer.Cobol.CCobolConstantList;
@@ -23,8 +17,6 @@ import semantic.CBaseEntityFactory;
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CConstantTerminal extends CTerminal
 {
@@ -49,7 +41,7 @@ public class CConstantTerminal extends CTerminal
 	 */
 	public void ExportTo(Element e, Document root)
 	{
-		e.setAttribute("Constant", csValue) ;		
+		e.setAttribute("Constant", csValue) ;
 	}
 	/* (non-Javadoc)
 	 * @see parser.expression.CTerminal#IsReference()
@@ -58,19 +50,19 @@ public class CConstantTerminal extends CTerminal
 	{
 		return false;
 	}
-	
+
 	public boolean IsOne()
 	{
 		return false;
 	}
-	
+
 	public boolean IsMinusOne()
 	{
 		return false;
 	}
 
 
-	
+
 	/* (non-Javadoc)
 	 * @see parser.expression.CTerminal#ExportTo(semantic.CBaseExporter)
 	 */

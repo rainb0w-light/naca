@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 30 juil. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.BMS;
 
 import jlib.xml.Tag;
@@ -29,8 +23,6 @@ import utils.Transcoder;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public abstract class CBMSElement extends CBaseElement
 {
@@ -41,12 +33,12 @@ public abstract class CBMSElement extends CBaseElement
 		MAP,
 		FIELD,
 		GROUP ;
-	} 
+	}
 	public abstract EBMSElementType GetType() ;
-	
-	
+
+
 	//public abstract CBaseResourceEntity DoSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory) ;
-	
+
 	protected CBMSElement(String name, int line)
 	{
 		super(line) ;
@@ -57,7 +49,7 @@ public abstract class CBMSElement extends CBaseElement
 	{
 		return name ;
 	}
-	
+
 	protected void setName(String cs)
 	{
 		name = cs;
@@ -93,7 +85,7 @@ public abstract class CBMSElement extends CBaseElement
 	}
 
 	protected abstract boolean InterpretKeyword(CReservedKeyword kw, CTokenList lstTokens) ;
-	
+
 	protected boolean DoParsing()
 	{
 		boolean isdone = false ;
@@ -122,7 +114,7 @@ public abstract class CBMSElement extends CBaseElement
 				else
 				{
 					isdone = true ;
-				}					
+				}
 			}
 			else if(tokMapSet.GetType() == CTokenType.STAR)
 			{
@@ -148,8 +140,8 @@ public abstract class CBMSElement extends CBaseElement
 			{
 				Transcoder.logError(getLine(), "Unrecognized token : " + tokMapSet.GetValue());
 				lstTokens.GetNext() ;
-			}  
-		} 
+			}
+		}
 		return true ;
 	}
 
@@ -162,10 +154,10 @@ public abstract class CBMSElement extends CBaseElement
 	{
 		return null;
 	}
-	
+
 	public abstract CResourceStrings GetResourceStrings() ;
 	public abstract void SetResourceStrings(CResourceStrings res) ;
-	
+
 	// Used form XML resource loading and export as .res and .java
 	public abstract CBMSElement parseXMLResource(Tag tagCurrent);
 	public abstract CBMSElement loadTagParameters(Tag tagCurrent);

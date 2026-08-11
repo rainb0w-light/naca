@@ -7,15 +7,11 @@
 /*
  * Creat/d on 15 oct. 2004
  *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 package nacaLib.varEx;
 
@@ -29,12 +25,12 @@ public class MapRedefine extends Var
 		super(declareTypeMapRedefine);
 		formRedefineOrigin = declareTypeMapRedefine.formRedefineOrigin;
 	}
-	
+
 	protected MapRedefine()
 	{
 		super();
 	}
-	
+
 	protected VarBase allocCopy()
 	{
 		MapRedefine v = new MapRedefine();
@@ -52,7 +48,7 @@ public class MapRedefine extends Var
 		//cstr.resetManagerCache();
 		return cs;
 	}
-	
+
 	public boolean hasType(VarTypeEnum e)
 	{
 		return false;
@@ -62,25 +58,25 @@ public class MapRedefine extends Var
 	{
 		varDef.varDefFormRedefineOrigin.encodeToVar(bufferPos, varDest);
 	}
-	
+
 	public void decodeFromVar(Var varSource)
 	{
 		varDef.varDefFormRedefineOrigin.decodeFromVar(bufferPos, varSource);
 	}
-	
+
 	public InternalCharBuffer encodeToCharBuffer()
 	{
 		int nDestLength = varDef.getBodyLength() + varDef.getHeaderLength();
 		VarDefForm varDefFormOrigin = varDef.varDefFormRedefineOrigin;
 		return varDefFormOrigin.encodeToCharBuffer(nDestLength);
 	}
-	
+
 	public void decodeFromCharBuffer(InternalCharBuffer charBufferSource)
 	{
 		VarDefForm varDefFormOrigin = varDef.varDefFormRedefineOrigin;
 		varDefFormOrigin.decodeFromCharBuffer(bufferPos, charBufferSource);
 	}
-	
+
 	public String getStringIncludingHeader()
 	{
 		CStr cstr = bufferPos.getOwnCStr(varDef.getLength());
@@ -89,7 +85,7 @@ public class MapRedefine extends Var
 		return cs;
 		//return varDef.getRawStringIncludingHeader(bufferPos);
 	}
-	
+
 	public void initialize()
 	{
 		if(formRedefineOrigin != null)
@@ -99,40 +95,40 @@ public class MapRedefine extends Var
 			// Was before optimizations: formRedefineOrigin.initialize();
 		}
 	}
-	
+
 	public int compareTo(int nValue)
 	{
 		int nVarValue = getInt();
 		return nVarValue - nValue;
 	}
-	
-	
+
+
 	public int compareTo(double dValue)
 	{
 		double varValue = getDouble();
 		double d = varValue - dValue;
-		if(d < -0.00001)	//Consider epsilon precision at 10 e-5 
+		if(d < -0.00001)	//Consider epsilon precision at 10 e-5
 			return -1;
 		else if(d > 0.00001)	//Consider epsilon precision at 10 e-5
 			return 1;
-		return 0;			
-	} 
-	
+		return 0;
+	}
+
 
 	protected byte[] convertUnicodeToEbcdic(char[] tChars)
 	{
 		return AsciiEbcdicConverter.noConvertUnicodeToEbcdic(tChars);
 	}
-	
+
 	protected char[] convertEbcdicToUnicode(byte[] tBytes)
 	{
 		return AsciiEbcdicConverter.noConvertEbcdicToUnicode(tBytes);
 	}
-	
+
 	public VarType getVarType()
 	{
 		return VarType.VarMapRedefine;
 	}
-	
+
 	Form formRedefineOrigin = null;
 }

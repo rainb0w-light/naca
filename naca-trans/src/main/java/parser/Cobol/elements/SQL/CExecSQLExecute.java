@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 15 sept. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements.SQL;
 
 import lexer.CBaseToken;
@@ -29,8 +23,6 @@ import semantic.SQL.CEntitySQLExecute;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CExecSQLExecute extends CBaseExecSQLAction
 {
@@ -55,7 +47,7 @@ public class CExecSQLExecute extends CBaseExecSQLAction
 	protected boolean DoParsing()
 	{
 		CBaseToken tok = GetNext() ;
-		
+
 		if (tok.GetKeyword() == CCobolKeywordList.IMMEDIATE)
 		{
 			tok = GetNext();
@@ -67,6 +59,6 @@ public class CExecSQLExecute extends CBaseExecSQLAction
 		}
 		return true ;
 	}
-	
+
 	protected CIdentifier idVar = null ;
 }

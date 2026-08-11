@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on Sep 27, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic.CICS;
 
 import semantic.CBaseActionEntity;
@@ -20,8 +14,6 @@ import utils.CobolTranscoder.Notifs.NotifDeclareUseCICSPreprocessor;
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CEntityCICSLink extends CBaseActionEntity
 {
@@ -41,19 +33,19 @@ public class CEntityCICSLink extends CBaseActionEntity
 			cat.RegisterCICSLink(this);
 		}
 	}
-	
+
 	public void SetProgramName(CDataEntity prgm, boolean bChecked)
 	{
 		refProgram = prgm ;
 		ischecked = bChecked ;
 	}
-	
+
 	protected boolean ischecked = false ;
 	protected CDataEntity refProgram = null ;
 	protected CDataEntity refCommArea = null ;
 	protected CDataEntity commAreaLength = null ;
 	protected CDataEntity commAreaDataLength = null ;
-	
+
 	public void SetCommArea(CDataEntity eCommArea, CDataEntity eCALength, CDataEntity eCADataLength)
 	{
 		refCommArea = eCommArea ;
@@ -62,7 +54,7 @@ public class CEntityCICSLink extends CBaseActionEntity
 	}
 	public boolean ignore()
 	{
-		return false; 
+		return false;
 	}
 	public void Clear()
 	{

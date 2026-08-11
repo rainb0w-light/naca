@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on Jul 16, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements;
 
 
@@ -24,8 +18,6 @@ import utils.CGlobalEntityCounter;
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CProcedure extends CBaseProcedure
 {
@@ -34,7 +26,7 @@ public class CProcedure extends CBaseProcedure
 		super(line);
 		csName = name ;
 	}
-	
+
 	protected boolean DoParsing()
 	{
 		CGlobalEntityCounter.GetInstance().CountCobolVerb("PROCEDURE") ;
@@ -49,7 +41,7 @@ public class CProcedure extends CBaseProcedure
 		eProc.setAttribute("Name", csName) ;
 		return eProc;
 	}
-	
+
 	protected String csName = "" ;
 
 	/* (non-Javadoc)

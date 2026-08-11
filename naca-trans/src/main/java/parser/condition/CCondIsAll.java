@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 12 August 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.condition;
 
 import org.w3c.dom.Document;
@@ -26,14 +20,12 @@ import semantic.expression.CEntityCondIsAll;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CCondIsAll extends CExpression
 {
 	protected CExpression term1 = null ;
 	protected CExpression term2 = null ;
-	
+
 	public CCondIsAll(int line, CExpression term1, CExpression term2)
 	{
 		super(line) ;
@@ -51,7 +43,7 @@ public class CCondIsAll extends CExpression
 	{
 		return 7;
 	}
-	
+
 	protected boolean CheckMembersBeforeExport()
 	{
 		boolean b = CheckMemberNotNull(term1);
@@ -137,7 +129,7 @@ public class CCondIsAll extends CExpression
 		return this ;
 	}
 	/**
-	 * 
+	 *
 	 */
 	public void setOpposite()
 	{

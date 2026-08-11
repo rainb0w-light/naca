@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on Sep 7, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements;
 
 import java.util.Vector;
@@ -33,8 +27,6 @@ import utils.Transcoder;
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class COpen extends CCobolElement
 {
@@ -73,7 +65,7 @@ public class COpen extends CCobolElement
 				}
 			}
 		}
-		
+
 	}
 	protected boolean DoParsing()
 	{
@@ -83,7 +75,7 @@ public class COpen extends CCobolElement
 			return false ;
 		}
 		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
-		
+
 		tok = GetNext() ;
 		boolean isdone = false ;
 		while (!isdone)
@@ -228,7 +220,7 @@ public class COpen extends CCobolElement
 		}
 		return eOpen;
 	}
-	
+
 	protected Vector<CIdentifier> forInput = null ;
 	protected Vector<CIdentifier> forOutput = null ;
 	protected Vector<CIdentifier> forAppend = null ;

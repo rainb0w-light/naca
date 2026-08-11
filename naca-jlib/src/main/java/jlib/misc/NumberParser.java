@@ -7,18 +7,9 @@
 package jlib.misc;
 
 
-/*
- * Created on 17 d�c. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
-
 /**
  * @author PJD
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class NumberParser
 {
@@ -26,16 +17,16 @@ public class NumberParser
 	{
 		if(s == null)
 			return 0;
-		else 
+		else
 		{
 			int nLength = s.length();
 			if(nLength == 0)
 				return 0;
-			
-			short sValue = 0;			
+
+			short sValue = 0;
 			int n = 0;
 			boolean isnegative = false;
-	
+
 			while(n < nLength)
 			{
 				char c = s.charAt(n);
@@ -49,26 +40,26 @@ public class NumberParser
 			}
 			if(isnegative)
 				return (short)-sValue;
-			return sValue;	
+			return sValue;
 		}
 	}
-	
+
 	public static int getAsInt(char c)
 	{
-		int nValue = 0; 
+		int nValue = 0;
 		if(c >= '0' && c <= '9')
 			nValue = c - '0';
-		return nValue; 
+		return nValue;
 	}
-	
+
 	public static int getAsUnsignedInt(char c)
 	{
-		int nValue = 0; 
+		int nValue = 0;
 		if(c >= '0' && c <= '9')
 			nValue = c - '0';
-		return nValue; 
+		return nValue;
 	}
-	
+
 	public static boolean getAsBoolean(String cs)
 	{
 		if(cs != null)
@@ -76,12 +67,12 @@ public class NumberParser
 				return true;
 		return false;
 	}
-	
+
 	public static int getAsInt(String s)
 	{
 		if(s == null)
 			return 0;
-		
+
 		int nLength = s.length();
 		int nValue = 0;
 		int n = 0;
@@ -103,7 +94,7 @@ public class NumberParser
 			}
 			else if(c == ' ');
 			else if(c == '\'');
-			else if(c == '+');					
+			else if(c == '+');
 			else if(c == '.')
 				break;
 			else if (n==0) // first char is not a digit
@@ -112,14 +103,14 @@ public class NumberParser
 		}
 		if(isnegative)
 			return -nValue;
-		return nValue;	
+		return nValue;
 	}
-	
+
 	public static int getAsUnsignedInt(String s)
 	{
 		if(s == null)
 			return 0;
-		
+
 		int nLength = s.length();
 		int nValue = 0;
 		int n = 0;
@@ -137,27 +128,27 @@ public class NumberParser
 				n++;
 				continue;
 			}
-			else if(c == ' ');					
-			else if(c == '+');					
+			else if(c == ' ');
+			else if(c == '+');
 			else if(c == '.')
 				break;
 			else if (n==0) // first char is not a digit
 				return 0 ;
 			n++;
 		}
-		return nValue;	
+		return nValue;
 	}
-	
+
 	public static long getAsLong(String s)
 	{
 		if(s == null)
 			return 0;
-		else 
+		else
 		{
 			int nLength = s.length();
 			if(nLength == 0)
 				return 0;
-	
+
 			long lValue = 0;
 			int n = 0;
 			boolean isnegative = false;
@@ -174,21 +165,21 @@ public class NumberParser
 			}
 			if(isnegative)
 				return -lValue;
-			return lValue;	
+			return lValue;
 		}
 	}
-	
-	
+
+
 	public static long getAsUnsignedLong(String s)
 	{
 		if(s == null)
 			return 0;
-		else 
+		else
 		{
 			int nLength = s.length();
 			if(nLength == 0)
 				return 0;
-	
+
 			long lValue = 0;
 			int n = 0;
 			while(n < nLength)
@@ -200,20 +191,20 @@ public class NumberParser
 					break;
 				n++;
 			}
-			return lValue;	
+			return lValue;
 		}
 	}
-	
+
 	public static double getAsDouble(String s)
 	{
 		if(s == null)
 			return 0;
-		else 
+		else
 		{
 			int nLength = s.length();
 			if(nLength == 0)
 				return 0.0;
-			
+
 			double nChunk[] = {0.0, 0.0};
 			int n = 0;
 			boolean isnegative = false;
@@ -236,15 +227,15 @@ public class NumberParser
 			}
 			double dec = nChunk[1];
 			dec = dec / Math.pow(10, nNbDecimals);
-			 
+
 			double d = (nChunk[0]) + dec;
-			
+
 			// Trunc at 6 digits below decimal point
 			d *= 100000.0;
-			d /= 100000.0; 
+			d /= 100000.0;
 			if(isnegative)
 				return -d;
-			return d;	
+			return d;
 		}
 	}
 }

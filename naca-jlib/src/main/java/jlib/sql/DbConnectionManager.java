@@ -12,8 +12,6 @@ import java.sql.*;
 /**
  * @author PJD
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 public class DbConnectionManager extends DbConnectionManagerBase
 {
@@ -28,4 +26,3 @@ public class DbConnectionManager extends DbConnectionManagerBase
 		return sqlConnection;
 	}
 }
-

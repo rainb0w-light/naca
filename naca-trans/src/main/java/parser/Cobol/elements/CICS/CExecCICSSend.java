@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 7 sept. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements.CICS;
 
 import lexer.CBaseToken;
@@ -32,8 +26,6 @@ import utils.Transcoder;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CExecCICSSend extends CCobolElement
 {
@@ -68,11 +60,11 @@ public class CExecCICSSend extends CCobolElement
 			CEntityCICSSendMap send = factory.NewEntityCICSSendMap(getLine());
 			parent.AddChild(send);
 			factory.programCatalog.RegisterMapSend(send) ;
-			
+
 			CDataEntity name = this.name.GetDataEntity(getLine(), factory);
 			send.SetName(name);
 			name.RegisterReadingAction(send);
-			
+
 			if (setName != null)
 			{
 				CDataEntity msname = setName.GetDataEntity(getLine(), factory);
@@ -110,7 +102,7 @@ public class CExecCICSSend extends CCobolElement
 					send.SetCursor(null);
 				}
 			}
-			
+
 			return send ;
 		}
 		else
@@ -136,7 +128,7 @@ public class CExecCICSSend extends CCobolElement
 		{
 			tok = GetNext();
 		}
-		
+
 		boolean isret = true ;
 		if (tok.GetValue().equals("MAP")) // MAP can't be defiend as keyword....
 		{
@@ -167,11 +159,11 @@ public class CExecCICSSend extends CCobolElement
 			{
 				cs += tok.GetDisplay() + " " ;
 				tok = GetNext() ;
-			}		
+			}
 			GetNext() ;
 			return true ;
 		}
-		
+
 		tok = GetCurrentToken() ;
 		if (!isret || tok.GetKeyword() != CCobolKeywordList.END_EXEC)
 		{
@@ -181,8 +173,8 @@ public class CExecCICSSend extends CCobolElement
 		StepNext() ;
 		return true ;
 	}
-	
-	
+
+
 	protected boolean ParseSendControl()
 	{
 		CBaseToken tok = GetCurrentToken() ;
@@ -237,8 +229,8 @@ public class CExecCICSSend extends CCobolElement
 		}
 		return true ;
 	}
-	
-	 
+
+
 	protected boolean ParseSend()
 	{
 		sendType = CCICSSendType.SEND ;
@@ -298,22 +290,22 @@ public class CExecCICSSend extends CCobolElement
 				tok = GetNext() ;
 				issendWait = true ;
 			}
-			else 
+			else
 			{
 				isdone = true ;
 			}
-		
+
 		}
 		return true ;
 	}
-	
+
 	protected boolean ParseSendMap()
 	{
 		CBaseToken tok = GetCurrentToken() ;
 		if (tok.GetValue().equals("MAP"))
 		{
 			tok = GetNext();
-		} 
+		}
 		//CGlobalEntityCounter.GetInstance().CountCICSCommand("SEND_MAP") ;
 		sendType = CCICSSendType.MAP ;
 		if (tok.GetType() == CTokenType.LEFT_BRACKET)
@@ -326,7 +318,7 @@ public class CExecCICSSend extends CCobolElement
 				tok = GetNext();
 			}
 		}
-		
+
 		boolean isdone = false ;
 		while (!isdone)
 		{
@@ -442,7 +434,7 @@ public class CExecCICSSend extends CCobolElement
 			Element eName = root.createElement("MapName");
 			e.appendChild(eName);
 			name.ExportTo(eName, root) ;
-			
+
 			if (setName != null)
 			{
 				Element eMS = root.createElement("MapSet");
@@ -572,7 +564,7 @@ public class CExecCICSSend extends CCobolElement
 	protected boolean issendErase = false ;
 	protected CTerminal sendLength = null ;
 	protected boolean issendWait = false ;
-	
+
 	// SEND MAP
 	protected CTerminal name = null ;
 	protected CTerminal setName = null ;
@@ -587,10 +579,10 @@ public class CExecCICSSend extends CCobolElement
 	protected boolean ismapAccum = false ;
 	protected boolean ismapPaging = false ;
 	protected CTerminal length = null ;
-	
+
 	// SEND PAGE
 	protected boolean ispageRetain = false ;
-	
+
 	// SEND CONTROL
 	protected boolean iscontrolErase = false ;
 	protected boolean iscontrolFreeKB = false ;

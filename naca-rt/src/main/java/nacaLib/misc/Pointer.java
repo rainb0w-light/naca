@@ -6,17 +6,9 @@
  */
 
 
-/*
- * Created on Nov 1, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 package nacaLib.misc;
 
@@ -29,6 +21,6 @@ public class Pointer extends CJMapObject
 	{
 		addressOf = v ;
 	}
-	
+
 	public VarAndEdit addressOf = null ;
 }

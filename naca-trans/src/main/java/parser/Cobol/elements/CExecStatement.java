@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on Jul 16, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements;
 
 import diagnostic.DiagnosticSink;
@@ -29,8 +23,6 @@ import utils.Transcoder;
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CExecStatement extends CCobolElement
 {
@@ -102,5 +94,5 @@ public class CExecStatement extends CCobolElement
 			"Generic EXEC has no defined Naca runtime semantics");
 		return null ;
 	}
-	
+
 }

@@ -13,18 +13,9 @@ import idea.onlinePrgEnv.OnlineSession;
 
 import org.w3c.dom.Document;
 
-/*
- * Created on 8 déc. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
-
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class View
 {
@@ -58,11 +49,11 @@ public class View
 			appSession.setXMLOutput(xmlOutput) ;	// 1ms per loop: should be true
 		}
 	}
-	
+
 	public void mergeOutputForServerdown(OnlineSession appSession)
 	{
 		OnlineResourceManager resManager = OnlineResourceManagerFactory.GetInstance() ;
-		
+
 		Document xmlData = appSession.getXMLData() ;
 		Document docServerDown = resManager.getMainPage("ServerDown") ;
 		if (docServerDown != null)
@@ -73,8 +64,8 @@ public class View
 			appSession.setXMLOutput(xmlOutput) ;	// 1ms per loop: should be true
 		}
 	}
-	
-	
+
+
 
 	/**
 	 * @param appSession
@@ -88,7 +79,7 @@ public class View
 			XMLMerger merger = XMLMergerManager.get(appSession);
 			merger.doUpdate(xmlOutput, xmlData) ;
 			XMLMergerManager.release(merger);
-			
+
 		}
 	}
 

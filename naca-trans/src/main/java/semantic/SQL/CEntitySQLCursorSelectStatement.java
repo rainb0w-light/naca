@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 19 ao�t 04
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic.SQL;
 import java.util.List;
 import java.util.Vector;
@@ -79,7 +73,7 @@ public class CEntitySQLCursorSelectStatement extends CBaseActionEntity
 			parameters.set(i, var) ;
 			var.RegisterReadingAction(this) ;
 			return true ;
-		} 
+		}
 		return false ;
 	}
 

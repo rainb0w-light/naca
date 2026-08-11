@@ -11,8 +11,6 @@
 /**
  * @author U930DI
  *
- * To change the template for th generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 package nacaLib.basePrgEnv;
 

@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 6 oct. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic.CICS;
 
 import semantic.CBaseActionEntity;
@@ -20,8 +14,6 @@ import utils.CobolTranscoder.Notifs.NotifDeclareUseCICSPreprocessor;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CEntityCICSReWrite extends CBaseActionEntity
 {
@@ -56,9 +48,9 @@ public class CEntityCICSReWrite extends CBaseActionEntity
 	public void SetDataFrom(CDataEntity edata, CDataEntity eLen)
 	{
 		dataFrom = edata ;
-		dataLength = eLen ;		
+		dataLength = eLen ;
 	}
-	
+
 	protected CDataEntity dataLength = null ;
 	protected CDataEntity dataFrom = null ;
 	protected CDataEntity name ;
@@ -73,7 +65,7 @@ public class CEntityCICSReWrite extends CBaseActionEntity
 	}
 	public boolean ignore()
 	{
-		return false; 
+		return false;
 	}
 
 	public CDataEntity getDataLength()

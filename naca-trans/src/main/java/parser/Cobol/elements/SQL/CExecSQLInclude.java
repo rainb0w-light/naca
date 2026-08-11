@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on Aug 10, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements.SQL;
 
 
@@ -36,8 +30,6 @@ import utils.Transcoder;
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CExecSQLInclude extends CBaseExecSQLAction
 {
@@ -65,17 +57,17 @@ public class CExecSQLInclude extends CBaseExecSQLAction
 		CBaseLanguageEntity ent = parent.FindLastEntityAvailableForLevel(e.GetInternalLevel());
 		if (ent == null)
 		{
-			ent = parent ;	
+			ent = parent ;
 		}
 		e.InitDependences(factory) ;
-		CEntityInline eil = factory.NewEntityInline(getLine(), e) ; 
+		CEntityInline eil = factory.NewEntityInline(getLine(), e) ;
 		ent.AddChild(eil) ;
 		e.SetParent(eil);
 
 		ListIterator i = children.listIterator() ;
 		CCobolElement le = null ;
 		try
-		{	
+		{
 			le = (CCobolElement)i.next() ;
 		}
 		catch (NoSuchElementException ex)
@@ -96,7 +88,7 @@ public class CExecSQLInclude extends CBaseExecSQLAction
 				eil.AddChild(eSub) ;
 			}
 			try
-			{	
+			{
 				le = (CCobolElement)i.next() ;
 			}
 			catch (NoSuchElementException exp)
@@ -147,4 +139,4 @@ public class CExecSQLInclude extends CBaseExecSQLAction
 		}
 		return true ;
 	}
-} 
+}

@@ -4,18 +4,9 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
-/*
- * Created on 27 sept. 04
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
-
 /**
  * @author U930DI
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 package nacaLib.CESM;
 
@@ -35,10 +26,10 @@ public class CESMSendMap extends CJMapObject
 	CESMSendMap setMapName(String csMapName)
 	{
 		// Find the map which has to name in parameter: To DO
-		mapName = csMapName.trim() ; 
+		mapName = csMapName.trim() ;
 		return this;
 	}
-	
+
 	public CESMSendMap mapSet(String csMapName)
 	{
 		name = csMapName ;
@@ -110,14 +101,14 @@ public class CESMSendMap extends CJMapObject
 		nCursorPosition = v.getInt() ;
 		return this;
 	}
-	protected int nCursorPosition = 0; 
-	
-	
+	protected int nCursorPosition = 0;
+
+
 	public Element buildXMLToSend(Document root)
 	{
 		return null;
 	}
-	
+
 	//protected CBaseMap m_BaseMap = null;
 	protected Form varFrom = null;
 	protected String mapName = "" ;

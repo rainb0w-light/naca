@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on Jul 28, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.expression;
 
 import org.w3c.dom.Document;
@@ -24,8 +18,6 @@ import semantic.expression.CEntityExprProd;
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CProdExpression extends CExpression
 {
@@ -35,7 +27,7 @@ public class CProdExpression extends CExpression
 		protected CProdType(String t)
 		{
 			Text = t ;
-		} 
+		}
 		public static CProdType PROD = new CProdType("MULT") ;
 		public static CProdType DIVIDE = new CProdType("DIVID") ;
 		public static CProdType POW = new CProdType("POW") ;
@@ -50,7 +42,7 @@ public class CProdExpression extends CExpression
 	protected CExpression op1 = null ;
 	protected CExpression op2 = null ;
 	protected CProdType type = null ;
-	
+
 	protected boolean CheckMembersBeforeExport()
 	{
 		boolean b = CheckMemberNotNull(op1);
@@ -58,7 +50,7 @@ public class CProdExpression extends CExpression
 		return b;
 	}
 
-	
+
 	/* (non-Javadoc)
 	 * @see parser.expression.CExpression#Export(org.w3c.dom.Document)
 	 */

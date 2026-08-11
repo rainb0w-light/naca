@@ -5,13 +5,12 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.sql;
 
 import java.sql.CallableStatement;
 import java.sql.SQLException;
-import java.sql.Types;
 /**
  *
  * @author Pierre-Jean Ditscheid, Consultas SA
@@ -20,17 +19,17 @@ import java.sql.Types;
 public class DbPreparedCallableStatement
 {
 	protected CallableStatement callableStatement = null;
-	
+
 	public DbPreparedCallableStatement(CallableStatement callableStatement)
 	{
 		init(callableStatement);
-	}	
-	
+	}
+
 	public void init(CallableStatement callableStatement)
 	{
 		this.callableStatement = callableStatement;
 	}
-	
+
 	public boolean setInValue(int nParamId, double d)
 	{
 		try
@@ -40,19 +39,18 @@ public class DbPreparedCallableStatement
 		}
 		catch (SQLException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return false;
 	}
-	
+
 	public boolean setInValueWithException(int nParamId, double d)
 		throws SQLException
 	{
 		callableStatement.setDouble(nParamId, d);
 		return true;
 	}
-	
+
 	public boolean setInValue(int nParamId, int n)
 	{
 		try
@@ -62,19 +60,18 @@ public class DbPreparedCallableStatement
 		}
 		catch (SQLException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return false;
 	}
-	
+
 	public boolean setInValueWithException(int nParamId, short s)
 		throws SQLException
 	{
 		callableStatement.setShort(nParamId, s);
 		return true;
 	}
-	
+
 	public boolean setInValue(int nParamId, short s)
 	{
 		try
@@ -84,7 +81,6 @@ public class DbPreparedCallableStatement
 		}
 		catch (SQLException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return false;
@@ -106,24 +102,23 @@ public class DbPreparedCallableStatement
 		}
 		catch (SQLException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return false;
 	}
-	
-	
+
+
 	public String getOutValueStringWithException(int nParamId)
 		throws SQLException
 	{
 		return callableStatement.getString(nParamId);
 	}
-	
+
 	public String getOutValueString(int nParamId) throws SQLException
 	{
 		return callableStatement.getString(nParamId);
 	}
-//	
+//
 //	public String getOutValueString(int nParamId)
 //	{
 //		try
@@ -132,18 +127,17 @@ public class DbPreparedCallableStatement
 //		}
 //		catch (SQLException e)
 //		{
-//			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
 //		return "";
 //	}
-	
+
 	public double getOutValueDoubleWithException(int nParamId)
 		throws SQLException
 	{
 		return callableStatement.getDouble(nParamId);
 	}
-	
+
 	public double getOutValueDouble(int nParamId)
 	{
 		try
@@ -152,12 +146,11 @@ public class DbPreparedCallableStatement
 		}
 		catch (SQLException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return 0.0;
 	}
-	
+
 	public int getOutValueIntWithException(int nParamId)
 		throws SQLException
 	{
@@ -172,19 +165,18 @@ public class DbPreparedCallableStatement
 		}
 		catch (SQLException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return 0;
 	}
-	
-	
+
+
 	public short getOutValueShortWithException(int nParamId)
 		throws SQLException
 	{
 		return callableStatement.getShort(nParamId);
 	}
-	
+
 	public short getOutValueShort(int nParamId)
 	{
 		try
@@ -193,19 +185,18 @@ public class DbPreparedCallableStatement
 		}
 		catch (SQLException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return 0;
 	}
-	
+
 	public boolean registerOutParameterWithException(int nParamId, int nTypeId)
 		throws SQLException
 	{
 		callableStatement.registerOutParameter(nParamId, nTypeId);
 		return true;
 	}
-	
+
 	public boolean registerOutParameter(int nParamId, int nTypeId)
 	{
 		try
@@ -219,8 +210,8 @@ public class DbPreparedCallableStatement
 		}
 		return false;
 	}
-	
-	
+
+
 	public boolean registerOutParameter(String csName, ColDescriptionInfo colDescriptionInfo)
 	{
 		try
@@ -234,7 +225,7 @@ public class DbPreparedCallableStatement
 		}
 		return false;
 	}
-	
+
 	public boolean registerOutParameter(int nParamId, ColDescriptionInfo colDescriptionInfo)
 	{
 		try
@@ -248,24 +239,24 @@ public class DbPreparedCallableStatement
 		}
 		return false;
 	}
-	
-	public boolean executeWithException() 
+
+	public boolean executeWithException()
 		throws SQLException
 	{
 		boolean b = callableStatement.execute();
 		return b;
 	}
 
-	public boolean execute() 
+	public boolean execute()
 		throws SQLException
 	{
 		boolean b = callableStatement.execute();
 		return b;
 	}
-	
+
 	public boolean closeWithException()
 		throws SQLException
-	{		
+	{
 		callableStatement.close();
 		return true;
 	}
@@ -279,7 +270,6 @@ public class DbPreparedCallableStatement
 		}
 		catch (SQLException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return false;

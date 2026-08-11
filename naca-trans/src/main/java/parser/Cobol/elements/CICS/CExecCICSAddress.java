@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 7 sept. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements.CICS;
 
 import lexer.CBaseToken;
@@ -31,8 +25,6 @@ import utils.Transcoder;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CExecCICSAddress extends CCobolElement
 {
@@ -49,17 +41,17 @@ public class CExecCICSAddress extends CCobolElement
 		CEntityCICSAddress eCICS = factory.NewEntityCICSAddress(getLine());
 		parent.AddChild(eCICS);
 		if (refCWA != null)
-		{ 
+		{
 			CDataEntity e = refCWA.GetDataReference(getLine(), factory);
 			eCICS.SetRefForCWA(e) ;
 		}
 		if (refTCTUA != null)
-		{ 
+		{
 			CDataEntity e = refTCTUA.GetDataReference(getLine(), factory);
 			eCICS.SetRefForTCTUA(e) ;
 		}
 		if (refTWA != null)
-		{ 
+		{
 			CDataEntity e = refTWA.GetDataReference(getLine(), factory);
 			eCICS.SetRefForTWA(e) ;
 		}
@@ -76,7 +68,7 @@ public class CExecCICSAddress extends CCobolElement
 		{
 			tok = GetNext();
 		}
-		
+
 		boolean isdone = false ;
 		while (!isdone)
 		{
@@ -93,7 +85,7 @@ public class CExecCICSAddress extends CCobolElement
 					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 					{
 						tok = GetNext() ;
-					} 
+					}
 				}
 			}
 			else if (tok.GetValue().equals("TWA"))
@@ -108,7 +100,7 @@ public class CExecCICSAddress extends CCobolElement
 					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 					{
 						tok = GetNext() ;
-					} 
+					}
 				}
 			}
 			else if (tok.GetValue().equals("CWA"))
@@ -123,15 +115,15 @@ public class CExecCICSAddress extends CCobolElement
 					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 					{
 						tok = GetNext() ;
-					} 
+					}
 				}
 			}
-			else 
+			else
 			{
 				isdone = true ;
 			}
 		}
-		
+
 		if (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
 		{
 			Transcoder.logError(getLine(), "Error while parsing EXEC CICS ADDRESS");

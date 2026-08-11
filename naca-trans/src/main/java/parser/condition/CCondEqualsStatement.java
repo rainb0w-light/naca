@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on Jul 19, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.condition;
 
 import org.w3c.dom.Document;
@@ -27,8 +21,6 @@ import utils.*;;
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CCondEqualsStatement extends CExpression
 {
@@ -48,14 +40,14 @@ public class CCondEqualsStatement extends CExpression
 	}
 	protected CExpression term1 = null ;
 	protected CExpression term2 = null ;
-	
+
 	protected boolean CheckMembersBeforeExport()
 	{
 		boolean b = CheckMemberNotNull(term1);
 		b &= CheckMemberNotNull(term2);
 		return b;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see parser.condition.CConditionalStatement#Export(org.w3c.dom.Document)
 	 */
@@ -180,7 +172,7 @@ public class CCondEqualsStatement extends CExpression
 					return eCond;
 				}
 			}
-		} 
+		}
 		else if (term1.IsReference() && term2.IsReference())
 		{
 			if (eData1 != null && eData2 != null)
@@ -194,12 +186,12 @@ public class CCondEqualsStatement extends CExpression
 				}
 			}
 		}
-		
+
 		CBaseEntityExpression op1 = term1.AnalyseExpression(factory);
 		if(op1 == null)
 		{
 			ASSERT(op1, term1);
-			
+
 		}
 		CBaseEntityExpression op2 = term2.AnalyseExpression(factory);
 		if (op2 == null)

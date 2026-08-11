@@ -4,32 +4,23 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
-/*
- * Created on 12 nov. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
-
 /**
  * @author PJD
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 package nacaLib.varEx;
 
 
 public class DeclareTypeX extends DeclareTypeBase
-{		
+{
 	private int nLength = 0;
 	private boolean isjustifyRight = false;
 	private CInitialValue initialValue = null;
-	
+
 	public DeclareTypeX()
 	{
 	}
-	
+
 	public void set(VarLevel varLevel, int nLength)
 	{
 		super.set(varLevel);
@@ -37,23 +28,23 @@ public class DeclareTypeX extends DeclareTypeBase
 		this.isjustifyRight = false;
 		this.initialValue = null;
 	}
-	
+
 	int getLength()
 	{
 		return nLength;
 	}
-	
+
 	boolean getJustifyRight()
 	{
 		return isjustifyRight;
 	}
-	
+
 	public VarAlphaNum var()
 	{
 		VarAlphaNum var2X = new VarAlphaNum(this);
 		return var2X;
 	}
-	
+
 	public VarAlphaNum filler()
 	{
 		VarAlphaNum var2X = new VarAlphaNum(this);
@@ -61,15 +52,15 @@ public class DeclareTypeX extends DeclareTypeBase
 		//return null;
 		return var2X;
 	}
-	
+
 	public VarDefBuffer createVarDef(VarDefBuffer varDefParent)
 	{
 		VarDefBuffer varDef = new VarDefX(varDefParent, this);
-		return varDef;		
+		return varDef;
 	}
-		
+
 	/**
-	 * 
+	 *
 	 */
 
 	public DeclareTypeX value(String cs)
@@ -78,7 +69,7 @@ public class DeclareTypeX extends DeclareTypeBase
 			initialValue = new CInitialValue(cs, false);
 		return this;
 	}
-	
+
 	public DeclareTypeX valueAll(char c)
 	{
 		if(getProgramManager().isFirstInstance())
@@ -92,7 +83,7 @@ public class DeclareTypeX extends DeclareTypeBase
 			initialValue = new CInitialValue(cs, true);
 		return this;
 	}
-	
+
 	public DeclareTypeX valueSpaces()
 	{
 		//initialValue = new CInitialValue(CobolConstant.Space.getValue(), true);
@@ -123,13 +114,13 @@ public class DeclareTypeX extends DeclareTypeBase
 		if(getProgramManager().isFirstInstance())
 			initialValue = CInitialValueStd.LowValue;
 		return this;
-	} 
-	
+	}
+
 	public CInitialValue getInitialValue()
 	{
 		return initialValue;
 	}
-	
+
 	public DeclareTypeX justifyRight()
 	{
 		isjustifyRight = true;

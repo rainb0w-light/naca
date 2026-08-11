@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on Jul 27, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.condition;
 
 import org.w3c.dom.Document;
@@ -25,8 +19,6 @@ import semantic.expression.CEntityCondCompare;
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CCondLessStatement extends CExpression
 {
@@ -46,7 +38,7 @@ public class CCondLessStatement extends CExpression
 	protected boolean isorEquals = false ;
 	protected CExpression term1 = null ;
 	protected CExpression term2 = null ;
-	
+
 	protected boolean CheckMembersBeforeExport()
 	{
 		boolean b = CheckMemberNotNull(term1);
@@ -135,7 +127,7 @@ public class CCondLessStatement extends CExpression
 				return eCond ;
 			}
 		}
-		
+
 		value = term1.GetConstantValue() ;
 		if (!value.equals("") && term2.IsReference())
 		{
@@ -151,7 +143,7 @@ public class CCondLessStatement extends CExpression
 				return eCond ;
 			}
 		}
-		
+
 		CBaseEntityExpression op1 = term1.AnalyseExpression(factory);
 		CBaseEntityExpression op2 = term2.AnalyseExpression(factory);
 		if (op2 == null)

@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 6 sept. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements;
 
 import java.util.Vector;
@@ -34,8 +28,6 @@ import utils.Transcoder;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CDisplay extends CCobolElement
 {
@@ -69,7 +61,7 @@ public class CDisplay extends CCobolElement
 			return false ;
 		}
 		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
-		
+
 		tok = GetNext() ;
 		CTerminal term = ReadTerminal();
 		while (term != null)
@@ -82,7 +74,7 @@ public class CDisplay extends CCobolElement
 			}
 			term = ReadTerminal();
 		}
-		
+
 		tok = GetCurrentToken() ;
 		if (tok.GetKeyword() == CCobolKeywordList.UPON)
 		{
@@ -128,5 +120,5 @@ public class CDisplay extends CCobolElement
 	}
 
 	protected Vector<CTerminal> toDisplay = new Vector<CTerminal>() ;
-	protected Upon upon = Upon.DEFAULT ; 
+	protected Upon upon = Upon.DEFAULT ;
 }

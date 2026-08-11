@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 24 nov. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic;
 
 import semantic.expression.CBaseEntityCondExpr;
@@ -20,8 +14,6 @@ import utils.CObjectCatalog;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public abstract class CBaseDataReference extends CGenericDataEntityReference
 {
@@ -35,12 +27,12 @@ public abstract class CBaseDataReference extends CGenericDataEntityReference
 	{
 		return reference;
 	}
-	
+
 	public int getNbDimOccurs()
 	{
 		return reference.getNbDimOccurs();
 	}
-	
+
 	public void RegisterReadingAction(CBaseActionEntity act)
 	{
 		reference.RegisterReadReference(this) ;
@@ -83,7 +75,7 @@ public abstract class CBaseDataReference extends CGenericDataEntityReference
 				CBaseActionEntity act = arrActionsWriting.get(i);
 				act.IgnoreVariable(this);
 			}
-		}		
+		}
 	}
 	public boolean ReplaceVariable(CDataEntity field, CDataEntity var, boolean bRead)
 	{
@@ -101,7 +93,7 @@ public abstract class CBaseDataReference extends CGenericDataEntityReference
 				var.RegisterWriteReference(this) ;
 			}
 			return true ;
-		}		
+		}
 		return false ;
 	}
 	public boolean IgnoreVariable(CEntityResourceForm sav)
@@ -118,7 +110,7 @@ public abstract class CBaseDataReference extends CGenericDataEntityReference
 	public boolean ignore()
 	{
 		return reference == null ;
-	} 
+	}
 	/* (non-Javadoc)
 	 * @see semantic.CBaseLanguageEntity#Clear()
 	 */
@@ -129,7 +121,7 @@ public abstract class CBaseDataReference extends CGenericDataEntityReference
 			reference.Clear() ;
 		reference = null ;
 	}
-	
+
 
 //	/**
 //	 * @see semantic.CBaseLanguageEntity#GetHierarchy()
@@ -142,5 +134,5 @@ public abstract class CBaseDataReference extends CGenericDataEntityReference
 //			return reference.GetHierarchy();
 //		}
 //		return null ;
-//	}	
+//	}
 }

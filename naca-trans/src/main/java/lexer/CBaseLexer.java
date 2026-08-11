@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on Jul 15, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package lexer;
 
 import java.io.IOException;
@@ -27,8 +21,6 @@ import utils.NacaTransAssertException;
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 
 public abstract class CBaseLexer
@@ -53,7 +45,7 @@ public abstract class CBaseLexer
 		this.listkW = lstKW;
 		this.listcste = lstCste;
 	}
-	
+
 	protected boolean ReadLineEnd(InputStream buffer)
 	{
 		int nReadChar = nCurrentLineLength + nbCharsIgnoredAtBegining; // +1 counts the \n character
@@ -61,7 +53,7 @@ public abstract class CBaseLexer
 		try
 		{
 			char b = 0 ;
-			int nReadNextLine = 0 ; 
+			int nReadNextLine = 0 ;
 			int nbStringMarks = 0 ;
 			char[] nextline = new char[nbCharsUtils+nbCharsIgnoredAtBegining] ;
 			Arrays.fill(nextline, '\0');
@@ -114,7 +106,7 @@ public abstract class CBaseLexer
 				}
 			}
 			else  if (nbStringMarks % 2 == 0)
-			{ // the string is ended at the end of this line, the next line is a whole line, the \n char marks the en of the line, 
+			{ // the string is ended at the end of this line, the next line is a whole line, the \n char marks the en of the line,
 				// but the string is not finnished yet, the next line contains the end of the string
 				if (!ContinueLine(nextline))
 				{ // other cases not handleled
@@ -126,7 +118,7 @@ public abstract class CBaseLexer
 			{ // other cases not handleled
 				throw new NacaTransAssertException("String lexing case not implemented") ;
 			}
-			
+
 			if (nReadChar>nbCharsIgnoredAtBegining+1)
 			{
 				if (arrCurrentLine[nLineChar-1] == '\n')
@@ -137,12 +129,12 @@ public abstract class CBaseLexer
 					}
 					else
 					{
-						nCurrentLineLength = nLineChar -1 ; 
+						nCurrentLineLength = nLineChar -1 ;
 					}
 				}
 				else
 				{
-					nCurrentLineLength = nLineChar ; 
+					nCurrentLineLength = nLineChar ;
 				}
 				String csCurrentLine = new String(arrCurrentLine, 0, nCurrentLineLength);
 				//csCurrentLine = csCurrentLine.trim();
@@ -232,12 +224,12 @@ public abstract class CBaseLexer
 					}
 					else
 					{
-						nCurrentLineLength = nLineChar -1 ; 
+						nCurrentLineLength = nLineChar -1 ;
 					}
 				}
 				else
 				{
-					nCurrentLineLength = nLineChar ; 
+					nCurrentLineLength = nLineChar ;
 				}
 				String csCurrentLine = new String(arrCurrentLine, 0, nCurrentLineLength);
 				//csCurrentLine = csCurrentLine.trim();
@@ -247,7 +239,7 @@ public abstract class CBaseLexer
 					nCurrentLineLength =0 ;
 				}
 				line ++ ;
-				nCurrentPositionInLine = 0 ; 
+				nCurrentPositionInLine = 0 ;
 				return true ;
 			}
 			else
@@ -270,7 +262,7 @@ public abstract class CBaseLexer
 			return false ;
 		}
 	}
-	
+
 	public boolean StartLexer(String input, COriginalLisiting prgmCatalog)
 	{
 		if (input == null || input.equals(""))
@@ -279,7 +271,7 @@ public abstract class CBaseLexer
 		}
 		arrCurrentLine = input.toCharArray() ;
 		nCurrentLineLength = input.length() ;
-		try 
+		try
 		{
 			DoLine(null) ;
 		}
@@ -291,7 +283,7 @@ public abstract class CBaseLexer
 		}
 		return true ;
 	}
-	
+
 	public boolean StartLexer(InputStream buffer, COriginalLisiting prgmCatalog)
 	{
 		prgmListing = prgmCatalog ;
@@ -324,7 +316,7 @@ public abstract class CBaseLexer
 		return true ;
 	}
 	private boolean ignoreOriginalListing = false ;
-	
+
 	private void DoLine(InputStream buffer)
 	{
 		//CBaseTranscoder.ms_logger.info("Lexing line "+getLine()) ;
@@ -344,7 +336,7 @@ public abstract class CBaseLexer
 				{
 					switch (cCurrent)
 					{
-						case '0': case '1': case '2': case '3': case '4': 
+						case '0': case '1': case '2': case '3': case '4':
 						case '5': case '6': case '7': case '8': case '9':
 							tok = ReadNumber() ;
 							tok.isisNewLine = isisNewLine;
@@ -369,39 +361,39 @@ public abstract class CBaseLexer
 							tok = new CTokenGeneric(CTokenType.SEMI_COLON, getLine(), isisNewLine);
 							nCurrentPositionInLine ++ ;
 							break;
-						case ':': 
+						case ':':
 							tok = new CTokenGeneric(CTokenType.COLON, getLine(), isisNewLine);
 							nCurrentPositionInLine ++ ;
 							break;
-						case '!': 
+						case '!':
 							tok = new CTokenGeneric(CTokenType.EXCLAMATION, getLine(), isisNewLine);
 							nCurrentPositionInLine ++ ;
 							break;
-						case '[': 
+						case '[':
 							tok = new CTokenGeneric(CTokenType.LEFT_SQUARE_BRACKET, getLine(), isisNewLine);
 							nCurrentPositionInLine ++ ;
 							break;
-						case ']': 
+						case ']':
 							tok = new CTokenGeneric(CTokenType.RIGHT_SQUARE_BRACKET, getLine(), isisNewLine);
 							nCurrentPositionInLine ++ ;
 							break;
-						case '(': 
+						case '(':
 							tok = new CTokenGeneric(CTokenType.LEFT_BRACKET, getLine(), isisNewLine);
 							nCurrentPositionInLine ++ ;
 							break;
-						case '^': 
+						case '^':
 							tok = new CTokenGeneric(CTokenType.CIRCUMFLEX, getLine(), isisNewLine);
 							nCurrentPositionInLine ++ ;
 							break;
-						case ')': 
+						case ')':
 							tok = new CTokenGeneric(CTokenType.RIGHT_BRACKET, getLine(), isisNewLine);
 							nCurrentPositionInLine ++ ;
 							break;
-						case '=': 
+						case '=':
 							tok = new CTokenGeneric(CTokenType.EQUALS, getLine(), isisNewLine);
 							nCurrentPositionInLine ++ ;
 							break;
-						case '-': 
+						case '-':
 							if (nCurrentPositionInLine > 0)
 							{ // ignore '-' at the begining
 								tok = new CTokenGeneric(CTokenType.MINUS, getLine(), isisNewLine);
@@ -412,7 +404,7 @@ public abstract class CBaseLexer
 							}
 							nCurrentPositionInLine ++ ;
 							break;
-						case '+': 
+						case '+':
 							tok = new CTokenGeneric(CTokenType.PLUS, getLine(), isisNewLine);
 							nCurrentPositionInLine ++ ;
 							break;
@@ -434,10 +426,10 @@ public abstract class CBaseLexer
 							tok = new CTokenGeneric(CTokenType.SLASH, getLine(), isisNewLine);
 							nCurrentPositionInLine ++ ;
 							break;
-						case ' ': 
-						case '\t': 
+						case ' ':
+						case '\t':
 						case '\r':
-						case '\n': 
+						case '\n':
 							tok = ReadWhiteSpace(buffer) ;
 							break;
 						case '"':
@@ -469,7 +461,7 @@ public abstract class CBaseLexer
 								{
 									tok = new CTokenKeyword(kw, getLine(), isisNewLine) ;
 								}
-								else 
+								else
 								{
 									CReservedConstant cste = listcste.GetConstant(word) ;
 									if (cste != null)
@@ -521,7 +513,7 @@ public abstract class CBaseLexer
 			}
 		}
 	}
-	
+
 	/**
 	 * @param current
 	 * @return
@@ -538,12 +530,12 @@ public abstract class CBaseLexer
 		CGlobalEntityCounter ec = CGlobalEntityCounter.GetInstance();
 		ec.CountLines(nbLines, nbCommentLines, nbCodeLines);
 	}
-	
+
 	public String Export()
 	{
 		return lstTokens.toString() ;
 	}
-	
+
 	protected CBaseToken ReadHexaString()
 	{
 		Vector<Character> arr = new Vector<Character>() ;
@@ -574,7 +566,7 @@ public abstract class CBaseLexer
 			nCurrentPositionInLine ++ ;
 			int nVal = Integer.decode(digit).intValue() ;
 			char cVal = (char)nVal ;
-			cVal = AsciiEbcdicConverter.getAsciiChar(cVal);			
+			cVal = AsciiEbcdicConverter.getAsciiChar(cVal);
 			/*if(nVal < 0 || nVal > 255)
 			{
 				System.out.println("nValEbcdic to convert in ascii : Wrong ebcdic value="+nVal);
@@ -597,7 +589,7 @@ public abstract class CBaseLexer
 		}
 		return new CTokenString(res, getLine(), false);
 	}
-	
+
 	protected CBaseToken ReadGreaterThan()
 	{
 		try
@@ -607,11 +599,11 @@ public abstract class CBaseLexer
 			if (cCurrent == '=')
 			{
 				nCurrentPositionInLine ++ ;
-				return new CTokenGeneric(CTokenType.GREATER_OR_EQUALS, getLine(), false) ; 
+				return new CTokenGeneric(CTokenType.GREATER_OR_EQUALS, getLine(), false) ;
 			}
 			else
 			{
-				return new CTokenGeneric(CTokenType.GREATER_THAN, getLine(), false) ; 
+				return new CTokenGeneric(CTokenType.GREATER_THAN, getLine(), false) ;
 			}
 		}
 		catch (Exception e)
@@ -623,7 +615,7 @@ public abstract class CBaseLexer
 	protected CBaseToken ReadComment(InputStream buffer)
 	{
 		String val = new String() ;
-		try 
+		try
 		{
 			nCurrentPositionInLine ++ ;
 			while (nCurrentPositionInLine < nCurrentLineLength)
@@ -638,7 +630,7 @@ public abstract class CBaseLexer
 		CBaseToken tok = new CTokenComment(val, getLine(), true);
 		return tok ;
 	}
-	
+
 	protected CBaseToken ReadLessThan()
 	{
 		try
@@ -648,16 +640,16 @@ public abstract class CBaseLexer
 			if (cCurrent == '=')
 			{
 				nCurrentPositionInLine ++ ;
-				return new CTokenGeneric(CTokenType.LESS_OR_EQUALS, getLine(), false) ; 
+				return new CTokenGeneric(CTokenType.LESS_OR_EQUALS, getLine(), false) ;
 			}
 			else if (cCurrent == '>')
 			{
 				nCurrentPositionInLine ++ ;
-				return new CTokenGeneric(CTokenType.LESS_GREATER, getLine(), false) ; 
+				return new CTokenGeneric(CTokenType.LESS_GREATER, getLine(), false) ;
 			}
 			else
 			{
-				return new CTokenGeneric(CTokenType.LESS_THAN, getLine(), false) ; 
+				return new CTokenGeneric(CTokenType.LESS_THAN, getLine(), false) ;
 			}
 		}
 		catch (Exception e)
@@ -665,13 +657,13 @@ public abstract class CBaseLexer
 			return null ;
 		}
 	}
-	
+
 	protected CBaseToken ReadNumber()
 	{
 		String val = new String() ;
 		val += cCurrent ;
 		boolean bDoted = false ;
-		try 
+		try
 		{
 			nCurrentPositionInLine ++ ;
 			while (nCurrentPositionInLine < nCurrentLineLength)
@@ -693,11 +685,11 @@ public abstract class CBaseLexer
 				else if ((cCurrent >= 'a' && cCurrent <= 'z') || (cCurrent >= 'A' && cCurrent <= 'Z') || cCurrent == '-')
 				{
 					String cs = ReadWord() ;
-					val = val + cs ; 
+					val = val + cs ;
 //					if (bDoted)
 //					{
 //						String todo = null;
-//						todo.charAt(0) ; // to do : string is like 'a.b' 
+//						todo.charAt(0) ; // to do : string is like 'a.b'
 //					}
 					CBaseToken tok = new CTokenIdentifier(val, getLine(), false);
 					return tok ;
@@ -716,7 +708,7 @@ public abstract class CBaseLexer
 		CBaseToken tok = new CTokenNumber(val, getLine(), false);
 		return tok ;
 	}
-	
+
 	protected CBaseToken ReadString(InputStream buffer)
 	{
 		Vector<Character> val = new Vector<Character>() ;
@@ -746,7 +738,7 @@ public abstract class CBaseLexer
 //					{
 //						return null ;
 //					}
-//					continue ;  
+//					continue ;
 //				}
 				if (cCurrent != delimit && cCurrent != '\n' && cCurrent != '\r')
 				{
@@ -819,12 +811,12 @@ public abstract class CBaseLexer
 		CBaseToken tok = new CTokenString(res, getLine(), false);
 		return tok ;
 	}
-	
+
 	protected CBaseToken ReadWhiteSpace(InputStream buffer)
 	{
 		boolean isisNewline = false ;
 		boolean isfound = false ;
-		int nbNewLine = 0; 
+		int nbNewLine = 0;
 		while (!isfound)
 		{
 			if (cCurrent == '\n' || cCurrent == '\r')
@@ -858,7 +850,7 @@ public abstract class CBaseLexer
 					}
 				}
 				else
-				{				
+				{
 					cCurrent = arrCurrentLine[nCurrentPositionInLine] ;
 				}
 			}
@@ -881,7 +873,7 @@ public abstract class CBaseLexer
 	{
 		String val = new String() ;
 		val += cCurrent ;
-		try 
+		try
 		{
 			nCurrentPositionInLine ++ ;
 			while (nCurrentPositionInLine < nCurrentLineLength)
@@ -911,14 +903,14 @@ public abstract class CBaseLexer
 		}
 		return val ;
 	}
-	
+
 	public CTokenList GetTokenList()
 	{
 		return lstTokens ;
 	}
 	protected CTokenList lstTokens = new CTokenList() ;
 	private int line = 0 ;
-	
+
 	protected int getLine()
 	{
 		return line;

@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 5 août 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic;
 
 import java.util.NoSuchElementException;
@@ -19,8 +13,6 @@ import utils.CObjectCatalog;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public abstract class CBaseExternalEntity extends CDataEntity
 {
@@ -30,7 +22,7 @@ public abstract class CBaseExternalEntity extends CDataEntity
 		super(l, name, cat);
 	}
 
-	public void InitDependences(CBaseEntityFactory factory) 
+	public void InitDependences(CBaseEntityFactory factory)
 	{
 		int n= 0;
 	}
@@ -46,7 +38,7 @@ public abstract class CBaseExternalEntity extends CDataEntity
 		{
 			return this ;
 		}
-		int nLevel = le.GetInternalLevel() ; 
+		int nLevel = le.GetInternalLevel() ;
 		if (replaceLevel != 0 && nLevel == replaceLevel)
 		{
 			nLevel = replaceBy ;
@@ -72,20 +64,20 @@ public abstract class CBaseExternalEntity extends CDataEntity
 			return null ;
 		}
 	}
-	
+
 	public boolean IsNeedDeclarationInClass()
 	{
 		return true ;
 	}
-	
+
 	public abstract String GetTypeDecl() ;
-	
+
 	public void ReplaceLevel(int n1, int n2)
 	{
 		replaceLevel = n1 ;
 		replaceBy = n2 ;
 	}
-	
+
 	protected int replaceLevel = 0 ;
 	protected int replaceBy = 0 ;
 	public int GetReplaceItem()
@@ -99,7 +91,7 @@ public abstract class CBaseExternalEntity extends CDataEntity
 	public String GetConstantValue()
 	{
 		return "" ;
-	} 	 
+	}
 	public void RegisterInlineAction(CEntityInline act)
 	{
 		inlineAction = act ;

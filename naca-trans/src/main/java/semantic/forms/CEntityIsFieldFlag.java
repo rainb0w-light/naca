@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 19 ao�t 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic.forms;
 
 import parser.expression.CTerminal;
@@ -22,8 +16,6 @@ import semantic.expression.CUnitaryEntityCondition;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CEntityIsFieldFlag extends CUnitaryEntityCondition
 {
@@ -91,7 +83,7 @@ public class CEntityIsFieldFlag extends CUnitaryEntityCondition
 	}
 	protected String value = "" ;
 	protected boolean isisSet = false ;
-	//protected CDataEntity reference = null ; 
+	//protected CDataEntity reference = null ;
 	protected boolean isopposite = false ;
 	public void Clear()
 	{
@@ -104,7 +96,7 @@ public class CEntityIsFieldFlag extends CUnitaryEntityCondition
 		if (term.IsReference())
 		{
 			ASSERT(null) ;
-			return null ; 
+			return null ;
 		}
 		else
 		{
@@ -150,4 +142,4 @@ public class CEntityIsFieldFlag extends CUnitaryEntityCondition
 		return true;
 	}
 
-}	
+}

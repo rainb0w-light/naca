@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on Jul 16, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements;
 
 import java.util.Vector;
@@ -33,8 +27,6 @@ import utils.Transcoder;
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CProcedureDivision extends CCommentContainer
 {
@@ -58,11 +50,11 @@ public class CProcedureDivision extends CCommentContainer
 			{
 				return true ;
 			}
-			if (tok.GetType()==CTokenType.IDENTIFIER || tok.GetType() == CTokenType.NUMBER) 
+			if (tok.GetType()==CTokenType.IDENTIFIER || tok.GetType() == CTokenType.NUMBER)
 			{	// maybe a label ?
 				String csLabel = tok.GetValue();
 				GetNext() ;
-				
+
 				CBaseToken tokSection = GetCurrentToken() ;
 				if (tokSection.IsKeyword() && tokSection.GetKeyword() == CCobolKeywordList.SECTION)
 				{	// maybe the starting of a section
@@ -170,7 +162,7 @@ public class CProcedureDivision extends CCommentContainer
 		for (int i = 0; i< usingRef.size(); i++)
 		{
 			CIdentifier id = usingRef.get(i);
-			CDataEntity e = id.GetDataReference(getLine(), factory); 
+			CDataEntity e = id.GetDataReference(getLine(), factory);
 			pro.AddCallParameter(e) ;
 		}
 		if (procedureDivisionBloc != null)
@@ -181,12 +173,12 @@ public class CProcedureDivision extends CCommentContainer
 
 		return parent ;
 	}
-	
+
 	protected Vector<CIdentifier> usingRef = new Vector<CIdentifier>() ;
 	public void AddUsingRef(CIdentifier id)
 	{
 		usingRef.add(id);
-	} 
-	
+	}
+
 	protected CBaseProcedure procedureDivisionBloc = null ;
 }

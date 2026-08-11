@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 4 ao�t 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements.SQL;
 
 import diagnostic.DiagnosticSink;
@@ -37,8 +31,6 @@ import java.util.ArrayList;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CExecSQL extends CCobolElement
 {
@@ -62,7 +54,7 @@ public class CExecSQL extends CCobolElement
 			Transcoder.logError(getLine(), "Expecting 'SQL' keyword");
 			return false ;
 		}
-		
+
 		CBaseToken tokAction = GetNext() ;
 		if (tokAction.GetKeyword() == CCobolKeywordList.INCLUDE)
 		{ // EXEC SQL INCLUDE ref END-EXC
@@ -73,7 +65,7 @@ public class CExecSQL extends CCobolElement
 				return false ;
 			}
 			CExecSQLInclude include = new CExecSQLInclude(getLine(), tokRef.GetValue());
-			Parse(include) ; 
+			Parse(include) ;
 			action = include ;
 			CBaseToken tokNext = GetCurrentToken() ;
 			if (tokNext.GetKeyword() == CCobolKeywordList.END_EXEC)
@@ -91,7 +83,7 @@ public class CExecSQL extends CCobolElement
 			}
 		}
 		else if (tokAction.GetKeyword() == CCobolKeywordList.DECLARE)
-		{ 
+		{
 			boolean isinto = false;
 			String csLastIndentifier = "";
 
@@ -103,11 +95,11 @@ public class CExecSQL extends CCobolElement
 				action = ExecSQLSessionDeclare;
 			}
 			else
-			{	
+			{
 				while (tokNext.GetKeyword() != CCobolKeywordList.END_EXEC)
 				{
 					CBaseToken tok = GetCurrentToken() ;
-				
+
 					if(tok.GetType() == CTokenType.IDENTIFIER || tok.GetType() == CTokenType.STRING)
 					{
 						csLastIndentifier = tok.GetValue();
@@ -138,7 +130,7 @@ public class CExecSQL extends CCobolElement
 							{
 								tokNext = GetNext() ;
 								iswithHold = true ;
-							}					
+							}
 						}
 						if(tokNext.GetKeyword() == CCobolKeywordList.FOR)
 						{
@@ -198,37 +190,37 @@ public class CExecSQL extends CCobolElement
 			CExecSQLClose ExecSQLClose = new CExecSQLClose(getLine());
 			Parse(ExecSQLClose);
 			action = ExecSQLClose;
-		}		
+		}
 		else if (tokAction.GetKeyword() == CCobolKeywordList.CALL)
 		{
 			CExecSQLCall ExecSQLCall = new CExecSQLCall(getLine());
 			Parse(ExecSQLCall);
 			action = ExecSQLCall;
-		}		
+		}
 		else if (tokAction.GetValue().equals("ROLLBACK"))
 		{
 			CExecSQLRollBack ExecSQLRollback = new CExecSQLRollBack(getLine());
 			Parse(ExecSQLRollback);
 			action = ExecSQLRollback;
-		}		
+		}
 		else if (tokAction.GetKeyword() == CCobolKeywordList.PREPARE)
 		{
 			CExecSQLPrepare ExecSQLPrepare = new CExecSQLPrepare(getLine());
 			Parse(ExecSQLPrepare);
 			action = ExecSQLPrepare;
-		}		
+		}
 		else if (tokAction.GetKeyword() == CCobolKeywordList.COMMIT)
 		{
 			CExecSQLCommit ExecSQLCommit = new CExecSQLCommit(getLine());
 			Parse(ExecSQLCommit);
 			action = ExecSQLCommit;
-		}		
+		}
 		else if (tokAction.GetKeyword() == CCobolKeywordList.EXECUTE)
 		{
 			CExecSQLExecute ExecSQLExecute = new CExecSQLExecute(getLine());
 			Parse(ExecSQLExecute);
 			action = ExecSQLExecute ;
-		}		
+		}
 		else if (tokAction.GetKeyword() == CCobolKeywordList.LOCK)
 		{
 			CExecSQLLock ExecSQLLock = new CExecSQLLock(getLine());
@@ -271,7 +263,7 @@ public class CExecSQL extends CCobolElement
 					action = new CExecSQLOnErrorGoto(getLine(), "") ;
 				}
 			}
-			else 
+			else
 			{
 				if (tokNext.GetKeyword() != CCobolKeywordList.GOTO)
 				{
@@ -279,7 +271,7 @@ public class CExecSQL extends CCobolElement
 					{
 						Transcoder.logError(getLine(), "Expecting 'GOTO' keyword");
 						return false ;
-					} 
+					}
 					tokNext = GetNext() ;
 					if (tokNext.GetKeyword() != CCobolKeywordList.TO)
 					{
@@ -339,7 +331,7 @@ public class CExecSQL extends CCobolElement
 			action = selectaction ;
 			Parse(selectaction) ;
 		}
-		
+
 		else if (tokAction.GetKeyword() == CCobolKeywordList.INSERT)
 		{
 			CExecSQLInsert selectaction = new CExecSQLInsert(getLine()) ;
@@ -378,7 +370,7 @@ public class CExecSQL extends CCobolElement
 //		{
 //			StepNext();
 //		}
-	 
+
 		return true;
 	}
 
@@ -425,7 +417,7 @@ public class CExecSQL extends CCobolElement
 	}
 	protected CBaseExecSQLAction action = null ;
 	protected String csUnparsedStatement = "" ;
-	
+
 	public static String CheckConcat(String clause, Vector<CDataEntity> arrParams, CBaseEntityFactory factory)
 	{
 		String out = "" ;
@@ -446,13 +438,13 @@ public class CExecSQL extends CCobolElement
 			while (!isfound && i>=0)
 			{
 				char c = clause.charAt(i);
-				if ((Character.isLetter(c) || Character.isDigit(c) || c=='.' || c=='_') 
+				if ((Character.isLetter(c) || Character.isDigit(c) || c=='.' || c=='_')
 					&& (nStep == 0 || nStep == 2))
 				{
 					nStep = 2 ;
 					i -- ;
 				}
-				else if (c=='#' && (nStep == 0 || nStep == 2)) 
+				else if (c=='#' && (nStep == 0 || nStep == 2))
 				{
 					nStep = 2 ;
 					isonlyParameter = true ;
@@ -463,7 +455,7 @@ public class CExecSQL extends CCobolElement
 					i -- ;
 					isonlyParameter = true ;
 				}
-				else if ((Character.isLetter(c) || Character.isDigit(c) || c=='.' || c=='_' || c==',' || c==' ') 
+				else if ((Character.isLetter(c) || Character.isDigit(c) || c=='.' || c=='_' || c==',' || c==' ')
 					&& (nStep == 1))
 				{
 					i -- ;
@@ -473,7 +465,7 @@ public class CExecSQL extends CCobolElement
 					nbPar ++ ;
 					nStep = 1 ;
 					i -- ;
-				} 
+				}
 				else if (c == '(' && nStep == 1)
 				{
 					nbPar -- ;
@@ -493,12 +485,12 @@ public class CExecSQL extends CCobolElement
 					if (i>0)
 						i-- ;
 				}
-				else 
+				else
 				{
 					isfound = true ;
 				}
 			}
-			
+
 			String fst = clause.substring(i+1, nPos);
 			ArrayList<String> arrId = new ArrayList<String>() ;
 			arrId.add(fst) ;
@@ -506,7 +498,7 @@ public class CExecSQL extends CCobolElement
 			{
 				out += clause.substring(nLastEdit, i+1);
 			}
-			
+
 			// find second argument
 			boolean hasMoreArguments = true ;
 			String concat = "" ;
@@ -520,13 +512,13 @@ public class CExecSQL extends CCobolElement
 				while (!isfound && i<clause.length())
 				{
 					char c = clause.charAt(i);
-					if ((Character.isLetter(c) || Character.isDigit(c) || c=='.' || c=='_') 
+					if ((Character.isLetter(c) || Character.isDigit(c) || c=='.' || c=='_')
 						&& (nStep == 0 || nStep == 2))
 					{
 						nStep = 2 ;
 						i ++ ;
 					}
-					else if (c=='#' && (nStep == 0 || nStep == 2)) 
+					else if (c=='#' && (nStep == 0 || nStep == 2))
 					{
 						nStep = 2 ;
 						isParameter = true ;
@@ -549,7 +541,7 @@ public class CExecSQL extends CCobolElement
 						i++ ;
 						isfound = true ;
 					}
-					else if ((Character.isLetter(c) || Character.isDigit(c) || c=='.' || c=='_' || c==',' || c==' ' || c=='\'') 
+					else if ((Character.isLetter(c) || Character.isDigit(c) || c=='.' || c=='_' || c==',' || c==' ' || c=='\'')
 						&& (nStep == 1))
 					{
 						i ++ ;
@@ -564,7 +556,7 @@ public class CExecSQL extends CCobolElement
 						nbPar ++ ;
 						nStep = 1 ;
 						i ++ ;
-					} 
+					}
 					else if (c == ')' && nStep == 1)
 					{
 						nbPar -- ;
@@ -574,7 +566,7 @@ public class CExecSQL extends CCobolElement
 							isfound = true ;
 						}
 					}
-					else 
+					else
 					{
 						isfound = true ;
 					}
@@ -606,7 +598,7 @@ public class CExecSQL extends CCobolElement
 					concat += space ;
 					hasMoreArguments = false ;
 				}
-				
+
 			}
 			if (isonlyParameter)
 			{
@@ -640,7 +632,7 @@ public class CExecSQL extends CCobolElement
 						int p2 = nextId.indexOf(')') ;
 						if (p1 > 0 && p2 > p1)
 						{
-							String ids = nextId.substring(p1+1, p2) ; 
+							String ids = nextId.substring(p1+1, p2) ;
 							if (ids.startsWith("#"))
 							{
 								ids = ids.substring(1) ;
@@ -692,5 +684,5 @@ public class CExecSQL extends CCobolElement
 		}
 		return out ;
 	}
-	
+
 }

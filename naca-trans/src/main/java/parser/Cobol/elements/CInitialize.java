@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on Jul 27, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements;
 
 import java.util.Vector;
@@ -34,8 +28,6 @@ import utils.Transcoder;
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CInitialize extends CCobolElement
 {
@@ -71,7 +63,7 @@ public class CInitialize extends CCobolElement
 			{
 				GetNext() ;
 			}
-			else 
+			else
 			{
 				isdone = true ;
 			}
@@ -91,7 +83,7 @@ public class CInitialize extends CCobolElement
 				{
 					GetNext();
 					numericRepWithValue = ReadTerminal();
-				} 
+				}
 			}
 			else if(tok.GetKeyword() == CCobolKeywordList.ALPHANUMERIC)
 			{
@@ -105,14 +97,14 @@ public class CInitialize extends CCobolElement
 					tok = GetNext();
 					if (tok.GetKeyword() == CCobolKeywordList.ALL)
 					{
-						tok = GetNext() ; 
+						tok = GetNext() ;
 						alphaNumericFillWithValue = ReadTerminal();
 					}
 					else
 					{
 						alphaNumericRepWithValue = ReadTerminal();
 					}
-				} 
+				}
 			}
 			else if (tok.GetKeyword() == CCobolKeywordList.NUMERIC_EDITED)
 			{
@@ -125,11 +117,11 @@ public class CInitialize extends CCobolElement
 				{
 					GetNext();
 					numericEditedRepWithValue = ReadTerminal();
-				} 
+				}
 			}
 
 		}
-		
+
 		tok = GetCurrentToken() ;
 		if (tok.GetType() == CTokenType.SEMI_COLON)
 		{
@@ -176,13 +168,13 @@ public class CInitialize extends CCobolElement
 		}
 		return eInit ;
 	}
-	
+
 	protected Vector<CIdentifier> arrVariables = new Vector<CIdentifier>() ;
 	protected CTerminal numericRepWithValue = null ;
 	protected CTerminal alphaNumericRepWithValue = null ;
 	protected CTerminal alphaNumericFillWithValue = null ;
 	protected CTerminal numericEditedRepWithValue = null ;
-	
+
 		/* (non-Javadoc)
 	 * @see parser.CBaseElement#DoCustomSemanticAnalysis(semantic.CBaseSemanticEntity, semantic.CBaseSemanticEntityFactory)
 	 */

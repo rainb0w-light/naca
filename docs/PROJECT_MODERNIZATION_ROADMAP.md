@@ -35,7 +35,10 @@ the current queue.
 - M0-M3 are complete: roadmap/baselines, quality tooling, CI/security workflows,
   and transpiler self-assignment cleanup are committed.
 - M4-M5 have active no-growth gates and completed first cleanup slices; broader
-  semantic naming and comment/Javadoc cleanup continue module by module.
+  semantic naming remains guarded at zero `m_*` identifiers. All Eclipse/IDE
+  template boilerplate and generated TODO placeholders have been removed from
+  maintained Java sources; remaining meaningful Javadoc debt is governed by the
+  static-analysis ratchet.
 - M6's canonical multi-program batch slice is complete. Feature-registry fixture
   traceability remains part of the acceptance-matrix work.
 - The BATCH1 slice also fixed the runtime `CallParamByRef` constructor defect that

@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
-/*
- * Created on 8 avr. 2005
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 package jlib.log;
 
 import java.lang.management.ManagementFactory;
@@ -22,8 +16,6 @@ import java.util.List;
 /**
  * @author PJD
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 public class PatternLayoutSTCheck extends LogPatternLayout
 {
@@ -31,18 +23,18 @@ public class PatternLayoutSTCheck extends LogPatternLayout
 	{
 		super();
 	}
-	
+
 	String getMessage(LogParams logParams)
 	{
 		String csMessage = logParams.getMessage();
-		return csMessage;	
+		return csMessage;
 	}
-	
+
 	private long mem[] = new long[3];
 
 	String format(LogParams logParams, int n)
 	{
-		 
+
 		if(n == 0)
 		{
 			String csMessage = logParams.toString();
@@ -81,7 +73,7 @@ public class PatternLayoutSTCheck extends LogPatternLayout
 		}
 		return null;
 	}
-	
+
 	int getNbLoop(LogParams logParams)
 	{
 		return 1;

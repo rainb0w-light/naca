@@ -7,18 +7,9 @@
 package nacaLib.CESM;
 
 
-/*
- * Created on 24 déc. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
-
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 
 public class CESMUserPermission
@@ -65,7 +56,7 @@ public class CESMUserPermission
 //		reqUser.param(3, identity.getAgency()) ;
 //		reqUser.param(4, identity.getId()) ;
 //		CSQLResultSet result = reqUser.executeQuery() ;
-//		
+//
 //		if (result != null)
 //		{
 //			ResultSet rs = result.getResultSet() ;
@@ -96,7 +87,7 @@ public class CESMUserPermission
 //					s = rs.getString("DTVALF") ;
 //					s = rs.getString("DTMUT") ;
 //					s = rs.getString("REMUT") ;
-//					right.m_Description = ReadApplicationDescription(right.m_Application, conn, proj) ; 
+//					right.m_Description = ReadApplicationDescription(right.m_Application, conn, proj) ;
 //					arrRights.add(right) ;
 //				}
 //				rs.close() ;
@@ -121,7 +112,7 @@ public class CESMUserPermission
 ////		  return;
 ////		}
 //
-//		String req = "SELECT HELDON, HELVAL, UTILNG, LICHMR5, LICHMRA, LICHMST, ANNCOD, LICHMCP " ; 
+//		String req = "SELECT HELDON, HELVAL, UTILNG, LICHMR5, LICHMRA, LICHMST, ANNCOD, LICHMCP " ;
 //		if (proj.equals("RS"))
 //		{
 //			req += " FROM RS0323 " ;
@@ -174,6 +165,6 @@ public class CESMUserPermission
 //			return "" ;
 //		}
 //
-//	} 
+//	}
 //
 //}

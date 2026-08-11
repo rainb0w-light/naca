@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 30 juil. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.map_elements;
 
 import java.util.ListIterator;
@@ -39,8 +33,6 @@ import utils.Transcoder;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CMapSetElement extends CBMSElement
 {
@@ -71,7 +63,7 @@ public class CMapSetElement extends CBMSElement
 					CEntityResourceForm form = (CEntityResourceForm)le.DoSemanticAnalysis(eFC, factory) ;
 					if (resStrings == null)
 					{
-						resStrings = le.GetResourceStrings(); 
+						resStrings = le.GetResourceStrings();
 					}
 					if (form != null)
 					{
@@ -100,7 +92,7 @@ public class CMapSetElement extends CBMSElement
 		return eFC ;
 	}
 	protected ArrayList<String> arrAccessors = new ArrayList<String>() ;
-	
+
 	/* (non-Javadoc)
 	 * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
 	 */
@@ -137,7 +129,7 @@ public class CMapSetElement extends CBMSElement
 			else
 			{
 				Transcoder.logError(getLine(), "Expecting INOUT") ;
-				return false ; 
+				return false ;
 			}
 			GetNext() ;
 		}
@@ -151,7 +143,7 @@ public class CMapSetElement extends CBMSElement
 			else
 			{
 				Transcoder.logError(getLine(), "Expecting COBOL") ;
-				return false ; 
+				return false ;
 			}
 			GetNext() ;
 		}
@@ -164,7 +156,7 @@ public class CMapSetElement extends CBMSElement
 //			}
 //			else
 //			{
-//				return false ; 
+//				return false ;
 //			}
 //			GetNext() ;
 //		}
@@ -177,7 +169,7 @@ public class CMapSetElement extends CBMSElement
 //			}
 //			else
 //			{
-//				return false ; 
+//				return false ;
 //			}
 //			GetNext() ;
 //		}
@@ -190,7 +182,7 @@ public class CMapSetElement extends CBMSElement
 //			}
 //			else
 //			{
-//				return false ; 
+//				return false ;
 //			}
 //			GetNext() ;
 //		}
@@ -203,7 +195,7 @@ public class CMapSetElement extends CBMSElement
 //			}
 //			else
 //			{
-//				return false ; 
+//				return false ;
 //			}
 //			GetNext() ;
 //		}
@@ -214,7 +206,7 @@ public class CMapSetElement extends CBMSElement
 		}
 		return true ;
 	}
-	
+
 	String mode = "" ;
 	String language = "" ;
 	/* (non-Javadoc)
@@ -234,7 +226,7 @@ public class CMapSetElement extends CBMSElement
 	{
 		resStrings = res ;
 	}
-	
+
 	public CBMSElement loadTagParameters(Tag tagCurrent)
 	{
 		language = tagCurrent.getVal("Language");
@@ -242,10 +234,10 @@ public class CMapSetElement extends CBMSElement
 		setLine(nLine);
 		mode = tagCurrent.getVal("Mode");
 		setName(tagCurrent.getVal("Name"));
-		
+
 		return loadInternalTags(tagCurrent);
 	}
-		
+
 	public CBMSElement parseXMLResource(Tag tag)
 	{
 		String csName = tag.getName();
@@ -256,9 +248,9 @@ public class CMapSetElement extends CBMSElement
 			elem.loadTagParameters(tag);
 		}
 		return elem;
-	}	
-	
-	
+	}
+
+
 	private CBMSElement loadInternalTags(Tag tagCurrent)
 	{
 		TagCursor curChild = new TagCursor();
@@ -272,14 +264,14 @@ public class CMapSetElement extends CBMSElement
 		}
 		return this;
 	}
-	
-	
+
+
 	public CBMSElement loadFromRES(String csName)
 	{
 		language = "COBOL";
 		mode = "INOUT";
 		setName(csName);
 		setLine(1);
-		return this;			
+		return this;
 	}
 }

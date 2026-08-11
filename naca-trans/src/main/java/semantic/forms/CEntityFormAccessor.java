@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on Aug 17, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic.forms;
 
 import parser.expression.CTerminal;
@@ -115,7 +109,7 @@ public class CEntityFormAccessor extends CBaseDataReference
 	{
 		return false ;
 	}
-	
+
 	protected boolean isvirtual = false ;
 	public void setVirtual()
 	{
@@ -138,12 +132,12 @@ public class CEntityFormAccessor extends CBaseDataReference
 	public String GetConstantValue()
 	{
 		return "" ;
-	} 	 
+	}
 	public CBaseActionEntity GetSpecialAssignment(CDataEntity term, CBaseEntityFactory factory, int l)
 	{
 		if (term.GetDataType() == CDataEntityType.FORM && !owner.IsSaveCopy())
 		{
-			CEntityNoAction act = factory.NewEntityNoAction(l) ; 
+			CEntityNoAction act = factory.NewEntityNoAction(l) ;
 			factory.programCatalog.RegisterMapCopy(act) ;
 			return act ;
 		}
@@ -169,7 +163,7 @@ public class CEntityFormAccessor extends CBaseDataReference
 				field.UnRegisterWriteReference(this) ;
 			}
 			return true ;
-		}		
+		}
 		return b ;
 	}
 	public CEntityResourceForm getSaveCopy()

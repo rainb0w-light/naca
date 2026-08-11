@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
-/*
- * Created on 31 mars 2005
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 package nacaLib.varEx;
 
 import jlib.misc.IntegerRef;
@@ -22,8 +16,6 @@ import nacaLib.tempCache.TempCacheLocator;
 /**
  * @author PJD
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 public abstract class VarAndEdit extends VarBase
 {
@@ -31,16 +23,16 @@ public abstract class VarAndEdit extends VarBase
 	{
 		super(declareTypeBase);
 	}
-	
+
 	protected VarAndEdit()
 	{
 		super();
 	}
-	
+
 	public String getSTCheckValue()
 	{
 		SharedProgramInstanceData sharedProgramInstanceData = getSharedProgramInstanceData();
-		
+
 		if(bufferPos != null)
 		{
 			CStr cstr = bufferPos.getOwnCStr(varDef.getLength());
@@ -60,19 +52,19 @@ public abstract class VarAndEdit extends VarBase
 	public abstract int compareTo(int nValue);
 	public abstract int compareTo(double dValue);
 	public abstract int compareTo(ComparisonMode mode, String cs);
-	
+
 	public abstract void set(CobolConstantZero cst);
 	public abstract void set(CobolConstantSpace cst);
 	public abstract void set(CobolConstantHighValue cst);
 	public abstract void set(CobolConstantLowValue cst);
 	public abstract void setStringAtPosition(String csValue, int nOffsetPosition, int nNbChar);
 	public abstract void setAndFill(String csValue);
-	
+
 	public String digits()
 	{
 		return varDef.digits(bufferPos);
 	}
-	
+
 	public void setRepeatingCharAtOffsetFromStart(CobolConstantZero cst, int nOffsetPosition, int nNbChar)	// Fill with a 0 base index)
 	{
 		varDef.write(bufferPos, cst, nOffsetPosition, nNbChar);
@@ -92,22 +84,22 @@ public abstract class VarAndEdit extends VarBase
 	{
 		varDef.write(bufferPos, cst, nOffsetPosition, nNbChar);
 	}
-	
+
 	public boolean isNumeric()
 	{
-		return varDef.isNumeric(bufferPos);		
-	}	
-		
+		return varDef.isNumeric(bufferPos);
+	}
+
 	public boolean isAlphabetic()
 	{
 		return varDef.isAlphabetic(bufferPos);
 	}
-	
-	public int getBodySize() 
+
+	public int getBodySize()
 	{
 		return varDef.getBodyLength() ;
 	}
-	
+
 	public VarBase getUnprefixNamedVarChild(BaseProgramManager programManager, String csColName, IntegerRef rnChildIndex)
 	{
 		VarDefBase varDefChild = varDef.getUnprefixNamedChild(programManager.getSharedProgramInstanceData(), csColName, rnChildIndex);
@@ -119,7 +111,7 @@ public abstract class VarAndEdit extends VarBase
 		}
 		return null;
 	}
-	
+
 	public VarBase getUnDollarUnprefixNamedChild(BaseProgramManager programManager, String csColName, IntegerRef rnChildIndex)
 	{
 		VarDefBase varDefChild = varDef.getUnDollarUnprefixNamedChild(programManager.getSharedProgramInstanceData(), csColName, rnChildIndex);
@@ -131,8 +123,8 @@ public abstract class VarAndEdit extends VarBase
 		}
 		return null;
 	}
-	
-		
+
+
 	public Var getVarChildAt(int n)
 	{
 		n--;	// given as 1-based
@@ -147,10 +139,10 @@ public abstract class VarAndEdit extends VarBase
 				if(!varChild.isEdit())
 					return (Var)varChild;
 			}
-		}	
+		}
 		return null;
 	}
-			
+
 	public Edit getEditChildAt(int n)
 	{
 		n--;	// given as 1-based
@@ -168,10 +160,10 @@ public abstract class VarAndEdit extends VarBase
 					return editChild;
 				}
 			}
-		}	
+		}
 		return null;
 	}
-	
+
 	void inheritSemanticContext(VarBase varSource)
 	{
 		String csSemanticValue = varSource.getSemanticContextValue();
@@ -184,6 +176,6 @@ public abstract class VarAndEdit extends VarBase
 	public int getNbOccurs()
 	{
 		return varDef.getNbOccurs() ;
-	}	
+	}
 
 }

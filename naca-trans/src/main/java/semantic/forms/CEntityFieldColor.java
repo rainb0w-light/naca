@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 11 ao�t 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic.forms;
 
 import java.util.Vector;
@@ -24,8 +18,6 @@ import utils.NacaTransAssertException;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CEntityFieldColor extends CBaseEntityFieldAttribute
 {
@@ -35,13 +27,13 @@ public class CEntityFieldColor extends CBaseEntityFieldAttribute
 			text = s ;
 		}
 		public String text="" ;
-		public static CFieldColor RED = new CFieldColor("RED") ; 
-		public static CFieldColor YELLOW = new CFieldColor("YELLOW") ; 
-		public static CFieldColor GREEN = new CFieldColor("GREEN") ; 
-		public static CFieldColor BLUE = new CFieldColor("BLUE") ; 
-		public static CFieldColor PINK = new CFieldColor("PINK") ; 
-		public static CFieldColor TURQUOISE = new CFieldColor("TURQUOISE") ; 
-		public static CFieldColor NEUTRAL = new CFieldColor("NEUTRAL") ; 
+		public static CFieldColor RED = new CFieldColor("RED") ;
+		public static CFieldColor YELLOW = new CFieldColor("YELLOW") ;
+		public static CFieldColor GREEN = new CFieldColor("GREEN") ;
+		public static CFieldColor BLUE = new CFieldColor("BLUE") ;
+		public static CFieldColor PINK = new CFieldColor("PINK") ;
+		public static CFieldColor TURQUOISE = new CFieldColor("TURQUOISE") ;
+		public static CFieldColor NEUTRAL = new CFieldColor("NEUTRAL") ;
 		public static CFieldColor WhichColor(String col)
 		{
 			if (col.equals(""))
@@ -50,31 +42,31 @@ public class CEntityFieldColor extends CBaseEntityFieldAttribute
 			}
 			else if (col.equals("1"))
 			{
-				return CFieldColor.BLUE ; 
+				return CFieldColor.BLUE ;
 			}
 			else if (col.equals("2"))
 			{
-				return CFieldColor.RED ; 
+				return CFieldColor.RED ;
 			}
 			else if (col.equals("3"))
 			{
-				return CFieldColor.PINK ; 
+				return CFieldColor.PINK ;
 			}
 			else if (col.equals("4"))
 			{
-				return CFieldColor.GREEN ; 
+				return CFieldColor.GREEN ;
 			}
 			else if (col.equals("5"))
 			{
-				return CFieldColor.TURQUOISE ; 
+				return CFieldColor.TURQUOISE ;
 			}
 			else if (col.equals("6"))
 			{
-				return CFieldColor.YELLOW ; 
+				return CFieldColor.YELLOW ;
 			}
 			else if (col.equals("7"))
 			{
-				return CFieldColor.NEUTRAL; 
+				return CFieldColor.NEUTRAL;
 			}
 			else
 			{
@@ -82,7 +74,7 @@ public class CEntityFieldColor extends CBaseEntityFieldAttribute
 			}
 		}
 	}
-	
+
 	public CEntityFieldColor(int l, String name, CObjectCatalog cat, CDataEntity owner)
 	{
 		super(l, name, cat, CEntityFieldAttributeType.COLOR, owner) ;
@@ -130,7 +122,7 @@ public class CEntityFieldColor extends CBaseEntityFieldAttribute
 	}
 
 	protected CFieldColor color = null ;
-	public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory) 
+	public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory)
 	{
 		CDataEntity e = reference.GetArrayReference(v, factory) ;
 		return factory.NewEntityFieldColor(getLine(), "", e);

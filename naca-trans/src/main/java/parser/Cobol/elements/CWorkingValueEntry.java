@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on Jul 28, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements;
 
 import java.util.Vector;
@@ -35,15 +29,13 @@ import utils.Transcoder;
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CWorkingValueEntry extends CCobolElement
 {
 	/**
 	 * @param line
 	 */
-	public CWorkingValueEntry(int line) 
+	public CWorkingValueEntry(int line)
 	{
 		super(line);
 		//reference = ref ;
@@ -60,22 +52,22 @@ public class CWorkingValueEntry extends CCobolElement
 			return false ;
 		}
 		CGlobalEntityCounter.GetInstance().CountCobolVerb("NAMED_CONDITION") ;
-		
+
 		CBaseToken tok = GetNext() ;
 		if (tok.GetType() != CTokenType.IDENTIFIER)
 		{
 			Transcoder.logError(getLine(), "Expecting an identifier after '88' keyword");
 			return false ;
-		} 
+		}
 		csIdentifier = tok.GetValue() ;
-		
+
 		tok = GetNext() ;
 		if (tok.GetKeyword() != CCobolKeywordList.VALUE && tok.GetKeyword() != CCobolKeywordList.VALUES)
 		{
 			Transcoder.logError(getLine(), "Expecting 'VALUE' keyword");
 			return false ;
 		}
-		
+
 		tok = GetNext();
 		if (tok.GetKeyword() == CCobolKeywordList.IS || tok.GetKeyword() == CCobolKeywordList.ARE)
 		{
@@ -85,7 +77,7 @@ public class CWorkingValueEntry extends CCobolElement
 		while (!isdone)
 		{
 			CBaseToken tokVal = GetCurrentToken();
-			CTerminal val ; 
+			CTerminal val ;
 			if (tokVal.GetType() == CTokenType.COMMA)
 			{
 				tokVal = GetNext();
@@ -94,13 +86,13 @@ public class CWorkingValueEntry extends CCobolElement
 			{
 				val = ReadTerminal();
 				values.addElement(val) ;
-				
+
 				CBaseToken tokNext = GetCurrentToken();
 				if (tokNext.GetType() == CTokenType.COMMA)
 				{
 					values.addElement(val) ; // values are intervals, so for a single value, it is added twice, as an interval of one single value
 					GetNext(); // consume ","
-				} 
+				}
 				else if (tokNext.GetType() == CTokenType.STRING || tokNext.GetType() == CTokenType.NUMBER || tokNext.GetType() == CTokenType.CONSTANT)
 				{
 					values.addElement(val) ; // values are intervals, so for a single value, it is added twice, as an interval of one single value
@@ -123,13 +115,13 @@ public class CWorkingValueEntry extends CCobolElement
 				{
 					values.addElement(val) ; // values are intervals, so for a single value, it is added twice, as an interval of one single value
 					isdone = true ;
-				} 
+				}
 			}
 			else
 			{
 				isdone = true  ;
 			}
-		} 
+		}
 		tok = GetCurrentToken() ;
 		if (tok.GetType() == CTokenType.DOT)
 		{
@@ -158,21 +150,21 @@ public class CWorkingValueEntry extends CCobolElement
 			{
 				Element eval = root.createElement("Value") ;
 				term2.ExportTo(eval, root) ;
-				e.appendChild(eval) ; 
+				e.appendChild(eval) ;
 			}
 			else
 			{
 				Element eval = root.createElement("Interval") ;
 				term1.ExportTo(eval, root) ;
-				e.appendChild(eval) ; 
+				e.appendChild(eval) ;
 				Element eThrough = root.createElement("Through") ;
 				term2.ExportTo(eThrough, root) ;
-				eval.appendChild(eThrough) ; 
+				eval.appendChild(eThrough) ;
 			}
 		}
 		return e;
 	}
-	
+
 	protected String csIdentifier = "" ;
 	protected Vector<CTerminal> values = new Vector<CTerminal>() ; // maybe several values
 	/* (non-Javadoc)
@@ -212,5 +204,5 @@ public class CWorkingValueEntry extends CCobolElement
 			}
 		}
 		return eCond ;
-	} 
+	}
 }

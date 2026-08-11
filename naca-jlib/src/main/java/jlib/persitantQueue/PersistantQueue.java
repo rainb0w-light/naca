@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.persitantQueue;
 
@@ -31,16 +31,16 @@ import jlib.xml.Tag;
  */
 
 /*
- * 
+ *
  * Sample usage
- 
+
  		PersistantQueue p = new PersistantQueue("d:/Dev/JLibTests/TestQueue/Queue");
 		String cs = (String)p.getFirst();
 		cs = (String)p.getLast();
 		cs = (String)p.getFirst();
 		cs = (String)p.getLast();
 		cs = (String)p.getFirst();
-		
+
 //		p.addLast("a1");
 //		p.addLast("a2");
 //		p.addLast("a3");
@@ -53,14 +53,14 @@ import jlib.xml.Tag;
 //		p.addLast("b1");
 //		p.addLast("b2");
 
-		
+
 		cs = (String)p.getFirst();
 		cs = (String)p.getFirst();
 		p.addLast("b1");
 		cs = (String)p.getFirst();
 		cs = (String)p.getFirst();
 		cs = (String)p.getFirst();
-		
+
 		p.addLast("c1");
 		cs = (String)p.getFirst();
 		cs = (String)p.getFirst();
@@ -73,34 +73,34 @@ public class PersistantQueue
 {
 	private String csDir = null;
 	private String csIndexFile = null;
-	
+
 	public PersistantQueue(String csDir)
 	{
 		this.csDir = csDir;
 		if(!csDir.endsWith("/"))
 			csDir += '/';
-		
-		csIndexFile = csDir + "index.qdx";  
+
+		csIndexFile = csDir + "index.qdx";
 		buildIndexes();
 	}
-	
+
 	public synchronized void addLast(Serializable object)
 	{
 		int nLastMax = incMaxIndex();
-		
+
 		String csFileName = csDir + nLastMax + ".q";
 		write(csFileName, object);
 	}
-	
+
 	public synchronized void addLast(Tag tag)
 	{
 		int nLastMax = incMaxIndex();
-		
+
 		String csFileName = csDir + nLastMax + ".q";
 		String cs = tag.exportToString();
 		write(csFileName, cs);
 	}
-	
+
 	public synchronized Object getFirst()
 	{
 		Object o = null;
@@ -110,12 +110,12 @@ public class PersistantQueue
 			if(nLastMin == -1)	// Empty queue
 				return null;
 			String csFileName = csDir + nLastMin + ".q";
-			
+
 			o = read(csFileName);
-		}		
+		}
 		return o;
 	}
-	
+
 	public synchronized Tag getFirstAsTag()
 	{
 		boolean b = false;
@@ -125,19 +125,19 @@ public class PersistantQueue
 			if(nLastMin == -1)	// Empty queue
 				return null;
 			String csFileName = csDir + nLastMin + ".q";
-			
+
 			String csTag = (String)read(csFileName);
 			if(csTag != null)
 			{
-				Tag tagItem = new Tag(); 
+				Tag tagItem = new Tag();
 				b = tagItem.loadFromString(csTag);
 				if(b)
 					return tagItem;
 			}
-		}		
+		}
 		return null;
 	}
-	
+
 	public synchronized Object getLast()
 	{
 		Object o = null;
@@ -147,12 +147,12 @@ public class PersistantQueue
 			if(nLastMax == -1)	// Empty queue
 				return null;
 			String csFileName = csDir + nLastMax + ".q";
-			
+
 			o = read(csFileName);
-		}		
+		}
 		return o;
 	}
-	
+
 	public synchronized Object getLastAsTag()
 	{
 		Object o = null;
@@ -162,12 +162,12 @@ public class PersistantQueue
 			if(nLastMax == -1)	// Empty queue
 				return null;
 			String csFileName = csDir + nLastMax + ".q";
-			
+
 			o = read(csFileName);
-		}		
+		}
 		return (Tag)o;
 	}
-	
+
 	public synchronized Object getFirst(BaseQueueItemFactory baseQueueItemFactory)
 	{
 		Object o = null;
@@ -177,12 +177,12 @@ public class PersistantQueue
 			if(nLastMin == -1)	// Empty queue
 				return null;
 			String csFileName = csDir + nLastMin + ".q";
-			
+
 			o = read(csFileName, baseQueueItemFactory);
-		}		
+		}
 		return o;
 	}
-	
+
 	public synchronized Object getLast(BaseQueueItemFactory baseQueueItemFactory)
 	{
 		Object o = null;
@@ -192,12 +192,12 @@ public class PersistantQueue
 			if(nLastMax == -1)	// Empty queue
 				return null;
 			String csFileName = csDir + nLastMax + ".q";
-			
+
 			o = read(csFileName);
-		}		
+		}
 		return o;
 	}
-	
+
 	// index file contains a string :folling format [min index : max index[; the max index is the highest file name + 1
 	// If the queue is empty, then min index == max index
 	// The index file is rebuild in ctor
@@ -205,7 +205,7 @@ public class PersistantQueue
 	{
 		int nMin = 0x7fffffff;
 		int nMax = 0x80000000;
-		
+
 		FileSystem.createPath(csDir);
 		String tcsNames[] = FileSystem.getFileNameListBySuffix(csDir, ".q");
 		if(tcsNames == null)
@@ -226,32 +226,30 @@ public class PersistantQueue
 			}
 			nMax++;
 		}
-		
+
 		RandomAccessFile fileIndex;
 		try
 		{
 			fileIndex = new RandomAccessFile(csIndexFile, "rw");
 			String csLine = "" + nMin + ":" + nMax;
-				
+
 			byte tb[] = csLine.getBytes();
 			fileIndex.seek(0);
-	
+
 			fileIndex.write(tb);
 			fileIndex.setLength(csLine.length());
 			fileIndex.close();
 		}
 		catch (FileNotFoundException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		catch (IOException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}	
+		}
 	}
-	
+
 	private int incMaxIndex()
 	{
 		int nMin = 0x4000000;
@@ -267,7 +265,7 @@ public class PersistantQueue
 				{
 					String csMin = csLine.substring(0, nSep);
 					String csMax = csLine.substring(nSep+1);
-					nMin = NumberParser.getAsInt(csMin); 
+					nMin = NumberParser.getAsInt(csMin);
 					nMax = NumberParser.getAsInt(csMax);
 				}
 			}
@@ -277,11 +275,11 @@ public class PersistantQueue
 			String csMax = Integer.toString(nMax+1);
 
 			csLine = csMin + ":" + csMax;
-			
+
 			byte tb[] = csLine.getBytes();
 			fileIndex.write(tb);
 			fileIndex.setLength(csLine.length());
-			
+
 			fileIndex.close();
 
 			return nMax;
@@ -293,7 +291,7 @@ public class PersistantQueue
 		catch (IOException e)
 		{
 			return -1;
-		}		
+		}
 	}
 
 	private int incMinIndex()
@@ -311,7 +309,7 @@ public class PersistantQueue
 				{
 					String csMin = csLine.substring(0, nSep);
 					String csMax = csLine.substring(nSep+1);
-					nMin = NumberParser.getAsInt(csMin); 
+					nMin = NumberParser.getAsInt(csMin);
 					nMax = NumberParser.getAsInt(csMax);
 				}
 			}
@@ -329,15 +327,15 @@ public class PersistantQueue
 				csMin = Integer.toString(nMin+1);
 				csMax = Integer.toString(nMax);
 			}
-	
+
 			csLine = csMin + ":" + csMax;
-				
+
 			byte tb[] = csLine.getBytes();
 			fileIndex.seek(0);
 			fileIndex.write(tb);
 			fileIndex.setLength(csLine.length());
 			fileIndex.close();
-			
+
 			return nMin;
 		}
 		catch (FileNotFoundException e)
@@ -347,9 +345,9 @@ public class PersistantQueue
 		catch (IOException e)
 		{
 			return -1;
-		}		
+		}
 	}
-	
+
 	private int decMaxIndex()
 	{
 		int nMin = 0x4000000;
@@ -365,7 +363,7 @@ public class PersistantQueue
 				{
 					String csMin = csLine.substring(0, nSep);
 					String csMax = csLine.substring(nSep+1);
-					nMin = NumberParser.getAsInt(csMin); 
+					nMin = NumberParser.getAsInt(csMin);
 					nMax = NumberParser.getAsInt(csMax);
 				}
 			}
@@ -383,15 +381,15 @@ public class PersistantQueue
 				csMin = Integer.toString(nMin);
 				csMax = Integer.toString(nMax-1);
 			}
-	
+
 			csLine = csMin + ":" + csMax;
-				
+
 			byte tb[] = csLine.getBytes();
 			fileIndex.seek(0);
 			fileIndex.write(tb);
 			fileIndex.setLength(csLine.length());
 			fileIndex.close();
-			
+
 			return nMax;
 		}
 		catch (FileNotFoundException e)
@@ -401,9 +399,9 @@ public class PersistantQueue
 		catch (IOException e)
 		{
 			return -1;
-		}		
+		}
 	}
-	
+
 	private boolean write(String csFileName, Object o)
 	{
 		try
@@ -413,26 +411,24 @@ public class PersistantQueue
 			fileOut = new ObjectOutputStream(fileOutput);
 
 			fileOut.writeObject(o);
-			
+
 			fileOut.close();
 			fileOutput.close();
-			
+
 			return true;
 		}
 		catch (FileNotFoundException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return false;
 		}
 		catch (IOException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return false;
-		}	
+		}
 	}
-	
+
 	private synchronized Object read(String csFileName)
 	{
 		try
@@ -442,31 +438,28 @@ public class PersistantQueue
 			ObjectInputStream fileIn = new ObjectInputStream(fileInput);
 
 			Object o = fileIn.readObject();
-			
+
 			fileIn.close();
 			fileInput.close();
-			
-			// Remove file			
+
+			// Remove file
 			File file = new File(csFileName);
 			file.delete();
-			
+
 			return o;
 		}
 		catch (FileNotFoundException e)
 		{
-			// TODO Auto-generated catch block
 			return null;
 		}
 		catch (IOException e)
 		{
-			// TODO Auto-generated catch block
 			return null;
 		}
 		catch (ClassNotFoundException e)
 		{
-			// TODO Auto-generated catch block
 			return null;
-		}			
+		}
 	}
 
 	private synchronized Object read(String csFileName, BaseQueueItemFactory baseQueueItemFactory)
@@ -478,32 +471,29 @@ public class PersistantQueue
 			ObjectInputStream fileIn = new ObjectInputStream(fileInput);
 
 			Object o = baseQueueItemFactory.read(fileIn);
-			
+
 			fileIn.close();
 			fileInput.close();
-			
-			// Remove file			
+
+			// Remove file
 			File file = new File(csFileName);
 			file.delete();
-			
+
 			return o;
 		}
 		catch (FileNotFoundException e)
 		{
-			// TODO Auto-generated catch block
 			return null;
 		}
 		catch (IOException e)
 		{
-			// TODO Auto-generated catch block
 			return null;
 		}
 		catch (ClassNotFoundException e)
 		{
-			// TODO Auto-generated catch block
 			return null;
-		}			
+		}
 	}
 
-	
+
 }

@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 7 sept. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements.CICS;
 
 import diagnostic.DiagnosticSink;
@@ -30,8 +24,6 @@ import utils.Transcoder;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CExecCICSDelay extends CCobolElement
 {
@@ -81,7 +73,7 @@ public class CExecCICSDelay extends CCobolElement
 		{
 			tok = GetNext();
 		}
-		
+
 		if (tok.GetValue().equals("INTERVAL"))
 		{
 			tok = GetNext() ;
@@ -96,7 +88,7 @@ public class CExecCICSDelay extends CCobolElement
 				}
 			}
 		}
-		
+
 		if (tok.GetKeyword() == CCobolKeywordList.FOR)
 		{
 			tok = GetNext() ;
@@ -111,11 +103,11 @@ public class CExecCICSDelay extends CCobolElement
 					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
 					{
 						tok = GetNext();
-					} 
+					}
 				}
 			}
 		}
-				
+
 		if (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
 		{
 			Transcoder.logError(getLine(), "Error while parsing EXEC CICS DELAY");

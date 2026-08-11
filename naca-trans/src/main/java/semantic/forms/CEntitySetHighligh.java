@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 11 ao�t 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic.forms;
 
 import semantic.CBaseActionEntity;
@@ -20,8 +14,6 @@ import utils.CObjectCatalog;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CEntitySetHighligh extends CBaseActionEntity
 {
@@ -34,7 +26,7 @@ public class CEntitySetHighligh extends CBaseActionEntity
 //		}
 //		public String text = "" ;
 //		public static CFieldHighligh NORMAL = new CFieldHighligh("Normal");
-//	} 
+//	}
 	/**
 	 * @param line
 	 * @param cat
@@ -121,7 +113,7 @@ public class CEntitySetHighligh extends CBaseActionEntity
 
 	public void SetHighLight(CDataEntity entity)
 	{
-		highLightValue = entity ;		
+		highLightValue = entity ;
 	}
 
 	public void SetNormal()
@@ -167,7 +159,7 @@ public class CEntitySetHighligh extends CBaseActionEntity
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public void Reset()
 	{
@@ -175,6 +167,6 @@ public class CEntitySetHighligh extends CBaseActionEntity
 		isisNormal = false ;
 		isisReverse = false ;
 		isisUnderlined = false ;
-		highLightValue = null ;		
+		highLightValue = null ;
 	}
 }

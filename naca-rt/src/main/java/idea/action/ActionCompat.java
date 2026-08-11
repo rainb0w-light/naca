@@ -36,18 +36,9 @@ import org.apache.struts.action.ActionMapping;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-/*
- * Created on 8 d�c. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
-
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 
 
@@ -57,10 +48,10 @@ public class ActionCompat extends Action
 	{
 		super();
 	}
-	
+
 	InputAnalyser inputAnalyser = new InputAnalyser() ;
 	BaseProgramLoader prgseq = BaseProgramLoader.GetInstance() ;
-		
+
 	public ActionForward execute(
 		ActionMapping mapping,
 		ActionForm form,
@@ -74,7 +65,7 @@ public class ActionCompat extends Action
 			response.getOutputStream().println("Internal Error : ProgramSequencer not valid") ;
 			return null;
 		}
-		
+
 		HttpSession javaSession = request.getSession(true);
 		/*
 		OnlineSession appSession = null ;
@@ -91,14 +82,14 @@ public class ActionCompat extends Action
 			CHTTPMapFieldLoader reqLoader = new CHTTPMapFieldLoader(request);
 			appSession.setInputWrapper(reqLoader);
 		}
-		
+
 		if(appSession.blockUntilLocked())
 		{
 			// 1st session has finished
 			return appSession.actionForward;
 		}
 		*/
-		
+
 		boolean isnewSession = false;
 		OnlineSession appSession = (OnlineSession)javaSession.getAttribute("AppSession");
 		if (appSession == null)
@@ -112,7 +103,7 @@ public class ActionCompat extends Action
 			// 1st session has finished
 			return appSession.actionForward;
 		}
-		
+
 		if(isnewSession)
 		{
 			javaSession.setAttribute("AppSession", appSession);
@@ -124,21 +115,21 @@ public class ActionCompat extends Action
 			CHTTPMapFieldLoader reqLoader = new CHTTPMapFieldLoader(request);
 			appSession.setInputWrapper(reqLoader);
 		}
-		
-		
+
+
 		String csElapsedTime = request.getParameter("elapsedTime");
 		if (csElapsedTime != null && !csElapsedTime.equals(""))
-		{	
+		{
 			appSession.stopNetwork(new Long(csElapsedTime));
 		}
 		else
 		{
 			appSession.stopNetwork(0);
 		}
-		
+
 		// We are the 1st session
 		//appSession.lock();
-		
+
 		appSession.actionForward = doExecute(
 						appSession,
 						javaSession,
@@ -146,15 +137,15 @@ public class ActionCompat extends Action
 						form,
 						request,
 						response);
-		
+
 		//appSession.unlock();
 		appSession.unreserveSession();
-		
+
 		appSession.startNetwork();
-		
+
 		return appSession.actionForward;
 	}
-	
+
 	private ActionForward doExecute(
 					OnlineSession appSession,
 					HttpSession javaSession,
@@ -168,7 +159,7 @@ public class ActionCompat extends Action
 		{
 			appSession.setInternTest(true);
 		}
-		
+
 		String csLUName = request.getParameter("luname");
 		if(csLUName != null && !csLUName.equals(""))
 		{
@@ -190,7 +181,7 @@ public class ActionCompat extends Action
 //			String idPage = appSession.getIdPage();
 //			CMapFieldLoader reqLoader = appSession.getInputWrapper() ;
 //			if (idPage != null && idPage.equals("rs7aa3h")) //TODO Config file or ????
-//			{	
+//			{
 //				reqLoader.setKeyPressed(KeyPressed.ENTER);
 //			}
 //			else if (idPage != null && !idPage.equals("") && !idPage.equals("MapLogin"))
@@ -213,7 +204,7 @@ public class ActionCompat extends Action
 			Element eForm = doc.createElement("form") ;
 			doc.appendChild(eForm) ;
 			eForm.setAttribute("name", "update") ;
-			
+
 			appSession.setXMLData(doc) ;
 			appSession.setIdPage("update") ;
 			appSession.setActionAlias("naca.do") ;
@@ -226,19 +217,19 @@ public class ActionCompat extends Action
 		{
 			String csReason = openState.getString();
 			String csRemark = null;
-			
+
 			if(openState == CalendarOpenState.AppManuallyClosed)
 				csRemark = BaseResourceManager.getManualCloseReason();
 			else if(openState == CalendarOpenState.AppClosed)
-				csRemark = BaseResourceManager.getCurrentOpenCalendarRangeString(); 
+				csRemark = BaseResourceManager.getCurrentOpenCalendarRangeString();
 			else
 				csRemark = "";
-					
+
 			Document doc = XMLUtil.CreateDocument() ;
 			Element eForm = doc.createElement("form") ;
 			doc.appendChild(eForm) ;
 			eForm.setAttribute("name", "close") ;
-			
+
 			Element eField = doc.createElement("field") ;
 			eForm.appendChild(eField) ;
 			eField.setAttribute("name", "reason") ;
@@ -248,13 +239,13 @@ public class ActionCompat extends Action
 			eForm.appendChild(eField) ;
 			eField.setAttribute("name", "remark") ;
 			eField.setAttribute("value", csRemark) ;
-			
+
 			appSession.setXMLData(doc) ;
 			appSession.setIdPage("close") ;
 			appSession.setActionAlias("naca.do") ;
 			return mapping.findForward("ViewCompat");
 		}
-		
+
 		String csPrintScreen = request.getParameter("printScreen") ;
 		if (csPrintScreen!=null && csPrintScreen.equals("requested"))
 		{
@@ -263,51 +254,51 @@ public class ActionCompat extends Action
 			appSession.setActionAlias("naca.do") ;
 			return mapping.findForward("ViewCompat");
 		}
-		
+
 		String csZoom = request.getParameter("zoom") ;
 		if (csZoom!=null && csZoom.equals("requested"))
 		{
 			inputAnalyser.BuildXMLDataForPrintScreen(appSession) ;
 			if (appSession.isZoom())
-			{	
+			{
 				appSession.setZoom(false);
 				response.addCookie(new Cookie("NACA_Zoom", "false"));
-			}	
+			}
 			else
-			{	
+			{
 				appSession.setZoom(true);
 				response.addCookie(new Cookie("NACA_Zoom", "true"));
-			}	
+			}
 			appSession.setActionAlias("naca.do") ;
-			return mapping.findForward("ViewCompat");			
+			return mapping.findForward("ViewCompat");
 		}
-		
+
 		String csBold = request.getParameter("bold") ;
 		if (csBold!=null && csBold.equals("requested"))
 		{
 			inputAnalyser.BuildXMLDataForPrintScreen(appSession) ;
 			if (appSession.isBold())
-			{	
+			{
 				appSession.setBold(false);
 				response.addCookie(new Cookie("NACA_Bold", "false"));
-			}	
+			}
 			else
-			{	
+			{
 				appSession.setBold(true);
 				response.addCookie(new Cookie("NACA_Bold", "true"));
-			}	
+			}
 			appSession.setActionAlias("naca.do") ;
-			return mapping.findForward("ViewCompat");			
+			return mapping.findForward("ViewCompat");
 		}
 
-		// manage LDAP login 
+		// manage LDAP login
 		if (!appSession.isLogged() && !appSession.isPlayingScenario())
 		{
 			if (appSession.getLUName() == null || appSession.getLUName().equals(""))
 			{
 				Cookie[] cookies = request.getCookies();
 				if (cookies != null)
-				{	
+				{
 					for (int i=0; i < cookies.length; i++)
 					{
 						if (cookies[i].getName().equals("NACA_Luname"))
@@ -332,7 +323,7 @@ public class ActionCompat extends Action
 
 			String csUserid = request.getParameter("userid");
 			if (!appSession.doLDAPLogin(/*"", */csUserid))
-			{				
+			{
 				appSession.setActionAlias("naca.do") ;
 				return mapping.findForward("ViewCompat");
 			}
@@ -348,24 +339,24 @@ public class ActionCompat extends Action
 				{
 					// call programm
 					appSession.RunProgram(prgseq);
-				} 
+				}
 				catch (AbortSessionException e)
-				{				
+				{
 					Document doc = XMLUtil.CreateDocument() ;
 					Element eForm = doc.createElement("form") ;
 					doc.appendChild(eForm) ;
 					eForm.setAttribute("name", "error") ;
-					
+
 					Element eField = doc.createElement("field") ;
 					eForm.appendChild(eField) ;
 					eField.setAttribute("name", "programName") ;
 					eField.setAttribute("value", e.programName) ;
-	
+
 					eField = doc.createElement("field") ;
 					eForm.appendChild(eField) ;
 					eField.setAttribute("name", "errorMessage") ;
 					eField.setAttribute("value", e.reason.toString()) ;
-	
+
 //					StackTraceElement[] tabStack = e.reason.getStackTrace() ;
 //					int n = 1 ;
 //					for (int i=0; i<tabStack.length;i++)
@@ -381,7 +372,7 @@ public class ActionCompat extends Action
 //							eField.setAttribute("value", cs) ;
 //						}
 //					}
-	
+
 					appSession.setXMLData(doc) ;
 					appSession.setIdPage("error") ;
 					appSession.setActionAlias("naca.do") ;
@@ -421,30 +412,30 @@ public class ActionCompat extends Action
 	{
 		// call programm
 		appSession.RunProgram(prgseq);
-		
+
 		// call view
 		View view = new View() ;
 		view.mergeOutput(appSession);
 	}
-	
+
 	public void runClientRequestWithRender(OnlineResourceManager resourceManager, CScenarioPlayer player, OnlineSession session, boolean bExportOutput)
 	{
 //		for(int n=0; n<1000; n++)
 //		{
 			player.rewindScenario();
-			
+
 			BaseProgramLoader basePrgLoader = BaseProgramLoader.GetInstance() ;
 			basePrgLoader.removeSession(session);
-			
+
 			inputAnalyser.BuildXMLData(session) ;
 
 			// call programm
 			session.RunProgram(prgseq);
-		
+
 			// call view
 			View view = new View() ;
 			view.mergeOutput(session);
-			
+
 			//String csDir = resourceManager.getScenarioDir() ;
 			Document xmlOutput = session.getXMLOutput();
 			String csPage = player.getPageNameFromXMLOutput(xmlOutput) ;
@@ -460,7 +451,7 @@ public class ActionCompat extends Action
 //		}
 		//System.out.println("Current page : " + csPage) ;
 	}
-	
+
 	void internalRenderOutput(Document xmlOutput, String filename)
 	{
 		try

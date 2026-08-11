@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 8 sept. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements;
 
 import java.util.Vector;
@@ -34,8 +28,6 @@ import utils.Transcoder;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CSort extends CCobolElement
 {
@@ -43,7 +35,7 @@ public class CSort extends CCobolElement
 	public class CSortKey
 	{
 		public CIdentifier id = null ;
-		public boolean bAscending = true ; 
+		public boolean bAscending = true ;
 	}
 	/**
 	 * @param line
@@ -56,7 +48,7 @@ public class CSort extends CCobolElement
 	{
 		CEntitySort eSort = factory.NewEntitySort(getLine()) ;
 		parent.AddChild(eSort) ;
-		
+
 		CEntityFileDescriptor fileDesc = factory.programCatalog.getFileDescriptor(tempSortFile.GetName()) ;
 		if (fileDesc != null)
 		{
@@ -66,14 +58,14 @@ public class CSort extends CCobolElement
 		{
 			Transcoder.logError(getLine(), "File descriptor not found : " + tempSortFile.GetName());
 		}
-		
+
 		for (int i = 0; i< keys.size(); i++)
 		{
 			CSortKey key = keys.get(i) ;
 			CDataEntity eKey = key.id.GetDataReference(getLine(), factory) ;
 			eSort.AddKey(key.bAscending, eKey) ;
 		}
-		
+
 		if (inputFile != null)
 		{
 			CEntityFileDescriptor eInput = factory.programCatalog.getFileDescriptor(inputFile.GetName()) ;
@@ -94,7 +86,7 @@ public class CSort extends CCobolElement
 			//CEntityProcedure proc = factory.programCatalog.GetProcedure(outputProcedure.GetName(), "") ;
 			eSort.setOutputProcedure(outputProcedure.GetName()) ;
 		}
-		
+
 		return eSort ;
 	}
 	protected boolean DoParsing()
@@ -105,10 +97,10 @@ public class CSort extends CCobolElement
 			return false ;
 		}
 		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
-		
+
 		tok = GetNext() ;
 		tempSortFile = ReadIdentifier() ;
-		
+
 		tok = GetCurrentToken() ;
 		boolean isascending = true ;
 		boolean isdone = false ;
@@ -125,7 +117,7 @@ public class CSort extends CCobolElement
 			else if (tok.GetKeyword() == CCobolKeywordList.DESCENDING)
 			{
 				isascending = false ;
-			} 
+			}
 			else
 			{
 				Transcoder.logError(tok.getLine(), "Missing sort order");
@@ -144,20 +136,20 @@ public class CSort extends CCobolElement
 				k.id = id ;
 				k.bAscending = isascending;
 				keys.add(k);
-				
+
 				tok = GetCurrentToken() ;
 				if (tok.GetType() == CTokenType.COMMA)
 				{
 					tok = GetNext() ;
 				}
 			}
-			
+
 			if (tok.GetKeyword() != CCobolKeywordList.ON && tok.GetKeyword() != CCobolKeywordList.ASCENDING && tok.GetKeyword() != CCobolKeywordList.DESCENDING)
 			{
 				isdone = true ;
-			} 
+			}
 		}
-		
+
 		// Input
 		tok = GetCurrentToken() ;
 		if (tok.GetKeyword() == CCobolKeywordList.USING)
@@ -183,7 +175,7 @@ public class CSort extends CCobolElement
 				return false ;
 			}
 		}
-		
+
 		//Ouput
 		tok = GetCurrentToken() ;
 		if (tok.GetKeyword() == CCobolKeywordList.GIVING)
@@ -208,19 +200,19 @@ public class CSort extends CCobolElement
 				Transcoder.logError(tok.getLine(), "Unexpecting situation");
 				return false ;
 			}
-		}		
-		
+		}
+
 		return true;
 	}
 	protected Element ExportCustom(Document root)
 	{
 		String cs = "Sort" ;
 		Element eSort = root.createElement(cs);
-		
+
 		Element eFile = root.createElement("File");
 		tempSortFile.ExportTo(eFile, root);
 		eSort.appendChild(eFile);
-		
+
 		for (int i = 0; i< keys.size(); i++)
 		{
 			CSortKey k = keys.get(i);
@@ -237,7 +229,7 @@ public class CSort extends CCobolElement
 			k.id.ExportTo(eK, root);
 			eSort.appendChild(eK);
 		}
-		
+
 		if (inputFile != null)
 		{
 			Element e = root.createElement("InputFile");

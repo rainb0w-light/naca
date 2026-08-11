@@ -4,18 +4,9 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
-/*
- * Created on 6 d�c. 04
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
-
 /**
  * @author U930DI
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 package nacaLib.stringSupport;
 // import nacaLib.base.*;
@@ -23,15 +14,15 @@ import nacaLib.varEx.CobolConstant;
 import nacaLib.varEx.VarAndEdit;
 
 public class InspectReplacing
-{	
+{
 	public static final InspectReplacingType TypeFirst = new InspectReplacingType();
-	public static final InspectReplacingType TypeLeading = new InspectReplacingType();	
+	public static final InspectReplacingType TypeLeading = new InspectReplacingType();
 	public static final InspectReplacingType TypeAllLowValue = new InspectReplacingType();
 	public static final InspectReplacingType TypeAllHighValue = new InspectReplacingType();
 	public static final InspectReplacingType TypeAll = new InspectReplacingType();
 	public static final InspectReplacingType TypeLeadingSpaces = new InspectReplacingType();
 	public static final InspectReplacingType TypeLeadingZeroes = new InspectReplacingType();
-	
+
 	public InspectReplacing(VarAndEdit var)
 	{
 		this.var = var;
@@ -42,7 +33,7 @@ public class InspectReplacing
 		this.csBefore = csBefore;
 		return this;
 	}
-	
+
 	public InspectReplacing before(VarAndEdit varBefore)
 	{
 		csBefore = varBefore.getString();
@@ -61,14 +52,14 @@ public class InspectReplacing
 		return this;
 	}
 
-	
+
 	public InspectReplacing first(String cs)
 	{
 		inspectReplacingType = TypeFirst;
 		csPattern = cs;
 		return this;
 	}
-	
+
 	public InspectReplacing first(VarAndEdit var)
 	{
 		inspectReplacingType = TypeFirst;
@@ -95,7 +86,7 @@ public class InspectReplacing
 	{
 		return first(String.valueOf(CobolConstant.HighValue.getValue()));
 	}
-	
+
 	public InspectReplacing leading(String cs)
 	{
 		inspectReplacingType = TypeLeading;
@@ -107,33 +98,33 @@ public class InspectReplacing
 	{
 		return leading(var.getString());
 	}
-	
+
 	public InspectReplacing allLowValues()
 	{
 		inspectReplacingType = TypeAllLowValue;
 		return this ;
 	}
-	
+
 	public InspectReplacing allHighValues()
 	{
 		inspectReplacingType = TypeAllHighValue;
 		return this ;
 	}
-	
+
 	public InspectReplacing all(String s)
 	{
 		inspectReplacingType = TypeAll;
 		csPattern = s ;
 		return this ;
 	}
-	
+
 	public InspectReplacing all(VarAndEdit v)
 	{
 		inspectReplacingType = TypeAll;
 		csPattern = v.getString() ;
 		return this ;
 	}
-	
+
 	public InspectReplacing allSpaces()
 	{
 		inspectReplacingType = TypeAll;
@@ -167,7 +158,7 @@ public class InspectReplacing
 	{
 		return leading(String.valueOf(CobolConstant.HighValue.getValue()));
 	}
-		
+
 	public void bySpaces()
 	{
 		by(CobolConstant.Space.getValue());
@@ -187,27 +178,27 @@ public class InspectReplacing
 	{
 		by(CobolConstant.Zero.getValue());
 	}
-	
+
 	public void by(char c)
 	{
 		String cs = new String();
 		cs += c;
 		by(cs);
 	}
-	
+
 	public void by(VarAndEdit var)
 	{
 		String cs = var.getString();
 		by(cs);
 	}
-		
+
 	public void by(String csReplacing)
 	{
 		int nNbCall = 0;
 		csSource = var.getString();
 		String csPrefixe = null;
 		String csSuffixe = null;
-		
+
 		// Find substring where to count
 		if(csAfter != null)	// We have a starting point
 		{
@@ -215,9 +206,9 @@ public class InspectReplacing
 			if(nPosAfter == -1)	// No delimiter found: Nothing to do
 				return;
 			csPrefixe = csSource.substring(0, nPosAfter+1);
-			csSource = csSource.substring(nPosAfter+1);			
+			csSource = csSource.substring(nPosAfter+1);
 		}
-		
+
 		if(csBefore != null)	// We have a ending point
 		{
 			int nPosBefore = csSource.indexOf(csBefore);
@@ -226,9 +217,9 @@ public class InspectReplacing
 			csSuffixe = csSource.substring(nPosBefore);
 			csSource = csSource.substring(0, nPosBefore);
 		}
-		
+
 		StringBuffer csDest = new StringBuffer(csSource);
-		
+
 		int nReplaceLength = getReplaceLength();
 		int nPos = getReplacePosition(nNbCall, 0, nReplaceLength);
 		while(nPos != -1)
@@ -239,12 +230,12 @@ public class InspectReplacing
 			{
 				char replacingChar = csReplacing.charAt(nReplacing);
 				csDest.setCharAt(nDest, replacingChar);
-			
+
 				nReplacing++;
 				if(nReplacing == csReplacing.length())
 					nReplacing = 0;
 			}
-			
+
 			// Find next occurence
 			nPos += nReplaceLength;
 			int nPosPattern = getReplacePosition(nNbCall, nPos, nReplaceLength);
@@ -253,7 +244,7 @@ public class InspectReplacing
 			else
 				nPos += nPosPattern;
 		}
-		
+
 		// Destination string is in csDest
 		if(csPrefixe != null || csSuffixe != null)
 		{
@@ -265,9 +256,9 @@ public class InspectReplacing
 			var.set(cs);
 		}
 		else
-			var.set(csDest.toString());		
+			var.set(csDest.toString());
 	}
-	
+
 	private int getReplacePosition(int nNbCall, int nPosStart, int nNbOccurences)
 	{
 		String csSource = this.csSource;
@@ -293,12 +284,12 @@ public class InspectReplacing
 				return -1;
 			}
 			int nPosPattern = csSource.indexOf(csPattern);
-			return nPosPattern; 
+			return nPosPattern;
 		}
 		else if(inspectReplacingType == TypeAll)
 		{
 			int nPosPattern = csSource.indexOf(csPattern);
-			return nPosPattern; 
+			return nPosPattern;
 		}
 		else if(inspectReplacingType == TypeAllLowValue)
 		{
@@ -319,7 +310,7 @@ public class InspectReplacing
 				{
 					nOccurences = 0;
 					n++;
-				}		
+				}
 			}
 			if(nOccurences == nNbOccurences)
 				return n;
@@ -344,7 +335,7 @@ public class InspectReplacing
 				{
 					nOccurences = 0;
 					n++;
-				}		
+				}
 			}
 			if(nOccurences == nNbOccurences)
 				return n;
@@ -352,11 +343,11 @@ public class InspectReplacing
 		}
 		else if(inspectReplacingType == TypeLeadingSpaces)
 		{
-			return getReplacePositionLeading(csSource, nLg, ' '); 
+			return getReplacePositionLeading(csSource, nLg, ' ');
 		}
 		else if(inspectReplacingType == TypeLeadingZeroes)
 		{
-			return getReplacePositionLeading(csSource, nLg, '0'); 
+			return getReplacePositionLeading(csSource, nLg, '0');
 		}
 		return -1;
 	}
@@ -384,7 +375,7 @@ public class InspectReplacing
 			return 1;
 		return csPattern.length();
 	}
-	
+
 	VarAndEdit var = null;
 	String csBefore = null;
 	String csAfter = null;

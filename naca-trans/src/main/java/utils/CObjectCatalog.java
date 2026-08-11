@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 2 ao�t 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package utils;
 
 import generate.CBaseLanguageExporter;
@@ -55,8 +49,6 @@ import utils.CobolTranscoder.ProcedureCallTree;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CObjectCatalog
 {
@@ -67,7 +59,7 @@ public class CObjectCatalog
 	protected CEntityResourceFormContainer formContainer = null ;
 	protected boolean isuseCICSPreprocessor = false ;
 	private NotificationEngine engine;
-	
+
 	public CObjectCatalog(
 		CGlobalCatalog cat,
 		COriginalLisiting listing,
@@ -90,7 +82,7 @@ public class CObjectCatalog
 	{
 		return GetExternalDataReference(id, "", factory) ;
 	}
-	
+
 	public CBaseExternalEntity GetExternalDataReference(String id, String csRenamePattern, CBaseEntityFactory factory)
 	{
 		Transcoder.setCurrentObjectCatalog(this);
@@ -115,9 +107,9 @@ public class CObjectCatalog
 			{
 				formContainer = mapset ;
 			}
-			return mapset ; 
+			return mapset ;
 		}
-	
+
 		CEntityExternalDataStructure ext = global.GetExternalDataStructure(id) ;
 		if (ext == null)
 		{
@@ -153,7 +145,7 @@ public class CObjectCatalog
 		}
 		return ext ;
 	}
-	
+
 	// PJD: Management of save maps
 	public void clearSaveMaps()
 	{
@@ -162,14 +154,14 @@ public class CObjectCatalog
 		tabSaveMaps.clear();
 		tabSaveFields.clear();
 	}
-	
+
 	public void ExportRegisteredFormContainer(boolean bResources)
 	{
 		if (formContainer != null)
-		{			
-			formContainer.MakeXMLOutput(bResources);  
+		{
+			formContainer.MakeXMLOutput(bResources);
 			generate.java.forms.BmsJavaArtifactWriter.write(formContainer) ;
-			
+
 			Tag t = CRulesManager.getInstance().getRule("ReduceMaps") ;
 			if (t != null)
 			{
@@ -179,7 +171,7 @@ public class CObjectCatalog
 					return ;
 				}
 			}
-			
+
 			// else, if not reducing maps
 			if (formContainer.GetSavCopy() != null)
 			{
@@ -193,7 +185,7 @@ public class CObjectCatalog
 		Enumeration enumere = cat.tabDataEntities.keys() ;
 		CDataEntity de = null ;
 		String name = "" ;
-		try 
+		try
 		{
 			name = (String)enumere.nextElement() ;
 			de = cat.tabDataEntities.get(name) ;
@@ -216,7 +208,7 @@ public class CObjectCatalog
 
 		CNameConflictSolver.CNameConflictItem item = null ;
 		enumere = cat.conflictSolver.tabConflicts.keys() ;
-		try 
+		try
 		{
 			name = (String)enumere.nextElement() ;
 			item = cat.conflictSolver.tabConflicts.get(name) ;
@@ -242,9 +234,9 @@ public class CObjectCatalog
 		{
 			item = null ;
 		}
-		
-		
-		
+
+
+
 		enumere = cat.tabSQLTables.elements() ;
 		CEntitySQLDeclareTable sql = null ;
 		try {sql = (CEntitySQLDeclareTable)enumere.nextElement() ;}
@@ -261,14 +253,14 @@ public class CObjectCatalog
 				sql = null ;
 			}
 		}
-		
+
 		for (int i=0; i<cat.GetNbAttributes(); i++)
 		{
 			CEntityAttribute att = cat.GetAttribute(i);
 			att.ResetReferenceCount() ;
 			RegisterAttribute(att) ;
 		}
-		
+
 	}
 	// container
 	public void RegisterContainer(String name, CEntityClass eCont)
@@ -279,7 +271,7 @@ public class CObjectCatalog
 	{
 		return tabContainers.get(name) ;
 	}
-	
+
 	// data entity
 	public void RegisterDataEntity(String name, CDataEntity eCont)
 	{
@@ -299,18 +291,18 @@ public class CObjectCatalog
 			}
 			else if (eAlready != eCont)
 			{
-				tabDataEntities.remove(name) ; // 
+				tabDataEntities.remove(name) ; //
 				conflictSolver.AddConflictedEntity(name, eAlready) ;
 				conflictSolver.AddConflictedEntity(name, eCont) ;
 			}
 		}
 	}
-	
+
 	public CDataEntity GetDataEntity(String name, String of)
 	{
 		return GetDataEntity(0, name, of);
 	}
-	
+
 	public CDataEntity GetDataEntity(int nLine, String name, String of)
 	{
 		CDataEntity eData = tabDataEntities.get(name) ;
@@ -330,8 +322,8 @@ public class CObjectCatalog
 					{
 						Transcoder.logError(nLine, "ERROR : full declared reference not bound : " + name + " OF " + of);
 					}
-					eData = conflictSolver.GetQualifiedReference(name, of);  // for debug 
-					return null ; 
+					eData = conflictSolver.GetQualifiedReference(name, of);  // for debug
+					return null ;
 				}
 				else
 				{
@@ -341,7 +333,7 @@ public class CObjectCatalog
 			else
 			{
 				Transcoder.addOnceUnboundReference(nLine, name);
-				//Transcoder.ms_logger.error("ERROR : reference not bound : " + name); 
+				//Transcoder.ms_logger.error("ERROR : reference not bound : " + name);
 				eData = tabDataEntities.get(name) ;
 				eData = conflictSolver.GetQualifiedReference(name, of);
 				return null;
@@ -371,7 +363,7 @@ public class CObjectCatalog
 		}
 	}
 
-	// Procedure	
+	// Procedure
 	public void RegisterProcedure(String name, CEntityProcedure eCont, CEntityProcedureSection section)
 	{
 		CEntityProcedure proc = tabProcedures.get(name) ;
@@ -406,7 +398,7 @@ public class CObjectCatalog
 		for (int i = 0; i< procedures.size(); i++)
 		{
 			CEntityProcedure proc = procedures.get(i);
-			String cs = proc.GetName() ; 
+			String cs = proc.GetName() ;
 			if (isok)
 			{
 				arr.addElement(cs) ;
@@ -422,19 +414,19 @@ public class CObjectCatalog
 				arr.addElement(cs);
 			}
 		}
-	}	
+	}
 	// Form container
 	public CEntityResourceFormContainer GetFormContainer(String name, CBaseEntityFactory factory)
 	{
 		CEntityResourceFormContainer cont = global.GetFormContainer(name, factory) ;
 		return cont ;
 	}
-	
+
 	public boolean CheckProgramReference(String prg, boolean bWithDFHCommarea, int nbParameters, boolean bRegisterSubProgram)
 	{
 		return global.CheckProgramReference(prg, bWithDFHCommarea, nbParameters, bRegisterSubProgram) ;
 	}
-		
+
 	// general
 	public void RemoveObject(CBaseLanguageEntity e)
 	{
@@ -465,12 +457,12 @@ public class CObjectCatalog
 		{
 		}
 	}
-	protected Hashtable<String, CEntityClass> tabContainers = new Hashtable<String, CEntityClass>() ; 
-	protected Hashtable<String, CEntityProcedure> tabProcedures = new Hashtable<String, CEntityProcedure>() ; 
+	protected Hashtable<String, CEntityClass> tabContainers = new Hashtable<String, CEntityClass>() ;
+	protected Hashtable<String, CEntityProcedure> tabProcedures = new Hashtable<String, CEntityProcedure>() ;
 	protected Vector<CEntityProcedure> procedures = new Vector<CEntityProcedure>() ;
-	protected Hashtable<String, CDataEntity> tabDataEntities = new Hashtable<String, CDataEntity>() ; 
-	protected Hashtable<String, CEntitySQLCursor> tabSQLCursors = new Hashtable<String, CEntitySQLCursor>() ; 
-	protected Hashtable<String, CEntitySQLDeclareTable> tabSQLTables = new Hashtable<String, CEntitySQLDeclareTable>() ; 
+	protected Hashtable<String, CDataEntity> tabDataEntities = new Hashtable<String, CDataEntity>() ;
+	protected Hashtable<String, CEntitySQLCursor> tabSQLCursors = new Hashtable<String, CEntitySQLCursor>() ;
+	protected Hashtable<String, CEntitySQLDeclareTable> tabSQLTables = new Hashtable<String, CEntitySQLDeclareTable>() ;
 	protected Vector<CEntitySQLCursor> qLCursors = new Vector<CEntitySQLCursor>() ;
 	protected CNameConflictSolver conflictSolver = new CNameConflictSolver() ;
 
@@ -559,7 +551,7 @@ public class CObjectCatalog
 	{
 		return attributes.size();
 	}
-	
+
 	// algorythmic analysis : maps
 	protected Hashtable<String, CEntityResourceField> tabFields = new Hashtable<String, CEntityResourceField>() ;
 	protected Vector<CEntityResourceField> symbolicFields = new Vector<CEntityResourceField>() ;
@@ -585,7 +577,7 @@ public class CObjectCatalog
 	}
 	public boolean IsExistingFieldRedefine(String name)
 	{
-		return tabFieldRedefine.containsKey(name) ; 
+		return tabFieldRedefine.containsKey(name) ;
 	}
 	public void RegisterSaveField(CEntityResourceField sav, CEntityResourceField f)
 	{
@@ -600,13 +592,13 @@ public class CObjectCatalog
 	{
 		maps.add(f) ;
 	}
-	
+
 	public void ClearSavCopy()
 	{
 		saveMaps.clear();
 		tabSaveMaps.clear();
-	}	
-	
+	}
+
 	public void RegisterSaveMap(CEntityResourceForm f, CEntityResourceForm associated)
 	{
 		saveMaps.add(f) ;
@@ -776,7 +768,7 @@ public class CObjectCatalog
 		CEntityRoutineEmulation emul = new CEntityRoutineEmulation(alias, display) ;
 		tabRoutineEmulation.put(alias, emul) ;
 	}
-	public CEntityRoutineEmulation getRoutineEmulation(String alias) 
+	public CEntityRoutineEmulation getRoutineEmulation(String alias)
 	{
 		return tabRoutineEmulation.get(alias) ;
 	}
@@ -798,7 +790,7 @@ public class CObjectCatalog
 	{
 		return importDeclarations.get(i) ;
 	}
-	
+
 	public void setMissingIncludeStructure()
 	{
 		ismissingIncludeStructure = true ;
@@ -808,31 +800,31 @@ public class CObjectCatalog
 	{
 		return ismissingIncludeStructure;
 	}
-	
+
 	public void registerSQLWarningContinue(String csArg)
 	{
 		qLWarning = SQLWarningErrorType.WarningContinue;
-		csSQLWarningArg = csArg;		
+		csSQLWarningArg = csArg;
 	}
 
 	public void registerSQLWarningGoto(String csArg)
 	{
 		qLWarning = SQLWarningErrorType.WarningGoto;
-		csSQLWarningArg = csArg;		
+		csSQLWarningArg = csArg;
 	}
-	
+
 	public void RegisterSQLErrorContinue(String csArg)
 	{
 		qLError = SQLWarningErrorType.ErrorContinue;
-		csSQLErrorArg = csArg;		
+		csSQLErrorArg = csArg;
 	}
 
 	public void registerSQLErrorGoto(String csArg)
 	{
 		qLError = SQLWarningErrorType.ErrorGoto;
-		csSQLErrorArg = csArg;		
+		csSQLErrorArg = csArg;
 	}
-	
+
 	public String getSQLWarningErrorStatement()
 	{
 		String cs = "" ;
@@ -844,7 +836,7 @@ public class CObjectCatalog
 			return null ;
 		return cs;
 	}
-	
+
 	protected SQLWarningErrorType qLError = null;
 	protected SQLWarningErrorType qLWarning = null;
 	protected String csSQLErrorArg = null;
@@ -954,7 +946,7 @@ public class CObjectCatalog
 	{
 		String cs = structure.GetDisplayName() ;
 		CBaseExternalEntity ext = tabExternalStructures.get(cs) ;
-		if (ext != null) 
+		if (ext != null)
 		{
 			int n = 0 ;
 			CBaseExternalEntity ext2 = ext ;
@@ -1069,7 +1061,7 @@ public class CObjectCatalog
 
 	public void RegisterFileSelect(CEntityFileSelect select)
 	{
-		tabFileSelect.put(select.GetName(), select) ;		
+		tabFileSelect.put(select.GetName(), select) ;
 	}
 	public CEntityFileSelect getFileSelect(String name)
 	{
@@ -1107,7 +1099,7 @@ public class CObjectCatalog
 			}
 		}
 		tabFileDescriptor.put(name, descriptor) ;
-	} 
+	}
 	public void RegisterFileDescriptor(String name, CEntityFileDescriptor descriptor)
 	{
 		tabFileDescriptor.put(name, descriptor) ;
@@ -1124,7 +1116,7 @@ public class CObjectCatalog
 		{
 			return  eFD ;
 		}
-		
+
 		CDataEntity record = GetDataEntity(name, "") ;
 		if (record != null)
 		{
@@ -1150,7 +1142,7 @@ public class CObjectCatalog
 	public CTransApplicationGroup.EProgramType getProgramType()
 	{
 		return eProgType;
-	}  
+	}
 	protected CTransApplicationGroup.EProgramType eProgType = null ;
 
 
@@ -1163,7 +1155,7 @@ public class CObjectCatalog
 	{
 		engine.SendNotification(notif) ;
 	}
-	public void RegisterNotifHandler(BaseNotificationHandler handler) 
+	public void RegisterNotifHandler(BaseNotificationHandler handler)
 	{
 		engine.RegisterNotificationHandler(handler) ;
 	}

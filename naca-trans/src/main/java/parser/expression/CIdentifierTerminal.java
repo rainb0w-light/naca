@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on Jul 27, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.expression;
 
 import org.w3c.dom.Document;
@@ -23,8 +17,6 @@ import utils.Transcoder;
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CIdentifierTerminal extends CTerminal
 {
@@ -35,7 +27,7 @@ public class CIdentifierTerminal extends CTerminal
 	{
 		identifier = Id;
 	}
-	
+
 //	public String GetType()
 //	{
 //		return "Identifier" ;
@@ -54,7 +46,7 @@ public class CIdentifierTerminal extends CTerminal
 		if (identifier != null)
 		{
 			identifier.ExportTo(e, root) ;
-		}		
+		}
 	}
 
 	/* (non-Javadoc)
@@ -64,17 +56,17 @@ public class CIdentifierTerminal extends CTerminal
 	{
 		return true;
 	}
-	
+
 	public boolean IsOne()
 	{
 		return false;
 	}
-	
+
 	public boolean IsMinusOne()
 	{
 		return false;
 	}
-	
+
 	public CIdentifier GetIdentifier()
 	{
 		return identifier ;
@@ -99,17 +91,17 @@ public class CIdentifierTerminal extends CTerminal
 			Transcoder.logError(nLine, "ERROR : identifier not found : "+identifier.GetName());
 			int n = 0 ;
 		}
-		return e ; 
+		return e ;
 	}
 	public String toString()
 	{
 		return identifier.toString() ;
 	}
-	
+
 	public CDataEntity GetDataReference(int nLine, CBaseEntityFactory factory)
 	{
 		return identifier.GetDataReference(nLine, factory);
-	}	
+	}
 
 	public boolean IsNumber()
 	{

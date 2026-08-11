@@ -22,18 +22,9 @@ import nacaLib.varEx.Edit;
 import nacaLib.varEx.Var;
 import nacaLib.varEx.VarAndEdit;
 
-/*
- * Created on 21 oct. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
-
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CCallProgram extends CJMapObject
 {
@@ -59,8 +50,8 @@ public class CCallProgram extends CJMapObject
 		environment = env ;
 		csProgramClassName = csPrgClassName ;
 	}
-	
-	
+
+
 	/**
 	 * Must be called explicitly to terminate all arguments passing to a called program
 	 */
@@ -81,7 +72,7 @@ public class CCallProgram extends CJMapObject
 			return true;
 		}
 	}
-	
+
 	/**
 	 * @param Var var: Variable to pass by value to the called program
 	 * @return this
@@ -93,7 +84,7 @@ public class CCallProgram extends CJMapObject
 		if(callParam == null)
 			callParam = new ArrayList<CCallParam>();
 		CallParamByValue CallParam = new CallParamByValue(var);
-				  
+
 		callParam.add(CallParam);
 		return this;
 	}
@@ -109,7 +100,7 @@ public class CCallProgram extends CJMapObject
 		if(callParam == null)
 			callParam = new ArrayList<CCallParam>();
 		CallParamByValue CallParam = new CallParamByValue(var);
-				  
+
 		callParam.add(CallParam);
 		return this;
 	}
@@ -117,7 +108,7 @@ public class CCallProgram extends CJMapObject
 	/**
 	 * @param Var var: Variable to pass by reference to the called program
 	 * @return this
-	 * The variable var will be passed by reference, so if it is modified in called prog., it's value will also be modified in caller prog. 
+	 * The variable var will be passed by reference, so if it is modified in called prog., it's value will also be modified in caller prog.
 	 * They both share the same variable.
 	 */
 	public CCallProgram using(Var var)
@@ -125,17 +116,17 @@ public class CCallProgram extends CJMapObject
 		if(callParam == null)
 			callParam = new ArrayList<CCallParam>();
 		CallParamByRef CallParam = new CallParamByRef(var);
-		
+
 		callParam.add(CallParam);
 		return this;
 	}
-	
+
 	public CCallProgram using(Edit edit)
 	{
 		if(callParam == null)
 			callParam = new ArrayList<CCallParam>();
 		CallParamByRef CallParam = new CallParamByRef(edit);
-		
+
 		callParam.add(CallParam);
 		return this;
 	}
@@ -152,19 +143,19 @@ public class CCallProgram extends CJMapObject
 	/**
 	 * @param Var var: Variable to pass whose length if passed by value to the called program
 	 * @return this
-	 * The variable's lengthvar will be passed by value to the called program 
+	 * The variable's lengthvar will be passed by value to the called program
 	 */
 	public CCallProgram usingLengthOf(VarAndEdit var)
 	{
 		if(callParam == null)
 			callParam = new ArrayList<CCallParam>();
-		
+
 		CallParamByLength callParam = new CallParamByLength(var);
-		  
+
 		this.callParam.add(callParam);
 		return this;
 	}
-	
+
 	public void setProgramLoader(BaseProgramLoader baseProgramLoader)
 	{
 		this.baseProgramLoader = baseProgramLoader;
@@ -174,5 +165,5 @@ public class CCallProgram extends CJMapObject
 	protected String csProgramClassName = "" ;
 	private ArrayList<CCallParam> callParam = null;	// Array of all call parameters
 	private BaseProgramLoader baseProgramLoader = null;
-	
+
 }

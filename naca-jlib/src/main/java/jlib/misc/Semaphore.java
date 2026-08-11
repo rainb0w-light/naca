@@ -10,21 +10,19 @@ package jlib.misc;
 /**
  * @author PJD
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 public class Semaphore
 {
     private int counter;
 
-    public Semaphore() 
+    public Semaphore()
     {
         this(0);
     }
 
-    public Semaphore(int n) 
+    public Semaphore(int n)
     {
-        if (n < 0) 
+        if (n < 0)
         	throw new IllegalArgumentException(n + " < 0");
         counter = n;
     }
@@ -33,9 +31,9 @@ public class Semaphore
      * Increments internal counter, possibly awakening a thread
      * wait()ing in acquire().
      */
-    public synchronized void release() 
+    public synchronized void release()
     {
-        if (counter == 0) 
+        if (counter == 0)
         {
             notify();
         }
@@ -48,18 +46,18 @@ public class Semaphore
      *
      * @exception InterruptedException passed from this.wait().
      */
-    public synchronized void acquire() throws InterruptedException 
+    public synchronized void acquire() throws InterruptedException
 	{
-        while (counter == 0) 
+        while (counter == 0)
         {
             wait();
         }
         counter--;
     }
 
-    public synchronized boolean acquireNoInterrupt() 
+    public synchronized boolean acquireNoInterrupt()
 	{
-        while (counter == 0) 
+        while (counter == 0)
         {
             try
 			{
@@ -74,6 +72,6 @@ public class Semaphore
         counter--;
         return true;
     }
-    
+
 
 }

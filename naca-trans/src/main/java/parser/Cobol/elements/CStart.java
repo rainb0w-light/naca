@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 9 sept. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements;
 
 import lexer.CBaseToken;
@@ -30,8 +24,6 @@ import utils.Transcoder;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CStart extends CCobolElement
 {
@@ -55,10 +47,10 @@ public class CStart extends CCobolElement
 			return false ;
 		}
 		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
-		
+
 		tok = GetNext();
 		fileDesc = ReadIdentifier();
-		
+
 		tok = GetCurrentToken() ;
 		if (tok.GetKeyword() != CCobolKeywordList.KEY)
 		{
@@ -115,18 +107,18 @@ public class CStart extends CCobolElement
 				keyCompare = CTokenType.GREATER_OR_EQUALS ;
 				tok = GetNext() ;
 			}
-			else 
+			else
 			{
 				return false ;
 			}
 		}
-		else 
+		else
 		{
 			return false ;
 		}
-		
+
 		value = ReadTerminal();
-		
+
 		tok = GetCurrentToken() ;
 		if (tok.GetKeyword() == CCobolKeywordList.INVALID)
 		{
@@ -141,7 +133,7 @@ public class CStart extends CCobolElement
 				return false ;
 			}
 		}
-		
+
 		return true;
 	}
 	protected Element ExportCustom(Document root)
@@ -150,7 +142,7 @@ public class CStart extends CCobolElement
 		Element eFile = root.createElement("File");
 		eStart.appendChild(eFile);
 		fileDesc.ExportTo(eFile, root);
-		
+
 		String cs = "Key" ;
 		if (keyCompare == CTokenType.EQUALS)
 		{
@@ -170,7 +162,7 @@ public class CStart extends CCobolElement
 		}
 		Element eKey = root.createElement(cs);
 		eStart.appendChild(eKey);
-		value.ExportTo(eKey, root); 
+		value.ExportTo(eKey, root);
 		return eStart;
 	}
 

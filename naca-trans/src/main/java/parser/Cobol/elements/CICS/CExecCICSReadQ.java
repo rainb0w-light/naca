@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 7 sept. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements.CICS;
 
 import diagnostic.DiagnosticSink;
@@ -33,8 +27,6 @@ import utils.Transcoder;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CExecCICSReadQ extends CCobolElement
 {
@@ -65,7 +57,7 @@ public class CExecCICSReadQ extends CCobolElement
 		}
 		CEntityCICSReadQ eRQ = factory.NewEntityCICSReadQ(getLine(), ispersistant);
 		parent.AddChild(eRQ);
-		
+
 		eRQ.SetName(queueName.GetDataEntity(getLine(), factory)) ;
 		if (dataRef != null)
 		{
@@ -73,10 +65,10 @@ public class CExecCICSReadQ extends CCobolElement
 			if (length != null)
 			{
 				len = length.GetDataEntity(getLine(), factory);
-				len.RegisterWritingAction(eRQ); 
+				len.RegisterWritingAction(eRQ);
 			}
 			CDataEntity data = dataRef.GetDataReference(getLine(), factory) ;
-			data.RegisterWritingAction(eRQ); 
+			data.RegisterWritingAction(eRQ);
 			eRQ.SetDataRef(data, len);
 		}
 		if (isnext)
@@ -108,17 +100,17 @@ public class CExecCICSReadQ extends CCobolElement
 		{
 			tok = GetNext();
 		}
-		
+
 		if (tok.GetValue().equals("TD"))
 		{
 			CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("READQ", "TD") ;
-			tok = GetNext(); 
+			tok = GetNext();
 			ispersistant = true ;
 		}
 		else if (tok.GetValue().equals("TS"))
 		{
 			CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("READQ", "TS") ;
-			tok = GetNext(); 
+			tok = GetNext();
 			ispersistant = false ;
 		}
 		else
@@ -126,7 +118,7 @@ public class CExecCICSReadQ extends CCobolElement
 			CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("READQ", "Unknown") ;
 			ispersistant = false ;
 		}
-		
+
 		boolean isdone = false ;
 		while (!isdone)
 		{
@@ -205,12 +197,12 @@ public class CExecCICSReadQ extends CCobolElement
 					}
 				}
 			}
-			else 
+			else
 			{
 				isdone = true ;
 			}
 		}
-		
+
 		if (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
 		{
 			Transcoder.logError(getLine(), "Error while parsing EXEC CICS READQ");
@@ -270,7 +262,7 @@ public class CExecCICSReadQ extends CCobolElement
 		}
 		return eRead;
 	}
-	
+
 	protected boolean ispersistant = false ;
 	protected CTerminal queueName = null ;
 	protected CIdentifier dataRef  = null ;

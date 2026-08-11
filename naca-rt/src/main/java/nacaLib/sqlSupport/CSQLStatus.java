@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
-/*
- * Created on 11 juin 2005
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 package nacaLib.sqlSupport;
 
 import java.sql.SQLException;
@@ -17,7 +11,6 @@ import java.sql.SQLException;
 import jlib.misc.StringUtil;
 
 import nacaLib.base.CJMapObject;
-import nacaLib.basePrgEnv.BaseEnvironment;
 import nacaLib.program.Paragraph;
 import nacaLib.program.Section;
 import nacaLib.tempCache.TempCache;
@@ -26,8 +19,6 @@ import nacaLib.tempCache.TempCacheLocator;
 /**
  * @author U930CV
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 public class CSQLStatus extends CJMapObject
 {
@@ -39,7 +30,7 @@ public class CSQLStatus extends CJMapObject
 	private String csReason = null;
 	private String csReasonParams = null;
 	private String csReasonValues = null;
-	
+
 	public CSQLStatus()
 	{
 	}
@@ -48,7 +39,7 @@ public class CSQLStatus extends CJMapObject
 	{
 		return nSQLCode ;
 	}
-	
+
 	public void reset()
 	{
 		nSQLCode = 0 ;
@@ -59,19 +50,19 @@ public class CSQLStatus extends CJMapObject
 		//csQueryString = null;
 		//csSourceFileLine = null;
 	}
-	
+
 	public void setSQLCode(int n)
 	{
 		reset();
 		nSQLCode = n ;
 	}
-	
+
 	public void setSQLCodeOk()
 	{
 		reset();
 		nSQLCode = SQLCode.SQL_OK;
 	}
-	
+
 	public void setSQLCode(SQLException e)
 	{
 		reset();
@@ -91,13 +82,13 @@ public class CSQLStatus extends CJMapObject
 		}
 		this.csQueryString = csQueryString;
 	}
-	
+
 	public void fillLastSQLCodeErrorText()
 	{
 		TempCache cache = TempCacheLocator.getTLSTempCache();
 		cache.fillLastSQLCodeErrorText(this);
 	}
-	
+
 	public void setSQLCode(String csMethod, int nCode, String csReason, String csQueryString)	//, String csSourceFileLine)
 	{
 		csReasonParams = null;
@@ -108,17 +99,17 @@ public class CSQLStatus extends CJMapObject
 		this.csReason = csReason;
 		this.csQueryString = csQueryString;
 	}
-	
+
 	public void setQuery(String csQueryString)
 	{
 		this.csQueryString = csQueryString;
 	}
-	
+
 	public boolean isLastSQLCodeAnError()
 	{
 		return SQLCode.isError(nSQLCode);
 	}
-	
+
 	public boolean isLastSQLCodeConnectionKiller()
 	{
 		return SQLCode.isConnectionKillerSQLCode(nSQLCode);
@@ -128,10 +119,10 @@ public class CSQLStatus extends CJMapObject
 	{
 		// See http://publib.boulder.ibm.com/infocenter/dzichelp/index.jsp?topic=/com.ibm.db2.doc.apsg/bjnqmstr370.htm
 		if(n == 3)
-			return nLastNbRecordUpdatedInsertedDeleted;			
+			return nLastNbRecordUpdatedInsertedDeleted;
 		return 0;
 	}
-	
+
 	void setLastNbRecordUpdatedInsertedDeleted(int n)
 	{
 		nLastNbRecordUpdatedInsertedDeleted = n;
@@ -146,25 +137,25 @@ public class CSQLStatus extends CJMapObject
 	{
 		nLastNbRecordUpdatedInsertedDeleted = n;
 	}
-	
+
 	public CSQLStatus onErrorGoto(Paragraph para)
 	{
 		SQLErrorManager sqlErrorManager = new SQLErrorManager();
-		sqlErrorManager.manageOnErrorGoto(para, this);		
+		sqlErrorManager.manageOnErrorGoto(para, this);
 		return this;
 	}
-	
+
 	public CSQLStatus onErrorGoto(Section section)
 	{
 		SQLErrorManager sqlErrorManager = new SQLErrorManager();
-		sqlErrorManager.manageOnErrorGoto(section, this);		
+		sqlErrorManager.manageOnErrorGoto(section, this);
 		return this;
 	}
-	
+
 	public CSQLStatus onErrorContinue()
 	{
 		SQLErrorManager sqlErrorManager = new SQLErrorManager();
-		sqlErrorManager.manageOnErrorContinue(this);		
+		sqlErrorManager.manageOnErrorContinue(this);
 		return this;
 	}
 	public CSQLStatus onWarningGoto(Paragraph paragraphSQGErrorGoto)
@@ -172,55 +163,55 @@ public class CSQLStatus extends CJMapObject
 		// TODO
 		return this;
 	}
-	
+
 	public CSQLStatus onWarningGoto(Section section)
 	{
 		// TODO
 		return this;
 	}
-	
+
 	public CSQLStatus onWarningContinue()
 	{
 		// TODO
 		return this;
 	}
-	
+
 	public String getReason()
 	{
 		return csReason;
 	}
-	
+
 	public String getReasonParams()
 	{
 		return csReasonParams;
 	}
-	
+
 	public String getReasonValues()
 	{
 		return csReasonValues;
 	}
-	
+
 	public String getQueryString()
 	{
 		return csQueryString;
 	}
-	
+
 	public String getMethod()
 	{
 		return csMethod;
 	}
-	
+
 //	public String getSourceFileLine()
 //	{
 //		return csSourceFileLine;
 //	}
-//	
+//
 	public String toString()
 	{
 		StringBuffer sb = getAsStringBuffer();
 		return sb.toString();
 	}
-	
+
 	public StringBuffer getAsStringBuffer()
 	{
 		StringBuffer sb = new StringBuffer();
@@ -240,5 +231,5 @@ public class CSQLStatus extends CJMapObject
 		}
 		return sb;
 	}
-	
+
 }

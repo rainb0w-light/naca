@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 7 sept. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements.CICS;
 
 import lexer.CBaseToken;
@@ -31,8 +25,6 @@ import utils.Transcoder;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CExecCICSReturn extends CCobolElement
 {
@@ -52,7 +44,7 @@ public class CExecCICSReturn extends CCobolElement
 	{
 		CEntityCICSReturn ret = factory.NewEntityCICSReturn(getLine());
 		parent.AddChild(ret);
-		
+
 		if (transID != null)
 		{
 			CDataEntity TID ;
@@ -95,7 +87,7 @@ public class CExecCICSReturn extends CCobolElement
 				}
 			}
 			ret.SetTransID(TID, comma, comlen, ischecked);
-		} 
+		}
 		return ret;
 	}
 
@@ -109,7 +101,7 @@ public class CExecCICSReturn extends CCobolElement
 		{
 			tok = GetNext() ;
 		}
-		
+
 		if (tok.GetKeyword() == CCobolKeywordList.TRANSID)
 		{
 			tok = GetNext() ;
@@ -123,7 +115,7 @@ public class CExecCICSReturn extends CCobolElement
 					tok = GetNext() ;
 				}
 			}
-			
+
 			if (tok.GetKeyword() == CCobolKeywordList.COMMAREA)
 			{
 				tok = GetNext() ;
@@ -154,7 +146,7 @@ public class CExecCICSReturn extends CCobolElement
 				}
 			}
 		}
-		
+
 		if (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
 		{
 			Transcoder.logError(getLine(), "Error while parsing EXEC CICS RETURN");

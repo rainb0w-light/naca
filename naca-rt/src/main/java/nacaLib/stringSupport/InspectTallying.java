@@ -4,18 +4,9 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
-/*
- * Created on 7 d�c. 04
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
-
 /**
  * @author U930DI
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 package nacaLib.stringSupport;
 import nacaLib.varEx.VarAndEdit;
@@ -34,8 +25,8 @@ public class InspectTallying
 	{
 		this.source = var;
 	}
-	
-	
+
+
 	public InspectTallying countAll(String csSearchForAll)
 	{
 		this.csSearchForAll = csSearchForAll;
@@ -52,14 +43,14 @@ public class InspectTallying
 		inspectTallyingType = TypeForAll;
 		return to(result);
 	}
-	
+
 	public InspectTallying countAll(VarAndEdit varSearchForAll)
 	{
 		csSearchForAll = varSearchForAll.getString();
 		inspectTallyingType = TypeForAll;
 		return this;
 	}
-	
+
 	public InspectTallying countLeading(String csLeading)
 	{
 		csSearchForAll = csLeading;
@@ -97,13 +88,13 @@ public class InspectTallying
 		inspectTallyingType = TypeForChars;
 		return this;
 	}
-	
+
 	public InspectTallying before(String csBefore)
 	{
 		this.csBefore = csBefore;
 		return this;
 	}
-	
+
 	public InspectTallying before(VarAndEdit varBefore)
 	{
 		csBefore = varBefore.getString();
@@ -121,11 +112,11 @@ public class InspectTallying
 		csAfter = varAfter.getString();
 		return this;
 	}
-		
+
 	public InspectTallying to(VarAndEdit varCount)
 	{
 		String csSource = source ;
-		
+
 		// Find substring where to count
 		if(csAfter != null)	// We have a starting point
 		{
@@ -134,7 +125,7 @@ public class InspectTallying
 				return this;
 			csSource = csSource.substring(nPosAfter+1);
 		}
-		
+
 		if(csBefore != null)	// We have a ending point
 		{
 			int nPosBefore = csSource.indexOf(csBefore);
@@ -142,7 +133,7 @@ public class InspectTallying
 				return this;
 			csSource = csSource.substring(0, nPosBefore);
 		}
-		
+
 		// We now an the substring on which to operate the counting
 		if(inspectTallyingType == TypeForChars)	// Count the number of chars
 		{
@@ -165,7 +156,7 @@ public class InspectTallying
 		{
 			int nCount = 0;
 			int nPos = csSource.indexOf(csSearchForAll);
-			if(nPos == 0)	// The source string begins by the search pattern 
+			if(nPos == 0)	// The source string begins by the search pattern
 			{
 				while(nPos == 0)
 				{
@@ -175,13 +166,13 @@ public class InspectTallying
 				}
 				varCount.set(nCount+varCount.getInt());
 			}
-		}		
+		}
 		return this ;
 	}
-	
+
 	private String source = null;
 	private String csSearchForAll = null;
 	private String csBefore = null;
 	private String csAfter = null;
-	private InspectTallying inspectTallyingType = null;	
+	private InspectTallying inspectTallyingType = null;
 }

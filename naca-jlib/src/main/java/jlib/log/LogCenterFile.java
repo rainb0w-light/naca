@@ -7,12 +7,6 @@
 package jlib.log;
 
 
-/*
- * Created on 3 mars 2005
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.PrintWriter;
@@ -27,8 +21,6 @@ import jlib.xml.Tag;
 /**
  * @author U930DI
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 public class LogCenterFile extends LogCenter
 {
@@ -36,7 +28,7 @@ public class LogCenterFile extends LogCenter
 	{
 		super(logCenterLoader);
 	}
-	
+
 	public void loadSpecificsEntries(Tag tagLogCenter)	// Special values for file appenders
 	{
 		csFormat = tagLogCenter.getVal("Format");
@@ -44,16 +36,16 @@ public class LogCenterFile extends LogCenter
 		String csFilePath = tagLogCenter.getVal("FilePath");
 		csFilePath = FileSystem.normalizePath(csFilePath);
 		String csFileName = tagLogCenter.getVal("FileName");
-		
+
 		csFile = FileSystem.buildFileName(csFilePath, csFileName, null);
 		FileSystem.createPath(csFile);
-		
+
 		if(csFileStrategy.equalsIgnoreCase("Append"))
 			isappend = true;
 		else if(csFileStrategy.equalsIgnoreCase("BackupOnstart"))	// Backup On Start
 		{
 			isappend = false;
-			
+
 			// Read the backup strategy tag
 			Tag tagBackup = tagLogCenter.getChild("Backup");
 			if(tagBackup != null)
@@ -62,25 +54,25 @@ public class LogCenterFile extends LogCenter
 				csBackupPath = FileSystem.normalizePath(csBackupPath);
 				if(csBackupPath.length() > 0 && csBackupPath.startsWith("."))	// Relative to csFilePath
 					csBackupPath = csFilePath + csBackupPath;
-				csBackupPath = FileSystem.normalizePath(csBackupPath);				
+				csBackupPath = FileSystem.normalizePath(csBackupPath);
 				FileSystem.createPath(csBackupPath);
-				
+
 				String csBackupFileFormat = tagBackup.getVal("BackupFileFormat");
 				csBackupFileFormat = normalizeBackupFileFormat(csBackupFileFormat);
-				
+
 				String csBackupFile = FileSystem.buildFileName(csBackupPath, csBackupFileFormat, null);
-				
+
 				FileSystem.moveOrCopy(csFile, csBackupFile);
-				
+
 				int nMaxBackupFileCount = tagBackup.getValAsInt("MaxBackupFileCount");
 				if(nMaxBackupFileCount >= 0)
 					FileSystem.keepMoreRecentFile(csBackupPath, nMaxBackupFileCount);
 			}
-		}		
+		}
 		else
 			isappend = false;
 	}
-	
+
 	private String normalizeBackupFileFormat(String csBackupFileFormat)
 	{
 		if(csBackupFileFormat.indexOf("[BackupDateTime]") != -1)
@@ -92,32 +84,32 @@ public class LogCenterFile extends LogCenter
 		}
 		return csBackupFileFormat;
 	}
-	
+
 	boolean open()
 	{
-		try 
-		{ 			
+		try
+		{
 			printWriter = new PrintWriter(new BufferedWriter(new FileWriter(csFile, isappend)));
-		} 
-		catch (Exception e) 
-		{ 
-			System.err.println ("Error writing to file"); 
+		}
+		catch (Exception e)
+		{
+			System.err.println ("Error writing to file");
 			return false;
-		}  
+		}
 		return true;
 	}
-	
+
 	boolean closeLogCenter()
 	{
 		printWriter.close();
 		return true;
 	}
-	
-		
+
+
 	void preSendOutput()
 	{
 	}
-	
+
 	void sendOutput(LogParams logParam)
 	{
 		if(printWriter != null)
@@ -129,26 +121,26 @@ public class LogCenterFile extends LogCenter
 				printWriter.print(csOut);
 			}
 		}
-	}	
-		
+	}
+
 	void postSendOutput()
 	{
 		if(printWriter != null)
 			printWriter.flush();
 	}
-	
+
 	String getFormat()
 	{
 		return csFormat;
 	}
-		
+
 	private String csFile = null;
 	private boolean isappend = false;
-	
+
 	private PrintWriter printWriter = null;
-	
+
 	private String csFormat = null;
-	
+
 	public String getType()
 	{
 		return "LogCenterFile";

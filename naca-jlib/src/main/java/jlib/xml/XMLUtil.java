@@ -6,13 +6,6 @@
  */
 package jlib.xml;
 
-/*
- * Created on 2 f�vr. 2005
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
-
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -42,8 +35,6 @@ import org.apache.xerces.jaxp.DocumentBuilderFactoryImpl;	// IBM JVM
 /**
  * @author SLY
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class XMLUtil
 {
@@ -56,13 +47,13 @@ public class XMLUtil
 		File s = new File(csFilePath);
 		return LoadXML(s) ;
 	}
-	
+
 	public static Document LoadXML(File f)
 	{
 		Source file = new StreamSource(f) ;
 		return LoadXML(file);
-	} 
-	
+	}
+
 	public static Document LoadXML(Source file)
 	{
 		try
@@ -85,12 +76,12 @@ public class XMLUtil
 		}
 		return null;
 	}
-	
+
 	public static Document loadXML(ByteArrayInputStream byteArrayInputStream)
 	{
 		try
 		{
-			StreamSource streamSource = new StreamSource(byteArrayInputStream); 
+			StreamSource streamSource = new StreamSource(byteArrayInputStream);
 			DocumentBuilderFactory dbf = DocumentBuilderFactoryImpl.newInstance() ;
 			DocumentBuilder db = dbf.newDocumentBuilder() ;
 			Document doc = db.newDocument() ;
@@ -117,7 +108,7 @@ public class XMLUtil
 //		{
 //			StringReader stringReader = new StringReader(cs);
 //			InputSource inputSource = new InputSource(stringReader);
-//			Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(inputSource); 
+//			Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(inputSource);
 //			return doc;
 //		}
 //		catch (Exception e)
@@ -128,9 +119,9 @@ public class XMLUtil
 //		}
 //		return null;
 //	}
-	
-	
-	
+
+
+
 	public static boolean ExportXML(Document xmlOutput, String filename)
 	{
 		try
@@ -143,10 +134,10 @@ public class XMLUtil
 				Transformer xformer = TransformerFactory.newInstance().newTransformer();
 				xformer.setOutputProperty(OutputKeys.ENCODING, "ISO8859-1");
 				xformer.setOutputProperty(OutputKeys.INDENT, "yes");
-			
+
 				xformer.transform(source, res);
 				file.close();
-				
+
 				return true ;
 			}
 			return false ;
@@ -196,19 +187,19 @@ public class XMLUtil
 		Element e = (Element)n ;
 		return e ;
 	}
-	
+
 	public static byte[] encode64(byte[] arrBytes)
 	{
 		Base64 base64 = new Base64();
 		return base64.encode(arrBytes);
 	}
-	
+
 	public static byte[] decode64(byte[] arrBytes)
 	{
 		Base64 base64 = new Base64();
 		return base64.decode(arrBytes);
 	}
-	
+
 	public static String encode64AsString(byte[] arrBytes)
 	{
 		Base64 base64 = new Base64();
@@ -216,14 +207,14 @@ public class XMLUtil
 		String cs = new String(tOut);
 		return cs;
 	}
-	
+
 	public static byte[] decode64(String cs)
 	{
 		Base64 base64 = new Base64();
 		byte[] bytes = cs.getBytes();
 		return base64.decode(bytes);
 	}
-	
+
 	public static String decode64AsString(String cs)
 	{
 		Base64 base64 = new Base64();
@@ -232,7 +223,7 @@ public class XMLUtil
 		String csOut = new String(tOut);
 		return csOut;
 	}
-	
+
 	public static String encode64AsString(String cs)
 	{
 		Base64 base64 = new Base64();
@@ -241,7 +232,7 @@ public class XMLUtil
 		String csOut = new String(tOut);
 		return csOut;
 	}
-	
+
 	public static boolean encode64File(String csIn, String csOut)
 	{
 		DataFileRead in = new DataFileRead(csIn);
@@ -263,7 +254,7 @@ public class XMLUtil
 		}
 		return false;
 	}
-	
+
 	public static boolean decode64File(String csIn, String csOut)
 	{
 		DataFileRead in = new DataFileRead(csIn);

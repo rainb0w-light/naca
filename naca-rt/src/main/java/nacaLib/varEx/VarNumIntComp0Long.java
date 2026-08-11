@@ -4,19 +4,11 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
-/*
- * Created on 20 avr. 2005
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 package nacaLib.varEx;
 
 /**
  * @author PJD
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 public class VarNumIntComp0Long extends VarNum
 {
@@ -24,23 +16,23 @@ public class VarNumIntComp0Long extends VarNum
 	{
 		super(declareType9);
 	}
-	
+
 	protected VarNumIntComp0Long()
 	{
 		super();
 	}
-	
+
 	protected VarBase allocCopy()
 	{
 		VarNumIntComp0Long v = new VarNumIntComp0Long();
 		return v;
 	}
-	
+
 	String getDisplayableString()
 	{
 		return "VarNumIntComp0Long";
 	}
-	
+
 	public int compareTo(ComparisonMode mode, String csValue)
 	{
 		double dValue = 0;
@@ -49,45 +41,44 @@ public class VarNumIntComp0Long extends VarNum
 			dValue = Double.valueOf(csValue).doubleValue();
 		}
 		catch (Exception ex)
-		{	
+		{
 		}
 		return compareTo(dValue);
 	}
-	
+
 	public int compareTo(int nValue)
 	{
 		int nVarValue = getInt();
 		return nVarValue - nValue;
 	}
-		
+
 	public int compareTo(double dValue)
 	{
 		double varValue = getDouble();
 		double d = varValue - dValue;
-		if(d < -0.00001)	//Consider epsilon precision at 10 e-5 
+		if(d < -0.00001)	//Consider epsilon precision at 10 e-5
 			return -1;
 		else if(d > 0.00001)	//Consider epsilon precision at 10 e-5
 			return 1;
-		return 0;			
+		return 0;
 	}
-	
+
 	protected byte[] convertUnicodeToEbcdic(char [] tChars)
 	{
 		byte tByte[] = doConvertUnicodeToEbcdic(tChars);
 		return tByte;
 	}
-	
+
 	protected char[] convertEbcdicToUnicode(byte[] tBytes)
 	{
 		return doConvertEbcdicToUnicode(tBytes);
 	}
-	
-	
+
+
 	public VarType getVarType()
 	{
 		return VarType.VarNumIntComp0Long;
 	}
 
-	
-}
 
+}

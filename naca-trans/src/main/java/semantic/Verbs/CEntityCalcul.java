@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 3 ao�t 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic.Verbs;
 
 
@@ -26,8 +20,6 @@ import utils.*;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CEntityCalcul extends CBaseActionEntity
 {
@@ -44,7 +36,7 @@ public class CEntityCalcul extends CBaseActionEntity
 	{
 		expression = exp ;
 	}
-	
+
 	public void AddDestination(CDataEntity e)
 	{
 		destinations.add(e) ;
@@ -73,7 +65,7 @@ public class CEntityCalcul extends CBaseActionEntity
 		}
 		onErrorBloc = null ;
 	}
-	
+
 	public void SetOnErrorBloc(CBaseLanguageEntity eBloc)
 	{
 		onErrorBloc = eBloc ;

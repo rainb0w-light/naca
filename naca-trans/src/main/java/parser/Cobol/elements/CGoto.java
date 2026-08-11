@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on Jul 27, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements;
 
 import java.util.ArrayList;
@@ -34,8 +28,6 @@ import utils.Transcoder;
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CGoto extends CCobolElement
 {
@@ -69,7 +61,7 @@ public class CGoto extends CCobolElement
 			return false ;
 		}
 		CGlobalEntityCounter.GetInstance().CountCobolVerb("GOTO") ;
-		
+
 		CBaseToken tokRef = GetCurrentToken() ;
 		String csReference = "" ;
 		while (tokRef.GetType() == CTokenType.IDENTIFIER || tokRef.GetType() == CTokenType.NUMBER)
@@ -78,7 +70,7 @@ public class CGoto extends CCobolElement
 			reference.add(csReference);
 			tokRef = GetNext() ;
 		}
-		
+
 		CBaseToken tok = GetCurrentToken();
 		while (tok.GetKeyword() == CCobolKeywordList.DEPENDING)
 		{
@@ -110,7 +102,7 @@ public class CGoto extends CCobolElement
 				String cs = reference.get(i);
 				Element e = root.createElement("Ref"+i);
 				eGoto.appendChild(e);
-				e.setAttribute("Reference", cs); 
+				e.setAttribute("Reference", cs);
 			}
 			Element e = root.createElement("DependingOn") ;
 			eGoto.appendChild(e);

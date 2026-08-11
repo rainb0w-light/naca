@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on Aug 26, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic.Verbs;
 
 
@@ -24,8 +18,6 @@ import utils.CObjectCatalog;
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CEntityReplace extends CBaseActionEntity
 {
@@ -37,11 +29,11 @@ public class CEntityReplace extends CBaseActionEntity
 	}
 	protected static class CReplaceType
 	{
-		public static CReplaceType CUSTOM = new CReplaceType() ; 
-		public static CReplaceType SPACES = new CReplaceType() ; 
-		public static CReplaceType ZEROS = new CReplaceType() ; 
-		public static CReplaceType LOW_VALUES = new CReplaceType() ; 
-		public static CReplaceType HIGH_VALUES = new CReplaceType() ; 
+		public static CReplaceType CUSTOM = new CReplaceType() ;
+		public static CReplaceType SPACES = new CReplaceType() ;
+		public static CReplaceType ZEROS = new CReplaceType() ;
+		public static CReplaceType LOW_VALUES = new CReplaceType() ;
+		public static CReplaceType HIGH_VALUES = new CReplaceType() ;
 	}
 	protected class CReplaceItem
 	{
@@ -50,7 +42,7 @@ public class CEntityReplace extends CBaseActionEntity
 		public CDataEntity replaceData = null ;
 		public CReplaceType dataType = null ;
 		public CDataEntity data = null ;
-	} 
+	}
 	/**
 	 * @param line
 	 * @param cat
@@ -59,8 +51,8 @@ public class CEntityReplace extends CBaseActionEntity
 	{
 		super(line, cat);
 	}
-	
-	protected CDataEntity variable = null ; 
+
+	protected CDataEntity variable = null ;
 	protected Vector<CReplaceItem> itemsToReplace = new Vector<CReplaceItem>() ;
 	private CReplaceItem curItem = null ;
 	public void Clear()

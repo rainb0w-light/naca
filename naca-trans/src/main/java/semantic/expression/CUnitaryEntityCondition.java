@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 19 août 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic.expression;
 
 import semantic.CDataEntity;
@@ -17,8 +11,6 @@ import semantic.CDataEntity;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public abstract class CUnitaryEntityCondition extends CBaseEntityCondition
 {
@@ -50,7 +42,7 @@ public abstract class CUnitaryEntityCondition extends CBaseEntityCondition
 	{
 		return reference ;
 	}
-	protected CDataEntity reference = null; 
+	protected CDataEntity reference = null;
 	public void Clear()
 	{
 		super.Clear() ;

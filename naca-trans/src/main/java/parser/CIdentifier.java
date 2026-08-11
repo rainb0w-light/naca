@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 2 ao�t 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser;
 
 import java.util.Vector;
@@ -27,8 +21,6 @@ import utils.Transcoder;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CIdentifier
 {
@@ -45,7 +37,7 @@ public class CIdentifier
 	{
 		return name ;
 	}
-		
+
 	public void ExportTo(Element e, Document root)
 	{
 		if (arrayIndex != null && arrayIndex.size()>0 && exprStringLengthReference != null && exprStringStartReference != null)
@@ -85,7 +77,7 @@ public class CIdentifier
 		{
 			Element eLength = root.createElement("Length") ;
 			e.appendChild(eLength) ;
-			eLength.appendChild(exprStringLengthReference.Export(root)) ;			
+			eLength.appendChild(exprStringLengthReference.Export(root)) ;
 		}
 		if (!memberOf.equals(""))
 		{
@@ -94,13 +86,13 @@ public class CIdentifier
 			eOf.setAttribute("Ascendant", memberOf) ;
 		}
 	}
-	
+
 	public void SetSubStringReference(CExpression exp1, CExpression exp2)
 	{
 		exprStringStartReference = exp1 ;
 		exprStringLengthReference = exp2 ;
-	}		
-	
+	}
+
 	public void AddArrayIndex(CExpression e)
 	{
 		if (arrayIndex ==null)
@@ -109,12 +101,12 @@ public class CIdentifier
 		}
 		arrayIndex.add(e) ;
 	}
-	
+
 	public CDataEntity GetDataReference(int nLine, CBaseEntityFactory fact)
 	{
 		return GetDataReference(nLine, fact, null) ;
 	}
-	
+
 	public CDataEntity GetDataReference(int nLine, CBaseEntityFactory fact, CBaseLanguageEntity parent)
 	{
 		CDataEntity e = null ;
@@ -156,13 +148,13 @@ public class CIdentifier
 		if (exprStringStartReference != null)
 		{
 			CBaseEntityExpression expStart = exprStringStartReference.AnalyseExpression(fact);
-			CBaseEntityExpression expLen = exprStringLengthReference != null ? exprStringLengthReference.AnalyseExpression(fact) : null; 
+			CBaseEntityExpression expLen = exprStringLengthReference != null ? exprStringLengthReference.AnalyseExpression(fact) : null;
 			e = e.GetSubStringReference(expStart, expLen, fact);
 		}
-		
+
 		return e ;
 	}
-	
+
 	protected CExpression exprStringStartReference = null ;
 	protected CExpression exprStringLengthReference = null ;
 	protected Vector<CExpression> arrayIndex = null ;

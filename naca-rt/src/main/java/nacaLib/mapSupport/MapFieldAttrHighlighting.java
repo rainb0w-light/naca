@@ -4,18 +4,9 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
-/*
- * Created on 14 oct. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
-
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 package nacaLib.mapSupport;
 
@@ -25,33 +16,33 @@ public class MapFieldAttrHighlighting extends MapFieldBaseAttr
 	{
 		super(nValue, text);
 	}
-	
+
 	public static MapFieldAttrHighlighting OFF = new MapFieldAttrHighlighting(1, "off");
 	public static MapFieldAttrHighlighting BLINK = new MapFieldAttrHighlighting(2, "blink");
 	public static MapFieldAttrHighlighting REVERSE = new MapFieldAttrHighlighting(3, "reverse");
-	public static MapFieldAttrHighlighting UNDERLINE = new MapFieldAttrHighlighting(4, "underline");	
-	
+	public static MapFieldAttrHighlighting UNDERLINE = new MapFieldAttrHighlighting(4, "underline");
+
 	static int getNbBitsEncoding()
 	{
 		return 3;
 	}
-	
+
 	static int getMask()
 	{
 		return 7;
 	}
-		
+
 //	char encode()
 //	{
 //		char c = Character.forDigit(getInternalValue(), 10);
 //		return c;
 //	}
-	
+
 //	public String toString()
 //	{
 //		return getText();
 //	}
-//	
+//
 //	String getText()
 //	{
 //		int n = getInternalValue();

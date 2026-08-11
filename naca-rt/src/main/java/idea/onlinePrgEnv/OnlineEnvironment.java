@@ -31,34 +31,25 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 
-/*
- * Created on 20 oct. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
-
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 
-public class OnlineEnvironment extends BaseEnvironment 
-{	
+public class OnlineEnvironment extends BaseEnvironment
+{
 	public OnlineEnvironment(OnlineSession session, DbConnectionManagerBase connectionManager)
 	{
 		super(session, connectionManager, session.getBaseResourceManager());
-		this.session = session ;			
+		this.session = session ;
 	}
-	
+
 	protected OnlineSession session = null;
 	protected CESMSendMap sendMapOrder = null;
 	protected boolean ishasOutput = false;
 	private Document xmlData = null;
-	
-	/* csLastCommandCode 
+
+	/* csLastCommandCode
 	 * see for info :
 	 * http://publib.boulder.ibm.com/infocenter/txen/index.jsp?topic=/com.ibm.txseries510.doc/erzhai00148.htm
 	 */
@@ -66,7 +57,7 @@ public class OnlineEnvironment extends BaseEnvironment
 	{
 		return session;
 	}
-	
+
 	public void resetSession()
 	{
 		session = null;
@@ -77,9 +68,9 @@ public class OnlineEnvironment extends BaseEnvironment
 	{
 		this.xmlData = xmlData;
 	}
-	
 
-	
+
+
 	public Document getXMLData()
 	{
 		return xmlData ;
@@ -94,7 +85,7 @@ public class OnlineEnvironment extends BaseEnvironment
 //		{
 //			Form form = sendMapOrder.varFrom ;
 //		}
-		
+
 		Element eRoot = createNewFormBody(doc, "CESM", "CESM") ;
 		Element eBody = createVBox(doc, eRoot);
 		int nb = fields.size() ;
@@ -122,10 +113,10 @@ public class OnlineEnvironment extends BaseEnvironment
 			curCol = nc + nlen ;
 			curLineElem.appendChild(f);
 		}
-		
+
 		return doc;
 	}
-	
+
 	private Document createNewDocument()
 	{
 		try
@@ -137,41 +128,41 @@ public class OnlineEnvironment extends BaseEnvironment
 		catch(ParserConfigurationException e)
 		{
 			return null ;
-		}		
+		}
 	}
-	
+
 	private Element createNewFormBody(Document doc, String csFormName, String csTitle)
 	{
 		Element eProgram = doc.createElement("Root") ;
 		doc.appendChild(eProgram) ;
-			
+
 		Element eForm = doc.createElement("Form");
 		eProgram.appendChild(eForm);
 		Element eName = doc.createElement("Name") ;
 		eForm.appendChild(eName) ;
 		eName.appendChild(doc.createTextNode(csFormName));
 		eForm.setAttribute("Title", csTitle);
-		
+
 		Element eBody = doc.createElement("FormBody");
 		eForm.appendChild(eBody);
-		
+
 		return eBody;
 	}
-	
+
 	private Element createVBox(Document doc, Element eParent)
 	{
 		Element eVBox = doc.createElement("VBox");
 		eParent.appendChild(eVBox);
 		return eVBox;
 	}
-	
+
 	private Element createHBox(Document doc, Element eParent)
 	{
 		Element eHBox = doc.createElement("HBox");
 		eParent.appendChild(eHBox);
 		return eHBox;
-	} 
-		
+	}
+
 	private Element createBlank(Document doc, Element eParent, int size)
 	{
 		Element eBlank = doc.createElement("Blank");
@@ -184,9 +175,9 @@ public class OnlineEnvironment extends BaseEnvironment
 		eBlank.setAttribute("Text", cs);
 		eParent.appendChild(eBlank);
 		return eBlank;
-	} 
-	
-	private class FieldComparator implements Comparator<Element> 
+	}
+
+	private class FieldComparator implements Comparator<Element>
 	{
 		public int compare(Element e1, Element e2)
 		{
@@ -200,7 +191,7 @@ public class OnlineEnvironment extends BaseEnvironment
 			{
 				return 1 ;
 			}
-			else 
+			else
 			{
 				int col1 = NumberParser.getAsInt(e1.getAttribute("PosCol"));
 				int col2 = NumberParser.getAsInt(e2.getAttribute("PosCol"));
@@ -222,14 +213,14 @@ public class OnlineEnvironment extends BaseEnvironment
 
 	public void addMapOrder(CESMSendMap order)
 	{
-		sendMapOrder = order ;		
+		sendMapOrder = order ;
 	}
-	
+
 	public void addOutput()
 	{
 		ishasOutput = true;
 	}
-	
+
 	public void resetOutput()
 	{
 		ishasOutput = false;
@@ -243,20 +234,20 @@ public class OnlineEnvironment extends BaseEnvironment
 	public boolean hasOutput()
 	{
 		return sendMapOrder != null || ishasOutput;
-	}	
-	
+	}
+
 	public void RegisterOutput()
 	{
 		if (sendMapOrder != null)
 		{
-			String csDeclaredFormName = sendMapOrder.varFrom.getDeclaredFormName(); 
+			String csDeclaredFormName = sendMapOrder.varFrom.getDeclaredFormName();
 			session.setIdPage(csDeclaredFormName) ;
 			Document doc = sendMapOrder.varFrom.getXMLData(sendMapOrder.mapName, sendMapOrder.nCursorPosition) ;
 			session.setXMLData(doc) ;
 		}
-		
+
 	}
-	
+
 	/**
 	 * @param m_elCESMConfig
 	 */
@@ -264,10 +255,10 @@ public class OnlineEnvironment extends BaseEnvironment
 	{
 		configInit(tagCESMConfig);
 		if (tagCESMConfig != null)
-		{			
+		{
 			if(tagCESMConfig.isValExisting("StartProgramId"))
 				setNextProgramToLoad(tagCESMConfig.getVal("StartProgramId"));
-			
+
 			if(tagCESMConfig.isValExisting("StartCommandCode"))
 			{
 				csLastCommandCode = tagCESMConfig.getVal("StartCommandCode") ;
@@ -279,31 +270,31 @@ public class OnlineEnvironment extends BaseEnvironment
 				{
 					csLastCommandCode = CESMCommandCode.START ;
 				}
-				else  
+				else
 				{
 					csLastCommandCode = "" ;
 				}
 			}
-			
+
 			if(tagCESMConfig.isValExisting("DataRecordPath"))
 			{
 				csDataRecordPath = tagCESMConfig.getVal("DataRecordPath") ;
-				
+
 				if (tagCESMConfig.isValExisting("DataRecordFilePattern"))
 				{
 					csDataRecordFilePattern = tagCESMConfig.getVal("DataRecordFilePattern") ;
 				}
-				
+
 				if (!csDataRecordPath.endsWith("\\") && !csDataRecordPath.endsWith("/"))
 				{
 					csDataRecordPath += '/' ;
 				}
 			}
 		}
-		csTermID = OnlineEnvironment.getNextTermID() ; 
+		csTermID = OnlineEnvironment.getNextTermID() ;
 	}
-	
-	
+
+
 	private static int ms_LastTermID = 0 ;
 	private static String getNextTermID()
 	{
@@ -313,7 +304,7 @@ public class OnlineEnvironment extends BaseEnvironment
 	/**
 	 * @return
 	 */
-	
+
 
 
 
@@ -346,7 +337,7 @@ public class OnlineEnvironment extends BaseEnvironment
 		String cs = "" + acTCTTUA[38] + acTCTTUA[39] + acTCTTUA[40] ;
 		return cs ;
 	}
-	
+
 	/**
 	 * @return
 	 */
@@ -355,7 +346,7 @@ public class OnlineEnvironment extends BaseEnvironment
 		String cs = "" + acTCTTUA[127] + acTCTTUA[128] ;
 		return cs ;
 	}
-	
+
 	protected String csDataRecordFilePattern = "" ;
 	protected String csDataRecordPath = "" ;
 	protected String csDataRecordFilePath = "" ;

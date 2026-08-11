@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on Oct 12, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic.forms;
 
 import semantic.CBaseEntityFactory;
@@ -23,8 +17,6 @@ import utils.CObjectCatalog;
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CEntityFieldArrayReference extends CEntityArrayReference
 {
@@ -69,7 +61,7 @@ public class CEntityFieldArrayReference extends CEntityArrayReference
 			return eCond;
 		}
 	}
-	public CDataEntity GetSubStringReference(CBaseEntityExpression start, CBaseEntityExpression length, CBaseEntityFactory factory) 
+	public CDataEntity GetSubStringReference(CBaseEntityExpression start, CBaseEntityExpression length, CBaseEntityFactory factory)
 	{
 		CSubStringAttributReference ref = factory.NewEntitySubString(getLine()) ;
 		ref.SetReference(this, start, length) ;

@@ -24,16 +24,16 @@ import javax.management.ReflectionException;
 public abstract class BaseCloseMBean extends BaseDynamicMBean
 {
 	private boolean iscreated = false;
-	
+
 	public BaseCloseMBean()
-	{		
+	{
 	}
-		
+
 	public BaseCloseMBean(String csName, String csDescription)
 	{
 		createMBean(csName, csDescription);
 	}
-	
+
 	public void createMBean(String csName, String csDescription)
 	{
 		csMBeanName = csName;
@@ -45,28 +45,28 @@ public abstract class BaseCloseMBean extends BaseDynamicMBean
 		JmxRegistration.registerMBean(csName, this);
 		iscreated = true;
 	}
-	
+
 	public void unregisterMBean()
 	{
 		if(csMBeanName != null)
 			JmxRegistration.unregisterMBean(csMBeanName);
 		csMBeanName = null;
 	}
-	
+
 	protected boolean isBeanCreated()
 	{
 		if(csMBeanName == null)
 			return false;
 		return true;
 	}
-	
-	public Object getAttribute(String csName) 
+
+	public Object getAttribute(String csName)
 	{
-		if (csName == null || arrMBeanAttributeInfosWrapper == null) 
+		if (csName == null || arrMBeanAttributeInfosWrapper == null)
 		{
 			return null;
         }
-		
+
 		for(int n=0; n<arrMBeanAttributeInfosWrapper.size(); n++)
 		{
 			MBeanAttributeInfoWrapper attributeInfoWrapper = arrMBeanAttributeInfosWrapper.get(n);
@@ -81,37 +81,34 @@ public abstract class BaseCloseMBean extends BaseDynamicMBean
 					{
 						Object oReturn = method.invoke(this, (Object[])null);
 						return oReturn;
-					} 
+					}
 					catch (IllegalArgumentException e)
 					{
-						// TODO Auto-generated catch block
 						e.printStackTrace();
-					} 
+					}
 					catch (IllegalAccessException e)
 					{
-						// TODO Auto-generated catch block
 						e.printStackTrace();
-					} 
+					}
 					catch (InvocationTargetException e)
 					{
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
-				
+
 			}
 		}
         return null;
 	}
-	
-    public void setAttribute(Attribute attribute) 
-        throws AttributeNotFoundException, InvalidAttributeValueException, MBeanException, ReflectionException 
+
+    public void setAttribute(Attribute attribute)
+        throws AttributeNotFoundException, InvalidAttributeValueException, MBeanException, ReflectionException
 	{
-        if (attribute != null) 
-        {	        
+        if (attribute != null)
+        {
 	        String csName = attribute.getName();
 	        Object oValue = attribute.getValue();
-	        
+
       		for(int n=0; n<arrMBeanAttributeInfosWrapper.size(); n++)
 			{
 				MBeanAttributeInfoWrapper attributeInfoWrapper = arrMBeanAttributeInfosWrapper.get(n);
@@ -129,20 +126,17 @@ public abstract class BaseCloseMBean extends BaseDynamicMBean
 							{
 								method.invoke(this, oValue);
 								return;
-							} 
+							}
 							catch (IllegalArgumentException e)
 							{
-								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
 							catch (IllegalAccessException e)
 							{
-								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
 							catch (InvocationTargetException e)
 							{
-								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
 						}
@@ -151,8 +145,8 @@ public abstract class BaseCloseMBean extends BaseDynamicMBean
 			}
         }
     }
-    
-	public AttributeList getAttributes(String[] attributeNames) 
+
+	public AttributeList getAttributes(String[] attributeNames)
 	{
         if(attributeNames != null)
         {
@@ -160,16 +154,16 @@ public abstract class BaseCloseMBean extends BaseDynamicMBean
 
 	        if (attributeNames.length == 0)
     	        return resultList;
-        
+
 	        // Build the result attribute list
 	        for(int i=0 ; i<attributeNames.length; i++)
 	        {
-	            try 
-	            {        
-	                Object oValue = getAttribute(attributeNames[i]);     
+	            try
+	            {
+	                Object oValue = getAttribute(attributeNames[i]);
 	                resultList.add(new Attribute(attributeNames[i], oValue));
-	            } 
-	            catch (Exception e) 
+	            }
+	            catch (Exception e)
 	            {
 	            }
 	        }
@@ -177,20 +171,20 @@ public abstract class BaseCloseMBean extends BaseDynamicMBean
     	}
         return null;
 	}
-	
-	 public AttributeList setAttributes(AttributeList attributes) 
+
+	 public AttributeList setAttributes(AttributeList attributes)
 	 {
         // Check attributes is not null to avoid NullPointerException later on
         //
-        if (attributes != null) 
+        if (attributes != null)
         {
 	        AttributeList resultList = new AttributeList();
-	
+
 	        // If attributeNames is empty, nothing more to do
 	        //
 	        if (attributes.isEmpty())
 	            return resultList;
-	
+
 	        // For each attribute, try to set it and add to the result list if
 	        // successfull
 	        //
@@ -201,9 +195,9 @@ public abstract class BaseCloseMBean extends BaseDynamicMBean
 	            {
 	                setAttribute(attr);
 	                String name = attr.getName();
-	                Object value = getAttribute(name); 
+	                Object value = getAttribute(name);
 	                resultList.add(new Attribute(name,value));
-	            } 
+	            }
 	            catch(Exception e)
 	            {
 	                e.printStackTrace();
@@ -213,13 +207,13 @@ public abstract class BaseCloseMBean extends BaseDynamicMBean
     	}
         return null;
 	}
-     
-	 
+
+
 	public Object invoke(String csOperationName,
                          Object params[],
                          String signature[])
 	{
-        if (csOperationName != null) 
+        if (csOperationName != null)
         {
         	for(int n = 0; n< mBeanOperationInfosWrapper.size(); n++)
 			{
@@ -236,15 +230,15 @@ public abstract class BaseCloseMBean extends BaseDynamicMBean
 						{
 							oReturn = method.invoke(this, params);
 							return oReturn;
-						} 
+						}
 						catch (IllegalArgumentException e)
 						{
 							e.printStackTrace();
-						} 
+						}
 						catch (IllegalAccessException e)
 						{
 							e.printStackTrace();
-						} 
+						}
 						catch (InvocationTargetException e)
 						{
 							e.printStackTrace();
@@ -256,8 +250,8 @@ public abstract class BaseCloseMBean extends BaseDynamicMBean
         }
         return null;
 	}
-	    					
-			
+
+
     /**
      * This method provides the exposed attributes and operations of the
      * Dynamic MBean. It provides this information using an MBeanInfo object.
@@ -266,7 +260,7 @@ public abstract class BaseCloseMBean extends BaseDynamicMBean
     {
         return mBeanInfo;
     }
-    
+
 //	protected void addAttribute(String csName, String csType, String csDescription, boolean bIsReadable, boolean bIsWritable, boolean bIsIs)
 //	{
 //		MBeanAttributeInfoWrapper attr = new MBeanAttributeInfoWrapper(csName, csType, csDescription, bIsReadable, bIsWritable, bIsIs);
@@ -274,7 +268,7 @@ public abstract class BaseCloseMBean extends BaseDynamicMBean
 //			arrMBeanAttributeInfosWrapper = new ArrayList<MBeanAttributeInfoWrapper>();
 //		arrMBeanAttributeInfosWrapper.add(attr);
 //	}
-	
+
 	protected void addAttribute(String csDescription, Class cls, String csMethodName, Class clsType)
 	{
 		Method methodGet = MethodFinder.getMethod(cls, "get"+csMethodName);
@@ -284,7 +278,7 @@ public abstract class BaseCloseMBean extends BaseDynamicMBean
 			arrMBeanAttributeInfosWrapper = new ArrayList<MBeanAttributeInfoWrapper>();
 		arrMBeanAttributeInfosWrapper.add(attr);
 	}
-	
+
 //	protected void addOperation(String csName, String csDescription, MBeanParameterInfo[] arrSignature, String csType, int nImpact)
 //	{
 //		MBeanOperationInfo operation = new MBeanOperationInfo(csName, csDescription, arrSignature, csType, nImpact);
@@ -292,7 +286,7 @@ public abstract class BaseCloseMBean extends BaseDynamicMBean
 //			arrMBeanOperationInfos = new ArrayList<MBeanOperationInfo>();
 //		arrMBeanOperationInfos.add(operation);
 //	}
-	
+
 	private void addOperation(String csDescription, Method method)
 	{
 		MBeanOperationInfoWrapper operation = new MBeanOperationInfoWrapper(csDescription, method);
@@ -300,7 +294,7 @@ public abstract class BaseCloseMBean extends BaseDynamicMBean
 			mBeanOperationInfosWrapper = new ArrayList<MBeanOperationInfoWrapper>();
 		mBeanOperationInfosWrapper.add(operation);
 	}
-	
+
 	protected void addOperation(String csDescription, Class cls, String csMethodName)
 	{
 		Method method = MethodFinder.getMethod(cls, csMethodName);
@@ -309,7 +303,7 @@ public abstract class BaseCloseMBean extends BaseDynamicMBean
 			addOperation(csDescription, method);
 		}
 	}
-	
+
 	protected void addOperation(String csDescription, Class cls, String csMethodName, Class clsArg0)
 	{
 		Method method = MethodFinder.getMethod(cls, csMethodName, clsArg0);
@@ -327,7 +321,7 @@ public abstract class BaseCloseMBean extends BaseDynamicMBean
 			addOperation(csDescription, method);
 		}
 	}
-	
+
 	protected void addOperation(String csDescription, Class cls, String csMethodName, Class clsArg0, Class clsArg1, Class clsArg2)
 	{
 		Method method = MethodFinder.getMethod(cls, csMethodName, clsArg0, clsArg1, clsArg2);
@@ -336,7 +330,7 @@ public abstract class BaseCloseMBean extends BaseDynamicMBean
 			addOperation(csDescription, method);
 		}
 	}
-	
+
 	protected void addOperation(String csDescription, Class cls, String csMethodName, Class clsArg0, Class clsArg1, Class clsArg2, Class clsArg3)
 	{
 		Method method = MethodFinder.getMethod(cls, csMethodName, clsArg0, clsArg1, clsArg2, clsArg3);
@@ -358,8 +352,8 @@ public abstract class BaseCloseMBean extends BaseDynamicMBean
 				MBeanAttributeInfoWrapper wrapper = arrMBeanAttributeInfosWrapper.get(n);
 				attributes[n] = wrapper.getAttribute();
 			}
-		} 
-		
+		}
+
 		MBeanOperationInfo[] operations = null;
 		if(mBeanOperationInfosWrapper != null)
 		{
@@ -370,8 +364,8 @@ public abstract class BaseCloseMBean extends BaseDynamicMBean
 				MBeanOperationInfoWrapper wrapper = mBeanOperationInfosWrapper.get(n);
 				operations[n] = wrapper.getOperation();
 			}
-		} 
-		
+		}
+
         mBeanInfo = new MBeanInfo(csName,
                                    csDescription,
                 attributes,
@@ -379,7 +373,7 @@ public abstract class BaseCloseMBean extends BaseDynamicMBean
                 operations,
                                    null);	//dNotifications);
 	}
-	
+
 	protected void removeAllOperations()
 	{
 		mBeanOperationInfosWrapper.clear();
@@ -391,12 +385,12 @@ public abstract class BaseCloseMBean extends BaseDynamicMBean
 	}
 
 	protected abstract void buildDynamicMBeanInfo() ;
-	
+
 	protected String getMBeanName()
 	{
 		return csMBeanName;
 	}
-	
+
 	private ArrayList<MBeanAttributeInfoWrapper> arrMBeanAttributeInfosWrapper = null;
 	private ArrayList<MBeanOperationInfoWrapper> mBeanOperationInfosWrapper = null;
 	private MBeanInfo mBeanInfo = null;

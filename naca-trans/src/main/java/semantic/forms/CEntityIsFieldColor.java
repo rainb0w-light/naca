@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 19 ao�t 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic.forms;
 
 import semantic.CBaseEntityFactory;
@@ -20,8 +14,6 @@ import semantic.expression.CUnitaryEntityCondition;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CEntityIsFieldColor extends CUnitaryEntityCondition
 {
@@ -31,7 +23,7 @@ public class CEntityIsFieldColor extends CUnitaryEntityCondition
 		isColor = col ;
 		reference = data ;
 	}
-	protected CEntityFieldColor.CFieldColor isColor ; 
+	protected CEntityFieldColor.CFieldColor isColor ;
 	public void Clear()
 	{
 		super.Clear();
@@ -57,7 +49,7 @@ public class CEntityIsFieldColor extends CUnitaryEntityCondition
 		return false ;
 	}
 	/**
-	 * 
+	 *
 	 */
 	public void SetOpposite()
 	{

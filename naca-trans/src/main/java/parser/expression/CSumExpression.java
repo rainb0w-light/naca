@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on Jul 28, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.expression;
 
 import org.w3c.dom.Document;
@@ -25,8 +19,6 @@ import semantic.expression.CEntityExprSum;
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CSumExpression extends CExpression
 {
@@ -36,7 +28,7 @@ public class CSumExpression extends CExpression
 		protected CSumType(String t)
 		{
 			Text = t ;
-		} 
+		}
 		public static CSumType ADD = new CSumType("ADD") ;
 		public static CSumType SUB = new CSumType("SUB") ;
 	}
@@ -50,14 +42,14 @@ public class CSumExpression extends CExpression
 	protected CExpression op1 = null ;
 	protected CExpression op2 = null ;
 	protected CSumType type = null ;
-	
+
 	protected boolean CheckMembersBeforeExport()
 	{
 		boolean b = CheckMemberNotNull(op1);
 		b &= CheckMemberNotNull(op2);
 		return b;
 	}
-	
+
 	public Element DoExport(Document root)
 	{
 		Element e = root.createElement(type.Text) ;
@@ -67,7 +59,7 @@ public class CSumExpression extends CExpression
 		e.appendChild(e2) ;
 		return e;
 	}
-	
+
 	public CSumType GetType()
 	{
 		return type ;

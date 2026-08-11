@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 2 août 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic;
 
 import semantic.CICS.*;
@@ -31,14 +25,12 @@ import java.util.Vector;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public abstract class CBaseEntityFactory
 {
 
 	/**
-	 * 
+	 *
 	 */
 	public CBaseEntityFactory(CObjectCatalog cat)
 	{
@@ -55,11 +47,11 @@ public abstract class CBaseEntityFactory
 	{
 		return new CIgnoreExternalEntity(0, name, programCatalog);
 	}
-	public CIgnoredEntity NewIgnoreEntity(String name) 
+	public CIgnoredEntity NewIgnoreEntity(String name)
 	{
 		return new CIgnoredEntity(0, name, programCatalog);
 	};
-	public CIgnoredEntity NewIgnoreEntity(int l, String name) 
+	public CIgnoredEntity NewIgnoreEntity(int l, String name)
 	{
 		return new CIgnoredEntity(l, name, programCatalog);
 	};
@@ -188,9 +180,9 @@ public abstract class CBaseEntityFactory
 	public abstract CEntityNamedCondition NewEntityNamedCondition(int l, String name) ;
 	public abstract CEntitySQLSingleStatement NewEntitySQLSingleStatement(int l, String name) ;
 
-	
+
 	public abstract CEntitySQLSelectStatement NewEntitySQLSelectStatement(int l, String name, Vector<CDataEntity> arrParameters, Vector<CDataEntity> arrInto, Vector<CDataEntity> arrInd) ;
-	public abstract CEntitySQLCursorSelectStatement NewEntitySQLCursorSelectStatement(int l) ;	
+	public abstract CEntitySQLCursorSelectStatement NewEntitySQLCursorSelectStatement(int l) ;
 	public abstract CEntitySQLFetchStatement NewEntitySQLFetchStatement(int l, CEntitySQLCursor cur) ;
 	public abstract CEntitySQLOpenStatement NewEntitySQLOpenStatement(int l, CEntitySQLCursor cur) ;
 	public abstract CEntitySQLCloseStatement NewEntitySQLCloseStatement(int l, CEntitySQLCursor cur) ;
@@ -198,7 +190,7 @@ public abstract class CBaseEntityFactory
 	public abstract CEntitySQLUpdateStatement NewEntitySQLUpdateStatement(int l, String csStatement, Vector<CDataEntity> arrSets, Vector<CDataEntity> arrParameters) ;
 	public abstract CEntitySQLInsertStatement NewEntitySQLInsertStatement(int l) ;
 	public abstract CEntitySQLDeclareTable NewEntitySQLDeclareTable(int nLine, String csTableName, String csViewName, ArrayList arrTableColDescription);
-	
+
 
 	public abstract CEntitySetColor NewEntitySetColor(int l, CDataEntity field) ;
 	public abstract CEntityFieldLength NewEntityFieldLengh(int l, String name, CDataEntity field) ;
@@ -221,7 +213,7 @@ public abstract class CBaseEntityFactory
 	public abstract CEntitySkipFields NewEntityWorkingSkipField(int l, String name, int nbFields, String level) ;
 	public abstract CEntityFieldRedefine NewEntityFieldRedefine(int l, String name, String level) ;
 	public abstract CEntityFormRedefine NewEntityFormRedefine(int l, String name, CDataEntity eForm, boolean bSaveMap) ;
-	 	
+
 	public CObjectCatalog programCatalog = null ;
 	public String getOutputDirectory()
 	{

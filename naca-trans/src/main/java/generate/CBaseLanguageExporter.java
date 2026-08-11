@@ -4,20 +4,11 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 3 août 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package generate;
 
 //import java.io.FileNotFoundException;
 //import java.io.FileOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -40,8 +31,6 @@ import utils.COriginalLisiting;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public abstract class CBaseLanguageExporter
 {
@@ -72,7 +61,7 @@ public abstract class CBaseLanguageExporter
 		commentContainer = exporter.commentContainer ;
 	}
 	protected COriginalLisiting catalog = null ;
-	
+
 	public void closeOutput()
 	{
 		String csCurrentLine = "" ;
@@ -96,7 +85,7 @@ public abstract class CBaseLanguageExporter
 					blankline += "// (" + nLastOriginalLineWritten + ") " + csCurrentLine;
 					DoWriteLine(blankline);
 				}
-			}	
+			}
 			nLastOriginalLineWritten ++ ;
 		}
 		doCloseOutput() ;
@@ -109,8 +98,8 @@ public abstract class CBaseLanguageExporter
 	protected void DoWriteComment(String line, int n)
 	{
 		String fullLine = line ;
-		if (nLastOriginalLineWritten < n)  
-		{ 
+		if (nLastOriginalLineWritten < n)
+		{
 			DisplaySkippedLines(n) ;
 			int blanksize = widthBeforeOriginalCode - line.length() - indent.length()*indentWidth;
 			if (blanksize > 0)
@@ -156,7 +145,7 @@ public abstract class CBaseLanguageExporter
 					nLastOriginalLineWritten = n;
 				}
 			}
-			else if (nLastOriginalLineWritten < n)  
+			else if (nLastOriginalLineWritten < n)
 			{ //nLastOriginalLineWritten == n-1
 				csOrigLine = "// (" + n + ") " ;
 				if (catalog.GetOriginalLine(n) != null)
@@ -168,7 +157,7 @@ public abstract class CBaseLanguageExporter
 			if (!line.equals("") || !csOrigLine.equals(""))
 			{
 				int blanksize = widthBeforeOriginalCode - line.length() - indent.length()*indentWidth;
-				String fullline ;  
+				String fullline ;
 				if (blanksize > 0)
 				{
 					char[] c = new char[blanksize] ; // COBOL comments starts on line 80
@@ -185,7 +174,7 @@ public abstract class CBaseLanguageExporter
 		}
 	}
 	/**
-	 * 
+	 *
 	 */
 	private void DisplaySkippedLines(int n)
 	{
@@ -210,7 +199,7 @@ public abstract class CBaseLanguageExporter
 					DoWriteLine(blankline);
 					nLastOriginalLineWritten = i ;
 				}
-			}				
+			}
 		}
 	}
 	private String renderComment(CEntityComment comment)
@@ -238,7 +227,7 @@ public abstract class CBaseLanguageExporter
 	{
 		DoWriteComment(line, n) ;
 	}
-	public void WriteEOL() 
+	public void WriteEOL()
 	{
 		WriteEOL(nLastOriginalLineWritten) ;
 	}
@@ -251,17 +240,17 @@ public abstract class CBaseLanguageExporter
 			DoWriteLine(line, n) ;
 		}
 	}
-	public void WriteWord(String word) 
+	public void WriteWord(String word)
 	{
 		WriteWord(word, nLastOriginalLineWritten) ;
 	}
-	public void WriteWord(String word, int n) 
+	public void WriteWord(String word, int n)
 	{
 		if (n > nLastOriginalLineWritten+1)
 		{ // more than one original line to be written
 			DoWriteLine("", n-1) ;
 		}
-		
+
 		int pos = word.indexOf("\n") ;
 		if (pos != -1)
 		{
@@ -271,7 +260,7 @@ public abstract class CBaseLanguageExporter
 			WriteWord(cs2, n) ;
 			return ;
 		}
-		
+
 		if (currentLine.length() + word.length() > widthBeforeOriginalCode-indentWidth*indent.length() && word.length()>2 && currentLine.length()>2)
 		{
 			String l = currentLine ;
@@ -281,13 +270,13 @@ public abstract class CBaseLanguageExporter
 		}
 		currentLine += word ;
 	}
-	public void WriteLongString(String string, int n) 
+	public void WriteLongString(String string, int n)
 	{
 		if (n > nLastOriginalLineWritten+1)
 		{ // more than one original line to be written
 			DoWriteLine("", n-1) ;
 		}
-				
+
 		String remainString = string ;
 		int nSizeRemaining = widthBeforeOriginalCode-indentWidth*indent.length()-currentLine.length() ;
 		while (nSizeRemaining > 0 && remainString.length() - nSizeRemaining > 5)
@@ -317,7 +306,7 @@ public abstract class CBaseLanguageExporter
 			currentLine += "\"" + remainString + "\"" ;
 		}
 	}
-	
+
 	public void StartBloc()
 	{
 		indent += indentItem ;
@@ -344,18 +333,18 @@ public abstract class CBaseLanguageExporter
 	{
 		File f = new File(filename) ;
 		File par = f.getParentFile();
-		
+
 		Date date = new Date() ;
 		DateFormat format = new SimpleDateFormat("yyMMddHHmmssSSS") ;
 		String cs = format.format(date) ;
 		return par.getAbsolutePath() + "/~" + cs + "~.tmp" ;
 	}
-	
+
 	public abstract String getOutputDir() ;
 
 	public abstract boolean isResources() ;
-	
-	
+
+
 	// XML exporter
 //	public Element CreateRoot(String name)
 //	{
@@ -386,7 +375,7 @@ public abstract class CBaseLanguageExporter
 //	{
 //		return m_Document;
 //	}
-//	
+//
 //	public void ExportTo(String filename)
 //	{
 //	   if (m_Document != null)
@@ -413,9 +402,9 @@ public abstract class CBaseLanguageExporter
 //			}
 //		}
 //	}
-//	
-	
+//
+
 //	protected Document m_Document = null ;
-//	protected Element m_Root = null ; 
-	
+//	protected Element m_Root = null ;
+
 }

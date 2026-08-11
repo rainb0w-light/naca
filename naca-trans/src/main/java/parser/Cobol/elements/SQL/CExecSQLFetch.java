@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 19 ao�t 04
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements.SQL;
 
 import java.util.Vector;
@@ -34,8 +28,6 @@ import utils.Transcoder;
 /**
  * @author U930DI
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CExecSQLFetch extends CBaseExecSQLAction
 {
@@ -49,10 +41,10 @@ public class CExecSQLFetch extends CBaseExecSQLAction
 		Element e = root.createElement("SQLFetch") ;
 		e.setAttribute("Name", csCursorName);
 		ExportInto(root, e);
-		
+
 		return e;
 	}
-	
+
 	private void ExportInto(Document root, Element parent)
 	{
 		try
@@ -65,7 +57,7 @@ public class CExecSQLFetch extends CBaseExecSQLAction
 			{
 				Element eParam = root.createElement("Parameter") ;
 				e.appendChild(eParam);
-				
+
 				CIdentifier id = into.get(n);
 				id.ExportTo(eParam, root) ;
 			}
@@ -105,7 +97,7 @@ public class CExecSQLFetch extends CBaseExecSQLAction
 				v.add(e) ;
 			}
 		}
-		
+
 		if (v.size() != nbCol && nbCol>0)
 		{
 			// number of columns returned and number of variables for into are differents
@@ -114,7 +106,7 @@ public class CExecSQLFetch extends CBaseExecSQLAction
 		}
 
 		CEntitySQLFetchStatement eSQL = factory.NewEntitySQLFetchStatement(getLine(), cur) ;
-		Vector<CDataEntity> arrInd = new Vector<CDataEntity>(); 
+		Vector<CDataEntity> arrInd = new Vector<CDataEntity>();
 		for (int i = 0; i< indicators.size(); i++)
 		{
 			CIdentifier id = indicators.get(i) ;
@@ -142,13 +134,13 @@ public class CExecSQLFetch extends CBaseExecSQLAction
 		parent.AddChild(eSQL) ;
 		return eSQL;
 	}
-	
+
 	protected boolean DoParsing()
 	{
 		// Parse until reaching END-EXEC.
 		boolean isdone = false ;
 		boolean isinto = false;
-		
+
 		while (!isdone)
 		{
 			CBaseToken tok = GetCurrentToken() ;
@@ -168,7 +160,7 @@ public class CExecSQLFetch extends CBaseExecSQLAction
 				}
 				continue;
 			}
-			
+
 			if (tok.GetKeyword() == CCobolKeywordList.INTO)
 			{
 				isinto = true;
@@ -178,7 +170,7 @@ public class CExecSQLFetch extends CBaseExecSQLAction
 			if (tok.GetType() == CTokenType.COLON)
 			{
 				tok = GetNext();
-				
+
 				if(isinto)
 				{
 					if (tok.GetType() == CTokenType.IDENTIFIER)
@@ -197,22 +189,22 @@ public class CExecSQLFetch extends CBaseExecSQLAction
 				break;
 			}
 			GetNext();
-		}		
+		}
 		return true ;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 */
 	private boolean ReadInto()
 	{
 		CBaseToken tok = GetCurrentToken() ;
 		String cs = tok.GetValue();
-		
+
 		tok = GetNext() ;
 		CIdentifier id = null ;
 		if (tok.GetType() == CTokenType.DOT)
-		{					
+		{
 			tok = GetNext() ;
 			if (tok.GetType() != CTokenType.IDENTIFIER)
 			{
@@ -226,7 +218,7 @@ public class CExecSQLFetch extends CBaseExecSQLAction
 			id = new CIdentifier(cs) ;
 		}
 		into.addElement(id);
-		
+
 		tok = GetCurrentToken() ;
 		if (tok.GetType() == CTokenType.COLON)
 		{
@@ -252,8 +244,8 @@ public class CExecSQLFetch extends CBaseExecSQLAction
 				while (!isdone)
 				{
 					tok = GetCurrentToken() ;
-					CExpression exp =  ReadCalculExpression() ; 
-						
+					CExpression exp =  ReadCalculExpression() ;
+
 					CBaseToken tok2 = GetCurrentToken() ;
 					if (tok2.GetType() == CTokenType.COMMA)
 					{

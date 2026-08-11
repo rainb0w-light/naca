@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
-/*
- * Created on 7 juil. 2005
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 package jlib.display;
 
 import java.util.Stack;
@@ -19,8 +13,6 @@ import jlib.xml.Tag;
 /**
  * @author U930CV
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 public class DisplayContext
 {
@@ -31,12 +23,12 @@ public class DisplayContext
 	}
 	protected DisplayConfig config ;
 	protected Stack<DisplayedElement> stackDisplayedElements = new Stack<DisplayedElement>() ;
-	
+
 	public DisplayContext()
 	{
 		config = DisplayConfig.getInstance() ;
 	}
-	
+
 	/**
 	 * @param reqLoader
 	 * @param output
@@ -76,7 +68,7 @@ public class DisplayContext
 		Tag tagOutput = element.dialog.getXMLDisplay(element.display) ;
 		if (tagOutput == null)
 			return false  ;
-		
+
 		output.setXMLDisplay(tagOutput) ;
 		return true;
 	}
@@ -85,7 +77,7 @@ public class DisplayContext
 	{
 		if (!dlg.BeforeDisplay())
 			return false ;
-		
+
 		return ShowFrontDialog(output) ;
 	}
 

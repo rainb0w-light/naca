@@ -20,7 +20,6 @@ public class MethodFinder
 		}
         catch (SecurityException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         catch (NoSuchMethodException e)
@@ -29,7 +28,7 @@ public class MethodFinder
 		}
 		return null;
 	}
-	
+
 	public static Method getMethod(Class cls, String csMethodName, Class clsArg0)
 	{
         try
@@ -41,7 +40,6 @@ public class MethodFinder
 		}
         catch (SecurityException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         catch (NoSuchMethodException e)
@@ -50,7 +48,7 @@ public class MethodFinder
 		}
 		return null;
 	}
-	
+
 	public static Method getMethod(Class cls, String csMethodName, Class clsArg0, Class clsArg1)
 	{
         try
@@ -63,7 +61,6 @@ public class MethodFinder
 		}
         catch (SecurityException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         catch (NoSuchMethodException e)
@@ -72,7 +69,7 @@ public class MethodFinder
 		}
 		return null;
 	}
-		
+
 	public static Method getMethod(Class cls, String csMethodName, Class clsArg0, Class clsArg1, Class clsArg2)
 	{
         try
@@ -86,7 +83,6 @@ public class MethodFinder
 		}
         catch (SecurityException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         catch (NoSuchMethodException e)
@@ -95,7 +91,7 @@ public class MethodFinder
 		}
 		return null;
 	}
-	
+
 	public static Method getMethod(Class cls, String csMethodName, Class clsArg0, Class clsArg1, Class clsArg2, Class clsArg3)
 	{
         try
@@ -110,7 +106,6 @@ public class MethodFinder
 		}
         catch (SecurityException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         catch (NoSuchMethodException e)

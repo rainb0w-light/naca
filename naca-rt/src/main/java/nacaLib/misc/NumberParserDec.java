@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
-/*
- * Created on 24 juin 2005
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 package nacaLib.misc;
 
 import java.math.BigDecimal;
@@ -21,8 +15,6 @@ import nacaLib.varEx.Dec;
 /**
  * @author PJD
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 public class NumberParserDec extends NumberParser
 {
@@ -32,29 +24,29 @@ public class NumberParserDec extends NumberParser
 		Dec dec = getAsDec(cs);
 		return dec;
 	}
-	
+
 	public static Dec getAsDec(double d)
 	{
 		String cs = String.valueOf(d);
 		Dec dec = getAsDec(cs);
 		return dec;
 	}
-	
+
 	public static Dec getAsDec(CStr cs)
 	{
 		String s = cs.getAsString();
 		return getAsDec(s);
 	}
-	
+
 	public static Dec getAsDec(String cs)
 	{
 		int nLength = cs.length();
 		if(nLength > 0)
 		{
-			char c;			
+			char c;
 			long lInt = 0;
 			boolean ispositive = true;
-			
+
 			int nIndex = 0;
 			// Integer part
 			while (nIndex < nLength)
@@ -75,11 +67,11 @@ public class NumberParserDec extends NumberParser
 				}
 				nIndex++;
 			}
-			
+
 			// Decimal part
 			nIndex++;
 			if (nIndex < nLength)
-			{	
+			{
 				String csDec = "";
 				while (nIndex < nLength)
 				{
@@ -94,9 +86,9 @@ public class NumberParserDec extends NumberParser
 					}
 					nIndex++;
 				}
-				
+
 				if (csDec.equals("")) csDec = "0";
-					
+
 				Dec dec = new Dec(lInt, csDec);
 				dec.setPositive(ispositive);
 				return dec;
@@ -115,7 +107,7 @@ public class NumberParserDec extends NumberParser
 			return dec;
 		}
 	}
-	
+
 	public static Dec getAsDec(BigDecimal bigDecimal)
 	{
 		// to optimize ...
@@ -148,9 +140,9 @@ public class NumberParserDec extends NumberParser
 			Dec dec = new Dec(cs, "0");
 			dec.setPositive(bPositive);
 			return dec;
-		}	
+		}
 	}
-*/	
+*/
 	public static Dec getAsDec(char c)
 	{
 		String cs = String.valueOf(c);

@@ -31,7 +31,7 @@ public abstract class BaseOpenMBean extends BaseDynamicMBean	//implements Dynami
 		registerOpenInfos(csName, csDescription);
 		JmxRegistration.registerMBean(csName, this);
 	}
-	
+
 	private void registerOpenInfos(String csName, String csDescription)
 	{
 		OpenMBeanAttributeInfo[] attributes = null;
@@ -44,18 +44,18 @@ public abstract class BaseOpenMBean extends BaseDynamicMBean	//implements Dynami
 				OpenMBeanAttributeInfoWrapper wrapper = arrOpenMBeanAttributeInfosWrapper.get(n);
 				attributes[n] = wrapper.getAttribute();
 			}
-		} 
-		
+		}
+
 		openMBeanInfo = new OpenMBeanInfoSupport(csName, csDescription, attributes, null, null, null);
 	}
-	
-	public Object getAttribute(String csName) 
+
+	public Object getAttribute(String csName)
 	{
-		if (csName == null || arrOpenMBeanAttributeInfosWrapper == null) 
+		if (csName == null || arrOpenMBeanAttributeInfosWrapper == null)
 		{
 			return null;
         }
-		
+
 		for(int n=0; n<arrOpenMBeanAttributeInfosWrapper.size(); n++)
 		{
 			OpenMBeanAttributeInfoWrapper attributeInfoWrapper = arrOpenMBeanAttributeInfosWrapper.get(n);
@@ -70,37 +70,34 @@ public abstract class BaseOpenMBean extends BaseDynamicMBean	//implements Dynami
 					{
 						Object oReturn = method.invoke(this, (Object[])null);
 						return oReturn;
-					} 
+					}
 					catch (IllegalArgumentException e)
 					{
-						// TODO Auto-generated catch block
 						e.printStackTrace();
-					} 
+					}
 					catch (IllegalAccessException e)
 					{
-						// TODO Auto-generated catch block
 						e.printStackTrace();
-					} 
+					}
 					catch (InvocationTargetException e)
 					{
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
-				
+
 			}
 		}
         return null;
 	}
-	
-    public void setAttribute(Attribute attribute) 
-        throws AttributeNotFoundException, InvalidAttributeValueException, MBeanException, ReflectionException 
+
+    public void setAttribute(Attribute attribute)
+        throws AttributeNotFoundException, InvalidAttributeValueException, MBeanException, ReflectionException
 	{
-        if (attribute != null) 
-        {	        
+        if (attribute != null)
+        {
 	        String csName = attribute.getName();
 	        Object oValue = attribute.getValue();
-	        
+
       		for(int n=0; n<arrOpenMBeanAttributeInfosWrapper.size(); n++)
 			{
 				OpenMBeanAttributeInfoWrapper attributeInfoWrapper = arrOpenMBeanAttributeInfosWrapper.get(n);
@@ -118,20 +115,17 @@ public abstract class BaseOpenMBean extends BaseDynamicMBean	//implements Dynami
 							{
 								method.invoke(this, oValue);
 								return;
-							} 
+							}
 							catch (IllegalArgumentException e)
 							{
-								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
 							catch (IllegalAccessException e)
 							{
-								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
 							catch (InvocationTargetException e)
 							{
-								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
 						}
@@ -140,12 +134,12 @@ public abstract class BaseOpenMBean extends BaseDynamicMBean	//implements Dynami
 			}
         }
     }
-    
+
 	public Object invoke(String csOperationName,
                          Object params[],
                          String signature[])
 	{
-//        if (csOperationName != null) 
+//        if (csOperationName != null)
 //        {
 //        	for(int n=0; n<arrOpenMBeanAttributeInfosWrapper.size(); n++)
 //			{
@@ -162,15 +156,15 @@ public abstract class BaseOpenMBean extends BaseDynamicMBean	//implements Dynami
 //						{
 //							oReturn = method.invoke(this, params);
 //							return oReturn;
-//						} 
+//						}
 //						catch (IllegalArgumentException e)
 //						{
 //							e.printStackTrace();
-//						} 
+//						}
 //						catch (IllegalAccessException e)
 //						{
 //							e.printStackTrace();
-//						} 
+//						}
 //						catch (InvocationTargetException e)
 //						{
 //							e.printStackTrace();
@@ -182,7 +176,7 @@ public abstract class BaseOpenMBean extends BaseDynamicMBean	//implements Dynami
 //        }
         return null;
 	}
-	
+
 	protected void addOpenAttribute(String csDescription, Class cls, String csMethodName, CompositeType compositeType)
 	{
 		Method methodGet = MethodFinder.getMethod(cls, "get"+csMethodName);
@@ -196,12 +190,12 @@ public abstract class BaseOpenMBean extends BaseDynamicMBean	//implements Dynami
 
 		OpenMBeanAttributeInfoSupport attrOpen = new OpenMBeanAttributeInfoSupport(csMethodName, csDescription, compositeType, iscanGet, iscanSet, false);
 		OpenMBeanAttributeInfoWrapper attr = new OpenMBeanAttributeInfoWrapper(csMethodName, csDescription, attrOpen, methodGet, methodSet);
-		
+
 		if(arrOpenMBeanAttributeInfosWrapper == null)
 			arrOpenMBeanAttributeInfosWrapper = new ArrayList<OpenMBeanAttributeInfoWrapper>();
 		arrOpenMBeanAttributeInfosWrapper.add(attr);
 	}
-	
+
 	protected void addOpenAttribute(String csDescription, Class cls, String csMethodName, TabularType tabularType)
 	{
 		Method methodGet = MethodFinder.getMethod(cls, "get"+csMethodName);
@@ -215,7 +209,7 @@ public abstract class BaseOpenMBean extends BaseDynamicMBean	//implements Dynami
 
 		OpenMBeanAttributeInfoSupport attrOpen = new OpenMBeanAttributeInfoSupport(csMethodName, csDescription, tabularType, iscanGet, iscanSet, false);
 		OpenMBeanAttributeInfoWrapper attr = new OpenMBeanAttributeInfoWrapper(csMethodName, csDescription, attrOpen, methodGet, methodSet);
-		
+
 		if(arrOpenMBeanAttributeInfosWrapper == null)
 			arrOpenMBeanAttributeInfosWrapper = new ArrayList<OpenMBeanAttributeInfoWrapper>();
 		arrOpenMBeanAttributeInfosWrapper.add(attr);
@@ -225,9 +219,9 @@ public abstract class BaseOpenMBean extends BaseDynamicMBean	//implements Dynami
     {
         return openMBeanInfo;
     }
-	
+
 	protected abstract void buildDynamicMBeanInfo();
-	    
+
     private OpenMBeanInfoSupport openMBeanInfo = null;
     private ArrayList<OpenMBeanAttributeInfoWrapper> arrOpenMBeanAttributeInfosWrapper = null;
 }

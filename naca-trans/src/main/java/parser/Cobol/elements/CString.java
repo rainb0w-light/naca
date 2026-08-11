@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 13 ao�t 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements;
 
 import java.util.Vector;
@@ -34,8 +28,6 @@ import utils.Transcoder;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CString extends CCobolElement
 {
@@ -46,10 +38,10 @@ public class CString extends CCobolElement
 		{
 			value = id ;
 			until = t ;
-		} 
+		}
 		CTerminal value = null ;
 		CTerminal until = null ; // if null => DELIMITED BY SIZE
-	} 
+	}
 	/**
 	 * @param line
 	 */
@@ -103,7 +95,7 @@ public class CString extends CCobolElement
 			}
 			eItem.RegisterReadingAction(eConcat) ;
 		}
-		
+
 		if (bloc != null)
 		{
 			CBaseLanguageEntity e = bloc.DoSemanticAnalysis(eConcat, factory) ;
@@ -126,10 +118,10 @@ public class CString extends CCobolElement
 		tok = GetNext();
 		boolean isdone = false ;
 		Vector<CTerminal> terms = new Vector<CTerminal>() ;  // array used to save read terminals before reading the 'delimited by' statement
-		// TXT-LIB-AA TXT-A DELIMITED BY '*'   <=> TXT-LIB-AA DELIMITED BY '*' TXT-A  DELIMITED BY '*' 	
+		// TXT-LIB-AA TXT-A DELIMITED BY '*'   <=> TXT-LIB-AA DELIMITED BY '*' TXT-A  DELIMITED BY '*'
 		while (!isdone)
 		{
-			tok = GetCurrentToken(); 
+			tok = GetCurrentToken();
 			if (tok.GetType() == CTokenType.IDENTIFIER || tok.GetType() == CTokenType.STRING || tok.GetType() == CTokenType.CONSTANT)
 			{
 				CTerminal id = ReadTerminal() ;
@@ -146,26 +138,26 @@ public class CString extends CCobolElement
 					{
 						for (CTerminal idsav : terms)
 						{
-							arrConcatItems.add(new CStringConcatItem(idsav, null));	
+							arrConcatItems.add(new CStringConcatItem(idsav, null));
 						}
-						arrConcatItems.add(new CStringConcatItem(id, null));	
-						GetNext(); 
+						arrConcatItems.add(new CStringConcatItem(id, null));
+						GetNext();
 					}
-					else 
+					else
 					{
 						CTerminal term = ReadTerminal() ;
 						for (CTerminal idsav : terms)
 						{
-							arrConcatItems.add(new CStringConcatItem(idsav, term));	
+							arrConcatItems.add(new CStringConcatItem(idsav, term));
 						}
-						arrConcatItems.add(new CStringConcatItem(id, term));	
+						arrConcatItems.add(new CStringConcatItem(id, term));
 					}
 					terms.clear() ;
 				}
 				else
 				{
 					terms.add(id) ;
-//					arrConcatItems.add(new CStringConcatItem(id, null));	
+//					arrConcatItems.add(new CStringConcatItem(id, null));
 				}
 				IgnoreComma();
 			}
@@ -193,7 +185,7 @@ public class CString extends CCobolElement
 			else
 			{
 				Transcoder.logError(getLine(), "Unexpecting token : " + tok.GetValue()) ;
-				return false; 
+				return false;
 			}
 		}
 		tok = GetCurrentToken();
@@ -208,7 +200,7 @@ public class CString extends CCobolElement
 				{
 					Transcoder.logError(getLine(), "Failure while parsing THEN bloc") ;
 					return false ;
-				}		
+				}
 				tok = GetCurrentToken();
 			}
 		}
@@ -249,7 +241,7 @@ public class CString extends CCobolElement
 				Element eUntil = root.createElement("DelimitedBy") ;
 				eItem.appendChild(eUntil);
 				item.until.ExportTo(eUntil, root) ;
-			}  
+			}
 		}
 		return eST;
 	}

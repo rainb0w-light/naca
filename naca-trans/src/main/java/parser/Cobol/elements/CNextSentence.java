@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on Jul 28, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements;
 
 import lexer.CBaseToken;
@@ -27,8 +21,6 @@ import utils.Transcoder;
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CNextSentence extends CCobolElement
 {
@@ -74,6 +66,6 @@ public class CNextSentence extends CCobolElement
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
 		//m_Logger.warn("WARNING line "+getLine()+" : usage of NEXT SENTENCE is dangerous : check this code");
-		return null ; // the NEXT SENTENCE statement does nothing else than telling the IF to go forward... 
+		return null ; // the NEXT SENTENCE statement does nothing else than telling the IF to go forward...
 	}
 }

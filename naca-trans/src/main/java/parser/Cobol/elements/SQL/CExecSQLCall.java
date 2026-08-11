@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 8 sept. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements.SQL;
 
 import java.util.Vector;
@@ -31,8 +25,6 @@ import semantic.SQL.CEntitySQLCall;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CExecSQLCall extends CBaseExecSQLAction
 {
@@ -62,13 +54,13 @@ public class CExecSQLCall extends CBaseExecSQLAction
 		CEntitySQLCall eCall = factory.NewEntitySQLCall(getLine()) ;
 		CDataEntity prgRef = reference.GetDataReference(getLine(), factory) ;
 		eCall.setReference(prgRef) ;
-		
+
 		for (CIdentifier term : parameters)
 		{
 			CDataEntity param = term.GetDataReference(getLine(), factory) ;
-			eCall.addParameter(param) ; 
+			eCall.addParameter(param) ;
 		}
-		
+
 		parent.AddChild(eCall) ;
 		return eCall;
 	}
@@ -85,7 +77,7 @@ public class CExecSQLCall extends CBaseExecSQLAction
 			tok = GetNext() ;
 		}
 		reference = new CIdentifier(tok.GetValue()) ;
-		
+
 		tok = GetNext() ;
 		if (tok.GetType() == CTokenType.LEFT_BRACKET)
 		{
@@ -113,7 +105,7 @@ public class CExecSQLCall extends CBaseExecSQLAction
 					GetNext();
 					isdone = true ;
 				}
-				else 
+				else
 				{
 					isdone = true ;
 				}
@@ -121,7 +113,7 @@ public class CExecSQLCall extends CBaseExecSQLAction
 		}
 		return true ;
 	}
-	
+
 	protected CIdentifier reference = null ;
 	protected Vector<CIdentifier> parameters = new Vector<CIdentifier>() ;
 

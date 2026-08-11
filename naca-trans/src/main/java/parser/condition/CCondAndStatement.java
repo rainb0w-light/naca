@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on Jul 19, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.condition;
 
 import org.w3c.dom.Document;
@@ -26,8 +20,6 @@ import semantic.expression.CEntityCondAnd;
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CCondAndStatement extends CExpression
 {
@@ -42,14 +34,14 @@ public class CCondAndStatement extends CExpression
 	/* (non-Javadoc)
 	 * @see parser.condition.CConditionalStatement#Export(org.w3c.dom.Document)
 	 */
-	
+
 	protected boolean CheckMembersBeforeExport()
 	{
 		boolean b = CheckMemberNotNull(st1);
 		b &= CheckMemberNotNull(st2);
 		return b;
 	}
-	
+
 	public Element DoExport(Document root)
 	{
 		Element e = root.createElement("And") ;
@@ -136,5 +128,5 @@ public class CCondAndStatement extends CExpression
 	{
 		return st1.GetFirstCalculOperand() ;
 	}
-	
+
 }

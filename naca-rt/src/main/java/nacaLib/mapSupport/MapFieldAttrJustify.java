@@ -4,18 +4,9 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
-/*
- * Created on 13 oct. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
-
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 package nacaLib.mapSupport;
 
@@ -25,21 +16,21 @@ public class MapFieldAttrJustify extends MapFieldBaseAttr
 	{
 		super(nValue, text);
 	}
-	
+
 	public static MapFieldAttrJustify RIGHT = new MapFieldAttrJustify(1, "right");
-	public static MapFieldAttrJustify LEFT = new MapFieldAttrJustify(2, "left");	
-	
-	
+	public static MapFieldAttrJustify LEFT = new MapFieldAttrJustify(2, "left");
+
+
 	static int getNbBitsEncoding()
 	{
 		return 2;
 	}
-	
+
 	static int getMask()
 	{
 		return 3;
 	}
-	
+
 //	public String toString()
 //	{
 //		return getText();
@@ -51,21 +42,21 @@ public class MapFieldAttrJustify extends MapFieldBaseAttr
 //			return "right";
 //		return "left";
 //	}
-	
+
 	boolean isJustifyLeft()
 	{
 		if(getInternalValue() == LEFT.getInternalValue())
 			return true;
 		return false;
 	}
-	
+
 	boolean isJustifyRight()
 	{
 		if(getInternalValue() == RIGHT.getInternalValue())
 			return true;
 		return false;
 	}
-	
+
 //	char encodeInto(char cBitField)	//Uses bit 7
 //	{
 //		if(getInternalValue() == 1)	// Set bit 7 to 1

@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 19 ao�t 04
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements.SQL;
 
 import lexer.*;
@@ -27,8 +21,6 @@ import semantic.SQL.CEntitySQLCursor;
 /**
  * @author U930DI
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CExecSQLClose extends CBaseExecSQLAction
 {
@@ -55,12 +47,12 @@ public class CExecSQLClose extends CBaseExecSQLAction
 		}
 		return null ;
 	}
-	
+
 	protected boolean DoParsing()
 	{
 		// Parse until reaching END-EXEC.
 		boolean isdone = false ;
-		
+
 		while (!isdone)
 		{
 			CBaseToken tok = GetCurrentToken() ;
@@ -74,10 +66,10 @@ public class CExecSQLClose extends CBaseExecSQLAction
 				break;
 			}
 			GetNext();
-		}	
-		return true ; 	
+		}
+		return true ;
 	}
-	
+
 	private String csCursorName = null;
 
 

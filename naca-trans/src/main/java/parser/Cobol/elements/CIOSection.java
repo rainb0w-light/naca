@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 12 ao�t 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements;
 
 import lexer.CBaseToken;
@@ -27,8 +21,6 @@ import utils.Transcoder;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CIOSection extends CCommentContainer
 {
@@ -81,7 +73,7 @@ public class CIOSection extends CCommentContainer
 //					}
 					if (tok.GetKeyword() == CCobolKeywordList.SELECT)
 					{
-						CFileSelect fc = new CFileSelect(tok.getLine()); 
+						CFileSelect fc = new CFileSelect(tok.getLine());
 						AddChild(fc);
 						if (!Parse(fc))
 						{
@@ -95,11 +87,11 @@ public class CIOSection extends CCommentContainer
 					tok = GetCurrentToken() ;
 				}
 			}
-			else 
+			else
 			{
 				isdone = true ;
 			}
-			
+
 		}
 		return true;
 	}

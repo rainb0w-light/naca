@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 13 ao�t 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements;
 
 import java.util.Vector;
@@ -59,7 +53,7 @@ public class CUnstring extends CCobolElement
 		CDataEntity eVar = variable.GetDataReference(getLine(), factory);
 		eVar.RegisterReadingAction(eParse) ;
 		eParse.ParseString(eVar);
-		
+
 		for (int i = 0; i< delimitersSingle.size(); i++)
 		{
 			CTerminal term = delimitersSingle.get(i);
@@ -122,7 +116,7 @@ public class CUnstring extends CCobolElement
 			entity.RegisterWritingAction(eParse);
 			eParse.setWithPointer(entity);
 		}
-		
+
 		if (onOverflowBloc != null)
 		{
 			eParse.AddChildSpecial(onOverflowBloc.DoSemanticAnalysis(eParse, factory)) ;
@@ -160,7 +154,7 @@ public class CUnstring extends CCobolElement
 			}
 			if (tok.GetKeyword() == CCobolKeywordList.ALL)
 			{
-				tok = GetNext() ; 
+				tok = GetNext() ;
 				CTerminal t = ReadTerminal();
 				delimitersMulti.add(t) ;
 			}
@@ -178,7 +172,7 @@ public class CUnstring extends CCobolElement
 			tok = GetNext();
 			if (tok.GetKeyword() == CCobolKeywordList.ALL)
 			{
-				tok = GetNext() ; 
+				tok = GetNext() ;
 				CTerminal t = ReadTerminal();
 				delimitersMulti.add(t) ;
 			}
@@ -187,7 +181,7 @@ public class CUnstring extends CCobolElement
 				CTerminal t = ReadTerminal();
 				delimitersSingle.add(t) ;
 			}
-			tok = GetCurrentToken();			
+			tok = GetCurrentToken();
 			if (tok.GetType()  == CTokenType.COMMA)
 				tok = GetNext() ;
 		}
@@ -198,7 +192,7 @@ public class CUnstring extends CCobolElement
 			while (id != null)
 			{
 				CIdentifier[] ids = new CIdentifier[3];
-				
+
 				ids[0] = id;
 				tok = GetCurrentToken();
 				if (tok.GetType() == CTokenType.COMMA)
@@ -231,12 +225,12 @@ public class CUnstring extends CCobolElement
 						tok = GetNext() ;
 					}
 					countIn = ReadIdentifier();
-					
+
 					tok =GetCurrentToken();
 				}
 				ids[2] = countIn;
 				targets.add(ids);
-				
+
 				if (tok.GetType()== CTokenType.COMMA)
 				{
 					GetNext();
@@ -259,7 +253,7 @@ public class CUnstring extends CCobolElement
 					{
 						Transcoder.logError(getLine(), "Failure while parsing bloc") ;
 						return false ;
-					}		
+					}
 				}
 			}
 			else if (tok.GetKeyword() == CCobolKeywordList.TALLYING)
@@ -331,7 +325,7 @@ public class CUnstring extends CCobolElement
 			Element eT = root.createElement("Target");
 			eUS.appendChild(eT);
 			id.ExportTo(eT, root);
-			
+
 			id = targets.get(i)[1];
 			if (id != null)
 			{
@@ -355,12 +349,12 @@ public class CUnstring extends CCobolElement
 		}
 		return eUS ;
 	}
-	
+
 	protected CIdentifier variable = null ;
 	protected Vector<CTerminal> delimitersSingle = new Vector<CTerminal>() ;
 	protected Vector<CTerminal> delimitersMulti = new Vector<CTerminal>() ;
 	protected Vector<CIdentifier[]> targets = new Vector<CIdentifier[]>();
 	protected CBlocElement onOverflowBloc = null ;
 	protected CIdentifier withPointer = null ;
-	protected CIdentifier tallying = null ; 
+	protected CIdentifier tallying = null ;
 }

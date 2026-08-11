@@ -21,7 +21,8 @@ class CommentQualityRegressionTest {
                 try {
                     List<String> lines = Files.readAllLines(path, StandardCharsets.ISO_8859_1);
                     for (int index = 0; index < lines.size(); index++) {
-                        if (lines.get(index).contains("TODO Auto-generated")) {
+                        if (lines.get(index).contains("TODO Auto-" + "generated")
+                            || lines.get(index).contains("To change the " + "template")) {
                             findings.add(path + ":" + (index + 1));
                         }
                     }

@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on Sep 7, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements;
 
 import java.util.Vector;
@@ -33,8 +27,6 @@ import utils.Transcoder;
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CClose extends CCobolElement
 {
@@ -72,7 +64,7 @@ public class CClose extends CCobolElement
 			return false ;
 		}
 		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
-		
+
 		tok = GetNext();
 		CIdentifier id = ReadIdentifier();
 		fileDesc.add(id) ;
@@ -107,6 +99,6 @@ public class CClose extends CCobolElement
 		}
 		return eClose;
 	}
-	
+
 	protected Vector<CIdentifier> fileDesc = new Vector<CIdentifier>() ;
 }

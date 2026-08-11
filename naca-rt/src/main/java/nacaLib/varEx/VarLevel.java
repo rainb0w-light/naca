@@ -4,18 +4,9 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
-/*
- * Created on 11 nov. 04
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
-
 /**
  * @author U930DI
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 package nacaLib.varEx;
 
@@ -34,23 +25,23 @@ public class VarLevel extends CJMapObject
 	private BaseProgram program = null;
 	private short level = 0;
 	private boolean isvariableLength = false;
-	
+
 	public VarLevel()
 	{
 	}
-	
+
 	public void set(BaseProgram program, int nLevel)
 	{
 		initialValue = null;
 		isjustifyRight = false;
 		varDefRedefineOrigin = null;
 		occursDef = null;
-		
+
 		this.program = program;
 		level = (short)nLevel;
 		isvariableLength = false;
 	}
-	
+
 	public VarGroup var()	// Creates a group
 	{
 		DeclareTypeG declareTypeG = TempCacheLocator.getTLSTempCache().getDeclareTypeG();
@@ -60,7 +51,7 @@ public class VarLevel extends CJMapObject
 		VarGroup var2G = new VarGroup(declareTypeG);
 		return var2G;
 	}
-	
+
 	public Var filler()
 	{
 		DeclareTypeG declareTypeG = TempCacheLocator.getTLSTempCache().getDeclareTypeG();
@@ -69,7 +60,7 @@ public class VarLevel extends CJMapObject
 		var2G.declareAsFiller();
 		return var2G;
 	}
-	
+
 	public DeclareTypeX picX()
 	{
 		return picX(1);
@@ -80,30 +71,30 @@ public class VarLevel extends CJMapObject
 		// PJD to be implemented...
 		return null;
 	}
-	
+
 	public DeclareTypeX comp2()
 	{
 		// PJD to be implemented...
 		return null;
 	}
-	
+
 	public DeclareTypeX picX(int nLength)
 	{
 		DeclareTypeX declareTypeX = TempCacheLocator.getTLSTempCache().getDeclareTypeX();
 		declareTypeX.set(this, nLength);
 		if(isvariableLength)
 			declareTypeX.setVariableLengthDeclaration();
-		
+
 		//DeclareTypeX varLevelX = new DeclareTypeX(this, nLength);
 		return declareTypeX;
 	}
-	
+
 	public DeclareTypeNumEdited pic(String csFormat)
 	{
-		// Should identify either pic9(csFormat) or picX(csFormat);  
+		// Should identify either pic9(csFormat) or picX(csFormat);
 		return pic9(csFormat);
 	}
-	
+
 	public DeclareType9 pic9(int nNbDigitInteger)
 	{
 		return pic9Define(false, nNbDigitInteger, 0);
@@ -112,7 +103,7 @@ public class VarLevel extends CJMapObject
 	public DeclareType9 pic9(int nNbDigitInteger, int nNbDigitDecimal)
 	{
 		return pic9Define(false, nNbDigitInteger, nNbDigitDecimal);
-	}	
+	}
 
 	public DeclareType9 picS9(int nNbDigitInteger)
 	{
@@ -123,7 +114,7 @@ public class VarLevel extends CJMapObject
 	{
 		return pic9Define(true, nNbDigitInteger, nNbDigitDecimal);
 	}
-	
+
 	private DeclareType9 pic9Define(boolean bSigned, int nNbDigitInteger, int nNbDigitDecimal)
 	{
 		DeclareType9 declareType9 = TempCacheLocator.getTLSTempCache().getDeclareType9();
@@ -131,7 +122,7 @@ public class VarLevel extends CJMapObject
 		//DeclareType9 varLevel9 = new DeclareType9(this, bSigned, nNbDigitInteger, nNbDigitDecimal);
 		return declareType9;
 	}
-	
+
 	public VarLevel redefines(Edit varEditRedefineOrigin)
 	{
 		varDefRedefineOrigin = varEditRedefineOrigin.getVarDef();
@@ -150,12 +141,12 @@ public class VarLevel extends CJMapObject
 		if(pm.isFirstInstance())	// || pm.isLinkageSectionCurrent())
 			occursDef = new OccursDef(nNbOccurs);
 		return this;
-	}	
-		
+	}
+
 	public VarLevel occurs(Var varOccurs)
 	{
 		BaseProgramManager pm = getProgramManager();
-		if(pm.isFirstInstance())	// || pm.isLinkageSectionCurrent())			
+		if(pm.isFirstInstance())	// || pm.isLinkageSectionCurrent())
 			occursDef = new OccursDefVar(varOccurs);
 		return this;
 	}
@@ -172,7 +163,7 @@ public class VarLevel extends CJMapObject
 		}
 		isvariableLength = true;
 		return this;
-	}	
+	}
 
 	public VarLevel occursDependingRecord(int nNbOccurs, Var varOccurs)
 	{
@@ -182,7 +173,7 @@ public class VarLevel extends CJMapObject
 			occursDef = new OccursDefRecordDependingVar(nNbOccurs, varOccurs);
 		}
 		return this;
-	}	
+	}
 
 //	private String removeCharAtPos(String csFormat, int n)
 //	{
@@ -192,7 +183,7 @@ public class VarLevel extends CJMapObject
 //	}
 
 	public DeclareTypeNumEdited pic9(String csFormat)
-	{	
+	{
 		DeclareTypeNumEdited declareTypeNumEdited = TempCacheLocator.getTLSTempCache().getDeclareTypeNumEdited();
 		declareTypeNumEdited.set(this, csFormat);
 		return declareTypeNumEdited;
@@ -208,28 +199,28 @@ public class VarLevel extends CJMapObject
 		MapRedefine var2MapRedefine = new MapRedefine(declareTypeMapRedefine);
 		return var2MapRedefine;
 	}
-	
+
 	public VarLevel justifyRight()	// Edit in a map redefine
 	{
 		isjustifyRight = true;
 		return this;
 	}
-	
+
 	boolean getJustifyRight()
 	{
 		return isjustifyRight;
 	}
 
-		
+
 	public Edit edit()	// Edit in a map redefine
-	{		
+	{
 		TempCache tempCache = TempCacheLocator.getTLSTempCache();
 		DeclareTypeEditInMapRedefine declareTypeEditInMapRedefine = tempCache.getDeclareTypeEditInMapRedefine();
 		declareTypeEditInMapRedefine.set(this);
 		EditInMapRedefine var2Edit = new EditInMapRedefine(declareTypeEditInMapRedefine);
 		return var2Edit;
 	}
-	
+
 	public Edit editSkip()
 	{
 		return editSkip(1);
@@ -243,24 +234,24 @@ public class VarLevel extends CJMapObject
 		}
 		return null;
 	}
-	
+
 	public Edit editOccurs(int nNbOccurs, String csName)
 	{
 		// remonter au dernier precedent de nivwau >= niveau courant
-		// si c'est un edit occurs; il faut completer son tableau d'items 
+		// si c'est un edit occurs; il faut completer son tableau d'items
 		BaseProgramManager pm = getProgramManager();
-		
+
 		if(pm.isFirstInstance())
 			occursDef = new OccursDef(nNbOccurs);
-		
+
 		Edit varEdit = edit();
-		
+
 		if(pm.isFirstInstance())
 		{
 			this.getProgramManager().getSharedProgramInstanceData().setVarFullName(varEdit.getVarDef().getId(), csName);
 			//varEdit.varDef.setFullName(csName);
 		}
-		
+
 		return varEdit;
 	}
 
@@ -268,22 +259,22 @@ public class VarLevel extends CJMapObject
 	{
 		return program.getProgramManager();
 	}
-	
+
 	BaseProgram getProgram()
 	{
 		return program;
 	}
-	
+
 	public short getLevel()
 	{
 		return level;
 	}
-	
+
 	public VarDefBase getVarDefRedefineOrigin()
 	{
 		return varDefRedefineOrigin;
 	}
-	
+
 	public OccursDefBase getOccursDef()
 	{
 		return occursDef;
@@ -297,7 +288,7 @@ public class VarLevel extends CJMapObject
 		VarLevelGroup varLevelGroup = new VarLevelGroup(this);
 		return varLevelGroup;
 	}
-	
+
 	public VarLevelGroup valueAll(char c)
 	{
 		BaseProgramManager pm = getProgramManager();
@@ -315,7 +306,7 @@ public class VarLevel extends CJMapObject
 		VarLevelGroup varLevelGroup = new VarLevelGroup(this);
 		return varLevelGroup;
 	}
-	
+
 	public VarLevelGroup valueSpaces()
 	{
 		BaseProgramManager pm = getProgramManager();
@@ -350,13 +341,13 @@ public class VarLevel extends CJMapObject
 			initialValue = new CInitialValue(CobolConstant.LowValue.getValue(), true);
 		VarLevelGroup varLevelGroup = new VarLevelGroup(this);
 		return varLevelGroup;
-	} 
-	
+	}
+
 	CInitialValue getInitialValue()
 	{
 		return initialValue;
 	}
-	
+
 	public VarLevel variableLength()
 	{
 		isvariableLength = true;

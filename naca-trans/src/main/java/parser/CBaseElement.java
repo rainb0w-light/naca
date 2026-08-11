@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 30 juil. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser;
 
 import java.util.*;
@@ -25,30 +19,28 @@ import lexer.*;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public abstract class CBaseElement
 {
 	private int line = 0 ;
-	
+
 	public int getLine()
 	{
 		return line;
 	}
-	
+
 	public void setLine(int n)
 	{
 		line = n;
 		Transcoder.setLine(line);
 	}
-	
+
 	protected CTokenList lstTokens = null ;
-	protected boolean DoParsing() 
+	protected boolean DoParsing()
 	{
 		return false ;
 	};
-	protected boolean DoParsing(CFlag f) 
+	protected boolean DoParsing(CFlag f)
 	{
 		return false ;
 	};
@@ -89,7 +81,7 @@ public abstract class CBaseElement
 			tok = lstTokens.GetCurrentToken() ;
 		}
 		return tok ;
-	}		
+	}
 	public boolean Parse(CTokenList lst, CGlobalCommentContainer container)
 	{
 		lstTokens = lst;
@@ -114,24 +106,24 @@ public abstract class CBaseElement
 	{
 		return container.ParseComment(lstTokens);
 	}
-	
+
 	private CGlobalCommentContainer container = null ;
-	
+
 	//protected Logger m_Logger = Transcoder.ms_logger ;
 
 	public abstract CBaseLanguageEntity DoSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory) ;
-	
+
 	public CBaseElement(int line)
 	{
 		setLine(line);
 	};
-	
+
 	protected void AddChild(CBaseElement el)
 	{
 		children.add(el) ;
 	}
 	protected LinkedList<CBaseElement> children = new LinkedList<CBaseElement>() ;
-	
+
 
 	protected abstract Element ExportCustom(Document root);
 	private boolean isexportDoneForChildren = false ;
@@ -199,7 +191,7 @@ public abstract class CBaseElement
 	{
 		lstTokens = null ;
 		container = null ;
-		
+
 		ListIterator<CBaseElement> i = children.listIterator() ;
 		try
 		{

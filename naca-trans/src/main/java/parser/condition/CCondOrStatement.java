@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on Jul 19, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.condition;
 
 import org.w3c.dom.Document;
@@ -26,8 +20,6 @@ import semantic.expression.CEntityCondOr;
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CCondOrStatement extends CExpression
 {
@@ -39,14 +31,14 @@ public class CCondOrStatement extends CExpression
 	}
 	protected CExpression st1 = null ;
 	protected CExpression st2 = null ;
-	
+
 	protected boolean CheckMembersBeforeExport()
 	{
 		boolean b = CheckMemberNotNull(st1);
 		b &= CheckMemberNotNull(st2);
 		return b;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see parser.condition.CConditionalStatement#Export(org.w3c.dom.Document)
 	 */
@@ -89,7 +81,7 @@ public class CCondOrStatement extends CExpression
 //			masterCond.SetMasterCondition(st1) ;
 //		}
 		CBaseEntityCondition op2 = st2.AnalyseCondition(factory, masterCond);
-		ASSERT(op2, st2); 
+		ASSERT(op2, st2);
 		CEntityCondOr eOr = factory.NewEntityCondOr();
 		eOr.SetCondition(op1, op2) ;
 		return eOr ;

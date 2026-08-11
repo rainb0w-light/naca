@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on Sep 7, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.Cobol.elements;
 
 import lexer.CBaseToken;
@@ -33,8 +27,6 @@ import utils.Transcoder;
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CWrite extends CCobolElement
 {
@@ -49,7 +41,7 @@ public class CWrite extends CCobolElement
 	{
 		CEntityWriteFile eWrite = factory.NewEntityWriteFile(getLine()) ;
 		parent.AddChild(eWrite) ;
-		
+
 		CEntityFileDescriptor eFD = factory.programCatalog.getFileDescriptor(fileDesc.GetName()) ;
 		if (eFD != null)
 		{
@@ -84,23 +76,23 @@ public class CWrite extends CCobolElement
 	}
 	protected boolean DoParsing()
 	{
-		CBaseToken tok = GetCurrentToken() ; 
+		CBaseToken tok = GetCurrentToken() ;
 		if (tok.GetKeyword() != CCobolKeywordList.WRITE)
 		{
 			return false ;
 		}
 		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
-		
+
 		tok = GetNext() ;
 		fileDesc = ReadIdentifier();
-		
+
 		tok = GetCurrentToken() ;
 		if (tok.GetKeyword() == CCobolKeywordList.FROM)
 		{
 			tok = GetNext() ;
 			dataFrom = ReadIdentifier();
 		}
-		
+
 		tok = GetCurrentToken() ;
 		if (tok.GetKeyword() == CCobolKeywordList.AFTER || tok.GetKeyword() == CCobolKeywordList.BEFORE)
 		{
@@ -156,7 +148,7 @@ public class CWrite extends CCobolElement
 				return false ;
 			}
 		}
-	
+
 		tok = GetCurrentToken() ;
 		if (tok.GetKeyword() == CCobolKeywordList.END_WRITE)
 		{
@@ -167,18 +159,18 @@ public class CWrite extends CCobolElement
 	protected Element ExportCustom(Document root)
 	{
 		Element eWr = root.createElement("Write");
-		
+
 		Element eFile = root.createElement("File");
 		eWr.appendChild(eFile);
 		fileDesc.ExportTo(eFile, root);
-		
+
 		if (dataFrom != null)
 		{
 			Element e = root.createElement("DataFrom");
 			eWr.appendChild(e);
 			dataFrom.ExportTo(e, root);
 		}
-		
+
 		if (nbLinesPositioning != null)
 		{
 			String cs = "" ;
@@ -204,15 +196,15 @@ public class CWrite extends CCobolElement
 				ePos.appendChild(e);
 			}
 		}
-		
+
 		if (blocInvalidKey != null)
 		{
 			Element e = blocInvalidKey.Export(root);
-			eWr.appendChild(e);	
+			eWr.appendChild(e);
 		}
 		return eWr;
 	}
-	
+
 	protected CIdentifier fileDesc = null ;
 	protected CIdentifier dataFrom = null ;
 	protected boolean iswriteAfterPositioning = false ;

@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 19 ao�t 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic.Verbs;
 
 import semantic.CBaseActionEntity;
@@ -20,8 +14,6 @@ import utils.CObjectCatalog;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CEntitySetConstant extends CBaseActionEntity
 {
@@ -178,7 +170,7 @@ public class CEntitySetConstant extends CBaseActionEntity
 		issetToTrue = bCond ;
 		issetToFalse = !bCond ;
 	}
-	
+
 	protected CDataEntity variable = null ;
 	protected boolean issetToZero = false ;
 	protected boolean issetToSpace = false ;
@@ -187,7 +179,7 @@ public class CEntitySetConstant extends CBaseActionEntity
 	protected boolean issetToTrue = false ;
 	protected boolean issetToFalse = false ;
 
-	protected CDataEntity csteValue = null ; 
+	protected CDataEntity csteValue = null ;
 	protected CBaseEntityExpression subStringRefStart = null ;
 	protected CBaseEntityExpression subStringRefLength = null ;
 	public void Clear()

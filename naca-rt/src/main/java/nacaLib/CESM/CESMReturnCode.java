@@ -4,19 +4,11 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
-/*
- * Created on Jan 18, 2005
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package nacaLib.CESM;
 
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CESMReturnCode
 {
@@ -35,11 +27,11 @@ public class CESMReturnCode
 	{
 		return nCondition ;
 	}
-	
+
 	public static CESMReturnCode NORMAL = new CESMReturnCode(0, "\u0000") ;
-	public static CESMReturnCode NOT_FOUND = new CESMReturnCode(13, "a") ;	
+	public static CESMReturnCode NOT_FOUND = new CESMReturnCode(13, "a") ;
 	public static CESMReturnCode DUPREC = new CESMReturnCode(14, "b") ;
-	public static CESMReturnCode ENDFILE = new CESMReturnCode(20, "\u000f") ;		
+	public static CESMReturnCode ENDFILE = new CESMReturnCode(20, "\u000f") ;
 	public static CESMReturnCode ITEMERR = new CESMReturnCode(26, "\u0001") ;
 	public static CESMReturnCode QIDERR = new CESMReturnCode(44, "\u0002") ;
 	public static CESMReturnCode LENGERR = new CESMReturnCode(22, "\u00f7") ;
@@ -62,7 +54,7 @@ public class CESMReturnCode
 		else if (n == NET_NAME_ERROR.nCondition)
 		{
 			return NET_NAME_ERROR ;
-		}	
+		}
 		else if (n == QIDERR.nCondition)
 		{
 			return QIDERR ;
@@ -73,7 +65,7 @@ public class CESMReturnCode
 		}
 		else
 		{
-			throw new RuntimeException() ; // must not be there : in this case, a condition code is not handled 
+			throw new RuntimeException() ; // must not be there : in this case, a condition code is not handled
 		}
 	}
 }

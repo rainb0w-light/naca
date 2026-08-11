@@ -16,18 +16,9 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-/*
- * Created on 8 d�c. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
-
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class InputAnalyser
 {
@@ -43,10 +34,10 @@ public class InputAnalyser
 		{
 			return false;
 		}
-		
-		Document eRoot = appSession.CreateXMLDataRoot();		
+
+		Document eRoot = appSession.CreateXMLDataRoot();
 		eRoot.getDocumentElement().setAttribute("keypressed", key.csValue);
-		
+
 		String idPage = reqLoader.getIDPage() ;
 		eRoot.getDocumentElement().setAttribute("page", idPage) ;
 		eRoot.getDocumentElement().setAttribute("name", idPage) ;
@@ -81,7 +72,7 @@ public class InputAnalyser
 			}
 		}
 		appSession.setXMLData(eRoot) ;
-		
+
 		return true;
 	}
 	public void BuildXMLDataForPrintScreen(OnlineSession appSession)
@@ -92,14 +83,14 @@ public class InputAnalyser
 		{
 			return  ;
 		}
-		
+
 		Element eStruct = eRoot.getDocumentElement() ;
 		NodeList lst = eStruct.getElementsByTagName("field") ;
 		int nb = lst.getLength() ;
 		for (int i=0; i<nb; i++)
 		{
 			Element e = (Element)lst.item(i) ;
-			String name = e.getAttribute("name") ;			
+			String name = e.getAttribute("name") ;
 			boolean isupdated = reqLoader.isFieldModified(name) ;
 			if (isupdated)
 			{
@@ -108,8 +99,8 @@ public class InputAnalyser
 				e.setAttribute("updated", "true") ;
 			}
 		}
-		
-		appSession.setXMLData(eRoot) ;		
+
+		appSession.setXMLData(eRoot) ;
 	}
 
 	/**

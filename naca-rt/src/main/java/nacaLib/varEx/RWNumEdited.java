@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
-/*
- * Created on 7 avr. 2005
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 package nacaLib.varEx;
 
 import jlib.misc.StringUtil;
@@ -17,8 +11,6 @@ import jlib.misc.StringUtil;
 /**
  * @author U930DI
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 
 
@@ -35,13 +27,13 @@ public class RWNumEdited
 		}
 		return true;
 	}
-	
+
 	static String internalFormatAndWrite(Dec dec, String csFormat, boolean bBlankWhenZero)
 	{
 		boolean issignFilled = false;
 		if(csFormat == null)
 			return "";
-		
+
 		int nLgFormat = csFormat.length();
 		if(dec.isZero())
 		{
@@ -50,33 +42,33 @@ public class RWNumEdited
 				return StringUtil.fillString(' ', nLgFormat);
 			}
 		}
-		
+
 		if(nLgFormat == 0)
 			return "";
-			
+
 		if (bBlankWhenZero && dec.isZero())
 		{
 			return StringUtil.fillString(' ', nLgFormat);
 		}
-		
+
 		StringBuffer sDest = new StringBuffer(nLgFormat);
 		sDest.setLength(nLgFormat);
-		
+
 		String sourceInt = dec.getUnsignedLongAsString();	// varNumberChunk.getAbsIntAsString();
 		int nPosSource = sourceInt.length() - 1;
-		
+
 		boolean isdoDecPart = false;
 
 		int nDecimalSeparatorFormatPos = Math.max(csFormat.indexOf('.'), csFormat.indexOf('V'));
 		if(nDecimalSeparatorFormatPos == -1)	// dot (special insertion char) in format, then we will have a decimal part
 			nDecimalSeparatorFormatPos = nLgFormat-1;
-		else  
+		else
 			isdoDecPart = true;
-		
+
 		int nPos$ = csFormat.indexOf('$');
 		if(nPos$ == -1)
 			nPos$ = csFormat.indexOf('\u00A3');
-		
+
 		// Integer part
 		boolean issuppressLeading0 = false;
 		for(int nFormatIndex=nDecimalSeparatorFormatPos; nFormatIndex>=0; nFormatIndex--)	// From right to left for integer part
@@ -84,9 +76,9 @@ public class RWNumEdited
 			char source = getDigitAtPosition(sourceInt, nPosSource);
 			char format = csFormat.charAt(nFormatIndex);
 			if(format == '9')	// Keep char at the source index current position
-			{					
+			{
 				sDest.setCharAt(nFormatIndex, source);
-				nPosSource--;					
+				nPosSource--;
 			}
 			else if(format == 'B')
 				sDest.setCharAt(nFormatIndex, ' ');
@@ -103,7 +95,7 @@ public class RWNumEdited
 			{
 				issuppressLeading0 = true;
 				sDest.setCharAt(nFormatIndex, source);
-				nPosSource--;	
+				nPosSource--;
 			}
 			else if(format == '+' || format == '-')
 			{
@@ -140,12 +132,12 @@ public class RWNumEdited
 				issuppressLeading0 = true;
 				sDest.setCharAt(nFormatIndex, source);	// 1st pass: recopy the source char; it will be suppressed in next pass if needed
 				nPosSource--;
-			}				
+			}
 		}
-		
-		
+
+
 		char format = ' ';
-		
+
 		int nPosLastSuppress = -1;
 		for(int nChar = 0; nChar<nLgFormat && issuppressLeading0; nChar++)
 		{
@@ -157,7 +149,7 @@ public class RWNumEdited
 				{
 					sDest.setCharAt(nChar, ' ');
 					nPosLastSuppress = nChar;
-				}				 
+				}
 				else if(format == '*')
 					sDest.setCharAt(nChar, '*');
 			}
@@ -200,16 +192,16 @@ public class RWNumEdited
 			char money = csFormat.charAt(nPos$);
 			sDest.setCharAt(0, money);	// set the money sign
 		}
-		
+
 		if(isdoDecPart)	// Fill the decimal part
-		{		
+		{
 			// Second part: Decimal
 			String sSourceDecPart = dec.getDecPart();	// String sSourceDecPart = varNumberChunk.getDecString();
 			nPosSource = 0;	// Left to right
 			for(int nFormatIndex=nDecimalSeparatorFormatPos; nFormatIndex<nLgFormat; nFormatIndex++)	// From left to right for dec part
 			{
 				format = csFormat.charAt(nFormatIndex);
-	
+
 				if(format == '9')	// Keep char at the source index current position
 				{
 					char source = getDigitAtPosition(sSourceDecPart, nPosSource);
@@ -219,11 +211,11 @@ public class RWNumEdited
 				else if(format == '.' || format == 'V')	// Insert dot
 					sDest.setCharAt(nFormatIndex, '.');
 				else if(format == 'B')	// Insert char
-					sDest.setCharAt(nFormatIndex, ' ');	
+					sDest.setCharAt(nFormatIndex, ' ');
 				else if(format == '0' || format == '/' || format == ',')
 					sDest.setCharAt(nFormatIndex, format);
 				else if(format == 'Z' || format == '*')
-				{				
+				{
 					char source = getDigitAtPosition(sSourceDecPart, nPosSource);
 					if(source == '0' && format == '*')
 						sDest.setCharAt(nFormatIndex, '*');
@@ -231,9 +223,9 @@ public class RWNumEdited
 						sDest.setCharAt(nFormatIndex, source);
 					nPosSource++;
 				}
-			}				
+			}
 		}
-		
+
 		if(!issignFilled)
 		{
 			try
@@ -271,14 +263,14 @@ public class RWNumEdited
 				{
 					format = csFormat.charAt(0);	// first char is the sign
 					if(format == '+' || format == '-')
-					{	
+					{
 						int nPosLastSpace = getLastSpacePosition(sDest.toString(), csFormat);
 						if(nPosLastSpace == -1)
 							nPosLastSpace = 0;
 						if(nPosLastSpace >= 0)
 						{
 							if(format == '+')
-							{				
+							{
 								if(dec.isNegative())		// if(varNumberChunk.isNegative())
 									sDest.setCharAt(nPosLastSpace, '-');
 								else
@@ -293,14 +285,14 @@ public class RWNumEdited
 							}
 						}
 					}
-				}		
+				}
 				char lastFormat;
 				// Clean leading - or + or $
 				for(int n=0; n<nLgFormat;n++)
 				{
 					lastFormat = format;
 					format = csFormat.charAt(n);
-					
+
 					if(format == '-' || format == '+' || format == ',')
 					{
 						char digit = sDest.charAt(n);
@@ -310,7 +302,7 @@ public class RWNumEdited
 								format = lastFormat;
 
 							if(format == '+')
-							{				
+							{
 								if(dec.isNegative())		// if(varNumberChunk.isNegative())
 									sDest.setCharAt(n, '-');
 								else
@@ -348,11 +340,11 @@ public class RWNumEdited
 			{
 			}
 		}
-		
+
 		String cs = sDest.toString();
 		return cs;
 	}
-	
+
 	static private int getLastSpacePosition(String sDest, String sFormat)
 	{
 		int nLg = sDest.length();
@@ -372,7 +364,7 @@ public class RWNumEdited
 		}
 		return -1;
 	}
-	
+
 	static private char getDigitAtPosition(String csSourceDecPart, int nPosSource)
 	{
 		if(nPosSource >= 0 && nPosSource < csSourceDecPart.length())

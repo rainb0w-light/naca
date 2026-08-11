@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
-/*
- * Created on 18 janv. 2005
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 package nacaLib.sqlSupport;
 
 // PJD ROWID Support:import oracle.sql.ROWID;
@@ -21,8 +15,6 @@ import nacaLib.varEx.VarAndEdit;
 /**
  * @author U930DI
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 
 public class CSQLIntoItem extends CJMapObject
@@ -37,7 +29,7 @@ public class CSQLIntoItem extends CJMapObject
 		this.varInto = varInto;
 		this.varIndicator = varIndicator;
 	}
-	
+
 
 //	public CSQLIntoItem()
 //	{
@@ -47,9 +39,9 @@ public class CSQLIntoItem extends CJMapObject
 	public void setColValue(String csValue, boolean bNull)	//, String csSemanticContext)
 	{
 		if(varInto != null)
-		{			
+		{
 			varInto.varDef.write(varInto.bufferPos, csValue);	//varInto.set(csValue);
-			
+
 			//Sytem.out.println("setColValue: varInto="+varInto.toString());
 			//varInto.setSemanticContextValue(csSemanticContext);
 		}
@@ -61,9 +53,9 @@ public class CSQLIntoItem extends CJMapObject
 				varIndicator.set(0);	// The col is not sql null
 		}
 		if(isLogSql)
-			Log.logDebug("sql into filling:"+getLoggableValue());		
+			Log.logDebug("sql into filling:"+getLoggableValue());
 	}
-	
+
 	public void setColValueNull(boolean bNull)
 	{
 		if(varIndicator != null)
@@ -74,7 +66,7 @@ public class CSQLIntoItem extends CJMapObject
 				varIndicator.set(0);	// The col is not sql null
 		}
 	}
-	
+
 	// PJD ROWID Support:
 	/*
 	public void setColValue(ROWID rowId)
@@ -82,7 +74,7 @@ public class CSQLIntoItem extends CJMapObject
 		m_RowId = rowId;
 	}
 	*/
-	
+
 	public boolean getIndicatorNull()
 	{
 		if(varIndicator != null)
@@ -93,17 +85,17 @@ public class CSQLIntoItem extends CJMapObject
 		}
 		return false;
 	}
-		
+
 	public VarAndEdit getVarInto()
 	{
 		return varInto;
 	}
-		
+
 	public Var getVarIndicator()
 	{
 		return varIndicator;
 	}
-	
+
 	public String getLoggableValue()
 	{
 		if(varInto != null)
@@ -115,7 +107,7 @@ public class CSQLIntoItem extends CJMapObject
 		}
 		return "into=Null";
 	}
-	
+
 	public long getUniqueHashedId()
 	{
 		long l = 0;
@@ -136,8 +128,8 @@ public class CSQLIntoItem extends CJMapObject
 		return m_RowId;
 	}
 	*/
-	
+
 	private VarAndEdit varInto = null;
-	private Var varIndicator = null;	
+	private Var varIndicator = null;
 	// PJD ROWID Support:private oracle.sql.ROWID m_RowId;
 }

@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on Aug 17, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic;
 
 import java.util.Vector;
@@ -23,8 +17,6 @@ import utils.CObjectCatalog;
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CEntityEnvironmentVariable extends CDataEntity
 {
@@ -40,7 +32,7 @@ public class CEntityEnvironmentVariable extends CDataEntity
 		csWriteAccessor = writer ;
 		isnumericVariable = bNumericVar ;
 	}
-	
+
 	protected String csAccessor = "" ;
 	protected String csWriteAccessor = "" ;
 	protected boolean isnumericVariable = false ;
@@ -59,7 +51,7 @@ public class CEntityEnvironmentVariable extends CDataEntity
 	{
 		return isnumericVariable;
 	}
-	
+
 	public CBaseEntityCondition GetSpecialCondition(int nLine, String value, CBaseEntityCondition.EConditionType type, CBaseEntityFactory factory)
 	{
 		CEntityCondIsConstant eCond = factory.NewEntityCondIsConstant() ;
@@ -104,8 +96,8 @@ public class CEntityEnvironmentVariable extends CDataEntity
 	public String GetConstantValue()
 	{
 		return "" ;
-	} 	 
-	public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory) 
+	}
+	public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory)
 	{
 //		CEntityArrayReference e = factory.NewEntityArrayReference(getLine()) ;
 //		e.SetReference(this) ;
@@ -118,7 +110,7 @@ public class CEntityEnvironmentVariable extends CDataEntity
 //		return e ;
 		return this ;
 	};
-	public CDataEntity GetSubStringReference(CBaseEntityExpression start, CBaseEntityExpression length, CBaseEntityFactory factory) 
+	public CDataEntity GetSubStringReference(CBaseEntityExpression start, CBaseEntityExpression length, CBaseEntityFactory factory)
 	{
 		CSubStringAttributReference ref = factory.NewEntitySubString(getLine()) ;
 		ref.SetReference(this, start, length) ;

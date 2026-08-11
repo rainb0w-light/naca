@@ -37,7 +37,7 @@ public class BtreeFile
 	private SortedRecordsPoolOfThreadReader threadsPoolReader = null;
 	private int nNbMaxRequestAsyncSortPending = 0;
 	private MultiThreadedSortAddItemCache multiThreadedSortItemCache = null;
-			
+
 	BtreeFile(Database bdb)	//, boolean bCanSortMultiThreads)
 	{
 		this.bdb = bdb;
@@ -50,28 +50,28 @@ public class BtreeFile
 			{
 				nNbMaxRequestAsyncSortPending = BaseResourceManager.getNbMaxRequestAsyncSortPending();
 				BtreePooledThreadWriterFactory btreeThreadFactory = new BtreePooledThreadWriterFactory();
-				
+
 				threadsPoolWriter = new PoolOfThreads(btreeThreadFactory, nNbthreadsSort, nNbMaxRequestAsyncSortPending);
 				threadsPoolWriter.startAllThreads();
 			}
 			multiThreadedSortItemCache = new MultiThreadedSortAddItemCache();
 		//}
 	}
-	
+
 	public void setKeyDescription(BtreeKeyDescription keyDescription)
 	{
 		this.keyDescription = keyDescription;
 		keyDescription.prepare();
 	}
 
-	public boolean internalSortInsertWithRecordIndexAtEnd(byte tbyData[], int nSourceOffset, int nTotalLength, int nNbRecordRead, boolean bVariableLength)  
+	public boolean internalSortInsertWithRecordIndexAtEnd(byte tbyData[], int nSourceOffset, int nTotalLength, int nNbRecordRead, boolean bVariableLength)
 	{
 		if(nNbthreadsSort == 0)	// No thread for sorting
 		{
 			byte tbyKey[] = keyDescription.fillKeyBuffer(tbyData, 0, nNbRecordRead, bVariableLength);
-	
+
 			//LittleEndingUnsignBinaryBufferStorage.writeInt(tbyKey, nNbRecordRead, keyDescription.nKeyLength-4);	// Intel format
-			
+
 			data.setData(tbyData, 0, nTotalLength);
 			key.setData(tbyKey);
 			try
@@ -81,7 +81,6 @@ public class BtreeFile
 			}
 			catch (DatabaseException e)
 			{
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			return false;
@@ -98,37 +97,36 @@ public class BtreeFile
 			return true;
 		}
 	}
-	
+
 	public void asyncAddItemToSort(byte tbyData[], int nTotalLength, int nNbRecordRead, boolean bVariableLength)
 	{
-		// if only 1 dedicated thread is used for adding an item to sort 
+		// if only 1 dedicated thread is used for adding an item to sort
 		data.setData(tbyData, 0, nTotalLength);
 		byte tbyKey[] = keyDescription.fillNewKeyBuffer(tbyData, nNbRecordRead, bVariableLength);
 		key.setData(tbyKey);
 		try
 		{
 			bdb.put(null, key, data);
-			//unlock 
+			//unlock
 		}
 		catch (DatabaseException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 //		unlock
 	}
-	
+
 	public void asyncAddItemToSortByMultiThreads(MultiThreadedSortAddItem multiThreadedSortItem, byte tbyData[])
 	{
 		// if more than 1 dedicated thread are used for adding an item to sort
-				
+
 		DatabaseEntry data = new DatabaseEntry();
 		data.setData(tbyData, 0, multiThreadedSortItem.nTotalLength);
 		byte tbyKey[] = keyDescription.fillNewKeyBuffer(tbyData, multiThreadedSortItem.nNbRecordRead, multiThreadedSortItem.isvariableLength);
-		
+
 		//Dumper.dump("Record read="+multiThreadedSortItem.nNbRecordRead);
 		//Dumper.dump(tbyKey);
-		
+
 		DatabaseEntry key = new DatabaseEntry();
 		key.setData(tbyKey);
 		try
@@ -137,19 +135,18 @@ public class BtreeFile
 		}
 		catch (DatabaseException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		multiThreadedSortItemCache.disposeItemForReuse(multiThreadedSortItem);
 	}
 
-	public boolean externalSortInsertWithRecordIndexAtEnd(Environment env, LineRead lineRead, int nNbRecordRead, boolean bFileInEbcdic, boolean bFileInVariableLength)  
+	public boolean externalSortInsertWithRecordIndexAtEnd(Environment env, LineRead lineRead, int nNbRecordRead, boolean bFileInEbcdic, boolean bFileInVariableLength)
 	{
 		byte tbyData[] = lineRead.getBuffer();
 		int nOffset = lineRead.getOffset();
 		int nTotalLength = lineRead.getTotalLength();
-		
+
 		if(nNbthreadsSort == 0)	// No thread for sorting
 		{
 			byte tbyKey[] = keyDescription.fillKeyBufferExceptRecordId(lineRead, bFileInVariableLength);	//, bFileInEbcdic);
@@ -167,7 +164,6 @@ public class BtreeFile
 			}
 			catch (DatabaseException e)
 			{
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			return false;
@@ -184,7 +180,7 @@ public class BtreeFile
 			return true;
 		}
 	}
-	
+
 	public boolean tryLaunchAsyncSortReader()
 	{
 		if(threadsPoolWriter != null)	// We are using a pool of threads for adding items for sorting; wait until all items have been completly added
@@ -194,22 +190,22 @@ public class BtreeFile
 			{
 				throw new RuntimeException(expThrownByPooledThread);
 			}
-			
+
 			threadsPoolWriter = null;
-			
+
 			// Create a thread pool reader
 			BtreePooledThreadReaderFactory btreePooledThreadReaderFactory = new BtreePooledThreadReaderFactory(this);
-			
+
 			threadsPoolReader = new SortedRecordsPoolOfThreadReader(btreePooledThreadReaderFactory, nNbMaxRequestAsyncSortPending);
 			threadsPoolReader.startAllThreads();
-			
+
 			return true;
 		}
-		return false; 
+		return false;
 	}
-	
+
 	public byte [] syncGetFirst()
-	{	
+	{
 		try
 		{
 			cursor = bdb.openCursor(null, null);
@@ -223,12 +219,11 @@ public class BtreeFile
 		}
 		catch (DatabaseException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
 	}
-	
+
 	public byte [] syncGetNext()
 	{
 		try
@@ -242,11 +237,10 @@ public class BtreeFile
 					byte tDataWithHeader[] = getDataRead();
 					return tDataWithHeader;
 				}
-			}				
+			}
 		}
 		catch (DatabaseException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
@@ -256,7 +250,7 @@ public class BtreeFile
 	{
 		return data.getData();
 	}
-	
+
 	public byte [] getKeyRead()
 	{
 		return key.getData();
@@ -273,7 +267,6 @@ public class BtreeFile
 			}
 			catch (DatabaseException e1)
 			{
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		}
@@ -286,7 +279,6 @@ public class BtreeFile
 			}
 			catch (DatabaseException e)
 			{
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			bdb = null;
@@ -299,19 +291,19 @@ public class BtreeFile
 			return data.getData();
 		return null;
 	}
-	
+
 	byte[] getKey()
 	{
 		if(key != null)
 			return key.getData();
 		return null;
 	}
-		
+
 	public byte[] getNextSortedRecord()
 	{
 		if(nNbRecordExported == 0)
 			tryLaunchAsyncSortReader();
-		
+
 		if(threadsPoolReader == null)
 		{
 			if(nNbRecordExported == 0)
@@ -321,6 +313,6 @@ public class BtreeFile
 		}
 		return threadsPoolReader.getNextSortedRecord();
 	}
-	
+
 	private int nNbRecordExported = 0;
 }

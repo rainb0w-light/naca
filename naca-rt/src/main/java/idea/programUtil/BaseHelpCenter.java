@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
-/*
- * Created on 31 janv. 2005
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package idea.programUtil;
 
 import org.w3c.dom.Document;
@@ -22,8 +16,6 @@ import nacaLib.misc.CLocalizedTextManager;
 /**
  * @author SLY
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public abstract class BaseHelpCenter extends CJMapObject
 {
@@ -32,11 +24,11 @@ public abstract class BaseHelpCenter extends CJMapObject
 		csLangId = langId ;
 	}
 	protected String csLangId = "" ;
-	 
+
 	public abstract void doHelp(BaseEnvironment env, CBaseMapFieldLoader fieldLoader) ;
 	public abstract Document getHelpPage() ;
 	protected CLocalizedTextManager localizedTextManager = CLocalizedTextManager.getInstance() ;
-	
+
 	protected String getLocalizedText(String id)
 	{
 		return localizedTextManager.getLocalizedString(id, csLangId) ;

@@ -28,8 +28,6 @@ import utils.Transcoder;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CFieldElement extends CBMSElement
 {
@@ -66,14 +64,14 @@ public class CFieldElement extends CBMSElement
 			String val = aTTRB.get(i) ;
 			Element e = root.createElement("ATTRB") ;
 			e.setAttribute("Value", val);
-			eF.appendChild(e) ; 
+			eF.appendChild(e) ;
 		}
 		for (int i=0; i<arrJustify.size(); i++)
 		{
 			String val = arrJustify.get(i) ;
 			Element e = root.createElement("JUSTIFY") ;
 			e.setAttribute("Value", val);
-			eF.appendChild(e) ; 
+			eF.appendChild(e) ;
 		}
 		return eF ;
 	}
@@ -129,7 +127,7 @@ public class CFieldElement extends CBMSElement
 			else
 			{
 				Transcoder.logError(getLine(), "Expecting NUMBER") ;
-				return false ; 
+				return false ;
 			}
 			StepNext() ;
 		}
@@ -138,10 +136,10 @@ public class CFieldElement extends CBMSElement
 			CBaseToken tok = GetCurrentToken() ;
 			if (tok.GetConstant() == CBMSConstantList.TURQUOISE ||
 				tok.GetConstant() == CBMSConstantList.GREEN ||
-				tok.GetConstant() == CBMSConstantList.YELLOW|| 
-				tok.GetConstant() == CBMSConstantList.RED || 
-				tok.GetConstant() == CBMSConstantList.PINK || 
-				tok.GetConstant() == CBMSConstantList.NEUTRAL || 
+				tok.GetConstant() == CBMSConstantList.YELLOW||
+				tok.GetConstant() == CBMSConstantList.RED ||
+				tok.GetConstant() == CBMSConstantList.PINK ||
+				tok.GetConstant() == CBMSConstantList.NEUTRAL ||
 				tok.GetConstant() == CBMSConstantList.DEFAULT)
 			{
 				color = tok.GetConstant();
@@ -149,7 +147,7 @@ public class CFieldElement extends CBMSElement
 			else
 			{
 				Transcoder.logError(getLine(), "Unexpecting COLOR : " + tok.GetValue()) ;
-				return false ; 
+				return false ;
 			}
 			StepNext() ;
 		}
@@ -165,7 +163,7 @@ public class CFieldElement extends CBMSElement
 			else
 			{
 				Transcoder.logError(getLine(), "Unexpecting HIGHLIGHT : " + tok.GetValue()) ;
-				return false ; 
+				return false ;
 			}
 			StepNext() ;
 		}
@@ -204,7 +202,7 @@ public class CFieldElement extends CBMSElement
 				else
 				{
 					Transcoder.logError(getLine(), "Unexpecting ATTRIBUTE : " + tok.GetValue()) ;
-					return false ; 
+					return false ;
 				}
 				StepNext() ;
 			}
@@ -223,8 +221,8 @@ public class CFieldElement extends CBMSElement
 			{
 				tok = GetCurrentToken();
 				if (tok.GetConstant() == CBMSConstantList.LEFT ||
-					tok.GetConstant() == CBMSConstantList.RIGHT ||	
-					tok.GetConstant() == CBMSConstantList.ZERO ||	
+					tok.GetConstant() == CBMSConstantList.RIGHT ||
+					tok.GetConstant() == CBMSConstantList.ZERO ||
 					tok.GetConstant() == CBMSConstantList.BLANK)
 				{
 					arrJustify.add(tok.GetValue()) ;
@@ -239,13 +237,13 @@ public class CFieldElement extends CBMSElement
 				else
 				{
 					Transcoder.logError(getLine(), "Unexpecting JUSTIFY : " + tok.GetValue()) ;
-					return false ; 
+					return false ;
 				}
 				StepNext() ;
 			}
 		}
 		else if (kw == CBMSKeywordList.INITIAL)
-		{ // 
+		{ //
 			CBaseToken tok = GetCurrentToken() ;
 			if (tok.GetType() == CTokenType.STRING)
 			{
@@ -254,24 +252,24 @@ public class CFieldElement extends CBMSElement
 			else
 			{
 				Transcoder.logError(getLine(), "Expecting STRING") ;
-				return false ; 
+				return false ;
 			}
 			StepNext() ;
 		}
 		else if (kw == CBMSKeywordList.GRPNAME)
-		{ // 
+		{ //
 			CBaseToken tok = GetCurrentToken() ;
 			grpName = tok.GetValue() ;
 			StepNext() ;
 		}
 		else if (kw == CBMSKeywordList.PICIN)
-		{ // 
+		{ //
 			CBaseToken tok = GetCurrentToken() ;
 			picIn = tok.GetValue() ;
 			StepNext() ;
 		}
 		else if (kw == CBMSKeywordList.PICOUT)
-		{ // 
+		{ //
 			CBaseToken tok = GetCurrentToken() ;
 			picOut = tok.GetValue() ;
 			StepNext() ;
@@ -407,7 +405,7 @@ public class CFieldElement extends CBMSElement
 
 	public void SetName(String csAlias)
 	{
-		setName(csAlias);		
+		setName(csAlias);
 	}
 
 	public String GetGroupName()
@@ -419,24 +417,24 @@ public class CFieldElement extends CBMSElement
 	{
 		int nLine = tagCurrent.getValAsInt("Line");
 		setLine(nLine);
-		
+
 		setName(tagCurrent.getVal("Name"));
 
 		String csColor = tagCurrent.getVal("Color");
-		color = new CReservedConstant(null, csColor); 
+		color = new CReservedConstant(null, csColor);
 
 		String csHighLight = tagCurrent.getVal("HighLight");
-		highLight = new CReservedConstant(null, csHighLight); 
+		highLight = new CReservedConstant(null, csHighLight);
 
 		length = tagCurrent.getValAsInt("Length");
-		
+
 		posCol = tagCurrent.getValAsInt("PosCol");
-		
+
 		posLine = tagCurrent.getValAsInt("PosLine");
-		
+
 		value = tagCurrent.getVal("Value");
-		
-		// Enum all sub tags		
+
+		// Enum all sub tags
 		TagCursor curChild = new TagCursor();
 		Tag tagChild = tagCurrent.getFirstChild(curChild);
 		while(tagChild != null)
@@ -454,7 +452,7 @@ public class CFieldElement extends CBMSElement
 			}
 			tagChild = tagCurrent.getNextChild(curChild);
 		}
-		
+
 		return this;
 	}
 
@@ -469,7 +467,7 @@ public class CFieldElement extends CBMSElement
 		}
 		return elem;
 	}
-	
+
 	public boolean setAsClosingHBox(PosLineCol posLineCol)
 	{
 		color = new CReservedConstant(null, "GREEN");
@@ -477,22 +475,22 @@ public class CFieldElement extends CBMSElement
 		setName("");
 		setLine(0);
 		length = 0;
-		posLine = posLineCol.getLine();		
+		posLine = posLineCol.getLine();
 		posCol = posLineCol.getCol() + posLineCol.getLength() + 1;
 		posLineCol.setLineColLength(posLine+1, 0, 0);
 		if(posCol > 80)
 			return false;
-		
-		
+
+
 		value = "";
-		
+
 		aTTRB.add("ASKIP");
 		aTTRB.add("NORM");
 		return true;
 	}
-	
+
 	private static int ms_nNbBlank = 0;
-	
+
 	private boolean fillFromBlank(PosLineCol posLineCol, Tag tag, String csCurrentLanguage)
 	{
 		color = new CReservedConstant(null, "GREEN");
@@ -500,17 +498,17 @@ public class CFieldElement extends CBMSElement
 		setName("");
 		setLine(ms_nNbBlank++);
 		length = 0;	//tag.getValAsInt("length");
-		posLine = posLineCol.getLine();		
+		posLine = posLineCol.getLine();
 		posCol = posLineCol.getCol() + posLineCol.getLength() + 1;
-		
+
 		value = "";
-		
+
 		aTTRB.add("ASKIP");
 		aTTRB.add("NORM");
-		
+
 		return true;
 	}
-	
+
 	public boolean loadTagParameters(PosLineCol posLineCol, Tag tag, String csCurrentLanguage)
 	{
 		String csTagName = tag.getName();
@@ -530,7 +528,7 @@ public class CFieldElement extends CBMSElement
 		{
 			boolean b = fillFromEdit(posLineCol, tag, csCurrentLanguage, "");
 			while(value.length() < length)
-				value = value + " ";							
+				value = value + " ";
 			aTTRB.add("ASKIP");
 			aTTRB.add("NORM");
 			return b;
@@ -541,21 +539,21 @@ public class CFieldElement extends CBMSElement
 		}
 		else if(csTagName.equalsIgnoreCase("switch") && !tag.isValExisting("additem"))
 		{
-			boolean b = fillFromSwitch(posLineCol, tag, csCurrentLanguage, "");			
+			boolean b = fillFromSwitch(posLineCol, tag, csCurrentLanguage, "");
 			return b;
 		}
 		return false;
 	}
-		
-		
+
+
 	private boolean fillFromEdit(PosLineCol posLineCol, Tag tag, String csCurrentLanguage, String csAppendColor)
 	{
 		String csColor = tag.getVal("color");
-		color = new CReservedConstant(null, csColor.toUpperCase() + csAppendColor); 
-		
+		color = new CReservedConstant(null, csColor.toUpperCase() + csAppendColor);
+
 		String csHighLight = tag.getVal("highlighting");
 		highLight = new CReservedConstant(null, csHighLight.toUpperCase());
-		
+
 		if (tag.isValExisting("namecopy")) {
 			setName(tag.getVal("namecopy").toUpperCase().replace('_', '-'));
 			csDisplayName = tag.getVal("name").toUpperCase();
@@ -563,20 +561,20 @@ public class CFieldElement extends CBMSElement
 			setName(tag.getVal("name").toUpperCase());
 		else
 			setName("");
-		
+
 		//int nSourceLine = tag.getValAsInt("sourceline");
 		//setLine(nSourceLine);
-		
+
 		length = tag.getValAsInt("length");
-		
+
 		posLine = tag.getValAsInt("line");
-		
+
 		posCol = tag.getValAsInt("col");
-		
+
 		posLineCol.setLineColLength(posLine, posCol, length);
 
 		value = "";
-		
+
 		Tag tagTexts = tag.getChild("texts");
 		if(tagTexts != null)
 		{
@@ -593,7 +591,7 @@ public class CFieldElement extends CBMSElement
 				tagText = tagTexts.getNextChild(curText);
 			}
 		}
-			
+
 		String csJustify = tag.getVal("justify");
 		if(csJustify.equalsIgnoreCase("right"))
 			arrJustify.add(CBMSConstantList.RIGHT.name) ;
@@ -605,7 +603,7 @@ public class CFieldElement extends CBMSElement
 			arrJustify.add(CBMSConstantList.BLANK.name) ;
 		else if(csFill.equalsIgnoreCase("zero"))
 			arrJustify.add(CBMSConstantList.ZERO.name) ;
-		
+
 		String csProtection = tag.getVal("protection");
 		manageAttrib(csProtection);
 
@@ -615,30 +613,30 @@ public class CFieldElement extends CBMSElement
 		boolean ismodified = tag.getValAsBoolean("modified");
 		if(ismodified)
 			aTTRB.add("FSET");
-		
+
 		boolean iscursor = tag.getValAsBoolean("cursor");
 		if(iscursor)
 			aTTRB.add("IC");
 		return true;
 	}
-	
+
 	private boolean fillFromSwitch(PosLineCol posLineCol, Tag tag, String csCurrentLanguage, String csAppendColor)
 	{
-		if (tag.isValExisting("name"))				
+		if (tag.isValExisting("name"))
 			setName(tag.getVal("name").toUpperCase());
 		else
 			setName("");
-		
+
 		length = tag.getValAsInt("length");
-		
+
 		posLine = tag.getValAsInt("line");
-		
+
 		posCol = tag.getValAsInt("col");
-		
+
 		posLineCol.setLineColLength(posLine, posCol, length);
 
 		value = "";
-		
+
 		Tag tagTexts = tag.getChild("texts");
 		if(tagTexts != null)
 		{
@@ -655,18 +653,18 @@ public class CFieldElement extends CBMSElement
 				tagText = tagTexts.getNextChild(curText);
 			}
 		}
-			
+
 		arrJustify.add(CBMSConstantList.LEFT.name) ;
-		
+
 		arrJustify.add(CBMSConstantList.BLANK.name) ;
-		
+
 		aTTRB.add("ASKIP");
 		aTTRB.add("NORM");
-		
+
 		return true;
 	}
-	
-	
+
+
 	private void manageAttrib(String cs)
 	{
 		if(cs.equalsIgnoreCase("autoskip"))

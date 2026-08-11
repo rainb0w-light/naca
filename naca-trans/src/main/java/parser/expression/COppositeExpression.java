@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 8 sept. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.expression;
 
 import org.w3c.dom.Document;
@@ -23,13 +17,11 @@ import semantic.expression.CEntityExprOpposite;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class COppositeExpression extends CExpression
 {
 	protected CExpression expression = null ;
-	 
+
 	public COppositeExpression(int line, CExpression term)
 	{
 		super(line) ;
@@ -54,12 +46,12 @@ public class COppositeExpression extends CExpression
 	{
 		return null;
 	}
-	
+
 	protected boolean CheckMembersBeforeExport()
 	{
 		return CheckMemberNotNull(expression);
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see parser.expression.CExpression#DoExport(org.w3c.dom.Document)
 	 */
@@ -67,7 +59,7 @@ public class COppositeExpression extends CExpression
 	{
 		Element eop = root.createElement("Opposite");
 		eop.appendChild(expression.Export(root));
-		return eop ;		
+		return eop ;
 	}
 	/* (non-Javadoc)
 	 * @see parser.expression.CExpression#GetSimilarExpression(parser.expression.CExpression)

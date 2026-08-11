@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 19 ao�t 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic.forms;
 
 import semantic.CBaseEntityFactory;
@@ -20,8 +14,6 @@ import semantic.expression.CUnitaryEntityCondition;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CEntityIsFieldAttribute extends CUnitaryEntityCondition
 {
@@ -182,7 +174,7 @@ public class CEntityIsFieldAttribute extends CUnitaryEntityCondition
 		reference.RegisterVarTesting(cond) ;
 		return cond ;
 	}
-	
+
 	public void IsAttribute(CDataEntity data, CDataEntity var)
 	{
 		varValue = data ;
@@ -191,68 +183,68 @@ public class CEntityIsFieldAttribute extends CUnitaryEntityCondition
 	public void IsAutoSkip()
 	{
 		isisAutoSkip = true ;
-		nbConditions ++ ;		
+		nbConditions ++ ;
 	}
 	protected boolean isisAutoSkip = false ;
 
 	public void IsBright()
 	{
 		isisBright = true ;
-		nbConditions ++ ;		
+		nbConditions ++ ;
 	}
 	protected boolean isisBright = false ;
 
 	public void IsNumeric()
 	{
 		isisNumeric = true ;
-		nbConditions ++ ;		
+		nbConditions ++ ;
 	}
 	protected boolean isisNumeric = false ;
 
 	public void IsProtected()
 	{
 		isisProtected = true;
-		nbConditions ++ ;		
+		nbConditions ++ ;
 	}
 	protected boolean isisProtected = false ;
 
 	public void IsUnprotected()
 	{
 		isisUnprotected = true ;
-		nbConditions ++ ;		
+		nbConditions ++ ;
 	}
 	protected boolean isisUnprotected = false ;
 
 	public void IsModified()
 	{
 		isisModified = true ;
-		nbConditions ++ ;		
+		nbConditions ++ ;
 	}
 	public void IsUnmodified()
 	{
 		isisUnmodified = true ;
-		nbConditions ++ ;		
+		nbConditions ++ ;
 	}
 	public void IsCleared()
 	{
 		isisCleared = true ;
-		nbConditions ++ ;		
+		nbConditions ++ ;
 	}
 	protected boolean isisModified = false ;
 	protected boolean isisUnmodified = false ;
 	protected boolean isisCleared = false ;
-	
+
 	public void IsDark()
 	{
 		isisDark = true ;
-		nbConditions ++ ;		
+		nbConditions ++ ;
 	}
 	protected boolean isisDark = false ;
 	protected int nbConditions = 0;
 
 	public void SetVariable(CDataEntity field)
 	{
-		reference = field ;		
+		reference = field ;
 	}
 	public boolean ignore()
 	{
@@ -289,7 +281,7 @@ public class CEntityIsFieldAttribute extends CUnitaryEntityCondition
 		}
 		return false  ;
 	}
-	
+
 	protected void SetOpposite()
 	{
 		isopposite = !isopposite;

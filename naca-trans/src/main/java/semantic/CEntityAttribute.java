@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 2 ao�t 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic;
 
 import lexer.Cobol.CCobolConstantList;
@@ -24,8 +18,6 @@ import utils.*;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CEntityAttribute extends CGenericDataEntityReference implements ITypableEntity
 {
@@ -75,7 +67,7 @@ public class CEntityAttribute extends CGenericDataEntityReference implements ITy
 	{
 		comp = s ;
 	}
-	public void SetTypeString(int length) 
+	public void SetTypeString(int length)
 	{
 		type = "picX" ;
 		this.length = length ;
@@ -149,14 +141,14 @@ public class CEntityAttribute extends CGenericDataEntityReference implements ITy
 		format =f ;
 	}
 
-	public CDataEntity GetSubStringReference(CBaseEntityExpression start, CBaseEntityExpression length, CBaseEntityFactory factory) 
+	public CDataEntity GetSubStringReference(CBaseEntityExpression start, CBaseEntityExpression length, CBaseEntityFactory factory)
 	{
 		CSubStringAttributReference ref = factory.NewEntitySubString(getLine()) ;
 		ref.SetReference(this, start, length) ;
 		return ref ;
 	};
-	
-	protected CDataEntity value = null ; 
+
+	protected CDataEntity value = null ;
 	protected boolean isinitialValueIsSpaces = false ;
 	protected boolean isinitialValueIsZeros = false ;
 	protected boolean isinitialValueIsLowValue = false ;
@@ -234,7 +226,7 @@ public class CEntityAttribute extends CGenericDataEntityReference implements ITy
 		/*else if (value.equals("SPACES") && type == CBaseEntityCondition.EConditionType.IS_GREATER_THAN)
 		{
 			CEntityCondCompare comp = factory.NewEntityCondCompare() ;
-			comp.SetGreaterThan(factory.NewEntityExprTerminal(this), 
+			comp.SetGreaterThan(factory.NewEntityExprTerminal(this),
 							factory.NewEntityExprTerminal(factory.NewEntityConstant(CEntityConstant.Value.SPACES))) ;
 			RegisterVarTesting(comp) ;
 			return comp ;
@@ -313,7 +305,7 @@ public class CEntityAttribute extends CGenericDataEntityReference implements ITy
 	public int GetInternalLevel()
 	{
 		return jlib.misc.NumberParser.getAsInt(csLevel) ;
-	} 
+	}
 	public String GetInitialValue()
 	{
 		if (value != null)
@@ -335,7 +327,7 @@ public class CEntityAttribute extends CGenericDataEntityReference implements ITy
 		{
 			return value.GetConstantValue() ;
 		}
-	} 	 
+	}
 	/* (non-Javadoc)
 	 * @see semantic.CBaseLanguageEntity#Clear()
 	 */
@@ -349,7 +341,7 @@ public class CEntityAttribute extends CGenericDataEntityReference implements ITy
 		isjustifiedRight = bJustifiedRight ;
 	}
 	protected boolean isjustifiedRight = false ;
-	
+
 	public void SetBlankWhenZero(boolean blankWhenZero)
 	{
 		isblankWhenZero = blankWhenZero ;

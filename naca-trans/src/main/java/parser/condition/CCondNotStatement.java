@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on Jul 19, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package parser.condition;
 
 import org.w3c.dom.Document;
@@ -25,8 +19,6 @@ import utils.Transcoder;
 /**
  * @author U930CV
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CCondNotStatement extends CExpression
 {
@@ -35,25 +27,25 @@ public class CCondNotStatement extends CExpression
 		super(line) ;
 		if (cond == null)
 		{
-			int n=0; // breakpoint 
+			int n=0; // breakpoint
 		}
 	this.cond = cond ;
-	} 
+	}
 //	public CExpression NewCopy(CExpression term1, CExpression term2)
 //	{
 //		if (cond == null)
 //		{
 //			return null ;
-//		} 
+//		}
 //		return new CCondNotStatement(cond.NewCopy(term1, term2));
 //	}
 	protected CExpression cond = null ;
-	
+
 	protected boolean CheckMembersBeforeExport()
 	{
 		return true;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see parser.condition.CConditionalStatement#Export(org.w3c.dom.Document)
 	 */
@@ -88,10 +80,10 @@ public class CCondNotStatement extends CExpression
 		CBaseEntityCondition eCond = cond.AnalyseCondition(factory, condMaster);
 		if ((cond.IsConstant() || cond.IsReference()) && eCond.isBinaryCondition())
 		{
-			Transcoder.logWarn(cond.getLine(), "be carrefull to Abbreviated combined relation condition") ;  
+			Transcoder.logWarn(cond.getLine(), "be carrefull to Abbreviated combined relation condition") ;
 		}
 		CEntityCondNot eNot = factory.NewEntityCondNot();
-		eNot.SetCondition(eCond) ;  
+		eNot.SetCondition(eCond) ;
 		return eNot ;
 	}
 	/* (non-Javadoc)

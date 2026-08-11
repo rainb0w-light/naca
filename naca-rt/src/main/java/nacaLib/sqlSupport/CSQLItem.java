@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
-/*
- * Created on 12 janv. 2005
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package nacaLib.sqlSupport;
 
 import nacaLib.varEx.VarAndEdit;
@@ -19,11 +13,9 @@ import nacaLib.varEx.VarEnumerator;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CSQLItem
-{	
+{
 	protected VarAndEdit var = null;
 	protected String csValue = null;
 
@@ -61,20 +53,20 @@ public class CSQLItem
 	public CSQLItem(String cs)
 	{
 		csValue = cs;
-	}	
+	}
 	public void set(String cs)
 	{
 		var = null;
 		csValue = cs;
 	}
-	
+
 	public String getValue()
 	{
 		if(var != null)
 		{
 			if(isLongVarCharVarHolder())
 			{
-				VarEnumerator e = new VarEnumerator(var.getProgramManager(), var); 
+				VarEnumerator e = new VarEnumerator(var.getProgramManager(), var);
 				VarBase varChildLength = e.getFirstVarChild();
 				VarBase varChildText = e.getNextVarChild();
 
@@ -90,7 +82,7 @@ public class CSQLItem
 		}
 		return csValue;
 	}
-	
+
 	public String getDebugValue()
 	{
 		String cs = getValue();
@@ -104,7 +96,7 @@ public class CSQLItem
 		cs = new String(t);
 		return cs;
 	}
-	
+
 	private boolean isLongVarCharVarHolder()	// Indicates if the var contains a long varchar structure
 	{
 		return var.getVarDef().isLongVarCharVarStructure();
@@ -114,13 +106,13 @@ public class CSQLItem
 	{
 		if(var != null)
 		{
-			return var.getSQLType(); 
-//			
+			return var.getSQLType();
+//
 //			if (var.hasType(VarTypeEnum.Type9))
 //			{
 //				return CSQLItemType.SQL_TYPE_INTEGER;
 //			}
-//			else if (var.hasType(VarTypeEnum.TypeX) 
+//			else if (var.hasType(VarTypeEnum.TypeX)
 //				|| var.hasType(VarTypeEnum.TypeEditedAlphaNum)
 //				|| var.hasType(VarTypeEnum.TypeEditedNum)
 //				|| var.hasType(VarTypeEnum.TypeFieldEdit)
@@ -145,7 +137,7 @@ public class CSQLItem
 			return var.getInt() ;
 		return 0;
 	}
-	
+
 	public long getLongValue()
 	{
 		if(var != null)

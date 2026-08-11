@@ -26,51 +26,42 @@ import jlib.xml.XSLTransformer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-/*
- * Created on 29 d�c. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
-
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class XSLTServlet extends HttpServlet
 {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private View view ;
 
 	protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException
-	{	
+	{
 		HttpSession javaSession = req.getSession(true);
 		OnlineSession appSession = (OnlineSession)javaSession.getAttribute("AppSession");
 		int n = appSession.getOnceHttpSessionMaxInactiveInterval_s();
 		if(n != 0)
 			javaSession.setMaxInactiveInterval(n);
-		
+
 		String path = req.getServletPath() ;
-		
+
 		if (path.equalsIgnoreCase("/showhelp"))
 		{
 			ShowHelp(appSession, res) ;
 			return ;
 		}
-		 
+
 		if (path.equalsIgnoreCase("/showprintscreen"))
 		{
 			view.mergeOutputForPrintScreen(appSession) ;
 			ShowPrintScreen(appSession, res) ;
 			return ;
 		}
-				 
+
 		// make output
 		if (appSession.isUpdatedValues())
 		{
@@ -80,7 +71,7 @@ public class XSLTServlet extends HttpServlet
 		{
 			view.mergeOutput(appSession) ;
 		}
-		
+
 		// render output
 		Document xmlOutput = appSession.getXMLOutput();
 		if (xmlOutput == null)
@@ -93,7 +84,7 @@ public class XSLTServlet extends HttpServlet
 			xmlOutput.getDocumentElement().setAttribute("SESSIONID", sessionid) ;
 
 			String csServletPath = req.getRequestURI();
-			String s = csServletPath.replaceFirst("XSLTServlet", appSession.getActionAlias()) ; 
+			String s = csServletPath.replaceFirst("XSLTServlet", appSession.getActionAlias()) ;
 			s = res.encodeURL(s) ;
 			xmlOutput.getDocumentElement().setAttribute("URL", s) ;
 			renderOutput(xmlOutput, res, appSession.isZoom(), appSession.isBold());
@@ -101,7 +92,7 @@ public class XSLTServlet extends HttpServlet
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private void ShowHelp(OnlineSession appSession, HttpServletResponse res)
 	{
@@ -128,7 +119,7 @@ public class XSLTServlet extends HttpServlet
 			((Element)xmlOutput.getElementsByTagName("form").item(0)).setAttribute("printScreen", "true");
 			renderPrintScreen(xmlOutput, res);
 		}
-	}	
+	}
 
 	private void doRenderOutput(Document xmlOutput, HttpServletResponse res, XSLTransformer trans)
 	{
@@ -148,7 +139,7 @@ public class XSLTServlet extends HttpServlet
 					out.println("Erreur interne") ;
 					res.setStatus(500);
 				}
-				
+
 				if (!trans.doTransform(xmlOutput, out))
 				{
 					out.println("Erreur interne") ;
@@ -170,7 +161,7 @@ public class XSLTServlet extends HttpServlet
 		XSLTransformer xformer = resource.getHelpTransformer() ;
 		doRenderOutput(xmlOutput, res, xformer) ;
 	}
-	
+
 	private void renderPrintScreen(Document xmlOutput, HttpServletResponse res)
 	{
 		OnlineResourceManager resource = OnlineResourceManagerFactory.GetInstance() ;
@@ -179,7 +170,7 @@ public class XSLTServlet extends HttpServlet
 			xformer = resource.getXSLTransformer();
 		doRenderOutput(xmlOutput, res, xformer) ;
 	}
-	
+
 	private void renderOutput(Document xmlOutput, HttpServletResponse res)
 	{
 		renderOutput(xmlOutput, res, false, false);
@@ -194,18 +185,18 @@ public class XSLTServlet extends HttpServlet
 				xformer = resource.getXSLTransformerZoomBold();
 			else
 				xformer = resource.getXSLTransformerZoom();
-		}	
+		}
 		else
 		{
 			if (bBold)
-				xformer = resource.getXSLTransformerBold();	
+				xformer = resource.getXSLTransformerBold();
 		}
-		
+
 		if (xformer == null)
 		{
 			xformer = resource.getXSLTransformer();
 		}
-			
+
 		if (xformer != null)
 		{
 			doRenderOutput(xmlOutput, res, xformer) ;

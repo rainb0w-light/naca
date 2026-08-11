@@ -4,12 +4,6 @@
  * Copyright (c) 2005, 2006, 2007, 2008 Publicitas SA.
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
-/*
- * Created on 6 août 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package semantic;
 
 import lexer.Cobol.CCobolConstantList;
@@ -22,8 +16,6 @@ import utils.CObjectCatalog;
 /**
  * @author sly
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CSubStringAttributReference extends CBaseDataReference
 {
@@ -73,7 +65,7 @@ public class CSubStringAttributReference extends CBaseDataReference
 	{
 		return length;
 	}
-	
+
 	protected CBaseEntityExpression start = null ;
 	protected CBaseEntityExpression length = null ;
 
@@ -145,7 +137,7 @@ public class CSubStringAttributReference extends CBaseDataReference
 	public String GetConstantValue()
 	{
 		return "" ;
-	} 	 
+	}
 	public void Clear()
 	{
 		super.Clear();
@@ -154,5 +146,5 @@ public class CSubStringAttributReference extends CBaseDataReference
 		start.Clear() ;
 		start = null ;
 	}
-	
+
 }
