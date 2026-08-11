@@ -45,10 +45,10 @@
       },
       "legacyRuntimeAudit": {
         "tests": 46,
-        "failures": 8,
+        "failures": 0,
         "gate": ":naca-rt-tests:legacyRuntimeTest",
-        "partOfDefaultBuild": false,
-        "note": "Strict opt-in audit of hand-written 2005 runtime compatibility programs. Maintained NacaRT and JLib self-assignment defects are now guarded at zero; the first runtime slice reduced failures from 21 to 8 and restored OCCURS/REDEFINES/UNSTRING/map/GOTO/CALL behavior. Remaining failures are tracked as runtime/fixture debt, not as an ST4 migration blocker."
+        "partOfDefaultBuild": true,
+        "note": "Required audit of hand-written runtime compatibility programs. Maintained NacaRT and JLib self-assignment defects are guarded at zero, and all 46 programs pass after repairs covering storage, string operations, program linkage, artifact classification, assertion collection, and numeric picture/sign behavior."
       },
       "onlineCorpusInventory": {
         "note": "Phase 3: inventory is now STATEMENT-ACCURATE (per source line+dialect+command, classified exactly once as PRESERVED / REJECTED / SILENT_DROP), no package-aggregate counting. DiagnosticSink (diagnostic.DiagnosticSink) collects structured diagnostics non-aborting so a whole program is inventoried per statement; throws when no sink is open (fail-closed gate). EXEC SQL INCLUDE counts as PRESERVED when it resolves/inlines (CJavaInline at the statement line).",

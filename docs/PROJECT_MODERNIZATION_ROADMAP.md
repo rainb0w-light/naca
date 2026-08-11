@@ -10,8 +10,8 @@ the current queue.
 - Recursive ST4 is the only production Java generator; all three direct-backend
   inventories are frozen at zero.
 - The migration ledger contains 274 terminal entries and no blocked entry.
-- `:naca-rt-tests:legacyRuntimeTest` executes 46 tests; the first runtime
-  self-assignment slice reduced the failure ratchet from 21 to 8.
+- `:naca-rt-tests:legacyRuntimeTest` executes 46 tests with zero failures and is
+  part of the module `check` lifecycle.
 - The canonical `sampleAcceptance` contains two strict pipelines: the 34-line
   `TEST-A-STANDALONE` GnuCOBOL comparison, and a BATCH1/CALLMSG/MSGZONE run that
   verifies dynamic CALL linkage plus exact FILEIN/FILEOUT behavior.
@@ -37,11 +37,11 @@ the current queue.
   traceability remains part of the acceptance-matrix work.
 - The BATCH1 slice also fixed the runtime `CallParamByRef` constructor defect that
   previously discarded every by-reference `Var` argument.
-- M7 is in progress: all 65 unqualified self-assignments in maintained NacaRT code
+- M7 is complete: all 65 unqualified self-assignments in maintained NacaRT code
   and all 142 equivalents in JLib are fixed and guarded by module-level tests.
-  The remaining eight failures are now isolated to stale fixture
-  expectations/classification, packed/display numeric formatting, and focused
-  program-link/control-flow cases.
+  The 46-program compatibility audit is green after repairing assertion
+  collection, artifact classification, call/link resolution, COBOL substring
+  and INSPECT expectations, and DISPLAY/COMP-3/sign handling.
 
 Machine-readable counters live in `project-quality-baseline.json`. A counter may
 only decrease unless a reviewed change updates both its rationale and its target.

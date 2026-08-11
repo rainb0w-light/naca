@@ -123,13 +123,11 @@ tasks.register<Test>("sampleAcceptance") {
     shouldRunAfter(tasks.test)
 }
 
-// The hand-written 2005 compatibility programs exercise runtime behavior that
-// predates the ST4 migration and currently carry an explicit failure baseline.
-// Keep them runnable as a strict, opt-in audit without making unrelated runtime
-// debt indistinguishable from a transpiler/build regression.
+// The hand-written compatibility programs are a required runtime regression
+// gate now that their failure baseline has reached zero.
 tasks.register<Test>("legacyRuntimeTest") {
     group = "verification"
-    description = "Run the strict legacy NacaRT compatibility suite (known runtime debt)."
+    description = "Run the strict legacy NacaRT compatibility suite."
     testClassesDirs = sourceSets["test"].output.classesDirs
     classpath = sourceSets["test"].runtimeClasspath
     useJUnitPlatform {
@@ -137,6 +135,10 @@ tasks.register<Test>("legacyRuntimeTest") {
     }
     failFast = false
     shouldRunAfter(tasks.test)
+}
+
+tasks.named("check") {
+    dependsOn("legacyRuntimeTest")
 }
 
 // Configure JaCoCo to include coverage from dependencies

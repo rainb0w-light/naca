@@ -13,27 +13,27 @@ public class CJMapObject //extends BaseObject
 	protected CJMapObject()
 	{
 	}
-	
+
 	public static void setAssertActive(boolean b)
 	{
 		Asserter.setAssertActive(b);
 	}
-	
+
 	public static void Assert(String csMessage)
 	{
 		Asserter.assertAlways(csMessage);
 	}
-	
+
 	protected void assertIfNull(Object o)
 	{
 		Asserter.assertIfNull(o);
 	}
-	
+
 	protected void assertIfNotNull(Object o)
 	{
 		Asserter.assertIfNotNull(o);
 	}
-	
+
 	protected void assertIfEmpty(String cs)
 	{
 		Asserter.assertIfEmpty(cs);
@@ -71,12 +71,12 @@ public class CJMapObject //extends BaseObject
             Asserter.assertIfFalse(b);
         }
 	}
-	
+
 	protected void assertIfFalse(boolean b, String csReason)
 	{
 		Asserter.assertIfFalse(b, csReason);
 	}
-	
+
 	protected void assertIfDifferent(String a, String b)
 	{
 		if (nacaLib.testSupport.TestAssertionCollector.isCollecting()) {
@@ -89,7 +89,7 @@ public class CJMapObject //extends BaseObject
 	protected void assertIfEquals(String a, String b)
 	{
 		if (nacaLib.testSupport.TestAssertionCollector.isCollecting()) {
-			nacaLib.testSupport.TestAssertionCollector.assertEquals(a, b, "Assertion failed");
+			nacaLib.testSupport.TestAssertionCollector.assertNotEquals(a, b, "Assertion failed");
 		} else {
 			Asserter.assertIfEquals(a, b);
 		}
@@ -112,7 +112,7 @@ public class CJMapObject //extends BaseObject
 			Asserter.assertIfDifferent(a, b);
 		}
 	}
-	
+
 	public static final boolean isLogCESM = false;
 	public static final boolean isLogFlow = false;
 	public static final boolean isLogSql = false;

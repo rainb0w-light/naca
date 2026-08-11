@@ -93,9 +93,8 @@ jobs:
           distribution: temurin
           java-version: "21"
       - uses: gradle/actions/setup-gradle@v6
-      - name: Run known-debt compatibility suite
+      - name: Run compatibility suite
         id: legacy
-        continue-on-error: true
         run: ./gradlew :naca-rt-tests:legacyRuntimeTest --stacktrace
       - name: Record audit status
         run: echo "Legacy runtime audit outcome：${{ steps.legacy.outcome }}" >> "$GITHUB_STEP_SUMMARY"

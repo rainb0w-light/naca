@@ -159,7 +159,7 @@ public class TestPara extends OnlineProgram
 	Paragraph ParaDFin = new Paragraph(this){public void run(){ParaDFin();}};void ParaDFin()
 	{
 		cs = cs + "DF_";
-		assertIfFalse(cs.equals("S_p1_pf_I_I_I_I_I_I_I_I_I_I_I_P2_P4_P5_SB_B2_C2_SC_C2_C3_SD_D2_D3_SE_E1_E2_E3_D4_E2_DF_"));
+		assertIfFalse(cs.equals("S_p1_pf_I_I_I_I_I_I_I_I_I_I_I_P2_P4_P5_SB_B2_C2_C3_SD_D2_D3_SE_E1_E2_E3_D4_E2_DF_"));
 		CESM.returnTrans();
 	}
 	

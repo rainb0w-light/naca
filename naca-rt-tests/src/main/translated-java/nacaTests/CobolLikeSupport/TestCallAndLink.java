@@ -227,7 +227,7 @@ public class TestCallAndLink extends OnlineProgram
 		while(n<12)
 		{
 			move(n, Command);	// Format the date
-			CESM.link("TestCicsLinkedProgram3").commarea(vCommarea);
+			CESM.link(TestCicsLinkedProgram3.class).commarea(vCommarea);
 			n = Command.getInt();
 		}
 

@@ -98,7 +98,7 @@ import nacaLib.varEx.VarTypeId;
 public abstract class BaseProgram extends CJMapObject
 {
 	protected NacaToolBox tools = null;
-	
+
 	/**Method: Constructor
 	 * Main entry point of a program
 	 * @param:
@@ -107,9 +107,9 @@ public abstract class BaseProgram extends CJMapObject
 	public BaseProgram(BaseProgramManagerFactory programManagerFactory)
 	{
 		super();
-		
+
 		initNames();
-		
+
 		boolean isinheritedSharedProgramInstanceData = true;
 		SharedProgramInstanceData sharedProgramInstanceData = SharedProgramInstanceDataCatalog.getSharedProgramInstanceData(csSimpleName);
 		if(sharedProgramInstanceData == null)
@@ -120,13 +120,13 @@ public abstract class BaseProgram extends CJMapObject
 		}
 		if(programManagerFactory != null)
 			baseProgramManager = programManagerFactory.createProgramManager(this, sharedProgramInstanceData, isinheritedSharedProgramInstanceData);
-		
+
 		tools = new NacaToolBox(baseProgramManager) ;
 		if(BaseResourceManager.getUsingJmx())
 			JmxGeneralStat.incNbProgramInstanceLoaded(1);
 	}
-	
-	
+
+
 
 	public void finalize()
 	{
@@ -135,48 +135,48 @@ public abstract class BaseProgram extends CJMapObject
 	}
 
 	/**Method: getProgramManager
-	 * 
+	 *
 	 * @param:
 	 * @return: Internal Prorgram manager Objet; A program has 2 sides:
 	 * 	- a public one, that is accessible to applications programs
-	 * 	- an internal one that i sused only internally by the library. 
-	 * This methods gives 
+	 * 	- an internal one that i sused only internally by the library.
+	 * This methods gives
 	 * 	access to this internal manager
-	 * <b>This method is not intended to be used by an application</b> 
-	 */ 
+	 * <b>This method is not intended to be used by an application</b>
+	 */
 	/**
 	 * @return
 	 */
 	public BaseProgramManager getProgramManager()
 	{
-		return baseProgramManager ; 
+		return baseProgramManager ;
 	}
-	
+
 	// Access
 	protected BaseProgramManager baseProgramManager = null;	// Program manager object
 	//private ProgramManager;
-	
-	//protected VarSectionDeclaration declare = null;	// Declare Object used for data section and variable declaration inside an application  
-	
+
+	//protected VarSectionDeclaration declare = null;	// Declare Object used for data section and variable declaration inside an application
+
 	// http://www.nwrdc.fsu.edu/contents_support_cics_progguide_general.html#dfhcommarea
 	// CICS LINK: COMMAREA is passed by ref: The linked prog can return values by the Commearea
 	// CICS XCTL: COMMAREA is passed by value
 	// CICS RETURN: COMMAREA is passed by value
-	
+
 	// Creation
-	
-	
+
+
 	// Program code
 	/**Method: procedureDivision
 	 * Virtual method that ca be derived to describe formally an entry point for am application program, that is not at in the first paragraph
-	 * Commment <b>It is not mandatory to derived in an app, but it makes life easier</b> 
+	 * Commment <b>It is not mandatory to derived in an app, but it makes life easier</b>
 	 * @param:
 	 * @return:
 	 */
 	public void procedureDivision()	// Virtual that can be derived
 	{
 	}
-	
+
 	/**Method: Coin call
 	 * Declare a sub-program to call; Used internally
 	 * @param: IN Class classPrgToCall: Gives the java class of the sub program to call. It must itself be derived form Program.
@@ -188,41 +188,41 @@ public abstract class BaseProgram extends CJMapObject
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("call_Class:" + classPrgToCall.getName());
-		
+
 		CCallProgram call = new CCallProgram(baseProgramManager.getEnv(), classPrgToCall);
-	
+
 		call.setProgramLoader(baseProgramManager.getProgramLoader());
 		return call ;
-	}	
-	
+	}
+
 	protected CCallProgram call(VarAndEdit var)
 	{
 		return call(var.getString().trim());
 	}
-	
+
 	/**Method: call
 	 * Declare a sub-program to call
-	 * @param: IN String csPrgClassName: Program name to call 
+	 * @param: IN String csPrgClassName: Program name to call
 	 * @return: CCallProgram: A internal object, that is used to define a program to be called later
 	 */
 	protected CCallProgram call(String csPrgClassName) // temporary function, until all class are available for CALL
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("call_cs:" + csPrgClassName);
-		
+
 		CCallProgram call = new CCallProgram(baseProgramManager.getEnv(), csPrgClassName);
 		call.setProgramLoader(baseProgramManager.getProgramLoader());
 		return call ;
 	}
 
-		
+
 	/**Method: isEqual
-	 * return true if the 2 variables' value are equal. 
-	 * 	 * @param: IN Var var1: 1st variable to compare 
+	 * return true if the 2 variables' value are equal.
+	 * 	 * @param: IN Var var1: 1st variable to compare
 	 * @param: IN Var var2: 2nd Variable to compare
 	 * @return: true if var1's value == var2's value, false otherwise.
-	 * The variables can by of different type. A conversion can be done in order to have comparable values. 
-	 * The comparison is done in Unicode. 
+	 * The variables can by of different type. A conversion can be done in order to have comparable values.
+	 * The comparison is done in Unicode.
 	 */
 	protected boolean isEqual(VarAndEdit var1, VarAndEdit var2)
 	{
@@ -230,13 +230,13 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isEqual_V_V:" + var1.getSTCheckValue() + "/" + var2.getSTCheckValue());
 		if(var1.varTypeId == var2.varTypeId && var1.varTypeId <= VarTypeId.MaxStandardCobolVarId)	// Same type
 		{
-			if(var1.varDef.getBodyLength() == var2.varDef.getBodyLength()) 
+			if(var1.varDef.getBodyLength() == var2.varDef.getBodyLength())
 			{
 				boolean b = var1.varDef.isEqualWithSameTypeTo(var1.bufferPos, var2.varDef, var2.bufferPos);
 				return b;
 			}
 		}
-		
+
 		int n = var1.compareTo(ComparisonMode.Unicode, var2);
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var1, var2);
@@ -244,11 +244,11 @@ public abstract class BaseProgram extends CJMapObject
 			return true;
 		return false;
 	}
-	
+
 	// Tests
 	/**Method: isEqual
-	 * return true if the 2 variables' value are equal. 
-	 * 	 * @param: IN int a: 1st variable to compare 
+	 * return true if the 2 variables' value are equal.
+	 * 	 * @param: IN int a: 1st variable to compare
 	 * @param: IN int b: 2nd Variable to compare
 	 * @return: true if a == b, false otherwise.
 	 */
@@ -258,12 +258,12 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isEqual_n_n:" + a + "/" + b);
 		return a == b;
 	}
-	
+
 	/**Method: isEqual
-	 * return true if the 2 variables' value are equal. 
-	 * 	 * @param: IN String a: 1st variable to compare 
+	 * return true if the 2 variables' value are equal.
+	 * 	 * @param: IN String a: 1st variable to compare
 	 * @param: IN int b: 2nd Variable to compare
-	 * @return: true if the integer value of a  == b, false otherwise. 
+	 * @return: true if the integer value of a  == b, false otherwise.
 	 */
 	protected boolean isEqual(String a, int b)
 	{
@@ -275,7 +275,7 @@ public abstract class BaseProgram extends CJMapObject
 
 	/**Method: isEqual
 	 * Returns true if the 2 integers in param are equals
-	 * @param: IN MathBase a: Contains the result of a previous math operations; it will be evaluated as an integer (can be rounded) 
+	 * @param: IN MathBase a: Contains the result of a previous math operations; it will be evaluated as an integer (can be rounded)
 	 * @param: int b: int to compare
 	 * @return: true if they are equals, false otherwise
 	 */
@@ -289,7 +289,7 @@ public abstract class BaseProgram extends CJMapObject
 
 	/**Method: isEqual
 	 * Returns true if the 2 integers in param are equals
-	 * @param: IN MathBase a: Contains the result of a previous math operations; it will be evaluated as an integer (can be rounded) 
+	 * @param: IN MathBase a: Contains the result of a previous math operations; it will be evaluated as an integer (can be rounded)
 	 * @param: int b: Var to compare; it is comverted internally in an int
 	 * @return: true if they are equals, false otherwise
 	 */
@@ -304,14 +304,14 @@ public abstract class BaseProgram extends CJMapObject
 
 		return n == m;
 	}
-	
+
 	protected boolean isEqual(MathBase a, MathBase b)
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("isEqual_M_M" + a.getSTCheckValue() + "/" + b.getSTCheckValue());
 		return a.compareTo(b.d) == 0;
 	}
-	
+
 	/**Method: is
 	 * Condition value negative evaluation
 	 * @param: IN Cond cond
@@ -327,7 +327,7 @@ public abstract class BaseProgram extends CJMapObject
 
 	/**Method: is
 	 * Condition value negative evaluation
-	 * @param: IN Cond cond 
+	 * @param: IN Cond cond
 	 * @return: true if the Cond evaluates as false
 	 * @ see Class Cond
 	 */
@@ -337,11 +337,11 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isNot_Cond:" + cond.getSTCheckValue());
 		return !cond.is();
 	}
-	
+
 	/**Method: is
 	 * Variable value boolean comparison
 	 * @param: IN Variable v
-	 * @return: true if the variable is true. 
+	 * @return: true if the variable is true.
 	 * @ see Class Cond
 	 */
 	protected boolean isNot(Var v)
@@ -350,7 +350,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isNot_v:" + v.getSTCheckValue());
 		return v.compareTo(false);
 	}
-	
+
 	/**Method: isLowValue
 	 * return true if the Var contains only low value bytes.
 	 * @param: IN Var var
@@ -389,7 +389,7 @@ public abstract class BaseProgram extends CJMapObject
 
 		return !isAll(var, CobolConstant.LowValue.getValue());
 	}
-	
+
 	/**Method: isNotLowValue
 	 * Opposite result than isLowValue
 	 * @param:
@@ -400,22 +400,22 @@ public abstract class BaseProgram extends CJMapObject
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("isNotLowValue_cs:" + cs);
-	
+
 		return !isAll(cs, CobolConstant.LowValue.getValue());
 	}
-	
+
 	/**Method: isLowValue
 	 * return true if the String contains only low value bytes.
 	 * @param: IN String cs
 	 * @return: true if all bytes inside the string are high value; false otherwise
-	 */	
+	 */
 	protected boolean isHighValue(VarAndEdit var)
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("isHighValue_V:" + var.getSTCheckValue());
-		return isAll(var, CobolConstant.HighValue.getValue());	
+		return isAll(var, CobolConstant.HighValue.getValue());
 	}
-	
+
 	/**Method: isHighValue
 	 * return true if the String contains only high value bytes.
 	 * @param: IN String cs
@@ -427,7 +427,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isHighValue_cs:" + cs);
 		return isAll(cs, CobolConstant.HighValue.getValue());
 	}
-	
+
 
 	/**Method: isNotHighValue
 	 * Opposite result than isHighValue
@@ -438,10 +438,10 @@ public abstract class BaseProgram extends CJMapObject
 	protected boolean isNotHighValue(VarAndEdit var)
 	{
 		if(IsSTCheck)
-			Log.logFineDebug("isNotHighValue_V:" + var.getSTCheckValue());		
-		return !isAll(var, CobolConstant.HighValue.getValue());	
+			Log.logFineDebug("isNotHighValue_V:" + var.getSTCheckValue());
+		return !isAll(var, CobolConstant.HighValue.getValue());
 	}
-	
+
 	/**Method: isNotHighValue
 	 * Opposite result than isHighValue
 	 * @param:
@@ -451,10 +451,10 @@ public abstract class BaseProgram extends CJMapObject
 	protected boolean isNotHighValue(String cs)
 	{
 		if(IsSTCheck)
-			Log.logFineDebug("isNotHighValue_cs:" + cs);	
+			Log.logFineDebug("isNotHighValue_cs:" + cs);
 		return !isAll(cs, CobolConstant.HighValue.getValue());
 	}
-		
+
 	/**Method: isHighValue
 	 * @param: IN VarAndEdit var
 	 * @return: true if the var contains only space chars; false otherwise
@@ -466,7 +466,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isSpace_V:" + var.getSTCheckValue());
 		return isAll(var, CobolConstant.Space.getValue());
 	}
-	
+
 	/**Method: isHighValue
 	 * @param: IN String cs
 	 * @return: true if the string contains only space chars; false otherwise
@@ -478,7 +478,7 @@ public abstract class BaseProgram extends CJMapObject
 		return isAll(cs, CobolConstant.Space.getValue());
 	}
 
-	
+
 	/**Method: isHighValue
 	 * @param: IN VarAndEdit var
 	 * @return: false if the var contains only space chars; true otherwise
@@ -490,23 +490,23 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isNotSpace_V:" + var.getSTCheckValue());
 		return !isAll(var, CobolConstant.Space.getValue());
 	}
-	
+
 	/**Method: isHighValue
 	 * @param: IN String cs
 	 * @return: false if the string contains only space chars; true otherwise
-	 */	
+	 */
 	protected boolean isNotSpace(String cs)
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("isNotSpace_cs:" + cs);
 		return !isAll(cs, CobolConstant.Space.getValue());
 	}
-	
+
 	/**Method: isZero
 	 * return true if the Var contains only 0 chars
 	 * @param: IN var var
 	 * @return:
-	 */	
+	 */
 	protected boolean isZero(VarAndEdit var)
 	{
 		if(IsSTCheck)
@@ -528,7 +528,7 @@ public abstract class BaseProgram extends CJMapObject
 			return isAll(var, '0') ;
 		}
 	}
-	
+
 	protected boolean isZero(String cs)
 	{
 		if(IsSTCheck)
@@ -541,19 +541,19 @@ public abstract class BaseProgram extends CJMapObject
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("isZero_n:" + n);
-		return n == 0 ; 
+		return n == 0 ;
 	}
 
 	protected boolean isNotZero(String cs)
 	{
-		return !isZero(cs); 
+		return !isZero(cs);
 	}
 
 	/**Method: isZero
 	 * return false if the Var contains only 0 chars
 	 * @param: IN var var
 	 * @return:
-	 */	
+	 */
 	protected boolean isNotZero(VarAndEdit var)
 	{
 		if(IsSTCheck)
@@ -566,7 +566,7 @@ public abstract class BaseProgram extends CJMapObject
 	 * return true if the int equals 0
 	 * @param: IN var var
 	 * @return:
-	 */	
+	 */
 	protected boolean isNotZero(int n)
 	{
 		if(IsSTCheck)
@@ -576,13 +576,13 @@ public abstract class BaseProgram extends CJMapObject
 			return true;
 		return false;
 	}
-	
+
 	/**Method: isAll
 	 * return true if the var's value contains only the same char cPattern
 	 * @param: IN var var
-	 * @param: IN char cPattern 
+	 * @param: IN char cPattern
 	 * @return:
-	 */	
+	 */
 	protected boolean isAll(VarAndEdit var, char cPattern)
 	{
 		if(IsSTCheck)
@@ -594,7 +594,7 @@ public abstract class BaseProgram extends CJMapObject
 			tempCache.resetTempIndex(var);
 		return b;
 	}
-	
+
 	protected boolean isAll(VarAndEdit var, CobolConstantZero cobolConstant)
 	{
 		if(IsSTCheck)
@@ -603,11 +603,11 @@ public abstract class BaseProgram extends CJMapObject
 		String sValue = var.getString();
 		return isAll(sValue, cobolConstant.getValue());
 	}
-	
+
 	/**Method: isNotAll
 	 * return true if the var's value contains only occurences of the same string csPattern
 	 * @param: IN Var var
-	 * @param: IN String csPattern 
+	 * @param: IN String csPattern
 	 * @return:
 	 */
 	protected boolean isNotAll(VarAndEdit var, String csPattern)
@@ -617,27 +617,27 @@ public abstract class BaseProgram extends CJMapObject
 
 		return !isAll(var, csPattern) ;
 	}
-	
+
 	protected boolean isNotAll(VarAndEdit var, int i)
 	{
 		return isNotAll(var, Integer.toString(i));
 	}
-	
+
 	/**Method: isNotAll
 	 * return true if the var's value contains only occurences of the same string csPattern
 	 * @param: IN Var var
-	 * @param: IN String csPattern 
+	 * @param: IN String csPattern
 	 * @return:
 	 */
 //	protected boolean isNotAll(Var var, String csPattern)
 //	{
 //		return !isAll(var, csPattern) ;
 //	}
-	
+
 		/**Method: isAll
 	 * return true if the var's value contains only occurences of the same string csPattern
 	 * @param: IN Var var
-	 * @param: IN String csPattern 
+	 * @param: IN String csPattern
 	 * @return:
 	 */
 	protected boolean isAll(VarAndEdit var, String csPattern)
@@ -647,10 +647,10 @@ public abstract class BaseProgram extends CJMapObject
 
 		int nPatternLg = csPattern.length();
 		if(nPatternLg > 1)
-		{	
+		{
 			String csValue = var.getString();
 			int nValueLg = csValue.length();
-			
+
 			int nStart = 0;
 			int nNbLoop = nValueLg / nPatternLg;
 			while(nNbLoop > 0)
@@ -669,7 +669,7 @@ public abstract class BaseProgram extends CJMapObject
 		}
 		return isAll(var, csPattern.charAt(0));
 	}
-	
+
 	protected boolean isAll(VarAndEdit var, CobolConstantLowValue cobolConstant)
 	{
 		if(IsSTCheck)
@@ -678,8 +678,8 @@ public abstract class BaseProgram extends CJMapObject
 		String sValue = var.getString();
 		return isAll(sValue, cobolConstant.getValue());
 	}
-	
-	
+
+
 
 	protected boolean isAll(VarAndEdit var, CobolConstantHighValue cobolConstant)
 	{
@@ -702,16 +702,16 @@ public abstract class BaseProgram extends CJMapObject
 	/**Method: isAll
 	 * return true if the string's value contains only the same char cPattern
 	 * @param: IN String csValue
-	 * @param: IN char cPattern 
+	 * @param: IN char cPattern
 	 * @return:
 	 */
 	public static boolean isAll(String csValue, char cPattern)
 	{
 //		if(isLog.logFineTrace())
 //			Log.logFineTrace("isAll_cs_c:" + csValue + "/" + cPattern);
-		
+
 		int nValueLg = csValue.length();
-		
+
 		for(int n=0; n<nValueLg; n++)
 		{
 			char c = csValue.charAt(n);
@@ -720,11 +720,11 @@ public abstract class BaseProgram extends CJMapObject
 		}
 		return true;
 	}
-	
+
 	/**Method: isAll
 	 * return true if the var's value contains only occurences of the same string contained into varPattern
 	 * @param: IN Var var
-	 * @param: IN Var varPattern 
+	 * @param: IN Var varPattern
 	 * @return:
 	 */
 	protected boolean isAll(Var var, Var varPattern)
@@ -735,24 +735,24 @@ public abstract class BaseProgram extends CJMapObject
 		String s = varPattern.getString();
 		return isAll(var, s);
 	}
-	
+
 	/**Method: isAll
 	 * return true if the var's value contains only occurences of the same string csPattern
 	 * @param: IN Var var
-	 * @param: IN String csPattern 
+	 * @param: IN String csPattern
 	 * @return:
 	 */
 	protected boolean isAll(Var var, String csPattern)
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("isAll_V_cs:" + var.getSTCheckValue()+ "/" + csPattern);
-		
+
 		int nPatternLg = csPattern.length();
 		if(nPatternLg > 1)
-		{	
+		{
 			String csValue = var.getString();
 			int nValueLg = csValue.length();
-			
+
 			int nStart = 0;
 			int nNbLoop = nValueLg / nPatternLg;
 			while(nNbLoop > 0)
@@ -771,31 +771,31 @@ public abstract class BaseProgram extends CJMapObject
 		}
 		return isAll(var, csPattern.charAt(0));
 	}
-	
+
 	// Comparisons
-	
-	
+
+
 	/**Method: isDifferent
 	 * return true if the 2 var's value are different
 	 * @param: IN Var var1
 	 * @param: IN Var var2
 	 * @return:
-	 */	
+	 */
 	protected boolean isDifferent(VarAndEdit var1, VarAndEdit var2)
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("isDifferent_V_V:" + var1.getSTCheckValue()+ "/" + var2.getSTCheckValue());
 
 		return !isEqual(var1, var2);
-	}	
+	}
 
 
 	/**Method: isLess
-	 * return true if var1's value < var2's value 
+	 * return true if var1's value < var2's value
 	 * @param: IN Var var1
 	 * @param: IN Var var2
 	 * @return:
-	 */	
+	 */
 	protected boolean isLess(VarAndEdit var1, VarAndEdit var2)
 	{
 		if(IsSTCheck)
@@ -807,14 +807,14 @@ public abstract class BaseProgram extends CJMapObject
 			return true;
 		return false;
 	}
-	
+
 	/**Method: isLessInEbcdic
 	 * @param: IN VarAndEdit var1
 	 * @param: IN VarAndEdit var2
 	 * @return: true if var1's value < var2's value, false otherwise. The comparison is done using ebcdic ordering
 	 * Warning: This method is available only for ebcdic compatibility. It should not be used except when dealing with not ascii convertered data
-	 * If Var1 or var2 are Edit or dervied from Edit, then only the textual part of the edit is taken in account   
-	 */	
+	 * If Var1 or var2 are Edit or dervied from Edit, then only the textual part of the edit is taken in account
+	 */
 	protected boolean isLessInEbcdic(VarAndEdit var1, VarAndEdit var2)
 	{
 		if(IsSTCheck)
@@ -826,7 +826,7 @@ public abstract class BaseProgram extends CJMapObject
 			return true;
 		return false;
 	}
-	
+
 	/**Method: isLessOrEqual
 	 * @param: IN VarAndEdit var1
 	 * @param: IN VarAndEdit var2
@@ -838,21 +838,21 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isLessOrEqual_V_V:" + var1.getSTCheckValue()+ "/" + var2.getSTCheckValue());
 
 		int n = var1.compareTo(ComparisonMode.UnicodeOrEbcdic, var2);
-		
+
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var1, var2);
 		if(n <= 0)
 			return true;
 		return false;
 	}
-	
+
 	/**Method: isLessOrEqualInEbcdic
 	 * @param: IN VarAndEdit var1
 	 * @param: IN VarAndEdit var2
 	 * @return: true if var1's value <= var2's value, false otherwise. The comparison is done using ebcdic ordering
 	 * Warning: This method is available only for ebcdic compatibility. It should not be used except when dealing with not ascii convertered data
-	 * If Var1 or var2 are Edit or dervied from Edit, then only the textual part of the edit is taken in account   
-	 */	
+	 * If Var1 or var2 are Edit or dervied from Edit, then only the textual part of the edit is taken in account
+	 */
 	protected boolean isLessOrEqualInEbcdic(VarAndEdit var1, VarAndEdit var2)
 	{
 		if(IsSTCheck)
@@ -865,7 +865,7 @@ public abstract class BaseProgram extends CJMapObject
 			return true;
 		return false;
 	}
-	
+
 	protected boolean isLessOrEqual(String cs, int n)
 	{
 		if(IsSTCheck)
@@ -882,15 +882,15 @@ public abstract class BaseProgram extends CJMapObject
 		if(IsSTCheck)
 			Log.logFineDebug("isLessOrEqual_n_n:" + n1 + "/" + n2);
 
-		return n1 <= n2 ;  
+		return n1 <= n2 ;
 	}
 
 	/**Method: isGreater
 	 * @param: IN VarAndEdit var1
 	 * @param: IN VarAndEdit var2
 	 * @return: true if var1's value > var2's value, false otherwise
-	 * If Var1 or var2 are Edit or dervied from Edit, then only the textual part of the edit is taken in account   
-	 */	
+	 * If Var1 or var2 are Edit or dervied from Edit, then only the textual part of the edit is taken in account
+	 */
 	protected boolean isGreater(VarAndEdit var1, VarAndEdit var2)
 	{
 		if(IsSTCheck)
@@ -903,14 +903,14 @@ public abstract class BaseProgram extends CJMapObject
 			return true;
 		return false;
 	}
-	
+
 	/**Method: isGreaterOrEqualInEbcdic
 	 * @param: IN VarAndEdit var1
 	 * @param: IN VarAndEdit var2
 	 * @return: true if var1's value >= var2's value, false otherwise. The comparison is done using ebcdic ordering
 	 * Warning: This method is available only for ebcdic compatibility. It should not be used except when dealing with not ascii convertered data
-	 * If Var1 or var2 are Edit or dervied from Edit, then only the textual part of the edit is taken in account   
-	 */	
+	 * If Var1 or var2 are Edit or dervied from Edit, then only the textual part of the edit is taken in account
+	 */
 	protected boolean isGreaterInEbcdic(VarAndEdit var1, VarAndEdit var2)
 	{
 		if(IsSTCheck)
@@ -923,13 +923,13 @@ public abstract class BaseProgram extends CJMapObject
 			return true;
 		return false;
 	}
-	
+
 	/**Method: isGreater
 	 * @param: IN VarAndEdit var1
 	 * @param: IN VarAndEdit var2
-	 * @return: true if var1's value >= var2's value, false otherwise. 
-	 * If Var1 or var2 are Edit or dervied from Edit, then only the textual part of the edit is taken in account   
-	 */	
+	 * @return: true if var1's value >= var2's value, false otherwise.
+	 * If Var1 or var2 are Edit or dervied from Edit, then only the textual part of the edit is taken in account
+	 */
 	protected boolean isGreater(String cs, int v)
 	{
 		if(IsSTCheck)
@@ -940,14 +940,14 @@ public abstract class BaseProgram extends CJMapObject
 			return true;
 		return false;
 	}
-	
+
 	/**Method: isGreaterInEbcdic
 	 * @param: IN VarAndEdit var1
 	 * @param: IN VarAndEdit var2
 	 * @return: true if var1's value > var2's value, false otherwise. The comparison is done using ebcdic ordering
 	 * Warning: This method is available only for ebcdic compatibility. It should not be used except when dealing with not ascii convertered data
-	 * If Var1 or var2 are Edit or dervied from Edit, then only the textual part of the edit is taken in account   
-	 */	
+	 * If Var1 or var2 are Edit or dervied from Edit, then only the textual part of the edit is taken in account
+	 */
 	protected boolean isGreaterInEbcdic(String cs1, String cs2)
 	{
 		if(IsSTCheck)
@@ -972,11 +972,11 @@ public abstract class BaseProgram extends CJMapObject
 
 
 	/**Method: isGreater
-	 * return true if var1's value > var2's value 
+	 * return true if var1's value > var2's value
 	 * @param: IN MathBase var1
 	 * @param: IN Var var2
 	 * @return:
-	 */	
+	 */
 	protected boolean isGreater(MathBase math1, Var var2)
 	{
 		if(IsSTCheck)
@@ -996,16 +996,16 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("isGreater_M_S:" + math.getSTCheckValue() + "/" + s);
 
 		double n = math.d.doubleValue() ;
-		double i = Double.parseDouble(s) ; 
+		double i = Double.parseDouble(s) ;
 		return n > i;
 	}
-	
+
 	/**Method: isGreater
-	 * return true if var1's value > nb; var1 is evaluated as an int (can be rounded). 
+	 * return true if var1's value > nb; var1 is evaluated as an int (can be rounded).
 	 * @param: IN MathBase var1
 	 * @param: IN int nb
 	 * @return:
-	 */	
+	 */
 	protected boolean isGreater(MathBase var1, int nb)
 	{
 		if(IsSTCheck)
@@ -1016,13 +1016,13 @@ public abstract class BaseProgram extends CJMapObject
 			return true;
 		return false;
 	}
-	
+
 	/**Method: isGreaterOrEqualInEbcdic
 	 * @param: IN VarAndEdit var1
 	 * @param: IN VarAndEdit var2
 	 * @return: true if var1's value >= var2's value, false otherwise
-	 * If Var1 or var2 are Edit or dervied from Edit, then only the textual part of the edit is taken in account   
-	 */	
+	 * If Var1 or var2 are Edit or dervied from Edit, then only the textual part of the edit is taken in account
+	 */
 	protected boolean isGreaterOrEqual(VarAndEdit var1, VarAndEdit var2)
 	{
 		if(IsSTCheck)
@@ -1035,14 +1035,14 @@ public abstract class BaseProgram extends CJMapObject
 			return true;
 		return false;
 	}
-	
+
 	/**Method: isGreaterOrEqualInEbcdic
 	 * @param: IN VarAndEdit var1
 	 * @param: IN VarAndEdit var2
 	 * @return: true if var1's value >= var2's value, false otherwise. The comparison is done using ebcdic ordering
 	 * Warning: This method is available only for ebcdic compatibility. It should not be used except when dealing with not ascii convertered data
-	 * If Var1 or var2 are Edit or dervied from Edit, then only the textual part of the edit is taken in account   
-	 */	
+	 * If Var1 or var2 are Edit or dervied from Edit, then only the textual part of the edit is taken in account
+	 */
 	protected boolean isGreaterOrEqualInEbcdic(VarAndEdit var1, VarAndEdit var2)
 	{
 		if(IsSTCheck)
@@ -1067,7 +1067,7 @@ public abstract class BaseProgram extends CJMapObject
 			return true;
 		return false;
 	}
-	
+
 	protected boolean isDifferent(int nVal, int val2)
 	{
 		if(IsSTCheck)
@@ -1098,16 +1098,16 @@ public abstract class BaseProgram extends CJMapObject
 		if(nVal < nMath)
 			return true;
 		return false;
-	}	
-	
+	}
+
 	protected boolean isLess(int nVal, int n)
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("isLess_n_n:" + nVal + "/" + n);
 
 		return nVal < n;
-	}	
-	
+	}
+
 	protected boolean isLessOrEqual(int nVal, MathBase Math)
 	{
 		if(IsSTCheck)
@@ -1118,7 +1118,7 @@ public abstract class BaseProgram extends CJMapObject
 			return true;
 		return false;
 	}
-	
+
 	protected boolean isLessOrEqual(MathBase Math, int nVal)
 	{
 		if(IsSTCheck)
@@ -1128,17 +1128,17 @@ public abstract class BaseProgram extends CJMapObject
 			return true;
 		return false;
 	}
-	
+
 	protected boolean isLessOrEqual(MathBase math, String s)
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("isLessOrEqual_M_S:" + math.getSTCheckValue() + "/" + s);
 
 		double n = math.d.doubleValue() ;
-		double i = Double.parseDouble(s) ; 
+		double i = Double.parseDouble(s) ;
 		return n <= i;
 	}
-	
+
 	protected boolean isGreater(int nVal, MathBase Math)
 	{
 		if(IsSTCheck)
@@ -1156,7 +1156,7 @@ public abstract class BaseProgram extends CJMapObject
 
 		return nVal > p ;
 	}
-		
+
 	protected boolean isGreaterOrEqual(MathBase Math, int nVal)
 	{
 		if(IsSTCheck)
@@ -1167,7 +1167,7 @@ public abstract class BaseProgram extends CJMapObject
 			return true;
 		return false;
 	}
-	
+
 	protected boolean isGreaterOrEqual(String s, int nVal)
 	{
 		if(IsSTCheck)
@@ -1178,7 +1178,7 @@ public abstract class BaseProgram extends CJMapObject
 			return true;
 		return false;
 	}
-	
+
 	protected boolean isGreaterOrEqual(int n, int nVal)
 	{
 		if(IsSTCheck)
@@ -1197,22 +1197,22 @@ public abstract class BaseProgram extends CJMapObject
 			return true;
 		return false;
 	}
-	
+
 	protected boolean isDifferent(MathBase Math1, MathBase Math2)
 	{
 		return !isEqual(Math1, Math2);
 	}
-	
+
 	protected boolean isDifferent(MathBase Math2, int i)
 	{
 		return isDifferent(i, Math2);
 	}
-	
+
 	protected boolean isDifferent(MathBase Math2, Var var1)
 	{
 		return isDifferent(var1, Math2);
 	}
-	
+
 	// Var <-> Math
 	protected boolean isDifferent(Var var1, MathBase Math2)
 	{
@@ -1269,7 +1269,7 @@ public abstract class BaseProgram extends CJMapObject
 			return true;
 		return false;
 	}
-	
+
 	protected boolean isGreater(Var var1, MathBase Math2)
 	{
 		if(IsSTCheck)
@@ -1283,7 +1283,7 @@ public abstract class BaseProgram extends CJMapObject
 			return true;
 		return false;
 	}
-	
+
 	protected boolean isGreaterOrEqual(Var var1, MathBase Math2)
 	{
 		if(IsSTCheck)
@@ -1297,7 +1297,7 @@ public abstract class BaseProgram extends CJMapObject
 			return true;
 		return false;
 	}
-	
+
 	// Var <-> int
 	protected boolean isEqual(VarAndEdit var, int n)
 	{
@@ -1311,7 +1311,7 @@ public abstract class BaseProgram extends CJMapObject
 			return true;
 		return false;
 	}
-	
+
 	protected boolean isEqual(int n, VarAndEdit var)
 	{
 		if(IsSTCheck)
@@ -1325,14 +1325,14 @@ public abstract class BaseProgram extends CJMapObject
 		return false;
 	}
 
-	
+
 	protected boolean isDifferent(VarAndEdit var, int n)
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("isDifferent_V_n:" + var.getSTCheckValue() + "/" + n);
 
 		return !isEqual(var, n);
-	}		
+	}
 	protected boolean isDifferent(int n, VarAndEdit var)
 	{
 		if(IsSTCheck)
@@ -1340,7 +1340,7 @@ public abstract class BaseProgram extends CJMapObject
 
 		return !isEqual(n, var);
 	}
-	
+
 	protected boolean isLess(VarAndEdit var, int n)
 	{
 		if(IsSTCheck)
@@ -1353,7 +1353,7 @@ public abstract class BaseProgram extends CJMapObject
 			return true;
 		return false;
 	}
-	
+
 	protected boolean isLess(int n, VarAndEdit var)
 	{
 		if(IsSTCheck)
@@ -1366,12 +1366,12 @@ public abstract class BaseProgram extends CJMapObject
 			return true;
 		return false;
 	}
-	
+
 	protected boolean isLessOrEqual(VarAndEdit var, int n)
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("isLessOrEqual_V_n:" + var.getSTCheckValue() + "/" + n);
-		
+
 		int nResult = var.compareTo(n);
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
@@ -1379,7 +1379,7 @@ public abstract class BaseProgram extends CJMapObject
 			return true;
 		return false;
 	}
-	
+
 	protected boolean isLessOrEqual(int n, VarAndEdit var)
 	{
 		if(IsSTCheck)
@@ -1404,12 +1404,12 @@ public abstract class BaseProgram extends CJMapObject
 			return true;
 		return false;
 	}
-	
+
 	protected boolean isGreater(VarAndEdit var, int n)
 	{
 		if(IsSTCheck)
-			Log.logFineDebug("isGreater_V_n:" + var.getSTCheckValue() + "/" + n);		
-		
+			Log.logFineDebug("isGreater_V_n:" + var.getSTCheckValue() + "/" + n);
+
 		int nResult = var.compareTo(n);
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
@@ -1417,11 +1417,11 @@ public abstract class BaseProgram extends CJMapObject
 			return true;
 		return false;
 	}
-	
+
 	protected boolean isGreater(int n, VarAndEdit var)
 	{
 		if(IsSTCheck)
-			Log.logFineDebug("isGreater_n_V:" + n + "/" + var.getSTCheckValue());		
+			Log.logFineDebug("isGreater_n_V:" + n + "/" + var.getSTCheckValue());
 		int nResult = var.compareTo(n);
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
@@ -1429,12 +1429,12 @@ public abstract class BaseProgram extends CJMapObject
 			return true;
 		return false;
 	}
-	
+
 	protected boolean isGreaterOrEqual(VarAndEdit var, int n)
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("isGreaterOrEqual_V_n:" + var.getSTCheckValue() + "/" + n);
-		
+
 		int nResult = var.compareTo(n);
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
@@ -1442,7 +1442,7 @@ public abstract class BaseProgram extends CJMapObject
 			return true;
 		return false;
 	}
-	
+
 	protected boolean isGreaterOrEqual(int n, VarAndEdit var)
 	{
 		if(IsSTCheck)
@@ -1467,7 +1467,7 @@ public abstract class BaseProgram extends CJMapObject
 			return true;
 		return false;
 	}
-	
+
 	// Var <-> double
 	protected boolean isEqual(VarAndEdit var1, double d)
 	{
@@ -1481,12 +1481,12 @@ public abstract class BaseProgram extends CJMapObject
 			return true;
 		return false;
 	}
-	
+
 	protected boolean isDifferent(VarAndEdit var1, double d)
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("isDifferent_V_d:" + var1.getSTCheckValue() + "/" + d);
-		
+
 		int n = var1.compareTo(d);
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var1);
@@ -1507,7 +1507,7 @@ public abstract class BaseProgram extends CJMapObject
 			return true;
 		return false;
 	}
-	
+
 	protected boolean isLessOrEqual(VarAndEdit var1, double d)
 	{
 		if(IsSTCheck)
@@ -1520,7 +1520,7 @@ public abstract class BaseProgram extends CJMapObject
 			return true;
 		return false;
 	}
-	
+
 	protected boolean isGreater(VarAndEdit var1, double d)
 	{
 		if(IsSTCheck)
@@ -1533,7 +1533,7 @@ public abstract class BaseProgram extends CJMapObject
 			return true;
 		return false;
 	}
-	
+
 	protected boolean isGreaterOrEqual(VarAndEdit var1, double d)
 	{
 		if(IsSTCheck)
@@ -1546,7 +1546,7 @@ public abstract class BaseProgram extends CJMapObject
 			return true;
 		return false;
 	}
-	
+
 	protected boolean isLess(MathBase math, int val)
 	{
 		if(IsSTCheck)
@@ -1555,24 +1555,24 @@ public abstract class BaseProgram extends CJMapObject
 		int n = math.d.intValue() ;
 		return n < val;
 	}
-	
+
 	protected boolean isLess(MathBase math, String s)
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("isLess_M_S:" + math.getSTCheckValue() + "/" + s);
 
 		double n = math.d.doubleValue() ;
-		double i = Double.parseDouble(s) ; 
+		double i = Double.parseDouble(s) ;
 		return n < i;
 	}
-	
+
 	protected boolean isLess(MathBase math, Var var2)
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("isLess_M_V:" + math.getSTCheckValue() + "/" + var2.getSTCheckValue());
 
 		double n = math.d.doubleValue() ;
-		double i = var2.getDouble() ; 
+		double i = var2.getDouble() ;
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var2);
 		if(n < i)
@@ -1580,7 +1580,7 @@ public abstract class BaseProgram extends CJMapObject
 		return false;
 	}
 
-	
+
 	// Var <-> String
 	protected boolean isEqual(VarAndEdit var, String cs)
 	{
@@ -1601,7 +1601,7 @@ public abstract class BaseProgram extends CJMapObject
 
 		return s1.equals(s2) ;
 	}
-	
+
 	protected boolean assertIfDifferent(String cs, VarAndEdit var)
 	{
 		if(IsSTCheck)
@@ -1615,7 +1615,7 @@ public abstract class BaseProgram extends CJMapObject
 		assertIfFalse(false);
 		return false;
 	}
-	
+
 	protected boolean assertIfDifferent(int n, VarAndEdit var)
 	{
 		if(IsSTCheck)
@@ -1628,7 +1628,7 @@ public abstract class BaseProgram extends CJMapObject
 		}
 		return true;
 	}
-	
+
 	protected boolean isEqual(String cs, VarAndEdit var)
 	{
 		if(IsSTCheck)
@@ -1641,7 +1641,7 @@ public abstract class BaseProgram extends CJMapObject
 			return true;
 		return false;
 	}
-	
+
 	protected boolean isDifferent(VarAndEdit var, String s)
 	{
 		if(IsSTCheck)
@@ -1676,7 +1676,7 @@ public abstract class BaseProgram extends CJMapObject
 			return true;
 		return false;
 	}
-	
+
 	protected boolean isLessInEbcdic(VarAndEdit var, String cs)
 	{
 		if(IsSTCheck)
@@ -1689,7 +1689,7 @@ public abstract class BaseProgram extends CJMapObject
 			return true;
 		return false;
 	}
-	
+
 	protected boolean isLess(String s, int n)
 	{
 		if(IsSTCheck)
@@ -1700,7 +1700,7 @@ public abstract class BaseProgram extends CJMapObject
 			return true;
 		return false;
 	}
-	
+
 	protected boolean isLess(String cs, VarAndEdit var)
 	{
 		if(IsSTCheck)
@@ -1739,7 +1739,7 @@ public abstract class BaseProgram extends CJMapObject
 			return true;
 		return false;
 	}
-	
+
 	protected boolean isLessOrEqualInEbcdic(VarAndEdit var, String cs)
 	{
 		if(IsSTCheck)
@@ -1752,7 +1752,7 @@ public abstract class BaseProgram extends CJMapObject
 			return true;
 		return false;
 	}
-	
+
 	protected boolean isLessOrEqualInEbcdic(String cs, VarAndEdit var)
 	{
 		if(IsSTCheck)
@@ -1765,7 +1765,7 @@ public abstract class BaseProgram extends CJMapObject
 			return true;
 		return false;
 	}
-	
+
 	protected boolean isLessOrEqual(String cs, VarAndEdit var)
 	{
 		if(IsSTCheck)
@@ -1778,7 +1778,7 @@ public abstract class BaseProgram extends CJMapObject
 			return true;
 		return false;
 	}
-	
+
 	protected boolean isLessOrEqualInEbcdic(String cs1, String cs2)
 	{
 		if(IsSTCheck)
@@ -1787,7 +1787,7 @@ public abstract class BaseProgram extends CJMapObject
 		//return cs.compareTo(s) <= 0 ;
 		return StringAsciiEbcdicUtil.compare(ComparisonMode.Ebcdic, cs1, cs2) <= 0;
 	}
-	
+
 	protected boolean isLessOrEqual(String cs1, String cs2)
 	{
 		if(IsSTCheck)
@@ -1797,7 +1797,7 @@ public abstract class BaseProgram extends CJMapObject
 		return StringAsciiEbcdicUtil.compare(ComparisonMode.UnicodeOrEbcdic, cs1, cs2) <= 0;
 	}
 
-	
+
 	protected boolean isLessInEbcdic(String cs1, String cs2)
 	{
 		if(IsSTCheck)
@@ -1806,7 +1806,7 @@ public abstract class BaseProgram extends CJMapObject
 		//return cs.compareTo(s) < 0 ;
 		return StringAsciiEbcdicUtil.compare(ComparisonMode.Ebcdic, cs1, cs2) < 0;
 	}
-	
+
 	protected boolean isLess(String cs1, String cs2)
 	{
 		if(IsSTCheck)
@@ -1816,7 +1816,7 @@ public abstract class BaseProgram extends CJMapObject
 		return StringAsciiEbcdicUtil.compare(ComparisonMode.UnicodeOrEbcdic, cs1, cs2) < 0;
 	}
 
-	
+
 	protected boolean isGreater(VarAndEdit var, String cs)
 	{
 		if(IsSTCheck)
@@ -1829,7 +1829,7 @@ public abstract class BaseProgram extends CJMapObject
 			return true;
 		return false;
 	}
-	
+
 	protected boolean isGreaterInEbcdic(VarAndEdit var, String cs)
 	{
 		if(IsSTCheck)
@@ -1842,12 +1842,12 @@ public abstract class BaseProgram extends CJMapObject
 			return true;
 		return false;
 	}
-	
+
 	protected boolean isGreater(String cs, VarAndEdit var)
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("isGreater_cs_V:" + cs + "/" + var.getSTCheckValue());
-		
+
 		int nResult = var.compareTo(ComparisonMode.UnicodeOrEbcdic, cs);
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
@@ -1860,7 +1860,7 @@ public abstract class BaseProgram extends CJMapObject
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("isGreaterInEbcdic_cs_V:" + cs + "/" + var.getSTCheckValue());
-		
+
 		int nResult = var.compareTo(ComparisonMode.Ebcdic, cs);
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
@@ -1882,7 +1882,7 @@ public abstract class BaseProgram extends CJMapObject
 			return true;
 		return false;
 	}
-	
+
 	protected boolean isGreaterOrEqualInEbcdic(VarAndEdit var, String cs)
 	{
 		if(IsSTCheck)
@@ -1895,7 +1895,7 @@ public abstract class BaseProgram extends CJMapObject
 			return true;
 		return false;
 	}
-	
+
 	protected boolean isGreaterOrEqual(String cs1, String cs2)
 	{
 		if(IsSTCheck)
@@ -1905,7 +1905,7 @@ public abstract class BaseProgram extends CJMapObject
 		//return cs.compareTo(s) >= 0 ;
 	}
 
-	
+
 	protected boolean isGreaterOrEqualInEbcdic(String cs1, String cs2)
 	{
 		if(IsSTCheck)
@@ -1914,12 +1914,12 @@ public abstract class BaseProgram extends CJMapObject
 		return StringAsciiEbcdicUtil.compare(ComparisonMode.Ebcdic, cs1, cs2) >= 0 ;
 		//return cs.compareTo(s) >= 0 ;
 	}
-	
+
 	protected boolean isGreaterOrEqualInEbcdic(String cs, VarAndEdit var)
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("isGreaterOrEqualInEbcdic_cs_V:" + cs + "/" + var.getSTCheckValue());
-		
+
 		int nResult = var.compareTo(ComparisonMode.Ebcdic, cs);
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
@@ -1932,7 +1932,7 @@ public abstract class BaseProgram extends CJMapObject
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("isGreaterOrEqualInEbcdic_cs_V:" + cs + "/" + var.getSTCheckValue());
-		
+
 		int nResult = var.compareTo(ComparisonMode.UnicodeOrEbcdic, cs);
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
@@ -1940,12 +1940,12 @@ public abstract class BaseProgram extends CJMapObject
 			return true;
 		return false;
 	}
-	
+
 
 	/**Method: add
 	 * addition
-	 * @param: IN Var var1: 1st operand of the operation; must contain a numeric value, or string that evalues as a numeric value; it can be signed or not; it can contain either an integer or decimal value  
-	 * @param: IN Var var2: same remark than var1   
+	 * @param: IN Var var1: 1st operand of the operation; must contain a numeric value, or string that evalues as a numeric value; it can be signed or not; it can contain either an integer or decimal value
+	 * @param: IN Var var2: same remark than var1
 	 * @return: MathAdd: wrapper object containg the sum of the 2 parameters; the maximum precision is kept
 	 */
 	protected MathAdd add(VarAndEdit var1, VarAndEdit var2)
@@ -1957,7 +1957,7 @@ public abstract class BaseProgram extends CJMapObject
 			tempCache.resetTempIndex(var1, var2);
 		return math;
 	}
-	
+
 	protected MathSubtract opposite(MathBase val)
 	{
 		if(IsSTCheck)
@@ -1981,7 +1981,7 @@ public abstract class BaseProgram extends CJMapObject
 	{
 		return add(var, s);
 	}
-	
+
 	protected MathAdd add(String var1, int var2)
 	{
 		if(IsSTCheck)
@@ -1989,11 +1989,11 @@ public abstract class BaseProgram extends CJMapObject
 		MathAdd math = new MathAdd(Integer.parseInt(var1), var2);
 		return math;
 	}
-	
+
 	/**Method: add
 	 * addition
-	 * @param: IN Var var1: 1st operand of the operation; must contain a numeric value, or string that evalues as a numeric value; it can be signed or not; it can contain either an integer or decimal value  
-	 * @param: IN int n: integer ot add to var1   
+	 * @param: IN Var var1: 1st operand of the operation; must contain a numeric value, or string that evalues as a numeric value; it can be signed or not; it can contain either an integer or decimal value
+	 * @param: IN int n: integer ot add to var1
 	 * @return: MathAdd: wrapper object containg the sum of the 2 parameters; the maximum precision is kept
 	 */
 	protected MathAdd add(VarAndEdit var, int n)
@@ -2019,7 +2019,7 @@ public abstract class BaseProgram extends CJMapObject
 
 	/**Method: add
 	 * addition
-	 * @param: IN int m: integer ot add to n  
+	 * @param: IN int m: integer ot add to n
 	 * @param: IN int n: integer ot add to m
 	 * @return: MathAdd: wrapper object containg the sum of the 2 parameters; the maximum precision is kept
 	 */
@@ -2034,8 +2034,8 @@ public abstract class BaseProgram extends CJMapObject
 
 	/**Method: add
 	 * addition
-	 * @param: IN Var var1: operand of the operation; must contain a numeric value, or string that evalues as a numeric value; it can be signed or not; it can contain either an integer or decimal value  
-	 * @param: IN double d: floting point value added to var, giving an operand of the operation   
+	 * @param: IN Var var1: operand of the operation; must contain a numeric value, or string that evalues as a numeric value; it can be signed or not; it can contain either an integer or decimal value
+	 * @param: IN double d: floting point value added to var, giving an operand of the operation
 	 * @return: MathAdd: wrapper object containg the sum of the 2 parameters; the maximum precision is kept
 	 */
 	protected MathAdd add(VarAndEdit var1, double d)
@@ -2048,11 +2048,11 @@ public abstract class BaseProgram extends CJMapObject
 			tempCache.resetTempIndex(var1);
 		return math;
 	}
-	
+
 	/**Method: add
 	 * addition
-	 * @param: IN Var var1: 1st operand of the operation; must contain a numeric value, or string that evalues as a numeric value; it can be signed or not; it can contain either an integer or decimal value  
-	 * @param: IN String s: String that must be able to be converted to a numeric value   
+	 * @param: IN Var var1: 1st operand of the operation; must contain a numeric value, or string that evalues as a numeric value; it can be signed or not; it can contain either an integer or decimal value
+	 * @param: IN String s: String that must be able to be converted to a numeric value
 	 * @return: MathAdd: wrapper object containg the sum of the 2 parameters; the maximum precision is kept
 	 */
 	protected MathAdd add(VarAndEdit var, String s)
@@ -2065,10 +2065,10 @@ public abstract class BaseProgram extends CJMapObject
 			tempCache.resetTempIndex(var);
 		return math;
 	}
-	
+
 	/**Method: add
 	 * addition
-	 * @param: IN Var var1: 1st operand of the operation; must contain a numeric value, or string that evalues as a numeric value; it can be signed or not; it can contain either an integer or decimal value  
+	 * @param: IN Var var1: 1st operand of the operation; must contain a numeric value, or string that evalues as a numeric value; it can be signed or not; it can contain either an integer or decimal value
 	 * @param: IN MathBase mathBase: Math container giving an operand of the operation
 	 * @return: MathAdd: wrapper object containg the sum of the 2 parameters; the maximum precision is kept
 	 */
@@ -2082,11 +2082,11 @@ public abstract class BaseProgram extends CJMapObject
 			tempCache.resetTempIndex(var);
 		return math;
 	}
-	
+
 	/**Method: add
 	 * addition
-	 * @param: IN MathBase mathBase: Math container giving an operand of the operation   
-	 * @param: IN Var var1: operand of the operation; must contain a numeric value, or string that evalues as a numeric value; it can be signed or not; it can contain either an integer or decimal value  
+	 * @param: IN MathBase mathBase: Math container giving an operand of the operation
+	 * @param: IN Var var1: operand of the operation; must contain a numeric value, or string that evalues as a numeric value; it can be signed or not; it can contain either an integer or decimal value
 	 * @return: MathAdd: wrapper object containg the sum of the 2 parameters; the maximum precision is kept
 	 */
 	protected MathAdd add(MathBase mathBase, VarAndEdit var)
@@ -2099,12 +2099,12 @@ public abstract class BaseProgram extends CJMapObject
 			tempCache.resetTempIndex(var);
 		return math;
 	}
-	
+
 	protected MathAdd add(String cs, MathBase mathBase)
 	{
 		return add(mathBase, cs);
 	}
-	
+
 	protected MathAdd add(MathBase mathBase, String cs)
 	{
 		if(IsSTCheck)
@@ -2113,7 +2113,7 @@ public abstract class BaseProgram extends CJMapObject
 		MathAdd math= new MathAdd(cs, mathBase);
 		return math;
 	}
-	
+
 	protected MathAdd add(MathBase mathBase, MathBase var)
 	{
 		if(IsSTCheck)
@@ -2122,27 +2122,27 @@ public abstract class BaseProgram extends CJMapObject
 		return math;
 	}
 
-	
+
 	/**Method: add
 	 * addition
-	 * @param: IN MathBase mathBase: Math container giving an operand of the operation   
-	 * @param: IN int n: operand of the operation  
+	 * @param: IN MathBase mathBase: Math container giving an operand of the operation
+	 * @param: IN int n: operand of the operation
 	 * @return: MathSubtract: wrapper object containg the sum of the 2 parameters; the maximum precision is kept
 	 */
 	protected MathAdd add(MathBase mathBase, int n)
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("add_M_n:" + mathBase.getSTCheckValue() + ":" + n);
-		
+
 		MathAdd math= new MathAdd(mathBase, n);
 		return math;
 	}
-	
-	
+
+
 	/**Method: add
 	 * addition
-	 * @param: IN int n: operand of the operation  
-	 * @param: IN MathBase mathBase: Math container giving an operand of the operation   
+	 * @param: IN int n: operand of the operation
+	 * @param: IN MathBase mathBase: Math container giving an operand of the operation
 	 * @return: MathSubtract: wrapper object containg the sum of the 2 parameters; the maximum precision is kept
 	 */
 	protected MathAdd add(int n, MathBase mathBase)
@@ -2153,13 +2153,13 @@ public abstract class BaseProgram extends CJMapObject
 		MathAdd math= new MathAdd(n, mathBase);
 		return math;
 	}
-	
-	
+
+
 	/**Method: subtract
 	 * addition
-	 * @param: IN Var var1: operand of the operation; Must evaluate to a numeric value    
-	 * @param: IN Var var2: operand of the operation; Must evaluate to a numeric value  
-	 * @return: MathSubtract: wrapper object containg the var1 - var2, while keeping the maximum precision  
+	 * @param: IN Var var1: operand of the operation; Must evaluate to a numeric value
+	 * @param: IN Var var2: operand of the operation; Must evaluate to a numeric value
+	 * @return: MathSubtract: wrapper object containg the var1 - var2, while keeping the maximum precision
 	 */
 	protected MathSubtract subtract(VarAndEdit var1, VarAndEdit var2, VarAndEdit... vars)
 	{
@@ -2177,7 +2177,7 @@ public abstract class BaseProgram extends CJMapObject
 			tempCache.resetTempIndex(vars);
 		return math;
 	}
-	
+
 	protected MathSubtract subtract(int n, MathBase mathBase)
 	{
 		if(IsSTCheck)
@@ -2199,15 +2199,15 @@ public abstract class BaseProgram extends CJMapObject
 
 	/**Method: subtract
 	 * addition
-	 * @param: IN Var var1: operand of the operation; Must evaluate to a numeric value    
-	 * @param: IN int n: operand of the operation  
-	 * @return: MathSubtract: wrapper object containg the var1 - n, while keeping the maximum precision  
-	 */	
+	 * @param: IN Var var1: operand of the operation; Must evaluate to a numeric value
+	 * @param: IN int n: operand of the operation
+	 * @return: MathSubtract: wrapper object containg the var1 - n, while keeping the maximum precision
+	 */
 	protected MathSubtract subtract(VarAndEdit var1, int n)
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("subtract_V_n:" + var1.getSTCheckValue() + ":" + n);
-		
+
 		MathSubtract math = new MathSubtract(var1, n);
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var1);
@@ -2216,9 +2216,9 @@ public abstract class BaseProgram extends CJMapObject
 
 	/**Method: subtract
 	 * addition
-	 * @param: IN int n: operand of the operation  
-	 * @return: MathSubtract: wrapper object containg the var1 - n, while keeping the maximum precision  
-	 */	
+	 * @param: IN int n: operand of the operation
+	 * @return: MathSubtract: wrapper object containg the var1 - n, while keeping the maximum precision
+	 */
 //	protected MathSubtract subtract(int n)
 //	{
 //		if(IsSTCheck)
@@ -2230,9 +2230,9 @@ public abstract class BaseProgram extends CJMapObject
 
 	/**Method: subtract
 	 * addition
-	 * @param: IN Var var1: operand of the operation; Must evaluate to a numeric value    
-	 * @return: MathSubtract: wrapper object containg the var1, while keeping the maximum precision  
-	 */	
+	 * @param: IN Var var1: operand of the operation; Must evaluate to a numeric value
+	 * @return: MathSubtract: wrapper object containg the var1, while keeping the maximum precision
+	 */
 //	protected MathSubtract subtract(VarAndEdit var1)
 //	{
 //		if(IsSTCheck)
@@ -2244,10 +2244,10 @@ public abstract class BaseProgram extends CJMapObject
 
 	/**Method: subtract
 	 * addition
-	 * @param: IN int n: operand of the operation    
-	 * @param: IN Var var2: operand of the operation; Must evaluate to a numeric value  
-	 * @return: MathSubtract: wrapper object containg the n - var2, while keeping the maximum precision  
-	 */	
+	 * @param: IN int n: operand of the operation
+	 * @param: IN Var var2: operand of the operation; Must evaluate to a numeric value
+	 * @return: MathSubtract: wrapper object containg the n - var2, while keeping the maximum precision
+	 */
 	protected MathSubtract subtract(int n, VarAndEdit var1)
 	{
 		if(IsSTCheck)
@@ -2256,16 +2256,16 @@ public abstract class BaseProgram extends CJMapObject
 		MathSubtract math = new MathSubtract(n, var1);
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var1);
-		
+
 		return math;
 	}
-	
+
 	/**Method: subtract
 	 * addition
-	 * @param: IN Var var1: operand of the operation; Must evaluate to a numeric value    
-	 * @param: IN double d: operand of the operation;   
-	 * @return: MathSubtract: wrapper object containg the var1 - d, while keeping the maximum precision  
-	 */	
+	 * @param: IN Var var1: operand of the operation; Must evaluate to a numeric value
+	 * @param: IN double d: operand of the operation;
+	 * @return: MathSubtract: wrapper object containg the var1 - d, while keeping the maximum precision
+	 */
 	protected MathSubtract subtract(VarAndEdit var1, double d)
 	{
 		if(IsSTCheck)
@@ -2276,13 +2276,13 @@ public abstract class BaseProgram extends CJMapObject
 			tempCache.resetTempIndex(var1);
 		return math;
 	}
-	
+
 	/**Method: subtract
 	 * addition
-	 * @param: IN double d: operand of the operation;     
-	 * @param: IN Var var2: operand of the operation; Must evaluate to a numeric value  
-	 * @return: MathSubtract: wrapper object containg the d - var2, while keeping the maximum precision  
-	 */	
+	 * @param: IN double d: operand of the operation;
+	 * @param: IN Var var2: operand of the operation; Must evaluate to a numeric value
+	 * @return: MathSubtract: wrapper object containg the d - var2, while keeping the maximum precision
+	 */
 	protected MathSubtract subtract(double d, VarAndEdit var)
 	{
 		if(IsSTCheck)
@@ -2293,13 +2293,13 @@ public abstract class BaseProgram extends CJMapObject
 			tempCache.resetTempIndex(var);
 		return math;
 	}
-	
+
 	/**Method: subtract
 	 * addition
-	 * @param: IN Var var1: operand of the operation; Must evaluate to a numeric value    
-	 * @param: IN String s: operand of the operation; Must evaluate to a numeric value  
-	 * @return: MathSubtract: wrapper object containg the var1 - var2, while keeping the maximum precision  
-	 */	
+	 * @param: IN Var var1: operand of the operation; Must evaluate to a numeric value
+	 * @param: IN String s: operand of the operation; Must evaluate to a numeric value
+	 * @return: MathSubtract: wrapper object containg the var1 - var2, while keeping the maximum precision
+	 */
 	protected MathSubtract subtract(VarAndEdit var1, String s)
 	{
 		if(IsSTCheck)
@@ -2310,12 +2310,12 @@ public abstract class BaseProgram extends CJMapObject
 			tempCache.resetTempIndex(var1);
 		return math;
 	}
-	
+
 	/**Method: subtract
 	 * addition
-	 * @param: IN String: operand of the operation; Must evaluate to a numeric value    
-	 * @param: IN Var var2: operand of the operation; Must evaluate to a numeric value  
-	 * @return: MathSubtract: wrapper object containg the s - var2, while keeping the maximum precision  
+	 * @param: IN String: operand of the operation; Must evaluate to a numeric value
+	 * @param: IN Var var2: operand of the operation; Must evaluate to a numeric value
+	 * @return: MathSubtract: wrapper object containg the s - var2, while keeping the maximum precision
 	 */
 	protected MathSubtract subtract(String s, VarAndEdit var1)
 	{
@@ -2323,17 +2323,17 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("subtract_cs_V:" + s + ":" + var1.getSTCheckValue());
 
 		MathSubtract math = new MathSubtract(s, var1);
-		
+
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var1);
 		return math;
 	}
-	
+
 	/**Method: subtract
 	 * addition
-	 * @param: IN Var var1: operand of the operation; Must evaluate to a numeric value    
-	 * @param: IN MathBase mathBase: operand of the operation  
-	 * @return: MathSubtract: wrapper object containg the var1 - mathBase, while keeping the maximum precision  
+	 * @param: IN Var var1: operand of the operation; Must evaluate to a numeric value
+	 * @param: IN MathBase mathBase: operand of the operation
+	 * @return: MathSubtract: wrapper object containg the var1 - mathBase, while keeping the maximum precision
 	 */
 	protected MathSubtract subtract(VarAndEdit var1, MathBase mathBase)
 	{
@@ -2348,9 +2348,9 @@ public abstract class BaseProgram extends CJMapObject
 
 	/**Method: subtract
 	 * addition
-	 * @param: IN MathBase mathBase: operand of the operation; Must evaluate to a numeric value    
-	 * @param: IN Var var2: operand of the operation; Must evaluate to a numeric value  
-	 * @return: MathSubtract: wrapper object containg the mathBase - var2, while keeping the maximum precision  
+	 * @param: IN MathBase mathBase: operand of the operation; Must evaluate to a numeric value
+	 * @param: IN Var var2: operand of the operation; Must evaluate to a numeric value
+	 * @return: MathSubtract: wrapper object containg the mathBase - var2, while keeping the maximum precision
 	 */
 	protected MathSubtract subtract(MathBase mathBase, VarAndEdit var2)
 	{
@@ -2365,9 +2365,9 @@ public abstract class BaseProgram extends CJMapObject
 
 	/**Method: subtract
 	 * addition
-	 * @param: IN MathBase mathBase: operand of the operation;     
-	 * @param: IN int n: operand of the operation;   
-	 * @return: MathSubtract: wrapper object containg the mathBase - n, while keeping the maximum precision  
+	 * @param: IN MathBase mathBase: operand of the operation;
+	 * @param: IN int n: operand of the operation;
+	 * @return: MathSubtract: wrapper object containg the mathBase - n, while keeping the maximum precision
 	 */
 	protected MathSubtract subtract(MathBase mathBase, int n)
 	{
@@ -2377,27 +2377,27 @@ public abstract class BaseProgram extends CJMapObject
 		MathSubtract math = new MathSubtract(mathBase, n);
 		return math;
 	}
-	
+
 	/**Method: subtract
 	 * addition
-	 * @param: IN MathBase mathBase: operand of the operation;     
-	 * @param: IN double d: operand of the operation;   
-	 * @return: MathSubtract: wrapper object containg the mathBase - d, while keeping the maximum precision  
+	 * @param: IN MathBase mathBase: operand of the operation;
+	 * @param: IN double d: operand of the operation;
+	 * @return: MathSubtract: wrapper object containg the mathBase - d, while keeping the maximum precision
 	 */
 	protected MathSubtract subtract(MathBase mathBase, double d)
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("subtract_M_d:" + mathBase.getSTCheckValue() + ":" + d);
-		
+
 		MathSubtract math = new MathSubtract(mathBase, d);
 		return math;
 	}
-	
+
 	/**Method: subtract
 	 * addition
-	 * @param: IN MathBase mathBase: operand of the operation;     
-	 * @param: IN String s: operand of the operation; must evaluates to a numeric value   
-	 * @return: MathSubtract: wrapper object containg the mathBase - s, while keeping the maximum precision  
+	 * @param: IN MathBase mathBase: operand of the operation;
+	 * @param: IN String s: operand of the operation; must evaluates to a numeric value
+	 * @return: MathSubtract: wrapper object containg the mathBase - s, while keeping the maximum precision
 	 */
 	protected MathSubtract subtract(MathBase mathBase, String s)
 	{
@@ -2407,12 +2407,12 @@ public abstract class BaseProgram extends CJMapObject
 		MathSubtract math = new MathSubtract(mathBase, s);
 		return math;
 	}
-	
+
 	/**Method: subtract
 	 * addition
-	 * @param: IN MathBase mathBase1: operand of the operation;     
-	 * @param: IN MathBAse mathBase2: operand of the operation;    
-	 * @return: MathSubtract: wrapper object containg the mathBase1 - mathBase2, while keeping the maximum precision  
+	 * @param: IN MathBase mathBase1: operand of the operation;
+	 * @param: IN MathBAse mathBase2: operand of the operation;
+	 * @return: MathSubtract: wrapper object containg the mathBase1 - mathBase2, while keeping the maximum precision
 	 */
 	protected MathSubtract subtract(MathBase mathBase1, MathBase mathBase2)
 	{
@@ -2422,7 +2422,7 @@ public abstract class BaseProgram extends CJMapObject
 		MathSubtract math = new MathSubtract(mathBase1, mathBase2);
 		return math;
 	}
-	
+
 	protected MathSubtract subtract(String s, MathBase mathBase)
 	{
 		if(IsSTCheck)
@@ -2430,11 +2430,11 @@ public abstract class BaseProgram extends CJMapObject
 		return new MathSubtract(s, mathBase);
 	}
 
-	// Divide	
+	// Divide
 	/** divide
 	 * @param IN var1 Dividende variable; may be integer or decimal
 	 * @param IN var2 Divisor variable; may be integer or decimal
-	 * @return Return the MathDivide objet that embed the return of var1 / var2. It's value may also be used as modulo and rest of an integer division 
+	 * @return Return the MathDivide objet that embed the return of var1 / var2. It's value may also be used as modulo and rest of an integer division
 	 */
 	protected MathDivide divide(VarAndEdit var1, VarAndEdit var2)
 	{
@@ -2450,7 +2450,7 @@ public abstract class BaseProgram extends CJMapObject
 	/** divide
 	 * @param IN var1 Dividende variable; may be integer or decimal
 	 * @param IN n Divisor variable
-	 * @return Return the MathDivide objet that embed the return of var1 / var2. It's value may also be used as modulo and rest of an integer division 
+	 * @return Return the MathDivide objet that embed the return of var1 / var2. It's value may also be used as modulo and rest of an integer division
 	 */
 	protected MathDivide divide(VarAndEdit var1, int n)
 	{
@@ -2485,11 +2485,11 @@ public abstract class BaseProgram extends CJMapObject
 		MathDivide math = new MathDivide(var1, n);
 		return math;
 	}
-	
+
 	/** divide
 	 * @param IN Var var1 Dividende variable; may be integer or decimal
 	 * @param IN double d Divisor variable
-	 * @return Return the MathDivide objet that embed the return of var1 / var2. It's value may also be used as modulo and rest of an integer division 
+	 * @return Return the MathDivide objet that embed the return of var1 / var2. It's value may also be used as modulo and rest of an integer division
 	 */
 	protected MathDivide divide(VarAndEdit var1, double d)
 	{
@@ -2499,11 +2499,11 @@ public abstract class BaseProgram extends CJMapObject
 		MathDivide math = new MathDivide(var1, d);
 		return math;
 	}
-	
+
 	/** divide
 	 * @param IN Var var1 Dividende variable; may be integer or decimal
 	 * @param IN String s Divisor variable, must contain a numeric value, that may be decimal or not
-	 * @return Return the MathDivide objet that embed the return of var1 / var2. It's value may also be used as modulo and rest of an integer division 
+	 * @return Return the MathDivide objet that embed the return of var1 / var2. It's value may also be used as modulo and rest of an integer division
 	 */
 	protected MathDivide divide(VarAndEdit var1, String s)
 	{
@@ -2515,11 +2515,11 @@ public abstract class BaseProgram extends CJMapObject
 			tempCache.resetTempIndex(var1);
 		return math;
 	}
-	
+
 	/** divide
 	 * @param IN Var var1 Dividende variable; may be integer or decimal
 	 * @param IN MathBase mathBase Divisor variable resulting from a previosu operation
-	 * @return Return the MathDivide objet that embed the return of var1 / var2. It's value may also be used as modulo and rest of an integer division 
+	 * @return Return the MathDivide objet that embed the return of var1 / var2. It's value may also be used as modulo and rest of an integer division
 	 */
 	protected MathDivide divide(VarAndEdit var1, MathBase mathBase)
 	{
@@ -2531,11 +2531,11 @@ public abstract class BaseProgram extends CJMapObject
 			tempCache.resetTempIndex(var1);
 		return math;
 	}
-	
+
 	/** divide
 	 * @param IN MathBase mathBase: Dividende variable; may be integer or decimal
 	 * @param IN Var var2  Divisor variable resulting from a previosu operation
-	 * @return Return the MathDivide objet that embed the return of var1 / var2. It's value may also be used as modulo and rest of an integer division 
+	 * @return Return the MathDivide objet that embed the return of var1 / var2. It's value may also be used as modulo and rest of an integer division
 	 */
 	protected MathDivide divide(MathBase mathBase, VarAndEdit var2)
 	{
@@ -2551,7 +2551,7 @@ public abstract class BaseProgram extends CJMapObject
 	/** divide
 	 * @param IN MathBase mathBase: Dividende variable; may be integer or decimal
 	 * @param IN int n  Divisor variable
-	 * @return Return the MathDivide objet that embed the return of mathBase / n. It's value may also be used as modulo and rest of an integer division 
+	 * @return Return the MathDivide objet that embed the return of mathBase / n. It's value may also be used as modulo and rest of an integer division
 	 */
 	protected MathDivide divide(MathBase mathBase, int n)
 	{
@@ -2561,11 +2561,11 @@ public abstract class BaseProgram extends CJMapObject
 		MathDivide math = new MathDivide(mathBase, n);
 		return math;
 	}
-	
+
 	/** divide
 	 * @param IN MathBase mathBase: Dividende variable; may be integer or decimal
 	 * @param IN double d  Divisor variable
-	 * @return Return the MathDivide objet that embed the return of mathBase / n. It's value may also be used as modulo and rest of an integer division 
+	 * @return Return the MathDivide objet that embed the return of mathBase / n. It's value may also be used as modulo and rest of an integer division
 	 */
 	protected MathDivide divide(MathBase mathBase, double d)
 	{
@@ -2575,11 +2575,11 @@ public abstract class BaseProgram extends CJMapObject
 		MathDivide math = new MathDivide(mathBase, d);
 		return math;
 	}
-	
+
 	/** divide
 	 * @param IN MathBase mathBase: Dividende variable; may be integer or decimal
 	 * @param IN String s  Divisor variable
-	 * @return Return the MathDivide objet that embed the return of mathBase / s. It's value may also be used as modulo and rest of an integer division 
+	 * @return Return the MathDivide objet that embed the return of mathBase / s. It's value may also be used as modulo and rest of an integer division
 	 */
 	protected MathDivide divide(MathBase mathBase, String s)
 	{
@@ -2588,12 +2588,12 @@ public abstract class BaseProgram extends CJMapObject
 
 		MathDivide math = new MathDivide(mathBase, s);
 		return math;
-	}	
+	}
 
 	/** divide
 	 * @param IN MathBase mathBase1: Dividende variable; may be integer or decimal
 	 * @param IN MathBase mathBase2  Divisor variable
-	 * @return Return the MathDivide objet that embed the return of mathBase1 / MathBase2. It's value may also be used as modulo and rest of an integer division 
+	 * @return Return the MathDivide objet that embed the return of mathBase1 / MathBase2. It's value may also be used as modulo and rest of an integer division
 	 */
 	protected MathDivide divide(MathBase mathBase1, MathBase mathBase2)
 	{
@@ -2603,11 +2603,11 @@ public abstract class BaseProgram extends CJMapObject
 		MathDivide math = new MathDivide(mathBase1, mathBase2);
 		return math;
 	}
-	
+
 	/** multiply
 	 * @param IN Var var1: operand1 variable; may be integer or decimal
 	 * @param IN Var var2: operand2 variable
-	 * @return Return the MathMultiply objet that embed the return of var1 * var2. 
+	 * @return Return the MathMultiply objet that embed the return of var1 * var2.
 	 */
 	protected MathMultiply multiply(VarAndEdit var1, VarAndEdit var2)
 	{
@@ -2623,7 +2623,7 @@ public abstract class BaseProgram extends CJMapObject
 	/** multiply
 	 * @param IN Var var1: operand1 variable; may be integer or decimal
 	 * @param IN int n: operand2 variable
-	 * @return Return the MathMultiply objet that embed the return of var1 * n. 
+	 * @return Return the MathMultiply objet that embed the return of var1 * n.
 	 */
 	protected MathMultiply multiply(VarAndEdit var1, int n)
 	{
@@ -2639,7 +2639,7 @@ public abstract class BaseProgram extends CJMapObject
 	/** multiply
 	 * @param IN int a: operand1 variable; may be integer or decimal
 	 * @param IN int b: operand2 variable
-	 * @return Return the MathMultiply objet that embed the return of a * b. 
+	 * @return Return the MathMultiply objet that embed the return of a * b.
 	 */
 	protected MathMultiply multiply(int a, int b)
 	{
@@ -2649,11 +2649,11 @@ public abstract class BaseProgram extends CJMapObject
 		MathMultiply math = new MathMultiply(a, b);
 		return math;
 	}
-	
+
 	/** multiply
 	 * @param IN int n: operand1 variable; may be integer or decimal
 	 * @param IN Var var2: operand2 variable
-	 * @return Return the MathMultiply objet that embed the return of n * var2. 
+	 * @return Return the MathMultiply objet that embed the return of n * var2.
 	 */
 	protected MathMultiply multiply(int n, VarAndEdit var1)
 	{
@@ -2669,7 +2669,7 @@ public abstract class BaseProgram extends CJMapObject
 	/** multiply
 	 * @param IN Var var1: operand1 variable; may be integer or decimal
 	 * @param IN double d: operand2 variable
-	 * @return Return the MathMultiply objet that embed the return of var1 * d. 
+	 * @return Return the MathMultiply objet that embed the return of var1 * d.
 	 */
 	protected MathMultiply multiply(VarAndEdit var1, double d)
 	{
@@ -2681,11 +2681,11 @@ public abstract class BaseProgram extends CJMapObject
 			tempCache.resetTempIndex(var1);
 		return math;
 	}
-	
+
 	/** multiply
 	 * @param IN double d: operand1 variable; may be integer or decimal
 	 * @param IN Var var2: operand2 variable
-	 * @return Return the MathMultiply objet that embed the return of d * var2. 
+	 * @return Return the MathMultiply objet that embed the return of d * var2.
 	 */
 	protected MathMultiply multiply(double d, VarAndEdit var1)
 	{
@@ -2697,16 +2697,16 @@ public abstract class BaseProgram extends CJMapObject
 			tempCache.resetTempIndex(var1);
 		return math;
 	}
-	
+
 	protected MathMultiply multiply(String s, VarAndEdit var1)
 	{
 		return multiply(var1, s);
 	}
-	
+
 	/** multiply
 	 * @param IN Var var1: operand1 variable; may be integer or decimal
 	 * @param IN String s: operand2 variable that must parse as a number
-	 * @return Return the MathMultiply objet that embed the return of var1 * s. 
+	 * @return Return the MathMultiply objet that embed the return of var1 * s.
 	 */
 	protected MathMultiply multiply(VarAndEdit var1, String s)
 	{
@@ -2721,7 +2721,7 @@ public abstract class BaseProgram extends CJMapObject
 	/** multiply
 	 * @param IN String s: operand1 variable; may be integer or decimal
 	 * @param IN Var var1: operand2 variable
-	 * @return Return the MathMultiply objet that embed the return of s * var1. 
+	 * @return Return the MathMultiply objet that embed the return of s * var1.
 	 */
 	protected MathMultiply MathMultiply(String s, VarAndEdit var1)
 	{
@@ -2733,11 +2733,11 @@ public abstract class BaseProgram extends CJMapObject
 			tempCache.resetTempIndex(var1);
 		return math;
 	}
-	
+
 	/** multiply
 	 * @param IN MathBase mathBase1: operand1 variable; may be integer or decimal
 	 * @param IN MathBase mathBase2: operand2 variable
-	 * @return Return the MathMultiply objet that embed the return of mathBase1 * mathBase2. 
+	 * @return Return the MathMultiply objet that embed the return of mathBase1 * mathBase2.
 	 */
 	protected MathMultiply multiply(MathBase mathBase1, MathBase mathBase2)
 	{
@@ -2751,7 +2751,7 @@ public abstract class BaseProgram extends CJMapObject
 	/** multiply
 	 * @param IN Var var1: operand1 variable; may be integer or decimal
 	 * @param IN MathBase mathBase2: operand2 variable
-	 * @return Return the MathMultiply objet that embed the return of var1 * mathBase1. 
+	 * @return Return the MathMultiply objet that embed the return of var1 * mathBase1.
 	 */
 	protected MathMultiply multiply(VarAndEdit var1, MathBase mathBase)
 	{
@@ -2763,11 +2763,11 @@ public abstract class BaseProgram extends CJMapObject
 			tempCache.resetTempIndex(var1);
 		return math;
 	}
-	
+
 	/** multiply
 	 * @param IN MathBase mathBase: operand1 variable; may be integer or decimal
 	 * @param IN Var var: operand2 variable
-	 * @return Return the MathMultiply objet that embed the return of mathBase * var. 
+	 * @return Return the MathMultiply objet that embed the return of mathBase * var.
 	 */
 	protected MathMultiply multiply(MathBase mathBase, VarAndEdit var1)
 	{
@@ -2779,11 +2779,11 @@ public abstract class BaseProgram extends CJMapObject
 			tempCache.resetTempIndex(var1);
 		return math;
 	}
-	
+
 	/** multiply
 	 * @param IN MathBase mathBase: operand1 variable; may be integer or decimal
 	 * @param IN int n: operand2 variable
-	 * @return Return the MathMultiply objet that embed the return of mathBase * n. 
+	 * @return Return the MathMultiply objet that embed the return of mathBase * n.
 	 */
 	protected MathMultiply multiply(MathBase mathBase, int n)
 	{
@@ -2797,7 +2797,7 @@ public abstract class BaseProgram extends CJMapObject
 	/** multiply
 	 * @param IN int n: operand1 variable; may be integer or decimal
 	 * @param IN MathBase mathBase: operand2 variable
-	 * @return Return the MathMultiply objet that embed the return of n * mathBase. 
+	 * @return Return the MathMultiply objet that embed the return of n * mathBase.
 	 */
 	protected MathMultiply multiply(int n, MathBase mathBase)
 	{
@@ -2811,7 +2811,7 @@ public abstract class BaseProgram extends CJMapObject
 	/** multiply
 	 * @param IN MathBase mathBase: operand1 variable; may be integer or decimal
 	 * @param IN int n: operand2 variable
-	 * @return Return the MathMultiply objet that embed the return of n * mathBase. 
+	 * @return Return the MathMultiply objet that embed the return of n * mathBase.
 	 */
 	protected MathMultiply multiply(MathBase mathBase, double d)
 	{
@@ -2821,11 +2821,11 @@ public abstract class BaseProgram extends CJMapObject
 		MathMultiply math= new MathMultiply(d, mathBase);
 		return math;
 	}
-	
+
 	/** multiply
 	 * @param IN MathBase mathBase: operand1 variable; may be integer or decimal
 	 * @param IN int n: operand2 variable
-	 * @return Return the MathMultiply objet that embed the return of n * mathBase. 
+	 * @return Return the MathMultiply objet that embed the return of n * mathBase.
 	 */
 	protected MathMultiply multiply(MathBase mathBase, String cs)
 	{
@@ -2839,7 +2839,7 @@ public abstract class BaseProgram extends CJMapObject
 	/** multiply
 	 * @param IN double d: operand1 variable; may be integer or decimal
 	 * @param IN MathBase mathBase: operand2 variable
-	 * @return Return the MathMultiply objet that embed the return of d * mathBase. 
+	 * @return Return the MathMultiply objet that embed the return of d * mathBase.
 	 */
 	protected MathMultiply multiply(double d, MathBase mathBase)
 	{
@@ -2875,8 +2875,8 @@ public abstract class BaseProgram extends CJMapObject
 	}
 
 	/**Method: setTrue
-	 * Force a condition to always evaluate as true 
-	 * @param: IN Cond cond     
+	 * Force a condition to always evaluate as true
+	 * @param: IN Cond cond
 	 * @return: current program object; enables to chain another Program's method.
 	 */
 	protected BaseProgram setTrue(Cond cond)
@@ -2889,10 +2889,10 @@ public abstract class BaseProgram extends CJMapObject
 	}
 
 	/**Method: move
-	 * move a value into a var 
+	 * move a value into a var
 	 * @param: IN int n
-	 * @param: OUT Var varDest 
-	 * @return: current program object; enables to chain another Program's method. 
+	 * @param: OUT Var varDest
+	 * @return: current program object; enables to chain another Program's method.
 	 */
 	protected void move(int n, Var varDest)
 	{
@@ -2927,26 +2927,26 @@ public abstract class BaseProgram extends CJMapObject
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varDest);
 	}
-	
+
 	protected void move(Var varSource, Edit varDest)
-	{	
+	{
 		if(IsSTCheck)
 			Log.logFineDebug("move_V_E:" + varSource.getSTCheckValue() + ":" + varDest.getSTCheckValue());
-		
+
 		varDest.set(varSource);	// PJD Var TO Edit
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varSource, varDest);
 	}
-	
+
 	protected void move(Edit varSource, Var varDest)
-	{	
+	{
 		if(IsSTCheck)
 			Log.logFineDebug("move_E_V:" + varSource.getSTCheckValue() + ":" + varDest.getSTCheckValue());
 		varSource.transferTo(varDest); 	// PJD Edit TO Var
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varSource, varDest);
 	}
-	
+
 	protected void move(Edit varSource, Edit varDest)
 	{
 		if(IsSTCheck)
@@ -2958,9 +2958,9 @@ public abstract class BaseProgram extends CJMapObject
 	}
 
 	/**Method: move
-	 * move a constant (LowValue, HighValue, Zero, Space) into a var; all data chars of the destination var are filled with the source constant   
+	 * move a constant (LowValue, HighValue, Zero, Space) into a var; all data chars of the destination var are filled with the source constant
 	 * @param: CobolConstant constant
-	 * @param: OUT Var varDest 
+	 * @param: OUT Var varDest
 	 * @return: current program object; enables to chain another Program's method.
 	 * @see CobolConstant
 	 */
@@ -2976,7 +2976,7 @@ public abstract class BaseProgram extends CJMapObject
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("move_cst_V:" + constant.getSTCheckValue() + ":" + varDest.getSTCheckValue());
-	
+
 		varDest.set(constant);
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varDest);
@@ -2986,12 +2986,12 @@ public abstract class BaseProgram extends CJMapObject
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("move_cst_V:" + constant.getSTCheckValue() + ":" + varDest.getSTCheckValue());
-		
+
 		varDest.set(constant);
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varDest);
 	}
-	
+
 	protected void move(CobolConstantHighValue constant, VarAndEdit varDest)
 	{
 		if(IsSTCheck)
@@ -3001,12 +3001,12 @@ public abstract class BaseProgram extends CJMapObject
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varDest);
 	}
-	
+
 	/**Method: move
-	 * move a flotting point numeric value into a var 
+	 * move a flotting point numeric value into a var
 	 * @param: IN double d
-	 * @param: OUT Var varDest 
-	 * @return: current program object; enables to chain another Program's method. 
+	 * @param: OUT Var varDest
+	 * @return: current program object; enables to chain another Program's method.
 	 */
 	protected void move(double d, Var varDest)
 	{
@@ -3017,7 +3017,7 @@ public abstract class BaseProgram extends CJMapObject
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varDest);
 	}
-	
+
 	protected void move(double d, Edit editDest)
 	{
 		if(IsSTCheck)
@@ -3028,7 +3028,7 @@ public abstract class BaseProgram extends CJMapObject
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(editDest);
 	}
-	
+
 	protected void move(long l, Var varDest)
 	{
 		if(IsSTCheck)
@@ -3038,7 +3038,7 @@ public abstract class BaseProgram extends CJMapObject
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varDest);
 	}
-	
+
 	protected void move(long l, Edit editDest)
 	{
 		if(IsSTCheck)
@@ -3049,12 +3049,12 @@ public abstract class BaseProgram extends CJMapObject
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(editDest);
 	}
-	
+
 	/**Method: move
-	 * move a string value into a var 
+	 * move a string value into a var
 	 * @param: IN String cs
-	 * @param: OUT Var varDest 
-	 * @return: current program object; enables to chain another Program's method. 
+	 * @param: OUT Var varDest
+	 * @return: current program object; enables to chain another Program's method.
 	 */
 	protected void move(String cs, Var varDest)
 	{
@@ -3067,8 +3067,8 @@ public abstract class BaseProgram extends CJMapObject
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varDest);
 	}
-	
-	
+
+
 	protected void move(String cs, Edit varDest)
 	{
 		if(IsSTCheck)
@@ -3082,32 +3082,32 @@ public abstract class BaseProgram extends CJMapObject
 	}
 
 	/**Method: move
-	 * fill the destination var with the source string, used as a pattern 
+	 * fill the destination var with the source string, used as a pattern
 	 * @param: IN String cs
-	 * @param: OUT Var varDest 
-	 * @return: current program object; enables to chain another Program's method. 
+	 * @param: OUT Var varDest
+	 * @return: current program object; enables to chain another Program's method.
 	 */
 	protected BaseProgram moveAll(String cs, VarAndEdit varDest)
-	{	
+	{
 		if(IsSTCheck)
 			Log.logFineDebug("moveAll_cs_V:" + cs + ":" + varDest.getSTCheckValue());
 
-		varDest.setAndFill(cs);	
+		varDest.setAndFill(cs);
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varDest);
 		return this;
 	}
-	
+
 
 	/**Method: move
-	 * move a var's value into another var; convertions may occur, depending on the pic declaration of the 2 vars. 
+	 * move a var's value into another var; convertions may occur, depending on the pic declaration of the 2 vars.
 	 * @param: IN Var varSource
-	 * @param: OUT Var varDest 
-	 * @return: current program object; enables to chain another Program's method. 
+	 * @param: OUT Var varDest
+	 * @return: current program object; enables to chain another Program's method.
 	 */
-	
+
 	protected void move(Var varSource, Var varDest)
-	{	
+	{
 		if(IsSTCheck)
 			Log.logFineDebug("move_V_V:" + varSource.getSTCheckValue() + ":" + varDest.getSTCheckValue());
 
@@ -3123,9 +3123,9 @@ public abstract class BaseProgram extends CJMapObject
 			tempCache.resetTempIndex(varSource, varDest);
 	}
 
-	
+
 	protected BaseProgram move(Var varSource, Form formDest)
-	{	
+	{
 		if(IsSTCheck)
 			Log.logFineDebug("move_V_F:" + varSource.getSTCheckValue() + ":" + formDest.getSTCheckValue());
 
@@ -3142,14 +3142,14 @@ public abstract class BaseProgram extends CJMapObject
 //		varDest.set(varSource);
 //		return this;
 //	}
-	
+
 	/**Method: move
-	 * move all fields of a form (GUI applications only) into a destionation var. Every field has a 7 chars header containg various 
+	 * move all fields of a form (GUI applications only) into a destionation var. Every field has a 7 chars header containg various
 	 * attributes, follwed by the filed's data value. It can be thought of as a serialization of a form into a var;
-	 * <b>used internally</b>     
+	 * <b>used internally</b>
 	 * @param: IN Form formSource
-	 * @param: OUT Var varDest 
-	 * @return: current program object; enables to chain another Program's method. 
+	 * @param: OUT Var varDest
+	 * @return: current program object; enables to chain another Program's method.
 	 */
 	protected BaseProgram move(Form formSource, Var varDest)
 	{
@@ -3161,7 +3161,7 @@ public abstract class BaseProgram extends CJMapObject
 			tempCache.resetTempIndex(varDest);
 		return this;
 	}
-	
+
 	protected BaseProgram move(MapRedefine mapRedefineSource, Var varDest)
 	{
 		if(IsSTCheck)
@@ -3172,18 +3172,18 @@ public abstract class BaseProgram extends CJMapObject
 			tempCache.resetTempIndex(varDest);
 		return this;
 	}
-	
+
 	protected BaseProgram move(Form formSource, Form formDest)
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("move_F_F:" + formSource.getSTCheckValue() + ":" + formDest.getSTCheckValue());
-		
+
 		InternalCharBuffer charBuffer = formSource.encodeToCharBuffer();
 		formDest.decodeFromCharBuffer(charBuffer);
-		
+
 		return this;
 	}
-	
+
 	protected BaseProgram move(MapRedefine mapSource, Form formDest)
 	{
 		if(IsSTCheck)
@@ -3191,10 +3191,10 @@ public abstract class BaseProgram extends CJMapObject
 
 		InternalCharBuffer charBuffer = mapSource.encodeToCharBuffer();
 		formDest.decodeFromCharBuffer(charBuffer);
-		
+
 		return this;
 	}
-	
+
 	protected BaseProgram move(Form formSource, MapRedefine mapDest)
 	{
 		if(IsSTCheck)
@@ -3202,7 +3202,7 @@ public abstract class BaseProgram extends CJMapObject
 
 		InternalCharBuffer charBuffer = formSource.encodeToCharBuffer();
 		mapDest.decodeFromCharBuffer(charBuffer);
-		
+
 		return this;
 	}
 
@@ -3213,18 +3213,18 @@ public abstract class BaseProgram extends CJMapObject
 
 		InternalCharBuffer charBuffer = mapSource.encodeToCharBuffer();
 		mapDest.decodeFromCharBuffer(charBuffer);
-		
+
 		return this;
 	}
 
-	
+
 	/**Method: move
-	 * move a var content into all fields of a form (GUI applications only). The var source must have been previously filled by a previous move(Form formSource, Var varDest).  
+	 * move a var content into all fields of a form (GUI applications only). The var source must have been previously filled by a previous move(Form formSource, Var varDest).
 	 * Thus this method can be thought of as a deserialization of a var into a form;
-	 * <b>used internally</b>     
+	 * <b>used internally</b>
 	 * @param: IN Var varSource
-	 * @param: OUT Form formDest 
-	 * @return: current program object; enables to chain another Program's method. 
+	 * @param: OUT Form formDest
+	 * @return: current program object; enables to chain another Program's method.
 	 */
 //	protected Program move(Var varSource, Form fromDest)
 //	{
@@ -3232,7 +3232,7 @@ public abstract class BaseProgram extends CJMapObject
 //		fromDest.decodeFromVar(varSource);
 //		return this;
 //	}
-	
+
 	/** move
 	 * move a form to another one
 	 * @param IN formSource: Source form
@@ -3247,42 +3247,42 @@ public abstract class BaseProgram extends CJMapObject
 //	}
 
 	/**Method: move
-	 * fill the destination var with the sourceVar contents, used as a pattern 
+	 * fill the destination var with the sourceVar contents, used as a pattern
 	 * @param: IN Var varSource
-	 * @param: OUT Var varDest 
-	 * @return: current program object; enables to chain another Program's method. 
+	 * @param: OUT Var varDest
+	 * @return: current program object; enables to chain another Program's method.
 	 */
 	protected BaseProgram moveAll(Var varSource, Var varDest)
-	{	
+	{
 		if(IsSTCheck)
 			Log.logFineDebug("moveAll_V_V:" + varSource.getSTCheckValue() + ":" + varDest.getSTCheckValue());
 
-		varDest.setAndFill(varSource.getString());	
+		varDest.setAndFill(varSource.getString());
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varSource, varDest);
 		return this;
 	}
-	
+
 	protected BaseProgram moveAll(Var varSource, Edit varDest)
-	{	
+	{
 		if(IsSTCheck)
 			Log.logFineDebug("moveAll_V_E:" + varSource.getSTCheckValue() + ":" + varDest.getSTCheckValue());
 		if(isLogCESM)
 			Log.logDebug("moveAllEdit: varSource="+varSource.getLoggableValue()+" to Edit="+varDest.getLoggableValue());
-		varDest.setAndFill(varSource.getString());	
+		varDest.setAndFill(varSource.getString());
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varSource, varDest);
 
 		return this;
 	}
-		
+
 	/**Method: moveCorresponding
-	 * move all identically named vars below varSource to varDestGroup 
+	 * move all identically named vars below varSource to varDestGroup
 	 * @param: IN Var varSource: It may have children
-	 * @param: OUT Var varDestGroup: It may have children 
-	 * @return: current program object; enables to chain another Program's method. 
+	 * @param: OUT Var varDestGroup: It may have children
+	 * @return: current program object; enables to chain another Program's method.
 	 */
-	
+
 	protected BaseProgram moveCorresponding(VarBase varSource, VarBase varDestGroup)
 	{
 		if(IsSTCheck)
@@ -3307,7 +3307,7 @@ public abstract class BaseProgram extends CJMapObject
 //			Log.logFineDebug("moveCorresponding_V_V:" + varSource.getSTCheckValue() + ":" + varDestGroup.getSTCheckValue());
 //
 //		CacheMoveCorresponding cacheMoveCorresponding = getCacheMoveCorresponding(varSource, varDestGroup);
-//		
+//
 //		// This method is to help a recursive descent in case the move corresponding manages multi level depth. It seems not to be the case, so it's implemented as signle level depth.
 //		if(varSource != null)
 //			varSource.moveCorresponding(varDestGroup, cacheMoveCorresponding);
@@ -3316,7 +3316,7 @@ public abstract class BaseProgram extends CJMapObject
 //
 //		return this;
 //	}
-//	
+//
 //	private CacheMoveCorresponding getCacheMoveCorresponding(VarBase varSource, VarBase varDestGroup)
 //	{
 //		int nId = varSource.getId();
@@ -3331,15 +3331,15 @@ public abstract class BaseProgram extends CJMapObject
 //		return c;
 //	}
 //	private CacheCacheMoveCorresponding m_CacheCacheMoveCorresponding = null;
-	
-	
+
+
 	/**Method: perform
-	 * calls a paragraph, using the library. Used to wrap and hide internally used exception handlers 
+	 * calls a paragraph, using the library. Used to wrap and hide internally used exception handlers
 	 * @param: IN Paragraph paragraph: Functor objet which is called
-	 * @return:  
+	 * @return:
 	 */
 	protected void perform(Paragraph paragraph)
-	{		
+	{
 		if(paragraph != null)
 		{
 			if(isLogFlow)
@@ -3349,43 +3349,43 @@ public abstract class BaseProgram extends CJMapObject
 			paragraph.run();
 		}
 	}
-	
+
 	/**Method: perform
-	 * calls the first paragraph of a section, using the library. 
-	 * @param: IN Section section: Functor objet that group multiple paragraphs. 
+	 * calls the first paragraph of a section, using the library.
+	 * @param: IN Section section: Functor objet that group multiple paragraphs.
 	 * All paragraphs of the section identified will be called in sequence if no flow breaking (goto StopRun ...) occurs.
-	 * @return:  
-	 */	
+	 * @return:
+	 */
 	protected void perform(Section section)
-	{		
+	{
 		if(IsSTCheck)
 			Log.logFineDebug("perform_section:" + getSimpleName()+"."+section.toString());
 		if(isLogFlow)
 			Log.logDebug("Performing section:"+ getSimpleName()+"."+section.toString());
-		
+
 		baseProgramManager.perform(section);
 	}
-	
+
 	/**Method: performTrough
-	 * calls sequentially all paragraphs that lies between paragraphBegin and paragraphEnd. 
+	 * calls sequentially all paragraphs that lies between paragraphBegin and paragraphEnd.
 	 * @param: Paragraph paragraphBegin: Functor objet that identified the first paragraph to call
 	 * @param: Paragraph paragraphEnd: Functor objet that identified the last paragraph to call
-	 * @return:  
-	 */	
+	 * @return:
+	 */
 	protected void performThrough(Paragraph paragraphBegin, Paragraph paragraphEnd)
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("performThrough_para_para:" + getSimpleName()+"." + paragraphBegin.toString() + ":" + getSimpleName()+"." + paragraphEnd.toString());
-		
+
 		if(isLogFlow)
 			Log.logDebug("Performing through:"+ getSimpleName()+"." + paragraphBegin.toString() + " -> "+paragraphEnd.toString());
 		baseProgramManager.performThrough(paragraphBegin, paragraphEnd);
 	}
-	
+
 	/**Method: goTo
-	 * Transfer the flow control the provided paragraph. No stack pushing occurs. 
+	 * Transfer the flow control the provided paragraph. No stack pushing occurs.
 	 * @param: Paragraph paragraph: Functor objet that identified the paragraph where to transfer flow control.
-	 * @return:  
+	 * @return:
 	 */
 	protected void goTo(Paragraph functor)
 	{
@@ -3399,9 +3399,9 @@ public abstract class BaseProgram extends CJMapObject
 	}
 
 	/**Method: goTo
-	 * Transfer the flow control the first paragrpaph of the provided section. No stack pushing occurs. 
+	 * Transfer the flow control the first paragrpaph of the provided section. No stack pushing occurs.
 	 * @param: Section section: Functor objet that contains mulpliple paragraphs. The first one is used as the destination of the flow control.
-	 * @return:  
+	 * @return:
 	 */
 	protected void goTo(Section functor)
 	{
@@ -3427,9 +3427,9 @@ public abstract class BaseProgram extends CJMapObject
 	}
 
 	/**Method: goTo
-	 * Transfer the flow control the first paragrpaph of the provided section. No stack pushing occurs. 
+	 * Transfer the flow control the first paragrpaph of the provided section. No stack pushing occurs.
 	 * @param: Section section: Functor objet that contains mulpliple paragraphs. The first one is used as the destination of the flow control.
-	 * @return:  
+	 * @return:
 	 */
 	protected void goBack() throws CGotoException
 	{
@@ -3442,8 +3442,8 @@ public abstract class BaseProgram extends CJMapObject
 
 	/**
 	 * @throws CGotoException
-	 * Return from the current sub program; do nothing if we are not inside a sub program. 
-	 * A sub program is a program that is called explicitly by another application program 
+	 * Return from the current sub program; do nothing if we are not inside a sub program.
+	 * A sub program is a program that is called explicitly by another application program
 	 */
 	protected void exitProgram() throws CGotoException
 	{
@@ -3453,7 +3453,7 @@ public abstract class BaseProgram extends CJMapObject
 		CExitException e = new CExitException();
 		throw e;
 	}
-	
+
 	/**
 	 * exit
 	 * Do nothing:
@@ -3461,21 +3461,21 @@ public abstract class BaseProgram extends CJMapObject
 	 * As an IBM extension, the EXIT statement does not need to appear in a
 	 * sentence by itself. Any statements following the EXIT statement are
 	 * executed; the EXIT statement is treated as the CONTINUE statement.
-	 * @see http://publibz.boulder.ibm.com/cgi-bin/bookmgr_OS390/BOOKS/IGYLR205/6.2.14?DT=20000927030801 
+	 * @see http://publibz.boulder.ibm.com/cgi-bin/bookmgr_OS390/BOOKS/IGYLR205/6.2.14?DT=20000927030801
 	 */
-	protected void exit() 
+	protected void exit()
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("exit:");
 
 		// Do nothing:
 		// http://publibz.boulder.ibm.com/cgi-bin/bookmgr_OS390/BOOKS/IGYLR205/6.2.14?DT=20000927030801
-		// The EXIT statement enables you to assign a procedure-name to a given point in a program. 
-		// As an IBM extension, the EXIT statement does not need to appear in a 
-		// sentence by itself. Any statements following the EXIT statement are 
+		// The EXIT statement enables you to assign a procedure-name to a given point in a program.
+		// As an IBM extension, the EXIT statement does not need to appear in a
+		// sentence by itself. Any statements following the EXIT statement are
 		// executed; the EXIT statement is treated as the CONTINUE statement.
 	}
-	
+
 
 	/**
 	 * @throws CGotoException
@@ -3485,16 +3485,16 @@ public abstract class BaseProgram extends CJMapObject
 	{
 		stopRun(0);
 	}
-	
+
 	protected void stopRun(int returning) throws CGotoException
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("stopRun:");
 
 		throw new CStopRunException(getProgramManager(), returning);
-	}	
-	
-	
+	}
+
+
 	/** inc
 	 * @param IN Var var: Variable that is incremented of 1; the var must contain a numeric value
 	 */
@@ -3504,7 +3504,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("inc_V:" + var.getSTCheckValue());
 
 		//var.inc();
-		var.varDef.inc(var.bufferPos, 1); 
+		var.varDef.inc(var.bufferPos, 1);
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 	}
@@ -3518,7 +3518,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("dec_V:" + var.getSTCheckValue());
 
 //		var.dec();
-		var.varDef.inc(var.bufferPos, -1);		
+		var.varDef.inc(var.bufferPos, -1);
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 	}
@@ -3537,7 +3537,7 @@ public abstract class BaseProgram extends CJMapObject
 	/**
 	 * @param IN int nStep: Increment step
 	 * @param IN/OUT Var var: Variable that is incremented of nStep; the var must contain a numeric value
-	 */	
+	 */
 	protected void inc(int nStep, Var var)
 	{
 		if(IsSTCheck)
@@ -3557,7 +3557,7 @@ public abstract class BaseProgram extends CJMapObject
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 	}
-	
+
 	protected void inc(String csStep, Var var)
 	{
 		if(IsSTCheck)
@@ -3568,7 +3568,7 @@ public abstract class BaseProgram extends CJMapObject
 			tempCache.resetTempIndex(var);
 	}
 
-	
+
 	/**
 	 * @param IN Var varStep: Increment step
 	 * @param IN/OUT Var var: Variable that is incremented of varStep's value; the var must contain a numeric value
@@ -3596,7 +3596,7 @@ public abstract class BaseProgram extends CJMapObject
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 	}
-	
+
 	protected void dec(String csStep, Var var)
 	{
 		if(IsSTCheck)
@@ -3606,11 +3606,11 @@ public abstract class BaseProgram extends CJMapObject
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 	}
-	
+
 	/**
 	 * @param IN MathBase value: Contains a numeric vale, resulting from a previos calculous
-	 * @param OUT Var var: Variable whose value is set on output the value of mathBase; No rounding is done upon set var's value 
-	 * @return mathBase object, enabling to chain calculous 
+	 * @param OUT Var var: Variable whose value is set on output the value of mathBase; No rounding is done upon set var's value
+	 * @return mathBase object, enabling to chain calculous
 	 */
 	protected MathBase compute(MathBase mathBase, Var var)
 	{
@@ -3625,8 +3625,8 @@ public abstract class BaseProgram extends CJMapObject
 
 	/**
 	 * @param IN MathBase value: Contains a numeric vale, resulting from a previos calculous
-	 * @param OUT Var var: Variable whose value is set on output the value of mathBase; The var's value is rounded upon setting, as opposite of "MathBase compute(MathBase mathBase, Var var)"  
-	 * @return mathBase object, enabling to chain calculous 
+	 * @param OUT Var var: Variable whose value is set on output the value of mathBase; The var's value is rounded upon setting, as opposite of "MathBase compute(MathBase mathBase, Var var)"
+	 * @return mathBase object, enabling to chain calculous
 	 */
 	protected MathBase computeRounded(MathBase value, Var var)
 	{
@@ -3638,10 +3638,10 @@ public abstract class BaseProgram extends CJMapObject
 			tempCache.resetTempIndex(var);
 		return value ;
 	}
-	
+
 	/**
 	 * @param IN int nValue
-	 * @param OUT Var varDest; Set the value of the varDest to nValue; same as "move(nValue, varDest);"	 
+	 * @param OUT Var varDest; Set the value of the varDest to nValue; same as "move(nValue, varDest);"
 	 * @return
 	 */
 	protected BaseProgram compute(int nValue, Var varDest)
@@ -3654,13 +3654,13 @@ public abstract class BaseProgram extends CJMapObject
 			tempCache.resetTempIndex(varDest);
 		return this;
 	}
-	
+
 
 	protected SQLCall sqlCall(VarAndEdit statement)
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("sqlCall_V:" + statement.getSTCheckValue());
-		
+
 		String csStatement = statement.getString().trim();
 		return sqlCall(csStatement);
 	}
@@ -3669,12 +3669,12 @@ public abstract class BaseProgram extends CJMapObject
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("sqlCall_cs:" + csStatement);
-		
-		SQLCall sqlCall = new SQLCall(baseProgramManager, csStatement); 
+
+		SQLCall sqlCall = new SQLCall(baseProgramManager, csStatement);
 		return sqlCall;
 	}
-	
-	
+
+
 	/**
 	 * @param String csStatement. Must be sql valid.
 	 * @return SQL Internal object used to chain sql orders
@@ -3686,21 +3686,21 @@ public abstract class BaseProgram extends CJMapObject
 		//String csFileLine = StackStraceSupport.getFileLineAtStackDepth(2);	// Caller File Line
 //		int nHashFileLine = 0;
 //		if(csFileLine != null)
-//			nHashFileLine = csFileLine.hashCode(); 
+//			nHashFileLine = csFileLine.hashCode();
 		//SQL sql = baseProgramManager.getOrCreateSQL(csStatement);	//, csFileLine);
 		SQL sql = baseProgramManager.getOrCreateSQLGeneral(csStatement, null);
 
 		// Was active: DbConnectionBase SQLConnection = programManager.cESMEnv.getSQLConnection();
 		// SQL sql = new SQL(programManager, csStatement, null);
-				
+
 		return sql;
 	}
-	
+
 	/**
 	 * @param IN csString Statement; Must be sql valid.
-	 * @return SQLCursor internal object used to chain sql cusror declarations. 
+	 * @return SQLCursor internal object used to chain sql cusror declarations.
 	 */
-	
+
 	/*
 	protected SQLCursor sqlCursor(String csStatement)
 	{
@@ -3713,14 +3713,14 @@ public abstract class BaseProgram extends CJMapObject
 	 * @param SQLConnection Internal SQL Connection
 	 * @param IN csString Statement; Must be sql valid.
 	 * @return SQLCursor internal object used to chain sql cursor declarations.
-	 * Remark: This method should not be used as it requires a SQLConnection. To use the default SQL connection established in a standard way, use SQL sql(String csStatement) 
-	 */ 
+	 * Remark: This method should not be used as it requires a SQLConnection. To use the default SQL connection established in a standard way, use SQL sql(String csStatement)
+	 */
 //	protected SQLCursor sqlCursor(CSQLConnection SQLConnection, String csStatement)
-//	{		
+//	{
 //		SQLCursor sqlCursor = new SQLCursor(programManager.dataDivision.getWorkingStorageSectionVarBuffer(), SQLConnection, csStatement);
 //		return sqlCursor;
 //	}
-	
+
 	/**
 	 * @param IN/OUT SQLCursor sqlCursor
 	 * Opens the cursor in parameter
@@ -3731,42 +3731,42 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("cursorDefine");
 
 		SQLCursor sqlCursor = new SQLCursor(baseProgramManager);
-		return sqlCursor; 
+		return sqlCursor;
 	}
-	
+
 //	protected SQLCursor cursorOpen(String csQuery)
 //	{
 //		if(IsSTCheck)
 //			Log.logFineDebug("cursorOpen_cs:" + csQuery);
 //
-//	
+//
 //		SQLCursor sqlCursor = new SQLCursor(programManager, programManager.dataDivision.getWorkingStorageSectionVarBuffer(), programManager.cESMEnv, csQuery, programManager.getSQLStatus());
 //		sqlCursor.open();
-//		return sqlCursor; 
+//		return sqlCursor;
 //	}
-	
+
 	protected SQLCursor cursorOpen(SQLCursor sqlCursor, String csQuery)
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("cursorOpen_cur_cs:" + csQuery);
-		
+
 		if(sqlCursor.isOpen())	// Auto close
 			sqlCursor.close();
 		sqlCursor.setQuery(csQuery);
 		sqlCursor.open();
-		return sqlCursor; 
+		return sqlCursor;
 	}
-	
+
 	protected SQLCursor cursorOpen(SQLCursor sqlCursor, Var vQuery)
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("cursorOpen_cur_V:" + vQuery.toString());
-		
+
 		if(sqlCursor.isOpen())	// Auto close
 			sqlCursor.close();
 		if (vQuery.getVarDef().isLongVarCharVarStructure())
 		{
-			VarEnumerator e = new VarEnumerator(vQuery.getProgramManager(), vQuery); 
+			VarEnumerator e = new VarEnumerator(vQuery.getProgramManager(), vQuery);
 			VarBase varChildLength = e.getFirstVarChild();
 			VarBase varChildText = e.getNextVarChild();
 
@@ -3777,20 +3777,20 @@ public abstract class BaseProgram extends CJMapObject
 			sqlCursor.setQuery(csValue);
 		}
 		else
-		{	
+		{
 			sqlCursor.setQuery(vQuery.getString());
-		}	
+		}
 		sqlCursor.open();
-		
+
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(vQuery);
 
-		return sqlCursor; 
+		return sqlCursor;
 	}
-	
+
 	/**
 	 * @param IN/OUT SQLCursor sqlCursor
-	 * Closes the cursor in parameter 
+	 * Closes the cursor in parameter
 	 */
 	protected CSQLStatus cursorClose(SQLCursor sqlCursor)
 	{
@@ -3804,49 +3804,49 @@ public abstract class BaseProgram extends CJMapObject
 		}
 		return null;
 	}
-	
+
 	protected SQLCursorOperation cursorUpdateCurrent(SQLCursor sqlCursor, String csUpdateClause)
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("cursorUpdateCurrent_cur_cs:" + "NotDisplayed" + ":" + csUpdateClause);
 
 //		SQLCursorOperation sqlCursorOperation = new SQLCursorOperation(
-//			programManager.cESMEnv.getSQLConnection(), 
-//			programManager.dataDivision.getWorkingStorageSectionVarBuffer(), 
-//			sqlCursor, 
+//			programManager.cESMEnv.getSQLConnection(),
+//			programManager.dataDivision.getWorkingStorageSectionVarBuffer(),
+//			sqlCursor,
 //			csUpdateClause,
 //			programManager.getSQLStatus());
-		
+
 		SQLCursorOperation sqlCursorOperation = new SQLCursorOperation(
-			baseProgramManager, 
-			sqlCursor, 
+			baseProgramManager,
+			sqlCursor,
 			csUpdateClause);
 		return sqlCursorOperation;
 	}
-	
+
 	protected SQLCursorOperation cursorDeleteCurrent(SQLCursor sqlCursor, String csDeleteClause)
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("cursorDeleteCurrent_cur_cs:" + "NotDisplayed" + ":" + csDeleteClause);
 
 //		SQLCursorOperation sqlCursorOperation = new SQLCursorOperation(
-//			programManager.cESMEnv.getSQLConnection(), 
-//			programManager.dataDivision.getWorkingStorageSectionVarBuffer(), 
-//			sqlCursor, 
+//			programManager.cESMEnv.getSQLConnection(),
+//			programManager.dataDivision.getWorkingStorageSectionVarBuffer(),
+//			sqlCursor,
 //			csDeleteClause,
 //			programManager.getSQLStatus());
-	
+
 		SQLCursorOperation sqlCursorOperation = new SQLCursorOperation(
-			baseProgramManager, 
-			sqlCursor, 
+			baseProgramManager,
+			sqlCursor,
 			csDeleteClause);
 		return sqlCursorOperation;
-	}	
+	}
 
 	/**
 	 * @param IN/OUT SQLCursor sqlCursor
 	 * @return Internal SQLCursor object;
-	 * The into parameters are filled with the columns values read during the fetch. 
+	 * The into parameters are filled with the columns values read during the fetch.
 	 */
 	protected SQLCursorFetch cursorFetch(SQLCursor sqlCursor)
 	{
@@ -3855,7 +3855,7 @@ public abstract class BaseProgram extends CJMapObject
 
 		return sqlCursor.fetch(getProgramManager().getEnv());
 	}
-	
+
 	/**
 	 * @param VAR OUT var: variable that is filled with CobolConstant.Space characters
 	 */
@@ -3868,7 +3868,7 @@ public abstract class BaseProgram extends CJMapObject
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 	}
-	
+
 	/**
 	 * @param VAR OUT var: variable that is filled with CobolConstant.LowValue characters
 	 */
@@ -3881,7 +3881,7 @@ public abstract class BaseProgram extends CJMapObject
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 	}
-	
+
 	/**
 	 * @param VAR OUT var: variable that is filled with CobolConstant.HighValue characters
 	 */
@@ -3894,7 +3894,7 @@ public abstract class BaseProgram extends CJMapObject
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 	}
-	
+
 	/**
 	 * @param VAR OUT var: variable that is filled with CobolConstant.Zero characters
 	 */
@@ -3907,9 +3907,9 @@ public abstract class BaseProgram extends CJMapObject
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 	}
-	
+
 	/**
-	 * @param OUT Cond cond: Force the condition to always evalate as true 
+	 * @param OUT Cond cond: Force the condition to always evalate as true
 	 */
 	protected void moveTrue(Cond cond)
 	{
@@ -3935,13 +3935,13 @@ public abstract class BaseProgram extends CJMapObject
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("isNotNumeric_V:" + var.getSTCheckValue());
-		
+
 		boolean b = !var.isNumeric() ;
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 		return b;
 	}
-	
+
 	/**
 	 * @param IN Var var: Variable whose value is evaluated
 	 * @return true if the var contains a numeric value
@@ -3956,10 +3956,10 @@ public abstract class BaseProgram extends CJMapObject
 			tempCache.resetTempIndex(var);
 		return b;
 	}
-	
+
 	/**
 	 * @param IN Var var
-	 * @return true if the var's value contains a valid alphanumeric value 
+	 * @return true if the var's value contains a valid alphanumeric value
 	 */
 	protected boolean isAlphabetic(VarAndEdit var)
 	{
@@ -3971,10 +3971,10 @@ public abstract class BaseProgram extends CJMapObject
 			tempCache.resetTempIndex(var);
 		return b;
 	}
-	
+
 	/**
 	 * @param IN Var var
-	 * @return true if the var's value contains a valid alphanumeric value 
+	 * @return true if the var's value contains a valid alphanumeric value
 	 */
 	protected boolean isNotAlphabetic(VarAndEdit var)
 	{
@@ -4005,7 +4005,7 @@ public abstract class BaseProgram extends CJMapObject
 	{
 		return !isAlphabeticUpper(var);
 	}
-	
+
 	/**
 	 * @param IN Var var: Variable whose value is tested as been a valid number
 	 * @return true if the var contains a valid numeric value
@@ -4018,7 +4018,7 @@ public abstract class BaseProgram extends CJMapObject
 		boolean b = !isNumeric(s) ;
 		return b;
 	}
-	
+
 	/**
 	 * @param IN Var var: Variable whose value is tested as been a valid number
 	 * @return true if the var contains a valid numeric value
@@ -4038,7 +4038,7 @@ public abstract class BaseProgram extends CJMapObject
 			return false ;
 		}
 	}
-	
+
 	public static boolean isAlphabetic(String s)
 	{
 	//	if(isLog.logFineTrace())
@@ -4048,7 +4048,7 @@ public abstract class BaseProgram extends CJMapObject
 		{
 			char c = s.charAt(n);
 			if(!((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || c == ' '))
-				return false;  
+				return false;
 		}
 		return true;
 	}
@@ -4074,13 +4074,13 @@ public abstract class BaseProgram extends CJMapObject
 		}
 		return true;
 	}
-	
+
 	public void execute(BaseProgram prg)
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("execute_prg:" + prg.getSimpleName());
 	}
-	
+
 	protected void initialize(Form vSource)
 	{
 		if(IsSTCheck)
@@ -4093,13 +4093,13 @@ public abstract class BaseProgram extends CJMapObject
 	/**
 	 * @param OUT Var vSource
 	 * Intialize the var group in parameter, whatever it's children types
-	 * @see http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_028.htm#index_x_727 for sample 
+	 * @see http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_028.htm#index_x_727 for sample
 	 */
 	protected void initialize(VarAndEdit vSource)
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("initialize_V:" + vSource.getSTCheckValue());
-		
+
 		if(vSource.varTypeId == VarTypeId.VarDefGTypeId)
 		{
 			InitializeCache initializeCache = getProgramManager().getOrCreateInitializeCache(vSource.getVarDef());
@@ -4115,24 +4115,24 @@ public abstract class BaseProgram extends CJMapObject
 			tempCache.resetTempIndex(vSource);
 	}
 
-	
+
 //	protected InitializeCache initializeOptInit()
 //	{
 //		InitializeCache initializeCache = getProgramManager().getOrCreateInitializeCacheAtFirstAppCall();
 //		return initializeCache;
 //	}
-//	
+//
 //	protected void initializeOpt(VarAndEdit vSource, InitializeCache initializeCache)
 //	{
 //		if(IsSTCheck)
 //			Log.logFineDebug("initialize_V:" + vSource.getSTCheckValue());
-//		
+//
 //		//InitializeCache initializeCache = getProgramManager().getOrCreateInitializeCacheAtStackDepth(3);
 //		vSource.initialize(initializeCache);
 //		if(vSource.isTempVar())
 //			tempCache.resetTempIndex(vSource);
 //	}
-	
+
 	protected void initializeReplacingNum(VarAndEdit vSource, int n)
 	{
 		if(IsSTCheck)
@@ -4142,20 +4142,20 @@ public abstract class BaseProgram extends CJMapObject
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(vSource);
 	}
-	
+
 	/**
 	 * @param OUT Var vSource
 	 * @param IN int n
 	 * Intialize all numeric children of the group vSource by n
-	 * @see http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_028.htm#index_x_727 for sample 
-	 */	
+	 * @see http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_028.htm#index_x_727 for sample
+	 */
 
 	/**
 	 * @param OUT Var vSource
 	 * @param IN int n
 	 * Intialize all numeric edited children of the group vSource by n
-	 * @see http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_028.htm#index_x_727 for sample 
-	 */	
+	 * @see http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_028.htm#index_x_727 for sample
+	 */
 	protected void initializeReplacingNumEdited(VarAndEdit vSource, int n)
 	{
 		if(IsSTCheck)
@@ -4165,13 +4165,13 @@ public abstract class BaseProgram extends CJMapObject
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(vSource);
 	}
-	
+
 	/**
 	 * @param OUT Var vSource
 	 * @param IN double d
 	 * Intialize all numeric children of the group vSource by d
-	 * @see http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_028.htm#index_x_727 for sample 
-	 */	
+	 * @see http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_028.htm#index_x_727 for sample
+	 */
 	protected void initializeReplacingNum(VarAndEdit vSource, double d)
 	{
 		if(IsSTCheck)
@@ -4181,13 +4181,13 @@ public abstract class BaseProgram extends CJMapObject
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(vSource);
 	}
-	
+
 	/**
 	 * @param OUT Var vSource
 	 * @param IN String s
 	 * Intialize all numeric children of the group vSource by d
-	 * @see http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_028.htm#index_x_727 for sample 
-	 */	
+	 * @see http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_028.htm#index_x_727 for sample
+	 */
 	protected void initializeReplacingNum(VarAndEdit vSource, String s)
 	{
 		if(IsSTCheck)
@@ -4201,30 +4201,30 @@ public abstract class BaseProgram extends CJMapObject
 	 * @param OUT Var vSource
 	 * @param IN double d
 	 * Intialize all numeric edited children of the group vSource by d
-	 * @see http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_028.htm#index_x_727 for sample 
-	 */	
+	 * @see http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_028.htm#index_x_727 for sample
+	 */
 	protected void initializeReplacingNumEdited(VarAndEdit vSource, double d)
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("initializeReplacingNumEdited_V_d:" + vSource.getSTCheckValue() + ":" + d);
 
-		vSource.initializeReplacingNumEdited(d);	
+		vSource.initializeReplacingNumEdited(d);
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(vSource);
 	}
-	
+
 	/**
 	 * @param OUT Var vSource
 	 * @param IN String cs
 	 * Intialize all alphanumeric children of the group vSource by cs
-	 * @see http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_028.htm#index_x_727 for sample 
-	 */	
+	 * @see http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_028.htm#index_x_727 for sample
+	 */
 	protected void initializeReplacingAlphaNum(VarAndEdit vSource, String cs)
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("initializeReplacingAlphaNum_V_cs:" + vSource.getSTCheckValue() + ":" + cs);
 
-		vSource.initializeReplacingAlphaNum(cs);	
+		vSource.initializeReplacingAlphaNum(cs);
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(vSource);
 	}
@@ -4233,8 +4233,8 @@ public abstract class BaseProgram extends CJMapObject
 	 * @param OUT Var vSource
 	 * @param IN String cs
 	 * Intialize all alphanumeric edited children of the group vSource by cs
-	 * @see http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_028.htm#index_x_727 for sample 
-	 */	
+	 * @see http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_028.htm#index_x_727 for sample
+	 */
 	protected void initializeReplacingAlphaNumEdited(VarAndEdit vSource, String cs)
 	{
 		if(IsSTCheck)
@@ -4255,7 +4255,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("concat_cs:" + cs);
 
 		Concat conc = new Concat();
-		conc.concat(cs); 
+		conc.concat(cs);
 		return conc;
 	}
 
@@ -4339,7 +4339,7 @@ public abstract class BaseProgram extends CJMapObject
 			tempCache.resetTempIndex(var);
 		return conc;
 	}
-	
+
 	/**
 	 * @param IN Var var: variable whose vaue is to be concated with followings
 	 * @param IN Var varDelimiter: variable used to find to leading string from var's value to concatenate
@@ -4401,7 +4401,7 @@ public abstract class BaseProgram extends CJMapObject
 		conc.concatDelimitedBySpaces(cs);
 		return conc;
 	}
-	
+
 	/**
 	 * @param IN Var var: var's value that is to be concated with followings one
 	 * @return Internal Concat object, that is used to accumulate the string concatenation
@@ -4431,7 +4431,7 @@ public abstract class BaseProgram extends CJMapObject
 		conc.concatDelimitedBySize(cs);
 		return conc;
 	}
-	
+
 	protected void moveReferenceTo(Pointer v, Pointer y)
 	{
 		if(IsSTCheck)
@@ -4439,10 +4439,10 @@ public abstract class BaseProgram extends CJMapObject
 
 		//TODO fake function moveReferenceTo
 	}
-	
+
 	/**
 	 * @param IN/OUT Map map
-	 * Fill all forms of a map with low value 
+	 * Fill all forms of a map with low value
 	 */
 	protected void moveLowValue(Map map)
 	{
@@ -4480,12 +4480,12 @@ public abstract class BaseProgram extends CJMapObject
 			tempCache.resetTempIndex(var);
 		return u;
 	}
-	
+
 	/**
 	 * @param Var v: String whose substring is to be filled with 0's
-	 * @param int nOffsetPosition Start position (begining at 1) of the substring to fill 
+	 * @param int nOffsetPosition Start position (begining at 1) of the substring to fill
 	 * @param int nNbChar Number of chars to fill
-	 * Fill the substring of v with 0's, from position start up to nNbChar characters 
+	 * Fill the substring of v with 0's, from position start up to nNbChar characters
 	 */
 	protected void moveSubStringZero(VarAndEdit v, int nOffsetPosition, int nNbChar)
 	{
@@ -4497,13 +4497,13 @@ public abstract class BaseProgram extends CJMapObject
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(v);
 	}
-	
+
 	/**
 	 * @param Var v: String whose substring is to be filled with space chars
-	 * @param int nOffsetPosition Start position (begining at 1) of the substring to fill 
+	 * @param int nOffsetPosition Start position (begining at 1) of the substring to fill
 	 * @param int nNbChar Number of chars to fill
-	 * Fill the substring of v with spaces, from position start up to nNbChar characters 
-	 */	
+	 * Fill the substring of v with spaces, from position start up to nNbChar characters
+	 */
 	protected void moveSubStringSpace(VarAndEdit v, int nOffsetPosition, int nNbChar)
 	{
 		if(IsSTCheck)
@@ -4516,9 +4516,9 @@ public abstract class BaseProgram extends CJMapObject
 
 	/**
 	 * @param Var v: String whose substring is to be filled with low value chars
-	 * @param int nOffsetPosition Start position (begining at 1) of the substring to fill 
+	 * @param int nOffsetPosition Start position (begining at 1) of the substring to fill
 	 * @param int nNbChar Number of chars to fill
-	 * Fill the substring of v with low value, from position start up to nNbChar characters 
+	 * Fill the substring of v with low value, from position start up to nNbChar characters
 	 */
 	protected void moveSubStringLowValue(VarAndEdit v, int nOffsetPosition, int nNbChar)
 	{
@@ -4529,7 +4529,7 @@ public abstract class BaseProgram extends CJMapObject
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(v);
 	}
-	
+
 	protected void moveSubStringLowValue(VarAndEdit v, Var vOffsetPosition, int nNbChar)
 	{
 		if(IsSTCheck)
@@ -4544,9 +4544,9 @@ public abstract class BaseProgram extends CJMapObject
 
 	/**
 	 * @param Var v: String whose substring is to be filled with high value chars
-	 * @param int nOffsetPosition Start position (begining at 1) of the substring to fill 
+	 * @param int nOffsetPosition Start position (begining at 1) of the substring to fill
 	 * @param int nNbChar Number of chars to fill
-	 * Fill the substring of v with high value, from position start up to nNbChar characters 
+	 * Fill the substring of v with high value, from position start up to nNbChar characters
 	 */
 	protected void moveSubStringHighValue(VarAndEdit v, int nOffsetPosition, int nNbChar)
 	{
@@ -4557,12 +4557,12 @@ public abstract class BaseProgram extends CJMapObject
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(v);
 	}
-	
+
 	protected void moveSubStringHighValue(VarAndEdit v, MathBase nOffsetPosition, MathBase nNbChar)
 	{
 		moveSubStringHighValue(v, nOffsetPosition.d.intValue(), nNbChar.d.intValue());
 	}
-	
+
 	protected void moveSubStringHighValue(VarAndEdit v, Var vOffsetPosition, int nNbChar)
 	{
 		if(IsSTCheck)
@@ -4577,9 +4577,9 @@ public abstract class BaseProgram extends CJMapObject
 
 	/**
 	 * @param Var v: String whose substring is to be filled with space chars
-	 * @param Var varOffsetPosition: Start position (begining at 1) of the substring to fill 
+	 * @param Var varOffsetPosition: Start position (begining at 1) of the substring to fill
 	 * @param int nNbChar Number of chars to fill
-	 * Fill the substring of v with spaces, from position start up to nNbChar characters 
+	 * Fill the substring of v with spaces, from position start up to nNbChar characters
 	 */
 	protected void moveSubStringSpace(VarAndEdit v, Var varOffsetPosition, int nNbChar)
 	{
@@ -4591,12 +4591,12 @@ public abstract class BaseProgram extends CJMapObject
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(v, varOffsetPosition);
 	}
-	
+
 	/**
 	 * @param Var v: String whose substring is to be filled with space chars
-	 * @param Var varOffsetPosition: Start position (begining at 1) of the substring to fill 
+	 * @param Var varOffsetPosition: Start position (begining at 1) of the substring to fill
 	 * @param int nNbChar Number of chars to fill
-	 * Fill the substring of v with spaces, from position start up to nNbChar characters 
+	 * Fill the substring of v with spaces, from position start up to nNbChar characters
 	 */
 	protected void moveSubStringSpace(VarAndEdit v, Var varOffsetPosition, Var nNbChar)
 	{
@@ -4609,13 +4609,13 @@ public abstract class BaseProgram extends CJMapObject
 			tempCache.resetTempIndex(v, varOffsetPosition);
 	}
 
-	
+
 	/**
-	 * @param Var varDest: Destination variable 
+	 * @param Var varDest: Destination variable
 	 * @param int nOffsetPosition: Start position into to source variable
 	 * @param int nNbChar: Number of char to extract form source variable
 	 * @param Var varValue: Source variable
-	 * Fill the destination variable with the substring of source variable, starting from position nOffsetPosition, and containing up to nNbChar 
+	 * Fill the destination variable with the substring of source variable, starting from position nOffsetPosition, and containing up to nNbChar
 	 */
 	protected void setSubString(VarAndEdit varDest, int nOffsetPosition, int nNbChar, VarAndEdit varValue)
 	{
@@ -4632,12 +4632,12 @@ public abstract class BaseProgram extends CJMapObject
 	{
 		setSubString(varDest, nOffsetPosition, varDest.getVarDef().getLength(), varValue);
 	}
-	
+
 	protected void setSubString(VarAndEdit varDest, VarAndEdit varOffsetPosition, VarAndEdit varValue)
 	{
 		setSubString(varDest, varOffsetPosition.getInt(), varDest.getVarDef().getLength(), varValue);
 	}
-	
+
 	protected void setSubString(VarAndEdit varDest, int nOffsetPosition, int nNbChar, int nValue)
 	{
 		if(IsSTCheck)
@@ -4651,13 +4651,13 @@ public abstract class BaseProgram extends CJMapObject
 			tempCache.resetTempIndex(varDest);
 	}
 
-	
+
 	/**
-	 * @param Var varDest: Destination variable 
+	 * @param Var varDest: Destination variable
 	 * @param int nOffsetPosition: Start position into to source variable
 	 * @param Var varNbChar: Number of char to extract form source variable
 	 * @param Var varValue: Source variable
-	 * Fill the destination variable with the substring of source variable, starting from position nOffsetPosition, and containing up to nNbChar 
+	 * Fill the destination variable with the substring of source variable, starting from position nOffsetPosition, and containing up to nNbChar
 	 */
 	protected void setSubString(VarAndEdit varDest, int nOffsetPosition, Var varNbChar, VarAndEdit varValue)
 	{
@@ -4669,8 +4669,8 @@ public abstract class BaseProgram extends CJMapObject
 		varDest.setStringAtPosition(csValue, nOffsetPosition-1, nNbChar);	// Fill with a 0 base index
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varDest, varNbChar);
-	}	
-	
+	}
+
 	protected void setSubString(VarAndEdit varDest, Var vOffsetPosition, Var varNbChar, Var varValue)
 	{
 		if(IsSTCheck)
@@ -4678,12 +4678,12 @@ public abstract class BaseProgram extends CJMapObject
 
 		String csValue = varValue.getString();
 		int nNbChar = varNbChar.getInt();
-		int nOffsetPosition = vOffsetPosition.getInt() ; 
+		int nOffsetPosition = vOffsetPosition.getInt() ;
 		varDest.setStringAtPosition(csValue, nOffsetPosition-1, nNbChar);	// Fill with a 0 base index
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varDest, vOffsetPosition, varNbChar, varValue);
 	}
-	
+
 	protected void setSubString(VarAndEdit varDest, Var vOffsetPosition, MathBase nNbChar, Var varValue)
 	{
 		if(IsSTCheck)
@@ -4691,17 +4691,17 @@ public abstract class BaseProgram extends CJMapObject
 
 		String csValue = varValue.getString();
 		varDest.setStringAtPosition(csValue, vOffsetPosition.getInt()-1, nNbChar.d.intValue());	// Fill with a 0 base index
-		
+
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varDest, vOffsetPosition, varValue);
 	}
-	
+
 	/**
-	 * @param Var varDest: Destination variable 
+	 * @param Var varDest: Destination variable
 	 * @param int nOffsetPosition: Startposition into to source variable
 	 * @param Var varNbChar: Number of char to extract form source variable
 	 * @param String csValue: Source string
-	 * Fill the destination variable with the substring of source variable, starting from position nOffsetPosition, and containing up to nNbChar 
+	 * Fill the destination variable with the substring of source variable, starting from position nOffsetPosition, and containing up to nNbChar
 	 */
 	protected void setSubString(VarAndEdit varDest, Var nOffsetPosition, Var nNbChar, String csValue)
 	{
@@ -4711,14 +4711,14 @@ public abstract class BaseProgram extends CJMapObject
 		varDest.setStringAtPosition(csValue, nOffsetPosition.getInt()-1, nNbChar.getInt());	// Fill with a 0 base index
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varDest, nOffsetPosition, nNbChar);
-	}	
+	}
 
 	/**
-	 * @param Var varDest: Destination variable 
+	 * @param Var varDest: Destination variable
 	 * @param int nOffsetPosition: Startposition into to source variable
 	 * @param Var varNbChar: Number of char to extract form source variable
 	 * @param String csValue: Source string
-	 * Fill the destination variable with the substring of source variable, starting from position nOffsetPosition, and containing up to nNbChar 
+	 * Fill the destination variable with the substring of source variable, starting from position nOffsetPosition, and containing up to nNbChar
 	 */
 	protected void setSubString(VarAndEdit varDest, MathBase nOffsetPosition, Var nNbChar, String csValue)
 	{
@@ -4729,28 +4729,28 @@ public abstract class BaseProgram extends CJMapObject
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varDest, nNbChar);
 	}
-	
+
 	protected void setSubString(VarAndEdit varDest, MathBase nOffsetPosition, int nNbChar, String csValue)
 	{
 		setSubString(varDest, nOffsetPosition.d.intValue(), nNbChar, csValue);
 	}
-	
+
 	protected void setSubString(VarAndEdit varDest, Var varPos, String varValue)
 	{
 		setSubString(varDest, varPos.getInt(), varValue);
 	}
-	
+
 	protected void setSubString(VarAndEdit varDest, int nOffsetPosition, String varValue)
 	{
 		setSubString(varDest, nOffsetPosition, varDest.getVarDef().getLength(), varValue);
 	}
-	
+
 	/**
-	 * @param Var varDest: Destination variable 
+	 * @param Var varDest: Destination variable
 	 * @param int nOffsetPosition: Start position into to source variable
 	 * @param int nNbChar: Number of char to extract form source variable
 	 * @param String csValue: Source string
-	 * Fill the destination variable with the substring of source variable, starting from position nOffsetPosition, and containing up to nNbChar 
+	 * Fill the destination variable with the substring of source variable, starting from position nOffsetPosition, and containing up to nNbChar
 	 */
 	protected void setSubString(VarAndEdit varDest, int nOffsetPosition, int nNbChar, String csValue)
 	{
@@ -4760,14 +4760,14 @@ public abstract class BaseProgram extends CJMapObject
 		varDest.setStringAtPosition(csValue, nOffsetPosition-1, nNbChar);	// Fill with a 0 base index
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varDest);
-	}	
-	
+	}
+
 	/**
-	 * @param Var varDest: Destination variable 
+	 * @param Var varDest: Destination variable
 	 * @param int nOffsetPosition: Start position into to source variable
 	 * @param int nNbChar: Number of char to extract form source variable
 	 * @param String csValue: Source string
-	 * Fill the destination variable with the substring of source variable, starting from position nOffsetPosition, and containing up to nNbChar 
+	 * Fill the destination variable with the substring of source variable, starting from position nOffsetPosition, and containing up to nNbChar
 	 */
 	protected void setSubStringAll(VarAndEdit varDest, int nOffsetPosition, int nNbChar, String csPattern)
 	{
@@ -4784,13 +4784,13 @@ public abstract class BaseProgram extends CJMapObject
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varDest);
 	}
-	
+
 	/**
-	 * @param Var varDest: Destination variable 
+	 * @param Var varDest: Destination variable
 	 * @param Var varOffsetPosition: Start position into to source variable
 	 * @param int nNbChar: Number of char to extract form source variable
 	 * @param String csValue: Source string
-	 * Fill the destination variable with the substring of source variable, starting from position nOffsetPosition, and containing up to nNbChar 
+	 * Fill the destination variable with the substring of source variable, starting from position nOffsetPosition, and containing up to nNbChar
 	 */
 	protected void setSubStringAll(VarAndEdit varDest, Var varOffsetPosition, int nNbChar, String csPattern)
 	{
@@ -4807,13 +4807,13 @@ public abstract class BaseProgram extends CJMapObject
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varDest, varOffsetPosition);
 	}
-	
+
 	/**
-	 * @param Var varDest: Destination variable 
+	 * @param Var varDest: Destination variable
 	 * @param int nOffsetPosition: Start position into to source variable
 	 * @param Var nNbChar: Number of char to extract form source variable
 	 * @param String csValue: Source string
-	 * Fill the destination variable with the substring of source variable, starting from position nOffsetPosition, and containing up to nNbChar 
+	 * Fill the destination variable with the substring of source variable, starting from position nOffsetPosition, and containing up to nNbChar
 	 */
 	protected void setSubStringAll(VarAndEdit varDest, int nOffsetPosition, Var varNbChar, String csPattern)
 	{
@@ -4830,13 +4830,13 @@ public abstract class BaseProgram extends CJMapObject
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varDest, varNbChar);
 	}
-	
+
 	/**
-	 * @param Var varDest: Destination variable 
+	 * @param Var varDest: Destination variable
 	 * @param Var varOffsetPosition: Start position into to source variable
 	 * @param Var varChar: Number of char to extract form source variable
 	 * @param String csValue: Source string
-	 * Fill the destination variable with the substring of source variable, starting from position nOffsetPosition, and containing up to nNbChar 
+	 * Fill the destination variable with the substring of source variable, starting from position nOffsetPosition, and containing up to nNbChar
 	 */
 	protected void setSubStringAll(VarAndEdit varDest, Var varOffsetPosition, Var varNbChar, String csPattern)
 	{
@@ -4853,13 +4853,13 @@ public abstract class BaseProgram extends CJMapObject
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varDest, varOffsetPosition, varNbChar);
 	}
-	
+
 	/**
-	 * @param Var varDest: Destination variable 
+	 * @param Var varDest: Destination variable
 	 * @param int nOffsetPosition: Startposition into to source variable
 	 * @param Var varNbChar: Number of char to extract form source variable
 	 * @param String csValue: Source string
-	 * Fill the destination variable with the substring of source variable, starting from position nOffsetPosition, and containing up to nNbChar 
+	 * Fill the destination variable with the substring of source variable, starting from position nOffsetPosition, and containing up to nNbChar
 	 */
 	protected void setSubString(VarAndEdit varDest, int nOffsetPosition, Var nNbChar, String csValue)
 	{
@@ -4869,14 +4869,14 @@ public abstract class BaseProgram extends CJMapObject
 		varDest.setStringAtPosition(csValue, nOffsetPosition-1, nNbChar.getInt());	// Fill with a 0 base index
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varDest, nNbChar);
-	}	
-	
+	}
+
 	/**
-	 * @param Var varDest: Destination variable 
+	 * @param Var varDest: Destination variable
 	 * @param Var varOffsetPosition: Start position into to source variable
 	 * @param int nNbChar: Number of char to extract form source variable
 	 * @param String csValue: Source string
-	 * Fill the destination variable with the substring of source variable, starting from position nOffsetPosition, and containing up to nNbChar 
+	 * Fill the destination variable with the substring of source variable, starting from position nOffsetPosition, and containing up to nNbChar
 	 */
 	protected void setSubString(VarAndEdit varDest, Var varOffsetPosition, int nNbChar, String csValue)
 	{
@@ -4887,14 +4887,14 @@ public abstract class BaseProgram extends CJMapObject
 		varDest.setStringAtPosition(csValue, nOffsetPosition-1, nNbChar);	// Fill with a 0 base index
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varDest, varOffsetPosition);
-	}	
-	
+	}
+
 	/**
-	 * @param Var varDest: Destination variable 
+	 * @param Var varDest: Destination variable
 	 * @param Var varOffsetPosition: Start position into to source variable
 	 * @param int nNbChar: Number of char to extract form source variable
 	 * @param Var varValue: Source variable
-	 * Fill the destination variable with the substring of source variable, starting from position nOffsetPosition, and containing up to nNbChar 
+	 * Fill the destination variable with the substring of source variable, starting from position nOffsetPosition, and containing up to nNbChar
 	 */
 	protected void setSubString(VarAndEdit varDest, Var varOffsetPosition, int nNbChar, VarAndEdit varValue)
 	{
@@ -4906,9 +4906,9 @@ public abstract class BaseProgram extends CJMapObject
 		varDest.setStringAtPosition(csValue, nOffsetPosition-1, nNbChar);	// Fill with a 0 base index
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varDest, varOffsetPosition, varValue);
-	}	
-	
-	
+	}
+
+
 	/**
 	 * @return void
 	 * Placeholder to identify the SLQCursor variable declaration. Can be omitted
@@ -4921,11 +4921,11 @@ public abstract class BaseProgram extends CJMapObject
 		//TODO fake function sqlCursorSection
 		return null ;
 	}
-	
+
 	/**
-	 * @param Var var: Source variable on which doing inspect replacing operations 
+	 * @param Var var: Source variable on which doing inspect replacing operations
 	 * @return InspectReplacing object, enabling options
-	 * see class InspectReplacing 
+	 * see class InspectReplacing
 	 */
 	protected InspectReplacing inspectReplacing(VarAndEdit var)
 	{
@@ -4933,13 +4933,13 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("inspectReplacing_V:" + var.getSTCheckValue());
 
 		InspectReplacing inspect = new InspectReplacing(var);
-		return inspect;  
+		return inspect;
 	}
-	
+
 	/**
-	 * @param Var var: Source variable on which doing inspect tallying operations 
+	 * @param Var var: Source variable on which doing inspect tallying operations
 	 * @return InspectTallying object, enabling options
-	 * see class InspectTallying 
+	 * see class InspectTallying
 	 */
 	protected InspectTallying inspectTallying(VarAndEdit var)
 	{
@@ -4947,7 +4947,7 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("inspectTallying_V:" + var.getSTCheckValue());
 
 		InspectTallying inspect = new InspectTallying(var);
-		return inspect;  
+		return inspect;
 	}
 
 	protected InspectTallying inspectTallying(String cs)
@@ -4956,9 +4956,9 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("inspectTallying_cs:" + cs);
 
 		InspectTallying inspect = new InspectTallying(cs);
-		return inspect;  
-	}		
-	
+		return inspect;
+	}
+
 	protected InspectConvert inspectConverting(VarAndEdit var)
 	{
 		if(IsSTCheck)
@@ -4966,7 +4966,7 @@ public abstract class BaseProgram extends CJMapObject
 
 		return new InspectConvert(var);
 	}
-	
+
 	/**
 	 * @param String csSource: Source string
 	 * @param int nStart: 1 based start position into source string
@@ -4980,12 +4980,12 @@ public abstract class BaseProgram extends CJMapObject
 
 		return subString(csSource, nStart.d.intValue(), nNbChars.d.intValue());
 	}
-	
+
 	protected String subString(Var varSource, MathBase nStart, Var nNbChars)
 	{
 		return subString(varSource.getString(), nStart.d.intValue(), nNbChars.getInt(), varSource);
 	}
-	
+
 	/**
 	 * @param String csSource: Source string
 	 * @param int nStart: 1 based start position into source string
@@ -4997,13 +4997,13 @@ public abstract class BaseProgram extends CJMapObject
 		if(IsSTCheck)
 			Log.logFineDebug("subString_V_M_M:" + varSource.getSTCheckValue() + ":" + nStart.getSTCheckValue() + ":" + nNbChars.getSTCheckValue());
 
-		
+
 		String cs = subString(varSource.getString(), nStart.d.intValue(), nNbChars.d.intValue());
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varSource);
 		return cs;
 	}
-	
+
 	/**
 	 * @param String csSource: Source string
 	 * @param int nStart: 1 based start position into source string
@@ -5035,7 +5035,7 @@ public abstract class BaseProgram extends CJMapObject
 			tempCache.resetTempIndex(varSource);
 		return cs;
 	}
-	
+
 	/**
 	 * @param String csSource: Source string
 	 * @param int nStart: 1 based start position into source string
@@ -5052,7 +5052,7 @@ public abstract class BaseProgram extends CJMapObject
 			tempCache.resetTempIndex(varSource, varStart);
 		return cs;
 	}
-	
+
 	/**
 	 * @param String csSource: Source string
 	 * @param int nStart: 1 based start position into source string
@@ -5069,7 +5069,7 @@ public abstract class BaseProgram extends CJMapObject
 			tempCache.resetTempIndex(varSource, varStart, nNbChars);
 		return cs;
 	}
-	
+
 	protected Var subString(Var varSource, Var varStart)
 	{
 		try {
@@ -5078,7 +5078,7 @@ public abstract class BaseProgram extends CJMapObject
 			resetTempIndex(varSource, varStart);
 		}
 	}
-	
+
 	protected Var subString(Var varSource, int start)
 	{
 		try {
@@ -5087,7 +5087,7 @@ public abstract class BaseProgram extends CJMapObject
 			resetTempIndex(varSource);
 		}
 	}
-	
+
 	/**
 	 * @param String csSource: Source string
 	 * @param int nStart: 1 based start position into source string
@@ -5114,7 +5114,7 @@ public abstract class BaseProgram extends CJMapObject
 			return "" ;
 		}
 	}
-	
+
 	/**
 	 * @param Var varSource: Source variable
 	 * @param int nStart: 1 based start position into source string
@@ -5130,8 +5130,8 @@ public abstract class BaseProgram extends CJMapObject
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varSource);
 		return cs;
-	}	
-	
+	}
+
 	/**
 	 * @param Var varSource: Source variable
 	 * @param Var varStart: 1 based start position into source string
@@ -5148,23 +5148,23 @@ public abstract class BaseProgram extends CJMapObject
 			tempCache.resetTempIndex(varSource, varStart);
 		return cs;
 	}
-		
+
 	/**
 	 * @param Var varSource: Source variable
 	 * @param int nStart: 1 based start position into source string
 	 * @param Var varNbChars: Number of chars to extract
 	 * @return String Subtring of varSource's string value, starting form position start, up to nNbChars chars
-	 */	
+	 */
 	protected String subString(VarAndEdit varSource, int nStart, Var varNbchars)
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("subString_V_n_V:" + varSource.getSTCheckValue() + ":" + nStart + ":" + varNbchars.getSTCheckValue());
-		
+
 		String cs = subString(varSource.getString(), nStart, varNbchars.getInt());
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varSource, varNbchars);
 		return cs;
-	}	
+	}
 
 	// info link : http://www.caliberdt.com/tips/sqlcode.htm
 	protected int getSQLCode()
@@ -5174,7 +5174,7 @@ public abstract class BaseProgram extends CJMapObject
 
 		return baseProgramManager.getSQLStatus().getSQLCode() ;
 	}
-	
+
 	protected int getSQLDiagnosticCode(int n)
 	{
 		if(IsSTCheck)
@@ -5182,7 +5182,7 @@ public abstract class BaseProgram extends CJMapObject
 
 		return baseProgramManager.getSQLStatus().getSQLDiagnosticCode(n) ;
 	}
-	
+
 	protected int getSQLDiagnosticCode(Var v)
 	{
 		if(IsSTCheck)
@@ -5192,8 +5192,8 @@ public abstract class BaseProgram extends CJMapObject
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(v);
 		return n;
-	}	
-	
+	}
+
 	protected boolean isSQLCode(int n)
 	{
 		if(IsSTCheck)
@@ -5201,8 +5201,8 @@ public abstract class BaseProgram extends CJMapObject
 
 		int c = baseProgramManager.getSQLStatus().getSQLCode() ;
 		return  c == n ;
-	}		
-	
+	}
+
 	protected boolean isNotSQLCode(int n)
 	{
 		if(IsSTCheck)
@@ -5211,24 +5211,24 @@ public abstract class BaseProgram extends CJMapObject
 		int c = baseProgramManager.getSQLStatus().getSQLCode() ;
 		return  c != n ;
 	}
-	
+
 	protected void resetSQLCode(int n)
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("resetSQLCode_n" + n);
-	
+
 		baseProgramManager.getSQLStatus().setSQLCode(n) ;
 	}
-	
+
 	protected void resetSQLCode(MathBase mathBase)
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("resetSQLCode_M" + mathBase.getSTCheckValue());
-	
+
 		int n = NumberParser.getAsInt(mathBase.getSTCheckValue()) ;
 		baseProgramManager.getSQLStatus().setSQLCode(n) ;
 	}
-	
+
 	protected void resetSQLCode(String cs)
 	{
 		if(IsSTCheck)
@@ -5237,7 +5237,7 @@ public abstract class BaseProgram extends CJMapObject
 		int n = NumberParser.getAsInt(cs) ;
 		baseProgramManager.getSQLStatus().setSQLCode(n) ;
 	}
-	
+
 	protected void resetSQLCode(Var v)
 	{
 		if(IsSTCheck)
@@ -5249,7 +5249,7 @@ public abstract class BaseProgram extends CJMapObject
 			tempCache.resetTempIndex(v);
 	}
 
-	
+
 	/**
 	 * @param Var var
 	 * @return Number of bytes ureserved for storage of the var, as defined in working storage section
@@ -5264,16 +5264,16 @@ public abstract class BaseProgram extends CJMapObject
 			tempCache.resetTempIndex(v);
 		return n;
 	}
-	
-	protected CopyReplacing replacing(int nOldLevel, int nNewLevel) 
+
+	protected CopyReplacing replacing(int nOldLevel, int nNewLevel)
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("replacing_n_n" + nOldLevel + ":" + nNewLevel);
-	
+
 		CopyReplacing copyReplacing = new CopyReplacing(nOldLevel, nNewLevel);
 		return copyReplacing;
-	};	
-	
+	};
+
 	/**
 	 * @param Var varDest: Destination variable
 	 * @param String csValue: Semantic context value
@@ -5287,7 +5287,7 @@ public abstract class BaseProgram extends CJMapObject
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varDest);
 	}
-	
+
 	public void setSemanticContextValue(Edit editDest, String csValue)
 	{
 		if(IsSTCheck)
@@ -5296,7 +5296,7 @@ public abstract class BaseProgram extends CJMapObject
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(editDest);
 	}
-	
+
 	/**
 	 * @param Var varSource: Source variable whose semantic value is to be found
 	 * @return Semantic value associated with the source variable.
@@ -5311,12 +5311,12 @@ public abstract class BaseProgram extends CJMapObject
 			tempCache.resetTempIndex(varSource);
 		return cs;
 	}
-	
+
 	public String getSimpleName()
-	{		
+	{
 		return csSimpleName;
 	}
-	
+
 	private void initNames()
 	{
 		csSimpleName = toString();
@@ -5324,10 +5324,10 @@ public abstract class BaseProgram extends CJMapObject
 		if(n != -1)
 			csSimpleName = csSimpleName.substring(0, n);
 	}
-	
-	//private String csDecoratedName = null;		
+
+	//private String csDecoratedName = null;
 	public String csSimpleName = null;
-	
+
 
 //  CV 27-04-05 : unused
 //	protected int getLength(Edit e)
@@ -5337,7 +5337,7 @@ public abstract class BaseProgram extends CJMapObject
 //
 //		return e.getLength() ;
 //	}
-	
+
 	protected String currentDate()
 	{
 		if(IsSTCheck)
@@ -5349,45 +5349,45 @@ public abstract class BaseProgram extends CJMapObject
 		cs = cs.subSequence(0, 16) + cs.substring(17) ;
 		return cs ;
 	}
-	
+
 	protected int getNbOccurs(VarAndEdit v)
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("getNbOccurs_V" + v.getSTCheckValue());
-		
+
 		int n = v.getNbOccurs() ;
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(v);
 		return n;
 	}
-	
+
 //	public CSession getCurrentSession()
 //	{
 //		if(IsSTCheck)
 //			Log.logFineDebug("getCurrentSession");
 //		return programManager.getCurrentSession();
 //	}
-	
+
 	public Console console()
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("console");
 		return new Console() ;
 	}
-	
+
 	public CSQLStatus sqlRollback()
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("sqlRollback");
 		return baseProgramManager.sqlRollback();
 	}
-		
+
 	public CSQLStatus sqlCommit()
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("sqlCommit");
 		return baseProgramManager.sqlCommit();
-	}	
+	}
 
 	public void openOutput(FileDescriptor fileDesc)
 	{
@@ -5395,70 +5395,70 @@ public abstract class BaseProgram extends CJMapObject
 			Log.logFineDebug("openOutput_FD" + fileDesc.toString());
 		fileDesc.openOutput();
 	}
-	
+
 	public void openInputOutput(FileDescriptor fileDesc)
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("openInputOutput_FD" + fileDesc.toString());
 		fileDesc.openInputOutput();
 	}
-	
+
 	public void openInput(FileDescriptor fileDesc)
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("openInputFD" + fileDesc.toString());
 		fileDesc.openInput();
 	}
-	
+
 	public void openExtend(FileDescriptor fileDesc)
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("openExtendFD" + fileDesc.toString());
 		fileDesc.openExtend();
 	}
-	
+
 	public void close(FileDescriptor fileDesc)
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("close_FD" + fileDesc.toString());
 		fileDesc.close();
 	}
-	
+
 	public void write(FileDescriptor fileDesc)
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("write_FD" + fileDesc.toString());
 		fileDesc.write();
 	}
-	
+
 	public void writeAfter(FileDescriptor fileDesc, int after)
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("writeAfter_FDA" + fileDesc.toString() + "," + after);
 		fileDesc.writeAfter(after);
 	}
-	
+
 	public void writeFrom(FileDescriptor fileDesc, Var varFrom)
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("write_FD" + fileDesc.toString());
 		fileDesc.writeFrom(varFrom);
 	}
-	
+
 	public void rewriteFrom(FileDescriptor fileDesc, Var varFrom)
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("rewrite_FD" + fileDesc.toString());
 		fileDesc.rewriteFrom(varFrom);
 	}
-	
+
 	public void rewrite(FileDescriptor fileDesc)
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("rewrite_FD" + fileDesc.toString());
 		fileDesc.rewrite();
 	}
-	
+
 	public RecordDescriptorAtEnd read(FileDescriptor fileDesc)
 	{
 		if(IsSTCheck)
@@ -5466,22 +5466,22 @@ public abstract class BaseProgram extends CJMapObject
 		RecordDescriptorAtEnd end = fileDesc.read();
 		return end;
 	}
-	
+
 	public RecordDescriptorAtEnd readInto(FileDescriptor fileDesc, Var varDest)
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("read_FD" + fileDesc.toString());
 		return fileDesc.readInto(varDest);
 	}
-	
+
 	public SortCommand sort(SortDescriptor sortDescriptor)
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("sort_SortDescriptor");
 		SortCommand sortCommand = new SortCommand(getProgramManager(), sortDescriptor);
-		return sortCommand; 
+		return sortCommand;
 	}
-	
+
 	public void release(Var varRecord)
 	{
 		if(IsSTCheck)
@@ -5494,7 +5494,7 @@ public abstract class BaseProgram extends CJMapObject
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varRecord);
 	}
-	
+
 	public void release(Var varRecord, Var varFrom)
 	{
 		if(IsSTCheck)
@@ -5507,7 +5507,7 @@ public abstract class BaseProgram extends CJMapObject
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(varRecord, varFrom);
 	}
-	
+
 	public RecordDescriptorAtEnd returnSort(SortDescriptor sortDescriptor)
 	{
 		if(IsSTCheck)
@@ -5520,18 +5520,18 @@ public abstract class BaseProgram extends CJMapObject
 		}
 		return RecordDescriptorAtEnd.End;
 	}
-	
+
 	public RecordDescriptorAtEnd returnSort(SortDescriptor sortDescriptor, Var varInto)
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("release_SortDescriptor_Var");
-		
+
 		SortParagHandler sortParagHandler = getProgramManager().getCurrentSortParagHandler();
 		if(sortParagHandler != null)
 		{
 			RecordDescriptorAtEnd end = sortParagHandler.returnSort(sortDescriptor);
 			if(!end.atEnd())
-				sortDescriptor.moveInto(varInto); 
+				sortDescriptor.moveInto(varInto);
 			if(isusedTempVarOrCStr)
 				tempCache.resetTempIndex(varInto);
 			return end;
@@ -5540,12 +5540,12 @@ public abstract class BaseProgram extends CJMapObject
 			tempCache.resetTempIndex(varInto);
 		return RecordDescriptorAtEnd.End;
 	}
-	
+
 	public Output output()
 	{
 		return new Output();
 	}
-	
+
 	public String getDateBatch()
 	{
 		if(IsSTCheck)
@@ -5555,7 +5555,7 @@ public abstract class BaseProgram extends CJMapObject
 		String cs = formatter.format(date) ;
 		return cs;
 	}
-	
+
 	public String getTimeBatch()
 	{
 		if(IsSTCheck)
@@ -5565,7 +5565,7 @@ public abstract class BaseProgram extends CJMapObject
 		String cs = formatter.format(date) ;
 		return cs.substring(0, 8);
 	}
-	
+
 	public String getDayBatch()
 	{
 		if(IsSTCheck)
@@ -5575,7 +5575,7 @@ public abstract class BaseProgram extends CJMapObject
 		String cs = formatter.format(date) ;
 		return cs;
 	}
-	
+
 	public String getDayOfWeekBatch()
 	{
 		if(IsSTCheck)
@@ -5585,65 +5585,65 @@ public abstract class BaseProgram extends CJMapObject
 		i = i == Calendar.SUNDAY ? 7 : i - 1;
 		return Integer.toString(i);
 	}
-	
+
 	public int getReturnCode()
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("getReturnCode()");
 		return JVMReturnCodeManager.getExitCode();
 	}
-	
+
 	public void setReturnCode(int nReturnCode)
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("setReturnCode(n)" + nReturnCode);
 		JVMReturnCodeManager.setExitCode(nReturnCode);
 	}
-	
+
 	public void setReturnCode(Var varReturnCode)
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("setReturnCode(V)" + varReturnCode.getSTCheckValue());
 		JVMReturnCodeManager.setExitCode(varReturnCode.getInt());
 	}
-	
+
 	public void setReturnCode(String csReturnCode)
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("setReturnCode(cs)" + csReturnCode);
 		JVMReturnCodeManager.setExitCode(Integer.valueOf(csReturnCode).intValue());
 	}
-	
+
 	public String val(String cs)
 	{
 		return cs;
 	}
-	
+
 	public String val(int n)
 	{
 		return String.valueOf(n);
 	}
-	
+
 	public String val(double d)
 	{
 		return String.valueOf(d);
 	}
-	
+
 	public String val(boolean b)
 	{
 		return String.valueOf(b);
 	}
-	
+
 	public String val(long l)
 	{
 		return String.valueOf(l);
 	}
-	
+
 	public String val(short s)
 	{
 		return String.valueOf(s);
 	}
-	
+
 	public String val(Var var)
 	{
 		//String cs = var.getDottedSignedString()
@@ -5652,12 +5652,12 @@ public abstract class BaseProgram extends CJMapObject
 			tempCache.resetTempIndex(var);
 		return cs;
 	}
-	
+
 	public void display(Concat conc)
 	{
 		display(conc.getString());
 	}
-	
+
 	public void display(int n)
 	{
 		display(String.valueOf(n));
@@ -5667,22 +5667,22 @@ public abstract class BaseProgram extends CJMapObject
 	{
 		display(String.valueOf(l));
 	}
-	
+
 	public void display(short s)
 	{
 		display(String.valueOf(s));
 	}
-	
+
 	public void display(double d)
 	{
 		display(String.valueOf(d));
 	}
-	
+
 	public void display(boolean b)
 	{
 		display(String.valueOf(b));
 	}
-	
+
 	public void display(String csMessage)
 	{
 		LogDisplay.log(csMessage);
@@ -5690,29 +5690,29 @@ public abstract class BaseProgram extends CJMapObject
 
 	public void display(VarAndEdit var)
 	{
-		String csMessage = var.getDottedSignedString();
+		String csMessage = var.getDottedSignedStringAsSQLCol();
 		LogDisplay.log(csMessage);
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(var);
 	}
-	
+
 	public void displayEnv(VarAndEdit var)
 	{
 		String csMessage = var.getDottedSignedString();
 		baseProgramManager.getEnv().setDisplay(csMessage);
 		resetTempIndex(var);
 	}
-	
+
 	protected String getLastCommandReturnCode()
 	{
 		/*
-		 * This EIB field contains the CICS response code returned after the function requested by the 
-		 * last CICS command to be issued by the task has been completed. 
-		 * For a normal response, this field contains hexadecimal zeros (X'00'). 
-		 * For COBOL programs only, almost all of the information in this field can be used within 
+		 * This EIB field contains the CICS response code returned after the function requested by the
+		 * last CICS command to be issued by the task has been completed.
+		 * For a normal response, this field contains hexadecimal zeros (X'00').
+		 * For COBOL programs only, almost all of the information in this field can be used within
 		 * Var VNS4 = _02().picS9(4).value(4);ication programs by the HANDLE CONDITION command.
 		 * For COBOL: PIC X(6)
-		 */ 
+		 */
 		if(IsSTCheck)
 			Log.logFineDebug("getLastCommandReturnCode:");
 
@@ -5730,7 +5730,7 @@ public abstract class BaseProgram extends CJMapObject
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("setTime_V:" + v.getSTCheckValue());
-		
+
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(v);
 
@@ -5746,7 +5746,7 @@ public abstract class BaseProgram extends CJMapObject
 		//getProgramManager().cESMEnv.setTime(v) ;
 	}
 
-	
+
 	/**
 	 * @return String
 	 * This EIB field contains the date  at which the task is started
@@ -5765,11 +5765,11 @@ public abstract class BaseProgram extends CJMapObject
 	protected int getConditionOccured()
 	{	// http://publib.boulder.ibm.com/infocenter/txen/topic/com.ibm.txseries510.doc/erzhai00148.htm#TBLZR009T4
 	/* EIBRESP
-	 * This EIB field contains a 32-bit binary number corresponding to the condition that has occurred. 
-	 * These numbers are listed in Table 26 (in decimal) for the conditions that can occur 
-	 * on local requests during execution of the commands described in CICS API command reference. 
+	 * This EIB field contains a 32-bit binary number corresponding to the condition that has occurred.
+	 * These numbers are listed in Table 26 (in decimal) for the conditions that can occur
+	 * on local requests during execution of the commands described in CICS API command reference.
 	 * For COBOL: PIC S9(8) COMP
-	 */ 
+	 */
 		if(IsSTCheck)
 			Log.logFineDebug("getConditionOccured:");
 
@@ -5778,11 +5778,11 @@ public abstract class BaseProgram extends CJMapObject
 	protected void setConditionOccured(Var v)
 	{	// http://publib.boulder.ibm.com/infocenter/txen/topic/com.ibm.txseries510.doc/erzhai00148.htm#TBLZR009T4
 	/* EIBRESP
-	 * This EIB field contains a 32-bit binary number corresponding to the condition that has occurred. 
-	 * These numbers are listed in Table 26 (in decimal) for the conditions that can occur 
-	 * on local requests during execution of the commands described in CICS API command reference. 
+	 * This EIB field contains a 32-bit binary number corresponding to the condition that has occurred.
+	 * These numbers are listed in Table 26 (in decimal) for the conditions that can occur
+	 * on local requests during execution of the commands described in CICS API command reference.
 	 * For COBOL: PIC S9(8) COMP
-	 */ 
+	 */
 		if(IsSTCheck)
 			Log.logFineDebug("setConditionOccured_V:" + v.getSTCheckValue());
 
@@ -5791,22 +5791,22 @@ public abstract class BaseProgram extends CJMapObject
 	protected void setConditionOccured(int n)
 	{	// http://publib.boulder.ibm.com/infocenter/txen/topic/com.ibm.txseries510.doc/erzhai00148.htm#TBLZR009T4
 	/* EIBRESP
-	 * This EIB field contains a 32-bit binary number corresponding to the condition that has occurred. 
-	 * These numbers are listed in Table 26 (in decimal) for the conditions that can occur 
-	 * on local requests during execution of the commands described in CICS API command reference. 
+	 * This EIB field contains a 32-bit binary number corresponding to the condition that has occurred.
+	 * These numbers are listed in Table 26 (in decimal) for the conditions that can occur
+	 * on local requests during execution of the commands described in CICS API command reference.
 	 * For COBOL: PIC S9(8) COMP
-	 */ 
+	 */
 		if(IsSTCheck)
 			Log.logFineDebug("setConditionOccured_n:" + n);
 
 		getCESM().setConditionOccured(n);
 	}
-		
+
 	protected int getTaskNumber()
 	{
 		/*
-		 * This EIB field contains the task number assigned to the task by CICS. 
-		 * This number appears in trace entries generated while the task is in control. 
+		 * This EIB field contains the task number assigned to the task by CICS.
+		 * This number appears in trace entries generated while the task is in control.
 		 * For COBOL: PIC S9(7) COMP-3
 		 */
 		//TODO fake function getTaskNumber
@@ -5815,7 +5815,7 @@ public abstract class BaseProgram extends CJMapObject
 
 		return 0 ;
 	}
-	
+
 	protected String getTerminalID()
 	{ // PIC X(4)
 		if(IsSTCheck)
@@ -5823,7 +5823,7 @@ public abstract class BaseProgram extends CJMapObject
 
 		return getProgramManager().getTerminalID() ;
 	}
-	
+
 	protected String getTransID()
 	{ // PIC X(4)
 		if(IsSTCheck)
@@ -5831,10 +5831,10 @@ public abstract class BaseProgram extends CJMapObject
 
 		return getCESM().getEnvironment().getCurrentTransaction() ;
 	}
-	
+
 	/**
 	 * @param Edit e: KeyPressed key
-	 * @return true if the last key hit is the same as key in parameter, false otherwise  
+	 * @return true if the last key hit is the same as key in parameter, false otherwise
 	 */
 	protected boolean isKeyPressed(KeyPressed key)
 	{
@@ -5845,9 +5845,9 @@ public abstract class BaseProgram extends CJMapObject
 	}
 
 	/**
-	 * 
-	 * Forget last key pressed 
-	 * Internal usage only 
+	 *
+	 * Forget last key pressed
+	 * Internal usage only
 	 */
 	protected void resetKeyPressed()
 	{
@@ -5859,7 +5859,7 @@ public abstract class BaseProgram extends CJMapObject
 	/**
 	 * @param Var var
 	 * Internal usage only
-	 * Set the last key pressed as the value of var 
+	 * Set the last key pressed as the value of var
 	 */
 	protected void setKeyPressed(Var v)
 	{
@@ -5870,7 +5870,7 @@ public abstract class BaseProgram extends CJMapObject
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(v);
 	}
-	
+
 	/**
 	 * @param KeyPressed key
 	 * Internal usage only
@@ -5883,18 +5883,18 @@ public abstract class BaseProgram extends CJMapObject
 
 		getProgramManager().setKeyPressed(key) ;
 	}
-	
+
 	/**
 	 * @param Edit e: KeyPressed key
-	 * @return false if the last key hit is the same as key in parameter, true otherwise  
-	 */	
+	 * @return false if the last key hit is the same as key in parameter, true otherwise
+	 */
 	protected boolean isNotKeyPressed(KeyPressed key)
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("isNotKeyPressed_k:" + key.getSTCheckValue());
 		return getProgramManager().GetKeyPressed() != key ;
 	}
-	
+
 		/**
 	 * @return KeyPressed object identifying last key pressed
 	 */
@@ -5905,9 +5905,9 @@ public abstract class BaseProgram extends CJMapObject
 
 		return getProgramManager().GetKeyPressed() ;
 	}
-	
+
 	protected abstract BaseCESMManager getCESM();
-	
+
 	/**Method: Var getCommAreaLength()
 	 * Return the commarea length in a Var. It may be 0 if no commera defined.
 	 * @param:
@@ -5932,10 +5932,10 @@ public abstract class BaseProgram extends CJMapObject
 		getProgramManager().setCommAreaLength(n);
 	}
 
-	
+
 	/**
 	 * @return String identifying the last CICS command
-	 * @see http://publib.boulder.ibm.com/infocenter/txen/index.jsp?topic=/com.ibm.txseries510.doc/erzhai00150.htm ; 
+	 * @see http://publib.boulder.ibm.com/infocenter/txen/index.jsp?topic=/com.ibm.txseries510.doc/erzhai00150.htm ;
 	 */
 	protected String getLastCICSCommandExecutedCode()
 	{	 // PIC X(2)
@@ -5944,7 +5944,7 @@ public abstract class BaseProgram extends CJMapObject
 
 		return getCESM().getLastCommandCode() ;
 	}
-//	
+//
 //	private void releaseTempCache()
 //	{
 //		tempCache = null;
@@ -5964,43 +5964,43 @@ public abstract class BaseProgram extends CJMapObject
 	private boolean isusedTempVarOrCStr = false;
 	private boolean isusedTempVar = false;
 	private boolean isusedCStr = false;
-	
+
 	public void resetTempIndex(VarBase... vars)
 	{
 		if(isusedTempVarOrCStr)
 			tempCache.resetTempIndex(vars);
 	}
-	
+
 	public void setUseTempVar()
 	{
 		isusedTempVar = true;
 		isusedTempVarOrCStr = true;
 	}
-	
+
 	public void setUseCStr()
 	{
 		isusedCStr = true;
 		isusedTempVarOrCStr = true;
 	}
-	
+
 	public void resetUseTempVar()
 	{
 		isusedTempVar = false;
 		isusedTempVarOrCStr = isusedCStr;
 	}
-	
+
 	public void resetUseCStr()
 	{
 		isusedCStr = false;
 		isusedTempVarOrCStr = isusedTempVar;
 	}
-	
+
 	public void accept(Var varDest)
-	{		
+	{
 		String cs = ConsoleInput.getKeyboardLine();
 		varDest.set(cs);
-	}		
-	
+	}
+
 	public void acceptEnv(Var varDest)
 	{
 		varDest.set(baseProgramManager.getEnv().getDisplayValue());

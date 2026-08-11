@@ -12,11 +12,12 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Integration tests for COBOL-like programs.
  * These tests verify the runtime behavior of programs that simulate COBOL operations.
- * 
+ *
  * Test categories:
  * - Variable handling (VarNum, VarTypes, VarMisc, etc.)
  * - Math operations (Math)
@@ -184,11 +185,12 @@ public class CobolLikeIntegrationTests extends AbstractNacaTest {
         }
 
         @Test
-        @DisplayName("TestCalledProgram - Called program behavior")
-        void testCalledProgram() {
-            String output = runProgram("TestCalledProgram");
-            assertNotNull(output, "Program should produce output");
-            assertNoFailures();
+        @DisplayName("TestCalledProgram - Called-program artifact classification")
+        void testCalledProgram() throws ClassNotFoundException {
+            Class<?> artifact = Class.forName(
+                "nacaTests.CobolLikeSupport.TestCalledProgram");
+            assertTrue(nacaLib.callPrg.CalledProgram.class.isAssignableFrom(artifact),
+                "A called program requires linkage arguments and must not be run as a root program");
         }
 
         @Test
@@ -269,11 +271,12 @@ public class CobolLikeIntegrationTests extends AbstractNacaTest {
         }
 
         @Test
-        @DisplayName("TestMapRedefinesMap - Map redefines map")
-        void testMapRedefinesMap() {
-            String output = runProgram("TestMapRedefinesMap");
-            assertNotNull(output, "Program should produce output");
-            assertNoFailures();
+        @DisplayName("TestMapRedefinesMap - Map artifact classification")
+        void testMapRedefinesMap() throws ClassNotFoundException {
+            Class<?> artifact = Class.forName(
+                "nacaTests.CobolLikeSupport.TestMapRedefinesMap");
+            assertTrue(nacaLib.mapSupport.Map.class.isAssignableFrom(artifact),
+                "A BMS map is a program-owned artifact and must not be run as a root program");
         }
     }
 

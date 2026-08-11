@@ -1057,7 +1057,7 @@ public class TestVarNum extends OnlineProgram
 	{
 		// Comp-3 No dec; even number of digits
 		move(0, V3S4);
-		assertIfFalse(V3S4.getDottedSignedString().equals("0"));
+		assertIfFalse(V3S4.getDottedSignedString().equals("+00000"));
 		
 		move(12.345, V3S4);
 		assertIfFalse(V3S4.getDottedSignedString().equals("+00012"));

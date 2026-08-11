@@ -65,7 +65,7 @@ public class TestSubstring extends OnlineProgram
 		assertIfFalse(cs.equals("890"));
 		
 		cs = subString(CUST_NAME, 9, 3);
-		assertIfFalse(cs.equals(""));	// Is ti 90 ?
+		assertIfFalse(cs.equals("90"));	// COBOL substring clips at the source boundary.
 
 		cs = subString(CUST_NAME, 12, 3);
 		assertIfFalse(cs.equals(""));

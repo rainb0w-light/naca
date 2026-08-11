@@ -9,18 +9,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class TestAssertionCollector {
-    
+
     private static final ThreadLocal<TestAssertionCollector> INSTANCE = new ThreadLocal<>();
-    
+
     private final List<AssertionResult> results = new ArrayList<>();
     private boolean collecting = false;
-    
+
     public static final class AssertionResult {
         public final boolean passed;
         public final String message;
         public final String expected;
         public final String actual;
-        
+
         AssertionResult(boolean passed, String message, String expected, String actual) {
             this.passed = passed;
             this.message = message;
@@ -28,9 +28,9 @@ public final class TestAssertionCollector {
             this.actual = actual;
         }
     }
-    
+
     private TestAssertionCollector() {}
-    
+
     public static TestAssertionCollector getInstance() {
         TestAssertionCollector collector = INSTANCE.get();
         if (collector == null) {
@@ -39,33 +39,33 @@ public final class TestAssertionCollector {
         }
         return collector;
     }
-    
+
     public static void startCollecting() {
         TestAssertionCollector collector = getInstance();
         collector.results.clear();
         collector.collecting = true;
     }
-    
+
     public static void stopCollecting() {
         TestAssertionCollector collector = getInstance();
         collector.collecting = false;
     }
-    
+
     public static void clear() {
         getInstance().results.clear();
     }
-    
+
     public static boolean isCollecting() {
         TestAssertionCollector collector = INSTANCE.get();
         return collector != null && collector.collecting;
     }
-    
+
     public static void addResult(boolean passed, String message, String expected, String actual) {
         if (isCollecting()) {
             getInstance().results.add(new AssertionResult(passed, message, expected, actual));
         }
     }
-    
+
     public static void assertTrue(boolean condition, String message) {
         if (isCollecting()) {
             addResult(condition, message, "true", String.valueOf(condition));
@@ -73,7 +73,7 @@ public final class TestAssertionCollector {
             throw new AssertionError(message);
         }
     }
-    
+
     public static void assertEquals(String expected, String actual, String message) {
         boolean passed = expected != null ? expected.equals(actual) : actual == null;
         if (isCollecting()) {
@@ -82,7 +82,16 @@ public final class TestAssertionCollector {
             throw new AssertionError(message + " - Expected: " + expected + ", Actual: " + actual);
         }
     }
-    
+
+    public static void assertNotEquals(String actual, String prohibited, String message) {
+        boolean passed = actual != null ? !actual.equals(prohibited) : prohibited != null;
+        if (isCollecting()) {
+            addResult(passed, message, "different from " + prohibited, actual);
+        } else if (!passed) {
+            throw new AssertionError(message + " - Expected a value different from: " + prohibited);
+        }
+    }
+
     public static void assertEquals(int expected, int actual, String message) {
         boolean passed = expected == actual;
         if (isCollecting()) {
@@ -91,7 +100,7 @@ public final class TestAssertionCollector {
             throw new AssertionError(message + " - Expected: " + expected + ", Actual: " + actual);
         }
     }
-    
+
     public static void assertEquals(double expected, double actual, String message) {
         boolean passed = Double.compare(expected, actual) == 0;
         if (isCollecting()) {
@@ -100,7 +109,7 @@ public final class TestAssertionCollector {
             throw new AssertionError(message + " - Expected: " + expected + ", Actual: " + actual);
         }
     }
-    
+
     public static void assertNotNull(Object obj, String message) {
         boolean passed = obj != null;
         if (isCollecting()) {
@@ -109,7 +118,7 @@ public final class TestAssertionCollector {
             throw new AssertionError(message + " - Expected: not null");
         }
     }
-    
+
     public static void fail(String message) {
         if (isCollecting()) {
             addResult(false, message, null, null);
@@ -117,11 +126,11 @@ public final class TestAssertionCollector {
             throw new AssertionError(message);
         }
     }
-    
+
     public List<AssertionResult> getResults() {
         return new ArrayList<>(results);
     }
-    
+
     public boolean hasFailures() {
         for (AssertionResult result : results) {
             if (!result.passed) {
@@ -130,7 +139,7 @@ public final class TestAssertionCollector {
         }
         return false;
     }
-    
+
     public int getFailureCount() {
         int count = 0;
         for (AssertionResult result : results) {
@@ -140,7 +149,7 @@ public final class TestAssertionCollector {
         }
         return count;
     }
-    
+
     public String getFailureSummary() {
         StringBuilder sb = new StringBuilder();
         for (AssertionResult result : results) {

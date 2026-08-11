@@ -20,7 +20,7 @@ import nacaLib.varEx.Pic9Comp3BufferSupport;
 public class CStr
 {
 	//CStrManager m_manager = null;
-	
+
 	public CStr()
 	{
 	}
@@ -34,14 +34,14 @@ public class CStr
 				return;
 		set(new char[n], 0, 0);
 	}
-		
+
 	public void set(char acBuffer[], int nStartPos, int nLength)
 	{
 		this.acBuffer = acBuffer;
 		this.nStartPos = nStartPos;
 		this.nLength = nLength;
 	}
-	
+
 	public void set(String cs)
 	{
 		if(cs != null)
@@ -63,7 +63,7 @@ public class CStr
 		nStartPos += +nNbChar;
 		nLength -= nNbChar;
 	}
-	
+
 	public void insert(int nPosition, char c)
 	{
 		int nNbCharRight = nLength-nPosition;
@@ -74,33 +74,33 @@ public class CStr
 		acBuffer[nPosition] = c;
 	}
 
-	
+
 	public int length()
 	{
 		return nLength;
 	}
-	
+
 	public char charAt(int n)
 	{
-		return acBuffer[n + nStartPos]; 
+		return acBuffer[n + nStartPos];
 	}
-	
+
 	public void setCharAt(int nPosition, char cDigit)
 	{
 		acBuffer[nStartPos + nPosition] = cDigit;
 	}
-	
+
 	public void setLength(int n)
 	{
 		nLength = n;
 	}
-	
+
 	public void append(char c)
 	{
 		acBuffer[nStartPos + nLength] = c;
-		nLength++;		
+		nLength++;
 	}
-	
+
 	public void append(CStr csInt)
 	{
 		for(int n=0; n<csInt.length(); n++)
@@ -110,7 +110,7 @@ public class CStr
 			nLength++;
 		}
 	}
-	
+
 	public void guaranteeMinialSize(int nMinimalSize)
 	{
 		if(acBuffer.length < nMinimalSize)
@@ -118,18 +118,18 @@ public class CStr
 			char acNewBuffer[] = new char [nMinimalSize];
 			for(int n=0; n<acBuffer.length; n++)
 			{
-				acNewBuffer[n] = acBuffer[n]; 
+				acNewBuffer[n] = acBuffer[n];
 			}
 			acBuffer = acNewBuffer;
 		}
 	}
-	
+
 	public void selfSubstring(int nLeftPos)
 	{
 		nStartPos += nLeftPos;
 		nLength -= nLeftPos;
 	}
-	
+
 //	public void selfTrimLeftRight()
 //	{
 //		int n = 0;
@@ -141,7 +141,7 @@ public class CStr
 //		}
 //		nStartPos += n;
 //		nLength -= n;
-//		
+//
 //		while(nLength >= 0)
 //		{
 //			char c = acBuffer[nStartPos + nLength - 1];
@@ -150,44 +150,44 @@ public class CStr
 //			nLength--;
 //		}
 //	}
-	
+
 	public String toString()
 	{
 		return "\"" + new String(acBuffer, nStartPos, nLength) + "\"";
 	}
-	
+
 	public String getAsString()
 	{
 		return new String(acBuffer, nStartPos, nLength);
 	}
-	
-	
+
+
 	public boolean isOnlyAlphabetic()
-	{		
+	{
 		int nMax = nStartPos+nLength;
 		for(int n=nStartPos; n<nMax; n++)
 		{
 			char c = acBuffer[n];
 			if(!((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || c == ' '))
-				return false;  
+				return false;
 		}
 		return true;
 	}
-	
+
 	public boolean isOnlyNumeric()
-	{		
+	{
 		int nMax = nStartPos+nLength;
 		for(int n=nStartPos; n<nMax; n++)
 		{
 			char c = acBuffer[n];
 			if(!((c >= '0' && c <= '9') || c == '+' || c == '-' ))
-				return false;  
+				return false;
 		}
 		return true;
 	}
 
 	public boolean isOnlyNumericComp0(boolean bSigned, boolean bDec)
-	{		
+	{
 		int nNbDec = 0;
 		int nMax = nStartPos+nLength;
 		for(int n=nStartPos; n<nMax-1; n++)
@@ -196,15 +196,15 @@ public class CStr
 			if(c == '.')
 				nNbDec++;
 			else if(c < '0' || c > '9')
-				return false;  
+				return false;
 		}
-		
+
 		if((bDec && (nNbDec == 0 || nNbDec == 1)) || !bDec)	// Maximum 1 . for decimals
 		{
 			char c = acBuffer[nMax-1];
 			if(bSigned)
 			{
-				if((c >= (char)0xC0 && c <= (char)0xC9) || (c >= (char)0xD0 && c <= (char)0xD9))   
+				if((c >= (char)0xC0 && c <= (char)0xC9) || (c >= (char)0xD0 && c <= (char)0xD9))
 					return true;
 				return false;
 			}
@@ -212,20 +212,20 @@ public class CStr
 			{
 				if(c < '0' || c > '9')
 					return false;
-				return true;				
+				return true;
 			}
 		}
 		return false;
 	}
-	
+
 	public boolean isOnlyNumericComp3(boolean bSigned)
-	{		
+	{
 		int nMax = nStartPos+nLength;
 		for(int n=nStartPos; n<nMax-1; n++)
 		{
 			int nByte = acBuffer[n];
 			int nHigh = (nByte & 0x00F0) >> 4;
-			int nLow = nByte & 0x000F;	
+			int nLow = nByte & 0x000F;
 			if(nHigh >= 10 || nLow >= 10)
 				return false;
 		}
@@ -240,11 +240,11 @@ public class CStr
 			return true;
 		return false;
 	}
-	
+
 	public boolean isOnlyNumericComp0SignLeading(boolean bDec)
 	{
 		int nNbDec = 0;
-		
+
 		char c = acBuffer[nStartPos];
 		if(c != '-' && c != '+')
 			return false;
@@ -258,15 +258,13 @@ public class CStr
 			else if(c < '0' || c > '9')
 				return false;
 		}
-		if(bDec && (nNbDec == 0 || nNbDec == 1))	// Maximum 1 . for decimals
-			return true;
-		return false;
+		return bDec ? nNbDec <= 1 : nNbDec == 0;
 	}
-	
+
 	public boolean isOnlyNumericComp0SignTrailing(boolean bDec)
 	{
 		int nNbDec = 0;
-		
+
 		int nMax = nStartPos+nLength;
 		for(int n=nStartPos; n<nMax-1; n++)
 		{
@@ -274,24 +272,20 @@ public class CStr
 			if(c == '.')
 				nNbDec++;
 			else if(c < '0' || c > '9')
-				return false;  
-		}
-		
-		if(bDec && (nNbDec == 0 || nNbDec == 1))	// Maximum 1 . for decimals
-		{
-			char c = acBuffer[nMax-1];
-			if(c != '-' && c != '+')
 				return false;
-			return true;
 		}
-		return false;
+
+		char c = acBuffer[nMax-1];
+		if(c != '-' && c != '+')
+			return false;
+		return bDec ? nNbDec <= 1 : nNbDec == 0;
 	}
-	
+
 	public int getAsInt()
 	{
 		if(nLength == 0)
 			return 0;
-				
+
 		int nValue = 0;
 		int nSource = nStartPos;
 		int nMax = nLength + nStartPos;
@@ -318,14 +312,14 @@ public class CStr
 		}
 		if(isnegative)
 			return -nValue;
-		return nValue;	
+		return nValue;
 	}
-	
+
 	public int getAsUnsignedInt()
 	{
 		if(nLength == 0)
 			return 0;
-				
+
 		int nValue = 0;
 		int nSource = nStartPos;
 		int nMax = nStartPos + nLength;
@@ -344,14 +338,14 @@ public class CStr
 			else if (nSource == nStartPos) // first char is not a digit
 				return 0 ;
 		}
-		return nValue;	
+		return nValue;
 	}
-	
+
 	public long getAsLong()
 	{
 		if(nLength == 0)
 			return 0;
-				
+
 		long lValue = 0;
 		boolean isnegative = false;
 		int nSource = nStartPos;
@@ -378,14 +372,14 @@ public class CStr
 		}
 		if(isnegative)
 			return -lValue;
-		return lValue;	
+		return lValue;
 	}
-	
+
 	public BigDecimal makeBigDecimal()
 	{
 		return new BigDecimal(acBuffer , nStartPos, nLength);
 	}
-	
+
 	public CStr duplicate()
 	{
 		CStr csCopy = new CStr();
@@ -393,11 +387,11 @@ public class CStr
 		csCopy.set(new char[nBufferLength], nStartPos, nLength);
 		for(int n=0; n<nBufferLength; n++)
 		{
-			csCopy.acBuffer[n] = acBuffer[n]; 
+			csCopy.acBuffer[n] = acBuffer[n];
 		}
-		return csCopy;		
+		return csCopy;
 	}
-	
+
 	public void setEbcdic()
 	{
 		for(int n=0; n<nLength; n++)
@@ -408,7 +402,7 @@ public class CStr
 		}
 	}
 
-	
+
 	protected char [] acBuffer;
 	protected int nStartPos = 0;
 	protected int nLength = 0;

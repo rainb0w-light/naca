@@ -5,7 +5,7 @@
   "ratchet": {
     "legacyRuntimeTests": {
       "tests": 46,
-      "failures": 8
+      "failures": 0
     },
     "sampleAcceptanceTests": 2,
     "sampleAcceptanceFailures": 0,

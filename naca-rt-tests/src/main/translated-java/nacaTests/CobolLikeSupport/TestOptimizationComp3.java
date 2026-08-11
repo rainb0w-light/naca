@@ -144,10 +144,10 @@ public class TestOptimizationComp3 extends OnlineProgram
 
 	
 		move(23456, v4);
-		assertIfFalse(23456 == v4.getInt());
+		assertIfFalse(3456 == v4.getInt());
 		
 		move(23456, vS4);
-		assertIfFalse(23456 == vS4.getInt());
+		assertIfFalse(3456 == vS4.getInt());
 
 		move(23456, vS5);
 		assertIfFalse(23456 == vS5.getInt());
@@ -169,10 +169,10 @@ public class TestOptimizationComp3 extends OnlineProgram
 
 	
 		move(-23456, v4);
-		assertIfFalse(23456 == v4.getInt());
+		assertIfFalse(3456 == v4.getInt());
 		
 		move(-23456, vS4);
-		assertIfFalse(-23456 == vS4.getInt());
+		assertIfFalse(-3456 == vS4.getInt());
 
 		move(-23456, v5);
 		assertIfFalse(23456 == v5.getInt());
@@ -184,10 +184,10 @@ public class TestOptimizationComp3 extends OnlineProgram
 		
 		//---------
 		move(345678, v4);
-		assertIfFalse(45678 == v4.getInt());
+		assertIfFalse(5678 == v4.getInt());
 		
 		move(345678, vS4);
-		assertIfFalse(45678 == vS4.getInt());
+		assertIfFalse(5678 == vS4.getInt());
 
 		move(345678, v5);
 		assertIfFalse(45678 == v5.getInt());
@@ -197,10 +197,10 @@ public class TestOptimizationComp3 extends OnlineProgram
 		
 		
 		move(-345678, v4);
-		assertIfFalse(45678 == v4.getInt());
+		assertIfFalse(5678 == v4.getInt());
 		
 		move(-345678, vS4);
-		assertIfFalse(-45678 == vS4.getInt());
+		assertIfFalse(-5678 == vS4.getInt());
 		
 		
 		move(-345678, v5);

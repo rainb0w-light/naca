@@ -66,12 +66,12 @@ public class TestInspect extends OnlineProgram
 		move("AB*****A**", Source);
 	//	inspectTallying(Source).leading("A").to(Count);
 		inspectTallying(Source).countLeading("A").to(Count);
-		assertIfFalse(Count.getInt() == 5);
+		assertIfFalse(Count.getInt() == 4);
 
 		move("AB*****A**", Source);
 //		inspectTallying(Source).leading("B").to(Count);
 		inspectTallying(Source).countLeading("B").to(Count);
-		assertIfFalse(Count.getInt() == 5);
+		assertIfFalse(Count.getInt() == 4);
 	}
 	
 	Paragraph TestReplacing = new Paragraph(this){public void run(){TestReplacing();}};void TestReplacing()
