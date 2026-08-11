@@ -36,9 +36,9 @@ public class CCondIsAlphabetic extends CExpression
 	public CCondIsAlphabetic(int line, CExpression term, int method, boolean bIsOpposite) // method is <0 : lower, =0 : normal, >0 upper
 	{
 		super(line) ;
-		term = term ;
+		this.term = term ;
 		method = 0 ;
-		bIsOpposite = bIsOpposite ;
+		this.bIsOpposite = bIsOpposite ;
 	}
 
 	protected boolean bIsOpposite = false ;
@@ -55,7 +55,7 @@ public class CCondIsAlphabetic extends CExpression
 //	public void WriteTo(CBaseExpressionExporter exporter)
 //	{
 //		exporter.Write(this) ;
-//	} 
+//	}
 //	public void WriteOpTo(CBaseExpressionExporter exp)
 //	{
 //		term.WriteTo(exp) ;
@@ -72,7 +72,7 @@ public class CCondIsAlphabetic extends CExpression
 	protected boolean CheckMembersBeforeExport()
 	{
 		boolean b = CheckMemberNotNull(term);
-		return b; 
+		return b;
 	}
 	/* (non-Javadoc)
 	 * @see parser.expression.CExpression#DoExport(org.w3c.dom.Document)

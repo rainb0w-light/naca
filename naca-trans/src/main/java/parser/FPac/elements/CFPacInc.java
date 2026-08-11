@@ -56,8 +56,8 @@ public class CFPacInc extends CLanguageElement
 
 	public void Increments(CIdentifier id, CTerminal term)
 	{
-		id = id ;
-		term = term ;
+		this.id = id ;
+		this.term = term ;
 	}
 
 

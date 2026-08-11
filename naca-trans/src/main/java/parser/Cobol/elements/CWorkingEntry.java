@@ -75,7 +75,7 @@ public class CWorkingEntry extends CCobolElement
 		public String text = "" ;
 		protected CWorkingPicType(String text)
 		{
-			text = text ;
+			this.text = text ;
 		}
 		public static CWorkingPicType STRING = new CWorkingPicType("STRING") ;
 		public static CWorkingPicType NUMBER = new CWorkingPicType("NUMBER") ;
@@ -121,7 +121,7 @@ public class CWorkingEntry extends CCobolElement
 	protected Vector<CIdentifier> tableSortKey = null ;
 	protected boolean istableSortedAscending = false ;
 	protected boolean isbinary = true ;
-	
+
 
 	/* (non-Javadoc)
 	 * @see parser.CLanguageElement#Parse(lexer.CTokenList)
@@ -141,7 +141,7 @@ public class CWorkingEntry extends CCobolElement
 			{
 				entryType = CWorkingEntryType.STRUCTURE ;
 				CGlobalEntityCounter.GetInstance().CountCobolVerb("WORKING_ENTRY") ;
-			} 
+			}
 			formalLevel = tokEntry.GetValue() ;
 			CBaseToken tokName = GetNext(); // consume NAME
 			if (tokName.IsKeyword() && tokName.GetKeyword()==CCobolKeywordList.FILLER)
@@ -166,7 +166,7 @@ public class CWorkingEntry extends CCobolElement
 			return false ;
 		}
 	}
-	
+
 	protected boolean ParsePicOptions()
 	{
 		boolean isdone = false ;
@@ -338,17 +338,17 @@ public class CWorkingEntry extends CCobolElement
 				{
 					tokValue = GetNext() ;
 				}
-				if (tokValue.GetType()==CTokenType.STRING || tokValue.GetType()==CTokenType.NUMBER || 
+				if (tokValue.GetType()==CTokenType.STRING || tokValue.GetType()==CTokenType.NUMBER ||
 					tokValue.GetType()==CTokenType.CONSTANT || tokValue.GetType()==CTokenType.MINUS)
 				{
-					value = ReadTerminal() ; 
+					value = ReadTerminal() ;
 				}
 				else if (tokValue.GetType()==CTokenType.PLUS)
 				{
 					CBaseToken tokNum = GetNext();
 					if (tokNum.GetType() == CTokenType.NUMBER)
 					{
-						value = ReadTerminal() ; 
+						value = ReadTerminal() ;
 					}
 					else
 					{
@@ -406,7 +406,7 @@ public class CWorkingEntry extends CCobolElement
 								tokDep = GetNext() ;
 							}
 						}
-						else 
+						else
 						{
 							return false ;
 						}
@@ -574,7 +574,7 @@ public class CWorkingEntry extends CCobolElement
 		byte[] tab = csPicType.getBytes() ;
 		int nCurrentChar = 0 ;
 		char repeatPattern = 0 ;
-		
+
 		while (nCurrentChar<tab.length)
 		{
 			char c = (char)tab[nCurrentChar] ;
@@ -591,7 +591,7 @@ public class CWorkingEntry extends CCobolElement
 				}
 				else if (c == 'V')
 				{
-					type = CWorkingPicType.DECIMAL ; 
+					type = CWorkingPicType.DECIMAL ;
 					length = 0 ;
 				}
 				else if (c == '9')
@@ -687,12 +687,12 @@ public class CWorkingEntry extends CCobolElement
 				}
 				else if (c == 'V' && type == CWorkingPicType.NUMBER)
 				{
-					type = CWorkingPicType.DECIMAL ; 
+					type = CWorkingPicType.DECIMAL ;
 					format += c ;
 				}
 				else if (c == 'V' && type == CWorkingPicType.SIGNED)
 				{
-					type = CWorkingPicType.SIGNED_DECIMAL ; 
+					type = CWorkingPicType.SIGNED_DECIMAL ;
 					format += c ;
 				}
 				else if (c == '9' && (type == CWorkingPicType.DECIMAL || type == CWorkingPicType.SIGNED_DECIMAL))
@@ -762,14 +762,14 @@ public class CWorkingEntry extends CCobolElement
 				else
 				{
 					Transcoder.logError(getLine(), "Unexpecting character : " + c) ;
-					return false ;					
+					return false ;
 				}
 			}
 			nCurrentChar ++ ;
 		}
 		return true ;
-	}			
-	
+	}
+
 	protected boolean ParsePicBrackets()
 	{
 		CBaseToken tokBra = GetCurrentToken();
@@ -797,11 +797,11 @@ public class CWorkingEntry extends CCobolElement
 				Transcoder.logError(getLine(), "Invalid parameter for PIC length : " + tokRep.toString());
 				return false ;
 			}
-			
+
 		}
 		return true ;
 	}
-	
+
 	protected boolean ParseContent()
 	{
 		boolean isdone = false ;
@@ -846,7 +846,7 @@ public class CWorkingEntry extends CCobolElement
 		return true ;
 	}
 
-	
+
 	/* (non-Javadoc)
 	 * @see parser.CLanguageElement#ExportCustom(org.w3c.dom.Document)
 	 */
@@ -860,7 +860,7 @@ public class CWorkingEntry extends CCobolElement
 		}
 		else if (entryType == CWorkingEntryType.VARIABLE)
 		{
-			eItem = root.createElement("Variable") ; 
+			eItem = root.createElement("Variable") ;
 		}
 		else
 		{
@@ -939,7 +939,7 @@ public class CWorkingEntry extends CCobolElement
 				{
 					eStruct.SetTableSize(eSize) ;
 				}
-				
+
 				for (CIdentifier indexedBy : occursIndexedBy)
 				{
 					CEntityIndex index = factory.NewEntityIndex(indexedBy.GetName()) ;
@@ -961,7 +961,7 @@ public class CWorkingEntry extends CCobolElement
 					else if (e.GetDataType() == CDataEntity.CDataEntityType.FORM)
 					{
 						CEntityResourceForm form = (CEntityResourceForm)e ;
-						//CEntityFormAccessor eAcc = (CEntityFormAccessor)e ; 
+						//CEntityFormAccessor eAcc = (CEntityFormAccessor)e ;
 						CBaseLanguageEntity ebase = DoSemanticAnalysisForMapRedefine(form, factory);
 						if (parent != null)
 							parent.AddChild(ebase);
@@ -997,13 +997,13 @@ public class CWorkingEntry extends CCobolElement
 			eAtt = factory.NewEntityAttribute(getLine(), name) ;
 			factory.programCatalog.RegisterAttribute(eAtt) ;
 		}
-		
+
 		if (eAtt == null)
 		{
 			Transcoder.logError(getLine(), "Cannot create semantic entity for entry: " + name);
 			return null ;
 		}
-		
+
 		eAtt.SetLevel(formalLevel) ;
 
 		eAtt.SetSignSeparateType(issignSeparateType) ;
@@ -1075,9 +1075,9 @@ public class CWorkingEntry extends CCobolElement
 		}
 
 		return eAtt;
-		
+
 	}
-	
+
 	/**
 	 * @param att
 	 */
@@ -1213,7 +1213,7 @@ public class CWorkingEntry extends CCobolElement
 								CEntityResourceField curF = eForm.GetCurrentRedefiningField() ;
 								name = curF.GetName() + "$edit" ;
 							}
-							CEntityFieldRedefine eSkip = factory.NewEntityFieldRedefine(le.getLine(), name, le.formalLevel); 
+							CEntityFieldRedefine eSkip = factory.NewEntityFieldRedefine(le.getLine(), name, le.formalLevel);
 							eParent.AddChild(eSkip) ;
 							le.DoSemanticAnalysisForChildren(eSkip, factory) ;
 							if (curRedefineStructure.field != null)
@@ -1222,7 +1222,7 @@ public class CWorkingEntry extends CCobolElement
 								{
 									Transcoder.logError(le.getLine(), "Unexpecting situation while analysing MAP REDEFINE");
 									throw new NacaTransAssertException("ERROR : unexpected situation while analysing MAP REDEFINE, line "+le.getLine()) ; // ASSERT
-								} 
+								}
 							}
 							else
 							{
@@ -1233,7 +1233,7 @@ public class CWorkingEntry extends CCobolElement
 						}
 						else
 						{
-							CEntitySkipFields eSkip = factory.NewEntityWorkingSkipField(le.getLine(), le.name, 1, le.formalLevel); 
+							CEntitySkipFields eSkip = factory.NewEntityWorkingSkipField(le.getLine(), le.name, 1, le.formalLevel);
 							eParent.AddChild(eSkip) ;
 							if (curRedefineStructure.field != null)
 							{
@@ -1241,7 +1241,7 @@ public class CWorkingEntry extends CCobolElement
 								{
 									Transcoder.logError(le.getLine(), "Unexpecting situation while analysing MAP REDEFINE");
 									throw new NacaTransAssertException("ERROR : unexpected situation while analysing MAP REDEFINE, line "+le.getLine()) ; // ASSERT
-								} 
+								}
 							}
 							else
 							{
@@ -1268,7 +1268,7 @@ public class CWorkingEntry extends CCobolElement
 						while (nTotalSize < nRemainingSizeInField && le != null)
 						{
 							int level = new Integer(le.formalLevel).intValue();
-							le.formalLevel = new Integer(level + 1).toString(); 
+							le.formalLevel = new Integer(level + 1).toString();
 							le.DoCustomSemanticAnalysis(eFieldRedef, factory) ;
 							nTotalSize += le.GetByteLength() ;
 							if (nTotalSize < nRemainingSizeInField)
@@ -1335,10 +1335,10 @@ public class CWorkingEntry extends CCobolElement
 						else
 						{
 							eForm.setCurrentConsumingState(state) ;
-							
+
 							CBaseLanguageEntity eData = le.DoCustomSemanticAnalysis(eParent, factory) ;
 							int n = le.DoSemanticAnalysisForMapRedefineForChildren(eForm, factory, eData, bSaveMap, structure) ;
-							
+
 							eForm.setCurrentConsumingState(state_sav) ;
 						}
 					}
@@ -1375,7 +1375,7 @@ public class CWorkingEntry extends CCobolElement
 					curRedefineStructure = structure.Current() ;
 					//eParent.AddChild(eData) ;
 				}
-				else 
+				else
 				{
 					if (nElementSize > nRemainingSizeInField)
 					{
@@ -1395,7 +1395,7 @@ public class CWorkingEntry extends CCobolElement
 				nbFields = eForm.ConsumeFieldsAsBytes(le.length);
 				if (nbFields>0)
 				{
-					CEntitySkipFields eSkip = factory.NewEntityWorkingSkipField(le.getLine(), le.name, nbFields, le.formalLevel); 
+					CEntitySkipFields eSkip = factory.NewEntityWorkingSkipField(le.getLine(), le.name, nbFields, le.formalLevel);
 					eParent.AddChild(eSkip) ;
 					nbFieldConsumed += nbFields ;
 					if (curRedefineStructure.field != null && bSaveMap)
@@ -1410,7 +1410,7 @@ public class CWorkingEntry extends CCobolElement
 						{
 							Transcoder.logError(le.getLine(), "Unexpecting situation while analysing MAP REDEFINE");
 							throw new NacaTransAssertException("ERROR : unexpected situation while analysing MAP REDEFINE, line "+le.getLine()) ; // ASSERT
-						} 
+						}
 					}
 					else
 					{
@@ -1418,18 +1418,18 @@ public class CWorkingEntry extends CCobolElement
 						curRedefineStructure.size = nbFields ;
 						curRedefineStructure.type = curRedefineStructure.SKIP ;
 					}
-					curRedefineStructure = structure.Next() ;		
+					curRedefineStructure = structure.Next() ;
 				}
 				else
 				{
 					le.DoSemanticAnalysis(eParent, factory) ;
 				}
 			}
-			
+
 			le = GetNext(i);
-			
+
 		}
-			
+
 		bAnalysisDoneForChildren = true ;
 		if (occurs != null)
 		{
@@ -1458,7 +1458,7 @@ public class CWorkingEntry extends CCobolElement
 		}
 		return nbFieldConsumed ;
 	}
-	 
+
 	 /**
 	 * @param fieldRedef
 	 * @param le
@@ -1546,32 +1546,32 @@ public class CWorkingEntry extends CCobolElement
 		if (length == 2 && currentPositionInField == 0)
 		{
 			CEntityFieldLength eLen = factory.NewEntityFieldLengh(le.getLine(), name, eField) ;
-//			return eForm.ConsumeFieldsAsBytes(2) ;				
+//			return eForm.ConsumeFieldsAsBytes(2) ;
 		}
 		else if (currentPositionInField == 2 && length == 1)
 		{
 			CEntityFieldAttribute eCol = factory.NewEntityFieldAttribute(le.getLine(), name, eField) ;
-//			return eForm.ConsumeFieldsAsBytes(1) ;				
+//			return eForm.ConsumeFieldsAsBytes(1) ;
 		}
 		else if (currentPositionInField == 3 && length == 1)
 		{
 			CEntityFieldColor eCol = factory.NewEntityFieldColor(le.getLine(), name, eField) ;
-//			return eForm.ConsumeFieldsAsBytes(1) ;				
+//			return eForm.ConsumeFieldsAsBytes(1) ;
 		}
 		else if (currentPositionInField == 4 && length == 1)
 		{
 			CEntityFieldFlag eCol = factory.NewEntityFieldFlag(le.getLine(), name, eField) ;
-//			return eForm.ConsumeFieldsAsBytes(1) ;				
+//			return eForm.ConsumeFieldsAsBytes(1) ;
 		}
 		else if (currentPositionInField == 5 && length == 1)
 		{
 			CEntityFieldHighlight eCol = factory.NewEntityFieldHighlight(le.getLine(), name, eField) ;
-//			return eForm.ConsumeFieldsAsBytes(1) ;				
+//			return eForm.ConsumeFieldsAsBytes(1) ;
 		}
 		else if (currentPositionInField == 6 && length == 1)
 		{
 			CEntityFieldValidated eCol = factory.NewEntityFieldValidated(le.getLine(), name, eField) ;
-//			return eForm.ConsumeFieldsAsBytes(1) ;				
+//			return eForm.ConsumeFieldsAsBytes(1) ;
 		}
 		else
 		{
@@ -1606,7 +1606,7 @@ public class CWorkingEntry extends CCobolElement
 			return GetNext(i);
 	 	}
 	 }
-	 
+
 	protected int GetByteLength()
 	{
 		int n = 0 ;
@@ -1615,7 +1615,7 @@ public class CWorkingEntry extends CCobolElement
 			ListIterator i = children.listIterator() ;
 			CWorkingEntry le = null ;
 			try
-			{	
+			{
 				le = (CWorkingEntry)i.next() ;
 			}
 			catch (NoSuchElementException e)
@@ -1628,7 +1628,7 @@ public class CWorkingEntry extends CCobolElement
 					n += le.GetByteLength() ;
 				}
 				try
-				{	
+				{
 					le = (CWorkingEntry)i.next() ;
 				}
 				catch (NoSuchElementException ee)
@@ -1647,7 +1647,7 @@ public class CWorkingEntry extends CCobolElement
 			{
 				n = format.length() ;
 			}
-			else 
+			else
 			{	// NUMERIC TYPE
 				if (comp.equals(""))
 				{

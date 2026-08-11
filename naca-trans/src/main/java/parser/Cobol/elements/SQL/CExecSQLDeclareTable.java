@@ -39,21 +39,21 @@ import utils.CRulesManager;
 public class CExecSQLDeclareTable extends CBaseExecSQLAction
 {
 	protected static Hashtable ms_tabViewRenamed = null ;
-	
+
 	public CExecSQLDeclareTable(int nLine)
 	{
 		super(nLine);
 	}
-	
+
 	public void SetTableName(String csTableName)
 	{
 		if (csTableName == null)
 		{
-			int n = 0; 
+			int n = 0;
 		}
-		csTableName = csTableName;
-	} 
-	
+		this.csTableName = csTableName;
+	}
+
 	/* (non-Javadoc)
 	 * @see parser.elements.CExecSQL.CBaseExecSQLAction#Export(org.w3c.dom.Document)
 	 */
@@ -64,9 +64,9 @@ public class CExecSQLDeclareTable extends CBaseExecSQLAction
 	/*	if(bCursor)
 		{
 			Element eCursor = root.createElement("SQLDeclareTable") ;
-			eReturned = eCursor; 
+			eReturned = eCursor;
 			eCursor.setAttribute("Name", csCursorName);
-			
+
 			eSelect = root.createElement("SQLSelect") ;
 			eCursor.appendChild(eSelect);
 		}
@@ -82,7 +82,7 @@ public class CExecSQLDeclareTable extends CBaseExecSQLAction
 		return eReturned;
 	}
 
-	
+
 	/* (non-Javadoc)
 	 * @see parser.elements.CExecSQL.CBaseExecSQLAction#DoCustomSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
 	 */
@@ -111,11 +111,11 @@ public class CExecSQLDeclareTable extends CBaseExecSQLAction
 		}
 		CEntitySQLDeclareTable eSQL = factory.NewEntitySQLDeclareTable(getLine(), csActualTableName, csTableName, arrTableColDescription);
 		parent.AddChild(eSQL) ;
-		return eSQL;	
-	}	
-	
+		return eSQL;
+	}
+
 	/*
-	   
+
          UTISTE                         CHAR(2) NOT NULL,
          UTIENTO                        CHAR(5) NOT NULL,
          PRTCODG                        CHAR(2) NOT NULL,
@@ -131,9 +131,9 @@ public class CExecSQLDeclareTable extends CBaseExecSQLAction
          DICVER                         SMALLINT NOT NULL
        ) END-EXEC.
        */
-       	
+
 	/**
-	 * 
+	 *
 	 */
 	private void CheckTabViewRenamed()
 	{
@@ -141,9 +141,9 @@ public class CExecSQLDeclareTable extends CBaseExecSQLAction
 		{
 			ms_tabViewRenamed = new Hashtable() ;
 			CRulesManager rules = CRulesManager.getInstance() ;
-			
+
 			int nb = rules.getNbRules("renameSQLView") ;
-			for (int i=0; i<nb; i++) 
+			for (int i=0; i<nb; i++)
 			{
 				Tag e = rules.getRule("renameSQLView", i);
 				if (e != null)
@@ -153,20 +153,20 @@ public class CExecSQLDeclareTable extends CBaseExecSQLAction
 					ms_tabViewRenamed.put(view, table) ;
 				}
 			}
-		}		
+		}
 	}
 
 	protected boolean DoParsing()
 	{
 		// Parse until reaching END-EXEC.
 		boolean isdone = false ;
-						
+
 		while (!isdone)
 		{
 			CSQLTableColDescriptor SQLTableColDescriptor = new CSQLTableColDescriptor();
-			
+
 			CBaseToken tok = GetCurrentToken() ;
-			
+
 			if (tok.GetType() == CTokenType.IDENTIFIER || tok.GetType() == CTokenType.STRING)
 			{
 				String csName = new String(tok.GetValue());
@@ -191,17 +191,17 @@ public class CExecSQLDeclareTable extends CBaseExecSQLAction
 					tok = GetNext();
 				}
 			}
-			else 
+			else
 			{
 				// Should ASSERT();
-				return false;			
+				return false;
 			}
-						
+
 			if (tok.GetType() == CTokenType.LEFT_BRACKET)	// Length
 			{
 				tok = GetNext();
 				if (tok.GetType() == CTokenType.NUMBER)
-				{					
+				{
 					String csLength = new String(tok.GetValue());
 					SQLTableColDescriptor.SetLength(Integer.parseInt(csLength));
 					tok = GetNext();
@@ -241,7 +241,7 @@ public class CExecSQLDeclareTable extends CBaseExecSQLAction
 
 			if (tok.GetType() == CTokenType.COMMA)
 			{
-				tok = GetNext();	
+				tok = GetNext();
 				arrTableColDescription.add(SQLTableColDescriptor);
 			}
 			else if (tok.GetType() == CTokenType.RIGHT_BRACKET)	// Last ')'
@@ -251,15 +251,14 @@ public class CExecSQLDeclareTable extends CBaseExecSQLAction
 			}
 
 			if (tok.GetKeyword() == CCobolKeywordList.END_EXEC)
-			{				
+			{
 				isdone = true ;
 				break;
 			}
-		}		
+		}
 		return true ;
 	}
-	
+
 	protected ArrayList<CSQLTableColDescriptor> arrTableColDescription = new ArrayList<CSQLTableColDescriptor>();
 	protected String csTableName = "" ;
 }
-

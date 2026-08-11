@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package parser.Cobol;
 
@@ -22,7 +22,7 @@ public class CFakeElement extends CCobolElement
 	public CFakeElement(CTokenList lstTokens)
 	{
 		super(0) ;
-		lstTokens = lstTokens;
+		this.lstTokens = lstTokens;
 	}
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{

@@ -59,9 +59,9 @@ public class CExecSQLSelect extends CBaseExecSQLAction
 		if(iscursor)
 		{
 			Element eCursor = root.createElement("SQLCursor") ;
-			eReturned = eCursor; 
+			eReturned = eCursor;
 			eCursor.setAttribute("Name", csCursorName);
-			
+
 			eSelect = root.createElement("SQLSelect") ;
 			eCursor.appendChild(eSelect);
 		}
@@ -112,9 +112,9 @@ public class CExecSQLSelect extends CBaseExecSQLAction
 		{
 			from = clause.substring(nFrom+5) ;
 		}
-		
+
 		// analyse returned columns
-		int nPos = 0; 
+		int nPos = 0;
 
 		do
 		{
@@ -154,7 +154,7 @@ public class CExecSQLSelect extends CBaseExecSQLAction
 					cs = select.substring(0, p).trim() ;
 				}
 				cs = checkAlias(cs) ;
-				
+
 				if (nPos == -1)
 				{
 					select = "" ;
@@ -166,15 +166,15 @@ public class CExecSQLSelect extends CBaseExecSQLAction
 					newClause += cs + ", " ;
 				}
 				arrColumns.addElement(cs) ;
-			} 
+			}
 			nbCol ++ ;
 		} while (nPos != -1) ;
 
 
 		//newClause += select ;
-		
+
 		from = ManageFrom(parent, from, factory, bCursor) ;
-		
+
 		newClause += " FROM "+from ;
 		if (!where.equals(""))
 		{
@@ -212,20 +212,20 @@ public class CExecSQLSelect extends CBaseExecSQLAction
 			newClause = newClause.substring(0, posselect) ;
 			newClause += result ;
 		}
-		
+
 		newClause = PrepareSelectStatementJoin(parent, newClause, factory, bCursor, "LEFT");
 		newClause = PrepareSelectStatementJoin(parent, newClause, factory, bCursor, "RIGHT");
 		newClause = PrepareSelectStatementJoin(parent, newClause, factory, bCursor, "INNER");
-		
+
 		return newClause ;
 	}
-	
+
 	static String PrepareSelectStatementJoin(CBaseLanguageEntity parent, String clause, CBaseEntityFactory factory, boolean bCursor, String joinType)
 	{
 		String newClause = clause;
-		
+
 		joinType += " JOIN ";
-		
+
 		int posJoin = newClause.indexOf(joinType);
 		while (posJoin > 0)
 		{
@@ -245,12 +245,12 @@ public class CExecSQLSelect extends CBaseExecSQLAction
 	 * @return
 	 */
 	private static String checkAlias(String cs)
-	{	
-		if (cs.indexOf('\'') >= 0) 
+	{
+		if (cs.indexOf('\'') >= 0)
 		{
 			String out = "";
 			String csMatch = cs;
-			if (csMatch.startsWith("DISTINCT ")) 
+			if (csMatch.startsWith("DISTINCT "))
 			{
 				csMatch = cs.substring(9);
 				out = "DISTINCT ";
@@ -290,7 +290,7 @@ public class CExecSQLSelect extends CBaseExecSQLAction
 		String newClause = CExecSQL.CheckConcat(clause, arrParam, factory);
 		return newClause ;
 	}
-	
+
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
 		Vector<CDataEntity> intoOutput = new Vector<CDataEntity>() ;
@@ -311,7 +311,7 @@ public class CExecSQLSelect extends CBaseExecSQLAction
 			Transcoder.logError(getLine(), "Bad number of variables for INTO");
 			CGlobalEntityCounter.GetInstance().RegisterProgramToRewrite(parent.GetProgramName(), getLine(), "INTO:Nb Vars") ;
 		}
-		
+
 		Vector<CDataEntity> ind = new Vector<CDataEntity>();
 		for (int i = 0; i< indicators.size(); i++)
 		{
@@ -380,9 +380,9 @@ public class CExecSQLSelect extends CBaseExecSQLAction
 			}
 		}
 		return eSQL;
-		
-	}	
-	
+
+	}
+
 	/**
 	 * @param arrInto
 	 * @param arrInto2
@@ -426,7 +426,7 @@ public class CExecSQLSelect extends CBaseExecSQLAction
 	{
 		int nPos = -1 ;
 		int a = 0 ;
-		do 
+		do
 		{
 			nPos = from.indexOf(',', a);
 			if (nPos == a)
@@ -463,7 +463,7 @@ public class CExecSQLSelect extends CBaseExecSQLAction
 				tablename = table.GetTableName();
 				from = from.replaceFirst(table.GetViewName(), tablename) ;
 			}
-			else 
+			else
 			{
 				if (factory.programCatalog.getProcedureDivision() != null)
 				{
@@ -484,7 +484,7 @@ public class CExecSQLSelect extends CBaseExecSQLAction
 				CGlobalEntityCounter.GetInstance().CountSQLTableAccess("SELECT", tablename, parent.GetProgramName());
 			}
 			a = nPos ;
-		} 
+		}
 		while (nPos != -1) ;
 		return from ;
 	}
@@ -494,11 +494,11 @@ public class CExecSQLSelect extends CBaseExecSQLAction
 	 */
 	public void SetCursorName(String csCursorName, boolean bWithHold)
 	{
-		csCursorName = csCursorName;
+		this.csCursorName = csCursorName;
 		iscursor = true;
-		bWithHold = bWithHold ;
+		this.iswithHold = bWithHold ;
 	}
-	
+
 	protected boolean DoParsing()
 	{
 		boolean isdone = false ;
@@ -564,7 +564,7 @@ public class CExecSQLSelect extends CBaseExecSQLAction
 							}
 						}
 					}
-					else 
+					else
 					{
 						b = true ;
 					}
@@ -580,7 +580,7 @@ public class CExecSQLSelect extends CBaseExecSQLAction
 			else if (tok.GetType() == CTokenType.DOT || tok.GetType() == CTokenType.COMMA)
 			{
 				String cs = new String(tok.GetType().GetSourceValue());
-				clause += cs; 
+				clause += cs;
 				GetNext();
 			}
 			else if (tok.GetType() == CTokenType.COLON)
@@ -607,7 +607,7 @@ public class CExecSQLSelect extends CBaseExecSQLAction
 			else if (tok.GetType() == CTokenType.EXCLAMATION)
 			{
 				String cs = new String(tok.GetType().GetSourceValue());
-				clause += cs; 
+				clause += cs;
 				GetNext();
 			}
 			else if (tok.GetType() == CTokenType.CIRCUMFLEX)
@@ -617,7 +617,7 @@ public class CExecSQLSelect extends CBaseExecSQLAction
 				if (tok.GetType() == CTokenType.EQUALS)
 				{
 					AppendRequiredSpace() ;
-					clause += cs; 
+					clause += cs;
 					cs = new String(tok.GetType().GetSourceValue());
 					clause += cs ;
 					GetNext() ;
@@ -626,14 +626,14 @@ public class CExecSQLSelect extends CBaseExecSQLAction
 				{
 					cs = ">=" ;
 					AppendRequiredSpace() ;
-					clause += cs; 
+					clause += cs;
 					GetNext() ;
 				}
 				else if (tok.GetType() == CTokenType.GREATER_THAN)
 				{
 					cs = "<=" ;
 					AppendRequiredSpace() ;
-					clause += cs; 
+					clause += cs;
 					GetNext() ;
 				}
 			}
@@ -641,7 +641,7 @@ public class CExecSQLSelect extends CBaseExecSQLAction
 			{
 				String cs = new String(tok.GetType().GetSourceValue());
 				AppendRequiredSpace() ;
-				clause += cs; 
+				clause += cs;
 				tok = GetNext();
 				if (tok.GetType() == CTokenType.GREATER_THAN)
 				{
@@ -657,14 +657,14 @@ public class CExecSQLSelect extends CBaseExecSQLAction
 			else if (tok.GetType() == CTokenType.RIGHT_SQUARE_BRACKET)
 			{
 				String cs = new String(tok.GetType().GetSourceValue());
-				clause += cs; 
+				clause += cs;
 				GetNext();
 			}
 			else if (tok.GetType().HasSourceValue())
 			{
 				String cs = new String(tok.GetType().GetSourceValue());
 				AppendRequiredSpace(cs);
-				clause += cs; 
+				clause += cs;
 				GetNext();
 			}
 			else
@@ -677,19 +677,19 @@ public class CExecSQLSelect extends CBaseExecSQLAction
 					if (cs2.equalsIgnoreCase("DATE"))
 					{
 						AppendRequiredSpace();
-						clause += "CHAR(CURRENT DATE, EUR)" ; 
+						clause += "CHAR(CURRENT DATE, EUR)" ;
 						GetNext();
 					}
 					else if (cs2.equalsIgnoreCase("TIME"))
 					{
 						AppendRequiredSpace();
-						clause += "CURRENT_TIME" ; 
+						clause += "CURRENT_TIME" ;
 						GetNext();
 					}
 					else
 					{
 						AppendRequiredSpace();
-						clause += cs ; 
+						clause += cs ;
 					}
 				}
 //				else if (cs.equalsIgnoreCase("DIGITS"))
@@ -698,7 +698,7 @@ public class CExecSQLSelect extends CBaseExecSQLAction
 //					if (tok.GetType() == CTokenType.LEFT_BRACKET)
 //					{
 //						tok = GetNext() ;
-//						clause += "DIGITS(" ; 
+//						clause += "DIGITS(" ;
 //					}
 //					else
 //					{
@@ -707,29 +707,29 @@ public class CExecSQLSelect extends CBaseExecSQLAction
 				else
 				{
 					AppendRequiredSpace();
-					clause += cs; 
+					clause += cs;
 					GetNext();
 				}
 			}
-			
+
 		}
-		return true ;		
+		return true ;
 	}
-	
+
 	public void AppendRequiredSpace()
 	{
 		AppendRequiredSpace("") ;
 	}
-	
+
 	public void AppendRequiredSpace(String cs)
 	{
 		if(clause.endsWith(" ") || clause.endsWith(":") || clause.endsWith(".") || clause.endsWith("!") || clause.endsWith("("))
 			return  ;
 		if (cs.equals("(") || cs.equals(")"))
 			return ;
-		clause += " ";			
+		clause += " ";
 	}
-	
+
 	public String clause = "" ;
 	protected Vector<CIdentifier> parameters = new Vector<CIdentifier>() ;
 	protected Vector<CIdentifier> into = new Vector<CIdentifier>() ;

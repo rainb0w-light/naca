@@ -51,8 +51,8 @@ public class CPerformVarying extends CBlocElement
 	protected CExpression condUntil = null ;
 	protected boolean istestBefore = true ;
 	private List<After> afters = new ArrayList<After>();
-	
-	private class After 
+
+	private class After
 	{
 		protected CIdentifier variableAfter = null ;
 		protected CTerminal varFromValueAfter = null ;
@@ -64,10 +64,10 @@ public class CPerformVarying extends CBlocElement
 	{
 		super(line);
 		reference = Ref ;
-		refThru = refThru ;
+		this.refThru = refThru ;
 		istestBefore = bBefore ;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see parser.CLanguageElement#Parse(lexer.CTokenList)
 	 */
@@ -80,7 +80,7 @@ public class CPerformVarying extends CBlocElement
 			Transcoder.logError(getLine(), "Expecting 'VARYING' keyword") ;
 			return false ;
 		}
-		
+
 		CBaseToken tokVar = GetNext() ;
 		if (tokVar.GetType() != CTokenType.IDENTIFIER)
 		{
@@ -88,24 +88,24 @@ public class CPerformVarying extends CBlocElement
 			return false ;
 		}
 		variable = ReadIdentifier() ;
-		
+
 		CBaseToken tokFrom = GetCurrentToken() ;
 		if (tokFrom.GetKeyword() != CCobolKeywordList.FROM)
 		{
 			Transcoder.logError(getLine(), "Expecting 'FROM' keyword") ;
 			return false ;
 		}
-		
+
 		GetNext() ;
 		varFromValue = ReadTerminal() ;
-		
+
 		CBaseToken tokBy = GetCurrentToken();
 		if (tokBy.GetKeyword() == CCobolKeywordList.BY)
 		{
 			tokBy = GetNext() ;
 			varByValue = ReadTerminal() ;
-		} 
-		
+		}
+
 		CBaseToken tokUntil = GetCurrentToken() ;
 		if (tokUntil.GetKeyword() == CCobolKeywordList.UNTIL)
 		{
@@ -116,8 +116,8 @@ public class CPerformVarying extends CBlocElement
 		{
 			Transcoder.logError(getLine(), "Expecting 'UNTIL' keyword") ;
 			return false ;
-		} 
-		
+		}
+
 		CBaseToken tok = GetCurrentToken() ;
 		while (tok.GetKeyword() == CCobolKeywordList.AFTER)
 		{
@@ -145,13 +145,13 @@ public class CPerformVarying extends CBlocElement
 			{
 				Transcoder.logError(getLine(), "Unexpecting situation") ;
 				return false ;
-			} 
+			}
 			tok = GetNext() ;
 			after.condUntilAfter = ReadConditionalStatement() ;
 			afters.add(after);
 			tok = GetCurrentToken();
 		}
-		
+
 		if (reference == null)
 		{	// there is no reference to paragraph, the perform must run code inside him.
 			if (!super.DoParsing())
@@ -212,7 +212,7 @@ public class CPerformVarying extends CBlocElement
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{
 		CEntityLoopIter eLoop = factory.NewEntityLoopIter(getLine()) ;
-		CDataEntity eVar = variable.GetDataReference(getLine(), factory) ; 
+		CDataEntity eVar = variable.GetDataReference(getLine(), factory) ;
 		eVar.RegisterWritingAction(eLoop) ;
 		CDataEntity eFrom = varFromValue.GetDataEntity(getLine(), factory);
 		if (!varByValue.IsReference())
@@ -239,7 +239,7 @@ public class CPerformVarying extends CBlocElement
 		CBaseEntityCondition condUntilNew = this.condUntil.AnalyseCondition(factory);
 		eLoop.SetUntilCondition(condUntilNew, istestBefore) ;
 		parent.AddChild(eLoop) ;
-		
+
 		for (After after : afters)
 		{
 			CBaseEntityCondition cond = after.condUntilAfter

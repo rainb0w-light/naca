@@ -12,11 +12,11 @@ public abstract class CBaseRecusriveSpecialAction
 {
 	protected CObjectCatalog programCatalog = null ;
 	protected CBaseEntityFactory factory = null ;
-	
+
 	public CBaseRecusriveSpecialAction(CObjectCatalog programCatalog, CBaseEntityFactory factory)
 	{
-		programCatalog = programCatalog ;
-		factory = factory ;
+		this.programCatalog = programCatalog ;
+		this.factory = factory ;
 	}
 
 }

@@ -29,15 +29,15 @@ public abstract class CBaseEntityFieldAttribute extends CBaseDataReference
 {
 	public static class CEntityFieldAttributeType
 	{
-		public static CEntityFieldAttributeType LENGTH = new CEntityFieldAttributeType() ; 
-		public static CEntityFieldAttributeType HIGHLIGHT = new CEntityFieldAttributeType() ; 
-		public static CEntityFieldAttributeType COLOR = new CEntityFieldAttributeType() ; 
-		public static CEntityFieldAttributeType FLAG = new CEntityFieldAttributeType() ; 
-//		public static CEntityFieldAttributeType PROTECTED = new CEntityFieldAttributeType() ; 
-		public static CEntityFieldAttributeType VALIDATION = new CEntityFieldAttributeType() ; 
-		public static CEntityFieldAttributeType ATTRIBUTE = new CEntityFieldAttributeType() ; 
-		public static CEntityFieldAttributeType DATA = new CEntityFieldAttributeType() ; 
-		//public static CEntityFieldAttributeType DATAO = new CEntityFieldAttributeType() ; 
+		public static CEntityFieldAttributeType LENGTH = new CEntityFieldAttributeType() ;
+		public static CEntityFieldAttributeType HIGHLIGHT = new CEntityFieldAttributeType() ;
+		public static CEntityFieldAttributeType COLOR = new CEntityFieldAttributeType() ;
+		public static CEntityFieldAttributeType FLAG = new CEntityFieldAttributeType() ;
+//		public static CEntityFieldAttributeType PROTECTED = new CEntityFieldAttributeType() ;
+		public static CEntityFieldAttributeType VALIDATION = new CEntityFieldAttributeType() ;
+		public static CEntityFieldAttributeType ATTRIBUTE = new CEntityFieldAttributeType() ;
+		public static CEntityFieldAttributeType DATA = new CEntityFieldAttributeType() ;
+		//public static CEntityFieldAttributeType DATAO = new CEntityFieldAttributeType() ;
 	}
 	/**
 	 * @param name
@@ -46,9 +46,9 @@ public abstract class CBaseEntityFieldAttribute extends CBaseDataReference
 	protected CBaseEntityFieldAttribute(int l, String name, CObjectCatalog cat, CEntityFieldAttributeType type, CDataEntity owner)
 	{
 		super(l, name, cat);
-		type = type ;
+		this.type = type ;
 		reference = owner ;
-		parent = owner ; 
+		parent = owner ;
 	}
 	protected CEntityFieldAttributeType type = null ;
 

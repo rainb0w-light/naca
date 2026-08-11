@@ -37,9 +37,9 @@ public class CProcedureSection extends CCommentContainer
 	public CProcedureSection(String name, int line)
 	{
 		super(line);
-		name = name ;
+		this.name = name ;
 	}
-	
+
 	protected boolean DoParsing()
 	{
 		CBaseToken tok = GetCurrentToken() ;
@@ -76,7 +76,7 @@ public class CProcedureSection extends CCommentContainer
 	{
 		AddChild(p) ;
 	}
-	
+
 	protected String name = "" ;
 	protected CBaseProcedure sectionBloc = null ;
 
@@ -98,7 +98,7 @@ public class CProcedureSection extends CCommentContainer
 		{
 			CEntityBloc el = (CEntityBloc)sectionBloc.DoSemanticAnalysis(eSection, factory);
 			eSection.SetSectionBloc(el) ;
-		}		
+		}
 		return eSection;
 	}
 }

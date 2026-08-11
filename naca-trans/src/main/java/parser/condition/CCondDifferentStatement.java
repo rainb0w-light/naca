@@ -36,8 +36,8 @@ public class CCondDifferentStatement extends CExpression
 	public CCondDifferentStatement(int line, CExpression term1, CExpression term2)
 	{
 		super(line) ;
-		term1 = term1 ;
-		term2 = term2 ;
+		this.term1 = term1 ;
+		this.term2 = term2 ;
 	}
 	public CExpression NewCopy(int line, CExpression term1, CExpression term2)
 	{
@@ -53,8 +53,8 @@ public class CCondDifferentStatement extends CExpression
 	{
 		return 3;
 	}
-	
-	
+
+
 	protected boolean CheckMembersBeforeExport()
 	{
 		boolean b = CheckMemberNotNull(term1);
@@ -157,7 +157,7 @@ public class CCondDifferentStatement extends CExpression
 		{
 			eData = eData2 ;
 			value = term1.GetConstantValue() ;
-		} 
+		}
 		if (eData != null)
 		{
 			CBaseEntityCondition eCond = eData.GetSpecialCondition(getLine(), value, CBaseEntityCondition.EConditionType.IS_DIFFERENT, factory) ;
@@ -166,7 +166,7 @@ public class CCondDifferentStatement extends CExpression
 //				eData.RegisterVarTesting(eCond);
 				return eCond;
 			}
-			else 
+			else
 			{
 				int n=0;
 			}

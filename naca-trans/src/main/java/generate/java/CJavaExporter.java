@@ -40,10 +40,10 @@ public class CJavaExporter extends CBaseLanguageExporter
 		super(cat, commCont);
 		//output = new PrintStream(out) ;
 		fileName = file ;
-		isresources = isresources;
+		this.isresources = isresources;
 		InitReservedWords() ;
 	}
-	
+
 	public CJavaExporter(CBaseLanguageExporter exporter, String file)
 	{
 		super(exporter);
@@ -90,7 +90,7 @@ public class CJavaExporter extends CBaseLanguageExporter
 		output.println(indent + line) ;
 	}
 	/**
-	 * 
+	 *
 	 */
 	private void CreateFile()
 	{
@@ -106,7 +106,7 @@ public class CJavaExporter extends CBaseLanguageExporter
 		{
 			//OutputStream out = new FileOutputStream(cs);
 			output = new PrintStream(f, "ISO-8859-1") ;
-		} 
+		}
 		catch (FileNotFoundException e)
 		{
 			Transcoder.logError("Can't create file " + f.getAbsolutePath()) ;
@@ -115,7 +115,7 @@ public class CJavaExporter extends CBaseLanguageExporter
 		catch (UnsupportedEncodingException e)
 		{
 			e.printStackTrace();
-		}	
+		}
 	}
 
 	protected PrintStream output ;
@@ -160,10 +160,10 @@ public class CJavaExporter extends CBaseLanguageExporter
 				String lang = e.getAttribute("LangID");
 				cs += ".text(\""+lang+"\", \""+text+"\")" ;
 				WriteWord(cs) ;
-			}			
+			}
 			WriteWord(";");
 			WriteEOL();
-		} 
+		}
 
 		NodeList lstForms = root.getElementsByTagName("Form") ;
 		int nbForms = lstForms.getLength() ;
@@ -174,7 +174,7 @@ public class CJavaExporter extends CBaseLanguageExporter
 			String sizeCol = eForm.getAttribute("SizeCol");
 			String sizeLine = eForm.getAttribute("SizeLine");
 			WriteLine("Form " + formname + " = form("+sizeLine+", "+sizeCol+") ;") ;
-			
+
 			StartBloc() ;
 			NodeList listfields = eForm.getElementsByTagName("EntryField") ;
 			int nbFields = listfields.getLength() ;
@@ -183,7 +183,7 @@ public class CJavaExporter extends CBaseLanguageExporter
 				Element eField = (Element) listfields.item(j);
 				String cs = GetLineForField(eField) ;
 				WriteLine(cs);
-			} 
+			}
 			NodeList listlabels = eForm.getElementsByTagName("Label") ;
 			int nbLabels = listlabels.getLength() ;
 			for (int j=0;j<nbLabels; j++)
@@ -191,7 +191,7 @@ public class CJavaExporter extends CBaseLanguageExporter
 				Element eField = (Element) listlabels.item(j);
 				String cs = GetLineForLabel(eField) ;
 				WriteLine(cs);
-			} 
+			}
 
 			EndBloc() ;
 		}
@@ -199,8 +199,8 @@ public class CJavaExporter extends CBaseLanguageExporter
 
 		EndBloc() ;
 		WriteLine("}") ;
-	
-//		
+
+//
 //		String names = name + "S" ;
 //		WriteLine("// save MAP");
 //		WriteLine("class " + names + " extends Map {");
@@ -225,7 +225,7 @@ public class CJavaExporter extends CBaseLanguageExporter
 //			String sizeCol = eForm.getAttribute("SizeCol");
 //			String sizeLine = eForm.getAttribute("SizeLine");
 //			WriteLine("Form " + formname + " = form("+sizeLine+", "+sizeCol+") ;") ;
-//			
+//
 //			StartBloc() ;
 //			NodeList lstFields = eForm.getElementsByTagName("EntryField") ;
 //			int nbFields = lstFields.getLength() ;
@@ -234,7 +234,7 @@ public class CJavaExporter extends CBaseLanguageExporter
 //				Element eField = (Element)lstFields.item(j);
 //				String cs = GetLineForFieldS(eField) ;
 //				WriteLine(cs);
-//			} 
+//			}
 //			EndBloc() ;
 //		}
 //		EndBloc() ;
@@ -334,7 +334,7 @@ public class CJavaExporter extends CBaseLanguageExporter
 			{
 				cs += ".attrib(\""+v+"\")" ;
 			}
-		}			
+		}
 		NodeList listjst = eField.getElementsByTagName("Justify") ;
 		int nbJst = listjst.getLength() ;
 		for (int k=0; k<nbJst; k++)
@@ -349,7 +349,7 @@ public class CJavaExporter extends CBaseLanguageExporter
 			{
 				cs += ".justify(MapFieldAttrJustify."+v+")" ;
 			}
-		}		
+		}
 		cs += ";";
 		return cs ;
 	}
@@ -384,7 +384,7 @@ public class CJavaExporter extends CBaseLanguageExporter
 	{
 		WriteWord("(") ;
 	}
-	
+
 	public String FormatIdentifier(String id)
 	{
 		return formatJavaIdentifier(id) ;
@@ -437,7 +437,7 @@ public class CJavaExporter extends CBaseLanguageExporter
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	protected void doCloseOutput()
 	{
@@ -457,7 +457,7 @@ public class CJavaExporter extends CBaseLanguageExporter
 		File f = new File(fileName);
 		return f.getParent() +  "/" ;
 	}
-	
+
 	@Override
 	public boolean isResources()
 	{

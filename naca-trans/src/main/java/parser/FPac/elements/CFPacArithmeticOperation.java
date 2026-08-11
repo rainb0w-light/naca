@@ -40,12 +40,12 @@ public class CFPacArithmeticOperation extends CFPacElement
 {
 	private Vector<CExpression> exp;
 	private CReservedKeyword command ;
-	
+
 	public CFPacArithmeticOperation(int line, Vector<CExpression> arrTerms, CReservedKeyword command)
 	{
 		super(line);
 		exp = arrTerms ;
-		command = command ;
+		this.command = command ;
 	}
 
 	@Override
@@ -76,7 +76,7 @@ public class CFPacArithmeticOperation extends CFPacElement
 			Transcoder.logError(getLine(), "Unexpecting entity") ;
 			return null ;
 		}
-		
+
 		OperandDescription op2 = findSecondDataEntity(iter, factory, issecondPacked) ;
 		if (op2 == null || op2.eObject == null)
 		{
@@ -136,7 +136,7 @@ public class CFPacArithmeticOperation extends CFPacElement
 					op1.expLength = factory.NewEntityExprTerminal(factory.NewEntityNumber(8)) ;
 			}
 		}
-		
+
 		// build variables
 		CDataEntity var1= null, var2 = null ;
 		if (op1.expStart != null)
@@ -159,7 +159,7 @@ public class CFPacArithmeticOperation extends CFPacElement
 		{
 			var2 = op2.eObject ;
 		}
-		
+
 		if (command == CFPacKeywordList.A)
 		{
 			CEntityAddTo add = factory.NewEntityAddTo(getLine()) ;
@@ -216,7 +216,7 @@ public class CFPacArithmeticOperation extends CFPacElement
 	/**
 	 * @param iter
 	 * @param factory
-	 * @param secondPacked 
+	 * @param secondPacked
 	 * @return
 	 */
 	private OperandDescription findSecondDataEntity(ListIterator<CExpression> iter, CBaseEntityFactory factory, boolean secondPacked)
@@ -229,11 +229,11 @@ public class CFPacArithmeticOperation extends CFPacElement
 			{
 				String val = term.GetConstantValue() ;
 				int add = NumberParser.getAsInt(val) ;
-				
+
 				CBaseEntityExpression termlen = null ;
 				OperandDescription desc = new OperandDescription() ;
 				if (add < 5000)
-				{ //file buffer 
+				{ //file buffer
 					CDataEntity buffer = OperandDescription.getDefaultOutputFileBuffer(factory.programCatalog) ;
 					CEntityConvertReference conv = factory.NewEntityConvert(getLine()) ;
 					if (secondPacked)
@@ -299,7 +299,7 @@ public class CFPacArithmeticOperation extends CFPacElement
 	/**
 	 * @param iter
 	 * @param factory
-	 * @param firstPacked 
+	 * @param firstPacked
 	 * @return
 	 */
 	private OperandDescription findFirstDataEntity(ListIterator<CExpression> iter, CBaseEntityFactory factory, boolean firstPacked)
@@ -322,9 +322,9 @@ public class CFPacArithmeticOperation extends CFPacElement
 			{
 				String val = term.GetConstantValue() ;
 				int add = NumberParser.getAsInt(val) ;
-				
+
 				if (add < 5000)
-				{ //file buffer 
+				{ //file buffer
 					CDataEntity buffer = OperandDescription.getDefaultInputFileBuffer(factory.programCatalog) ;
 					OperandDescription desc = new OperandDescription() ;
 					CEntityConvertReference conv = factory.NewEntityConvert(getLine()) ;
@@ -395,7 +395,7 @@ public class CFPacArithmeticOperation extends CFPacElement
 //				String val = op.GetConstantValue() ;
 //				int add = NumberParser.getAsInt(val) ;
 //				if (add < 5000)
-//				{ //file buffer 
+//				{ //file buffer
 //					CDataEntity buffer ;
 //					if (bFromOutput)
 //						buffer = getDefaultOutputFileBuffer(factory.programCatalog) ;

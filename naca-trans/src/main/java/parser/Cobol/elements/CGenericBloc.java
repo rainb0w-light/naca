@@ -30,7 +30,7 @@ public class CGenericBloc extends CBlocElement
 	public CGenericBloc(String type, int line)
 	{
 		super(line);
-		type = type ;
+		this.type = type ;
 	}
 
 	/* (non-Javadoc)
@@ -41,7 +41,7 @@ public class CGenericBloc extends CBlocElement
 		Element e = root.createElement(type) ;
 		return e;
 	}
-	
+
 	protected String type = "" ;
 
 	/* (non-Javadoc)

@@ -36,17 +36,17 @@ public class CFPacConvert extends CFPacElement
 {
 	private Vector<CExpression> terms;
 	private CReservedKeyword command ;
-	
+
 	/**
 	 * @param line
-	 * @param command 
-	 * @param arrTerms 
+	 * @param command
+	 * @param arrTerms
 	 */
 	public CFPacConvert(int line, Vector<CExpression> arrTerms, CReservedKeyword command)
 	{
 		super(line);
-		command = command ;
-		arrTerms = arrTerms ;
+		this.command = command ;
+		this.terms = arrTerms ;
 	}
 
 	/**
@@ -83,8 +83,8 @@ public class CFPacConvert extends CFPacElement
 			desc1.eObject = conv ;
 		}
 
-		OperandDescription desc2 = FindSecondOperand(iter, factory) ; 
-		
+		OperandDescription desc2 = FindSecondOperand(iter, factory) ;
+
 		if (desc1.expLength == null && iter.hasNext())
 		{
 			CExpression exp = iter.next() ;
@@ -133,7 +133,7 @@ public class CFPacConvert extends CFPacElement
 		conv.AddRefTo(var2) ;
 		conv.SetValue(var1) ;
 		parent.AddChild(conv) ;
-		
+
 		return conv ;
 	}
 
@@ -152,7 +152,7 @@ public class CFPacConvert extends CFPacElement
 			int add = NumberParser.getAsInt(cs) ;
 			OperandDescription desc = new OperandDescription() ;
 			if (add < 5000)
-			{ //file buffer 
+			{ //file buffer
 				CDataEntity buffer = OperandDescription.getDefaultOutputFileBuffer(factory.programCatalog) ;
 				CEntityConvertReference conv = factory.NewEntityConvert(getLine()) ;
 				conv.convertToPacked(buffer) ;

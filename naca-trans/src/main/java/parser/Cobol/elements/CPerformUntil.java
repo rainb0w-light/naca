@@ -36,12 +36,12 @@ import utils.Transcoder;
  */
 public class CPerformUntil extends CBlocElement
 {
-	
+
 	public CPerformUntil(CIdentifier ref, CIdentifier refThru, int line, boolean bBefore)
 	{
 		super(line) ;
 		reference = ref ;
-		refThru = refThru ;
+		this.refThru = refThru ;
 		istestBefore = bBefore ;
 	}
 	/* (non-Javadoc)
@@ -62,7 +62,7 @@ public class CPerformUntil extends CBlocElement
 		{
 			Transcoder.logError(getLine(), "No condition could be read as UNTIL condition") ;
 			return false ;
-		}  
+		}
 		if (reference == null)
 		{
 			// no reference provided, the code is inside
@@ -103,7 +103,7 @@ public class CPerformUntil extends CBlocElement
 		ePerf.appendChild(eCond) ;
 		return ePerf ;
 	}
-	protected CExpression cond = null ; 
+	protected CExpression cond = null ;
 	protected CIdentifier reference = null ;
 	protected CIdentifier refThru = null ;
 	boolean istestBefore = true ;

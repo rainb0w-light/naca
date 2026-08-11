@@ -34,19 +34,19 @@ public class CCondIsNumeric extends CExpression
 	public CCondIsNumeric(int line, CExpression term)
 	{
 		super(line) ;
-		term = term ;
+		this.term = term ;
 		bIsOpposite = false ;
 	}
 	public CCondIsNumeric(int line, CExpression term, boolean bOpposite)
 	{
 		super(line) ;
-		term = term ;
+		this.term = term ;
 		bIsOpposite = bOpposite ;
 	}
 	protected boolean bIsOpposite = false ;
-	
+
 	CExpression term = null ;
-	
+
 	protected boolean CheckMembersBeforeExport()
 	{
 		return CheckMemberNotNull(term);

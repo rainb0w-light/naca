@@ -23,34 +23,34 @@ public class CSQLTableColDescriptor
 	public CSQLTableColDescriptor()
 	{
 	}
-	
+
 	public void SetName(String csName)
 	{
-		csName = csName;
+		this.csName = csName;
 	}
-	
+
 	public String GetName()
 	{
 		return csName;
 	}
-	
+
 	void SetLength(int n)
 	{
 		nLength = n;
 		islengthSet = true;
-	}	
+	}
 
 	void SetDecimal(int n)
 	{
 		nDecimal = n;
 		isdecimalSet = true;
 	}
-	
+
 	public boolean HasSize()
 	{
 		return islengthSet;
 	}
-	
+
 	public String GetSizes()
 	{
 		if(islengthSet)
@@ -61,27 +61,27 @@ public class CSQLTableColDescriptor
 		}
 		return "";
 	}
-	
+
 	void SetType(String csType)
 	{
-		csType = csType;
+		this.csType = csType;
 	}
-	
+
 	public String GetType()
 	{
 		return csType;
-	} 
-	
+	}
+
 	void SetNull(boolean b)
 	{
 		isnull = b;
-	}		
-	
+	}
+
 	public boolean IsNull()
 	{
 		return isnull;
 	}
-	
+
 	private int nLength = 0;
 	private int nDecimal = 0;
 	private boolean isdecimalSet = false;

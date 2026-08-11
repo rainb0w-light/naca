@@ -44,7 +44,7 @@ public class CEntitySQLCode extends CDataEntity
 	public CEntitySQLCode(String name, CObjectCatalog cat, CBaseEntityExpression eHistoryItem)
 	{
 		super(0, name, cat);
-		eHistoryItem = eHistoryItem ;
+		this.eHistoryItem = eHistoryItem ;
 	}
 	/* (non-Javadoc)
 	 * @see semantic.CDataEntity#GetDataType()

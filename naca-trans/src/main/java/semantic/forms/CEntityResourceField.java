@@ -61,7 +61,7 @@ public class CEntityResourceField extends CBaseResourceEntity  implements ITypab
 		type = "pic" ;
 		nLength = 0;
 		nDecimals = 0;
-		format = format ;
+		this.format = format ;
 	}
 	/* (non-Javadoc)
 	 * @see semantic.ITypableEntity#SetTypeNum(int, int)
@@ -91,7 +91,7 @@ public class CEntityResourceField extends CBaseResourceEntity  implements ITypab
 	}
 	protected enum FieldMode
 	{
-		NORMAL, CHECKBOX,TITLE, ACTIVE_CHOICE, LINKED_ACTIVE_CHOICE, SWITCH, HIDDEN; 
+		NORMAL, CHECKBOX,TITLE, ACTIVE_CHOICE, LINKED_ACTIVE_CHOICE, SWITCH, HIDDEN;
 	}
 	protected FieldMode mode = FieldMode.NORMAL ;
 	/**
@@ -113,14 +113,14 @@ public class CEntityResourceField extends CBaseResourceEntity  implements ITypab
 	{
 		return true;
 	}
-	
+
 	public void InitDependences(CBaseEntityFactory factory)
 	{
 		String name = GetName() ;
 		if (!name.equals(""))
 		{
 			CBaseEntityFieldAttribute length = factory.NewEntityFieldLengh(getLine(), name+"L", this);
-			CBaseEntityFieldAttribute color = factory.NewEntityFieldColor(getLine(), name+"C", this); 
+			CBaseEntityFieldAttribute color = factory.NewEntityFieldColor(getLine(), name+"C", this);
 			CBaseEntityFieldAttribute highlight = factory.NewEntityFieldHighlight(getLine(), name+"H", this);
 			CBaseEntityFieldAttribute flag = factory.NewEntityFieldFlag(getLine(), name+"P", this);
 			CBaseEntityFieldAttribute attributeF = factory.NewEntityFieldAttribute(getLine(), name+"F", this);
@@ -145,7 +145,7 @@ public class CEntityResourceField extends CBaseResourceEntity  implements ITypab
 //		catch (NoSuchElementException e)
 //		{
 //		}
-	} 
+	}
 //	CBaseEntityFieldAttribute length = null ;
 //	CBaseEntityFieldAttribute color = null ;
 //	CBaseEntityFieldAttribute dataI = null ;
@@ -167,7 +167,7 @@ public class CEntityResourceField extends CBaseResourceEntity  implements ITypab
 	public CResourceStrings resourceStrings = null ;
 	public int nOccurs = 0 ;
 	public int nPosCol = 0 ;
-	public int nPosLine = 0 ; 
+	public int nPosLine = 0 ;
 	public int nLength = 0 ;
 	public int nDecimals = 0 ;
 	public String csInitialValue = "" ;
@@ -191,7 +191,7 @@ public class CEntityResourceField extends CBaseResourceEntity  implements ITypab
 //	public void AddJustify(String cs)
 //	{
 //		arrJustify.addElement(cs);
-//	} 
+//	}
 //	protected StringVector arrAttrib = new StringVector() ;
 //	public void AddAttrib(String cs)
 //	{
@@ -222,8 +222,8 @@ public class CEntityResourceField extends CBaseResourceEntity  implements ITypab
 	{
 		bCursor = true ;
 	}
-	
-	
+
+
 
 	/* (non-Javadoc)
 	 * @see semantic.CBaseDataEntity#GetSpecialAssignment(parser.expression.CTerminal)
@@ -241,11 +241,11 @@ public class CEntityResourceField extends CBaseResourceEntity  implements ITypab
 			eAssign.SetToSpace(this) ;
 		}
 		else if (value.equals("LOW-VALUE") || value.equals("LOW-VALUES"))
-		{	 
+		{
 			eAssign.SetToLowValue(this) ;
 		}
 		else if (value.equals("HIGH-VALUE") || value.equals("HIGH-VALUES"))
-		{	 
+		{
 			eAssign.SetToHighValue(this) ;
 		}
 		else if (term.IsNumber())
@@ -272,12 +272,12 @@ public class CEntityResourceField extends CBaseResourceEntity  implements ITypab
 	{
 		return null;
 	}
-	
+
 	public int GetByteLength ()
 	{
 		return 7 + nLength ;
 	}
-	public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory) 
+	public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory)
 	{
 		CEntityArrayReference e = factory.NewEntityArrayReference(getLine()) ;
 		e.SetReference(this) ;
@@ -309,7 +309,7 @@ public class CEntityResourceField extends CBaseResourceEntity  implements ITypab
 //		{
 //		}
 		else
-		{			
+		{
 			CEntityCondIsConstant eCond = factory.NewEntityCondIsConstant() ;
 			if (value.equals("ZERO") || value.equals("ZEROS") || value.equals("ZEROES"))
 			{
@@ -403,7 +403,7 @@ public class CEntityResourceField extends CBaseResourceEntity  implements ITypab
 	{
 		return null ;
 	}
-	public CDataEntity GetSubStringReference(CBaseEntityExpression start, CBaseEntityExpression length, CBaseEntityFactory factory) 
+	public CDataEntity GetSubStringReference(CBaseEntityExpression start, CBaseEntityExpression length, CBaseEntityFactory factory)
 	{
 		CSubStringAttributReference ref = factory.NewEntitySubString(getLine()) ;
 		ref.SetReference(this, start, length) ;
@@ -565,7 +565,7 @@ public class CEntityResourceField extends CBaseResourceEntity  implements ITypab
 	 */
 //	public void setDisplayName(String string)
 //	{
-//		csDisplayName = string ;		
+//		csDisplayName = string ;
 //	}
 //	protected String csDisplayName = "" ;
 	/**
@@ -589,7 +589,7 @@ public class CEntityResourceField extends CBaseResourceEntity  implements ITypab
 		csDevelopableFlagMark = flagMark ;
 	}
 	protected String csDevelopableFlagMark = "" ;
-	
+
 	/**
 	 * @param flagMark
 	 */
@@ -598,10 +598,10 @@ public class CEntityResourceField extends CBaseResourceEntity  implements ITypab
 		csFormat = format;
 	}
 	protected String csFormat = "" ;
-	
+
 	/**
 	 * @param strings
-	 * 
+	 *
 	 */
 	public void SetTitle(CResourceStrings strings)
 	{
@@ -635,7 +635,7 @@ public class CEntityResourceField extends CBaseResourceEntity  implements ITypab
 	protected String csActiveChoiceTarget = "" ;
 	protected boolean isactiveChoiceSubmit = true ;
 	/**
-	 * 
+	 *
 	 */
 	public void setReplayMutable()
 	{
@@ -664,23 +664,23 @@ public class CEntityResourceField extends CBaseResourceEntity  implements ITypab
 	}
 	public void Hide()
 	{
-		mode = FieldMode.HIDDEN ;		
+		mode = FieldMode.HIDDEN ;
 	}
 	public void SetRightJustified(boolean justifiedRight)
 	{
 		isrightJustified = justifiedRight ;
 	}
 	protected boolean isrightJustified = false ;
-	
+
 	public void SetBlankWhenZero(boolean blankWhenZero)
 	{
 		isblankWhenZero = blankWhenZero ;
 	}
 	protected boolean isblankWhenZero = false ;
-	
+
 	public void move(int nc, int nl)
 	{
 		nPosCol = nc ;
-		nPosLine = nl ;		
+		nPosLine = nl ;
 	}
 }

@@ -11,6 +11,7 @@
     "fpacFactoryNotImplementedBranches": 131,
     "analyzerPlaceholderOperations": 3,
     "analyzerTestSources": 0,
+    "transpilerUnqualifiedSelfAssignments": 0,
     "activeHungarianIdentifierLines": 41,
     "activeHungarianIdentifierFiles": 10,
     "productionFeatures": 173,

@@ -97,9 +97,9 @@ public class CFPacGenericExpression extends CExpression
 			{
 				String val = term.GetConstantValue() ;
 				int add = NumberParser.getAsInt(val) ;
-				
+
 				if (add < 5000)
-				{ //file buffer 
+				{ //file buffer
 					CDataEntity buffer = getDefaultInputFileBuffer(factory.programCatalog) ;
 					desc.eObject = buffer ;
 					desc.expStart = term ;
@@ -172,7 +172,7 @@ public class CFPacGenericExpression extends CExpression
 				return null ;
 			}
 		}
-		
+
 		if (iter.hasNext())
 		{
 			exp = iter.next() ;
@@ -189,7 +189,7 @@ public class CFPacGenericExpression extends CExpression
 		}
 		return desc;
 	}
-	
+
 	private boolean isPackedHexa(String cs)	// Autodermine if the cs value is a packed one or a string described in hexadecimal codes
 	{
 		for(int n=0; n<cs.length()-1; n++)
@@ -203,7 +203,7 @@ public class CFPacGenericExpression extends CExpression
 			return true;
 		return false;
 	}
-	
+
 	private void manageDataTypeDependingOnOperationType(OperandDescription desc1, OperandDescription desc2, CBaseEntityFactory factory) {
 		CDataEntity firstObject = desc1.eObject ;
 		if (desc1.expStart != null)
@@ -321,8 +321,8 @@ public class CFPacGenericExpression extends CExpression
 
 		// manage buffer type
 		manageDataTypeDependingOnOperationType(desc1, desc2, factory) ;
-		
-		// build data entities 
+
+		// build data entities
 		CDataEntity e1, e2 ;
 		if (desc2.expLength != null && desc1.expLength == null && desc1.expStart != null)
 		{
@@ -354,7 +354,7 @@ public class CFPacGenericExpression extends CExpression
 		}
 		CBaseEntityExpression exp1 = factory.NewEntityExprTerminal(e1) ;
 		CBaseEntityExpression exp2 = factory.NewEntityExprTerminal(e2) ;
-		
+
 		// analyse keywords
 		CBaseEntityCondition condition = null ;
 		if (keyword == CFPacKeywordList.EQ)
@@ -457,7 +457,7 @@ public class CFPacGenericExpression extends CExpression
 	{
 		return true;
 	}
-	
+
 	@Override
 	public Element DoExport(Document root)
 	{
@@ -510,12 +510,12 @@ public class CFPacGenericExpression extends CExpression
 		{
 			rightTerms.add(exp);
 		}
-		
+
 	}
 
 	public void SetKeyword(CReservedKeyword keyword)
 	{
-		keyword = keyword ;
+		this.keyword = keyword ;
 	}
 
 	@Override

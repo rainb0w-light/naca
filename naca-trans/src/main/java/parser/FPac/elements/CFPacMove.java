@@ -35,11 +35,11 @@ public class CFPacMove extends CFPacElement
 	private boolean ismovefromOutput = false ;
 	private boolean bMovePacked = false ;
 	private boolean isunpack = false ;
-	
+
 	public CFPacMove(int line, Vector<CExpression> arrTerms)
 	{
 		super(line);
-		arrTerms = arrTerms ;
+		this.terms = arrTerms ;
 	}
 
 	@Override
@@ -67,7 +67,7 @@ public class CFPacMove extends CFPacElement
 					ass.SetValue(exp) ;
 					exp.RegisterReadingAction(ass) ;
 					parent.AddChild(ass) ;
-					return ass ;					
+					return ass ;
 				}
 			}
 			else if (op.IsConstant())
@@ -75,7 +75,7 @@ public class CFPacMove extends CFPacElement
 			}
 			return null ;
 		}
-		
+
 		ListIterator<CExpression> iter = terms.listIterator() ;
 
 		OperandDescription op1 = OperandDescription.FindFirstDataEntity(iter, factory, ismovefromOutput) ;
@@ -84,14 +84,14 @@ public class CFPacMove extends CFPacElement
 			Transcoder.logError(getLine(), "Unexpecting entity") ;
 			return null ;
 		}
-		
+
 		OperandDescription op2 = OperandDescription.FindSecondDataEntity(iter, factory, ismoveToInput) ;
 		if (op2 == null || op2.eObject == null)
 		{
 			Transcoder.logError(getLine(), "Unexpecting entity") ;
 			return null ;
 		}
-		
+
 		boolean isspecialPacked = false;
 		if (op1.expStart != null && op1.expLength == null && op2.expLength != null)
 		{
@@ -104,11 +104,11 @@ public class CFPacMove extends CFPacElement
 				String cs = op2.expLength.GetConstantValue() ;
 				if (!cs.equals(""))
 				{
-					int start = NumberParser.getAsInt(op1.expStart.GetConstantValue()) ; 
-					if (start >= 6000 && start < 7000 && 
-								(op2.expStart == null || NumberParser.getAsInt(op2.expStart.GetConstantValue()) < 6000 
+					int start = NumberParser.getAsInt(op1.expStart.GetConstantValue()) ;
+					if (start >= 6000 && start < 7000 &&
+								(op2.expStart == null || NumberParser.getAsInt(op2.expStart.GetConstantValue()) < 6000
 												|| NumberParser.getAsInt(op2.expStart.GetConstantValue()) >= 7000))
-					{ // in packed fields, number are stored 2 per byte 
+					{ // in packed fields, number are stored 2 per byte
 						op1.expLength = factory.NewEntityExprTerminal(factory.NewEntityNumber(cs.length() / 2)) ;
 						isspecialPacked = true;
 					}
@@ -138,7 +138,7 @@ public class CFPacMove extends CFPacElement
 					op1.expLength = factory.NewEntityExprTerminal(factory.NewEntityNumber(8)) ;
 			}
 		}
-		
+
 		// manage type conversion
 		if (op1.expStart != null)
 		{
@@ -158,7 +158,7 @@ public class CFPacMove extends CFPacElement
 				conv.convertToAlphaNum(op2.eObject) ;
 			op2.eObject = conv ;
 		}
-		
+
 		// build variables
 		CDataEntity var1= null, var2 = null ;
 		if (op1.expStart != null)
@@ -201,7 +201,7 @@ public class CFPacMove extends CFPacElement
 //			var1.RegisterReadingAction(ass) ;
 //			ass.setArithmeticAssign(true) ;
 //			parent.AddChild(ass) ;
-//			
+//
 //			return ass ;
 //		}
 		else
@@ -212,7 +212,7 @@ public class CFPacMove extends CFPacElement
 			ass.AddRefTo(var2) ;
 			ass.SetValue(var1) ;
 			parent.AddChild(ass) ;
-			
+
 			return ass ;
 		}
 	}
@@ -232,7 +232,7 @@ public class CFPacMove extends CFPacElement
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public void moveToInput()
 	{
@@ -240,7 +240,7 @@ public class CFPacMove extends CFPacElement
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public void moveFromOutput()
 	{
@@ -248,7 +248,7 @@ public class CFPacMove extends CFPacElement
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public void movePacked()
 	{
@@ -256,7 +256,7 @@ public class CFPacMove extends CFPacElement
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public void unpack()
 	{

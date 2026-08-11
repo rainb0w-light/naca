@@ -29,19 +29,19 @@ public class CTokenType
 		value = val ;
 		issourceValueDefined = false;
 	}
-	
+
 	protected CTokenType(String val, String csSourceValue)
 	{
 		value = val ;
-		csSourceValue = csSourceValue;
+		this.csSourceValue = csSourceValue;
 		issourceValueDefined = true;
 	}
-	
+
 	public String GetSourceValue()
 	{
 		if(issourceValueDefined)
 			return csSourceValue;
-		
+
 		// Should assert
 		return "";
 	}
@@ -50,46 +50,46 @@ public class CTokenType
 	{
 		return issourceValueDefined;
 	}
-	
-	public static CTokenType IDENTIFIER = new CTokenType() ; 
-	public static CTokenType KEYWORD = new CTokenType() ; 
-	public static CTokenType COMMENTS = new CTokenType() ; 
-	public static CTokenType NUMBER = new CTokenType() ; 
-	public static CTokenType STRING = new CTokenType() ; 
-	public static CTokenType CONSTANT = new CTokenType() ; 
-	public static CTokenType COMMA = new CTokenType("COMMA", ",") ; 
-	public static CTokenType DOLLAR = new CTokenType("DOLLAR", "$") ; 
-	public static CTokenType LEFT_SQUARE_BRACKET = new CTokenType("LEFT_SQUARE_BRACKET", "[") ; 
-	public static CTokenType RIGHT_SQUARE_BRACKET = new CTokenType("RIGHT_SQUARE_BRACKET", "]") ; 
-	public static CTokenType LEFT_BRACKET = new CTokenType("LEFT_BRACKET", "(") ; 
-	public static CTokenType RIGHT_BRACKET = new CTokenType("RIGHT_BRACKET", ")") ; 
-	public static CTokenType STAR = new CTokenType("STAR", "* ") ; 
-//	public static CTokenType SHARP = new CTokenType("SHARP", "#") ; 
-	public static CTokenType STAR_STAR = new CTokenType("STAR_STAR", "**") ; 
-	public static CTokenType PLUS = new CTokenType("PLUS", "+") ; 
-	public static CTokenType MINUS = new CTokenType("MINUS", "-") ; 
-	public static CTokenType DOT = new CTokenType("DOT", ".") ; 
-	public static CTokenType SLASH = new CTokenType("SLASH", "/") ; 
-	public static CTokenType COLON = new CTokenType("COLON", ":") ; 
-	public static CTokenType SEMI_COLON = new CTokenType("SEMI-COLON", ";") ; 
-	public static CTokenType LESS_THAN = new CTokenType("LESS", "<") ; 
-	public static CTokenType EQUALS = new CTokenType("EQUALS", "=") ; 
-	public static CTokenType GREATER_THAN = new CTokenType("GREATER", ">") ; 
-	public static CTokenType GREATER_OR_EQUALS = new CTokenType("GREATER_OR_EQUALS", ">=") ; 
-	public static CTokenType LESS_OR_EQUALS = new CTokenType("LESS_OR_EQUALS", "<=") ; 
-	public static CTokenType LESS_GREATER = new CTokenType("LESS_GREATER", "<>") ; 
-	public static CTokenType WHITESPACE = new CTokenType("WHITE_SPACE", " ") ; 
+
+	public static CTokenType IDENTIFIER = new CTokenType() ;
+	public static CTokenType KEYWORD = new CTokenType() ;
+	public static CTokenType COMMENTS = new CTokenType() ;
+	public static CTokenType NUMBER = new CTokenType() ;
+	public static CTokenType STRING = new CTokenType() ;
+	public static CTokenType CONSTANT = new CTokenType() ;
+	public static CTokenType COMMA = new CTokenType("COMMA", ",") ;
+	public static CTokenType DOLLAR = new CTokenType("DOLLAR", "$") ;
+	public static CTokenType LEFT_SQUARE_BRACKET = new CTokenType("LEFT_SQUARE_BRACKET", "[") ;
+	public static CTokenType RIGHT_SQUARE_BRACKET = new CTokenType("RIGHT_SQUARE_BRACKET", "]") ;
+	public static CTokenType LEFT_BRACKET = new CTokenType("LEFT_BRACKET", "(") ;
+	public static CTokenType RIGHT_BRACKET = new CTokenType("RIGHT_BRACKET", ")") ;
+	public static CTokenType STAR = new CTokenType("STAR", "* ") ;
+//	public static CTokenType SHARP = new CTokenType("SHARP", "#") ;
+	public static CTokenType STAR_STAR = new CTokenType("STAR_STAR", "**") ;
+	public static CTokenType PLUS = new CTokenType("PLUS", "+") ;
+	public static CTokenType MINUS = new CTokenType("MINUS", "-") ;
+	public static CTokenType DOT = new CTokenType("DOT", ".") ;
+	public static CTokenType SLASH = new CTokenType("SLASH", "/") ;
+	public static CTokenType COLON = new CTokenType("COLON", ":") ;
+	public static CTokenType SEMI_COLON = new CTokenType("SEMI-COLON", ";") ;
+	public static CTokenType LESS_THAN = new CTokenType("LESS", "<") ;
+	public static CTokenType EQUALS = new CTokenType("EQUALS", "=") ;
+	public static CTokenType GREATER_THAN = new CTokenType("GREATER", ">") ;
+	public static CTokenType GREATER_OR_EQUALS = new CTokenType("GREATER_OR_EQUALS", ">=") ;
+	public static CTokenType LESS_OR_EQUALS = new CTokenType("LESS_OR_EQUALS", "<=") ;
+	public static CTokenType LESS_GREATER = new CTokenType("LESS_GREATER", "<>") ;
+	public static CTokenType WHITESPACE = new CTokenType("WHITE_SPACE", " ") ;
 	public static CTokenType NEWLINE = new CTokenType("NEW_LINE") ;
 	public static CTokenType UNRECOGNIZED = new CTokenType() ;
 
 	public static CTokenType EXCLAMATION = new CTokenType("EXCLAMATION", "!") ;
 	public static CTokenType CIRCUMFLEX = new CTokenType("CIRCUMFLEX", "^") ;
-	
+
 	public static CTokenType END_OF_BLOCK = new CTokenType("END_OF_BLOCK") ;
 
 	//public static CTokenType  = new CTokenType("") ;
-		
-	public String value = "" ; 
+
+	public String value = "" ;
 	protected String csSourceValue = "" ;
 	protected boolean issourceValueDefined = false;
 }

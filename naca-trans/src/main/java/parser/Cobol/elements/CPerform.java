@@ -49,14 +49,14 @@ public class CPerform extends CBlocElement
 	{
 		super(line);
 		reference = ref ;
-		refThru = refThru ;
+		this.refThru = refThru ;
 	}
 	public CPerform(CIdentifier ref, CIdentifier refThru, CTerminal rep, int line)
 	{
 		super(line);
 		refRepetitions = rep ;
 		reference = ref ;
-		refThru = refThru ;
+		this.refThru = refThru ;
 	}
 
 
@@ -73,7 +73,7 @@ public class CPerform extends CBlocElement
 			tok = GetCurrentToken() ;
 			if (tok.GetKeyword() == CCobolKeywordList.TIMES)
 			{
-				CTerminal term = new CIdentifierTerminal(id) ; 
+				CTerminal term = new CIdentifierTerminal(id) ;
 				refRepetitions = term ;
 				GetNext() ;
 			}
@@ -120,7 +120,7 @@ public class CPerform extends CBlocElement
 		}
 		return e;
 	}
-	
+
 	protected CIdentifier reference = null ;
 	protected CIdentifier refThru = null ;
 	protected CTerminal refRepetitions = null ;
@@ -160,7 +160,7 @@ public class CPerform extends CBlocElement
 			}
 			return e;
 		}
-		
+
 		//return null ;
 	}
 	/* (non-Javadoc)
