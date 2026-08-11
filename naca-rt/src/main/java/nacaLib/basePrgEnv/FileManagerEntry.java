@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.basePrgEnv;
 
@@ -44,12 +44,12 @@ public class FileManagerEntry extends CJMapObject
 		nNbRecordRead = 0;
 		nNbRecordWrite = 0;
 	}
-	
+
 	public void setVariableLength()
 	{
 		logicalFileDescriptor.setVariableLength();
 	}
-		
+
 	public String getPhysicalName(String csLogicalName, BaseSession baseSession)
 	{
 		logicalFileDescriptor = null;
@@ -58,10 +58,10 @@ public class FileManagerEntry extends CJMapObject
 			logicalFileDescriptor = baseSession.getLogicalFileDescriptor(csLogicalName);
 			if(logicalFileDescriptor != null)
 			{
-				logicalFileDescriptor = logicalFileDescriptor;	// Inherit logical file descriptor
+				this.logicalFileDescriptor = logicalFileDescriptor;	// Inherit logical file descriptor
 			}
 			else	// Logical name not already defines
-			{			
+			{
 				String csPhysicalDesc = EnvironmentVar.getParamValue(csLogicalName);
 				if(StringUtil.isEmpty(csPhysicalDesc))
 					csPhysicalDesc = EnvironmentVar.getParamValue("File_" + csLogicalName);
@@ -80,20 +80,20 @@ public class FileManagerEntry extends CJMapObject
 		throw new FileDescriptorNofFoundException(csLogicalName, null);
 		//"Environnement or Session ERROR: Logical File \'"+csLogicalName + "\' has no physical definition"
 	}
-	
+
 	public boolean isDummyFile()
 	{
 		if(logicalFileDescriptor != null)
 			return logicalFileDescriptor.isDummyFile();
 		return true;
 	}
-		
+
 	public void reportFileDescriptorStatus(FileDescriptorOpenStatus status)
 	{
 		fileDescriptorOpenStatus = status;
 	}
-	
-		
+
+
 	void autoClose()
 	{
 		if(fileDescriptorOpenStatus != null)
@@ -105,7 +105,7 @@ public class FileManagerEntry extends CJMapObject
 			}
 		}
 	}
-	
+
 	void autoFlush()
 	{
 		if(fileDescriptorOpenStatus != null)
@@ -116,17 +116,17 @@ public class FileManagerEntry extends CJMapObject
 			}
 		}
 	}
-	
+
 	public RecordLengthDefinition getRecordLengthDefinition()
 	{
 		return logicalFileDescriptor.getRecordLengthDefinition();
 	}
-	
+
 	public LogicalFileDescriptor getLogicalFileDescriptor()
 	{
 		return logicalFileDescriptor;
 	}
-	
+
 	public boolean doOpenExtend(String csLogicalName, BaseSession baseSession, boolean bVariableLength)
 	{
 		boolean isopened = false;
@@ -135,58 +135,58 @@ public class FileManagerEntry extends CJMapObject
 			getPhysicalName(csLogicalName, baseSession);
 			if(isDummyFile())
 				return true;
-			
+
 			if(bVariableLength)
 				setVariableLength();
-			
+
 			DataFileWrite dataFile = new DataFileWrite(logicalFileDescriptor.getPath(), false);
-			dataFile = dataFile;
+			this.dataFile = dataFile;
 			isopened = dataFile.openInAppend(logicalFileDescriptor);
 			if(!isopened)
 			{
 				JVMReturnCodeManager.setExitCode(8);
 				CannotOpenFileException e = new CannotOpenFileException(csLogicalName, logicalFileDescriptor);
 				throw(e);
-			}			
+			}
 			reportFileDescriptorStatus(FileDescriptorOpenStatus.OPEN);
 		}
 		return isopened;
 	}
-	
+
 	public boolean doOpenOutput(String csLogicalName, BaseSession baseSession, boolean bVariableLength, boolean bCanAuthoriseFileHeaderWrite)
 	{
 		boolean isopened = false;
 		if(checkCanOpen())
-		{			
+		{
 			String csPhysicalFileName = getPhysicalName(csLogicalName, baseSession);
-			
+
 			if(logicalFileDescriptor.getExt())	// Force extend mode
 				return doOpenExtend(csLogicalName, baseSession, bVariableLength);
-			
-			if(isDummyFile())	// The logical name is dummy: 
+
+			if(isDummyFile())	// The logical name is dummy:
 				return true;
-			
+
 			if(BaseDataFile.isNullFile(csPhysicalFileName))
 				isopened = true;	// Physical outout file is null: Simulte a correct open
 			else
-			{	
+			{
 				if(bVariableLength)
-					setVariableLength();				
-				
+					setVariableLength();
+
 				boolean bMustWriteFileHeader = false;
 				//if(bCanAuthoriseFileHeaderWrite)
-				//	bMustWriteFileHeader = BaseResourceManager.getMustWriteFileHeader(); 
+				//	bMustWriteFileHeader = BaseResourceManager.getMustWriteFileHeader();
 				dataFile = new DataFileWrite(logicalFileDescriptor.getPath(), bMustWriteFileHeader);
 				isopened = dataFile.open(logicalFileDescriptor);
-			}			
+			}
 			if(!isopened)
 			{
 				JVMReturnCodeManager.setExitCode(8);
 				CannotOpenFileException e = new CannotOpenFileException(csLogicalName, logicalFileDescriptor);
 				throw(e);
-			}			
+			}
 			reportFileDescriptorStatus(FileDescriptorOpenStatus.OPEN);
-				
+
 			String csDdname = baseSession.getDynamicAllocationInfo("DDNAME");
 			if (csDdname != null && csDdname.equals(csLogicalName))
 			{
@@ -221,23 +221,23 @@ public class FileManagerEntry extends CJMapObject
 		}
 		return isopened;
 	}
-	
+
 	public boolean doOpenInput(String csLogicalName, BaseSession baseSession, boolean bVariableLength)
-	{		
+	{
 		boolean isopened = false;
 		if(checkCanOpen())
 		{
 			getPhysicalName(csLogicalName, baseSession);
 			if(isDummyFile())
 				return true;
-			
+
 			if(bVariableLength)
 				setVariableLength();
-			
+
 			dataFile = new DataFileLineReader(logicalFileDescriptor.getPath(), 65536, 0);
 			isopened = dataFile.open(logicalFileDescriptor);
 			if(!isopened)
-			{				
+			{
 				JVMReturnCodeManager.setExitCode(8);
 				InputFileNotFoundException e = new InputFileNotFoundException(csLogicalName, logicalFileDescriptor);
 				throw(e);
@@ -252,7 +252,7 @@ public class FileManagerEntry extends CJMapObject
 		}
 		return isopened;
 	}
-	
+
 	public boolean doOpenInputOutput(String csLogicalName, BaseSession baseSession, boolean bVariableLength)
 	{
 		boolean isopened = false;
@@ -261,10 +261,10 @@ public class FileManagerEntry extends CJMapObject
 			getPhysicalName(csLogicalName, baseSession);
 			if(isDummyFile())
 				return true;
-			
+
 			if(bVariableLength)
 				setVariableLength();
-			
+
 			dataFile = new DataFileReadWrite(logicalFileDescriptor.getPath());
 			isopened = dataFile.open(logicalFileDescriptor);
 			if(!isopened)
@@ -277,12 +277,12 @@ public class FileManagerEntry extends CJMapObject
 		}
 		return isopened;
 	}
-	
+
 	public boolean doClose(String csLogicalName, BaseSession baseSession)
 	{
 		if(isDummyFile())
 			return true;
-		
+
 		if(checkCanClose())
 		{
 			dataFile.close();
@@ -290,57 +290,57 @@ public class FileManagerEntry extends CJMapObject
 			baseSession.removeLogicalFileDescriptor(csLogicalName);
 			return true;
 		}
-		
+
 		TooManyCloseFileException e = new TooManyCloseFileException();
 		throw e;
 	}
-	
+
 	private boolean checkCanOpen()
 	{
 		if(dataFile == null)
 			return true;
 		return false;
 	}
-	
+
 	private boolean checkCanClose()
 	{
 		if(dataFile != null && dataFile.isOpen())
 			return true;
 		return false;
 	}
-	
+
 	public boolean isEbcdic()
 	{
 		return logicalFileDescriptor.isEbcdic();
 	}
-	
+
 	public boolean isVariableLength()
 	{
 		return logicalFileDescriptor.isVariableLength();
 	}
-	
+
 	public boolean isVariableLength4BytesHeaderWithLF()
 	{
 		return logicalFileDescriptor.isVariableLength4BytesHeaderWithLF();
 	}
-	
+
 	public BaseDataFile getDataFile()
 	{
-		return dataFile; 
+		return dataFile;
 	}
-	
+
 	public String toString()
 	{
 		if(logicalFileDescriptor != null)
 			return logicalFileDescriptor.toString();
 		return "Unknown LogicalFileDescriptor";
 	}
-	
+
 	public void inheritSettings(FileManagerEntry source)
 	{
 		logicalFileDescriptor.inheritSettings(source.logicalFileDescriptor);
 	}
-	
+
 	public void incNbRecordRead()
 	{
 		nNbRecordRead++;
@@ -350,7 +350,7 @@ public class FileManagerEntry extends CJMapObject
 	{
 		nNbRecordWrite++;
 	}
-	
+
 	public String dumpRWStat()
 	{
 		String cs;
@@ -358,7 +358,7 @@ public class FileManagerEntry extends CJMapObject
 			cs = logicalFileDescriptor.getName();
 		else
 			cs = "Unknown logicalFileDescriptor ";
-		cs += "Read=" + nNbRecordRead + " / Write=" + nNbRecordWrite; 
+		cs += "Read=" + nNbRecordRead + " / Write=" + nNbRecordWrite;
 		return cs;
 	}
 

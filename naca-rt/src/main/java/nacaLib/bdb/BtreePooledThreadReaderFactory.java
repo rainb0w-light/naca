@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.bdb;
 
@@ -22,14 +22,14 @@ public class BtreePooledThreadReaderFactory extends BasePooledThreadFactory
 	private BtreeFile btreeFile = null;
 	public BtreePooledThreadReaderFactory(BtreeFile btreeFile)
 	{
-		btreeFile = btreeFile;
+		this.btreeFile = btreeFile;
 	}
-	
+
 	public BtreePooledReaderThread make(PoolOfThreads owningPool)
 	{
 		BtreePooledReaderThread thread = new BtreePooledReaderThread(owningPool);
 		thread.setBtreeFile(btreeFile);
-		
+
 		return thread;
 	}
 }

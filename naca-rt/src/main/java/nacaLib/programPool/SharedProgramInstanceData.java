@@ -36,17 +36,17 @@ public class SharedProgramInstanceData extends CJMapObject
 	private ArrayFixDyn<String> arrCursorName = null;
 	private String csProgramName = null;
 	private ArrayFixDyn<String> arrCopyNames = null;
-	private ArrayFixDyn<String> arrVarName = null;	// Array of the vars' name, indexed by var def id 
+	private ArrayFixDyn<String> arrVarName = null;	// Array of the vars' name, indexed by var def id
 	private ArrayFixDyn<CInitialValue> arrInitialValue = null;	// Array of the vars' name, indexed by var def id
-	private ArrayFixDyn<VarDefBuffer> arrVarDef = new ArrayDyn<VarDefBuffer>();	
+	private ArrayFixDyn<VarDefBuffer> arrVarDef = new ArrayDyn<VarDefBuffer>();
 	private ArrayFixDyn<VarDefForm> arrVarDefForm = null;	// Array of all VarDefForm
 	private InternalCharBufferCompressedBackup internalCharBufferCompressedBackup = null;
-	
+
 	public SharedProgramInstanceData()
 	{
 		int n = 0;
 	}
-	
+
 	synchronized public void prepareAutoRemoval()
 	{
 		// Do not manager bCanWrite, as we are in unloading phase, and we don't care about catalog at this stage
@@ -60,7 +60,7 @@ public class SharedProgramInstanceData extends CJMapObject
 			}
 			arrVarDef = null;
 		}
-		
+
 		if(arrVarDefForm != null)
 		{
 			for(int n=0; n<arrVarDefForm.size(); n++)
@@ -71,14 +71,14 @@ public class SharedProgramInstanceData extends CJMapObject
 			}
 			arrVarDefForm = null;
 		}
-		
+
 		if(internalCharBufferCompressedBackup != null)
 		{
 			internalCharBufferCompressedBackup.prepareAutoRemoval();
 			internalCharBufferCompressedBackup = null;
 		}
 	}
-	
+
 	synchronized public VarDefBuffer getVarDef(int nId)
 	{
 		if(nId == VarDefBase.NULL_ID)
@@ -88,21 +88,21 @@ public class SharedProgramInstanceData extends CJMapObject
 			VarDefBuffer varDef = arrVarDef.get(nId);
 			return varDef;
 		}
-		return null;		
+		return null;
 	}
-		
+
 	synchronized public void addVarDef(VarDefBuffer varDef)
 	{
 		arrVarDef.add(varDef);
 	}
-	
+
 	synchronized public void addVarDefForm(VarDefForm varDefForm)
 	{
 		if(arrVarDefForm == null)
 			arrVarDefForm = new ArrayDyn<VarDefForm>();
 		arrVarDefForm.add(varDefForm);
 	}
-	
+
 	public void saveOriginalValues(InternalCharBuffer internalCharBufferOrigin, ArrayFixDyn<EditInMap> arrEditInMap)
 	{
 		internalCharBufferCompressedBackup = new InternalCharBufferCompressedBackup(internalCharBufferOrigin);
@@ -117,7 +117,7 @@ public class SharedProgramInstanceData extends CJMapObject
 		}
 		// The edit in mapRedefine attributes must also point to the correct value
 	}
-	
+
 	public void restoreOriginalValues(InternalCharBuffer internalCharBufferDest, ArrayFixDyn<EditInMap> arrEditInMap)
 	{
 		// Do not alter content of this
@@ -132,7 +132,7 @@ public class SharedProgramInstanceData extends CJMapObject
 			}
 		}
 	}
-	
+
 //	synchronized public void saveStat(PooledProgramInstanceStat pooledProgramInstanceStat)
 //	{
 //		if(pooledProgramInstanceStat != null)
@@ -141,63 +141,63 @@ public class SharedProgramInstanceData extends CJMapObject
 //			pooledProgramInstanceStat.nNbVarDefForm = 0;
 //			pooledProgramInstanceStat.nNbEditAttributes = 0;
 //			pooledProgramInstanceStat.nBufferSize = 0;
-//			
+//
 //			if(arrVarDef != null)
-//				pooledProgramInstanceStat.nNbVarDef = arrVarDef.size(); 
+//				pooledProgramInstanceStat.nNbVarDef = arrVarDef.size();
 //			if(arrVarDefForm != null)
-//				pooledProgramInstanceStat.nNbVarDefForm = arrVarDefForm.size(); 
+//				pooledProgramInstanceStat.nNbVarDefForm = arrVarDefForm.size();
 //			if(arrVarDef != null)
 //				pooledProgramInstanceStat.nBufferSize = internalCharBufferOriginal.getBufferSize();
 //		}
 //	}
-	
-	
-	
+
+
+
 	synchronized public void addCopy(String csCopyName)
 	{
 		if(arrCopyNames == null)
 			arrCopyNames = new ArrayDyn<String>();
 		arrCopyNames.add(csCopyName);
 	}
-	
+
 	synchronized public int getNbCopy()
-	{		
+	{
 		if(arrCopyNames == null)
 			return 0;
 		return arrCopyNames.size();
 	}
-	
+
 	synchronized public String getCopy(int n)
 	{
 		if(arrCopyNames != null && n < arrCopyNames.size())
 			return arrCopyNames.get(n);
 		return "";
 	}
-	
+
 	synchronized public void compress()
 	{
 		arrInitialValue = null;	// No more initial values
-		
+
 		if(arrVarName != null)
-		{		
+		{
 			int nSize = arrVarName.size();
 			String arr[] = new String[nSize];
 			arrVarName.transferInto(arr);
 			ArrayFix<String> varDefFix = new ArrayFix<String>(arr);
 			arrVarName = varDefFix;	// replace by a fix one (uning less memory)
 		}
-		
+
 		if(arrVarDef != null)
-		{		
+		{
 			int nSize = arrVarDef.size();
 			VarDefBuffer arr[] = new VarDefBuffer[nSize];
 			arrVarDef.transferInto(arr);
 			ArrayFix<VarDefBuffer> varDefFix = new ArrayFix<VarDefBuffer>(arr);
 			arrVarDef = varDefFix;	// replace by a fix one (uning less memory)
 		}
-		
+
 		if(arrVarDefForm != null)
-		{		
+		{
 			int nSize = arrVarDefForm.size();
 			VarDefForm arr[] = new VarDefForm[nSize];
 			arrVarDefForm.transferInto(arr);
@@ -206,14 +206,14 @@ public class SharedProgramInstanceData extends CJMapObject
 		}
 
 		if(arrCopyNames != null)
-		{		
+		{
 			int nSize = arrCopyNames.size();
 			String arr[] = new String[nSize];
 			arrCopyNames.transferInto(arr);
 			ArrayFix<String> fix = new ArrayFix<String>(arr);
 			arrCopyNames = fix;	// replace by a fix one (uning less memory)
 		}
-		
+
 		if(arrCursorName != null)
 		{
 			int nSize = arrCursorName.size();
@@ -223,7 +223,7 @@ public class SharedProgramInstanceData extends CJMapObject
 			arrCursorName = fix;	// replace by a fix one (uning less memory)
 		}
 	}
-	
+
 //	public void serialize(String csVarDefCatalogueSerilizationPath, String csFileName)
 //	{
 //		String csFullFileName = csVarDefCatalogueSerilizationPath + csFileName;
@@ -233,8 +233,8 @@ public class SharedProgramInstanceData extends CJMapObject
 //			fos = new FileOutputStream(csFullFileName);
 //			ObjectOutputStream out = new ObjectOutputStream(fos);
 //			serialize(out);
-//			out.close();			
-//		} 
+//			out.close();
+//		}
 //		catch (FileNotFoundException e)
 //		{
 //			// TODO Auto-generated catch block
@@ -246,7 +246,7 @@ public class SharedProgramInstanceData extends CJMapObject
 //			e.printStackTrace();
 //		}
 //	}
-//		
+//
 //	private void serialize(ObjectOutputStream out)  throws IOException
 //	{
 //		Hashtable<VarDefBase, Integer> hashVarDefById = new Hashtable<VarDefBase, Integer>();
@@ -255,7 +255,7 @@ public class SharedProgramInstanceData extends CJMapObject
 //			out.writeInt(arrVarDef.size());
 //		else
 //			out.writeInt(0);
-//		
+//
 //		// Serialized object themselves; used for correct creation at deserialization time
 //		for(int nId=0; nId<arrVarDef.size(); nId++)
 //		{
@@ -263,7 +263,7 @@ public class SharedProgramInstanceData extends CJMapObject
 //			out.writeObject(varDef);
 //			hashVarDefById.put(arrVarDef.get(nId), nId);
 //		}
-//		
+//
 //		// Serialize object details
 //		for(int nId=0; nId<arrVarDef.size(); nId++)
 //		{
@@ -271,7 +271,7 @@ public class SharedProgramInstanceData extends CJMapObject
 //			varDefBuffer.serializeDetails(out, hashVarDefById, new Integer(nId));
 //		}
 //	}
-//	
+//
 //	public boolean deserialize(String csVarDefCatalogueSerilizationPath, String csFileName)
 //	{
 //		String csFullFileName = csVarDefCatalogueSerilizationPath + csFileName;
@@ -286,22 +286,22 @@ public class SharedProgramInstanceData extends CJMapObject
 //				int nNbVarDef = in.readInt();
 //				for(int nId=0; nId<nNbVarDef; nId++)
 //				{
-//					VarDefBuffer varDef = (VarDefBuffer)in.readObject(); 
-//					arrVarDef.add(varDef);		
+//					VarDefBuffer varDef = (VarDefBuffer)in.readObject();
+//					arrVarDef.add(varDef);
 //				}
-//				
+//
 //				// Read details
 //				for(int nId=0; nId<nNbVarDef; nId++)
 //				{
 //					VarDefBuffer varDefBuffer = arrVarDef.get(nId);
 //					varDefBuffer.deserializeDetails(in, arrVarDef, new Integer(nId));
-//				}				
-//				
+//				}
+//
 //			}
-//			
+//
 //			in.close();
 //			return true;
-//		} 
+//		}
 //		catch (FileNotFoundException e)
 //		{
 //			// No serialized file
@@ -318,14 +318,14 @@ public class SharedProgramInstanceData extends CJMapObject
 //		}
 //		return false;
 //	}
-	
+
 	public void saveCursorName(String csCursorName)
 	{
 		if(arrCursorName == null)
 			arrCursorName = new ArrayDyn<String>();
 		arrCursorName.add(csCursorName);
 	}
-	
+
 	public void restoreCursorNames(ArrayFixDyn<SQLCursor> arrCursor)
 	{
 		if(arrCursor != null && arrCursorName != null)
@@ -337,7 +337,7 @@ public class SharedProgramInstanceData extends CJMapObject
 				{
 					String csName = arrCursorName.get(n);
 					SQLCursor cursor = arrCursor.get(n);
-					cursor.setName(csProgramName, csName);			
+					cursor.setName(csProgramName, csName);
 				}
 			}
 			else
@@ -346,38 +346,38 @@ public class SharedProgramInstanceData extends CJMapObject
 			}
 		}
 	}
-	
+
 	public void setProgramName(String csProgramName)
 	{
-		csProgramName = csProgramName;
+		this.csProgramName = csProgramName;
 	}
-	
+
 	public String getProgramName()
 	{
-		return csProgramName; 
+		return csProgramName;
 	}
-	
+
 	public int getNbCursor()
 	{
 		if(arrCursorName != null)
 			return arrCursorName.size();
 		return 0;
 	}
-	
+
 	public int getBufferSize()
 	{
 		if(internalCharBufferCompressedBackup != null)
 			return internalCharBufferCompressedBackup.getBufferSize();
-		return 0;		
+		return 0;
 	}
-	
+
 	public int getNbVarDef()
 	{
 		if(arrVarDef != null)
 			return arrVarDef.size();
 		return 0;
 	}
-	
+
 	public int getNbVarDefForm()
 	{
 		if(arrVarDefForm != null)
@@ -390,7 +390,7 @@ public class SharedProgramInstanceData extends CJMapObject
 		VarDefForm varDef = arrVarDefForm.get(n);
 		if(varDef != null)
 		{
-			String csName = varDef.getFullName(this).toUpperCase(); 
+			String csName = varDef.getFullName(this).toUpperCase();
 			int nPosSep = csName.indexOf('.');
 			if(nPosSep != -1)
 				return csName.substring(0, nPosSep);
@@ -398,7 +398,7 @@ public class SharedProgramInstanceData extends CJMapObject
 		}
 		return null;
 	}
-	
+
 	public void setVarFullName(int nId, String csFullName)
 	{
 		if(arrVarName == null)
@@ -408,7 +408,7 @@ public class SharedProgramInstanceData extends CJMapObject
 		arrVarName.set(nId, csFullName);
 		//arrVarName.add(csFullName);
 	}
-	
+
 	public String getVarFullName(int nId)
 	{
 		if(arrVarName != null && nId < arrVarName.size())
@@ -417,16 +417,16 @@ public class SharedProgramInstanceData extends CJMapObject
 		}
 		return null;
 	}
-	
+
 	public void setInitialValue(int nId, CInitialValue initialValue)
 	{
 		if(arrInitialValue == null)
 			arrInitialValue = new VectorDyn<CInitialValue>();
 		if(nId+1 > arrInitialValue.size())
 			arrInitialValue.setSize(nId+1);
-		arrInitialValue.set(nId, initialValue);		
+		arrInitialValue.set(nId, initialValue);
 	}
-	
+
 	public CInitialValue getInitialValue(int nId)
 	{
 		if(arrInitialValue != null)
@@ -437,7 +437,7 @@ public class SharedProgramInstanceData extends CJMapObject
 	public String dumpAll()
 	{
 		StringBuffer sb = new StringBuffer();
-		
+
 		sb.append("ProgramName="+csProgramName);
 
 		sb.append("\r\narrCursorName:\r\n");
@@ -448,7 +448,7 @@ public class SharedProgramInstanceData extends CJMapObject
 				sb.append(arrCursorName.get(n)+"\r\n");
 			}
 		}
-		
+
 		sb.append("\r\narrCopyNames:\r\n");
 		if(arrCopyNames != null)
 		{
@@ -457,7 +457,7 @@ public class SharedProgramInstanceData extends CJMapObject
 				sb.append(arrCopyNames.get(n)+"\r\n");
 			}
 		}
-		
+
 		sb.append("\r\narrVarName:\r\n");
 		if(arrVarName != null)
 		{
@@ -466,7 +466,7 @@ public class SharedProgramInstanceData extends CJMapObject
 				sb.append(arrVarName.get(n)+"\r\n");
 			}
 		}
-		
+
 		sb.append(":arrInitialValue:\r\n");
 		if(arrInitialValue != null)
 		{
@@ -477,7 +477,7 @@ public class SharedProgramInstanceData extends CJMapObject
 					sb.append(arrInitialValue.get(n).toString()+"\r\n");
 			}
 		}
-		
+
 		sb.append("\r\narrVarDef:\r\n");
 		if(arrVarDef != null)
 		{
@@ -495,13 +495,13 @@ public class SharedProgramInstanceData extends CJMapObject
 				sb.append(arrVarDefForm.get(n).toString()+"\r\n");
 			}
 		}
-		
+
 		sb.append("\r\ninternalCharBufferCompressedBackup:\r\n");
 		if(internalCharBufferCompressedBackup != null)
 		{
 			sb.append("length="+internalCharBufferCompressedBackup.getBufferSize()+"\r\n");
 		}
-				
-		return sb.toString();		
+
+		return sb.toString();
 	}
 }

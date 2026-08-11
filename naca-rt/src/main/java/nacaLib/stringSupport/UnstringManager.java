@@ -23,7 +23,7 @@ class UnstringDelimiter
 		this.cs = cs;
 		this.isall = bAll;
 	}
-	
+
 	String getRemaingStringAfterSeparator(String csSource)
 	{
 		int nStringLength = cs.length();
@@ -40,7 +40,7 @@ class UnstringDelimiter
 		}
 		return csSource;
 	}
-	
+
 	int removeDelimiterString(String csSource, int nPosStart)
 	{
 		if(isall)
@@ -64,11 +64,11 @@ class UnstringDelimiter
 		else
 		{
 			int nLength = cs.length();
-			nPosStart += nLength; 
+			nPosStart += nLength;
 		}
 		return nPosStart;
 	}
-	
+
 	String cs = null;
 	boolean isall = false;
 }
@@ -83,23 +83,23 @@ class UnstringManager
 	Var varTallying = null;
 	int nTallying = 0;
 	int nPointer1Based = 1;
-	
-	
+
+
 	public UnstringManager(VarAndEdit varSource)
 	{
 		csCurrentSource = varSource.getString();
 	}
-	
+
 	public void withPointer(Var varPointer)
 	{
-		varPointer = varPointer;
+		this.varPointer = varPointer;
 	}
-	
+
 	public void tallying(Var varTallying)
 	{
-		varTallying = varTallying;
+		this.varTallying = varTallying;
 	}
-	
+
 	private boolean checkIfRemainingUnfilledChunks()
 	{
 		int nPointer0Based = nPointer1Based - 1;	// Must be 0 based
@@ -114,7 +114,7 @@ class UnstringManager
 		}
 		return false;
 	}
-	
+
 	void doInto(Var varDelimiterDest, Var varDelimiterIn, Var varCountDest)
 	{
 		if(!isfailed && csCurrentSource != null)
@@ -136,7 +136,7 @@ class UnstringManager
 					isfailed = true;
 				return ;
 			}
-			
+
 			if(delimiters.isEmpty())
 			{
 				if (csCurrentSource.length() == 0)
@@ -147,7 +147,7 @@ class UnstringManager
 				csCurrentSource = csCurrentSource.substring(i);
 				return;
 			}
-			
+
 			for(int nDelimiter = 0; nDelimiter< delimiters.size(); nDelimiter++)	// Try all delimiters
 			{
 				UnstringDelimiter delimiter = delimiters.get(nDelimiter);
@@ -158,7 +158,7 @@ class UnstringManager
 					delimiterUsed = delimiter;
 				}
 			}
-			
+
 			if(delimiterUsed != null)	// Found 1st delimitered string
 			{
 				String csChunk = csCurrentSource.substring(nPointer0Based, nPositionEndSepartorUsed);
@@ -167,71 +167,71 @@ class UnstringManager
 				nPointer0Based = delimiterUsed.removeDelimiterString(csCurrentSource, nPositionEndSepartorUsed);	// Remove delimiter string, optionnally managing all occurences
 
 				fillOutPointer(nPointer0Based);
-				
+
 				return;
-				
+
 //				csCurrentSource = csCurrentSource.substring(nPosSep);
 //				csCurrentSource = delimiterUsed.getRemaingStringAfterSeparator(csCurrentSource);	// Keep only right part, after all separators
 			}
-			
+
 			// Maybe sone source chars remains
 			String csLastChunkOnRight = csCurrentSource.substring(nPointer0Based);
 			fillChunk(csLastChunkOnRight, varDelimiterDest, varCountDest, varDelimiterIn, "");
 			incTallyingCount();
-			nPointer0Based += csLastChunkOnRight.length(); 
+			nPointer0Based += csLastChunkOnRight.length();
 			fillOutPointer(nPointer0Based);
 			return ;
 		}
-		
+
 		// Not found substring
 		if(varPointer != null)
 		{
 			int nPointer = csCurrentSource.length() +1;	// Points after the source string's last char (1 based)
 			varPointer.set(nPointer);
 		}
-	
+
 		if(varDelimiterDest != null)
 			varDelimiterDest.set("");
-		
+
 		if(varDelimiterIn != null)
 			varDelimiterIn.set("");
-		
+
 		if(varCountDest != null)
 			varCountDest.set(0);
 	}
-	
+
 	private void fillOutPointer(int nPointer0Based)
 	{
 		nPointer1Based = nPointer0Based + 1;	// Must be 1 based on output
 		if(varPointer != null)
 			varPointer.set(nPointer1Based);
 	}
-	
-	
+
+
 	private void fillChunk(String csChunk, Var varDelimiterDest, Var varCountDest, Var varDelimiterIn, String csDelimiterUsed)
-	{		
+	{
 		nCount = csChunk.length();
 		if(varCountDest != null)
 			varCountDest.set(nCount);
 
 		if(varDelimiterIn != null)
 			varDelimiterIn.set(csDelimiterUsed);
-		
+
 		if(varDelimiterDest != null)
 			varDelimiterDest.set(csChunk);
 	}
-	
+
 	private void incTallyingCount()
 	{
 		nTallying++;
-		if(varTallying != null)					
+		if(varTallying != null)
 			varTallying.set(nTallying);
 	}
-	
+
 	boolean failed()
 	{
 		if(isfailed)
 			return isfailed;
-		return checkIfRemainingUnfilledChunks();	// If we have some chunks left that have not been conummed by into calls(), then we have an error 		
+		return checkIfRemainingUnfilledChunks();	// If we have some chunks left that have not been conummed by into calls(), then we have an error
 	}
 }

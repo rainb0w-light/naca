@@ -18,7 +18,7 @@ public class FileEncodingConverter
 {
 	protected FileDescriptor fileIn = null;
 	protected FileDescriptor fileOut = null;
-	
+
 	protected boolean ishost = false;
 	protected int nLengthRecord = 0;
 	protected boolean isvariable4 = false;
@@ -26,10 +26,10 @@ public class FileEncodingConverter
 
 	public FileEncodingConverter(FileDescriptor fileIn, FileDescriptor fileOut)
 	{
-		fileIn = fileIn;
-		fileOut = fileOut;
+		this.fileIn = fileIn;
+		this.fileOut = fileOut;
 	}
-	
+
 	public void setHost(String csParameter)
 	{
 		ishost = true;
@@ -38,7 +38,7 @@ public class FileEncodingConverter
 		{
 			int nPos = csParameterUpper.indexOf("RECORDLENGTH={") + 14;
 			int nPosEnd = csParameterUpper.indexOf("}", nPos);
-			nLengthRecord = Integer.valueOf(csParameter.substring(nPos, nPosEnd)).intValue();				
+			nLengthRecord = Integer.valueOf(csParameter.substring(nPos, nPosEnd)).intValue();
 		}
 		if (csParameterUpper.indexOf("VARIABLE4") != -1)
 		{
@@ -51,7 +51,7 @@ public class FileEncodingConverter
 		System.out.println("FileEncodingConverter: Converting Host file");
 		if (nLengthRecord == 0)
 			System.out.println("FileEncodingConverter: Length record determined by header");
-		else	
+		else
 			System.out.println("FileEncodingConverter: Length record : " + nLengthRecord);
 		if (isheaderEbcdic)
 			System.out.println("FileEncodingConverter: Add header ebcdic");

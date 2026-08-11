@@ -57,7 +57,7 @@ public class CScenarioPlayer extends CJMapObject
 	}
 	public CScenarioPlayer(String filepath, OnlineSession session)
 	{
-		session = session ;
+		this.session = session ;
 		filePath = filepath ;
 		docScenario = XMLUtil.LoadXML(filepath) ;
 		if (docScenario == null)
@@ -96,15 +96,15 @@ public class CScenarioPlayer extends CJMapObject
 	protected NodeList listpages = null ;
 	protected int nPlayerState = 0 ;
 	protected int nCurrentPage = 0 ;
-	protected ScenarioRecordDataMode modeRecord = null ; 
+	protected ScenarioRecordDataMode modeRecord = null ;
 //	protected String csScenarioFilePath = "" ;
-	
+
 	public void rewindScenario()
 	{
 		nPlayerState = 0 ;
 		nCurrentPage = 0 ;
 	}
-	
+
 	protected Document getCurrentPage()
 	{
 		Document docData = XMLUtil.CreateDocument() ;
@@ -121,14 +121,14 @@ public class CScenarioPlayer extends CJMapObject
 				Element eCycle = (Element) listpages.item(nCurrentPage) ;
 				Element eForm = docData.createElement("form") ;
 				docData.appendChild(eForm) ;
-				
+
 				String csKeyPressed = SelectKeyPressedFrom3270(eCycle) ;
 				eForm.setAttribute("keypressed", csKeyPressed) ;
 
 				Document xmlOutput = session.getXMLOutput();
 				String page = getPageNameFromXMLOutput(xmlOutput) ;
 				eForm.setAttribute("page", page) ;
-				
+
 				FillFormFieldsFrom3270(xmlOutput.getDocumentElement(), eCycle, docData);
 			}
 			return docData ;
@@ -189,7 +189,7 @@ public class CScenarioPlayer extends CJMapObject
 			String csKey = f.getKey() ;
 			tabFields.put(csKey, f) ;
 		}
-		
+
 		Vector<EditedField> fields = new Vector<EditedField>() ;
 		lst = eForm.getElementsByTagName("edit") ;
 		for (int i=0; i<lst.getLength(); i++)
@@ -222,7 +222,7 @@ public class CScenarioPlayer extends CJMapObject
 			e.setAttribute("updated", f.modified) ;
 			e.setAttribute("value", f.value) ;
 		}
-		
+
 	}
 
 	public String getPageNameFromXMLOutput(Document xmlOutput)
@@ -272,7 +272,7 @@ public class CScenarioPlayer extends CJMapObject
 		return nPlayerState == ScenarioPlayerState.CALL_PROGRAM;
 	}
 	/**
-	 * 
+	 *
 	 */
 	public void StepScenario()
 	{
@@ -282,7 +282,7 @@ public class CScenarioPlayer extends CJMapObject
 		}
 		else if (nPlayerState == ScenarioPlayerState.CALL_PROGRAM)
 		{	// program has been called, show the page with new fields
-			nPlayerState = ScenarioPlayerState.SHOW_PAGE ; 
+			nPlayerState = ScenarioPlayerState.SHOW_PAGE ;
 			Document data = getCurrentPage() ;
 			session.setXMLData(data) ;
 		}
@@ -309,10 +309,10 @@ public class CScenarioPlayer extends CJMapObject
 				nPlayerState = 0 ;
 				return ;
 			}
-			
-			nCurrentPage ++ ; 
-			
-		} 
+
+			nCurrentPage ++ ;
+
+		}
 	}
 	public String getDisplay()
 	{
@@ -329,7 +329,7 @@ public class CScenarioPlayer extends CJMapObject
 					return "Fill Fields" ;
 				}
 			}
-		} 
+		}
 		return "" ;
 	}
 	/**
@@ -366,7 +366,7 @@ public class CScenarioPlayer extends CJMapObject
 	}
 
 	private void doLogPlaying(Document xmlOutput)
-	{	
+	{
 		Element ePage = docScenarioPlayingLog.createElement("Output") ;
 		docScenarioPlayingLog.getDocumentElement().appendChild(ePage) ;
 		String name = getPageNameFromXMLOutput(xmlOutput) ;
@@ -375,7 +375,7 @@ public class CScenarioPlayer extends CJMapObject
 		{
 			String lang = xmlOutput.getDocumentElement().getAttribute("lang") ;
 			Hashtable<String, EditedField> tabPageFields = new Hashtable<String, EditedField>() ;
-			
+
 			NodeList lst = xmlOutput.getElementsByTagName("edit") ;
 			for (int i=0; i<lst.getLength(); i++)
 			{
@@ -389,10 +389,10 @@ public class CScenarioPlayer extends CJMapObject
 				f.modified = eEdit.getAttribute("modified");
 				String mutable = eEdit.getAttribute("replayMutable") ;
 				f.mutable = (mutable!= null) && mutable.equalsIgnoreCase("true") ;
-				
+
 				String intents = eEdit.getAttribute("intensity");
 				f.mutable |= (intents!=null && intents.equals("dark")) ;
-				
+
 				String csKey = f.getKey() ;
 				tabPageFields.put(csKey, f) ;
 			}
@@ -409,7 +409,7 @@ public class CScenarioPlayer extends CJMapObject
 				f.modified = eEdit.getAttribute("modified");
 				String intents = eEdit.getAttribute("intensity");
 				f.mutable |= (intents!=null && intents.equals("dark")) ;
-				
+
 				String csKey = f.getKey() ;
 				tabPageFields.put(csKey, f) ;
 			}
@@ -428,7 +428,7 @@ public class CScenarioPlayer extends CJMapObject
 				String csKey = f.getKey() ;
 				tabPageFields.put(csKey, f) ;
 			}
-			
+
 			Element eCycle = (Element) listpages.item(nCurrentPage) ;
 			lst = eCycle.getElementsByTagName("Field") ;
 			if (lst.getLength() == 0)
@@ -466,7 +466,7 @@ public class CScenarioPlayer extends CJMapObject
 					}
 				}
 			}
-		}		
+		}
 	}
 
 	private void doCheckOutput(Document xmlOutput)
@@ -501,7 +501,7 @@ public class CScenarioPlayer extends CJMapObject
 				String csKey = f.getKey() ;
 				tabPageFields.put(csKey, f) ;
 			}
-			
+
 			lst = xmlOutput.getElementsByTagName("edit") ;
 			for (int i=0; i<lst.getLength(); i++)
 			{
@@ -522,7 +522,7 @@ public class CScenarioPlayer extends CJMapObject
 					if ((!f.value.equals(ff.value) && !f.value.endsWith(ff.value)) && !ismutable && !ff.mutable)
 					{
 						System.out.println("Unmatching value for field : "+f.name+" ; field : "+f.value + " ; original : "+ff.value) ;
-						Element eWarn = xmlOutput.createElement("warning") ; 
+						Element eWarn = xmlOutput.createElement("warning") ;
 						if (ff.value.equals(""))
 						{
 							eWarn.setAttribute("value", "(empty)") ;
@@ -566,7 +566,7 @@ public class CScenarioPlayer extends CJMapObject
 					if (!f.value.equals(ff.value) && !ff.mutable)
 					{
 						System.out.println("Unmatching value for label : col="+f.poscol+" ; line="+f.posline+" ; field : "+f.value + " ; original : "+ff.value) ;
-						Element eWarn = xmlOutput.createElement("warning") ; 
+						Element eWarn = xmlOutput.createElement("warning") ;
 						if (ff.value.equals(""))
 						{
 							eWarn.setAttribute("value", "(empty)") ;
@@ -614,7 +614,7 @@ public class CScenarioPlayer extends CJMapObject
 					if (!f.value.equalsIgnoreCase(ff.value) && !ff.mutable)
 					{
 						System.out.println("Unmatching value for title : "+f.name+" ; field : "+f.value + " ; original : "+ff.value) ;
-						Element eWarn = xmlOutput.createElement("warning") ; 
+						Element eWarn = xmlOutput.createElement("warning") ;
 						if (ff.value.equals(""))
 						{
 							eWarn.setAttribute("value", "(empty)") ;
@@ -640,21 +640,21 @@ public class CScenarioPlayer extends CJMapObject
 //					System.out.println("title not found in original page : col="+f.poscol+" ; line="+f.posline+" ; value="+f.value) ;
 				}
 			}
-			
+
 			Enumeration enumere = tabPageFields.elements() ;
 			try
 			{
 				EditedField f = (EditedField)enumere.nextElement() ;
 				while (f != null)
 				{
-//					System.out.println("Field not found in new page : col="+f.poscol+" ; line="+f.posline+" ; value="+f.value) ; 
+//					System.out.println("Field not found in new page : col="+f.poscol+" ; line="+f.posline+" ; value="+f.value) ;
 					f = (EditedField)enumere.nextElement() ;
 				}
 			}
 			catch (NoSuchElementException e)
 			{
 			}
-		}		
+		}
 	}
 
 	/**
@@ -675,7 +675,7 @@ public class CScenarioPlayer extends CJMapObject
 				return text.trim() ;
 			}
 		}
-		
+
 		return "" ;
 	}
 

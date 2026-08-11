@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.bdb;
 
@@ -23,22 +23,22 @@ public class MonoThreadedSortAddItem extends ThreadPoolRequest
 	private int nTotalLength;
 	private int nNbRecordRead;
 	private boolean isvariableLength;
-	
+
 	MonoThreadedSortAddItem(BtreeFile btreeFile, byte tbyData[], int nTotalLength, int nNbRecordRead, boolean isvariableLength)
 	{
 		super(false);
-		
-		btreeFile = btreeFile;
+
+		this.btreeFile = btreeFile;
 		tbyData = new byte[nTotalLength];
 		for(int n=0; n<nTotalLength; n++)
 		{
 			tbyData[n] = tbyData[n];
 		}
-		nTotalLength = nTotalLength;
-		nNbRecordRead = nNbRecordRead;
-		isvariableLength = isvariableLength;
+		this.nTotalLength = nTotalLength;
+		this.nNbRecordRead = nNbRecordRead;
+		this.isvariableLength = isvariableLength;
 	}
-	
+
 	public void execute()
 	{
 		btreeFile.asyncAddItemToSort(tbyData, nTotalLength, nNbRecordRead, isvariableLength);

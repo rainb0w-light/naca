@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 package nacaLib.varEx;
- 
+
 /**
  * @author U930DI
  *
@@ -16,25 +16,25 @@ public class CallParamByStringValue extends CCallParam
 {
  public CallParamByStringValue(String cs)
  {
-  cs = cs;
+  this.cs = cs;
  }
- 
+
  public int getParamLength()
  {
   if(cs != null)
    return cs.length();
   return 0;
  }
- 
+
  public void MapOn(Var varLinkageSection)
  {
   varLinkageSection.set(cs);
  }
- 
+
  public Var getCallerSourceVar()
  {
   return null;
  }
- 
+
  private String cs = null;
 }

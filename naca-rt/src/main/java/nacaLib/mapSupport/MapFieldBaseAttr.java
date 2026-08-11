@@ -23,21 +23,21 @@ public abstract class MapFieldBaseAttr
 {
 	protected MapFieldBaseAttr(int nValue, String text)
 	{
-		nValue = nValue;
+		this.nValue = nValue;
 		csText = text ;
 	}
-	
+
 	int getBitEncoding()
 	{
 		return nValue;
-	}	
+	}
 
 //	void setBitEncoding(int nValue)
 //	{
 //		nValue = nValue;
-//	}		
+//	}
 
-	
+
 	private int nValue = 0;
 	private String csText = "" ;
 	protected int getInternalValue()
@@ -52,15 +52,15 @@ public abstract class MapFieldBaseAttr
 	{
 		return csText ;
 	}
-	
+
 	public String getSTCheckValue()
 	{
 		return toString();
 	}
-	
+
 //	abstract static int getNbBitsEncoding();
 //	abstract static int getMask();
-	
+
 	/*
 	Caractéristique de chaque mapset, map ou champs, qui décrit précisément les environnements. par exemple pour un champ, les attributs indiqueront la position (ligna colonne), la longueur, le type d?information (alphanumérique,...), le cadrage (droite, gauche), la brillance, reverse vidée, protége ou non, etc
 	Pour les champs libellés, les attributs sont représentés par un suffixe, qui indique le type d?attribut que l?on est en train de traiter. Ce qui explique que la longueur du nom d?un champ est >= 7. Le nombre des attributs générés sera dépendant du type attribut standard ou étendu.

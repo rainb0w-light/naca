@@ -24,29 +24,29 @@ import jlib.sql.SQLTypeOperation;
 public abstract class BaseSQLUtils
 {
 	DbConnectionBase dbConnection = null;
-	private BaseSession session = null; 
-	
+	private BaseSession session = null;
+
 	BaseSQLUtils(BaseSession session, DbConnectionBase dbConnection)
 	{
-		dbConnection = dbConnection;
-		session = session;
+		this.dbConnection = dbConnection;
+		this.session = session;
 	}
-	
+
 	BaseSession getSession()
 	{
-		return session; 
+		return session;
 	}
-	
+
 	int executeSQLClause(String csClause)
 	{
 		SQLTypeOperation typeOperation = SQLTypeOperation.determineOperationType(csClause, false);	// cursor clause not supported
-		
+
 		// Remove ending ';' as it is not supported by UDB
 		if(csClause.endsWith(";"))
 			csClause = csClause.substring(0, csClause.length()-1);
-		
+
 		if(typeOperation.executeWithStatement())
-		{	
+		{
 			csClause = SQLTypeOperation.addEnvironmentPrefix(dbConnection.getEnvironmentPrefix(), csClause, typeOperation, "");
 			DbPreparedStatement stmt = dbConnection.prepareStatement(csClause, 0, false);
 			if(stmt != null)
@@ -62,22 +62,22 @@ public abstract class BaseSQLUtils
 		}
 		return -1;
 	}
-	
+
 	boolean executeSQLClause(String csClause, ArrayList<ColValueGeneric> arrColValues, int nRecordId)
 	{
 		SQLTypeOperation typeOperation = SQLTypeOperation.determineOperationType(csClause, false);	// cursor clause not supported
-		
+
 		// Remove ending ';' as it is not supported by UDB
 		if(csClause.endsWith(";"))
 			csClause = csClause.substring(0, csClause.length()-1);
-		
+
 		int nStatus = -1;
 		if(typeOperation.executeWithStatement())
 		{
 			csClause = SQLTypeOperation.addEnvironmentPrefix(dbConnection.getEnvironmentPrefix(), csClause, typeOperation, "");
 			DbPreparedStatement stmt = dbConnection.prepareStatement(csClause, 0, false);
-			
-			boolean b = true;			
+
+			boolean b = true;
 			int nNbParam = arrColValues.size();
 			for(int nParam=0; nParam<nNbParam && b; nParam++)
 			{
@@ -94,23 +94,23 @@ public abstract class BaseSQLUtils
 		{
 			nStatus = dbConnection.executeOperation(typeOperation);
 		}
-		
+
 		if(nStatus < 0)
 		{
 			String cs = makeLogText(csClause, arrColValues, nRecordId);
 			Log.logCritical("SQL Error : " + cs);
 			return false;
 		}
-		return true;		
+		return true;
 	}
-	
+
 	boolean executeSQLInsertClause(SQLTypeOperation typeOperation, String csClause, ArrayList<ColValueGeneric> arrColValues, int nRecordId)
 	{
 		int nStatus = -1;
 
 		DbPreparedStatement stmt = dbConnection.prepareStatement(csClause, 0, false);
-		
-		boolean b = true;			
+
+		boolean b = true;
 		int nNbParam = arrColValues.size();
 		for(int nParam=0; nParam<nNbParam && b; nParam++)
 		{
@@ -123,16 +123,16 @@ public abstract class BaseSQLUtils
 			nStatus = stmt.execute(typeOperation);
 		}
 
-		
+
 		if(nStatus < 0)
 		{
 			String cs = makeLogText(csClause, arrColValues, nRecordId);
 			Log.logCritical("SQL Error : " + cs);
 			return false;
 		}
-		return true;		
+		return true;
 	}
-	
+
 	private String makeLogText(String csClause, ArrayList<ColValueGeneric> arrColValues, int nRecordId)
 	{
 		nRecordId++;	// 1 based
@@ -146,7 +146,7 @@ public abstract class BaseSQLUtils
 		}
 		return cs;
 	}
-	
+
 	protected String makeLogText(String csClause, String csErrorsText, int nRecordId)
 	{
 		nRecordId++;	// 1 based
@@ -155,6 +155,6 @@ public abstract class BaseSQLUtils
 		cs += csErrorsText;
 		return cs;
 	}
-	
+
 	abstract int executeStatement(String csClause);
 }

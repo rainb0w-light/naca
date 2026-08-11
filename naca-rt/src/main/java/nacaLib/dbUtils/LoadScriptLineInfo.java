@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.dbUtils;
 
@@ -22,18 +22,18 @@ public class LoadScriptLineInfo
 	private String csTablePrefix = null;
 	private String csUnprefixedTableName = null;
 	private String csInddnValue = null;
-	
+
 	void setFullTable(String csFullTable)
 	{
 		csTablePrefix = StringUtil.getTablePrefix(csFullTable);
 		csUnprefixedTableName = StringUtil.getUnprefixedTableName(csFullTable);
 	}
-	
+
 //	String getFullTableName()
 //	{
 //		return StringUtil.makeFullTableName(csTablePrefix, csUnprefixedTableName);
 //	}
-	
+
 	String getFullTableName(String csPrefix)
 	{
 		if(!StringUtil.isEmpty(csTablePrefix) && !csTablePrefix.equalsIgnoreCase("PROD"))
@@ -41,12 +41,12 @@ public class LoadScriptLineInfo
 		csTablePrefix = csPrefix;
 		return StringUtil.makeFullTableName(csPrefix, csUnprefixedTableName);
 	}
-	
+
 	String getTablePrefix()
 	{
 		return csTablePrefix;
 	}
-	
+
 	String getUnprefixedTableName()
 	{
 		return csUnprefixedTableName;
@@ -56,17 +56,17 @@ public class LoadScriptLineInfo
 	{
 		isreplace = b;
 	}
-	
+
 	boolean isReplace()
 	{
 		return isreplace;
 	}
-	
+
 	void setInddnValue(String csInddnValue)
 	{
-		csInddnValue = csInddnValue;
+		this.csInddnValue = csInddnValue;
 	}
-		
+
 	String getInddnValue()
 	{
 		return csInddnValue;

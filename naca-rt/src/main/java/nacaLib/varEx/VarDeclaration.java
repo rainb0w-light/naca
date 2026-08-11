@@ -29,7 +29,7 @@ import nacaLib.tempCache.TempCacheLocator;
 public class VarDeclaration extends ParamDeclaration
 {
 	private VarLevel varLevel = null;
-	
+
 	public VarDeclaration(BaseProgram prg)
 	{
 		super(prg);
@@ -38,9 +38,9 @@ public class VarDeclaration extends ParamDeclaration
 	public VarDeclaration(BaseProgram prg, CopyReplacing copyReplacing)
 	{
 		super(prg);
-		copyReplacing = copyReplacing; 
+		this.copyReplacing = copyReplacing;
 	}
-	
+
 	public VarLevel level(int nLevel)
 	{
 		short level = (short)nLevel;
@@ -48,24 +48,24 @@ public class VarDeclaration extends ParamDeclaration
 		{
 			if(copyReplacing != null)
 				level = (short)copyReplacing.getReplacedLevel(nLevel);
-		}		
-		
+		}
+
 		if(level == 1)
 			program.getProgramManager().checkWorkingStorageSection();
-			
+
 		if(level == 1 || level == 77)
 		{
 			program.getProgramManager().setCurrentMapRedefine(null);
 		}
-		
+
 		return varLevel(level);
 	}
-	
+
 	public VarLevel variable()
 	{
 		return varLevel(77);
 	}
-	
+
 	private VarLevel varLevel(int nLevel)
 	{
 		TempCache tempCache = TempCacheLocator.getTLSTempCache();
@@ -73,33 +73,33 @@ public class VarDeclaration extends ParamDeclaration
 		varLevel.set(program, nLevel);
 		return varLevel;
 	}
-	
+
 	public Var index()
 	{
 		return new VarInternalInt();
 	}
-	
+
 	public Var bool()
 	{
 		return new VarInternalBool();
 	}
 
 
-	
+
 	public DeclareTypeCond condition()
 	{
 		DeclareTypeCond declareTypeCond = TempCacheLocator.getTLSTempCache().getDeclareTypeCond();
 		declareTypeCond.set(program);
-		return declareTypeCond; 
+		return declareTypeCond;
 	}
-	
 
-	
+
+
 	public CopyReplacing replacing(int nOld, int nNew)
 	{
-		CopyReplacing copyReplacing = new CopyReplacing(nOld, nNew);  
+		CopyReplacing copyReplacing = new CopyReplacing(nOld, nNew);
 		return copyReplacing;
 	}
-	
+
 	private CopyReplacing copyReplacing = null;
 }

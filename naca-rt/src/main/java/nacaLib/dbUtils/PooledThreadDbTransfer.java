@@ -5,11 +5,10 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.dbUtils;
 
-import nacaLib.basePrgEnv.BaseEnvironment;
 import jlib.sql.DbConnectionBase;
 import jlib.threads.PoolOfThreads;
 import jlib.threads.PooledThread;
@@ -25,29 +24,29 @@ public class PooledThreadDbTransfer extends PooledThread
 	private DbTransferDesc dbTransferDesc = null;
 	private DbConnectionBase dbConnectionSource = null;
 	private DbConnectionBase dbConnectionDestination = null;
-	
+
 	public PooledThreadDbTransfer(PoolOfThreads owningPool, DbTransferDesc dbTransferDesc, DbConnectionBase dbConnectionSource, DbConnectionBase dbConnectionDestination)
 	{
 		super(owningPool);
-		dbTransferDesc = dbTransferDesc;
-		dbConnectionSource = dbConnectionSource;
-		dbConnectionDestination = dbConnectionDestination;
+		this.dbTransferDesc = dbTransferDesc;
+		this.dbConnectionSource = dbConnectionSource;
+		this.dbConnectionDestination = dbConnectionDestination;
 	}
-	
+
 	public boolean preRun()
 	{
 		return true;
 	}
-	
+
 	public void postRun()
 	{
 	}
-	
+
 	protected boolean canHandleRequest()
 	{
 		return true;
 	}
-	
+
 	protected void handleRequest(ThreadPoolRequest request)
 	{
 		TableToTransfer tableToTransfer = (TableToTransfer)request;

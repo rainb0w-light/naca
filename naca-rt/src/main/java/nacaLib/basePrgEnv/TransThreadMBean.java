@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.basePrgEnv;
 
@@ -24,21 +24,21 @@ public class TransThreadMBean extends BaseCloseMBean
 	TransThreadMBean(BaseEnvironment env)
 	{
 		super();
-		
-		env = env;		
+
+		this.env = env;
 		if(JmxGeneralStat.showTransThreadBeans())
 		{
 			create();
 			//TransThreadManager.registerTransBean(this);
 		}
 	}
-	
+
 	void setEnvClosed()
 	{
 		env = null;
 		unregisterMBean();
 	}
-	
+
 	void showBean(boolean bToShow)
 	{
 		if(bToShow && !isBeanCreated())
@@ -46,7 +46,7 @@ public class TransThreadMBean extends BaseCloseMBean
 		else if(!bToShow && isBeanCreated())
 			unregisterMBean();
 	}
-	
+
 	private void create()
 	{
 		if(env != null)
@@ -56,7 +56,7 @@ public class TransThreadMBean extends BaseCloseMBean
 			createMBean(cs, cs);
 		}
 	}
-	
+
 	protected void buildDynamicMBeanInfo()
 	{
 		addAttribute("User", getClass(), "A_User", String.class);
@@ -72,52 +72,52 @@ public class TransThreadMBean extends BaseCloseMBean
 		addAttribute("NbTransactionsExecuted", getClass(), "E1_NbTransactionsExecuted", int.class);
 		addOperation("StopProcessing", getClass(), "StopProcessing");
 	}
-	
+
 	public String getA_User()
 	{
 		if(env != null)
 			return env.getUserId();
 		return "";
 	}
-	
+
 	public String getA_LDapUser()
 	{
 		if(env != null)
 			return env.getUserLdapId();
 		return "";
 	}
-	
+
 	public String getA_Terminal()
 	{
 		if(env != null)
 			return env.getTerminalID();
 		return "";
 	}
-	
+
 	public String getB_EnvironmentCreationTime()
 	{
 		if(env != null)
 			return env.getCreationDateInfo().getDisplayableDateTime();
 		return "";
 	}
-	
+
 	public String getC_LastTransactionName()
 	{
 		if(env != null)
 			return env.csCurrentTransaction;
 		return "";
 	}
-	
-	
+
+
 	public String getC_TransactionStatus()
 	{
 		if(env != null)
 		{
 			return env.getStatusAsString();
 		}
-		return "Deleted: Must refresh";					
+		return "Deleted: Must refresh";
 	}
-	
+
 	public String getD0_LastTransactionStartTime()
 	{
 		if(env != null)
@@ -126,7 +126,7 @@ public class TransThreadMBean extends BaseCloseMBean
 		}
 		return "Obsolete entry";
 	}
-	
+
 	public String getD1_LastTransactionEndTime()
 	{
 		if(env != null)
@@ -139,16 +139,16 @@ public class TransThreadMBean extends BaseCloseMBean
 		}
 		return "";
 	}
-	
+
 	public String getD2_LastTransactionExecTime_ms()
 	{
 		if(env != null)
 		{
 			return "" + env.getLastTransactionExecTime_ms();
 		}
-		return "";		
+		return "";
 	}
-	
+
 	public String getE0_SumTransactionsExecTime_ms()
 	{
 		if(env != null)
@@ -157,16 +157,16 @@ public class TransThreadMBean extends BaseCloseMBean
 		}
 		return "";
 	}
-	
+
 	public int getE1_NbTransactionsExecuted()
 	{
 		if(env != null)
 		{
 			return env.getNbTransactionsExecuted();
 		}
-		return 0; 
+		return 0;
 	}
-	
+
 	public int getLastTransactionExecTime_s()
 	{
 		if(env != null)
@@ -175,9 +175,9 @@ public class TransThreadMBean extends BaseCloseMBean
 				return (int)env.getStartRunTime().getTimeOffset_ms(env.getEndRunTime()) / 1000;
 			return (int)env.getStartRunTime().getTimeOffsetFromNow_ms() / 1000;
 		}
-		return 0;		
+		return 0;
 	}
-	
+
 	public void StopProcessing()
 	{
 		if(env != null)

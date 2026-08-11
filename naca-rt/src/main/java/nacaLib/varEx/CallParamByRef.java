@@ -29,7 +29,7 @@ public class CallParamByRef extends CCallParam
 	public CallParamByRef(Edit edit)
 	{
 		var = null;
-		edit = edit;
+		this.edit = edit;
 	}
 
 	public int getParamLength()

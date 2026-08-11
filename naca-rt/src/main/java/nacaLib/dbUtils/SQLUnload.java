@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.dbUtils;
 
@@ -36,13 +36,13 @@ public class SQLUnload extends BaseSQLUtils
 	private int nNbSelectProcessed = 0;
 	private boolean isconnectionValid = false;
 	private boolean isexcel = false;
-	
+
 	public SQLUnload(BaseSession session, DbConnectionBase dbConnection, boolean isexcel)
 	{
 		super(session, dbConnection);
-		isexcel = isexcel;
+		this.isexcel = isexcel;
 	}
-	
+
 	public boolean execute(FileDescriptor fileIn)
 	{
 		FileSysinReader fileSysinReader = new FileSysinReader(getSession());
@@ -50,12 +50,12 @@ public class SQLUnload extends BaseSQLUtils
 		boolean isexecuted = fileSysinReader.parse(this, fileIn);
 		return isexecuted;
 	}
-		
+
 	int executeStatement(String csClause)
 	{
 		isconnectionValid = true;
 		int nNbRecords = -1;
-		
+
 		SQLTypeOperation typeOperation = SQLTypeOperation.determineOperationType(csClause, false);	// cursor clause not supported
 		if(typeOperation == null)
 			return -1;	// Do not manage this order
@@ -66,16 +66,16 @@ public class SQLUnload extends BaseSQLUtils
 				return 0;
 			return -1;	// failure
 		}
-		
+
 		if(!typeOperation.equals(SQLTypeOperation.Select))
 			return -1;	// Do not manage this order
-		
+
 		String csSysrecName;
 		if (isexcel)
 			csSysrecName = "UNLOAD";
 		else
 			csSysrecName = getSysrecName(nNbSelectProcessed);
-		
+
 		FileDescriptor fileDescOuput = new FileDescriptor(csSysrecName);
 		fileDescOuput.setSession(getSession());
 		fileDescOuput.openOutput();
@@ -85,7 +85,7 @@ public class SQLUnload extends BaseSQLUtils
 		// Remove ending ';' as it is not supported by UDB
 		if(csClause.endsWith(";"))
 			csClause = csClause.substring(0, csClause.length()-1);
-		
+
 		csClause = SQLTypeOperation.addEnvironmentPrefix(dbConnection.getEnvironmentPrefix(), csClause, typeOperation, "");
 		DbPreparedStatement stmt = dbConnection.prepareStatement(csClause, 0, false);
 		if(stmt != null)
@@ -104,30 +104,30 @@ public class SQLUnload extends BaseSQLUtils
 		{
 			fileOuput.close();
 		}
-		
+
 		nNbSelectProcessed++;
-		
+
 		if(isconnectionValid)
 			return nNbRecords;
 		return -1;
 	}
-	
+
 	private int unloadRecords(ResultSet resultSet, String csClause, boolean bEbcdicOutput, BaseDataFile fileOuput)
 	{
 		int nNbRecordRead = 0;
 		ArrayList<BaseDbColDefinition> dbColDef = null;
-		
+
 		byte aSeparatorComma[] = new String(",").getBytes();
 		if(bEbcdicOutput)	// Must outout in ebcdic
 			AsciiEbcdicConverter.swapByteAsciiToEbcdic(aSeparatorComma, 0, aSeparatorComma.length);
-			
+
 		while(next(resultSet))
 		{
 			if(fileOuput != null)
 			{
 				if(nNbRecordRead == 0)
 				{
-					BaseDbColDefinitionFactory dbColDefinitionItemFactory = new BaseDbColDefinitionFactory(); 
+					BaseDbColDefinitionFactory dbColDefinitionItemFactory = new BaseDbColDefinitionFactory();
 					dbColDef = dbColDefinitionItemFactory.makeArrayDbColDefinitions(resultSet);
 				}
 				if(dbColDef != null)
@@ -144,7 +144,7 @@ public class SQLUnload extends BaseSQLUtils
 						}
 						else
 						{
-							aBytes = dbColDefinition.getByteValue(resultSet, nCol+1, bEbcdicOutput);							
+							aBytes = dbColDefinition.getByteValue(resultSet, nCol+1, bEbcdicOutput);
 						}
 						if(aBytes != null)
 						{
@@ -163,7 +163,7 @@ public class SQLUnload extends BaseSQLUtils
 		}
 		return nNbRecordRead;
 	}
-	
+
 	private boolean next(ResultSet resultSet)
 	{
 		if(resultSet != null)
@@ -181,7 +181,7 @@ public class SQLUnload extends BaseSQLUtils
 		}
 		return false;
 	}
-	
+
 	private String getSysrecName(int nNbSelectProcessed)
 	{
 		return "SYSREC" + StringUtil.FormatWithFill2LeftZero(nNbSelectProcessed);

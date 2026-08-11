@@ -16,6 +16,6 @@ public class CGotoOtherSectionParagraphException extends NacaRTException
 	public CGotoOtherSectionParagraphException(Paragraph paragraph)
 	{
 		super();
-		paragraph = paragraph;
+		this.paragraph = paragraph;
 	}
 }

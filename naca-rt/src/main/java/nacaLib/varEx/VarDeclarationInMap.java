@@ -23,18 +23,18 @@ import nacaLib.tempCache.TempCacheLocator;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public class VarDeclarationInMap extends VarDeclaration 
+public class VarDeclarationInMap extends VarDeclaration
 {
 	public VarDeclarationInMap(BaseProgram prg, Map mapOwner)
 	{
 		super(prg);
-		mapOwner = mapOwner;
+		this.mapOwner = mapOwner;
 	}
-	
+
 	private VarDefForm curDefForm = null;
 	private Form curVarForm = null;
 	private Map mapOwner = null;
-	
+
 	public DeclareTypeEditInMap edit(String csName, int nWidth)
 	{
 		TempCache tempCache = TempCacheLocator.getTLSTempCache();
@@ -45,7 +45,7 @@ public class VarDeclarationInMap extends VarDeclaration
 		declareTypeEdit.set(varlevel, curVarForm, curDefForm, csName, nWidth);
 		return declareTypeEdit;
 	}
-		
+
 
 //		Var varParent = program.getProgramManager().getVarAtParentLevel(2);
 //		if(varParent != null)
@@ -65,16 +65,16 @@ public class VarDeclarationInMap extends VarDeclaration
 
 		DeclareTypeForm declareTypeForm = tempCache.getDeclareTypeForm();
 		declareTypeForm.set(varlevel);
-		
+
 		Form varForm = new Form(declareTypeForm, csName);
 		curDefForm = varForm.getDefForm();
 		curVarForm = varForm;
 		if(mapOwner != null)
 			mapOwner.registerForm(curDefForm);
-		
+
 		return varForm;
-		
-		
+
+
 //		Var varParent = program.getProgramManager().getVarAtParentLevel(1);	// The forms are at level depth 1
 //		if(varParent != null)
 //		{
@@ -86,7 +86,7 @@ public class VarDeclarationInMap extends VarDeclaration
 //		}
 //		return null;
 	}
-	
+
 	public LocalizedString localizedString()
 	{
 		LocalizedString lcs = new LocalizedString();

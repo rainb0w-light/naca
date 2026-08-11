@@ -15,15 +15,15 @@ public class OccursOverflowException extends NacaRTException
 	private int nIndexRequestedBase1 = 0;
 	private int nIndexMaxValueBase1 = 0;
 	private String csIndexName = null;
-	
+
 	public OccursOverflowException(VarDefBase varDefBase, int nIndexRequestedBase0, int nIndexMaxValue, String csIndexName)
 	{
 		csVarDefBase = varDefBase.toString();
 		nIndexRequestedBase1 = nIndexRequestedBase0+1;
 		nIndexMaxValueBase1 = nIndexMaxValue;
-		csIndexName = csIndexName;
+		this.csIndexName = csIndexName;
 	}
-	
+
 	public String getMessage()
 	{
 		String cs = "OccursOverflowException: Index " + csIndexName + " value requested/Max:" + nIndexRequestedBase1 + "/" + nIndexMaxValueBase1 + "; VarDef:" + csVarDefBase; // + "; Stack="+csStack;

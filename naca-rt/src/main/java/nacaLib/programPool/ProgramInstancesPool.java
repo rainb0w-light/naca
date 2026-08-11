@@ -39,14 +39,14 @@ public class ProgramInstancesPool extends BaseCloseMBean
 	ProgramInstancesPool(ProgramPoolManager programPoolManager, String csProgramName)
 	{
 		super();
-		
+
 		if(JmxGeneralStat.showProgramBeans())
 			createMBean("Prog." + csProgramName, csProgramName);
-		
-		programPoolManager = programPoolManager;
-		csProgramName = csProgramName;		
+
+		this.programPoolManager = programPoolManager;
+		this.csProgramName = csProgramName;
 	}
-	
+
 	void showBean(boolean bToShow)
 	{
 		if(bToShow && !isBeanCreated())
@@ -54,7 +54,7 @@ public class ProgramInstancesPool extends BaseCloseMBean
 		else if(!bToShow && isBeanCreated())
 			unregisterMBean();
 	}
-	
+
 	protected void buildDynamicMBeanInfo()
 	{
 		addAttribute("Name", getClass(), "Name", String.class);
@@ -64,24 +64,24 @@ public class ProgramInstancesPool extends BaseCloseMBean
     	addAttribute("Nb Var", getClass(), "Mevariables", String.class);
     	addAttribute("ExecRunTime", getClass(), "Time_ExecRunTime", String.class);
     	addAttribute("ExecHour", getClass(), "Time_ExecHour", String.class);
-    	
+
     	addOperation("Unload program", getClass(), "unloadProgram");	//Boolean.TYPE);
 	}
-	
+
 	public String getName()
 	{
 		return csProgramName;
 	}
-	
-	
+
+
 	public int getMem_WorkingStorageSize()
 	{
 		SharedProgramInstanceData sharedProgramInstanceData = getSharedProgramInstanceDataCatalog();
 		if(sharedProgramInstanceData != null)
 			return sharedProgramInstanceData.getBufferSize();
-		return 0;		
+		return 0;
 	}
-	
+
 	public int getMem_NbVarDef()
 	{
 		SharedProgramInstanceData sharedProgramInstanceData = getSharedProgramInstanceDataCatalog();
@@ -89,7 +89,7 @@ public class ProgramInstancesPool extends BaseCloseMBean
 			return sharedProgramInstanceData.getNbVarDef();
 		return 0;
 	}
-	
+
 	public String getMevariables()
 	{
 		SharedProgramInstanceData sharedProgramInstanceData = getSharedProgramInstanceDataCatalog();
@@ -100,10 +100,10 @@ public class ProgramInstancesPool extends BaseCloseMBean
 			int nNbCursor = sharedProgramInstanceData.getNbCursor();
 			String cs = "Variables:"+nNbVar+"  Forms:"+nNbForm+"  Cursors:"+nNbCursor;
 			return cs;
-		}	
+		}
 		return "";
 	}
-	
+
 	public String getInstances()
 	{
 		int nNbCreated = nbInstanceCreated.get();
@@ -111,12 +111,12 @@ public class ProgramInstancesPool extends BaseCloseMBean
 		int nNbRunning = nNbCreated-nNbStacked;
 		return "Running:"+nNbRunning+ "  Created:"+nNbCreated+"  Stacked:"+nNbStacked;
 	}
-	
+
 	int getNbInstancesCreated()
 	{
 		return nbInstanceCreated.get();
 	}
-	
+
 	synchronized public String getTime_ExecRunTime()
 	{
 		long min = Long.MAX_VALUE;
@@ -136,13 +136,13 @@ public class ProgramInstancesPool extends BaseCloseMBean
 		}
 		if(nNbInstances!= 0)
 			avg = sum / nNbInstances;
-		
+
 		String csAvg = Time_ms.formatHHMMSS_ms(avg);
 		String csMin = Time_ms.formatHHMMSS_ms(min);
 		String csMax = Time_ms.formatHHMMSS_ms(max);
 		return "Min:"+csMin+"   Average:"+csAvg+"   Max:"+csMax;
 	}
-	
+
 	synchronized public String getTime_ExecHour()
 	{
 		long oldRun = Long.MAX_VALUE;
@@ -162,27 +162,27 @@ public class ProgramInstancesPool extends BaseCloseMBean
 		String csRecent = Time_ms.formatDMY_HHMMSS_ms(recentRun);
 		return csOldest + "   TO   "+csRecent;
 	}
-	
+
 	public int getNbTotalExecution()
 	{
 		return nbTotalExecution.get();
 	}
-	
+
 	synchronized public int getNbInstancesStacked()
 	{
 		return stack.size();
 	}
-	
+
 	SharedProgramInstanceData getSharedProgramInstanceDataCatalog()
 	{
 		SharedProgramInstanceData sharedProgramInstanceData = SharedProgramInstanceDataCatalog.getSharedProgramInstanceData(csProgramName);
 		return sharedProgramInstanceData;
 	}
-	
+
 	public BaseProgram getOrCreateUnusedInstance()
 	{
 		unloadProgramRWLock.readLock().lock();	// Get exclusive lock
-		
+
 		if(stack.size() > 0)
 		{
 			BaseProgram program = stack.pop();
@@ -205,7 +205,7 @@ public class ProgramInstancesPool extends BaseCloseMBean
 			unloadProgramRWLock.readLock().unlock();	// Get exclusive lock
 		return program;
 	}
-	
+
 	public BaseProgram preloadSecondInstance()
 	{
 		unloadProgramRWLock.readLock().lock();	// Get exclusive lock
@@ -214,7 +214,7 @@ public class ProgramInstancesPool extends BaseCloseMBean
 			unloadProgramRWLock.readLock().unlock();	// Get exclusive lock
 		return program;
 	}
-	
+
 	private synchronized BaseProgram createNewInstance()
 	{
 		Object obj = CodeManager.getInstance(csProgramName, CustomClassDynLoaderFactory.getInstance());
@@ -228,7 +228,7 @@ public class ProgramInstancesPool extends BaseCloseMBean
 		}
 		return null;
 	}
-	
+
 	public void unloadProgram()
 	{
 		Log.logImportant("unloadProgram; Begin unload program "+csProgramName);
@@ -240,28 +240,28 @@ public class ProgramInstancesPool extends BaseCloseMBean
 		unloadProgramRWLock.writeLock().unlock();	// Release exclusive lock; unlocking optinal thread waiting to obtain read lock in getUnusedInstance()
 		Log.logImportant("unloadProgram; End unload program "+csProgramName);
 	}
-	
+
 	private void doUnloadProgram()
-	{	
+	{
 		// At that step, we are the only thread owning a program instance
 		// Dequeue all unused instances in the stack in order to delete them
 		while(stack.size() > 0)
 		{
-			BaseProgram program = stack.pop();			
-			program.getProgramManager().unloadClassCode();		// Destroy the program's class			
+			BaseProgram program = stack.pop();
+			program.getProgramManager().unloadClassCode();		// Destroy the program's class
 			nbInstanceCreated.dec();
 		}
 		stack = null;
 		stack = new Stack<BaseProgram>();
-		
+
 		int nNbCreated = nbInstanceCreated.get();
 		if(nNbCreated == 0)	// No more instance in the stack
-		{			
+		{
 			programPoolManager.removeProgramInstancesPool(csProgramName);	// Remove ourself form our's container
-			
+
 			SharedProgramInstanceDataCatalog.removeSharedProgramInstanceData(csProgramName);
 			unregisterMBean();
-			
+
 			// unload code
 			CodeManager.removeAllInstances(csProgramName);
 		}
@@ -271,7 +271,7 @@ public class ProgramInstancesPool extends BaseCloseMBean
 			// Should never happen
 		}
 	}
-	
+
 	public void returnProgram(BaseProgram program)
 	{
 		if(program != null)
@@ -283,13 +283,13 @@ public class ProgramInstancesPool extends BaseCloseMBean
 		}
 		unloadProgramRWLock.readLock().unlock();	// Release read lock: the current thread do not own anymore the program instance
 	}
-		
+
 	private Stack<BaseProgram> stack = new Stack<BaseProgram>();
 	private ThreadSafeCounter nbInstanceCreated = new ThreadSafeCounter();
 	private String csProgramName = null;
 	private ThreadSafeCounter nbTotalExecution = new ThreadSafeCounter();
 	private ProgramPoolManager programPoolManager = null;
-	
-	
+
+
 	private ReentrantReadWriteLock unloadProgramRWLock = new ReentrantReadWriteLock();
 }

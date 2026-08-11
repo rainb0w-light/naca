@@ -29,15 +29,15 @@ public class FileConverter
 	private static final byte[] AFP_ASCII_SFI 			= { (byte)0x4C, (byte)0xD3, (byte)0xBA }; // D3EE9B
 	private static final byte[] AFP_ASCII_PAGEFORMAT 	= { (byte)0x4C, (byte)0xBF, (byte)0xAD }; // D3ABCA
 	private static final byte[] AFP_ASCII_COPYGROUP 	= { (byte)0x4C, (byte)0xBF, (byte)0xF6 }; // D3ABCC
-	private static final byte[] AFP_ASCII_SEGMENT 		= { (byte)0x4C, (byte)0xAE, (byte)0x5E }; // D3AF5F	
-	
+	private static final byte[] AFP_ASCII_SEGMENT 		= { (byte)0x4C, (byte)0xAE, (byte)0x5E }; // D3AF5F
+
 	private static final byte   AFP_EBCDIC_5A  			=   (byte)0x5A;
 //	private static final byte[] AFP_EBCDIC_SFI 			= { (byte)0xD3, (byte)0xEE, (byte)0x9B };
 //	private static final byte[] AFP_EBCDIC_BOC 			= { (byte)0xD3, (byte)0xA8, (byte)0x92 };
 //	private static final byte[] AFP_EBCDIC_OCD 			= { (byte)0xD3, (byte)0xEE, (byte)0x92 };
 //	private static final byte[] AFP_EBCDIC_EOC 			= { (byte)0xD3, (byte)0xA9, (byte)0x92 };
 //	private static final byte[] AFP_EBCDIC_IOB 			= { (byte)0xD3, (byte)0xAF, (byte)0xC3 };
-	
+
 	private FileDescriptor file = null;
 	private boolean islist = false;
 	private boolean issuppressVariableLength = true;
@@ -54,17 +54,17 @@ public class FileConverter
 	private boolean iskeepOutputFile = false;
 	private boolean isappendEOF = false;
 	private int nLine = 0;
-	
+
 	private byte[] tbyHeader2 = new byte[2];
 	private byte[] tbyHeader4 = new byte[4];
-	
+
 	DataFileWrite fileOutput;
 
 	public FileConverter(FileDescriptor file)
 	{
-		file = file;
+		this.file = file;
 	}
-		
+
 	public boolean execute(String csParameter)
 	{
 		if (csParameter != null && !csParameter.equals(""))
@@ -137,7 +137,7 @@ public class FileConverter
 				isappendEOF = true;
 			}
 		}
-		
+
 		if (isaddVariableLength)
 			System.out.println("FileConverter: Add variable length");
 		else
@@ -145,11 +145,11 @@ public class FileConverter
 				System.out.println("FileConverter: Suppress variable length");
 			else
 				System.out.println("FileConverter: Keep variable length");
-		
+
 		if (!iskeepLineFeed)
-			System.out.println("FileConverter: Replace line feed by : \"" + csLineFeedReplace + "\"");		
+			System.out.println("FileConverter: Replace line feed by : \"" + csLineFeedReplace + "\"");
 		if (nLengthRecord != 0)
-		{	
+		{
 			System.out.println("FileConverter: Length record : " + nLengthRecord);
 			if (bytePadding == 0)
 				System.out.println("FileConverter: Padding with low-value");
@@ -162,7 +162,7 @@ public class FileConverter
 			System.out.println("FileConverter: Convert in ebcdic for AFP file InfoPrint Manager");
 		if (isappendEOF)
 			System.out.println("FileConverter: Add character End Of File");
-		
+
 		if (islist)
 		{
 			String csFileList = file.getPhysicalName();
@@ -187,7 +187,7 @@ public class FileConverter
 
 		return true;
 	}
-	
+
 	private boolean convert(String csFile)
 	{
 		if (isappendEOF)
@@ -237,7 +237,7 @@ public class FileConverter
 						}
 						if (nLengthRecord != 0)
 							LittleEndingSignBinaryBufferStorage.writeInt(tbyHeader4, nLengthRecord, 0);
-						
+
 						while (lineRead != null)
 						{
 							if (nLengthRecord == 0)
@@ -266,7 +266,7 @@ public class FileConverter
 						LineRead lineHeader = dataFileIn.readBuffer(4, false);
 						while (lineHeader != null)
 						{
-							int nLengthExcludingHeader = lineHeader.getAsLittleEndingUnsignBinaryInt();							
+							int nLengthExcludingHeader = lineHeader.getAsLittleEndingUnsignBinaryInt();
 							if (!issuppressVariableLength)
 							{
 								if (nLengthRecord == 0)
@@ -282,7 +282,7 @@ public class FileConverter
 					else
 					{
 						if (logicalFileDescriptor.getRecordLengthDefinition() != null)
-						{	
+						{
 							int length = logicalFileDescriptor.getRecordLengthDefinition().getRecordLength();
 							LineRead lineRead = dataFileIn.readBuffer(length, true);
 							while (lineRead != null)
@@ -298,10 +298,10 @@ public class FileConverter
 				}
 			}
 		}
-		
+
 		return false;
 	}
-	
+
 	private void convertNext(DataFileLineReader dataFileIn, LineRead lineRead)
 	{
 		nLine++;
@@ -315,7 +315,7 @@ public class FileConverter
 				if (isSpecialAfp(arrByteValue, AFP_ASCII_COPYGROUP) || isSpecialAfp(arrByteValue, AFP_ASCII_PAGEFORMAT))
 				{
 					AsciiEbcdicConverter.swapByteAsciiToEbcdic(arrByteValue, 0, 1);
-					AsciiEbcdicConverter.swapByteAsciiToEbcdic(arrByteValue, 3, 3);					
+					AsciiEbcdicConverter.swapByteAsciiToEbcdic(arrByteValue, 3, 3);
 					AsciiEbcdicConverter.swapByteAsciiToEbcdic(arrByteValue, 9, 8);
 					if (nLengthLine > 17)
 					{
@@ -326,7 +326,7 @@ public class FileConverter
 								arrByteValue[17] = arrByteValue[nLengthLine - 2];
 								arrByteValue[18] = arrByteValue[nLengthLine - 1];
 								nLengthLine = 19;
-							}	
+							}
 							AsciiEbcdicConverter.swapByteAsciiToEbcdic(arrByteValue, 17, nLengthLine - 17);
 						}
 						else
@@ -343,7 +343,7 @@ public class FileConverter
 				}
 				else if (isSpecialAfp(arrByteValue, AFP_ASCII_SEGMENT))
 				{
-					
+
 					AsciiEbcdicConverter.swapByteAsciiToEbcdic(arrByteValue, 0, 1);
 					AsciiEbcdicConverter.swapByteAsciiToEbcdic(arrByteValue, 3, 3);
 					AsciiEbcdicConverter.swapByteAsciiToEbcdic(arrByteValue, 9, 8);
@@ -423,7 +423,7 @@ public class FileConverter
 		{
 			AsciiEbcdicConverter.swapByteEbcdicToAscii(arrByteValue, 0, nLengthLine);
 		}
-		
+
 		if (isconvertInEbcdicAFPInfoPrint)
 		{
 			// Ajouter la longueur sur 2 bytes du record
@@ -432,9 +432,9 @@ public class FileConverter
 		}
 
 		if (nLengthRecord == 0)
-		{	
+		{
 			fileOutput.write(arrByteValue, 0, nLengthLine);
-		}	
+		}
 		else
 		{
 			if (nLengthLine >= nLengthRecord)
@@ -456,7 +456,7 @@ public class FileConverter
 			fileOutput.write(csLineFeedReplace.getBytes(), 0, csLineFeedReplace.length());
 		}
 	}
-	
+
 	private boolean isSpecialAfp(byte[] arrByteValue, byte[] arrToCheck)
 	{
 		if (arrByteValue[3] == arrToCheck[0] && arrByteValue[4] == arrToCheck[1] && arrByteValue[5] == arrToCheck[2])
@@ -470,7 +470,7 @@ public class FileConverter
 		fileOutput = new DataFileWrite(csFile + ".conv", false);
 		fileOutput.open();
 	}
-	
+
 	private void fileOutputClose(String csFile)
 	{
 		fileOutput.close();
@@ -479,7 +479,7 @@ public class FileConverter
 			System.out.println("FileConverter: File " + csFile + " converted in file " + csFile + ".conv");
 		}
 		else
-		{	
+		{
 			FileSystem.moveOrCopy(csFile + ".conv", csFile);
 			System.out.println("FileConverter: File " + csFile + " converted");
 		}

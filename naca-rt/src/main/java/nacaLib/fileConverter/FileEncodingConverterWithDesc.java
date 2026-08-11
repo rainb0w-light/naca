@@ -21,13 +21,13 @@ import nacaLib.varEx.VarDefEncodingConvertibleManager;
 public class FileEncodingConverterWithDesc extends FileEncodingConverter
 {
 	private String csDesc = null;
-	private VarDefEncodingConvertibleManager encodingManager = null;  
-	
+	private VarDefEncodingConvertibleManager encodingManager = null;
+
 	public FileEncodingConverterWithDesc(FileDescriptor fileIn, FileDescriptor fileOut)
 	{
 		super(fileIn, fileOut);
 	}
-		
+
 	public boolean execute(String csDesc)
 	{
 		fileIn.getPhysicalName();
@@ -41,12 +41,12 @@ public class FileEncodingConverterWithDesc extends FileEncodingConverter
 			return copyFile();
 		}
 	}
-	
+
 	private boolean convert(String csDesc)
 	{
 		if (!csDesc.equals(""))
 			fillDesc(csDesc);
-		
+
 		boolean isebcdicIn = fileIn.isEbcdic();
 		boolean isebcdicOut = fileOut.isEbcdic();
 
@@ -65,12 +65,12 @@ public class FileEncodingConverterWithDesc extends FileEncodingConverter
 					byte[] tbyHeaderEbcdic = new String("<FileHeader Version=\"1\" Encoding=\"ebcdic\"/>").getBytes();
 					fileOut.write(tbyHeaderEbcdic, 0, tbyHeaderEbcdic.length, true);
 				}
-				
+
 				if (nLengthRecord == 0)
 				{
 					byte[] tbyHeader4 = new byte[4];
 					if (isvariable4)
-					{	
+					{
 						LineRead lineRead = dataFileIn.readBuffer(4, false);
 						while (lineRead != null)
 						{
@@ -79,19 +79,19 @@ public class FileEncodingConverterWithDesc extends FileEncodingConverter
 							int i2 = lineRead.getBuffer()[lineRead.getOffset() + 1];
 							if (i2 < 0) i2 = 256 + i2;
 							int nCurrentRecordLength = (i1 * 256) + i2 - 4;
-							
+
 							if (isvariableLength)
 							{
 								LittleEndingSignBinaryBufferStorage.writeInt(tbyHeader4, nCurrentRecordLength, 0);
 								fileOut.write(tbyHeader4, 0, tbyHeader4.length, false);
 							}
-							
+
 							lineRead = dataFileIn.readBuffer(nCurrentRecordLength, false);
 							if (isebcdicIn && !isebcdicOut)
 								encodingManager.getConvertedBytesEbcdicToAscii(lineRead);
 							else if (!isebcdicIn && isebcdicOut)
 								encodingManager.getConvertedBytesAsciiToEbcdic(lineRead);
-							
+
 							fileOut.write(lineRead.getBuffer(), lineRead.getOffset(), lineRead.getBodyLength(), true);
 							lineRead = dataFileIn.readBuffer(4, false);
 						}
@@ -104,19 +104,19 @@ public class FileEncodingConverterWithDesc extends FileEncodingConverter
 							int i1 = lineRead.getBuffer()[lineRead.getOffset() + 1];
 							int i2 = lineRead.getBuffer()[lineRead.getOffset() + 2];
 							int nCurrentRecordLength = i1 * 256 + i2;
-							
+
 							if (isvariableLength)
 							{
 								LittleEndingSignBinaryBufferStorage.writeInt(tbyHeader4, nCurrentRecordLength, 0);
 								fileOut.write(tbyHeader4, 0, tbyHeader4.length, false);
 							}
-							
+
 							lineRead = dataFileIn.readBuffer(nCurrentRecordLength, false);
 							if (isebcdicIn && !isebcdicOut)
 								encodingManager.getConvertedBytesEbcdicToAscii(lineRead);
 							else if (!isebcdicIn && isebcdicOut)
 								encodingManager.getConvertedBytesAsciiToEbcdic(lineRead);
-							
+
 							fileOut.write(lineRead.getBuffer(), lineRead.getOffset(), lineRead.getBodyLength(), true);
 							lineRead = dataFileIn.readBuffer(3, false);
 						}
@@ -126,7 +126,7 @@ public class FileEncodingConverterWithDesc extends FileEncodingConverter
 				{
 					LineRead lineRead = dataFileIn.readBuffer(nLengthRecord, false);
 					while (lineRead != null)
-					{	
+					{
 						if (isebcdicIn && !isebcdicOut)
 							encodingManager.getConvertedBytesEbcdicToAscii(lineRead);
 						else if (!isebcdicIn && isebcdicOut)
@@ -143,36 +143,36 @@ public class FileEncodingConverterWithDesc extends FileEncodingConverter
 				{
 					if(isvariableLength)
 						lineRead.shiftOffset(4);	// Skip record header
-	
+
 					if (isebcdicIn && !isebcdicOut)
 						encodingManager.getConvertedBytesEbcdicToAscii(lineRead);
 					else if (!isebcdicIn && isebcdicOut)
 						encodingManager.getConvertedBytesAsciiToEbcdic(lineRead);
-	
+
 					if(isvariableLength)
 						lineRead.shiftOffset(-4);
-	
+
 					fileOut.writeFrom(lineRead);
 					lineRead = fileIn.readALine(dataFileIn, lineRead);
 				}
 			}
 			fileOut.close();
 		}
-		
+
 		return true;
 	}
-	
+
 	private void fillDesc(String csDesc)
 	{
-		csDesc = csDesc;
+		this.csDesc = csDesc;
 		encodingManager = new VarDefEncodingConvertibleManager();
-		
+
 		while(csDesc != null)
 		{
 			int nPosition = getChunkAsInt()-1;
 			int nLength = getChunkAsInt();
 			String csType = getChunk();
-						
+
 			if(csType.equalsIgnoreCase("CH"))
 				encodingManager.add(nPosition, nLength);
 			else if(csType.equalsIgnoreCase("CHB"))
@@ -184,16 +184,16 @@ public class FileEncodingConverterWithDesc extends FileEncodingConverter
 			else if(csType.equalsIgnoreCase("Comp0Signed"))
 				encodingManager.add(nPosition, nLength-1);
 		}
-		
+
 		encodingManager.compress();
 	}
-	
+
 	private int getChunkAsInt()
 	{
 		String cs = getChunk();
 		return NumberParser.getAsInt(cs);
 	}
-		
+
 	private String getChunk()
 	{
 		String cs = null;
@@ -208,7 +208,7 @@ public class FileEncodingConverterWithDesc extends FileEncodingConverter
 		{
 			cs = csDesc.substring(0, nIndex);
 			cs = cs.trim();
-			csDesc = csDesc.substring(nIndex+1);			
+			csDesc = csDesc.substring(nIndex+1);
 		}
 		return cs;
 	}

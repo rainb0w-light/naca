@@ -10,18 +10,18 @@ public class SortParagHandler
 {
 	SortParagHandler(SortCommand sortCommand)
 	{
-		sortCommand = sortCommand;
+		this.sortCommand = sortCommand;
 	}
-	
+
 	public void release(Var varRecord)
 	{
 		sortCommand.release(varRecord);
 	}
-	
+
 	public RecordDescriptorAtEnd returnSort(SortDescriptor sortDescriptor)
 	{
 		return sortCommand.returnSort(sortDescriptor);
 	}
-	
+
 	private SortCommand sortCommand = null;
 }

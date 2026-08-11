@@ -5,7 +5,7 @@
   "ratchet": {
     "legacyRuntimeTests": {
       "tests": 46,
-      "failures": 21
+      "failures": 8
     },
     "sampleAcceptanceTests": 2,
     "sampleAcceptanceFailures": 0,
@@ -14,6 +14,8 @@
     "analyzerPlaceholderOperations": 3,
     "analyzerTestSources": 0,
     "transpilerUnqualifiedSelfAssignments": 0,
+    "runtimeUnqualifiedSelfAssignments": 0,
+    "jlibUnqualifiedSelfAssignments": 142,
     "staleIdeTemplateCommentMarkers": 1192,
     "generatedTodoPlaceholders": 97,
     "activeHungarianIdentifierLines": 0,

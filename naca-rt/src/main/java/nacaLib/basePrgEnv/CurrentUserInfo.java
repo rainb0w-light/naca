@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.basePrgEnv;
 
@@ -18,19 +18,19 @@ public class CurrentUserInfo
 {
 	public void set(String csLUName, String csUserLdapId)
 	{
-		csLUName = csLUName; 
-		csUserLdapId = csUserLdapId;
+		this.csLUName = csLUName;
+		this.csUserLdapId = csUserLdapId;
 	}
-	
+
 	public void reset()
 	{
 		csLUName = "";
 		csUserLdapId = "";
 	}
-	
+
 	public String csPub2000ProfitCenter = "";
 	public String csPub2000UserId = "";
-	
+
 	public String csLUName = "";
 	public String csUserLdapId = "";
 }

@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.dbUtils;
 
@@ -30,12 +30,12 @@ public class FileSQLLoadScriptReader extends BaseFileScriptReader
 {
 	private DataFileLineReader dataFileIn = null;
 	private BaseSession session = null;
-	
+
 	FileSQLLoadScriptReader(BaseSession session)
 	{
-		session = session;
+		this.session = session;
 	}
-	
+
 	SQLLoadStatus parse(SQLLoad sqlLoad, FileDescriptor fileIn)
 	{
 		int nSumRecords = 0;
@@ -45,15 +45,15 @@ public class FileSQLLoadScriptReader extends BaseFileScriptReader
 		{
 			Log.logImportant("Physical load File " + csFileIn + " script NOT correctly loaded: No load execution done");
 			return SQLLoadStatus.loadFailure;
-		}			
+		}
 
 		dataFileIn = new DataFileLineReader(csFileIn, 65536, 0);
 		boolean isinOpened = dataFileIn.open();
 		if(!isinOpened)
 			return SQLLoadStatus.loadFailure;
 		int nLineIndex = 0;
-		
-		SQLLoadStatus loadGlobalStatus = SQLLoadStatus.loadSuccess; 
+
+		SQLLoadStatus loadGlobalStatus = SQLLoadStatus.loadSuccess;
 		String csLine = readLogicalLine(nLineIndex);
 		while(csLine != null)
 		{
@@ -64,7 +64,7 @@ public class FileSQLLoadScriptReader extends BaseFileScriptReader
 				LoadScriptLineInfo loadInfo = parseLoadLine(csLine);
 				if(loadInfo != null)
 				{
-					IntegerRef rnNbRecord = new IntegerRef();  
+					IntegerRef rnNbRecord = new IntegerRef();
 					SQLLoadStatus loadStatus = sqlLoad.executeStatement(rnNbRecord, loadInfo);
 					loadGlobalStatus = SQLLoadStatus.updateWithLocalStatus(loadGlobalStatus, loadStatus);
 					int nNbRecord = rnNbRecord.get();
@@ -85,7 +85,7 @@ public class FileSQLLoadScriptReader extends BaseFileScriptReader
 		Log.logNormal("Physical load File " + csFileIn + " script correctly executed, with sum of records processed=" + nSumRecords);
 		return loadGlobalStatus;
 	}
-	
+
 //	private String readLogicalLine()
 //	{
 //		LineRead lineRead = dataFileIn.readNextUnixLine();
@@ -95,7 +95,7 @@ public class FileSQLLoadScriptReader extends BaseFileScriptReader
 //			csLastPhysicalLine = null;
 //			return csLine;
 //		}
-//			
+//
 //		String csLine = "";
 //		if(csLastPhysicalLine != null)
 //			csLine = csLastPhysicalLine;
@@ -113,7 +113,7 @@ public class FileSQLLoadScriptReader extends BaseFileScriptReader
 //				}
 //				csLine += " " + csPhysicalLine;
 //			}
-//			
+//
 //			lineRead = dataFileIn.readNextUnixLine();
 //		}
 //		if(lineRead == null)
@@ -121,7 +121,7 @@ public class FileSQLLoadScriptReader extends BaseFileScriptReader
 //		return csLine;
 //	}
 	private ArrayList<String> lines = null;
-	
+
 	private String readLogicalLine(int nLine)
 	{
 		if(lines == null)
@@ -132,13 +132,13 @@ public class FileSQLLoadScriptReader extends BaseFileScriptReader
 			return null;
 		return lines.get(nLine);
 	}
-	
+
 	private void readAllLines()
 	{
 		if(lines != null)
 			return ;
 		lines = new ArrayList<String>();
-		
+
 		String csCurrentLine = new String();
 		LineRead lineRead = dataFileIn.readNextUnixLine();
 		while(lineRead != null)
@@ -157,20 +157,20 @@ public class FileSQLLoadScriptReader extends BaseFileScriptReader
 					csCurrentLine = csPhysicalLine;
 				}
 			}
-			
+
 			lineRead = dataFileIn.readNextUnixLine();
 		}
 		if(!StringUtil.isEmpty(csCurrentLine))
 			lines.add(csCurrentLine);
 	}
-	
+
 	private boolean isContinuationLine(String csPhysicalLine)
 	{
 		if(csPhysicalLine.startsWith("   "))	// At least 3 spaces indiciates a continuation line
 			return true;
 		return false;
 	}
-	
+
 	private LoadScriptLineInfo parseLoadLine(String csLine)
 	{
 		int nPos = csLine.indexOf("LOAD");

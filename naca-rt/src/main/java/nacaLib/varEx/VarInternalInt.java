@@ -31,28 +31,28 @@ public class VarInternalInt extends Var
 		varTypeId = varDef.getTypeId();
 		n = 0;
 	}
-	
+
 	protected VarBase allocCopy()
 	{
 		VarInternalInt v = new VarInternalInt();
 		return v;
 	}
-	
+
 	public void set(int n)
 	{
-		n = n;
+		this.n = n;
 	}
-	
+
 	public void set(String cs)
 	{
 		n = NumberParser.getAsInt(cs);
 	}
-	
+
 	public void set(char c)
 	{
 		n = NumberParser.getAsInt(c);
 	}
-	
+
 //	public void set(GenericValue gv)
 //	{
 //		//n = gv.getInt();
@@ -62,7 +62,7 @@ public class VarInternalInt extends Var
 	{
 		return String.valueOf(n);
 	}
-	
+
 	public boolean hasType(VarTypeEnum e)
 	{
 		if(e == VarTypeEnum.Type9)
@@ -70,26 +70,26 @@ public class VarInternalInt extends Var
 		return false;
 	}
 
-	
+
 //	public String getString()
 //	{
-//		return String.valueOf(n); 
+//		return String.valueOf(n);
 //	}
-	
+
 //	public String getDottedSignedString()
 //	{
 //		return String.valueOf(n);
 //	}
-	
+
 	public int getInt()
 	{
 		return n;
 	}
-	
+
 	public double getDouble()
 	{
 		return n;
-	} 
+	}
 
 //	VarNumberChunk getNumberChunks()
 //	{
@@ -102,19 +102,19 @@ public class VarInternalInt extends Var
 //		chunk.m_sDec = "" ;
 //		return chunk ;
 //	}
-	
+
 	public String toString()
 	{
 		return "InternalVar: " + String.valueOf(n);
 	}
-	
+
 	int getSingleItemRequiredStorageSize()
 	{
 		return 0;
 	}
 
 	int n;
-	
+
 	public void transferTo(Var varDest)
 	{
 		varDest.set(n);
@@ -123,36 +123,36 @@ public class VarInternalInt extends Var
 	{
 		return "VarInternalInt("+n+")" ;
 	}
-	
+
 	public int compareTo(int nValue)
 	{
 		int nVarValue = getInt();
 		return nVarValue - nValue;
 	}
-	
-	
+
+
 	public int compareTo(double dValue)
 	{
 		double varValue = getDouble();
 		double d = varValue - dValue;
-		if(d < -0.00001)	//Consider epsilon precision at 10 e-5 
+		if(d < -0.00001)	//Consider epsilon precision at 10 e-5
 			return -1;
 		else if(d > 0.00001)	//Consider epsilon precision at 10 e-5
 			return 1;
-		return 0;			
-	} 
-	
+		return 0;
+	}
+
 
 	protected byte[] convertUnicodeToEbcdic(char [] tChars)
 	{
 		return AsciiEbcdicConverter.noConvertUnicodeToEbcdic(tChars);
 	}
-	
+
 	protected char[] convertEbcdicToUnicode(byte[] tBytes)
 	{
 		return AsciiEbcdicConverter.noConvertEbcdicToUnicode(tBytes);
 	}
-	
+
 
 	public VarType getVarType()
 	{

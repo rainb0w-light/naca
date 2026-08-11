@@ -19,27 +19,25 @@
  */
 package nacaLib.CESM;
 
-import java.util.ArrayList;
 
 import jlib.log.Log;
 import nacaLib.base.CJMapObject;
 import nacaLib.basePrgEnv.BaseEnvironment;
 import nacaLib.basePrgEnv.BaseProgramLoader;
 import nacaLib.misc.CCommarea;
-import nacaLib.varEx.CCallParam;
 import nacaLib.varEx.Var;
 
 public class CESMLink extends CJMapObject
 {
 	protected BaseEnvironment environment = null ;
 	protected String csProgramClassName = null;
-	
+
 	public CESMLink(BaseEnvironment env, String csProgramClassName)
 	{
 		environment = env;
-		csProgramClassName = csProgramClassName;
+		this.csProgramClassName = csProgramClassName;
 	}
-	
+
 	public void go()
 	{
 		if(isLogCESM)
@@ -58,26 +56,26 @@ public class CESMLink extends CJMapObject
 		comm.setVarPassedByRef(var);
 		baseProgramLoader.runSubProgram(csProgramClassName, null, environment);
 	}
-	
+
 	public void commarea(Var var)
 	{
 		commarea(var, -1) ;
 	}
-	
+
 	public void commarea(Var v, Var length)
 	{
-		int l = length.getInt() ;		
+		int l = length.getInt() ;
 		commarea(v, l) ;
 	}
-	
+
 	public void commarea(Var var, int length, int datalength)
 	{
 		commarea(var, length) ;
 	}
-	
+
 	public void commarea(Var var, Var length, int datalength)
 	{
-		int l = length.getInt() ;		
+		int l = length.getInt() ;
 		commarea(var, l) ;
 	}
 }

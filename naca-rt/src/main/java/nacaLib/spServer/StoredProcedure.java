@@ -29,20 +29,20 @@ import nacaLib.exceptions.AbortSessionException;
  */
 public class StoredProcedure extends CalledProgramParamSupportByPosition
 {
-	
+
 	private String csProgramName = null;
 	private Class clsProgram = null;
 	private boolean isconnectionPackage = false;
-	
+
 	public StoredProcedure(String csProgramName)
-	{		
-		csProgramName = csProgramName;
-		
+	{
+		this.csProgramName = csProgramName;
+
 	}
-	
+
 	public StoredProcedure(Class clsProgram)
 	{
-		clsProgram = clsProgram;
+		this.clsProgram = clsProgram;
 		csProgramName = ClassHelper.getLocalName(clsProgram);
 	}
 
@@ -56,8 +56,8 @@ public class StoredProcedure extends CalledProgramParamSupportByPosition
 		// Allocate a new connection
 		return null;
 	}
-	
-	public boolean executeContainerSimulated() 
+
+	public boolean executeContainerSimulated()
 	{
 		try
 		{
@@ -68,12 +68,12 @@ public class StoredProcedure extends CalledProgramParamSupportByPosition
 			return false;
 		}
 	}
-	
+
 	public boolean execute() throws SQLException
-	{	
+	{
 		return doExecute(false);
 	}
-	
+
 	private boolean doExecute(boolean bContainerSimulated) throws SQLException
 	{
 		Connection connection = getSpConnection(bContainerSimulated);
@@ -82,7 +82,7 @@ public class StoredProcedure extends CalledProgramParamSupportByPosition
 			return false;
 		}
 		BaseEnvironment env = null;
-		
+
 		try
 		{
 			// We must have a table "NacaRTSP" with 1 record of 1 column "CONFIGFILE"; It's value is the path and file name of the config file
@@ -111,28 +111,28 @@ public class StoredProcedure extends CalledProgramParamSupportByPosition
 				SQLException sqlException = new SQLException("Could not find environment variable NacaRTSP value: Cannot contine");
 				throw sqlException;
 			}
-		
+
 			SpServerResourceManager spinnerserverResourceManager = SpServerResourceManagerFactory.GetInstance(csPathFileNameConfig);
 			String csSpDbEnvironment = spinnerserverResourceManager.getSpDbEnvironment();
 			SpServerSession session = new SpServerSession(connection, spinnerserverResourceManager);
 			SpServerProgramLoader loader = SpServerProgramLoader.GetProgramLoaderInstance();
 			env = loader.GetEnvironment(session, csProgramName, null);
-			
+
 			boolean bUseStatementCache = BaseResourceManager.getUseStatementCache();
 			env.fillEnvConnectionWithAllocatedConnection(connection, "SPConnection", csSpDbEnvironment, bUseStatementCache);
-			
+
 			String csSpDbPackage = spinnerserverResourceManager.getSpDbPackage();
 			setConnectionPackage(connection, csSpDbPackage);
-			
+
 			Log.logNormal("Start stored procedure:"+csProgramName + " for clsid:" + csCurrentSqlid);
 			env.setInitialConnectDb(false);
 			env.startRunTransaction();
-			loader.runTopProgram(env, arrPublicArgs);			
+			loader.runTopProgram(env, arrPublicArgs);
 			env.endRunTransaction(CriteriaEndRunMain.Normal);
 			Log.logNormal("Stop stored procedure:"+csProgramName);
-			
+
 			resetConnectionPackage(connection);
-			
+
 			return true;
 		}
 		catch (AbortSessionException e)
@@ -150,20 +150,20 @@ public class StoredProcedure extends CalledProgramParamSupportByPosition
 			throw sqlException;
 		}
 	}
-	
+
 	private void setConnectionPackage(Connection spConnection, String csSpDbPackage)
 	{
 		if (csSpDbPackage.equals("")) return;
 		if (executeConnectionPackage(spConnection, csSpDbPackage))
 			isconnectionPackage = true;
 	}
-	
+
 	private void resetConnectionPackage(Connection spConnection)
 	{
 		if (!isconnectionPackage) return;
 		executeConnectionPackage(spConnection, "NULLID");
 	}
-	
+
 	private boolean executeConnectionPackage(Connection spConnection, String csSpDbPackage)
 	{
 		try

@@ -46,7 +46,7 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 	private DbConnectionManagerBase connectionManager = null;
 	protected String csCurrentTransaction = "" ;
 	private String csTransaction1stProgram = "";
-	private BaseSession baseSession = null; 
+	private BaseSession baseSession = null;
 	private Integer envId = null;
 	private static ThreadSafeCounter ms_id = new ThreadSafeCounter();
 	private CurrentDateInfo creationDateInfo = null;
@@ -56,7 +56,7 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 	private FileManager fileManager = null;
 	private boolean isexternalConnection = false;
 	private boolean issimulateRealEnvironment = false;
-	
+
 	public BaseEnvironment(BaseSession baseSession, DbConnectionManagerBase connectionManager, BaseResourceManager baseResourceManager)
 	{
 		this.baseSession = baseSession;
@@ -68,39 +68,39 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 		creationDateInfo = new CurrentDateInfo();
 		issimulateRealEnvironment = baseResourceManager.getSimulateRealEnvironment();
 	}
-	
+
 	public DbConnectionManagerBase getDbConnectionManager()
 	{
 		return connectionManager;
 	}
-	
+
 	public CurrentDateInfo getCreationDateInfo()
 	{
 		return creationDateInfo;
 	}
-	
+
 	public Integer getEnvId()
 	{
 		return envId;
 	}
-	
+
 	public BaseSession getBaseSession()
 	{
 		return baseSession;
 	}
-	
+
 	public void resetSession()
 	{
 		baseSession = null;
 	}
-	
+
 	public Document getLastScreenXMLData()
 	{
 		if(baseSession != null)
 			return baseSession.getLastScreenXMLData();
 		return null;
 	}
-	
+
 	public void setCurrentTransaction(String csTransactionID, String csProgramID)
 	{
 		csCurrentTransaction = csTransactionID ;
@@ -111,17 +111,17 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 	{
 		return csCurrentTransaction ;
 	}
-	
+
 	public void DEBUGremoveDBConnection()
 	{
 		qLConnection = null;
 	}
-	
+
 	public void fillEnvConnectionWithAllocatedConnection(Connection spConnection, String csPrefId, String csEnv, boolean bUseCachedStatements)
 	{
 		qLConnection = new SQLConnection(spConnection, csPrefId, csEnv, bUseCachedStatements, false, null);
 	}
-	
+
 	public DbConnectionBase getNewSQLConnection()
 	{
 		if(connectionManager != null)
@@ -135,10 +135,10 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 			{
 				Log.logImportant("Db connection error: "+e.toString());
 			}
-		}		
+		}
 		return null;
 	}
-	
+
 	public DbConnectionBase getSQLConnection()
 	{
 		if(qLConnection == null && connectionManager != null)
@@ -153,9 +153,9 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 
 				//JVMReturnCodeManager.exitJVM(8);	// No connection provided: Do not exit as it kills tomcat !
 			}
-		}		
+		}
 		return qLConnection;
-	}	
+	}
 
 	public boolean abortTransWhenInvalidDbConnection()
 	{
@@ -167,14 +167,14 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 		}
 		return true;
 	}
-	
+
 	public boolean hasSQLConnection()
 	{
 		if(qLConnection == null)
 			return false;
 		return true;
 	}
-	
+
 	public void releaseSQLConnection()
 	{
 		if(!isexternalConnection)	// Release only internal connection
@@ -188,15 +188,15 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 		else
 			isexternalConnection = false;	// Not an external connection (reset status for next reuse of the environment)
 
-		// The environment has no knowledge anymore of the connection 
+		// The environment has no knowledge anymore of the connection
 		qLConnection = null;
 	}
-	
+
 	private void getTempCacheFromStack()
 	{
 		tempCache = TempCacheLocator.setTempCache();
 	}
-	
+
 	public void returnTempCacheToStack()
 	{
 		if (tempCache != null)
@@ -205,11 +205,11 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 			tempCache = null;
 		}
 	}
-	
+
 	private TempCache tempCache = null;
-	
+
 	/**
-	 * 
+	 *
 	 */
 	public SQLException commitSQL()
 	{
@@ -224,7 +224,7 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public SQLException rollbackSQL()
 	{
@@ -237,22 +237,22 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 		}
 		return null;
 	}
-	
+
 	public String getNextProgramToLoad()
 	{
 		return csNextProgramToLoad ;
 	}
-	
+
 	public void setNextProgramToLoad(String csProgramId)
 	{
 		csNextProgramToLoad = csProgramId.trim() ;
 		csProgramParent = null;
 	}
-	
+
 	public void setNextProgramToLoad(String csProgramId, String csProgramParent)
 	{
 		csNextProgramToLoad = csProgramId.trim() ;
-		csProgramParent = csProgramParent;
+		this.csProgramParent = csProgramParent;
 	}
 
 	protected void deQueueProgram()
@@ -264,16 +264,16 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 		commarea = null ;
 
 	}
-	
+
 	public void doEnqueueProgram(String csProg)
 	{
 		qPrograms.add(csProg);
 	}
-	
+
 	private String csNextProgramToLoad = "" ;
 	private String csProgramParent = null;
 	private Queue qPrograms = new SynchronousQueue() ;
-	
+
 	private CCommarea commarea = null ;
 
 	public CCommarea getCommarea()
@@ -283,9 +283,9 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 
 	public void setCommarea(CCommarea commarea)
 	{
-		commarea = commarea ;
+		this.commarea = commarea ;
 	}
-	
+
 	public void resetNewTransaction()
 	{
 		doResetNewTransaction();
@@ -296,21 +296,21 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 		resetDateTime() ;
 		setNextProgramToLoad("");
 	}
-	
+
 	private Date startTime = new Date() ;
-	
+
 	public void resetDateTime()
 	{
 		startTime = new Date() ;
 	}
-	
+
 	public String getTime()
 	{
 		SimpleDateFormat formater = new SimpleDateFormat("'0'HHmmss");
 		String cs = formater.format(startTime);
 		return cs ;
 	}
-	
+
 	public String getDate()
 	{
 		SimpleDateFormat formater  ;
@@ -319,35 +319,35 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 		String cs = formater.format(startTime);
 		return cs ;
 	}
-	
+
 	public boolean hasOutput()
 	{
 		return false;
 	}
-	
+
 	public void RegisterOutput()
 	{
 	}
 
 	private Tag tagConfig = null ;
-	
+
 
 	public void Init(Tag tagCESMConfig)
 	{
 		configInit(tagCESMConfig);
 	}
-	
+
 	protected void configInit(Tag tagCESMConfig)
 	{
 		if(tagCESMConfig != null)
 			tagConfig = tagCESMConfig.getChild("Config") ;
 	}
-	
+
 	public String getLanguageCode()
 	{
 		return "";
 	}
-	
+
 	public boolean isLinux()
 	{
 		String linux = getConfigOption("StartBatchLinux");
@@ -365,37 +365,37 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 		}
 		return "";
 	}
-	
+
 	public String getUserLanguageId()
 	{
 		return "";
 	}
-	
+
 	public String getProfitCenter()
 	{
 		return "";
 	}
-	
+
 	public String getCmpSession()
 	{
 		return "";
 	}
-	
+
 	public String getUserId()
 	{
 		return "";
 	}
-	
+
 	public String getUserLdapId()
 	{
 		return "";
 	}
-	
+
 
 	public abstract BaseCESMManager createCESMManager();
 	public abstract BaseSession getSession();
-	
-	
+
+
 	protected String csLastCommandCode = "" ;
 	public String getLastCommandCode()
 	{
@@ -404,22 +404,22 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 
 	public void setLastCommandCode(String string)
 	{
-		csLastCommandCode = string ;		
+		csLastCommandCode = string ;
 	}
-	
-	
+
+
 	private CESMReturnCode lastCommandReturnCode = CESMReturnCode.NORMAL ;
 	public CESMReturnCode getLastCommandReturnCode()
 	{
 		return lastCommandReturnCode ;
-	}	
-	
+	}
+
 	public void setCommandReturnCode(CESMReturnCode cs)
 	{
 		lastCommandReturnCode = cs ;
 	}
 
-	
+
 	private CESMQueueManager queueManager = null;
 	public CESMQueueManager getQueueManager()
 	{
@@ -431,16 +431,16 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 		return csTermID ;
 	}
 	protected String csTermID = "" ;
-	
-	
+
+
 	private Queue qData = new SynchronousQueue() ;
-	
+
 	public void enqueueProgram(String csTransID, CESMStartData data)
 	{
 		doEnqueueProgram(csTransID);
 		enqueueData(data);
 	}
-	
+
 	public void enqueueData(CESMStartData data)
 	{
 		qData.add(data) ;
@@ -456,12 +456,12 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 			CESMStartData v = (CESMStartData)qData.remove() ;
 			return v ;
 	}
-	
+
 	public void StartAsynchronousProgram(String transID, String csProgramParent, CESMStartData data, int intervalTimeSeconds)
 	{
 		BaseProgramLoader.StartAsynchronousProgram(transID, csProgramParent, data, intervalTimeSeconds);
 	}
-	
+
 	/**
 	 * @return
 	 */
@@ -474,33 +474,33 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 		csApplicationCredentials = cs ;
 	}
 	protected String csApplicationCredentials = "" ;
-	
 
-	
+
+
 	protected char [] acTCTTUA = new char [1024];
 	public char [] getTCTUA()
 	{
 		return acTCTTUA ;
 	}
-	
+
 
 	protected char [] acTWA = new char [1024];
 	public char [] getTWA()
 	{
 		return acTWA ;
 	}
-	
+
 	protected char [] acCWA = new char [1024];
 	public char [] getCWA()
 	{
 		return acCWA ;
 	}
-	
+
 	public Document getXMLData()
 	{
 		return null;
 	}
-	
+
 	protected KeyPressed keyPressed = null ;
 	public KeyPressed GetKeyPressed()
 	{
@@ -513,30 +513,30 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 			return null ;
 		}
 	}
-	
+
 	public void resetKeyPressed()
 	{
 		keyPressed = null ;
 	}
-	
+
 	public void setKeyPressed(Var v)
 	{
 		keyPressed = KeyPressed.getKey(v);
 		assertIfNull(keyPressed);
 	}
-	
+
 	public void setKeyPressed(KeyPressed keyPressed)
 	{
-		keyPressed = keyPressed;
+		this.keyPressed = keyPressed;
 //		assertIfNull(keyPressed);
 	}
-	
+
 	// Accounting
 	public void setInitialConnectDb(boolean bInitialConnectDb)
 	{
 		this.isinitialConnectDb = bInitialConnectDb;
 	}
-	
+
 	public void setExternalDbConnection(DbConnectionBase dbConnection)
 	{
 		if(dbConnection != null)	// Provide an external db connection by caller
@@ -550,7 +550,7 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 			isinitialConnectDb = true;
 		}
 	}
-	
+
 	public boolean startRunTransaction()
 	{
 		if(issimulateRealEnvironment)
@@ -559,16 +559,16 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 			getTempCacheFromStack();
 			accountingRecordManager.startRunTransaction(csCurrentTransaction);
 			startSessionRequest(csCurrentTransaction);
-			
+
 			TransThreadManager.startTransaction(this);
 			return true;
 		}
-		
+
 		boolean isstarted = true;
 		abStopProcessing.set(false);
-				
+
 		getTempCacheFromStack();
-		
+
 		if(isinitialConnectDb)
 		{
 			qLConnection = null;
@@ -576,27 +576,27 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 			if(con == null)
 				isstarted = false;
 		}
-		
+
 		if(isstarted)
 		{
 			accountingRecordManager.startRunTransaction(csCurrentTransaction);
 			startSessionRequest(csCurrentTransaction);
-			
+
 			TransThreadManager.startTransaction(this);
 		}
 		return isstarted;
 	}
-	
+
 	public void endRunTransaction(CriteriaEndRunMain criteria)
 	{
-		if(accountingRecordManager != null) 
+		if(accountingRecordManager != null)
 		{
 			accountingRecordManager.endRunTransaction(csCurrentTransaction, criteria);
 		}
 		endSessionRequest();
 		TransThreadManager.endTransaction(this);
 	}
-	
+
 	void startRunProgram(String csProgramName)
 	{
 		if(!accountingRecordManager.isFilled())
@@ -613,12 +613,12 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 
 	public AccountingRecordTrans getAccountingRecordManager()
 	{
-		return accountingRecordManager; 
+		return accountingRecordManager;
 	}
-	
-	private AccountingRecordTrans accountingRecordManager = null; 
-	
-	
+
+	private AccountingRecordTrans accountingRecordManager = null;
+
+
 	// Anti-loop management
 	private void startSessionRequest(String csCurrentTransaction)
 	{
@@ -626,7 +626,7 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 		sessionRequestEndBefore_ms = BaseResourceManager.getSessionRequestEndTimeLimit(csCurrentTransaction);
 		envStatus = EnvironmentStatus.RUNNING;
 	}
-	
+
 	void offsetMaxTimeLimit(long lOffset_ms)
 	{
 		sessionRequestEndBefore_ms += lOffset_ms;
@@ -640,61 +640,61 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 		envStatus = EnvironmentStatus.STOPPED;
 		nSumTransactionsExecTime_ms += (int)getStartRunTime().getTimeOffset_ms(getEndRunTime());
 	}
-	
+
 	void requestStopProcessing()
 	{
 		envStatus = EnvironmentStatus.STOP_REQUESTED;
 		abStopProcessing.set(true);
 	}
-		
+
 	CurrentDateInfo getStartRunTime()
 	{
 		return dateStart;
 	}
-	
+
 	CurrentDateInfo getEndRunTime()
 	{
 		return dateEnd;
 	}
-		
+
 	int getLastTransactionExecTime_ms()
 	{
 		if(!isRunning())
 			return (int)getStartRunTime().getTimeOffset_ms(getEndRunTime());
 		return (int)getStartRunTime().getTimeOffsetFromNow_ms();
 	}
-	
+
 	int getSumTransactionsExecTime_ms()
 	{
 		if(isRunning())
 			return (int)getStartRunTime().getTimeOffset_ms(getEndRunTime()) + nSumTransactionsExecTime_ms;
 		return (int)nSumTransactionsExecTime_ms;
 	}
-	
+
 	int getNbTransactionsExecuted()
 	{
 		return nNbTransactionsExecuted;
 	}
-		
+
 	String getStatusAsString()
 	{
 		return envStatus.getString();
 	}
-	
+
 	boolean isRunning()
 	{
 		return envStatus.isRunning();
 	}
-	
+
 	int getRunningTime_ms()
 	{
 		CurrentDateInfo now = new CurrentDateInfo();
 		int n = (int)(now.getTimeInMillis() - dateStart.getTimeInMillis());
 		return n;
 	}
-	
+
 	public void breakCurrentSessionIfTimeout()
-	{		
+	{
 		if(abStopProcessing.get())	// Forced stop
 		{
 			AbortSessionException exp = new AbortSessionException() ;
@@ -702,7 +702,7 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 			exp.programName = null;  // register current program that throws the exception.
 			throw exp ;
 		}
-		
+
 		if(sessionRequestEndBefore_ms != 0)
 		{
 			long almostCurrentTime_ms = Time_ms.getCurrentTime_ms();
@@ -715,45 +715,45 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 			}
 		}
 	}
-	
+
 	boolean canManageThreadMBean()
 	{
 		if(accountingRecordManager != null)
 			return true;
 		return false;
 	}
-	
+
 	public String getSocietyCode()
 	{
 		String cs = "   ";
 		return cs ;
 	}
-	
+
 	public String getApplication()
 	{
 		String cs = "  ";
 		return cs ;
 	}
-	
+
 	public FileManagerEntry getFileManagerEntry(String csLogicalName)
 	{
 		if(fileManager == null)
 			fileManager = new FileManager();
 		return fileManager.getFileManagerEntry(csLogicalName);
 	}
-	
+
 	public void autoCloseOpenFile()
 	{
 		if(fileManager != null)
 			fileManager.autoCloseOpenFile();
 	}
-	
+
 	public void autoFlushOpenFile()
 	{
 		if(fileManager != null)
 			fileManager.autoFlushOpenFile();
 	}
-	
+
 	public void cleanupOnExceptionCatched()
 	{
 		rollbackSQL() ;
@@ -761,14 +761,14 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 		autoCloseOpenFile();
 		returnTempCacheToStack();
 	}
-	
+
 	private static int ms_LastJobBatchID = 0 ;
 	public static String getNextJobBatchID()
 	{
 		int n = ms_LastJobBatchID ++ ;
 		return "" + (n/1000)%10 + (n/100)%10 + (n/10)%10 + (n)%10 ;
 	}
-				
+
 	private AtomicBoolean abStopProcessing = new AtomicBoolean(false);
 	private long sessionRequestEndBefore_ms = 0;
 	private CurrentDateInfo dateStart = new CurrentDateInfo();

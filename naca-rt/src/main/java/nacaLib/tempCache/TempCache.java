@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.tempCache;
 
@@ -51,18 +51,18 @@ public class TempCache
 	private InitializeManagerDoubleEdited initializeManagerDoubleEdited = null;
 	private InitializeManagerStringEdited initializeManagerStringEdited = null;
 	private InitializeManagerLowValue initializeManagerLowValue = null;
-	//private BaseProgramManager programManager = null; 
-	private Stack<BaseProgram> stackPrograms = new Stack<BaseProgram>(); 
+	//private BaseProgramManager programManager = null;
+	private Stack<BaseProgram> stackPrograms = new Stack<BaseProgram>();
 	private BtreeKeyDescription btreeKeyDescription = null;
-	private BaseEnvironment env = null;	
+	private BaseEnvironment env = null;
 	private String csLastSQLCodeErrorText = null;
 	private BaseProgramManager currentBaseProgramManager = null;
 	private BaseProgram currentBaseProgram = null;
 
-	
+
 	private static final int INC_ALMOST_CURRENT_TIME_PERIOD = 10000;	// increment current only every 1000 getAlomostCurrentTime() request
 	private int nCurrentTimeTryCounter = INC_ALMOST_CURRENT_TIME_PERIOD;
-	
+
 	TempCache()
 	{
 		tempVarManager = new TempVarManager(VarTypeId.NbTotalVarEditTypes);
@@ -70,18 +70,18 @@ public class TempCache
 		varLevel = new VarLevel();
 		declareTypeX = new DeclareTypeX();
 	}
-	
+
 	public CoupleVar getTempVar(int nVarDefTypeId)
 	{
 		return tempVarManager.getTempCouple(nVarDefTypeId);
 	}
-	
+
 	public CoupleVar addTempVar(int nVarDefTypeId, VarDefBuffer varDefItem, VarBase var)
 	{
 		setUseTempVar();
 		return tempVarManager.addTemp(nVarDefTypeId, varDefItem, var);
 	}
-	
+
 	public void resetCStr()
 	{
 		manager.reset();
@@ -126,70 +126,70 @@ public class TempCache
 		if(nCurrentTimeTryCounter-- <= 0)
 			breakCurrentSessionIfTimeout();
 	}
-	
+
 	private void breakCurrentSessionIfTimeout()
 	{
 		nCurrentTimeTryCounter = INC_ALMOST_CURRENT_TIME_PERIOD;
 		if(currentBaseProgramManager != null)
 		{
-			BaseEnvironment env = currentBaseProgramManager.getEnv();				
+			BaseEnvironment env = currentBaseProgramManager.getEnv();
 			if(env != null)
 				env.breakCurrentSessionIfTimeout();
 		}
 	}
-	
+
 	public VarLevel getVarLevel()
 	{
 		return varLevel;
 	}
-	
+
 	public DeclareTypeX getDeclareTypeX()
 	{
 		return declareTypeX;
 	}
-	
+
 	public DeclareType9 getDeclareType9()
 	{
 		if(declareType9 == null)
 			declareType9 = new DeclareType9();
 		return declareType9;
 	}
-	
+
 	public DeclareTypeEditInMap getDeclareTypeEditInMap()
 	{
 		if(declareTypeEditInMap == null)
 			declareTypeEditInMap = new DeclareTypeEditInMap();
 		return declareTypeEditInMap;
 	}
-	
+
 	public DeclareTypeEditInMapRedefine getDeclareTypeEditInMapRedefine()
 	{
 		if(declareTypeEditInMapRedefine == null)
 			declareTypeEditInMapRedefine = new DeclareTypeEditInMapRedefine();
 		return declareTypeEditInMapRedefine;
 	}
-	
+
 	public DeclareTypeEditInMapRedefineNum getDeclareTypeEditInMapRedefineNum()
 	{
 		if(declareTypeEditInMapRedefineNum == null)
 			declareTypeEditInMapRedefineNum = new DeclareTypeEditInMapRedefineNum();
 		return declareTypeEditInMapRedefineNum;
 	}
-	
+
 	public DeclareTypeEditInMapRedefineNumEdited getDeclareTypeEditInMapRedefineNumEdited()
 	{
 		if(declareTypeEditInMapRedefineNumEdited == null)
 			declareTypeEditInMapRedefineNumEdited = new DeclareTypeEditInMapRedefineNumEdited();
 		return declareTypeEditInMapRedefineNumEdited;
 	}
-	
+
 	public DeclareTypeForm getDeclareTypeForm()
 	{
 		if(declareTypeForm == null)
 			declareTypeForm = new DeclareTypeForm();
-		return declareTypeForm; 
+		return declareTypeForm;
 	}
-	
+
 	public DeclareTypeFPacSignComp4 getDeclareTypeFPacSignComp4()
 	{
 		if(declareTypeFPacSignComp4 == null)
@@ -203,42 +203,42 @@ public class TempCache
 			declareTypeFPacSignIntComp3 = new DeclareTypeFPacSignIntComp3();
 		return declareTypeFPacSignIntComp3;
 	}
-	
+
 	public DeclareTypeG getDeclareTypeG()
 	{
 		if(declareTypeG == null)
 			declareTypeG = new DeclareTypeG();
 		return declareTypeG;
 	}
-	
+
 	public DeclareTypeMapRedefine getDeclareTypeMapRedefine()
 	{
 		if(declareTypeMapRedefine == null)
 			declareTypeMapRedefine = new DeclareTypeMapRedefine();
 		return declareTypeMapRedefine;
 	}
-	
+
 	public DeclareTypeNumEdited getDeclareTypeNumEdited()
 	{
 		if(declareTypeNumEdited == null)
 			declareTypeNumEdited = new DeclareTypeNumEdited();
 		return declareTypeNumEdited;
 	}
-	
+
 	public DeclareTypeCond getDeclareTypeCond()
 	{
 		if(declareTypeCond == null)
 			declareTypeCond = new DeclareTypeCond();
 		return declareTypeCond;
 	}
-	
+
 	public InitializeManagerNone getInitializeManagerNone()
 	{
 		if(initializeManagerNone == null)
 			initializeManagerNone = new InitializeManagerNone();
 		return initializeManagerNone;
 	}
-	
+
 	public InitializeManagerInt getInitializeManagerInt(int n)
 	{
 		if(initializeManagerInt == null)
@@ -247,7 +247,7 @@ public class TempCache
 			initializeManagerInt.set(n);
 		return initializeManagerInt;
 	}
-	
+
 	public InitializeManagerDouble getInitializeManagerDouble(String cs)
 	{
 		if(initializeManagerDouble == null)
@@ -256,7 +256,7 @@ public class TempCache
 			initializeManagerDouble.set(cs);
 		return initializeManagerDouble;
 	}
-	
+
 	public InitializeManagerString getInitializeManagerString(String cs)
 	{
 		if(initializeManagerString == null)
@@ -265,7 +265,7 @@ public class TempCache
 			initializeManagerString.set(cs);
 		return initializeManagerString;
 	}
-	
+
 	public InitializeManagerIntEdited getInitializeManagerIntEdited(int n)
 	{
 		if(initializeManagerIntEdited == null)
@@ -274,30 +274,30 @@ public class TempCache
 			initializeManagerIntEdited.set(n);
 		return initializeManagerIntEdited;
 	}
-	
+
 	public InitializeManagerDoubleEdited getInitializeManagerDoubleEdited(double d)
 	{
 		if(initializeManagerDoubleEdited == null)
 			initializeManagerDoubleEdited = new InitializeManagerDoubleEdited(d);
 		else
-			initializeManagerDoubleEdited.set(d);		
+			initializeManagerDoubleEdited.set(d);
 		return initializeManagerDoubleEdited;
 	}
-	
+
 	public InitializeManagerStringEdited getInitializeManagerStringEdited()
 	{
 		if(initializeManagerStringEdited == null)
 			initializeManagerStringEdited = new InitializeManagerStringEdited();
 		return initializeManagerStringEdited;
 	}
-	
+
 	public InitializeManagerLowValue getInitializeManagerLowValue()
 	{
 		if(initializeManagerLowValue == null)
 			initializeManagerLowValue = new InitializeManagerLowValue();
 		return initializeManagerLowValue;
 	}
-	
+
 	public SharedProgramInstanceData getSharedProgramInstanceData()
 	{
 		BaseProgramManager pm = getProgramManager();
@@ -305,14 +305,14 @@ public class TempCache
 			return pm.getSharedProgramInstanceData();
 		return null;
 	}
-	
+
 	public BaseProgramManager getProgramManager()
 	{
 		//BaseProgram prg = m_stackPrograms.peek();
 		//return prg.getProgramManager();
 		return currentBaseProgramManager;
 	}
-	
+
 	public BaseProgram popCurrentProgram()
 	{
 		BaseProgram prg = null;
@@ -327,9 +327,9 @@ public class TempCache
 					currentBaseProgram = currentBaseProgramManager.getProgram();
 				else
 					currentBaseProgram = null;
-				
+
 			}
-		}	
+		}
 		return prg;
 	}
 
@@ -347,7 +347,7 @@ public class TempCache
 			currentBaseProgram = null;
 		}
 	}
-	
+
 //	public void setCurrentBaseProgramManagerForPreloadOnly(BaseProgramManager baseProgramManager)
 //	{
 //		currentBaseProgramManager = baseProgramManager;
@@ -356,9 +356,9 @@ public class TempCache
 //		else
 //			currentBaseProgram = null;
 //	}
-	
+
 	public void resetStackProgram()
-	{	 
+	{
 		while(!stackPrograms.empty())
 		{
 			stackPrograms.pop();
@@ -391,27 +391,27 @@ public class TempCache
 		setUseCStr();
 		return manager.getString();
 	}
-	
+
 	public BtreeKeyDescription getBtreeKeyDescription()
 	{
 		return btreeKeyDescription;
 	}
-	
+
 	public void setBtreeKeyDescription(BtreeKeyDescription btreeKeyDescription)
 	{
-		btreeKeyDescription = btreeKeyDescription;
+		this.btreeKeyDescription = btreeKeyDescription;
 	}
-	
+
 	public void setCurrentEnv(BaseEnvironment env)
 	{
-		env = env;
+		this.env = env;
 	}
-	
+
 	public BaseEnvironment getCurrentEnv()
 	{
 		return env;
 	}
-	
+
 	public void setUseTempVar()
 	{
 		if(!isusedTempVar)
@@ -421,7 +421,7 @@ public class TempCache
 				currentBaseProgram.setUseTempVar();
 		}
 	}
-	
+
 	public void setUseCStr()
 	{
 		if(!isusedCStr)
@@ -431,7 +431,7 @@ public class TempCache
 				currentBaseProgram.setUseCStr();
 		}
 	}
-	
+
 	public boolean getAndResetUseTempVar()
 	{
 		if(isusedTempVar)
@@ -443,7 +443,7 @@ public class TempCache
 		}
 		return false;
 	}
-	
+
 	public boolean getAndResetUseCStr()
 	{
 		if(isusedCStr)
@@ -455,12 +455,12 @@ public class TempCache
 		}
 		return false;
 	}
-	
+
 	public String getLastSQLCodeErrorText()
-	{	
+	{
 		return csLastSQLCodeErrorText;
 	}
-	
+
 	public void fillLastSQLCodeErrorText(CSQLStatus sqlStatus)
 	{
 		StringBuffer sb = sqlStatus.getAsStringBuffer();
@@ -468,7 +468,7 @@ public class TempCache
 		sb.append(currentBaseProgramManager.getProgramName());
 		csLastSQLCodeErrorText = sb.toString();
 	}
-	
+
 	private boolean isusedTempVar = false;
 	private boolean isusedCStr = false;
 }

@@ -12,9 +12,9 @@ public class SortItemKeySegment
 {
 	SortItemKeySegment(boolean bAscending)
 	{
-		bAscending = bAscending;
+		isascending = bAscending;
 	}
-	
+
 	void copyChars(char [] tChars, int nStart, int nLength)
 	{
 		tcKeyValue = new char [nLength];
@@ -23,12 +23,12 @@ public class SortItemKeySegment
 			tcKeyValue[n] = tChars[n + nStart];
 		}
 	}
-	
+
 	int compare(SortItemKeySegment sortItemKeySegment2)
 	{
 		Asserter.assertIfFalse(isascending == sortItemKeySegment2.isascending);
 		Asserter.assertIfFalse(tcKeyValue.length == sortItemKeySegment2.tcKeyValue.length);
-		
+
 		int nLength = tcKeyValue.length;
 		for(int n=0; n<nLength; n++)
 		{
@@ -49,7 +49,7 @@ public class SortItemKeySegment
 		}
 		return 0;
 	}
-	
+
 	boolean isascending = true;
 	char tcKeyValue[] = null;
 }

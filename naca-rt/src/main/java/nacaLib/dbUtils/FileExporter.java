@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.dbUtils;
 
@@ -24,12 +24,12 @@ import nacaLib.varEx.FileDescriptor;
 public class FileExporter
 {
 	private BaseSession session = null;
-	
+
 	public FileExporter(BaseSession session)
 	{
-		session = session;
+		this.session = session;
 	}
-	
+
 	public boolean execute(FileDescriptor exportFileIn, FileDescriptor exportFileOut)
 	{
 		String csFileIn = exportFileIn.getPhysicalName();
@@ -40,10 +40,10 @@ public class FileExporter
 		{
 			exportFileOut.setSession(session);
 			String csFileOut = exportFileOut.getPhysicalName();
-			
+
 			exportFileOut.openOutputNoFileHeaderWrite();
 			boolean isvariableLength = exportFileIn.isVariableLength();
-			
+
 			int nNbLines = 0;
 			LineRead lineRead = exportFileIn.readALine(dataFileIn, null);
 			while(lineRead != null)

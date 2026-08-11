@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.dbUtils;
 
@@ -23,13 +23,13 @@ public class PooledThreadDbTransferFactory extends BasePooledThreadFactory
 {
 	private DbTransferDesc dbTransferDesc = null;
 	private BaseEnvironment env = null;
-	
+
 	PooledThreadDbTransferFactory(DbTransferDesc dbTransferDesc, BaseEnvironment env)
 	{
-		dbTransferDesc = dbTransferDesc;
-		env = env;
+		this.dbTransferDesc = dbTransferDesc;
+		this.env = env;
 	}
-	
+
 	public PooledThreadDbTransfer make(PoolOfThreads owningPool)
 	{
 		DbConnectionBase dbConnectionSource = env.getNewSQLConnection();

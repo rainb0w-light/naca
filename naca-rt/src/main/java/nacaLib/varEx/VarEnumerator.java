@@ -25,12 +25,12 @@ public class VarEnumerator
 {
 	public VarEnumerator(BaseProgramManager programManager, VarBase var)
 	{
-		programManager = programManager;
-		var = var;
+		this.programManager = programManager;
+		this.var = var;
 		if(var != null)
-			varDef = var.getVarDef(); 
+			varDef = var.getVarDef();
 	}
-	
+
 	public VarBase getFirstVarChild()
 	{
 		nIndex = 0;
@@ -43,7 +43,7 @@ public class VarEnumerator
 		nIndex++;
 		return v;
 	}
-	
+
 	VarBase getChildAtIndex(int nIndex)
 	{
 		if(varDef != null)
@@ -54,10 +54,10 @@ public class VarEnumerator
 				VarBase varChild = programManager.getVarFullName(varDefChild);
 				return varChild;
 			}
-		}		
-		return null; 
+		}
+		return null;
 	}
-	
+
 	private int nIndex = 0;
 	private VarBase var = null;
 	private VarDefBase varDef = null;

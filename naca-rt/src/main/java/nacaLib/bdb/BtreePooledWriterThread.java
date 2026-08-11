@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.bdb;
 
@@ -22,17 +22,17 @@ import jlib.threads.PoolOfThreads;
 public class BtreePooledWriterThread extends PooledThread
 {
 	private BtreeKeyDescription keyDescription = null;
-	
+
 	public BtreePooledWriterThread(PoolOfThreads owningPool)
 	{
 		super(owningPool);
 	}
-	
+
 	void setBtreeKeyDescription(BtreeKeyDescription keyDescription)
 	{
-		keyDescription = keyDescription;
+		this.keyDescription = keyDescription;
 	}
-	
+
 	public boolean preRun()
 	{
 		// Fill the TLS with key description
@@ -44,14 +44,14 @@ public class BtreePooledWriterThread extends PooledThread
 			{
 				t.setBtreeKeyDescription(keyDescription);
 				return true;
-			}	
+			}
 		}
-		return false;	// No key desc !		
+		return false;	// No key desc !
 	}
-	
+
 	public void postRun()
 	{
 		TempCacheLocator.relaseTempCache();
 	}
-	
+
 }

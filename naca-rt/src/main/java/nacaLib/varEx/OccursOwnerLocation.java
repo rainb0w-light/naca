@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.varEx;
 
@@ -18,12 +18,12 @@ public class OccursOwnerLocation
 {
 	public OccursOwnerLocation(int nDistanceFromOccursOwner, int nAbsolutePositionOccursOwner, int nSizeOccursOwnerOf1Entry)
 	{
-		nDistanceFromOccursOwner = nDistanceFromOccursOwner;
-		nAbsolutePositionOccursOwner = nAbsolutePositionOccursOwner;
-		nSizeOccursOwnerOf1Entry = nSizeOccursOwnerOf1Entry;
+		this.nDistanceFromOccursOwner = nDistanceFromOccursOwner;
+		this.nAbsolutePositionOccursOwner = nAbsolutePositionOccursOwner;
+		this.nSizeOccursOwnerOf1Entry = nSizeOccursOwnerOf1Entry;
 	}
-	
+
 	int nDistanceFromOccursOwner;
 	int nAbsolutePositionOccursOwner;
-	int nSizeOccursOwnerOf1Entry;	
+	int nSizeOccursOwnerOf1Entry;
 }

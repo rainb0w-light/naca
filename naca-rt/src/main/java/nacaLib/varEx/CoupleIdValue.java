@@ -22,10 +22,10 @@ public class CoupleIdValue
 {
 	CoupleIdValue(int nId, String csValue)
 	{
-		nId = nId; 
-		csValue = csValue;
+		this.nId = nId;
+		this.csValue = csValue;
 	}
-	
+
 	public int nId;
 	public String csValue;
 }
