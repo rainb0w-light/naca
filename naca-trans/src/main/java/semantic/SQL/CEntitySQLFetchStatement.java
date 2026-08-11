@@ -128,25 +128,25 @@ public class CEntitySQLFetchStatement extends CBaseActionEntity
 	 */
 	public static final class FetchIntoBinding
 	{
-		private final CDataEntity m_into ;
-		private final CDataEntity m_indicator ;
+		private final CDataEntity into ;
+		private final CDataEntity indicator ;
 
 		FetchIntoBinding(CDataEntity into, CDataEntity indicator)
 		{
-			m_into = into ;
-			m_indicator = indicator ;
+			this.into = into ;
+			this.indicator = indicator ;
 		}
 
 		/** The INTO target host variable, read by {@code <b.into>}. */
 		public CDataEntity getInto()
 		{
-			return m_into ;
+			return into ;
 		}
 
 		/** The optional INDICATOR host variable, read by {@code <b.indicator>}; may be null. */
 		public CDataEntity getIndicator()
 		{
-			return m_indicator ;
+			return indicator ;
 		}
 	}
 }

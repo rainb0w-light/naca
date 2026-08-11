@@ -177,25 +177,25 @@ public class CEntitySQLSelectStatement extends CBaseActionEntity
 	 */
 	public static final class SelectIntoBinding
 	{
-		private final CDataEntity m_into ;
-		private final CDataEntity m_indicator ;
+		private final CDataEntity into ;
+		private final CDataEntity indicator ;
 
 		SelectIntoBinding(CDataEntity into, CDataEntity indicator)
 		{
-			m_into = into ;
-			m_indicator = indicator ;
+			this.into = into ;
+			this.indicator = indicator ;
 		}
 
 		/** The INTO target host variable, read by {@code <b.into>}. */
 		public CDataEntity getInto()
 		{
-			return m_into ;
+			return into ;
 		}
 
 		/** The optional INDICATOR host variable, read by {@code <b.indicator>}; may be null. */
 		public CDataEntity getIndicator()
 		{
-			return m_indicator ;
+			return indicator ;
 		}
 	}
 
@@ -208,25 +208,25 @@ public class CEntitySQLSelectStatement extends CBaseActionEntity
 	 */
 	public static final class SelectParamBinding
 	{
-		private final int m_index ;
-		private final CDataEntity m_ref ;
+		private final int index ;
+		private final CDataEntity ref ;
 
 		SelectParamBinding(int index, CDataEntity ref)
 		{
-			m_index = index ;
-			m_ref = ref ;
+			this.index = index ;
+			this.ref = ref ;
 		}
 
 		/** The 1-based parameter position, read by {@code <p.index>}. */
 		public int getIndex()
 		{
-			return m_index ;
+			return index ;
 		}
 
 		/** The host-variable parameter child, read by {@code <p.ref>}. */
 		public CDataEntity getRef()
 		{
-			return m_ref ;
+			return ref ;
 		}
 	}
 }

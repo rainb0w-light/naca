@@ -169,25 +169,25 @@ public class CEntitySQLUpdateStatement extends CBaseActionEntity
 	 */
 	public static final class UpdateParamBinding
 	{
-		private final int m_index ;
-		private final CDataEntity m_ref ;
+		private final int index ;
+		private final CDataEntity ref ;
 
 		UpdateParamBinding(int index, CDataEntity ref)
 		{
-			m_index = index ;
-			m_ref = ref ;
+			this.index = index ;
+			this.ref = ref ;
 		}
 
 		/** The 1-based parameter position (offset by the SET count), read by {@code <p.index>}. */
 		public int getIndex()
 		{
-			return m_index ;
+			return index ;
 		}
 
 		/** The host-variable parameter child, read by {@code <p.ref>}. */
 		public CDataEntity getRef()
 		{
-			return m_ref ;
+			return ref ;
 		}
 	}
 }

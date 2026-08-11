@@ -232,25 +232,25 @@ public class CEntitySQLInsertStatement extends CBaseActionEntity
 	 */
 	public static final class InsertValueParam
 	{
-		private final int m_index ;
-		private final CDataEntity m_ref ;
+		private final int index ;
+		private final CDataEntity ref ;
 
 		InsertValueParam(int index, CDataEntity ref)
 		{
-			m_index = index ;
-			m_ref = ref ;
+			this.index = index ;
+			this.ref = ref ;
 		}
 
 		/** The 1-based parameter index, read by {@code <p.index>}. */
 		public int getIndex()
 		{
-			return m_index ;
+			return index ;
 		}
 
 		/** The host-variable child, read by {@code <p.ref>}. */
 		public CDataEntity getRef()
 		{
-			return m_ref ;
+			return ref ;
 		}
 	}
 }

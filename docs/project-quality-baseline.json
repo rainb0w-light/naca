@@ -12,8 +12,8 @@
     "analyzerPlaceholderOperations": 3,
     "analyzerTestSources": 0,
     "transpilerUnqualifiedSelfAssignments": 0,
-    "activeHungarianIdentifierLines": 41,
-    "activeHungarianIdentifierFiles": 10,
+    "activeHungarianIdentifierLines": 0,
+    "activeHungarianIdentifierFiles": 0,
     "productionFeatures": 173,
     "productionFeaturesWithoutFixture": 168,
     "directBackends": {

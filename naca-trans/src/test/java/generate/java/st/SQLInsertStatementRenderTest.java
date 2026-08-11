@@ -84,18 +84,18 @@ class SQLInsertStatementRenderTest
      */
     private static final class LiteralMock extends MockDataEntity
     {
-        private final CDataEntityType m_type ;
+        private final CDataEntityType type ;
 
         LiteralMock(int line, String value, CDataEntityType type)
         {
             super(line, value);
-            m_type = type ;
+            this.type = type ;
         }
 
         @Override
         public CDataEntityType GetDataType()
         {
-            return m_type ;
+            return type ;
         }
     }
 
