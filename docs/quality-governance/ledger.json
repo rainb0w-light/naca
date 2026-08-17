@@ -498,6 +498,39 @@
       "evidence": [
         "Controller independently reran root sampleAcceptance: CardDemo, standalone, and multi-program suites each report tests=1, skipped=0, failures=0, errors=0; finalArchitectureCheck passed. CardDemo output remains an exact ordered 52-line comparison."
       ]
+    },
+    {
+      "id": "QG-004",
+      "objective": "Remove all PMD findings introduced by FileDescriptorStatusTest while preserving its real-file, public-API lifecycle coverage and CardDemo behavior. Use explicit assertion messages and PMD-compliant fixture naming; do not change production code or weaken, suppress, skip, or delete assertions.",
+      "stream": "quality",
+      "priority": 16,
+      "dependencies": [
+        "CD-011"
+      ],
+      "allowedPaths": [
+        "naca-rt/src/test/java/nacaLib/varEx/FileDescriptorStatusTest.java"
+      ],
+      "forbiddenPaths": [
+        "docs/quality-governance/ledger.json",
+        "docs/project-quality-baseline.json",
+        "naca-rt/src/main",
+        "naca-trans",
+        "naca-rt-tests",
+        "tools/quality-loop"
+      ],
+      "authorizedProtectedPaths": [],
+      "maxFiles": 1,
+      "verification": [
+        "./gradlew :naca-rt:test --tests '*FileDescriptorStatusTest*' --rerun-tasks --console=plain",
+        "./gradlew :naca-rt:pmdTest --rerun-tasks --console=plain",
+        "./gradlew :naca-rt:test --console=plain",
+        "./gradlew :naca-rt-tests:sampleAcceptance --tests '*CardDemoEndToEndAcceptanceTest*' --rerun-tasks --console=plain"
+      ],
+      "state": "READY",
+      "attempts": 0,
+      "evidence": [
+        "Controller attributed all 13 naca-rt.pmdTest growth findings to FileDescriptorStatusTest: UnitTestShouldIncludeAssert (1), UnitTestAssertionsShouldIncludeMessage (11), and TestClassWithoutTestCases (1)."
+      ]
     }
   ]
 }
