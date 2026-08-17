@@ -55,6 +55,22 @@ class CEntityCallFunctionRenderTest
     }
 
     @Test
+    void formatsNumericSimpleAndThroughReferencesLikeDeclarations()
+    {
+        paragraph("0000-CARDFILE-OPEN");
+        paragraph("0001-CARDFILE-CLOSE");
+        CEntityCallFunction simple = new CEntityCallFunction(
+            1, catalog, "0000-CARDFILE-OPEN", "", null);
+        CEntityCallFunction through = new CEntityCallFunction(
+            1, catalog, "0000-CARDFILE-OPEN", "0001-CARDFILE-CLOSE", null);
+
+        assertEquals("perform($0000_CARDFILE_OPEN) ;", render(simple));
+        assertEquals(
+            "performThrough($0000_CARDFILE_OPEN, $0001_CARDFILE_CLOSE) ;",
+            render(through));
+    }
+
+    @Test
     void rendersTimesLoopAroundPerform()
     {
         paragraph("TARGET");

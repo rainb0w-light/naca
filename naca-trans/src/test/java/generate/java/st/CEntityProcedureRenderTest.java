@@ -1,6 +1,7 @@
 package generate.java.st;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import generate.CJavaEntityFactory;
 import generate.CJavaEntityFactory;
@@ -44,6 +45,21 @@ class CEntityProcedureRenderTest
             "Paragraph MAIN_PARA = new Paragraph(this);\n"
                 + "public void MAIN_PARA() {\n"
                 + "// CONTINUE \n"
+                + "}",
+            render(procedure));
+    }
+
+    @Test
+    void formatsNumericProcedureDeclarationAsLegalJava()
+    {
+        CEntityProcedure procedure = new CEntityProcedure(
+            1, "0000-CARDFILE-OPEN", catalog, null);
+
+        assertEquals("$0000_CARDFILE_OPEN", procedure.getFormattedName());
+        assertTrue(Character.isJavaIdentifierStart(procedure.getFormattedName().charAt(0)));
+        assertEquals(
+            "Paragraph $0000_CARDFILE_OPEN = new Paragraph(this);\n"
+                + "public void $0000_CARDFILE_OPEN() {\n"
                 + "}",
             render(procedure));
     }

@@ -30,7 +30,7 @@
       "command": "javac <generated-java>",
       "exitCode": 1,
       "errorType": "javac-error",
-      "diagnostic": "<temp>/output/CBACT02C/Cbact02c.java:19: error: illegal underscore perform(0000_CARDFILE_OPEN) ; ^ <temp>/output/CBACT02C/Cbact02c.java:19: error: ')' or ',' expected perform(0000_CARDFILE_OPEN) ; ^ <temp>/output/CBACT02C/Cbact02c.java:19: "
+      "diagnostic": "<temp>/output/CBACT02C/Cbact02c.java:8: error: cannot find symbol Cvact02y cvact02y = Cvact02y.Copy(this) ; ^ symbol: class Cvact02y location: class Cbact02c <temp>/output/CBACT02C/Cbact02c.java:8: error: cannot find symbol Cvact02y cvact02"
     }
   ],
   "firstBlocker": "javac",

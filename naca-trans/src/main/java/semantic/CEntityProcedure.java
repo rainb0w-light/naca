@@ -14,6 +14,11 @@ import utils.*;
  */
 public class CEntityProcedure extends CBaseLanguageEntity
 {
+	@Override
+	public String getFormattedName()
+	{
+		return CobolNameUtil.formatProcedureName(super.getFormattedName());
+	}
 
 	/**
 	 * @param name

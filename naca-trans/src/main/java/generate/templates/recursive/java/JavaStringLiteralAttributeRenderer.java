@@ -28,7 +28,7 @@ public final class JavaStringLiteralAttributeRenderer
         }
         if ("javaFormattedName".equals(formatString))
         {
-            return raw.replace('-', '_').replace('#', '$');
+            return CobolNameUtil.formatProcedureName(raw);
         }
         if ("fpacIdentifier".equals(formatString))
         {
