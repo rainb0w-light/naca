@@ -166,6 +166,37 @@
       "evidence": [
         "Controller reproduced parse blocker: CBACT02C lines 137 and 142 reject ZERO in ADD ... TO ZERO GIVING; COPY CVACT02Y resolves"
       ]
+    },
+    {
+      "id": "CD-002",
+      "objective": "Add standards-compatible support for a figurative numeric ZERO as the TO operand of ADD ... GIVING, prove the semantic result with a focused parser-to-ST4 regression test, and rerun the pinned CBACT02C probe to expose the next real blocker.",
+      "stream": "carddemo",
+      "priority": 6,
+      "dependencies": [
+        "CD-001"
+      ],
+      "allowedPaths": [
+        "naca-trans/src/main/java/parser/Cobol/elements/CAdd.java",
+        "naca-trans/src/test/java/parser/Cobol/elements/CAddGivingLiteralTest.java",
+        "docs/quality-governance/carddemo-feasibility.json"
+      ],
+      "forbiddenPaths": [
+        "docs/quality-governance/ledger.json",
+        "docs/project-quality-baseline.json",
+        "naca-trans/src/main/resources/templates"
+      ],
+      "authorizedProtectedPaths": [],
+      "maxFiles": 3,
+      "verification": [
+        "./gradlew :naca-trans:test --tests '*CAddGivingLiteralTest*' --rerun-tasks --console=plain",
+        "python3 tools/quality-loop/carddemo_probe.py validate-report",
+        "./gradlew :naca-trans:finalArchitectureCheck --console=plain"
+      ],
+      "state": "READY",
+      "attempts": 0,
+      "evidence": [
+        "CD-001 isolated the first product blocker at CBACT02C lines 137 and 142: ADD 8/12 TO ZERO GIVING APPL-RESULT"
+      ]
     }
   ]
 }
