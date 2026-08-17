@@ -26,17 +26,15 @@
     },
     {
       "name": "javac",
-      "status": "FAIL",
+      "status": "PASS",
       "command": "javac <generated-java>",
-      "exitCode": 1,
-      "errorType": "javac-error",
-      "diagnostic": "<temp>/output/CBACT02C/Cbact02c.java:48: error: cannot find symbol if (is(APPL_AOK)) { ^ symbol: variable APPL_AOK location: class Cbact02c <temp>/output/CBACT02C/Cbact02c.java:51: error: cannot find symbol if (is(APPL_EOF)) { ^ symbol: var"
+      "exitCode": 0
     }
   ],
-  "firstBlocker": "javac",
+  "firstBlocker": null,
   "acceptance": {
-    "currentSuccess": false,
-    "structuredRejectionCorpus": true,
-    "nextTask": "Resolve the first blocker and rerun this probe."
+    "currentSuccess": true,
+    "structuredRejectionCorpus": false,
+    "nextTask": "Proceed to controlled runtime acceptance."
   }
 }

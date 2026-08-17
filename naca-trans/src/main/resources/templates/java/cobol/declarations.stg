@@ -1,7 +1,8 @@
 group declarations;
 
 dataAttributeDeclaration(entity) ::= <<
-Var <entity.formattedName> = declare.level(<entity.level>).<entity.declaredType>(<if(entity.declaredEditedPicture)><entity.declaredFormat; format="javaString"><elseif(entity.declaredPictureSizeSpecified)><entity.declaredLength><if(entity.scaled)>,<entity.decimals><endif><endif>)<if(entity.comp3)>.comp3()<elseif(entity.comp2)>.comp2()<elseif(entity.comp5)>.comp5()<elseif(entity.binaryComp)>.comp()<endif><if(entity.sync)>.sync()<endif><if(entity.value)>.<if(entity.fillWithValue)>valueAll<else>value<endif>(<entity.value>)<else><if(entity.initialValueIsSpaces)>.valueSpaces()<elseif(entity.initialValueIsZeros)>.valueZero()<elseif(entity.initialValueIsLowValue)>.valueLowValue()<elseif(entity.initialValueIsHighValue)>.valueHighValue()<endif><endif><if(entity.justifiedRight)>.justifyRight()<endif><if(entity.blankWhenZero)>.blankWhenZero()<endif><if(entity.filler)>.filler()<else>.var()<endif> ;
+Var <entity.formattedName> = declare.level(<entity.level>).<entity.declaredType>(<if(entity.declaredEditedPicture)><entity.declaredFormat; format="javaString"><elseif(entity.declaredPictureSizeSpecified)><entity.declaredLength><if(entity.scaled)>,<entity.decimals><endif><endif>)<if(entity.comp3)>.comp3()<elseif(entity.comp2)>.comp2()<elseif(entity.comp5)>.comp5()<elseif(entity.binaryComp)>.comp()<endif><if(entity.sync)>.sync()<endif><if(entity.value)>.<if(entity.fillWithValue)>valueAll<else>value<endif>(<entity.value>)<else><if(entity.initialValueIsSpaces)>.valueSpaces()<elseif(entity.initialValueIsZeros)>.valueZero()<elseif(entity.initialValueIsLowValue)>.valueLowValue()<elseif(entity.initialValueIsHighValue)>.valueHighValue()<endif><endif><if(entity.justifiedRight)>.justifyRight()<endif><if(entity.blankWhenZero)>.blankWhenZero()<endif><if(entity.filler)>.filler()<else>.var()<endif> ;<if(entity.declarationChildren)>
+<entity.declarationChildren><endif>
 >>
 
 dataStructureDeclaration(entity) ::= <<
