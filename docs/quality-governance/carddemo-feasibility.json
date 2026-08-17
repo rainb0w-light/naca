@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "commit": "59cc6c2fd7ebd7ef7925cad552a01a4b8b6e4d5e",
+    "candidate": "app/cbl/CBACT02C.cbl",
+    "copybook": "app/cpy/CVACT02Y.cpy"
+  },
+  "stages": [
+    {
+      "name": "source-verification",
+      "status": "PASS",
+      "command": "carddemo_preflight verify-source",
+      "exitCode": 0
+    },
+    {
+      "name": "parse-transpile",
+      "status": "FAIL",
+      "command": "./gradlew :naca-trans:transpile -PconfigFile=<temp-config>",
+      "exitCode": 0,
+      "errorType": "unsupported-or-parse",
+      "diagnostic": "ERROR LogFile - 0013[Error] %(137)%- Unexpecting token : ZERO"
+    },
+    {
+      "name": "generated-java",
+      "status": "NOT_RUN",
+      "command": "./gradlew :naca-trans:transpile -PconfigFile=<temp-config>"
+    },
+    {
+      "name": "javac",
+      "status": "NOT_RUN",
+      "command": "javac <generated-java>"
+    }
+  ],
+  "firstBlocker": "parse-transpile",
+  "acceptance": {
+    "currentSuccess": false,
+    "structuredRejectionCorpus": true,
+    "nextTask": "Resolve the first blocker and rerun this probe."
+  }
+}

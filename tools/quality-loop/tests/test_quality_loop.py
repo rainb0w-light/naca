@@ -1,6 +1,8 @@
 import json
 import importlib.util
+import re
 import subprocess
+import sys
 import tempfile
 import unittest
 from pathlib import Path
@@ -15,6 +17,9 @@ SPEC.loader.exec_module(METRICS)
 CARD_SPEC = importlib.util.spec_from_file_location("carddemo_preflight", ROOT / "tools/quality-loop/carddemo_preflight.py")
 CARD = importlib.util.module_from_spec(CARD_SPEC)
 CARD_SPEC.loader.exec_module(CARD)
+PROBE_SPEC = importlib.util.spec_from_file_location("carddemo_probe", ROOT / "tools/quality-loop/carddemo_probe.py")
+PROBE = importlib.util.module_from_spec(PROBE_SPEC)
+PROBE_SPEC.loader.exec_module(PROBE)
 
 
 class QualityLoopTests(unittest.TestCase):
@@ -230,6 +235,46 @@ class QualityLoopTests(unittest.TestCase):
 
     def test_carddemo_validate_manifest_from_subdirectory(self):
         result = subprocess.run(["python3", str(ROOT / "tools/quality-loop/carddemo_preflight.py"), "validate-manifest"], cwd=ROOT / "docs/quality-governance", text=True, capture_output=True)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_probe_report_schema_and_failure_order(self):
+        stages = [PROBE.stage("source-verification", "PASS", "source"), PROBE.stage("parse-transpile", "FAIL", "transpile", 1, "unsupported-or-parse"), PROBE.stage("generated-java", "NOT_RUN", "inspect"), PROBE.stage("javac", "NOT_RUN", "javac")]
+        report = PROBE.report(stages, "parse-transpile")
+        PROBE.validate(report)
+        broken = json.loads(json.dumps(report)); broken["stages"][2]["status"] = "PASS"
+        with self.assertRaises(ValueError): PROBE.validate(broken)
+        broken = json.loads(json.dumps(report)); broken["stages"].reverse()
+        with self.assertRaises(ValueError): PROBE.validate(broken)
+
+    def test_probe_mocked_tool_failure_and_stage_reports(self):
+        class Completed:
+            def __init__(self, code, output=""):
+                self.returncode = code; self.stdout = output; self.stderr = output
+        checkout = Path(self.temp.name) / "checkout"; (checkout / "app/cbl").mkdir(parents=True); (checkout / "app/cpy").mkdir()
+        (checkout / "app/cbl/CBACT02C.cbl").write_text("source"); (checkout / "app/cpy/CVACT02Y.cpy").write_text("copy")
+        def runner_for(scenario):
+            def runner(command, **kwargs):
+                if command[0] == sys.executable:
+                    return Completed(0, '{"status":"PASS"}')
+                if command[0] == "./gradlew":
+                    if scenario == "transpile-fail": return Completed(1, "ERROR LogFile - unsupported")
+                    config = Path(next(value.split("=", 1)[1] for value in command if value.startswith("-PconfigFile=")))
+                    output = Path(re.search(r'OutputPath="([^"]+)', config.read_text()).group(1)); output.mkdir(parents=True, exist_ok=True)
+                    if scenario != "generated-absent": (output / "Sample.java").write_text("class Sample {}")
+                    return Completed(0, "CBACT02C processed")
+                return Completed(1 if scenario == "javac-fail" else 0, "javac error")
+            return runner
+        for scenario, blocker in (("success", None), ("transpile-fail", "parse-transpile"), ("generated-absent", "generated-java"), ("javac-fail", "javac")):
+            with self.subTest(scenario=scenario):
+                result = PROBE.run_probe(checkout, runner_for(scenario)); self.assertEqual(result["firstBlocker"], blocker); PROBE.validate(result)
+        original_which = PROBE.shutil.which; PROBE.shutil.which = lambda name: None
+        try:
+            result = PROBE.run_probe(checkout, runner_for("success")); self.assertEqual(result["firstBlocker"], "javac")
+        finally:
+            PROBE.shutil.which = original_which
+
+    def test_probe_validate_report_from_subdirectory(self):
+        result = subprocess.run(["python3", str(ROOT / "tools/quality-loop/carddemo_probe.py"), "validate-report"], cwd=ROOT / "docs/quality-governance", text=True, capture_output=True)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
 
