@@ -394,6 +394,37 @@
       "evidence": [
         "Independent verification passed: focused 2-test regression, full naca-trans suite, finalArchitectureCheck, task scope, and real generated Cbact02c inspection confirming CARDFILE_STAT1/STAT2 now render. Runtime symptom persists because FileDescriptor does not update FILE STATUS on open/read EOF/close; this is the next bounded blocker."
       ]
+    },
+    {
+      "id": "CD-009",
+      "objective": "Implement COBOL FILE STATUS updates for the successful sequential input lifecycle in NacaRT: OPEN INPUT and successful READ set 00, READ at end-of-file sets 10, and successful CLOSE sets 00; cover the transitions with a focused runtime regression and rerun pinned CBACT02C to exact 52-line acceptance.",
+      "stream": "carddemo",
+      "priority": 13,
+      "dependencies": [
+        "CD-008"
+      ],
+      "allowedPaths": [
+        "naca-rt/src/main/java/nacaLib/varEx/FileDescriptor.java",
+        "naca-rt/src/test/java/nacaLib/varEx/FileDescriptorStatusTest.java",
+        "docs/quality-governance/carddemo-runtime.json"
+      ],
+      "forbiddenPaths": [
+        "docs/quality-governance/ledger.json",
+        "docs/project-quality-baseline.json",
+        "naca-trans/src/main",
+        "naca-rt-tests",
+        "tools/quality-loop"
+      ],
+      "authorizedProtectedPaths": [],
+      "maxFiles": 3,
+      "verification": [
+        "./gradlew :naca-rt:test --tests '*FileDescriptorStatusTest*' --rerun-tasks --console=plain",
+        "./gradlew :naca-rt:test --console=plain",
+        "python3 tools/quality-loop/carddemo_runtime_probe.py validate-report"
+      ],
+      "state": "READY",
+      "attempts": 0,
+      "evidence": []
     }
   ]
 }
