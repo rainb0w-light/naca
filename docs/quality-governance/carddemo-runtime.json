@@ -39,17 +39,15 @@
     },
     {
       "name": "runtime",
-      "status": "FAIL",
+      "status": "PASS",
       "command": "java AcceptanceProgramRunner",
-      "exitCode": 1,
-      "errorType": "runtime-file-status",
-      "diagnostic": "runtime output mismatch: business-lines=1 expected=52; ERROR OPENING CARDFILE | FILE STATUS IS: NNNN0000 | ABENDING PROGRAM"
+      "exitCode": 0
     }
   ],
-  "firstBlocker": "runtime",
+  "firstBlocker": null,
   "acceptance": {
-    "currentSuccess": false,
-    "structuredRejection": true,
-    "nextTask": "Restore omitted CARDFILE-STATUS child declarations, then rerun runtime acceptance."
+    "currentSuccess": true,
+    "structuredRejection": false,
+    "nextTask": "Proceed to controlled runtime acceptance."
   }
 }

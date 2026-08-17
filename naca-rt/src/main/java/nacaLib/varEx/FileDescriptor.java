@@ -69,6 +69,28 @@ public class FileDescriptor extends BaseFileDescriptor
 		this.status = status;
 		return this;
 	}
+
+	private void setStatus(String value)
+	{
+		if (status != null)
+			status.set(value);
+	}
+
+	@Override
+	public FileDescriptor openInput()
+	{
+		BaseFileDescriptor opened = super.openInput();
+		if (opened != null)
+			setStatus("00");
+		return opened == null ? null : this;
+	}
+
+	@Override
+	public void close()
+	{
+		super.close();
+		setStatus("00");
+	}
 	
 	public void inheritSettings(FileDescriptor fileDescSource)
 	{
@@ -214,8 +236,7 @@ public class FileDescriptor extends BaseFileDescriptor
 				fileManagerEntry.dataFile.writeWithEOL(tbyFilebuffer, nRecordSize);
 			incNbRecordWrite();
 		}
-		if(status != null)
-			status.set("00");
+		setStatus("00");
 	}
 	
 	@Override
@@ -262,7 +283,10 @@ public class FileDescriptor extends BaseFileDescriptor
 	public RecordDescriptorAtEnd readInto(Var varDest)
 	{
 		if(fileManagerEntry.isDummyFile())
+		{
+			setStatus("10");
 			return RecordDescriptorAtEnd.End;
+		}
 
 		if(hasVarVariableLengthMarker())
 		{
@@ -278,9 +302,11 @@ public class FileDescriptor extends BaseFileDescriptor
 					fillInto(lineRead, varDest);
 					int nVariableRecordLength = getVariableRecordLength(nLengthExcludingHeader);
 					fillVarLengthDependingOn(nVariableRecordLength);
+					setStatus("00");
 					return RecordDescriptorAtEnd.NotEnd;
 				}
 			}
+			setStatus("10");
 			return RecordDescriptorAtEnd.End;
 		}
 		else
@@ -298,8 +324,10 @@ public class FileDescriptor extends BaseFileDescriptor
 			if(lineRead != null)
 			{
 				fillInto(lineRead, varDest);
+				setStatus("00");
 				return RecordDescriptorAtEnd.NotEnd;
 			}
+			setStatus("10");
 			return RecordDescriptorAtEnd.End;
 		}
 	}
