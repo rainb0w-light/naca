@@ -192,10 +192,10 @@
         "python3 tools/quality-loop/carddemo_probe.py validate-report",
         "./gradlew :naca-trans:finalArchitectureCheck --console=plain"
       ],
-      "state": "READY",
-      "attempts": 0,
+      "state": "RUNNING",
+      "attempts": 1,
       "evidence": [
-        "CD-001 isolated the first product blocker at CBACT02C lines 137 and 142: ADD 8/12 TO ZERO GIVING APPL-RESULT"
+        "Dispatched to Luna from controller-reviewed base e13fff28"
       ]
     }
   ]
