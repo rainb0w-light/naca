@@ -293,6 +293,38 @@
       "evidence": [
         "Controller confirmed copybook generation PASS; next blocker is omitted declarations for APPL_AOK and APPL_EOF level-88 conditions"
       ]
+    },
+    {
+      "id": "CD-006",
+      "objective": "Render level-88 named-condition declarations nested under PIC attributes while preserving their existing references and values, then rerun the pinned CardDemo probe to expose the next blocker.",
+      "stream": "carddemo",
+      "priority": 10,
+      "dependencies": [
+        "CD-005"
+      ],
+      "allowedPaths": [
+        "naca-trans/src/main/resources/templates/java/cobol/declarations.stg",
+        "naca-trans/src/test/java/generate/java/st/CLevel88DeclarationRenderTest.java",
+        "docs/quality-governance/carddemo-feasibility.json"
+      ],
+      "forbiddenPaths": [
+        "docs/quality-governance/ledger.json",
+        "docs/project-quality-baseline.json",
+        "naca-trans/src/main/java"
+      ],
+      "authorizedProtectedPaths": [],
+      "maxFiles": 3,
+      "verification": [
+        "./gradlew :naca-trans:test --tests '*CLevel88DeclarationRenderTest*' --rerun-tasks --console=plain",
+        "./gradlew :naca-trans:test :naca-trans:finalArchitectureCheck --console=plain",
+        "python3 tools/quality-loop/carddemo_probe.py validate-report"
+      ],
+      "state": "READY",
+      "attempts": 0,
+      "evidence": [
+        "CWorkingValueEntry creates CEntityNamedCondition children and declaration binding exists",
+        "dataAttributeDeclaration does not render declarationChildren, so APPL_AOK and APPL_EOF references compile without declarations"
+      ]
     }
   ]
 }
