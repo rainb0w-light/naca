@@ -25,17 +25,17 @@ public final class AcceptanceProgramRunner {
     private static final int FILE_MAPPING_ARGUMENT_COUNT = 4;
     private static final int NAMED_DESCRIPTOR_ARGUMENT_COUNT = 5;
     private static final String CARD_FILE_LOGICAL_NAME = "CARDFILE";
+    private static final PrintStream STANDARD_OUTPUT = System.out;
 
     public static void main(String[] args) {
         String className = args[0];
         String classesDir = args[1];
 
         LogCenterLoader loaderConfig = new StandardLogCenterLoader();
-        PrintStream standardOutput = System.out;
         LogCenterConsole center = new LogCenterConsole(loaderConfig) {
             @Override
             protected void sendOutput(LogParams logParam) {
-                standardOutput.println(logParam.toString());
+                STANDARD_OUTPUT.println(logParam.toString());
             }
         };
         center.setPatternLayout(new PatternLayoutConsole("%Message"));

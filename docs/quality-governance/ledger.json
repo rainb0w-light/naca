@@ -558,10 +558,10 @@
         "./gradlew :naca-rt-tests:sampleAcceptance --tests '*SampleEndToEndAcceptanceTest*' --tests '*CardDemoEndToEndAcceptanceTest*' --rerun-tasks --console=plain",
         "./gradlew sampleAcceptance --rerun-tasks --console=plain"
       ],
-      "state": "REJECTED",
-      "attempts": 1,
+      "state": "RUNNING",
+      "attempts": 2,
       "evidence": [
-        "Controller rejected 9d006075: final PMD XML still reports CloseResource in AcceptanceProgramRunner for local PrintStream standardOutput. Module total improved to 82, but the task requires zero findings in the touched file."
+        "Redispatched to Luna to eliminate the newly introduced CloseResource finding without changing stdout behavior or the one-file scope."
       ]
     }
   ]
