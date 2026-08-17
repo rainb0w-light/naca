@@ -463,6 +463,38 @@
       "evidence": [
         "Controller verified commit 72f0d3a614140ec646bd44c5db80417b99c48eb4: exact five-file scope; all four vendored artifacts byte-identical to clean pinned commit 59cc6c2f; SHA-256/provenance validation PASS; card data is exactly 50 newline-terminated 150-byte records."
       ]
+    },
+    {
+      "id": "CD-011",
+      "objective": "Promote the vendored CBACT02C slice into an offline, strict JUnit end-to-end acceptance: verify pinned fixture identity, resolve and generate CVACT02Y, transpile CBACT02C through the production recursive-ST4 pipeline, compile both generated Java sources, execute in an isolated NacaRT JVM with CARDFILE mapped as ascii,fb,150, and require the exact ordered 52-line business output. Include it in the existing sample-acceptance gate and document the targeted command.",
+      "stream": "carddemo",
+      "priority": 15,
+      "dependencies": [
+        "CD-010"
+      ],
+      "allowedPaths": [
+        "naca-rt-tests/src/test/java/com/publicitas/naca/tests/acceptance/CardDemoEndToEndAcceptanceTest.java",
+        "naca-rt-tests/build.gradle.kts",
+        "docs/quality-governance/README.md"
+      ],
+      "forbiddenPaths": [
+        "docs/quality-governance/ledger.json",
+        "docs/project-quality-baseline.json",
+        "naca-trans/src/main",
+        "naca-rt/src/main",
+        "naca-jlib/src/main",
+        "naca-rt-tests/src/test/java/com/publicitas/naca/tests/acceptance/AcceptanceProgramRunner.java",
+        "tools/quality-loop"
+      ],
+      "authorizedProtectedPaths": [],
+      "maxFiles": 3,
+      "verification": [
+        "./gradlew :naca-rt-tests:compileTestJava --console=plain",
+        "./gradlew :naca-rt-tests:sampleAcceptance --tests '*CardDemoEndToEndAcceptanceTest*' --rerun-tasks --console=plain",
+        "./gradlew sampleAcceptance --rerun-tasks --console=plain"
+      ],
+      "state": "READY",
+      "attempts": 0
     }
   ]
 }
