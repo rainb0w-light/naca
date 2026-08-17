@@ -319,11 +319,10 @@
         "./gradlew :naca-trans:test :naca-trans:finalArchitectureCheck --console=plain",
         "python3 tools/quality-loop/carddemo_probe.py validate-report"
       ],
-      "state": "READY",
-      "attempts": 0,
+      "state": "RUNNING",
+      "attempts": 1,
       "evidence": [
-        "CWorkingValueEntry creates CEntityNamedCondition children and declaration binding exists",
-        "dataAttributeDeclaration does not render declarationChildren, so APPL_AOK and APPL_EOF references compile without declarations"
+        "Dispatched to Luna from controller-reviewed base ad30645e"
       ]
     }
   ]
