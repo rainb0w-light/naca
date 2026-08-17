@@ -12,6 +12,9 @@ METRICS_PATH = ROOT / "tools/quality-loop/quality_metrics.py"
 SPEC = importlib.util.spec_from_file_location("quality_metrics", METRICS_PATH)
 METRICS = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(METRICS)
+CARD_SPEC = importlib.util.spec_from_file_location("carddemo_preflight", ROOT / "tools/quality-loop/carddemo_preflight.py")
+CARD = importlib.util.module_from_spec(CARD_SPEC)
+CARD_SPEC.loader.exec_module(CARD)
 
 
 class QualityLoopTests(unittest.TestCase):
@@ -183,6 +186,51 @@ class QualityLoopTests(unittest.TestCase):
         root, baseline = self.metric_fixture()
         (root / "build/reports/pmd/cpd.xml").unlink()
         with self.assertRaises(ValueError): METRICS.collect(root, baseline)
+
+    def test_carddemo_manifest_and_schema_boundaries(self):
+        manifest = json.loads((ROOT / "docs/quality-governance/carddemo-corpus.json").read_text())
+        CARD.validate(manifest)
+        broken = json.loads(json.dumps(manifest)); broken["source"]["commit"] = "0" * 40
+        with self.assertRaises(ValueError): CARD.validate(broken)
+        broken = json.loads(json.dumps(manifest)); broken["candidates"][0]["path"] = "../escape.cbl"
+        with self.assertRaises(ValueError): CARD.validate(broken)
+        broken = json.loads(json.dumps(manifest)); broken["candidates"] = broken["candidates"][:1]
+        with self.assertRaises(ValueError): CARD.validate(broken)
+        for field, value in (("bytes", 0), ("lines", 0), ("copyDependencies", []), ("externalCalls", []), ("organization", ""), ("selectionReason", ""), ("expectedFirstStage", "")):
+            broken = json.loads(json.dumps(manifest)); broken["candidates"][0][field] = value
+            with self.subTest(field=field), self.assertRaises(ValueError): CARD.validate(broken)
+
+    def test_carddemo_source_facts_and_checkout_commit(self):
+        checkout = Path(self.temp.name) / "checkout"
+        checkout.mkdir(); (checkout / "app/cbl").mkdir(parents=True)
+        (checkout / "LICENSE").write_text("Apache License")
+        sources = {"CBACT02C.cbl": "       COPY CVACT02Y.\n       CALL 'CEE3ABD'.\n", "CBCUS01C.cbl": "       COPY CVCUS01Y.\n       CALL 'CEE3ABD'.\n"}
+        for name, content in sources.items():
+            (checkout / "app/cbl" / name).write_text(content)
+        subprocess.run(["git", "init", "-q"], cwd=checkout, check=True)
+        subprocess.run(["git", "config", "user.email", "test@example.invalid"], cwd=checkout, check=True)
+        subprocess.run(["git", "config", "user.name", "Test"], cwd=checkout, check=True)
+        subprocess.run(["git", "add", "."], cwd=checkout, check=True)
+        subprocess.run(["git", "commit", "-qm", "fixture"], cwd=checkout, check=True)
+        commit = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=checkout, text=True).strip()
+        license_bytes = (checkout / "LICENSE").read_bytes()
+        manifest = {"schemaVersion": 1, "source": {"url": CARD.URL, "commit": commit, "license": {"spdx": "Apache-2.0", "path": "LICENSE", "sha256": __import__("hashlib").sha256(license_bytes).hexdigest()}}, "candidates": []}
+        for name in sources:
+            path = checkout / "app/cbl" / name
+            facts = CARD.source_facts(path)
+            manifest["candidates"].append({"path": f"app/cbl/{name}", **facts, "organization": "fixture", "selectionReason": "fixture", "expectedFirstStage": "parse"})
+        original_pinned = CARD.PINNED
+        CARD.PINNED = commit
+        CARD.validate(manifest)
+        CARD.verify(checkout, manifest)
+        for label, mutate in (("wrong commit", lambda item: item["source"].update(commit="0" * 40)), ("license hash", lambda item: item["source"]["license"].update(sha256="0" * 64)), ("candidate sha", lambda item: item["candidates"][0].update(sha256="0" * 64)), ("candidate bytes", lambda item: item["candidates"][0].update(bytes=999)), ("candidate lines", lambda item: item["candidates"][0].update(lines=999)), ("COPY dependency", lambda item: item["candidates"][0].update(copyDependencies=["OTHER"])), ("CALL dependency", lambda item: item["candidates"][0].update(externalCalls=["OTHER"])), ("missing candidate", lambda item: item["candidates"].__setitem__(0, {**item["candidates"][0], "path": "app/cbl/MISSING.cbl"}))):
+            broken = json.loads(json.dumps(manifest)); mutate(broken)
+            with self.subTest(mismatch=label), self.assertRaises(ValueError): CARD.verify(checkout, broken)
+        CARD.PINNED = original_pinned
+
+    def test_carddemo_validate_manifest_from_subdirectory(self):
+        result = subprocess.run(["python3", str(ROOT / "tools/quality-loop/carddemo_preflight.py"), "validate-manifest"], cwd=ROOT / "docs/quality-governance", text=True, capture_output=True)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
 
 if __name__ == "__main__":

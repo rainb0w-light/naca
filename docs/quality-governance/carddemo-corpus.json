@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "url": "https://github.com/aws-samples/aws-mainframe-modernization-carddemo.git",
+    "commit": "59cc6c2fd7ebd7ef7925cad552a01a4b8b6e4d5e",
+    "license": {"spdx": "Apache-2.0", "path": "LICENSE", "sha256": "09e8a9bcec8067104652c168685ab0931e7868f9c8284b66f5ae6edae5f1130b"}
+  },
+  "candidates": [
+    {
+      "path": "app/cbl/CBACT02C.cbl",
+      "sha256": "d290cbbbec1e25859847d9dfe6b28040cd6b09c3b71747e39de7b4713d838e76",
+      "bytes": 14096,
+      "lines": 178,
+      "copyDependencies": ["CVACT02Y"],
+      "externalCalls": ["CEE3ABD"],
+      "organization": "COBOL program with DATA/PROCEDURE divisions and one copybook plus one external CALL.",
+      "selectionReason": "Representative account transaction program named by the fixed corpus preflight scope.",
+      "expectedFirstStage": "parse/transpile/compile feasibility; runtime is not claimed."
+    },
+    {
+      "path": "app/cbl/CBCUS01C.cbl",
+      "sha256": "233dbc3bc33a3b9ac555922085a92be56e88d16316bff624b5723c4c36c99714",
+      "bytes": 6914,
+      "lines": 178,
+      "copyDependencies": ["CVCUS01Y"],
+      "externalCalls": ["CEE3ABD"],
+      "organization": "COBOL customer program with DATA/PROCEDURE divisions and one copybook plus one external CALL.",
+      "selectionReason": "Representative customer program paired with CBACT02C in the fixed corpus preflight scope.",
+      "expectedFirstStage": "parse/transpile/compile feasibility; runtime is not claimed."
+    }
+  ]
+}
