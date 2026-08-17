@@ -70,8 +70,11 @@
         "./gradlew :rewrite-recipes:test :rewrite-recipes:pmdTest --console=plain",
         "python3 -c \"import sys, xml.etree.ElementTree as ET; root=ET.parse('rewrite-recipes/build/reports/pmd/test.xml').getroot(); count=sum(1 for element in root.iter() if element.tag.rsplit('}', 1)[-1] == 'violation'); sys.exit(0 if count == 0 else 1)\""
       ],
-      "state": "READY",
-      "attempts": 0
+      "state": "RUNNING",
+      "attempts": 1,
+      "evidence": [
+        "controller selected two rewrite-recipes PMD test findings"
+      ]
     },
     {
       "id": "CD-000",
