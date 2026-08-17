@@ -7,6 +7,9 @@
 package semantic;
 
 import java.util.Vector;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import jlib.misc.NumberParser;
 
@@ -195,6 +198,22 @@ public class CEntityStructure extends CEntityAttribute
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * A referenced group carries its complete storage layout.  Filtering the
+	 * children by reachability here would drop unreferenced fields and change
+	 * the offsets and length of the group at runtime.
+	 */
+	@Override
+	public List<CBaseLanguageEntity> getDeclarationChildren()
+	{
+		if (!isDeclarationRequired())
+		{
+			return Collections.emptyList();
+		}
+		return Collections.unmodifiableList(
+				new ArrayList<CBaseLanguageEntity>(getChildren()));
 	}
 
 	/**
