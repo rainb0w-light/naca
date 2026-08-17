@@ -360,6 +360,38 @@
       "evidence": [
         "Independent verification passed: scope verifier, 28 controller tests, compileall, compileTestJava, legacy BatchMultiProgramAcceptanceTest, canonical report validation, and two byte-identical pinned runtime probes SHA-256 060789b81eaa383144007c3eb2c1374323d2bfc9e82147e1f7c8b9b503e99133. First blocker is runtime-file-status: generated CARDFILE_STATUS omits its level-05 children, so status 00 follows the error branch; Cee3abd is downstream."
       ]
+    },
+    {
+      "id": "CD-008",
+      "objective": "Preserve the complete child storage layout of every required COBOL data group during semantic declaration selection, so referenced groups such as CARDFILE-STATUS retain otherwise-unreferenced level-05 members and have the correct runtime length; prove parser-to-recursive-ST4 rendering and Java compilation with a focused regression, then rerun the pinned CardDemo runtime probe.",
+      "stream": "carddemo",
+      "priority": 12,
+      "dependencies": [
+        "CD-007"
+      ],
+      "allowedPaths": [
+        "naca-trans/src/main/java/semantic/CEntityStructure.java",
+        "naca-trans/src/test/java/generate/java/st/CWorkingGroupDeclarationRenderTest.java",
+        "docs/quality-governance/carddemo-runtime.json"
+      ],
+      "forbiddenPaths": [
+        "docs/quality-governance/ledger.json",
+        "docs/project-quality-baseline.json",
+        "naca-trans/src/main/resources/templates",
+        "naca-rt/src/main",
+        "naca-jlib/src/main",
+        "tools/quality-loop"
+      ],
+      "authorizedProtectedPaths": [],
+      "maxFiles": 3,
+      "verification": [
+        "./gradlew :naca-trans:test --tests '*CWorkingGroupDeclarationRenderTest*' --rerun-tasks --console=plain",
+        "./gradlew :naca-trans:test :naca-trans:finalArchitectureCheck --console=plain",
+        "python3 tools/quality-loop/carddemo_runtime_probe.py validate-report"
+      ],
+      "state": "READY",
+      "attempts": 0,
+      "evidence": []
     }
   ]
 }
