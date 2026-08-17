@@ -224,10 +224,10 @@
         "python3 -m unittest discover -s tools/quality-loop/tests -p 'test_*.py'",
         "python3 tools/quality-loop/carddemo_probe.py validate-report"
       ],
-      "state": "RUNNING",
+      "state": "VERIFIED",
       "attempts": 1,
       "evidence": [
-        "Dispatched to Luna from controller-reviewed base c98aa3ae"
+        "Controller ran two pinned probes byte-identically; SHA-256 6d54a278b127fb0fb3677856c0dd7de10d7e793b832aa8fb4e1a9872317d05b3"
       ]
     }
   ]
