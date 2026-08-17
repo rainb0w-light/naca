@@ -526,10 +526,10 @@
         "./gradlew :naca-rt:test --console=plain",
         "./gradlew :naca-rt-tests:sampleAcceptance --tests '*CardDemoEndToEndAcceptanceTest*' --rerun-tasks --console=plain"
       ],
-      "state": "RUNNING",
+      "state": "VERIFIED",
       "attempts": 1,
       "evidence": [
-        "Dispatched the one-file PMD cleanup to Luna after controller attribution; production code and acceptance infrastructure remain forbidden."
+        "Controller independently verified FileDescriptorStatusTest PMD findings=0; focused test XML and CardDemo acceptance XML both tests=1 skipped=0 failures=0 errors=0; full naca-rt test passed."
       ]
     }
   ]
