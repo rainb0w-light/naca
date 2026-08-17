@@ -100,8 +100,11 @@
         "./gradlew :rewrite-recipes:pmdTest qualityRatchet --console=plain",
         "python3 -c \"import json, sys; baseline=json.load(open('docs/project-quality-baseline.json', encoding='utf-8')); sys.exit(0 if baseline['staticAnalysis']['rewrite-recipes']['pmdTest'] == 0 else 1)\""
       ],
-      "state": "READY",
-      "attempts": 0
+      "state": "RUNNING",
+      "attempts": 1,
+      "evidence": [
+        "QG-002 reduced rewrite-recipes.pmdTest from 2 to 0"
+      ]
     },
     {
       "id": "CD-000",
