@@ -70,17 +70,44 @@
         "./gradlew :rewrite-recipes:test :rewrite-recipes:pmdTest --console=plain",
         "python3 -c \"import sys, xml.etree.ElementTree as ET; root=ET.parse('rewrite-recipes/build/reports/pmd/test.xml').getroot(); count=sum(1 for element in root.iter() if element.tag.rsplit('}', 1)[-1] == 'violation'); sys.exit(0 if count == 0 else 1)\""
       ],
-      "state": "RUNNING",
+      "state": "VERIFIED",
       "attempts": 1,
       "evidence": [
-        "controller selected two rewrite-recipes PMD test findings"
+        "forced rewrite-recipes tests PASS",
+        "rewrite-recipes.pmdTest 2 to 0",
+        "global qualityRatchet PASS and PMD total 24017"
       ]
+    },
+    {
+      "id": "QG-003",
+      "objective": "Tighten rewrite-recipes.pmdTest in the reviewed project quality baseline from 2 to 0 after the verified QG-002 improvement.",
+      "stream": "quality-governance",
+      "priority": 3,
+      "dependencies": [
+        "QG-002"
+      ],
+      "allowedPaths": [
+        "docs/project-quality-baseline.json"
+      ],
+      "forbiddenPaths": [
+        "docs/quality-governance/ledger.json"
+      ],
+      "authorizedProtectedPaths": [
+        "docs/project-quality-baseline.json"
+      ],
+      "maxFiles": 1,
+      "verification": [
+        "./gradlew :rewrite-recipes:pmdTest qualityRatchet --console=plain",
+        "python3 -c \"import json, sys; baseline=json.load(open('docs/project-quality-baseline.json', encoding='utf-8')); sys.exit(0 if baseline['staticAnalysis']['rewrite-recipes']['pmdTest'] == 0 else 1)\""
+      ],
+      "state": "READY",
+      "attempts": 0
     },
     {
       "id": "CD-000",
       "objective": "Preflight the fixed CardDemo corpus.",
       "stream": "carddemo",
-      "priority": 3,
+      "priority": 4,
       "dependencies": [
         "QG-001"
       ],
