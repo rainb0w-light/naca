@@ -620,10 +620,10 @@
         "./gradlew :naca-trans:pmdTest --rerun-tasks --console=plain",
         "./gradlew :naca-trans:finalArchitectureCheck --console=plain"
       ],
-      "state": "RUNNING",
+      "state": "VERIFIED",
       "attempts": 1,
       "evidence": [
-        "Dispatched the exact three-file, 26-finding PMD cleanup to Luna after controller attribution; production code and rule suppression remain forbidden."
+        "Controller independently passed scope and all three verification commands; focused suite reports six passing tests, each touched file has zero PMD findings, finalArchitectureCheck passes, and naca-trans.pmdTest fell from 2668 to 2642."
       ]
     }
   ]
