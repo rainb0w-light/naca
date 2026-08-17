@@ -389,10 +389,10 @@
         "./gradlew :naca-trans:test :naca-trans:finalArchitectureCheck --console=plain",
         "python3 tools/quality-loop/carddemo_runtime_probe.py validate-report"
       ],
-      "state": "RUNNING",
+      "state": "VERIFIED",
       "attempts": 1,
       "evidence": [
-        "Dispatched to Luna from controller-reviewed base after CD-007 verification"
+        "Independent verification passed: focused 2-test regression, full naca-trans suite, finalArchitectureCheck, task scope, and real generated Cbact02c inspection confirming CARDFILE_STAT1/STAT2 now render. Runtime symptom persists because FileDescriptor does not update FILE STATUS on open/read EOF/close; this is the next bounded blocker."
       ]
     }
   ]
