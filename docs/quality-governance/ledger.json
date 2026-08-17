@@ -161,10 +161,10 @@
         "python3 -m unittest discover -s tools/quality-loop/tests -p 'test_*.py'",
         "python3 tools/quality-loop/carddemo_probe.py validate-report"
       ],
-      "state": "RUNNING",
+      "state": "VERIFIED",
       "attempts": 1,
       "evidence": [
-        "pinned checkout available at /tmp/carddemo-verify.O5Ptoo/source"
+        "Controller reproduced parse blocker: CBACT02C lines 137 and 142 reject ZERO in ADD ... TO ZERO GIVING; COPY CVACT02Y resolves"
       ]
     }
   ]
