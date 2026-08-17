@@ -625,6 +625,39 @@
       "evidence": [
         "Controller independently passed scope and all three verification commands; focused suite reports six passing tests, each touched file has zero PMD findings, finalArchitectureCheck passes, and naca-trans.pmdTest fell from 2668 to 2642."
       ]
+    },
+    {
+      "id": "QG-008",
+      "objective": "Eliminate all 19 PMD findings in CEntityCallFunctionRenderTest and CEntityProcedureRenderTest, including the seven findings introduced by numeric-leading COBOL name regressions and twelve pre-existing findings. Preserve every renderer scenario and assertion; use meaningful messages, focused helpers/tests, and constants without suppressing rules or weakening coverage.",
+      "stream": "quality",
+      "priority": 20,
+      "dependencies": [
+        "QG-007"
+      ],
+      "allowedPaths": [
+        "naca-trans/src/test/java/generate/java/st/CEntityCallFunctionRenderTest.java",
+        "naca-trans/src/test/java/generate/java/st/CEntityProcedureRenderTest.java"
+      ],
+      "forbiddenPaths": [
+        "docs/quality-governance/ledger.json",
+        "docs/project-quality-baseline.json",
+        "naca-trans/src/main",
+        "naca-rt",
+        "naca-rt-tests",
+        "tools/quality-loop"
+      ],
+      "authorizedProtectedPaths": [],
+      "maxFiles": 2,
+      "verification": [
+        "./gradlew :naca-trans:test --tests '*CEntityCallFunctionRenderTest*' --tests '*CEntityProcedureRenderTest*' --rerun-tasks --console=plain",
+        "./gradlew :naca-trans:pmdTest --rerun-tasks --console=plain",
+        "./gradlew :naca-trans:finalArchitectureCheck --console=plain"
+      ],
+      "state": "READY",
+      "attempts": 0,
+      "evidence": [
+        "Controller measured CEntityCallFunctionRenderTest=9 findings and CEntityProcedureRenderTest=10. Seven findings sit on branch-added numeric-name regression lines; eliminating both files completely should reduce naca-trans.pmdTest from 2642 to 2623."
+      ]
     }
   ]
 }
