@@ -30,3 +30,5 @@ Run the diagnostic runtime probe with `python3 tools/quality-loop/carddemo_runti
 Workers flow `RUNNING → REVIEW`; the controller independently runs `verify_task`, then transitions `REVIEW → VERIFIED` only after PASS. Failures may become `REJECTED` or `BLOCKED`, and rejected work can return to `READY`. `next` selects only READY tasks whose dependencies are VERIFIED, ordered by priority then id.
 
 Acceptance is bounded by each task's allowed/forbidden paths, file limit, and declared commands. The verifier independently checks git diff and protected baseline/configuration paths; worker claims are not evidence.
+
+Run the vendored offline CardDemo acceptance with `./gradlew :naca-rt-tests:sampleAcceptance --tests '*CardDemoEndToEndAcceptanceTest*'`; the fixture is under `naca-rt-tests/src/test/resources/carddemo` and is pinned by `PROVENANCE.json`.

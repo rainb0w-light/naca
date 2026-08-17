@@ -74,6 +74,7 @@ sourceSets {
             include("**/*.yml")
             include("**/*.properties")
             include("naca-samples/**")
+            include("carddemo/**")
         }
     }
 }
@@ -116,6 +117,12 @@ tasks.register<Test>("sampleAcceptance") {
         layout.projectDirectory.file("src/test/resources/naca-samples/source/cobol/CALLMSG.cbl"),
         layout.projectDirectory.file("src/test/resources/naca-samples/source/copybooks/MSGZONE"),
         layout.projectDirectory.file("src/test/resources/testdata/FILEIN.dat"))
+    inputs.files(
+        layout.projectDirectory.file("src/test/resources/carddemo/PROVENANCE.json"),
+        layout.projectDirectory.file("src/test/resources/carddemo/app/cbl/CBACT02C.cbl"),
+        layout.projectDirectory.file("src/test/resources/carddemo/app/cpy/CVACT02Y.cpy"),
+        layout.projectDirectory.file("src/test/resources/carddemo/app/data/ASCII/carddata.txt"),
+        layout.projectDirectory.file("src/test/resources/carddemo/LICENSE"))
     outputs.upToDateWhen { false }
     useJUnitPlatform {
         includeTags("sample-acceptance")
