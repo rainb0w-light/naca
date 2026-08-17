@@ -7,11 +7,17 @@
       "stream": "quality-governance",
       "priority": 0,
       "dependencies": [],
-      "allowedPaths": ["docs/quality-governance/**", "tools/quality-loop/**", ".claude/quality-loop/**"],
+      "allowedPaths": [
+        "docs/quality-governance/**",
+        "tools/quality-loop/**",
+        ".claude/quality-loop/**"
+      ],
       "forbiddenPaths": [],
       "authorizedProtectedPaths": [],
       "maxFiles": 20,
-      "verification": ["python3 -m unittest discover -s tools/quality-loop/tests -p 'test_*.py'"],
+      "verification": [
+        "python3 -m unittest discover -s tools/quality-loop/tests -p 'test_*.py'"
+      ],
       "state": "VERIFIED",
       "attempts": 1
     },
@@ -20,26 +26,49 @@
       "objective": "In the governance directory, collect quality reports and compare them decrease-only; do not modify the existing project baseline.",
       "stream": "quality-governance",
       "priority": 1,
-      "dependencies": ["QG-000"],
-      "allowedPaths": ["docs/quality-governance/**", "tools/quality-loop/**", ".claude/quality-loop/**"],
-      "forbiddenPaths": ["docs/quality-governance/ledger.json"],
+      "dependencies": [
+        "QG-000"
+      ],
+      "allowedPaths": [
+        "docs/quality-governance/**",
+        "tools/quality-loop/**",
+        ".claude/quality-loop/**"
+      ],
+      "forbiddenPaths": [
+        "docs/quality-governance/ledger.json"
+      ],
       "authorizedProtectedPaths": [],
       "maxFiles": 20,
-      "verification": ["python3 -m unittest discover -s tools/quality-loop/tests -p 'test_*.py'"],
-      "state": "READY",
-      "attempts": 0
+      "verification": [
+        "python3 -m unittest discover -s tools/quality-loop/tests -p 'test_*.py'"
+      ],
+      "state": "RUNNING",
+      "attempts": 1,
+      "evidence": [
+        "controller accepted QG-000 at 9d7fcd0e"
+      ]
     },
     {
       "id": "QG-002",
       "objective": "Run a low-risk pilot on a small module.",
       "stream": "quality-governance",
       "priority": 2,
-      "dependencies": ["QG-001"],
-      "allowedPaths": ["docs/quality-governance/**", "tools/quality-loop/**", ".claude/quality-loop/**"],
-      "forbiddenPaths": ["docs/quality-governance/ledger.json"],
+      "dependencies": [
+        "QG-001"
+      ],
+      "allowedPaths": [
+        "docs/quality-governance/**",
+        "tools/quality-loop/**",
+        ".claude/quality-loop/**"
+      ],
+      "forbiddenPaths": [
+        "docs/quality-governance/ledger.json"
+      ],
       "authorizedProtectedPaths": [],
       "maxFiles": 20,
-      "verification": ["python3 -m unittest discover -s tools/quality-loop/tests -p 'test_*.py'"],
+      "verification": [
+        "python3 -m unittest discover -s tools/quality-loop/tests -p 'test_*.py'"
+      ],
       "state": "READY",
       "attempts": 0
     },
@@ -48,12 +77,22 @@
       "objective": "Preflight the fixed CardDemo corpus.",
       "stream": "carddemo",
       "priority": 3,
-      "dependencies": ["QG-001"],
-      "allowedPaths": ["docs/quality-governance/**", "tools/quality-loop/**", ".claude/quality-loop/**"],
-      "forbiddenPaths": ["docs/quality-governance/ledger.json"],
+      "dependencies": [
+        "QG-001"
+      ],
+      "allowedPaths": [
+        "docs/quality-governance/**",
+        "tools/quality-loop/**",
+        ".claude/quality-loop/**"
+      ],
+      "forbiddenPaths": [
+        "docs/quality-governance/ledger.json"
+      ],
       "authorizedProtectedPaths": [],
       "maxFiles": 20,
-      "verification": ["python3 -m unittest discover -s tools/quality-loop/tests -p 'test_*.py'"],
+      "verification": [
+        "python3 -m unittest discover -s tools/quality-loop/tests -p 'test_*.py'"
+      ],
       "state": "READY",
       "attempts": 0
     }
