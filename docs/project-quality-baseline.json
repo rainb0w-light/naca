@@ -45,10 +45,10 @@
       "spotbugsTest": 6
     },
     "naca-trans": {
-      "checkstyleMain": 3632,
+      "checkstyleMain": 3631,
       "checkstyleTest": 67,
       "pmdMain": 7306,
-      "pmdTest": 2635,
+      "pmdTest": 2623,
       "spotbugsMain": 1524,
       "spotbugsTest": 21
     },
