@@ -42,32 +42,33 @@
       "verification": [
         "python3 -m unittest discover -s tools/quality-loop/tests -p 'test_*.py'"
       ],
-      "state": "RUNNING",
+      "state": "VERIFIED",
       "attempts": 1,
       "evidence": [
-        "controller accepted QG-000 at 9d7fcd0e"
+        "controller tests 16 PASS",
+        "qualityRatchet and aggregateCoverageCheck PASS",
+        "real collect and compare PASS at 6.93 percent coverage"
       ]
     },
     {
       "id": "QG-002",
-      "objective": "Run a low-risk pilot on a small module.",
+      "objective": "Eliminate the two UnitTestShouldIncludeAssert PMD findings in RemoveHungarianNotationTest without changing recipe production behavior.",
       "stream": "quality-governance",
       "priority": 2,
       "dependencies": [
         "QG-001"
       ],
       "allowedPaths": [
-        "docs/quality-governance/**",
-        "tools/quality-loop/**",
-        ".claude/quality-loop/**"
+        "rewrite-recipes/src/test/java/com/publicitas/naca/RemoveHungarianNotationTest.java"
       ],
       "forbiddenPaths": [
         "docs/quality-governance/ledger.json"
       ],
       "authorizedProtectedPaths": [],
-      "maxFiles": 20,
+      "maxFiles": 1,
       "verification": [
-        "python3 -m unittest discover -s tools/quality-loop/tests -p 'test_*.py'"
+        "./gradlew :rewrite-recipes:test :rewrite-recipes:pmdTest --console=plain",
+        "python3 -c \"import sys, xml.etree.ElementTree as ET; root=ET.parse('rewrite-recipes/build/reports/pmd/test.xml').getroot(); count=sum(1 for element in root.iter() if element.tag.rsplit('}', 1)[-1] == 'violation'); sys.exit(0 if count == 0 else 1)\""
       ],
       "state": "READY",
       "attempts": 0
