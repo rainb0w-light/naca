@@ -41,7 +41,7 @@
       "checkstyleMain": 21,
       "checkstyleTest": 31,
       "pmdMain": 13,
-      "pmdTest": 84,
+      "pmdTest": 81,
       "spotbugsTest": 6
     },
     "naca-trans": {
