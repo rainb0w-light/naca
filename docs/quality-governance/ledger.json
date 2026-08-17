@@ -586,10 +586,10 @@
         "./gradlew :naca-rt-tests:pmdTest --rerun-tasks --console=plain",
         "python3 -c \"import json,xml.etree.ElementTree as ET; b=json.load(open('docs/project-quality-baseline.json', encoding='utf-8')); r=ET.parse('naca-rt-tests/build/reports/pmd/test.xml').getroot(); actual=sum(1 for e in r.iter() if e.tag.rsplit('}',1)[-1]=='violation'); assert actual==81 and b['staticAnalysis']['naca-rt-tests']['pmdTest']==81\""
       ],
-      "state": "RUNNING",
+      "state": "VERIFIED",
       "attempts": 1,
       "evidence": [
-        "Dispatched the one-value protected baseline tightening to Luna after controller independently measured 81 findings."
+        "Controller independently confirmed a one-line 84-to-81 diff, reran naca-rt-tests.pmdTest, measured exactly 81 violations, and passed verify_task against dispatch base 2b7049f7."
       ]
     }
   ]
