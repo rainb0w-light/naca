@@ -56,7 +56,7 @@
       "checkstyleMain": 0,
       "checkstyleTest": 0,
       "pmdMain": 0,
-      "pmdTest": 2,
+      "pmdTest": 0,
       "spotbugsMain": 0,
       "spotbugsTest": 0
     }
