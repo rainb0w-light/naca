@@ -653,10 +653,10 @@
         "./gradlew :naca-trans:pmdTest --rerun-tasks --console=plain",
         "./gradlew :naca-trans:finalArchitectureCheck --console=plain"
       ],
-      "state": "READY",
-      "attempts": 0,
+      "state": "RUNNING",
+      "attempts": 1,
       "evidence": [
-        "Controller measured CEntityCallFunctionRenderTest=9 findings and CEntityProcedureRenderTest=10. Seven findings sit on branch-added numeric-name regression lines; eliminating both files completely should reduce naca-trans.pmdTest from 2642 to 2623."
+        "Dispatched the exact two-file, 19-finding renderer-test PMD cleanup to Luna; production code and suppression remain forbidden."
       ]
     }
   ]
