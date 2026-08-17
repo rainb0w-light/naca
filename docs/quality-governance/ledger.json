@@ -591,6 +591,40 @@
       "evidence": [
         "Controller independently confirmed a one-line 84-to-81 diff, reran naca-rt-tests.pmdTest, measured exactly 81 violations, and passed verify_task against dispatch base 2b7049f7."
       ]
+    },
+    {
+      "id": "QG-007",
+      "objective": "Eliminate all 26 PMD findings in the three newly added naca-trans regression tests for level-88 declarations, complete working-group layout, and ADD GIVING ZERO. Preserve every covered behavior and assertion; add meaningful messages and structure tests/helpers so no PMD rule suppression, test deletion, or assertion weakening is used.",
+      "stream": "quality",
+      "priority": 19,
+      "dependencies": [
+        "QG-006"
+      ],
+      "allowedPaths": [
+        "naca-trans/src/test/java/generate/java/st/CLevel88DeclarationRenderTest.java",
+        "naca-trans/src/test/java/generate/java/st/CWorkingGroupDeclarationRenderTest.java",
+        "naca-trans/src/test/java/parser/Cobol/elements/CAddGivingLiteralTest.java"
+      ],
+      "forbiddenPaths": [
+        "docs/quality-governance/ledger.json",
+        "docs/project-quality-baseline.json",
+        "naca-trans/src/main",
+        "naca-rt",
+        "naca-rt-tests",
+        "tools/quality-loop"
+      ],
+      "authorizedProtectedPaths": [],
+      "maxFiles": 3,
+      "verification": [
+        "./gradlew :naca-trans:test --tests '*CLevel88DeclarationRenderTest*' --tests '*CWorkingGroupDeclarationRenderTest*' --tests '*CAddGivingLiteralTest*' --rerun-tasks --console=plain",
+        "./gradlew :naca-trans:pmdTest --rerun-tasks --console=plain",
+        "./gradlew :naca-trans:finalArchitectureCheck --console=plain"
+      ],
+      "state": "READY",
+      "attempts": 0,
+      "evidence": [
+        "Controller attributed 26 current PMD findings to the three branch-new tests: CLevel88DeclarationRenderTest=10, CWorkingGroupDeclarationRenderTest=10, CAddGivingLiteralTest=6. Rules are UnitTestAssertionsShouldIncludeMessage (19), UnitTestContainsTooManyAsserts (6), and AssignmentInOperand (1)."
+      ]
     }
   ]
 }
