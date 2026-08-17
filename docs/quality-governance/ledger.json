@@ -389,9 +389,11 @@
         "./gradlew :naca-trans:test :naca-trans:finalArchitectureCheck --console=plain",
         "python3 tools/quality-loop/carddemo_runtime_probe.py validate-report"
       ],
-      "state": "READY",
-      "attempts": 0,
-      "evidence": []
+      "state": "RUNNING",
+      "attempts": 1,
+      "evidence": [
+        "Dispatched to Luna from controller-reviewed base after CD-007 verification"
+      ]
     }
   ]
 }
