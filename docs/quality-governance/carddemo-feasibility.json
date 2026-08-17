@@ -15,7 +15,7 @@
     {
       "name": "parse-transpile",
       "status": "PASS",
-      "command": "./gradlew :naca-trans:transpile -PconfigFile=<temp-config>",
+      "command": "./gradlew :naca-jlib:classes :naca-rt:classes :naca-trans:transpile -PconfigFile=<temp-config>",
       "exitCode": 0
     },
     {
@@ -30,7 +30,7 @@
       "command": "javac <generated-java>",
       "exitCode": 1,
       "errorType": "javac-error",
-      "diagnostic": "<temp>:19: illegal syntax perform(0000_CARDFILE_OPEN)"
+      "diagnostic": "<temp>/output/CBACT02C/Cbact02c.java:19: error: illegal underscore perform(0000_CARDFILE_OPEN) ; ^ <temp>/output/CBACT02C/Cbact02c.java:19: error: ')' or ',' expected perform(0000_CARDFILE_OPEN) ; ^ <temp>/output/CBACT02C/Cbact02c.java:19: "
     }
   ],
   "firstBlocker": "javac",

@@ -1,5 +1,6 @@
 import json
 import importlib.util
+import os
 import re
 import subprocess
 import sys
@@ -276,6 +277,112 @@ class QualityLoopTests(unittest.TestCase):
     def test_probe_validate_report_from_subdirectory(self):
         result = subprocess.run(["python3", str(ROOT / "tools/quality-loop/carddemo_probe.py"), "validate-report"], cwd=ROOT / "docs/quality-governance", text=True, capture_output=True)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_probe_javac_runtime_classpath_and_stable_diagnostics(self):
+        checkout = Path(self.temp.name) / "checkout"
+        (checkout / "app/cbl").mkdir(parents=True)
+        (checkout / "app/cpy").mkdir()
+        (checkout / "app/cbl/CBACT02C.cbl").write_text("source")
+        (checkout / "app/cpy/CVACT02Y.cpy").write_text("copy")
+
+        class Completed:
+            def __init__(self, code=0, output=""):
+                self.returncode = code
+                self.stdout = output
+                self.stderr = output
+
+        def runner(commands):
+            def run(command, **kwargs):
+                commands.append(command)
+                if command[0] == sys.executable:
+                    return Completed(output='{"status":"PASS"}')
+                if command[0] == "./gradlew":
+                    config = Path(next(value.split("=", 1)[1] for value in command if value.startswith("-PconfigFile=")))
+                    output = Path(re.search(r'OutputPath="([^"]+)', config.read_text()).group(1))
+                    output.mkdir(parents=True, exist_ok=True)
+                    (output / "Sample.java").write_text("class Sample {}")
+                    return Completed(output="CBACT02C processed")
+                return Completed()
+            return run
+
+        first_commands = []
+        first = PROBE.run_probe(checkout, runner(first_commands))
+        second_commands = []
+        second = PROBE.run_probe(checkout, runner(second_commands))
+        self.assertEqual(first, second)
+        gradle = next(command for command in first_commands if command[0] == "./gradlew")
+        self.assertEqual(gradle[1:4], [":naca-jlib:classes", ":naca-rt:classes", ":naca-trans:transpile"])
+        javac = next(command for command in first_commands if command[0].endswith("javac"))
+        self.assertIn("-J-Duser.language=en", javac)
+        self.assertIn("-J-Duser.country=US", javac)
+        self.assertIn("-cp", javac)
+        self.assertIn(os.pathsep, javac[javac.index("-cp") + 1])
+
+        self.assertEqual(
+            PROBE.normalize_diagnostic("/tmp/one/output/Sample.java:19: error", Path("/tmp/one")),
+            "<temp>/output/Sample.java:19: error",
+        )
+        self.assertEqual(
+            PROBE.normalize_diagnostic("/tmp/two/output/Sample.java:19: error", Path("/tmp/two")),
+            "<temp>/output/Sample.java:19: error",
+        )
+
+    def test_probe_gradle_missing_fails_closed(self):
+        checkout = Path(self.temp.name) / "checkout"
+        (checkout / "app/cbl").mkdir(parents=True)
+        (checkout / "app/cpy").mkdir()
+        (checkout / "app/cbl/CBACT02C.cbl").write_text("source")
+        (checkout / "app/cpy/CVACT02Y.cpy").write_text("copy")
+
+        def missing_runner(command, **kwargs):
+            if command[0] == sys.executable:
+                class Completed:
+                    returncode = 0
+                    stdout = '{"status":"PASS"}'
+                    stderr = ""
+                return Completed()
+            raise FileNotFoundError("gradlew")
+
+        result = PROBE.run_probe(checkout, missing_runner)
+        self.assertEqual(result["firstBlocker"], "parse-transpile")
+        self.assertEqual([item["status"] for item in result["stages"]], ["PASS", "FAIL", "NOT_RUN", "NOT_RUN"])
+        PROBE.validate(result)
+
+    def test_probe_preflight_and_javac_oserror_reports_are_canonical(self):
+        checkout = Path(self.temp.name) / "checkout"
+        (checkout / "app/cbl").mkdir(parents=True)
+        (checkout / "app/cpy").mkdir()
+        (checkout / "app/cbl/CBACT02C.cbl").write_text("source")
+        (checkout / "app/cpy/CVACT02Y.cpy").write_text("copy")
+
+        def preflight_missing(command, **kwargs):
+            raise OSError("preflight unavailable")
+
+        source_failure = PROBE.run_probe(checkout, preflight_missing)
+        self.assertEqual(source_failure["firstBlocker"], "source-verification")
+        self.assertEqual([item["status"] for item in source_failure["stages"]], ["FAIL", "NOT_RUN", "NOT_RUN", "NOT_RUN"])
+        PROBE.validate(source_failure)
+
+        class Completed:
+            returncode = 0
+            stdout = '{"status":"PASS"}'
+            stderr = ""
+
+        def javac_missing(command, **kwargs):
+            if command[0] == sys.executable:
+                return Completed()
+            if command[0] == "./gradlew":
+                config = Path(next(value.split("=", 1)[1] for value in command if value.startswith("-PconfigFile=")))
+                output = Path(re.search(r'OutputPath="([^"]+)', config.read_text()).group(1))
+                output.mkdir(parents=True, exist_ok=True)
+                (output / "Sample.java").write_text("class Sample {}")
+                return Completed()
+            raise OSError("javac unavailable")
+
+        javac_failure = PROBE.run_probe(checkout, javac_missing)
+        self.assertEqual(javac_failure["firstBlocker"], "javac")
+        self.assertEqual([item["status"] for item in javac_failure["stages"]], ["PASS", "PASS", "PASS", "FAIL"])
+        PROBE.validate(javac_failure)
 
 
 if __name__ == "__main__":

@@ -2,6 +2,7 @@
 """Run a bounded, diagnostic-only CardDemo feasibility probe."""
 import argparse
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -37,7 +38,14 @@ def naca_diagnostic(text):
     return None
 
 
-def stage(name, status, command, code=None, kind=None, detail=None):
+def normalize_diagnostic(text, temp_root=None):
+    clean = " ".join((text or "").split())
+    if temp_root is not None:
+        clean = clean.replace(str(temp_root), "<temp>")
+    return clean[:240]
+
+
+def stage(name, status, command, code=None, kind=None, detail=None, temp_root=None):
     if status == "PASS" and code is None:
         code = 0
     result = {"name": name, "status": status, "command": command}
@@ -46,18 +54,25 @@ def stage(name, status, command, code=None, kind=None, detail=None):
     if kind:
         result["errorType"] = kind
     if detail:
-        result["diagnostic"] = " ".join(detail.split())[:240]
+        result["diagnostic"] = normalize_diagnostic(detail, temp_root)
     return result
 
 
 def run_probe(checkout, runner=subprocess.run):
     stages = []
+    phase = "preflight"
     try:
         preflight = runner([sys.executable, str(PREFLIGHT), "verify-source", str(checkout)], cwd=ROOT, text=True, capture_output=True)
         if preflight.returncode:
             stages.append(stage("source-verification", "FAIL", "carddemo_preflight verify-source", preflight.returncode, "source-verification", preflight.stdout or preflight.stderr))
+            stages.extend([
+                stage("parse-transpile", "NOT_RUN", "probe transpile"),
+                stage("generated-java", "NOT_RUN", "inspect temporary output"),
+                stage("javac", "NOT_RUN", "javac <generated-java>"),
+            ])
             return report(stages, "source-verification")
         stages.append(stage("source-verification", "PASS", "carddemo_preflight verify-source", 0))
+        phase = "transpile"
         with tempfile.TemporaryDirectory(prefix="carddemo-probe-") as temp:
             work = Path(temp)
             input_dir = work / "cbl"; copy_dir = work / "cpy"; output_dir = work / "output"; inter_dir = work / "inter"
@@ -66,14 +81,14 @@ def run_probe(checkout, runner=subprocess.run):
             shutil.copy2(checkout / COPYBOOK, copy_dir / "CVACT02Y")
             config = work / "probe.xml"
             config.write_text(f"""<NacaTrans Log4jConf=\"\"><Engines><Transcoder Name=\"CobolTranscoder\" Class=\"utils.CobolTranscoder.CobolTranscoderEngine\" ReferenceGroupName=\"\" ResourceGroupName=\"\" IncludeGroupName=\"IncludeGroup\"/><Transcoder Name=\"IncludeTranscoder\" Class=\"utils.CobolTranscoder.CobolIncludeTranscoderEngine\" ReferenceGroupName=\"\" ResourceGroupName=\"\" IncludeGroupName=\"\"/></Engines><Groups><Group Name=\"OnlineGroup\" InputPath=\"{input_dir}/\" OutputPath=\"{output_dir}/\" InterPath=\"{inter_dir}/\" Type=\"Batch\" Engine=\"CobolTranscoder\"/><Group Name=\"IncludeGroup\" InputPath=\"{copy_dir}/\" OutputPath=\"{output_dir}/include/\" InterPath=\"{inter_dir}/\" Type=\"Included\" Engine=\"IncludeTranscoder\"/></Groups><Group Name=\"OnlineGroup\"><Application Name=\"CBACT02C\"><File Name=\"CBACT02C.cbl\"/></Application></Group><GlobalPaths RuleFilePath=\"\"/></NacaTrans>""")
-            command = "./gradlew :naca-trans:transpile -PconfigFile=<temp-config>"
-            result = runner(["./gradlew", ":naca-trans:transpile", f"-PconfigFile={config}"], cwd=ROOT, text=True, capture_output=True)
+            command = "./gradlew :naca-jlib:classes :naca-rt:classes :naca-trans:transpile -PconfigFile=<temp-config>"
+            result = runner(["./gradlew", ":naca-jlib:classes", ":naca-rt:classes", ":naca-trans:transpile", f"-PconfigFile={config}"], cwd=ROOT, text=True, capture_output=True)
             logs = result.stdout + result.stderr
             diagnostic = naca_diagnostic(logs)
             evidence = bool(diagnostic) or bool(list(output_dir.rglob("*.java"))) or ("CBACT02C" in logs and "processed" in logs.lower())
             if result.returncode or diagnostic or not evidence:
                 error_type = classify(logs) if result.returncode or diagnostic else "no-transpile-evidence"
-                stages.append(stage("parse-transpile", "FAIL", command, result.returncode, error_type, diagnostic or logs))
+                stages.append(stage("parse-transpile", "FAIL", command, result.returncode, error_type, diagnostic or logs, temp))
                 stages[-1]["errorType"] = error_type
                 stages.append(stage("generated-java", "NOT_RUN", command))
                 stages.append(stage("javac", "NOT_RUN", "javac <generated-java>"))
@@ -85,16 +100,46 @@ def run_probe(checkout, runner=subprocess.run):
                 stages.append(stage("javac", "NOT_RUN", "javac <generated-java>"))
                 return report(stages, "generated-java")
             stages.append(stage("generated-java", "PASS", "inspect temporary output", 0))
+            phase = "javac"
             javac = shutil.which("javac")
             if not javac:
                 stages.append(stage("javac", "FAIL", "javac <generated-java>", 127, "tool-missing"))
                 return report(stages, "javac")
-            result = runner([javac, "-d", str(work / "classes"), *map(str, generated)], cwd=ROOT, text=True, capture_output=True)
-            stages.append(stage("javac", "PASS" if result.returncode == 0 else "FAIL", "javac <generated-java>", result.returncode, None if result.returncode == 0 else "javac-error", result.stderr))
+            runtime_paths = [
+                ROOT / "naca-rt/build/classes/java/main",
+                ROOT / "naca-rt/build/resources/main",
+                ROOT / "naca-jlib/build/classes/java/main",
+                ROOT / "naca-jlib/build/resources/main",
+            ]
+            classpath = os.pathsep.join(str(path) for path in runtime_paths if path.exists())
+            javac_command = [
+                javac, "-J-Duser.language=en", "-J-Duser.country=US",
+                "-cp", classpath, "-d", str(work / "classes"), *map(str, generated)
+            ]
+            result = runner(javac_command, cwd=ROOT, text=True, capture_output=True)
+            stages.append(stage("javac", "PASS" if result.returncode == 0 else "FAIL", "javac <generated-java>", result.returncode, None if result.returncode == 0 else "javac-error", result.stderr, temp))
             return report(stages, None if result.returncode == 0 else "javac")
     except (OSError, subprocess.SubprocessError) as error:
-        stages.append(stage("probe", "FAIL", "probe-internal", 1, "tool-error", str(error)))
-        return report(stages, "probe")
+        detail = str(error)
+        if phase == "preflight":
+            stages.append(stage("source-verification", "FAIL", "carddemo_preflight verify-source", 1, "tool-error", detail))
+            blocker = "source-verification"
+            stages.extend([
+                stage("parse-transpile", "NOT_RUN", "probe transpile"),
+                stage("generated-java", "NOT_RUN", "inspect temporary output"),
+                stage("javac", "NOT_RUN", "javac <generated-java>"),
+            ])
+        elif phase == "transpile":
+            stages.append(stage("parse-transpile", "FAIL", "./gradlew ...", 1, "tool-or-input-missing", detail))
+            blocker = "parse-transpile"
+            stages.extend([
+                stage("generated-java", "NOT_RUN", "inspect temporary output"),
+                stage("javac", "NOT_RUN", "javac <generated-java>"),
+            ])
+        else:
+            stages.append(stage("javac", "FAIL", "javac <generated-java>", 1, "tool-error", detail))
+            blocker = "javac"
+        return report(stages, blocker)
 
 
 def report(stages, blocker):
