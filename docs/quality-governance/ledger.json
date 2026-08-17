@@ -197,6 +197,39 @@
       "evidence": [
         "Controller confirmed CardDemo parse and generation PASS; next blocker javac invalid numeric-leading procedure identifiers"
       ]
+    },
+    {
+      "id": "CD-003",
+      "objective": "Make the CardDemo probe reproducible and its Java compile stage meaningful by normalizing ephemeral diagnostics and compiling generated sources against built Naca runtime classes, without changing transpiler product behavior.",
+      "stream": "carddemo",
+      "priority": 7,
+      "dependencies": [
+        "CD-002"
+      ],
+      "allowedPaths": [
+        "tools/quality-loop/carddemo_probe.py",
+        "tools/quality-loop/tests/test_quality_loop.py",
+        "docs/quality-governance/carddemo-feasibility.json",
+        "docs/quality-governance/README.md"
+      ],
+      "forbiddenPaths": [
+        "docs/quality-governance/ledger.json",
+        "docs/project-quality-baseline.json",
+        "naca-trans/src/main/java",
+        "naca-trans/src/main/resources"
+      ],
+      "authorizedProtectedPaths": [],
+      "maxFiles": 4,
+      "verification": [
+        "python3 -m unittest discover -s tools/quality-loop/tests -p 'test_*.py'",
+        "python3 tools/quality-loop/carddemo_probe.py validate-report"
+      ],
+      "state": "READY",
+      "attempts": 0,
+      "evidence": [
+        "Independent rerun showed javac diagnostic embeds random carddemo-probe temporary paths",
+        "Current javac invocation omits the NacaRT and naca-jlib compile classpath"
+      ]
     }
   ]
 }
