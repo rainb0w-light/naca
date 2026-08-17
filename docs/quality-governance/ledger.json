@@ -1,0 +1,61 @@
+{
+  "version": 1,
+  "tasks": [
+    {
+      "id": "QG-000",
+      "objective": "Bootstrap and verify the quality governance control plane.",
+      "stream": "quality-governance",
+      "priority": 0,
+      "dependencies": [],
+      "allowedPaths": ["docs/quality-governance/**", "tools/quality-loop/**", ".claude/quality-loop/**"],
+      "forbiddenPaths": [],
+      "authorizedProtectedPaths": [],
+      "maxFiles": 20,
+      "verification": ["python3 -m unittest discover -s tools/quality-loop/tests -p 'test_*.py'"],
+      "state": "VERIFIED",
+      "attempts": 1
+    },
+    {
+      "id": "QG-001",
+      "objective": "In the governance directory, collect quality reports and compare them decrease-only; do not modify the existing project baseline.",
+      "stream": "quality-governance",
+      "priority": 1,
+      "dependencies": ["QG-000"],
+      "allowedPaths": ["docs/quality-governance/**", "tools/quality-loop/**", ".claude/quality-loop/**"],
+      "forbiddenPaths": ["docs/quality-governance/ledger.json"],
+      "authorizedProtectedPaths": [],
+      "maxFiles": 20,
+      "verification": ["python3 -m unittest discover -s tools/quality-loop/tests -p 'test_*.py'"],
+      "state": "READY",
+      "attempts": 0
+    },
+    {
+      "id": "QG-002",
+      "objective": "Run a low-risk pilot on a small module.",
+      "stream": "quality-governance",
+      "priority": 2,
+      "dependencies": ["QG-001"],
+      "allowedPaths": ["docs/quality-governance/**", "tools/quality-loop/**", ".claude/quality-loop/**"],
+      "forbiddenPaths": ["docs/quality-governance/ledger.json"],
+      "authorizedProtectedPaths": [],
+      "maxFiles": 20,
+      "verification": ["python3 -m unittest discover -s tools/quality-loop/tests -p 'test_*.py'"],
+      "state": "READY",
+      "attempts": 0
+    },
+    {
+      "id": "CD-000",
+      "objective": "Preflight the fixed CardDemo corpus.",
+      "stream": "carddemo",
+      "priority": 3,
+      "dependencies": ["QG-001"],
+      "allowedPaths": ["docs/quality-governance/**", "tools/quality-loop/**", ".claude/quality-loop/**"],
+      "forbiddenPaths": ["docs/quality-governance/ledger.json"],
+      "authorizedProtectedPaths": [],
+      "maxFiles": 20,
+      "verification": ["python3 -m unittest discover -s tools/quality-loop/tests -p 'test_*.py'"],
+      "state": "READY",
+      "attempts": 0
+    }
+  ]
+}
