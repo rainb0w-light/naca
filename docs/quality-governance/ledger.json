@@ -324,6 +324,40 @@
       "evidence": [
         "Independent verification passed: focused and full naca-trans tests, finalArchitectureCheck, task scope verification, canonical report validation, and two pinned CardDemo probes with identical SHA-256 3acb637700489247d06f51ea8b0a2f2b682301db0f737cac91826bda37188894; all four feasibility stages PASS."
       ]
+    },
+    {
+      "id": "CD-007",
+      "objective": "Create a deterministic, diagnostic-only runtime probe for pinned CBACT02C that reuses the verified transpile/javac path, launches generated Java in an isolated NacaRT JVM with CARDFILE mapped to the 150-byte ASCII CardDemo fixture, validates the exact 50-record business output, and records the first runtime blocker without changing product behavior.",
+      "stream": "carddemo",
+      "priority": 11,
+      "dependencies": [
+        "CD-006"
+      ],
+      "allowedPaths": [
+        "naca-rt-tests/build.gradle.kts",
+        "naca-rt-tests/src/test/java/com/publicitas/naca/tests/acceptance/AcceptanceProgramRunner.java",
+        "tools/quality-loop/carddemo_runtime_probe.py",
+        "tools/quality-loop/tests/test_quality_loop.py",
+        "docs/quality-governance/carddemo-runtime.json",
+        "docs/quality-governance/README.md"
+      ],
+      "forbiddenPaths": [
+        "docs/quality-governance/ledger.json",
+        "docs/project-quality-baseline.json",
+        "naca-trans/src/main",
+        "naca-rt/src/main",
+        "naca-jlib/src/main"
+      ],
+      "authorizedProtectedPaths": [],
+      "maxFiles": 6,
+      "verification": [
+        "python3 -m unittest discover -s tools/quality-loop/tests -p 'test_*.py'",
+        "./gradlew :naca-rt-tests:compileTestJava --console=plain",
+        "python3 tools/quality-loop/carddemo_runtime_probe.py validate-report"
+      ],
+      "state": "READY",
+      "attempts": 0,
+      "evidence": []
     }
   ]
 }
