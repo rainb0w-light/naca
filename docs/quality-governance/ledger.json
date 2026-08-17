@@ -263,6 +263,37 @@
       "evidence": [
         "Controller confirmed numeric procedure error eliminated; copybook generation must be explicitly driven by probe include application"
       ]
+    },
+    {
+      "id": "CD-005",
+      "objective": "Drive the pinned CVACT02Y include group as an explicit CLI generation unit so the CardDemo probe compiles both program and copybook Java, without changing product code.",
+      "stream": "carddemo",
+      "priority": 9,
+      "dependencies": [
+        "CD-004"
+      ],
+      "allowedPaths": [
+        "tools/quality-loop/carddemo_probe.py",
+        "tools/quality-loop/tests/test_quality_loop.py",
+        "docs/quality-governance/carddemo-feasibility.json"
+      ],
+      "forbiddenPaths": [
+        "docs/quality-governance/ledger.json",
+        "docs/project-quality-baseline.json",
+        "naca-trans/src/main"
+      ],
+      "authorizedProtectedPaths": [],
+      "maxFiles": 3,
+      "verification": [
+        "python3 -m unittest discover -s tools/quality-loop/tests -p 'test_*.py'",
+        "python3 tools/quality-loop/carddemo_probe.py validate-report"
+      ],
+      "state": "READY",
+      "attempts": 0,
+      "evidence": [
+        "Independent config experiment generated output/include/CBACT02C/Cvact02y.java and compiled it together with Cbact02c.java",
+        "After explicit include generation the next javac blocker is undeclared 88-level conditions APPL_AOK and APPL_EOF"
+      ]
     }
   ]
 }
