@@ -261,7 +261,9 @@ class QualityLoopTests(unittest.TestCase):
                     if scenario == "transpile-fail": return Completed(1, "ERROR LogFile - unsupported")
                     config = Path(next(value.split("=", 1)[1] for value in command if value.startswith("-PconfigFile=")))
                     output = Path(re.search(r'OutputPath="([^"]+)', config.read_text()).group(1)); output.mkdir(parents=True, exist_ok=True)
-                    if scenario != "generated-absent": (output / "Sample.java").write_text("class Sample {}")
+                    if scenario != "generated-absent":
+                        (output / "Cbact02c.java").write_text("class Cbact02c {}")
+                        (output / "Cvact02y.java").write_text("class Cvact02y {}")
                     return Completed(0, "CBACT02C processed")
                 return Completed(1 if scenario == "javac-fail" else 0, "javac error")
             return runner
@@ -277,6 +279,38 @@ class QualityLoopTests(unittest.TestCase):
     def test_probe_validate_report_from_subdirectory(self):
         result = subprocess.run(["python3", str(ROOT / "tools/quality-loop/carddemo_probe.py"), "validate-report"], cwd=ROOT / "docs/quality-governance", text=True, capture_output=True)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_probe_requires_both_generated_carddemo_artifacts(self):
+        checkout = Path(self.temp.name) / "checkout"
+        (checkout / "app/cbl").mkdir(parents=True)
+        (checkout / "app/cpy").mkdir()
+        (checkout / "app/cbl/CBACT02C.cbl").write_text("source")
+        (checkout / "app/cpy/CVACT02Y.cpy").write_text("copy")
+
+        class Completed:
+            returncode = 0
+            stdout = '{"status":"PASS"}'
+            stderr = ""
+
+        for missing in ("Cbact02c.java", "Cvact02y.java"):
+            def runner(command, missing=missing, **kwargs):
+                if command[0] == sys.executable:
+                    return Completed()
+                if command[0] == "./gradlew":
+                    config = Path(next(value.split("=", 1)[1] for value in command if value.startswith("-PconfigFile=")))
+                    output = Path(re.search(r'OutputPath="([^"]+)', config.read_text()).group(1))
+                    output.mkdir(parents=True, exist_ok=True)
+                    for artifact in ("Cbact02c.java", "Cvact02y.java"):
+                        if artifact != missing:
+                            (output / artifact).write_text("class Generated {}")
+                    return Completed()
+                return Completed()
+
+            with self.subTest(missing=missing):
+                result = PROBE.run_probe(checkout, runner)
+                self.assertEqual(result["firstBlocker"], "generated-java")
+                self.assertEqual(result["stages"][2]["errorType"], "missing-generated-artifact")
+                PROBE.validate(result)
 
     def test_probe_javac_runtime_classpath_and_stable_diagnostics(self):
         checkout = Path(self.temp.name) / "checkout"
@@ -298,9 +332,12 @@ class QualityLoopTests(unittest.TestCase):
                     return Completed(output='{"status":"PASS"}')
                 if command[0] == "./gradlew":
                     config = Path(next(value.split("=", 1)[1] for value in command if value.startswith("-PconfigFile=")))
-                    output = Path(re.search(r'OutputPath="([^"]+)', config.read_text()).group(1))
+                    config_text = config.read_text()
+                    self.assertIn('<Group Name="IncludeGroup"><Application Name="CVACT02Y"><File Name="CVACT02Y"/></Application></Group>', config_text)
+                    output = Path(re.search(r'OutputPath="([^"]+)', config_text).group(1))
                     output.mkdir(parents=True, exist_ok=True)
-                    (output / "Sample.java").write_text("class Sample {}")
+                    (output / "Cbact02c.java").write_text("class Cbact02c {}")
+                    (output / "Cvact02y.java").write_text("class Cvact02y {}")
                     return Completed(output="CBACT02C processed")
                 return Completed()
             return run
@@ -375,7 +412,8 @@ class QualityLoopTests(unittest.TestCase):
                 config = Path(next(value.split("=", 1)[1] for value in command if value.startswith("-PconfigFile=")))
                 output = Path(re.search(r'OutputPath="([^"]+)', config.read_text()).group(1))
                 output.mkdir(parents=True, exist_ok=True)
-                (output / "Sample.java").write_text("class Sample {}")
+                (output / "Cbact02c.java").write_text("class Cbact02c {}")
+                (output / "Cvact02y.java").write_text("class Cvact02y {}")
                 return Completed()
             raise OSError("javac unavailable")
 

@@ -80,7 +80,7 @@ def run_probe(checkout, runner=subprocess.run):
             shutil.copy2(checkout / CANDIDATE, input_dir / "CBACT02C.cbl")
             shutil.copy2(checkout / COPYBOOK, copy_dir / "CVACT02Y")
             config = work / "probe.xml"
-            config.write_text(f"""<NacaTrans Log4jConf=\"\"><Engines><Transcoder Name=\"CobolTranscoder\" Class=\"utils.CobolTranscoder.CobolTranscoderEngine\" ReferenceGroupName=\"\" ResourceGroupName=\"\" IncludeGroupName=\"IncludeGroup\"/><Transcoder Name=\"IncludeTranscoder\" Class=\"utils.CobolTranscoder.CobolIncludeTranscoderEngine\" ReferenceGroupName=\"\" ResourceGroupName=\"\" IncludeGroupName=\"\"/></Engines><Groups><Group Name=\"OnlineGroup\" InputPath=\"{input_dir}/\" OutputPath=\"{output_dir}/\" InterPath=\"{inter_dir}/\" Type=\"Batch\" Engine=\"CobolTranscoder\"/><Group Name=\"IncludeGroup\" InputPath=\"{copy_dir}/\" OutputPath=\"{output_dir}/include/\" InterPath=\"{inter_dir}/\" Type=\"Included\" Engine=\"IncludeTranscoder\"/></Groups><Group Name=\"OnlineGroup\"><Application Name=\"CBACT02C\"><File Name=\"CBACT02C.cbl\"/></Application></Group><GlobalPaths RuleFilePath=\"\"/></NacaTrans>""")
+            config.write_text(f"""<NacaTrans Log4jConf=\"\"><Engines><Transcoder Name=\"CobolTranscoder\" Class=\"utils.CobolTranscoder.CobolTranscoderEngine\" ReferenceGroupName=\"\" ResourceGroupName=\"\" IncludeGroupName=\"IncludeGroup\"/><Transcoder Name=\"IncludeTranscoder\" Class=\"utils.CobolTranscoder.CobolIncludeTranscoderEngine\" ReferenceGroupName=\"\" ResourceGroupName=\"\" IncludeGroupName=\"\"/></Engines><Groups><Group Name=\"OnlineGroup\" InputPath=\"{input_dir}/\" OutputPath=\"{output_dir}/\" InterPath=\"{inter_dir}/\" Type=\"Batch\" Engine=\"CobolTranscoder\"/><Group Name=\"IncludeGroup\" InputPath=\"{copy_dir}/\" OutputPath=\"{output_dir}/include/\" InterPath=\"{inter_dir}/\" Type=\"Included\" Engine=\"IncludeTranscoder\"/></Groups><Group Name=\"OnlineGroup\"><Application Name=\"CBACT02C\"><File Name=\"CBACT02C.cbl\"/></Application></Group><Group Name=\"IncludeGroup\"><Application Name=\"CVACT02Y\"><File Name=\"CVACT02Y\"/></Application></Group><GlobalPaths RuleFilePath=\"\"/></NacaTrans>""")
             command = "./gradlew :naca-jlib:classes :naca-rt:classes :naca-trans:transpile -PconfigFile=<temp-config>"
             result = runner(["./gradlew", ":naca-jlib:classes", ":naca-rt:classes", ":naca-trans:transpile", f"-PconfigFile={config}"], cwd=ROOT, text=True, capture_output=True)
             logs = result.stdout + result.stderr
@@ -95,8 +95,15 @@ def run_probe(checkout, runner=subprocess.run):
                 return report(stages, "parse-transpile")
             stages.append(stage("parse-transpile", "PASS", command, 0))
             generated = list(output_dir.rglob("*.java"))
-            if not generated:
-                stages.append(stage("generated-java", "FAIL", "inspect temporary output", 0, "no-generated-java"))
+            expected_artifacts = {"cbact02c.java", "cvact02y.java"}
+            generated_names = {path.name.lower() for path in generated}
+            missing_artifacts = sorted(expected_artifacts - generated_names)
+            if missing_artifacts:
+                stages.append(stage(
+                    "generated-java", "FAIL", "inspect temporary output", 0,
+                    "missing-generated-artifact",
+                    "missing generated artifacts: " + ", ".join(missing_artifacts),
+                ))
                 stages.append(stage("javac", "NOT_RUN", "javac <generated-java>"))
                 return report(stages, "generated-java")
             stages.append(stage("generated-java", "PASS", "inspect temporary output", 0))

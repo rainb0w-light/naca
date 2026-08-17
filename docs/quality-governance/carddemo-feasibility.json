@@ -30,7 +30,7 @@
       "command": "javac <generated-java>",
       "exitCode": 1,
       "errorType": "javac-error",
-      "diagnostic": "<temp>/output/CBACT02C/Cbact02c.java:8: error: cannot find symbol Cvact02y cvact02y = Cvact02y.Copy(this) ; ^ symbol: class Cvact02y location: class Cbact02c <temp>/output/CBACT02C/Cbact02c.java:8: error: cannot find symbol Cvact02y cvact02"
+      "diagnostic": "<temp>/output/CBACT02C/Cbact02c.java:48: error: cannot find symbol if (is(APPL_AOK)) { ^ symbol: variable APPL_AOK location: class Cbact02c <temp>/output/CBACT02C/Cbact02c.java:51: error: cannot find symbol if (is(APPL_EOF)) { ^ symbol: var"
     }
   ],
   "firstBlocker": "javac",
