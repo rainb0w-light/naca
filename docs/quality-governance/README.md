@@ -11,6 +11,16 @@ python3 tools/quality-loop/quality_loop.py transition QG-000 RUNNING --evidence 
 
 The verifier locates the repository root automatically, but the script path must still be resolvable from the current directory. From a subdirectory use a relative path such as `python3 ../../tools/quality-loop/verify_task.py ...`, or use the absolute path to the script.
 
+Generate reports first, then collect and compare:
+
+```sh
+./gradlew qualityRatchet aggregateCoverageCheck
+python3 tools/quality-loop/quality_metrics.py collect --output current.json
+python3 tools/quality-loop/quality_metrics.py compare current.json
+```
+
+`collect` fails closed when any baseline-described XML report is missing or malformed; `compare` reports only static-analysis/CPD debt and aggregate line-coverage ratchets.
+
 Workers flow `RUNNING → REVIEW`; the controller independently runs `verify_task`, then transitions `REVIEW → VERIFIED` only after PASS. Failures may become `REJECTED` or `BLOCKED`, and rejected work can return to `READY`. `next` selects only READY tasks whose dependencies are VERIFIED, ordered by priority then id.
 
 Acceptance is bounded by each task's allowed/forbidden paths, file limit, and declared commands. The verifier independently checks git diff and protected baseline/configuration paths; worker claims are not evidence.

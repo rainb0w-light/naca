@@ -1,4 +1,5 @@
 import json
+import importlib.util
 import subprocess
 import tempfile
 import unittest
@@ -7,6 +8,10 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[3]
 CLI = ROOT / "tools/quality-loop/quality_loop.py"
 VERIFY = ROOT / "tools/quality-loop/verify_task.py"
+METRICS_PATH = ROOT / "tools/quality-loop/quality_metrics.py"
+SPEC = importlib.util.spec_from_file_location("quality_metrics", METRICS_PATH)
+METRICS = importlib.util.module_from_spec(SPEC)
+SPEC.loader.exec_module(METRICS)
 
 
 class QualityLoopTests(unittest.TestCase):
@@ -113,6 +118,71 @@ class QualityLoopTests(unittest.TestCase):
         subprocess.run(["git", "commit", "-qm", "change"], cwd=path, check=True)
         result = subprocess.run(["python3", str(VERIFY), "A", "--base-ref", "HEAD~1", str(ledger)], cwd=path / "ok", text=True, capture_output=True)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def metric_fixture(self):
+        root = Path(self.temp.name) / "fixture"
+        root.mkdir()
+        baseline = {"aggregateLineCoverageMinimum": 0.5, "cpdDuplications": 2,
+                    "staticAnalysis": {"mod": {"checkstyleMain": 1, "pmdMain": 1,
+                    "spotbugsMain": 1}}}
+        (root / "docs").mkdir(); (root / "docs/project-quality-baseline.json").write_text(json.dumps(baseline))
+        for report, body in (("checkstyle/main.xml", "<x:error/><x:error/>"),
+                             ("pmd/main.xml", "<x:violation/>"), ("spotbugs/spotbugsMain.xml", "<x:BugInstance/>"),
+                             ("../../reports/pmd/cpd.xml", "<x:duplication/><x:duplication/>")):
+            path = root / "mod/build/reports" / report if report.startswith("../") is False else root / "build/reports/pmd/cpd.xml"
+            path.parent.mkdir(parents=True, exist_ok=True); path.write_text(f"<root xmlns:x='urn:test'>{body}</root>")
+        (root / "mod/build/reports/jacoco/test").mkdir(parents=True)
+        (root / "mod/build/reports/jacoco/test/jacocoTestReport.xml").write_text('<root xmlns="urn:test"><counter type="LINE" missed="1" covered="1"/></root>')
+        return root, baseline
+
+    def test_metrics_collect_and_compare(self):
+        root, baseline = self.metric_fixture()
+        collected = METRICS.collect(root, baseline)
+        self.assertEqual(collected["staticAnalysis"]["mod"]["checkstyleMain"], 2)
+        result = METRICS.compare(collected, baseline)
+        self.assertEqual(result["status"], "FAIL")
+        self.assertTrue(result["regressions"])
+
+    def test_metrics_fail_closed_and_improvements(self):
+        root, baseline = self.metric_fixture()
+        (root / "mod/build/reports/pmd/main.xml").write_text("<broken>")
+        with self.assertRaises(ValueError): METRICS.collect(root, baseline)
+        current = {"staticAnalysis": {"mod": {"checkstyleMain": 0, "pmdMain": 0, "spotbugsMain": 0}}, "cpdDuplications": 1, "aggregateLineCoverage": 0.75}
+        self.assertEqual(METRICS.compare(current, baseline)["status"], "PASS")
+        current["staticAnalysis"]["mod"].pop("pmdMain")
+        self.assertEqual(METRICS.compare(current, baseline)["status"], "FAIL")
+
+    def test_metrics_coverage_decline_alone_fails(self):
+        _, baseline = self.metric_fixture()
+        current = {"staticAnalysis": baseline["staticAnalysis"], "cpdDuplications": 2,
+                   "aggregateLineCoverage": 0.49}
+        self.assertEqual(METRICS.compare(current, baseline)["status"], "FAIL")
+
+    def test_line_counter_uses_root_only(self):
+        path = Path(self.temp.name) / "nested.xml"
+        path.write_text('<report xmlns="urn:test"><counter type="LINE" missed="2" covered="8"/><package><counter type="LINE" missed="99" covered="1"/><class><counter type="LINE" missed="50" covered="1"/></class></package></report>')
+        self.assertEqual(METRICS.line_counter(path), (2, 8))
+        path.write_text('<report><counter type="LINE" missed="1" covered="1"/><counter type="LINE" missed="2" covered="2"/></report>')
+        with self.assertRaises(ValueError): METRICS.line_counter(path)
+
+    def test_metrics_cli_subdirectory_uses_explicit_baseline(self):
+        root = Path(self.temp.name) / "cli-repo"
+        (root / "docs").mkdir(parents=True)
+        subprocess.run(["git", "init", "-q"], cwd=root, check=True)
+        baseline = {"aggregateLineCoverageMinimum": 0.5, "cpdDuplications": 0, "staticAnalysis": {}}
+        (root / "docs/project-quality-baseline.json").write_text(json.dumps(baseline))
+        current = root / "current.json"
+        current.write_text(json.dumps({"aggregateLineCoverage": 0.5, "cpdDuplications": 0, "staticAnalysis": {}}))
+        external = root / "baseline.json"
+        external.write_text(json.dumps(baseline))
+        child = root / "child"; child.mkdir()
+        result = subprocess.run(["python3", str(METRICS_PATH), "compare", str(current), "--baseline", str(external)], cwd=child, text=True, capture_output=True)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_metrics_missing_report(self):
+        root, baseline = self.metric_fixture()
+        (root / "build/reports/pmd/cpd.xml").unlink()
+        with self.assertRaises(ValueError): METRICS.collect(root, baseline)
 
 
 if __name__ == "__main__":
