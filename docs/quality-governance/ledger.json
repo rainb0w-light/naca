@@ -192,10 +192,10 @@
         "python3 tools/quality-loop/carddemo_probe.py validate-report",
         "./gradlew :naca-trans:finalArchitectureCheck --console=plain"
       ],
-      "state": "RUNNING",
+      "state": "VERIFIED",
       "attempts": 1,
       "evidence": [
-        "Dispatched to Luna from controller-reviewed base e13fff28"
+        "Controller confirmed CardDemo parse and generation PASS; next blocker javac invalid numeric-leading procedure identifiers"
       ]
     }
   ]
