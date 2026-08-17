@@ -531,6 +531,38 @@
       "evidence": [
         "Controller independently verified FileDescriptorStatusTest PMD findings=0; focused test XML and CardDemo acceptance XML both tests=1 skipped=0 failures=0 errors=0; full naca-rt test passed."
       ]
+    },
+    {
+      "id": "QG-005",
+      "objective": "Eliminate all five PMD findings in AcceptanceProgramRunner while preserving both invocation contracts: the existing four-argument FILEIN/FILEOUT path and the five-argument named descriptor path used by CardDemo. Replace double-brace initialization, extract meaningful argument/name constants, and keep acceptance output on standard output without suppressing rules.",
+      "stream": "quality",
+      "priority": 17,
+      "dependencies": [
+        "QG-004"
+      ],
+      "allowedPaths": [
+        "naca-rt-tests/src/test/java/com/publicitas/naca/tests/acceptance/AcceptanceProgramRunner.java"
+      ],
+      "forbiddenPaths": [
+        "docs/quality-governance/ledger.json",
+        "docs/project-quality-baseline.json",
+        "naca-rt-tests/src/test/java/com/publicitas/naca/tests/acceptance/CardDemoEndToEndAcceptanceTest.java",
+        "naca-trans",
+        "naca-rt/src/main",
+        "tools/quality-loop"
+      ],
+      "authorizedProtectedPaths": [],
+      "maxFiles": 1,
+      "verification": [
+        "./gradlew :naca-rt-tests:pmdTest --rerun-tasks --console=plain",
+        "./gradlew :naca-rt-tests:sampleAcceptance --tests '*SampleEndToEndAcceptanceTest*' --tests '*CardDemoEndToEndAcceptanceTest*' --rerun-tasks --console=plain",
+        "./gradlew sampleAcceptance --rerun-tasks --console=plain"
+      ],
+      "state": "READY",
+      "attempts": 0,
+      "evidence": [
+        "After QG-004, qualityRatchet reports naca-rt-tests.pmdTest at 86 versus baseline 84. AcceptanceProgramRunner has five findings: DoubleBraceInitialization (1), SystemPrintln (1), and AvoidLiteralsInIfCondition (3); the CardDemo test has zero findings."
+      ]
     }
   ]
 }
