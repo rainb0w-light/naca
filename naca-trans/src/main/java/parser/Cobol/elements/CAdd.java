@@ -18,6 +18,8 @@ import org.w3c.dom.Element;
 import parser.CIdentifier;
 import parser.Cobol.CCobolElement;
 import parser.expression.CTerminal;
+import parser.expression.CConstantTerminal;
+import parser.expression.CIdentifierTerminal;
 import semantic.CDataEntity;
 import semantic.CBaseEntityFactory;
 import semantic.CBaseLanguageEntity;
@@ -81,14 +83,30 @@ public class CAdd extends CCobolElement
 			isdone = false ;
 			while (!isdone)
 			{
-				CIdentifier t = ReadIdentifier() ;
+				CBaseToken destinationToken = GetCurrentToken() ;
+				String destinationValue = destinationToken.GetValue();
+				boolean isFigurativeZero = destinationValue != null
+					&& (destinationValue.equalsIgnoreCase("ZERO")
+						|| destinationValue.equalsIgnoreCase("ZEROS")
+						|| destinationValue.equalsIgnoreCase("ZEROES"));
+				if (isFigurativeZero)
+				{
+					hasFigurativeToOperand = true ;
+				}
+				CTerminal t = ReadTerminal() ;
+				if (t == null && (destinationToken.GetConstant() != null
+					|| isFigurativeZero))
+				{
+					GetNext() ;
+					t = new CConstantTerminal(destinationToken.GetValue()) ;
+				}
 				if (t == null)
 				{
 					isdone = true ;
 				}
 				else
 				{
-					identifiers.add(t) ;
+					toOperands.add(t) ;
 				}
 				tok = GetCurrentToken() ;
 				if (tok.GetType() == CTokenType.COMMA)
@@ -99,8 +117,10 @@ public class CAdd extends CCobolElement
 		}
 
 		tok = GetCurrentToken() ;
+		boolean hasGiving = false ;
 		if (tok.GetKeyword() == CCobolKeywordList.GIVING)
 		{
+			hasGiving = true ;
 			GetNext();
 			isdone = false ;
 			while (!isdone)
@@ -113,6 +133,22 @@ public class CAdd extends CCobolElement
 				else
 				{
 					result.add(identifier) ;
+				}
+			}
+		}
+		if (!hasGiving)
+		{
+			if (hasFigurativeToOperand)
+			{
+				Transcoder.logError(getLine(), "ADD TO target must be a writable identifier") ;
+				return false ;
+			}
+			for (CTerminal destination : toOperands)
+			{
+				if (!isWritableIdentifier(destination))
+				{
+					Transcoder.logError(getLine(), "ADD TO target must be a writable identifier") ;
+					return false ;
 				}
 			}
 		}
@@ -139,11 +175,11 @@ public class CAdd extends CCobolElement
 			CTerminal value = values.get(i);
 			value.ExportTo(eVal, root) ;
 		}
-		for (int i = 0; i< identifiers.size(); i++)
+		for (int i = 0; i< toOperands.size(); i++)
 		{
 			Element eTo = root.createElement("To") ;
-			CIdentifier id = identifiers.get(i) ;
-			id.ExportTo(eTo, root) ;
+			CTerminal terminal = toOperands.get(i) ;
+			terminal.ExportTo(eTo, root) ;
 			e.appendChild(eTo) ;
 		}
 		for (int i = 0; i< result.size(); i++)
@@ -157,9 +193,10 @@ public class CAdd extends CCobolElement
 	}
 
 	protected Vector<CTerminal> values = new Vector<CTerminal>() ;
-	protected Vector<CIdentifier> identifiers = new Vector<CIdentifier>() ;
+	protected Vector<CTerminal> toOperands = new Vector<CTerminal>() ;
 	protected Vector<CIdentifier> result = new Vector<CIdentifier>() ;
 	protected boolean isrounded = false ;
+	protected boolean hasFigurativeToOperand = false ;
 	/* (non-Javadoc)
 	 * @see parser.CBaseElement#DoCustomSemanticAnalysis(semantic.CBaseSemanticEntity, semantic.CBaseSemanticEntityFactory)
 	 */
@@ -175,10 +212,10 @@ public class CAdd extends CCobolElement
 				CDataEntity eRef = value.GetDataEntity(getLine(), factory) ;
 				eAdd.SetAddValue(eRef) ;
 			}
-			for (int i = 0; i< identifiers.size(); i++)
+			for (int i = 0; i< toOperands.size(); i++)
 			{
-				CIdentifier idDest = identifiers.get(i) ;
-				CDataEntity eDest = idDest.GetDataReference(getLine(), factory);
+				CTerminal destination = toOperands.get(i) ;
+				CDataEntity eDest = destination.GetDataEntity(getLine(), factory);
 				eAdd.SetAddDest(eDest) ;
 			}
 			if (isrounded)
@@ -196,10 +233,10 @@ public class CAdd extends CCobolElement
 				CDataEntity eRef = value.GetDataEntity(getLine(), factory) ;
 				eAdd.SetAddValue(eRef) ;
 			}
-			for (int i = 0; i< identifiers.size(); i++)
+			for (int i = 0; i< toOperands.size(); i++)
 			{
-				CIdentifier idDest = identifiers.get(i) ;
-				CDataEntity eDest = idDest.GetDataReference(getLine(), factory);
+				CTerminal destination = toOperands.get(i) ;
+				CDataEntity eDest = destination.GetDataEntity(getLine(), factory);
 				eAdd.SetAddValue(eDest) ;
 			}
 			if (isrounded)
@@ -214,5 +251,24 @@ public class CAdd extends CCobolElement
 			}
 		}
 		return null;
+	}
+
+	private boolean isWritableIdentifier(CTerminal destination)
+	{
+		String value = destination.GetValue() ;
+		if (value.equals("ZERO") || value.equals("ZEROS") || value.equals("ZEROES"))
+		{
+			return false ;
+		}
+		if (!destination.IsReference())
+		{
+			return false ;
+		}
+		if (destination instanceof CIdentifierTerminal)
+		{
+			String name = ((CIdentifierTerminal) destination).GetIdentifier().GetName() ;
+			return !name.equals("ZERO") && !name.equals("ZEROS") && !name.equals("ZEROES") ;
+		}
+		return true ;
 	}
 }

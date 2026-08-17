@@ -14,24 +14,26 @@
     },
     {
       "name": "parse-transpile",
-      "status": "FAIL",
+      "status": "PASS",
       "command": "./gradlew :naca-trans:transpile -PconfigFile=<temp-config>",
-      "exitCode": 0,
-      "errorType": "unsupported-or-parse",
-      "diagnostic": "ERROR LogFile - 0013[Error] %(137)%- Unexpecting token : ZERO"
+      "exitCode": 0
     },
     {
       "name": "generated-java",
-      "status": "NOT_RUN",
-      "command": "./gradlew :naca-trans:transpile -PconfigFile=<temp-config>"
+      "status": "PASS",
+      "command": "inspect temporary output",
+      "exitCode": 0
     },
     {
       "name": "javac",
-      "status": "NOT_RUN",
-      "command": "javac <generated-java>"
+      "status": "FAIL",
+      "command": "javac <generated-java>",
+      "exitCode": 1,
+      "errorType": "javac-error",
+      "diagnostic": "<temp>:19: illegal syntax perform(0000_CARDFILE_OPEN)"
     }
   ],
-  "firstBlocker": "parse-transpile",
+  "firstBlocker": "javac",
   "acceptance": {
     "currentSuccess": false,
     "structuredRejectionCorpus": true,
