@@ -21,6 +21,9 @@ CARD_SPEC.loader.exec_module(CARD)
 PROBE_SPEC = importlib.util.spec_from_file_location("carddemo_probe", ROOT / "tools/quality-loop/carddemo_probe.py")
 PROBE = importlib.util.module_from_spec(PROBE_SPEC)
 PROBE_SPEC.loader.exec_module(PROBE)
+RUNTIME_SPEC = importlib.util.spec_from_file_location("carddemo_runtime_probe", ROOT / "tools/quality-loop/carddemo_runtime_probe.py")
+RUNTIME = importlib.util.module_from_spec(RUNTIME_SPEC)
+RUNTIME_SPEC.loader.exec_module(RUNTIME)
 
 
 class QualityLoopTests(unittest.TestCase):
@@ -409,6 +412,12 @@ class QualityLoopTests(unittest.TestCase):
             if command[0] == sys.executable:
                 return Completed()
             if command[0] == "./gradlew":
+                if any("cardDemoRuntime" in value for value in command):
+                    input_path = Path(next(value.split("=", 1)[1] for value in command if value.startswith("-PruntimeInput=")))
+                    raw = input_path.read_bytes()
+                    records = [raw[offset:offset + 150].decode("ascii")
+                               for offset in range(0, len(raw), 151)]
+                    return Completed(output="\n".join([RUNTIME.START, *records, RUNTIME.END]) + "\n")
                 config = Path(next(value.split("=", 1)[1] for value in command if value.startswith("-PconfigFile=")))
                 output = Path(re.search(r'OutputPath="([^"]+)', config.read_text()).group(1))
                 output.mkdir(parents=True, exist_ok=True)
@@ -421,6 +430,103 @@ class QualityLoopTests(unittest.TestCase):
         self.assertEqual(javac_failure["firstBlocker"], "javac")
         self.assertEqual([item["status"] for item in javac_failure["stages"]], ["PASS", "PASS", "PASS", "FAIL"])
         PROBE.validate(javac_failure)
+
+    def test_runtime_probe_exact_output_and_normalized_paths(self):
+        checkout = Path(self.temp.name) / "runtime-checkout"
+        (checkout / "app/cbl").mkdir(parents=True)
+        (checkout / "app/cpy").mkdir()
+        (checkout / "app/data/ASCII").mkdir(parents=True)
+        (checkout / "app/cbl/CBACT02C.cbl").write_text("source")
+        (checkout / "app/cpy/CVACT02Y.cpy").write_text("copy")
+        fixture_records = [f"{index:03d}".encode() + b"A" * 147 for index in range(50)]
+        (checkout / "app/data/ASCII/carddata.txt").write_bytes(
+            b"\n".join(fixture_records) + b"\n")
+
+        class Completed:
+            def __init__(self, code=0, output=""):
+                self.returncode = code
+                self.stdout = output
+                self.stderr = output
+
+        commands = []
+        def runner(command, **kwargs):
+            commands.append(command)
+            if command[0] == sys.executable:
+                return Completed(output='{"status":"PASS"}')
+            if command[0] == "./gradlew":
+                if any("cardDemoRuntime" in value for value in command):
+                    input_path = Path(next(value.split("=", 1)[1] for value in command if value.startswith("-PruntimeInput=")))
+                    raw = input_path.read_bytes()
+                    records = [raw[offset:offset + 150].decode("ascii")
+                               for offset in range(0, len(raw), 151)]
+                    return Completed(output="\n".join([RUNTIME.START, *records, RUNTIME.END]) + "\n")
+                config = Path(next(value.split("=", 1)[1] for value in command if value.startswith("-PconfigFile=")))
+                output = Path(re.search(r'OutputPath="([^"]+)', config.read_text()).group(1))
+                output.mkdir(parents=True, exist_ok=True)
+                (output / "Cbact02c.java").write_text("class Cbact02c {}")
+                (output / "Cvact02y.java").write_text("class Cvact02y {}")
+                return Completed()
+            if command[0].endswith("javac"):
+                return Completed()
+            records = [f"{index:03d}" + "A" * 147 for index in range(50)]
+            return Completed(output="\n".join([RUNTIME.START, *records, RUNTIME.END]) + "\n")
+
+        result = RUNTIME.run_probe(checkout, runner)
+        self.assertIsNone(result["firstBlocker"], result)
+        self.assertEqual(result["stages"][-1]["status"], "PASS")
+        self.assertIn("ascii,fb,150", " ".join(commands[-1]))
+        self.assertEqual(
+            RUNTIME.clean("/tmp/random-root/output/Cbact02c.java:1", Path("/tmp/random-root")),
+            "<temp>/output/Cbact02c.java:1",
+        )
+        RUNTIME.validate(result)
+
+        def reordered_runner(command, **kwargs):
+            completed = runner(command, **kwargs)
+            if any("cardDemoRuntime" in value for value in command):
+                lines = completed.stdout.splitlines()
+                records = lines[1:-1]
+                records[0], records[1] = records[1], records[0]
+                completed.stdout = "\n".join([lines[0], *records, lines[-1]]) + "\n"
+            return completed
+
+        reordered = RUNTIME.run_probe(checkout, reordered_runner)
+        self.assertEqual(reordered["firstBlocker"], "runtime")
+        self.assertEqual(reordered["stages"][-1]["errorType"], "runtime-output-mismatch")
+        RUNTIME.validate(reordered)
+
+        def transpile_failure(command, **kwargs):
+            if command[0] == "./gradlew" and ":naca-trans:transpile" in command:
+                return Completed(2, "transpile failed")
+            return runner(command, **kwargs)
+
+        failed = RUNTIME.run_probe(checkout, transpile_failure)
+        self.assertEqual([item["status"] for item in failed["stages"]],
+                         ["PASS", "FAIL", "NOT_RUN", "NOT_RUN", "NOT_RUN"])
+        RUNTIME.validate(failed)
+
+    def test_runtime_probe_schema_and_failure_short_circuit(self):
+        stages = [
+            RUNTIME.stage("source-verification", "PASS", "source", 0),
+            RUNTIME.stage("transpile", "PASS", "transpile", 0),
+            RUNTIME.stage("generated-java", "FAIL", "generated", 0, "missing-generated-artifact"),
+            RUNTIME.stage("javac", "NOT_RUN", "javac"),
+            RUNTIME.stage("runtime", "NOT_RUN", "runtime"),
+        ]
+        report = RUNTIME.runtime_report(stages, "generated-java")
+        RUNTIME.validate(report)
+        generic_runtime = RUNTIME.runtime_report([
+            RUNTIME.stage("source-verification", "PASS", "source", 0),
+            RUNTIME.stage("transpile", "PASS", "transpile", 0),
+            RUNTIME.stage("generated-java", "PASS", "generated", 0),
+            RUNTIME.stage("javac", "PASS", "javac", 0),
+            RUNTIME.stage("runtime", "FAIL", "runtime", 1, "runtime-output-mismatch"),
+        ], "runtime")
+        self.assertIn("Resolve the first runtime blocker", generic_runtime["acceptance"]["nextTask"])
+        broken = json.loads(json.dumps(report))
+        broken["stages"][-1]["status"] = "PASS"
+        with self.assertRaises(ValueError):
+            RUNTIME.validate(broken)
 
 
 if __name__ == "__main__":

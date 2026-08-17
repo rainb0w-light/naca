@@ -177,6 +177,24 @@ tasks.register<JavaExec>("runTest") {
     }
 }
 
+tasks.register<JavaExec>("cardDemoRuntime") {
+    group = "verification"
+    description = "Run a generated CardDemo program with an isolated NacaRT classpath"
+    val runtimeClasses = providers.gradleProperty("runtimeClasses")
+    classpath = files(runtimeClasses).plus(sourceSets["test"].runtimeClasspath)
+    mainClass.set("com.publicitas.naca.tests.acceptance.AcceptanceProgramRunner")
+    doFirst {
+        val classesPath = project.findProperty("runtimeClasses")?.toString() ?: ""
+        setArgs(listOf(
+            project.findProperty("runtimeClass")?.toString() ?: "Cbact02c",
+            classesPath,
+            project.findProperty("runtimeLogicalName")?.toString() ?: "CARDFILE",
+            project.findProperty("runtimeInput")?.toString() ?: "",
+            project.findProperty("runtimeDescriptor")?.toString() ?: "ascii,fb,150",
+        ))
+    }
+}
+
 // Spring Boot main class configuration
 springBoot {
     mainClass.set("com.publicitas.naca.NacaRtApplication")

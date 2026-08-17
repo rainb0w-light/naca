@@ -25,6 +25,8 @@ CardDemo preflight is offline after a one-time pinned checkout: `git clone --no-
 
 Probe the pinned candidate with `python3 tools/quality-loop/carddemo_probe.py probe-source /path/to/checkout --output docs/quality-governance/carddemo-feasibility.json`, then validate the recorded report with `python3 tools/quality-loop/carddemo_probe.py validate-report`.
 
+Run the diagnostic runtime probe with `python3 tools/quality-loop/carddemo_runtime_probe.py probe-runtime /path/to/checkout`, then validate `docs/quality-governance/carddemo-runtime.json`; it maps `CARDFILE` to the pinned `app/data/ASCII/carddata.txt` using `ascii,fb,150` and never changes product sources.
+
 Workers flow `RUNNING → REVIEW`; the controller independently runs `verify_task`, then transitions `REVIEW → VERIFIED` only after PASS. Failures may become `REJECTED` or `BLOCKED`, and rejected work can return to `READY`. `next` selects only READY tasks whose dependencies are VERIFIED, ordered by priority then id.
 
 Acceptance is bounded by each task's allowed/forbidden paths, file limit, and declared commands. The verifier independently checks git diff and protected baseline/configuration paths; worker claims are not evidence.

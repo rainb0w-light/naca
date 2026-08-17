@@ -53,6 +53,13 @@ public final class AcceptanceProgramRunner {
             session.putLogicalFileDescriptor("FILEOUT",
                 fixedAsciiFile("FILEOUT", args[3]));
         }
+        if (args.length >= 5) {
+            LogicalFileDescriptor mapped = descriptor(args[2], args[3], args[4]);
+            session.putLogicalFileDescriptor(args[2], mapped);
+            if ("CARDFILE".equals(args[2])) {
+                session.putLogicalFileDescriptor("CARDFILE-FILE", mapped);
+            }
+        }
         OnlineEnvironment environment =
             (OnlineEnvironment) loader.GetEnvironment(session, null, null);
         environment.setNextProgramToLoad(className);
@@ -62,6 +69,11 @@ public final class AcceptanceProgramRunner {
 
     private static LogicalFileDescriptor fixedAsciiFile(String logicalName, String path) {
         return new LogicalFileDescriptor(logicalName, path + ",ascii,fb,69");
+    }
+
+    private static LogicalFileDescriptor descriptor(
+        String logicalName, String path, String format) {
+        return new LogicalFileDescriptor(logicalName, path + "," + format);
     }
 
     private AcceptanceProgramRunner() {
