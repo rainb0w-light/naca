@@ -620,10 +620,10 @@
         "./gradlew :naca-trans:pmdTest --rerun-tasks --console=plain",
         "./gradlew :naca-trans:finalArchitectureCheck --console=plain"
       ],
-      "state": "READY",
-      "attempts": 0,
+      "state": "RUNNING",
+      "attempts": 1,
       "evidence": [
-        "Controller attributed 26 current PMD findings to the three branch-new tests: CLevel88DeclarationRenderTest=10, CWorkingGroupDeclarationRenderTest=10, CAddGivingLiteralTest=6. Rules are UnitTestAssertionsShouldIncludeMessage (19), UnitTestContainsTooManyAsserts (6), and AssignmentInOperand (1)."
+        "Dispatched the exact three-file, 26-finding PMD cleanup to Luna after controller attribution; production code and rule suppression remain forbidden."
       ]
     }
   ]
