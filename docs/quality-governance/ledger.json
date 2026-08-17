@@ -130,11 +130,39 @@
         "python3 -m unittest discover -s tools/quality-loop/tests -p 'test_*.py'",
         "python3 tools/quality-loop/carddemo_preflight.py validate-manifest"
       ],
-      "state": "RUNNING",
+      "state": "VERIFIED",
       "attempts": 1,
       "evidence": [
-        "quality governance vertical slice completed through baseline ratchet"
+        "19 tests PASS and manifest validation PASS",
+        "raw fixed-commit hashes sizes lines COPY and CALL independently matched",
+        "verify-source passed against checkout 59cc6c2f"
       ]
+    },
+    {
+      "id": "CD-001",
+      "objective": "Probe pinned CBACT02C with CVACT02Y through the existing Naca pipeline and record deterministic parse, transpile, Java compile, and blocker evidence without changing product code.",
+      "stream": "carddemo",
+      "priority": 5,
+      "dependencies": [
+        "CD-000"
+      ],
+      "allowedPaths": [
+        "docs/quality-governance/carddemo-feasibility.json",
+        "docs/quality-governance/README.md",
+        "tools/quality-loop/carddemo_probe.py",
+        "tools/quality-loop/tests/test_quality_loop.py"
+      ],
+      "forbiddenPaths": [
+        "docs/quality-governance/ledger.json"
+      ],
+      "authorizedProtectedPaths": [],
+      "maxFiles": 4,
+      "verification": [
+        "python3 -m unittest discover -s tools/quality-loop/tests -p 'test_*.py'",
+        "python3 tools/quality-loop/carddemo_probe.py validate-report"
+      ],
+      "state": "READY",
+      "attempts": 0
     }
   ]
 }
