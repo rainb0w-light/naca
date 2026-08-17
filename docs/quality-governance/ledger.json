@@ -422,9 +422,11 @@
         "./gradlew :naca-rt:test --console=plain",
         "python3 tools/quality-loop/carddemo_runtime_probe.py validate-report"
       ],
-      "state": "READY",
-      "attempts": 0,
-      "evidence": []
+      "state": "RUNNING",
+      "attempts": 1,
+      "evidence": [
+        "Dispatched to Luna from controller-reviewed FileDescriptor lifecycle diagnosis"
+      ]
     }
   ]
 }
