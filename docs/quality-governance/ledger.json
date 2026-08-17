@@ -355,10 +355,10 @@
         "./gradlew :naca-rt-tests:compileTestJava --console=plain",
         "python3 tools/quality-loop/carddemo_runtime_probe.py validate-report"
       ],
-      "state": "RUNNING",
+      "state": "VERIFIED",
       "attempts": 1,
       "evidence": [
-        "Dispatched to Luna from controller-reviewed base b20a37d0"
+        "Independent verification passed: scope verifier, 28 controller tests, compileall, compileTestJava, legacy BatchMultiProgramAcceptanceTest, canonical report validation, and two byte-identical pinned runtime probes SHA-256 060789b81eaa383144007c3eb2c1374323d2bfc9e82147e1f7c8b9b503e99133. First blocker is runtime-file-status: generated CARDFILE_STATUS omits its level-05 children, so status 00 follows the error branch; Cee3abd is downstream."
       ]
     }
   ]
