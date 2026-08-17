@@ -422,10 +422,12 @@
         "./gradlew :naca-rt:test --console=plain",
         "python3 tools/quality-loop/carddemo_runtime_probe.py validate-report"
       ],
-      "state": "RUNNING",
+      "state": "VERIFIED",
       "attempts": 1,
       "evidence": [
-        "Dispatched to Luna from controller-reviewed FileDescriptor lifecycle diagnosis"
+        "Controller reviewed b44c17440f272d0cd4d37da06bcbe853f6162187: allowed-path verification PASS; no Unsafe, reflection, assumptions, or skipped tests.",
+        "Controller reran focused FileDescriptorStatusTest and full naca-rt test with --rerun-tasks: PASS; focused XML tests=1 skipped=0 failures=0.",
+        "Controller reran the pinned CardDemo runtime probe twice: byte-identical SHA-256 371de7dd5a1ea7e25cbeaa71faabc0b2db7f0edeb419a0df5aa346325fa14bf7; all five stages PASS with exact 52-line output. Root sampleAcceptance also passed with finalArchitectureCheck."
       ]
     }
   ]
