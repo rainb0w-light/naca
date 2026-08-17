@@ -224,11 +224,10 @@
         "python3 -m unittest discover -s tools/quality-loop/tests -p 'test_*.py'",
         "python3 tools/quality-loop/carddemo_probe.py validate-report"
       ],
-      "state": "READY",
-      "attempts": 0,
+      "state": "RUNNING",
+      "attempts": 1,
       "evidence": [
-        "Independent rerun showed javac diagnostic embeds random carddemo-probe temporary paths",
-        "Current javac invocation omits the NacaRT and naca-jlib compile classpath"
+        "Dispatched to Luna from controller-reviewed base c98aa3ae"
       ]
     }
   ]
