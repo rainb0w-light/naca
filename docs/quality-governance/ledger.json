@@ -681,10 +681,10 @@
         "./gradlew :naca-trans:pmdTest :naca-trans:checkstyleMain --rerun-tasks --console=plain",
         "python3 -c \"import json,xml.etree.ElementTree as ET; b=json.load(open('docs/project-quality-baseline.json',encoding='utf-8'))['staticAnalysis']['naca-trans']; p=ET.parse('naca-trans/build/reports/pmd/test.xml').getroot(); c=ET.parse('naca-trans/build/reports/checkstyle/main.xml').getroot(); count=lambda r,n: sum(1 for e in r.iter() if e.tag.rsplit('}',1)[-1]==n); assert (count(p,'violation'),count(c,'error'),b['pmdTest'],b['checkstyleMain'])==(2623,3631,2623,3631)\""
       ],
-      "state": "RUNNING",
+      "state": "VERIFIED",
       "attempts": 1,
       "evidence": [
-        "Dispatched the two-value protected baseline tightening to Luna after controller independently measured both improvements."
+        "Controller independently confirmed the two-line baseline diff only, reran pmdTest/checkstyleMain, measured 2623 and 3631 exactly, and passed verify_task against dispatch base 90eca232."
       ]
     }
   ]
