@@ -130,8 +130,11 @@
         "python3 -m unittest discover -s tools/quality-loop/tests -p 'test_*.py'",
         "python3 tools/quality-loop/carddemo_preflight.py validate-manifest"
       ],
-      "state": "READY",
-      "attempts": 0
+      "state": "RUNNING",
+      "attempts": 1,
+      "evidence": [
+        "quality governance vertical slice completed through baseline ratchet"
+      ]
     }
   ]
 }
