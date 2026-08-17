@@ -1,6 +1,7 @@
 package generate.java.st;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -53,9 +54,9 @@ class CWorkingGroupDeclarationRenderTest
         COriginalLisiting listing = new COriginalLisiting();
         CCobolLexer lexer = new CCobolLexer();
         assertTrue(lexer.StartLexer(new ByteArrayInputStream(
-            source.getBytes(StandardCharsets.UTF_8)), listing));
+            source.getBytes(StandardCharsets.UTF_8)), listing), "COBOL source should lex");
         CCobolParser parser = new CCobolParser();
-        assertTrue(parser.StartParsing(lexer.GetTokenList()));
+        assertTrue(parser.StartParsing(lexer.GetTokenList()), "COBOL tokens should parse");
         CProgram program = parser.GetRootElement();
         AsciiEbcdicConverter.create();
         CGlobalCatalog global = new CGlobalCatalog(null, "", "", "");
@@ -65,37 +66,47 @@ class CWorkingGroupDeclarationRenderTest
         catalog.setExporter(exporter);
         CEntityClass root = program.DoSemanticAnalysis(
             new CJavaEntityFactory(catalog, exporter));
-        assertNotNull(root);
+        assertNotNull(root, "semantic root should be created");
         return root;
     }
 
     @Test
-    void referencedGroupKeepsCompleteStorageLayoutAndCompiles() throws Exception
+    void referencedGroupKeepsCompleteStorageLayoutAndCompiles()
+    {
+        assertDoesNotThrow(this::assertReferencedGroup, "referenced group layout should compile");
+    }
+
+    private void assertReferencedGroup() throws Exception
     {
         String rendered = TemplateLoader.getRecursiveAssembler().renderRoot(
             parse(PROGRAM), JavaTemplateRole.ROOT);
         String group = "Var CARDFILE_STATUS = declare.level(1).var() ;";
         String first = "Var CARDFILE_STAT1 = declare.level(05).picX(1).var() ;";
         String second = "Var CARDFILE_STAT2 = declare.level(05).picX(1).var() ;";
-        assertEquals(1, count(rendered, group), rendered);
-        assertEquals(1, count(rendered, first), rendered);
-        assertEquals(1, count(rendered, second), rendered);
-        assertTrue(rendered.indexOf(group) < rendered.indexOf(first));
-        assertTrue(rendered.indexOf(first) < rendered.indexOf(second));
+        assertEquals(1, count(rendered, group), "group declaration count");
+        assertEquals(1, count(rendered, first), "first child declaration count");
+        assertEquals(1, count(rendered, second), "second child declaration count");
+        assertTrue(rendered.indexOf(group) < rendered.indexOf(first), "group precedes first child");
+        assertTrue(rendered.indexOf(first) < rendered.indexOf(second), "children preserve order");
         compile(rendered);
     }
 
     @Test
-    void ignoredIndependentGroupIsExcludedByParentSelection() throws Exception
+    void ignoredIndependentGroupIsExcludedByParentSelection()
+    {
+        assertDoesNotThrow(this::assertIgnoredGroup, "ignored group should remain excluded");
+    }
+
+    private void assertIgnoredGroup() throws Exception
     {
         CEntityClass root = parse(PROGRAM);
         CBaseLanguageEntity unused = find(root, "UNUSED-GROUP");
-        assertNotNull(unused);
+        assertNotNull(unused, "unused group should be present in semantic tree");
         unused.SetIgnoreStructure();
         String rendered = TemplateLoader.getRecursiveAssembler().renderRoot(
             root, JavaTemplateRole.ROOT);
-        assertEquals(0, count(rendered, "UNUSED_GROUP"), rendered);
-        assertEquals(0, count(rendered, "UNUSED_CHILD"), rendered);
+        assertEquals(0, count(rendered, "UNUSED_GROUP"), "unused group should be omitted");
+        assertEquals(0, count(rendered, "UNUSED_CHILD"), "unused child should be omitted");
     }
 
     private static CBaseLanguageEntity find(CBaseLanguageEntity entity, String name)
@@ -118,13 +129,13 @@ class CWorkingGroupDeclarationRenderTest
     private static void compile(String rendered) throws Exception
     {
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-        assertNotNull(compiler);
+        assertNotNull(compiler, "JDK compiler should be available");
         Path output = Files.createTempDirectory("working-group-compile");
         try
         {
             Matcher className = Pattern.compile(
                 "public class ([A-Za-z_$][A-Za-z0-9_$]*)").matcher(rendered);
-            assertTrue(className.find(), rendered);
+            assertTrue(className.find(), "generated class declaration should exist");
             Path source = output.resolve(className.group(1) + ".java");
             Files.writeString(source, rendered);
             Path root = Path.of(System.getProperty("user.dir")).toAbsolutePath();
@@ -141,7 +152,8 @@ class CWorkingGroupDeclarationRenderTest
             ByteArrayOutputStream diagnostics = new ByteArrayOutputStream();
             int result = compiler.run(null, diagnostics, diagnostics,
                 "-classpath", classpath, "-d", output.toString(), source.toString());
-            assertEquals(0, result, diagnostics.toString(StandardCharsets.UTF_8));
+            assertEquals(0, result, "generated Java should compile: "
+                + diagnostics.toString(StandardCharsets.UTF_8));
         }
         finally
         {
@@ -157,8 +169,13 @@ class CWorkingGroupDeclarationRenderTest
     {
         int count = 0;
         int offset = 0;
-        while ((offset = text.indexOf(needle, offset)) >= 0)
+        while (offset >= 0)
         {
+            offset = text.indexOf(needle, offset);
+            if (offset < 0)
+            {
+                break;
+            }
             count++;
             offset += needle.length();
         }

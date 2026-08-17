@@ -1,6 +1,7 @@
 package generate.java.st;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -60,9 +61,9 @@ class CLevel88DeclarationRenderTest
         COriginalLisiting listing = new COriginalLisiting();
         CCobolLexer lexer = new CCobolLexer();
         assertTrue(lexer.StartLexer(new ByteArrayInputStream(
-            source.getBytes(StandardCharsets.UTF_8)), listing));
+            source.getBytes(StandardCharsets.UTF_8)), listing), "COBOL source should lex");
         CCobolParser parser = new CCobolParser();
-        assertTrue(parser.StartParsing(lexer.GetTokenList()));
+        assertTrue(parser.StartParsing(lexer.GetTokenList()), "COBOL tokens should parse");
         CProgram program = parser.GetRootElement();
         AsciiEbcdicConverter.create();
         CGlobalCatalog global = new CGlobalCatalog(null, "", "", "");
@@ -72,33 +73,38 @@ class CLevel88DeclarationRenderTest
         catalog.setExporter(exporter);
         CEntityClass root = program.DoSemanticAnalysis(
             new CJavaEntityFactory(catalog, exporter));
-        assertNotNull(root);
+        assertNotNull(root, "semantic root should be created");
         return root;
     }
 
     @Test
-    void rendersLevel88ChildrenBeforeProcedureReferencesAndCompiles() throws Exception
+    void rendersLevel88ChildrenBeforeProcedureReferencesAndCompiles()
+    {
+        assertDoesNotThrow(this::assertLevel88Rendering, "level-88 rendering should compile");
+    }
+
+    private void assertLevel88Rendering() throws Exception
     {
         String rendered = TemplateLoader.getRecursiveAssembler().renderRoot(
             parse(PROGRAM), JavaTemplateRole.ROOT);
         String aokDeclaration = "Cond APPL_AOK = declare.condition().value(0).var() ;";
         String eofDeclaration = "Cond APPL_EOF = declare.condition().value(16).var() ;";
-        assertEquals(1, count(rendered, aokDeclaration), rendered);
-        assertEquals(1, count(rendered, eofDeclaration), rendered);
-        assertTrue(PROGRAM.contains("IF APPL-AOK"));
+        assertEquals(1, count(rendered, aokDeclaration), "APPL-AOK declaration count");
+        assertEquals(1, count(rendered, eofDeclaration), "APPL-EOF declaration count");
+        assertTrue(PROGRAM.contains("IF APPL-AOK"), "fixture should reference APPL-AOK");
         int ifIndex = rendered.indexOf("if (is(APPL_AOK))");
-        assertTrue(ifIndex >= 0, rendered);
-        assertTrue(rendered.indexOf(aokDeclaration) < ifIndex);
-        assertTrue(rendered.indexOf(eofDeclaration) < ifIndex);
+        assertTrue(ifIndex >= 0, "APPL-AOK procedure reference should render");
+        assertTrue(rendered.indexOf(aokDeclaration) < ifIndex, "AOK declaration precedes reference");
+        assertTrue(rendered.indexOf(eofDeclaration) < ifIndex, "EOF declaration precedes reference");
 
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-        assertNotNull(compiler);
+        assertNotNull(compiler, "JDK compiler should be available");
         Path output = Files.createTempDirectory("level88-compile");
         try
         {
             Matcher className = Pattern.compile("public class ([A-Za-z_$][A-Za-z0-9_$]*)")
                 .matcher(rendered);
-            assertTrue(className.find(), rendered);
+            assertTrue(className.find(), "generated class declaration should exist");
             Path source = output.resolve(className.group(1) + ".java");
             Files.writeString(source, rendered);
             Path root = Path.of(System.getProperty("user.dir")).toAbsolutePath();
@@ -115,7 +121,8 @@ class CLevel88DeclarationRenderTest
             ByteArrayOutputStream diagnostics = new ByteArrayOutputStream();
             int compileResult = compiler.run(null, diagnostics, diagnostics,
                 "-classpath", classpath, "-d", output.toString(), source.toString());
-            assertEquals(0, compileResult, diagnostics.toString(StandardCharsets.UTF_8));
+            assertEquals(0, compileResult, "generated Java should compile: "
+                + diagnostics.toString(StandardCharsets.UTF_8));
         }
         finally
         {
@@ -128,14 +135,19 @@ class CLevel88DeclarationRenderTest
     }
 
     @Test
-    void plainPicDeclarationHasNoNamedConditionOutput() throws Exception
+    void plainPicDeclarationHasNoNamedConditionOutput()
+    {
+        assertDoesNotThrow(this::assertPlainPicRendering, "plain PIC rendering should be stable");
+    }
+
+    private void assertPlainPicRendering() throws Exception
     {
         String rendered = TemplateLoader.getRecursiveAssembler().renderRoot(
             parse(PLAIN_PROGRAM), JavaTemplateRole.ROOT);
-        assertEquals(0, count(rendered, "Cond "), rendered);
+        assertEquals(0, count(rendered, "Cond "), "plain PIC should have no conditions");
         assertEquals(rendered,
             TemplateLoader.getRecursiveAssembler().renderRoot(
-                parse(PLAIN_PROGRAM), JavaTemplateRole.ROOT));
+                parse(PLAIN_PROGRAM), JavaTemplateRole.ROOT), "plain PIC output should be stable");
     }
 
     private static int count(String text, String needle)
