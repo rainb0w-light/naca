@@ -558,10 +558,10 @@
         "./gradlew :naca-rt-tests:sampleAcceptance --tests '*SampleEndToEndAcceptanceTest*' --tests '*CardDemoEndToEndAcceptanceTest*' --rerun-tasks --console=plain",
         "./gradlew sampleAcceptance --rerun-tasks --console=plain"
       ],
-      "state": "RUNNING",
+      "state": "VERIFIED",
       "attempts": 2,
       "evidence": [
-        "Redispatched to Luna to eliminate the newly introduced CloseResource finding without changing stdout behavior or the one-file scope."
+        "Controller independently verified QG-005 scope PASS; naca-rt-tests.pmdTest is 81 versus baseline 84, AcceptanceProgramRunner has zero findings, and all three root sampleAcceptance suites report tests=1 skipped=0 failures=0 errors=0."
       ]
     }
   ]
