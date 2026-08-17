@@ -288,10 +288,10 @@
         "python3 -m unittest discover -s tools/quality-loop/tests -p 'test_*.py'",
         "python3 tools/quality-loop/carddemo_probe.py validate-report"
       ],
-      "state": "RUNNING",
+      "state": "VERIFIED",
       "attempts": 1,
       "evidence": [
-        "Dispatched to Luna from controller-reviewed base 7dc3f92a"
+        "Controller confirmed copybook generation PASS; next blocker is omitted declarations for APPL_AOK and APPL_EOF level-88 conditions"
       ]
     }
   ]
