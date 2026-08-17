@@ -258,11 +258,10 @@
         "./gradlew :naca-trans:test :naca-trans:finalArchitectureCheck --console=plain",
         "python3 tools/quality-loop/carddemo_probe.py validate-report"
       ],
-      "state": "READY",
-      "attempts": 0,
+      "state": "RUNNING",
+      "attempts": 1,
       "evidence": [
-        "Generated Cbact02c.java declares and calls paragraph names such as 0000_CARDFILE_OPEN without a legal Java leading character",
-        "JavaIdentifierAttributeRenderer already prefixes numeric identifiers, but procedure declaration and javaFormattedName call paths bypass it"
+        "Dispatched to Luna from controller-reviewed base 4e8944bf"
       ]
     }
   ]
