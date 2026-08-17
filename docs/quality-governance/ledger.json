@@ -100,32 +100,35 @@
         "./gradlew :rewrite-recipes:pmdTest qualityRatchet --console=plain",
         "python3 -c \"import json, sys; baseline=json.load(open('docs/project-quality-baseline.json', encoding='utf-8')); sys.exit(0 if baseline['staticAnalysis']['rewrite-recipes']['pmdTest'] == 0 else 1)\""
       ],
-      "state": "RUNNING",
+      "state": "VERIFIED",
       "attempts": 1,
       "evidence": [
-        "QG-002 reduced rewrite-recipes.pmdTest from 2 to 0"
+        "only rewrite-recipes.pmdTest baseline changed 2 to 0",
+        "qualityRatchet PASS with tightened baseline"
       ]
     },
     {
       "id": "CD-000",
-      "objective": "Preflight the fixed CardDemo corpus.",
+      "objective": "Create an offline-verifiable provenance manifest and preflight tool for pinned CardDemo commit 59cc6c2fd7ebd7ef7925cad552a01a4b8b6e4d5e, selecting CBACT02C and CBCUS01C without vendoring the corpus yet.",
       "stream": "carddemo",
       "priority": 4,
       "dependencies": [
         "QG-001"
       ],
       "allowedPaths": [
-        "docs/quality-governance/**",
-        "tools/quality-loop/**",
-        ".claude/quality-loop/**"
+        "docs/quality-governance/carddemo-corpus.json",
+        "docs/quality-governance/README.md",
+        "tools/quality-loop/carddemo_preflight.py",
+        "tools/quality-loop/tests/test_quality_loop.py"
       ],
       "forbiddenPaths": [
         "docs/quality-governance/ledger.json"
       ],
       "authorizedProtectedPaths": [],
-      "maxFiles": 20,
+      "maxFiles": 4,
       "verification": [
-        "python3 -m unittest discover -s tools/quality-loop/tests -p 'test_*.py'"
+        "python3 -m unittest discover -s tools/quality-loop/tests -p 'test_*.py'",
+        "python3 tools/quality-loop/carddemo_preflight.py validate-manifest"
       ],
       "state": "READY",
       "attempts": 0
