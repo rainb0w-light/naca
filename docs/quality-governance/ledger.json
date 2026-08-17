@@ -288,11 +288,10 @@
         "python3 -m unittest discover -s tools/quality-loop/tests -p 'test_*.py'",
         "python3 tools/quality-loop/carddemo_probe.py validate-report"
       ],
-      "state": "READY",
-      "attempts": 0,
+      "state": "RUNNING",
+      "attempts": 1,
       "evidence": [
-        "Independent config experiment generated output/include/CBACT02C/Cvact02y.java and compiled it together with Cbact02c.java",
-        "After explicit include generation the next javac blocker is undeclared 88-level conditions APPL_AOK and APPL_EOF"
+        "Dispatched to Luna from controller-reviewed base 7dc3f92a"
       ]
     }
   ]
