@@ -319,10 +319,10 @@
         "./gradlew :naca-trans:test :naca-trans:finalArchitectureCheck --console=plain",
         "python3 tools/quality-loop/carddemo_probe.py validate-report"
       ],
-      "state": "RUNNING",
+      "state": "VERIFIED",
       "attempts": 1,
       "evidence": [
-        "Dispatched to Luna from controller-reviewed base ad30645e"
+        "Independent verification passed: focused and full naca-trans tests, finalArchitectureCheck, task scope verification, canonical report validation, and two pinned CardDemo probes with identical SHA-256 3acb637700489247d06f51ea8b0a2f2b682301db0f737cac91826bda37188894; all four feasibility stages PASS."
       ]
     }
   ]
