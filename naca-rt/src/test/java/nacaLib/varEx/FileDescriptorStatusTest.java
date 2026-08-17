@@ -1,6 +1,7 @@
 package nacaLib.varEx;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import jlib.misc.LineRead;
@@ -20,7 +21,8 @@ class FileDescriptorStatusTest
         Files.writeString(input, "FIRST\nSECOND\n");
         try
         {
-            Lifecycle.run(input);
+            assertDoesNotThrow(() -> Lifecycle.run(input),
+                "sequential input lifecycle should complete without errors");
         }
         finally
         {
@@ -32,7 +34,7 @@ class FileDescriptorStatusTest
     {
         static void run(Path input) throws Exception
         {
-            BaseSession session = new BatchSession(new TestResourceManager());
+            BaseSession session = new BatchSession(new FixtureResourceManager());
             session.putLogicalFileDescriptor("CARD",
                 new LogicalFileDescriptor("CARD", input + ",ascii,fb,5"));
             TrackingStatus status = new TrackingStatus();
@@ -40,18 +42,21 @@ class FileDescriptorStatusTest
             FileDescriptor descriptor = new FileDescriptor("CARD", session)
                 .status(status);
             descriptor.setRecordStruct(record);
-            assertEquals(descriptor, descriptor.openInput());
-            assertEquals("00", status.value);
-            assertEquals(RecordDescriptorAtEnd.NotEnd, descriptor.read());
-            assertEquals("00", status.value);
-            assertEquals("FIRST", record.value);
-            assertEquals(RecordDescriptorAtEnd.NotEnd, descriptor.read());
-            assertEquals("00", status.value);
-            assertEquals("SECOND", record.value);
-            assertEquals(RecordDescriptorAtEnd.End, descriptor.read());
-            assertEquals("10", status.value);
+            assertEquals(descriptor, descriptor.openInput(), "OPEN INPUT should return descriptor");
+            assertEquals("00", status.value, "successful OPEN INPUT should set status 00");
+            assertEquals(RecordDescriptorAtEnd.NotEnd, descriptor.read(),
+                "first READ should return a record");
+            assertEquals("00", status.value, "successful first READ should set status 00");
+            assertEquals("FIRST", record.value, "first READ should capture FIRST");
+            assertEquals(RecordDescriptorAtEnd.NotEnd, descriptor.read(),
+                "second READ should return a record");
+            assertEquals("00", status.value, "successful second READ should set status 00");
+            assertEquals("SECOND", record.value, "second READ should capture SECOND");
+            assertEquals(RecordDescriptorAtEnd.End, descriptor.read(),
+                "READ after the final record should return EOF");
+            assertEquals("10", status.value, "EOF READ should set status 10");
             descriptor.close();
-            assertEquals("00", status.value);
+            assertEquals("00", status.value, "successful CLOSE should set status 00");
         }
     }
 
@@ -84,9 +89,9 @@ class FileDescriptorStatusTest
         }
     }
 
-    private static final class TestResourceManager extends BaseResourceManager
+    private static final class FixtureResourceManager extends BaseResourceManager
     {
-        private TestResourceManager()
+        private FixtureResourceManager()
         {
             super(false);
         }
