@@ -653,10 +653,10 @@
         "./gradlew :naca-trans:pmdTest --rerun-tasks --console=plain",
         "./gradlew :naca-trans:finalArchitectureCheck --console=plain"
       ],
-      "state": "RUNNING",
+      "state": "VERIFIED",
       "attempts": 1,
       "evidence": [
-        "Dispatched the exact two-file, 19-finding renderer-test PMD cleanup to Luna; production code and suppression remain forbidden."
+        "Controller independently passed scope and all verification commands; both files have zero PMD findings, focused XML reports 4+3 tests with zero skips/failures/errors, finalArchitectureCheck passes, and naca-trans.pmdTest is 2623 versus baseline 2635."
       ]
     }
   ]
