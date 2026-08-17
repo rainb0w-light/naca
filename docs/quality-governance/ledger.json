@@ -229,6 +229,41 @@
       "evidence": [
         "Controller ran two pinned probes byte-identically; SHA-256 6d54a278b127fb0fb3677856c0dd7de10d7e793b832aa8fb4e1a9872317d05b3"
       ]
+    },
+    {
+      "id": "CD-004",
+      "objective": "Centralize Java-safe formatting for numeric-leading COBOL paragraph and section names so declarations and PERFORM references use the same legal identifier, then rerun the pinned CardDemo probe to expose the next blocker.",
+      "stream": "carddemo",
+      "priority": 8,
+      "dependencies": [
+        "CD-003"
+      ],
+      "allowedPaths": [
+        "naca-trans/src/main/java/utils/CobolNameUtil.java",
+        "naca-trans/src/main/java/semantic/CEntityProcedure.java",
+        "naca-trans/src/main/java/generate/templates/recursive/java/JavaStringLiteralAttributeRenderer.java",
+        "naca-trans/src/test/java/generate/java/st/CEntityProcedureRenderTest.java",
+        "naca-trans/src/test/java/generate/java/st/CEntityCallFunctionRenderTest.java",
+        "docs/quality-governance/carddemo-feasibility.json"
+      ],
+      "forbiddenPaths": [
+        "docs/quality-governance/ledger.json",
+        "docs/project-quality-baseline.json",
+        "naca-trans/src/main/resources/templates"
+      ],
+      "authorizedProtectedPaths": [],
+      "maxFiles": 6,
+      "verification": [
+        "./gradlew :naca-trans:test --tests '*CEntityProcedureRenderTest*' --tests '*CEntityCallFunctionRenderTest*' --rerun-tasks --console=plain",
+        "./gradlew :naca-trans:test :naca-trans:finalArchitectureCheck --console=plain",
+        "python3 tools/quality-loop/carddemo_probe.py validate-report"
+      ],
+      "state": "READY",
+      "attempts": 0,
+      "evidence": [
+        "Generated Cbact02c.java declares and calls paragraph names such as 0000_CARDFILE_OPEN without a legal Java leading character",
+        "JavaIdentifierAttributeRenderer already prefixes numeric identifiers, but procedure declaration and javaFormattedName call paths bypass it"
+      ]
     }
   ]
 }
