@@ -493,8 +493,11 @@
         "./gradlew :naca-rt-tests:sampleAcceptance --tests '*CardDemoEndToEndAcceptanceTest*' --rerun-tasks --console=plain",
         "./gradlew sampleAcceptance --rerun-tasks --console=plain"
       ],
-      "state": "READY",
-      "attempts": 0
+      "state": "RUNNING",
+      "attempts": 1,
+      "evidence": [
+        "Dispatched strict offline CardDemo end-to-end acceptance to Luna after verified fixture vendoring."
+      ]
     }
   ]
 }
