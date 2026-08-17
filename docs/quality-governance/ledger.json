@@ -563,6 +563,34 @@
       "evidence": [
         "Controller independently verified QG-005 scope PASS; naca-rt-tests.pmdTest is 81 versus baseline 84, AcceptanceProgramRunner has zero findings, and all three root sampleAcceptance suites report tests=1 skipped=0 failures=0 errors=0."
       ]
+    },
+    {
+      "id": "QG-006",
+      "objective": "Tighten the reviewed naca-rt-tests.pmdTest quality baseline from 84 to 81 after the verified QG-005 improvement, changing no other baseline value.",
+      "stream": "quality-governance",
+      "priority": 18,
+      "dependencies": [
+        "QG-005"
+      ],
+      "allowedPaths": [
+        "docs/project-quality-baseline.json"
+      ],
+      "forbiddenPaths": [
+        "docs/quality-governance/ledger.json"
+      ],
+      "authorizedProtectedPaths": [
+        "docs/project-quality-baseline.json"
+      ],
+      "maxFiles": 1,
+      "verification": [
+        "./gradlew :naca-rt-tests:pmdTest --rerun-tasks --console=plain",
+        "python3 -c \"import json,xml.etree.ElementTree as ET; b=json.load(open('docs/project-quality-baseline.json', encoding='utf-8')); r=ET.parse('naca-rt-tests/build/reports/pmd/test.xml').getroot(); actual=sum(1 for e in r.iter() if e.tag.rsplit('}',1)[-1]=='violation'); assert actual==81 and b['staticAnalysis']['naca-rt-tests']['pmdTest']==81\""
+      ],
+      "state": "READY",
+      "attempts": 0,
+      "evidence": [
+        "Controller independently measured naca-rt-tests.pmdTest at 81 after QG-005, below the reviewed baseline maximum of 84."
+      ]
     }
   ]
 }
