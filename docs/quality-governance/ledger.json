@@ -258,10 +258,10 @@
         "./gradlew :naca-trans:test :naca-trans:finalArchitectureCheck --console=plain",
         "python3 tools/quality-loop/carddemo_probe.py validate-report"
       ],
-      "state": "RUNNING",
+      "state": "VERIFIED",
       "attempts": 1,
       "evidence": [
-        "Dispatched to Luna from controller-reviewed base 4e8944bf"
+        "Controller confirmed numeric procedure error eliminated; copybook generation must be explicitly driven by probe include application"
       ]
     }
   ]
