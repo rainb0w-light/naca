@@ -686,6 +686,39 @@
       "evidence": [
         "Controller independently confirmed the two-line baseline diff only, reran pmdTest/checkstyleMain, measured 2623 and 3631 exactly, and passed verify_task against dispatch base 90eca232."
       ]
+    },
+    {
+      "id": "QG-010",
+      "objective": "Remove the twelve CAdd PMD findings in the three rules affected by ADD GIVING ZERO support: nine LiteralsFirstInComparisons, one AvoidInstantiatingObjectsInLoops, and both RedundantFieldInitializer findings. Preserve parsing and semantic behavior, including rejection of a figurative/literal TO target without GIVING and successful CardDemo generation; do not suppress rules or broaden the refactor.",
+      "stream": "quality",
+      "priority": 22,
+      "dependencies": [
+        "QG-009"
+      ],
+      "allowedPaths": [
+        "naca-trans/src/main/java/parser/Cobol/elements/CAdd.java"
+      ],
+      "forbiddenPaths": [
+        "docs/quality-governance/ledger.json",
+        "docs/project-quality-baseline.json",
+        "naca-trans/src/test",
+        "naca-rt",
+        "naca-rt-tests/src/test/java/com/publicitas/naca/tests/acceptance/CardDemoEndToEndAcceptanceTest.java",
+        "tools/quality-loop"
+      ],
+      "authorizedProtectedPaths": [],
+      "maxFiles": 1,
+      "verification": [
+        "./gradlew :naca-trans:test --tests '*CAddGivingLiteralTest*' --rerun-tasks --console=plain",
+        "./gradlew :naca-trans:pmdMain --rerun-tasks --console=plain",
+        "./gradlew :naca-rt-tests:sampleAcceptance --tests '*CardDemoEndToEndAcceptanceTest*' --rerun-tasks --console=plain",
+        "./gradlew :naca-trans:finalArchitectureCheck --console=plain"
+      ],
+      "state": "READY",
+      "attempts": 0,
+      "evidence": [
+        "Controller compared reports from detached master 9f53015a and the current branch: the complete naca-trans.pmdMain +11 delta is in CAdd (LiteralsFirstInComparisons +9, AvoidInstantiatingObjectsInLoops +1, RedundantFieldInitializer +1). CAdd currently has two redundant boolean initializers, so clearing all twelve targeted findings should lower module total from 7317 to 7305."
+      ]
     }
   ]
 }
