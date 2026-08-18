@@ -856,6 +856,42 @@
       "evidence": [
         "Controller independently passed verify_task and all four declared gates, reran the pinned CBCUS01C runtime probe twice, and confirmed both fresh reports and the committed report are byte-identical SHA-256 65995fab03607589b78208c57a2d62761f2a48b8b1474731a5edc498309314f7; default CBACT02C validation remains green. First blocker is runtime-logical-file-alias."
       ]
+    },
+    {
+      "id": "CD-014",
+      "objective": "Remove the acceptance infrastructure's CARDFILE-only alias special case by registering every five-argument named descriptor under both the supplied business logical name and the generated <name>-FILE logical name, without double-suffixing an already generated name. Add a focused regression for both mappings and object identity, preserve the four-argument FILEIN/FILEOUT behavior, rerun the pinned CBCUS01C probe to exact 102-line success, and keep the existing CBACT02C acceptance and report contract green. Do not change the transpiler, NacaRT, probe logic, or quality baseline.",
+      "stream": "carddemo",
+      "priority": 27,
+      "dependencies": [
+        "CD-013"
+      ],
+      "allowedPaths": [
+        "naca-rt-tests/src/test/java/com/publicitas/naca/tests/acceptance/AcceptanceProgramRunner.java",
+        "naca-rt-tests/src/test/java/com/publicitas/naca/tests/acceptance/AcceptanceProgramRunnerTest.java",
+        "docs/quality-governance/carddemo-customer-runtime.json"
+      ],
+      "forbiddenPaths": [
+        "docs/quality-governance/ledger.json",
+        "docs/project-quality-baseline.json",
+        "docs/quality-governance/carddemo-runtime.json",
+        "tools/quality-loop",
+        "naca-trans/src/main",
+        "naca-rt/src/main",
+        "naca-jlib/src/main"
+      ],
+      "authorizedProtectedPaths": [],
+      "maxFiles": 3,
+      "verification": [
+        "./gradlew :naca-rt-tests:test --tests '*AcceptanceProgramRunnerTest*' --rerun-tasks --console=plain",
+        "python3 tools/quality-loop/carddemo_runtime_probe.py validate-report --candidate CBCUS01C --report docs/quality-governance/carddemo-customer-runtime.json",
+        "python3 tools/quality-loop/carddemo_runtime_probe.py validate-report",
+        "./gradlew sampleAcceptance qualityRatchet --console=plain"
+      ],
+      "state": "READY",
+      "attempts": 0,
+      "evidence": [
+        "CD-013 proved generated Cbcus01c declares CUSTFILE-FILE while AcceptanceProgramRunner maps only CUSTFILE; the existing CARDFILE-only alias demonstrates the required generic acceptance mapping."
+      ]
     }
   ]
 }
