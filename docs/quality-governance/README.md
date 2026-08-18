@@ -31,4 +31,4 @@ Workers flow `RUNNING → REVIEW`; the controller independently runs `verify_tas
 
 Acceptance is bounded by each task's allowed/forbidden paths, file limit, and declared commands. The verifier independently checks git diff and protected baseline/configuration paths; worker claims are not evidence.
 
-Run the vendored offline CardDemo acceptance with `./gradlew :naca-rt-tests:sampleAcceptance --tests '*CardDemoEndToEndAcceptanceTest*'`; the fixture is under `naca-rt-tests/src/test/resources/carddemo` and is pinned by `PROVENANCE.json`.
+Run the vendored offline CardDemo acceptance with `./gradlew :naca-rt-tests:sampleAcceptance --tests '*CardDemoEndToEndAcceptanceTest*'`; its two tests cover CBACT02C's exact 52-line output and CBCUS01C's exact 102-line repeated-record output. The fixture is under `naca-rt-tests/src/test/resources/carddemo` and is pinned by `PROVENANCE.json`.
