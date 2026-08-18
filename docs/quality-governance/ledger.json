@@ -748,10 +748,10 @@
         "./gradlew :naca-trans:pmdTest :naca-trans:checkstyleTest :naca-trans:spotbugsTest cpdReport --rerun-tasks --console=plain",
         "./gradlew :naca-trans:finalArchitectureCheck --console=plain"
       ],
-      "state": "READY",
-      "attempts": 0,
+      "state": "RUNNING",
+      "attempts": 1,
       "evidence": [
-        "Detached-master comparison attributed all SpotBugs test growth to these tests: NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE in CWorkingGroupDeclarationRenderTest.compile and RV_RETURN_VALUE_IGNORED_BAD_PRACTICE in each cleanup lambda. CPD reports duplicate 23-line parse helpers and 21-line compile helpers between the same files; current totals are SpotBugsTest=24 versus 21 and CPD=370 versus 369."
+        "Dispatched the three-file shared renderer-fixture cleanup to Luna after detached-master SpotBugs and CPD attribution; all touched-file quality reports must remain clean."
       ]
     }
   ]
