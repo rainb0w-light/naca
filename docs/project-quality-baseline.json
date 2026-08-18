@@ -3,7 +3,7 @@
   "capturedAt": "2026-08-11",
   "capturedAtCommit": "88f69d0e",
   "aggregateLineCoverageMinimum": 0.065,
-  "cpdDuplications": 369,
+  "cpdDuplications": 368,
   "staticAnalysis": {
     "naca-analyzer": {
       "checkstyleMain": 0,
@@ -47,7 +47,7 @@
     "naca-trans": {
       "checkstyleMain": 3631,
       "checkstyleTest": 67,
-      "pmdMain": 7306,
+      "pmdMain": 7305,
       "pmdTest": 2623,
       "spotbugsMain": 1524,
       "spotbugsTest": 21
