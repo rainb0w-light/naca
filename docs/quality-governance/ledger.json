@@ -960,10 +960,10 @@
         "./gradlew sampleAcceptance --rerun-tasks --console=plain",
         "./gradlew qualityRatchet --console=plain"
       ],
-      "state": "RUNNING",
+      "state": "VERIFIED",
       "attempts": 1,
       "evidence": [
-        "Dispatched the two-file, scenario-driven offline CBCUS01C acceptance task to Luna. Both exact-output scenarios, recursive-ST4 generation, javac, isolated runtime, provenance checks, root sample acceptance, and the complete quality ratchet must pass with no new analysis debt."
+        "Controller independently passed verify_task and all four declared gates, confirmed the focused XML reports tests=2 skipped=0 failures=0 errors=0, and measured zero PMD and Checkstyle findings in the touched test. Both pinned offline programs now execute through recursive ST4, javac, and isolated NacaRT with exact ordered output."
       ]
     }
   ]
