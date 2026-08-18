@@ -39,17 +39,15 @@
     },
     {
       "name": "runtime",
-      "status": "FAIL",
+      "status": "PASS",
       "command": "java AcceptanceProgramRunner",
-      "exitCode": 1,
-      "errorType": "runtime-logical-file-alias",
-      "diagnostic": "runtime output mismatch: business-lines=1 expected=102; InputFileNotFoundException: generated logical name CUSTFILE-FILE is not mapped by runner argument CUSTFILE"
+      "exitCode": 0
     }
   ],
-  "firstBlocker": "runtime",
+  "firstBlocker": null,
   "acceptance": {
-    "currentSuccess": false,
-    "structuredRejection": true,
-    "nextTask": "Add a generic runtime mapping for the generated logical file name, then rerun this probe."
+    "currentSuccess": true,
+    "structuredRejection": false,
+    "nextTask": "Proceed to controlled runtime acceptance."
   }
 }

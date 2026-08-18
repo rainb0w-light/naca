@@ -24,7 +24,7 @@ public final class AcceptanceProgramRunner {
 
     private static final int FILE_MAPPING_ARGUMENT_COUNT = 4;
     private static final int NAMED_DESCRIPTOR_ARGUMENT_COUNT = 5;
-    private static final String CARD_FILE_LOGICAL_NAME = "CARDFILE";
+    private static final String GENERATED_FILE_SUFFIX = "-FILE";
     private static final PrintStream ACCEPTANCE_OUTPUT = System.out;
 
     public static void main(String[] args) {
@@ -55,11 +55,7 @@ public final class AcceptanceProgramRunner {
                 fixedAsciiFile("FILEOUT", args[3]));
         }
         if (args.length >= NAMED_DESCRIPTOR_ARGUMENT_COUNT) {
-            LogicalFileDescriptor mapped = descriptor(args[2], args[3], args[4]);
-            session.putLogicalFileDescriptor(args[2], mapped);
-            if (CARD_FILE_LOGICAL_NAME.equals(args[2])) {
-                session.putLogicalFileDescriptor(CARD_FILE_LOGICAL_NAME + "-FILE", mapped);
-            }
+            registerNamedDescriptor(session, args[2], args[3], args[4]);
         }
         OnlineEnvironment environment =
             (OnlineEnvironment) loader.GetEnvironment(session, null, null);
@@ -75,6 +71,17 @@ public final class AcceptanceProgramRunner {
     private static LogicalFileDescriptor descriptor(
         String logicalName, String path, String format) {
         return new LogicalFileDescriptor(logicalName, path + "," + format);
+    }
+
+    static LogicalFileDescriptor registerNamedDescriptor(
+        OnlineSession session, String logicalName, String path, String format) {
+        LogicalFileDescriptor mapped = descriptor(logicalName, path, format);
+        session.putLogicalFileDescriptor(logicalName, mapped);
+        String generatedName = logicalName.endsWith(GENERATED_FILE_SUFFIX)
+            ? logicalName
+            : logicalName + GENERATED_FILE_SUFFIX;
+        session.putLogicalFileDescriptor(generatedName, mapped);
+        return mapped;
     }
 
     private static final class StandardLogCenterLoader extends LogCenterLoader {
