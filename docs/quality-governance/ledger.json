@@ -851,10 +851,10 @@
         "python3 tools/quality-loop/carddemo_runtime_probe.py validate-report",
         "./gradlew qualityRatchet --console=plain"
       ],
-      "state": "RUNNING",
+      "state": "VERIFIED",
       "attempts": 1,
       "evidence": [
-        "Dispatched the bounded CBCUS01C runtime-probe generalization to Luna; product and acceptance-runner code remain forbidden, and both the default CBACT02C contract and full quality ratchet must remain green."
+        "Controller independently passed verify_task and all four declared gates, reran the pinned CBCUS01C runtime probe twice, and confirmed both fresh reports and the committed report are byte-identical SHA-256 65995fab03607589b78208c57a2d62761f2a48b8b1474731a5edc498309314f7; default CBACT02C validation remains green. First blocker is runtime-logical-file-alias."
       ]
     }
   ]
