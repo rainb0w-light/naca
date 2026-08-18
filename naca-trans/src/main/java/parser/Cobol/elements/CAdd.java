@@ -86,9 +86,9 @@ public class CAdd extends CCobolElement
 				CBaseToken destinationToken = GetCurrentToken() ;
 				String destinationValue = destinationToken.GetValue();
 				boolean isFigurativeZero = destinationValue != null
-					&& (destinationValue.equalsIgnoreCase("ZERO")
-						|| destinationValue.equalsIgnoreCase("ZEROS")
-						|| destinationValue.equalsIgnoreCase("ZEROES"));
+					&& ("ZERO".equalsIgnoreCase(destinationValue)
+						|| "ZEROS".equalsIgnoreCase(destinationValue)
+						|| "ZEROES".equalsIgnoreCase(destinationValue));
 				if (isFigurativeZero)
 				{
 					hasFigurativeToOperand = true ;
@@ -98,7 +98,7 @@ public class CAdd extends CCobolElement
 					|| isFigurativeZero))
 				{
 					GetNext() ;
-					t = new CConstantTerminal(destinationToken.GetValue()) ;
+					t = createConstantTerminal(destinationToken) ;
 				}
 				if (t == null)
 				{
@@ -195,8 +195,8 @@ public class CAdd extends CCobolElement
 	protected Vector<CTerminal> values = new Vector<CTerminal>() ;
 	protected Vector<CTerminal> toOperands = new Vector<CTerminal>() ;
 	protected Vector<CIdentifier> result = new Vector<CIdentifier>() ;
-	protected boolean isrounded = false ;
-	protected boolean hasFigurativeToOperand = false ;
+	protected boolean isrounded ;
+	protected boolean hasFigurativeToOperand ;
 	/* (non-Javadoc)
 	 * @see parser.CBaseElement#DoCustomSemanticAnalysis(semantic.CBaseSemanticEntity, semantic.CBaseSemanticEntityFactory)
 	 */
@@ -256,7 +256,7 @@ public class CAdd extends CCobolElement
 	private boolean isWritableIdentifier(CTerminal destination)
 	{
 		String value = destination.GetValue() ;
-		if (value.equals("ZERO") || value.equals("ZEROS") || value.equals("ZEROES"))
+		if ("ZERO".equals(value) || "ZEROS".equals(value) || "ZEROES".equals(value))
 		{
 			return false ;
 		}
@@ -267,8 +267,13 @@ public class CAdd extends CCobolElement
 		if (destination instanceof CIdentifierTerminal)
 		{
 			String name = ((CIdentifierTerminal) destination).GetIdentifier().GetName() ;
-			return !name.equals("ZERO") && !name.equals("ZEROS") && !name.equals("ZEROES") ;
+			return !"ZERO".equals(name) && !"ZEROS".equals(name) && !"ZEROES".equals(name) ;
 		}
 		return true ;
+	}
+
+	private CConstantTerminal createConstantTerminal(CBaseToken token)
+	{
+		return new CConstantTerminal(token.GetValue()) ;
 	}
 }
