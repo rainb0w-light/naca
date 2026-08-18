@@ -714,10 +714,10 @@
         "./gradlew :naca-rt-tests:sampleAcceptance --tests '*CardDemoEndToEndAcceptanceTest*' --rerun-tasks --console=plain",
         "./gradlew :naca-trans:finalArchitectureCheck --console=plain"
       ],
-      "state": "RUNNING",
+      "state": "VERIFIED",
       "attempts": 1,
       "evidence": [
-        "Dispatched the single-file CAdd PMD cleanup to Luna after detached-master attribution; parser behavior and CardDemo acceptance are mandatory gates."
+        "Controller independently passed all four gates; targeted CAdd PMD rules have zero findings, pmdMain is 7305 versus baseline 7306, CAddGivingLiteralTest reports 2/0/0/0, CardDemo reports 1/0/0/0, and finalArchitectureCheck passes."
       ]
     }
   ]
