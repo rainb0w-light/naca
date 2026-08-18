@@ -719,6 +719,40 @@
       "evidence": [
         "Controller independently passed all four gates; targeted CAdd PMD rules have zero findings, pmdMain is 7305 versus baseline 7306, CAddGivingLiteralTest reports 2/0/0/0, CardDemo reports 1/0/0/0, and finalArchitectureCheck passes."
       ]
+    },
+    {
+      "id": "QG-011",
+      "objective": "Remove the three branch-added SpotBugs findings and restore CPD to the reviewed maximum by extracting the duplicated COBOL parse/semantic-render and generated-Java compile/cleanup fixtures shared by CLevel88DeclarationRenderTest and CWorkingGroupDeclarationRenderTest into one focused test support class. Preserve all test scenarios and assertions, handle repository-root discovery and cleanup explicitly, and introduce no PMD, Checkstyle, or SpotBugs findings in the touched files.",
+      "stream": "quality",
+      "priority": 23,
+      "dependencies": [
+        "QG-010"
+      ],
+      "allowedPaths": [
+        "naca-trans/src/test/java/generate/java/st/CobolRenderTestSupport.java",
+        "naca-trans/src/test/java/generate/java/st/CLevel88DeclarationRenderTest.java",
+        "naca-trans/src/test/java/generate/java/st/CWorkingGroupDeclarationRenderTest.java"
+      ],
+      "forbiddenPaths": [
+        "docs/quality-governance/ledger.json",
+        "docs/project-quality-baseline.json",
+        "naca-trans/src/main",
+        "naca-rt",
+        "naca-rt-tests",
+        "tools/quality-loop"
+      ],
+      "authorizedProtectedPaths": [],
+      "maxFiles": 3,
+      "verification": [
+        "./gradlew :naca-trans:test --tests '*CLevel88DeclarationRenderTest*' --tests '*CWorkingGroupDeclarationRenderTest*' --rerun-tasks --console=plain",
+        "./gradlew :naca-trans:pmdTest :naca-trans:checkstyleTest :naca-trans:spotbugsTest cpdReport --rerun-tasks --console=plain",
+        "./gradlew :naca-trans:finalArchitectureCheck --console=plain"
+      ],
+      "state": "READY",
+      "attempts": 0,
+      "evidence": [
+        "Detached-master comparison attributed all SpotBugs test growth to these tests: NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE in CWorkingGroupDeclarationRenderTest.compile and RV_RETURN_VALUE_IGNORED_BAD_PRACTICE in each cleanup lambda. CPD reports duplicate 23-line parse helpers and 21-line compile helpers between the same files; current totals are SpotBugsTest=24 versus 21 and CPD=370 versus 369."
+      ]
     }
   ]
 }
