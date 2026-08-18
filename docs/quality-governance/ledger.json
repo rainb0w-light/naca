@@ -777,10 +777,10 @@
         "python3 -c \"import json,xml.etree.ElementTree as ET; b=json.load(open('docs/project-quality-baseline.json',encoding='utf-8')); p=ET.parse('naca-trans/build/reports/pmd/main.xml').getroot(); c=ET.parse('build/reports/pmd/cpd.xml').getroot(); count=lambda r,n: sum(1 for e in r.iter() if e.tag.rsplit('}',1)[-1]==n); assert (count(p,'violation'),count(c,'duplication'),b['staticAnalysis']['naca-trans']['pmdMain'],b['cpdDuplications'])==(7305,368,7305,368)\"",
         "./gradlew qualityRatchet --rerun-tasks --console=plain"
       ],
-      "state": "RUNNING",
+      "state": "VERIFIED",
       "attempts": 1,
       "evidence": [
-        "Dispatched the final two-value protected baseline tightening to Luna; full qualityRatchet is the acceptance gate."
+        "Controller independently confirmed the two-line baseline diff, passed verify_task including full qualityRatchet, and reran root sampleAcceptance successfully with finalArchitectureCheck and all three acceptance suites."
       ]
     }
   ]
