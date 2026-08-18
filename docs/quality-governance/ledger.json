@@ -777,10 +777,10 @@
         "python3 -c \"import json,xml.etree.ElementTree as ET; b=json.load(open('docs/project-quality-baseline.json',encoding='utf-8')); p=ET.parse('naca-trans/build/reports/pmd/main.xml').getroot(); c=ET.parse('build/reports/pmd/cpd.xml').getroot(); count=lambda r,n: sum(1 for e in r.iter() if e.tag.rsplit('}',1)[-1]==n); assert (count(p,'violation'),count(c,'duplication'),b['staticAnalysis']['naca-trans']['pmdMain'],b['cpdDuplications'])==(7305,368,7305,368)\"",
         "./gradlew qualityRatchet --rerun-tasks --console=plain"
       ],
-      "state": "READY",
-      "attempts": 0,
+      "state": "RUNNING",
+      "attempts": 1,
       "evidence": [
-        "Controller independently measured naca-trans.pmdMain=7305 after QG-010 and CPD=368 after QG-011, below reviewed maxima 7306 and 369. SpotBugsTest is back at its existing baseline 21, so these are the final two baseline decreases required for a clean full qualityRatchet."
+        "Dispatched the final two-value protected baseline tightening to Luna; full qualityRatchet is the acceptance gate."
       ]
     }
   ]
