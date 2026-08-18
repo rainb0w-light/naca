@@ -960,10 +960,10 @@
         "./gradlew sampleAcceptance --rerun-tasks --console=plain",
         "./gradlew qualityRatchet --console=plain"
       ],
-      "state": "READY",
-      "attempts": 0,
+      "state": "RUNNING",
+      "attempts": 1,
       "evidence": [
-        "CD-014 proves the pinned CBCUS01C pipeline and exact 102-line output at runtime; CD-015 makes the identical source, copybook, and 50x500 data available offline with immutable provenance."
+        "Dispatched the two-file, scenario-driven offline CBCUS01C acceptance task to Luna. Both exact-output scenarios, recursive-ST4 generation, javac, isolated runtime, provenance checks, root sample acceptance, and the complete quality ratchet must pass with no new analysis debt."
       ]
     }
   ]
