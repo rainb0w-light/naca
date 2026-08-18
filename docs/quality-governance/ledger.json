@@ -782,6 +782,43 @@
       "evidence": [
         "Controller independently confirmed the two-line baseline diff, passed verify_task including full qualityRatchet, and reran root sampleAcceptance successfully with finalArchitectureCheck and all three acceptance suites."
       ]
+    },
+    {
+      "id": "CD-012",
+      "objective": "Generalize the existing diagnostic-only CardDemo feasibility probe so it can select CBCUS01C with CVCUS01Y while preserving the default CBACT02C contract, then run it against pinned commit 59cc6c2f and record a deterministic offline-validatable customer-program report through source verification, recursive-ST4 transpilation, both generated Java artifacts, and javac. Do not change product code; record the first real blocker if any.",
+      "stream": "carddemo",
+      "priority": 25,
+      "dependencies": [
+        "QG-012"
+      ],
+      "allowedPaths": [
+        "tools/quality-loop/carddemo_probe.py",
+        "tools/quality-loop/tests/test_quality_loop.py",
+        "docs/quality-governance/carddemo-customer-feasibility.json",
+        "docs/quality-governance/README.md"
+      ],
+      "forbiddenPaths": [
+        "docs/quality-governance/ledger.json",
+        "docs/project-quality-baseline.json",
+        "docs/quality-governance/carddemo-feasibility.json",
+        "naca-trans/src/main",
+        "naca-rt/src/main",
+        "naca-rt-tests/src/main",
+        "naca-rt-tests/src/test"
+      ],
+      "authorizedProtectedPaths": [],
+      "maxFiles": 4,
+      "verification": [
+        "python3 -m unittest discover -s tools/quality-loop/tests -p 'test_*.py'",
+        "python3 tools/quality-loop/carddemo_probe.py validate-report --candidate CBCUS01C --report docs/quality-governance/carddemo-customer-feasibility.json",
+        "python3 tools/quality-loop/carddemo_probe.py validate-report",
+        "./gradlew qualityRatchet --console=plain"
+      ],
+      "state": "READY",
+      "attempts": 0,
+      "evidence": [
+        "Controller cloned and checked out pinned commit 59cc6c2fd7ebd7ef7925cad552a01a4b8b6e4d5e in a temporary diagnostic checkout; carddemo_preflight verify-source passed. CBCUS01C is 6914 bytes/178 lines with SHA-256 233dbc3bc33a3b9ac555922085a92be56e88d16316bff624b5723c4c36c99714; CVCUS01Y SHA-256 is 944fd9a8eb10a683d0db97b9a87f2151982f649970287eb74358826056af25f8."
+      ]
     }
   ]
 }
