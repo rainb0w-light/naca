@@ -819,6 +819,43 @@
       "evidence": [
         "Controller independently verified authorized scope against 7dd4a07e, reran the pinned CBCUS01C probe twice with byte-identical report SHA-256 969c434ec69b93f646ae90a07e69cd82dc2a22f3a4fa952f0b815619bf34ca27, validated both CBCUS01C and default CBACT02C reports, and confirmed qualityRatchet passed."
       ]
+    },
+    {
+      "id": "CD-013",
+      "objective": "Generalize the existing diagnostic-only CardDemo runtime probe so it can select CBCUS01C with CVCUS01Y and the pinned 50-record, 500-byte custdata.txt input while preserving the default CBACT02C runtime contract. Run CBCUS01C through source verification, recursive-ST4 transpilation, generated-artifact checks, javac, and the isolated AcceptanceProgramRunner; require the exact duplicated customer-record output implied by the COBOL program when successful, otherwise record the first deterministic runtime blocker. Do not change product or acceptance-runner code.",
+      "stream": "carddemo",
+      "priority": 26,
+      "dependencies": [
+        "CD-012"
+      ],
+      "allowedPaths": [
+        "tools/quality-loop/carddemo_runtime_probe.py",
+        "tools/quality-loop/tests/test_quality_loop.py",
+        "docs/quality-governance/carddemo-customer-runtime.json",
+        "docs/quality-governance/README.md"
+      ],
+      "forbiddenPaths": [
+        "docs/quality-governance/ledger.json",
+        "docs/project-quality-baseline.json",
+        "docs/quality-governance/carddemo-runtime.json",
+        "naca-trans/src/main",
+        "naca-rt/src/main",
+        "naca-rt-tests/src/main",
+        "naca-rt-tests/src/test"
+      ],
+      "authorizedProtectedPaths": [],
+      "maxFiles": 4,
+      "verification": [
+        "python3 -m unittest discover -s tools/quality-loop/tests -p 'test_*.py'",
+        "python3 tools/quality-loop/carddemo_runtime_probe.py validate-report --candidate CBCUS01C --report docs/quality-governance/carddemo-customer-runtime.json",
+        "python3 tools/quality-loop/carddemo_runtime_probe.py validate-report",
+        "./gradlew qualityRatchet --console=plain"
+      ],
+      "state": "READY",
+      "attempts": 0,
+      "evidence": [
+        "Controller confirmed pinned custdata.txt contains 50 newline-terminated 500-byte records and CBCUS01C displays each successful record both inside the read paragraph and again in the main loop."
+      ]
     }
   ]
 }
