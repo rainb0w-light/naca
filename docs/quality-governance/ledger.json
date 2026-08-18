@@ -887,10 +887,10 @@
         "python3 tools/quality-loop/carddemo_runtime_probe.py validate-report",
         "./gradlew sampleAcceptance qualityRatchet --console=plain"
       ],
-      "state": "RUNNING",
+      "state": "VERIFIED",
       "attempts": 1,
       "evidence": [
-        "Dispatched the three-file acceptance-runner alias fix to Luna. The worker must prove the generic mapping with a focused unit test, exact pinned CBCUS01C runtime output, unchanged default CBACT02C validation, root sample acceptance, and the complete quality ratchet."
+        "Controller independently passed verify_task and all four declared gates, reran the pinned CBCUS01C probe twice, and confirmed both fresh reports and the committed five-stage-PASS report are byte-identical SHA-256 b437b31fd1132868a119ecfa9da6a7324d51eb1e50f767b8ae5009fd6c18cec2 with no blocker; default CBACT02C remains green."
       ]
     }
   ]
