@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "commit": "59cc6c2fd7ebd7ef7925cad552a01a4b8b6e4d5e",
+    "candidate": "app/cbl/CBCUS01C.cbl",
+    "copybook": "app/cpy/CVCUS01Y.cpy"
+  },
+  "stages": [
+    {
+      "name": "source-verification",
+      "status": "PASS",
+      "command": "carddemo_preflight verify-source",
+      "exitCode": 0
+    },
+    {
+      "name": "parse-transpile",
+      "status": "PASS",
+      "command": "./gradlew :naca-jlib:classes :naca-rt:classes :naca-trans:transpile -PconfigFile=<temp-config>",
+      "exitCode": 0
+    },
+    {
+      "name": "generated-java",
+      "status": "PASS",
+      "command": "inspect temporary output",
+      "exitCode": 0
+    },
+    {
+      "name": "javac",
+      "status": "PASS",
+      "command": "javac <generated-java>",
+      "exitCode": 0
+    }
+  ],
+  "firstBlocker": null,
+  "acceptance": {
+    "currentSuccess": true,
+    "structuredRejectionCorpus": false,
+    "nextTask": "Proceed to controlled runtime acceptance."
+  }
+}

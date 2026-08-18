@@ -23,7 +23,7 @@ python3 tools/quality-loop/quality_metrics.py compare current.json
 
 CardDemo preflight is offline after a one-time pinned checkout: `git clone --no-checkout https://github.com/aws-samples/aws-mainframe-modernization-carddemo.git && git -C aws-mainframe-modernization-carddemo checkout 59cc6c2fd7ebd7ef7925cad552a01a4b8b6e4d5e`, then `python3 tools/quality-loop/carddemo_preflight.py verify-source /path/to/aws-mainframe-modernization-carddemo`. The manifest can be checked offline with `python3 tools/quality-loop/carddemo_preflight.py validate-manifest`; the tool never clones or fetches.
 
-Probe the pinned candidate with `python3 tools/quality-loop/carddemo_probe.py probe-source /path/to/checkout --output docs/quality-governance/carddemo-feasibility.json`, then validate the recorded report with `python3 tools/quality-loop/carddemo_probe.py validate-report`.
+Probe the default pinned CBACT02C candidate with `python3 tools/quality-loop/carddemo_probe.py probe-source /path/to/checkout`; validate it with `python3 tools/quality-loop/carddemo_probe.py validate-report`. Probe CBCUS01C with `python3 tools/quality-loop/carddemo_probe.py probe-source /path/to/checkout --candidate CBCUS01C --output docs/quality-governance/carddemo-customer-feasibility.json`, then validate it offline with `python3 tools/quality-loop/carddemo_probe.py validate-report --candidate CBCUS01C --report docs/quality-governance/carddemo-customer-feasibility.json`.
 
 Run the diagnostic runtime probe with `python3 tools/quality-loop/carddemo_runtime_probe.py probe-runtime /path/to/checkout`, then validate `docs/quality-governance/carddemo-runtime.json`; it maps `CARDFILE` to the pinned `app/data/ASCII/carddata.txt` using `ascii,fb,150` and never changes product sources.
 

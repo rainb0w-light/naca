@@ -250,6 +250,106 @@ class QualityLoopTests(unittest.TestCase):
         broken = json.loads(json.dumps(report)); broken["stages"].reverse()
         with self.assertRaises(ValueError): PROBE.validate(broken)
 
+    def test_probe_candidate_specs_and_default_compatibility(self):
+        default = PROBE.candidate_spec()
+        customer = PROBE.candidate_spec("CBCUS01C")
+        self.assertEqual(default.candidate, PROBE.CANDIDATE)
+        self.assertEqual(default.copybook, PROBE.COPYBOOK)
+        self.assertEqual(customer.candidate, "app/cbl/CBCUS01C.cbl")
+        self.assertEqual(customer.copybook, "app/cpy/CVCUS01Y.cpy")
+        self.assertEqual(
+            {customer.program_artifact, customer.include_artifact},
+            {"Cbcus01c.java", "Cvcus01y.java"},
+        )
+        with self.assertRaises(ValueError):
+            PROBE.candidate_spec("UNKNOWN")
+
+    def test_probe_customer_candidate_config_artifacts_and_report_cli(self):
+        checkout = Path(self.temp.name) / "customer-checkout"
+        (checkout / "app/cbl").mkdir(parents=True)
+        (checkout / "app/cpy").mkdir()
+        (checkout / "app/cbl/CBCUS01C.cbl").write_text("source")
+        (checkout / "app/cpy/CVCUS01Y.cpy").write_text("copy")
+
+        class Completed:
+            def __init__(self, code=0, output=""):
+                self.returncode = code
+                self.stdout = output
+                self.stderr = output
+
+        def runner_for(missing=None):
+            def runner(command, **kwargs):
+                if command[0] == sys.executable:
+                    return Completed(output='{"status":"PASS"}')
+                if command[0] == "./gradlew":
+                    config = Path(next(
+                        value.split("=", 1)[1] for value in command
+                        if value.startswith("-PconfigFile=")))
+                    config_text = config.read_text()
+                    self.assertIn(
+                        '<Application Name="CBCUS01C"><File Name="CBCUS01C.cbl"/>',
+                        config_text,
+                    )
+                    self.assertIn(
+                        '<Application Name="CVCUS01Y"><File Name="CVCUS01Y"/>',
+                        config_text,
+                    )
+                    copy_input = Path(re.search(
+                        r'<Group Name="IncludeGroup" InputPath="([^"]+)',
+                        config_text,
+                    ).group(1))
+                    self.assertTrue((copy_input / "CVCUS01Y").is_file())
+                    output = Path(re.search(
+                        r'OutputPath="([^"]+)', config_text).group(1))
+                    output.mkdir(parents=True, exist_ok=True)
+                    for artifact in ("Cbcus01c.java", "Cvcus01y.java"):
+                        if artifact != missing:
+                            (output / artifact).write_text("class Generated {}")
+                    return Completed(output="CBCUS01C processed")
+                self.assertIn("Cbcus01c.java", " ".join(map(str, command)))
+                self.assertIn("Cvcus01y.java", " ".join(map(str, command)))
+                return Completed()
+            return runner
+
+        result = PROBE.run_probe(
+            checkout, runner_for(), candidate="CBCUS01C")
+        self.assertIsNone(result["firstBlocker"])
+        self.assertEqual(result["source"]["candidate"], "app/cbl/CBCUS01C.cbl")
+        PROBE.validate(result, "CBCUS01C")
+
+        for missing in ("Cbcus01c.java", "Cvcus01y.java"):
+            with self.subTest(missing=missing):
+                result = PROBE.run_probe(
+                    checkout, runner_for(missing), candidate="CBCUS01C")
+                self.assertEqual(result["firstBlocker"], "generated-java")
+                self.assertEqual(
+                    result["stages"][2]["errorType"],
+                    "missing-generated-artifact",
+                )
+                PROBE.validate(result, "CBCUS01C")
+
+        report_path = Path(self.temp.name) / "customer-report.json"
+        stages = [
+            PROBE.stage("source-verification", "PASS", "source"),
+            PROBE.stage("parse-transpile", "PASS", "transpile"),
+            PROBE.stage("generated-java", "PASS", "inspect"),
+            PROBE.stage("javac", "PASS", "javac"),
+        ]
+        report_path.write_text(json.dumps(
+            PROBE.report(stages, None, "CBCUS01C")))
+        validation = subprocess.run([
+            "python3", str(ROOT / "tools/quality-loop/carddemo_probe.py"),
+            "validate-report", "--candidate", "CBCUS01C",
+            "--report", str(report_path),
+        ], text=True, capture_output=True)
+        self.assertEqual(validation.returncode, 0, validation.stdout + validation.stderr)
+        invalid = subprocess.run([
+            "python3", str(ROOT / "tools/quality-loop/carddemo_probe.py"),
+            "validate-report", "--candidate", "UNKNOWN",
+            "--report", str(report_path),
+        ], text=True, capture_output=True)
+        self.assertNotEqual(invalid.returncode, 0)
+
     def test_probe_mocked_tool_failure_and_stage_reports(self):
         class Completed:
             def __init__(self, code, output=""):
