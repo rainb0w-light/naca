@@ -814,10 +814,10 @@
         "python3 tools/quality-loop/carddemo_probe.py validate-report",
         "./gradlew qualityRatchet --console=plain"
       ],
-      "state": "RUNNING",
+      "state": "VERIFIED",
       "attempts": 1,
       "evidence": [
-        "Dispatched CBCUS01C probe generalization and pinned diagnostic run to Luna; product code remains forbidden and the green quality ratchet must remain intact."
+        "Controller independently verified authorized scope against 7dd4a07e, reran the pinned CBCUS01C probe twice with byte-identical report SHA-256 969c434ec69b93f646ae90a07e69cd82dc2a22f3a4fa952f0b815619bf34ca27, validated both CBCUS01C and default CBACT02C reports, and confirmed qualityRatchet passed."
       ]
     }
   ]
