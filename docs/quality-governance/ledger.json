@@ -929,6 +929,42 @@
       "evidence": [
         "Controller independently passed verify_task and every declared gate, compared all three vendored files byte-for-byte with clean pinned checkout 59cc6c2f, and confirmed SHA-256 values 233dbc3b, 944fd9a8, and d8cfa5b7 with a clean branch."
       ]
+    },
+    {
+      "id": "CD-016",
+      "objective": "Promote the vendored CBCUS01C slice into the offline strict CardDemo JUnit acceptance alongside CBACT02C. Refactor the existing test into maintainable scenario-driven coverage without duplicating the transpile/copybook/javac/runtime pipeline: independently verify every scenario's pinned hashes and record layout, transpile through recursive ST4, generate its copybook Java, compile both sources, run the isolated AcceptanceProgramRunner with the correct named descriptor, and require exact ordered business output (52 lines for CBACT02C and 102 lines for CBCUS01C, whose 50 records are each displayed twice). Keep the sample-acceptance and quality gates green with no new static-analysis debt.",
+      "stream": "carddemo",
+      "priority": 29,
+      "dependencies": [
+        "CD-015"
+      ],
+      "allowedPaths": [
+        "naca-rt-tests/src/test/java/com/publicitas/naca/tests/acceptance/CardDemoEndToEndAcceptanceTest.java",
+        "docs/quality-governance/README.md"
+      ],
+      "forbiddenPaths": [
+        "docs/quality-governance/ledger.json",
+        "docs/project-quality-baseline.json",
+        "naca-trans/src/main",
+        "naca-rt/src/main",
+        "naca-jlib/src/main",
+        "naca-rt-tests/src/test/resources",
+        "naca-rt-tests/src/test/java/com/publicitas/naca/tests/acceptance/AcceptanceProgramRunner.java",
+        "tools/quality-loop"
+      ],
+      "authorizedProtectedPaths": [],
+      "maxFiles": 2,
+      "verification": [
+        "./gradlew :naca-rt-tests:compileTestJava --console=plain",
+        "./gradlew :naca-rt-tests:sampleAcceptance --tests '*CardDemoEndToEndAcceptanceTest*' --rerun-tasks --console=plain",
+        "./gradlew sampleAcceptance --rerun-tasks --console=plain",
+        "./gradlew qualityRatchet --console=plain"
+      ],
+      "state": "READY",
+      "attempts": 0,
+      "evidence": [
+        "CD-014 proves the pinned CBCUS01C pipeline and exact 102-line output at runtime; CD-015 makes the identical source, copybook, and 50x500 data available offline with immutable provenance."
+      ]
     }
   ]
 }
