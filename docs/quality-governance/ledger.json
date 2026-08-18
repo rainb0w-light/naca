@@ -851,10 +851,10 @@
         "python3 tools/quality-loop/carddemo_runtime_probe.py validate-report",
         "./gradlew qualityRatchet --console=plain"
       ],
-      "state": "READY",
-      "attempts": 0,
+      "state": "RUNNING",
+      "attempts": 1,
       "evidence": [
-        "Controller confirmed pinned custdata.txt contains 50 newline-terminated 500-byte records and CBCUS01C displays each successful record both inside the read paragraph and again in the main loop."
+        "Dispatched the bounded CBCUS01C runtime-probe generalization to Luna; product and acceptance-runner code remain forbidden, and both the default CBACT02C contract and full quality ratchet must remain green."
       ]
     }
   ]
