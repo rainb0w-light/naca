@@ -814,10 +814,10 @@
         "python3 tools/quality-loop/carddemo_probe.py validate-report",
         "./gradlew qualityRatchet --console=plain"
       ],
-      "state": "READY",
-      "attempts": 0,
+      "state": "RUNNING",
+      "attempts": 1,
       "evidence": [
-        "Controller cloned and checked out pinned commit 59cc6c2fd7ebd7ef7925cad552a01a4b8b6e4d5e in a temporary diagnostic checkout; carddemo_preflight verify-source passed. CBCUS01C is 6914 bytes/178 lines with SHA-256 233dbc3bc33a3b9ac555922085a92be56e88d16316bff624b5723c4c36c99714; CVCUS01Y SHA-256 is 944fd9a8eb10a683d0db97b9a87f2151982f649970287eb74358826056af25f8."
+        "Dispatched CBCUS01C probe generalization and pinned diagnostic run to Luna; product code remains forbidden and the green quality ratchet must remain intact."
       ]
     }
   ]
