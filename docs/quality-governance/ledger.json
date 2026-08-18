@@ -714,10 +714,10 @@
         "./gradlew :naca-rt-tests:sampleAcceptance --tests '*CardDemoEndToEndAcceptanceTest*' --rerun-tasks --console=plain",
         "./gradlew :naca-trans:finalArchitectureCheck --console=plain"
       ],
-      "state": "READY",
-      "attempts": 0,
+      "state": "RUNNING",
+      "attempts": 1,
       "evidence": [
-        "Controller compared reports from detached master 9f53015a and the current branch: the complete naca-trans.pmdMain +11 delta is in CAdd (LiteralsFirstInComparisons +9, AvoidInstantiatingObjectsInLoops +1, RedundantFieldInitializer +1). CAdd currently has two redundant boolean initializers, so clearing all twelve targeted findings should lower module total from 7317 to 7305."
+        "Dispatched the single-file CAdd PMD cleanup to Luna after detached-master attribution; parser behavior and CardDemo acceptance are mandatory gates."
       ]
     }
   ]
