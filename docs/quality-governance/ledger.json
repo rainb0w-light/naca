@@ -748,10 +748,10 @@
         "./gradlew :naca-trans:pmdTest :naca-trans:checkstyleTest :naca-trans:spotbugsTest cpdReport --rerun-tasks --console=plain",
         "./gradlew :naca-trans:finalArchitectureCheck --console=plain"
       ],
-      "state": "RUNNING",
+      "state": "VERIFIED",
       "attempts": 1,
       "evidence": [
-        "Dispatched the three-file shared renderer-fixture cleanup to Luna after detached-master SpotBugs and CPD attribution; all touched-file quality reports must remain clean."
+        "Controller independently passed all gates: focused tests 4/0/0/0; touched files PMD/Checkstyle/SpotBugs=0; module SpotBugsTest=21; CPD=368 with no Level88-to-WorkingGroup duplicate; finalArchitectureCheck passes."
       ]
     }
   ]
