@@ -887,10 +887,10 @@
         "python3 tools/quality-loop/carddemo_runtime_probe.py validate-report",
         "./gradlew sampleAcceptance qualityRatchet --console=plain"
       ],
-      "state": "READY",
-      "attempts": 0,
+      "state": "RUNNING",
+      "attempts": 1,
       "evidence": [
-        "CD-013 proved generated Cbcus01c declares CUSTFILE-FILE while AcceptanceProgramRunner maps only CUSTFILE; the existing CARDFILE-only alias demonstrates the required generic acceptance mapping."
+        "Dispatched the three-file acceptance-runner alias fix to Luna. The worker must prove the generic mapping with a focused unit test, exact pinned CBCUS01C runtime output, unchanged default CBACT02C validation, root sample acceptance, and the complete quality ratchet."
       ]
     }
   ]
