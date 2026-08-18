@@ -924,10 +924,10 @@
         "python3 -c \"import json,pathlib; p=json.loads(pathlib.Path('naca-rt-tests/src/test/resources/carddemo/PROVENANCE.json').read_text()); expected={'app/cbl/CBACT02C.cbl':'d290cbbbec1e25859847d9dfe6b28040cd6b09c3b71747e39de7b4713d838e76','app/cpy/CVACT02Y.cpy':'9f1c62ef31b9d541712f1ed28f79e011ea7338611f5e0f30f2e1cbf624181223','app/data/ASCII/carddata.txt':'da217240d2567c85f84b571aeb465171c683cfd21dad1754046f6bbb10e76c1d','LICENSE':'09e8a9bcec8067104652c168685ab0931e7868f9c8284b66f5ae6edae5f1130b'}; assert all(p['files'][f]==h for f,h in expected.items()); assert p['source']['license']=={'SPDX':'Apache-2.0','path':'LICENSE'}\"",
         "./gradlew sampleAcceptance qualityRatchet --console=plain"
       ],
-      "state": "RUNNING",
+      "state": "VERIFIED",
       "attempts": 1,
       "evidence": [
-        "Dispatched the four-file, data-only CBCUS01C corpus vendoring task to Luna. Exact pinned hashes, record layout, legacy CBACT entries, license identity, sample acceptance, and the complete quality ratchet must all remain verified."
+        "Controller independently passed verify_task and every declared gate, compared all three vendored files byte-for-byte with clean pinned checkout 59cc6c2f, and confirmed SHA-256 values 233dbc3b, 944fd9a8, and d8cfa5b7 with a clean branch."
       ]
     }
   ]
