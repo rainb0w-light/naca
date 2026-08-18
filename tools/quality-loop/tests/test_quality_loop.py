@@ -605,6 +605,117 @@ class QualityLoopTests(unittest.TestCase):
                          ["PASS", "FAIL", "NOT_RUN", "NOT_RUN", "NOT_RUN"])
         RUNTIME.validate(failed)
 
+    def test_runtime_probe_customer_candidate_contract_and_report_cli(self):
+        checkout = Path(self.temp.name) / "customer-runtime-checkout"
+        (checkout / "app/cbl").mkdir(parents=True)
+        (checkout / "app/cpy").mkdir()
+        (checkout / "app/data/ASCII").mkdir(parents=True)
+        (checkout / "app/cbl/CBCUS01C.cbl").write_text("source")
+        (checkout / "app/cpy/CVCUS01Y.cpy").write_text("copy")
+        fixture_records = [f"{index:03d}".encode() + b"C" * 497
+                           for index in range(50)]
+        (checkout / "app/data/ASCII/custdata.txt").write_bytes(
+            b"\n".join(fixture_records) + b"\n")
+
+        class Completed:
+            def __init__(self, code=0, output=""):
+                self.returncode = code
+                self.stdout = output
+                self.stderr = output
+
+        commands = []
+        missing_artifact = None
+        runtime_failure = False
+
+        def runner(command, **kwargs):
+            commands.append(command)
+            if command[0] == sys.executable:
+                return Completed(output='{"status":"PASS"}')
+            if command[0] == "./gradlew":
+                if any("cardDemoRuntime" in value for value in command):
+                    if runtime_failure:
+                        return Completed(1, "InputFileNotFoundException occured")
+                    records = [record.decode("ascii") for record in fixture_records]
+                    duplicated = [record for record in records for _ in range(2)]
+                    return Completed(output="\n".join([
+                        "START OF EXECUTION OF PROGRAM CBCUS01C",
+                        *duplicated,
+                        "END OF EXECUTION OF PROGRAM CBCUS01C",
+                    ]) + "\n")
+                config = Path(next(
+                    value.split("=", 1)[1] for value in command
+                    if value.startswith("-PconfigFile=")))
+                config_text = config.read_text()
+                self.assertIn(
+                    '<Application Name="CBCUS01C"><File Name="CBCUS01C.cbl"/>',
+                    config_text,
+                )
+                self.assertIn(
+                    '<Application Name="CVCUS01Y"><File Name="CVCUS01Y"/>',
+                    config_text,
+                )
+                output = Path(re.search(
+                    r'OutputPath="([^"]+)', config_text).group(1))
+                output.mkdir(parents=True, exist_ok=True)
+                for artifact in ("Cbcus01c.java", "Cvcus01y.java"):
+                    if artifact != missing_artifact:
+                        content = ('class Generated { void file() { '
+                                   'declare.file("CUSTFILE-FILE"); } }'
+                                   if artifact == "Cbcus01c.java"
+                                   else "class Included {}")
+                        (output / artifact).write_text(content)
+                return Completed()
+            return Completed()
+
+        result = RUNTIME.run_probe(
+            checkout, runner, candidate="CBCUS01C")
+        self.assertIsNone(result["firstBlocker"], result)
+        self.assertEqual(
+            [item["status"] for item in result["stages"]],
+            ["PASS", "PASS", "PASS", "PASS", "PASS"],
+        )
+        runtime_command = next(
+            command for command in commands
+            if any("cardDemoRuntime" in value for value in command))
+        self.assertIn("-PruntimeClass=Cbcus01c", runtime_command)
+        self.assertIn("-PruntimeLogicalName=CUSTFILE", runtime_command)
+        self.assertIn("-PruntimeDescriptor=ascii,fb,500", runtime_command)
+        RUNTIME.validate(result, "CBCUS01C")
+
+        report_path = Path(self.temp.name) / "customer-runtime.json"
+        report_path.write_text(json.dumps(result))
+        validation = subprocess.run([
+            "python3", str(ROOT / "tools/quality-loop/carddemo_runtime_probe.py"),
+            "validate-report", "--candidate", "CBCUS01C",
+            "--report", str(report_path),
+        ], text=True, capture_output=True)
+        self.assertEqual(validation.returncode, 0, validation.stdout + validation.stderr)
+        with self.assertRaises(ValueError):
+            RUNTIME.candidate_spec("UNKNOWN")
+
+        missing_artifact = "Cvcus01y.java"
+        missing = RUNTIME.run_probe(
+            checkout, runner, candidate="CBCUS01C")
+        self.assertEqual(missing["firstBlocker"], "generated-java")
+        self.assertEqual(
+            missing["stages"][2]["errorType"],
+            "missing-generated-artifact",
+        )
+        RUNTIME.validate(missing, "CBCUS01C")
+
+        missing_artifact = None
+        runtime_failure = True
+        alias_failure = RUNTIME.run_probe(
+            checkout, runner, candidate="CBCUS01C")
+        self.assertEqual(alias_failure["firstBlocker"], "runtime")
+        self.assertEqual(
+            alias_failure["stages"][-1]["errorType"],
+            "runtime-logical-file-alias",
+        )
+        self.assertIn("CUSTFILE-FILE", alias_failure["stages"][-1]["diagnostic"])
+        self.assertIn("CUSTFILE", alias_failure["stages"][-1]["diagnostic"])
+        RUNTIME.validate(alias_failure, "CBCUS01C")
+
     def test_runtime_probe_schema_and_failure_short_circuit(self):
         stages = [
             RUNTIME.stage("source-verification", "PASS", "source", 0),

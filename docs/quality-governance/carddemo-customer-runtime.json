@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "commit": "59cc6c2fd7ebd7ef7925cad552a01a4b8b6e4d5e",
+    "candidate": "app/cbl/CBCUS01C.cbl",
+    "copybook": "app/cpy/CVCUS01Y.cpy"
+  },
+  "runtimeInput": {
+    "path": "app/data/ASCII/custdata.txt",
+    "logicalName": "CUSTFILE",
+    "descriptor": "ascii,fb,500",
+    "recordLength": 500,
+    "recordCount": 50
+  },
+  "stages": [
+    {
+      "name": "source-verification",
+      "status": "PASS",
+      "command": "carddemo_preflight verify-source",
+      "exitCode": 0
+    },
+    {
+      "name": "transpile",
+      "status": "PASS",
+      "command": "./gradlew ...",
+      "exitCode": 0
+    },
+    {
+      "name": "generated-java",
+      "status": "PASS",
+      "command": "inspect generated Java",
+      "exitCode": 0
+    },
+    {
+      "name": "javac",
+      "status": "PASS",
+      "command": "javac <generated-java>",
+      "exitCode": 0
+    },
+    {
+      "name": "runtime",
+      "status": "FAIL",
+      "command": "java AcceptanceProgramRunner",
+      "exitCode": 1,
+      "errorType": "runtime-logical-file-alias",
+      "diagnostic": "runtime output mismatch: business-lines=1 expected=102; InputFileNotFoundException: generated logical name CUSTFILE-FILE is not mapped by runner argument CUSTFILE"
+    }
+  ],
+  "firstBlocker": "runtime",
+  "acceptance": {
+    "currentSuccess": false,
+    "structuredRejection": true,
+    "nextTask": "Add a generic runtime mapping for the generated logical file name, then rerun this probe."
+  }
+}
