@@ -17,7 +17,6 @@ import com.sleepycat.je.DatabaseConfig;
 import com.sleepycat.je.DatabaseException;
 import com.sleepycat.je.Environment;
 import com.sleepycat.je.EnvironmentConfig;
-import com.sleepycat.je.StatsConfig;
 
 
 public class BTreeEnv
@@ -137,4 +136,3 @@ public class BTreeEnv
     }
 
 }
-

@@ -38,4 +38,3 @@ public class LogFlowNone extends LogFlow
         return false;
     }
 }
-

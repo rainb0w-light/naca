@@ -10,9 +10,7 @@
 package jlib.polling;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.util.ArrayList;
-import java.util.Vector;
 
 import jlib.misc.FileSystem;
 

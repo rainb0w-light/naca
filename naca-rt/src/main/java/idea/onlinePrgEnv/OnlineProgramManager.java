@@ -74,6 +74,3 @@ public class OnlineProgramManager extends BaseProgramManager
 
     private OnlineEnvironment eSMEnv = null;
 }
-
-
-

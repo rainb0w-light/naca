@@ -21,7 +21,6 @@ import nacaLib.basePrgEnv.BaseProgramLoader;
 import nacaLib.basePrgEnv.BaseResourceManager;
 import nacaLib.basePrgEnv.BaseSession;
 import nacaLib.basePrgEnv.CurrentUserInfo;
-import nacaLib.sqlSupport.SQLConnection;
 
 public class SpServerSession extends BaseSession
 {

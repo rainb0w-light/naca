@@ -178,4 +178,3 @@ public class BASE64InputStream extends InputStream {
         return _dataCount;
     }
 }
-

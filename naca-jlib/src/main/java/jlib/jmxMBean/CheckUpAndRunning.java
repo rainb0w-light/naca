@@ -35,5 +35,3 @@ public class CheckUpAndRunning implements CheckUpAndRunningMBean
     private int nbUp = 0;
     private boolean isinc = true;
 }
-
-

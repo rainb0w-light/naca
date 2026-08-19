@@ -19,7 +19,6 @@ import java.util.List;
 import javax.management.NotificationEmitter;
 
 import jlib.misc.FileSystem;
-import jlib.misc.StringRef;
 import jlib.misc.StringUtil;
 
 public class CodeManager

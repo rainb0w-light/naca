@@ -81,4 +81,3 @@ public class FPacFileDeclaration
         return this;
     }
 }
-

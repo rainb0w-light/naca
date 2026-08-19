@@ -18,7 +18,6 @@ import java.sql.Types;
 import nacaLib.varEx.VarBase;
 
 import jlib.misc.DateUtil;
-import jlib.misc.StringUtil;
 import jlib.sql.LogSQLException;
 
 /**

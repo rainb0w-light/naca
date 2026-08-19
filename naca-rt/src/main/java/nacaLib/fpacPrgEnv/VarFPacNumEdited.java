@@ -97,4 +97,3 @@ public class VarFPacNumEdited extends Var
 //      return fpacVarManager.createFPacVarAlphaNum(varBuffer, nAbsolutePosition);
 //  }
 }
-

@@ -15,4 +15,3 @@ public interface CheckUpAndRunningMBean
     public boolean getInc();
     public void setInc(boolean b);
 }
-

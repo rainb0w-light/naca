@@ -43,5 +43,3 @@ public class VarFPacNumIntSignComp3LengthUndef extends VarFPacLengthUndef
         return 8;
     }
 }
-
-

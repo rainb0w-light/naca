@@ -97,4 +97,3 @@ public class DeclareTypeFPacNumEdited extends DeclareTypeBase
 
     private CInitialValue initialValue = null;
 }
-

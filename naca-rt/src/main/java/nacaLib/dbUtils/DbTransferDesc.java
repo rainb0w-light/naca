@@ -176,4 +176,3 @@ public class DbTransferDesc
         return nBatchSize;
     }
 }
-

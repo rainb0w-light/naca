@@ -15,4 +15,3 @@ public abstract class BasePluginMarker
     public abstract void warn(String csText);
     public abstract void error(String csText);
 }
-

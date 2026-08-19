@@ -69,4 +69,3 @@ public class OpenCalendarWeek
 
     private OpenCalendarRanges[] tRangesOfDays = null;
 }
-

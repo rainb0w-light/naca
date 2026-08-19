@@ -38,4 +38,3 @@ public class GenericToArray<T>
 //          GenericToArray<MBeanOperationInfo> g = new GenericToArray<MBeanOperationInfo>(arrMBeanOperationInfos);
 //          arrOperations = new MBeanOperationInfo[arrMBeanOperationInfosWrapper.size()];
 //          g.toArray(arrOperations);
-

@@ -65,4 +65,3 @@ public class CInitialValue
     GenericValue genericValue;
     boolean bFill = false;
 }
-

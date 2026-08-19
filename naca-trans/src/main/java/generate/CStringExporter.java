@@ -1,7 +1,5 @@
 package generate;
 
-import utils.COriginalLisiting;
-import parser.CGlobalCommentContainer;
 
 /**
  * String-capturing exporter for ST4 two-stage pipeline.

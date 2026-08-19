@@ -12,7 +12,6 @@ import java.util.NoSuchElementException;
 
 import semantic.CBaseEntityFactory;
 import semantic.CBaseLanguageEntity;
-import utils.Transcoder;
 
 public abstract class CLanguageElement extends CBaseElement
 {

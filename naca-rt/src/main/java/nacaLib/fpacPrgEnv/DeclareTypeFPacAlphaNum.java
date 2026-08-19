@@ -102,4 +102,3 @@ public class DeclareTypeFPacAlphaNum extends DeclareTypeBase
 
     private CInitialValue initialValue = null;
 }
-

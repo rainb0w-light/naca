@@ -6,7 +6,6 @@
  */
 package nacaLib.batchOOApi;
 
-import jlib.misc.FileEndOfLine;
 import nacaLib.varEx.VarBufferPos;
 
 /**
