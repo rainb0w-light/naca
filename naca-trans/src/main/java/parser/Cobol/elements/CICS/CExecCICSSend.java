@@ -164,7 +164,7 @@ public class CExecCICSSend extends CCobolElement
             CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("SEND", "TEXT");
             isret = ParseSendText();
         }
-        else if (tok.GetKeyword() == CCobolKeywordList.CONTROL)
+        else if (tok.GetKeyword() == CCobolKeywordList.CONTROL || "CONTROL".equals(tok.GetValue()))
         {
             CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("SEND", "CONTROL") ;
             isret = ParseSendControl();
@@ -181,16 +181,25 @@ public class CExecCICSSend extends CCobolElement
         }
         else
         {
-            Transcoder.logError(getLine(), "Unparsed EXEC CICS SEND statement : "+tok.GetValue());
             String cs = "" ;
             tok = GetCurrentToken() ;
+            String firstUnparsed = tok.GetValue();
             while (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
             {
                 cs += tok.GetDisplay() + " " ;
                 tok = GetNext() ;
             }
             GetNext() ;
-            return true ;
+            String featureId = "cics.send"
+                + (firstUnparsed == null || firstUnparsed.isBlank()
+                ? ""
+                : "." + firstUnparsed.toLowerCase());
+            throw new diagnostic.UnsupportedFeatureException(
+                featureId,
+                "CICS",
+                getLine(),
+                0,
+                "Unparsed EXEC CICS SEND statement : " + cs.trim());
         }
 
         tok = GetCurrentToken() ;

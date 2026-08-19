@@ -22,6 +22,8 @@ class CicsUnsupportedFeatureTest
         "       IDENTIFICATION DIVISION.\n"
         + "       PROGRAM-ID. CICS1.\n"
         + "       DATA DIVISION.\n"
+        + "       WORKING-STORAGE SECTION.\n"
+        + "       01 WS-MSG PIC X(10).\n"
         + "       PROCEDURE DIVISION.\n"
         + "           EXEC CICS SEND CONTROL ERASE END-EXEC.\n"
         + "           STOP RUN.\n";
