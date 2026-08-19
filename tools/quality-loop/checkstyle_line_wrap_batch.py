@@ -221,6 +221,31 @@ def wrap_operators(line, operators, maximum=140):
     return replacement
 
 
+def wrap_continuation_operators(line, operators, maximum=140):
+    """Wrap an operator chain whose first token continues a prior line."""
+    positions = operator_positions(line, operators)
+    indentation = line[: len(line) - len(line.lstrip())]
+    if not positions or positions[0][0] != len(indentation):
+        return []
+    pieces = []
+    for index, (position, operator) in enumerate(positions):
+        end = positions[index + 1][0] if index + 1 < len(positions) else len(line)
+        value = line[position + len(operator) : end].strip()
+        if not value:
+            return []
+        pieces.append((operator, value))
+    replacement = []
+    for operator, value in pieces:
+        inline = f" {operator} {value}"
+        if replacement and len(replacement[-1] + inline) <= maximum:
+            replacement[-1] += inline
+        else:
+            replacement.append(f"{indentation}{operator} {value}")
+    if len(replacement) < 2 or any(len(item) > maximum for item in replacement):
+        return []
+    return replacement
+
+
 def split_semicolon_statements(line, maximum=140):
     """Split multiple same-line statements, excluding for-loop headers."""
     if re.search(r"\bfor\s*\(", line):
@@ -526,6 +551,7 @@ def main(argv=None):
             "boolean",
             "comments",
             "concatenation",
+            "continuation-concatenation",
             "continuation-commas",
             "inline-methods",
             "semicolons",
@@ -550,6 +576,9 @@ def main(argv=None):
             "comments": wrap_block_comment,
             "concatenation": lambda line, maximum: wrap_operators(
                 line, {"+"}, maximum
+            ),
+            "continuation-concatenation": lambda line, maximum: (
+                wrap_continuation_operators(line, {"+"}, maximum)
             ),
             "continuation-commas": split_comma_sequence,
             "inline-methods": split_inline_method_body,

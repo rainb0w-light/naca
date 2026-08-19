@@ -1,14 +1,10 @@
 package com.publicitas.naca;
 
-import org.openrewrite.InMemoryExecutionContext;
 import org.openrewrite.RecipeRun;
 import org.openrewrite.Result;
-import org.openrewrite.SourceFile;
 import org.openrewrite.internal.InMemoryLargeSourceSet;
-import org.openrewrite.java.JavaParser;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -18,8 +14,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.stream.Stream;
 
 /** Applies {@link RemoveStringHungarianPrefix} to one source tree and writes its audit report. */
 public final class HungarianNotationBatch {
@@ -46,34 +40,18 @@ public final class HungarianNotationBatch {
         Path sourceDirectory = repositoryRoot.resolve(args[1]).normalize();
         Path reportPath = repositoryRoot.resolve(args[2]).normalize();
         boolean apply = Boolean.parseBoolean(args[3]);
-        requireWithin(repositoryRoot, sourceDirectory);
-        requireWithin(repositoryRoot, reportPath);
+        RewriteBatchSupport.requireWithin(repositoryRoot, sourceDirectory);
+        RewriteBatchSupport.requireWithin(repositoryRoot, reportPath);
 
-        List<Path> paths;
-        try (Stream<Path> files = Files.walk(sourceDirectory)) {
-            paths = files.filter(path -> path.toString().endsWith(".java"))
-                .sorted()
-                .toList();
-        }
+        List<Path> sourceRoots = List.of(sourceDirectory);
+        List<Path> paths = RewriteBatchSupport.discoverJavaFiles(sourceRoots);
 
-        AtomicReference<Throwable> parseFailure = new AtomicReference<>();
-        InMemoryExecutionContext context = new InMemoryExecutionContext(parseFailure::set);
-        JavaParser parser = JavaParser.fromJavaVersion()
-            .charset(StandardCharsets.ISO_8859_1)
-            .logCompilationWarningsAndErrors(false)
-            .build();
-        List<SourceFile> sources = parser.parse(paths, repositoryRoot, context).toList();
-        if (parseFailure.get() != null) {
-            throw new IllegalStateException("OpenRewrite parse failed", parseFailure.get());
-        }
-        if (sources.size() != paths.size()) {
-            throw new IllegalStateException(
-                "Parsed " + sources.size() + " files but discovered " + paths.size()
-            );
-        }
+        RewriteBatchSupport.ParsedSources parsed = RewriteBatchSupport.parse(paths, repositoryRoot);
 
         RemoveStringHungarianPrefix recipe = new RemoveStringHungarianPrefix();
-        RecipeRun run = recipe.run(new InMemoryLargeSourceSet(sources), context);
+        RecipeRun run = recipe.run(
+            new InMemoryLargeSourceSet(parsed.sources()), parsed.context()
+        );
         List<HungarianNotationOutcomes.Row> rows = new ArrayList<>(
             run.getDataTableRows(HungarianNotationOutcomes.class)
         );
@@ -82,14 +60,9 @@ public final class HungarianNotationBatch {
         List<Result> results = run.getChangeset().getAllResults();
 
         if (apply) {
-            for (Result result : results) {
-                if (result.getBefore() == null || result.getAfter() == null) {
-                    throw new IllegalStateException("Rename batch must not create or delete source files");
-                }
-                Path destination = repositoryRoot.resolve(result.getAfter().getSourcePath()).normalize();
-                requireWithin(sourceDirectory, destination);
-                Files.write(destination, result.getAfter().printAllAsBytes());
-            }
+            RewriteBatchSupport.applyChanges(
+                repositoryRoot, sourceRoots, results, "Rename batch"
+            );
         }
 
         writeReport(reportPath, args[1], apply, paths.size(), rows, results);
@@ -168,11 +141,5 @@ public final class HungarianNotationBatch {
 
     private static String quote(String value) {
         return '"' + value.replace("\\", "\\\\").replace("\"", "\\\"") + '"';
-    }
-
-    private static void requireWithin(Path root, Path target) {
-        if (!target.startsWith(root)) {
-            throw new IllegalArgumentException(target + " is outside " + root);
-        }
     }
 }

@@ -69,6 +69,13 @@ class CheckstyleLineWrapBatchTests(unittest.TestCase):
         line = '    String value = "a+b" + count++;'
         self.assertEqual(BATCH.operator_positions(line, {"+"}), [(25, "+")])
 
+    def test_wraps_operator_chain_that_continues_a_prior_line(self):
+        line = "        + first + secondValue + thirdValue"
+        self.assertEqual(
+            BATCH.wrap_continuation_operators(line, {"+"}, maximum=30),
+            ["        + first + secondValue", "        + thirdValue"],
+        )
+
     def test_splits_multiple_statements_but_not_for_headers(self):
         line = "        values[0]=1;values[1]=2;values[2]=3;"
         self.assertEqual(
