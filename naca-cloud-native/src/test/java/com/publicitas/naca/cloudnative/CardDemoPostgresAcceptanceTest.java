@@ -2,13 +2,21 @@ package com.publicitas.naca.cloudnative;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.publicitas.naca.cloudnative.carddemo.sql.CardDemoNacaRuntimeBridge;
+import com.publicitas.naca.cloudnative.carddemo.session.CardDemoConversationConflictException;
+import com.publicitas.naca.cloudnative.carddemo.session.CardDemoConversationState;
+import com.publicitas.naca.cloudnative.carddemo.session.CardDemoConversationStore;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.time.Duration;
 import java.util.Arrays;
+import java.util.UUID;
 import javax.sql.DataSource;
 import nacaLib.basePrgEnv.BaseEnvironment;
 import nacaLib.basePrgEnv.BaseProgramManager;
@@ -35,6 +43,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 class CardDemoPostgresAcceptanceTest
 {
     private static final String DATABASE_VALUE = "carddemo";
+    private static final String DIAGNOSTIC_PROGRAM = "BMSJSON";
 
     @Container
     private static final PostgreSQLContainer<?> POSTGRES =
@@ -62,6 +71,8 @@ class CardDemoPostgresAcceptanceTest
             Flyway flyway = context.getBean(Flyway.class);
             HealthIndicator health = context.getBean("cardDemoPostgres", HealthIndicator.class);
             CardDemoNacaRuntimeBridge bridge = context.getBean(CardDemoNacaRuntimeBridge.class);
+            CardDemoConversationStore conversations = context.getBean(CardDemoConversationStore.class);
+            ObjectMapper objectMapper = context.getBean(ObjectMapper.class);
 
             assertNotNull(flyway.info().current(),
                 "No migration applied from " + Arrays.toString(flyway.getConfiguration().getLocations())
@@ -143,6 +154,31 @@ class CardDemoPostgresAcceptanceTest
                 status.setRollbackOnly();
             });
             jdbc.update("delete from carddemo.transaction_type where transaction_type_code = 'TST3'");
+            UUID conversationId = UUID.randomUUID();
+            CardDemoConversationState first = conversations.save(conversationId, "CC00", DIAGNOSTIC_PROGRAM,
+                new byte[] {1, 2, 3}, objectMapper.createObjectNode().put("map", "COSGN0A"),
+                0, Duration.ofMinutes(10));
+            assertEquals(1, first.version(), "New conversation must start at version one");
+
+            CardDemoConversationState second = conversations.save(conversationId, "CM00", DIAGNOSTIC_PROGRAM,
+                new byte[] {4, 5}, objectMapper.createObjectNode().put("map", "COMEN1A"),
+                first.version(), Duration.ofMinutes(10));
+            assertEquals(2, second.version(), "A resumed conversation must increment its version");
+            assertEquals("COMEN1A", conversations.find(conversationId).orElseThrow()
+                .terminalState().path("map").asText(), "Terminal snapshot must survive a database read");
+            assertThrows(CardDemoConversationConflictException.class,
+                () -> conversations.save(conversationId, "CM00", DIAGNOSTIC_PROGRAM, new byte[0],
+                    objectMapper.createObjectNode(), first.version(), Duration.ofMinutes(10)),
+                "A stale browser request must not overwrite the latest snapshot");
+
+            UUID rollbackConversation = UUID.randomUUID();
+            transaction.executeWithoutResult(status -> {
+                conversations.save(rollbackConversation, "CC00", DIAGNOSTIC_PROGRAM, new byte[0],
+                    objectMapper.createObjectNode(), 0, Duration.ofMinutes(10));
+                status.setRollbackOnly();
+            });
+            assertTrue(conversations.find(rollbackConversation).isEmpty(),
+                "Conversation state must share the caller's rollback boundary");
             verify(environment, times(3))
                 .setExternalDbConnection(org.mockito.ArgumentMatchers.any());
             verify(environment, times(3)).releaseSQLConnection();

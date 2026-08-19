@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Naca CardDemo 云原生演示</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <main>
+    <header>
+      <p class="eyebrow">NACA CLOUD NATIVE</p>
+      <h1>CardDemo BMS JSON 适配演示</h1>
+      <p class="summary">
+        浏览器通过标准 JSON REST 请求模拟一次 CICS 终端事件。服务端将请求映射到
+        NacaRT 的 RECEIVE/SEND MAP 数据契约，再返回可供现代前端消费的 JSON。
+      </p>
+    </header>
+
+    <section class="status" aria-label="当前能力说明">
+      <span>当前阶段</span>
+      <strong>基础设施适配诊断</strong>
+      <p>此页面验证 REST 与 BMS 数据边界；COSGN00C 翻译阻塞解除后将接入真实登录业务。</p>
+    </section>
+
+    <section class="panel">
+      <form id="terminal-form">
+        <div class="grid">
+          <label>
+            用户编号
+            <input id="user-id" name="userId" value="DEMO0001" maxlength="8" autocomplete="off">
+          </label>
+          <label>
+            AID 键
+            <select id="aid" name="aid">
+              <option value="ENTER">Enter</option>
+              <option value="CLEAR">Clear</option>
+              <option value="PF3">PF3</option>
+            </select>
+          </label>
+        </div>
+        <label>
+          屏幕消息
+          <input id="message" name="message" value="CARDDEMO JSON ADAPTER" maxlength="80">
+        </label>
+        <div class="actions">
+          <button type="submit">发送终端事件</button>
+          <span id="request-state" role="status">等待请求</span>
+        </div>
+      </form>
+    </section>
+
+    <section class="result" aria-live="polite">
+      <div>
+        <h2>服务端响应</h2>
+        <p>密码类字段会在 JSON 出站边界强制清空。</p>
+      </div>
+      <pre id="response-output">尚未发送请求。</pre>
+    </section>
+  </main>
+  <script src="./app.js"></script>
+</body>
+</html>
